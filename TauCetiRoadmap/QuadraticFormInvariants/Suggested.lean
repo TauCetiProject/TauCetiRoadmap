@@ -1,7 +1,8 @@
 import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import Completed.LocalFieldsRamification.Suggested
-import TauCetiRoadmap.ClassFieldTheory.Suggested
+import TauCeti.NumberTheory.ClassFieldTheory.Global.Hilbert.Reciprocity
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Symbol
 import TauCeti.Algebra.Quaternion.BrauerClass
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
@@ -19,6 +20,8 @@ import TauCeti.Algebra.Quaternion.SplittingCriterion
 import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
 import TauCeti.GroupTheory.SpecificGroups.Dihedral.Basic
 import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+import TauCeti.FieldTheory.Trace
+import TauCeti.RingTheory.Norm.Quadratic
 import TauCeti.LinearAlgebra.QuadraticForm.CartanDieudonne.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.Diagonal.Chain.Induction
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Descent
@@ -71,11 +74,12 @@ This file fixes the design decisions that are most likely to fork two implementa
   Stiefel-Whitney formula it proves, with the conjugation and sign conventions the supplier's
   Evens norm carries (Layer 9).
 
-**Supplier carriers are canonical.** This roadmap imports the final declarations from
-`ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`; it does not package
-private substitutes for their cohomology, valuation, ramification, reciprocity, or local-duality
-interfaces. The same holds for Tau Ceti's quadratic-form API: the carrier `RegularFormClass`, the
-class of a form, the chain relations, the descent principle, the discriminants, the hyperbolic
+**Supplier carriers are canonical.** This roadmap imports the final declarations of
+`ProfiniteCohomology` and `LocalFieldsRamification`, and those of `ClassFieldTheory` from Tau
+Ceti's `TauCeti.ClassFieldTheory`, which implements them; it does not package private substitutes
+for their cohomology, valuation, ramification, reciprocity, or local-duality interfaces. The same
+holds for Tau Ceti's quadratic-form API: the carrier `RegularFormClass`, the class of a form, the
+chain relations, the descent principle, the discriminants, the hyperbolic
 plane with Witt decomposition and cancellation, the quaternion norm form with the splitting
 criterion, the Witt-Grothendieck ring, the Witt ring, the fundamental ideal with the signed
 discriminant on it, and the Pfister forms are Tau Ceti's, and no copy of them is declared here.
@@ -1953,6 +1957,14 @@ section Inflation
 
 variable {K}
 
+/-- The Galois action on units, `σ • x = Units.map σ x`, which is Mathlib's
+`AlgEquiv.instMulDistribMulActionUnits` (`AlgEquiv.smul_units_def`). It is restated as a direct
+`SMul` so that instance search finds it at `AbsoluteGaloisGroup K` and at `Gal(L/K)` without
+searching the general actions on units. -/
+local instance (priority := high) galoisUnitsSMul (L : Type*) [Field L] [Algebra K L] :
+    SMul (L ≃ₐ[K] L) Lˣ :=
+  AlgEquiv.instMulDistribMulActionUnits.toSMul
+
 /-- Two cocycles with the same underlying function are equal; the cocycle identity is a `Prop`
 field. Stated because inflation is compared with `TwoCocycle.comap` through their functions. -/
 theorem TwoCocycle.ext {L : Type u} [Field L] [Algebra K L] {z w : TwoCocycle (K := K) L}
@@ -1978,7 +1990,6 @@ noncomputable def unitsCochain (z : TwoCocycle (K := K) (SeparableClosure K)) :
     AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → UnitsCoeff K :=
   fun p => Additive.ofMul (z.toFun p.1 p.2)
 
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the normalization of `TwoCocycle` is the supplier's.** The inhomogeneous
 convention `σ(c(τ,ρ)) · c(σ,τρ) = c(σ,τ) · c(στ,ρ)` pinned in milestone 2(i) is exactly
 Mathlib's `groupCohomology.IsCocycle₂` after `Additive.ofMul`. This theorem is what makes the comparison
@@ -1996,8 +2007,6 @@ theorem unitsCochain_isCocycle₂ (z : TwoCocycle (K := K) (SeparableClosure K))
   rw [mul_comm]
   simpa [AlgEquiv.smul_def] using h1.symm
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: an inflated cochain is continuous.** It factors through
 `Gal(L/K) × Gal(L/K)`, which is discrete because `L/K` is finite, and the restriction map
 `G_K → Gal(L/K)` is continuous by Mathlib's `InfiniteGalois.restrictNormalHom_continuous`.
@@ -2018,8 +2027,6 @@ theorem continuous_unitsCochain_inflate {L : IntermediateField K (SeparableClosu
   exact continuous_of_discreteTopology.comp
     ((hcont.comp continuous_fst).prodMk (hcont.comp continuous_snd))
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the inflated cocycle as an element of the supplier's `Z²`.** -/
 noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure K)}
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
@@ -2029,8 +2036,6 @@ noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure
 
 variable (K)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the supplier's explicit `H²` read on the canonical carrier.** The body is the
 supplier's `explicitH2IsoContinuousCohomology`, so this defines nothing; it exists because every
 statement below has to name one side or the other and the two are different objects. -/
@@ -2039,8 +2044,6 @@ noncomputable def unitsClassOfH2
   (explicitH2IsoContinuousCohomology (AbsoluteGaloisGroup K) (UnitsCoeff K)).hom.hom
     ((discreteH2Equiv (AbsoluteGaloisGroup K) (UnitsCoeff K)).symm y)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- It is surjective, being an isomorphism. -/
 theorem unitsClassOfH2_surjective : Function.Surjective (unitsClassOfH2 K) := by
   intro x
@@ -2049,14 +2052,10 @@ theorem unitsClassOfH2_surjective : Function.Surjective (unitsClassOfH2 K) := by
   exact (explicitH2IsoContinuousCohomology (AbsoluteGaloisGroup K)
     (UnitsCoeff K)).inv_hom_id_apply x
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the class of a continuous `2`-cocycle in `H²(G_K, Kˢˣ)`.** -/
 noncomputable def unitsClassOfZ2 (c : Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K)) : H2Units K :=
   unitsClassOfH2 K (H2pi (AbsoluteGaloisGroup K) (UnitsCoeff K) c)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- Every class of `H²(G_K, Kˢˣ)` is the class of a continuous cocycle. This is the easy half of
 the exhaustion below: it is the surjectivity of a quotient map composed with an isomorphism, and
 it is separated out so that `exists_galoisCocycle_inflateClass` reduces to the descent of a
@@ -2064,8 +2063,6 @@ it is separated out so that `exists_galoisCocycle_inflateClass` reduces to the d
 theorem unitsClassOfZ2_surjective : Function.Surjective (unitsClassOfZ2 K) :=
   (unitsClassOfH2_surjective K).comp (QuotientAddGroup.mk'_surjective _)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): the class in `H²(G_K, Kˢˣ)` of a finite cocycle.** This is the
 right-hand side of the equation that determines `brauerCohomologyEquiv`, and it is the only
 passage in this roadmap from a finite Galois level to the continuous group. -/
@@ -2073,8 +2070,6 @@ noncomputable def inflateTwoCocycleClass (L : IntermediateField K (SeparableClos
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) : H2Units K :=
   unitsClassOfZ2 K (inflateTwoCocycleZ2 z)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): inflation is well defined on cohomology classes.** The inflation
 of the coboundary of `b : Gal(L/K) → Lˣ` is the coboundary of the continuous `1`-cochain
 `g ↦ b(g|_L)`, so cohomologous cocycles of `Gal(L/K)` inflate to the same class. This is stated
@@ -2139,8 +2134,6 @@ theorem inflateTwoCocycleClass_eq_of_cohomologous
 
 variable {K}
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: a compatible pair over `Kˢ` computes the restriction homomorphism.** For
 `L, M ⊆ Kˢ` normal over `K` and a compatible pair `(π, ι)` whose embedding is the inclusion
 inside `Kˢ`, the composite `π ∘ (·|_M)` is `(·|_L)`. ⚠ The hypothesis `hι` cannot be
@@ -2164,8 +2157,6 @@ theorem restrictNormalHom_of_comap {L M : IntermediateField K (SeparableClosure 
     = algebraMap (↥L) (SeparableClosure K) (((AlgEquiv.restrictNormalHom ↥L) σ) x)
   rw [hrL, hL, ← hι x, ← hM, ← hrM, h1, hι]
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): refinement does not change the inflated cocycle at all.**
 Inflating from the larger field the cocycle `TwoCocycle.comap` produces gives back the cocycle
 inflated from the smaller one, on the nose and not merely up to a coboundary. -/
@@ -2188,8 +2179,6 @@ theorem TwoCocycle.inflate_comap {L M : IntermediateField K (SeparableClosure K)
 
 variable (K)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): refining the splitting field does not change the continuous
 class.** The cohomological counterpart of `crossedProductClass_comap`, and the reason the
 comparison of milestone 3 is one map rather than a family of unrelated ones. It is stated with
@@ -2206,8 +2195,6 @@ theorem inflateTwoCocycleClass_comap (L M : IntermediateField K (SeparableClosur
   congrArg (unitsClassOfZ2 K)
     (Subtype.ext (congrArg unitsCochain (TwoCocycle.inflate_comap π ι hπι hι z)))
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the finite Galois subextension as an open normal subgroup of `G_K`.** `Gal(Kˢ/L)`
 is the kernel of the restriction homomorphism, which is open because that homomorphism is
 continuous into a finite discrete group. This is the index of the supplier's finite-quotient
@@ -2220,8 +2207,6 @@ noncomputable def galoisOpenNormal (L : IntermediateField K (SeparableClosure K)
     (k := K) (K := SeparableClosure K) L).isOpen_preimage {1} (isOpen_discrete _)
   isNormal' := inferInstance
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: `G_K ⧸ Gal(Kˢ/L)` maps onto `Gal(L/K)`.** The map is `AlgEquiv.restrictNormalHom`
 factored through the quotient by its kernel, so it is a real term; surjectivity and injectivity
 are Mathlib's infinite Galois correspondence and are not needed to state the finite-level cocycle
@@ -2231,8 +2216,6 @@ noncomputable def galoisQuotientMap (L : IntermediateField K (SeparableClosure K
     AbsoluteGaloisGroup K ⧸ (galoisOpenNormal K L).toSubgroup →* (↥L ≃ₐ[K] ↥L) :=
   QuotientGroup.lift _ (AlgEquiv.restrictNormalHom ↥L) fun _ hg => hg
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, the coefficient identification at a finite level:**
 `Lˣ ⊆ ((Kˢ)ˣ)^{Gal(Kˢ/L)}`. This is the half of `M^U = Lˣ` that the finite-level cocycle needs; it is what makes
 `finiteLevelZ2` land in the supplier's invariant coefficients. -/
@@ -2251,8 +2234,6 @@ theorem unitsCoeff_mem_invariants (L : IntermediateField K (SeparableClosure K))
   rw [show u.restrictNormal ↥L = AlgEquiv.restrictNormalHom (F := K) ↥L u from rfl, h1]
   rfl
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the finite cocycle read at the supplier's finite level.** The same function as
 `inflateTwoCocycleZ2`, but on `G_K ⧸ Gal(Kˢ/L)` with values in the invariant coefficients, so
 that it is an element of the object `explicitFiniteQuotientSystem2` takes at
@@ -2272,8 +2253,6 @@ noncomputable def finiteLevelZ2 (L : IntermediateField K (SeparableClosure K))
     induction q3 using QuotientGroup.induction_on with | _ g3 =>
     exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩⟩
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the finite-level class,** an element of the value of the supplier's degree-two
 finite-quotient system at `galoisOpenNormal K L`. -/
 noncomputable def finiteLevelClass (L : IntermediateField K (SeparableClosure K))
@@ -2282,8 +2261,6 @@ noncomputable def finiteLevelClass (L : IntermediateField K (SeparableClosure K)
       (Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K)) :=
   H2pi _ _ (finiteLevelZ2 K L z)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): inflation is the supplier's finite-quotient comparison leg.**
 The class of an inflated cocycle is the image of its finite-level class under
 `explicitFiniteQuotientComparison2` at the open normal subgroup `Gal(Kˢ/L)`. This is what makes
@@ -2299,8 +2276,6 @@ theorem inflateTwoCocycleClass_eq_finiteQuotientComparison
           (Opposite.op (galoisOpenNormal K L))).hom (finiteLevelClass K L z)) :=
   sorry
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): every continuous cocycle is inflated from a finite Galois
 subextension**, on the nose and with no coboundary subtracted. The inputs are the supplier's
 Layer 4 strict descent of a continuous `2`-cocycle to a finite level, which is what makes this
@@ -2318,8 +2293,6 @@ theorem exists_galoisCocycle_inflateTwoCocycleZ2
 
 variable {K}
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B: the continuous class of a bundled crossed product**, the cohomological
 counterpart of `GaloisCocycle.brauerClass`. -/
 noncomputable def GaloisCocycle.inflateClass (g : GaloisCocycle K) : H2Units K :=
@@ -2327,8 +2300,6 @@ noncomputable def GaloisCocycle.inflateClass (g : GaloisCocycle K) : H2Units K :
 
 variable (K)
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 2(v): the finite-quotient exhaustion of `H²(G_K, Kˢˣ)`.** Every
 continuous class is the inflation of a cocycle of some finite Galois subextension. It is the
 cohomological twin of `exists_galoisCocycle_brauerClass_eq`, and together with
@@ -2359,8 +2330,6 @@ noncomputable def brauer2EquivH2 [Invertible (2 : K)] :
     Additive ↥(Br2 K) ≃+ H2 K :=
   sorry
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 3: the equation that determines the comparison.** On the class of the
 crossed product of a cocycle of a finite Galois `L ⊆ Kˢ`, the comparison is the inflation of that
 cocycle. This is the load-bearing statement of the whole sublayer: `brauerCohomologyEquiv` is a
@@ -2375,16 +2344,12 @@ theorem brauerCohomologyEquiv_crossedProductClass
       inflateTwoCocycleClass K L z :=
   sorry
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- The same statement on a bundled `GaloisCocycle`, which is the form the two exhaustion
 theorems are quantified over. -/
 theorem brauerCohomologyEquiv_galoisCocycle_brauerClass (g : GaloisCocycle K) :
     brauerCohomologyEquiv K (Additive.ofMul g.brauerClass) = g.inflateClass :=
   brauerCohomologyEquiv_crossedProductClass K g.extension g.cocycle
 
-set_option maxHeartbeats 1000000 in
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 3: there is only one such comparison.** Any additive equivalence that
 sends the class of a crossed product to the inflation of its cocycle is `brauerCohomologyEquiv`.
 This is what "one comparison with one normalization" means, and it is proved rather than
@@ -2410,7 +2375,6 @@ theorem brauer2EquivH2_h2MuToUnits [Invertible (2 : K)] (x : ↥(Br2 K)) :
       brauerCohomologyEquiv K (Additive.ofMul (x : BrauerGroup.{u, u} K)) :=
   sorry
 
-set_option maxHeartbeats 400000 in
 /-- **Layer 7B: the 2-torsion comparison is determined by that square.** -/
 theorem brauer2EquivH2_unique [Invertible (2 : K)] (e : Additive ↥(Br2 K) ≃+ H2 K)
     (h : ∀ x : ↥(Br2 K), (h2MuToUnits K).hom (e (Additive.ofMul x)) =
@@ -2419,7 +2383,6 @@ theorem brauer2EquivH2_unique [Invertible (2 : K)] (e : Additive ↥(Br2 K) ≃+
   AddEquiv.ext fun y => h2MuToUnits_injective K
     ((h (Additive.toMul y)).trans (brauer2EquivH2_h2MuToUnits (Additive.toMul y)).symm)
 
-set_option maxHeartbeats 400000 in
 /-- **Layer 7B, milestone 6: the symbol as a cup product, on the one comparison.** The quaternion
 algebra `(a, b)_K` is the crossed product of `K(√a)/K` by the cocycle whose only nontrivial value
 is `b`, so `brauerCohomologyEquiv_crossedProductClass` computes its image as the inflation of
@@ -2431,7 +2394,6 @@ theorem brauerCohomologyEquiv_quaternionClass [Invertible (2 : K)] (a b : Kˣ) :
       (h2MuToUnits K).hom (cup11 (kummerClass a) (kummerClass b)) :=
   sorry
 
-set_option maxHeartbeats 400000 in
 /-- **Layer 7B, the symbol as a cup product.** The quaternion class is 2-torsion by
 `quaternionClass_sq`, and its image is the cup of the two Kummer classes. It is a consequence of
 the previous theorem and of the normalization square, by injectivity of `h2MuToUnits`. -/
@@ -2506,63 +2468,71 @@ noncomputable def hilbertSign (x : ZMod 2) : ℤˣ :=
 
 /-! ### The two frozen bridges to Class Field Theory
 
-⚠ **Universe 0.** Both statements below bind their own `F : Type` instead of using this file's
-`K : Type u`. Class Field Theory pins every cohomological object to universe `0` on purpose —
-Mathlib's `tateCohomology` needs the group and the coefficient ring `ℤ` in one universe — so
-`ClassFieldTheory.H`, `muNRep`, `kummerClass` and `localSymbol` take a `Type`, and quantifying
-them over `Type u` does not typecheck. The restriction is the supplier's and is not a weakening
-of the quadratic-form side: `hilbertSymbol` itself is available at every universe, and the
-bridges are exactly the statements that mention a CFT object. -/
+The class-field-theoretic objects are Tau Ceti's, in `TauCeti.ClassFieldTheory`: the coefficient
+object `muNRep n F` of the roots of unity of `Fˢ`, on which `Field.absoluteGaloisGroup F` acts
+through `TauCeti.absoluteGaloisGroupRestrictEquiv`; the Kummer class `kummerClass F hn a` in
+Mathlib's `continuousCohomology 1 (muNRep n F)`, for `hn : IsUnit (n : F)`; the coefficient pairing
+`kummerCupPairing ζ hζ` of a primitive root; the local symbol `localSymbol P tr`; and the Hilbert
+invariants `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt` and `finiteHilbertSupport` of
+a number field, with Hilbert reciprocity `hilbertProductFormula`. The local objects are universe
+polymorphic, so the two local statements below quantify over `F : Type u`; Tau Ceti states the
+Hilbert invariants of a number field `K : Type`, and the global bridge follows it. -/
 
-/-- **Frozen QFI--CFT bridge, the single comparison of coefficients.** Class Field Theory's
-`localSymbol` at the Kummer cup pairing vanishes exactly when this roadmap's `cup11` of the two
-Kummer classes vanishes. Both sides are the Profinite Cohomology roadmap's `cup`, at two pairings:
-Class Field Theory's `kummerCupPairing ζ`, which is `(x, y) ↦ log_ζ(x) · y` on `muNRep 2 F`
-(`ClassFieldTheory.kummerCupPairing_bil`), over the coefficient ring `ZMod 2` and the group
-`Field.absoluteGaloisGroup F`; and the supplier's `f2Pairing` on `trivialF2`, over `ℤ` and
+/-- **Frozen QFI--CFT bridge, the single comparison of coefficients.** Tau Ceti's `localSymbol` at
+the Kummer cup pairing vanishes exactly when this roadmap's `cup11` of the two Kummer classes
+vanishes. Both sides are cups at two pairings: Tau Ceti's `kummerCupPairing ζ`, which is
+`(x, y) ↦ log_ζ(x) · y` on `muNRep 2 F` (`TauCeti.ClassFieldTheory.kummerCupPairing_bil`), over
+the coefficient ring `ZMod 2` and the group `Field.absoluteGaloisGroup F`; and the Profinite
+Cohomology roadmap's `f2Pairing` on `trivialF2`, over `ℤ` and
 `ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's `TauCeti.AbsoluteGaloisGroup F`.
-Both coefficient modules are Tau Ceti's `KummerCoeff F 2`: `ClassFieldTheory.muNRepCoeffDictionary`
-is its identity, and this file's `kummerCoeffIsoTrivialF2` starts from it. Both Kummer classes are
-Tau Ceti's `kummerMap` transported: Class Field Theory's by
-`ClassFieldTheory.kummerClass_eq_kummerCocycleClass`, and Layer 7A's through `kummerMapCanonical`.
-So the content of the bridge is the naturality of `cup` along three changes: the group comparison
-`ClassFieldTheory.absoluteGaloisGroupComparison`; the coefficient isomorphism
-`kummerCoeffIsoTrivialF2`, under which `log_ζ(x) · y` is the product of `𝔽₂`; and the passage from
-the coefficient ring `ZMod 2` to `ℤ`, which changes neither the homogeneous cochains nor their
-differentials. `localSymbol` then adds the invariant `tr`, which is an `AddEquiv` and so does not
-affect vanishing.
+Both coefficient modules are Tau Ceti's `KummerCoeff F 2`: the dictionary
+`TauCeti.ClassFieldTheory.kummerCoeffEquivMuNRep` is its identity, continuous with continuous
+inverse and equivariant along the restriction isomorphism
+(`TauCeti.ClassFieldTheory.kummerCoeffEquivMuNRep_smul`), and this file's `kummerCoeffIsoTrivialF2`
+starts from it. Both Kummer classes are Tau Ceti's `kummerMap` transported: Tau Ceti's
+`kummerClass` by `TauCeti.ClassFieldTheory.kummerClass_eq_muNRepH1Equiv_kummerCocycleClass`, and
+Layer 7A's through `kummerMapCanonical`. So the content of the bridge is the naturality of `cup`
+along three changes: the group comparison `TauCeti.absoluteGaloisGroupRestrictEquiv`; the
+coefficient isomorphism `kummerCoeffIsoTrivialF2`, under which `log_ζ(x) · y` is the product of
+`𝔽₂`; and the passage from the coefficient ring `ZMod 2` to `ℤ`, which changes neither the
+homogeneous cochains nor their differentials. `localSymbol` then adds the invariant `tr`, which is
+an `AddEquiv` and so does not affect vanishing.
 ⚠ This is *not* a consequence of `brauerCohomologyEquiv_crossedProductClass`: the crossed-product
-comparison is about `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that Class
-Field Theory's symbol is built from. -/
-theorem localSymbol_eq_zero_iff_cup (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+comparison is about `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that Tau Ceti's
+symbol is built from. -/
+theorem localSymbol_eq_zero_iff_cup (F : Type u) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
     (ζ : F) (hζ : IsPrimitiveRoot ζ 2)
-    (tr : ClassFieldTheory.H 2 F 2 (ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2) (a b : Fˣ) :
-    ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
-        (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b) = 0 ↔
+    (tr : _root_.continuousCohomology 2 (TauCeti.ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2)
+    (a b : Fˣ) :
+    TauCeti.ClassFieldTheory.localSymbol (TauCeti.ClassFieldTheory.kummerCupPairing ζ hζ) tr
+        (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) a)
+        (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) b) = 0 ↔
       cup11 (kummerClass a) (kummerClass b) = 0 :=
   sorry
 
-/-- **Frozen QFI--CFT bridge.** The norm-equation/quaternion Hilbert symbol agrees with Class
-Field Theory's Kummer-cup symbol after translating its additive invariant to a sign. Class Field
-Theory supplies `kummerClass`, `kummerCupPairing`, and `localSymbol`; no theorem in that roadmap
-depends on this comparison. It is a consequence of the coefficient comparison above and of Layer
-7C's `cup_kummerClass_eq_zero_iff_hilbertSymbol`: both symbols take two values, and each is
-trivial exactly when the cup vanishes, so no third normalization is possible. -/
-theorem hilbertSymbol_eq_cohomological (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
-    [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
+/-- **Frozen QFI--CFT bridge.** The norm-equation/quaternion Hilbert symbol agrees with Tau Ceti's
+Kummer-cup symbol after translating its additive invariant to a sign. Tau Ceti supplies
+`kummerClass`, `kummerCupPairing`, and `localSymbol`; none of them depends on this comparison. It
+is a consequence of the coefficient comparison above and of Layer 7C's
+`cup_kummerClass_eq_zero_iff_hilbertSymbol`: both symbols take two values, and each is trivial
+exactly when the cup vanishes, so no third normalization is possible. -/
+theorem hilbertSymbol_eq_cohomological (F : Type u) [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Invertible (2 : F)]
     (ζ : F) (hζ : IsPrimitiveRoot ζ 2)
-    (tr : ClassFieldTheory.H 2 F 2 (ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2)
+    (tr : _root_.continuousCohomology 2 (TauCeti.ClassFieldTheory.muNRep 2 F) ≃+ ZMod 2)
     (a b : Fˣ) :
     hilbertSymbol a b =
       hilbertSign
-        (ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
-          (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) := by
+        (TauCeti.ClassFieldTheory.localSymbol (TauCeti.ClassFieldTheory.kummerCupPairing ζ hζ) tr
+          (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) a)
+          (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) b)) := by
   have hcup := cup_kummerClass_eq_zero_iff_hilbertSymbol (K := F) a b
   have hloc := localSymbol_eq_zero_iff_cup F ζ hζ tr a b
   rcases (show ∀ x : ZMod 2, x = 0 ∨ x = 1 by decide)
-      (ClassFieldTheory.localSymbol (ClassFieldTheory.kummerCupPairing ζ hζ) tr
-        (ClassFieldTheory.kummerClass 2 F a) (ClassFieldTheory.kummerClass 2 F b)) with h0 | h1
+      (TauCeti.ClassFieldTheory.localSymbol (TauCeti.ClassFieldTheory.kummerCupPairing ζ hζ) tr
+        (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) a)
+        (TauCeti.ClassFieldTheory.kummerClass F (isUnit_natCast_two F) b)) with h0 | h1
   · rw [h0, show hilbertSign 0 = 1 from by simp [hilbertSign]]
     exact hcup.mp (hloc.mp h0)
   · rw [h1, show hilbertSign 1 = -1 from by simp [hilbertSign]]
@@ -2570,17 +2540,17 @@ theorem hilbertSymbol_eq_cohomological (F : Type) [Field F] [ValuativeRel F] [To
     · exact absurd (h1.symm.trans (hloc.mpr (hcup.mpr h))) (by decide)
     · exact h
 
-/-- **Frozen global bridge.** This is the multiplicative-sign form of
-`ClassFieldTheory.hilbertProductFormula`. At every finite place the factor is the local
-norm-equation/quaternion symbol by `hilbertSymbol_eq_cohomological`; the infinite factors use
-Class Field Theory's real/complex normalization. Thus this theorem derives reciprocity from CFT
-and does not make CFT depend on quadratic forms. -/
+/-- **Frozen global bridge.** This is the multiplicative-sign form of Tau Ceti's
+`TauCeti.ClassFieldTheory.hilbertProductFormula`. At every finite place the factor is the local
+norm-equation/quaternion symbol by `hilbertSymbol_eq_cohomological`; the infinite factors use Tau
+Ceti's real/complex normalization. Thus this theorem derives reciprocity from class field theory
+and does not make it depend on quadratic forms. -/
 theorem hilbertSymbol_productFormula (F : Type) [Field F] [NumberField F] (a b : Fˣ) :
-    (∏ v ∈ ClassFieldTheory.finiteHilbertSupport F a b,
-        hilbertSign (ClassFieldTheory.finiteHilbertInvariantAt F v a b)) *
+    (∏ v ∈ TauCeti.ClassFieldTheory.finiteHilbertSupport F a b,
+        hilbertSign (TauCeti.ClassFieldTheory.finiteHilbertInvariantAt F v a b)) *
       ∏ w : NumberField.InfinitePlace F,
-        hilbertSign (ClassFieldTheory.infiniteHilbertInvariantAt F w a b) = 1 := by
-  have hcoh := ClassFieldTheory.hilbertProductFormula F a b
+        hilbertSign (TauCeti.ClassFieldTheory.infiniteHilbertInvariantAt F w a b) = 1 := by
+  have hcoh := TauCeti.ClassFieldTheory.hilbertProductFormula (K := F) a b
   sorry
 
 /-- **Layer 7C, the Steinberg corollary.** -/
@@ -3329,9 +3299,9 @@ theorem pinDiagonalLift_mul (ε ε' : Fin 2 → ZMod 2) :
     intro a b a' b'
     rcases hZ a with rfl | rfl <;> rcases hZ b with rfl | rfl <;> rcases hZ a' with rfl | rfl <;>
       rcases hZ b' with rfl | rfl <;>
-      (simp (config := {decide := true}) only [↓reduceIte, one_mul, mul_one] <;>
-        ext i j <;> fin_cases i <;> fin_cases j <;>
-        simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
+      (refine Matrix.ext fun i j => ?_
+       fin_cases i <;> fin_cases j <;>
+         simp (config := {decide := true}) [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
   simpa [pinDiagonalLift] using key (ε 0) (ε 1) (ε' 0) (ε' 1)
 
 /-- The explicit matrix generators are the existing native generators. -/
@@ -3549,7 +3519,6 @@ noncomputable def kummerInd {L : Type u} [Field L] [Algebra K L] [FiniteDimensio
   indexTwoInd (galoisSubgroup K L σ).toSubgroup (by rw [galoisSubgroup_index]; exact hdeg) s hs
     (galoisKummerCharacter σ a r hr)
 
-set_option synthInstance.maxHeartbeats 400000 in
 /-- **Layer 9, step 1 at the bridge: `N^{Ev}((a)) = ρ_a^* c_{D₁₆}`.** The body of `galoisEvens2` is
 the supplier's `evensNormIndexTwo` at `galoisSubgroup K L σ` applied to the transported class,
 which is the class of the Kummer character by `galoisF2Iso_inv_kummerClass`, and the supplier's

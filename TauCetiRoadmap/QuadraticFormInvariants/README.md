@@ -26,9 +26,9 @@ The last three layers state these invariants in mod-2 Galois cohomology.
 The ownership boundary is local and acyclic. This roadmap consumes
 `ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`. It owns the
 norm-equation/quaternion Hilbert symbol and the comparison with the cohomological
-pairing. Class Field Theory owns that pairing and Hilbert reciprocity; this roadmap
-derives the sign product formula from it. Hasse--Minkowski and every global
-classification or realization theorem belong to `GlobalQuadraticForms`.
+pairing. Class Field Theory owns that pairing and Hilbert reciprocity, both implemented
+in Tau Ceti; this roadmap derives the sign product formula from it. Hasse--Minkowski and
+every global classification or realization theorem belong to `GlobalQuadraticForms`.
 
 ## Completion audit (2026-10-28)
 
@@ -90,7 +90,7 @@ e.unitsH2Congr (brauerExplicitH2Equiv K (Additive.ofMul x))` for every
 canonical explicit-to-continuous comparison. `brauerCohomologyEquiv_baseChange` retains
 same-universe field parameters. The finite-inflation equations and quaternion formulas
 do not yet identify the independently defined quotient transport with the comparison on
-all classes. The cohomological `ClassFieldTheory.brCongr` alone does not supply this
+all classes. The cohomological `TauCeti.ClassFieldTheory.brCongr` alone does not supply this
 identification with actual CSA/Brauer quotient classes. The roadmap remains active until
 the full square is proved; no edge may be defined by conjugating the comparison maps.
 
@@ -571,9 +571,10 @@ improvement through their own review rather than duplicating them.
   consumes those declarations rather than defining a second valuation or filtration.
 - The [class-field-theory roadmap](../ClassFieldTheory/README.md) owns local duality,
   the invariant map, the cohomological Kummer-cup Hilbert pairing, and Hilbert
-  reciprocity. Layers 6E and 7C compare this imported pairing with the
-  norm-equation/quaternion symbol; the dependency is
-  `ClassFieldTheory -> QuadraticFormInvariants`, never the reverse.
+  reciprocity. Tau Ceti implements all four in `TauCeti.ClassFieldTheory`, and this
+  roadmap consumes those native declarations (contract table below). Layers 6E and 7C
+  compare this imported pairing with the norm-equation/quaternion symbol; the dependency
+  is `ClassFieldTheory -> QuadraticFormInvariants`, never the reverse.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations: the carrier, the cup product, restriction, inflation,
   corestriction, Kummer theory, the index-two Evens norm with the identities, the
@@ -676,43 +677,48 @@ Ceti's. This roadmap consumes the supplier's names.
 | Layer 6A, the unramified class; 6B's evaluation formula | 2 | `normGroup`, `map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`; milestone *Existence and uniqueness* (no target signature) | the unramified norm group in norm-equation form, `x ∈ normGroup L/K ↔ f ∣ v_K(x)`, with `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`; and the unramified extension of each degree. At degree `2` the existence and the uniqueness halves are frozen here, extension-free, as `exists_unramified_class` and `unramified_class_unique` |
 | Layer 6, the `ℚ_p` acceptance suite | 0 | the non-vacuity milestone (worked example) | `IsNonarchimedeanLocalField ℚ_[p]` |
 
-**From the [class-field-theory roadmap](../ClassFieldTheory/README.md)**, namespace
-`TauCetiRoadmap.ClassFieldTheory`. These declarations are imported; QFI supplies comparison
-theorems only.
+**From Tau Ceti's class field theory**, namespace `TauCeti.ClassFieldTheory`, which implements the
+local Hilbert pairing (Layer 5) and Hilbert reciprocity (Layer 14) of the
+[class-field-theory roadmap](../ClassFieldTheory/README.md). These are native declarations,
+consumed under their Tau Ceti names; none of them is a roadmap target, and QFI supplies comparison
+theorems only. Their cohomology is Mathlib's `continuousCohomology`
+(`Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean`). Files are under
+`TauCeti/NumberTheory/ClassFieldTheory/`.
 
-| Consumer milestone | Supplier layer | Exact declaration | Mathematical type |
+| Consumer milestone | Native source | Exact declaration | Mathematical type |
 |---|---|---|---|
-| Layers 6E and 7C, the local invariant normalization | 2--3 | `H`, `muNRep`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu` | continuous `H²(F, mu_n)` and its arithmetic invariant in `ZMod n`, including mixed characteristic |
-| Layer 7C, the cohomological Hilbert pairing | 3 | `kummerClass`, `kummerClass_eq_kummerCocycleClass`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol` | the Kummer class, which is Tau Ceti's `kummerMap` carried to `Field.absoluteGaloisGroup F`; the pairing `(x, y) ↦ log_ζ(x) · y` on `μ_n` for a primitive `n`-th root `ζ ∈ F`; and their cup followed by the local invariant. No quadratic-form definition occurs in CFT |
-| Layer 7C, nondegeneracy comparison | 3 | `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, which is Tau Ceti's internal Hom into `μ_n`, and its perfectness for finite `A` on which the action is smooth (`TauCeti.IsSmoothDiscrete`, found by instance search at `muNRep`), with the invariant normalization supplied by CFT |
-| `hilbertSymbol_productFormula`, exported to Global Quadratic Forms | 5 | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `finiteHilbertSupport`, `hilbertProductFormula` | finite support and the additive Hilbert reciprocity equation over all finite and infinite places |
+| Layers 6E and 7C, the coefficients and the group comparison | `MuNRep.lean`; `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean` | `GalRep`, `muNRep`, `kummerCoeffEquivMuNRep`, `continuous_kummerCoeffEquivMuNRep`, `kummerCoeffEquivMuNRep_smul`; `TauCeti.absoluteGaloisGroupRestrictEquiv` | `μ_n(Fˢ)` as a `TopRep (ZMod n)` of `Field.absoluteGaloisGroup F`, acting through the restriction isomorphism `Field.absoluteGaloisGroup F ≃ₜ* TauCeti.AbsoluteGaloisGroup F`; its underlying module is `KummerCoeff F n` through a continuous equivariant identity |
+| Layers 6E and 7C, the local invariant normalization | `Brauer/RootsOfUnity.lean` | `h2MuEquivZMod`, `h2MuEquivZMod_mixed`, `h2EquivZModOfMuNRepIso` | the normalized invariant `continuousCohomology 2 (muNRep n F) ≃+ ZMod n` of a nonarchimedean local field for `n` invertible in `F`, sending Brauer invariant `k/n` to `k`; its existence for every `n ≠ 0` in characteristic zero; and its transport to coefficients identified with `μ_n` |
+| Layer 7C, the cohomological Hilbert pairing | `MuNRep.lean`; `Local/Symbol.lean` | `kummerClass`, `kummerClass_eq_muNRepH1Equiv_kummerCocycleClass`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `localSymbol_apply` | the Kummer class in `continuousCohomology 1 (muNRep n F)` for `n` invertible in `F`, which is Tau Ceti's `kummerMap` carried to `Field.absoluteGaloisGroup F`; the pairing `(x, y) ↦ log_ζ(x) · y` on `μ_n` for a primitive `n`-th root `ζ ∈ F`; and their cup followed by an identification `tr` of `H²` with `ZMod n`. No quadratic-form definition occurs there |
+| Layer 7C, nondegeneracy comparison | `Local/Duality/Basic.lean`; `Local/Duality/Perfect.lean` | `tateDual`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, the internal Hom into `μ_n`, and its perfectness in characteristic zero for finite `A` on which the action is smooth (`TauCeti.IsSmoothDiscrete`, found by instance search at `muNRep`) |
+| `hilbertSymbol_productFormula`, exported to Global Quadratic Forms | `Global/Hilbert/Invariant.lean`; `Global/Hilbert/Reciprocity.lean` | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `finiteHilbertSupport`, `hilbertProductFormula` | the `ZMod 2`-valued Hilbert invariants of `a, b ∈ Kˣ` at the finite and infinite places of a number field `K : Type`, the finite support, and the additive Hilbert reciprocity equation |
 
 The two frozen QFI bridge names are `hilbertSymbol_eq_cohomological` and
 `hilbertSymbol_productFormula`. The first identifies QFI's norm-equation/quaternion symbol with
-`ClassFieldTheory.localSymbol`; the second is the multiplicative-sign translation of
-`ClassFieldTheory.hilbertProductFormula`. This is the only ownership direction: no CFT file
-imports QFI.
+`TauCeti.ClassFieldTheory.localSymbol`; the second is the multiplicative-sign translation of
+`TauCeti.ClassFieldTheory.hilbertProductFormula`. This is the only ownership direction: neither the
+class-field-theory roadmap nor Tau Ceti's class field theory imports QFI.
 
 `hilbertSymbol_eq_cohomological` is derived rather than asserted. Its one input is
-`localSymbol_eq_zero_iff_cup`, which says that `ClassFieldTheory.localSymbol` vanishes exactly
-when Layer 7A's `cup11` of the two Kummer classes does. Both sides are the profinite-cohomology
-roadmap's `cup`: at Class Field Theory's `kummerCupPairing ζ` on `ClassFieldTheory.muNRep 2 F`,
-over the coefficient ring `ZMod 2` and `Field.absoluteGaloisGroup F`, and at `f2Pairing` on
+`localSymbol_eq_zero_iff_cup`, which says that `TauCeti.ClassFieldTheory.localSymbol` vanishes
+exactly when Layer 7A's `cup11` of the two Kummer classes does. Both sides are cups: at Tau Ceti's
+`kummerCupPairing ζ` on `muNRep 2 F`, over the coefficient ring `ZMod 2` and
+`Field.absoluteGaloisGroup F`, and at the profinite-cohomology roadmap's `f2Pairing` on
 `trivialF2`, over `ℤ` and `ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's
 `TauCeti.AbsoluteGaloisGroup F`. Both coefficient modules are Tau Ceti's `KummerCoeff F 2`:
-`ClassFieldTheory.muNRepCoeffDictionary` is its identity, with `muNRepCoeffDictionary_continuous`
-and `muNRepCoeffDictionary_equivariant`, and Layer 7A's `kummerCoeffIsoTrivialF2` starts from it.
-Both Kummer classes are Tau Ceti's `kummerMap` transported, Class Field Theory's by
-`kummerClass_eq_kummerCocycleClass` and Layer 7A's through `kummerMapCanonical`. So the content
-of the bridge is the naturality of `cup` along the group comparison
-`ClassFieldTheory.absoluteGaloisGroupComparison`, along the coefficient isomorphism
+`kummerCoeffEquivMuNRep` is its identity, continuous and equivariant
+(`kummerCoeffEquivMuNRep_smul`), and Layer 7A's `kummerCoeffIsoTrivialF2` starts from it. Both
+Kummer classes are Tau Ceti's `kummerMap` transported, the class-field-theoretic one by
+`kummerClass_eq_muNRepH1Equiv_kummerCocycleClass` and Layer 7A's through `kummerMapCanonical`. So
+the content of the bridge is the naturality of `cup` along the group comparison
+`TauCeti.absoluteGaloisGroupRestrictEquiv`, along the coefficient isomorphism
 `kummerCoeffIsoTrivialF2`, under which `log_ζ(x) · y` is the product of `𝔽₂`, and along the
 passage from the coefficient ring `ZMod 2` to `ℤ`, which changes neither the homogeneous cochains
-nor their differentials. Given it, Layer 7C's
-`cup_kummerClass_eq_zero_iff_hilbertSymbol` and the fact that both symbols take two values force
-the equality of signs. ⚠ This bridge does **not** factor through Layer 7B's comparison: the
-crossed-product comparison has `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that
-`localSymbol` is built from.
+nor their differentials. Given it, Layer 7C's `cup_kummerClass_eq_zero_iff_hilbertSymbol` and
+the fact that both symbols take two values force the equality of signs. Tau Ceti's local objects
+are universe polymorphic, so both local bridges are stated for `F : Type u`. ⚠ This bridge does
+**not** factor through Layer 7B's comparison: the crossed-product comparison has `Kˢˣ`
+coefficients and says nothing about the `μ₂`-valued cup that `localSymbol` is built from.
 
 **From the [profinite-cohomology roadmap](../ProfiniteCohomology/README.md)**, namespace
 `TauCetiRoadmap.ProfiniteCohomology`. That roadmap re-exports Tau Ceti's implementation under
@@ -902,9 +908,8 @@ Each prerequisite carries one of these sources:
 - **[Mathlib]** for an existing Mathlib declaration;
 - **[Tau Ceti]** for an existing accepted Tau Ceti declaration;
 - **[Layer n]** for an earlier milestone of this roadmap;
-- **[Local Fields Ramification, Layer n]**, **[Profinite Cohomology, Layer n]**,
-  **[Class Field Theory, Layer n]**, and **[SSA Layer n]**
-  for a named layer of a roadmap this one consumes. Every such
+- **[Local Fields Ramification, Layer n]**, **[Profinite Cohomology, Layer n]**, and
+  **[SSA Layer n]** for a named layer of a roadmap this one consumes. Every such
   prerequisite appears as a row of the contract table above, with its exact declaration.
 
 The classical definitions in Layers 0 to 6 do not use the cohomological Brauer
@@ -2000,7 +2005,8 @@ The comparison is the frozen declaration `hilbertSymbol_eq_cohomological`; no CF
 milestone depends on it, and it rests on the single coefficient comparison
 `localSymbol_eq_zero_iff_cup` together with Layer 7C's
 `cup_kummerClass_eq_zero_iff_hilbertSymbol`. The frozen `hilbertSymbol_productFormula` then
-translates `ClassFieldTheory.hilbertProductFormula` into multiplicative signs.
+translates Tau Ceti's `TauCeti.ClassFieldTheory.hilbertProductFormula` into multiplicative
+signs.
 
 Prerequisites:
 
@@ -2011,8 +2017,8 @@ Prerequisites:
 - **[Layer 3]** the binary quaternion lemma and the chain-induction lemmas;
 - **[Local Fields Ramification, Layers 0 and 1]** `normalizedValuation` and
   `unitFiltration`;
-- **[Class Field Theory, Layers 2--3]** `H`, `muNRep`, `kummerClass`,
-  `h2MuEquivZMod_mixed`, `kummerCupPairing`, `localSymbol`, and
+- **[Mathlib]** `continuousCohomology`, and **[Tau Ceti]** `TauCeti.ClassFieldTheory`'s
+  `muNRep`, `kummerClass`, `h2MuEquivZMod`, `kummerCupPairing`, `localSymbol`, and
   `tateDualityPairing_perfect_mixed`, for the comparison below;
 - **[Layer 6A]** the uniformizer predicate, the absolute ramification index, the local
   square theorem, the square-class counts, and the unramified norm description;
@@ -2123,16 +2129,16 @@ Milestones, in this order:
 
     that is `(−1,−1) = −1` and `(2,5) = −1`, with every other basis pairing `+1`. The
     matrix is nondegenerate over `𝔽₂`, which is item 7 read on this basis.
-13. **The symbol is the mod-2 specialization of the CFT pairing.** Class Field Theory
-    builds `localSymbol` from `kummerClass`, `kummerCupPairing`, and the arithmetic
-    invariant on `H²(G_K, μ₂)`, and proves the corresponding local duality pairing
-    perfect. The milestone `hilbertSymbol_eq_cohomological` says that it agrees with
+13. **The symbol is the mod-2 specialization of the CFT pairing.** Tau Ceti's class
+    field theory builds `localSymbol` from `kummerClass`, `kummerCupPairing`, and the
+    arithmetic invariant on `H²(G_K, μ₂)`, and proves the corresponding local duality
+    pairing perfect. The milestone `hilbertSymbol_eq_cohomological` says that it agrees with
     `hilbertSymbol` after the dictionary `0 -> +1`, `1 -> -1`. It is stated after Layer
     7C, because the comparison runs through the Kummer cup--norm theorem, and its only
-    input is `localSymbol_eq_zero_iff_cup`, the comparison of Class Field Theory's
+    input is `localSymbol_eq_zero_iff_cup`, the comparison of Tau Ceti's
     `μ₂`-coefficient cup with Layer 7A's.
 14. **The global product formula is inherited.** Apply the sign dictionary to
-    `ClassFieldTheory.hilbertProductFormula`. The resulting frozen declaration
+    `TauCeti.ClassFieldTheory.hilbertProductFormula`. The resulting frozen declaration
     `hilbertSymbol_productFormula` is an export to `GlobalQuadraticForms`, not a local-
     global classification theorem here.
 15. **The two Hasse invariants agree**, which is stated after Layer 6D as sublayer 6E,
@@ -2240,8 +2246,8 @@ Prerequisites:
 - **[Layer 6C]** `localHasse`;
 - **[Layer 6D]** the uniqueness of the quaternion division algebra;
 - **[Layer 7B]** the 2-torsion comparison `ι`, for the second milestone only;
-- **[Class Field Theory, Layers 2--3]** the local invariant normalization
-  `h2MuEquivZMod_mixed` and its `localSymbol`, for the second milestone only.
+- **[Tau Ceti]** the local invariant normalization `TauCeti.ClassFieldTheory.h2MuEquivZMod`
+  and `localSymbol`, for the second milestone only.
 
 Milestone 1. The subgroup `Q(K) ≤ BrauerGroup K` generated by the quaternion classes is
 `{1, [D]}`, where `D` is the quaternion division algebra of 6D, so the map
@@ -2258,7 +2264,7 @@ from the Brauer group alone. Layer 7C's local specialization consumes it.
 
 Milestone 2. `ε` is the degree-two local invariant of Class Field Theory. Precisely,
 `Q(K) = Br(K)[2]`, and under the identification `Br(K)[2] ≅ H²(G_K, μ₂)` of Layer 7B,
-`h2MuEquivZMod_mixed` carries the division class to the nonzero element of `ZMod 2`.
+Tau Ceti's `h2MuEquivZMod` carries the division class to the nonzero element of `ZMod 2`.
 Equivalently, the usual embedding in `ℚ/ℤ` carries `[D]` to `1/2`. So, as an equality of
 signs and not only as an equivalence of vanishings,
 
@@ -3422,12 +3428,12 @@ subject matter belongs and built where its prerequisites are ready.
   cohomological pairing and its arithmetic normalization and states no comparison with
   the norm-equation symbol.
 - **Local class field theory is consumed, not rebuilt.** The invariant map is the
-  class-field-theory roadmap's. Sublayer 6E's second milestone consumes it to
+  class-field-theory roadmap's, implemented in Tau Ceti as `TauCeti.ClassFieldTheory.invMap`. Sublayer 6E's second milestone consumes it to
   identify the two-element group of quaternion classes with `Br(K)[2]` and the Hasse
   invariant with the invariant map. Nothing here reproves reciprocity, the Artin map, or
   the existence theorem, and no statement here is an alternative construction of the
   invariant map. The exact imported reciprocity theorem is
-  `ClassFieldTheory.hilbertProductFormula`; the exact QFI consequences are
+  Tau Ceti's `TauCeti.ClassFieldTheory.hilbertProductFormula`; the exact QFI consequences are
   `hilbertSymbol_eq_cohomological` and `hilbertSymbol_productFormula`. No Class Field
   Theory declaration imports or depends on QFI.
 - **Global form theory is downstream.** `GlobalQuadraticForms` owns Hasse--Minkowski,
