@@ -23,11 +23,104 @@ on:
 permissions:
   contents: read
 
+# One live build per pull request. A push makes the previous head's build irrelevant, since the
+# required check is per commit, but without this it still waits for, and then occupies, one of the
+# org's 20 GitHub-hosted runner slots. On 2026-11-07 the wait for a slot passed 18 hours, longer
+# than the merge queue's 6-hour check timeout (the most GitHub allows), so every queue entry timed
+# out before its build started, the queue rebuilt behind it, and nothing merged for 33 hours.
+#
+# Only `pull_request` runs share a group. A `merge_group` ref is already unique to its candidate,
+# and a `push` to `main` keeps a build of its own as before; `run_id` gives each of those a group
+# nothing else joins.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}', github.event.pull_request.number) || format('ci-run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # A merge-queue candidate that `main` has moved out from under can never merge, and GitHub does
+      # not cancel its build. Whenever something lands on `main` outside the queue (a progress report,
+      # an admin merge), the queue rebuilds every candidate and leaves the old builds queued; on
+      # 2026-11-07 each such build still took a runner for 12 to 20 minutes. This stops one before
+      # anything else runs.
+      #
+      # It needs two signs, and waits for the second, so that it cannot stop a build the queue still
+      # depends on: the candidate no longer contains `main` (the compare reads `diverged`), and the
+      # queue has deleted the candidate's ref. A stopped build fails rather than passes, so that a
+      # mistake here can at worst drop an entry from the queue, never let one merge unbuilt. An API
+      # error falls through to the full build.
+      - name: Stop if this merge-queue candidate has been superseded
+        if: github.event_name == 'merge_group'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.event.merge_group.base_ref }}
+          HEAD_REF: ${{ github.event.merge_group.head_ref }}
+          HEAD_SHA: ${{ github.event.merge_group.head_sha }}
+        run: |
+          set -uo pipefail
+          base="${BASE_REF#refs/heads/}"
+          status="$(gh api "repos/$REPO/compare/$base...$HEAD_SHA" --jq .status 2>/dev/null)" || status=""
+          if [ "$status" != diverged ]; then
+            echo "compare $base...${HEAD_SHA:0:7}: ${status:-unavailable}; building"
+            exit 0
+          fi
+          for _ in 1 2 3 4 5 6; do
+            rc=0
+            git ls-remote --exit-code "https://github.com/$REPO" "$HEAD_REF" > /dev/null 2>&1 || rc=$?
+            if [ "$rc" = 2 ]; then
+              echo "::error title=superseded merge group::$base has moved past ${HEAD_SHA:0:7} and the queue has dropped $HEAD_REF, so there is nothing to build"
+              exit 1
+            fi
+            [ "$rc" = 0 ] || break
+            sleep 30
+          done
+          echo "::notice::$base has moved past ${HEAD_SHA:0:7}, but $HEAD_REF is still there; building"
+
+      # Depth 2 so that a pull request's merge commit has its base parent, for the scope step below.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+
+      # A pull request that changes only progress reports (`STATUS.md` and `PROGRESS.md` in a roadmap
+      # directory, active or `Completed/`) changes nothing `lake build` reads, so its build stops
+      # after the topic check. The progress gate validates those files itself, and building them
+      # cost a runner 12 to 150 minutes for nothing. Only `pull_request` is narrowed: a merge-queue
+      # candidate and `main` are always built in full, so whatever reaches `main` through the queue
+      # has been built.
+      #
+      # The checkout is GitHub's merge of the pull request into its base, whose first parent is the
+      # base, so this diff is exactly what the pull request changes. `--no-renames` lists both sides
+      # of a rename, so a Lean file moved onto a report's path still counts. Anything unexpected,
+      # including no diff at all, builds in full.
+      #
+      # The Lean steps below test `github.event_name` before this step's output, and the output is
+      # a word, not a number. The first version of this step wrote `0`/`1` and the steps tested
+      # `steps.scope.outputs.lean != '0'`. On every other event this step is skipped, its output is
+      # null, and GitHub's loose comparison turns both null and '0' into the number 0, so the test
+      # failed and every merge-queue candidate and push to `main` skipped the build. From 2026-11-08
+      # 02:11 to the fix, the queue merged #1051 and #1653 unbuilt and broke `main`, while `main`'s
+      # own CI stayed green.
+      - name: Decide whether the Lean build is needed
+        id: scope
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -uo pipefail
+          if ! files="$(git diff --name-only --no-renames HEAD^1 HEAD)" || [ -z "$files" ]; then
+            echo "lean=build" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if grep -qvE '^(TauCetiRoadmap|Completed)/[^/]+/(STATUS|PROGRESS)\.md$' <<< "$files"; then
+            echo "lean=build" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Only progress reports changed; skipping the Lean build"
+            printf '%s\n' "$files"
+            echo "lean=skip" >> "$GITHUB_OUTPUT"
+          fi
 
       # Every roadmap names its arXiv topic in a `metadata.toml` (README.md, "Filing a roadmap").
       # This is a step of `build` rather than a job of its own because `build` is the check the
@@ -42,6 +135,7 @@ jobs:
       # Install Lean and materialize the dependency workspace. This restores Mathlib through its
       # own cache (`lake exe cache get`) but deliberately leaves the project build to the final step.
       - name: Set up Lean and restore Mathlib
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         uses: leanprover/lean-action@v1
         with:
           build: false
@@ -53,12 +147,20 @@ jobs:
       # Fetch Tau Ceti's cache map from its public Lake service. Artifacts stay lazy: the build
       # downloads only the Tau Ceti modules it actually imports. This is distinct from Mathlib's
       # cache above, and avoids making every package in the workspace cache-writable.
+      #
+      # The defaults after `||` are for pull requests from forks, where the `vars` values arrive
+      # empty. Without them a fork's build compiled all of Tau Ceti (some 5,700 modules, 90 to 150
+      # minutes) where a branch in this repository took 12 to 20 with the cache, and since most
+      # roadmap pull requests come from forks that was most of the CI backlog. They are the same
+      # public, read-only endpoints the variables hold, so a fork reading them gains nothing anyone
+      # else lacks.
       - name: Fetch Tau Ceti cache map
         id: tauceti_cache
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         shell: bash
         env:
-          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC }}
-          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC }}
+          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/artifacts' }}
+          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/revisions' }}
         run: |
           set -euo pipefail
           if [ -z "$PUBLIC_ARTIFACT_ENDPOINT" ] || [ -z "$PUBLIC_REVISION_ENDPOINT" ]; then
@@ -128,6 +230,7 @@ jobs:
       # Build only. The roadmap's Lean targets carry `sorry` on purpose (they are goals),
       # so there is no axiom audit or warning-as-error here.
       - name: Build
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         run: lake build
 
       # Keep degradation visible without turning a cache-service outage into a correctness failure.
