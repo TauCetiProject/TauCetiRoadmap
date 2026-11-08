@@ -718,7 +718,8 @@ complex Banach space `V`.
 - **Translation.** For real `c`, `t ↦ f(t − c)` has transform `e^{−sc} z`.
 
 (GMR19, §4.1, (4.2)–(4.4), pp.790–791, which use the two-sided transform of a function vanishing at
-negative times.)
+negative times; PNT+, `KadiriEq12Helpers.lean`, `Phi_analyticOnNhd`, for holomorphy of a two-sided
+transform on a strip.)
 
 **Checks.**
 
@@ -1554,6 +1555,14 @@ Layers 0–6; ProbabilisticAndMetricNumberTheory §§4.4 and 4.8.
 - **HEN95** — Hubert Hennion,
   [Quasi-compacité. Cas des noyaux lipschitziens et des noyaux markoviens](https://www.numdam.org/item/PSMIR_1995___2_A6_0.pdf),
   Publications mathématiques et informatiques de Rennes (1995), fascicule 2, 1–50.
+- **PNT+** — Alex Kontorovich, Terence Tao and contributors,
+  [Prime Number Theorem and More](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd); file
+  [`PrimeNumberTheoremAnd/IEANTN/KadiriEq12Helpers.lean`](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/127b50e33f6033e2147921167a117af96d9ba4ea/PrimeNumberTheoremAnd/IEANTN/KadiriEq12Helpers.lean)
+  at revision `127b50e33f6033e2147921167a117af96d9ba4ea`, `Phi_analyticOnNhd` and
+  `meromorphicOrderAt_riemannZeta_one`. Cited for §2.5.
+- **IEANTN** — Terence Tao and contributors,
+  [Integrated Explicit Analytic Number Theory Network](https://github.com/teorth/IEANTN). Cited for
+  no section of this roadmap.
 
 In the text, Lalley, Liverani, Morris–Noussair, Kloeckner and Hennion refer to LAL89, LIV95, MN75,
 KLO19 and HEN95.
