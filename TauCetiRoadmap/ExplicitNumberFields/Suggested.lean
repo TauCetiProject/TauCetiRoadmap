@@ -7,6 +7,7 @@ import TauCeti.NumberTheory.LFunctions.Mertens
 import TauCeti.NumberTheory.Chebotarev.FrobeniusPrimeSet
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
+import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 
 /-!
 # Explicit number fields: target signatures
@@ -21,10 +22,12 @@ least prime primitive root `leastPrimePrimitiveRoot` (0.6), and Stark's weight `
 Stated here:
 
 * Layer 0, the divisibility `h(K⁺) ∣ h(K)` that makes the relative class number of a CM-field a
-  natural number (0.4);
+  natural number (0.4), and, for an abelian field `F` with primitive character group `X(F)`, the
+  Euler product `ζ_F = ∏ L(s, χ)` on `Re s > 1`, the residue product `κ_F = ∏_{χ ≠ 1} L(1, χ)`,
+  the Gauss-sum product `∏ τ(χ) = i^{r₂} √|d_F|` and, for abelian CM `F`, the odd-character
+  Bernoulli product for the relative class number (0.4a);
 * Layer 1, the explicit remainders of the digamma and trigamma series on `Re z > 0` (1.1a), the
-  roadmap's own analytic input for the gamma factors of `Λ_K`, which ComputationalNumberTheory
-  consumes by these names;
+  roadmap's own analytic input for the gamma factors of `Λ_K`;
 * Layer 2, the explicit ideal counts: Sunley's count in the discriminant (2.2), Debaene's uniform
   counts of all ideals and of the ideals in one class (2.4), and Gun–Ramaré–Sivaraman's count in
   a narrow ray class (2.5);
@@ -70,9 +73,7 @@ The other statable targets are variants of these headlines or of a supplier's, a
 targets: Lee's count (2.3), whose constant differs between the two printings of the source;
 Ramaré's counts for imaginary quadratic fields (2.7); Louboutin's refinements (3.2, 5.1, 5.2) of
 the residue bound of AnalyticNumberTheoryPartI §2.15; the other forms of Bordellès' bound (5.3);
-and Garcia–Lee's bounds for the Mertens constant (7.1). The Euler, residue, Gauss-sum and
-Bernoulli products of an abelian field on `Re s > 1` are CyclotomicClassGroupsAndStickelberger
-§3.4's and are not restated. The results resting
+and Garcia–Lee's bounds for the Mertens constant (7.1). The results resting
 on unrefereed preprints (Fehnker 2.6, Das–Gaba–Lee–Savalia–Wong 4.8 and 4.10, Guo and Banks 4.9
 and 5.7, Das–Kadiri–Ng 7.3) and the API lemmas and intermediate targets of every layer are README
 targets, not headlines.
@@ -96,6 +97,66 @@ noncomputable def relativeClassNumber (K : Type*) [Field K] [NumberField K] [IsC
 onto, since the Hilbert class field of `K⁺` is totally real and so meets `K` in `K⁺`. -/
 theorem classNumber_maximalRealSubfield_dvd (K : Type*) [Field K] [NumberField K] [IsCMField K] :
     classNumber (maximalRealSubfield K) ∣ classNumber K := by
+  sorry
+
+open Classical in
+/-- **0.4a, the Euler product of an abelian field** (`washington1997` Theorem 4.3). For an
+intermediate field `F` of a cyclotomic field `K = ℚ(ζ_m)` and `Re s > 1`, `ζ_F(s)` is the product of
+the L-functions of the characters modulo `m` that are trivial on `Gal(K/F)`, each taken at its
+primitive character: the product over the primitive character group `X(F)`. -/
+theorem dedekindZeta_eq_prod_LFunction (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) (s : ℂ) (hs : 1 < s.re) :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    dedekindZeta F s =
+      ∏ χ : DirichletCharacter ℂ m,
+        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+        if χ ∈ X then DirichletCharacter.LFunction χ.primitiveCharacter s else 1 := by
+  sorry
+
+open Classical in
+/-- **0.4a, the residue of an abelian field as a product of values `L(1, χ)`.** In the setting of
+`dedekindZeta_eq_prod_LFunction`, `κ_F` is the product of the values at `1` of the L-functions of
+the nontrivial characters of `X(F)`. -/
+theorem dedekindZeta_residue_eq_prod_LFunction_one (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (dedekindZeta_residue F : ℂ) =
+      ∏ χ : DirichletCharacter ℂ m,
+        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+        if χ ∈ X ∧ χ ≠ 1 then DirichletCharacter.LFunction χ.primitiveCharacter 1 else 1 := by
+  sorry
+
+open Classical in
+/-- **0.4a, the Gauss-sum product of an abelian field.** The Gauss sums, with the standard
+additive character, of the primitive characters of `X(F)` multiply to `i^{r₂(F)} √|d_F|`, with the
+positive square root. -/
+theorem abelianCharacter_gauss_product (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (∏ χ : DirichletCharacter ℂ m,
+      letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+      if χ ∈ X then gaussSum χ.primitiveCharacter ZMod.stdAddChar else 1) =
+        Complex.I ^ InfinitePlace.nrComplexPlaces F * (Real.sqrt |(discr F : ℝ)| : ℂ) := by
+  sorry
+
+open Classical in
+/-- **0.4a, the relative class number of an abelian CM-field as a Bernoulli product**
+(`washington1997` Theorem 4.17). For a CM intermediate field `F` of a cyclotomic field,
+`h⁻(F) = Q_F w_F ∏_{χ ∈ X(F) odd} (−B_{1,χ}/2)`, with `B_{1,χ}` the first generalized Bernoulli
+number of the primitive character. By `classNumber_maximalRealSubfield_dvd`, `h⁻(F)` is exactly the
+ratio `h(F)/h(F⁺)`. -/
+theorem relativeClassNumber_character_product (m : ℕ) [NeZero m]
+    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
+    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) [IsCMField F] :
+    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
+    (relativeClassNumber F : ℂ) =
+      (IsCMField.indexRealUnits F : ℂ) * Units.torsionOrder F *
+        ∏ χ : DirichletCharacter ℂ m,
+          letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+          if χ ∈ X ∧ χ.Odd then -χ.primitiveCharacter.generalizedBernoulli 1 / 2 else 1 := by
   sorry
 
 /-- **0.5, the generalized Riemann hypothesis for the characters modulo `q`.** Every Dirichlet
