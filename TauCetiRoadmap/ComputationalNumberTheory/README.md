@@ -10,9 +10,8 @@ AKS equivalence (§1.14) and Pocklington criterion (§1.16); coprime Hensel fact
 integral Miller and modular bases and the congruence Sturm bound (§§3.3–3.4);
 the nonordinary classification below 200 and the companion eigensystem theorems
 (§§3.13–3.16); complete local descent images and the finite elliptic p-saturation
-criterion (§§3.19–3.20, 3.26); complete root isolation (§4.19), quantitative continued
-Dirichlet and cusp-form error bounds (§§4.19a, 4.20a), and Platt's finite-conductor
-zero and central nonvanishing theorems (§§4.22–4.23).
+criterion (§§3.19–3.20, 3.26); complete root isolation (§4.19), and quantitative continued
+Dirichlet and cusp-form error bounds (§§4.19a, 4.20a).
 
 The targets specify native arithmetic objects, finite presentation data, mathematical validity
 predicates, and soundness and existence theorems. The scope is mathematical: existence, uniqueness, cardinality, comparison maps and explicit error inequalities on native carriers.
@@ -50,7 +49,7 @@ This roadmap owns:
    outward dyadic rounding, unique-integer recovery, `p`-adic precision propagation, the Odlyzko
    kernel and the eight scalar quantities of Chenevier–Lannes and Chenevier–Taïbi with exact
    enclosures, complete root isolation, enclosures of Dirichlet and level-one cusp-form `L`-values,
-   Platt's finite-conductor theorems, Gram negativity witnesses, integral-coordinate ellipsoid comparisons,
+   Gram negativity witnesses, integral-coordinate ellipsoid comparisons,
    and validity of finite families.
 6. **Interpretation of finite arithmetic families** (Layer 5).
 
@@ -118,6 +117,15 @@ It consumes the following mathematics by its existing ownership:
 - **GlobalNumberFields** Layer 11 owns intrinsic orders and their fractional ideals. The
   finite rational bases in §2.1 and arbitrary-submodule stabilizers in §2.2 are presentation
   comparisons with those carriers, rather than another order or ideal-class theory.
+- **ExplicitZetaBounds** §§0.3 and 0.4b own Platt's finite-conductor material: the heights
+  `plattHeight`, the named records `PlattRecord` and `PlattCentralRecord`, and the absence of real
+  zeros in `(0, 1)` for primitive characters of modulus at most `400 000`
+  (`LFunction_ne_zero_of_platt`). This roadmap states none of them.
+- **ExplicitPrimeCounting** §6.2a owns the one-character form of that absence of real zeros, at
+  any height up to which the zeros are on the critical line
+  (`LFunction_ofReal_ne_zero_of_criticalLineUpTo`).
+- **ExplicitNumberFields** 1.1a owns the digamma and trigamma remainders on `Re z > 0`
+  (`digamma_series_remainder`, `trigamma_series_remainder`); §4.18 applies them to the CT scalars.
 
 **EffectiveDiophantineMethods** supplies the following shared foundations; the
 comparisons here consume them in that direction.
@@ -381,6 +389,33 @@ alone does not supply boundary regularity. Convert the signed divisor count into
 zero count only after accounting for all poles. Layer 9 supplies abstract localization
 semantics; §4.21a adds arithmetic inequalities that establish equality with a sign-change
 lower count, rather than another abstract localization relation.
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+§0.3 supplies Platt's heights `plattHeight`, `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` for even `q` and
+`max(10⁸/q, 3.75·10⁷/q + 200)` for odd `q`, the parity being that of the modulus, and
+`LFunction_ne_zero_of_platt`: given the two records below, `L(s, χ) ≠ 0` for `χ` primitive modulo
+`q ≤ 400 000` and real `0 < s < 1`, the modulus `1` included. §0.4b supplies the named records
+`PlattRecord`, that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H(q)` has
+`Re s = 1/2` for every primitive `χ` modulo `2 ≤ q ≤ 400 000`, and `PlattCentralRecord`, that
+`L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ q ≤ 2·10⁶` (Platt Theorems 7.1–7.2). At the
+modulus `1`, outside both records, the bounded-height statement at `H(1) = 10⁸` follows from the
+record `RiemannHypothesisUpTo 545439823` of §0.4 by the antitonicity of §0.2.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+§6.2a supplies `LFunction_ofReal_ne_zero_of_criticalLineUpTo`: for a Dirichlet character `χ`
+modulo `q ≥ 1` and `H ≥ 0`, if every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has
+`Re s = 1/2` and `L(1/2, χ) ≠ 0`, then `L(β, χ) ≠ 0` for every real `β ∈ (0, 1)`.
+
+### From TauCetiRoadmap.ExplicitNumberFields
+
+1.1a supplies `digamma_series_remainder` and `trigamma_series_remainder`: for `z ∈ ℂ` with
+`Re z > 0`, `N ≥ 1` and `a = min(1, Re z)`, put `D_N(z) = −γ + Σ_{n<N} (1/(n+1) − 1/(n+z))` and
+`T_N(z) = Σ_{n<N} 1/(n+z)²`, with `γ` Euler's constant; then `|ψ(z) − D_N(z)| ≤ |z − 1|/(N − 1 + a)`
+and `|ψ'(z) − T_N(z)| ≤ 1/(N − 1 + a)`, uniformly on `{Re z ≥ a₀, |z − 1| ≤ C}` for `a₀ > 0`
+with `a` replaced by `min(1, a₀)`. Sections 4.17–4.18 apply them at arguments of real part at
+least `1/4`.
 
 ### From Completed.RealAlgebraicGeometry
 
@@ -1921,8 +1956,7 @@ nonnegative vectors; unrestricted vectors require a positive-semidefinite compar
 
 *Proof obligations of the layer.* Prove the explicit remainders in §§4.17a, 4.19a and
 4.20a, including their domains and decay. Pair polynomial root finiteness with rational
-separation. The finite-conductor zero theorems require the mathematical character and zero
-counts of Platt §§4–7, printed pp.3–15. For CT, keep the gamma shifts, the weighted
+separation. For CT, keep the gamma shifts, the weighted
 alternating-tail threshold, and the diagonal `A/m_i` with lift `t_i/m_i`. An enlarged
 ellipsoid bound gives a cover; extra points are retained explicitly.
 
@@ -2162,35 +2196,18 @@ Mathlib `Complex.digamma` and complex derivatives.
 - At ℓ=1, both indices 1 and 4 are exactly 8/π² and lie between 4/5 and 41/50.
 - At ℓ=2, both become 16/π²; this tests the factor ℓ rather than its inverse.
 - Weight zero gives `Re zF=Re zG=1/2`, while the arguments of ψ inside φ have
-  real part at least 1/4; all denominators in §4.17a remain nonzero.
+  real part at least 1/4; all denominators in the remainders of ExplicitNumberFields 1.1a
+  remain nonzero.
 
-### 4.17a Explicit digamma and trigamma remainders
+### 4.17a Weighted alternating Odlyzko tail
 
-For z∈ℂ with `Re z > 0`, N≥1 and `a = min(1,Re z)`, let
-`D_N(z) = -gamma + sum(n<N, 1/(n+1)-1/(n+z))` and
-`T_N(z) = sum(n<N, 1/(n+z)^2)`, where γ is Euler's constant.
-Prove `digamma_series_remainder` and `trigamma_series_remainder`:
-`norm(psi(z)-D_N(z)) <= norm(z-1)/(N-1+a)` and
-`norm(psi'(z)-T_N(z)) <= 1/(N-1+a)`.
-Every n+z is nonzero since its real part is positive, and N−1+a>0.
-The harmonic–logarithm bounds for Euler's constant in the supplier contracts give its
-arbitrarily narrow enclosures. Both bounds tend to zero as N→∞; the bounds hold uniformly when `Re z ≥ a0>0`
-and `norm(z-1) ≤ C`, with a replaced by min(1,a0). For the weighted series in
-§4.16, prove the weighted alternating-tail estimate: at α>0 and α(N+1)≥1,
-the error in W(α) after n=1,…,N is at most `(N+1)*r(alpha*(N+1))`.
+For the weighted series in §4.16, prove the weighted alternating-tail estimate: at α>0 and
+α(N+1)≥1, the error in W(α) after n=1,…,N is at most `(N+1)*r(alpha*(N+1))`. The digamma
+and trigamma remainders that §4.18 combines with it are `digamma_series_remainder` and
+`trigamma_series_remainder` of ExplicitNumberFields 1.1a.
 
-The series identities are DLMF equation 5.7.6 (DLMF line 254) and equation 5.15.1
-(DLMF15 line 64). Bound each tail by a multiple of `sum(n>=N, (n+a)^(-2))`,
-then by its integral from N−1 to infinity. The weighted bound follows from decrease of
-`x*r(x)` for x≥1 (CL numerical comments (3), printed pp.306–307).
-*Needs:* §§4.14–4.16; the named DLMF series identities; native ψ and ψ′.
-
-**Checks.**
-
-- At z=1 all terms of the digamma tail vanish: D_N(1)=−γ exactly for every N≥1.
-- At z=1, N=1, T_N=1 and the error `pi^2/6-1` lies strictly between zero and one;
-  at N=2, T_N=5/4 and the bound is 1/2.
-- Re z=0 is outside this contract; z=0 would give a zero denominator in the first term.
+The weighted bound follows from decrease of `x*r(x)` for x≥1 (CL numerical comments (3),
+printed pp.306–307). *Needs:* §§4.14–4.16.
 
 ### 4.18 Rational enclosures of CT scalars
 
@@ -2203,12 +2220,14 @@ The chosen family has equal intervals at indices 1 and 4.
 - Its interval has the stated width.
 - Indices 1 and 4 use the same interval.
 
-The finite sums and explicit remainders in §§4.15–4.17a, combined with rational bounds for
-elementary functions, give arbitrarily small error before outward rounding (CL Proposition
+The finite sums and explicit remainders in §§4.15–4.17a and ExplicitNumberFields 1.1a,
+combined with rational bounds for elementary functions, give arbitrarily small error before
+outward rounding; the harmonic–logarithm bounds for Euler's constant in the supplier contracts
+give its arbitrarily narrow enclosures (CL Proposition
 3.17 and numerical comments (3), pp.304–307; Arb §5, pp.7–8).
 *Needs:* eight CT scalar expressions (4.17), outward dyadic hull (4.5), geometric bound for the odlyzko tail,
-alternating odlyzko tail bound, the weighted alternating-tail estimate,
-`digamma_series_remainder`, `trigamma_series_remainder`.
+alternating odlyzko tail bound, the weighted alternating-tail estimate (4.17a),
+`digamma_series_remainder` and `trigamma_series_remainder` (ExplicitNumberFields 1.1a).
 
 **Checks.**
 
@@ -2490,27 +2509,6 @@ the Turing integral bound, Dirichlet value enclosure (4.20).
 - A double zero contributes multiplicity two to N but gives no simple sign-change
   witness; an incomplete lower count cannot pass equality with the upper count.
 
-### 4.22 Platt’s finite-conductor zero theorem (`platt_bounded_height`)
-
-For primitive χ of modulus q≤400000, every zero s of the native LFunction in 0<Re(s)<1 with |Im(s)|≤H(q) has Re(s)=1/2, where H(q)=max(10⁸/q,7.5·10⁷/q+200) for even q and max(10⁸/q,3.75·10⁷/q+200) for odd q. This parity is the modulus parity, not character parity. This is an unconditional theorem about the stated finite conductor and height range.
-
-Prove the finite character-family count and the matching lower and upper zero counts from the value inequalities, sign changes and Turing comparison. Equality between the isolated zero count and the upper count excludes missed off-line zeros. The zero-count comparison and the specified finite character range are part of the theorem. ([Platt](#source-platt), Theorems 7.1–7.2, pp.14–15.) *Needs:* Dirichlet value enclosure (4.20); the argument-count identity,
-the integrated argument-count identity, the Turing integral bound,
-zero-count completeness (4.21a); Mathlib `DirichletCharacter.LFunction`;
-Mathlib `DirichletCharacter.IsPrimitive`.
-
-### 4.23 Platt’s central nonvanishing target (`platt_central_nonvanishing`)
-
-For every primitive complex Dirichlet character of modulus q≤2000000, LFunction(χ,1/2)≠0. This is a separate finite-range theorem from the bounded-height zero-line theorem.
-
-A finite family of rectangles excluding zero establishes nonvanishing for every primitive character in the stated range. The exact-value containment and exhaustiveness of that family are the mathematical obligations. ([Platt](#source-platt), Theorems 7.1–7.2, pp.14–15.) *Needs:* Dirichlet value enclosure (4.20); Mathlib `DirichletCharacter.LFunction`; Mathlib `DirichletCharacter.IsPrimitive`.
-
-### 4.24 No real zeros for conductor at most 400000
-
-For primitive χ of modulus q≤400000 and real s with 0<s<1, the native continued LFunction(χ,s) is nonzero. This is the finite-conductor nonvanishing input of Bennett–Siksek Proposition 7.2.
-
-A hypothetical real zero has height zero, so the bounded-height theorem forces s=1/2. The separate central nonvanishing theorem excludes that value. ([Platt](#source-platt), Theorems 7.1–7.2, pp.14–15; [BennettSiksek](#source-bennettsiksek), §7, proof of Proposition 7.2, p.376.) *Needs:* `platt_bounded_height` (4.22); `platt_central_nonvanishing` (4.23).
-
 ### 4.25 Entrywise lower bounds on effective vectors
 
 Let A,B be real n×n matrices. If B_ij≤A_ij for every i,j and x_i≥0 for every i, then Σ_ij B_ij x_i x_j≤Σ_ij A_ij x_i x_j. Symmetry is unnecessary for this inequality. The nonnegative-coordinate hypothesis is essential.
@@ -2672,7 +2670,7 @@ Sum each constant block contribution and the diagonal terms separately. Each dia
 
 ### Dependencies
 
-Layers 0–3; EffectiveDiophantineMethods §§0.1, 0.9, 1.7–1.8; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); Completed RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9.
+Layers 0–3; EffectiveDiophantineMethods §§0.1, 0.9, 1.7–1.8; IntegralLattices Layer 2, milestone 2A; Mathlib (`NonemptyInterval`, digamma, `DirichletCharacter.LFunction`, `ModularForm.L`, `WeakFEPair`, `Matrix.PosDef`); Completed RealAlgebraicGeometry Layers 1–4; ContourIntegration Layer 3; ZerosOfLFunctions §§4.1, 4.3–4.4, 4.9, 7.1–7.2a and Layer 9; ExplicitNumberFields 1.1a.
 
 ## Layer 5: interpretation of finite arithmetic families
 
@@ -2684,9 +2682,10 @@ claim about that exact range.
 For modular data the comparisons are equality of finite modular coefficient data (3.5) and integral Hecke matrix
 (3.7). For elliptic data they are local image presentation (3.18) and finite p-saturation criterion
 (3.26). The CT applications use CT scalar enclosure (4.18), effective vectors from an exact ellipsoid cover (4.31)
-and finite Gram family validity (4.33); Platt's two finite ranges use `platt_bounded_height` (4.22)
-and `platt_central_nonvanishing` (4.23). These are propositions about all members of a
-finite family (CT §§2.4.6, 4.1–4.3, pp.284–286, 295–299; Platt §§4–7, pp.3–15).
+and finite Gram family validity (4.33); Platt's two finite ranges are the named records
+`PlattRecord` and `PlattCentralRecord` of ExplicitZetaBounds §0.4b. These are propositions
+about all members of a finite family (CT §§2.4.6, 4.1–4.3, pp.284–286, 295–299; Platt §§4–7,
+pp.3–15).
 
 ### 5.1 Finite families and their analytic interpretations
 
@@ -2753,10 +2752,6 @@ differently.
 
 - **CarusoPublished**: Xavier Caruso, [Computations with p-adic numbers](https://www.numdam.org/item/10.5802/ccirm.25.pdf), Les cours du CIRM 5 (2017), no.1, II.
 
-### Source BennettSiksek
-
-- **BennettSiksek**: Michael Bennett, Samir Siksek, [A conjecture of Erdős, supersingular primes and short character sums](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p02-s.pdf), Annals of Mathematics 191 (2020), 355–392.
-
 ### Source Thery
 
 - **Thery**: Laurent Théry, [Primality Tests and Prime Certificate](https://arxiv.org/pdf/2203.16341), arXiv:2203.16341.
@@ -2808,14 +2803,6 @@ differently.
 ### Source Mattuck
 
 - **Mattuck**: Arthur Mattuck, *Abelian varieties over p-adic ground fields*, Annals of Mathematics 62 (1955), 92–119; Theorem 7, printed p.114, DOI 10.2307/2007101.
-
-### Source DLMF
-
-- **DLMF**: NIST, [Digital Library of Mathematical Functions §5.7](https://dlmf.nist.gov/5.7), equation 5.7.6.
-
-### Source DLMF15
-
-- **DLMF15**: NIST, [Digital Library of Mathematical Functions §5.15](https://dlmf.nist.gov/5.15), equation 5.15.1.
 
 ### Source DLMF25
 

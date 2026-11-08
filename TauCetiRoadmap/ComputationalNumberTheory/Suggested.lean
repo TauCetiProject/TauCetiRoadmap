@@ -16,8 +16,7 @@ p-radical multiplier criterion; Ore's residual criterion; the local square and
 prime-decomposition root criteria; integral Miller and modular bases and the
 congruence Sturm bound; the nonordinary level-one classification below 200; complete
 local descent images and the finite elliptic p-saturation criterion; complete root
-isolation; quantitative continued Dirichlet and cusp-form error bounds; and Platt's
-bounded-height and central nonvanishing theorems.
+isolation; and quantitative continued Dirichlet and cusp-form error bounds.
 
 The weight-82 companion and the ordinary companion list are stated on scalar
 extensions of the integral cusp lattices. Their Hecke actions are bundled integer
@@ -488,18 +487,10 @@ theorem pSaturationCriterion_iff (W : WeierstrassCurve ℚ) [W.IsElliptic]
 def complexBoxSet (R I : NonemptyInterval ℚ) : Set ℂ :=
   {z | ((R.fst : ℝ) ≤ z.re ∧ z.re ≤ R.snd) ∧ ((I.fst : ℝ) ≤ z.im ∧ z.im ≤ I.snd)}
 
-/-- A right-half-plane digamma truncation has an explicit vanishing tail (README 4.17a). -/
-theorem digamma_series_remainder (z : ℂ) (hz : 0 < z.re) (N : ℕ) (hN : 1 ≤ N) :
-    ‖Complex.digamma z - (-(Real.eulerMascheroniConstant : ℂ) +
-      ∑ n ∈ Finset.range N, ((n + 1 : ℂ)⁻¹ - (n + z)⁻¹))‖ ≤
-      ‖z - 1‖ / ((N : ℝ) - 1 + min 1 z.re) := by
-  sorry
-
-/-- The derivative of digamma has the corresponding reciprocal-square tail (README 4.17a). -/
-theorem trigamma_series_remainder (z : ℂ) (hz : 0 < z.re) (N : ℕ) (hN : 1 ≤ N) :
-    ‖deriv Complex.digamma z - ∑ n ∈ Finset.range N, (n + z)⁻¹ ^ 2‖ ≤
-      1 / ((N : ℝ) - 1 + min 1 z.re) := by
-  sorry
+-- From TauCetiRoadmap.ExplicitNumberFields (its README 1.1a), cited by name: the digamma
+-- and trigamma remainders `TauCetiRoadmap.ExplicitNumberFields.digamma_series_remainder`
+-- and `TauCetiRoadmap.ExplicitNumberFields.trigamma_series_remainder` on `0 < z.re`,
+-- used in README 4.18.
 
 /-- **Complete isolation of the roots of a rational polynomial** (README 4.19). -/
 theorem exists_disjoint_root_presentations (f : ℚ[X]) (hf : f ≠ 0) :
@@ -571,19 +562,12 @@ theorem cusp_mellin_tail (k : ℕ) (hk : (0 : ℤ) < k)
             (1 - Real.exp ((k : ℝ) / 2 / (N + 1) - 2 * Real.pi))) := by
   sorry
 
-/-- **Platt's bounded-height theorem** (README 4.22): for primitive characters of modulus
-`q ≤ 400000`, zeros in the strip up to height `H(q)` lie on the critical line; the parity in `H(q)`
-is that of the modulus. -/
-theorem platt_bounded_height {q : ℕ} [NeZero q] (hq : q ≤ 400000) (χ : DirichletCharacter ℂ q)
-    (hχ : χ.IsPrimitive) (s : ℂ) (hs : 0 < s.re ∧ s.re < 1)
-    (ht : |s.im| ≤ if Even q then max (10 ^ 8 / (q : ℝ)) (7.5 * 10 ^ 7 / (q : ℝ) + 200)
-      else max (10 ^ 8 / (q : ℝ)) (3.75 * 10 ^ 7 / (q : ℝ) + 200))
-    (h0 : χ.LFunction s = 0) : s.re = 1 / 2 := by
-  sorry
-
-/-- **Platt's central nonvanishing** (README 4.23). -/
-theorem platt_central_nonvanishing {q : ℕ} [NeZero q] (hq : q ≤ 2000000)
-    (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) : χ.LFunction (1 / 2) ≠ 0 := by
-  sorry
+-- From TauCetiRoadmap.ExplicitZetaBounds (its README §§0.3, 0.4b), cited by name: Platt's
+-- heights `TauCetiRoadmap.ExplicitZetaBounds.plattHeight`, the records
+-- `TauCetiRoadmap.ExplicitZetaBounds.PlattRecord` and
+-- `TauCetiRoadmap.ExplicitZetaBounds.PlattCentralRecord`, and the absence of real zeros
+-- `TauCetiRoadmap.ExplicitZetaBounds.LFunction_ne_zero_of_platt`. From
+-- TauCetiRoadmap.ExplicitPrimeCounting (its README §6.2a), the one-character form
+-- `TauCetiRoadmap.ExplicitPrimeCounting.LFunction_ofReal_ne_zero_of_criticalLineUpTo`.
 
 end TauCetiRoadmap.ComputationalNumberTheory
