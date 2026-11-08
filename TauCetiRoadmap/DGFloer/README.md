@@ -94,8 +94,10 @@ elsewhere. In particular it owns:
 - the DG Floer toolset and the DG Viterbo isomorphism (Layers 8–9);
 - the criteria for almost existence and finiteness of `c°_HZ` and their cotangent applications
   (Layer 10);
-- the finite cover `T × K → G` of a compact connected Lie group and the torus criterion
-  (Layer 11).
+- the invariant inner product, the semisimplicity of the derived ideal and the negative Killing
+  form of the Lie algebra of a compact Lie group, the rank-one `SU(2)`
+  homomorphisms of its roots, the finite cover `T × K → G` of a compact connected Lie group and
+  the torus criterion (Layer 11).
 
 **Already in the library.** The pinned Tau Ceti has much of the algebraic topology, DG algebra
 and Hamiltonian dynamics that this package rests on, and this roadmap consumes it by name and
@@ -175,12 +177,13 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
 | The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
 | Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
+| The `Ad`-invariant orthogonal splitting `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` of the Lie algebra of a compact Lie group | HamiltonianReduction R5 | consumed by Layer 11 item 1; the rest of R5's gauge theory is not consumed |
 | The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
 | Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8 | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1 and 5 |
 | The restriction bundle of embeddings, collars and tubular neighbourhoods | GeometricTopology Layers 1, 3 and 7 | consumed by Layer 1 items 5–6; the group `Diff(M)` with its `C^∞` topology is the pinned `TauCeti.Diff` |
 | Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
-| Compact Lie theory: universal covers, central kernels, maximal tori, root `SU(2)` subgroups, Haar measure and Peter–Weyl | LieGroups Layers 5–6, CompactGroups | consumed by Layer 11 |
+| Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, maximal tori, the Haar probability measure and averaging | LieGroups Layers 4–6, CompactGroups Layer 0 | consumed by Layer 11; the invariant inner product, the semisimplicity of the derived ideal, the negative Killing form and the rank-one `SU(2)` homomorphisms are Layer 11 items 1–2 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
 | The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
 
@@ -785,9 +788,11 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   smooth-families map, the inclusion `O(n+1) → Diff(Sⁿ)` and the compact-embedding restriction
   bundle. Layer 7: Riemannian structures.
 - **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
-- **LieGroups** Layers 5–6 and **CompactGroups**: the universal cover and its central kernel,
-  compact Lie-algebra structure, simply connected integration, maximal tori and root `SU(2)`
-  subgroups, Haar measure and Peter–Weyl, consumed by Layer 11 only.
+- **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
+  homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
+  universal cover of a connected Lie group with its discrete central kernel `≅ π₁(G)`; Layer 6's
+  maximal tori with their maximal abelian Lie algebras. **CompactGroups** Layer 0: the Haar
+  probability measure of a compact group and averaging against it. Consumed by Layer 11 only.
 - **MorseNovikov.** N1: period-controlled completed group rings and modules, the support
   condition, finite-below convolution, geometric-series inverses. N4: based chain torsion,
   total quotient rings, determinant comparisons, finite-cyclic norms. N6's finite-dimensional
@@ -804,8 +809,10 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
 - **HamiltonianReduction** R1a.2: the identity component `Symp₀(M, ω)` of the symplectomorphism
   group in its compact-open `C^∞` topology, with its characterization as the endpoints of smooth
   symplectic paths from the identity, for the transport of `f` and of the component `C` under
-  symplectic isotopy in Layer 7.T item 9. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4 (flux, the
-  Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) is consumed.
+  symplectic isotopy in Layer 7.T item 9. R5: the `Ad`-invariant orthogonal splitting
+  `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` of the Lie algebra of a compact Lie group with a positive definite
+  `Ad`-invariant inner product, for Layer 11 item 1. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4
+  (flux, the Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) or of R5's gauge theory is consumed.
 
 ### What AnalyticStableMaps must provide
 
@@ -1353,16 +1360,60 @@ sphere form `TauCeti.pontryaginThomSphereMap`); isotopic tubes give homotopic co
 (`TauCeti.SmoothEmbedding.exists_isFramedTube`). A Euclidean ambient space is the special case in
 which the ambient manifold is replaced by its one-point compactification. Own the independence
 of the collapse from the tube up to based homotopy, through the isotopy of any two tubes
-supplied by GeometricTopology Layer 1's uniqueness of tubular neighbourhoods, its effect on
-fundamental classes, and its compatibility with shriek maps. *Needs:* Tau Ceti
-`TauCeti.pontryaginThomCollapseMap`, GeometricTopology Layer 1, AlgebraicTopology Stage 6.
+supplied by GeometricTopology Layer 1's uniqueness of tubular neighbourhoods, and the following
+two interfaces. Write `c : M → S^k` for the collapse, `c_N : M → Th(ν)` for the collapse onto
+the Thom space of the framed normal bundle, `Th(ν) = N₊ ∧ S^k` by the framing, so that `c` is
+`c_N` followed by the map `N₊ ∧ S^k → S^k` that collapses `N`, and `u_k ∈ H^k(S^k; ℤ)` for the
+class that takes the value `1` on the fundamental class of `S^k = (ℝ^k)^+` oriented by `ℝ^k`.
+Let `M` be oriented, of dimension `n + k`, orient `ν` by the framing and orient `N` so that the
+orientation of `N` followed by that of `ν` is the orientation of `M` (the convention of BDHO
+Remark 9.2.4, `bdho-morse-dg` lines 4090–4093). Cap products are Hatcher's
+(`σ ⌢ φ = φ(σ|[v₀, …, v_ℓ]) σ|[v_ℓ, …, v_m]`, `hatcher-at` lines 10391–10395), and Poincaré
+duality is `D_M(φ) = [M] ⌢ φ` from AlgebraicTopology Stage 6.
+- *Shriek maps.* The shriek map of the inclusion `i : N → M`,
+  `i_!(x) = [N] ⌢ i^*(D_M^{−1} x)` from `H_j(M; ℤ)` to `H_{j−k}(N; ℤ)` (the form
+  `i_! = D_N ∘ i^* ∘ D_M^{−1}` of BDHO Proposition 11.3.2, `bdho-morse-dg` lines 7870–7880), is
+  `(c_N)_* : H_j(M; ℤ) → H̃_j(N₊ ∧ S^k; ℤ)` followed by the inverse of the suspension isomorphism
+  `y ↦ y × [S^k]` of the framing, which is the Thom isomorphism of the trivial bundle
+  `N × ℝ^k` (Hatcher Corollary 4D.9 and §4.D Exercise 8, `hatcher-at` lines 19035–19046 and
+  19264–19267). In BDHO's Morse construction this is their Remark 9.2.5 (`bdho-morse-dg` lines
+  4094–4100): the shriek map of a closed submanifold is the Thom isomorphism of its tube. The
+  route: on the tube, `[M]` restricts to `[N] × [D^k, S^{k−1}]` by the orientation convention,
+  and the shriek map is natural for the excision `H_*(M, M ∖ int U) ≅ H_*(D(ν), S(ν))`.
+- *Effect on fundamental classes.* `[M] ⌢ c^*u_k = (−1)^{nk} i_*[N]` in `H_n(M; ℤ)`: the
+  pullback of the sphere class is Poincaré dual, up to that sign, to the image of `[N]`. With `N`
+  oriented by `ν` followed by `N` instead, the sign is `+1`. Evaluated on `H_k(M)` this is the
+  shriek statement in degree `j = k` composed with the augmentation `H₀(N) → ℤ`:
+  `⟨c^*u_k, x⟩ = ⟨D_M^{−1} x, i_*[N]⟩`, the cup-cap relation `ψ(σ ⌢ φ) = (φ ⌣ ψ)(σ)`
+  (`hatcher-at` lines 10777–10779) and graded commutativity turning one sign into the other. A
+  homological reading through `c_*[M] ∈ H_{n+k}(S^k)` sees nothing when `n > 0`, since that
+  group is `0`.
+
+*Needs:* Tau Ceti `TauCeti.pontryaginThomCollapseMap`, GeometricTopology Layer 1,
+AlgebraicTopology Stage 6 (fundamental classes, cap products, Poincaré duality).
 
 **Checks.**
 - `N` a point in `Sⁿ` with the standard framing: the collapse `Sⁿ → Sⁿ` has degree `±1`
   according to the framing's orientation, and reversing one framing vector reverses the degree.
-- `N = ∅`: the collapse is the constant map to the basepoint.
+  In the notation of the interfaces `N` has dimension `0` and `k` is the dimension of the
+  sphere, so `(−1)^{nk} = 1`; `[S^k] ⌢ c^*u_k` is `deg(c)` times the point class, and the point
+  is oriented `+` exactly when the framing agrees with the orientation of `S^k`, so both sides
+  are `±[pt]` with the same sign.
+- `N = ∅`: the collapse is the constant map to the basepoint, `c^*u_k = 0` and `i_*[N] = 0`.
 - `N` two points in `S¹` with framings of the same orientation: the collapse `S¹ → S¹` has
-  degree `2`; with opposite orientations, degree `0`.
+  degree `2`; with opposite orientations, degree `0`. The two points carry orientations `+, +`,
+  respectively `+, −`, so `i_*[N]` is `2[pt]`, respectively `0`, as the formula says.
+- The sign and the cohomological reading on the torus. Let `M = T²` with coordinates `(x, y)`,
+  oriented by `(∂_x, ∂_y)`, `N = S¹ × {y₀}` framed by `∂_y` and oriented by `∂_x`, and
+  `a = [S¹ × pt]`, `b = [pt × S¹]`. The collapse is `(x, y) ↦ y` near `N`, so `c^*u₁ = β` with
+  `β(a) = 0`, `β(b) = 1`, and `c_*[T²] ∈ H₂(S¹) = 0` carries no information. Hatcher's Example
+  3.31 on the torus (`hatcher-at` lines 10459–10480) gives `[T²] ⌢ β = −a`, which is
+  `(−1)^{1·1} i_*[N]`: a statement without the sign `(−1)^{nk}` would be false here. The shriek
+  map sends `b ↦ [pt]` (the circle `pt × S¹` crosses the tube once), `a ↦ 0` (a parallel copy of
+  `N` misses the tube) and `[T²] ↦ [N]`, by either description. A direct computation on the
+  square `[0, 1]²` cut along its diagonal, with `[T²] = [v₀₀, v₁₀, v₁₁] − [v₀₀, v₀₁, v₁₁]` and
+  `β` the cocycle `Δy` on edges, gives the same `−a`: only the second simplex contributes, its
+  back edge `[v₀₁, v₁₁]` being a copy of `a`.
 
 ### 1.6 Diffeomorphism groups and evaluation orbits
 
@@ -1413,8 +1464,8 @@ cell-killing construction and the mod-2 coefficient sequence, the Serre- and Hur
 predicates with their lifting API, the mapping-path carriers, the filtered-complex and
 filtered-space spectral sequences, the Pontryagin–Thom collapse, `TauCeti.Diff`, and the
 cubical–simplicial comparison. AlgebraicTopology Stages 1–6 and 8.1–8.8; GeometricTopology
-Layers 1 and 3; DifferentialGeometry Layer 3. Source: Hatcher, *Algebraic Topology*, §§2.A, 4.1–4.3, 4.J; Weibel
-§5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local triviality of
+Layers 1 and 3; DifferentialGeometry Layer 3. Source: Hatcher, *Algebraic Topology*, §§2.A,
+3.3, 4.1–4.3, 4.D, 4.J; BDHO §§9.2 and 11.3 (item 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local triviality of
 the restriction map for embeddings*.
 ## Layer 2: path spaces, mapping spaces, and their fibrations
 
@@ -1949,9 +2000,9 @@ Two strengths of nondegeneracy are used. *Weak* nondegeneracy is
 `TauCeti.SmoothTwoForm.IsNondegenerate`: every flat map `ω♭_x : T_x M → (T_x M →L[ℝ] ℝ)`,
 `v ↦ ω_x(v, ·)` (`TauCeti.SmoothTwoForm.flat`), is injective. *Strong* nondegeneracy is the
 unbundled hypothesis `∀ x, Function.Surjective (ω.flat x)`.
-- Strong implies weak in any model, `SmoothTwoForm.isNondegenerate_of_surjective_flat`: if
-  `ω_x(w, ·) = 0`, then every `ω_x(v, ·)` vanishes at `w` by antisymmetry, hence so does every
-  continuous linear form, and `w = 0` by the Hahn–Banach theorem.
+- Strong implies weak in any model: if `ω_x(w, ·) = 0`, then every `ω_x(v, ·)` vanishes at `w`
+  by antisymmetry, hence so does every continuous linear form, and `w = 0` by the Hahn–Banach
+  theorem.
 - On a Banach model (`[CompleteSpace E]`) strong nondegeneracy therefore makes every `ω♭_x` an
   isomorphism of Banach spaces, by the open mapping theorem. Its inverse on arbitrary covectors,
   the smooth dependence of that inverse on `x` and the specialization `ι_{X_f} ω = df` to
@@ -1967,40 +2018,32 @@ Hamiltonian vector fields exist, and the statements about `X_f` and `{f, g}` car
 nondegeneracy or no nondegeneracy at all.
 
 **Hamiltonian vector fields.** For weakly nondegenerate `ω` in any model:
-- uniqueness, `SmoothTwoForm.IsNondegenerate.eq_of_isHamiltonianVectorField`: two Hamiltonian
-  vector fields of the same function are equal;
-- zeros, `SmoothTwoForm.IsHamiltonianVectorField.apply_eq_zero_iff`: a Hamiltonian vector field
-  `X` of `f` vanishes at `x` exactly when `df_x = 0`, so its zeros are the critical points of
-  `f` (Layer 7.C.6h).
+- uniqueness: two Hamiltonian vector fields of the same function are equal;
+- zeros: a Hamiltonian vector field `X` of `f` vanishes at `x` exactly when `df_x = 0`, so its
+  zeros are the critical points of `f` (Layer 7.C.6h).
 
 With no nondegeneracy:
 - the predicate is linear and satisfies the Leibniz rule: for differentiable `f`, `g` with
-  Hamiltonian vector fields `X`, `Y`, the field `X + Y` belongs to `f + g`
-  (`SmoothTwoForm.IsHamiltonianVectorField.add`) and `f • Y + g • X` to `f * g`
-  (`SmoothTwoForm.IsHamiltonianVectorField.mul`), and `c • X` belongs to `c • f` for every
-  `f` (`SmoothTwoForm.IsHamiltonianVectorField.const_smul`);
+  Hamiltonian vector fields `X`, `Y`, the field `X + Y` belongs to `f + g` and `f • Y + g • X`
+  to `f * g`, and `c • X` belongs to `c • f` for every `f`;
 - the pinned field satisfies `X_{fg}(x) = f(x) X_g(x) + g(x) X_f(x)` at every point where `f`
-  and `g` are differentiable (`SmoothTwoForm.hamiltonianVectorField_mul`), and `X_f(x)` depends
-  only on the germ of `f` at `x` (`SmoothTwoForm.hamiltonianVectorField_congr_of_eventuallyEq`);
-  its additivity, homogeneity and chain rule are the pinned
+  and `g` are differentiable, and `X_f(x)` depends only on the germ of `f` at `x`; its
+  additivity, homogeneity and chain rule are the pinned
   `TauCeti.SmoothTwoForm.hamiltonianVectorField_add`,
   `TauCeti.SmoothTwoForm.hamiltonianVectorField_const_smul` and
   `TauCeti.SmoothTwoForm.hamiltonianVectorField_comp`.
 
-**Hamiltonian functions.** A function is *Hamiltonian* (`SmoothTwoForm.IsHamiltonian`) when it
-is smooth and has a smooth Hamiltonian vector field.
-- For a strongly nondegenerate form on a Banach model every smooth function is Hamiltonian
-  (`SmoothTwoForm.isHamiltonian_iff_contMDiff`), by F2.1's `df` specialization and the smooth
-  dependence of its inverse.
+**Hamiltonian functions.** A function is *Hamiltonian* when it is smooth and has a smooth
+Hamiltonian vector field.
+- For a strongly nondegenerate form on a Banach model every smooth function is Hamiltonian, by
+  F2.1's `df` specialization and the smooth dependence of its inverse.
 - For a closed form on a Banach model, with no nondegeneracy, let `X`, `Y` be smooth Hamiltonian
   vector fields of smooth `f`, `g`. Then `ω(X, Y)` is Hamiltonian, with the smooth Hamiltonian
-  vector field `−[X, Y]` (`SmoothTwoForm.IsHamiltonianVectorField.isHamiltonian_eval₂`). This is
-  the pinned `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket` (`[X, Y]` is a
-  Hamiltonian vector field of `−ω(X, Y)`) together with the smoothness of the bracket of smooth
-  fields.
-- *Jacobi identity*, `SmoothTwoForm.IsHamiltonianVectorField.eval₂_mlieBracket_jacobi`: for a
-  closed form on a Banach model, with no nondegeneracy, and differentiable Hamiltonian vector
-  fields `X`, `Y`, `Z` of `C²` functions `f`, `g`, `k`,
+  vector field `−[X, Y]`. This is the pinned
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket` (`[X, Y]` is a Hamiltonian vector
+  field of `−ω(X, Y)`) together with the smoothness of the bracket of smooth fields.
+- *Jacobi identity*: for a closed form on a Banach model, with no nondegeneracy, and
+  differentiable Hamiltonian vector fields `X`, `Y`, `Z` of `C²` functions `f`, `g`, `k`,
   `ω([X, Y], Z) + ω([Y, Z], X) + ω([Z, X], Y) = 0`. Since `ω(Z, ·) = dk`,
   `ω([X, Y], Z) = −dk([X, Y]) = −X(ω(Z, Y)) + Y(ω(Z, X))`, and the pinned
   `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂`
@@ -2013,19 +2056,13 @@ is smooth and has a smooth Hamiltonian vector field.
   constants when `M` is preconnected.
 
 **The Poisson bracket.** For the pinned `{f, g} = ω(X_f, X_g)`:
-- on a Banach model with strongly nondegenerate `ω`, `{f, g}(x) = df_x(X_g(x))`
-  (`SmoothTwoForm.poissonBracket_eq_mvfderiv_of_surjective_flat`), and the bracket of two
-  `C^{n+1}` functions is `C^n` for `n ≤ ∞`
-  (`SmoothTwoForm.contMDiff_poissonBracket_of_surjective_flat`);
+- on a Banach model with strongly nondegenerate `ω`, `{f, g}(x) = df_x(X_g(x))`, and the
+  bracket of two `C^{n+1}` functions is `C^n` for `n ≤ ∞`;
 - on a Banach model with closed, strongly nondegenerate `ω` and `C²` functions,
-  `X_{{f, g}} = −[X_f, X_g]`
-  (`SmoothTwoForm.hamiltonianVectorField_poissonBracket_of_surjective_flat`) and
-  `{f, {g, k}} + {g, {k, f}} + {k, {f, g}} = 0`
-  (`SmoothTwoForm.poissonBracket_jacobi_of_surjective_flat`), the strongly nondegenerate cases
-  of the Hamiltonian-function statements above;
+  `X_{{f, g}} = −[X_f, X_g]` and `{f, {g, k}} + {g, {k, f}} + {k, {f, g}} = 0`, the strongly
+  nondegenerate cases of the Hamiltonian-function statements above;
 - in any model, the Leibniz rule in each argument at a point where the two factors are
-  differentiable: `{fg, k} = f{g, k} + g{f, k}` (`SmoothTwoForm.poissonBracket_mul_left`) and
-  `{k, fg} = f{k, g} + g{k, f}` (`SmoothTwoForm.poissonBracket_mul_right`).
+  differentiable: `{fg, k} = f{g, k} + g{f, k}` and `{k, fg} = f{k, g} + g{k, f}`.
 
 Antisymmetry and additivity are the pinned `TauCeti.SmoothTwoForm.neg_poissonBracket` and
 `TauCeti.SmoothTwoForm.poissonBracket_add_left`; in finite dimension the identities
@@ -2035,10 +2072,9 @@ pinned `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`.
 
 **Conservation along integral curves.**
-- *Constancy on an interval of times*, `IsMIntegralCurveOn.apply_eq_of_isPreconnected`: let `γ`
-  be an integral curve of a vector field `X` on an open set `s` of times and `T ⊆ s`
-  preconnected. If `f` is differentiable at `γ t` and `df(X) = 0` at `γ t` for every `t ∈ T`,
-  then `f ∘ γ` is constant on `T`. The pinned
+- *Constancy on an interval of times*: let `γ` be an integral curve of a vector field `X` on an
+  open set `s` of times and `T ⊆ s` preconnected. If `f` is differentiable at `γ t` and
+  `df(X) = 0` at `γ t` for every `t ∈ T`, then `f ∘ γ` is constant on `T`. The pinned
   `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` is the case `T = s`, with `s` open
   and preconnected. For `X` a Hamiltonian vector field of `f`,
   `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` (`df(X) = ω(X, X) = 0`)
@@ -2046,94 +2082,83 @@ pinned `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
 - *Evolution of an observable*: along an integral curve `γ` of any vector field `X`, `f ∘ γ` has
   derivative `df(X)` at every time where `f` is differentiable at `γ t`, which is the pinned
   `TauCeti.Manifold.hasDerivAt_comp_curve`; for `X` a Hamiltonian vector field of `g` of a weakly
-  nondegenerate form, `df(X)` is the bracket of `f` and `g`. For the pinned bracket,
-  `SmoothTwoForm.hasDerivAt_comp_of_isMIntegralCurveOn`: on a Banach model with strongly
-  nondegenerate `ω`, along an integral curve `γ` of `X_g` on an open set of times, `f ∘ γ` has
-  derivative `{f, g}(γ t)` at every time where `f` is differentiable at `γ t`.
-- *First integrals*, `forall_mvfderiv_apply_eq_zero_iff_forall_isMIntegralCurveOn`: on a
-  boundaryless Banach manifold, for a `C¹` vector field `X` and a differentiable `f`,
-  `df(X) = 0` everywhere exactly when `f` is constant along every integral curve of `X` on an
-  open interval. No form enters; for a weakly nondegenerate `ω` and the Hamiltonian vector field
-  of a Hamiltonian function `g`, it characterizes the first integrals of `g`. For the pinned
-  bracket, `SmoothTwoForm.isFirstIntegral_iff_forall_isMIntegralCurveOn`: with strongly
-  nondegenerate `ω` and `g` of class `C²` (so that `X_g` is `C¹` and has local integral curves
-  through every point), `{f, g} = 0` everywhere exactly when `f` is constant along every
-  integral curve of `X_g` on an open interval.
-- *Poisson's theorem*, `SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂_eq_zero`: for a
-  closed `ω` on a Banach model, with no nondegeneracy, let `X`, `Y`, `Z` be Hamiltonian vector
-  fields of `C²` functions `f`, `g`, `k`, with `X` and `Y` differentiable. If `df(Z) = 0` and
-  `dg(Z) = 0` everywhere, then `ω(X, Y)` is stationary along `Z`. The route is the pinned
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`, which reduces the claim to
-  `dk([X, Y]) = X(dk(Y)) − Y(dk(X))`, where `dk(Y) = −dg(Z)` and `dk(X) = −df(Z)` vanish
-  identically. For a weakly nondegenerate form this says that the first integrals of `k` are
-  closed under `(f, g) ↦ ω(X_f, X_g)`, and with strong nondegeneracy under the pinned bracket.
+  nondegenerate form, `df(X)` is the bracket of `f` and `g`. For the pinned bracket: on a Banach
+  model with strongly nondegenerate `ω`, along an integral curve `γ` of `X_g` on an open set of
+  times, `f ∘ γ` has derivative `{f, g}(γ t)` at every time where `f` is differentiable at
+  `γ t`.
+- *First integrals*: on a boundaryless Banach manifold, for a `C¹` vector field `X` and a
+  differentiable `f`, `df(X) = 0` everywhere exactly when `f` is constant along every integral
+  curve of `X` on an open interval. No form enters; for a weakly nondegenerate `ω` and the
+  Hamiltonian vector field of a Hamiltonian function `g`, it characterizes the first integrals of
+  `g`. For the pinned bracket: with strongly nondegenerate `ω` and `g` of class `C²` (so that
+  `X_g` is `C¹` and has local integral curves through every point), `{f, g} = 0` everywhere
+  exactly when `f` is constant along every integral curve of `X_g` on an open interval.
+- *Poisson's theorem*: for a closed `ω` on a Banach model, with no nondegeneracy, let `X`, `Y`,
+  `Z` be Hamiltonian vector fields of `C²` functions `f`, `g`, `k`, with `X` and `Y`
+  differentiable. If `df(Z) = 0` and `dg(Z) = 0` everywhere, then `ω(X, Y)` is stationary along
+  `Z`. The route is the pinned `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`,
+  which reduces the claim to `dk([X, Y]) = X(dk(Y)) − Y(dk(X))`, where `dk(Y) = −dg(Z)` and
+  `dk(X) = −df(Z)` vanish identically. For a weakly nondegenerate form this says that the first
+  integrals of `k` are closed under `(f, g) ↦ ω(X_f, X_g)`, and with strong nondegeneracy under
+  the pinned bracket.
 
 **Symplectic maps and symplectomorphisms.** Let `ω'` be a smooth two-form on a second manifold
 `M'`, modelled on `E'` through `I'`; the models may differ.
-- `SmoothTwoForm.IsSymplecticMap ω ω' φ`: `ω'_{φ x}(dφ v, dφ w) = ω_x(v, w)` for all `x`, `v`,
-  `w`, with `dφ = mfderiv I I' φ x`. For smooth `φ` this is `φ^* ω' = ω` for the pinned pullback
-  `TauCeti.SmoothForm.mpullback` (`SmoothTwoForm.isSymplecticMap_iff_mpullback_eq`).
-- The identity is a symplectic map (`SmoothTwoForm.isSymplecticMap_id`); a composite of
-  differentiable symplectic maps is one (`SmoothTwoForm.IsSymplecticMap.comp`); out of a weakly
-  nondegenerate form the differential of a symplectic map is injective at every point
-  (`SmoothTwoForm.IsSymplecticMap.injective_mfderiv`).
-- `SmoothTwoForm.IsSymplectomorphism ω ω' φ`, a predicate on a Mathlib diffeomorphism
-  `φ : M ≃ₘ^n⟮I, I'⟯ M'`: `φ` is a symplectic map. For `n ≠ 0` its inverse is a
-  symplectomorphism from `ω'` to `ω` (`SmoothTwoForm.IsSymplectomorphism.symm`).
+- A *symplectic map* from `ω` to `ω'` is a map `φ : M → M'` with
+  `ω'_{φ x}(dφ v, dφ w) = ω_x(v, w)` for all `x`, `v`, `w`, where `dφ = mfderiv I I' φ x`. For
+  smooth `φ` this is `φ^* ω' = ω` for the pinned pullback `TauCeti.SmoothForm.mpullback`.
+- The identity is a symplectic map; a composite of differentiable symplectic maps is one; out
+  of a weakly nondegenerate form the differential of a symplectic map is injective at every
+  point.
+- A *symplectomorphism* from `ω` to `ω'` is a Mathlib diffeomorphism `φ : M ≃ₘ^n⟮I, I'⟯ M'`
+  that is a symplectic map, a predicate on the diffeomorphism. For `n ≠ 0` its inverse is a
+  symplectomorphism from `ω'` to `ω`.
 - *Transport of Hamiltonian vector fields*, with no nondegeneracy: a differentiable symplectic
   map whose differentials are all invertible (`ContinuousLinearMap.IsInvertible`), such as a
   symplectomorphism or the inclusion of an open subset, pulls a Hamiltonian vector field `V` of
   `h` back, through Mathlib's `VectorField.mpullback`, to a Hamiltonian vector field of `h ∘ φ`,
-  wherever `h` is differentiable along `φ`
-  (`SmoothTwoForm.IsSymplecticMap.isHamiltonianVectorField_mpullback`). For a symplectomorphism
-  of class `C¹` the converse holds as well, for every function `h`
-  (`SmoothTwoForm.IsSymplectomorphism.isHamiltonianVectorField_mpullback_iff`): where `h` is not
-  differentiable neither is `h ∘ φ`, and both differentials vanish.
+  wherever `h` is differentiable along `φ`. For a symplectomorphism of class `C¹` the converse
+  holds as well, for every function `h`: where `h` is not differentiable neither is `h ∘ φ`,
+  and both differentials vanish.
 - For such a map into a strongly nondegenerate form on Banach models,
-  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)`
-  (`SmoothTwoForm.IsSymplecticMap.mfderiv_hamiltonianVectorField_comp`),
-  `{h ∘ φ, h' ∘ φ} = {h, h'} ∘ φ` (`SmoothTwoForm.IsSymplecticMap.poissonBracket_comp`), and `φ`
-  carries integral curves of `X_{h ∘ φ}` to integral curves of `X_h`
-  (`SmoothTwoForm.IsSymplecticMap.isMIntegralCurveOn_comp`), wherever `h` and `h'` are
-  differentiable. For a symplectomorphism of class `C¹` the differentiability hypotheses drop:
-  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)` for every `h`
-  (`SmoothTwoForm.IsSymplectomorphism.mfderiv_hamiltonianVectorField_comp`), since where `h` is
-  not differentiable neither is `h ∘ φ` and both fields vanish, and with it the bracket identity
-  and the transport of integral curves hold for all functions. These extend the pinned
-  finite-dimensional `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
+  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)`, `{h ∘ φ, h' ∘ φ} = {h, h'} ∘ φ`, and `φ` carries integral
+  curves of `X_{h ∘ φ}` to integral curves of `X_h`, wherever `h` and `h'` are differentiable.
+  For a symplectomorphism of class `C¹` the differentiability hypotheses drop:
+  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)` for every `h`, since where `h` is not differentiable neither is
+  `h ∘ φ` and both fields vanish, and with it the bracket identity and the transport of integral
+  curves hold for all functions. These extend the pinned finite-dimensional
+  `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
   `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
   `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
 - *Open subsets.* The restriction of `ω` to `U : TopologicalSpace.Opens M` is its pullback along
   `Subtype.val`, symplectic when `ω` is (pinned
   `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val`). The inclusion is a symplectic map
-  from the restriction (`SmoothTwoForm.isSymplecticMap_subtype_val`) whose differentials are the
-  invertible `TauCeti.Manifold.tangentSpaceOpenEquiv`, so the transport statements apply to it.
-  A canonical transformation between open subsets `U ⊆ M` and `U' ⊆ M'` is a symplectomorphism
-  between the restricted forms.
-- *Linear symplectomorphisms*, `SymplecticForm.IsSymplectomorphism.isSymplectomorphism_constSmooth`:
-  for finite-dimensional normed spaces, a linear symplectomorphism `e` in the pinned sense
-  `TauCeti.SymplecticForm.IsSymplectomorphism` is a symplectomorphism of the constant forms
-  `TauCeti.SymplecticForm.constSmooth`, as the diffeomorphism
+  from the restriction whose differentials are the invertible
+  `TauCeti.Manifold.tangentSpaceOpenEquiv`, so the transport statements apply to it. A canonical
+  transformation between open subsets `U ⊆ M` and `U' ⊆ M'` is a symplectomorphism between the
+  restricted forms.
+- *Linear symplectomorphisms*: for finite-dimensional normed spaces, a linear symplectomorphism
+  `e` in the pinned sense `TauCeti.SymplecticForm.IsSymplectomorphism` is a symplectomorphism of
+  the constant forms `TauCeti.SymplecticForm.constSmooth`, as the diffeomorphism
   `e.toContinuousLinearEquiv.toDiffeomorph`.
 
 **Linearized flows.** Here the model is finite-dimensional, `I` is boundaryless and `M` is
 Hausdorff.
-- *The variational equation of a time-dependent flow*, `hasDerivAt_mfderiv_timeDependentFlowOf`:
-  let `X` be a time-dependent vector field, jointly `C¹` on `ℝ × M`, and `Φ_{s,t}` its maximal
-  flow `TauCeti.timeDependentFlowOf X s t`, with `((s, t₀), x)` in its domain
-  `TauCeti.timeDependentFlowDomain X`. Let `e = extChartAt I (Φ_{s,t₀} x)` and, for a tangent
-  vector `w` at `x`, `J(t) = de(dΦ_{s,t} w)`, the coordinate vector of `dΦ_{s,t} w` in `E`.
+- *The variational equation of a time-dependent flow*: let `X` be a time-dependent vector field,
+  jointly `C¹` on `ℝ × M`, and `Φ_{s,t}` its maximal flow `TauCeti.timeDependentFlowOf X s t`,
+  with `((s, t₀), x)` in its domain `TauCeti.timeDependentFlowDomain X`. Let
+  `e = extChartAt I (Φ_{s,t₀} x)` and, for a tangent vector `w` at `x`, `J(t) = de(dΦ_{s,t} w)`,
+  the coordinate vector of `dΦ_{s,t} w` in `E`.
   Then for `t` near `t₀`, `J'(t) = DX̃_t(e(Φ_{s,t} x)) J(t)`, where `X̃_t` is the chart
   expression of `X t`, Mathlib's `VectorField.mpullbackWithin` along `e.symm` on the range of
   `I`. Only the spatial derivative of `X t` enters. The proof writes the flow in the chart in
   integral form and differentiates under the integral, as for the pinned vector-space statement
   `TauCeti.hasDerivAt_fderiv_timeDependentFlow`, with the `C¹` regularity of `Φ` from
   `TauCeti.contMDiffOn_timeDependentFlowOf`.
-- *The autonomous variational equation*, `hasDerivAt_mfderiv_flowOf`: the same statement for a
-  `C¹` vector field `v` and its maximal flow `TauCeti.flowOf v`, with `(t₀, x)` in
-  `TauCeti.flowDomain v` and the chart at `flowOf v t₀ x`.
-- *Time-dependent Hamiltonian flows are symplectic*,
-  `SmoothTwoForm.eval₂_mfderiv_timeDependentFlowOf`: let `ω` be closed, with no nondegeneracy,
+- *The autonomous variational equation*: the same statement for a `C¹` vector field `v` and its
+  maximal flow `TauCeti.flowOf v`, with `(t₀, x)` in `TauCeti.flowDomain v` and the chart at
+  `flowOf v t₀ x`.
+- *Time-dependent Hamiltonian flows are symplectic*: let `ω` be closed, with no nondegeneracy,
   and `X` a jointly `C¹` time-dependent vector field such that each `X_t` is a Hamiltonian vector
   field of a `C²` function `H_t`. Every map `Φ_{s,t}` of the flow of `X` satisfies
   `ω_{Φ_{s,t} x}(dΦ_{s,t} v, dΦ_{s,t} w) = ω_x(v, w)` at every `x` with `((s, t), x)` in the
@@ -2143,9 +2168,8 @@ Hausdorff.
   For symplectic `ω` and `H` jointly `C²`, the fields `X_{H_t}` are jointly `C¹` by
   `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`, which is the
   case of a time-dependent Hamiltonian.
-- *Autonomous Hamiltonian flows are symplectic*,
-  `SmoothTwoForm.IsHamiltonianVectorField.eval₂_mfderiv_flowOf`: for closed `ω`, with no
-  nondegeneracy, the maximal flow of a `C¹` Hamiltonian vector field of a `C²` function preserves
+- *Autonomous Hamiltonian flows are symplectic*: for closed `ω`, with no nondegeneracy, the
+  maximal flow of a `C¹` Hamiltonian vector field of a `C²` function preserves
   `ω` at every point of its domain, with no completeness hypothesis; the pinned
   `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow` is the complete case.
   Conservation of first integrals along these flows is the pinned
@@ -3730,10 +3754,21 @@ CharacteristicClasses (`w₁`, `w₂`), Layer 6 item 3.
 
 ### 9.2 Classical Viterbo with local coefficients
 
-For every classical local system `L` on `𝓛Q`, prove `SH_*(T*Q; Π^*L) ≅ H_*(𝓛Q; L ⊗ η₀)`, by
-hybrid Floer-to-Morse moduli spaces in the finite-dimensional approximation
-(Abbondandolo–Schwarz Theorem 3.1 and its corrigendum, as organized in Abouzaid Chapters 5–6).
-*Needs:* Layer 7 item 5, Layer 5 item 6, Tau Ceti `TauCeti.classicalDGLocalSystemEquivalence`, item 1.
+For every classical local system `L` on `𝓛Q`, prove `SH_*(T*Q; Π^*L) ≅ H_*(𝓛Q; L ⊗ η₀)` (the
+source's Viterbo isomorphism with local coefficients in §1.5, `bdho-cotangent` lines 671–681,
+which it derives from Abouzaid's proof). The route is Abouzaid's, with coefficients in `L`
+throughout: the map from symplectic homology to loop homology counts discs with one interior
+puncture, asymptotic to the Hamiltonian orbits, with boundary on the zero section, evaluated at
+equidistant boundary points into the piecewise-geodesic approximation of Layer 5 item 6 and its
+Morse complex (Abouzaid Theorem 4.1.1 and §4.1, `abouzaid-viterbo` lines 3595–3614, with the
+local-coefficient form in Remark 4.1.2, lines 3600–3603), and it is an isomorphism by the left inverse of Chapter 5 and the surjectivity
+of Chapter 6 (Theorem 5.1.1 and Corollary 6.1.2, lines 4610–4614 and 6464–6468). Abouzaid's
+grading is cohomological, `SH^* → H_{−*}`, and is read here through the homological conventions.
+Abbondandolo–Schwarz Theorem 3.1 with its corrigendum (`abbondandolo-schwarz` lines 1771–1789) is
+the untwisted statement, a chain isomorphism between the Morse complex of the energy functional
+and the Floer complex of a Legendre-transform Hamiltonian; it is not the local-coefficient
+statement. *Needs:* Layer 7 item 5, Layer 5 item 6, Tau Ceti
+`TauCeti.classicalDGLocalSystemEquivalence`, item 1.
 
 **Checks.**
 - For `Q = S¹` and `L` trivial: `SH_k(T*S¹) ≅ H_k(𝓛S¹; ℤ)`, which is `ℤ[ℤ]` in degrees `0`
@@ -3805,16 +3840,24 @@ item 3.
 
 Layers 5 (item 6), 7 (item 5) and 8 (item 7); Tau Ceti's classical and rank-one local systems; Layer 1 item 2 (weak
 equivalences); AlgebraicTopology Stage 6 and CharacteristicClasses for `o_Q`, `w₁`, `w₂`.
-Source: the source paper §4; Abbondandolo–Schwarz, *On the Floer homology of cotangent bundles*
-and its corrigendum; Abouzaid Chapters 3, 5 and 6.
+Source: the source paper §§1.5 and 4; Abouzaid Chapters 3–6; Abbondandolo–Schwarz, *On the Floer
+homology of cotangent bundles* and its corrigendum, for the untwisted case.
 
 ## Layer 10: the criteria and their applications to cotangent bundles
 
 ### 10.1 Theorem L
 
-Prove **Theorem L** (= the source's Theorem 5.1), the criterion for contractible almost
-existence, through the relative capacity bound (Proposition 5.5), the fast-orbit lemma
-(Lemma 5.7) and the spectral invariants `ρ(·, σ)` with their properties (Proposition 5.8).
+Prove **Theorem L** (= the source's Theorem 5.1, `bdho-cotangent` lines 735–739 and
+3843–3846), the criterion for contractible almost existence. Let `W` be a Liouville domain of
+dimension `2n`, `i_W : W → 𝓛₀W` the inclusion of the constant loops, and `Σ ⊂ W` a closed
+hypersurface bounding a relatively compact open set `U` with inclusion `j_U`. If some DG local
+system `𝓕` on `𝓛₀W` and some class `α ∈ H_*(W, ∂W; i_W^*𝓕)` satisfy `j_{U!}(α) ≠ 0` in
+`H_*(U, ∂U; j_U^* i_W^*𝓕)` and `i_{W*}(α) = 0` in `SH_{*−n}(W; 𝓕)`, where `j_{U!}` is the
+codimension-zero shriek map of Layer 5 item 3 and `i_{W*}` the map from the zero-energy sector
+of Layer 8 item 7, then the contractible almost existence property holds near `Σ`; concisely,
+`ker i_{W*} ⊄ ker j_{U!}` (Remark 5.2, lines 3847–3849). Prove it through the relative capacity
+bound (Proposition 5.5), the fast-orbit lemma (Lemma 5.7) and the spectral invariants
+`ρ(·, σ)` with their properties (Proposition 5.8).
 *Needs:* Layer 8 item 7, Layer 6 items 2, 4 and 5.
 
 **Checks.**
@@ -3830,9 +3873,16 @@ existence, through the relative capacity bound (Proposition 5.5), the fast-orbit
 
 ### 10.2 Theorem M
 
-Prove **Theorem M** (= Theorem 6.4), the criterion for finiteness of `c°_HZ(W)`, through the
-capacity bound `c°_HZ(W) ≤ c(α)` (Proposition 6.6); prove its cotangent form, Proposition 6.7,
-including the nonorientable form with the orientation twist of Layer 5 item 5. Irie's finiteness
+Prove **Theorem M** (= the source's Theorem 6.4, `bdho-cotangent` lines 753–757 and
+4382–4385), the criterion for finiteness of `c°_HZ(W)`: for a Liouville domain `W` of dimension
+`2n`, if some DG local system `𝓕` on `𝓛₀W` and some `α ∈ H_*(W, ∂W; i_W^*𝓕)` satisfy
+`j_!(α) ≠ 0`, where `j_! : H_{*+n}(W, ∂W; i_W^*𝓕) → H_{*−n}(𝓕)` is the shriek map of the
+inclusion of a point, and `i_{W*}(α) = 0`, then `c°_HZ(W) < ∞`, so that the contractible almost
+existence property holds in `W`. Prove it through the capacity bound `c°_HZ(W) ≤ c(α)`
+(Proposition 6.6, lines 4394–4396). Prove its cotangent form, Proposition 6.7 (lines 4429–4432):
+for a closed manifold `Q`, a DG local system `𝓕` on `𝓛₀Q` and `α ∈ H_*(Q; i_Q^*𝓕)` with
+`j_!(α) ≠ 0` in `H_{*−n}(𝓕 ⊗ |Q|)` and `i_{Q*}(α) = 0`, `c°_HZ(D*Q) < ∞`; this includes the
+nonorientable form, with the orientation twist `|Q|` of Layer 5 item 5. Irie's finiteness
 of the ordinary `c_HZ(D*Q)` and the local-system finiteness of Albers–Frauenfelder–Oancea are
 earlier results of the same type and are consumed by nothing here. *Needs:* Layer 8 items 6–7,
 Layer 9 item 4, Layer 6 item 5, Layer 5 item 5.
@@ -3852,14 +3902,41 @@ Layer 9 item 4, Layer 6 item 5, Layer 5 item 5.
 
 ### 10.3 The cotangent criterion
 
-Prove the cotangent criterion (Proposition 5.9). *Needs:* item 1, Layer 9 items 3–4.
+Prove the cotangent criterion, the source's Proposition 5.9 (`bdho-cotangent` lines 4107–4117).
+Let `Q` be a closed orientable smooth `n`-manifold and `Σ ⊂ T*Q` a closed hypersurface bounding a
+relatively compact open set `U`. Let `i_Q : Q → 𝓛₀Q` be the inclusion of the constant loops into
+the component of contractible loops, and `π_U : U → Q` the restriction of the projection. If for
+some DG local system `𝓕` on `𝓛₀Q` the kernel of the direct map
+`i_{Q*} : H_*(Q; i_Q^*𝓕) → H_*(𝓛₀Q; 𝓕)` is not contained in the kernel of the shriek map
+`π_{U!} : H_*(Q; i_Q^*𝓕) → H_{*+n}(U, ∂U; π_U^* i_Q^*𝓕)`, then `Σ` has the contractible almost
+existence property. No hypothesis places the zero section in `U`. The route applies Theorem L
+(item 1) to a disc bundle `W = D*Q` whose interior contains the closure of `U`, with the DG local
+system on `𝓛T*Q` transferred from `𝓕` (Layer 9 item 4, the source's Corollary 4.17): `π_{U!}` is
+the Thom isomorphism `π_! : H_*(Q; i_Q^*𝓕) ≅ H_{*+n}(D*Q, S*Q; π^*i_Q^*𝓕)` followed by the
+codimension-zero shriek map `j_{U!}` of `U ⊂ D*Q`, which is defined for every such `U`, and the
+zero-energy diagram of Layer 9 item 4 with Theorem K identifies `i_{(D*Q)*}` with `i_{Q*}`
+(`bdho-cotangent` lines 4118–4137). For non-orientable `Q` the same criterion holds for the DG
+local systems `𝓕 ⊗ ℤ/2`, which is the form item 5 uses for Theorem 5.15 (`bdho-cotangent` lines
+4299–4302). *Needs:* item 1, Layer 9 items 3–4, Layer 5 item 3 (shriek maps of manifold pairs).
 
 **Checks.**
 - For `Q = S²` and the unit disc bundle the criterion applies with the class of worked example
   5.
 - For `Q = T^r` it does not apply, since `i_{Q*}` is injective.
-- The criterion is stated for a bounded open `U` containing the zero section; for `U` not
-  containing the zero section the transfer map is not available and the criterion is silent.
+- The criterion applies to domains that miss the zero section. `S³` is parallelizable, so it
+  carries a nowhere-vanishing one-form `α`; for `λ > 0` the graph `φ(S³)` of `λα` misses the zero
+  section, and so does a thin tube `U ≅ S³ × D³` around it, with `∂U ≅ S³ × S²`. Here
+  `π ∘ φ = id` has degree `1`, so `ker π_{U!}` is `1`-torsion, that is zero (Proposition 5.13,
+  item 4), while `ker i_{Q*}` contains `H₁(Ω²S³) = π₃(S³) = ℤ` (item 4); the criterion applies,
+  and `∂U` has the contractible almost existence property. This is the source's remark that its
+  theorems cover every domain containing the graph of a one-form (`bdho-cotangent` lines
+  256–260). A version of the criterion restricted to domains containing the zero section would
+  say nothing here.
+- The orientability hypothesis enters through the integral Thom isomorphism `π_!`: for
+  `Q = ℝP²` the disc bundle `D*ℝP²` is non-orientable (it is isomorphic to the tangent disc
+  bundle), so it has no Thom class over `ℤ` and the untwisted integral form of `π_!` is not
+  defined, while over `ℤ/2` every disc bundle has a Thom class and the `𝓕 ⊗ ℤ/2` form applies
+  (Hatcher Theorem 4D.10 and §4.D Exercise 7, `hatcher-at` lines 19073–19074 and 19262–19263).
 
 ### 10.4 The kernel of `i_{Q*}`
 
@@ -3909,39 +3986,66 @@ item 3, Layer 5 item 3 (`f_* f_! = d · Id`) and item 5.
 
 ### 10.5 Theorems A and C
 
-Prove **Theorems A and C** in their general forms (Theorems 5.10 and 5.15), with the degree
-hypotheses stated homologically: `deg(π ∘ φ)` by `(π ∘ φ)_*[S] = d · [Q]` over `ℤ`, and the mod-2
-degree by the same equation with `𝔽₂`-fundamental classes from AlgebraicTopology Stage 6. In both,
-`S` is a closed **smooth** manifold, as in the source's Theorem 5.10: the route goes through the
-Umkehr map `(π ∘ φ)_!` of Layer 5 item 3, which is built from Morse data on `S`. Prove
-**Corollaries D and E** in their Theorem A and Theorem C forms, from Layer 6 items 3–4. In
-`Suggested.lean` Theorem A is `hasContractibleAlmostExistence_of_not_isAspherical` (`Q` not
-aspherical, `d = ±1`) and `hasContractibleAlmostExistence_of_not_isTorsion_homotopyGroup` (some
-`π_ℓ(Q)`, `ℓ ≥ 2`, not a torsion group, equivalently `π_ℓ(Q) ⊗ ℚ ≠ 0`, and `d ≠ 0`), on Tau
-Ceti's carriers: `Q` a compact connected smooth manifold and `S` a compact smooth manifold, both
-Hausdorff and modelled on one finite-dimensional `E`, with homological orientations; `d` defined
-by `(π ∘ φ)_*[S] = d • [Q]` through `TauCeti.HomologicalOrientation.mapFundamentalClass`; the
-hypersurface the regular level `F⁻¹(c)` of a smooth `F : T*Q → ℝ` with compact sublevel sets and
-`F < c` on `φ(S)`, so that it bounds the relatively compact domain `{F < c}` containing `φ(S)`;
-and the conclusion `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` of
+Prove **Theorems A and C** in their general forms, the source's Theorems 5.10 and 5.15
+(`bdho-cotangent` lines 4140–4150 and 4293–4298), and derive Theorems A and C from them as the
+source does (lines 4260–4265 and 4330). The integral degree is stated homologically,
+`(π ∘ φ)_*[S] = d · [Q]` over `ℤ`, and the mod-2 degree as the map that `π ∘ φ` induces on
+`H_n(−; ℤ/2)`. In both, `S` is a closed **smooth** manifold, as in the source's Theorem 5.10: the
+route goes through the Umkehr map `(π ∘ φ)_!` of Layer 5 item 3, which is built from Morse data
+on `S`. Prove **Corollaries D and E** in their Theorem A and Theorem C forms, from Layer 6 items
+3–4.
+
+- *Theorem 5.10.* Let `Q` be closed and orientable, `S` closed, smooth and orientable, and
+  `π ∘ φ` of nonzero degree `d`. Assume that `π₂(Q) ≠ 0`, or that the first nonzero `π_k(Q)`
+  with `k ≥ 3` has an element not of `d`-torsion, or that some `π_ℓ(Q)` with `ℓ ≥ 3` is of
+  `d^m`-torsion for no `m ≥ 1`. Then every hypersurface bounding a relatively compact domain
+  that contains `φ(S)` has the contractible almost existence property. The route is items 3–4:
+  `ker i_{Q*}` contains an element that is not of `d`-torsion (Proposition 5.11, its three cases
+  matching the three alternatives), and `ker π_{U!}` is of `d`-torsion (Proposition 5.13). In
+  `Suggested.lean` this is `hasContractibleAlmostExistence_of_degree_ne_zero`, with the
+  alternatives as one disjunction: `π₂(Q)` nontrivial; or `π₃(Q), …, π_{k+2}(Q)` trivial and some
+  `a ∈ π_{k+3}(Q)` with `a^d ≠ 1`; or some `π_{ℓ+3}(Q)` containing, for every `m ≥ 1`, an `a` with
+  `a^(d^m) ≠ 1`.
+- *Theorem A* is its two special cases. If `d = ±1`, the alternatives say that some `π_j(Q)`,
+  `j ≥ 2`, is nontrivial, which for connected `Q` is that `Q` is not aspherical:
+  `hasContractibleAlmostExistence_of_not_isAspherical`. If `d ≠ 0` and some `π_ℓ(Q)`, `ℓ ≥ 2`,
+  is not a torsion group, equivalently `π_ℓ(Q) ⊗ ℚ ≠ 0`, then either `ℓ = 2` and `π₂(Q) ≠ 0`, or
+  `π_ℓ(Q)` is of `d^m`-torsion for no `m`:
+  `hasContractibleAlmostExistence_of_not_isTorsion_homotopyGroup`.
+- *Theorem 5.15.* Let `Q` be closed and non-orientable, `S` closed and smooth, and `π ∘ φ` of
+  nonzero mod-2 degree. Assume that `π₂(Q) ≠ 0`, or that `π_ℓ(Q) ⊗ ℤ/2 ≠ 0` for some `ℓ ≥ 3`.
+  Then the same conclusion holds. When `π₂(Q) ≠ 0`, `Ω²Q` is disconnected, so `ker i_{Q*}` is
+  nonzero in degree `0` with `ℤ/2` coefficients, while `ker π_{U!} = 0` (`bdho-cotangent` lines
+  4303–4314). Otherwise the route uses the mod-2 vanishing theorem of Layer 1 item 4 in place of
+  the source's class `{G | G ⊗ ℤ/2 = 0}`, which is not a Serre class: with `Y = Ω₀Q`, simply
+  connected because `π₂(Q) = 0`, if `H̃_*(Ω₀Q; 𝔽₂) = 0` then every `π_i(Ω₀Q) = π_{i+1}(Q)` is
+  uniquely 2-divisible, contradicting `π_ℓ(Q) ⊗ ℤ/2 ≠ 0`; the rest of the proof is the source's.
+  In `Suggested.lean` this is `hasContractibleAlmostExistence_of_mod_two_degree_ne_zero`, with
+  the hypothesis on `Q` that `π₂(Q)` is nontrivial or that squaring is not surjective on some
+  `π_{ℓ}(Q)`, `ℓ ≥ 3`.
+- *Theorem C* is its case where `Q` is not a `ℤ/2`-`K(π, 1)`, that is, `π_ℓ(Q) ⊗ ℤ/2 ≠ 0` for some
+  `ℓ ≥ 2` (for `ℓ = 2` this forces `π₂(Q) ≠ 0`):
+  `hasContractibleAlmostExistence_of_not_surjective_sq_homotopyGroup`.
+
+The Lean statements share Tau Ceti's carriers: `Q` a compact connected smooth manifold and `S` a
+compact smooth manifold, both Hausdorff and modelled on one finite-dimensional `E`; for Theorems
+5.10 and A, homological orientations of both, and `d` defined by `(π ∘ φ)_*[S] = d • [Q]` through
+`TauCeti.HomologicalOrientation.mapFundamentalClass`; the hypersurface the regular level
+`F⁻¹(c)` of a smooth `F : T*Q → ℝ` with compact sublevel sets and `F < c` on `φ(S)`, so that it
+bounds the relatively compact domain `{F < c}` containing `φ(S)`; and the conclusion
+`TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` of
 `TauCeti.CotangentBundle.symplecticForm`, with contractibility in `T*Q`. The source's form
 `Σ dpᵢ ∧ dqᵢ = −ω_can` gives the same statement, since almost existence is invariant under
-`ω ↦ −ω` (`TauCeti.SmoothTwoForm.IsNondegenerate.hasContractibleAlmostExistence_smul_iff`).
-Theorem C is `hasContractibleAlmostExistence_of_mod_two_degree_ne_zero`, on the same carriers
-with `Q` non-orientable (it has no `TauCeti.HomologicalOrientation`), not a `ℤ/2`-`K(π, 1)`
-(squaring is not surjective on some `π_ℓ(Q)`, `ℓ ≥ 2`, that is, `π_ℓ(Q) ⊗ ℤ/2 ≠ 0`), and `S`
+`ω ↦ −ω` (`TauCeti.SmoothTwoForm.IsNondegenerate.hasContractibleAlmostExistence_smul_iff`). For
+Theorems 5.15 and C, `Q` is non-orientable (it has no `TauCeti.HomologicalOrientation`) and `S`
 unoriented. The mod-2 degree needs no mod-2 fundamental class: the hypothesis is that `π ∘ φ`
 induces a nonzero map `H_n(S; ℤ/2) → H_n(Q; ℤ/2)` on Mathlib's singular homology with
 coefficients in `ZMod 2`. Since `H_n(Q; ℤ/2) = ℤ/2` for `Q` closed and connected, for connected
 `S` this is the mod-2 degree `1`; for disconnected `S` it says that some component of `S` has
 mod-2 degree `1`, and the source's statement for that component gives the same conclusion. The
-`𝔽₂` stage of Layers 5 and 7–9 is enough for Theorem C. Layer 10's all-dimensional DG trajectory
-and chain inputs come from Layers 7.2, 8 and 9; its module-comparison corollaries use the common
-readout of Layer 7.C.5b only on its specified overlap. Theorem 5.15 (Theorem C) uses the mod-2
-vanishing theorem of Layer 1 item 4 in place of the source's class `{G | G ⊗ ℤ/2 = 0}`: with
-`Y = Ω₀Q`, simply connected because `π₂(Q) = 0`, if `H̃_*(Ω₀Q; 𝔽₂) = 0` then every
-`π_i(Ω₀Q) = π_{i+1}(Q)` is uniquely 2-divisible, contradicting `π_ℓ(Q) ⊗ ℤ/2 ≠ 0`; the rest of
-the proof is the source's. *Needs:* items 1–4, Layer 1 item 4, Layer 5 item 3 (the Umkehr map
+`𝔽₂` stage of Layers 5 and 7–9 is enough for Theorems 5.15 and C. Layer 10's all-dimensional DG
+trajectory and chain inputs come from Layers 7.2, 8 and 9; its module-comparison corollaries use
+the common readout of Layer 7.C.5b only on its specified overlap. *Needs:* items 1–4, Layer 1 item 4, Layer 5 item 3 (the Umkehr map
 of `π ∘ φ` and `f_* f_! = d · Id`), Layer 6 items 3–4, AlgebraicTopology Stage 6 (the homological
 degree), Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`, Mathlib
 `AlgebraicTopology.singularHomologyFunctor`.
@@ -3951,7 +4055,21 @@ degree), Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`, Mathlib
   existence property for every bounded `U ⊆ T*S²` containing the zero section (worked example
   8).
 - For `Q = T^r` no hypothesis of Theorem A holds, and indeed `S*T^r` carries no contractible
-  closed characteristic.
+  closed characteristic. No alternative of Theorem 5.10 holds either, since every `π_j(T^r)`,
+  `j ≥ 2`, is trivial.
+- Theorem 5.10 is strictly wider than Theorem A in its hypotheses on `(Q, d)`. For `d = 2` and a
+  first nonzero higher group `π₃(Q) = ℤ/3` with `π₂(Q) = 0`, a generator `a` has `a² = a⁻¹ ≠ 1`,
+  so the second alternative holds, while Theorem A's first case needs `d = ±1` and its second a
+  non-torsion group. For `d = 2` and `π₃(Q) = ℤ/2` the second alternative fails, since `a² = 1`
+  for every `a`.
+- For `d = ±1` the alternatives of Theorem 5.10 say exactly that some `π_j(Q)`, `j ≥ 2`, is
+  nontrivial: `a^{±1} ≠ 1` says `a ≠ 1`. On `Q = S³` with `d = 1`, `π₂ = 0` and the second
+  alternative holds with `k = 0` and the generator of `π₃(S³) = ℤ`; on the aspherical `T³` every
+  alternative fails. So for connected `Q` the case `d = ±1` is Theorem A's first case.
+- Theorem 5.15 is strictly wider than Theorem C: it accepts `π₂(Q) = ℤ/3`, on which doubling is
+  bijective, so that `π₂ ⊗ ℤ/2 = 0` and Theorem C's hypothesis can fail at `ℓ = 2`. The source's
+  proof covers this case: `Ω²Q` has `π₀ = π₂(Q)`, three components, so
+  `H₀(Ω²Q; ℤ/2) = (ℤ/2)³ → H₀(pt; ℤ/2) = ℤ/2` has a two-dimensional kernel.
 - Connectedness of `Q` is needed in the Lean statement: for `Q = T² ⊔ T²` and `φ` the zero
   section, `¬ TauCeti.IsAspherical Q q` holds because `Q` is not path-connected and `d = 1`, while
   the flat `S*Q` carries no contractible closed characteristic.
@@ -3997,19 +4115,40 @@ the Floer theory above.
 
 ### 11.1 The finite cover `T × K → G`
 
-Consume LieGroups' interfaces for the universal cover and its discrete central kernel, the
-splitting of a compact Lie algebra into its centre and its semisimple derived ideal, and simply
-connected integration. Integrate the simply connected factors to identify the universal cover
-with `ℝʳ × K`, where `K` is compact, connected, simply connected and semisimple. Prove `Z(K)` is
-finite. The deck kernel `Γ` is discrete and central, hence lies in `ℝʳ × Z(K)`; compactness of
+Consume LieGroups Layer 5 for the universal cover and its discrete central kernel, and Layer 4
+for Lie's third theorem and the integration of Lie-algebra homomorphisms out of simply connected
+groups. For the Lie algebra `𝔤` of a compact Lie group:
+- own the existence of an `Ad`-invariant inner product, the average of any inner product
+  against CompactGroups Layer 0's Haar probability measure (Meinrenken Corollary 8.16,
+  `meinrenken-lie` lines 1892–1903);
+- consume HamiltonianReduction R5's `Ad`-invariant orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]` for
+  such an inner product, with `𝔷` the centre; own that `[𝔤, 𝔤]` is a direct sum of simple
+  ideals, hence semisimple, by the same argument (the orthogonal complement of an ideal is an
+  ideal; Meinrenken Theorem 8.22, lines 1946–1959);
+- own the sign of the Killing form: the Killing form `B` of `𝔤` (Mathlib `killingForm`) is negative semidefinite with kernel `𝔷`:
+  each `ad X` is skew for the invariant inner product, so `B(X, X) = tr((ad X)²) ≤ 0`, with
+  equality exactly when `ad X = 0` (Meinrenken Proposition 8.33, lines 2131–2140). On a
+  semisimple `𝔨 = [𝔨, 𝔨]`, whose centre is `0`, it is negative definite.
+
+Integrate the abelian factor `𝔷 ≅ ℝʳ` and the semisimple factor `[𝔤, 𝔤]` to simply connected
+groups (LieGroups Layer 4), identifying the universal cover with `ℝʳ × K`, where `K` is compact,
+connected, simply connected and semisimple (Bröcker–tom Dieck Chapter V for the compactness of
+`K`). Prove `Z(K)` is finite. The deck kernel `Γ` is discrete and central, hence lies in `ℝʳ × Z(K)`; compactness of
 `(ℝʳ × K)/Γ` makes `Λ = Γ ∩ (ℝʳ × {1})` a full lattice in `ℝʳ`, and projection embeds `Γ/Λ` into
 the finite group `Z(K)`, so `Λ` has finite index in `Γ`. Since `Λ` is central, the quotient map
 `(ℝʳ/Λ) × K → (ℝʳ × K)/Γ ≅ G` is a finite covering `T × K → G` with `T = ℝʳ/Λ` a torus
-(Bröcker–tom Dieck Chapter V). *Needs:* LieGroups Layers 5–6, CompactGroups.
+(Bröcker–tom Dieck Chapter V). *Needs:* LieGroups Layers 4–5, CompactGroups Layer 0,
+HamiltonianReduction R5 (the orthogonal splitting), Mathlib `killingForm`.
 
 **Checks.**
 - `G = U(n)`: the cover is `S¹ × SU(n) → U(n)`, `(z, A) ↦ zA`, of degree `n`, with kernel the
-  `n`-th roots of unity embedded diagonally.
+  `n`-th roots of unity embedded diagonally. On the Lie algebra, `𝔷 = iℝ · I` and
+  `[𝔤, 𝔤] = 𝔰𝔲(n)`, and the Killing form `B(X, X) = 2n tr(X²) − 2(tr X)²` is `0` at `X = iI`
+  (`−2n² + 2n²`) and `2n tr(X²) = −2n Σ|x_{ij}|² < 0` at nonzero `X ∈ 𝔰𝔲(n)`.
+- Compactness is needed for the sign of the Killing form: on `𝔰𝔩(2, ℝ)` the diagonal
+  `h = diag(1, −1)` has `B(h, h) = 4 tr(h²) = 8 > 0`, while on `𝔰𝔲(2)`, with
+  `[e₂, e₃] = e₁` and its cyclic permutations, `ad e₁` rotates the plane of `e₂, e₃`, so
+  `B(e₁, e₁) = tr((ad e₁)²) = −2 < 0`.
 - `G = SO(3)`: `r = 0`, `K = SU(2)` and the cover is the double cover `SU(2) → SO(3)`.
 - `G = T^r`: `K` is trivial and the cover is the identity; a construction that produced
   `ℝʳ → T^r` would not be finite.
@@ -4023,11 +4162,23 @@ one (Bott, *An application of the Morse theory to the topology of Lie-groups*, �
 corollary of its Theorems A and B, `bott-lie-groups` lines 92–93). The route here detects a root
 subgroup by the Cartan 3-form, with no Morse theory of loop spaces.
 - Let `B` be the Killing form of the Lie algebra `𝔨` (Mathlib `killingForm`), negative definite
-  since `K` is compact semisimple (LieGroups Layer 5A), and `ω(X, Y, Z) = B(X, [Y, Z])` the
+  since `K` is compact semisimple (item 1), and `ω(X, Y, Z) = B(X, [Y, Z])` the
   corresponding left-invariant 3-form. It is
   bi-invariant, and closed by the `ad`-invariance of `B` and the Jacobi identity.
-- Choose a root homomorphism `f : SU(2) → K` from LieGroups' maximal-torus and root interfaces;
-  its differential is injective. On a basis `e₁, e₂, e₃` of `𝔰𝔲(2)` with `[e₂, e₃] = e₁` and its
+- *Root homomorphisms*, owned here. Choose a maximal torus `T ⊆ K` with Lie algebra `𝔱`
+  (LieGroups Layer 6). The weights of `T` on `𝔨_ℂ` give `𝔨_ℂ = 𝔱_ℂ ⊕ ⨁_{α ∈ R} 𝔨_α`, the
+  weight-zero space being `𝔱_ℂ` (Meinrenken Definition 11.11, `meinrenken-lie` lines
+  3189–3205), and the set `R` of roots is nonempty, since `𝔨 = [𝔨, 𝔨] ≠ 0` is not abelian. For a
+  root `α` the spaces `𝔨_α`, `𝔨_{−α}` and `[𝔨_α, 𝔨_{−α}]` are lines, spanned by `e_α`, `f_α`,
+  `h_α` with `[h_α, e_α] = 2e_α`, `[h_α, f_α] = −2f_α` and `[e_α, f_α] = h_α`; these can be
+  chosen with `ē_α = −f_α` and `h̄_α = −h_α` for the conjugation of `𝔨_ℂ` fixing `𝔨`, so that
+  `𝔰𝔲(2)_α = span_ℝ(e_α − f_α, i(e_α + f_α), i h_α)` lies in `𝔨` (Meinrenken Theorem 12.4 and
+  Proposition 12.5, lines 3466–3534; the complex triple is also Mathlib's
+  `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` for `𝔨_ℂ` and its splitting
+  Cartan subalgebra `𝔱_ℂ`). The injective Lie-algebra map `𝔰𝔲(2) → 𝔨` onto `𝔰𝔲(2)_α`
+  integrates to `f : SU(2) → K` because `SU(2)` is simply connected (LieGroups Layer 4;
+  Meinrenken Theorem 7.8 and Remark 12.6, lines 1592–1594 and 3537–3543), and the
+  differential of `f` is injective. On a basis `e₁, e₂, e₃` of `𝔰𝔲(2)` with `[e₂, e₃] = e₁` and its
   cyclic permutations, `f^*ω(e₁, e₂, e₃) = B(df e₁, df e₁) < 0`. So `f^*ω` is a left-invariant,
   nowhere-vanishing top form on `SU(2) ≅ S³`, and `∫_{S³} f^*ω ≠ 0`.
 - If `f : S³ → K` were null-homotopic, smooth the null-homotopy: embed `K` in a Euclidean space
@@ -4038,13 +4189,19 @@ subgroup by the Cartan 3-form, with no Morse theory of loop spaces.
   a constant lands in a chart ball, where `ω` is exact. This contradicts the previous step, so
   `f` represents a nonzero element of `π₃(K)`.
 
-*Needs:* UniversalCovers, LieGroups Layers 5–6 (the Killing form, maximal tori and root
-subgroups), DifferentialGeometry Layers 0–1 and 5 (integration, Stokes and the homotopy
-operator), GeometricTopology Layer 1 (tubular neighbourhoods), Mathlib `killingForm`,
+*Needs:* UniversalCovers, item 1 (the invariant inner product and the Killing form), LieGroups
+Layer 6 (maximal tori) and Layer 4 (integration out of `SU(2)`), DifferentialGeometry Layers 0–1
+and 5 (integration, Stokes and the homotopy operator), GeometricTopology Layer 1 (tubular neighbourhoods), Mathlib `killingForm`,
 `exists_embedding_euclidean_of_compact` and `exists_contMDiffMap_forall_mem_convex_of_local`.
 
 **Checks.**
 - `π₃(SU(2)) = π₃(S³) = ℤ`, and the root `SU(2)` of `SU(2)` is the identity.
+- The normalization of the rank-one subalgebra on `K = SU(3)` with its diagonal torus and the
+  root `α = ε₁ − ε₂`: the conjugation fixing `𝔰𝔲(3)` is `X ↦ −X*`, so `e_α = E₁₂` gives
+  `f_α = −ē_α = E₂₁` and `h_α = [E₁₂, E₂₁] = E₁₁ − E₂₂`, with `α(h_α) = 2` and
+  `h̄_α = −h_α`; `𝔰𝔲(2)_α` is the upper-left `2 × 2` block and `f` is the block inclusion
+  `SU(2) → SU(3)`. With the sign `f_α = +ē_α = −E₂₁` instead, `e_α − f_α = E₁₂ + E₂₁` is
+  Hermitian, not in `𝔰𝔲(3)`, so the real-form condition excludes that choice.
 - `π₃(SO(3)) = π₃(SU(2)) = ℤ` through the double cover; `π₂(SO(3)) = 0`.
 - `π₃(T^r) = 0`: the criterion of item 3 separates `T^r` from every other compact connected
   Lie group. On a torus the Killing form is `0`, so `ω = 0` and the Cartan 3-form detects
@@ -4079,12 +4236,14 @@ CompactGroups. *Needs:* items 1–2, Tau Ceti `IsAspherical`, Mathlib `LieGroup`
 
 ### Dependencies
 
-LieGroups Layers 5–6, CompactGroups, UniversalCovers (completed), DifferentialGeometry Layers
-0–1 and 5, GeometricTopology Layer 1; Mathlib `LieGroup`, `Circle`, `ContinuousMulEquiv`,
-`exists_embedding_euclidean_of_compact`, `exists_contMDiffMap_forall_mem_convex_of_local`; Tau
-Ceti `IsAspherical`. Source: the source paper §6.4 (Example 6.30 and the proof of Proposition
-6.31); Bröcker–tom Dieck, *Representations of Compact Lie Groups*, Chapter V; Bott, *An
-application of the Morse theory to the topology of Lie-groups*, §1.
+LieGroups Layers 4–6, CompactGroups Layer 0, UniversalCovers (completed), DifferentialGeometry
+Layers 0–1 and 5, GeometricTopology Layer 1; Mathlib `LieGroup`, `Circle`, `ContinuousMulEquiv`,
+`killingForm`, `exists_embedding_euclidean_of_compact`,
+`exists_contMDiffMap_forall_mem_convex_of_local`; HamiltonianReduction R5; Tau Ceti
+`IsAspherical`. Source: the source
+paper §6.4 (Example 6.30 and the proof of Proposition 6.31); Bröcker–tom Dieck, *Representations
+of Compact Lie Groups*, Chapter V; Meinrenken, *Lie groups and Lie algebras*, §§7–8 and 11–12;
+Bott, *An application of the Morse theory to the topology of Lie-groups*, §1.
 
 ## Downstream consumers
 
@@ -4101,9 +4260,8 @@ application of the Morse theory to the topology of Lie-groups*, §1.
 - **MorseTheory** M5 consumes Layer 1 item 3's filtered-complex algebra; **ComplexKahlerGeometry**
   and **RiemannianGeometry** R3 consume Layer 1 item 2's spectral sequence and early
   weak-equivalence comparison.
-- **StableHomotopyKTheory** consumes Layer 1 items 1–4; **HomotopySpheres** consumes Layer 1
-  item 4's Hurewicz modulo a Serre class; **StringOrientation** consumes Layer 11's finite cover
-  and torus criterion.
+- **StableHomotopyKTheory** consumes Layer 1 items 1–4; **StringOrientation** consumes Layer
+  11's finite cover and torus criterion.
 - **HeegaardFloer** consumes Layer 1 item 2's Serre spectral sequence and multiplicative
   cohomological Serre sequence, and Layer 7 consumes nothing back from this use.
 - **MorseNovikov** consumes Layer 1 item 1's natural `H₁ ≅ π₁ᵃᵇ`. Layer 7.C and 7.T consume its
@@ -4276,7 +4434,8 @@ Tau Ceti's Mathlib and conventions.
   Applications to cotangent bundles*, arXiv:2404.07953 (version 3): the source paper.
 - J.-F. Barraud, M. Damian, V. Humilière, A. Oancea, *Morse homology with differential graded
   coefficients*, arXiv:2308.06104 (version 3); Progress in Mathematics 360, Birkhäuser, 2025
-  (BDHO): Layers 0 and 3–5. Statement numbers follow the arXiv version.
+  (BDHO): Layers 0 and 3–5, and Remarks 9.2.4–9.2.5 and Proposition 11.3.2 for Layer 1 item 5.
+  Statement numbers follow the arXiv version.
 - J.-F. Barraud, O. Cornea, *Lagrangian intersections and the Serre spectral sequence*, Ann. of
   Math. 166 (2007), arXiv:math/0401094, Appendix A on corner structures: Layer 0 item 1.
 - W. S. Massey, *Singular Homology Theory*, GTM 70, Springer, 1980, Chapters II and VII:
@@ -4285,8 +4444,10 @@ Tau Ceti's Mathlib and conventions.
   Chapter II; *Groupes d'homotopie et classes de groupes abéliens*, Ann. of Math. 58 (1953),
   Theorem 1: Layer 0 and Layer 1 item 4.
 - A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002 (the author's online
-  edition): Theorem 2A.1, §4.1 (Propositions 4.13, 4.21, 4.30, Lemma 4.31), §4.2 (Theorem 4.41,
-  Proposition 4.48), §4.3 (pullbacks of fibrations), §4.J.
+  edition): Theorem 2A.1, §3.3 (the cap product and Example 3.31), §4.1 (Propositions 4.13,
+  4.21, 4.30, Lemma 4.31), §4.2 (Theorem 4.41, Proposition 4.48), §4.3 (pullbacks of
+  fibrations), §4.D (Corollary 4D.9, Theorem 4D.10 and Exercises 7–8: Thom classes, Layer 1
+  item 5 and Layer 10 item 3), §4.J.
 - C. Weibel, *An Introduction to Homological Algebra*, Cambridge University Press, 1994,
   Theorems 5.5.1 and 5.5.10: Layer 1 item 3.
 - G. W. Whitehead, *Elements of Homotopy Theory*, GTM 61, Springer, 1978, Chapter I: Layer 2.
@@ -4311,9 +4472,11 @@ Tau Ceti's Mathlib and conventions.
 - M. Abouzaid, *Symplectic cohomology and Viterbo's theorem*, arXiv:1312.3354 (version 2);
   in *Free loop spaces in geometry and topology*, IRMA Lect. Math. Theor. Phys. 24 (2015).
   Chapter numbers follow the arXiv version: Chapter 1 (Layer 7 item 5), Chapter 3 (Layers 5
-  item 6 and 9 item 3), Chapters 5–6 (Layer 9 items 2–3).
+  item 6 and 9 item 3), Chapter 4 (Theorem 4.1.1 and Remark 4.1.2) and Chapters 5–6
+  (Theorem 5.1.1 and Corollary 6.1.2): Layer 9 item 2.
 - A. Abbondandolo, M. Schwarz, *On the Floer homology of cotangent bundles*, Comm. Pure Appl.
-  Math. 59 (2006), arXiv:math/0408280, Theorem 3.1, and its corrigendum: Layer 9 item 2.
+  Math. 59 (2006), arXiv:math/0408280, Theorem 3.1, and its corrigendum: the untwisted case of
+  Layer 9 item 2.
 - D. McDuff, D. Salamon, *Introduction to Symplectic Topology*, 3rd ed., Oxford Graduate Texts
   in Mathematics 27, Oxford University Press, 2017, §3.1: Layer 6 item 0.
 - R. Abraham, J. E. Marsden, *Foundations of Mechanics*, 2nd ed., Benjamin/Cummings, 1978,
@@ -4337,6 +4500,12 @@ Tau Ceti's Mathlib and conventions.
   background of Layer 7.T.
 - T. Bröcker, T. tom Dieck, *Representations of Compact Lie Groups*, GTM 98, Springer, 1985,
   Chapter V: the structure of compact connected Lie groups behind the finite cover of Layer 11.
+- E. Meinrenken, *Lie groups and Lie algebras*, lecture notes, University of Toronto (the
+  author's online notes, version of Winter 2026): Theorem 7.8 (integration of Lie-algebra
+  homomorphisms), Corollary 8.16 (invariant inner products), Theorem 8.22 (centre and simple
+  ideals), Proposition 8.33 (the Killing form), Definition 11.11 (roots), Theorem 12.4,
+  Proposition 12.5 and Remark 12.6 (the rank-one subalgebras `𝔰𝔲(2)_α` and their
+  homomorphisms `SU(2) → G`): Layer 11 items 1–2.
 - R. Bott, *An application of the Morse theory to the topology of Lie-groups*, Bull. Soc. Math.
   France 84 (1956), 251–281, §1 (the corollary to Theorems A and B: `π₃` of a compact simply
   connected Lie group is free, and `ℤ` for a simple one): Layer 11 item 2.
