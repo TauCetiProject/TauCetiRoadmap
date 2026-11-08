@@ -1,11 +1,25 @@
-# Categorical operator algebras and planar constructions
+# Roadmap: categorical operator algebras and planar constructions
 
-Build C*- and W*-categories, their tensor and module categories, and their
-operator-algebra realizations. The library includes unitary duality,
-Q-systems and their completion, internal operator algebras, anchored
-planar algebras, and fusion-category commutants. It also constructs the
-canonical C*-algebras of planar algebras, with their Morita, K-theory and
-finite-index tower comparisons.
+**Summary.** Starting from Mathlib's native linear, monoidal and rigid
+categories, bicategories, `CStarModule` and `VonNeumannAlgebra`, and from
+the Hilbert-module, operator K-theory, von Neumann algebra and subfactor
+roadmaps, build C*- and W*-categories and bicategories, their tensor and
+module categories, and their operator-algebra realizations. The end
+theorems are the classification of unitary dual functors by positive
+characters of the universal grading groupoid and the shaded planar
+correspondence (CA2); Q-system completion and the realization
+biequivalence with unital C*-algebras (CA3); the equivalences of compact
+connected W*-algebra objects with Q-systems (CA4) and of connected
+W*-algebra objects with extremal irreducible discrete inclusions (CA5);
+the equivalence of unitary anchored planar algebras with pointed module
+tensor categories (CA6); the six-term sequence of every Cuntz–Pimsner
+algebra and the K-theory of free graph algebras (CA7); the Morita
+classes, K-theory, ordered K₀ and Watatani index of the canonical planar
+C*-towers (CA8); the biequivalence of von Neumann algebras with complete
+W*-categories and the existence and uniqueness of fusion-category
+representations in hyperfinite factors (CA9); and the classification of
+finite-depth real objects in fusion commutants by anchored planar
+algebras (CA10).
 
 ## Scope and ownership
 
@@ -350,7 +364,9 @@ using native right duals `Xᘁ` as primary and transporting left duals
 through the chosen pivotal comparison, with direct
 sum, subobject and tensor compatibilities. Prove positivity, invertibility
 and uniqueness of balanced solutions up to unitary equivalence in the
-simple-unit setting. Separate that statement from arbitrary choices of
+simple-unit setting (Penneys, Proposition 3.24, p. 16, and Corollary 3.26,
+p. 18, with π the trivial character; the proof treats each object as a
+finite orthogonal sum of simples, so it applies objectwise). Separate that statement from arbitrary choices of
 a dual functor on a multitensor category.
 
 Define a unitary dual functor by chosen evaluations/coevaluations with
@@ -390,7 +406,9 @@ prove its universal property, transport and skeleton independence.
 
 Prove the canonical bijections between pseudounitary pivotal structures
 modulo monoidal natural isomorphism, unitary dual functors modulo unitary
-monoidal natural isomorphism, and groupoid homomorphisms to the positive reals `ℝ>0`.
+monoidal natural isomorphism, and groupoid homomorphisms to the positive reals `ℝ>0`
+(Penneys, Theorem A, p. 3, with the universal grading groupoid of §3.3,
+p. 13, and the dimension-ratio character of Lemma 3.20, p. 14).
 For a homogeneous simple X pin the character to `dim_L(X)/dim_R(X)`.
 For equivalence of chosen dual functors require the canonical monoidal
 natural comparison determined by their evaluations/coevaluations to be
@@ -506,7 +524,7 @@ equivalence.
 **Checks.**
 
 - For the connected finite bipartite graph `u₁ — w — u₂` with `V₊={u₁,u₂}`
-  and `V₋={w}`, Penneys's bipartite-graph example (Example 4.7) gives a
+  and `V₋={w}`, Penneys's bipartite-graph example (Example 4.7, p. 25) gives a
   triple with `1₊` a sum of two simples, so `P_(0,+)=ℂ²` and `P_(0,−)=ℂ`.
   A definition requiring `P_(0,±)=ℂ` excludes this example; the connected
   case is a graph with one even and one odd vertex.
@@ -590,13 +608,15 @@ Define splitting by a dual pair of 1-morphisms X,X̄ and a unitary
 algebra identification `Q≃X⊗X̄`, with multiplication
 `1_X⊗ev⊗1_X̄`, unit coev, and `ev ev†=1` in the separable
 normalization, and prove Q-system
-completeness iff every Q-system splits. Prove QSys(QSys(C))≃QSys(C),
-its completion universal property and normal W* version. Construct
+completeness iff every Q-system splits (Chen–Hernández Palomares–Jones–Penneys,
+Theorem 3.36, p. 26). Prove QSys(QSys(C))≃QSys(C) (Corollary 3.37,
+p. 27), its completion universal property and normal W* version. Construct
 realization in the C*-bicategory of unital C*-algebras and right
 correspondences: the realized algebra, norm/completion, correspondence
 actions and intertwiner maps; check tensor/splitting comparisons.
 Prove this bicategory Q-system complete and the realization/inclusion
-biequivalence. Construct the corresponding normal W* realization.
+biequivalence (Theorem A and Lemma B, p. 3, proved in §4). Construct the
+corresponding normal W* realization.
 
 For the simple-unit connected compact-object comparison in CA4, translate
 the unit-isometric convention `i†i=1`, `mm†=d_Q·1`, where d_Q is the
@@ -669,22 +689,25 @@ coends as targets. Compare representable/compact objects with C.
 Construct monoid/algebra objects, left module categories and free modules
 c⊗A. Reuse CA2's right-module API through the tensor-reversing
 opposite, with explicit action/associator comparisons. Prove algebra objects correspond to cyclic C-module categories
-with a chosen basepoint, on both functors and morphisms. Define a star
+with a chosen basepoint, on both functors and morphisms (Jones–Penneys,
+*Operator algebras*, Theorem 3.8, p. 22). Define a star
 algebra object by the corresponding cyclic dagger structure and prove
 the equivalence with the explicit involutive natural-transformation
-form. C*/W* algebra objects are those whose free-module categories
-carry the CA1 analytic structure; construct their finite linking
+form (Theorem 3.20, p. 27). C*/W* algebra objects are those whose free-module categories
+carry the CA1 analytic structure (Theorem 3.24, p. 29, for the W* case); construct their finite linking
 algebras, norm/order/predual API and normal star transformations.
 
 Construct internal B(H), positive transformations and categorical CP:
 positivity of the induced maps on End(c⊗A) for every c, with finite
 sums giving matrix positivity. Build the faithful internal GNS/
-Gelfand–Naimark representation. Prove Stinespring for unital CP
+Gelfand–Naimark representation (Jones–Penneys, *Operator algebras*,
+Theorem 4.18, p. 35). Prove Stinespring for unital CP
 `θ:A→B(H)`: construct K, a star representation π and an isometry
-v:H→K with θ(a)=v†π(a)v; prove minimality/uniqueness and transport.
+v:H→K with θ(a)=v†π(a)v (Theorem 4.28, p. 39); prove minimality/uniqueness and transport.
 Build internal linking algebras and commutants of cyclic left/right
 module dagger subcategories: maps commute with every opposite-sided
-module morphism. Prove their weak-* closure equals the bicommutant,
+module morphism. Prove their weak-* closure equals the bicommutant
+(Theorem 5.15, p. 51),
 and the faithful-normal W* representation identifies A with A''.
 This is a module-category commutant, distinct from CA9's tensor
 half-braiding commutant.
@@ -692,7 +715,10 @@ half-braiding commutant.
 An internal W* object is compact when its L² Hilbert object lies in
 C, and connected when A(1)=ℂ. Prove compact connected W* algebra
 objects with unital star natural transformations equivalent to
-unit-isometric irreducible Q-systems with involutive algebra morphisms.
+unit-isometric irreducible Q-systems with involutive algebra morphisms
+(Jones–Penneys, *Q-systems*, Theorem A, p. 1, for rigid C*-tensor
+categories with simple unit, with the projected Q-system of
+Proposition 4.11, p. 14).
 Construct the GNS projection in H⊗H̄ as
 `p=Σ_(a,f) α_(a,f) α_(a,f)†`, where a ranges over simple classes,
 f over an orthonormal basis of A(a), and
@@ -781,12 +807,14 @@ with its CP/order/predual structures.
 Prove the relative-to-H equivalence: connected internal W* objects
 with categorical ucp maps correspond to extremal irreducible discrete
 inclusions supported on H(C), with normal N–N-bilinear ucp maps
-ψ:M→P satisfying `(τ_N∘E_P)∘ψ=τ_N∘E_M`. Construct maps by
+ψ:M→P satisfying `(τ_N∘E_P)∘ψ=τ_N∘E_M` (Jones–Penneys, *Realizations*,
+Theorem A, p. 4, proved as Theorem 5.35, p. 47). Construct maps by
 internal Stinespring and Hilbert realization, check composition, and
 prove both natural inverse comparisons. Restrict to unital *-algebra natural transformations
-and normal state-preserving N–N-bilinear star homomorphisms.
-Construct intermediate-object/inclusion correspondence, conjugation,
-and the standard invariant pair (C,A). Compare compact objects with
+and normal state-preserving N–N-bilinear star homomorphisms (Corollary 7.14, p. 62).
+Construct intermediate-object/inclusion correspondence (Corollary E,
+p. 6), conjugation,
+and the standard invariant pair (C,A) (Theorems 7.2–7.3, pp. 58–59). Compare compact objects with
 finite-index Q-systems and Subfactors 5.1's standard invariant, retaining
 finite-index, extremality and the fixed representation hypotheses.
 
@@ -872,7 +900,8 @@ an additional property. Prove dagger, tensor and duality by mates
 preserve that condition before installing the analytic center structure.
 
 Prove the equivalence between these pointed state-bearing categories
-and unitary anchored planar algebras. In one direction recover boxes by
+and unitary anchored planar algebras, and its spherical refinement below
+(Henriques–Penneys–Tener, *Anchored*, Theorem A, p. 3). In one direction recover boxes by
 the specified right adjoint/trace of Φ applied to tensor powers of x;
 construct its unitary/lax-monoidal and trace coherence, and prove
 independence of adjoint choices. In reverse build the box
@@ -973,7 +1002,9 @@ is compact. If J_X=B, identify the first map as `1−[X]`; no general
 compact-left-action class for X over all of B is assumed. General
 Cuntz generators retain Dynamics D6/OperatorKTheory K7 ownership.
 
-For a countable undirected graph Λ with positive finite real vertex
+For an undirected graph Λ, with vertex and edge sets in `Type u` of
+arbitrary cardinality and neither local finiteness nor connectedness
+assumed, and positive finite real vertex
 weights μ, construct the oriented-edge correspondence over B=C₀(V),
 its Fock module, Toeplitz–Cuntz–Krieger algebra and weighted free-graph
 algebra S(Λ,μ). On the finitely supported edge vectors fix
@@ -988,7 +1019,8 @@ retain multiple-edge multiplicity. Set
 `a=(μ(s(ε'))/μ(t(ε')))^(1/4)>0`, so `a⁴=μ(v)/μ(w)`, and retain
 `T_ε=aL(ε')+a⁻¹L(ε'')†+a⁻¹L(ε'')+aL(ε')†`;
 for a loop retain `T_ε=L(ε)+L(ε)†`. Define S(Λ,μ) as the
-C*-subalgebra generated by B and these self-adjoint T_ε.
+C*-subalgebra generated by B and these self-adjoint T_ε
+(Hartglass–Penneys I, Definitions 5.17–5.18, p. 35).
 For nonunital B construct the reduced-word/expectation comparison from
 the directed finite-vertex/finite-edge corners with their compatible
 vacuum maps and isometric inclusions, before applying the unital
@@ -997,7 +1029,8 @@ Toeplitz algebra is inferred from the Gaussian/free-graph trace.
 Construct the faithful vacuum vertex expectation E:S(Λ,μ)→B and
 the faithful lower-semicontinuous semifinite trace on positive elements
 `τ_μ(y)=Σ_(v∈V) μ(v) E(y)(v)`, with its extended-positive-value
-convention and dense finite-trace ideal. In particular
+convention and dense finite-trace ideal (Theorems 5.19–5.20, pp. 35–38);
+for each y only countably many terms are nonzero, since `E(y)∈C₀(V)`. In particular
 `τ_μ(p_v)=μ(v)`; this functional is not made a normalized state
 when the total vertex mass is infinite. Prove traciality on the dense
 finite-edge/finite-vertex word algebra by the weighted creation and
@@ -1019,13 +1052,24 @@ prove the canonical generator map is injective and construct its
 vertex-preserving conditional expectation using the reduced edge
 free-product model. Prove the inclusion C₀(V)→S(Λ,μ) induces isomorphisms
 on K₀ and K₁; thus K₀ is the free abelian group on vertices and
-K₁=0. Construct the module deformation/Toeplitz comparison and compact
+K₁=0 (Hartglass–Penneys I, Theorem 5.25, p. 40). For a finite graph
+construct the module deformation/Toeplitz comparison and compact
 ideal exact sequences proving this, including the vertex projection map.
-Define `a_μ(v)=Σ_w n(v,w)μ(w)` and `A(Λ,μ)={v:μ(v)>a_μ(v)}`.
+For an arbitrary graph, S(Λ,μ) is the closure of the directed union of
+the algebras of its finite edge-subgraphs on the same vertex set V, by
+the injectivity above; each of these is the direct sum of the algebra of
+a finite graph and `C₀` of the vertices meeting none of its edges, so
+OperatorKTheory K2.3's continuity over this directed system gives the
+isomorphism with no cardinality hypothesis.
+Define `a_μ(v)=Σ_w n(v,w)μ(w)`, a sum of positive terms with value in
+`[0,∞]`, infinite when v has infinite weighted degree, and
+`A(Λ,μ)={v:μ(v)>a_μ(v)}` (Lemma 5.21, p. 39).
 For a connected graph prove `A(Λ,μ)=∅` implies
 `S(Λ,μ)∩K(F(X))=0`, hence injection into the graph Cuntz–Pimsner
-quotient. For locally finite graphs prove the nonempty-set converse.
-Prove the principal-graph dimension weighting has empty A when δ>1,
+quotient (Theorem 5.23 and Corollary 5.24, p. 39). For locally finite
+graphs prove the nonempty-set converse (Theorem 5.23, p. 39).
+Prove the principal-graph dimension weighting has empty A when δ>1
+(§5.4, p. 41),
 so the planar quotient comparison in CA8 is faithful.
 
 **Checks.**
@@ -1055,6 +1099,12 @@ so the planar quotient comparison in CA8 is faithful.
   `C([−2,2])` with `K₀=ℤ`, `K₁=0`.
 - Rescaling the one-edge weighting by `c=3` leaves `a=2` and `T_ε`
   unchanged and gives `τ_(3μ)(p_v)=48`.
+- A star whose centre c has weight 2 and whose uncountably many leaves
+  have weight 1 is connected, uncountable and not locally finite. Then
+  `a_μ(c)=∞` and every leaf has `a_μ=μ(c)=2>1`, so `A(Λ,μ)=∅` and
+  `S(Λ,μ)` meets no compact operator on `F(X)`; `K₀(S(Λ,μ))` is free
+  abelian on the uncountably many vertex classes and `K₁=0`. A
+  construction restricted to countable graphs has no instance here.
 
 *Needs:* CA1a, CA1b; HilbertModules H2–H3; FreeProbability F3–F4;
 CStarAlgebras C1; OperatorKTheory K1–K6.
@@ -1064,8 +1114,8 @@ CStarAlgebras C1; OperatorKTheory K1–K6.
 The Checks compute the covariance ideal and K-theory of the Cuntz algebras,
 of `C(S¹)` and of the Toeplitz algebra of a nonseparable Hilbert space as
 Cuntz–Pimsner algebras over ℂ, the weighted one-edge
-moments, the set `A(Λ,μ)` for one edge and for one loop, and the rescaling
-of the trace.
+moments, the set `A(Λ,μ)` for one edge, for one loop and for an
+uncountable star, and the rescaling of the trace.
 
 ### Dependencies
 
@@ -1110,7 +1160,9 @@ Construct the unshaded graded algebra `Gr_k=⊕_(n≥0)P[2k+n]`,
 its Wick-contraction trace and free-Fock representation. Prove positivity,
 faithfulness, generator boundedness and that each weak closure is a
 II₁ factor, with consecutive Jones index δ² and standard invariant
-its even shaded restriction. Give the filtered/orthogonal unitary
+its even shaded restriction (Hartglass–Penneys II, §6, p. 25, for the
+Guionnet–Jones–Shlyakhtenko tower of an unshaded factor planar algebra,
+and Corollary 6.8, p. 27). Give the filtered/orthogonal unitary
 comparison by contraction sums. Apply the Subfactors 8.1–8.2 proof constructions with
 the self-dual single strand, retaining odd boxes, rather than importing
 a nonexistent unshaded version of those theorems.
@@ -1158,13 +1210,17 @@ comparison. Keep the trace on the semifinite algebra distinct from
 the normalized corner trace.
 
 Prove all unshaded A_k strongly Morita equivalent via the full corner
-bimodules; in the shaded theory prove
-`A_(n,±)∼_M A_(n+1,∓)` and retain the two possible Morita classes.
+bimodules (Hartglass–Penneys II, Theorem A, p. 2, proved as
+Corollary 4.16, p. 15); in the shaded theory prove
+`A_(n,±)∼_M A_(n+1,∓)` and retain the two possible Morita classes
+(Remark 4.18, p. 16).
 For shaded input use the principal or dual graph belonging to the
 base color of its Morita class, with the transported vertex projections.
 Use CA7's vertex K computation and the actual full-corner maps to prove
-`K₀(A_k)≃⊕_(v∈VΓ)ℤ` and `K₁(A_k)=0`, with transported vertex classes.
-Prove A₀ simple, uniquely tracial and stable rank one, and prove
+`K₀(A_k)≃⊕_(v∈VΓ)ℤ` and `K₁(A_k)=0`, with transported vertex classes
+(Theorem B, p. 3, proved as Corollary 4.17, p. 15).
+Prove A₀ simple, uniquely tracial and stable rank one (Theorem C, p. 3,
+proved as Theorems 5.1, 5.5 and 5.14, pp. 17, 19 and 24), and prove
 these properties separately for both shaded roots A_(0,+),A_(0,−); build the
 free-product norm estimates, unique-trace averaging, approximation of
 elements by invertibles and comparison of projections that yield
@@ -1173,7 +1229,8 @@ while these particular C* norm and rank arguments are targets here.
 
 Pin its ordered K₀ and scale on A₀ itself:
 `K₀(A₀)^+={0}∪{x:τ_*(x)>0}` and
-`Σ(A₀)={0,[1]}∪{x:0<τ_*(x)<1}`.
+`Σ(A₀)={0,[1]}∪{x:0<τ_*(x)<1}` (Theorem C, p. 3, and Corollary 5.18,
+p. 25).
 Prove τ_* and [1] match the normalized root trace and projection;
 transport other A_k groups by the specified Morita bimodules before
 comparing their trace pairings. No unnamed identification of K₀(A_k)
@@ -1181,17 +1238,20 @@ with K₀(A₀) is used in the cone formula.
 
 Construct the C*-basic construction, dual expectations, Watatani index
 and tower comparison with Subfactors 2.1–2.3. For E:B→A define a finite quasi-basis
-(u_i,v_i) by `x=Σ_i u_i E(v_i x)=Σ_i E(x u_i)v_i` for every x∈B;
+(u_i,v_i) by `x=Σ_i u_i E(v_i x)=Σ_i E(x u_i)v_i` for every x∈B,
+and its Watatani index by `Ind(E)=Σ_i u_i v_i`;
 a Pimsner–Popa basis has v_i=u_i*. Prove basis independence,
 positivity/centrality of index, composition and corner transport.
 For every planar tower inclusion above, without a finite-depth hypothesis,
 derive simplicity at every level from the proved corner Morita
 equivalences and HilbertModules H3's Morita invariance of simplicity,
 and construct a finite quasi-basis from simplicity, fullness of the Jones
-projection and the pull-down identity. Prove its Watatani index is δ².
+projection and the pull-down identity. Prove its Watatani index is δ²
+(Lemma 6.6, Proposition 6.7 and Corollary 6.8, p. 27).
 Construct a Pimsner–Popa basis with
 `N(δ²)=min{n∈ℕ:n>δ²}` elements at every level. Prove the K₀
-constraints on basis sizes and existential sharpness: for each permitted
+constraints on basis sizes and existential sharpness (Definition 6.11
+and Theorem 6.13, p. 27, proved on p. 28): for each permitted
 modulus `δ∈{2cos(π/n):n≥4}∪[2,∞)` there is a factor planar
 algebra whose first inclusion admits no
 smaller basis. Use the positive Temperley–Lieb factor planar algebra
@@ -1202,7 +1262,8 @@ Here 1_k is the through-string projection in the common semifinite
 planar algebra whose corner is A_k; compare these classes in that
 algebra's K₀ through the full-corner maps, before using the obstruction.
 Also work out the outer finite-group crossed-product witnesses and
-the distinct shaded Morita classes for nonabelian groups. This is
+the distinct shaded Morita classes for nonabelian groups (Example 6.15,
+p. 28). This is
 existential sharpness, not a lower bound for every input planar algebra.
 Keep finite-dimensional planar levels, finite von Neumann index and
 existence of a finite C* quasi-basis distinct. Include the Temperley–Lieb
@@ -1218,6 +1279,21 @@ examples with their corner/K-theory data.
 - For δ=√2 the principal graph of TL(δ) is `A₃` with dimensions
   `(1,√2,1)`; the eigenvector relation holds (`√2=δ·1`, `1+1=δ·√2`), and
   `K₀(A_k)=ℤ³`.
+- Ordered `K₀` of TL(√2): write `K₀(A₀)=ℤ³` on the vertex classes
+  `[p_(f₀)],[p_(f₁)],[p_(f₂)]` of `A₃`, with `[1]=[p_(f₀)]` and
+  `τ_*(a,b,c)=a+√2b+c`. Then `[p_(f₁)]−[p_(f₀)]` has trace `√2−1∈(0,1)`,
+  so it lies in `Σ(A₀)` although it is not coordinatewise positive;
+  `[p_(f₁)]` has trace `√2>1`, so it lies in `K₀(A₀)^+` but not in
+  `Σ(A₀)`; and `[p_(f₀)]−[p_(f₂)]` has trace 0, so neither it nor its
+  negative is positive, although `p_(f₀)` and `p_(f₂)` have equal trace
+  (Hartglass–Penneys II, Remark 5.17, p. 25). Taking the coordinatewise
+  cone of `ℤ³` for `K₀(A₀)^+` would exclude the first class.
+- Watatani index: for `ℂ⊂ℂ²` with `E(a,b)=(a+2b)/3`, the pairs
+  `u₁=e₁, v₁=3e₁, u₂=e₂, v₂=(3/2)e₂` form a quasi-basis, since
+  `e₁E(3x₁e₁)=x₁e₁`, `e₂E((3/2)x₂e₂)=x₂e₂`, and symmetrically
+  `E(xe₁)·3e₁=x₁e₁`, `E(xe₂)·(3/2)e₂=x₂e₂`. Its index is
+  `Ind(E)=(3,3/2)`, central and not scalar; for `E(a,b)=(a+b)/2` the
+  index is `2·1`. A count of basis elements gives 2 in both cases.
 
 *Needs:* CA1b, CA2a, CA2b, CA7; HilbertModules H3; Subfactors 2.1–2.5,
 3.2, 6.1–6.4, 7.1–7.2, 8.1–8.2;
@@ -1226,7 +1302,9 @@ FreeProbability F2, F4; OperatorKTheory K1–K2.
 ### Examples
 
 The Checks compute `N(δ²)` at integer and non-integer `δ²`, the small box
-spaces and Gram matrix of TL(δ), and the principal graph and `K₀` at δ=√2.
+spaces and Gram matrix of TL(δ), the principal graph, `K₀`, its positive
+cone and its scale at δ=√2, and the Watatani index of two expectations
+of `ℂ²` onto ℂ.
 
 ### Dependencies
 
@@ -1250,14 +1328,17 @@ For every W*-category construct the canonical Hilb-valued inner product
 naturality laws. For complete W*-categories construct the transpose
 F^t of a normal dagger functor,
 characterized by natural unitary identifications
-`⟨c,F^t(d)⟩_Hilb≃⟨F(c),d⟩_Hilb`.
+`⟨c,F^t(d)⟩_Hilb≃⟨F(c),d⟩_Hilb` (Henriques–Nivedita–Penneys,
+Definition 4.14, p. 26).
 This is the Hilb-valued transpose, not an assertion that every normal
 functor has an ordinary categorical adjoint. Prove its tensor,
 composition and bi-involution coherences.
 
 Prove the biequivalence between von Neumann algebras/normal
 correspondences/intertwiners and complete W*-categories admitting a
-set of generators/normal functors/bounded natural transformations.
+set of generators/normal functors/bounded natural transformations
+(Henriques–Nivedita–Penneys, Theorem A, p. 2, proved as Theorem 7.4,
+p. 38, there with left modules).
 On objects use normal Hilbert-space right modules. A correspondence
 `_A H_B` induces `K_A↦K⊗_A H` on these module categories; bounded
 intertwiners induce natural transformations. Use this handedness
@@ -1277,7 +1358,8 @@ positive cones and the double-commutant comparison. Define a positive
 representation by compatible cones on morphisms
 `a⊗ā→b⊗b̄`; prove every fully faithful representation of a
 semisimple rigid C*-tensor category extends uniquely to one, and every
-representation isomorphism preserves it.
+representation isomorphism preserves it (Henriques–Penneys 2020,
+Theorem A, p. 2, proved as Theorem 5.18, p. 28).
 
 For a unitary fusion category C construct its 2-by-2 matrix multifusion
 category, choose the sum of simple generators in the off-diagonal sector,
@@ -1308,7 +1390,8 @@ For unitary fusion C and fully faithful representations
 predual and either both type II (II₁ or II∞) or both III₁, prove
 representation uniqueness: construct an invertible R–S correspondence
 U and unitary natural identifications `U⊗_S β(c)≃α(c)⊗_R U`,
-with tensor and unit coherence. Prove the induced positive structures
+with tensor and unit coherence (Henriques–Penneys 2020, Theorem 3.10,
+p. 14). Prove the induced positive structures
 agree; do not assert uniqueness between the type-II and III₁ classes.
 
 Construct the normal correspondence models with their size and
@@ -1495,7 +1578,7 @@ central to strong freeness (Masuda–Tomatsu 2007, Lemma 8.2, p. 64, for a
 unital faithful normal homomorphism M→M⊗B(K) of a separable-predual M,
 K finite-dimensional, with a faithful normal ucp left inverse, applied
 with K=ℂ to each α_X with its standard left inverse; Tomatsu,
-Remark 2.17(1)) and the relative commutant/corner forms
+Remark 2.17(1), p. 16) and the relative commutant/corner forms
 used by the Rohlin construction; keep their different ambient
 intertwiner spaces. Define `ρ(ψ)=ψ∘φ_ρ∈M_*` and
 `(uρ(ψ)u*)(x)=ρ(ψ)(u*xu)`. Approximate unitary equivalence of
@@ -1516,9 +1599,11 @@ Define approximate innerness of rank r>0 by partial isometries v_i^n,
 `v_(⌊r⌋+1)^n=0` for integral r, `Σ_i v_i^n(v_i^n)*=1`, and
 `‖r⁻¹ v_i^n ψ−(ψ∘φ_ρ)v_i^n‖_(M_*)→0` for every ψ∈M_*.
 Develop integer-rank Hilbert-space implementations, predual topology,
-rescaling, tensor and conjugacy laws. Prove Tomatsu Proposition2.7:
+rescaling, tensor and conjugacy laws. Prove, for finite-index
+endomorphisms of an infinite factor with separable predual, that
 endomorphisms approximately inner of the same rank are approximately
-unitarily equivalent. Construct the finite von Neumann algebra in
+unitarily equivalent (Tomatsu, Proposition 2.7, p. 10, in the setting of
+§2.4, p. 8). Construct the finite von Neumann algebra in
 `M^ω⊗M₂`, compare its two diagonal projections using the rank families,
 and descend its unitary to the preceding predual criterion.
 
@@ -1592,7 +1677,8 @@ Strong cocycle conjugacy requires γ in the closure of inner
 automorphisms for pointwise predual-norm convergence. Build these
 relations, coherence, invariance and transport APIs.
 
-Prove the factor specialization of Tomatsu Theorem D: for an
+Prove the factor specialization of Tomatsu's Theorem D (p. 2, proved as
+Theorem 5.7, p. 47): for an
 amenable semisimple rigid C*-tensor category with simple unit and
 countably many simple classes (the generality chosen here), centrally free cocycle actions α,β
 on a properly infinite factor M with separable predual, and
@@ -1620,11 +1706,14 @@ Build absorbing bimodules,
 their factor endomorphism algebras and half-braiding extensions, and
 prove the double commutant is the Hilbert-multiplicity completion
 `C⊗_Vec Hilb_sep`. Prove this completion is bicommutant; do not identify
-it with C, whose sums are only finite. Construct Morita transport of
+it with C, whose sums are only finite (Henriques–Penneys 2015, Theorem A,
+p. 2, with absorbing objects in §5, Theorems 5.10–5.13, pp. 24–25, and
+the proof in §6, p. 30). Construct Morita transport of
 commutants: Morita-equivalent unitary fusion categories represented
 fully faithfully in hyperfinite factors have equivalent commutant
 bicommutant categories when the factor types are both type II or both
-III₁. Build the linking/multifusion and bimodule equivalences with the
+III₁ (Henriques–Penneys 2020, Theorem B, p. 3, proved as Theorem 6.8,
+p. 37). Build the linking/multifusion and bimodule equivalences with the
 positive structures; no equivalence across those factor-type classes
 is asserted.
 
@@ -1782,16 +1871,17 @@ its braided compatibility; full faithfulness of that lift alone does
 not replace this hypothesis.
 Construct its canonical centralizing structure and prove the
 functor `M→Z_C(C⊠_(Z(C)^rev)M)` fully faithful (Henriques–Penneys–Tener,
-Lemma 3.7). Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
+*Classification*, Lemma 3.7, p. 10). Use CA6's relative center. For spherical fusion C fully faithfully embedded in E with
 simple unit, using the algebraic central structure (unitary in the
 C* specialization), prove the multiplication functor
-`Z_C(E)⊠_(Z(C)) C→E`, `(e,c)↦e⊗c`, fully faithful.
+`Z_C(E)⊠_(Z(C)) C→E`, `(e,c)↦e⊗c`, fully faithful (Theorem 3.8, p. 10).
 Use the tube algebra and left-module convention above to prove the Hom decomposition
 `⊕_z Hom_(Z_C(E))(e₁,e₂⊗z)⊗Hom_C(z⊗c₁,c₂)`
 `≃Hom_E(e₁⊗c₁,e₂⊗c₂)` by its tube-action multiplicities and Yoneda.
 For E=Bim(R), prove dominance separately: the averaging object
 `⊕_(c∈Irr(C)) c⊗Y⊗c̄` has a canonical C half-braiding and contains
-Y as a summand. Thus the multiplication functor is an equivalence.
+Y as a summand. Thus the multiplication functor is an equivalence
+(Corollary 3.9, p. 11).
 Give the finite ladder Hom spaces their W* corner topology, prove
 composition separately normal and that the resulting equivalence is
 normal. Since C′ already has separable Hilbert multiplicities and
@@ -1801,11 +1891,12 @@ Cauchy completion without imposing an additional existence step.
 
 Prove the natural bijection between the stated conjugacy classes and
 isomorphism classes of connected finite-depth unitary anchored planar
-algebras in `Z(C)^rev`. From X build the finite fusion subcategory M
+algebras in `Z(C)^rev` (Henriques–Penneys–Tener, *Classification*, §4,
+pp. 16–17, the case `B=C′` of their Conjecture 1.1, p. 2). From X build the finite fusion subcategory M
 of C′ generated jointly by X and the canonical central image of Z(C),
 whose half-braiding defines the action `Z(C)^rev→Z†(M)`.
 Prove finiteness using dualizability, finite depth and finite fusion of
-Z(C), construct its spherical unitary duality and pointed state, and
+Z(C) (Lemma 4.1, p. 16), construct its spherical unitary duality and pointed state, and
 apply CA6.
 In reverse use the reversed-braiding forgetful functor from Z(C), the
 balanced product E=C⊠_(Z(C)^rev)M and its proved unitary fusion
@@ -1872,28 +1963,36 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
 ## References
 
 - Jones–Penneys, [*Operator algebras in rigid C*-tensor categories*](https://arxiv.org/abs/1611.04620),
-  §§2–4, Theorems 3.8,3.20 and 4.28, for internal algebra/module
-  comparisons, representations, CP and bicommutants.
+  §§2–5, Theorems 3.8 (p. 22), 3.20 (p. 27), 3.24 (p. 29), 4.18 (p. 35),
+  4.28 (p. 39) and 5.15 (p. 51), for internal algebra/module comparisons,
+  Gelfand–Naimark representations, CP maps and Stinespring dilation, and
+  the bicommutant theorem.
 - Jones–Penneys, [*Q-systems and compact W*-algebra objects*](https://arxiv.org/abs/1707.02155),
-  §§2–5, especially Proposition 4.11 and Theorem 5.3, for the
+  Theorem A (p. 1), with Proposition 4.11 (p. 14) and Theorem 5.3, for the
   unit-isometric compact-object correspondence.
 - Chen–Hernández Palomares–Jones–Penneys,
   [*Q-system completion for C*-2-categories*](https://arxiv.org/abs/2105.12010),
-  Definitions 3.1,3.14,3.17–3.20, Theorem 3.36 and §4, for
-  separable Q-systems, balanced composition and C*-realization.
+  Theorem A and Lemma B (p. 3), Definitions 3.1, 3.14 and 3.17–3.20,
+  Theorem 3.36 (p. 26), Corollary 3.37 (p. 27) and §4, for separable
+  Q-systems, balanced composition, splitting, Q-system completeness and
+  C*-realization (printed page numbers of the arXiv version).
 - Jones–Penneys, [*Realizations of algebra objects and discrete subfactors*](https://arxiv.org/abs/1704.02035),
-  Theorem 5.35 and Corollary 7.14, for the representation-relative
-  equivalence, its canonical states and morphisms.
+  Theorem A (p. 4), Corollary E (p. 6), Theorem 5.35 (p. 47),
+  Theorems 7.2–7.3 (pp. 58–59) and Corollary 7.14 (p. 62), for the
+  representation-relative equivalence, its canonical states and
+  morphisms, intermediate objects and standard invariants.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
-  Theorems A,C and §§2–4, for positive grading characters and the
-  shaded planar correspondence.
+  Theorem A (p. 3), Theorem C (p. 4), Lemma 3.20 (p. 14),
+  Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
+  positive grading characters, balanced duals and the shaded planar
+  correspondence.
 - Coles–Huston–Penneys–Srinivas, [*The module embedding theorem via towers
   of algebras*](https://arxiv.org/abs/1810.07049) (2018), Theorem A (p. 3;
   §2.3, p. 10), for the equivalence between connected right planar modules
   and indecomposable pivotal right module C*-categories with simple
   basepoint in CA2b.
 - Henriques–Penneys–Tener, [*Unitary anchored planar algebras*](https://arxiv.org/abs/2301.11114),
-  Definitions 3.1–3.6,4.3–4.5 and Theorem A, for states,
+  Definitions 3.1–3.6, 4.3–4.5 and Theorem A (p. 3), for states,
   pointings, reflected pairings and category equivalence.
 - Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088),
   J. Funct. Anal. 217 (2004), Definitions 3.2 and 3.4, Theorem 6.4,
@@ -1901,17 +2000,27 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   for the ideal `J_X`, covariance, gauge-invariant uniqueness and the
   six-term sequence for every C*-correspondence in CA7.
 - Hartglass–Penneys, *C*-algebras from planar algebras*,
-  [Part I](https://arxiv.org/abs/1401.2485), §§2–5,
-  [Part II](https://arxiv.org/abs/1401.2486), §§3–6, for
-  Fock/graph models, Morita and trace/K-theory and Watatani towers.
+  [Part I](https://arxiv.org/abs/1401.2485), §§2–5, with
+  Definitions 5.17–5.18 and Theorems 5.19–5.20 (pp. 35–38), Lemma 5.21,
+  Theorem 5.23 and Corollary 5.24 (p. 39) and Theorem 5.25 (p. 40);
+  [Part II](https://arxiv.org/abs/1401.2486), §§3–6, with Theorems A–C
+  (pp. 2–3), Corollaries 4.16–4.17 (p. 15), Remark 4.18 (p. 16),
+  Remark 5.17 and Corollary 5.18 (p. 25), Corollary 6.8, Definition 6.11
+  and Theorem 6.13 (p. 27) and Example 6.15 (p. 28); for Fock/graph
+  models, Morita and trace/K-theory and Watatani towers.
 - Henriques–Nivedita–Penneys, [*Complete W*-categories*](https://arxiv.org/abs/2411.01678),
-  §§2–7, Theorem 7.4, for generator sets, Hilb-valued transpose
-  and the bi-involutive biequivalence.
+  §§2–7, Theorem A (p. 2), Definition 4.14 (p. 26) and Theorem 7.4
+  (p. 38), for generator sets, Hilb-valued transpose and the
+  bi-involutive biequivalence.
 - Henriques–Penneys 2015, [*Bicommutant categories from fusion categories*](https://arxiv.org/abs/1511.05226),
-  Lemma 3.4 (p. 16) and Theorem 3.5 (p. 17), for `R⊗̄R_II₁≅R` and
-  representation existence in every hyperfinite factor not of type I;
+  Theorem A (p. 2), Lemma 3.4 (p. 16), Theorem 3.5 (p. 17) and
+  Theorems 5.10–5.13 (pp. 24–25), for `R⊗̄R_II₁≅R`, representation
+  existence in every hyperfinite factor not of type I, absorbing objects
+  and the bicommutant property of `C⊗_Vec Hilb`;
   and Henriques–Penneys 2020, [*Representations of fusion categories and their commutants*](https://arxiv.org/abs/2004.08271),
-  §§3.1–3.3, Theorems 3.10,3.15 and Corollary 3.16, for
+  §§3.1–3.3, Theorem A (p. 2; Theorem 5.18, p. 28), Theorem B (p. 3;
+  Theorem 6.8, p. 37), Theorem 3.10 (p. 14), Theorem 3.15 and
+  Corollary 3.16 (p. 16), for
   representation existence/uniqueness, absorbing objects, positive
   representations and Morita transport.
 - Masuda–Tomatsu 2007, [*Classification of minimal actions of a compact
@@ -1926,13 +2035,15 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   II∞/III₁ characterizations.
 - Tomatsu, [*Centrally free actions of amenable C*-tensor categories on
   von Neumann algebras*](https://arxiv.org/abs/1812.04222),
-  §2.2 (p. 5), Remark 2.17(1) (p. 16), Theorem D and its
+  §2.2 (p. 5), §2.4 (p. 8), Proposition 2.7 (p. 10), Remark 2.17(1)
+  (p. 16), Theorem D (p. 2; Theorem 5.7, p. 47) and its
   Rohlin/approximate-intertwining constructions, for the Ocneanu
   ultrapower, central and strong freeness and the properly infinite
   uniqueness theorem in CA9.
 - Henriques–Penneys–Tener, [*Classification of finite-depth objects in
   bicommutant categories via anchored planar algebras*](https://arxiv.org/abs/2307.13822),
-  §§3–4, especially the main-body factor setup on p.16, for CA10.
+  Conjecture 1.1 (p. 2), Lemma 3.7 and Theorem 3.8 (p. 10),
+  Corollary 3.9 (p. 11), and §4 with Lemma 4.1 (pp. 16–17), for CA10.
 - Tau Ceti's `Monoidal.Rigid.Basic` and `Monoidal.Rigid.Functor`
   supply evaluation/coevaluation lemmas for Mathlib's exact-pairing
   transport and construct strong-monoidal images. Consume those APIs
