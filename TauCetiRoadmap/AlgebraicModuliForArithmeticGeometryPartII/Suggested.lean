@@ -146,7 +146,8 @@ ample class `h`, a finite real combination `∑ tₗ aₗ` of line-bundle classe
 equivalent to a nonempty finite combination of ample classes with positive real coefficients
 exactly when, for some real `ε > 0`, its degree on every integral closed curve is at least `ε`
 times that of `h`, that is, when its difference with `ε h` is nef. Numerical equivalence of real
-classes is equality of their degrees on every integral closed curve. Through their classes this
+classes is equality of their degrees on every integral closed curve. Each curve is a `k`-scheme
+through its closed immersion into `X`, so degrees are taken over `k`. Through their classes this
 covers ℚ-Cartier and ℝ-Cartier divisors. No reducedness, irreducibility, perfection or
 characteristic hypothesis is imposed. Lazarsfeld, Definition 1.3.11, Corollary 1.4.10 and
 Theorem 1.4.23. -/
@@ -157,17 +158,17 @@ theorem exists_isAmple_realCombination_iff_exists_pos_nef_sub (k : Type u) [Fiel
     (∃ (n : ℕ) (s : Fin (n + 1) → ℝ)
         (b : Fin (n + 1) → TauCeti.AlgebraicGeometry.LineBundleClass X),
       (∀ j, 0 < s j ∧ (b j).IsAmple) ∧
-      ∀ (C : Scheme.{u}) (_ : IsIntegral C) (i : C ⟶ X) (_ : IsClosedImmersion i),
+      ∀ (C : Scheme.{u}) (_ : IsIntegral C) [C.Over (Spec (CommRingCat.of k))] (i : C ⟶ X)
+        (_ : IsClosedImmersion i), C ↘ Spec (CommRingCat.of k) = i ≫ x →
         topologicalKrullDim C = 1 →
-          letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
           ∑ l, t l *
               (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (a l) : ℝ) =
             ∑ j, s j *
               (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (b j) : ℝ)) ↔
       ∃ ε : ℝ, 0 < ε ∧
-        ∀ (C : Scheme.{u}) (_ : IsIntegral C) (i : C ⟶ X) (_ : IsClosedImmersion i),
+        ∀ (C : Scheme.{u}) (_ : IsIntegral C) [C.Over (Spec (CommRingCat.of k))] (i : C ⟶ X)
+          (_ : IsClosedImmersion i), C ↘ Spec (CommRingCat.of k) = i ≫ x →
           topologicalKrullDim C = 1 →
-            letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
             ε * (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i h : ℝ) ≤
               ∑ l, t l *
                 (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (a l) : ℝ) := by
@@ -205,7 +206,8 @@ theorem isRelAmple_iff_exists_isRelNef_pow_mul_inv_pow {X S : Scheme.{u}} (f : X
 
 /-! ## Layer 2: proper Picard schemes and the numerical local system -/
 
-/-- Murre–Oort (Kleiman, Corollary 4.18.3): for a proper scheme `X` over a field `k`, the
+/-- Murre–Oort (Kleiman, Corollary 4.18.3, with Proposition 4.17 for local finite type and
+Proposition 5.3 for separatedness): for a proper scheme `X` over a field `k`, the
 fppf sheafification of `T ↦ Pic(X_T)/Pic(T)` on the fppf site over `Spec k` is represented
 by a separated `k`-scheme locally of finite type. The group law on the representing scheme
 is determined by the group-valued sheaf; quasi-projectivity of its components and
