@@ -1,0 +1,54 @@
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Exact
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Count.Asymptotic
+import TauCeti.NumberTheory.NumberField.Global.RayClass.MainTerm
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Character.PartialSums
+import TauCeti.NumberTheory.NumberField.Global.Adeles.BaseChange
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Algebraic
+import TauCeti.NumberTheory.NumberField.Global.Orders.Maximal
+import TauCeti.NumberTheory.NumberField.Global.Orders.CubeRootTwo
+import TauCeti.NumberTheory.Height.Arakelov.SiegelsLemma
+import TauCeti.NumberTheory.Height.Arakelov.BombieriVaaler
+import TauCeti.NumberTheory.Height.Matrix
+import TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt2.Units
+import TauCeti.Examples.Algebra.Module.ZLattice.GaugeBasis
+import TauCeti.NumberTheory.NumberField.SUnits.Regulator
+import TauCeti.NumberTheory.NumberField.SUnits.Rat.Basic
+
+#check TauCeti.GlobalNumberFields.classMap_principalRayClass
+#print axioms TauCeti.GlobalNumberFields.classMap_principalRayClass
+#check TauCeti.GlobalNumberFields.classMap_residueSignRayClass
+#print axioms TauCeti.GlobalNumberFields.classMap_residueSignRayClass
+#check TauCeti.GlobalNumberFields.rayClassIdealCount
+#print axioms TauCeti.GlobalNumberFields.rayClassIdealCount
+#check TauCeti.GlobalNumberFields.rayClassIdealMainTerm_eq
+#print axioms TauCeti.GlobalNumberFields.rayClassIdealMainTerm_eq
+#check TauCeti.GlobalNumberFields.rayClassCharacter_partialSums
+#print axioms TauCeti.GlobalNumberFields.rayClassCharacter_partialSums
+#check TauCeti.GlobalNumberFields.adeleBaseChangeEquiv
+#print axioms TauCeti.GlobalNumberFields.adeleBaseChangeEquiv
+#check Matrix.exists_ne_zero_mulVec_eq_zero_norm_le
+#print axioms Matrix.exists_ne_zero_mulVec_eq_zero_norm_le
+#check Matrix.exists_basis_ker_mulVecLin_prod_norm_le
+#print axioms Matrix.exists_basis_ker_mulVecLin_prod_norm_le
+#check Matrix.absMulHeight_smul
+#print axioms Matrix.absMulHeight_smul
+#check Matrix.absMulHeight_map
+#print axioms Matrix.absMulHeight_map
+#check Matrix.absMulHeight_eq_rpow
+#print axioms Matrix.absMulHeight_eq_rpow
+#check TauCeti.NumberField.Sqrt2.regulator_eq_log_one_add_sqrt_two
+#print axioms TauCeti.NumberField.Sqrt2.regulator_eq_log_one_add_sqrt_two
+#check TauCeti.NumberField.Sqrt2.absLogHeight₁_one_add_eq_regulator_div_two
+#print axioms TauCeti.NumberField.Sqrt2.absLogHeight₁_one_add_eq_regulator_div_two
+#check TauCeti.GaugeBasisExample.relIndex_stdLattice_lattice
+#print axioms TauCeti.GaugeBasisExample.relIndex_stdLattice_lattice
+#check TauCeti.GaugeBasisExample.not_exists_basis_eq_single
+#print axioms TauCeti.GaugeBasisExample.not_exists_basis_eq_single
+#check TauCeti.GaugeBasisExample.exists_basis_norm_le
+#print axioms TauCeti.GaugeBasisExample.exists_basis_norm_le
+#check TauCeti.NumberField.SUnit.regulator_eq_abs_det
+#print axioms TauCeti.NumberField.SUnit.regulator_eq_abs_det
+#check TauCeti.NumberField.SUnit.regulator_empty
+#print axioms TauCeti.NumberField.SUnit.regulator_empty
+#check TauCeti.NumberField.SUnit.regulator_rat_eq_prod_log
+#print axioms TauCeti.NumberField.SUnit.regulator_rat_eq_prod_log
