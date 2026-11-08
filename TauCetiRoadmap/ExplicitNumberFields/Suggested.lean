@@ -26,6 +26,7 @@ Stated here:
   Euler product `ζ_F = ∏ L(s, χ)`, the residue product `κ_F = ∏_{χ ≠ 1} L(1, χ)`, the Gauss-sum
   product `∏ τ(χ) = i^{r₂} √|d_F|` and, for abelian CM `F`, the odd-character Bernoulli product
   for the relative class number (0.4a);
+* Layer 1, the explicit remainders of the digamma and trigamma series on `Re z > 0` (1.1a);
 * Layer 2, the explicit ideal counts: Sunley's count in the discriminant (2.2), Debaene's uniform
   counts of all ideals and of the ideals in one class (2.4), and Gun–Ramaré–Sivaraman's count in
   a narrow ray class (2.5);
@@ -179,6 +180,25 @@ has order `φ(m)`. For `m = p` prime the set is nonempty by Dirichlet's theorem 
 progressions; the value `0` is the junk value of `sInf ∅`. -/
 noncomputable def leastPrimePrimitiveRoot (m : ℕ) : ℕ :=
   sInf {g : ℕ | g.Prime ∧ orderOf (g : ZMod m) = m.totient}
+
+/-! ## Layer 1: the digamma and trigamma remainders -/
+
+/-- **1.1a, the digamma remainder.** For `Re z > 0` and `N ≥ 1`, the partial sum
+`D_N(z) = −γ + Σ_{n<N} (1/(n+1) − 1/(n+z))` of the series for `ψ = Γ'/Γ` is within
+`|z − 1|/(N − 1 + min(1, Re z))` of `ψ(z)`. -/
+theorem digamma_series_remainder (z : ℂ) (hz : 0 < z.re) (N : ℕ) (hN : 1 ≤ N) :
+    ‖Complex.digamma z - (-(eulerMascheroniConstant : ℂ) +
+      ∑ n ∈ Finset.range N, (((n : ℂ) + 1)⁻¹ - ((n : ℂ) + z)⁻¹))‖ ≤
+      ‖z - 1‖ / ((N : ℝ) - 1 + min 1 z.re) := by
+  sorry
+
+/-- **1.1a, the trigamma remainder.** For `Re z > 0` and `N ≥ 1`, the partial sum
+`T_N(z) = Σ_{n<N} (n+z)⁻²` of the series for `ψ'` is within `1/(N − 1 + min(1, Re z))` of
+`ψ'(z)`. -/
+theorem trigamma_series_remainder (z : ℂ) (hz : 0 < z.re) (N : ℕ) (hN : 1 ≤ N) :
+    ‖deriv Complex.digamma z - ∑ n ∈ Finset.range N, ((n : ℂ) + z)⁻¹ ^ 2‖ ≤
+      1 / ((N : ℝ) - 1 + min 1 z.re) := by
+  sorry
 
 /-! ## Layer 2: counting ideals -/
 

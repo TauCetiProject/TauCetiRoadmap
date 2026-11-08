@@ -50,7 +50,9 @@ Brun–Titchmarsh theorems.
   `HasNormalTower`, and the least primitive root and least prime primitive root modulo an integer.
 - The named propositions of *Computational hypotheses*, which the theorems carry as hypotheses;
   none of them is proved here.
-- Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound.
+- Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound;
+  the series for the digamma and trigamma functions on `Re z > 0` and their explicit remainders
+  `digamma_series_remainder` and `trigamma_series_remainder`.
 - Layer 2: the explicit Lipschitz lattice-point count with Widmer's constant, the explicit ideal
   counts of Sunley, Lee, Debaene, Gun–Ramaré–Sivaraman and Fehnker, and Ramaré's count for
   imaginary quadratic fields.
@@ -130,7 +132,6 @@ Brun–Titchmarsh theorems.
   realizing ClassFieldTheory Layer 12; the Hilbert class field and its Galois group,
   Kronecker–Weber and the conductor–discriminant formula: its Layer 13; the Legendre character is
   primitive: ClassicalArithmeticCompletion §1.5.
-- Explicit digamma and trigamma remainders: ComputationalNumberTheory §4.17a.
 
 **Already in the library or stated by an earlier roadmap, and how the targets here differ.**
 
@@ -181,11 +182,12 @@ every ineffective residue bound (AnalyticNumberTheoryPartI §§2.31e, 2.32, 2.46
 effective bound for Galois fields under the uniform real-zero gap is 5.7; the imaginary quadratic
 class-number formula (ImaginaryQuadraticClassNumber H2.2) and the Goldfeld–Oesterlé lower bounds
 (EffectiveClassNumbers); the explicit Burgess inequalities and their tabulated constants (Treviño,
-McGown, Booker: ExplicitCharacterSumsAndSieves); algorithms and certified computations
-(ComputationalNumberTheory). Louboutin's explicit Li-type residue bound (`louboutin2015mmj`),
-which makes the residue bounds of Layer 3 depend on the explicit Li coefficients of `ζ_K`, and
-Chen's estimates behind the criterion of 6.5 in their own right, extend Layers 3 and 6 in their
-direction and belong to ExplicitNumberFields, Part II.
+McGown, Booker: ExplicitCharacterSumsAndSieves); algorithms and certified computation, which
+nothing here uses: every computation a theorem rests on is a named hypothesis (Conventions).
+Louboutin's explicit Li-type residue bound (`louboutin2015mmj`), which makes the residue bounds of
+Layer 3 depend on the explicit Li coefficients of `ζ_K`, and Chen's estimates behind the criterion
+of 6.5 in their own right, extend Layers 3 and 6 in their direction and belong to
+ExplicitNumberFields, Part II.
 
 ## Conventions
 
@@ -417,6 +419,13 @@ Imported, as their owners state them:
   `IntermediateField.extendScalars`, `Real.geom_mean_le_arith_mean_weighted`.
 - `IsArithFrobAt` (arithmetic Frobenius elements at a prime of a Galois extension of Dedekind
   domains), `ArithmeticFunction.vonMangoldt`, for Layer 7.
+- For 1.1a: `Complex.digamma` (`logDeriv Gamma`) with `Complex.digamma_one`,
+  `Complex.digamma_nat_add_one`, `Complex.digamma_apply_add_nat` and `Complex.digamma_one_sub`;
+  `Real.BohrMollerup.tendsto_log_gamma` (with `logGammaSeq`), `Real.tendsto_harmonic_sub_log`,
+  `Complex.Gamma_ofReal`, `Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`,
+  `hasDerivAt_of_tendstoLocallyUniformlyOn`, `HasDerivAt.real_of_complex`,
+  `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm` and
+  `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
 - For 0.4a: `IsCyclotomicExtension.Rat.galEquivZMod`, `galEquivZMod_stabilizer`,
   `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar` with
   `card_intermediateFieldEquivSubgroupChar`, the decomposition of rational primes in cyclotomic
@@ -562,11 +571,6 @@ of the relative class-number formula of 0.4.
 
 Layer 1 (`successiveMin`, attainment, monotonicity, scaling, the upper half of Minkowski's second
 theorem), through the Tau Ceti declarations above.
-
-### From TauCetiRoadmap.ComputationalNumberTheory
-
-§4.17a `digamma_series_remainder`, `trigamma_series_remainder`: explicit remainders for the
-digamma and trigamma series, used for the explicit gamma terms of Layers 4 and 7.
 
 ### From TauCetiRoadmap.ExplicitZetaBounds
 
@@ -737,10 +741,12 @@ Layer 0 fixes the invariants and predicates every later statement mentions: the 
 constant, the local Euler factors, the quadratic Hecke character and relative class number of a
 CM-field, the primitive character group of an abelian field with its Euler, Gauss-sum and
 Bernoulli products, the conjectural and gap predicates, and the least primitive roots. Layer 1 is
-the one convexity bound for `ζ_K`, an instance of the general bound. Layer 2 proves the explicit
-lattice-point count and the explicit ideal counts; it needs Layers 0 and 1 only. Layer 3 proves the
-residue bounds that need no zero-free region, from the positive Mellin comparison, Friedman's
-regulator bound and, for the conditional bounds, an explicit Duke theorem on Euler-product records.
+the one convexity bound for `ζ_K`, an instance of the general bound, and the digamma and trigamma
+series with explicit remainders, which bound the gamma terms of `Λ'_K/Λ_K` in Layers 4 and 7.
+Layer 2 proves the explicit lattice-point count and the explicit ideal counts; it needs Layers 0 and
+1 only. Layer 3 proves the residue bounds that need no zero-free region, from the positive Mellin
+comparison, Friedman's regulator bound and, for the conditional bounds, an explicit Duke theorem on
+Euler-product records.
 Layer 4 proves the explicit zero counts, the real-zero lemmas and the zero-free regions, Stark's
 residue lower bound, which needs the one-zero lemma, the consequences of the uniform real-zero gap
 for quadratic fields, and zero repulsion. Layer 5 turns the residue bounds into class-number bounds
@@ -1064,7 +1070,7 @@ generalized Bernoulli numbers and Gauss sums; LFunctions Layers 3, 4 and 5;
 AnalyticNumberTheoryPartI §§0.34a, 1.6, 2.7, 2.15a, 2.17a, 2.22, 2.39b, 2.42; ClassFieldTheory
 Layer 13; ExplicitPrimeCounting §1.7; `gap:artin-norm-compatibility`.
 
-## Layer 1: the size of `ζ_K`
+## Layer 1: the size of `ζ_K` and the digamma remainders
 
 ### 1.1 Rademacher's convexity bound
 
@@ -1082,9 +1088,62 @@ that section; nothing of Phragmén–Lindelöf is redone here.
 *Needs:* ExplicitZetaBounds §3.2; LFunctions Layer 3 `dedekindZetaData`; ZerosOfLFunctions
 Layer 2 (`arithmeticConductor (dedekindZetaData K) = d_K`) and 3.1 (finite order); 0.3.
 
+### 1.1a The digamma and trigamma remainders
+
+Write `ψ` for Mathlib's `Complex.digamma = logDeriv Gamma`, `ψ'` for its complex derivative and `γ`
+for `Real.eulerMascheroniConstant`. For `z ∈ ℂ` with `Re z > 0`, an integer `N ≥ 1` and
+`a = min(1, Re z)`, put `D_N(z) = −γ + Σ_{0 ≤ n < N} (1/(n + 1) − 1/(n + z))` and
+`T_N(z) = Σ_{0 ≤ n < N} 1/(n + z)²`. Every `n + z` is nonzero, its real part being positive, and
+`N − 1 + a ≥ a > 0`.
+
+Prove the series identities (`dlmf` 5.7.6 and 5.15.1): for `Re z > 0`,
+`ψ(z) = −γ + Σ_{n ≥ 0} (1/(n + 1) − 1/(n + z))` and `ψ'(z) = Σ_{n ≥ 0} 1/(n + z)²`, both series
+converging absolutely and uniformly on every set `{Re z ≥ a₀, |z| ≤ R}` with `a₀ > 0`.
+
+Prove `digamma_series_remainder` and `trigamma_series_remainder`: for `Re z > 0` and `N ≥ 1`,
+`|ψ(z) − D_N(z)| ≤ |z − 1|/(N − 1 + a)` and `|ψ'(z) − T_N(z)| ≤ 1/(N − 1 + a)`.
+
+- Uniformity: for `a₀ > 0` and `C ≥ 0`, on `{Re z ≥ a₀, |z − 1| ≤ C}` both bounds hold with `a`
+  replaced by `min(1, a₀)`, so both remainders tend to `0` uniformly there as `N → ∞`.
+- At `z = 1`, `D_N(1) = −γ` for every `N` and the digamma bound is `0`, in agreement with Mathlib's
+  `Complex.digamma_one`.
+- `ψ` is real on `(0, ∞)` and `ψ'(x) > 0` there, so `ψ` increases on `(0, ∞)`; with `ψ(1) = −γ`
+  and `ψ(2) = 1 − γ` (`Complex.digamma_one`, `Complex.digamma_nat_add_one`) this gives
+  `ψ(σ/2) < log π` and `ψ(σ) < log 2π` for `0 < σ ≤ 2`, the signs of the gamma terms in 4.3.
+- Off `Re z > 0` and away from the poles, Mathlib's recurrence `Complex.digamma_apply_add_nat` and
+  reflection formula `Complex.digamma_one_sub` reduce `ψ` to its values on `Re z > 0`.
+
+Route. First on `(0, ∞)`: for `x > 0`, Mathlib's Bohr–Mollerup limit
+`Real.BohrMollerup.tendsto_log_gamma` gives
+`logGammaSeq x n = x log n + log n! − Σ_{m ≤ n} log(x + m) → log Γ(x)`. Its `x`-derivative
+`log n − Σ_{m ≤ n} 1/(x + m)` equals
+`−(H_n − log n) + Σ_{m < n} (1/(m + 1) − 1/(m + x)) − 1/(x + n)`, which converges to the series
+uniformly on compact subsets of `(0, ∞)`, by `Real.tendsto_harmonic_sub_log` and the term bound
+below. So `hasDerivAt_of_tendstoLocallyUniformlyOn` makes the series the derivative of `log ∘ Γ`
+at `x`, which is `Γ'(x)/Γ(x)` since `Γ(x) > 0`, and `Complex.Gamma_ofReal` with
+`HasDerivAt.real_of_complex` identifies it with `ψ(x)`. Both sides are holomorphic on `Re z > 0`:
+`ψ` because `Γ` is holomorphic and nonzero there (`Complex.differentiableAt_Gamma`,
+`Complex.Gamma_ne_zero`), and the series by `Complex.differentiableOn_tsum_of_summable_norm` on
+each open set `{Re z > a₀, |z| < R}`, where its terms `(z − 1)/((n + 1)(n + z))` are at most
+`(R + 1)/(n + min(1, a₀))²`. The half-plane is connected and contains `(0, ∞)`, so the identity
+theorem (`AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`) gives the series for `ψ`, and
+`Complex.hasSum_deriv_of_summable_norm` differentiates it termwise. The two remainders are the
+tails `Σ_{n ≥ N} (z − 1)/((n + 1)(n + z))` and `Σ_{n ≥ N} 1/(n + z)²`. Since `a ≤ 1`,
+`|n + 1| ≥ n + a`; and `|n + z| ≥ n + Re z ≥ n + a`; so the terms are at most `|z − 1|/(n + a)²`
+and `1/(n + a)²`. For `n ≥ 1`, `1/(n + a)² ≤ 1/((n − 1 + a)(n + a)) = 1/(n − 1 + a) − 1/(n + a)`,
+which telescopes to `Σ_{n ≥ N} 1/(n + a)² ≤ 1/(N − 1 + a)`.
+
+*Needs:* Mathlib `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_nat_add_one`,
+`Complex.digamma_apply_add_nat`, `Complex.digamma_one_sub`, `Real.BohrMollerup.tendsto_log_gamma`,
+`Real.tendsto_harmonic_sub_log`, `hasDerivAt_of_tendstoLocallyUniformlyOn`,
+`HasDerivAt.real_of_complex`, `Complex.Gamma_ofReal`, `Complex.differentiableAt_Gamma`,
+`Complex.Gamma_ne_zero`, `Complex.differentiableOn_tsum_of_summable_norm`,
+`Complex.hasSum_deriv_of_summable_norm`, `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
+
 ### Dependencies
 
-ExplicitZetaBounds §3.2; LFunctions Layer 3; ZerosOfLFunctions Layers 2 and 3; Layer 0.
+ExplicitZetaBounds §3.2; LFunctions Layer 3; ZerosOfLFunctions Layers 2 and 3; Layer 0; Mathlib's
+digamma and Bohr–Mollerup API (1.1a).
 
 ## Layer 2: counting ideals
 
@@ -1517,14 +1576,13 @@ into the half-plane of absolute convergence, and what remains is an absolutely c
 the zeros; the contribution of each zero is majorised by a combination of first- and second-order
 poles evaluated to the right of the strip, so that the sum becomes the first and second logarithmic
 derivatives of `Λ_K` at points with `Re s > 1`, which split into the discriminant term, the gamma
-terms (the digamma and trigamma remainders of ComputationalNumberTheory §4.17a) and the Euler
-product. Backlund's lemma is not used. The source counts the zeros of ordinate `±T` with weight
-`1/2`; the statement for `N_K(T)` follows by applying it at `T' ↓ T`, since no zero has ordinate in
-`(T, T']` for `T'` close to `T` and the right side is continuous in `T`.
+terms (bounded by the digamma and trigamma remainders of 1.1a) and the Euler product. Backlund's
+lemma is not used. The source counts the zeros of ordinate `±T` with weight `1/2`; the statement
+for `N_K(T)` follows by applying it at `T' ↓ T`, since no zero has ordinate in `(T, T']` for `T'`
+close to `T` and the right side is continuous in `T`.
 
-*Needs:* 4.1's inputs; for Amberger's count, ZerosOfLFunctions 5.6, 7.2 and
-ComputationalNumberTheory §4.17a (trigamma), without Backlund's lemma;
-*AmbergerMajorantCertificate*.
+*Needs:* 4.1's inputs; for Amberger's count, ZerosOfLFunctions 5.6, 7.2 and 1.1a (both
+remainders), without Backlund's lemma; *AmbergerMajorantCertificate*.
 
 ### 4.3 Real zeros
 
@@ -1534,8 +1592,9 @@ for `n ≥ 2`, `ζ_K` has at most one zero `ρ = β + iγ` with `β > 1 − 1/(4
 Route (Stark): for real `σ > 1`, `0 < −ζ'_K/ζ_K(σ)`, while the partial-fraction expansion of
 `Λ'_K/Λ_K` (ZerosOfLFunctions 5.6, 6.4(4d)) gives
 `−ζ'_K/ζ_K(σ) = 1/(σ−1) + 1/σ + (1/2) log d_K + (gamma terms) − Σ_ρ Re(1/(σ−ρ))`, the gamma
-terms being nonpositive on `1 < σ ≤ 2` by the explicit digamma bounds; two zeros (or a double
-zero, or a non-real pair) in the region make the zero sum at `σ = 1 + 1/(4 log d_K)` too large.
+terms `(r₁/2)(ψ(σ/2) − log π) + r₂(ψ(σ) − log 2π)` being negative on `1 < σ ≤ 2` by the
+monotonicity of `ψ` (1.1a); two zeros (or a double zero, or a non-real pair) in the region make
+the zero sum at `σ = 1 + 1/(4 log d_K)` too large.
 
 Prove Louboutin's real-zero counts (`louboutin2015ijnt` lines 48–50, Theorem 3): for `m ≥ 1`,
 `c_m = 2(√(m+1) − 1)²`, and `log d_K > max(2(√(m+1) − 1), c_m)`, `ζ_K` has at most `m` real zeros,
@@ -1560,8 +1619,8 @@ with multiplicity in `σ ≥ 1 − c₂/log d_K`, whose hypothesis `log d_K > 1.
 excludes only zeros of odd multiplicity: a double real zero is allowed by Theorem 3 at `m = 2` and
 does not change sign.
 
-*Needs:* ZerosOfLFunctions 5.6, 6.4(4d), 6.5; LFunctions Layer 3; ComputationalNumberTheory
-§4.17a; AnalyticNumberTheoryPartI §2.39 (for the corollary); Mathlib `abs_discr_ge`.
+*Needs:* ZerosOfLFunctions 5.6, 6.4(4d), 6.5; LFunctions Layer 3; 1.1a; AnalyticNumberTheoryPartI
+§2.39 (for the corollary); Mathlib `abs_discr_ge`.
 
 ### 4.4 Louboutin's Stark-like regions
 
@@ -1593,14 +1652,14 @@ Corollary 1.2): for `d_K ≥ D₀`, at most one zero, real and simple, in each o
 `σ ≥ 1 − 1/(2 log d_K)`, `|t| ≤ 1/(2 log d_K)` and `σ ≥ 1 − 1/(1.70 log d_K)`,
 `|t| ≤ 1/(4 log d_K)`. Route (de la Vallée Poussin with Stechkin's trick): the nonnegative
 degree-four trigonometric polynomial `P₄` of Kadiri applied to `−Re ζ'_K/ζ_K` at `σ + ikt`, the
-Hadamard expansion with the explicit gamma terms from the digamma remainders, and the Stechkin
-difference `−Re(ζ'_K/ζ_K)(s) + Re(ζ'_K/ζ_K)(s')` between `s` and Stechkin's auxiliary point `s'`
-with weight `λ = 1 − 1/√5`; the threshold `D₀` is where the lower-order terms are absorbed (lines
-93–94: the theorems can be made explicit for every `log d_K`, with other constants).
+Hadamard expansion with the explicit gamma terms from the digamma remainders of 1.1a, and the
+Stechkin difference `−Re(ζ'_K/ζ_K)(s) + Re(ζ'_K/ζ_K)(s')` between `s` and Stechkin's auxiliary
+point `s'` with weight `λ = 1 − 1/√5`; the threshold `D₀` is where the lower-order terms are
+absorbed (lines 93–94: the theorems can be made explicit for every `log d_K`, with other
+constants).
 
 *Needs:* ZerosOfLFunctions 5.6, 6.1, 6.4(4d), 6.5; ExplicitZetaBounds §0.5
-(*IsAdmissibleCosinePolynomial*); *KadiriDedekindPolynomialCertificate*; ComputationalNumberTheory
-§4.17a; LFunctions Layer 3.
+(*IsAdmissibleCosinePolynomial*); *KadiriDedekindPolynomialCertificate*; 1.1a; LFunctions Layer 3.
 
 ### 4.6 Lee's refinement
 
@@ -1677,8 +1736,8 @@ sharper constants for `n ≥ n₀` with `3 ≤ n₀ ≤ 21`; they are not target
 §§2–5): Kadiri's argument of 4.5–4.6 (de la Vallée Poussin with Stechkin's difference between `s`
 and an auxiliary point), split by the size of the ordinate into five cases, with two changes: the
 gamma-factor bound of `dglsw2025` Lemma 2.1 in place of Lee's, from the digamma remainders of
-ComputationalNumberTheory §4.17a, and new nonnegative even trigonometric polynomials with extra
-free parameters optimised together with the other parameters (*DGLSWPolynomialCertificates*);
+1.1a, and new nonnegative even trigonometric polynomials with extra free parameters optimised
+together with the other parameters (*DGLSWPolynomialCertificates*);
 the lower bounds `d_K ≥ d_min(n)` absorb the lower-order terms for every `K`, which dispenses with
 the threshold. Simplicity in Theorem 1.2 comes from 4.3: `A(n) > 4`, so the region lies inside
 Stark's. At the fields of *DGLSWSmallFieldGRH* that predicate gives Theorems 1.2 and 1.4 directly,
@@ -1686,7 +1745,7 @@ both abscissae lying to the right of `1/2` there, and at `n = 2` Theorem 1.4 fol
 from Louboutin's `(C₂, 0)` region of 4.4, since `C₂ ≥ 1/A''(2)`.
 
 *Needs:* 4.3; 4.4 (the case `n = 2` of Theorem 1.4); ZerosOfLFunctions 5.6, 6.1, 6.4(4d), 6.5;
-ExplicitZetaBounds §0.5; ComputationalNumberTheory §4.17a; LFunctions Layer 3;
+ExplicitZetaBounds §0.5; 1.1a; LFunctions Layer 3;
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*.
 
 ### 4.9 Real zeros of quadratic Dedekind zeta functions
@@ -1759,17 +1818,17 @@ from Harnack's inequality for nonnegative harmonic functions; for `kadiring2012`
 smoothed explicit inequality (its Theorem 3) with the weight `φ = (1 − 1/√5)/2`; the corollary of
 `kadiringwong2019` applies the real-zero repulsion to `β' = 1 − β₁`.
 
-*Needs:* 4.3, 4.5, 4.8; ZerosOfLFunctions 5.6, 6.4; ComputationalNumberTheory §4.17a;
+*Needs:* 4.3, 4.5, 4.8; ZerosOfLFunctions 5.6, 6.4; 1.1a;
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*.
 
 ### Dependencies
 
-ZerosOfLFunctions Layers 4–7; LFunctions Layers 3 and 4; Layer 0 (0.5); Layer 1;
+ZerosOfLFunctions Layers 4–7; LFunctions Layers 3 and 4; Layer 0 (0.5); Layer 1 (1.1, 1.1a);
 AnalyticNumberTheoryPartI §§2.31d, 2.31e, 2.39, 2.39b; ExplicitPrimeCounting §1.7;
 ExplicitZetaBounds (§§0.5, 2.1, 2.5, 5.1, 7.9, `gap:uniform-landau-siegel-gap`);
-ComputationalNumberTheory §4.17a; *KadiriDedekindPolynomialCertificate*,
-*MossinghoffTrudgianF16Certificate*, *DGLSWPolynomialCertificates*, *AmbergerMajorantCertificate*,
-*MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*.
+*KadiriDedekindPolynomialCertificate*, *MossinghoffTrudgianF16Certificate*,
+*DGLSWPolynomialCertificates*, *AmbergerMajorantCertificate*, *MinimalDiscriminantTable*,
+*DGLSWSmallFieldGRH*.
 
 ## Layer 5: class numbers
 
@@ -2235,12 +2294,12 @@ The prime ideal theorem under `DedekindERH K` (with the same predicates) is the 
 `ψ(C; x)` through the Artin L-functions of `L/K`, reduced by the usual comparison to `ζ_L` and its
 subfields; under `DedekindERH L` every zero in the strip has real part `1/2`, the zero sums are
 bounded by the explicit zero counts of the source's appendix for Hecke L-functions, the gamma
-terms by ComputationalNumberTheory §4.17a, and for `L = ℚ`, `x > 73.2`, Schoenfeld's `ψ` bound
+terms by the digamma remainders of 1.1a, and for `L = ℚ`, `x > 73.2`, Schoenfeld's `ψ` bound
 (ExplicitPrimeCounting §2.2, under `RiemannHypothesis`, which `DedekindERH ℚ` gives, and the two
 predicates).
 
 *Needs:* ZerosOfLFunctions 5.6, 7.5, Layer 9; LFunctions Layers 3 and 5; AnalyticNumberTheoryPartI
-§2.42 (`DedekindERH`); ComputationalNumberTheory §4.17a; ExplicitPrimeCounting §2.2 (with
+§2.42 (`DedekindERH`); 1.1a; ExplicitPrimeCounting §2.2 (with
 *ButheVerified*, *Schoenfeld1976Range*); *GrenieMolteniSmallCases*; Tau Ceti `frobeniusPsi`,
 `frobeniusPrimeCount`; Mathlib `IsArithFrobAt`, `ArithmeticFunction.vonMangoldt`.
 
@@ -2270,7 +2329,7 @@ where the term `x^{β₀−1}/β₀` is present only if `ζ_L` has a zero `β₀
 
 *Needs:* 4.2, 4.3, 4.6 (with *MossinghoffTrudgianF16Certificate*), 4.8 (with
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*);
-ZerosOfLFunctions 5.6, 6.4; ComputationalNumberTheory §4.17a; Tau Ceti `frobeniusPsi`; Mathlib
+ZerosOfLFunctions 5.6, 6.4; 1.1a; Tau Ceti `frobeniusPsi`; Mathlib
 `IsArithFrobAt`.
 
 ### 7.4 The least prime ideal
@@ -2324,10 +2383,9 @@ zero of any L-function enters.
 
 ### Dependencies
 
-Layers 2, 3, 4 (4.2–4.10); ZerosOfLFunctions Layers 5, 6, 9; LFunctions Layers 3, 5, 8;
+Layers 1 (1.1a), 2, 3, 4 (4.2–4.10); ZerosOfLFunctions Layers 5, 6, 9; LFunctions Layers 3, 5, 8;
 ClassFieldTheory Layers 11–13; Completed/GlobalNumberFields Layers 2, 3; Completed/Chebotarev
-through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCounting §2.2;
-ComputationalNumberTheory §4.17a.
+through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCounting §2.2.
 
 ## Downstream consumers
 
@@ -2449,6 +2507,8 @@ ComputationalNumberTheory §4.17a.
   (`mossinghofftrudgian2015`, the polynomial `F₁₆` of *MossinghoffTrudgianF16Certificate*).
 - A. M. Odlyzko, Lower bounds for discriminants of number fields, Acta Arith. 29 (1976)
   (`odlyzko1976`, cited through its quotation in `kadiringwong2019`; a comparison in Scope).
+- F. W. J. Olver et al. (eds.), *NIST Digital Library of Mathematical Functions*,
+  https://dlmf.nist.gov/, equations 5.7.6 and 5.15.1 (`dlmf`, the series of 1.1a).
 - OpenAI, Uniform exclusion of Landau–Siegel zeros, preprint in the `openai/math` repository
   (`openai2026siegel`, context).
 - N. Palojärvi, A. Simonič, Conditional estimates for L-functions in the Selberg class, J. Number
