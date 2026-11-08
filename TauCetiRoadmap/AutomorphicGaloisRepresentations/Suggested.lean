@@ -20,13 +20,26 @@ is unnecessary in this statement. All coefficient fields are allowed, and the
 existential quantifier over coefficient primes is retained.
 
 The other headline results require objects absent at these pins. Layer 0's
-period theorems need period rings. Its slope-finiteness and family theorems
-(README §0.2e), partial determinant identity and small-slope classicality
-(README §0.2f) and eigenvariety (README §0.3) are statements about the analytic
-and overconvergent quaternionic form spaces of README §§0.2a–0.2c and their
-Hecke operators, which need quaternionic level forms on the finite adelic units
-of a quaternion algebra; its geometric realization theorems need Shimura
-cohomology. Layer 1's DFG comparison needs parabolic premotives and their
+period theorems need the crystalline period ring and the Galois-equivariant
+period functors; Mathlib's `BDeRhamPlus` and `BDeRham` are the de Rham period
+rings as bare rings, with no Galois action or filtration. Layer 0's
+slope-finiteness and family theorems (README §0.2e), partial determinant
+identity and small-slope classicality (README §0.2f) and eigenvariety
+(README §0.3) are statements about the controlling operator U_P on the
+analytic quaternionic form spaces
+M_D(U, A_{κ,r}) of README §0.2c. They need the analytic weight modules A_{κ,r}
+of README §§0.2a–0.2b as right Δ_P-modules, whose action law is the cocycle
+theorem for the automorphy factors j_κ(γ) built from the analytic expansion of
+the weight character, and the Banach form spaces with U_P as a row-compact
+endomorphism (README §§0.2c–0.2d); both constructions carry proof obligations
+that are theorems of those sections. Their ingredients are at the pins: level
+forms for any coefficient action are a submodule of the functions on the units
+of the finite adele ring tensored with D, each slash operator
+f ↦ j_κ(γ)·f(w_γ) is a Tau Ceti weighted substitution
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`, and
+`ContinuousLinearMap.charPowerSeries` is the Fredholm series of an endomorphism
+of a module with property (Pr). Layer 0's geometric realization theorems need
+Shimura cohomology. Layer 1's DFG comparison needs parabolic premotives and their
 Kuga–Sato projector realizations. Layer 2's comparison of the weight-one
 Artin representation of AlgebraicModularFormsAndSerreWeights §6.4 with the
 normalization of Layer 1 needs that Galois representation, which is absent at
@@ -38,11 +51,13 @@ compatibility theorems additionally need local Langlands parameters and the
 Weil–Deligne functor, retaining monodromy. Layer 5's ordinary and crystalline/Wach
 comparisons need those attached representations and period modules. Layer 6's
 optimized residual eigensystems, integral Hecke determinant and deformation maps
-need residual attachments, geometric Hecke multiplicities, determinant laws and
-deformation functors. Layer 7's pure strict fixed-eigenform family, large-image
-and residual-ramification theorems need the attached members, residual reductions
-and shared compatible-system carrier. None of these is statable at the pins; their
-full scope is specified in the README.
+need residual attachments, geometric Hecke multiplicities and deformation
+functors; determinant laws themselves are the multiplicative polynomial laws
+homogeneous of degree two (Tau Ceti `PolynomialLaw.IsMultiplicative` and
+`PolynomialLaw.IsHomogeneousOfDegree`). Layer 7's pure strict fixed-eigenform
+family, large-image and residual-ramification theorems need the attached
+members, residual reductions and shared compatible-system carrier. None of
+these is statable at the pins; their full scope is specified in the README.
 -/
 
 @[expose] public section

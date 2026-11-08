@@ -223,6 +223,22 @@ classical factors of §0.2e, and Tau Ceti's `Matrix.charpolyRev_eq_reflect` and
 `Matrix.natDegree_charpolyRev_le` in `TauCeti.LinearAlgebra.Matrix.Charpoly.Reverse`
 give their reflection and degree bound. `NumberField.RingOfIntegers.instFintypeClassGroup`
 gives the finite class group used by the central-character projector of §0.2c.
+Over a complete ultrametric normed commutative ring, as every coefficient algebra `R` of
+§0.2a is, Tau Ceti's `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM` in
+`TauCeti.RingTheory.MvPowerSeries.TateAlgebra.WeightedSubst` is the continuous linear map
+`f↦g·f(h)` between series restricted at positive polyradii, for substituted series `h_i`
+of Gauss norm at most the radius of `X_i`; by
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`, the map of `(g′,h′)` followed by
+the map of `(g,h)` is the map of `(g·g′(h),h′(h))`. Each slash operator of §0.2a is such a
+map, with `g=j_κ(γ)` and `h=w_γ`, so its action law reduces to the cocycle of the
+automorphy factors and the composition of the `w_γ`. `ContinuousLinearMap.charPowerSeries`
+in `TauCeti.Analysis.Normed.Operator.Nonarchimedean.PrModule.Basic` is the Fredholm series
+`det(1−Tu)` of an endomorphism `u` of a module with property (Pr) (`TauCeti.HasPr`). If
+moreover the scalars have `‖1‖=1` and a multiplicative pseudo-uniformizer
+(`TauCeti.NormedRing.IsTate`), as the Banach–Tate algebras of §0.2a do, and `u` is row
+compact (`ContinuousLinearMap.IsPrCompact`), it is the principal-minor series of `i∘u∘r`
+for every retract presentation `r∘i=id` through a model space
+(`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`). It is the series `H_κ` of §0.2e.
 
 The analytic eigenform and newform carriers are
 `HeckeRing.GL2.EigenformAwayFromLevel` and `HeckeRing.GL2.Newform` in
@@ -644,8 +660,10 @@ Layer 7 assembles strict fixed-form systems and their large-image and
 ordinary-density consequences. The internal prerequisites of each subsection
 point backward in this build. Suggested.lean states the ordinary-prime density
 theorem of §7.7 on the pinned newform, coefficient-field and prime-density carriers.
-The analytic-form, geometric, local and integral-family targets require the
-arithmetic carriers specified in their layers.
+The analytic-form targets of §§0.2e–0.3 require the weight modules of §§0.2a–0.2b as
+modules over `Δ_P` and the Banach form spaces of §0.2c with their controlling operator,
+built on the pinned weighted substitutions and Fredholm series; the geometric, local and
+integral-family targets require the arithmetic carriers specified in their layers.
 
 ## Layer 0: Period, family and geometric interfaces
 
@@ -823,7 +841,8 @@ follows from the expansion `w_γ=b/d+(det γ/d²)z∑_k(−cz/d)^k`.)
 
 *Needs:* GL2AutomorphicRepresentationsAndTransfer §§R17.3.8a, R17.3.8b, R17.3.8d;
 RestrictedPowerSeries §§0.1, 1.1–1.3, 2.2, 2.4; PadicFunctionalAnalysis §§0.4, 1.1, 4.6,
-5.2–5.5; CompactOperators §0.3.
+5.2–5.5; CompactOperators §0.3; Tau Ceti `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`,
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`.
 
 ### 0.2b Several places and analytic stages
 
@@ -1034,19 +1053,23 @@ CompactOperators §§0.1–0.3.
 
 ### 0.2e Fredholm series, slopes and families
 
-**Fredholm series.** For the compact operator of §0.2d define `H_κ(T)=det(1−TU_P)` by
-CompactOperators §1.5 on the property (Pr) module of §0.2c. Prove that it equals the
-block-model determinant of `BE` and does not depend on the certificate, representatives,
-splitting or, on overlapping admissible stages, the radius. The radius independence uses
-the links of §0.2d and CompactOperators §1.4; density of one stage in another proves
-nothing here. Over a complete field the nonzero eigenvalues of `U_P`, with algebraic
-multiplicity, are the reciprocals of the zeros of `H_κ`, and CompactOperators Layers 3–4
-give finite-dimensional slope summands. Over a Noetherian affinoid `R`, a slope
-factorization of `H_κ` gives a finite projective summand, and the image of `𝕋` in its
-endomorphisms is finite over `R` (LocallyAnalyticDistributions §4.2). If the field is
-complete and algebraically closed, `𝕋` has a common eigenvector in each nonzero slope
-summand and only finitely many eigensystems there. The ordinary part is the slope-zero
-summand.
+**Fredholm series.** For the compact operator of §0.2d define `H_κ(T)=det(1−TU_P)` as
+Tau Ceti's `ContinuousLinearMap.charPowerSeries` (CompactOperators §1.5) on the property
+(Pr) module of §0.2c. Evaluation at the class representatives and the projector `E` of
+§0.2c form a retract presentation through the block model, a model space in coefficient
+coordinates, whose extension of `U_P` is `BE`; so
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq` makes `H_κ` the block-model
+determinant of `BE`, independent of the certificate and the representatives. Prove that
+it does not depend on the splitting or, on overlapping admissible stages, the radius. The
+radius independence uses the links of §0.2d and CompactOperators §1.4; density of one
+stage in another proves nothing here. Over a complete field the nonzero eigenvalues of
+`U_P`, with algebraic multiplicity, are the reciprocals of the zeros of `H_κ`, and
+CompactOperators Layers 3–4 give finite-dimensional slope summands. Over a Noetherian
+affinoid `R`, a slope factorization of `H_κ` gives a finite projective summand, and the
+image of `𝕋` in its endomorphisms is finite over `R` (LocallyAnalyticDistributions
+§4.2). If the field is complete and algebraically closed, `𝕋` has a common eigenvector in
+each nonzero slope summand and only finitely many eigensystems there. The ordinary part is
+the slope-zero summand.
 
 - The operators of `𝕋` preserve every slope summand.
 - The eigenvalue zero is invisible to `H_κ`, and no global eigenbasis is asserted.
@@ -1131,7 +1154,8 @@ follows from `∑_{j<n}⌊j/h_U⌋=h_Um(m−1)/2+ρm` for `n=h_Um+ρ`, `0≤ρ<h
 LocallyAnalyticDistributions §4.2; NewtonPolygons Layer 2; AdicSpacesPartII R0.5;
 PadicFunctionalAnalysis §§2.2, 5.3–5.5; Mathlib `Matrix.charpolyRev`,
 `Matrix.reverse_charpoly`; Tau Ceti `Matrix.charpolyRev_eq_reflect`,
-`Matrix.natDegree_charpolyRev_le`.
+`Matrix.natDegree_charpolyRev_le`, `ContinuousLinearMap.charPowerSeries`,
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`.
 
 ### 0.2f Bol's identity, partial theta maps and small-slope classicality
 
