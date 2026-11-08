@@ -27,14 +27,19 @@ The other headlines are not statable at the pins:
   Higgs scheme and the affine-bundle strata of a torus action.
 * The all-characteristic coprime Higgs count lacks canonical stable coarse moduli;
   its absolute bundle-count side is defined below.
-* Higgs purity and the compact Poincare formula lack the actual Higgs carrier and its
-  Frobenius compact cohomology and complex comparison.
+* Higgs purity and the compact Poincare formula lack the actual Higgs carrier, its
+  compactly supported ℓ-adic cohomology with Frobenius action and the compactly
+  supported rational cohomology of its complex points; the Poincare formula also lacks
+  the universal count. The étale–singular comparison enters the proof, not the statement.
 * The nilpotent-cone reciprocal trace and component formula lack the stable reduced Hitchin
   zero fibre, its cohomology and the universal count.
-* Mellit's Laurent integrality lacks the stable symmetric-function ring, its Hall
-  pairing and modified Macdonald functions, and the plethystic logarithm on its rational
-  coefficient series. The scalar degree-independence consequence is stated below;
-  its universal coefficient-ring identification lacks curve specialization.
+* Mellit's Laurent integrality lacks the plethystic logarithm, with Adams operations
+  raising q, z, the α_i and T to powers, on power series in T over the rational function
+  field in which the partition kernel lives; the stable symmetric-function ring, its Hall
+  pairing and modified Macdonald functions enter its proof, not its statement. The scalar
+  degree-independence consequence is stated below; its identification of the universal
+  count with the z = 1 value of Mellit's coefficient lacks that plethystic logarithm and
+  curve specialization.
 * Positivity in every degree lacks the universal bundle-count invariant.
 * Parabolic and slope-cut universality lack their curve-count carriers and specialization.
 * The constructible spherical Hall Hopf and primitive Lie algebra theorem lacks

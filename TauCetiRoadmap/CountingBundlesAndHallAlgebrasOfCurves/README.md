@@ -6,9 +6,9 @@
 
 This roadmap owns coherent nilpotent pairs and their Jordan correspondences, the finite-field nilpotent enumeration, curve Hall convolution and its spherical generic form, ordered shuffle residues, the curve partition kernels, the positive canonical Higgs exact category and its coherent comparisons, the stable canonical Higgs coarse geometry and its Białynicki-Birula strata, the all-characteristic Higgs count, the Higgs cohomological formulas, and the curve-specific Mellit deformation and its consequences. The positive exact category and stable canonical coarse geometry extend the supplied coherent Higgs carrier and the supplied bundle HN and deformation theory. The coprime Higgs count is the all-characteristic Hall comparison of §8.3. The framed central deformation of S16 §§6.6–6.9 is not a route here: it takes affine GIT quotients of a cotangent space of the singular closure of a framed Quot chart, formed fibre by fibre as ambient covectors modulo conormal covectors, and that fibrewise quotient is not a separated scheme receiving the natural projection (S16, §6.6, p.342; S16 line 2638).
 
-The following constructions belong to the named suppliers and have no second construction here. The fixed-rank degree in §0.2 is only the native specialization needed to state the absolute-count headline; the general degree and Riemann–Roch API belongs to SchemeAndStackFoundations §3.3.
+The following constructions belong to the named suppliers and have no second construction here. The fixed-rank degree in §0.2 is only the native specialization needed to state the absolute-count headline; its rank-one case is Tau Ceti's `InvertibleSheaf.eulerDegree`, and the general degree and Riemann–Roch API belongs to SchemeAndStackFoundations §3.3.
 
-- AlgebraicVectorBundles Layers L0A–L2B owns finite locally free sheaves, ranks, tensor and dual, pullback and geometric total spaces. RepresentationTheory/ArtinAlgebras Layer 0 owns Krull–Schmidt categories: recognition, uniqueness of decompositions, local endomorphism rings and the radical block description. RepresentationTheory/QuiverRepresentations Layer 2 owns the module-level Krull–Schmidt theorem that Layer 0 generalizes. Sections 1.2–1.3 consume the categorical results; their targets concern the finite residue fields and nilpotence in coherent endomorphism algebras.
+- AlgebraicVectorBundles Layers L0A–L2B owns finite locally free sheaves, ranks, tensor and dual, pullback and geometric total spaces. RepresentationTheory/ArtinAlgebras Layer 0 owns Krull–Schmidt categories: local endomorphism rings of indecomposables (§0.1), uniqueness of decompositions (§0.3), recognition (§0.4) and the radical as a morphism ideal with its matrix description (§0.6). RepresentationTheory/QuiverRepresentations Layer 2 owns the module-level Krull–Schmidt theorem that Layer 0 generalizes. Sections 1.2–1.3 consume the categorical results; their targets concern the finite residue fields and nilpotence in coherent endomorphism algebras.
 - SchemeAndStackFoundations §§1.18–1.21, 2.20, 3.3, 3.6–3.7 and 4.14 owns stacks and descent, duality, degree and Riemann–Roch, Picard torsors and Quot. GlobalShtukasAndFunctionFieldLanglands §§0.5–0.6 and 0.13 owns coherent HN theory, boundedness and the bundle/torsion mass formulas. Those masses are consumed in Hall pairings; their construction is not a target here.
 - WeilConjectures WC.1, “Finite groupoid mass”, owns rational finite groupoid mass, equivalence invariance, products, unions and action-groupoid cardinality. Section 2.1 adds homotopy-fibre Fubini for the Jordan correspondences, using that mass.
 - EndoscopicTransferAndUnitaryTraceComparison §3.6 owns the reductive bundle Higgs stack in characteristic prime to the Weyl order; §3.7 owns the all-field coherent canonical Higgs carrier with ordinary slope stability, existential good lines and the bounded Quot presentations of Higgs sheaves. AutomorphicSpectralTheory §6.22c owns ordinary bundle Higgs HN theory and coprime stability; §6.24 owns the canonical bundle Higgs deformation complex and strict-slope extension formula. Section 7.1 here adds the positive exact category and the coherent derived comparison. ReductiveGroupsPartII §RG2.3.7 owns Lang's theorem; the descent-gerbe neutrality statement of §1.6 is a separate theorem.
@@ -50,17 +50,17 @@ The named sections specify the material consumed. Each paragraph labelled with a
 
 ### From Mathlib
 
-Use `Matrix`, `IsNilpotent` and `Nat.card` for finite-field nilpotent enumeration. `Matrix.card_GL_field` in `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean`, line 120, supplies the product `∏_{i:Fin n}(Q^n−Q^i)` for a finite field; its n=0 value is 1. `IsArtinianRing.isNilpotent_jacobson_bot` in `Mathlib/RingTheory/Artinian/Ring.lean`, line 54, assumes an associative ring and its Artinian condition. `IsArtinianRing.isSemisimpleRing_iff_jacobson` in `Mathlib/RingTheory/Artinian/Module.lean`, line 641, supplies the radical criterion. `Finite.isDomain_to_isField` in `Mathlib/RingTheory/LittleWedderburn.lean`, line 176, applies to a finite ring with a domain instance, including the residue division ring.
+Use `Matrix`, `IsNilpotent` and `Nat.card` for finite-field nilpotent enumeration. `Matrix.card_GL_field` in `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Card.lean`, line 122, supplies the product `∏_{i:Fin n}(Q^n−Q^i)` for a finite field; its n=0 value is 1. `IsArtinianRing.isNilpotent_jacobson_bot` in `Mathlib/RingTheory/Artinian/Ring.lean`, line 60, assumes an associative ring and its Artinian condition. `IsArtinianRing.isSemisimpleRing_iff_jacobson` in `Mathlib/RingTheory/Artinian/Module.lean`, line 640, supplies the radical criterion. `Finite.isDomain_to_isField` in `Mathlib/RingTheory/LittleWedderburn.lean`, line 176, applies to a finite ring with a domain instance, including the residue division ring.
 
-Use `Indecomposable` in `Mathlib/CategoryTheory/Limits/Shapes/BinaryBiproducts.lean`, line 1096: it excludes zero and requires every binary biproduct decomposition to have a zero summand. `Skeleton` in `Mathlib/CategoryTheory/Skeletal.lean`, line 74, identifies objects up to isomorphism, and `ObjectProperty.FullSubcategory` in `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`, line 39, retains all morphisms between objects satisfying the degree and geometric predicate. These provide the native absolute bundle count, not its finiteness theorem.
+Use `Indecomposable` in `Mathlib/CategoryTheory/Limits/Shapes/BinaryBiproducts.lean`, line 1096: it excludes zero and requires every binary biproduct decomposition to have a zero summand. `Skeleton` in `Mathlib/CategoryTheory/Skeletal.lean`, line 114, identifies objects up to isomorphism, and `ObjectProperty.FullSubcategory` in `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`, line 39, retains all morphisms between objects satisfying the degree and geometric predicate. These provide the native absolute bundle count, not its finiteness theorem.
 
 Use `YoungDiagram` and `YoungDiagram.transpose` in `Mathlib/Combinatorics/Young/YoungDiagram.lean` for partitions. A diagram is a finite lower-closed set of pairs of natural numbers; a cell hypothesis is needed for its row and column subtractions. These declarations do not provide curve counts or formal plethystic operations.
 
 ### From Tau Ceti
 
-`FiniteLocallyFreeSheaf.FixedRank` and its pullback in `TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean`, lines 69 and 104, supply the native fixed-rank carrier and field-base-change functor. `Scheme.Modules.eulerCharBelow` in `TauCeti/AlgebraicGeometry/Cohomology/EulerCharacteristic.lean`, line 105, is the truncated alternating finrank, with no cohomological finiteness or vanishing hypotheses. `InvertibleSheaf.trivial` in `TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, line 131, supplies O_X. The proper smooth curve hypotheses in §10.4 ensure that truncation 2 computes χ; an infinite-dimensional finrank would otherwise contribute its total-function value zero.
+`FiniteLocallyFreeSheaf.FixedRank` and its pullback in `TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean`, lines 71 and 106, supply the native fixed-rank carrier and field-base-change functor. `Scheme.Modules.eulerCharBelow` in `TauCeti/AlgebraicGeometry/Cohomology/EulerCharacteristic.lean`, line 105, is the truncated alternating finrank, with no cohomological finiteness or vanishing hypotheses. `InvertibleSheaf.trivial` in `TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, line 144, supplies O_X. `InvertibleSheaf.eulerDegree` in `TauCeti/AlgebraicGeometry/LineBundle/Degree.lean`, line 74, is the rank-one degree χ₂(L)−χ₂(O_X) with the same truncation, and `InvertibleSheaf.fixedRankOneEquiv` in `TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean`, line 248, identifies invertible sheaves with fixed-rank-one sheaves; its inverse keeps the underlying sheaf, by `InvertibleSheaf.fixedRankOneEquiv_inverse_obj_obj` (line 275). The fixed-rank degree of §0.2 is therefore `InvertibleSheaf.eulerDegree` in rank one; its weight r on χ₂(O_X) is what it adds in higher rank. The proper smooth curve hypotheses in §10.4 ensure that truncation 2 computes χ; an infinite-dimensional finrank would otherwise contribute its total-function value zero.
 
-`YoungDiagram.armLength` and `YoungDiagram.legLength` in `TauCeti/Combinatorics/Young/HookLength/Basic.lean`, lines 136 and 140, are the row and column lengths minus the cell coordinate and one. They are total natural-number functions; statements about cells retain membership. For λ=(2), its left cell has arm 1 and leg 0; for λ=(1,1), its upper indexed cell has arm 0 and leg 1. An out-of-diagram coordinate is not used in a product.
+`YoungDiagram.armLength` and `YoungDiagram.legLength` in `TauCeti/Combinatorics/Young/HookLength/Basic.lean`, lines 131 and 135, are the row and column lengths minus the cell coordinate and one. They are total natural-number functions; statements about cells retain membership. For λ=(2), its left cell has arm 1 and leg 0; for λ=(1,1), its upper indexed cell has arm 0 and leg 1. An out-of-diagram coordinate is not used in a product.
 
 ### From TauCetiRoadmap.AlgebraicVectorBundles
 
@@ -68,7 +68,7 @@ Layers L0A–L0C supply the tensor, dual, constant-rank finite-locally-free shea
 
 ### From TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
 
-Layer 0, “Recognition”, “Uniqueness” and “Indecomposables”, supplies Krull–Schmidt recognition for idempotent-complete Hom-finite categories over a commutative Artinian ring, uniqueness of finite decompositions and local endomorphism rings. Its “The radical in a Krull-Schmidt category” paragraph supplies the radical block description: between nonisomorphic indecomposables every Hom lies in the radical, and a repeated summand contributes the full matrix algebra over its endomorphism radical. Apply these results to the abelian category Coh(X), Hom-finite over k by SchemeAndStackFoundations §2.6. The zero object has the empty decomposition; a line has local endomorphism ring k, whereas O² has endomorphism ring M₂(k).
+Layer 0, §0.1 (local endomorphism rings and indecomposables, with Fitting's lemma), §0.3 (uniqueness of decompositions) and §0.4 (recognition over a commutative Artinian ring), supplies Krull–Schmidt recognition for idempotent-complete Hom-finite categories over a commutative Artinian ring, uniqueness of finite decompositions and local endomorphism rings of indecomposables. Its §0.6, the radical as a morphism ideal, supplies the matrix description of the radical: for decompositions into objects with local endomorphism rings, a map is radical exactly when none of its components is an isomorphism. Hence between nonisomorphic indecomposables every Hom lies in the radical, and a repeated summand contributes the full matrix algebra over its endomorphism radical. Apply these results to the abelian category Coh(X), Hom-finite over k by SchemeAndStackFoundations §2.6. The zero object has the empty decomposition; a line has local endomorphism ring k, whereas O² has endomorphism ring M₂(k).
 
 ### From TauCetiRoadmap.ClassicalGroupsPartII
 
@@ -213,11 +213,12 @@ On smooth proper geometrically connected curves, its interface has the following
 - Isomorphic fixed-rank bundles have the same degree.
 - Finite sums have additive degree and the trivial rank-r bundle has degree zero.
 - On the intended curves the formula agrees with determinant degree by Riemann–Roch.
+- In rank one, on every scheme over k and not only on curves, `bundleDegree` is Tau Ceti's `InvertibleSheaf.eulerDegree` of the invertible sheaf that `InvertibleSheaf.fixedRankOneEquiv` attaches to E, since that equivalence keeps the underlying sheaf; SchemeAndStackFoundations §3.3 records the same rank-one comparison for its general degree.
 
 **Checks.**
 
 - On P¹, χ₂(O(1))=2 and χ₂(O)=1, so the degree is 2−1=1.
-- On a genus-two curve, χ₂(O)=−1 and the degree of O² is −2−2(−1)=0; using χ₂(E) alone would give −2.
+- On a genus-two curve, χ₂(O)=−1 and the degree of O² is −2−2(−1)=0; using χ₂(E) alone would give −2, and extending the rank-one formula χ₂(E)−χ₂(O_X) unweighted to rank two would give −2−(−1)=−1.
 - On P¹, O(1)⊕O(−1) has χ₂=2+0=2 and rank 2, so degree 2−2=0; it is not required to be trivial.
 
 Define `IsAbsolutelyIndecomposable` by applying Mathlib's `Indecomposable` to the underlying sheaf of the pullback along X×ₖk̄→X. It includes nonzeroness. Define `absIndecCount` as `Nat.card` of the skeleton of the full fixed-rank subcategory on degree d and this predicate. It counts isomorphism classes, with no automorphism weights. The finiteness theorem §1.10 justifies the natural cardinality for finite-field curves; on arbitrary schemes the total functions alone make no finiteness claim.
@@ -258,7 +259,7 @@ Prove that for every coherent F on the finite-field curve and every field extens
 
 One route is as follows. Define the isomorphism-invariant geometric predicate and its class cardinality. For HN compatibility, uniqueness over k̄ makes the geometric filtration invariant under Galois; its finite-presentation data descend over a finite extension and then effectively to k. For an extension beyond k̄, a new destabilizing quotient would give a point of a fixed projective Quot scheme over an algebraically closed extension; its nonempty finite-type locus has a k̄-point, contradicting geometric semistability. Separate the torsion subobject first. Use these HN subcategories for decorated counts; finiteness is §1.10. This uses GlobalShtukasAndFunctionFieldLanglands §0.5 for existence and uniqueness and SchemeAndStackFoundations §§1.18–1.21 and 4.14 for descent and Quot.
 
-*Needs:* GlobalShtukasAndFunctionFieldLanglands §§0.1, 0.5–0.6, 0.13; SchemeAndStackFoundations §§1.18–1.21, 3.3 and 4.14; `FiniteLocallyFreeSheaf.FixedRank`; `FiniteLocallyFreeSheaf.FixedRank.pullback`; `Scheme.Modules.eulerCharBelow`; `Indecomposable`; §0.1.
+*Needs:* GlobalShtukasAndFunctionFieldLanglands §§0.1, 0.5–0.6, 0.13; SchemeAndStackFoundations §§1.18–1.21, 3.3 and 4.14; `FiniteLocallyFreeSheaf.FixedRank`; `FiniteLocallyFreeSheaf.FixedRank.pullback`; `Scheme.Modules.eulerCharBelow`; `InvertibleSheaf.eulerDegree`; `InvertibleSheaf.fixedRankOneEquiv`; `Indecomposable`; §0.1.
 
 **Checks.**
 
@@ -303,16 +304,17 @@ For a line bundle the unweighted absolute count is P_X(1). The universal express
 - SchemeAndStackFoundations §§1.18–1.21, 3.3 and 4.14.
 - `FiniteLocallyFreeSheaf.FixedRank` and `FiniteLocallyFreeSheaf.FixedRank.pullback`.
 - `Scheme.Modules.eulerCharBelow` and `Indecomposable`.
+- `InvertibleSheaf.eulerDegree` and `InvertibleSheaf.fixedRankOneEquiv`.
 
 ## Layer 1: coherent decomposition and finite-field enumeration
 
 ### 1.2 Krull–Schmidt for coherent sheaves
 
-Apply the decomposition, uniqueness and local-endomorphism criteria of RepresentationTheory/ArtinAlgebras Layer 0 to Coh(X). Prove the finite-field refinement: the local endomorphism algebra of an indecomposable has a finite residue division field k_M/F_q. Every endomorphism of an indecomposable is either a unit or nilpotent. (S16, §2.2, Lemma 2.3 and Corollary 2.5, p.309; S16 line 615).
+Apply the decomposition, uniqueness and local-endomorphism criteria of RepresentationTheory/ArtinAlgebras §§0.1, 0.3–0.4 to Coh(X). Prove the finite-field refinement: the local endomorphism algebra of an indecomposable has a finite residue division field k_M/F_q. Every endomorphism of an indecomposable is either a unit or nilpotent. (S16, §2.2, Lemma 2.3 and Corollary 2.5, p.309; S16 line 615).
 
-One route is as follows. Coh(X) is abelian, has finite biproducts and is Hom-finite over k by SchemeAndStackFoundations §2.6. Apply RepresentationTheory/ArtinAlgebras Layer 0, “Recognition”, “Uniqueness” and “Indecomposables”. Its finite-dimensional local endomorphism algebra has nilpotent Jacobson radical, so every nonunit is nilpotent. Apply Wedderburn’s finite division-ring theorem to its residue division ring.
+One route is as follows. Coh(X) is abelian, has finite biproducts and is Hom-finite over k by SchemeAndStackFoundations §2.6. Apply RepresentationTheory/ArtinAlgebras §0.4 (recognition), §0.3 (uniqueness) and §0.1 (Fitting's lemma: an indecomposable has local endomorphism ring). Its finite-dimensional local endomorphism algebra has nilpotent Jacobson radical, so every nonunit is nilpotent. Apply Wedderburn’s finite division-ring theorem to its residue division ring.
 
-*Needs:* RepresentationTheory/ArtinAlgebras Layer 0; SchemeAndStackFoundations §2.6; `IsArtinianRing.isNilpotent_jacobson_bot`; `Finite.isDomain_to_isField`.
+*Needs:* RepresentationTheory/ArtinAlgebras §§0.1, 0.3–0.4; SchemeAndStackFoundations §2.6; `IsArtinianRing.isNilpotent_jacobson_bot`; `Finite.isDomain_to_isField`.
 
 **Checks.**
 
@@ -320,11 +322,11 @@ One route is as follows. Coh(X) is abelian, has finite biproducts and is Hom-fin
 
 ### 1.3 radical and semisimple matrix quotient
 
-For `M=⊕_i M_i^{n_i}` with pairwise nonisomorphic indecomposable coherent M_i, apply RepresentationTheory/ArtinAlgebras Layer 0’s radical block description and prove the finite-field identification `End(M)/rad≃∏_i M_{n_i}(k_{M_i})`. The radical is nilpotent, and an endomorphism is nilpotent iff its image in every matrix quotient is nilpotent. (S16, §2.2, Lemma 2.4, p.309 (matrix-block correction); S16 line 615).
+For `M=⊕_i M_i^{n_i}` with pairwise nonisomorphic indecomposable coherent M_i, apply the matrix description of the radical in RepresentationTheory/ArtinAlgebras §0.6 and prove the finite-field identification `End(M)/rad≃∏_i M_{n_i}(k_{M_i})`. The radical is nilpotent, and an endomorphism is nilpotent iff its image in every matrix quotient is nilpotent. (S16, §2.2, Lemma 2.4, p.309 (matrix-block correction); S16 line 615).
 
 One route is as follows. Write composition in block matrices and identify the ideal by its action on the distinct simple projective tops. Use the semisimple quotient and nilpotent radical of the Artinian endomorphism algebra. Lift nilpotence through a nilpotent ideal.
 
-*Needs:* §1.2; RepresentationTheory/ArtinAlgebras Layer 0, The radical in a Krull-Schmidt category; `IsArtinianRing.isNilpotent_jacobson_bot`; `IsArtinianRing.isSemisimpleRing_iff_jacobson`.
+*Needs:* §1.2; RepresentationTheory/ArtinAlgebras §0.6; `IsArtinianRing.isNilpotent_jacobson_bot`; `IsArtinianRing.isSemisimpleRing_iff_jacobson`.
 
 **Checks.**
 
@@ -428,7 +430,7 @@ Over 𝔽₂ the four nilpotent 2×2 matrices are the zero matrix and the three 
 
 - GlobalShtukasAndFunctionFieldLanglands §§0.1, 0.5–0.6, 0.13.
 - SchemeAndStackFoundations §§2.20, 3.3, 3.6–3.7 and its coherent-duality contract.
-- RepresentationTheory/ArtinAlgebras Layer 0.
+- RepresentationTheory/ArtinAlgebras §§0.1, 0.3–0.4 and 0.6.
 - SchemeAndStackFoundations §2.6.
 - `Finite.isDomain_to_isField`.
 - `IsArtinianRing.isNilpotent_jacobson_bot`.
