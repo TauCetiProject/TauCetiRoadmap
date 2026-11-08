@@ -76,13 +76,18 @@ consumed by name; no second carrier is built.
   rank two, with `C₀(Q)` Azumaya over it, is its §2.2's (`evenClifford_center_etale_azumaya`).
 - The orthogonal group scheme of a quadratic space over a perfect field of characteristic two,
   with its reduction, its components and its point counts over finite fields, is
-  OrthogonalTamagawaAndLatticeMass §0.1a's. Layer 3 constructs `O(Q)` over an arbitrary base and
-  compares it with that group (3.1).
+  OrthogonalTamagawaAndLatticeMass §0.1a's. The orthogonal and special orthogonal group schemes
+  of a nondegenerate quadratic space over a field of characteristic `≠ 2`, as
+  `TauCeti.ConstantForm.groupScheme K n C`, with their smoothness, are that roadmap's §0.1's.
+  Layer 3 constructs `O(Q)` over an arbitrary base and compares it with both groups (3.1).
+- The Arf invariant `arfInvariant` of a nonsingular form over a field of characteristic two, with
+  its independence of the symplectic basis, is GeometryOfNumbersAndQuadraticArithmetic §6.8's.
 - The discriminant of a binary form at formal degree, `formDiscr`, with its degree-drop laws and
   its compatibility with ring maps, is HyperellipticCurves §0.1's; the discriminant of a
   polynomial is Mathlib's `Polynomial.discr`.
-- Torsors and their classes are SchemeAndStackFoundations' (§1.15 for torsors under a group
-  space, §2.3 for the carrier `NonabelianH1`), consumed in 3.4.
+- Descent of quasi-coherent modules, torsors and their classes are SchemeAndStackFoundations'
+  (§1.1 for descent, §1.15 for torsors under a group space, §2.3 for the carrier `NonabelianH1`),
+  consumed in 3.4.
 - The orthogonal and special orthogonal groups of the standard symmetric bilinear form
   (`X Xᵀ = 1`) are Tau Ceti's `TauCeti.Orthogonal` and `TauCeti.SpecialOrthogonal`, with the
   smoothness of `SOₙ` when `2` is invertible; they are groups of a bilinear form, not of a
@@ -169,8 +174,14 @@ consumed by name; no second carrier is built.
   `GL (Fin n) A`.
 - **Hopf ideals** (`TauCeti/Algebra/HopfAlgebra/HopfIdeal/Basic.lean`): `TauCeti.HopfIdeal`,
   `HopfIdeal.toIdeal`, and `HopfIdeal.ofSpan` (a Hopf ideal from generators satisfying the three
-  closure conditions), which is the route of 3.1; `TauCeti.ConstantForm.definingHopfIdeal` is
-  the same construction for the bilinear relations `X C Xᵀ = C`.
+  closure conditions), which is the route of 3.1.
+- **The group scheme preserving a constant matrix**
+  (`TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` and
+  `…/HopfIdeal/Points/Basic.lean`): `TauCeti.ConstantForm.definingHopfIdeal R n C`, the same
+  construction for the bilinear relations `X C Xᵀ = C`, its group scheme
+  `TauCeti.ConstantForm.groupScheme`, the subgroup of points
+  `TauCeti.CommHopfAlgCat.quotientPointsSubgroup` it cuts out, and the membership criterion
+  `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff` (`M C Mᵀ = C`), consumed in 3.1.
 - **Roots of unity** (`TauCeti/Algebra/AlgebraicGroup/RootsOfUnity/Smooth.lean`):
   `TauCeti.RootsOfUnityGroup.coordinateRing_smooth_iff`, used in 3.3 for the factor `μ₂`.
 - **The orthogonal group of a quadratic map**
@@ -191,8 +202,15 @@ modules of positive rank, their base change and fibre criterion, and the étale-
 `evenClifford_center_etale_azumaya`, the even Clifford centre in positive even rank, read in the
 Layer 4 Examples.
 
-**From OrthogonalTamagawaAndLatticeMass.** §0.1a: the orthogonal group `O(q) ⊂ GL(W)` of a
-quadratic space over a perfect field of characteristic two, consumed in the comparison of 3.1.
+**From OrthogonalTamagawaAndLatticeMass.** §0.1: the orthogonal group `O(V, Q)` of a
+nondegenerate quadratic space over a field of characteristic `≠ 2`, as
+`TauCeti.ConstantForm.groupScheme K n C` with points `M C Mᵀ = C`, and §0.1a: the orthogonal group
+`O(q) ⊂ GL(W)` of a quadratic space over a perfect field of characteristic two, both consumed in
+the comparisons of 3.1.
+
+**From GeometryOfNumbersAndQuadraticArithmetic.** §6.8: `arfInvariant`, the Arf invariant of a
+nonsingular form over a field of characteristic two, read in the Layer 1 Examples and the Research
+context.
 
 **From QuadraticFormInvariantsPartII.** §0.2: `extendScalars`, the coordinate scalar extension
 from a field, consumed in the comparison of 0.2.
@@ -200,10 +218,11 @@ from a field, consumed in the comparison of 0.2.
 **From HyperellipticCurves.** §0.1: `formDiscr`, the discriminant of a binary form at formal
 degree, consumed in 6.1.
 
-**From SchemeAndStackFoundations.** SchemeAndStackFoundations' `IsTorsor` (§1.15: torsors
-under a group space flat and of finite presentation, for the fppf topology) and
-SchemeAndStackFoundations' `NonabelianH1` (§2.3: the pointed set of torsor classes), consumed in
-3.4 only.
+**From SchemeAndStackFoundations.** §1.1: descent of quasi-coherent modules
+(SchemeAndStackFoundations' `qcoh_fpqc_descent`); SchemeAndStackFoundations' `IsTorsor` (§1.15:
+torsors under a group space flat and of finite presentation, for the fppf topology); and
+SchemeAndStackFoundations' `NonabelianH1` (§2.3: the pointed set of torsor classes); all consumed
+in 3.4 only.
 
 ## How to read the build
 
@@ -300,7 +319,8 @@ polynomial whose coefficients are those of `univDisc n` divided by `2`. Prove
 Proposition C.1.4 (1), p. 304). Route: modulo `2`, `U + Uᵀ` agrees with the alternating matrix
 `U − Uᵀ`, whose determinant vanishes in odd size because `det(Kᵀ) = det(−K) = −det K` and `ℤ[U]`
 has no `2`-torsion; so every coefficient of `univDisc n` is even. Also prove that `univHalfDisc n`
-is homogeneous of degree `n` and that it is the only polynomial `d` with `2d = univDisc n`.
+is homogeneous of degree `n` for every `n`, and that, for `n` odd, it is the only polynomial `d`
+with `2d = univDisc n` (`ℤ[U]` has no `2`-torsion).
 
 *Needs:* Mathlib `Matrix.det_transpose`, `Matrix.det_neg`, `MvPolynomial.coeff`,
 `MvPolynomial.IsHomogeneous`.
@@ -400,12 +420,16 @@ is `(−1)^(n/2) det(polarMatrix Q)`, by the divisibility above, evaluated at `c
   `bᵢ ≠ 0`: `B = ∏ bᵢ`, `C = Σᵢ aᵢcᵢ ∏_{j≠i} bⱼ²` (the reduction of
   `(∏ (bᵢ² − 4aᵢcᵢ) − ∏ bᵢ²)/4`), and
   `ω = B t` identifies `discAlgebra f` with `K[t]/(t² + t + Σ aᵢcᵢ/bᵢ²)`, the Artin–Schreier algebra
-  of Arf's invariant `Σ aᵢcᵢ/bᵢ² mod ℘(K)` (Arf 1941). For `bᵢ = 1` this is Dieudonné's
-  computation of the centre of `C₀(f)`, `z² + z = Σ aᵢcᵢ` (Dieudonné 1955, §2, pp. 908–909).
+  of Arf's invariant, GeometryOfNumbersAndQuadraticArithmetic §6.8's `arfInvariant f`: the class
+  in `K/℘(K)` of `Σ f(uᵢ) f(vᵢ)` for a symplectic basis `(uᵢ, vᵢ)`, which for `uᵢ` the `xᵢ`-basis
+  vector and `vᵢ` the `yᵢ`-basis vector divided by `bᵢ` is `Σ aᵢcᵢ/bᵢ²`. For `bᵢ = 1` this is
+  Dieudonné's computation of the centre of `C₀(f)`, `z² + z = Σ aᵢcᵢ` (Dieudonné 1955, §2,
+  pp. 908–909).
 
 ### Dependencies
 
-Layer 0; Mathlib `Matrix.det`, `MvPolynomial`, `QuadraticAlgebra`.
+Layer 0; Mathlib `Matrix.det`, `MvPolynomial`, `QuadraticAlgebra`;
+GeometryOfNumbersAndQuadraticArithmetic §6.8 (Examples).
 
 ## Layer 2: smooth forms
 
@@ -474,7 +498,11 @@ LefschetzPencilsAndVanishingCycles §2.2 uses.
 ### 2.3 Standard forms
 
 Define `standard n` as in the Conventions. Prove that it is smooth for every `n` and every `R`,
-with `δ'(standard (2m + 1)) = (−1)^m` and `det polarMatrix (standard (2m)) = (−1)^m`.
+with `δ'(standard (2m + 1)) = (−1)^m` and `det polarMatrix (standard (2m)) = (−1)^m` (Conrad
+2014, Definition C.1.2 and the sentence after it, p. 303, for Conrad's `q_n`, which has the same
+`δ'` and polar determinant by the Conventions; proof of Proposition C.1.4, p. 305, for the odd
+value; the even value is the block computation of the Layer 1 Examples). Route: the unit criteria
+of 2.2 at these values.
 
 *Needs:* 1.2, 2.2.
 
@@ -548,12 +576,25 @@ comultiplication of an entry of `coeffMatrix (Q ∘ X) − coeffMatrix Q` is com
 `Q ∘ (X ⊗ X) − Q = (Q ∘ X − Q) ∘ X + (Q ∘ X − Q)`, as for `TauCeti.ConstantForm`. Prove also the
 comparison with OrthogonalTamagawaAndLatticeMass §0.1a: over a perfect field `k` of
 characteristic two, `H ⧸ orthogonalIdeal Q` represents §0.1a's `O(q)` on `W = kⁿ`, both being cut
-out of `GLₙ` by the coefficients of `q(g x) − q(x)`; Layer 3 extends that group to an arbitrary
-base. No source is named for the comparison; the route is its proof.
+out of `GLₙ` by the coefficients of `q(g x) − q(x)`. Prove `mem_constantForm_polarMatrix_iff`,
+the comparison with OrthogonalTamagawaAndLatticeMass §0.1, whose `O(V, Q)` over a field of
+characteristic `≠ 2` is `TauCeti.ConstantForm.groupScheme K n C`: when `Invertible (2 : R)`, a
+point `h ∈ GLₙ(A)` satisfies `h C hᵀ = C` at `C = polarMatrix Q` exactly when `h = (gᵀ)⁻¹` for
+some `g ∈ orthogonalGroup Q A`, so that `g ↦ (gᵀ)⁻¹` is an isomorphism from `O(Q)` onto the group
+scheme of `TauCeti.ConstantForm` at the polar matrix. This is the transport `M ↦ M⁻ᵀ` between the
+column convention `gᵀ C g = C` and the row convention `M C Mᵀ = C` that
+OrthogonalTamagawaAndLatticeMass records in its Conventions. Route: when `2` is invertible,
+`Q_A(x) = ½ polar Q_A(x, x)`, so `g` preserves `Q_A` exactly when `gᵀ C g = C`, that is
+`g⁻ᵀ C g⁻¹ = C` (`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`). Layer 3 extends both
+groups to an arbitrary base. No source is named for the two comparisons; the routes are their
+proofs.
 
 *Needs:* 0.1, 0.2; Tau Ceti `GeneralLinear.coordinateHopfAlgebra`, `genericMatrix`,
 `pointsMulEquiv`, `HopfIdeal`, `HopfIdeal.ofSpan`, `TauCeti.QuadraticMap.orthogonalGroup`,
-`QuadraticMap.orthogonalToGeneralLinear`; OrthogonalTamagawaAndLatticeMass §0.1a.
+`QuadraticMap.orthogonalToGeneralLinear`, `TauCeti.ConstantForm.definingHopfIdeal`,
+`TauCeti.CommHopfAlgCat.quotientPointsSubgroup`,
+`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`;
+OrthogonalTamagawaAndLatticeMass §0.1 and §0.1a.
 
 **Checks.**
 
@@ -562,12 +603,17 @@ base. No source is named for the comparison; the route is its proof.
 - `Q = x₀x₁`: the relations are `X₀₀X₁₀`, `X₀₁X₁₁` and `X₀₀X₁₁ + X₀₁X₁₀ − 1`; their points are
   `!![t, 0; 0, t⁻¹]` and `!![0, t; t⁻¹, 0]` over a connected `A`; the bilinear relations
   `X C Xᵀ = C` of `TauCeti.ConstantForm` at the polar matrix `C = !![0, 1; 1, 0]` give the same
-  points over `ℤ[1/2]` but over `𝔽₂` they also allow `!![1, 1; 0, 1]`, which is not in `O(x₀x₁)`.
+  points over `ℤ[1/2]`, by the identity map, only because here `C⁻¹ = C`, so that `gᵀ C g = C`
+  forces `g C gᵀ = C`; over `𝔽₂` they also allow `!![1, 1; 0, 1]`, which is not in `O(x₀x₁)`.
   Over `ℤ`, for `q₂ₘ`, the bilinear relations define a subscheme of `GL₂ₘ` that is not flat, and
   `O(q₂ₘ)` is its largest `ℤ`-flat subscheme (Chaput–Romagny 2010, Remark 4.1.2, arXiv numbering).
 - The zero form: `orthogonalIdeal 0 = ⊥` and `O(0) = GLₙ`.
 - The `x₀x₁` Check agrees with OrthogonalTamagawaAndLatticeMass §0.1a's Check at `q = x y` on
   `𝔽₂²`: the points over `𝔽₂` are the identity and the swap, and the shear is excluded in both.
+- `mem_constantForm_polarMatrix_iff` at `Q = x² + 4y²` over `ℚ`, `C = diag(2, 8)`:
+  `g = !![0, 2; 1/2, 0]` has `Q(g x) = Q(x)`, but `g C gᵀ = diag(32, 1/2) ≠ C`, so the identity map
+  does not send `O(Q)` into the points `M C Mᵀ = C`; `(gᵀ)⁻¹ = !![0, 1/2; 2, 0]` satisfies
+  `M C Mᵀ = C`.
 
 ### 3.2 Determinant and the decomposition in odd rank
 
@@ -593,20 +639,52 @@ in even rank, and the invariant is a unit (2.2); then `ζ = det g`, since `det(�
 Prove `smooth_orthogonal_iff`: for `Q` smooth, `H ⧸ orthogonalIdeal Q` is smooth over `R` exactly
 when `n` is even or `2 ∈ Rˣ`; and `smooth_specialOrthogonal`: for `n` odd and `Q` smooth,
 `H ⧸ (orthogonalIdeal Q ⊔ (det X − 1))` is smooth over `R` (Conrad 2014, Theorem C.1.5, p. 305).
-Route: the fibral criterion for a flat morphism of finite presentation, the orbit map of `GLₙ` on
-the scheme of smooth forms, and the tangent space computation
-`dim Lie O(q) = n(n − 1)/2 + (δ² + δ)/2`, `δ` the defect, at an algebraically closed field (Conrad
-2014, proof of Theorem C.1.5, Steps 1 and 3, pp. 306–308); for `n` odd and `2 ∉ Rˣ`, the factor
-`μ₂` of 3.2 is not smooth at a prime of residue characteristic two (Tau Ceti
-`RootsOfUnityGroup.coordinateRing_smooth_iff`).
+The route is infinitesimal lifting, which needs no flatness criterion. Both quotients are finitely
+presented (finitely many relations in the finitely presented `H`), so it suffices to lift points
+along a square-zero `A → A/J` of `R`-algebras (`Algebra.Smooth` is `Algebra.FormallySmooth` with
+`Algebra.FinitePresentation`). Write `P = polarMatrix Q` and `B_Q(x, y) = xᵀ P y`.
 
-*Needs:* 2.2, 2.4, 3.1, 3.2; Mathlib `Algebra.Smooth`, `Algebra.FormallySmooth`; Tau Ceti
+- *`smooth_orthogonal_iff`, from `n` even or `2 ∈ Rˣ`.* Then `det P` is a unit: by 2.2 when `n` is
+  even, and as `2 δ'(Q)` (1.2) when `n` is odd. Lift `g₀ ∈ O(Q)(A/J)` to any matrix `g̃` over `A`,
+  invertible since `J` is nilpotent. The form `ψ = −(Q ∘ g̃ − Q)` has coefficients in `J`; let `β`
+  be its coefficient matrix and `T = P⁻¹ β`. As `J² = 0` and `g̃ᵀ P g̃ ≡ P` modulo `J`,
+  `Q(g̃ (1 + T) x) = Q(x) − ψ(x) + xᵀ P T x = Q(x)`, so `g = g̃ (1 + T)` lifts `g₀` to `O(Q)(A)`.
+- *`smooth_orthogonal_iff`, the converse.* For `n` odd, `ζ ↦ ζ · 1` and `g ↦ det g` make `μ₂` a
+  retract of `O(Q)` (3.2: `det(ζ · 1) = ζⁿ = ζ`), and a retract of a smooth algebra is smooth. If
+  `2 ∉ Rˣ`, a maximal ideal `𝔪 ∋ 2` (`Ideal.exists_le_maximal`) gives, by base change, a smooth
+  `μ₂` over the field `R/𝔪` of characteristic two, which it is not (Tau Ceti
+  `RootsOfUnityGroup.coordinateRing_smooth_iff`).
+- *`smooth_specialOrthogonal`.* Let `n` be odd, `Quadₙ(R) ≅ R^(n(n+1)/2)` the forms on
+  `Fin n → R`, and `Φ : Mₙ(R) → Quadₙ(R) × R` the linear map `T ↦ (x ↦ B_Q(x, T x), tr T)`.
+  Write `dδ'_Q(ψ)` for the coefficient of `ε` in `δ'(Q + ε ψ)` over `R[ε]/(ε²)`. By 1.3 over
+  `R[ε]/(ε²)` at `g = 1 + ε T`, `Φ` takes values in the kernel `N` of
+  `λ(ψ, t) = dδ'_Q(ψ) − 2 t δ'(Q)`. By 1.3, `δ'((1 + ε) Q) = (1 + ε)ⁿ δ'(Q)`, so
+  `λ(Q, 0) = n δ'(Q)`; with `λ(0, 1) = −2 δ'(Q)` it generates the unit ideal, `n` being odd and
+  `δ'(Q)` a unit (2.2). So `λ` is onto `R`, and `N` is a direct summand of rank `n(n + 1)/2`. At an
+  algebraically closed field `k`, the kernel of `Φ_k` is the Lie algebra of `SO(Q_k)`, of
+  dimension `n(n − 1)/2`: the Lie algebra of `O(Q_k)` has dimension `n(n − 1)/2 + (δ² + δ)/2`,
+  `δ ∈ {0, 1}` the defect (Conrad 2014, proof of Theorem C.1.5, p. 307); when `δ = 1`
+  (characteristic two) it contains `1`, of trace `n = 1`, and when `δ = 0` the trace vanishes on
+  it, since there `K = P T` is alternating, `P` is invertible and `tr(P⁻¹ K) = −tr(P⁻¹ K)`. So `Φ_k`
+  is onto `N ⊗ k`, `Φ` is onto `N` by Nakayama's lemma at every maximal ideal
+  (`IsLocalRing.map_tensorProduct_mk_eq_top`, `surjective_of_isLocalized_maximal`), and
+  `Φ ⊗ J : Mₙ(J) → N ⊗ J` is onto. Lift `g₀ ∈ SO(Q)(A/J)` to `g̃` with `det g̃ = 1` (scale a
+  column by a unit `≡ 1` modulo `J`), and set `ψ = −(Q ∘ g̃ − Q)`. By 1.3, `δ'(Q − ψ) = δ'(Q)`, so
+  `dδ'_Q(ψ) = 0` and `(ψ, 0) ∈ N ⊗ J`; choose `T ∈ Mₙ(J)` with `Φ(T) = (ψ, 0)`. Then
+  `g = g̃ (1 + T)` preserves `Q` as above and has `det g = 1 + tr T = 1`.
+
+*Needs:* 1.1, 1.2, 1.3, 2.2, 3.1, 3.2; Mathlib `Algebra.Smooth`, `Algebra.FormallySmooth`,
+`Algebra.FinitePresentation`, `Algebra.Smooth.baseChange`, `Ideal.exists_le_maximal`,
+`IsLocalRing.map_tensorProduct_mk_eq_top`, `surjective_of_isLocalized_maximal`; Tau Ceti
 `RootsOfUnityGroup.coordinateRing_smooth_iff`.
 
 **Checks.**
 
 - `n = 1`, `R = 𝔽₂`, `Q = x²`: `O = μ₂ = Spec 𝔽₂[t]/(t − 1)²` is not smooth, and `SO = 1` is.
-- `n = 2`, `R = 𝔽₂`, `Q = x₀x₁`: `O(Q)` is smooth of dimension `1`, with two components.
+- `n = 2`, `R = 𝔽₂`, `Q = x₀x₁`: `O(Q)` is smooth of dimension `1`, with two components. The
+  lifting step over `𝔽₂[ε]/(ε²)` at `g₀ = !![0, 1; 1, 0]`: the lift `g̃ = !![ε, 1; 1, 0]` has
+  `Q ∘ g̃ − Q = ε x₀²`, so `β = !![ε, 0; 0, 0]`, `T = P⁻¹ β = !![0, 0; ε, 0]`, and
+  `g̃ (1 + T) = !![0, 1; 1, 0]` lies in `O(Q)`; with `T = 0` the lift `g̃` is not in `O(Q)`.
 - Without smoothness of `Q`: for `Q = x² + y² = (x + y)²` over `𝔽₂`, the points of `O(Q)` over an
   algebraically closed field `K` are the `!![a, b; 1 + a, 1 + b]` with `a ≠ b`, a family of
   dimension `2`, not `n(n − 1)/2 = 1`.
@@ -617,12 +695,14 @@ Prove that `P ↦ (the form P ∧^{O(qₙ)} qₙ)` is a bijection from SchemeAnd
 `NonabelianH1` of the big fppf site of `Spec R` with coefficients `O(qₙ)` (§2.3) onto isometry
 classes of smooth forms on locally free modules of rank `n`, with the trivial class going to
 `qₙ`; and that it restricts to the classes of forms on `Fin n → R` among them. Route: 2.4 says
-that every smooth form is an fppf twist of `qₙ`; fppf descent of modules with a quadratic form,
-and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations §1.15). No source is named
-for the bijection; the route is its proof.
+that every smooth form is an fppf twist of `qₙ`; fppf descent of modules with a quadratic form
+(SchemeAndStackFoundations §1.1), and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations
+§1.15). §1.15 applies because `O(qₙ)` is flat and finitely presented over `ℤ`: smooth for `n` even
+(3.3), and `μ₂ × SO(qₙ)` with `SO(qₙ)` smooth for `n` odd (3.2, 3.3). No source is named for the
+bijection; the route is its proof.
 
-*Needs:* 2.4, 3.1; SchemeAndStackFoundations §1.15 (`IsTorsor`) and §2.3 (`NonabelianH1`,
-`NonabelianH1.mk`, `mk_eq_one_iff`).
+*Needs:* 2.4, 3.1, 3.2, 3.3; SchemeAndStackFoundations §1.1 (descent of quasi-coherent modules),
+§1.15 (`IsTorsor`) and §2.3 (`NonabelianH1`, `NonabelianH1.mk`, `mk_eq_one_iff`).
 
 **Checks.**
 
@@ -634,8 +714,7 @@ for the bijection; the route is its proof.
 - `n = 1` over `ℤ`: `H¹(ℤ, μ₂) = {±1}`, the forms `x²` and `−x²`.
 - `n = 8` over `ℤ`: the `E₈` lattice with `q(x) = x·x/2` has polar determinant `1`, so it is smooth,
   and it is positive definite, so not isometric to the indefinite `q₈`: its class in
-  `H¹(ℤ, O(q₈))` is not trivial. The orthogonal groups of such positive-definite lattices give
-  non-split reductive `ℤ`-groups of types B and D (Conrad 2015).
+  `H¹(ℤ, O(q₈))` is not trivial.
 
 ### Examples
 
@@ -646,7 +725,7 @@ for the bijection; the route is its proof.
 
 Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `RootsOfUnity`,
 `TauCeti.QuadraticMap.orthogonalGroup`; OrthogonalTamagawaAndLatticeMass §0.1a;
-SchemeAndStackFoundations §§1.15, 2.3.
+SchemeAndStackFoundations §§1.1, 1.15, 2.3.
 
 ## Layer 4: even Clifford algebras
 
@@ -766,8 +845,8 @@ degree, with its degree-drop laws and its compatibility with ring maps, is Hyper
 
 ### 6.1 The resultant at formal degree
 
-Prove `coeff_mul_formDiscr`: for `n ≥ 1` and `f : R[X]` with `natDegree f ≤ n`, over any
-commutative ring, `f.coeff n * formDiscr n f = (−1)^(n(n−1)/2) * resultant f f′ n (n − 1)`. Route:
+Prove that, for `n ≥ 1` and `f : R[X]` with `natDegree f ≤ n`, over any commutative ring,
+`f.coeff n * formDiscr n f = (−1)^(n(n−1)/2) * resultant f f′ n (n − 1)`. Route:
 if `natDegree f = n`, `formDiscr n f = discr f` (HyperellipticCurves §0.1) and the identity is
 Mathlib's `Polynomial.resultant_deriv`; if `natDegree f < n`, the left side is `0`, and so is the
 right side: for `n ≥ 2` by `Polynomial.resultant_eq_zero_of_lt_lt`, since
@@ -816,18 +895,17 @@ characteristic two, but by the Dickson invariant `O(Q) → ℤ/2`, the action of
 of `C₀(Q)`, whose kernel `SO(Q)` is smooth with connected fibres for `Q` smooth of positive even
 rank (Conrad 2014, (C.2.2), p. 313, Theorem C.2.11 and Remark C.2.12, p. 318). Over a field `K`
 of characteristic two that centre is `K[z]/(z² + z − Δ)`, `Δ` being Arf's invariant in a symplectic
-basis (Arf 1941; Dieudonné 1955, §2, pp. 908–909); for `q₂ₘ` over `ℤ` the Dickson invariant is the
-function `δ` with `det = 1 + 2δ` on `O(q₂ₘ)` (Chaput–Romagny 2010, Lemma 4.1.4 and Definition
-4.1.6, arXiv numbering). The congruence of 1.4 has the shape of Stickelberger's theorem, which holds
-for every free algebra of finite rank over a commutative ring: its discriminant is a square modulo
-`4` (Auel–Biesel–Voight 2023, Theorem 3.28, arXiv numbering). Biesel and Gioia attach to every
-commutative algebra of rank `n` a quadratic algebra with the same discriminant form, multiplicative
-for the product of 5.2: `Δ(A × B) ≅ Δ(A) ∗ Δ(B)` (Biesel–Gioia 2016, §8).
+basis (GeometryOfNumbersAndQuadraticArithmetic §6.8, `arfInvariant`; Dieudonné 1955, §2,
+pp. 908–909); for `q₂ₘ` over `ℤ` the Dickson invariant is the function `δ` with `det = 1 + 2δ` on
+`O(q₂ₘ)` (Chaput–Romagny 2010, Lemma 4.1.4 and Definition 4.1.6, arXiv numbering). The congruence
+of 1.4 has the shape of Stickelberger's theorem, which holds for every free algebra of finite rank
+over a commutative ring: its discriminant is a square modulo `4` (Auel–Biesel–Voight 2023, Theorem
+3.28, arXiv numbering). Biesel and Gioia attach to every commutative algebra of rank `n` a quadratic
+algebra with the same discriminant form, multiplicative for the product of 5.2:
+`Δ(A × B) ≅ Δ(A) ∗ Δ(B)` (Biesel–Gioia 2016, §8).
 
 ## References
 
-- C. Arf, « Untersuchungen über quadratische Formen in Körpern der Charakteristik 2. (Teil I.) »,
-  *J. reine angew. Math.* 183 (1941), 148–167. doi:10.1515/crll.1941.183.148; Zbl 0025.01403.
 - A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer.
   Math. Monthly* 130 (2023), 656–670. doi:10.1080/00029890.2023.2206326; Zbl 1522.11116;
   arXiv:2208.06138.
@@ -843,8 +921,6 @@ for the product of 5.2: `Δ(A × B) ≅ Δ(A) ∗ Δ(B)` (Biesel–Gioia 2016, �
   et Synthèses 42–43, Soc. Math. France, 2014, 93–444. Zbl 1349.14151. Author's version:
   https://math.stanford.edu/~conrad/papers/luminysga3.pdf (Appendix C, pp. 302–325); page
   numbers above are those of this version.
-- B. Conrad, « Non-split reductive groups over Z », in *Autour des schémas en groupes*, vol. II,
-  Panoramas et Synthèses 46, Soc. Math. France, 2015, 193–253. Zbl 1356.14033.
 - J. Dieudonné, « Pseudo-discriminant and Dickson invariant », *Pacific J. Math.* 5 (1955),
   907–910. doi:10.2140/pjm.1955.5.907; Zbl 0067.00705.
 - M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Grundlehren der mathematischen

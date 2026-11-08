@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.AlgebraicGroup.ConstantForm.Basic
 import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Basic
@@ -25,7 +26,9 @@ Headline theorems stated here:
 * README 1.4, `four_dvd_univSignedDisc_sub_sq`, `discr_discAlgebra`.
 * README 2.2, `isSmooth_iff_isUnit_halfDisc` and `isSmooth_iff_isUnit_det`.
 * README 2.4, `isSmooth_iff_exists_faithfullyFlat` and `exists_etale_isometryEquiv_standard`.
-* README 3.1, `exists_hopfIdeal_toIdeal_eq` and `mem_orthogonalGroup_iff_le_ker`.
+* README 3.1, `exists_hopfIdeal_toIdeal_eq`, `mem_orthogonalGroup_iff_le_ker` and
+  `mem_constantForm_polarMatrix_iff`, the comparison with Tau Ceti's group scheme preserving the
+  polar matrix when `2` is invertible.
 * README 3.2, `det_sq_eq_one` and `mem_orthogonalGroup_iff_existsUnique`.
 * README 3.3, `smooth_orthogonal_iff` and `smooth_specialOrthogonal`.
 * README 4.1, `isAzumaya_even_iff`.
@@ -250,6 +253,18 @@ theorem mem_orthogonalGroup_iff_le_ker (Q : QuadraticForm R (Fin n → R)) {A : 
     (φ : TauCeti.GeneralLinear.coordinateHopfAlgebra R n →ₐ[R] A) :
     TauCeti.GeneralLinear.pointsMulEquiv n (WithConv.toConv φ) ∈ orthogonalGroup Q A ↔
       orthogonalIdeal Q ≤ RingHom.ker (φ : _ →+* A) := by
+  sorry
+
+/-- README 3.1: when `2` is invertible, `g ↦ (gᵀ)⁻¹` identifies `O(Q)(A)` with the points of Tau
+Ceti's group scheme preserving the polar matrix `C`, the matrices `h` with `h C hᵀ = C`. -/
+theorem mem_constantForm_polarMatrix_iff [Invertible (2 : R)] (Q : QuadraticForm R (Fin n → R))
+    {A : Type u} [CommRing A] [Algebra R A] (h : GL (Fin n) A) :
+    (TauCeti.GeneralLinear.pointsMulEquiv (R := R) n).symm h ∈
+        TauCeti.CommHopfAlgCat.quotientPointsSubgroup
+          (TauCeti.GeneralLinear.coordinateHopfAlgebra R n)
+          (TauCeti.ConstantForm.definingHopfIdeal R n (polarMatrix Q)) (CommAlgCat.of R A) ↔
+      ∃ g ∈ orthogonalGroup Q A,
+        (h : Matrix (Fin n) (Fin n) A) * (g : Matrix (Fin n) (Fin n) A)ᵀ = 1 := by
   sorry
 
 /-- README 3.2: for a smooth form, every point of `O(Q)` has `det² = 1`. -/
