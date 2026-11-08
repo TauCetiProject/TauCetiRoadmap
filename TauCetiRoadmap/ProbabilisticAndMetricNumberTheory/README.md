@@ -4,11 +4,11 @@
 
 ## Scope and ownership
 
-This roadmap owns additive arithmetic predicates and their prime-power representations, arithmetic specializations of empirical laws, growing-prime probabilistic comparisons, asymptotic equidistribution and its Fourier criteria, reduced-rational approximation and the GCD-graph method, mass transference, pointwise ergodic convergence, the Gauss system, and the specified multiplicative statistics. It also owns the homogeneous-dynamics inputs of Layer 4 (invariant probabilities on quotients by discrete subgroups, Howe–Moore vanishing of matrix coefficients, Moore ergodicity, the finite covolume of SL₂(ℤ) and Mahler's compactness criterion, §§4.9a–4.9b), their concrete number-theoretic applications, and finite-label Shannon entropy (§5.1a).
+This roadmap owns additive arithmetic predicates and their prime-power representations, arithmetic specializations of empirical laws, growing-prime probabilistic comparisons, asymptotic equidistribution and its Fourier criteria, reduced-rational approximation and the GCD-graph method, mass transference, pointwise ergodic convergence, the Gauss system, and the specified multiplicative statistics. It also owns the homogeneous-dynamics inputs of Layer 4 (the unimodularity of a group with a lattice and the uniqueness of the invariant probability on its quotient, the scalar Lᵖ pullback representation of a measure-preserving group action, Howe–Moore vanishing of matrix coefficients, Moore ergodicity, the finite covolume of SL₂(ℤ) and Mahler's compactness criterion, §§4.9a–4.9b), their concrete number-theoretic applications, and finite-label Shannon entropy (§5.1a).
 
 Mathlib supplies `ArithmeticFunction`, `cardDistinctFactors` (ω), `cardFactors` (Ω), native continued fractions and positional digits, Haar measure on circles and tori, Gaussian measures and weak convergence. Tau Ceti supplies `Probability.empiricalMeasure`, Gaussian centered moments, conditional-expectation and martingale tools, and mean ergodic convergence. These are prerequisites. The pointwise theorem in §4.1 applies to every integrable observable; the existing L2 mean theorem and its L1 consequence under an L2 hypothesis supply a different statement. Moment convergence to a determinate law, including the Gaussian specialization used in §1.5, belongs to RandomMatrices §3.2, with its reusable tightness and uniform-integrability machinery (the shared-foundations contract of FreeProbability).
 
-Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. Quotients by discrete subgroups, their invariant probabilities, Howe–Moore, Moore ergodicity and Mahler's criterion are the targets of §§4.9a–4.9b; the Cartan, Iwasawa and KAK decompositions and restricted roots they use, including the Cartan datum of a connected semisimple group with finite centre, come from RepresentationTheory/LieGroups Layer 9. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
+Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. Quotients by discrete subgroups, their invariant probabilities, Howe–Moore, Moore ergodicity and Mahler's criterion are the targets of §§4.9a–4.9b. The quotient measure of a closed subgroup with matching modular characters, its uniqueness under the unfolding identity, its scaling law and the inversion between the two coset conventions are AnalyticNumberTheoryPartII §5.3k, of which §4.9a states only the normalized lattice case: a group with a lattice is unimodular, and the invariant probability on its quotient is unique. The scalar Lᵖ pullback representation of a measure-preserving group action, with its strong continuity for continuous actions, is constructed in §4.9a at every p≥1 and consumed by GeometryOfNumbersAndQuadraticArithmetic §4.2. The Cartan, Iwasawa and KAK decompositions and restricted roots they use, including the Cartan datum of a connected semisimple group with finite centre, come from RepresentationTheory/LieGroups Layer 9. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
 
 The finite weighted sums and exact remainder formulas specialize native counting, CRT and empirical-measure declarations; their generic counting and probability theorems are consumed under the pinned names below. The stronger summed rough-number, restricted Dirichlet, long-mean, high-twist Liouville, modulated short-sum, prime fourth-moment and divisor-bounded-mean statements are owned in §§0.13, 3.7, 5.1–5.2. These strengthen the generic mean-square and Halász inputs rather than treating those inputs as the desired conclusions. The sieve targets concern the full smooth/rough decomposition and arbitrary bounded prime phases; no smaller prime family is selected.
 
@@ -70,7 +70,11 @@ Consume the Export contract, Layer 6, `truncatedPerronKernel` and `perronFormula
 
 Consume §0.19's explicit reciprocal-prime estimate for x≥286 and §0.21's Mertens asymptotic, including their common constant. The weaker bound `|Σ_{p≤x}1/p−log log x−B|≤1/(log x)²` suffices here (RS1962, Theorem 5). Subtraction gives the prime-block sum; partial summation and the convergent prime-square correction give `∏_{p≤x}(1+1/p)≍log x`. Prime-power remainders in the additive normalization use the convergent geometric tails. These are consequences of the supplied prime estimates.
 
-Consume §1.5, `dirichlet_polynomial_mean_square`, for arbitrary finite complex coefficients and its stated integration range; §§3.18 and 3.33, `pretentiousDist` and `halasz_mean`, for unit-disc multiplicative functions with the infimum over the full compact twist interval. Consume §§3.12a, 3.32 and 3.41 for the compact-parameter Selberg–Delange expansion, `restricted_squarefree_landau_count` and the fixed-A restricted squarefree Sathe–Selberg bounds. The local conditional moment estimate in §1.6 differentiates that supplied analytic expansion; it does not reprove it.
+Consume §1.5, `dirichlet_polynomial_mean_square`, for arbitrary finite complex coefficients and its stated integration range; §§3.18 and 3.33, `pretentiousDist` and `halasz_mean`, for unit-disc multiplicative functions with the infimum over the full compact twist interval. Consume §§3.12a, 3.32 and 3.41 for the compact-parameter Selberg–Delange expansion, the §3.32 count asymptotic for the strict-cutoff squarefree family D(X) (stated there in prose, with no Lean name), and the fixed-A restricted squarefree Sathe–Selberg bounds `restricted_sathe_selberg` on the counts `restrictedSquarefreeCount` of §3.41. The local conditional moment estimate in §1.6 differentiates that supplied analytic expansion; it does not reprove it.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartII §5.3k
+
+Consume `exists_unique_quotientMeasure`: for a second countable locally compact Hausdorff group G, a closed subgroup H on which the modular characters of G and H agree, and right Haar measures on G and H, exactly one right-G-invariant Radon measure on H\G satisfies the unfolding identity for compactly supported continuous functions. Consume with it the extension of that identity to nonnegative Borel and to integrable functions, the scaling law under rescaling the Haar measures, and, for unimodular G and a countable discrete Γ, the inversion that carries the measure and the identity to G/Γ with its left action and Mathlib's right-orbit unfolding `QuotientGroup.integral_eq_integral_automorphize`. Section 4.9a applies it only with H=Γ discrete, after proving that a group with a lattice is unimodular. The uniqueness supplied is relative to the unfolding identity; the identification of an arbitrary invariant probability on G/Γ as a multiple of the quotient measure is the single Riesz–Haar step of §4.9a.
 
 ### From TauCetiRoadmap.RandomMatrices §3.2
 
@@ -665,7 +669,7 @@ are real-valued. P is a finite set of natural primes; Q_P is its product, includ
 
 **Simultaneous prime-divisibility probability**. mu_N({n: every p in P divides n}) = floor(N/Q_P)/N.
 ([ML-FINITE-PRODUCT](#references) Finset.lcm_eq_prod and lcm_dvd_iff; Ring/Finset.lean
-prod_one_add, lines 196-198, and sum_pow_mul_eq_add_pow, lines 231-237; [TAO-RESIDUES](#references)
+prod_one_add, lines 199–200, and sum_pow_mul_eq_add_pow, lines 236–239; [TAO-RESIDUES](#references)
 Section 3, first six paragraphs: product-modulus joint comparison and the following paragraph on weaker
 statistics.)
 
@@ -690,7 +694,7 @@ p in S divides n and no q in T divides n}. These are local expressions, not new 
 
 **Signed formula for prime-divisibility patterns**. mu_N(E(S,T)) = `sum_{U subset T}` (-1)^|U| `floor(N/Q_{S`
 union U})/N. ([ML-FINITE-PRODUCT](#references) Finset.lcm_eq_prod and lcm_dvd_iff; Ring/Finset.lean
-prod_one_add, lines 196-198, and sum_pow_mul_eq_add_pow, lines 231-237; [TAO-RESIDUES](#references)
+prod_one_add, lines 199–200, and sum_pow_mul_eq_add_pow, lines 236–239; [TAO-RESIDUES](#references)
 Section 3, first six paragraphs: product-modulus joint comparison and the following paragraph on weaker
 statistics.)
 
@@ -716,7 +720,7 @@ patterns and complete periods).
 
 **Bernoulli-product error for one pattern**. Put `b(S,T)=(product_{p in S}1/p)*(product_{q in T}(1-1/q))`. Then
 |mu_N(E(S,T))-b(S,T)| <= 2^|T|/N. ([ML-FINITE-PRODUCT](#references) Finset.lcm_eq_prod and
-lcm_dvd_iff; Ring/Finset.lean prod_one_add, lines 196-198, and sum_pow_mul_eq_add_pow, lines 231-237;
+lcm_dvd_iff; Ring/Finset.lean prod_one_add, lines 199–200, and sum_pow_mul_eq_add_pow, lines 236–239;
 [TAO-RESIDUES](#references) Section 3, first six paragraphs: product-modulus joint comparison and the
 following paragraph on weaker statistics.)
 
@@ -746,7 +750,7 @@ Finset.card_powerset give 2^|T|/N.
 `b(S,T)=(product_{p in S}1/p)*(product_{q in T}(1-1/q))`. Thus the statement for S contained in P and T=P minus
 S specifies every Boolean divisibility atom for a finite prime set P on a complete period.
 ([ML-FINITE-PRODUCT](#references) Finset.lcm_eq_prod and lcm_dvd_iff; Ring/Finset.lean
-prod_one_add, lines 196-198, and sum_pow_mul_eq_add_pow, lines 231-237; [TAO-RESIDUES](#references)
+prod_one_add, lines 199–200, and sum_pow_mul_eq_add_pow, lines 236–239; [TAO-RESIDUES](#references)
 Section 3, first six paragraphs: product-modulus joint comparison and the following paragraph on weaker
 statistics.)
 
@@ -775,7 +779,7 @@ difference.
 Prove `divisibility_pattern_summed_error`. For a finite prime set P, `sum_{S subset P}` |mu_N(E(S,P minus
 S))-b(S,P minus S)| <= 3^|P|/N, with E and b as in divisibility-pattern-error.
 ([ML-FINITE-PRODUCT](#references) Finset.lcm_eq_prod and lcm_dvd_iff; Ring/Finset.lean
-prod_one_add, lines 196-198, and sum_pow_mul_eq_add_pow, lines 231-237; [TAO-RESIDUES](#references)
+prod_one_add, lines 199–200, and sum_pow_mul_eq_add_pow, lines 236–239; [TAO-RESIDUES](#references)
 Section 3, first six paragraphs: product-modulus joint comparison and the following paragraph on weaker
 statistics.)
 
@@ -3426,9 +3430,9 @@ infinitely many 𝒜_q (1.4). Khinchin's 𝒦_q (1.2) uses every 0 ≤ a ≤ q, 
 
 Its API includes the following facts.
 
-- TauCeti.DuffinSchaeffer.dsLimsup: 𝒜 = `limsup_{q→∞}` 𝒜_q
-- TauCeti.DuffinSchaeffer.khinchinSet: Khinchin's 𝒦_q, over every 0 ≤ a ≤ q
-- TauCeti.DuffinSchaeffer.khinchinLimsup: 𝒦 = limsup 𝒦_q. The definitions admit arbitrary real ψ
+- `dsLimsup`: 𝒜 = `limsup_{q→∞}` 𝒜_q
+- `khinchinSet`: Khinchin's 𝒦_q, over every 0 ≤ a ≤ q
+- `khinchinLimsup`: 𝒦 = limsup 𝒦_q. The definitions admit arbitrary real ψ
 - measure and monotonicity conclusions carry their displayed nonnegativity hypotheses. At q=0, the reduced set is empty and the unrestricted set is {0} under native total division
 - changing this one index leaves either limsup unchanged.
 
@@ -3458,38 +3462,38 @@ the closed interval of radius ψ(q)/q has ψ(q) > 0 and lies in the open interva
 One route uses the ambient types, measurability and finiteness hypotheses of Layer 3, Duffin–Schaeffer approximation sets
 𝒜_q, 𝒜, 𝒦_q and 𝒦. Any additional assumptions are stated explicitly above.
 
-Prove TauCeti.DuffinSchaeffer.volume_dsSet_le. λ(𝒜_q) ≤ 2φ(q)ψ(q)/q for ψ ≥ 0. ([KM-2020](#references) §1,
+Prove volume_dsSet_le. λ(𝒜_q) ≤ 2φ(q)ψ(q)/q for ψ ≥ 0. ([KM-2020](#references) §1,
 (1.2)–(1.4), pp. 252–253; [KM-2020](#references) §1, (1.2), p. 252.)
 
 *Needs:* §3.1 (reduced and unrestricted approximation sets); Mathlib `Nat.totient`; Mathlib
 `UnitAddCircle.mem_addWellApproximable_iff`.
 
-Prove TauCeti.DuffinSchaeffer.le_volume_dsSet. λ(𝒜_q) ≥ φ(q)ψ(q)/q for q ≥ 1 and 0 ≤ ψ(q) ≤ 1/2.
+Prove le_volume_dsSet. λ(𝒜_q) ≥ φ(q)ψ(q)/q for q ≥ 1 and 0 ≤ ψ(q) ≤ 1/2.
 ([KM-2020](#references) §1, (1.2)–(1.4), pp. 252–253; [KM-2020](#references) §1, (1.2), p. 252.)
 
 *Needs:* §3.1 (reduced and unrestricted approximation sets); Mathlib `Nat.totient`; Mathlib
 `UnitAddCircle.mem_addWellApproximable_iff`.
 
-Prove TauCeti.DuffinSchaeffer.dsSet_mono. 𝒜_q is monotone in ψ. ([KM-2020](#references) §1, (1.2)–(1.4),
+Prove dsSet_mono. 𝒜_q is monotone in ψ. ([KM-2020](#references) §1, (1.2)–(1.4),
 pp. 252–253; [KM-2020](#references) §1, (1.2), p. 252.)
 
 *Needs:* §3.1 (reduced and unrestricted approximation sets); Mathlib `Nat.totient`; Mathlib
 `UnitAddCircle.mem_addWellApproximable_iff`.
 
-Prove TauCeti.DuffinSchaeffer.dsSet_subset_khinchinSet. 𝒜_q ⊆ 𝒦_q. ([KM-2020](#references) §1, (1.2)–(1.4),
+Prove dsSet_subset_khinchinSet. 𝒜_q ⊆ 𝒦_q. ([KM-2020](#references) §1, (1.2)–(1.4),
 pp. 252–253; [KM-2020](#references) §1, (1.2), p. 252.)
 
 *Needs:* §3.1 (reduced and unrestricted approximation sets); Mathlib `Nat.totient`; Mathlib
 `UnitAddCircle.mem_addWellApproximable_iff`.
 
-Prove TauCeti.DuffinSchaeffer.mem_dsLimsup_of_mem_addWellApproximable. For x ∈ [0,1], if the image of x on
+Prove mem_dsLimsup_of_mem_addWellApproximable. For x ∈ [0,1], if the image of x on
 the circle is in Mathlib's addWellApproximable for δ(n) = ψ(n)/n, then x ∈ 𝒜. ([KM-2020](#references) §1,
 (1.2)–(1.4), pp. 252–253; [KM-2020](#references) §1, (1.2), p. 252.)
 
 *Needs:* §3.1 (reduced and unrestricted approximation sets); Mathlib `Nat.totient`; Mathlib
 `UnitAddCircle.mem_addWellApproximable_iff`.
 
-Prove TauCeti.DuffinSchaeffer.mem_addWellApproximable_of_mem_dsLimsup. An irrational x ∈ 𝒜 maps into
+Prove mem_addWellApproximable_of_mem_dsLimsup. An irrational x ∈ 𝒜 maps into
 addWellApproximable for δ(n) = 2ψ(n)/n. ([KM-2020](#references) §1, (1.2)–(1.4), pp. 252–253;
 [KM-2020](#references) §1, (1.2), p. 252.)
 
@@ -3708,10 +3712,10 @@ Definitions 6.1, 6.2 and 6.4, pp. 269–270; [KM-2020](#references) §6, Lemma 6
 
 Its API includes the following facts.
 
-- TauCeti.DuffinSchaeffer.GCDGraph.vertexMeasure: μ(𝒮) = `Σ_{n∈𝒮}` μ(n)
-- TauCeti.DuffinSchaeffer.GCDGraph.edgeMeasure: μ(𝒩) = `Σ_{(n₁,n₂)∈𝒩}` μ(n₁)μ(n₂)
-- TauCeti.DuffinSchaeffer.GCDGraph.IsNontrivial: μ(ℰ) > 0 (Definition 6.2)
-- TauCeti.DuffinSchaeffer.GCDGraph.IsSubgraph: The relation G' ⪯ G of Definition 6.4.
+- GCDGraph.vertexMeasure: μ(𝒮) = `Σ_{n∈𝒮}` μ(n)
+- GCDGraph.edgeMeasure: μ(𝒩) = `Σ_{(n₁,n₂)∈𝒩}` μ(n₁)μ(n₂)
+- GCDGraph.IsNontrivial: μ(ℰ) > 0 (Definition 6.2)
+- GCDGraph.IsSubgraph: The relation G' ⪯ G of Definition 6.4.
 
 Encode G as a structure with fields for the data and the conditions (i)–(iii), with f, g: ℕ → ℕ read only on
 𝒫. Define the vertex and edge measures, non-triviality and the subgraph relation. Lemma 6.7: transitivity and
@@ -3746,15 +3750,15 @@ measure 0); the neighbourhoods Γ_G(v), Γ_G(w); ℛ(G) = {p ∉ 𝒫 : p | gcd(
 
 Its API includes the following facts.
 
-- TauCeti.DuffinSchaeffer.GCDGraph.edgeDensity: δ(G) = μ(ℰ)/(μ(𝒱)μ(𝒲)), or 0
-- TauCeti.DuffinSchaeffer.GCDGraph.nbhdV: Γ_G(v) = {w ∈ 𝒲 : (v,w) ∈ ℰ}
-- TauCeti.DuffinSchaeffer.GCDGraph.nbhdW: Γ_G(w) = {v ∈ 𝒱 : (v,w) ∈ ℰ}
-- TauCeti.DuffinSchaeffer.GCDGraph.R:
+- GCDGraph.edgeDensity: δ(G) = μ(ℰ)/(μ(𝒱)μ(𝒲)), or 0
+- GCDGraph.nbhdV: Γ_G(v) = {w ∈ 𝒲 : (v,w) ∈ ℰ}
+- GCDGraph.nbhdW: Γ_G(w) = {v ∈ 𝒱 : (v,w) ∈ ℰ}
+- GCDGraph.R:
 ℛ(G), the primes outside 𝒫 dividing the gcd of an edge
-- TauCeti.DuffinSchaeffer.GCDGraph.Vpow: `𝒱_{p^k}`
-- TauCeti.DuffinSchaeffer.GCDGraph.Wpow: `𝒲_{p^k}`
-- TauCeti.DuffinSchaeffer.GCDGraph.RSharp: ℛ♯(G)
-- TauCeti.DuffinSchaeffer.GCDGraph.RFlat: ℛ♭(G) = ℛ(G) \ ℛ♯(G).
+- GCDGraph.Vpow: `𝒱_{p^k}`
+- GCDGraph.Wpow: `𝒲_{p^k}`
+- GCDGraph.RSharp: ℛ♯(G)
+- GCDGraph.RFlat: ℛ♭(G) = ℛ(G) \ ℛ♯(G).
 
 Define each quantity as displayed; ℛ(G) is a finite set because ℰ is finite. For quality, set q(G)=0 when μ(ℰ)=0; otherwise use the native infinite product over the subtype 𝒫. Prove GCDGraph.quality_product_convergent: choose an edge (v,w); every p with f(p)>0 or g(p)>0 divides vw, so such p form a finite set. Outside it the local factor is (1−p^(−31/30))^(−10), whose logarithms are summable by comparison with `Σ_{n≥2}n^(−31/30)`. Thus the product exists, is finite and strictly positive. Prove GCDGraph.quality_finite: finite 𝒫 gives exactly the displayed finite product. With no edges, f and g need not have finite support; the explicit zero-quality guard prevents an undefined product from affecting that case. (KM-2020, Definition 6.1(d), Definition 6.6 and following remark, pp.269–273.) Remark after Definition 6.6: when
 μ(𝒱), μ(𝒲) > 0, q(G) = `μ(ℰ)¹⁰/(μ(𝒱)⁹μ(𝒲)⁹)·∏_{p∈𝒫}(…)`. Lemma 6.7(d): non-trivial ⟺ δ > 0 ⟺ q(G) > 0, since the
@@ -3801,7 +3805,7 @@ immediate.
 
 Assume p ∉ 𝒫.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.quality_restrictPow. If G is non-trivial, p ∉ 𝒫 and `μ(𝒱_{p^k})`,
+Prove GCDGraph.quality_restrictPow. If G is non-trivial, p ∉ 𝒫 and `μ(𝒱_{p^k})`,
 `μ(𝒲_{p^ℓ})` > 0, then `q(G_{p^k,p^ℓ})/q(G)` =
 `(μ(ℰ_{p^k,p^ℓ})/μ(ℰ))¹⁰(μ(𝒱)/μ(𝒱_{p^k}))⁹(μ(𝒲)/μ(𝒲_{p^ℓ}))⁹·p^{|k−ℓ|}/((1` − `𝟙_{k=ℓ≥1}/p)²(1` − `p^{−31/30})¹⁰)`.
 ([KM-2020](#references) §11, Lemma 11.1, p. 288.)
@@ -3815,24 +3819,24 @@ Prove TauCeti.DuffinSchaeffer.GCDGraph.quality_restrictPow. If G is non-trivial,
 One route uses the ambient types, measurability and finiteness hypotheses of Layer 3, GCD graph and GCD subgraph
 (Definitions 6.1, 6.2, 6.4). Any additional assumptions are stated explicitly above.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.IsSubgraph.trans. Lemma 6.7(a): ⪯ is transitive.
+Prove GCDGraph.IsSubgraph.trans. Lemma 6.7(a): ⪯ is transitive.
 ([KM-2020](#references) §6, Definitions 6.1, 6.2 and 6.4, pp. 269–270; [KM-2020](#references) §6, Lemma 6.7,
 p. 273.)
 
 *Needs:* §3.4 (weighted gcd graphs); Mathlib `Nat.factorization`; Mathlib `Nat.primeFactors`.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.IsSubgraph.refl. G ⪯ G. ([KM-2020](#references) §6, Definitions 6.1,
+Prove GCDGraph.IsSubgraph.refl. G ⪯ G. ([KM-2020](#references) §6, Definitions 6.1,
 6.2 and 6.4, pp. 269–270; [KM-2020](#references) §6, Lemma 6.7, p. 273.)
 
 *Needs:* §3.4 (weighted gcd graphs); Mathlib `Nat.factorization`; Mathlib `Nat.primeFactors`.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.R_subset_of_isSubgraph. Lemma 6.7(b): G' ⪯ G implies ℛ(G') ⊆ ℛ(G).
+Prove GCDGraph.R_subset_of_isSubgraph. Lemma 6.7(b): G' ⪯ G implies ℛ(G') ⊆ ℛ(G).
 ([KM-2020](#references) §6, Definitions 6.1, 6.2 and 6.4, pp. 269–270; [KM-2020](#references) §6, Lemma 6.7,
 p. 273.)
 
 *Needs:* §3.4 (weighted gcd graphs); Mathlib `Nat.factorization`; Mathlib `Nat.primeFactors`.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.vertexMeasure_pos_of_isNontrivial. Lemma 6.7(c): a non-trivial G has
+Prove GCDGraph.vertexMeasure_pos_of_isNontrivial. Lemma 6.7(c): a non-trivial G has
 μ(𝒱), μ(𝒲) > 0. ([KM-2020](#references) §6, Definitions 6.1, 6.2 and 6.4, pp. 269–270;
 [KM-2020](#references) §6, Lemma 6.7, p. 273.)
 
@@ -3841,17 +3845,17 @@ Prove TauCeti.DuffinSchaeffer.GCDGraph.vertexMeasure_pos_of_isNontrivial. Lemma 
 One route uses the ambient types, measurability and finiteness hypotheses of Layer 3, Edge density, ℛ(G) and the quality
 of a GCD graph (Definition 6.6). Any additional assumptions are stated explicitly above.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.isNontrivial_iff. Lemma 6.7(d): non-trivial ⟺ δ > 0 ⟺ q > 0.
+Prove GCDGraph.isNontrivial_iff. Lemma 6.7(d): non-trivial ⟺ δ > 0 ⟺ q > 0.
 ([KM-2020](#references) §6, Definition 6.6 and the remark after it, pp. 271–273.)
 
 *Needs:* §3.4 (weighted gcd graphs).
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.quality_eq. q(G) = μ(ℰ)¹⁰/(μ(𝒱)⁹μ(𝒲)⁹)·∏ when μ(𝒱), μ(𝒲) > 0.
+Prove GCDGraph.quality_eq. q(G) = μ(ℰ)¹⁰/(μ(𝒱)⁹μ(𝒲)⁹)·∏ when μ(𝒱), μ(𝒲) > 0.
 ([KM-2020](#references) §6, Definition 6.6 and the remark after it, pp. 271–273.)
 
 *Needs:* §3.4 (weighted gcd graphs).
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.edgeDensity_le_one. δ(G) ≤ 1. ([KM-2020](#references) §6, Definition
+Prove GCDGraph.edgeDensity_le_one. δ(G) ≤ 1. ([KM-2020](#references) §6, Definition
 6.6 and the remark after it, pp. 271–273.)
 
 *Needs:* §3.4 (weighted gcd graphs).
@@ -3859,12 +3863,12 @@ Prove TauCeti.DuffinSchaeffer.GCDGraph.edgeDensity_le_one. δ(G) ≤ 1. ([KM-202
 One route uses the ambient types, measurability and finiteness hypotheses of Layer 3, The special GCD subgraphs
 `G_{p^k,p^ℓ}` (Definition 6.5). Any additional assumptions are stated explicitly above.
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.restrictPow_isSubgraph. `G_{p^k,p^ℓ}` ⪯ G. ([KM-2020](#references) §6,
+Prove GCDGraph.restrictPow_isSubgraph. `G_{p^k,p^ℓ}` ⪯ G. ([KM-2020](#references) §6,
 Definition 6.5, p. 271.)
 
 *Needs:* §3.4 (weighted gcd graphs).
 
-Prove TauCeti.DuffinSchaeffer.GCDGraph.R_restrictPow. `ℛ(G_{p^k,p^ℓ})` ⊆ ℛ(G) \ {p}. ([KM-2020](#references)
+Prove GCDGraph.R_restrictPow. `ℛ(G_{p^k,p^ℓ})` ⊆ ℛ(G) \ {p}. ([KM-2020](#references)
 §6, Definition 6.5, p. 271.)
 
 *Needs:* §3.4 (weighted gcd graphs).
@@ -6320,15 +6324,27 @@ A discrete subgroup meets each compact set in a finite set. Apply Mathlib `Subgr
 
 *Needs:* Mathlib `Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite`; Mathlib `t2Space_of_properlyDiscontinuousSMul_of_t2Space`; Mathlib `QuotientGroup.isOpenMap_coe`.
 
-Prove `lattice_invariant_probability_unique`. Any two Borel probabilities on X preserved by every left translation are equal. If μ is one of them and λ is a left Haar measure of G, then a Borel subset of X is μ-null exactly when its preimage in G is λ-null. Moreover, every Borel fundamental domain F of the right Γ-action has 0<λ(F)<∞, and μ is the image of λ restricted to F, divided by λ(F). ([BHV2007](#references) Appendix B.1.)
+Prove lattice_unimodular. If X carries a Borel probability μ preserved by every left translation, then G is unimodular: its modular character Δ (Mathlib `MeasureTheory.Measure.modularCharacter`, normalized so that the image of a left Haar measure λ under right multiplication by g is Δ(g)·λ, so that λ(Sg)=Δ(g)⁻¹λ(S)) is identically 1. Along the way, the periodization functional `f ↦ ∫_X Σ_{γ∈Γ} f(xγ) dμ(xΓ)` on compactly supported continuous f on G equals c·∫f dλ for a constant c>0. ([Morris2015](#references) Proposition 4.1.18, pp.46–47, stated for Lie groups by an argument that uses only a Borel fundamental domain and the modular function; Proposition A3.4 and Corollary A3.7, pp.432–433, for the modular function and its continuity; [BHV2007](#references) Appendix B.1.)
 
-One route is Weil's argument. For such a probability ν, the functional `F ↦ ∫_X Σ_{γ∈Γ} F(xγ) dν(xΓ)` on compactly supported continuous F on G is positive and left invariant. By the Riesz representation (Mathlib `RealRMK.integral_rieszMeasure`) and uniqueness of Haar measure (Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) it is c·λ for some c≥0. Every compactly supported continuous function on X is such a periodization, and Mathlib `QuotientGroup.integral_eq_integral_automorphize` evaluates c as 1/λ(F). Finite Borel measures on the second countable locally compact space X are regular, so agreement on compactly supported continuous functions gives equality. Countably many right Γ-translates of F cover G, which gives λ(F)>0; fundamental domains have equal measure (Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`).
+The periodization functional is positive and left invariant, so by the Riesz representation (Mathlib `RealRMK.integral_rieszMeasure`) and uniqueness of Haar measure (Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) it is c·∫f dλ with c≥0; the support of μ is a closed nonempty G-invariant subset of X, hence X, so the functional is positive on some nonnegative f and c>0. Reindexing γ by γγ₀ shows that the functional, hence λ, is invariant under right multiplication by every γ₀∈Γ, so Δ is trivial on Γ and descends to a continuous function Δ̄ on X with Δ̄(h·x)=Δ(h)Δ̄(x). The image of μ under Δ̄ is a probability on (0,∞) invariant under multiplication by each Δ(h). If some Δ(h)=t differs from 1, replacing h by h⁻¹ makes t>1, and the intervals `[t^n, t^(n+1))` for n∈ℤ partition (0,∞) into countably many sets of equal image mass, which contradicts total mass 1. Hence Δ=1.
+
+**Checks.**
+
+- The affine group {x↦ax+b: a>0} with left Haar measure a⁻²da db has Δ(x↦ax+b)=a, so it has no lattice, although the subgroup generated by x↦2x is discrete.
+- For G=ℝ the hypothesis holds for Γ=ℤ, with the circle's Haar probability, and fails for Γ={0}, while Δ=1 in both cases: the lemma is not an equivalence.
+
+*Needs:* §4.9a (topology of the quotient); Mathlib `MeasureTheory.Measure.modularCharacter`; Mathlib `RealRMK.integral_rieszMeasure`; Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`.
+
+Prove `lattice_invariant_probability_unique`. Any two Borel probabilities on X preserved by every left translation are equal. If μ is one of them and λ is a left Haar measure of G, then a Borel subset of X is μ-null exactly when its preimage in G is λ-null. Moreover, every Borel fundamental domain F of the right Γ-action has 0<λ(F)<∞, and μ is the image of λ restricted to F, divided by λ(F). ([BHV2007](#references) Appendix B.1; [Morris2015](#references) Definition 4.1.16, p.46.)
+
+This is the normalized lattice case of the quotient measure of AnalyticNumberTheoryPartII §5.3k. By lattice_unimodular G is unimodular, and Γ is countable because it is discrete in a second countable space, so §5.3k supplies for λ the quotient measure ν_λ on X: a left-invariant Radon measure satisfying the unfolding identity `∫_G f dλ = ∫_X Σ_{γ∈Γ} f(xγ) dν_λ(xΓ)` for compactly supported continuous f and, by the extension stated there, for nonnegative Borel f; it is the only left-invariant Radon measure with this identity, and replacing λ by c·λ replaces ν_λ by c·ν_λ. With f the indicator of F the identity gives ν_λ(X)=λ(F), which Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq` makes independent of F, and λ(F)>0 because countably many right Γ-translates of F cover G. A finite Borel measure on the second countable locally compact Hausdorff space X is Radon, and the periodization functional of an invariant probability μ is c·∫f dλ with c>0 by lattice_unimodular; so μ satisfies the unfolding identity for the Haar measure c·λ, §5.3k's uniqueness gives μ=c·ν_λ, and μ(X)=1 gives c=1/λ(F). This determines μ, so two invariant probabilities coincide. With f the indicator of π⁻¹E∩F the extended identity gives λ(π⁻¹E∩F)=λ(F)·μ(E); the right Γ-translates of π⁻¹E∩F have the same λ-measure since Δ is trivial on Γ and cover π⁻¹E, so E is μ-null exactly when π⁻¹E is λ-null, and μ(E)=λ(π⁻¹E∩F)/λ(F) is the displayed formula.
 
 **Checks.**
 
 - The trivial subgroup of a noncompact G is discrete but not a lattice: an invariant probability on G would be a finite Haar measure.
+- For G=ℝ, Γ=ℤ and F=[0,1), λ(F)=1 and μ is the circle's Haar probability; the formula gives the image of [0,1/2) mass 1/2, and the Borel set ℚ/ℤ is μ-null with λ-null preimage ℚ.
 
-*Needs:* §4.9a (topology of the quotient); Mathlib `RealRMK.integral_rieszMeasure`; Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`; Mathlib `QuotientGroup.integral_eq_integral_automorphize`; Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`.
+*Needs:* lattice_unimodular; §4.9a (topology of the quotient); AnalyticNumberTheoryPartII §5.3k (`exists_unique_quotientMeasure`, its extension to nonnegative Borel functions, its scaling law and its inversion to the left-coset convention); Tau Ceti `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`.
 
 Prove `lattice_quotient_ergodic`. For a lattice with its invariant probability μ, the left action of G on (X,μ) is ergodic in the sense of Mathlib `ErgodicSMul`: a Borel set that is μ-almost invariant under every left translation is null or conull. ([Morris2015](#references) §§11.1–11.2, pp.213–220.)
 
@@ -6336,15 +6352,27 @@ Pull the set back to a right-Γ-invariant Borel set S⊆G. By the null-set compa
 
 *Needs:* `lattice_invariant_probability_unique`; Mathlib `ErgodicSMul`; Mathlib `MeasureTheory.inv_absolutelyContinuous`; Mathlib `MeasureTheory.absolutelyContinuous_inv`.
 
-**Koopman representations.** For a lattice with invariant probability μ, define the Koopman representation of G on L²(X,μ;ℂ) by π(g)f=f∘(g⁻¹·), through Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`. Prove that it is a unitary `ContRepresentation` with π(gh)=π(g)π(h), and that it is strongly continuous. Its constants are fixed, and their orthogonal complement L²₀, the kernel of f↦∫f dμ, is invariant. Prove that L²₀ has no nonzero G-fixed vector. ([Morris2015](#references) Example 11.1.3, p.214, and §§11.1–11.2, pp.213–220; [Ciobotaru2014](#references) Definition 2.2, p.3.)
+**Scalar Lᵖ pullback representations.** Let a group G act on a measurable space Y carrying a measure μ such that every translation y↦g•y is measure preserving, and let p be an extended nonnegative real with 1≤p. Define scalarLpKoopman p μ, the representation π of G on `Lp ℂ p μ` with π(g)=`MeasureTheory.Lp.compMeasurePreservingₗᵢ ℂ (fun y => g⁻¹ • y) (hμ g⁻¹)`, where hμ is the measure-preservation hypothesis. Prove scalarLpKoopman_apply_ae, π(g)f=f∘(g⁻¹•) μ-almost everywhere; scalarLpKoopman_norm, ‖π(g)f‖=‖f‖; scalarLpKoopman_one, π(1)f=f; scalarLpKoopman_mul, π(gh)f=π(g)(π(h)f); and scalarLpKoopman_inv, π(g⁻¹)(π(g)f)=f. Each π(g) is therefore a surjective complex-linear isometry, so for p=2 the representation is unitary in the sense of Tau Ceti `ContRepresentation.IsUnitary`; these statements need no topology on G or Y and no finiteness of μ. Prove scalarLpKoopman_strong: if G is a topological group acting continuously on an R₁ space Y with its Borel σ-algebra, μ is inner regular on sets of finite measure by compact sets (Mathlib `MeasureTheory.Measure.InnerRegularCompactLTTop`) and locally finite, and p≠∞, then g↦π(g)f is continuous for every f. ([Morris2015](#references) Example 11.1.3, p.214; [Ciobotaru2014](#references) Definition 2.2, p.3; the change-of-variables identities are Mathlib `MeasureTheory.Lp.coeFn_compMeasurePreserving`, `MeasureTheory.Lp.norm_compMeasurePreserving`, `MeasureTheory.Lp.compMeasurePreserving_id` and `MeasureTheory.Lp.compMeasurePreserving_comp` in `Mathlib/MeasureTheory/Function/LpSpace/Basic.lean`.)
 
-Strong continuity is Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous` for the continuous family x↦g⁻¹·x, since a finite Borel measure on X is inner regular and locally finite. A G-fixed vector f satisfies f∘(g·)=f μ-almost everywhere for each g. The superlevel sets of its real and imaginary parts are then almost invariant, and `lattice_quotient_ergodic` makes f almost everywhere constant, hence zero in L²₀.
+The algebraic laws are the identity and composition laws of `compMeasurePreserving` for the maps g⁻¹•, since (gh)⁻¹•y=h⁻¹•(g⁻¹•y), and the norm identity is its isometry. For strong continuity, the curried action g↦(y↦g⁻¹•y) is continuous into `C(Y, Y)` with the compact-open topology because the action is jointly continuous (Mathlib `ContinuousMap.curry`), and Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous` is joint continuity in the function and the continuous measure-preserving map under exactly the listed hypotheses on μ and p. The construction is stated at this generality because GeometryOfNumbersAndQuadraticArithmetic §4.2 consumes it for the Koopman operators of measure-preserving flows, at every finite p, as well as in the lattice-quotient case below.
+
+**Checks.**
+
+- The identity element fixes every class, and π(g⁻¹)π(g) is the identity, including for the zero measure, where the space is zero.
+- For G=ℤ acting on the circle by n•x=x+nα with α irrational and p=2, π(1) is f↦f(·−α); on the character e_k it has eigenvalue e(−kα), whereas the other convention f↦f(·+α) gives e(kα), and the two differ for k≠0.
+- The hypothesis p≠∞ is needed: for G=ℝ acting on itself by translation with Lebesgue measure, the indicator of [0,1] satisfies ‖π(t)1_[0,1]−1_[0,1]‖_∞=1 for every t≠0.
+
+*Needs:* Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`; Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous`; Mathlib `ContinuousMap.curry`; Tau Ceti `ContRepresentation.IsUnitary`.
+
+**Koopman representations.** For a lattice with invariant probability μ, the Koopman representation of G on L²(X,μ;ℂ) is scalarLpKoopman 2 μ, so π(g)f=f∘(g⁻¹·). It is a unitary `ContRepresentation` with π(gh)=π(g)π(h), and it is strongly continuous. Its constants are fixed, and their orthogonal complement L²₀, the kernel of f↦∫f dμ, is invariant. Prove that L²₀ has no nonzero G-fixed vector. ([Morris2015](#references) Example 11.1.3, p.214, and §§11.1–11.2, pp.213–220; [Ciobotaru2014](#references) Definition 2.2, p.3.)
+
+Strong continuity is scalarLpKoopman_strong: X is Hausdorff, hence R₁, a finite Borel measure on the second countable locally compact space X is inner regular on finite-measure sets and locally finite, and p=2≠∞. A G-fixed vector f satisfies f∘(g·)=f μ-almost everywhere for each g. The superlevel sets of its real and imaginary parts are then almost invariant, and `lattice_quotient_ergodic` makes f almost everywhere constant, hence zero in L²₀.
 
 **Checks.**
 
 - On a probability space the constant 1 has norm one and is not in L²₀. On a one-point quotient L²₀ is zero.
 
-*Needs:* `lattice_quotient_ergodic`; Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`; Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous`.
+*Needs:* `lattice_quotient_ergodic`; §4.9a (scalar Lᵖ pullback representations).
 
 Prove `howe_moore_of_cartan`. Let K≤G be a compact subgroup and A⁺⊆G a set of pairwise commuting elements with G=KA⁺K. For a sequence a=(a_j), its contraction group is U⁺(a)={u: a_j⁻¹ua_j→1} and its opposite contraction group is U⁻(a)={u: a_jua_j⁻¹→1}. Assume that every sequence in A⁺ leaving every compact set has a subsequence a for which U⁺(a)∪U⁻(a) generates a dense subgroup of G. Then every coefficient of every strongly continuous unitary representation of G without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) Theorem 1.2, p.2, proved as Theorem 3.2, p.9, which asks the contraction groups to generate G itself; Definition 2.11, Lemmas 2.12–2.13 and 3.1, pp.6–8. Dense generation suffices by step 3 below.)
 
@@ -7080,7 +7108,7 @@ as the finite-law interface. Section 5.1a supplies the finite entropy chain rule
 
 The foundational interface for ArithmeticDynamics §§2.6–2.7 consists of `birkhoff_pointwise` from §4.1, with its invariant conditional-expectation limit, and `birkhoff_pointwise_ergodic` from §4.1. The mutual-information comparisons in §5.2 apply to its finite partition labels through the finite-label entropies of §5.1a. These comparisons depend only on finite probability and §5.1a, independently of entropy decrement and logarithmic Chowla.
 
-Arithmetic applications may consume Hardy–Ramanujan and Erdős–Kac as probability-law statements, with the exact normalization and the ω/Ω transfer. Koymans–Pagano's restricted squarefree family consumes the separate conditional window estimate. Equidistribution applications use the native torus, character and subtorus interfaces; normal digits consume the pointwise theorem through the expanding-circle bridge. Metric approximation applications consume both the unrestricted and reduced limsup conventions and the precise power or general-gauge Hausdorff conclusion. Continued-fraction applications use the native denominators, the single digit indexing convention, the logarithmic constants and the explicit Gauss–Kuzmin rate. Homogeneous applications use the lattice-quotient, Howe–Moore, Moore-ergodicity and Mahler targets of §§4.9a–4.9b, and the local bounded_partial_denominators_iff_badlyApproximable supplies the bounded-digits characterization using the predicate from DiophantineApproximationAndTranscendence §0.6; the number-theoretic consumers remain in Layer 4. Multiplicative applications may use the proved short-interval and logarithmic estimates. Nilsequence orthogonality is outside this roadmap; neither ordinary Chowla cancellation nor general Sarnak orthogonality follows from the random-model identities.
+Arithmetic applications may consume Hardy–Ramanujan and Erdős–Kac as probability-law statements, with the exact normalization and the ω/Ω transfer. Koymans–Pagano's restricted squarefree family consumes the separate conditional window estimate. Equidistribution applications use the native torus, character and subtorus interfaces; normal digits consume the pointwise theorem through the expanding-circle bridge. Metric approximation applications consume both the unrestricted and reduced limsup conventions and the precise power or general-gauge Hausdorff conclusion. Continued-fraction applications use the native denominators, the single digit indexing convention, the logarithmic constants and the explicit Gauss–Kuzmin rate. Homogeneous applications use the lattice-quotient, Koopman, Howe–Moore, Moore-ergodicity and Mahler targets of §§4.9a–4.9b: GeometryOfNumbersAndQuadraticArithmetic §4.2 consumes the scalar Lᵖ pullback representation scalarLpKoopman with its strong continuity, `howe_moore_of_cartan`, `howe_moore` and `moore_ergodicity`, its §4.5 consumes `mahler_relativelyCompact_iff`, and AdelicAlgebraicGroups consumes the unique invariant probability of a lattice quotient and the finite covolume of SL₂(ℤ). The local bounded_partial_denominators_iff_badlyApproximable supplies the bounded-digits characterization using the predicate from DiophantineApproximationAndTranscendence §0.6; the number-theoretic consumers remain in Layer 4. Multiplicative applications may use the proved short-interval and logarithmic estimates. Nilsequence orthogonality is outside this roadmap; neither ordinary Chowla cancellation nor general Sarnak orthogonality follows from the random-model identities.
 
 ## References
 
