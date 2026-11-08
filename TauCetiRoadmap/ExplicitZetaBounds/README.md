@@ -1326,12 +1326,18 @@ Prove (Patel and Yang, Lemmas 2.1–2.3, `patelyang2024` lines 266–268, 475–
 is continuous and decreasing on `(a, b)` with `f'(b) = α`, `f'(a) = β`, then
 `|Σ_{a<n≤b} e(f(n)) − Σ_{α−1/2<m<β+1/2} ∫_a^b e(f(x) − mx) dx| ≤ (3/π) log(β − α + 2) + 4`; if `f` is
 three times differentiable on `(a, b)` with `f'' < 0`, `0 < λ₂ ≤ |f''| ≤ h₂λ₂`, `|f'''| ≤ h₃λ₃` and
-`f'(c) = 0` for some `c ∈ [a, b]`, then
-`|∫_a^b e(f(x)) dx − e(f(c) − 1/8)/|f''(c)|^{1/2}| ≤ 2·3^{2/3}π^{2/3} h₃^{1/3} λ₂^{−1} λ₃^{1/3} + (1/π)(1/|f'(a)| + 1/|f'(b)|)`; and under the hypotheses
-of both, with `x_ν` defined by `f'(x_ν) = ν`,
-`|Σ_{a<n≤b} e(f(n)) − Σ_{α<ν≤β} e(f(x_ν) − νx_ν − 1/8)/|f''(x_ν)|^{1/2}| ≤ 4.686 λ₂^{−1/2} + 2·3^{2/3}π^{2/3} h₂ h₃^{1/3}(b − a) λ₃^{1/3} + (5/π) log(β − α + 2) + 6`. Route: Euler–Maclaurin and
+`f'(c) = 0` for some `c ∈ (a, b)`, then
+`|∫_a^b e(f(x)) dx − e(f(c) − 1/8)/|f''(c)|^{1/2}| ≤ 2·3^{2/3}π^{2/3} h₃^{1/3} λ₂^{−1} λ₃^{1/3} + (1/π)(1/|f'(a)| + 1/|f'(b)|)`
+(the source allows `c ∈ [a, b]`; at an endpoint `c` the term `1/|f'(c)|` is infinite and the bound
+says nothing); and if `f` is three times differentiable on `[a, b]` with `f'` decreasing there,
+`f'(b) = α`, `f'(a) = β`, `0 < λ₂ ≤ |f''| ≤ h₂λ₂` and `|f'''| ≤ h₃λ₃` on `[a, b]`, and `x_ν ∈ [a, b]`
+is defined by `f'(x_ν) = ν` for each integer `ν ∈ (α, β]`, then
+`|Σ_{a<n≤b} e(f(n)) − Σ_{α<ν≤β} e(f(x_ν) − νx_ν − 1/8)/|f''(x_ν)|^{1/2}| ≤ 4.686 λ₂^{−1/2} + 2·3^{2/3}π^{2/3} h₂ h₃^{1/3}(b − a) λ₃^{1/3} + (5/π) log(β − α + 2) + 6`.
+The third statement assumes no stationary point of `f` itself. Route: Euler–Maclaurin and
 the Fourier series of the sawtooth for the first; the second by van der Corput's integral lemma on
-`[c − δ, c + δ]` and the first-derivative bound outside; the third by combining them.
+`[c − δ, c + δ]` and the first-derivative bound outside; the third from the first, with the second
+applied to each phase `f(x) − νx`, `α + 1/2 < ν < β − 1/2`, whose derivative vanishes at the
+interior point `x_ν` (`patelyang2024` (2.32)–(2.33), lines 672–700).
 
 *Needs:* `AsymptoticExpansions` §13.1; Mathlib `intervalIntegral`, `Real.fourierChar`.
 
@@ -1344,6 +1350,11 @@ the Fourier series of the sawtooth for the first; the second by van der Corput's
   `log(β − α)`.
 - The phase `−1/8` and the factor `|f''(x_ν)|^{−1/2}` are the stationary-phase normalization:
   `∫_ℝ e(−x²/2) dx = e(−1/8)`.
+- The third bound with no stationary point: `f(x) = x/2 − x²/(8M)` on `[0, M]` has `f'` decreasing
+  from `β = 1/2` to `α = 1/4`, `λ₂ = 1/(4M)`, `h₂ = 1` and `f''' = 0`; no integer lies in `(1/4, 1/2]`,
+  so the dual sum is empty and the bound reads `|Σ_{0<n≤M} e(f(n))| ≤ 9.372 √M + 7.291`, at `M = 100`
+  `101.01` against the true `1.1215`. A hypothesis `f'(c) = 0` for some `c` would exclude this phase,
+  since `f' ≥ 1/4`.
 
 ### 4.5a An explicit approximate functional equation
 
@@ -2005,14 +2016,25 @@ by `ZerosOfLFunctions` 1.4; the uniform convergence of the truncated sums from t
 
 ### 7.2 Ford's intermediate region
 
-With `J(t) = (1/6) log t + log log t + log 3`, given `RH(545 439 823)` (0.4), prove: for
-`t ≥ 1.88·10¹⁴`, `ζ(σ + it) ≠ 0` for
-`σ ≥ 1 − (0.04962 − 0.0196/(J(t) + 1.15))/(J(t) + 0.685 + 0.155 log log t)` (Ford, Theorem 3,
-`ford2002zerofree` lines 96–103, in the form recorded in `mty2024` lines 107–112); and for `|t| ≥ 3`,
-`ζ(σ + it) ≠ 0` for `σ ≥ 1 − 1/(8.464 log|t|)` (Theorem 4, lines 105–106). With the input
-`0.618 t^{1/6} log t` of 4.7 in place of `3t^{1/6} log t`, the same argument gives the first region
-with `log 0.618` in place of `log 3` in `J(t)` (`bellotti2025density` lines 352–356, after
-`yang2024`); this is the form 7.4 and 8.5 use. Route: Ford's method
+Let `J(t) = min((1/4) log t + 1.8521, (1/6) log t + log log t + log 3)` and
+`c₆(t) = 0.05635 (J(4t + 1) − J(t) + 0.155 (log log(4t + 1) − log log t))/(J(t) + 0.155 log log t + 0.675)`.
+Given `RH(545 439 823)` (0.4), prove: for `t ≥ 5.45·10⁸`, `ζ(σ + it) ≠ 0` for
+`1 − σ ≤ (0.04962 − c₆(t))/(J(t) + 0.155 log log t + 0.675)` (Ford, Theorem 3, `ford2002zerofree`
+lines 96–103, with `c₆` as in his (9.9), lines 1342–1346); for `t ≥ 1.88·10¹⁴`, where the second
+branch is the minimum in `J`, the narrower region
+`σ ≥ 1 − (0.04962 − 0.0196/(J(t) + 1.15))/(J(t) + 0.685 + 0.155 log log t)` with
+`J(t) = (1/6) log t + log log t + log 3` (the form recorded in `mty2024` lines 107–112), which the
+first implies since there `c₆(t) < 0.0196/(J(t) + 1.15)` and `0.675 < 0.685`; and for `|t| ≥ 3`,
+`ζ(σ + it) ≠ 0` for `σ ≥ 1 − 1/(8.464 log|t|)` (Theorem 4, lines 104–106: the bound of Theorem 3
+times `log t` decreases in `t`, and below `5.45·10⁸` the hypothesis applies). With the input
+`0.618 t^{1/6} log t` of 4.7 in place of `3t^{1/6} log t`, the same argument gives Theorem 3 with
+`log 0.618` in place of `log 3` in `J` (the substitution of `yang2024` lines 79–80), in which the
+second branch is the minimum for every `t > 1`, since `log L − L/12 ≤ log 12 − 1 = 1.4849` lies
+below `1.8521 − log 0.618 = 2.3334` for `L = log t > 0`. Its exact form, for `t ≥ 5.45·10⁸`, is the
+region 7.4 uses. Its simplified form, the narrower region above with `log 0.618` in place of
+`log 3`, follows for `t ≥ 5.45·10⁸` in the same way and holds for `|t| ≥ 3` (`yang2024` (1.4),
+lines 77–80), since below `5.45·10⁸` its width `1 − σ` stays below `0.0584` and the hypothesis
+applies; it is the region 8.5 uses (`bellotti2025density` lines 352–356). Route: Ford's method
 (the positivity of `Re Σ_k a_k (−ζ'/ζ)(σ + ikt)` against a smoothed explicit formula), with the
 zeros below `5.45·10⁸` on the critical line by the hypothesis (`ford2002zerofree` lines 324 and
 1272) and the bound for `|ζ(1/2 + it)|` that Ford takes as input, which is implied by 4.6 and 4.7:
@@ -2025,13 +2047,19 @@ lines 137–143 record that the proof of the original input by Cheng and Graham 
 
 **Checks.**
 
-- At `t = 3`, Theorem 4 excludes zeros with `σ ≥ 0.89246`; Ford's region is narrower than MTY's
-  classical region (7.3) at `t = 1.88·10¹⁴` (`0.004238` against `0.005473` for `1 − σ`) and they cross at
-  `t = e^{64.1}` (`0.0028064` against `0.0028065`), as `mty2024` lines 113–119 record.
+- At `t = 3`, Theorem 4 excludes zeros with `σ ≥ 0.89246`; Ford's region in the form of `mty2024`
+  is narrower than MTY's classical region (7.3) at `t = 1.88·10¹⁴` (`0.004238` against `0.005473`
+  for `1 − σ`) and they cross at `t = e^{64.1}` (`0.0028064` against `0.0028065`), as `mty2024`
+  lines 113–119 record.
 - `4/(2π)^{1/4} = 2.528 < 6`, so Lehman's bound is below `6t^{1/4} + 57` for every `t > 0`; and
   `0.618 < 3`.
-- `J(t) = min(…)` in Ford's own statement; `mty2024` records the second branch, the one that
-  applies for `t ≥ 1.88·10¹⁴`.
+- The reading of `c₆` and the passage to Theorem 4: at `t = 5.45·10⁸` (`log t = 20.11630`, where the
+  first branch `6.88117` is the minimum in `J`), the exact region with `log 3` times `log t` is
+  `0.118151`, just above `1/8.464 = 0.118147`. With `log 3` the two branches of `J` cross at
+  `log t = 32.87`, that is `t = 1.88·10¹⁴`, the threshold of the form of `mty2024`.
+- The exact against the simplified form, with `log 0.618`: at `t = 10¹⁰`, `J = 6.49299` and
+  `c₆ = 0.0021981 < 0.0196/(J + 1.15) = 0.0025645`, and the regions have `1 − σ ≤ 0.0061956` and
+  `≤ 0.0061397`; at `t = e^{170.2}` they are `0.0014271` and `0.0014215`.
 
 ### 7.3 Kadiri's criterion and the classical region
 
@@ -2145,15 +2173,31 @@ numerical certificates.
 
 ### 7.4 The Littlewood-type region
 
-Given `RH(545 439 823)` (0.4), prove: `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
+Given `RH(30 610 046 000)` (0.4), prove: `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
 `σ > 1 − log log|t|/(21.233 log|t|)` (Yang, Corollary 1.2, `yang2024` lines 88–89); this is
-`riemannZeta_ne_zero_littlewood`. Route: the hypothesis for `3 ≤ t ≤ 5.45·10⁸` (`yang2024`
-lines 2328–2333); Ford's region 7.2 with the critical-line input of 4.7
-for `5.45·10⁸ ≤ t < e^{170.2}`; above, the bounds 4.9 and 4.10 interpolated by 3.1, the degree-46
-polynomial of `mty2024` (a polynomial certificate) and Ford's zero-detecting argument
-(`yang2024` lines 2326–2372).
+`riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ −3` by `ζ(s̄) = conj ζ(s)`), with
+`L = log t`:
 
-*Needs:* 0.4, 0.5, 3.1, 4.7, 4.9, 4.10, 7.1, 7.2; the named certificates.
+- for `t ≤ 30 610 046 000` (`L ≤ 24.1446`) the hypothesis, since the boundary
+  `1 − log L/(21.233 L) ≥ 1 − 1/(21.233 e) = 0.98267` lies right of `1/2`;
+- for `30 610 046 000 < t < e^{41}` the region of 7.3 at `R₀ = 5.573412`, in the form with `>`,
+  given the verification up to `3.06·10¹⁰` that the hypothesis implies: it contains this one while
+  `log L ≤ 21.233/5.573412 = 3.80970`, that is `L ≤ 45.137`;
+- for `e^{41} ≤ t < e^{170.2}` Ford's region 7.2 in its exact form with `log 0.618`, which contains
+  this one for `40.898 ≤ L ≤ 185.64`;
+- for `t ≥ e^{170.2}` Yang's argument (`yang2024` lines 2326–2372): the bounds 4.9 and 4.10
+  interpolated by 3.1, the degree-46 polynomial of `mty2024` (a polynomial certificate), Ford's
+  zero-detecting argument, and the exact region of 7.2 again for the zeros with
+  `e^{170.2} − 1 ≤ t' < e^{170.2}` (lines 2366–2370).
+
+Yang takes the verification only up to `5.45·10⁸` and the simplified region of 7.2 from there
+(lines 2328–2333). That region contains this one only for `50.13 ≤ L ≤ 170.26`, Ford's exact region
+only for `40.898 ≤ L ≤ 185.64`, and Theorem 4's region `σ ≥ 1 − 1/(8.464 log t)` nowhere on
+`20.12 ≤ L ≤ 171`; with the regions stated here, the least recorded verification of 0.4 that covers
+`20.12 ≤ L < 40.898` is `RH(30 610 046 000)`, through the regions of 7.3 that it gives.
+
+*Needs:* 0.4, 0.5, 3.1, 4.7, 4.9, 4.10, 7.1, 7.2, 7.3 (its `5.573412` instance); the named
+certificates.
 
 **Checks.**
 
@@ -2163,6 +2207,18 @@ polynomial of `mty2024` (a polynomial certificate) and Ford's zero-detecting arg
 - For `|t| < e^{e}` the numerator `log log|t|` is below `1`, and at `|t| = 3` it is `0.094`: the region
   is then narrower than the classical one, which is why both are kept.
 - The statement is strict (`σ >`), unlike 7.3; at the boundary nothing is asserted.
+- The verification is needed above `5.45·10⁸` (negative control): at `t = 10¹⁰` (`L = 23.02585`) the
+  region claims `1 − σ < 0.0064156`, while Ford's exact region with `log 0.618` gives `0.0061956`, its
+  simplified form `0.0061397` and Theorem 4 `0.0051311`, so `RH(545 439 823)` with 7.2 does not give
+  it there; `RH(30 610 046 000)` does, and just above that height (`L = 24.1446`) the `5.573412`
+  region gives `0.0074312` against the required `0.0062108`.
+- At `L = 47` the classical regions fall short: `5.558691` gives `0.0038276` and `5.573412` gives
+  `0.0038175`, against `0.0038581`, while Ford's exact region gives `0.0038820`; at `L = 100` the
+  simplified form of 7.2 also suffices (`0.0021959` against `0.0021689`).
+- Yang's step at `t₀ = e^{170.2}` needs `1 − β' ≥ M₁ log log t'/log t'` for the zeros with
+  `t₀ − 1 ≤ t' < t₀`, with `M₁ = 0.0470978` (lines 2338 and 2366–2370), that is `0.0014215052`: the
+  exact region of 7.2 gives `0.0014271`, while the simplified one gives `0.0014214873`, which would
+  serve only with `M₁ ≤ 0.0470972`, still above `1/21.233 = 0.0470965`.
 
 ### 7.5 Regions for Dirichlet L-functions
 
@@ -2215,7 +2271,11 @@ left of the boundary (at least `1 − 1/(6.4355 log 2) = 0.7758`), and for `|t| 
   `D = D*(k, 1 + Δ)`, the sum over the primes `p ∣ k` of `log p` times the local constants
   `D*_p` of their (3.4.2)–(3.4.3); `C₁(k, H) ≥ C₁`, since `G₁/G₂ ≥ 0` (their Lemma 3.6.1). The
   zeros of an imprimitive character are those of its primitive character together with zeros on
-  `Re s = 0`, which satisfy both bounds.
+  `Re s = 0`, which satisfy both bounds. Hence the form for a modulus: for `q ≥ 1`, `H ≥ 1000` and
+  `0 < C ≤ C₁(k, H)` for the conductor `k` of every character modulo `q`, every zero `β + iγ` with
+  `0 < β < 1` and `|γ| ≥ H` of `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ 1/(R log(q|γ|/C))`,
+  since `q|γ|/C ≥ k|γ|/C₁(k, H)` (`k ≤ q`) and `R log(k|γ|/C₁(k, H)) ≥ 15` (the proof of their
+  Theorem 3.6.3, line 843), so that the logarithm is positive and only grows.
 
 Route: the analogue of 7.3 with `−Re L'/L` from 7.1 summed over `χ^k`, the real-character case
 handled by the positivity of `ζ(s)L(s, χ)`'s Dirichlet coefficients, the verified heights for small
@@ -2251,6 +2311,10 @@ the named certificate of `ramare-rumely-1996` Lemma 3.6.1.
   `1/(9.645908801 log(3·10⁴)) = 0.010056` there and Kadiri's `5.60` region `0.017322`. Dividing by
   `C₁(k, H) > 1` inside the logarithm is what widens the region; a reading with `k|γ| C₁` would
   give `0.007766`, narrower than McCurley's.
+- The form for a modulus is weaker at an imprimitive character: modulo `6`, for the character
+  induced by `χ₋₃` (`k = 3`) at `|γ| = 10⁴` with `C = 20.92`, it gives
+  `1/(R log(6·10⁴/20.92)) = 0.013022`, below the `0.014264` of the conductor form; replacing `k` by
+  `q` only enlarges the logarithm.
 - At `k = 1`, `|γ| = 5.45·10⁸` the source's `C₁ = 38.31` (line 845) gives `0.0062943`, wider than
   Ford's `1/(8.464 log|γ|) = 0.0058732` (7.2) and narrower than the region `0.0089428` of 7.3.
 
@@ -2391,9 +2455,10 @@ antitonicity it implies Banks's instance.
 
 Prove:
 
-- (Hiary, Leong and Yang, Theorem 2, `hiaryleongyang2025` lines 41–43) given `RH(545 439 823)`
+- (Hiary, Leong and Yang, Theorem 2, `hiaryleongyang2025` lines 41–43) given `RH(30 610 046 000)`
   (0.4), which 7.4 uses, `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `t ≥ 3`; this is
-  `inv_norm_riemannZeta_one_add_le`.
+  `inv_norm_riemannZeta_one_add_le`. The proof uses Yang's region at every height from `t₀ = 500`
+  on (lines 1013–1017 and 1157), so it needs the verification that 7.4 needs.
 - (Leong, Corollary 4, `leong2026` lines 140–176, arXiv v5) given `RH(3 000 175 332 800)` (0.4),
   `1/|ζ(1 + it)| ≤ 29.388 log t` for `t ≥ 2`; `1/|ζ(σ + it)| ≤ 30.812 log t` for every real
   `σ ≥ 1` and `t ≥ 13`; and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for `t ≥ 13` and

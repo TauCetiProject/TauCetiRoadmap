@@ -41,9 +41,9 @@ Stated here:
   lower bound for quadratic characters of conductor up to `10¹⁰`.
 
 The recorded verifications (README 0.4) are the only computational inputs taken as hypotheses,
-as in the README: `RiemannHypothesisUpTo 545439823` (van de Lune, te Riele and Winter) in 7.4,
-7.10 and in the two regions of 7.5 (for the zeros of `ζ` that the principal characters carry),
-`RiemannHypothesisUpTo 30610046000` (Platt) in 8.1 and 8.3,
+as in the README: `RiemannHypothesisUpTo 545439823` (van de Lune, te Riele and Winter) in the
+two regions of 7.5 (for the zeros of `ζ` that the principal characters carry),
+`RiemannHypothesisUpTo 30610046000` (Platt) in 7.4, 7.10, 8.1 and 8.3,
 `RiemannHypothesisUpTo (3 * 10 ^ 12)` (Platt and Trudgian) in 7.3, 7.6, 8.4 and 8.5, and the
 recorded bound `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000` (Bellotti and Wong,
 read off Platt's isolation of the zeros below that height) in the second form of 5.2. The
@@ -238,9 +238,13 @@ theorem riemannZeta_ne_zero_classical (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)
     riemannZeta s ≠ 0 := sorry
 
 /-- **Layer 7.4, the Littlewood-type region.** Given the Riemann hypothesis up to height
-`545 439 823`, `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and `σ > 1 − log log |t|/(21.233 log |t|)` (Yang,
-Corollary 1.2, whose proof uses the verification up to `5.45·10⁸` for `3 ≤ |t| ≤ 5.45·10⁸`). -/
-theorem riemannZeta_ne_zero_littlewood (hRH : RiemannHypothesisUpTo 545439823) (s : ℂ)
+`30 610 046 000`, `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and `σ > 1 − log log |t|/(21.233 log |t|)` (Yang,
+Corollary 1.2). Yang's proof takes the verification only up to `5.45·10⁸` and Ford's region in a
+simplified form from there, which contains this region only for `log |t| ≥ 50.13`; the
+verification up to `30 610 046 000`, the classical region with `R₀ = 5.573412` up to
+`|t| = e^{41}` and Ford's region in its exact form from there to `e^{170.2}` cover the range
+(README 7.4). -/
+theorem riemannZeta_ne_zero_littlewood (hRH : RiemannHypothesisUpTo 30610046000) (s : ℂ)
     (ht : 3 ≤ |s.im|)
     (hσ : 1 - Real.log (Real.log |s.im|) / (21.233 * Real.log |s.im|) < s.re) :
     riemannZeta s ≠ 0 := sorry
@@ -312,9 +316,9 @@ theorem LFunction_real_ne_zero_luZamanZhao {q : ℕ} [NeZero q] (hq : q ≤ 10 ^
     DirichletCharacter.LFunction χ σ ≠ 0 := sorry
 
 /-- **Layer 7.10, the reciprocal of `ζ` on the line one.** Given the Riemann hypothesis up to
-height `545 439 823`, `1/|ζ(1 + it)| ≤ 431.7 log t / log log t` for `t ≥ 3` (Hiary, Leong and
-Yang, Theorem 2, whose proof uses the region of 7.4). -/
-theorem inv_norm_riemannZeta_one_add_le (hRH : RiemannHypothesisUpTo 545439823) (t : ℝ)
+height `30 610 046 000`, `1/|ζ(1 + it)| ≤ 431.7 log t / log log t` for `t ≥ 3` (Hiary, Leong and
+Yang, Theorem 2, whose proof uses the region of 7.4 at every height from `500` on). -/
+theorem inv_norm_riemannZeta_one_add_le (hRH : RiemannHypothesisUpTo 30610046000) (t : ℝ)
     (ht : 3 ≤ t) :
     ‖riemannZeta (1 + t * I)‖⁻¹ ≤ 431.7 * Real.log t / Real.log (Real.log t) := sorry
 
