@@ -1,0 +1,63 @@
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Family
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Christoffel
+import Mathlib.Geometry.Manifold.Instances.Real
+
+open Bundle Manifold Set TauCeti.Manifold
+open scoped ContDiff Manifold
+
+noncomputable section
+
+-- Both the parameter and base are genuine manifolds with boundary. The theorem
+-- below rules out silently satisfying their regularity claims with an interior hypothesis.
+example : (0 : EuclideanSpace ℝ (Fin 1)) ∉ interior (range (𝓡∂ 1)) := by
+  change (0 : EuclideanSpace ℝ (Fin 1)) ∉
+    interior (range (Subtype.val : EuclideanHalfSpace 1 → EuclideanSpace ℝ (Fin 1)))
+  rw [range_euclideanHalfSpace, interior_halfSpace]
+  simp
+
+section ActualBoundary
+
+variable (g : ContMDiffNondegenerateMetricFamily
+  (𝓡∂ 1) (EuclideanHalfSpace 1) (𝓡∂ 1) (EuclideanHalfSpace 1))
+  (b : Module.Basis (Fin 1) ℝ (EuclideanSpace ℝ (Fin 1)))
+
+example : ContMDiffAt ((𝓡∂ 1).prod (𝓡∂ 1))
+    𝓘(ℝ, EuclideanSpace ℝ (Fin 1) →L[ℝ]
+      EuclideanSpace ℝ (Fin 1) →L[ℝ] EuclideanSpace ℝ (Fin 1)) ∞
+    (fun q : EuclideanHalfSpace 1 × EuclideanHalfSpace 1 ↦ christoffelMap b
+      ((g.metric q.1).leviCivitaConnection.isCovariantDerivativeOn
+        (s := (trivializationAt (EuclideanSpace ℝ (Fin 1))
+          (TangentSpace (𝓡∂ 1)) (0 : EuclideanHalfSpace 1)).baseSet)) q.2)
+    (0, 0) := by
+  exact g.contMDiffAt_christoffelMap b 0 (mem_extChartAt_source (I := 𝓡∂ 1) 0)
+
+example (i j k : Fin 1) : ContMDiffAt ((𝓡∂ 1).prod (𝓡∂ 1)) 𝓘(ℝ) ∞
+    (fun q : EuclideanHalfSpace 1 × EuclideanHalfSpace 1 ↦
+      christoffelSymbol (𝓡∂ 1) b
+        (trivializationAt (EuclideanSpace ℝ (Fin 1)) (TangentSpace (𝓡∂ 1))
+          (0 : EuclideanHalfSpace 1))
+        (g.metric q.1).leviCivitaConnection.toFun i j k q.2) (0, 0) := by
+  exact g.contMDiffAt_christoffelSymbol b 0 (mem_extChartAt_source (I := 𝓡∂ 1) 0) i j k
+
+-- Native inverse-Gram coefficient formula at the base boundary. Derivatives are
+-- within the actual chart target, never an assumed exterior smooth extension.
+example (i j k : Fin 1) :
+    christoffelSymbol (𝓡∂ 1) b
+      (trivializationAt (EuclideanSpace ℝ (Fin 1)) (TangentSpace (𝓡∂ 1))
+        (0 : EuclideanHalfSpace 1))
+      (g.metric 0).leviCivitaConnection i j k (0 : EuclideanHalfSpace 1) =
+      2⁻¹ * ∑ l, (LinearMap.toMatrix₂ b b
+          ((g.metric 0).chartMetric 0 (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1) 0)).toBilinForm)⁻¹ k l *
+        (fderivWithin ℝ ((g.metric 0).chartMetric 0)
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1)).target
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1) 0) (b i) (b j) (b l) +
+          fderivWithin ℝ ((g.metric 0).chartMetric 0)
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1)).target
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1) 0) (b j) (b i) (b l) -
+          fderivWithin ℝ ((g.metric 0).chartMetric 0)
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1)).target
+            (extChartAt (𝓡∂ 1) (0 : EuclideanHalfSpace 1) 0) (b l) (b i) (b j)) := by
+  exact (g.metric 0).isLeviCivitaConnection_leviCivitaConnection
+    |>.christoffelSymbol_eq_fderivWithin b (mem_extChartAt_source (I := 𝓡∂ 1) 0) i j k
+
+end ActualBoundary

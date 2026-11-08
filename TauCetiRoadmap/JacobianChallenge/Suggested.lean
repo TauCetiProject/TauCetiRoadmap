@@ -59,7 +59,7 @@ theorem pointedCurvePicard_representable {k : Type u} [Field k]
     ∃ P : Over (Spec (.of k)), IsSeparated P.hom ∧ Flat P.hom ∧
       LocallyOfFinitePresentation P.hom ∧
       Nonempty ((uliftYoneda.{u + 1}.obj P) ≅
-        TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor f x₀ hx₀) := by
+        TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor f x₀ hx₀ ⋙ forget CommGrpCat) := by
   sorry
 
 /-- The smooth proper neutral component of the curve's represented Picard scheme,
