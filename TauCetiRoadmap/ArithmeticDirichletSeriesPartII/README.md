@@ -14,9 +14,12 @@ an arithmetic count needs: finitely many altered coefficients, and a signed erro
 series whose pole has strictly lower order. The roadmap builds the one-sided Laplace transform with
 a complex parameter, the boundary hypothesis as a named predicate, a squared-sinc kernel of total
 mass one and Delange's polynomial regularising weight, and proves the theorem by regularisation,
-Fourier smoothing and a monotone unsmoothing step. It ends with the divisor functions of `ζ²` and
-`ζ⁴` as checks of the normalisation, and with a dyadic sequence showing that the hypothesis on the
-rest of the boundary line cannot be dropped.
+Fourier smoothing and a monotone unsmoothing step. It ends with the divisor functions `d_k` of the
+powers `ζ^k`, whose Dirichlet series it identifies for every `k`, as checks of the normalisation,
+and with a dyadic sequence showing that the hypothesis on the rest of the boundary line cannot be
+dropped. Beside this line of argument it proves the rule for the transform of a derivative and,
+for a simple pole and complex coefficients, the smoothed and interval forms of the Wiener–Ikehara
+theorem.
 
 The end theorems are `delangeLaplace` (Layer 3) and its counting forms `delangeDirichlet` and
 `delangeDirichlet_positiveAbscissa` (Layer 4). For `k = 0` the two Dirichlet counting implications are
@@ -31,19 +34,19 @@ homomorphism treated separately. The pole has order `2^r`, and the count grows l
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
-| 0 | Convergent Laplace transforms and boundary continuation | `HasLaplace`, `PoleBoundary` |
+| 0 | Convergent Laplace transforms and boundary continuation | `HasLaplace`, `hasLaplace_deriv_of_primitive`, `hasLaplace_deriv`, `PoleBoundary` |
 | 1 | Squared-sinc smoothing and the polynomial weight | `squaredSinc`, `delangeWeight` |
-| 2 | Regularised transforms and the smoothed limit | `regularizedBoundaryL1`, `delangeSmoothedLimit` |
+| 2 | Regularised transforms and the smoothed limit | `regularizedBoundaryL1`, `delangeSmoothedLimit`, `wienerIkehara_smoothed`, `wienerIkehara_interval` |
 | 3 | Delange's theorem for integer pole orders | `monotoneUnsmoothing`, `delangeLaplace` |
 | 4 | Counting functions of Dirichlet series and perturbations | `logSummatory_hasLaplace`, `delangeDirichlet`, `delangeDirichlet_positiveAbscissa`, `finiteChange_asymptotic`, `lowerPole_perturbation` |
-| 5 | Zeta checks and the necessity of the boundary hypothesis | `zetaSquare_counting`; the dyadic counterexample of §5.2 is a README target only |
+| 5 | Zeta checks and the necessity of the boundary hypothesis | `LSeriesHasSum_zeta_pow`, `zetaPow_counting`; the dyadic counterexample of §5.2 is a README target only |
 
 The README states the API and Checks. `Suggested.lean` states the headline acceptance theorems
 on the pinned carriers.
 
 Suggested home: `HasLaplace` and its API in `TauCeti/Analysis/LaplaceTransform.lean`, namespace
 `TauCeti`, following Dennj Osele, “The Laplace transform”, declarations `LaplaceConvergent`,
-`laplace`, and `HasLaplace`; everything else in
+`laplace`, and `HasLaplace`; everything else except §2.2a, which names its own home, in
 `TauCeti/NumberTheory/LSeries/HigherPole/`, namespace TauCeti.HigherPoleTauberian, one file per
 layer. `Suggested.lean` states the definitions and the main theorems in the namespace
 `TauCetiRoadmap.ArithmeticDirichletSeriesPartII`.
@@ -53,7 +56,8 @@ layer. `Suggested.lean` states the definitions and the main theorems in the name
 **Owned here.**
 
 - The one-sided Laplace transform of a function, with a complex parameter, as the predicate
-  `HasLaplace` with its projection, uniqueness, linearity and dilation API.
+  `HasLaplace` with its projection, uniqueness, linearity and dilation API, and the rule for the
+  transform of a derivative (§0.1a).
 - The boundary predicate `PoleBoundary F a k A` for a pole of order `k + 1` on the line of
   convergence, with uniqueness of the leading coefficient and of the order, division by the
   argument, rescaling, multiplication by regular functions and products.
@@ -61,21 +65,27 @@ layer. `Suggested.lean` states the definitions and the main theorems in the name
   `delangeWeight`.
 - The locally integrable boundary values of the regularised remainder,
   the smoothed limit and the monotone unsmoothing step.
+- For a simple pole at `1` with continuous boundary values and complex coefficients, the smoothed
+  Wiener–Ikehara theorem under a Chebyshev bound and its interval form under a nonnegative majorant
+  with its own boundary data (§2.2a).
 - Delange's theorem for nondecreasing functions and pole orders `k + 1`, `k ∈ ℕ` (the
   integer-exponent case of his Theorem III).
 - The passage from a nonnegative Dirichlet series to the Laplace transform of its logarithmic
   counting function, the counting theorems at abscissa one and at a positive abscissa,
   invariance under finitely many altered coefficients, and the lower-pole perturbation theorem, at
   the scale `X^a (log X)^k`.
-- The checks with the divisor functions of `ζ²` and `ζ⁴`, and the dyadic counterexample.
+- The Dirichlet series `ζ(s)^k` of the divisor functions `d_k = ζ^k` for every `k`, with absolute
+  convergence, the counts of `d_(k+1)` as checks, and the dyadic counterexample.
 
 **Consumed.** Mathlib's `LSeries`, `LSeriesHasSum` and `LSeries.term`; Bochner integration,
 Fubini, dominated convergence, Fatou's lemma and differentiation under the integral sign; the
 Riemann–Lebesgue lemma; `Real.sinc`; the real Gamma function; analytic functions and removable
 singularities; `riemannZeta` with its residue at `1`; arithmetic functions and Dirichlet
-convolution. Tau Ceti's generic summatory function `TauCeti.summatory` (the generic form of the
+convolution; the fundamental theorem of calculus, Fourier inversion on Schwartz space and
+mollification by bump functions. Tau Ceti's generic summatory function `TauCeti.summatory` (the generic form of the
 inclusive summatory functions of the parent's Layer 4.2), its Laurent principal parts at a
-meromorphic point and its sine integral. Every item is listed with its exact use under *Exact
+meromorphic point, its sine integral, its Fourier-weighted Wiener–Ikehara limits and Chebyshev
+bounds, Abel's inequality and Schwartz cutoffs. Every item is listed with its exact use under *Exact
 supplier contracts*.
 
 **Not owned here.**
@@ -93,8 +103,9 @@ supplier contracts*.
   `TauCeti.LSeries.wienerIkehara_nat` and `TauCeti.LSeries.wienerIkehara_rpow`
   (`TauCeti/NumberTheory/LSeries/WienerIkehara/SharpCutoff.lean` and `Variants.lean`). At `k = 0`
   §4.2 and §4.3 are special cases of those, under the stronger hypothesis
-  that the boundary extension is holomorphic rather than continuous; this roadmap proves nothing
-  new at `k = 0` and uses its `k = 0` instances only as consistency checks.
+  that the boundary extension is holomorphic rather than continuous; they prove nothing new at
+  `k = 0`, and their `k = 0` instances serve only as consistency checks. Layer 9 does not state
+  the smoothed form or the interval form for complex coefficients; those are §2.2a, owned here.
 - Arithmetic functions on ideals, ideal Euler products, prime counting functions and Dirichlet
   density are the parent's Layers 0–8 and 10.
 - For counts of abelian extensions, the local factors, continuation, positivity of the leading
@@ -117,7 +128,7 @@ supplier contracts*.
 | --- | --- |
 | pole order | A pole of order `m = k + 1` with `k : ℕ`; `k = 0` is a simple pole. The leading coefficient `A` is the value at `a` of the holomorphic numerator `g` in `F(s) = g(s)/(s − a)^(k+1)`. It is real. |
 | abscissa | The Tauberian and counting theorems (§2.2–§4.5) are stated at an abscissa `a > 0`, and the case `a = 0` is excluded from them (a witness is under §4.3). The predicates of Layer 0, the supplied Gamma model and the boundary lemma §2.1 hold for every real `a`. |
-| coefficients | Coefficients are `c : ℕ → ℝ`. The coefficient `c 0` is ignored, as in Mathlib's `LSeries.term`, which is `0` at `n = 0`. |
+| coefficients | Coefficients are `c : ℕ → ℝ`, except in §2.2a, where they are `f : ℕ → ℂ`. The coefficient `c 0` is ignored, as in Mathlib's `LSeries.term`, which is `0` at `n = 0`. |
 | counting function | `S_c(X) = TauCeti.summatory (fun n : ℕ ↦ n) ĉ X` with `ĉ 0 = 0` and `ĉ n = c n` for `n > 0`. The cutoff is inclusive: `S_c(X) = ∑_{1 ≤ n ≤ X} c n`, `S_c(1) = c 1`, `S_c(X) = 0` for `X < 1`. For `X ≥ 0` it equals `∑ n ∈ Finset.Icc 1 ⌊X⌋₊, c n`, the form used by Tau Ceti's Wiener–Ikehara theorems (by `TauCeti.summatory_eq_summatory_natFloor` and `TauCeti.mem_normLE_natCast`). The `Northcott` instance `northcott_natId` for the identity height on `ℕ` (finite sublevel sets `Set.Iic b`) is part of Layer 4. |
 | Laplace transform | The ordinary one-sided transform `∫₀^∞ e^(−st) f(t) dt` of the function `f`, never the Laplace–Stieltjes transform `∫ e^(−st) df(t)`. Integrals are Bochner integrals for Lebesgue measure restricted to `(0, ∞)`; the endpoint is a null set, so `[0, ∞)` gives the same predicate. Convergence (integrability) is part of every Laplace assertion. Real functions are cast to `ℂ` before the predicate is applied. |
 | boundary data | Every analytic agreement in `PoleBoundary` is required only on the open half-plane `Re s > a`. The values of a total function `F` on the line `Re s = a`, and in particular those of Mathlib's totalised `LSeries` (which is `0` where the series does not converge), carry no meaning and are never used. |
@@ -187,6 +198,24 @@ The conventions carry explicit witnesses:
   `ArithmeticFunction.sigma_zero_apply` (`σ₀ n = #(Nat.divisors n)`).
   The arithmetic-function identities are in `Mathlib/NumberTheory/ArithmeticFunction/Misc.lean`.
 - `hasSum_geometric_of_norm_lt_one` (`Mathlib/Analysis/SpecificLimits/Normed.lean`).
+- `intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`
+  (`Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean`: the integral of a
+  derivative over `[a, b]`, for a function continuous on `[a, b]` with an integrable derivative on
+  `(a, b)`) and `MeasureTheory.intervalIntegral_tendsto_integral_Ioi`
+  (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`: `∫_a^T → ∫_(a,∞)` for an integrable
+  function): the derivative rule of §0.1a.
+- `HasCompactSupport.toSchwartzMap` (`Mathlib/Analysis/Distribution/SchwartzSpace/Basic.lean`),
+  Fourier inversion `FourierTransform.fourier_fourierInv_eq` on `𝓢(ℝ, ℂ)`
+  (`Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean`) and
+  `ContDiffBump.dist_normed_convolution_le` (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`:
+  a normalised bump convolution stays within `ε` of `g(x₀)` when `g` does on the bump's support):
+  the test functions of §2.2a.
+- `ArithmeticFunction.natCoe_one`, `ArithmeticFunction.natCoe_mul`
+  (`Mathlib/NumberTheory/ArithmeticFunction/Defs.lean`), `ArithmeticFunction.one_eq_delta` and
+  `ArithmeticFunction.LSeriesHasSum_zeta` (`Mathlib/NumberTheory/LSeries/Dirichlet.lean`),
+  `LSeries_delta` (`Mathlib/NumberTheory/LSeries/Basic.lean`), `ArithmeticFunction.LSeriesHasSum_mul`
+  (`Mathlib/NumberTheory/LSeries/Convolution.lean`) and `summable_norm_iff`
+  (`Mathlib/Analysis/Normed/Module/FiniteDimension.lean`): the series of `d_k = ζ^k` in §5.1.
 - `Northcott` (`Mathlib/Order/Northcott.lean`).
 
 ### From Tau Ceti (pinned a91d3aaf)
@@ -204,6 +233,26 @@ The conventions carry explicit witnesses:
   (`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`): for `b > 0`,
   `∫₀^R sin(bx)/x dx → π/2`. These are limits of interval integrals; unsquared `sinc` is not
   Lebesgue integrable and no such integral is used.
+- The Wiener–Ikehara modules `TauCeti/NumberTheory/LSeries/WienerIkehara/`, for §2.2a:
+  `TauCeti.LSeries.tendsto_tsum_term_mul_fourier_atTop_of_contDiff` (`Asymptotic.lean`; for
+  complex `a` with `LSeriesSummable a σ` for `σ > 1` and boundary data `(G, A)`, the limit
+  `∑ (a n/n) 𝓕φ(log(n/x)/2π) → 2π A φ(0)` for smooth compactly supported `φ`, given eventual
+  summability of the weighted series at `1`); `TauCeti.LSeries.LSeriesSummable_mul_comp_log_div`
+  and `TauCeti.LSeries.norm_tsum_term_mul_comp_log_div_le` (`Approximation.lean`; under
+  `∑_{1≤n≤N} ‖a n‖ ≤ C N`, a weight `W` with `‖W v‖ ≤ M (1 + v²)⁻¹` gives a summable weighted
+  series of norm at most `M C (1 + 2π²)`, uniformly in `x`);
+  `TauCeti.LSeries.tendsto_tsum_term_mul_atTop_of_approx_fourier` and
+  `TauCeti.LSeries.tendsto_tsum_term_mul_fourier_schwartz_atTop` (`Approximation.lean`; their
+  nonnegative versions, whose arguments §2.2a reruns); and
+  `TauCeti.LSeries.isBigO_sum_Icc_norm_id_of_boundary` (`Chebyshev.lean`; nonnegative `a` with
+  summability on `σ > 1` and boundary data satisfy `∑_{1≤n≤t} ‖a n‖ = O(t)`).
+- `TauCeti.exists_sum_Icc_le_mul_of_isBigO` (`TauCeti/Analysis/Asymptotics/SumWindow.lean`: an
+  `O(x)` bound on the partial sums gives `∑_{1≤n≤N} f n ≤ C N` at every `N`),
+  `TauCeti.sum_range_mul_le_sum_range_mul` (`TauCeti/Algebra/Order/BigOperators/Sum/ByParts.lean`:
+  Abel's inequality against a nonnegative antitone weight) and
+  `SchwartzMap.tendsto_smulLeftCLM_comp_inv_smul_atTop`
+  (`TauCeti/Analysis/Distribution/SchwartzSpace/Cutoff.lean`: truncations `χ(·/R) f` of a Schwartz
+  function converge to it in `𝓢`), for §2.2a.
 
 ### From [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (completed)
 
@@ -257,6 +306,7 @@ Gamma–Laplace supplier ─> integer model ────────────
 §0.1 HasLaplace ─> §4.1 bridge ─────────────────────────────────────> §4.2, §4.3 <─────┘
 §4.3 ─> §4.5 lower-pole perturbation;   §4.4 finite change (Tau Ceti summatory API only)
 §4.2, §4.4 ─> §5.1 divisor sums;   §0.2 ─> §5.2 dyadic counterexample
+§0.1 ─> §0.1a derivative rule;   Tau Ceti Wiener–Ikehara modules ─> §2.2a smoothed and interval forms
 ```
 
 ## Layer 0: Convergent Laplace transforms and boundary continuation
@@ -329,6 +379,66 @@ ordinary Laplace integral; the predicate records exactly this kind of convergenc
 - `HasLaplace (fun _ ↦ 1) 0 0` is false. A definition recording
   only the value of the integral would accept it, because the totalised integral of the
   non-integrable constant is `0`.
+
+### 0.1a The transform of a derivative
+
+Throughout, `E` is a complex Banach space (`NormedAddCommGroup E`, `NormedSpace ℂ E`,
+`CompleteSpace E`, with the real structure obtained by restricting scalars) and the measure is the
+default one, `volume.restrict (Set.Ioi 0)`. Completeness is needed because the Bochner integral is
+`0` on a space that is not complete.
+
+**`hasLaplace_deriv_of_primitive`.** Let `f g : ℝ → E`, `s : ℂ` and `z : E`. Assume that `f` is a
+primitive of `g` on `[0, ∞)`,
+
+```text
+f(t) = f(0) + ∫₀ᵗ g(u) du        for every t ≥ 0,
+```
+
+that `HasLaplace f s z`, and that `t ↦ e^(−st) • g(t)` is integrable on `(0, ∞)`. Then
+
+```text
+HasLaplace g s (s • z − f(0)).
+```
+
+No condition on `Re s` is imposed, and no growth bound on `f` beyond the two integrabilities: the
+boundary term `e^(−sT) • f(T)` tends to `0` as a consequence. The interval integral in the
+hypothesis is a genuine integral: on `[0, T]` the factor `|e^(−st)| = e^(−t Re s)` is bounded below
+by a positive constant, so the integrability of `e^(−st) • g` makes `g` integrable on every bounded
+interval.
+
+**`hasLaplace_deriv`.** Let `f f' : ℝ → E`, `s : ℂ` and `z : E`. If `f` is continuous at `0` from
+the right (`ContinuousWithinAt f (Set.Ici 0) 0`), `HasDerivAt f (f' t) t` for every `t > 0`,
+`HasLaplace f s z`, and `t ↦ e^(−st) • f'(t)` is integrable on `(0, ∞)`, then
+`HasLaplace f' s (s • z − f(0))`.
+
+*Proof sketch.* Primitive form: fix `T > 0` and write `e^(−st) = e^(−sT) + s ∫_t^T e^(−sr) dr`.
+On the triangle `0 ≤ t ≤ r ≤ T` the integrand `e^(−sr) • g(t)` is integrable (a bounded factor
+times an integrable one), and exchanging the two integrals (`MeasureTheory.integral_integral_swap`)
+gives, for every `s`,
+
+```text
+∫₀ᵀ e^(−st) • g(t) dt = e^(−sT) • f(T) − f(0) + s • ∫₀ᵀ e^(−st) • f(t) dt.
+```
+
+As `T → ∞` both integrals converge to the transforms (`MeasureTheory.intervalIntegral_tendsto_integral_Ioi`),
+so `e^(−sT) • f(T)` has a limit. That limit is `0`, because `t ↦ e^(−st) • f(t)` is integrable on
+`(0, ∞)`: a nonzero limit would bound its norm below by a positive constant on a half-line.
+Derivative form: `f` is continuous on each `[0, t]` (right continuity at `0`, differentiability
+elsewhere), `f'` is integrable there, and the fundamental theorem of calculus
+(`intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`) makes `f` a primitive of `f'`; apply the
+primitive form. *Needs:* §0.1; Mathlib `MeasureTheory.integral_integral_swap`,
+`MeasureTheory.intervalIntegral_tendsto_integral_Ioi`,
+`intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`.
+
+**Checks.**
+
+- `f(t) = t`, `f' = 1`, `Re s > 0`: the transforms are `1/s²` and `1/s`, and `s · (1/s²) − 0 = 1/s`.
+- `f(t) = e^(−t)`, `f'(t) = −e^(−t)`, `Re s > −1`: `−1/(s + 1) = s/(s + 1) − 1`. Without the
+  boundary term `−f(0)` the right side would be `s/(s + 1)`. At `s = 0` the rule reads
+  `−1 = 0 · 1 − 1`: it holds at points with `Re s ≤ 0` whenever both transforms converge.
+- `f = 1` on `(0, ∞)` with `f(0) = 0` has derivative `0` at every `t > 0` and transform `1/s` for
+  `Re s > 0`, but `s · (1/s) − f(0) = 1 ≠ 0`. Right continuity at `0` cannot be dropped, and this
+  `f` is not a primitive of `0` on `[0, ∞)`.
 
 ### 0.2 Boundary continuation with a pole of order `k + 1`
 
@@ -723,6 +833,123 @@ unnormalised kernel); §4.1, pp. 228–229.
   `k!/(s − a)^(k+1)` (AnalyticNumberTheoryPartII §4.5c) and satisfies `PoleBoundary` with `A = k!`; the theorem gives the
   limit `1`, and directly `w_k(t) e^(−at) α(t) = w_k(t) tᵏ → 1`.
 
+### 2.2a Smoothed and interval forms at a simple pole, for complex coefficients
+
+This variant of §2.2 treats a simple pole at `1` with merely continuous boundary values, the
+setting of the parent's Layer 9, for complex coefficients. It is the one place in this roadmap with
+complex coefficients `f : ℕ → ℂ`; as in Conventions, `f 0` is ignored, and
+`S_f(X) = TauCeti.summatory (fun n : ℕ ↦ n) f̂ X` with `f̂ 0 = 0` and `f̂ n = f n` for `n > 0`.
+*Boundary data* `(G, A)` for `f` means, as in the parent's Layer 9, a separately named
+`G : ℂ → ℂ` continuous on `{s | 1 ≤ s.re}` and `A : ℂ` with `G s = LSeries f s − A/(s − 1)` for
+every `s` with `Re s > 1`. Neither theorem uses Layers 0–2. Suggested home:
+`TauCeti/NumberTheory/LSeries/WienerIkehara/Smoothed.lean`, namespace `TauCeti.LSeries`, beside Tau
+Ceti's sharp-cutoff theorems.
+
+**`wienerIkehara_smoothed`.** Let `f : ℕ → ℂ` satisfy the Chebyshev bound
+
+```text
+∑_{1≤n≤x} ‖f(n)‖ = O(x)        as x → ∞,
+```
+
+that is, `(fun x : ℝ ↦ ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ‖f n‖) =O[atTop] (fun x ↦ x)`, and let `(G, A)` be
+boundary data for `f`. Then for every continuous `ψ : ℝ → ℂ` with compact support,
+
+```text
+(1/x) ∑_{n≥1} f(n) ψ(n/x) → A ∫₀^∞ ψ(y) dy        as x → ∞.
+```
+
+The Chebyshev bound makes `∑ f(n) n^(−s)` absolutely convergent on `Re s > 1`, so `LSeries f s` in
+the boundary hypothesis is a genuine sum; no sign of `f` and no separate summability is assumed.
+For each `x > 0` the sum has finitely many nonzero terms. Only the values of `ψ` on `(0, ∞)` enter,
+and `ψ(0)` need not vanish.
+
+**`wienerIkehara_interval`.** Let `f : ℕ → ℂ` and `g : ℕ → ℝ` with `‖f n‖ ≤ g n` for every `n`
+(so `g ≥ 0`). Assume `LSeriesSummable (fun n ↦ (g n : ℂ)) σ` for every real `σ > 1`, boundary data
+`(H, B)` for the cast of `g`, and boundary data `(G, A)` for `f`. Then for all real `0 ≤ a ≤ b`,
+
+```text
+(S_f(b x) − S_f(a x)) / x → A (b − a)        as x → ∞.
+```
+
+At `a = 0` this is the sharp cutoff `S_f(x)/x → A b`. A nonnegative `f` is its own majorant
+(`g = f`, `B = A`); a bounded `f` with `‖f n‖ ≤ M` has the constant majorant `M`, with series
+`M ζ(s)` and `B = M`. The majorant cannot be replaced by the Chebyshev bound of `f` alone (first
+Check below): with complex or signed coefficients the sharp cutoffs need a Tauberian hypothesis,
+which the smoothed form does not.
+
+*Proof sketch* (smoothed form).
+
+1. *Absolute convergence.* `TauCeti.exists_sum_Icc_le_mul_of_isBigO` turns the bound into
+   `∑_{1≤n≤N} ‖f n‖ ≤ C N` for every `N`; Abel's inequality `TauCeti.sum_range_mul_le_sum_range_mul`
+   against the antitone weight `n^(−σ)` gives `∑_{n≤N} ‖f n‖ n^(−σ) ≤ C ∑_{n≤N} n^(−σ)`, bounded
+   for `σ > 1`.
+2. *Fourier weights.* For smooth compactly supported `φ`,
+   `TauCeti.LSeries.tendsto_tsum_term_mul_fourier_atTop_of_contDiff` gives
+   `∑ (f(n)/n) 𝓕φ(log(n/x)/2π) → 2π A φ(0)`. It has no sign hypothesis; its summability
+   hypotheses come from step 1 and from `TauCeti.LSeries.LSeriesSummable_mul_comp_log_div`,
+   because `‖𝓕φ(v)‖ ≤ M (1 + v²)⁻¹`.
+3. *Schwartz weights.* For every Schwartz `φ₀`, `∑ (f(n)/n) 𝓕φ₀(log(n/x)/2π) → 2π A φ₀(0)`. This
+   is the argument of `TauCeti.LSeries.tendsto_tsum_term_mul_fourier_schwartz_atTop` and
+   `TauCeti.LSeries.tendsto_tsum_term_mul_atTop_of_approx_fourier`, which use their hypothesis
+   `0 ≤ a` only to obtain the Chebyshev bound and summability; here these come from the
+   hypothesis and step 1. Truncations of `φ₀` by a smooth cutoff converge to it in the Schwartz
+   topology (`SchwartzMap.tendsto_smulLeftCLM_comp_inv_smul_atTop`), and the error is bounded
+   uniformly in `x` by `TauCeti.LSeries.norm_tsum_term_mul_comp_log_div_le`.
+4. *Smooth `ψ` supported in `(0, ∞)`.* Put `W(v) = e^(2πv) ψ(e^(2πv))`, smooth with compact
+   support, so `(f(n)/n) W(log(n/x)/2π) = f(n) ψ(n/x)/x`. As a Schwartz function
+   (`HasCompactSupport.toSchwartzMap`), `W = 𝓕φ₀` with `φ₀ = 𝓕⁻¹W` Schwartz
+   (`FourierTransform.fourier_fourierInv_eq`). Step 3 gives the limit
+   `2π A φ₀(0) = 2π A ∫ W = A ∫₀^∞ ψ`, by the substitution `y = e^(2πv)`.
+5. *Continuous `ψ`.* Let `ψ` vanish outside `[−R, R]`, and fix `δ > 0` and `ε > 0`. Mollifying
+   `ψ η`, where `η` is a continuous cutoff vanishing on `(−∞, δ/2]` and equal to `1` on `[δ, ∞)`,
+   by a bump of radius less than `δ/4` (`ContDiffBump.dist_normed_convolution_le`, uniform since
+   `ψ η` is uniformly continuous) gives a smooth `ψ_ε`, vanishing outside `[δ/4, R + 1]`, with
+   `‖ψ_ε − ψ η‖ ≤ ε` everywhere; so `‖ψ − ψ_ε‖ ≤ ε` on `[δ, ∞)` and `‖ψ − ψ_ε‖ ≤ 2 sup ‖ψ‖ + ε`
+   on `(0, δ)`. With `∑_{1≤n≤N} ‖f n‖ ≤ C N` from step 1, the normalised sums for `ψ` and `ψ_ε`
+   differ by at most `C ((R + 1) ε + δ (2 sup ‖ψ‖ + ε))` for large `x`, and the integrals by at most
+   `(R + 1) ε + δ (2 sup ‖ψ‖ + ε)`; apply step 4 to `ψ_ε` and let `ε, δ → 0`.
+
+*Proof sketch* (interval form). `TauCeti.LSeries.isBigO_sum_Icc_norm_id_of_boundary`, applied to
+the nonnegative cast of `g` with `(H, B)`, gives the Chebyshev bound for `g`, hence for `f`; `f` is
+also summable on `Re s > 1` by comparison. The smoothed form then holds for `f` with limit
+`A ∫ ψ` and for `g` with limit `B ∫ ψ`. For `ε > 0` choose continuous piecewise linear `ψ_ε` and
+`χ_ε ≥ 0`, `χ_ε` a sum of two tents of width `2ε` centred at `a` and `b`, with
+`‖1_{(a,b]}(y) − ψ_ε(y)‖ ≤ χ_ε(y)` for every `y > 0`. For `x > 0`,
+`(S_f(bx) − S_f(ax))/x = (1/x) ∑_{n≥1} f(n) 1_{(a,b]}(n/x)`, whose distance from
+`(1/x) ∑ f(n) ψ_ε(n/x)` is at most `(1/x) ∑ g(n) χ_ε(n/x) → B ∫ χ_ε`. Since `∫ χ_ε ≤ 2ε` and
+`|∫₀^∞ (1_{(a,b]} − ψ_ε)| ≤ 2ε`, the limit superior of the distance to `A (b − a)` is at most
+`2ε (‖A‖ + ‖B‖)`; let `ε → 0`.
+
+*Needs:* Tau Ceti `TauCeti.exists_sum_Icc_le_mul_of_isBigO`, `TauCeti.sum_range_mul_le_sum_range_mul`,
+`TauCeti.LSeries.tendsto_tsum_term_mul_fourier_atTop_of_contDiff`,
+`TauCeti.LSeries.LSeriesSummable_mul_comp_log_div`, `TauCeti.LSeries.norm_tsum_term_mul_comp_log_div_le`,
+`TauCeti.LSeries.isBigO_sum_Icc_norm_id_of_boundary`, `SchwartzMap.tendsto_smulLeftCLM_comp_inv_smul_atTop`,
+`TauCeti.summatory`; Mathlib `HasCompactSupport.toSchwartzMap`,
+`FourierTransform.fourier_fourierInv_eq`, `ContDiffBump.dist_normed_convolution_le`.
+
+*Source.* Korevaar (2004), Chapter III, for the Wiener–Ikehara theorem by Wiener's method. The
+majorant form of the sharp cutoffs and the first Check below are not taken from the source.
+
+**Checks.**
+
+- *A Chebyshev bound alone does not give the interval form.* Let `f(2^j) = 2^j` and
+  `f(2^j + 1) = −2^j` for `j ≥ 1`, and `f n = 0` otherwise. Then `∑_{n≤x} |f(n)| ≤ 4x`. The
+  paired series `G(s) = ∑_{j≥1} 2^j (2^(−js) − (2^j + 1)^(−s))` converges absolutely and locally
+  uniformly on `Re s > 0` (its `j`-th term is `O(|s| 2^(−j Re s))`) and equals `LSeries f s` on
+  `Re s > 1`, where `∑ f(n) n^(−s)` converges absolutely; so `(G, 0)` is boundary data and the
+  smoothed limits are `0`. (`LSeries f` itself is not a valid `G`: the unpaired series converges
+  absolutely only on `Re s > 1`.) But `S_f(2^j) = 2^j` and `S_f(2^j + 1) = 0`, so
+  `S_f(x)/x` takes the values `1` and `0` at arbitrarily large `x`, and the interval form fails at
+  `a = 0`, `b = 1`.
+- `f n = 1` for `n ≥ 1`, its own majorant: the series is `ζ`, `A = B = 1`, and `G` is the continuous
+  extension of `ζ(s) − 1/(s − 1)`. At `a = 1`, `b = 2` the interval form is
+  `(⌊2x⌋ − ⌊x⌋)/x → 1`; for the tent `ψ(y) = max(0, 1 − |y − 1|)` the smoothed form gives
+  `(1/x) ∑ ψ(n/x) → 1 = ∫₀^∞ ψ`.
+- `f(n) = (−1)^n`: on `Re s > 1` its series is `(2^(1−s) − 1) ζ(s)`, which continues to an entire
+  function (the zero of `2^(1−s) − 1` at `1` cancels the pole), so `A = 0`; with the majorant
+  `g = 1` (`B = 1`) the interval form gives `(S_f(bx) − S_f(ax))/x → 0`, in agreement with
+  `|S_f(X)| ≤ 1`.
+
 ### Examples
 
 - For `k = 0` the weight is `1 − e^(−t)`, the model is `A e^(at)`, and the smoothed limit is the
@@ -731,7 +958,9 @@ unnormalised kernel); §4.1, pp. 228–229.
 ### Dependencies
 
 Layers 0 and 1; AnalyticNumberTheoryPartII §4.5c (integer Gamma model).
-Mathlib measure theory and Fourier analysis; Tau Ceti Laurent data.
+Mathlib measure theory and Fourier analysis; Tau Ceti Laurent data. §2.2a uses none of these: it
+rests on Tau Ceti's Wiener–Ikehara modules (`TauCeti/NumberTheory/LSeries/WienerIkehara/`), its
+Schwartz cutoffs and `TauCeti.summatory`.
 
 ## Layer 3: Delange's theorem for integer pole orders
 
@@ -1037,39 +1266,69 @@ Layers 0 and 3. Mathlib `LSeries`; Tau Ceti `TauCeti.summatory` and its API.
 This layer checks the factorial normalisation on powers of `ζ`, where everything is explicit, and
 shows by an explicit series that a correct local pole at `a` is not enough.
 
-### 5.1 Divisor sums from `ζ²`
+### 5.1 Divisor sums from powers of `ζ`
 
-**`zetaSquare_counting`.** Let `d(n) = #(Nat.divisors n)`, so `d(0) = 0` by Mathlib's convention.
-Then:
+For `k ∈ ℕ` let `d_k = ζ^k` be the `k`-th power of Mathlib's arithmetic function
+`ArithmeticFunction.zeta` in the Dirichlet-convolution ring `ArithmeticFunction ℕ` (this `ζ` is the
+arithmetic function, not `riemannZeta`). So `d_k(n)` is the number of ordered `k`-tuples of positive
+integers with product `n`, and `d_k(0) = 0`; `d_0 = 1` is the unit (value `1` at `n = 1` and `0`
+elsewhere), `d_1(n) = 1` for `n ≥ 1`, and `d_2 = σ₀`, so `d_2(n) = #(Nat.divisors n)`. The same
+function is the `τ_k` of SieveMethodsAndPrimePatterns §1.1, which owns its elementary upper bounds;
+this section owns its Dirichlet series and the asymptotic of its partial sums.
 
-- for every `s` with `Re s > 1`, `LSeriesHasSum (fun n ↦ (d n : ℂ)) s (ζ(s)²)`;
-- `PoleBoundary (fun s ↦ ζ(s)²) 1 1 1`;
-- `∑_{1≤n≤X} d(n) / (X log X) → 1` as `X → ∞`.
+**`LSeriesHasSum_zeta_pow`.** For every `k ∈ ℕ` and every `s` with `Re s > 1`, the Dirichlet
+series of `d_k` converges absolutely and has sum `ζ(s)^k`:
 
-Here `ζ` is Mathlib's continued `riemannZeta`, identified with its Dirichlet series only on
-`Re s > 1`.
+```text
+∑_{n≥1} ‖d_k(n) n^(−s)‖ < ∞        and        LSeriesHasSum (fun n ↦ (d_k n : ℂ)) s (ζ(s)^k),
+```
 
-*Proof sketch.* `ArithmeticFunction.zeta_mul_pow_eq_sigma` at `k = 0`, with
-`ArithmeticFunction.pow_zero_eq_zeta`, gives `ζ * ζ = σ₀`, and `ArithmeticFunction.sigma_zero_apply`
-identifies `σ₀ n` with `d(n)`. `LSeriesHasSum.convolution` with the series of `ζ`
-(`zeta_eq_tsum_one_div_nat_cpow`, `Complex.summable_one_div_nat_cpow`) gives the first claim.
-`analyticOn_riemannZeta` gives the interior and the germs away from `1`. The residue limit
-`riemannZeta_residue_one` and `Complex.analyticAt_of_differentiable_on_punctured_nhds_of_continuousAt`
-show that `(s − 1) ζ(s)`, redefined as `1` at `s = 1`, is analytic at `1`; its square is a
-numerator with value `1` for a double pole. §4.2 with `k = 1`, `A = 1` gives the count; since
-`d(0) = 0`, suppressing the zeroth coefficient changes nothing. *Needs:* §0.2, §4.2;
-Mathlib as listed.
+the first stated as `Summable (fun n ↦ ‖LSeries.term (fun n ↦ (d_k n : ℂ)) s n‖)`. Here `ζ(s)` is
+Mathlib's continued `riemannZeta`, identified with its Dirichlet series only on `Re s > 1`. At
+`k = 0` both sides are `1`.
 
-*Source.* Delange (1954), Theorem III, §5.2.1, pp. 235–238, with `ω = 2`. The arithmetic
+*Proof sketch.* Induction on `k`. For `k = 0` the cast of `1` is the unit `δ`
+(`ArithmeticFunction.natCoe_one`, `ArithmeticFunction.one_eq_delta`), whose series has the single
+nonzero term `1` (`LSeries_delta`). For the step, `d_(k+1) = d_k * ζ`, the cast to `ℂ` is
+multiplicative (`ArithmeticFunction.natCoe_mul`), and `ArithmeticFunction.LSeriesHasSum_mul` with
+`ArithmeticFunction.LSeriesHasSum_zeta` multiplies the sums. Summability in `ℂ` is absolute
+(`summable_norm_iff` in finite dimension). *Needs:* Mathlib `ArithmeticFunction.natCoe_one`,
+`ArithmeticFunction.natCoe_mul`, `ArithmeticFunction.one_eq_delta`, `LSeries_delta`,
+`ArithmeticFunction.LSeriesHasSum_mul`, `ArithmeticFunction.LSeriesHasSum_zeta`,
+`summable_norm_iff`.
+
+**`zetaPow_counting`.** For every `k ∈ ℕ`:
+
+- `PoleBoundary (fun s ↦ ζ(s)^(k+1)) 1 k 1`;
+- `∑_{1≤n≤X} d_(k+1)(n) / (X (log X)^k) → 1/k!` as `X → ∞`.
+
+At `k = 1` this is the divisor sum `∑_{1≤n≤X} #(Nat.divisors n) / (X log X) → 1`; at `k = 3` it
+is the `d₄` normalisation of Conventions.
+
+*Proof sketch.* `analyticOn_riemannZeta` gives the interior and the germs away from `1`. The residue
+limit `riemannZeta_residue_one` and
+`Complex.analyticAt_of_differentiable_on_punctured_nhds_of_continuousAt` show that `(s − 1) ζ(s)`,
+redefined as `1` at `s = 1`, is analytic at `1`; its `(k + 1)`-th power is a numerator with value
+`1` for a pole of order `k + 1`. `LSeriesHasSum_zeta_pow` at `k + 1` gives the series hypothesis of
+§4.2 on `Re s > 1` with nonnegative coefficients, and §4.2 with `A = 1` gives the count; since
+`d_(k+1)(0) = 0`, suppressing the zeroth coefficient changes nothing. At `k = 1`,
+`ArithmeticFunction.zeta_mul_pow_eq_sigma` at exponent `0`, `ArithmeticFunction.pow_zero_eq_zeta`
+and `ArithmeticFunction.sigma_zero_apply` identify `d_2(n)` with `#(Nat.divisors n)`. *Needs:* §0.2,
+§4.2; Mathlib as listed.
+
+*Source.* Delange (1954), Theorem III, §5.2.1, pp. 235–238, with `ω = k + 1`. The arithmetic
 identities and the continuation of `ζ` are Mathlib's.
 
-The elementary value `d(4) = 3` follows from the divisors `{1, 2, 4}` and fixes the arithmetic
-function convention.
+The elementary values `d_2(4) = 3` (divisors `{1, 2, 4}`) and `d_3(4) = 6` (the rearrangements of
+`(1, 1, 4)` and `(1, 2, 2)`) fix the arithmetic-function convention: counting unordered
+factorisations would give `d_3(4) = 2`.
 
 **Checks.**
 
-- Replacing `d` by `d + 7 · 1[n = 1]` keeps the limit `1` (§4.4).
-- `c n = 1` for `n ≥ 1`, the simple pole of `ζ`, gives `S(X)/X → 1`.
+- `d_0 = 1` has series `1 = ζ(s)^0`; taking `d_0` to be the constant `1` on positive integers
+  would give `ζ(s)` instead.
+- Replacing `d_2` by `d_2 + 7 · 1[n = 1]` keeps the limit `1` (§4.4).
+- `k = 0`: `d_1(n) = 1` for `n ≥ 1`, the simple pole of `ζ`, gives `S(X)/X → 1`.
 - `d₄ = σ₀ * σ₀` has series `ζ(s)⁴`, a pole of order four with
   numerator value `1`, so `∑_{n≤X} d₄(n) / (X (log X)³) → 1/6 = 1/3!`. Normalising by `k`,
   `(k − 1)!` or `(k + 1)!` would give `1/3`, `1/2` or `1/24`. This is the pole order of Wood's
@@ -1146,6 +1405,8 @@ Layer 4 (§5.1) and Layer 0 (§5.2). Mathlib `riemannZeta` and arithmetic functi
   [numdam](https://www.numdam.org/item/ASENS_1954_3_71_3_213_0.pdf). Standing hypotheses p. 213;
   regularisation and smoothing §§3–4.1, pp. 220–229; Lemmas 3–4, §5.1, pp. 231–233; Theorem III,
   §5.2.1, pp. 235–238; remarks §5.3, p. 242. The primary source for Layers 0–4.
+- J. Korevaar, *Tauberian Theory: A Century of Developments*, Grundlehren der mathematischen
+  Wissenschaften **329**, Springer (2004); Chapter III for the Wiener–Ikehara theorem (§2.2a).
 - M. M. Wood, *Nonabelian Cohen–Lenstra moments*, Duke Math. J. **168** (2019), 377–427,
   [author version](https://par.nsf.gov/servlets/purl/10152050); §7, pp. 415–417, for the
   higher-order pole counts and the removal of non-surjective homomorphisms.

@@ -12,7 +12,10 @@ with finite changes and errors dominated by a lower-order pole. The analytic sta
 the kernel mass and Fourier formula, weight normalisation and shift limit,
 regularised boundary convergence, smoothing, unsmoothing and the logarithmic counting bridge.
 The Gamma model is supplied by AnalyticNumberTheoryPartII §4.5c.
-The final layer states the divisor-counting application; the dyadic counterexample of README §5.2
+Layer 0 also states the rule for the transform of a derivative (README §0.1a), and Layer 2 the
+smoothed and interval forms of Wiener–Ikehara at a simple pole for complex coefficients
+(README §2.2a). The final layer states the Dirichlet series of the divisor functions `ζ ^ k` and
+their counts; the dyadic counterexample of README §5.2
 is a negative control (a README target with its Checks) and is not an acceptance theorem here.
 
 `HasLaplace` uses the ordinary one-sided integral of a function with convergence included.
@@ -51,6 +54,33 @@ def HasLaplace (f : ℝ → E) (s : ℂ) (z : E) (μ : Measure ℝ := volume.res
     ∫ t : ℝ, Complex.exp (-s * t) • f t ∂μ = z
 
 end Laplace
+
+section LaplaceDeriv
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
+
+/-- The transform of a derivative, primitive form (README §0.1a): if `f` is a primitive of `g`
+on `[0, ∞)`, `f` has transform `z` at `s` and `exp (-s t) • g t` is integrable on `(0, ∞)`, then
+`g` has transform `s • z - f 0`. No condition on `Re s` is imposed. -/
+theorem hasLaplace_deriv_of_primitive {f g : ℝ → E} {s : ℂ} {z : E}
+    (hfg : ∀ t ∈ Ici (0 : ℝ), f t = f 0 + ∫ u in (0 : ℝ)..t, g u)
+    (hf : HasLaplace f s z)
+    (hg : Integrable (fun t : ℝ ↦ Complex.exp (-s * t) • g t) (volume.restrict (Ioi 0))) :
+    HasLaplace g s (s • z - f 0) := by
+  sorry
+
+/-- The transform of a derivative (README §0.1a): for `f` continuous at `0` from the right and
+differentiable on `(0, ∞)`, if `f` has transform `z` at `s` and the transform integral of `f'`
+converges absolutely, then `f'` has transform `s • z - f 0`. -/
+theorem hasLaplace_deriv {f f' : ℝ → E} {s : ℂ} {z : E}
+    (hf0 : ContinuousWithinAt f (Ici 0) 0)
+    (hderiv : ∀ t ∈ Ioi (0 : ℝ), HasDerivAt f (f' t) t)
+    (hf : HasLaplace f s z)
+    (hf' : Integrable (fun t : ℝ ↦ Complex.exp (-s * t) • f' t) (volume.restrict (Ioi 0))) :
+    HasLaplace f' s (s • z - f 0) := by
+  sorry
+
+end LaplaceDeriv
 
 /-- `PoleBoundary F a k A`: `F` is holomorphic on `Re s > a`; near `a` it equals
 `g s / (s - a) ^ (k + 1)` with `g` holomorphic on a disc about `a` and `g a = A`; and at every
@@ -133,6 +163,39 @@ theorem delangeSmoothedLimit {α : ℝ → ℝ} {F : ℂ → ℂ} {a A : ℝ} {k
     Tendsto (fun T : ℝ ↦ ∫ t in Ici (0 : ℝ),
       delangeWeight k t * Real.exp (-a * t) * α t * squaredSinc ell (t - T))
       atTop (𝓝 (A / (k.factorial : ℝ))) := by
+  sorry
+
+/-- **Smoothed Wiener–Ikehara for complex coefficients** (README §2.2a). Under the Chebyshev
+bound `∑_{1 ≤ n ≤ x} ‖f n‖ = O(x)` and continuous boundary data `G = LSeries f - A / (s - 1)` on
+`Re s ≥ 1`, for every continuous compactly supported `ψ`,
+`(1 / x) ∑_{n ≥ 1} f n ψ (n / x) → A ∫₀^∞ ψ`. No sign of `f` is assumed. -/
+theorem wienerIkehara_smoothed {f : ℕ → ℂ} {G : ℂ → ℂ} {A : ℂ}
+    (hcheby : Asymptotics.IsBigO atTop
+      (fun x : ℝ ↦ ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ‖f n‖) (fun x : ℝ ↦ x))
+    (hG : ContinuousOn G {s : ℂ | 1 ≤ s.re})
+    (hG' : ∀ s : ℂ, 1 < s.re → G s = LSeries f s - A / (s - 1))
+    {ψ : ℝ → ℂ} (hψ : Continuous ψ) (hψc : HasCompactSupport ψ) :
+    Tendsto (fun x : ℝ ↦ (∑' n : ℕ, (if n = 0 then 0 else f n) * ψ (n / x)) / x)
+      atTop (𝓝 (A * ∫ y in Ioi (0 : ℝ), ψ y)) := by
+  sorry
+
+/-- **Interval form of Wiener–Ikehara for complex coefficients** (README §2.2a). If `‖f n‖ ≤ g n`
+for a majorant `g` that has its own summability and continuous boundary data on `Re s ≥ 1`, and
+`f` has boundary data `G = LSeries f - A / (s - 1)`, then
+`(S_f (b x) - S_f (a x)) / x → A (b - a)` for `0 ≤ a ≤ b`. A Chebyshev bound on `f` alone does
+not suffice. -/
+theorem wienerIkehara_interval {f : ℕ → ℂ} {g : ℕ → ℝ} {G H : ℂ → ℂ} {A B : ℂ} {a b : ℝ}
+    (hfg : ∀ n, ‖f n‖ ≤ g n)
+    (hgsum : ∀ σ : ℝ, 1 < σ → LSeriesSummable (fun n ↦ (g n : ℂ)) σ)
+    (hH : ContinuousOn H {s : ℂ | 1 ≤ s.re})
+    (hH' : ∀ s : ℂ, 1 < s.re → H s = LSeries (fun n ↦ (g n : ℂ)) s - B / (s - 1))
+    (hG : ContinuousOn G {s : ℂ | 1 ≤ s.re})
+    (hG' : ∀ s : ℂ, 1 < s.re → G s = LSeries f s - A / (s - 1))
+    (ha : 0 ≤ a) (hab : a ≤ b) :
+    Tendsto (fun x : ℝ ↦
+      (TauCeti.summatory (fun n : ℕ ↦ n) (fun n ↦ if n = 0 then 0 else f n) (b * x) -
+        TauCeti.summatory (fun n : ℕ ↦ n) (fun n ↦ if n = 0 then 0 else f n) (a * x)) / x)
+      atTop (𝓝 (A * ((b - a : ℝ) : ℂ))) := by
   sorry
 
 /-! ## Layer 3: Delange's theorem for integer pole orders -/
@@ -230,14 +293,23 @@ theorem lowerPole_perturbation {c d b : ℕ → ℝ} {G : ℂ → ℂ} {a B C : 
 
 /-! ## Layer 5: zeta checks and the necessity of the boundary hypothesis -/
 
-/-- The divisor function: `∑ d(n) n⁻ˢ = ζ(s)²` on `Re s > 1`, `ζ²` has a double pole at `1` with
-numerator value `1`, and `∑_{n ≤ X} d(n) ~ X log X`. -/
-theorem zetaSquare_counting :
-    (∀ s : ℂ, 1 < s.re →
-      LSeriesHasSum (fun n ↦ (n.divisors.card : ℂ)) s (riemannZeta s ^ 2)) ∧
-    PoleBoundary (fun s ↦ riemannZeta s ^ 2) 1 1 1 ∧
+/-- The divisor functions `d_k = ζ ^ k` (Dirichlet powers of the arithmetic function `ζ`): for
+every `k` and `Re s > 1`, `∑ d_k(n) n⁻ˢ` converges absolutely with sum `riemannZeta s ^ k`.
+At `k = 0` both sides are `1`. -/
+theorem LSeriesHasSum_zeta_pow (k : ℕ) {s : ℂ} (hs : 1 < s.re) :
+    Summable (fun n : ℕ ↦ ‖LSeries.term
+      (fun n ↦ ((ArithmeticFunction.zeta ^ k : ArithmeticFunction ℕ) n : ℂ)) s n‖) ∧
+    LSeriesHasSum (fun n ↦ ((ArithmeticFunction.zeta ^ k : ArithmeticFunction ℕ) n : ℂ)) s
+      (riemannZeta s ^ k) := by
+  sorry
+
+/-- `ζ ^ (k + 1)` has a pole of order `k + 1` at `1` with numerator value `1`, and
+`∑_{n ≤ X} d_(k+1)(n) ~ X (log X) ^ k / k!`. At `k = 1` this is `∑_{n ≤ X} d(n) ~ X log X`. -/
+theorem zetaPow_counting (k : ℕ) :
+    PoleBoundary (fun s ↦ riemannZeta s ^ (k + 1)) 1 k 1 ∧
     Tendsto (fun X : ℝ ↦ TauCeti.summatory (fun n : ℕ ↦ n)
-      (fun n ↦ (n.divisors.card : ℝ)) X / (X * Real.log X)) atTop (𝓝 1) := by
+      (fun n ↦ ((ArithmeticFunction.zeta ^ (k + 1) : ArithmeticFunction ℕ) n : ℝ)) X /
+        (X * Real.log X ^ k)) atTop (𝓝 (1 / (k.factorial : ℝ))) := by
   sorry
 
 end TauCetiRoadmap.ArithmeticDirichletSeriesPartII
