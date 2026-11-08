@@ -160,6 +160,16 @@ docstring with what they lack.
 - Dirichlet characters and `L(s, χ)`: Mathlib `DirichletCharacter.LFunction`, with
   `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`); the statements
   `DirichletGRH χ` and `GRH`: AnalyticNumberTheoryPartI §1.6; Siegel–Walfisz: §0.32.
+- Ramaré–Rumely's region for the zeros `β + iγ` of `L(s, χ)` with `|γ| ≥ H ≥ 1000`, both for a
+  primitive character of conductor `k` with their constant `C₁(k, H)` and in the form for a modulus
+  `q` with any constant `0 < C ≤ C₁(k, H)` for the conductor `k` of every character modulo `q`:
+  ExplicitZetaBounds §7.5, fifth item (`gap:dirichlet-zero-free-constants`). §6.1 uses the form for
+  a modulus at Dusart's constant `C₁(q)`.
+- The discriminant of a cyclotomic field, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}` for `K`
+  a cyclotomic extension of `ℚ` of level `n ≥ 1`: Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`.
+  The conductor–discriminant formula `|disc ℚ(ζ_q)| = ∏_{χ mod q} f_χ` (`f_χ` the conductor of `χ`):
+  ClassFieldTheory Layer 13. §6.5 proves only the two bounds for `log |disc ℚ(ζ_q)|` that its
+  least-prime bounds use.
 - The absence of real zeros in `(0, 1)` for conductors at most `400 000`: ComputationalNumberTheory
   §4.24; its §4.22 (`platt_bounded_height`) enters only through the supplier's bridge of
   `gap:grh-up-to-height`.
@@ -314,6 +324,10 @@ inputs of the Brun–Titchmarsh inequality, which Layer 0 uses and §0.1 states.
   `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`) and
   `DirichletCharacter.LFunction_ne_zero_of_one_le_re` (no zero on `Re s ≥ 1` away from the pole),
   in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean`.
+- `NumberField.discr`, `IsCyclotomicExtension` and `IsCyclotomicExtension.Rat.natAbs_discr`
+  (`Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.lean`): for `n ≥ 1` and `K` a cyclotomic
+  extension of `ℚ` of level `n`, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}`, the quotient
+  being exact. It is the value of the discriminant in §6.5.
 - `Real.eulerMascheroniConstant`, `Real.one_half_lt_eulerMascheroniConstant`,
   `Real.eulerMascheroniConstant_lt_two_thirds` (the only enclosure of `γ` in the pin);
   `Real.pi_gt_d6`, `Real.pi_lt_d6`, `Real.exp_one_gt_d9`, `Real.exp_one_lt_d9`, `Real.log_two_gt_d9`,
@@ -353,6 +367,14 @@ inputs of the Brun–Titchmarsh inequality, which Layer 0 uses and §0.1 states.
 
 - Layer 4 `dirichletData` (the record of `L(s, χ)` with conductor, parity and functional equation),
   through ZerosOfLFunctions.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+- Layer 13, the abelian conductor–discriminant formula, at `ℚ(ζ_q)/ℚ`. There the characters of
+  `Gal(ℚ(ζ_q)/ℚ) = (ℤ/q)^×` are the Dirichlet characters modulo `q`, and the same layer's
+  identification of the least cyclotomic level with the finite part of the conductor makes their
+  conductors the Dirichlet conductors `f_χ`. The formula then reads
+  `log |disc ℚ(ζ_q)| = ∑_{χ mod q} log f_χ`. It is used only in Bach–Sorenson's route in §6.5.
 
 ### From TauCetiRoadmap.SpecialFunctionsEiLiErfIncompleteGamma
 
@@ -416,8 +438,10 @@ density for `ζ`, Johnston–Yang's recomputed density constants, the low-height
 (Owned here), and so are the two other recomputations of Kadiri–Lumley–Ng's density at the height
 `3·10¹²` (Fiori–Kadiri–Swidinsky's, Cully-Hugill–Lee's), which that roadmap's §8.3 does not state:
 it states the theorem at `H₀ = 3.0610046·10¹⁰` only. Ramaré–Rumely's region with the constant
-`C₁(k, H)` is that roadmap's (its §7.5, fifth item, in `gap:dirichlet-zero-free-constants` below),
-and §6.1 takes it from there. The following sections are consumed exactly as that roadmap states
+`C₁(k, H)`, and its form for a modulus `q` with any constant `0 < C ≤ C₁(k, H)` for the conductor
+`k` of every character modulo `q`, are that roadmap's (its §7.5, fifth item, in
+`gap:dirichlet-zero-free-constants` below), and §6.1 takes the form for a modulus from there at
+Dusart's constant `C₁(q)`. The following sections are consumed exactly as that roadmap states
 them:
 
 - §6.5, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ` with at least
@@ -471,7 +495,7 @@ What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f
 
 What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.69693`, `5.573412` and `5.5666305`, and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16.
 
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)`, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3). Required location: its §7.5.
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)`, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3); and its form for a modulus: for `q ≥ 1`, `H ≥ 1000` and `0 < C ≤ C₁(k, H)` for the conductor `k` of every character modulo `q`, every zero `β + iγ` with `0 < β < 1` and `|γ| ≥ H` of `L(s, χ)`, `χ` modulo `q`, satisfies `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Required location: its §7.5.
 
 What ExplicitZetaBounds must provide (gap:real-zero-gap): For real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, the proposition *HasLandauSiegelGap* `c Q` that every real zero `β ∈ (0, 1)` of `L(s, χ)`, for every primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q`, satisfies `(1 − β) log q ≥ c`, with the named instances `(c, Q) = (1/5, 10¹⁰)` (the computation of `lu-zaman-zhao-2026`, Theorem 1.1) and `(c, Q) = (3.0·10⁻³, ∞)` (`banks-2026`, Theorem 1.1, with the first instance). Required location: target 18 and target 20 (its §7.9).
 
@@ -1024,12 +1048,13 @@ bound, used only in the route of §3.1(a).
 - *LMFDBZeroSums* by the same expansion: `M(104 537 615) = 259 999 999.85`, and
   `(1/4π) log²(T₀/2π) + H = 21.9830774`, the term `(N(T₀) − M(T₀))/T₀` being of size `10⁻⁹`;
   the stated `21.98308` exceeds it by `2.6·10⁻⁶`.
-- `ZetaZeroCubeSum`: the `201` ordinates below `398.2` (none in `(398.2, 400)`) contribute
-  `0.000727`, and the tail beyond `398.5`, by Brent–Platt–Trudgian's form of ExplicitZetaBounds §5.4
-  at `φ(t) = t⁻³`, is the integral `(1/2π) ∫_{398.5}^∞ t^{−3} log(t/2π) dt = 2.3·10⁻⁶` up to the
-  boundary term `398.5⁻³ |Q(398.5)| ≤ 1.6·10⁻⁸ |Q(398.5)|` and `|E₂| ≤ 6·10⁻¹⁰`, so the full sum is
-  `0.000730 ≤ 0.000835`; the first zero alone gives
-  `14.1347⁻³ = 0.000354`. It is not a consequence of the statements here (negative control):
+- `ZetaZeroCubeSum`: the `201` ordinates below `398.2` (none in `(398.2, 398.5)`; the next ordinate,
+  `γ₂₀₂ = 399.985`, lies in the tail) contribute `0.000727`, and the tail beyond `398.5`, by
+  Brent–Platt–Trudgian's form of ExplicitZetaBounds §5.4 at `φ(t) = t⁻³`, is the integral
+  `(1/2π) ∫_{398.5}^∞ t^{−3} log(t/2π) dt = 2.3·10⁻⁶` up to the boundary term
+  `398.5⁻³ |Q(398.5)| ≤ 1.6·10⁻⁸ |Q(398.5)|` and `|E₂| ≤ 6·10⁻¹⁰`, so the full sum is
+  `0.000730 ≤ 0.000835`; the first zero alone gives `14.1347⁻³ = 0.000354`. It is not a
+  consequence of the statements here (negative control):
   Rosser's zero count of `gap:explicit-zero-count-error` with no zero below height `14` bounds the
   sum only by `3 ∫_{14}^∞ (M(t) + R(t)) t^{−4} dt = 0.00159`, and Brent–Platt–Trudgian's form of
   ExplicitZetaBounds §5.4 from `T₀ = 14` only by `0.000528 + 0.000157 + 0.000349 = 0.00103`.
@@ -3524,11 +3549,11 @@ AnalyticNumberTheoryPartI §0.2; `φ` is `Nat.totient`.
 
 - *Shape of Ramaré–Rumely and Dusart* (`ramare-rumely-1996` lines 58–65, Theorem 1, and its
   Theorem 4.3.2; `dusart-2002` lines 989–1012, Theorem 5). Let `q > 1`, `H > 1000` with
-  `GRH*(q, H)`, and `9.14 ≤ C₁(q) ≤ 32π` with *RamareRumelyRegion* `q H C₁(q)` (below, where it is
-  proved at Dusart's `C₁(q)`), with
-  `R = 9.645908801`. With `X = √(log x/R)` and
-  `ε(X) = 3 √(q/(φ(q) C₁(q))) X^{1/2} e^{−X}` (the display of lines 999–1002, the radical spanning
-  the quotient as in Theorem 4's display at lines 702–707), for every `x` with `X > X₄(q, H)`, the
+  `GRH*(q, H)`, and `9.14 ≤ C₁(q) ≤ 32π` with *RamareRumelyRegion* `q H C₁(q)` (below:
+  ExplicitZetaBounds §7.5, the form for a modulus, at `C = C₁(q)`), with `R = 9.645908801`. With
+  `X = √(log x/R)` and `ε(X) = 3 √(q/(φ(q) C₁(q))) X^{1/2} e^{−X}` (the display of lines
+  999–1002, the radical spanning the quotient as in Theorem 4's display at lines 702–707), for
+  every `x` with `X > X₄(q, H)`, the
   explicit threshold `max(10, X₀, X₁, X₂, X₃)` of lines 989–998,
   `max_{1 ≤ y ≤ x} |ψ(y; q, a) − y/φ(q)| < x ε(X)` and `max_{1 ≤ y ≤ x} |θ(y; q, a) − y/φ(q)| < x ε(X)`
   for every unit `a`. At a row `(q, ε, x₀)` of a table proposition below the theorem reads
@@ -3544,20 +3569,19 @@ AnalyticNumberTheoryPartI §0.2; `φ` is `Nat.totient`.
   `(ε, b)` an entry of McCurley's Table 1 with its `c`, `|ψ(x; q, a) − x/φ(q)| < ε x/φ(q)` and
   `|θ(x; q, a) − x/φ(q)| < ε x/φ(q)` for `x ≥ exp(c log² q)`, under the table proposition
   *McCurleyTable*.
-- The region of the first shape, proved here from ExplicitZetaBounds §7.5: define
-  *RamareRumelyRegion* `q H C`, for an integer `q ≥ 1` and reals `H, C > 0`, as: for every Dirichlet
-  character `χ` modulo `q` and every zero `β + iγ` of `L(s, χ)` with `0 < β < 1` and `|γ| ≥ H`,
-  `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Prove that for `q ≥ 1` and `H ≥ 1000` it holds at Dusart's
-  constant `C₁(q) = min(min_{χ mod q} C₁(k_χ, H), 32π)` (his (3), `dusart-2002` lines 105–112),
-  `k_χ` being the conductor of `χ` and `C₁(k, H)` Ramaré–Rumely's constant. Route: a zero of
-  `L(s, χ)` with `0 < β < 1` is a zero of the primitive character inducing `χ` (the Euler factors at
-  the primes dividing `q` vanish only on `Re s = 0`), so Ramaré–Rumely's region in
-  `gap:dirichlet-zero-free-constants` (ExplicitZetaBounds §7.5, fifth item) gives
-  `1 − β ≥ 1/(9.645908801 log(k_χ|γ|/C₁(k_χ, H)))`, with a positive logarithm
-  (`ramare-rumely-1996` lines 839–843); as `k_χ ≤ q` and `C₁(q) ≤ C₁(k_χ, H)`,
-  `q|γ|/C₁(q) ≥ k_χ|γ|/C₁(k_χ, H)`, and the larger logarithm gives the weaker bound. A smaller
-  constant gives a weaker region, and `C₁(q) ≥ 9.14` for `q > 1` and `H > 1000` (line 107). The
-  instances of the first shape below take the region from this theorem.
+- The region of the first shape is ExplicitZetaBounds §7.5's form for a modulus of Ramaré–Rumely's
+  region (the end of its fifth item, in `gap:dirichlet-zero-free-constants`), taken at Dusart's
+  constant `C = C₁(q) = min(min_{χ mod q} C₁(k_χ, H), 32π)` (his (3), `dusart-2002` lines 105–112),
+  `k_χ` being the conductor of `χ` and `C₁(k, H)` Ramaré–Rumely's constant. `C₁(q)` meets that
+  statement's hypothesis `0 < C ≤ C₁(k, H)` for the conductor `k` of every character modulo `q`: it
+  is a minimum over those conductors, and it is at least `C₁ = 4.171838431`, since every
+  `C₁(k, H)` is and `32π > C₁`. Write *RamareRumelyRegion* `q H C`, for an integer `q ≥ 1` and reals
+  `H, C > 0`, for that statement's conclusion: for every Dirichlet character `χ` modulo `q` and
+  every zero `β + iγ` of `L(s, χ)` with `0 < β < 1` and `|γ| ≥ H`,
+  `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. For `q ≥ 1` and `H ≥ 1000` the supplier gives
+  *RamareRumelyRegion* `q H C₁(q)`, and the instances of the first shape below take the region from
+  there. A smaller constant gives a weaker region, and `C₁(q) ≥ 9.14` for `q > 1` and `H > 1000`
+  (`dusart-2002` line 107).
 - Route for both: orthogonality `φ(q) ψ(x; q, a) = ∑_χ conj χ(a) ψ(x, χ)`, the smoothed explicit
   formula of §2.1 for each `ψ(x, χ)` (ZerosOfLFunctions §8.6 at `K = ℚ` through
   AnalyticNumberTheoryPartI §0.30, extended to the kernel class), `GRH*(q, H)` for the low zeros,
@@ -3569,7 +3593,8 @@ at the parameters of every entry of the table, is at most the entry's value:
 
 - *RamareRumelyTable1* (`ramare-rumely-1996` lines 58–74 and line 1385, Table 1), for the first
   shape, each row under `GRH*(k, H)` at the height Rumely verified for `k`, with the region
-  *RamareRumelyRegion* `k H C₁(k)` at Dusart's `C₁(k)` (above): the rows `(k, ε, x₀)`, in
+  *RamareRumelyRegion* `k H C₁(k)` at Dusart's `C₁(k)` (ExplicitZetaBounds §7.5, the form for a
+  modulus, above): the rows `(k, ε, x₀)`, in
   particular `(1, 0.000213, 10¹⁰)`, `(8, 0.002811, 10¹⁰)`, and the uniform rows
   `k ≤ 13: (0.004560, 10¹⁰)`, `k ≤ 72: (0.023269, 10¹⁰)`.
 - *Dusart2002Table* (`dusart-2002` lines 989–1012, Theorem 5 and its table), for the first shape,
@@ -3580,13 +3605,13 @@ at the parameters of every entry of the table, is at most the entry's value:
 The theta clause of *ModEightFiniteInput* of AnalyticNumberTheoryPartI §0.16
 (`|θ(x; 8, a) − x/4| ≤ 0.002811 x/4` for `a ∈ {3, 5}` and `10¹⁰ ≤ x < exp 10000`) follows from the
 first shape at the row `(8, 0.002811, 10¹⁰)` of *RamareRumelyTable1*, under `GRH*(8, 10 000)`, with
-*RamareRumelyRegion* `8 10 000 C₁(8)` from the theorem above.
+*RamareRumelyRegion* `8 10 000 C₁(8)` from ExplicitZetaBounds §7.5's form for a modulus (above).
 
 *Needs:* §2.1; §0.3; §1.2; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30; ZerosOfLFunctions §8.6;
-`gap:grh-up-to-height`; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`, its fifth
-item for *RamareRumelyRegion*), with `gap:rh-up-to-height` for its hypotheses `RH(545 439 823)` and
-`RH(3·10¹²)`; `gap:dirichlet-zero-count-error`; ExplicitZetaBounds §5.4; Mathlib
-`Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`.
+`gap:grh-up-to-height`; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`, the form for
+a modulus ending its fifth item, for *RamareRumelyRegion*), with `gap:rh-up-to-height` for its
+hypotheses `RH(545 439 823)` and `RH(3·10¹²)`; `gap:dirichlet-zero-count-error`; ExplicitZetaBounds
+§5.4; Mathlib `Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`.
 
 **Checks.**
 
@@ -3597,15 +3622,11 @@ item for *RamareRumelyRegion*), with `gap:rh-up-to-height` for its hypotheses `R
 - `q = 1` (Ramaré–Rumely's rows with `k = 1`) is the `ψ` statement of Layer 3 with
   `GRH*(1, H) = RH(H)`; Dusart's Theorem 5 itself asks `q > 1`.
 - *RamareRumelyRegion* at `q = 1`, `H = 545 000 000`, `C = 38.31` (the source's `C₁(1, H)` there,
-  `ramare-rumely-1996` line 845, so this is the theorem above): at `|γ| = H` it asks
+  `ramare-rumely-1996` line 845, so the supplier's form for a modulus gives it at `q = k = 1`): at
+  `|γ| = H` it asks
   `1 − β ≥ 1/(9.645908801 log(545 000 000/38.31)) = 0.0062943`, the value of ExplicitZetaBounds
   §7.5's Check, and every zero below `3·10¹²` satisfies it with `β = 1/2`; with `C ≥ qH` the
   logarithm would be `≤ 0` and the statement void or false, which `C ≤ 32π < 1000 ≤ qH` excludes.
-- The modulus form against the conductor form: for `χ₋₃` modulo `3` at `H = |γ| = 10⁴` and
-  `C = C₁(3, 10⁴) = 20.92` (line 846) both give `1/(9.645908801 log(3·10⁴/20.92)) = 0.014264`; for
-  the character modulo `6` induced by `χ₋₃` the modulus form at the same `C` gives only
-  `1/(9.645908801 log(6·10⁴/20.92)) = 0.013022`, so the passage from `k|γ|` to `q|γ|` loses, never
-  gains (negative control for reading the modulus form as the stronger one).
 - `C₁` at the examples of `dusart-2002` lines 102–105: `C₁(χ, H) = 38.31` for `k = 1`,
   `H = 545 000 000`, and `20.92` for `k = 3`, `H = 10 000`; always `C₁ ≥ 9.14` for `k > 1` and
   `H > 1000` (line 107). The reading of `ε(X)`: at `q = 1` with `C₁ = 38.31` the radical form gives
@@ -3744,17 +3765,21 @@ AnalyticNumberTheoryPartI §0.2; `gap:grh-up-to-height`.
 
 ### 6.5 The least prime in a progression under the generalised Riemann hypothesis
 
-- The cyclotomic discriminant: `|disc ℚ(ζ_q)| = q^{φ(q)}/∏_{p ∣ q} p^{φ(q)/(p − 1)}` for `q ≥ 3`
-  (`bach-sorenson-1996` lines 926–927), from the conductor–discriminant formula
-  `|disc| = ∏_χ f_χ` over the characters modulo `q` (LFunctions Layer 4 conductors); in particular
-  `log |disc ℚ(ζ_q)| ≤ φ(q) log q` and `≥ (φ(q)/2) log(q/2)`.
+- The size of the cyclotomic discriminant: for every `q ≥ 1`,
+  `(φ(q)/2) log(q/2) ≤ log |disc ℚ(ζ_q)| ≤ φ(q) log q` (`bach-sorenson-1996` lines 926–928, where
+  the lower bound is stated for `q ≥ 1000`). Route: Mathlib's value
+  `|disc ℚ(ζ_q)| = q^{φ(q)}/∏_{p ∣ q} p^{φ(q)/(p − 1)}` (`IsCyclotomicExtension.Rat.natAbs_discr`);
+  the upper bound drops the denominator, and the lower bound is
+  `∑_{p ∣ q} log p/(p − 1) ≤ (log q + log 2)/2`, which holds because `log q ≥ ∑_{p ∣ q} log p` and
+  `log p/(p − 1) − (log p)/2` is `(log 2)/2` at `p = 2`, `0` at `p = 3` and negative for `p ≥ 5`.
 - Bach–Sorenson's explicit Chebotarev bound at a cyclotomic field (lines 802–811, Theorem 5.1 at
   `E = ℚ(ζ_q)`, `K = ℚ`): under `DirichletGRH χ` for every `χ` modulo `q` (AnalyticNumberTheoryPartI
   §1.6), for every unit `m` modulo `q` there is a prime `p ≡ m (mod q)` with
   `p ≤ (4 log |disc ℚ(ζ_q)| + 2.5 φ(q) + 5)²`. Route: the weighted explicit formula of §2.1 for
   `∑_χ conj χ(m) ψ(x, χ)` with the kernel of the paper's §4, the zeros on the line by hypothesis,
-  the Dirichlet zero count (`gap:dirichlet-zero-count-error`) summed over the
-  characters through the discriminant, and the removal of prime powers; the Frobenius of `p` in
+  the Dirichlet zero count (`gap:dirichlet-zero-count-error`) summed over the characters, the sum
+  of the logarithms of their conductors being `log |disc ℚ(ζ_q)|` by the conductor–discriminant
+  formula (ClassFieldTheory Layer 13), and the removal of prime powers; the Frobenius of `p` in
   `Gal(ℚ(ζ_q)/ℚ) = (ℤ/q)^×` is the class of `p`.
 - The least prime, the headline: prove `lamzouri_li_soundararajan`, that for `q > 3`, under
   `DirichletGRH χ` for every character `χ` modulo `q` and `LamzouriLiSoundararajanRange`, every unit
@@ -3774,13 +3799,19 @@ AnalyticNumberTheoryPartI §0.2; `gap:grh-up-to-height`.
   `2 ≤ q ≤ 1000` (lines 923–937); the route above needs neither.
 
 *Needs:* §2.1; §0.3; §1.3 (`LamzouriLiSoundararajanRange`); AnalyticNumberTheoryPartI §§0.2, 1.6
-(`DirichletGRH`); LFunctions Layer 4; Mathlib `NumberField.discr`, `IsCyclotomicExtension`;
-`gap:dirichlet-zero-count-error`.
+(`DirichletGRH`); Mathlib `NumberField.discr`, `IsCyclotomicExtension`,
+`IsCyclotomicExtension.Rat.natAbs_discr`; ClassFieldTheory Layer 13 (the conductor–discriminant
+formula, for Bach–Sorenson's route); `gap:dirichlet-zero-count-error`.
 
 **Checks.**
 
-- `q = 3`: `|disc ℚ(ζ₃)| = 3 = 3²/3^{2/2}`; `q = 4`: `|disc| = 4 = 4²/2^{2/1}`; `q = 5`: `5³ = 5⁴/5^{4/4}`;
-  `q = 12`: `12⁴/(2^{4/1} · 3^{4/2}) = 20736/144 = 144`.
+- The two bounds for the discriminant at small moduli, with `|disc ℚ(ζ₅)| = 125`,
+  `|disc ℚ(ζ₆)| = 3` and `|disc ℚ(ζ₁₂)| = 12⁴/(2⁴ · 3²) = 144`: at `q = 5`,
+  `2 log 2.5 = 1.833 ≤ log 125 = 4.828 ≤ 4 log 5 = 6.438`; at `q = 12`,
+  `2 log 6 = 3.584 ≤ log 144 = 4.970 ≤ 4 log 12 = 9.940`; at `q = 6` the lower bound is an equality,
+  `log 3 = (2/2) log 3`, so it cannot be sharpened to `(φ(q)/2) log q` (negative control:
+  `log 6 = 1.792 > log 3 = 1.099`). At `q = 1` and `q = 2` the field is `ℚ`, the middle term is `0`
+  and the lower bound `(1/2) log(1/2) < 0`, respectively `0`.
 - `q = 3`, `m = 2`: the bound `2 (3 log 3)² = 21.7` and the prime `2`; `m = 1`: the prime `7 < 21.7`.
 - `q = 1` is excluded: the bound is `2 (log 1)² = 0`; `q = 2`, `m = 1`: the bound is
   `2 (2 log 2)² = 3.84` and the prime `3` satisfies it, while `3/(2 log 2)² = 1.561` exceeds the
@@ -3922,16 +3953,18 @@ AnalyticNumberTheoryPartI §0.34; Mathlib `DirichletCharacter.LFunction`.
 
 - The row `(8, 0.002811, 10¹⁰)` and the theta clause of *ModEightFiniteInput*.
 - `C(6, 1) = −0.978…`, the extremum of Ramaré's Corollaire 5.
-- `|disc ℚ(ζ₁₂)| = 144`.
+- `log |disc ℚ(ζ₁₂)| = log 144 = 4.970`, between `2 log 6 = 3.584` and `4 log 12 = 9.940`.
 - No exceptional modulus up to `10¹⁰` under *LuZamanZhaoSweep*; the least prime `p ≤ (φ(q) log q)²`
   for `q > 3` under the generalised Riemann hypothesis.
 
 ### Dependencies
 
 Layers 0–3; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30, 0.34, 1.6; ZerosOfLFunctions §8.6;
-LFunctions Layer 4; ComputationalNumberTheory §4.24; ExplicitZetaBounds §5.4; the gaps
-`rh-up-to-height`, `grh-up-to-height`, `dirichlet-zero-free-constants` (with Ramaré–Rumely's region,
-the fifth item of its §7.5), `dirichlet-zero-count-error`, `real-zero-gap`; the zero input
+LFunctions Layer 4 (`dirichletData`, through ZerosOfLFunctions §8.6); ClassFieldTheory Layer 13
+(the conductor–discriminant formula, §6.5); ComputationalNumberTheory §4.24; ExplicitZetaBounds
+§5.4; Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`; the gaps `rh-up-to-height`,
+`grh-up-to-height`, `dirichlet-zero-free-constants` (with Ramaré–Rumely's region and its form for a
+modulus, the fifth item of its §7.5), `dirichlet-zero-count-error`, `real-zero-gap`; the zero input
 *LiuWangFourZeros* (§6.6). No later layer is used.
 
 ## Layer 7: short intervals containing a prime, unconditionally
@@ -4276,8 +4309,8 @@ Zero input of this section: *RamareRevisedDensity* (`kadiri-lumley-ng-2018` line
 `N°(σ, T) ≤ 965 (3T)^{8(1−σ)/3} (log T)^{5−2σ} + 51.5 log² T`. It is Ramaré's density for `ζ` in the
 revised form that Kadiri–Lumley–Ng quote: the printed form, with `4.9` (`ramare-2016` (1.1)), is
 in error, and the proof of the revised one was communicated to them and is not published.
-ExplicitZetaBounds states neither form (its §8.2), so the revised form is a hypothesis of the
-instance that uses it.
+ExplicitZetaBounds states neither form (its Not owned here, the item on Ramaré's explicit density
+theorem), so the revised form is a hypothesis of the instance that uses it.
 
 *Needs:* §2.1; §3.6; §1.1; `gap:rh-up-to-height`; `gap:vinogradov-korobov-constants`;
 ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`); ExplicitZetaBounds §5.2
