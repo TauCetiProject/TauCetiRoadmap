@@ -312,7 +312,8 @@ theorem ad_lieSubalgebraOfSubgroup_le (T : Subgroup G) (t : T) :
   intro X hX
   change TauCeti.Lie.Ad (I := I) ((t : G)⁻¹) X - X ∈
     (TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) T).toSubmodule
-  exact Submodule.sub_mem _ (TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup (inv_mem t.2) hX) hX
+  exact Submodule.sub_mem _
+    (TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup (Subgroup.le_normalizer (inv_mem t.2)) hX) hX
 
 /-- **The Weyl density** `D(t) = |det_ℝ((Ad(t⁻¹) − 1) on 𝔤 / Lie(T))|`, equal to the positive-root
 form `∏_{α>0} |1 − α(t)⁻¹|²` once the root system is attached (README, Layer 6). -/

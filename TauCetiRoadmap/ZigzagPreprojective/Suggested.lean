@@ -8,7 +8,7 @@ import TauCeti.LinearAlgebra.RootSystem.FiniteType.Diagram
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Componentwise.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
-import TauCeti.RingTheory.Idempotents.Corner
+import TauCeti.RingTheory.Idempotents.Corner.Basic
 
 /-!
 # Zigzag, preprojective, and Ginzburg algebras: target signatures
