@@ -33,10 +33,13 @@ Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
 admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
 of the antipodal action of `ℤˣ` on the unit sphere `Sᵐ` (the pinned action of
 `TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction`, which is free), with
-Mathlib's quotient charts `MulAction.instChartedSpaceQuotient`. The antipodal
-map is analytic (`contMDiff_neg_sphere`), so the pinned
-`TauCeti.instIsManifoldQuotient` makes these charts an analytic, hence smooth,
-atlas; immersions are Mathlib's `Manifold.IsImmersion`.
+Mathlib's quotient charts `MulAction.instChartedSpaceQuotient`. The smooth-action
+instance `ContMDiffConstSMul (𝓡 m) ω ℤˣ Sᵐ` is a target of C7.3a, proved from
+`contMDiff_neg_sphere` for `g = -1` and `contMDiff_id` for `g = 1`; with it the
+pinned `TauCeti.instIsManifoldQuotient` makes these charts an analytic, hence
+smooth, atlas, and the pinned `Manifold.IsImmersion.id` applies. Immersions are
+Mathlib's `Manifold.IsImmersion`, whose charts range over `IsManifold.maximalAtlas`,
+which is defined without that instance.
 
 Not statable at the pins, and therefore not stated here:
 * the Thom isomorphism `H^k(X;L) ≃ H^(k+n)(E,E∖0;π*L⊗o(E))` (C2.1): there is no
@@ -68,9 +71,10 @@ Not statable at the pins, and therefore not stated here:
   isomorphism (C5.2): no classifying space and no Chern–Weil map exist at
   the pins;
 * the singular/de Rham Chern–Weil comparison (C4.2): the pins have de Rham
-  cohomology `TauCeti.deRhamCohomology` and the curvature operator
-  `CovariantDerivative.curvatureOperator` of a Mathlib `CovariantDerivative`,
-  but no Chern–Weil form `P(F)` of an invariant polynomial on the curvature,
+  cohomology `TauCeti.deRhamCohomology` (`Geometry/Manifold/DeRham/Basic.lean`)
+  and Tau Ceti's curvature operator `CovariantDerivative.curvatureOperator`
+  (`Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Basic.lean`) of
+  a Mathlib `CovariantDerivative`, but no Chern–Weil form `P(F)` of an invariant polynomial on the curvature,
   no de Rham/singular comparison map, and no Chern or Pontryagin class in
   singular cohomology to compare with;
 * the exterior Hopf isomorphism `H*(K;ℚ) ≅ Λ_ℚ(z₁,…,z_r)`, `|zᵢ| = 2dᵢ − 1`,
