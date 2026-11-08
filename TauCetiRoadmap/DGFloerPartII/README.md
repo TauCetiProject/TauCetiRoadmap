@@ -172,6 +172,13 @@ target of this roadmap or of the named supplier, never a "native" API.
   the loop-space shift `π_m(ΩX) ≃* π_(m+1)(X)`.
 - `LocalCoefficientSystem` and twisted singular homology
   (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`): the twisted homology of 4.4.
+- `TauCeti.RankOneLocalSystem` with `TauCeti.RankOneLocalSystem.twistedCochainComplexIso`
+  (`TauCeti/AlgebraicTopology/DGLocalSystem/RankOne.lean`): a rank-one local system on a pointed
+  space, a character of the Moore loops with values in the units of the coefficient ring and
+  constant along paths, the DG algebra automorphism `Φ^L` it induces on the loop chains, and the
+  isomorphism between the twisted complex of `𝓕 ⊗ L` with a twisting cocycle `m` and that of
+  `𝓕` with `Φ^L ∘ m` (the source's Lemma 2.1 and Proposition 2.2). The rank-one twists of 4.4,
+  with `L` the orientation character of the homogeneous space.
 - `TauCeti.CotangentBundle.symplecticForm` (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/Liouville.lean`),
   the canonical form `ω = −dλ` of `T*M`; `TauCeti.CotangentBundle.codiscBundle`
   (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/Codisc.lean`), the covectors of norm at most `1`
@@ -221,7 +228,8 @@ The base roadmap, with its standing conventions. Consumed, by layer and item:
 - Layer 3: DG local systems, their pullbacks and basepoint change, and the DG local system of a
   Hurewicz fibration.
 - Layer 4: twisting cocycles, the twisted complex, the index filtration and the arbitrary-CW
-  Brown resolution of item 5.
+  Brown resolution of item 5 (the base's §4.1 where it numbers its sections; cited below as
+  Layer 4 item 5).
 - Layer 5 items 1–6: representing chain systems, the Barraud–Cornea cocycle, DG Morse homology
   with its direct and Umkehr maps, the fibration theorem, classes living over the fundamental
   class with shriek naturality, and the free loop space through broken geodesics.
@@ -693,7 +701,8 @@ attaching maps, the compact-band comparison and the filtered colimit; its energy
 statement is made only on this fibre model. It computes `H_*(Ω_p B)`, not `H_*(P_p B)`, and the
 perfectness and generator proof of 2.2–2.3 is independent of the following comparison.
 
-Use DGFloer Layer 4 item 5's augmented semi-free `P_B` and DGFloer Layer 5 item 4's
+Use the augmented semi-free `P_B` of DGFloer Layer 4 item 5 (the base's §4.1) and DGFloer
+Layer 5 item 4's
 fibration-chain theorem for `Ω_p B → P_p B → B`. Compare the total complex
 `C_*(Ω_p B) ⊗_{C_*(Ω_p B)} P_B` with `C_*(P_p B)`, with the base-cell filtration. When the fibre
 chains are replaced by `E_B`, construct the compatible homotopy-coherent loop action and its
@@ -706,7 +715,7 @@ compare the two total-space models. Their total-space spectral sequences agree f
 page onward and abut to `H_*(P_p B)`, which vanishes in positive degrees; this total-space
 sequence is distinct from the energy-filtered fibre sequence of 2.2. Name the page comparison
 and the edge and fibre-inclusion squares used on representatives. *Needs:* 2.1–2.3, DGFloer
-Layer 4 item 5 and Layer 5 item 4, DGFloer Layer 1 item 3.
+Layer 4 item 5 (the base's §4.1) and Layer 5 item 4, DGFloer Layer 1 item 3.
 
 **Checks.**
 - `B = CP¹`: `P_p S²` is contractible, so the total-space sequence with `E² = H_*(S²) ⊗ H_*(ΩS²)`
@@ -773,7 +782,8 @@ Layer 2 (the adjunction `β`).
 
 ### Dependencies
 
-1.3; DGFloer Layer 1 items 2–3, Layer 2, Layer 4 item 5, Layer 5 items 4 and 6;
+1.3; DGFloer Layer 1 items 2–3, Layer 2, Layer 4 item 5 (the base's §4.1), Layer 5 items 4 and
+6;
 RiemannianGeometry R1–R3; MorseTheory M5; GeneralizedCohomology G4.0 and G4.3–4.5;
 AlgebraicTopology Stages 2 and 6. Sources: BDHO, *Morse homology with differential graded
 coefficients*, Chapters 5–13; the source paper §§4.3–4.4 and 6.4; Bott, *The stable homotopy of
@@ -794,8 +804,9 @@ comparisons and G5's rational spectral Hurewicz theorem, then TangentialBordism 
 Pontryagin–Thom and B6.3's rational `SO`-bordism orientation surjection, with their mapping-path
 and Thom inputs and DGFloer Layer 1 items 2 and 4. On a smooth manifold `U` without boundary and
 a class `α ∈ H_n(U; ℤ)`, lift `α ⊗ 1` to a finite rational bordism combination. Clear
-denominators and then kill the finite-order torsion difference to obtain a closed oriented
-manifold `S` (a finite disjoint union) and a continuous map `f : S → U` with `f_*[S] = Nα` for
+denominators and then kill the finite-order torsion difference to obtain a closed smooth
+oriented manifold `S` (a finite disjoint union) and a continuous map `f : S → U` with
+`f_*[S] = Nα` for
 some integer `N ≥ 1` (Thom's theorem, as used in the source's proof of Theorem 5.14). *Needs:*
 GeneralizedCohomology G5 and its Thom and duality comparisons, TangentialBordism B5 and B6.3,
 DGFloer Layer 1 items 2 and 4.
@@ -815,13 +826,14 @@ whose projection `π_U : U → Q` induces a nonzero map `H_n(U; ℤ) → H_n(Q; 
 almost existence property for closed characteristics contractible in `T*Q`. The source assumes
 `Q` orientable; for a closed connected `Q` the hypothesis on `U` forces it, since `H_n(Q; ℤ) = 0`
 when `Q` is not orientable (Hatcher, *Algebraic Topology*, Theorem 3.26). Route: choose `α` with
-`π_(U*)α = b[Q]`, `b ≠ 0`; 3.1 gives a closed oriented `S` and a continuous `φ : S → U` with
-`φ_*[S] = Nα`, so `π_U ∘ φ` has degree `d = Nb ≠ 0`. Apply Theorem 5.10 (DGFloer Layer 10
+`π_(U*)α = b[Q]`, `b ≠ 0`; 3.1 gives a closed smooth oriented `S` and a continuous `φ : S → U`
+with `φ_*[S] = Nα`, so `π_U ∘ φ` has degree `d = Nb ≠ 0`. Apply Theorem 5.10 (DGFloer Layer 10
 item 5) to `φ`: if `π₂(Q) ≠ 0` this is its first alternative, and an element of infinite order in
 `π_ℓ(Q)`, `ℓ ≥ 3`, means that `π_ℓ(Q)` is not annihilated by `d^m` for any `m ≥ 1`, which is its
-condition 2. DGFloer Layer 10 item 5 takes `φ` continuous and `S` a compact topological
-manifold, so the map that 3.1 produces is used as it is, as in the source's proof of Theorem
-5.14, and no smoothing step is needed. Theorem B is the case where `Q` is not a rational
+condition 2. DGFloer Layer 10 item 5 takes `φ` continuous on a closed smooth oriented
+`n`-manifold `S` (the source's Theorem 5.10, whose Umkehr map is built from Morse data on `S`);
+the manifold 3.1 produces is such an `S`, so the map is used as it is, as in the source's proof
+of Theorem 5.14, and no smoothing step is needed. Theorem B is the case where `Q` is not a rational
 `K(π, 1)`. DGFloer Layer 10's all-dimensional DG trajectory and chain inputs come from its
 Layers 7.2, 8 and 9. Only the multiple `Nα` of 3.1 is realized; Theorem B needs nothing more.
 
@@ -1114,9 +1126,10 @@ the cycle `(σ_p)_*[Σ′_p]` of Remark 6.19. Under `β_* : H₁(Ω²S²) → H�
 with the Pontryagin square `x²` of the generator `x` of `H₁(ΩS²)`. Then compare the `SO(3)` action
 class in `H₃(Map(S², S²); ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation
 shriek map. This is the worked instance of the general action and shriek construction. *Needs:*
-4.1, 4.2 (Remark 6.19's cycle), 1.2, DGFloer Layer 2, Layer 3 item 4 (rank-one twists), Layer 5
-items 4–5, Layer 10 item 2, AlgebraicTopology Stages 2 and 6 (`or_M` and twisted fundamental
-classes), Tau Ceti `LocalCoefficientSystem`, LieGroups Layer 2.
+4.1, 4.2 (Remark 6.19's cycle), 1.2, DGFloer Layer 2, Layer 5 items 4–5, Layer 10 item 2,
+AlgebraicTopology Stages 2 and 6 (`or_M` and twisted fundamental classes), Tau Ceti
+`LocalCoefficientSystem` and `TauCeti.RankOneLocalSystem` (the rank-one twists), LieGroups
+Layer 2.
 
 **Checks.**
 - `G = SO(3)`, `H = SO(2)`, `M = S²`: `j_! : H₃(SO(3)) → H₁(SO(2))`, `[SO(3)] ↦ [SO(2)]`;
