@@ -1,12 +1,9 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Basic
 import TauCeti.Geometry.Manifold.Orientation.Basic
-import TauCeti.Geometry.Manifold.Orientation.Preserving
-import TauCeti.Geometry.Manifold.SmoothTriangulation.Basic
 import TauCeti.Geometry.Diffeomorphism.Group
 import TauCeti.Geometry.Diffeomorphism.Topology
 import TauCeti.Geometry.Diffeomorphism.Diffeotopy.Path
-import TauCeti.Geometry.Diffeomorphism.Disc
 import TauCeti.Geometry.Diffeomorphism.Sphere
 import TauCeti.Topology.Homotopy.Isotopy.Basic
 import TauCeti.Topology.PL.Map
@@ -22,23 +19,18 @@ and Tau Ceti, the headline theorems of the roadmap that are statable at the pins
 
 Stated here:
 
-* the triangulation, PL and smoothing theory of compact surfaces (Layer 0, §0.0a–§0.0e): the local
-  and half-plane PL approximation theorems, invariance of the boundary, PL structures and their
-  transport, Radó's theorem, the two-dimensional Hauptvermutung, Epstein's theorem in its closed
-  and boundary-relative forms, Whitehead compatibility of a PL structure with a smooth structure
-  (read through Tau Ceti's `TauCeti.IsSmoothTriangulation`), the existence of compatible
-  smoothings, and isotopy of homeomorphisms to diffeomorphisms, absolute and relative to the
-  boundary;
-* the classification of compact surfaces (§0.0f): polygon schemas realized as quotients of the
-  closed unit disc, the standard surfaces and their models, the boundary count and orientability
-  of a surface, the Euler characteristic of the models, existence and uniqueness of the standard
-  model, the complete invariant and the genus, the Euler characteristic being Tau Ceti's
-  `TauCeti.eulerChar` throughout;
+* the PL theory of compact surfaces (Layer 0, §0.0a–§0.0d): the open and half-plane PL
+  approximation theorems, invariance of the boundary, PL structures and their transport, and
+  Epstein's theorem in its closed and boundary-relative forms;
+* the topological classification of compact surfaces (§0.0f): polygon schemas realized as
+  quotients of the closed unit disc, the standard surfaces and their models, the boundary count
+  and orientability of a surface, the Euler characteristic of the models, existence and
+  uniqueness of the standard model, the complete invariant and the genus, the Euler
+  characteristic being Tau Ceti's `TauCeti.eulerChar` throughout;
 * branched covers of surfaces, their local and global degree, and the topological Riemann–Hurwitz
   formula (§0.0g);
-* the topological, relative, orientation-preserving, PL and smooth mapping class groups with their
-  forgetful comparisons (§0.0h, §5.3b), and the mapping class groups of the sphere and the torus,
-  through `O(3)` and `GL₂(ℤ)` (§5.4a);
+* the topological and PL mapping class groups with the PL comparison (§0.0h), and the mapping
+  class groups of the sphere and the torus, through `O(3)` and `GL₂(ℤ)` (§5.4a);
 * the projective model of the hyperbolic isometry group (Layer 4): Mathlib's action of
   `GL (Fin 2) ℝ` on `ℍ`, with negative-determinant matrices acting through complex conjugation,
   induces an isomorphism from `GL (Fin 2) ℝ` modulo its centre onto the isometry group of `ℍ`;
@@ -48,42 +40,37 @@ Stated here:
 * the smooth Baer–Epstein kernel theorem (Layer 5): a diffeomorphism of a closed surface that is
   homotopic to the identity is the final slice of a smooth diffeotopy, Tau Ceti's
   `TauCeti.Diffeotopy`;
-* Smale's theorem on the disc (Layer 5): the group `Diff(D², ∂)` of Tau Ceti, with the weak
-  Whitney topology, is contractible;
-* Smale's theorem on the sphere (Layer 5): Tau Ceti's reference inclusion of `O(3)` into
-  `Diff(S²)` is a homotopy equivalence, the full-group form of the deformation retraction of
-  `Diff⁺(S²)` onto `SO(3)`;
-* the smoothing of isotopies (Layer 5, §5.3a): diffeomorphisms of compact surfaces that are
-  isotopic through homeomorphisms differ by a smooth diffeotopy.
+* the Nielsen realization theorem in its lifting form (Layer 8): a finite subgroup of the mapping
+  class group of a closed orientable surface lifts isomorphically to a finite group of
+  diffeomorphisms.
 
-Stated in the README only: the compact relative form of the PL approximation theorem (§0.0a),
-isotopy to a PL homeomorphism between two PL structures (§0.0b), and the curve, arc and PL
-isotopy theorems of §0.0d. They are steps of the proofs of the Hauptvermutung, of Epstein's
-theorem and of `MappingClassGroupPL.toTop_bijective`, which are stated here; read in the
-barycentric coordinates of `PLStructure.IsCompatible` they are statable, and they are not
+Stated in the README only: the compact relative form of the PL approximation theorem (§0.0a) and
+the curve, arc and PL isotopy theorems of §0.0d. They are steps of the proofs of Epstein's
+theorem and of `MappingClassGroupPL.toTop_bijective`, which are stated here; read in barycentric
+coordinates, as `PLStructure.IsPLHomeomorph` reads maps, they are statable, and they are not
 headlines.
 
 Not statable at the pins:
 
 * the Teichmüller space `Teich(Σ)` and its complex structure of dimension `3g − 3` (Layers 1, 2),
   the Fenchel–Nielsen homeomorphism `Teich(Σ) ≃ (0,∞)^(3g−3) × ℝ^(3g−3)` and the completeness of
-  the Teichmüller metric (Layer 7), the Nielsen realization theorem and the fixed-locus dimension
-  formula (Layer 8), and the open dense loci of Layers 8–11: no carrier for the marked quotient of
-  the integrable almost-complex structures by `Diff₀⁺(Σ)` exists at the pins;
+  the Teichmüller metric (Layer 7), the fixed-point form of the Nielsen realization theorem (a
+  finite subgroup of `Mod±(Σ)` fixes a point of `Teich(Σ)`) and the fixed-locus dimension
+  formula (Layer 8), and the open dense loci of Layers 8–11, the arithmetic locus of Layer 9
+  among them: no carrier for the marked quotient of the integrable almost-complex structures by
+  `Diff₀⁺(Σ)` exists at the pins;
 * the full Dehn–Nielsen–Baer isomorphism `Mod±(Σ) ≃ Out(π₁ Σ)` (Layer 5): the pinned Tau Ceti
   has the topological group `TauCeti.Diff` with `Diffeomorph.weakWhitneyTopology`, so `π₀ Diff(Σ)`
-  is `ZerothHomotopy` of it, with no group structure there; `MappingClassGroupSmooth` below
-  carries the group of smooth isotopy classes instead, but no outer automorphism group `Out` of a
-  group exists at the pins, and the comparison map needs the change of basepoint along a path; the
-  two halves of the theorem are stated separately above;
+  is `ZerothHomotopy` of it, with no group structure there; `MappingClassGroupFull` below carries
+  the group of isotopy classes of homeomorphisms, which is `Mod±(Σ)` by Layer 3.1, but no outer
+  automorphism group `Out` of a group exists at the pins, and the comparison map needs the change
+  of basepoint along a path; the two halves of the theorem are stated separately above;
 * the marked holonomy comparison with discrete faithful representations of Euler number `2 − 2g`
   (Layers 4, 6): there is no Euler number of a surface-group representation at the pins;
-* the finiteness of arithmetic lattices of fixed signature (Layer 9): there is no arithmetic
-  Fuchsian group at the pins;
 * the orientations of a combinatorial surface and its orientation double cover (§0.0c): the pins
   have no coherent orientation of the triangles of an abstract simplicial complex, so
-  `Surface.IsOrientable` and `MappingClassGroupPlus` are stated through smooth orientations, which
-  the orientation comparison of §0.0e identifies with the coherent ones.
+  `Surface.IsOrientable` is stated through smooth orientations, which the orientation comparison
+  of §0.0e identifies with the coherent ones.
 -/
 
 namespace TauCetiRoadmap.TeichmullerGeometry
@@ -92,7 +79,7 @@ open scoped Manifold ContDiff UpperHalfPlane TauCeti.DiffeomorphWeakWhitney Topo
 
 open Topology
 
-/-! ## Layer 0: triangulations, PL structures and smoothings of compact surfaces -/
+/-! ## Layer 0: PL approximation, PL structures and Epstein's theorems -/
 
 /-- **PL approximation in the plane, open form.** A homeomorphism `f` between open subsets of the
 plane is approximated by a homeomorphism `g` with the same source and target, piecewise linear in
@@ -110,7 +97,8 @@ theorem exists_pl_approximation_open
 
 /-- **PL approximation in the plane, half-plane form.** If `f` preserves the closed half-plane
 `0 ≤ x 0` and its boundary line, the approximation of `exists_pl_approximation_open` can be chosen
-to preserve both as well; this is the boundary chart case of Radó's theorem (§0.0a). -/
+to preserve both as well; this is the boundary chart case of the PL approximation of surface
+homeomorphisms (§0.0a). -/
 theorem exists_pl_approximation_halfPlane
     (f : OpenPartialHomeomorph (EuclideanSpace ℝ (Fin 2)) (EuclideanSpace ℝ (Fin 2)))
     (hH : f '' (f.source ∩ {x | 0 ≤ x 0}) = f.target ∩ {x | 0 ≤ x 0})
@@ -166,26 +154,6 @@ noncomputable def PLStructure.map {M N : Type*} [TopologicalSpace M] [Topologica
   isCombinatorialManifold := s.isCombinatorialManifold
   e := s.e.trans f
 
-section Rado
-
-variable (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
-  [CompactSpace M]
-
-/-- **Radó's theorem.** Every compact topological surface, with or without boundary, has a PL
-structure; the README asks in addition that the boundary edges of the triangulation realize the
-manifold boundary (§0.0b). -/
-theorem PLStructure.nonempty_of_compactSurface : Nonempty (PLStructure M) := by
-  sorry
-
-end Rado
-
-/-- **The two-dimensional Hauptvermutung.** The triangulating complexes of PL structures on
-homeomorphic spaces are PL homeomorphic, in Tau Ceti's sense `PLHomeomorphic` (§0.0b). -/
-theorem PLStructure.plHomeomorphic {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
-    (s : PLStructure M) (t : PLStructure N) (h : Nonempty (M ≃ₜ N)) :
-    s.K.toPreAbstractSimplicialComplex.PLHomeomorphic t.K.toPreAbstractSimplicialComplex := by
-  sorry
-
 section Epstein
 
 variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
@@ -212,57 +180,6 @@ theorem isotopicRel_of_homotopicRel (f g : M ≃ₜ N)
   sorry
 
 end Epstein
-
-/-- A PL structure `s` on a smooth surface `M` is **compatible** with the smooth structure when it
-differs by a piecewise-linear homeomorphism from a smooth triangulation of `M` in Whitehead's
-sense (Tau Ceti's `TauCeti.IsSmoothTriangulation`): in barycentric coordinates `s.e.symm ∘ g` is
-the restriction of a map that is piecewise linear on the realization of the complex of `g`.
-Equivalently, some linear subdivision of the complex of `s` is a smooth triangulation (§0.0e). -/
-def PLStructure.IsCompatible {M : Type*} [TopologicalSpace M]
-    [ChartedSpace (EuclideanHalfSpace 2) M] (s : PLStructure M) : Prop :=
-  ∃ (κ : Type) (L : AbstractSimplicialComplex κ)
-    (g : AbstractSimplicialComplex.Realization L ≃ₜ M),
-    TauCeti.IsSmoothTriangulation (𝓡∂ 2) ∞ g ∧
-      ∃ F : (κ → ℝ) → (s.ι → ℝ),
-        TauCeti.IsPLOn F
-          (Set.range fun y : AbstractSimplicialComplex.Realization L => ⇑(y : κ →₀ ℝ)) ∧
-        ∀ y : AbstractSimplicialComplex.Realization L,
-          F ⇑(y : κ →₀ ℝ) = ⇑(s.e.symm (g y) : s.ι →₀ ℝ)
-
-/-- **Existence of compatible smoothings.** Every PL structure on a space is compatible with some
-smooth structure on it, constructed by rounding the corners of the triangulation (§0.0e). -/
-theorem PLStructure.exists_smoothing {M : Type*} [TopologicalSpace M] (s : PLStructure M) :
-    ∃ σ : ChartedSpace (EuclideanHalfSpace 2) M,
-      @IsManifold _ _ _ _ _ _ _ (𝓡∂ 2) ∞ M _ σ ∧ @PLStructure.IsCompatible M _ σ s := by
-  sorry
-
-section Smooth
-
-variable {M N : Type*}
-  [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M]
-  [T2Space M] [CompactSpace M]
-  [TopologicalSpace N] [ChartedSpace (EuclideanHalfSpace 2) N] [IsManifold (𝓡∂ 2) ∞ N]
-  [T2Space N] [CompactSpace N]
-
-/-- **Isotopy to a diffeomorphism.** Every homeomorphism between compact smooth surfaces is
-isotopic to a diffeomorphism. With `M = N` carrying two smooth structures and `f` the identity,
-this is the uniqueness of smooth structures up to a diffeomorphism isotopic to the identity
-(§0.0e). -/
-theorem exists_isotopic_diffeomorph (f : M ≃ₜ N) :
-    ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N, TauCeti.Isotopic (f : C(M, N)) (φ.toHomeomorph : C(M, N)) := by
-  sorry
-
-/-- **Isotopy to a diffeomorphism relative to the boundary.** A self-homeomorphism of a compact
-smooth surface fixing the boundary pointwise is isotopic relative to the boundary to a
-diffeomorphism fixing the boundary pointwise (§0.0e). -/
-theorem exists_isotopicRel_diffeomorph (f : M ≃ₜ M)
-    (hf : Set.EqOn f id ((𝓡∂ 2).boundary M)) :
-    ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M, Set.EqOn φ id ((𝓡∂ 2).boundary M) ∧
-      ∃ F : ContinuousMap.HomotopyRel (f : C(M, M)) (φ.toHomeomorph : C(M, M))
-          ((𝓡∂ 2).boundary M), ∀ t, Topology.IsEmbedding fun x => F (t, x) := by
-  sorry
-
-end Smooth
 
 /-! ## Layer 0: the classification of compact surfaces (§0.0f) -/
 
@@ -539,95 +456,6 @@ instance isotopicToIdSubgroup.normal : (isotopicToIdSubgroup M).Normal where
 /-- The **mapping class group**: homeomorphisms modulo isotopy (§0.0h). -/
 abbrev MappingClassGroupFull : Type _ := (M ≃ₜ M) ⧸ isotopicToIdSubgroup M
 
-variable [ChartedSpace (EuclideanHalfSpace 2) M]
-
-/-- The homeomorphisms of a surface fixing its boundary pointwise (§0.0h). -/
-def boundaryFixingSubgroup : Subgroup (M ≃ₜ M) where
-  carrier := {f | Set.EqOn f id ((𝓡∂ 2).boundary M)}
-  one_mem' := fun _ _ => rfl
-  mul_mem' := fun {f g} hf hg x hx => by
-    show f (g x) = x
-    rw [hg hx]
-    exact hf hx
-  inv_mem' := fun {f} hf x hx => by
-    show f.symm x = x
-    exact f.symm_apply_eq.mpr (hf hx).symm
-
-/-- The boundary-fixing homeomorphisms isotopic to the identity by an isotopy fixing the boundary
-pointwise (§0.0h). -/
-def isotopicRelToIdSubgroup : Subgroup (boundaryFixingSubgroup M) where
-  carrier := {f | ∃ F : ContinuousMap.HomotopyRel ((f : M ≃ₜ M) : C(M, M)) (ContinuousMap.id M)
-      ((𝓡∂ 2).boundary M), ∀ t, IsEmbedding fun x => F (t, x)}
-  one_mem' := ⟨ContinuousMap.HomotopyRel.refl _ _, fun _ => IsEmbedding.id⟩
-  mul_mem' := by
-    rintro ⟨f, hf⟩ ⟨g, hg⟩ ⟨F, hF⟩ ⟨G, hG⟩
-    -- `F_t ∘ g` joins `f ∘ g` to `g`, fixing the boundary because `g` fixes it pointwise
-    let F' : ContinuousMap.HomotopyRel ((f * g : M ≃ₜ M) : C(M, M)) (g : C(M, M))
-        ((𝓡∂ 2).boundary M) :=
-      { toHomotopy := F.toHomotopy.compContinuousMap (g : C(M, M))
-        prop' := fun t x hx => by
-          have h1 := F.prop' t (g x) (by rw [hg hx]; exact hx)
-          simp only [ContinuousMap.coe_mk] at h1 ⊢
-          exact h1 }
-    refine ⟨F'.trans G, fun t => ?_⟩
-    show IsEmbedding fun x => (F'.toHomotopy.trans G.toHomotopy) (t, x)
-    simp only [ContinuousMap.Homotopy.trans_apply]
-    split_ifs with h
-    · exact (hF ⟨2 * t, (unitInterval.mul_pos_mem_iff zero_lt_two).2 ⟨t.2.1, h⟩⟩).comp
-        g.isEmbedding
-    · exact hG ⟨2 * t - 1, unitInterval.two_mul_sub_one_mem_iff.2 ⟨(not_le.1 h).le, t.2.2⟩⟩
-  inv_mem' := by
-    rintro ⟨f, hf⟩ ⟨F, hF⟩
-    -- `f⁻¹ ∘ F_t` joins the identity to `f⁻¹`
-    refine ⟨((F.compContinuousMap (f.symm : C(M, M))).cast (by ext; simp) (by ext; rfl)).symm,
-      fun t => ?_⟩
-    exact f.symm.isEmbedding.comp (hF (unitInterval.symm t))
-
-/-- Conjugation by a boundary-fixing homeomorphism preserves isotopy to the identity relative to
-the boundary (§0.0h). -/
-instance isotopicRelToIdSubgroup.normal : (isotopicRelToIdSubgroup M).Normal where
-  conj_mem := by
-    rintro ⟨f, hf⟩ ⟨F, hF⟩ ⟨h, hh⟩
-    -- `h ∘ F_t ∘ h⁻¹` joins `h f h⁻¹` to the identity
-    have hh' : ∀ x ∈ (𝓡∂ 2).boundary M, h.symm x = x := fun x hx =>
-      h.symm_apply_eq.mpr (hh hx).symm
-    let F' : ContinuousMap.HomotopyRel ((f : C(M, M)).comp (h.symm : C(M, M)))
-        ((ContinuousMap.id M).comp (h.symm : C(M, M))) ((𝓡∂ 2).boundary M) :=
-      { toHomotopy := F.toHomotopy.compContinuousMap (h.symm : C(M, M))
-        prop' := fun t x hx => by
-          have h1 := F.prop' t (h.symm x) (by rw [hh' x hx]; exact hx)
-          simp only [ContinuousMap.coe_mk] at h1 ⊢
-          exact h1 }
-    refine ⟨(F'.compContinuousMap (h : C(M, M))).cast (by ext; rfl) (by ext; simp), fun t => ?_⟩
-    exact h.isEmbedding.comp ((hF t).comp h.symm.isEmbedding)
-
-/-- The **mapping class group relative to the boundary** (§0.0h). -/
-abbrev MappingClassGroupRel : Type _ := boundaryFixingSubgroup M ⧸ isotopicRelToIdSubgroup M
-
-/-- The **orientation-preserving mapping class group** relative to the boundary, for an
-orientation `o`: the classes of homeomorphisms carrying `o` to itself. The README defines it with
-the orientations of §0.0c; this form takes a smooth orientation and the classes of diffeomorphisms
-preserving it, which isotopy to a diffeomorphism relative to the boundary and the orientation
-comparison of §0.0e identify with the topological definition (§0.0h). -/
-def MappingClassGroupPlus [IsManifold (𝓡∂ 2) ∞ M]
-    (o : TauCeti.Manifold.Orientation (𝓡∂ 2) M (Fin 2)) : Subgroup (MappingClassGroupRel M) where
-  carrier := {c | ∃ (φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M) (hφ : φ.toHomeomorph ∈ boundaryFixingSubgroup M),
-      (∀ x, TauCeti.Manifold.Orientation.IsOrientationPreservingAt o o φ x) ∧
-        (QuotientGroup.mk ⟨φ.toHomeomorph, hφ⟩ : MappingClassGroupRel M) = c}
-  one_mem' := ⟨Diffeomorph.refl _ M ∞, (boundaryFixingSubgroup M).one_mem,
-    fun x => TauCeti.Manifold.Orientation.isOrientationPreservingAt_id o x, rfl⟩
-  mul_mem' := by
-    rintro _ _ ⟨φ, hφ, hφo, rfl⟩ ⟨ψ, hψ, hψo, rfl⟩
-    exact ⟨ψ.trans φ, (boundaryFixingSubgroup M).mul_mem hφ hψ,
-      fun x => (hφo (ψ x)).comp (hψo x), rfl⟩
-  inv_mem' := by
-    rintro _ ⟨φ, hφ, hφo, rfl⟩
-    refine ⟨φ.symm, (boundaryFixingSubgroup M).inv_mem hφ, fun x => ?_, rfl⟩
-    refine (hφo (φ.symm x)).of_comp ?_ (φ.symm.mdifferentiable (by simp) x)
-    have e : (φ ∘ φ.symm : M → M) = id := funext φ.apply_symm_apply
-    rw [e]
-    exact TauCeti.Manifold.Orientation.isOrientationPreservingAt_id o x
-
 variable {M}
 
 /-- A self-homeomorphism is **piecewise linear** for a PL structure `s` when, in the barycentric
@@ -702,46 +530,6 @@ theorem MappingClassGroupPL.toTop_bijective (s : PLStructure M) :
     Function.Bijective (MappingClassGroupPL.toTop s) := by
   sorry
 
-variable (M) [IsManifold (𝓡∂ 2) ∞ M]
-
-/-- The diffeomorphisms joined to the identity by a smooth diffeotopy, a normal subgroup by
-`TauCeti.Diffeotopy.trans`, `TauCeti.Diffeotopy.symm` and `TauCeti.Diffeotopy.transDiffeomorph`
-(§0.0h). -/
-def smoothIsotopicToIdSubgroup : Subgroup (TauCeti.Diff (𝓡∂ 2) M ∞) where
-  carrier := {f | ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ M, Φ.final = f}
-  one_mem' := ⟨TauCeti.Diffeotopy.refl _ _ M, TauCeti.Diffeotopy.final_refl⟩
-  mul_mem' := by
-    rintro _ _ ⟨Φ, rfl⟩ ⟨Ψ, rfl⟩
-    exact ⟨Ψ.trans Φ, Ψ.final_trans Φ⟩
-  inv_mem' := by
-    rintro _ ⟨Φ, rfl⟩
-    exact ⟨Φ.symm, Φ.final_symm⟩
-
-/-- Conjugating a diffeotopy by a diffeomorphism gives a diffeotopy (§0.0h). -/
-instance smoothIsotopicToIdSubgroup.normal : (smoothIsotopicToIdSubgroup M).Normal where
-  conj_mem := by
-    rintro _ ⟨Φ, rfl⟩ h
-    refine ⟨Φ.transDiffeomorph h, Diffeomorph.ext fun x => ?_⟩
-    simp [TauCeti.Diffeotopy.final_apply, Diffeomorph.mul_apply, Diffeomorph.inv_def]
-
-/-- The **smooth mapping class group**: diffeomorphisms modulo smooth isotopy (§0.0h). -/
-abbrev MappingClassGroupSmooth : Type _ :=
-  TauCeti.Diff (𝓡∂ 2) M ∞ ⧸ smoothIsotopicToIdSubgroup M
-
-/-- The forgetful homomorphism from the smooth to the topological mapping class group, which
-descends because the slices of a diffeotopy form an isotopy (`TauCeti.AmbientIsotopy.isotopic`)
-(§0.0h). -/
-noncomputable def MappingClassGroupSmooth.toTop :
-    MappingClassGroupSmooth M →* MappingClassGroupFull M :=
-  QuotientGroup.map _ _ Diffeomorph.toHomeomorphHom <| by
-    rintro _ ⟨Φ, rfl⟩
-    have h := Φ.toAmbientIsotopy.isotopic (f := ContinuousMap.id M) IsEmbedding.id
-    have e : Φ.toAmbientIsotopy.final.comp (ContinuousMap.id M) =
-        ((Diffeomorph.toHomeomorphHom Φ.final : M ≃ₜ M) : C(M, M)) := by
-      ext x; simp
-    rw [e] at h
-    exact h.symm
-
 end MappingClassGroups
 
 /-! ## Layer 4: the projective model of `Isom(ℍ)` -/
@@ -778,9 +566,9 @@ theorem exists_diffeomorph_mapOfEq_eq
 surface, orientable or not, that is homotopic to the identity through continuous maps is the final
 slice of a smooth diffeotopy, that is, it is smoothly isotopic to the identity. For closed
 orientable surfaces this is the injectivity of `Mod±(S) → Out(π₁ S)` (Layer 5.4): Epstein's
-theorem `isotopic_of_homotopic_closedSurface` gives a topological isotopy, and
-`smoothIsotopic_of_isotopic` (Layer 5.3a) makes it smooth, both read through the `𝓡∂ 2` atlas of
-`S` of §0.0e. -/
+theorem `isotopic_of_homotopic_closedSurface` gives a topological isotopy, and GeometricTopology's
+smoothing of isotopies (its Layer 11.2.1 item 5) makes it smooth, both read through the `𝓡∂ 2`
+atlas of `S` of §0.0e. -/
 theorem baer_epstein_smooth
     {S : Type*} [TopologicalSpace S] [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S]
     [IsManifold (𝓡 2) ∞ S]
@@ -790,55 +578,12 @@ theorem baer_epstein_smooth
     ∃ Φ : TauCeti.Diffeotopy (𝓡 2) ∞ S, Φ.final = f := by
   sorry
 
-/-- **Smale's theorem on the disc.** The group `Diff(D², ∂)` of smooth self-diffeomorphisms of the
-closed unit disc fixing the boundary circle pointwise, with the weak Whitney topology, is
-contractible (Smale, *Diffeomorphisms of the 2-sphere*, Proc. AMS 10 (1959), Theorem B, for the
-diffeomorphisms that are the identity near the boundary; Layer 5.3 passes from "near the boundary"
-to "on the boundary"). Its path-connectedness, `π₀ Diff(D², ∂) = 0`, is the disc input of the
-Alexander method used by the kernel theorem. -/
-theorem contractibleSpace_discDiff_two : ContractibleSpace (TauCeti.DiscDiff 2) := by
-  sorry
-
-/-- **Smale's theorem on the sphere.** The reference inclusion `O(3) → Diff(S²)` of Tau Ceti,
-`TauCeti.continuousOrthogonalToDiffSphere 2 ∞`, is a homotopy equivalence for the weak Whitney
-topology on `Diff(S²)`. Smale proves that `Diff⁺(S²)` deformation retracts onto `SO(3)` (Smale,
-*Diffeomorphisms of the 2-sphere*, Proc. AMS 10 (1959), Theorem A, with the retraction of
-Theorem 6); a reflection of `O(3)` carries that retraction to the other component, which gives the
-full-group form stated here (Layer 5.3). In particular `π₀ Diff(S²) = ℤ/2`. -/
-theorem exists_homotopyEquiv_orthogonalToDiffSphere_two :
-    ∃ e : ContinuousMap.HomotopyEquiv (Matrix.orthogonalGroup (Fin 3) ℝ)
-      (TauCeti.Diff (𝓡 2) (Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1) ∞),
-      e.toFun = TauCeti.continuousOrthogonalToDiffSphere 2 ∞ := by
-  sorry
-
-/-- **Smoothing isotopies.** Two diffeomorphisms between compact smooth surfaces, with or without
-boundary and orientable or not, that are isotopic through homeomorphisms differ by a smooth
-diffeotopy: `ψ = φ ∘ Φ.final`. The proof reduces to diffeomorphisms uniformly close to the identity
-and finishes on the triangles of a smooth triangulation with Smale's disc theorem (Layer 5.3a). -/
-theorem smoothIsotopic_of_isotopic {M N : Type*}
-    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M]
-    [T2Space M] [CompactSpace M]
-    [TopologicalSpace N] [ChartedSpace (EuclideanHalfSpace 2) N] [IsManifold (𝓡∂ 2) ∞ N]
-    [T2Space N] [CompactSpace N]
-    (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N)
-    (h : TauCeti.Isotopic (φ.toHomeomorph : C(M, N)) (ψ.toHomeomorph : C(M, N))) :
-    ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ M, ∀ x, ψ x = φ (Φ.final x) := by
-  sorry
-
-/-- **The smooth and topological mapping class groups agree.** For a compact smooth surface, with
-or without boundary and orientable or not, the forgetful homomorphism is bijective: surjective by
-isotopy to a diffeomorphism, injective by the smoothing of isotopies (Layer 5.3b). -/
-theorem MappingClassGroupSmooth.toTop_bijective (M : Type*)
-    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M]
-    [T2Space M] [CompactSpace M] :
-    Function.Bijective (MappingClassGroupSmooth.toTop M) := by
-  sorry
-
 /-- **The mapping class group of the sphere** has two elements, the class of a reflection being
 the nontrivial one. Stated for the homomorphism sending `r ∈ O(3)` to the class of its restriction
 `TauCeti.orthogonalToDiffSphere 2 ∞ r`: it is surjective with kernel `SO(3)`, the matrices of
-determinant one. By Layer 5.3b the group is `π₀ Diff(S²)`, which Smale's theorem identifies with
-`π₀ O(3)` (Layer 5.4a). -/
+determinant one. By GeometricTopology's comparison of smooth and topological isotopy (its
+Layer 11.2.1 items 2 and 5) the group is `π₀ Diff(S²)`, which Smale's theorem `Diff(S²) ≃ O(3)`
+(its Layer 3.4) identifies with `π₀ O(3)` (Layer 5.4a). -/
 theorem mcg_sphere_full :
     Function.Surjective (fun r : Matrix.orthogonalGroup (Fin 3) ℝ =>
       (QuotientGroup.mk (Diffeomorph.toHomeomorphHom (TauCeti.orthogonalToDiffSphere 2 ∞ r)) :
@@ -891,11 +636,34 @@ def torusLinearHomeomorph (A : GL (Fin 2) ℤ) :
 /-- **The mapping class group of the torus** is `GL₂(ℤ)`: the map sending `A` to the class of its
 linear homeomorphism `torusLinearHomeomorph A` is bijective, and it is a homomorphism because
 `torusLinearHomeomorph (A * B) = torusLinearHomeomorph A * torusLinearHomeomorph B`. Its inverse
-is the action on `π₁(T², 0) = ℤ²` in the basis of the two circle factors (Layer 5.4a). -/
+is the action on `π₁(T², 0) = ℤ²` in the basis of the two circle factors; injectivity and
+surjectivity come from asphericity and Epstein's theorem `isotopic_of_homotopic_closedSurface`
+(Layer 5.4a). -/
 theorem mcg_torus_full :
     Function.Bijective (fun A : GL (Fin 2) ℤ =>
       (QuotientGroup.mk (torusLinearHomeomorph A) :
         MappingClassGroupFull (AddCircle (1 : ℝ) × AddCircle (1 : ℝ)))) := by
+  sorry
+
+/-! ## Layer 8: finite actions -/
+
+/-- **The Nielsen realization theorem, lifting form.** For a smooth closed connected orientable
+surface `S`, every finite subgroup `F` of the mapping class group `MappingClassGroupFull S`, which
+is `Mod±(S)` by Layer 3.1, lifts isomorphically to a finite group of diffeomorphisms: some finite
+subgroup `H` of `Diff(S)` is carried bijectively onto `F` by the quotient map. For genus at least
+two `H` is the group of isometries, representing `F`, of the hyperbolic metric at a point of
+`Teich(S)` fixed by `F` (Kerckhoff, *The Nielsen realization problem*, Ann. of Math. 117 (1983),
+Theorem 1; Layers 8.2, 5.6 and 0.5); for the sphere and the torus the lifts are orthogonal and
+linear maps (Layer 5.4a). -/
+theorem nielsen_realization
+    {S : Type*} [TopologicalSpace S] [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S]
+    [IsManifold (𝓡 2) ∞ S] [TauCeti.Orientable (𝓡 2) S]
+    (hS : TauCeti.IsClosedConnectedSurface S)
+    (F : Subgroup (MappingClassGroupFull S)) [Finite F] :
+    ∃ H : Subgroup (TauCeti.Diff (𝓡 2) S ∞), Finite H ∧
+      Set.BijOn (fun h : TauCeti.Diff (𝓡 2) S ∞ =>
+          (QuotientGroup.mk (Diffeomorph.toHomeomorphHom h) : MappingClassGroupFull S))
+        (H : Set (TauCeti.Diff (𝓡 2) S ∞)) (F : Set (MappingClassGroupFull S)) := by
   sorry
 
 end TauCetiRoadmap.TeichmullerGeometry
