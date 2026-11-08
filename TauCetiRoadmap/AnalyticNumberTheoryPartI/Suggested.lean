@@ -24,7 +24,8 @@ Hadamard factorization, Siegel–Walfisz, Chebyshev's factorial identity and fac
 Mertens's von Mangoldt sum with its constant `γ`, and the local expansion of `ζ′/ζ` with its
 half-plane bounds. Layer 1 states Davenport cancellation, the half-interval explicit formula,
 Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula, the `C¹` explicit
-formula for `ζ` with Gauss's digamma integral, and the conditional RH/GRH prime estimates. Layer 2
+formula for `ζ` with Gauss's digamma integral and its critical-line archimedean form, and the
+conditional RH/GRH prime estimates. Layer 2
 states Zaman's effective lower bound for Chebotarev primes on Tau Ceti's `frobeniusPrimeCount`
 (§2.9), Louboutin's residue bound, the effective real quadratic bound for `h R` (§2.13) and
 bounded-degree Brauer–Siegel. Layer 3 states the
@@ -577,6 +578,40 @@ theorem zeta_weil_explicit_formula (F : ℝ → ℂ) (hF : WeilC1TestFunction F)
           ((analyticOrderAt riemannZeta ρ.val).toNat : ℂ) * Φ ρ.val)
         atTop (𝓝 (Φ 0 + Φ 1 - (F 0 * (Real.log Real.pi : ℂ) + (1 / 2 : ℂ) * ∫ x in Set.Ioi 0, g x) -
           ∑' n, P n)) := by
+  sorry
+
+/-- The archimedean term of §1.8a on the critical line: the symmetric integral of
+`Re ψ(s/2) Φ(s)` along `Re s = 1/2`, divided by `2πi`, tends to `F(0) log π - W_∞(F)`. -/
+theorem zeta_weil_archimedean_critical_line (F : ℝ → ℂ) (hF : WeilC1TestFunction F) :
+    let Φ : ℂ → ℂ := fun s => ∫ x : ℝ, F x * Complex.exp ((s - 1 / 2) * (x : ℂ))
+    let g : ℝ → ℂ := fun x =>
+      (F (x / 2) + F (-x / 2)) * Complex.exp (-(x : ℂ) / 4) / (1 - Complex.exp (-(x : ℂ))) -
+        2 * F 0 * Complex.exp (-(x : ℂ)) / (x : ℂ)
+    let W : ℂ := F 0 * (Real.log Real.pi : ℂ) + (1 / 2 : ℂ) * ∫ x in Set.Ioi 0, g x
+    Tendsto (fun T : ℝ => (1 / (2 * Real.pi) : ℂ) * ∫ t in -T..T,
+        ((Complex.digamma ((1 / 2 + (t : ℂ) * Complex.I) / 2)).re : ℂ) *
+          Φ (1 / 2 + (t : ℂ) * Complex.I))
+      atTop (𝓝 (F 0 * (Real.log Real.pi : ℂ) - W)) := by
+  sorry
+
+/-- Weil's explicit formula for `ζ` for a test `φ` weighting `Λ(n)` directly (§1.8a), with the
+two-sided Laplace transform `Φ(z) = ∫ φ(x) e^(-zx) dx` and the archimedean term on the critical
+line; the zero side and the line integral are symmetric limits. -/
+theorem zeta_explicit_formula_laplace (φ : ℝ → ℂ)
+    (hφ : WeilC1TestFunction fun x => φ x * Complex.exp ((x : ℂ) / 2)) :
+    let Φ : ℂ → ℂ := fun z => ∫ x : ℝ, φ x * Complex.exp (-z * (x : ℂ))
+    let Z : ℝ → ℂ := fun T =>
+      ∑ᶠ ρ : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im| < T ∧ riemannZeta z = 0},
+        ((analyticOrderAt riemannZeta ρ.val).toNat : ℂ) * Φ (-ρ.val)
+    let A : ℝ → ℂ := fun T => (1 / (2 * Real.pi) : ℂ) * ∫ t in -T..T,
+        ((Complex.digamma ((1 / 2 + (t : ℂ) * Complex.I) / 2)).re : ℂ) *
+          Φ (-(1 / 2 + (t : ℂ) * Complex.I))
+    let P : ℕ → ℂ := fun n => (ArithmeticFunction.vonMangoldt n : ℂ) * φ (Real.log n)
+    let Q : ℕ → ℂ := fun n =>
+      (ArithmeticFunction.vonMangoldt n : ℂ) / (n : ℂ) * φ (-Real.log n)
+    Summable (fun n => ‖P n‖) ∧ Summable (fun n => ‖Q n‖) ∧
+      ∃ z a : ℂ, Tendsto Z atTop (𝓝 z) ∧ Tendsto A atTop (𝓝 a) ∧
+        ∑' n, P n = Φ (-1) + Φ 0 - z - φ 0 * (Real.log Real.pi : ℂ) - ∑' n, Q n + a := by
   sorry
 
 /-! ## Layer 2: Number-field estimates -/
