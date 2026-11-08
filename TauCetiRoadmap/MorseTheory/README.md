@@ -319,7 +319,16 @@ weaker setting is said.
   convergence of a maximal negative-gradient trajectory whose forward part
   stays in a compact set with finitely many critical points, and
   `TauCeti.exists_riemannianEDist_le_mul_exp_maximalIntegralCurve_neg_mgradient`,
-  exponential decay of the Riemannian distance to a nondegenerate limit.
+  exponential decay of the Riemannian distance to a nondegenerate limit. The
+  maximal interval of existence `maximalIntegralCurveInterval` and the
+  maximal integral curve `maximalIntegralCurve`
+  (`Geometry/Manifold/IntegralCurve/Maximal`) come with
+  `IsMIntegralCurveOn.subset_maximalIntegralCurveInterval`, by definition: an
+  integral curve through x on an open interval around 0 is defined on a
+  subset of the maximal interval of x; and
+  `IsMIntegralCurveOn.eqOn_maximalIntegralCurve`: on a Hausdorff boundaryless
+  C¹ manifold and for a C¹ field, such a curve agrees on that interval with
+  the maximal integral curve through x.
 
 The native section-zero and boundary declarations used by Layer 2 are from
 `TauCeti/Geometry/Manifold/VectorBundle/Section/{Chart,Manifold,SmoothZero,Linearization}.lean`
@@ -341,8 +350,8 @@ smooth metric expressed by `IsContMDiffRiemannianBundle`. Mathlib
 is the infimum of smooth path lengths for the same tangent-fiber norms;
 it may be infinite between components and does not require a global metric instance.
 
-Sections 4.3 and 4.4 consume the following pinned theorems, with the
-hypotheses stated here.
+Sections 4.3 and 4.4 consume the following pinned theorems and the pinned
+bicollar predicate, with the hypotheses stated here.
 
 - Reeb's theorem for Morse functions,
   `TauCeti.IsMorse.nonempty_homeomorph_sphere_of_totalCriticalCount_eq_two`
@@ -374,11 +383,21 @@ hypotheses stated here.
   two sets corresponds to the unit sphere, is homeomorphic to the unit sphere
   of every (m+1)-dimensional real inner product space; the boundary gluing is
   arbitrary and is extended radially (`Homeomorph.radialExtension`).
+- The bicollar predicate (`Geometry/Manifold/LocallyFlat/Bicollar`), for
+  topological spaces N and M and a map f:N→M: `TauCeti.IsBicollar f b` says
+  that b:N×ℝ→M is an open embedding with b(x,0)=f(x) for every x, and
+  `TauCeti.IsBicollared f` that some such b exists; a bicollared map is an
+  embedding, and `TauCeti.IsBicollar.disjoint_image_Ioi_Iio` and
+  `TauCeti.IsBicollar.range_diff_range_eq_union` say that the two open sides
+  b(N×(0,∞)) and b(N×(−∞,0)) are disjoint and cover the image of b minus the
+  image of f. §4.4 states Brown's theorem on this predicate.
 
-The pinned local-flatness files (`TauCeti.IsLocallyFlat` and
-`TauCeti.brownBicollaring`, Brown's later theorem that a locally flat
-embedding of S^n in S^(n+1) is bicollared, not his generalized Schoenflies
-theorem) are not inputs of §4.4, whose bicollar is radial in a chart.
+The pinned `TauCeti.brownBicollaring`
+(`Geometry/Manifold/LocallyFlat/Brown`), Brown's later theorem that every
+embedding f of S^n in S^(n+1), n≥0, locally flat in the sense
+`TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin n)) ℝ f`, satisfies
+`TauCeti.IsBicollared f`, is not an input of §4.4; it composes with §4.4's
+Brown theorem to give the locally flat Schoenflies theorem.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -677,13 +696,17 @@ critical points and compact band, attach one index-λ handle D^λ×D^(m−λ) at
 each point using disjoint normalized Morse charts. The conclusion is a
 homeomorphism of M_(c+ε) with the topological handle adjunction along
 ∂D^λ×D^(m−λ), respecting the regular boundary away from the attachment; no
-diffeomorphism of a cornered handle space is asserted. Build the
-modified-function cutoff deformation, control all chart boundaries and prove
-continuity of the local modified-function deformation. Consume GT's collars
-for the attaching-face boundary identifications and native TopCat pushouts for
-the handle adjunction; the handle-to-cell comparison is the pinned cell
-attachment. Include simultaneous critical points, index 0 and the
-whole-dimension case.
+diffeomorphism of a cornered handle space is asserted (Nicolaescu, *An
+Invitation to Morse Theory*, Theorem 2.2.3, pp. 38–42, for one critical point,
+and Remark 2.2.5, p. 42, for several on one level; there f is exhaustive, and
+the proof, after Milnor §3, uses only a compact band f⁻¹[c−ε,c+ε] with no
+other critical point and the deformation across a compact critical-free band
+for the modified function). Build the modified-function cutoff deformation,
+control all chart boundaries and prove continuity of the local
+modified-function deformation. Consume GT's collars for the attaching-face
+boundary identifications and native TopCat pushouts for the handle adjunction;
+the handle-to-cell comparison is the pinned cell attachment. Include
+simultaneous critical points, index 0 and the whole-dimension case.
 
 *Needs:* the pinned deformation, pseudo-gradient and cell-attachment
 declarations above; §1.3; GeometricTopology Layer 1 collars and Mathlib TopCat
@@ -1205,79 +1228,97 @@ transport for the chart balls at p and q.
 
 **Brown's generalized Schoenflies theorem**, owned here as the topological
 input of the two-open-cell lemma. Prove
-`exists_closedBall_homeomorph_closure_of_bicollar`: for every m and every
-topological embedding β:S^(m−1)×[−1,1]→S^m, with S^(m−1) the unit sphere of
-`EuclideanSpace ℝ (Fin m)`, the complement of Σ=β(S^(m−1)×{0}) is the union
-of two disjoint connected open sets A and B, and the closure of each is
-homeomorphic to the closed unit ball D^m by a homeomorphism carrying Σ
-exactly onto the unit sphere ∂D^m (Brown 1960, Theorem 5, p. 76, where the
-collar parameter runs over [0,1] with the middle sphere at 1/2). Theorem 5
-asserts that each closure is an m-cell; the boundary clause follows, since
-the closure of A is A∪Σ with A open and every point of Σ a limit of points of
-B, so its frontier in S^m is Σ, and the pinned
+`exists_closedBall_homeomorph_closure_of_bicollar`: for every m and every map
+f:S^(m−1)→S^m, with S^(m−1) the unit sphere of `EuclideanSpace ℝ (Fin m)`,
+that is bicollared in the pinned sense `TauCeti.IsBicollared f`, so that some
+open embedding b:S^(m−1)×ℝ→S^m has b(x,0)=f(x) (`TauCeti.IsBicollar f b`), the
+complement of Σ=f(S^(m−1)) is the union of two disjoint connected open sets A
+and B, and the closure of each is homeomorphic to the closed unit ball D^m by
+a homeomorphism carrying Σ exactly onto the unit sphere ∂D^m (Brown 1960,
+Theorem 5, p. 76, whose hypothesis is an embedding of S^(m−1)×[0,1] with the
+middle sphere at 1/2). The two hypotheses are equivalent, so the statement has
+exactly Brown's generality: the restriction of b to S^(m−1)×[−1,1] is an
+embedding, which is Brown's hypothesis after the affine change of parameter
+t↦(t+1)/2; conversely, for m≥1 an embedding β of S^(m−1)×[−1,1] is a
+continuous injection on the m-manifold S^(m−1)×(−1,1), hence an open embedding
+there by the pinned invariance of domain, and composing with a homeomorphism
+ℝ≅(−1,1) fixing 0, such as s↦s/(1+|s|), gives a bicollar of β(·,0). Theorem 5
+asserts that each closure is an m-cell; the boundary clause follows, since the
+closure of A is A∪Σ with A open and every point of Σ a limit of points of B,
+so its frontier in S^m is Σ, and the pinned
 `Homeomorph.coe_apply_mem_frontier_iff`, for S^m charted on
 `EuclideanSpace ℝ (Fin m)` and D^m inside that space, carries this frontier
 onto the frontier ∂D^m of the ball. For m≥2 the two open collar sides
-β(S^(m−1)×(0,1]) and β(S^(m−1)×[−1,0)) are connected and lie one in each of
-A and B; for m=1 each point of Σ has one of its two collar arcs in each; for
-m=0, S^(−1) is empty, Σ is empty and A and B are the two points of S⁰.
+b(S^(m−1)×(0,∞)) and b(S^(m−1)×(−∞,0)), disjoint by the pinned
+`TauCeti.IsBicollar.disjoint_image_Ioi_Iio`, are connected and lie one in each
+of A and B; for m=1 each point of Σ has one of its two collar arcs in each;
+for m=0, S^(−1) is empty, f and b are the empty maps, b is an open embedding,
+Σ is empty and A and B are the two points of S⁰.
 
 The separation statement is the pinned Jordan–Brouwer theorem
-`TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two` applied to
-β(·,0): S^m∖Σ has exactly two path components, which are its components
-because S^m∖Σ is an open subset of a manifold. Follow Brown's route (Brown
-1960, Theorems 0–4, pp. 74–76): a cellular subset of an m-cell is the only
-inverse set of a self-map of the cell fixing its boundary (Theorem 1); a
-complementary domain of a topological (m−1)-sphere mapped onto an m-cell with
-a single cellular inverse set has closure an m-cell (Theorem 2); a map of an
-m-cell into S^m with a single inverse set in its interior has that set
-cellular (Theorem 3, through Theorem 0); a map of S^m onto itself with exactly
-two inverse sets has both cellular (Theorem 4); and the map collapsing the
-two outer collar pieces to the poles and carrying Σ onto the equator has
-exactly those two inverse sets (proof of Theorem 5). Brown's Theorem 0 uses
-invariance of domain, consumed from the pin as
-`IsOpen.image_of_continuousOn_of_injOn` on the interior of the cell minus its
-finitely many inverse sets. The hypothesis is the explicit bicollar β; no
-local-flatness theorem, annulus theorem or analysis of wild spheres is an
-input, and the statement fails for the Alexander horned sphere, which has no
-bicollar. *Needs:* the pinned
-`TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two`,
+`TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two` applied to the
+continuous injection f: S^m∖Σ has exactly two path components, which are its
+components because S^m∖Σ is an open subset of a manifold. Follow Brown's route
+(Brown 1960, Theorems 0–4, pp. 74–76) for the restriction of b to
+S^(m−1)×[−1,1]: a cellular subset of an m-cell is the only inverse set of a
+self-map of the cell fixing its boundary (Theorem 1); a complementary domain
+of a topological (m−1)-sphere mapped onto an m-cell with a single cellular
+inverse set has closure an m-cell (Theorem 2); a map of an m-cell into S^m
+with a single inverse set in its interior has that set cellular (Theorem 3,
+through Theorem 0); a map of S^m onto itself with exactly two inverse sets has
+both cellular (Theorem 4); and the map collapsing the two outer collar pieces
+to the poles and carrying Σ onto the equator has exactly those two inverse
+sets (proof of Theorem 5). Brown's Theorem 0 uses invariance of domain,
+consumed from the pin as `IsOpen.image_of_continuousOn_of_injOn` on the
+interior of the cell minus its finitely many inverse sets. The hypothesis is
+the bicollar; no local-flatness theorem, annulus theorem or analysis of wild
+spheres is an input, and the statement fails for the Alexander horned sphere,
+which has no bicollar. For m≥1 and an embedding f locally flat in the sense
+`TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin (m−1))) ℝ f`, the pinned
+`TauCeti.brownBicollaring (m−1)` gives `TauCeti.IsBicollared f`, so this
+theorem applies to f with no further input: that composition is the locally
+flat Schoenflies theorem. *Needs:* the pinned `TauCeti.IsBicollared`,
+`TauCeti.IsBicollar` and `TauCeti.IsBicollar.disjoint_image_Ioi_Iio`; the
+pinned `TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two`,
 `IsOpen.image_of_continuousOn_of_injOn` and
 `Homeomorph.coe_apply_mem_frontier_iff`; Brown's Theorems 0–4, owned in this
 target; Mathlib's `EuclideanSpace.instChartedSpaceSphere`.
 
 **Checks.**
-- m=1: a bicollar S⁰×[−1,1]→S¹ has image two disjoint closed arcs, Σ is two points, and S¹∖Σ is two open arcs whose closures are closed arcs ≃D¹ with endpoint set Σ.
-- The equator of S^m with its latitude bicollar: the closures are the closed hemispheres, each ≃D^m with frontier the equator.
+- m=1: a bicollar S⁰×ℝ→S¹ has image two disjoint open arcs, one around each point of Σ=f(S⁰), and S¹∖Σ is two open arcs whose closures are closed arcs ≃D¹ with endpoint set Σ.
+- The equator of S^m with its latitude bicollar b(x,s)=(cos θ(s)·x, sin θ(s)), θ(s)=(π/2)·s/(1+|s|): b is a homeomorphism of S^(m−1)×ℝ onto S^m minus the two poles, hence an open embedding, and the closures are the closed hemispheres, each ≃D^m with frontier the equator.
+- Equivalence with Brown's hypothesis, for the equator: the latitude bicollar above restricted to S^(m−1)×[−1,1] has θ∈[−π/4,π/4] and is an embedding onto the closed band |h|≤√2/2; conversely Brown's band embedding (x,t)↦(cos(πt/4)·x, sin(πt/4)) of S^(m−1)×[−1,1] restricts on S^(m−1)×(−1,1) to a homeomorphism onto the open band |h|<√2/2, and composed with s↦s/(1+|s|) it is a bicollar of the equator with the same middle sphere.
 - Negative control: the Alexander horned sphere in S³ has a complementary domain that is not simply connected, so its closure is not D³; it admits no bicollar and does not satisfy the hypothesis.
 - Separation: the pinned theorem gives exactly two components; "at least two components" would not determine A and B.
-- Collar sides at m=1: with Σ at the angles 0 and π of S¹, β(+1,t) at the angle εt and β(−1,t) at the angle π+εt, the side β(S⁰×(0,1]) has its arc at 0 in the upper open arc and its arc at π in the lower one; so at m=1 the components are not labelled by the sides, while for m≥2 each side is connected and lies in one component.
-- m=0: S^(−1) is empty, so β is the empty map, Σ is empty, A and B are the two points of S⁰, their closures are points ≃D⁰={0}, and the boundary clause holds because ‖0‖=0≠1.
+- Collar sides at m=1: with Σ at the angles 0 and π of S¹, b(+1,s) at the angle ε·s/(1+|s|) and b(−1,s) at the angle π+ε·s/(1+|s|) for a fixed 0<ε<π/2, the side b(S⁰×(0,∞)) has its arc at 0 in the upper open arc and its arc at π in the lower one; so at m=1 the components are not labelled by the sides, while for m≥2 each side is connected and lies in one component.
+- m=0: S^(−1) is empty, so f and b are the empty maps and b is an open embedding, Σ is empty, A and B are the two points of S⁰, their closures are points ≃D⁰={0}, and the boundary clause holds because ‖0‖=0≠1.
 
 **The two-open-cell lemma.** Prove
-`nonempty_homeomorph_sphere_of_two_euclidean_opens`: a compact Hausdorff
-space X covered by two open sets U and V, each homeomorphic to ℝ^m with m>0,
-is homeomorphic to S^m. In U-coordinates choose a closed round ball D of
-radius r whose interior contains the compact set X∖V, which lies in U. Then
-Σ=∂D lies in U∩V, and by compactness so does a coordinate annulus
-{r−η≤|u|≤r+η}; radial coordinates on it give an explicit bicollar
-β:S^(m−1)×[−1,1]→V of Σ. The set C=X∖int D is compact and lies in V.
-Identify the one-point compactification of V≃ₜℝ^m with S^m by
-`Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`, and apply
-Brown's theorem to β there. The open sets X∖D and (int D∩V)∪{∞} are disjoint
-and partition S^m∖Σ; the second is open because its complement C is compact
-in V, and both are nonempty, since X∖D=∅ would make the open set U≃ₜℝ^m
-equal to the compact X. As S^m∖Σ has exactly two components, each set is one
-of them, so C, the closure of the first, is homeomorphic to D^m with Σ
-carried onto ∂D^m. The closed sets D and C cover X and meet exactly in Σ,
-which corresponds to the unit sphere under both identifications, so the
-pinned `TauCeti.nonempty_homeomorph_sphere_of_union_closedBall` gives X≃ₜS^m.
-The case m=1, two arcs glued at two endpoints, is included; no surgery,
-Poincaré conjecture or smooth Schoenflies theorem is an input. For smooth M
-the cover of the previous target consists of open sets diffeomorphic to ℝ^m,
-the hypothesis of Milnor 1959, Theorem 1(3), whose Corollary 1 (p. 442) is
-the topological conclusion; the lemma here needs only homeomorphisms.
-*Needs:* Brown's theorem above; Mathlib's `Homeomorph.onePointCongr` and
+`nonempty_homeomorph_sphere_of_two_euclidean_opens`: a compact Hausdorff space
+X covered by two open sets U and V, each homeomorphic to ℝ^m with m>0, is
+homeomorphic to S^m. In U-coordinates choose a closed round ball D of radius r
+whose interior contains the compact set X∖V, which lies in U. Then Σ=∂D lies
+in U∩V, and by compactness so does the open coordinate annulus {r−η<|u|<r+η}
+for some 0<η<r. The radial map b(θ,s)=(r+η·s/(1+|s|))θ, in U-coordinates, is a
+homeomorphism of S^(m−1)×ℝ onto that annulus, an open subset of V, so b is a
+bicollar of f=b(·,0), which parametrizes Σ. The set C=X∖int D is compact and
+lies in V. Identify the one-point compactification of V≃ₜℝ^m with S^m by
+`Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`; V is open in
+it, so b stays an open embedding into S^m, and apply Brown's theorem to f
+there. The open sets X∖D and (int D∩V)∪{∞} are disjoint and partition S^m∖Σ;
+the second is open because its complement C is compact in V, and both are
+nonempty, since X∖D=∅ would make the open set U≃ₜℝ^m equal to the compact X.
+As S^m∖Σ has exactly two components, each set is one of them, so C, the
+closure of the first, is homeomorphic to D^m with Σ carried onto ∂D^m. The
+closed sets D and C cover X and meet exactly in Σ, which corresponds to the
+unit sphere under both identifications, so the pinned
+`TauCeti.nonempty_homeomorph_sphere_of_union_closedBall` gives X≃ₜS^m. The
+case m=1, two arcs glued at two endpoints, is included; no surgery, Poincaré
+conjecture or smooth Schoenflies theorem is an input. For smooth M the cover
+of the previous target consists of open sets diffeomorphic to ℝ^m, the
+hypothesis of Milnor 1959, Theorem 1(3), whose Corollary 1 (p. 442) is the
+topological conclusion; the lemma here needs only homeomorphisms. *Needs:*
+Brown's theorem above; Mathlib's `Homeomorph.onePointCongr` and
 `onePointEquivSphereOfFinrankEq`; the pinned
 `TauCeti.nonempty_homeomorph_sphere_of_union_closedBall`.
 
@@ -1301,8 +1342,9 @@ points, and §4.4 applies where the Morse theorem does not.
 
 Layers 1–3; AlgebraicTopology Stages 4,6 and its categorical-cover supplement;
 ComplexKahlerGeometry K7 and ComplexManifolds Milestone 1 for projective examples;
-for §4.4, DifferentialGeometry Layers 3 and 12 and the pinned Tau Ceti Reeb,
-Jordan–Brouwer, invariance-of-domain and two-disc gluing theorems.
+for §4.4, DifferentialGeometry Layers 3 and 12, the pinned Tau Ceti Reeb,
+Jordan–Brouwer, invariance-of-domain and two-disc gluing theorems and the
+pinned bicollar predicate.
 
 ## Layer 5: Morse–Bott normal bundles and attachments (M5)
 
@@ -1410,34 +1452,56 @@ is an adapted pseudo-gradient, and allow the compact set to lie in a
 noncompact manifold. A saddle limit does not require local positivity of
 f−f(p), and an equilibrium is a trajectory with zero energy and tail length.
 
-The headline `exists_compactTrapped_gradient_limit` takes a smooth metric,
-a Morse function f, a curve γ satisfying the native negative Riesz-gradient
-equation on [0,∞), and a compact K containing that forward image. It gives
-p∈K with df_p=0, convergence γ(t)→p, and constants C,c>0 and T≥0 such that
-for t≥T the intrinsic extended distance is at most C exp(−ct). This uses
-`Manifold.riemannianEDist` directly, so no choice of an unrelated compatible metric
-or conversion of infinite distance to a real number occurs. Its gradient
-`rieszDual x (mvfderiv I f x)` is the body of `TauCeti.Manifold.mgradient I f x`.
-The compact-M convergence case is Cohen–Iga–Norbury, Theorem 4.6, pp. 27–29;
-compact trapping and the variable-metric exponential estimates are the pinned
-extensions above. Beyond the pinned maximal-trajectory theorems, the headline's content is
-that γ is an arbitrary curve on [0,∞): by uniqueness of integral curves of the
-C¹ field −grad f it agrees on [0,∞) with the maximal integral curve through
-γ(0), whose forward part is then trapped in K, and the Morse hypothesis
-supplies finitely many critical points in K and a nondegenerate limit.
+The headline `exists_compactTrapped_gradient_limit` takes a smooth metric, a
+Morse function f, a curve γ satisfying the native negative Riesz-gradient
+equation on [0,∞), and a compact K containing that forward image. It gives p∈K
+with df_p=0, convergence γ(t)→p, and constants C,c>0 and T≥0 such that for t≥T
+the intrinsic extended distance is at most C exp(−ct). This uses
+`Manifold.riemannianEDist` directly, so no choice of an unrelated compatible
+metric or conversion of infinite distance to a real number occurs. Its
+gradient `rieszDual x (mvfderiv I f x)` is the body of
+`TauCeti.Manifold.mgradient I f x`. The compact-M convergence case is
+Cohen–Iga–Norbury, Theorem 4.6, pp. 27–29; compact trapping and the
+variable-metric exponential estimates are the pinned extensions above. Beyond
+the pinned maximal-trajectory theorems, the headline's content is that γ is an
+arbitrary curve on [0,∞). Its curve equation at the endpoint 0 is one-sided,
+since `IsMIntegralCurveOn` on `Set.Ici 0` takes derivatives within that set,
+while uniqueness of integral curves is for curves on an open interval agreeing
+at an interior time; so γ is compared with a maximal trajectory at a positive
+time. Fix t₁>0, let x=γ(t₁) and let Γ be the maximal integral curve of the C¹
+field −grad f through x. On (0,∞) the set `Set.Ici 0` is a neighbourhood of
+each time, so the shifted curve s↦γ(t₁+s) is an integral curve on (−t₁,∞) with
+value x at s=0. For every b>0 it is therefore an integral curve through x on
+the open interval (−t₁,b) around 0, so (−t₁,b) lies in the maximal interval of
+existence (`IsMIntegralCurveOn.subset_maximalIntegralCurveInterval`) and
+Γ(s)=γ(t₁+s) on (−t₁,b) (`IsMIntegralCurveOn.eqOn_maximalIntegralCurve`, on a
+Hausdorff boundaryless C¹ manifold, which rests on Mathlib's uniqueness on
+open intervals). Hence Γ(s)=γ(t₁+s) for all s>−t₁, the forward part of Γ is
+trapped in K, and the Morse hypothesis supplies finitely many critical points
+in K and a nondegenerate limit. The pinned theorems then give a critical p∈K
+with Γ(s)→p and constants μ,C>0 with `riemannianEDist(Γ(s),p) ≤ C·e^(−μs)` for
+all large s; so γ(t)=Γ(t−t₁)→p, and for t≥t₁+T₀, where the bound for Γ holds
+from T₀≥0 on, the distance from γ(t) to p is at most `C·e^(μt₁)·e^(−μt)`. The
+headline's constants are C·e^(μt₁), c=μ and T=t₁+T₀.
 
 The owned API is the headline and its two consequences for an arbitrary
 forward curve trapped in a compact set: a unique critical limit in K for Morse
 f, and exponential decay of the extended distance to it after a finite entry
 time. *Needs:* the pinned trajectory theorems above; the pinned
-`TauCeti.IsMorse.finite_criticalPoints_inter`; Mathlib's uniqueness of
-integral curves, `isMIntegralCurveOn_Ioo_eqOn_of_contMDiff_boundaryless`.
+`TauCeti.IsMorse.finite_criticalPoints_inter`; the pinned maximal-curve
+lemmas `IsMIntegralCurveOn.subset_maximalIntegralCurveInterval` and
+`IsMIntegralCurveOn.eqOn_maximalIntegralCurve`
+(`TauCeti/Geometry/Manifold/IntegralCurve/Maximal`); Mathlib's uniqueness of
+integral curves on an open interval through an interior agreement time,
+`isMIntegralCurveOn_Ioo_eqOn_of_contMDiff_boundaryless`, on which the second
+rests.
 
 **Checks.**
 - For f=x², γ(t)=x₀e^(−2t), E(t)=x₀²e^(−4t) and tail length |x₀|e^(−2t).
 - With metric 4dx² and f=x², the negative gradient is −x/2, γ(t)=x₀e^(−t/2), and intrinsic distance to 0 is 2|x₀|e^(−t/2); the Euclidean rate 2 is not preserved under metric rescaling.
 - For f=−u²+v² on the stable axis u=0, E=v²≥0 and v(t)=v₀e^(−2t); f need not have a local minimum.
 - At an equilibrium, E and tail length are both 0; no division by E is allowed.
+- Endpoint: for f=x², x₀≠0 and γ(t)=x₀e^(−2t) for t≥0, γ(t)=x₀ for t<0, γ satisfies the headline's curve equation on [0,∞) (its right derivative at 0 is −2x₀=−grad f(x₀)), but its left derivative at 0 is 0, so it is an integral curve on no open interval containing 0 and uniqueness at the time 0 does not apply. At t₁=1 the maximal curve through γ(1) is Γ(s)=x₀e^(−2)e^(−2s), defined for all s, equal to γ(1+s) for s≥−1 (at s=−1 both are x₀) and different for s<−1, where γ(1+s)=x₀ and Γ(s)=x₀e^(−2−2s); the limit is 0, and the decay bound |γ(t)|≤|x₀|e^(−2t) holds for all t≥0.
 
 ### Examples
 
@@ -1476,6 +1540,10 @@ Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
 - M. Brown, [*A proof of the generalized Schoenflies theorem*](https://www.ams.org/journals/bull/1960-66-02/S0002-9904-1960-10400-4/S0002-9904-1960-10400-4.pdf),
   Bull. Amer. Math. Soc. 66 (1960) 74–76: Theorems 0–4, pp. 74–76, and
   Theorem 5, p. 76, the bicollared Schoenflies theorem owned in §4.4.
+- L. I. Nicolaescu, [*An Invitation to Morse Theory*](https://academicweb.nd.edu/~lnicolae/Morse2nd.pdf),
+  author version of the second edition: Theorem 2.2.3, pp. 38–42, and
+  Remark 2.2.5, p. 42, for the handle attachment of §2.2. Numbering here
+  refers to this author version.
 - Hirsch, *Differential Topology* (1976), Chapter 2, §1
   (strong topologies), and Chapter 6, Theorem 1.2 (strong Morse density),
   DOI 10.1007/978-1-4684-9449-5.
