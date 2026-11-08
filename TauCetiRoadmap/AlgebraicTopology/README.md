@@ -130,14 +130,14 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   It is the single owner of the compact-generation adjunction, the convenient
   product and exponential, and the pointed convenient category with its
   reduced suspension, based loop space, smash product and suspension–loop
-  adjunction, in place of HomotopySpheres 3A.1 and of those four constructions in
-  HomotopySpheres 3A.2. HomotopySpheres 3A consumes that item for its pointed cones,
-  mapping cones, Puppe sequences, co-H structure and James constructions, which stay
-  there; GeneralizedCohomology G2 consumes it for the same convenient-category
-  objects. The owner is this roadmap because HomotopySpheres 3A.2 consumes Stages 4.5
+  adjunction, in place of a homotopy-sphere roadmap's own convenient category. The
+  homotopy-sphere roadmap consumes that item for its pointed cones, mapping cones, Puppe
+  sequences, co-H structure and James constructions, which it owns;
+  GeneralizedCohomology G2 consumes it for the same convenient-category
+  objects. The owner is this roadmap because the homotopy-sphere roadmap consumes Stages 4.5
   and 8 while items 4 and 5 of Stage 4 and items 10 and 11 of Stage 8 consume this
-  interface, so an owner in HomotopySpheres would make the two roadmaps depend on
-  each other; nothing in this roadmap consumes HomotopySpheres.
+  interface, so an owner there would make the two roadmaps depend on
+  each other; nothing in this roadmap consumes the homotopy-sphere roadmap.
   [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md)
   owns the single simplicial-realization product comparison consumed by
   8.10 and 8.11b; its foundation uses AT4/8.2 and this compact-generation API,
@@ -158,9 +158,10 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 These choices are part of the specification.
 
 - **Use genuine CW models.** A CW complex here carries both the native
-  `CWComplex` structure and `T2Space` on its carrier. Finite CW type means
-  an actual homotopy equivalence to a Hausdorff finite CW model; general
-  CW type likewise means a homotopy equivalence to a Hausdorff CW model.
+  `CWComplex` structure and `T2Space` on its carrier. Finite CW type is the native
+  predicate `TauCeti.FiniteCWType`: a homotopy equivalence to a finite CW complex
+  inside a Hausdorff space of the same universe; general
+  CW type likewise means a homotopy equivalence to a Hausdorff CW model (`CWTypeModel`).
   Retain and install the model's topology, Hausdorff, CW and finiteness
   witnesses when using a finite model.
   Hausdorffness of an original space is not transported to a chosen model
@@ -255,9 +256,75 @@ The development starts from these current APIs.
   local-coefficient and Kunneth extensions use these maps.
 - Native Euler–Poincare and finite-generation results in
   `Cellular.EulerCharacteristic.Basic`/`Singular`, including
-  `finsum_finrank_singularHomology_of_finite_cwComplex`; transport the native
-  alternating cell count to finite-CW-type spaces rather than introducing
-  another cellular Euler invariant.
+  `finsum_finrank_singularHomology_of_finite_cwComplex`, and Tau Ceti's Euler
+  characteristic of spaces of finite CW type: the predicate `TauCeti.FiniteCWType`
+  (`Topology.CWComplex.Classical.FiniteCWType`), the alternating cell count
+  `TauCeti.cwEulerChar` of a finite CW complex (`Cellular.EulerCharacteristic.Basic`), and
+  in `Cellular.EulerCharacteristic.FiniteCWType` the invariant `TauCeti.eulerChar` of a
+  space of finite CW type with its independence of the finite CW model
+  (`TauCeti.eulerChar_eq_cwEulerChar`, `TauCeti.eulerChar_cwComplex`), its Euler–Poincaré
+  formula over any division ring (`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`)
+  and its homotopy invariance (`ContinuousMap.HomotopyEquiv.eulerChar_eq`). Stage 7 and
+  Stage 8.7 consume these and introduce no second Euler invariant or finite-CW-type
+  predicate. Also native, in `Cellular.EulerCharacteristic.Product`/`Covering`/
+  `Subcomplex`/`MayerVietoris`/`Sphere`/`ComplexProjective`: product multiplicativity
+  (`TauCeti.eulerChar_prod`), finite-cover multiplicativity
+  (`TauCeti.eulerChar_eq_mul_of_isCoveringMap`), subcomplex and Mayer–Vietoris additivity
+  (`TauCeti.eulerChar_eq_add_finsum_finrank_singularHomology`,
+  `TauCeti.eulerChar_union_add_eulerChar_inter`) and the sphere and complex-projective
+  values (`TauCeti.eulerChar_sphere`, `TauCeti.eulerChar_complexProjectiveSpace`).
+- Native homology and cohomology cross products: `TopCat.singularHomologyCross` in
+  `Singular.CrossProduct` (the shuffle-map cross product
+  `H_p(X;R) ⊗ H_q(Y;S) → H_n(X×Y;R⊗S)` for `p+q=n`, natural in both spaces and both
+  coefficients, compared with Alexander–Whitney), and `TauCeti.singularCross` in
+  `Cohomology.CrossProduct` with `TauCeti.singularCross_diagonal` (the cup product is the
+  diagonal pullback of the cross product) and `TauCeti.singularCross_eq_singularCup` (the
+  cross product is the cup product of the two projection pullbacks). Native Künneth
+  theorems on that cross product in `Singular.Kunneth.Basic`/`Sequence`: the Künneth map
+  `TopCat.singularHomologyKunneth`, its isomorphism for projective homology over any
+  commutative ring (`TopCat.isIso_singularHomologyKunneth_of_projective_homology`) and
+  over a field (`TopCat.singularHomologyKunnethUnitIso`), and over a hereditary commutative
+  ring the natural short exact sequence to the `Tor₁` term
+  (`TopCat.singularHomologyKunnethShortComplex_shortExact`,
+  `TopCat.singularHomologyToTor_naturality`) with its non-natural splitting
+  (`TopCat.singularHomologyKunnethSplitting`). Stage 5.1 and 6.2 consume these.
+- Native mapping torus of a homeomorphism `TauCeti.MappingTorus` in `Topology.MappingTorus`
+  with its fibre inclusion `TauCeti.MappingTorus.incl`, monodromy homotopy
+  `TauCeti.MappingTorus.monodromyHomotopy`, and the map `TauCeti.MappingTorus.map` induced
+  by a semiconjugating map (with `TauCeti.MappingTorus.proj_comp_map`,
+  `TauCeti.MappingTorus.map_comp_incl`, `TauCeti.MappingTorus.map_id`,
+  `TauCeti.MappingTorus.map_comp`); in `Singular.MappingTorus` the chain homotopy
+  `TauCeti.MappingTorus.singularChainHomotopy` and
+  `TauCeti.MappingTorus.homologyMap_monodromy_comp_incl` (`incl_* ∘ φ_* = incl_*` on
+  homology), and the Wang sequence of that mapping torus with its connecting map
+  `TauCeti.MappingTorus.wangδ`, exactness `TauCeti.MappingTorus.wang_exact₁`–`₃`, cokernel
+  identification `TauCeti.MappingTorus.wangCokernelEquiv` and naturality
+  `TauCeti.MappingTorus.wangMappingConeMap_naturality`. Stage 5.2 consumes these.
+- Native barycentric subdivision and small chains in `Singular.Subdivision`: the
+  subdivision chain map `TauCeti.singularSubdivisionChainMap` and natural transformation
+  `TauCeti.singularSubdivision` (`Basic`), the affine prism `TauCeti.AffineChain.prism`,
+  the prism operator `TauCeti.singularPrismX`, the chain homotopy
+  `TauCeti.singularSubdivisionHomotopy` from the identity to subdivision and
+  `TauCeti.homologyMap_singularSubdivisionChainMap` (`Homotopy`), the iterate-smallness
+  theorem `TauCeti.AffineChain.exists_iterate_singularSubdivision_factor_small`, the small
+  subcomplex `TopCat.smallSingularSubcomplex` of an open cover (`Small.Chains`), its
+  relative form with `TopPair.isIso_homologyMap_restrictι_smallSingularSubcomplex`
+  (`Small.Relative`) and the small-chain approximation `TauCeti.singularSmallApprox` with
+  `TauCeti.singularSmallApproxHomotopy` (`Small.Equiv`). Stage 3 consumes these and
+  extends them to local coefficients.
+- Native compact-support and weak-topology lemmas for classical CW complexes:
+  `TauCeti.finite_setOf_nonempty_inter_openCell_of_isCompact` and
+  `TauCeti.exists_subset_skeletonLT_of_isCompact` (`Topology.CWComplex.Classical.CompactSupport`:
+  a compact subset meets finitely many open cells and lies in a skeleton of finite dimension),
+  `TauCeti.isColimitMapCoconeSingularHomology` (`Singular.DirectedUnion`: singular homology
+  of a filtered union of embedded subspaces is the filtered colimit),
+  `TauCeti.continuous_prod_complex_iff` (`Topology.CWComplex.Classical.Quotient`:
+  continuity out of `Z × C` for locally compact `Z` is tested on the base and on the
+  closed cells), and the skeleton neighbourhoods `TauCeti.skeletonNeighborhood`,
+  `TauCeti.skeletonNeighborhoodHomotopy` (`Topology.CWComplex.Classical.Skeleton.Neighborhood`)
+  with `TauCeti.isIso_singularHomologyMap_skeletonPairToNeighborhood` and
+  `TauCeti.cellularChainGroupIsoNeighborhood` (`Cellular.SkeletonNeighborhood`). Stage 4
+  items 3 and 5 consume these.
 - Tau Ceti's native `FundamentalGroupoid.cechDiagram`, `cechCocone` and
   `isColimitCechCocone` in `FundamentalGroupoid.Cech.Diagram`/`Colimit`, using
   the `Grpd` category and native nonempty finite-intersection `CechIndex`.
@@ -518,12 +585,21 @@ paths in each contractible simplex gives its subdivision coefficients; prove
 naturality in both space maps and coefficient-system morphisms, and compatibility
 with the pair/triple connecting maps.
 
-1. Define affine subdivision of the standard simplex and barycentric subdivision of singular
-   simplices in every degree.  Prove the boundary formula and construct the prism operator giving
-   a chain homotopy from subdivision to the identity.
-2. For an open cover, prove that every singular simplex becomes subordinate after sufficiently
-   many subdivisions.  Turn the small chains into a subcomplex and prove its inclusion is a
-   natural chain-homotopy equivalence.
+1. Consume native barycentric subdivision: the affine subdivision of the standard simplex, the
+   subdivision chain map `TauCeti.singularSubdivisionChainMap` in every degree with its boundary
+   formula, and the prism operator `TauCeti.singularPrismX` giving the chain homotopy
+   `TauCeti.singularSubdivisionHomotopy` from the identity to subdivision.  Extend them to
+   Stage 2's local coefficient systems: subdivide a twisted simplex by transporting its
+   coefficient along paths in the contractible simplex, and prove the twisted boundary formula
+   and prism identity.
+2. Consume the native smallness theorem for an open cover
+   (`TauCeti.AffineChain.exists_iterate_singularSubdivision_factor_small`: every singular
+   simplex becomes subordinate after sufficiently many subdivisions), the small subcomplex
+   `TopCat.smallSingularSubcomplex` and the natural chain-homotopy equivalence of its
+   inclusion (`TauCeti.singularSmallApprox`, `TauCeti.singularSmallApproxHomotopy`), with the
+   relative form `TopPair.isIso_homologyMap_restrictι_smallSingularSubcomplex`.  Extend the
+   small subcomplex and its equivalence to local coefficients and to pairs with twisted
+   coefficients.
 3. Consume native excision for `TopPair` and extend to local coefficients: if the closure of the excised set lies in the interior of the
    subspace, the induced map on relative homology is an isomorphism.  Include maps of excision
    data and compatibility with the pair connecting morphism.
@@ -566,11 +642,15 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    `TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex` of
    `Cellular/Comparison.lean` proves this under `FiniteDimensional`; the new content
    is the removal of that hypothesis. Composed with the native skeleton-pair cellular
-   identification it is the comparison in every degree. Prove compact singular
-   simplex images lie in finite subcomplexes, identify singular chains with the
-   filtered colimit over skeleta, and pass to homology using exact filtered
-   colimits in module categories (or displayed exactness assumptions in
-   categorical coefficient generality). Construct the skeletal filtration exact
+   identification it is the comparison in every degree. Consume the native
+   compact-support lemmas (`TauCeti.exists_subset_skeletonLT_of_isCompact`: a compact
+   subset, so the image of a singular simplex, lies in a skeleton of finite dimension, and
+   `TauCeti.finite_setOf_nonempty_inter_openCell_of_isCompact`: it meets only finitely many
+   open cells, so it lies in a finite subcomplex) and the native filtered-colimit
+   identification of singular homology over the skeleta
+   (`TauCeti.isColimitMapCoconeSingularHomology`); what remains is the relative form over the
+   skeletal pairs and the passage with categorical coefficients (displayed exactness
+   assumptions in place of the module-category filtered colimits). Construct the skeletal filtration exact
    couple and prove the cellular-to-singular comparison as a natural equivalence
    in the filtered derived or chain-homotopy category. Normalize oriented cell
    generators by pushing forward Stage 2.5's
@@ -672,11 +752,11 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    relation to the sphere normalization. The radial
    D^(n+1)-boundary→Sⁿ comparison has coefficient +1 for n≥1; for n=0
    the oriented interval boundary [p]−[−p] is minus the chosen reduced
-   generator. HomotopySpheres and RiemannianGeometry R3 consume these
+   generator. The homotopy-sphere roadmap and RiemannianGeometry R3 consume these
    homeomorphisms and the explicit generator comparisons, without constructing
    a second sphere-suspension identification.
-   Own the disk-boundary relative CW structure: the actual TopCat.disk n relative to its
-   boundary subset `diskBoundarySubset n` has one n-cell and no other
+   Own the disk-boundary relative CW structure: the actual TopCat.disk n relative to
+   the boundary subset of the native disk has one n-cell and no other
    relative cells, using the fixed Stage2.5 sup-ball/disk comparison and
    characteristic map. Export the homeomorphism from that subset's subtype
    to native `TopCat.diskBoundary n`.
@@ -814,16 +894,23 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    basepoint equation of the input map. AT8.5 and TopK T7.0 consume it.
    Own the relative cylinder CW structure: for a relative CW pair (X,B), construct native
    `RelCWComplex` on X×I relative to (X×{0,1})∪(B×I), with original cell
-   coordinates first and interval coordinate last. Prove the product weak
-   topology using compactness and local compactness of I; endpoint maps are
-   the actual inclusions. Stages 8.9–8.10 consume this cylinder construction.
+   coordinates first and interval coordinate last. The product weak topology is
+   the native continuity criterion `TauCeti.continuous_prod_complex_iff` (maps out of
+   `Z × C` for locally compact `Z`, tested on the base and on the closed cells), applied
+   with `Z = I`; endpoint maps are the actual inclusions. Stages 8.9–8.10 consume this
+   cylinder construction.
    Own the Kelley product CW structure: for arbitrary Hausdorff CW X and Y construct
    the product-cell native CW structure on k(X×Y), with factor coordinates
    in that order, product characteristic maps, subcomplexes and cellular
    map naturality. Own the subcomplex neighbourhood retractions: for subcomplexes A,B
    choose compatible open radial neighborhoods U,V with deformation
    retractions of U,V,U∩V,U∪V onto A,B,A∩B,A∪B respectively, using
-   the same cellwise parameters. Prove the weak-topology continuity, the
+   the same cellwise parameters. The skeleton case is native
+   (`TauCeti.skeletonNeighborhood`, `TauCeti.skeletonNeighborhoodHomotopy`, with
+   `TauCeti.isIso_singularHomologyMap_skeletonPairToNeighborhood` and
+   `TauCeti.cellularChainGroupIsoNeighborhood`); consume its radial parameters and
+   extend them to an arbitrary subcomplex and to pairs of subcomplexes. Prove the
+   weak-topology continuity (`TauCeti.continuous_prod_complex_iff`), the
    exact intersection/union identities and relative/subcomplex naturality.
    DGFloer 1.2 uses these neighborhoods for Serre preimage excision.
    AffineMorseLefschetz A4 consumes this subcomplex-neighborhood interface
@@ -885,7 +972,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
 7. Own the realization CW structure for every native simplicial set K: on
    `SSet.toTop.obj K`, construct one cell per `K.nonDegenerate n`, with the
    realized simplex as characteristic map. Own an orientation-preserving
-   homeomorphism `standardCellBallToOrderedSimplex n` from the native
+   ball-to-simplex homeomorphism from the native
    sup-norm cell ball to Δ^n, carrying Stage 2.5's ball class to the relative
    ordered identity-simplex class with coefficient +1. Fix the map radially:
    send 0 to the centroid c=(1/(n+1),…,1/(n+1)); for nonzero z in the
@@ -910,7 +997,7 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    singular-cochain sheaf resolution; it does not presume a good cover.
 8. **Compact generation and the pointed adjunction.** Own the single
    compact-generation interface consumed by items 4 and 5 of this stage, by
-   Stage 8 items 10 and 11, and by HomotopySpheres, GeneralizedCohomology G2.1
+   Stage 8 items 10 and 11, and by the homotopy-sphere roadmap, GeneralizedCohomology G2.1
    and DGFloer. This item uses native point-set topology only and no other
    item of this roadmap, so items 4 and 5 may consume it without circularity.
    Consume Mathlib's `TopologicalSpace.compactlyGenerated` (the topology
@@ -982,19 +1069,36 @@ them) consume only Stage 2 and can proceed alongside Stages 3 and 4.  The Kunnet
 sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
 
 1. Consume native Alexander--Whitney, shuffle and Eilenberg--Zilber chain-homotopy
-   equivalences for singular chains. Extend their natural/local-coefficient and relative APIs.  Over every commutative
+   equivalences for singular chains, the native homology cross product
+   `TopCat.singularHomologyCross` and the Künneth theorems built on it: the Künneth map
+   `TopCat.singularHomologyKunneth` (the sum of the cross products over `i+j=n`), its
+   isomorphism `directSum_(i+j=n) H_i(X;k) tensor H_j(Y;k) ~= H_n(X times Y;k)` over a
+   field (`TopCat.singularHomologyKunnethUnitIso`) and for projective homology over any
+   commutative ring (`TopCat.isIso_singularHomologyKunneth_of_projective_homology`), and
+   over a PID or hereditary commutative ring the natural short exact sequence
+   from that tensor sum to product homology and then to
+   `directSum_(i+j=n-1) Tor^R_1(H_i(X;R),H_j(Y;R))`
+   (`TopCat.singularHomologyKunnethShortComplex_shortExact`) with its splitting
+   (`TopCat.singularHomologyKunnethSplitting`), which depends on chosen cycle splittings and
+   is not natural. Extend the cross product and these theorems to Stage 2's local coefficient
+   systems (the external tensor product of two systems) and to pairs.  Over every commutative
    ring `R`, construct the first-quadrant Kunneth spectral sequence
    `E^2_(p,q) = directSum_(i+j=q) Tor^R_p(H_i(X;R),H_j(Y;R))` converging naturally to
    `H_(p+q)(X times Y;R)`.  Prove convergence from the bounded-below, degreewise-free singular
-   chain complexes.  For a field `k`, prove that the cross product gives
-   `directSum_(i+j=n) H_i(X;k) tensor H_j(Y;k) ~= H_n(X times Y;k)`.  For a PID, and more
-   generally a hereditary commutative coefficient ring, prove the natural short exact sequence
-   from that tensor sum to product homology and then to
-   `directSum_(i+j=n-1) Tor^R_1(H_i(X;R),H_j(Y;R))`; prove that it splits, and record that no
-   splitting is natural.  State and prove the general-ring collapse corollaries under explicit
-   flatness or projectivity hypotheses.
-2. Derive the Wang long exact sequence for a mapping torus from a mapping-cone model.  Identify
-   its endomorphism as `id - f_*`, and prove naturality under commuting squares of monodromies.
+   chain complexes, and prove the general-ring collapse corollaries under explicit flatness
+   hypotheses on the homology of one factor, the projective case being native.
+2. Consume the native Wang long exact sequence of the mapping torus `TauCeti.MappingTorus` of a
+   homeomorphism `φ`: its connecting map `TauCeti.MappingTorus.wangδ`, exactness at the three
+   terms (`TauCeti.MappingTorus.wang_exact₁`–`₃`) with endomorphism `id - φ_*`, the relation
+   `incl_* ∘ φ_* = incl_*` (`TauCeti.MappingTorus.homologyMap_monodromy_comp_incl`), and its
+   naturality under semiconjugating maps (`TauCeti.MappingTorus.map`,
+   `TauCeti.MappingTorus.wangMappingConeMap_naturality`).  Extend it to the mapping torus
+   `X × I / (x,0) ~ (f(x),1)` of an arbitrary continuous self-map `f` (Hatcher, Example 2.48,
+   p. 151), derived from a
+   mapping-cone model with endomorphism `id - f_*`, agreeing with the native sequence when
+   `f` is a homeomorphism, natural under commuting squares of self-maps, and with Stage 2's
+   local coefficients (the coefficient system on the mapping torus restricting to a system
+   on `X` with a monodromy isomorphism).
 3. For a finite covering with constant fibre cardinality `d`
    (the datum `FiniteCover`), construct transfer on chains by summing lifts and
    prove `p_* transfer = d * id` (`finiteCover_transfer_exists`: a chain map whose
@@ -1019,8 +1123,9 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
    `q_E ≫ φ = p_*` after the stated forgetful identification. Thus φ is induced
    by p_*, not an unspecified natural isomorphism.
    The coefficient representation on H_q(E;M) is the direct left action
-   ρ(g)=(deck g)_*. Construct the Cartan--Leray spectral sequence with
-   `E^2_(p,q) = groupHomology (coverHomologyRep R M P G D q) p`
+   ρ(g)=(deck g)_*. Construct the Cartan--Leray spectral sequence whose `E²` term in
+   bidegree `(p,q)` is the native `groupHomology` in degree `p` of this deck
+   representation on `H_q(E;M)`,
    converging to `H_(p+q)(B;M)`, including its filtration/edge naturality.
    Compute it using native `groupHomology.inhomogeneousChains`; its first
    boundary term is ρ(g₀⁻¹), so do not invert the deck representation again.
@@ -1193,8 +1298,12 @@ homology with one copy of the coefficient ring also assumes connectedness.
    normalization explicit. SmoothBundlesConnections B6.1 consumes this generic
    construction and proves its good-cover/analytic comparison; it does not
    supply a second singular coefficient theory.
-2. Use Alexander--Whitney to define cup products and Eilenberg--Zilber to compare them with cross
-   products.  Define cap products, including tensor pairings of local coefficient systems, and
+2. Consume the native Alexander--Whitney cup product, the native cohomology cross product
+   `TauCeti.singularCross` and its two comparisons with the cup product
+   (`TauCeti.singularCross_diagonal`: cup is the diagonal pullback of cross;
+   `TauCeti.singularCross_eq_singularCup`: cross is the cup of the two projection pullbacks);
+   extend both products and both comparisons to local-coefficient cochains and to pairs.
+   Define cap products, including tensor pairings of local coefficient systems, and
    prove naturality, associativity, the unit law, graded signs, and the boundary formula.
    With the ring itself as coefficients the carriers are the native functors applied to
    the ring (`singularChains`, `singularHomology`, `singularCohomology`), and `cupProduct`
@@ -1456,8 +1565,9 @@ homology with one copy of the coefficient ring also assumes connectedness.
    chart-sign reversal before quotient descent. Prove chart-simplex witness independence,
    then derive the arbitrary-lift chart formula from those two facts and the chosen raw
    representative; equality of already-descended generators is a consequence of this route.
-   Build `rawChartCoefficient_at l a y hy` for any chart anchor a and y in its source,
-   using the model-orientation sign times `l.sign a ⟨y,hy⟩`. Prove its constancy on
+   Build the raw chart coefficient rawChartCoefficient_at of a lift l at a chart anchor a
+   and a point y of its source,
+   using the model-orientation sign times the sign of l at a and y. Prove its constancy on
    connected neighborhoods inside that source from continuity of the discrete sign.
    Own the local image of the chart-simplex support class for every y in the simplex interior, using the
    unique simplex preimage of y, and the recentering/excision comparison between
@@ -1644,7 +1754,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    reducedSingularHomologySphereIso_zero on the unit sphere of
    EuclideanSpace ℝ (ULift (Fin 1)); this is the actual choice in the current
    definition of reducedSingularHomologyTopCatSphereIso 0. Compare p₀ directly
-   with `q=ULift.up (homotopySpherePole 0)` on this same sphere carrier, without
+   with the lifted zero-sphere pole q on this same sphere carrier, without
    a second coordinate transport. Prove the exhaustive dichotomy p₀=q or p₀=−q
    from the one-dimensional unit-vector coordinates, then compute the coefficient
    in each case. The native
@@ -1798,24 +1908,32 @@ Collars fix the boundary sign; orientation is never reconstructed from a hand-wr
 
 This stage consumes every one of Stages 2--6.  Stage 1 is not a prerequisite.
 
-1. Consume the native alternating cell count (`finiteCWEulerCharacteristic`) and Euler--Poincare equality
-   with alternating homology rank over a field for finite CW complexes.  Transport it to spaces of
-   finite CW type and prove independence of the chosen Hausdorff finite
-   CW model, installing its actual witnesses for the native cellular
-   comparison. The original space need not be Hausdorff merely to possess
-   such a model. The cell-count definition can be made on a bare native
-   finite CW structure, but its homotopy invariance and agreement with
-   singular homology require a Hausdorff carrier.
-2. Prove homotopy invariance (`finiteCWEulerCharacteristic_eq_of_homotopyEquiv`), product
-   multiplicativity, and multiplicativity for fibre bundles
-   with finite-CW base and fibre.  The bundle theorem must be derived from Stage 5's chain or
-   spectral-sequence machinery.
-3. Prove finite-cover multiplicativity from transfer and additivity for finite excisive
-   decompositions from Mayer--Vietoris.  Prove cellular-stratification additivity from the
-   relative cellular filtration.
+1. Consume Tau Ceti's Euler characteristic `TauCeti.eulerChar` of a space of finite CW type
+   (`TauCeti.FiniteCWType`), with the native alternating cell count `TauCeti.cwEulerChar`
+   of a finite CW complex, the Euler--Poincare equality with alternating homology rank over a
+   division ring (`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`), the independence of
+   the chosen finite CW model (`TauCeti.eulerChar_eq_cwEulerChar`) and homotopy invariance
+   (`ContinuousMap.HomotopyEquiv.eulerChar_eq`). State nothing further about them. The
+   original space need not be Hausdorff merely to have finite CW type; the model inside a
+   Hausdorff space is what the native predicate records, and it is what the cellular
+   comparison and the homotopy invariance need.
+2. Consume native product multiplicativity (`TauCeti.eulerChar_prod`) and prove
+   multiplicativity for fibre bundles with base and fibre of finite CW type, for a locally
+   trivial bundle whose total space has finite CW type.  The bundle theorem must be derived
+   from Stage 5's chain or spectral-sequence machinery; it is not a corollary of the
+   product case.
+3. Consume native finite-cover multiplicativity (`TauCeti.eulerChar_eq_mul_of_isCoveringMap`)
+   and additivity for finite excisive decompositions and subcomplexes
+   (`TauCeti.eulerChar_union_add_eulerChar_inter`,
+   `TauCeti.eulerChar_eq_add_finsum_finrank_singularHomology`); derive the finite-cover
+   formula a second way from Stage 5's transfer, as a consistency check between transfer and
+   the native cell count, and prove cellular-stratification additivity with local coefficients
+   from the relative cellular filtration of Stage 4.
 4. State cofibration, compactness, and finiteness assumptions explicitly.  Establish the standard
-   checks `chi(S^n)=1+(-1)^n`, `chi(T^n)=0` for `n>0`, and
-   `chi(CP^n)=n+1`. The complex-projective check consumes
+   checks `chi(S^n)=1+(-1)^n` (native `TauCeti.eulerChar_sphere`), `chi(T^n)=0` for `n>0`
+   (from the native product formula), and `chi(CP^n)=n+1` (native
+   `TauCeti.eulerChar_complexProjectiveSpace` on Tau Ceti's `ComplexProjectiveSpace`, to be
+   compared with the value on ComplexKahlerGeometry's model). The complex-projective check consumes
    ComplexKahlerGeometry K7.1's projective model and K7.2's finite CW structure.
    K7.1 consumes ComplexManifolds Milestones1–3's complex-manifold,
    real-restriction and atlas transport, K3.0's holomorphic calculus and K1's
@@ -1866,8 +1984,8 @@ items 1–7 are independent of those later constructions.
    In particular, based homotopy equivalences of pairs supply these hypotheses.
    RiemannianGeometry R3 applies the transport theorem to
    CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
-   MorseTheory M5's actual Morse–Bott negative-disk attachments; HomotopySpheres owns the sphere
-   Freudenthal theorem itself.
+   MorseTheory M5's actual Morse–Bott negative-disk attachments; RiemannianGeometry R3 owns the
+   sphere Freudenthal theorem itself.
    Own the Kelley-product homotopy-group comparison for pointed topological spaces X,Y
    as the composite of the map induced by k(X×Y)→X×Y and existing
    Tau Ceti `HomotopyGroup.prodEquiv` / `prodMulEquiv` from
@@ -2098,8 +2216,8 @@ items 1–7 are independent of those later constructions.
    The CW structure so obtained has dimension m, the dimension of the smooth
    triangulation; export this dimension-m structure as such, since item 13
    consumes the dimension bound and not only the CW type.
-   The compact case has finite CW type (`compactManifoldFiniteCWType`, a finite
-   Hausdorff CW model `FiniteCWTypeModel` with its homotopy equivalence); include the boundary-pair forms and
+   The compact case has finite CW type (`compactManifoldFiniteCWType`, concluding the
+   native predicate `TauCeti.FiniteCWType`); include the boundary-pair forms and
    finitely many prescribed interior marked points outside the relative boundary locus. As a reusable corollary, prove that a simply connected integral homology
    `n`-sphere, `n>=2`, is homotopy equivalent to the standard `S^n`.
 

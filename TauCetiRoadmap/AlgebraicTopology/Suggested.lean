@@ -15,6 +15,7 @@ public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
 public import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
 public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
+public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -29,19 +30,26 @@ cofibration extension theorems (Stage 4); transfer for finite covers and the dec
 for regular covers (Stage 5); the compact-support existence and uniqueness lemma with local
 coefficients, Poincaré duality for a closed manifold with a fundamental class, the
 Lusternik–Schnirelmann cup-length bound and the product-ball intersection theorem (Stage 6);
-homotopy invariance of the finite CW Euler characteristic and finite CW type of compact
-smooth manifolds (Stage 7); relative CW connectivity, Whitehead, homological Whitehead, the
-nerve `K(G,1)`, the proper deformation retraction theorem, mapping-space CW type, the
-transverse codimension-one classifying map and the non-freeness of `C_p × C_p` on spheres
-(Stage 8). Commutativity of the fundamental group of a space with a continuous unital
+finite CW type of compact smooth manifolds, stated on Tau Ceti's predicate
+`TauCeti.FiniteCWType` (Stage 8.7); relative CW connectivity, Whitehead, homological
+Whitehead, the nerve `K(G,1)`, the proper deformation retraction theorem, mapping-space CW
+type, the transverse codimension-one classifying map and the non-freeness of `C_p × C_p` on
+spheres (Stage 8). Commutativity of the fundamental group of a space with a continuous unital
 multiplication (Stage 1 item 6) is not stated: it is Tau Ceti's
-`FundamentalGroup.instCommGroup` at the pin.
+`FundamentalGroup.instCommGroup` at the pin. The Euler characteristic of a space of finite
+CW type, its independence of the finite CW model and its homotopy invariance (Stage 7) are
+not stated: they are Tau Ceti's `TauCeti.eulerChar`, `TauCeti.eulerChar_eq_cwEulerChar` and
+`ContinuousMap.HomotopyEquiv.eulerChar_eq` at the pin.
 
 Not statable at the pins, and therefore stated nowhere in this file:
-the Cartan–Leray spectral sequence and the Wang sequence (no spectral-sequence carrier and no
-monodromy local-system carrier on the pinned singular chains; the Serre spectral sequences
-that Stage 5.5 applies are DGFloer Layer 1 item 2's, not this roadmap's); Künneth with
-its `Tor` term (no canonical cross-product chain map on the pinned chains); the
+the Cartan–Leray spectral sequence (no spectral-sequence carrier on the pinned singular
+chains; the Serre spectral sequences that Stage 5.5 applies are DGFloer Layer 1 item 2's,
+not this roadmap's); the Wang sequence of the mapping torus of an arbitrary continuous
+self-map and its local-coefficient form (the pinned `TauCeti.MappingTorus` is the mapping
+torus of a homeomorphism, whose Wang sequence is Tau Ceti's); the Künneth spectral sequence
+over a general commutative ring and the local-coefficient Künneth theorems (no
+spectral-sequence carrier; the field and hereditary-ring Künneth theorems on the pinned
+cross product `TopCat.singularHomologyCross` are Tau Ceti's); the
 local-coefficient Poincaré–Lefschetz dualities and their boundary form (no homological
 orientation local system and no twisted cap product at the pins; only the untwisted closed
 form with a fundamental-class datum is stated); absolute Hurewicz (no Hurewicz map from the
@@ -469,26 +477,7 @@ theorem productBallImages_intersect {p q : ℕ}
       (y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1), f x = g y := by
   sorry
 
-/-! ## Stage 7: Euler characteristic and finite CW type -/
-
-/-- Euler characteristic of a chosen finite CW structure: the alternating sum of the numbers
-of cells. The roadmap proves that it equals the alternating sum of homology ranks and is
-invariant under homotopy equivalence for Hausdorff CW carriers. -/
-def finiteCWEulerCharacteristic (X : Type*) [TopologicalSpace X]
-    [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)] : ℤ :=
-  ∑ᶠ i : ℕ, (-1 : ℤ) ^ i * Nat.card (Topology.RelCWComplex.cell (Set.univ : Set X) i)
-
-/-- **Homotopy invariance of the Euler characteristic** (Stage 7). Finite Hausdorff CW
-complexes related by a homotopy equivalence have equal Euler characteristics
-(Hatcher, Theorem 2.44, p. 146, with homology invariance). -/
-theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
-    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    [T2Space X] [T2Space Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)]
-    [CWComplex (Set.univ : Set Y)] [CWComplex.Finite (Set.univ : Set Y)]
-    (_e : X ≃ₕ Y) :
-    finiteCWEulerCharacteristic X = finiteCWEulerCharacteristic Y := by
-  sorry
+/-! ## Stage 8.7: finite CW type of compact manifolds -/
 
 /-- A CW-type witness: a Hausdorff CW model with a homotopy equivalence to it. The topology,
 Hausdorff and CW witnesses belong to the model carrier; Hausdorffness is a model witness, not
@@ -500,25 +489,17 @@ structure CWTypeModel (M : Type u) [TopologicalSpace M] where
   cw : letI := topology; CWComplex (Set.univ : Set X)
   homotopyEquiv : letI := topology; M ≃ₕ X
 
-/-- A finite CW-type witness: a Hausdorff finite CW model with a homotopy equivalence to it. -/
-structure FiniteCWTypeModel (M : Type u) [TopologicalSpace M] where
-  X : Type u
-  topology : TopologicalSpace X
-  hausdorff : letI := topology; T2Space X
-  cw : letI := topology; CWComplex (Set.univ : Set X)
-  finite : letI := topology; letI := cw; CWComplex.Finite (Set.univ : Set X)
-  homotopyEquiv : letI := topology; M ≃ₕ X
-
 open scoped ContDiff in
 /-- **Finite CW type of compact manifolds** (Stage 8.7). A compact Hausdorff second-countable
-smooth boundaryless manifold with Euclidean model has a finite Hausdorff CW model: the smooth
-triangulation of GeometricTopology is finite by compactness, and its realization
-homeomorphism is the model equivalence. -/
+smooth boundaryless manifold with Euclidean model has finite CW type in the sense of Tau
+Ceti's predicate `TauCeti.FiniteCWType`: it is homotopy equivalent to a finite CW complex in
+a Hausdorff space. The smooth triangulation of GeometricTopology is finite by compactness,
+and its realization homeomorphism is the model equivalence. -/
 theorem compactManifoldFiniteCWType (n : ℕ)
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
     [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M] :
-    Nonempty (FiniteCWTypeModel M) := by
+    TauCeti.FiniteCWType M := by
   sorry
 
 /-! ## Stage 8: connectivity, Whitehead, classifying spaces, proper deformation and
