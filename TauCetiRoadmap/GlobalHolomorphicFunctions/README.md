@@ -1,38 +1,44 @@
 # Roadmap: global holomorphic functions of one complex variable
 
 **Summary.** Build global one-variable approximation, prescribed isolated singularities and
-divisors, and full Weierstrass factorization from the local complex-analysis and contour
-libraries and AnalyticNumberTheoryPartI's primary products. Develop compact-open holomorphic
-function spaces, Cauchy–Green, global smooth ∂̄ solvability, Cousin I and exactness of planar
-two-forms on arbitrary open subsets of ℂ.
+divisors, and weighted genus-one products from the local complex-analysis and contour
+libraries and AnalyticNumberTheoryPartI's primary products and factorization. Develop the
+comparison metric on Tau Ceti's compact-open holomorphic function algebra, Cauchy–Green, global
+smooth ∂̄ solvability, Cousin I, exactness of planar two-forms and the vanishing of the real
+degree-two de Rham cohomology of arbitrary open subsets of ℂ.
 
 ## Scope and ownership
 
 This roadmap owns the global plane-domain results and their analytic comparison interfaces.
 The local holomorphic, analytic-order, meromorphic and compact-convergence carriers are in
-Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti.
-Tau Ceti owns the Wirtinger operators, the compact-support Cauchy transform with its ∂̄
+Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti, and so is
+the compact-open algebra `holomorphicFunctions U` of holomorphic functions on an open set,
+with its closedness in `C(U,ℂ)`, its completeness, its continuous restrictions and its finite
+jets. Tau Ceti owns the Wirtinger operators, the compact-support Cauchy transform with its ∂̄
 identity and reconstruction, the filled-in predicate with the filled compact exhaustion of an
 open set, generic manifold forms with their exterior derivative, paired wedge and Leibniz rule,
-the coordinate forms dz and dz̄ on the plane, and the winding-weighted Green theorem for
+the coordinate forms dz and dz̄ on the plane, the de Rham complex of real smooth forms with
+its cohomology `deRhamCohomology`, and the winding-weighted Green theorem for
 contour cycles; none of these is a target here, and DifferentialGeometry is not a supplier.
-No supplier owns a de Rham quotient: the real degree-two de Rham vanishing of a plane domain
-is a consumer's conclusion from Layer 7.2's exactness.
+Layer 7.2 proves the vanishing `H²_dR(U;ℝ)=0` of a plane domain on Tau Ceti's
+`deRhamCohomology`, from its real two-form exactness.
 ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here owns
 only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
 dx, dy as exterior derivatives of coordinate functions, dz, dz̄ as pullbacks of the native
 plane forms along the inclusion, products of smooth coefficients with forms through the
-native paired wedge, coefficient extraction for two-forms, and real and complex two-form
-exactness. No operation on forms over a general manifold is constructed here.
+native paired wedge, coefficient extraction for two-forms, real and complex two-form
+exactness, and the real degree-two vanishing. No operation on forms over a general manifold
+is constructed here.
 
-ZerosOfLFunctions, Layer 5.2–5.5, owns the zero-support API, the genus-one factor and its
+ZerosOfLFunctions, Layer 5.1–5.4, owns the zero-support API, the genus-one factor and its
 basic API, its canonical product under order-one growth, and the entire logarithm.
 AnalyticNumberTheoryPartI §§0.15–0.15a owns the primary factors of every genus, the
 compact-summability product theorem, locally uniform primary products with variable genera and
-exact orders, and equal-divisor factorization of entire functions.
+exact orders, equal-divisor factorization of entire functions, and the full Weierstrass
+factorization of every nonzero entire function without a growth hypothesis.
 Layer 1 here extends that mathematics to weighted divisors given directly with inverse-square
-summability, without an entire function or growth bound as input. Layer 5 proves full
-factorization without finite-order hypotheses. These are extensions of the stated contracts,
+summability, without an entire function or growth bound as input, and adds the derivative
+identities of the primary factors of every genus. These are extensions of the stated contracts,
 not a reassignment of their genus-one special case; ZerosOfLFunctions and
 AnalyticNumberTheoryPartI are suppliers, not consumers.
 
@@ -55,8 +61,10 @@ Use `DifferentiableOn ℂ`, native analytic orders and native locally finite div
 Analytic order ∞ is distinguished from order zero; the zero function's totalized native
 meromorphic divisor is zero, so AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization
 requires both functions nonzero.
-Smoothness means `ContDiffOn ℝ ∞`, whereas analytic manifold maps use order `ω`.
-All function-space uniformities are scoped, and all index types are universe-polymorphic.
+Smoothness means `ContDiffOn ℝ ∞`; smooth functions on the open subtype of ℂ are
+`ContMDiff 𝓘(ℝ, ℂ) 𝓘(ℝ, ℂ) ∞`. The function space `H(U)` carries the native compact-open
+uniformity of `C(U,ℂ)`; no further uniformity or metric instance is installed on it, and all
+index types are universe-polymorphic.
 Unordered products use the cofinite finite-subset product filter; an explicitly paired
 series has only the stated pairing. Empty products equal one.
 
@@ -81,12 +89,14 @@ the empty cases here follow directly from the definitions.
   uses that carrier and sends infinite order to zero. Use `AnalyticOnNhd.divisor_apply`,
   `AnalyticAt.analyticOrderAt_eq_natCast` and `meromorphicOrderAt_eq_int_iff` with their
   analytic-unit and neighborhood hypotheses.
-- `ContMDiffMap` in `Mathlib/Geometry/Manifold/ContMDiffMap.lean` supplies the analytic map
-  subtype, not a chosen compact-convergence uniformity. `ContinuousMap.compactConvergenceUniformSpace`,
-  `ContinuousMap.tendsto_iff_tendstoLocallyUniformly` and the complete-space instance in
-  `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally compact
-  open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
-  exhaustions, without a Runge condition.
+- `ContinuousMap.compactConvergenceUniformSpace`,
+  `ContinuousMap.tendsto_iff_tendstoLocallyUniformly`,
+  `CompactExhaustion.hasAntitoneBasis_compactConvergenceUniformity` and the complete-space
+  instance in `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally
+  compact open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
+  exhaustions, without a Runge condition. `TendstoLocallyUniformlyOn.deriv` in
+  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` passes locally uniform convergence of
+  holomorphic functions on an open set to their derivatives.
 - `Complex.logDeriv_tendsto` in
   `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
   eventual holomorphy and a nonzero limit at the point. `logDeriv_tprod_eq_tsum` in
@@ -161,15 +171,40 @@ bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
 `Pullback/Smooth.lean`), `mpullback_inclusion_apply`, `RoughForm.extendByZero` and
 `IsSmoothForm.extendByZero` for open subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
 `SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1` (`Plane/Complex.lean`).
+Use the real de Rham complex of `TauCeti/Geometry/Manifold/DeRham/Basic.lean`, for a manifold
+`M` modelled on `I` with `[IsManifold I 2 M]`: `closedForms I M k` and `exactForms I M k`, the
+submodules of `SmoothForm I M ℝ k` of forms with vanishing `mextDeriv` and of exterior
+derivatives of smooth `(k−1)`-forms, `exactForms_le_closedForms`,
+`mem_closedForms_of_finrank_le` (every smooth `k`-form is closed once `k` is at least the
+dimension of the model space), the quotient `deRhamCohomology I M k`, the homology of that
+complex in degree `k`, with `deRhamCohomology.mk` surjective from `closedForms I M k` and
+`deRhamCohomology.mk_eq_zero_iff` characterizing the kernel as `exactForms I M k`.
+Use the compact-open holomorphic algebra of `TauCeti/Analysis/Complex/HolomorphicFunctions/`:
+`holomorphicFunctions U : Subalgebra ℂ C(U, ℂ)` for `U : Opens ℂ`, whose carrier is the
+continuous maps agreeing on `U` with a function `DifferentiableOn ℂ` on `U`, with the
+topology inherited from compact convergence (`Basic.lean`); `mem_holomorphicFunctions_iff_extend`
+(membership is holomorphy of the zero extension), `HolomorphicFunctions.of` and
+`HolomorphicFunctions.extend` with `of_extend`, `isClosed_holomorphicFunctions`, the
+`CompleteSpace` instance, `HolomorphicFunctions.tendsto_iff_tendstoLocallyUniformlyOn`
+(convergence is `TendstoLocallyUniformlyOn` of the zero extensions on `U`),
+`HolomorphicFunctions.restrict` along `V ≤ U` with `restrict_comp` and `continuous_restrict`;
+`HolomorphicFunctions.jet` (the first `n` derivatives at a point of `U`, linear, with
+`jet_eq_zero_iff` reading its vanishing as analytic order at least `n`) and
+`finrank_quotient_ker_jet_le` (`Jet.lean`); and `norm_le_mul_pow_of_mem_ker_jet` with
+`exists_finiteDimensional_quotient_norm_le` (`RestrictionEstimate.lean`): on the kernel of the
+`(n+1)`-jet at the centre of a disc of radius `R` inside `U`, a bound `M` on that disc gives the
+bound `M (r/R)^(n+1)` on the closed disc of radius `r < R`.
 Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
 cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
 the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
-Consume Layer 5.2's countable locally finite zero support, Layer 5.3's genus-one factor
-and basic API, Layer 5.4's growth-to-summability canonical product, and Layer 5.5's entire
-logarithm. The inverse-square-input extension is stated in Layer 1.2.
+Consume Layer 5.1's countable locally finite zero support, Layer 5.2's genus-one factor
+`E₁` and basic API (its value one at zero, its single simple zero at one,
+`deriv E₁ z = −z exp z`, its logarithmic derivative and its small-disk estimate), Layer
+5.3's growth-to-summability canonical product, and Layer 5.4's entire logarithm. The
+inverse-square-input extension is stated in Layer 1.2.
 Use the native contour logarithm implementation for the logarithm contract.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
@@ -179,7 +214,22 @@ sharp estimate `|1−E_p(w)|≤|w|^(p+1)` on the closed unit disk and identifica
 ZerosOfLFunctions' genus-one factor; its compact-summability product theorem with additive
 orders and unit tail; and its countable variable-genus product with exact orders,
 `exists_entire_primary_product_exact`. Consume §0.15a's equal-divisor factorization
-`exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero.
+`exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero, and
+its full Weierstrass factorization: every nonzero entire `f` with zero order `m` at the origin
+is `z^m exp(g(z)) ∏ E_(p_a)(z/a)^(m_a)` over its nonzero zeros `a` with multiplicities `m_a`,
+for admissible genera `p_a` and an entire `g`, without a growth hypothesis; `z^m` times the
+§0.15 product over the nonzero zeros has the native divisor of `f`, and `g` is the
+equal-divisor factor.
+For a fixed choice of genera, `g` is unique up to an additive constant in `2πiℤ`; the genera
+are not unique.
+
+**Checks** of the consumed factorization.
+
+- For f=z, m=1, the nonzero-zero index is empty, the product is 1 and g=0 give z=z·1·1.
+- For f=(z−1)², with genus 0 at the zero 1, the product is (1−z)² and g=0; the exponent is the
+  multiplicity 2, not 1.
+- For f=exp(z), m=0, the product is 1 and g=z; the empty zero set does not force f to be
+  constant.
 
 ### From TauCetiRoadmap.ConformalMapping
 
@@ -191,13 +241,16 @@ No geometric mapping theorem enters the scalar Cauchy–Green or global ∂̄ so
 
 Layer 0 develops real-plane calculus and compact-support Cauchy–Green. Layer 1 develops
 summable products, building on AnalyticNumberTheoryPartI's primary products. Layer 2 (GH0)
-supplies hulls, compact-open spaces and Runge; Layer 3 (GH1) realizes divisors and boundary
-noncontinuation; Layer 4 (GH2) realizes isolated singularities; Layer 5 (GH3) gives full
-factorization. Layer 6 (GH4) applies these results to products, approximation and contours.
-Layer 7 (GH5) solves global ∂̄ and Cousin I and proves planar two-form exactness. Each route
+supplies hulls, the comparison metric on Tau Ceti's compact-open holomorphic algebra, and
+Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2) realizes
+isolated singularities. Layer 6 (GH4) applies these results, and AnalyticNumberTheoryPartI's
+factorization, to products, approximation and contours. Layer 7 (GH5) solves global ∂̄ and
+Cousin I and proves planar two-form exactness and the real degree-two de Rham vanishing.
+Layer k is cited by consumers as GH(k−2); the full factorization labelled GH3 is
+AnalyticNumberTheoryPartI's, so there is no Layer 5. Each route
 lists its own inputs; Layer 7's scalar solver does not use Layer 6's Green theorem.
 Suggested.lean states the headline theorems on pinned carriers; the form-level statements of
-Layer 7.2 are on Tau Ceti's smooth-form carrier.
+Layer 7.2 are on Tau Ceti's smooth-form carrier and its de Rham cohomology.
 
 ## Layer 0: real-plane calculus and compact-support Cauchy–Green
 
@@ -507,24 +560,43 @@ transform and Morera. No later layer supplies an input.
 
 ## Layer 1: preparatory locally uniform products
 
-### 1.1 Primary factors and compact-summability products
+### 1.1 Derivatives and logarithmic bounds of the primary factors
 
-The primary factor `elementaryFactor`, its sharp estimate, the compact-summability product
-theorem and the countable variable-genus product with exact orders,
-`exists_entire_primary_product_exact`, are AnalyticNumberTheoryPartI §0.15. The rest of this
-layer builds on them.
+The primary factor `elementaryFactor`, `Eₚ(w)=(1−w)exp(Qₚ(w))` with `Qₚ(w)=Σₖ₌₁ᵖ wᵏ/k`, its
+normalization `Eₚ(0)=1`, its single simple zero at `w=1`, its sharp estimate
+`|1−Eₚ(w)|≤|w|^(p+1)` on the closed unit disk, the compact-summability product theorem and
+the countable variable-genus product with exact orders, `exists_entire_primary_product_exact`,
+are AnalyticNumberTheoryPartI §0.15, and `E₁` is ZerosOfLFunctions Layer 5.2's factor.
+Prove here the derivative identities of every genus: `Eₚ′(w)=−wᵖ exp(Qₚ(w))` on ℂ, by
+differentiating the defining formula with `Qₚ′(w)=Σₖ₌₀^(p−1) wᵏ=(1−wᵖ)/(1−w)` for `w≠1`
+and the telescoping `−1+(1−w)Qₚ′(w)=−wᵖ` for every `w`, and `Eₚ′(w)/Eₚ(w)=−wᵖ/(1−w)` for
+`w≠1`; the case `p=1` is ZerosOfLFunctions Layer 5.2's `deriv E₁ z = −z exp z`. Prove the
+normalized logarithmic bound `log ‖E₁(w)‖≤‖w‖²` for `‖w‖≤1`: the sharp estimate gives
+`‖E₁(w)‖≤1+‖w‖²` and `Real.log (1+t) ≤ t` for `t ≥ 0`; at `w=1` the left side is
+`Real.log 0 = 0`. These identities are the differentiation of the defining formula in
+Rainer, Remark 15.4, p. 38 (rainer line 2030).
+
+The primary-factor API here consists of the two derivative identities for every genus, the
+logarithmic derivative off `w=1`, and the genus-one logarithmic bound on the closed disk;
+the factor itself, its zero and its sharp estimate are consumed.
+
+**Checks.**
+
+- E₁′(1)=−e, from Eₚ′(w)=−wᵖ exp(Qₚ(w)) at p=1, agreeing with ZerosOfLFunctions Layer 5.2.
+- E₀′(w)=−1 for every w, since Q₀=0 and E₀(w)=1−w; a formula with the sign reversed
+  would give +1.
+- E₂′(−1)=−exp(−1/2): Q₂(−1)=−1+1/2 and (−1)²=1; differentiating E₂=(1−w)exp(w+w²/2)
+  directly gives exp(Q₂)(−1+(1−w)(1+w))=−w² exp(Q₂).
+- At w=1/2, log ‖E₁(w)‖=log((1/2)e^(1/2))≈−0.193≤1/4; at w=1 the bound reads 0≤1.
+
+*Needs:* AnalyticNumberTheoryPartI §0.15; ZerosOfLFunctions Layer 5.2; Mathlib `deriv` of
+products and exponentials, geometric sums and `Real.log` with its totalized value at zero.
 
 ### 1.2 Genus-one products over weighted zero support
 
 For AnalyticNumberTheoryPartI §0.15's primary factor Eₚ, whose normalization, zero and
-genus-one identification are that section's, write Qₚ(w)=Σₖ₌₁ᵖ wᵏ/k and prove
-Eₚ′(w)=−wᵖ exp(Qₚ(w)), and Eₚ′/Eₚ=−wᵖ/(1−w) for w≠1. Its sharp deviation bound gives
-the stronger normalized estimate log ‖E₁(w)‖≤‖w‖² on the unit disk;
-treat w=1 separately using Real.log 0=0. These identities follow by differentiation of
-the defining formula (Rainer, Remark 15.4, p. 38); the small-disk estimate uses
-AnalyticNumberTheoryPartI §0.15.
-
-Supply the following weighted-support specialization without choosing an enumeration.
+genus-one identification are that section's, with the derivative identities of 1.1,
+supply the following weighted-support specialization without choosing an enumeration.
 Let `S⊂ℂ\{0}` be countable, meet each compact set in finitely many points, and carry
 finite multiplicities `m:S→ℕ`. Zero multiplicities are allowed; for actual zero support
 they are positive. If `Σ_(ρ:S) m(ρ)/‖ρ‖²<∞`, then
@@ -571,9 +643,8 @@ AnalyticNumberTheoryPartI §0.15, using Rainer, Theorem 14.3, pp. 35–36 (raine
 - S={1}, m(1)=2 gives P(z)=(1−z)² exp(2z); the analytic order and divisor at 1 are both 2.
 - S={2}, m(2)=0 contributes factor 1 and order 0; forbidding zero multiplicity would lose this input.
 - For S={1}, m=2, the repeated-index majorant is 2R²=R²·2, fixing the real multiplicity cast.
-- E₁′(1)=−e, from Eₚ′(w)=−wᵖ exp(Qₚ(w)) at p=1.
 
-*Needs:* AnalyticNumberTheoryPartI §0.15; ZerosOfLFunctions Layer 5.2's support API; finite-fiber grouping for
+*Needs:* AnalyticNumberTheoryPartI §0.15; ZerosOfLFunctions Layer 5.1's support API; finite-fiber grouping for
 locally uniform products and the native analytic-order/divisor comparison.
 
 ### 1.3 Variable exponents, genus, and logarithmic derivatives
@@ -585,8 +656,8 @@ For constant p, define the genus of the repeated nonzero zero list to be the lea
 Prove that this summability is equivalent to absolute locally uniform convergence of the
 primary-factor deviations on compact disks for a fixed p. This is the unordered absolute
 criterion; a product grouped in opposite pairs can converge even when its ungrouped
-genus-zero criterion fails. The general factorization theorem permits variable p_n and
-therefore imposes no finite-genus hypothesis.
+genus-zero criterion fails. AnalyticNumberTheoryPartI §0.15a's factorization permits variable
+p_n and therefore imposes no finite-genus hypothesis.
 
 For holomorphic factors f_i on open U, finite partial products P_s converging locally uniformly
 to F, and an open V⊆U on which every factor and F are nonzero, prove locally uniform convergence
@@ -707,7 +778,7 @@ The double factor at 1 has order 2, and the empty product has value 1 and order 
 
 ### Dependencies
 
-ZerosOfLFunctions Layer 5.2–5.5, AnalyticNumberTheoryPartI §0.15 and native product/analytic-order
+ZerosOfLFunctions Layer 5.1–5.4, AnalyticNumberTheoryPartI §0.15 and native product/analytic-order
 APIs. No global factorization is used.
 
 ## Layer 2: plane domains, compact hulls, and Runge approximation (GH0)
@@ -765,43 +836,39 @@ subsection is used.
 
 ### 2.2 Holomorphic functions with compact-open convergence
 
-Define `HolomorphicMapSpace` as follows. For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
-`H(U) = ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω`
-(`Mathlib/Geometry/Manifold/ContMDiffMap.lean`).
-The complex charted-space and analytic-manifold structures on U are the native restrictions
-of those on ℂ. The order is analytic `ω`. Equality is equality of functions on U.
-
-Define `HolomorphicMapSpace.toContinuousMap` by sending such a map to its underlying native continuous map `ι : H(U) → C(U,ℂ)` and prove
-injectivity. Equip H(U) with the uniformity induced by ι from native compact convergence on
-`C(U,ℂ)`; its topology is compact-open. Install this as a scoped instance in the
-`HolomorphicMapTopology.compactConvergenceUniformity`, with the supporting
-`HolomorphicMapTopology.openSubtypeLocallyCompact` instance, opened explicitly by consumers: the reducible analytic-map alias
-must not install a global uniformity on all native `ContMDiffMap` users. Prove the precise range comparison:
-`g ∈ range ι` iff the ambient representative
-`g₀(z) = if hz : z∈U then g ⟨z,hz⟩ else 0` satisfies `DifferentiableOn ℂ g₀ U`.
-Use the restricted complex charts, complex analyticity versus differentiability on open sets,
-and agreement of representatives on U. Values outside U do not affect this condition.
-Identify ι with a uniform embedding onto this closed subspace. This comparison connects
-the manifold-map bundle with the existing ambient `DifferentiableOn` API; it is not an
-additional definition of holomorphicity.
+For an open set `U : TopologicalSpace.Opens ℂ`, `H(U)` is Tau Ceti's `holomorphicFunctions U`:
+the complex subalgebra of native `C(U,ℂ)` of continuous maps that agree on `U` with a function
+`DifferentiableOn ℂ` on `U`, with the topology and uniformity inherited from compact
+convergence on `C(U,ℂ)`. Its contract is consumed, not restated: membership is holomorphy of
+the zero extension (`mem_holomorphicFunctions_iff_extend`), so values outside `U` play no
+role; the subalgebra is closed (`isClosed_holomorphicFunctions`) and complete (its
+`CompleteSpace` instance); convergence of a net in `H(U)` is `TendstoLocallyUniformlyOn` of
+the zero extensions on the open set `U` (`HolomorphicFunctions.tendsto_iff_tendstoLocallyUniformlyOn`);
+restriction to a smaller open set is a continuous algebra homomorphism
+(`HolomorphicFunctions.restrict`, `continuous_restrict`); the finite jet at a point of `U` is
+linear with kernel of codimension at most `n` (`HolomorphicFunctions.jet`,
+`finrank_quotient_ker_jet_le`); and on the kernel of the `(n+1)`-jet at the centre of a disc
+of radius `R` inside `U`, a bound on that disc gives the bound times `(r/R)^(n+1)` on the
+concentric closed disc of radius `r<R` (`norm_le_mul_pow_of_mem_ker_jet`). Point evaluation
+and the algebra operations are continuous because the topology is the compact-open one. On
+`U=∅` the space `H(U)` has one element. What remains here is quantitative: an explicit metric
+realizing this uniformity and the continuity of differentiation.
 
 Use Mathlib’s native compact-convergence infrastructure:
 `CompactExhaustion.hasAntitoneBasis_compactConvergenceUniformity` gives an entourage basis;
 its countable-generation instance on a locally compact σ-compact source supplies
 metrizability; and `ContinuousMap.tendsto_iff_tendstoLocallyUniformly` identifies convergence.
-Construct the following explicit complete comparison metric for that same uniformity,
-retaining it definitionally with `MetricSpace.replaceUniformity`. Scope the resulting
-metric instance in the same `HolomorphicMapTopology` namespace as the induced uniformity;
-keep the comparison distance on `C(U,ℂ)` as an explicit definition, without installing
-a competing global metric instance on that native carrier. Use the native filled exhaustion
-of 2.1, for integers n≥1 and Ω the underlying set of U,
+Construct the following explicit comparison metric for that same uniformity. Keep the
+comparison distance on `C(U,ℂ)` as an explicit definition and prove that it induces the native
+uniformity; install no metric instance on `C(U,ℂ)` or on `H(U)`. Use the native filled
+exhaustion of 2.1, for integers n≥1 and Ω the underlying set of U,
 
 `K_n = closedBall 0 n \ thickening (1/n) Ωᶜ = {z : ℂ | ‖z‖ ≤ n ∧ Metric.infEDist z Ωᶜ ≥ ENNReal.ofReal (1/n)}`.
 
 Its compactness and `K_n ⊆ int K_(n+1)` are native; use the cofinality among compact subsets
 of Ω proved in 2.1.
 For Ω=ℂ the extended distance to its empty complement is ∞; only the radius cutoff remains.
-For Ω=∅ every K_n is empty and H(U) has one element. The metric construction uses no Runge
+For Ω=∅ every K_n is empty. The metric construction uses no Runge
 theorem and no normal-family theorem. Any cofinal nested compact exhaustion gives the same
 uniformity, by the native compact-exhaustion basis theorem.
 
@@ -810,7 +877,7 @@ empty K_n, and define
 
 `d_C(f,g)=Σ_(n≥1) 2^(−n) s_n(f,g)/(1+s_n(f,g))`.
 
-Prove it is a metric on `C(U,ℂ)`, and restrict it through ι to d on H(U). Bound each term by
+Prove it is a metric on `C(U,ℂ)`, and restrict it to d on H(U). Bound each term by
 `2^(−n)`; use monotonicity and subadditivity of `t/(1+t)` for the triangle inequality and
 cofinality for separation. Also compare with the metric using `min(1,s_n)`, via
 `min(1,t)/2 ≤ t/(1+t) ≤ min(1,t)` for t≥0.
@@ -819,55 +886,44 @@ Prove equality of uniformities, rather than only a statement about convergent se
 A finite collection of compact-sup conditions is controlled by one K_N and the smallest
 requested tolerance ε. The inequality `d_C(f,g)<2^(−N)ε/(1+ε)` implies those conditions.
 Conversely, bound the geometric tail after N by ε/2 and the finite initial sum by ε/2 using
-finitely many compact-sup conditions. Deduce that convergence and the Cauchy property are
-exactly uniform convergence and uniform Cauchy convergence on every compact subset of U.
-Prove the representative-level equivalence with `TendstoLocallyUniformlyOn` on the open
-ambient set Ω, and independence from the exhaustion. For every compact K⊆Ω, restriction
-to native `C(K,ℂ)` is uniformly continuous, using cofinality and the same quantitative bound.
+finitely many compact-sup conditions. Deduce that convergence and the Cauchy property for d
+are exactly uniform convergence and uniform Cauchy convergence on every compact subset of U,
+and that d is independent of the exhaustion. For every compact K⊆Ω, restriction
+to native `C(K,ℂ)` is uniformly continuous for d, using cofinality and the same quantitative
+bound. Since `H(U)` is complete for the native uniformity, d is a complete metric on `H(U)`.
 
-The headline `complete_holomorphicMapSpace` asserts completeness for this induced uniformity.
-For completeness, the open subtype U is locally compact Hausdorff and therefore compactly
-coherent. Native `ContinuousMap.compactConvergenceUniformSpace` and its completeness theorem
-make `C(U,ℂ)` complete. After the metric/uniformity comparison, prove that range ι is closed:
-a convergent sequence of its continuous maps yields ambient representatives converging locally
-uniformly on Ω, and `TendstoLocallyUniformlyOn.differentiableOn` preserves holomorphy there.
-Use the range comparison to lift the limit to H(U). Thus the induced metric on H(U) is
-complete. Establish the open-subtype/ambient local-uniform convergence adapter explicitly.
-
-Reuse the native complex-algebra operations and constants on `ContMDiffMap` from
-`Mathlib.Geometry.Manifold.Algebra.SmoothFunctions`; prove their continuity for the scoped
-compact-convergence topology. Provide continuous point evaluation, restriction to smaller
-open sets and compact subsets, and compatibility with the continuous-map and ambient
-holomorphic APIs. Open-set restriction uses composition with the native smooth inclusion
-(`contMDiff_inclusion`, `ContMDiffMap.comp`); reuse native restriction homomorphisms where
-their codomain structure matches. Give the derivative map
-and prove its compact-open continuity by the native locally uniform derivative theorem and
-Cauchy estimates on compact neighborhoods. These are function-space results independent of
-Montel; ConformalMapping's compactness criterion is stated on ambient families and does not
-consume this space.
+Define the derivative map `H(U) → H(U)`, sending `f` to the restriction to `U` of
+`deriv (HolomorphicFunctions.extend f)`, holomorphic on `U` by the native derivative of a
+holomorphic function, and prove its compact-open continuity by `TendstoLocallyUniformlyOn.deriv`
+and the Cauchy estimates on compact neighborhoods; it is complex-linear. These are
+function-space results independent of Montel; ConformalMapping's compactness criterion is
+stated on ambient families and does not consume this space.
 
 The function-space API is:
 
-- The continuous-map inclusion is injective, identifies its range with ambient holomorphic
-  restrictions, and is a uniform embedding with closed image.
-- The induced uniformity is complete; the displayed metric induces exactly this uniformity,
-  independently of the exhaustion, and compact restrictions are uniformly continuous.
-- Pointwise algebra, point evaluation, open restriction and differentiation are continuous;
-  the inclusion preserves pointwise multiplication and constants.
+- The displayed metric induces exactly the native compact-convergence uniformity on `C(U,ℂ)`
+  and on `H(U)`, independently of the exhaustion; compact restrictions are uniformly
+  continuous for it, and it is complete on `H(U)`.
+- The derivative map is a continuous complex-linear endomorphism of `H(U)` for the compact-open
+  topology; point evaluation, open restriction and the algebra operations are continuous.
 
 **Checks.**
 
-- On U=∅ there is one map; every compact seminorm and the distance are 0.
+- On U=∅ there is one function; every compact seminorm and the distance are 0.
 - On a nonempty U with every exhaustion stage nonempty, constants differing by 1 have
   distance Σₙ≥₁2⁻ⁿ/2=1/2; replacing the comparison metric by an unbounded sup norm is wrong.
 - On ℂ the constant functions 1/(n+1) are Cauchy on every compact and tend to the holomorphic
   zero map; their displayed distance to zero is 1/(n+2).
 - For t=1, min(1,t)/2=t/(1+t)=1/2≤1, fixing both comparison constants.
+- On the open unit disk, fₙ(z)=zⁿ/n tends to 0 compact-openly and so does fₙ′(z)=zⁿ⁻¹; the
+  sup norms over the whole disk are 1/n and 1, so differentiation is continuous for the
+  compact-open topology and not for the sup norm on U.
 
-The metric, completeness and derivative-continuity targets are Rainer, §11, equation (11.2)
-and Exercises 19–20, p. 25 (rainer lines 1313, 1329).
-*Needs:* Mathlib analytic maps, compact-convergence uniformity/completeness, compact exhaustions,
-open-subtype smoothness and holomorphic local-uniform limits; no Runge or Montel theorem is needed.
+The metric and derivative-continuity targets are Rainer, §11, equation (11.2) and
+Exercises 19–20, p. 25 (rainer lines 1313, 1329); completeness is Tau Ceti's.
+*Needs:* Tau Ceti's `holomorphicFunctions` contract; Mathlib compact-convergence uniformity,
+compact exhaustions and the locally uniform derivative theorem; Layer 2.1's native exhaustion
+stages; no Runge or Montel theorem is needed.
 
 ### 2.3 Neighborhood-holomorphic restrictions on a compact set
 
@@ -912,9 +968,10 @@ under uniform convergence on the trace, and the finite-cycle version by summing 
 cycle coefficients. Supply the rectangle/wedge-integral comparison to this contour API.
 Also give a disk-Morera proof of compact-open holomorphic closure: rectangle and wedge
 integrals pass to uniform limits as interval integrals, giving `IsConservativeOn`; apply
-Mathlib’s `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn` directly. The function-space completeness theorem can directly
-consume `TendstoLocallyUniformlyOn.differentiableOn`; the contour argument is a reusable
-proof route and continuity result, rather than a second holomorphic-limit predicate.
+Mathlib’s `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn` directly. Tau Ceti's
+`isClosed_holomorphicFunctions` already consumes `TendstoLocallyUniformlyOn.differentiableOn`;
+the contour argument is a reusable proof route and continuity result, rather than a second
+holomorphic-limit predicate or a second closedness theorem.
 
 **Checks.**
 
@@ -929,8 +986,9 @@ and `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn`.
 
 ### 2.5 Runge equivalences, pole pushing, and interpolation
 
-Define `IsRungeCompactPair` by openness, compact containment and `IsFilledIn K Ω`, the
-native absence of relatively compact complementary components. Prove `isRungeCompactPair_iff_approximation`, the universal Runge equivalence: for compact K⊆Ω, the property that every
+Define `IsRungeCompactPair Ω K` as the conjunction of `IsOpen Ω`, `IsCompact K`, `K ⊆ Ω` and
+Tau Ceti's `IsFilledIn K Ω`, the native absence of relatively compact complementary
+components, named and not written out. Prove `isRungeCompactPair_iff_approximation`, the universal Runge equivalence: for compact K⊆Ω, the property that every
 function holomorphic on every open neighborhood U of K can be uniformly approximated
 on K by functions holomorphic on Ω holds if and only if no component of Ω\K is
 relatively compact in Ω. Quantify over U and f in this equivalence. For any individual
@@ -1127,7 +1185,7 @@ each compact. Finite exceptional factors are retained separately. These factors 
 product is nonzero off E; prove exact orders at E and nonvanishing of the tail product. When
 Ω=ℂ, use AnalyticNumberTheoryPartI's product theorem for the whole sequence. Both divisor
 constructions consume only AnalyticNumberTheoryPartI §0.15, earlier preparatory results and
-GH0; the later full factorization theorem does not supply a prerequisite to this milestone.
+GH0; AnalyticNumberTheoryPartI §0.15a's factorization is not a prerequisite of this milestone.
 
 The divisor-realization API includes exact orders, finite nonzero germs on every component,
 restriction and products/quotients corresponding to addition/subtraction of divisor data.
@@ -1215,8 +1273,8 @@ to this larger-domain claim. For Ω=ℂ there is no strict larger plane domain.
 
 For nonempty proper Ω use GH1's prescribed-zero theorem with multiplicity one. Choose a countable dense sequence
 `a_j` in the nonempty boundary, allowing repetitions. For n≥1 and j≤n choose pairwise distinct
-`z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using exactly the `infEDist` distance exhaustion
-defined in GH0 (holomorphic functions with compact-open convergence), here renamed D_n. The intersection with
+`z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using exactly the native filled exhaustion stages
+`D_n = closedBall 0 n \ thickening (1/n) Ωᶜ` of Layer 2.1, as indexed in 2.2. The intersection with
 the ball is infinite, and every point of D_n has distance at least 1/n from a_j∈Ωᶜ.
 Let E be the set of these points. Every D_m meets only finitely many levels n<m, so E is
 relatively closed and discrete in Ω. For each fixed j the chosen points converge to a_j;
@@ -1244,7 +1302,7 @@ shell-cover construction above supplies the stronger meromorphic branchwise theo
 
 This is the whole-overlap consequence of Layer 3.2; its alternative zero construction uses
 the same identity-theorem argument as Rainer, Theorem 15.5, p. 39 (rainer line 2086).
-*Needs:* Layer 3.1, the metric exhaustion in Layer 2.2, separability of the boundary and the identity theorem.
+*Needs:* Layer 3.1, the native exhaustion stages of Layer 2.1, separability of the boundary and the identity theorem.
 
 
 
@@ -1308,44 +1366,6 @@ The prescribed germs 2/z and exp(1/z) distinguish poles from essential singulari
 ### Dependencies
 
 Layers 1–3, Laurent decomposition, Runge corrections and holomorphic local-uniform closure.
-
-## Layer 5: full Weierstrass factorization (GH3)
-
-### 5.1 Full factorization
-
-Consume AnalyticNumberTheoryPartI's `exists_entire_primary_product_exact` under its stated
-convergence hypotheses and its equal-divisor factorization `exists_entire_exp_mul_of_divisor_eq`
-(§0.15a).
-
-The headline `entire_weierstrass_factorization` states: for every nonzero entire f with zero order m at 0 and nonzero zeros listed with multiplicity,
-prove `f(z)=z^m exp(g(z)) ∏ E_{p_n}(z/a_n)` for an admissible sequence p_n and entire g. The
-entire function `z^m ∏ E_{p_n}(z/a_n)` has the native divisor of f, so AnalyticNumberTheoryPartI
-§0.15a supplies g. State nonuniqueness under choice of p_n; for a fixed product and fixed f,
-g is unique up to the additive constant in 2πiℤ given there. The factorization theorem, like
-AnalyticNumberTheoryPartI's product theorem, allows a variable sequence of primary-factor
-genera and imposes no finite-order hypothesis on the entire function.
-
-The factorization API includes exact multiplicities and normalization of the primary product.
-The full factorization is Rainer, Remark 15.4, p. 38 (rainer lines 2030, 2050).
-
-**Checks.**
-
-- For f=z, m=1, the nonzero-zero index is empty, P=1 and g=0 give z=z·1·1.
-- For f=(z−1)², choose p=0, P=(1−z)² and g=0; the power is 2, not 1.
-- For f=exp(z), m=0, P=1 and g=z; the empty zero set does not force f to be constant.
-
-*Needs:* Layer 1.3's admissible genera; AnalyticNumberTheoryPartI §§0.15–0.15a; native isolated
-zeros and analytic orders.
-
-
-
-### Examples
-
-The cases z, (z−1)² and exp(z) separate the origin order, repeated zeros and zero-free exponential factor. The subsection Checks fix the detailed conventions.
-
-### Dependencies
-
-Layer 1, AnalyticNumberTheoryPartI §§0.15–0.15a and local order APIs.
 
 ## Layer 6: products, approximation, and contour examples (GH4)
 
@@ -1413,8 +1433,9 @@ proof or global product API.
 
 These are derived product comparisons from Layer 1 and the native sine, cotangent, Gamma
 sequence and Euler-constant limits in the supplier contracts; the shift uses absolute summability.
-*Needs:* Layers 1 and 5, native sine/cosine identities, cotangent series, Gamma sequence and
-harmonic-logarithmic limit, with the specified nonzero denominators.
+*Needs:* Layer 1, AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization and
+ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, cotangent
+series, Gamma sequence and harmonic-logarithmic limit, with the specified nonzero denominators.
 
 ### 6.2 Independent paired-cotangent strip proof
 
@@ -1548,7 +1569,7 @@ pp. 35–36, rainer line 1868) and the explicit estimates above.
 - In the ratio example b₁=1 and a₁=2, the factor has a genuine pole at 1; cancellation
   would require m²=2n², which has no positive integer solutions.
 
-*Needs:* Layers 1 and 5; AnalyticNumberTheoryPartI §0.15; native sine/hyperbolic identities, lattice shell counts and compact
+*Needs:* Layer 1; AnalyticNumberTheoryPartI §0.15; native sine/hyperbolic identities, lattice shell counts and compact
 separation from the pole closure; every ratio denominator is bounded away from zero on the stated compact.
 
 ### 6.4 Polynomial and rational approximation examples
@@ -1742,7 +1763,7 @@ logarithmic-derivative calculations.
 - The shifted sine at α=1/2 has poles at half-integers in its logarithmic derivative,
   with residue 1 and none at the integers.
 
-*Needs:* Layers 1, 3 and 5, the native paired cotangent formula and local meromorphic orders.
+*Needs:* Layers 1 and 3, AnalyticNumberTheoryPartI §0.15a, the native paired cotangent formula and local meromorphic orders.
 These are the explicit local-pole calculations for the preceding examples.
 
 
@@ -1753,7 +1774,7 @@ On the unit disk the |z|² Cauchy–Pompeiu identity at zero is 0=1−1; clockwi
 
 ### Dependencies
 
-Layers 0–5 as used by each example; Tau Ceti's cycle Green theorem and ConformalMapping L5 only for the boundary formula.
+Layers 0–4 and AnalyticNumberTheoryPartI §§0.15–0.15a as used by each example; Tau Ceti's cycle Green theorem and ConformalMapping L5 only for the boundary formula.
 
 ## Layer 7: global smooth ∂̄ solvability and Cousin I (GH5)
 
@@ -1803,7 +1824,8 @@ For `f(z)=z`, the particular solution `u₀(z)=|z|²`; all solutions are
 In `exists_smooth_closed_completion`, for every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
 `ω=g dz+f dz̄` is closed. Apply global solvability to the smooth datum `∂_z f`,
 obtaining `∂̄g=∂_z f`, stated as `g_x+i g_y=f_x−i f_y`, and prove
-`dω=(∂_z f−∂̄g) dz∧dz̄=0` on the differential-form carrier below.
+`dω=(∂_z f−∂̄g) dz∧dz̄=0` on the differential-form carrier of 7.2; the form-level
+statement is `exists_smooth_closed_completion_form` there.
 For a fixed f, all such coefficients are `g=g₀+h`, with h holomorphic on Ω.
 The conclusion is closedness; a global primitive additionally requires vanishing periods.
 
@@ -1871,22 +1893,39 @@ real-valued two-form `η` has the unique form `η=h dx∧dy` with `h(z)=η_z(e_z
 `h` smooth in both cases. Extend `h` by zero off `U`; the restriction comparison gives an
 ambient function smooth on `U`.
 
-For the complex case, apply GH5 to `h`, obtaining `u` with `∂barz u=h`, restrict to `M`, and
-use the `mextDeriv_wedgeWith` Leibniz rule with `d(dz)=0` to obtain
-`d(−u dz)=−du∧dz=(∂barz u) dz∧dbarz=η`, since `dz∧dz=0`. For the real case, apply GH5 to
-the datum `h/2`, obtaining `u` with `∂barz u=h/2`, and set `β=(Im u) dx+(Re u) dy`, a
-real-valued one-form with the real smooth coefficients `Re ∘ u` and `Im ∘ u`. The real
-Leibniz rule with `d(dx)=d(dy)=0` gives `dβ=((Re u)_x−(Im u)_y) dx∧dy=2 Re(∂barz u) dx∧dy=η`.
-Thus every smooth real-valued two-form on `M` is exact; the vanishing of a real degree-two
-de Rham quotient of `M` is a consumer's conclusion from this exactness. CKG K5a consumes the complex exactness on this same open-subtype carrier
-and owns its complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
+The closed completion of 7.1 on this carrier is `exists_smooth_closed_completion_form`: for
+smooth `f : M → ℂ` there is smooth `g : M → ℂ` with `d(g dz+f dz̄)=0`, the products being the
+paired wedges of the degree-zero forms of `g` and `f` with `dz` and `dz̄`. Extend `f` by zero
+off `U`, smooth on `U` by the restriction comparison, take `g` from the scalar closed
+completion of that extension, restricted to `M`; the Leibniz rule with `d(dz)=d(dz̄)=0` gives
+`d(g dz+f dz̄)=dg∧dz+df∧dz̄=((∂z g) dz+(∂barz g) dz̄)∧dz+((∂z f) dz+(∂barz f) dz̄)∧dz̄
+=(∂z f−∂barz g) dz∧dz̄=0`, using `dz∧dz=dz̄∧dz̄=0` and `dz̄∧dz=−dz∧dz̄`.
+
+For the complex case, `exists_mextDeriv_eq_complex_two_form`: apply GH5 to `h`, obtaining `u`
+with `∂barz u=h`, restrict to `M`, and use the `mextDeriv_wedgeWith` Leibniz rule with
+`d(dz)=0` to obtain `d(−u dz)=−du∧dz=(∂barz u) dz∧dbarz=η`, since `dz∧dz=0`; the one-form
+`−u dz` is smooth by `IsSmoothForm` of a paired wedge of smooth forms. For the real case,
+`exists_mextDeriv_eq_real_two_form`: apply GH5 to the datum `h/2`, obtaining `u` with
+`∂barz u=h/2`, and set `β=(Im u) dx+(Re u) dy`, a real-valued one-form with the real smooth
+coefficients `Re ∘ u` and `Im ∘ u`. The real Leibniz rule with `d(dx)=d(dy)=0` gives
+`dβ=((Re u)_x−(Im u)_y) dx∧dy=2 Re(∂barz u) dx∧dy=η`. Thus every smooth real-valued two-form
+on `M` is exact. Prove `subsingleton_deRhamCohomology_two`, the vanishing `H²_dR(U;ℝ)=0` on
+Tau Ceti's `deRhamCohomology 𝓘(ℝ, ℂ) M 2`: every class is `deRhamCohomology.mk` of a closed
+two-form by `mk_surjective`, every smooth two-form on `M` is closed by
+`mem_closedForms_of_finrank_le` since the model space ℂ has real dimension 2, and the real
+exactness puts every such form in `exactForms 𝓘(ℝ, ℂ) M 2`, so the class is zero by
+`mk_eq_zero_iff`. No hypothesis on `U` is needed: for `U=∅` the only form is zero, for `U=ℂ`
+this is the degree-two Poincaré lemma of the plane, and for disconnected `U` the solver works
+on each component at once. CKG K5a consumes the complex exactness on this same open-subtype
+carrier and owns its complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
 The coordinate-form API includes the tangent trivialization, the ambient/restricted
 smoothness comparison for real and complex values, smoothness of degree-zero forms, dx, dy,
 dz and dz̄ as exterior derivatives of coordinate functions with their evaluations and
 vanishing exterior derivatives, the decomposition of du, unique coefficient extraction for
-real and complex two-forms, and real and complex exactness. These are direct consequences
-of the native exterior derivative, Leibniz rule and determinant wedge convention together
+real and complex two-forms, the form-level closed completion, real and complex exactness,
+and the real degree-two de Rham vanishing. These are direct consequences of the native
+exterior derivative, Leibniz rule, determinant wedge convention and de Rham complex together
 with Layer 7.1, not an additional generic form carrier or a generic operation on forms.
 
 **Checks.**
@@ -1900,12 +1939,20 @@ with Layer 7.1, not an additional generic form carrier or a generic operation on
 - For η=dx∧dy, h=1 and the datum is 1/2; u=z̄/2 has Re u=x/2 and Im u=−y/2, so
   β=(x dy−y dx)/2, whose derivative is dx∧dy; its value on (e_z 1, e_z i) is 1. Taking
   β=(Re u) dx+(Im u) dy instead would give dβ=((Im u)_x−(Re u)_y) dx∧dy=0.
+- For f=z̄ on ℂ the closed completion is g=0 up to a holomorphic summand, since ∂z f=0, and
+  d(z̄ dz̄)=dz̄∧dz̄=0; for f=z it is g=z̄ and d(z̄ dz+z dz̄)=dz̄∧dz+dz∧dz̄=0, whereas g=0
+  would leave d(z dz̄)=dz∧dz̄≠0.
+- On U=ℂ the class of dx∧dy in H²_dR(ℂ;ℝ) is zero, with primitive (x dy−y dx)/2. On the
+  circle every one-form is closed by the same dimension count, yet dθ is not exact and H¹ is
+  ℝ; the vanishing here rests on the exactness theorem, not on closedness alone.
 
 *Needs:* Layers 7.1 and 0.1; Tau Ceti's `RoughForm`, `RoughForm.ofFunction`, `IsSmoothForm`,
 `SmoothForm`, `mextDeriv`, `mextDeriv_ofFunction`, `mextDeriv_mextDeriv`, `RoughForm.wedgeWith`,
 `wedgeWith_apply_one_one`, `mextDeriv_wedgeWith`, `mpullback`, `mpullback_apply`,
-`SmoothForm.complexDz` and `SmoothForm.complexDzBar`; native open-subtype tangent and
-smoothness comparisons, `Complex.reCLM`, `Complex.imCLM` and `starRingEnd ℂ`.
+`SmoothForm.complexDz`, `SmoothForm.complexDzBar`, `closedForms`, `exactForms`,
+`mem_closedForms_of_finrank_le`, `deRhamCohomology`, `deRhamCohomology.mk_surjective` and
+`deRhamCohomology.mk_eq_zero_iff`; native open-subtype tangent and smoothness comparisons,
+`Complex.reCLM`, `Complex.imCLM` and `starRingEnd ℂ`.
 
 ### 7.3 Coordinate worked examples
 
@@ -1960,7 +2007,8 @@ Verify `b_i-b_j=c_ij`, so `∂̄b_i` is one global smooth datum; solve `∂̄u=�
 and check `b_i-u` are holomorphic and glue with the required differences. For the Mittag–Leffler application,
 use `Ω₀=Ω\E` and small disjoint disks around the marked points, and verify this is an open
 cover. Layer 7.2 gives exactness for every complex-valued and every real-valued smooth
-two-form on the open subtype; no de Rham quotient is constructed here. CKG K5a consumes the complex exactness
+two-form on the open subtype and the vanishing of Tau Ceti's real degree-two de Rham
+cohomology; no quotient is constructed here. CKG K5a consumes the complex exactness
 statement and proves its own complex de Rham comparison on the generic form carrier. The open plane
 domain is Hausdorff and paracompact. This uses no singular/de Rham comparison or fundamental class.
 
@@ -1987,16 +2035,16 @@ The constant two-set cocycle has coboundary (1,0), and d((x dy−y dx)/2)=dx∧d
 
 ### Dependencies
 
-Layers 0 and 2 for the scalar solver; Tau Ceti's smooth-form carrier for the form consequences. ComplexKahlerGeometry is a consumer only.
+Layers 0 and 2 for the scalar solver; Tau Ceti's smooth-form carrier and de Rham complex for the form consequences. ComplexKahlerGeometry is a consumer only.
 
 ## Downstream consumers
 
 ComplexKahlerGeometry K2 consumes Layer 0.3's derivative transfer and Riemann-sum estimate
 for the native Cauchy transform, GH0's finite-rank Runge operators and the planar exhaustion
 for its parameter solver; K5a consumes GH5.1's complex
-two-form exactness for its complex de Rham comparison, and DeRhamCohomologyAndDuality draws
-`H²_dR(U;ℝ)=0` for an open `U⊆ℂ` from Layer 7.2's real exactness on its own de Rham
-quotient. Hyperfunctions HF2 uses the one-variable input through those analytic layers.
+two-form exactness for its complex de Rham comparison. Layer 7.2 proves `H²_dR(U;ℝ)=0` for
+an open `U⊆ℂ` on Tau Ceti's `deRhamCohomology`, available to every consumer.
+Hyperfunctions HF2 uses the one-variable input through those analytic layers.
 ConformalMapping's compactness criterion is stated on ambient families and consumes nothing
 here; its L5 boundary topology is an independent input only to Layer 6. ZerosOfLFunctions
 remains an earlier supplier.

@@ -1,19 +1,26 @@
 import Mathlib
 import TauCeti.Analysis.Contour.Cycle.Basic
+import TauCeti.Topology.FilledIn
+import TauCeti.Geometry.Manifold.DifferentialForm.Plane.Complex
+import TauCeti.Geometry.Manifold.DifferentialForm.Wedge.Basic
+import TauCeti.Geometry.Manifold.DeRham.Basic
 
 /-!
 # Global holomorphic functions of one complex variable: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, the sharp
-finite-product bound, weighted genus-one products, holomorphic hulls and Runge, compact-open
-completeness, divisor and isolated-singularity realization, boundary noncontinuation, full
-Weierstrass factorization, Cauchy–Pompeiu on a cycle, global smooth ∂̄ solvability with closed
-completion, and Cousin I.
+finite-product bound, weighted genus-one products, holomorphic hulls and Runge, divisor and
+isolated-singularity realization, boundary noncontinuation, Cauchy–Pompeiu on a cycle, global
+smooth ∂̄ solvability with closed completion in scalar and in form-level form, exactness of
+every smooth two-form on an open subset of ℂ with the vanishing of its real degree-two de Rham
+cohomology, and Cousin I.
 
-Primary factors, primary products and equal-divisor factorization are AnalyticNumberTheoryPartI
-§§0.15–0.15a. That file is not importable here, so the primary factor is written out where the
-statements below use it.
+Primary factors, primary products, equal-divisor factorization and the full Weierstrass
+factorization of an entire function are AnalyticNumberTheoryPartI §§0.15–0.15a. That file is
+not importable here, so the genus-one factor is written out where the statements below use it.
+The compact-open algebra of holomorphic functions on an open set, with its completeness, is
+Tau Ceti's `holomorphicFunctions` and is not restated.
 
 The operator ∂̄ is written in real Fréchet coordinates: `2 ∂̄u(z) = u_x(z) + i u_y(z)` with
 `u_x = fderiv ℝ u z 1` and `u_y = fderiv ℝ u z I`, the convention of Tau Ceti's conjugate
@@ -22,12 +29,14 @@ and of its Cauchy–Pompeiu formula (`TauCeti/Analysis/Complex/Pompeiu/Basic.lea
 below carry the factor 2 on the data side. The compact-support Cauchy transform, its ∂̄ identity
 and reconstruction are that library's and are not restated.
 
-Not statable at the pins: the form-level closed completion `d(g dz + f dz̄) = 0` and the exactness
-of every smooth complex-valued and real-valued two-form on an open subset of ℂ (README Layer 7.2)
-are stated on Tau Ceti's smooth-form carrier (`TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
-`TauCeti.SmoothForm.complexDz` and `complexDzBar` of `TauCeti/Geometry/Manifold/DifferentialForm/`),
-which the pinned Tau Ceti does not contain; nothing is stated in their place. The scalar
-closed-completion equation below is their coefficient form.
+The form-level statements of README Layer 7.2 are on Tau Ceti's smooth-form carrier
+(`SmoothForm`, `mextDeriv`, `RoughForm.wedgeWith`, `mpullback`, the plane forms
+`SmoothForm.complexDz` and `complexDzBar`, and the real de Rham cohomology `deRhamCohomology` of
+`TauCeti/Geometry/Manifold/`): a form on the open subtype `U` of ℂ is a form for the model
+`𝓘(ℝ, ℂ)`, the coordinate forms `dz` and `dz̄` on `U` are the pullbacks of the plane forms along
+the inclusion, and the product of a coefficient function with a form is the paired wedge of its
+degree-zero form through multiplication. Every headline theorem of the roadmap is statable at the
+pins.
 -/
 namespace TauCetiRoadmap.GlobalHolomorphicFunctions
 
@@ -101,13 +110,9 @@ theorem norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one {ι : Type*} (s :
 /-! ## Layer 2: plane domains, compact hulls, and Runge approximation -/
 
 /-- A Runge pair: an open `Ω`, a compact `K ⊆ Ω`, and `K` filled in `Ω` (no connected
-component of `Ω \ K` is relatively compact in `Ω`, Tau Ceti's `IsFilledIn K Ω`, written out).
-Mathlib's connected components are used; all closures are in the ambient plane. -/
+component of `Ω \ K` is relatively compact in `Ω`), Tau Ceti's `IsFilledIn K Ω`. -/
 def IsRungeCompactPair (Ω K : Set ℂ) : Prop :=
-  IsOpen Ω ∧ IsCompact K ∧ K ⊆ Ω ∧
-    ∀ z ∈ Ω \ K,
-      ¬ (IsCompact (closure (connectedComponentIn (Ω \ K) z)) ∧
-        closure (connectedComponentIn (Ω \ K) z) ⊆ Ω)
+  IsOpen Ω ∧ IsCompact K ∧ K ⊆ Ω ∧ TauCeti.IsFilledIn K Ω
 
 /-- The holomorphic hull inside Ω: every bound on K for an Ω-holomorphic function
 also holds at the given point. Universal real bounds make the hull of the empty set empty. -/
@@ -154,39 +159,6 @@ theorem exists_finite_rank_runge_operator {Ω K U : Set ℂ}
               ∀ B : ℝ, 0 ≤ B → (∀ z ∈ L, ‖f z‖ ≤ B) →
                 ∀ z ∈ K,
                   ‖f z - ∑ j, w j * f (ζ j) * g j z‖ ≤ ε * B := by
-  sorry
-
-/-- Holomorphic functions on an open complex subtype, using Mathlib's analytic map bundle. -/
-abbrev HolomorphicMapSpace (U : TopologicalSpace.Opens ℂ) :=
-  ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω
-
-/-- The underlying continuous map of a native analytic map. -/
-noncomputable def HolomorphicMapSpace.toContinuousMap (U : TopologicalSpace.Opens ℂ)
-    (f : HolomorphicMapSpace U) : C(U, ℂ) :=
-  (f : C(U, ℂ))
-
-namespace HolomorphicMapTopology
-
-noncomputable section
-
-/-- The subtype of an open plane set is locally compact. -/
-scoped instance openSubtypeLocallyCompact (U : TopologicalSpace.Opens ℂ) :
-    LocallyCompactSpace U := U.isOpen.locallyCompactSpace
-
-/-- The compact-convergence uniformity on holomorphic maps is induced from continuous maps. -/
-scoped instance compactConvergenceUniformity (U : TopologicalSpace.Opens ℂ) :
-    UniformSpace (HolomorphicMapSpace U) :=
-  UniformSpace.comap (HolomorphicMapSpace.toContinuousMap U) inferInstance
-
-end
-end HolomorphicMapTopology
-
-open scoped HolomorphicMapTopology
-
-/-- Holomorphic maps on any open plane set are complete for compact convergence
-(Rainer, §11, equation (11.2) and Exercise 19, p. 25). -/
-theorem complete_holomorphicMapSpace (U : TopologicalSpace.Opens ℂ) :
-    CompleteSpace (HolomorphicMapSpace U) := by
   sorry
 
 /-! ## Layer 3: prescribed zeros and divisor realization -/
@@ -262,27 +234,6 @@ theorem exists_holomorphic_quotient {Ω : Set ℂ} (hΩ : IsOpen Ω) {F : ℂ �
       (∀ᶠ z in codiscreteWithin Ω, g z ≠ 0 ∧ F z = f z / g z) := by
   sorry
 
-/-! ## Layer 5: full Weierstrass factorization -/
-
--- Supplied by AnalyticNumberTheoryPartI:
--- §0.15a `TauCetiRoadmap.AnalyticNumberTheoryPartI.exists_entire_exp_mul_of_divisor_eq`.
-
-/-- Every nonzero entire function is an origin power times an entire exponential times
-an unordered locally uniformly convergent primary product over its nonzero zeros, with
-native analytic orders as multiplicities (Rainer, Remark 15.4, p. 38). The local `E` is
-AnalyticNumberTheoryPartI's `elementaryFactor`, written out. -/
-theorem entire_weierstrass_factorization (f : ℂ → ℂ) (hf : Differentiable ℂ f)
-    (hne : ∃ z, f z ≠ 0) :
-    let E := fun (p : ℕ) (w : ℂ) =>
-      (1 - w) * Complex.exp (∑ k ∈ Finset.range p, w ^ (k + 1) / (k + 1))
-    ∃ (m : ℕ) (p : {a : ℂ // a ≠ 0 ∧ f a = 0} → ℕ) (P g : ℂ → ℂ),
-      analyticOrderAt f 0 = (m : ℕ∞) ∧ Differentiable ℂ P ∧ Differentiable ℂ g ∧
-      HasProdLocallyUniformlyOn
-        (fun a z => E (p a) (z / a.val) ^ (analyticOrderAt f a.val).toNat)
-        P Set.univ ∧
-      ∀ z, f z = z ^ m * Complex.exp (g z) * P z := by
-  sorry
-
 /-! ## Layer 6: products, approximation, and contour examples -/
 
 open scoped Classical in
@@ -314,13 +265,54 @@ theorem exists_smooth_conjWirtingerDeriv_eq {Ω : Set ℂ} (hΩ : IsOpen Ω)
   sorry
 
 /-- **GH5, closed completion.** For every smooth `f` there is a smooth `g` with `∂̄g = ∂_z f`,
-written `g_x + i g_y = f_x − i f_y`; this coefficient equation is equivalent to closedness of
-`g dz + f dz̄` on the smooth-form carrier of README Layer 7.2. -/
+written `g_x + i g_y = f_x − i f_y`; this coefficient equation is the closedness of
+`g dz + f dz̄`, stated on the smooth-form carrier in `exists_smooth_closed_completion_form`. -/
 theorem exists_smooth_closed_completion {Ω : Set ℂ} (hΩ : IsOpen Ω)
     (f : ℂ → ℂ) (hf : ContDiffOn ℝ ∞ f Ω) :
     ∃ g : ℂ → ℂ, ContDiffOn ℝ ∞ g Ω ∧
       ∀ z ∈ Ω, fderiv ℝ g z 1 + Complex.I * fderiv ℝ g z Complex.I =
         fderiv ℝ f z 1 - Complex.I * fderiv ℝ f z Complex.I := by
+  sorry
+
+/-- **GH5, closed completion on forms.** For every smooth `f` on the open subtype `U` of ℂ
+there is a smooth `g` with `d(g dz + f dz̄) = 0`: `dz` and `dz̄` are the plane forms pulled back
+along the inclusion, and a coefficient multiplies a form through the paired wedge with
+`ContinuousLinearMap.mul ℝ ℂ` (README Layer 7.2). -/
+theorem exists_smooth_closed_completion_form (U : TopologicalSpace.Opens ℂ) (f : U → ℂ)
+    (hf : ContMDiff 𝓘(ℝ, ℂ) 𝓘(ℝ, ℂ) ∞ f) :
+    ∃ g : U → ℂ, ContMDiff 𝓘(ℝ, ℂ) 𝓘(ℝ, ℂ) ∞ g ∧
+      TauCeti.mextDeriv
+        (TauCeti.RoughForm.wedgeWith (ContinuousLinearMap.mul ℝ ℂ)
+            (TauCeti.RoughForm.ofFunction 𝓘(ℝ, ℂ) g)
+            (TauCeti.mpullback 𝓘(ℝ, ℂ) 𝓘(ℝ, ℂ) (Subtype.val : U → ℂ)
+              TauCeti.SmoothForm.complexDz.1) +
+          TauCeti.RoughForm.wedgeWith (ContinuousLinearMap.mul ℝ ℂ)
+            (TauCeti.RoughForm.ofFunction 𝓘(ℝ, ℂ) f)
+            (TauCeti.mpullback 𝓘(ℝ, ℂ) 𝓘(ℝ, ℂ) (Subtype.val : U → ℂ)
+              TauCeti.SmoothForm.complexDzBar.1)) = 0 := by
+  sorry
+
+/-- **GH5.1, complex two-form exactness.** Every smooth complex-valued two-form on an open
+subset of ℂ is the exterior derivative of a smooth one-form: write it as `h dz ∧ dz̄` and solve
+`∂̄u = h` (README Layer 7.2). -/
+theorem exists_mextDeriv_eq_complex_two_form (U : TopologicalSpace.Opens ℂ)
+    (η : TauCeti.SmoothForm 𝓘(ℝ, ℂ) U ℂ 2) :
+    ∃ β : TauCeti.SmoothForm 𝓘(ℝ, ℂ) U ℂ 1, TauCeti.mextDeriv β.1 = η.1 := by
+  sorry
+
+/-- **GH5.1, real two-form exactness.** Every smooth real-valued two-form on an open subset
+of ℂ is the exterior derivative of a smooth real one-form: write it as `h dx ∧ dy`, solve
+`∂̄u = h/2` and take `(Im u) dx + (Re u) dy` (README Layer 7.2). -/
+theorem exists_mextDeriv_eq_real_two_form (U : TopologicalSpace.Opens ℂ)
+    (η : TauCeti.SmoothForm 𝓘(ℝ, ℂ) U ℝ 2) :
+    ∃ β : TauCeti.SmoothForm 𝓘(ℝ, ℂ) U ℝ 1, TauCeti.mextDeriv β.1 = η.1 := by
+  sorry
+
+/-- **GH5.1, planar de Rham vanishing.** `H²_dR(U; ℝ) = 0` for every open `U ⊆ ℂ`, on Tau
+Ceti's de Rham cohomology: every smooth real two-form is closed, by dimension, and exact, by the
+real exactness theorem (README Layer 7.2). -/
+theorem subsingleton_deRhamCohomology_two (U : TopologicalSpace.Opens ℂ) :
+    Subsingleton (TauCeti.deRhamCohomology 𝓘(ℝ, ℂ) U 2) := by
   sorry
 
 /-- Every holomorphic additive cocycle on an arbitrary open cover of an open plane set
