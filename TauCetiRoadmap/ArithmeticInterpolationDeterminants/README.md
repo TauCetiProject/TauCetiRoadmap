@@ -5,19 +5,27 @@ power substitution `Z ↦ X, W ↦ X^p` with its derivative identities and nonva
 algebraic Hermite interpolation with arbitrary multiplicities over any field, the Hasse confluent
 Vandermonde determinant with its sign, and the general rank, ideal-divisibility, row-change,
 Hadamard-size and integral-norm comparisons that an arithmetic interpolation determinant is
-estimated with. Everything is stated on Mathlib's native `Polynomial`, `MvPolynomial`, `Submodule`,
-`Basis`, `LinearMap`, `Matrix`, `Ideal`, `Matrix.gram` and `Algebra.norm` carriers, from Mathlib's
-Hasse derivatives and Taylor expansion and Tau Ceti's multivariate Hasse calculus, Kronecker
-substitution and Gram–Hadamard inequalities. The end theorems are the Hermite interpolation
-equivalence `hermiteJet_bijective`, the determinant formula `det_confluentVandermonde`, the
-Frobenius-graph nonvanishing test `exists_nonzero_ordinary_jet_on_frobenius_graph` and the Gram
+estimated with. Everything is stated on Mathlib's native `Polynomial`, `MvPolynomial`,
+`Submodule`, `Module.Basis`, `LinearMap`, `Matrix`, `Ideal`, `Matrix.gram` and `Algebra.norm`
+carriers, from Mathlib's Hasse derivatives and Taylor expansion and Tau Ceti's multivariate Hasse
+calculus, Taylor coefficients at a root, Kronecker substitution and Gram–Hadamard inequalities. The
+end theorems are the Hermite interpolation equivalence `hermiteJet_bijective`, the determinant
+formula `det_confluentVandermonde`, the Frobenius-graph nonvanishing test `exists_nonzero_ordinary_jet_on_frobenius_graph` and the Gram
 change-of-family identity `det_gram_matrix_smul`. A particular auxiliary matrix, support choice,
 prime-exponent formula or parameter optimisation of a research proof is an application and stays
 with the roadmap that makes it.
 
-`README.md` is definitive. `Suggested.lean` states the headline theorems above against the pinned
-libraries and the three definitions they need, `powerSubstitution`, `hermiteJet` and
-`confluentVandermonde`; every other target, API list and Check lives here.
+`README.md` is definitive. `Suggested.lean` states, against the pinned libraries, the four end
+theorems and the main statements of Layers 0–4 on which they and their consumers rest, with the
+three definitions they need, `powerSubstitution`, `hermiteJet` and `confluentVandermonde`. Layer 0:
+`powerSubstitution_injOn`, `iterate_derivative_powerSubstitution`, `hasseDeriv_powerSubstitution`,
+`exists_nonzero_ordinary_jet_on_frobenius_graph`. Layer 1: `hermiteJet_bijective`,
+`all_jets_vanish_iff_dvd`, `det_confluentVandermonde`. Layer 2: `exists_full_row_minor`,
+`coordinates_mem_extended_ideal`. Layer 3: `det_mem_prod_row_ideals`, `unitriangular_mul_minor`,
+`det_gram_matrix_smul`, `derivative_prod_mem_ideal_pow`, `hasseDeriv_prod_mem_ideal_pow`,
+`pderiv_prod_mem_ideal_pow`. Layer 4: `norm_det_le_factorial_prod`, `norm_hasseDeriv_eval_le`. The
+Layer 5 statements are short consequences of Mathlib's norm lemmas and are stated here only; every
+other target, API list and Check lives here as well.
 
 ## Scope and ownership
 
@@ -49,11 +57,22 @@ libraries and the three definitions they need, `powerSubstitution`, `hermiteJet`
 
 **Left to other roadmaps and to the libraries.**
 
-- *The Hasse multiplicity criterion and the root-count inequality* (`x` is a root of multiplicity
-  `≥ k` of a nonzero `f` iff `D^[j] f (x) = 0` for all `j < k`; a nonzero `f` of degree `D` with
-  multiplicity `≥ k` on a set `S` has `k · #S ≤ D`): CharacterSumsOverFiniteFields §4.1. The
-  finite-set form used in 0.6 (nonzero `f` with `natDegree f < #S · (K + 1)` has some
-  `D^[j] f (a) ≠ 0` with `a ∈ S`, `j ≤ K`) is its contrapositive and is not restated.
+- *The Hasse multiplicity criterion and the root-count inequality over a finite field* (`x` is a
+  root of multiplicity `≥ k` of a nonzero `f` iff `D^[j] f (x) = 0` for all `j < k`; a nonzero `f`
+  of degree `D` with multiplicity `≥ k` on a set `S` has `k · #S ≤ D`):
+  CharacterSumsOverFiniteFields §4.1, stated there for `[Field F] [Finite F]`. Target 0.6 needs the
+  root-count inequality over an arbitrary field of characteristic `p` and takes it from the pinned
+  libraries, not from that section: Tau Ceti's `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero`
+  (over every commutative ring, the Hasse derivative of order `rootMultiplicity a f` of a nonzero
+  `f` does not vanish at `a`) with Mathlib's `Polynomial.count_roots` and `Polynomial.card_roots'`.
+  Target 1.2 uses the divisibility form of the criterion, which admits `f = 0`, from Mathlib's
+  Taylor expansion.
+- *First jets on the total-degree ball*: GenericDoublePointInterpolation §§1.3–1.4 `firstJetMap`
+  and `firstJetMatrix` (values and first partial derivatives at `n` points on polynomials of
+  bounded total degree over a commutative ring). Target 0.2 admits arbitrary Hasse multi-indices,
+  repeated points and any finite support; with the multi-indices `0` and `e_j` at every point and
+  the total-degree ball as support it is that map up to reindexing, first-order Hasse and ordinary
+  derivatives being equal.
 - *The kernel of the Hasse derivatives of orders `0 < k < p^e` and their linearity over
   `R[X^(p^e)]`* (`hasseDeriv k (expand R (p^e) f * g) = expand R (p^e) f * hasseDeriv k g` for
   `k < p^e`): GrothendieckNotesLemmas §§1.3–1.4. Target 0.4 is the evaluated bivariate
@@ -118,8 +137,12 @@ libraries and the three definitions they need, `powerSubstitution`, `hermiteJet`
 - **Norms and absolute values.** `‖·‖` on `ℂ` is the modulus; `Algebra.norm ℤ` on `𝓞 K` is the
   integral norm of a number field, and `Algebra.norm ℚ` its field norm; the two agree through
   `Algebra.coe_norm_int`.
-- **Finite index types.** Matrices of this roadmap are indexed by `Fin n`; a statement over an
-  arbitrary `Fintype` is transported through `Fintype.equivFin` where a consumer needs it.
+- **Finite index types.** The matrices of 1.3, 2.1, 2.2, 3.1, 3.2 and 4.1 and the square-matrix
+  adapter of 4.2 are indexed by `Fin n` (the confluent Vandermonde matrix by `Fin (∑ i, m i)`), and
+  such a statement is transported to an arbitrary `Fintype` through `Fintype.equivFin` where a
+  consumer needs it. The coordinate criterion of 2.3, the Gram identity of 3.3 and the Gram
+  inequalities consumed in 4.2 are stated over an arbitrary finite type `ι`, as is the finite
+  family of factors in 3.4.
 
 ## Exact supplier contracts
 
@@ -132,15 +155,21 @@ libraries and the three definitions they need, `powerSubstitution`, `hermiteJet`
   `derivative_X_pow`, `iterate_derivative_X_pow_eq_smul`; `Polynomial.leval`
   (`Mathlib/Algebra/Polynomial/Eval/SMul.lean`); `Polynomial.rootMultiplicity`,
   `lt_rootMultiplicity_iff_isRoot_iterate_derivative` (characteristic zero only);
-  `Polynomial.pairwise_coprime_X_sub_C`, `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`.
+  `Polynomial.pairwise_coprime_X_sub_C`, `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`;
+  `Polynomial.X_sub_C_pow_dvd_iff`, `Polynomial.X_pow_dvd_iff`, `Polynomial.le_rootMultiplicity_iff`,
+  `Polynomial.count_roots`, `Polynomial.card_roots'` (`card (roots f) ≤ natDegree f`),
+  `Multiset.toFinset_sum_count_eq`.
 - `Polynomial.degreeLT`, `mem_degreeLT`, `degreeLT_eq_span_X_pow`, `degreeLTEquiv`
   (`Mathlib/RingTheory/Polynomial/Basic.lean`); `MvPolynomial.restrictSupport`,
   `basisRestrictSupport`, `restrictSupport_mono`, `restrictTotalDegree`, `restrictDegree`,
   `mem_restrictTotalDegree`, `mem_restrictDegree` (`Mathlib/RingTheory/MvPolynomial/Basic.lean`);
   `MvPolynomial.degreeOf`, `degreeOf_lt_iff`; `MvPolynomial.pderiv`; `MvPolynomial.aeval`,
-  `MvPolynomial.eval`.
+  `MvPolynomial.eval`; `MvPolynomial.uniqueAlgEquiv` (`Mathlib/Algebra/MvPolynomial/Equiv.lean`,
+  `MvPolynomial σ R ≃ₐ[R] R[X]` for `[Unique σ]`).
 - `Ideal.quotientInfRingEquivPiQuotient` (`Mathlib/RingTheory/Ideal/Quotient/Operations.lean`),
-  taken on pairwise coprime ideals; `Ideal.map`; `Ideal.prod_mem_prod`; `Basis`, `Basis.repr`.
+  taken on pairwise coprime ideals; `Ideal.map`; `Ideal.prod_mem_prod`; `Module.Basis`,
+  `Module.Basis.repr`, `Module.Basis.linearCombination_repr`
+  (`Mathlib/LinearAlgebra/Basis/Defs.lean`).
 - `Matrix.det`, `det_apply`, `det_mul`, `det_smul`, `det_transpose`, `det_isEmpty`, `det_fin_zero`,
   `det_submatrix_equiv_self`, `Matrix.submatrix`, `submatrix_map`, `RingHom.map_det`,
   `Matrix.of`, `Matrix.map`; `Matrix.vandermonde`, `det_vandermonde`
@@ -153,9 +182,10 @@ libraries and the three definitions they need, `powerSubstitution`, `hermiteJet`
 - `Matrix.gram`, `gram_apply`, `posSemidef_gram`, `det_gram_ne_zero_iff_linearIndependent`,
   `gram_eq_conjTranspose_mul` (`Mathlib/Analysis/InnerProductSpace/GramMatrix.lean`);
   `Matrix.PosSemidef.det_nonneg`.
-- `Algebra.norm`, `Algebra.norm_algebraMap` (`norm R (algebraMap R S x) = x ^ finrank R S`),
-  `norm_algebraMap_of_basis`, `norm_eq_zero_iff`, `norm_ne_zero_iff`, `norm_eq_prod_embeddings`
-  (`Mathlib/RingTheory/Norm/`); `NumberField.RingOfIntegers`, `RingOfIntegers.rank`,
+- `Algebra.norm`, a monoid homomorphism, so multiplicative by `map_mul`; `Algebra.norm_algebraMap`
+  (`norm R (algebraMap R S x) = x ^ finrank R S`), `norm_algebraMap_of_basis`, `norm_eq_zero_iff`,
+  `norm_ne_zero_iff`, `norm_eq_prod_embeddings` (`Mathlib/RingTheory/Norm/`);
+  `NumberField.RingOfIntegers`, `RingOfIntegers.rank`,
   `Algebra.coe_norm_int` (`Mathlib/NumberTheory/NumberField/`).
 
 ### From Tau Ceti
@@ -170,18 +200,19 @@ libraries and the three definitions they need, `powerSubstitution`, `hermiteJet`
   `eval_hasseDeriv_aeval_X_pow` (`TauCeti/RingTheory/MvPolynomial/Kronecker.lean`). The power
   substitution of 0.3 is the case `e = (1, B)`, on which `weight e μ = μ 0 + B · μ 1` is injective
   for `μ 0 < B`.
-- Hadamard: `Matrix.det_gram_le_prod_norm_sq`, `re_det_gram_le_prod_norm_sq`,
-  `re_det_gram_le_pow`, `re_det_gram_nonneg`, `det_gram_eq_norm_det_sq`,
+- Univariate Taylor coefficients at a root: `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero`
+  (for `f ≠ 0` over a commutative ring, `D^[rootMultiplicity a f] f (a) ≠ 0`) and
+  `Polynomial.eval_hasseDeriv_X_sub_C_pow` (`D^[i] ((X − C a)^k) (a)` is `1` if `i = k` and `0`
+  otherwise) (`TauCeti/Algebra/Polynomial/Taylor.lean`).
+- Hadamard: `Matrix.det_gram_le_prod_norm_sq`, `Matrix.re_det_gram_le_prod_norm_sq`,
+  `Matrix.re_det_gram_le_pow`, `Matrix.re_det_gram_nonneg`, and for an orthonormal basis
+  `b : OrthonormalBasis ι 𝕜 E` indexed by the same `ι` as the family `v`,
+  `OrthonormalBasis.det_gram_eq_norm_det_sq` (`det (gram 𝕜 v) = ‖b.toBasis.det v‖^2`) and
   `OrthonormalBasis.norm_det_le_prod_norm` (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`;
   hypotheses `[RCLike 𝕜] [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [Fintype ι]
-  [DecidableEq ι]`, any `E`); the `ℓ¹` row and column bounds `Matrix.abv_det_le_prod_sum_abv`,
-  `abv_det_le_prod_sum_abv'`, `abs_det_le_prod_sum_abs` (`TauCeti/LinearAlgebra/Matrix/AbsoluteValue.lean`).
-
-### From TauCetiRoadmap.CharacterSumsOverFiniteFields
-
-§4.1: the Hasse multiplicity criterion, `hasseDeriv k (f^q) = 0` for `0 < k < q`, and the
-root-count inequality `k · #S ≤ D` for a nonzero `f` of degree `D` with multiplicity `≥ k` at every
-point of `S`. Target 0.6 uses the inequality in its contrapositive form.
+  [DecidableEq ι]`, any `E` for the `Matrix` statements); the `ℓ¹` row and column bounds
+  `Matrix.abv_det_le_prod_sum_abv`, `abv_det_le_prod_sum_abv'`, `abs_det_le_prod_sum_abs`
+  (`TauCeti/LinearAlgebra/Matrix/AbsoluteValue.lean`).
 
 ### From TauCetiRoadmap.GrothendieckNotesLemmas
 
@@ -198,16 +229,18 @@ the input of its coefficientwise route; its other route uses only Tau Ceti.
 ## How to read the build
 
 Layer 0 fixes the finite polynomial spaces and the jet evaluation map, then builds the Frobenius
-power substitution and its nonvanishing test on the univariate multiplicity inequality of
-CharacterSumsOverFiniteFields. Layer 1 is the univariate Hermite theory: the jet equivalence, the
+power substitution and its nonvanishing test on the univariate root-count inequality over an
+arbitrary field, from Tau Ceti's Taylor coefficients at a root and Mathlib's root counting. Layer 1
+is the univariate Hermite theory: the jet equivalence, the
 kernel through the Chinese remainder theorem, and the confluent Vandermonde determinant. Layer 2
 supplies the rank and coordinate adapters (full-row minors, reduction of minors, extended-ideal
 coordinates) that move a jet matrix between a number field, its ring of integers and a residue
 field. Layer 3 proves the ideal-divisibility and row-change invariances of such minors, including
 the Gram change-of-family identity. Layer 4 bounds determinants from above by row bounds and Gram
 norms and bounds the entries of a jet matrix. Layer 5 bounds a nonzero integral determinant from
-below through its norm. Layers 2–5 use Layer 1 only in the examples; Layer 0 is used by nothing
-later, so an implementer of the determinant estimates starts at Layer 2.
+below through its norm. Layers 2, 3 and 5 use Layers 0–1 only in their examples, and Layer 4
+uses them only to name the jet matrices of 0.2 and 1.3 in the row packaging of 4.3, so an
+implementer of the determinant estimates starts at Layer 2.
 
 ## Layer 0: finite polynomial spaces, jets and the Frobenius substitution
 
@@ -227,10 +260,13 @@ gives the spaces `MvPolynomial.restrictDegree` compares with, the total-degree b
 `MvPolynomial.restrictTotalDegree`,
 the weighted strip `{μ | μ 0 < B, μ 0 + B μ 1 < N}` is the space the power substitution of 0.3 is
 injective on, and for `n = 1` the box `{μ | μ 0 < N}` corresponds to `Polynomial.degreeLT R N`
-under Mathlib's `MvPolynomial.pUnitAlgEquiv`. Multivariate total degree and a general support
-restriction are different notions and are never identified. *Needs:* Mathlib
-`MvPolynomial.restrictSupport`, `basisRestrictSupport`, `restrictTotalDegree`, `restrictDegree`,
-`Polynomial.degreeLT`.
+under Mathlib's `MvPolynomial.uniqueAlgEquiv (Fin 1)`. Multivariate total degree and a general
+support restriction are different notions and are never identified. (The monomials form a basis
+of the polynomial ring: Mathlib `MvPolynomial.basisMonomials`, of which `basisRestrictSupport` is
+the restriction to `T`; P, Lemma 2.6.1 and (2.34), pp. 68–69, write every polynomial and its
+normalised derivatives in this basis.) *Needs:* Mathlib `MvPolynomial.restrictSupport`,
+`basisRestrictSupport`, `basisMonomials`, `restrictTotalDegree`, `restrictDegree`,
+`uniqueAlgEquiv`, `Polynomial.degreeLT`.
 
 **Checks.**
 
@@ -257,7 +293,10 @@ over `R ⧸ J` is the reduction of the map over `R`; the ordinary-derivative jet
 `k e_s` equals `(k)!` times the Hasse one (Tau Ceti `factorial_smul_hasseDeriv_single`), so its
 matrix is the Hasse matrix with row `i` multiplied by `(d i s)!`. The empty point family gives the
 zero map into the zero module, the empty support gives the zero map, and a zero multi-index gives
-plain evaluation. *Needs:* 0.1; Tau Ceti `MvPolynomial.hasseDeriv`, `hasseDeriv_monomial`,
+plain evaluation. (IK, the definition of the Hasse derivative `E^k X^n = choose n k · X^(n−k)`,
+p. 282, in one variable over a field; P, Lemma 2.6.1, (2.34) and the normalisation
+`∂_d = (1 / d!) ∂^d`, pp. 68–69, for the product of binomial coefficients in several variables over
+`ℤ`.) *Needs:* 0.1; Tau Ceti `MvPolynomial.hasseDeriv`, `hasseDeriv_monomial`,
 `hasseDeriv_map`, `factorial_smul_hasseDeriv_single`.
 
 **Checks.**
@@ -286,8 +325,9 @@ the support bound (the exponents of the image are the weights of the exponents o
 scalar-extension naturality `powerSubstitution B (map f F) = map f (powerSubstitution B F)`, and the
 evaluation formula `eval a (powerSubstitution B F) = MvPolynomial.eval ![a, a^B] F`. For `B = 0`
 the substitution sends `W` to `1` and is not injective on any strip containing `W` and `1`.
-(IK, Lemma 11.17, the substitution `h(X, X^q)`; P, §3.3, Theorem 3.3.7 and Exercise 3.5, the
-Kronecker substitution `x_i ↦ t^(d^(i−1))`.) *Needs:* Tau Ceti `MvPolynomial.coeff_aeval_X_pow_weight`,
+(IK, Lemma 11.17, p. 284, the substitution `h(X, X^q)`; P, §3.3, the proof of Theorem 3.3.7,
+p. 87, and Exercise 3.5(a), p. 89, the Kronecker substitution `x_i ↦ t^(d^(i−1))`, injective on
+monomials of partial degrees below `d`.) *Needs:* Tau Ceti `MvPolynomial.coeff_aeval_X_pow_weight`,
 `injOn_aeval_X_pow`, `linearIndependent_aeval_X_pow`; Mathlib `MvPolynomial.aeval`, `degreeOf_lt_iff`.
 
 **Checks.**
@@ -316,10 +356,12 @@ write `F = ∑_i f_i(W) Z^i` over the `Z`-exponents `i`, so that
 `(T + a)^(ν 0) ((T + a)^p − a^p)^(ν 1) = (T + a)^(ν 0) T^(p ν 1)` in characteristic `p`, which
 vanish for `k < p` unless `ν 1 = 0`, and then equal `choose (ν 0) k a^(ν 0 − k)`, the coefficient of
 the evaluated `∂_Z^[k]`. Record the failure at `k = p` with the witness `F = W`:
-`D^[p] (X^p) = 1` while `∂_Z^[p] W = 0`. Both identities hold over every commutative ring of
+`D^[p] (X^p) = 1` (IK, p. 283) while `∂_Z^[p] W = 0`. Both identities hold over every commutative
+ring of
 characteristic `p`, with no bound on the number of elements. Give the scalar-extension and
 evaluation versions: `eval a (D^[k] (powerSubstitution p F)) = MvPolynomial.eval ![a, a^p] (∂_Z^[k] F)`
-for `k < p`, and the same with ordinary derivatives for every `k`. (IK, Lemma 11.17, for a finite
+for `k < p`, and the same with ordinary derivatives for every `k`. (IK, Lemma 11.17, p. 284, for a
+finite
 field with `q` elements and `k < q`; the proof is the vanishing of `choose (p j) k` in characteristic
 `p` for `0 < k < p`, which is characteristic-`p` ring arithmetic.) *Needs:* 0.3; Tau Ceti
 `MvPolynomial.eval_hasseDeriv_aeval_X_pow`, `taylor_aeval_X_pow`, `hasseDeriv_monomial`; Mathlib
@@ -347,7 +389,10 @@ multi-indices `k e_0`, `k ≤ K`, that the ordinary and Hasse jet maps have the 
 same rank, the ordinary matrix being the Hasse matrix with row `(i, k)` scaled by the unit `k!`.
 For `k ≥ p` no such comparison holds: `D^p` vanishes identically in characteristic `p` while
 `D^[p] X^p = 1`. The ordinary substitution identity of 0.4 holds at every order and supplies no
-multiplicity criterion at orders `≥ p`. *Needs:* 0.2; Mathlib `Polynomial.factorial_smul_hasseDeriv`,
+multiplicity criterion at orders `≥ p`. (IK, pp. 282–283: in characteristic `p` the ordinary
+derivatives of `X^p` of every order `≥ 1` vanish at `0`, while its Hasse derivatives of orders
+`1, …, p − 1` vanish and that of order `p` is `1`.) *Needs:* 0.2; Mathlib
+`Polynomial.factorial_smul_hasseDeriv`,
 `Nat.factorial`, `CharP.cast_eq_zero_iff`, `Nat.Prime.dvd_factorial`.
 
 **Checks.**
@@ -362,14 +407,22 @@ Prove `exists_nonzero_ordinary_jet_on_frobenius_graph`: over a field `K` of char
 a nonzero `F ∈ MvPolynomial (Fin 2) K` with `Z`-degree below `p`, a finite set `S ⊆ K`, an order
 bound `m < p` and `natDegree (powerSubstitution p F) < #S · (m + 1)`, there are `a ∈ S` and `k ≤ m`
 with `MvPolynomial.eval ![a, a^p] (∂_Z^k F) ≠ 0`. Route: `f = powerSubstitution p F` is nonzero by
-0.3; the contrapositive of the root-count inequality of CharacterSumsOverFiniteFields §4.1 gives
-`a ∈ S` and `k ≤ m` with `D^[k] f (a) ≠ 0`; by 0.4 this is `MvPolynomial.eval ![a, a^p] (∂_Z^[k] F)`,
-and by 0.5 the ordinary jet `∂_Z^k F` at the same point is nonzero since `k ≤ m < p`. Every
-hypothesis is used: `F ≠ 0` and the `Z`-degree bound for nonvanishing of `f`, the degree inequality
-for the multiplicity bound, `m < p` for the passage to ordinary jets. The test says nothing about the
-rank of any particular jet matrix, and Hermite surjectivity is not an input. (IK, Lemma 11.16 for the
-multiplicity criterion and Lemma 11.17 for the substitution.) *Needs:* 0.3, 0.4, 0.5;
-CharacterSumsOverFiniteFields §4.1.
+0.3 (`F` and `0` both have `Z`-degree below `p`). Suppose `D^[k] f (a) = 0` for every `a ∈ S` and
+every `k ≤ m`. At each `a ∈ S` the Hasse derivative of `f` of order `rootMultiplicity a f` does not
+vanish at `a` (Tau Ceti `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero`), so
+`m + 1 ≤ rootMultiplicity a f`; summing over the distinct points of `S`,
+`#S · (m + 1) ≤ ∑_{a ∈ S} rootMultiplicity a f ≤ card (roots f) ≤ natDegree f` (Mathlib
+`Polynomial.count_roots`, `Multiset.toFinset_sum_count_eq`, `Polynomial.card_roots'`), against the
+degree hypothesis. This is the root-count inequality over an arbitrary field of characteristic `p`;
+CharacterSumsOverFiniteFields §4.1 states it over a finite field. So there are `a ∈ S` and `k ≤ m`
+with `D^[k] f (a) ≠ 0`; by 0.4 this is `MvPolynomial.eval ![a, a^p] (∂_Z^[k] F)`, and by 0.5 the
+ordinary jet `∂_Z^k F` at the same point is nonzero since `k ≤ m < p`. Every hypothesis is used:
+`F ≠ 0` and the `Z`-degree bound for nonvanishing of `f`, the degree inequality for the multiplicity
+bound, `m < p` for the passage to ordinary jets. The test says nothing about the rank of any
+particular jet matrix, and Hermite surjectivity is not an input. (IK, Lemma 11.16, pp. 283–284, for
+the multiplicity criterion over any field and Lemma 11.17, p. 284, for the substitution.) *Needs:*
+0.3, 0.4, 0.5; Tau Ceti `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero`; Mathlib
+`Polynomial.count_roots`, `Polynomial.card_roots'`, `Multiset.toFinset_sum_count_eq`.
 
 **Checks.**
 
@@ -392,8 +445,9 @@ of rank `2`.
 
 0.1 needs Mathlib only. 0.2 needs 0.1 and Tau Ceti's multivariate Hasse derivative. 0.3 needs Tau
 Ceti's Kronecker substitution. 0.4 needs 0.3, Tau Ceti's Kronecker chain rule, and for its
-coefficientwise route GrothendieckNotesLemmas §1.4. 0.5 needs 0.2 and Mathlib. 0.6 needs 0.3–0.5 and
-CharacterSumsOverFiniteFields §4.1. Nothing later in this roadmap depends on Layer 0.
+coefficientwise route GrothendieckNotesLemmas §1.4. 0.5 needs 0.2 and Mathlib. 0.6 needs 0.3–0.5,
+Tau Ceti's Taylor coefficients at a root and Mathlib's root counting. Later layers use Layer 0 only
+in the row packaging of 4.3, which names the jet matrix of 0.2, and in examples.
 
 ## Layer 1: Hermite interpolation and the confluent Vandermonde determinant
 
@@ -416,7 +470,8 @@ for every `f` of degree below `M`. Prove coefficient-extension naturality: for a
 interpolating polynomial of `K`-valued data has coefficients in `K`. Prove the ordinary-derivative
 version: when `k!` is a unit of `K` for every `k < max m i` (in particular in characteristic `0` or
 when `max m i ≤ p` in characteristic `p`), the ordinary jet map `f ↦ (D^k f (a i))` is bijective
-too, its coordinates being `k!` times the Hasse ones. (IK, Lemma 11.16, the multiplicity criterion
+too, its coordinates being `k!` times the Hasse ones. (IK, Lemma 11.16, pp. 283–284, the
+multiplicity criterion
 through Hasse jets, valid in every characteristic.) *Needs:* 1.2; Mathlib `Polynomial.degreeLT`,
 `degreeLTEquiv`, `Polynomial.hasseDeriv`, `Polynomial.leval`, `LinearMap.pi`,
 `Polynomial.factorial_smul_hasseDeriv`.
@@ -444,8 +499,10 @@ arbitrary multiplicities over an arbitrary field and asserting a linear equivale
 Prove `all_jets_vanish_iff_dvd`: for injective `a` and every `f ∈ K[X]`, all jets `D^[k] f (a i)`
 with `k < m i` vanish iff `P = ∏ i, (X − C (a i))^(m i)` divides `f`. Route: at one node,
 `(X − C a)^m ∣ f` iff `D^[k] f (a) = 0` for `k < m`, by Taylor's formula
-`f = ∑_k (D^[k] f (a)) (X − a)^k` (Mathlib `taylor_coeff`, `taylor_eval`; this is the multiplicity
-criterion of CharacterSumsOverFiniteFields §4.1 in the form that admits `f = 0`); the factors
+`f = ∑_k (D^[k] f (a)) (X − a)^k` (Mathlib `taylor_coeff`, `X_sub_C_pow_dvd_iff`, `X_pow_dvd_iff`;
+this is the multiplicity criterion in the divisibility form, which admits `f = 0` and holds over
+every field, while CharacterSumsOverFiniteFields §4.1 states it through `rootMultiplicity` for a
+nonzero `f` over a finite field); the factors
 `(X − C (a i))^(m i)` are pairwise coprime for injective `a` (Mathlib `pairwise_coprime_X_sub_C`), so
 divisibility by each is divisibility by the product. For the restriction to `degreeLT K M` the
 kernel is zero, since a nonzero multiple of the monic `P` has degree at least `M`; the restricted
@@ -454,8 +511,10 @@ kernel is never identified with the ideal `(P)`. Give the quotient comparison: `
 the pairwise coprime ideals, and the local factor `K[X] ⧸ ((X − C a)^m)` has the Taylor coordinates
 `f ↦ (D^[k] f (a))_{k < m}` as a `K`-linear isomorphism with `Fin m → K` (Mathlib
 `Polynomial.taylor`); the Hermite jet map is the composite of the projection to the quotient, the
-Chinese remainder isomorphism and the local Taylor coordinates. (IK, Lemma 11.16.) *Needs:* Mathlib
-`Polynomial.taylor_coeff`, `taylor_eval`, `pairwise_coprime_X_sub_C`,
+Chinese remainder isomorphism and the local Taylor coordinates. (IK, Lemma 11.16, pp. 283–284, for
+the direction from vanishing jets to divisibility, and the remark on Taylor coefficients,
+pp. 282–283, for the converse.) *Needs:* Mathlib `Polynomial.taylor_coeff`, `taylor_eval`,
+`X_sub_C_pow_dvd_iff`, `X_pow_dvd_iff`, `pairwise_coprime_X_sub_C`,
 `Ideal.quotientInfRingEquivPiQuotient`, `Polynomial.hasseDeriv_eq_zero_of_lt_natDegree`.
 
 **Checks.**
@@ -481,22 +540,32 @@ Prove `det_confluentVandermonde`: `det (confluentVandermonde a m) = ∏_{i < j} 
 over every commutative ring, with no injectivity hypothesis. Route: the Newton–Hermite basis
 `N_{(i,k)} = (X − a_i)^k ∏_{i' < i} (X − a_{i'})^(m_{i'})`, ordered lexicographically, has
 `deg N_{(i,k)} = finSigmaFinEquiv ⟨i, k⟩` and leading coefficient `1`, so the change of basis from
-the monomials is unitriangular and `det V` equals the determinant of the jet matrix of the
-`N_{(i,k)}`, which is block lower triangular with diagonal blocks the jets of
-`(X − a_i)^k ∏_{i' < i} (X − a_{i'})^(m_{i'})` at `a_i`, lower unitriangular in `k` with diagonal
-entry `∏_{i' < i} (a_i − a_{i'})^(m_{i'})`; the product over `k < m_i` and over `i` gives the formula
-(Mathlib `det_of_isLowerTriangular`, `det_mul`). Record the ordinary-derivative matrix with entries
+the monomials is upper unitriangular and `det V` equals the determinant of the jet matrix of the
+`N_{(i,k)}`. That matrix is lower triangular in the lexicographic order: the jet of order `k` at
+`a_i` of `N_{(i',k')}` vanishes when `i' > i` (the factor `(X − a_i)^(m_i)` with `k < m_i`) and when
+`i' = i`, `k' > k` (the factor `(X − a_i)^(k')`). Its diagonal entry at `(i, k)` is the constant
+`∏_{i' < i} (a_i − a_{i'})^(m_{i'})`, independent of `k`, by the Leibniz rule and the jets of
+`(X − a_i)^k` at `a_i`; the product over `k < m_i` and over `i` gives the formula (Mathlib
+`det_of_isLowerTriangular`, `det_of_isUpperTriangular`, `det_mul`). Record the ordinary-derivative
+matrix with entries
 `D^k (X^j) (a i)`: its determinant is `(∏ i, ∏_{k < m i} k!) · det (confluentVandermonde a m)`,
 each row being scaled by `k!`. Prove the symmetries: permuting the nodes by `σ` with the
 multiplicities permutes the row blocks and multiplies the determinant by the sign of the induced
 permutation of `Fin M`, consistent with the formula since each transposed pair `(i, j)` changes the
 sign of `(a_j − a_i)^(m_i m_j)` exactly when `m_i m_j` is odd; translation `a ↦ a + c` leaves the
 determinant unchanged; scaling `a ↦ u a` multiplies it by `u^(∑_{i<j} m_i m_j)`. For `m = 1` the
-matrix is `Matrix.vandermonde a` and the formula is Mathlib's `det_vandermonde`. The determinant is a
-unit of a field iff `a` is injective (or `M ≤ 1`), which gives 1.1 a second proof. (Laurent, §6.2,
-for determinants of this shape in interpolation; the formula is classical.) *Needs:* 1.1;
-Mathlib `finSigmaFinEquiv`, `finSigmaFinEquiv_apply`, `hasseDeriv_monomial`, `det_vandermonde`,
-`det_of_isLowerTriangular`, `det_mul`, `det_submatrix_equiv_self`.
+matrix is `Matrix.vandermonde a` and the formula is Mathlib's `det_vandermonde`. Over a field the
+determinant is nonzero iff `a i ≠ a j` for all `i ≠ j` with `m i ≠ 0` and `m j ≠ 0`: a pair with a
+zero multiplicity contributes the factor `(a j − a i)^0 = 1`. Injective `a` is the case that gives
+1.1 a second proof. (W, proof of Lemma 3.24, p. 100, defines the transposed matrix, with rows the
+monomials, a block of columns per node and multiplicities `T_j ≥ 1`, and Exercise 3.11, p. 111,
+states its determinant as `± ∏_{i<j} (X_i − X_j)^(T_i T_j)`; here the sign is fixed by the
+lexicographic row order, as the Check `a = (1, 0)`, `m = (1, 1)` with determinant `−1` shows.)
+*Needs:* Mathlib `finSigmaFinEquiv`, `finSigmaFinEquiv_apply`, `Polynomial.hasseDeriv_monomial`,
+`Polynomial.hasseDeriv_mul`, `det_vandermonde`, `det_of_isLowerTriangular`,
+`det_of_isUpperTriangular`, `det_mul`, `det_submatrix_equiv_self`; Tau Ceti
+`Polynomial.eval_hasseDeriv_X_sub_C_pow`; the definition of `hermiteJet` (1.1) only to identify
+`confluentVandermonde a m` with its matrix over a field.
 
 **Checks.**
 
@@ -512,6 +581,9 @@ Mathlib `finSigmaFinEquiv`, `finSigmaFinEquiv_apply`, `hasseDeriv_monomial`, `de
   determinant `2`.
 - `r = 0` or `m = 0`: the `0 × 0` matrix has determinant `1`.
 - `a = (0, 0)`, `m = (1, 1)`: determinant `0 = 0^1`; the formula needs no injectivity.
+- `a = (0, 0, 1)`, `m = (1, 0, 1)`: `a` is not injective, yet the matrix is `[[1, 0], [1, 1]]`
+  with determinant `1`, the formula giving `0^0 · 1^1 · 1^0 = 1`; the nonvanishing criterion
+  quantifies over the nodes of nonzero multiplicity only, and "nonzero iff `a` injective" is false.
 
 ### Examples
 
@@ -523,9 +595,9 @@ matrix of 1.3 for this datum has determinant `1`. The confluent Vandermonde dete
 
 ### Dependencies
 
-1.1 needs 1.2 and Mathlib; 1.2 needs Mathlib and the multiplicity criterion of
-CharacterSumsOverFiniteFields §4.1 in its divisibility form; 1.3 needs 1.1 and Mathlib. Layer 1 does
-not use Layer 0.
+1.1 needs 1.2 and Mathlib; 1.2 needs Mathlib, its one-node step being Taylor's formula; 1.3 needs
+Mathlib and Tau Ceti's jets of `(X − C a)^k`, and the definition of 1.1 only to identify its matrix
+over a field. Layer 1 does not use Layer 0.
 
 ## Layer 2: rank, minors and coefficient coordinates
 
@@ -538,7 +610,10 @@ span the column space of the row-reduced form; equivalently, extend the independ
 off a nonzero minor through `linearIndependent_row_iff_isUnit` on the square submatrix. Include the
 empty case `m = 0` (the empty minor is `1`) and the consequence `m ≤ n`. Prove the converse: a
 nonzero minor `det (A.submatrix id c) ≠ 0` for some `c` implies that the rows of `A` are linearly
-independent. *Needs:* Mathlib `Matrix.rank`, `rank_eq_finrank_span_row`,
+independent. (Treil, Chapter 3, Theorem 6.1, p. 96: the rank of a nonzero matrix is the largest
+order of a nonzero minor, stated for real or complex matrices with a proof by pivots that works
+over any field; Laurent, §6.1, p. 219, for maximal minors of a matrix of values as interpolation
+determinants.) *Needs:* Mathlib `Matrix.rank`, `rank_eq_finrank_span_row`,
 `linearIndependent_row_iff_isUnit`, `Matrix.submatrix`, `det_fin_zero`.
 
 **Checks.**
@@ -561,7 +636,9 @@ are independent over `K` iff the rows of `A.map (algebraMap K L)` are independen
 2.1 and the previous statement; this is stated for matrices over `K` mapped into `L`, not for
 arbitrary vectors of an unrelated `L`-space. A base change along a ring map that is not a field
 extension carries the flatness or faithful-flatness hypothesis it needs and is not inferred from the
-field case. *Needs:* 2.1; Mathlib `RingHom.map_det`, `Matrix.submatrix_map`,
+field case. (Treil, Chapter 3, formula (4.2), p. 89: the determinant is a polynomial with integer
+coefficients in the entries, so a ring homomorphism commutes with it.) *Needs:* 2.1; Mathlib
+`RingHom.map_det`, `Matrix.submatrix_map`,
 `LinearIndependent.map_injOn`.
 
 **Checks.**
@@ -574,7 +651,8 @@ field case. *Needs:* 2.1; Mathlib `RingHom.map_det`, `Matrix.submatrix_map`,
 
 ### 2.3 Coefficient matrices over a finite free algebra
 
-For a commutative ring `R`, a commutative `R`-algebra `A` with a finite basis `b : Basis ι R A`, and
+For a commutative ring `R`, a commutative `R`-algebra `A` with a finite basis
+`b : Module.Basis ι R A`, and
 an `R`-linear map `φ : V →ₗ[R] A` from a free module `V` with basis `v`, define the coefficient matrix
 of `φ` as the matrix over `R` with rows `ι` and columns the basis of `V`, entry `b.repr (φ (v j)) i`.
 Prove that it is the matrix of `φ` composed with `b.repr`, so that `φ (∑ x_j v_j)` has coordinate
@@ -585,8 +663,12 @@ direction since `J A` is spanned by `j · b i`, the other by writing `x = ∑ (b
 Give the reduction diagram: `A ⧸ J A` is free over `R ⧸ J` on the image of `b`, and the coefficient
 matrix over `R ⧸ J` is the entrywise reduction. The criterion concerns the extended ideal `J A`
 only, not an arbitrary ideal of `A`. Coordinate splitting `A → ι → R` is not a ring homomorphism, so
-a determinant of an `A`-valued matrix is not computed coordinatewise. *Needs:* Mathlib `Basis.repr`,
-`Ideal.map`, `Ideal.map_span`, `Submodule.mem_span`, `Basis.linearCombination_repr`.
+a determinant of an `A`-valued matrix is not computed coordinatewise. (M, Chapter 1, (4), p. 22: for an
+`R`-module `M`, `M ⧸ J M ≅ (R ⧸ J) ⊗ M` with `J M` the finite sums `∑ j_l m_l`, and p. 23: extension
+of scalars of a free module is free on the images of the basis; the reduction diagram is the case
+`M = A`, which M uses on pp. 59–60.) *Needs:* Mathlib `Module.Basis.repr`, `Ideal.map`,
+`Ideal.map_span`,
+`Submodule.mem_span`, `Module.Basis.linearCombination_repr`.
 
 **Checks.**
 
@@ -596,8 +678,10 @@ a determinant of an `A`-valued matrix is not computed coordinatewise. *Needs:* M
 - `A = ℤ[i]`, the ideal `(1 + i)` of `A` is not of the form `J A`: `1 + i` lies in it but its
   coordinates do not lie in any `J` with `J A = (1 + i)` (there is none); the criterion is stated for
   extended ideals only.
-- Determinants are not coordinatewise: over `ℤ[i]`, `det [[i]] = i` has coordinates `(0, 1)`,
-  while the coordinate matrices `[[0]]` and `[[1]]` have determinants `0` and `1`.
+- Determinants are not coordinatewise: over `ℤ[i]`, `det (diag (i, i)) = i² = −1` has coordinates
+  `(−1, 0)`, while the coordinate matrices `diag (0, 0)` and `diag (1, 1)` have determinants `0`
+  and `1`. (A `1 × 1` matrix such as `[[i]]` does not separate the two: its determinant is its
+  entry.)
 
 ### Examples
 
@@ -621,7 +705,9 @@ closed under sums and signs. Give the column form (transpose), the common-ideal 
 (`det A ∈ J^n` when every entry lies in `J`), the principal-ideal form (`r^n ∣ det A` when `r`
 divides every entry), and the scalar-row-factor form (`det (fun i j => r i * A i j) = (∏ r i) det A`).
 Apply each to every full-row minor `det (A.submatrix id c)` of a rectangular `A` whose rows lie in
-the `J i`. The empty product is `⊤` and the `0 × 0` determinant `1 ∈ ⊤`. *Needs:* Mathlib
+the `J i`. The empty product is `⊤` and the `0 × 0` determinant `1 ∈ ⊤`. (Treil, Chapter 3,
+formula (4.2), p. 89: every term of the expansion contains exactly one entry from each row and
+each column.) *Needs:* Mathlib
 `Matrix.det_apply`, `Ideal.prod_mem_prod`, `det_transpose`, `Matrix.det_smul`.
 
 **Checks.**
@@ -642,7 +728,9 @@ for `i < j` (lower unitriangular), every `A : Matrix (Fin m) (Fin n) R` and ever
 column form (`A * U` with `U` unitriangular, for square `A`), the statement that `det U = 1` is all
 that is used, closure of unitriangular matrices under products and inverses, and the composite form
 for a product of unitriangular changes. The hypothesis is on the coefficient matrix, not a structure
-assuming determinant preservation. *Needs:* Mathlib `Matrix.det_mul`, `det_of_isLowerTriangular`,
+assuming determinant preservation. (Treil, Chapter 3, p. 81, the determinant of a triangular
+matrix is the product of its diagonal entries, and Theorem 3.5, p. 82, the determinant of a
+product.) *Needs:* Mathlib `Matrix.det_mul`, `det_of_isLowerTriangular`,
 `det_of_isUpperTriangular`, `Matrix.submatrix`.
 
 **Checks.**
@@ -667,7 +755,11 @@ determinant, and a diagonal `U = diag (r i)` multiplies it by `∏ (r i)^2`. Pro
 for `U : Matrix ι ι ℂ` and `v` in a complex inner product space,
 `gram ℂ w = U.map conj * gram ℂ v * Uᵀ` (the inner product is conjugate-linear in its first
 argument) and `det (gram ℂ w) = ((‖det U‖^2 : ℝ) : ℂ) · det (gram ℂ v)`, since
-`det (U.map conj) = conj (det U)`. *Needs:* Mathlib `Matrix.gram`, `gram_apply`, `inner_sum`,
+`det (U.map conj) = conj (det U)`. (M, Chapter 2, "Review of bilinear forms", formula (6), p. 32:
+for a bilinear form and a family `f_k = ∑_i a_{ki} e_i`, the matrix of values on the `f` is
+`A (ψ(e_i, e_j)) Aᵀ` and its determinant is `det(A)^2` times that on the `e`; the real case here is
+that computation for the inner product, the complex form its sesquilinear variant.) *Needs:* Mathlib
+`Matrix.gram`, `gram_apply`, `inner_sum`,
 `sum_inner`, `inner_smul_left`, `inner_smul_right`, `det_mul`, `det_transpose`, `RingHom.map_det`.
 
 **Checks.**
@@ -695,7 +787,10 @@ the cofactor is unrestricted. Prove `hasseDeriv_prod_mem_ideal_pow`, the same wi
 Ordinary hypotheses do not imply Hasse hypotheses: for `X^p` over `ℤ`, `D^p (X^p) = p!` while
 `D^[p] (X^p) = 1`. No factorial is cancelled, and no `K < p` enters: the bound `K < p` of 0.5
 concerns multiplicity detection in a residue field, not these integral statements, which hold for
-every `K`. Include `card ι = 0` (`J^0 = ⊤`), a zero factor, and `K = 0`. *Needs:* Mathlib
+every `K`. Include `card ι = 0` (`J^0 = ⊤`), a zero factor, and `K = 0`. (IK, Lemma 11.14 and
+(11.22), p. 283: the Hasse derivative of order `k` of a product of `r` factors is the sum over
+`j_1 + ⋯ + j_r = k` of the products of the Hasse derivatives of orders `j_l`, stated over a field
+and valid over every commutative ring by Mathlib's `hasseDeriv_mul`.) *Needs:* Mathlib
 `Polynomial.derivative_mul`, `Polynomial.hasseDeriv_mul`, `Finset.prod`, `Submodule.mul_mem_mul`,
 `Submodule.pow_mem_pow`; Tau Ceti `MvPolynomial.hasseDeriv_mul` and Mathlib `MvPolynomial.pderiv_mul`
 for the multivariate forms.
@@ -705,10 +800,12 @@ for the multivariate forms.
 - `ι` empty: the conclusion is membership in `J^0 = ⊤`.
 - One factor `f = X`, `g = 1`, `a = 0`, `J = (0)`, `K = 0`: `f(0) = 0 ∈ J` and the product `X`
   evaluates to `0 ∈ J^1`.
-- Two factors `X, X`, `a = 0`, `J = (0)`, `K = 1`: `D(X²)(0) = 0 ∈ J²`; at `K = 2`, `D²(X²)(0) = 2 ∉ J²`
-  over `ℤ` (while `D² X (0) = 0 ∈ J`), so the bound `K` on the orders is essential.
-- `f = (X), g = X^5`, `J = (0)`, `a = 0`, `K = 3`: `D^k (X^6)(0) = 0` for `k ≤ 3`, in `J^1`; the
-  cofactor adds no hypothesis and no factor.
+- Two factors `X, X` over `ℤ`, `g = 1`, `a = 0`, `J = (0)`, `K = 0`: the hypothesis `X(0) = 0 ∈ J`
+  holds, and the conclusion `X²(0) = 0 ∈ J²` holds; at the order `2 > K` the derivative
+  `D²(X²)(0) = 2 ∉ J²`, so the conclusion is limited to orders `≤ K`. With `K = 1` the hypothesis
+  already fails, `D X (0) = 1 ∉ J`.
+- `f = (X⁴)`, `g = X⁵`, `J = (0)`, `a = 0`, `K = 3`: `D^k (X⁴)(0) = 0` for `k ≤ 3`, and
+  `D^k (X⁹)(0) = 0 ∈ J^1` for `k ≤ 3`; the cofactor adds no hypothesis and no factor.
 - `R = ℤ`, `p = 3`, one factor `X³`, `J = (3)`, `a = 0`: ordinary derivatives at `0` are
   `0, 0, 0, 6 ∈ (3)` for `k ≤ 3`, while the Hasse derivatives are `0, 0, 0, 1 ∉ (3)`; the Hasse
   statement needs Hasse hypotheses.
@@ -737,8 +834,11 @@ over a commutative ring (the row-dependent refinement of Mathlib's `Matrix.det_l
 an embedding `σ : K →+* ℂ` applied entrywise (`‖σ (det A)‖ ≤ n! ∏ B i` when `‖σ (A i j)‖ ≤ B i`).
 State the logarithmic consequence: if `det A ≠ 0` and every `B i > 0`, then
 `log ‖det A‖ ≤ log (n!) + ∑ i, log (B i)`. For `n = 0` the determinant is `1`, the product is
-empty and the logarithm is `0`. (W, §§2.4 and 10.2, the shape of the archimedean estimate of an
-interpolation determinant; the bound itself is the triangle inequality on the Leibniz expansion.)
+empty and the logarithm is `0`. (W, Lemma 2.8, p. 43, whose bound for an interpolation
+determinant carries the factor `L! ∏_λ max_μ` of row-wise maxima, taken of the functions of row `λ`
+on a circle of radius `R`, and
+§10.2.2, p. 334, for the several-variable estimate; the bound itself is the triangle inequality
+on the expansion of Treil, Chapter 3, formula (4.2), p. 89, which has `n!` terms.)
 *Needs:* Mathlib `Matrix.det_apply'`, `norm_sum_le`, `norm_prod`, `Fintype.card_perm`,
 `Matrix.det_le`, `Real.log_le_log`, `Real.log_mul`, `Real.log_prod`.
 
@@ -759,14 +859,18 @@ covered; and `re_det_gram_nonneg` with `det_gram_ne_zero_iff_linearIndependent`.
 logarithmic form: for a linearly independent real family, `0 < det (gram ℝ v)` and
 `log (det (gram ℝ v)) ≤ ∑ i, 2 log ‖v i‖`, with the complex form on the real part. Prove the
 adapter to a square matrix: for `A : Matrix (Fin n) (Fin n) ℝ` with rows `v i = A i` in
-`EuclideanSpace ℝ (Fin n)`, `det (gram ℝ v) = (det A)^2` and hence `|det A| ≤ ∏ i, ‖A i‖`, the
-classical Hadamard inequality, sharper than 4.1 once the row norms are compared with
-`√n · max_j |A i j|`: the two bounds then differ by the factor `n! / n^(n/2)`, which exceeds `1`
-from `n = 3` on. The factorial entry bound of 4.1 never replaces this
-estimate in an adapter: a consumer that has Euclidean row norms takes this section. *Needs:* Tau
-Ceti `Matrix.det_gram_le_prod_norm_sq`, `re_det_gram_le_prod_norm_sq`, `re_det_gram_le_pow`,
-`re_det_gram_nonneg`, `det_gram_eq_norm_det_sq`; Mathlib `Matrix.det_gram_ne_zero_iff_linearIndependent`,
-`Matrix.PosSemidef.det_nonneg`, `Real.log_le_log`.
+`EuclideanSpace ℝ (Fin n)`, `det (gram ℝ v) = (det A)^2` (Tau Ceti
+`OrthonormalBasis.det_gram_eq_norm_det_sq` for the standard orthonormal basis
+`EuclideanSpace.basisFun (Fin n) ℝ`, indexed by the same `Fin n` as the rows) and hence
+`|det A| ≤ ∏ i, ‖A i‖`, the classical Hadamard inequality, sharper than 4.1 once the row norms are
+compared with `√n · max_j |A i j|`: the two bounds then differ by the factor `n! / n^(n/2)`, which
+exceeds `1` from `n = 3` on. The factorial entry bound of 4.1 never replaces this
+estimate in an adapter: a consumer that has Euclidean row norms takes this section. (W, proof of
+Lemma 3.25, p. 101: `|det (a_{λμ})|^2 ≤ ∏_λ ∑_μ |a_{λμ}|^2` for an `L × L` complex matrix.) *Needs:*
+Tau Ceti `Matrix.det_gram_le_prod_norm_sq`, `Matrix.re_det_gram_le_prod_norm_sq`,
+`Matrix.re_det_gram_le_pow`, `Matrix.re_det_gram_nonneg`, `OrthonormalBasis.det_gram_eq_norm_det_sq`,
+`OrthonormalBasis.norm_det_le_prod_norm`; Mathlib `Matrix.det_gram_ne_zero_iff_linearIndependent`,
+`EuclideanSpace.basisFun`, `Matrix.PosSemidef.det_nonneg`, `Real.log_le_log`.
 
 **Checks.**
 
@@ -793,9 +897,12 @@ arbitrary finite support `T`: for `F ∈ restrictSupport ℂ T` with `‖coeff �
 Package the row bounds of a jet matrix of 0.2 or 1.3: row `(i, d)` of the matrix of
 `T`-supported polynomials has entries bounded by `∏_s choose (μ s) (d s) (A i s)^(μ s − d s)`, so
 4.1 applies with `B_(i,d)` the maximum over `μ ∈ T`, and 4.2 applies with the Euclidean norm of the
-row. *Needs:* Mathlib `Polynomial.hasseDeriv_coeff`, `Polynomial.eval_eq_sum_range`,
+row. (IK, the definition `E^k X^n = choose n k · X^(n−k)`, p. 282, for the one-variable coefficient
+formula; P, Lemma 2.6.1 and (2.34), pp. 68–69, for the product of binomial coefficients in several
+variables.) *Needs:* Mathlib `Polynomial.hasseDeriv_coeff`, `Polynomial.eval_eq_sum_range`,
 `norm_sum_le`, `norm_mul`, `norm_pow`; Tau Ceti `MvPolynomial.hasseDeriv_coeff`,
-`abv_coeff_hasseDeriv_le`; DiophantineApproximationAndTranscendence §1.1 for the length form.
+`abv_coeff_hasseDeriv_le`; DiophantineApproximationAndTranscendence §1.1 for the length form; 0.2
+and 1.3 for the row packaging only, to name the jet matrices.
 
 **Checks.**
 
@@ -807,9 +914,13 @@ row. *Needs:* Mathlib `Polynomial.hasseDeriv_coeff`, `Polynomial.eval_eq_sum_ran
 
 ### Examples
 
-The confluent Vandermonde matrix for `a = (0, 1)`, `m = (2, 1)` over `ℂ` has row bounds
-`B = (1, 1, 1)` from 4.3 with `H = 1`, `A = 1`, and 4.1 gives `|det| = 1 ≤ 3! = 6`; its rows have
-Euclidean norms `1, 1, √3`, and 4.2 gives `1 ≤ √3`.
+The confluent Vandermonde matrix for `a = (0, 1)`, `m = (2, 1)` over `ℂ`, with rows
+`[1, 0, 0]`, `[0, 1, 0]`, `[1, 1, 1]` on the support `T = {0, 1, 2}`, has the row bounds
+`B = (1, 1, 1)` from the packaging of 4.3 with the per-node bounds `A = (0, 1)` (`A_0 = |a_0| = 0`,
+with `0^0 = 1`), and 4.1 gives `|det| = 1 ≤ 3! · 1 = 6`. With the common bound `A = 1` at both
+nodes the packaging gives `B = (1, 2, 1)` instead, the row `(0, 1)` being bounded by
+`choose 2 1 · 1 = 2`, and 4.1 gives `1 ≤ 12`. Its rows have Euclidean norms `1, 1, √3`, and 4.2
+gives `1 ≤ √3`.
 
 ### Dependencies
 
@@ -830,7 +941,10 @@ prove: if `a = (m : 𝓞 K)^e · b` with `a, b ∈ 𝓞 K` and `m ∈ ℤ`, then
 product over the complex embeddings, `(Algebra.norm ℚ a : ℂ) = ∏_{σ : K →ₐ[ℚ] ℂ} σ a`
 (Mathlib `norm_eq_prod_embeddings`). Nonvanishing of norms needs the domain hypothesis: in the
 split algebra `ℚ × ℚ` the element `(1, 0)` is nonzero with norm `0`. (M, Chapter 2, "Review of
-norms and traces".) *Needs:* Mathlib `Algebra.norm_algebraMap`, `Algebra.norm_mul`,
+norms and traces", p. 31: `Nm(β β') = Nm(β) Nm(β')` and `Nm(a) = a^n` for `a` in the base ring of
+a free extension of rank `n`; Corollary 2.20, p. 32: the norm is the product of the conjugates
+under the embeddings.) *Needs:* Mathlib `Algebra.norm_algebraMap`, `map_mul` for the monoid
+homomorphism `Algebra.norm ℤ`,
 `norm_ne_zero_iff`, `norm_eq_prod_embeddings`, `NumberField.RingOfIntegers.rank`,
 `Algebra.coe_norm_int`.
 
@@ -852,8 +966,9 @@ divisibilities at finitely many distinct primes into the product divisibility (c
 multiply, `Nat.Coprime.mul_dvd_of_dvd_of_dvd` and Mathlib `Finset.prod_primes_dvd`). Apply the
 package to a determinant `δ ∈ 𝓞 K` after its integrality, divisibility (Layer 3) and embedding
 bounds (Layer 4) are in hand: `∑ e_p log p ≤ log |norm δ| ≤ n log C`. The nonvanishing of `δ` is a
-hypothesis of the lower bound and is never derived here. (M, Chapter 2, "Review of norms and
-traces"; W, §10.2, for the use in interpolation determinants.) *Needs:* 5.1; Mathlib
+hypothesis of the lower bound and is never derived here. (M, Chapter 2, Corollary 2.20, p. 32, for
+the norm as the product over the embeddings; W, §10.2, pp. 329–356, for the use in interpolation
+determinants.) *Needs:* 5.1; Mathlib
 `norm_eq_prod_embeddings`, `Int.le_of_dvd`, `Real.log_le_log`, `Real.log_prod`,
 `Nat.Coprime.mul_dvd_of_dvd_of_dvd`, `Finset.prod_primes_dvd`.
 
@@ -900,13 +1015,22 @@ exponent counts and parameter choices stay with the consumer.
 ## References
 
 - **[IK]** H. Iwaniec and E. Kowalski, *Analytic Number Theory*, Chapter 11, Sums over finite
-  fields (AMS Colloquium Publications 53, 2004), §11.6, Lemma 11.16, pp. 283–284, and Lemma 11.17,
-  p. 284; author-page copy of the chapter.
-- **[P]** L. Pottmeyer, *Diophantine Approximation*, lecture notes, version of 17 January 2022,
-  §3.3, Theorem 3.3.7 and Exercise 3.5, pp. 91–95.
-- **[M]** J. S. Milne, *Algebraic Number Theory*, version 3.08 (2020), Chapter 2, Rings of
-  Integers, the review of norms and traces.
+  fields (AMS Colloquium Publications 53, 2004), §11.6: the definition of the Hasse derivative and
+  the remark on Taylor coefficients, pp. 282–283; Lemma 11.14 and (11.22), p. 283; Lemma 11.16,
+  pp. 283–284; Lemma 11.17, p. 284; author-page copy of the chapter.
+- **[P]** L. Pottmeyer, *Diophantine Approximation*, lecture notes, version of 17 January 2022:
+  Lemma 2.6.1 and (2.34), pp. 68–69; §3.3 (pp. 85–89), the proof of Theorem 3.3.7, p. 87, and
+  Exercise 3.5, p. 89. Page numbers are those printed on the pages.
+- **[M]** J. S. Milne, *Algebraic Number Theory*, version 3.08 (2020): Chapter 1, (4), p. 22, and
+  extension of scalars, p. 23; Chapter 2, the review of norms and traces, p. 31, Corollary 2.20,
+  p. 32, and the review of bilinear forms, formula (6), p. 32; Chapter 3, pp. 59–60.
 - **[Laurent]** M. Laurent, *Sur quelques résultats récents de transcendance*, Astérisque 198–200
-  (1991), 209–230, §6.2, determinants in interpolation.
+  (1991), 209–230, §6.1, p. 219: interpolation determinants as minors of a matrix of values.
 - **[W]** M. Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups* (Grundlehren 326,
-  2000), §§2.4 and 10.2, interpolation determinants and their archimedean and arithmetic estimates.
+  2000): Lemma 2.8, p. 43; the proof of Lemma 3.24, p. 100 (the confluent Vandermonde matrix), and
+  Exercise 3.11, p. 111 (its determinant, up to sign); the proof of Lemma 3.25, p. 101 (Hadamard's
+  inequality); §10.2, pp. 329–356, interpolation determinants and their archimedean and arithmetic
+  estimates, with the analytic upper bound in §10.2.2, p. 334.
+- **[Treil]** S. Treil, *Linear Algebra Done Wrong* (2017 version), author-page copy, Chapter 3:
+  the determinant of a triangular matrix, p. 81; Theorem 3.5, p. 82; formula (4.2), p. 89;
+  Theorem 6.1, p. 96.

@@ -1,23 +1,21 @@
 import Mathlib
-import TauCeti.RingTheory.MvPolynomial.Kronecker
-import TauCeti.RingTheory.MvPolynomial.HasseDeriv.Taylor
-import TauCeti.LinearAlgebra.Matrix.AbsoluteValue
-import TauCeti.Analysis.InnerProductSpace.Gram.Hadamard
+import TauCeti.Algebra.MvPolynomial.HasseDeriv.Basic
 
 /-!
 # Polynomial interpolation and arithmetic determinants: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the three
-definitions they need (`powerSubstitution`, `hermiteJet`, `confluentVandermonde`), all with real
-bodies on native carriers. Every headline theorem of the roadmap is statable at the pins: the
-Frobenius substitution identities and nonvanishing test (Layer 0), Hermite interpolation as a
-linear equivalence, the kernel of the unrestricted jet map and the confluent Vandermonde
-determinant (Layer 1), the full-row minor and extended-ideal coordinate statements (Layer 2), the
-row-ideal, unitriangular, Gram change-of-family and product-derivative statements (Layer 3), and
-the row-dependent determinant and derivative bounds (Layer 4). The norm statements of Layer 5 are
-consequences of Mathlib's `Algebra.norm_algebraMap` and `norm_eq_prod_embeddings` and are README
-targets only.
+The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry` and against
+the pinned Mathlib and Tau Ceti, the roadmap's four end theorems (`hermiteJet_bijective`,
+`det_confluentVandermonde`, `exists_nonzero_ordinary_jet_on_frobenius_graph`,
+`det_gram_matrix_smul`) and the main statements of Layers 0–4 on which they and their consumers
+rest: the Frobenius substitution identities (Layer 0), the kernel of the unrestricted jet map
+(Layer 1), full-row minors and extended-ideal coordinates (Layer 2), row ideals, unitriangular row
+changes and ideal powers of derivatives of products (Layer 3), and the row-dependent determinant
+and derivative bounds (Layer 4). It defines only the three objects these statements need,
+`powerSubstitution`, `hermiteJet` and `confluentVandermonde`, all with real bodies on native
+carriers. Every headline theorem of the roadmap is statable at the pins. The norm statements of
+Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the multiplicativity of
+`Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets only.
 -/
 
 noncomputable section
@@ -72,8 +70,9 @@ variable {K : Type*} [Field K] {p : ℕ} [Fact p.Prime] [CharP K p]
 /-- **The Frobenius-graph nonvanishing test** (README 0.6). A nonzero bivariate `F` of `Z`-degree
 below `p` whose Frobenius substitution has degree below `#S · (m + 1)`, with `m < p`, has a
 nonzero ordinary `Z`-jet of order at most `m` at some point `(a, a ^ p)` with `a ∈ S`. Route: the
-root-count inequality of CharacterSumsOverFiniteFields §4.1 applied to `F(X, X ^ p)`, the Hasse
-identity `hasseDeriv_powerSubstitution`, and the unit `k!` for `k < p`. -/
+root-count inequality over an arbitrary field for `F(X, X ^ p)`, from Tau Ceti's
+`Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero` and Mathlib's `Polynomial.card_roots'`, the
+Hasse identity `hasseDeriv_powerSubstitution`, and the unit `k!` for `k < p`. -/
 theorem exists_nonzero_ordinary_jet_on_frobenius_graph
     (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p)
     (S : Finset K) (m : ℕ) (hm : m < p)
