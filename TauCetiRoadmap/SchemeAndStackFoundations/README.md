@@ -352,7 +352,7 @@ complete rings, including the rings of §4.2's category `Ĉ_Λ` and `AdicRing`.
 Recovering actual global sections of `Spf` additionally requires the formal-scheme
 comparison of §4.7.
 
-**From Mathlib** (`1b1ccf4b`, the content repository's manifest pin). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
+**From Mathlib** (`1b1ccf4b`, the pin in `lake-manifest.json`). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
 `AffineZariskiSite`, gluing, `Limits.pullback` of schemes; the morphism classes `Flat`, `Smooth`,
 `SmoothOfRelativeDimension`, `Etale`, `IsProper`, `IsSeparated`, `IsFinite`, `IsDominant`,
 `IsClosedImmersion`, `IsOpenImmersion`, `IsAffineHom`, `LocallyOfFiniteType`,
@@ -393,7 +393,7 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 `CategoryTheory.Abelian.Ext` from
 `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`.
 
-**From Tau Ceti** (`2fd255d9`, the content repository's manifest pin). `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`
+**From Tau Ceti** (`2fd255d9`, the pin in `lake-manifest.json`). `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`
 (`TauCeti/AlgebraicGeometry/Modules/Tilde/Basic.lean`: `M ↦ M~` is left exact, so with Mathlib's
 right exactness it is exact and has `Functor.mapDerivedCategory`);
 `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
@@ -5127,9 +5127,13 @@ the carrier this is a deformation functor in the sense of Remark 90.16.9 (06JA).
 `lifts_torsor` (for a deformation functor `F`, the lifts of `ξ ∈ F(A)` along a surjection `A' → A`
 whose kernel `I` is killed by `m_{A'}`, in particular along a small extension, when nonempty, form
 a torsor under `T_F ⊗ I`, with `act(0,x)=x`, `act(v+w,x)=act(v,act(w,x))` and a unique translator
-between any two lifts; Lemma 90.17.5 (06JI)), `PredeformationFunctor.map` (functoriality on tangent spaces), `tangent_eq_derivations`
-(for `h_R`, `T = Der_Λ(R, k)` through Tau Ceti's `derivationToTrivSqZeroExtEquivLift` with `B = M = k`,
-so that `TrivSqZeroExt k k` is `k[ε]`). Define `prorep
+between any two lifts; Lemma 90.17.5 (06JI)), `PredeformationFunctor.map` (functoriality on
+tangent spaces: a natural transformation `φ : F ⟶ G` gives the differential `dφ : T_F → T_G`, its
+component at `k[ε]`, which is `k`-linear when `F` and `G` satisfy `H2`; Definition 90.12.3 (06II),
+Lemma 90.12.4 (06IJ)), `tangent_eq_derivations`
+(for `h_R`, `T = Der_Λ(R, k)` through Tau Ceti's `derivationToTrivSqZeroExtEquivLift` for the tower
+`Λ → R → k` with `B = M = k`, so that `TrivSqZeroExt k k` is `k[ε]` and lying over the tower's point
+is the condition `ρ_{k[ε]} ∘ f = ρ_R`; Example 90.11.11 (06IC)). Define `prorep
 R : PredeformationFunctor Λ k` for `R ∈ Ĉ_Λ`, `h_R(A) = {f : R →ₐ[Λ] A | ρ_A ∘ f = ρ_R}`, with maps given by composition. The
 augmentation condition is part of the carrier, rather than an unspecified choice of a functor. *Needs:* §4.2; Mathlib
 `DualNumber`; Tau Ceti `derivationToTrivSqZeroExtEquivLift`.
@@ -5154,7 +5158,13 @@ The functor `vanishingSubterminal a b ha` has a point at `A` precisely when
 - The one-point functor satisfies `H1`–`H4` with zero tangent space.
 - For `char k ≠ 2`, the quotient of `h_{k[[t]]}` by `t ↦ −t` satisfies `H1` and
   not `H2`.
-- `T_{h_R} ≅ Der_Λ(R, k)`.
+- For `Λ = ℤ_p`, `R = ℤ_p[[x]]` and `k = 𝔽_p`, `T_{h_R}` consists of the points `x ↦ aε`, `p` of
+  them, matching `Der_Λ(R, k) ≅ 𝔽_p` through `D ↦ D(x)`; the dual of the absolute cotangent space
+  `m_R/m_R²`, with basis `p` and `x`, has `p²` elements, so the derivations are taken relative to `Λ`.
+- For `f : R → S` in `Ĉ_Λ`, precomposition is a transformation `h_S ⟶ h_R`, and its differential
+  runs `T_{h_S} → T_{h_R}`, opposite to `f`. For `Λ = k` and `t ↦ u²` from `k[[t]]` to `k[[u]]` it
+  is zero, since the point `u ↦ aε` pulls back to `t ↦ (aε)² = 0`; for `t ↦ u` it is the identity
+  of `k`, so the differential is not the zero map.
 
 - Every point preserves the fixed map to the residue field.
 - evaluation at `k` has the single point `ρ_R`.
