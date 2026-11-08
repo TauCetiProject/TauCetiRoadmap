@@ -96,7 +96,8 @@ theorem IsGrothendieckAbelian.hasKInjectiveResolutions :
 (`IsGrothendieckAbelian.instHasKInjectiveResolutions`, Section 0.2): the instance of
 `TauCeti.HasKInjectiveResolutions` on every Grothendieck abelian category, under which Tau Ceti's
 `TauCeti.kInjectiveReplacement` and `TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`
-apply to sheaves of modules on every ringed site. -/
+apply to sheaves of modules `SheafOfModules.{u} O` on every small ringed site (`SmallCategory C`,
+`O : Sheaf J RingCat.{u}`), which Mathlib makes Grothendieck abelian. -/
 instance IsGrothendieckAbelian.instHasKInjectiveResolutions :
     TauCeti.HasKInjectiveResolutions C :=
   IsGrothendieckAbelian.hasKInjectiveResolutions C
