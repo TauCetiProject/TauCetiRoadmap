@@ -25,6 +25,9 @@ Headline theorems stated here:
   locally presentable categories.
 * README 1.5, `isFinitelyAccessibleCategory_iff_exists_ind`: finitely accessible categories are
   the categories `Ind A` for small `A`.
+* README 1.6, `isFinitelyPresentable_moduleCat_iff` and `isLocallyFinitelyPresentable_moduleCat`:
+  the finitely presentable objects of `ModuleCat R` are the finitely presented modules, and
+  `ModuleCat R` is locally finitely presentable.
 * README 2.1, `isCardinalLocallyPresentable_iff_exists_isLocal`: locally `κ`-presentable
   categories are the small-orthogonality classes in presheaf categories, for maps between
   `κ`-presentable presheaves.
@@ -42,6 +45,10 @@ Headline theorems stated here:
   `preservesColimitsOfShape_algebras_ι`; README 4.3, `exists_equivalence_algebras_iff`: algebras
   of a finite-product theory, their sifted colimits, and the recognition theorem for categories
   of algebras.
+* README 4.4, `exists_isInitial_algebra_colimit_initialChain` and
+  `hasInitial_algebra_of_isAccessible`: the colimit of the initial chain, when preserved, is the
+  initial algebra, and accessible endofunctors of locally presentable categories have initial
+  algebras.
 * README 5.1, `isRightAdjoint_ι_dModels`: models of a small category with `D`-limits are
   reflective in the functor category and locally presentable.
 * README 5.2, `envelope_universal`: the `D`-envelope of a small category.
@@ -122,6 +129,16 @@ category `A` (Adámek–Rosický, Theorem 2.26, at `λ = ℵ₀`). -/
 theorem isFinitelyAccessibleCategory_iff_exists_ind (C : Type u) [Category.{v} C] :
     IsFinitelyAccessibleCategory.{w} C ↔
       ∃ (A : Type w) (_ : SmallCategory A), Nonempty (C ≌ Ind A) := sorry
+
+/-- README 1.6. A module is a finitely presentable object of `ModuleCat R` (its `Hom` functor
+preserves filtered colimits) iff it is finitely presented (Lazard 1969, Appendice; EGA IV₃, proof
+of Lemme 8.5.2.1). -/
+theorem isFinitelyPresentable_moduleCat_iff (R : Type u) [Ring R] (M : ModuleCat.{u} R) :
+    IsFinitelyPresentable.{u} M ↔ Module.FinitePresentation R M := sorry
+
+/-- README 1.6. The category of modules over a ring is locally finitely presentable. -/
+theorem isLocallyFinitelyPresentable_moduleCat (R : Type u) [Ring R] :
+    IsLocallyFinitelyPresentable.{u} (ModuleCat.{u} R) := sorry
 
 /-! ## Layer 2: orthogonality classes -/
 
@@ -241,6 +258,41 @@ theorem exists_equivalence_algebras_iff (K : Type u) [Category.{w} K] :
           (∀ X, P X → IsStronglyFinitelyPresentable X) ∧
           ∀ X, ∃ (J : Type w) (_ : SmallCategory J) (_ : IsSifted J), P.colimitsOfShape J X :=
   sorry
+
+section InitialChain
+
+variable {C : Type u} [Category.{v} C] [HasInitial C] (F : C ⥤ C)
+
+/-- The objects `Fⁿ 0` of the initial chain of `F` (README 4.4). -/
+noncomputable def initialChainObj : ℕ → C
+  | 0 => ⊥_ C
+  | n + 1 => F.obj (initialChainObj n)
+
+/-- The maps `Fⁿ 0 ⟶ Fⁿ⁺¹ 0` of the initial chain: `initial.to` first, then `F.map` of the previous
+map (README 4.4). -/
+noncomputable def initialChainMap : (n : ℕ) → initialChainObj F n ⟶ initialChainObj F (n + 1)
+  | 0 => initial.to _
+  | n + 1 => F.map (initialChainMap n)
+
+/-- The initial chain `0 ⟶ F 0 ⟶ F² 0 ⟶ ⋯` of an endofunctor (README 4.4). -/
+noncomputable def initialChain : ℕ ⥤ C :=
+  Functor.ofSequence (initialChainMap F)
+
+/-- README 4.4. If `F` preserves the colimit of its initial chain, that colimit carries an initial
+`F`-algebra structure (Adámek 1974, §I, p. 592, at the initial object). -/
+theorem exists_isInitial_algebra_colimit_initialChain [HasColimit (initialChain F)]
+    [PreservesColimit (initialChain F) F] :
+    ∃ str : F.obj (colimit (initialChain F)) ⟶ colimit (initialChain F),
+      Nonempty (IsInitial (Endofunctor.Algebra.mk (colimit (initialChain F)) str)) :=
+  sorry
+
+end InitialChain
+
+/-- README 4.4. Every accessible endofunctor of a locally presentable category has an initial
+algebra (Adámek 1974, §I, p. 592: the free-algebra construction over the initial object stops). -/
+theorem hasInitial_algebra_of_isAccessible {C : Type u} [Category.{v} C]
+    [IsLocallyPresentable.{w} C] (F : C ⥤ C) [F.IsAccessible.{w}] :
+    HasInitial (Endofunctor.Algebra F) := sorry
 
 /-! ## Layer 5: categories with `D`-limits -/
 

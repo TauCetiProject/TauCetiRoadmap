@@ -4,29 +4,32 @@
 carriers (`IsCardinalPresentable`, `IsCardinalLocallyPresentable`, `IsLocallyPresentable`,
 `IsCardinalAccessibleCategory`, `MorphismProperty.isLocal`, `CategoryTheory.Ind`): ordinary
 categories `C : Type u` with `Category.{v} C`, a regular cardinal `κ : Cardinal.{w}`, small
-categories in `Type w`. The end theorems are: a locally `κ`-presentable category is complete
-(1.1); it is locally `κ`-presentable exactly when it is a full reflective subcategory of a presheaf
-category on a small category whose inclusion preserves `κ`-filtered colimits (1.2), and exactly
-when it is a small-orthogonality class of presheaves for maps between `κ`-presentable presheaves
-(2.1); a category is locally presentable exactly when it is accessible and complete (1.3); between
-locally presentable categories a functor is a right adjoint exactly when it preserves limits and is
+categories in `Type w`. The end theorems are: a locally `κ`-presentable category is complete (1.1);
+it is locally `κ`-presentable exactly when it is a full reflective subcategory of a presheaf
+category on a small category whose inclusion preserves `κ`-filtered colimits (1.2), and exactly when
+it is a small-orthogonality class of presheaves for maps between `κ`-presentable presheaves (2.1); a
+category is locally presentable exactly when it is accessible and complete (1.3); between locally
+presentable categories a functor is a right adjoint exactly when it preserves limits and is
 accessible, and a left adjoint exactly when it preserves colimits (1.4); a category is finitely
-accessible exactly when it is `Ind A` for a small `A` (1.5). Gabriel–Ulmer duality (Layer 3): for
-a small category `T` the functors `T ⥤ Type w` preserving `κ`-small limits form a
-small-orthogonality class and a locally `κ`-presentable category `Mod_κ T` (3.1); every locally
-`κ`-presentable category is `Mod_κ T` for a small `T` with `κ`-small limits (3.2); such a `T` is
-recovered as the opposite of the `κ`-presentable models (3.3); restriction along a morphism of
-theories is a `κ`-accessible right adjoint, and every `κ`-accessible right adjoint between
-categories of models is such a restriction, when both theories have `κ`-small limits (3.4).
-For finite-product theories (Layer 4): algebras form a locally finitely presentable category whose
-sifted colimits are computed pointwise, and the categories of algebras of small categories with
-finite products are the cocomplete categories generated under sifted colimits by a small set of
-strongly finitely presentable objects (Lack–Rosický, Theorem 3.1). For a small family `D` of limit
-shapes (Layer 5): the models of a small category in `Type w` that preserve `D`-limits form a
-reflective locally presentable subcategory (5.1); the free completion `Ĩ` of a small `I` under
-`D`-limits is essentially small and has the universal property of the `D`-envelope (5.2); and a
-small set `S` of arrows of a small category can be inverted inside the 2-category of categories with
-`D`-limits (5.3).
+accessible exactly when it is `Ind A` for a small `A` (1.5); for a ring `R`, `ModuleCat R` is
+locally finitely presentable, its finitely presentable objects being the finitely presented modules
+(1.6). Gabriel–Ulmer duality (Layer 3): for a small category `T` the functors `T ⥤ Type w`
+preserving `κ`-small limits form a small-orthogonality class and a locally `κ`-presentable category
+`Mod_κ T` (3.1); every locally `κ`-presentable category is `Mod_κ T` for a small `T` with `κ`-small
+limits (3.2); such a `T` is recovered as the opposite of the `κ`-presentable models (3.3);
+restriction along a morphism of theories is a `κ`-accessible right adjoint, and every `κ`-accessible
+right adjoint between categories of models is such a restriction, when both theories have `κ`-small
+limits (3.4). For finite-product theories (Layer 4): algebras form a locally finitely presentable
+category whose sifted colimits are computed pointwise, and the categories of algebras of small
+categories with finite products are the cocomplete categories generated under sifted colimits by a
+small set of strongly finitely presentable objects (Lack–Rosický, Theorem 3.1); and an endofunctor
+that preserves the colimit of its initial chain `0 ⟶ F 0 ⟶ F² 0 ⟶ ⋯` has that colimit as initial
+algebra, so every accessible endofunctor of a locally presentable category has an initial algebra
+(4.4, Adámek 1974). For a small family `D` of limit shapes (Layer 5): the models of a small category
+in `Type w` that preserve `D`-limits form a reflective locally presentable subcategory (5.1); the
+free completion `Ĩ` of a small `I` under `D`-limits is essentially small and has the universal
+property of the `D`-envelope (5.2); and a small set `S` of arrows of a small category can be
+inverted inside the 2-category of categories with `D`-limits (5.3).
 
 Suggested home: `TauCeti/CategoryTheory/Presentable/`, beside Mathlib's
 `Mathlib/CategoryTheory/Presentable/`.
@@ -39,11 +42,12 @@ an arbitrary small theory, that concern locally presentable and accessible categ
 - completeness, the representation theorems by reflective subcategories and by
   small-orthogonality classes in presheaf categories, accessible-and-complete, the adjoint functor
   theorem between locally presentable categories, and finitely accessible categories as `Ind A`
-  (Layers 1 and 2);
+  (Layers 1 and 2), with the category of modules over a ring as the standard locally finitely
+  presentable category (1.6);
 - the categories `Mod_κ T` of models of small theories with `κ`-small limits, Gabriel–Ulmer
   duality on objects and on 1-cells, and essentially algebraic theories (Layer 3);
 - the categories of algebras of finite-product (Lawvere-type, many-sorted) theories and their
-  recognition theorem (Layer 4);
+  recognition theorem, and initial algebras of endofunctors through the initial chain (Layer 4);
 - categories with `D`-limits for a small family `D` of shapes, their models, `D`-envelopes,
   localisation in the 2-category they form, and sound doctrines (Layer 5).
 
@@ -74,8 +78,9 @@ filtered colimits. No second carrier is built.
   instance of target 1.2 recorded in the Examples of Layer 1. Classifying topoi of geometric
   theories are outside GrothendieckTopoi's scope (its Scope and ownership) and outside this one:
   every theory here is a limit theory, and none involves colimits or exactness conditions.
-- *Particular categories* (modules, rings, schemes, sheaves on a particular site) and the
-  presentability of each belong to the roadmap owning the category, which cites this one.
+- *Particular categories* (rings, schemes, sheaves on a particular site) and the presentability of
+  each belong to the roadmap owning the category, which cites this one. The category of modules
+  over a ring is the exception, owned here as the standard example (1.6).
 
 The boundary in one sentence: if a statement is about locally presentable or accessible
 1-categories in general, or about small categories with limits of a given class as theories, it is
@@ -118,6 +123,7 @@ here; if it is about one particular category, about ∞-categories, or about top
 - `Mathlib/CategoryTheory/Presentable/Basic.lean`: `Functor.IsCardinalAccessible`,
   `Functor.IsAccessible`, `IsCardinalPresentable`, `isCardinalPresentable`, `IsPresentable`,
   `HasCardinalFilteredColimits`.
+- `…/Presentable/Finite.lean`: `IsFinitelyPresentable`.
 - `…/Presentable/LocallyPresentable.lean`: `IsCardinalLocallyPresentable`,
   `IsCardinalAccessibleCategory`, `IsLocallyFinitelyPresentable`, `IsFinitelyAccessibleCategory`,
   `IsLocallyPresentable`, `IsAccessibleCategory`, and the instances
@@ -154,6 +160,13 @@ here; if it is about one particular category, about ∞-categories, or about top
   `ObjectProperty.ofObj`, `ObjectProperty.lift`, `ObjectProperty.ι`,
   `ObjectProperty.FullSubcategory`, `ObjectProperty.colimitsOfShape`, `ObjectProperty.Small`;
   `MorphismProperty.IsSmall`, `MorphismProperty.IsInvertedBy`.
+- `Mathlib/Algebra/Category/ModuleCat/Basic.lean`: `ModuleCat`, `ModuleCat.of`;
+  `…/ModuleCat/Colimits.lean`: `ModuleCat.hasColimitsOfSize`;
+  `Mathlib/Algebra/Module/FinitePresentation.lean`: `Module.FinitePresentation`.
+- `Mathlib/CategoryTheory/Endofunctor/Algebra.lean`: `Endofunctor.Algebra`,
+  `Endofunctor.Algebra.mk`, `Endofunctor.Algebra.Initial.str_isIso`;
+  `Mathlib/CategoryTheory/Functor/OfSequence.lean`: `Functor.ofSequence`; `initial.to`,
+  `HasInitial`, `IsInitial`.
 - Limits: `HasLimitsOfSize`, `HasLimitsOfShape`, `PreservesLimitsOfShape`,
   `PreservesLimitsOfSize`, `PreservesColimitsOfSize`, `PreservesFiniteProducts`,
   `HasFiniteProducts`, `comp_preservesLimitsOfShape`; `HasCardinalLT`; `Functor.IsRightAdjoint`,
@@ -169,16 +182,16 @@ Nothing is consumed from another roadmap.
 Layer 0 fixes the `κ`-small shapes and the two predicates on them that Layer 3 uses. Layer 1 proves
 the structure theorems on Mathlib's locally presentable and accessible categories: completeness, the
 representation as reflective subcategories of presheaf categories, the characterisation as
-accessible and complete, the adjoint functor theorem, and `Ind`. Layer 2 gives the representation by
-small-orthogonality classes, from Mathlib's reflection theorem and 3.1–3.2. Layer 3 defines the
-categories of models `Mod_κ T` and proves Gabriel–Ulmer duality on objects
+accessible and complete, the adjoint functor theorem, `Ind`, and modules over a ring. Layer 2 gives
+the representation by small-orthogonality classes, from Mathlib's reflection theorem and 3.1–3.2.
+Layer 3 defines the categories of models `Mod_κ T` and proves Gabriel–Ulmer duality on objects
 (3.1–3.3) and on morphisms (3.4); 3.5 compares with the syntactic essentially algebraic theories.
-Layer 4 specialises to finite products: algebras, sifted colimits, and the recognition theorem.
-Layer 5 replaces `κ`-small limits by an arbitrary small family `D` of shapes: models, the
-`D`-envelope of a small category, localisation, and sound doctrines. Within Layer 1, 1.2 comes first
-and 1.1 uses its forward half; Layer 2 uses 3.1 and 3.2; Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4
-uses 3.1; Layer 5 uses 3.1. The hardest targets are 1.4 (via the solution-set condition), 3.4 and
-5.3.
+Layer 4 specialises to finite products: algebras, sifted colimits, and the recognition theorem; it
+ends with initial algebras of endofunctors (4.4). Layer 5 replaces `κ`-small limits by an arbitrary
+small family `D` of shapes: models, the `D`-envelope of a small category, localisation, and sound
+doctrines. Within Layer 1, 1.2 comes first and 1.1 uses its forward half; Layer 2 uses 3.1 and 3.2;
+Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4 uses 3.1, and 4.4 uses 1.1; Layer 5 uses 3.1. The hardest
+targets are 1.4 (via the solution-set condition), 3.4 and 5.3.
 
 ## Layer 0: `κ`-small shapes
 
@@ -341,20 +354,58 @@ the finitely presentable objects, and Mathlib's density. Backward: in `Ind A` th
 - `A` the discrete category on two objects: `Ind A ≌ A`, finitely accessible and not cocomplete,
   so finitely accessible does not imply locally finitely presentable.
 
+### 1.6 Modules over a ring
+
+For a ring `R : Type u`, prove `isFinitelyPresentable_moduleCat_iff`: a module `M` is a finitely
+presentable object of `ModuleCat.{u} R` (`Hom(M, −)` preserves filtered colimits) exactly when it is
+finitely presented (`Module.FinitePresentation R M`); and `isLocallyFinitelyPresentable_moduleCat`:
+`ModuleCat.{u} R` is locally finitely presentable. So the finitely presented modules, an
+essentially small family, are the compact objects, and every module is a filtered colimit of them.
+Sources: every left module over any ring is a filtered colimit of finitely presented modules
+(Lazard 1969, Appendice, pp. 125–126); for `M` finitely presented, `Hom(M, −)` commutes with
+filtered colimits (EGA IV₃, proof of Lemme 8.5.2.1, pp. 20–21, stated there over a commutative
+ring; the argument uses only a presentation `Rᵐ ⟶ Rⁿ ⟶ M ⟶ 0`, left exactness of `Hom(−, N)` and
+exactness of filtered colimits of abelian groups, and holds over any ring). Route: backward, as in
+EGA, from `Hom(Rⁿ, N) = Nⁿ`; forward, write `M` as a filtered colimit of finitely presented
+`M_e` (Lazard), factor the identity of `M` through some `M_e`, and conclude that `M` is a retract
+of a finitely presented module, hence finitely presented. Then `ModuleCat.of R R` is finitely
+presentable, and it is a strong generator: `Hom(R, −)` is the forgetful functor, faithful and
+conservative. `ModuleCat R` is cocomplete, so Mathlib's
+`IsCardinalLocallyPresentable.iff_exists_isStrongGenerator` applies at `ℵ₀`.
+*Needs:* Mathlib `ModuleCat`, `ModuleCat.of`, `Module.FinitePresentation`, `IsFinitelyPresentable`,
+`IsLocallyFinitelyPresentable`, `IsCardinalLocallyPresentable.iff_exists_isStrongGenerator`,
+`ObjectProperty.IsStrongGenerator`, `HasColimitsOfSize`.
+
+**Checks.**
+
+- `R = ℤ`: `ℚ` is not finitely presentable, although it is flat. It is the filtered union of the
+  cyclic subgroups `(1/n!) ℤ`, and the identity of `ℚ` factors through none of them, since `ℚ` is
+  not cyclic.
+- Finitely generated is not enough: for `R = k[x₁, x₂, …]`, polynomials in countably many
+  variables over a field `k`, the module `k = R/(x₁, x₂, …)` is cyclic and is the filtered colimit
+  of the `R/(x₁, …, xₙ) = k[xₙ₊₁, …]` along quotient maps. A lift of the identity of `k` to some
+  `R/(x₁, …, xₙ)` would send `1` to an element killed by `xₙ₊₁` in a domain, hence to `0`, and the
+  composite to `k` would be `0`. So `k` is not finitely presentable, and a definition by finite
+  generation would accept it.
+- `R` a field: the finitely presentable objects are the finite-dimensional spaces, every space is
+  the filtered union of its finite-dimensional subspaces, and `ℕ →₀ R` is not finitely presentable.
+  For the zero ring every module is zero and `ModuleCat R` is equivalent to `PUnit`.
+
 ### Examples
 
 - For a small site `(C, J)`, `Sheaf J (Type w)` is a reflective subcategory of presheaves whose
   inclusion preserves `κ`-filtered colimits once `κ` exceeds the cardinalities of all covering
   sieves, so it is locally presentable by 1.2; this is the form in which GrothendieckTopoi's topoi
   (§1.4) are locally presentable.
-- Modules over a ring, groups and commutative rings are categories of algebras of Layer 4, hence
-  locally finitely presentable by 4.1.
+- Modules over a ring are locally finitely presentable by 1.6; groups and commutative rings are
+  categories of algebras of Layer 4, hence locally finitely presentable by 4.1.
 
 ### Dependencies
 
-Mathlib: `CategoryTheory.Presentable` (`Basic`, `LocallyPresentable`, `StrongGenerator`,
+Mathlib: `CategoryTheory.Presentable` (`Basic`, `Finite`, `LocallyPresentable`, `StrongGenerator`,
 `Adjunction`, `Dense`, `SolutionSetCondition`, `Uniformization`, `Presheaf`, `Type`),
-`CategoryTheory.Limits.Indization`, the adjoint functor theorems.
+`CategoryTheory.Limits.Indization`, the adjoint functor theorems, `Algebra.Category.ModuleCat`,
+`Algebra.Module.FinitePresentation` (for 1.6).
 
 ## Layer 2: orthogonality classes
 
@@ -582,15 +633,52 @@ algebras of small categories with finite products are the many-sorted varieties.
 - `K = Type w × Type w` (two-sorted sets): `T = FinSetᵒᵖ × FinSetᵒᵖ`, since `(s, t)` is the product
   of `(s, 1)` and `(1, t)` and an algebra is determined by its two restrictions.
 
+### 4.4 Initial algebras of endofunctors
+
+For `C` with an initial object and `F : C ⥤ C`, define the initial chain `initialChain F : ℕ ⥤ C`,
+`0 ⟶ F 0 ⟶ F² 0 ⟶ ⋯`, through `initialChainObj F n = Fⁿ 0` and `initialChainMap F n`, the map
+`initial.to` at `n = 0` and `F.map` of the previous map after it. Prove
+`exists_isInitial_algebra_colimit_initialChain`: if the initial chain has a colimit `W` and `F`
+preserves it, then `W` has a structure map `F W ⟶ W` making it an initial `F`-algebra; and
+`hasInitial_algebra_of_isAccessible`: every accessible endofunctor of a locally presentable
+category has an initial algebra. Source: Adámek 1974, §I, p. 592, the free-algebra construction
+`W₀ = A`, `Wᵢ₊₁ = A ⨿ F Wᵢ`, colimits at limit ordinals, and its Proposition: if the construction
+stops (`Wᵢ ⟶ Wᵢ₊₁` is an isomorphism), `Wᵢ` is a free `F`-algebra over `A`. At `A = 0` the stages
+are `Fⁱ 0`, and a free algebra over `0` is an initial algebra. Route for the first statement: the
+preserved colimit gives `F W ≅ colim Fⁿ⁺¹ 0 ≅ W`, whose inverse is the structure map; for an
+algebra `b : F B ⟶ B`, the maps `Fⁿ 0 ⟶ B` defined by `initial.to` and `F.map (−) ≫ b` form a
+cocone, and its induced map is the unique algebra map, by induction along the chain. Route for the
+second: `C` is cocomplete (1.1 and Mathlib), `F` preserves `κ`-filtered colimits for some regular
+`κ`, so it preserves the colimit of the transfinite chain of length `κ`, which is `κ`-filtered,
+and the construction stops at `κ`. *Needs:* 1.1; Mathlib `Endofunctor.Algebra`,
+`Endofunctor.Algebra.mk`, `Functor.ofSequence`, `HasInitial`, `IsInitial`, `PreservesColimit`,
+`IsLocallyPresentable`, `Functor.IsAccessible`.
+
+**Checks.**
+
+- `F = 𝟭` on `Type u`: the chain is constantly `∅`, and `(∅, id)` is the initial algebra.
+- `F X = PUnit ⊕ X` on `Type u`: the chain is `∅ ⊆ 1 ⊆ 2 ⊆ ⋯` (`Fin n` up to isomorphism), its
+  colimit is `ℕ`, which `F` preserves (it preserves filtered colimits), and the structure map
+  `PUnit ⊕ ℕ ⟶ ℕ` is `[0, succ]`; the initial algebra is the natural numbers with zero and
+  successor.
+- The preservation hypothesis is needed: the covariant powerset functor on `Type u` has no initial
+  algebra, since the structure map of an initial algebra is an isomorphism
+  (`Endofunctor.Algebra.Initial.str_isIso`, Lambek's lemma) and no set is isomorphic to its
+  powerset; its initial chain is that of the hereditarily finite sets, with countable colimit
+  `V_ω`, and the powerset of `V_ω` is uncountable, so the colimit is not preserved.
+
 ### Examples
 
 - Groups, abelian groups, rings and `R`-modules: `Algebras T` for `T` the opposite of the finitely
   generated free objects, a category with finite products.
+- Finite lists over a set `A`: the initial algebra of `X ↦ PUnit ⊕ A × X` on `Type u` (4.4), the
+  colimit of the lists of length at most `n`.
 
 ### Dependencies
 
-Mathlib: `CategoryTheory.Limits.Sifted`, `CategoryTheory.Limits.Preserves.Finite`. This roadmap:
-3.1.
+Mathlib: `CategoryTheory.Limits.Sifted`, `CategoryTheory.Limits.Preserves.Finite`,
+`CategoryTheory.Endofunctor.Algebra`, `CategoryTheory.Functor.OfSequence`. This roadmap: 3.1; 1.1
+(for 4.4).
 
 ## Layer 5: categories with `D`-limits
 
@@ -738,6 +826,14 @@ of Layer 5, where the envelope and localisation of 5.2 and 5.3 are constructions
 - G. M. Kelly, *Basic concepts of enriched category theory*, London Math. Soc. Lecture Note Ser. 64,
   Cambridge University Press, 1982; reprinted in Repr. Theory Appl. Categ. 10 (2005), vi+137 pp.,
   http://www.tac.mta.ca/tac/reprints/articles/10/tr10abs.html (page numbers of the reprint).
+- J. Adámek, « Free algebras and automata realizations in the language of categories », *Comment.
+  Math. Univ. Carolin.* 15 (1974), no. 4, 589–602. Zbl 0293.18006;
+  http://dml.cz/dmlcz/105583.
+- D. Lazard, « Autour de la platitude », *Bull. Soc. Math. France* 97 (1969), 81–128.
+  doi:10.24033/bsmf.1675; Numdam: BSMF_1969__97__81_0.
+- A. Grothendieck, J. Dieudonné, « Éléments de géométrie algébrique IV. Étude locale des schémas
+  et des morphismes de schémas, troisième partie », *Publ. Math. IHÉS* 28 (1966), 5–255.
+  doi:10.1007/BF02684343; Numdam: PMIHES_1966__28__5_0.
 - S. Lack, J. Rosický, « Notions of Lawvere theory », *Appl. Categ. Structures* 19 (2011), no. 1,
   363–391. doi:10.1007/s10485-009-9215-2; arXiv:0810.2578 (numbering of arXiv version 2).
 - J. Adámek, J. Rosický, « On sifted colimits and generalized varieties », *Theory Appl. Categ.* 8
