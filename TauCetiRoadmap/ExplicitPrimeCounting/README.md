@@ -109,7 +109,8 @@ docstring with what they lack.
   computations on the low zeros of `ζ` (§1.1); the tables of constants, each in the section of the
   general theorem whose error function it evaluates (Layers 2–7). The bounded-height Riemann
   hypotheses, the records of ExplicitZetaBounds §0.4b (Platt's two, *BrentPlattTrudgianRecord*,
-  *BordignonRecord*, *LuZamanZhaoRecord*, *HiaryPatelYangRecord*) and the real-zero gap are
+  *BordignonRecord*, *LuZamanZhaoRecord*, *HiaryRecord*, *PatelRecord*, *YangRecord*,
+  *BennettMartinOBryantRechnitzerRecord*) and the real-zero gap are
   ExplicitZetaBounds' (see Consumed, not redefined); §§1.1, 1.2 and 1.7 cite them, and a statement
   here names a record wherever its route obtains a supplier region from it (Conventions). The
   decimal enclosures are stated here because the roadmap `ExplicitMultiplicativeFunctions`, which
@@ -121,10 +122,7 @@ docstring with what they lack.
 - Two-sided bounds for the `n`-th prime, Cipolla's expansion, and sums of the first `n` primes
   (Layer 5).
 - Primes in arithmetic progressions with explicit constants, the general theorem and its instances,
-  Ramaré–Rumely's region in the form for a modulus (*RamareRumelyRegion*, §6.1, the passage from
-  ExplicitZetaBounds §7.5's form for a primitive character to one constant for all the characters
-  modulo `q`), and the consequences of a numerical real-zero gap for the exceptional-modulus
-  clauses (Layer 6);
+  and the consequences of a numerical real-zero gap for the exceptional-modulus clauses (Layer 6);
   short intervals containing a prime, conditional (Layer 2) and unconditional (Layer 7).
 
 ### Consumed, not redefined
@@ -167,10 +165,10 @@ docstring with what they lack.
   `DirichletCharacter.LFunction_apply_one_ne_zero` (`L(1, χ) ≠ 0` for `χ ≠ 1`); the statements
   `DirichletGRH χ` and `GRH`: AnalyticNumberTheoryPartI §1.6; Siegel–Walfisz: §0.32.
 - Ramaré–Rumely's region for the zeros `β + iγ` of `L(s, χ)` with `|γ| ≥ H ≥ 1000`, for a primitive
-  character of conductor `k` with their constant `C₁(k, H)`: ExplicitZetaBounds §7.5, fifth item
-  (`gap:dirichlet-zero-free-constants`). Its form for a modulus `q`, with one constant for all the
-  characters modulo `q`, is §6.1 here (*RamareRumelyRegion*), which uses it at Dusart's constant
-  `C₁(q)`.
+  character of conductor `k` with their constant `C₁(k, H)`, and its form for a modulus `q`, with
+  one constant for all the characters modulo `q`: ExplicitZetaBounds §7.5, fifth item and its end
+  (`gap:dirichlet-zero-free-constants`). §6.1 here names the form for a modulus
+  *RamareRumelyRegion* and applies it at Dusart's constant `C₁(q)`.
 - The discriminant of a cyclotomic field, `|disc K| = n^{φ(n)}/∏_{p ∣ n} p^{φ(n)/(p − 1)}` for `K`
   a cyclotomic extension of `ℚ` of level `n ≥ 1`: Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`.
   The conductor–discriminant formula `|disc ℚ(ζ_q)| = ∏_{χ mod q} f_χ` (`f_χ` the conductor of `χ`):
@@ -208,9 +206,9 @@ docstring with what they lack.
   no computation of zeros, no verification of a table or of a finite range. Every number a paper
   obtained by computation enters as data in a named proposition (Layer 1, or the section of the
   general theorem whose error function it evaluates) and is assumed, never established.
-- The explicit Vinogradov–Korobov zero-free region: ExplicitZetaBounds §7.6 (given `RH(3·10¹²)` and
-  *BrentPlattTrudgianRecord*); the two theorems that need it (§3.6, §7.5) take that region as a
-  hypothesis.
+- The explicit Vinogradov–Korobov zero-free region: ExplicitZetaBounds §7.6 (given `RH(3·10¹²)`,
+  *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*); the two theorems
+  that need it (§3.6, §7.5) take that region as a hypothesis.
 - The asymptotic prime-gap statements of Carneiro–Milinovich–Soundararajan (their Theorem 3 and
   Corollary 4), which rest on a Brun–Titchmarsh constant `36/11` that no roadmap plans; only their
   explicit Theorem 5 is a target (§2.5).
@@ -391,8 +389,11 @@ docstring with what they lack.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-- §0.2 `psiAP q a x`, `primeCountAP q a x`, `theta_ap` with `theta_ap.level_one` and
-  `theta_ap.sum_classes`; §0.3, §0.5, §0.8, §0.16, §0.19, §0.20, §0.25 and their finite-range
+- §0.2 `psiAP q a x`, `primeCountAP q a x`, `thetaAP q a x` with `theta_ap.level_one` and
+  `theta_ap.sum_classes`; §0.7 `quadratic_real_zero_le_of_bmor` (under its `BMORFiniteInput` and
+  `BMORClassNumberInput`: for `q ≥ 3`, every real zero `β > 0` of `L(s, χ)` for a nonprincipal
+  quadratic `χ` modulo `q` has `β ≤ 1 − 40/(√q log² q)`), for the exceptional clause of §6.3;
+  §0.3, §0.5, §0.8, §0.16, §0.19, §0.20, §0.25 and their finite-range
   inputs `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`, `ModEightFiniteInput`,
   `PrimeProductFiniteInput` (consumed by name in §0.6); §0.30 the rational Dirichlet-to-ray-class
   dictionary; §0.32 Siegel–Walfisz in the `ψ` form `siegel_walfisz`; §0.34 the existence of an
@@ -425,14 +426,15 @@ density for `ζ`, Johnston–Yang's recomputed density constants, the low-height
 (Owned here), and so are the two other recomputations of Kadiri–Lumley–Ng's density at the height
 `3·10¹²` (Fiori–Kadiri–Swidinsky's, Cully-Hugill–Lee's), which that roadmap's §8.3 does not state:
 it states the theorem at `H₀ = 3.0610046·10¹⁰` only. Ramaré–Rumely's region for a primitive
-character of conductor `k`, with the constant `C₁(k, H)`, is that roadmap's (its §7.5, fifth item,
-in `gap:dirichlet-zero-free-constants` below); its passage to a modulus `q`, with one constant for
-all the characters modulo `q`, is this roadmap's (§6.1, *RamareRumelyRegion*), as that roadmap's
-Not owned here records. Each region, zero count and density below is consumed under the verified
-heights and the records (ExplicitZetaBounds §0.4b: *PlattRecord*, *BrentPlattTrudgianRecord*,
-*BordignonRecord*, *LuZamanZhaoRecord*, *HiaryPatelYangRecord*) with which that roadmap states it,
-listed with the item (Conventions). The following sections are consumed exactly as that roadmap
-states them:
+character of conductor `k`, with the constant `C₁(k, H)`, and its form for a modulus `q`, with one
+constant for all the characters modulo `q`, are that roadmap's (its §7.5, fifth item and its end,
+in `gap:dirichlet-zero-free-constants` below), as its Not owned here records; §6.1 here applies the
+form for a modulus at Dusart's constant (*RamareRumelyRegion*). Each region, zero count, weighted
+sum and density below is consumed under the verified heights and the records (ExplicitZetaBounds
+§0.4b: *PlattRecord*, *BrentPlattTrudgianRecord*, *BordignonRecord*, *LuZamanZhaoRecord*,
+*HiaryRecord*, *PatelRecord*, *YangRecord*, *BennettMartinOBryantRechnitzerRecord*) with which that
+roadmap states it, listed with the item (Conventions). The following sections are consumed exactly
+as that roadmap states them:
 
 - §6.5, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ` with at least
   two points, `δ(x)` the distance from `x` to the rest of `X`, an integer `M`, `N ≥ 1` and complex
@@ -458,14 +460,16 @@ states them:
   multiplicity, `Σ′` giving weight `1/2` to an ordinate equal to an end of the range. Lehman's
   form: for `2πe ≤ T₁ ≤ T₂` and `φ` continuous, nonnegative and non-increasing on `[T₁, T₂]`,
   `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) = (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt + O*(4 φ(T₁) log T₁ + 2 ∫_{T₁}^{T₂} φ(t) dt/t)`.
-  Brent–Platt–Trudgian's form (`brent-platt-trudgian-2021`, Lemma 3 and Theorem 1): for `φ` of
+  Brent–Platt–Trudgian's form (`brent-platt-trudgian-2021`, Lemma 3 and Theorem 1), given
+  *HiaryRecord* (through Trudgian's bound for `∫ S(t) dt` from `168π`, the next item of that
+  section): for `φ` of
   class `C²` on `[T₀, ∞)` with `φ ≥ 0`, `φ′ ≤ 0`, `φ″ > 0` and `168π < T₀ ≤ T₁ ≤ T₂`,
   `Σ′_{T₁ ≤ γ ≤ T₂} φ(γ) − (1/2π) ∫_{T₁}^{T₂} φ(t) log(t/2π) dt = φ(T₂) Q(T₂) − φ(T₁) Q(T₁) + E₂`
   with `|E₂| ≤ 2(2.067 + 0.059 log T₁) |φ′(T₁)| + (0.059 + 1/150) φ(T₁)/T₁`, where `Q = N − M` and
   `N` at an ordinate is the mean of its one-sided limits; and the same with `T₂ = ∞` when
   `∫^∞ φ(t) log t dt < ∞` (the source's range `2π ≤ T₀` rests on a computation with the zeros below
   `168π` that the supplier does not state). Neither form contains the other: Lehman's asks no
-  convexity and starts at `2πe`; Brent–Platt–Trudgian's has the error
+  convexity and no record and starts at `2πe`; Brent–Platt–Trudgian's has the error
   `|φ′(T₁)| log T₁ + φ(T₁)/T₁` in place of `φ(T₁) log T₁` and starts at `168π`. Below `168π`
   Lehman's form, from `2πe`, and Rosser–Schoenfeld's Lemma 7 serve.
 - §6.1, the smoothed truncated Perron formula with a free cut-off (Cully-Hugill–Johnston's
@@ -493,17 +497,17 @@ What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f
 
 What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, given `RH(30 610 046 000)`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(5.69693 log |t|)`; given `RH(3·10¹²)` and *BrentPlattTrudgianRecord*, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.573412` and `5.5666305` (both from the `5.558691` region of its §7.3), and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16 (its §7.3).
 
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord* and *PlattRecord*, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)` and *PlattRecord*, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies, given also *BordignonRecord*, `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)` and *LuZamanZhaoRecord*, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3), with no record. Required location: its §7.5.
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord* and *PlattRecord*, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, *PlattRecord*, *BennettMartinOBryantRechnitzerRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `3 ≤ q ≤ 400 000` and `χ` nonprincipal primitive modulo `q`, that `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`, with no exceptional zero (Kadiri's 2018 region, the second item of its §7.5, the region of `bennett-martin-obryant-rechnitzer-2018` Proposition 4.34 for the conductors `q ≥ 3`); given `RH(545 439 823)` and *PlattRecord*, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies, given also *BordignonRecord*, `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)` and *LuZamanZhaoRecord*, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–838, Theorem 3.6.3): for `χ` primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `H ≥ 1000`, every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(k, H)))`, where `C₁(k, H) ≥ C₁ = 4.171838431` is the closed form of that theorem, a function of `H` and of the conductor through the local constants `D*(k, σ)` of their (3.4.3), with no record; and its form for a modulus, which ends that item: for `q ≥ 1`, `H ≥ 1000` and real `C` with `0 < C ≤ C₁(k_χ, H)` for the conductor `k_χ` of every character `χ` modulo `q`, every zero `β + iγ` of `L(s, χ)`, `χ` modulo `q`, with `0 < β < 1` and `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Required location: its §7.5.
 
 What ExplicitZetaBounds must provide (gap:real-zero-gap): For real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, the proposition *HasLandauSiegelGap* `c Q` that every real zero `β ∈ (0, 1)` of `L(s, χ)`, for every primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q`, satisfies `(1 − β) log q ≥ c`, with the named instances `(c, Q) = (1/5, 10¹⁰)` (the computation of `lu-zaman-zhao-2026`, Theorem 1.1) and `(c, Q) = (3.0·10⁻³, ∞)` (`banks-2026`, Theorem 1.1, with the first instance). Required location: target 18 and target 20 (its §7.9).
 
-What ExplicitZetaBounds must provide (gap:vinogradov-korobov-constants): Given `RH(3·10¹²)` and *BrentPlattTrudgianRecord*, for `|t| ≥ 3`, that `ζ` has no zero with `σ ≥ 1 − 1/(57.54 (log |t|)^(2/3) (log log |t|)^(1/3))`. Required location: target 17 (its §7.6).
+What ExplicitZetaBounds must provide (gap:vinogradov-korobov-constants): Given `RH(3·10¹²)`, *BrentPlattTrudgianRecord*, *HiaryRecord*, *PatelRecord* and *YangRecord*, for `|t| ≥ 3`, that `ζ` has no zero with `σ ≥ 1 − 1/(57.54 (log |t|)^(2/3) (log log |t|)^(1/3))`. Required location: target 17 (its §7.6).
 
-What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, Rosser's bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, and Bellotti–Wong's bounds `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` for `T ≥ 30 610 046 000` (and for every `T ≥ e` given its recorded bound for `S(T)`), which against `M(T)` hold with `7/8` added to the constants. Required location: its §5.2.
+What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, Rosser's bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, and, given *HiaryRecord*, *PatelRecord* and *YangRecord*, Bellotti–Wong's bounds `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` for `T ≥ 30 610 046 000` (and for every `T ≥ e` given also its recorded bound for `S(T)`), which against `M(T)` hold with `7/8` added to the constants. Required location: its §5.2.
 
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-count-error): For a primitive character `χ` of conductor `q > 1` and `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) > 1.567`, that the number of zeros of `L(s, χ)` with `0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity, is `(T/π) log(qT/(2π)) − T/π − χ(−1)/4 + O*(0.22737 ℓ + 2 log(1 + ℓ) − 0.5)`. Required location: target 9.
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-count-error): Given *BennettMartinOBryantRechnitzerRecord* (which covers `ℓ ≤ 6`), for a primitive character `χ` of conductor `q > 1` and `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) > 1.567`, that the number of zeros of `L(s, χ)` with `0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity, is `(T/π) log(qT/(2π)) − T/π − χ(−1)/4 + O*(0.22737 ℓ + 2 log(1 + ℓ) − 0.5)`. Required location: target 9.
 
-What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 610 046 000)`, Kadiri's bound `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and `T ≥ 3.061·10¹⁰`, with `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, and the general form `b₁(T − H) + b₂ log(T/H) + b₃` of her Theorem 1.1 (its §8.1); and, given `RH(H₀)` with `H₀ = 3.0610046·10¹⁰` and *HiaryPatelYangRecord*, Kadiri–Lumley–Ng's bound for the count `N°(σ, T)` of the zeros with `σ < Re ρ < 1` and `0 < Im ρ < T`, `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T` for `T ≥ H₀`, with `C₁`, `C₂` their closed forms (4.72)–(4.73) in the parameters of their Theorem 1.1 (`kadiri-lumley-ng-2018` lines 74–81), and its instance `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (its §8.3). Required location: its §§8.1 and 8.3.
+What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 610 046 000)`, Kadiri's bound `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and `T ≥ 3.061·10¹⁰`, with `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, and the general form `b₁(T − H) + b₂ log(T/H) + b₃` of her Theorem 1.1 (its §8.1); and, given `RH(H₀)` with `H₀ = 3.0610046·10¹⁰` and *HiaryRecord*, Kadiri–Lumley–Ng's bound for the count `N°(σ, T)` of the zeros with `σ < Re ρ < 1` and `0 < Im ρ < T`, `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T` for `T ≥ H₀`, with `C₁`, `C₂` their closed forms (4.72)–(4.73) in the parameters of their Theorem 1.1 (`kadiri-lumley-ng-2018` lines 74–81), and its instance `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (its §8.3). Required location: its §§8.1 and 8.3.
 
 ## How to read the build
 
@@ -526,7 +530,7 @@ form and in Pintz's form on the truncated explicit formula, and its two density-
 zero-counting error), specialises it to the
 published constants for `ψ` and `θ`, then transfers to `π`. Layers 4 and 5 derive sums over primes and bounds for the `n`-th prime by
 partial summation and inversion of the Layer 3 bounds, each stated from its Layer 3 input. Layer 6 repeats the scheme for a residue class modulo `q` with the zero data of the
-characters as parameters, passes Ramaré–Rumely's region from a primitive character to a modulus,
+characters as parameters, applies Ramaré–Rumely's region for a modulus at Dusart's constant,
 and records which exceptional-modulus clauses a numerical real-zero gap removes, and Layer 7 derives
 the unconditional short-interval theorems from the smoothed explicit formula and the Layer 3
 bounds. Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
@@ -1191,7 +1195,7 @@ ExplicitZetaBounds §7.9, each given the record *LuZamanZhaoRecord* of its §0.4
 every quadratic `χ` modulo `q`, `L(σ, χ) ≠ 0` for real `σ ≥ 1 − 1/(5 log q)`, Lu–Zaman–Zhao's
 computation), which is a hypothesis never discharged here:
 
-- *RealZeroGap* `(1/5) 10¹⁰`, given *LuZamanZhaoRecord* (`hasLandauSiegelGap_one_fifth`;
+- *RealZeroGap* `(1/5) 10¹⁰`, given *LuZamanZhaoRecord* (the first instance of that section;
   `lu-zaman-zhao-2026` Theorem 1.1). A statement here that uses it carries *LuZamanZhaoRecord*.
 - *RealZeroGap* `(3.0·10⁻³) ∞`, given *LuZamanZhaoRecord*, Banks's instance there (`banks-2026`
   Theorem 1.1, *(preprint)*). By the Conventions on preprint inputs, a statement here that uses it
@@ -2225,9 +2229,15 @@ rows of Theorem 1.1, *JohnstonYangDensityTable*, *JohnstonYangExplicitFormula*);
 ### 3.7 The θ-tables of Broadbent–Kadiri–Lumley–Ng–Wilk and Axler's θ-bound
 
 Under `RH(3 000 175 332 800)`, the classical-shape region with `R = 5.573412`, the zero count, the
-density bounds of `gap:explicit-zero-density`, *BKLNWPsiTable* (§3.1), *BKLNWThetaTables* below,
-`ButheVerified` and *BKLNWRange* (`broadbent-kadiri-lumley-ng-wilk-2021`, arXiv v2: Theorem 1,
-Corollaries 2.1, 5.1 and 11.1, Tables 8, 14, 15):
+density bounds of `gap:explicit-zero-density`, the hypotheses of the truncated explicit formula of
+§2.1 other than *PsiThetaUpper* (the classical-shape region with `R₀ = 5.5666305`, Ford's region of
+ExplicitZetaBounds §7.2 for `t ≥ 1.88·10¹⁴` and the region of `gap:vinogradov-korobov-constants`),
+which the rows `b ≥ 2500` of *BKLNWPsiTable* use, `ZetaZeroCubeSum` (§1.1) and the absence of zeros
+with `0 < Re s < 1` and `|Im s| ≤ 14` (`gap:rh-up-to-height`), which §3.1(a) uses in the discharge
+of *PsiThetaUpper* below, *BKLNWPsiTable* (§3.1), *BKLNWThetaTables* below, `ButheVerified` and
+*BKLNWRange* (`broadbent-kadiri-lumley-ng-wilk-2021`, arXiv v2: Theorem 1, Corollaries 2.1, 5.1 and
+11.1, Tables 8, 14, 15). These are *the hypotheses of §3.7*; a statement elsewhere that holds
+"under the tables of §3.7" or "under the `θ`-bounds of §3.7" carries all of them.
 
 - The general form (Theorem 1): for `0 ≤ k ≤ 5` and every `X ≥ 1` there are explicit `m_k(X)`,
   `M_k(X)` with `x (1 − m_k/log^k x) ≤ θ(x)` and `θ(x) ≤ x (1 + M_k/log^k x)` for `x ≥ X`, given
@@ -2270,9 +2280,10 @@ Table proposition of this section:
   Tables 14–15, arXiv v2).
 
 *Needs:* §3.1(a), (d) and *BKLNWPsiTable*; §2.3 (Büthe's general theorem); §2.1 (for the rows
-`b ≥ 2500`); §0.3; §1.1; §1.3 (`ButheVerified`, *BKLNWRange*, *Axler2024Range*);
-`gap:rh-up-to-height`; `gap:classical-zero-free-constants`; `gap:explicit-zero-count-error`;
-`gap:explicit-zero-density`.
+`b ≥ 2500`, with its hypotheses: ExplicitZetaBounds §7.2, `gap:vinogradov-korobov-constants`);
+§0.3; §1.1 (`ZetaZeroCubeSum`); §1.3 (`ButheVerified`, *BKLNWRange*, *Axler2024Range*);
+`gap:rh-up-to-height` (with the absence of zeros up to height `14`);
+`gap:classical-zero-free-constants`; `gap:explicit-zero-count-error`; `gap:explicit-zero-density`.
 
 **Checks.**
 
@@ -2307,7 +2318,8 @@ refereed bounds of the same shape are §3.3's rows and §3.7's `57.184 x/log⁴ 
 Layers 0–2 (§2.1's truncated explicit formula for §3.1(d), §2.3's general theorem for
 *BKLNWPsiTable*); ZerosOfLFunctions §§4.5, 8.4, 8.5, 8.9; AnalyticNumberTheoryPartI §§0.3, 0.5 (the
 statements of the inputs proved in §§3.2, 3.5); ExplicitZetaBounds §5.4 (the weighted sums over
-ordinates) and §7.2 (the region `ν₂` of §3.4); the gaps `rh-up-to-height`,
+ordinates) and §7.2 (the region `ν₂` of §3.4, and Ford's region among the hypotheses of §2.1 that
+§3.7 carries); the gaps `rh-up-to-height`,
 `classical-zero-free-constants`, `explicit-zero-count-error`, `explicit-zero-density`,
 `vinogradov-korobov-constants`; the zero
 inputs *ZeroCountBound* (§3.1), *JohnstonYangDensityTable*, *JohnstonYangExplicitFormula* and
@@ -2855,29 +2867,22 @@ AnalyticNumberTheoryPartI §0.2; `φ` is `Nat.totient`.
 - *Ramaré–Rumely's region for a modulus.* Write *RamareRumelyRegion* `q H C`, for an integer
   `q ≥ 1` and reals `H, C > 0`, for: for every Dirichlet character `χ` modulo `q` and every zero
   `β + iγ` of `L(s, χ)` with `0 < β < 1` and `|γ| ≥ H`, `1 − β ≥ 1/(R log(q|γ|/C))`, with
-  `R = 9.645908801`. Prove: for `q ≥ 1`, `H ≥ 1000` and `0 < C ≤ C₁(k, H)` for the conductor `k` of
-  every character modulo `q`, *RamareRumelyRegion* `q H C` holds; here `C₁(k, H)` is
-  Ramaré–Rumely's constant of the form for a primitive character of conductor `k` in
-  ExplicitZetaBounds §7.5, fifth item (`gap:dirichlet-zero-free-constants`). Route: let `χ*` be the
-  primitive character inducing `χ` (`DirichletCharacter.primitiveCharacter`, of level the conductor
-  `k`, which divides `q`). For `s ≠ 1`, `L(s, χ) = L(s, χ*) ∏_{p ∣ q} (1 − χ*(p) p^{−s})`
-  (`DirichletCharacter.LFunction_changeLevel` with `DirichletCharacter.changeLevel_primitiveCharacter`),
-  and a factor with `χ*(p) ≠ 0` vanishes only on `Re s = 0`, so a zero with `0 < β < 1` is a zero of
-  `L(s, χ*)` (ExplicitZetaBounds §0.2, the passage to imprimitive characters). The supplier's form
-  gives `1 − β ≥ 1/(R log(k|γ|/C₁(k, H)))`, with `R log(k|γ|/C₁(k, H)) ≥ 15 > 0` for `|γ| ≥ H`
-  (`ramare-rumely-1996` lines 839–843, the step of the proof of Theorem 3.6.3 that covers
-  `β ≤ 1/2`, from the bounds for `D*(k, σ)` of their Corollary 3.4.4 and `|γ| ≥ 1000`). Since
-  `k ≤ q` and `0 < C ≤ C₁(k, H)`, `q|γ|/C ≥ k|γ|/C₁(k, H)`, so `log(q|γ|/C) ≥ log(k|γ|/C₁(k, H)) > 0`
-  and the reciprocal can only decrease. At `q = 1` the only character is `χ₀ = 1`, of conductor
-  `1`, with `L(s, χ₀) = ζ(s)`, and the statement is the supplier's at `k = 1`.
+  `R = 9.645908801`. For `q ≥ 1`, `H ≥ 1000` and `0 < C ≤ C₁(k, H)` for the conductor `k` of every
+  character modulo `q`, *RamareRumelyRegion* `q H C` is ExplicitZetaBounds §7.5's form for a
+  modulus, which ends its fifth item (`gap:dirichlet-zero-free-constants`); here `C₁(k, H)` is
+  Ramaré–Rumely's constant of the form for a primitive character of conductor `k` in that item. A
+  zero with `0 < β < 1` of `L(s, χ)` is one of the primitive character inducing `χ`, of conductor
+  `k ∣ q`, and `k ≤ q` with `C ≤ C₁(k, H)` makes the bound for the modulus the weaker one. At
+  `q = 1` the only character is `χ₀ = 1`, with `L(s, χ₀) = ζ(s)`, and the statement is the
+  supplier's form for a primitive character at `k = 1`.
 - The region of the first shape is *RamareRumelyRegion* `q H C₁(q)` at Dusart's constant
   `C₁(q) = min(min_{χ mod q} C₁(k_χ, H), 32π)` (his (3), `dusart-2002` lines 105–112), `k_χ` being
   the conductor of `χ`. `C₁(q)` meets the hypothesis `0 < C ≤ C₁(k, H)` for the conductor `k` of
   every character modulo `q`: it is a minimum over those conductors, and it is at least
   `C₁ = 4.171838431`, since every `C₁(k, H)` is and `32π > C₁`. So for `q ≥ 1` and `H ≥ 1000` the
-  target above gives *RamareRumelyRegion* `q H C₁(q)`, and the instances of the first shape below
-  take the region from there. A smaller constant gives a weaker region, and `C₁(q) ≥ 9.14` for
-  `q > 1` and `H > 1000` (`dusart-2002` line 107).
+  supplier's form for a modulus gives *RamareRumelyRegion* `q H C₁(q)`, and the instances of the
+  first shape below take the region from there. A smaller constant gives a weaker region, and
+  `C₁(q) ≥ 9.14` for `q > 1` and `H > 1000` (`dusart-2002` line 107).
 - Route for both: orthogonality `φ(q) ψ(x; q, a) = ∑_χ conj χ(a) ψ(x, χ)`, the smoothed explicit
   formula of §2.1 for each `ψ(x, χ)` (ZerosOfLFunctions §8.6 at `K = ℚ` through
   AnalyticNumberTheoryPartI §0.30, extended to the kernel class), `GRH*(q, H)` for the low zeros,
@@ -2905,26 +2910,25 @@ first shape at the row `(8, 0.002811, 10¹⁰)` of *RamareRumelyTable1*, under `
 
 *Needs:* §2.1; §0.3; §1.2; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30; ZerosOfLFunctions §8.6;
 `gap:grh-up-to-height`; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`: the form for
-a primitive character ending its fifth item, for *RamareRumelyRegion*; Kadiri's and McCurley's
-items for the second shape, with the hypotheses listed there) and §0.2 (the passage to imprimitive
+a modulus that ends its fifth item, for *RamareRumelyRegion*; Kadiri's `6.4355` item and McCurley's
+item for the second shape, with the hypotheses listed there) and §0.2 (the passage to imprimitive
 characters); `gap:rh-up-to-height`; `gap:dirichlet-zero-count-error`; ExplicitZetaBounds §5.4;
-`ramare-rumely-1996` lines 839–843; Mathlib `Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`,
-`DirichletCharacter.primitiveCharacter`, `DirichletCharacter.primitiveCharacter_isPrimitive`,
-`DirichletCharacter.conductor_dvd_level`, `DirichletCharacter.changeLevel_primitiveCharacter`,
-`DirichletCharacter.LFunction_changeLevel`.
+Mathlib `Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`,
+`DirichletCharacter.conductor_dvd_level`.
 
 **Checks.**
 
-- The step of the route for the nonprincipal character modulo `6`, induced by `χ₋₃` of conductor
-  `3` with `C₁(3, 10⁴) = 20.92` (`ramare-rumely-1996` line 846), at `|γ| = 10⁴` and `C = 20.92`: the
-  form for the primitive character gives `1 − β ≥ 1/(R log(3·10⁴/20.92)) = 0.014264`, and the bound
-  for the modulus is `1/(R log(6·10⁴/20.92)) = 0.013022`, the weaker one, as `k ≤ q` requires. The
+- The region for a modulus at the nonprincipal character modulo `6`, induced by `χ₋₃` of
+  conductor `3` with `C₁(3, 10⁴) = 20.92` (`ramare-rumely-1996` line 846), at `|γ| = 10⁴` and
+  `C = 20.92`: the form for the primitive character gives
+  `1 − β ≥ 1/(R log(3·10⁴/20.92)) = 0.014264`, and the bound for the modulus is
+  `1/(R log(6·10⁴/20.92)) = 0.013022`, the weaker one, as `k ≤ q` requires. The
   hypothesis on `C` concerns the conductors of the characters, not `q`: the two characters modulo
   `6` have conductors `1` and `3`, none has conductor `6`, so `C₁(6, H)` plays no role there.
 - The constant `C₁ = 4.171838431` is admissible for every `q ≥ 1` and `H ≥ 1000`, every
   `C₁(k, H)` being at least `C₁`; at `q = 6`, `|γ| = 10⁴` it gives `0.010829`, weaker than at
   `C = 20.92`, since a smaller constant gives a weaker region. And the logarithm is positive with
-  room to spare: `R log(1000/C₁) = 52.85 ≥ 15`.
+  room to spare: `R log(1000/C₁) = 52.85 > 0`.
 - `q = 1` (Ramaré–Rumely's rows with `k = 1`) is the `ψ` statement of Layer 3 with
   `GRH*(1, H) = RH(H)`; Dusart's Theorem 5 itself asks `q > 1`.
 - For `a` not a unit the statement is false: `ψ(x; 2, 0) = ∑_{2^k ≤ x} log 2 ≈ log x` while
@@ -2946,11 +2950,14 @@ Under `GRH*(q, 10⁸/q)` for all `q ≤ 400 000` (given *PlattRecord* and `RH(3 
 through §1.2), *PlattCentralRecord* (§1.2; with *PlattRecord* it excludes every real zero in
 `(0, 1)` of the primitive characters of conductor at most `400 000`, by ExplicitZetaBounds §0.3,
 `LFunction_ne_zero_of_platt`, and so makes *RealZeroGap* `c Q` true for every `c` when
-`Q ≤ 400 000`, the trivial case of its §7.9), the region for `L(s, χ)` with
-`R = 6.4355` and its exceptional clause
-(`gap:dirichlet-zero-free-constants`), the Dirichlet zero count (`gap:dirichlet-zero-count-error`),
-and *BMORTables* (`bennett-martin-obryant-rechnitzer-2018` lines 165–195, Theorems 1.1–1.3): for
-`q ≥ 3` and `a` a unit modulo `q`, with
+`Q ≤ 400 000`, the trivial case of its §7.9), the regions for the high zeros (for `3 ≤ q ≤ 10⁵`,
+Kadiri's region with `R = 5.60` for the nonprincipal primitive characters of conductor
+`3 ≤ f ≤ 400 000`, in `gap:dirichlet-zero-free-constants`, and the classical-shape region for `ζ`
+with `R = 5.573412`, in `gap:classical-zero-free-constants`; for `q > 10⁵`, McCurley's region with
+its exceptional clause, in `gap:dirichlet-zero-free-constants`, which the region with `R = 6.4355`
+implies, §6.1), the Dirichlet zero count (`gap:dirichlet-zero-count-error`), the exceptional clause
+below, and *BMORTables* (`bennett-martin-obryant-rechnitzer-2018` lines 165–195, Theorems
+1.1–1.3): for `q ≥ 3` and `a` a unit modulo `q`, with
 `c₀(q) = 1/840` for `3 ≤ q ≤ 10⁴` and `1/160` for `q > 10⁴`, and `x₀(q) = 8·10⁹` for `3 ≤ q ≤ 10⁵`
 and `exp(0.03 √q log³ q)` for `q > 10⁵`:
 
@@ -2959,23 +2966,47 @@ and `exp(0.03 √q log³ q)` for `q > 10⁵`:
 - `|π(x; q, a) − Li x/φ(q)| < c_π(q) x/log² x` for `x ≥ x_π(q)`, with the same bounds;
 
 where for `3 ≤ q ≤ 10⁵` the constants are the rows of *BMORTables* and for `q > 10⁵` they are
-`c₀(q), x₀(q)` themselves. Route: §6.1 in the McCurley shape with the region of `gap:dirichlet-zero-free-constants`, the explicit
-formula with the paper's kernel, and, for `q ≤ 10⁵`, the table proposition *BMORTables*; the `θ`
-form by §0.3 classwise, the `π` form by the progression analogue of §0.4
-(Abel summation of `θ(·; q, a)`).
+`c₀(q), x₀(q)` themselves.
+
+For `3 ≤ q ≤ 10⁵` the hypotheses give the paper's Hypothesis Z(10⁸/q, 5.6) at the heights of its
+tables (`bennett-martin-obryant-rechnitzer-2018` lines 1163–1169, Definition 3.1, and lines
+2784–2803, Proposition 4.34 and the choice of `H₂`): every character modulo `q`, of conductor
+`d ∣ q`, has its zeros with `|γ| ≤ H₂(d)` on `Re s = 1/2`, where `H₂(1) = 30 610 046 000` and
+`H₂(d) = 10⁸/d` for `d > 1`, by `RH(3 000 175 332 800)` and `GRH*(d, 10⁸/d)`; and its zeros with
+`|γ| > H₂(d)` satisfy `β ≤ 1 − 1/(5.6 log(d|γ|))`, for `d ≥ 3` by Kadiri's region (there
+`|γ| ≥ 1000`, so `log(d max(1, |γ|)) = log(d|γ|)`), and for `d = 1` by the region for `ζ`, since
+`5.573412 < 5.6`; no character has conductor `2`. The paper takes Kadiri's region from Kadiri's
+Theorem 1.1 (its reference [17], line 5158) and the region for `ζ` from Mossinghoff–Trudgian, and
+its tables are evaluated at `R = 5.6` (lines 2792–2795); the region with `R = 6.4355` does not give
+the hypothesis (Checks). Route: §6.1's scheme for the modulus `q`, with the explicit formula and
+the paper's kernel; for `3 ≤ q ≤ 10⁵` at `R = 5.6` under that hypothesis (the paper's Theorem 4.33)
+with the table proposition *BMORTables*; for `q > 10⁵` in the McCurley shape with the exceptional
+clause (the paper's §6, through its Lemma 6.12); the `θ` form by §0.3 classwise, the `π` form by
+the progression analogue of §0.4 (Abel summation of `θ(·; q, a)`).
 
 The exceptional clause enters only for `q > 10⁵`, through a lower bound for `1 − β` at a possible
-exceptional zero `β`, which is what the threshold `exp(0.03 √q log³ q)` pays for. The theorem is
-stated with that clause as a hypothesis in one of three interchangeable forms, each supplied
-elsewhere: for `10⁵ < q ≤ 10¹⁰`, no exceptional zero at all (*RealZeroGap* `(1/5) 10¹⁰` given
-*LuZamanZhaoRecord*, through §6.7(a), or the exception-free region of `lu-zaman-zhao-2026`
+exceptional zero `β` of a quadratic character modulo `q`: the paper's proof uses its Proposition
+1.11, `β ≤ 1 − 40/(√q log² q)` (lines 377–379, used in its Lemmas 6.8 and 6.12, lines 3825–3834
+and 3992–4010), and that is what the threshold `exp(0.03 √q log³ q)` pays for. For
+`10⁵ < q ≤ 400 000` the hypotheses above already exclude it: a real zero in `(0, 1)` of a character
+modulo `q` is one of a primitive character of conductor at most `400 000`, which *PlattRecord* and
+*PlattCentralRecord* exclude. For `q > 400 000` the theorem takes the clause as a hypothesis in one
+of the following forms, each supplied elsewhere and each giving the absence of an exceptional zero
+or the paper's bound on the range named: the paper's own bound, for every `q ≥ 3`
+(AnalyticNumberTheoryPartI §0.7, `quadratic_real_zero_le_of_bmor`, under its `BMORFiniteInput` and
+`BMORClassNumberInput`); for `q ≤ 10¹⁰`, no exceptional zero at all (*RealZeroGap* `(1/5) 10¹⁰`
+given *LuZamanZhaoRecord*, through §6.7(a), or the exception-free region of `lu-zaman-zhao-2026`
 Corollary 1.2 in `gap:dirichlet-zero-free-constants`, given `RH(545 439 823)` and
-*LuZamanZhaoRecord*); for `q > 400 000`, the Siegel-type bound `β ≤ 1 − 100/(√q log² q)` of
-`thorner-zaman-2024` Theorem 2.6 (given `RH(545 439 823)`, *PlattRecord* and *BordignonRecord*);
-and, conditionally on the unrefereed *RealZeroGap* `(3.0·10⁻³) ∞`, `1 − β ≥ 3.0·10⁻³/log q`
-(§6.7(b)). Each form brings the records named with it. The printed thresholds `x₀(q)` are the
-paper's and are not lowered here by the stronger inputs; a version of the large-`q` theorem with a
-threshold of shape `exp(C log² q)` from that gap would be a new theorem and is not stated.
+*LuZamanZhaoRecord*); the Siegel-type bound `β ≤ 1 − 100/(√q₁ log² q₁)` of `thorner-zaman-2024`
+Theorem 2.6 at the conductor `q₁ ≤ q` of the exceptional character (given `RH(545 439 823)`,
+*PlattRecord* and *BordignonRecord*), which is at least the paper's bound since `q₁ ≤ q` and
+`100 > 40`; and, conditionally on the unrefereed *RealZeroGap* `(3.0·10⁻³) ∞`,
+`1 − β ≥ 3.0·10⁻³/log q` (§6.7(b)), which is at least `40/(√q log² q)` exactly when
+`√q log q ≥ 40/(3.0·10⁻³)`, that is for `q ≥ 939 839`; below that modulus it serves only together
+with one of the other forms (Checks). Each form brings the records named with it. The printed
+thresholds `x₀(q)` are the paper's and are not lowered here by the stronger inputs; a version of
+the large-`q` theorem with a threshold of shape `exp(C log² q)` from that gap would be a new
+theorem and is not stated.
 
 Table proposition of this section:
 
@@ -2987,8 +3018,10 @@ Table proposition of this section:
 
 *Needs:* §6.1; §6.7; §0.3; §0.4; §1.2 (*PlattRecord*, *PlattCentralRecord*); ExplicitZetaBounds
 §0.3 (`LFunction_ne_zero_of_platt`) and §7.9 (its trivial case);
-`gap:grh-up-to-height`; `gap:dirichlet-zero-free-constants`; `gap:dirichlet-zero-count-error`;
-`gap:real-zero-gap`.
+`gap:grh-up-to-height`; `gap:rh-up-to-height`; `gap:dirichlet-zero-free-constants` (Kadiri's `5.60`
+item for `q ≤ 10⁵`, McCurley's item for `q > 10⁵`); `gap:classical-zero-free-constants` (the
+`5.573412` region); `gap:dirichlet-zero-count-error`; `gap:real-zero-gap`;
+AnalyticNumberTheoryPartI §0.7 (for the paper's own form of the exceptional clause).
 
 **Checks.**
 
@@ -2997,6 +3030,19 @@ Table proposition of this section:
   are the two cases of the paper, not a continuous function.
 - `q = 2` is excluded (`q ≥ 3`): the only unit class modulo `2` is the odd numbers, for which the
   statement reduces to Layer 3 after removing the powers of `2`.
+- The small moduli need Kadiri's `5.60` region, not the `6.4355` one (negative control): for a
+  character of conductor `10⁴` modulo `q = 10⁴`, a zero just above `H₂(10⁴) = 10⁴` must have
+  `1 − β ≥ 1/(5.6 log 10⁸) = 0.0096941` under Hypothesis Z(10⁸/q, 5.6); Kadiri's `5.60` region gives
+  `1/(5.60 log 10⁸) = 0.0096941`, while the region with `R = 6.4355` gives only
+  `1/(6.4355 log max(q, q|γ|)) = 0.0084355` there.
+- For `ζ` the same hypothesis asks, at `|γ| = H₂(1) = 30 610 046 000`,
+  `1 − β ≥ 1/(5.6 log|γ|) = 0.0073959`: the region with `R = 5.573412` gives `0.0074312`, and the
+  region with `R = 5.69693`, which needs only `RH(30 610 046 000)`, gives `0.0072701`, too little.
+- The forms of the exceptional clause against the paper's `40/(√q log² q)`: at `q = 4·10⁵ + 1` it
+  is `3.801·10⁻⁴`, while *RealZeroGap* `(3.0·10⁻³) ∞` gives only `3.0·10⁻³/log q = 2.326·10⁻⁴`; the
+  two sides meet at `q = 939 839`, where both are `2.181·10⁻⁴`, and from there on the gap gives
+  more. Thorner–Zaman's bound at `q₁ = q` is `100/40 = 2.5` times the paper's, and larger for
+  `q₁ < q`, since `√t log² t` increases.
 - The `π` bound uses `Li x/φ(q) = ∫₂ˣ dt/log t/φ(q)`, the paper's normalisation (lines 165–195),
   not `li x/φ(q)`: replacing `Li` by `li` changes the left side by `li 2/φ(q)`, which would have to
   be absorbed by the margin below `c_π(q) x/log² x`, and the printed constants are not asserted for
@@ -3177,11 +3223,13 @@ What a numerical gap for real zeros (§1.7) removes from the exceptional clauses
   also a lower bound for `β` and the rest of the explicit formula, and is not stated. That gap
   does not make any modulus non-exceptional for the regions in use, since
   `3.0·10⁻³ < 1/9.645908801 = 0.1037 < 1/6.50 = 0.1538`.
-- (c) The three forms of the exceptional clause used by §6.3: no exceptional zero for
+- (c) The forms of the exceptional clause used by §6.3 for `q > 400 000`, besides the paper's own
+  bound `β ≤ 1 − 40/(√q log² q)` (AnalyticNumberTheoryPartI §0.7): no exceptional zero for
   `q ≤ 10¹⁰` ((a) with *RealZeroGap* `(1/5) 10¹⁰`, given *LuZamanZhaoRecord*);
-  `β ≤ 1 − 100/(√q log² q)` for `q > 400 000` (`thorner-zaman-2024` Theorem 2.6, through
-  `gap:dirichlet-zero-free-constants`, given `RH(545 439 823)`, *PlattRecord* and *BordignonRecord*);
-  and the conditional bound of (b).
+  `β ≤ 1 − 100/(√q₁ log² q₁)` at the conductor `q₁ ∈ (400 000, q]` of the exceptional character
+  (`thorner-zaman-2024` Theorem 2.6, through `gap:dirichlet-zero-free-constants`, given
+  `RH(545 439 823)`, *PlattRecord* and *BordignonRecord*); and the conditional bound of (b), which
+  gives the paper's bound only from `q = 939 839` on.
 
 The qualitative statement that some absolute `c > 0` exists is AnalyticNumberTheoryPartI §0.34
 (the uniform exclusion of Landau–Siegel zeros, `openai-2026-siegel`); it gives no numerical `c` and
@@ -3206,16 +3254,18 @@ AnalyticNumberTheoryPartI §0.34; Mathlib `DirichletCharacter.LFunction`.
 
 ### Dependencies
 
-Layers 0–3; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30, 0.34, 1.6; ZerosOfLFunctions §8.6;
+Layers 0–3; AnalyticNumberTheoryPartI §§0.2, 0.7, 0.16, 0.30, 0.34, 1.6; ZerosOfLFunctions §8.6;
 LFunctions Layer 4 (`dirichletData`, through ZerosOfLFunctions §8.6); ClassFieldTheory Layer 13
 (the conductor–discriminant formula, §6.5); ExplicitZetaBounds §0.2 (the passage to imprimitive
 characters, §6.1), §0.3 (`LFunction_ne_zero_of_platt`, §6.3), §0.4b (*PlattRecord*,
-*PlattCentralRecord*, *BrentPlattTrudgianRecord*, *BordignonRecord*, *LuZamanZhaoRecord*), §§5.4,
-7.9; Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`, `DirichletCharacter.primitiveCharacter`,
-`DirichletCharacter.LFunction_changeLevel`; the gaps `rh-up-to-height`, `grh-up-to-height`,
-`dirichlet-zero-free-constants` (with Ramaré–Rumely's region for a primitive character, the fifth
-item of its §7.5), `dirichlet-zero-count-error`, `real-zero-gap`; `ramare-rumely-1996` lines
-839–843; the zero input *LiuWangFourZeros* (§6.6). No later layer is used.
+*PlattCentralRecord*, *BrentPlattTrudgianRecord*, *BordignonRecord*, *LuZamanZhaoRecord*, and,
+for the items of §7.5 and §5.3 named in the contracts, *BennettMartinOBryantRechnitzerRecord*,
+*HiaryRecord*, *PatelRecord*, *YangRecord*), §§5.4, 7.9; Mathlib
+`IsCyclotomicExtension.Rat.natAbs_discr`, `DirichletCharacter.conductor_dvd_level`; the gaps
+`rh-up-to-height`, `grh-up-to-height`, `classical-zero-free-constants` (the `5.573412` region,
+§6.3), `dirichlet-zero-free-constants` (with Kadiri's `5.60` region for §6.3 and Ramaré–Rumely's
+region in both forms, the fifth item of its §7.5 and its end), `dirichlet-zero-count-error`,
+`real-zero-gap`; the zero input *LiuWangFourZeros* (§6.6). No later layer is used.
 
 ## Layer 7: short intervals containing a prime, unconditionally
 
@@ -3489,6 +3539,10 @@ inputs *ZeroCountBound* (§3.1, for §7.3),
 
 ## Downstream consumers
 
+- EffectiveClassNumbers, later in the order of supply, §4.4 (its prime sums over the first primes):
+  the rational prime-count adapter `TauCeti.primeCount ℚ Set.univ x = π(⌊x⌋₊)` and the asymptotic
+  `p_n ∼ n log n` of §0.3b, taken by section; neither is a headline, so `Suggested.lean` declares
+  no Lean name for them.
 - ExplicitCharacterSumsAndSieves, later in the order of supply: the Brun–Titchmarsh inequality of
   §0.1 (`brun_titchmarsh`), the prime-count case of its sifted Brun–Titchmarsh inequality and the
   base of its explicit sieve upper bounds; and Montgomery–Vaughan's diagonal bound
