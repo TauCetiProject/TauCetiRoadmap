@@ -56,8 +56,12 @@ The following headline theorems are not statable at the pinned libraries.
 * The key formula and purity for perfectoid rings (Theorems 6.1.1 and 6.1.2; §§5.9, 5.10) and
   `p`-complete arc descent of flat cohomology (Theorem 5.5.1; §5.8): they need, in addition,
   prismatic Dieudonné modules of finite locally free group schemes and the `p`-complete arc site.
-* Purity for torsors and gerbes under finite locally free groups (Theorem 7.1.3; §7.3): there are
-  no torsors under, or gerbes banded by, a finite locally free group scheme over a scheme.
+* Purity for torsors and gerbes under finite locally free groups (Theorem 7.1.3; §7.3): Tau Ceti has
+  torsors under a sheaf of groups on a site (`CategoryTheory.Sheaf.Torsor`), and a group `G` over `X`
+  gives such a sheaf `Hom(−, G)` (`CategoryTheory.yonedaGrpObj`) on the big fppf site of `X`, which is
+  subcanonical (`CategoryTheory.GrothendieckTopology.subcanonical_over`); but neither pin restricts
+  torsors along a morphism of sites, such as the inclusion of `X ∖ Z` into `X`, and neither has
+  gerbes.
 * Gabber's conjecture on the local Brauer group (Theorem 7.2.5; §7.12) and purity for the
   Brauer group of regular schemes with the codimension-one and residue descriptions
   (Česnavičius, *Purity for the Brauer group*, Theorems 1.1–1.3; §§8.1, 8.7, 8.10, 8.16): there is
