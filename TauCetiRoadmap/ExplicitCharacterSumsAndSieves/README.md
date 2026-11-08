@@ -1,10 +1,10 @@
 # Roadmap: explicit exponential sums, character sums and sieve bounds
 
 **Summary.** This roadmap builds the numerically explicit inequalities of analytic number theory
-that the later explicit roadmaps quote as tools: van der Corput's finite inequality for complex
-sequences, Patel's corrected third, fourth and fifth derivative tests for exponential sums
-`Σ e(f(n))` of a real function and Arias de Reyna's iterated van der Corput inequality; counts of
-integers `n` at which `f(n)` lies within `δ` of an integer; explicit Pólya–Vinogradov inequalities
+that the later explicit roadmaps quote as tools: Arias de Reyna's iterated van der Corput
+inequality for exponential sums `Σ e(f(n))` of a real function, with his real-part form of the
+normalised van der Corput inequality; counts of integers `n` at which `f(n)` lies within `δ` of an
+integer; explicit Pólya–Vinogradov inequalities
 for Dirichlet characters, from the Gauss-sum expansion to the constants of Pomerance, Lapkova and
 Frolenkov–Soundararajan; explicit Burgess inequalities for characters to a prime modulus, with
 Burgess's moment bound and the constants of McGown and Treviño; and explicit sieve upper bounds:
@@ -14,18 +14,17 @@ inequalities, Greaves's lower bound for Selberg's density sum and Fan's bounds f
 of small prime factors. Everything rests on Mathlib's Dirichlet characters, Gauss sums,
 Selberg-sieve carrier and Fourier character, on Tau Ceti's Gauss-sum norm, partial-sum lemmas and
 Hasse bound, on the forbidden-residue large sieve and Selberg's weights of
-SieveMethodsAndPrimePatterns, the van der Corput toolkit (Kusmin–Landau, the A-process, the second
-derivative test) and the weighted large sieve of ExplicitZetaBounds, Weil's bound of
-CharacterSumsOverFiniteFields, the character-sum point count of
+SieveMethodsAndPrimePatterns, the finite van der Corput inequality and the weighted large sieve of
+ExplicitZetaBounds, Weil's bound of CharacterSumsOverFiniteFields, the character-sum point count of
 EllipticLegendreCharacterInterfaces, the explicit prime-number estimates of
-AnalyticNumberTheoryPartI and the Brun–Titchmarsh inequality of ExplicitPrimeCounting. Every result
-that rests on a table or on a finite verification takes that verification as a named hypothesis
-(Layer 6), and the analytic argument is proved from it.
+AnalyticNumberTheoryPartI, and the Brun–Titchmarsh inequality and Montgomery–Vaughan's lower bound
+for the diagonal sum `Σ_{q ≤ u} μ²(q)/φ(q)` of ExplicitPrimeCounting. Every result that rests on a
+table or on a finite verification takes that verification as a named hypothesis (Layer 6, or the
+named input of the supplier section it comes from), and the analytic argument is proved from it.
 
 The end theorems are:
 
-- Patel's corrected third, fourth and fifth derivative tests and Arias de Reyna's iterated van der
-  Corput inequality with the constant `2 + 2√2` (Layer 1);
+- Arias de Reyna's iterated van der Corput inequality with the constant `2 + 2√2` (Layer 1);
 - the first and second derivative tests for integers near a curve (Layer 2);
 - the Pólya–Vinogradov inequalities `M_χ < (2/π)√q (log q + log(4/π) + π²/(12q²))` for primitive
   `χ`, Pomerance's and Lapkova's parity-dependent constants, and
@@ -42,30 +41,27 @@ with the few definitions their statements need; it is not the roadmap.
 
 ## Scope and ownership
 
-**Owned here.** The van der Corput finite inequality for complex sequences and its normalised
-forms (Layer 0), Patel's fixed-order third, fourth and fifth derivative tests and Arias de Reyna's
-iterated van der Corput inequality (Layer 1), the explicit counts of integer points near a curve
-by the first and second derivative and by exponential sums (Layer 2), the explicit
+**Owned here.** The real-part form of the normalised van der Corput inequality (Layer 0), Arias de
+Reyna's iterated van der Corput inequality (Layer 1), the explicit counts of integer points near a
+curve by the first and second derivative and by exponential sums (Layer 2), the explicit
 Pólya–Vinogradov inequalities and the elementary character-sum identities they use (Layers 0 and
 3), the explicit Burgess inequalities for a prime modulus together with Burgess's moment bound and
 McGown–Trudgian's refinement of it at `r = 2`, the multiplicative-energy counts and Burgess's
-amplification inequality (Layer 4), the weighted arithmetic large sieve, the explicit sieve upper
-bounds and the explicit lower bounds for Selberg diagonal sums they use (Layer 5), and the named
-computational hypotheses (Layer 6).
+amplification inequality (Layer 4), the Selberg diagonal carriers with the coprime comparison,
+Büthe's weight-mass asymptotic and the diagonal bound from `z = 3`, the weighted arithmetic large
+sieve and the explicit sieve upper bounds (Layer 5), and the named computational hypotheses
+(Layer 6).
 
 **The van der Corput toolkit.** ExplicitZetaBounds, earlier in the order of supply, owns the
-Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the one-step
-Weyl–van der Corput inequality for exponential sums, the A-process (§4.2), Arias de Reyna's
-second derivative tests (§4.3), the `k`-th derivative test with Yang's recursive constants (§4.4)
-and the truncated Poisson formula, stationary phase and the B-process (§4.5); this roadmap consumes
-§§4.2–4.3 and restates none of them. Kept here: van der Corput's inequality for arbitrary complex
-coefficients (§0.3), of which ExplicitZetaBounds §4.2 is the case `b_n = e(f(n))`, and which
-ProbabilisticAndMetricNumberTheory §2.5 (later in the order) uses inside its proof of van der
-Corput's difference theorem; Patel's third, fourth and fifth derivative tests (§§1.1–1.2), which
-differ from ExplicitZetaBounds §4.4 in bounding the square of the sum with free parameters `η`,
-assuming `1/W ≤ |f^{(k)}| ≤ λ/W` without monotonicity of `f^{(k)}`, and carrying Patel's
-constants; and Arias de Reyna's iterated inequality (§1.3), which assumes no derivative bound at
-all.
+Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the finite van der Corput
+inequality for complex coefficients with its `|C(h)|` and normalised forms and the A-process
+(§4.2), Arias de Reyna's second derivative tests (§4.3), Patel's corrected third, fourth and fifth
+derivative tests and the `k`-th derivative test with Yang's recursive constants (§4.4), and the
+truncated Poisson formula, stationary phase and the B-process (§4.5); this roadmap consumes §4.2
+and restates none of them. Kept here: Arias de Reyna's real-part form of the normalised inequality
+(§0.3), which differs from the normalised form of ExplicitZetaBounds §4.2 in keeping the real part
+of the weighted lag sum; and Arias de Reyna's iterated inequality (§1.1), which assumes no
+derivative bound at all.
 
 **Consumed, not restated.** Mathlib supplies Dirichlet characters with conductor, primitivity,
 parity and primitive character, Gauss sums of multiplicative characters and their shift identity
@@ -76,7 +72,7 @@ Gauss sum, the vanishing of a nonprincipal character over a full period and the 
 elliptic curves over finite fields. SieveMethodsAndPrimePatterns §2.9 owns the large sieve for
 forbidden residues `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²`, consumed by Fan's bound, and §1.3 owns
 Selberg's optimal weights on the native carrier, consumed by Büthe's weighted sieve; its §1.1
-owns the qualitative asymptotics of Selberg diagonal sums, and §5.1 here differs from it only in
+owns the qualitative asymptotics of Selberg diagonal sums, and §5.1 here differs from it in
 having explicit constants. ExplicitZetaBounds §6.5 owns Montgomery–Vaughan's weighted large sieve
 `Σ_x (N + (3/2)δ(x)⁻¹)⁻¹|S(x)|² ≤ Σ|aₙ|²` for an arbitrary finite set of points, consumed by the
 weighted arithmetic large sieve of §5.5, which differs from it in being its sieve form, at the
@@ -88,11 +84,19 @@ character sum of its cubic, consumed with Tau Ceti's Hasse bound in the quadrati
 `r = 2` moment bound. AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19 and 0.20 own the explicit
 Rosser–Schoenfeld estimates for `π(x)`, `Σ log p/p` and `Σ 1/p`, consumed by McGown's Burgess
 inequality and by Fan's bound. ExplicitPrimeCounting §0.1 owns Montgomery–Vaughan's
-Brun–Titchmarsh inequality `π(x + y; k, l) − π(x; k, l) ≤ 2y/(φ(k) log(y/k))` (`brun_titchmarsh`);
-§5.5 here owns the sifted form, which differs from it in counting every integer of the progression
-free of prime factors up to a level `z`, with `π(z)` added, the form that the prime-power sums
-need. No large-sieve constant, Selberg weight, Gauss-sum evaluation, Weil bound or Hasse bound is
-proved a second time.
+Brun–Titchmarsh inequality `π(x + y; k, l) − π(x; k, l) ≤ 2y/(φ(k) log(y/k))` (`brun_titchmarsh`)
+together with the inputs of its proof: the bound `S(u) > log u` from the kernel identity for the
+diagonal sum `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, Büthe's explicit asymptotic for `S`, Montgomery–Vaughan's
+bound `S(u) ≥ log u + 1.07` for `u ≥ 6` with its finite-range proposition `MVDiagonalFiniteRange`,
+the step from one prime to a squarefree modulus for a sequence avoiding one residue class modulo
+each sieving prime, and the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of the weighted diagonal sums;
+§§5.1, 5.5 and 5.6 here consume them. §5.1 adds the bound `S(z) ≥ log z + 0.89` from `z = 3`,
+which differs in reaching below `6` with a smaller constant; §5.5 owns the weighted arithmetic
+large sieve, which differs from that step in allowing `ω(p)` forbidden classes modulo each prime
+and an arbitrary sifted set, and the sifted form, which differs from `brun_titchmarsh` in counting
+every integer of the progression free of prime factors up to a level `z`, with `π(z)` added, the
+form that the prime-power sums need. No large-sieve constant, Selberg weight, diagonal bound,
+Gauss-sum evaluation, Weil bound or Hasse bound is proved a second time.
 
 **Not owned here.** The qualitative Brun–Titchmarsh bound with an unspecified constant and the
 qualitative twin-prime and Goldbach upper bounds are SieveMethodsAndPrimePatterns §1.6; the
@@ -112,7 +116,7 @@ roadmap stops at the derivative tests of Layer 1, the first and second derivativ
 Layer 4 and the sieve bounds of Layer 5.
 
 - Arias de Reyna's uniform explicit `d`-th derivative estimate for exponential sums
-  (ariasdereyna2024 Theorem 11, line 555), built on §1.3.
+  (ariasdereyna2024 Theorem 11, line 555), built on §1.1.
 - The explicit `k`-th derivative test (`k ≥ 3`) for integer points near a curve: Bordellès's
   explicit form of the theorem of Huxley and Sargos (bordelles2012 Theorem 5.12; the qualitative
   form is huxleysargos1995 Théorème 1, line 39), with the correction of the major-arc lemma and the
@@ -148,8 +152,7 @@ Layer 4 and the sieve bounds of Layer 5.
 the Frolenkov–Soundararajan bound for nonprincipal characters (3.6), the integer-point first and
 second derivative tests (2.2, 2.3) and Greaves's density-sum bound (5.2) are stated from the
 TME-EMT pages and from papers that quote the primary statements; the primary texts are cited by
-locator. For 2.2, 5.2, 5.5 and the diagonal bound 5.1 the proof route given here is complete in
-itself.
+locator. For 2.2, 5.2 and 5.5 the proof route given here is complete in itself.
 
 ## Conventions
 
@@ -158,8 +161,7 @@ itself.
 - For real `a ≤ b` and `f : ℝ → ℝ`, the **interval exponential sum** is
   `S_f[a, b] = Σ_{n ∈ ℤ, a ≤ n ≤ b} e(f(n))`, a finite sum over `Finset.Icc ⌈a⌉ ⌊b⌋`
   (`intervalExpSum`). The half-open form `Σ_{X < n ≤ X+Y}` of several sources is the case
-  `a = ⌊X⌋ + 1`, `b = X + Y`, and the block `Σ_{n=N+1}^{N+L}` with integers `N`, `L ≥ 1` is
-  `a = N + 1`, `b = N + L`.
+  `a = ⌊X⌋ + 1`, `b = X + Y`.
 - "`f` has `k` continuous derivatives on `[a, b]`" means `ContDiffOn ℝ k f (Set.Icc a b)`, and the
   derivatives in hypotheses are the derivatives within `[a, b]` (`derivWithin`,
   `iteratedDerivWithin`; one-sided at the endpoints).
@@ -187,11 +189,14 @@ itself.
 - Real logarithms are natural; `log` of a nonpositive number never occurs in a stated bound
   (each statement carries the hypothesis making its arguments positive). Division by zero does not
   occur: every denominator in a stated bound is positive under the stated hypotheses.
-- A table or finite verification enters only as a named hypothesis of Layer 6. A theorem that
-  consumes AnalyticNumberTheoryPartI §0.5 carries that section's named input
-  `RosserSchoenfeldFiniteRangeInput`, which `Suggested.lean` restates with the same content so that
-  those theorems are statable at the pins: for every real `59 ≤ x < exp 10000`,
-  `(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))`.
+- A table or finite verification enters only as a named hypothesis of Layer 6 or as the named
+  input of a supplier section. A theorem that consumes AnalyticNumberTheoryPartI §0.5 carries that
+  section's named input `RosserSchoenfeldFiniteRangeInput`, which `Suggested.lean` restates with
+  the same content so that those theorems are statable at the pins: for every real
+  `59 ≤ x < exp 10000`, `(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))`. A theorem
+  that consumes the diagonal bound of ExplicitPrimeCounting §0.1 carries that section's named input
+  `MVDiagonalFiniteRange`, which `Suggested.lean` restates in the same way: for every real
+  `6 ≤ z < 10⁹`, `S(z) ≥ log z + 1.07`.
 
 ## Exact supplier contracts
 
@@ -229,8 +234,8 @@ At the pinned commit `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
   `Nat.doubleFactorial`, `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq` (the sequence
   `H_n − log(n + 1)`) and `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant`
   (`Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`, lines 50 and 159: `H_n − log(n + 1) < γ`
-  for every `n`), `log_add_one_le_harmonic` (`Mathlib/NumberTheory/Harmonic/Bounds.lean`, line
-  25), `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`, line 307).
+  for every `n`), `Real.log_le_sub_one_of_pos` (`Mathlib/Analysis/SpecialFunctions/Log/Basic.lean`,
+  line 307), `Complex.re_le_norm` (`Mathlib/Analysis/Complex/Norm.lean`, line 45).
 - `ContDiffOn`, `derivWithin`, `iteratedDerivWithin`, `exists_deriv_eq_slope`
   (`Mathlib/Analysis/Calculus/Deriv/MeanValue.lean`, line 155), `AbsolutelyContinuousOnInterval`
   (`Mathlib/MeasureTheory/Function/AbsolutelyContinuous.lean`, line 155) and
@@ -320,16 +325,15 @@ finite-range hypothesis of Layer 6. §0.5 is consumed also in 4.4, for the lower
 
 ### From TauCetiRoadmap.ExplicitZetaBounds
 
-Its Layer 4 writes `S_f(a, N) = |Σ_{a<n≤a+N} e(f(n))|` for integers `a` and `N ≥ 1`; in the
-notation here `S_f(a, N) = |S_f[a + 1, a + N]|`.
-
-- §4.2, the A-process: for real `f` on `(a, a + N]` and every integer `q ≥ 1`,
-  `S_f(a, N)² ≤ (N − 1 + q)(N/q + (2/q) Σ_{r=1}^{q−1} (1 − r/q) S_{g_r}(a, N − r))` with
-  `g_r(x) = f(x + r) − f(x)`; a lag `r ≥ N` contributes an empty sum. Consumed in 1.1 and 1.2.
-- §4.3, the first of Arias de Reyna's second derivative tests: if `f` is twice continuously
-  differentiable on `(X, X + Y]` with `0 < λ ≤ f″ ≤ Λ`, then
-  `|Σ_{X<n≤X+Y} e(f(n))| ≤ (ΛY + 2)(1 + 4/√(πλ)) + 1`; `λ = Λ` is allowed, and `−f`, whose sum is
-  the complex conjugate, covers `f″ < 0`. Consumed in 1.1.
+- §4.2, the finite van der Corput inequality: for integers `N, H ≥ 1` and complex `b_1, …, b_N`,
+  with `C(h) = Σ_{n=1}^{N−h} b_{n+h} conj(b_n)` for `1 ≤ h < N` and `C(h) = 0` for `h ≥ N`,
+  `H²|Σ_{n≤N} b_n|² ≤ (N + H − 1)(H Σ_{n≤N} |b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h))`, proved by
+  writing `H Σ_n b_n = Σ_m Σ_{j=0}^{H−1} b_{m−j}` (with `b` extended by zero) and applying
+  Cauchy–Schwarz in `m`; consumed in 0.3. And its normalised form: for real `X`, `Y ≥ 1`, an
+  integer `1 ≤ H ≤ Y` and complex `b_n` with `|b_n| ≤ 1` on the integers of `(X, X + Y]`,
+  `|Y⁻¹ Σ_{X<n≤X+Y} b_n|² ≤ 4/H + (4/(HY)) Σ_{h=1}^{H−1} |Σ_{X<n, n+h≤X+Y} b_{n+h} conj(b_n)|`;
+  consumed in 1.1 at `b_n = e(f(n))`, where the lag sum at `h` is `S_{g_h}[⌊X⌋ + 1, X + Y − h]`
+  with `g_h(x) = f(x + h) − f(x)` (§0.1).
 - §6.5, Montgomery–Vaughan's weighted large sieve with `c = 3/2`: for a finite set `X ⊂ ℝ/ℤ` with
   at least two points, `δ(x)` the distance from `x` to `X ∖ {x}`, an integer `M`, `N ≥ 1` and
   complex `a_n` on `M < n ≤ M + N`,
@@ -337,31 +341,48 @@ notation here `S_f(a, N) = |S_f[a + 1, a + N]|`.
 
 ### From TauCetiRoadmap.ExplicitPrimeCounting
 
-- §0.1, `brun_titchmarsh`: for real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`,
-  the number of primes `p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. Consumed
-  as the prime-count case of 5.5 and in the Checks of 5.4.
+Its §0.1 writes `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, which is `selbergDiagonal` here, and
+`L(Q, N) = Σ_{q ≤ Q} μ²(q)/(φ(q)(N + (3/2)qQ))` for integers `Q ≥ 2`, `N ≥ 1`.
+
+- §0.1, the diagonal bound: `S(u) > log u` for every real `u ≥ 1`, from the kernel identity
+  `S(u) = Σ_{rad m ≤ u} 1/m`; Büthe's explicit asymptotic
+  `S(u) = log u + γ + Σ_p log p/(p(p − 1)) + θ · 58/√u` with `|θ| ≤ 1` for real `u ≥ 10⁹`
+  (buthe2014 Lemma 4.5, lines 462–468), which gives `S(u) ≥ log u + 1.32` there; and, under
+  `MVDiagonalFiniteRange` (for every real `6 ≤ u < 10⁹`, `S(u) ≥ log u + 1.07`),
+  Montgomery–Vaughan's bound `S(u) ≥ log u + 1.07` for every real `u ≥ 6`. Consumed in 5.1, 5.4
+  (the asymptotic), 5.5 and 5.6.
+- §0.1, two steps of the proof of `brun_titchmarsh`: for a set of `Z` integers avoiding one residue
+  class modulo each prime factor of a squarefree `q`, the sums `S(α) = Σ_{m in the set} e(mα)`
+  satisfy `Σ*_{a mod q} |S(a/q)|² ≥ Z²/φ(q)`, which is the case `ω(p) = 1` of the step in 5.5; and
+  the comparison `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of `L₁(Q) = L(Q, N)` with
+  `L_k(Q) = Σ_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2)qQ))`, consumed in 5.5.
+- §0.1, `brun_titchmarsh`: under `MVDiagonalFiniteRange` and `BrunTitchmarshFiniteRange` (for every
+  integer `25 ≤ n ≤ 2·10⁴` there is an integer `Q ≥ 2` with `1/L(Q, n + 1) + π(Q) ≤ 2n/log n`),
+  for real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`, the number of primes
+  `p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. Consumed in the Checks of 5.4;
+  the sifted form of 5.5 implies the same prime count without `BrunTitchmarshFiniteRange`.
 
 ## How to read the build
 
 Layer 0 fixes the carriers (the exponential sum over the integers of an interval, the distance to
 the nearest integer and the near-integer count, the character interval sum and its maximum),
-proves van der Corput's finite inequality and the elementary identities for character sums
-(periodicity, the symmetry of even characters, the reduction to the primitive character). Layer
-1 proves Patel's third, fourth and fifth derivative tests from the A-process and the second
-derivative test of ExplicitZetaBounds, and Arias de Reyna's iterated inequality from the
-normalised form of §0.3. Layer 2 counts integer points near curves by the mean value theorem,
+proves the real-part form of the normalised van der Corput inequality from the finite inequality
+of ExplicitZetaBounds, and the elementary identities for character sums (periodicity, the
+symmetry of even characters, the reduction to the primitive character). Layer 1 proves Arias de
+Reyna's iterated van der Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
+Layer 2 counts integer points near curves by the mean value theorem,
 by Huxley's reduction and by Fejér's kernel. Layer 3 expands character sums in Gauss sums and
 proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound from
 Weil's bound (and, at `r = 2` for the quadratic character, from Hasse's bound), the
 multiplicative-energy counts and Burgess's amplification inequality, and derives the tabulated
-Burgess constants from the Layer 6 propositions. Layer 5 proves the explicit lower bounds for
-Selberg diagonal sums, the weighted arithmetic large sieve and the explicit sieve upper bounds.
-Layer 6 names the computational
-hypotheses: numerical inequalities over explicitly bounded ranges, and, for Treviño's two tables,
+Burgess constants from the Layer 6 propositions. Layer 5 proves the explicit bounds for Selberg
+diagonal sums that the sieves need beyond those of ExplicitPrimeCounting, the weighted arithmetic
+large sieve and the explicit sieve upper bounds. Layer 6 names the computational hypotheses:
+numerical inequalities over explicitly bounded ranges, and, for Treviño's two tables,
 inequalities between explicit functions of `p ≥ p₀`; none is a statement about characters or
 primes in general. Read each claim with its hypotheses and its *Needs:* line.
 
-## Layer 0: carriers, van der Corput's inequality and character-sum identities
+## Layer 0: carriers, the real-part van der Corput bound and character-sum identities
 
 ### 0.1 the exponential sum over the integers of an interval
 
@@ -411,58 +432,43 @@ The distance to the nearest integer is `|x − round x|`, Mathlib's norm on `Uni
 
 *Needs:* Mathlib `UnitAddCircle.norm_eq`, `round`.
 
-### 0.3 van der Corput's finite inequality
+### 0.3 the real-part form of the normalised van der Corput inequality
 
-Let `N ≥ 1` and `H ≥ 1` be integers and `b_1, …, b_N` complex numbers; put
-`C(h) = Σ_{n=1}^{N−h} b_{n+h} · conj(b_n)` for `1 ≤ h < N` and `C(h) = 0` for `h ≥ N`. Prove
-
-    H² |Σ_{n=1}^{N} b_n|² ≤ (N + H − 1) · (H Σ_{n=1}^{N} |b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h)).
-
-(yang2024 Lemma 2.3, lines 324–339, and hiarypatelyang2024 Lemma 2.4, lines 96–108, state its
-case `b_n = e(f(n))` after bounding each lag sum by its modulus.) Proof: extend `b` by zero, write
-`H Σ_n b_n = Σ_m Σ_{j=0}^{H−1} b_{m−j}` over the `N + H − 1` values of `m` for which the inner sum
-can be nonzero, apply Cauchy–Schwarz in `m`, and expand the square: the diagonal gives
-`H Σ|b_n|²` and each lag `h` occurs `H − h` times with its conjugate. The same expansion shows
-that the second factor is a sum of squares,
-`H Σ|b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h) = Σ_m |Σ_{j=0}^{H−1} b_{m−j}|² ≥ 0`.
-
-Corollaries. For real `X`, `Y ≥ 1`, a natural number `1 ≤ H ≤ Y` and complex coefficients
-`|b_n| ≤ 1` on the integers of `(X, X + Y]`, with `C(h)` the lag sum
-`Σ_{X<n, n+h≤X+Y} b_{n+h} conj(b_n)`,
+Let `X` be real, `Y ≥ 1`, `1 ≤ H ≤ Y` a natural number and `b_n` complex numbers with `|b_n| ≤ 1`
+on the integers `n` of `(X, X + Y]`; put `C(h) = Σ_{X<n, n+h≤X+Y} b_{n+h} conj(b_n)`. Prove
 
     |Y⁻¹ Σ_{X<n≤X+Y} b_n|² ≤ 4/H + (4/(HY)) Re(H⁻¹ Σ_{h=1}^{H−1} (H − h) C(h))
-                           ≤ 4/H + (4/(HY)) Σ_{h=1}^{H−1} |C(h)|
 
-(ariasdereyna2024 Lemma 6, lines 224–227, is the first form; the second is the one used in the
-proof of its Theorem 7, lines 405–415). Proof: there are `N ≤ Y + 1 ≤ 2Y` such integers, so
-`N + H − 1 ≤ 2Y`; since the second factor of the main inequality is nonnegative, replacing
-`N + H − 1` by `2Y` keeps an upper bound, and with `H Σ|b_n|² ≤ HN ≤ 2HY` this gives
-`H²|Σ b_n|² ≤ 4HY² + 4Y Re Σ_{h<H}(H − h)C(h)`; divide by `H²Y²`. The second form follows from
-`(H − h)/H ≤ 1`. The case `b_n = e(f(n))` in shifted form, the A-process, is ExplicitZetaBounds
-§4.2.
+(ariasdereyna2024 Lemma 6, lines 224–227). It differs from the normalised form of
+ExplicitZetaBounds §4.2, whose right side is `4/H + (4/(HY)) Σ_{h=1}^{H−1} |C(h)|`, in keeping the
+real part of the weighted lag sum, and it implies that form because `(H − h)/H ≤ 1` and
+`Re w ≤ |w|` (Mathlib `Complex.re_le_norm`). Proof: let `N` be the number of integers in
+`(X, X + Y]`; then `1 ≤ N ≤ Y + 1 ≤ 2Y` and `N + H − 1 ≤ 2Y`. With `b` extended by zero, the
+expansion behind the finite inequality of ExplicitZetaBounds §4.2 shows that its second factor is a
+sum of squares,
+`H Σ|b_n|² + 2 Re Σ_{h=1}^{H−1} (H − h) C(h) = Σ_m |Σ_{j=0}^{H−1} b_{m−j}|² ≥ 0`, because the
+diagonal of the expanded square gives `H Σ|b_n|²` and each lag `h` occurs `H − h` times with its
+conjugate. Since this factor is nonnegative, replacing `N + H − 1` by `2Y` in the finite inequality
+keeps an upper bound, and with `H Σ|b_n|² ≤ HN ≤ 2HY` it gives
+`H²|Σ b_n|² ≤ 4HY² + 4Y Re Σ_{h<H}(H − h)C(h)`; divide by `H²Y²`.
 
 **Checks.**
 
-- `N = 1`: both sides equal `H²|b_1|²`; `H = 1`: the inequality is Cauchy–Schwarz
-  `|Σ b_n|² ≤ N Σ|b_n|²`.
-- `b = (1, 1)`, `H = 2`: the left side is `4 · 4 = 16`, the right side `3 · (2 · 2 + 2 · 1) = 18`.
-  With the factor `N` in place of `N + H − 1` the right side would be `12 < 16`.
-- `b = (1, −1)`, `H = 2`: left `0`, right `3 · (4 − 2) = 6`; the real part of `C(1) = −1` enters
-  with its sign.
-- `H > N`: lags `h ≥ N` contribute `C(h) = 0`, and `b = (1)`, `H = 3` gives `9 ≤ 3 · 3 = 9`.
-- The normalised corollary at `b = (1, 1, 1)` on `(0, 3]`, `H = 2`: `|Σ b_n/3|² = 1`, against
-  `4/2 + (4/6) · (1/2) · 2 = 2.67` for the real-part form and `4/2 + (4/6) · 2 = 3.33` for the
-  `|C(h)|` form.
-- A negative real part does not break the passage to `2Y`: at `b = (1, −1)` on `(0, 2]`,
-  `H = Y = 2`, `C(1) = −1`, and the second factor of the main inequality is
-  `2 · 2 + 2 · (−1) = 2 = |b₁|² + |b₂ + b₁|² + |b₂|²`. The left side `|Σ b_n/2|²` is `0`; the main
-  inequality bounds it by `3 · 2/16 = 0.375`, the real-part form by `2 + 1 · (1/2)(−1) = 1.5` and
-  the `|C(h)|` form by `2 + 1 = 3`. Enlarging `N + H − 1 = 3` to `2Y = 4` multiplies the whole
-  nonnegative factor `2`, raising `6` to `8`; it would lower the bound only if it multiplied the
-  real part `−1` alone.
+- `b = (1, 1, 1)` on `(0, 3]`, `H = 2`: `C(1) = 2`, the left side is `|Σ b_n/3|² = 1`, the real-part
+  bound is `4/2 + (4/6) · (1/2) · 2 = 2.67` and the `|C(h)|` form of ExplicitZetaBounds §4.2 gives
+  `4/2 + (4/6) · 2 = 3.33`.
+- A negative real part: at `b = (1, −1)` on `(0, 2]`, `H = Y = 2`, `C(1) = −1`, and the second
+  factor of the finite inequality is `2 · 2 + 2 · (−1) = 2 = |b₁|² + |b₂ + b₁|² + |b₂|²`. The left
+  side `|Σ b_n/2|²` is `0`; the finite inequality bounds it by `3 · 2/16 = 0.375`, the real-part form
+  by `2 + 1 · (1/2)(−1) = 1.5` and the `|C(h)|` form by `2 + 1 = 3`. Enlarging `N + H − 1 = 3` to
+  `2Y = 4` multiplies the whole nonnegative factor `2`, raising `6` to `8`; enlarging the factor in
+  front of the real part `−1` alone would lower the bound, which is why the proof needs the
+  sum-of-squares identity.
+- The constant `4` is needed near `Y = 1`: at `H = 1` the lag sum is empty and the bound is `4`,
+  while `b ≡ 1` on `(0.995, 2.005]` (`Y = 1.01`, the two integers `1, 2`) gives the left side
+  `(2/1.01)² = 3.92`, above the value `2` that a constant `2/H` would allow.
 
-*Needs:* Mathlib `Finset.sum_mul_sq_le_sq_mul_sq` (finite Cauchy–Schwarz), `norm_sum_le`,
-`Complex.normSq`.
+*Needs:* ExplicitZetaBounds §4.2; Mathlib `Complex.normSq`, `Complex.re_le_norm`.
 
 ### 0.4 the character interval sum and its maximum
 
@@ -541,117 +547,20 @@ equals `χ*(n)` when `gcd(n, r) = 1` and `0` otherwise (Mathlib
 
 ### Examples
 
-The quadratic character modulo `5` has `M_χ = 2` and initial-sum maximum `1`; van der Corput's
-inequality with `b = (1, 1)`, `H = 2` reads `16 ≤ 18`; `R(x/3, 0, 6, 0.1) = 3`.
+The quadratic character modulo `5` has `M_χ = 2` and initial-sum maximum `1`; the real-part form
+of §0.3 at `b = (1, −1)` on `(0, 2]`, `H = 2` bounds `0` by `1.5`; `R(x/3, 0, 6, 0.1) = 3`.
 
 ### Dependencies
 
 Mathlib: `Real.fourierChar`, `UnitAddCircle.norm_eq`, Dirichlet characters, primitive characters,
-Möbius function, finite Cauchy–Schwarz. Tau Ceti: the partial-sum lemmas of
-`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`.
+Möbius function, `Complex.re_le_norm`. Tau Ceti: the partial-sum lemmas of
+`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`. ExplicitZetaBounds §4.2 (for §0.3).
 
-## Layer 1: exponential sums under derivative conditions
+## Layer 1: the iterated van der Corput inequality
 
-Throughout, `S_f[a, b]` is the interval exponential sum of §0.1. The Kusmin–Landau inequality,
-the A-process and the second derivative tests are ExplicitZetaBounds §§4.1–4.3; this layer takes
-from there the A-process and the first of the second derivative tests.
+Throughout, `S_f[a, b]` is the interval exponential sum of §0.1.
 
-### 1.1 the third derivative test
-
-Prove `third_derivative_test`: let `N` be an integer, `L ≥ 1`, and let `f` have three continuous
-derivatives on `[N + 1, N + L]`, with `W > 1`, `λ ≥ 1` and `1/W ≤ |f‴(x)| ≤ λ/W` there. For every
-`η > 0`,
-
-    |S_f[N+1, N+L]|² ≤ (L W^{−1/3} + η)(α₃ L + β₃ W^{2/3}),
-    α₃ = 1/η + (32λ/(15√π)) √(η + W^{−1/3}) + 2λη W^{−1/3} + 2λ W^{−2/3},
-    β₃ = 64/(3√π √η) + 4 W^{−1/3}
-
-(patel2022 Lemma 2.5, lines 160–164, with proof lines 175–181; it corrects hiary2016zeta
-Lemma 1.2, whose constants rest on Cheng–Graham's flawed second derivative test). Proof route:
-the A-process (ExplicitZetaBounds §4.2) with `q = M = ⌈η W^{1/3}⌉`, a lag `m ≥ L` giving an empty
-sum. For each lag `1 ≤ m < min(M, L)`, `g_m(x) = f(x + m) − f(x)` satisfies
-`m/W ≤ |g_m″| ≤ mλ/W` on `[N + 1, N + L − m]` (mean value theorem for `f″`), and `g_m″` has one
-sign because `f‴` is continuous and never `0`. The first of the second derivative tests of
-ExplicitZetaBounds §4.3, applied to `g_m` or `−g_m` on `(N, N + L − m]` with `λ = m/W` and
-`Λ = mλ/W` (equal when `λ = 1`), after extending `f` below `N + 1` by its cubic Taylor polynomial
-at `N + 1`, which keeps `f‴` within its bounds, gives
-`|S_{g_m}[N + 1, N + L − m]| ≤ (mλL/W + 2)(1 + 4√(W/(πm))) + 1`, that is
-`4λL√m/√(πW) + λLm/W + 8√(W/m)/√π + 3`; this is at most Patel's lag bound
-`4λL√m/√(πW) + 2λLm/W + 8√(W/m)/√π + 4` (patel2022 Lemma 2.3, lines 140–144, at `W/m` and
-`V = W/(mλ)`; that lemma assumes `V < W` and `W/m > 1`, which the route here does not need, so the
-cases `λ = 1` and `m ≥ W` are covered). Sum the lags with
-`Σ_{m ≤ M}(1 − m/M) m^s ≤ M^{s+1}/((s + 1)(s + 2))` for `−1 < s < 1` (patel2022 display (32),
-line 232) and the trivial `Σ_{1 ≤ m < M} (1 − m/M) m ≤ Σ_{1 ≤ m < M} m = M(M − 1)/2 ≤ M²/2`,
-and use `L + M − 1 ≤ W^{1/3}(L W^{−1/3} + η)`.
-
-**Checks.**
-
-- The source's hypothesis reads "four continuous derivatives"; the proof uses `f‴` only through
-  the mean value theorem for `f″`, and Hiary's Lemma 1.2 assumes three. The statement here
-  assumes three.
-- At `W = 1` (the limit), `λ = η = 1`: `α₃ = 5 + (32/(15√π))√2 = 6.702…` and
-  `β₃ = 64/(3√π) + 4 = 16.036…`; Hiary's uncorrected `β = 64/15 + 3 = 7.27` is smaller and is not
-  a valid constant. The TME-EMT page prints `65/15` for Hiary's `64/15` (tmeemt-art05 line 123).
-- The bound is decreasing in `W` at fixed `η, λ, L`, so the values at `W = 1` bound every
-  admissible case (patel2022 line 185, `α̃₃`, `β̃₃`); a reading with `W^{+1/3}` in `α₃` would make
-  `α₃ L · L W^{−1/3}` contain the term `2ληL²`, larger than the trivial bound, and contradicts that
-  monotonicity.
-- `λ = 1`, the case of `f‴` of constant modulus `1/W` (for instance `f(x) = x³/(6W)`): every lag
-  has `m/W ≤ |g_m″| ≤ m/W`, so patel2022 Lemma 2.3, applied at `W/m` with `V = W/(mλ) = W/m`,
-  would be outside its hypothesis `V < W/m`, while ExplicitZetaBounds §4.3 allows `λ = Λ`. At `W = 8`,
-  `m = 1`, `L = 10` the lag bound of the route is `7.979 + 1.25 + 12.766 + 3 = 24.99`, against
-  Patel's `7.979 + 2.5 + 12.766 + 4 = 27.24`.
-
-*Needs:* ExplicitZetaBounds §§4.2, 4.3; Mathlib `exists_deriv_eq_slope`, `Int.ceil`.
-
-### 1.2 the fourth and fifth derivative tests
-
-Let `α̃₃ = 1/η₃ + 32λ/(15√π)√(η₃ + 1) + 2λη₃ + 2λ` and `β̃₃ = 64/(3√π√η₃) + 4` be the values of
-1.1 at `W = 1` (patel2022 line 185).
-
-Prove `fourth_derivative_test`: let `f` have four continuous derivatives on `[N + 1, N + L]`,
-`N ∈ ℤ`, `L ≥ 1`, with `W > 1`, `λ ≥ 1` and `1/W ≤ |f⁽⁴⁾| ≤ λ/W`. For `η₃, η₄ > 0`,
-
-    |S_f[N+1, N+L]|² ≤ (L W^{−1/7} + η₄)(α₄ L + γ₄ √L W^{2/7} + β₄ W^{3/7}),
-    α₄ = 1/η₄ + (72/91) √α̃₃ (η₄ + W^{−1/7})^{1/6},
-    γ₄ = (72/55) √β̃₃ η₄^{−1/6} + √(η₃ α̃₃) W^{−1/7},
-    β₄ = (9/5) √(β̃₃ η₃) η₄^{−1/3}
-
-(patel2022 Lemma 3.1, lines 191–196, proof displays (27)–(36), lines 197–264).
-
-Prove `fifth_derivative_test`: let `f` have five continuous derivatives with `W > 1`, `λ ≥ 1` and
-`1/W ≤ |f⁽⁵⁾| ≤ λ/W`. For `η₃, η₄, η₅ > 0`, with `α̃₄ = 1/η₄ + (72/91)√α̃₃(η₄ + 1)^{1/6}`,
-`γ̃₄ = (72/55)√β̃₃ η₄^{−1/6} + √(η₃α̃₃)` and `β₄` as above,
-
-    |S_f[N+1, N+L]|² ≤ (L W^{−1/15} + η₅)(α₅ L + τ₅ L^{3/4} W^{2/15} + γ₅ √L W^{3/15} +
-                                            ω₅ L^{1/4} W^{1/5} + β₅ W^{4/15}),
-    α₅ = 1/η₅ + (392/435) √α̃₄ (η₅ + W^{−1/15})^{1/14},   τ₅ = (392/351) √γ̃₄ η₅^{−1/14},
-    γ₅ = (98/78) √β₄ η₅^{−1/7} + √(η₄ α̃₄) W^{−2/15},       ω₅ = (98/78) √(η₄ γ̃₄) η₅^{−1/7},
-    β₅ = (392/275) √(η₄ β₄) η₅^{−3/14}
-
-(patel2022 Lemma 3.2, lines 266–270, proof displays (37)–(42), lines 271–308). Proof route for
-both: the A-process (ExplicitZetaBounds §4.2) with `q = M = ⌈η_k W^{1/(2^{k−1}−1)}⌉`, the previous
-test applied to `g_m` with `W/m` in place of `W` (`m/W ≤ |g_m^{(k−1)}| ≤ mλ/W`), the replacements
-`α ≤ α̃`, `γ ≤ γ̃`, the subadditivity of the square root, and the lag sum of 1.1. When `W/m ≤ 1`
-the previous test does not apply to `g_m`, but then the first term of the lag bound,
-`√α̃₃ · L (m/W)^{1/6}` for `k = 4` and `√α̃₄ · L (m/W)^{1/14}` for `k = 5`, is at least `√α̃ · L`
-and already exceeds the trivial bound `L`, because `α̃₃ ≥ 2 + 2√2` and
-`α̃₄ ≥ (72/91)√(2 + 2√2) > 1`.
-
-**Checks.**
-
-- The rational coefficients come from the lag sum: `2/((7/6)(13/6)) = 72/91`,
-  `2/((5/6)(11/6)) = 72/55`, `2/((2/3)(5/3)) = 9/5`, `2/((15/14)(29/14)) = 392/435`,
-  `2/((13/14)(27/14)) = 392/351`, `2/((6/7)(13/7)) = 98/78`, `2/((11/14)(25/14)) = 392/275`.
-- The printed statement of Lemma 3.1 gives `β₄` with the factor `18/20`; its proof (displays (33)
-  and (35), lines 241 and 263) produces `18/10 = 9/5`, which is the value stated here. The
-  smaller printed factor is not established by the proof.
-- Exponents: `W^{−1/6+1/42} = W^{−1/7}` (the `α₄` term) and `W^{1/7+1/6−1/42} = W^{2/7}`
-  (the `γ₄` term), which fixes the normalisation `M ≈ η₄ W^{1/7}`.
-
-*Needs:* ExplicitZetaBounds §4.2; §1.1.
-
-### 1.3 the iterated van der Corput inequality
+### 1.1 the iterated van der Corput inequality
 
 Prove `iterated_vanDerCorput`: let `X` be real, `f : ℝ → ℝ`, `d ≥ 1`, and let `H₁, …, H_d ≥ 1` be
 integers with `H₁ + ⋯ + H_d ≤ Y`. For `a = (a₁, …, a_d)` with `1 ≤ a_r ≤ H_r − 1` let
@@ -663,9 +572,10 @@ defined on `(X, X + Y − Σ_r a_r]`, and let
 
 (ariasdereyna2024 Theorem 7, lines 398–404, with the constant `B` and its property
 `4/H + 4T ≤ max(B²/H, BT)` at lines 384–391). Proof route: induction on `d` from the normalised
-corollary of §0.3 with `b_n = e(f(n))`, which gives `|Y⁻¹ Σ e(f(n))|² ≤ 4/H₁ + 4T₁` (the form used
-at ariasdereyna2024 lines 405–415), applying the induction hypothesis to each `f_{a₁}` and
-Hölder's inequality to the average over `a₁`.
+form of ExplicitZetaBounds §4.2 with `b_n = e(f(n))`, whose lag sum at `a₁` is the inner sum of
+`f_{a₁}`, so that it reads `|Y⁻¹ Σ e(f(n))|² ≤ 4/H₁ + 4T₁` (the form used at ariasdereyna2024
+lines 405–415), applying the induction hypothesis to each `f_{a₁}` and Hölder's inequality to the
+average over `a₁`.
 
 **Checks.**
 
@@ -680,19 +590,17 @@ Hölder's inequality to the average over `a₁`.
 - `f(x) = x²`, `a = (1)`: `f_a(x) = 2x + 1`; `a = (1, 1)`: `f_a ≡ 2`, so for `d = 2` every inner
   sum is a sum of `e(2) = 1`.
 
-*Needs:* §0.3; Mathlib `Real.sqrt`, Hölder's inequality for finite sums
-(`Real.inner_le_Lp_mul_Lq_of_nonneg`).
+*Needs:* ExplicitZetaBounds §4.2 (the normalised form); §0.1; Mathlib `Real.sqrt`, Hölder's
+inequality for finite sums (`Real.inner_le_Lp_mul_Lq_of_nonneg`).
 
 ### Examples
 
-The third derivative constants at `W = η = λ = 1` are `α₃ = 6.702…`, `β₃ = 16.036…`; the
-fourth derivative test's lag coefficient is `2/((7/6)(13/6)) = 72/91`; the iterated inequality at
-`d = 1`, `H₁ = Y = 2`, `f ≡ 0` reads `1 ≤ 3.41`.
+The iterated inequality at `d = 1`, `H₁ = Y = 2`, `f ≡ 0` reads `1 ≤ 3.41`; the constant
+`B = 2 + 2√2` satisfies `4/H + 4T ≤ max(B²/H, BT)` at `H = 1`, `T = 6` as `28 ≤ 28.97`.
 
 ### Dependencies
 
-Layer 0 (§§0.1, 0.3). ExplicitZetaBounds §§4.2–4.3. Mathlib: mean value theorem, `ContDiffOn`,
-finite Hölder and Cauchy–Schwarz inequalities.
+Layer 0 (§0.1). ExplicitZetaBounds §4.2. Mathlib: finite Hölder inequality.
 
 ## Layer 2: integer points near smooth curves
 
@@ -866,8 +774,6 @@ every character is principal).
   `(2/π)(1.0986 + 0.2416 + 0.0914) = 0.911 ≤ 1.0986`; at `p = 2` the left side `0.726` exceeds
   `log 2 = 0.693`, but there is no nonprincipal character modulo `2`. The nonprincipal hypothesis
   is needed: the principal character has `S(0, N)` of size about `N(1 − 1/p)`, unbounded in `N`.
-- Over every primitive character of modulus `3 ≤ q ≤ 47`, the largest ratio of `M_χ` to the
-  classical bound is `0.746`.
 
 *Needs:* §3.1; §0.6; Mathlib `ConvexOn` for `csc` on `(0, π)` (from the second derivative),
 `intervalIntegral`, `DirichletCharacter.eq_one_iff_conductor_eq_one`.
@@ -942,8 +848,6 @@ parity forms, bound it by Lemma 3 and the tail by Lemma 4, and choose `n`; for e
 - `q = 5` (even, `M_χ = 2`): `0.2026 · 2.236 · 1.609 + 0.4053 · 2.236 · 0.4759 + 3.354 = 4.515 ≥ 2`.
 - `log log q` is defined and positive for `q ≥ 3`, the least primitive level above `1`; at
   `q = 2` (no primitive character) `log log 2 < 0`.
-- Over every primitive character of modulus `3 ≤ q ≤ 47`, the largest ratio of `M_χ` to the bound
-  is `0.478` for even and `0.571` for odd characters.
 
 *Needs:* §§0.5, 3.1, 3.3; Mathlib `DirichletCharacter.Even`, `DirichletCharacter.Odd`.
 
@@ -1121,16 +1025,15 @@ positive when `h ≤ 12√p − 9`; and when `h > 12√p − 9`, the bound
   `11!! · 100⁶ = 1.0395 · 10¹⁶`, while the `2`-degenerate tuples number `9.398 · 10¹⁵`.
 - `(2r − 1)!! = (2r)!/(2^r r!)`: `r = 3` gives `15 = 720/(8 · 6)`; the factor `(2r)!/r!` in its
   place would be `120`.
-- Over every nonprincipal character modulo the primes `5 ≤ p ≤ 37`, `1 ≤ r ≤ 5` and `1 ≤ ⌊B⌋ ≤ p + 2`,
-  the largest ratio of the two sides of the moment bound is `0.836`.
 - `r = 2`, `p = 7`, the quadratic character, `h = 2`: the inner sums are
   `1, 2, 0, 0, 0, −2, −1`, so `W₂ = 34`, against `8 · 7 + 16√7 = 98.3` (refinement) and
   `3 · 4 · 7 + 3 · 16√7 = 211.0` (the general bound at `r = 2`). For the cubic character
   modulo `7` at `h = 2`, `W₂ = 22` against the order-`> 2` refinement `6 · 7 + 30√7 = 121.4`.
 - Negative control for the per-tuple bound: at `p = 19`, `Σ_x χ((x + 1)(x + 2)(x + 4)(x + 9)) = −9`,
-  of modulus above `2√19 = 8.72` and below `2√19 + 1 = 9.72`. For the quadratic character and
-  every prime `p ≤ 1200` and `1 ≤ h < p`, the largest ratio `W₂(h)` to the order-2 bound is
-  `0.9992`, at `h = 1` (where `W₂ = p − 1`).
+  of modulus above `2√19 = 8.72` and below `2√19 + 1 = 9.72`.
+- `h = 1`: both refinements read `(3 − 2)p + 2(1 − 3 + 2)√p = (2 − 1)p + 3(1 − 2 + 1)√p = p`, while
+  `W₂(1) = Σ_x |χ(x)|⁴ = p − 1`; the strict inequality holds with margin `1`, and a version with
+  `p − 1` in place of `p` in the leading term would read `p − 1 < p − 1`, which is false.
 
 *Needs:* CharacterSumsOverFiniteFields §4.7; EllipticLegendreCharacterInterfaces §5.1; Tau Ceti
 `DirichletCharacter.sum_range_level_eq_zero`, `WeierstrassCurve.hasse_bound`; Mathlib `Polynomial`,
@@ -1234,7 +1137,7 @@ equivalent to (A.2).
 
 *Table.* Define `mcgownConstant` `r`, the tabulated constant `C(r)` below for `2 ≤ r ≤ 15` (and
 `0` outside that range). Prove `burgess_mcgown_table`: under `RosserSchoenfeldFiniteRangeInput`
-and `McGownTableCertificate` (§6.6), for primes `p ≥ 2 · 10⁴`, `2 ≤ r ≤ 15`, every integer `N₀` and
+and `McGownTableCertificate` (§6.5), for primes `p ≥ 2 · 10⁴`, `2 ≤ r ≤ 15`, every integer `N₀` and
 every integer `1 ≤ H ≤ 4p^{1/2+1/(4r)}`,
 `|Σ_{N₀ < n ≤ N₀+H} χ(n)| < C(r) H^{1−1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}` with
 `C(2) = 10.0366`, `C(3) = 4.9539`, `C(4) = 3.6493`, `C(5) = 3.0356`, `C(6) = 2.6765`,
@@ -1271,7 +1174,7 @@ for `e ∈ {10, 15, 20}` and `2 ≤ r ≤ 10`, and `0` elsewhere: for `p₀ = 10
 `3.5851, 2.5144, 2.1258, 1.9231, 1.7959, 1.7066, 1.6384, 1.5857, 1.5410`; for `10²⁰`:
 `3.5751, 2.4945, 2.1078, 1.9043, 1.7757, 1.6854, 1.6187, 1.5654, 1.5216` (lines 145–155).
 
-*Theorem 1.* Prove `burgess_trevino_table1`: under `TrevinoTable1Certificate` (§6.7), for
+*Theorem 1.* Prove `burgess_trevino_table1`: under `TrevinoTable1Certificate` (§6.6), for
 `e ∈ {7, 10, 20}`, `2 ≤ r ≤ 10`, primes `p ≥ 10^e`, nonprincipal `χ` modulo `p`, `M ∈ ℤ` and
 `N ≥ 1`, `|S_χ(M, N)| ≤ c₁(r, 10^e) N^{1−1/r} p^{(r+1)/(4r²)} (log p)^{1/r}` (trevino2015
 Theorem 1, lines 83–88, stated for `M ≥ 0`, which is no restriction by the periodicity of §0.4).
@@ -1282,7 +1185,7 @@ Theorem 1, lines 83–88, stated for `M ≥ 0`, which is no restriction by the p
 lines 91–94; tmeemt-art15 lines 154–157).
 
 *Theorem 2 and Corollary 2.* Prove `burgess_trevino_table3`: under `TrevinoTable3Certificate`
-(§6.8), for `e ∈ {10, 15, 20}`, `2 ≤ r ≤ 10`, primes `p ≥ 10^e`, nonprincipal `χ` modulo `p`,
+(§6.7), for `e ∈ {10, 15, 20}`, `2 ≤ r ≤ 10`, primes `p ≥ 10^e`, nonprincipal `χ` modulo `p`,
 `M ∈ ℤ` and `1 ≤ N ≤ 2p^{1/2+1/(4r)}`,
 `|S_χ(M, N)| < c₂(r, 10^e) N^{1−1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}` (trevino2015 Theorem 2,
 lines 134–141). Prove `burgess_trevino_table3_unrestricted`: under both certificates, for
@@ -1343,42 +1246,37 @@ inequality, `Nat.primeCounting`. Layer 6: `McGownTableCertificate`, `TrevinoTabl
 ### 5.1 explicit bounds for Selberg diagonal sums
 
 Define `selbergDiagonal` `z`, the diagonal sum `S(z) = Σ_{1 ≤ n ≤ z} μ²(n)/φ(n)`, and
-`selbergWeightMass` `z`, the sum `H₁(z) = Σ_{1 ≤ n ≤ z} μ²(n)σ(n)/φ(n)`.
+`selbergWeightMass` `z`, the sum `H₁(z) = Σ_{1 ≤ n ≤ z} μ²(n)σ(n)/φ(n)`. The diagonal sum is the
+sum `S(u)` of ExplicitPrimeCounting §0.1, from which the sieves below take `S(z) > log z` for
+`z ≥ 1`, Büthe's explicit asymptotic `S(z) = log z + γ + Σ_p log p/(p(p − 1)) + θ · 58/√z`,
+`|θ| ≤ 1`, for `z ≥ 10⁹`, and, under `MVDiagonalFiniteRange`, the bound `S(z) ≥ log z + 1.07` for
+`z ≥ 6`.
 
-- *Kernel identity and the logarithm.* For real `z ≥ 1`,
-  `S(z) = Σ_{m ≥ 1, rad(m) ≤ z} 1/m`, the sum over positive integers whose squarefree kernel is at
-  most `z`; hence `S(z) ≥ Σ_{m ≤ z} 1/m ≥ log(⌊z⌋ + 1) > log z`. Proof:
-  `μ²(n)/φ(n) = n⁻¹ Σ_{rad(j) | n} 1/j` for squarefree `n`, and `m = n j` with `n = rad(m)` is the
-  unique such factorisation.
 - *Coprime comparison.* For integers `k ≥ 1` and real `z ≥ 1`,
   `S_k(z) ≥ (φ(k)/k) S(z)` (vanlintrichert1965, the inequality used in buthe2014 lines 226–236).
   Proof: `S(z) = Σ_{e | k} μ²(e)/φ(e) · S_k(z/e) ≤ S_k(z) Σ_{e | k} μ²(e)/φ(e)` and
   `Σ_{e | k} μ²(e)/φ(e) = k/φ(k)`.
-- *Explicit asymptotics.* `H₁(z) = (15/π²) z + θ · 47√z` with `|θ| ≤ 1` for `z ≥ 1`, and
-  `S(z) = log z + γ + Σ_p log p/(p(p − 1)) + θ · 58/√z` with `|θ| ≤ 1` for `z ≥ 10⁹` (buthe2014
-  Lemma 4.4, lines 365–367, and Lemma 4.5, lines 462–468; proofs by Dirichlet convolution with
-  `μ²(n)n/φ(n) = Σ_{d | n} c_d` and explicit Euler products, lines 368–600).
-- *The Montgomery–Vaughan diagonal bound.* Under `MVDiagonalFiniteRange` (§6.2), for real `z ≥ 6`,
-  `S(z) ≥ log z + 1.07`, and for real `z ≥ 3`, `S(z) ≥ log z + 0.89` (montgomeryvaughan1973
-  Lemma 7, as quoted in fan2022 lines 185–187). Proof: for `z ≥ 10⁹` the explicit asymptotic,
-  since `γ + Σ_{p < 1000} log p/(p(p − 1)) − 58/√z ≥ 1.32` (buthe2014 lines 609–616); for
-  `6 ≤ z < 10⁹` the Layer 6 hypothesis `MVDiagonalFiniteRange`; for `3 ≤ z < 6` direct evaluation
-  (`S(z) = 2.5` on `[3, 5)` and `2.75` on `[5, 6)`).
+- *Weight mass.* `H₁(z) = (15/π²) z + θ · 47√z` with `|θ| ≤ 1` for real `z ≥ 1` (buthe2014
+  Lemma 4.4, lines 365–367; proof lines 368–461, by Dirichlet convolution and explicit Euler
+  products with `ζ(2)` and `ζ(4)`).
+- *The diagonal bound from `3`.* Under `MVDiagonalFiniteRange`, `S(z) ≥ log z + 0.89` for every
+  real `z ≥ 3` (fan2022 lines 185–187, from montgomeryvaughan1973 Lemma 7 and the values of `S` on
+  `[3, 6)`). Proof: for `z ≥ 6` the bound with `1.07` of ExplicitPrimeCounting §0.1; for
+  `3 ≤ z < 6` direct evaluation, `S(z) = 2.5` on `[3, 5)` and `2.75` on `[5, 6)`.
 
 **Checks.**
 
-- `S(6) = 1 + 1 + 1/2 + 1/4 + 1/2 = 3.25 ≥ log 6 + 1.07 = 2.862`; `S(10) = 3.667 ≥ 3.373`.
-- Just below `6`, `S = 2.75 < log 5.99 + 1.07 = 2.860`: the threshold `z ≥ 6` is sharp. On
-  `[3, 5)`, `S = 2.5 ≥ log 4.99 + 0.89 = 2.497`, so the constant `0.89` is what extends the bound
-  down to `3`; just below `3`, `S = 2 < log 2.99 + 1.07 = 2.165`.
+- `S(6) = 1 + 1 + 1/2 + 1/4 + 1/2 = 3.25`; with `n` in place of `φ(n)` the value would be
+  `1 + 1/2 + 1/3 + 1/5 + 1/6 = 2.2`, and without the factor `μ²(n)` the term `n = 4` would add `1/2`.
+- On `[3, 5)`, `S = 2.5 ≥ log 4.99 + 0.89 = 2.497`, a margin that tends to `0.0006` as `z → 5`;
+  with `1.07` in place of `0.89` the bound fails there (`log 4.99 + 1.07 = 2.677 > 2.5`), so the
+  smaller constant is what extends the bound below `6`.
 - `k = 6`, `z = 7`: `S_6(7) = 1 + 1/4 + 1/6 = 1.4167 ≥ (1/3) S(7) = (1/3)(3.4167) = 1.139`.
-- The constant: `γ + Σ_p log p/(p(p − 1)) = 0.5772 + 0.7554 = 1.3326`; a bound with `1.4` in place
-  of `1.07` would contradict the asymptotic for large `z`.
 - `H₁(1) = 1`, `H₁(2) = 1 + 3 = 4`, `H₁(3) = 4 + 4/2 = 6`: the weight `σ(n)/φ(n)` at the primes
   `2, 3` is `3` and `2`; with `σ` replaced by `d` the value at `n = 2` would be `2`.
 
-*Needs:* Mathlib `ArithmeticFunction.moebius`, `Nat.totient`, `ArithmeticFunction.sigma`,
-`log_add_one_le_harmonic`, `Real.eulerMascheroniConstant`; Layer 6 `MVDiagonalFiniteRange`.
+*Needs:* ExplicitPrimeCounting §0.1 (the diagonal bound under `MVDiagonalFiniteRange`); Mathlib
+`ArithmeticFunction.moebius`, `Nat.totient`, `ArithmeticFunction.sigma`.
 
 ### 5.2 Greaves's lower bound for Selberg's density sum
 
@@ -1470,7 +1368,8 @@ Results:
   `ButheMediumRangeVerified`, for every nonnegative absolutely continuous `f` on `I` with
   `ρ_I(f) > 1`, `Σ_{p ∈ I} f(p) < 2‖f‖₁/log ρ_I(f)` (buthe2014 Theorem 4.3, lines 354–362). Proof
   route (lines 602–655): for `Y = ρ_I(f) > 4 · 10^18`, §5.3's Selberg form with `z = √Y/2`,
-  §5.1's asymptotics and `π(z) ≤ z`; for `1 < Y < 20000`, §5.3's Eratosthenes form and
+  §5.1's asymptotic for `H₁`, Büthe's asymptotic for `S` (ExplicitPrimeCounting §0.1) and
+  `π(z) ≤ z`; for `1 < Y < 20000`, §5.3's Eratosthenes form and
   `ButheSmallRangeVerified`; for `20000 ≤ Y ≤ 4 · 10^18`, §5.3's Selberg form and
   `ButheMediumRangeVerified`. In each case the primes `p ≤ z` contribute at most `π(z)` after the
   normalisation `‖g‖_∞ ≤ 1`.
@@ -1487,7 +1386,8 @@ Results:
 - The tent `f(t) = min(t − x, x + y − t)` on `I`: `‖f‖₁ = y²/4`, `‖f‖_∞ = y/2`, `‖f′‖₁ = y`,
   so `ρ_I(f) = y/6`; the weight costs a factor `6` inside the logarithm compared with `f ≡ 1`.
 
-*Needs:* §§5.1, 5.3; Layer 6 `ButheSmallRangeVerified`, `ButheMediumRangeVerified`.
+*Needs:* §§5.1, 5.3; ExplicitPrimeCounting §0.1 (Büthe's asymptotic for `S`); Layer 6
+`ButheSmallRangeVerified`, `ButheMediumRangeVerified`.
 
 ### 5.5 the weighted arithmetic large sieve, the sifted Brun–Titchmarsh bound and the Ramaré–Viswanadham sums
 
@@ -1507,9 +1407,9 @@ sequence supported on `𝒩`, `Σ_{a mod p} |S(a/p)|² = p Σ_h |Σ_{n ≡ h} a_
 over the `p − ω(p)` classes meeting `𝒩` bounds this below by `p|S(0)|²/(p − ω(p))`, so the terms
 with `a ≢ 0` give at least `|S(0)|² ω(p)/(p − ω(p))`; a squarefree `q = pq′` follows by induction,
 applying the prime case to the twisted sequences `a_n e(nb/q′)`, `b` prime to `q′`, which are
-supported on `𝒩`. This is the step from one prime to a squarefree modulus inside the
-forbidden-residue sieve of SieveMethodsAndPrimePatterns §2.9, which that section does not state
-alone.
+supported on `𝒩`. ExplicitPrimeCounting §0.1 takes this step for a set avoiding one residue class
+modulo each prime (`ω(p) = 1`, where the product is `1/φ(q)`); the weighted arithmetic large sieve
+here differs in allowing `ω(p)` forbidden classes modulo each prime and an arbitrary set `𝒩`.
 
 *Sifted form.* Under `MVDiagonalFiniteRange`, for coprime positive integers `k`, `ℓ` and reals
 `x ≥ 0`, `y > k`, there is a real `z ≥ 1` such that the number of integers `n ∈ (x, x + y]` with
@@ -1533,11 +1433,11 @@ bound in `t` alone, to be compared with `2t/log t`.
   `t = 3.55`).
 - `t ≥ 1000`, `z = Q`: the weighted arithmetic large sieve with `ω(p) ≥ 1` for `p ≤ Q`, `p ∤ k`
   bounds the sifted count by `1/L_k(Q)` with
-  `L_k(Q) = Σ_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2)qQ))`; writing a squarefree `q ≤ Q` as
-  `dq′` with `d | k` and `(q′, k) = 1`, the weight decreasing in `q` and
-  `Σ_{d | k} μ²(d)/φ(d) = k/φ(k)` give `L₁(Q) ≤ (k/φ(k)) L_k(Q)`, and `π(Q) ≤ (k/φ(k))π(Q)`. It
-  remains that `1/L₁(Q) + π(Q) ≤ 2t/log t` for some `Q`: partial summation from `S(u) ≥ log u + 1.07`
-  for `u ≥ 6` (§5.1) and the values of `S` on `[1, 6)`, with `π(Q) ≤ Q/3 + 2`, gives it at `Q` near
+  `L_k(Q) = Σ_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2)qQ))`; the comparison
+  `L₁(Q) ≤ (k/φ(k)) L_k(Q)` of ExplicitPrimeCounting §0.1 and `π(Q) ≤ (k/φ(k))π(Q)` reduce to
+  `k = 1`. It remains that `1/L₁(Q) + π(Q) ≤ 2t/log t` for some `Q`: partial summation from
+  `S(u) ≥ log u + 1.07` for `u ≥ 6` (ExplicitPrimeCounting §0.1) and the values of `S` on `[1, 6)`,
+  with `π(Q) ≤ Q/3 + 2`, gives it at `Q` near
   `√(2t/3)` for every `t ≥ 1000` (at `t = 1000`, `Q = 23`: `287.0 < 289.5`); there the weights cost
   `(1/2) log 6` against the main term `(1/2) log N`, the constant `1.07` repays it, and the saving
   over `2t/log t` grows like `t/log² t`.
@@ -1570,8 +1470,6 @@ bound in `t` alone, to be compared with `2t/log t`.
   sieve gives `1/L₁(22) + π(22) = 269.53` with `N = 1001`. With `S(Q) ≥ log Q + 1.07` and
   `Q² = εt`, the unweighted form needs `εL − log ε ≤ 2.14` (`L = log t`, before adding `π(Q)`),
   and the left side is at least `1 + log L`, which exceeds `2.14` for every `t > 23`.
-- The comparison `L₁ ≤ (k/φ(k)) L_k` at `k = 6`, `N = 50`, `Q = 10`: `L₁ = 0.04104`, while
-  `L₆ = 0.01846` (from `q = 1, 5, 7`) and `3L₆ = 0.05538`.
 - The Eratosthenes ranges: at `t = 318`, `(t + 1)/3 + 4 = 110.33 ≤ 2t/log t = 110.38`, and at
   `t = 319` the `z = 3` bound `110.67` exceeds `110.66`, where `z = 5` gives `96.33`.
 - `k = 1`, `x = 0`, `y = 10`: the primes up to `10` are `2, 3, 5, 7`, so the prime count is
@@ -1585,9 +1483,10 @@ bound in `t` alone, to be compared with `2t/log t`.
   powers of one prime, so the reduction to one power per prime fails (the inequality happens to
   hold there, `4.83 ≤ 7.19`); the corollary is not claimed outside `A ≥ B`.
 
-*Needs:* ExplicitZetaBounds §6.5; §5.1; Layer 6 `MVDiagonalFiniteRange`; Mathlib
-`ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.moebius`, `Nat.primeCounting`,
-`Nat.totient`.
+*Needs:* ExplicitZetaBounds §6.5; ExplicitPrimeCounting §0.1 (the diagonal bound under
+`MVDiagonalFiniteRange`, and the comparison of `L₁` and `L_k`); §5.1 (the carrier
+`selbergDiagonal`); Mathlib `Finset.sum_mul_sq_le_sq_mul_sq`, `ArithmeticFunction.vonMangoldt`,
+`ArithmeticFunction.moebius`, `Nat.primeCounting`, `Nat.totient`.
 
 ### 5.6 integers free of small prime factors
 
@@ -1619,12 +1518,10 @@ arguments at least `319` when `x ≥ 2 · 10⁶`; for `x < 2 · 10⁶` the Layer
   drops to `2`. At `x = 8` the right side is at least `3.42`, `3.05` and `2.92` on `[3, 5)`,
   `[5, 7)` and `[7, 8]`, where `Φ = 3, 2, 1`. The
   condition `z ≤ x` is needed in (5): at `x = 8`, `z = e^{10}`, `Φ = 1` exceeds `8/10 − 8/200 = 0.76`.
-- Over all real `x < 600` (the count changes only at integers) and all `z` in the ranges, the
-  largest ratios of `Φ` to the three bounds are `0.732`, `1.0006` (the case `x = 7` above) and
-  `0.915`; excluding `x < 8` the middle one is below `1`.
 
 *Needs:* SieveMethodsAndPrimePatterns §2.9; AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19, 0.20;
-§5.1; Layer 6 `MVDiagonalFiniteRange`, `FanFiniteRange`.
+§5.1 (the bound from `z = 3`, under `MVDiagonalFiniteRange` of ExplicitPrimeCounting §0.1); Layer 6
+`FanFiniteRange`.
 
 ### Examples
 
@@ -1634,16 +1531,17 @@ Büthe's `8.69`; `Φ(32, 4) = 11 < 15.4`.
 ### Dependencies
 
 Layer 0 is not needed. SieveMethodsAndPrimePatterns §§1.3, 2.9; ExplicitZetaBounds §6.5;
-AnalyticNumberTheoryPartI
-§§0.5, 0.8, 0.19, 0.20; ExplicitPrimeCounting §0.1 (Checks of 5.4, and the prime case of 5.5);
-Mathlib `BoundingSieve`, absolutely continuous functions. Layer 6: `MVDiagonalFiniteRange`,
-`ButheSmallRangeVerified`, `ButheMediumRangeVerified`, `FanFiniteRange`.
+AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19, 0.20; ExplicitPrimeCounting §0.1 (the diagonal bound
+under `MVDiagonalFiniteRange` and Büthe's asymptotic for `S` in 5.1, 5.4, 5.5 and 5.6, the
+comparison of `L₁` and `L_k` in 5.5, `brun_titchmarsh` in the Checks of 5.4); Mathlib
+`BoundingSieve`, absolutely continuous functions. Layer 6: `ButheSmallRangeVerified`,
+`ButheMediumRangeVerified`, `FanFiniteRange`.
 
 ## Layer 6: computational hypotheses
 
-Each item is a `Prop` with no proof obligation in this roadmap. Items 6.1–6.6 are numerical
+Each item is a `Prop` with no proof obligation in this roadmap. Items 6.1–6.5 are numerical
 statements about explicitly given real numbers, or about integers and characters in an explicitly
-bounded range. Items 6.7 and 6.8 are, for each of finitely many table rows, an inequality between
+bounded range. Items 6.6 and 6.7 are, for each of finitely many table rows, an inequality between
 explicit elementary functions of one real variable `p` on the half-line `[p₀, ∞)`; they are not
 finite verifications, and their Checks say why the value at `p = p₀` alone does not suffice. No
 item mentions an unbounded family of characters or primes, and none contains the conclusion of the
@@ -1659,27 +1557,13 @@ modulo `q`, `LapkovaBound χ` holds (lapkova2018 lines 291–408, the Bober–Go
 - `q = 3`, the odd quadratic character: `M_χ = 1 ≤ 0.303 + 1.421 + 1.029 = 2.75`.
 - `q = 5`, the even quadratic character: `M_χ = 2 ≤ 0.729 + 2.117 + 1.668 = 4.51`; `q = 4`, the odd
   character `χ₄`: `M_χ = 1 ≤ 3.11`.
-- The proposition holds: the `123` primitive characters of modulus `2 ≤ q ≤ 25` (none at `q = 2`,
-  `6`, `10`, `14`, `18`, `22`) all satisfy it, the tightest being the odd quadratic character modulo
-  `23` with `M_χ = 5` against `7.356`.
+- `q = 23`, the odd quadratic character: `M_χ = 5 ≤ 0.1592 · 4.796 · 3.135 + 0.8204 · 4.796 +
+  1.0285 = 7.356` (worked example below). A modulus `q ≡ 2 (mod 4)`, such as `q = 6` or `22`, has
+  no primitive character, so it imposes nothing.
 - The range stops at `25`: for `q > 25` §3.5 is proved analytically, and a version of the
   hypothesis claiming every `q` would contain the conclusion of §3.5.
 
-### 6.2 the diagonal sum below `10⁹`
-
-`MVDiagonalFiniteRange`: for every real `z` with `6 ≤ z < 10⁹`, `S(z) ≥ log z + 1.07`.
-
-**Checks.**
-
-- At `z = 6`: `S(6) = 3.25` and the margin is `3.25 − 2.862 = 0.388`.
-- Just below `6` the inequality fails (`2.75 < 2.860`), so the lower end `6` is part of the
-  statement, not a convenience.
-- Since `S` is a step function and `log z + 1.07` is increasing, the proposition is equivalent to
-  the inequality at the left limits of the squarefree jump points below `10⁹`. On `[6, 2 · 10⁶)` the
-  smallest margin is at `z → 10⁻`: `S = 3.4167` against `log 10 + 1.07 = 3.3726`, margin `0.044`.
-- At `z = 10⁹` the analytic form of §5.1 takes over with `S(z) ≥ log z + 1.32`.
-
-### 6.3 Büthe's small range
+### 6.2 Büthe's small range
 
 `ButheSmallRangeVerified`: for every real `Y` with `1 < Y < 20000` there is a real `z ≥ 1` with
 `Y ∏_{p ≤ z}(1 − 1/p) + 2^{π(z)} + π(z) < 2Y/log Y` (buthe2014 lines 633–649).
@@ -1690,10 +1574,15 @@ modulo `q`, `LapkovaBound χ` holds (lapkova2018 lines 291–408, the Bober–Go
 - `Y = 1.5`, `z = 1` (empty product, `π(1) = 0`): `1.5 + 1 + 0 = 2.5 < 3/log 1.5 = 7.40`.
 - The witness depends on `Y`: `z = 7` fails at `Y = 20` (`4.57 + 20 = 24.57 > 40/log 20 = 13.35`),
   where `z = 1` gives `20 + 1 = 21 > 13.35` and `z = 2` gives `10 + 2 + 1 = 13 < 13.35`.
-- On the grid of step `0.001` on `(1, 101)` and step `1` on `[101, 20000)`, a witness among
-  `z ∈ {1} ∪ {primes below 200}` exists at every point.
+- The proposition is a finite check. For fixed `z` the left side
+  `Y ∏_{p ≤ z}(1 − 1/p) + 2^{π(z)} + π(z)` is affine in `Y`. For `Y ≥ e²` the right side `2Y/log Y`
+  is concave, so a witness `z` at both ends of an interval `[Y₀, Y₁] ⊂ [e², 20000]` is a witness on
+  the whole interval. On `(1, e²]` it is convex, hence above its tangent at `e²`, which is
+  `Y/2 + e²/2`; so `z = 2`, with left side `Y/2 + 3`, is a witness on all of `(1, e²]`, with margin at
+  least `e²/2 − 3 = 0.69`. A grid of points with no such interval argument would prove nothing
+  between them.
 
-### 6.4 Büthe's medium range
+### 6.3 Büthe's medium range
 
 `ButheMediumRangeVerified`: for every real `Y` with `20000 ≤ Y ≤ 4 · 10^18` there is a real
 `z ≥ 1` with `Y/S(z) + H₁(z)²/S(z)² + π(z) < 2Y/log Y` (buthe2014 lines 650–655).
@@ -1710,7 +1599,7 @@ modulo `q`, `LapkovaBound χ` holds (lapkova2018 lines 291–408, the Bober–Go
   `Y` lies in `[57, 85)`. `z = 1` gives `Y + 1 > 4039`.
 - Above `4 · 10^18` the analytic argument of §5.4 applies; the hypothesis claims nothing there.
 
-### 6.5 Fan's finite range
+### 6.4 Fan's finite range
 
 `FanFiniteRange`: inequalities (4), (5) and (6) of §5.6 for every real `x < 2 · 10⁶` and every `z`
 in the respective ranges, (5) for `x ≥ 8`. It holds: on this range fan2022's Theorem is proved
@@ -1730,7 +1619,7 @@ AnalyticNumberTheoryPartI, as one finite verification.
   need checking. Without the restriction `x ≥ 8` the proposition would be false at `x = 7`,
   `z ∈ (4.9910, 5)` (§5.6).
 
-### 6.6 McGown's table
+### 6.5 McGown's table
 
 `McGownTableCertificate`: for each `r ∈ {2, …, 15}`, with
 `C₀(r) = (12(2r − 1)(4r − 1))^{1/(2r)}/(1 − 2 · 11^{−(1 − 1/r)})`, one has
@@ -1745,7 +1634,7 @@ AnalyticNumberTheoryPartI, as one finite verification.
   `1.77^{15} · (2 · 10⁴)^{7/30} · 3.147 ≈ 1.66 · 10⁵ ≥ 7920`. All fourteen rows of both
   inequalities hold.
 
-### 6.7 Treviño's Table 1
+### 6.6 Treviño's Table 1
 
 Define `trevinoTable5` `e r`, the pair `(k, c′₁)` of Treviño's Table 5 at `p₀ = 10^e` for
 `e ∈ {7, 10, 20}` and `2 ≤ r ≤ 10` (trevino2015 lines 1013–1024), and `(0, 0)` elsewhere: for
@@ -1793,7 +1682,7 @@ Then `A ≥ 29`, `c′ < c`, `den > 0` and `num ≤ c · den`: the right side `n
   and `k ≥ 1/30` (at `u = log 10⁷`, `k = 1/30` the numerator is `−5.03`), and `A`, `B` increase
   with `p`.
 
-### 6.8 Treviño's Table 3
+### 6.7 Treviño's Table 3
 
 Define `trevinoTable7` `e r`, the pair `(k, c′₂)` of Treviño's Table 7 at `p₀ = 10^e` for
 `e ∈ {10, 15, 20}` and `2 ≤ r ≤ 10` (lines 1311–1322), and `(0, 0)` elsewhere: for `p₀ = 10¹⁰`:
@@ -1805,7 +1694,7 @@ Define `trevinoTable7` `e r`, the pair `(k, c′₂)` of Treviño's Table 7 at `
 
 `TrevinoTable3Certificate`: for each `e ∈ {10, 15, 20}`, each `2 ≤ r ≤ 10` and every real
 `p ≥ 10^e`, put `c = trevinoTable3 e r`, `(k, c′) = trevinoTable7 e r`, `D`, `B`, `g`, `h` and
-`den` as in 6.7, `A = k c′^r p^{1/4 − 1/(4r)} √(log p)/D` (the least `A` allowed by the range
+`den` as in 6.6, `A = k c′^r p^{1/4 − 1/(4r)} √(log p)/D` (the least `A` allowed by the range
 (52)–(53)), `s = (trevinoTable3 e (r − 1)/c′)^{r(r−1)}` for `r ≥ 3`, and
 
     num = g (2r(2r − 1)D/(r − 1))^{1/(2r)} · b^{1/(2r)},
@@ -1844,7 +1733,7 @@ lines 1218–1265, is less than `c`.
 
 ### Dependencies
 
-None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 5.4, 5.5 and 5.6.
+None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.4 and 5.6.
 
 ## Downstream consumers
 
@@ -1852,12 +1741,11 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
   refinements (§4.1), the Burgess inequalities of §§4.4–4.5, and the Pólya–Vinogradov
   inequalities of Layer 3 with the initial-sum form of §3.5, for least primitive roots and
   norm-Euclidean fields.
-- **ProbabilisticAndMetricNumberTheory** §2.5: van der Corput's difference theorem, whose finite
-  lag inequality is §0.3.
 - **ExplicitCharacterSumsAndSieves, Part II**: Layers 0–6, for the results listed under Scope and
   ownership.
-- Any roadmap later in the order of supply that needs an explicit derivative test, an explicit
-  character-sum bound or an explicit sieve upper bound: Layers 1–5.
+- Any roadmap later in the order of supply that needs an iterated van der Corput bound, an
+  explicit count of integer points near a curve, an explicit character-sum bound or an explicit
+  sieve upper bound: Layers 1–5.
 
 ## Worked examples
 
@@ -1892,7 +1780,7 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
   Acta Arith. 166 (2014), 289–299; arXiv:1410.7561: Lemmas 3.1, 4.4, 4.5, Propositions 3.2, 3.3,
   Definition 4.1, Theorems 4.2, 4.3.
 - **fan2022** — K. Fan, *An inequality for the distribution of numbers free of small prime
-  factors*, Integers 22 (2022), A26: the Theorem, (4)–(6).
+  factors*, Integers 22 (2022), A26: the Theorem, (4)–(6), and the diagonal bound from `z = 3`.
 - **filaseta1990** — M. Filaseta, *Short interval results for squarefree numbers*, J. Number Theory
   35 (1990), 128–149: the reduction to exponential sums.
 - **francis2021** — F. J. Francis, *An investigation into several explicit versions of Burgess'
@@ -1902,10 +1790,6 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
 - **frolenkovsoundararajan2013** — D. A. Frolenkov, K. Soundararajan, *A generalization of the
   Pólya–Vinogradov inequality*, Ramanujan J. 31 (2013), 271–279: Theorems 1, 2, Corollary 1.
 - **greaves2001** — G. Greaves, *Sieves in Number Theory*, Springer, 2001: Theorem 1, p. 52.
-- **hiary2016zeta** — G. A. Hiary, *An explicit van der Corput estimate for ζ(1/2 + it)*, Indag.
-  Math. 27 (2016), 524–533: Lemma 1.2.
-- **hiarypatelyang2024** — G. A. Hiary, D. Patel, A. Yang, *An improved explicit estimate for
-  ζ(1/2 + it)*, J. Number Theory 256 (2024), 195–217; arXiv:2207.02366: Lemma 2.4.
 - **hunter2016** — K. Hunter, *The least square-free primitive root modulo a prime*,
   arXiv:1701.05980: Theorems 1.2, 1.3 (quotations of Frolenkov–Soundararajan).
 - **huxleysargos1995** — M. N. Huxley, P. Sargos, *Points entiers au voisinage d'une courbe plane
@@ -1926,8 +1810,6 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
   (1973), 119–134: Theorem 2, Corollary 1, Lemmas 7 and 10, display (3.3).
 - **montgomeryvaughan2007** — H. L. Montgomery, R. C. Vaughan, *Multiplicative Number Theory I*,
   Cambridge, 2007: §9.4.
-- **patel2022** — D. Patel, *An explicit upper bound for |ζ(1 + it)|*, Indag. Math. 33 (2022),
-  1012–1032; arXiv:2009.00769: Lemmas 2.3, 2.5, 3.1, 3.2.
 - **platttrudgian2018** — D. Platt, T. Trudgian, *Improved bounds on Brun's constant*,
   arXiv:1803.01925: Theorem 2, display (11).
 - **pomerance2011** — C. Pomerance, *Remarks on the Pólya–Vinogradov inequality*, Integers 11
@@ -1938,9 +1820,8 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
   45–74: Lemma 4.
 - **siebert1976** — H. Siebert, *Montgomery's weighted sieve for dimension two*, Monatsh. Math.
   82 (1976), 327–336.
-- **tmeemt-art05**, **tmeemt-art11**, **tmeemt-art14**, **tmeemt-art15** — A. de Camargo,
-  O. Ramaré, D. Benielli (eds.), TME-EMT wiki pages on exponential sums, integer points near
-  curves, sieve bounds and character sums.
+- **tmeemt-art11**, **tmeemt-art14**, **tmeemt-art15** — A. de Camargo, O. Ramaré, D. Benielli
+  (eds.), TME-EMT wiki pages on integer points near curves, sieve bounds and character sums.
 - **trevino2015** — E. Treviño, *The Burgess inequality and the least k-th power non-residue*, Int.
   J. Number Theory 11 (2015), 1653–1678; arXiv:1412.3062v2: Theorem A, Theorems 1, 2, Corollaries
   1, 2, Theorem C, Lemmas 1–6, Tables 1–7.
@@ -1950,7 +1831,5 @@ None: Layer 6 states numerical facts. Its consumers are §§3.5, 4.4, 4.5, 5.1, 
   Acta Arith. 11 (1965), 209–216: the coprime comparison and the choice of `z`.
 - **yamada2023** — T. Yamada, *Explicit improvements of the Brun–Titchmarsh theorem for arbitrary
   intervals*, arXiv:2312.16090: Theorem 2.
-- **yang2024** — A. Yang, *Explicit bounds on ζ(s) in the critical strip and a zero-free region*,
-  J. Math. Anal. Appl. 534 (2024), 128124; arXiv:2301.03165: Lemma 2.3.
 - **zhao2024** — Z. Zhao, *Integral points close to smooth plane curves*, arXiv:2407.01778:
   Theorems 2.1, 2.5, Lemma 2.6, Theorem 2.7.

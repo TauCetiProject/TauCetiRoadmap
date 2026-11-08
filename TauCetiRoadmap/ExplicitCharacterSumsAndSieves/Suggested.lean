@@ -8,14 +8,15 @@ import Mathlib
 This file is not the roadmap. The roadmap is `README.md`; this file states, against the pinned
 Mathlib, the headline theorems of the roadmap that are statable at the pins, each with `sorry`,
 together with the few definitions their statements need. Every finite verification a theorem
-rests on is a hypothesis with its data in the statement, exactly as in Layer 6 of the README.
+rests on is a hypothesis with its data in the statement, as in Layer 6 of the README or as the
+named input of the supplier section it comes from.
 
 Headline theorems stated here:
 
-* Layer 1: Patel's corrected third, fourth and fifth derivative tests (`third_derivative_test`,
-  `fourth_derivative_test`, `fifth_derivative_test`); Arias de Reyna's iterated van der Corput
-  inequality (`iterated_vanDerCorput`). The Kusmin–Landau lemma and the second derivative tests
-  they rest on belong to the roadmap ExplicitZetaBounds and are not stated here.
+* Layer 1: Arias de Reyna's iterated van der Corput inequality (`iterated_vanDerCorput`). The
+  finite van der Corput inequality, the Kusmin–Landau lemma and the derivative tests for
+  exponential sums, Patel's corrected third, fourth and fifth derivative tests among them, belong
+  to the roadmap ExplicitZetaBounds and are not stated here.
 * Layer 2: the first and second derivative tests for integer points near a curve
   (`first_derivative_test_points`, `second_derivative_test_points`).
 * Layer 3: the classical explicit Pólya–Vinogradov inequality (`polya_vinogradov_classical`),
@@ -84,81 +85,7 @@ def butheRho (f : ℝ → ℝ) (x y : ℝ) : ℝ :=
   (∫ t in x..x + y, |f t|) /
     (sSup ((fun t => |f t|) '' Set.Icc x (x + y)) + ∫ t in x..x + y, |deriv f t|)
 
-/-! ## Layer 1: exponential sums under derivative conditions -/
-
-/-- **Third derivative test** (Patel 2022, Lemma 2.5, correcting Hiary 2016, Lemma 1.2). Let
-`N` be an integer, `L ≥ 1`, and let `f` have three continuous derivatives on `[N + 1, N + L]` with
-`1/W ≤ |f‴| ≤ λ/W` there, `W > 1`, `λ ≥ 1`. For `η > 0`,
-`|∑_{n=N+1}^{N+L} e(f(n))|² ≤ (L W^{−1/3} + η)(α L + β W^{2/3})` with
-`α = 1/η + (32λ/(15√π))√(η + W^{−1/3}) + 2λη W^{−1/3} + 2λ W^{−2/3}` and
-`β = 64/(3√π √η) + 4 W^{−1/3}`. -/
-theorem third_derivative_test (f : ℝ → ℝ) (N : ℤ) (L : ℕ) (hL : 1 ≤ L) (W lam η : ℝ)
-    (hW : 1 < W) (hlam : 1 ≤ lam) (hη : 0 < η)
-    (hf : ContDiffOn ℝ 3 f (Set.Icc (N + 1 : ℝ) (N + L)))
-    (hderiv : ∀ x ∈ Set.Icc (N + 1 : ℝ) (N + L),
-      1 / W ≤ |iteratedDerivWithin 3 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ∧
-        |iteratedDerivWithin 3 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ≤ lam / W) :
-    ‖intervalExpSum f (N + 1) (N + L)‖ ^ 2 ≤
-      (L * W ^ (-(1 / 3 : ℝ)) + η) *
-        ((1 / η + 32 * lam / (15 * √π) * √(η + W ^ (-(1 / 3 : ℝ))) +
-            2 * lam * η * W ^ (-(1 / 3 : ℝ)) + 2 * lam * W ^ (-(2 / 3 : ℝ))) * L +
-          (64 / (3 * √π * √η) + 4 * W ^ (-(1 / 3 : ℝ))) * W ^ (2 / 3 : ℝ)) := by
-  sorry
-
-/-- **Fourth derivative test** (Patel 2022, Lemma 3.1, with the factor `9/5` in `β₄` that its
-proof gives). Let `f` have four continuous derivatives on `[N + 1, N + L]` with
-`1/W ≤ |f⁽⁴⁾| ≤ λ/W`, `W > 1`, `λ ≥ 1`, and let `η₃, η₄ > 0`. With
-`α̃₃ = 1/η₃ + (32λ/(15√π))√(η₃ + 1) + 2λη₃ + 2λ` and `β̃₃ = 64/(3√π√η₃) + 4`,
-`|∑_{n=N+1}^{N+L} e(f(n))|² ≤ (L W^{−1/7} + η₄)(α₄ L + γ₄ √L W^{2/7} + β₄ W^{3/7})`, where
-`α₄ = 1/η₄ + (72/91)√α̃₃ (η₄ + W^{−1/7})^{1/6}`,
-`γ₄ = (72/55)√β̃₃ η₄^{−1/6} + √(η₃α̃₃) W^{−1/7}` and `β₄ = (9/5)√(β̃₃η₃) η₄^{−1/3}`. -/
-theorem fourth_derivative_test (f : ℝ → ℝ) (N : ℤ) (L : ℕ) (hL : 1 ≤ L) (W lam η₃ η₄ : ℝ)
-    (hW : 1 < W) (hlam : 1 ≤ lam) (hη₃ : 0 < η₃) (hη₄ : 0 < η₄)
-    (hf : ContDiffOn ℝ 4 f (Set.Icc (N + 1 : ℝ) (N + L)))
-    (hderiv : ∀ x ∈ Set.Icc (N + 1 : ℝ) (N + L),
-      1 / W ≤ |iteratedDerivWithin 4 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ∧
-        |iteratedDerivWithin 4 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ≤ lam / W) :
-    let α₃ := 1 / η₃ + 32 * lam / (15 * √π) * √(η₃ + 1) + 2 * lam * η₃ + 2 * lam
-    let β₃ := 64 / (3 * √π * √η₃) + 4
-    let α₄ := 1 / η₄ + 72 / 91 * √α₃ * (η₄ + W ^ (-(1 / 7 : ℝ))) ^ (1 / 6 : ℝ)
-    let γ₄ := 72 / 55 * √β₃ * η₄ ^ (-(1 / 6 : ℝ)) + √(η₃ * α₃) * W ^ (-(1 / 7 : ℝ))
-    let β₄ := 9 / 5 * √(β₃ * η₃) * η₄ ^ (-(1 / 3 : ℝ))
-    ‖intervalExpSum f (N + 1) (N + L)‖ ^ 2 ≤
-      (L * W ^ (-(1 / 7 : ℝ)) + η₄) *
-        (α₄ * L + γ₄ * √(L : ℝ) * W ^ (2 / 7 : ℝ) + β₄ * W ^ (3 / 7 : ℝ)) := by
-  sorry
-
-/-- **Fifth derivative test** (Patel 2022, Lemma 3.2, with `β₄` as in `fourth_derivative_test`).
-Let `f` have five continuous derivatives on `[N + 1, N + L]` with `1/W ≤ |f⁽⁵⁾| ≤ λ/W`, `W > 1`,
-`λ ≥ 1`, and let `η₃, η₄, η₅ > 0`. With `α̃₃, β̃₃, β₄` as in the fourth derivative test (at this
-`λ`), `α̃₄ = 1/η₄ + (72/91)√α̃₃(η₄ + 1)^{1/6}` and `γ̃₄ = (72/55)√β̃₃ η₄^{−1/6} + √(η₃α̃₃)`,
-`|∑ e(f(n))|² ≤ (L W^{−1/15} + η₅) · P₅` with
-`P₅ = α₅ L + τ₅ L^{3/4} W^{2/15} + γ₅ √L W^{3/15} + ω₅ L^{1/4} W^{1/5} + β₅ W^{4/15}`, where
-`α₅ = 1/η₅ + (392/435)√α̃₄ (η₅ + W^{−1/15})^{1/14}`, `τ₅ = (392/351)√γ̃₄ η₅^{−1/14}`,
-`γ₅ = (98/78)√β₄ η₅^{−1/7} + √(η₄α̃₄) W^{−2/15}`, `ω₅ = (98/78)√(η₄γ̃₄) η₅^{−1/7}` and
-`β₅ = (392/275)√(η₄β₄) η₅^{−3/14}`. -/
-theorem fifth_derivative_test (f : ℝ → ℝ) (N : ℤ) (L : ℕ) (hL : 1 ≤ L) (W lam η₃ η₄ η₅ : ℝ)
-    (hW : 1 < W) (hlam : 1 ≤ lam) (hη₃ : 0 < η₃) (hη₄ : 0 < η₄) (hη₅ : 0 < η₅)
-    (hf : ContDiffOn ℝ 5 f (Set.Icc (N + 1 : ℝ) (N + L)))
-    (hderiv : ∀ x ∈ Set.Icc (N + 1 : ℝ) (N + L),
-      1 / W ≤ |iteratedDerivWithin 5 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ∧
-        |iteratedDerivWithin 5 f (Set.Icc (N + 1 : ℝ) (N + L)) x| ≤ lam / W) :
-    let α₃ := 1 / η₃ + 32 * lam / (15 * √π) * √(η₃ + 1) + 2 * lam * η₃ + 2 * lam
-    let β₃ := 64 / (3 * √π * √η₃) + 4
-    let α₄ := 1 / η₄ + 72 / 91 * √α₃ * (η₄ + 1) ^ (1 / 6 : ℝ)
-    let γ₄ := 72 / 55 * √β₃ * η₄ ^ (-(1 / 6 : ℝ)) + √(η₃ * α₃)
-    let β₄ := 9 / 5 * √(β₃ * η₃) * η₄ ^ (-(1 / 3 : ℝ))
-    let α₅ := 1 / η₅ + 392 / 435 * √α₄ * (η₅ + W ^ (-(1 / 15 : ℝ))) ^ (1 / 14 : ℝ)
-    let τ₅ := 392 / 351 * √γ₄ * η₅ ^ (-(1 / 14 : ℝ))
-    let γ₅ := 98 / 78 * √β₄ * η₅ ^ (-(1 / 7 : ℝ)) + √(η₄ * α₄) * W ^ (-(2 / 15 : ℝ))
-    let ω₅ := 98 / 78 * √(η₄ * γ₄) * η₅ ^ (-(1 / 7 : ℝ))
-    let β₅ := 392 / 275 * √(η₄ * β₄) * η₅ ^ (-(3 / 14 : ℝ))
-    ‖intervalExpSum f (N + 1) (N + L)‖ ^ 2 ≤
-      (L * W ^ (-(1 / 15 : ℝ)) + η₅) *
-        (α₅ * L + τ₅ * (L : ℝ) ^ (3 / 4 : ℝ) * W ^ (2 / 15 : ℝ) +
-          γ₅ * √(L : ℝ) * W ^ (3 / 15 : ℝ) + ω₅ * (L : ℝ) ^ (1 / 4 : ℝ) * W ^ (1 / 5 : ℝ) +
-          β₅ * W ^ (4 / 15 : ℝ)) := by
-  sorry
+/-! ## Layer 1: the iterated van der Corput inequality -/
 
 /-- **Iterated van der Corput inequality** (Arias de Reyna 2024, Theorem 7). Let `X` be real,
 `d ≥ 1`, and `H₁, …, H_d ≥ 1` integers with `H₁ + ⋯ + H_d ≤ Y`. For `a = (a₁, …, a_d)` with
@@ -308,7 +235,7 @@ def mcgownConstant : ℕ → ℝ
   | 8 => 2.2721 | 9 => 2.1467 | 10 => 2.0492 | 11 => 1.9712 | 12 => 1.9073 | 13 => 1.8540
   | 14 => 1.8088 | 15 => 1.7700 | _ => 0
 
-/-- **Layer 6.6, McGown's table**: for each `2 ≤ r ≤ 15`, the right side
+/-- **Layer 6.5, McGown's table**: for each `2 ≤ r ≤ 15`, the right side
 `C₀(r) = (12(2r − 1)(4r − 1))^{1/(2r)}/(1 − 2 · 11^{−(1 − 1/r)})` of (A.2) at `d = 11` is below
 the tabulated `C(r)`, and `C₀(r)` satisfies (A.1) at `d = 11`, `p₀ = 2·10⁴`. -/
 def McGownTableCertificate : Prop :=
@@ -359,7 +286,7 @@ def trevinoTable5 : ℕ → ℕ → ℝ × ℝ
   | 20, 8 => (1 / 12, 1.272) | 20, 9 => (11 / 150, 1.264) | 20, 10 => (11 / 150, 1.256)
   | _, _ => (0, 0)
 
-/-- **Layer 6.7, Treviño's Table 1**: for every row `(e, r)` of Table 1 and every real
+/-- **Layer 6.6, Treviño's Table 1**: for every row `(e, r)` of Table 1 and every real
 `p ≥ 10^e`, with `(k, c′) = trevinoTable5 e r`, `D = ((2r − 3)!!(r − 1))^{1/r}`,
 `B = D p^{1/(2r)}`, `A = k c′^r p^{1/4 − 1/(4r)} log p / D`, and `s = (c₁(r − 1)/c′)^{r(r−1)}`
 for `r ≥ 3` (`s = 1` for `r = 2`), one has `A ≥ 29`, `c′ < c₁(r)`, and the right side
@@ -436,7 +363,7 @@ def trevinoTable7 : ℕ → ℕ → ℝ × ℝ
   | 20, 8 => (0.077, 1.61) | 20, 9 => (0.070, 1.56) | 20, 10 => (0.064, 1.52)
   | _, _ => (0, 0)
 
-/-- **Layer 6.8, Treviño's Table 3**: for every row `(e, r)` of Table 3 and every real
+/-- **Layer 6.7, Treviño's Table 3**: for every row `(e, r)` of Table 3 and every real
 `p ≥ 10^e`, with `(k, c′) = trevinoTable7 e r`, `D` and `B` as in `TrevinoTable1Certificate`,
 `A = k c′^r p^{1/4 − 1/(4r)} √(log p) / D` and `s = (c₂(r − 1)/c′)^{r(r−1)}` for `r ≥ 3`, one has
 `A ≥ 31`, `8k < D`, `c′ < c₂(r)`, and the right side `num/den` of Treviño's closing display (58)
@@ -523,14 +450,14 @@ theorem buthe_weighted_brun_titchmarsh (f : ℝ → ℝ) (x y : ℝ) (hx : 0 ≤
       S < 3 * (∫ t in x..x + y, |f t|) / (k.totient * ℓ) := by
   sorry
 
-/-- **Layer 6.3, Büthe's small range**: for every real `1 < Y < 20000` there is a real `z ≥ 1`
+/-- **Layer 6.2, Büthe's small range**: for every real `1 < Y < 20000` there is a real `z ≥ 1`
 with `Y ∏_{p ≤ z}(1 − 1/p) + 2^{π(z)} + π(z) < 2Y/log Y` (Büthe 2014, proof of Theorem 4.3). -/
 def ButheSmallRangeVerified : Prop :=
   ∀ Y : ℝ, 1 < Y → Y < 20000 → ∃ z : ℝ, 1 ≤ z ∧
     Y * ∏ p ∈ (Icc 1 ⌊z⌋₊).filter Nat.Prime, (1 - 1 / (p : ℝ)) +
         2 ^ Nat.primeCounting ⌊z⌋₊ + Nat.primeCounting ⌊z⌋₊ < 2 * Y / log Y
 
-/-- **Layer 6.4, Büthe's medium range**: for every real `20000 ≤ Y ≤ 4·10¹⁸` there is a real
+/-- **Layer 6.3, Büthe's medium range**: for every real `20000 ≤ Y ≤ 4·10¹⁸` there is a real
 `z ≥ 1` with `Y/S(z) + H₁(z)²/S(z)² + π(z) < 2Y/log Y` (Büthe 2014, proof of Theorem 4.3). -/
 def ButheMediumRangeVerified : Prop :=
   ∀ Y : ℝ, 20000 ≤ Y → Y ≤ 4 * 10 ^ 18 → ∃ z : ℝ, 1 ≤ z ∧
@@ -548,8 +475,10 @@ theorem buthe_weighted_prime_sum (hsmall : ButheSmallRangeVerified)
       2 * (∫ t in x..x + y, |f t|) / log (butheRho f x y) := by
   sorry
 
-/-- **Layer 6.2, the diagonal sum below `10⁹`**: `S(z) ≥ log z + 1.07` for every real
-`6 ≤ z < 10⁹` (the range of Montgomery–Vaughan's Lemma 7 below Büthe's analytic estimate). -/
+/-- The finite-range input of ExplicitPrimeCounting §0.1: Montgomery–Vaughan's diagonal bound
+`S(z) ≥ log z + 1.07` for every real `6 ≤ z < 10⁹`, the range below Büthe's explicit asymptotic
+for `S`. It is restated here only so that the theorems consuming that section are statable at
+the pins. -/
 def MVDiagonalFiniteRange : Prop :=
   ∀ z : ℝ, 6 ≤ z → z < 10 ^ 9 → log z + 1.07 ≤ selbergDiagonal z
 
@@ -564,7 +493,7 @@ theorem ramare_viswanadham_prime_powers (hMV : MVDiagonalFiniteRange) (d a : ℕ
       2 * B / (d.totient * log (B / d)) := by
   sorry
 
-/-- **Layer 6.5, Fan's finite range**: the three inequalities of `fan_rough_count` for every real
+/-- **Layer 6.4, Fan's finite range**: the three inequalities of `fan_rough_count` for every real
 `x < 2·10⁶` and every `z` in their respective ranges, the middle one for `x ≥ 8`. It extends the
 three direct verifications in Fan 2022's proof of the Theorem to the whole range; there the
 Theorem is proved analytically apart from those verifications and from `3 ≤ z ≤ x < 9`. -/
