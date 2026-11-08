@@ -442,9 +442,10 @@ group in three directions (Galois algebras, `ℤ_p`-local systems, the pro-étal
 Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotients, Frobenius and specialization. Layer IG.2
 begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
 ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
-existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Layer IG.4 is
-independent of IG.3 except for the reduced Schur covers it uses for central lifts and the
-conjugacy of coprime complements: it is the
+existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Of Layer IG.3, Layer
+IG.4 consumes directly only *Reduced Schur covers*, *Conjugacy classes lift bijectively* and *The
+kernel of the universal marked extension*, for tame central lifts and the global arithmetic lifting
+invariant, and *Conjugacy of coprime complements*, for coprime profinite complements. IG.4 is the
 arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
 Liu–Wood–Zureick-Brown. The finite group theory beyond Mathlib that IG.3 and IG.4 need, conjugacy of
 coprime complements and the Fitting subgroup, is stated here as targets of IG.3 and IG.4. Layer IG.5
@@ -1366,7 +1367,7 @@ locally Noetherian schemes or the componentwise groupoid.
 ### IG.1.4 Outer actions and arithmetic representations
 
 **Arithmetic representations.** Let `X` be a geometrically connected variety over a finitely
-generated field `K` of characteristic zero, `ℓ` a prime and `ρ : π₁^ét(X_{K̄}) → GL_r(ℚ̄_ℓ)` a
+generated field `K` of any characteristic, `ℓ` a prime and `ρ : π₁^ét(X_{K̄}) → GL_r(ℚ̄_ℓ)` a
 continuous representation. Call `ρ` arithmetic if its isomorphism class has finite orbit under `Γ_K`,
 acting through the outer action of the arithmetic exact sequence. Isomorphism means conjugation in
 `GL_r(ℚ̄_ℓ)`; no section of the sequence enters the definition. Arithmeticity implies neither finite
@@ -1383,12 +1384,22 @@ of the lift. Source: [Landesman–Litt](https://arxiv.org/pdf/2205.15352v4), Def
 **Checks.**
 
 - The trivial representation has an orbit with one element.
-- A representation with finite image is arithmetic: `π₁^ét(X_{K̄})` is topologically finitely
-  generated, so it has only finitely many continuous homomorphisms to a given finite group, and a
-  finite group has finitely many `r`-dimensional representations up to isomorphism.
-- For `X = 𝔾_m`, the unipotent representation `a ↦ [[1, a_ℓ], [0, 1]]` of `π₁ = ẑ(1)` has infinite
-  image, while `σ` changes it to its conjugate by `diag(χ_ℓ(σ), 1)`; its orbit has one element, so
-  finite orbit does not mean finite monodromy.
+- A representation with finite image is arithmetic, by descent: `ρ` factors through the Galois group
+  `G` of a connected finite Galois étale cover `Y → X_{K̄}`. The cover, with its `G`-action, is
+  defined over `X_{K′}` for a finite separable extension `K′/K`, so the surjection
+  `π₁^ét(X_{K̄}) → G` extends to `π₁^ét(X_{K′})`. Write `ρ = ρ̄ ∘ (π₁^ét(X_{K̄}) → G)`; conjugation by
+  a lift of `σ ∈ Γ_{K′}` with image `g ∈ G` changes `ρ` to its conjugate by `ρ̄(g)`, so `Γ_{K′}` fixes
+  the class of `ρ` and the orbit has at most `[K′ : K]` elements.
+- Over a field of characteristic zero, for `X = 𝔾_m` the unipotent representation
+  `a ↦ [[1, a_ℓ], [0, 1]]` of `π₁ = ẑ(1)` has infinite image, while `σ` changes it to its conjugate by
+  `diag(χ_ℓ(σ), 1)`; its orbit has one element, so finite orbit does not mean finite monodromy.
+- In characteristic `p` the conclusion of the finite-image Check holds although finite generation
+  fails. Over `K = 𝔽_p(s)`, `π₁^ét(𝔸¹_{K̄})` is not topologically finitely generated: the
+  Artin–Schreier covers `y^p − y = x^m` with `p ∤ m` give `𝔽_p`-linearly independent classes in
+  `Hom(π₁^ét(𝔸¹_{K̄}), 𝔽_p) = K̄[x]/{g^p − g : g ∈ K̄[x]}`, so there are infinitely many open
+  subgroups of index `p`. The character of the cover `y^p − y = x` with values in `μ_p ⊂ ℚ̄_ℓ^×` has
+  an orbit with one element, because the cover and its `𝔽_p`-action are defined over `𝔽_p ⊂ K`. An
+  argument that counts homomorphisms from a finitely generated group would not apply here.
 
 **Exactness in families and the moduli outer action.** Over a field of characteristic zero, let
 `𝓜_{g,n}` be the moduli stack of smooth `n`-pointed genus-`g` curves in the hyperbolic range
@@ -3301,12 +3312,10 @@ case inside `KA` finishes. For solvable `G/N`, let `M/N` be a minimal normal sub
 conjugate by an element of `N`; after that conjugation both `H` and `K` normalise `P = H ∩ M`.
 Apply induction in `N_G(P)` when it is proper, and in `G/P` when `P` is normal.
 
-Sources: Ribes–Zalesskii, *Profinite Groups* (2010), Theorem 2.3.15, for a finite group with the
-discrete topology; Aschbacher, *Finite Group Theory*, Chapter 6 (extensions of groups and modules).
+Source: Ribes–Zalesskii, *Profinite Groups* (2010), Theorem 2.3.15, for a finite group with the
+discrete topology.
 *Needs:* Mathlib `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime`,
 `Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Group.IsSolvable`, `Sylow`, `MulAut.conj`.
-
-*Lean:* `exists_conj_eq_of_isComplement'_of_coprime`.
 
 **Checks.**
 
@@ -4208,10 +4217,9 @@ splitting section, nilpotent kernel and a surjective solution.
   above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
 **The Fitting subgroup.** Mathlib has the Frattini subgroup `frattini G` but no Fitting subgroup.
-For a group `G`, define the Fitting subgroup `F(G)`, `fitting G`, as the supremum of the nilpotent
-normal subgroups of `G`; like `frattini G`, it is a subgroup attached to every group. The Fitting
-subgroup of a subgroup `H ≤ G` is `fitting H`, a subgroup of `H`, viewed in `G` through the inclusion
-of `H`.
+For a group `G`, define the Fitting subgroup `F(G)` as the supremum of the nilpotent normal subgroups
+of `G`; like `frattini G`, it is a subgroup attached to every group. The Fitting subgroup of a
+subgroup `H ≤ G` is `F(H)`, a subgroup of `H`, viewed in `G` through the inclusion of `H`.
 
 The API:
 - Fitting's theorem: if `N` and `M` are nilpotent normal subgroups of a group `G`, then `N ⊔ M` is
@@ -4238,9 +4246,6 @@ Source: Huppert, *Endliche Gruppen I*, Kap. III, §4 (the Fitting subgroup).
 `Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `frattini`,
 `frattini_nilpotent`.
 
-*Lean:* `fitting`, `isNilpotent_sup_of_normal`, `fitting_characteristic`, `le_fitting`,
-`fitting_nilpotent`, `frattini_le_fitting`.
-
 **Checks.**
 
 - For a finite `p`-group, `F(G) = G`; for `A₄`, `F(A₄) = V₄`.
@@ -4264,11 +4269,7 @@ is solvable. Let `U` act on `F(G)` by conjugation. Then the multiplication map `
 `(f, u) ↦ fu`, is a surjective homomorphism. In the induction of *Shafarevich solvable realization*,
 `F(G)` is the kernel of the embedding problem.
 
-The API (the first three items restate *The Fitting subgroup* for finite `G`; the last three are
-proved here):
-- `F(G)` is normal and characteristic.
-- For finite `G`, `F(G)` is nilpotent.
-- Every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
+The API:
 - For a finite nontrivial solvable `G`, `Φ(G) < F(G)`.
 - A normal subgroup `N` of a finite group `G` with `N ⊄ Φ(G)` has a proper supplement `U < G`,
   `N ⊔ U = G`.
@@ -6834,7 +6835,7 @@ dimension. The Brauer-character and Swan-module inputs are part of this target. 
 [Raynaud, *Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés
 abéliennes*](http://www.numdam.org/item/SB_1964-1966__9__129_0/),
 Séminaire Bourbaki exp. 286, n° 1 with Proposition 1 (the Swan module), pp. 130–131; n° 3, Théorème
-1 and formula (2 ter), its form for the fundamental group, p. 133; n° 4, the proof, pp. 133–136;
+1 and formula (2 ter), its form for the fundamental group, p. 133; n° 4, the proof, pp. 133–137;
 [Stacks, Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (constant coefficients) and
 [Theorem 59.83.11 (03RT)](https://stacks.math.columbia.edu/tag/03RT) (vanishing in degree two).
 *Needs:* ArithmeticGaloisRepresentations Layer 3 (Swan conductors in its conductor setting, whose
