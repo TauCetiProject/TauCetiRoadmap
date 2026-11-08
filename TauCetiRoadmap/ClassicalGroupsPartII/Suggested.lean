@@ -12,9 +12,10 @@ The central-isogeny and reductivity comparison, primitive exterior decomposition
 rational Cartan-model comparison, scalar-extension ring equivalence, rational
 character isomorphism, exact tensor-occurrence criterion, tensor-character
 isomorphism and representation-ring localization are not statable at the pins:
-the GSp coordinate Hopf algebra and hence its finite-comodule category, standard
-and primitive objects and representation ring are missing. The existing Sp and
-GL coordinate algebras do not supply that independent-multiplier carrier.
+the GSp coordinate Hopf algebra (PELModuli's Siegel similitude group, not in the
+pinned libraries) and hence its finite-comodule category, standard and primitive
+objects and representation ring are missing. The existing Sp and GL coordinate
+algebras do not supply that independent-multiplier carrier.
 -/
 
 noncomputable section
@@ -102,22 +103,14 @@ def exteriorCharacter (g : ℕ) (k : ℤ) : Laurent g :=
 def fundamentalCharacter {g : ℕ} (i : Fin g) : Laurent g :=
   exteriorCharacter g (i.val + 1) - t g * exteriorCharacter g ((i.val + 1 : ℤ) - 2)
 
-/-- The integral Laurent coefficient ring in the independent multiplier. -/
-abbrev MultLaurent := MonoidAlgebra ℤ (Multiplicative ℤ)
-
-/-- The positive multiplier basis element of the coefficient ring. -/
-def coeffT : MultLaurent := MonoidAlgebra.single (Multiplicative.ofAdd (1 : ℤ)) 1
-
-/-- The negative multiplier basis element of the coefficient ring. -/
-def coeffTInv : MultLaurent := MonoidAlgebra.single (Multiplicative.ofAdd (-1 : ℤ)) 1
-
 /-- The full fixed ring is freely polynomial in the primitive characters over
-`ℤ[t,t⁻¹]`, with the specified multiplier and variable images (Yu, Remark 7.1.1). -/
+Mathlib's Laurent polynomial ring `ℤ[T,T⁻¹]`, with `T` and `T⁻¹` sent to the multiplier
+monomials and the variables to the primitive characters (Yu, Remark 7.1.1). -/
 theorem fullInvariantPresentation (g : ℕ) :
-    ∃ e : MvPolynomial (Fin g) MultLaurent ≃+* invariantSubring g,
+    ∃ e : MvPolynomial (Fin g) (LaurentPolynomial ℤ) ≃+* invariantSubring g,
       (∀ i : Fin g, (e (MvPolynomial.X i) : Laurent g) = fundamentalCharacter i) ∧
-      (e (MvPolynomial.C coeffT) : Laurent g) = t g ∧
-      (e (MvPolynomial.C coeffTInv) : Laurent g) = tInv g := by sorry
+      (e (MvPolynomial.C (LaurentPolynomial.T 1)) : Laurent g) = t g ∧
+      (e (MvPolynomial.C (LaurentPolynomial.T (-1))) : Laurent g) = tInv g := by sorry
 
 /-! ## Layer CG.3: Tensor constituents and the positive character algebra -/
 

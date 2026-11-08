@@ -38,8 +38,8 @@ every degree, surjectivity of contraction for 1≤k≤g, the highest weight ω_k
 simplicity and dimension binom(2g,k)−binom(2g,k−2) of its kernel, and the
 classification by Cartan components. This roadmap consumes those Sp
 statements. Here the new
-work is the independent multiplier coordinate, its central lattice and
-parity condition, explicit primitive-tensor rational forms and their comparison with the supplied split highest-weight modules,
+work is the independent multiplier coordinate of the diagonal torus, its
+central lattice and parity condition, explicit primitive-tensor rational forms and their comparison with the supplied split highest-weight modules,
 and the two integral GSp character-ring presentations. Of the §3A.3 blocks,
 CG.1.4–CG.1.5 own only the GSp form, which differs in having a ν-valued,
 GSp-equivariant contraction over every characteristic-zero field: they
@@ -72,12 +72,19 @@ comparison maps. The generic split highest-weight and torus-character
 statements remain with ReductiveGroups §10A–10B; CG.1.8 and CG.2.1 transport
 them to the explicit GSp objects and lattice.
 
-This roadmap owns the coordinate presentation of the symplectic-similitude
-subfunctor of Mathlib's `Matrix.GeneralLinearGroup` cut out by hJhᵀ=sJ.
-Its points equivalence states those equations directly.
-The general Hopf dictionary supplies the group operations and their
-functorial compatibility. This is a characteristic-zero coordinate and
-representation development, not another general matrix-group foundation.
+The group GSp₂g itself belongs to PELModuli. Its §M0.7 builds the similitude
+group of a PEL datum, with its multiplier, as a closed subgroup scheme of
+GL(L)×G_m given by an explicit commutative Hopf algebra; for the Siegel datum
+of genus g, whose Gram matrix −`Matrix.J` is the J of the Conventions below,
+that group is GSp₂g and its multiplier-one subgroup is Sp₂g. Its §M0.8 proves
+GSp₂g connected reductive over Q with derived group Sp₂g. This roadmap owns
+only the specialization to a characteristic-zero field K: the coordinate Hopf
+algebra O_g(K), its comparison with the presentation of the subfunctor of
+Mathlib's `Matrix.GeneralLinearGroup` cut out by hJhᵀ=sJ and with field
+extension (CG.0.1), the transfer of connected reductivity from Q to K, and the
+central isogeny from Sp₂g×G_m with its μ₂ kernel and fppf lifts (CG.0.2).
+This is a characteristic-zero coordinate and representation development, not
+another matrix-group foundation.
 
 Suggested homes are `TauCeti/Algebra/AlgebraicGroup/SymplecticSimilitude/`
 for the coordinate and torus interfaces, and
@@ -149,6 +156,7 @@ for the eventual library; they do not claim additional Lean declarations.
 | --- | --- |
 | [`Matrix.GeneralLinearGroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean) | Units of the square-matrix algebra over a semiring with a finite decidable index type. For commutative K-algebras this supplies the native invertible matrix carrier. |
 | [`MonoidAlgebra.domCongr`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/MonoidAlgebra/Basic.lean) | A multiplicative equivalence of the indexing monoids induces an algebra equivalence of their monoid algebras. |
+| [`LaurentPolynomial`, `LaurentPolynomial.T`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Polynomial/Laurent.lean) | `LaurentPolynomial ℤ` is ℤ[T,T⁻¹], the additive monoid algebra of ℤ over ℤ, and `T n` is its monomial of exponent n, with T 0=1 and T(m+n)=T m·T n; it is the coefficient ring of `fullInvariantPresentation`. |
 | [`MvPolynomial.esymmAlgEquiv`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean) | For any commutative ring R and a finite variable set of cardinality n, elementary symmetric polynomials give an R-algebra equivalence with the symmetric subalgebra; no denominators. |
 
 ### From Tau Ceti
@@ -187,8 +195,6 @@ category requires finite generation, not semisimplicity or an algebraic closure.
 | `TauCeti.GLSymplecticFin.differenceShortRootWeylElement`, `TauCeti.GLSymplecticFin.positiveLongRootWeylElement`, `TauCeti.GLSymplecticFin.negativeLongRootWeylElement` | Over a commutative ring, the first takes distinct indices and represents a pair transposition; the latter two take one index and represent a reciprocal flip. They normalize the symplectic diagonal torus (`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Weyl.lean`, lines 79, 422, 428). |
 | `TauCeti.repRing` | For a field k and a monoid G, the split ring SplitK0 (FDRep k G); point evaluation induces a map to this abstract representation ring (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`, line 106). |
 | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `TauCeti.HopfAlgebra.isReduced_of_charZero` | Finite-type commutative Hopf algebras over characteristic-zero fields are smooth and reduced, also after field extension (`TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`, lines 148, 166). |
-| `TauCeti.Comodule.isCompletelyReducible_of_isSimpleOrder` | A comodule with simple subcomodule lattice is completely reducible (`TauCeti/Algebra/Coalgebra/Comodule/LinearlyReductive.lean`, line 154). |
-| `TauCeti.HopfIdeal.eq_augmentation_of_isNormal_of_smoothUnipotent_of_isFaithful` | For a reduced finite-type commutative Hopf algebra H over an algebraically closed field, a faithful completely reducible finite-dimensional H-comodule forces every normal smooth unipotent quotient Hopf algebra to have defining ideal equal to the augmentation ideal; all carriers share a universe (`TauCeti/Algebra/AlgebraicGroup/Unipotent/Radical/Faithful.lean`, lines 62–66, 94–100). |
 
 The kernel interface assumes `Module.Flat K O_g(K)` and a Noetherian source;
 a field and a finite-dimensional source provide both. Matrix-coefficient
@@ -307,11 +313,36 @@ no embedding of K into ℂ is used.
 The comparison of a specified tensor top line with the supplied simple is
 GSp-specific work here, not another classification.
 
+### From TauCetiRoadmap.PELModuli
+
+Consume §M0.7 for the Siegel datum `IntegralPELDatum.siegel` of genus g≥1:
+the lattice ℤ^(2g), indexed by Fin g ⊕ Fin g, with Gram matrix
+−`Matrix.J`=[[0,I],[−I,0]], which is the J of this roadmap. Its similitude
+group G is represented over ℤ by the commutative Hopf algebra
+`IntegralPELDatum.coordinate`, and over Q by `RationalPELDatum.coordinate`
+of its rationalization. Through `IntegralPELDatum.coordinatePoints` and
+`RationalPELDatum.coordinatePoints`, the points over a commutative ring R
+(a Q-algebra for the rational form) are the pairs (h,r) with h∈GL_2g(R),
+r∈R^× and hᵀJh=rJ, multiplied componentwise. The multiplier
+`PELDatum.multiplier` is (h,r)↦r, and
+`PELDatum.similitudeGroup.multiplier_unique` makes r a function of h over
+every Q-algebra (the lattice is nonzero for g≥1, and Q-algebras are flat
+over ℤ). `PELDatum.similitudeGroup.isometry_siegel` identifies the
+multiplier-one coordinate Hopf algebra with that of Tau Ceti's
+`TauCeti.Symplectic.groupScheme`, after the basis change between Fin(2g) and
+Fin g ⊕ Fin g; the §M0.7 Check `similitudeGroup_siegel_one` is GL₂=GSp₂ with
+multiplier det. Consume §M0.8's `similitudeGroupStructure` in Case C, with its
+Check `similitudeGroupStructure_siegel`: over Q, GSp₂g is connected reductive
+in the sense of ReductiveGroups Layer 6, its derived group Sp₂g is simply
+connected and G/G^der=G_m. Nothing in §§M0.7–M0.8 uses this roadmap.
+
 ## How to read the build
 
-Layer CG.0 constructs the coordinate presentation and establishes connected
-reductivity before using the split-pair interface, then identifies the torus,
-lattice, Weyl action and central parity. Layer CG.1 builds primitive-tensor
+Layer CG.0 specializes PELModuli's Siegel similitude group to every
+characteristic-zero field, compares it with the matrix presentation, transfers
+its connected reductivity and constructs the central isogeny before using the
+split-pair interface, then identifies the torus, lattice, Weyl action and
+central parity. Layer CG.1 builds primitive-tensor
 models and compares them with the supplied split highest-weight theory.
 Layer CG.2 proves the integral full invariant presentation and the rational
 character isomorphism. Layer CG.3 proves the support criterion, positive
@@ -319,12 +350,13 @@ invariant presentation, tensor-occurrence criterion and the constituent
 character isomorphism with multiplier localization. The statable headlines
 in Suggested.lean are `fullInvariantPresentation`, `mem_positiveSubring`
 and `positiveInvariantPresentation`. The remaining headlines need the GSp
-coordinate Hopf algebra and its finite-comodule objects, which are construction
-targets here; their missing carriers are recorded in the module docstring.
+coordinate Hopf algebra (PELModuli §M0.7, specialized in CG.0.1) and its
+finite-comodule objects (CG.1); neither is in the pinned libraries, and the
+module docstring records these missing carriers.
 
 ## Layer CG.0: Algebraic similitudes, diagonal torus and central weights
 
-Represent the displayed matrix similitude functor by its explicit finite-type coordinate Hopf algebra. Construct the diagonal torus and central-similitude lattice Z×Z^g, register its reciprocal Weyl action, and prove the central isogeny Sp₂g×G_m→GSp₂g with μ₂ kernel, its parity/descent criterion and the split connected reductive root datum. Check rank one, the multiplier-one fibre and non-surjectivity of the cover on Q-points.
+Specialize PELModuli's Siegel similitude group to K and compare its coordinate Hopf algebra with the explicit finite-type presentation of the displayed matrix similitude functor. Construct the diagonal torus and central-similitude lattice Z×Z^g, register its reciprocal Weyl action, and prove the central isogeny Sp₂g×G_m→GSp₂g with μ₂ kernel, its parity/descent criterion and the split connected reductive root datum. Check rank one, the multiplier-one fibre and non-surjectivity of the cover on Q-points.
 
 The torus and the central cover do different jobs. The independent torus
 coordinates give an integral group algebra, while the central cover explains
@@ -344,34 +376,40 @@ constructs its finite-dimensional representation-descent comparison.
 
 ### CG.0.1 Algebraic presentation of the symplectic similitude group
 
-For g≥1 and characteristic-zero K, build the finite-type coordinate Hopf
-algebra ([Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
+For g≥1 and characteristic-zero K set O_g(K)=K⊗_Q O_g(Q), where O_g(Q) is
+PELModuli §M0.7's rational coordinate Hopf algebra of the Siegel datum of
+genus g. Prove that it has the finite-type presentation
+([Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64)
 
-`O_g(K) = K[x_ab,D,s,s⁻¹]/(D det(X) − 1, s s⁻¹ − 1, (X J Xᵀ − s J)_ab).`
+`O_g(K) ≃ K[x_ab,D,s,s⁻¹]/(D det(X) − 1, s s⁻¹ − 1, (X J Xᵀ − s J)_ab),`
 
-where X has size 2g. Its matrix entries have comultiplication
-Δ(x_ab)=Σ_c x_ac⊗x_cb, and s is invertible and group-like.
-The counit sends X to I and s to 1; the antipode sends X to its inverse
-and s to s⁻¹. For every commutative K-algebra A, give a natural equivalence
-between algebra maps O_g(K)→A and invertible matrices h for which
-hJhᵀ=sJ for a unit s∈A×. The multiplier is unique because J has a ±1
-entry and g≥1. This equivalence presents the indicated matrix subfunctor
-through the ReductiveGroups dictionary. The fibre s=1 is the existing Sp
-coordinate algebra. In rank one the presentation reduces to the existing
-GL₂ coordinate algebra and s becomes determinant.
+where X has size 2g, indexed by Fin(2g) through `finSumFinEquiv`. Its matrix
+entries have comultiplication Δ(x_ab)=Σ_c x_ac⊗x_cb, and s is invertible and
+group-like. The counit sends X to I and s to 1; the antipode sends X to its
+inverse and s to s⁻¹. For every commutative K-algebra A, give a natural
+equivalence between algebra maps O_g(K)→A and invertible matrices h for which
+hJhᵀ=sJ for a unit s∈A×. On the points (h,r) of §M0.7 it forgets r, which h
+determines because J has a ±1 entry and g≥1. This equivalence presents the
+indicated matrix subfunctor through the ReductiveGroups dictionary. For every
+extension K/F of characteristic-zero fields give the Hopf comparison
+O_g(K)≃K⊗_F O_g(F), fixing every x_ab and s. The fibre s=1 is the existing Sp
+coordinate algebra. In rank one the presentation reduces to the existing GL₂
+coordinate algebra and s becomes determinant.
 
 **Construction and proof.**
 
-1. Use the existing GL determinant localization and adjoin an invertible scalar s. The relation XJXᵀ=sJ is stable under multiplication, identity and inverse, so the displayed ideal is a Hopf ideal.
-2. The generators and relations give the natural points equivalence directly in Matrix.GeneralLinearGroup. Multiplier uniqueness follows by inspecting a ±1 entry of J. Compare the induced point functor with any matrix-similitude interface through that natural equivalence.
-3. The s=1 quotient is the symplectic coordinate Hopf algebra. In rank one XJXᵀ=det(X)J, so eliminate s and recover the GL₂ coordinate algebra.
+1. §M0.7 cuts out the group by hᵀJh=rJ. For invertible h this is equivalent to hJhᵀ=rJ: inverting hᵀJh=rJ and using J⁻¹=−J gives h⁻¹Jh⁻ᵀ=r⁻¹J, that is hJhᵀ=rJ, and symmetrically. So in the determinant localization the two families of matrix-entry relations generate the same ideal, the displayed quotient represents §M0.7's functor on Q-algebras, and both group laws are matrix multiplication with multiplied multipliers; the Yoneda isomorphism is a Hopf isomorphism, which scalar extension carries to K.
+2. The generators and relations give the natural points equivalence directly in Matrix.GeneralLinearGroup. Multiplier uniqueness follows by inspecting a ±1 entry of J; it is the Siegel case of `PELDatum.similitudeGroup.multiplier_unique`. Compare the induced point functor with any matrix-similitude interface through that natural equivalence.
+3. For K/F the comparison is associativity of scalar extension, K⊗_F(F⊗_Q O_g(Q))≃K⊗_Q O_g(Q), a Hopf isomorphism; on the presentation, polynomial quotients and the determinant localization commute with scalar extension.
+4. The s=1 quotient is the scalar extension of §M0.7's multiplier-one coordinate algebra, which `PELDatum.similitudeGroup.isometry_siegel` identifies with the symplectic coordinate Hopf algebra. In rank one XJXᵀ=det(X)J, so eliminate s and recover the GL₂ coordinate algebra.
 
 The required interface has the following properties.
 
-- The displayed finite-type coordinate Hopf algebra O_g(K), with its polynomial quotient presentation.
+- O_g(K)=K⊗_Q O_g(Q) with its Hopf isomorphism to the displayed finite-type polynomial quotient.
 - matrix entry: x_ab is the residue class of the (a,b) generic matrix entry.
-- multiplier coordinate: s is the invertible group-like multiplier coordinate; s⁻¹ is its antipode.
+- multiplier coordinate: s is the invertible group-like multiplier coordinate, the image of §M0.7's multiplier; s⁻¹ is its antipode.
 - Naturally in A, K-algebra maps O_g(K)→A correspond to h∈GL₂g(A) with hJhᵀ=ν(h)J, the displayed similitude carrier.
+- For every characteristic-zero extension K/F, the Hopf isomorphism O_g(K)≃K⊗_F O_g(F) taking x_ab to 1⊗x_ab and s to 1⊗s; for a tower L/K/F it is the composite of the comparisons for L/K and K/F.
 - O_1(K) is canonically Hopf-isomorphic to TauCeti.GeneralLinear.coordinateHopfAlgebra K 2; s corresponds to determinant.
 
 **Checks.**
@@ -381,37 +419,26 @@ The required interface has the following properties.
 - The scalar matrix 2I has multiplier 4, rather than 2.
 - At g=0 the empty matrix satisfies the similitude equation for both s=1 and s=2 over Q, so uniqueness of the multiplier requires g≥1. The rank-zero Laurent constructions retain an independent t and make no rank-zero matrix-group identification.
 - Over the zero K-algebra there is one invertible matrix and one unit multiplier; both sides of the points equivalence are singletons, so no nonzero-value-algebra assumption is implicit.
+- At g=2 let A=[[1,1],[0,1]] and h=diag(A,3A⁻ᵀ), with 3A⁻ᵀ=[[3,0],[−3,3]]. Then A(3A⁻ᵀ)ᵀ=Aᵀ(3A⁻ᵀ)=3I, so h satisfies both hJhᵀ=3J and §M0.7's hᵀJh=3J. With the second block replaced by 3A⁻¹=[[3,−3],[0,3]] the off-diagonal block of hJhᵀ is [[0,3],[−3,3]]≠3I, and that matrix fails both equations.
+- For the identity extension the Hopf comparison sends 1⊗x_ab to x_ab and 1⊗s to s, not to s⁻¹; evaluated at the Q-point 2I it gives multiplier 4 on both sides.
 
 **Consequences to check.** The multiplier-one fibre is Sp₂g, as a Hopf quotient, not just a set of Q-points. For g=1 the multiplier is the determinant.
 
-*Needs:* [`Matrix.GeneralLinearGroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean) with the displayed similitude equation; [`TauCeti.GeneralLinear.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean); [`TauCeti.Symplectic.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean); [ReductiveGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-0-the-functor-of-points-and-the-three-way-dictionary).
+*Needs:* PELModuli §M0.7 for the Siegel similitude group, its rational coordinate Hopf algebra, multiplier uniqueness and multiplier-one comparison; [`Matrix.GeneralLinearGroup`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean) with the displayed similitude equation; [`TauCeti.GeneralLinear.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Coordinate/HopfAlgebra.lean); [`TauCeti.Symplectic.coordinateHopfAlgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/AlgebraicGroup/Symplectic/Basic.lean); [ReductiveGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-0-the-functor-of-points-and-the-three-way-dictionary).
 
 ### CG.0.2 Central isogeny and connected reductivity
 
 For g≥1 and characteristic-zero K construct π:Sp₂g×G_m→GSp₂g by
 π(a,c)=ca. Prove it faithfully flat with central kernel μ₂ embedded by
 ε↦(εI,ε), and identify its target as the represented fppf quotient.
-Deduce geometric connectedness from the quotient of Sp₂g×G_m. Prove
-reductivity using its defining faithful matrix action: after algebraic
-closure the symplectic group is transitive on nonzero vectors, by extending
-a nonzero vector to a symplectic basis. Its standard action is therefore
-simple, and so is the GSp action that restricts to it. The defining action
-is faithful as a group-scheme representation: the multiplier is recovered
-from an entry of hJhᵀ, and its inverse from h⁻¹Jh⁻ᵀ, so the GL coordinate
-map onto O_g(K) is surjective. The finite-type Hopf algebra and its geometric
-fibre are smooth and reduced by
-`TauCeti.smoothCommHopfAlgProperty_of_charZero` and
-`TauCeti.HopfAlgebra.isReduced_of_charZero`. On the geometric fibre apply
-`TauCeti.HopfIdeal.eq_augmentation_of_isNormal_of_smoothUnipotent_of_isFaithful`
-to the faithful simple standard comodule, using
-`TauCeti.Comodule.isCompletelyReducible_of_isSimpleOrder` for complete reducibility.
-Every normal smooth unipotent subgroup is trivial, giving reductivity by
-ReductiveGroups Layer 6's definition. The native criterion uses the nonzero
-unipotent fixed space, its stability by normality, simplicity and faithfulness
-(Milne, Lemma 19.16, Proposition 19.17, Corollary 19.18 and Example 19.19,
-p.401). This target uses no GSp maximal torus, Borel,
-root datum or Weyl group (Yu, §7.1, Remark 7.1.1, p.64, for the matrix group; the kernel
-and fppf lifts are computed below).
+Prove GSp₂g over K connected reductive by transfer from Q: PELModuli §M0.8
+proves GSp₂g over Q connected reductive (Case C), GSp₂g over K is its base
+change by CG.0.1, and an algebraic group variety is reductive, which includes
+smooth and connected, exactly when its base change to an extension field is
+(Milne, Proposition 19.13, p.400). Both use ReductiveGroups Layer 6's notion
+of reductivity. This target uses no GSp maximal torus, Borel, root datum or
+Weyl group of this roadmap (Yu, §7.1, Remark 7.1.1, p.64, for the matrix
+group; the kernel and fppf lifts are computed below).
 
 For a commutative K-algebra A and a similitude h with unit multiplier s,
 A[C]/(C²−s) is free of rank two, hence faithfully flat; C is a unit and
@@ -421,23 +448,20 @@ these equations. Splitness is established with the diagonal torus below,
 after connected reductivity is available.
 
 The required interface records π on matrices, its μ₂ kernel as a subgroup
-scheme, its fppf quotient property and connected reductivity of GSp₂g.
+scheme, its fppf quotient property and connected reductivity of GSp₂g over K.
 
 **Checks.**
 
 - In rank one π(a,c)=ca has det(ca)=c², and its kernel is exactly (I,1),(−I,−1) over a characteristic-zero algebraically closed field.
 - diag(I_g,2I_g) over Q has multiplier 2. A lift requires c²=2 and has no Q-point, while Q[C]/(C²−2) supplies a lift.
 - Over A=Q[ε]/(ε²), multiplier 1+ε has square root 1+ε/2. Its square is 1+ε, so the lift construction also tests nonreduced value algebras.
-- Over an algebraic closure, the upper-unitriangular group U₂ acts faithfully on K² but fixes only K e₁; K e₁ has no invariant complement. Thus this nonreductive group fails complete reducibility in the native criterion. GSp instead sends every nonzero vector to every other, so its standard module has no such proper fixed subspace.
+- The multiplier of π(a,c) is c², so the composite of π with the multiplier is the squaring map of G_m, matching §M0.8's G/G^der=G_m; in rank one it is det(ca)=c². The variant (a,c)↦c²a has multiplier c⁴ and kernel {(c⁻²I,c) : c⁴=1}≅μ₄, so it is not the stated isogeny.
 
 *Needs:* [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group);
+PELModuli §M0.8 for connected reductivity over Q;
 `TauCeti.Symplectic.coordinateHopfAlgebra`;
-`TauCeti.smoothCommHopfAlgProperty_of_charZero`;
-`TauCeti.HopfAlgebra.isReduced_of_charZero`;
-`TauCeti.Comodule.isCompletelyReducible_of_isSimpleOrder`;
-`TauCeti.HopfIdeal.eq_augmentation_of_isNormal_of_smoothUnipotent_of_isFaithful`;
-ReductiveGroups Layer 1 for the faithful-action/comodule dictionary,
-Layer 3 for fppf quotient identification and Layer 6 for the definition of reductivity;
+ReductiveGroups Layer 3 for fppf quotient identification and Layer 6 for
+reductivity and central isogenies;
 ClassicalGroups Layer 0 for the symplectic group.
 
 ### CG.0.3 The integral central-similitude weight lattice
@@ -628,7 +652,7 @@ At g=1 the matrix diag(2,3) has t=6, while 2I has t=4. The central-cover lift of
 
 ### Dependencies
 
-Mathlib and Tau Ceti coordinate/group-algebra, characteristic-zero smoothness and faithful-comodule interfaces; ReductiveGroups Layers 0, 1, 3, 6 and 7; ClassicalGroups Layer 0 and §3A.1; ReductiveGroups Layer 3’s central-quotient-representations contract specialized in CG.0.6.
+Mathlib and Tau Ceti coordinate/group-algebra interfaces; PELModuli §§M0.7–M0.8; ReductiveGroups Layers 0, 3, 6 and 7; ClassicalGroups Layer 0 and §3A.1; ReductiveGroups Layer 3’s central-quotient-representations contract specialized in CG.0.6.
 
 ## Layer CG.1: Rational algebraic representations and primitive powers
 
@@ -736,8 +760,10 @@ root-subgroup/Bruhat coordinates to the torus and opposite Borels of CG.0.4.
 Multiplication U⁻×T×U⁺ is a dense open chart, with affine-space root factors
 and split-torus factor. Its K-points are dense: clear Laurent denominators
 and use, one variable at a time, that a nonzero polynomial has only finitely
-many roots over the infinite field K. Smoothness and geometric connectedness
-make GSp geometrically integral, so restriction to this dense open and then
+many roots over the infinite field K. Smoothness and reducedness after field
+extension (`TauCeti.smoothCommHopfAlgProperty_of_charZero`,
+`TauCeti.HopfAlgebra.isReduced_of_charZero`) and geometric connectedness
+(CG.0.2) make GSp geometrically integral, so restriction to this dense open and then
 evaluation on its K-points detect every nonzero regular function. This proves
 schematic density for the actual coordinate algebra O_g(K).
 
@@ -769,7 +795,7 @@ respects subspaces and complements, so it transports complete reducibility.
 
 **Consequences to check.** V has dimension 2g, central degree 1 and multiplier-twisted alternating pairing V⊗V→ν.
 
-*Needs:* [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The diagonal GSp torus](#cg04-the-diagonal-gsp-torus); [The rational algebraic representation ring](#cg11-the-rational-algebraic-representation-ring); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules); [ClassicalGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-0-the-classical-groups-and-the-standard-representation); CG.0.2 connected reductivity and CG.0.4 splitness; ReductiveGroups Layer 7 and §7C for the all-field split root-subgroup/Bruhat chart.
+*Needs:* [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The diagonal GSp torus](#cg04-the-diagonal-gsp-torus); [The rational algebraic representation ring](#cg11-the-rational-algebraic-representation-ring); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules); [ClassicalGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-0-the-classical-groups-and-the-standard-representation); CG.0.2 connected reductivity and CG.0.4 splitness; `TauCeti.smoothCommHopfAlgProperty_of_charZero` and `TauCeti.HopfAlgebra.isReduced_of_charZero` for geometric integrality; ReductiveGroups Layer 7 and §7C for the all-field split root-subgroup/Bruhat chart.
 
 ### CG.1.3 The multiplier line and its integer twists
 
@@ -872,8 +898,8 @@ from Sp₂g to GSp₂g.
    `κ_(k+2) ∘ L_k − (id_ν ⊗ L_(k−2)) ∘ (id_ν ⊗ κ_k) = (g−k) id.`
 
    Tensor associators are understood in the second composite; both sides are endomorphisms of ν⊗ΛᵏV. The coefficient g−k is an integer, not truncated natural subtraction; the Checks below fix its normalization. Surjectivity of κ_k for 2≤k≤g descends in the same way: a Q-linear map whose extension to ℂ is surjective is surjective, and extension to K preserves surjectivity.
-2. Use semisimplicity for the splitting; rank–nullity then gives dim P_k=binom(2g,k)−binom(2g,k−2). The vector e_1∧⋯∧e_k lies in P_k with GSp weight (0,(1^k,0^(g−k))), which the central-cover pullback (m,u)↦(u,2m+Σu_i) sends to the Sp weight ω_k in scalar degree k. Kernels commute with field extension, so P_k over K is P_k over Q extended to K, and P_k over Q extended to ℂ is the §3A.3 kernel, a simple Sp₂g-module of highest weight ω_k.
-3. Every GSp₂g(ℂ)-stable subspace is Sp₂g(ℂ)-stable, and an endomorphism commuting with GSp₂g(ℂ) commutes with Sp₂g(ℂ); so the point criterion of CG.1.2 makes the extension to ℂ of P_k over Q a simple GSp comodule with endomorphism algebra ℂ. The Hom comparison of CG.1.6 for ℂ/Q then gives End(P_k)=Q over Q, and the same comparison for an algebraic closure K̄ of any characteristic-zero K gives a one-dimensional endomorphism algebra over K̄; with semisimplicity over K̄ this is absolute simplicity. ClassicalGroups Layer 2 identifies the column Schur functor with Λ^k over C; the standard point comparison transports it, and the rational alternating projector (1/k!)Σ_σ sign(σ)σ gives the splitting over K; the pairing splits ν out of V^⊗2.
+2. Use semisimplicity for the splitting; rank–nullity then gives dim P_k=binom(2g,k)−binom(2g,k−2). The vector e_1∧⋯∧e_k lies in P_k with GSp weight (0,(1^k,0^(g−k))), which the central-cover pullback (m,u)↦(u,2m+Σu_i) sends to the Sp weight ω_k in scalar degree k. Kernels commute with field extension and κ_k over K is the extension of κ_k over Q under the Hopf comparison of CG.0.1, so P_k over K is P_k over Q extended to K, and P_k over Q extended to ℂ is the §3A.3 kernel, a simple Sp₂g-module of highest weight ω_k.
+3. Every GSp₂g(ℂ)-stable subspace is Sp₂g(ℂ)-stable, and an endomorphism commuting with GSp₂g(ℂ) commutes with Sp₂g(ℂ); so the point criterion of CG.1.2 makes the extension to ℂ of P_k over Q a simple GSp comodule with endomorphism algebra ℂ. By CG.1.1 an endomorphism space is the solution space of the coaction equation, the kernel of a linear map between finite-dimensional spaces; under the Hopf comparison of CG.0.1 the map for an extension of P_k is the extension of the map for P_k, and kernels commute with field extension (Milne, Corollary 4.34, p.96, and Exercise 4-4(a), p.97). Hence End(P_k)=Q over Q, and for an algebraic closure K̄ of any characteristic-zero K the endomorphism algebra over K̄ is one-dimensional as well; with semisimplicity over K̄ this is absolute simplicity. ClassicalGroups Layer 2 identifies the column Schur functor with Λ^k over C; the standard point comparison transports it, and the rational alternating projector (1/k!)Σ_σ sign(σ)σ gives the splitting over K; the pairing splits ν out of V^⊗2.
 
 **Checks.**
 
@@ -889,12 +915,12 @@ from Sp₂g to GSp₂g.
 
 **Consequences to check.** For k=1 the correction term is zero, so [P_1]=[V]. In rank two the second primitive module has dimension 5, whereas Λ²V has dimension 6.
 
-*Needs:* [Primitive symplectic exterior powers with multiplier twist](#cg14-primitive-symplectic-exterior-powers-with-multiplier-twist); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Hom spaces and torus weights commute with field extension](#cg16-hom-spaces-and-torus-weights-commute-with-field-extension) for the endomorphism comparison; [ClassicalGroups §3A.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a3-exterior-blocks-and-cartan-components); [ClassicalGroups Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-2-the-weyl-construction-via-young-symmetrizers); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
+*Needs:* [Primitive symplectic exterior powers with multiplier twist](#cg14-primitive-symplectic-exterior-powers-with-multiplier-twist); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group) for the Hopf comparison and [The rational algebraic representation ring](#cg11-the-rational-algebraic-representation-ring) for Hom spaces as solution spaces of the coaction equation, used in the endomorphism comparison; [ClassicalGroups §3A.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a3-exterior-blocks-and-cartan-components); [ClassicalGroups Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-2-the-weyl-construction-via-young-symmetrizers); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
 
 ### CG.1.6 Hom spaces and torus weights commute with field extension
 
-Let K/F be any characteristic-zero field extension. Give the Hopf
-comparison O_g(K)≃K⊗_F O_g(F) and the additive strong symmetric
+Let K/F be any characteristic-zero field extension. Through the Hopf
+comparison O_g(K)≃K⊗_F O_g(F) of CG.0.1 give the additive strong symmetric
 monoidal scalar-extension functor M↦M_K on finite comodules. For finite
 M,N prove that the canonical K-linear map
 `K ⊗_F Hom_GSp_F(M,N) → Hom_GSp_K(M_K,N_K)`
@@ -907,13 +933,13 @@ Specialize ReductiveGroups §10A scalar extension to the displayed GSp coordinat
 
 **Construction and proof.**
 
-1. Polynomial quotient and determinant localization commute with scalar extension, giving the specified Hopf algebra comparison for K/F. Use the actual Comodule.baseChange with both coefficient and module base-changed.
+1. Use the actual Comodule.baseChange, with both coefficient and module base-changed, and transport its coalgebra along the Hopf comparison of CG.0.1.
 2. Choose bases of the finite-dimensional modules. Equivariance of a linear map is a finite system of linear equations: matrix coaction coefficients span a finite-dimensional subspace of O_g(F). Flat scalar extension commutes with this kernel.
 3. Weight-space base change also follows by applying Corollary 4.34 to invariants after twisting by the inverse torus character. Faithful field extension detects zero and exactness; an invertible equivariant map after extension forces an equivariant isomorphism over F: use the nonempty invertible locus in the finite-dimensional Hom space over the infinite field F. This argument does not depend on the classification.
 
 The required interface has the following properties.
 
-- Identify the extended coordinate Hopf algebra and underlying module with K⊗_F O_g(F) and K⊗_F M respectively.
+- Identify the underlying module of M_K with K⊗_F M and its coordinate Hopf algebra with K⊗_F O_g(F) through CG.0.1.
 - Under those identifications the coaction is the native Comodule.baseChangeCoact, and a morphism sends a⊗m to a⊗f(m).
 - The canonical Hom comparison sends a⊗f to a times the scalar-extended morphism f.
 - Reflect invertibility and object isomorphisms, detect zero maps, and give the Hom and weight-space comparisons for every characteristic-zero K/F.
@@ -922,7 +948,7 @@ The required interface has the following properties.
 
 - For F=Q and K=C the Hom comparison for the unit is C⊗_Q Q→C, a⊗b↦ab, an isomorphism of one-dimensional C-spaces. The unextended map Q→C omits i.
 - For M=V and N=ν, the central degrees 1 and 2 force both Hom spaces to be zero. Extension preserves that zero; it does not create a map between unequal central weights.
-- For the identity field extension the coordinate comparison sends 1⊗x_ab to x_ab and 1⊗s to s. The standard weight spaces retain dimension 1; on the zero module each weight space has dimension 0.
+- For the identity field extension, scalar extension sends V to V, whose standard weight spaces retain dimension 1; on the zero module each weight space has dimension 0.
 - On the tensor unit the zero morphism remains zero and is not invertible, while the scalar 2 remains invertible with inverse 1/2. Object-isomorphism reflection compares existence of an invertible Hom element, rather than requiring every extended scalar map to come from F.
 
 **Consequences to check.** This is not fullness of the scalar-extension functor: Hom(1,1)=Q maps into C, not onto C. The standard and multiplier character polynomials retain their integer coefficients after extension.
@@ -1041,7 +1067,7 @@ At g=2 the primitive second exterior module has dimension 6−1=5; at g=1 L(m,u)
 
 ### Dependencies
 
-Layer CG.0; native finite comodules, kernels and exterior powers; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–2 and §§3A.2–3A.3; ReductiveGroups Layer 1’s finite-comodule-category and generated-vector-base-change contracts specialized in CG.1.1 and CG.1.7.
+Layer CG.0; native finite comodules, kernels and exterior powers; characteristic-zero smoothness; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–2 and §§3A.2–3A.3; ReductiveGroups Layer 1’s finite-comodule-category and generated-vector-base-change contracts specialized in CG.1.1 and CG.1.7.
 
 ## Layer CG.2: Integral torus characters and the full representation ring
 
@@ -1204,21 +1230,17 @@ over Z[t±1], including invariants with odd orbit coefficients. ([Yu](https://ar
 2. Apply the elementary-symmetric algebra equivalence over the ring A to the remaining S_g action. This proves the integral ring A[e_1(x),…,e_g(x)].
 3. For k≤g, expand the generating function: E_k=Σ_(j=0)^floor(k/2) binom(g−k+2j,j)t^j e_(k−2j)(x). Therefore F_k=e_k(x) plus a Z[t]-linear combination of lower e_(k−2j)(x), so recursive substitution changes generators by an integral triangular automorphism.
 
-The coefficient carrier `MultLaurent` is the group algebra Z[Z]. Its
-basis elements `coeffT` and `coeffTInv` have exponents 1 and −1. Their
-product is 1 and their powers give every coefficient monomial. The
-`fullInvariantPresentation` theorem specifies a ring equivalence whose
-X_i image is `fundamentalCharacter` i and whose coefficient generator images
-are `t` g and `tInv` g. These equations determine the coefficient map and
-hence the Z[t±1]-algebra presentation; no choice of a translated generator
-is allowed.
+The coefficient ring is Mathlib's `LaurentPolynomial ℤ`, with its monomials
+`LaurentPolynomial.T`. The `fullInvariantPresentation` theorem specifies a
+ring equivalence from the polynomials in g variables over it whose X_i image
+is `fundamentalCharacter` i and whose images of the constants T 1 and T(−1)
+are `t` g and `tInv` g. A ring map out of Z[T±1] is fixed by the image of
+T 1, so these equations determine the coefficient map and hence the
+Z[t±1]-algebra presentation; no choice of a translated generator is allowed.
 
 **Checks.**
 
-- In the coefficient ring, T and T⁻¹ have coefficient 1 at exponents 1 and −1, coefficient 0 at exponent 0, and multiply to 1; replacing either by the zero element fails this identity.
-- The coefficient ring contains T⁻² with coefficient 1 at −2 and T² with coefficient 1 at 2; T⁻¹ differs from T and from 1. Thus it is a Laurent ring, not Z[T].
-- At g=0 the full presentation has no X variables and sends T,T⁻¹ to t,t⁻¹. This is Z[t±1], retaining both coefficient directions.
-
+- At g=0 the full presentation has no X variables and sends T,T⁻¹ to t,t⁻¹. This is Z[t±1], retaining both coefficient directions. Composing with the automorphism T↦T⁻¹ of Z[T±1] gives another ring equivalence onto the same fixed ring, sending T 1 to t⁻¹; the equation for T 1 excludes it.
 - At g=1, the unique polynomial generator maps to z+t/z.
 - At g=2, F_2=e_2(x)+t, so the inverse sends e_2(x) to X_2−t.
 - At g=1 the inverse image of z²+(t/z)² is X₁²−2T, with both orbit coefficients 1; the inverse image of the single constant orbit 1 is 1.
@@ -1543,8 +1565,8 @@ their own function-field scope.
   pp.96–97, give the stabilizer and Hom/invariant base-change comparisons.
   Theorem 17.93(a), p.382, supplies rational-point density over infinite perfect
   fields; smoothness promotes that density to schematic density.
-  Lemma 19.16, Proposition 19.17 and Corollary 19.18, p.401, give the
-  normal-unipotent and faithful semisimple reductivity criterion;
+  Proposition 19.13, p.400, gives invariance of reductivity under extension
+  of the base field;
   Summary 21.98, p.461, fixes the type-C root datum.
   Chapter 22 §a, Theorem 22.2 and complements 22.3–22.6, pp.464–466, give split highest weights, scalar endomorphisms, absolute simplicity and
   scalar extension. Complement 22.12, p.466, gives descent of simple
