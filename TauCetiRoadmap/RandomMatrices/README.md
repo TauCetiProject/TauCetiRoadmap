@@ -173,6 +173,13 @@ Owned elsewhere and consumed here:
 - RepresentationTheory/CompactGroups: Layer 0 and `weyl_integration_formula`.
 - OptimalTransport: Layers 0–3. Exchangeability: the joint-law transport interface.
 - PointProcesses: Layers 0–6.
+- [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md): the Airy function `TauCeti.airyAi`
+  and its real restriction `TauCeti.Real.airyAi`, with the value at `0` (1.1), Airy's equation
+  and uniqueness (1.2), the integral representations (Layer 2), the expansions on the real line
+  (3.2, 3.4), the recessive characterization and the tail bound
+  `0 < Ai(x) ≤ Ai(0) e^{−(2/3)x^{3/2}}` for `x ≥ 0` (3.6), and the Airy kernel
+  `TauCeti.airyKernel` with its closed forms and the bound `|K_Ai(x,y)| ≤ C² e^{−x−y}` on
+  `[s,∞)²` (8.5).
 - OperatorTheory/PolarDecomposition: PD-A51–PD-A53. OperatorTheory/PrincipalAngles: PA-B40.
   OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13, SSP-D14.
   OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
@@ -203,7 +210,7 @@ finite noncrossing combinatorics → 3, 4, 6
 0–3 + StandardDistributions + CompactGroups → 5 (exact ensembles)
 1, 3, 5 + combinatorics → 6 (free probability)
 1–6 → 7 (deformations, covariance, spikes)
-1, 3, 5 + Hermite + LaguerreJacobi + PointProcesses + OperatorIdeals → 8 (local statistics)
+1, 3, 5 + Hermite + LaguerreJacobi + PointProcesses + OperatorIdeals + Airy → 8 (local statistics)
 1, 3, 5 → 9 (large deviations)
 0–3, 5–6 + StochasticCalculus → 10 (Dyson Brownian motion)
 0–5 → 11 (circular law)
@@ -1031,16 +1038,21 @@ OI-B23, OI-B29, OI-B30 and Part C; PointProcesses Layers 0–6; SuccessiveMinima
 Prove Hermite bulk and turning-point asymptotics with uniform bounds strong enough to pass to
 correlation functions and gap probabilities. For GUE and `E ∈ (-2,2)`, scale by
 `nρ_SC(E)(λ-E)`; the limiting kernel is `sin(π(x-y))/(π(x-y))` with diagonal value 1. At the upper
-edge use `n^(2/3)(λ-2)` and the Airy kernel `K_Ai(x,y) = ∫₀^∞ Ai(x+t)Ai(y+t) dt`. Build the Airy
-function, its equation `Ai'' = s Ai`, decay, integral representations and the uniform asymptotic
-estimates needed, with tail control on unbounded intervals. Define `F₂(s) = det(I-K_Ai)` on
+edge use `n^(2/3)(λ-2)` and the Airy kernel `K_Ai(x,y) = ∫₀^∞ Ai(x+t)Ai(y+t) dt`. The Airy
+function, its equation `Ai'' = s Ai`, its integral representations, its expansions on the real
+line, its decay and the Airy kernel with its closed forms and exponential bounds are consumed from
+SpecialFunctionsAiry (see [Exact supplier contracts](#from-taucetiroadmap-roadmaps)); this
+section proves the matching of the scaled Hermite kernel with `K_Ai` at the edge and the tail
+control of the scaled kernels on unbounded intervals. Define `F₂(s) = det(I-K_Ai)` on
 `L²(s,∞)`, prove it is a continuous distribution function and
 `P(n^(2/3)(λ_max(GUE)-2) ≤ s) → F₂(s)`, and prove the limiting Airy point process and the bulk
-sine-process gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B.
+sine-process gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
+SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
 **Checks.**
 
-- `Ai(0) = 3^(-2/3)/Γ(2/3)`; `Bi` solves the same equation but grows, so decay pins `Ai`.
+- `K_Ai(x,x) = Ai'(x)² - x Ai(x)²` is positive, and `∫_s^∞ K_Ai(x,x) dx < ∞` for every `s` by
+  the bound of SpecialFunctionsAiry 8.5, so `tr K_Ai` on `L²(s,∞)` is finite.
 - `F₂(s) → 1` as `s → ∞` and `F₂` is nondecreasing.
 
 ### 8.5 GOE: Pfaffians and Painlevé II
@@ -1086,7 +1098,8 @@ At `n = 2` the GUE kernel `K₂(x,x)` integrates to `2`, and `P(N(ℝ) = 2) = 1`
 ### Dependencies
 
 Layers 1, 3, 5; OrthogonalL2Bases Parts A–B; LaguerreJacobi Parts A–D; PointProcesses Layers 0–6;
-OperatorIdeals; SuccessiveMinima target 0.1.2.
+OperatorIdeals; SuccessiveMinima target 0.1.2; SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4,
+3.6 and 8.5.
 
 ## Layer 9: logarithmic energy and large deviations
 

@@ -21,9 +21,10 @@ Not statable at the pins, each for the carrier named:
   central limit theorem, `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t`, the population-covariance law `ν ⊠ MP_y`):
   Mathlib has no noncommutative probability space, no free independence and no free
   convolution;
-* the Tracy–Widom limits `F₂` and `F₁`, and the sine and Airy limits of GUE and GOE: Mathlib has
-  no Airy function, no Fredholm determinant on `L²`, no determinantal point process and no
-  space of locally finite configurations with its vague topology;
+* the Tracy–Widom limits `F₂` and `F₁`, and the sine and Airy limits of GUE and GOE: neither
+  Mathlib nor Tau Ceti has the Airy function (SpecialFunctionsAiry builds it), and Mathlib has no
+  Fredholm determinant on `L²`, no determinantal point process and no space of locally finite
+  configurations with its vague topology;
 * the large deviation principles at speed `n²` for the beta-gas empirical measure and at speed
   `n` for the Gaussian largest eigenvalue: Mathlib has no large deviation principle and no
   logarithmic energy of a probability measure;
