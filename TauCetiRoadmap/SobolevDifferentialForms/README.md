@@ -87,8 +87,7 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
 
 ### From Tau Ceti
 
-All as Tau Ceti implements them on its main branch, most later than the pinned revision;
-`Suggested.lean` uses none of them. File paths under `TauCeti/Analysis/`.
+All on Tau Ceti's main branch, which `Suggested.lean` does not import; file paths under `TauCeti/Analysis/`.
 
 - `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`, `TauCeti.alternatingFormInner_eq_sum`
   (`InnerProductSpace/AlternatingForm.lean`).
@@ -113,8 +112,10 @@ All as Tau Ceti implements them on its main branch, most later than the pinned r
 
 The pointwise Gram inner product and Hodge star are used with `V = E` and the standard orientation.
 `Orientation.formHodgeStar` is Mathlib's `exteriorPower.hodgeStar` on `⋀ᵏ V`, transported to alternating
-forms along `TauCeti.alternatingFormEquiv`. ComplexKahlerGeometry K5a specialises the same Mathlib star
-to `⋀ᵏ V*`; this roadmap does not use K5a, and the comparison of the two stars is K5a's to state.
+forms along `TauCeti.alternatingFormEquiv`. ComplexKahlerGeometry K5a plans this pointwise star on
+alternating maps of an oriented real inner-product space, characterised by `α ∧ ⋆β = ⟪α, β⟫ vol`; Tau
+Ceti's `Orientation.formHodgeStar` satisfies that law (`Orientation.wedge_formHodgeStar_apply`), so this
+roadmap consumes the library directly and does not cite K5a.
 
 ### From TauCetiRoadmap.PDE
 
