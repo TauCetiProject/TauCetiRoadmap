@@ -368,4 +368,4 @@ usable independently of models and of that supplier.
 [zeros]: https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Nullstellensatz.lean
 [semifunction]: https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/RealAlgebraic/Semialgebraic/Function.lean
 [semiimage]: https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/RealAlgebraic/Semialgebraic/Image.lean
-[rag]: ../RealAlgebraicGeometry/README.md#layer-6-cad-and-quantifier-elimination
+[rag]: ../../Completed/RealAlgebraicGeometry/README.md#layer-6-cad-and-quantifier-elimination
