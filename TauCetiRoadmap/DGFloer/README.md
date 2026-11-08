@@ -79,10 +79,11 @@ elsewhere. In particular it owns:
 - the Barraud–Cornea construction, DG Morse homology, its fibration theorem and its free-loop
   extension through broken geodesics (Layer 5);
 - the Hamiltonian formalism beyond what the pinned Tau Ceti states: Hamiltonian vector fields
-  of weakly nondegenerate forms, the Poisson bracket and first integrals of strongly
-  nondegenerate forms on Banach manifolds, symplectic maps and symplectomorphisms between
-  manifolds, the variational equation of autonomous and time-dependent flows and the
-  symplecticity of maximal Hamiltonian flows (Layer 6 item 0);
+  of weakly nondegenerate forms, Hamiltonian functions and the Jacobi identity for their
+  brackets, the Poisson bracket of strongly nondegenerate forms and first integrals on Banach
+  manifolds, symplectic maps and symplectomorphisms between manifolds, the variational equation
+  of autonomous and time-dependent flows and the symplecticity of maximal Hamiltonian flows
+  (Layer 6 item 0);
 - the action functional on contractible and free loops, symplectic asphericity and
   atoroidality, the completion of an abstract Liouville domain, the magnetic fibre translation as
   a symplectomorphism, the Liouville-flow argument for Corollary E, the ambient `π₁`-sensitive
@@ -182,7 +183,6 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Compact Lie theory: universal covers, central kernels, maximal tori, root `SU(2)` subgroups, Haar measure and Peter–Weyl | LieGroups Layers 5–6, CompactGroups | consumed by Layer 11 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
 | The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
-| Infinitesimal symmetries, moment maps and their equivariance cocycle, canonical coordinates on `V × StrongDual ℝ V`, and Souriau's mass theorem | HamiltonianSystems Layer 3 | not consumed here; the Hamiltonian vector fields, Poisson bracket, conservation laws, symplectic maps and variational equation that HamiltonianSystems Layers 1–2 build on are Layer 6 item 0 of this roadmap, which HamiltonianSystems consumes |
 
 **Out of scope**, so nobody mistakes them for targets:
 
@@ -379,9 +379,11 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
 - For Layer 6 item 0: `mvfderiv` (the differential of a real function on a manifold),
   `extChartAt`, the pullback of vector fields `VectorField.mpullback` and its chart form
   `VectorField.mpullbackWithin` (`Mathlib/Geometry/Manifold/VectorField/Pullback.lean`),
-  `VectorField.mlieBracket`, `IsMIntegralCurveOn`, `ContinuousLinearMap.IsInvertible`,
-  diffeomorphisms `M ≃ₘ^n⟮I, I'⟯ M'` with `ContinuousLinearEquiv.toDiffeomorph`, and
-  `LinearEquiv.toContinuousLinearEquiv` in finite dimension.
+  `VectorField.mlieBracket`, `IsMIntegralCurveOn` with local existence of integral curves
+  `exists_isMIntegralCurveAt_of_contMDiffAt_boundaryless`, `ContinuousLinearMap.IsInvertible`,
+  the Hahn–Banach theorem `exists_dual_vector`, diffeomorphisms `M ≃ₘ^n⟮I, I'⟯ M'` with
+  `ContinuousLinearEquiv.toDiffeomorph`, and `LinearEquiv.toContinuousLinearEquiv` in finite
+  dimension.
 
 ### From Tau Ceti
 
@@ -633,7 +635,9 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   and in finite dimension `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
   `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket` and
   `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`; the bracket of Hamiltonian
-  vector fields of a closed form `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`;
+  vector fields of a closed form `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`,
+  with the differential of `ω(X, Y)`,
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂`;
   first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral` with
   `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`. Naturality in finite
   dimension: `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
@@ -1944,37 +1948,84 @@ that.
 Two strengths of nondegeneracy are used. *Weak* nondegeneracy is
 `TauCeti.SmoothTwoForm.IsNondegenerate`: every flat map `ω♭_x : T_x M → (T_x M →L[ℝ] ℝ)`,
 `v ↦ ω_x(v, ·)` (`TauCeti.SmoothTwoForm.flat`), is injective. *Strong* nondegeneracy is the
-unbundled hypothesis `∀ x, Function.Surjective (ω.flat x)`. On a Banach model (`[CompleteSpace E]`)
-it makes every `ω♭_x` an isomorphism of Banach spaces; its inverse on arbitrary covectors, the
-smooth dependence of that inverse on `x` and the specialization `ι_{X_f} ω = df` to differentials
-are HeegaardFloer F2.1's contraction inverse, which this item consumes and does not rebuild. In
-finite dimension the two strengths agree (`TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`).
+unbundled hypothesis `∀ x, Function.Surjective (ω.flat x)`.
+- Strong implies weak in any model, `SmoothTwoForm.isNondegenerate_of_surjective_flat`: if
+  `ω_x(w, ·) = 0`, then every `ω_x(v, ·)` vanishes at `w` by antisymmetry, hence so does every
+  continuous linear form, and `w = 0` by the Hahn–Banach theorem.
+- On a Banach model (`[CompleteSpace E]`) strong nondegeneracy therefore makes every `ω♭_x` an
+  isomorphism of Banach spaces, by the open mapping theorem. Its inverse on arbitrary covectors,
+  the smooth dependence of that inverse on `x` and the specialization `ι_{X_f} ω = df` to
+  differentials are HeegaardFloer F2.1's contraction inverse, which this item consumes and does
+  not rebuild.
+- In finite dimension the two strengths agree
+  (`TauCeti.SmoothTwoForm.isNondegenerate_iff_isInvertible_flat`).
+
 For a weakly but not strongly nondegenerate form the pinned field `(ω♭)⁻¹ df` is the junk value
-`0` wherever `ω♭_x` is not invertible, even when `df_x` is of the form `ω_x(v, ·)`; every
-statement below that holds for weak forms is therefore stated for the predicate, and the
-statements about `X_f` and `{f, g}` carry strong nondegeneracy or no nondegeneracy at all.
+`0` wherever `ω♭_x` is not invertible, even when `df_x` is of the form `ω_x(v, ·)`. Every
+statement below that holds for weak forms is therefore stated for the predicate, on whatever
+Hamiltonian vector fields exist, and the statements about `X_f` and `{f, g}` carry strong
+nondegeneracy or no nondegeneracy at all.
 
 **Hamiltonian vector fields.** For weakly nondegenerate `ω` in any model:
-- uniqueness: two Hamiltonian vector fields of the same function are equal;
-- zeros: a Hamiltonian vector field `X` of `f` vanishes at `x` exactly when `df_x = 0`, so its
-  zeros are the critical points of `f` (Layer 7.C.6h).
+- uniqueness, `SmoothTwoForm.IsNondegenerate.eq_of_isHamiltonianVectorField`: two Hamiltonian
+  vector fields of the same function are equal;
+- zeros, `SmoothTwoForm.IsHamiltonianVectorField.apply_eq_zero_iff`: a Hamiltonian vector field
+  `X` of `f` vanishes at `x` exactly when `df_x = 0`, so its zeros are the critical points of
+  `f` (Layer 7.C.6h).
 
 With no nondegeneracy:
 - the predicate is linear and satisfies the Leibniz rule: for differentiable `f`, `g` with
-  Hamiltonian vector fields `X`, `Y`, the field `X + Y` belongs to `f + g` and `f • Y + g • X`
-  to `f * g`, and `c • X` belongs to `c • f` for every `f`;
+  Hamiltonian vector fields `X`, `Y`, the field `X + Y` belongs to `f + g`
+  (`SmoothTwoForm.IsHamiltonianVectorField.add`) and `f • Y + g • X` to `f * g`
+  (`SmoothTwoForm.IsHamiltonianVectorField.mul`), and `c • X` belongs to `c • f` for every
+  `f` (`SmoothTwoForm.IsHamiltonianVectorField.const_smul`);
 - the pinned field satisfies `X_{fg}(x) = f(x) X_g(x) + g(x) X_f(x)` at every point where `f`
-  and `g` are differentiable, and `X_f(x)` depends only on the germ of `f` at `x`.
+  and `g` are differentiable (`SmoothTwoForm.hamiltonianVectorField_mul`), and `X_f(x)` depends
+  only on the germ of `f` at `x` (`SmoothTwoForm.hamiltonianVectorField_congr_of_eventuallyEq`);
+  its additivity, homogeneity and chain rule are the pinned
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_add`,
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_const_smul` and
+  `TauCeti.SmoothTwoForm.hamiltonianVectorField_comp`.
 
-A function is *Hamiltonian* when it is smooth and has a smooth Hamiltonian vector field. For a
-strongly nondegenerate form on a Banach model every smooth function is Hamiltonian, by F2.1's
-`df` specialization and the smooth dependence of its inverse.
+**Hamiltonian functions.** A function is *Hamiltonian* (`SmoothTwoForm.IsHamiltonian`) when it
+is smooth and has a smooth Hamiltonian vector field.
+- For a strongly nondegenerate form on a Banach model every smooth function is Hamiltonian
+  (`SmoothTwoForm.isHamiltonian_iff_contMDiff`), by F2.1's `df` specialization and the smooth
+  dependence of its inverse.
+- For a closed form on a Banach model, with no nondegeneracy, let `X`, `Y` be smooth Hamiltonian
+  vector fields of smooth `f`, `g`. Then `ω(X, Y)` is Hamiltonian, with the smooth Hamiltonian
+  vector field `−[X, Y]` (`SmoothTwoForm.IsHamiltonianVectorField.isHamiltonian_eval₂`). This is
+  the pinned `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket` (`[X, Y]` is a
+  Hamiltonian vector field of `−ω(X, Y)`) together with the smoothness of the bracket of smooth
+  fields.
+- *Jacobi identity*, `SmoothTwoForm.IsHamiltonianVectorField.eval₂_mlieBracket_jacobi`: for a
+  closed form on a Banach model, with no nondegeneracy, and differentiable Hamiltonian vector
+  fields `X`, `Y`, `Z` of `C²` functions `f`, `g`, `k`,
+  `ω([X, Y], Z) + ω([Y, Z], X) + ω([Z, X], Y) = 0`. Since `ω(Z, ·) = dk`,
+  `ω([X, Y], Z) = −dk([X, Y]) = −X(ω(Z, Y)) + Y(ω(Z, X))`, and the pinned
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂`
+  (`d(ω(U, V)) = −ι_{[U, V]} ω`) turns the two derivatives into the other two terms.
+- So for a closed weakly nondegenerate form on a Banach model, with `X_f` the unique Hamiltonian
+  vector field of a Hamiltonian function `f`, the bracket `(f, g) ↦ ω(X_f, X_g)` makes the
+  Hamiltonian functions a real Lie algebra, and a subalgebra of the smooth functions for the
+  pointwise product, related to the bracket by the Leibniz rule. The map `f ↦ X_f` is linear,
+  sends the bracket to `−[X_f, X_g]`, and its kernel consists of the functions with `df = 0`, the
+  constants when `M` is preconnected.
 
 **The Poisson bracket.** For the pinned `{f, g} = ω(X_f, X_g)`:
-- on a Banach model with strongly nondegenerate `ω`, `{f, g}(x) = df_x(X_g(x))`, and the
-  bracket of two `C^{n+1}` functions is `C^n` for `n ≤ ∞`;
+- on a Banach model with strongly nondegenerate `ω`, `{f, g}(x) = df_x(X_g(x))`
+  (`SmoothTwoForm.poissonBracket_eq_mvfderiv_of_surjective_flat`), and the bracket of two
+  `C^{n+1}` functions is `C^n` for `n ≤ ∞`
+  (`SmoothTwoForm.contMDiff_poissonBracket_of_surjective_flat`);
+- on a Banach model with closed, strongly nondegenerate `ω` and `C²` functions,
+  `X_{{f, g}} = −[X_f, X_g]`
+  (`SmoothTwoForm.hamiltonianVectorField_poissonBracket_of_surjective_flat`) and
+  `{f, {g, k}} + {g, {k, f}} + {k, {f, g}} = 0`
+  (`SmoothTwoForm.poissonBracket_jacobi_of_surjective_flat`), the strongly nondegenerate cases
+  of the Hamiltonian-function statements above;
 - in any model, the Leibniz rule in each argument at a point where the two factors are
-  differentiable: `{fg, k} = f{g, k} + g{f, k}` and `{k, fg} = f{k, g} + g{k, f}`.
+  differentiable: `{fg, k} = f{g, k} + g{f, k}` (`SmoothTwoForm.poissonBracket_mul_left`) and
+  `{k, fg} = f{k, g} + g{k, f}` (`SmoothTwoForm.poissonBracket_mul_right`).
 
 Antisymmetry and additivity are the pinned `TauCeti.SmoothTwoForm.neg_poissonBracket` and
 `TauCeti.SmoothTwoForm.poissonBracket_add_left`; in finite dimension the identities
@@ -1984,66 +2035,91 @@ pinned `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_jacobi`.
 
 **Conservation along integral curves.**
-- *Constancy on an interval of times*: let `γ` be an integral curve of a vector field `X` on an
-  open set `s` of times and `T ⊆ s` preconnected. If `f` is differentiable at `γ t` and `df(X) = 0` at `γ t` for every `t ∈ T`,
+- *Constancy on an interval of times*, `IsMIntegralCurveOn.apply_eq_of_isPreconnected`: let `γ`
+  be an integral curve of a vector field `X` on an open set `s` of times and `T ⊆ s`
+  preconnected. If `f` is differentiable at `γ t` and `df(X) = 0` at `γ t` for every `t ∈ T`,
   then `f ∘ γ` is constant on `T`. The pinned
   `IsMIntegralCurveOn.apply_eq_of_mvfderiv_apply_eq_zero` is the case `T = s`, with `s` open
   and preconnected. For `X` a Hamiltonian vector field of `f`,
   `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_apply_self` (`df(X) = ω(X, X) = 0`)
   turns this into conservation of energy on every interval of times; no nondegeneracy is used.
-- *Evolution of an observable*: on a Banach model with strongly nondegenerate `ω`, along an
-  integral curve `γ` of `X_g` on an open set of times, `f ∘ γ` has derivative `{f, g}(γ t)` at every time where `f` is differentiable
-  at `γ t`.
-- *First integrals*: on a boundaryless Banach manifold with strongly nondegenerate `ω`, for `g` of class `C²` (so that
-  `X_g` is `C¹` and has local integral curves through every point) and `f` differentiable,
-  `{f, g} = 0` everywhere exactly when `f` is constant along every integral curve of `X_g` on an
-  open interval.
-- *Poisson's theorem*: for a closed `ω` on a Banach model, with no nondegeneracy, let `X`, `Y`, `Z` be Hamiltonian vector
+- *Evolution of an observable*: along an integral curve `γ` of any vector field `X`, `f ∘ γ` has
+  derivative `df(X)` at every time where `f` is differentiable at `γ t`, which is the pinned
+  `TauCeti.Manifold.hasDerivAt_comp_curve`; for `X` a Hamiltonian vector field of `g` of a weakly
+  nondegenerate form, `df(X)` is the bracket of `f` and `g`. For the pinned bracket,
+  `SmoothTwoForm.hasDerivAt_comp_of_isMIntegralCurveOn`: on a Banach model with strongly
+  nondegenerate `ω`, along an integral curve `γ` of `X_g` on an open set of times, `f ∘ γ` has
+  derivative `{f, g}(γ t)` at every time where `f` is differentiable at `γ t`.
+- *First integrals*, `forall_mvfderiv_apply_eq_zero_iff_forall_isMIntegralCurveOn`: on a
+  boundaryless Banach manifold, for a `C¹` vector field `X` and a differentiable `f`,
+  `df(X) = 0` everywhere exactly when `f` is constant along every integral curve of `X` on an
+  open interval. No form enters; for a weakly nondegenerate `ω` and the Hamiltonian vector field
+  of a Hamiltonian function `g`, it characterizes the first integrals of `g`. For the pinned
+  bracket, `SmoothTwoForm.isFirstIntegral_iff_forall_isMIntegralCurveOn`: with strongly
+  nondegenerate `ω` and `g` of class `C²` (so that `X_g` is `C¹` and has local integral curves
+  through every point), `{f, g} = 0` everywhere exactly when `f` is constant along every
+  integral curve of `X_g` on an open interval.
+- *Poisson's theorem*, `SmoothTwoForm.IsHamiltonianVectorField.mvfderiv_eval₂_eq_zero`: for a
+  closed `ω` on a Banach model, with no nondegeneracy, let `X`, `Y`, `Z` be Hamiltonian vector
   fields of `C²` functions `f`, `g`, `k`, with `X` and `Y` differentiable. If `df(Z) = 0` and
   `dg(Z) = 0` everywhere, then `ω(X, Y)` is stationary along `Z`. The route is the pinned
-  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket` (`[X, Y]` is a Hamiltonian
-  vector field of `−ω(X, Y)`), which reduces the claim to `dk([X, Y]) = X(dk(Y)) − Y(dk(X))`,
-  where `dk(Y) = −dg(Z)` and `dk(X) = −df(Z)` vanish identically. With strong nondegeneracy and
-  the pinned bracket this says that the first integrals of `k` are closed under `{·, ·}`.
+  `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mlieBracket`, which reduces the claim to
+  `dk([X, Y]) = X(dk(Y)) − Y(dk(X))`, where `dk(Y) = −dg(Z)` and `dk(X) = −df(Z)` vanish
+  identically. For a weakly nondegenerate form this says that the first integrals of `k` are
+  closed under `(f, g) ↦ ω(X_f, X_g)`, and with strong nondegeneracy under the pinned bracket.
 
 **Symplectic maps and symplectomorphisms.** Let `ω'` be a smooth two-form on a second manifold
 `M'`, modelled on `E'` through `I'`; the models may differ.
-- A *symplectic map* `φ` from `ω` to `ω'`: `ω'_{φ x}(dφ v, dφ w) = ω_x(v, w)` for all `x`, `v`,
+- `SmoothTwoForm.IsSymplecticMap ω ω' φ`: `ω'_{φ x}(dφ v, dφ w) = ω_x(v, w)` for all `x`, `v`,
   `w`, with `dφ = mfderiv I I' φ x`. For smooth `φ` this is `φ^* ω' = ω` for the pinned pullback
-  `TauCeti.SmoothForm.mpullback`.
-- The identity is a symplectic map; a composite of differentiable symplectic maps is one; out
-  of a weakly nondegenerate form the differential of a symplectic map is injective at every
-  point.
-- A *symplectomorphism* from `ω` to `ω'`, a predicate on a Mathlib diffeomorphism
+  `TauCeti.SmoothForm.mpullback` (`SmoothTwoForm.isSymplecticMap_iff_mpullback_eq`).
+- The identity is a symplectic map (`SmoothTwoForm.isSymplecticMap_id`); a composite of
+  differentiable symplectic maps is one (`SmoothTwoForm.IsSymplecticMap.comp`); out of a weakly
+  nondegenerate form the differential of a symplectic map is injective at every point
+  (`SmoothTwoForm.IsSymplecticMap.injective_mfderiv`).
+- `SmoothTwoForm.IsSymplectomorphism ω ω' φ`, a predicate on a Mathlib diffeomorphism
   `φ : M ≃ₘ^n⟮I, I'⟯ M'`: `φ` is a symplectic map. For `n ≠ 0` its inverse is a
-  symplectomorphism from `ω'` to `ω`.
+  symplectomorphism from `ω'` to `ω` (`SmoothTwoForm.IsSymplectomorphism.symm`).
 - *Transport of Hamiltonian vector fields*, with no nondegeneracy: a differentiable symplectic
   map whose differentials are all invertible (`ContinuousLinearMap.IsInvertible`), such as a
   symplectomorphism or the inclusion of an open subset, pulls a Hamiltonian vector field `V` of
-  `h` back, through Mathlib's `VectorField.mpullback`, to a Hamiltonian vector field of `h ∘ φ`;
-  for a symplectomorphism of class `C¹` and differentiable `h` the converse holds as well.
+  `h` back, through Mathlib's `VectorField.mpullback`, to a Hamiltonian vector field of `h ∘ φ`,
+  wherever `h` is differentiable along `φ`
+  (`SmoothTwoForm.IsSymplecticMap.isHamiltonianVectorField_mpullback`). For a symplectomorphism
+  of class `C¹` the converse holds as well, for every function `h`
+  (`SmoothTwoForm.IsSymplectomorphism.isHamiltonianVectorField_mpullback_iff`): where `h` is not
+  differentiable neither is `h ∘ φ`, and both differentials vanish.
 - For such a map into a strongly nondegenerate form on Banach models,
-  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)`, `{h ∘ φ, h' ∘ φ} = {h, h'} ∘ φ`, and `φ` carries integral
-  curves of `X_{h ∘ φ}` to integral curves of `X_h`, wherever `h` and `h'` are differentiable. These extend the pinned finite-dimensional
-  `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
+  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)`
+  (`SmoothTwoForm.IsSymplecticMap.mfderiv_hamiltonianVectorField_comp`),
+  `{h ∘ φ, h' ∘ φ} = {h, h'} ∘ φ` (`SmoothTwoForm.IsSymplecticMap.poissonBracket_comp`), and `φ`
+  carries integral curves of `X_{h ∘ φ}` to integral curves of `X_h`
+  (`SmoothTwoForm.IsSymplecticMap.isMIntegralCurveOn_comp`), wherever `h` and `h'` are
+  differentiable. For a symplectomorphism of class `C¹` the differentiability hypotheses drop:
+  `dφ(X_{h ∘ φ}(x)) = X_h(φ x)` for every `h`
+  (`SmoothTwoForm.IsSymplectomorphism.mfderiv_hamiltonianVectorField_comp`), since where `h` is
+  not differentiable neither is `h ∘ φ` and both fields vanish, and with it the bracket identity
+  and the transport of integral curves hold for all functions. These extend the pinned
+  finite-dimensional `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_hamiltonianVectorField_comp`,
   `TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_comp` and
   `TauCeti.SmoothTwoForm.IsNondegenerate.isMIntegralCurve_comp_hamiltonianVectorField`.
 - *Open subsets.* The restriction of `ω` to `U : TopologicalSpace.Opens M` is its pullback along
   `Subtype.val`, symplectic when `ω` is (pinned
   `TauCeti.SmoothTwoForm.IsSymplectic.mpullback_subtype_val`). The inclusion is a symplectic map
-  from the restriction whose differentials are the invertible
-  `TauCeti.Manifold.tangentSpaceOpenEquiv`, so the transport statements apply to it.
+  from the restriction (`SmoothTwoForm.isSymplecticMap_subtype_val`) whose differentials are the
+  invertible `TauCeti.Manifold.tangentSpaceOpenEquiv`, so the transport statements apply to it.
   A canonical transformation between open subsets `U ⊆ M` and `U' ⊆ M'` is a symplectomorphism
   between the restricted forms.
-- *Linear symplectomorphisms*: for finite-dimensional normed spaces, a linear symplectomorphism `e` in the pinned sense
+- *Linear symplectomorphisms*, `SymplecticForm.IsSymplectomorphism.isSymplectomorphism_constSmooth`:
+  for finite-dimensional normed spaces, a linear symplectomorphism `e` in the pinned sense
   `TauCeti.SymplecticForm.IsSymplectomorphism` is a symplectomorphism of the constant forms
   `TauCeti.SymplecticForm.constSmooth`, as the diffeomorphism
   `e.toContinuousLinearEquiv.toDiffeomorph`.
 
 **Linearized flows.** Here the model is finite-dimensional, `I` is boundaryless and `M` is
 Hausdorff.
-- *The variational equation of a time-dependent flow*: let `X` be a time-dependent vector field,
-  jointly `C¹` on `ℝ × M`, and `Φ_{s,t}` its maximal
+- *The variational equation of a time-dependent flow*, `hasDerivAt_mfderiv_timeDependentFlowOf`:
+  let `X` be a time-dependent vector field, jointly `C¹` on `ℝ × M`, and `Φ_{s,t}` its maximal
   flow `TauCeti.timeDependentFlowOf X s t`, with `((s, t₀), x)` in its domain
   `TauCeti.timeDependentFlowDomain X`. Let `e = extChartAt I (Φ_{s,t₀} x)` and, for a tangent
   vector `w` at `x`, `J(t) = de(dΦ_{s,t} w)`, the coordinate vector of `dΦ_{s,t} w` in `E`.
@@ -2053,19 +2129,24 @@ Hausdorff.
   integral form and differentiates under the integral, as for the pinned vector-space statement
   `TauCeti.hasDerivAt_fderiv_timeDependentFlow`, with the `C¹` regularity of `Φ` from
   `TauCeti.contMDiffOn_timeDependentFlowOf`.
-- *The autonomous variational equation*: the same statement for a `C¹` vector field `v` and its
-  maximal flow `TauCeti.flowOf v`, with `(t₀, x)` in `TauCeti.flowDomain v` and the chart at
-  `flowOf v t₀ x`.
-- *Time-dependent Hamiltonian flows are symplectic*: for symplectic `ω` and a time-dependent
-  Hamiltonian `H : ℝ → M → ℝ`, jointly `C²` (so that `t ↦ X_{H_t}` is jointly
-  `C¹` by `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`),
-  every map `Φ_{s,t}` of the flow of `X_{H_t}` satisfies
+- *The autonomous variational equation*, `hasDerivAt_mfderiv_flowOf`: the same statement for a
+  `C¹` vector field `v` and its maximal flow `TauCeti.flowOf v`, with `(t₀, x)` in
+  `TauCeti.flowDomain v` and the chart at `flowOf v t₀ x`.
+- *Time-dependent Hamiltonian flows are symplectic*,
+  `SmoothTwoForm.eval₂_mfderiv_timeDependentFlowOf`: let `ω` be closed, with no nondegeneracy,
+  and `X` a jointly `C¹` time-dependent vector field such that each `X_t` is a Hamiltonian vector
+  field of a `C²` function `H_t`. Every map `Φ_{s,t}` of the flow of `X` satisfies
   `ω_{Φ_{s,t} x}(dΦ_{s,t} v, dΦ_{s,t} w) = ω_x(v, w)` at every `x` with `((s, t), x)` in the
   domain. In the chart of the variational equation, `d/dt ω(J, K)` is `(L_{X_t} ω)(J, K)`, and
-  `L_{X_t} ω = d(ι_{X_t} ω) + ι_{X_t} dω = d(dH_t) = 0`; alternatively it is HeegaardFloer
-  F2.1's domain-local Moser lemma for the constant family `ω` and `α_t = −dH_t`.
-- *Autonomous Hamiltonian flows are symplectic*: for `f` of class `C²`, the maximal flow of
-  `X_f` preserves `ω` at every point of its domain, with no completeness hypothesis; the pinned
+  `L_{X_t} ω = d(ι_{X_t} ω) + ι_{X_t} dω = d(dH_t) = 0`; for symplectic `ω` it is also
+  HeegaardFloer F2.1's domain-local Moser lemma for the constant family `ω` and `α_t = −dH_t`.
+  For symplectic `ω` and `H` jointly `C²`, the fields `X_{H_t}` are jointly `C¹` by
+  `TauCeti.SmoothTwoForm.IsNondegenerate.contMDiff_hamiltonianVectorField_uncurry`, which is the
+  case of a time-dependent Hamiltonian.
+- *Autonomous Hamiltonian flows are symplectic*,
+  `SmoothTwoForm.IsHamiltonianVectorField.eval₂_mfderiv_flowOf`: for closed `ω`, with no
+  nondegeneracy, the maximal flow of a `C¹` Hamiltonian vector field of a `C²` function preserves
+  `ω` at every point of its domain, with no completeness hypothesis; the pinned
   `TauCeti.SmoothTwoForm.IsHamiltonianVectorField.mpullback_globalFlow` is the complete case.
   Conservation of first integrals along these flows is the pinned
   `TauCeti.SmoothTwoForm.IsFirstIntegral.apply_maximalIntegralCurve`.
@@ -2078,11 +2159,15 @@ equation whose asymptotic operator Layer 7 compares with the linearized Floer op
 contraction inverse of a strongly nondegenerate form with its `df` specialization, and the
 domain-local Moser lemma); DifferentialGeometry Layers 0–1 (pullback, exterior derivative and
 Cartan's formula); Mathlib `mvfderiv`, `extChartAt`, `VectorField.mpullback`,
-`VectorField.mpullbackWithin`, `VectorField.mlieBracket`, `ContinuousLinearMap.IsInvertible`
-and diffeomorphisms. Sources: McDuff–Salamon, *Introduction to Symplectic Topology*, §3.1;
-Abraham–Marsden, *Foundations of Mechanics*, Chapter 3; Chernoff–Marsden, *Properties of
-Infinite Dimensional Hamiltonian Systems*, for weak and strong nondegeneracy on Banach spaces; Hartman, *Ordinary Differential Equations*,
-Chapter V, Theorem 3.1, for the variational equation.
+`VectorField.mpullbackWithin`, `VectorField.mlieBracket`, `ContinuousLinearMap.IsInvertible`,
+local existence of integral curves of `C¹` fields on boundaryless Banach manifolds
+(`exists_isMIntegralCurveAt_of_contMDiffAt_boundaryless`), the Hahn–Banach separation of points
+by continuous linear forms (`exists_dual_vector`), and diffeomorphisms. Sources: McDuff–Salamon,
+*Introduction to Symplectic Topology*, §3.1; Abraham–Marsden, *Foundations of Mechanics*,
+Chapter 3 (Hamiltonian vector fields, Poisson brackets and the Lie algebra of Hamiltonian
+functions, canonical transformations); Chernoff–Marsden, *Properties of Infinite Dimensional
+Hamiltonian Systems*, for weak and strong nondegeneracy on Banach spaces; Hartman, *Ordinary
+Differential Equations*, Chapter V, Theorem 3.1, for the variational equation.
 
 **Checks.**
 - Weak against strong. On a Banach space `V` with the canonical form
@@ -2095,6 +2180,11 @@ Chapter V, Theorem 3.1, for the variational equation.
   `f(q, α) = a(q)`, the field `(0, −a)` satisfies `ι_X ω = df`, while the pinned
   `(ω♭)⁻¹ df` is `0`: a statement about `X_f` that ignored strong nondegeneracy would be false
   there, which is why the weak statements above are stated for the predicate.
+- The bracket of a weak form. On the same `V = c₀`, `g(q, α) = α(b)` for `b ∈ V` has the
+  Hamiltonian vector field `(b, 0)`, and `ω((0, −a), (b, 0)) = a(b)`: the bracket
+  `ω(X_f, X_g)` of Hamiltonian functions is the constant pairing `a(b)`, the canonical relation
+  between position and momentum coordinates, while the pinned `{f, g}` is `0` because both pinned
+  fields vanish.
 - Nondegeneracy is needed for uniqueness and zeros: for `ω = 0` on `ℝ²` and `f` constant, every
   vector field, `∂_q` among them, is a Hamiltonian vector field of `f`, and `∂_q` vanishes
   nowhere although `df = 0`.
@@ -4031,9 +4121,6 @@ application of the Morse theory to the topology of Lie-groups*, §1.
 - **HamiltonianFloerOperations** consumes the capped classical branch 7.C: its cap cover and
   period datum, cylinders, continuation maps, ordered orientation conventions and the PSS module
   comparison with both inverse homotopies (7.C.5b, 7.C.6c).
-- **HamiltonianSystems** consumes Layer 6 item 0's Hamiltonian vector fields, Poisson bracket,
-  conservation laws, symplectic maps and variational equation for its moment maps and Souriau's
-  theorem.
 - **DGFloerPartII** consumes Layer 1 items 1–6, Layer 2, Layer 4 item 1, Layer 5 items 4–6,
   Layer 6 items 3–4, Layer 10 and Layer 11, for Theorem B, the manifolds abundant with
   2-spheres, the projective loop-space computations and the knotted hypersurfaces.
