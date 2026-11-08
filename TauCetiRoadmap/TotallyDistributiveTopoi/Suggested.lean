@@ -166,18 +166,6 @@ theorem isTotallyDistributive_sheaf_iff :
       ProductsPreserveEpis (Sheaf J (Type u)) ∧ ProductsDistribOverCoproducts (Sheaf J (Type u)) :=
   sorry
 
-/-- **2.6.** In `Sheaf J (Type u)` two subobjects `A`, `B` of a sheaf have a Heyting implication
-`H = A ⇨ B`, characterized by `D ≤ H ↔ D ⊓ A ≤ B`, and pulling back along any morphism `f`
-carries it to the Heyting implication of the pullbacks of `A` and `B`: each subobject lattice is a
-Heyting algebra and `Subobject.pullback f` is a homomorphism of Heyting algebras (Freyd 1972,
-Proposition 2.41). -/
-theorem exists_himp_subobject_pullback {F : Sheaf J (Type u)} (A B : Subobject F) :
-    ∃ H : Subobject F, (∀ D : Subobject F, D ≤ H ↔ D ⊓ A ≤ B) ∧
-      ∀ {G : Sheaf J (Type u)} (f : G ⟶ F) (D : Subobject G),
-        D ≤ (Subobject.pullback f).obj H ↔
-          D ⊓ (Subobject.pullback f).obj A ≤ (Subobject.pullback f).obj B :=
-  sorry
-
 end Site
 
 /-! ## Layer 3: spaces, the counterexample and independence -/
