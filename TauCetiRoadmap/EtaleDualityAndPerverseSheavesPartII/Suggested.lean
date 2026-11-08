@@ -1,15 +1,18 @@
 module
 
 public import Mathlib
+public import TauCeti.RingTheory.RegularLocalRing.GRing
 
 /-!
 # Étale duality and perverse sheaves, part II: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
 Cohen–Gabber theorems in equal and mixed characteristic, the partial algebraization
-theorems and Gabber’s cohomological-dimension bound against the pinned APIs. The three
-structures only bundle native rings, ideals, localizations, completions and generic
-fibres needed by those statements.
+theorems, the local form of Gabber’s affine Lefschetz theorem and Gabber’s
+cohomological-dimension bound against the pinned APIs. The three structures only bundle
+native rings, ideals, localizations, completions and generic fibres needed by those
+statements. Quasi-excellence of a noetherian local ring is Tau Ceti’s G-ring condition
+(ILO I 5.3.1 and 5.5.1(ii)).
 
 These remaining headlines are not statable at the pins without their missing
 geometric carriers and operations:
@@ -21,11 +24,14 @@ geometric carriers and operations:
   scheme-diagram sites and derived simplicial direct image.
 * Gabber finiteness needs constructible étale derived categories and direct image
   over quasi-excellent bases.
-* Dimension-function existence and transport need étale immediate specializations,
-  strict henselizations and excellent/regular-morphism interfaces.
-* Affine Lefschetz, including the supplied trait theorem and its strict-local
-  consequence, needs dimension functions and constructible étale sheaves;
-  the quasi-excellent theorem also needs the quasi-excellence predicate.
+* Dimension-function existence and transport need étale immediate specializations
+  between geometric points of a scheme, and quasi-excellence, excellence and regular
+  morphisms for schemes. The pins have the strict henselization of a local ring, G-rings
+  and regular ring maps, but not these scheme-level notions.
+* Gabber’s affine Lefschetz theorem over a quasi-excellent scheme (README §5.6), and the
+  trait theorem with its strict-local consequence (README §5.5), need dimension functions,
+  constructible étale sheaves with their higher direct images and, for §5.6, the
+  quasi-excellence predicate for schemes. Its local form (README §5.7) is stated below.
 * The top local class and higher transitions need geometric local support complexes,
   Tate twists and specialization maps.
 * The pinned structure of putative and potential dualizing complexes (README §6.2),
@@ -272,6 +278,22 @@ theorem partialAlgebraization_mixedCharacteristic
   sorry
 
 /-! ## Layer 5: Dimension functions, affine Lefschetz and cohomological dimension -/
+
+/-- Gabber’s affine Lefschetz theorem, local form: let A be a strictly henselian
+noetherian local ring of Krull dimension d that is quasi-excellent, which for a noetherian
+local ring is the G-ring condition. For every affine open U of Spec A and every n
+invertible in A, the étale cohomology H^q(U, ℤ/n) vanishes for q > d
+(ILO XV Corollaire 1.2.4, ILO14 line 10362; ILO I 5.3.1 and 5.5.1(ii), ILO14 lines 667, 724). -/
+theorem affineLefschetz_strictlyLocal
+    (A : Type u) [CommRing A] [HenselianLocalRing A]
+    [IsSepClosed (IsLocalRing.ResidueField A)] [TauCeti.Excellence.IsGRing A]
+    (d : ℕ) (hdim : ringKrullDim A = d) (n : ℕ) (hn : IsUnit (n : A))
+    (U : (AlgebraicGeometry.Spec (CommRingCat.of A)).Opens)
+    (hU : AlgebraicGeometry.IsAffineOpen U) (q : ℕ) (hq : d < q) :
+    Subsingleton
+      (((CategoryTheory.constantSheaf U.toScheme.smallEtaleTopology AddCommGrpCat.{u}).obj
+        (AddCommGrpCat.of (ULift.{u} (ZMod n)))).H q) := by
+  sorry
 
 /-- On every open subscheme of a strictly henselian noetherian local scheme of
 positive finite dimension d, every ell-primary torsion abelian étale sheaf has

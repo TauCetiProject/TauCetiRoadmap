@@ -26,7 +26,7 @@ EtaleCohomologyFoundations §F.5 owns the exceptional inverse image a^!Λ_S (`Va
 
 ## Conventions
 
-Rings are commutative with identity. A local ring is nonzero, as in Mathlib's `IsLocalRing`. All scheme statements use the native `AlgebraicGeometry.Scheme`; no separatedness is imposed unless stated. Noetherianity is not replaced by finite Krull dimension. Quasi-excellence and excellence have the definitions of SchemeAndStackFoundations §0.21. Coherent topoi and coherent morphisms have the finite-limit and quasi-compactness conventions of AdicEtaleGeometry §§A1.14–A1.15. Sites, diagrams and coefficient modules live in fixed universes; one enlarges the sheaf universe when forming a topos, rather than postulating a set of all schemes or topoi.
+Rings are commutative with identity. A local ring is nonzero, as in Mathlib's `IsLocalRing`. All scheme statements use the native `AlgebraicGeometry.Scheme`; no separatedness is imposed unless stated. Noetherianity is not replaced by finite Krull dimension. Quasi-excellence and excellence have the definitions of SchemeAndStackFoundations §0.21. For a noetherian local ring, quasi-excellence is the G-ring condition, Tau Ceti's `TauCeti.Excellence.IsGRing`: ILO I 5.5.1(ii) reduces quasi-excellence of a noetherian local ring to regularity of its completion map, and ILO I 5.3.1 passes that condition from the closed point to every prime (ILO14 lines 724, 667). Coherent topoi and coherent morphisms have the finite-limit and quasi-compactness conventions of AdicEtaleGeometry §§A1.14–A1.15. Sites, diagrams and coefficient modules live in fixed universes; one enlarges the sheaf universe when forming a topos, rather than postulating a set of all schemes or topoi.
 
 For finite cohomology coefficients, n ≥ 1 is invertible on the base and Λ = ℤ/n; q in R^q is a nonnegative integer. Layer 6 uses n ≥ 2, as in ILO XVII, so that the coefficient ring is nonzero. The n = 1 cohomology and all its support groups are zero. Every ℓ-cohomological-dimension statement assumes ℓ prime and invertible on its base. Layer 3 treats torsion abelian coefficients only. Torsion groups in Layer 8 include characteristic-primary torsion. Algebraic tilting allows ℓ = p.
 
@@ -49,19 +49,21 @@ Use the pins of the repository manifest. The native scheme and ring carriers bel
 | Module | Declarations and consumed meaning |
 | --- | --- |
 | `Mathlib.AlgebraicGeometry.Morphisms.FiniteType`, `Proper`, `Etale`; `Mathlib.AlgebraicGeometry.Properties` | `AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsReduced`; proper includes separatedness and universal closedness, while local finite type alone includes neither. |
-| `Mathlib.AlgebraicGeometry.Sites.Etale` | `AlgebraicGeometry.Scheme.smallEtaleTopology`, on the small étale over-category; `Mathlib.AlgebraicGeometry.Sites.AffineEtale` supplies its `CategoryTheory.HasSheafify` instance. The cohomology signature tests torsion on objects of this site satisfying `AlgebraicGeometry.IsAffine` (`Mathlib.AlgebraicGeometry.AffineScheme`). |
+| `Mathlib.AlgebraicGeometry.Sites.Etale` | `AlgebraicGeometry.Scheme.smallEtaleTopology`, on the small étale over-category; `Mathlib.AlgebraicGeometry.Sites.AffineEtale` supplies its `CategoryTheory.HasSheafify` instance. The cohomology signature tests torsion on objects of this site satisfying `AlgebraicGeometry.IsAffine` (`Mathlib.AlgebraicGeometry.AffineScheme`); the local affine Lefschetz signature takes its open of Spec A with `AlgebraicGeometry.IsAffineOpen` from the same module. |
 | `Mathlib.RingTheory.LocalRing.Defs`, `LocalRing.ResidueField.Defs`, `LocalRing.ResidueField.Basic` | `IsLocalRing`, `IsLocalRing.maximalIdeal`, `IsLocalRing.ResidueField`, `IsLocalRing.residue`, `IsLocalRing.ResidueField.mapEquiv`; local rings are nonzero, and residue-field automorphisms retain the induced residue map. |
 | `Mathlib.RingTheory.AdicCompletion.Basic`, `AdicCompletion.Algebra` | `IsAdicComplete`, `AdicCompletion` and its canonical algebra map; completeness means Hausdorffness and precompleteness. |
 | `Mathlib.RingTheory.MvPowerSeries.Basic`, `Mathlib.RingTheory.Etale.Basic`, `Mathlib.RingTheory.Localization.FractionRing` | `MvPowerSeries`, `MvPowerSeries.constantCoeff`, `MvPowerSeries.map`, `FractionRing`, `Algebra.Etale`; the last means formal étaleness and finite presentation. |
 | `Mathlib.RingTheory.Ideal.MinimalPrime.Basic`, `Mathlib.RingTheory.KrullDimension.Basic`, `Mathlib.Algebra.Module.Torsion.Free` | `minimalPrimes`, `ringKrullDim`, `Module.IsTorsionFree`; ring dimension takes values in extended natural numbers with a bottom value, and equidimensionality is tested on each quotient by a minimal prime. |
 | `Mathlib.RingTheory.Henselian`, `RegularLocalRing.Defs`, `Valuation.ValuationRing`, `Perfection` | `HenselianRing`, `HenselianLocalRing`, `IsRegularLocalRing`, `ValuationRing`, `PreTilt`; `HenselianLocalRing` includes `IsLocalRing`; `IsSepClosed` in `Mathlib.FieldTheory.IsSepClosed` expresses separable closedness of its residue field. `HenselianRing` is a pair condition and `PreTilt` is the perfection of reduction modulo p. Perfectoidness and a sharp-quotient theorem are separate inputs. |
-| `Mathlib.CategoryTheory.Triangulated.TStructure.Basic`, `Mathlib.CategoryTheory.Sites.SheafCohomology.Basic` | `CategoryTheory.Triangulated.TStructure` and `CategoryTheory.Sheaf.H`; the pointwise étale perversity and normalized scheme duality are the additional constructions in the layers below. |
+| `Mathlib.CategoryTheory.Triangulated.TStructure.Basic`, `Mathlib.CategoryTheory.Sites.SheafCohomology.Basic`, `Mathlib.CategoryTheory.Sites.ConstantSheaf` | `CategoryTheory.Triangulated.TStructure`, `CategoryTheory.Sheaf.H` and `CategoryTheory.constantSheaf`; `Sheaf.H` in degree q is the q-th Ext group from the constant sheaf ℤ, so for the constant sheaf ℤ/n on the small étale site of U it is H^q(U, ℤ/n). The pointwise étale perversity and normalized scheme duality are the additional constructions in the layers below. |
 
 The mixed-characteristic signature also uses `Algebra.IsEtaleAt` in `Mathlib.RingTheory.Etale.Locus`, `FixedPoints.subring` in `Mathlib.Algebra.Algebra.Subalgebra.Operations`, and `IsPGroup` in `Mathlib.GroupTheory.PGroup`. The first is formal étaleness of the source localization; combined with the stated finite-map hypothesis it detects étaleness at a source prime. The invariant subring is used with its native inclusion. It does not identify arbitrary group quotients with a scheme without a quotient theorem.
 
 ### From Tau Ceti
 
-`TauCeti.Algebra.Module.ZMod.Injective`, `Module.Baer.zmod_self`, gives self-injectivity in Baer's form for `ZMod n` with n ≠ 0; Mathlib's `Module.Baer.injective` converts it to injectivity. The geometric all-constructible duality interface is EtaleDualityAndPerverseSheaves §0.1. No Tau Ceti module is needed by the headline signatures in `Suggested.lean`.
+`TauCeti.Algebra.Module.ZMod.Injective`, `Module.Baer.zmod_self`, gives self-injectivity in Baer's form for `ZMod n` with n ≠ 0; Mathlib's `Module.Baer.injective` converts it to injectivity. The geometric all-constructible duality interface is EtaleDualityAndPerverseSheaves §0.1.
+
+`TauCeti.RingTheory.RegularLocalRing.GRing`, `TauCeti.Excellence.IsGRing`: a ring is a G-ring if it is noetherian and, for every prime p, the completion of the local ring at p is a regular algebra over it in the sense of `TauCeti.Excellence.RegularAlgebraMap` (flat with geometrically regular fibres). Noetherianity is part of the class. By the Conventions it is quasi-excellence for a noetherian local ring, and the local affine Lefschetz signature of §5.7 uses it as its quasi-excellence hypothesis. It is the only Tau Ceti module the headline signatures in `Suggested.lean` import.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -911,7 +913,7 @@ g regular between noetherian schemes; f qcqs; n invertible on S.
 
 A proof route is as follows. Popescu: write S′ as a filtered limit of smooth S-schemes S_i (SchemeAndStackFoundations §0.15). Smooth base change along each S_i → S and passage to the limit in étale cohomology (ILO XIV 2.5.3).
 
-*Needs:* SchemeAndStackFoundations §§0.12–0.16, 0.21; SchemeAndStackFoundations §§2.12, 2.15–2.16; EtaleCohomologyFoundations §§F.0–F.1, 0.7, F.2.2 for smooth base change.
+*Needs:* SchemeAndStackFoundations §§0.12–0.16, 0.21; SchemeAndStackFoundations §2.15 for étale cohomology of limits; EtaleCohomologyFoundations §§F.0–F.1, 0.7, F.2.2 for smooth base change.
 
 **Checks.**
 
@@ -985,15 +987,23 @@ Let X be a strictly local quasi-excellent scheme of dimension d, U ⊂ X an affi
 
 X quasi-excellent; strictly local (first statement) or henselian local (second).
 
+The native headline `affineLefschetz_strictlyLocal` states the first assertion for X = Spec A. Here A is a henselian local ring with separably closed residue field satisfying `TauCeti.Excellence.IsGRing`, which includes noetherianity and is quasi-excellence for a local ring (Conventions), with `ringKrullDim A = d`. The open U of Spec A satisfies `AlgebraicGeometry.IsAffineOpen`, and n is a natural number invertible in A, so n ≠ 0. The conclusion is that `Sheaf.H` in degree q of the constant sheaf ℤ/n on the small étale site of U is zero for every q > d. The second assertion needs the ℓ-cohomological dimension of the residue field and is not part of the native statement.
+
 A proof route is as follows. Equivalent to §5.6 for open immersions and constant coefficients (ILO XV 1.2.3–1.2.4). For henselian X combine with the Hochschild–Serre spectral sequence over the residue field (SchemeAndStackFoundations §2.15); the lower bound for K is the dimension bound recalled in ILO Exposé 0, Corollaire 8.
 
-*Needs:* §5.6; §5.1; SchemeAndStackFoundations §§2.12, 2.15–2.16.
+*Needs:* §5.6; §5.1; SchemeAndStackFoundations §2.15; Tau Ceti `TauCeti.Excellence.IsGRing` for the native statement.
 
 **Checks.**
 
-- For X = Spec of a strictly henselian trait and U = η, H^q(η, ℤ/n) = 0 for q > 1 (the tame inertia is ℓ-cohomologically of dimension 1).
+- For X = Spec of a strictly henselian trait and U = η, H^q(η, ℤ/n) = 0 for q > 1 (the tame inertia is ℓ-cohomologically of dimension 1). The bound is sharp: H¹(η, ℤ/n) = ℤ/n(−1) is nonzero at q = d = 1, so q > d cannot be replaced by q ≥ d.
 
 - For X = Spec W(k̄)⟦x⟧ with k̄ algebraically closed (d = 2) and U = X[1/p], H^q(U, ℤ/ℓ) = 0 for q > 2.
+
+- Affineness of U is needed. For X = Spec k⟦x, y⟧ with k separably closed, ℓ invertible in k and U = X − {x} the punctured spectrum (not affine), H^q(X, ℤ/ℓ) = 0 for q > 0 since X is strictly local, so the localization sequence gives H³(U, ℤ/ℓ) ≅ H⁴_x(X, ℤ/ℓ). Absolute purity (LefschetzPencilsAndVanishingCycles §0.10) identifies the latter with ℤ/ℓ(−2), which is nonzero although 3 > d = 2.
+
+- Noetherianity, which `TauCeti.Excellence.IsGRing` includes, is needed. Let k be algebraically closed and V the henselization of the rank-one valuation ring of k(x, y) with v(x) = 1 and v(y) = √2. Then V is strictly henselian of Krull dimension 1 but not noetherian, with value group ℤ + ℤ√2 ≅ ℤ². For ℓ invertible in k, the maximal pro-ℓ quotient of the Galois group of its fraction field K is ℤ_ℓ(1)², so H²(Spec K, ℤ/ℓ) = ∧²(ℤ/ℓ)² ≅ ℤ/ℓ is nonzero although 2 > d = 1.
+
+- For d = 0, A is artinian and Spec A is one point. Its two opens ∅ and Spec A are affine, and the étale site of Spec A is that of its separably closed residue field, so H^q(U, ℤ/n) = 0 for q > 0. For n = 1 the coefficient sheaf is zero and every group vanishes.
 
 ### 5.8 Gabber's bound on cohomological dimension
 
@@ -1377,7 +1387,7 @@ R strictly henselian excellent regular local, dim R = d, f ∈ 𝔪 and ℓ inve
 
 A proof route is as follows. Apply §5.7 directly to the affine open Spec R[1/f] of the excellent strictly local scheme Spec R. If f = 0 the open is empty and the conclusion is immediate. In CS24 Lemma 3.2.3 this bound is used after completion, when excellence is automatic; no comparison of this punctured-open cohomology for an arbitrary R with its maximal-ideal completion is asserted.
 
-*Needs:* §5.7; ArcTopologyAndDescent §§8.6–8.9; Mathlib `IsRegularLocalRing`.
+*Needs:* §5.7; Mathlib `IsRegularLocalRing`.
 
 **Checks.**
 
