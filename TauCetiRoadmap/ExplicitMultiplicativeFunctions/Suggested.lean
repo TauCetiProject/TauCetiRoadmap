@@ -28,8 +28,9 @@ convolution method for a general exponent and the Dirichlet-divisor model with t
 `γ² − 2γ₁` (Layers 5.1–5.2); the Hall–Tenenbaum inequality (Layer 6.3); the explicit Mertens
 product of Rosser–Schoenfeld, Axler's cubic refinement and Dusart's two-sided cubic form (Layers
 8.1–8.1a); Robin's bound for `ω(n)`, the Nicolas–Robin bound for `τ(n)`, the six-prime criterion
-for `lcm(1, …, n)` not to be highly abundant and the theorem that it is not for `n ≥ 89 693²`, and
-Rosser–Schoenfeld's bound for `n/φ(n)` (Layer 9).
+for `lcm(1, …, n)` not to be highly abundant, the theorem that it is not for `n ≥ X₀²` beyond every
+prime-gap threshold `X₀` with `log X₀ ≥ 5` and its instance `n ≥ 89 693²`, and Rosser–Schoenfeld's
+bound for `n/φ(n)` (Layer 9).
 
 Every headline theorem is statable at the pins. Three groups of README targets are deliberately
 not stated here. Ramaré–Zuniga Alterman's sharper instance of the transfer (README 1.10): its
@@ -390,8 +391,19 @@ theorem not_isHighlyAbundant_lcmUpto_of_criterion (n : ℕ) (p q : Fin 3 → ℕ
     ¬ IsHighlyAbundant (Nat.lcmUpto n) := by
   sorry
 
+/-- **`lcm(1, …, n)` is not highly abundant beyond the square of a prime-gap threshold** (README
+9.3a). Let `X₀` be real with `log X₀ ≥ 5`, and suppose every real `y ≥ X₀` has a prime in
+`(y, y(1 + 1/log³ y)]`. Then for every natural `n ≥ X₀²` the least common multiple `lcm(1, …, n)`
+is not highly abundant. -/
+theorem not_isHighlyAbundant_lcmUpto_of_primeGap (X₀ : ℝ) (hX₀ : 5 ≤ Real.log X₀)
+    (hgap : ∀ y : ℝ, X₀ ≤ y →
+      ∃ p : ℕ, p.Prime ∧ y < p ∧ (p : ℝ) ≤ y * (1 + 1 / Real.log y ^ 3))
+    (n : ℕ) (hn : X₀ ^ 2 ≤ n) : ¬ IsHighlyAbundant (Nat.lcmUpto n) := by
+  sorry
+
 /-- **`lcm(1, …, n)` is not highly abundant for large `n`** (README 9.3a; Tao 2025, MathOverflow
-answer 501229). Under Dusart's interval, a prime in `(y, y(1 + 1/log³ y)]` for every real
+answer 501229), the instance `X₀ = 89 693` of `not_isHighlyAbundant_lcmUpto_of_primeGap`. Under
+Dusart's interval, a prime in `(y, y(1 + 1/log³ y)]` for every real
 `y ≥ 89 693` (ExplicitPrimeCounting §7.4), for every natural `n ≥ 89 693²` the least common multiple
 `lcm(1, …, n)` is not highly abundant. -/
 theorem not_isHighlyAbundant_lcmUpto

@@ -35,8 +35,9 @@ inequality; the explicit Mertens product
 verification on the unit interval below); Robin's `ω(n) ≤ 1.3841 log n/log log n`, the
 Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}` and Rosser–Schoenfeld's
 `n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`; and a criterion in terms of six
-primes in `(√n, n)` for `lcm(1, …, n)` not to be highly abundant, with its consequence, from
-Dusart's primes in short intervals, that `lcm(1, …, n)` is not highly abundant for any
+primes in `(√n, n)` for `lcm(1, …, n)` not to be highly abundant, with its consequence that
+`lcm(1, …, n)` is not highly abundant for any `n ≥ X₀²` once `log X₀ ≥ 5` and every real `y ≥ X₀`
+has a prime in `(y, y(1 + 1/log³ y)]`, so, from Dusart's primes in short intervals, for any
 `n ≥ 89 693²`. Robin's
 `σ(n)/n < e^γ log log n + 0.6483/log log n` for `n ≥ 3` is stated by its locator beside Nicolas'
 proved bounds for `σ(n)/n` (9.3), not as an end theorem: the inputs of its proof are fixed only in
@@ -97,8 +98,10 @@ not the roadmap.
   products over a progression with Languasco–Zaccagnini's constants as an enclosure (Layer 8);
 - the pointwise bounds for `ω(n)`, `τ_k(n)` (among them `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`), `σ(n)`,
   `σ*(n)` and `n/φ(n)` with the superior-highly-composite and primorial tables as hypotheses, and
-  highly abundant numbers with the theorem that `lcm(1, …, n)` is not highly abundant for
-  `n ≥ 89 693²` (Layer 9).
+  highly abundant numbers with the six-prime criterion and its steps, and the theorem that
+  `lcm(1, …, n)` is not highly abundant for `n ≥ X₀²` beyond every threshold `X₀` with
+  `log X₀ ≥ 5` of primes in the intervals `(y, y(1 + 1/log³ y)]`, in particular for `n ≥ 89 693²`
+  (Layer 9).
 
 ### Consumed, not redefined
 
@@ -611,7 +614,8 @@ uses.
 
 Define `moebiusSum x = Σ_{n ≤ x} μ(n)` (written `M(x)`), `moebiusDivSum x = Σ_{n ≤ x} μ(n)/n`
 (written `m(x)`) and `moebiusLogSum x = Σ_{n ≤ x} μ(n) log(x/n)/n` (written `m̌(x)`), each a
-function `ℝ → ℝ`, the sums over `Finset.Icc 1 ⌊x⌋₊`, so that all three vanish for `x < 1`. Define
+function `ℝ → ℝ`, the sums over `Finset.Icc 1 ⌊x⌋₊`, so that all three vanish for `x < 1` (`M` is
+`primeNumberTheoremAnd` `M-def`). Define
 the weighted summatory function `M_k(f, x) = Σ_{n ≤ x} f(n) log^k n` for an arithmetic function `f`
 and `k : ℕ` (Ramaré's notation), so that `M(x) = M₀(μ, x)`.
 
@@ -730,7 +734,8 @@ Prove that for every real `X ≥ 0` and every `c ∈ [1, 2]`, `Σ_{q ≤ X} q = 
 ### 0.5 Squarefree and Dirichlet-divisor remainders, the Stieltjes constant
 
 Define the squarefree remainder `R(x) = Σ_{n ≤ x} μ²(n) − 6x/π²` for real `x > 0` (with
-`Q(x) = Σ_{n ≤ x} μ²(n)` the squarefree count), and the unitary divisor sum
+`Q(x) = Σ_{n ≤ x} μ²(n)` the squarefree count, `primeNumberTheoremAnd` `Q-def`, beside `M-def` of
+0.1), and the unitary divisor sum
 `σ*(n) = Σ_{d ∣ n, Nat.Coprime d (n/d)} d`. The
 Dirichlet-divisor remainder `Δ(x) = Σ_{n ≤ x} τ(n) − x (log x + 2γ − 1)` is AnalyticNumberTheoryPartI
 §3.23a's `divisorError`, used as it is defined there.
@@ -1366,7 +1371,9 @@ row improves
 El Marraki's `362.7` by a factor `124`; El Marraki's rows stay the refereed ones.
 
 Prove Schoenfeld's bound `|M(x)| ≤ 2.9 x/log x` for `x > 1` (`schoenfeld1969` lines 52–57) as a
-corollary of the Corollaire (`0.6437752 < 2.9`).
+corollary of the Corollaire (`0.6437752 < 2.9`). Under the hypotheses of El Marraki's bounds each
+of them gives the Möbius form `M(x) = o(x)` of the prime number theorem (`primeNumberTheoremAnd`
+`mu-pnt`; its companion `m(x) = o(1)`, `mu-pnt-alt`, follows in the same way from 2.3).
 
 *Needs:* 1.3; Layer 0.3 (for Schoenfeld's inequality); ExplicitPrimeCounting §§3.2, 3.3, 4.2;
 AnalyticNumberTheoryPartI §0.19; `gap:psi-log-power` (for Theorem A.1); *MoebiusRangeVerified*;
@@ -2003,7 +2010,8 @@ Prove Tao's theorem: for every set `S` of primes and every real `x`,
 every `S : Set ℕ`, whose non-prime elements play no role; `tao2010` lines 111–116, Theorem 1.1, whose
 proof is the Möbius inversion of the indicator of `⟨Sᶜ⟩` summed over `n ≤ x`, lines 117–135;
 `granvilleRamare1996` Lemma 8.6 and `davenport1937` Lemma 1, both uncertified, for the modulus
-form). Route: for natural `x`, `Σ_{n ≤ x, n ∈ ⟨Sᶜ⟩} 1 = x m_S(x) − Σ_{n ≤ x, n ∈ ⟨S⟩} μ(n){x/n}`,
+form; `primeNumberTheoremAnd` `mun` for `S` the set of all primes). Route: for natural `x`,
+`Σ_{n ≤ x, n ∈ ⟨Sᶜ⟩} 1 = x m_S(x) − Σ_{n ≤ x, n ∈ ⟨S⟩} μ(n){x/n}`,
 where the left side lies in `[1, x]`, and Tao's bounds on the fractional-part sum (lines 117–140,
 after reducing to the case `Σ_{n ∈ ⟨S⟩, n ≤ x} 1/n > 1`) give `|x m_S(x)| ≤ x`. Prove the sharp
 lower form
@@ -2127,7 +2135,9 @@ Prove Ramaré's 2013 corollary `|m(D)| ≤ 0.0260/log D − 0.118/log² D` for `
 (lines 60–65, Corollaries 1.3–1.4).
 
 Prove Bordellès' decaying bounds `|m(x)| < 0.19/log x` for `x ≥ 33` and `|m(x)| < 546/log² x` for
-`x > 1` (`bordelles2015` lines 76–77, Theorem 1), from El Marraki's `M`-bounds of 1.4 through the
+`x > 1` (`bordelles2015` lines 76–77, Theorem 1; their consequence `m(x) = o(1)` and that of 1.4,
+`M(x) = o(x)`, are `primeNumberTheoremAnd` `mu-pnt-alt` and `mu-pnt`), from El Marraki's
+`M`-bounds of 1.4 through the
 conversion of 2.2 and *MoebiusDivRangeVerified* on their initial ranges; and El Marraki's earlier
 `0.2185/log x` (`x ≥ 33`) and `726/log² x` (`x > 1`) (`elMarraki1996`, uncertified; quoted at
 `bordelles2015` line 69) as corollaries of Bordellès'.
@@ -3176,7 +3186,7 @@ With `Q(x) = Σ_{n ≤ x} μ²(n)` and `R(x) = Q(x) − 6x/π²` of Layer 0.5 (`
 `hasSum_zeta_two`), prove:
 
 - for every real `x`, `Q(x) = Σ_{k ≤ x} M(√(x/k))` over the naturals `1 ≤ k ≤ x`
-  (both sides vanish for `x < 1`). Route: the identity
+  (both sides vanish for `x < 1`; `primeNumberTheoremAnd` `mobius-lemma-1-sub`). Route: the identity
   `μ²(n) = Σ_{d² ∣ n} μ(d)` behind 7.1's `Q(x) = Σ_{d ≤ √x} μ(d) ⌊x/d²⌋`, summed over `n ≤ x` with
   the pairs `(k, d)`, `k d² ≤ x`, grouped by `k` instead of by `d`;
 - for every real `x ≥ 0`, `∫_0^x M(√(x/u)) du = 6x/π²`. Route: for
@@ -3184,12 +3194,14 @@ With `Q(x) = Σ_{n ≤ x} μ²(n)` and `R(x) = Q(x) − 6x/π²` of Layer 0.5 (`
   terms sum to `Σ_d x/d² < ∞`, so sum and integral commute, and the integral is
   `x Σ_d μ(d)/d² = 6x/π²` (`μ ⋆ ζ = δ` with absolute convergence and `hasSum_zeta_two`). The
   integrand is bounded by `√(x/u)` (`|M(t)| ≤ t`), which is integrable at `0`;
-- hence, for every real `x > 0`, `R(x) = Σ_{k ≤ x} M(√(x/k)) − ∫_0^x M(√(x/u)) du`;
+- hence, for every real `x > 0`, `R(x) = Σ_{k ≤ x} M(√(x/k)) − ∫_0^x M(√(x/u)) du`
+  (`primeNumberTheoremAnd` `mobius-lemma-1`);
 - the midpoint form: for every real `x > 0` and every natural `K ≥ 0`,
 
       R(x) = Σ_{1 ≤ k ≤ K} M(√(x/k)) − ∫_0^{K+1/2} M(√(x/u)) du − Σ_{K < k ≤ x+1} ∫_{k−1/2}^{k+1/2} (M(√(x/u)) − M(√(x/k))) du,
 
-  the last sum over the naturals `k` with `K < k ≤ ⌊x⌋ + 1`.
+  the last sum over the naturals `k` with `K < k ≤ ⌊x⌋ + 1` (`primeNumberTheoremAnd`
+  `mobius-lemma-2`, with its two steps `mobius-lemma-2-sub-1` and `mobius-lemma-2-sub-2`).
   Route: for `K > ⌊x⌋` the last sum is empty, and the form is the previous one, since
   `M(√(x/u)) = 0` for `u > x` and `M(√(x/k)) = 0` for `k > x`; for `K ≤ ⌊x⌋` write each term
   `M(√(x/k))` with `K < k ≤ ⌊x⌋ + 1` as the integral of that constant over `[k − 1/2, k + 1/2]`
@@ -3713,7 +3725,8 @@ Prove the identification: the real `B` of AnalyticNumberTheoryPartI §0.19 (the 
 Tau Ceti's `tendsto_primeSummatory_inv_absNorm_sub_log_log` at `K = ℚ` gives that limit for the
 sum over prime ideals, which is the sum over primes once the prime ideals of `ℤ` of norm `≤ x` are
 matched with the primes `p ≤ x` (`Ideal.absNorm (span {p}) = p`). Prove the product identity
-`B = γ + Σ_p (log(1 − 1/p) + 1/p)` from §0.21 and §0.26:
+`B = γ + Σ_p (log(1 − 1/p) + 1/p)` (`primeNumberTheoremAnd` `Meissel-Mertens-eq`) from §0.21
+and §0.26:
 `log ∏_{p ≤ x} (1 − 1/p)^{−1} = Σ_{p ≤ x} 1/p − Σ_{p ≤ x} (log(1 − 1/p) + 1/p)`, and §0.26 says the left side is `log log x + γ + o(1)`.
 
 Prove the explicit Mertens product (`rosserSchoenfeld1962` p. 70, Theorems 7–8, (3.26)–(3.30), all
@@ -3733,8 +3746,10 @@ the estimate `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 1/log³ x` for every re
     log(e^γ (log x) ∏_{p ≤ x} (1 − 1/p)) = −E(x) + Σ_{p > x} c_p,
 
 the tail entering with a plus sign and lying in `(0, Σ_{n > x} 1/(n(n − 1))) ⊆ (0, 1/(x − 1))` for
-`x ≥ 2`; hence, from `|E(x)| ≤ ε(x)` for `x ≥ x₀`, the logarithm of the first quotient lies in
-`(−ε(x), ε(x) + 1/(x − 1))` and that of the second in `(−ε(x) − 1/(x − 1), ε(x))`, for `x ≥ x₀`.
+`x ≥ 2`; the left side is the remainder in Mertens' third theorem (`primeNumberTheoremAnd`
+`Mertens-third-error`, `Mertens-third-theorem-error`); hence, from `|E(x)| ≤ ε(x)` for `x ≥ x₀`, the
+logarithm of the first quotient lies in `(−ε(x), ε(x) + 1/(x − 1))` and that of the second in
+`(−ε(x) − 1/(x − 1), ε(x))`, for `x ≥ x₀`.
 Route for `x ≥ 24 284`: ExplicitPrimeCounting §4.3 gives `ε(x) = 1/log³ x`, and at
 `x = 24 284` the bound `ε(x) + 1/(x − 1) = 9.713·10^{−4} + 4.12·10^{−5} = 1.0125·10^{−3}` is below
 `log(1 + 1/(2 log² x)) = 4.892·10^{−3}`, `−log(1 − 1/(2 log² x)) = 4.916·10^{−3}` and the two
@@ -3819,7 +3834,8 @@ and *MertensProductCubicRangeVerified* (for Axler's refinement); ExplicitPrimeCo
 ### 8.1a Dusart's two-sided cubic form
 
 Prove Dusart's form of the explicit Mertens product (`dusart2018` Theorem 5.9, uncertified, cited by
-its locator): for every real `x ≥ 2 278 382`,
+its locator; `primeNumberTheoremAnd` `Dusart_thm_5_9a`, `Dusart_thm_5_9b`): for every real
+`x ≥ 2 278 382`,
 
     1 − 0.2/log³ x < e^γ (log x) ∏_{p ≤ x} (1 − 1/p) < 1 + 0.2/log³ x,
     1 − 0.2/log³ x < ∏_{p ≤ x} (1 − 1/p)^{−1}/(e^γ log x) < 1 + 0.2/log³ x,
@@ -4053,17 +4069,18 @@ natural `n ≥ 1` (`teo2026` lines 113–116), with `τ_k = ζ^k` the `k`-fold D
   ratio, since `τ_k(p) = k`).
 
 Prove, for every natural `k` and every natural `n ≥ 1`, `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`, with equality
-on either side exactly when `k ≤ 1` or `n` is squarefree; at `k = 2` the first is
-`τ(n) ≥ 2^{ω(n)}`, and at a superior `k`-highly composite `n = N` it is `τ_k(N) ≥ k^{ω(N)}`. Route:
-for `k ≥ 1`, `τ_k = ζ^k` is multiplicative (`ArithmeticFunction.IsMultiplicative.pow` of
-`ArithmeticFunction.isMultiplicative_zeta`) with `τ_k(p^a) = C(a + k − 1, k − 1)`, the number of
-`k`-tuples of exponents with sum `a`, by induction on `k` from `τ_k = τ_{k−1} ⋆ ζ`; for `a ≥ 1`,
-`k = C(k, k − 1) ≤ C(a + k − 1, k − 1)`, the binomial coefficient increasing in `a`, and
-`C(a + k − 1, k − 1) ≤ k^a`, since sending each of the `a` factors `p` of `p^a` to one of the `k`
-coordinates reaches every tuple; both are strict when `a ≥ 2` and `k ≥ 2`, and the product over
-`p^a ∥ n` gives the claim. For `k = 0`, `τ_0 = ζ⁰` is the identity of convolution and all three
-terms are `1` at `n = 1` and `0` beyond. The hypothesis `n ≥ 1` is needed:
-`τ_k(0) = 0 < 1 = k^{ω(0)}`.
+on either side exactly when `k ≤ 1` or `n` is squarefree; at `k = 2` the first is `τ(n) ≥ 2^{ω(n)}`
+(`primeNumberTheoremAnd` `two_pow_omega_le_sigma_zero`), and at a superior `k`-highly composite
+`n = N` it is `τ_k(N) ≥ k^{ω(N)}`. Route: for `k ≥ 1`, `τ_k = ζ^k` is multiplicative
+(`ArithmeticFunction.IsMultiplicative.pow` of `ArithmeticFunction.isMultiplicative_zeta`) with
+`τ_k(p^a) = C(a + k − 1, k − 1)`, the number of `k`-tuples of exponents with sum `a`, by induction
+on `k` from `τ_k = τ_{k−1} ⋆ ζ` (`primeNumberTheoremAnd` `d_apply_prime_pow`, and `d_apply` for the
+product over `p^a ∥ n`); for `a ≥ 1`, `k = C(k, k − 1) ≤ C(a + k − 1, k − 1)`, the binomial
+coefficient increasing in `a`, and `C(a + k − 1, k − 1) ≤ k^a`, since sending each of the `a`
+factors `p` of `p^a` to one of the `k` coordinates reaches every tuple; both are strict when `a ≥ 2`
+and `k ≥ 2`, and the product over `p^a ∥ n` gives the claim. For `k = 0`, `τ_0 = ζ⁰` is the identity
+of convolution and all three terms are `1` at `n = 1` and `0` beyond. The hypothesis `n ≥ 1` is
+needed: `τ_k(0) = 0 < 1 = k^{ω(0)}`.
 
 Prove the Nicolas–Robin theorem: for every natural `n ≥ 3`, `τ(n) ≤ n^{1.538 log 2/log log n}`
 (`nicolasRobin1983` lines 10–15 and 159–170, Théorème 1 and Lemme 5; `teo2026` lines 1792–1823, §6.1
@@ -4201,7 +4218,9 @@ roadmap's Layer 2); ExplicitPrimeCounting §5.3; *SuperchampionTableVerified*; *
 ### 9.3a Highly abundant numbers and the least common multiple
 
 Define: a natural `n` is highly abundant (`IsHighlyAbundant n`) when `n ≥ 1` and `σ(m) < σ(n)` for
-every natural `m < n` (Pillai's notion; `σ(0) = 0`, so `m = 0` imposes nothing). Write
+every natural `m < n` (Pillai's notion; `σ(0) = 0`, so `m = 0` imposes nothing; `ieantn` `Lcm/v1`
+and `Lcm/v2`, `HighlyAbundant`, and `primeNumberTheoremAnd` `highlyabundant-def`, without the
+condition `n ≥ 1` and so the same at every `n ≥ 1`). Write
 `ℓ_n = lcm(1, …, n)`, Mathlib's `Nat.lcmUpto n`: a prime `p` divides `ℓ_n` to the power
 `Nat.log p n` (`Nat.factorization_lcmUpto`), and `log ℓ_n = ψ(n)`
 (`Chebyshev.psi_eq_log_lcmUpto`). Prove:
@@ -4215,40 +4234,71 @@ every natural `m < n` (Pillai's notion; `σ(0) = 0`, so `m = 0` imposes nothing)
       ∏_{i ≤ 3} (1 + 1/q_i) ≤ ∏_{i ≤ 3} (1 + 1/(p_i (p_i + 1))) · (1 + 3/(8n)) · (1 − 4 p₁p₂p₃/(q₁q₂q₃));
 
   then `ℓ_n` is not highly abundant (`tao2025mo` lines 233–238, the Theorem of the answer, with its
-  proof at lines 240–261);
-- that `ℓ_n` is not highly abundant for every natural `n ≥ 89 693²`
-  (`not_isHighlyAbundant_lcmUpto`), under Dusart's interval of ExplicitPrimeCounting §7.4: for
-  every real `y ≥ 89 693` there is a prime in `(y, y(1 + 1/log³ y)]` (`tao2025mo` lines 265–297,
-  where the same input is applied at `y = √n` and the range `n ≥ 89 693²` is reached).
+  proof at lines 240–261; `primeNumberTheoremAnd` `lcm-criterion`, `thm:criterion`);
+- the threshold form (`not_isHighlyAbundant_lcmUpto_of_primeGap`): for every real `X₀` with
+  `log X₀ ≥ 5` such that every real `y ≥ X₀` has a prime in `(y, y(1 + 1/log³ y)]`, the number
+  `ℓ_n` is not highly abundant for every natural `n ≥ X₀²` (`ieantn` `Lcm/v2`,
+  `lcmUpto_not_highlyAbundant_of_primeGap`, with the interval written `(y, y + y/log³ y]`);
+- its instance `X₀ = 89 693` (`log 89 693 = 11.404…`): `ℓ_n` is not highly abundant for every
+  natural `n ≥ 89 693²` (`not_isHighlyAbundant_lcmUpto`), under Dusart's interval of
+  ExplicitPrimeCounting §7.4: for every real `y ≥ 89 693` there is a prime in
+  `(y, y(1 + 1/log³ y)]` (`tao2025mo` lines 265–297, where the same input is applied at `y = √n` and
+  the range `n ≥ 89 693²` is reached; `ieantn` `Lcm/v1`, `lcmUpto_not_highlyAbundant`;
+  `primeNumberTheoremAnd` `thm:large-n-final`).
 
-Route for the criterion. Put `P = p₁p₂p₃` and `Q = q₁q₂q₃`. Since `p_i² > n` and `q_i² > n`,
-every `p_i` and every `q_i` divides `ℓ_n` exactly once; write `ℓ_n = Q ℓ'` with no `q_i` dividing
-`ℓ'`. The right side of the criterion is positive, so `Q > 4P`; divide `Q = 4P m + r` with `m ≥ 1`
-and `0 < r < 4P` (`Q` is odd), and compare `ℓ_n` with the competitor `M = 4P m ℓ' < Q ℓ' = ℓ_n`.
-By the multiplicativity of `σ` (`ArithmeticFunction.isMultiplicative_sigma`),
-`σ(ℓ_n)/ℓ_n = (σ(ℓ')/ℓ') ∏(1 + 1/q_i)`. In `M` each `p_i` occurs at least squared where `ℓ'` has
-it once, which multiplies `σ(·)/·` by at least
-`(1 + 1/p_i + 1/p_i²)/(1 + 1/p_i) = 1 + 1/(p_i(p_i + 1))`; the power of `2` rises from `2^j`, where
-`2^j ≤ n < 2^{j+1}`, to at least `2^{j+2}`, a factor at least
-`(2^{j+3} − 1)/(2^{j+3} − 4) = 1 + 3/(2^{j+3} − 4) > 1 + 3/(8n)`; and every other prime gives a
-factor at least `1`, `σ(p^a)/p^a` increasing in `a`. With the criterion this gives
-`σ(M)/M ≥ (σ(ℓ_n)/ℓ_n)(1 − 4P/Q)^{−1}`, while
-`ℓ_n/M = Q/(Q − r) < Q/(Q − 4P) = (1 − 4P/Q)^{−1}`; so `σ(M) > σ(ℓ_n)` with `M < ℓ_n`.
+Prove the steps of the criterion as lemmas (`tao2025mo` lines 240–261). Fix a natural `n` and
+primes `p₁ < p₂ < p₃ < q₁ < q₂ < q₃` with `√n < p₁` and `q₃ < n`, and put `P = p₁p₂p₃` and
+`Q = q₁q₂q₃`; six primes lie in `(√n, n)`, so `n > 13` and all six are odd.
 
-Route for the theorem. Put `x = √n ≥ 89 693` and `ε = 1/log³ x ≤ 1/11.4³`
-(`log 89 693 = 11.404…`); for `y ≥ x` the interval of the input lies in `(y, y(1 + ε)]`, strictly
-inside it when `y > x`. At `y = x, x(1 + ε), x(1 + ε)²` it gives primes `p₁ < p₂ < p₃` with
-`√n < p₁` and `p_i ≤ x(1 + ε)^i`; at `y = n(1 + ε)^{−j}` for `j = 3, 2, 1` it gives primes
-`q₁ < q₂ < q₃ < n` with `q_i > n(1 + ε)^{i−4}`; and `p₃ < q₁`, since `x(1 + ε)^6 < x²`. Then
+- The factorisation of `ℓ_n`: each `p_i` and each `q_i` divides `ℓ_n` exactly once, its square
+  exceeding `n` (`Nat.factorization_lcmUpto`); hence `ℓ_n = Q ℓ'` for a natural `ℓ' ≥ 1` divisible
+  by no `q_i`, with `v_{p_i}(ℓ') = 1` and `v_2(ℓ') = Nat.log 2 n` (`primeNumberTheoremAnd`
+  `lem:Lprime-def`).
+- The divisor sum of `ℓ_n`: `σ(ℓ_n)/ℓ_n = (σ(ℓ')/ℓ') ∏_{i ≤ 3} (1 + 1/q_i)`, by the
+  multiplicativity of `σ` (`ArithmeticFunction.isMultiplicative_sigma`) and `σ(q_i) = q_i + 1`
+  (`primeNumberTheoremAnd` `lem:sigmaLn`).
+- The division: if `4P < Q`, then `Q = 4P m + r` with `m = ⌊Q/(4P)⌋ ≥ 1` and `0 < r < 4P`, the
+  remainder being nonzero because `p₃` divides `4P` and not `Q` (`primeNumberTheoremAnd`
+  `div-remainder`); under the criterion `4P < Q`, since its left side and hence its right side are
+  positive (`primeNumberTheoremAnd` `lem:4p3q3`).
+- The competitor: if `4P < Q`, then `M = 4P m ℓ'` satisfies `M < ℓ_n` and
+  `1 < ℓ_n/M = (1 − r/Q)^{−1} < (1 − 4P/Q)^{−1}`, since `ℓ_n = (4P m + r) ℓ'` and `0 < r < 4P`
+  (`primeNumberTheoremAnd` `lcm-M-def`, `lem:M-basic`).
+- The divisor sum of the competitor: if `4P < Q`, then
+  `σ(M)/M ≥ (σ(ℓ')/ℓ') ∏_{i ≤ 3} (1 + 1/(p_i (p_i + 1))) · (1 + 3/(8n))`, and so, under the
+  criterion, `σ(M)/M ≥ (σ(ℓ_n)/ℓ_n)(1 − 4P/Q)^{−1}` (`primeNumberTheoremAnd`
+  `lem:sigmaM-lower-final`, `lem:criterion-reduced`). Route: `ℓ'` divides `M`, so `σ(M)/M` is
+  `σ(ℓ')/ℓ'` times the product over the primes `p ∣ M` of the ratio of `σ(p^a)/p^a` at
+  `a = v_p(M)` to its value at `a = v_p(ℓ')`, each ratio at least `1`, `σ(p^a)/p^a` increasing in
+  `a`. Each `p_i` occurs in `M` at least squared where `ℓ'` has it once, a ratio at least
+  `(1 + 1/p_i + 1/p_i²)/(1 + 1/p_i) = 1 + 1/(p_i(p_i + 1))`; the power of `2` rises from `2^j`,
+  where `2^j ≤ n < 2^{j+1}`, to at least `2^{j+2}`, a ratio at least
+  `(2^{j+3} − 1)/(2^{j+3} − 4) = 1 + 3/(2^{j+3} − 4) > 1 + 3/(8n)`. The second form is the first
+  with the divisor sum of `ℓ_n` and the criterion divided by `1 − 4P/Q > 0`.
+
+Route for the criterion. By the steps,
+`σ(M) ≥ M (σ(ℓ_n)/ℓ_n)(1 − 4P/Q)^{−1} > M (σ(ℓ_n)/ℓ_n)(ℓ_n/M) = σ(ℓ_n)` with `M < ℓ_n`
+(`primeNumberTheoremAnd` `lem:criterion-sufficient`).
+
+Route for the threshold form. Put `x = √n ≥ X₀` and `ε = 1/log³ x ≤ 1/125`; for `y ≥ x` the
+interval of the hypothesis lies in `(y, y(1 + ε)]`, strictly inside it when `y > x`, and every
+point `y` used below is at least `x`. At `y = x, x(1 + ε), x(1 + ε)²` it gives primes
+`p₁ < p₂ < p₃` with `√n < p₁` and `p_i ≤ x(1 + ε)^i`; at `y = n(1 + ε)^{−j}` for `j = 3, 2, 1` it
+gives primes `q₁ < q₂ < q₃ < n` with `q_i > n(1 + ε)^{i−4}`; and `p₃ < q₁`, since
+`(1 + ε)^6 < 1.05 < x` (`primeNumberTheoremAnd` `lem:choose-pi`, `lem:choose-qi`). Then
 `∏(1 + 1/q_i) ≤ ∏_{j ≤ 3}(1 + (1 + ε)^j/n)`,
 `∏(1 + 1/(p_i(p_i + 1))) ≥ ∏_{i ≤ 3}(1 + 1/((1 + ε)^{2i}(n + √n)))` and
-`1 − 4P/Q ≥ 1 − 4(1 + ε)^{12}/n^{3/2}`; with `ε ≤ 6.75·10^{−4}` and `n^{−1/2} ≤ 1.115·10^{−5}`
-the left side of the criterion is at most `1 + 3.0041/n` and the right side at least
-`1 + 3.3668/n`, so the criterion holds.
+`1 − 4P/Q ≥ 1 − 4(1 + ε)^{12}/n^{3/2}` (`primeNumberTheoremAnd` `lem:qi-product`,
+`lem:pi-product`, `lem:pq-ratio`); with `ε ≤ 1/125` and `n^{−1/2} ≤ e^{−5}`
+(`primeNumberTheoremAnd` `lem:eps-bounds`) the left side of the criterion is at most
+`1 + 3.0484/n` and the right side at least `1 + 3.2322/n`, the extreme case being `ε = 1/125` and
+`n = e^{10}` (`primeNumberTheoremAnd` `lem:poly-ineq`, `lem:final-comparison`,
+`prop:ineq-holds-large-n`), so the criterion holds. At `X₀ = 89 693`, where `ε ≤ 6.75·10^{−4}`
+and `n^{−1/2} ≤ 1.115·10^{−5}`, the two are `1 + 3.0041/n` and `1 + 3.3668/n`.
 
 *Needs:* `ArithmeticFunction.sigma`, `ArithmeticFunction.isMultiplicative_sigma`; Mathlib
 `Nat.lcmUpto`, `Nat.factorization_lcmUpto`, `Chebyshev.psi_eq_log_lcmUpto`;
-ExplicitPrimeCounting §7.4 (Dusart's interval, for the theorem).
+ExplicitPrimeCounting §7.4 (Dusart's interval, for the instance `X₀ = 89 693`).
 
 **Checks.**
 
@@ -4261,11 +4311,21 @@ ExplicitPrimeCounting §7.4 (Dusart's interval, for the theorem).
   `1 + 3.0999·10^{−4}`, so `ℓ_{10^4}` is not highly abundant, far below the range of the theorem; at
   `n = 10^6` with `(1009, 1013, 1019)` and `(999 961, 999 979, 999 983)`: `1 + 3.0001·10^{−6}`
   against `1 + 3.2878·10^{−6}`.
+- The steps at `n = 10^4` with the primes above: `P = 1 113 121`, `Q = 988 939 464 559`,
+  `Q = 4P·222 109 + 2 695 803`, and `ℓ_n/M = Q/(4P·222 109) = 1 + 2.726·10^{−6}` against
+  `(1 − 4P/Q)^{−1} = 1 + 4.502·10^{−6}`; `v_2(ℓ') = Nat.log 2 10^4 = 13`, and the `2`-adic ratio is
+  `(2^{16} − 1)/(2^{16} − 4) = 1 + 4.578·10^{−5} > 1 + 3/(8·10^4) = 1 + 3.75·10^{−5}`.
 - At `n = 70`, with the three least primes above `√70` and the three largest below `70`,
   `(11, 13, 17)` and `(59, 61, 67)`, the criterion fails (left side `1.0490`, right side `0.9807`);
   at `n = 18` there are not even six primes in `(√18, 18)`.
-- The threshold `89 693² = 8 044 834 249` is that of the input at `y = √n`; the criterion closes
-  there with room (`3.3668` against `3.0041`).
+- The threshold `89 693² = 8 044 834 249` of the instance is that of the input at `y = √n`; the
+  criterion closes there with room (`3.3668` against `3.0041`), and at the least threshold of the
+  general form, `X₀ = e^5 = 148.41…`, `n = e^{10} = 22 026.4…`, `ε = 1/125`, with less (`3.2322`
+  against `3.0484`). With `ε = 1/c³` and `n^{−1/2} = e^{−c}` in place of `1/125` and `e^{−5}` the
+  two bounds still separate at `c = 4.12` and no longer at `c = 4.1`, so the condition
+  `log X₀ ≥ 5` leaves room in the route.
+- The hypothesis of the threshold form is not implied by `log X₀ ≥ 5`: at `X₀ = 150`
+  (`log 150 = 5.011`) it fails at `y = 155`, since `(155, 156.208]` contains no prime.
 - The factor `4` of the competitor is needed: without it (`M = Pmℓ'` with `m = ⌊Q/P⌋`) the power of
   `2` is unchanged, and the analogue of the criterion,
   `∏(1 + 1/q_i) ≤ ∏(1 + 1/(p_i(p_i + 1)))·(1 − P/Q)`, fails at `n = 10^6` with the primes above
@@ -4438,6 +4498,10 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   (uncertified).
 - `hurst2018`: G. Hurst, Computations of the Mertens function and improved bounds on the Mertens
   conjecture, Math. Comp. 87 (2018). §6.1.
+- `ieantn`: T. Tao and contributors, IEANTN, the Integrated Explicit Analytic Number Theory
+  Network, <https://github.com/teorth/IEANTN>. Nodes `Lcm/v1` (`HighlyAbundant`,
+  `lcmUpto_not_highlyAbundant`) and `Lcm/v2` (`HighlyAbundant`,
+  `lcmUpto_not_highlyAbundant_of_primeGap`). Cited in 9.3a.
 - `ivic1977`: A. Ivić, Two inequalities for the sum of divisors functions, Zb. Rad. Prirod.-Mat.
   Fak. Univ. Novi Sad 7 (1977). Theorems 1–2.
 - `johnstonLeongTudzi2024`: D. R. Johnston, N. Leong, S. Tudzi, New bounds and progress towards a
@@ -4479,6 +4543,20 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   2.
 - `plattTrudgian2018`: D. Platt, T. Trudgian, Improved bounds on Brun's constant, arXiv:1803.01925.
   Lemmas 1 and 4, §2.1.
+- `primeNumberTheoremAnd`: A. Kontorovich, T. Tao and contributors, PrimeNumberTheoremAnd,
+  <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>. Statements cited by their labels, in
+  the files under `PrimeNumberTheoremAnd/`: `Consequences.lean` (`mun`, `mu-pnt`, `mu-pnt-alt`),
+  `IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`, `two_pow_omega_le_sigma_zero`),
+  `IEANTN/MobiusLemma.lean` (`M-def`, `Q-def`, `mobius-lemma-1-sub`, `mobius-lemma-1`,
+  `mobius-lemma-2`, `mobius-lemma-2-sub-1`, `mobius-lemma-2-sub-2`), `IEANTN/Mertens.lean`
+  (`Meissel-Mertens-eq`, `Mertens-third-error`, `Mertens-third-theorem-error`), `IEANTN/Dusart.lean`
+  (`Dusart_thm_5_9a`, `Dusart_thm_5_9b`) and `IEANTN/Lcm.lean` (`highlyabundant-def`,
+  `lcm-criterion`, `thm:criterion`, `lem:4p3q3`, `lem:Lprime-def`, `lem:sigmaLn`, `div-remainder`,
+  `lcm-M-def`, `lem:M-basic`, `lem:sigmaM-lower-final`, `lem:criterion-reduced`,
+  `lem:criterion-sufficient`, `lem:choose-pi`, `lem:choose-qi`, `lem:qi-product`, `lem:pi-product`,
+  `lem:pq-ratio`, `lem:eps-bounds`, `lem:poly-ineq`, `lem:final-comparison`,
+  `prop:ineq-holds-large-n`, `thm:large-n-final`). Cited in 0.1, 0.5, 1.4, 2.1, 2.3, 7.1a, 8.1,
+  8.1a, 9.2 and 9.3a.
 - `ramare1995`: O. Ramaré, On Šnirel'man's constant, Ann. Scuola Norm. Sup. Pisa 22 (1995).
   Lemmas 3.2–3.3.
 - `ramare2009`: O. Ramaré, Arithmetical aspects of the large sieve inequality, Hindustan Book
