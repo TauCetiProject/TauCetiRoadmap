@@ -1,11 +1,13 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.InnerProductSpace.AlternatingForm
 public import TauCeti.Geometry.Manifold.Complex.Orientation
 public import TauCeti.Geometry.Manifold.DifferentialForm.ExtDeriv
 public import TauCeti.Geometry.Manifold.DifferentialForm.Integration.TopForm
 public import TauCeti.Geometry.Manifold.DifferentialForm.Pullback.Basic
 public import TauCeti.Geometry.Manifold.DifferentialForm.Smooth
+public import TauCeti.Geometry.Manifold.Riemannian.HodgeStar
 public import TauCeti.Geometry.Manifold.Riemannian.Pullback.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeForm
 
@@ -14,10 +16,13 @@ public import TauCeti.Geometry.Manifold.Riemannian.VolumeForm
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
-with the few definitions they need: on native continuous alternating maps, orthonormal families and
-norm determinants for the linear algebra, and on Tau Ceti's differential forms, top-form
-integration, pullback metrics, Riemannian volume forms and complex manifolds for the manifold
-statements.
+with the few definitions they need: on native continuous alternating maps and orthonormal families
+for the linear algebra, and on Tau Ceti's differential forms, top-form integration, pullback
+metrics, Riemannian volume forms, the rough Hodge star, the pointwise inner product of forms and
+complex manifolds for the manifold statements. The linear calibration inequality
+`|φ v| ≤ ‖φ‖ · ‖v₁ ∧ ⋯ ∧ vₖ‖` and the simple-vector characterization of the operator norm as the
+comass are Tau Ceti's (`ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
+`ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`) and are not restated.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
@@ -32,11 +37,12 @@ Headline theorems of the roadmap that are not statable at the pins:
   form a smooth manifold of dimension `b₁(N)` with tangent space the harmonic one-forms (Layer 6):
   the pins have no space of embedded submanifolds near `N` modulo reparametrization with its `C¹`
   quotient topology, which is the carrier of the statement;
-* the special Lagrangian second-variation formula `δ²Vol(V) = ∫_N (|dβ|² + |δβ|²)` and the
-  identification of the Jacobi operator with the Hodge Laplacian on one-forms (Layer 6): the pins
-  have no normal bundle of an immersion into a Riemannian manifold and no variations of immersions
-  with their variation fields. The Hodge star and the codifferential are pinned
-  (`TauCeti.SmoothForm.hodgeStar`, `TauCeti.SmoothForm.codifferential`).
+* the identification of the Jacobi operator of a compact special Lagrangian with the Hodge
+  Laplacian on one-forms (Layer 6): the pins have no Jacobi operator of a minimal immersion into
+  a Riemannian manifold (its normal connection, normal Laplacian, ambient curvature term and
+  second-fundamental-form term are RiemannianGeometry's). The second-variation identity that it
+  polarizes is stated below (`secondVariation_volume_eq_hodgeEnergy`), on the pinned rough Hodge
+  star `TauCeti.RoughForm.hodgeStar` and inner product of forms `TauCeti.alternatingFormInner`.
 -/
 
 @[expose] public section
@@ -50,13 +56,6 @@ namespace TauCetiRoadmap.CalibratedGeometry
 
 /-! ## Layer 1: Comass and equality planes -/
 
-/-- The `k`-dimensional volume of the parallelepiped spanned by a frame `v` in a real
-inner-product space: the norm determinant of the linear map `ℝᵏ → E` sending the standard basis
-to `v`. It is `sqrt (det (gram v))`, and it vanishes exactly when `v` is linearly dependent. -/
-def frameVolume {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {k : ℕ}
-    (v : Fin k → E) : ℝ :=
-  LinearMap.normDet ((EuclideanSpace.basisFun (Fin k) ℝ).toBasis.constr ℝ v)
-
 /-- An ordered frame `v` is calibrated by the `k`-form `φ` when it is orthonormal and `φ v = 1`;
 for a form of comass at most one these are the positively oriented equality planes of `φ`. -/
 def IsCalibratedFrame {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {k : ℕ}
@@ -65,18 +64,12 @@ def IsCalibratedFrame {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ 
 
 /-- Comass equals the native norm: on a finite-dimensional real inner-product space, the operator
 norm of a continuous alternating `k`-form is the supremum of `|φ v|` over orthonormal frames `v`
-(for `k > dim E` both sides are zero, and for `k = 0` both are `|φ ![]|`). -/
+(for `k > dim E` both sides are zero, and for `k = 0` both are `|φ ![]|`). This is the
+orthonormal-frame form of Tau Ceti's simple-vector characterization
+`ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`. -/
 theorem norm_eq_sSup_abs_orthonormal {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] {k : ℕ} (φ : E [⋀^Fin k]→L[ℝ] ℝ) :
     ‖φ‖ = sSup {r | ∃ v : Fin k → E, Orthonormal ℝ v ∧ r = |φ v|} := by
-  sorry
-
-/-- The linear calibration inequality: `|φ v| ≤ ‖φ‖ · vol(v)` for every frame `v`, including
-linearly dependent frames, where both sides of the volume factor vanish. -/
-theorem abs_eval_le_norm_mul_frameVolume {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] {k : ℕ}
-    (φ : E [⋀^Fin k]→L[ℝ] ℝ) (v : Fin k → E) :
-    |φ v| ≤ ‖φ‖ * frameVolume v := by
   sorry
 
 /-! ## Layer 2: Calibrated immersions and integral smooth chains -/
@@ -356,5 +349,68 @@ theorem isCalibration_specialLagrangianForm
   sorry
 
 end SpecialLagrangianManifolds
+
+/-! ## Layer 6: Compact special Lagrangian deformations -/
+
+section SecondVariation
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+  {M : Type*} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
+  {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [TopologicalSpace N] [ChartedSpace H' N]
+  [IsManifold I' ∞ N]
+
+/-- The one-form `β = ι_V ψ` on `N` cut out of a real 2-form `ψ` on `M` by a map `f : N → M` and
+a vector field `V` along `f` (a map `N → E`, `E` being every tangent space of `M`):
+`β_x(w) = ψ_(f x)(V x, df_x w)`, the contraction of `ψ` in its first slot pulled back along `f`.
+For `ψ` the Kähler form and `V` a normal field along a Lagrangian immersion, this is the one-form
+McLean identifies with `V`. -/
+def contractionPullback (ψ : RoughForm 𝓘(ℝ, E) M ℝ 2) (f : N → M) (V : N → E) :
+    RoughForm I' N ℝ 1 := fun x ↦
+  ((show E [⋀^Fin 2]→L[ℝ] ℝ from ψ (f x)).curryLeft (V x)).compContinuousLinearMap
+    (mfderiv I' 𝓘(ℝ, E) f x)
+
+/-- The Hodge energy density `|dβ|² + |δβ|²` of a rough one-form `β` on an oriented Riemannian
+manifold of dimension `m + 1`: the Gram norm squared of `dβ` for the pointwise inner product of
+forms `TauCeti.alternatingFormInner`, plus the square of the function `⋆d⋆β`, which is `±δβ` for
+the codifferential `δ` in either sign convention. -/
+def hodgeEnergyDensity {m : ℕ} [RiemannianBundle (fun x : N ↦ TangentSpace I' x)]
+    (o : Manifold.Orientation I' N (Fin (m + 1))) (β : RoughForm I' N ℝ 1) : N → ℝ := fun x ↦
+  alternatingFormInner (TangentSpace I' x) 2 (mextDeriv β x) (mextDeriv β x) +
+    (RoughForm.hodgeStar o (k := m + 1) (l := 0) (by omega)
+      (mextDeriv (RoughForm.hodgeStar o (k := 1) (l := m) (by omega) β)) x ![]) ^ 2
+
+/-- **The special Lagrangian second variation of volume** (McLean1998, Theorem 3.13, line 598):
+let `f` be a phase-`θ` special Lagrangian immersion of a closed oriented `(m+1)`-manifold `N`
+into a Kähler manifold with Kähler form `ψ` and normalized holomorphic volume form `Ω`, and let
+`F` be a smooth family of immersions with `F 0 = f` whose velocity `V` at `t = 0` is normal to
+`f`. Give `N` the Riemannian metric that is pointwise the pullback `f*g` (the instance, tied to
+`g` by `hmet`). The second derivative at `t = 0` of the volume of `F t` is the Hodge energy
+`∫_N (|dβ|² + |δβ|²) dvol` of the one-form `β = ι_V ψ|_N` for that metric. Since `f` is minimal
+and `N` closed, neither the acceleration of the family nor its tangential motion contributes, so
+no normality away from `t = 0` is assumed. -/
+theorem secondVariation_volume_eq_hodgeEnergy {m : ℕ} [I'.Boundaryless] [CompactSpace N]
+    [T2Space N] [RiemannianBundle (fun x : N ↦ TangentSpace I' x)]
+    (g : ContMDiffRiemannianMetric 𝓘(ℝ, E) ∞ E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x))
+    (hg : IsKahlerMetric g) (ψ : RoughForm 𝓘(ℝ, E) M ℝ 2)
+    (hψ : ∀ x (v : Fin 2 → E), ψ x v = g.inner x (Complex.I • v 0) (v 1))
+    (Ω : RoughForm 𝓘(ℝ, E) M ℂ (m + 1)) (hΩ : IsNormalizedHolomorphicVolumeForm g Ω) (θ : ℝ)
+    (f : N → M) (hf : ContMDiff I' 𝓘(ℝ, E) ∞ f)
+    (hinj : ∀ x, Function.Injective (mfderiv I' 𝓘(ℝ, E) f x))
+    (hmet : ∀ x (v w : TangentSpace I' x),
+      inner ℝ v w = g.inner (f x) (mfderiv I' 𝓘(ℝ, E) f x v) (mfderiv I' 𝓘(ℝ, E) f x w))
+    (o : Manifold.Orientation I' N (Fin (m + 1)))
+    (hcal : IsCalibratedImmersion g (specialLagrangianForm Ω θ) f hf hinj o)
+    (F : ℝ → N → M) (hF : ContMDiff (𝓘(ℝ, ℝ).prod I') 𝓘(ℝ, E) ∞ (Function.uncurry F))
+    (hF0 : F 0 = f) (hFt : ∀ t, ContMDiff I' 𝓘(ℝ, E) ∞ (F t))
+    (hFinj : ∀ t x, Function.Injective (mfderiv I' 𝓘(ℝ, E) (F t) x))
+    (V : N → E) (hV : ∀ x, mfderiv 𝓘(ℝ, ℝ) 𝓘(ℝ, E) (fun t ↦ F t x) 0 1 = V x)
+    (hVn : ∀ x w, g.inner (f x) (V x) (mfderiv I' 𝓘(ℝ, E) f x w) = 0) :
+    deriv (deriv fun t ↦ immersionVolume g (F t) (hFt t) (hFinj t) o) 0 =
+      integralTopForm o (fun x ↦ hodgeEnergyDensity o (contractionPullback ψ f V) x •
+        riemannianVolumeForm o x) := by
+  sorry
+
+end SecondVariation
 
 end TauCetiRoadmap.CalibratedGeometry

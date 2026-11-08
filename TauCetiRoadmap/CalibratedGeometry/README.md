@@ -9,14 +9,15 @@ identity into a comparison with competitors. The objects and their pullback, ori
 integration and variation APIs are built independently of the special Lagrangian application.
 
 The roadmap builds on Mathlib's continuous alternating maps, exterior powers with their Gram inner
-product, orthonormal families and `LinearMap.normDet`; on Tau Ceti's linear symplectic and almost
-complex structures, differential forms with their exterior derivative, pullback and integration,
-smooth singular simplices, pullback metrics, Riemannian volume forms, complex manifolds, Sobolev
-spaces and Campanato estimates; and on the Kähler and elliptic carriers of the roadmaps named in the
-supplier contracts. Its end theorems are:
+product, orthonormal families and `LinearMap.normDet`; on Tau Ceti's comass and mass of
+k-vectors, linear symplectic and almost complex structures, differential forms with their exterior
+derivative, pullback, integration and Hodge star, smooth singular simplices, pullback metrics,
+Riemannian volume forms, normal exponential maps, complex manifolds, Sobolev spaces and Campanato
+estimates; and on the Kähler and elliptic carriers of the roadmaps named in the supplier contracts.
+Its end theorems are:
 
-- comass equals the native operator norm, and the linear calibration inequality
-  (`norm_eq_sSup_abs_orthonormal`, `abs_eval_le_norm_mul_frameVolume`, Layer 1);
+- comass as a supremum over orthonormal frames equals the native operator norm, Tau Ceti's
+  simple-vector comass (`norm_eq_sSup_abs_orthonormal`, Layer 1);
 - the fundamental theorem of calibrations for compact oriented submanifolds and finite integral
   smooth chains, with its real-homology form on closed sources
   (`immersionVolume_le_of_isCalibratedImmersion`, Layer 3);
@@ -30,21 +31,23 @@ supplier contracts. Its end theorems are:
   `specialLagrangianFrame_iff`, `isCalibration_specialLagrangianForm`, Layer 5);
 - McLean's theorem: near a compact special Lagrangian N, the special Lagrangian deformations form a
   smooth manifold of dimension `b₁(N)`, with tangent space the harmonic one-forms, and the second
-  variation of volume is the Hodge energy `∫_N(|dβ|²+|δβ|²)` (Layer 6).
+  variation of volume is the Hodge energy `∫_N(|dβ|²+|δβ|²)`
+  (`secondVariation_volume_eq_hodgeEnergy`, Layer 6).
 
-[Suggested.lean](Suggested.lean) states the headline theorems of Layers 1, 3, 4 and 5 that are
+[Suggested.lean](Suggested.lean) states the headline theorems of Layers 1, 3, 4, 5 and 6 that are
 statable against the pinned libraries; its docstring names those that are not: the chain form of
-the fundamental theorem (Layer 3), McLean's theorem and the special Lagrangian second-variation
-formula (Layer 6).
+the fundamental theorem (Layer 3), McLean's theorem and the identification of the Jacobi operator
+with the Hodge Laplacian (Layer 6).
 
 ## Scope and ownership
 
 ### Owned here
 
-- Comass on finite-dimensional real inner-product spaces, its identification with the native
-  operator norm, its comparison with the exterior-power Hilbert norm, the frame-volume inequality,
-  the oriented Grassmannian and the smooth Stiefel manifold of a general inner-product space,
-  equality planes, and external products (Layer 1).
+- The orthonormal-frame form of comass on finite-dimensional real inner-product spaces and its
+  identification with the native operator norm, the norm-determinant form of the frame volume,
+  the upper bound in the comparison of comass with the exterior-power Hilbert norm, the oriented
+  Grassmannian and the smooth Stiefel manifold of a general inner-product space, equality planes,
+  and external products (Layer 1).
 - Smooth calibrations, calibrated immersions and their volume; Stokes' theorem for smooth simplices
   and chains, the relative smoothing of singular simplices and the integral and real
   smooth-to-singular quasi-isomorphisms on Tau Ceti's smooth singular subcomplex; chain integration
@@ -81,6 +84,12 @@ formula (Layer 6).
   (dependent and empty families included), and for coordinate determinants in an orthonormal
   basis: Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq` and `OrthonormalBasis.norm_det_le_prod_norm`.
   Layer 1 consumes the real case and 5.1 the complex coordinate form.
+- The simple-vector characterization of the native norm of a continuous alternating form as its
+  comass, the linear calibration inequality `|φ(v)| ≤ ‖φ‖·|v₁∧⋯∧v_k|`, the top-degree comass, the
+  Riesz identification of k-forms with k-vectors with the pointwise inner product of forms, the
+  lower bound `comass(φ) ≤ |φ|_H` and the comparison of the mass of a k-vector with its norm: Tau
+  Ceti, by the names listed in the supplier contracts. 1.1 owns the orthonormal-frame supremum
+  and 1.3 the upper bound of the Hilbert-norm comparison.
 - Existence of smooth triangulations of smooth manifolds without boundary (Whitehead):
   GeometricTopology, smoothing and triangulation comparison item 1. Its relative refinement, in
   which the collared boundary of a compact manifold is a subcomplex: TangentialBordism B1.5
@@ -91,7 +100,13 @@ formula (Layer 6).
   immersion, the second fundamental form, the normal connection, the C² relative-volume functional
   and first variation: RiemannianGeometry R5a, R5a.1 and R5a.2. No general second-variation formula
   is consumed.
-- Tubular neighbourhoods and normal exponential maps: GeometricTopology Layer 1.
+- The normal exponential of a smooth embedding into a Riemannian manifold and the tubular
+  neighbourhood theorem, as a smooth inverse of the normal exponential on a neighbourhood of the
+  zero section inside any prescribed neighbourhood of the image, and as a diffeomorphism of the
+  whole normal bundle onto an ambient neighbourhood: Tau Ceti `TauCeti.SmoothEmbedding.normalExp`,
+  `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset` and
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`. Collars of compact
+  manifolds with boundary: GeometricTopology Layer 1.
 - Complex manifolds with their almost complex structure and canonical orientation: Tau Ceti.
   Complex tangent and type calculus, Hermitian and canonical bundles, Hodge theory, Kähler metrics
   and analytic-cycle carriers: ComplexKahlerGeometry K1, K2, K4, K5a, K5b.0, K6.0 and K6.1. The
@@ -142,7 +157,9 @@ formula (Layer 6).
   Lagrangian is calibrated by `φ_θ`. Joyce's phase convention (Joyce2001SLLectures, line 76) is
   `cos θ Re Ω + sin θ Im Ω`, which equals `Re(e^(−iθ)Ω)`.
 - Exterior powers carry Mathlib's Gram inner product, `⟪v₁∧⋯∧v_k, w₁∧⋯∧w_k⟫ = det(⟪v_j,w_i⟫)`, so
-  `|dx₁∧dx₂| = 1` (no `1/k!`).
+  `|dx₁∧dx₂| = 1` (no `1/k!`); forms carry the inner product transported along Tau Ceti's Riesz
+  identification, `TauCeti.alternatingFormInner`, for which the increasing wedges of an
+  orthonormal coframe are orthonormal.
 - Product orientations put the first factor's frame first.
 - Layer k is also cited as Ck (for example "CalibratedGeometry C2").
 
@@ -154,16 +171,17 @@ formula (Layer 6).
   `ContinuousAlternatingMap.norm_constOfIsEmpty`,
   `ContinuousAlternatingMap.norm_compContinuousLinearMap_le`), and
   `ContinuousMultilinearMap.norm_compContinuous_linearIsometryEquiv` for pullback along a
-  surjective linear isometry. The native norm is an infimum of product-norm bounds; it is not an
-  orthonormal-frame supremum, which is target 1.1.
+  surjective linear isometry. The native norm is an infimum of product-norm bounds; Tau Ceti
+  identifies it with the simple-vector comass (below), and its orthonormal-frame form is target
+  1.1.
 - `LinearMap.normDet` (`Mathlib/Analysis/InnerProductSpace/NormDet.lean`) with
   `LinearMap.normDet_sq_eq_det_gram`, its range-restriction identity and the rank-defect criterion:
   a genuine rectangular volume, `1` on a zero-dimensional domain and `0` on a non-injective map.
 - `Matrix.gram` and `Matrix.det_gram_ne_zero_iff_linearIndependent`; `Orthonormal`,
   `OrthonormalBasis`, `EuclideanSpace`, `WithLp`, `PiLp` and `Orientation`.
 - Exterior powers `⋀[ℝ]^k E` as submodules of `ExteriorAlgebra`, `exteriorPower.ιMulti`,
-  `exteriorPower.alternatingMapLinearEquiv` (the linear dual of an exterior power; a Riesz
-  identification is a further step), and the Gram inner product of
+  `exteriorPower.alternatingMapLinearEquiv` (the linear dual of an exterior power; the Riesz
+  identification is Tau Ceti's, below), and the Gram inner product of
   `Mathlib/Analysis/InnerProductSpace/ExteriorPower.lean`, `exteriorPower.inner_ιMulti_ιMulti`.
   That instance requires `FiniteDimensional ℝ E`.
 - `Submodule.pow_mem_pow` (powers of a 2-vector lie in the even exterior powers) and
@@ -202,6 +220,25 @@ formula (Layer 6).
   `Re det Gram(v) ≤ Π‖v_i‖²` for any finite family over an `RCLike` field (dependent and empty
   families allowed), and `‖det_b v‖ ≤ Π‖v_i‖` for the coordinate determinant in an orthonormal
   basis b.
+- Comass and mass (`TauCeti/Analysis/InnerProductSpace/Comass.lean`, `AlternatingForm.lean`,
+  `ExteriorPower/Basic.lean` and `TauCeti/Analysis/Normed/Module/Alternating/Dual.lean`), all on
+  a finite-dimensional real inner-product space E: `exteriorPower.norm_ιMulti_sq`, the squared
+  Gram norm of the wedge `v₁∧⋯∧v_k` is `det Gram(v)`, with Hadamard's
+  `exteriorPower.norm_ιMulti_le_prod_norm`; `ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
+  `‖φ v‖ ≤ ‖φ‖·‖v₁∧⋯∧v_k‖` for every family v, dependent families included, into any normed
+  target; `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`, for `0 ≤ C`, `‖φ‖ ≤ C`
+  exactly when `‖φ v‖ ≤ C·‖v₁∧⋯∧v_k‖` for every v, so that the native norm is Federer's comass in
+  its simple-vector form; `ContinuousAlternatingMap.norm_eq_norm_apply_orthonormalBasis`, the
+  comass of a top-degree form is the norm of its value on an orthonormal basis;
+  `TauCeti.alternatingFormEquiv`, the Riesz identification `⋀[ℝ]^k E ≃ₗ[ℝ] E [⋀^Fin k]→L[ℝ] ℝ`,
+  `x ↦ (v ↦ ⟪x, v₁∧⋯∧v_k⟫)`, and `TauCeti.alternatingFormInner`, the pointwise inner product of
+  forms transported along it, computed in an orthonormal basis by
+  `TauCeti.alternatingFormInner_eq_sum`; `TauCeti.norm_alternatingFormEquiv_le`, the comass of
+  the form of a k-vector η is at most `‖η‖`; `exteriorPower.formDualEquiv`, a k-vector as a
+  functional on forms, whose norm is the mass, with `exteriorPower.formDualEquiv_alternatingFormEquiv`
+  (`ξ` pairs with the form of `η` to `⟪η, ξ⟫`), `exteriorPower.norm_formDualEquiv_ιMulti` (the
+  mass of a wedge is its Gram norm), `exteriorPower.norm_le_norm_formDualEquiv` and
+  `exteriorPower.norm_formDualEquiv_le` (`‖ξ‖ ≤ mass(ξ) ≤ sqrt(binomial(dim E, k))·‖ξ‖`).
 - Differential forms (`TauCeti/Geometry/Manifold/DifferentialForm/`): `TauCeti.RoughForm` (a
   pointwise continuous alternating map on each tangent space, no regularity assumed),
   `TauCeti.IsSmoothForm`, `TauCeti.mextDeriv` (computed in charts), `TauCeti.mpullback`,
@@ -211,8 +248,10 @@ formula (Layer 6).
   orientation, zero unless the form is compactly supported and integrable) and Stokes' theorem
   `TauCeti.integralTopForm_mextDeriv` on manifolds modelled on the half-space, with the
   outward-first boundary orientation.
-- De Rham cohomology `TauCeti.deRhamCohomology` and the injective period map
-  `TauCeti.deRhamCohomology.period` from `H¹_dR(M)` to homomorphisms `π₁(M, x) → ℝ`.
+- De Rham cohomology `TauCeti.deRhamCohomology` and the period map
+  `TauCeti.deRhamCohomology.period` from `H¹_dR(M)` to homomorphisms `π₁(M, x) → ℝ`, injective
+  on a connected M (`TauCeti.deRhamCohomology.period_injective`, under `PreconnectedSpace M`);
+  on a disconnected M the periods at one base point see only its component.
 - Smooth singular simplices (`TauCeti/Geometry/Manifold/SmoothSingular/`): the subcomplex
   `TauCeti.smoothSingularSubcomplex` of the singular simplicial set of M, its simplices
   `TauCeti.SmoothSimplex I M p`, the pushforward `TauCeti.smoothSingularSubcomplexMap` along a
@@ -223,8 +262,26 @@ formula (Layer 6).
   simplicial complex that is an immersion on every closed simplex (Whitehead's notion).
 - Riemannian carriers: `Bundle.ContMDiffRiemannianMetric.pullback` (the metric pulled back along
   an immersion, for a target metric of one order more regularity), `TauCeti.riemannianVolumeForm`
-  of an orientation, `TauCeti.SmoothForm.hodgeStar` and `TauCeti.SmoothForm.codifferential`, the
-  formal adjoint of d with sign `(−1)^(m(k+2)+1) ⋆d⋆` on `(k+1)`-forms in dimension m.
+  of an orientation, the rough Hodge star `TauCeti.RoughForm.hodgeStar` of an orientation of a
+  Riemannian manifold of dimension `k + l` (rough k-forms to rough l-forms, pointwise
+  `Orientation.formHodgeStar`, with `α ∧ ⋆β = ⟨α, β⟩ dvol` for the inner product
+  `TauCeti.alternatingFormInner` and `⋆⋆ = (−1)^(kl)`; a `C¹` manifold with a Riemannian bundle
+  suffices), its smooth restriction `TauCeti.SmoothForm.hodgeStar`, and
+  `TauCeti.SmoothForm.codifferential`, the formal adjoint of d with sign `(−1)^(m(k+2)+1) ⋆d⋆` on
+  `(k+1)`-forms in dimension m.
+- Normal exponential and tubular neighbourhoods
+  (`TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/`): for a smooth embedding
+  `TauCeti.SmoothEmbedding` of a manifold into a boundaryless Hausdorff manifold with a smooth
+  Riemannian metric, `TauCeti.SmoothEmbedding.normalExp`, the ambient Riemannian exponential of
+  the orthogonal representative of an intrinsic normal class, with the base point as junk value
+  outside its natural domain; `TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset`,
+  a `C^m` partial diffeomorphism equal to the normal exponential on an open set containing the
+  whole zero section, with target inside any prescribed open neighbourhood of the image (second
+  countable ambient, nonempty source, no compactness); and
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`, a diffeomorphism of
+  the whole normal bundle onto an open ambient neighbourhood inside a prescribed one, sending the
+  zero section to the embedding. The Euclidean normal bundle of a `C^(n+1)` immersion into an
+  inner-product space is `TauCeti/Geometry/Manifold/TubularNeighborhood/VectorBundle.lean`'s.
 - Complex manifolds: `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`, multiplication by
   i on every tangent space of a manifold modelled on `𝓘(ℂ, E)`; the scoped instance
   `TauCeti.ComplexManifold.isManifold_real` for the underlying real manifold; and
@@ -264,9 +321,10 @@ R5a.2 (first variation and averaged mean curvature).
 
 ### From TauCetiRoadmap.GeometricTopology
 
-Layer 1 (tubular neighbourhoods and their normal exponential description, and collars of compact
-manifolds with boundary) and the smoothing and triangulation comparison item 1 (existence of smooth
-triangulations of smooth manifolds without boundary, used directly for closed sources).
+Layer 1 (collars of compact manifolds with boundary; its tubular neighbourhoods are not consumed,
+Tau Ceti's normal exponential being used instead) and the smoothing and triangulation comparison
+item 1 (existence of smooth triangulations of smooth manifolds without boundary, used directly for
+closed sources).
 
 ### From TauCetiRoadmap.TangentialBordism
 
@@ -332,15 +390,17 @@ Throughout, E is a real inner-product space and φ a continuous alternating real
 
 Define the comass of φ as `sup{|φ(v₁,…,v_k)| : (v_i) orthonormal}`. On a finite-dimensional E,
 prove that comass equals the native operator norm; this is `norm_eq_sSup_abs_orthonormal`, stated
-in every degree k (both sides vanish for `k > dim E`; for k = 0 both are `|φ ![]|`). The route: the
-comass form of 1.2's inequality, which uses only the definition of comass, bounds `|φ v|` by
-`comass(φ)·frameVolume v ≤ comass(φ)·Π‖v_i‖` through Tau Ceti's Hadamard inequality
-`Matrix.re_det_gram_le_prod_norm_sq`, which gives the norm bound, and orthonormal frames give the
-reverse inequality. Consume the native norm's triangle inequality, homogeneity, definiteness and
-normed-space structure through this equality; no competing norm is installed (Harvey–Lawson 1982,
-II.(3.1), p. 56, uncertified; McLean1998, line 27).
+in every degree k (both sides vanish for `k > dim E`; for k = 0 both are `|φ ![]|`). The route: an
+orthonormal frame has `‖v₁∧⋯∧v_k‖ = 1`, so Tau Ceti's linear calibration inequality
+`ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti` bounds the supremum by the norm; conversely,
+by Tau Ceti's simple-vector characterization `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`
+it suffices that `|φ v| ≤ comass(φ)·‖v₁∧⋯∧v_k‖` for every frame v, which is the comass form of
+1.2, proved from the definition of comass alone. Consume the native norm's triangle inequality,
+homogeneity, definiteness and normed-space structure through this equality; no competing norm is
+installed (Harvey–Lawson 1982, II.(3.1), p. 56, uncertified; McLean1998, line 27).
 *Needs:* Mathlib `ContinuousAlternatingMap.norm_def`, `ContinuousAlternatingMap.norm_constOfIsEmpty`;
-Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq`; the comass form of 1.2.
+Tau Ceti `ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
+`ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`; the comass form of 1.2.
 
 - On a finite-dimensional E, the frames `Fin k → E` that are orthonormal form a compact subset; the
   evaluation `v ↦ φ v` is continuous on it; for `k ≤ dim E` the comass is attained; comass is finite.
@@ -363,27 +423,38 @@ Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq`; the comass form of 1.2.
 
 ### 1.2 Frame volume and the linear calibration inequality
 
-Define `frameVolume v`, for `v : Fin k → E` in any real inner-product space, as `LinearMap.normDet`
-of the linear map `ℝᵏ → E` sending the standard basis vector `e_i` to `v_i`. Prove
-`|φ(L e₁,…,L e_k)| ≤ comass(φ)·LinearMap.normDet L` for every linear `L : ℝᵏ → E`, including the
-rank-deficient case where both sides vanish; for frames this is
-`abs_eval_le_norm_mul_frameVolume` on finite-dimensional E. The route: restrict to the range of L,
-use the native Gram and range-restriction identities, and an orientation-preserving
-orthonormalization (Harvey–Lawson 1982, Lemma II.3.5, p. 57, uncertified). The comass form needs only
-the definition of comass; the norm form `abs_eval_le_norm_mul_frameVolume` then follows from 1.1.
-*Needs:* Mathlib `LinearMap.normDet`, `LinearMap.normDet_sq_eq_det_gram`; the definition of comass
-(1.1) for the comass form, and `norm_eq_sSup_abs_orthonormal` for the norm form.
+The k-dimensional volume of the parallelepiped spanned by a frame `v : Fin k → E` is the Gram norm
+`‖v₁∧⋯∧v_k‖` of its wedge, with `‖v₁∧⋯∧v_k‖² = det Gram(v)` (Tau Ceti
+`exteriorPower.norm_ιMulti_sq`) and Hadamard's `‖v₁∧⋯∧v_k‖ ≤ Π‖v_i‖`
+(`exteriorPower.norm_ιMulti_le_prod_norm`). The linear calibration inequality
+`|φ v| ≤ ‖φ‖·‖v₁∧⋯∧v_k‖`, for every frame including the linearly dependent ones, where both sides
+vanish, is Tau Ceti's `ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`, and the
+characterization `‖φ‖ ≤ C ⇔ ∀ v, |φ v| ≤ C·‖v₁∧⋯∧v_k‖` is
+`ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti` (Harvey–Lawson 1982, Lemma II.3.5,
+p. 57, uncertified). Two targets remain. Prove the comass form `|φ v| ≤ comass(φ)·‖v₁∧⋯∧v_k‖` from
+the orthonormal-frame definition of comass of 1.1 alone: for a linearly independent frame write it
+in an orthonormal basis b of its span, so that `φ v = φ(b)·det_b(v)` with
+`|det_b(v)| = ‖v₁∧⋯∧v_k‖` and `|φ(b)| ≤ comass(φ)`, and a dependent frame gives zero on both sides;
+this is the input of 1.1. Prove the norm-determinant identity
+`LinearMap.normDet L = ‖L e₁ ∧ ⋯ ∧ L e_k‖` for every linear `L : ℝᵏ → E`, from
+`LinearMap.normDet_sq_eq_det_gram` and `exteriorPower.norm_ιMulti_sq`, so that the inequality
+reads `|φ(L e₁,…,L e_k)| ≤ ‖φ‖·LinearMap.normDet L`, the form in which 2.3 measures the mass of a
+parametrized simplex.
+*Needs:* Tau Ceti `exteriorPower.norm_ιMulti_sq`, `exteriorPower.norm_ιMulti_le_prod_norm`,
+`ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`; Mathlib `LinearMap.normDet`,
+`LinearMap.normDet_sq_eq_det_gram`; the definition of comass (1.1).
 
-- `frameVolume v = sqrt(det Gram(v))`; it vanishes exactly when v is linearly dependent; the empty
-  frame has volume 1.
-- `frameVolume` is invariant under linear isometries of E and under permutation of the frame, and
-  scales by `|c|` when one vector is multiplied by c.
-- `frameVolume v ≤ Π‖v_i‖`, from Tau Ceti `Matrix.re_det_gram_le_prod_norm_sq` and
-  `LinearMap.normDet_sq_eq_det_gram`.
+- The volume `‖v₁∧⋯∧v_k‖` vanishes exactly when v is linearly dependent
+  (`Matrix.det_gram_ne_zero_iff_linearIndependent`); the empty frame has volume 1.
+- It is invariant under linear isometries of E and under permutation of the frame, and scales by
+  `|c|` when one vector is multiplied by c.
+- `LinearMap.normDet` is 0 on a non-injective map and 1 on the map from the zero space, in
+  agreement with the identity.
 
 **Checks.**
 
-- The empty frame has volume 1 (normDet of the map from the zero space).
+- The empty frame has volume 1 (the empty Gram determinant; normDet of the map from the zero
+  space).
 - The dependent frame `(v, v)` with v ≠ 0 has volume 0, while the product of norms is `‖v‖²`.
 - `((2,0),(0,3))` in ℝ² has volume 6.
 - `((1,0),(1,1))` has Gram matrix `[[1,1],[1,2]]` and volume 1, while `Π‖v_i‖ = √2`: a definition
@@ -391,17 +462,25 @@ the definition of comass; the norm form `abs_eval_le_norm_mul_frameVolume` then 
 
 ### 1.3 The exterior-power formulation
 
-Identify a k-form with an element of the exterior power through
-`exteriorPower.alternatingMapLinearEquiv` and the Riesz isomorphism of the Gram inner product.
-Prove the simple-multivector form of 1.2, `|⟪φ̂, v₁∧⋯∧v_k⟫| ≤ comass(φ)·|v₁∧⋯∧v_k|`; with it,
-comass is the supremum of `⟪φ̂, ξ⟫` over unit simple k-vectors ξ, Harvey–Lawson's definition
-(Harvey–Lawson 1982, II.(3.1), p. 56, uncertified). Prove the comparison of comass with the
-coefficient Hilbert norm `|φ|_H`, `comass(φ) ≤ |φ|_H ≤ sqrt(binomial(dim E, k))·comass(φ)`,
-including the zero-space and `k > dim E` cases. The route: Cauchy–Schwarz against a unit simple
-k-vector gives the lower bound; in an orthonormal basis each of the `binomial(dim E, k)`
-coefficients `φ(e_(i₁),…,e_(i_k))` is a value on an orthonormal frame, hence at most comass(φ) in
-absolute value, which gives the upper bound.
-*Needs:* Mathlib `exteriorPower.alternatingMapLinearEquiv`, `exteriorPower.inner_ιMulti_ιMulti`; 1.1.
+Tau Ceti identifies a k-form φ with a k-vector φ̂ through the Riesz isomorphism
+`TauCeti.alternatingFormEquiv` of the Gram inner product, `φ̂ ↦ (v ↦ ⟪φ̂, v₁∧⋯∧v_k⟫)`, so that
+`ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti` reads
+`|⟪φ̂, v₁∧⋯∧v_k⟫| ≤ comass(φ)·|v₁∧⋯∧v_k|` and `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`
+says that comass is the supremum of `⟪φ̂, ξ⟫` over unit simple k-vectors ξ, Harvey–Lawson's
+definition (Harvey–Lawson 1982, II.(3.1), p. 56, uncertified). The coefficient Hilbert norm
+`|φ|_H` is `sqrt(⟨φ, φ⟩)` for the pointwise inner product `TauCeti.alternatingFormInner`, that is
+`‖φ̂‖`. Prove the comparison `comass(φ) ≤ |φ|_H ≤ sqrt(binomial(dim E, k))·comass(φ)`, including
+the zero-space and `k > dim E` cases. The lower bound is `TauCeti.norm_alternatingFormEquiv_le` at
+`η = φ̂`. For the upper bound, `‖φ̂‖² = ⟪φ̂, φ̂⟫` is the value on φ of the functional
+`exteriorPower.formDualEquiv φ̂` (`exteriorPower.formDualEquiv_alternatingFormEquiv`), hence at
+most `mass(φ̂)·comass(φ) ≤ sqrt(binomial(dim E, k))·‖φ̂‖·comass(φ)` by
+`exteriorPower.norm_formDualEquiv_le`; divide by `‖φ̂‖` when φ is nonzero. Equivalently, in an
+orthonormal basis each of the `binomial(dim E, k)` coefficients `φ(e_(i₁),…,e_(i_k))` is a value on
+an orthonormal frame, hence at most comass(φ) in absolute value
+(`TauCeti.alternatingFormInner_eq_sum`).
+*Needs:* Tau Ceti `TauCeti.alternatingFormEquiv`, `TauCeti.alternatingFormInner`,
+`TauCeti.norm_alternatingFormEquiv_le`, `exteriorPower.formDualEquiv_alternatingFormEquiv`,
+`exteriorPower.norm_formDualEquiv_le`; 1.1.
 
 **Checks.**
 
@@ -493,12 +572,14 @@ Corollary 1.4, p. 2, line 74; Theorem 1.2, line 59, for the low-degree cases in 
 
 ### Examples
 
-`frameVolume` of `((1,0,0),(1,1,0))` in ℝ³ is 1, and `dx₁∧dx₂` evaluates to 1 on it: equality in
-`abs_eval_le_norm_mul_frameVolume` without the frame being orthonormal.
+The frame `((1,0,0),(1,1,0))` in ℝ³ has Gram determinant 1, hence volume `‖v₁∧v₂‖ = 1`, and
+`dx₁∧dx₂` evaluates to 1 on it: equality in the linear calibration inequality
+`|φ v| ≤ ‖φ‖·‖v₁∧v₂‖` without the frame being orthonormal.
 
 ### Dependencies
 
-Mathlib and Tau Ceti's Hadamard inequality for 1.1–1.3 and 1.5–1.6; SmoothBundlesConnections B1.4,
+Mathlib and Tau Ceti's comass, Riesz identification and Hadamard inequality for 1.1–1.3 and
+1.5–1.6; SmoothBundlesConnections B1.4,
 TopologicalKTheory T1.5, GeneralizedCohomology G4.0b and CharacteristicClasses C1.1a for 1.4 only.
 
 ## Layer 2: Calibrated immersions and integral smooth chains (C2)
@@ -983,8 +1064,10 @@ and build local real lifts. Define the phase class as the pullback under the pha
 `H¹(U(1); ℤ)` pairing to +1 with AlgebraicTopology's outward-first fundamental class of the circle,
 transported to `U(1) ⊂ ℂ`. Prove that its real image is the class of `dθ/2π` pulled back by the phase
 map: on every loop the phase class and the de Rham class of that closed form take the same value,
-which determines the de Rham class through Tau Ceti's injective period map
-`TauCeti.deRhamCohomology.period`, with no general de Rham theorem. The classical unoriented Maslov
+which determines the de Rham class on each connected component of the Lagrangian through Tau
+Ceti's period map `TauCeti.deRhamCohomology.period`, injective on a connected manifold
+(`TauCeti.deRhamCohomology.period_injective`) and applied componentwise with a base point in
+each component, with no general de Rham theorem. The classical unoriented Maslov
 class uses `det²` on `U(n)/O(n)`, and on oriented Lagrangians it is twice the phase class. For a
 loop of Lagrangian planes in ℂⁿ (the tangent planes along a closed curve in an oriented Lagrangian
 immersion into ℂⁿ, or a unitary trivialization along the curve) prove that the Maslov class pairs
@@ -1069,16 +1152,19 @@ manifold of 5.3, and k ≥ 2, 0 < α < 1.
 
 ### 6.1 Normal parametrization and the deformation map
 
-Choose a tubular neighbourhood (GeometricTopology Layer 1) and parametrize nearby unparametrized
-embedded submanifolds by small normal sections. Prove that this induces a homeomorphism onto a
-neighbourhood in the C¹ quotient by reparametrization; transition laws between tubular choices hold
-in the C¹ and C∞ topologies and on the smooth solution charts of 6.4, not in the full Hölder Banach
-topology. Through `β = ι_V ω|_N`, identify the normal bundle with T*N, proving its sign in the fixed
+Choose a tubular neighbourhood of N: Tau Ceti's
+`TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset` gives a smooth inverse of the
+normal exponential `TauCeti.SmoothEmbedding.normalExp` on a neighbourhood of the zero section of
+the normal bundle, and parametrize nearby unparametrized embedded submanifolds by small normal
+sections through it. Prove that this induces a homeomorphism onto a neighbourhood in the C¹
+quotient by reparametrization; transition laws between tubular choices (choices of the domain of
+the normal exponential) hold in the C¹ and C∞ topologies and on the smooth solution charts of 6.4,
+not in the full Hölder Banach topology. Through `β = ι_V ω|_N`, identify the normal bundle with T*N, proving its sign in the fixed
 convention (McLean1998, Corollary 3.3 and Remark 3.4, lines 486 and 493). Construct the nonlinear map
 
     V ↦ (exp_V* ω, exp_V* Im(e^(−iθ)Ω))
 
-by pullback along the actual normal exponential embedding (McLean1998, lines 539–550). Prove that both
+by pullback along the normal exponential of the section V (McLean1998, lines 539–550). Prove that both
 components are closed and lie in the Hölder closed-form subspace L²-orthogonal to the harmonic forms
 (McLean1998, Lemma 3.12, line 580), using the naturality `TauCeti.mpullback_mextDeriv` for a C² map
 and a C¹ form, DifferentialGeometry 5.4's homotopy formula for C¹ forms and Stokes' theorem on
@@ -1087,7 +1173,8 @@ Derive the derivative `β ↦ (dβ, −d(★β))` at zero, where ★ is the sour
 (`TauCeti.SmoothForm.hodgeStar`); the second component equals `(δβ) dvol_N` for the codifferential
 `δ = d†`, compared with the formal-adjoint sign convention of `TauCeti.SmoothForm.codifferential`
 and with ComplexKahlerGeometry K5a (McLean1998, Theorem 3.6 proof, line 572).
-*Needs:* GeometricTopology Layer 1; Tau Ceti `TauCeti.mpullback_mextDeriv`,
+*Needs:* Tau Ceti `TauCeti.SmoothEmbedding.normalExp`,
+`TauCeti.SmoothEmbedding.exists_partialDiffeomorph_normalExp_subset`, `TauCeti.mpullback_mextDeriv`,
 `TauCeti.integralTopForm_mextDeriv`, `TauCeti.SmoothForm.hodgeStar`,
 `TauCeti.SmoothForm.codifferential`; DifferentialGeometry 5.4; ComplexKahlerGeometry K5a; 5.3.
 
@@ -1252,7 +1339,8 @@ order. Prove the parametric gain: on the finite-dimensional chart domain in harm
 `χ ↦ V(χ)` is smooth into `C^(k′,α)` near every point for every `k′ ≥ k`, by recentring,
 differentiating the equations and uniform Schauder estimates; this proves smoothness on an open chart
 domain rather than inferring it from `ContDiffAt ℝ ∞` at one point. Own the composition estimate with
-loss of derivatives and compare tubular choices only on these smooth solution charts; the
+loss of derivatives and compare tubular choices (domains of the normal exponential) only on these
+smooth solution charts; the
 reparametrization action is not asserted to be C¹ on all `C^(k,α)` embeddings. Prove chart
 compatibility for different k, α and tubular choices, agreement with the local C∞ quotient topology,
 and the tangent identification. No unobstructed-moduli conclusion is asserted for other calibrated
@@ -1270,10 +1358,22 @@ geometries or for submanifolds with boundary.
 
 ### 6.5 Second variation and the Jacobi operator
 
-For a smooth normal variation of closed N, prove that the second variation of volume depends only on
-the normal field V, independently of acceleration, since N is minimal. Own the special Lagrangian
-identity `δ²Vol(V) = ∫_N (|dβ|² + |δβ|²) dvol` with K5a's Gram exterior norm (McLean1998,
-Theorem 3.13, p. 723, line 598). Own the pointwise second-jet calibration identity in an
+For a smooth family of immersions `F_t` of closed N with `F_0` the inclusion and velocity V at
+`t = 0` normal to N, prove that the second derivative of `Vol(F_t)` at `t = 0` depends only on V,
+independently of the acceleration and of the tangential motion of the family, since N is minimal
+and closed. Own the special Lagrangian identity `secondVariation_volume_eq_hodgeEnergy`: that
+second derivative is `∫_N (|dβ|² + |δβ|²) dvol` for `β = ι_V ω|_N`, the one-form
+`contractionPullback ω f V` with `β_x(w) = ω(V(x), df_x w)` (contraction in the first slot), where
+the density `hodgeEnergyDensity o β` is the Gram norm squared of `dβ` for
+`TauCeti.alternatingFormInner` (K5a's Gram exterior norm) plus the square of the function
+`⋆d⋆β = ±δβ`, computed with the rough Hodge star `TauCeti.RoughForm.hodgeStar` for the
+orientation o and a Riemannian metric on N that is pointwise the pullback `f*g`, taken as an
+instance tied to g by the hypothesis `⟪v, w⟫ = g(df v, df w)` (McLean1998, Theorem 3.13, p. 723,
+line 598). The statement takes ω as the real 2-form `ω_x(v, w) = g_x(iv, w)` of `IsKahlerMetric`,
+N oriented and of dimension the degree of Ω, and a family that consists of immersions for every
+t, so that its volume is defined along the whole family; the sign convention of the codifferential
+does not enter, the square of `⋆d⋆β` being independent of it. Own the pointwise second-jet calibration
+identity in an
 `Ω_θ`-adapted unitary frame: for a plane graph with infinitesimal matrix A, the second derivative of
 `vol − Re Ω_θ` is `(tr A)² + Σ_(i<j)(A_ij − A_ji)²`, by expanding `sqrt(det(I + t²AᵀA))` and
 `Re det(I + itA)`, with its coordinate-invariant form on the plane locus. For a curve of frames
@@ -1288,10 +1388,30 @@ ellipticity, formal self-adjointness and the Hessian identity by polarization of
 variation, and identify its kernel with the harmonic one-forms and 6.4's tangent space (McLean1998,
 Corollary 3.14, line 603). This construction supplies no second-variation formula for arbitrary
 minimal submanifolds.
-*Needs:* ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.4.
+*Needs:* Tau Ceti `TauCeti.RoughForm.hodgeStar`, `TauCeti.alternatingFormInner`;
+ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.4.
+
+- `contractionPullback ω f V` is linear in V and in ω, and is `f*(ι_V ω)` when V extends to a
+  vector field on M; for a tangential V along a Lagrangian immersion it vanishes.
+- `hodgeEnergyDensity o β` is nonnegative, vanishes exactly where `dβ = 0` and `d⋆β = 0`, and is
+  unchanged by reversing o (both `dβ` and `⋆d⋆β` change at most by sign).
 
 **Checks.**
 
+- Contraction sign: in the positive flat plane ℝⁿ ⊂ ℂⁿ with `V = Σ a_j ∂_(y_j)`,
+  `contractionPullback ω f V = −Σ a_j dx_j`, since `ω(∂_(y_j), ∂_(x_j)) = g(i∂_(y_j), ∂_(x_j)) = −1`;
+  contracting in the second slot would give `+Σ a_j dx_j`.
+- On the flat torus `T²` with `β = sin(2πx₁) dx₂`: `dβ = 2π cos(2πx₁) dx₁∧dx₂`, so
+  `|dβ|² = 4π² cos²(2πx₁)` in the Gram norm (a `1/2!` normalization would halve it), while
+  `⋆β = −sin(2πx₁) dx₁` is closed and `δβ = 0`; the energy is `∫ = 2π²`.
+- On `T²` with `β = sin(2πx₁) dx₁`: `dβ = 0`, `⋆β = sin(2πx₁) dx₂`, `d⋆β = 2π cos(2πx₁) dx₁∧dx₂`
+  and `⋆d⋆β = 2π cos(2πx₁)`, the same density `4π² cos²(2πx₁)`; a definition without the `|δβ|²`
+  term would give 0.
+- The theorem at n = 1 (m = 0): the circle `{y = 0}` in the flat torus `ℂ/(ℤ + iℤ)` is special
+  Lagrangian of phase 0; for the family `F_t(x) = (x, t a(x))` with `a = ε sin(2πx)`, the length
+  `∫₀¹ sqrt(1 + t²a′(x)²) dx` has second derivative `∫₀¹ a′² = 2π²ε²` at `t = 0`; on the other
+  side `β = −a dx`, `dβ = 0` on a 1-manifold, `⋆β = −a`, `⋆d⋆β = −a′`, and
+  `∫ a′² dx = 2π²ε²`. A constant a gives a translation and 0 on both sides.
 - n = 1, `A = (a)`: the plane spanned by `1 + ita` has `vol = sqrt(1 + t²a²)` and `Re Ω = 1`, second
   derivative `a² = (tr A)²`.
 - n = 2, `A = diag(1, −1)`: `vol = 1 + t² = Re det(I + itA)`, second derivative 0, matching
@@ -1308,15 +1428,18 @@ the second variation along `V = Σ a_j ∂_(y_j)` is 0.
 
 ### Dependencies
 
-6.1 needs 5.3 and GeometricTopology Layer 1; 6.2 needs PseudodifferentialOperators P5–P6 and
+6.1 needs 5.3 and Tau Ceti's normal exponential; 6.2 needs PseudodifferentialOperators P5–P6 and
 ComplexKahlerGeometry K5a; 6.3 needs Tau Ceti's Sobolev and Campanato estimates, PDE and 5.1; 6.4 needs 6.1, 6.2 and 6.3; 6.5 needs 6.1 and 6.4.
 
 ## Downstream consumers
 
 - FukayaTheory consumes C2's integral smooth-to-singular comparison on Tau Ceti's smooth-simplex
   carrier.
-- GeometricCurrents G1–G3 and G6 consume 1.2–1.3 (the comass/Gram and simple-vector comparison),
-  1.4 (the oriented-frame quotient topology of the Grassmannian), 2.3 (chain integration and Stokes
+- GeometricCurrents G1–G3 and G6 cite 1.2–1.3 for the comass/Gram and simple-vector comparison,
+  which Tau Ceti owns (`ContinuousAlternatingMap.le_opNorm_mul_norm_ιMulti`,
+  `ContinuousAlternatingMap.opNorm_le_iff_le_mul_norm_ιMulti`, `TauCeti.alternatingFormEquiv`);
+  1.2–1.3 here record that identification, the norm-determinant identity and the Hilbert-norm
+  comparison. They consume 1.4 (the oriented-frame quotient topology of the Grassmannian), 2.3 (chain integration and Stokes
   on the integral chains of Tau Ceti's smooth singular subcomplex, the smooth-to-singular
   quasi-isomorphism with the integer generator maps and both face-compatible chain homotopies, and
   the agreement of integration with coefficient change), 2.4 (finite oriented relative fundamental
