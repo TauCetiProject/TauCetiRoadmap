@@ -1078,6 +1078,12 @@ monotonicity for the positivity transfer, with Mathlib `Real.one_half_lt_eulerMa
   `(2√x/log² x)(1 + 5/log x)` by `3.7%`; the asymptotic expansion
   `J(a, x) ∼ (2√x/log² x)(1 + 4/log x + 24/log² x + ⋯)` exceeds that factor as long as `log x` is
   below about `30`.
+- Büthe's constant at `a = 10` with the offset `Li`:
+  `π(10) − Li 10 + (10 − θ(10))/log 10 = 4 − 5.1204… + 2.0207… = 0.9002… > 0.1`, with
+  `π(10) = 4`, `θ(10) = log 210` and `Li 10 = li 10 − li 2 = 5.1204…`; the upper Riemann sum of
+  `1/log t` over the unit intervals of `[2, 10]` already gives `Li 10 < 5.71`, which suffices. With
+  the principal-value `li` in place of `Li` the quantity is `A(10) = −0.1448…`, so the inequality is
+  false in that reading, which is the one IEANTN (`ieantn`) uses.
 
 ### 0.5 From a ψ-bound to θ- and π-bounds with an explicit error function
 
@@ -1390,6 +1396,9 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   `2 ≤ x ≤ 10¹⁹`, with `π*(x) = ∑_{k ≥ 1} π(x^{1/k})/k` (`Suggested.lean`'s `riemannPrimeCount`);
   and `0 < li x − π(x) ≤ (√x/log x)(1.95 + 3.9/log x + 19.5/log² x)` for `2 ≤ x ≤ 10¹⁹`
   (`buthe-2018` lines 73–85, Theorem 2, which prints the second from `1423`; `pnt-plus`, `ieantn`).
+  IEANTN (`ieantn`) states the second clause from `1423` as well, which fails on
+  `(1426.47…, 1427)`, where `θ` is constant (at `x = 1426.9`, `x − θ(x) = 74.07…` exceeds
+  `1.95 √x = 73.65…`); the correct starting point is `1427`.
 - *ButheFinerRange*: `−0.8 √x ≤ x − ψ(x) ≤ 0.81 √x` for `100 ≤ x ≤ 5·10¹⁰` (`buthe-2018` §6, (6.2);
   `pnt-plus`, `ieantn`); and, for each row `(x₀, M⁻, M⁺)` of its Table 1 and every `x ∈ [x₀, 2x₀]`,
   `M⁻ √x ≤ x − ψ(x) ≤ M⁺ √x`, the rows being, for `x₀ = 2^j·10¹⁰` with `j = 0, …, 6`:
@@ -1951,6 +1960,10 @@ starts its iteration from Büthe's range at that height, `x ≤ 2.169·10²⁵` 
 - `|π*(x) − li x| ≤ √x log x/(8π)` for `x ≥ 97`, where `π*(x) = ∑_{k ≥ 1} π(x^{1/k})/k` is Riemann's
   weighted count (the source states `x > 59`), and
   `|π(x) − li x| ≤ √x log x/(8π)` for `x > 2657`.
+
+IEANTN (`ieantn`) states the `π*` bound from `59`, which fails on `(96.28…, 97)` (at `x = 96.9` the
+left side is `1.917…` and the right side `1.791…`); the companion bound for `π` from `2657` is
+unaffected.
 
 Route (`buthe-2016` lines 709–873): prove for `x ≥ 5000` the sharper
 `|ψ(x) − x| ≤ (√x/(8π)) log x (log x − 3)` and `|θ(x) − x| ≤ (√x/(8π)) log x (log x − 2)`. For
