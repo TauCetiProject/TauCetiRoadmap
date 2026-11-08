@@ -54,9 +54,13 @@ prime-to-coefficient residual conductors. General modularity, newform representa
 rational-isogeny classification and uniformity, character PNT, zero-density and
 Mordell finiteness are supplier contracts, including the explicit gaps below.
 
-EllipticCurves Layers 2–4 and its worked Frey–Hellegouarch example own torsion,
-finite-field Hasse theory, local minimality and reduction, and the generic
-Frey equation. EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
+EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
+minimality and reduction. The generic Frey–Hellegouarch equation is the pinned
+Tau Ceti `TauCeti.freyCurve`, and the geometric torsion subgroup is Mathlib's
+`AddSubgroup.torsionBy`; neither is a target of any roadmap.
+EllipticCurveModularityPartII §5.1 owns the geometric-torsion module on that
+subgroup, its Galois representation and the full-two-torsion predicate.
+EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
 and Layer 8 owns the semistable algorithmic–Artin conductor comparison. The first family here differs by its progression normalization;
 the second differs by its equal-sum quadratic identity. ModularForms Layers 2–4, 8
 and 10 own Hecke operators, newforms, coefficient fields and dimension formulas.
@@ -73,7 +77,7 @@ quadratic-twist trace identities (Layer 5). This roadmap owns their
 progression applications.
 Martin's bound, the removed-prime inequality, the Kraus thresholds and
 realization, uniform irreducibility and rational-isogeny surjectivity are
-owned by EllipticCurveModularityPartII Layers 1–6; the contract EC.0–EC.5
+owned by EllipticCurveModularityPartII Layers 1–6; the contract EC.0–EC.6
 below records the sections consumed, and the progression applications remain here.
 ComputationalNumberTheory §4.22 owns the bounded-height zero-line verification
 for primitive characters of small modulus.
@@ -200,6 +204,11 @@ the points over the first field to the points over the second. Applied to the
 automorphisms of an algebraic closure Ω of ℚ over ℚ it is the Galois action on
 the points over Ω; being a homomorphism, it preserves the subgroup of points
 killed by ell, which is how the residual comparison in §1.12 is stated.
+Use `AddSubgroup.torsionBy` in `Mathlib/Algebra/Module/Torsion/Basic.lean`, the
+subgroup of an additive group killed by an integer: the geometric ell-torsion
+of §1.12 is this subgroup of the points over Ω at ell, and the rational
+two-torsion of `HasFullRationalTwoTorsion` is this subgroup of the rational
+points at 2. No torsion subgroup is defined in this roadmap.
 
 Use `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive` and
 `MulChar.IsQuadratic` from
@@ -235,6 +244,18 @@ graph and forbidden four-cycle; the
 finite neighbour-pair count in §7.1 is stated on these native carriers.
 
 ### From Tau Ceti
+
+Use `TauCeti.freyCurve` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/FreyCurve/Basic.lean`: for A and B in
+any commutative ring, the Weierstrass curve Y²=X(X−A)(X+B) with coefficients
+(0,B−A,0,−AB,0), with its coefficient lemmas. Layer 1's `progressionFreyCurve`
+is this curve at the normalized coefficients (a,c), not a second Frey carrier.
+Use `WeierstrassCurve.torsionGaloisAction` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`: the
+action of the automorphisms of a field extension on the subgroup
+`AddSubgroup.torsionBy` of the points killed by an integer, whose value at an
+automorphism and a point is `WeierstrassCurve.Affine.Point.map` of that point
+along the automorphism; §1.12 states its equivariance in that point-map form.
 
 Use `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`,
 `WeierstrassCurve.frobeniusTrace` and
@@ -339,9 +360,9 @@ and Layer 4's integral-model minimality and good/multiplicative reduction.
 Consume Layer 6’s `x − θ` Kummer map and kernel 2E(K), and Layer 8’s
 semistable algorithmic–Artin conductor comparison (the Szpiro block). At an odd prime,
 a unit discriminant gives good reduction; a unit c₄ and positive discriminant
-valuation give minimal multiplicative reduction. Consume the worked
-Frey–Hellegouarch example's `freyCurve A B` over any commutative ring, with
-coefficients (0,B−A,0,−AB,0). Layer 1 specializes this curve at (a,c).
+valuation give minimal multiplicative reduction. The Frey–Hellegouarch model
+itself is the pinned `TauCeti.freyCurve` (From Tau Ceti), not a target of
+EllipticCurves; Layer 1 specializes the pinned curve at (a,c).
 
 ### From TauCetiRoadmap.ModularForms
 
@@ -622,8 +643,8 @@ What AnalyticNumberTheoryPartI must provide (gap:prime-product-finite-range): a 
 
 ### From TauCetiRoadmap.EllipticCurveModularityPartII
 
-Consume the following effective comparisons, labelled EC.0–EC.5 in Layers 1–2,
-with the hypotheses of the cited sections.
+Consume the following effective comparisons and carriers, labelled EC.0–EC.6 in
+Layers 1–2, with the hypotheses of the cited sections.
 
 | Label | Supplier section | Content consumed here |
 | --- | --- | --- |
@@ -633,6 +654,7 @@ with the hypotheses of the cited sections.
 | EC.3 | §4.7 | For E/ℚ with full rational two-torsion, prime ell≥5, E[ell] irreducible of Serre weight two and prime-to-ell conductor N, and ell>H♯(N): an F/ℚ of conductor exactly N with full rational two-torsion and F[ell]≅E[ell]. |
 | EC.4 | §§5.4–5.5 | Irreducibility of E[ell] for primes ell≥5 under full rational two-torsion, and for primes ell≥11 under a rational point of order two. |
 | EC.5 | §6.18 | Surjectivity onto GL₂(𝔽_ell) for every prime ell>37, for a non-CM E/ℚ with a rational cyclic isogeny of degree greater than one. |
+| EC.6 | §5.1 | The geometric n-torsion `GeometricTorsion` of an elliptic E/ℚ, which is `AddSubgroup.torsionBy` of the points over an algebraic closure of ℚ at n, its ZMod n module and Galois representation `torsionRepresentation`, and the full-two-torsion predicate `FullRationalTwo`: exactly four rational points killed by 2. §1.12 states the residual comparison on the torsion subgroup directly and restates the predicate locally as `HasFullRationalTwoTorsion`, since a roadmap's Lean file imports only the pinned libraries. |
 
 Here μ(N)=N∏_(q|N)(1+1/q) is the Γ₀ index for N>0, and the numerical majorants are
 F_K(N)=(μ(N)/6+1)^(2g₀⁺(N)), G_K(N)=(μ(lcm(N,4))/6+1)², H_K(N)=max(F_K(N),G_K(N)).
@@ -904,7 +926,7 @@ with the numerical hypotheses in the supplier table.
 
 ## Layer 1: Frey families and residual comparisons
 
-Normalize the three progression terms to coprime a+b+c=0 and specialize the supplier Frey-Hellegouarch model, without constructing a second generic curve. Build the application-specific equal-sum second model, its discriminant and odd-prime local tests. Prove the reduced-level divisibility, odd squarefreeness and exponential bounds for both families. Prove that primes k/2<p≤k divide d under k≥10^8 and ell>exp(10^k); the two-term case needs its own c4-unit test. Establish the coefficient-prime Serre-weight/conductor bridge, compare to an actual full-two-torsion curve at the reduced level using Kraus, and prove good reduction and equality of integer traces throughout the half interval, including forced trace zero at primes 3 modulo4.
+Normalize the three progression terms to coprime a+b+c=0 and specialize the pinned Frey–Hellegouarch model `TauCeti.freyCurve`, without constructing a second generic curve. Build the application-specific equal-sum second model, its discriminant and odd-prime local tests. Prove the reduced-level divisibility, odd squarefreeness and exponential bounds for both families. Prove that primes k/2<p≤k divide d under k≥10^8 and ell>exp(10^k); the two-term case needs its own c4-unit test. Establish the coefficient-prime Serre-weight/conductor bridge, compare to an actual full-two-torsion curve at the reduced level using Kraus, and prove good reduction and equality of integer traces throughout the half interval, including forced trace zero at primes 3 modulo4.
 
 ### 1.1 General modular comparison interfaces
 
@@ -992,11 +1014,11 @@ and Theorem 4, pp. 359–360; Lemmas 3.3, 3.5, pp. 362–363.)
 
 Define the triple gcd as g, the normalized coefficient triple as (a,b,c), and the first Frey curve as E, which is `progressionFreyCurve` at (n,d,i,j,h), below.
 
-For integer n,d and a triple (i,j,h), put t_r=n+r*d, g=gcd(t_i,gcd(2*t_j,t_h)), a=t_i/g, b=-2*t_j/g, c=t_h/g. The specialization E has coefficients a1=a3=a6=0, a2=c-a, a4=-a*c, equivalently Y^2=X(X-a)(X+c). Under S and membership in A(k), g>0 and a,b,c are nonzero pairwise coprime with a+b+c=0. This is an application adapter to the supplier Frey model, not a second generic Frey carrier.
+For integer n,d and a triple (i,j,h), put t_r=n+r*d, g=gcd(t_i,gcd(2*t_j,t_h)), a=t_i/g, b=-2*t_j/g, c=t_h/g. The specialization E has coefficients a1=a3=a6=0, a2=c-a, a4=-a*c, equivalently Y^2=X(X-a)(X+c). Under S and membership in A(k), g>0 and a,b,c are nonzero pairwise coprime with a+b+c=0. This is an application adapter to the pinned Frey model `TauCeti.freyCurve`, not a second generic Frey carrier.
 
-The native five coefficients are 0,c-a,0,-a*c,0, with a,c the normalized terms. Under S and a member of A(k), g>0; g*a=t_i, g*b=-2*t_j, g*c=t_h; a+b+c=0 and every pair is coprime. The specialization equals the supplier Frey model on the normalized coefficients, under the stated normalization hypotheses.
+The native five coefficients are 0,c-a,0,-a*c,0, with a,c the normalized terms. Under S and a member of A(k), g>0; g*a=t_i, g*b=-2*t_j, g*c=t_h; a+b+c=0 and every pair is coprime. The specialization is the pinned Frey model at the normalized coefficients (a,c), under the stated normalization hypotheses.
 
-- `progressionFreyCurve` at (n,d,i,j,h) is the Weierstrass curve over ℚ with coefficients (0,c−a,0,−a*c,0), where a and c are the exact integer quotients t_i/g and t_h/g cast to ℚ; g divides t_i and t_h for every (n,d,i,j,h), so no hypothesis is needed for exactness, and g=0 only when t_i=t_j=t_h=0.
+- `progressionFreyCurve` at (n,d,i,j,h) is `TauCeti.freyCurve` at (a,c), the Weierstrass curve over ℚ with coefficients (0,c−a,0,−a*c,0), where a and c are the exact integer quotients t_i/g and t_h/g cast to ℚ; g divides t_i and t_h for every (n,d,i,j,h), so no hypothesis is needed for exactness, and g=0 only when t_i=t_j=t_h=0.
 - Under S and a member of A(k), `progressionFreyCurve` is elliptic: its discriminant is 16(abc)^2 with a,b,c nonzero (§1.3).
 
 **Checks.**
@@ -1005,9 +1027,9 @@ The native five coefficients are 0,c-a,0,-a*c,0, with a,c the normalized terms. 
 - n=2,d=1,(0,1,2) gives g=2, (a,b,c)=(1,-3,2), a2=1,a4=-2.
 - n=-3,d=2,(0,1,2) gives (a,b,c)=(-3,2,1), a2=4,a4=3.
 
-The helpers use integer division before casting to ℚ; under S, g>0 and the exact divisibility identities justify every displayed division by g. Normalize by the positive gcd. Use i+h=2*j and the gcd-of-terms contract. Specialize the supplier model to these coefficients and compare its native Weierstrass coefficients. Compare the progression model to the EllipticCurves worked Frey–Hellegouarch example coefficient by coefficient.
+The helpers use integer division before casting to ℚ; under S, g>0 and the exact divisibility identities justify every displayed division by g. Normalize by the positive gcd. Use i+h=2*j and the gcd-of-terms contract. The definition is the pinned `TauCeti.freyCurve` at (a,c); its five Weierstrass coefficients are read off by the pinned coefficient lemmas, and the three Checks compute them.
 
-*Needs:* Layer 0 — three-term progression triples; Layer 0 — gcd of progression terms; EllipticCurves, worked Frey–Hellegouarch example; Mathlib `WeierstrassCurve`; Mathlib `Int.gcd_def`.
+*Needs:* Layer 0 — three-term progression triples; Layer 0 — gcd of progression terms; Tau Ceti `TauCeti.freyCurve`; Mathlib `WeierstrassCurve`; Mathlib `Int.gcd_def`.
 
 ([BS20], Section 3.1, equations (7)-(8), p. 361; Section 3.1, display before equation (7), p. 361.)
 
@@ -1149,21 +1171,21 @@ Prove the comparison-curve theorem `comparison_curve` with the hypotheses and co
 
 Under H, for every a in A(k) there exists an actual elliptic curve F_a/Q with full rational two-torsion, conductor exactly M_a and residual representation at the same prime ell isomorphic to that of E_a. All subsequent choices use one such F_a for each triple.
 
-The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ with `IsElliptic`; full rational two-torsion is `HasFullRationalTwoTorsion`, that is exactly four rational points killed by 2; the conductor of F_a is the norm of its algorithmic conductor and M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7); and the residual comparison is an isomorphism of additive groups from `ellTorsion` of E_a at ell to `ellTorsion` of F_a at ell, the subgroups of points over an algebraic closure Ω of ℚ killed by ell, commuting with the action of every automorphism of Ω over ℚ through `WeierstrassCurve.Affine.Point.map`. The ellipticity of E_a under H and membership in A(k) is §1.3; the statement carries it so that M_a is defined.
+The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ with `IsElliptic`; full rational two-torsion is `HasFullRationalTwoTorsion`, that is `AddSubgroup.torsionBy` of the rational points at 2 has exactly four elements, the full-two-torsion predicate of EllipticCurveModularityPartII §5.1 (EC.6) restated locally; the conductor of F_a is the norm of its algorithmic conductor and M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7); and the residual comparison is an isomorphism of additive groups from `AddSubgroup.torsionBy` of the points of E_a over an algebraic closure Ω of ℚ at ell to the same subgroup for F_a (the geometric torsion of EC.6), commuting with the action of every automorphism of Ω over ℚ through `WeierstrassCurve.Affine.Point.map`. The ellipticity of E_a under H and membership in A(k) is §1.3; the statement carries it so that M_a is defined.
 
 - `HasFullRationalTwoTorsion` holds for an elliptic curve over ℚ exactly when its three nontrivial 2-torsion points are rational, equivalently when its 2-division cubic 4X³+b₂X²+2b₄X+b₆ splits over ℚ.
-- `ellTorsion` of E at ell is the kernel of multiplication by ell on E(Ω); it is stable under every automorphism of Ω over ℚ, because the point map is a group homomorphism.
-- Under H and a in A(k), `ellTorsion` of E_a at ell has ell² elements (EllipticCurves Layer 2); the definition does not assert this.
+- `AddSubgroup.torsionBy` of E(Ω) at ell is the kernel of multiplication by ell on E(Ω); it is stable under every automorphism of Ω over ℚ, because the point map is a group homomorphism, and the pinned `WeierstrassCurve.torsionGaloisAction` is this restricted action.
+- Under H and a in A(k), the geometric ell-torsion of E_a has ell² elements (EllipticCurves Layer 2); the carrier does not assert this.
 
 **Checks.**
 
 - Y²=X(X−1)(X+3) has `HasFullRationalTwoTorsion`: its points killed by 2 are (0,0), (1,0), (−3,0) and the point at infinity, four in all; Y²=X³−2 has only the point at infinity and Y²=X(X²+1) has two, so neither satisfies it.
-- `ellTorsion` at ell=1 is the trivial subgroup and at ell=0 the whole group; the headline uses it only at the prime ell of H.
+- `AddSubgroup.torsionBy` of E(Ω) at ell=1 is the trivial subgroup and at ell=0 the whole group, as in the Checks of EllipticCurveModularityPartII §5.1; the headline uses it only at the prime ell of H.
 - A conductor equal to M_a but with a 2-torsion point of F_a defined only over a quadratic field fails the full-two-torsion clause; Kraus's realization produces F_a with all three rational.
 
 Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved; the conductor of the realized curve is transported to the algorithmic conductor by Ogg's formula (NeronModelsAndSemistableAbelianVarieties §5.3e). Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal`; Mathlib `WeierstrassCurve.Affine.Point.map`.
+*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem and §5.1 (EC.6) for the geometric-torsion carrier and the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -1185,7 +1207,7 @@ At n=d=1 the first model has coefficients (0,2,0,−3,0), while the equal-sum mo
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7 and 5.4–5.5 (EC.0–EC.4); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4, 8 and its worked Frey example; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal`; Mathlib `WeierstrassCurve.Affine.Point.map`; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
+Layer 0; EllipticCurveModularityPartII §§1.4–1.8, 2.2, 4.7, 5.1 and 5.4–5.5 (EC.0–EC.4, EC.6); EllipticLegendreCharacterInterfaces §5.1; WeightsInEtaleCohomology R34.5–R34.6; EllipticCurves Layers 2–4 and 8; NeronModelsAndSemistableAbelianVarieties §§5.3e and 5.3g–5.3h; Tau Ceti `TauCeti.freyCurve`, `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`; EllipticCurveModularity R29.3, R29.4 and R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; AutomorphicGaloisRepresentations §1.5; ModularForms Layers 2–4, 8 and 10; EtaleCohomologyFoundations §F.4.0; ArithmeticGaloisRepresentations §1.9 and §§3.1–3.3; Tau Ceti's local ramification filtrations, inertia and wild inertia (supplier contracts). Explicit numerical level bounds additionally use the general prime estimates of Layer 0; their proof is independent of the Frey application.
 
 ## Layer 2: Legendre cases and the simultaneous character family
 

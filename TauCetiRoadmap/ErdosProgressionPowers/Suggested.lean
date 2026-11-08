@@ -2,6 +2,7 @@ module
 
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.TateAlgorithm.Reduction.Conductor
+import TauCeti.AlgebraicGeometry.EllipticCurve.FreyCurve.Basic
 
 /-!
 # ErdosProgressionPowers: target signatures
@@ -19,8 +20,10 @@ rendered by the norm of Tau Ceti's `WeierstrassCurve.algorithmicConductor`
 (the conductor by Ogg's formula) and whose deletion level is computed from
 that norm and the norm of `WeierstrassCurve.minimalDiscriminantIdeal`; the
 residual comparison is a Galois-equivariant isomorphism of the geometric
-`ell`-torsion subgroups, with the Galois action given by Mathlib's
-`WeierstrassCurve.Affine.Point.map`. The pinned libraries carry no Artin
+`ell`-torsion subgroups, Mathlib's `AddSubgroup.torsionBy` of the points over an
+algebraic closure, with the Galois action given by Mathlib's
+`WeierstrassCurve.Affine.Point.map`. The progression Frey curve is Tau Ceti's
+`TauCeti.freyCurve` at the normalized coefficients. The pinned libraries carry no Artin
 conductor of the torsion representation, so the identification of the deletion
 level with that residual conductor (section 1.10) is a README target only.
 
@@ -61,12 +64,13 @@ def smallPart (k : ℕ) (t : ℤ) : ℕ :=
 
 /-- The first progression Frey curve `Y² = X(X − a)(X + c)` of a triple `(i, j, h)`: with
 `g = gcd(t_i, gcd(2 t_j, t_h))`, `a = t_i / g` and `c = t_h / g` (exact integer divisions, since
-`g` divides `t_i` and `t_h`), the curve with coefficients `(0, c − a, 0, −a c, 0)`. -/
+`g` divides `t_i` and `t_h`), the pinned Frey–Hellegouarch curve `TauCeti.freyCurve a c`, whose
+coefficients are `(0, c − a, 0, −a c, 0)`. -/
 noncomputable def progressionFreyCurve (n d : ℤ) (i j h : ℕ) : WeierstrassCurve ℚ :=
   let g : ℤ := Int.gcd (term n d i) (Int.gcd (2 * term n d j) (term n d h))
   let a : ℚ := ((term n d i / g : ℤ) : ℚ)
   let c : ℚ := ((term n d h / g : ℤ) : ℚ)
-  ⟨0, c - a, 0, -(a * c), 0⟩
+  TauCeti.freyCurve a c
 
 /-- The deletion level `M₀` of an elliptic curve over `ℚ` at a prime `ell`: its conductor `M`,
 the norm of the algorithmic conductor (the conductor by Ogg's formula), divided by the product
@@ -77,29 +81,14 @@ noncomputable def deletionLevel (E : WeierstrassCurve ℚ) [E.IsElliptic] (ell :
   let D := Ideal.absNorm (minimalDiscriminantIdeal ℤ E)
   M / ∏ q ∈ M.primeFactors.filter (fun q => padicValNat q M = 1 ∧ ell ∣ padicValNat q D), q
 
-/-- Full rational two-torsion: the rational points killed by `2` number exactly four. -/
+/-- Full rational two-torsion: the rational points killed by `2`, Mathlib's
+`AddSubgroup.torsionBy` of the rational points at `2`, number exactly four. This is the
+full-two-torsion predicate of EllipticCurveModularityPartII, restated here only because this
+file cannot import another roadmap's module. -/
 def HasFullRationalTwoTorsion (E : WeierstrassCurve ℚ) : Prop :=
-  Nat.card {P : E.toAffine.Point // 2 • P = 0} = 4
+  Nat.card (AddSubgroup.torsionBy E.toAffine.Point 2) = 4
 
 local notation "Ω" => AlgebraicClosure ℚ
-
-/-- The `ell`-torsion subgroup of the points of `E` over an algebraic closure of `ℚ`. -/
-noncomputable def ellTorsion (E : WeierstrassCurve ℚ) (ell : ℕ) :
-    AddSubgroup (E⁄Ω).toAffine.Point where
-  carrier := {P | ell • P = 0}
-  add_mem' := by
-    intro a b ha hb
-    change ell • (a + b) = 0
-    rw [nsmul_add]
-    change ell • a = 0 at ha
-    change ell • b = 0 at hb
-    rw [ha, hb, add_zero]
-  zero_mem' := by change ell • (0 : (E⁄Ω).toAffine.Point) = 0; simp
-  neg_mem' := by
-    intro a ha
-    change ell • a = 0 at ha
-    change ell • (-a) = 0
-    rw [neg_nsmul, ha, neg_zero]
 
 /-- Every prime in the upper half of the length divides the common difference under H. -/
 theorem half_primes_divide_d {n d : ℤ} {k : ℕ} {y : ℤ} {ell p : ℕ}
@@ -108,8 +97,9 @@ theorem half_primes_divide_d {n d : ℤ} {k : ℕ} {y : ℤ} {ell p : ℕ}
 /-- The comparison-curve theorem (README section 1.12): under `H`, for every triple `(i, j, h)`
 of `A(k)` (that is `h < k`, `i < j` and `i + h = 2 j`) there is an elliptic curve `F/ℚ` with
 full rational two-torsion, conductor exactly the deletion level of the progression Frey curve
-`E` at `ell`, and an isomorphism `E[ell] ≃ F[ell]` of geometric `ell`-torsion groups commuting
-with the action of every automorphism of the algebraic closure. The ellipticity of `E` follows
+`E` at `ell`, and an isomorphism `E[ell] ≃ F[ell]` of geometric `ell`-torsion groups (Mathlib's
+`AddSubgroup.torsionBy` of the points over an algebraic closure `Ω`) commuting with the action of
+every automorphism of `Ω` over `ℚ`. The ellipticity of `E` follows
 from `H` and membership in `A(k)` (section 1.3); it is carried as an instance so that the
 deletion level is defined. (BS20, Lemma 5.1, p. 365.) -/
 theorem comparison_curve {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
@@ -117,8 +107,10 @@ theorem comparison_curve {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d
     [(progressionFreyCurve n d i j h).IsElliptic] :
     ∃ F : WeierstrassCurve ℚ, ∃ _ : F.IsElliptic, HasFullRationalTwoTorsion F ∧
       Ideal.absNorm (algorithmicConductor ℤ F) = deletionLevel (progressionFreyCurve n d i j h) ell ∧
-      ∃ e : ellTorsion (progressionFreyCurve n d i j h) ell ≃+ ellTorsion F ell,
-        ∀ (σ : Ω ≃ₐ[ℚ] Ω) (P Q : ellTorsion (progressionFreyCurve n d i j h) ell),
+      ∃ e : AddSubgroup.torsionBy (((progressionFreyCurve n d i j h)⁄Ω).toAffine.Point) ell ≃+
+              AddSubgroup.torsionBy ((F⁄Ω).toAffine.Point) ell,
+        ∀ (σ : Ω ≃ₐ[ℚ] Ω)
+          (P Q : AddSubgroup.torsionBy (((progressionFreyCurve n d i j h)⁄Ω).toAffine.Point) ell),
           (Q : ((progressionFreyCurve n d i j h)⁄Ω).toAffine.Point) =
               Affine.Point.map σ.toAlgHom P →
             (e Q : (F⁄Ω).toAffine.Point) = Affine.Point.map σ.toAlgHom (e P) := by sorry
