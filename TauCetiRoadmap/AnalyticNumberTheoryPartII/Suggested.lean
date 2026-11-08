@@ -2,9 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicTopology.UniversalCover.Action
-public import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
-public import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
-public import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
 
 /-!
 # AnalyticNumberTheoryPartII: headline target signatures
@@ -31,12 +28,13 @@ coefficients. Those objects are absent at the pins and need the constructions of
 §§5.5–5.6; arbitrary coefficient sequences would not state these theorems.
 
 The harmonic analysis under the binary-cubic theory is stated where its carriers
-exist: restricted products of Haar measures, the K-Bessel kernel, Hecke
-continuation on Tau Ceti's idele-class characters, Weil's quotient measure and the
-class number of `GL₂` over a number field (§§5.3f–5.3m). The adelic Schwartz–Bruhat
-space, Tate's zeta integrals for arbitrary test functions, Siegel sets and the
-`GL₂` Eisenstein series need an adelic Schwartz–Bruhat carrier and adelic `GL₂`
-quotients with their Haar measures, absent at the pins, and have no signatures here.
+exist: restricted products of Haar measures, Weil's quotient measure and the class
+number of `GL₂` over a number field (§§5.3f–5.3m). The K-Bessel kernel and Hecke
+continuation on Tau Ceti's idele-class characters are AnalyticNumberTheoryPartI
+§§2.1a and 2.3a. The adelic Schwartz–Bruhat space, Tate's zeta integrals for
+arbitrary test functions, Siegel sets and the `GL₂` Eisenstein series need an adelic
+Schwartz–Bruhat carrier and adelic `GL₂` quotients with their Haar measures, absent
+at the pins, and have no signatures here.
 
 Layer 6 states generation of the native rational torsion group algebra by first
 Eisenstein functions, existence and uniqueness of critical scaling measures on
@@ -277,75 +275,10 @@ theorem exists_unique_restrictedAddHaar [Countable ι] [∀ i, IsTopologicalAddG
 
 end RestrictedHaar
 
-/-- The K-Bessel kernel `K_ν(c) = (1/2) ∫₀^∞ exp(-c(u + u⁻¹)/2) u^ν du/u`, for `c > 0` (§5.3i). -/
-def besselK (ν : ℂ) (c : ℝ) : ℂ :=
-  (1 / 2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
-    Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹) / 2) * (u : ℂ) ^ (ν - 1)
-
-/-- The K-Bessel kernel is entire and even in the order, with the half-order value
-`K_{1/2}(c) = √(π/(2c)) e^{-c}` (§5.3i). -/
-theorem besselK_holomorphic_even_half {c : ℝ} (hc : 0 < c) :
-    Differentiable ℂ (fun ν : ℂ => besselK ν c) ∧
-      (∀ ν : ℂ, besselK (-ν) c = besselK ν c) ∧
-      besselK (1 / 2) c = ((Real.sqrt (Real.pi / (2 * c)) * Real.exp (-c) : ℝ) : ℂ) := by
-  sorry
-
-section Hecke
-
-open IsDedekindDomain TauCeti.GlobalNumberFields
-
-variable {K : Type*} [Field K] [NumberField K]
-
-/-- The Euler factor of a Hecke character at a finite place (§5.3j):
-`(1 - χ_v(ϖ_v) q_v^{-s})⁻¹` where `χ` is unramified, and `1` where it is ramified. -/
-def heckeLocalFactor (χ : HeckeCharacter K)
-    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
-    (v : HeightOneSpectrum (𝓞 K)) (s : ℂ) : ℂ :=
-  if χ.conductorExponent v = 0 then
-    (1 - (χ.finiteComponent v (ϖ v) : ℂ) * (Ideal.absNorm v.asIdeal : ℂ) ^ (-s))⁻¹
-  else 1
-
-open Classical in
-/-- The archimedean factor of a Hecke character (§5.3j): `Γ_ℝ(s + a + ε)` at a real place with
-character `sgn^ε |·|^a`, and `Γ_ℂ(s + a/2 + |n|/2)` at a complex place with character
-`(z/|z|)^n |z|^a`, the exponent `a` taken for the Euclidean absolute value. -/
-def heckeGammaFactor (χ : HeckeCharacter K) (s : ℂ) : ℂ :=
-  (∏ w : {w : NumberField.InfinitePlace K // w.IsReal},
-      Complex.Gammaℝ (s + χ.infinityType.realExponent w +
-        ((χ.infinityType.realParity w).val : ℂ))) *
-    ∏ w : {w : NumberField.InfinitePlace K // w.IsComplex},
-      Complex.Gammaℂ (s + χ.infinityType.complexExponent w / 2 +
-        ((χ.infinityType.complexAngularFrequency w).natAbs : ℂ) / 2)
-
-/-- The analytic conductor `|d_K| N𝔣(χ)` of the conductor-balanced completion (§5.3j). -/
-def heckeConductor (χ : HeckeCharacter K) : ℝ :=
-  (NumberField.discr K).natAbs * Ideal.absNorm χ.finiteConductor
-
-/-- Hecke continuation for every unitary idele-class character (§5.3j). The completion
-`Λ(χ, s) = (|d_K| N𝔣)^{s/2} Γ(χ, s) ∏_v L_v(χ, s)` on `re s > 1` continues meromorphically,
-satisfies `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 - s)` with `|W(χ)| = 1`, is entire unless `χ = |·|^{iτ}`,
-in which case its only poles are simple at `-iτ` and `1 - iτ`, and complex norm twists
-translate `s`. -/
-theorem hecke_completed_functionalEquation
-    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
-    (hϖ : ∀ v, Valued.v (ϖ v : v.adicCompletion K) = WithZero.exp (-1 : ℤ)) :
-    ∃ Λ : HeckeCharacter K → ℂ → ℂ, ∀ χ : HeckeCharacter K, (∀ x, ‖(χ x : ℂ)‖ = 1) →
-      MeromorphicOn (Λ χ) Set.univ ∧
-      (∀ s : ℂ, 1 < s.re →
-        Multipliable (fun v => heckeLocalFactor χ ϖ v s) ∧
-        Λ χ s = (heckeConductor χ : ℂ) ^ (s / 2) * heckeGammaFactor χ s *
-          ∏' v, heckeLocalFactor χ ϖ v s) ∧
-      (∃ W : ℂ, ‖W‖ = 1 ∧ ∀ s₀ : ℂ, Λ χ =ᶠ[𝓝[≠] s₀] fun s => W * Λ χ⁻¹ (1 - s)) ∧
-      ((∀ τ : ℝ, χ ≠ HeckeCharacter.normPow K (I * τ)) → Differentiable ℂ (Λ χ)) ∧
-      (∀ τ : ℝ, χ = HeckeCharacter.normPow K (I * τ) →
-        meromorphicOrderAt (Λ χ) (-(I * τ)) = -1 ∧
-        meromorphicOrderAt (Λ χ) (1 - I * τ) = -1 ∧
-        ∀ s : ℂ, s ≠ -(I * τ) → s ≠ 1 - I * τ → AnalyticAt ℂ (Λ χ) s) ∧
-      ∀ t s₀ : ℂ, Λ (χ * HeckeCharacter.normPow K t) =ᶠ[𝓝[≠] s₀]
-        fun s => (heckeConductor χ : ℂ) ^ (-t / 2) * Λ χ (s + t) := by
-  sorry
-
-end Hecke
+-- Supplied by AnalyticNumberTheoryPartI:
+-- §2.1a `TauCetiRoadmap.AnalyticNumberTheoryPartI.besselK`, `besselK_neg`, `besselK_one_half`;
+-- §2.3a `TauCetiRoadmap.AnalyticNumberTheoryPartI.heckeContinuation`, with `heckeFiniteFactor`,
+-- `heckeArchFactor` and `heckeConductorScale`.
 
 section QuotientMeasure
 
