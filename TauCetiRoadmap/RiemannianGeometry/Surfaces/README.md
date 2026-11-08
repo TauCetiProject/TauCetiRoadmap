@@ -71,24 +71,30 @@ whose boundary is piecewise smooth, so their normal exponentials, distances and 
 those of the ambient surface. Impose orientation and compactness where stated.
 
 Curvature follows the parent: `R(X,Y)Z = ∇_X∇_Y Z − ∇_Y∇_X Z − ∇_[X,Y]Z`, and the Gaussian
-curvature K of a surface is its sectional curvature, `+1` on the unit sphere. The scalar
-Laplacian is DifferentialGeometry's `laplaceBeltrami`, `Δ = div grad`. Distances are intrinsic.
-Use arclength whenever a geodesic parameter is identified with distance. All exponential
-domains remain explicit.
+curvature K of a surface is its sectional curvature, `+1` on the unit sphere. Distances are
+intrinsic. Use arclength whenever a geodesic parameter is identified with distance. All
+exponential domains remain explicit.
 
 **Corners.** At a corner of a piecewise smooth boundary the two one-sided unit tangents are
 nonzero. The interior angle βᵢ ∈ (0, 2π) is the angle of the domain at the corner, measured
 inside it, and the signed exterior angle is `αᵢ = π − βᵢ ∈ (−π, π)`. Convex corners have
 `αᵢ > 0`, reflex corners `αᵢ < 0`, and cusps, `βᵢ ∈ {0, 2π}`, are excluded. For a positively
 oriented planar curve with one-sided unit tangents `v⁻` and `v⁺` at a corner, `αᵢ` is the
-argument of `v⁺/v⁻` in `(−π, π)`. A reflex corner is not a smoothly embedded quadrant with
+argument of `v⁺/v⁻` in `(−π, π)`; on an oriented surface it is the oriented angle
+`oangle(v⁻, v⁺)` of the oriented tangent plane, `Orientation.oangle`, as a real number in
+`(−π, π)`. A reflex corner is not a smoothly embedded quadrant with
 the inherited metric. Treat it by subdividing into pieces with convex corners, using Layer 3's
 cancellation along common arcs and of endpoint angles, or through DifferentialGeometry
 5.6.3's Green identity for piecewise `C¹` cycles in charts, which needs no corner charts.
 
-**Orientation, conormals and connection forms.** Boundary components are oriented with the
-domain on the left, and k_g is the signed geodesic curvature with respect to the inward
-conormal, so that the unit circle bounding the unit disk has `k_g = 1`. For an oriented
+**Orientation, conormals and connection forms.** An orientation of the surface is
+`TauCeti.Manifold.Orientation I M (Fin 2)`, which orients every tangent plane through
+`orientationAt`, and J denotes the rotation by `+π/2` of the oriented tangent plane,
+`Orientation.rightAngleRotation`. Boundary components are oriented with the domain on the
+left: for a unit tangent T of the boundary, `exp(ε J T)` lies in the interior of the domain for
+small `ε > 0`, and `J T` is the inward conormal. k_g is the signed geodesic curvature with
+respect to the inward conormal, `k_g = ⟨D_t T, J T⟩`, so that the unit circle bounding the
+unit disk has `k_g = 1`. For an oriented
 orthonormal frame `(e₁, e₂)` on an open set, the connection form ω is defined by
 `∇e₁ = ω ⊗ e₂`, so that `dω = −K dA`, and for a unit-speed boundary curve with tangent
 `T = cos θ e₁ + sin θ e₂` the boundary term is `k_g ds = dθ + ω(T) ds`. Witness on the unit
@@ -112,6 +118,10 @@ opposite sign convention would give `−cot φ₀`.
 - `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib/Analysis/Complex/BranchLogRoot.lean`):
   a continuous nonvanishing function on an open simply connected planar set has a continuous
   logarithm there, used by Layer 4.1.
+- `Orientation.rightAngleRotation` (`Mathlib/Analysis/InnerProductSpace/TwoDim.lean`) and
+  `Orientation.oangle` (`Mathlib/Geometry/Euclidean/Angle/Oriented/Basic.lean`): the rotation
+  by `+π/2` and the oriented angle of an oriented real inner product plane, the inward conormal
+  and the signed exterior angle of Layer 3.2.
 
 ### From Tau Ceti
 
@@ -146,8 +156,10 @@ surface.
   `isOpen_normalExpDomain`, `contMDiffOn_normalExp` (`…/Riemannian/Regularity.lean`) and
   `exists_partialDiffeomorph_normalExp_subset` (`…/Riemannian/Coordinates.lean`): the normal
   exponential of an embedding and its tube.
-- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`) and
-  `laplaceBeltrami` (`…/Riemannian/Laplacian.lean`).
+- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`).
+- `TauCeti.Manifold.Orientation` and `orientationAt` (`Geometry/Manifold/Orientation/Basic.lean`):
+  an orientation of the surface and the orientation it induces on each tangent plane, the
+  orientation carrier of Layer 3.2.
 - `TauCeti.riemannianVolume` (`…/Riemannian/VolumeDensity/Volume.lean`);
   `Homeomorph.measurePreserving_riemannianVolume` (`…/Riemannian/VolumeDensity/Isometry.lean`),
   the isometry invariance of the Riemannian volume for a differentiable homeomorphism whose
@@ -181,8 +193,8 @@ variation past an interior focal point. All are stated for boundaryless manifold
 
 [DifferentialGeometry](../../DifferentialGeometry/README.md) 5.3–5.5: Stokes on manifolds
 with boundary and corners; 5.6.3: the winding-weighted Green identity for piecewise `C¹`
-cycles; 10.2: manifold Sard; 12.2–12.5: the gradient with its chain rule, Hessian, Laplacian,
-the density/measure comparison and the divergence theorem.
+cycles; 10.2: manifold Sard; 12.2: the gradient with its chain rule; 12.4: the density/measure
+comparison.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
@@ -195,7 +207,7 @@ rectifiable curves; G2: the area and coarea formulas.
 theorem; L5: the planar Jordan curve theorem, with exactly two complementary components, the
 inside `filledHull C \ C` open, bounded and connected with frontier C, the filled-hull
 containment and separation API, and the Carathéodory closed-disc correspondence for Jordan
-domains. L5 states no index value.
+domains.
 
 ## How to read the build
 
@@ -380,7 +392,9 @@ Let D be a compact domain with piecewise smooth boundary in a surface and σ a s
 boundary circle or compact boundary arc. In the arc case, assume its adjacent boundary sides
 γ₁, γ₂ are unit-speed geodesics meeting σ at interior angles π/2, with `d_D(σ,γᵢ(t)) = t`
 for `0 ≤ t ≤ ℓ`. Assume all remaining boundary is at distance at least ℓ from σ, and fix
-`0 < R < ℓ`. Put `T_R = {x ∈ D : 0 < d_D(x,σ) < R}`. Use intrinsic distances in D.
+`0 < R < ℓ`. For a boundary circle, ℓ is any positive number such that the rest of the
+boundary lies at distance at least ℓ from σ. Put `T_R = {x ∈ D : 0 < d_D(x,σ) < R}`. Use
+intrinsic distances in D.
 
 For an interior footpoint s of σ, follow the inward normal exponential `F(s,t)` of 1.2.
 Define c(s), capped at ℓ, as the supremum of times up to which the normal segment stays in D
@@ -404,11 +418,11 @@ minimizing normals, using Rademacher's theorem for the distance in charts.
 
 **Checks.**
 
-- Disk of radius ρ in the plane with σ its boundary circle: `c ≡ ρ`.
+- Disk of radius ρ in the plane with σ its boundary circle and `ℓ ≥ ρ`: `c ≡ ρ`.
 - Rectangle `[0,a] × [0,b]`, σ the bottom side with the two vertical sides as γ₁, γ₂: `ℓ = b`
   and `c ≡ b`.
-- Unit sphere, σ the equator and D the closed northern hemisphere: `c ≡ π/2`, the pole being
-  the focal point of every normal geodesic.
+- Unit sphere, σ the equator and D the closed northern hemisphere, with `ℓ ≥ π/2`: `c ≡ π/2`,
+  the pole being the focal point of every normal geodesic.
 
 *Needs:* 1.2, 1.3; R6; R4.2; `LipschitzWith.ae_differentiableAt`; DifferentialGeometry 10.2.
 
@@ -426,11 +440,12 @@ the Jacobi equation only before the cut time; the zero extension need not satisf
 
 **Checks.**
 
-- Disk of radius ρ with `R > ρ`: `πρ² = 2πρ · ρ/2`; with `R < ρ` both sides equal
-  `2πρR − πR²`.
+- Disk of radius ρ with `ℓ > R > ρ`: `πρ² = 2πρ · ρ/2`; with `R < ρ` both sides equal
+  `2πρR − πR²`. With `ρ = 1`, `ℓ = 2`: `R = 3/2` gives `π` on both sides and `R = 1/2` gives
+  `3π/4`.
 - Rectangle `[0,a] × [0,b]` with `R < b`: both sides equal `aR`, and `|grad d| = |∂_y y| = 1`.
-- Northern hemisphere over the equator with `R < π/2`: `Area = ∫₀^(2π) ∫₀^R cos t dt ds =
-  2π sin R`, the area of the zone of height `sin R`.
+- Northern hemisphere over the equator with `ℓ ≥ π/2` and `R < π/2`:
+  `Area = ∫₀^(2π) ∫₀^R cos t dt ds = 2π sin R`, the area of the zone of height `sin R`.
 
 *Needs:* 2.1; DifferentialGeometry 12.4; GeometricMeasureTheory G2.
 
@@ -505,10 +520,14 @@ with respect to the inward conormal. Prove
 `∫_D K dμ + ∫_(∂D) k_g ds + Σᵢ αᵢ = 2π`
 
 (do Carmo, *Curves and Surfaces*, §4-5, local Gauss–Bonnet theorem, from p. 264; Lee, 2nd
-ed., "The Gauss–Bonnet Formula", pp. 271–275). Include the smooth-boundary and
-geodesic-polygon cases. Prove the comparison of the boundary integral with the local
-connection form of an oriented orthonormal frame, `k_g ds = dθ + ω(T) ds` in the
-conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula.
+ed., "The Gauss–Bonnet Formula", pp. 271–275). In the statement, the boundary is a piecewise
+`C²` unit-speed Jordan curve c with corners at a finite set T of parameters, D lies on its left
+in the sense of the conventions, `k_g = ⟨D_t c′, J c′⟩`, and the exterior angle at a corner is
+the oriented angle from the left to the right one-sided tangent, cusps excluded. Include the
+smooth-boundary and geodesic-polygon cases. Prove the comparison of the boundary integral
+with the local connection form of an oriented orthonormal frame, `k_g ds = dθ + ω(T) ds` in
+the conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula. Lean
+name: `integral_curvature_add_integral_geodesicCurvature_add_sum_exteriorAngle_eq_two_pi`.
 
 **API.**
 
@@ -533,7 +552,8 @@ conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula
 - Negative control for the conormal: with the outward conormal the unit disk gives
   `−2π ≠ 2π`.
 
-*Needs:* 3.1; DifferentialGeometry 5.3–5.5 and 12.4; R1's curvature of a surface.
+*Needs:* 3.1; DifferentialGeometry 5.3–5.5 and 12.4; R1's curvature of a surface;
+`TauCeti.Manifold.Orientation`, `Orientation.rightAngleRotation`, `Orientation.oangle`.
 
 ### Examples
 
@@ -582,7 +602,9 @@ theorem for curved polygons). No index value and no regularity of c enter.
 - The core circle of an annulus chart is not null-homotopic and is excluded by the
   hypothesis on B: for a the hole, `z ↦ z − a` has no continuous logarithm on the circle, and
   the hole lies in its filled hull but outside Ω.
-- A geodesic bigon in the Poincaré disk bounds the hyperbolic lune between its sides.
+- A geodesic triangle in the Poincaré disk bounds the solid hyperbolic triangle, whose area
+  is `π − (β₁ + β₂ + β₃)` by 3.2: with three angles `π/4`, `−A + 3 · 3π/4 = 2π` gives
+  `A = π/4`.
 
 *Needs:* ConformalMapping L3, L5; `Complex.exists_continuousOn_eqOn_exp_comp`;
 `TauCeti.HasContinuousLogOn`, `hasContinuousLogOn_sub_iff_notMem_filledHull`,

@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.Contour.Winding.Number.Basic
 import TauCeti.Geometry.Manifold.Riemannian.Conformal
+import TauCeti.Geometry.Manifold.Orientation.Basic
 import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Exponential
 import TauCeti.Geometry.Manifold.Riemannian.Pullback.Basic
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Conformal
@@ -21,12 +22,9 @@ a Jacobian, an angle or a cut time.
 The ambient surface is boundaryless, as in `README.md`; domains with boundary and corners are
 compact subsets of it.
 
-Headlines that cannot yet be stated, and the carrier each one lacks:
-
-* Layer 2.2, the integration formula up to the normal cut time: the cut time of the normal
-  exponential of a boundary arc of a surface domain.
-* Layer 3.2, Gauss–Bonnet for a disk with corners: a compact disk domain in a surface with a
-  piecewise smooth boundary parametrization and its corners.
+One headline cannot yet be stated, for lack of a carrier: Layer 2.2, the integration formula
+up to the normal cut time, needs the cut time of the normal exponential of a boundary arc of a
+surface domain.
 
 The rescaling identity of Layer 5.1 is proved here, since it follows from the two pinned
 conformal lemmas; the remaining statements are targets.
@@ -146,6 +144,58 @@ theorem integral_signedCurvature_add_sum_exteriorAngle_eq_two_pi (γ : ℝ → �
   sorry
 
 end Planar
+
+section DiskGaussBonnet
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+  {M : Type*} [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+  [IsRiemannianManifold I M] [MeasurableSpace M] [BorelSpace M] [LindelofSpace M]
+  [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+
+open TauCeti TauCeti.Manifold CovariantDerivative Filter Topology
+
+/-- Layer 3.2: Gauss–Bonnet for a compact disk `D` in an oriented surface whose boundary is a
+piecewise `C²` unit-speed Jordan curve `c` with corners at `T`, with `D` on its left: `k_g` is
+taken against the inward conormal `J c′`, `J` the rotation by `+π/2` of the oriented tangent
+plane, and the exterior angles are the oriented angles from the left to the right tangent. -/
+theorem integral_curvature_add_integral_geodesicCurvature_add_sum_exteriorAngle_eq_two_pi
+    (o : TauCeti.Manifold.Orientation I M (Fin 2)) (K : M → ℝ)
+    (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      (leviCivitaConnection I M).sectionalCurvature
+        (isMetricCompatible_leviCivitaConnection I) x u v = K x)
+    {D : Set M} (hD : IsCompact D) (hdisk : Nonempty (D ≃ₜ Metric.closedBall (0 : ℂ) 1))
+    (c : ℝ → M) {L : ℝ} (hL : 0 < L) (hper : Function.Periodic c L) (hcont : Continuous c)
+    (hinj : InjOn c (Ico 0 L)) (hfr : frontier D = range c)
+    (T : Finset ℝ) (hT : (T : Set ℝ) ⊆ Ico 0 L)
+    (hc : ContMDiffOn 𝓘(ℝ) I 2 c {t | ∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L})
+    (hunit : ∀ t, (∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L) → ‖curveVelocityWithin I c univ t‖ = 1)
+    (hleft : ∀ s ∈ T, MDifferentiableWithinAt 𝓘(ℝ) I c (Iic s) s ∧
+      ‖curveVelocityWithin I c (Iic s) s‖ = 1)
+    (hright : ∀ s ∈ T, MDifferentiableWithinAt 𝓘(ℝ) I c (Ici s) s ∧
+      ‖curveVelocityWithin I c (Ici s) s‖ = 1)
+    (hcusp : ∀ s ∈ T, curveVelocityWithin I c (Ici s) s ≠ -curveVelocityWithin I c (Iic s) s)
+    (hin : ∀ t, (∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L) →
+      haveI := o.fact_finrank_tangentSpace (c t)
+      ∀ᶠ ε in 𝓝[>] (0 : ℝ), riemannianExp I M (c t)
+        (ε • (o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t)) ∈
+          interior D)
+    (hk : IntervalIntegrable (fun t ↦ haveI := o.fact_finrank_tangentSpace (c t)
+      inner ℝ (alongCurveWithin (leviCivitaConnection I M) c (curveVelocityWithin I c univ) univ t)
+        ((o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t))) volume 0 L) :
+    (∫ x in D, K x ∂riemannianVolume I M) +
+      (∫ t in (0)..L, haveI := o.fact_finrank_tangentSpace (c t)
+        inner ℝ
+          (alongCurveWithin (leviCivitaConnection I M) c (curveVelocityWithin I c univ) univ t)
+          ((o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t))) +
+      ∑ s ∈ T, (haveI := o.fact_finrank_tangentSpace (c s)
+        ((o.orientationAt (c s)).oangle (curveVelocityWithin I c (Iic s) s)
+          (curveVelocityWithin I c (Ici s) s)).toReal) = 2 * Real.pi := by
+  sorry
+
+end DiskGaussBonnet
 
 /-! ## Layer 4: normal balls in nonpositive curvature -/
 
