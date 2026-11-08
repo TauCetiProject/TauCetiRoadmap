@@ -8,13 +8,21 @@ headline theorems against the pinned APIs when their geometric carriers are
 available. The following headlines are not statable at these pins with only
 simple definitions on existing carriers:
 
-* Layer 2: intrinsic Hamiltonian lifting and the prequantum commutator need the
-  prequantum principal circle bundle, its real principal connection, and the
-  dual-character associated complex line with its induced connection. Native
-  smooth two-forms and `CovariantDerivative` do not supply this dictionary.
+* Layer 2: intrinsic Hamiltonian lifting and the prequantum commutator need a
+  real principal connection on the prequantum circle bundle and the
+  dual-character associated complex line with its induced connection. The
+  pinned smooth principal bundles carry no principal connection and no
+  associated bundle, and native smooth two-forms and `CovariantDerivative` do
+  not supply this dictionary.
 * Layer 2: complete-flow unitary quantization and essential self-adjointness need
   the Hilbert space of square-integrable sections of that Hermitian line and
   its dense smooth compactly supported section core with the induced operator.
+* Layer 2: lifting a Hamiltonian action of the simply connected covering group to
+  the prequantum bundle, descent of the lift exactly when the covering kernel
+  acts trivially, and the smooth circle extension integrating a non-equivariant
+  moment map need that principal connection and the group of
+  connection-preserving automorphisms of the bundle. The pinned Lie-algebra
+  moment cocycle is not this group-level extension.
 * Layer 3: homogeneous character/descent equivalence and fixed-moment coadjoint
   integrality need smooth homogeneous associated lines on the actual closed-
   subgroup quotient, their lifted actions and their invariant connections.

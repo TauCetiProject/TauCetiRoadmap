@@ -54,8 +54,9 @@ Hamiltonian conventions: `TauCeti.SmoothTwoForm.hamiltonianVectorField` gives
 `TauCeti.SmoothTwoForm.poissonBracket` is `{f,g}=ω(X_f,X_g)=df(X_g)`, so
 `[X_f,X_g]=-X_{ {f,g} }` for closed ω and C² functions
 (`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`).
-`TauCeti.SmoothTwoForm I M` is DifferentialGeometry 0.4's generic smooth
-degree-two form. In LieGroupoidsPoisson §G4.2's Poisson language
+`TauCeti.SmoothTwoForm I M` is the abbreviation for `TauCeti.SmoothForm I M ℝ 2`,
+the generic smooth real degree-two form specified in DifferentialGeometry §0.4.
+In LieGroupoidsPoisson §G4.2's Poisson language
 `π♯=−(ω♭)⁻¹`, so `X_f=−π♯df` and `{f,g}=π(df,dg)`.
 
 
@@ -117,8 +118,11 @@ asserts smoothness of a homogeneous bundle or constructs a stabilizer.
 
 ### From Tau Ceti
 
-Use `TauCeti.SmoothTwoForm` and `TauCeti.SmoothTwoForm.IsSymplectic` in
-`TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, the latter bundling
+Use `TauCeti.SmoothTwoForm` in `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`,
+the degree-two real case of `TauCeti.SmoothForm` in
+`TauCeti/Geometry/Manifold/DifferentialForm/Smooth.lean`, and
+`TauCeti.SmoothTwoForm.IsSymplectic` in
+`TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, which bundles
 closedness and fibrewise nondegeneracy, with manifold separation assumptions
 as fixed in Conventions.
 
@@ -154,7 +158,8 @@ recorded in §6.3.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
-Consume §0.4's two-form migration, §1.4's Cartan calculus, Layer 3's flows
+Consume §0.4's generic smooth forms, whose carrier is Tau Ceti's
+`TauCeti.SmoothForm` (above), §1.4's Cartan calculus, Layer 3's flows
 (§3.1's joint smooth dependence on time and initial condition, applied with
 parameters adjoined as constant coordinates, §3.2's maximal flows, §3.3's
 completeness criteria and §3.4's commuting flows), Layer 4's Frobenius
