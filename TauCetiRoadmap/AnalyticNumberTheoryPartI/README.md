@@ -1990,7 +1990,7 @@ Assume `k` is a number field of fixed degree `n`; `D_k` is its absolute discrimi
 
 Use canonical finite-order ray-class functions and [ZerosOfLFunctions Layer 4][R14]'s multiplicity-weighted divisor. Specialize the original family-density theorem to trivial GL₁ base, retaining `ε`, the degree dependence of Lemke Oliver–Wang–Wood [66][R66], Theorem 4.2, and full conductor/character family. The Pasten appendix/Thorner–Zaman density proof is local; constructing another zero divisor is unnecessary.
 
-See [66][R66], Theorem 4.2, p.20, citing Lemke Oliver–Thorner [Pas17, Proposition A.2] and Thorner–Zaman [TZ21, Theorem 1.2], Forum Math. Pi 13 (2025), e19; [66][R66], §4, Theorem 4.2, p.20.
+See [66][R66], §4, Theorem 4.2, p.20, Forum Math. Pi 13 (2025), e19, citing Lemke Oliver–Thorner [Pas17, Proposition A.2] and Thorner–Zaman [TZ21, Theorem 1.2].
 
 *Needs:* §2.11; §2.20.
 
@@ -2107,7 +2107,7 @@ Use the same CM family and canonical full Euler-series continuation; endpoint ge
 
 Integral Brauer and finite-order Hecke equations give the completed Artin identity with its arithmetic conductor and odd infinity type. Verify nonzero analytic endpoints, then differentiate. Keep the arithmetic conductor identification separate from the differentiation.
 
-For `E=ℚ(ζ₅)`, `g=2`, take `ρ=χ`, the odd quartic character of `Gal(E/ℚ)≅(ℤ/5ℤ)^×` with `χ(2)=i`, so `d=1` and `f_χ=5`. Then `L(0,χ)=(3+i)/5≠0`, `L′/L(0,χ)=0.647790−0.088336i` and `L′/L(1,χ̄)=0.157864+0.088336i`, whose sum is the real number `−log 5+γ+log(2π)=0.805655` on both sides. Pairing `χ` with itself at 1 instead gives `0.805655−0.176672i`, off by `2i·Im L′/L(1,χ)`, so the conjugate representation at 1 is forced.
+For `E=ℚ(ζ₅)`, `g=2`, take `ρ=χ`, the odd quartic character of `Gal(E/ℚ)≅(ℤ/5ℤ)^×` with `χ(2)=i`, so `d=1` and `f_χ=5`. Then `L(0,χ)=(3+i)/5≠0`, `L′/L(0,χ)=0.647790−0.088336i` and `L′/L(1,χ̄)=0.157865+0.088336i`, whose sum is the real number `−log 5+γ+log(2π)=0.805655` on both sides. Pairing `χ` with itself at 1 instead gives `0.805655−0.176672i`, off by `2i·Im L′/L(1,χ)`, so the conjugate representation at 1 is forced.
 
 See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
@@ -2121,7 +2121,7 @@ Use the same finite family and normalization, with conductor-uniform regularized
 
 Differentiate the regularized Brauer product at 1. The nonzero-factor condition permits division and removes all principal parts by `Σ n_jδ_j=0`. Sum the individual Hecke logarithmic-derivative estimates using `Σ|n_j|≤B_g`, choosing the exponent to absorb the conductor comparison. This route supplies the ratio itself; general Artin holomorphy in a fixed-radius disc is not assumed.
 
-See [64][R64], Proof of Corollary 3.3, p. 384; [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
+See [64][R64], proof of Corollary 3.3, p.384, where `|L′(1,ρ)/L(1,ρ)|` is bounded to control the `L′/L` terms of Theorem 3.2, p.383.
 
 *Needs:* `B1`; §2.33; [RepresentationTheory/InductionRestriction 6][R30]; §2.31d; §2.31f.
 
@@ -2159,7 +2159,7 @@ Select exceptional quadratic fields through the canonical primitive ray characte
 
 The same set `E` and one degree/`ε₁`-dependent constant work simultaneously for every `4≤Y≤X`; allowing `Y`-dependent constants would make the target empty. When `X<4` there are no eligible `Y`, but the exceptional-set cardinality assertion is still required. The source weights all prime powers before transferring to split unramified primes; its 1/8 main factor cannot be replaced by 1/2 without a separate argument.
 
-See [66][R66], Lemma 4.3 and proof, pp.20–22, Forum Math. Pi 13 (2025), e19; [66][R66], §4, Lemma 4.3 and full proof, pp.20–22.
+See [66][R66], §4, Lemma 4.3 and its full proof, pp.20–22, Forum Math. Pi 13 (2025), e19.
 
 *Needs:* §2.38; §2.7; §2.11; [ArithmeticDirichletSeries 4][R8]; [ArithmeticDirichletSeries 6][R1]; [ArithmeticDirichletSeries 5][R7]; §2.20.
 
@@ -2424,7 +2424,7 @@ Convert integer-square witnesses to natural-square witnesses and use the `Nat.eq
 
 `C_L=(1/√2)∏_{p≡3 mod4}(1−p^(−2))^(−1/2)`, with a convergent positive product; using `L(1,χ_−4)=π/4` and `Γ(1/2)=√π`. At `K=1` the count is 1; at `K=5` it is 4 `(1,2,4,5)`. The count at `K=3` is 2, so 3 is excluded. `9=0²+3²` is counted: the forbidden prime 3 may occur to an even power. Counting only integers supported on `p=2` or `p≡1` mod 4 would fail this test.
 
-See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter 13, (13.1)–(13.2), Theorem 13.2 pp.130–134 and Exercise 13.4 p.140; [82][R82], Introduction p.3, exceptional families; §4.1 pp.12–13.
+See [82][R82], Introduction (§1), p.3, exceptional families; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter 13, (13.1)–(13.2), Theorem 13.2 pp.130–134 and Exercise 13.4 p.140.
 
 *Needs:* `Nat.eq_sq_add_sq_iff`; §0.32; §3.12a.
 
@@ -2462,7 +2462,7 @@ Use the unrestricted-power0/1 indicator with Euler factors `(1−p^−s)⁻¹` a
 
 For `M=4, R={1}, H={1}`; class 3 has count 0. Allowing arbitrary reduced classes would give a false positive count. For `M=4, R={3}, H={1,3}`; both classes have positive asymptotic-sized counts; the identity class includes `ν=1` and products of an even number of 3 mod 4 primes. 9 is allowed when `M=4,R={3}`, whereas 3 is forbidden for `R={1}`; this distinguishes the unrestricted-support and squarefree indicators. The exact half-cardinality condition has no solution for `M=1` or 2, since `φ(M)=1`; rounding `φ(M)/2` would falsely admit the empty prime family.
 
-See [82][R82], §1, p.3; §4.1, pp.12–13; §8, p.24, arXiv:1706.06712v3 (final version); [82][R82], §8, Proposition 8.1 and ensuing density discussion, pp.22–24; Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter 13 (13.1)–(13.2), Theorem 13.2 pp.130–134.
+See [82][R82], §1, p.3; §4.1, pp.12–13; §8, Proposition 8.1 and the density count after it, pp.22–24, arXiv:1706.06712v3 (final version); Koukoulopoulos, *The Distribution of Prime Numbers*, Chapter 13 (13.1)–(13.2), Theorem 13.2 pp.130–134.
 
 *Needs:* §0.32; `DirichletCharacter.LFunction_ne_zero_of_one_le_re`; §3.12a.
 
