@@ -15,12 +15,10 @@ limits and completion, ordinary-module perfectness and finite models, perfect in
 effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
 Mathlib's carriers and the pinned Tau Ceti APIs.
 
-The generic module-tower theory belongs to
-[AlgebraicTopology, Stage 6, item 0](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality):
-product difference maps, kernels and cokernels, the six-term sequence, Mittag–Leffler vanishing,
-integer-graded Milnor sequences, the shifted-cone model, cofinal comparisons and specified
-homotopy-square maps. This roadmap adds localization of that complex-level model on the derived
-category of strict diagrams and its exact-functor comparison (§1.1). Topological tower adapters
+The generic theory of countable module towers, from the difference map and `lim`/`lim¹` through
+the shifted-cone derived limit, has one owner, [AlgebraicTopology](../AlgebraicTopology/README.md)
+Stage 6, item 0. Section 1.1 here adds only the localization of that complex-level model on the
+derived category of strict diagrams and its exact-functor comparison. Topological tower adapters
 remain with AlgebraicTopology Stages 2–3 and Stage 6.
 
 The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
@@ -53,7 +51,7 @@ the headline theorems that are statable against the pinned libraries, with the f
 
 | Supplier | Exact input |
 | --- | --- |
-| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 | For every unital ring, native module towers, the linear difference map δ(x)ₙ = xₙ − φₙ(xₙ₊₁), its kernel and cokernel, functoriality and products, six-term boundaries, Mittag–Leffler vanishing, integer-graded Milnor maps, the shifted cone, cofinal reindexing, specified square homotopies and the surjective-tower comparison. These are the inputs to §1.1, §1.1.1 and the completion and effectivity layers. |
+| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 | The generic countable module-tower API over any unital ring, as specified there; see the subsection below. Used directly in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
 | From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs. §§0.DP.1–0.DP.3 construct homogeneity, multiplicativity, homogeneous pieces, Roby representability and augmentation theory. |
 | From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`; §0.K.1 constructs the linear-functional Koszul complex and its tensor, homotopy and resolution contracts. |
 | From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.I.1, 0.1–0.3 and 1.1.1 construct the unbounded module replacements and derived operations. |
@@ -61,6 +59,15 @@ the headline theorems that are statable against the pinned libraries, with the f
 | From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
 | From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
 | From Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 is the sole owner of the
+generic theory of countable towers `ℕᵒᵖ ⥤ ModuleCat R`: the difference map and `lim`/`lim¹`, the
+six-term and Milnor sequences, Mittag–Leffler vanishing, the shifted-cone derived limit and its
+cofinal and homotopy-square comparisons. Its statements are consumed as written there and are
+not repeated here. Section 1.1 consumes its shifted-cone model and the maps that the localization
+comparison must intertwine; §§1.2–1.6 and 1.9 consume its Milnor sequences.
 
 ## How to read the build
 
