@@ -39,15 +39,14 @@ PositiveScalarCurvature owns connection-metric
 estimates, surgery and PSC classification; it consumes the bordism transfer
 and KO kernel interfaces below.
 
-Not owned here: the integral Hopf invariant one theorem and the
-classification of parallelizable spheres (`sphere_parallelizable_iff`) are
-HomotopySpheres §3C item5, built on CharacteristicClasses C7.3; the stable
+Neither owned nor used here: the integral Hopf invariant one theorem and
+the classification of parallelizable spheres. The stable
 trivialization `TSⁿ⊕ε¹≅ε^(n+1)`, the tangent classes of RP^m and the
 non-immersion of RP^(2^k) in R^(2^(k+1)−2) are CharacteristicClasses C7.3
 and C7.3a. No item below uses these theorems except the cited tangent
-classes. Owned here and consumed by BordismFormalGroups and
-HomotopySpheres: the mod p Steenrod algebras and Adams towers (B4.1–2,
-B4.7), the subalgebra A(1)=⟨Sq1,Sq2⟩, its Q0 Margolis split-injection
+classes. Owned here: the mod p Steenrod algebras and Adams towers (B4.1–2,
+B4.7), which BordismFormalGroups consumes, and the subalgebra
+A(1)=⟨Sq1,Sq2⟩, its Q0 Margolis split-injection
 criterion and the A(1) resolutions of B6.6; the finite Steenrod
 sub-Hopf algebras beyond A(1) and general Margolis theory remain
 BordismFormalGroups'. The finite-rank framed Pontryagin–Thom bijection
@@ -233,6 +232,24 @@ but no declaration relating them to `TauCeti.Manifold.Orientation`: it does
 not prove that the generators of
 `TauCeti.localOrientationOfManifoldOrientation` form a
 `TauCeti.HomologicalOrientation`.
+Use `AbstractSimplicialComplex.realizationCWComplex` from
+`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean`
+as the CW structure on the realization |K| of a simplicial complex. It is
+defined for every abstract simplicial complex K on a linearly ordered vertex
+type, finite or infinite, on `Realization K` with its weak topology; the
+order only enumerates the vertices of each face, and every vertex type
+admits one. Its n-cells are the faces with n+1 vertices
+(`AbstractSimplicialComplex.realizationCellEquiv`), its closed cells are the
+realized closed simplices, and the union of its cells of dimension less
+than n is the set of points with at most n nonzero barycentric coordinates
+(`AbstractSimplicialComplex.skeletonLT_realizationCWComplex`). Use
+`TauCeti.IsSmoothTriangulation` from
+`TauCeti/Geometry/Manifold/SmoothTriangulation/Basic.lean` as the carrier
+of a smooth triangulation: a homeomorphism `Realization K ≃ₜ M` whose
+restriction to every closed simplex is, in barycentric coordinates, the
+restriction of a map that is Cⁿ within the simplex with derivative
+injective on the directions of the simplex. The pin proves no existence
+theorem for it; existence is GeometricTopology Layer11.3.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -242,7 +259,7 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11.1); Whitehead's smooth triangulation of a smooth manifold (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
@@ -339,8 +356,8 @@ criterion and face-indexed corners are DifferentialGeometry 2.1, 2.2 and
 `TauCeti.dense_isRegularValue`, and its unequal-dimension form is a target
 of this item; collars, gluing along a piece of the boundary, handle attachment and
 tubular neighbourhoods are GeometricTopology Layer1; the CW structure on
-`|K|` is GeometricTopology Layer11.1 and Whitehead's smooth triangulation
-is GeometricTopology Layer11.3.
+`|K|` is Tau Ceti's `AbstractSimplicialComplex.realizationCWComplex` and the
+existence of Whitehead's smooth triangulation is GeometricTopology Layer11.3.
 This item owns the following.
 - **Neat Euclidean embeddings.** Mathlib's
   `exists_embedding_euclidean_of_compact` gives, for a compact Hausdorff
@@ -625,9 +642,9 @@ boundary using their fibre half-space charts, radial collars and native
 vector-bundle transition maps. Compare all these chosen carriers with the
 literal quotient/total-space sets and their topology. Consume Whitehead's
 smooth triangulation of every smooth manifold without boundary
-(GeometricTopology Layer11.3)
+(GeometricTopology Layer11.3, on the pinned carrier `TauCeti.IsSmoothTriangulation`)
 and the CW structure on the realization of a finite simplicial complex
-(GeometricTopology Layer11.1). Own here the relative
+(Tau Ceti `AbstractSimplicialComplex.realizationCWComplex`). Own here the relative
 refinement in which a collared boundary, or a chosen
 union of faces, is a subcomplex: for every compact smooth manifold N with
 boundary there are a finite simplicial complex K, a subcomplex L and a
@@ -656,7 +673,7 @@ Its API includes:
 - The trivial real line disc bundle over a point is [−1,1] with two boundary points; its rank-zero disc is a point with empty sphere boundary.
 - The interval has two vertex cells and one edge, with its boundary the two-vertex subcomplex.
 
-*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology Layers 1, 11.1 and 11.3; CharacteristicClasses C1 bundle carriers.
+*Needs:* B1.6; SmoothBundlesConnections B1.4; GeometricTopology Layers 1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; CharacteristicClasses C1 bundle carriers.
 
 ### 2.4 Collared witnesses (B1.2)
 
@@ -801,7 +818,7 @@ Signed points, collared intervals, the Hopf quotient, the Fermat quartic and the
 
 ### Dependencies
 
-DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1, 11.1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
+DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation, the CW structure `AbstractSimplicialComplex.realizationCWComplex` and the carrier `TauCeti.IsSmoothTriangulation`; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
 
 ## Layer 3: geometric bordism as a homology theory
 
@@ -1147,8 +1164,8 @@ convergence statement at p: strong convergence to π_* of the HF_p
 nilpotent completion, which is the derived p-completion and equals
 π_*(X)⊗Z_p when X is bounded below with finitely generated homotopy
 groups. This tower uses no Pontryagin–Thom construction and no bordism
-coefficient; it is the odd-prime tower consumed by item8,
-HomotopySpheres and BordismFormalGroups.
+coefficient; it is the odd-prime tower consumed by item8 and
+BordismFormalGroups.
 
 The odd-prime and p-simple-system API includes:
 
@@ -2200,9 +2217,12 @@ homotopy/Hurewicz interfaces. Let M°=M∖∂M be the interior of M, which is
 M itself when ∂M is empty: a boundaryless Hausdorff second-countable
 smooth three-manifold whose inclusion into M is a homotopy equivalence
 (GeometricTopology Layer1.1). On the at-most-three-dimensional CW model
-of a smooth triangulation h:|K|→M° (GeometricTopology Layer11.3's Whitehead
-triangulation, infinite when M° is not compact, and its Layer11.1 simplicial
-CW structure, which covers every simplicial complex; K is countable and
+of a smooth triangulation h:|K|→M° (a homeomorphism satisfying
+`TauCeti.IsSmoothTriangulation`, which exists by GeometricTopology Layer11.3's
+Whitehead triangulation theorem and is infinite when M° is not compact;
+|K| carries the pinned CW structure `AbstractSimplicialComplex.realizationCWComplex`,
+defined for every simplicial complex on a linearly ordered vertex type, with
+one n-cell for each face with n+1 vertices; K is countable and
 locally finite because M° is second countable and locally compact),
 use CC's numerable-principal-bundle classification and AT8's relative
 obstruction construction to build a section of the pullback of this Spin
@@ -2225,7 +2245,7 @@ early lift criterion does not depend on this bordism application.
 - A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
 - The closed half-space ℍ³ has boundary and is not compact, so it has neither a finite triangulation nor B1.5's compact relative one; the obstruction route runs on its interior ℝ²×(0,∞)≅ℝ³, whose smooth triangulation is infinite and locally finite, and the inclusion of the interior is a homotopy equivalence of contractible spaces. For the solid torus S¹×D², and for S¹×[0,1)×ℝ, the interior and the manifold are both homotopy equivalent to S¹; the closed unit ball D³ is compact, yet its interior's triangulation is infinite.
 
-*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 1.1, 11.1 and 11.3; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
+*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 1.1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
 
 ### 8.5 Projective boundary constructions (B3.5)
 
@@ -2276,7 +2296,7 @@ The odd Spin torus has Arf 1; the Lie Spin T³ bounds the specified signature �
 
 ### Dependencies
 
-Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layers 1, 11.1 and 11.3; SpinRepresentations Layer 7; GeneralizedCohomology G4.
+Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layers 1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; SpinRepresentations Layer 7; GeneralizedCohomology G4.
 
 ## Layer 9: exceptional projective geometry
 
@@ -2875,9 +2895,12 @@ Layers 2–8; CharacteristicClasses C1.3–C1.4; ClassifyingSpaces Stage 4; Gene
 
 ## Downstream consumers
 
-BordismFormalGroups and HomotopySpheres consume the ordinary operation, Adams
-and framed PT interfaces and the Spin-surface quadratic refinement. FourManifolds consumes B1.7's concrete
-examples, B3.2's quadratic/filling results and B4's ordinary Wu package.
+BordismFormalGroups consumes the ordinary operation and Adams interfaces,
+B4's MO coefficients and the geometric cycles with their Pontryagin–Thom
+comparison. FourManifolds consumes B1.7's concrete
+examples, B3.2's quadratic/filling results with the Spin-surface quadratic
+refinement, B4's ordinary Wu package and B5.2's finite embedded
+Pontryagin–Thom comparison.
 StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
