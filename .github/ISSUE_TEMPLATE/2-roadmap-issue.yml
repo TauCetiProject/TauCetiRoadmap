@@ -32,6 +32,7 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -62,6 +63,7 @@ body:
         - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
         - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
@@ -78,6 +80,7 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
@@ -93,6 +96,7 @@ body:
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -101,6 +105,7 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -110,6 +115,7 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
@@ -128,13 +134,17 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
