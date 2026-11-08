@@ -8,14 +8,13 @@ public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
-public import TauCeti.AlgebraicTopology.Cellular.Comparison
 public import TauCeti.AlgebraicTopology.FundamentalGroup.TopologicalMonoid
-public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
 public import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
 public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
+public import TauCeti.Topology.Category.TopPair
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -24,43 +23,59 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
 few definitions needed to state them. Every target, API list and Check lives in the README.
 
-Stated here: the finite-dimensional Brouwer fixed-point theorem (Stage 2.7); the
-arbitrary-dimensional cellular comparison, the pair/quotient comparison and the two closed
-cofibration extension theorems (Stage 4); transfer for finite covers and the deck-sum formula
-for regular covers (Stage 5); the compact-support existence and uniqueness lemma with local
-coefficients, Poincaré duality for a closed manifold with a fundamental class, the
+Stated here: the pair/quotient comparison and the homotopy-inverse extension theorem for
+closed cofibered pairs (Stage 4); the compact-support existence and uniqueness lemma with
+local coefficients, Poincaré duality for a closed manifold with a fundamental class, the
 Lusternik–Schnirelmann cup-length bound and the product-ball intersection theorem (Stage 6);
 finite CW type of compact smooth manifolds, stated on Tau Ceti's predicate
-`TauCeti.FiniteCWType` (Stage 8.7); relative CW connectivity, Whitehead, homological
-Whitehead, the nerve `K(G,1)`, the proper deformation retraction theorem, mapping-space CW
-type, the transverse codimension-one classifying map and the non-freeness of `C_p × C_p` on
-spheres (Stage 8). Commutativity of the fundamental group of a space with a continuous unital
-multiplication (Stage 1 item 6) is not stated: it is Tau Ceti's
-`FundamentalGroup.instCommGroup` at the pin. The Euler characteristic of a space of finite
-CW type, its independence of the finite CW model and its homotopy invariance (Stage 7) are
-not stated: they are Tau Ceti's `TauCeti.eulerChar`, `TauCeti.eulerChar_eq_cwEulerChar` and
-`ContinuousMap.HomotopyEquiv.eulerChar_eq` at the pin.
+`TauCeti.FiniteCWType` (Stage 8.7); homological Whitehead, the nerve `K(G,1)`, the proper
+deformation retraction theorem, mapping-space CW type, the transverse codimension-one
+classifying map and the non-freeness of `C_p × C_p` on spheres (Stage 8). The cup-length
+bound, the proper deformation retraction theorem and mapping-space CW type are stated on the
+defining conditions of Tau Ceti's `TauCeti.LSCategoricalCover`,
+`ContinuousMap.HasProperHomotopyInverse` and `TauCeti.CWType`, with the cover, the inverse
+with its two homotopies, and the CW model named as binders.
+
+Not stated, because Tau Ceti proves them at the pin: commutativity of the fundamental group
+of a space with a continuous unital multiplication (Stage 1 item 6;
+`FundamentalGroup.instCommGroup`); the Brouwer fixed-point theorem for nonempty compact convex
+sets in a finite-dimensional space or subspace (Stage 2.7;
+`TauCeti.brouwerFixedPoint_compactConvex`, `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan`);
+the cellular comparison for relative CW complexes of arbitrary dimension (Stage 4.3;
+`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`);
+the cylinder on a closed cofibration (Stage 4.5;
+`TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`); the transfer of a
+covering map with finite fibres and the deck-sum formula (Stage 5.3;
+`IsCoveringMap.singularTransfer_comp_chainComplexMap`,
+`IsQuotientCoveringMap.chainComplexMap_comp_singularTransfer`); the Euler characteristic of a
+space of finite CW type, its independence of the finite CW model and its homotopy invariance
+(Stage 7; `TauCeti.eulerChar`, `TauCeti.eulerChar_eq_cwEulerChar`,
+`ContinuousMap.HomotopyEquiv.eulerChar_eq`); the connectivity of a relative CW complex whose
+cells have dimension at least `λ` (Stage 8.1; `TauCeti.injective_homotopyGroupMap_of_isEmpty_cell`,
+`TauCeti.surjective_homotopyGroupMap_of_isEmpty_cell`); absolute Hurewicz for spaces in `Type`
+(Stage 8.3; `HomotopyGroup.bijective_hurewicz`); Whitehead's theorem for spaces of CW type
+(Stage 8.5; `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`).
 
 Not statable at the pins, and therefore stated nowhere in this file:
-the Cartan–Leray spectral sequence (no spectral-sequence carrier on the pinned singular
-chains; the Serre spectral sequences that Stage 5.5 applies are DGFloer Layer 1 item 2's,
-not this roadmap's); the Wang sequence of the mapping torus of an arbitrary continuous
-self-map and its local-coefficient form (the pinned `TauCeti.MappingTorus` is the mapping
-torus of a homeomorphism, whose Wang sequence is Tau Ceti's); the Künneth spectral sequence
-over a general commutative ring and the local-coefficient Künneth theorems (no
-spectral-sequence carrier; the field and hereditary-ring Künneth theorems on the pinned
-cross product `TopCat.singularHomologyCross` are Tau Ceti's); the
-local-coefficient Poincaré–Lefschetz dualities and their boundary form (no homological
-orientation local system and no twisted cap product at the pins; only the untwisted closed
-form with a fundamental-class datum is stated); absolute Hurewicz (no Hurewicz map from the
-native cubical homotopy groups to singular homology); relative Hurewicz (no relative
-homotopy-group carrier); the Milnor `lim¹` sequence for skeletal restriction towers (no
-skeletal cohomology restriction-tower adapter); ordinary representability and the ordinary
-Eilenberg–MacLane loop comparison (no functorial normalized Eilenberg–MacLane family with
-its universal class); the obstruction and difference cochain criteria (no cellular
-obstruction cochain construction). The Stage 2.5 and 4.4 reference classes, sphere and
-disk homeomorphisms, the relative CW pushout, relative cylinder and kified product CW
-structures are constructions, not theorems: they remain README targets.
+the Cartan–Leray spectral sequence (its `E²` term is group homology of the deck
+representation, which needs the double complex of the deck action, a Stage 5.3 construction
+absent at the pins; the pinned `TauCeti.filteredSpaceSpectralSequence` filters a space by
+subspaces, and the Serre spectral sequences that Stage 5.5 applies are DGFloer Layer 1
+item 2's); the Wang sequence of the mapping torus of an arbitrary continuous self-map and
+its local-coefficient form (the pinned `TauCeti.MappingTorus` is the mapping torus of a
+homeomorphism, whose Wang sequence is Tau Ceti's); the Künneth spectral sequence over a
+general commutative ring and the local-coefficient Künneth theorems (no Künneth double
+complex and no twisted cross product at the pins; the projective, field and hereditary-ring
+Künneth theorems on the pinned cross product `TopCat.singularHomologyCross` are Tau Ceti's);
+the local-coefficient Poincaré–Lefschetz dualities and their boundary form (no twisted cap
+product at the pins; only the untwisted closed form with a fundamental-class datum is
+stated); ordinary representability and the ordinary Eilenberg–MacLane loop comparison (no
+functorial normalized Eilenberg–MacLane family with its universal class; the pinned
+Eilenberg–MacLane predicate is the degree-one `TauCeti.IsEilenbergMacLaneSpaceOne`); the
+obstruction and difference cochain criteria (no cellular obstruction cochain construction).
+The Stage 2.5 and 4.4 reference classes, sphere and disk homeomorphisms, the relative CW
+pushout, relative cylinder and kified product CW structures are constructions, not theorems:
+they remain README targets.
 -/
 
 namespace TauCetiRoadmap.AlgebraicTopology
@@ -83,12 +98,6 @@ open scoped Topology
 
 universe u v
 
-/-- Singular chains of a space with coefficients in a module `M`, the native absolute chain
-functor applied to `M` and then to the space. -/
-abbrev singularChains (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    (X : TopCat.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
-  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).obj X
-
 /-- Singular homology with coefficients in the ring itself. -/
 abbrev singularHomology (R : Type u) [CommRing R] (X : TopCat.{u}) (n : ℕ) :
     ModuleCat.{u} R :=
@@ -99,47 +108,7 @@ abbrev singularCohomology (R : Type u) [CommRing R]
     (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} R :=
   X.singularCohomology (ModuleCat.of R R) R (ModuleCat.of R R) n
 
-/-! ## Stage 2.7: Brouwer -/
-
-/-- **Brouwer fixed point** (Stage 2.7). Every continuous self-map of a nonempty compact
-convex subset `C` of a finite-dimensional real normed space has a fixed point. No
-full-dimensionality of `C` is assumed; `C` may be a point. -/
-theorem brouwerFixedPoint_compactConvex {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [FiniteDimensional ℝ E] (C : Set E) (hne : C.Nonempty)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : ContinuousMap C C) :
-    ∃ x : C, Function.IsFixedPt f x := by
-  sorry
-
-/-- **Brouwer in a finite-dimensional subspace** (Stage 2.7). The ambient real normed space may
-be infinite-dimensional: a nonempty compact convex set contained in a finite-dimensional
-submodule `V` has the fixed-point property. Finite convex hulls lie in the span of their
-vertices. -/
-theorem brouwerFixedPoint_compactConvex_finiteSpan {E : Type u} [NormedAddCommGroup E]
-    [NormedSpace ℝ E] (C : Set E) (hne : C.Nonempty)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (V : Submodule ℝ E) [FiniteDimensional ℝ V] (hCV : C ⊆ (V : Set E))
-    (f : ContinuousMap C C) : ∃ x : C, Function.IsFixedPt f x := by
-  sorry
-
-/-! ## Stage 4: cellular comparison, pair quotients and closed cofibrations -/
-
-/-- **Arbitrary-dimensional cellular comparison** (Stage 4.3). For every relative CW complex
-`(X, D)` with Hausdorff `X`, no finite-dimensionality assumed, inclusion of the
-`(n+1)`-skeleton induces an isomorphism on relative singular homology in degree `n`
-(Hatcher, Lemma 2.34(c), p. 137). The pinned
-`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex` proves this under
-`FiniteDimensional`; the content here is the removal of that hypothesis. Composed with the
-native cellular-homology identification `TauCeti.cellularHomologyIso` of the `(n+1)`-skeleton
-pair, this is the comparison of cellular with singular homology in every degree, extending the
-pinned finite-dimensional `TauCeti.cellularSingularHomologyIso`. Module coefficients have exact
-coproducts. -/
-theorem isIso_singularHomologyMap_skeletonBasePairToComplex_arbitraryDimension
-    (X : Type u) [TopologicalSpace X] [T2Space X] (D : Set X)
-    [RelCWComplex (Set.univ : Set X) D] (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    (n : ℕ) :
-    IsIso ((TauCeti.skeletonBasePair (D := D) (Set.univ : Set X) (n + 1)).singularHomologyMap
-      (TauCeti.skeletonBasePairToComplex (D := D) (Set.univ : Set X) (n + 1)) M n) := by
-  sorry
+/-! ## Stage 4: pair quotients and closed cofibrations -/
 
 /-- The subspace `B` together with a separately added point: the locus collapsed to form the
 pointed quotient `X/B`, so that `X/∅` is `X` with a disjoint basepoint. -/
@@ -199,24 +168,14 @@ theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.
     IsIso (TopPair.singularHomologyMap (ordinaryPairQuotientPairMap X B) M n) := by
   sorry
 
-/-- **Cylinder-boundary cofibration** (Stage 4.5). If a closed subspace `A ⊆ X` has the
-homotopy extension property, then so does `({0,1} × X) ∪ (I × A)` in `I × X`; the native
-cylinder has the interval coordinate first. -/
-theorem closedCofibrationCylinderHomotopyExtension
-    {X : Type u} [TopologicalSpace X] (A : Set X) (hAc : IsClosed A)
-    (hA : TauCeti.HasHomotopyExtensionProperty A) :
-    TauCeti.HasHomotopyExtensionProperty
-      ((({0, 1} : Set unitInterval).prod (Set.univ : Set X)) ∪
-        (Set.univ : Set unitInterval).prod A) := by
-  sorry
-
 /-- **Homotopy inverses of pair equivalences** (Stage 4.5). For closed cofibered pairs `(X, A)`
 and `(X', A')`, a homotopy equivalence `e : X ≃ X'` restricting to a homotopy equivalence
 `e₀ : A ≃ A'`, and prescribed one-sided inverse data `g₀`, `H₀` on the subspaces, there is a
 homotopy inverse `g` of `e` extending `g₀` with a left-inverse homotopy extending `H₀`
 (Brown, *Topology and Groupoids*, 7.4.2 and its Addendum, pp. 285–286, with the prescribed
-one-sided homotopy obtained through Vogt's strong homotopy equivalence and the cylinder
-cofibration; Hatcher, Proposition 0.19, p. 16, is the case `e₀ = id`). -/
+one-sided homotopy obtained through Vogt's strong homotopy equivalence and Tau Ceti's cylinder
+cofibration `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`; Hatcher,
+Proposition 0.19, p. 16, is the case `e₀ = id`). -/
 theorem homotopyInversePairExtension_left
     {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
     (A : Set X) (A' : Set X')
@@ -233,66 +192,6 @@ theorem homotopyInversePairExtension_left
       (∀ a' : A', g (a' : X') = (g₀ a' : X)) ∧
       (∀ (t : unitInterval) (a : A), H (t, (a : X)) = (H₀ (t, a) : X)) ∧
       (e.toFun.comp g).Homotopic (ContinuousMap.id X') := by
-  sorry
-
-/-! ## Stage 5: transfer for finite covers -/
-
-/-- A finite covering map of constant degree. General finite covers are handled componentwise. -/
-structure FiniteCover (E B : TopCat.{u}) where
-  p : E ⟶ B
-  isCoveringMap : IsCoveringMap p
-  degree : ℕ
-  finite_fiber : ∀ b : B, Finite {e : E // p e = b}
-  fiber_card : ∀ b : B, Nat.card {e : E // p e = b} = degree
-
-open scoped Simplicial in
-/-- **Transfer** (Stage 5.4; Hatcher, Section 3.G, p. 321). A finite cover of constant degree
-`d` has a chain map `t : C_*(B; M) → C_*(E; M)` sending each singular simplex of `B` to the
-sum of its `d` lifts, and `p_* ∘ t = d · id` on chains; the induced maps on homology satisfy the
-same identity, for every coefficient module over every commutative ring, including degree
-`0` (where the empty cover gives `t = 0`). -/
-theorem finiteCover_transfer_exists (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    {E B : TopCat.{u}} (P : FiniteCover E B) :
-    ∃ t : singularChains R M B ⟶ singularChains R M E,
-      t ≫ ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map P.p =
-        P.degree • 𝟙 (singularChains R M B) ∧
-      ∀ (n : ℕ) (σ : (TopCat.toSSet.obj B) _⦋n⦌),
-        (TopCat.toSSet.obj B).ιChainComplex (R := M) σ ≫ t.f n =
-          ∑ᶠ τ : {τ : (TopCat.toSSet.obj E) _⦋n⦌ // (TopCat.toSSet.map P.p).app _ τ = σ},
-            (TopCat.toSSet.obj E).ιChainComplex (R := M) τ.val := by
-  sorry
-
-/-- A surjective regular cover datum: a group of deck homeomorphisms over `p` acting simply
-transitively on every fibre. Simple transitivity alone does not imply surjectivity. -/
-structure RegularDeckAction {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] where
-  pSurjective : Function.Surjective P.p
-  deck : G →* Homeomorph E E
-  commutes : ∀ g x, P.p (deck g x) = P.p x
-  simplyTransitive : ∀ {x y : E}, P.p x = P.p y → ∃! g, deck g x = y
-
-/-- The chain map induced by the deck transformation `g`. -/
-abbrev regularDeckChainMap (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (P : FiniteCover E B)
-    (G : Type u) [Group G] (D : RegularDeckAction P G) (g : G) :=
-  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
-    (TopCat.ofHom ⟨D.deck g, (D.deck g).continuous_toFun⟩)
-
-open scoped Simplicial in
-/-- **Deck-sum formula** (Stage 5.4; Hatcher, Section 3.G, p. 321). For a regular cover with
-finite deck group `G`, any chain map sending each simplex of `B` to the sum of its lifts
-satisfies `t ∘ p_* = Σ_{g ∈ G} g_*` on the chains of `E`: the lifts of `p ∘ τ` are exactly the
-deck translates of `τ`, each once. -/
-theorem regularCover_push_transfer (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    {E B : TopCat.{u}} (P : FiniteCover E B) (G : Type u) [Group G] [Fintype G]
-    (D : RegularDeckAction P G)
-    (t : singularChains R M B ⟶ singularChains R M E)
-    (ht : ∀ (n : ℕ) (σ : (TopCat.toSSet.obj B) _⦋n⦌),
-      (TopCat.toSSet.obj B).ιChainComplex (R := M) σ ≫ t.f n =
-        ∑ᶠ τ : {τ : (TopCat.toSSet.obj E) _⦋n⦌ // (TopCat.toSSet.map P.p).app _ τ = σ},
-          (TopCat.toSSet.obj E).ιChainComplex (R := M) τ.val) :
-    ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map P.p ≫ t =
-      ∑ g : G, regularDeckChainMap R M P G D g := by
   sorry
 
 /-! ## Stage 6: local coefficients, duality, cup length and the product-ball theorem -/
@@ -356,7 +255,9 @@ open scoped ContDiff in
 /-- **Compact-support classes** (Stage 6.3; Hatcher, Lemma 3.27(a), p. 236, with local
 coefficients). On a smooth `m`-manifold `M` (Hausdorff, second countable, boundaryless
 Euclidean model), a locally represented section of local top homology over an open `V`
-containing a compact `K` is induced by exactly one class in `H_m(M, M ∖ K; L)`. -/
+containing a compact `K` is induced by exactly one class in `H_m(M, M ∖ K; L)`. For constant
+coefficients this is Tau Ceti's `TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`;
+the content here is the local coefficient system. -/
 theorem compactSupportTopClass_existsUnique (R : Type) [CommRing R] (m : ℕ) (M : Type)
     [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
@@ -417,20 +318,6 @@ theorem poincareDuality_of_fundamentalClass (n : ℕ) (M : Type u) [TopologicalS
       (capProduct R (TopCat.of M) p n hp a).hom μ.fundamentalClass) := by
   sorry
 
-/-- An open categorical cover of `A` in `X` by `n` opens, each nullhomotopic in `X`. -/
-structure LSCategoricalCover (X : Type u) [TopologicalSpace X]
-    (A : Set X) (n : ℕ) where
-  opens : Fin n → TopologicalSpace.Opens X
-  categorical : ∀ i,
-    (⟨Subtype.val, continuous_subtype_val⟩ : C({x : X // x ∈ opens i}, X)).Nullhomotopic
-  covers : ∀ x ∈ A, ∃ i, x ∈ opens i
-
-/-- The unnormalized Lusternik–Schnirelmann category of `A` in `X`: the least number of opens
-in a categorical cover, `⊤` when none is finite. -/
-def lsCategoryCount (X : Type u) [TopologicalSpace X]
-    (A : Set X) : ENat :=
-  sInf {m : ENat | ∃ n : ℕ, m = (n : ENat) ∧ Nonempty (LSCategoricalCover X A n)}
-
 /-- A cup product of `r` positive-degree classes, formed with the native cup product. -/
 inductive LSPositiveCupProduct (X : TopCat.{u}) (R : Type u) [CommRing R] :
     ℕ → (Σ d : ℕ, singularCohomology R X d) → Prop where
@@ -448,11 +335,16 @@ def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ENat :=
       a ≠ 0 ∧ LSPositiveCupProduct X R r ⟨d, a⟩}
 
 /-- **Cup-length bound** (Stage 6, categorical-cover supplement). On a nonempty space, every
-nonzero product of `r` positive-degree classes forces at least `r + 1` opens in any
-categorical cover; the coefficient ring may be the zero ring. -/
+nonzero product of `r` positive-degree classes forces at least `r + 1` opens in any open cover
+of `X` whose members have nullhomotopic inclusions into `X`; the coefficient ring may be the
+zero ring. The cover data are the fields of Tau Ceti's `TauCeti.LSCategoricalCover X univ n`,
+so the bound for every such cover is `lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X univ`. -/
 theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
-    (R : Type u) [CommRing R] :
-    lsCupLength X R + 1 ≤ lsCategoryCount X Set.univ := by
+    (R : Type u) [CommRing R] (n : ℕ) (U : Fin n → TopologicalSpace.Opens X)
+    (hcover : ∀ x : X, ∃ i, x ∈ U i)
+    (hnull : ∀ i,
+      (⟨Subtype.val, continuous_subtype_val⟩ : C({x : X // x ∈ U i}, X)).Nullhomotopic) :
+    lsCupLength X R + 1 ≤ n := by
   sorry
 
 /-- **Product-ball intersection** (Stage 6.5). Continuous fillings `f : D_p → D_p × D_q` and
@@ -479,16 +371,6 @@ theorem productBallImages_intersect {p q : ℕ}
 
 /-! ## Stage 8.7: finite CW type of compact manifolds -/
 
-/-- A CW-type witness: a Hausdorff CW model with a homotopy equivalence to it. The topology,
-Hausdorff and CW witnesses belong to the model carrier; Hausdorffness is a model witness, not
-a consequence of the equivalence. -/
-structure CWTypeModel (M : Type u) [TopologicalSpace M] where
-  X : Type u
-  topology : TopologicalSpace X
-  hausdorff : letI := topology; T2Space X
-  cw : letI := topology; CWComplex (Set.univ : Set X)
-  homotopyEquiv : letI := topology; M ≃ₕ X
-
 open scoped ContDiff in
 /-- **Finite CW type of compact manifolds** (Stage 8.7). A compact Hausdorff second-countable
 smooth boundaryless manifold with Euclidean model has finite CW type in the sense of Tau
@@ -502,42 +384,8 @@ theorem compactManifoldFiniteCWType (n : ℕ)
     TauCeti.FiniteCWType M := by
   sorry
 
-/-! ## Stage 8: connectivity, Whitehead, classifying spaces, proper deformation and
+/-! ## Stage 8: homological Whitehead, classifying spaces, proper deformation and
 mapping spaces -/
-
-/-- **Relative CW connectivity** (Stage 8.1). For a relative CW complex `(X, A)` with Hausdorff
-`X` whose relative cells all have dimension at least `λ`, the inclusion induces
-bijections `π_q(A, a) → π_q(X, a)` for `q + 1 < λ` at every `a ∈ A`, by cellular
-approximation (Hatcher, Theorem 4.8, p. 349, and Corollary 4.12). No lower bound on `λ` is
-assumed: for `λ ≤ 1` no `q` satisfies `q + 1 < λ` and the statement is empty. -/
-theorem relativeCWConnectivityOfCellDimension
-    (X : Type u) [TopologicalSpace X] [T2Space X] (A : Set X)
-    [Topology.RelCWComplex (Set.univ : Set X) A]
-    (a : A) (cellLowerBound : ℕ)
-    (hcells : ∀ n : ℕ, n < cellLowerBound → IsEmpty
-      (Topology.RelCWComplex.cell (Set.univ : Set X) n))
-    (q : ℕ) (hq : q + 1 < cellLowerBound) :
-    Function.Bijective
-      (HomotopyGroup.map (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)) rfl :
-        HomotopyGroup (Fin q) A a → HomotopyGroup (Fin q) X a.val) := by
-  sorry
-
-/-- **Whitehead** (Stage 8.5; Hatcher, Theorem 4.5, p. 346). A map between Hausdorff CW
-complexes that is bijective on path components and induces bijections on every homotopy
-group at every basepoint is the forward map of a homotopy equivalence. Components are
-compared with `Joined`; empty complexes are included. -/
-theorem whitehead_homotopyEquiv
-    {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [T2Space X] [T2Space Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
-    (f : C(X, Y))
-    (hsurj : ∀ y : Y, ∃ x : X, Joined (f x) y)
-    (hinj : ∀ x x' : X, Joined (f x) (f x') → Joined x x')
-    (hπ : ∀ (x : X) (n : ℕ), 0 < n → Function.Bijective
-      (HomotopyGroup.map f rfl :
-        HomotopyGroup (Fin n) X x → HomotopyGroup (Fin n) Y (f x))) :
-    ∃ e : X ≃ₕ Y, e.toFun = f := by
-  sorry
 
 /-- **Homological Whitehead** (Stage 8.6; Hatcher, Corollary 4.33, p. 367). A map between
 simply connected Hausdorff CW complexes inducing isomorphisms on integral singular homology
@@ -576,15 +424,6 @@ theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
       (groupClassifyingSpaceBasepoint G) := by
   sorry
 
-/-- A proper homotopy inverse: a proper map with a proper inverse and jointly proper
-homotopies on `I × X` and `I × Y`. The ordinary homotopy-equivalence carrier is native. -/
-def HasProperHomotopyInverse {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    (f : C(X, Y)) : Prop :=
-  IsProperMap f ∧ ∃ g : C(Y, X), IsProperMap g ∧
-    ∃ H : ContinuousMap.Homotopy (g.comp f) (ContinuousMap.id X),
-    ∃ K : ContinuousMap.Homotopy (f.comp g) (ContinuousMap.id Y),
-      IsProperMap H ∧ IsProperMap K
-
 /-- The proper homotopy extension property of a subspace: a proper map on `X` and a jointly
 proper homotopy of its restriction to `A` extend to a jointly proper homotopy on the whole
 cylinder. Stage 8.5 proves it for strongly locally finite CW pairs and their product pairs. -/
@@ -601,25 +440,39 @@ def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
 /-- **Proper strong deformation retraction** (Stage 8.5). On a locally compact Hausdorff space,
 a subspace with the proper homotopy extension property whose inclusion has a proper homotopy
 inverse is a proper strong deformation retract: there is a proper retraction and a jointly
-proper homotopy from the identity to it, stationary on the subspace. -/
+proper homotopy from the identity to it, stationary on the subspace. The hypotheses `hincl`
+through `hK` are the conditions of Tau Ceti's `ContinuousMap.HasProperHomotopyInverse` for the
+inclusion, with the inverse `g` and the homotopies `H : g ∘ ι ≃ id_A` and `K : ι ∘ g ≃ id_X`
+named; properness of `H` and `K` is properness of the maps `I × A → A` and `I × X → X`, not
+of their time slices. -/
 theorem properStrongDeformationRetract_of_inverse
     {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
     (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
-    (hInverse : HasProperHomotopyInverse
-      (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X))) :
+    (hincl : IsProperMap (⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)))
+    (g : C(X, A)) (hg : IsProperMap g)
+    (H : ContinuousMap.Homotopy (g.comp ⟨Subtype.val, continuous_subtype_val⟩)
+      (ContinuousMap.id A))
+    (K : ContinuousMap.Homotopy
+      ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp g) (ContinuousMap.id X))
+    (hH : IsProperMap H) (hK : IsProperMap K) :
     ∃ r : C(X, A), IsProperMap r ∧ (∀ a : A, r (a : X) = a) ∧
-      ∃ H : (ContinuousMap.id X).HomotopyRel
+      ∃ D : (ContinuousMap.id X).HomotopyRel
         ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
-        IsProperMap H := by
+        IsProperMap D := by
   sorry
 
 /-- **Mapping-space CW type** (Stage 8.11a; Milnor 1959, Theorem 3). For a compact Hausdorff
-source `X` and a Hausdorff target `Y` of CW type, the mapping space `C(X, Y)` with the
-compact-open topology has CW type. Compactness of `X` is what the exponential law and the
-continuity of evaluation need; a finite CW complex is a compact Hausdorff source. -/
+source `X` and a Hausdorff target `Y` homotopy equivalent to a CW complex `C` in a Hausdorff
+space `Z`, the mapping space `C(X, Y)` with the compact-open topology is homotopy equivalent to
+a CW complex in a Hausdorff space of the same universe. Hypothesis and conclusion are the
+defining condition of Tau Ceti's `TauCeti.CWType`, the hypothesis with its model named.
+Compactness of `X` is what the exponential law and the continuity of evaluation need; a finite
+CW complex is a compact Hausdorff source. -/
 theorem finiteSourceMappingCWType {X Y : Type u}
     [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X] [T2Space Y]
-    (modelY : CWTypeModel Y) : Nonempty (CWTypeModel C(X, Y)) := by
+    (Z : Type u) [TopologicalSpace Z] [T2Space Z] (C : Set Z) [CWComplex C] (e : Y ≃ₕ C) :
+    ∃ (Z' : Type u) (_ : TopologicalSpace Z') (_ : T2Space Z') (C' : Set Z') (_ : CWComplex C'),
+      Nonempty (C(X, Y) ≃ₕ C') := by
   sorry
 
 open scoped ContDiff Manifold in

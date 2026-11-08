@@ -161,7 +161,8 @@ These choices are part of the specification.
   `CWComplex` structure and `T2Space` on its carrier. Finite CW type is the native
   predicate `TauCeti.FiniteCWType`: a homotopy equivalence to a finite CW complex
   inside a Hausdorff space of the same universe; general
-  CW type likewise means a homotopy equivalence to a Hausdorff CW model (`CWTypeModel`).
+  CW type is the native predicate `TauCeti.CWType`: a homotopy equivalence to a classical
+  CW complex inside a Hausdorff space of the same universe.
   Retain and install the model's topology, Hausdorff, CW and finiteness
   witnesses when using a finite model.
   Hausdorffness of an original space is not transported to a chosen model
@@ -272,7 +273,8 @@ The development starts from these current APIs.
   (`TauCeti.eulerChar_eq_mul_of_isCoveringMap`), subcomplex and Mayer–Vietoris additivity
   (`TauCeti.eulerChar_eq_add_finsum_finrank_singularHomology`,
   `TauCeti.eulerChar_union_add_eulerChar_inter`) and the sphere and complex-projective
-  values (`TauCeti.eulerChar_sphere`, `TauCeti.eulerChar_complexProjectiveSpace`).
+  values (`TauCeti.eulerChar_sphere`, `TauCeti.eulerChar_complexProjectiveSpace`), and the
+  torus value `TauCeti.eulerChar_torus` (`Cellular.EulerCharacteristic.Torus`).
 - Native homology and cohomology cross products: `TopCat.singularHomologyCross` in
   `Singular.CrossProduct` (the shuffle-map cross product
   `H_p(X;R) ⊗ H_q(Y;S) → H_n(X×Y;R⊗S)` for `p+q=n`, natural in both spaces and both
@@ -288,16 +290,17 @@ The development starts from these current APIs.
   (`TopCat.singularHomologyKunnethShortComplex_shortExact`,
   `TopCat.singularHomologyToTor_naturality`) with its non-natural splitting
   (`TopCat.singularHomologyKunnethSplitting`). Stage 5.1 and 6.2 consume these.
-- Native mapping torus of a homeomorphism `TauCeti.MappingTorus` in `Topology.MappingTorus`
+- Native mapping torus of a homeomorphism `TauCeti.MappingTorus` in `Topology.MappingTorus.Basic`
   with its fibre inclusion `TauCeti.MappingTorus.incl`, monodromy homotopy
   `TauCeti.MappingTorus.monodromyHomotopy`, and the map `TauCeti.MappingTorus.map` induced
   by a semiconjugating map (with `TauCeti.MappingTorus.proj_comp_map`,
   `TauCeti.MappingTorus.map_comp_incl`, `TauCeti.MappingTorus.map_id`,
-  `TauCeti.MappingTorus.map_comp`); in `Singular.MappingTorus` the chain homotopy
+  `TauCeti.MappingTorus.map_comp`); in `Singular.MappingTorus.Basic` the chain homotopy
   `TauCeti.MappingTorus.singularChainHomotopy` and
   `TauCeti.MappingTorus.homologyMap_monodromy_comp_incl` (`incl_* ∘ φ_* = incl_*` on
-  homology), and the Wang sequence of that mapping torus with its connecting map
-  `TauCeti.MappingTorus.wangδ`, exactness `TauCeti.MappingTorus.wang_exact₁`–`₃`, cokernel
+  homology), and in `Singular.MappingTorus.Wang`/`Naturality` the Wang sequence of that
+  mapping torus with its connecting map `TauCeti.MappingTorus.wangδ`, exactness
+  `TauCeti.MappingTorus.wang_exact₁`–`₃`, cokernel
   identification `TauCeti.MappingTorus.wangCokernelEquiv` and naturality
   `TauCeti.MappingTorus.wangMappingConeMap_naturality`. Stage 5.2 consumes these.
 - Native barycentric subdivision and small chains in `Singular.Subdivision`: the
@@ -306,7 +309,7 @@ The development starts from these current APIs.
   the prism operator `TauCeti.singularPrismX`, the chain homotopy
   `TauCeti.singularSubdivisionHomotopy` from the identity to subdivision and
   `TauCeti.homologyMap_singularSubdivisionChainMap` (`Homotopy`), the iterate-smallness
-  theorem `TauCeti.AffineChain.exists_iterate_singularSubdivision_factor_small`, the small
+  theorem `TauCeti.exists_iterate_singularSubdivision_factor_small`, the small
   subcomplex `TopCat.smallSingularSubcomplex` of an open cover (`Small.Chains`), its
   relative form with `TopPair.isIso_homologyMap_restrictι_smallSingularSubcomplex`
   (`Small.Relative`) and the small-chain approximation `TauCeti.singularSmallApprox` with
@@ -337,9 +340,14 @@ The development starts from these current APIs.
 - Native `TauCeti.cellularChainComplex`, `cellularChainGroupIso` and
   `cellularSingularHomologyIso` in `Cellular.Chains`/`Coproduct`/`Comparison`.
   They use relative CW skeleta, T2 ambient spaces, abelian-category coefficients
-  and exact cell-indexed coproducts; the current homology comparison requires
-  a finite-dimensional relative CW complex. Stage 4 extends that carrier to
-  arbitrary CW dimension, chosen chain representatives and local systems.
+  and exact cell-indexed coproducts. The comparison holds in every dimension: inclusion of
+  the `(n+1)`-skeleton induces an isomorphism on `H_n` relative to the base for every
+  finite-dimensional relative CW complex
+  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_finiteDimensional`)
+  and, when sequential colimits are exact in the coefficient category (module categories
+  included), for every relative CW complex
+  (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`).
+  Stage 4 extends that carrier to chosen chain representatives and local systems.
 - Native `TopCat.singularCap` and singular cup products in `Cohomology.Cap.Basic`
   and `Cohomology.Cup`. Consume their Alexander–Whitney maps and pairings,
   extending to direct local-system cochains, relative products and duality.
@@ -359,6 +367,93 @@ The development starts from these current APIs.
   cube characterization, base change, and the locally trivial and fibre-bundle instances
   with no paracompactness hypothesis. Stage 5.5 consumes them and states nothing further
   about them.
+- Tau Ceti's no-retraction and Brouwer theorems in `AlgebraicTopology.Singular.BrouwerFixedPoint`:
+  `TauCeti.noRetraction_diskBoundary` (the boundary sphere of the native disk is not a
+  retract of it, in every dimension), `TauCeti.brouwerFixedPoint_topCatDisk`,
+  `TauCeti.brouwerFixedPoint_compactConvex` (every continuous self-map of a nonempty compact
+  convex subset of a finite-dimensional real normed space has a fixed point; the set may have
+  empty interior), its function-level form `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`,
+  the closed-ball case `TauCeti.brouwerFixedPoint_closedBall` (any radius `≥ 0`) and
+  `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan` (the set lies in a finite-dimensional
+  submodule of an arbitrary real normed space), with the radial homeomorphisms
+  `TauCeti.convexClosedBallHomeomorph` (`Analysis.Convex.Intrinsic`) and
+  `TauCeti.closedBallHomeomorphOfFinrankEq` (`Analysis.Normed.Module.Ball.Homeomorph`).
+  Stage 2 item 7 consumes these.
+- Tau Ceti's product cofibrations in `Topology.Homotopy.Extension.Prod`:
+  `TauCeti.HasHomotopyExtensionProperty.prod_univ_union_univ_prod` (for closed `A ⊆ X` and
+  `B ⊆ Y` with the homotopy extension property, so has `A × Y ∪ X × B ⊆ X × Y`; Strøm,
+  *Note on cofibrations II*, Theorem 6, p. 135, needs only one of them closed),
+  `TauCeti.HasHomotopyExtensionProperty.univ_prod` and the cylinder case
+  `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod` (for closed `A ⊆ X`
+  with the homotopy extension property, so has `{0,1} × X ∪ I × A ⊆ I × X`, interval coordinate
+  first). Stage 4 item 5 consumes these.
+- Tau Ceti's singular transfer in `Singular.Transfer.Basic`/`Degree`/`Composition`/
+  `PermutationLocalSystem` and `Singular.Coinvariants`: `IsCoveringMap.singularTransfer` (for a
+  covering map with finite fibres and coefficients in any preadditive category with coproducts,
+  the chain map sending a simplex to the sum of its lifts),
+  `IsCoveringMap.singularTransfer_comp_chainComplexMap_eq_locallyConstantNsmul` (`p_* ∘ t` is
+  multiplication by the locally constant fibre cardinality, so a disconnected base and the
+  empty cover are included), its constant-degree case
+  `IsCoveringMap.singularTransfer_comp_chainComplexMap` (`p_* ∘ t = d • id`), composition
+  `IsCoveringMap.singularTransfer_comp`, the deck-sum formula
+  `IsQuotientCoveringMap.chainComplexMap_comp_singularTransfer` (`t ∘ p_* = Σ_{g ∈ G} g_*` for
+  the quotient covering of a finite group action), the identification
+  `IsCoveringMap.singularChainComplexPermutationIso` of the chains of the total space with the
+  chains of the base twisted by the permutation local system of the sheets, and
+  `IsQuotientCoveringMap.isColimitMapCoconeSingularChainComplex` (the chains of the base are the
+  coinvariants of the deck action on the chains of the total space, for any group). Stage 5
+  item 3 and Stage 7 item 3 consume these.
+- Tau Ceti's tower algebra in `Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower`
+  (functors `ℕᵒᵖ ⥤ ModuleCat R`) with its limit and `lim¹` as the kernel and cokernel of the
+  shift `δ(x)_n = x_n − f_n(x_(n+1))`, the six-term limit/`lim¹` sequence (`Exact`), vanishing of
+  `lim¹` for Mittag–Leffler towers (`TauCeti.ModuleTower.shift_surjective_of_isMittagLeffler`),
+  invariance under cofinal subsequences (`TauCeti.ModuleTower.limOneSubsequenceEquiv`), the
+  Milnor sequences `0 → lim¹ H_i(C_n) → H_j(lim C) → lim H_j(C_n) → 0` of a tower of complexes of
+  any shape with surjective shift (`TauCeti.ComplexTower.shortComplex_shortExact`,
+  `TauCeti.ComplexTower.limOneToHomology_injective`,
+  `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim`,
+  `TauCeti.ComplexTower.homologyToLim_surjective`), and the homotopy limit
+  `TauCeti.ModuleTower.homotopyLimitFunctor` as the shifted mapping cone of `δ`, sending
+  quasi-isomorphisms to quasi-isomorphisms (`DerivedLimit`). Stage 6 item 0 consumes these.
+- Tau Ceti's Lusternik–Schnirelmann count in `Topology.Homotopy.LusternikSchnirelmann`:
+  `TauCeti.LSCategoricalCover` (`n` opens of `X` covering `A`, each with nullhomotopic inclusion
+  into `X`) and `TauCeti.lsCategoryCount` (the least such `n` in `ℕ∞`, `⊤` when there is none),
+  with attainment `TauCeti.nonempty_lsCategoricalCover_of_lsCategoryCount_eq`, monotonicity
+  `TauCeti.lsCategoryCount_mono`, union subadditivity `TauCeti.lsCategoryCount_union_le`, the
+  deformation inequality `TauCeti.lsCategoryCount_le_of_homotopic_id`, additivity over finite
+  coproducts `TauCeti.lsCategoryCount_univ_sigma`, homotopy invariance
+  `ContinuousMap.HomotopyEquiv.lsCategoryCount_univ_eq`, the value `1` on a contractible space
+  `TauCeti.lsCategoryCount_univ_of_contractibleSpace`, the discrete value
+  `TauCeti.lsCategoryCount_eq_encard`, and the locally contractible neighbourhoods
+  `TauCeti.exists_isOpen_superset_lsCategoryCount_le_encard`. Stage 6 item 2 consumes these.
+- Tau Ceti's CW type `TauCeti.CWType` (`Topology.CWComplex.Classical.CWType`: a homotopy
+  equivalence to a classical CW complex in a Hausdorff space of the same universe), with the
+  instance `TauCeti.CWType.of_cwComplex_univ` and transport `ContinuousMap.HomotopyEquiv.cwType`;
+  and proper homotopy inverses `ContinuousMap.HasProperHomotopyInverse`
+  (`Topology.Homotopy.Proper`: a proper map with a proper inverse and proper homotopies
+  `I × X → X`, `I × Y → Y`). Stage 8 items 5 and 11 consume these.
+- Tau Ceti's relative homotopy theory: based pairs `TauCeti.BasedTopPair`
+  (`Topology.Category.BasedTopPair`), the relative homotopy sets `TauCeti.RelHomotopyGroup`
+  with the boundary map `TauCeti.RelHomotopyGroup.boundary` and the functor
+  `TauCeti.RelHomotopyGroup.functor` (`AlgebraicTopology.Homotopy.Relative.Basic`), their group
+  structure in relative dimension at least two and commutativity from dimension three
+  (`Group`), the exact homotopy sequence of a based pair (`Exact`) and basepoint change
+  (`BasepointChange`); the connectivity of a relative CW complex with no cells below
+  dimension `n` (`Relative.CellDimension`: `TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell`,
+  `TauCeti.surjective_homotopyGroupMap_of_isEmpty_cell` for `k < n`,
+  `TauCeti.injective_homotopyGroupMap_of_isEmpty_cell` for `k + 1 < n`, and the transport form
+  `TauCeti.exists_joined_of_isEmpty_cell_of_comp_eq`); weak homotopy equivalences
+  `ContinuousMap.IsWeakHomotopyEquivalence` (path-component surjectivity and bijectivity on every
+  `π_n` at every basepoint, `n = 0` included) and Whitehead's theorem
+  `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` with
+  `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun` (`AlgebraicTopology.Homotopy.Whitehead`:
+  a weak homotopy equivalence between spaces of CW type is the forward map of a homotopy
+  equivalence); and the Hurewicz theorems `HomotopyGroup.bijective_hurewicz`
+  (`Hurewicz.Absolute`: for `X : Type` with `π_k(X, x)` trivial for `k < n + 2`, the integral
+  Hurewicz map in degree `n + 2` is bijective) and
+  `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`
+  (`Hurewicz.Relative`: the relative Hurewicz map in degree `n + 2` is bijective when `π_k(A)`
+  and `π_k(X)` are trivial for `k < n + 2`). Stage 8 items 1, 3, 4 and 5 consume these.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
 
@@ -498,77 +593,23 @@ the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based coro
    homotopy, including relative homotopies. This uses the existing groupoid object and does
    not depend on Stage 1's van Kampen theorem.
 
-7. Own the single generic no-retraction and finite-dimensional Brouwer
-   theorem. DifferentialGeometry 10.5 consumes it and supplies its degree
-   proof comparison. Own the fixed-point theorem for every nonempty compact
-   convex subset C of a real finite-dimensional normed space E:
-   `brouwerFixedPoint_compactConvex` states that each continuous self-map of
-   the actual subtype C has a fixed point. The function-level adapter
-   takes ContinuousOn f C and MapsTo f C C. No full-dimensional or nonempty ambient-interior hypothesis
-   is imposed. Give closed-ball (including radius0), simplex, singleton,
-   transport along affine homeomorphisms and homeomorphic-domain
-   specializations, with native
-   Function.IsFixedPt and the compact fixed-point locus obtained from the
-   native `isClosed_fixedPoints` in Mathlib/Dynamics/FixedPoints/Topology.
-   First prove that the disk boundary is not a retract of the disk, using the already-proved native
-   `TauCeti.reducedSingularHomologyTopCatSphereIso`,
-   `TauCeti.TopCat.contractibleSpace_disk` and
-   `TauCeti.isZero_reducedSingularHomologyFunctor_of_contractibleSpace`.
-   These native sphere/vanishing prerequisites precede this theorem;
-   its proof does not consume Stage3's later Mayer–Vietoris computation.
-   Apply reduced H_(n−1) with integral coefficients to the retraction
-   equation: for n≥1 the identity of ℤ would factor through the zero
-   module. The empty boundary at dimension0 is treated directly.
-   A fixed-point-free disk map gives its continuous
-   retraction along the ray from f(x) through x; pin that construction and
-   its boundary identity, and derive the fixed-point theorem for the native disk.
-   For general C work inside affineSpan ℝ C, choose a point of the native
-   intrinsicInterior, and construct the compact-convex closed-ball homeomorphism
-   from its direction-space unit ball by the continuous positive radial
-   reach `compactConvexRadialReach C c u =
-   sSup {t : ℝ | 0≤t ∧ c+t•u∈C}` for unit direction vectors u.
-   Prove this reach is finite, positive, attained and continuous on the
-   direction-space unit sphere, and that the radial homeomorphism takes
-   t•u to c+(t*reach(u))•u for 0≤t≤1. Prove its comparison with the
-   inverse of Mathlib's native `gauge` on
-   {v:(affineSpan ℝ C).direction | c+(v:E)∈C}; use its existing convex-gauge
-   continuity and homogeneity API. Prove the boundary/intrinsicFrontier comparison;
-   dimension 0 is a singleton. Own the normed unit-ball/native-disk homeomorphism:
-   for a finite-dimensional real normed E of rankk, its unit closed ball
-   is homeomorphic to the actual lifted TopCat.disk k. Take as data a continuous
-   linear equivalence e:E≃L[ℝ]EuclideanSpace ℝ (Fin k) and use
-   x↦(||x||/||e(x)||)e(x), with value0 at0, followed by the native ULift
-   homeomorphism. Pin `_apply`, `_symm_apply`, `_zero` and `_norm`;
-   prove the inverse radial formula, center and norm equality;
-   the latter identifies boundaries. Compose this with the direction-space
-   homeomorphism to apply the native-disk theorem to general C.
-   Export `brouwerFixedPoint_compactConvex_finiteSpan` when C lies in a
-   specified finite-dimensional submodule V of an arbitrary real normed
-   ambient space: restrict its subtype and map to V, apply the theorem there,
-   and transport the fixed point back. Finite convex hulls use the span of
-   their finitely many vertices. This uses existing sphere/disk APIs
-   independently of manifold duality. Analytic
-   Schauder compact-map approximation and Lomonosov's operator theorem are
-   owned by BanachAlgebras A8 and consume this finite-dimensional theorem.
-   Follow the native fixed-point vocabulary and compare the compact-convex
-   statement with [the Lean community Brouwer interface](https://lean-lang.org/eval/problems/brouwer_fixed_point/).
-   The [Zulip homology/Sperner discussion](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Brouwer%27s.20fixed.20point.20theorem.3F.html)
-   records the compatible homology proof direction;
-   [QICLean's compact-convex development](https://sirui-lu.com/QICLean/docs/QICLean/Topology/CompactConvexFixedPoint.html)
-   supplies a comparison source for its function-level API and metric-projection
-   proof. Use the direction-space radial construction here, and compare the
-   resulting fixed-point statement without duplicating native closed-locus lemmas.
-   Compare [Brendan Murphy's homological Brouwer development](https://github.com/Shamrock-Frost/BrouwerFixedPoint)
-   on the native chain/homology carriers here, retaining its convex-body
-   transport proof as migration material rather than another homology API.
-   Follow Mathlib [#36770](https://github.com/leanprover-community/mathlib4/pull/36770)'s
-   `BrouwerFixedPoint E` closed-unit-ball hypothesis. The exact closed-unit-ball
-   adapter takes
-   f:closedBall(0:E)1→closedBall(0:E)1 and Continuous f and yields
-   ∃x,Function.IsFixedPt f x. Prove it from the continuous-map theorem;
-   for real inner-product E it supplies that PR's class field, with no
-   assumption of a Brouwer instance. Adopt the upstream class interface
-   when it lands.
+7. Consume Tau Ceti's no-retraction theorem `TauCeti.noRetraction_diskBoundary` and its
+   Brouwer fixed-point theorems `TauCeti.brouwerFixedPoint_topCatDisk`,
+   `TauCeti.brouwerFixedPoint_compactConvex`,
+   `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`,
+   `TauCeti.brouwerFixedPoint_closedBall` and
+   `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan` (Inventory), with native
+   `Function.IsFixedPt` and the closed fixed-point locus of Mathlib's `isClosed_fixedPoints`.
+   They cover every nonempty compact convex set, including sets of empty interior and a
+   single point, closed balls of radius zero, and sets lying in a finite-dimensional
+   submodule of an infinite-dimensional real normed space; this item states nothing further
+   about them, and the simplex, singleton and homeomorphic-domain cases are their
+   specializations. DifferentialGeometry 10.5 compares them with its degree proof, and
+   BanachAlgebras A8 consumes the finite-dimensional theorem for Schauder compact-map
+   approximation and Lomonosov's operator theorem. The closed-unit-ball hypothesis
+   `BrouwerFixedPoint E` of
+   [mathlib4#36770](https://github.com/leanprover-community/mathlib4/pull/36770) is the
+   radius-one case of `TauCeti.brouwerFixedPoint_closedBall`.
 
 The source spine is Eilenberg--Steenrod, *Foundations of Algebraic Topology*, Chapters I--III,
 and Hatcher, Sections 2.1--2.2 and 3.H.  The Lean proof should pass through short exact sequences
@@ -593,7 +634,7 @@ with the pair/triple connecting maps.
    coefficient along paths in the contractible simplex, and prove the twisted boundary formula
    and prism identity.
 2. Consume the native smallness theorem for an open cover
-   (`TauCeti.AffineChain.exists_iterate_singularSubdivision_factor_small`: every singular
+   (`TauCeti.exists_iterate_singularSubdivision_factor_small`: every singular
    simplex becomes subordinate after sufficiently many subdivisions), the small subcomplex
    `TopCat.smallSingularSubcomplex` and the natural chain-homotopy equivalence of its
    inclusion (`TauCeti.singularSmallApprox`, `TauCeti.singularSmallApproxHomotopy`), with the
@@ -633,24 +674,22 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
 2. Consume native `cellularDifferential` and its triple connecting-map description,
    including `d²=0`; identify its matrix entries with degrees of attaching maps,
    and prove naturality for cellular maps.
-3. Consume native `cellularSingularHomologyIso` for finite-dimensional relative
-   CW complexes and extend it to arbitrary CW dimension: for every relative CW
-   complex with Hausdorff ambient space, inclusion of the (n+1)-skeleton induces
-   an isomorphism on degree-n relative singular homology
-   (`isIso_singularHomologyMap_skeletonBasePairToComplex_arbitraryDimension`;
-   Hatcher, Lemma 2.34(c), p. 137). The pinned
-   `TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex` of
-   `Cellular/Comparison.lean` proves this under `FiniteDimensional`; the new content
-   is the removal of that hypothesis. Composed with the native skeleton-pair cellular
-   identification it is the comparison in every degree. Consume the native
+3. Consume native `cellularSingularHomologyIso` in every dimension: inclusion of the
+   (n+1)-skeleton induces an isomorphism on degree-n singular homology relative to the base
+   for every finite-dimensional relative CW complex with Hausdorff ambient space and, when
+   sequential colimits and cell-indexed coproducts are exact in the coefficient category
+   (module categories included),
+   for every relative CW complex with Hausdorff ambient space
+   (`TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`;
+   Hatcher, Lemma 2.34(c), p. 137). Composed with the native skeleton-pair cellular
+   identification it is the comparison of cellular with singular homology in every degree;
+   this item states nothing further about that isomorphism. Its inputs are the native
    compact-support lemmas (`TauCeti.exists_subset_skeletonLT_of_isCompact`: a compact
    subset, so the image of a singular simplex, lies in a skeleton of finite dimension, and
    `TauCeti.finite_setOf_nonempty_inter_openCell_of_isCompact`: it meets only finitely many
    open cells, so it lies in a finite subcomplex) and the native filtered-colimit
    identification of singular homology over the skeleta
-   (`TauCeti.isColimitMapCoconeSingularHomology`); what remains is the relative form over the
-   skeletal pairs and the passage with categorical coefficients (displayed exactness
-   assumptions in place of the module-category filtered colimits). Construct the skeletal filtration exact
+   (`TauCeti.isColimitMapCoconeSingularHomology`). Construct the skeletal filtration exact
    couple and prove the cellular-to-singular comparison as a natural equivalence
    in the filtered derived or chain-homotopy category. Normalize oriented cell
    generators by pushing forward Stage 2.5's
@@ -801,12 +840,13 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    prescribed closed CW/cofibration subspace on which the input maps and
    inverse homotopies are fixed, with their compatible relative HEP data. In particular,
    homotopic attachments to the same Z give equivalences restricting to id_Z
-   and inverse homotopies fixing Z (Milnor Lemmas 3.6–3.7).
-   Own `closedCofibrationCylinderHomotopyExtension`: for closed A⊆X with
-   native HEP, prove HEP for (∂I×X)∪(I×A) in I×X. Use the native
-   retraction characterization of HEP and the square homeomorphism carrying
-   {0}×I∪I×∂I to {0}×I (Strøm's product theorem), retaining the full
-   prescribed endpoint and subspace data in the native I×X order.
+   and inverse homotopies fixing Z (Milnor, *Morse Theory*, §3, Lemmas 3.6–3.7).
+   Consume Tau Ceti's cylinder on a closed cofibration,
+   `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`: for closed A⊆X
+   with native HEP, (∂I×X)∪(I×A) has HEP in I×X, in the native I×X order. It is the
+   case (I,∂I)×(X,A) of Strøm's product theorem
+   `TauCeti.HasHomotopyExtensionProperty.prod_univ_union_univ_prod` (Strøm, *Note on
+   cofibrations II*, Theorem 6, p. 135); this item states nothing further about it.
    Own `homotopyInversePairExtension_left` for pairs (X,A),(X′,A′). Require both
    inclusions to be closed cofibrations, f:X→X′ to carry A into A′, and
    both f and its restriction f₀:A→A′ to be homotopy equivalences.
@@ -823,7 +863,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    homotopy equivalences*, Proposition, p. 627: every homotopy g₀f₀≃id is
    one half of a strong homotopy equivalence), so that the sum is homotopic
    to H₀ relative to its ends, and then deform H through
-   `closedCofibrationCylinderHomotopyExtension` for (∂I×X)∪(I×A) in I×X,
+   `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod` for
+   (∂I×X)∪(I×A) in I×X,
    keeping the two end maps gf and id_X. Check: for A=A′=∅ this is the
    existence of a homotopy inverse with a left-inverse homotopy; for
    f=id_X and f₀=id_A with H₀ the constant homotopy it returns g≃id_X with
@@ -1099,29 +1140,30 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
    `f` is a homeomorphism, natural under commuting squares of self-maps, and with Stage 2's
    local coefficients (the coefficient system on the mapping torus restricting to a system
    on `X` with a monodromy isomorphism).
-3. For a finite covering with constant fibre cardinality `d`
-   (the datum `FiniteCover`), construct transfer on chains by summing lifts and
-   prove `p_* transfer = d * id` (`finiteCover_transfer_exists`: a chain map whose
-   value on each simplex is the sum of its lifts and whose composite with `p_*` is
-   `d` times the identity; Hatcher, Section 3.G, p. 321).
-   Use native `IsCoveringMap`; general finite covers include zero-sheet covers.
-   For the regular-cover quotient-chain and Cartan--Leray package additionally
-   give an actual surjectivity proof for p:E→B and a left deck G-action simply
-   transitive on every fibre. Compare this datum with native
-   `IsQuotientCoveringMap p G` via
-   `isQuotientCoveringMap_iff_isCoveringMap_and`, retaining its continuity,
-   orbit and free-action witnesses. This surjectivity condition includes the
-   empty-base case; do not replace it by an unnecessary nonempty-base hypothesis.
-   For finite G prove `transfer p_* = sum_(g in G) g_*` (`regularCover_push_transfer`,
-   for the surjective regular datum `RegularDeckAction` and the deck chain maps
-   `regularDeckChainMap`) and identify the
-   quotient chain complex `C_*(E;M)_G` naturally with `C_*(B;M)` for constant
-   R-module coefficients M. Build the deck chain complex in native `Rep R G`,
-   its forgetful comparison and native coinvariants-functor quotient map. If
-   q_E:C_*(E;M)→C_*(E;M)_G is the canonical coinvariant projection and
-   φ:C_*(E;M)_G→C_*(B;M) is the comparison, require the square equation
-   `q_E ≫ φ = p_*` after the stated forgetful identification. Thus φ is induced
-   by p_*, not an unspecified natural isomorphism.
+3. Consume Tau Ceti's singular transfer (Inventory). For a covering map `p : E → B` with
+   finite fibres, `IsCoveringMap.singularTransfer` sends each singular simplex of `B` to the
+   sum of its lifts; `p_* ∘ t` is multiplication by the locally constant fibre cardinality
+   (`IsCoveringMap.singularTransfer_comp_chainComplexMap_eq_locallyConstantNsmul`), hence
+   `d • id` when every fibre has `d` points
+   (`IsCoveringMap.singularTransfer_comp_chainComplexMap`; Hatcher, Section 3.G, p. 321),
+   with zero-sheet covers, an empty base and a disconnected base included. Transfer composes
+   along composites of coverings (`IsCoveringMap.singularTransfer_comp`). For the quotient
+   covering of an action of a finite group `G`, `t ∘ p_* = Σ_{g ∈ G} g_*`
+   (`IsQuotientCoveringMap.chainComplexMap_comp_singularTransfer`); for any group, `p_*`
+   identifies the coinvariants `C_*(E;M)_G` with `C_*(B;M)`
+   (`IsQuotientCoveringMap.isColimitMapCoconeSingularChainComplex`), and on homology
+   `H_n(E;M)_G ≅ H_n(B;M)` through `p_*` when `|G|` is invertible on the coefficients
+   (`IsQuotientCoveringMap.isColimitMapCoconeSingularHomology`). A nonregular finite cover
+   is encoded by the permutation local system of its sheets, whose twisted chains on `B` are
+   the chains of `E` (`IsCoveringMap.singularChainComplexPermutationIso`). Regular covers
+   are native `IsQuotientCoveringMap p G`, compared with covering, surjectivity, free-action
+   and orbit data by `isQuotientCoveringMap_iff_isCoveringMap_and`; surjectivity includes the
+   empty-base case. This item states nothing further about these.
+   Build the deck chain complex in native `Rep R G`, its forgetful comparison and the native
+   coinvariants-functor quotient map. If q_E:C_*(E;M)→C_*(E;M)_G is the canonical
+   coinvariant projection and φ:C_*(E;M)_G→C_*(B;M) is the comparison above, require the
+   square equation `q_E ≫ φ = p_*` after the stated forgetful identification. Thus φ is
+   induced by p_*, not an unspecified natural isomorphism.
    The coefficient representation on H_q(E;M) is the direct left action
    ρ(g)=(deck g)_*. Construct the Cartan--Leray spectral sequence whose `E²` term in
    bidegree `(p,q)` is the native `groupHomology` in degree `p` of this deck
@@ -1133,15 +1175,10 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
    `(g⋅φ)=(deck g⁻¹)^*φ`; compare its bar differential with native
    `groupCohomology.inhomogeneousCochains` and the fixed local-system transport.
    Only when `|G|` is invertible in R, or under a separately stated exactness
-   hypothesis, derive the homology coinvariant isomorphism and the normalized
-   transfer identification with invariants. For a nonsurjective cover quotient
-   chains compute the covered open-and-closed image of p, not all of B; apply
-   the surjective package after restricting the base to that image. For a
-   nonregular finite cover encode the sheets by the permutation local system
-   and prove transfer and composition through that system. For a disconnected
-   base state the general transfer formulas componentwise with their locally
-   constant fibre cardinalities. On a nonempty base a finite regular datum has
-   degree |G|; no such numerical equality is required when B is empty.
+   hypothesis, derive the normalized transfer identification of cohomology with the
+   invariants. For a nonsurjective cover the quotient chains compute the covered
+   open-and-closed image of p, not all of B; apply the surjective statements after
+   restricting the base to that image.
 4. Calculate homology of finite products of circles as exterior powers, naturally under integer
    matrices acting on the first homology.  This is a theorem about the product and Kunneth maps,
    not a separately declared answer for a torus.
@@ -1196,40 +1233,28 @@ using any Serre sequence, manifold duality or EM representability. DGFloer 1.2's
 multiplicative cohomological Serre sequence consumes only that portion,
 including 6.0's Milnor/lim¹ comparison for complete inverse cochain filtrations.
 
-0. **Countable inverse-system algebra.** Use functors `ℕᵒᵖ ⥤ ModuleCat R`,
-   including abelian groups through their canonical ℤ-module structure. Consume
-   Mathlib's `Functor.IsMittagLeffler` on the underlying type functor and its
-   [eventual-range/surjectivity API](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/CategoryTheory/CofilteredSystem.lean),
-   following the [inverse-system design discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Properties%20on%20%60fintype_inverse_systems%60).
-   Define δ on the product by
-   `δ(x)_n=x_n−f_n(x_(n+1))`; identify ker δ with the categorical inverse
-   limit and define lim¹ as coker δ. Own functoriality under tower maps,
-   shift/cofinal-subsequence comparison, product compatibility, the six-term
-   inverse-limit/lim¹ sequence and vanishing for surjective or Mittag–Leffler
-   countable towers. State the complex-level theory and its naturality for
-   towers in `CochainComplex (ModuleCat R) ℤ`. For degreewise surjective
-   countable towers prove the product-complex short exact sequence and Milnor
-   cochain sequence `0→lim¹ H^(k−1)(C_n)→H^k(lim C_n)→lim H^k(C_n)→0`
-   in every integer degree k. Extend ℕ-indexed chains/cochains by zero using
-   `HomologicalComplex.extend` with `ComplexShape.embeddingDownNat` or
-   `embeddingUpIntGE 0`, and prove their nonnegative homology/cohomology
-   comparison. Reindex homological degree j as cohomological degree−j to derive
-   the chain sequence
-   `0→lim¹ H_(j+1)(C_n)→H_j(lim C_n)→lim H_j(C_n)→0`.
-   Prove naturality in integer-graded chain maps and compatibility with
-   reindexing, chain isomorphisms and cofinal shifts/zigzags. Construct the derived inverse limit as the
-   shifted mapping cone of δ on the product complex, using native ℤ-indexed
-   `CochainComplex.mappingCone`. The derived inverse
-   limit's possible cohomological degree-1 group lim¹H₀ (homological degree−1)
-   is retained in this integer-graded carrier.
-   Homotopy-commuting product squares induce actual cone maps, retaining the
-   specified square homotopies in their composition laws. Compatible second
-   homotopies of the square data induce homotopies of cone maps; no independence
-   from arbitrary choices of square homotopy is asserted. For degreewise surjective towers compare this
-   cone with ker δ, hence with the ordinary limit complex. Prove levelwise
-   quasi-isomorphisms between these surjective towers induce
-   isomorphisms on the homology-group inverse limits and lim¹ terms and hence
-   on limit-complex homology. This is the shared generic tower API.
+0. **Countable inverse-system algebra.** Consume Tau Ceti's tower algebra (Inventory):
+   towers `TauCeti.ModuleTower` (functors `ℕᵒᵖ ⥤ ModuleCat R`, abelian groups through their
+   canonical ℤ-module structure), their limit and `lim¹` as the kernel and cokernel of
+   `δ(x)_n=x_n−f_n(x_(n+1))` on the product, the six-term limit/`lim¹` sequence, vanishing of
+   `lim¹` for surjective and Mittag–Leffler towers, invariance under cofinal subsequences,
+   the Milnor sequences of a tower of complexes of any shape with surjective shift (for
+   cochain complexes indexed by ℤ, `0→lim¹ H^(k−1)(C_n)→H^k(lim C)→lim H^k(C_n)→0` in every
+   integer degree k; for ℕ-indexed chain complexes,
+   `0→lim¹ H_(j+1)(C_n)→H_j(lim C)→lim H_j(C_n)→0`) with their naturality, and the
+   homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the shifted mapping cone of δ
+   on the product complex, which sends quasi-isomorphisms to quasi-isomorphisms and is
+   quasi-isomorphic to the limit complex when every tower of terms has vanishing `lim¹`.
+   Mathlib's `Functor.IsMittagLeffler` and its
+   [eventual-range/surjectivity API](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/CategoryTheory/CofilteredSystem.lean)
+   are the Mittag–Leffler condition used there. This item states nothing further about
+   these. Own what remains: homotopy-commuting product squares induce actual cone maps,
+   retaining the specified square homotopies in their composition laws; compatible second
+   homotopies of the square data induce homotopies of cone maps, and no independence from
+   arbitrary choices of square homotopy is asserted. Prove that levelwise
+   quasi-isomorphisms between towers with surjective shift induce isomorphisms on the
+   inverse limits and `lim¹` terms of homology, hence on limit-complex homology. This is
+   the shared generic tower API.
    CharacteristicClasses C3 consumes the cochain Milnor sequence and
    Mittag–Leffler vanishing; AffineMorseLefschetz A4 consumes the integer-graded
    Milnor sequences, strict-map/cofinal-shift naturality and limit-homology
@@ -1306,7 +1331,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Define cap products, including tensor pairings of local coefficient systems, and
    prove naturality, associativity, the unit law, graded signs, and the boundary formula.
    With the ring itself as coefficients the carriers are the native functors applied to
-   the ring (`singularChains`, `singularHomology`, `singularCohomology`), and `cupProduct`
+   the ring (`singularHomology`, `singularCohomology`), and `cupProduct`
    and `capProduct` are the native Alexander--Whitney products with the ring multiplication
    as pairing; the cap carries the complementary-degree hypothesis `p ≤ q` and lands in
    degree `q − p`.
@@ -1333,25 +1358,20 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
    #### Categorical covers and Lusternik–Schnirelmann bounds
 
-   After the foundational products of 6.2, construct `LSCategoricalCover` (a cover
-   of A by n opens) from n actual bundled opens in X covering A⊆X and native
-   `ContinuousMap.Nullhomotopic` witnesses for their inclusions into X. A
-   categorical open need only contract in X; do not require that open itself to
-   be contractible. Use `TopologicalSpace.Opens`, the induced subtype topology
-   and native continuous homotopies. Own restriction of covers, finite
-   concatenation, pullback along continuous maps with the specified ambient
-   homotopies, and the empty-index case.
-
-   Define `lsCategoryCount`, the count of A in X in ℕ∞, as the infimum of those
-   finite cover sizes, with infimum of the empty set equal to ∞. Prove that a finite value n
-   is attained by an n-element cover; prove monotonicity in A, finite-union
-   subadditivity, and the ambient deformation inequality: if g:X→X is
-   homotopic to the identity and g(A)⊆B, then
-   `lsCategoryCount X A≤lsCategoryCount X B`. Prove whole-space homotopy
-   invariance and homeomorphism transport, empty-set value0, positivity for
-   nonempty A, and the point/discrete-space calculations. For a finite
-   coproduct prove that the whole-space unnormalized count is the sum of the
-   counts of its components, including empty components and∞ cases.
+   After the foundational products of 6.2, consume Tau Ceti's categorical covers
+   `TauCeti.LSCategoricalCover` (n bundled opens of X covering A⊆X, each with a native
+   `ContinuousMap.Nullhomotopic` witness for its inclusion into X; a categorical open need
+   only contract in X, not in itself), with their restriction, finite concatenation,
+   pullback along continuous maps with specified ambient homotopies, push-forward along open
+   embeddings and the empty-index case, and the unnormalized count
+   `TauCeti.lsCategoryCount` of A in X in ℕ∞ (the infimum of the finite cover sizes, ⊤ when
+   there is none). Consume its attainment by a cover, monotonicity in A, finite-union
+   subadditivity, the ambient deformation inequality (if g:X→X is homotopic to the identity
+   and g(A)⊆B, the count of A is at most that of B), whole-space homotopy invariance and
+   homeomorphism transport, the empty-set value 0, positivity for nonempty A, the value 1 on
+   a contractible space, the discrete value (the cardinality of A), and additivity of the
+   whole-space count over finite coproducts, including empty components and ⊤ (Inventory).
+   This supplement states nothing further about them.
 
    On a nonempty space define the normalized category as the unnormalized count
    of the whole space minus 1, and prove that the unnormalized count is the
@@ -1363,10 +1383,11 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
    Consume Mathlib's `LocallyContractibleSpace` in its actual sense: each
    neighborhood contains a smaller neighborhood whose inclusion is
-   nullhomotopic. Restrict that nullhomotopy to the interior of the smaller
-   neighborhood and compose into X. Compactness then gives a finite open
-   categorical cover, so `lsCategoryCount X X<∞`. Do not infer an open
-   intrinsically contractible neighborhood basis from this weaker predicate.
+   nullhomotopic; Tau Ceti's `TauCeti.exists_isOpen_superset_lsCategoryCount_le_encard`
+   turns it into open neighbourhoods of count at most 1. Compactness then gives a finite
+   open categorical cover, so the count of a compact locally contractible X on the whole
+   space is finite. Do not infer an open intrinsically contractible neighborhood basis from
+   this weaker predicate.
 
    For a commutative coefficient ring R, use 6.2's existing singular cup
    product to define `lsCupLength` in ℕ∞ as the supremum of lengths of
@@ -1374,9 +1395,12 @@ homology with one copy of the coefficient ring also assumes connectedness.
    predicate `LSPositiveCupProduct`), with supremum of the
    empty collection 0. Export a finite-product witness API, restriction,
    coefficient/product naturality with the stated nonvanishing hypotheses,
-   and the lower bound `lsCupLength_add_one_le_categoryCount`: on nonempty X,
-   the cup length plus 1 is at most the unnormalized count of X, equivalently
-   the cup length is at most the normalized category. For a cover by r categorical
+   and the lower bound `lsCupLength_add_one_le_categoryCount`: on nonempty X, for
+   every open cover of X by n opens with nullhomotopic inclusions into X (the data of a
+   `TauCeti.LSCategoricalCover X univ n`), the cup length plus 1 is at most n. Since the
+   count is the infimum of those n, this is `lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X univ`,
+   equivalently the cup length is at most the normalized category. Nonemptiness is
+   needed: the empty space has cup length 0 and the empty cover. For a cover by r categorical
    opens, use native singular homotopy invariance and the positive-degree
    cohomology of a point to prove that classes restrict to zero on their
    designated opens. For **every commutative R**, construct the native point
@@ -1510,11 +1534,15 @@ homology with one copy of the coefficient ring also assumes connectedness.
    `LocallyRepresentedTopSection`). Prove this
    compact-support lemma by trivialization on coordinate balls, Stage3's twisted
    excision/Mayer–Vietoris and compact finite-cover induction, as in Hatcher Lemma3.27.
-   State separately the untwisted topological forms, with no smooth structure: for a
-   Hausdorff space M locally homeomorphic to ℝ^n and a compact K⊂M, `H_i(M,M\K;R)=0`
-   for i>n, by the same coordinate-ball Mayer–Vietoris and compact finite-cover
-   induction (Hatcher, Lemma 3.27(b), p. 236); for compact M this is `H_i(M;R)=0` for
-   i>n, consumed by Stage 8 item 15. For connected noncompact M prove `H_i(M;R)=0` for
+   The untwisted topological forms, with no smooth structure, are Tau Ceti's
+   (`Singular.LocalHomology.Compact`): for a Hausdorff space M modelled on a real normed
+   space of dimension n and a compact K⊂M, `H_i(M,M\K;N)=0` for i>n
+   (`TauCeti.isZero_localHomology_of_isCompact`; Hatcher, Lemma 3.27(b), p. 236), the
+   constant-coefficient existence and uniqueness statement
+   (`TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`; Hatcher,
+   Lemma 3.27(a)), and for compact M, `H_i(M;N)=0` for i>n
+   (`TauCeti.isZero_singularHomology_of_compactSpace`), consumed by Stage 8 item 15; the
+   twisted lemma above reduces to them for constant L. For connected noncompact M prove `H_i(M;R)=0` for
    i≥n (Hatcher, Proposition 3.29, p. 239), consumed by Stage 8 item 14; the top-degree
    vanishing is what the compact-support lemma alone does not give.
    Compare this homological system with DG Layer 2's
@@ -1931,7 +1959,8 @@ This stage consumes every one of Stages 2--6.  Stage 1 is not a prerequisite.
    from the relative cellular filtration of Stage 4.
 4. State cofibration, compactness, and finiteness assumptions explicitly.  Establish the standard
    checks `chi(S^n)=1+(-1)^n` (native `TauCeti.eulerChar_sphere`), `chi(T^n)=0` for `n>0`
-   (from the native product formula), and `chi(CP^n)=n+1` (native
+   (native `TauCeti.eulerChar_torus` for a product of `n ≥ 1` circles `AddCircle (p i)` of
+   nonzero periods, itself the product formula with `χ(S¹) = 0`), and `chi(CP^n)=n+1` (native
    `TauCeti.eulerChar_complexProjectiveSpace` on Tau Ceti's `ComplexProjectiveSpace`, to be
    compared with the value on ComplexKahlerGeometry's model). The complex-projective check consumes
    ComplexKahlerGeometry K7.1's projective model and K7.2's finite CW structure.
@@ -1949,39 +1978,31 @@ and geometric topology's smooth-triangulation result for the manifold corollarie
 Items 8–12 additionally consume ordinary Stage 6 cohomology and the item-level suppliers above;
 items 1–7 are independent of those later constructions.
 
-1. Define based pairs from a `TopPair` and an actual point of its subspace, together with
-   basepoint-preserving maps of pairs. Extend cubical `HomotopyGroup` with pointed maps,
-   functoriality, basepoint change, relative homotopy groups `pi_n(X,A,a_0)`, and the boundary maps
-   and long exact sequence of that based pair. State relative groups for NDR pairs/cofibrations,
-   rather than attaching them to arbitrary inclusions without hypotheses. The empty-subspace pair
-   admits no such based carrier.
-   Keep the low-degree algebra honest: use pointed-set and group carriers in the ranges where
-   relative homotopy is not abelian, and expose a `ModuleCat Z` carrier only in degrees at least
-   three.  In particular, `pi_2(X,A)` is group-valued in general; its abelianization, not the
-   unmodified group, is the module-valued source available without connectivity assumptions.
-   Own `relativeCWConnectivityOfCellDimension`: for a nonempty native relative
-   CW pair (X,A) in a Hausdorff ambient space, with every relative cell of
-   dimension at least λ≥2, Stage4.5's relative cellular approximation and
-   cofibration API give π_i(X,A,a)=0 for 1≤i<λ at every a∈A. In degree0,
-   prove every point of X can be joined to A by a path. Prove the component
-   map is bijective, inclusion induces π_q(A,a)≅π_q(X,a) for 1≤q≤λ−2,
-   and is surjective for q=λ−1. Include the pointed-set relative degree1;
-   the endpoint surjectivity also holds for λ=1 as a component statement.
-   The headline states the bijections for every q with q+1<λ and carries no
-   lower bound on λ: for λ≤1 no q satisfies it, so the statement is empty
-   there, and for λ≥2 it includes q=0 as the component bijection.
-   Prove naturality of the induced isomorphisms under based maps of pairs.
-   Export the transport form of that connectivity theorem: let (X_c,A_c)
-   be that native CW pair, and let g:X_c→Y, f:A_c→B commute with the two
-   inclusions, where B⊆Y is a subspace. If f and g induce bijections on
-   every π_q (including components), at every a∈A_c and its images
-   (equivalently, at one chosen a in each path component), the same inclusion
-   range holds on (Y,B). The actual commuting
-   square transports the bijection/surjection; component bijectivity and
-   basepoint change give the result at every b∈B as a corollary of the
-   pointwise prototype. If relative groups of the
-   target pair are used, take its cofibration/NDR data as a separate hypothesis.
-   In particular, based homotopy equivalences of pairs supply these hypotheses.
+1. Consume Tau Ceti's relative homotopy theory (Inventory): based pairs
+   `TauCeti.BasedTopPair` (a `TopPair` together with a point of its subspace, with
+   basepoint-preserving maps of pairs; the empty-subspace pair admits no such carrier), the
+   relative homotopy sets `TauCeti.RelHomotopyGroup` `π_{n+1}(X,A,a₀)` in the cubical model of
+   Mathlib's `HomotopyGroup`, their functoriality, boundary map, basepoint change, group
+   structure in relative dimension at least two, commutativity from relative dimension
+   three, and the exact homotopy sequence of a based pair as pointed sets in every degree.
+   This item states nothing further about them. Own the module-valued carriers: a
+   `ModuleCat Z` carrier only in degrees at least three, and, since `pi_2(X,A)` is
+   group-valued in general, its abelianization as the module-valued source available
+   without connectivity assumptions.
+   Consume Tau Ceti's connectivity of relative CW complexes (`Relative.CellDimension`): for
+   a relative CW complex C with base D in a Hausdorff space and no cells of dimension below
+   λ, `π_(k+1)(C,D,a)` is trivial for k+1<λ
+   (`TauCeti.subsingleton_relHomotopyGroup_of_isEmpty_cell`), and at every a∈D the inclusion
+   induces surjections π_k(D,a)→π_k(C,a) for k<λ and injections for k+1<λ
+   (`TauCeti.surjective_homotopyGroupMap_of_isEmpty_cell`,
+   `TauCeti.injective_homotopyGroupMap_of_isEmpty_cell`; Hatcher, Corollary 4.12, p. 351),
+   so bijections for k+1<λ, with k=0 the component statement. Consume the transport forms
+   for a map j:B→Y weakly equivalent to that inclusion through weak homotopy equivalences
+   f:D→B and g:C→Y with g∘(D↪C)=j∘f
+   (`TauCeti.exists_joined_of_isEmpty_cell_of_comp_eq`,
+   `TauCeti.surjective_homotopyGroupMap_of_isEmpty_cell_of_comp_eq`,
+   `TauCeti.injective_homotopyGroupMap_of_isEmpty_cell_of_comp_eq`); based homotopy
+   equivalences of pairs supply these hypotheses.
    RiemannianGeometry R3 applies the transport theorem to
    CharacteristicClasses C2.0's bundle-cell relative CW models, compared with
    MorseTheory M5's actual Morse–Bott negative-disk attachments; RiemannianGeometry R3 owns the
@@ -2027,29 +2048,43 @@ items 1–7 are independent of those later constructions.
    through Stage 4.4, with item 8.6's cubical representative comparison. DGFloer item 4 consumes these classical results to compute
    π_n|Γ(A[n])|. GeneralizedCohomology G2.1 consumes this unit theorem in
    its Quillen comparison, rather than reconstructing its underlying weak-equivalence proof.
-3. Own the general absolute Hurewicz map for every n≥1. A native generalized
-   cubical loop g descends through the Stage 4.4 quotient q to a pointed sphere
-   map ḡ; define h[g]=ḡ_*[S^n] on the outward-first normalized generator.
-   Prove independence of representatives, group law and naturality. In degree
-   one it factors through abelianization; DGFloer Layer 1 item 1 owns the
+3. Consume Tau Ceti's Hurewicz map `HomotopyGroup.hurewicz` (`Hurewicz.Basic`: a cube
+   `(Iⁿ, ∂Iⁿ) → (X, x)` goes to the image of the relative fundamental class of the cube pair;
+   it is independent of representatives, natural, and a homomorphism
+   `HomotopyGroup.hurewiczHom`) and the absolute Hurewicz theorem
+   `HomotopyGroup.bijective_hurewicz` (`Hurewicz.Absolute`; Hatcher, Theorem 4.32, p. 366):
+   for `X : Type` with `π_k(X, x)` trivial for every `k < n + 2`, the integral Hurewicz map
+   `π_(n+2)(X, x) → H_(n+2)(X; ℤ)` is bijective. This item states nothing further about
+   them. Own the comparison of that map with the sphere normalization: a native generalized
+   cubical loop g descends through the Stage 4.4 quotient q to a pointed sphere map ḡ, and
+   the Hurewicz class is ḡ_*[S^n] on the outward-first normalized generator. Own the
+   vanishing of reduced integral homology below `n` for an `(n-1)`-connected pointed space
+   and the passage of the absolute theorem to spaces in every universe. In degree
+   one the map factors through abelianization; DGFloer Layer 1 item 1 owns the
    theorem that this exact map is an isomorphism, through its chain comparison.
    For arbitrary spaces consume DGFloer 1.2's direct Eilenberg-subcomplex
    connected-map comparison; it uses face-compatible compression and prisms,
-   not this Hurewicz theorem. Prove the absolute theorem: an `(n-1)`-connected pointed
-   space has reduced integral homology zero below `n` and `pi_n(X) ~= H_n(X;Z)` for `n>=2`.
-4. Prove relative Hurewicz for a based cofibration/NDR pair.  If `A` and `X` are simply connected
+   not this Hurewicz theorem.
+4. Prove relative Hurewicz for a based pair.  If `A` and `X` are simply connected
    and `pi_i(X,A)=0` for `i<n`, prove `H_i(X,A;Z)=0` below `n` and that relative Hurewicz is an
-   isomorphism in degree `n`.  Derive the exact isomorphism and surjectivity range for
+   isomorphism in degree `n` (Hatcher, Theorem 4.37, p. 371, with `A` simply connected).
+   Tau Ceti proves the case in which `π_k(A)` and `π_k(X)` themselves vanish for `k < n`
+   (`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`); the general
+   case assumes only simple connectivity of `A` and `X`.  Derive the exact isomorphism and
+   surjectivity range for
    `H_i(A)->H_i(X)` from the pair sequence.  In degree two, first derive commutativity of
    `pi_2(X,A)` from these connectivity hypotheses, prove that the map to its abelianization is an
    isomorphism, and only then identify it with relative homology.
-5. Prove Whitehead's theorem for Hausdorff CW complexes using cellular approximation and skeletal
-   induction (`whitehead_homotopyEquiv`: a map bijective on path components and on every
-   homotopy group at every basepoint is the forward map of a homotopy equivalence; Hatcher,
-   Theorem 4.5, p. 346).  Combine relative Hurewicz with the mapping cylinder to prove homological
-   Whitehead for simply connected CW complexes (`homologicalWhitehead`; Hatcher, Corollary 4.33,
-   p. 367), then extend both results to spaces of CW type, a CW-type witness being a Hausdorff
-   CW model with a homotopy equivalence to it (`CWTypeModel`).
+5. Consume Tau Ceti's Whitehead theorem for spaces of CW type,
+   `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` with
+   `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun` (a map surjective on path
+   components and bijective on every `π_n`, `n = 0` included, at every basepoint between
+   spaces of `TauCeti.CWType` is the forward map of a homotopy equivalence; Hatcher,
+   Theorem 4.5, p. 346); a Hausdorff CW complex has CW type by
+   `TauCeti.CWType.of_cwComplex_univ`. This item states nothing further about it. Combine
+   relative Hurewicz with the mapping cylinder to prove homological Whitehead for simply
+   connected Hausdorff CW complexes (`homologicalWhitehead`; Hatcher, Corollary 4.33,
+   p. 367), then extend it to simply connected spaces of `TauCeti.CWType`.
    **Abstract homotopy groups and the inducing-map hypothesis.** Construct
    the finite based CW spaces X=RP²×S³ and Y=S²×RP³ on the Stage 4.6
    projective and native sphere carriers, with the standard unit-vector
@@ -2152,8 +2187,9 @@ items 1–7 are independent of those later constructions.
    cylinder comparisons. Export `properStrongDeformationRetract_of_inverse`:
    for a closed strongly locally finite CW subcomplex A⊂X (which has the proper
    homotopy extension property `HasProperHomotopyExtensionProperty`), a proper inverse
-   of its inclusion, with joint proper inverse homotopies as in
-   `HasProperHomotopyInverse`, yields a proper retraction r:X→A and a joint
+   of its inclusion, with joint proper inverse homotopies as in Tau Ceti's
+   `ContinuousMap.HasProperHomotopyInverse` (the headline names the inverse and its two
+   homotopies as hypotheses), yields a proper retraction r:X→A and a joint
    proper homotopy id_X≃inclusion∘r stationary on A. Rectify the inverse on
    A by proper extension, then use proper extension on the displayed product
    pair to make the inverse homotopy stationary; retain both extension maps
@@ -2356,7 +2392,8 @@ items 1–7 are independent of those later constructions.
     of Milnor 1959, Theorem 3 (both its assertions: the space `A^C` and the n-ad) for
     n-ads: mapping spaces from a compact Hausdorff
     source (in particular a finite CW pair) into a Hausdorff pair of CW type
-    (`CWTypeModel`), with prescribed relative/basepoint values,
+    (`TauCeti.CWType`; the headline names the CW model of the target as
+    hypotheses), with prescribed relative/basepoint values,
     have based CW type in the compact-open/Kelley topology. Own the full inputs
     in their relative n-ad forms. Replace any CW n-ad by the weak realization
     K_w of a native abstract simplicial n-ad, with actual homotopy equivalences,
@@ -2841,11 +2878,11 @@ downstream comparison theorem as input.
   natural choice of singular representatives.
 - The field, PID or hereditary-ring, and general-ring Kunneth and universal-coefficient theorems
   have distinct statements; neither short exact sequence is advertised over an arbitrary ring.
-- Transfer for a constant-degree-`d` finite cover satisfies `p_* transfer = d * id` on chains and
-  on homology, including the induced map on `H_0`, even for zero sheets. A surjective regular
-  cover also satisfies the deck-sum
-  formula and has the stated Cartan--Leray spectral sequence; the torus calculation is natural
-  under integer matrices.
+- The consumed transfer for a constant-degree-`d` finite cover satisfies `p_* transfer = d * id`
+  on chains and on homology, including the induced map on `H_0`, even for zero sheets, and the
+  deck-sum formula for a finite regular cover. The Cartan--Leray spectral sequence of a
+  surjective regular cover has the stated `E²` term and abutment; the torus calculation is
+  natural under integer matrices.
 - The Serre spectral sequence starts from an explicit Serre fibration, exposes the monodromy local
   system, is natural under maps of fibrations, and proves finite-CW bundle Euler multiplicativity.
   Trivial monodromy makes the `E^2` coefficients constant but does not imply collapse: the Hopf
@@ -2862,10 +2899,10 @@ downstream comparison theorem as input.
   cellular calculations on the single Stage 4.6 carrier, with the coefficient
   identification proved in Stage 6.3. The twisted relative fundamental class has canonical local images and
   boundary equal to the outward-first class of the boundary.
-- The tower difference map, six-term sequence, Mittag--Leffler vanishing,
-  integer-graded Milnor sequences and cofinal shifts satisfy their naturality
-  diagrams. The derived-limit cone compares with ordinary limits of degreewise
-  surjective towers; homotopy-square cone maps retain their chosen homotopies.
+- The consumed tower difference map, six-term sequence, Mittag--Leffler vanishing,
+  Milnor sequences and cofinal shifts satisfy their naturality diagrams, and the derived-limit
+  cone compares with ordinary limits of degreewise surjective towers; the homotopy-square
+  cone maps owned in 6.0 retain their chosen homotopies.
 - Torsion linking has complementary degrees, target `AddCircle (1 : ℚ)`, the displayed symmetry
   sign, and nonsingularity under the stated finite-generation hypotheses.
 - Euler characteristic gives the standard values on spheres, tori, and complex projective
@@ -2897,6 +2934,10 @@ downstream comparison theorem as input.
 
 - Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Chapters 6--7, in
   particular 7.4.2 and its Addendum (homotopy equivalences of closed cofibrations).
+- Arne Strøm, *Note on cofibrations II*, Mathematica Scandinavica 22 (1968), 130--142,
+  Theorem 6, p. 135, for products of cofibered pairs, `(X, A) × (Y, B)` with `A` closed in `X`.
+- John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
+  1963, §3, Lemmas 3.6 and 3.7, for attachments along homotopic maps (cited by its locator).
 - Rainer M. Vogt, *A note on homotopy equivalences*, Proceedings of the American Mathematical
   Society 32 (1972), 627--629, for the strong homotopy equivalence completing a given
   inverse homotopy.
