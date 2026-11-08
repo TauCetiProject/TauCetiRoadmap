@@ -33,9 +33,9 @@ closed Lip-norm theorem for ergodic actions, central finite-character approximat
 comparison with derivative seminorms; the order-unit quantum Gromov–Hausdorff distance, its
 admissible Lip-norms and bridges, metric laws, rigidity, completeness and compactness; for
 every `d`, the quantum-torus family `A_Θ = C*(ℤᵈ, σ_Θ)` on the common regular model `ℓ²(ℤᵈ)`
-with its identification theorem, the point-norm continuity of its gauge action, its gauge
-coefficient maps and gauge-finite Fourier polynomials, the continuous-field norm estimates and
-the uniform metric continuity of quantum tori.
+with its identification theorem, its gauge coefficient maps and gauge-finite Fourier
+polynomials, the continuous-field norm estimates and the uniform metric continuity of quantum
+tori.
 
 It does not own, and does not restate:
 
@@ -98,6 +98,10 @@ It does not own, and does not restate:
   the amenability of abelian groups of [AmenableGroups](../AmenableGroups/README.md) Layer 6,
   enter only through that section. The Følner boxes of `ℤᵈ` and their boundary estimate are
   owned here (§6.3).
+- The point-norm continuity of the gauge action on `C*(L, c)`, that `χ ↦ α_χ(a)` is norm
+  continuous on the dual group `L̂` for every element `a`, which
+  [OperatorKTheory](../OperatorKTheory/README.md) owns (its K7.5, for every discrete abelian `L`
+  and circle-valued factor set `c`). §6.1 consumes it at `L = ℤᵈ`, `c = σ_Θ`.
 - A metric that detects the full C*-multiplication. The distance of Layer 5 is an order-unit
   (Jordan) distance: opposite algebras with the transported Lip-norm are at distance zero
   (§5.4).
@@ -226,9 +230,13 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`, with its basepoint-normalized form
   `TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`
   (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`). The compact
-  form assumes probability measures and `OpensMeasurableSpace` and no moment hypothesis; the
-  basepoint-normalized form assumes `HasFiniteMoment 1 μ` and `HasFiniteMoment 1 ν` and no
-  compactness, which §3.3's adapter proves on a compact metric space.
+  form assumes a compact pseudometric space with `OpensMeasurableSpace X` and two probability
+  measures, and no moment hypothesis. The basepoint-normalized form assumes a pseudometric space
+  with `OpensMeasurableSpace X`, `SecondCountableTopology X` and `StandardBorelSpace X`, two
+  probability measures with `TauCeti.HasFiniteMoment 1 μ` and `TauCeti.HasFiniteMoment 1 ν`, and
+  a basepoint `x₀`, and no compactness. On a compact metric space with its Borel σ-algebra the
+  three typeclass hypotheses are instances (a compact metric space is Polish), and §3.3's adapter
+  proves the moment bounds by bounding `edist x₀ y` by the finite diameter of `X`.
 - `TauCeti.IsFactorSet` (a normalized multiplicative `2`-cocycle `α : G → G → kˣ`) and the
   twisted monoid algebra `TauCeti.twistedMonoidAlgebra k G α` with its basis elements
   `TauCeti.TwistedMonoidAlgebra.of`, the multiplication table
@@ -298,6 +306,12 @@ of Rieffel 2000, Definition 5.1, from which `max(L_E, L_F, N)` is an admissible 
   of the dual group with fixed-point algebra `ℂ·1`, whose Haar average of `a` is `τ(a)·1`. Its
   star is
   `f*(x) = conj(c(−x, x)) conj(f(−x))`.
+- [OperatorKTheory](../OperatorKTheory/README.md) K7.5: for a discrete abelian group `L` and a
+  circle-valued factor set `c` (`TauCeti.IsFactorSet c` with `|c| = 1`), the twisted shifts
+  `W_xδ_z = c(x, z)δ_(x+z)` on `ℓ²(L)`, the algebra `C*(L, c)` as the norm closure of their span,
+  and the gauge action `α_χ = Ad(M_χ)` of the Pontryagin dual `L̂`, with `M_χ` multiplication by
+  `χ`, so that `α_χ(W_y) = χ(y)W_y`; this gauge action is norm continuous in `χ` at each element.
+  Only that continuity is consumed (§6.1).
 
 ## How to read the build
 
@@ -860,25 +874,29 @@ Lipschitz subalgebra. *Needs:* 3.1, 1.4, 2.1; Mathlib `BoundedContinuousFunction
 ### 3.3 States as probability measures and the Wasserstein distance
 
 Identify `S(C(X, ℝ))` affinely and homeomorphically with the native
-`MeasureTheory.ProbabilityMeasure X` under the integration pairing, using compact regular
-Borel probabilities and the Riesz–Markov–Kakutani theorem. Define `integrationState μ`, the
-state `f ↦ ∫ f dμ` of `C(X, ℝ)` for a probability measure `μ` on a compact metric space, as
-the composite of `ContinuousMap.toLp` and `MeasureTheory.L1.integralCLM`, with its
-monotonicity and normalization. Prove the required Borel, regularity and moment properties
-of probability measures on a compact metric space inside the adapter. Prove
-`stateEDist_integrationState`: for `L = classicalLip` on `C(X, ℝ)`,
-`ρ_L(integrationState μ, integrationState ν) = W₁(μ, ν)`, by Tau Ceti's
-Kantorovich–Rubinstein duality `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`, in its
-absolute-value and basepoint-normalized formulations. Prove that `x ↦ integrationState δ_x` is
-isometric, that its image is exactly the set of extreme states, and
-`diam(S(C(X, ℝ)), ρ_L) = diam X`. Extend integration and the state dictionary to compact
-Hausdorff `X` independently of a metric, using the subtype of regular (equivalently here,
-Radon) Borel probability measures: in that generality arbitrary Borel probabilities need not
-be regular or determined by continuous integrals. In the compact metric case keep the native
+`MeasureTheory.ProbabilityMeasure X` under the integration pairing, using compact regular Borel
+probabilities and the Riesz–Markov–Kakutani theorem. Define `integrationState μ`, the state
+`f ↦ ∫ f dμ` of `C(X, ℝ)` for a probability measure `μ` on a compact metric space, as the composite
+of `ContinuousMap.toLp` and `MeasureTheory.L1.integralCLM`, with its monotonicity and normalization.
+Prove the required Borel, regularity and moment properties of probability measures on a compact
+metric space inside the adapter; in particular every probability measure `μ` has
+`TauCeti.HasFiniteMoment 1 μ`, because `edist x₀ ·` is continuous and bounded by the finite diameter
+of `X`. Prove `stateEDist_integrationState`: for `L = classicalLip` on `C(X, ℝ)`,
+`ρ_L(integrationState μ, integrationState ν) = W₁(μ, ν)`, by Tau Ceti's Kantorovich–Rubinstein
+duality `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace` (the absolute value in `ρ_L` is
+removed by `f ↦ −f`, which preserves the Lip-unit ball) and its basepoint-normalized form
+`TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`, whose second-countability and standard Borel
+hypotheses are instances on a compact metric space with its Borel σ-algebra. Prove that
+`x ↦ integrationState δ_x` is isometric, that its image is exactly the set of extreme states, and
+`diam(S(C(X, ℝ)), ρ_L) = diam X`. Extend integration and the state dictionary to compact Hausdorff
+`X` independently of a metric, using the subtype of regular (equivalently here, Radon) Borel
+probability measures: in that generality arbitrary Borel probabilities need not be regular or
+determined by continuous integrals. In the compact metric case keep the native
 `ProbabilityMeasure X`, where the adapter proves regularity; the `W₁` theorem uses the metric
-hypotheses. *Needs:* 3.2, 1.5, 0.3; Tau Ceti `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`;
-Mathlib `RealRMK.rieszMeasure`, `ContinuousMap.toLp`, `MeasureTheory.L1.integralCLM`;
-OptimalTransport Layers 0–3.
+hypotheses. *Needs:* 3.2, 1.5, 0.3; Tau Ceti `TauCeti.wassersteinEDist_one_eq_iSup_of_compactSpace`,
+`TauCeti.wassersteinEDist_one_eq_iSup_apply_eq_zero`, `TauCeti.HasFiniteMoment`; Mathlib
+`RealRMK.rieszMeasure`, `ContinuousMap.toLp`, `MeasureTheory.L1.integralCLM`; OptimalTransport
+Layers 0–3.
 
 **Checks.**
 
@@ -890,6 +908,10 @@ OptimalTransport Layers 0–3.
   Dirac measure.
 - Normalization of `integrationState`: `∫ 1 dμ = μ(X) = 1`; for a finite measure of mass `2`
   the functional is positive but not a state.
+- First moments: on `[0, 1]` every probability measure has `∫ |t − x₀| dμ ≤ 1` for every
+  basepoint `x₀`, so the moment hypotheses of the basepoint-normalized duality hold; on the
+  noncompact line `ℝ` the Cauchy law `dt/(π(1 + t²))` has `∫ |t| dμ = ∞`, so off compact spaces
+  the moment hypothesis is a genuine restriction and compactness is what supplies it.
 
 ### 3.4 Lipschitz maps and pushforward
 
@@ -1484,35 +1506,37 @@ faithful. Route: the range of `Φ` is closed and contains the generators, so `Φ
 
 ### 6.1 Gauge action, trace and the identification Φ_θ
 
-Prove, owned here, that the gauge action of §6.0 is point-norm continuous: each `α_z` is
-isometric and `z ↦ z^pW_p` is continuous, so continuity of `z ↦ α_z(a)` passes from the dense
-span of the `W_p` to every `a`. Its Haar average `∫_(Tᵈ) α_z(a) dz = τ_Θ(a)·1` is
-HeisenbergImprimitivity §3.1's gauge average at `L = ℤᵈ` (stated there for positive `a` and
-extended to all `a` by linearity), as are the gauge action of `L̂` itself and the facts that `τ_Θ`
-is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine `a`, and that the fixed
-algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and `Θ = 0`. Construct the
-coefficient maps `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz` and prove `E_p(a) = τ_Θ(aW_p*)W_p`, from
-`z^(−p)α_z(a) = α_z(aW_p*)W_p` and the gauge average; prove that the gauge-finite subalgebra is
-exactly the finite Fourier polynomials; for `d = 0` it is `ℂ`. The coefficient maps and the
-gauge-finite subalgebra are owned here for every `d`; NoncommutativeGeometry N6 owns the smooth
-two-torus theory on the rotation algebra `A_θ`, and Layer 6 does not rebuild it.
-For `d = 2` construct the isometric star isomorphism `Φ_θ : A_Θ(θ) → A_θ`,
-`Φ_θ(W_(m,n)) = exp(πiθmn)U₁^mU₂^n`. Route: the trace-GNS representation `π_τ` of `A_θ` on
-`L²(A_θ, τ)`, identified with `ℓ²(ℤ²)` by N7's ordered basis `e_(m,n) = [U₁^mU₂^n]`, is
-injective because N6's `τ` is faithful; with the diagonal unitary
-`Vδ_(m,n) = exp(πiθmn)e_(m,n)` prove `V*π_τ(U₁)V = W_(1,0)` and `V*π_τ(U₂)V = W_(0,1)` (both
-sides send `δ_(m,n)` to `exp(−πiθn)δ_(m+1,n)`, respectively `exp(πiθm)δ_(m,n+1)`), so
-`a ↦ V*π_τ(a)V` maps `A_θ` onto `A_Θ(θ)` and `Φ_θ` is its inverse. Prove
-`Φ_θ ∘ α_z = β_z ∘ Φ_θ` for N6's gauge action `β`, `τ ∘ Φ_θ = τ_Θ(θ)`, the coefficient rule
-that the `(m, n)` coefficient of `Φ_θ(x)` is `exp(πiθmn)` times the `W_(m,n)` coefficient of
-`x`, and that `Φ_θ` maps finite Fourier polynomials onto finite Fourier polynomials and the
-rapidly decreasing series of `A_Θ(θ)` onto `𝒜_θ`, the phases having modulus one. `V`
-intertwines `λ_Θ(θ)` with `π_τ` and commutes with every operator diagonal in the two Fourier
-bases with the same eigenvalues, in particular with the derivations `δ_j` and with N7's
-Fourier–Dirac operator `D` on `ℓ²(ℤ²) ⊗ ℂ²`. No irrationality hypothesis enters any metric
-theorem. *Needs:* 6.0; HeisenbergImprimitivity §3.1 (trace, Fourier coefficients, gauge action
-with its fixed algebra and gauge average); NoncommutativeGeometry N6 and N7; CompactGroups
-Layer 0 (Haar averaging on `Tᵈ`).
+The gauge action of §6.0 is point-norm continuous by OperatorKTheory K7.5 at `L = ℤᵈ`, `c = σ_Θ`.
+Its `C*(L, c)` is the norm closure of the span of the same twisted shifts
+`W_pδ_q = σ_Θ(p, q)δ_(p+q)` on `ℓ²(ℤᵈ)`, which is `A_Θ` because that span is already a unital star
+algebra (`W_0 = 1`, `W_p* = W_(−p)`). Its `α_χ = Ad(M_χ)` is `α_z` for `χ(p) = z^p`, since
+`M_χW_pM_χ*δ_q = conj(χ(q))σ_Θ(p, q)χ(p + q)δ_(p+q) = χ(p)W_pδ_q`; continuity in `z ∈ Tᵈ` follows
+because `z ↦ χ_z` is continuous from `Tᵈ` to the dual group. Its Haar average
+`∫_(Tᵈ) α_z(a) dz = τ_Θ(a)·1` is HeisenbergImprimitivity §3.1's gauge average at `L = ℤᵈ` (stated
+there for positive `a` and extended to all `a` by linearity), as are the gauge action of `L̂` itself
+and the facts that `τ_Θ` is a faithful trace, that the Fourier coefficients `τ_Θ(aW_p*)` determine
+`a`, and that the fixed algebra is `ℂ·1` for every `Θ`, including rational and degenerate `Θ` and
+`Θ = 0`. Construct the coefficient maps `E_p(a) = ∫_(Tᵈ) z^(−p) α_z(a) dz` and prove
+`E_p(a) = τ_Θ(aW_p*)W_p`, from `z^(−p)α_z(a) = α_z(aW_p*)W_p` and the gauge average; prove that the
+gauge-finite subalgebra is exactly the finite Fourier polynomials; for `d = 0` it is `ℂ`. The
+coefficient maps and the gauge-finite subalgebra are owned here for every `d`;
+NoncommutativeGeometry N6 owns the smooth two-torus theory on the rotation algebra `A_θ`, and
+Layer 6 does not rebuild it. For `d = 2` construct the isometric star isomorphism
+`Φ_θ : A_Θ(θ) → A_θ`, `Φ_θ(W_(m,n)) = exp(πiθmn)U₁^mU₂^n`. Route: the trace-GNS representation `π_τ`
+of `A_θ` on `L²(A_θ, τ)`, identified with `ℓ²(ℤ²)` by N7's ordered basis `e_(m,n) = [U₁^mU₂^n]`, is
+injective because N6's `τ` is faithful; with the diagonal unitary `Vδ_(m,n) = exp(πiθmn)e_(m,n)`
+prove `V*π_τ(U₁)V = W_(1,0)` and `V*π_τ(U₂)V = W_(0,1)` (both sides send `δ_(m,n)` to
+`exp(−πiθn)δ_(m+1,n)`, respectively `exp(πiθm)δ_(m,n+1)`), so `a ↦ V*π_τ(a)V` maps `A_θ` onto
+`A_Θ(θ)` and `Φ_θ` is its inverse. Prove `Φ_θ ∘ α_z = β_z ∘ Φ_θ` for N6's gauge action `β`,
+`τ ∘ Φ_θ = τ_Θ(θ)`, the coefficient rule that the `(m, n)` coefficient of `Φ_θ(x)` is `exp(πiθmn)`
+times the `W_(m,n)` coefficient of `x`, and that `Φ_θ` maps finite Fourier polynomials onto finite
+Fourier polynomials and the rapidly decreasing series of `A_Θ(θ)` onto `𝒜_θ`, the phases having
+modulus one. `V` intertwines `λ_Θ(θ)` with `π_τ` and commutes with every operator diagonal in the
+two Fourier bases with the same eigenvalues, in particular with the derivations `δ_j` and with N7's
+Fourier–Dirac operator `D` on `ℓ²(ℤ²) ⊗ ℂ²`. No irrationality hypothesis enters any metric theorem.
+*Needs:* 6.0; HeisenbergImprimitivity §3.1 (trace, Fourier coefficients, gauge action with its fixed
+algebra and gauge average); OperatorKTheory K7.5 (point-norm continuity of the gauge action);
+NoncommutativeGeometry N6 and N7; CompactGroups Layer 0 (Haar averaging on `Tᵈ`).
 
 **Checks.**
 
@@ -1531,6 +1555,11 @@ Layer 0 (Haar averaging on `Tᵈ`).
 - Coefficient maps on generators: `E_p(W_q) = (∫ z^(q−p) dz) W_q = δ_(p,q)W_q`, and
   `τ_Θ(W_qW_p*)W_p = δ_(p,q)W_p` agrees; at `p = 0` this is the gauge average `δ_(q,0)·1`. The
   sign variant `∫ z^p α_z(a) dz` would send `W_q` to `δ_(q,−p)W_q`, the coefficient of `W_(−p)`.
+- The supplier's gauge action against §6.0's, `d = 1`, `χ(p) = z^p`: `M_χ*δ_q = z^(−q)δ_q`, then
+  `W_1` gives `z^(−q)δ_(q+1)`, then `M_χ` gives `z^(q+1)z^(−q)δ_(q+1) = zW_1δ_q`, so
+  `Ad(M_χ)(W_1) = zW_1 = α_z(W_1)`. The reversed conjugation `M_χ*W_1M_χ` gives `z^(−1)W_1`, the
+  action of `z̄`; since `z ↦ z̄` is a homeomorphism of `Tᵈ` either convention is point-norm
+  continuous, but only `Ad(M_χ)` matches `α_z` pointwise.
 
 ### 6.2 Lip-norms on quantum tori
 
@@ -1667,8 +1696,9 @@ function of `θ`, and the limits `θ → 0` and `θ → p/q`.
 
 Layers 4–5 (the gauge-action Lip-norm, admissible Lip-norms and the triangle inequality);
 HeisenbergImprimitivity §3.1 and Tau Ceti `TauCeti.twistedMonoidAlgebra` (6.0–6.1) with
-`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (6.5); NoncommutativeGeometry N6–N7 (6.1–6.2 at
-`d = 2` only); CompactGroups Layer 0.
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (6.5); OperatorKTheory K7.5 (6.1, point-norm
+continuity of the gauge action); NoncommutativeGeometry N6–N7 (6.1–6.2 at `d = 2` only);
+CompactGroups Layer 0.
 
 ## Downstream consumers
 
