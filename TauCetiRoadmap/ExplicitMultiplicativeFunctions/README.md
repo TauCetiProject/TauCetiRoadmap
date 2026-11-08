@@ -163,9 +163,11 @@ not the roadmap.
   exact computation contributes a verified value only, as a proposition that this roadmap states
   and does not discharge (Layer 0.7);
 - Vanlalngaia's constant `0.841` for the tilted products (`vanlalngaia2017` Theorem 5, p. 3): its
-  input is that paper's Theorem 4, a remainder for `Σ_{p ≤ x} 1/p` in terms of `ψ(x) − x`, which is
-  a prime estimate outside the contract of ExplicitPrimeCounting; Layer 8.2 proves the transfer with
-  the cubic reciprocal-prime remainder instead;
+  input is that paper's Theorem 4, a remainder for `Σ_{p ≤ x} 1/p` in terms of `θ(x) − x`
+  (`vanlalngaia2017` lines 90–108, proved at lines 423–429 by Stieltjes integration against `θ`),
+  which no section of ExplicitPrimeCounting states (its §4.3 uses it only inside the route of
+  Vanlalngaia's Corollary 3); Layer 8.2 proves the transfer with the cubic reciprocal-prime
+  remainder instead;
 - the `(log log x)^k/(log x)^k` family of bounds for `M(x)` of El Marraki 1995, Théorème 4, and the
   double-logarithmic sum `Σ_{n ≤ x} μ(n) log²(x/n)/n` of Ramaré 2015, Theorems 1.7–1.8 and
   1.16–1.17, with its coprime consequence `0 ≤ Σ_{n ≤ x, (n, q) = 1} μ(n) log²(x/n)/n ≤ 2 (q/φ(q)) log x`
@@ -864,6 +866,10 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
   `(x ↦ 1/√x, 1, 1.2·10^7)` (`ramare2015mc` Lemma 10.2, lines 1157–1164),
   `(x ↦ 0.00140/log x, 9550, 24 832)` (3.2; `ramare2015corr` lines 237–239, there to `18 100`) and
   the initial ranges of the other rows of 3.2 (3.2, 3.3).
+- *MoebiusLogUpperRangeVerified* `c a b`: `m̌(x) ≤ c` for every real `x ∈ [a, b]`; instance
+  `(m̌(30), 1, 44)` (3.3; the computation behind Balazard's optimal constant, `balazard2012` line 717,
+  quoted at `ramare2015mc` lines 284–285). It is one-sided because `m̌ − 1` is far below `0` near
+  `x = 1` while the bound needed is `m̌ ≤ m̌(30)`, within `0.0031` of `1`.
 - *MoebiusStarRangeVerified* `ε a b`: `Σ_{1 ≤ w ≤ √y} |M(y/w²)| ≤ ε(y)` for every real `y ∈ [a, b]`
   (natural `w`); instances `(y ↦ c y/log y, a, 8·10^7)` for
   `(c, a) = (0.0918, 48 513), (0.199, 4536), (0.429, 490)`, `(y ↦ 0.997 y/log y, (1, 8·10^7])` and
@@ -1024,6 +1030,15 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
 - The lower end `33` of `MoebiusTableVerified` is needed: `M(31) = −4` and
   `|M(31)|/√31 = 0.7184 > 0.571`, `|M(32)|/√32 = 0.7071`, while `|M(33)| = 3 ≤ 0.571 √33 = 3.280` and the largest value of
   `|M(n)|/√n` on `[33, 2000]` is `0.5671`.
+- *MoebiusLogUpperRangeVerified* `(m̌(30)) 1 44` holds with equality at `x = 30`: on `[N, N + 1)`
+  the sum `m̌(x) = m(N) log x − Σ_{n ≤ N} μ(n) log n/n` is monotone in `log x`, so both ends of
+  each unit interval suffice, and the largest value is `m̌(30) = 1.0030213`. The instance with
+  `1.0030` in place of `m̌(30)` fails at `x = 30`. The two-sided *MoebiusLogRangeVerified*
+  `(x ↦ m̌(30) − 1) 1 44`, which would give the same upper bound, is false at `x = 1`, where
+  `|m̌(1) − 1| = 1`.
+- The range end `44` is where the `1/500` row of 3.2 takes over: *MoebiusLogUpperRangeVerified*
+  `1.002 44 (2·10^7)` holds (largest value `1.0017953`, at `x = 44`), and with `43` in place of `44`
+  it fails (`m̌(43) = 1.0022775`).
 - *MoebiusAbsIntegralLE* `1 0` is true (empty integral); *MoebiusAbsIntegralLE* `2 0` is false since
   `|M(t)| = 1` on `[1, 2)`. *MoebiusLogIntegralLE* `1 078 853 302` holds (`301.904…`) and
   *MoebiusLogIntegralLE* `1 078 853 301.9` fails.
@@ -2435,22 +2450,32 @@ its hypothesis *ZetaResidueSumVerified*); Layer 0.7 (*MoebiusAbsIntegralLE*,
 
 Prove Ramaré's Corollary 1.10 for every natural `q ≥ 1` and real `x ≥ 1`:
 `0 ≤ m̌_q(x) ≤ 1.00303 q/φ(q)` (`ramare2015mc` lines 278–285), from Lemma 1.9 for `m̌` (lines
-264–265: the same decomposition with `m̌` in place of `m`), the positivity `m̌(y) ≥ 0` for `y ≥ 1`
-(Balazard's theorem `0 ≤ m̌(x) ≤ m̌(30)` for `x ≥ 1`, cited at lines 284–285 and proved here from
-Theorem 1.4 beyond the source's `D₀` and *MoebiusLogRangeVerified* below), and
-`Σ_{a ∣ q^∞} 1/a = q/φ(q)`. Stated for
-`⟨S⟩` with `w_S`. The optimal constant is `m̌(30) = 1.00302…`.
+264–265: the same decomposition with `m̌` in place of `m`), Balazard's theorem `0 ≤ m̌(y) ≤ m̌(30)`
+for every real `y ≥ 1` (cited at `ramare2015mc` lines 284–285; `balazard2012` line 717, the footnote
+on printed p. 13), and `Σ_{a ∣ q^∞} 1/a = q/φ(q)`. Balazard's theorem is proved here in two halves.
+The lower half `m̌(y) ≥ 0` is the first row `|m̌(y) − 1| ≤ 1` of Corollary 1.6 (3.2). The upper half
+is *MoebiusLogUpperRangeVerified* `(m̌(30)) 1 44` (Layer 0.7) on `[1, 44]` and the `1/500` row of
+Corollary 1.6 beyond, since `1 + 1/500 < m̌(30)`. No two-sided bound reaches the upper half below
+`44`: an instance of *MoebiusLogRangeVerified* gives `m̌ ≤ 1.00303` only where its `ε` is at most
+`0.00303`, and no true instance has that at `y = 1` (`|m̌(1) − 1| = 1`) or at `y = 7`
+(`|m̌(7) − 1| = 0.0045`), and the rows
+`1/125` from `7` and `0.0218/√y` from `11` give only `1.008` and `0.0218/√30 = 0.00398` above `1`
+at `y = 30`. Stated for `⟨S⟩` with `w_S`. The optimal constant is `m̌(30) = 1.00302…`.
 
 Prove Ramaré's mollified log-weighted bound: for `r ≥ 1` and `0 ≤ ε ≤ 1.38`,
 `|Σ_{d ≤ x, (d, r) = 1} μ(d) log(x/d)/d^{1+ε}| ≤ 1.4 + 4.7ε + 3.3ε² + (1 + ε)(r^{1+ε}/φ_{1+ε}(r)) x^ε`
 (`ramare2013facm` lines 54–62, Theorem 1.2), with `r^{1+ε}/φ_{1+ε}(r) = ∏_{p ∣ r}(1 − p^{−1−ε})^{−1}`.
 
-*Needs:* 0.2; 2.1; 3.1 (`0 ≤ m̌(y) ≤ m̌(30)` for `y ≥ 1`, which is proved here from Theorem 1.4
-beyond `x₀` and *MoebiusLogRangeVerified* below).
+*Needs:* 0.2; 2.1; 3.2 (Corollary 1.6: the row `1` from `1` and the row `1/500` from `44`); Layer
+0.7 (*MoebiusLogUpperRangeVerified*).
 
 **Checks.**
 
 - `q = 1`, `x = 30`: `m̌(30) = 1.00302… ≤ 1.00303`; `x = 1`: `m̌(1) = 0 ≥ 0`.
+- The upper half below `44`: at both ends of every unit interval of `[1, 2·10^7]` the largest value
+  of `m̌` is `m̌(30) = 1.0030213`, and `m̌` exceeds `1.002` on parts of `[16, 20)`, `[28, 32)` and
+  `[41, 44)` (`m̌(43) = 1.0022775`), so the `1/500` row cannot start below `44`; on `[44, 2·10^7]`
+  the largest value is `1.0017953`, at `y = 44`.
 - `q = 2`, `x = 4`: `m̌_2(4) = log 4 − log(4/3)/3 = 1.386 − 0.096 = 1.290 ≤ 1.00303·2 = 2.006`.
 - Mollified at `ε = 0`, `r = 1`: `|m̌(x)| ≤ 1.4 + 1 = 2.4`, weaker than `1.00303`; the theorem is
   stated for its uniformity in `ε`, not for its constant at `ε = 0`.
@@ -2768,10 +2793,10 @@ each local factor truncated at `p^ν ≤ X`. The limit exists and is positive un
 hypotheses. With `S_p(X) = Σ_{ν ≥ 1, p^ν ≤ X} g(p^ν)`, the logarithm of the partial product is
 `Σ_{p^ν ≤ X} g(p^ν) − κ Σ_{p ≤ X} 1/p` plus `Σ_{p ≤ X} (log(1 + S_p(X)) − S_p(X))` plus
 `κ Σ_{p ≤ X} (log(1 − 1/p) + 1/p)`. The first term converges by partial summation from the first
-hypothesis and Mertens' `Σ_{p ≤ X} 1/p = log log X + M + o(1)`. The second converges by dominated
-convergence, since `|log(1 + y) − y| ≤ y²/2` for `y ≥ 0` and the second hypothesis gives
-`Σ_p (Σ_{ν ≥ 1} g(p^ν))² ≤ A/log 2`. The third converges absolutely. The product need not converge
-absolutely, and in general the truncation cannot be dropped. It can be dropped when
+hypothesis and Mertens' `Σ_{p ≤ X} 1/p = log log X + mertensConstant ℚ + o(1)`. The second
+converges by dominated convergence, since `|log(1 + y) − y| ≤ y²/2` for `y ≥ 0` and the second
+hypothesis gives `Σ_p (Σ_{ν ≥ 1} g(p^ν))² ≤ A/log 2`. The third converges absolutely. The product
+need not converge absolutely, and in general the truncation cannot be dropped. It can be dropped when
 `Σ_p Σ_{ν ≥ 2} g(p^ν) < ∞`, in particular when `g` is supported on the squarefree integers; `C` is
 then the limit of the partial products `∏_{p ≤ X} (Σ_{ν ≥ 0} g(p^ν)) (1 − 1/p)^κ` (Checks).
 
@@ -2792,7 +2817,7 @@ is the two-sided form of *HasLogSieveDimension* `(P, g, κ, L)` of its §0.5 ext
 powers.
 
 *Needs:* Abel summation (for the existence of `C` and the convergence of `Σ g(d) d^{−s}` for
-`s > 0`); Mertens' `Σ_{p ≤ X} 1/p − log log X → M`
+`s > 0`); Mertens' `Σ_{p ≤ X} 1/p − log log X → mertensConstant ℚ`
 (`TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log` at `K = ℚ`);
 `EulerProduct.eulerProduct_hasProd` and `EulerProduct.eulerProduct_completely_multiplicative` (the
 products `Σ g(d) d^{−s} = ∏_p Σ_{ν ≥ 0} g(p^ν) p^{−νs}` and `ζ(1 + s) = ∏_p (1 − p^{−1−s})^{−1}` for
@@ -2888,8 +2913,8 @@ built into the perturbation `h`. The first line is a coprime form of ExplicitCha
 Layer 0 (0.3–0.6); Layer 7.4 (for 5.2, with no circularity: 7.4 depends on Layer 0 only); Layer 7.2
 for the constants `c₀`, `C₂` of 5.6; AnalyticNumberTheoryPartI §3.23a (`divisorError`); Layer 0.7
 (*DivisorHarmonicRangeVerified*, for the first and second forms of 5.2 on `[1, 236]`;
-*DivisorPowerRangeVerified*, for the third form of 5.2); SieveMethodsAndPrimePatterns §§0.5, 1.1
-(cited).
+*DivisorPowerRangeVerified*, for the third and fourth forms of 5.2); SieveMethodsAndPrimePatterns
+§§0.5, 1.1 (cited).
 
 ## Layer 6: upper bounds for nonnegative multiplicative functions
 
@@ -3522,8 +3547,8 @@ real-argument bounds `−0.15264 √y ≤ R(y) ≤ 0.679091 √y` (`y ≥ 1`) of
 derivation uses the lower constant `−0.103229` of his Lemma 4.2(a) at the real arguments `x/m`,
 where it does not hold (7.1); the route here uses the real constant.
 
-*Needs:* 5.1 (at `α = 1/3` and `α = 2/5`); 5.2 (the second and fourth forms, with
-*DivisorHarmonicRangeVerified* `1.16 1 236`); 7.1; Layer 0.3;
+*Needs:* 5.1 (at `α = 1/3` and `α = 2/5`); 5.2 (the second form, with *DivisorHarmonicRangeVerified*
+`1.16 1 236`; the fourth form, with *DivisorPowerRangeVerified* `7560² (6·10^5)`); 7.1; Layer 0.3;
 Layer 0.6; `hasSum_zeta_two`;
 `log_add_one_le_harmonic`; ExplicitPrimeCounting §1.6 (*EulerGammaEnclosure*) and
 *StieltjesGammaOneEnclosure* (for the constants `1.3949`, `0.4107` and `0.787`).
@@ -3639,9 +3664,10 @@ target. State its Theorem 1.2 for `k = 4`: `|Δ₄(x)| < 20.087 x^{3/4} (log x)^
 `646.358 x^{5/6}(log x)^{5/3}` from `10^{13}`) apply the `(k − 1)`-bound at arguments below its
 stated range and are recorded by locator only.
 
-*Needs:* 7.4; 7.5; 5.2 (third form); Layer 0.5 (`γ₁`); Layer 0.7 (*PiltzRemainderRangeVerified*,
-*DivisorRangeVerified*, *DivisorRangeVerifiedNat*); AnalyticNumberTheoryPartI §3.23a (the cubic
-bound, for the `0.173` row beyond `5·10^{12}`).
+*Needs:* 7.4; 7.5; 5.2 (third form, with *DivisorPowerRangeVerified* `7560² (6·10^5)`); Layer 0.5
+(`γ₁`); Layer 0.7 (*PiltzRemainderRangeVerified*, *DivisorRangeVerified*,
+*DivisorRangeVerifiedNat*); AnalyticNumberTheoryPartI §3.23a (the cubic bound, for the `0.173` row
+beyond `5·10^{12}`).
 
 **Checks.**
 
@@ -3840,9 +3866,12 @@ quotients for every real `x ≥ 46 909 074`, and *MertensProductDusartRangeVerif
   `1 − 0.200054/log³ x` and `1 + 0.200067/log³ x`), so `2 278 382` is the least integer threshold,
   and the instance `2 278 381 2 278 383` of *MertensProductDusartRangeVerified* is false.
 - At both ends of every interval between consecutive primes in `[2 278 382, 46 909 074]` both
-  inequalities hold; the smallest margin is at the prime `3 445 943`, where the first quotient is
-  `1 − 0.198397/log³ x` and the second `1 + 0.198409/log³ x`, so the upper bound of the second
-  fails there with `0.1984` in place of `0.2`.
+  inequalities hold. The smallest margin is at `x = 2 278 382` (the Check above). On each such
+  interval `(1 − Q₁) log³ x` and `(Q₂ − 1) log³ x` decrease in `x`, for the two quotients `Q₁`, `Q₂`,
+  so their largest values sit at the left ends. Beyond the prime gap `[2 278 379, 2 278 421)` the
+  smallest margin is at the prime `3 445 943`, where the first quotient is `1 − 0.198397/log³ x` and
+  the second `1 + 0.198409/log³ x`, so the upper bound of the second fails there with `0.1984` in
+  place of `0.2`.
 - At `x = 2 278 383`, `log³ x = 3137.13` and `0.19992 e^{0.19992/3137.13} = 0.199933 < 0.2`: the
   margin of the second item of the route; for `x ≥ 46 909 074` Axler's window gives `0.07`.
 - The upper bound of the first quotient for `x > 1` at `x = 2`: `0.6173 < 1 + 0.2/log³ 2 = 1.60`.
@@ -3863,9 +3892,12 @@ with `T_ε(x) = Σ_{p > x} Σ_{n ≥ 2} (−1)^{n+1} ε^n/(n p^n)`,
 `|T_ε(x)| ≤ Σ_{p > x} (|ε|/p)²/(2(1 − |ε|/p)) ≤ |ε|²/((2 − |ε|)(x − 1))`, and `|e^w − 1| ≤ |w| e^{|w|}`. Prove the instance under
 ExplicitPrimeCounting §4.3 (`η(x) = 1/log³ x` for `x ≥ 24 284`): for complex `ε` with `|ε| ≤ 1`
 and real `x ≥ e^{22}`, `∏_{p ≤ x} (1 + ε/p) = exp(γ(ε) + εB) (log x)^ε (1 + O*(1.0001 |ε|/log³ x))`,
-since there `1/(x − 1) ≤ 3·10^{−6}/log³ x` and `z ≤ 1/10 648`. Vanlalngaia's sharper constant
-`0.841` for `|ε| < 2` (`vanlalngaia2017` Theorem 5, p. 3) rests on that paper's Theorem 4, which is
-not part of the explicit-primes contract, and is not stated here (Scope). The cases `ε = ±1` are
+since there `1/(x − 1) ≤ 3·10^{−6}/log³ x`, so (with `|ε|²/(2 − |ε|) ≤ |ε|` for `|ε| ≤ 1`)
+`z ≤ |ε|(1 + 3·10^{−6})/log³ x ≤ 1.000003/10 648` and
+`z e^z ≤ 1.000003·e^{1.000003/10 648} |ε|/log³ x ≤ 1.0001 |ε|/log³ x`. Vanlalngaia's sharper constant
+`0.841` for `|ε| < 2` (`vanlalngaia2017` Theorem 5, p. 3) rests on that paper's Theorem 4, a
+remainder in terms of `θ(x) − x` that no section of ExplicitPrimeCounting states, and is not stated
+here (Scope). The cases `ε = ±1` are
 the Mertens product of 8.1 and `∏_{p ≤ x} (1 + 1/p) = (6/π²) e^γ log x (1 + O*(…))`; with
 ExplicitPrimeCounting §4.3 the case `ε = 1` is Axler's Corollary 6.2 (`axler2022`, a preprint):
 `(6e^γ/π²) log x · exp(−f(x) − 1.02/((x − 1) log x)) < ∏_{p ≤ x}(1 + 1/p) < (6e^γ/π²)(1 + 1/x) log x · exp(f(x))` for every real `x ≥ 1 757 126 630 797`.
@@ -3888,7 +3920,10 @@ Layer 0.6 (absolute convergence of `γ(ε)`).
   `∏_{p ≤ x}(1 + 1/p) ∼ (6/π²) e^γ log x`:
   the sign conventions of `γ(ε)` and of `εB` are pinned by this witness.
 - `x = e^{22}`: `log³ x = 10 648`, the relative error of the instance is at most
-  `1.0001/10 648 = 9.39·10^{−5}`, against `7.9·10^{−5}` for the constant `0.841`.
+  `1.0001/10 648 = 9.39·10^{−5}`, against `7.9·10^{−5}` for the constant `0.841`. At `|ε| = 1`
+  there, `z = 1/10 648 + 1/(e^{22} − 1) = 9.391463·10^{−5}` exceeds `1/10 648 = 9.391435·10^{−5}`,
+  so `z ≤ 1/10 648` would be false at the edge of the range, while
+  `z e^z = 9.392345·10^{−5} ≤ 1.0001/10 648 = 9.392374·10^{−5}`.
 - Non-example: `ε = 2` is outside the transfer: at `p = 2` the local factor is `1 + 2/2 = 2`, but
   `γ(2)` contains `Σ_n (−1)^{n+1} 2^n/(n 2^n) = Σ_n (−1)^{n+1}/n`, which converges only
   conditionally, and the bound on `T_ε` has the factor `1/(2 − |ε|)`.
