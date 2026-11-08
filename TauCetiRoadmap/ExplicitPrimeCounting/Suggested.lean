@@ -37,8 +37,10 @@ Headline theorems stated here:
   hypothesis (`carneiro_milinovich_soundararajan`).
 * Layer 3: Dusart's bound for `ψ` and `θ` from a zero-free region of constant `R`, the absence
   of zeros up to height `14` and Rosser's bound for the sum of `1/γ³` over the zeros
-  (`dusart_of_zeroFreeRegion`, `ZetaZeroCubeSum`), and Axler's upper bound for `π(x)` from its
-  `θ`-input and its bounded range (`axler_primeCounting_upper`, `AxlerPrimeCountingUpperRange`).
+  (`dusart_of_zeroFreeRegion`, `ZetaZeroCubeSum`), Axler's upper bound for `π(x)` from its
+  `θ`-input and its bounded range (`axler_primeCounting_upper`, `AxlerPrimeCountingUpperRange`), and
+  Dudek–Platt's largest counterexample to Ramanujan's inequality under the Riemann hypothesis, from
+  its finite range (`ramanujan_largest_counterexample`, `DudekPlattRange`).
 * Layer 4: Vanlalngaia's explicit second theorem of Mertens from its `θ`-input
   (`vanlalngaia_sum_inv_prime`).
 * Layer 5: Dusart's `p_k > k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
@@ -309,6 +311,17 @@ def AxlerPrimeCountingUpperRange : Prop :=
       12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
       4331.1 / log x ^ 6)
 
+/-- **Dudek–Platt's finite range for Ramanujan's inequality** (Dudek–Platt, *On solving a curious
+inequality of Ramanujan*, Exp. Math. 24 (2015), §§1 and 3.1): `π(n)² < (e n/log n) π(n/e)` fails at
+`n = 38 358 837 682` and holds at every integer `38 358 837 682 < n ≤ 1.15·10¹⁶`. -/
+def DudekPlattRange : Prop :=
+  ¬ ((Nat.primeCounting 38358837682 : ℝ) ^ 2 <
+      exp 1 * 38358837682 / log 38358837682 *
+        (Nat.primeCounting ⌊(38358837682 : ℝ) / exp 1⌋₊ : ℝ)) ∧
+  ∀ n : ℕ, 38358837682 < n → (n : ℝ) ≤ 1.15e16 →
+    (Nat.primeCounting n : ℝ) ^ 2 <
+      exp 1 * n / log (n : ℝ) * (Nat.primeCounting ⌊(n : ℝ) / exp 1⌋₊ : ℝ)
+
 /-- **Trudgian's interval range** (Trudgian, Ramanujan J. 39 (2016), Corollary 2, which prints the
 threshold `2 898 239`): for every `2 898 242 ≤ x ≤ 4 652 353` the interval
 `[x, x (1 + 1/(111 log² x))]` contains a prime. -/
@@ -448,6 +461,22 @@ theorem axler_primeCounting_upper
     (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
       12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
       4331.1 / log x ^ 6) := by
+  sorry
+
+/-- **The largest counterexample to Ramanujan's inequality under the Riemann hypothesis**
+(Dudek–Platt, Exp. Math. 24 (2015), Theorem 1.3): `π(n)² < (e n/log n) π(n/e)` fails at
+`n = 38 358 837 682` and holds at every larger integer. Beyond `1.15·10¹⁶` it follows from
+Schoenfeld's bounds under the Riemann hypothesis (whose route uses `ButheVerified` and
+`Schoenfeld1976Range`, as for `schoenfeld_of_riemannHypothesis`) and from `π(x) < li x` up to `10¹⁹`
+(`ButheVerified`); the integers up to `1.15·10¹⁶`, and the failure, are `DudekPlattRange`. -/
+theorem ramanujan_largest_counterexample (hRH : RiemannHypothesis) (hB : ButheVerified)
+    (hS : Schoenfeld1976Range) (hDP : DudekPlattRange) :
+    ¬ ((Nat.primeCounting 38358837682 : ℝ) ^ 2 <
+        exp 1 * 38358837682 / log 38358837682 *
+          (Nat.primeCounting ⌊(38358837682 : ℝ) / exp 1⌋₊ : ℝ)) ∧
+    ∀ n : ℕ, 38358837682 < n →
+      (Nat.primeCounting n : ℝ) ^ 2 <
+        exp 1 * n / log (n : ℝ) * (Nat.primeCounting ⌊(n : ℝ) / exp 1⌋₊ : ℝ) := by
   sorry
 
 /-! ## Layer 4: sums over primes -/
