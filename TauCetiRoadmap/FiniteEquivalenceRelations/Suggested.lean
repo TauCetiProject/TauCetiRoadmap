@@ -1,13 +1,14 @@
 module
 
 public import Mathlib
+public import TauCeti.RingTheory.Invariant.EquivalenceRelation.Basic
 
 /-!
 # Finite equivalence relations: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-This file states the roadmap's headline theorems against the pinned Mathlib, each with `sorry`,
-together with the definitions their statements need. The Checks stay in the README.
+This file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each
+with `sorry`, together with the definitions their statements need. The Checks stay in the README.
 
 A closed subscheme `R ⊆ X ×_k X` of an affine `X = Spec A` is given by its ideal
 `I ⊆ A ⊗[k] A`; the two projections `R ⇉ X` are `Spec` of `specFst` and `specSnd`, and
@@ -19,7 +20,8 @@ Headline theorems stated here:
 * README 0.2, `IsEquivIdeal.map_quotient`: an equivalence relation restricts to an equivalence
   relation on every closed subscheme.
 * README 0.3, `isEquivalenceRelation_iff`: the ideal conditions are exactly Mathlib's internal
-  equivalence relations in `Scheme`.
+  equivalence relations in `Scheme`; `isEquivIdeal_iff_isSpecEquivRel`: they are exactly Tau Ceti's
+  `RingHom.IsSpecEquivRel` for the two projections.
 * README 1.2, `isColimit_cofork`: for `A` finite over a field, `Spec A^R` is the coequalizer of
   `R ⇉ X` in `Scheme`.
 * README 1.3, `isEffectiveEquivalenceRelation_iff` and
@@ -35,10 +37,6 @@ Headline theorems stated here:
   the obstruction.
 * README 3.4, `eq_differenceIdeal_of_isToric`: toric equivalence relations on affine toric
   varieties are effective.
-
-Not stated here: the comparisons of 0.3 and 1.2 with SchemeAndStackFoundations' `IsEquivRel` and
-`IsCategoricalQuotient` (§1.5, §1.17), whose carriers are not at the pins; the README states them
-in prose.
 -/
 
 public section
@@ -110,6 +108,12 @@ theorem isEquivalenceRelation_iff (I : Ideal (A ⊗[k] A)) :
     IsEquivIdeal k A I ↔ IsEquivalenceRelation (specFst k A I) (specSnd k A I) := by
   sorry
 
+/-- The ideal conditions are Tau Ceti's conditions on `T`-points: `Spec ((A ⊗[k] A) ⧸ I) ⇉ Spec A`
+is an equivalence relation in the sense of `RingHom.IsSpecEquivRel`. -/
+theorem isEquivIdeal_iff_isSpecEquivRel (I : Ideal (A ⊗[k] A)) :
+    IsEquivIdeal k A I ↔ (relFst k A I).toRingHom.IsSpecEquivRel (relSnd k A I).toRingHom := by
+  sorry
+
 /-! ## Layer 1: the ring of invariants, the quotient and effectivity -/
 
 /-- The ring of invariants `A^R = {a ∈ A | a ⊗ 1 - 1 ⊗ a ∈ I}`, the equalizer of the two
@@ -142,7 +146,7 @@ section Field
 variable (k : Type u) [Field k] (A : Type u) [CommRing A] [Algebra k A]
 
 /-- For `A` finite over a field, `Spec A^R` is the coequalizer of `R ⇉ X` in the category of all
-schemes (FGA III, §2, p. 212-05; Stacks, Section 39.23, Tag 03BE, for affine schemes). -/
+schemes (FGA III, §2, p. 212-04; Stacks, Section 39.23, Tag 03BE, for affine schemes). -/
 theorem isColimit_cofork [FiniteDimensional k A] (I : Ideal (A ⊗[k] A)) :
     Nonempty (IsColimit (Cofork.ofπ (specQuotientMap k A I)
       (specFst_comp_specQuotientMap k A I))) := by
@@ -168,7 +172,8 @@ theorem isEffectiveEquivalenceRelation_iff_finrank [FiniteDimensional k A]
 
 /-- A finite equivalence relation whose first projection is flat is effective, and `A` is flat
 over `A^R` (SGA 3, Exp. V, Théorème 4.1 (iv); FGA III, Théorème 5.1 (iv); Stacks,
-Proposition 39.23.9, Tag 03BM). -/
+Proposition 39.23.9, Tag 03BM), from Tau Ceti's `RingHom.IsSpecEquivRel.isPullback_SpecMap`,
+`RingHom.IsSpecEquivRel.isColimitCofork` and `RingHom.IsSpecEquivRel.flat`. -/
 theorem isEffectiveEquivalenceRelation_of_flat [FiniteDimensional k A] {I : Ideal (A ⊗[k] A)}
     (hI : IsEquivIdeal k A I) (hflat : Module.Flat A ((A ⊗[k] A) ⧸ I)) :
     IsEffectiveEquivalenceRelation (specFst k A I) (specSnd k A I) ∧

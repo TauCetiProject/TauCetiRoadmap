@@ -18,8 +18,8 @@ relations on affine toric varieties are effective (Raicu 2010). The question whe
 equivalence relation on a finite scheme over a field is effective is Grothendieck's (FGA III,
 §2, 1961).
 
-Suggested home: `TauCeti/AlgebraicGeometry/FiniteEquivalenceRelation.lean`, beside Mathlib's
-`Mathlib/CategoryTheory/EquivalenceRelation.lean`.
+Suggested home: `TauCeti/AlgebraicGeometry/Quotient/FiniteEquivalenceRelation.lean`, beside
+Tau Ceti's `TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
 
 ## Scope and ownership
 
@@ -32,10 +32,14 @@ relation on a finite local scheme of Layer 3.
 
 **Owned elsewhere.**
 
-- ModularCurves 0C, item 3 (finite locally free equivalence relations, SGA 3, Exp. V,
-  Théorème 4.1, affine case) owns the quotient by a finite locally free equivalence relation.
-  Target 2.1 is the adapter: it translates that theorem into the effectivity of this roadmap for
-  `A` finite over a field.
+- Tau Ceti owns the quotient of an affine scheme by a finite locally free equivalence relation
+  (SGA 3, Exp. V, Théorème 4.1, affine case), on rings for the predicate
+  `RingHom.IsSpecEquivRel` and on schemes for Mathlib's `CategoryTheory.IsEquivalenceRelation`
+  (supplier contracts below). Target 2.1 is the adapter: it translates that theorem into the
+  effectivity of this roadmap for `A` finite over a field. The ideal condition `IsEquivIdeal` of
+  0.1 is the library's `RingHom.IsSpecEquivRel` for the two projections `relFst`, `relSnd`
+  (0.3, `isEquivIdeal_iff_isSpecEquivRel`): the first says it with ideals of `A ⊗[k] A`, the
+  second with the `T`-points of `Spec ((A ⊗[k] A) ⧸ I) ⇉ Spec A`.
 - SchemeAndStackFoundations §1.5 owns the predicate `IsEquivRel` for equivalence relations of
   schemes and algebraic spaces over a base and the fppf quotient sheaf, and §1.17 owns
   `IsCategoricalQuotient` and `IsGeometricQuotient`. This roadmap works with Mathlib's
@@ -98,21 +102,42 @@ Question 8), are research context. Descent of modules along finite morphisms of 
   `Bialgebra.comulAlgHom` (`Mathlib/RingTheory/Bialgebra/MonoidAlgebra.lean`), `IsAddFG`,
   `IsCancelAdd`, `IsAddTorsionFree`, `ZMod`.
 
-**From Tau Ceti.** Nothing is consumed from Tau Ceti.
+**From Tau Ceti** (at the pinned revision).
 
-**From ModularCurves.** Layer 0C, item 3: SGA 3, Exp. V, Théorème 4.1, for an affine `X` and an
-equivalence relation with finite locally free projections (used by 2.1 only).
+- `RingHom.IsSpecEquivRel s t` for `s t : A →+* B`: the `T`-points of `Spec B` inject into pairs
+  of `T`-points of `Spec A`, and the pairs form an equivalence relation
+  (`TauCeti/RingTheory/Invariant/EquivalenceRelation/Basic.lean`);
+  `RingHom.isSpecEquivRel_tensorProduct` (the kernel pair `A ⇉ A ⊗[C] A`, same file).
+- For `B` an `A`-algebra with `(algebraMap A B).IsSpecEquivRel t`, `[Module.Finite A B]` and
+  `[Module.Projective A B]`, and `C = (algebraMap A B).eqLocus t`:
+  `RingHom.IsSpecEquivRel.isPushout`, `RingHom.IsSpecEquivRel.bijective_tensorProductMap`,
+  `RingHom.IsSpecEquivRel.flat`, `RingHom.IsSpecEquivRel.finite`
+  (`TauCeti/RingTheory/Invariant/EquivalenceRelation/Quotient.lean`), and
+  `RingHom.IsSpecEquivRel.isPullback_SpecMap` (`Spec B` is the kernel pair of
+  `Spec A ⟶ Spec C`), `RingHom.IsSpecEquivRel.isColimitCofork` (the coequalizer in schemes)
+  (`TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`).
+- For `p₁ p₂ : R ⟶ X` in `Scheme` with `[IsAffine X] [IsEquivalenceRelation p₁ p₂] [IsFinite p₁]
+  [Flat p₁] [LocallyOfFinitePresentation p₁]`, and `affineCoequalizer` the spectrum of
+  `{a ∈ Γ(X, ⊤) : p₁^* a = p₂^* a}`: `AlgebraicGeometry.Scheme.Hom.isKernelPair_affineCoequalizerπ`,
+  `AlgebraicGeometry.Scheme.Hom.isColimitAffineCoequalizerCofork`,
+  `AlgebraicGeometry.Scheme.Hom.flat_affineCoequalizerπ`,
+  `AlgebraicGeometry.Scheme.Hom.isFinite_affineCoequalizerπ`,
+  `AlgebraicGeometry.Scheme.Hom.surjective_affineCoequalizerπ`; and, for `R`, `X` affine and
+  `[IsEquivalenceRelation p₁ p₂]` only, `AlgebraicGeometry.Scheme.Hom.isSpecEquivRel_appTop`
+  (`TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`).
+
+Nothing is consumed from another roadmap.
 
 ## How to read the build
 
-Layer 0 translates closed equivalence relations on `Spec A` into ideals of `A ⊗[k] A` and back,
-over any commutative ring `k`. Layer 1 builds the invariants and the quotient and proves the
-effectivity criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. Layer 2
-derives the flat case from ModularCurves 0C. Layer 3 gives the examples: Raicu's non-effective
-relation on `𝔸²`, its restriction to a finite local scheme, which answers Grothendieck's question
-over a field in the negative, an explicit obstruction over `𝔽₃`, and Raicu's toric theorem. The
-hardest targets are 1.2 (coequalizers in all schemes, not only affine ones) and 3.4; 3.2 and 3.3
-are finite computations.
+Layer 0 translates closed equivalence relations on `Spec A` into ideals of `A ⊗[k] A` and back, over
+any commutative ring `k`. Layer 1 builds the invariants and the quotient and proves the effectivity
+criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. Layer 2 derives the
+flat case from Tau Ceti's quotient by a finite locally free equivalence relation. Layer 3 gives the
+examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, which
+answers Grothendieck's question over a field in the negative, an explicit obstruction over `𝔽₃`, and
+Raicu's toric theorem. The hardest targets are 1.2 (coequalizers in all schemes, not only affine
+ones) and 3.4; 3.2 and 3.3 are finite computations.
 
 ## Layer 0: equivalence relations as ideals
 
@@ -169,8 +194,17 @@ the pullback of `specSnd` and `specFst` is
 `Spec ((A ⊗[k] A ⧸ I) ⊗[A] (A ⊗[k] A ⧸ I)) = Spec (A ⊗[k] (A ⊗[k] A) ⧸ (I₁₂ + I₂₃))` (transitivity);
 joint monicity holds since `R → X ×_k X` is a closed immersion and `X ×_k X → X × X` is a
 monomorphism. The definition is Stacks, Definition 39.3.1 (Tag 022P), for the base `Spec k`.
-*Needs:* 0.1, Mathlib `CategoryTheory.IsEquivalenceRelation`, `AlgebraicGeometry.Spec.map`,
-pullbacks of affine schemes.
+Prove `isEquivIdeal_iff_isSpecEquivRel`: `IsEquivIdeal I` iff
+`(relFst I).toRingHom.IsSpecEquivRel (relSnd I).toRingHom`, the ideal conditions against Tau
+Ceti's conditions on `T`-points. Route: a `T`-point of `Spec ((A ⊗[k] A) ⧸ I)` is a ring map
+`A ⊗[k] A → T` killing `I`, determined by its two restrictions to `A`; reflexivity at `T = A`,
+`u = id`, is `I ⊆ ker μ`, symmetry at `T = (A ⊗[k] A) ⧸ I` is the swap, transitivity at the ring
+of `R ×_X R` is `map_incl₁₃_le`, and conversely each ideal condition gives the `T`-point condition
+for every `T` by composition. One direction of `isEquivalenceRelation_iff` is then Tau Ceti's
+`AlgebraicGeometry.Scheme.Hom.isSpecEquivRel_appTop` transported along
+`Γ(Spec A, ⊤) ≅ A`. *Needs:* 0.1, Mathlib `CategoryTheory.IsEquivalenceRelation`,
+`AlgebraicGeometry.Spec.map`, pullbacks of affine schemes; Tau Ceti `RingHom.IsSpecEquivRel`,
+`AlgebraicGeometry.Scheme.Hom.isSpecEquivRel_appTop`.
 
 **Checks.**
 
@@ -185,13 +219,15 @@ pullbacks of affine schemes.
 ### Examples
 
 - The diagonal, the total relation `X ×_k X`, and the kernel pair `A ⊗[C] A` of any subalgebra
-  `C ⊆ A`, whose ideal is generated by the `c ⊗ 1 - 1 ⊗ c`.
+  `C ⊆ A`, whose ideal is generated by the `c ⊗ 1 - 1 ⊗ c`; on `T`-points this is Tau Ceti's
+  `RingHom.isSpecEquivRel_tensorProduct`.
 - `x² = y²` on `𝔸¹` (`char k ≠ 2`): the kernel pair of `t ↦ t²`.
 
 ### Dependencies
 
 Mathlib: `Algebra.TensorProduct`, `Ideal`, `AlgebraicGeometry.Spec`,
-`CategoryTheory.IsEquivalenceRelation`.
+`CategoryTheory.IsEquivalenceRelation`. Tau Ceti: `RingHom.IsSpecEquivRel`,
+`AlgebraicGeometry.Scheme.Hom.isSpecEquivRel_appTop`.
 
 ## Layer 1: invariants, the quotient and effectivity
 
@@ -215,7 +251,7 @@ ring of `X ×_Y X` for `Y = Spec A^R`. Define `specQuotientMap I : X ⟶ Spec A^
 - Raicu's relation on `𝔸²` (3.1), over `ℚ`: the invariant forms have dimensions `0, 2, 1, 3, 2` in
   degrees `1` to `5`, spanned in degrees `2` and `3` by `f₁ = x₁²`, `f₂ = x₁x₂ - x₂²` and
   `f₃ = x₂³`, and in degrees `4` and `5` by `f₁², f₁f₂, f₂²` and `f₁f₃, f₂f₃`; `differenceIdeal`
-  is strictly smaller than `I` in degree `5`, of dimension `124` against `125`.
+  is strictly smaller than `I` in degree `5`, of dimension `43` against `44`.
 
 ### 1.2 The categorical quotient
 
@@ -225,7 +261,7 @@ every ideal `I`. In the category of affine schemes this is the anti-equivalence 
 definition of `A^R` as an equalizer (Stacks, Section 39.23, Tag 03BE). For all schemes the
 statement is Grothendieck's: in the category of finite schemes over a locally noetherian base,
 finite colimits computed on algebras are colimits in the category of all schemes (FGA III, §2,
-p. 212-05). Route: `A` is integral over `A^R` (Stacks, Lemma 39.23.4, Tag 03BJ, in the flat case;
+p. 212-04). Route: `A` is integral over `A^R` (Stacks, Lemma 39.23.4, Tag 03BJ, in the flat case;
 here `A` is finite over `k ⊆ A^R`), so `|Spec A| → |Spec A^R|` is surjective with finite fibres;
 an invariant morphism `X ⟶ T` sends each fibre into one point of `T`, hence factors locally
 through affine opens of `T`, where the affine case applies. *Needs:* 1.1, Mathlib
@@ -283,10 +319,24 @@ Prove `isEffectiveEquivalenceRelation_of_flat`: for `k` a field, `A` finite-dime
 equivalence ideal such that `(A ⊗[k] A) ⧸ I` is flat over `A` through the first factor
 (`Algebra.TensorProduct.leftAlgebra`), the relation is effective and `A` is flat over `A^R`
 (SGA 3, Exp. V, Théorème 4.1 (iv); FGA III, Théorème 5.1 (iv), p. 212-12; Stacks,
-Proposition 39.23.9, Tag 03BM). Route: `(A ⊗[k] A) ⧸ I` is finite over the artinian `A`, so flat
-means finite locally free; the swap makes the second projection finite locally free too; apply
-ModularCurves 0C, item 3, and translate with 1.3. *Needs:* 1.3, ModularCurves 0C (item 3),
-Mathlib `Module.Flat`, `Module.Finite`.
+Proposition 39.23.9, Tag 03BM). Route: `B = (A ⊗[k] A) ⧸ I` is finite over `A` through `relFst`
+(`A` is finite over `k`), finitely presented since `A` is noetherian, and flat by hypothesis, hence
+projective. By 0.3, `relFst`, `relSnd` satisfy `RingHom.IsSpecEquivRel`, and the ring of invariants
+`(relFst I).toRingHom.eqLocus (relSnd I).toRingHom` has the carrier of `invariants I`. Tau Ceti's
+`RingHom.IsSpecEquivRel.isPullback_SpecMap` makes `R` the kernel pair of `specQuotientMap`,
+`RingHom.IsSpecEquivRel.isColimitCofork` makes it the coequalizer, whence the pushout clause by
+reflexivity as in 1.3, and `RingHom.IsSpecEquivRel.flat` gives `A` flat over `A^R`. In scheme
+form, the same follows from 0.3 with `specFst` finite, flat and locally of finite presentation, by
+`AlgebraicGeometry.Scheme.Hom.isKernelPair_affineCoequalizerπ`,
+`AlgebraicGeometry.Scheme.Hom.isColimitAffineCoequalizerCofork` and
+`AlgebraicGeometry.Scheme.Hom.flat_affineCoequalizerπ`, transported along
+`affineCoequalizer ≅ Spec A^R`. *Needs:* 0.3, 1.1, 1.3, Tau Ceti
+`RingHom.IsSpecEquivRel.isPullback_SpecMap`, `RingHom.IsSpecEquivRel.isColimitCofork`,
+`RingHom.IsSpecEquivRel.flat`,
+`AlgebraicGeometry.Scheme.Hom.isKernelPair_affineCoequalizerπ`,
+`AlgebraicGeometry.Scheme.Hom.isColimitAffineCoequalizerCofork`,
+`AlgebraicGeometry.Scheme.Hom.flat_affineCoequalizerπ`, Mathlib `Module.Flat`, `Module.Finite`,
+`Module.Flat.projective_of_finitePresentation`.
 
 **Checks.**
 
@@ -302,7 +352,8 @@ Mathlib `Module.Flat`, `Module.Finite`.
 
 ### Dependencies
 
-Layer 1; ModularCurves 0C (item 3).
+Layer 1; Tau Ceti `TauCeti/RingTheory/Invariant/EquivalenceRelation/Quotient.lean` and
+`TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
 
 ## Layer 3: examples
 
@@ -328,8 +379,9 @@ computation over `ℤ` whose quotient is free (Kollár 2012, ¶50). *Needs:* 0.1
 - Symmetry: the swap sends the cocycle to `-(x₁y₂ - x₂y₁)x₂³`, and `(x₁y₂ - x₂y₁)x₂³` is the
   cocycle plus `(x₁y₂ - x₂y₁)(x₂³ - y₂³) ∈ I`, so `map_comm` holds although the cocycle is not
   antisymmetric on the nose.
-- Over `ℚ`, in degree `5`, `dim I₅ = 125` and `dim (J(B))₅ = 124`, and `raicuCocycle` is not in
-  `(J(B))₅`; in degrees `1` to `4` the dimensions agree (`0, 2, 13, 47`).
+- Over `ℚ`, in degree `5`, `dim I₅ = 44` and `dim (J(B))₅ = 43`, inside the `56`-dimensional
+  space of quintic forms in `x₁, x₂, y₁, y₂`, and `raicuCocycle` is not in `(J(B))₅`; in degrees
+  `1` to `4` the dimensions agree (`0, 2, 9, 23`).
 
 ### 3.2 A non-effective relation on a finite local scheme
 
@@ -341,16 +393,16 @@ a local artinian `k`-algebra with residue field `k`. Prove
 `not_isEffectiveEquivalenceRelation_raicuArtin`: over every field `k`, this relation is not
 effective. This answers negatively, over a field, the question of FGA III, §2, p. 212-05: whether
 every closed equivalence relation on a finite scheme over a field is effective. The restriction to
-`Z` is this roadmap's own; it is not in Raicu's or Kollár's text and has not been checked by a
-specialist. It is not formal: the invariants `B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can
-be more than the images of the invariants on `𝔸²`, so the difference ideal can grow. Route: by 1.3
-it suffices that `I(Z) ≠ J(B(Z))`, `I(Z) = raicuArtinRelation k`; both are graded, and in degree `5`
-their lifts to `k[x, y]` satisfy `dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z`
-and `J` the lift of `J(B(Z))`, a rank computation needing the invariants of `O(Z)` of degree `≤ 5`
-only. Over `ℚ` the eliminations divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41
-and 61; for every other prime `p` the same elimination runs over `𝔽_p` with the same ranks, the
-seven listed primes are checked directly, and ranks do not change under field extension from the
-prime field. *Needs:* 0.2, 1.3, 3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+`Z` is this roadmap's own; it is not in Raicu's or Kollár's text. It is not formal: the invariants
+`B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can be more than the images of the invariants on
+`𝔸²`, so the difference ideal can grow. Route: by 1.3 it suffices that `I(Z) ≠ J(B(Z))`,
+`I(Z) = raicuArtinRelation k`; both are graded, and in degree `5` their lifts to `k[x, y]` satisfy
+`dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z` and `J` the lift of `J(B(Z))`, a
+rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
+divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
+the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
+directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
+3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
 
 **Checks.**
 
@@ -422,18 +474,16 @@ No roadmap on main or in an open pull request cites this one.
 
 ## Research context
 
-Grothendieck asked the question in the third of his Bourbaki talks on the construction of
-schemes: without flatness he did not know whether equivalence relations in the category of
-finite schemes over `S` are effective, reduced it to `S` the spectrum of a local artinian ring
-with algebraically closed residue field, and said that it was open even when `S` is the
-spectrum of a field (FGA III, §2, p. 212-05). He asked it again, as an open problem he expected
-to have a negative answer, at the end of a lecture of his course at SUNY Buffalo on 11 July 1973.
-Kollár asked the existence of geometric quotients by finite equivalence relations in
-characteristic zero (Kollár 2012, Question 8) and proved it in positive characteristic for
-schemes essentially of finite type (Theorem 6); Raicu's appendix answers the effectivity
-question on `𝔸²` and Raicu 2010 proves the toric case. Descent of flat modules along finite
-morphisms of local artinian rings need not be effective (Venken 1971), and Philippe 1973 studies
-descent along unramified morphisms.
+Grothendieck asked the question in the third of his Bourbaki talks on the construction of schemes:
+without flatness he did not know whether equivalence relations in the category of finite schemes
+over `S` are effective, reduced it to `S` the spectrum of a local artinian ring with algebraically
+closed residue field, and said that it was open even when `S` is the spectrum of a field (FGA III,
+§2, p. 212-05). Kollár asked the existence of geometric quotients by finite equivalence relations in
+characteristic zero (Kollár 2012, Question 8) and proved it in positive characteristic for schemes
+essentially of finite type (Theorem 6); Raicu's appendix answers the effectivity question on `𝔸²`
+and Raicu 2010 proves the toric case. Descent of flat modules along finite morphisms of local
+artinian rings need not be effective (Venken 1971), and Philippe 1973 studies descent along
+unramified morphisms.
 
 Whether a non-effective closed equivalence relation exists on a finite scheme of length less
 than `15`, and whether every non-effective example comes, as in 3.2, from restricting one on an
@@ -443,7 +493,8 @@ affine space, is not known.
 
 - A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie algébrique
   III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118 (FGA III): §2,
-  p. 212-05; §5, Théorème 5.1, p. 212-12. http://www.numdam.org/item/SB_1960-1961__6__99_0
+  pp. 212-04 and 212-05; §5, Théorème 5.1, p. 212-12.
+  http://www.numdam.org/item/SB_1960-1961__6__99_0
 - M. Demazure, A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, tome I, Exp. V (P. Gabriel),
   « Construction de schémas quotients », Théorème 4.1; Lecture Notes in Math. 151, Springer,
   1970; re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
