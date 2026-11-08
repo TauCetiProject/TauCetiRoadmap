@@ -24,8 +24,9 @@ progressions, and for short intervals `(x(1 − Δ⁻¹), x]` that contain a pri
 fact a source relies on (a verified height of zeros, a table of constants, a finite-range check, a
 table of prime gaps) is an assumption: a named proposition with its data in the statement, stated
 once (a verified height in ExplicitZetaBounds §§0.4–0.4b; a finite-range check, a gap bound or a
-tabulation in Layer 1, or in §0.1 for the two that the Brun–Titchmarsh inequality uses; a table of
-constants next to the general theorem whose error function it evaluates), and an explicit
+tabulation in Layer 1, or in §0.1 for the two that the Brun–Titchmarsh inequality uses and in §0.8
+for the one that Chebyshev's weight method uses; a table of constants next to the general theorem
+whose error function it evaluates), and an explicit
 hypothesis of every theorem that uses it. The roadmap proves, performs and plans no computation.
 
 The end theorems are:
@@ -49,7 +50,7 @@ The end theorems are:
   finite-range propositions (the diagonal sum `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` on `[6, 10⁹)`
   and the weighted sieve evaluated exactly for `25 ≤ y/k ≤ 2·10⁴`);
 - Vanlalngaia's `∑_{p ≤ x} 1/p = log log x + B + O*(4/log³ x)` for `x ≥ 2`, and Dusart's
-  `p_n ≥ n(log n + log log n − 1)` for `n ≥ 2`;
+  `p_n > n(log n + log log n − 1)` for `n ≥ 2`;
 - the Bennett–Martin–O'Bryant–Rechnitzer bound `|ψ(x; q, a) − x/φ(q)| < x/(840 log x)` for
   `3 ≤ q ≤ 10⁴`, `a` prime to `q` and `x ≥ 8·10⁹`, and Lamzouri–Li–Soundararajan's least prime
   `p ≤ (φ(q) log q)²` in every reduced class modulo `q > 3` under the generalised Riemann
@@ -61,7 +62,8 @@ The end theorems are:
 Suggested home: `TauCeti/NumberTheory/ExplicitPrimes/`, divided into `Carriers/`, `Hypotheses/`,
 `ConditionalBounds/`, `ChebyshevBounds/`, `PrimeSums/`, `NthPrime/`, `Progressions/` and
 `ShortIntervals/`. [`Suggested.lean`](Suggested.lean) states the headline theorems that are
-statable against the pinned libraries; it is not the roadmap. The headlines whose routes pass
+statable against the pinned libraries, and a selection of the targets of Layers 0, 1, 3, 4 and 7
+that are statable from pointwise inputs; it is not the roadmap. The headlines whose routes pass
 through a table proposition on the error function of a general theorem are named in its module
 docstring with what they lack.
 
@@ -95,7 +97,10 @@ docstring with what they lack.
   it (§3.1(d)).
 - The carriers this roadmap adds: the logarithmic progression sum
   `ψ̃(x; q, a) = ∑_{n ≤ x, n ≡ a (q)} Λ(n)/n` and the Mertens constants `C(q, a)` of a residue
-  class (Layer 0).
+  class, the half-weight versions of `ψ`, `θ`, `π` and `π*` (Layer 0), and the first-occurrence
+  function of prime gaps (§1.4).
+- Chebyshev's weight method with explicit constants (§0.8), and the elementary explicit forms of
+  Mertens' first and second theorems valid from `x = 1` and `x = 2` (§§1.6, 4.1, 4.3).
 - The unoffset logarithmic integral `li` on `(0, 1) ∪ (1, ∞)`, defined by the exponential-integral
   series at `log x`, with its principal-value integral, its derivative `1/log x`, its monotonicity
   and sign, the identity `Li x = li x − li 2` for `x > 1` and its asymptotic expansion (§0.3a).
@@ -188,6 +193,15 @@ docstring with what they lack.
   halves of Rosser–Schoenfeld's Theorem 1 for `x ≥ 59` (§0.5 there): imported by section, not
   restated. This roadmap adds only the theorems that prove those inputs from its own hypotheses
   (§§3.2, 3.5, 4.3, 6.1).
+- Chebyshev's identity `log ⌊x⌋₊! = ∑_{n ≤ x} Λ(n) ⌊x/n⌋₊` with the two-sided bounds for
+  `log ⌊x⌋₊!` at real `x ≥ 1`, and the von Mangoldt form
+  `∑_{2 ≤ n ≤ x} Λ(n)/(n log n) = log log x + γ + O(1/log x)` of Mertens' second theorem, whose
+  constant is identified there as `γ`: AnalyticNumberTheoryPartI §§0.11d and 0.26a (§§0.8, 4.3
+  here).
+- The Graham–Vaaler extremal majorant and minorant of `t ↦ 1_{t ≥ 0} e^{−νt}` with their `L¹`
+  errors and closed forms, and the bounds for `(z coth z)′`: ExplicitZetaBounds §6.3a (§2.6 here).
+  The density predicate *ZetaZeroDensityBound* and the Kadiri–Lumley–Ng density at an arbitrary
+  verification height: ExplicitZetaBounds §§8.3–8.3a (§3.1(d) here).
 
 ### Not owned here
 
@@ -270,7 +284,8 @@ docstring with what they lack.
   section of that theorem, after the error function it evaluates. A *finite-range proposition*
   asserts a stated inequality on a stated bounded range, and is stated in Layer 1, except the two
   inputs of the Brun–Titchmarsh inequality, which Layer 0 uses and §0.1 states. Both are `Prop`s
-  with their data in the statement, assumed and never established here. A theorem of Layers 4–7,
+  with their data in the statement, assumed and never established here (the finite range of
+  Chebyshev's weight method, which Layer 0 also uses, is stated in §0.8). A theorem of Layers 4–7,
   or a transfer of §3.5 from `θ` to `π`, that consumes a Layer 3 bound is stated from that bound as
   an explicit pointwise hypothesis (its *input*), and the instance that supplies the input is named
   after it: the transfer is the theorem, and the instance is the composite with the Layer 3
@@ -313,7 +328,10 @@ docstring with what they lack.
 - `Chebyshev.psi_eq_theta_add_sum_theta`: for `x ≥ 2`, `ψ(x) = θ(x) + ∑_{n=2}^{⌊log x/log 2⌋} θ(x^{1/n})`.
 - `Chebyshev.theta_le_log4_mul_x`: `θ(x) ≤ (log 4) x` for `x ≥ 0`; `Chebyshev.psi_le_const_mul_self`:
   `ψ(x) ≤ (log 4 + 4) x` for `x ≥ 0`; `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`:
-  `|ψ(x) − θ(x)| ≤ 2 √x log x` for `x ≥ 1`.
+  `|ψ(x) − θ(x)| ≤ 2 √x log x` for `x ≥ 1`; `Chebyshev.pi_le_log4_mul_div`:
+  `π(x) ≤ (log 4) x/log √x + √x` for `x > 1`.
+- `IsPrimePow`, `Function.leftLim` and `Monotone.leftLim_le` (left limits of monotone functions),
+  for §§0.3 and 0.6.
 - `Chebyshev.primeCounting_eq_theta_div_log_add_integral`: for `x ≥ 2`,
   `π(⌊x⌋₊) = θ(x)/log x + ∫₂ˣ θ(t)/(t log² t) dt`;
   `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`: `θ(x) = π(⌊x⌋₊) log x − ∫₂ˣ π(⌊t⌋₊)/t dt`;
@@ -402,7 +420,11 @@ docstring with what they lack.
   `GRH` (`Suggested.lean` writes the body of `DirichletGRH` out in the hypothesis of the §6.5
   headline, so that it declares no second copy of the proposition);
   §1.9 `psi_sub_self_isBigO_of_riemannHypothesis` and `psiAP_isBigO_of_dirichletGRH` (consumed
-  only as consistency checks).
+  only as consistency checks); §0.11d `log_floor_factorial_eq_sum_vonMangoldt` with the bounds
+  `x log x − x + 1 − log x ≤ log ⌊x⌋₊! ≤ x log x − x + 1 + log x` for real `x ≥ 1` (Mathlib's
+  `Real.le_sum_log` and `Real.sum_log_le`), for §0.8 and §4.1; §0.26a
+  `mertens_vonMangoldt_eulerGamma` (the constant of `∑ Λ(n)/(n log n) − log log x` is `γ`), for
+  §4.3.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
@@ -486,6 +508,20 @@ as that roadmap states them:
 - §7.9, *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal `χ` of conductor
   `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`), with its laws and
   the instances `(1/5, 10¹⁰)` and `(3.0·10⁻³, ∞)`.
+- §6.3a, the extremal approximants of the one-sided exponential: for `ν > 0` and
+  `I_ν(x) = e^{−νx}` on `x ≥ 0`, `0` on `x < 0`, the Graham–Vaaler functions `F^±_ν`, entire of
+  exponential type `2π`, integrable, real on `ℝ`, with `F^−_ν ≤ I_ν ≤ F^+_ν`,
+  `∫ (F^+_ν − I_ν) = 1/(1 − e^{−ν}) − 1/ν`, `∫ (I_ν − F^−_ν) = 1/ν − 1/(e^ν − 1)`, their Fourier-side
+  form `F^±_ν = ∫_{−1}^{1} φ^±_ν(t) e(−tx) dt` with `φ^±_ν = 1_{[−1,1]}(Φ^{±,∘}_ν + sgn · Φ^{±,⋆}_ν)`,
+  where `B^±(u) = (u/2)(coth(u/2) ± 1)`, `w = ν − 2πiz`, `Φ^{±,∘}_ν(z) = (1/2)(coth(w/2) ± 1)` and
+  `Φ^{±,⋆}_ν(z) = (B^±(w) − B^±(ν))/(2πi)`, their closed forms, `B⁺` increasing and `B⁻` decreasing
+  on `ℝ`, and the bounds `|(z coth z)′| < 1` on `|Im z| ≤ π/4` and `≤ |z|` on `|Im z| ≤ π/2`, with
+  their consequences `|Φ^{±,⋆}_ν(z)| ≤ |z|` and `|(Φ^{±,∘}_ν + Φ^{±,⋆}_ν)(1 − z)| ≤ |z|` for
+  `0 ≤ Re z ≤ 1/4`. They are the kernels of the bracketing theorem of §2.6.
+- §8.3a, the density predicate *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q` (for every `T ≥ T₀` and
+  `σ ∈ S`, `N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T`), with its laws and the
+  Kadiri–Lumley–Ng instances of its §8.3 at every verification height `H₀` (given `RH(H₀)` and
+  *HiaryRecord*). It is the density input of the lemmas of §3.1(d).
 
 Each item below is cited as a gap (`gap:<slug>`) wherever a theorem needs it; the general
 theorems of Layers 3, 6 and 7 take the corresponding object as an explicit parameter, so only
@@ -513,10 +549,10 @@ What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 6
 
 Layer 0 proves the Brun–Titchmarsh inequality with the constant `2` from the weighted large sieve,
 Montgomery–Vaughan's lower bound for the diagonal sum and two finite-range propositions,
-builds the carriers that the library lacks (`li`, `ψ̃`, `C(q, a)`), the rational prime-count
-adapter with `p_n ∼ n log n`, and the exact transfer identities between `ψ`, `θ`, `π`, `Li` and
-`li`, so that every later bound for one of these functions converts into bounds for the others by
-a theorem rather than by a repeated argument. Layer 1 states, as assumptions, every computational
+builds the carriers that the library lacks (`li`, `ψ̃`, `C(q, a)`, the half-weight functions), the
+rational prime-count adapter with `p_n ∼ n log n`, Chebyshev's elementary bounds, and the exact
+transfer identities between `ψ`, `θ`, `π`, `Li` and `li`, so that every later bound for one of these
+functions converts into bounds for the others by a theorem rather than by a repeated argument. Layer 1 states, as assumptions, every computational
 fact that needs no later definition, once: the finite-range verifications, the prime-gap
 verifications, the progression tabulations and the two decimal enclosures, and it cites the
 bounded-height hypotheses and the real-zero gap from ExplicitZetaBounds; a table of constants
@@ -719,9 +755,53 @@ For `x ≥ 2`, `ψ(x) − θ(x) = ∑_{k=2}^{K} θ(x^{1/k})` with `K = ⌊log x/
 - Consequently, from a `ψ`-bound `|ψ(y) − y| ≤ ε(y) y` on `[y₀, ∞)` one gets
   `|θ(x) − x| ≤ ε(x) x + (log 4)(√x + (log x/log 2 − 2)⁺ x^{1/3})` for `x ≥ y₀`, and from a `θ`-bound
   the corresponding `ψ`-bound with the same correction; these are the conversions used throughout.
+- The number of prime powers: for real `N ≥ 2`, the prime powers `m ≤ N` (Mathlib's `IsPrimePow`,
+  exponent at least `1`) number `∑_{k ≥ 1} π(N^{1/k}) ≤ π(N) + (log N/log 2 − 1)√N ≤ 6 N/log N`;
+  in particular `card_isPrimePow_le`: for every integer `N ≥ 2` the prime powers below `N` number at
+  most `6 N/log N`, so that count is `O(N/log N)`. Route: the terms `k ≥ 2` are at most `√N` each
+  and vanish once `N^{1/k} < 2`; Mathlib's `Chebyshev.pi_le_log4_mul_div` gives
+  `π(N) ≤ 2 (log 4) N/log N + √N`; and `(log² N/log 2)/√N ≤ 16/(e² log 2) < 3.13`, the maximum of
+  `L² e^{−L/2}` being at `L = 4`, while `2 log 4 < 2.78`.
+- Costa Pereira's comparison (`costa-pereira-1985`, Theorem 1, cited by locator): for every
+  `x > 0`, `ψ(x) − θ(x) ≤ ψ(x^{1/2}) + ψ(x^{1/3}) + ψ(x^{1/5})`. Route: the right side is
+  `∑_{k ≥ 2} c_k θ(x^{1/k})` with `c_k` the number of `d ∈ {2, 3, 5}` dividing `k`, the left side
+  is `∑_{k ≥ 2} θ(x^{1/k})`, the sequence `θ(x^{1/k})` is nonnegative and nonincreasing in `k`, and
+  `∑_{k=2}^{K} c_k = ⌊K/2⌋ + ⌊K/3⌋ + ⌊K/5⌋ ≥ K − 1` for every `K ≥ 2` (for `K ≥ 60` since
+  `1/2 + 1/3 + 1/5 > 1`, below by inspection), so Abel summation compares the two sums.
+- The general-input bounds of Broadbent–Kadiri–Lumley–Ng–Wilk (`broadbent-kadiri-lumley-ng-wilk-2021`
+  (2.4), Propositions 3–4, Corollary 3.1 and Theorem 5, arXiv numbering, for an arbitrary
+  `θ`-input). For real `x ≥ 1` put `f(x) = ∑_{k=3}^{⌊log x/log 2⌋} x^{1/k − 1/3}` (zero for
+  `x < 8`), so that `∑_{k ≥ 3} θ(x^{1/k})` has exactly the terms `3 ≤ k ≤ log x/log 2`, the
+  others vanishing. Let `c ≥ 0` with `θ(y) ≤ c y` for every `y > 0`. Then:
+  - `∑_{k ≥ 3} θ(x^{1/k}) ≤ c f(x) x^{1/3}` for every `x ≥ 1`, and `f(x) ≤ (log x/log 2 − 2)⁺`,
+    so the cube-root term of the transfer above is the crude case of this bound;
+  - `f` is strictly decreasing on each `[2^n, 2^{n+1})` with `n ≥ 4` (the terms are fixed there and
+    their exponents `1/k − 1/3` are negative for `k ≥ 4`), `f(2^n) = 1 + ∑_{k=4}^{n} 2^{n/k − n/3}`,
+    and `f(2^{n+1}) < f(2^n)` for every `n ≥ 9` (`f(2⁸) = 3.167 < f(2⁹) = 3.211`, so `9` cannot be
+    lowered). Hence for `X ≥ 2⁹` and every `x ≥ X`,
+    `f(x) ≤ F(X) := max(f(X), f(2^{⌊log X/log 2⌋ + 1}))`, and
+    `∑_{k ≥ 3} θ(x^{1/k}) = ψ(x) − θ(x) − θ(√x) ≤ c F(X) x^{1/3}`;
+  - if moreover `c′ ≥ 0` with `θ(y) ≤ c′ y` for every `y ≥ √X`, then
+    `ψ(x) − θ(x) ≤ c′ √x + c F(X) x^{1/3}` for every `x ≥ X ≥ 2⁹`. With a `ψ`-input
+    `|ψ(y) − y| ≤ ε(b) y` for `y ≥ e^b` and `θ(y) < y` on `(0, x₁]`, `x₁ ≥ e⁷`, the choices
+    `c = 1 + ε(log x₁)`, `c′ = a₁(b)`, the value `1 + ε(log x₁)` for `b ≤ 2 log x₁` and
+    `1 + ε(b/2)` beyond, and `X = e^b`, `b ≥ 7` (`e⁷ > 2⁹`), give their Theorem 5,
+    `ψ(x) − θ(x) ≤ a₁(b) √x + a₂(b) x^{1/3}` for `x ≥ e^b` with `a₂(b) = c F(e^b)`, whose default
+    instance is §3.7's;
+  - with the same `ψ`-input, `θ(x) ≤ (1 + ε(log x₁)) x` for every `x > 0`, and, given `c₀` with
+    `ψ(y) ≤ c₀ y` for every `y > 0`,
+    `θ(x) ≥ (1 − ε(b) − c₀ (e^{−b/2} + e^{−2b/3} + e^{−4b/5})) x` for every `x ≥ e^b`, `b > 0`
+    (their Lemma 11, at Rosser–Schoenfeld's `c₀ = 1.03883` of §3.2), the second from Costa
+    Pereira's comparison. If
+    instead `θ(y) ≥ (1 − η) y` for `y ≥ √X`, then `ψ(x) − θ(x) ≥ (1 − η)√x + θ(x^{1/3})` for
+    `x ≥ X` (their Proposition 4, lower half).
+
+  Route: termwise, the terms with `x^{1/k} < 2` vanishing; the monotonicity of `f(2^n)` from
+  `f(2^n) − f(2^{n+1}) = ∑_{k=4}^{n} 2^{(n+1)/k}(2^{1/3 − 1/k} − 1) 2^{−(n+1)/3} − 2^{1 − (n+1)/3}`,
+  whose sum is at least its value at `n = 9`, where `∑_{k=4}^{9} 2^{10/k}(2^{1/3 − 1/k} − 1) > 2.12 > 2`.
 
 *Needs:* Mathlib `Chebyshev.psi_eq_theta_add_sum_theta`, `Chebyshev.theta_le_log4_mul_x`,
-`Chebyshev.theta_nonneg`, `Chebyshev.theta_mono`.
+`Chebyshev.theta_nonneg`, `Chebyshev.theta_mono`, `Chebyshev.pi_le_log4_mul_div`, `IsPrimePow`.
 
 **Checks.**
 
@@ -766,11 +846,54 @@ series converges absolutely for every real `log x`, its terms being at most `|lo
   `d/dt (t/log^k t) = 1/log^k t − k/log^{k+1} t`, leave `n! ∫_e^x dt/log^{n+1} t` plus a constant, and splitting that integral at `√x` bounds it by
   `O(x/log^{n+1} x)`. With `Li x = li x − li 2` and `TauCeti.Real.logIntegral_isEquivalent_div_log`
   this gives `li x ∼ Li x ∼ x/log x`.
+- Exponential form of the principal value: for every real `y > 0`,
+  `lim_{ε → 0⁺} (∫_{−1/ε}^{−ε} eᵘ/u du + ∫_ε^y eᵘ/u du) = γ + log y + ∫₀^y (eᵘ − 1)/u du`, with
+  `∫₀^y (eᵘ − 1)/u du = ∑_{n ≥ 1} yⁿ/(n · n!)`; so for `x > 1` the limit at `y = log x` is `li x`
+  (the exponential integral `Ei` at `log x`), and for `y < 0` the same holds without a limit,
+  `∫_{−∞}^{y} eᵘ/u du = γ + log |y| + ∫₀^y (eᵘ − 1)/u du = li(e^y)`. Also
+  `γ = ∫₀¹ (1 − e^{−t})/t dt − ∫₁^∞ e^{−t}/t dt`. Route: the last from Mathlib's
+  `γ = −∫₀^∞ e^{−t} log t dt` by integration by parts on `(0, 1]` and on `[1, ∞)`; then
+  `∫_{−1/ε}^{−ε} eᵘ/u du = −∫_ε^{1/ε} e^{−t}/t dt` and `∫_ε^y eᵘ/u du = log(y/ε) + ∫_ε^y (eᵘ − 1)/u du`,
+  in which the two logarithms of `ε` cancel against `∫_ε^1 dt/t`; the series by termwise
+  integration of `(eᵘ − 1)/u = ∑_{n ≥ 1} u^{n−1}/n!`.
+- The absolutely convergent integrals: for every `x > 0` with `x ≠ 1`,
+  `li x = log |x − 1| + ∫₀ˣ (1/log t − 1/(t − 1)) dt`, the integrand being bounded on `(0, x]`
+  (it tends to `1` at `0⁺` and to `1/2` at `t = 1`); and `li_two_eq_integral`:
+  `li 2 = ∫₀¹ (1/log(1 + u) + 1/log(1 − u)) du`, whose integrand tends to `1` at `0⁺` and to
+  `1/log 2` at `1⁻` and satisfies `|1/log(1 + u) + 1/log(1 − u)| ≤ 16 log(4/3)/3` on `(0, 1/2]`.
+  Route: the principal value of `∫₀ˣ dt/(t − 1)` is `log |x − 1|`, and the difference of the two
+  integrands is continuous; at `x = 2` the substitutions `t = 1 ∓ u` turn the principal value into
+  the symmetric integral.
+- The enclosure of `li 2`: `0.834438 ≤ ∑_{n ≥ 1} (log 2)ⁿ/(n · n!) ≤ 0.834462` and
+  `−0.366513 ≤ log log 2 ≤ −0.366512`, both unconditionally (Mathlib's `Real.log_two_gt_d9` and
+  `Real.log_two_lt_d9`, the positive series truncated after ten terms with a geometric tail, and
+  the series of `log(1 − u)` at `u = 1 − log 2`); hence, if `|γ − 0.5772156649| < 10⁻⁹` (the
+  inequality *EulerGammaEnclosure* of §1.6, written out here so that this layer uses no later one),
+  `li_two_mem`: `1.0451 ≤ li 2 ≤ 1.0452`, and a fortiori `1.039 ≤ li 2 ≤ 1.06`. Without the
+  enclosure of `γ`, Mathlib's `1/2 < γ < 2/3` gives only `0.96 < li 2 < 1.14`.
+- Explicit integrals: for real `k > 0` and `x ≥ 2`,
+  `∫₂ˣ dt/log^k t = x/log^k x − 2/log^k 2 + k ∫₂ˣ dt/log^{k+1} t` (integration by parts, from
+  `d/dt (t/log^k t) = 1/log^k t − k/log^{k+1} t`), `(x − 2)/log^k x ≤ ∫₂ˣ dt/log^k t ≤
+  √x/log^k 2 + 2^k x/log^k x` (for `x ≥ 4` split at `√x`, where `log t ≥ (log x)/2` beyond; for
+  `2 ≤ x < 4` every `t ∈ [2, x]` already has `log t ≥ (log x)/2`), and therefore
+  `integral_inv_log_pow_lt`: `∫₂ˣ dt/log^k t < x/log^k x + k (√x/log^{k+1} 2 + 2^{k+1} x/log^{k+1} x)`;
+  at `k = 7`, `∫₂ˣ dt/log⁷ t < x/log⁷ x + 7 (√x/log⁸ 2 + 2⁸ x/log⁸ x)`.
+- `Li x − x/log x`: its derivative is `1/log² x`, so it is strictly increasing on `(1, ∞)`; for
+  `x ≥ 2`, `Li x − x/log x = ∫₂ˣ dt/log² t − 2/log 2` (Tau Ceti's
+  `TauCeti.Real.logIntegral_eq_div_log_sub_add`), so by the previous item
+  `x/log² x − 2/log 2 − 2/log² 2 ≤ Li x − x/log x < x/log² x + 2√x/log³ 2 + 16 x/log³ x − 2/log 2`
+  (with equality on the left only at `x = 2`);
+  it has exactly one zero, in `(6.5797, 6.5798)`, and `logIntegral_sub_div_log_ge`: for every
+  `x ≥ 6.58`, `Li x − x/log x ≥ (x − 6.58)/log² x`, positive for `x > 6.58`
+  (`fiori-kadiri-swidinsky-2023` Lemma 20). Route: `Li(6.58) − 6.58/log 6.58 > 7·10⁻⁵`, an
+  inequality between values of the series of `li` at `log 6.58` and `log 2`, in which `γ` cancels;
+  then the derivative bound `1/log² t ≥ 1/log² x` on `[6.58, x]`.
 
 *Needs:* Mathlib `Real.eulerMascheroniConstant`, `Real.one_half_lt_eulerMascheroniConstant`,
-`Real.eulerMascheroniConstant_eq_neg_integral_log`, `Real.exp`, `tsum`, `HasDerivAt`,
-`intervalIntegral`, `Asymptotics.IsBigO`; Tau Ceti `TauCeti.Real.logIntegral`,
-`TauCeti.Real.logIntegral_two`, `TauCeti.Real.logIntegral_isEquivalent_div_log`.
+`Real.eulerMascheroniConstant_lt_two_thirds`, `Real.eulerMascheroniConstant_eq_neg_integral_log`,
+`Real.log_two_gt_d9`, `Real.log_two_lt_d9`, `Real.exp`, `tsum`, `HasDerivAt`, `intervalIntegral`,
+`Asymptotics.IsBigO`; Tau Ceti `TauCeti.Real.logIntegral`, `TauCeti.Real.logIntegral_two`,
+`TauCeti.Real.logIntegral_isEquivalent_div_log`, `TauCeti.Real.logIntegral_eq_div_log_sub_add`.
 
 **Checks.**
 
@@ -833,12 +956,43 @@ The reverse direction is Mathlib's `Chebyshev.theta_eq_primeCounting_mul_log_sub
   `x ≥ 2`, and the difference form and the transfer hold verbatim with `li` in place of `Li`; this
   is the normalisation of Schoenfeld, Büthe and Trudgian (`trudgian-2016` lines 124–125 display the
   identity).
+- One-sided transfer from `x₀ = 2`: let `x ≥ 2` and `ε⁺, ε⁻` integrable on `[2, x]` with
+  `−t ε⁻(t) ≤ θ(t) − t ≤ t ε⁺(t)` for every `t ∈ [2, x]`. Then
+  `Li x + 2/log 2 − x ε⁻(x)/log x − ∫₂ˣ ε⁻(t)/log² t dt ≤ π(x) ≤ Li x + 2/log 2 + x ε⁺(x)/log x + ∫₂ˣ ε⁺(t)/log² t dt`,
+  with `Li x + 2/log 2 = x/log x + ∫₂ˣ dt/log² t`; the identity's constant `2/log 2` is exact, so
+  no boundary term at `x₀` appears. At `ε^± = a/log⁵` this is Platt–Trudgian's form
+  (`platt-trudgian-2021-error` §5): if `|θ(t) − t| log⁵ t ≤ t a(t)` on `[2, x]`, then
+  `π(x) ≤ x/log x + a(x) x/log⁶ x + ∫₂ˣ dt/log² t + ∫₂ˣ a(t)/log⁷ t dt` and
+  `π(x) ≥ x/log x − a(x) x/log⁶ x + ∫₂ˣ dt/log² t − ∫₂ˣ a(t)/log⁷ t dt` (`primeCounting_le_of_theta`).
+- Combined-endpoint transfer: for `2 ≤ x₀ ≤ x` with `|θ(t) − t| ≤ t ε(t)` on `[x₀, x]`,
+  `|π(x) − Li x − (θ(x) − x)/log x| ≤ |π(x₀) − Li x₀ − (θ(x₀) − x₀)/log x₀| + ∫_{x₀}^x ε(t)/log² t dt`,
+  from the difference form; in the normalised errors `E_θ(x) = |θ(x) − x|/x` and
+  `E_π(x) = |π(x) − Li x| log x/x` it reads
+  `E_π(x) ≤ E_θ(x) + (log x/x)(x₀/log x₀) δ(x₀) + (log x/x) ∫_{x₀}^x E_θ(t)/log² t dt` with
+  `δ(x₀) = |(π(x₀) − Li x₀) log x₀/x₀ − (θ(x₀) − x₀)/x₀|` (`fiori-kadiri-swidinsky-2023` (30)). It
+  sharpens the transfer above, whose two endpoint terms are taken separately while the
+  combination nearly cancels.
+- Partitioned integral: for `x₀ = t₀ < t₁ < ⋯ < t_N = x₁` with `t₀ ≥ 2` and constants `ε_i` with
+  `|θ(t) − t| ≤ ε_i t` on `[t_{i−1}, t_i]`,
+  `|∫_{x₀}^{x₁} (θ(t) − t)/(t log² t) dt| ≤ ∑_{i=1}^{N} ε_i (Li t_i − t_i/log t_i − Li t_{i−1} + t_{i−1}/log t_{i−1})`,
+  the constant case above on each piece (`fiori-kadiri-swidinsky-2023` Lemma 19, there with
+  `t_i = e^{b_i}`).
+- Partial summation for a general weight (`rosser-schoenfeld-1962` (4.13)–(4.16), cited by
+  locator): for `x ≥ 2` and `f` of class `C¹` on `[2, x]`, with `g = f/log`,
+  `∑_{p ≤ x} f(p) = θ(x) g(x) − ∫₂ˣ θ(t) g′(t) dt = ∫₂ˣ f(t)/log t dt + 2 f(2)/log 2 + (θ(x) − x) g(x) − ∫₂ˣ (θ(t) − t) g′(t) dt`
+  (Abel summation, Mathlib's `sum_mul_eq_sub_sub_integral_mul`, and `∫₂ˣ t g′ = x g(x) − 2 g(2) − ∫₂ˣ g`);
+  and, if `f` is `C¹` on `[2, ∞)` with `∫₂^∞ |θ(t) − t| |g′(t)| dt < ∞`, then with
+  `L_f = 2 f(2)/log 2 − ∫₂^∞ (θ(t) − t) g′(t) dt`,
+  `∑_{p ≤ x} f(p) = ∫₂ˣ f(t)/log t dt + L_f + (θ(x) − x) g(x) + ∫ₓ^∞ (θ(t) − t) g′(t) dt` for every
+  `x ≥ 2`. At `f = 1` this is the identity of this section; at `f(t) = 1/t` and `f(t) = (log t)/t`
+  it gives the exact forms of §4.3, with `L_f − log log 2 = B` and `L_f − log 2 = E` respectively.
 
 *Needs:* Mathlib `Chebyshev.primeCounting_eq_theta_div_log_add_integral`,
 `Chebyshev.theta_eq_primeCounting_mul_log_sub_integral`,
 `Chebyshev.integrableOn_theta_div_id_mul_log_sq`; Tau Ceti `TauCeti.Real.logIntegral_eq_div_log_sub_add`,
-`TauCeti.Real.intervalIntegrable_div_mul_log_sq`; §0.3a (the offset `Li x = li x − li 2`) for the
-`li` form; §0.3b for the rational instance.
+`TauCeti.Real.intervalIntegrable_div_mul_log_sq`, Mathlib `sum_mul_eq_sub_sub_integral_mul` (the
+general weight); §0.3a (the offset `Li x = li x − li 2`) for the `li` form; §0.3b for the rational
+instance.
 
 **Checks.**
 
@@ -874,12 +1028,31 @@ Schoenfeld's Theorem 11 (`schoenfeld-1976` lines 201–206), stated for an arbit
   §3.1 counts `p ≤ ⌊x⌋` with `p ≡ a.val (mod q)`); for `a` a unit, *rayClassPsi* of
   ZerosOfLFunctions §8.7 at `K = ℚ`, `𝔪 = (q)∞` and the class of `a` equals `psiAP q a x`, since
   every `n ≡ a (mod q)` is then prime to `q`.
+- Half-weight versions. For real `x` and `t` let `halfWeight x t` be `1/2` for `t = x`, `1` for
+  `0 < t < x`, and `0` otherwise (the arguments below are positive integers, so the value at
+  `t = 0` plays no role), and define `psiHalf x = ∑_{n ≥ 1} halfWeight x n · Λ(n)`,
+  `thetaHalf x = ∑_p halfWeight x p · log p`, `primeCountingHalf x = ∑_p halfWeight x p` and
+  `riemannPrimeCountHalf x = ∑_{k ≥ 1} primeCountingHalf(x^{1/k})/k`, written `ψ₀`, `θ₀`, `π₀`,
+  `π*₀`: the normalisation of the explicit formula and of Büthe's statements (`buthe-2016`
+  Theorem 2), and the `ψ₀` of AnalyticNumberTheoryPartI's conventions. Prove, for `F` one of `ψ`,
+  `θ`, `π` (`x ↦ π(⌊x⌋₊)`) and `π*` and `F₀` its half-weight version:
+  `psiHalf_eq_average`, `F₀(x) = (F(x) + F(x⁻))/2` with `F(x⁻) = Function.leftLim F x`, for every
+  real `x > 0` (for every real `x` when `F` is `ψ`, `θ` or `π`; for `π*` the powers `x^{1/k}` of a
+  negative `x` are junk); hence `F₀ = F` except at the jumps (the prime powers for `ψ` and `π*`, the
+  primes for `θ` and `π`), where `F − F₀` is half the jump, so `0 ≤ ψ(x) − ψ₀(x) ≤ (log x)/2` for
+  `x ≥ 1` and `0 ≤ π(x) − π₀(x) ≤ 1/2`; `π*₀(x) = ∑_{k ≥ 1} π₀(x^{1/k})/k` and, for `x ≥ 2`,
+  `π*₀(x) = ψ₀(x)/log x + ∫₂ˣ ψ(t)/(t log² t) dt`, the half-weight form of the identity §2.3 uses;
+  and a bound `|F(y) − G(y)| ≤ B(y)` on an open interval, with `G` and `B` continuous there, holds for
+  `F₀` on the same interval, so every bound of §§2.2–2.3 on an open range holds for the half-weight
+  functions on that range. Route: the jump of `F` at `x` is the term of the sum at `t = x`, and the
+  left limit omits it.
 
 The four finite-range inputs of AnalyticNumberTheoryPartI are proved where the theorems that
 discharge them stand: *SchoenfeldFiniteRangeInput* in §3.2, *RosserSchoenfeldFiniteRangeInput* in
 §3.5, *PrimeProductFiniteInput* in §4.3 and the theta clause of *ModEightFiniteInput* in §6.1.
 
-*Needs:* AnalyticNumberTheoryPartI §0.2; SieveMethodsAndPrimePatterns §3.1; ZerosOfLFunctions §8.7.
+*Needs:* AnalyticNumberTheoryPartI §0.2; SieveMethodsAndPrimePatterns §3.1; ZerosOfLFunctions §8.7;
+Mathlib `Function.leftLim`, `Monotone.leftLim_le`, `ArithmeticFunction.vonMangoldt`.
 
 **Checks.**
 
@@ -916,11 +1089,73 @@ the transfer from `ψ` to `∑_{n ≤ x} Λ(n)/n` used in §4.2.
 - The identity at `x = 1`: `logPsiAP q a 1 = 0`, `E(1) = −1/φ(q)` for a unit class, and
   `C(q, a) = 1/φ(q) + ∫₁^∞ E/t²`, so both sides equal `−∫₁^∞ E(t)/t² dt`.
 
+### 0.8 Chebyshev's weight method
+
+Chebyshev's elementary bounds for `ψ`, with explicit constants and no information on the zeros.
+Write `T(x) = ∑_{1 ≤ n ≤ x} log n = log ⌊x⌋₊!` for real `x` (zero for `x < 1`). The identity
+`T(x) = ∑_{n ≤ x} Λ(n) ⌊x/n⌋₊` and the bounds
+`x log x − x + 1 − log x ≤ T(x) ≤ x log x − x + 1 + log x` for every real `x ≥ 1` are
+AnalyticNumberTheoryPartI §0.11d (`log_floor_factorial_eq_sum_vonMangoldt`, with Mathlib's
+`Real.le_sum_log` and `Real.sum_log_le`) and are consumed, not restated.
+
+The finite range the upper bound assumes, stated here because Layer 0 uses it:
+
+- `ChebyshevWeightRange`: `ψ(x) ≤ 1.015 x` for every real `0 < x ≤ 30`, and `ψ(x) ≤ 1.11 x` for
+  every real `0 < x ≤ 11 723` (the bounded range of the induction below; on it the largest value
+  of `ψ(x)/x` is `ψ(113)/113 = 1.0388…`, `rosser-schoenfeld-1962` lines 341–342, and on `(0, 30]`
+  it is `ψ(19)/19 = 1.0140…`).
+
+Let `ν = e₁ − e₂ − e₃ − e₅ + e₃₀` (`ν(1) = ν(30) = 1`, `ν(2) = ν(3) = ν(5) = −1`, zero elsewhere) and
+`E(x) = ∑_m ν(m) ⌊x/m⌋₊ = ⌊x⌋₊ − ⌊x/2⌋₊ − ⌊x/3⌋₊ − ⌊x/5⌋₊ + ⌊x/30⌋₊`. Put
+`U(x) = T(x) − T(x/2) − T(x/3) − T(x/5) + T(x/30)` and
+`a = (log 2)/2 + (log 3)/3 + (log 5)/5 − (log 30)/30 = −∑_m ν(m) (log m)/m = 0.9212920…`. Prove:
+
+- `E` is periodic of period `30` on `x ≥ 0`, takes only the values `0` and `1` there, and equals `1`
+  on `[1, 6)`; `∑_m ν(m)/m = 0` (`1 − 1/2 − 1/3 − 1/5 + 1/30 = 0`), and `0.92129 ≤ a ≤ 0.92130`;
+- `U(x) = ∑_{n ≤ x} Λ(n) E(x/n)`, hence `ψ(x) − ψ(x/6) ≤ U(x) ≤ ψ(x)` for every `x ≥ 0`;
+- for every `x ≥ 30`, `|U(x) − a x| ≤ 5 log x − 5`; hence `chebyshev_psi_ge`:
+  `ψ(x) ≥ a x − 5 log x + 5`, in particular `ψ(x) ≥ a x − 5 log x − 1`, and
+  `ψ(x) − ψ(x/6) ≤ a x + 5 log x − 5`, for every `x ≥ 30`;
+- under `ChebyshevWeightRange`, `ψ(x) ≤ (6a/5) x + (log(x/5)/log 6)(5 log x − 5)` for every
+  `x ≥ 30`, and `chebyshev_psi_le`: `ψ(x) ≤ 1.11 x` for every `x > 0`.
+
+Route (`chebyshev-1852`, cited by locator, whose error terms are `(5/2) log x + 1` and
+`(5/(4 log 6)) log² x + (5/2) log x + 1`; the constants here come from the cruder bounds for
+`log ⌊x⌋₊!` of AnalyticNumberTheoryPartI §0.11d). The periodicity: for `d ∣ 30`,
+`⌊(x + 30)/d⌋₊ = ⌊x/d⌋₊ + 30/d`, and `30 − 15 − 10 − 6 + 1 = 0`; the values on `[0, 30)` are read off
+the thirty unit intervals. `U = ∑_n Λ(n) E(x/n)` is the identity of AnalyticNumberTheoryPartI
+§0.11d applied to each `T(x/m)`; `E ≥ 0` gives `U ≤ ∑_{n ≤ x} Λ(n) = ψ(x)`, and `E(x/n) = 1` for
+`x/6 < n ≤ x` gives `U ≥ ψ(x) − ψ(x/6)`. In `U` the main terms `y log y − y + 1` of the five values
+of `T` combine to `a x − 1`, the coefficients of `x log x`, of `x` and of `log x` cancelling by
+`∑ ν(m)/m = 0`, and the five errors, each at most the logarithm of its argument (all arguments are
+at least `1` when `x ≥ 30`), add up to at most `5 log x − log 900`, so that
+`|U(x) − a x| ≤ 1 + 5 log x − log 900 ≤ 5 log x − 5`. The two upper bounds follow
+by summing `ψ(x/6^j) − ψ(x/6^{j+1}) ≤ a x/6^j + 5 log x − 5` over the `⌊log(x/5)/log 6⌋` values
+of `j` with `x/6^j ≥ 30` and bounding the last `ψ(x/6^J) ≤ 1.015 x/6^J ≤ (6a/5) x/6^J`; and, for the
+second, by induction on `⌈log(x/11 723)/log 6⌉`: for `x > 11 723`,
+`ψ(x) ≤ 1.11 x/6 + 0.92130 x + 5 log x − 5 ≤ 1.11 x`, since `5 log x − 5 ≤ (0.925 − 0.92130) x` from
+`x = 11 723` on.
+
+*Needs:* AnalyticNumberTheoryPartI §0.11d; Mathlib `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`,
+`Nat.floor`, `Real.log_two_gt_d9`, `Real.log_two_lt_d9`; `ChebyshevWeightRange`.
+
+**Checks.**
+
+- `E(5.5) = 5 − 2 − 1 − 1 + 0 = 1` and `E(6) = 6 − 3 − 2 − 1 + 0 = 0`: the interval on which `E = 1`
+  is `[1, 6)`, and it is what makes `6` the ratio of the iteration.
+- At `x = 30`: `a x − 5 log 30 + 5 = 27.639 − 17.006 + 5 = 15.63 < ψ(30) = 28.48`, so the lower
+  bound has content only for large `x`; it exceeds `0.9 x` from `x ≈ 1.5·10³`.
+- Without `ChebyshevWeightRange` the iteration has no starting point: the relative error of the
+  step is `0.925 − a = 0.0037` while `(5 log x − 5)/x` is `0.0041` at `x = 10⁴`, so the induction
+  closes only from about `1.1·10⁴`, and the bounded range is a computation on the values of `ψ`.
+
 ### Examples
 
 - `C(1, 0) = −γ` and `C(2, 1) = −γ − log 2`, from the closed form of §0.2.
 - `Li x = li x − li 2` for `x > 1`, and `li x ∼ x/log x` (§0.3a).
 - `Nat.nth Nat.Prime n ∼ n log n` (§0.3b).
+- The prime powers below `N ≥ 2` number at most `6 N/log N` (§0.3); `ψ(x) ≥ 0.92129 x − 5 log x + 5`
+  for `x ≥ 30` (§0.8).
 
 ### Dependencies
 
@@ -928,8 +1163,9 @@ Mathlib `Chebyshev`, `Nat.primeCounting`, `Nat.totient`, `ArithmeticFunction.von
 `ArithmeticFunction.moebius`, `DirichletCharacter.LFunction`, Abel summation; Tau Ceti
 `TauCeti.Real.logIntegral`, `TauCeti.primeCount` and the prime ideal theorem
 `TauCeti.primeCount_univ_isEquivalent_div_log`; ExplicitZetaBounds §6.5; AnalyticNumberTheoryPartI
-§§0.2, 0.30, 0.32; ZerosOfLFunctions §§8.5–8.7, 8.9; SieveMethodsAndPrimePatterns §3.1. The two
-finite-range propositions of §0.1 are stated in §0.1. No later layer is used.
+§§0.2, 0.11d, 0.30, 0.32; ZerosOfLFunctions §§8.5–8.7, 8.9; SieveMethodsAndPrimePatterns §3.1. The
+two finite-range propositions of §0.1 are stated in §0.1, and the one of §0.8 in §0.8. No later
+layer is used.
 
 ## Layer 1: hypotheses
 
@@ -941,7 +1177,8 @@ what it asserts and where its source states it. The bounded-height propositions 
 ExplicitZetaBounds §§0.2–0.4b (`gap:rh-up-to-height`, `gap:grh-up-to-height`), and the real-zero
 gap with its instances is its
 §7.9 (`gap:real-zero-gap`): §§1.1, 1.2 and 1.7 cite them and fix the names this roadmap uses for
-them. Every proposition this layer states mentions only Layer 0 and the pinned libraries.
+them. Every proposition this layer states mentions only Layer 0, the pinned libraries and the gap
+records defined in §1.4.
 
 ### 1.1 The Riemann hypothesis to a height
 
@@ -955,7 +1192,8 @@ ExplicitZetaBounds §0.4: `RH(545 439 823)` (`van-de-lune-te-riele-winter-1986` 
 `RH(30 610 046 000)` (`platt-2017` lines 485–486, Theorem 5.1), `RH(3 000 175 332 800)`
 (`platt-trudgian-2021-rh` lines 48–49, Theorem 1), and the absence of zeros with `0 < Re s < 1` and
 `|Im s| ≤ 14`; a theorem stated from a smaller height a
-paper used is stated here from the next recorded height above it.
+paper used is stated here from the next recorded height above it, except where the theorem takes
+the height as a hypothesis of its own (the third interval of §7.2).
 
 The computations on the low zeros. Zeros `ρ = β + iγ` are those of `riemannZeta` with `0 < β < 1`,
 counted with the multiplicity `analyticOrderNatAt riemannZeta ρ` (that of ZerosOfLFunctions §4.1's
@@ -974,6 +1212,11 @@ counted with the multiplicity `analyticOrderNatAt riemannZeta ρ` (that of Zeros
   `∑_{0 < γ ≤ T₀} 1/γ ≤ 11.637732363` (`kadiri-lumley-2014` lines 582–586).
 - *LMFDBZeroSums*: with `T₀ = 104 537 615`, `N(T₀) ≤ 2.6·10⁸` and `∑_{0 < γ ≤ T₀} 1/γ ≤ 21.98308`
   (`cully-hugill-lee-2022` lines 600–602).
+- *FioriKadiriSwidinskyZeroSums*: `∑_{0 < γ < T₀} 1/γ < S₀` for each pair `(T₀, S₀)` of
+  `(100, 0.5922435112)`, `(1000, 2.0286569752)`, `(10⁴, 4.3080354951)`, `(10⁵, 7.4318184970)`,
+  `(10⁶, 11.3993199147)`, `(10⁷, 16.2106480369)`, `(10⁸, 21.8657999924)`, `(10⁹, 28.3647752011)`,
+  `(10¹⁰, 35.7075737123)` and `(30 610 046 000, 39.5797647802)` (`fiori-kadiri-swidinsky-2023-psi`
+  Corollary 2.3 and Table 1; the row at `10⁷` is `ZetaZeroReciprocalSum`, up to the endpoint).
 - `ZetaZeroCubeSum`: `∑_{0 < γ ≤ T} 1/γ³ ≤ 0.000835` for every real `T` (`rosser-1941` Lemma 17, the
   bound `∑ 1/|γ|³ < 0.00167` over both signs quoted at `dusart-2016` line 460).
 
@@ -1043,6 +1286,31 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   `2 ≤ x ≤ 10¹⁹`, with `π*(x) = ∑_{k ≥ 1} π(x^{1/k})/k` (`Suggested.lean`'s `riemannPrimeCount`);
   and `0 < li x − π(x) ≤ (√x/log x)(1.95 + 3.9/log x + 19.5/log² x)` for `2 ≤ x ≤ 10¹⁹`
   (`buthe-2018` lines 73–85, Theorem 2, which prints the second from `1423`).
+- *ButheFinerRange*: `−0.8 √x ≤ x − ψ(x) ≤ 0.81 √x` for `100 ≤ x ≤ 5·10¹⁰` (`buthe-2018` §6,
+  (6.2)); and, for each row `(x₀, M⁻, M⁺)` of its Table 1 and every `x ∈ [x₀, 2x₀]`,
+  `M⁻ √x ≤ x − ψ(x) ≤ M⁺ √x`, the rows being, for `x₀ = 2^j·10¹⁰` with `j = 0, …, 6`:
+  `(−0.77, 0.85)`, `(−0.75, 0.64)`, `(−0.73, 0.80)`, `(−0.80, 0.86)`, `(−0.88, 0.68)`, `(−0.88, 0.78)`,
+  `(−0.66, 0.74)`; for `x₀ = 2^j·10¹²`, `j = 0, …, 6`: `(−0.80, 0.81)`, `(−0.79, 0.76)`,
+  `(−0.73, 0.73)`, `(−0.80, 0.76)`, `(−0.80, 0.68)`, `(−0.67, 0.93)`, `(−0.78, 0.77)`; for
+  `x₀ = 2^j·10¹⁴`, `j = 0, …, 6`: `(−0.79, 0.72)`, `(−0.60, 0.76)`, `(−0.65, 0.73)`, `(−0.81, 0.88)`,
+  `(−0.66, 0.86)`, `(−0.74, 0.86)`, `(−0.73, 0.66)`; and for `x₀ = 2^j·10¹⁶`, `j = 0, …, 9`:
+  `(−0.88, 0.74)`, `(−0.87, 0.70)`, `(−0.65, 0.73)`, `(−0.82, 0.77)`, `(−0.71, 0.92)`, `(−0.78, 0.71)`,
+  `(−0.94, 0.82)`, `(−0.94, 0.75)`, `(−0.82, 0.86)`, `(−0.83, 0.94)`. Consequence (a theorem): under
+  *ButheFinerRange*, `−0.88 √x ≤ x − ψ(x) ≤ 0.86 √x` for `100 ≤ x ≤ 3.2·10¹³`, from the first
+  clause up to `5·10¹⁰` and the rows from `4·10¹⁰` to `1.6·10¹³`. These are the rows `(c, C)` of
+  Broadbent–Kadiri–Lumley–Ng–Wilk's lower bounds for `θ` (§3.7), with `ButheVerified` the row
+  `(0.94, 0.94)` to `10¹⁹`.
+- *Dusart2018ThetaValues*: for each of the forty-six rows `(x, ϑ, d)` of `dusart-2018` Table 2
+  (journal Lemma 4.1), at `x = k·10^j` for `1 ≤ k ≤ 9`, `10 ≤ j ≤ 14`, and at `x = 10¹⁵`,
+  `|θ(x) − ϑ| ≤ 10⁻⁶` and `|ψ(x) − θ(x) − d| ≤ 10⁻⁶`; among them
+  `(10¹⁰, 9 999 939 830.657757, 102 289.175716)`,
+  `(10¹⁴, 99 999 990 573 246.978538, 10 045 400.569463)` and
+  `(10¹⁵, 999 999 965 752 660.939840, 31 724 269.567843)`. The values are printed to six decimals,
+  rounded to nearest, so the proposition asserts each to within `10⁻⁶` in either direction; it
+  implies the lower bound for `θ(10¹⁴)` that *AxlerRange* records.
+- *RamanujanThetaRange*: `|θ(x) − x| ≤ (1 − (log 2)/3) x` for every real `2 ≤ x ≤ 599`
+  (`platt-trudgian-2021-error` (18), its first range; the lower side is attained in the limit
+  `x → 3⁻`, where `θ(x) = log 2`).
 - *RosserSchoenfeld1962Range*: the inequalities of Theorems 1–4, 9, 11 and Corollaries 1–3 of
   §§3.2, 3.5 for every real `x ≤ 10⁷` of their ranges, and those of Theorem 3 for every
   `p_n ≤ 10⁷` (`rosser-schoenfeld-1962` lines 213–216).
@@ -1060,16 +1328,19 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   `1 < x ≤ 1.04·10⁷`; the `π` bounds of Théorème 1.10 for `x ≤ 10⁸`; and
   `p_k ≤ k(log k + log log k − 0.9484)` for `39 017 ≤ k ≤ 170 367` (`dusart-1998-thesis` lines
   863–864, 924–925, 1279).
-- `RobinNthPrimeRange`: `p_k ≥ k(log k + log log k − 1)` for every `k ≥ 2` with `p_k ≤ 10¹¹`
+- `RobinNthPrimeRange`: `p_k > k(log k + log log k − 1)` for every `k ≥ 2` with `p_k ≤ 10¹¹`
   (`dusart-1999-mc` line 118, Robin's range).
 - *Robin1983Range*: `p_k ≤ k(log k + log log k − 0.9385)` for every integer `8602 ≤ k ≤ 39 016`
   (`robin-1983` line 84 and (23) at line 378, which prints `k ≥ 7022`).
 - *Dusart2018Range*: `|θ(x) − x| ≤ x/log³ x` for `89 967 803 ≤ x ≤ 10¹⁹` and `≤ 0.5 x/log³ x` for
   `767 135 587 ≤ x ≤ 10¹⁹`, and the further `θ` rows of §3.3 on `[x_k, 10¹⁹]`;
   `0.9999 √x < ψ(x) − θ(x)` for `121 ≤ x ≤ 10¹⁶`; `ψ(x) − θ(x) − θ(√x) < 1.777745 x^{1/3}` for
-  `0 < x ≤ 10²⁴`; the two `π` bounds of the copy's Theorem 6.9 (§3.5) for every `x` of their ranges
-  with `x ≤ 10¹¹`; the two `p_k` bounds of its Propositions 6.6–6.7 (§5.3) for every `k` of their
-  ranges with `p_k < e²⁷`; a prime in `(x, x(1 + 1/log³ x)]` for every real `89 693 ≤ x ≤ 2·10⁷`;
+  `0 < x ≤ 10²⁴`; the two `π` bounds of the copy's Theorem 6.9 and those of the journal's
+  Theorem 5.1 and Corollaries 5.2–5.3 (§3.5) for every `x` of their ranges with `x ≤ 10¹¹`; the two
+  `p_k` bounds of its Propositions 6.6–6.7 and the `p_k` and `θ(p_k)` bounds of the journal's
+  Lemma 5.14 and Propositions 5.11–5.12 (§5.3) for every `k` of their ranges with `p_k < e²⁷`;
+  `|∑_{p ≤ x} (log p)/p − log x − E| ≤ 0.3/log² x` for `912 560 ≤ x ≤ 5·10⁷` (journal Theorem 5.7,
+  §4.3, with `E` the constant of AnalyticNumberTheoryPartI §0.8); a prime in `(x, x(1 + 1/log³ x)]` for every real `89 693 ≤ x ≤ 2·10⁷`;
   and a prime in `[x, x(1 + 1/(5000 log² x))]` for every real `468 991 632 ≤ x ≤ 10⁹` (`dusart-2018`,
   arXiv copy Theorem 5.2, Propositions 3.1, 6.6–6.7, Lemma 3.3 and Theorem 6.9, journal
   Proposition 5.4 and Corollary 5.5; the first two rows as quoted at
@@ -1101,7 +1372,10 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   `p ≡ a (mod q)` with `p ≤ (φ(q) log q)²` (`lamzouri-li-soundararajan-2015` §4.3).
 - *TrudgianRange*: with `ε₀(x) = √(8/(17π)) X^{1/2} e^{−X}` and `X = √(log x/6.455)`,
   `|ψ(x) − x| ≤ x ε₀(x)` for `23 ≤ x ≤ 36` and `|θ(x) − x| ≤ x ε₀(x)` for `149 ≤ x ≤ 1427`
-  (`trudgian-2016` lines 66–73).
+  (`trudgian-2016` lines 66–73); and
+  `|π(x) − li x| ≤ 0.2795 x (log x)^{−3/4} exp(−√(log x/6.455))` for `229 ≤ x ≤ 360`, the range
+  below which the `π` clause of `ButheVerified` does not reach that bound (it does from
+  `x = 359.3`; `trudgian-2016` lines 132–140).
 - `TrudgianIntervalRange`: a prime in `[x, x(1 + 1/(111 log² x))]` for every real
   `2 898 242 ≤ x ≤ 4 652 353` (`trudgian-2016` lines 229–236, which print the threshold
   `2 898 239`).
@@ -1151,7 +1425,36 @@ Consecutive primes `p < p⁺` are `Nat.nth Nat.Prime n < Nat.nth Nat.Prime (n + 
   (§7.4).
 - `AxlerGapBound`: *RecordGapBound* `(0.048668 + 8.22·10⁻¹¹) 3 (2·10⁷)` (the same table).
 
-*Needs:* Mathlib `Nat.nth Nat.Prime`, `Nat.prime_nth_prime`.
+The records of the gaps. `IsMaximalPrimeGap p g`, for natural `p` and `g`, says that `p` is prime,
+its successor is `p + g`, and every prime `p′ < p` is followed by a gap smaller than `g`.
+`firstPrimeGap g` is the least prime followed by a gap `g`, and `0` when no prime is (`sInf` of the
+set of such primes; `0` is no prime, so the value is unambiguous). Prove: `firstPrimeGap 1 = 2`,
+`firstPrimeGap 2 = 3`, `firstPrimeGap 4 = 7`, `firstPrimeGap g = 0` for every odd `g ≥ 3` (every gap
+after `2` is even), and `firstPrimeGap g ≠ 0` exactly when some prime is followed by a gap `g`; if
+`IsMaximalPrimeGap p g` then `firstPrimeGap g = p`. The tables, assumed:
+
+- *MaximalGapTable*: the pairs `(p, g)` with `IsMaximalPrimeGap p g` and `p ≤ 4·10¹⁸` are exactly the
+  rows of `oliveira-e-silva-herzog-pardi-2014` Table 8, which begins `(2, 1), (3, 2), (7, 4),
+  (23, 6), (89, 8)` and ends with `(804 212 830 686 677 669, 1442)` and
+  `(1 425 172 824 437 699 411, 1476)`.
+- *FirstGapTable*: for every row `(g, P)` of the same paper's Table 9, `firstPrimeGap g = P` and
+  every `g′ < g` that is even or equal to `1` has `1 ≤ firstPrimeGap g′ < P`; and the rows are all
+  the pairs with this property and `g < 1346`. Its last row is `(1306, 3 278 018 069 102 480 227)`.
+
+Consequences, theorems of this section:
+
+- Under *MaximalGapTable*, every gap `p⁺ − p` after a prime `p ≤ 4·10¹⁸` is at most `1476`: the
+  largest gap after the primes up to `p` is the last maximal gap at or before `p`, a row of the
+  table. `PrimeGapLogSquareVerified` gives only `p⁺ − p < log²(4·10¹⁸) = 1834.6`.
+- Under *FirstGapTable*, `1 ≤ firstPrimeGap g ≤ 3 278 018 069 102 480 227` for `g = 1` and every even
+  `g ≤ 1306`, by the last row.
+- The record-pair interval lemma, `exists_prime_of_maximal_gap`: if `IsMaximalPrimeGap p g`, then for
+  every real `x` with `2 ≤ x ≤ p` and every real `h ≥ g` the interval `(x, x + h]` contains a prime.
+  Route: let `p′` be the largest prime `≤ x`, so `p′ ≤ p`; if `p′ < p` its successor exceeds `x` and
+  is at most `p′ + g′ < x + g` with `g′ < g` its gap; if `p′ = p` then `x = p` and the successor is
+  `x + g`. It is Mandl's lemma of §7.1 at a record, with no hypothesis on the other gaps.
+
+*Needs:* Mathlib `Nat.nth Nat.Prime`, `Nat.prime_nth_prime`, `Nat.sInf_def`.
 
 ### 1.5 Progression tabulations
 
@@ -1179,7 +1482,26 @@ order of supply:
 - *MeisselMertensEnclosure*: `|B − 0.2614972128| < 10⁻⁹` for
   `B = TauCeti.LFunctions.mertensConstant ℚ` (`rosser-schoenfeld-1962` line 81, (2.10)).
 
-*Needs:* Mathlib `Real.eulerMascheroniConstant`; Tau Ceti `TauCeti.LFunctions.mertensConstant`.
+Unconditional companions, theorems of this section:
+
+- The prime-power constant: `E₁ = ∑_p log p/(p(p − 1))` converges, and
+  `tsum_log_div_prime_mul_pred_le`: `0 ≤ E₁ ≤ (5 log 2 + 3)/4`. Route: `log p/(p(p − 1)) ≤ 2 log p/p²`
+  and Mathlib's `θ(t) ≤ (log 4) t` with Abel summation for convergence; for the bound, the term
+  `p = 2` is `(log 2)/2` and the others are at most `∑_{n ≥ 3} log n/(n(n − 1))`, which comparison
+  with `∫` bounds by `(3 log 2)/4 + 3/4`. Its value `0.7553666…` is not asserted.
+- The crude enclosure of `B`, from any constants in Mertens' first theorem: if `c₁, c₂ ≥ 0` satisfy
+  `−c₁ ≤ ∑_{p ≤ t} (log p)/p − log t ≤ c₂` for every `t ≥ 2`, then
+  `1 − log log 2 − c₁/log 2 ≤ B ≤ 1 − log log 2 + c₂/log 2`. Route: Abel summation of `(log p)/p`
+  against `1/log t` gives `B = 1 − log log 2 + ∫₂^∞ R(t) dt/(t log² t)` with
+  `R(t) = ∑_{p ≤ t} (log p)/p − log t` (the route of AnalyticNumberTheoryPartI §0.21), and
+  `∫₂^∞ dt/(t log² t) = 1/log 2`. With the elementary constants of §4.1, `c₁ = 2 + E₁` and
+  `c₂ = log 4 + 4`, it gives `(−2 − E₁)/log 2 + 1 − log log 2 ≤ B ≤ (log 4 + 4)/log 2 + 1 − log log 2`
+  there.
+
+*Needs:* Mathlib `Real.eulerMascheroniConstant`, `Chebyshev.theta_le_log4_mul_x`,
+`sum_mul_eq_sub_sub_integral_mul`; Tau Ceti `TauCeti.LFunctions.mertensConstant`,
+`TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log`; AnalyticNumberTheoryPartI
+§0.21.
 
 ### 1.7 The real-zero gap
 
@@ -1230,7 +1552,8 @@ Mathlib `riemannZeta`, `analyticOrderNatAt`, `DirichletCharacter.LFunction`,
 `DirichletCharacter.IsPrimitive`, `Real.eulerMascheroniConstant`, `Nat.nth`; Tau Ceti
 `TauCeti.LFunctions.mertensConstant`; ExplicitZetaBounds §§0.2–0.4b, 7.9 (the gaps
 `rh-up-to-height`, `grh-up-to-height`, `real-zero-gap`); ZerosOfLFunctions §4.1;
-AnalyticNumberTheoryPartI §§0.2, 0.8, 0.34, 1.6; Layer 0. No later layer is used.
+AnalyticNumberTheoryPartI §§0.2, 0.8, 0.21, 0.34, 1.6; Layer 0. No later layer is used; the
+instance of §1.6's enclosure of `B` at the elementary constants is stated in §4.1.
 
 ## Layer 2: bounds under the Riemann hypothesis and under the Riemann hypothesis to a height
 
@@ -1299,14 +1622,51 @@ explicit formula with a numerical error below, and from explicit bounds for sums
   instances of §3.4 use, the *Dudek shape*: for `x ≥ e⁴⁰` and `max(51, log x) < T < (√x − 2)/2`,
   `|ψ(x) − x + ∑_{|γ| ≤ T} x^ρ/ρ| ≤ 2 x log² x/T`, by the first row, since `6.431 ≤ 2 log x` there.
   Dudek's own statement of that shape, for `x > e⁶⁰` half an odd integer and every `50 < T < x`
-  (`dudek-2016` lines 115–125, Theorem 2.1), is not a target: Fiori–Kadiri–Swidinsky record errors
-  in its proof whose correction may not recover the constant (`fiori-kadiri-swidinsky-2023-psi`,
-  Remark 3.3 and its footnote, arXiv numbering), and the instances that quote it (Platt–Trudgian,
-  Broadbent–Kadiri–Lumley–Ng–Wilk's Theorem 13) use it only with `T` far below `√x/2`, where the
-  shape above holds.
+  (`dudek-2016` lines 115–125, Theorem 2.1), is not a target but the zero input
+  *DudekExplicitFormula* below: Fiori–Kadiri–Swidinsky record errors in its proof whose correction
+  may not recover the constant (`fiori-kadiri-swidinsky-2023-psi`, Remark 3.3 and its footnote,
+  arXiv numbering), and the instances that quote it (Platt–Trudgian, Broadbent–Kadiri–Lumley–Ng–Wilk's
+  Theorem 13) use it only with `T` far below `√x/2`, where the shape above holds.
+  More generally (`fiori-kadiri-swidinsky-2023-psi` Theorem 3.2, quoting
+  `cully-hugill-johnston-2021`), under the same hypotheses, for every `α ∈ (0, 1/2]` and
+  `ω ∈ [0, 1]` there are explicit `M` and `x_M` such that for every `x ≥ x_M` and every `T` with
+  `max(51, log x) < T < (x^α − 2)/5` some `T* ∈ [T, 2.45 T]` has
+  `|ψ(x) − x + ∑_{|γ| ≤ T*} x^ρ/ρ| ≤ M x (log x)^{1−ω}/T`: the factor `log^{1−ω}` is that of Wolke's
+  contour error above, and the free height `T*` is chosen away from the ordinates so that the
+  horizontal segments cost no extra logarithm; `ω = 0` with `T* = T` is the form stated above.
+- Sums over the ordinates from a zero count (`fiori-kadiri-swidinsky-2023-psi` Lemma 2.1 and
+  Corollary 2.3). Let `b₁, b₂, b₃ ≥ 0` with `|N(T) − M(T)| ≤ R(T) = b₁ log T + b₂ log log T + b₃` for
+  every `T ≥ 2` (at Rosser's triple this is ExplicitZetaBounds §5.2). For `2π < U ≤ V`,
+  `∑_{U ≤ γ < V} 1/γ ≤ B₁(U, V)` with
+  `B₁(U, V) = (1/2π + (b₁ log U + b₂)/(U log U log(U/2π))) log(V/U) log(√(UV)/2π) + 2 R(U)/U`; and,
+  under *FioriKadiriSwidinskyZeroSums* (§1.1), `∑_{0 < γ < V} 1/γ < S₀ + B₁(T₀, V)` for every pair
+  `(T₀, S₀)` there and every `V > T₀`. Route: Stieltjes integration of `1/t` against `N = M + Q` on
+  `[U, V)`, with `∫_U^V dM(t)/t = (1/4π)(log²(V/2π) − log²(U/2π)) = (1/2π) log(V/U) log(√(UV)/2π)`,
+  the boundary terms `|Q| ≤ R` at both ends, and `∫_U^V R(t) dt/t²` integrated by parts, its
+  derivative term `(b₁ + b₂/log U)(1/U − 1/V)` being at most the second part of the first term.
+- The two-sided bound for the reciprocal sum (`johnston-yang-2023` lines 189–203, Lemma 2.5): for
+  every `T ≥ 4πe`, `(1/4π) log²(T/2π) − 0.9321 ≤ ∑_{0 < γ ≤ T} 1/γ ≤ (1/4π) log²(T/2π)`, so that
+  `∑_{|γ| ≤ T} 1/|ρ| ≤ (1/2π) log²(T/2π)` and
+  `∑_{H < |γ| ≤ T} 1/|ρ| ≤ (1/2π)(log²(T/2π) − log²(H/2π)) + 1.8642` for `4πe ≤ H ≤ T`. These are the
+  bounds behind the term `s₁` of §3.1(d) and behind Broadbent–Kadiri–Lumley–Ng–Wilk's (A.10),
+  `|∑_{β < 1 − δ, |γ| < T} x^{ρ−1}/ρ| ≤ x^{−δ}((1/2π) log²(T/2π) + 1.8642)` for `0 ≤ δ ≤ 1`. Route: the
+  sum is `(1/4π) log²(T/2π) + A + O(log T/T)` with `A < 0` by Stieltjes integration against `N`
+  (the Hadamard constant of the bullet on all zeros above and the zero count of
+  `gap:explicit-zero-count-error`), the explicit error decreasing below `|A|` from a height on, and
+  the zeros below that height entering through `ZetaZeroReciprocalSum` and `ZetaZeroCountLowRange`
+  (§1.1); the upper side fails just above the fifth ordinate `32.935…`, below `4πe = 34.16`.
+- Zero input of this section, *DudekExplicitFormula*: for every `x > e⁵⁰` that is half an odd
+  integer and every `T` with `50 < T < x`, `|ψ(x) − x + ∑_{|γ| < T} x^ρ/ρ| ≤ 2 x log² x/T`, so that
+  `|ψ(x) − x| ≤ ∑_{|γ| < T} |x^ρ/ρ| + 2 x log² x/T` (the range of `fiori-kadiri-swidinsky-2023-psi`
+  Theorem 3.1, which restates Dudek's Theorem 2.1, printed for `x > e⁶⁰`, from `e⁵⁰`); and the same
+  inequality for every real `x ≥ e¹⁰⁰⁰`
+  and `50 < T ≤ x` (`broadbent-kadiri-lumley-ng-wilk-2021` (A.7), arXiv numbering). It is a
+  hypothesis, never discharged here, of each statement that uses `T ≥ (√x − 2)/2`; for
+  `x ≥ e⁴⁰` and `max(51, log x) < T < (√x − 2)/2` the Dudek shape above proves it.
 
 *Needs:* ZerosOfLFunctions §§4.5, 5.6, 8.4; Mathlib `mellin`; `gap:explicit-zero-count-error`;
-ExplicitZetaBounds §5.4; for the truncated explicit formula, ExplicitZetaBounds §6.1 (the
+ExplicitZetaBounds §5.4; for the sums over the ordinates, §1.1 (*FioriKadiriSwidinskyZeroSums*,
+`ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange`); for the truncated explicit formula, ExplicitZetaBounds §6.1 (the
 Perron formula), §3.4 (Delange's inequality) and §7.2 (Ford's region), §0.1 (`brun_titchmarsh`),
 *PsiThetaUpper* (§2.2), `gap:rh-up-to-height`, `gap:classical-zero-free-constants`,
 `gap:vinogradov-korobov-constants`.
@@ -1572,9 +1932,63 @@ ExplicitZetaBounds §5.2 for `T ≥ 22` (where `T/2π ≥ 0.137 log T + 0.443 lo
 `M(T) + 0.28 log T < 0.67`) and `N(T) ≤ M(T) + 0.28 log T ≤ (T/2π) log(T/2π)` for `T ≥ 10` (the second
 inequality is `T/2π ≥ 7/8 + 0.28 log T`, true from `T = 9.6`).
 
-*Needs:* §1.1 (`ZetaZeroCountLowRange`); §2.1 (the zero sums); Mathlib `riemannZeta`, `mellin`, the
-Fourier transform on `ℝ`; ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`);
-`gap:rh-up-to-height`.
+The general statements of that route are targets of this section (`chirre-helfgott-2025`
+Propositions 2.3–2.4, Lemma 5.1 and Proposition 5.2, *(preprint)*). Write `e(u) = e^{2πiu}` and
+`𝓕φ(y) = ∫ φ(t) e(−yt) dt` (Mathlib's Fourier transform `𝓕` on `ℝ`, `Real.fourier_real_eq`); let `T > 0`, `β > 1`, `a_n` complex
+with `∑_{n ≥ 2} |a_n|/(n log^β n) < ∞`, and `G(s) = ∑ a_n n^{−s} − 1/(s − 1)` on `Re s > 1`, extended
+continuously to `{Re s ≥ 1, |Im s| ≤ T}`; call `φ` *admissible* if it is integrable, vanishes outside
+`[−1, 1]`, is continuous at `0` and has `|𝓕φ(y)| ≤ C |y|^{−β}` for `y ≠ 0`.
+
+- The Fourier identity: for admissible `φ` and every `x > 0`,
+  `(1/2π) ∑_{n ≥ 1} a_n (x/n) 𝓕φ((T/2π) log(n/x)) = (1/2πT) ∫_{−T}^{T} φ(t/T) G(1 + it) x^{1+it} dt + (φ(0) − ∫_{−∞}^{−T log x/2π} 𝓕φ(y) dy) x/T`.
+  Route: on `Re s = σ > 1` the same identity holds by Fubini, with the boundary term
+  `(x^{2−σ}/2πT) ∫_{u ≥ −log x} e^{−u(σ−1)} 𝓕[φ(·/T)](u/2π) du`; then `σ → 1⁺` by dominated
+  convergence, the decay of `𝓕φ` and the summability of `a_n` dominating the sum.
+- The bracketing theorem: for real `σ ≠ 1` put `S_σ(x) = ∑_{n ≤ x} a_n n^{−σ}` if `σ < 1` and
+  `S_σ(x) = ∑_{n ≥ x} a_n n^{−σ}` if `σ > 1`, the term `n = x` counted in both; put
+  `λ = 2π(σ − 1)/T` and `I_λ(u) = e^{−λu}` for `λu ≥ 0`, `0` otherwise (so `I_λ(0) = 1`). Then
+  `S_σ(x) = x^{−σ} ∑_n a_n (x/n) I_λ((T/2π) log(n/x))`; and if `a_n ≥ 0` and `φ₊`, `φ₋` are admissible
+  with `Re 𝓕φ₋ ≤ I_λ ≤ Re 𝓕φ₊` on `ℝ`, then for every `x ≥ 1`
+  `S_σ(x) ≤ Re((2π x^{1−σ}/T) φ₊(0)) + (x^{−σ}/T) Re ∫_{−T}^{T} φ₊(t/T) G(1 + it) x^{1+it} dt − 1_{σ<1}/(1 − σ)`,
+  and `S_σ(x)` is at least the same expression with `φ₋`. Route: the rewriting of `S_σ`, positivity
+  of `a_n` against the pointwise comparison, and the Fourier identity for the `a_n` themselves,
+  whose tail term `∫_{−∞}^{−T log x/2π} 𝓕φ_±` is compared with the integral of `I_λ` (the source of
+  the term `1_{σ<1}/(1 − σ)`). The admissible pair is that of ExplicitZetaBounds §6.3a at
+  `ν = |λ|` (its `φ^±_ν`, with `𝓕φ^±_ν = F^±_ν`), reflected by `t ↦ −t` when `λ < 0`, since then
+  `I_λ(u) = I_{|λ|}(−u)`; its `L¹` errors are the main error term.
+- The ladder contour shift: let `0 < δ < T/4`, `σ_n ≤ 1` real with `σ₀ = 1` and `σ_n → −∞`,
+  `R = {Re s ≤ 1, |Im s| ≤ T}`, `R_δ = {Re s ≤ 1, |Im s| ≤ δ}`, the ladder
+  `L = ⋃_{n ≥ 1} {Re s = σ_n, |Im s| ≤ T}`, `C` the path from `1` up to `1 + iδ` and then left along
+  `Im s = δ`, and `∫_{C_∞} = ∫_{(−∞, 1] + iT} − ∫_{(−∞, 1] − iT}`. Let `G = G° + sgn(Im s) G*` with
+  `G°`, `G*` meromorphic near `R`, `G°(s̄) = conj G°(s)` and `G*(s̄) = −conj G*(s)`, and `x₀ ≥ 1` with
+  `G x₀^s` bounded and free of poles on the boundary of `R`, and `G° x₀^s`, `G* x₀^s` bounded and free
+  of poles on `L` and on `C`; suppose that `G x^s` has finitely many poles in `R ∖ R_δ`, all simple.
+  Then for every `x > x₀`,
+  `(1/2πi) ∫_{1−iT}^{1+iT} G(s) x^s ds = (1/2πi) ∫_{C_∞} G x^s ds + (1/π) Im ∫_C G* x^s ds + ∑_{R∖R_δ} Res G x^s + ∑_{R_δ} Res G° x^s`,
+  the last sum being the limit of its truncations to `Re s > σ_n`. Route: the residue theorem
+  (Tau Ceti's `TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous`) on the rectangles cut
+  off by the rungs `Re s = σ_n` above and below `C`; the symmetry of `G*` makes the two integrals
+  along `C` and its conjugate combine to `2i Im ∫_C G* x^s`; the rungs vanish in the limit by the
+  bound on `L` and `x > x₀`, and the horizontal sides converge to `∫_{C_∞}`.
+- Its specialisation to the extremal weights: with `z(s) = (s − 1)/(iT)`, `λ > 0`, the functions
+  `Φ^{±,∘}_λ`, `Φ^{±,⋆}_λ` of ExplicitZetaBounds §6.3a and
+  `Φ(z) = Φ^{±,∘}_λ(z) + sgn(Re z) Φ^{±,⋆}_λ(z)`, and `F` meromorphic near `R` with
+  `F(s̄) = conj F(s)` and `F x₀^s`, `z(s) F x₀^s` bounded and free of poles on the boundary of `R`, on
+  `C` and on `L`: for `x > x₀`, the integral `(1/2πi) ∫_{1−iT}^{1+iT} Φ(z(s)) F(s) x^s ds` differs from
+  `∑_{R∖R_δ} Res Φ(z) F x^s + ∑_{R_δ} Res Φ^{±,∘}_λ(z) F x^s` by at most
+  `(1/2πT) ∑_{ξ = ±1} ∫₀^∞ t |F(1 − t + iξT)| x^{1−t} dt + (1/π) |∫_C Φ^{±,⋆}_λ(z(s)) F(s) x^s ds|`.
+  Route: the shift above with `G° = Φ^{±,∘}_λ(z) F` and `G* = Φ^{±,⋆}_λ(z) F`, since
+  `Re z(s) = Im s/T`. On `C_∞`, where `s = 1 − t ± iT` and `z = ±1 + it/T`, the periodicity
+  `coth(w/2 ± πi) = coth(w/2)` reduces `Φ(z)` to `±(B^±(λ + 2πt/T) − B^±(λ))/(2πi)`, and `B^±` is
+  monotone with slope between `−1` and `1` on `ℝ` (`B⁺(u) = u/(1 − e^{−u})`, `B⁻(u) = u/(e^u − 1)`),
+  so `|Φ(z)| ≤ t/T` there, which gives the first term; the second is the integral along `C` left
+  over by the shift. At `F = −ζ′/ζ` and `a_n = Λ(n)` the residues are those at the zeros with
+  `|γ| ≤ T` and at the trivial zeros, which give the general theorem above.
+
+*Needs:* §1.1 (`ZetaZeroCountLowRange`); §2.1 (the zero sums); Mathlib `riemannZeta`, `mellin`,
+`Real.fourier_real_eq`; Tau Ceti `TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous`;
+ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`) and §6.3a (the extremal approximants and
+the bounds for `(z coth z)′`); `gap:rh-up-to-height`.
 
 **Checks.**
 
@@ -1708,6 +2122,59 @@ instances evaluate. The `θ` and `π` forms follow by §0.5.
   give `C = 1`, the Platt–Trudgian and Johnston–Yang rows `C = 1.89`–`1.95`, and
   Fiori–Kadiri–Swidinsky's refinement of (d), which splits the zeros above `H` into further strips
   in `σ` to treat those close to the `1`-line separately, `C = 2`.
+- The density integration and the published forms of (d). The density is the predicate
+  *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q` of ExplicitZetaBounds §8.3a with `T₀ ≥ 2`; `R` is the
+  constant of the classical-shape region, `H₀` a verified height (`RH(H₀)`), and
+  `H_σ = max(H₀, exp(1/(R(1 − σ))))`, so that no zero with `β ≥ σ > 1/2` has `γ < H_σ`, and
+  `H_σ = H₀` when `σ < 1 − 1/(R log H₀)` (`fiori-kadiri-swidinsky-2023-psi` (3.13) and Remark 3.7).
+  `Γ(s, y) = ∫_y^∞ e^{−t} t^{s−1} dt` is the upper incomplete gamma function:
+  `Γ(3, y) = (y² + 2y + 2) e^{−y}` for `y ≥ 0`, and `Γ(s, y) ∼ y^{s−1} e^{−y}` as `y → ∞` for `s > 1`
+  (integration by parts; their Remark 2.6). With `Σ_a^b = 2 ∑_{a ≤ β < b, 0 < γ < T} x^{β−1}/γ`:
+  - Density integration (their Lemma 2.5): for `σ ∈ S` with `p(σ) < 1` (at `p(σ) = 8(1 − σ)/3`,
+    `σ > 5/8`) and `T₀ ≤ U < V`, `∑_{σ < β < 1, U ≤ γ < V} 1/γ ≤ B₀(σ, U, V)` with
+    `B₀ = c₁(σ) (log V)^{q(σ)} V^{p(σ)−1} + c₂(σ) log² V/V + c₁(σ) (1 − p(σ))^{−q(σ)−1} (Γ(q(σ) + 1, (1 − p(σ)) log U) − Γ(q(σ) + 1, (1 − p(σ)) log V)) + c₂(σ) (Γ(3, log U) − Γ(3, log V))`.
+    Route: Stieltjes integration of `1/t` against `N°(σ, ·)` on `[U, V)`, the density at `V` for
+    the boundary term and under the integral, and `t = eᵘ`.
+  - The low zeros (their Proposition 3.6): for `1/2 < σ₁ < 1` and `T ≥ max(T₀, H₀)`, under
+    *FioriKadiriSwidinskyZeroSums* at `(T₀, S₀)` and the bound `B₁` of §2.1,
+    `Σ_0^{σ₁} ≤ ε₂ = 2 x^{−1/2} (S₀ + B₁(T₀, T)) + (x^{σ₁−1} − x^{−1/2}) B₁(H₀, T)`.
+  - The strips (their Proposition 3.8 and Corollary 3.10): for `5/8 ≤ σ₁ < σ₂ ≤ 1` with
+    `[σ₁, σ₂] ⊆ S`, `p < 1` on `[σ₁, σ₂)`, `H₀ ≥ T₀`, `T ≥ H₀` and `N ≥ 2`, with
+    `σ^{(n)} = σ₁ + (σ₂ − σ₁) n/N`,
+    `Σ_{σ₁}^{σ₂} ≤ ε₃ = 2 x^{−(1−σ₁) + (σ₂−σ₁)/N} B₀(σ₁, H_{σ₁}, T) + 2 x^{−(1−σ₁)} (1 − x^{−(σ₂−σ₁)/N}) ∑_{n=1}^{N−1} B₀(σ^{(n)}, H_{σ^{(n)}}, T) x^{(σ₂−σ₁)(n+1)/N}`;
+    and at their density *FioriKadiriSwidinskyDensity* (§3.4), `H₀ = 3·10¹²` and `R = 5.5666305`,
+    `Σ_{σ₁}^{σ₂} ≤ 0.00125994 x^{σ₂−1}` for `0.9 ≤ σ₁ < σ₂ ≤ 1`.
+  - The zeros near the `1`-line (their Propositions 3.11, 3.14 and Corollary 3.12): for `K ≥ 2`,
+    `σ₂ ∈ S ∩ (5/8, 1]`, `t₀ = max(H_{σ₂}, exp √(log x/R)) < t₁ < ⋯ < t_K = T`, every zero counted
+    in `Σ_{σ₂}^1` has `x^{β−1} ≤ x^{−1/(R log γ)}`, and
+    `Σ_{σ₂}^{1} ≤ 2 ∑_{k=1}^{K−1} N°(σ₂, t_k) (x^{−1/(R log t_{k−1})}/t_{k−1} − x^{−1/(R log t_k)}/t_k) + 2 N°(σ₂, T) x^{−1/(R log t_{K−1})}/t_{K−1}`
+    (and the one-term form `2 N°(σ₂, T) x^{−1/(R log t₀)}/t₀`); at `t_k = t₀ (T/t₀)^{k/K}` with the
+    density in place of `N°` this is their `ε₄`; and with `T = t₀^c`, `c > 1`, `σ₂ = 1 − 2/(R log t₀)`
+    and `t₀ = exp √(log x/R)`, `ε₄ ∼ C (log t₀)^{3 + 4/(R log t₀)}/t₀²` as `x → ∞` for an explicit
+    `C`, and `ε₄` and `ε₄ t₀²/log³ t₀` are decreasing for `x > exp(R e²)`.
+  - Fiori–Kadiri–Swidinsky's form of (d) (their Theorem 1.1): for `σ₂ ∈ (0.9, 1)`, `c ∈ [2, 30]`
+    and `N, K ≥ 1`, at every `x` with `log x > 1000`, `t₀ = max(H_{σ₂}, exp √(log x/R))` and
+    `T = t₀^c` with `3 log x < T < √x/3`, `|ψ(x) − x| ≤ (ε₁ + ε₂ + ε₃ + ε₄) x`, where
+    `ε₁ = 2 log² x/T` is the error of the Dudek shape of §2.1 (their Proposition 3.4, `x > e⁵⁰`, in
+    that range of `T`), and `ε₂` at `σ₁ = 0.9`, `ε₃` on `[0.9, σ₂]` and `ε₄` on `[σ₂, 1]` are the bounds
+    above at `x` and `T`. The rows of *FioriKadiriSwidinskyPsiRow* evaluate the sum at the start
+    `x₀` of each row, on whose range the source shows it nonincreasing in `x`.
+  - Broadbent–Kadiri–Lumley–Ng–Wilk's form of (d) (`broadbent-kadiri-lumley-ng-wilk-2021`
+    Theorem 13 and (A.8)–(A.14), arXiv numbering): for `1000 ≤ b₁ < b₂`, `0.001 ≤ δ ≤ 0.025`,
+    `λ > 1`, `max(50, T₀) ≤ H < T < e^{b₁}` with `RH(H)` and `1 − δ ∈ S`, and
+    `K = ⌊log(T/H)/log λ⌋ + 1`, for every `x ∈ [e^{b₁}, e^{b₂}]`,
+    `|ψ(x) − x| ≤ (s₀(b₂, T) + s₁(b₁, δ, T) + s₂(δ, b₁, K, λ, T)) x`, with `s₀(b, T) = 2b²/T`,
+    `s₁(b, δ, T) = e^{−δb} ((1/2π) log²(T/2π) + 1.8642)` (the zeros with `β < 1 − δ`, by the bound of
+    §2.1) and
+    `s₂ = (2λ/T) ∑_{k=0}^{K−1} exp(k log λ − b/(R (log T − k log λ))) D(T/λ^k)`, `D` the density
+    bound at `1 − δ` (the zeros with `β ≥ 1 − δ`, over the geometric partition of ratio `λ`). On
+    `T < (√x − 2)/2` the first term is the Dudek shape of §2.1; on the rest of its range it is
+    *DudekExplicitFormula*, a hypothesis of the theorem there.
+  - The closed form (their Theorem 14, from Platt–Trudgian's argument): for `b₀ ≥ 1000` and
+    `σ ∈ [3/4, 1) ∩ S`, `|ψ(x) − x| ≤ A (log x/R)^{5/2−σ} exp(−(16σ/3 − 10/3) √(log x/R)) x` for
+    `log x ≥ b₀`, with `A = 2.0025 · 2^{5−2σ} c₁(σ) + c₃ + c₄ + c₅` and `c₃`, `c₄`, `c₅` the explicit
+    functions of `b₀`, `σ`, `R` and `c₂(σ)` of their (A.16)–(A.20): the shape
+    `(B, C) = (5/2 − σ, 16σ/3 − 10/3)` of the rows of (d).
 
 Each printed row of (b), (c), (d) and of Büthe's theorem of §2.3 is a *table proposition*
 asserting that the error function at the row's parameters is at most the row's values. Table
@@ -1758,7 +2225,18 @@ propositions of this section; the rows are data in the statement:
   `|ψ(x) − x| ≤ 121.096 (log x/R)^{3/2} exp(−2 √(log x/R)) x` for `x ≥ 2`, that is
   `(A_ψ, B, C, R) = (121.096, 3/2, 2, 5.5666305)` (`121.096/R^{3/2} = 9.22022`,
   `2/√R = 0.8476836`), the form in which `fiori-kadiri-swidinsky-2023` lines 151–154 (Remark 2)
-  quote it as Corollary 1.3 of the `ψ` paper (their reference [8], line 775).
+  quote it as Corollary 1.3 of the `ψ` paper (their reference [8], line 775). The same proposition
+  asserts the rows of their Table 5, for each row `(log x₀, σ₂, ε₁, ε₂, ε₃, ε₄, ε)`
+  `|ψ(x) − x| ≤ ε x` for `log x ≥ log x₀` (thirty-seven rows from `log x₀ = 1000` to `10⁶`, among
+  them `(1000, 0.99130, …, 1.3812·10⁻⁹)`, `(2000, 0.99221, …, 2.4746·10⁻¹²)`,
+  `(3000, 0.99263, …, 4.9678·10⁻¹⁵)`, `(10⁴, 0.99449, …, 1.3688·10⁻³⁰)` and
+  `(10⁶, 0.99950, …, 3.9566·10⁻³⁵⁹)`); the admissible constants of their Theorem 1.2,
+  `|ψ(x) − x| ≤ A(x₀) (log x/R)^{3/2} exp(−2 √(log x/R)) x` for `log x ≥ log x₀ ≥ 1000`, `A` the step
+  function equal to `338.3058` on `[1000, 2000)`, to `263.2129` from `2000`, …, to `109.3992` from
+  `10⁶`, `100.5097` from `10⁷`, `96.0345` from `10⁸` and `93.6772` from `10⁹`; and their Lemmas
+  5.2–5.3, `|ψ(x) − x| ≤ 2 (log x)^{3/2} exp(−0.8476836 √log x) x` for `2.3 ≤ x ≤ e²¹⁰⁰` and the
+  same with `9.22022` for `2100 < log x ≤ 200 000` (the first is printed for every `x` with
+  `log x ≤ 2100`, but fails for `x < 2.3`, at `x = 2` for instance).
 - *BKLNWPsiTable* (`broadbent-kadiri-lumley-ng-wilk-2021` Table 8, arXiv v2, lines 1378–1440): the
   rows `ε(b)` with `|ψ(x) − x| < ε(b) x` for `e^b ≤ x ≤ e^{b'}`, `b'` the next row. The rows
   `b ≤ 2000` are for Büthe's general theorem of §2.3 at the height `2 445 999 556 030`; the rows
@@ -1782,8 +2260,10 @@ An instance whose source evaluates its error function at one of these two triple
 *ZeroCountBound* at that triple as a hypothesis (§7.3); one whose source uses such a triple only
 for a consequence that Rosser's bound also gives takes Rosser's (§§2.5, 7.5).
 
-*Needs:* §2.1 (for (d), its truncated explicit formula); §2.3 (Büthe's general theorem, for the
-rows `b ≤ 2000` of *BKLNWPsiTable*); §1.1; `gap:classical-zero-free-constants`;
+*Needs:* §2.1 (for (d), its truncated explicit formula, the sums over the ordinates and, for the
+full range of Broadbent–Kadiri–Lumley–Ng–Wilk's form, *DudekExplicitFormula*); §2.3 (Büthe's
+general theorem, for the rows `b ≤ 2000` of *BKLNWPsiTable*); §1.1 (with
+*FioriKadiriSwidinskyZeroSums*); ExplicitZetaBounds §8.3a (the density predicate); `gap:classical-zero-free-constants`;
 `gap:vinogradov-korobov-constants` (for (d) in that shape); ExplicitZetaBounds §5.2
 (`gap:explicit-zero-count-error`); ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`);
 ExplicitZetaBounds §5.4; Mathlib `Real.exp`, `Real.sqrt`, `Real.log`.
@@ -1883,28 +2363,41 @@ Under the hypotheses of §3.1(b) at Dusart's parameters (`RH(30 610 046 000)`,
   `ButheVerified`:
   - `|θ(x) − x| < η_k x/log^k x` for `x ≥ x_k`, for the rows `(k, η_k, x_k) = (2, 0.2, 3 594 641)`,
     `(2, 0.05, 122 568 683)`, `(2, 0.01, 7 713 133 853)`, `(3, 20.83, 2)`, `(3, 10, 32 321)`,
-    `(3, 1, 89 967 803)`, `(3, 0.78, 158 822 621)`, `(4, 1300, 2)` of the copy, and the journal's row
-    `(3, 0.5, 767 135 587)` (as quoted at `deleglise-nicolas-2019-landau` lines 387–388);
+    `(3, 1, 89 967 803)`, `(3, 0.78, 158 822 621)`, `(4, 1300, 2)` of the copy, the journal's row
+    `(3, 0.5, 767 135 587)` (as quoted at `deleglise-nicolas-2019-landau` lines 387–388), and the
+    further rows `(1, 1.2323, 2)`, `(1, 0.001, 908 994 923)`, `(2, 3.965, 2)` and `(4, 151.3, 2)` of
+    the journal's Theorem 4.2 (the row `(0, 1, 1)` there is Mathlib's
+    `Chebyshev.theta_le_log4_mul_x` with `θ ≥ 0`);
   - `θ(x) − x < x/36 260` for `x > 0` (Proposition 5.1 of the copy);
   - `0.9999 √x < ψ(x) − θ(x)` for `x ≥ 121`, and `ψ(x) − θ(x) < 1.00007 √x + 1.78 x^{1/3}` for
-    `x > 0` (Propositions 3.1–3.2 of the copy); these imply Schoenfeld's `ψ − θ` bounds of §3.2.
+    `x > 0` (Propositions 3.1–3.2 of the copy); these imply Schoenfeld's `ψ − θ` bounds of §3.2;
+  - `√x (1 − 4/log³ x) < ψ(x) − θ(x)` for `x ≥ 121`, sharper than `0.9999 √x` from `log x = 34.2`,
+    and `ψ(x) − θ(x) < (1 + 1.47·10⁻⁷) √x + 1.78 x^{1/3}` for `x > 0` (journal Proposition 4.3 and
+    Corollary 4.5).
 
-  The paper's proofs of all three items pass through its table of `ψ`-bounds, and
+  The paper's proofs of all these items pass through its table of `ψ`-bounds, and
   `broadbent-kadiri-lumley-ng-wilk-2021` (footnote, p. 2299 of the published version) report an
   error affecting that table and the `ψ`-results built on it (journal Theorems 3.2–3.3 and Table 1).
-  No `ψ` row of `dusart-2018` is stated here, and the three items are proved by other routes. The
+  No `ψ` row of `dusart-2018` is stated here, and these items are proved by other routes. The
   `θ` rows: on `[x_k, 10¹⁹]` by *Dusart2018Range*, and beyond `10¹⁹` from the tables of §3.7, whose
   constants there (`3.7979·10⁻⁵` for `k = 2`, `0.024334` for `k = 3`, `57.184` for `k = 4`) are
-  below every `η_k` above; this is the re-proof of Corollary 11.2 of
+  below every `η_k` above, the rows `k = 1` following from the row `k = 2` there; this is the
+  re-proof of Corollary 11.2 of
   `broadbent-kadiri-lumley-ng-wilk-2021` (lines 954–975). The bound `x/36 260`: from §3.7's
   `θ(x) ≤ (1 + 1.93378·10⁻⁸) x`. The lower `ψ − θ` bound: *Dusart2018Range* on `[121, 10¹⁶]`; for
   `10¹⁶ < x ≤ 10³⁸`, `ψ(x) − θ(x) ≥ θ(√x) + θ(x^{1/3})` with `θ(y) ≥ y − 1.95 √y` (`ButheVerified`,
   `1427 ≤ y ≤ 10¹⁹`), and `10⁻⁴ √x + x^{1/3} > 1.95 (x^{1/4} + x^{1/6})` there; beyond `10³⁸`,
-  `θ(√x) ≥ (1 − 1.9667·10⁻⁸) √x` (§3.7). The upper `ψ − θ` bound:
+  `θ(√x) ≥ (1 − 1.9667·10⁻⁸) √x` (§3.7). The form `√x (1 − 4/log³ x)`: below `e^{34.19}` it is
+  implied by `0.9999 √x`, since `4/log³ x ≥ 10⁻⁴` there; on `[e^{34.19}, e⁵⁸]`,
+  `ψ(x) − θ(x) ≥ θ(√x) + θ(x^{1/3}) > √x` by `θ(y) ≥ y − 1.95 √y` (`ButheVerified`), since
+  `x^{1/3} > 1.95 (x^{1/4} + x^{1/6})` there; beyond `e⁵⁸`,
+  `θ(√x) > √x (1 − 0.024334/log³ √x) = √x (1 − 0.194672/log³ x)` by the row `k = 3` of §3.7 from
+  `e²⁹`. The upper `ψ − θ` bound:
   `ψ(x) − θ(x) = θ(√x) + ∑_{k ≥ 3} θ(x^{1/k})` with `θ(√x) ≤ (1 + 1.93378·10⁻⁸) √x` (§3.7) and
   `∑_{k ≥ 3} θ(x^{1/k}) < 1.777745 x^{1/3}`, which is *Dusart2018Range* for `x ≤ 10²⁴` and follows
   beyond from `θ(y) < 1.000081 y` (AnalyticNumberTheoryPartI §0.3) and
-  `(⌊log x/log 2⌋ − 3) x^{1/4} ≤ 0.76 x^{1/3}` for `x ≥ 10²⁴`.
+  `(⌊log x/log 2⌋ − 3) x^{1/4} ≤ 0.76 x^{1/3}` for `x ≥ 10²⁴`; it gives
+  `(1 + 1.93378·10⁻⁸) √x + 1.777745 x^{1/3}`, which implies both upper forms.
 
 *Needs:* §3.1(a), (b); §3.7; §0.3; §0.5; §1.1; §1.3; AnalyticNumberTheoryPartI §0.3;
 `gap:rh-up-to-height`; `gap:classical-zero-free-constants`; `gap:explicit-zero-count-error`.
@@ -1940,13 +2433,18 @@ Under the hypotheses of §3.1(b) at Dusart's parameters (`RH(30 610 046 000)`,
   *RosserSchoenfeldLowZeros* (the hypotheses of §3.1(b) at Schoenfeld's `A₀`): with
   `ε₀(x) = √(8/(17π)) X^{1/2} e^{−X}`,
   `X = √(log x/6.455)`, `|θ(x) − x| ≤ x ε₀(x)` for `x ≥ 149` and `|ψ(x) − x| ≤ x ε₀(x)` for
-  `x ≥ 23`; and `|π(x) − li x| ≤ 0.2795 x (log x)^{3/4} exp(−√(log x/6.455))` for `x ≥ 229`. Route
+  `x ≥ 23`; `|π(x) − li x| ≤ 0.2795 x (log x)^{−3/4} exp(−√(log x/6.455))` for `x ≥ 229`, the power
+  of `log x` dividing, as the passage from `x ε₀(x)` to `π` requires (`0.2795` is
+  `√(8/(17π)) 6.455^{−1/4} = 0.2428` with the boundary and integral terms of §0.4); and the source's
+  Lemma 1, `|θ(x) − x| ≤ 0.0045 x/log² x` for `x ≥ e³⁵`, from the rows of *FaberKadiriTable* on
+  `[e³⁵, e⁴⁰⁰⁰]` through the source's Table 1 (lines 237–267) and from `x ε₀(x)` beyond `e⁴⁰⁰⁰`. Route
   (`trudgian-2016` lines 74–104): for `log x ≥ 1163`, the argument of Schoenfeld's Theorem 11 (§3.2,
   an instance of §3.1(b)) with the Rosser–Schoenfeld-shape region of Trudgian's region in place of
   `R = 9.645908801` (the source's (4), line 82); for `e²⁵ ≤ x ≤ e¹¹⁶³`, the rows of
   *FaberKadiriTable*, which give `|ψ(x) − x|, |θ(x) − x| ≤ 0.006 x ε₀(x)` there through Schoenfeld's
   `ψ − θ` bound (lines 85–92); on `x ≤ 10¹⁹`, `ButheVerified` for `ψ` from `x ≥ 35.08`, for `θ` from
-  `x ≥ 1427` and for `π` from `x ≥ 229`, and *TrudgianRange* below; the `π` form by §0.4 with `li`.
+  `x ≥ 1427` and for `π` from `x ≥ 360` (from `359.3` on its `π` clause is below the bound), and
+  *TrudgianRange* below, its `π` clause on `[229, 360]`; the `π` form by §0.4 with `li`.
   Schoenfeld's argument alone reaches down only to `log x ≥ 1163`, so the middle range
   `10¹⁹ < x < e¹¹⁶³` needs the table (any row-wise `ψ`-bound below `x ε₀(x)` there serves, such as
   *BKLNWPsiTable*).
@@ -2051,6 +2549,8 @@ Zero inputs of this section:
   Kadiri–Lumley–Ng's bound at `H₀ = 3·10¹²`, `k = 1`, with `C₈(k, μ)` halved (after
   Cully-Hugill–Trudgian's divisor sum) and the subconvexity constant `0.77` in place of Hiary's
   `0.63`, so they are not ExplicitZetaBounds §8.3's statement, which fixes `H₀ = 3.0610046·10¹⁰`.
+  The parameters `(σ, α, δ, d)` behind each row, and the resulting constants, are those of their
+  Tables 7–7′ (`H₀ = 3·10¹²`, `k = 1`, `μ = 1.2362`), at `σ ∈ {0.6, 0.7, 0.8, 0.9, 0.91, …, 0.999}`.
 - *JohnstonYangDensityTable* (`johnston-yang-2023` lines 204–217, Lemma 2.6, and lines 1049–1073,
   Table 3): for every row `(σ, C₁, C₂)` of the table, `σ` from `0.980` to `0.999` in steps of
   `0.001` and the limiting row `σ = 1`, and every `T ≥ 3 000 175 332 800`,
@@ -2071,6 +2571,108 @@ Platt–Trudgian and Fiori–Kadiri–Swidinsky); §3.2 (the argument of Schoenf
 ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`); the zero inputs
 *JohnstonYangDensityTable*, *JohnstonYangExplicitFormula* and *FioriKadiriSwidinskyDensity*.
 
+### 3.4a The admissible shape, its conversions and the numerical π-transfer
+
+Write `E_ψ(x) = |ψ(x) − x|/x`, `E_θ(x) = |θ(x) − x|/x` and `E_π(x) = |π(x) − Li x| log x/x` (the
+normalisation of `fiori-kadiri-swidinsky-2023` (1)–(2), with the offset `Li`), and
+`ε_{A,B,C,R}(x) = A (log x/R)^B exp(−C √(log x/R))`. An *admissible bound* for `E` with parameters
+`(A, B, C, R, x₀)` is `E(x) ≤ ε_{A,B,C,R}(x)` for every `x ≥ x₀` (their Definitions 1 and 5); the
+rows of §§3.1, 3.4 and 3.6 are such bounds.
+
+- Monotonicity (their (16), Lemma 10 and Corollary 11): for `g(x) = x^{−a} (log x)^b exp(c √log x)`
+  and `x > 1`, `g′(x) = (−a log x + b + (c/2) √log x) x^{−a−1} (log x)^{b−1} exp(c √log x)`; hence `g`
+  is strictly decreasing on `(1, ∞)` if `a > 0` and `b < −c²/(16a)`, and on
+  `(exp((c/(4a) + √(c²/4 + 4ab)/(2a))²), ∞)` if `a > 0`, `c > 0` and `b ≥ −c²/(16a)`; `g` with `a = 0`,
+  `b < 0 < c` is strictly decreasing on `(1, exp(4b²/c²))` (the source prints the condition on
+  `√log x` with the inequality reversed); and for `R > 0` and `B > 1 + C²/(16R)`,
+  `x ↦ (log x)^{1−B} exp((C/√R) √log x)/x` is strictly decreasing on `(1, ∞)`.
+- Shape to constant: for `B ≥ 0` and `C > 0`, `ε_{A,B,C,R}` is nonincreasing on
+  `[exp(R (2B/C)²), ∞)`, since `d/du log(u^B e^{−C√u}) = B/u − C/(2√u)` with `u = log x/R`; so an
+  admissible bound from `x₀` gives `E(x) ≤ ε_{A,B,C,R}(x₁)` for every `x ≥ x₁ = max(x₀, exp(R (2B/C)²))`,
+  which is how the constant columns `ε₀` of the tables of §§3.1 and 3.4 follow from their shape
+  columns. In the same way (`broadbent-kadiri-lumley-ng-wilk-2021` Lemma 6): if
+  `E_θ(x) ≤ c₁ (log x)^{c₂} exp(−c₃ √log x)` for `x ≥ c₄`, with `c₁, …, c₄ > 0`, then for `k > 0` and
+  `b ≥ max(log c₄, 4(c₂ + k)²/c₃²)`, `E_θ(x) ≤ c₁ b^{c₂+k} e^{−c₃√b}/log^k x` for every `x ≥ e^b`. The
+  source prints the condition `b ≥ log(4(c₂ + k)²/c₃²)`, which does not suffice: `L^{c₂+k} e^{−c₃√L}`
+  increases up to `L = 4(c₂ + k)²/c₃²`.
+- From `ψ` to `θ` in the shape (their Corollary 14.1; Fiori–Kadiri–Swidinsky's Proposition 13 is
+  in §3.4): if `E_ψ(x) ≤ ε_{A,B,C,R}(x)` for `log x ≥ b₀`, with `b₀ ≥ 1000`, `B > 0`,
+  `0 < C ≤ √(R b₀)` and `1 ≤ R ≤ 10`, then `E_θ(x) ≤ ε_{A′,B,C,R}(x)` for `log x ≥ b₀`, with
+  `A′ = A + (R/b₀)^B e^{C √(b₀/R)} (a₁(b₀) e^{−b₀/2} + a₂(b₀) e^{−2b₀/3})` and `a₁`, `a₂` the constants
+  of their Theorem 5 (§0.3, at the defaults of §3.7). Fiori–Kadiri–Swidinsky's instances
+  (`fiori-kadiri-swidinsky-2023` Corollary 14 and Remark 15), under the hypotheses of
+  *FioriKadiriSwidinskyPsiRow*: `E_θ(x) ≤ ε_{121.0961, 3/2, 2, 5.5666305}(x)` for every `x ≥ 2`
+  (Proposition 13 from `e³⁰`, where `ν ≤ 6.3376·10⁻⁷`; below `e³⁰` the shape exceeds `1 ≥ E_θ`, by
+  `0 ≤ θ(x) ≤ (log 4) x`), and, for `log x₀ ≥ 1000`, `E_θ(x) ≤ ε_{A(x₀)(1 + ν(x₀)), 3/2, 2, 5.5666305}(x)`
+  for `x ≥ x₀`, with `A(x₀)` the step function of *FioriKadiriSwidinskyPsiRow* and
+  `ν(x₀) ≤ 10⁻²⁰⁰`.
+- From a pointwise `ψ`-input to `θ` (their Proposition 17): for `x > x₀ > 2` with
+  `E_ψ(x) ≤ ε_ψ(x₀)`, `−ε_θ(x₀) ≤ (θ(x) − x)/x ≤ ε_ψ(x₀)`, where
+  `ε_θ(x₀) = ε_ψ(x₀) + 1.00000002 (x₀^{−1/2} + x₀^{−2/3} + x₀^{−4/5}) + 0.94 (x₀^{−3/4} + x₀^{−5/6} + x₀^{−9/10})`,
+  under `ButheVerified` and *BKLNWPsiTable*. Route: `θ ≤ ψ` for the upper side; for the lower,
+  Costa Pereira's comparison (§0.3) with `ψ(y) ≤ 1.00000002 y + 0.94 √y` for every `y > 1`, which is
+  `ψ(y) ≤ y` on `(1, 11]` (the integers up to `11`), `ButheVerified` on `(11, 10¹⁹]` and the row
+  `ε(19 log 10) < 2·10⁻⁸` of *BKLNWPsiTable* beyond, at `y = x^{1/2}, x^{1/3}, x^{1/5}`, the
+  resulting relative terms decreasing in `x`. It sharpens, for `x₀ > 2`, the transfer of §0.5 and
+  the `k = 0` form of §3.7, whose constant is `1.03883` on all three terms.
+- The integral of the shape (`fiori-kadiri-swidinsky-2023` (19), Lemma 12 and the remark after
+  Corollary 11): Dawson's function `D₊(y) = e^{−y²} ∫₀^y e^{t²} dt` has its maximum at a point of
+  `[0.924, 0.925]` and decreases after it; and if `E_θ ≤ ε_{A,B,C,R}` on `[x₀, ∞)` with `x₀ ≥ 2`,
+  `A ≥ 0`, `R > 0` and `√log x₀ ≥ C/(2√R)`, then for `x ≥ x₀`
+  `∫_{x₀}^x E_θ(t)/log² t dt ≤ (2A/R^B) x max((log x₀)^{B−3/2}, (log x)^{B−3/2}) exp(−C √(log x/R)) D₊(√log x − C/(2√R))`.
+  Route: `t = exp(u²)` turns the integral into `(2A/R^B) ∫ u^{2B−3} e^{(u − C/(2√R))² − C²/(4R)} du`;
+  the power is at most its larger end value, and `∫_a^U e^{(u−a′)²} du ≤ e^{(U−a′)²} D₊(U − a′)`. With
+  the transfer of §0.4 it gives the conversion of an admissible `θ`-bound into a `π`-bound stated
+  in §3.4.
+- The numerical `π`-transfer (their Theorem 6, (11)–(13), Remark 7 and Corollary 8): let `x₀ ≥ 2`,
+  `x₁ ≥ max(x₀, 14)` and `log x₀ = b₀ < b₁ < ⋯ < b_N = log x₁` with `E_θ(x) ≤ ε_θ(e^{b_i})` for every
+  `x ≥ e^{b_i}`. Then for every `x ≥ x₁`
+  `E_π(x) ≤ ε_θ(x₁) + (log x/x)(x₀/log x₀)(E_π(x₀) + E_θ(x₀)) + (log x/x) ∑_{i<N} ε_θ(e^{b_i})(Li e^{b_{i+1}} − Li e^{b_i} + e^{b_i}/b_i − e^{b_{i+1}}/b_{i+1}) + ε_θ(x₁)(log x/x) ∫_{x₁}^x dt/log² t`
+  (the combined-endpoint transfer and the partitioned integral of §0.4); for `x ≥ x₁ ≥ 14`,
+  `(log x/x) ∫_{x₁}^x dt/log² t < 1/(log x₁ + log log x₁ − 1)`, and for `x₁ ≤ x ≤ x₂ ≤ x₁ log x₁` it is at
+  most `(log x₂/x₂)(Li x₂ − x₂/log x₂ − Li x₁ + x₁/log x₁)`; hence `E_π(x) ≤ ε_{π,num}(x₀, x₁, x₂)`
+  `= ε_θ(x₁)(1 + μ_num)` for `x₁ ≤ x ≤ x₂` (`x₂ = ∞` allowed), with `μ_num` the explicit quantity (11)
+  for `x₂ ≤ x₁ log x₁` and (12) beyond, built from `δ(x₀)` of §0.4, the partition sum and the last
+  bound (the value (11) is smaller, Remark 7); and over a subdivision `log x₁ = b′₀ < ⋯ < b′_M = ∞`,
+  `E_π(x) ≤ max_{i < M} ε_{π,num}(x₀, e^{b′_i}, e^{b′_{i+1}})` for `x ≥ x₁` (Corollary 8).
+- The tables, assumed (table proposition *FioriKadiriSwidinskyPiTables*, `fiori-kadiri-swidinsky-2023`
+  Tables 4–7 and the ancillary data of Table 4): for each of the 208 rows `(b, ε)` of Table 4, from
+  `b = 44` to `b = 10⁷`, the quantity of Corollary 8 at the paper's partition and `x₁ = e^b`, with
+  the `θ`-inputs of §3.7 and *BKLNWPsiTable*, is at most `ε`, among them `(44, 1.7893·10⁻⁸)`,
+  `(100, 2.0339·10⁻¹²)`, `(2000, 1.5701·10⁻¹²)` and `(10⁷, 1.0364·10⁻¹¹⁵³)`; for each of the 21 rows
+  `(b, ε_asymp, ε_num)` of Table 5, `b = 100, 1000, 2000, …, 20 000`, the same with `ε_num`, and
+  `ε_asymp` bounds the conversion of §3.4 at `(A_π, B, C) = (121.107, 3/2, 2)`; and the bounds of the
+  rows of Tables 6 and 7 dominate, on their ranges, the cell-wise values of Corollary 8 on the
+  paper's subdivision of `[e¹⁰, e²⁰⁰⁰⁰]` and, below `10¹⁹`, the `π` clause of `ButheVerified`.
+- Consequences, under *FioriKadiriSwidinskyPiTables*, the hypotheses of §3.7, `ButheVerified` and
+  those of *FioriKadiriSwidinskyPsiRow* (their Corollaries 23, 24 and 26):
+  - for each row `(A, B, C, log x₀)` of `(0.000120, 1/4, 1, 22.955)`, `(0.826, 1/4, 1, 1)`,
+    `(1.41, 1/2, 1.5, 2)`, `(1.76, 1, 1.5, 3)`, `(2.22, 3/2, 1.5, 3)`, `(12.4, 3/2, 1.9, 1)`,
+    `(38.8, 3/2, 1.95, 1)`, `(121.107, 3/2, 2, 1)` and `(6.60, 2, 2, 3)`,
+    `E_π(x) ≤ ε_{A,B,C,5.5666305}(x)` for every `x ≥ x₀`;
+  - `E_π(x) ≤ 2 log x/√x` for `1 ≤ log x ≤ 57`, `≤ (log x)^{3/2}/√x` for `1 ≤ log x ≤ 65.65`,
+    `≤ log² x/(8π √x)` for `8 ≤ log x ≤ 60.8`, `≤ log² x/√x` for `1 ≤ log x ≤ 70.6`,
+    `≤ log³ x/√x` for `1 ≤ log x ≤ 80`, `≤ x^{−1/3}` for `1 ≤ log x ≤ 80.55`, `≤ x^{−1/4}` for
+    `1 ≤ log x ≤ 107.6`, `≤ x^{−1/5}` for `1 ≤ log x ≤ 134.8`, `≤ x^{−1/10}` for `1 ≤ log x ≤ 270.8`,
+    `≤ x^{−1/50}` for `1 ≤ log x ≤ 1358.6` and `≤ x^{−1/100}` for `1 ≤ log x ≤ 3757.6`;
+  - `primeCounting_sub_logIntegral_le`: `|π(x) − Li x| ≤ 0.4298 x/log x` for every `x ≥ 2`, stated
+    from the row `(0.826, 1/4, 1, 1)` above as its input. Route: for `x ≥ e` that row, whose shape is at most
+    `0.826 (1/4)^{1/4} e^{−1/2} = 0.3543` (its maximum, at `log x = R/4`); for `2 ≤ x < e`,
+    `π(x) = 1` and `0 ≤ Li x < 1`, so `E_π(x) ≤ log x/x ≤ 1/e`.
+
+*Needs:* §§3.1, 3.4 (*FioriKadiriSwidinskyPsiRow*, Proposition 13 and Corollary 22), 3.7; §0.3
+(the constants `a₁`, `a₂`); §0.4 (the combined-endpoint transfer and the partitioned integral);
+§0.3a (`Li x − x/log x`); §1.3 (`ButheVerified`); Mathlib `Real.exp`, `Real.sqrt`, `Real.log`,
+`HasDerivAt`, `intervalIntegral`; Tau Ceti `TauCeti.Real.logIntegral`.
+
+**Checks.**
+
+- The threshold of monotonicity is needed: `ε_{121.107, 3/2, 2, R}` increases from `2.63` at
+  `x = 2` to about `20.4` at `log x = R (2B/C)² = 12.5` before decreasing, so a bound at `x₀ = 2` is
+  not a bound by its value at `2`.
+- At `(A, B, C) = (0.826, 1/4, 1)` the largest value of the shape is at `√(log x/R) = 2B/C = 1/2`,
+  inside `x ≥ e`, and the constant `0.4298` exceeds it, as it must for a bound on all of `[2, ∞)`.
+
 ### 3.5 Bounds for π(x)
 
 - Rosser–Schoenfeld (`rosser-schoenfeld-1962` lines 195–212, Theorems 1–2 and Corollaries 1–3),
@@ -2090,10 +2692,17 @@ ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`); the zero inputs
   `π(x) ≤ (x/log x)(1 + 1/log x + 2.51/log² x)` for `x > 355 991`. The later two-term forms
   (`dusart-2018`, Theorem 6.9 of the arXiv copy), under the hypotheses of §3.3 and
   *Dusart2018Range*: `(x/log x)(1 + 1/log x + 2/log² x) ≤ π(x)` for `x ≥ 88 789` (the copy prints
-  `88 783`) and `π(x) ≤ (x/log x)(1 + 1/log x + 2.334/log² x)` for `x ≥ 2 953 652 287`. Route: the
-  partial summation of §0.4 from `x₀ = 10¹¹` with the rows of §3.3; below `10¹¹`, for Théorème 1.10
-  `π(x) < li x` and the analytic comparison of the bounds with `li` on `[10⁸, 10¹¹]` and
-  *DusartThesisRange* below `10⁸`, and for Theorem 6.9 *Dusart2018Range*.
+  `88 783`) and `π(x) ≤ (x/log x)(1 + 1/log x + 2.334/log² x)` for `x ≥ 2 953 652 287`; and the
+  journal's further forms (Theorem 5.1, Corollaries 5.2–5.3), under the same hypotheses:
+  `π(x) = (x/log x)(1 + 1/log x + 2/log² x + O*(7.32/log³ x))` for `x ≥ 4·10⁹`;
+  `π(x) ≤ (x/log x)(1 + 1/log x + 2.53816/log² x)` for `x > 1`; `π(x) ≤ x/(log x − 1.112)` for
+  `x > e^{1.112}`; `π(x) ≥ x/(log x − 1 − 1/log x)` for `x ≥ 468 049`; and
+  `π(x) ≤ x/(log x − 1 − 1.2311/log x)` for `x > 5.6`. Route: the partial summation of §0.4 from
+  `x₀ = 10¹¹` with the rows of §§3.3 and 3.7 (for the upper side of `7.32/log³ x`, sharper than
+  `2.334/log² x` once `log x > 21.9`, the expansion of `Li` of §0.3a to the term `6x/log⁴ x` with the
+  explicit remainder of its integrals); below `10¹¹`, for Théorème 1.10 `π(x) < li x` and the
+  analytic comparison of the bounds with `li` on `[10⁸, 10¹¹]` and *DusartThesisRange* below `10⁸`,
+  and for the forms of `dusart-2018` *Dusart2018Range*.
 - Axler 2024, the headline (`axler-2024`, Integers 24, A34; journal Theorems 2–4 and Proposition 4,
   arXiv v4 Theorems 1.3–1.4 and Propositions 4.5, 5.3). Prove `axler_primeCounting_upper`: from the
   input `|θ(t) − t| < 0.024334 t/log³ t` for every `t ≥ 1 757 126 630 797`,
@@ -2168,9 +2777,40 @@ ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`); the zero inputs
   statement, proved from `π(x) = Li x + O(x exp(−c √log x))` (ZerosOfLFunctions §8.5 at `K = ℚ`)
   and the expansion of `Li` (§8.9 there); `k_m` is the displayed determinant.
 - Every `π − li` bound of §3.4 is listed there with its `ψ` source.
+- Ramanujan's inequality, the criterion (`dudek-platt-2015` Lemma 2.1, as `platt-trudgian-2021-error`
+  §5 uses it), `ramanujan_of_primeCounting_bounds`: let `x_a > 1` and `M`, `m` real with
+  `π(x) < x ∑_{k=0}^{4} k!/log^{k+1} x + M x/log⁶ x` for every `x > e x_a` and
+  `π(x) > x ∑_{k=0}^{4} k!/log^{k+1} x + m x/log⁶ x` for every `x > x_a`. With `L = log x` put
+  `ε_M(x) = 72 + 2M + (2M + 132)/L + (4M + 288)/L² + (12M + 576)/L³ + 48M/L⁴ + M²/L⁵`
+  (`ramanujanEpsUpper`) and
+  `ε′_m(x) = 206 + m′ + 364/L + 381/L² + 238/L³ + 97/L⁴ + 30/L⁵ + 8/L⁶` (`ramanujanEpsLower`), where
+  `m′ = m` if `m ≥ 0` and `m′ = (1 + 1/log x_a)⁶ m` if `m < 0`. Then for every `x > e x_a`
+  `π(x)² < x² (1/L² + 2/L³ + 5/L⁴ + 16/L⁵ + 64/L⁶ + ε_M(x)/L⁷)` and
+  `(ex/L) π(x/e) > x² (1/L² + 2/L³ + 5/L⁴ + 16/L⁵ + 65/L⁶ + ε′_m(x)/L⁷)`; hence, if `x₀ ≥ e x_a` and
+  `ε_M(x) − ε′_m(x) < log x` for every `x > x₀`, then `π(x)² < (ex/log x) π(x/e)` for every `x > x₀`.
+  Route: square the upper bound, and expand the lower bound at `x/e`, where `log(x/e) = L − 1`, in
+  powers of `1/L` (`(L/(L − 1))⁶ ≤ (1 + 1/log x_a)⁶` there); the coefficients `1, 2, 5, 16` agree and
+  the next ones are `64` and `65`, a difference of `x²/L⁶` that the remainders cannot overturn once
+  `ε_M − ε′_m < L`.
+- Ramanujan's inequality, the instance (`platt-trudgian-2021-error` Theorem 2): `π(x)² < (ex/log x) π(x/e)`
+  for every `x > e³⁹¹⁵`, under *RamanujanThetaRange* (§1.3), the hypotheses of §2.3 at
+  `T = 3 000 175 332 800`, of Trudgian's `θ` bound and of the Platt–Trudgian rows `X = 1000, 2000,
+  3000` (§3.4). These give the envelope `|θ(x) − x| ≤ x a(x)/log⁵ x` for every `x ≥ 2`, where
+  `a(x)/log⁵ x` is `1 − (log 2)/3` on `[2, 599]`, `log² x/(8π √x)` on `(599, e⁵⁸)` (inside Büthe's range
+  `x ≤ 2.169·10²⁵`), Trudgian's `ε₀(x)` on `[e⁵⁸, e¹¹⁶⁹)`, and `ε_{A, 1.52, 1.89, 5.573412}(x)` with
+  `A = 462.0`, `411.5`, `379.7` (the rows' `A + 0.1`) on `[e¹¹⁶⁹, e²⁰⁰⁰)`, `[e²⁰⁰⁰, e³⁰⁰⁰)` and from
+  `e³⁰⁰⁰` (`platt-trudgian-2021-error` (18)). Route: the one-sided transfer of §0.4 from `x₀ = 2` with
+  this `a`; `∫₂ˣ dt/log² t` expanded by five integrations by parts (§0.3a), leaving
+  `∫₂ˣ (720 + a(t))/log⁷ t dt`, split at `x_a = e³⁹¹⁴` and bounded with the explicit integral of
+  §0.3a at `k = 7` and the monotonicity of `a` on `[x_a, ∞)` (there `a` is the shape of §3.4a with
+  `B = 6.52`, `C = 1.89`, nonincreasing from `exp(5.573412 (2·6.52/1.89)²) = e^{265.3}`); this gives
+  the criterion's two bounds at `x_a = e³⁹¹⁴` with `M = 1426` and `m = −1194`, and
+  `ε_{1426}(x) − ε′_{−1194}(x) < log x` for `x > e³⁹¹⁵`, the difference being `3914.5` at `e³⁹¹⁵` and
+  decreasing.
 
-*Needs:* §3.2; §3.3; §3.7; §2.3 (Johnston's range); §0.4; §1.3; AnalyticNumberTheoryPartI §0.5
-(the statement of *RosserSchoenfeldFiniteRangeInput*); ZerosOfLFunctions §§8.5, 8.9.
+*Needs:* §3.2; §3.3; §3.4; §3.4a; §3.7; §2.3 (Johnston's range, and Büthe's bound for the
+envelope); §0.3a; §0.4; §1.3; AnalyticNumberTheoryPartI §0.5 (the statement of
+*RosserSchoenfeldFiniteRangeInput*); ZerosOfLFunctions §§8.5, 8.9.
 
 ### 3.6 Bounds from a Vinogradov–Korobov region
 
@@ -2267,21 +2907,73 @@ of *PsiThetaUpper* below, *BKLNWPsiTable* (§3.1), *BKLNWThetaTables* below, `Bu
   above and *Axler2024Range*: `|θ(x) − x| < 0.024334 x/log³ x` for every `x ≥ 1 757 126 630 797`.
   Route: Table 15's row from `e²⁹` and *Axler2024Range* on `[1 757 126 630 797, e²⁹]`.
 
+- The values of `a₂(b) = (1 + 1.93378·10⁻⁸) max(f(e^b), f(2^{⌊b/log 2⌋ + 1}))` (§0.3) at the paper's
+  points (the table after its Corollary 5.1): `a₂(b) ≤ u` for `(b, u)` equal to `(20, 1.4263)`,
+  `(25, 1.2196)`, `(30, 1.1211)`, `(35, 1.07087)`, `(40, 1.04320)`, `(43, 1.03253)`,
+  `(100, 1 + 2.421·10⁻⁴)`, `(150, 1 + 3.758·10⁻⁶)`, `(200, 1 + 7.813·10⁻⁸)`, `(250, 1 + 2.125·10⁻⁸)` and
+  `(300, 1 + 2.937·10⁻⁸)`. The printed lower ends at `b = 200, 250, 300` exceed the value of this
+  formula (`a₂(200) = 1 + 7.7118·10⁻⁸`), being computed with a slightly larger `θ`-constant, so only
+  the upper bounds, which are what the strip constants use, are stated.
+- The strip constants (the paper's Lemma 8, (3.11) and Corollary 8.1): for `1 ≤ k ≤ 5` and `b < b′`
+  with `b ≥ max(7, 2k)`, `|θ(x) − x| ≤ B_k(b, b′) x/log^k x` for `e^b ≤ x ≤ e^{b′}`, where
+  `B_k(b, b′) = sup_{e^b ≤ x ≤ e^{b′}} log^k x (a₁(b) x^{−1/2} + a₂(b) x^{−2/3} + ε(b))`, with `ε` the rows of
+  *BKLNWPsiTable* and `a₁`, `a₂` those of §0.3; since `L^k e^{−L/2}` and `L^k e^{−2L/3}` decrease for
+  `L ≥ 2k`, `B_k(b, b′) ≤ b^k (a₁(b) e^{−b/2} + a₂(b) e^{−2b/3}) + b′^k ε(b)`. Route:
+  `θ = ψ − (ψ − θ)` with Theorem 5 of §0.3 and the row at `b`. Over the paper's subdivision of
+  `[e²⁰, e²⁵⁰⁰⁰]` the maximum of the `B_k` from `b₀` on bounds `|θ(x) − x| log^k x/x` on
+  `[e^{b₀}, e²⁵⁰⁰⁰]` (Corollary 8.1).
+- Lower bounds from the finer data (the paper's Lemma 9, its table from Büthe and Corollary 9.1): if
+  `1 ≤ u < v`, `−c ≤ (x − ψ(x))/√x ≤ C` on `[u, v]` and `ψ(x) ≤ c₀ x` for every `x > 0`, then
+  `θ(x) ≥ x − (C + 1) √x − c₀ x^{1/3} − c x^{1/4} − c₀ x^{1/5}` for `u² ≤ x ≤ v`, from
+  `θ(x) ≥ ψ(x) − ψ(√x) − ψ(x^{1/3}) − ψ(x^{1/5})` (Costa Pereira's comparison, §0.3). With
+  `c₀ = 1.03883` and the rows `(u, v, c, C) = (100, 5·10¹⁰, 0.8, 0.81)`, `(100, 3.2·10¹³, 0.88, 0.86)`
+  (*ButheFinerRange*) and `(100, 10¹⁹, 0.94, 0.94)` (`ButheVerified`): for `k ≥ 1` and
+  `max(10⁴, e^{2k}) ≤ e^b ≤ v`, `θ(x) ≥ x − 𝒞_{b,k} x/log^k x` for `e^b ≤ x ≤ v`, with
+  `𝒞_{b,k} = b^k ((C + 1) e^{−b/2} + c₀ e^{−2b/3} + c e^{−3b/4} + c₀ e^{−4b/5})`.
+- `|ψ(x) − x| ≤ max(c e^{−b/2}, ε(log B)) x` for every `x ≥ e^b`, whenever `|ψ(y) − y| ≤ c √y` on
+  `(B₀, B]`, `e^b ∈ (B₀, B]` and `ε` is the row function of a `ψ`-table (the paper's Lemma 15); at
+  `(B₀, B, c) = (11, 10¹⁹, 0.94)`, `|ψ(x) − x| ≤ max(0.94 e^{−b/2}, 1.93378·10⁻⁸) x` for `x ≥ e^b` and
+  `log 11 < b ≤ 19 log 10` (its Corollary 15.1), from `ButheVerified` and the row `ε(19 log 10)` of
+  *BKLNWPsiTable*.
+
 Route of the tables (the paper's §3): beyond `10¹⁹`, `θ = ψ − (ψ − θ)` with *BKLNWPsiTable* and the
 `ψ − θ` bound above; below `10¹⁹`, `θ(x) < x` and `x − θ(x) ≤ 1.95 √x` from `ButheVerified`, and
 *BKLNWRange* at the start of each row.
 
-Table proposition of this section:
+Table propositions of this section:
 
 - *BKLNWThetaTables*: for each row `(log X, m_k, M_k)`, the `m_k(X)`, `M_k(X)` of Theorem 1 given by
   *BKLNWPsiTable* are at most the row's values; among the rows, `log X = 19 log 10`
   (`M₀ = 1.9338·10⁻⁸`, `m₀ = 1.9667·10⁻⁸`; `m₂ = M₂ = 3.7979·10⁻⁵`), `log X = 29`
   (`m₃ = M₃ = 0.024334`) and `X = 2·10¹¹` (`m₄ = M₄ = 57.184`) (`broadbent-kadiri-lumley-ng-wilk-2021`
   Tables 14–15, arXiv v2).
+- *BKLNWStripTables*: for each of the 287 rows `(b, B₁, …, B₅)` of the paper's Table 10 and each
+  `1 ≤ k ≤ 5`, `B_k(b, b⁺) ≤ 1.002001 B_k`, with `b⁺` the next row's `b` (and `25 000` after the
+  last), among them `(20, 1.8077·10⁻³, 3.6154·10⁻², 0.72309, 14.462, 291.60)` and
+  `(43, 8.5986·10⁻⁷, 3.7618·10⁻⁵, 1.6458·10⁻³, 0.072000, 3.1500)`; and for each of the 43 rows
+  `(b₀, B₁, …, B₅)` of its Table 11, `1.003003001 B_k` is at least the strip constants of Table 10
+  at its rows `b ≥ max(b₀, 19 log 10)` and, below `10¹⁹`, the constants of *BKLNWLowerThetaTable* at
+  its rows `b ≥ b₀` (with `θ(x) < x` there), among them
+  `(20, 1.6844·10⁻³, 3.3688·10⁻², 0.67375, 57.184, 1.3441·10⁵)`. The factors absorb the rounding of
+  the printed values (Table 11 at `b₀ = 44` is one unit in the last place above Table 10's value).
+  Table 10 evaluates the supremum `B_k`, not its closed upper bound, which is larger (at `b = 20`,
+  `k = 5` it is `326.9` against `291.60`). Consequence, under the hypotheses of this section,
+  *BKLNWStripTables*, *BKLNWLowerThetaTable* and *ButheFinerRange*: for each row of Table 11,
+  `|θ(x) − x| ≤ 1.003003001 B_k x/log^k x` for `e^{b₀} ≤ x ≤ e²⁵⁰⁰⁰` (the paper's Table 11), from the
+  strips above `10¹⁹` and the lower bounds of Corollary 9.1 below.
+- *BKLNWLowerThetaTable*: for each of the 26 rows `(b, C₁, …, C₅)` of the paper's Table 12, with the
+  row `(c, C, v)` of its block, `𝒞_{b,k} ≤ C_k` for `1 ≤ k ≤ 5`, among them
+  `(20, 1.68440·10⁻³, 3.36880·10⁻², 0.673750, 13.4750, 269.500)` in the block `(0.8, 0.81, 5·10¹⁰)` and
+  `(43, 3.83820·10⁻⁸, 1.65050·10⁻⁶, 7.09680·10⁻⁵, 3.05170·10⁻³, 0.131220)` in the block
+  `(0.94, 0.94, 10¹⁹)`; the rows at `b = log(5·10¹⁰)`, `25`, `log(3.2·10¹³)` and `32`, and the entries
+  `k = 3, 4, 5` at `b = 31`, are taken at the values of the closed form, which exceed the printed
+  ones (at `b = 25` the closed form in the block `(0.88, 0.86)` gives `C₁ = 1.75002·10⁻⁴`, the printed
+  `1.70330·10⁻⁴` being the value with the constants of the first block).
 
 *Needs:* §3.1(a), (d) and *BKLNWPsiTable*; §2.3 (Büthe's general theorem); §2.1 (for the rows
 `b ≥ 2500`, with its hypotheses: ExplicitZetaBounds §7.2, `gap:vinogradov-korobov-constants`);
-§0.3; §1.1 (`ZetaZeroCubeSum`); §1.3 (`ButheVerified`, *BKLNWRange*, *Axler2024Range*);
+§0.3 (the general-input bounds and Costa Pereira's comparison); §1.1 (`ZetaZeroCubeSum`); §1.3
+(`ButheVerified`, *ButheFinerRange*, *BKLNWRange*, *Axler2024Range*);
 `gap:rh-up-to-height` (with the absence of zeros up to height `14`);
 `gap:classical-zero-free-constants`; `gap:explicit-zero-count-error`; `gap:explicit-zero-density`.
 
@@ -2340,7 +3032,23 @@ for the initial segments:
 - `∑_{p ≤ x} (log p)/p < log x` for `x > 1`, and `log x + E − 1/log x < ∑_{p ≤ x} (log p)/p` for
   `x ≥ 32`, with `E` the constant of §0.8 there.
 
-*Needs:* AnalyticNumberTheoryPartI §§0.8, 0.19; §1.3.
+The elementary bounds valid from `x = 1` (Mertens' argument, `mertens-1874`, cited by locator, with
+Mathlib's constant for `ψ`), which need no hypothesis:
+
+- `mertens_vonMangoldt_bounds`: for every real `x ≥ 1`, `−2 ≤ ∑_{n ≤ x} Λ(n)/n − log x ≤ log 4 + 4`;
+  and, with `E₁ = ∑_p log p/(p(p − 1))` (§1.6), `−2 − E₁ ≤ ∑_{p ≤ x} (log p)/p − log x ≤ log 4 + 4`, so
+  `|∑_{p ≤ x} (log p)/p − log x| ≤ log 4 + 4`. Route: `x ∑_{n ≤ x} Λ(n)/n = log ⌊x⌋₊! + ∑_{n ≤ x} Λ(n) {x/n}`
+  (AnalyticNumberTheoryPartI §0.11d), the bounds for `log ⌊x⌋₊!` there,
+  `0 ≤ ∑_{n ≤ x} Λ(n) {x/n} ≤ ψ(x) ≤ (log 4 + 4) x` (Mathlib's `Chebyshev.psi_le_const_mul_self`), and
+  `(1 + log x)/x ≤ 1`, `(1 − log x)/x ≥ −1` for `x ≥ 1`; for the primes, the prime powers `p^k`,
+  `k ≥ 2`, contribute `∑_{p^k ≤ x, k ≥ 2} log p/p^k ∈ [0, E₁]`. Under `ChebyshevWeightRange`, §0.8's
+  `ψ(x) ≤ 1.11 x` replaces `log 4 + 4` by `1.11` in both upper bounds.
+- The crude enclosure of the Meissel–Mertens constant, the instance of §1.6 at these constants:
+  `(−2 − E₁)/log 2 + 1 − log log 2 ≤ B ≤ (log 4 + 4)/log 2 + 1 − log log 2`, with
+  `E₁ ≤ (5 log 2 + 3)/4` (§1.6), that is `−3.86 < B < 9.14`.
+
+*Needs:* AnalyticNumberTheoryPartI §§0.8, 0.11d, 0.19; §1.3; §1.6 (`E₁` and the enclosure of `B`);
+§0.8 (for the constant `1.11`); Mathlib `Chebyshev.psi_le_const_mul_self`.
 
 **Checks.**
 
@@ -2468,13 +3176,31 @@ for the initial segments:
   `≤ 9.2203 (log x)^{1/2} exp(−0.84768 √log x)` for `x ≥ 2`. The row at `2 278 383` recovers the
   constant `0.2` that `dusart-2018` stated from its `ψ`-table (§3.3). Vanlalngaia's instances are
   kept as the refereed statements.
+- The elementary forms of the second theorem, from §4.1's bounds: for every `x ≥ 2`,
+  `|∑_{p ≤ x} 1/p − log log x − B| ≤ (log 4 + 6 + E₁)/log x` and
+  `|∑_{2 ≤ n ≤ x} Λ(n)/(n log n) − log log x − γ| ≤ (log 4 + 6)/log x`, hence
+  `|∑_{p ≤ x} 1/p − log log x| ≤ |B| + (log 4 + 6 + E₁)/log 2`. Route: Abel summation of `(log p)/p`
+  against `1/log t` gives
+  `∑_{p ≤ x} 1/p − log log x − B = R(x)/log x − ∫ₓ^∞ R(t) dt/(t log² t)` with
+  `R(t) = ∑_{p ≤ t} (log p)/p − log t ∈ [−2 − E₁, log 4 + 4]`, so the two terms add at most
+  `(log 4 + 4 + 2 + E₁)/log x`; the same with `Λ(n)/n`, whose remainder lies in `[−2, log 4 + 4]`,
+  and with the constant `1 − log log 2 + ∫₂^∞ (∑_{n ≤ t} Λ(n)/n − log t) dt/(t log² t)`, which is `γ`
+  by AnalyticNumberTheoryPartI §0.26a.
+- Dusart's companion bound (`dusart-2018`, journal Theorem 5.7): under *Dusart2018Range*,
+  `ButheVerified` and the hypotheses of §3.7, `|∑_{p ≤ x} (log p)/p − log x − E| ≤ 0.3/log² x` for every
+  `x ≥ 912 560`. Route: *Dusart2018Range* on `[912 560, 5·10⁷]`; on `[5·10⁷, 10¹⁹]` the exact
+  companion form above with `|θ(t) − t| ≤ 1.95 √t` up to `10¹⁹` (`ButheVerified`) and
+  `|θ(t) − t| < 0.024334 t/log³ t` beyond (§3.7), which give at most
+  `5.85/√x + 0.024334/(2 log² 10¹⁹) ≤ 0.3/log² x`; beyond `10¹⁹` the companion transfer with
+  `η = 0.024334`, `k = 3`.
 - The input *PrimeProductFiniteInput* of AnalyticNumberTheoryPartI §0.25
   (`∑_{p ≤ x} 1/p ≤ log log x + 0.27 + 5/log x` for `10⁸ ≤ x < exp 10000`) follows from §0.19 there
   (`|∑_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for `x ≥ 286`) and *MeisselMertensEnclosure*
   (§1.6, `B < 0.2615`), since `0.2615 + 1/(2 log² 10⁸) < 0.27`.
 
-*Needs:* §0.3; §1.3 (`VanlalngaiaRange`); for the instances §3.3, §3.4, §3.7 and, for the
-input of AnalyticNumberTheoryPartI, §1.6; for Vanlalngaia's Corollaries 2 and 3, §3.1(a),
+*Needs:* §0.3; §1.3 (`VanlalngaiaRange`, *Dusart2018Range*); §4.1 (the elementary bounds) and
+AnalyticNumberTheoryPartI §0.26a (the constant `γ`) for the elementary forms; for the instances
+§3.3, §3.4, §3.7 and, for the input of AnalyticNumberTheoryPartI, §1.6; for Vanlalngaia's Corollaries 2 and 3, §3.1(a),
 ZerosOfLFunctions §§8.3–8.4, `gap:classical-zero-free-constants`, `gap:rh-up-to-height` (the
 recorded verifications of ExplicitZetaBounds §0.4) and `gap:explicit-zero-count-error`;
 AnalyticNumberTheoryPartI §§0.8, 0.19, 0.25; `gap:explicit-zero-density` (the preprint instance
@@ -2691,6 +3417,13 @@ the general statement does not depend on §5.2.
   and *RosserSchoenfeld1962Range*: `n(log n + log log n − 3/2) < p_n` for `n ≥ 2`;
   `p_n < n(log n + log log n − 1/2)` for `n ≥ 20`; `n log n < p_n` for `n ≥ 1`;
   `p_n < n(log n + log log n)` for `n ≥ 6`.
+- Dusart's companion inequalities (`dusart-2018`, journal Lemma 5.10), under the hypotheses above:
+  `p_k ≤ k log p_k` for every `k ≥ 4`, and `log p_k ≤ log k + log log k + 1` for every `k ≥ 2`. Route:
+  `x/log x < π(x)` for `x ≥ 17` (§3.5) at `x = p_k`, where `π(p_k) = k`, for `k ≥ 7`, and `p₄ = 7`,
+  `p₅ = 11`, `p₆ = 13` directly; `p_k < k(log k + log log k)` for `k ≥ 6` gives
+  `log p_k < log k + log log k + log(1 + log log k/log k)`, the last term below `1/e`, and
+  `p₂, …, p₅ = 3, 5, 7, 11` directly. At `k = 3`, `p₃ = 5 > 3 log 5 = 4.83`, so the first starts at
+  `k = 4`.
 - Rosser (`rosser-1938`, Theorems 1–2; `rosser-1941`, Theorems 1–3; both cited by locator): `p_n > n log n`
   for `n ≥ 1`; `n(log n + log log n − 10) < p_n < n(log n + log log n + 8)` for `n > 1`; and
   `n(log n + log log n − 4) < p_n < n(log n + log log n + 2)` for `n ≥ 55`. Each follows from the
@@ -2707,17 +3440,18 @@ the general statement does not depend on §5.2.
   used at `dusart-1999-mc` lines 123–126); and `p_k ≤ k(log k + log log k − 0.9385)` for
   `k ≥ 8602` (the source prints `k ≥ 7022`): for `k ≥ 39 017` it follows from Dusart's `−0.9484`
   below, and for `8602 ≤ k ≤ 39 016` it is *Robin1983Range*. Robin's range
-  `p_k ≥ k(log k + log log k − 1)` for `k ≥ 2` with `p_k ≤ 10¹¹` is `RobinNthPrimeRange` (§1.3).
+  `p_k > k(log k + log log k − 1)` for `k ≥ 2` with `p_k ≤ 10¹¹` is `RobinNthPrimeRange` (§1.3).
 - Massias–Robin (`massias-robin-1996`, Théorème A, cited by locator, with the ranges as
   `dusart-1999-mc` lines 30–32 report them, in `k`): `p_k ≥ k(log k + log log k − 1)` for
   `2 ≤ k ≤ e⁵⁹⁸` and for `k ≥ e¹⁸⁰⁰`. Dusart's theorem below covers every `k ≥ 2`.
 - Dusart (`dusart-1999-mc` lines 116–125, Theorem 3; line 168). Prove `dusart_nth_prime_lower`:
-  from `RobinNthPrimeRange` (`p_k ≥ k(log k + log log k − 1)` for `k ≥ 2` with `p_k ≤ 10¹¹`),
+  from `RobinNthPrimeRange` (`p_k > k(log k + log log k − 1)` for `k ≥ 2` with `p_k ≤ 10¹¹`),
   Robin's lower bound for `θ(p_k)` above (for `k ≥ 3`), and the inputs
   `|θ(x) − x| < 0.0077629 x/log x` for `x > e²²` ((5.6b*) of Schoenfeld's Theorem 7*, §3.2;
   `schoenfeld-1976` line 772), `|θ(x) − x| < 1.657·10⁷ x/log⁴ x` for `x > 1` ((5.8*)–(5.9*) of his
   Theorem 8*, lines 1280–1283) and `|ψ(x) − x| ≤ 0.905·10⁻⁷ x` for `x ≥ e⁵⁰` (§3.3), for every
-  `k ≥ 2`, `p_k ≥ k(log k + log log k − 1)`. The inputs are instances of §3.2 and §3.3 (Dusart's
+  `k ≥ 2`, `p_k > k(log k + log log k − 1)`, the strict inequality of the source's title. The
+  inputs are instances of §3.2 and §3.3 (Dusart's
   `η₄ = 1 717 433` of §3.3 implies the second), so the theorem holds under the hypotheses of §3.3
   (among them `RH(30 610 046 000)`, *VanDeLuneZeroCount* and *RosserSchoenfeldLowZeros*) and
   `RobinNthPrimeRange`; under the same hypotheses and *DusartThesisRange*,
@@ -2740,6 +3474,18 @@ the general statement does not depend on §5.2.
   lower bound the inequality `p_k ≥ θ(p_k) − η₂ p_k/log² p_k` with Robin's lower bound for `θ(p_k)`;
   below `e²⁷`, *Dusart2018Range*. The `−1` of Dusart 1999 stays the headline lower bound;
   these are its refinements.
+- Dusart's bounds for `θ(p_k)` and the intermediate upper bound (`dusart-2018`, journal
+  Propositions 5.11–5.12 and Lemma 5.14; Massias–Robin's Théorème B(v), `massias-robin-1996`, cited
+  by locator), under the hypotheses of §3.3 and *Dusart2018Range*:
+  `θ(p_k) ≥ k(log k + log log k − 1 + (log log k − 2.050735)/log k)` for `p_k ≥ 10¹¹`, and with `2.04`
+  for `p_k ≥ 10¹⁵`, sharpening Robin's `2.1454`;
+  `θ(p_k) ≤ k(log k + log log k − 1 + (log log k − 2)/log k)` for `k ≥ 198` (Massias–Robin), and the
+  same less `0.782 k/log² k` for `k ≥ 781`; and
+  `p_k ≤ k(log k + log log k − 1 + (log log k − 1.95)/log k)` for `k ≥ 178 974`, which fills the range
+  `[178 974, 688 383)` between the `−0.9484` bound and the two-term bound above. Route: the `π`
+  bounds of journal Theorem 5.1 (§3.5) at `x = p_k`, where `π(p_k) = k`, inverted as in §5.1, and
+  `θ(p_k) = p_k + (θ(p_k) − p_k)` with the `θ` rows of §3.3 (the smaller constants of §3.7 beyond
+  `e²⁹`); below `e²⁷`, *Dusart2018Range*.
 
 *Needs:* §5.1; §3.2; §3.3; §3.7; §1.3 (`RobinNthPrimeRange`, *Robin1983Range*, *DusartThesisRange*,
 *Dusart2018Range*); for `dusart_nth_prime_lower`, only its inputs and Mathlib
@@ -2826,7 +3572,7 @@ sharpen Dusart's two-term bounds of §5.3 for large `n`.
 ### Examples
 
 - Rosser–Schoenfeld's `n log n < p_n < n(log n + log log n)` for `n ≥ 6` (§5.2).
-- Dusart's `p_k ≥ k(log k + log log k − 1)` for every `k ≥ 2` (§5.3).
+- Dusart's `p_k > k(log k + log log k − 1)` for every `k ≥ 2` (§5.3).
 - `p_n ∼ n log n` (§0.3b), which every two-sided bound of this layer refines.
 
 ### Dependencies
@@ -3304,9 +4050,10 @@ stated, the Rosser–Schoenfeld-shape region with `R = 9.645908801` and the tabl
 *RamareSaouterTable*:
 `(x(1 − 1/28 314 000), x]` contains a prime for
 `x > 10 726 905 041` and `(x(1 − 1/204 879 661), x]` for `x ≥ e⁵³`, both from `RH(3.3·10⁹)` (implied by
-`RH(3·10¹²)`); and `(x(1 − 1/14 500 755 538), x]` for `x ≥ e⁶⁰`, stated here from `RH(3·10¹²)` in
-place of the unrefereed height the paper used. Route: the smoothing of §2.1 with the kernel
-`(4t(1 − t))^m` over `[x(1 − Δ⁻¹), x]`, as in §7.3.
+`RH(3·10¹²)`); and `(x(1 − 1/14 500 755 538), x]` for `x ≥ e⁶⁰`, under `RH(2.44·10¹²)`, the height
+of the verification the paper used, which is unrefereed: the theorem takes the height as its
+hypothesis, `RH(3·10¹²)` implies it, and the instances here take `RH(3·10¹²)`. Route: the
+smoothing of §2.1 with the kernel `(4t(1 − t))^m` over `[x(1 − Δ⁻¹), x]`, as in §7.3.
 
 Table proposition of this section:
 
@@ -3394,6 +4141,16 @@ Rosser's triple, for Kadiri–Lumley's rows: `kadiri-lumley-2014` line 590); Exp
 
 ### 7.4 Intervals from Chebyshev bounds
 
+- The `θ`-increment criterion, `exists_prime_iff_theta_lt`: for real `x` and `h`, the interval
+  `(x, x + h]` contains a prime if and only if `π(x + h) > π(x)`, if and only if `θ(x) < θ(x + h)`.
+  Hence, for `x > 0` and `h > 0`, if `x E_θ(x) + (x + h) E_θ(x + h) < h` (with `E_θ` of §3.4a) the
+  interval contains a prime, since `θ(x + h) − θ(x) ≥ h − x E_θ(x) − (x + h) E_θ(x + h)`; with
+  `E_θ ≤ ε` on `[x₀, ∞)` and `x ≥ x₀` the condition is `(2x + h) ε < h`, the lemma below at `k = 0`.
+- The variant for the admissible shape, `exists_prime_of_theta_admissible`: if
+  `E_θ(y) ≤ A (log y/R)^B exp(−C √(log y/R))` for every `y ≥ x₀`, with `A, B, C, R > 0`, then for every
+  `x ≥ max(x₀, exp(R (2B/C)²))` and `h > 0` with `(2x + h) A (log x/R)^B exp(−C √(log x/R)) < h` the
+  interval `(x, x + h]` contains a prime: the shape is nonincreasing from `exp(R (2B/C)²)` (§3.4a),
+  so its value at `x + h` is at most its value at `x`.
 - General lemma: let `k ≥ 0`, `η ≥ 0`, `x₀ ≥ 2` with `|θ(t) − t| ≤ η t/log^k t` for all `t ≥ x₀`, and
   let `c > 0` satisfy `c (1 − η/log^k x₀) > 2η`. Then for every `x ≥ x₀` the interval
   `(x, x(1 + c/log^k x)]` contains a prime: with `y = x(1 + c/log^k x)`,
@@ -3455,7 +4212,8 @@ Rosser's triple, for Kadiri–Lumley's rows: `kadiri-lumley-2014` line 590); Exp
   (`9.3023·10⁻⁵ < 0.9999997·10⁻⁴`), the second *RecordGapBound* instance on `[10⁹, 4·10¹⁸]`, and
   *Dusart2018Range* on `[468 991 632, 10⁹]`.
 
-*Needs:* §3.1 (*FaberKadiriTable*); §3.3; §3.4; §3.5; §3.7; §1.3; §1.4 (`TrudgianGapBound`,
+*Needs:* §3.1 (*FaberKadiriTable*); §3.3; §3.4; §3.4a (the monotone shape); §3.5; §3.7; §1.3;
+§1.4 (`TrudgianGapBound`,
 `AxlerGapBound`, *RecordGapBound*); for `trudgian_interval` and `axler_interval`, only their inputs
 and Mathlib `Chebyshev.theta`, `Nat.nth Nat.Prime`.
 
@@ -3466,8 +4224,10 @@ zero-count error:
 
 - Dudek (`dudek-2016` line 63, Theorem 1.1, arXiv text; the journal version prints `33.3`; the
   argument at lines 700–806): if `N°(σ, T) ≤ A (3T)^{8(1−σ)/3} log^{5−2σ} T + 103 log² T` for
-  `T ≥ 2000` and `σ ≥ 0.52`, then there is a prime between `n³` and `(n + 1)³` for every
-  `n ≥ exp(exp(c_A))`, with `c_A` the explicit solution of the paper's inequality (24) (line 802),
+  `T ≥ 2000` and `σ ≥ 0.52`, then for every real `x` with `x^{1/3} ≥ exp(exp(c_A))` the interval
+  `(x, x + 3x^{2/3}]` contains a prime (the argument bounds `ψ(x + 3x^{2/3}) − ψ(x)` from below), and
+  hence there is a prime between `n³` and `(n + 1)³` for every `n ≥ exp(exp(c_A))`, since
+  `n³ + 3n² < (n + 1)³`, with `c_A` the explicit solution of the paper's inequality (24) (line 802),
   increasing in `A`, and `c_{9.7} = 33.217`. The paper takes `A = 9.7` from `ramare-2016`
   Theorem 1.1, whose leading constant `broadbent-kadiri-lumley-ng-wilk-2021` lines 950–952 and
   1128–1130 report to be off by a factor over 100; the threshold `exp(exp(33.217))` is therefore
@@ -3581,6 +4341,11 @@ theorem named, through the quotation named where there is one.
   1410.7561v2 (2014), Lemma 4.5 (the explicit asymptotic of the diagonal sum `S`).
 - `rosser-schoenfeld-1962` J. B. Rosser, L. Schoenfeld, Approximate formulas for some functions of
   prime numbers, Illinois J. Math. 6 (1962).
+- `chebyshev-1852` P. L. Chebyshev, Mémoire sur les nombres premiers, J. Math. Pures Appl. 17
+  (1852) (cited by locator); `mertens-1874` F. Mertens, Ein Beitrag zur analytischen Zahlentheorie,
+  J. Reine Angew. Math. 78 (1874) (cited by locator); `costa-pereira-1985` N. Costa Pereira,
+  Estimates for the Chebyshev function ψ(x) − θ(x), Math. Comp. 44 (1985), Theorem 1 (cited by
+  locator).
 - `rosser-schoenfeld-1975` J. B. Rosser, L. Schoenfeld, Sharper bounds for the Chebyshev functions
   θ(x) and ψ(x), Math. Comp. 29 (1975).
 - `schoenfeld-1976` L. Schoenfeld, Sharper bounds for the Chebyshev functions θ(x) and ψ(x). II,
@@ -3649,7 +4414,8 @@ theorem named, through the quotation named where there is one.
   Uniform exclusion of Landau–Siegel zeros, preprint (cited for the qualitative statement owned by
   AnalyticNumberTheoryPartI §0.34).
 - `panaitopol-2000` L. Panaitopol, A formula for π(x) applied to a result of Koninck–Ivić, Nieuw
-  Arch. Wiskd. 5/1 (2000).
+  Arch. Wiskd. 5/1 (2000); `dudek-platt-2015` A. W. Dudek, D. J. Platt, On solving a curious
+  inequality of Ramanujan, Exp. Math. 24 (2015), Lemma 2.1 (the criterion of §3.5).
 - `ramare-2013` O. Ramaré, Explicit estimates for the summatory function of Λ(n)/n from the one of
   Λ(n), Acta Arith. 159 (2013), HAL text, with `ramare-2023-corrigendum` its corrigendum, Acta
   Arith. 211 (2023), author copy; `ramare-2016` An explicit density estimate for Dirichlet

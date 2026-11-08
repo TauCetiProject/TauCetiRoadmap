@@ -37,7 +37,7 @@ Headline theorems stated here:
   `θ`-input and its bounded range (`axler_primeCounting_upper`, `AxlerPrimeCountingUpperRange`).
 * Layer 4: Vanlalngaia's explicit second theorem of Mertens from its `θ`-input
   (`vanlalngaia_sum_inv_prime`).
-* Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
+* Layer 5: Dusart's `p_k > k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
   range (`dusart_nth_prime_lower`, `RobinNthPrimeRange`).
 * Layer 6: Lamzouri–Li–Soundararajan's least prime `p ≤ (φ(q) log q)²` in a reduced class under
   the generalised Riemann hypothesis (`lamzouri_li_soundararajan`).
@@ -46,6 +46,26 @@ Headline theorems stated here:
   `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs, their gap bounds below
   `4·10¹⁸` and their bounded ranges (`trudgian_interval`, `axler_interval`, `TrudgianGapBound`,
   `AxlerGapBound`, `TrudgianIntervalRange`, `AxlerIntervalRange`).
+
+Further targets stated here, those of Layers 0, 1, 3, 4 and 7 that are statable from pointwise
+inputs or need no input at all:
+
+* Layer 0: the count of prime powers (`card_isPrimePow_le`); the symmetric integral and the
+  enclosure of `li 2` (`li_two_eq_integral`, `li_two_mem`); the explicit integral of `1/log^k t`
+  (`integral_inv_log_pow_lt`) and the lower bound for `Li x − x/log x`
+  (`logIntegral_sub_div_log_ge`); Platt–Trudgian's one-sided transfer from `x₀ = 2`
+  (`primeCounting_le_of_theta`); the half-weight carriers (`halfWeight`, `psiHalf`, `thetaHalf`,
+  `primeCountingHalf`, `riemannPrimeCountHalf`, `psiHalf_eq_average`); and Chebyshev's weight
+  method (`ChebyshevWeightRange`, `chebyshev_psi_ge`, `chebyshev_psi_le`).
+* Layer 1: the records of prime gaps (`IsMaximalPrimeGap`, `firstPrimeGap`,
+  `exists_prime_of_maximal_gap`) and the constant `∑_p log p/(p(p − 1))`
+  (`tsum_log_div_prime_mul_pred_le`).
+* Layer 3: the Dudek–Platt criterion for Ramanujan's inequality (`ramanujanEpsUpper`,
+  `ramanujanEpsLower`, `ramanujan_of_primeCounting_bounds`) and Fiori–Kadiri–Swidinsky's
+  `|π(x) − Li x| ≤ 0.4298 x/log x` from its row (`primeCounting_sub_logIntegral_le`).
+* Layer 4: Mertens' first theorem with elementary constants (`mertens_vonMangoldt_bounds`).
+* Layer 7: the `θ`-increment criterion (`exists_prime_iff_theta_lt`) and its form for an admissible
+  bound (`exists_prime_of_theta_admissible`).
 
 Headline theorems that are not statable at the pins, and what each lacks:
 
@@ -104,6 +124,29 @@ def riemannPrimeCount (x : ℝ) : ℝ :=
 def primeReciprocalSum (x : ℝ) : ℝ :=
   ∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p
 
+/-- The half weight at the endpoint `x`: `1/2` at `t = x`, `1` on `(0, x)`, `0` elsewhere
+(README §0.6). -/
+def halfWeight (x t : ℝ) : ℝ :=
+  if t = x then 1 / 2 else if 0 < t ∧ t < x then 1 else 0
+
+/-- The half-weight Chebyshev function `ψ₀(x) = ∑_{n ≥ 1} halfWeight x n · Λ(n)` (README §0.6); the
+terms with `n > x` vanish. -/
+def psiHalf (x : ℝ) : ℝ :=
+  ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, halfWeight x n * ArithmeticFunction.vonMangoldt n
+
+/-- The half-weight `θ₀(x) = ∑_p halfWeight x p · log p` (README §0.6). -/
+def thetaHalf (x : ℝ) : ℝ :=
+  ∑ p ∈ Nat.primesLE ⌊x⌋₊, halfWeight x p * log p
+
+/-- The half-weight prime count `π₀(x) = ∑_p halfWeight x p` (README §0.6). -/
+def primeCountingHalf (x : ℝ) : ℝ :=
+  ∑ p ∈ Nat.primesLE ⌊x⌋₊, halfWeight x p
+
+/-- The half-weight Riemann count `π*₀(x) = ∑_{k ≥ 1} π₀(x^{1/k})/k` (README §0.6); only finitely
+many terms are nonzero. -/
+def riemannPrimeCountHalf (x : ℝ) : ℝ :=
+  ∑' k : ℕ, primeCountingHalf (x ^ ((1 : ℝ) / ((k : ℝ) + 1))) / ((k : ℝ) + 1)
+
 /-! ## Layer 0: the Brun–Titchmarsh inequality -/
 
 /-- **Montgomery–Vaughan's diagonal bound on its finite range**: for every real `u` with
@@ -139,6 +182,76 @@ theorem brun_titchmarsh (hD : MVDiagonalFiniteRange) (hE : BrunTitchmarshFiniteR
     (hy : (k : ℝ) < y) :
     (((Finset.Ioc ⌊x⌋₊ ⌊x + y⌋₊).filter (fun p => p.Prime ∧ p % k = l % k)).card : ℝ) ≤
       2 * y / ((k.totient : ℝ) * log (y / k)) := by
+  sorry
+
+/-! ## Layer 0: elementary bounds, the logarithmic integral and the transfers -/
+
+/-- **The number of prime powers** (README §0.3): for every integer `N ≥ 2`, the prime powers below
+`N` number at most `6 N/log N`; Mathlib's `Chebyshev.pi_le_log4_mul_div` bounds the primes, and
+the higher powers number at most `(log N/log 2 − 1) √N`. -/
+theorem card_isPrimePow_le (N : ℕ) (hN : 2 ≤ N) :
+    (((Finset.range N).filter IsPrimePow).card : ℝ) ≤ 6 * N / log N := by
+  sorry
+
+/-- **The symmetric integral for `li 2`** (README §0.3a): the principal value at `x = 2`, after
+`t = 1 ∓ u`, is an absolutely convergent integral. -/
+theorem li_two_eq_integral :
+    li 2 = ∫ u in (0 : ℝ)..1, (1 / log (1 + u) + 1 / log (1 - u)) := by
+  sorry
+
+/-- **The enclosure of `li 2`** (README §0.3a), from the decimal enclosure of Euler's constant (the
+hypothesis written out, as README §1.6 states it), the series of `li` at `log 2` and Mathlib's
+enclosure of `log 2`. -/
+theorem li_two_mem (hγ : |eulerMascheroniConstant - 0.5772156649| < 1e-9) :
+    1.0451 ≤ li 2 ∧ li 2 ≤ 1.0452 := by
+  sorry
+
+/-- **The explicit integral of `1/log^k t`** (README §0.3a): integration by parts and the split at
+`√x`. -/
+theorem integral_inv_log_pow_lt (k : ℝ) (hk : 0 < k) (x : ℝ) (hx : 2 ≤ x) :
+    ∫ t in (2 : ℝ)..x, 1 / log t ^ k <
+      x / log x ^ k + k * (√x / log 2 ^ (k + 1) + 2 ^ (k + 1) * x / log x ^ (k + 1)) := by
+  sorry
+
+/-- **`Li x − x/log x` from its zero** (README §0.3a; Fiori–Kadiri–Swidinsky, Res. Number Theory 9
+(2023), Lemma 20): for `x ≥ 6.58`, `Li x − x/log x ≥ (x − 6.58)/log² x`. -/
+theorem logIntegral_sub_div_log_ge (x : ℝ) (hx : 6.58 ≤ x) :
+    (x - 6.58) / log x ^ 2 ≤ TauCeti.Real.logIntegral x - x / log x := by
+  sorry
+
+/-- **The one-sided transfer from `x₀ = 2`** (README §0.4; Platt–Trudgian, Math. Comp. 90 (2021),
+§5): if `|θ(t) − t| log⁵ t ≤ t a(t)` on `[2, x]`, then `π(x)` lies within
+`a(x) x/log⁶ x + ∫₂ˣ a(t)/log⁷ t dt` of `x/log x + ∫₂ˣ dt/log² t = Li x + 2/log 2`. -/
+theorem primeCounting_le_of_theta (a : ℝ → ℝ) (x : ℝ) (hx : 2 ≤ x)
+    (ha : ∀ t ∈ Set.Icc 2 x, |Chebyshev.theta t - t| * log t ^ 5 ≤ t * a t)
+    (hint : IntervalIntegrable (fun t => a t / log t ^ 7) MeasureTheory.volume 2 x) :
+    (Nat.primeCounting ⌊x⌋₊ : ℝ) ≤ x / log x + a x * x / log x ^ 6 +
+        (∫ t in (2 : ℝ)..x, 1 / log t ^ 2) + ∫ t in (2 : ℝ)..x, a t / log t ^ 7 ∧
+      x / log x - a x * x / log x ^ 6 + (∫ t in (2 : ℝ)..x, 1 / log t ^ 2) -
+          (∫ t in (2 : ℝ)..x, a t / log t ^ 7) ≤ Nat.primeCounting ⌊x⌋₊ := by
+  sorry
+
+/-- **The half-weight `ψ` is the average of the two one-sided values** (README §0.6). -/
+theorem psiHalf_eq_average (x : ℝ) :
+    psiHalf x = (Chebyshev.psi x + Function.leftLim Chebyshev.psi x) / 2 := by
+  sorry
+
+/-- **The finite range of Chebyshev's weight method** (README §0.8): `ψ(x) ≤ 1.015 x` on `(0, 30]`
+and `ψ(x) ≤ 1.11 x` on `(0, 11 723]`. -/
+def ChebyshevWeightRange : Prop :=
+  (∀ x : ℝ, 0 < x → x ≤ 30 → Chebyshev.psi x ≤ 1.015 * x) ∧
+  (∀ x : ℝ, 0 < x → x ≤ 11723 → Chebyshev.psi x ≤ 1.11 * x)
+
+/-- **Chebyshev's lower bound** (README §0.8): with `a = (log 2)/2 + (log 3)/3 + (log 5)/5 −
+(log 30)/30 = 0.92129…`, `ψ(x) ≥ a x − 5 log x + 5` for every `x ≥ 30`. -/
+theorem chebyshev_psi_ge (x : ℝ) (hx : 30 ≤ x) :
+    (log 2 / 2 + log 3 / 3 + log 5 / 5 - log 30 / 30) * x - 5 * log x + 5 ≤ Chebyshev.psi x := by
+  sorry
+
+/-- **Chebyshev's upper bound** (README §0.8): from its finite range, `ψ(x) ≤ 1.11 x` for every
+`x > 0`. -/
+theorem chebyshev_psi_le (h : ChebyshevWeightRange) (x : ℝ) (hx : 0 < x) :
+    Chebyshev.psi x ≤ 1.11 * x := by
   sorry
 
 /-! ## Layer 1: hypotheses -/
@@ -251,11 +364,11 @@ def AxlerGapBound : Prop :=
       (0.048668 + 8.22e-11) * Nat.nth Nat.Prime n / log (Nat.nth Nat.Prime n) ^ 3
 
 /-- **Robin's range** (Dusart, Math. Comp. 68 (1999), line 118): with
-`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k ≥ k (log k + log log k − 1)` for every `k ≥ 2` with
+`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k > k (log k + log log k − 1)` for every `k ≥ 2` with
 `p_k ≤ 10¹¹`. -/
 def RobinNthPrimeRange : Prop :=
   ∀ k : ℕ, 2 ≤ k → (Nat.nth Nat.Prime (k - 1) : ℝ) ≤ 10 ^ 11 →
-    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1)
+    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) < Nat.nth Nat.Prime (k - 1)
 
 /-- **Axler's range for his upper bound of `π(x)`** (Axler, Integers 24 (2024), A34, §§3–5 of
 arXiv v4): the bound of `axler_primeCounting_upper` for every `48 ≤ x ≤ 10¹⁹`. -/
@@ -295,6 +408,32 @@ def VanlalngaiaRange : Prop :=
 def LamzouriLiSoundararajanRange : Prop :=
   ∀ q : ℕ, 3 < q → q ≤ 20000 → ∀ a : ZMod q, IsUnit a →
     ∃ p : ℕ, p.Prime ∧ (p : ZMod q) = a ∧ (p : ℝ) ≤ ((q.totient : ℝ) * log q) ^ 2
+
+/-- **A maximal prime gap** (README §1.4): `p` is prime, its successor is `p + g`, and every
+smaller prime is followed by a gap smaller than `g`. -/
+def IsMaximalPrimeGap (p g : ℕ) : Prop :=
+  ∃ n : ℕ, Nat.nth Nat.Prime n = p ∧ Nat.nth Nat.Prime (n + 1) = p + g ∧
+    ∀ m < n, Nat.nth Nat.Prime (m + 1) - Nat.nth Nat.Prime m < g
+
+/-- **The first occurrence of a prime gap** (README §1.4): the least prime followed by a gap `g`,
+and `0` (no prime) when no prime is. -/
+def firstPrimeGap (g : ℕ) : ℕ :=
+  sInf {p : ℕ | ∃ n : ℕ, Nat.nth Nat.Prime n = p ∧ Nat.nth Nat.Prime (n + 1) = p + g}
+
+/-- **The record-pair interval lemma** (README §1.4): a maximal gap `(p, g)` gives a prime in
+`(x, x + h]` for every `2 ≤ x ≤ p` and every `h ≥ g`. -/
+theorem exists_prime_of_maximal_gap (p g : ℕ) (hrec : IsMaximalPrimeGap p g) (x h : ℝ)
+    (hx : 2 ≤ x) (hxp : x ≤ p) (hg : (g : ℝ) ≤ h) :
+    ∃ q : ℕ, q.Prime ∧ x < q ∧ (q : ℝ) ≤ x + h := by
+  sorry
+
+/-- **The prime-power constant** (README §1.6): `E₁ = ∑_p log p/(p(p − 1))` converges and
+`E₁ ≤ (5 log 2 + 3)/4`. -/
+theorem tsum_log_div_prime_mul_pred_le :
+    Summable (fun p : Nat.Primes => log (p : ℕ) / (((p : ℕ) : ℝ) * (((p : ℕ) : ℝ) - 1))) ∧
+      ∑' p : Nat.Primes, log (p : ℕ) / (((p : ℕ) : ℝ) * (((p : ℕ) : ℝ) - 1)) ≤
+        (5 * log 2 + 3) / 4 := by
+  sorry
 
 /-! ## Layer 2: bounds under the Riemann hypothesis and to a height -/
 
@@ -403,6 +542,44 @@ theorem axler_primeCounting_upper
       4331.1 / log x ^ 6) := by
   sorry
 
+/-- The function `ε_M` of the Dudek–Platt criterion (README §3.5). -/
+def ramanujanEpsUpper (M x : ℝ) : ℝ :=
+  72 + 2 * M + (2 * M + 132) / log x + (4 * M + 288) / log x ^ 2 + (12 * M + 576) / log x ^ 3 +
+    48 * M / log x ^ 4 + M ^ 2 / log x ^ 5
+
+/-- The function `ε′_m` of the Dudek–Platt criterion (README §3.5), with `m` replaced by
+`(1 + 1/log x_a)⁶ m` when `m < 0`. -/
+def ramanujanEpsLower (m xa x : ℝ) : ℝ :=
+  206 + (if 0 ≤ m then m else (1 + 1 / log xa) ^ 6 * m) + 364 / log x + 381 / log x ^ 2 +
+    238 / log x ^ 3 + 97 / log x ^ 4 + 30 / log x ^ 5 + 8 / log x ^ 6
+
+/-- **The Dudek–Platt criterion for Ramanujan's inequality** (Dudek–Platt, Exp. Math. 24 (2015),
+Lemma 2.1): from an upper bound for `π(x)` of the shape `x ∑_{k ≤ 4} k!/log^{k+1} x + M x/log⁶ x`
+beyond `e x_a` and a lower bound of the same shape with `m` beyond `x_a`, if `ε_M − ε′_m < log x`
+beyond `x₀ ≥ e x_a`, then `π(x)² < (ex/log x) π(x/e)` beyond `x₀`. -/
+theorem ramanujan_of_primeCounting_bounds (xa M m x₀ : ℝ) (hxa : 1 < xa)
+    (hup : ∀ x : ℝ, exp 1 * xa < x → (Nat.primeCounting ⌊x⌋₊ : ℝ) <
+      x * ∑ k ∈ Finset.range 5, (k.factorial : ℝ) / log x ^ (k + 1) + M * x / log x ^ 6)
+    (hlow : ∀ x : ℝ, xa < x →
+      x * ∑ k ∈ Finset.range 5, (k.factorial : ℝ) / log x ^ (k + 1) + m * x / log x ^ 6 <
+        Nat.primeCounting ⌊x⌋₊)
+    (hx₀ : exp 1 * xa ≤ x₀)
+    (hε : ∀ x : ℝ, x₀ < x → ramanujanEpsUpper M x - ramanujanEpsLower m xa x < log x)
+    (x : ℝ) (hx : x₀ < x) :
+    (Nat.primeCounting ⌊x⌋₊ : ℝ) ^ 2 < exp 1 * x / log x * Nat.primeCounting ⌊x / exp 1⌋₊ := by
+  sorry
+
+/-- **`|π(x) − Li x| ≤ 0.4298 x/log x` for `x ≥ 2`** (Fiori–Kadiri–Swidinsky, Res. Number Theory 9
+(2023), Corollary 26), from the row `(0.826, 1/4, 1, 1)` of their Table 6 (README §3.4a) as its
+input; below `e`, `π(x) = 1` and `0 ≤ Li x < 1`. -/
+theorem primeCounting_sub_logIntegral_le
+    (hrow : ∀ x : ℝ, exp 1 ≤ x →
+      |(Nat.primeCounting ⌊x⌋₊ : ℝ) - TauCeti.Real.logIntegral x| ≤
+        0.826 * (log x / 5.5666305) ^ ((1 : ℝ) / 4) * exp (-√(log x / 5.5666305)) * x / log x)
+    (x : ℝ) (hx : 2 ≤ x) :
+    |(Nat.primeCounting ⌊x⌋₊ : ℝ) - TauCeti.Real.logIntegral x| ≤ 0.4298 * x / log x := by
+  sorry
+
 /-! ## Layer 4: sums over primes -/
 
 /-- **Vanlalngaia's explicit second theorem of Mertens** (Vanlalngaia, Integers 17 (2017), A11,
@@ -420,11 +597,20 @@ theorem vanlalngaia_sum_inv_prime
         1 / log x ^ 3) := by
   sorry
 
+/-- **Mertens' first theorem with elementary constants** (README §4.1): for every `x ≥ 1`,
+`−2 ≤ ∑_{n ≤ x} Λ(n)/n − log x ≤ log 4 + 4`, from Chebyshev's identity for `log ⌊x⌋₊!` and
+Mathlib's `ψ(x) ≤ (log 4 + 4) x`. -/
+theorem mertens_vonMangoldt_bounds (x : ℝ) (hx : 1 ≤ x) :
+    -2 ≤ (∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ArithmeticFunction.vonMangoldt n / (n : ℝ)) - log x ∧
+      (∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ArithmeticFunction.vonMangoldt n / (n : ℝ)) - log x ≤
+        log 4 + 4 := by
+  sorry
+
 /-! ## Layer 5: the n-th prime -/
 
 /-- **Dusart's lower bound for the `k`-th prime** (Dusart, *The `k`th prime is greater than
 `k(ln k + ln ln k − 1)` for `k ≥ 2`*, Math. Comp. 68 (1999), Theorem 3): with
-`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k ≥ k (log k + log log k − 1)` for every `k ≥ 2`, from
+`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k > k (log k + log log k − 1)` for every `k ≥ 2`, from
 Robin's range (`RobinNthPrimeRange`), Robin's lower bound
 `θ(p_k) ≥ k (log k + log log k − 1 + (log log k − 2.1454)/log k)` for `k ≥ 3` (Robin 1983,
 Théorème 8), Schoenfeld's `|θ(x) − x| < 0.0077629 x/log x` for `x > e²²` and
@@ -439,7 +625,7 @@ theorem dusart_nth_prime_lower (hfin : RobinNthPrimeRange)
     (hθ₄ : ∀ x : ℝ, 1 < x → |Chebyshev.theta x - x| < 1.657e7 * x / log x ^ 4)
     (hψ : ∀ x : ℝ, exp 50 ≤ x → |Chebyshev.psi x - x| ≤ 0.905e-7 * x)
     (k : ℕ) (hk : 2 ≤ k) :
-    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1) := by
+    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) < Nat.nth Nat.Prime (k - 1) := by
   sorry
 
 /-! ## Layer 6: primes in arithmetic progressions -/
@@ -495,6 +681,26 @@ theorem axler_interval
     (hθ₃ : ∀ t : ℝ, exp 29 < t → |Chebyshev.theta t - t| < 0.024334 * t / log t ^ 3)
     (hgap : AxlerGapBound) (hfin : AxlerIntervalRange) (x : ℝ) (hx : 17051708 ≤ x) :
     ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3) := by
+  sorry
+
+/-- **The `θ`-increment criterion** (README §7.4): `(x, x + h]` contains a prime exactly when `θ`
+increases from `x` to `x + h`. -/
+theorem exists_prime_iff_theta_lt (x h : ℝ) :
+    (∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x + h) ↔
+      Chebyshev.theta x < Chebyshev.theta (x + h) := by
+  sorry
+
+/-- **The interval lemma for an admissible `θ`-bound** (README §7.4): if
+`|θ(y) − y|/y ≤ A (log y/R)^B exp(−C √(log y/R))` for `y ≥ x₀`, then `(x, x + h]` contains a prime
+whenever `x ≥ max(x₀, exp(R (2B/C)²))`, `h > 0` and `(2x + h)` times the bound at `x` is below `h`;
+the shape is nonincreasing beyond `exp(R (2B/C)²)`. -/
+theorem exists_prime_of_theta_admissible (A B C R x₀ : ℝ) (hA : 0 < A) (hB : 0 < B) (hC : 0 < C)
+    (hR : 0 < R)
+    (hθ : ∀ y : ℝ, x₀ ≤ y →
+      |Chebyshev.theta y - y| / y ≤ A * (log y / R) ^ B * exp (-C * √(log y / R)))
+    (x h : ℝ) (hx₀ : x₀ ≤ x) (hxR : exp (R * (2 * B / C) ^ 2) ≤ x) (hh : 0 < h)
+    (hcond : (2 * x + h) * (A * (log x / R) ^ B * exp (-C * √(log x / R))) < h) :
+    ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x + h := by
   sorry
 
 end TauCetiRoadmap.ExplicitPrimeCounting
