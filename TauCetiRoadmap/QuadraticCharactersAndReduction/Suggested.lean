@@ -56,8 +56,9 @@ theorem two_power_classification (k : ℕ) (χ : DirichletCharacter ℂ (2 ^ k))
 positive level `N` agrees, at every integer coprime to `N`, with the complex realization of the
 character of exactly one fundamental discriminant `D`, and `|D|` is its conductor. The principal
 character corresponds to `D = 1`; for a primitive nonprincipal character this is
-Montgomery–Vaughan, Theorem 9.13, p. 297, reached from the radicand of
-AnalyticNumberTheoryPartI §0.34a; the uniqueness uses `χ(-1) = sign D`. -/
+Montgomery–Vaughan, Theorem 9.13, p. 297, stated in the form `D = χ(-1) q` by
+AnalyticNumberTheoryPartI §0.34a. Any other character reaches it through its primitive
+character, and the uniqueness uses `χ(-1) = sign D`. -/
 theorem exists_unique_fundamental_discriminant {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) (hχ : χ.IsQuadratic) :
     ∃! D : ℤ, ∃ hD : Int.IsFundamentalDiscr D,
