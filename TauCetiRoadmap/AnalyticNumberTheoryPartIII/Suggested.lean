@@ -20,7 +20,7 @@ Stated here:
 * Layer 7: Fourier decay `‖𝓕 f ξ‖ ≤ V / (2π|ξ|)` for integrable functions of bounded variation;
   principal-value Mellin inversion at a point of local bounded variation; the windowed error of
   the Dirichlet-kernel integral; Brown's aliasing bound for the sampling series of an integrable
-  spectrum, with its optimal constant;
+  spectrum;
 * Layer 8: the rectangle residue theorem in Mathlib's edge form, with Tau Ceti's residue, and with
   circle integrals about arbitrary isolated singularities; the L-shaped contour shift to
   `Re s = −∞`; the derivative form of the Borel–Carathéodory inequality; Landau's local
@@ -97,24 +97,14 @@ theorem norm_dirichletKernel_integral_sub_mean_le :
 `Σ_{|n| ≤ N} f(n/2W) sinc(π(2Wt − n))` of the sampling series converge, and their limit differs
 from `f(t)` by at most `2 ∫_{|ξ| > W} |G(ξ)| dξ`; `Real.sinc x = sin x / x`. No bounded variation
 and no realness of `f` is assumed. The series need not be summable, so the limit is over symmetric
-partial sums and not a `tsum` (Brown, Theorem 1, in angular frequency with constant `1/π`). -/
+partial sums and not a `tsum`. The constant `2` cannot be lowered: for `G(ξ) = e^{−πiξ/(2W)}` on
+`(W, 3W)` and `0` elsewhere, at `t = 1/(4W)`, the error is `4W` and the integral is `2W` (Brown,
+Theorem 1, in angular frequency with constant `1/π`). -/
 theorem exists_tendsto_samplingSum_norm_sub_le {G : ℝ → ℂ} (hG : Integrable G) {W : ℝ}
     (hW : 0 < W) (t : ℝ) :
     ∃ L : ℂ, Tendsto (fun N : ℕ ↦ ∑ n ∈ Finset.Icc (-(N : ℤ)) N,
         𝓕⁻ G (n / (2 * W)) * (Real.sinc (π * (2 * W * t - n)) : ℂ)) atTop (𝓝 L) ∧
       ‖𝓕⁻ G t - L‖ ≤ 2 * ∫ ξ in {ξ : ℝ | W < |ξ|}, ‖G ξ‖ :=
-  sorry
-
-/-- **7.4, the constant `2` is attained.** For `W > 0`, `G(ξ) = e^{−πiξ/(2W)}` on `(W, 3W)` and
-`0` elsewhere, and `t = 1/(4W)`: the partial sums of the sampling series tend to `−2W`, while
-`f(t) = 2W` and `∫_{|ξ| > W} |G| = 2W`, so the error `4W` equals the bound of
-`exists_tendsto_samplingSum_norm_sub_le`. -/
-theorem samplingSum_aliasing_sharp {W : ℝ} (hW : 0 < W) {G : ℝ → ℂ}
-    (hG : G = (Ioo W (3 * W)).indicator fun ξ ↦ cexp (-((π * ξ / (2 * W) : ℝ) * I))) :
-    Tendsto (fun N : ℕ ↦ ∑ n ∈ Finset.Icc (-(N : ℤ)) N,
-        𝓕⁻ G (n / (2 * W)) * (Real.sinc (π * (2 * W * (4 * W)⁻¹ - n)) : ℂ))
-      atTop (𝓝 (-(2 * W))) ∧
-      𝓕⁻ G (4 * W)⁻¹ = 2 * W ∧ ∫ ξ in {ξ : ℝ | W < |ξ|}, ‖G ξ‖ = 2 * W :=
   sorry
 
 /-! ## Layer 8: contours and discs -/

@@ -151,6 +151,11 @@ objects.
   prime (ExplicitPrimeCounting §1.4 and Layer 7). Those roadmaps prove their statements by their
   own routes; 10.2 claims only an unspecified constant `c`, and 13.2 takes a short-interval prime
   statement as a hypothesis.
+- The Parseval form of the Mellin convolution theorem, `𝓜[x ↦ ∫ f(t) h(xt) dt](z) = 𝓜f(1 − z) 𝓜h(z)`
+  on a common strip of absolute convergence, with its inversion: AsymptoticExpansions §8.1. The
+  product formula of 9.1 is the same theorem after the substitution `t = 1/y`; 9.1 states it for
+  the operation `f ⋆ g` defined there, in its convolution variables at `x > 0`, which is the form
+  9.4 uses for `1̃_ε = 1_(0,1] ⋆ ν_ε`.
 - The shift of a full vertical line across a strip with finitely many poles under uniform decay:
   AsymptoticExpansions §8.2. 8.1 and 8.1a here differ in being finite-height rectangle statements
   with no decay hypothesis, and 8.1b in moving a segment of finite height to the left, with decay
@@ -280,8 +285,7 @@ objects.
   `Chebyshev.theta_le_log4_mul_x`, `Chebyshev.psi` (`Mathlib/NumberTheory/Chebyshev.lean`);
   `Nat.factorization_factorial` (`Mathlib/Data/Nat/Choose/Factorization.lean`); `Nat.smoothNumbers`
   (`Mathlib/NumberTheory/SmoothNumbers.lean`: the `m ≠ 0` all of whose prime factors are `< k`);
-  Bertrand's postulate `Nat.exists_prime_lt_and_le_two_mul`; Lucas's primality test
-  `lucas_primality` (`Mathlib/NumberTheory/LucasPrimality.lean`).
+  and Bertrand's postulate `Nat.exists_prime_lt_and_le_two_mul`.
 
 ### From Tau Ceti
 
@@ -423,19 +427,18 @@ step of Lemma 3.1.4).
 
 *Decay.* For such `f` and every real `ξ ≠ 0`, `‖𝓕f(ξ)‖ ≤ V/(2π|ξ|)`; this is
 `norm_fourier_le_eVariationOn_div` (`kontorovichtao-pntplus` line 189, Lemma 3.1.4;
-`primenumbertheoremand`; katznelson2004, Chapter I, for the analogue for Fourier coefficients on the
-circle). Route: apply the Tau Ceti
-integration by parts to the real and imaginary parts of `φ_R(x) = χ(x/R) e^{−2πixξ}` with a fixed
-bump `χ`, equal to `1` near `0`; the terms with `χ′(x/R)/R` vanish as `R → ∞` because `f` is
-integrable, dominated convergence for `∫ᵛ` passes to the limit, and
-`2πiξ 𝓕f(ξ) = ∫ᵛ e^{−2πixξ} ∂(Df)`; the vector-measure norm bound and
+katznelson2004, Chapter I, for the analogue for Fourier coefficients on the circle). Route: apply
+the Tau Ceti integration by parts to the real and imaginary parts of
+`φ_R(x) = χ(x/R) e^{−2πixξ}` with a fixed bump `χ`, equal to `1` near `0`; the terms with
+`χ′(x/R)/R` vanish as `R → ∞` because `f` is integrable, dominated convergence for `∫ᵛ` passes
+to the limit, and `2πiξ 𝓕f(ξ) = ∫ᵛ e^{−2πixξ} ∂(Df)`; the vector-measure norm bound and
 `BoundedVariationOn.variation_vectorMeasure_univ_le` give `V`.
 
 *A derivative of bounded variation.* Let `g : ℝ → E` be integrable and of bounded variation, of
 total variation `V₁`, and `f(x) = f(0) + ∫_0^x g` with `f` integrable. Prove
 `𝓕g(ξ) = 2πiξ 𝓕f(ξ)` for every `ξ`; hence `‖𝓕f(ξ)‖ ≤ V₁/(2π|ξ|)²` for `ξ ≠ 0` and
 `(1 + ξ²)‖𝓕f(ξ)‖ ≤ ‖f‖₁ + V₁/(4π²)` for every `ξ` (`kontorovichtao-pntplus` lines 198–209, Lemmas
-3.1.5–3.1.6; `primenumbertheoremand`). The first identity is the absolutely continuous form of
+3.1.5–3.1.6). The first identity is the absolutely continuous form of
 `Real.fourier_deriv`: on `[−R, R]` integrate by parts with the primitive, and `f(±R) → 0`.
 
 *The `C²` form.* If `f : ℝ → ℂ` is `C²` and `|f(t)|, |f″(t)| ≤ A/(1 + t²)` for all `t`, then `f′` is
@@ -493,8 +496,8 @@ maximum of `Si` at `π`); one integration by parts gives
 integrable, and `G(c + iy) = ∫ g(u) e^{−(c+iy)u} du`. If `g` is of bounded variation on some
 interval `[u₀ − δ, u₀ + δ]`, `δ > 0`, then
 `(2π)⁻¹ ∫_{−T}^{T} G(c + iy) e^{(c+iy)u₀} dy → (g(u₀⁻) + g(u₀⁺))/2` as `T → ∞`
-(montgomeryvaughan2007, Chapter 5, §5.1; titchmarsh1986, Chapter III, the truncated Perron lemma;
-primenumbertheoremand). Route: the truncated integral equals `e^{cu₀} ∫ h(u₀ − v) D_T(v) dv`; split
+(montgomeryvaughan2007, Chapter 5, §5.1; titchmarsh1986, Chapter III, the truncated Perron lemma).
+Route: the truncated integral equals `e^{cu₀} ∫ h(u₀ − v) D_T(v) dv`; split
 at `|v| = δ`; the tail tends to `0` by the Riemann–Lebesgue lemma applied to
 `v ↦ h(u₀ − v) 1_{|v|>δ}/v`; on the window write `h(u₀ ± v) = h(u₀^±) + (h(u₀ ± v) − h(u₀^±))` and
 use 7.2.
@@ -551,11 +554,13 @@ Let `G : ℝ → ℂ` be integrable, `f = 𝓕⁻G`, that is `f(t) = ∫ G(ξ) e
 `N ∈ ℕ` and real `t` put `S_N(t) = Σ_{|n|≤N} f(n/2W) sinc(π(2Wt − n))`, with Mathlib's
 `Real.sinc x = sin x/x`. Prove: for every real `t` the limit `S(t) = lim_{N→∞} S_N(t)` exists and
 `|f(t) − S(t)| ≤ 2 ∫_{|ξ|>W} |G(ξ)| dξ`; this is `exists_tendsto_samplingSum_norm_sub_le`. The
-constant `2` is attained: for `G(ξ) = e^{−πiξ/(2W)}` on `(W, 3W)` and `0` elsewhere, at
-`t = 1/(4W)`, `S_N(t) → −2W` while `f(t) = 2W` and `∫_{|ξ|>W} |G| = 2W`; this is
-`samplingSum_aliasing_sharp` (brown1967, Theorem 1, in angular frequency `ω = 2πξ`, with
-`f(t) = (2π)⁻¹ ∫ F(ω) e^{iωt} dω` and the bound `π⁻¹ ∫_{|ω|>2πW} |F(ω)| dω`; ieantn). Only
-integrability of `G` is assumed: no bounded variation, no realness of `f`. The limit is taken over
+constant `2` cannot be lowered: for `G(ξ) = e^{−πiξ/(2W)}` on `(W, 3W)` and `0` elsewhere, at
+`t = 1/(4W)`, `S_N(t) → −2W` while `f(t) = 2W` and `∫_{|ξ|>W} |G| = 2W`, so the error `4W` equals
+the bound (brown1967, Theorem 1, in angular frequency `ω = 2πξ`, with
+`f(t) = (2π)⁻¹ ∫ F(ω) e^{iωt} dω` and the bound `π⁻¹ ∫_{|ω|>2πW} |F(ω)| dω`, shown there to be
+optimal; ieantn-brown1967 lines 37–40 on the hypotheses and the optimality of Theorem 1, and lines
+52–56 on its symmetric partial sums). Only integrability of `G` is assumed: no bounded variation,
+no realness of `f`. The limit is taken over
 the symmetric partial sums and is not a `tsum`, since the series need not converge absolutely (see
 the Checks). If `G` vanishes off `[−W, W]` the bound is `0`, which is the sampling theorem for
 `f`.
@@ -579,8 +584,8 @@ equality.
 - Integer sampling, `W = 1/2`, with the extremal `G(ξ) = e^{−πiξ}` on `(1/2, 3/2)` and `t = 1/2`:
   `f(n) = 2(−1)^n/(π(2n − 1))` and `sinc(π(1/2 − n)) = 2(−1)^n/(π(1 − 2n))`, so each term is
   `−4/(π²(2n − 1)²)`, and `Σ_{n∈ℤ} (2n − 1)^{−2} = π²/4` gives `S(1/2) = −1` against
-  `f(1/2) = 1`. The error `2` equals `2 ∫_{|ξ|>1/2} |G|`, so a bound with constant `1` (Brown's
-  `1/(2π)`) is false.
+  `f(1/2) = 1`. The error `2` equals `2 ∫_{|ξ|>1/2} |G|`, so a bound with constant `1` (in Brown's
+  angular frequency, `1/(2π)` in place of his `1/π`) is false.
 - At a sample point `t = m/(2W)`, `sinc(π(m − n))` vanishes for `n ≠ m`, so `S_N(t) = f(t)` once
   `N ≥ |m|` and the error is `0`.
 - The symmetric limit is needed. Take `W = 1/2` and `G = h` on `[−1/2, 1/2]`, `0` elsewhere, where
@@ -619,7 +624,7 @@ meromorphic at each point of `P`. Then Mathlib's boundary expression of
 `∫_{σ₁}^{σ₂} f(x + it₁) dx − ∫_{σ₁}^{σ₂} f(x + it₂) dx + i ∫_{t₁}^{t₂} f(σ₂ + iy) dy − i ∫_{t₁}^{t₂} f(σ₁ + iy) dy`,
 equals `2πi Σ_{p∈P} Res_p f`, with `TauCeti.Contour.residue`; this is
 `rectangle_boundary_integral_eq_residues` (kontorovichtao-pntplus lines 621–642, Theorem 4.1.2 and
-Lemmas 4.1.2–4.1.4, for simple poles; primenumbertheoremand; ieantn). Route: the counterclockwise
+Lemmas 4.1.2–4.1.4, for simple poles). Route: the counterclockwise
 boundary curve of ZerosOfLFunctions §7.1 is piecewise `C¹`, closed, null-homologous in `U`, with
 winding number `1` about each point of the open rectangle; apply
 `TauCeti.Contour.classicalResidueTheorem_nullHomologous` and split the curve integral into the four
@@ -663,9 +668,10 @@ Let `σ₁ < σ₂`, `t₁ < t₂`, `r > 0` and `P` a finite set such that the c
 `ρ ∈ P`, are pairwise disjoint and contained in the open rectangle `(σ₁, σ₂) ×ℂ (t₁, t₂)`. If `f` is
 complex differentiable on `[σ₁, σ₂] ×ℂ [t₁, t₂] ∖ P` (Mathlib's `DifferentiableOn`, as in
 `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`), then the edge expression of 8.1
-equals `Σ_{ρ∈P} ∮_{C(ρ,r)} f`; this is `rectangle_boundary_integral_eq_sum_circleIntegral` (ieantn).
-No open neighbourhood of the rectangle and no meromorphy is assumed, so the points of `P` may be
-essential singularities.
+equals `Σ_{ρ∈P} ∮_{C(ρ,r)} f`; this is `rectangle_boundary_integral_eq_sum_circleIntegral`
+(ieantn-contourintegration lines 60–90, with the same hypotheses on `r`, `P` and `f`). No open
+neighbourhood of the rectangle and no meromorphy is assumed, so the points of `P` may be essential
+singularities.
 
 Route: for `ρ ∈ P` let `f_ρ(z) = (2πi)⁻¹ ∮_{C(ρ,r)} f(w)/(z − w) dw`, holomorphic off
 `closedBall ρ r`. On a thin annulus `r < |z − ρ| < r′` inside the rectangle and away from the other
@@ -709,8 +715,10 @@ Then
 
 the first three terms on the right being the integral of `f` along the L-shaped path
 `1 → Re w → w → −∞ + i Im w`; this is `vertical_integral_eq_lShaped_add_sum_circleIntegral`
-(ieantn). Differentiability is required on `D_w` only, so `f` may be singular in the removed block,
-and the points of `P` may be essential singularities. With `P = ∅` this is the pole-free shift.
+(ieantn-ch2v4 lines 93–110 and 135–162, stated there with differentiability on the whole strip
+`{Re s ≤ 1, 0 ≤ Im s ≤ T}` off `P` and decay on all of it). Differentiability is required on `D_w`
+only, and decay only on `Im w ≤ Im s ≤ T`, so `f` may be singular in the removed block, and the
+points of `P` may be essential singularities. With `P = ∅` this is the pole-free shift.
 
 Route: for large `X` apply 8.1a to the rectangle `[−X, 1] ×ℂ [Im w, T]`, which contains every disc,
 and Mathlib's `Complex.integral_boundary_rect_eq_zero_of_differentiableOn` to
@@ -821,7 +829,9 @@ Define *mellinConv* `f g x = ∫_{(0,∞)} f(y) g(x/y) dy/y` for `f, g : ℝ →
   integrals of the same function or both are the junk value `0` (lines 900–914, Lemma 4.3.2).
 - If `(x, y) ↦ f(y) g(x/y) x^{s−1}/y` is integrable on `(0, ∞)²`, then the Mellin transform of
   `f ⋆ g` at `s` is `mellin f s · mellin g s` (lines 916–946, Theorem 4.3.1); it follows from Fubini
-  and `mellin_comp_mul_left`.
+  and `mellin_comp_mul_left`. By Tonelli the hypothesis holds when both transforms converge
+  absolutely at `Re s`. This is AsymptoticExpansions §8.1 written for `⋆`: with
+  `F(t) = f(1/t)/t`, `(F ⋆ h)(x) = ∫ f(t) h(xt) dt` and `mellin F z = mellin f (1 − z)`.
 - The convolution is additive in each argument where the integrals converge, and for `x > 0` it
   depends on `f` and `g` only through their restrictions to `(0, ∞)`.
 - Support: if `f` vanishes off `[a, b]` and `g` off `[c, d]`, `0 < a, c`, then `f ⋆ g` vanishes on
@@ -951,8 +961,9 @@ integral by absolute convergence on `Re s = σ`.
 *Comparison with the sharp sum.* If moreover `|a(n)| ≤ B log(n + 1)` for all `n ≥ 1`, there is an
 absolute `C` such that for `X ≥ 2` and `0 < ε ≤ 1`,
 `|Σ_{n≤X} a(n) − Σ_{n≥1} a(n) smoothCutoff ν ε (n/X)| ≤ C B (εX + 1) log X` (lines 1502–1506,
-Theorem 4.5.3, stated there as `O(εX log X)` for `ε ≥ 1/X`). Route: the two weights agree off
-`(2^{−ε}X, 2^{ε}X)`, which contains at most `(2^ε − 2^{−ε})X + 1 ≤ 3εX + 1` integers, and
+Theorem 4.5.3, for `a = Λ`, stated there as `O(εX log X)` with no condition on `ε`; the term `+1`,
+which the second Check shows to be needed when `εX < 1`, is added here). Route: the two weights
+agree off `(2^{−ε}X, 2^{ε}X)`, which contains at most `(2^ε − 2^{−ε})X + 1 ≤ 3εX + 1` integers, and
 `|1 − 1̃_ε| ≤ 1`.
 
 With `a = Λ` this is the smoothed Chebyshev function and its comparison with `Chebyshev.psi`.
@@ -1329,9 +1340,11 @@ junk `0` when none exists, which happens exactly when `B` is smaller than the la
 Prove, as `n → ∞`:
 
 - `factorialFactorCount (n²) n = n/2 − n/(2 log n) + o(n/log n)`; this is
-  `factorialFactorCount_sq_sub_isLittleO` (Erdős problem 392; ieantn; primenumbertheoremand);
+  `factorialFactorCount_sq_sub_isLittleO` (Erdős problem 392; ieantn-erdos392 lines 16–21, with
+  the upper bound at lines 72–75 and the lower bound at lines 87–89);
 - `factorialFactorCount n n = n − n/log n + o(n/log n)`; this is
-  `factorialFactorCount_self_sub_isLittleO` (ieantn; primenumbertheoremand).
+  `factorialFactorCount_self_sub_isLittleO` (ieantn-erdos392 lines 25–26, with the upper bound at
+  lines 62–65).
 
 The upper bounds are kontorovichtao-pntplus lines 3096–3101 (Theorems 8.1.1–8.1.2): a factorization
 into factors at most `n`, balanced by the waste-and-score argument of lines 2984–3095 (stated
@@ -1340,7 +1353,7 @@ below), and pairing for `n²`; their inputs are Legendre's formula, Chebyshev's 
 are `t log B ≥ log n!` with Stirling. Method background: alexeevetal2025factorial, §1 (the
 neighbouring Erdős problem 391).
 
-*The waste-and-score framework* (kontorovichtao-pntplus lines 2984–3095; primenumbertheoremand).
+*The waste-and-score framework* (kontorovichtao-pntplus lines 2984–3095).
 These are README targets, for a fixed `n ≥ 1`:
 
 - An *approximate factorization* of `n!` is a finite multiset `A` of integers in `[1, n]`, of size
@@ -1372,10 +1385,11 @@ These are README targets, for a fixed `n ≥ 1`:
   (`Nat.factorization_factorial`), at most `log n/log 2` powers of `p` dividing an integer up to
   `n`, at least `⌊⌊n/M⌋/p⌋` multiples of `p` among `⌊n/M⌋` consecutive integers, and, for `p ≤ L`,
   a count of the removed non-smooth integers, each a prime `q ≥ ⌊n/L⌋` times a cofactor `c ≤ n/q`.
-- *The initial score.* Prove `score_L(A₀) ≤ n log(1/(1 − 1/M)) + Σ_{p≤n/L} M log n
-  + Σ_{p≤√n} M log² n/log 2 + Σ_{n/L≤p≤n} (n/p) log(n/p) + Σ_{p≤L} (M log n + M L² π(n)) log L`,
-  from the balance bounds and `log p + log(n/p) = log n`; and, for every `ε > 0`, that each of the
-  five terms is at most `εn`: the first for `M` large in terms of `ε`; the second for `L` large in
+- *The initial score.* Prove that `score_L(A₀)` is at most the sum of the five terms
+  `n log(1/(1 − 1/M))`, `Σ_{p≤n/L} M log n`, `Σ_{p≤√n} M log² n/log 2`,
+  `Σ_{n/L≤p≤n} (n/p) log(n/p)` and `Σ_{p≤L} (M log n + M L² π(n)) log L`, from the balance bounds
+  and `log p + log(n/p) = log n`; and, for every `ε > 0`, that each of the five terms is at most
+  `εn`: the first for `M` large in terms of `ε`; the second for `L` large in
   terms of `M` and `ε`, then `n` large in terms of `L`; the third for `n` large in terms of `M` and
   `ε`; the fourth for `n` large in terms of `L` and `ε` (each term is `O(L log L)` and
   `π(n) = o(n)`); the fifth for `n` large in terms of `M`, `L` and `ε`. The inputs are Chebyshev's
@@ -1414,22 +1428,23 @@ These are README targets, for a fixed `n ≥ 1`:
 
 Define, for real `H`, `EvenGoldbachUpTo H`: every even `n` with `4 ≤ n ≤ H` is a sum of two primes;
 and `OddGoldbachUpTo H`: every odd `n` with `7 ≤ n ≤ H` is a sum of three primes (primes may
-repeat) (ieantn; primenumbertheoremand). For each fixed real `H` both are decidable by a finite
-search over `n ≤ ⌊H⌋`. Prove:
+repeat) (ieantn-goldbach-vocabulary lines 25–36 and 38–51, for natural `H`). For each fixed real
+`H` both are decidable by a finite search over `n ≤ ⌊H⌋`. Prove:
 
 - both are antitone in `H` as propositions (`H ≤ H′` and the statement at `H′` give it at `H`);
-- the even range up to `H` gives the odd range up to `H + 3` (subtract the prime `3`);
+- the even range up to `H` gives the odd range up to `H + 3` (subtract the prime `3`;
+  ieantn-goldbach lines 46–52);
 - the interval transfer: let `x₀`, `H` and `Δ` be real, and suppose that for every natural number
   `x ≥ x₀` the interval `(x(1 − 1/Δ), x]` contains a prime (`1/Δ` is Mathlib's real division, `0` at
   `Δ = 0`). Then `EvenGoldbachUpTo H` and `OddGoldbachUpTo (x₀ + 4)` give
   `OddGoldbachUpTo ((H − 4)Δ + 4)`; this is `oddGoldbachUpTo_of_primeGaps` (the prime-ladder
-  argument recalled in helfgottplatt2013 lines 27–31, with a multiplicative gap; ieantn;
-  primenumbertheoremand). The hypothesis is needed at integers only, and there is no condition on
-  `x₀` or `Δ`: for `Δ ≤ 0` the interval is empty at every natural `x ≥ max(x₀, 1)`, so the
-  hypothesis fails. Route: for odd `n` with `x₀ + 4 < n ≤ (H − 4)Δ + 4` the integer `x = n − 4 ≥ 3`
-  is at least `x₀`; the largest prime `p ≤ x` lies in the interval, since some prime does, and
-  `p ≥ 3` because `3 ≤ x`; so `n − p` is even, `n − p ≥ 4`, and `n − p < 4 + x/Δ ≤ H` because
-  `Δ > 0`.
+  argument recalled in helfgottplatt2013 lines 27–31, with a multiplicative gap;
+  ieantn-goldbach lines 54–73, for natural `x₀`, `H` and `Δ`). The hypothesis is needed at
+  integers only, and there is no condition on `x₀` or `Δ`: for `Δ ≤ 0` the interval is empty at
+  every natural `x ≥ max(x₀, 1)`, so the hypothesis fails. Route: for odd `n` with
+  `x₀ + 4 < n ≤ (H − 4)Δ + 4` the integer `x = n − 4 ≥ 3` is at least `x₀`; the largest prime
+  `p ≤ x` lies in the interval, since some prime does, and `p ≥ 3` because `3 ≤ x`; so `n − p` is
+  even, `n − p ≥ 4`, and `n − p < 4 + x/Δ ≤ H` because `Δ > 0`.
 
 The published verifications are named propositions that theorems take as hypotheses, never proved
 here: `EvenGoldbachUpTo (4 · 10¹⁸)` (oliveiraesilva-herzog-pardi2014 lines 13–14) and
@@ -1472,27 +1487,17 @@ Mathlib `Nat.exists_prime_lt_and_le_two_mul` for the Check.
   which gives `OddGoldbachUpTo (x₀ + 4)` by the elementary transfer, this yields
   `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 28 314 000 + 4)`, that is
   `OddGoldbachUpTo 113 255 999 999 999 999 886 744 004`, hence `OddGoldbachUpTo (1.1325 · 10²⁶)` by
-  antitonicity (ieantn; primenumbertheoremand).
+  antitonicity (ieantn-goldbach lines 91–98).
 - Kadiri–Lumley's rows (ExplicitPrimeCounting §7.3, under its named hypotheses: for `x > e⁵⁹` a
   prime in `((1 − 1/1 946 282 821)x, x)`, for `x > e⁶⁰` one in `((1 − 1/1 966 196 911)x, x)`) extend
   the previous range in two transfers, each with `EvenGoldbachUpTo (4 · 10¹⁸)`. First the `e⁵⁹` row
   with `x₀ = e⁵⁹ + 1`, whose `OddGoldbachUpTo (x₀ + 4)` the previous Example supplies
   (`e⁵⁹ ≈ 4.201 · 10²⁵`), gives `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 1 946 282 821 + 4)`, about
   `7.785 · 10²⁷`; then the `e⁶⁰` row with `x₀ = e⁶⁰ + 1` (`e⁶⁰ ≈ 1.142 · 10²⁶`, inside that range)
-  gives `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 1 966 196 911 + 4)`, about `7.865 · 10²⁷` (ieantn;
-  primenumbertheoremand). The `e⁶⁰` row cannot be applied directly after the Ramaré–Saouter step,
+  gives `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 1 966 196 911 + 4)`, about `7.865 · 10²⁷`
+  (ieantn-goldbach lines 100–115, which also note that the Ramaré–Saouter step carries the range
+  across to `e⁵⁹`). The `e⁶⁰` row cannot be applied directly after the Ramaré–Saouter step,
   since `1.1325 · 10²⁶ < e⁶⁰`.
-- `EvenGoldbachUpTo (4 · 10¹⁸)` gives `EvenGoldbachUpTo (4 · 10¹⁸ + 4)`, exactly: the two new even
-  numbers are `4 · 10¹⁸ + 2 = 3 999 999 999 999 999 791 + 211` and
-  `4 · 10¹⁸ + 4 = 3 999 999 999 999 999 691 + 313`, and the four summands are prime
-  (primenumbertheoremand). Route: `211` and `313` by `norm_num`; the two nineteen-digit numbers by
-  Lucas's test `lucas_primality` applied recursively (a Pratt certificate), from
-  `3 999 999 999 999 999 790 = 2 · 5 · 399 999 999 999 999 979` with
-  `399 999 999 999 999 978 = 2 · 3³ · 23 · 211 · 239 851 · 6 363 769`, and
-  `3 999 999 999 999 999 690 = 2 · 3² · 5 · 29 · 41 · 37 379 684 141 669` with
-  `37 379 684 141 668 = 2² · 11 · 389 · 18 913 · 115 471`, the remaining factors being below `10⁷`.
-  With it, the last transfer of the previous Example gives
-  `OddGoldbachUpTo (4 · 10¹⁸ · 1 966 196 911 + 4)`.
 
 ### Dependencies
 
@@ -1548,11 +1553,12 @@ Examples.
   periodic analogue of 7.1 and the theorem on convex coefficient sequences used in a Check of 7.4
   (cited by locator).
 - `brown1967`: J. L. Brown, Jr., *On the error in reconstructing a non-bandlimited function by
-  means of the bandpass sampling theorem*, J. Math. Anal. Appl. 18 (1967), 75–84, Theorem 1 (cited
-  by locator).
-- `primenumbertheoremand`: A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, Lean
-  formalization project, <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>; cited for
-  §§7.1, 7.3, 8.1, 13.1, 13.2.
-- `ieantn`: T. Tao and contributors, *IEANTN: Integrated Explicit Analytic Number Theory Network*,
-  Lean formalization project, <https://github.com/teorth/IEANTN>; cited for §§7.4, 8.1, 8.1a, 8.1b,
-  13.1, 13.2.
+  means of the bandpass sampling theorem*, J. Math. Anal. Appl. 18 (1967), 75–84,
+  doi:10.1016/0022-247X(67)90183-7, Theorem 1 (cited by locator).
+- `ieantn-brown1967`, `ieantn-contourintegration`, `ieantn-ch2v4`, `ieantn-erdos392`,
+  `ieantn-goldbach` and `ieantn-goldbach-vocabulary`: T. Tao and contributors, *IEANTN: Integrated
+  Explicit Analytic Number Theory Network*, Lean formalization project (Apache-2.0),
+  <https://github.com/teorth/IEANTN>, at commit 466b41b28ecc224398cf53a99c5fe9618131398b. One key
+  per file, each cited by line: the conclusions of the nodes Brown1967 v1 (7.4), ContourIntegration
+  v1 (8.1a), CH2 v4 (8.1b), Erdos392 v1 (13.1) and Goldbach v1 (13.2), and the vocabulary file
+  defining the two Goldbach predicates (13.2).
