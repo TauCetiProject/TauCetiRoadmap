@@ -181,7 +181,14 @@ It does not own, and consumes by name:
   `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`),
   and replete topoi (**SchemeAndStackFoundations**, §2.17 / `Proetale.isReplete_proetale`); complex
   coherent analytic modules, derived GAGA for proper algebraic spaces and the affine-curve
-  completion and connectedness comparisons (**ComplexComparisonPartII**, §§C0, C3 and C4.5).
+  completion and connectedness comparisons (**ComplexComparisonPartII**, §§C0, C3 and C4.5);
+  the Ehresmann trivialization of proper smooth families (**ComplexComparisonPartII**, §C5.2 /
+  `ehresmannFibration`) and flows of vector fields (**DifferentialGeometry**, Layer 3); line
+  bundles, divisors, coherent cohomology and the Jacobian of a curve (**JacobianChallenge**,
+  Layers A–D), prime-to-characteristic torsion, the integral Tate module and the characteristic
+  polynomial of an endomorphism of an abelian scheme (**AbelianSchemesAndArithmeticModuli**,
+  §§A3.2, A4.1, A6.10–A6.11), and rational equivalence and intersection products
+  (**SchemeAndStackFoundations**, §§5.1, 5.6, 5.9).
 
 This roadmap uses global class field theory and global duality only over number fields (ClassFieldTheory
 and the number-field Poitou–Tate theorem of ArithmeticGaloisDuality), so the theorems of
@@ -268,10 +275,13 @@ carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces th
 
 | Object | Declarations | Used in |
 | --- | --- | --- |
-| The Artin braid group with its presentation | `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.lift`, `TauCeti.BraidGroup.lift_sigma`, `TauCeti.BraidGroup.strand`, `TauCeti.BraidGroup.strandSucc` (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`) | IG.3, IG.5 |
+| The Artin braid group with its presentation | `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.lift`, `TauCeti.BraidGroup.lift_sigma`, `TauCeti.BraidGroup.strand`, `TauCeti.BraidGroup.strandSucc`, `TauCeti.BraidGroup.orderOf_sigma` (every generator has infinite order), `TauCeti.BraidGroup.permHom` (the permutation representation `B_n → S_n`), `TauCeti.BraidGroup.pureSubgroup` (its kernel) (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`) | IG.3, IG.5 |
 | Finite places of `K(T)` and their valuation rings | `TauCeti.Place.adicOfIrreducible`, `TauCeti.Place.integers`, `TauCeti.Place.valuation_ofIrreducible_le_one_iff`, `TauCeti.Place.adicOfIrreducibleResidueFieldEquiv` (`TauCeti/FieldTheory/FunctionField/Place/RatFunc/`) | IG.2 |
 | Decomposition and inertia of places in Galois extensions of function fields | `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup` (`TauCeti/FieldTheory/FunctionField/Place/Extension/`) | IG.1 |
-| Splitting of central extensions by factor sets | `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero` | IG.3 |
+| Splitting of central extensions by factor sets, and transgression of characters of the kernel of a stem extension | `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero` (`TauCeti/GroupTheory/GroupExtension/Cohomology.lean`), `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator` (when the kernel lies in the commutator subgroup of the extension, distinct `G`-invariant characters of the kernel with values in a group on which `G` acts trivially have distinct transgression classes, with no finiteness or divisibility hypothesis; `TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) | IG.3 |
+| Fundamental groups of products and of topological monoids | `TauCeti.FundamentalGroup.prodMulEquiv` (`π₁(X × Y, (x, y)) ≅ π₁(X, x) × π₁(Y, y)`; `TauCeti/AlgebraicTopology/FundamentalGroup/Product.lean`), `FundamentalGroup.cast_map_prod_mul` (the class of the pointwise product of two loops at the unit of a topological monoid is their product in `π₁`; declared in the root namespace `FundamentalGroup`, `TauCeti/AlgebraicTopology/FundamentalGroup/TopologicalMonoid.lean`) | IG.1 |
+| Simply connected semisimple affine group schemes | `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty`, `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty.isIso` (every central isogeny from a semisimple affine group scheme over a field onto a simply connected one is an isomorphism; `TauCeti/AlgebraicGeometry/AffineGroupScheme/SimplyConnected.lean`) | IG.1 |
+| Topological finite generation of open subgroups | `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` (an open subgroup of a topologically finitely generated compact group is topologically finitely generated; `TauCeti/Topology/Algebra/Group/Generation.lean`) | IG.2 |
 | Finite embedding problems and their solutions (ProfiniteProPGroups Layer 5) | `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution` | IG.4 |
 | The cohomological obstruction of a finite embedding problem with abelian kernel | `TauCeti.FiniteEmbeddingProblem.obstruction`, `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` | IG.4 |
 | `Sₙ` as a Galois group over `ℚ` | `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` | IG.6 |
@@ -367,6 +377,7 @@ descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
 | Compact-support Artin comparison | Supplied by ComplexComparisonPartII §C6.4 / `artinComparisonCompactSupport` | Use separated finite type and finite ctf/local coefficients with compact support. |
 | Relative comparison | Supplied by ComplexComparisonPartII §C6.5 / `relativeArtinComparison` | Use the proper direct-image or separated finite-type lower-shriek branch and retain the chosen fibre transport. |
 | Adic comparison | Supplied by ComplexComparisonPartII §C6.6 / `adicArtinComparison` | Use normalized finite ctf levels with uniform cohomological/Tor bounds, and separatedness for compact support; this supplies no canonical comparison of unrelated fibres. |
+| Proper-submersion trivialization | Supplied by ComplexComparisonPartII §C5.2 / `ehresmannFibration` | IG.5.4 applies it to the analytification of a proper smooth pointed family of curves on manifold charts: a proper surjective holomorphic submersion of finite-dimensional Hausdorff second-countable complex manifolds is locally trivial over each connected component of the base, and the trivializations after base change are the pullbacks of the chosen ones; the horizontal lifts are chosen tangent to the labelled sections. |
 
 ### From ArithmeticGaloisDuality
 
@@ -400,7 +411,13 @@ AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
 ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
 multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
 in Layer IG.3 is part of the target *Reduced Schur covers* there; DGFloer Layer 1 item 2
-(fibration homotopy long exact sequence) and AlgebraicTopology Stage 8; StableReduction Layer 7 (semistable reduction of curves). The BelyiMaps Layers 11–13 used
+(fibration homotopy long exact sequence) and AlgebraicTopology Stage 8; StableReduction Layer 7 (semistable reduction of curves);
+DifferentialGeometry Layer 3 (flows of vector fields: the maximal flow, completeness of compactly
+supported fields and time-dependent flows), which IG.5.4 uses to integrate the horizontal lifts
+supplied by ComplexComparisonPartII §C5.2 into trivializations preserving the labelled sections;
+JacobianChallenge Layers A–D (line bundles and divisors, coherent cohomology and Riemann–Roch,
+relative cohomology and base change, the relative Picard functor and the Jacobian), used by
+IG.0.T1 *Weil's curve trace and graph–diagonal formula*. The BelyiMaps Layers 11–13 used
 here are the retained dependency specifications of that roadmap, whose ownership passes to its named
 successors.
 
@@ -410,7 +427,12 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 2 (sites, étale and pro-étale cohomology, Brauer groups of schemes), 3 (curves) and 4
 (deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
 §4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
-(`popescu_desingularization`) and §0.21 (G-rings); ArithmeticGaloisDuality §R02.3.1
+(`popescu_desingularization`) and §0.21 (G-rings), and §§5.1, 5.6, 5.9 (rational equivalence
+and Chow groups, intersection products on smooth varieties and the intersection pairing on
+surfaces, used by IG.0.T1 and by the zero-cycle moving argument of Layer IG.4);
+AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (prime-to-characteristic torsion, the
+integral Tate module `AbelianTate`, the trace `End.trace` and the characteristic polynomial
+`charpolyTate` of an endomorphism, used by IG.0.T1); ArithmeticGaloisDuality §R02.3.1
 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
 (*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
 with transport to the absolute localization kernel only when `S` is the set of all places,
@@ -964,6 +986,11 @@ field Galois theory and the finite étale algebras of a field
 from Mathlib and ModularCurves Layer 0d; `ẑ` from ProfiniteArithmetic Layer 0 and the punctured-line
 conventions from BelyiMaps Layers 12–13. Descent, the étale and pro-étale sites and w-contractible
 covers are SchemeAndStackFoundations Layers 1–2, and replete topoi SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale`.
+The curve trace of §IG.0.T1 uses JacobianChallenge Layers A–D (divisors, Riemann–Roch, relative
+cohomology and the Jacobian), AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11
+(torsion, the integral Tate module, the trace and the characteristic polynomial of an
+endomorphism) and SchemeAndStackFoundations §§2.11, 2.16, 5.6, 5.9 (intersection products on
+smooth varieties and the intersection pairing on surfaces).
 The finite-cover contract uses connected nonempty locally Noetherian schemes for based `π₁`, without coefficient invertibility.
 
 ## Layer IG.1: arithmetic fundamental groups, inertia and specialization
@@ -1552,7 +1579,11 @@ ResolutionOfSingularitiesCharacteristicZero §§5.5, 6.2 / `localIsomorphismReso
 `sncCompactification` supply resolution and normal crossings compactifications through
 AlgebraicModuliForArithmeticGeometry §§9.4–9.5.
 ReductiveGroups
-Layer 6 and ModularCurves Layer 0c supply semisimple groups and finite torsors.
+Layer 6 and ModularCurves Layer 0c supply semisimple groups and finite torsors; Tau Ceti's
+`TauCeti.FundamentalGroup.prodMulEquiv`, `FundamentalGroup.cast_map_prod_mul` and
+`TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty.isIso` supply the product formula, the
+Eckmann–Hilton identity and the central-isogeny eliminator of *Pointed finite étale covers of
+semisimple groups*.
 The finite-cover contract has no coefficient-invertibility condition, étale invariance uses universal homeomorphisms, and Riemann existence uses finite-type complex schemes.
 
 ## Layer IG.2: Hilbert irreducibility and specialization
@@ -2510,6 +2541,9 @@ integral count and in the auxiliary places of weak approximation; Mathlib's `IsK
 constancy of local fibres at finite places, and SchemeAndStackFoundations Layer 3 (curves,
 divisors and Picard objects) enters the weak-approximation theorem. The integral count and weak
 approximation take the Lang–Weil estimate for a fixed model from SieveMethodsAndPrimePatterns §5.4.
+*Normal subgroups of absolute Galois groups* uses Mathlib's infinite Galois correspondence and Tau
+Ceti's `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` for the finite generation of an
+open subgroup.
 The norm pullback uses ReductiveGroupsPartII Layer RG2.0a for Weil
 restriction and norm tori. Hilbert specialization detected by the Frattini quotient uses the
 Hilbert-subset and finite-torsor interfaces of IG.0 and IG.2 and the closed-image detection supplied
@@ -3631,7 +3665,9 @@ analytic spaces and scheme analytification, and ComplexComparisonPartII §C4.5 s
 completion and connectedness interfaces for curves; DGFloer Layer 1 item 2 supplies the fibration
 homotopy long exact sequence and AlgebraicTopology Stage 8 the homotopy groups. EtaleCohomologyFoundations §§F.0.A1–F.0.A2 supply the arithmetic sequence
 and inertia; Layer IG.1 supplies tangential base points and the Frobenius normalisation;
-Layer IG.0 Galois algebras. The braid group is Tau Ceti `TauCeti.BraidGroup`; free groups,
+Layer IG.0 Galois algebras. The braid group is Tau Ceti `TauCeti.BraidGroup`, and the transgression
+injectivity used by *Reduced Schur covers* is Tau Ceti
+`TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`; free groups,
 presented groups, group extensions, group homology, existence of coprime complements and finitely
 supported functions are Mathlib's, and conjugacy of coprime complements is *Conjugacy of coprime
 complements* in IG.3.4; Schur covers are RepresentationTheory/InductionRestriction Layer 7; `ẑ` is
@@ -5331,8 +5367,8 @@ From other roadmaps:
 - EtaleCohomologyFoundations §§F.0.A1–F.0.A2: cover decomposition, inertia and the arithmetic
   fundamental-group sequence. *Auxiliary cokernel comparison* owns the application-specific comparison diagrams.
 - AlgebraicCurves Layers 7 and 8, Chebotarev Layer 10,
-  ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes) and
-  4, ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` (smooth compactifications,
+  ReductiveGroups Layers 0 and 3, SchemeAndStackFoundations Layers 1, 2 (Brauer groups of schemes),
+  3 and 4 with §5.1 (zero-cycles and rational equivalence), ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` (smooth compactifications,
   through AlgebraicModuliForArithmeticGeometry §9.5), and ReductiveGroupsPartII
   Layer RG2.0a.
 - AdelicAlgebraicGroups Layer 4, §4.1: the Hasse principle for torsors under semisimple simply
@@ -5438,7 +5474,8 @@ point to prove inductively that the higher homotopy groups vanish and to identif
 group; and passes to the `S_n`-cover to compare the adjacent exchanges with the Artin presentation
 ([Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §2.1, published pp. 738–739). *Needs:* *Ordered and unordered configurations*,
-Layer IG.3 *The Hurwitz braid action*; Mathlib `FreeGroup`; Tau Ceti `TauCeti.BraidGroup`.
+Layer IG.3 *The Hurwitz braid action*; Mathlib `FreeGroup`; Tau Ceti `TauCeti.BraidGroup`,
+`TauCeti.BraidGroup.permHom`, `TauCeti.BraidGroup.pureSubgroup`.
 
 **Checks.**
 
@@ -7076,10 +7113,12 @@ sphere tuples, Riemann existence for punctured curves, finitely many bounded-deg
 braid lifting invariant with its stable classification and Tate twist, coprime semidirect products,
 the discrete action of units and the cyclotomic twist) and Layer IG.4 (admissible `Γ`-groups,
 marked extensions and the marked extension count). From Mathlib it uses `FreeGroup` and the subtype
-and quotient topologies; from Tau Ceti, `TauCeti.BraidGroup` with `sigma`, `permHom` and
-`pureSubgroup`. From other roadmaps it uses SchemeAndStackFoundations Layers 0–4 (stacks, descent,
+and quotient topologies; from Tau Ceti, `TauCeti.BraidGroup` with `sigma`, `permHom`,
+`pureSubgroup` and `orderOf_sigma`. From other roadmaps it uses SchemeAndStackFoundations Layers 0–4 (stacks, descent,
 curves, stable pointed curves, deformations), ComplexComparisonPartII §§C−1.2, C1.9 and
-ComplexComparisonPartII §C3.3 for proper algebraic-space GAGA, EnhancedDerivedSheaves §0.3 /
+ComplexComparisonPartII §C3.3 for proper algebraic-space GAGA, ComplexComparisonPartII §C5.2 /
+`ehresmannFibration` with DifferentialGeometry Layer 3 (flows) for the trivialization of proper
+smooth pointed families in *General-genus Hurwitz comparison*, EnhancedDerivedSheaves §0.3 /
 `ClassicalDerived.inverseLimits` for derived inverse limits and the Mittag–Leffler criterion, EtaleCohomologyFoundations §§F.5–F.6 /
 `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`
 for Poincaré duality and the trace map, StableReduction Layer 7 for semistable reduction of curves,
