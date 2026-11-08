@@ -3,6 +3,11 @@ Copyright (c) 2026.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Homological
+import TauCeti.AlgebraicTopology.SimplicialComplex.CombinatorialManifold.Chart
+import TauCeti.AlgebraicTopology.SimplicialComplex.CombinatorialManifold.ChartedSpace
+import TauCeti.AlgebraicTopology.SimplicialComplex.Realization.CWComplex.EulerCharacteristic
+import TauCeti.Topology.Triangulable.Basic
 
 /-!
 # Unbounded operators: target signatures
@@ -11,8 +16,11 @@ The roadmap is README.md; this file is not the roadmap. It states headline theor
 against the pinned APIs: maximal multiplication operators, Hilbert-basis cardinal
 classification, the spectrum alternatives of a closed symmetric operator, the
 closed-form representation, the existence of the Friedrichs extension, Nelson
-essential self-adjointness and commutation of the closures' resolvents, and the
-nonclosable integration counterexample on `L²(ℝ)` with its zero adjoint domain.
+essential self-adjointness and commutation of the closures' resolvents, the
+nonclosable integration counterexample on `L²(ℝ)` with its zero adjoint domain, and
+the surface topology of README §2.3a (chart-independence and invariance of the
+manifold boundary, the boundary-component count, the boundary of a
+combinatorial-manifold realization, Radó's theorem, and coherent orientations).
 
 The unbounded spectral-integral, normal spectral, joint-PVM, spectral-type,
 staircase-approximation and tensor spectral-calculus headlines cannot yet be stated
@@ -47,6 +55,168 @@ theorem existsUnique_maximal_multiplier {X : Type*} [MeasurableSpace X]
       Dense (T.domain : Set (Lp ℂ 2 μ)) ∧ T.IsClosed ∧
       ((∀ᵐ t ∂μ, star (f t) = f t) → IsSelfAdjoint T) := by
   sorry
+
+/-! ## Layer 2: surface topology for the completed Nelson model (§2.3a) -/
+
+section SurfaceTopology
+
+open AbstractSimplicialComplex PreAbstractSimplicialComplex
+open scoped Manifold
+
+/-- Chart-independence of the manifold boundary for merely continuous half-space charts: a
+point in the source of any chart of the atlas is an interior point exactly when that chart
+sends it off the boundary hyperplane. -/
+theorem isInteriorPoint_iff_of_mem_atlas {n : ℕ} {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
+    {φ : OpenPartialHomeomorph M (EuclideanHalfSpace (n + 1))}
+    (hφ : φ ∈ atlas (EuclideanHalfSpace (n + 1)) M) {y : M} (hy : y ∈ φ.source) :
+    (𝓡∂ (n + 1)).IsInteriorPoint y ↔ 0 < (φ y).1 0 := by
+  sorry
+
+/-- Homeomorphisms of half-space-charted spaces preserve the manifold boundary, in every
+dimension. -/
+theorem image_boundary {n : ℕ} {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) M] [ChartedSpace (EuclideanHalfSpace (n + 1)) N]
+    (e : M ≃ₜ N) : e '' (𝓡∂ (n + 1)).boundary M = (𝓡∂ (n + 1)).boundary N := by
+  sorry
+
+/-- The number of boundary components of a surface. -/
+noncomputable def boundaryComponentCount (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] : ℕ :=
+  Nat.card (ConnectedComponents ((𝓡∂ 2).boundary M))
+
+/-- The boundary-component count is a homeomorphism invariant. -/
+theorem boundaryComponentCount_congr {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+    (e : M ≃ₜ N) : boundaryComponentCount M = boundaryComponentCount N := by
+  sorry
+
+/-- A closed surface has no boundary components. -/
+theorem boundaryComponentCount_eq_zero {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] (h : (𝓡∂ 2).boundary M = ∅) :
+    boundaryComponentCount M = 0 := by
+  sorry
+
+/-- A space charted on `ℝⁿ⁺¹` carries a half-space atlas with the same chart sources, obtained
+by composing with a fixed homeomorphism of `ℝⁿ⁺¹` onto the open half-space; its manifold
+boundary is empty. -/
+theorem exists_halfSpace_chartedSpace_boundary_eq_empty {n : ℕ} (M : Type*)
+    [TopologicalSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin (n + 1))) M] :
+    ∃ c : ChartedSpace (EuclideanHalfSpace (n + 1)) M,
+      (∀ x : M, (c.chartAt x).source = (chartAt (EuclideanSpace ℝ (Fin (n + 1))) x).source) ∧
+      (letI := c; (𝓡∂ (n + 1)).boundary M = ∅) := by
+  sorry
+
+/-- The interior of a half-space-charted space carries the Euclidean atlas whose charts are the
+restricted charts of the space followed by the inclusion of the half-space. -/
+theorem exists_euclidean_chartedSpace_interior {n : ℕ} (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace (n + 1)) M] :
+    ∃ c : ChartedSpace (EuclideanSpace ℝ (Fin (n + 1))) ((𝓡∂ (n + 1)).interior M),
+      ∀ x y : (𝓡∂ (n + 1)).interior M, y ∈ (c.chartAt x).source →
+        c.chartAt x y = (𝓡∂ (n + 1)) (chartAt (EuclideanHalfSpace (n + 1)) (x : M) y) := by
+  sorry
+
+/-- The manifold boundary of the realization of a combinatorial `(n + 1)`-manifold, with Tau
+Ceti's vertex-chart atlas, consists of the points supported on an `n`-face that lies in exactly
+one `(n + 1)`-face. -/
+theorem IsCombinatorialManifold.boundary_realization {ι : Type*} [DecidableEq ι]
+    {K : AbstractSimplicialComplex ι} {n : ℕ}
+    (h : IsCombinatorialManifold K.toPreAbstractSimplicialComplex (n + 1)) :
+    letI := h.realizationChartedSpace
+    (𝓡∂ (n + 1)).boundary (Realization K) =
+      {x | ∃ τ ∈ K.toPreAbstractSimplicialComplex, τ.card = n + 1 ∧
+        {σ : Finset ι | σ ∈ K.toPreAbstractSimplicialComplex ∧ τ ⊆ σ ∧ σ.card = n + 2}.ncard = 1 ∧
+        (x : ι →₀ ℝ).support ⊆ τ} := by
+  sorry
+
+/-- When every vertex link is a combinatorial sphere, the realization has empty boundary. -/
+theorem IsCombinatorialManifold.boundary_realization_eq_empty {ι : Type*} [DecidableEq ι]
+    {K : AbstractSimplicialComplex ι} {n : ℕ}
+    (h : IsCombinatorialManifold K.toPreAbstractSimplicialComplex (n + 1))
+    (hs : ∀ v, IsCombinatorialSphere (link K.toPreAbstractSimplicialComplex {v}) n) :
+    letI := h.realizationChartedSpace
+    (𝓡∂ (n + 1)).boundary (Realization K) = ∅ := by
+  sorry
+
+/-- **Radó's theorem.** Every compact surface, with or without boundary, is homeomorphic to the
+realization of a combinatorial surface on a finite vertex type. -/
+theorem exists_combinatorialManifold_homeomorph (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M] :
+    ∃ (ι : Type) (_ : DecidableEq ι) (K : AbstractSimplicialComplex ι), Finite ι ∧
+      IsCombinatorialManifold K.toPreAbstractSimplicialComplex 2 ∧
+      Nonempty (Realization K ≃ₜ M) := by
+  sorry
+
+/-- Radó's theorem in the form of Tau Ceti's `IsTriangulable`. -/
+theorem isTriangulable_of_compactSurface (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M] :
+    TauCeti.IsTriangulable.{0} M := by
+  sorry
+
+/-- A compact surface has finite CW type, so Tau Ceti's space-level Euler characteristic
+`TauCeti.eulerChar` is defined on it. -/
+theorem finiteCWType_of_compactSurface (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M] :
+    TauCeti.FiniteCWType M := by
+  sorry
+
+/-- A coherent orientation of the triangles of a simplicial complex. `sign a b c` is `1`
+exactly when `(a, b, c)` lists the triangle `{a, b, c}` in its positive cyclic order; it is
+alternating, normalized to `1` off triangles, and two triangles sharing an edge `{a, b}` induce
+opposite directions on it. -/
+structure CoherentOrientation {ι : Type*} [DecidableEq ι] (K : AbstractSimplicialComplex ι) where
+  /-- The sign of an ordered triple of vertices. -/
+  sign : ι → ι → ι → ℤˣ
+  sign_swap_left : ∀ a b c, ({a, b, c} : Finset ι) ∈ K → ({a, b, c} : Finset ι).card = 3 →
+    sign b a c = -sign a b c
+  sign_swap_right : ∀ a b c, ({a, b, c} : Finset ι) ∈ K → ({a, b, c} : Finset ι).card = 3 →
+    sign a c b = -sign a b c
+  sign_eq_one : ∀ a b c, ¬ (({a, b, c} : Finset ι) ∈ K ∧ ({a, b, c} : Finset ι).card = 3) →
+    sign a b c = 1
+  coherent : ∀ a b c d, c ≠ d → ({a, b, c} : Finset ι) ∈ K → ({a, b, d} : Finset ι) ∈ K →
+    ({a, b, c} : Finset ι).card = 3 → ({a, b, d} : Finset ι).card = 3 →
+    sign a b d = -sign a b c
+
+/-- Orientability of a combinatorial surface depends only on the homeomorphism type of its
+realization. -/
+theorem nonempty_coherentOrientation_iff_of_homeomorph {ι κ : Type*} [DecidableEq ι]
+    [DecidableEq κ] {K : AbstractSimplicialComplex ι} {L : AbstractSimplicialComplex κ}
+    (hK : IsCombinatorialManifold K.toPreAbstractSimplicialComplex 2)
+    (hL : IsCombinatorialManifold L.toPreAbstractSimplicialComplex 2)
+    (e : Realization K ≃ₜ Realization L) :
+    Nonempty (CoherentOrientation K) ↔ Nonempty (CoherentOrientation L) := by
+  sorry
+
+/-- For a closed combinatorial surface, a coherent orientation exists exactly when the
+realization, with Tau Ceti's sphere-link Euclidean atlas, has a homological orientation. -/
+theorem nonempty_coherentOrientation_iff_nonempty_homologicalOrientation {ι : Type}
+    [DecidableEq ι] {K : AbstractSimplicialComplex ι}
+    (hs : ∀ v, IsCombinatorialSphere (link K.toPreAbstractSimplicialComplex {v}) 1) :
+    letI := K.sphereLinkChartedSpace hs
+    Nonempty (CoherentOrientation K) ↔
+      Nonempty (TauCeti.HomologicalOrientation (Realization K) (EuclideanSpace ℝ (Fin 2)) 2) := by
+  sorry
+
+/-- A space is an orientable surface when it is homeomorphic to the realization of a coherently
+orientable combinatorial surface. -/
+def IsOrientableSurface (M : Type*) [TopologicalSpace M] : Prop :=
+  ∃ (ι : Type) (_ : DecidableEq ι) (K : AbstractSimplicialComplex ι),
+    IsCombinatorialManifold K.toPreAbstractSimplicialComplex 2 ∧
+      Nonempty (CoherentOrientation K) ∧ Nonempty (Realization K ≃ₜ M)
+
+/-- Orientability is read off any one triangulation. -/
+theorem isOrientableSurface_iff {ι : Type} [DecidableEq ι] {K : AbstractSimplicialComplex ι}
+    (hK : IsCombinatorialManifold K.toPreAbstractSimplicialComplex 2) {M : Type*}
+    [TopologicalSpace M] (e : Realization K ≃ₜ M) :
+    IsOrientableSurface M ↔ Nonempty (CoherentOrientation K) := by
+  sorry
+
+/-- Orientability is a homeomorphism invariant. -/
+theorem IsOrientableSurface.congr {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    (e : M ≃ₜ N) : IsOrientableSurface M ↔ IsOrientableSurface N := by
+  sorry
+
+end SurfaceTopology
 
 /-! ## Layer 4: symmetric operators, deficiency and boundary data -/
 
