@@ -2,7 +2,7 @@
 
 **Summary.** Quantitative primes, the uniform exclusion of Landau–Siegel zeros with its effective consequences, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), the effective lower bound for `L(1,χ)` (§0.9), Weierstrass primary products with equal-divisor factorization, finite-order Hadamard factorization and effective Siegel–Walfisz (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas, Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); the level-one Eisenstein series with its completed continuation, Zaman's prime-ideal count, Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments and the Beurling remainder equivalence (Layer 3). Every published finite computation a theorem rests on is a named proposition there and an explicit hypothesis of that theorem. Its definitions serve those statements. Other API names below specify library targets.
+`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), the effective lower bound for `L(1,χ)` (§0.9), Weierstrass primary products with equal-divisor factorization, finite-order Hadamard factorization, effective Siegel–Walfisz, Chebyshev's factorial identity, Mertens's von Mangoldt sum with its constant `γ`, and the local expansion and half-plane bounds of `ζ′/ζ` (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas (Mestre's general formula and the `C¹` formula for `ζ` with Gauss's digamma integral), Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); the level-one Eisenstein series with its completed continuation, Zaman's prime-ideal count, Louboutin and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments with the divisor-square Euler identity and the Beurling remainder equivalence (Layer 3). Every published finite computation a theorem rests on is a named proposition there and an explicit hypothesis of that theorem. Its definitions serve those statements. Other API names below specify library targets.
 
 ## Scope and ownership
 
@@ -317,7 +317,7 @@ Sum `log n=Σ_(d|n)Λ(d)` to get `Σ_(n≤x)log n=Σ_(d≤x)Λ(d)floor(x/d)`. Ch
 
 See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof, p.40.
 
-*Needs:* `ArithmeticFunction.vonMangoldt_sum`; `Chebyshev.psi_le_const_mul_self`; `sum_mul_eq_sub_sub_integral_mul`.
+*Needs:* §0.11d; `ArithmeticFunction.vonMangoldt_sum`; `Chebyshev.psi_le_const_mul_self`; `sum_mul_eq_sub_sub_integral_mul`.
 
 #### 0.11a Prime-cutoff and tail exports
 
@@ -431,6 +431,39 @@ This section owns neither a new prime-sum improvement, the choice of smoothing p
 in a particular proof, nor its combination with a selected-zero inequality. The
 latter analytic interface is supplied directly by ZerosOfLFunctions §6.4 on the
 primitive Dirichlet record; §0.30's ray-class dictionary remains a downstream consumer.
+
+#### 0.11d Logarithmic factorials and Chebyshev's identity
+
+`log_floor_factorial_eq_sum_vonMangoldt`: for every real `x`,
+`log⌊x⌋!=Σ_(1≤n≤x)Λ(n)⌊x/n⌋=Σ_(1≤m≤x)ψ(x/m)`, with `⌊x⌋=⌊x⌋₊` and inclusive cutoffs; all three
+sides vanish for `x<2`. By `Real.sum_log_eq_log_factorial` the left side is `Σ_(1≤n≤x)log n`.
+Expand each `log n=Σ_(d∣n)Λ(d)` (`ArithmeticFunction.vonMangoldt_sum`) and count the pairs
+`(d,m)` with `dm≤⌊x⌋`: for fixed `d` there are `⌊⌊x⌋/d⌋=⌊x/d⌋` of them (`Nat.floor_div_natCast`),
+and for fixed `m` the sum of `Λ(d)` over `d≤⌊x/m⌋` is `ψ(x/m)` (`Chebyshev.psi_eq_psi_coe_floor`).
+
+Mathlib supplies explicit bounds at every real `x≥1`: through `Real.sum_log_eq_log_factorial`,
+`Real.le_sum_log` and `Real.sum_log_le` read `x log x−x−log x+1≤log⌊x⌋!≤x log x−x+log x+1`. They
+are consumed, not restated. `log_floor_factorial_bounds` halves both logarithmic terms: for every
+real `x≥1`,
+`x log x−x−(1/2)log x+(1/2)log π≤log⌊x⌋!≤x log x−x+(1/2)log x+1`,
+so `|log⌊x⌋!−x log x+x|≤(1/2)log x+1`. For the upper bound, concavity of `log` makes each
+trapezoid `(log k+log(k+1))/2` at most `∫_k^(k+1)log t dt`, so `log n!≤n log n−n+1+(1/2)log n` at
+`n=⌊x⌋`, and `t log t−t+(1/2)log t` increases on `[1,∞)`. For the lower bound apply
+`Stirling.le_log_factorial_stirling`, `log n!≥n log n−n+(1/2)log(2πn)`, at `n=⌊x⌋`; then
+`x log x−x−(n log n−n)=∫_n^x log t dt≤log x` and `log n≥log x−log 2`.
+
+**Checks.**
+
+- `x=4`: `log 24=2Λ(2)+Λ(3)+Λ(4)=3log2+log3`, and `ψ(4)+ψ(2)+ψ(4/3)+ψ(1)=(2log2+log3)+log2`;
+  replacing `⌊x/n⌋` by `x/n` gives `3log2+(4/3)log3`, not `log 24`.
+- `x=1`: the upper bound is the equality `0≤0`, and the lower bound reads `(1/2)log π−1≈−0.43≤0`.
+- `x=2`: the upper bound reads `log2≤(5/2)log2−1≈0.733`; without the term `(1/2)log x` it would
+  read `log2≤2log2−1≈0.386`, which is false.
+
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(a) and proof, p.40. *Needs:*
+`Real.sum_log_eq_log_factorial`; `Real.le_sum_log`; `Real.sum_log_le`;
+`Stirling.le_log_factorial_stirling`; `ArithmeticFunction.vonMangoldt_sum`;
+`Chebyshev.psi_eq_psi_coe_floor`; `Nat.floor_div_natCast`.
 
 ### 0.12 Effective distance of a quadratic real zero from one
 
@@ -654,6 +687,14 @@ See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(c), (3.6), p
 
 *Needs:* §0.21.
 
+**§0.26a Mertens's second theorem in von Mangoldt form, and its constant.** `mertens_vonMangoldt_eulerGamma`: there is an absolute `C` such that for every real `x≥2`, `|Σ_(2≤n≤x)Λ(n)/(n log n)−log log x−γ|≤C/log x`, with `γ` Mathlib's `Real.eulerMascheroniConstant` and an inclusive cutoff. Since `Λ(p^k)/log p^k=1/k`, the sum is `Σ_(p^k≤x)1/(kp^k)`. `mertens_reciprocal_prime_constant` identifies the constant `B` of §0.21: the series `Σ_p(log(1−1/p)+1/p)` converges absolutely, its terms are negative, and `B=γ+Σ_p(log(1−1/p)+1/p)`, so that `|Σ_(p≤x)1/p−log log x−B|≤C/log x` for `x≥2` with this `B`.
+
+Taking logarithms in §0.26, with the identification `κ=γ` made there, gives `log∏_(p≤x)(1−1/p)^(−1)=log log x+γ+O(1/log x)` for `x≥2`, the compact range being absorbed by the constant. Expanding each factor, the left side is `Σ_(p≤x)Σ_(k≥1)1/(kp^k)`, which exceeds the von Mangoldt sum by the terms with `p≤x<p^k`. For `p≤√x` these total at most `2/x` for each prime, hence `2/√x` in all; for `p>√x` they have `k≥2` and total at most `Σ_(n>√x)1/n²≤2/√x`. Both are `O(1/log x)`. For `B`, the von Mangoldt sum minus `Σ_(p≤x)1/p` is `Σ_(p^k≤x,k≥2)1/(kp^k)`, which differs from `Σ_pΣ_(k≥2)1/(kp^k)=−Σ_p(log(1−1/p)+1/p)` by `O(x^(−1/2))`, by the same two estimates; comparing with §0.21 identifies `B`.
+
+Checks: at `x=4` the sum is `1/2+1/3+1/8=23/24`, the prime square `4` contributing `Λ(4)/(4log4)=1/8`, whereas `Σ_(p≤4)1/p=5/6`. The constant of the prime-only sum is `B<γ`: the prime 2 alone lowers it by `log2−1/2>0`, so the constants of the two sums cannot be interchanged. The weight is `Λ(n)/(n log n)`; §0.11's weight `Λ(n)/n` has the different sum `log x+O(1)`.
+
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem3.4(b)–(c), pp.40–41, and Exercise5.4, p.61. *Needs:* §0.21; §0.26; `ArithmeticFunction.vonMangoldt`; `Real.eulerMascheroniConstant`.
+
 ### 0.27 Landau repulsion for exceptional squareclasses
 
 There is an effective absolute `0<c_Landau<1/2` such that distinct `d,e∈S(c_Landau)` with `|d|≤|e|` satisfy `|d|²≤|e|`. This pairwise form applies to every existing finite ordered segment; no infinitude of `S(c_Landau)` is asserted.
@@ -742,6 +783,22 @@ API: `primitiveL.bounded_height_count`, `.local_log_derivative`, `.safe_height_b
 
 See Koukoulopoulos, *The Distribution of Prime Numbers*, Lemma11.2 p.113, Lemma11.4 pp.114–115 and Lemmas8.5–8.6 pp.89–91. *Needs:* §0.30; ZerosOfLFunctions 3.3–3.4 and 4.5–4.8; its Gamma bounds; native finite analytic orders, maximum modulus and Cauchy estimates.
 
+**The case of `ζ` in §0.30a.** The principal character of conductor 1, whose `L`-function is `ζ`, is outside the signature above; its specialization keeps the pole term at 1 and is stated separately.
+
+`riemannZeta_local_logDeriv`: for every real `σ₀>1` and radii `0<r<r′` there is `C`, depending only on `σ₀,r,r′`, such that for every `s₀` with `Re s₀=σ₀` and every `s≠1` with `|s−s₀|≤r` and `ζ(s)≠0`,
+`|ζ′/ζ(s)+1/(s−1)−Σ_(|ρ−s₀|≤r′)m(ρ)/(s−ρ)|≤C log(|Im s₀|+2)`,
+the sum running over every zero `ρ` of `ζ` in the closed disc, trivial zeros included, with `m(ρ)` its analytic order. Equivalently `−ζ′/ζ(s)=1/(s−1)+Σ_(|ρ−s₀|≤r′)m(ρ)/(ρ−s)+O(log(|Im s₀|+2))`; once `|Im s₀|≥r+1` the pole term is at most 1 and joins the error. Run the nested-disc argument above for the entire function `(s−1)ζ(s)` on `|s−s₀|≤r′+1`: at the centre `|(s₀−1)ζ(s₀)|≥(σ₀−1)ζ(2σ₀)/ζ(σ₀)` by the Euler product (`riemannZeta_eulerProduct_tprod`), on the disc `|(s−1)ζ(s)|≤C(|Im s₀|+2)^B` by the wide-strip growth of ZerosOfLFunctions 3.4 and compactness at bounded height, and Jensen's bound (ZerosOfLFunctions 4.3) gives `O(log(|Im s₀|+2))` zeros in the disc of radius `r′`.
+
+`riemannZeta_logDeriv_window` is the conductor-one form of the display above: with an absolute constant, for `−1≤Re s≤2`, `s≠1` and `ζ(s)≠0`,
+`ζ′/ζ(s)+1/(s−1)=Σ_(0<Re ρ<1,|Im ρ−Im s|≤1)m(ρ)/(s−ρ)+O(log(|Im s|+2))`.
+Take `s₀=2+i Im s`, `r=3`, `r′=4`: every nontrivial zero of the window lies in the disc, and the other zeros of the disc, the trivial zero `−2` included, are at distance at least 1 from `s` and number `O(log(|Im s|+2))`.
+
+`riemannZeta_safe_height`: there is an absolute `C` such that every `T≥2` has some `T′∈[T,T+1]` with `ζ(σ±iT′)≠0` and `|ζ′/ζ(σ±iT′)|≤C log²(T+2)` for `−1≤σ≤2`. Remove intervals of radius `c/log(T+2)` about the `O(log(T+2))` ordinates in `[T−1,T+2]` (ZerosOfLFunctions 4.5), with `c` absolute and small enough that their total length is below `1/2`, and apply the window form. One height serves both edges, since `ζ(s̄)` is the conjugate of `ζ(s)`.
+
+Checks: at `s₀=2` and `r′≥4` the disc contains the trivial zero `−2`, which the sum counts; near `s=1`, `ζ′/ζ(s)=−1/(s−1)+γ+O(s−1)`, so the left side without `+1/(s−1)` is unbounded at bounded height; a zero of order 2 contributes `2/(s−ρ)`; conjugation fixes the zero set of `ζ`, so a single safe height suffices, unlike the two-character choice above.
+
+See [112], Chapters 15 and 17, for the window form and the heights; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §3.9, for the nested-disc expansion. *Needs:* ZerosOfLFunctions 3.4, 4.3 and 4.5; `riemannZeta_eulerProduct_tprod`; `differentiableAt_riemannZeta`; native finite analytic orders, maximum modulus and Cauchy estimates.
+
 ### 0.31 Mertens product input
 
 For `y≥2, ∏_{p≤y}(1−1/p)` is comparable to `1/log y`, with absolute positive upper and lower constants. The application here needs the lower estimate after removing finitely many fixed primes, not an unsourced precise constant.
@@ -787,6 +844,16 @@ Join the imported high-height zero-free region to bounded-height real-line nonva
 See [59][R59], AppendixA LemmaA.1, p.541.
 
 *Needs:* [ZerosOfLFunctions 6.2][R16]; [ZerosOfLFunctions its local logarithmic derivative and zero counts][R14]; [ZerosOfLFunctions its Gamma estimates][R12]; native right-half-plane nonvanishing and the pole germ at 1; compact continuity.
+
+**§0.33a Derivative and logarithmic-derivative bounds right of the curve.** `riemannZeta_deriv_logDeriv_bound`: there are `0<β<1` and `C>0` such that every `s≠1` with `Re s≥1−β/log(|Im s|+2)` has `ζ(s)≠0`, `|ζ′(s)+1/(s−1)²|≤C log²(|Im s|+2)` and `|ζ′/ζ(s)+1/(s−1)|≤C log(|Im s|+2)`. The region is the whole half-plane to the right of the curve, with no upper bound on `Re s`; at width `β` it contains the strip `Z` of §0.33. The two left sides are `G′` and the analytic extension of `ζ′/ζ+1/(s−1)` across 1, so the bounds hold at 1 as well. Where `|Im s|≥1` the pole terms are at most 1 and `log(|Im s|+2)>1`, so `|ζ′(s)|` and `|ζ′/ζ(s)|` are at most `(C+1)log²(|Im s|+2)`. Since `log(|Im s|+2)≥log 2`, the polylogarithmic forms follow: for every integer `k≥1` the region `Re s≥1−β(log 2)^(k−1)/log^k(|Im s|+2)` lies in the one above, and on it `|ζ′/ζ(s)+1/(s−1)|≤C(log 2)^(1−k)log^k(|Im s|+2)`; likewise `|ζ′(s)+1/(s−1)²|≤C(log 2)^(2−k)log^k(|Im s|+2)` for `k≥2`.
+
+Let `β₀` and `C₀` be the width and constant supplied by §0.33, put `β=β₀/4` and write `L=log(|Im s|+2)`. Every `z` with `|Im z|≤|Im s|+1` has `log(|Im z|+2)≤2L`, because `|Im s|+3≤(|Im s|+2)²`. For `G′` with `Re s<2`, Cauchy's estimate on the disc of radius `β/L` about `s` applies: the disc lies in `Z` at width `β₀`, where §0.33 gives `|G|≤2C₀L`, so `|G′(s)|≤2C₀L²/β`; for `Re s≥2`, `|ζ′(s)|≤Σ_(n≥2)log n/n²` and `|s−1|≥1`. For `H=ζ′/ζ+1/(s−1)` at `|Im s|≥2` put `s₁=1+1/L+i Im s`. If `Re s≥Re s₁`, then `|ζ′/ζ(s)|≤−ζ′/ζ(Re s)≤−ζ′/ζ(1+1/L)≤L+O(1)` by the Mangoldt series and §0.11b. Otherwise subtract the window expansions of §0.30a (`riemannZeta_logDeriv_window`) at `s` and `s₁`. Every window zero has `Re ρ≤1−β₀/(2L)=1−2β/L` by §0.33 at width `β₀`, so `|s−ρ|≥β/L`, `|s₁−s|≤(1+β)/L`, `|s₁−ρ|≤(2+1/β)|s−ρ|` and `|1/(s−ρ)−1/(s₁−ρ)|≤(1+β)(2+1/β)Re 1/(s₁−ρ)`. The window expansion at `s₁` and `|ζ′/ζ(s₁)|≤L+O(1)` bound `Σ Re 1/(s₁−ρ)` by `O(L)`, hence `H(s)=O(L)`. Below height 2, `H` is analytic on a neighbourhood of the part of the region with `Re s≤2`, which is compact and contains no zero of `ζ`, and the Mangoldt series bounds it for `Re s≥2`.
+
+Checks: near `s=1`, `ζ′(s)=−1/(s−1)²+O(1)` and `ζ′/ζ(s)=−1/(s−1)+γ+O(s−1)`, so without the subtracted pole terms neither bound holds at bounded height. The bound for `ζ′/ζ` does not follow from §0.33 by multiplying: `ζ′/ζ=ζ′·(1/ζ)` with §0.33's bound for `1/ζ` gives only `log³(|Im s|+2)`. On `Re s≥2` both functions are bounded, so dropping the upper limit `Re s≤10` of `Z` costs nothing.
+
+See Montgomery–Vaughan, *Multiplicative Number Theory I. Classical Theory*, §1.3 for `ζ′` and Theorem6.7 for `ζ′/ζ`; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §§3.9–3.11.
+
+*Needs:* §0.33; §0.30a (`riemannZeta_logDeriv_window`); §0.11b; [ZerosOfLFunctions 6.2][R16]; `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`; native Cauchy estimates.
 
 ### 0.34 Uniform exclusion of Landau–Siegel zeros
 
@@ -1022,6 +1089,37 @@ For `F=0` every term vanishes. For the completed Riemann zeta take `c=0, a=a′=
 See [61][R61], §I.1–I.2, pp.211–215; Remark1.1.3, Lemmas1.2.1–1.2.2; [63][R63], §2.3 pp.275–276, (2.3.5).
 
 *Needs:* §1.3; `Completed/ContourIntegration#layer-4-the-hungerbühlerwasem-generalized-residue-theorem-hw-theorem-33`.
+
+**§1.8a Weil's explicit formula for `ζ` with `C¹` test functions.** The signature `zeta_weil_explicit_formula` uses the test predicate `WeilC1TestFunction`, and Gauss's integral is `digamma_eq_integral`. `WeilC1TestFunction F` means that `F:ℝ→ℂ` is `C¹` and that, for some `ε>0`, both `F(x)e^((1/2+ε)|x|)` and `F′(x)e^((1/2+ε)|x|)` are Lebesgue integrable on `ℝ`. Every `C¹` function with `|F(x)|+|F′(x)|≤Ce^(−(1/2+δ)|x|)` for some `δ>0` qualifies, with `ε=δ/2`; the class is closed under `x↦−x` and complex linear combinations, after decreasing `ε`. It is not contained in §1.3's class, whose bounded variation of `(F(x)−F(0))/x` can fail for a `C¹` function, and does not contain it: `e^(−|x|)` is admissible there but not `C¹`.
+
+For such `F` put `Φ_F(s)=∫_ℝF(x)e^((s−1/2)x)dx` and `F̌(x)=F(−x)`. Then `Σ_(n≥1)Λ(n)n^(−1/2)(F(log n)+F(−log n))` converges absolutely, the archimedean integrand below is absolutely integrable on `(0,∞)`, and
+`lim_(T→∞)Σ_(0<Re ρ<1,|Im ρ|<T)m(ρ)Φ_F(ρ)=Φ_F(0)+Φ_F(1)−W_∞(F)−Σ_(n≥1)Λ(n)n^(−1/2)(F(log n)+F(−log n))`,
+`W_∞(F)=F(0)log π+(1/2)∫_0^∞[(F(x/2)+F(−x/2))e^(−x/4)/(1−e^(−x))−2F(0)e^(−x)/x]dx`,
+where `ρ` runs over the nontrivial zeros of `ζ` and `m(ρ)` is the analytic order. In §1.8's notation `W_∞(F)=F(0)log π+I(1/2,0)+J(1/2,0)`, so for real `F` in both classes this is §1.8 at the data of the completed Riemann zeta (`c=0`, `a=a′=1/2`, `b=b′=0`, `A=B=π^(−1/2)`). The compactly supported smooth tests of [ZerosOfLFunctions 8.4][R18] at `K=ℚ` are the case `F(x)=φ(e^x)e^(x/2)`, for which `Φ_F` is the Mellin transform of `φ` and the zero side converges absolutely; for a general `F` here only the symmetric limit is asserted.
+
+The contour steps are targets here; `0<δ<min(ε,1)` is fixed.
+
+- `.pointwise`: `|F(x)|≤Ce^(−(1/2+ε)|x|)`. The function `F(x)e^((1/2+ε)|x|)` is continuous with integrable derivative on each half-line, so it has limits at `±∞`, which vanish by integrability. This gives the absolute convergence of the prime series.
+- `.transform_decay`: `Φ_F` is holomorphic on `−ε<Re s<1+ε` and continuous on the closed strip, where `|Φ_F(s)|≤C/(1+|Im s|)` by one integration by parts, `(s−1/2)Φ_F(s)=−∫F′(x)e^((s−1/2)x)dx`; and `Φ_F(1−s)=Φ_(F̌)(s)`.
+- `.rectangle`: for a height `T′` of `riemannZeta_safe_height` (§0.30a), the residue theorem for `Φ_F Λ′/Λ`, with `Λ=completedRiemannZeta`, on the rectangle with sides `Re s=−δ`, `Re s=1+δ`, `Im s=±T′` gives `Σ_(|Im ρ|<T′)m(ρ)Φ_F(ρ)−Φ_F(0)−Φ_F(1)`: `Λ` has simple poles at 0 and 1 and its zeros are the nontrivial zeros of `ζ`. `Λ(1−s)=Λ(s)` moves the left side to `Re s=1+δ` with `F̌` in place of `F`.
+- `.horizontal_edges`: on `Im s=±T′`, `Λ′/Λ(s)=−(1/2)log π+(1/2)ψ(s/2)+ζ′/ζ(s)` is `O(log²T′)` by the safe height and [ZerosOfLFunctions 1.4][R12], and `Φ_F=O(1/T′)`, so these sides tend to 0.
+- `.prime_side`: `(2πi)⁻¹∫_(1+δ−iT)^(1+δ+iT)Φ_F(s)(−ζ′/ζ)(s)ds→Σ_(n≥1)Λ(n)n^(−1/2)F(log n)`. Expand `−ζ′/ζ` by `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`; each term is `n^(−1−δ)` times a truncated Fourier inversion integral of `G(y)=F(y)e^((1/2+δ)y)` at `y=log n`. Since `G` and `G′` are integrable, `G` has bounded variation, so these truncated integrals converge pointwise and are bounded uniformly in `T` and `n` (Dirichlet–Jordan), and dominated convergence over `n` applies.
+- `.archimedean_side`: with `ψ=Complex.digamma`, `(2πi)⁻¹∫_(1+δ−iT)^(1+δ+iT)(Φ_F(s)+Φ_(F̌)(s))((1/2)ψ(s/2)−(1/2)log π)ds→−W_∞(F)`. Move the segment to `Re s=1/2`; this crosses no singularity and costs `O(log T/T)` on the horizontal sides. At `s=1/2+it` the factor `Φ_F(s)+Φ_(F̌)(s)=F̂(t)+F̂(−t)`, with `F̂(t)=∫F(x)e^(itx)dx`, is even in `t`, so `ψ(1/4+it/2)` may be replaced by its even part. Insert Gauss's integral and exchange the finite `t`-integral with the absolutely convergent `x`-integral: with `F_e(x)=(F(x)+F(−x))/2` and `S_T` the truncated inversion integral, the `x`-integrand is `S_TF_e(0)e^(−x)/x−S_TF_e(x/2)e^(−x/4)/(1−e^(−x))`. Since `S_TF_e` is bounded uniformly in `T` and tends to `F_e` pointwise, dominated convergence handles `x≥1` and the bounded part of the integrand on `(0,1)`. The remaining part `∫_0^1(S_TF_e(0)−S_TF_e(x/2))x⁻¹dx` equals `−∫_ℝF_e′(u)(S_Tℓ)(u)du` for `ℓ(u)=log(1/(2u))` on `(0,1/2]` and 0 elsewhere. Plancherel (`MeasureTheory.Lp.norm_fourier_eq`) gives `S_Tℓ→ℓ` in `L²`, which suffices on `|u|≤1`, where `F_e′` is bounded; on `|u|>1`, `|S_Tℓ(u)|≤C/|u|` and Riemann–Lebesgue give dominated convergence. Along the line the integral converges in general only as a symmetric limit, since `Φ_F` decays like `1/|Im s|` while `ψ(s/2)` grows like `log|Im s|`; this is why `W_∞` is written as the combined integral, which converges absolutely.
+- `.height_limit`: the zeros with `T′≤|Im ρ|<T`, for consecutive safe heights, number `O(log T)` and have `|Φ_F(ρ)|=O(1/T)`, so the limit along safe heights is the limit over all `T`.
+
+`digamma_eq_integral` (Gauss): for `Re z>0`, `ψ(z)=∫_0^∞(e^(−t)/t−e^(−zt)/(1−e^(−t)))dt`, the combined integrand being absolutely integrable. Mathlib's `Complex.digamma` has no integral representation at the pin, so it is proved here. `Complex.digamma_apply_add_nat`, `Complex.digamma_one` and the asymptotic `ψ(w)=log w+O(1/|w|)` of [ZerosOfLFunctions 1.4][R12] give `ψ(z)=−γ+Σ_(n≥0)(1/(n+1)−1/(n+z))`. Write `1/(n+w)=∫_0^∞e^(−(n+w)t)dt` and sum under the majorant `|e^(−t)−e^(−zt)|/(1−e^(−t))`. Finally `−γ=∫_0^∞(e^(−t)/t−e^(−t)/(1−e^(−t)))dt` follows from `γ=lim(H_N−log N)`, `H_N=∫_0^∞e^(−t)(1−e^(−Nt))/(1−e^(−t))dt` and `log N=∫_0^∞(e^(−t)−e^(−Nt))t⁻¹dt`, the last by Tonelli on `∫_1^N∫_0^∞e^(−ut)dt du`.
+
+**Checks.**
+
+- `F=0`: every term vanishes.
+- Replacing `F` by `F̌` exchanges `Φ_F(0)` and `Φ_F(1)` and sends `Φ_F(ρ)` to `Φ_F(1−ρ)`, which permutes the zero side because `ρ↦1−ρ` preserves the nontrivial zeros, their orders and `|Im ρ|`; `W_∞` and the prime side are unchanged. A prime side with `F(log n)` alone would fail this.
+- The poles enter with a plus sign; counting them in the signed divisor on the zero side would subtract `Φ_F(0)+Φ_F(1)` a second time.
+- The archimedean integrand tends to `(5/2)F(0)` as `x→0⁺`; integrating `(F(x/2)+F(−x/2))e^(−x/4)/(1−e^(−x))` apart from the subtracted term diverges at 0 unless `F(0)=0`.
+- Gauss's integral at `z=1` is `−γ<0` by `Complex.digamma_one`, and its integrand `e^(−t)(1/t−1/(1−e^(−t)))` is indeed negative, since `1−e^(−t)<t`; the reversed integrand would give `+γ`.
+
+See [61][R61], §I.2, Lemmas1.2.1–1.2.2, pp.212–215, for the archimedean term; [112], Chapter 17, for the contour at well-chosen heights; Whittaker–Watson, *A Course of Modern Analysis*, §12.3, for Gauss's integral.
+
+*Needs:* §0.30a (`riemannZeta_logDeriv_window`, `riemannZeta_safe_height`); [ZerosOfLFunctions 1.4][R12]; [ZerosOfLFunctions 4.5][R14]; the residue theorem of the ContourIntegration contract (`TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous`); `completedRiemannZeta_one_sub`; `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`; `MeasureTheory.Lp.norm_fourier_eq`; `Complex.digamma`; `Complex.digamma_apply_add_nat`; `Complex.digamma_one`; `Real.eulerMascheroniConstant`.
 
 ### 1.9 Prime error terms under RH and GRH
 
@@ -2714,7 +2812,15 @@ Use the unshifted specialization of [Kösters][R96], §3 pp.9–15, keeping the 
 
 On `[T,2T]`, `|ζ|²=2ReS+O(logt)`. The diagonal of `∫|S|²` is `T(logT)^4/(4π²)+O(T(logT)³)`, including the moving-cutoff correction. The off-diagonal target controls both `∫|S|²` and `∫S²`; the latter diagonal is `O(√T(logT)^4)` by second-derivative oscillation. Thus `∫(2ReS)²` has coefficient `1/(2π²)`; Cauchy–Schwarz makes the approximate-equation error `O(T(logT)³)`. Sum dyadically and absorb the bounded initial interval. [89][R89], p.1 independently gives `2/(4!ζ(2))`; its stronger error is unnecessary.
 
-*Needs:* §3.22; §3.26; zeta functional equation and imported Stirling theory; truncated Perron and contour adapters; finite divisor hyperbola/CRT and Abel summation; the four auxiliary targets above.
+*Needs:* §3.22; §3.24a; §3.26; zeta functional equation and imported Stirling theory; truncated Perron and contour adapters; finite divisor hyperbola/CRT and Abel summation; the four auxiliary targets above.
+
+**§3.24a The divisor-square Euler identity.** `riemannZeta_pow_four_eq_mul_LSeries_divisor_sq`: for `Re s>1` the series `Σ_(n≥1)τ(n)²n^(−s)` converges absolutely and `ζ(s)⁴=ζ(2s)Σ_(n≥1)τ(n)²n^(−s)`, with `τ(n)=#n.divisors`; equivalently `Σ_(n≥1)τ(n)²n^(−s)=ζ(s)⁴/ζ(2s)` there, since `ζ(2s)≠0`.
+
+Both `τ²` and `τ₄=1∗1∗1∗1` are multiplicative, so the Dirichlet-convolution identity `τ₄=τ²∗1_□`, with `1_□` the indicator of the positive squares, reduces to prime powers, where it reads `C(k+3,3)=Σ_(0≤j≤k/2)(k−2j+1)²`; equivalently the Euler factors agree, `(1−X²)/(1−X)⁴=(1+X)/(1−X)³=Σ_(k≥0)(k+1)²X^k`. The same prime-power comparison gives `τ(n)²≤τ₄(n)`, since `(k+1)²≤C(k+3,3)`, so absolute convergence follows from that of `ζ(σ)⁴`. Take `L`-series with `LSeries_convolution'`, `LSeries_one_eq_riemannZeta` and `Σ_(m≥1)(m²)^(−s)=ζ(2s)`.
+
+Checks: at a prime the coefficient is `τ(p)²=4=τ₄(p)`, whereas the series of `τ(n²)`, with coefficient `τ(p²)=3` at `p`, is `ζ(s)³/ζ(2s)`; at `p²`, `τ₄(p²)=10=τ(p²)²+1`, the `1` coming from the square `p²` in `1_□`, so dropping `ζ(2s)` fails at the first square. The leading coefficient `(1/3!)/ζ(2)=1/π²` of `zetaFourthMoment.divisorDiagonal` is read off this identity.
+
+See [Kösters][R96], AppendixA, LemmasA.5–A.6, p.20, where the identity is used; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §1.2. *Needs:* `ArithmeticFunction.IsMultiplicative`; `ArithmeticFunction.isMultiplicative_sigma`; `LSeries_convolution'`; `LSeries_one_eq_riemannZeta`; `Nat.divisors`.
 
 ### 3.25 Beurling prime system
 

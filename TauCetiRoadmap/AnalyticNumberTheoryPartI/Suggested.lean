@@ -11,12 +11,15 @@ import Mathlib
 Layer 0 states the uniform exclusion of Landau–Siegel zeros with its Kronecker-character,
 Landau-deduction and inert-prime targets (§0.34), the lower bound `L(1, χ) ≥ c / log q` (§0.9),
 which strengthens ImaginaryQuadraticClassNumber's `quadratic_LFunction_siegel`, finite-order
-Hadamard factorization and Siegel–Walfisz. Layer 1 states Davenport cancellation, the
-half-interval explicit formula, Dirichlet-polynomial means, Selberg density, Mestre's general
-Weil formula and the conditional RH/GRH prime estimates. Layer 2 states Louboutin's residue bound
-and bounded-degree Brauer–Siegel. Layer 3 states the Landau–Ramanujan and restricted
-Sathe–Selberg counts, Shiu's bound, both Halász mean theorems, the Dickman limit, Atkinson's formula,
-the second and fourth zeta moments and the Beurling prime/integer remainder equivalence.
+Hadamard factorization, Siegel–Walfisz, Chebyshev's factorial identity and factorial bounds,
+Mertens's von Mangoldt sum with its constant `γ`, and the local expansion of `ζ′/ζ` with its
+half-plane bounds. Layer 1 states Davenport cancellation, the half-interval explicit formula,
+Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula, the `C¹` explicit
+formula for `ζ` with Gauss's digamma integral, and the conditional RH/GRH prime estimates. Layer 2
+states Louboutin's residue bound and bounded-degree Brauer–Siegel. Layer 3 states the
+Landau–Ramanujan and restricted Sathe–Selberg counts, Shiu's bound, both Halász mean theorems, the
+Dickman limit, Atkinson's formula, the second and fourth zeta moments with the divisor-square Euler
+identity and the Beurling prime/integer remainder equivalence.
 All arithmetic cutoffs and zero multiplicities use the native library carriers.
 
 Published finite computations are named propositions here (`SchoenfeldFiniteRangeInput`,
@@ -198,6 +201,80 @@ theorem prod_one_add_inv_prime_le (h : PrimeProductFiniteInput) {x : ℝ} (hx : 
     ∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 + (1 : ℝ) / p) ≤ 2 * Real.log x := by
   sorry
 
+/-! ### Logarithmic factorials and Mertens's constants (§§0.11d, 0.26a) -/
+
+/-- Chebyshev's identity `log ⌊x⌋! = Σ_{n ≤ x} Λ(n) ⌊x / n⌋ = Σ_{m ≤ x} ψ(x / m)` (§0.11d). -/
+theorem log_floor_factorial_eq_sum_vonMangoldt (x : ℝ) :
+    Real.log (⌊x⌋₊.factorial : ℝ) =
+        ∑ n ∈ Finset.Icc 1 ⌊x⌋₊, ArithmeticFunction.vonMangoldt n * (⌊x / n⌋₊ : ℝ) ∧
+      Real.log (⌊x⌋₊.factorial : ℝ) = ∑ m ∈ Finset.Icc 1 ⌊x⌋₊, Chebyshev.psi (x / m) := by
+  sorry
+
+/-- Bounds for `log ⌊x⌋!` at real `x ≥ 1` with half-logarithm terms, sharpening Mathlib's
+`Real.le_sum_log` and `Real.sum_log_le` (§0.11d). -/
+theorem log_floor_factorial_bounds {x : ℝ} (hx : 1 ≤ x) :
+    x * Real.log x - x - Real.log x / 2 + Real.log Real.pi / 2 ≤
+        Real.log (⌊x⌋₊.factorial : ℝ) ∧
+      Real.log (⌊x⌋₊.factorial : ℝ) ≤ x * Real.log x - x + Real.log x / 2 + 1 := by
+  sorry
+
+/-- Mertens's second theorem in von Mangoldt form, with Euler's constant (§0.26a). -/
+theorem mertens_vonMangoldt_eulerGamma :
+    ∃ C : ℝ, ∀ x : ℝ, 2 ≤ x →
+      |∑ n ∈ Finset.Icc 2 ⌊x⌋₊, ArithmeticFunction.vonMangoldt n / (n * Real.log n) -
+          Real.log (Real.log x) - Real.eulerMascheroniConstant| ≤ C / Real.log x := by
+  sorry
+
+/-- The reciprocal-prime constant of Mertens's second theorem is
+`γ + Σ_p (log (1 - 1/p) + 1/p)` (§0.26a). -/
+theorem mertens_reciprocal_prime_constant :
+    Summable (fun p : Nat.Primes => Real.log (1 - 1 / ((p : ℕ) : ℝ)) + 1 / ((p : ℕ) : ℝ)) ∧
+      ∃ C : ℝ, ∀ x : ℝ, 2 ≤ x →
+        |∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p - Real.log (Real.log x) -
+            (Real.eulerMascheroniConstant + ∑' p : Nat.Primes,
+              (Real.log (1 - 1 / ((p : ℕ) : ℝ)) + 1 / ((p : ℕ) : ℝ)))| ≤ C / Real.log x := by
+  sorry
+
+/-! ### The local expansion of `ζ′/ζ` and its half-plane bounds (§§0.30a, 0.33a) -/
+
+/-- The nested-disc expansion of `ζ′/ζ` about a centre right of one, keeping the pole term and
+counting every zero of the disc, trivial ones included, with its analytic order (§0.30a). -/
+theorem riemannZeta_local_logDeriv {σ₀ r r' : ℝ} (hσ₀ : 1 < σ₀) (hr : 0 < r) (hrr' : r < r') :
+    ∃ C : ℝ, ∀ s₀ s : ℂ, s₀.re = σ₀ → ‖s - s₀‖ ≤ r → s ≠ 1 → riemannZeta s ≠ 0 →
+      ‖deriv riemannZeta s / riemannZeta s + 1 / (s - 1) -
+          ∑ᶠ ρ : {z : ℂ // ‖z - s₀‖ ≤ r' ∧ riemannZeta z = 0},
+            ((analyticOrderAt riemannZeta ρ.val).toNat : ℂ) / (s - ρ.val)‖ ≤
+        C * Real.log (|s₀.im| + 2) := by
+  sorry
+
+/-- The window form of the local expansion for `ζ`, the conductor-one case of §0.30a. -/
+theorem riemannZeta_logDeriv_window :
+    ∃ C : ℝ, ∀ s : ℂ, -1 ≤ s.re → s.re ≤ 2 → s ≠ 1 → riemannZeta s ≠ 0 →
+      ‖deriv riemannZeta s / riemannZeta s + 1 / (s - 1) -
+          ∑ᶠ ρ : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im - s.im| ≤ 1 ∧ riemannZeta z = 0},
+            ((analyticOrderAt riemannZeta ρ.val).toNat : ℂ) / (s - ρ.val)‖ ≤
+        C * Real.log (|s.im| + 2) := by
+  sorry
+
+/-- Every unit interval of heights contains one on which `ζ′/ζ` is `O(log² T)` across
+`-1 ≤ re s ≤ 2`, on both horizontal edges (§0.30a). -/
+theorem riemannZeta_safe_height :
+    ∃ C : ℝ, ∀ T : ℝ, 2 ≤ T → ∃ T' ∈ Set.Icc T (T + 1), ∀ σ : ℝ, -1 ≤ σ → σ ≤ 2 →
+      ∀ s ∈ ({(σ : ℂ) + (T' : ℂ) * I, (σ : ℂ) - (T' : ℂ) * I} : Set ℂ),
+        riemannZeta s ≠ 0 ∧
+          ‖deriv riemannZeta s / riemannZeta s‖ ≤ C * Real.log (T + 2) ^ 2 := by
+  sorry
+
+/-- Pole-subtracted bounds for `ζ′` and `ζ′/ζ` on the whole half-plane right of the classical
+curve `re s = 1 - β / log (|im s| + 2)` (§0.33a). -/
+theorem riemannZeta_deriv_logDeriv_bound :
+    ∃ β C : ℝ, 0 < β ∧ β < 1 ∧ ∀ s : ℂ, s ≠ 1 →
+      1 - β / Real.log (|s.im| + 2) ≤ s.re →
+        riemannZeta s ≠ 0 ∧
+          ‖deriv riemannZeta s + 1 / (s - 1) ^ 2‖ ≤ C * Real.log (|s.im| + 2) ^ 2 ∧
+          ‖deriv riemannZeta s / riemannZeta s + 1 / (s - 1)‖ ≤ C * Real.log (|s.im| + 2) := by
+  sorry
+
 /-- Siegel–Walfisz in ψ form, uniformly for `q ≤ (log x) ^ B` (§0.32). The README requires an
 effective constant and threshold, obtained from §0.34 through §0.18. -/
 theorem siegel_walfisz (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -370,6 +447,41 @@ theorem weil_explicit_formula (c : ℝ) (F : ℝ → ℝ) (hF : WeilTestFunction
             (Real.log p.val : ℂ) / (p.val : ℂ) ^ (((k : ℂ) + 1) / 2))) -
         (∑ j, weilGammaTerm F (a 0 j) (b 0 j)) -
         ∑ j, weilGammaTerm (fun x => F (-x)) (a 1 j) (b 1 j))) := by
+  sorry
+
+/-! ### Weil's explicit formula for `ζ` with `C¹` test functions (§1.8a) -/
+
+/-- `C¹` test functions whose values and derivatives are integrable against
+`exp ((1/2 + ε) |x|)` for some `ε > 0` (§1.8a). -/
+def WeilC1TestFunction (F : ℝ → ℂ) : Prop :=
+  ContDiff ℝ 1 F ∧ ∃ ε > 0,
+    MeasureTheory.Integrable (fun x => Real.exp ((1 / 2 + ε) * |x|) • F x) ∧
+    MeasureTheory.Integrable (fun x => Real.exp ((1 / 2 + ε) * |x|) • deriv F x)
+
+/-- Gauss's integral for the digamma function on the right half-plane, with absolutely
+integrable combined integrand (§1.8a). -/
+theorem digamma_eq_integral {z : ℂ} (hz : 0 < z.re) :
+    let g : ℝ → ℂ := fun t =>
+      Complex.exp (-(t : ℂ)) / (t : ℂ) - Complex.exp (-z * (t : ℂ)) / (1 - Complex.exp (-(t : ℂ)))
+    MeasureTheory.IntegrableOn g (Set.Ioi 0) ∧ Complex.digamma z = ∫ t in Set.Ioi 0, g t := by
+  sorry
+
+/-- Weil's explicit formula for `ζ` with `C¹` test functions (§1.8a): the archimedean integrand
+is integrable, the prime series converges absolutely, and the symmetric zero sum, with analytic
+orders, converges to `Φ(0) + Φ(1) - W_∞(F)` minus the prime series. -/
+theorem zeta_weil_explicit_formula (F : ℝ → ℂ) (hF : WeilC1TestFunction F) :
+    let Φ : ℂ → ℂ := fun s => ∫ x : ℝ, F x * Complex.exp ((s - 1 / 2) * (x : ℂ))
+    let g : ℝ → ℂ := fun x =>
+      (F (x / 2) + F (-x / 2)) * Complex.exp (-(x : ℂ) / 4) / (1 - Complex.exp (-(x : ℂ))) -
+        2 * F 0 * Complex.exp (-(x : ℂ)) / (x : ℂ)
+    let P : ℕ → ℂ := fun n => (ArithmeticFunction.vonMangoldt n : ℂ) / (Real.sqrt n : ℂ) *
+      (F (Real.log n) + F (-Real.log n))
+    MeasureTheory.IntegrableOn g (Set.Ioi 0) ∧ Summable (fun n => ‖P n‖) ∧
+      Tendsto (fun T : ℝ =>
+        ∑ᶠ ρ : {z : ℂ // 0 < z.re ∧ z.re < 1 ∧ |z.im| < T ∧ riemannZeta z = 0},
+          ((analyticOrderAt riemannZeta ρ.val).toNat : ℂ) * Φ ρ.val)
+        atTop (𝓝 (Φ 0 + Φ 1 - (F 0 * (Real.log Real.pi : ℂ) + (1 / 2 : ℂ) * ∫ x in Set.Ioi 0, g x) -
+          ∑' n, P n)) := by
   sorry
 
 /-! ## Layer 2: Number-field estimates -/
@@ -696,6 +808,14 @@ theorem mean_square : error =O[atTop] (fun T : ℝ => Real.sqrt T * Real.log T) 
   sorry
 
 end zetaSecondMoment
+
+/-- The divisor-square Euler identity `ζ(s)⁴ = ζ(2s) Σ τ(n)² n^{-s}` on `re s > 1`, with
+absolute convergence of the divisor-square series (§3.24a). -/
+theorem riemannZeta_pow_four_eq_mul_LSeries_divisor_sq {s : ℂ} (hs : 1 < s.re) :
+    LSeriesSummable (fun n : ℕ => (n.divisors.card : ℂ) ^ 2) s ∧
+      riemannZeta s ^ 4 =
+        riemannZeta (2 * s) * LSeries (fun n : ℕ => (n.divisors.card : ℂ) ^ 2) s := by
+  sorry
 
 namespace zetaFourthMoment
 
