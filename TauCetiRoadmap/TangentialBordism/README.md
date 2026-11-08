@@ -33,9 +33,10 @@ MSpin[1/2]≃MSO[1/2]. StringOrientation S4–S5 and EllipticCohomology own the
 Witten genus and the Cayley-plane kernel theorem; neither consumes anything
 from here. StringOrientation S2.3's stem (through EllipticCohomology E4.S)
 and S5.3's Hovey splitting use BordismFormalGroups F3–F5, which consume
-B4.2, B4.7 and B4.8 below; of S5.3 only the equivalence is consumed, by
-B3.4, and S2.3 is consumed by B3.3 and B5.5. These three items lie
-downstream of B4.2, B4.7, B4.8 and B5.4, and none of those uses them. Layer 9 below adds to S1.5 only the identification of its Jordan
+B4.1–B4.2, B4.4–B4.8 and B5.4 below; of S5.3 only the equivalence is
+consumed, by B3.4, and S2.3 is consumed by B3.3 and B5.5. None of
+B4.1–B4.2, B4.4–B4.8 and B5.4, and nothing that they need, uses these
+three items. Layer 9 below adds to S1.5 only the identification of its Jordan
 algebra with LieHighestWeight's compact Albert carrier, the explicit idempotent
 charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
 comparison, the smooth quotient through SmoothBundlesConnections B1.4, the Bott
@@ -59,7 +60,11 @@ BordismFormalGroups'. The finite-rank framed Pontryagin–Thom bijection
 Pontryagin–Thom morphism of homology theories (B5.4) and the ΩSpin_2 filling
 theorem (B3.2(c)) are owned here; the stable coefficient isomorphisms
 Ω^θ_n≅π_nMθ and Ω^fr_n≅π_nS are StringOrientation S2.2 and S2.3, which B5.4c
-and B5.5 consume and compare with the finite constructions.
+and B5.5 consume and compare with the finite constructions. B3.3 owns the
+stable-stem relations η≠0 in π₁S and η³=12ν≠0 in π₃S≅ℤ/24, for η the
+Lie-framed circle and ν StringOrientation S2.3's generator; no earlier
+roadmap states them, and later roadmaps that use the relation,
+K3BlochGroups (its §4.9) and FourManifolds among them, cite B3.3 for it.
 
 SmoothBundlesConnections B1.4 owns free proper smooth quotients and their
 principal/submersion comparison; B1.5 imports them and adds only cycle-structure
@@ -2090,6 +2095,14 @@ comparison here is constructed using the named Spin, Index and spectral supplier
 
 Prove that B3.0's D:MSpin→ko is an isomorphism on π_n for n<8 and
 onto for n=8, from its actual Thom/cohomology and Steenrod calculation.
+The comparison below degree eight is Anderson–Brown–Peterson's. Its
+2-primary input, that H*(MSpin;F2) is induced up from A(1) on F2 plus a
+module vanishing below degree eight, so that the Adams E₂-terms of MSpin
+and of ko both equal Ext over A(1) of F2 in stems below eight, is
+Beaudry–Campbell, Theorem 5.1.1 and Corollary 5.1.2, p.42, with
+H*ko=A//A(1) at their Remark 3.2.2, p.18; the resulting groups π₀–π₄
+of MSpin, namely ℤ, ℤ/2, ℤ/2, 0, ℤ, are the MSpin row of their
+Figure 31, p.41.
 Compute H*(BSpin;F2) and H*(MSpin;F2) on the stable classifiers from
 B4's operations and CC's universal Spin classes, through the actual
 Bμ2→BSpin→BSO Serre sequence, B4.2's Steenrod-compatible
@@ -2219,10 +2232,12 @@ classification alone is not cited as a proof of this filling theorem.
 
 ### 8.3 Spin three-manifolds (B3.3)
 
-Prove ΩSpin_3=0 from item4's below8 ABS comparison, π₃ko=0
+Prove ΩSpin_3=0 from B3.4's below8 ABS comparison, π₃ko=0
 and B5's geometric PT inverse: GeneralizedCohomology G5.4 identifies ko
 with G3.8's connective cover τ_(≥0)KO, so π₃ko=π₃KO, and TopologicalKTheory
-T7's KO coefficient in degree −3 is 0. Construct the specified Lie-spin T3 filling
+T7's KO coefficient in degree −3 is 0. The value π₃MSpin=0 is the
+stem-three entry of the MSpin row of Beaudry–Campbell, Figure 31, p.41;
+the comparison behind it is B3.4's, with the locators given in 7.2. Construct the specified Lie-spin T3 filling
 as the E(1) fibre complement in B1.7; use its boundary Spin identification
 and complex-oriented signature −8. Distinguish its induced framing
 from the Lie framing. Let η∈π₁S be the class of the circle with its Lie
@@ -2236,7 +2251,7 @@ h₀h₂, h₀²h₂=h₁³ (stem3), stems4 and5 being zero, so no differential
 leaves or enters stems1–3 (a differential from h₁ would hit the
 h₀-tower, which detects π₀S=ℤ); η≠0 because forgetting the framing sends
 the Lie-framed circle to the nonbounding Spin circle, nonzero in
-ΩSpin_1≅ko₁=ℤ/2 by item4, so h₁ detects η and h₁³≠0 detects η³; and
+ΩSpin_1≅ko₁=ℤ/2 by B3.4, so h₁ detects η and h₁³≠0 detects η³; and
 2η=0 gives 2η³=0, so η³ is the element 12ν of order two. By B5.4c's
 external products the product Lie framing of T³ represents η³, although
 its Spin image is zero. A signature-zero Borromean
@@ -2277,7 +2292,9 @@ smooth (n+1)-manifold. Both are stated on Tau Ceti's boundary charts
 structure of the boundary, which `TauCeti.isManifold_boundary` provides,
 and uses `TauCeti.boundaryOrientation`. ΩO_3=0 is Thom, after
 Théorème IV.12, p.79, and ΩSO_n=0 for 1≤n≤3 is his Théorème IV.13,
-p.81, which attributes n=3 to Rokhlin. In ΩO_4 prove
+p.81, which attributes n=3 to Rokhlin. The Spin column in degrees0–4,
+ℤ, ℤ/2, ℤ/2, 0, ℤ, is the MSpin row of Beaudry–Campbell, Figure 31, p.41.
+In ΩO_4 prove
 [CP2]=[RP2×RP2] using the full Stiefel–Whitney number comparison.
 The O column consumes B4/B5's MO calculation and geometric PT. For
 the SO column, degrees0,1 use points and oriented circle disks. In
@@ -2950,7 +2967,7 @@ finite-generation theorem. These are construction/proof prerequisites
 for spinHpTwoTransfer_pointKernelAtTwo, not consequences of the
 desired kernel equality.
 
-At odd primes use B3.4's ΩSpin_(p)=ΩSO_(p) ring, B4.8's oriented ring transported along StringOrientation S5.3, together
+At odd primes use B3.4's ΩSpin_(p)=ΩSO_(p) ring, which is B4.8's oriented ring transported by B3.4 along StringOrientation S5.3's equivalence, together
 with concrete Kreck–Stolz bundles. For n≥2 and0≤r≤n−2 construct
 E_r=γ1⊕γ2⊕H over HP^r×HP^(n−r−2) and its right-quaternionic
 projectivization P(E_r) with fibre HP2, Spin lift and classifying map
@@ -3017,9 +3034,10 @@ BordismFormalGroups consumes the ordinary operation and Adams interfaces,
 B4's MO coefficients and the geometric cycles with their Pontryagin–Thom
 comparison. FourManifolds consumes B1.7's concrete
 examples, B3.2's quadratic/filling results with the Spin-surface quadratic
-refinement, B4's ordinary Wu package and B5.2's finite embedded
-Pontryagin–Thom comparison.
-StringOrientation and EllipticCohomology precede this roadmap and consume
+refinement, B4's ordinary Wu package, B5.2's finite embedded
+Pontryagin–Thom comparison and B3.3's relation η³=12ν for the Lie framing
+of T³. K3BlochGroups consumes B3.3's η³=12ν≠0 for its quotient of π₃S by
+η³. StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
 metric and surgery results. CalibratedGeometry 2.4 consumes B1.5's relative
@@ -3028,11 +3046,12 @@ owns the boundaryless-source smoothing and transversality that its
 classifying maps into Circle, RP^N and CP^N use, and B1.6 consumes 8.13
 for that case. These consumers provide no prerequisite of the targets
 above, except that AlgebraicTopology supplies B1.6's boundaryless case
-and B2–B6, and that BordismFormalGroups F3–F5, which consume B4.2, B4.7,
-B4.8, B4.4–B4.6 and B5.4, are inputs of StringOrientation S2.3's stem
+and B2–B6, and that BordismFormalGroups F3–F5, which consume B4.1–B4.2,
+B4.4–B4.8 and B5.4, are inputs of StringOrientation S2.3's stem
 (through EllipticCohomology E4.S) and S5.3's Hovey splitting. The
 supply is layered: B3.3, B3.4 and B5.5, the only consumers of S2.3 and
-S5.3, are used by none of the items BordismFormalGroups consumes, and
+S5.3, are used by none of the items BordismFormalGroups consumes nor by
+anything those items need, and
 B3.4 takes from S5.3 only its equivalence MSpin[1/2]≃MSO[1/2], whose proof
 there uses no BordismFormalGroups item.
 
@@ -3064,7 +3083,16 @@ there uses no BordismFormalGroups item.
   Suppl.1(1964),3–38, for the ABS Thom class and orientation of B3.0.
 - D. W. Anderson, E. H. Brown and F. P. Peterson, *The structure of the
   Spin cobordism ring*, Annals of Math.86(1967),271–298, for the 2-local
-  splitting of MSpin used in B6.6.
+  splitting of MSpin used in B6.6 and the comparison MSpin→ko below
+  degree eight of B3.4 and B3.3; the located statements used there are
+  Beaudry–Campbell's below.
+- A. Beaudry and J. Campbell, *A guide for computing stable homotopy
+  groups*, [arXiv:1801.07530v2](https://arxiv.org/abs/1801.07530v2), 2018,
+  Remark 3.2.2, p.18, for H*ko=A//A(1); Theorem 5.1.1 and Corollary 5.1.2,
+  p.42, for Anderson–Brown–Peterson's description of H*(MSpin;F2) below
+  degree eight and the resulting agreement of Adams E₂-terms with ko; and
+  the MSpin row of Figure 31, p.41, for the groups ΩSpin_n, n≤4, of B3.1,
+  B3.3 and B3.4. These are the v2 locators.
 - J. McCleary, *A User's Guide to Spectral Sequences*, 2nd ed., Cambridge
   Studies in Advanced Mathematics58, 2001, Chapter 6, for transgression,
   Kudo's transgression theorem with its transpotence differential, Borel's
