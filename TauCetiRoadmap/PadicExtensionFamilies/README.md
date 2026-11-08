@@ -49,8 +49,9 @@ targets. Counts concern actual extensions and representatives under algebra equi
   **associated inertia**, the number of **wild segments**, and the theorem that the polygon's
   slopes are the valuations of the root differences (Layer 1).
 - The **breaks of a finite separable, not necessarily Galois, extension** through a Galois closure
-  (Deligne's appendix): the orbit count `embeddingOrbitCount` as the integrand of `ψ_{L/K}`, the
-  upper and lower breaks of `L/K`, the identification of the lower breaks with the rams, the discriminant exponent as an
+  (Deligne's appendix): the orbit count `embeddingOrbitCount` as the integrand of `ψ_{L/K}`
+  (RamificationOfCompleteDiscretelyValuedFields §4a.2), the upper and lower breaks of `L/K`, the
+  identification of the lower breaks with the rams, the discriminant exponent as an
   upper-numbering integral, the **slope polygon** and the **visible Artin and Swan slopes**, and
   the dictionary slopes ↔ rams ↔ means (Layer 2).
 - The **Galois-closure invariants**: Galois slopes with multiplicity, the **slope content**
@@ -77,7 +78,8 @@ The canonical unramified–totally ramified factorization and Eisenstein generat
 LocalFieldsRamification Layers 2–3, with the pinned declarations below. The finiteness dichotomy
 for separable degree-n extensions is MassFormula Layer 4; only bounded-discriminant finiteness
 and the refined count are targets here. The finite Galois Herbrand theory stops at normal
-extensions; §2.0 supplies its non-Galois extension needed by the polygon dictionary. The
+extensions; its non-Galois extension `ψ_{L/K}`, needed by the polygon dictionary, is
+RamificationOfCompleteDiscretelyValuedFields §4a.2. The
 classification of the degree-`n` extensions of `K` with inertia degree `f` by their unramified part
 is EtaleMassFormula Layer 1: the bijection onto the orbit set `𝒯(K_f, n/f)/Gal(K_f/K)` (§1.1), the
 automorphism count `#Aut_K(L) = #Aut_{K_f}(L) · #Stab([L])` with its weighted mass identity (§1.2),
@@ -273,7 +275,14 @@ The suppliers, with what is taken from each:
   subextension, Frobenius), Layer 3 (Eisenstein generators, the lower filtration, the quotient
   embeddings, Herbrand functions and upper numbering, Hasse–Arf, the different and the
   discriminant) and Layer 4 (inertia, wild inertia, the tame quotient of `G_K`), consumed at the pin where the exact contracts below name declarations. The non-Galois
-  Herbrand construction is §2.0 here.
+  Herbrand function is the next supplier's.
+- [Ramification of complete discretely valued fields](../RamificationOfCompleteDiscretelyValuedFields/README.md),
+  §4a.2: the Herbrand function `ψ_{L/K}` of a finite separable, not necessarily Galois, extension
+  and its inverse `φ_{L/K}`, with their independence of the Galois closure, the tower law, the
+  finite-level subgroup identity
+  (`TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup`,
+  its `Suggested.lean`) and the integral formula, read on nonarchimedean local fields through its
+  §3a.2 agreement with Tau Ceti's `herbrand` and `inverseHerbrand`. Used in Layers 2 and 6.
 - [Newton polygons](../NewtonPolygons/README.md), Layers 0–3 and 6: the lower convex envelope
   `lowerConvexEnvelope` (§0.1), the slope presentation `ConvexPolygon.FiniteSlopeData` (§0.6),
   the Newton polygon `Polynomial.newtonPolygon` of a polynomial and its finite slope multiset
@@ -354,12 +363,14 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
 | Newton polygons (roadmap contract) | `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6), `Polynomial.newtonPolygon` (§2.1); the finite slope multiset and its product law (§3.2), the root-valuation identification (§3.3) and the denominator theorems (§§6.1–6.2) are cited by section |
 | mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`) |
+| non-Galois Herbrand function (roadmap contract) | RamificationOfCompleteDiscretelyValuedFields §4a.2: `ψ_{L/K}`, `φ_{L/K}`, independence of the Galois closure, tower law, integral formula; the finite-level subgroup identity `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup` (its `Suggested.lean`) |
 
 ## How to read the build
 
 Layer 0 fixes the invariants on the canonical tower. Layer 1 constructs the ramification
-polynomial and its residual data. Layer 2 extends the finite Galois Herbrand theory to separable
-extensions and proves the polygon-to-break dictionary; Layer 3 reads the closure invariants.
+polynomial and its residual data. Layer 2 reads the breaks of a separable extension through the
+non-Galois Herbrand function of RamificationOfCompleteDiscretelyValuedFields §4a.2 and proves the
+polygon-to-break dictionary; Layer 3 reads the closure invariants.
 Layer 4 develops inseparability indices and filtered-unit jump sets. Layer 5 refines the mass
 formula by discriminant, independently of Layers 1–4. Layer 6 constructs families and counts
 their classes, and Layer 7 assembles the local closure invariants into a global discriminant.
@@ -710,46 +721,25 @@ and the lower filtration `G_t`.
 
 ### 2.0 Herbrand functions for non-Galois extensions
 
-For a finite separable extension `L/K` and a finite Galois `M/K` containing `L`, define
-`ψ_{L/K} := φ_{M/L} ∘ ψ_{M/K}` on `[−1,∞)` and let `φ_{L/K}` be its inverse. Here the two
-functions on the right are the finite Galois functions, since `M/L` is Galois. Prove independence
-of `M` by comparing two choices in a common finite Galois overfield and using the Galois tower
-law. Prove that these are continuous increasing piecewise affine inverse bijections, identity
-on `[−1,0]`, and agree with the Galois functions when `L/K` is Galois (Deligne, Appendix §A.6,
-Props. A.6.1–A.6.2; Serre, IV §3, Prop. 15).
-
-- In every finite separable tower `K ⊆ L ⊆ N`, prove
-  `ψ_{N/K} = ψ_{N/L} ∘ ψ_{L/K}` and the inverse composition in the reverse order.
-- For a common finite Galois overfield `M`, prove the subgroup identity
-  `Gal(M/L) ∩ Gal(M/K)^u = Gal(M/L)^{ψ_{L/K}(u)}`.
-- For `u ≥ 0`, prove `ψ_{L/K}(u) = (1/f) ∫_0^u [G : G^t H] dt`, with `G = Gal(M/K)`
-  and `H = Gal(M/L)`; on `[−1,0]` the derivative is `1`, and eventually it is `e(L/K)`.
-
-**Checks.**
-
-- For the non-Galois quartic `ℚ_2(∜2)`, the closure has lower jumps `3,7`; the subgroup
-  Herbrand function gives `φ_{M/L}(3)=2`, `φ_{M/L}(7)=4`, not `3,7`.
-- For an unramified extension of degree `2`, the orbit count on `(−1,0]` and beyond is `2`;
-  dividing by `f=2` gives derivative `1` and `ψ(u)=u`.
-- For a tame totally ramified cubic, `ψ(u)=3u` for `u≥0`; for the identity extension
-  it is `u`. Both have no positive break, but only the latter has derivative `1`.
-
-*Needs:* Tau Ceti `herbrand_tower`, `inverseHerbrand_tower`,
-`map_restrictNormalHom_upperRamificationGroup` and the finite Galois subgroup theorem in
-LocalFieldsRamification Layer 3, *Herbrand functions and the upper numbering*.
+The Herbrand function `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` of a finite separable `L/K` and its inverse
+`φ_{L/K}`, with their independence of the Galois closure `M`, the tower law, the finite-level
+subgroup identity and the integral formula, are RamificationOfCompleteDiscretelyValuedFields
+§4a.2 (see *Roadmap suppliers*); this roadmap does not restate them. Layer 2 adds the orbit count
+of 2.1 as the named integrand, the breaks of 2.2 and the reading of `ψ_{L/K}` off the
+ramification polygon in 2.5.
 
 ### 2.1 The orbit-count function
 
 Define `embeddingOrbitCount K L M (u) := (G^u ⊔ H).index` for `u ∈ [-1,∞)`: the number
 of orbits of `G^u` on `G/H = Hom_K(L,M)`. Prove it is nondecreasing, equal to `1` at `−1`,
 equal to `f` on `(−1,0]`, eventually equal to `[L:K]`, and independent of the finite Galois
-overfield by quotient compatibility. This is the integrand of §2.0's formula, so beyond the
+overfield by quotient compatibility. This is the integrand of the integral formula of
+RamificationOfCompleteDiscretelyValuedFields §4a.2, so beyond the
 largest break its value divided by `f` is `e` (Serre, IV §3, Prop. 15 and subgroup indices).
 
 - The orbit count uses the subgroup product because `G^u` is normal; no normality of `H`
   is assumed.
 - Restriction along a larger Galois overfield preserves the count at every parameter.
-- The integral of the count, divided by `f`, recovers the non-Galois inverse Herbrand function.
 
 **Checks.**
 
@@ -758,7 +748,7 @@ largest break its value divided by `f` is `e` (Serre, IV §3, Prop. 15 and subgr
 - For an unramified quadratic the values are `1` at `−1` and `2` immediately afterwards.
 - For `K/K`, `H=G`, so the count is `1` at every parameter, even when the overfield is nontrivial.
 
-*Needs:* §2.0; Tau Ceti `upperRamificationGroup`,
+*Needs:* RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti `upperRamificationGroup`,
 `map_restrictNormalHom_upperRamificationGroup`; Mathlib `Subgroup.index`.
 
 ### 2.2 Upper and lower breaks of `L/K`
@@ -766,7 +756,7 @@ largest break its value divided by `f` is `e` (Serre, IV §3, Prop. 15 and subgr
 Define an upper break of L/K at `u≥−1` by `G^u H ≠ G^{u'} H` for every `u' > u`, the
 left-continuity convention of Convention 3 (`G^u` is constant on `(u − ε, u]` for small `ε`, so
 the orbit count can only grow to the right of `u`). Define a lower break at t to mean an upper break at `φ_{L/K}(t)`,
-with `φ_{L/K}` of §2.0.
+with `φ_{L/K}` of RamificationOfCompleteDiscretelyValuedFields §4a.2.
 Prove: the upper breaks of `L/K` form a finite set; for `L/K` Galois they are Tau Ceti's
 `UpperJump K L u`; the breaks `u > 0` are exactly the `u` at which the orbit count jumps, and at
 such a jump the ratio `embeddingOrbitCount(u+)/embeddingOrbitCount(u)` is a power of `p` (`G^u`
@@ -779,7 +769,7 @@ artinSlopes K L := swanSlopes.map (· + 1); the multiset does not depend on `M`.
 Prove card (swanSlopes K L) = w. For `L/K` Galois, prove the multiplicity of `u` is
 `log_p [G^{(u+1)} : G^{(u+1)+}]` in the notation of Convention 3, and that the Swan slopes are
 integers when `G` is abelian (Hasse–Arf, Local fields and ramification Layer 3). *Needs:* 2.1;
-§2.0;
+RamificationOfCompleteDiscretelyValuedFields §4a.2;
 Tau Ceti `UpperJump`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`,
 `natCard_lowerRamificationGroup_one`.
 
@@ -823,7 +813,9 @@ multiply by `f(E/K)/e(M/E)` and use `#G_t − #(G_t ∩ H_E) = #G_t (1 − [G : 
 finally substitute `u = φ_{M/K}(t)`, `du = dt · #G_t/#G_0`, which turns the sum over `t` into the
 integral over `u` with `G_t = G^{φ(t)}` (`upperRamificationGroup_herbrand`). This is Serre's
 Prop. 4 of IV §1 together with the change of variables of IV §3, not a statement about Artin
-conductors. Corollary, with `E = L`: `c(L/K) = f · ∫_{-1}^{∞} (e − ψ_{L/K}'(u)) du`, which 2.6
+conductors. Corollary, with `E = L` and `f ψ_{L/K}'(u) = [G : G^u H]` for almost every
+`u > −1` (the integral formula of RamificationOfCompleteDiscretelyValuedFields §4a.2):
+`c(L/K) = f · ∫_{-1}^{∞} (e − ψ_{L/K}'(u)) du`, which 2.6
 evaluates as `f(e − 1 + e m_w)`. *Needs:* Tau Ceti `Different/Hilbert.lean`,
 `Different/Tower.lean`, `LowerIndex.lean`, `Herbrand/Basic.lean` (`coe_herbrand`); Mathlib
 `intervalIntegral`.
@@ -880,7 +872,8 @@ lower breaks of `L/K` (2.2) are exactly the distinct entries of rams φ α, and 
 break `t` of `L/K`, `1 + #{σ ≠ incl : v_M(σα − α)/e(M/L) − 1 ≥ t} = p^{#{k : r_k ≥ t}}` for `t > 0`. The
 proof identifies the root valuations of 1.2, `v_L((σα − α)/α) = v_M(σα − α)/e(M/L) − 1`, with the
 `G_t`-orbit structure. Two lower numberings are in play: `t` for `M/K` (Tau Ceti's `G_t`) and the
-lower numbering of `L/K`, which is `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` (§2.0); they agree only when
+lower numbering of `L/K`, which is `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}`
+(RamificationOfCompleteDiscretelyValuedFields §4a.2); they agree only when
 `e(M/L) = 1`. First prove the **non-normal sum formula**: for `σ ∈ G_0` (every coset of `H` meets
 `G_0`, `L/K` being totally ramified) and `α` a uniformizer of `L`,
 `v_M(σα − α) = Σ_{τ ∈ σH} i_G(τ)` with `i_G = IsLocalRing.lowerIndex` (the argument of Serre IV §1
@@ -892,7 +885,7 @@ Herbrand's theorem). Hence `v_L((σα − α)/α) = φ_{M/L}(m − 1)`, and sinc
 `m ≥ t + 1` (`mem_lowerRamificationGroup_iff_le_lowerIndex`), the root valuation is
 `≥ φ_{M/L}(t)` exactly when `σH` lies in the `G_t`-orbit of `H`. A jump of `G_t H` at `t` is
 therefore the ram `φ_{M/L}(t) = ψ_{L/K}(φ_{M/K}(t))`, a lower break of `L/K` in the sense of 2.2
-(Deligne, loc. cit., A.6.2; Greve–Pauli, author preprint, §8 in the Galois case, where `φ_{M/L} = id`;
+(Deligne, Appendix §A.6, Prop. A.6.2; Greve–Pauli, author preprint, §8 in the Galois case, where `φ_{M/L} = id`;
 witness `ℚ_2(∜2)` with its `D_4`-closure: `|G_t| = 8, 8, 4, 4, 2, 2, 2, 2, 1`, `H` a reflection,
 `G_t H` jumps at `t = 3, 7`, `φ_{M/L}(3) = 2`, `φ_{M/L}(7) = 4`, the rams `(2, 4)`). Consequently
 the **Herbrand function of `L/K` is read off the polygon**: `ψ_{L/K}` is the piecewise affine
@@ -901,7 +894,7 @@ and `ε p^w` beyond, where `s_k` are the Swan slopes of 2.2 listed with multipli
 *Herbrand function of a family* is the graph of `φ_{L/K} = ψ_{L/K}^{-1}` through `(r_k, s_k)`.
 For a general separable `L/K` the statement holds for `L/L^{ur}` (1.5) and the breaks of `L/K`
 and of `L/L^{ur}` coincide for `u > 0` (`comap_restrictScalarsHom_upperRamificationGroup` with
-`ψ_{L^{ur}/K} = id`). *Needs:* 1.2, 2.1, 2.2; §2.0; Tau Ceti
+`ψ_{L^{ur}/K} = id`). *Needs:* 1.2, 2.1, 2.2; RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti
 `LowerIndex.lean`,
 `RamificationGroup.lean`.
 
@@ -934,11 +927,11 @@ slope polygon (2.4): `V_k = L ∩ M^{G^v}` for `v ∈ (s_k, s_{k+1}]`, defined w
 `{(e', e' m(E/L^{ur}))}` over `L^{ur} ⊆ E ⊆ L` — is the shear `(n, c) ↦ (n, c − n + 1)` of
 the slope polygon of `L/Lᵘʳ`, with vertices at abscissae `ε p^k` and heights `ε p^k m_k`. Prove the
 **denominator theorem**: for a run `r_k = ⋯ = r_{k'}` of length `d = k' − k + 1`,
-`[V_{k'} : V_{k-1}] = p^d` and `V_{k'}/V_{k-1}` has the single ram `r_k` (the tower law of §2.0 gives `ψ_{L/K} = ψ_{L/V_{k'}} ∘ ψ_{V_{k'}/V_{k-1}} ∘ ψ_{V_{k-1}/K}`, and `ψ_{L/V_{k'}}` is the
+`[V_{k'} : V_{k-1}] = p^d` and `V_{k'}/V_{k-1}` has the single ram `r_k` (the tower law of RamificationOfCompleteDiscretelyValuedFields §4a.2 gives `ψ_{L/K} = ψ_{L/V_{k'}} ∘ ψ_{V_{k'}/V_{k-1}} ∘ ψ_{V_{k-1}/K}`, and `ψ_{L/V_{k'}}` is the
 identity below the first break of `L/V_{k'}`), so its ramification polygon is the single face from
 `(1, H(V_{k'}/V_{k-1}))` to `(p^d, 0)` and `(p^d − 1) r_k = H(V_{k'}/V_{k-1}) ∈ ℕ`: the denominator
 of a ram divides `p^d − 1`, `d` its multiplicity (knowl `lf.rams`), sharpening 1.2's
-`p^{w-k-d+1}(p^d − 1)`. *Needs:* 0.3, 2.1, 2.4, 2.5; §2.0.
+`p^{w-k-d+1}(p^d − 1)`. *Needs:* 0.3, 2.1, 2.4, 2.5; RamificationOfCompleteDiscretelyValuedFields §4a.2.
 
 **Checks.**
 
@@ -975,7 +968,7 @@ cyclotomic quartic has rams `1,3` and Swan slopes `1,2`.
 ### Dependencies
 
 Layers 0–1; finite Galois Herbrand theory, the different tower law and Hilbert formula.
-The non-Galois construction is §2.0, before all of its consumers.
+The non-Galois Herbrand function is RamificationOfCompleteDiscretelyValuedFields §4a.2.
 
 ## Layer 3: the invariants of the Galois closure
 
@@ -1565,7 +1558,8 @@ coefficients omitted; every finite compatible list gives a finite diagram, all b
 are geometric, and its nonzero A coefficients ensure a finite first vertex and separability.
 Coverage and reduction then use Monge's argument, whose scope includes equal characteristic
 (§1.2, p.2), with the quantitative root lifting of MassFormula Layer 1. For `w=0`, use the
-tame branch above. *Needs:* §§1.1–1.3, 2.0, 2.5, 6.2; MassFormula Layer 1; Tau Ceti
+tame branch above. *Needs:* §§1.1–1.3, 2.5, 6.2; RamificationOfCompleteDiscretelyValuedFields
+§4a.2; MassFormula Layer 1; Tau Ceti
 `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`.
 
 **Checks.**
@@ -1648,7 +1642,7 @@ not its discriminant exponent; this is Mass formula's Theorem 2 regrouped along 
 characteristic and as the nonnegative sum in `ℝ≥0∞` of MassFormula Layer 4 otherwise; and the unweighted degree-`n` mass
 is the sum of the family masses, equal to `Σ_[L] 1/#Aut`, the mass of `σ_K(n)`. The columns `mass_stored`,
 `mass_found` are data. *Needs:* 6.3, 6.4, 5.3; EtaleMassFormula §1.2; Mass formula Layer 4 (Theorem 2, orbit count),
-Layer 3 (fibre count); §§1.3, 2.0 and the tame branch of §6.4.
+Layer 3 (fibre count); RamificationOfCompleteDiscretelyValuedFields §4a.2; §1.3 and the tame branch of §6.4.
 
 **Checks.**
 
@@ -2056,7 +2050,7 @@ NumberFieldArithmetic L5–6 ─────────────────
 ```
 
 Layer 0 first. Layer 1 needs Layer 0 and Newton polygons. Layer 2 needs Layers 0–1, the Tau
-Ceti Herbrand package and §2.0; 2.1–2.3 can be built in
+Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
 parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1) and only Local fields and ramification Layer 1
 (4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Mass formula, not
 Layers 1–4. Layer 6 needs Layers 1–3 and 5. Layer 7 needs 3.3 and Number-field arithmetic and is
