@@ -1,31 +1,24 @@
 module
 
 import Mathlib
-import TauCeti.Topology.CWComplex.Classical.CWType
-import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
 import TauCeti.Topology.Homotopy.HomotopyGroup.WeakHomotopyEquivalence
 import TauCeti.Topology.PathSpace.Moore
 
 /-!
 # General algebraic K-theory, part II: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It records the roadmap's
-headline theorems against the pinned APIs, as suggested forms rather than an
-exhaustive checklist. The James reduced product of §4.30b is stated below: its
-word filtration, universal property, functoriality, CW structure and the James
-theorem, over Mathlib's classical CW complexes and delta-generated topologies and
-Tau Ceti's Moore loop spaces, weak homotopy equivalences and spaces of CW type,
-together with the pointed CW approximation and two inputs of its proof: field
-detection of integral homology isomorphisms and Whitehead's theorem for abelian
-spaces, over Mathlib's singular homology and Tau Ceti's action of the fundamental
-group on homotopy groups.
-The reduced suspension enters through a quotient map that presents it. The other
-headline theorems are not statable at the pins: the required spectral and enhanced
-categorical carriers are absent. The precise missing carriers are listed below.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs. The James reduced product of §4.30b is
+stated below with its universal property, its CW structure, its topological monoid
+structure for countably many cells and the James theorem in two forms, over
+Mathlib's classical CW complexes and delta-generated topologies and Tau Ceti's
+Moore loop spaces and weak homotopy equivalences. The reduced suspension enters
+through a quotient map that presents it. The other headline theorems are not
+statable at the pins: the required spectral and enhanced categorical carriers are
+absent. The precise missing carriers are listed below.
 
-- Filtration quotients, James–Hopf maps, the one-suspension James splitting and the metastable EHP sequence: lack smash products, wedges and homotopy fibers of pointed spaces.
 - Bott–Samelson and the homology of the reduced product: lack the Pontryagin product on singular homology.
-- Stable James splitting: lacks suspension spectra of spaces and free E-one ring spectra.
+- Stable James splitting: lacks stable equivalences of spectra; Tau Ceti's symmetric spectra and free spectra are point-set constructions with no stable homotopy category.
 - K-theory localization for compact kernels: lacks enhanced stable categories and their K spectrum.
 - Connective plus comparison: lacks connective ring spectra, GL spaces, plus and K.
 - Additive Morita and projective K comparison: lacks additive infinity categories and spectral modules.
@@ -127,58 +120,11 @@ def filtration (r : ℕ) : Set (JamesReducedProduct X x₀) :=
 
 variable {X x₀}
 
-/-- The monoid map `J(X) → J(Y)` induced by a pointed map, applied letter by letter. -/
-noncomputable def map {Y : Type v} [TopologicalSpace Y] {y₀ : Y} (f : C(X, Y))
-    (_hf : f x₀ = y₀) : JamesReducedProduct X x₀ →* JamesReducedProduct Y y₀ :=
-  (FreeMonoid.lift fun x => reduce Y y₀ (FreeMonoid.of (f x))).comp (toFreeMonoid X x₀)
-
-/-- The inclusion of a delta-generated space, in particular of a CW complex, is continuous. -/
-theorem continuous_ι [DeltaGeneratedSpace X] : Continuous (ι X x₀) := sorry
-
-/-- The stages of the word-length filtration are closed when points of `X` are closed. -/
-theorem isClosed_filtration [T1Space X] (r : ℕ) : IsClosed (filtration X x₀ r) := sorry
-
-/-- The stage `J₀(X)` is the unit. -/
-theorem filtration_zero : filtration X x₀ 0 = {1} := sorry
-
-/-- The stage `J₁(X)` is the image of `X`. -/
-theorem range_ι : Set.range (ι X x₀) = filtration X x₀ 1 := sorry
-
-/-- The word-length filtration is increasing and exhausts `J(X)`. -/
-theorem iUnion_filtration : ⋃ r, filtration X x₀ r = Set.univ := sorry
-
-/-- The product of words of lengths at most `r` and `s` has length at most `r + s`. -/
-theorem mul_mem_filtration {r s : ℕ} {a b : JamesReducedProduct X x₀}
-    (ha : a ∈ filtration X x₀ r) (hb : b ∈ filtration X x₀ s) :
-    a * b ∈ filtration X x₀ (r + s) := sorry
-
 /-- The universal property of `J(X)`: a pointed map from `X` to a topological monoid sending
 the base point to the unit extends uniquely to a continuous monoid map out of `J(X)`. -/
 theorem existsUnique_lift {M : Type v} [TopologicalSpace M] [Monoid M] [ContinuousMul M]
     (f : C(X, M)) (hf : f x₀ = 1) :
     ∃! φ : JamesReducedProduct X x₀ →* M, Continuous φ ∧ ∀ x, φ (ι X x₀ x) = f x := sorry
-
-/-- A pointed map induces a continuous map of James reduced products. -/
-theorem continuous_map {Y : Type v} [TopologicalSpace Y] {y₀ : Y} (f : C(X, Y))
-    (hf : f x₀ = y₀) : Continuous (map f hf) := sorry
-
-/-- The induced map extends the given pointed map on the words of length one. -/
-theorem map_ι {Y : Type v} [TopologicalSpace Y] {y₀ : Y} (f : C(X, Y)) (hf : f x₀ = y₀)
-    (x : X) : map f hf (ι X x₀ x) = ι Y y₀ (f x) := sorry
-
-/-- The induced map preserves every stage of the word-length filtration. -/
-theorem mapsTo_map_filtration {Y : Type v} [TopologicalSpace Y] {y₀ : Y} (f : C(X, Y))
-    (hf : f x₀ = y₀) (r : ℕ) :
-    Set.MapsTo (map f hf) (filtration X x₀ r) (filtration Y y₀ r) := sorry
-
-/-- The identity induces the identity. -/
-theorem map_id : map (ContinuousMap.id X) (rfl : (ContinuousMap.id X) x₀ = x₀) =
-    MonoidHom.id (JamesReducedProduct X x₀) := sorry
-
-/-- The construction is compatible with composition of pointed maps. -/
-theorem map_comp {Y : Type v} [TopologicalSpace Y] {y₀ : Y} {Z : Type*} [TopologicalSpace Z]
-    {z₀ : Z} (g : C(Y, Z)) (hg : g y₀ = z₀) (f : C(X, Y)) (hf : f x₀ = y₀) :
-    map (g.comp f) (by simp [hf, hg]) = (map g hg).comp (map f hf) := sorry
 
 section CW
 
@@ -195,12 +141,6 @@ theorem exists_cwComplex
       ∃ _ : Topology.CWComplex (Set.univ : Set (JamesReducedProduct W w₀)),
         ∀ r, ∃ E : Topology.RelCWComplex.Subcomplex (Set.univ : Set (JamesReducedProduct W w₀)),
           (E : Set (JamesReducedProduct W w₀)) = filtration W w₀ r := sorry
-
-/-- `J(W)` has CW type. -/
-theorem cwType
-    (hw₀ : ∃ i : Topology.CWComplex.cell (Set.univ : Set W) 0,
-      Topology.CWComplex.map 0 i 0 = w₀) :
-    TauCeti.CWType (JamesReducedProduct W w₀) := sorry
 
 /-- For a CW complex with countably many cells, the product topology on `J(W) × J(W)` is the CW
 topology, and `J(W)` is a topological monoid. -/
@@ -249,49 +189,6 @@ theorem exists_jamesMap_homotopyEquiv [ConnectedSpace W]
 end CW
 
 end JamesReducedProduct
-
-/-- **Pointed CW approximation.** Every pointed path-connected space receives a weak homotopy
-equivalence from a connected Hausdorff CW complex that sends a `0`-cell to the base point. -/
-theorem exists_pointed_cwApproximation {V : Type u} [TopologicalSpace V] [PathConnectedSpace V]
-    (v₀ : V) :
-    ∃ (Q : Type u) (_ : TopologicalSpace Q) (_ : T2Space Q)
-      (_ : Topology.CWComplex (Set.univ : Set Q)) (_ : ConnectedSpace Q)
-      (i : Topology.CWComplex.cell (Set.univ : Set Q) 0) (q : C(Q, V)),
-      q (Topology.CWComplex.map 0 i 0) = v₀ ∧ q.IsWeakHomotopyEquivalence := sorry
-
-section Homology
-
-open CategoryTheory AlgebraicTopology
-
-/-- Homology with field coefficients detects integral homology isomorphisms: a map induces
-isomorphisms on singular homology with integer coefficients exactly when it does so with rational
-coefficients and with coefficients `ZMod p` for every prime `p`. -/
-theorem isIso_singularHomology_int_iff {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    (f : C(X, Y)) :
-    (∀ n : ℕ, IsIso (((singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-        (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) ↔
-      (∀ n : ℕ, IsIso (((singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-        (ModuleCat.of ℤ (ULift.{u} ℚ))).map (TopCat.ofHom f))) ∧
-      ∀ p : ℕ, p.Prime → ∀ n : ℕ, IsIso (((singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-        (ModuleCat.of ℤ (ULift.{u} (ZMod p)))).map (TopCat.ofHom f)) := sorry
-
-/-- **Whitehead's theorem for abelian spaces.** A map between path-connected spaces of CW type,
-on each of which the fundamental group acts trivially on every homotopy group, that induces
-isomorphisms on integral singular homology is a homotopy equivalence. Connected H-spaces, such as
-`J(W)` and loop spaces, satisfy the hypothesis on the action. -/
-theorem exists_homotopyEquiv_of_isIso_singularHomology {X Y : Type u} [TopologicalSpace X]
-    [TopologicalSpace Y] [PathConnectedSpace X] [PathConnectedSpace Y] [TauCeti.CWType X]
-    [TauCeti.CWType Y]
-    (hX : ∀ (n : ℕ) (x : X) (γ : FundamentalGroup X x) (a : HomotopyGroup (Fin n) X x),
-      γ • a = a)
-    (hY : ∀ (n : ℕ) (y : Y) (γ : FundamentalGroup Y y) (a : HomotopyGroup (Fin n) Y y),
-      γ • a = a)
-    (f : C(X, Y))
-    (hf : ∀ n : ℕ, IsIso (((singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-      (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) :
-    ∃ e : ContinuousMap.HomotopyEquiv X Y, e.toFun = f := sorry
-
-end Homology
 
 end James
 
