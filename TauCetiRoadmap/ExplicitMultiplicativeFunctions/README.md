@@ -25,9 +25,11 @@ place of `1.16` for every `t > 0`, the form the comparison theorem consumes); th
 inequality; the explicit Mertens product
 `e^γ log x ∏_{p ≤ x}(1 − 1/p) ∈ [1 − 1/log² x, 1 + 1/(2 log² x)]` with Axler's refinement
 `e^γ log x ∏_{p ≤ x}(1 − 1/p) < 1 + 0.07/log³ x`; Robin's `ω(n) ≤ 1.3841 log n/log log n`, the
-Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}`, Robin's
-`σ(n)/n < e^γ log log n + 0.6483/log log n` and the Rosser–Schoenfeld companion
-`n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`. Beside each refereed statement the
+Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}` and Rosser–Schoenfeld's
+`n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`. Robin's
+`σ(n)/n < e^γ log log n + 0.6483/log log n` for `n ≥ 3` is stated by its locator beside Nicolas'
+proved bounds for `σ(n)/n` (9.3), not as an end theorem: the inputs of its proof are fixed only in
+its source. Beside each refereed statement the
 layers carry the sharper statements of later work that improve it: Ramaré–Zuniga Alterman's
 `|M(D)| ≤ (0.006688 log D − 0.039) D/log² D` for `D ≥ 1 798 118`, Chirre–Helfgott's linear bound
 `|M(x)| ≤ (3/(π·10^{10})) x + 11.39 √x` for every `x ≥ 1` from the zeros of `ζ` up to a finite height,
@@ -109,7 +111,15 @@ not the roadmap.
   sieve dimension predicate: SieveMethodsAndPrimePatterns §§0.5 and 1.1, cited for the statement
   shape of Layer 5.5, which refines it with explicit constants;
 - the semantics of verified zeros (*AllOnCriticalLine*): ZerosOfLFunctions Layer 9; it enters this
-  roadmap only through ExplicitPrimeCounting §1.1 and is never restated.
+  roadmap only through ExplicitPrimeCounting §1.1 and is never restated;
+- the Selberg diagonal sum `selbergDiagonal`, `S(z) = Σ_{n ≤ z} μ²(n)/φ(n)` for real `z`, with its
+  coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)` and its explicit asymptotic
+  `S(z) = log z + c₀ + O*(58/√z)` for `z ≥ 10^9`, where `c₀ = γ + Σ_p log p/(p(p − 1))` is the
+  constant of Layer 7.2: ExplicitCharacterSumsAndSieves §5.1, never restated. Layer 6.5 differs in
+  proving the comparison for every nonnegative multiplicative `f` in place of `1/φ` and in adding
+  the upper inequality through `x·rad(d)`; Layers 5.6 and 7.2 differ in proving other explicit
+  forms of `S` and of its coprime restrictions (Ramaré's `O*(2.44/√D)` from `D ≥ 1`,
+  Akhilesh–Ramaré's coprime form, Zuniga Alterman's `X^{−1/3}` forms for every `X > 0`).
 
 ### Not owned here
 
@@ -118,8 +128,8 @@ not the roadmap.
   ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
   the zero data named in *ZetaResidueSumVerified*;
 - the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
-  (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, so
-  nothing is consumed from that roadmap;
+  (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
+  this roadmap consumes from that roadmap is its §5.1 (above);
 - any computational algorithm: sieving `M(x)`, evaluating a constant, verifying a table. A page on
   exact computation contributes a verified value only, as a proposition that this roadmap states
   and does not discharge (Layer 0.7);
@@ -140,11 +150,15 @@ not the roadmap.
   double-logarithmic sums of the previous item); the odd form
   `Σ_{d ≤ X, d odd} μ²(d)/d = (4/π²)(log X + C₂ + (log 2)/3) + O*(0.79/√X)` of Zuniga Alterman
   (`zunigaAlterman2022` Lemma 4.1, second part, which uses a count of odd squarefree integers from
-  the same monograph); Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
+  the same monograph), with its consequence
+  `Σ_{ℓ ≤ X, ℓ odd} μ²(ℓ)/φ(ℓ) = ½(log X + a_2) + O*(2.169/√X)` for every real `X > 0`
+  (`zunigaAlterman2022` Lemma 4.7 at `q = 2`, the source's Theorem 4.6 at the exponent `1/2` over that
+  odd model, with `a_2` of Layer 5.6 and the Euler product `∏_{p > 2}(1 + 1/((p − 1)(√p − 1)))`);
+  Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
   Theorem 1.1, which use explicit bounds for the second and fourth moments of `ζ` on the critical
   line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape (`leeLeong2022`
   (9)–(11), which use explicit bounds for `1/ζ` in the corresponding zero-free regions). They belong
-  to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3 and 7 stop;
+  to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3, 5 and 7 stop;
 - Nicolas' Théorème 3 (the constant `2.597` for every `n ≥ 3` outside a table of twelve exceptional
   integers): it belongs to ExplicitMultiplicativeFunctions, Part II, and Layer 9.3 states Théorème 2,
   whose constant is attained;
@@ -261,6 +275,9 @@ quoted by another source, that quotation is cited beside it.
 - `EulerProduct.eulerProduct_hasProd`, `EulerProduct.eulerProduct_completely_multiplicative`
   (the Euler product of an absolutely summable multiplicative `f`, as finite products over
   `primesBelow` and their limit), `Real.summable_nat_rpow_inv`, `hasDerivAt_tsum`;
+- `ArithmeticFunction.LSeriesSummable_moebius_iff` (the `L`-series of `μ` converges absolutely
+  exactly on `Re s > 1`), `LSeries_one_mul_Lseries_moebius` and `LSeries_one_eq_riemannZeta`
+  (together: the `L`-series of `μ` is `1/ζ` on `Re s > 1`), used in the route of Layer 1.9;
 - `Polynomial.bernoulli` (the Bernoulli polynomials with `B₁ = −1/2`), `Nat.Coprime`,
   `Nat.primeFactors`, `Squarefree`, `Nat.factorization`, `Real.log_le_sub_one_of_pos`,
   `Real.add_one_le_exp`.
@@ -294,7 +311,13 @@ Chebyshev bounds at the pin are the Chebyshev-type constants `log 4` and `log 4 
   for Mathlib's `nth Nat.Prime k`);
 - `TauCeti/NumberTheory/SumPrimeReciprocals.lean`:
   `Nat.tendsto_prod_primesLE_filter_notMem_one_sub_inv_inv_atTop` (divergence of the Euler product
-  over the primes outside a finite set).
+  over the primes outside a finite set);
+- `TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/Formula.lean`:
+  `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` (the truncated Perron formula: for real `x > 0`,
+  `c > 0`, `T > 0`, and `f : ℕ → ℂ` whose `L`-series converges absolutely at `c` and that vanishes at
+  `x` when `x` is a natural number, the integral `(2π)^{−1} ∫_{−T}^{T} L(f, c + it) x^{c+it}/(c + it) dt`
+  differs from `Σ_{1 ≤ n < x} f(n)` by at most `Σ_n |f(n)| (x/n)^c/(πT|log(x/n)|)`); used at
+  `f = μ` in the route of Layer 1.9.
 
 What these do not include: no explicit constant in any prime estimate, no explicit remainder for
 `mertensConstant`, no summatory bound for `μ`.
@@ -420,7 +443,20 @@ real `x ≥ e^{20}` and `β = 1, 2, 3, 4`, with
 The finite extensions of these estimates that Ramaré 2013 computes below their ranges are not part
 of the contract: they are fields of `RamareTransferComputations` (Layer 0.7).
 
+### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
+
+- §5.1: `selbergDiagonal`, `S(z) = Σ_{1 ≤ n ≤ z} μ²(n)/φ(n)` for real `z` (the sum `G₁` of Layer 7.2
+  and the case `f = 1/φ` of Layer 6.5); its coprime comparison `S_k(z) ≥ (φ(k)/k) S(z)` for natural
+  `k ≥ 1` and real `z ≥ 1`, which is the first inequality of Layer 6.5 at `f = 1/φ`; and its
+  explicit asymptotic `S(z) = log z + c₀ + O*(58/√z)` for real `z ≥ 10^9`, against which the forms
+  of Layer 7.2 are compared. The carrier is the sum `G₁` of Layer 7.2; no proof here uses the
+  comparison or the asymptotic, which Layers 6.5 and 7.2 strengthen.
+
 ### From TauCetiRoadmap.ExplicitZetaBounds
+
+- §6.1: the smoothed truncated Perron formula, whose error term stays finite when `x` is an integer;
+  an alternative to Tau Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` in the route of
+  Layer 1.9.
 
 What ExplicitZetaBounds must provide (gap:zeta-reciprocal-bounds): the three explicit upper bounds
 for `|1/ζ(σ + it)|` that the de la Vallée Poussin bound of Layer 1.9 uses, with
@@ -642,14 +678,15 @@ the limit exists (Abel summation against `log t/t` and the convergence of
 
 For a multiplicative `h : ℕ → ℝ` (an `ArithmeticFunction ℝ` with `IsMultiplicative`) such that
 `H̄(s) = Σ |h(n)| n^{−s}` converges at some real `s₀ < 0`, define the local factor
-`ℓ_p(s) = Σ_{ν ≥ 0} h(p^ν) p^{−νs}` and prove, for `s ≥ s₀`:
+`ℓ_p(s) = Σ_{ν ≥ 0} h(p^ν) p^{−νs}` and prove:
 
-- `H(s) = ∏_p ℓ_p(s)` (absolutely convergent; Mathlib's `eulerProduct_hasProd` after the real-power
-  normalisation), with `ℓ_p(s) ≠ 0` whenever `H(s) ≠ 0`;
-- `H'(s) = H(s) Σ_p ℓ_p'(s)/ℓ_p(s)` and
+- for every real `s ≥ s₀`: `H(s) = ∏_p ℓ_p(s)` (absolutely convergent; Mathlib's
+  `eulerProduct_hasProd` after the real-power normalisation), with `ℓ_p(s) ≠ 0` whenever `H(s) ≠ 0`;
+- for every real `s > s₀` with `H(s) ≠ 0`: `H'(s) = H(s) Σ_p ℓ_p'(s)/ℓ_p(s)` and
   `H''(s) = H(s) [ (Σ_p ℓ_p'(s)/ℓ_p(s))² + Σ_p ((ℓ_p''/ℓ_p) − (ℓ_p'/ℓ_p)²)(s) ]`,
-  when `H(s) ≠ 0`, where `H'(s) = −Σ h(n) (log n) n^{−s}` and `H''(s) = Σ h(n) log² n · n^{−s}`
-  (termwise differentiation under absolute convergence on `s > s₀`);
+  where `H'(s) = −Σ h(n) (log n) n^{−s}` and `H''(s) = Σ h(n) log² n · n^{−s}`, both absolutely
+  convergent for `s > s₀` because `log^k n ≤ C_{k,ε} n^ε` (termwise differentiation); at `s = s₀`
+  itself the two series can diverge (Checks), so the derivative formulas are not claimed there;
 - the values at `s = 0`: `H(0) = Σ h(n)`, `H'(0) = −Σ h(n) log n`, `H''(0) = Σ h(n) log² n`, and
   `H̄(−1/3) = Σ |h(n)| n^{1/3}`, the quantities of Layer 5.1.
 
@@ -672,6 +709,13 @@ derivative of a uniformly convergent series (`hasDerivAt_tsum`).
 - `h(n) = μ(n)/n` has `H̄(s) = Σ μ²(n) n^{−1−s}` divergent at `s = 0`: outside the hypothesis, and
   the formulas are not claimed; with `s₀ = 1/3` in place of `−1/3` the hypothesis is not the one of
   Layer 5.1.
+- The boundary `s = s₀` is excluded from the derivative formulas: for a real `s₀ < 0` let `h` be
+  multiplicative with `h(p) = p^{s₀ − 1}/(log log p)²` at the odd primes and `h(2) = h(p^ν) = 0` for
+  `ν ≥ 2`. Then `H̄(s₀) = ∏_{p ≥ 3} (1 + 1/(p (log log p)²))` is finite, since
+  `Σ_p 1/(p (log log p)²)` converges, while `Σ_n |h(n)| (log n) n^{−s₀} ≥ Σ_{p ≥ 3} log p/(p (log log p)²)`
+  diverges (by partial summation from `Σ_{p ≤ x} (log p)/p = log x + O(1)`, its partial sums are
+  asymptotic to `log x/(log log x)²`); as every `h(n)` is nonnegative, the right derivative of `H`
+  at `s₀` is `−∞`.
 
 ### 0.7 Computational hypotheses
 
@@ -826,8 +870,7 @@ is that roadmap's §1.7; none of them is restated here.
   `C₂ = γ + 2 Σ_p log p/(p² − 1) = 1.717 137 651 090 62… ± 10^{−14}` (`ramare2019bcp` lines 102–106
   and 124–128), `∏_{p > 2} (p − 1)²/(p(p − 2)) = 1.514 780 128 137… ± 10^{−12}` (the reciprocal of
   the twin-prime constant), `H̄(−1/3) ≤ 251.07` for the perturbation `h` of Layer 7.3 (its value
-  is `251.01…`), `H̄(−2/5) < 950.05` for the same `h` (`plattTrudgian2018` Lemma 4), and
-  `9.37522 ≤ ∏_p (1 + 1/((p − 1)(√p − 1))) ≤ 9.3753` (Layer 5.6).
+  is `251.01…`), and `H̄(−2/5) < 950.05` for the same `h` (`plattTrudgian2018` Lemma 4).
 - *ProgressionMertensConstantEnclosure* `q a c d`: `|exp(−B(q, a) − K(q, a)) − c| ≤ 10^{−d}`, with
   `B(q, a)`, `K(q, a)` of Layer 8.3. Instances: every `3 ≤ q ≤ 100`, every `a` coprime to `q`, with
   `d = 100` (`languascoZaccagnini2009`).
@@ -1158,7 +1201,7 @@ the sum equals `Σ_{n ≤ x} 1/n + ψ̃(x) − 2 Σ_{p^k ≤ x} min(log p, 1)/p^
 first term by `log x + γ + 6/(11x)` (Layer 0.3), the second by `log x − γ + 1/(4 log x)` (the
 hypothesis `|ψ̃(x) − log x + γ| ≤ 1/(4 log x)` for `x ≥ 115`, ExplicitPrimeCounting §4.2), and the
 last sum from below by `Σ_{p ≤ x} 1/p − (1 − log 2)/2` plus the terms `p^k ≤ 286` with `k ≥ 2`,
-whose total is `0.591062`, with `Σ_{p ≤ x} 1/p > log log x + B − 1/(2 log² x)`
+whose total is `0.591065`, with `Σ_{p ≤ x} 1/p > log log x + B − 1/(2 log² x)`
 (AnalyticNumberTheoryPartI §0.19) and `B > 2.009442 − 1.748345 = 0.2610` (§0.19 at `x = 286`, where
 `Σ_{p ≤ 286} 1/p = 2.009442` and `log log 286 + 1/(2 log² 286) = 1.748345`). The right side then
 exceeds the left by at least `1.31` for every `x ≥ 286`; on `(1, 286)` the inequality is the
@@ -1209,9 +1252,9 @@ AnalyticNumberTheoryPartI §0.19; `gap:psi-log-power` (for Theorem A.1); *Moebiu
 **Checks.**
 
 - Schoenfeld's inequality at `x = 3`: the left side is `1 + (1 − log 2)/2 + (log 3 − 1)/3 = 1.18630`
-  and the right side `2 log 3 − 2 log log 3 = 2.00900`; over the integers of `[3, 2·10^7]` (the left
+  and the right side `2 log 3 − 2 log log 3 = 2.00913`; over the integers of `[3, 2·10^7]` (the left
   side is constant on each `[N, N + 1)` and the right side increases for `x > e`) the smallest
-  difference is this one, `0.8227`, and on `(1, 3)` the left side is `1` or `1.15343` against a
+  difference is this one, `0.8228`, and on `(1, 3)` the left side is `1` or `1.15343` against a
   right side of at least `2` (its minimum, at `x = e`). As `x → 1⁺` the right side tends to `+∞`.
 - The difference of the two sides of Schoenfeld's inequality tends to
   `2B + 2 Σ_p Σ_{k ≥ 2} min(log p, 1)/p^k − (1 − log 2) = 0.52299 + 1.23946 − 0.30685 = 1.4556`, so
@@ -1484,10 +1527,12 @@ makes explicit, and with the table bounds below `e² T`
     |M(x)| ≤ πx/(2·10^{10}) + 11.350514 √x,     |M(x)| ≤ πx/(2·10^7) + 6.738093 √x,
 
 the last two from the instances `T = 10^{10} + 1` and `T = 10^7 + 1` (the constants are `2S`).
-Prove the consequence for linear bounds: for every real `L` with `1 ≤ L ≤ 8.7·10^6`,
+Prove the consequence for linear bounds: for every real `L` with `10.07 ≤ L ≤ 8.7·10^6`,
 `|M(x)| ≤ x/L` for every real `x ≥ (0.571 L)²`, on `[(0.571 L)², 10^{16}]` by the table and beyond by
-the first bound (at `x = 10^{16}` its relative size is `1.1399·10^{−7} < 1/(8.7·10^6) = 1.1494·10^{−7}`,
-and it decreases). At `L = 2360` and `L = 4345` this is the second route of 1.3; at `L = 160 383` it
+the first bound (at `x = 10^{16}` its relative size is `1.1400·10^{−7} < 1/(8.7·10^6) = 1.1494·10^{−7}`,
+and it decreases). The lower limit on `L` makes `(0.571 L)² ≥ 33.06` lie in the table's range
+`x ≥ 33`; it is needed, since below `√33/0.571 = 10.0605…` the bound fails just below `33`
+(Checks). At `L = 2360` and `L = 4345` this is the second route of 1.3; at `L = 160 383` it
 gives Daval's bound of 1.8 from `8.39·10^9`, and at `L = 180 194` from `1.06·10^{10}` instead of
 `10^{19}`.
 
@@ -1502,6 +1547,10 @@ Mathlib `riemannZeta`; the explicit formula for `M` with a smoothed kernel, prov
 - `x = 10^6`: `|M(10^6)| = 212 ≤ 9.5·10^{−5} + 11 390 = 11 390`, far weaker than the table there; the
   bound is meant for `x > 10^{16}`, where the table stops.
 - `L = 4345`: `(0.571·4345)² = 6 155 336.19…`, the start of the table's coverage in 1.3.
+- Non-example for the lower limit on `L`: at `L = 10` the threshold is `(5.71)² = 32.6041`, below the
+  table's start `33`, and at `x = 32.7` the bound fails: `|M(32.7)| = |M(32)| = 4 > 3.27`; at `L = 2`
+  and `x = 1.5`, `|M(1.5)| = 1 > 0.75`. At `L = 10.07` the threshold is `33.062`, and on
+  `[33.062, 34)` the bound reads `3 ≤ 3.283`.
 - The height limits the reachable `L`: with the zeros only to height `T = 10^7 + 1` the linear
   term is `π x/(2·10^7) = 1.5708·10^{−7} x`, already larger than `x/L = 1.149·10^{−7} x` at
   `L = 8.7·10^6`, so no `L ≥ 2·10^7/π = 6.37·10^6` is reachable from that instance; the corollary on
@@ -1547,13 +1596,20 @@ ExplicitPrimeCounting §4.2.
 
 State Lee–Leong's bound of de la Vallée Poussin shape (`leeLeong2022` (9)–(11), a preprint, by its
 locator): `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. Route:
-a truncated Perron formula for `M` and the three bounds for `1/ζ` of `gap:zeta-reciprocal-bounds`
+a truncated Perron formula for `M`, that is Tau Ceti's
+`TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` at `f = μ`, whose `L`-series is `1/ζ` on `Re s > 1`
+(Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`, `LSeries_one_mul_Lseries_moebius`,
+`LSeries_one_eq_riemannZeta`), at non-integral `x` (which suffices, `M` being constant on each
+`[N, N + 1)`), or the smoothed form of ExplicitZetaBounds §6.1; and the three bounds for `1/ζ` of
+`gap:zeta-reciprocal-bounds`
 (in the classical zero-free region beyond the height `H`, on the line `σ = 1`, and in `σ ≥ 3/4`
 below `H`; owed by ExplicitZetaBounds, never restated). It is the
 only explicit bound of this shape, and it improves on the power-of-log rows of 1.4 once `log x`
 exceeds about `5500`.
 
-*Needs:* `gap:zeta-reciprocal-bounds`.
+*Needs:* Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1
+(the truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
+`LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`; `gap:zeta-reciprocal-bounds`.
 
 **Checks.**
 
@@ -1616,8 +1672,9 @@ squarefree remainder and the elementary bounds for `Σ μ²(d)/d`, which depend 
 Layers 1.5, 2.3 and 3.2 but on none of 1.7–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
 not use 1.8); ExplicitPrimeCounting §§1.1, 1.3, 3.2, 3.3, 4.2 and 6.1; the supplier gaps
 `gap:psi-initial-range`, `gap:psi-log-power`, `gap:psi-relative-bklnw` and `gap:psi-tilde-difference`
-of ExplicitPrimeCounting and `gap:zeta-reciprocal-bounds` of ExplicitZetaBounds; and the zero data
-*ZetaResidueSumVerified* of Layer 0.7.
+of ExplicitPrimeCounting and `gap:zeta-reciprocal-bounds` of ExplicitZetaBounds; for 1.9 the
+truncated Perron formula (Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or
+ExplicitZetaBounds §6.1); and the zero data *ZetaResidueSumVerified* of Layer 0.7.
 
 ## Layer 2: the logarithmic sum `m(x)`
 
@@ -2346,20 +2403,17 @@ multiplicative `f` with `f(p) = p^{−α} + O(p^{−β})` over the primes `p ∤
 the main
 term `F^q_α` and the constant `Δ^δ_α` of the source (for `α = 1` and `f(p) ≠ −1`,
 `F = H(0)(φ(q)/q)(log X + T + γ + Σ_{p ∣ q} log p/(p − 1))`). It is 5.1 pushed to the largest exponent
-the square-free support allows. Prove its instances (Corollary 3.4 and Lemma 4.7 at `q = 2`): with
+the square-free support allows. Prove its instances (Corollary 3.4): with
 `κ(q) = q ∏_{p ∣ q}(1 + 1/p)`, for every `q ≥ 1` and every real `X > 0`,
 
     Σ_{ℓ ≤ X, (ℓ, q) = 1} μ²(ℓ)/φ(ℓ) = (φ(q)/q)(log X + a_q) + O*(7.36 A_q X^{−1/3}),
     Σ_{ℓ ≤ X, (ℓ, q) = 1} μ²(ℓ)/ℓ = (6/π²)(q/κ(q))(log X + b_q) + O*(2.554 B_q X^{−1/3}),
-    Σ_{ℓ ≤ X, ℓ odd} μ²(ℓ)/φ(ℓ) = ½(log X + a_2) + O*(2.169/√X),
 
 with `a_q = c₀ + Σ_{p ∣ q} log p/p`, `b_q = C₂ + Σ_{p ∣ q} log p/(p + 1)` (`c₀`, `C₂` of 7.2),
 `A_q = ∏_{p ∣ q}(1 + (p − p^{1/3} − 2)/((p − 1)p^{2/3} + p^{1/3} + 1))` and
-`B_q = ∏_{p ∣ q}(1 + (p^{2/3} − 1)/(p^{4/3} + 1))`. Route for the first two: 5.1 at `α = 1/3` with the
-coprimality built into the perturbation `h`; for the third, the source's Theorem 4.6 at the exponent
-`1/2` with the constant `∏_p (1 + 1/((p − 1)(√p − 1))) ∈ [9.37522, 9.3753]` (an
-*ArithmeticalConstantsEnclosure* field). The third improves Akhilesh–Ramaré's
-`5.9 j(2)/√X = 4.956/√X` of 7.2 at `q = 2`.
+`B_q = ∏_{p ∣ q}(1 + (p^{2/3} − 1)/(p^{4/3} + 1))`. Route: 5.1 at `α = 1/3` with the coprimality
+built into the perturbation `h`. The first line is a coprime form of ExplicitCharacterSumsAndSieves
+§5.1's `selbergDiagonal`, valid for every `X > 0`.
 
 *Needs:* 5.1; Layer 0.6; Layer 0.7 (*ArithmeticalConstantsEnclosure*); 7.2 (`c₀`, `C₂`).
 
@@ -2368,11 +2422,15 @@ coprimality built into the perturbation `h`; for the third, the source's Theorem
 - `q = 1`: `A_1 = B_1 = 1`, `a_1 = c₀ = 1.33258`, `b_1 = C₂ = 1.71714`, and the second line reads
   `Σ_{ℓ ≤ X} μ²(ℓ)/ℓ = (6/π²)(log X + C₂) + O*(2.554 X^{−1/3})`, where `2.554 ≥ 0.9105·2.80405 = 2.5531`
   is the harmonic model of 0.3 times `H̄(−1/3)` (7.1).
-- `q = 2`: `a_2 = 1.33258 + 0.34657 = 1.67915`, and at `X = 1` the third line reads
-  `1 = ½(1.67915) + O*(2.169)`.
-- The constant `2.169`: with the exact `0.78957…` in place of the rounded `0.79` of the source's
-  intermediate step the product is `≤ 2.1682`; with `0.79` it would be `2.1693`, so the printed
-  `2.169` needs the unrounded value.
+- `q = 2`: `a_2 = 1.33258 + 0.34657 = 1.67915`, `A_2 = 1 − 2^{1/3}/(2^{2/3} + 2^{1/3} + 1) = 0.67252`;
+  at `X = 1` the first line reads `1 = ½(1.67915) + O*(4.950)`, and at `X = 100` the sum over the odd
+  squarefree `ℓ ≤ 100` is `3.13799` against `½(log 100 + 1.67915) = 3.14216`, within
+  `7.36·0.67252·100^{−1/3} = 1.0664`. Without the factor `φ(q)/q` the main term would be `6.28433`,
+  off by `3.146`: the factor is needed.
+- The worst case is `X → 1⁻`, where the sums are empty: over the reals of `(0, 10^6]` the largest
+  value of `|error|·X^{1/3}` divided by `A_q`, resp. `B_q`, is `1.3326`, resp. `1.0439`, at `q = 1`, and
+  `1.2484`, `1.2138`, `1.0866`, resp. `0.6766`, `0.7550`, `0.4814`, at `q = 2, 3, 6`, all below
+  `7.36`, resp. `2.554`.
 
 ### Examples
 
@@ -2525,6 +2583,11 @@ squarefree divisor of `d`) and `(m, d) = 1`, `m ≤ x`; then
 `Σ_{n ≤ x} μ²(n) f(n) ≤ Σ_{a ∣ rad(d)} f(a) Σ_{m ≤ x, (m, d) = 1} μ²(m) f(m)` and `Σ_{a ∣ rad(d)} f(a) = ∏_{p ∣ d} (1 + f(p))`; conversely every
 product `a·m` with `a ∣ rad(d)` and `m ≤ x` coprime to `d` is a squarefree integer `≤ x·rad(d)`,
 counted once.
+
+At `f = 1/φ` the factor is `∏_{p ∣ d}(1 + 1/(p − 1)) = d/φ(d)`, and the first inequality is the
+coprime comparison `S_d(x) ≥ (φ(d)/d) S(x)` of ExplicitCharacterSumsAndSieves §5.1 for its
+`selbergDiagonal` `S`; 6.5 differs in holding for every nonnegative multiplicative `f` and in adding
+the upper inequality through `x·rad(d)`.
 
 *Needs:* `Nat.sum_divisors_filter_squarefree`; `Nat.Coprime`; multiplicativity.
 
@@ -2680,7 +2743,10 @@ every real `D ≥ 1`,
 `G_q(D) = Σ_{d ≤ D, (d, q) = 1} μ²(d)/φ(d) = (φ(q)/q)(log D + c(q)) + O*(5.9 j(q)/√D)` with
 `c(q) = c₀ + Σ_{p ∣ q} (log p)/p` and `j(q) = ∏_{p ∣ q, p ≠ 2} (p^{3/2} + p − √p − 1)/(p^{3/2} − √p + 1)`
 times `21/25` when `q` is even, together with its Theorem 1.2, `G₁(D) = log D + c₀ + O*(3.95/√D)`
-for `D ≥ 1` and `O*(18.4/(√D log D))` for `D > 1` (lines 124–125). Route: for squarefree `d`,
+for `D ≥ 1` and `O*(18.4/(√D log D))` for `D > 1` (lines 124–125). The sum `G₁(D)` is
+ExplicitCharacterSumsAndSieves §5.1's `selbergDiagonal` `D`, whose explicit asymptotic there has the
+error `58/√D` from `D ≥ 10^9`; the forms here differ in their constants (`2.44`, `3.95`), in holding
+from `D ≥ 1`, and in the coprime restriction `G_q`. Route: for squarefree `d`,
 `d/φ(d) = ∏_{p ∣ d} (1 + 1/(p − 1)) = Σ_{e ∣ d} μ²(e)/φ(e)`, so
 `G_q(D) = Σ_{e ≤ D, (e, q) = 1} (μ²(e)/(e φ(e))) Σ_{m ≤ D/e, (m, qe) = 1} μ²(m)/m`; the inner sum is
 Theorem 3.2 with coprimality (Layer 5.4's hyperbola refinement applied to `μ²(m)/m` restricted to
@@ -2690,7 +2756,8 @@ Theorem 3.2 with coprimality (Layer 5.4's hyperbola refinement applied to `μ²(
 `ramare2019bcp`: the range `[1, 2·10^9]`, lines 981–985 and 1140–1145).
 
 *Needs:* 5.1; 5.4; 7.1; Layer 2.3; Layer 3.2; Layer 0.7 (*MoebiusSquareTailRangeVerified*,
-*SquarefreeIntegralRangeVerified*, *SquarefreeRangeVerified*); `Nat.totient`; `hasSum_zeta_two`.
+*SquarefreeIntegralRangeVerified*, *SquarefreeRangeVerified*); `Nat.totient`; `hasSum_zeta_two`;
+ExplicitCharacterSumsAndSieves §5.1 (the carrier `selbergDiagonal` of `G₁`).
 
 **Checks.**
 
@@ -3083,8 +3150,9 @@ analytic range must be rechecked, which is part of this target. State its Theore
 
 Layer 0; Layers 1.2 and 1.4 (through 2.5 and the tails); Layer 2.3 and 2.5; Layer 3.2 (for the
 tail estimates of 7.2); Layer 5 (5.1, 5.2, 5.4); AnalyticNumberTheoryPartI §3.22 (cited) and
-§§3.22b, 3.23a (the hyperbola identity, `divisorError` and its cubic bound). Within the layer, 7.1
-uses no other subsection of Layer 7, so Layer 1.5, which consumes 7.1, is not downstream of
+§§3.22b, 3.23a (the hyperbola identity, `divisorError` and its cubic bound);
+ExplicitCharacterSumsAndSieves §5.1 (the carrier of `G₁` in 7.2). Within the layer, 7.1 uses no
+other subsection of Layer 7, so Layer 1.5, which consumes 7.1, is not downstream of
 anything that consumes it. Layer 1.7 for 7.8 (the zero data; 1.7 uses nothing from Layer 7); 7.9 uses
 7.4, 7.5 and 5.2.
 
@@ -3339,8 +3407,9 @@ the supplier contracts: `p_k ≥ k(log k + log log k − 1)` for `k ≥ 2`).
 **Checks.**
 
 - `n = 3`: `ω = 1 ≤ 1.3841·1.0986/0.0940 = 16.2`; `n = 6`: `2 ≤ 4.25`; `n = 30`: `3 ≤ 3.85`;
-  `n = 510 510`: `7 ≤ 7.06`; `n = 9 699 690`: `8 ≤ 8.01`; `n = 223 092 870`: `9 ≤ 9.0004`:
-  the constant is sharp at the ninth primorial to four decimals.
+  `n = 510 510`: `7 ≤ 7.06`; `n = 9 699 690`: `8 ≤ 8.02`; `n = 223 092 870`: `9 ≤ 9.0006`:
+  the constant is sharp at the ninth primorial to four decimals (the least constant there is
+  `9·2.956113/19.223099 = 1.384013`).
 - `n = 2`: `log log 2 < 0`, excluded by `n ≥ 3`; `n = 1`: `ω = 0`, `log log 1` is junk, excluded.
 - Non-example: `1.38` in place of `1.3841` fails at `n = 223 092 870` (`1.38·19.223/2.956 = 8.97 < 9`).
 - Witness for the step: `θ(p₉) = log 223 092 870 = 19.22 ≥ 9(log 9 + log log 9 − 1.0769) = 17.16`,
@@ -3566,8 +3635,9 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - ExplicitCharacterSumsAndSieves, Part II: the pointwise bounds on `τ(q)`, `2^{ω(q)}` and `q/φ(q)`
   (Layer 9, in particular Rosser–Schoenfeld's `q/φ(q) < e^γ log log q + 2.50637/log log q` of 9.4,
   and the product bound 6.1) for the Burgess constants; `Σ μ²(n)/φ(n)` with coprimality (7.2) and
-  the coprimality removal (6.5) for Selberg's density sum. ExplicitCharacterSumsAndSieves itself
-  precedes this roadmap in the order of supply, so these uses belong to its Part II.
+  the coprimality removal (6.5) for weights other than `1/φ` in Selberg's density sum (the case
+  `f = 1/φ` is its own §5.1). ExplicitCharacterSumsAndSieves itself precedes this roadmap in the
+  order of supply, so these uses belong to its Part II.
 - ExplicitZetaBounds, Part II: the divisor sums of 7.5 for mean-value and large-sieve constants
   (ExplicitZetaBounds precedes this roadmap).
 - ExplicitPrimeCounting, Part II: the coprime Möbius bounds (1.6, 2.4) for explicit prime estimates
