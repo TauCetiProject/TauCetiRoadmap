@@ -12,6 +12,7 @@ public import TauCeti.Analysis.CStarAlgebra.Action.Covariant.Regular
 public import TauCeti.Analysis.CStarAlgebra.Action.CrossedProduct.Full
 public import TauCeti.Analysis.CStarAlgebra.Action.CrossedProduct.Functoriality
 public import TauCeti.GroupTheory.Amenable.Basic
+public import TauCeti.Analysis.Matrix.Entropy
 
 /-!
 # Operator-algebra dynamics: target signatures
@@ -31,16 +32,19 @@ Stated here: the vector-integral integrated form of a covariant pair on integrab
 functions with its norm bound, the recovery of a nondegenerate covariant pair from every
 nondegenerate representation of `A ⋊_α G`, and the ideal exact sequence of full crossed products
 (D1); the projective integrated form of a continuous central multiplier cocycle
-(D1.CentralTwists); faithfulness on `A ⋊_α G` of the regular representation induced by a
-faithful representation, for amenable `G` (D2; its instance for abelian `G` is the full/reduced
-agreement of D4.Harmonic); irreducibility of the orbit representations (D2.OrbitRepresentations);
-the Powers partition property of free groups and the simplicity and unique trace of the reduced
-C*-algebra of a free group on at least two generators (D2.FreeGroups); the Fourier isomorphism
+(D1.CentralTwists); automatic continuity of Borel homomorphisms from Polish groups into
+separable metrizable groups (D1.BorelPrefix); faithfulness on `A ⋊_α G` of the regular
+representation induced by a faithful representation, for amenable `G` (D2; its instance for
+abelian `G` is the full/reduced agreement of D4.Harmonic); irreducibility of the orbit
+representations (D2.OrbitRepresentations); the Powers partition property of free groups and
+the simplicity and unique trace of the reduced C*-algebra of a free group on at least two
+generators (D2.FreeGroups); the Fourier isomorphism
 `C*(G) ≅ C₀(Ĝ)` of the full group C*-algebra and the identification `C*(Ĝ) ≅ C₀(G)`
 (D4.Harmonic); the LCA Weyl classification, that every covariant pair of strongly continuous
 unitary representations of a locally compact Hausdorff abelian group and of its dual is a Hilbert
 sum of copies of the Schrödinger pair on `L²(G)` (D4.LCAWeyl); the residue-class Cuntz family on
-a separable Hilbert space (D6).
+a separable Hilbert space (D6); strong subadditivity of the von Neumann entropy of finite matrices,
+on Tau Ceti's `Matrix.vonNeumannEntropy` and partial traces (D9).
 
 Not statable at the pins, with the carrier each lacks:
 - the reduced crossed product `A ⋊_{α,r} G` as an algebra, its exactness theory, and the
@@ -54,6 +58,10 @@ Not statable at the pins, with the carrier each lacks:
   product and no dual action on the full crossed product;
 - the twisted products `A ⋊_(α,ω) G` (D1.CentralTwists, D2.CentralTwists): no twisted crossed
   product;
+- Mackey's theorem that an analytic Borel group with a nonzero σ-finite left-invariant measure
+  carries exactly one second-countable locally compact group topology with the given Borel sets
+  (D1.BorelPrefix): no class of analytic Borel spaces (Mathlib has `StandardBorelSpace`, which is
+  narrower, and `MeasureTheory.AnalyticSet` for subsets of a topological space);
 - Green and symmetric imprimitivity (D3): no induced algebra and no imprimitivity-bimodule
   carrier (a bimodule with compatible left and right inner products, full on both sides);
 - disintegration, Renault equivalence and the universal identification of `O_n` (D5–D6): no
@@ -200,6 +208,21 @@ theorem exists_centralIntegratedOperator {G A H : Type*} [Group G] [TopologicalS
     ∃ T : H →L[ℂ] H,
       (∀ ξ, T ξ = ∫ s, P.pi (f s) ((P.unitaryMap s : H →L[ℂ] H) ξ) ∂μ) ∧
         ‖T‖ ≤ ∫ s, ‖f s‖ ∂μ := by
+  sorry
+
+/-! ## D1.BorelPrefix: automatic continuity -/
+
+/-- Automatic continuity (Williams, Theorem D.11, p. 372): a Borel-measurable group homomorphism
+from a Polish group to a topological group whose topology is separable and metrizable is
+continuous. Mathlib's `AddMonoidHom.continuous_of_measurable` treats additive homomorphisms from a
+locally compact seminormed group into a real normed space and does not apply to the strong
+unitary group of an infinite-dimensional Hilbert space. A ℚ-linear map `ℝ → ℝ` that is not
+`ℝ`-linear is a discontinuous homomorphism, so measurability cannot be dropped. -/
+theorem continuous_of_measurable_monoidHom {G K : Type*} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [PolishSpace G] [MeasurableSpace G] [BorelSpace G]
+    [Group K] [TopologicalSpace K] [IsTopologicalGroup K]
+    [TopologicalSpace.SeparableSpace K] [TopologicalSpace.MetrizableSpace K]
+    [MeasurableSpace K] [BorelSpace K] (f : G →* K) (hf : Measurable f) : Continuous f := by
   sorry
 
 /-! ## D2: Regular representations and amenability -/
@@ -370,6 +393,24 @@ theorem exists_residue_family {H : Type*} [NormedAddCommGroup H] [InnerProductSp
           if i = j then (1 : H →L[ℂ] H) else 0) ∧
       (∑ j : Fin n, (S j).comp (ContinuousLinearMap.adjoint (S j))) =
         (1 : H →L[ℂ] H) := by
+  sorry
+
+/-! ## D9: strong subadditivity of matrix entropy -/
+
+/-- Strong subadditivity of the von Neumann entropy (Nielsen–Petz, inequality (1), p. 1): for a
+positive semidefinite matrix `ρ` of a tripartite system indexed by `a × (b × c)`,
+`S(ρ_ABC) + S(ρ_B) ≤ S(ρ_AB) + S(ρ_BC)`. Here `ρ_BC = Tr_A ρ` is `partialTraceLeft ρ`, `ρ_B` is
+the partial trace of `ρ_BC` over `c`, and `ρ_AB` is the partial trace over `c` of `ρ` regrouped
+along `(a × b) × c ≃ a × (b × c)`. No trace normalization is needed: scaling `ρ` by `t > 0`
+changes each of the four entropies `S(σ)` to `t S(σ) - t Tr(ρ) log t`, so both sides change alike;
+the density matrices are the case `Tr ρ = 1`. -/
+theorem vonNeumannEntropy_strong_subadditivity {a b c : Type*} [Fintype a] [DecidableEq a]
+    [Fintype b] [DecidableEq b] [Fintype c] [DecidableEq c]
+    {ρ : Matrix (a × b × c) (a × b × c) ℂ} (hρ : ρ.PosSemidef) :
+    ρ.vonNeumannEntropy + ρ.partialTraceLeft.partialTraceRight.vonNeumannEntropy ≤
+      (Matrix.reindex (Equiv.prodAssoc a b c).symm (Equiv.prodAssoc a b c).symm
+          ρ).partialTraceRight.vonNeumannEntropy +
+        ρ.partialTraceLeft.vonNeumannEntropy := by
   sorry
 
 end TauCetiRoadmap.OperatorAlgebraDynamics

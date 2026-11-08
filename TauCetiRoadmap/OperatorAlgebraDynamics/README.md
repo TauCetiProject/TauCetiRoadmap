@@ -1,4 +1,4 @@
-# Operator-algebra dynamics, crossed products, and equilibrium
+# Roadmap: operator-algebra dynamics, crossed products, and equilibrium
 
 **Summary.** Develop continuous actions on C*-algebras and their full and reduced crossed
 products, induction and imprimitivity, Takai duality, Hausdorff groupoid
@@ -39,7 +39,9 @@ limit, convexity and compactness theorems, the GNS implementing group with
 its von Neumann extension and Hamiltonian, the separating GNS vector of a
 KMS state, the Gibbs states of matrix dynamics and the finite-volume local
 algebras, interactions, local dynamics and Gibbs states of quantum spin
-systems. The supplier contract "From Tau Ceti" below lists them by name;
+systems; and the von Neumann and relative entropies of finite matrices with
+Klein's inequality, positivity of relative entropy and subadditivity. The
+supplier contract "From Tau Ceti" below lists them by name;
 nothing below restates them.
 
 This roadmap owns the rest of the theory of continuous actions of locally
@@ -66,7 +68,9 @@ the zero-temperature limit of Gibbs states and the KMS simplex (D7); CAR
 and Weyl algebras with their free equilibrium states (D8); and the
 quasi-local algebra of quantum spin systems with its infinite-volume
 dynamics, thermodynamic limit, variational principle and high-temperature
-uniqueness (D9).
+uniqueness, with the monotonicity of relative entropy under partial trace
+and the strong subadditivity of matrix entropy that the mean entropy uses
+(D9).
 
 This roadmap is the single owner of the following objects, which other
 roadmaps consume rather than rebuild (their consumers are listed under
@@ -174,12 +178,12 @@ measure, the Plancherel unitary, Fourier inversion and the Pontryagin
 duality theorem of a locally compact abelian group, the Fourier
 isomorphism `C*_r(G)≅C₀(Ĝ)` of its reduced group C*-algebra, and Bochner's
 theorem for positive-definite functions: VonNeumannAlgebras V11 owns the
-first four, in the inversion, Plancherel and duality paragraph that
-follows V11.FourierUniqueness, and the Fourier isomorphism
-(V11.UnitizationCharacters identifies the nonzero characters of `C*_r(G)`
-with Ĝ and the Gelfand transform of `λ(f)` with f̂, and the same
-Plancherel paragraph proves `‖λ(f)‖=sup|f̂|`), all cited by section as a
-roadmap on main; D4.Harmonic builds on them only the agreement of the full
+first four, in V11.FourierInversion (inversion, Plancherel and duality),
+and the Fourier isomorphism (V11.UnitizationCharacters maps the nonzero
+characters of `C*_r(G)` injectively and continuously into Ĝ and identifies
+the Gelfand transform of `λ(f)` with f̂ along that map, and
+V11.FourierInversion proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
+character map), all cited by section; D4.Harmonic builds on them only the agreement of the full
 and reduced group C*-algebras for abelian G, which carries that
 isomorphism to the full algebra `C*(G)=ℂ⋊G`, and the identification
 `C*(Ĝ)≅C₀(G)`, starting from the character correspondence that
@@ -249,7 +253,11 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   `ContinuousLinearMapWOT` (the weak operator topology), used by D7 and D8;
   `PontryaginDual` with its compact-open topology, its locally compact
   abelian group structure and `Circle`, `Measure.IsHaarMeasure` with
-  `Measure.Regular`, `Lp` and `lp`, used by D4; `DoubleCentralizer`, the
+  `Measure.Regular`, `Lp` and `lp`, used by D4; the C*-algebra instances on
+  `lp A ∞` for C*-algebras `A i`, commutative and unital when every `A i`
+  is commutative and nontrivial (`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`),
+  which make `lp (fun _ : ℤ => ℂ) ∞` the unital C*-algebra `ℓ∞(ℤ)` of
+  D2.BoundedSequenceTranslation and D2.SequenceToeplitz; `DoubleCentralizer`, the
   multiplier algebra `𝓜(ℂ,A)`, and `Filter.IsIncreasingApproximateUnit`
   with `CStarAlgebra.approximateUnit`, the increasing contractive
   approximate unit of a C*-algebra, used throughout.
@@ -412,6 +420,24 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
     (`TauCeti.QuantumSpin.Interaction.isKMSState_localDynamics_iff`) and its
     consistent extensions by the normalized trace
     (`TauCeti.QuantumSpin.Interaction.gibbsExtension`).
+  - Matrix entropy (`TauCeti/Analysis/Matrix/Entropy.lean`, with
+    `TauCeti/LinearAlgebra/Matrix/Trace/Partial.lean` and
+    `TauCeti/Analysis/Matrix/Kronecker.lean`), for matrices over an
+    `RCLike` field: the von Neumann entropy `Matrix.vonNeumannEntropy`, the
+    real part of the trace of the functional calculus of `Real.negMulLog`,
+    so that `0 log 0=0`; the relative entropy `Matrix.relativeEntropy`,
+    `Tr(ρ(log ρ−log σ))` in `EReal` when `ker σ⊆ker ρ` and `⊤` otherwise;
+    Klein's inequality `Tr ρ−Tr σ≤D(ρ‖σ)` for positive semidefinite ρ, σ
+    (`Matrix.PosSemidef.re_trace_sub_trace_le_relativeEntropy`), positivity
+    for positive semidefinite ρ, σ of equal trace
+    (`Matrix.PosSemidef.relativeEntropy_nonneg`), and subadditivity
+    `S(ρ)≤S(Tr₂ρ)+S(Tr₁ρ)` for a positive semidefinite ρ of trace one on a
+    product index
+    (`Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft`);
+    the partial traces `Matrix.partialTraceRight` (over the second factor of
+    `m×n`) and `Matrix.partialTraceLeft` (over the first); and the
+    compatibility `Matrix.cfc_one_kronecker` of the functional calculus with
+    `1⊗·`. Used by D9; strong subadditivity is not at the pin.
   - Amenability (`TauCeti/GroupTheory/Amenable/`): `TauCeti.Amenable`, a
     left-invariant mean on the bounded uniformly continuous functions
     `TauCeti.UCB G`, the primary definition of AmenableGroups, with the instance
@@ -453,9 +479,8 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 
 Further cited suppliers on main:
 
-VonNeumannAlgebras V11 supplies, as a roadmap on main cited by section
-(the inversion, Plancherel and duality paragraph that follows
-V11.FourierUniqueness), for every locally compact Hausdorff abelian group G
+VonNeumannAlgebras V11 supplies, cited by section (V11.FourierInversion:
+inversion, Plancherel and duality), for every locally compact Hausdorff abelian group G
 with a regular Haar measure μ and the positive-character transform `f̂(χ)=∫f(g)χ(g)dμ(g)`, the dual Haar
 measure μ̂ on Ĝ, the unique regular Haar measure with `∫|f̂|²dμ̂=∫|f|²dμ` on
 `L¹(G)∩L²(G)`, the Plancherel unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` extending
@@ -468,10 +493,11 @@ dual `c⁻¹μ̂`, and the Pontryagin duality theorem that evaluation
 p. 198).
 
 The same section supplies the Fourier isomorphism of the reduced group
-C*-algebra: V11.UnitizationCharacters identifies the nonzero characters of `C*_r(G)`
-with Ĝ, the Gelfand transform of `λ(f)` with f̂ and `‖a‖` with `sup|â|`,
-and the Plancherel paragraph that follows V11.FourierUniqueness proves
-`‖λ(f)‖=sup|f̂|` and the surjectivity of the character map, so that
+C*-algebra: V11.UnitizationCharacters maps the nonzero characters of `C*_r(G)`
+injectively and continuously into Ĝ, identifies the Gelfand transform of
+`λ(f)` with f̂ along that map and `‖a‖` with `sup|â|`, and
+V11.FourierInversion proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
+character map, so that
 `λ(f)↦f̂` extends to a *-isomorphism `C*_r(G)≅C₀(Ĝ)` in the
 positive-character convention above; D4.Harmonic consumes this isomorphism
 and does not repeat its argument.
@@ -562,7 +588,8 @@ its commutant is scalar, and the irreducibility of the GNS representation
 of a pure state (C2.2); the representations of the compact operators and of
 algebras containing them (C2.3–C2.4); and the primitive ideal space
 `Prim(A)` with its hull–kernel topology, the lattice correspondence of
-closed ideals with open sets and `Prim(A/I)` as the closed hull of I (C2.6).
+closed ideals with open sets and `Prim(A/I)` as the closed hull of I (§2.6,
+C2.AnnHull).
 
 What CStarAlgebras must provide (gap:cstar-tensor-limits): the minimal and
 maximal C*-tensor products `A⊗_minB` and `A⊗_maxB` with their universal
@@ -581,6 +608,18 @@ What CStarAlgebras must provide (gap:toeplitz-extension): with S the forward
 unilateral shift on `ℓ²(ℕ)` and `T=C*(S)` the Toeplitz algebra, the
 extension `0→K(ℓ²(ℕ))→T→C(𝕋)→0` whose symbol map sends S to the
 coordinate function z (C8.4).
+
+General API: Mathlib's star-algebra equivalences, nonunital star
+homomorphisms, positive continuous linear functionals, `ContinuousMap`,
+compactly supported functions, Lp, Bochner integrals, `CStarModule`,
+`VonNeumannAlgebra`, `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS` and
+`PontryaginDual`; Tau Ceti's `Analysis/CStarAlgebra/Action/`,
+`Analysis/CStarAlgebra/QuantumSpin/` and `GroupTheory/Amenable/` as stated
+above, together with its `Analysis/Bochner/LocallyCompactGroup` and
+`Topology/Algebra/PontryaginDual` harmonic interfaces.
+Algebraic crossed products and Tau Ceti's Galois/Brauer development do not
+supply the analytic norms or completions here. The C*-module convention is
+the one fixed in Conventions and D1.Modules.
 
 ## How to read the build
 
@@ -601,7 +640,10 @@ finite-volume spin theory. Operator K-theory consumes crossed products and
 duality. The dependency order of the twisted sections is
 `gap:cstar-ideals-multipliers`/A7/D1.Modules → D1.CentralTwists →
 D2.CentralTwists, and A7/`gap:cstar-ideals-multipliers` → D1.BorelPrefix →
-D1.TwistedBorel; D5's order is SA-B85 → D5.Fields → D5.
+D1.TwistedBorel; D5's order is SA-B85 → D5.Fields → D5. D2.SequenceToeplitz
+is built after D4.Harmonic, whose `C*(ℤ)≅C(𝕋)`, `δ_1↦z`, gives its circle
+quotient; D4.Harmonic uses only D2's amenable comparison, not
+D2.SequenceToeplitz, so this order has no cycle.
 Every layer ends with its Examples and Dependencies. `Suggested.lean` states
 the headline theorems that are statable against the pinned libraries, each
 named in backticks at its target below; its module docstring names the
@@ -1088,9 +1130,10 @@ in one countable dense set. The Borel sets of the Polish space `U(H)_s`
 are generated by countably many point-separating continuous coefficients
 (Williams, Lemma D.20 applied to `U(H)_s`, and Lemma D.43).
 
-Prove automatic continuity: if G is a Polish group and K is a topological
-group whose topology is separable and metrizable, every Borel-measurable
-group homomorphism G→K is continuous (Williams, Theorem D.11, through the
+Prove automatic continuity (`continuous_of_measurable_monoidHom`): if G is
+a Polish group and K is a topological group whose topology is separable and
+metrizable, both with their Borel σ-algebras, every Borel-measurable group
+homomorphism G→K is continuous (Williams, Theorem D.11, p. 372, through the
 Baire property of Borel sets, Lemmas D.15–D.16). Prove also that a
 second-countable locally compact Hausdorff group is Polish, so every lcsc
 group is an admissible source. For a locally compact source a route
@@ -1114,7 +1157,11 @@ nonzero σ-finite left-invariant measure. Prove Mackey's theorem: an
 analytic Borel group carrying such a measure has exactly one
 second-countable locally compact group topology whose Borel sets are the
 given ones, and the measure is a Haar measure for it (Williams,
-Theorem D.23, with Lemmas D.40–D.44). Existence embeds the group in
+Theorem D.23, p. 376, with Lemmas D.40–D.44); an analytic Borel space is
+one Borel isomorphic to an analytic subset of a Polish space with its
+relative Borel structure (Williams, Definition D.19, p. 375), a class
+strictly larger than the standard Borel spaces of Mathlib's
+`StandardBorelSpace`. Existence embeds the group in
 `U(L²)_s` by its left-regular representation; uniqueness is automatic
 continuity of the identity map. Apply it to `E_ω`: `i(z)=(z,e)` and
 `j(z,s)=s` are Borel homomorphisms, hence continuous; i is a homeomorphism
@@ -1298,10 +1345,13 @@ compact Hausdorff G.
   the integrated regular representation on `ℓ²(ℤ)` is multiplication by
   `f̂` on `L²(𝕋)` after Fourier series, of norm `sup|f̂|`, the norm of
   `C*(ℤ)=C(𝕋)`, so it is injective; for the free group on a, b and
-  `h=δ_a+δ_(a⁻¹)+δ_b+δ_(b⁻¹)`, the trivial character gives 4 while
-  `‖λ(h)‖=2√3<4` (Kesten's theorem, recalled in de la Harpe, p. 16), so the regular representation is not isometric,
-  hence not injective, on `C*(F₂)`, and the amenability hypothesis cannot
-  be dropped. A faithful but degenerate ρ, such as `ρ(z)=z⊕0` on `ℂ²` for
+  `h=δ_a+δ_(a⁻¹)+δ_b+δ_(b⁻¹)`, the trivial character takes the value 4 at
+  h, so 4 is in the spectrum of h in `C*(F₂)`, while 4 is not in the
+  spectrum of `λ(h)`: by Kesten's theorem, as recalled in de la Harpe
+  (p. 16), the spectrum of `λ(h)/4` lies in `[−1,1−ε]` for some `ε>0`. An
+  injective *-homomorphism of C*-algebras preserves spectra, so the regular
+  representation is not injective on `C*(F₂)`, and the amenability
+  hypothesis cannot be dropped. A faithful but degenerate ρ, such as `ρ(z)=z⊕0` on `ℂ²` for
   `A=ℂ`, gives the regular representation plus a zero summand, with the
   same kernel.
 
@@ -1691,9 +1741,12 @@ regular quotient); `gap:cstar-ideals-multipliers` (ideals); Mathlib
 `IsSimpleRing`.
 
 **D2.BoundedSequenceTranslation.** Take the coefficient algebra exactly as
-`B=ℓ∞(ℤ,ℂ)`, using native `lp (fun _ : ℤ=>ℂ) ∞`, and
-`α_k(f)(n)=f(n−k)`. Construct its unital C*-structure and translation action
-with the supremum norm. On `H=ℓ²(ℤ,ℂ)` construct diagonal M_f and the
+`B=ℓ∞(ℤ,ℂ)`, using native `lp (fun _ : ℤ=>ℂ) ∞` with Mathlib's unital
+commutative C*-structure on it (the `CommCStarAlgebra (lp A ∞)` instance of
+`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`, with the supremum norm), and
+`α_k(f)(n)=f(n−k)`. Construct the translation action as a
+`TauCeti.CStarAction` of `Multiplicative ℤ` (orbits are trivially
+continuous, ℤ being discrete). On `H=ℓ²(ℤ,ℂ)` construct diagonal M_f and the
 bilateral shift `Uδ_n=δ_(n+1)`, and prove covariance, `‖M_f‖=‖f‖∞`
 and the coordinate/matrix-coefficient formulas. Prove the integrated
 representation of `R=B⋊αℤ` is faithful. Use D2's amenable full/reduced
@@ -1772,7 +1825,8 @@ The C₊ example's circle characters need not extend to R.
 `gap:cstar-ideals-multipliers` (ideals, quotients) and
 `gap:cstar-representations` (irreducible representations, primitive ideal
 space);
-Mathlib `lp`, `lp.single`.
+Mathlib `lp`, `lp.single` and the C*-algebra instance on `lp A ∞`
+(`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`).
 
 **D2.SequenceToeplitz — an asymmetric sequence algebra and its crossed product.**
 Inside native `lp (fun _ : ℤ=>ℂ) ∞` construct the closed nonunital
@@ -1783,7 +1837,14 @@ Give the limit character ℓ₊, its kernel c₀(ℤ), and the equivariant exact
 sequence `0→c₀(ℤ)→C₊→ℂ→0`, with trivial action on ℂ.
 Let `B=C₊⋊αℤ`. Use D1's full exactness and D2's amenable full/reduced
 comparison to construct
-`0→K(ℓ²(ℤ))→B→C(𝕋)→0`.
+`0→K(ℓ²(ℤ))→B→C(𝕋)→0`. Full exactness gives
+`0→c₀(ℤ)⋊ℤ→B→ℂ⋊ℤ→0`; the matrix units of D2.BoundedSequenceTranslation
+identify `c₀(ℤ)⋊ℤ` with `K(ℓ²(ℤ))`, and D4.Harmonic's isomorphism
+`C*(ℤ)=ℂ⋊ℤ≅C(𝕋)`, `δ_1↦z` (its full-algebra Fourier isomorphism at G=ℤ
+with `TauCeti.circleEquivPontryaginDualInt`) identifies the quotient with
+`C(𝕋)`. The characters `(ℓ₊, n↦zⁿ)` alone give continuity of the
+quotient map below, since `ℓ₊(α_k f)=ℓ₊(f)`, but not its exact kernel,
+which needs the injectivity of `C*(ℤ)→C(𝕋)`.
 In the concrete covariant representation on ℓ²(ℤ), let M_f be diagonal
 multiplication and `Ue_n=e_(n+1)`. Prove this representation faithful,
 using its circle gauge action and faithful conditional expectation, and
@@ -1847,7 +1908,8 @@ representation, on which S is unitary. They need not converge to I.
 
 *Needs:* D1 (full exactness); D2 (amenable comparison, gauge
 expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
-`C₊⋊ℤ→R`); `gap:cstar-representations` (irreducible representations,
+`C₊⋊ℤ→R`); D4.Harmonic (`C*(ℤ)≅C(𝕋)` with `δ_1↦z`, for the circle
+quotient and its exact kernel); `gap:cstar-representations` (irreducible representations,
 primitive ideals), `gap:cstar-ideals-multipliers` (the embedding
 `R→M(K(H))`) and `gap:toeplitz-extension` (the concrete Toeplitz
 algebra); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
@@ -1898,7 +1960,8 @@ primitive space.
 
 ### Dependencies
 
-D1 with D1.Modules and D1.CentralTwists; BanachAlgebras A7; AmenableGroups
+D1 with D1.Modules and D1.CentralTwists; D4.Harmonic for
+D2.SequenceToeplitz's circle quotient; BanachAlgebras A7; AmenableGroups
 (invariant means and Følner conditions); `gap:cstar-ideals-multipliers`,
 `gap:cstar-representations`, `gap:cstar-tensor-limits`,
 `gap:cstar-nuclear-exact` and `gap:toeplitz-extension`;
@@ -2048,8 +2111,8 @@ law `(f*)^=conj(f̂)`: G is unimodular, so `f*(x)=conj(f(x⁻¹))`, and
 inversion invariance of μ with `χ(y⁻¹)=conj(χ(y))` gives
 `∫conj(f(x⁻¹))χ(x)dμ(x)=∫conj(f(y)χ(y))dμ(y)`.
 
-VonNeumannAlgebras V11 (V11.UnitizationCharacters and the Plancherel
-paragraph that follows V11.FourierUniqueness) identifies the reduced group
+VonNeumannAlgebras V11 (V11.UnitizationCharacters and
+V11.FourierInversion) identifies the reduced group
 C*-algebra `C*_r(G)`, the norm closure of `λ(L¹(G))` on `L²(G)`, with
 `C₀(Ĝ)` by the Fourier transform: the nonzero characters of `C*_r(G)` are
 the evaluations at the points of Ĝ, the Gelfand transform of `λ(f)` is f̂,
@@ -3323,13 +3386,34 @@ compatibility with boxes and tile estimates. Construct mean energy
 `e_Φ(ω)=∑_(X∋0) ω(Φ(X))/|X|`, mean entropy
 `s(ω)=lim |Λ|⁻¹ S(ω|A_Λ)`, and pressure
 `p(βΦ)=lim |Λ|⁻¹ log Tr(exp(−βH_Φ(Λ)))`.
-Develop finite-matrix entropy and relative entropy
-`D(ρ||σ)=Tr(ρ(logρ−logσ))`, with infinity when the support condition
-fails, and `0 log0=0` in entropy. Prove positivity for trace-one ρ,σ,
-ordinary subadditivity, and the relative-entropy calculus for an arbitrary
-positive reference σ used in the monotonicity argument.
-Prove strong subadditivity `S(ABC)+S(B)≤S(AB)+S(BC)`. For a concrete route,
-build the compression inequality for −log from its resolvent integral and
+The finite-matrix entropy calculus is Tau Ceti's, as the supplier contract
+states: the von Neumann entropy `Matrix.vonNeumannEntropy`,
+`S(ρ)=−Tr(ρ log ρ)` through the functional calculus of `Real.negMulLog`,
+so that `0 log 0=0`; the relative entropy `Matrix.relativeEntropy`,
+`D(ρ‖σ)=Tr(ρ(log ρ−log σ))` in `EReal`, equal to `⊤` unless
+`ker σ⊆ker ρ`; Klein's inequality `Tr ρ−Tr σ≤D(ρ‖σ)` for positive
+semidefinite ρ, σ (`Matrix.PosSemidef.re_trace_sub_trace_le_relativeEntropy`)
+and positivity for equal traces (`Matrix.PosSemidef.relativeEntropy_nonneg`);
+and subadditivity `S(ρ_AB)≤S(ρ_A)+S(ρ_B)` for a density matrix
+(`Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft`),
+with the partial traces `Matrix.partialTraceRight` over the second factor
+and `Matrix.partialTraceLeft` over the first. Build on them the
+relative-entropy calculus for an arbitrary positive reference σ used in the
+monotonicity argument, in particular
+`D(ρ_AB‖1_A⊗σ_B)=−S(ρ_AB)−Tr(ρ_B log σ_B)` for positive semidefinite
+`ρ_AB` and σ_B with `ker(1_A⊗σ_B)⊆ker ρ_AB`, from Tau Ceti's
+`Matrix.cfc_one_kronecker` (`log(1_A⊗σ_B)=1_A⊗log σ_B`).
+
+Prove strong subadditivity (`vonNeumannEntropy_strong_subadditivity`): for
+every positive semidefinite ρ on `A⊗B⊗C`, indexed by `a×(b×c)`,
+`S(ρ_ABC)+S(ρ_B)≤S(ρ_AB)+S(ρ_BC)`, where `ρ_BC` traces out A, `ρ_B`
+traces out C from `ρ_BC`, and `ρ_AB` traces out C after regrouping the
+index as `(a×b)×c` (Nielsen–Petz, inequality (1), p. 1, for density
+matrices). No trace normalization is needed: for c>0,
+`S(cσ)=cS(σ)−c·Tr σ·log c`, and the four matrices have the trace of ρ, so
+replacing ρ by cρ changes both sides by `−2c·Tr ρ·log c`; a positive
+semidefinite ρ of trace 0 is 0. For a concrete route (Nielsen–Petz, §§2–4,
+pp. 3–6), build the compression inequality for −log from its resolvent integral and
 positive block-matrix Schur complements. On Hilbert–Schmidt matrices form
 the positive relative modular operator `L_σ R_(ρ⁻¹)` for invertible ρ,σ.
 Construct the partial-trace isometry
@@ -3382,10 +3466,23 @@ the on-site model.
   `Tr exp(−βH_Φ(Λ))=(2cosh(βh))^(|Λ|)`, so `p(βΦ)=log(2cosh(βh))`; the
   product Gibbs state has `e_Φ=−h tanh(βh)` and `s=log(2cosh(βh))−βh tanh(βh)`,
   and `s−βe_Φ=p(βΦ)`, so the variational supremum is attained there.
-- Relative entropy: `D(ρ‖ρ)=0`; `ρ=diag(1,0)`, `σ=diag(0,1)` gives `+∞`;
-  `ρ=diag(1,0)`, `σ=diag(½,½)` gives `log 2>0`; the GHZ state on
-  `ℂ²⊗ℂ²⊗ℂ²` has `S(ABC)=0`, `S(B)=S(AB)=S(BC)=log 2`, so strong
-  subadditivity reads `log 2≤2log 2`, and the reversed inequality fails.
+- The conventions assumed of the consumed relative entropy: `D(ρ‖ρ)=0`;
+  `ρ=diag(1,0)`, `σ=diag(0,1)` gives `+∞`, since `ker σ=span e₁` is not
+  contained in `ker ρ=span e₂`; `ρ=diag(1,0)`, `σ=diag(½,½)` gives
+  `log 2>0`. The calculus formula on `ρ_AB=¼·1` (maximally mixed on
+  `ℂ²⊗ℂ²`) and `σ_B=½·1`: `D(ρ_AB‖1⊗σ_B)=log ¼−log ½=−log 2`, and
+  `−S(ρ_AB)−Tr(ρ_B log σ_B)=−2log 2+log 2`, the same value.
+- Strong subadditivity on the GHZ state `(|000⟩+|111⟩)/√2` on
+  `ℂ²⊗ℂ²⊗ℂ²`: `S(ABC)=0` and `S(B)=S(AB)=S(BC)=log 2`, so it reads
+  `0+log 2≤log 2+log 2`, and the reversed inequality fails. For `2ρ` with
+  the same ρ the four entropies are `−2log 2`, `0`, `0`, `0`, and the
+  inequality `−2log 2≤0` still holds, as the scaling law predicts; for a
+  product state `ρ_A⊗ρ_B⊗ρ_C` it is an equality.
+- The partial traces in strong subadditivity, on `ρ=|0⟩⟨0|_A⊗Φ⁺_BC` with
+  `Φ⁺` the Bell state `(|00⟩+|11⟩)/√2` on BC: `S(ABC)=0`, `S(B)=log 2`,
+  `S(AB)=S(|0⟩⟨0|⊗½·1)=log 2` and `S(BC)=0`, so the inequality is the
+  equality `log 2=log 2`; taking `ρ_A=|0⟩⟨0|` (both B and C traced out) in
+  place of `ρ_AB` would give `log 2≤0`, which is false.
 - Van Hove: the boxes `[−n,n]^ν` are van Hove for every tile; the segments
   `[0,n]×{0}` in `ℤ²` have volume tending to infinity but contain no
   translate of the tile `Λ_((1,2))`, so `n⁻/n⁺=0` and they are not van Hove.
@@ -3394,7 +3491,13 @@ the on-site model.
 
 *Needs:* D7 (KMS states, ground states, bounded perturbations and their
 sign); Tau Ceti's quantum spin systems (`TauCeti.QuantumSpin.Interaction`
-with its local dynamics and finite-volume Gibbs states);
+with its local dynamics and finite-volume Gibbs states); Tau Ceti's matrix
+entropy (`Matrix.vonNeumannEntropy`, `Matrix.relativeEntropy`,
+`Matrix.PosSemidef.re_trace_sub_trace_le_relativeEntropy`,
+`Matrix.PosSemidef.relativeEntropy_nonneg`,
+`Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft`,
+`Matrix.partialTraceRight`, `Matrix.partialTraceLeft`,
+`Matrix.cfc_one_kronecker`); Nielsen–Petz for strong subadditivity;
 `gap:cstar-tensor-limits` (tensor products, inductive limits) and
 `gap:cstar-representations` (states); Mathlib `Matrix.trace`, the matrix exponential `NormedSpace.exp`,
 the logarithm of a positive-definite matrix as the Hermitian functional
@@ -3411,7 +3514,7 @@ segments in `ℤ²` as a non-van-Hove net.
 ### Dependencies
 
 D7; `gap:cstar-representations` and `gap:cstar-tensor-limits`; Tau Ceti's
-quantum spin systems as in the supplier contract; Mathlib matrix analysis
+quantum spin systems and matrix entropy as in the supplier contract; Mathlib matrix analysis
 (`Matrix.trace`,
 `Matrix.PosSemidef`, the exponential `NormedSpace.exp` and the logarithm
 of a positive-definite matrix through the Hermitian functional calculus).
@@ -3496,7 +3599,7 @@ of a positive-definite matrix through the Hermitian functional calculus).
   products, Cuntz algebras, KMS states or the CAR algebra with its Fock
   representation.
 
-## Sources and API alignment
+## References
 
 - Dana Williams, *Crossed Products of C*-Algebras*, draft 3.1 (the author's
   page at Dartmouth; page numbers are the printed ones):
@@ -3534,8 +3637,9 @@ of a positive-definite matrix through the Hermitian functional calculus).
   Appendix D for D1.BorelPrefix: Theorem D.3 and Lemma D.4 (p. 370) for
   measurable homomorphisms of locally compact groups and Steinhaus's
   theorem, Theorem D.11 (p. 372) for Borel homomorphisms from Polish groups,
-  Lemma D.20 and Theorem D.23 (pp. 375–376) for countably generated Borel
-  structures and Mackey's topology on measurable groups, Proposition D.28
+  Definition D.19, Lemma D.20 and Theorem D.23 (pp. 375–376) for analytic
+  and countably generated Borel structures and Mackey's topology on
+  measurable groups, Proposition D.28
   (p. 383) for ω-representations and the circle extension, and Lemmas D.37,
   D.42 and D.43 (pp. 391–395) for the Polish unitary group and Borel
   coefficients.
@@ -3603,26 +3707,16 @@ of a positive-definite matrix through the Hermitian functional calculus).
   topology and mathematical physics*, arXiv:1911.05823: §2.1, Definition 2.1
   and the extension (4) `0→K(ℓ²(ℕ))→T→C(S¹)→0` with symbol `T↦z` (p. 3),
   for the Toeplitz corner of D2.SequenceToeplitz.
-
-For central multiplier cocycles use the equations and cochain direction in
-D1.CentralTwists and D2.CentralTwists. Delfín–Farsi–Packer,
-*Twisted crossed products of Banach algebras*, arXiv:2509.24106, §§2–4
-(general locally compact G; §§5–6 assume second countability), gives a
-continuous multiplier-action and universal-property reference. The
-C*-norm, star, regular module and arbitrary-LCH localized integration
-arguments are targets here with the scope fixed above.
-
-Use Mathlib's star-algebra equivalences, nonunital star homomorphisms,
-positive continuous linear functionals, `ContinuousMap`, compactly supported
-functions, Lp, Bochner integrals, `CStarModule`, `VonNeumannAlgebra`,
-`ContinuousLinearMapWOT`, `PositiveLinearMap.GNS` and `PontryaginDual`.
-Consume Tau Ceti's `Analysis/CStarAlgebra/Action/`,
-`Analysis/CStarAlgebra/QuantumSpin/` and `GroupTheory/Amenable/` as the
-supplier contract states, and extend its `Analysis/Bochner/LocallyCompactGroup`
-and `Topology/Algebra/PontryaginDual` harmonic interfaces. The
-topology on the total `Arrow` and on composable arrows is LieGroupoidsPoisson
-G0's. Algebraic crossed products
-and Tau Ceti's Galois/Brauer development do not supply the analytic norms or
-completions here. Preserve the C*-module convention of D1.Modules.
-`Suggested.lean` states the headline theorems named in
-backticks at their targets; this README is definitive.
+- Alonso Delfín, Carla Farsi and Judith Packer, *Twisted crossed products
+  of Banach algebras*, arXiv:2509.24106: §§2–4 (general locally compact G;
+  §§5–6 assume second countability), a continuous multiplier-action and
+  universal-property reference for D1.CentralTwists and D2.CentralTwists,
+  whose equations and cochain direction are the ones fixed there; the
+  C*-norm, star, regular module and arbitrary-LCH localized integration
+  arguments are targets of those sections.
+- Michael A. Nielsen and Dénes Petz, *A simple proof of the strong
+  subadditivity inequality*, arXiv:quant-ph/0408130, version 3 (2005),
+  page numbers of that version: inequality (1) (p. 1) for strong subadditivity,
+  the reduction (6) to monotonicity of relative entropy (p. 2), Lemmas 1–2
+  (p. 3) on operator convexity and the relative modular operator with the
+  partial-trace isometry (pp. 3–5), for D9.
