@@ -69,9 +69,8 @@ elsewhere. In particular it owns:
 - the multiple-realization application and Theorem B (Layer 3);
 - the stable orthogonal and special orthogonal groups with the finite-to-stable range (4.2a),
   Milnor's Clifford chain of iterated minimal centrioles with its minimal geodesics (4.2b), and
-  the index bounds of its non-minimal geodesics, the Bott maps, real Bott periodicity, the
-  comparison of the Grassmannian member of the chain with `ℤ × BO`, the stable quaternionic
-  Grassmannian `BSp`, and the stable homotopy groups of `O` and `SO` (4.2c);
+  the index bounds of its non-minimal geodesics, the Bott maps, real Bott periodicity and the
+  stable homotopy groups of `O` and `SO` (4.2c);
 - abundance, fibered families of 2-spheres, covering by diffeomorphisms, the torsion group
   `π_(n−1)(SO(n))` of Lemma 6.35 with its low-rank values, Proposition 6.31 for compact
   connected Lie groups other than tori, homogeneous spaces, the projective applications,
@@ -98,7 +97,6 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The round Hopf metrics, normal-homogeneous metrics, Jacobi fields, the index form, finite broken geodesics and the based-loop sphere calculation | RiemannianGeometry R1–R3 | consumed by Layer 2 and 4.2c |
 | Morse–Bott normal bundles, compact-band attachments and the orientation-system Thom comparison | MorseTheory M5 | consumed by Layer 2 and 4.2c |
 | Tubular neighbourhoods, collars, `Diff(M)` as a topological group with the `C^∞` topology | GeometricTopology Layers 1 and 3 | consumed by Layers 1 and 4 |
-| The stable real Grassmannian `BO`, and the homogeneous tower `⊔_k O(2n)/(O(k) × O(2n − k))` with its homotopy equivalence to `BO × ℤ` | TopologicalKTheory T1.6a, T1.6d | compared with the Clifford-chain member `Ω₇` in 4.2c |
 | Local coefficient systems, fundamental classes, the orientation local system, the reduced-suspension sphere models, closed-cofibration towers with their mapping telescopes and finite-stage factorization, the Hurewicz map, Whitehead's theorem for spaces of CW type, the CW type of compact manifolds and of mapping spaces, the homological characterization of the mapping degree | AlgebraicTopology Stages 2, 4, 6, 8 | consumed by Layers 1 and 4 |
 | The octonionic projective plane as a Riemannian manifold | none | the Cayley plane half of Proposition 6.39 is out of scope |
 
@@ -112,8 +110,10 @@ them by name and section (see the supplier contracts) and does not restate them.
   consumed from the suppliers named below at their stated hypotheses. Bott periodicity is proved
   here in its real form, for the stable orthogonal group and the eight members of the Clifford
   chain (4.2a–4.2c), because the stable term of Lemma 6.35 (4.3) needs it; complex Bott
-  periodicity and the comparison of the Bott maps with Clifford-module `K`-theory are not part of
-  this roadmap.
+  periodicity, the comparison of the Grassmannian members `Ω₃` and `Ω₇` of the chain with
+  classifying spaces of stable quaternionic and real vector bundles, and the comparison of the
+  Bott maps with Clifford-module `K`-theory are not part of this roadmap, and nothing here uses
+  them (see Downstream consumers).
 
 ## Conventions
 
@@ -407,13 +407,6 @@ comparison with the base roadmap's carrier.
   neighbourhoods (1.0, 1.5) and the hypersurface and collar vocabulary (4.6); Layer 3 `Diff(M)` as
   a topological group with the `C^∞` topology and the smooth-families map (4.3). The inclusion
   `O(n+1) → Diff(Sⁿ)` is consumed from Tau Ceti.
-- **TopologicalKTheory** [T1.6a and T1.6d](../TopologicalKTheory/README.md). T1.6a: the stable
-  real Grassmannian `BO`, the rank-colimit in `CompactlyGenerated` of the fixed-rank real
-  Grassmannians, based at the canonical rank-zero point. T1.6d: the homogeneous tower
-  `⊔_k O(2n)/(O(k) × O(2n − k))`, mapped to T1.5's Grassmannian carrier by the span of the first
-  `k` columns, with stage labels `k − n` and the stabilization that adds a first line and appends
-  the ambient coordinates last, and its based homotopy equivalence with `BO × ℤ` over `ℤ`. Both
-  are consumed only by 4.2c's comparison of the Clifford-chain member `Ω₇` with `ℤ × BO`.
 - **AlgebraicTopology** [Stages 2, 4, 6 and 8](../AlgebraicTopology/README.md): Stage 4.4 the
   based circle and sphere models, `reducedSuspensionSphereHomeomorph` and the compact
   reduced-suspension carrier comparison (1.2); Stage 4 item 5, for a sequence of Hausdorff spaces
@@ -445,8 +438,7 @@ on those carriers, and consumes RiemannianGeometry R1–R3 and MorseTheory M5 wi
 Floer theory. Layer 3 consumes GeneralizedCohomology G5 and TangentialBordism B5 and B6.3
 together with the base roadmap's Theorem 5.10. Layer 4 first proves real Bott periodicity for
 the stable orthogonal group, formed in 1.0's convenient category, by the Morse theory of the
-Clifford chain on the same RiemannianGeometry and MorseTheory inputs, comparing the chain's
-Grassmannian member with TopologicalKTheory's `ℤ × BO` (4.2a–4.2c); it then
+Clifford chain on the same RiemannianGeometry and MorseTheory inputs (4.2a–4.2c); it then
 consumes the base roadmap's DG Morse homology, fibration theorem, shriek maps and Theorem M,
 the carriers of Layers 1–2 and the named supplier inputs, and needs no Floer counts of its own.
 Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a target's
@@ -1495,25 +1487,18 @@ a product and there are two.
   (AlgebraicTopology Stage 8 item 5), for `k = 0, …, 7`.
 - **The stable members.** Read the colimits off 4.2b's identifications and stabilizations:
   `Ω₁ ≅ O/U` (two components), `Ω₂ ≅ U/Sp`, `Ω₄ ≅ Sp`, `Ω₅ ≅ Sp/U` and `Ω₆ ≅ U/O` (connected),
-  `Ω₈ ≅ O`, `Ω₃ ≅ ℤ × BSp` and `Ω₇ ≅ colim_m ⊔_(0≤p≤2m) G_p(ℝ^(2m))`, where `ℤ` records the index
-  `d` of 4.2b, `BSp` is the colimit of the middle Grassmannians `G_(2m)(ℍ^(4m))`, which contain
-  `J₃`, and the component `d = 0` of `Ω₇`, the colimit of the `G_m(ℝ^(2m))`, contains `J₇`.
-- **The Grassmannian member and `ℤ × BO`.** Prove that `Ω₇` is homotopy equivalent to `ℤ × BO`,
-  with `BO` TopologicalKTheory T1.6a's stable real Grassmannian, by an equivalence that carries the
-  component of index `d` to `{d} × BO`. Under 4.2b's identification the stage
-  `⊔_p G_p(ℝ^(2m))`, with index `d = p − m`, is the stage `⊔_k O(2m)/(O(k) × O(2m − k))`, with
-  label `k − m`, of TopologicalKTheory T1.6d's homogeneous tower, whose colimit T1.6d proves based
-  homotopy equivalent to `BO × ℤ` over `ℤ`. The two stabilizations differ: 4.2b's appends the
-  `+1`-eigenline of the new block last, T1.6d's adds a first line and appends the ambient
-  coordinates last. They differ by composition with an orthogonal map of `ℝ^(2m+2)`, which can be
-  taken in `SO(2m + 2)` because the last coordinate is free in T1.6d's image, so a path from the
-  identity to it is a specified homotopy between them; AlgebraicTopology Stage 4 item 5's
-  `cofibrationTowerHomotopyEquivalence` then compares the two telescopes, and so the two colimits.
-  `BSp` has no counterpart in TopologicalKTheory and is this roadmap's.
-- **The eight equivalences.** Through these identifications, `ℤ × BO` read through the comparison
-  above, the eight stable Bott maps are homotopy equivalences `O/U ≃ ΩO`, `U/Sp ≃ Ω(O/U)`,
-  `ℤ × BSp ≃ Ω(U/Sp)`, `Sp ≃ Ω(ℤ × BSp)`, `Sp/U ≃ ΩSp`, `U/O ≃ Ω(Sp/U)`, `ℤ × BO ≃ Ω(U/O)` and
-  `O ≃ Ω(ℤ × BO)`, each loop space taken at `J_k`.
+  `Ω₈ ≅ O`, and the two Grassmannian members `Ω₃ ≅ colim_m ⊔_(0≤p≤4m) G_p(ℍ^(4m))` and
+  `Ω₇ ≅ colim_m ⊔_(0≤p≤2m) G_p(ℝ^(2m))`, along 4.2b's stabilizations `G_p → G_(p+2)`, respectively
+  `G_p → G_(p+1)`. These preserve 4.2b's index `d = p − 2m`, respectively `d = p − m`, so the path
+  components of `Ω₃` are the colimits `colim_m G_(2m+d)(ℍ^(4m))` and those of `Ω₇` the colimits
+  `colim_m G_(m+d)(ℝ^(2m))`, one for each `d ∈ ℤ` (every `d` occurs once `2m ≥ |d|`, respectively
+  `m ≥ |d|`), each a colimit of connected Grassmannians and so connected by 1.0's compact
+  families; `π₀(Ω₃) ≅ π₀(Ω₇) ≅ ℤ` through `d`. The component `d = 0` of `Ω₃`, the colimit of the
+  middle Grassmannians `G_(2m)(ℍ^(4m))`, contains `J₃`, and that of `Ω₇`, the colimit of the
+  `G_m(ℝ^(2m))`, contains `J₇`.
+- **The eight equivalences.** Through these identifications the eight stable Bott maps are
+  homotopy equivalences `O/U ≃ ΩO`, `U/Sp ≃ Ω(O/U)`, `Ω₃ ≃ Ω(U/Sp)`, `Sp ≃ Ω(Ω₃)`,
+  `Sp/U ≃ ΩSp`, `U/O ≃ Ω(Sp/U)`, `Ω₇ ≃ Ω(U/O)` and `O ≃ Ω(Ω₇)`, each loop space taken at `J_k`.
 - **Real Bott periodicity.** Composing them, `O ≃ Ω⁸O`, `Sp ≃ Ω⁴O` and `O ≃ Ω⁴Sp`, the iterated
   loop spaces taken at the base points `J_k`, and `π_(i+8)(O) ≅ π_i(O)` for every `i ≥ 0`, as
   groups (for `i = 0` both sides have two elements).
@@ -1532,12 +1517,11 @@ a product and there are two.
 *Needs:* 1.0 (convenient colimits, path spaces and compact families), 2.1 (the locally symmetric
 conjugate-point computation), 4.2a, 4.2b, RiemannianGeometry R1–R3, MorseTheory M5,
 AlgebraicTopology Stage 4 item 5 (`cofibrationTowerHomotopyEquivalence`, cellular approximation)
-and Stage 8 items 5, 7 and 11a, TopologicalKTheory T1.6a and T1.6d (the comparison with `ℤ × BO`),
-DGFloer Layer 1 item 2, Tau Ceti `HomotopyGroup.pathLoopSpaceMulEquiv`,
-`TauCeti.realClifford_classification`, Mathlib `HomotopyGroup.Pi`. Sources: Milnor, *Morse
-Theory*, §§22–24, in particular Theorems 22.3 and 24.5 and the proof of 24.5 for the index
-bounds; Bott, *The stable homotopy of the classical groups*; Eschenburg and Hanke, *Bott
-periodicity, submanifolds, and vector bundles*, §4.
+and Stage 8 items 5, 7 and 11a, DGFloer Layer 1 item 2, Tau Ceti
+`HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.realClifford_classification`, Mathlib
+`HomotopyGroup.Pi`. Sources: Milnor, *Morse Theory*, §§22–24, in particular Theorems 22.3 and
+24.5 and the proof of 24.5 for the index bounds; Bott, *The stable homotopy of the classical
+groups*; Eschenburg and Hanke, *Bott periodicity, submanifolds, and vector bundles*, §4.
 
 **Checks.**
 - `k = 0`, `n = 16m`: the geodesic with one eigenvalue pair `±3i` in the `x₁x₂`-plane and all
@@ -1555,12 +1539,17 @@ periodicity, submanifolds, and vector bundles*, §4.
   `dim O(n)/U(n/2) = n²/4 − n/2`.
 - For odd `n ≥ 17`, `n − 1` is even and `π_(n−1)(O)` is `ℤ/2` when `n ≡ 1 (mod 8)` and `0` when
   `n ≡ 3, 5, 7 (mod 8)`: the stable terms of 4.3.
-- The index of the Grassmannian member: for `m = 1` the stage of `Ω₇` is
-  `G₀(ℝ²) ⊔ G₁(ℝ²) ⊔ G₂(ℝ²)`, a point, a circle and a point with `d = −1, 0, 1`, which is
-  TopologicalKTheory T1.6d's stage `n = 1` with the same labels, and `J₇` lies in `d = 0`, sent to
-  the base-point component `{0} × BO`. Labelling the components by the rank `p` instead would not
-  be preserved by the stabilization `p ↦ p + 1`, and no component of the colimit would have a
-  rank label.
+- The index of the Grassmannian members: for `m = 1` the stage of `Ω₇` is
+  `G₀(ℝ²) ⊔ G₁(ℝ²) ⊔ G₂(ℝ²)`, a point, a circle and a point with `d = −1, 0, 1`, and `J₇` lies in
+  `d = 0`; the stage of `Ω₃` is `⊔_(0≤p≤4) G_p(ℍ⁴)`, of real dimensions
+  `4p(4 − p) = 0, 12, 16, 12, 0`, with `d = −2, …, 2`, and `J₃` lies in the middle `G₂(ℍ⁴)`, whose
+  dimension `16` is that of the tangent space at `J₃`, `J₃` times the skew maps that commute with
+  `J₁` and `J₂` and anticommute with `J₃`: the skew maps commuting with `J₁` and `J₂` form
+  `𝔰𝔭(4)`, of dimension `36`; among them, anticommuting with `J₃` is anticommuting with the
+  involution `J₁J₂J₃`, whose eigenspaces are two copies of `ℍ²`, which leaves the off-diagonal
+  blocks `ℍ^(2×2)`, of dimension `16`. Labelling the components by the rank `p` instead would not
+  be preserved by the stabilizations `p ↦ p + 1` and `p ↦ p + 2`, and no component of either
+  colimit would have a rank label.
 - `π₁(U/Sp)`: the exact sequence of `Sp → U → U/Sp` gives `π₁(U/Sp) ≅ π₁(U) = ℤ` because
   `π₁(Sp) = π₀(Sp) = 0`; reading `π₃(O)` only as the set `π₀(Ω₃) ≅ ℤ` would not fix the group.
 
@@ -1854,8 +1843,9 @@ Layer 1 (hypersurfaces, collars), AlgebraicTopology Stage 6, Tau Ceti
   its hypothesis that `H_n(U) → H_n(Q)` be nonzero is what Theorem G drops: it needs only
   `φ(S) ⊂ U`. `Q` is rationally essential (the collapse `Q → Tⁿ` has degree `1`), and the source
   knows no technique, its own included, that gives `c°_HZ(D*Q) < ∞` (Example 7.4), so Theorem H
-  is not available. The three theorems have different ranges; a Check claiming that Theorem B's
-  hypothesis on `Q` fails here would be false.
+  is not available. Rational essentiality is not rational asphericity: reading it as
+  `π_j(Q) ⊗ ℚ = 0` for every `j ≥ 2`, that is as `Q` being a rational `K(π, 1)`, would put this
+  `Q` outside Theorem B's hypothesis on `Q`, whereas `π_k(Q) ⊗ ℚ ≠ 0` as computed above.
 
 ### Examples
 
@@ -1870,7 +1860,7 @@ Layers 1–3; DGFloer Layer 1 items 1–2, 5–6, Layers 2–3, Layer 5 items 2�
 Layer 11; GeometricTopology Layers 1 and 3; GeneralAlgebraicKTheoryPartII §4.30b (through 1.2);
 AlgebraicTopology Stages 2, 6, 8.1–8.7, Stage 4 item 5 and Stage 8 items 7 and 11a;
 GeneralizedCohomology G4.0b;
-RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c); TopologicalKTheory T1.6a and T1.6d (4.2c);
+RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c);
 SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`, `HomotopyGroup.map`,
 `HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`,
 `TauCeti.homotopyGroupSphereAddEquiv`, `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
@@ -1886,7 +1876,12 @@ Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4
 
 ## Downstream consumers
 
-None. The base roadmap consumes nothing from this one.
+- TopologicalKTheory can consume 4.2a–4.2c in T1.6a, T1.6d and T7: the stable `O`, compared with
+  the loop space of its stable real Grassmannian `BO`; the Grassmannian member `Ω₇` with its
+  stabilization, compared with `ℤ × BO`; and the eight stable Bott maps with real Bott periodicity,
+  for the periodicity of `KO`. Those comparisons with `BO` are TopologicalKTheory's, and nothing in
+  this roadmap uses them.
+- The base roadmap consumes nothing from this one.
 
 ## Worked examples
 
