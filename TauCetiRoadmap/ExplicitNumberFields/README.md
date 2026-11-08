@@ -1320,7 +1320,8 @@ for `Real.eulerMascheroniConstant`. For `z ∈ ℂ` with `Re z > 0`, an integer 
 `T_N(z) = Σ_{0 ≤ n < N} 1/(n + z)²`. Every `n + z` is nonzero, its real part being positive, and
 `N − 1 + a ≥ a > 0`.
 
-Prove the series identities (`dlmf` 5.7.6 and 5.15.1, `pntplus`): for `Re z > 0`,
+Prove the series identities (`dlmf` 5.7.6 and 5.15.1; the digamma one also `pntplus`
+`Complex.hasSum_digamma_of_re_pos`): for `Re z > 0`,
 `ψ(z) = −γ + Σ_{n ≥ 0} (1/(n + 1) − 1/(n + z))` and `ψ'(z) = Σ_{n ≥ 0} 1/(n + z)²`, both series
 converging absolutely and uniformly on every set `{Re z ≥ a₀, |z| ≤ R}` with `a₀ > 0`.
 
@@ -3528,8 +3529,10 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   (2020) (`kerrmcgowntrudgian2020`).
 - A. Kontorovich, T. Tao et al., *PrimeNumberTheoremAnd*,
   https://github.com/AlexKontorovich/PrimeNumberTheoremAnd, file
-  `PrimeNumberTheoremAnd/Mathlib/Analysis/SpecialFunctions/Gamma/DigammaSeries.lean` (`pntplus`,
-  cited for 1.1a).
+  `PrimeNumberTheoremAnd/Mathlib/Analysis/SpecialFunctions/Gamma/DigammaSeries.lean` at commit
+  `9ecc1b67cdbc36f4fab3ebeb5d6d25512392a078` (R. Sneiderman, 2026): the digamma series
+  `Complex.hasSum_digamma_of_re_pos` and `Complex.digamma_eq_tsum` (`pntplus`, cited for the
+  digamma series of 1.1a).
 - Y. Lamzouri, X. Li, K. Soundararajan, Conditional bounds for the least quadratic non-residue
   and related problems, Math. Comp. 84 (2015) 2391–2412, arXiv:1309.3595
   (`lamzourilisoundararajan2015`, a boundary of Scope).
