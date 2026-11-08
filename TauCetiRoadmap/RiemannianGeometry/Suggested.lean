@@ -23,24 +23,28 @@ predicate `IsJacobiFieldOn`, the model function `modelSine` and the model ball v
 Statable at the pins and stated here: the algebraic characterization of constant sectional
 curvature (R1), Schur's theorem (R1), existence and interval uniqueness of Jacobi fields (R2),
 the absence of endpoint-zero Jacobi fields under nonpositive sectional curvature (R3/R4), the
-Rauch comparison under an upper sectional bound (R4.1), the Bishop–Gromov relative-volume
-monotonicity against the model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in
-its distance form (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms
-(R4.6), the three cases of the Killing–Hopf classification of simply connected space forms
-(R4.7), the three simple closed geodesic images on a smooth two-sphere (R4.9) and the
-smooth-function duality for the Riemannian distance (R7.8).
+integral homology of the based loop space of a round sphere (R3.3), the Rauch comparison under an
+upper sectional bound (R4.1), Günther's volume comparison under an upper sectional bound (R4.1),
+the Bishop–Gromov relative-volume monotonicity against the model of curvature `κ` (R4.1),
+Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form (R4.5), Synge's theorem in its
+even-dimensional and odd-dimensional forms (R4.6), the three cases of the Killing–Hopf
+classification of simply connected space forms (R4.7), two different geodesics between distinct
+points of a closed manifold (R4.8), the three simple closed geodesic images on a smooth two-sphere
+(R4.9), the smooth-function duality for the Riemannian distance (R7.8) and the irreducibility of
+the complex harmonic polynomials of each degree under `SO(N)` for `N ≥ 3` (R8.3).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM` and the
-conjugate-point multiplicity, neither of which has a carrier at the pin; the Günther volume
-comparison (R4.1), whose full-ball range `r < inj(p)` needs the injectivity radius, absent at the
-pin; the Gauss, Codazzi and Ricci equations and the first and second variation of volume (R5a,
-R5b), which need the second fundamental form of an isometric immersion, hence the pullback ambient
-connection, absent at the pin; the Lichnerowicz
-eigenvalue bound (R7.0), which needs the Laplacian on functions of a Riemannian manifold, absent
-at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms
-and the de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem
-(R8.4), which needs a Laplacian on functions on the round sphere, absent at the pin.
+conjugate-point multiplicity, neither of which has a carrier at the pin; the Freudenthal range of
+R3.4, which needs the suspension homomorphism `π_q(S^(n−1)) → π_(q+1)(Sⁿ)` on homotopy groups,
+absent at the pin; the Gauss, Codazzi and Ricci equations and the first and second variation of
+volume (R5a, R5b), which need the second fundamental form of an isometric immersion, hence the
+pullback ambient connection, absent at the pin; the Bochner vanishing theorems (R7.6, R7.7), which
+need the Hodge Laplacian on forms and the de Rham cohomology of a manifold, absent at the pin; and
+Takahashi's eigenmap theorem (R8.4), which needs the mean curvature of an isometric immersion of a
+manifold into a round sphere (minimality), absent at the pin. Milnor's theorem that squared distance from almost every point is a Morse
+function (R6) and the Lichnerowicz eigenvalue estimate (R7.0) are consumed from Tau Ceti, as the
+README records, and are not restated.
 -/
 
 @[expose] public section
@@ -132,6 +136,24 @@ theorem jacobi_eq_zero_of_nonpositive_curvature {γ : ℝ → M}
     (ha : X a = 0) (hb : X b = 0) : ∀ t ∈ Icc a b, X t = 0 := by
   sorry
 
+/-! ## R3.3: Loop spaces of round spheres -/
+
+/-- R3.3: for `n ≥ 2` and a point `p` of the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, the integral singular
+homology of the based loop space `ΩSⁿ`, the space `Path p p` of loops at `p` with the
+compact-open topology, is `ℤ` in every degree divisible by `n − 1` and zero in every other degree.
+For `n = 2` it is `ℤ` in every degree. The bound `2 ≤ n` is needed: the loop space of the circle
+has one contractible component for each winding number, so its degree-zero homology is free of
+countably infinite rank, not `ℤ`. -/
+theorem singularHomology_loopSpace_sphere {n : ℕ} (hn : 2 ≤ n) (i : ℕ)
+    (p : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) :
+    (n - 1 ∣ i → Nonempty
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)) ≅ ModuleCat.of ℤ ℤ)) ∧
+    (¬ n - 1 ∣ i → CategoryTheory.Limits.IsZero
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)))) := by
+  sorry
+
 /-! ## R4.1: Rauch comparison -/
 
 /-- R4.1: the model function `s_κ`, the solution of `s'' + κ s = 0` with `s(0) = 0` and
@@ -182,6 +204,29 @@ the exponent is `0` and the value is `r`; for `n = 0` the natural-number exponen
 again `0`, and the value is again `r`. -/
 def modelBallVolume (κ : ℝ) (n : ℕ) (r : ℝ) : ℝ :=
   ∫ t in (0 : ℝ)..r, modelSine κ t ^ (n - 1)
+
+/-- R4.1, Günther's volume comparison: on a connected complete manifold of dimension `n` whose
+sectional curvatures are at most `κ` (`⟨R(u,v)v,u⟩ ≤ κ(|u|²|v|² − ⟨u,v⟩²)` for all `u, v`), let
+`0 < r`, with `r < π/√κ` when `κ > 0`, and let `exp_p` be injective on the tangent ball of radius
+`r` at `p`. Then the metric ball `B(p,r)` has Riemannian volume at least `ω_{n−1}·V_κ(r)`, the
+volume of the ball of radius `r` in the `n`-dimensional model of curvature `κ`, where
+`ω_{n−1} = n·vol(Bⁿ)` is the volume of the unit `(n−1)`-sphere. On a complete manifold the
+injectivity hypothesis holds exactly when `r ≤ inj(p)`: past the cut time in a direction `v`, the
+point `exp_p(tv)` is also `exp_p(w)` for a strictly shorter minimizing vector `w`. On the unit
+two-sphere with `κ = 1` both sides are `2π(1 − cos r)`; for `n = 1` both sides are `2r`. -/
+theorem guenther [ConnectedSpace M] [CompleteSpace M]
+    [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+    [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)] (p : M) {κ r : ℝ}
+    (hK : ∀ x (u v : TangentSpace I x),
+      inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u ≤
+        κ * (‖u‖ ^ 2 * ‖v‖ ^ 2 - (inner ℝ u v) ^ 2))
+    (hr : 0 < r) (hmodel : 0 < κ → r < Real.pi / Real.sqrt κ)
+    (hinj : Set.InjOn (TauCeti.Manifold.riemannianExp I M p) (Metric.ball 0 r)) :
+    ENNReal.ofReal ((Module.finrank ℝ E : ℝ) * modelBallVolume κ (Module.finrank ℝ E) r) *
+        MeasureTheory.volume
+          (Metric.ball (0 : EuclideanSpace ℝ (Fin (Module.finrank ℝ E))) 1) ≤
+      TauCeti.riemannianVolume I M (Metric.ball p r) := by
+  sorry
 
 /-- R4.1, Bishop–Gromov: on a connected complete manifold of dimension `n` with
 `Ric(v,v) ≥ (n−1)κ|v|²`, the ratio `vol(B(p,r))/V_κ(r)` of the Riemannian volume
@@ -312,6 +357,30 @@ theorem killingHopf_hyperbolic (hn : 1 ≤ n)
 
 end SpaceForms
 
+/-! ## R4.8: Two geodesics between distinct points -/
+
+section GeodesicMultiplicity
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  [IsRiemannianManifold I M]
+
+/-- R4.8: on a compact connected Riemannian manifold, two distinct points `p ≠ q` are joined by
+two different geodesics parametrized on `[0, 1]`. With both endpoints fixed on `[0, 1]` the only
+increasing affine reparametrization is the identity, so the two differ as oriented geodesics up
+to affine reparametrization, in image or in traversal. Positive dimension is automatic: a
+connected manifold of dimension `0` is a point. -/
+theorem exists_two_geodesics_of_ne [CompactSpace M] [ConnectedSpace M] {p q : M} (hpq : p ≠ q) :
+    ∃ γ₁ γ₂ : ℝ → M, TauCeti.Manifold.IsGeodesicCurveOn I γ₁ (Icc 0 1) ∧
+      TauCeti.Manifold.IsGeodesicCurveOn I γ₂ (Icc 0 1) ∧ γ₁ 0 = p ∧ γ₁ 1 = q ∧
+      γ₂ 0 = p ∧ γ₂ 1 = q ∧ ∃ t ∈ Icc (0 : ℝ) 1, γ₁ t ≠ γ₂ t := by
+  sorry
+
+end GeodesicMultiplicity
+
 /-! ## R4.9: Three simple closed geodesics on a two-sphere -/
 
 section TwoSphere
@@ -363,5 +432,30 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
+
+/-! ## R8.3: Irreducibility of the harmonic polynomials -/
+
+section SphericalHarmonics
+
+open MvPolynomial
+
+/-- R8.3: for `N ≥ 3` and every degree `d`, the complex harmonic homogeneous polynomials of degree
+`d` on `ℝᴺ` (homogeneous polynomials of degree `d` killed by the Euclidean Laplacian `Σ ∂ᵢ²`) form
+an irreducible representation of `SO(N)` acting by `(g·p)(x) = p(g⁻¹x)`: a complex subspace of
+them that every rotation maps into itself is zero or all of them. The bound `N ≥ 3` is needed: for
+`N = 2` and `d ≥ 1` the space is spanned by `(x₁ + i x₂)ᵈ` and `(x₁ − i x₂)ᵈ`, which span two
+invariant lines with the characters `e^(∓idθ)` of the rotation by `θ`. -/
+theorem harmonic_irreducible {N : ℕ} (hN : 3 ≤ N) (d : ℕ)
+    (W : Submodule ℂ (MvPolynomial (Fin N) ℂ))
+    (hW : W ≤ homogeneousSubmodule (Fin N) ℂ d ⊓
+      LinearMap.ker (∑ i, (pderiv i).toLinearMap ∘ₗ (pderiv i).toLinearMap))
+    (hinv : ∀ g : Matrix.specialOrthogonalGroup (Fin N) ℝ, ∀ p ∈ W,
+      aeval (fun i => ∑ j, C ((((g⁻¹ : Matrix.specialOrthogonalGroup (Fin N) ℝ) :
+        Matrix (Fin N) (Fin N) ℝ) i j : ℝ) : ℂ) * X j) p ∈ W) :
+    W = ⊥ ∨ W = homogeneousSubmodule (Fin N) ℂ d ⊓
+      LinearMap.ker (∑ i, (pderiv i).toLinearMap ∘ₗ (pderiv i).toLinearMap) := by
+  sorry
+
+end SphericalHarmonics
 
 end TauCetiRoadmap.RiemannianGeometry
