@@ -466,7 +466,8 @@ there. At `δ ≥ π` the set is empty.
 For `0 < δ < π`, uniformly on `S_δ`,
 `logGamma δ s = (s − 1/2) Complex.log s − s + Real.log (2π)/2 + O(1/‖s‖)` as `‖s‖ → ∞`, with
 `Complex.log` the principal branch (legitimate since `S_δ` lies in the slit plane). The implied
-constant depends on `δ` (NIST DLMF 5.11.1 and the remainder bounds in §5.11(ii)).
+constant depends on `δ` (NIST DLMF 5.11.1 and the remainder bounds in §5.11(ii);
+PrimeNumberTheoremAnd).
 
 *Needs:* 1.1; Mathlib `Complex.Gamma`, `Complex.GammaIntegral`, the Binet or Euler–Maclaurin
 route through `Complex.digamma`.
@@ -475,8 +476,8 @@ route through `Complex.digamma`.
 
 For every compact `[a, b] ⊆ ℝ`,
 `log ‖Γ(σ + it)‖ = (σ − 1/2) log |t| − π|t|/2 + log(2π)/2 + O(1/|t|)` uniformly for `σ ∈ [a, b]`
-as `|t| → ∞`, along `cocompact ℝ` (DLMF 5.11.9, with the remainder from 5.11.1).
-This additive form composes over products.
+as `|t| → ∞`, along `cocompact ℝ` (DLMF 5.11.9, with the remainder from 5.11.1;
+PrimeNumberTheoremAnd). This additive form composes over products.
 
 *Needs:* 1.2.
 
@@ -511,7 +512,8 @@ second clause, `Real.convexOn_Gamma` with `Real.Gamma_one` and `Real.Gamma_two` 
 
 `Complex.digamma s = Complex.log s + O(1/‖s‖)` on `S_δ`; and exactly
 `logDeriv Gammaℝ s = digamma (s/2)/2 − (log π)/2` and `logDeriv Gammaℂ s = digamma s − log (2π)`
-at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors).
+at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors;
+PrimeNumberTheoremAnd).
 
 *Needs:* 1.2; Mathlib `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`.
 
@@ -527,8 +529,8 @@ argument runs on `Complex.Gammaℝ_conj` and `Complex.Gammaℂ_conj`.
 form `ζ'/ζ(s) = −ζ'/ζ(1 − s) + log 2π − ψ(s) + (π/2) tan(πs/2)` for `s ∉ ℤ` with `ζ(s) ≠ 0`, and is
 consumed as it stands; applied at `1 − s` it is the classical
 `ζ'/ζ(s) = log 2π + (π/2) cot(πs/2) − ψ(1 − s) − ζ'/ζ(1 − s)`. The target is the symmetric form at
-every point off the zeros and poles, integers included: for `s ≠ 0, 1` with `ζ(s) ≠ 0` and
-`ζ(1 − s) ≠ 0`,
+every point off the zeros and poles, integers included (IEANTN; PrimeNumberTheoremAnd): for
+`s ≠ 0, 1` with `ζ(s) ≠ 0` and `ζ(1 − s) ≠ 0`,
 
 ```text
 logDeriv riemannZeta s + logDeriv riemannZeta (1 − s)
@@ -891,7 +893,8 @@ Mathlib `PhragmenLindelof.vertical_strip`. Layers 0, 1.5, 1.6, 2. L-functions La
 
 ### 4.1 The two counts
 
-Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conventions.
+Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conventions (IEANTN;
+PrimeNumberTheoremAnd).
 
 - Both are finite sums when `R` is bounded and `f` is meromorphic on an open set containing its
   closure, by `LocallyFiniteSupport.finite_inter_support_of_isCompact`.
@@ -918,7 +921,7 @@ Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conven
 
 For a record satisfying `HasMeromorphicContinuation`, `divisor Λ U` is nonnegative off
 `polarOrder.support` and equals `−polarOrder` on it, and
-`divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
+`divisor (entireCompletion d) univ = divisor Λ univ + polarOrder` (PrimeNumberTheoremAnd).
 
 *Needs:* Layer 0; L-functions Layer 0.
 
@@ -928,7 +931,8 @@ From `AnalyticOnNhd.sum_divisor_le`: for `0 < r < R`, `f` analytic on `closedBal
 `f c ≠ 0` and `‖f‖ ≤ M` on `sphere c R` with `1 ≤ M`, the number of zeros in `closedBall c r` is at
 most `log (M/‖f c‖)/log (R/r)`. **Trailing-coefficient form**: if instead `f` has finite central
 order `m` and trailing coefficient `a = meromorphicTrailingCoeffAt f c`, the count is at most
-`m + (log (M/‖a‖) − m log R)/log (R/r)`, by applying the first form to `f(z)/(z − c)^m`.
+`m + (log (M/‖a‖) − m log R)/log (R/r)`, by applying the first form to `f(z)/(z − c)^m`
+(PrimeNumberTheoremAnd).
 
 *Needs:* Mathlib `AnalyticOnNhd.sum_divisor_le`, `meromorphicTrailingCoeffAt`.
 
@@ -962,7 +966,7 @@ dividing would leave `exp(+π n T/4)` in the ratio.
 `N(T + 1) − N(T) = O(log analyticConductorAt d (iT))` for `T ≥ 2`, and
 `N(T) = O(T log analyticConductorAt d (iT))`, from 4.4 by subdividing into unit-height rectangles
 inside discs of radius `√2/2` centred on the critical line (Titchmarsh, Theorem 9.2, is the
-`K = ℚ` case).
+`K = ℚ` case; IEANTN; PrimeNumberTheoremAnd).
 
 Define `N(T)` and `N±(T)` as in the conventions.
 
@@ -1025,7 +1029,7 @@ that support with the divisor value as multiplicity, so no enumeration is chosen
 
 ### 5.2 The elementary factor
 
-Define *E₁* `z = (1 − z) exp z`.
+Define *E₁* `z = (1 − z) exp z` (PrimeNumberTheoremAnd).
 
 - `E₁ 0 = 1`, and `E₁ z = 0 ↔ z = 1`.
 - `deriv E₁ z = −z exp z`, and `logDeriv E₁ z = −z/(1 − z)` for `z ≠ 1`.
@@ -1047,8 +1051,8 @@ Define *E₁* `z = (1 − z) exp z`.
 For entire `f` with `OrderLE f 1` and `f 0 ≠ 0`, `∑_ρ m_ρ ‖ρ‖^{−1−ε} < ∞` for every `ε > 0` by
 partial summation from 5.1, so `∑_ρ m_ρ ‖ρ‖^{−2} < ∞`; the product `∏_ρ E₁(s/ρ)^{m_ρ}` converges
 locally uniformly on `ℂ` (`Summable.multipliableLocallyUniformlyOn_one_add` with the estimate
-of 5.2), its limit is entire, and its divisor is `divisor f univ`. This is the genus-one
-construction of Davenport §11, adapted to the pinned divisor carrier: 4.3
+of 5.2), its limit is entire, and its divisor is `divisor f univ` (PrimeNumberTheoremAnd). This
+is the genus-one construction of Davenport §11, adapted to the pinned divisor carrier: 4.3
 (`AnalyticOnNhd.sum_divisor_le`) and Abel summation give zero summability;
 `Summable.multipliableLocallyUniformlyOn_one_add` gives the product,
 `TendstoLocallyUniformlyOn.differentiableOn` gives entirety, and
@@ -1067,11 +1071,11 @@ its exact multiplicity.
 
 ### 5.4 The entire logarithm
 
-A nonvanishing entire `g` is `exp ∘ h` for an entire `h`, unique up to `2πi ℤ`: consume
-`Complex.exists_continuousOn_eqOn_exp_comp` on `Set.univ` and upgrade continuity to holomorphy
-using local inverse branches of `exp`. This is an adapter: the cited theorem supplies a continuous
-lift, not an entire one; the identity `exp h = g`, local injectivity of `exp`, and connectedness
-also give uniqueness modulo `2πi ℤ`.
+A nonvanishing entire `g` is `exp ∘ h` for an entire `h`, unique up to `2πi ℤ`
+(PrimeNumberTheoremAnd): consume `Complex.exists_continuousOn_eqOn_exp_comp` on `Set.univ` and
+upgrade continuity to holomorphy using local inverse branches of `exp`. This is an adapter: the
+cited theorem supplies a continuous lift, not an entire one; the identity `exp h = g`, local
+injectivity of `exp`, and connectedness also give uniqueness modulo `2πi ℤ`.
 
 *Needs:* Mathlib `Complex.exists_continuousOn_eqOn_exp_comp`.
 
@@ -1080,7 +1084,8 @@ also give uniqueness modulo `2πi ℤ`.
 For entire `f` with `OrderLE f 1` and `f 0 ≠ 0` there are `a b : ℂ` such that for every `s` the
 family `ρ ↦ E₁(s/ρ)^{m_ρ}` over `ℂ` is multipliable and `f s = exp (a + b s) ∏'_ρ E₁(s/ρ)^{m_ρ}`;
 this is `hadamard_of_orderLE_one`, and its instance at `zetaEntireCompletion` is
-`zetaEntireCompletion_hadamard` (Davenport, *Multiplicative Number Theory*, §11 and §12). The route:
+`zetaEntireCompletion_hadamard` (Davenport, *Multiplicative Number Theory*, §11 and §12;
+PrimeNumberTheoremAnd). The route:
 the quotient of `f` by the product is entire and nonvanishing, hence `exp h` by 5.4; bound `Re h` on
 large circles by the order hypothesis, convert by `Complex.borelCaratheodory`, and conclude by the
 Cauchy estimates that `h` has degree at most `1`. Then
@@ -1091,7 +1096,7 @@ Cauchy estimates that `h` has degree at most `1`. Then
 
 ### 5.6 The L-function corollaries
 
-For `Λ₀ = entireCompletion d` of one of the two families:
+For `Λ₀ = entireCompletion d` of one of the two families (PrimeNumberTheoremAnd):
 
 - `0 ≤ ∑_ρ m_ρ Re (1/(s − ρ))` for `Re s > 1`, as an absolutely convergent sum of real parts, each
   summand strictly positive because `0 ≤ Re ρ ≤ 1 < Re s`;
@@ -1114,7 +1119,7 @@ For `Λ₀ = entireCompletion d` of one of the two families and `m_ρ = (divisor
 The positive parts of `divisor Λ₀ univ` and `divisor Λ univ` agree (4.2, and *entireCompletion*
 does not vanish on `polarOrder.support`), so both clauses hold for the zeros of `Λ`. At `K = ℚ` and
 the trivial character this is `riemannZeta_zeros_summable_ordinate`, over the zeros of
-`completedRiemannZeta`.
+`completedRiemannZeta` (PrimeNumberTheoremAnd).
 
 Route: on `Re s > 1` the Euler product does not vanish (L-functions Layers 3 and 5) and the gamma
 factor has neither zeros nor poles (1.5), so `Λ₀(s) ≠ 0`; the germ functional equation
@@ -1174,8 +1179,8 @@ There is `c > 0`, depending only on `n = [K:ℚ]`, such that `ζ_K` has at most 
 `Re ρ ≥ 1 − c/log analyticConductorAt d (i Im ρ)`, and such a zero is real and simple (Kadiri,
 Theorem 1.1, gives explicit regions for `|Im s| ≥ 1` and `|Im s| ≤ 1` when `d_K` is large; the
 passage to all fields of degree `n` is 6.4e). It is the trivial-character case of 6.4. At `K = ℚ`
-this is `riemannZeta_zeroFreeRegion`, where no exceptional zero occurs because `ζ` has no real zero
-in `(0, 1)`.
+this is `riemannZeta_zeroFreeRegion` (PrimeNumberTheoremAnd), where no exceptional zero occurs
+because `ζ` has no real zero in `(0, 1)`.
 
 Define the **region constant** *heckeZeroFreeConstant* `n` as the minimum of the constant chosen
 from 6.4 and `log 3/2`.
@@ -1267,7 +1272,7 @@ assembled from six targets.
   constants into `C log |t|`, as `log |t| ≥ log t₀ > 0`. For `δ ≥ 1` both left sides are at most
   `n (−ζ'/ζ)(2)`, comparing Dirichlet series termwise, so with `m` replaced by `1` both bounds hold
   for every `δ > 0` after enlarging `C`. At `K = ℚ` these are the two inputs of the 3-4-1 argument
-  at height `t` (Davenport §13): `−Re (ζ'/ζ)(1 + δ + 2it) ≤ C log |t|`, and
+  at height `t` (Davenport §13; PrimeNumberTheoremAnd): `−Re (ζ'/ζ)(1 + δ + 2it) ≤ C log |t|`, and
   `−Re (ζ'/ζ)(1 + δ + it) ≤ −1/(1 + δ − β) + C log |t|` at a zero `β + it` of `ζ`; this is
   `neg_re_logDeriv_riemannZeta_le`. The threshold is needed: as `t → 0` with `δ = 2|t|`,
   `−Re (ζ'/ζ)(1 + δ + 2it) = 1/(4|t|) + O(1)`, while `log |t| → −∞`.
@@ -1328,7 +1333,7 @@ it.
 ### 7.1 The rectangle as a contour
 
 For a valid rectangle `R = Icc σ₁ σ₂ ×ℂ Icc t₁ t₂`, define *rectBoundary* `R : ℝ → ℂ` on `[0, 4]`,
-traversing the four edges counterclockwise with breakpoints `1, 2, 3`.
+traversing the four edges counterclockwise with breakpoints `1, 2, 3` (PrimeNumberTheoremAnd).
 
 - `TauCeti.Contour.IsPiecewiseC1On (rectBoundary R) 0 4` and `rectBoundary R 0 = rectBoundary R 4`.
 - Its image is the topological boundary `∂R` when `R` is nondegenerate (`σ₁ < σ₂`, `t₁ < t₂`).
@@ -1354,9 +1359,9 @@ For an open `U`, a valid closed rectangle `R ⊆ U`, a finite `S ⊆ U` disjoint
 `AnalyticAt ℂ f z ∧ f z ≠ 0` at every `z ∈ U \ S` and `MeromorphicAt f s` at every `s ∈ S`:
 `(2πi)⁻¹ ∫_0^4 (rectBoundary R)' · (f'/f)(rectBoundary R) = ∑_{s ∈ S} windingNumber s · ord_s f`,
 which is `TauCeti.Contour.argumentPrinciple_nullHomologous`, and the winding numbers of 7.1 collapse
-the right side to `∑_{s ∈ S ∩ R} ord_s f`. The sum over all of `S` is false: for `U = ℂ`,
-`R = Icc (−1) 1 ×ℂ Icc (−1) 1`, `f z = z − 2` and `S = {2}` every hypothesis holds, the integral is
-`0` and `ord_2 f = 1`.
+the right side to `∑_{s ∈ S ∩ R} ord_s f` (PrimeNumberTheoremAnd). The sum over all of `S` is
+false: for `U = ℂ`, `R = Icc (−1) 1 ×ℂ Icc (−1) 1`, `f z = z − 2` and `S = {2}` every hypothesis
+holds, the integral is `0` and `ord_2 f = 1`.
 
 The divisor form: for `f` meromorphic on `U` with `∀ z ∈ U, 0 ≤ meromorphicOrderAt f z →
 AnalyticAt ℂ f z` (the canonical-representative condition, which L-functions records satisfy by
@@ -1389,7 +1394,7 @@ For `f` analytic and nonvanishing at every point of `∂R`, the image curve miss
 `(θ 4 − θ 0)/(2π)` with *divisorCount* `f U R` through 7.2. Only differences `θ b − θ a` are used.
 Define *S* `(T)` as `π⁻¹` times the variation of a continuous argument of `riemannZeta` along the
 path `2 → 2 + iT → 1/2 + iT`, starting from the argument `0` of the positive real `ζ(2)`, for `T`
-not an ordinate.
+not an ordinate (IEANTN).
 
 *Needs:* 7.2; Tau Ceti `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition`,
 `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv`.
@@ -1409,11 +1414,12 @@ not an ordinate.
 ### 7.4 Riemann–von Mangoldt for ζ, and boundary heights
 
 `N(T) = (T/2π) log (T/(2πe)) + O(log T)` for every `T ≥ 2`: `riemannVonMangoldt` (Titchmarsh,
-§§9.2–9.4, Theorem 9.4). Route: 7.2 on `Icc (−1) 2 ×ℂ Icc 0 T` applied to `zetaEntireCompletion`
-(the poles of `Λ` lie on the bottom edge), 4.2 to pass back to `Λ`, confinement of the zeros to the
-critical strip, the main term from 1.5 and the error from 3.4 and 7.3. For `T` the ordinate of a
-zero, the formula follows from the case of non-ordinates by right-continuity of `N` (4.5) and
-discreteness of the ordinates, the main term moving by `O(η log T)` over an interval of length `η`.
+§§9.2–9.4, Theorem 9.4; PrimeNumberTheoremAnd). Route: 7.2 on `Icc (−1) 2 ×ℂ Icc 0 T` applied to
+`zetaEntireCompletion` (the poles of `Λ` lie on the bottom edge), 4.2 to pass back to `Λ`,
+confinement of the zeros to the critical strip, the main term from 1.5 and the error from 3.4 and
+7.3. For `T` the ordinate of a zero, the formula follows from the case of non-ordinates by
+right-continuity of `N` (4.5) and discreteness of the ordinates, the main term moving by
+`O(η log T)` over an interval of length `η`.
 
 *Needs:* 7.2, 7.3, 1.5, 3.4, 4.2, 4.5, 6.5.
 
@@ -1485,7 +1491,7 @@ rectangle with horizontal edges at `±iT`, and let `M → ∞`. The residues: `x
 vanishes to order `r₁ + r₂ − 1` and `c_K = lim_{s→0} ((−ζ'_K/ζ_K)(s) + (r₁ + r₂ − 1)/s)`; and
 `(order) x^{−m}/m` at each trivial zero `−m`, of order `r₁ + r₂` for even `m` and `r₂` for odd `m`.
 The horizontal edges are bounded by 5.6 and 1.4, with `T` chosen at distance `≫ 1/log q(iT)` from
-every ordinate by 4.5 (Davenport §17).
+every ordinate by 4.5 (Davenport §17; PrimeNumberTheoremAnd).
 
 *Needs:* 8.1, 7.2, 5.6, 1.4, 1.5, 4.5.
 
@@ -1519,8 +1525,8 @@ A_K(φ) = (2π)⁻¹ ∫ (logDeriv γ_K)(2 + it) (φ̃(2 + it) + φ̃(−1 − i
 logDeriv γ_K = r₁ (digamma(s/2)/2 − (log π)/2) + r₂ (digamma s − log 2π),
 ```
 
-with `m_ρ = (divisor Λ_K univ ρ).toNat` (Lang, *Algebraic Number Theory*, XVII §3, Theorem 3.1:
-the test class satisfies Barner's conditions under `x = log y`). Route: shift
+with `m_ρ = (divisor Λ_K univ ρ).toNat` (PrimeNumberTheoremAnd; Lang, *Algebraic Number Theory*,
+XVII §3, Theorem 3.1: the test class satisfies Barner's conditions under `x = log y`). Route: shift
 `(2πi)⁻¹ ∫_{(2)} (Λ_K'/Λ_K) φ̃` to `Re s = −1`, picking up `m_ρ φ̃(ρ)` at the zeros and `−φ̃(0)`,
 `−φ̃(1)` at the poles; reflect the left integral by `Λ_K'/Λ_K(s) = −Λ_K'/Λ_K(1 − s)`; and evaluate
 the prime terms by Mellin inversion `mellinInv_mellin_eq`. The supporting facts are targets: `φ̃`
@@ -1550,7 +1556,7 @@ since `x^β = o(x exp(−c √log x))` for fixed `β < 1`; the term is carried f
 conductor-uniform absorption would need Siegel's theorem. By Abel summation
 (`TauCeti.idealSummatory_mul_eq_sub_integral_mul`) the number of nonzero prime ideals of norm at
 most `x` is `Li x + O(x exp(−c √log x))`, `Li = TauCeti.Real.logIntegral`: this is
-`primeIdealCount_effective` (Davenport §18 for `K = ℚ`).
+`primeIdealCount_effective` (Davenport §18 for `K = ℚ`; PrimeNumberTheoremAnd).
 
 *Needs:* 8.3, 6.2, 6.3; Arithmetic Dirichlet Series §§6.1–6.2
 `idealSummatory_mul_eq_sub_integral_mul`, `TauCeti.Real.logIntegral`.
@@ -1638,7 +1644,8 @@ character enters through 8.6 after 6.4b replaces it by its primitive source; the
 the prime count is Abel summation, `x^β/β` becoming `Li(x^β) − Li(2^β)` under `u = t^β`, legitimate
 because `β ≥ 1/2` (6.3). `x/log x` is not an admissible main term: `Li x − x/log x ∼ x/log² x`,
 which is not `O(x exp(−c √log x))`. At `K = ℚ` and `𝔪 = (q)∞` this is
-`primeCounting_progression_effective` (Davenport §20), with main term `Li x/φ(q)`.
+`primeCounting_progression_effective` (Davenport §20; PrimeNumberTheoremAnd), with main term
+`Li x/φ(q)`.
 
 *Needs:* 8.5, 8.6, 6.3, 6.4b; L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`,
 `PrimitiveRayClassCharacter.of`; Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
@@ -1842,3 +1849,8 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
 - NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.11.1 (Stirling
   for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on bounded real-part intervals), and §5.11(ii)
   (remainder bounds).
+- PrimeNumberTheoremAnd, Lean project, <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>
+  — cited for §§1.2, 1.3, 1.4, 1.4a, 4.1, 4.2, 4.3, 4.5, 5.2, 5.3, 5.4, 5.5, 5.6, 5.6a, 6.2, 6.4d,
+  7.1, 7.2, 7.4, 8.2, 8.4, 8.5, 8.7.
+- IEANTN, the Integrated Explicit Analytic Number Theory Network, Lean project,
+  <https://github.com/teorth/IEANTN> — cited for §§1.4a, 4.1, 4.5, 7.3.
