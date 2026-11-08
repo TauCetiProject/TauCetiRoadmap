@@ -58,7 +58,9 @@ It leaves the following to named owners.
   linearity, the squared-sinc kernel `squaredSinc`, the scalar monotone unsmoothing
   `monotoneUnsmoothing` and Delange's theorem `delangeLaplace` are ArithmeticDirichletSeriesPartII
   §§0.1, 1.1, 3.1 and 3.2. The two-sided transform used here is `HasLaplace` with the
-  measure `volume`; this roadmap adds only its adapters. The uniform smoothing and uniform
+  measure `volume`; this roadmap adds only its adapters. Holomorphy of a Mellin transform under
+  power bounds is Mathlib's `mellin_differentiableAt_of_isBigO_rpow`; the strip holomorphy of §2.5
+  differs in assuming only local-uniform integrability. The uniform smoothing and uniform
   Tauberian theorems of Layer 6 differ from its Layer 3 in being uniform over a compact parameter
   space, with transforms valued in `C(X; ℂ)`; their scalar cases are its Layer 3.
 - The scalar Wiener–Ikehara theorems are Tau Ceti's `TauCeti.LSeries.wienerIkehara` and its
@@ -166,6 +168,9 @@ It leaves the following to named owners.
   and `MeasureTheory.integrable_comp_exp` (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`,
   the substitution `u = e^t` over the whole line); `mellin` and `MellinConvergent`
   (`Mathlib/Analysis/MellinTransform.lean`; `mellin f s = ∫_{(0,∞)} t^{s−1} f(t) dt`);
+  `mellin_differentiableAt_of_isBigO_rpow` (same file: for `f` with values in a complex normed
+  space, locally integrable on `(0, ∞)`, `O(t^{−a})` as `t → ∞` and `O(t^{−b})` as `t → 0⁺`,
+  `mellin f` is differentiable at every `s` with `b < Re s < a`);
   `Real.tendsto_integral_exp_smul_cocompact` (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`,
   Riemann–Lebesgue for functions with values in any complex normed space, in particular `C(X; ℂ)`).
 
@@ -178,14 +183,15 @@ matrix `K` with strictly positive entries on finite index types and strictly pos
 `log(x_i y_j/(y_i x_j))` and `Δ(K)` is the `d`-diameter of the columns of `K`; the formula is
 total on all real vectors, and its metric laws hold on strictly positive vectors. This is the
 finite positive-matrix case of §3.3 and is used there as a consistency check. Consume
-`IsCompactOperator.finiteDimensional_genEigenspace_nat`
+`IsCompactOperator.finiteDimensional_genEigenspace_nat` and
+`IsCompactOperator.finiteDimensional_eigenspace`
 (`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: every finite-order generalised
-eigenspace of a compact operator at a nonzero scalar is finite-dimensional, over any complete
-nontrivially normed field), `IsCompactOperator.finiteDimensional_ker_one_sub`,
-`IsCompactOperator.isClosed_range_one_sub` and
+eigenspace, and the eigenspace, of a compact operator at a nonzero scalar is finite-dimensional,
+over any complete nontrivially normed field; at the scalar `1` the eigenspace of `K` is
+`ker(1 − K)`), `IsCompactOperator.isClosed_range_pow_one_sub` and
 `IsCompactOperator.finiteDimensional_quotient_range_one_sub`
-(`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean`: for a compact operator `K`, `1 − K`
-has finite-dimensional kernel, and on a Banach space over `ℝ` or `ℂ` it has closed range and
+(`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean`: for a compact operator `K` on a
+Banach space over `ℝ` or `ℂ`, every power `(1 − K)^n` has closed range, and `1 − K` has
 finite-dimensional cokernel). These are the `r = 0` case of §3.5 and are used there as a
 consistency check.
 
@@ -718,18 +724,31 @@ complex Banach space `V`.
 - **Translation.** For real `c`, `t ↦ f(t − c)` has transform `e^{−sc} z`.
 
 (GMR19, §4.1, (4.2)–(4.4), pp.790–791, which use the two-sided transform of a function vanishing at
-negative times; PNT+, `KadiriEq12Helpers.lean`, `Phi_analyticOnNhd`, for holomorphy of a two-sided
-transform on a strip.)
+negative times. For locally integrable `f` with `‖f(t)‖ = O(e^{at})` as `t → ∞` and
+`‖f(t)‖ = O(e^{bt})` as `t → −∞`, holomorphy on `a < Re s < b` is Mathlib's
+`mellin_differentiableAt_of_isBigO_rpow` through the Mellin bullet: `g(u) = f(log u)` is `O(u^a)`
+as `u → ∞` and `O(u^b)` as `u → 0⁺`, so `mellin g` is differentiable at `−s`. PNT+,
+`KadiriEq12Helpers.lean`, `Phi_analyticOnNhd`, is the case of a continuous scalar `f` with
+`f(t) e^{t/2} = O(e^{−(1/2 + c)|t|})`, on the strip `−(1 + c) < Re s < c`. Neither states the
+integrability hypothesis of the holomorphy bullet.)
 
 **Checks.**
 
 - `f = 1_{[c, ∞)}`, `Re s > 0`: the transform is `e^{−sc}/s`.
-- `f(t) = e^{−|t|}`, `−1 < Re s < 1`: the transform is `1/(1 + s) + 1/(1 − s) = 2/(1 − s²)`.
+- `f(t) = e^{−|t|}`, `−1 < Re s < 1`: the transform is `1/(1 + s) + 1/(1 − s) = 2/(1 − s²)`. With
+  `a = −1` and `b = 1` the power-bound case covers the whole strip; at `s = 1/2` both
+  `∫ e^{−t/2 − |t|} dt` and `mellin g (−1/2) = ∫₀^∞ u^{−3/2} min(u, 1/u) du` equal `2 + 2/3 = 8/3`.
+  The PNT+ case needs `c ≤ 0` for this `f` and covers only `−1 < Re s < 0`.
+- `f = Σ_{n≥1} e^{2n} 1_{[n, n + e^{−4n}]}` satisfies the integrability hypothesis on every compact
+  `[c, d] ⊂ (−2, ∞)`, since the `n`-th block contributes at most `e^{|c|} e^{−(c + 2)n}`, so the
+  transform is holomorphic on `Re s > −2`; but `f(n) = e^{2n}`, so `f` is `O(e^{at})` only for
+  `a ≥ 2` and the power-bound case gives only `Re s > 2`.
 - `g = 1_{[1, ∞)}`: `mellin g (−s) = 1/s` for `Re s > 0`; at `+s` the integral converges only for
   `Re s < 0`, so the sign `−s` is forced.
 - The constant `1` on `ℝ` has no convergent two-sided transform at any `s`.
 
 *Needs:* ArithmeticDirichletSeriesPartII §0.1; Mathlib `mellin`, `MellinConvergent`,
+`mellin_differentiableAt_of_isBigO_rpow` (the power-bound case of holomorphy on strips),
 `MeasureTheory.integral_comp_exp`, `MeasureTheory.integrable_comp_exp`,
 `MeasureTheory.tendsto_integral_filter_of_dominated_convergence`.
 
@@ -918,8 +937,9 @@ spectral value on the unit circle.
   conclusion is the Riesz–Schauder description of its nonzero spectrum; the finite-dimensional
   generalised eigenspaces at nonzero scalars and the Fredholm property of `1 − T` at `r = 0` are
   Tau Ceti's `IsCompactOperator.finiteDimensional_genEigenspace_nat`,
-  `IsCompactOperator.finiteDimensional_ker_one_sub`, `IsCompactOperator.isClosed_range_one_sub`
-  and `IsCompactOperator.finiteDimensional_quotient_range_one_sub`.
+  `IsCompactOperator.finiteDimensional_eigenspace` at the scalar `1`,
+  `IsCompactOperator.isClosed_range_pow_one_sub` at `n = 1` and
+  `IsCompactOperator.finiteDimensional_quotient_range_one_sub`.
 - For `T = id` on an infinite-dimensional space, `r_χ = 1`, and no `r < 1` can satisfy the
   hypotheses with a precompactness seminorm; the conclusion would fail at `z = 1`.
 - For `T = (1/2) id` on `ℂ` the spectral radius is `1/2 < 1`, the first branch of the alternative.
@@ -1558,11 +1578,7 @@ Layers 0–6; ProbabilisticAndMetricNumberTheory §§4.4 and 4.8.
 - **PNT+** — Alex Kontorovich, Terence Tao and contributors,
   [Prime Number Theorem and More](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd); file
   [`PrimeNumberTheoremAnd/IEANTN/KadiriEq12Helpers.lean`](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/127b50e33f6033e2147921167a117af96d9ba4ea/PrimeNumberTheoremAnd/IEANTN/KadiriEq12Helpers.lean)
-  at revision `127b50e33f6033e2147921167a117af96d9ba4ea`, `Phi_analyticOnNhd` and
-  `meromorphicOrderAt_riemannZeta_one`. Cited for §2.5.
-- **IEANTN** — Terence Tao and contributors,
-  [Integrated Explicit Analytic Number Theory Network](https://github.com/teorth/IEANTN). Cited for
-  no section of this roadmap.
+  at revision `127b50e33f6033e2147921167a117af96d9ba4ea`, `Phi_analyticOnNhd`. Cited for §2.5.
 
 In the text, Lalley, Liverani, Morris–Noussair, Kloeckner and Hennion refer to LAL89, LIV95, MN75,
 KLO19 and HEN95.
