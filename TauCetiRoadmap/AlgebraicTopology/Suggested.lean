@@ -35,8 +35,12 @@ stated for every categorical cover rather than through the native count, and spa
 are given by an explicit Hausdorff CW model and a homotopy equivalence to it.
 
 Not stated, with the missing carriers: relative Hurewicz for a simply connected subspace and the
-universe-general absolute Hurewicz theorem need based pairs, relative homotopy groups and the
-Hurewicz map, which the Tau Ceti this file is built against lacks. The twisted, boundary and
+universe-general absolute Hurewicz theorem need based pairs (`TauCeti.BasedTopPair`), relative
+homotopy groups (`TauCeti.RelHomotopyGroup`) and the Hurewicz maps
+(`TauCeti.RelHomotopyGroup.hurewicz`, `HomotopyGroup.hurewicz`), which the Tau Ceti revision
+this file is built against lacks (it has no `TauCeti.AlgebraicTopology.Homotopy` modules); at
+the revision the README's supplier contracts are read at they exist, and both theorems are
+statable on them. The twisted, boundary and
 compact-triad duality forms need the homological orientation local system as a local
 coefficient system, direct local-system cochains, relative fundamental classes of manifolds with
 boundary and the local-coefficient cap operation. The Künneth spectral sequence and the Wang,

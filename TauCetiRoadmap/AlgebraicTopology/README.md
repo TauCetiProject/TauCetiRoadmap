@@ -106,15 +106,17 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
-- [ClassifyingSpaces](../ClassifyingSpaces/README.md) owns Milnor and
-  presentation models, their pointed CW-type uniqueness and the cellular/bar
-  projective-resolution comparisons. Layer 8.8 keeps its own native nerve model
-  and compares it with those models with identity-on-π₁ normalization. Its
-  normalized model comparison consumes only the ClassifyingSpaces Stages 3/4
-  model, uniqueness and resolution interfaces. Layer 8.8a owns the raw nerve/bar
-  construction; Layer 8.8b owns only its normalized comparison with those
-  ClassifyingSpaces models. The raw bar also supplies the abelian input used by
-  DGFloer Layer 1 item 4.
+- Milnor's classifying space, its K(G,1) property, the uniqueness of K(G,1) spaces of CW
+  type, its functoriality, the cellular and presentation models and the identification of
+  its singular and local-coefficient (co)homology with Mathlib's group (co)homology are Tau
+  Ceti's and are consumed through the supplier contracts; the
+  [ClassifyingSpaces](../ClassifyingSpaces/README.md) roadmap builds on the same
+  declarations, and nothing of it is consumed here. Layer 8.8 owns only the nerve model:
+  Layer 8.8a the raw nerve/bar construction and its K(G,1) property, Layer 8.8b its
+  comparison with Milnor's model normalized to the identity on π₁, obtained from Tau Ceti's
+  uniqueness theorem, and the transport of the native group-(co)homology identifications
+  along that comparison. The raw bar also supplies the abelian input used by DGFloer
+  Layer 1 item 4.
 - [DGFloer](../DGFloer/README.md) Layer 1 item 4 owns the single functorial
   abelian K(A,n) family: its degree-one model aliases Layer 8.8's generic bar
   construction, and n≥2 uses the fixed Dold–Kan Γ(A[n]) realization. It owns
@@ -350,6 +352,29 @@ named in this section is cited as it is at those revisions.
   space, possibly with empty interior, has a fixed point),
   `TauCeti.brouwerFixedPoint_compactConvex_continuousOn`, `TauCeti.brouwerFixedPoint_closedBall`
   and `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan`. This roadmap restates none of them.
+- Milnor's classifying space in `ClassifyingSpace`: `TauCeti.classifyingSpace` and
+  `TauCeti.classifyingSpaceBasepoint` (`Basic`); `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`
+  and `TauCeti.exists_isEilenbergMacLaneSpaceOne`, for every group and with no hypothesis on it
+  (`EilenbergMacLane`); `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`, two K(G,1)
+  spaces of CW type (`TauCeti.CWType`, in one universe) are homotopy equivalent, and
+  `TauCeti.IsAspherical.exists_homotopyEquiv`, realizing a prescribed isomorphism of fundamental
+  groups up to basepoint change along a path (`Uniqueness`); `MonoidHom.classifyingSpaceMap` with
+  its identity and composition laws (`Functoriality`), `TauCeti.classifyingSpaceHomotopyFunctor`
+  into the pointed homotopy category and
+  `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`, pointed maps out of
+  the cellular model into a space with vanishing higher homotopy are classified by π₁
+  (`HomotopyFunctor`); `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` with its
+  coefficient naturality and Bockstein compatibility (`Cohomology`),
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` (`Homology`),
+  `TauCeti.classifyingSpaceLocalSystem` with `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`
+  and `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology` for every representation
+  (`LocalCoefficients`); the free resolution `TauCeti.universalGSpaceResolution` (`Resolution`); the
+  cellular model `TauCeti.cellularClassifyingSpace` with `TauCeti.cellularClassifyingSpaceHomotopyEquiv`
+  (`Cellular`, `Comparison`) and `TauCeti.PresentationComplex` (`PresentationComplex`); and, for any
+  quotient covering map with contractible total space,
+  `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology` (`Cohomology.GroupCohomology`). The
+  nerve model of Layer 8.8 is not among them: that layer builds it, proves it is a K(G,1) and
+  compares it with Milnor's model, and restates none of these.
 - The transfer of a finite covering in `Singular.Transfer.Basic`/`Degree`/`PermutationLocalSystem`
   and `Singular.Coinvariants`: `IsCoveringMap.singularTransfer`, the chain map sending a simplex
   to the sum of its lifts (`IsCoveringMap.ιChainComplex_singularTransfer_f`), the degree formula
@@ -515,13 +540,6 @@ normalized π_n identification), consumed by 8.10; Layer 2 item 3 (fixed-interva
 comparisons), consumed by 8.11b. Each is used with its path-connectedness and CW
 hypotheses.
 
-### From TauCetiRoadmap.ClassifyingSpaces
-
-Stage 3 items 11–15 (maps out of a cellular K(G,1), uniqueness, CW structures on
-coverings, agreement of the models, homotopy functoriality) and Stage 4 items 16–18
-(chain-level comparison, group homology, bar-resolution comparison), consumed only by
-8.8b's normalized model comparison.
-
 ### From TauCetiRoadmap.GeneralizedCohomology
 
 G2.1's realization product comparison identifying the realization of a product of
@@ -685,15 +703,17 @@ The two-arc circle cover has two intersection components and fundamental group �
 
 Consume native relative singular chains on `TopPair`, obtained by applying the `SSetPair` relative-chain
    construction to `TopCat.toSSet`. Consume its cokernel colimit and exhibit the relative complex both as the quotient
-   `C_*(X) / C_*(A)` and in its natural short-exact-sequence form, and prove the two forms
-   naturally isomorphic.
+   `C_*(X) / C_*(A)` with the boundary induced from `C_*(X)` (Hatcher, §2.1, p.115) and in
+   its natural short-exact-sequence form, and prove the two forms naturally isomorphic.
 ### 2.3 Pair and triple sequences
 
 *Needs:* Native pair/triple short exact sequences and their connecting maps.
 
 Consume the native short exact sequence of chain complexes for a pair and its natural long
-   exact sequence, with its connecting morphism and naturality square.  Do the same for triples
-   `B subset A subset X`.
+   exact sequence, with its connecting morphism (the class of the boundary of a relative
+   cycle) and naturality square (Hatcher, §2.1, p.117).  Do the same for triples
+   `B subset A subset X`, from the short exact sequence `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0`
+   (Hatcher, §2.1, p.118).
 ### 2.4 Homology axioms
 
 *Needs:* Native singular homology pretheory and the absolute/empty-pair comparison in the supplier contracts.
@@ -1256,7 +1276,8 @@ Construct real projective n-space using native `Projectivization ℝ (Fin (n+1) 
    homeomorphism and smooth local comparison with the antipodal sphere quotient.
    Construct its finite CW structure, with one cell in each dimension 0,…,n,
    and show the cellular differential is ±2 in positive even degree and 0 in
-   odd degree; the sign records the chosen characteristic maps and cell generators. The chart and CW
+   odd degree (Hatcher, Example 2.42, p.144: the attaching map composed with the collapse
+   has degree `1 + (−1)^k`); the sign records the chosen characteristic maps and cell generators. The chart and CW
    constructions use only Layers 2–4 and native manifold calculus, independently
    of Layer 6. For RP² construct the rank-one integral sign system from the
    antipodal double cover and compute its monodromy −1 around the generating
@@ -2629,7 +2650,8 @@ Based top pairs, basepoint-preserving maps of pairs, relative homotopy groups
 
 *Needs:* Native simplicial sets, Kan fillers and realization; §§4.4–4.7.
 
-Construct homotopy groups of Kan simplicial sets, prove
+Construct homotopy groups of Kan simplicial sets (May, *Simplicial Objects*, §3; for
+   simplicial groups, Moore, Séminaire Cartan 1954/55, exposé 18, Définition 4, p.18-07), prove
    `TopCat.toSSet.obj X` is Kan, and compare these groups naturally with cubical homotopy groups.
    Prove compatibility with induced maps, boundary maps, and basepoint change.
    Pin the Kan/cubical comparison by the
@@ -2642,14 +2664,18 @@ Construct homotopy groups of Kan simplicial sets, prove
    it sends the Layer 2.5 coordinate cube class to the relative identity
    simplex class with coefficient +1. Prove its Hurewicz compatibility and
    the corresponding Moore/realization comparison, without an independent sign.
-   Prove that every simplicial group is a native `SSet.KanComplex`.
+   Prove that every simplicial group is a native `SSet.KanComplex` (Moore, exposé 18,
+   Théorème 3, p.18-04; Stacks, Lemma 14.31.6, Tag 08NZ).
    Own the natural Moore comparison:
    for simplicial abelian groups G, π_n(G)≃H_n(NG), including components in
    degree zero. For general simplicial groups set N_n=⋂_(i=1)^n ker d_i
    with differential d₀, matching native `normalizedMooreComplex` in the
    abelian case. Prove π_n(G)≃ker(d₀|N_n)/d₀(N_(n+1)) for n≥1,
    with normality of the boundary subgroup and commutativity of the quotient;
-   π₀(G) is the possibly nonabelian group G₀/d₀(N₁). Own
+   π₀(G) is the possibly nonabelian group G₀/d₀(N₁) (Moore, exposé 18, Théorème 4 and
+   Théorème 5, pp.18-06–18-08, which index the faces from the other end, with the kernel of
+   the last face and the image of the last face of the next degree; May, *Simplicial
+   Objects*, §17). Own
    the realization-unit theorem: Mathlib's actual `sSetTopAdj.unit.app K`
    from a Kan K to `TopCat.toSSet.obj (SSet.toTop.obj K)` induces a bijection
    on components and the normalized based π_n isomorphisms in every positive
@@ -2963,9 +2989,12 @@ Prove that every finite-dimensional Hausdorff second-countable smooth manifold
 - For the recognition corollary, `S^n` itself with the identity model satisfies the
   hypotheses and the conclusion is the identity equivalence. The Poincaré homology sphere
   has the integral homology of `S^3` but fundamental group of order 120, so simple
-  connectivity excludes it; for `n=0` a simply connected space with the homology of `S^0`
-  would be contractible while `S^0` has two points, which is why `n ≥ 2` is a hypothesis;
-  for `n=1` the hypotheses are contradictory (simple connectivity forces `H_1=0`).
+  connectivity excludes it. For `n=0` the hypotheses read `H_k=0` for `k≠0` and `H_0≅ℤ`,
+  the homology of a point (a simply connected space is path-connected, so `H_0≅ℤ` holds
+  anyway); a simply connected space of CW type with that homology is contractible by the
+  homological Whitehead theorem of 8.5, while `S^0` has two points, so the conclusion fails
+  and `n ≥ 2` is a hypothesis. For `n=1` the hypotheses are contradictory (simple
+  connectivity forces `H_1=0`).
 
 ### 8.8 Nonabelian classifying spaces
 
@@ -2973,10 +3002,12 @@ Prove that every finite-dimensional Hausdorff second-countable smooth manifold
 `groupClassifyingSpace`; `groupClassifyingSpace_isEMOne` states that this based
 realization is a K(G,1) for every discrete group G, without assuming commutativity.
 
-*Needs:* §4.7, ordinary §6.1, native nerve and universal covers; ClassifyingSpaces Stages 3–4 only for the model comparison.
+*Needs:* §4.7, ordinary §6.1, native nerve and universal covers; Tau Ceti's Milnor model, its uniqueness theorem and its group-(co)homology identifications (supplier contracts) for the model comparison.
 
 **Nonabelian classifying spaces.**
-   Own the single generic bar/nerve construction for every discrete group π. Use native `CategoryTheory.nerve`, `SingleObj π`,
+   Own the single generic bar/nerve construction for every discrete group π (Hatcher,
+   Example 1B.7, p.89: the Δ-complex `BG` with simplices the tuples of group elements and
+   its contractible cover `EG`). Use native `CategoryTheory.nerve`, `SingleObj π`,
    and `SSet.toTop`; construct the contractible free π-space Eπ, its covering
    Eπ→Bπ; consume Layer 4.7's single realization CW structure on both. Prove its native
    `TauCeti.IsEilenbergMacLaneSpaceOne π` property and identify its π₁ with π,
@@ -2984,33 +3015,40 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
    Mathlib's `SingleObj` composition and `FundamentalGroup.mul_def` conventions: both
    compose the later traversal on the left. Prove the oriented-edge identification
    is compatible with the native group operation.
-   Compare this bar model pointedly with ClassifyingSpaces' Milnor and
-   presentation models, using its Stage 3 items 11–15 and Stage 4 items 16–18.
    Separate the raw bar construction (8.8a), which feeds DGFloer's abelian
-   K(A,1) specialization, from the normalized ClassifyingSpaces model comparison
-   (8.8b). The latter uses only the actual ClassifyingSpaces Stages 3/4 model, uniqueness and
-   resolution interfaces.
-   Construct the maps and inverse homotopies normalized by
-   κ_bar ∘ π₁(c_G)=κ_model, so the induced group map is the identity on G.
+   K(A,1) specialization, from the normalized comparison with Milnor's model (8.8b).
+   The comparison itself is Tau Ceti's: `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`
+   applied to `groupClassifyingSpace_isEMOne`, to
+   `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace` and to the CW type of both models
+   (Layer 4.7's realization CW structure for the nerve, Tau Ceti's for Milnor's model) gives a
+   homotopy equivalence `c_G : Bπ ≃ classifyingSpace π`. 8.8b owns only its normalization: by
+   `TauCeti.IsAspherical.exists_homotopyEquiv` with the prescribed isomorphism of fundamental
+   groups, choose `c_G` and its inverse homotopies so that κ_bar ∘ π₁(c_G)=κ_model after the
+   basepoint change along the path that theorem provides, so the induced group map is the
+   identity on G, and make the equivalence pointed by that path.
    State the conversion between the left deck action and the native
    Deck≃π₁ᵐᵒᵖ convention explicitly, including the inversion isomorphism
    G→Gᵐᵒᵖ where used. Prove group-homomorphism naturality up to pointed
-   homotopy and the induced naturality on cohomology. For each A:Rep R G,
-   prove that pullback along c_G and the coefficient-normalized comparison
-   identify both local-system cohomology maps with the identity on native
-   groupCohomology; compare the augmentation-preserving resolution maps
-   up to chain homotopy. Keep the existing bar-label inversion below.
+   homotopy, against `MonoidHom.classifyingSpaceMap`, and the induced naturality on
+   cohomology. Keep the existing bar-label inversion below.
    The raw bar supplies the object used by DGFloer Layer 1 item 4's abelian
-   specialization. The normalized comparison uses the ClassifyingSpaces Stages 3/4
-   interfaces named above.
+   specialization.
    DGFloer Layer 1 item 4 aliases the abelian specialization as K(A,1);
    the generic CW/cover proof is supplied only here. For each connected
    pointed CW complex X prove `[X,Bπ]_*≃Hom(π₁X,π)` and that forgetting basepoints
-   gives the conjugation-orbit description of `[X,Bπ]`. Treat disconnected X
-   componentwise. Use the exact classifying-space and local-coefficient comparison
-   to identify `H*(Bπ;A)` with Mathlib's `groupCohomology A n` for every
-   `A : Rep ℤ π`, through its native `inhomogeneousCochains` complex. Construct
-   the corresponding `LocalCoefficientSystem ℤ Bπ` and chain comparison.
+   gives the conjugation-orbit description of `[X,Bπ]` (Hatcher, Proposition 1B.9, p.90);
+   Tau Ceti's `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace` is the
+   special case of maps out of its cellular model and is not the statement for every X.
+   Treat disconnected X componentwise. Identify `H*(Bπ;A)` with Mathlib's
+   `groupCohomology A n` for every `A : Rep ℤ π` in two ways and prove them equal: as the
+   transport of Tau Ceti's `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` and
+   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology` along `c_G` and the pullback of
+   `TauCeti.classifyingSpaceLocalSystem`, and directly through the nerve's own covering
+   Eπ→Bπ by `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, whose only
+   hypothesis is the contractible total space; compare the nerve's cellular resolution with
+   `TauCeti.universalGSpaceResolution` up to augmentation-preserving chain homotopy. Construct
+   the corresponding `LocalCoefficientSystem ℤ Bπ` as the pullback of the native system and
+   its chain comparison with native `inhomogeneousCochains`.
    For Layer 6's first-vertex direct cochains the zeroth face uses inverse
    transport: pin the comparison with native inhomogeneous cochains by
    ψ(g₁,…,g_k)=φ(g₁⁻¹,…,g_k⁻¹). Prove differential, coefficient and
@@ -3445,6 +3483,31 @@ The objects consumers cite are carried by the following sections.
 - HeegaardFloer consumes §6.4's compact-triad Poincaré–Lefschetz theorem with its
   degree, cap-boundary sign and coefficient-pairing conventions.
 
+Consumers also cite former Lean names of this roadmap. `Suggested.lean` declares only the
+headline theorems, so each former name maps to the section that carries its object:
+
+- `reducedSuspensionSphereHomeomorph` and `compactReducedSuspensionCarrierComparison`
+  (DGFloer, RiemannianGeometry): §4.4, the reduced-suspension sphere homeomorphism and the
+  Kelley comparison of the compact reduced suspension.
+- `diskQuotientSphereHomeomorph` (GeneralizedCohomology): §4.4, the disk quotient
+  `Dⁿ/∂Dⁿ≅Sⁿ`.
+- `supBallEuclideanDiskHomeomorph` (GeneralizedCohomology, CharacteristicClasses): §2.5, the
+  sup-ball-to-disk homeomorphism.
+- `relativeCWPushout` and `relativeCWPushoutCWModel` (MorseTheory, CharacteristicClasses):
+  §4.5, the relative CW pushout and its CW model.
+- `ordinaryPairQuotient`, `ordinaryPairQuotientComparison`,
+  `ordinaryPairQuotientCohomologyComparison` and `diskBoundarySubset` (GeneralizedCohomology):
+  §4.5, the pair-quotient comparisons `H_n(X,B;M)≃H̃_n(X/B;M)` and
+  `H^n(X,B;M)≃H̃^n(X/B;M)` for closed cofibration pairs, applied to the disk and its
+  boundary sphere through §4.4's native `TopCat.disk n` and boundary inclusion.
+- `ordinaryEMUniversalClass`, `ordinaryEMRepresentability` and
+  `ordinaryEMRelativeRepresentability` (GeneralizedCohomology): §8.10, the universal class
+  and absolute and relative ordinary representability.
+- `ordinaryEMLoopComparison` and `ordinaryCohomologySuspension` (GeneralizedCohomology): 8.11b,
+  the EM loop comparison and the cohomology suspension.
+- `projectiveEMComparisons` (GeneralizedCohomology): §8.12, the identification of `RP^∞` and
+  `CP^∞` as `K(ℤ/2,1)` and `K(ℤ,2)` with their comparison maps.
+
 ### Dependency order
 
 In the table below, bare references to Layer 6 mean the ordinary 6.0–6.5
@@ -3468,7 +3531,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 7 Euler characteristic | 2--6; Tau Ceti's Euler characteristic and standard values | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper 8.5 additionally CharacteristicClasses C1.2a S0–S3 support colimits/proper pullback and S4 jointly proper homotopy invariance and the supported-cellular comparison/countability supplement; CharacteristicClasses S5 is a compatibility target only | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary 6–7 |
 | 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | DGFloer Layer 1 item 4 abelian K(A,1) specialization |
-| 8.8b normalized model comparison | Layer 8.8a bar model; ClassifyingSpaces Stage 3 items 11–15 and Stage 4 items 16–18 | 8.9 |
+| 8.8b normalized model comparison | Layer 8.8a bar model; Tau Ceti's Milnor model, uniqueness theorem and group-(co)homology identifications (supplier contracts) | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary 6 cellular cochains, 8.1–8.7 | 8.8b |
 | 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.8 kification and Layer 4.4 normalized comparisons | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.8 compact-generation/product API and Layer 4.4 normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
@@ -3560,7 +3623,16 @@ downstream comparison theorem as input.
   Chapters II--VII.
 - Albrecht Dold, *Lectures on Algebraic Topology*, Springer, 1972, Chapters VII--VIII.
 - J. Peter May, *Simplicial Objects in Algebraic Topology*, University of Chicago Press, 1967,
-  for Kan complexes, simplicial homotopy groups, and comparison with realization.
+  §3 for homotopy groups of Kan complexes and §17 for simplicial groups and the Moore
+  complex.
+- John C. Moore, [*Homotopie des complexes monoïdaux, I*](https://www.numdam.org/item/SHC_1954-1955__7_2_A8_0/),
+  Séminaire Henri Cartan 7 (1954–1955), no. 2, exposé 18, pp. 1–8: Théorème 3 (p.18-04, a
+  simplicial group satisfies the extension condition), Théorème 4, Définition 4 and
+  Théorème 5 (pp.18-06–18-08, the homotopy groups of a simplicial group from its Moore
+  complex and their commutativity).
+- The Stacks project authors, [*The Stacks project*, Chapter 14: Simplicial Methods](https://stacks.math.columbia.edu/download/simplicial.pdf),
+  Lemma 14.31.6 ([Tag 08NZ](https://stacks.math.columbia.edu/tag/08NZ)): a simplicial group
+  is a Kan complex.
 - Jean-Pierre Serre, *Homologie singulière des espaces fibrés. Applications*, Annals of
   Mathematics 54 (1951), 425--505, for the homology spectral sequence of a fibration.
 - John McCleary, *A User's Guide to Spectral Sequences*, 2nd ed., Cambridge University Press,
