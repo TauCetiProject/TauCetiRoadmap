@@ -28,7 +28,7 @@ import TauCeti.Analysis.Complex.Conformal.SchwarzChristoffel.Vertex
 import TauCeti.Analysis.Complex.Conformal.SchwarzPick.Basic
 import TauCeti.Analysis.Complex.Conformal.UnitDisc.Automorphism.Group
 import TauCeti.Analysis.Complex.Conformal.Vitali
-import TauCeti.Analysis.Contour.PiecewiseC1On
+import TauCeti.Analysis.Calculus.ContDiff.PiecewiseC1On
 import TauCeti.Analysis.Contour.Winding.Number.Basic
 
 /-!
@@ -638,7 +638,7 @@ The sign depends on the parametrization and is a conclusion: the counterclockwis
 `σ = 1`, its reversal `σ = −1`. This is the piecewise-`C¹` case of the continuous Jordan index
 theorem `continuous_jordan_index`, through the integral comparison in README §5.5. -/
 theorem jordan_index_of_isPiecewiseC1On {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
-    (hγ : TauCeti.Contour.IsPiecewiseC1On γ a b) (hclosed : γ a = γ b)
+    (hγ : TauCeti.IsPiecewiseC1On γ a b) (hclosed : γ a = γ b)
     (hinj : InjOn γ (Ico a b)) :
     TauCeti.IsJordanCurve (γ '' Icc a b) ∧
       ∃ σ : ℤ, (σ = 1 ∨ σ = -1) ∧
