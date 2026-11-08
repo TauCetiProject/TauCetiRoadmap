@@ -9,9 +9,8 @@ public import Mathlib
 
 README.md is the roadmap; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: denominator
-localization for arbitrary sets of Dedekind primes, the divided-Bernoulli
-consequence of cyclotomic class-number regularity, and the vanishing of the
-fourth stable stem in its unstable form: π_(n+4)(Sⁿ) is trivial for n ≥ 6.
+localization for arbitrary sets of Dedekind primes and the divided-Bernoulli
+consequence of cyclotomic class-number regularity.
 CyclotomicClassGroupsAndStickelberger §§3.1 and 5.1 supply unrestricted
 divided-Bernoulli integrality and congruences and the finite criterion;
 §5.4 supplies prime-power class-number stability. The all-index consequence
@@ -34,13 +33,10 @@ Borel's finite-stage invariant-form comparison in README §3.4 lacks relative
 Lie algebra cohomology and invariant differential forms on symmetric spaces:
 Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
-formulas do not state those theorems. The stable stems of README §7.5 lack
-the reduced suspension of a sphere and its homeomorphism with the next
-sphere, the stable forms of the fourth-stem vanishing lack homotopy groups of
-spectra, and the low Adams–Novikov E₂-term lacks the Brown–Peterson Hopf
-algebroid BP_*BP and the Ext of its comodules; the unstable form below is
-stated on the unit spheres of real normed spaces and Mathlib's cubical
-homotopy groups.
+formulas do not state those theorems. The odd-primary fourth stem of
+README §7.5, π₄(S) ⊗ ℤ[1/2] = 0 for the sphere spectrum, lacks spectra and
+their homotopy groups, and the low Adams–Novikov E₂-term lacks the
+Brown–Peterson Hopf algebroid BP_*BP and the Ext of its comodules.
 -/
 
 noncomputable section
@@ -76,7 +72,7 @@ theorem integer_isLocalization_of_torsion_classGroup
 
 end SIntegers
 
-/-! ## Layer 7: Bernoulli numbers, regular primes, stable stems and conditional tables -/
+/-! ## Layer 7: Bernoulli numbers, regular primes and conditional tables -/
 
 /-- If an odd prime does not divide the cyclotomic class number, it divides
 no reduced numerator of B_(2k)/k for k >= 1; README §7.2. The class-number
@@ -86,16 +82,6 @@ theorem regularPrime_dividedBernoulli_num (p : ℕ) (hp : p.Prime) (hodd : Odd p
     (hreg : ¬ p ∣ NumberField.classNumber (CyclotomicField p ℚ))
     (k : ℕ) (hk : 1 ≤ k) :
     ¬ (p : ℤ) ∣ (bernoulli (2 * k) / (k : ℚ)).num := by
-  sorry
-
-/-- The fourth stable stem vanishes, in its unstable form: for `n ≥ 6`, the homotopy group of
-the unit sphere of an `(n + 1)`-dimensional real normed space, with cube directions indexed by a
-finite type of cardinality `n + 4`, is trivial at every basepoint; README §7.5,
-stableStemFour_eq_zero. -/
-theorem subsingleton_homotopyGroup_sphere_add_four {E : Type*} [NormedAddCommGroup E]
-    [NormedSpace ℝ E] {n : ℕ} (hE : Module.finrank ℝ E = n + 1) (hn : 6 ≤ n)
-    {N : Type*} [Finite N] (hN : Nat.card N = n + 4) (x : Metric.sphere (0 : E) 1) :
-    Subsingleton (HomotopyGroup N (Metric.sphere (0 : E) 1) x) := by
   sorry
 
 end TauCetiRoadmap.ArithmeticKTheory
