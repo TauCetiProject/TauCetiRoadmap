@@ -1194,7 +1194,11 @@ suppose `σ ↦ |G_i(σ + it)|` is increasing on `[a, b]` when `α_i > β_i` and
 `β_i > α_i`. Prove `|f(σ + it)| ≤ ∏ |G_i(σ + it)|^{(α_i(b − σ) + β_i(σ − a))/(b − a)}` for
 `a ≤ σ ≤ b` (Fiori, Theorem 1, `fiori2025` lines 47–64). With negative exponents the same holds
 under the extra hypothesis `|G_i(σ + it)| < C₁ exp(C₂ e^{C₃|t|})` (Remark 2, lines 65–70). The
-admissible factors include positive constants and `G(s) = Q + s` with `Q > −a`. Route: the midpoint
+admissible factors include positive constants, `G(s) = Q + s` with `Q > −a`, and, with equal
+exponents on the two edges, Fiori's `G(s) = (1/2) log((Q₁ + s)(Q₂ − s))` for `Q₁ + a ≥ 1` and
+`Q₂ − b ≥ 1` (`fiori2025` §3, lines 241–277): there `(Q₁ + s)(Q₂ − s)` has positive real part, so
+`G` is holomorphic with `G(s̄) = conj G(s)`, `Re G > 0` on the strip, and
+`log|t| ≤ Re G(σ + it) ≤ |G(σ + it)| = log|t| + O(t^{−2})` as `|t| → ∞`. Route: the midpoint
 case for `F(s) = f(a + s) conj f(b − conj s)` by the three-lines theorem applied after dividing by the
 interpolating product (the growth hypotheses make the quotient bounded after an `exp(−ε cos(…))`
 damping), then bisection and continuity (`fiori2025` Lemma 5, lines 110–114).
@@ -1213,6 +1217,12 @@ damping), then bisection and continuity (`fiori2025` Lemma 5, lines 110–114).
 - Replacing `|G|^{α}` by `|log G|^{α}` with `α ≠ β` is not covered: `|log(Q + s)|` is not monotone in
   `σ`, which is the error in an earlier generalization that Fiori corrects (`fiori2025` lines 13–18,
   91–93); the general form here never uses logarithmic factors with unequal exponents.
+- A logarithmic factor enters the conclusion as the modulus of a holomorphic function, also with
+  equal exponents: with `G = log(Q + s)` and `α = β = 1` the bound carries
+  `|log(Q + s)| = (log²|Q + s| + arg²(Q + s))^{1/2}`, not the smaller `log|Q + s|` (Remark 4,
+  lines 91–109). At `Q = 1.31` and `s = 5/7 + iT₄`, with `T₄ = 9.14·10¹²` of 4.9, the ratio of the
+  two is `1.001384`, while Fiori's `G` with `Q₁ = 1.31`, `Q₂ = 3.31` differs there from `log t` by
+  a relative `10⁻²⁷`.
 
 ### 3.2 Rademacher's convexity bound
 
@@ -1923,15 +1933,40 @@ recursive tests of 4.4, with 4.6 for the Riemann–Siegel part of Hiary–Leong�
 Given `HiaryRecord`, `PatelRecord` and `YangRecord` (0.4b), for integers `k ≥ 4` and `t ≥ 3`,
 prove `|ζ(σ_k + it)| ≤ 1.546 t^{1/(2^k−2)} log t` (Yang, Theorem 1.1, `yang2024` lines 53–55), for
 instance `|ζ(5/7 + it)| ≤ 1.546 t^{1/14} log t`. Route, with
-`T_k = exp((2.6134(2^{k−1} − 1) + 2.8876k)/(k − 3))` (`yang2024` (3.4), lines 722–728): for
-`3 ≤ t ≤ T_k`, 3.1 between `σ = 1/2` and `σ = 1` applied to `(s − 1)ζ(s)` with the factor
-`1.31 + s`, the edges being the first item of 4.7 and `|ζ(1 + it)| ≤ log t` (3.3 from `t = 50`,
-`PatelRecord` below) for `t ≥ 3` and `YangRecord` for `|t| ≤ 3` (lines 729–770); the
-interpolation is global in `t`, so each of the three records enters at every height. For
-`t > T_k`, the approximate functional equation 4.5a or Euler–Maclaurin, dyadic blocks and 4.4 at
-order `k`, with Yang's parameters (§3.2).
+`T_k = exp((2.6134(2^{k−1} − 1) + 2.8876k)/(k − 3))` (`yang2024` (3.4), lines 722–728), for
+`3 ≤ t ≤ T_k`: 3.1 between `σ = 1/2` and `σ = 1` applied to `(s − 1)ζ(s)` with three factors, the
+constant `0.618` (exponents `1` and `0`), `1.31 + s` (exponents `7/6` and `1`) and
+`G(s) = (1/2) log((1.31 + s)(3.31 − s))` (exponent `1` on both edges, so no monotonicity is needed;
+`fiori2025` §3, lines 241–277). On `1/2 ≤ σ ≤ 1`:
 
-*Needs:* 3.1, 3.3, 4.4, 4.5a, 4.7; 0.5a; 0.4b (`HiaryRecord`, `PatelRecord`, `YangRecord`).
+- `(1.31 + s)(3.31 − s)` has real part `t² + 4.3361 + 2σ − σ² > 0`, so `G` is holomorphic with
+  `G(s̄) = conj G(s)`, and `|G| ≥ Re G ≥ (1/2) log(1.81 · 2.81) = 0.8132`, the lower growth bound
+  of 3.1;
+- `Re G(σ + it) ≥ log|1.31 + σ + it|`, because `|3.31 − s| ≥ |1.31 + s|` for `σ ≤ 1` (with
+  equality on `σ = 1`), and `Re G(σ + it) ≥ log|t|`;
+- `|G(σ + it)| = log t + O(t^{−2})` as `t → ∞`.
+
+By the second item the edge bounds hold with `|G|` in place of the logarithm: the first item of 4.7
+and `|ζ(1 + it)| ≤ log t` (3.3 from `t = 50`, `PatelRecord` below) for `|t| ≥ 3`, and `YangRecord`
+for `|t| ≤ 3` (lines 729–770); the interpolation is global in `t`, so each of the three records
+enters at every height. It gives `|ζ(s)| ≤ 0.618^{2−2σ} |1.31 + s|^{(4−σ)/3} |G(s)|/|s − 1|`, which
+at `σ = σ_k` is at most `1.546 t^{1/(2^k−2)} log t` on `3 ≤ t ≤ T_k`:
+
+- for `e^{8.7} ≤ t ≤ T_k` by Yang's comparison (3.13)–(3.15) (lines 815–830), whose factor
+  `A(e^{8.7}) ≤ 1.0001` covers `|G|` as well, since `|G| − log t < 10⁻⁷` there;
+- for `3 ≤ t ≤ e^{8.7}` with the exact factors: for `k ≥ 5`, already without the factor
+  `t^{1/(2^k−2)}`, the ratio of `1.546 log t` to the bound is at least `1.0107` for every
+  `5/6 ≤ σ ≤ 1` (least at `σ = 1`, `t = 3`), and for `k = 4` the ratio of the target to the bound
+  is at least `1.336` (at `t = 3`). Yang's constant `A(3) ≤ 1.4747` (line 823) is a slip: (3.12)
+  gives `A(3) = 1.5638`, with which his (3.14) reaches `e^{8.7}` only for `k = 4`.
+
+Yang's own interpolation (his Lemma 3.1, Trudgian's lemma, lines 743–770) writes `log|1.31 + s|`
+in the conclusion; 3.1 with the factor `log(1.31 + s)` gives `|log(1.31 + s)|` there (3.1, Checks),
+and that bound exceeds the target (Checks). For `t > T_k`, the approximate functional equation
+4.5a or Euler–Maclaurin, dyadic blocks and 4.4 at order `k`, with Yang's parameters (§3.2).
+
+*Needs:* 3.1, 3.3, 4.4, 4.5a, 4.7; 0.5a; 0.4b (`HiaryRecord`, `PatelRecord`, `YangRecord`);
+Mathlib `Complex.log` (the factor `G`).
 
 **Checks.**
 
@@ -1941,6 +1976,12 @@ order `k`, with Yang's parameters (§3.2).
   (`yang2024` lines 55–58), and `13/147 > 1/14`.
 - `T_4 = e^{29.844} ≈ 9.1·10¹²`: at `k = 4` the bound at the heights from `3.06·10¹⁰` on where
   5.2 first uses it comes from the interpolation route, hence from the three records.
+- The factor `G` is needed (negative control): with `|log(1.31 + s)|` in its place, which is what
+  3.1 gives for the factor `log(1.31 + s)`, the ratio of the target to the interpolated bound at
+  `k = 4` is `0.998722` at `t = T_4` and below `1` on `29.79 < log t ≤ log T_4`, and at `k = 5`
+  it is `0.971` at `t = 3`. With `G` the two ratios are `1.000104` and `1.177`; Yang's form with
+  `log|1.31 + s|` gives the same `1.000104` at `T_4`, its margin being the `1.0001` of
+  `A(e^{8.7})` built into the constant `2.6134 < 6 log(1.546/1.0001)` of `T_k`.
 - `YangRecord` is a computation of its own (negative control): at `t = 0` its first clause reads
   `|(−1/2) ζ(1/2)| = 0.7302 < 0.618 · 1.81^{7/6} log 1.81 = 0.7327`, a margin of `0.3%`, and at
   `t = 3` the bound `1.461 |s − 1| = 4.443` from `HiaryRecord` exceeds the required
@@ -3030,10 +3071,16 @@ this is `riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ 
   hypothesis: it contains this one while `log L ≤ 21.233/5.573412 = 3.80970`, that is `L ≤ 45.137`;
 - for `e^{41} ≤ t < e^{170.2}` Ford's region 7.2 in its exact form with `log 0.618`, which contains
   this one for `40.898 ≤ L ≤ 185.64`;
-- for `t ≥ e^{170.2}` Yang's argument (`yang2024` lines 2326–2372): the bounds 4.9 and 4.10
-  interpolated by 3.1 (his Lemma 4.3, whose edge bounds for `(s − 1)ζ(s)` on `σ = 1/2` and
-  `σ = 5/7` are the first item of 4.7 and 4.9 at `k = 4` for `|t| ≥ 3` and `YangRecord` for
-  `|t| ≤ 3`, lines 1542–1555; so the three records of 0.4b enter here), the degree-46 polynomial
+- for `t ≥ e^{170.2}` Yang's argument (`yang2024` lines 2326–2372): the bounds 4.9 and 4.10;
+  his Lemma 4.3 (lines 1542–1597), an interpolation by 3.1 between `σ = 1/2` and `σ = 5/7` of
+  bounds for `(s − 1)ζ(s)` whose edges are the first item of 4.7 and 4.9 at `k = 4` for `|t| ≥ 3`
+  and `YangRecord` for `|t| ≤ 3` (so the three records of 0.4b enter here), with the factors
+  `0.618` and `1.546` (exponents `1, 0` and `0, 1`), `1.31 + s` (exponents `7/6` and `15/14`) and
+  the `G` of 4.9 (exponent `1` on both edges), which still dominates `log|1.31 + s|` and `log|t|`
+  for `σ ≤ 5/7`. Yang's (4.21) writes `log|1.31 + s|` in the conclusion; with the
+  `|log(1.31 + s)|` that 3.1 gives for the factor `log(1.31 + s)` the constant `1.659` of his
+  Lemma 4.3 fails at `t = 10¹²`, the `t₀` of its proof (it would need `1.6599`), while with `G` it
+  holds with margin `0.00075` for every `2/7 ≤ η ≤ 1/2`; then the degree-46 polynomial
   of `mty2024` (a polynomial certificate), Ford's
   zero-detecting argument, and the exact region of 7.2 again for the zeros with
   `e^{170.2} − 1 ≤ t' < e^{170.2}` (lines 2366–2370).
@@ -3884,10 +3931,10 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `benligoeltwisszaman2026`: Kübra Benli, Shivani Goel, Henry Twiss, Asif Zaman, *Explicit Deuring-Heilbronn phenomenon for Dirichlet L-functions* (2024); doi:10.1090/proc/17450, arXiv:2410.06082v3. Cited for: Corollary 1.1, Proposition 2.3.
 - `bordignon2019`: Matteo Bordignon, *Explicit bounds on exceptional zeroes of Dirichlet L-functions*, Journal of Number Theory (2019); doi:10.1016/j.jnt.2019.02.003, arXiv:1809.05226v2. Cited for: Theorems 1.2 and 1.3, (10) and (12).
 - `bordignon2020`: Matteo Bordignon, *Explicit bounds on exceptional zeroes of Dirichlet L-function II* (2019); arXiv:1907.08327v1. Cited for: Theorems 1.1–1.3.
-- `yang2024`: Andrew Yang, *Explicit bounds on ζ(s) in the critical strip and a zero-free region* (2023); arXiv:2301.03165v2. Cited for: Theorem 1.1, Corollary 1.2, Lemmas 2.1, 2.3–2.6 and 4.3, (3.4), (3.7)–(3.8).
+- `yang2024`: Andrew Yang, *Explicit bounds on ζ(s) in the critical strip and a zero-free region* (2023); arXiv:2301.03165v2. Cited for: Theorem 1.1, Corollary 1.2, Lemmas 2.1, 2.3–2.6, 3.1 and 4.3, (3.4), (3.7)–(3.15), (4.21).
 - `bellotti2025density`: Chiara Bellotti, *An explicit log-free zero density estimate for the Riemann zeta-function* (2024); arXiv:2405.12545v2. Cited for: Theorem 1.1, Lemmas 2.6–2.7.
 - `ariasdereyna2024`: Juan Arias de Reyna, *Explicit van der Corput's d-th derivative estimate* (2024); arXiv:2407.02094v1. Cited for: Lemmas 1, 4 and 5, Remark 2.
-- `fiori2025`: Andrew Fiori, *A Note on the Phragmen-Lindelof Theorem* (2025); arXiv:2502.13282v3. Cited for: Theorem 1.
+- `fiori2025`: Andrew Fiori, *A Note on the Phragmen-Lindelof Theorem* (2025); arXiv:2502.13282v3. Cited for: Theorem 1, Remarks 2 and 4, Lemma 5, §3 (the factor `G_{Q₁,Q₂}`).
 - `banks2026`: William D. Banks, *On the OpenAI proof that Landau-Siegel zeros do not exist* (2026); arXiv:2610.15483v1. Cited for: Theorem 1.
 - `bellottitrudgianyang2026`: Chiara Bellotti, Tim Trudgian, Andrew Yang, *Zero-free regions inspired by work of Heath-Brown* (2026); arXiv:2603.21490v1. Cited for: Theorem 1.
 - `davenport2000`: H. Davenport (revised by H. L. Montgomery), *Multiplicative Number Theory, 3rd edition*, Graduate Texts in Mathematics 74, Springer (2000); doi:10.1007/978-1-4757-5927-3. Cited for: §12 (the partial-fraction expansions of zeta'/zeta and L'/L, with the constants `B = −γ/2 − 1 + (1/2) log 4π` and `B(χ)`).
