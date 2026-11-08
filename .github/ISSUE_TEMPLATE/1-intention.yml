@@ -36,6 +36,7 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -114,6 +115,7 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
@@ -132,6 +134,7 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
