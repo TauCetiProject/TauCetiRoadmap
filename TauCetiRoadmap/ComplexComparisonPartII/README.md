@@ -454,11 +454,14 @@ as explained in C5.1); the two names denote the same target.
   finitely generated; saturation is a separate condition and is never assumed silently.
 - **Lean.** The names below specify target declarations in
   `TauCetiRoadmap.ComplexComparisonPartII`, except for the explicitly supplied APIs.
-  `Suggested.lean` states `montelTheorem` and `schwartzFiniteness` (C1.6) and
+  `Suggested.lean` states `montelTheorem` and `schwartzFiniteness` (C1.6),
+  `holomorphicPoincare` in its stalkwise positive-degree form on Tau Ceti's smooth forms, and
   `nonempty_sheafSingularComparison` (C5.1) against the pinned libraries. The geometric comparison
   targets require complex analytic spaces, analytification, algebraic-space derived
-  categories, global form and connection complexes or constructible étale coefficients
-  that are not available at the pins; their statements are specified in this README.
+  categories, sheaf complexes of algebraic and holomorphic forms, connection complexes,
+  locally constant sheaves of local systems or constructible étale coefficients
+  that are not available at the pins; their statements are specified in this README, and the
+  module docstring of `Suggested.lean` names, target by target, the carrier each lacks.
 - **Universes.** Schemes are `X : Scheme.{u}` over `Spec (CommRingCat.of (ULift.{u} ℂ))`, and
   finite coefficient rings are `Λ : Type u`. Analytic spaces, the analytification `X^an` and its
   underlying space `T_X`, a `TopCat.{u}`, live in the same universe `u`. Étale sheaves in
@@ -542,6 +545,28 @@ as explained in C5.1); the two names denote the same target.
   `TauCeti.deRhamCohomology.wedge` in `TauCeti.Geometry.Manifold.DeRham.Wedge` and smooth
   pullback `TauCeti.deRhamCohomology.map` in `TauCeti.Geometry.Manifold.DeRham.Map`. The de Rham
   theorem and Poincaré duality are DifferentialGeometry Layers 8–9.
+- Smooth forms with values in a normed space and their types on a complex manifold, used by
+  `holomorphicPoincare`: `TauCeti.SmoothForm I M F k` (smooth fixed-coefficient `k`-forms, in
+  `TauCeti.Geometry.Manifold.DifferentialForm.Smooth`), the exterior derivative
+  `TauCeti.mextDerivₗ` (`…DifferentialForm.Regularity`), pullback along a smooth map
+  `TauCeti.SmoothForm.mpullback` (`…DifferentialForm.Pullback.Smooth`), the type predicate
+  `TauCeti.SmoothForm.IsOfType φ J p q` (`p + q = k` and the `J`-derivation acts by
+  `(p − q)i`, in `…DifferentialForm.AlmostComplexType`), the complex structure
+  `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold E M` of a manifold modelled on
+  `𝓘(ℂ, E)` (`TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure`), viewed over `𝓘(ℝ, E)`
+  through the scoped instance `TauCeti.ComplexManifold.isManifold_real`
+  (`TauCeti.Geometry.Manifold.Complex.Orientation`), and
+  `TauCeti.SmoothAlmostComplexStructure.delBar`, the `(p,q+1)`-component of `d` on a form of
+  type `(p,q)` (`…DifferentialForm.Dolbeault.Basic`), with
+  `TauCeti.SmoothAlmostComplexStructure.mextDerivₗ_eq_del_add_delBar_ofComplexManifold`
+  (`d = ∂ + ∂̄` on a complex manifold, `…Dolbeault.ComplexManifold`); none of these assumes a
+  finite-dimensional model. Also `TauCeti.mextDeriv_ofFunction_eq_zero_iff` (a differentiable
+  function has `d f = 0` exactly when it is locally constant, `…DifferentialForm.ExtDeriv`) and
+  the real radial homotopy `StarConvex.exists_contDiffOn_forall_extDeriv_eq` (for `r ≥ 1`, a
+  closed `C^r` form of positive degree on an open star-convex subset of a real normed space,
+  with values in a Banach space, has a `C^r` primitive,
+  `TauCeti.Analysis.Calculus.DifferentialForm.Poincare`). There is no sheaf of holomorphic
+  `p`-forms at the pin; `HolomorphicDeRham` builds it.
 - `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` in
   `TauCeti.CategoryTheory.Sites.ExtensionByZero`: on a preorder site, the left adjoint of
   restriction to a lower interval preserves finite limits; applied to the opens of a space
@@ -1048,7 +1073,7 @@ complex scheme with a labelled strict-SNC divisor, without a compactness hypothe
 
 Do not define a new analytic inverse-function theorem. At the Mathlib pin, `AnalyticAt.hasStrictFDerivAt` gives the strict derivative of an analytic map; `HasStrictFDerivAt.toOpenPartialHomeomorph`, `HasStrictFDerivAt.mem_toOpenPartialHomeomorph_source`, `HasStrictFDerivAt.eventually_left_inverse` and `HasStrictFDerivAt.eventually_right_inverse` provide its local inverse when the derivative is a continuous linear equivalence. `OpenPartialHomeomorph.analyticAt_symm'` proves that this inverse is analytic. The linear equivalence and the complete normed-space assumptions are material. These declarations apply to finite-dimensional complex coordinates with their normed-space structures. Inverse uniqueness lets the resulting analytic germs glue. A nonzero derivative is required in dimension one; in dimension `n` the full Jacobian must be invertible.
 
-Define `sncPolydiscChart` for a smooth finite-type complex scheme or locally separated space `M`, a finite ordered SNC divisor `E`, a point `x`, and the `b` distinct components of `E` through `x`. Its data are an analytic neighbourhood of `x`, positive radii `r_i`, and a biholomorphism to a polydisc in `ℂⁿ` taking `x` to zero and the labelled boundary components to `z₁=0,…,z_b=0`. In particular `b≤n`. Its API states equality of the reduced boundary, the complement isomorphism, restriction to smaller positive radii, equivariance under relabelling, and transport along an étale chart. Define the punctured polydisc using the product of open metric balls and the inequalities `z_i≠0` for `i<b`. No separate competing notion of a complex manifold or polydisc is introduced.
+Define `sncPolydiscChart` for a smooth finite-type complex scheme or locally separated space `M`, a finite ordered SNC divisor `E`, a point `x`, and the `b` distinct components of `E` through `x`. Its data are an analytic neighbourhood of `x`, positive radii `r_i`, and a biholomorphism to a polydisc in `ℂⁿ` taking `x` to zero and the labelled boundary components to `z₁=0,…,z_b=0`. In particular `b≤n`. Its API states equality of the reduced boundary, the complement isomorphism, restriction to smaller positive radii, equivariance under relabelling, and transport along an étale chart. Define the punctured polydisc using the product of open metric balls and the inequalities `z_i≠0` for `1≤i≤b`. No separate competing notion of a complex manifold or polydisc is introduced.
 
 Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's SNC coordinates supply, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §C-1.2. The existence assertion is local and assumes no compactness; it is a chart result, not an algebraization theorem or a Borel extension theorem. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 SNC compactification and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; [Edward Bierstone and Pierre D. Milman](https://arxiv.org/abs/alg-geom/9508005), §3, Definition 3.2 and Lemma 3.3, preprint p. 22 (regular coordinate systems and their Jacobian criterion), Lemma 3.5, p. 23 (expansion in regular coordinates), and the normal-crossings convention of §1, Theorem 1.10, p. 7, for the analytic deduction from the supplied algebraic coordinates by the inverse-function theorem; Mathlib's analytic inverse APIs just cited.)
 
@@ -2703,9 +2728,14 @@ sheaves); Mathlib `DerivedCategory` (hypercohomology of a bounded-below complex 
 Define `HolomorphicDeRham T` for a complex manifold `T`: `Ω^p_T` the coherent sheaf of holomorphic
 `p`-forms (the locally free module of the holomorphic cotangent bundle's `p`-th exterior power, by
 `holomorphicBundleDictionary`) with the holomorphic exterior derivative, a bounded complex of sheaves of
-`ℂ`-vector spaces with `Ω⁰_T = O_T` and `ℂ`-linear, not `O_T`-linear, differential. Its API: `Ω⁰_T = O_T`; `d² = 0`; and holomorphic maps induce pullbacks commuting with `d` (Deligne 1970,
-I.2.10–2.15, printed pp. 9–11, with the canonical connection `∇f = df` of I.2.7.3, p. 8). *Needs:* `holomorphicBundleDictionary`; TauCetiRoadmap.AlgebraicVectorBundles
-(L0C).
+`ℂ`-vector spaces with `Ω⁰_T = O_T` and `ℂ`-linear, not `O_T`-linear, differential. Its API: `Ω⁰_T = O_T`; `d² = 0`; holomorphic maps induce pullbacks commuting with `d` (Deligne 1970,
+I.2.10–2.15, printed pp. 9–11, with the canonical connection `∇f = df` of I.2.7.3, p. 8); and over
+each open `U`, `Ω^p_T(U)` is the space of smooth `ℂ`-valued forms on `U` of type `(p,0)` with
+`∂̄ = 0`, restriction is pullback along the open inclusion and `d` is the exterior derivative of
+forms (a holomorphic section of the `p`-th exterior power of the holomorphic cotangent bundle is
+such a form, by evaluation on tangent vectors). *Needs:* `holomorphicBundleDictionary`; TauCetiRoadmap.AlgebraicVectorBundles
+(L0C); Tau Ceti `TauCeti.SmoothForm`, `TauCeti.SmoothForm.IsOfType`,
+`TauCeti.SmoothAlmostComplexStructure.delBar`, `TauCeti.mextDerivₗ`, `TauCeti.SmoothForm.mpullback`.
 
 **Checks.**
 
@@ -2714,13 +2744,37 @@ I.2.10–2.15, printed pp. 9–11, with the canonical connection `∇f = df` of 
 - On `ℂ*` the closed form `dz/z` integrates to `2πi` over the
   positively oriented unit circle (Mathlib `circleIntegral.integral_sub_inv_of_mem_ball`), so it is not
   exact on `ℂ*`.
+- On `ℂ`, the closed form `dz̄ = d(z̄)` has type `(0,1)`, not `(1,0)`: it is `d` of the smooth
+  function `z̄`, but of no holomorphic function, since `df = ∂f` has type `(1,0)` for holomorphic
+  `f`. It is closed with `∂̄(dz̄) = 0`, so the holomorphic Poincaré lemma needs its hypothesis that
+  the closed form has type `(k+1,0)`.
+- On `ℂ²`, the primitive `(z₁dz₂ − z₂dz₁)/2` of `dz₁∧dz₂` has type `(1,0)`; adding `d|z₁|²`
+  gives another smooth primitive with the `(0,1)`-component `z₁dz̄₁`, so the type `(k,0)` of the
+  primitive is a real requirement, not implied by `dη = α`.
 
 Prove `holomorphicPoincare`: on a complex manifold `T`, the inclusion of the constant sheaf `ℂ` into
 `Ω^•_T` is a quasi-isomorphism. On a coordinate ball every closed holomorphic `p`-form with `p ≥ 1` is
 exact on a smaller ball, and the kernel of `d : O → Ω¹` is the sheaf of locally constant functions.
 The radial homotopy `K` with `dK + Kd = id − ev₀` proves it, the parameter integral preserving
 holomorphy (Deligne 1970, I.2.19 and I.2.23 (ii) with 2.23.2–2.23.3, printed pp. 13–17, where the
-homotopy integrates power series term by term). *Needs:* `HolomorphicDeRham`.
+homotopy integrates power series term by term). Since a map of complexes of sheaves is a
+quasi-isomorphism exactly when it is one on stalks, the theorem is the conjunction of two local
+statements, and `Suggested.lean` states the positive-degree one on Tau Ceti's forms. Let `M` be a
+complex manifold modelled on a complex normed space `E`; a holomorphic `(k+1)`-form on `M` is a
+smooth `ℂ`-valued form `α` of type `(k+1,0)` for the complex structure of `M` with `∂̄α = 0`. If
+moreover `dα = 0`, then every `x ∈ M` has an open neighbourhood `U` with a smooth form `η` on `U`
+of type `(k,0)`, `∂̄η = 0` and `dη = α|_U`. This local statement needs none of the standing
+manifold hypotheses (finite dimension, Hausdorff, second countable): in a chart, a ball is
+star-convex, the real radial homotopy of a form that is complex-linear in each argument is again
+complex-linear in each argument, so `η` has type `(k,0)`, and `∂̄η` is the `(k,1)`-component of
+`dη = α`, which vanishes. The degree-zero statement, that a function with zero differential is
+locally constant, is Tau Ceti's `TauCeti.mextDeriv_ofFunction_eq_zero_iff`. Through the section
+description in the API of `HolomorphicDeRham`, the two local statements are exactness of
+`ℂ_T → Ω^•_T` on stalks. *Needs:* `HolomorphicDeRham`; Tau Ceti `TauCeti.SmoothForm`,
+`TauCeti.SmoothForm.IsOfType`, `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`,
+`TauCeti.SmoothAlmostComplexStructure.delBar`, `TauCeti.mextDerivₗ`,
+`TauCeti.SmoothForm.mpullback`, `TauCeti.mextDeriv_ofFunction_eq_zero_iff` and the real radial
+homotopy `StarConvex.exists_contDiffOn_forall_extDeriv_eq`.
 
 **Shared algebraic operators and principal parts — `IsDifferentialOperator`.**
 This is the ordinary algebraic foundation, and C5.1 is its single owner. FormalConnectionsOpers
@@ -4294,7 +4348,9 @@ SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, L
 D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C);
 CharacteristicClasses C1.5, C3, C4.1–C4.2; TauCetiRoadmap.JacobianChallenge (Layer C);
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,
-`TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, `TauCeti.deRhamCohomology`; Mathlib Kähler differentials, exterior powers,
+`TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, `TauCeti.deRhamCohomology`, the smooth-form,
+type and `∂̄` API of *Exact supplier contracts* (`TauCeti.SmoothForm`, `TauCeti.SmoothForm.IsOfType`,
+`TauCeti.SmoothAlmostComplexStructure.delBar`) and `StarConvex.exists_contDiffOn_forall_extDeriv_eq`; Mathlib Kähler differentials, exterior powers,
 derivations, monoids and group completions, `circleIntegral`.
 
 ## Layer C6: Stratified topology, Riemann existence and Artin comparison
