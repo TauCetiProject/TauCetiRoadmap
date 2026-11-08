@@ -110,10 +110,12 @@ def PlattCentralRecord : Prop :=
     DirichletCharacter.LFunction χ (1 / 2) ≠ 0
 
 /-- **Layer 0.3, no real zeros for conductors up to `400 000`.** Given Platt's records, for `χ`
-primitive modulo `2 ≤ q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`: a real zero has height
-`0 ≤ H(q)`, so it would be `1/2`, which the central record excludes. -/
+primitive modulo `q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`. For `q ≥ 2` a real zero has
+height `0 ≤ H(q)`, so it would be `1/2`, which the central record excludes; for `q = 1` the
+L-function is `ζ`, and `ζ(s) = s/(s − 1) − s ∫₁^∞ {u} u^{−s−1} du < 0` on `(0, 1)` without any
+record. -/
 theorem LFunction_ne_zero_of_platt (hP : PlattRecord) (hC : PlattCentralRecord) {q : ℕ}
-    [NeZero q] (hq₀ : 2 ≤ q) (hq₁ : q ≤ 400000) (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive)
+    [NeZero q] (hq : q ≤ 400000) (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive)
     (s : ℝ) (hs₀ : 0 < s) (hs₁ : s < 1) :
     DirichletCharacter.LFunction χ s ≠ 0 := sorry
 

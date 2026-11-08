@@ -479,14 +479,21 @@ For `2 ≤ q ≤ 400 000` let `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` if `q` i
 `q` is the record `PlattRecord` of 0.4b (Platt's Theorem 7.1). Given it, prove the corollaries
 `GRH(q, 10⁸/q)` for `2 ≤ q ≤ 400 000`, `GRH(q, 10 000)` for `2 ≤ q ≤ 13`, `GRH(q, 2500)` for
 `2 ≤ q ≤ 40 000` and `GRH(8, 10 000)`; and, given also `PlattCentralRecord` (0.4b), that for `χ`
-primitive modulo `2 ≤ q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`
-(`LFunction_ne_zero_of_platt`): a real zero has height `0 ≤ H(q)`, so it would be `1/2`, which the
-central record excludes. The modulus `q = 1`, where `GRH(1, H)` is `RH(H)`, is not part of Platt's
-record; `RH(H)` at the heights used here is a record of 0.4. For `q ≥ 2` Platt's ranges contain
-every range of Rumely's verification (`rumely1993`, Table 1), which is therefore not a hypothesis
-of any theorem here.
+primitive modulo `q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`
+(`LFunction_ne_zero_of_platt`). For `q ≥ 2` a real zero has height `0 ≤ H(q)`, so it would be
+`1/2`, which the central record excludes. For `q = 1` the L-function is `ζ`
+(`DirichletCharacter.LFunction_modOne_eq`) and no record is used: for `Re s > 1`, 0.5a at first
+order for `u ↦ u^{−s}` on `[1, N]` with `N → ∞` gives
+`ζ(s) = s/(s − 1) − s ∫₁^∞ {u} u^{−s−1} du`; the right side is holomorphic on the connected set
+`Re s > 0`, `s ≠ 1`, since `0 ≤ {u} < 1`, so the identity holds there by the identity theorem; for
+real `0 < s < 1` the first term is negative and the integral nonnegative, so `ζ(s) < 0`. The
+modulus `q = 1`, where `GRH(1, H)` is `RH(H)`, is not part of Platt's record; `RH(H)` at the heights
+used here is a record of 0.4. For `q ≥ 2` Platt's ranges contain every range of Rumely's
+verification (`rumely1993`, Table 1), which is therefore not a hypothesis of any theorem here.
 
-*Needs:* 0.2 antitonicity; 0.4b (`PlattRecord`, `PlattCentralRecord`).
+*Needs:* 0.2 antitonicity; 0.4b (`PlattRecord`, `PlattCentralRecord`); 0.5a (first order); Mathlib
+`DirichletCharacter.LFunction_modOne_eq`, `differentiableAt_riemannZeta`,
+`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
 
 **Checks.**
 
@@ -497,9 +504,13 @@ of any theorem here.
   `10⁸/112 ≈ 8.93·10⁵ ≥ 2500`.
 - The parity in `H(q)` is that of the modulus `q`, not of the character: at `q = 5` (odd) both even
   and odd characters get `H(5) = 2·10⁷`.
-- The range starts at `q = 2`: a reading "`1 ≤ q`" would turn `RH(10⁸)` into a consequence of the
-  record, the primitive character modulo `1` having L-function `riemannZeta`
+- The range of `PlattRecord` starts at `q = 2`: a reading "`1 ≤ q`" would turn `RH(10⁸)` into a
+  consequence of the record, the primitive character modulo `1` having L-function `riemannZeta`
   (`DirichletCharacter.isPrimitive_one_level_one`, `DirichletCharacter.LFunction_modOne_eq`).
+  `LFunction_ne_zero_of_platt` covers `q = 1` without the record: there the absence of real zeros
+  in `(0, 1)` is proved, not recorded.
+- As `s → 0⁺` the representation used for `q = 1` gives `ζ(0) = −1/2` (`riemannZeta_zero`):
+  `s/(s − 1) → 0`, and `s ∫₁^∞ {u} u^{−s−1} du → 1/2`, the mean value of `{u}`.
 
 ### 0.4 Recorded verifications of the Riemann hypothesis
 
