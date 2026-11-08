@@ -37,17 +37,21 @@ None of these is statable at the pins:
   weighted rational pairing of its retained-arrow groupoid, the targets of ComplexCurveModuli
   D5–D8 and Orbifolds O5, which are not in the pinned Tau Ceti.
 - Theorem 3 also needs the Novikov ring, which the pinned Tau Ceti has as
-  `TauCeti.NovikovSeries ℚ H N` with its grading `TauCeti.NovikovSeries.gradeBy`; what it lacks
-  are the Gromov–Witten classes of the first item and the completed state module of §0.2.
+  `TauCeti.NovikovSeries ℚ H N` with its grading `TauCeti.NovikovSeries.gradeBy`, and the
+  completed state module of §0.2, which it has in basis coordinates as the completed module
+  `TauCeti.NovikovModule` with its homogeneous pieces `TauCeti.NovikovModule.gradeBy`; what it
+  lacks are the Gromov–Witten classes of the first item.
 - Theorems 1, 2 and 4 need the rational Chern classes of a complex vector bundle and the
   first Chern class of a topological line bundle on a compact Hausdorff space, the targets of
   CharacteristicClasses C3, which are not in the pinned Tau Ceti.
 
 The Novikov grading `deg q^A = 2c₁(A)` is Tau Ceti's `TauCeti.NovikovSeries.gradeBy` for the
 degree map `2c₁`, whose first Chern class `c₁(TX, J)` is a CharacteristicClasses C3 carrier
-missing at the pin, as in the last item; the completed state module and its grading are README
-targets of Layer 0 with their Checks, and nothing is stated here as a stand-in for the headlines
-above.
+missing at the pin, as in the last item. The completed state module is Tau Ceti's
+`TauCeti.NovikovModule` in the coordinates of a homogeneous basis; its basis-free description, the
+independence and closedness of its homogeneous pieces and their convergent decomposition are
+README targets of Layer 0 with their Checks, and nothing is stated here as a stand-in for the
+headlines above.
 -/
 
 namespace TauCetiRoadmap.GromovWittenTheory
