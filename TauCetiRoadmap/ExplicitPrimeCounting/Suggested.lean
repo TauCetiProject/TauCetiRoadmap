@@ -25,31 +25,35 @@ Headline theorems stated here:
   Carneiro–Milinovich–Soundararajan's prime in `[x, x + (22/25) √x log x]` under the Riemann
   hypothesis (`carneiro_milinovich_soundararajan`).
 * Layer 3: Dusart's bound for `ψ` and `θ` from a zero-free region of constant `R` alone
-  (`dusart_of_zeroFreeRegion`).
+  (`dusart_of_zeroFreeRegion`), and Axler's upper bound for `π(x)` from its `θ`-input
+  (`axler_primeCounting_upper`).
 * Layer 4: Vanlalngaia's explicit second theorem of Mertens from its `θ`-input
   (`vanlalngaia_sum_inv_prime`).
+* Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs
+  (`dusart_nth_prime_lower`).
 * Layer 6: Lamzouri–Li–Soundararajan's least prime `p ≤ (φ(q) log q)²` in a reduced class under
   the generalised Riemann hypothesis (`lamzouri_li_soundararajan`).
 * Layer 7: Schoenfeld's prime in `(x, x + x/16597)` from its `ψ`-input
-  (`schoenfeld_interval`).
+  (`schoenfeld_interval`), Trudgian's prime in `[x, x(1 + 1/(111 log² x))]` and Axler's prime in
+  `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs and the record prime gaps
+  (`trudgian_interval`, `axler_interval`).
 
 Headline theorems that are not statable at the pins, and what each lacks:
 
-* Rosser–Schoenfeld's `ψ(x) < 1.03883 x` and `θ(x) < 1.01624 x` for `x > 0`, their bounds for
-  `π(x)` and `p_n`, Schoenfeld's Theorems 6* and 11, Dusart's `|ψ(x) − x| ≤ 0.006409 x/log x`,
-  his rows `η_k` and his bound `p_k ≥ k(log k + log log k − 1)`, Robin's bounds, and Trudgian's
-  theorems: every route beyond `10¹⁹` passes through a table proposition of README §3.1(b)
-  (`DusartThesisTable`, `Dusart1999Row`, `FaberKadiriTable`), a numerical inequality on the error
-  function of Rosser–Schoenfeld's scheme, built from the integrals
-  `K_ν(z, x) = (1/2) ∫ₓ^∞ t^{ν−1} exp(−(z/2)(t + 1/t)) dt` and a dozen auxiliary quantities. That
-  function is not a simple definition, and stating the inequality without it would assert more
-  than the roadmap proves.
+* Rosser–Schoenfeld's `ψ(x) < 1.03883 x` and `θ(x) < 1.01624 x` for `x > 0`, Schoenfeld's
+  Theorems 6* and 11, Dusart's `|ψ(x) − x| ≤ 0.006409 x/log x` and his rows `η_k`, and Trudgian's
+  bound for `ψ`: these are the Layer 3 bounds themselves, whose every route beyond `10¹⁹` passes
+  through a table proposition of README §3.1(b) (`DusartThesisTable`, `Dusart1999Row`,
+  `FaberKadiriTable`), a numerical inequality on the error function of Rosser–Schoenfeld's
+  scheme, built from the integrals `K_ν(z, x) = (1/2) ∫ₓ^∞ t^{ν−1} exp(−(z/2)(t + 1/t)) dt` and a
+  dozen auxiliary quantities. That function is not a simple definition, and stating the
+  inequality without it would assert more than the roadmap proves. Their consequences for `π`,
+  `p_n` and short intervals are stated above from pointwise inputs where they are headlines.
 * Fiori–Kadiri–Swidinsky's bounds for `ψ` and `π`, Broadbent–Kadiri–Lumley–Ng–Wilk's
   `θ(x) ≤ (1 + 1.93378·10⁻⁸) x` and their `θ`-tables, Platt–Trudgian's and Johnston–Yang's bounds,
-  Faber–Kadiri's bound, Axler's bounds for `π(x)` and his intervals, and Ramaré's bounds for
-  `∑ Λ(n)/n`: they rest on the table propositions of README §3.1(c), numerical inequalities on the
-  zero-density error function of display (3.9) of the Faber–Kadiri corrigendum, which is not a
-  simple definition either.
+  Faber–Kadiri's bound, and Ramaré's bounds for `∑ Λ(n)/n`: they rest on the table propositions
+  of README §3.1(c), numerical inequalities on the zero-density error function of display (3.9)
+  of the Faber–Kadiri corrigendum, which is not a simple definition either.
 * Bennett–Martin–O'Bryant–Rechnitzer's `|ψ(x; q, a) − x/φ(q)| < x/(840 log x)`, Ramaré–Rumely's
   and Dusart's rows in progressions, McCurley's rows, Ramaré's Mertens theorem in progressions
   and Kadiri's intervals in progressions: they rest on the table propositions of README §§6.1,
@@ -263,7 +267,7 @@ theorem carneiro_milinovich_soundararajan (hRH : RiemannHypothesis)
     ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x + 22 / 25 * √x * log x := by
   sorry
 
-/-! ## Layer 3: unconditional bounds for ψ and θ -/
+/-! ## Layer 3: unconditional bounds for ψ, θ and π -/
 
 /-- **Dusart's bound from a zero-free region alone** (Dusart, Math. Comp. 85 (2016),
 Theorem 1.1): if `ζ` has no zero with `|Im s| ≥ 2π` and `Re s ≥ 1 − 1/(R log |Im s|)`, then with
@@ -276,6 +280,27 @@ theorem dusart_of_zeroFreeRegion (R : ℝ) (hR : 0 < R) (hZ : ClassicalZeroFreeR
     (hX : max 8.36 (8 / R) ≤ √(log x / R)) :
     max |Chebyshev.theta x - x| |Chebyshev.psi x - x| <
       x * (√(8 / π) * √(√(log x / R)) * exp (-√(log x / R))) := by
+  sorry
+
+/-- **Axler's upper bound for `π(x)`** (Axler, *Effective estimates for some functions defined
+over primes*, Integers 24 (2024), A34): for every `x ≥ 48`,
+`π(x) < x/(log x − 1 − 1/log x − 3.024334/log² x − 12.975666/log³ x − 71.048668/log⁴ x
+− 461.364417856444/log⁵ x − 4331.1/log⁶ x)`, from the `θ`-input
+`|θ(t) − t| < 0.024334 t/log³ t` for `t ≥ 1 757 126 630 797` (Axler's Proposition 1.1, from the
+tables of Broadbent–Kadiri–Lumley–Ng–Wilk), the zeros of `ζ` up to height `3 000 175 332 800` on
+the critical line with Büthe's inputs (which give Johnston's `|π(x) − li x| ≤ √x log x/(8π)` and
+`|θ(x) − x| ≤ √x log² x/(8π)` up to `10²⁶`), and the bound itself on `[48, 10¹⁹]`. -/
+theorem axler_primeCounting_upper
+    (hθ : ∀ t : ℝ, 1757126630797 ≤ t → |Chebyshev.theta t - t| < 0.024334 * t / log t ^ 3)
+    (hT₀ : RiemannHypothesisUpTo 3000175332800) (hB : ButheVerified) (hR : Buthe2016Range)
+    (hfin : ∀ x : ℝ, 48 ≤ x → x ≤ 10 ^ 19 →
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
+        12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
+        4331.1 / log x ^ 6))
+    (x : ℝ) (hx : 48 ≤ x) :
+    (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
+      12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
+      4331.1 / log x ^ 6) := by
   sorry
 
 /-! ## Layer 4: sums over primes -/
@@ -293,6 +318,30 @@ theorem vanlalngaia_sum_inv_prime
         2.3 / log x ^ 3) ∧
       (24284 ≤ x → |primeReciprocalSum x - log (log x) - TauCeti.LFunctions.mertensConstant ℚ| ≤
         1 / log x ^ 3) := by
+  sorry
+
+/-! ## Layer 5: the n-th prime -/
+
+/-- **Dusart's lower bound for the `k`-th prime** (Dusart, *The `k`th prime is greater than
+`k(ln k + ln ln k − 1)` for `k ≥ 2`*, Math. Comp. 68 (1999), Theorem 3): with
+`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k ≥ k (log k + log log k − 1)` for every `k ≥ 2`, from
+Robin's finite range (`p_k ≤ 10¹¹`), Robin's lower bound
+`θ(p_k) ≥ k (log k + log log k − 1 + (log log k − 2.1454)/log k)` for `k ≥ 3` (Robin 1983,
+Théorème 8), Schoenfeld's `|θ(x) − x| < 0.0077629 x/log x` for `x > e²²` and
+`|θ(x) − x| < 1.657·10⁷ x/log⁴ x` for `x > 1` (Schoenfeld 1976, (5.6b*) and (5.8*)), and Dusart's
+`|ψ(x) − x| ≤ 0.905·10⁻⁷ x` for `x ≥ e⁵⁰` (Theorem 2 there). -/
+theorem dusart_nth_prime_lower
+    (hfin : ∀ k : ℕ, 2 ≤ k → (Nat.nth Nat.Prime (k - 1) : ℝ) ≤ 10 ^ 11 →
+      (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1))
+    (hRobin : ∀ k : ℕ, 3 ≤ k →
+      (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1 +
+          (log (log (k : ℝ)) - 2.1454) / log (k : ℝ)) ≤
+        Chebyshev.theta (Nat.nth Nat.Prime (k - 1)))
+    (hθ₁ : ∀ x : ℝ, exp 22 < x → |Chebyshev.theta x - x| < 0.0077629 * x / log x)
+    (hθ₄ : ∀ x : ℝ, 1 < x → |Chebyshev.theta x - x| < 1.657e7 * x / log x ^ 4)
+    (hψ : ∀ x : ℝ, exp 50 ≤ x → |Chebyshev.psi x - x| ≤ 0.905e-7 * x)
+    (k : ℕ) (hk : 2 ≤ k) :
+    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1) := by
   sorry
 
 /-! ## Layer 6: primes in arithmetic progressions -/
@@ -321,6 +370,47 @@ theorem schoenfeld_interval (hS : Schoenfeld1976Range) (hG : PrimeGapLogSquareVe
     (hψ : ∀ t : ℝ, exp 30 ≤ t → |Chebyshev.psi t - t| ≤ 0.978e-5 * t) (x : ℝ)
     (hx : 2010759.9 < x) :
     ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) < x + x / 16597 := by
+  sorry
+
+/-- **Trudgian's prime interval** (Trudgian, *Updating the error term in the prime number
+theorem*, Ramanujan J. 39 (2016), Corollary 2): for every `x ≥ 2 898 242` the interval
+`[x, x (1 + 1/(111 log² x))]` contains a prime, from the `θ`-input `|θ(t) − t| ≤ 0.0045 t/log² t`
+for `t ≥ e³⁵` (Lemma 1 there), the bound `p⁺ − p ≤ p/(111 log² p)` for consecutive primes
+`p < p⁺` with `4 652 353 ≤ p ≤ 4·10¹⁸` (a consequence of the table of record prime gaps of
+Oliveira e Silva–Herzog–Pardi), and the interval on `[2 898 242, 4 652 353]`. The source prints
+the threshold `2 898 239`, which fails at `x = 2 898 240`. -/
+theorem trudgian_interval
+    (hθ : ∀ t : ℝ, exp 35 ≤ t → |Chebyshev.theta t - t| ≤ 0.0045 * t / log t ^ 2)
+    (hgap : ∀ n : ℕ, 4652353 ≤ Nat.nth Nat.Prime n → (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
+      (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
+        Nat.nth Nat.Prime n / (111 * log (Nat.nth Nat.Prime n) ^ 2))
+    (hfin : ∀ x : ℝ, 2898242 ≤ x → x ≤ 4652353 →
+      ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x * (1 + 1 / (111 * log x ^ 2)))
+    (x : ℝ) (hx : 2898242 ≤ x) :
+    ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x * (1 + 1 / (111 * log x ^ 2)) := by
+  sorry
+
+/-- **Axler's prime interval at the `log³` scale** (Axler, Integers 24 (2024), A34, Theorem 1;
+arXiv v4, Theorem 1.2): for every `x ≥ 17 051 708` the interval
+`(x, x (1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` contains a prime, from three `θ`-inputs of
+Broadbent–Kadiri–Lumley–Ng–Wilk (Math. Comp. 90 (2021): the rows `|θ(t) − t| < 2.1482·10⁻⁸ t` for
+`t > e⁴⁰` and `|θ(t) − t| < 1.1344·10⁻⁹ t` for `t > e⁵⁰` of their Table 14, and
+`|θ(t) − t| < 0.024334 t/log³ t` for `t > e²⁹` of their Table 15), the bound
+`p⁺ − p ≤ (0.048668 + 8.22·10⁻¹¹) p/log³ p` for consecutive primes `p < p⁺` with `p⁺ ≥ 2·10⁷` and
+`p ≤ 4·10¹⁸` (a consequence of the table of record prime gaps), and the interval on
+`[17 051 708, 2·10⁷]`. -/
+theorem axler_interval
+    (hθ₄₀ : ∀ t : ℝ, exp 40 < t → |Chebyshev.theta t - t| < 2.1482e-8 * t)
+    (hθ₅₀ : ∀ t : ℝ, exp 50 < t → |Chebyshev.theta t - t| < 1.1344e-9 * t)
+    (hθ₃ : ∀ t : ℝ, exp 29 < t → |Chebyshev.theta t - t| < 0.024334 * t / log t ^ 3)
+    (hgap : ∀ n : ℕ, 2 * 10 ^ 7 ≤ Nat.nth Nat.Prime (n + 1) →
+      (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
+      (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
+        (0.048668 + 8.22e-11) * Nat.nth Nat.Prime n / log (Nat.nth Nat.Prime n) ^ 3)
+    (hfin : ∀ x : ℝ, 17051708 ≤ x → x ≤ 2 * 10 ^ 7 →
+      ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3))
+    (x : ℝ) (hx : 17051708 ≤ x) :
+    ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3) := by
   sorry
 
 end TauCetiRoadmap.ExplicitPrimeCounting

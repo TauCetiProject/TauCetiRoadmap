@@ -66,8 +66,8 @@ docstring with what they lack.
 
 - The Brun–Titchmarsh inequality of Montgomery–Vaughan with the constant `2` (§0.1). It is stated
   here because ExplicitCharacterSumsAndSieves, which plans the explicit sieve bounds, is later in
-  the order of supply and consumes it from here; its proof uses the forbidden-residue large sieve
-  of SieveMethodsAndPrimePatterns §2.9.
+  the order of supply and consumes it from here; its proof uses Montgomery–Vaughan's weighted
+  large sieve, ExplicitZetaBounds target 13.
 - The carriers this roadmap adds: the logarithmic progression sum
   `ψ̃(x; q, a) = ∑_{n ≤ x, n ≡ a (q)} Λ(n)/n` and the Mertens constants `C(q, a)` of a residue
   class (Layer 0).
@@ -106,8 +106,10 @@ docstring with what they lack.
   `li x = γ + log log x + ∑_{n ≥ 1} (log x)ⁿ/(n · n!)` (the exponential-integral series at
   `log x`) and its asymptotic expansion: SpecialFunctionsEiLiErfIncompleteGamma §§8.2–8.4, where
   `li` is `TauCeti.Real.principalLogIntegral`.
-- The forbidden-residue large sieve with the sharp constant `H − 1 + Q²`:
-  SieveMethodsAndPrimePatterns §2.9.
+- The weighted large sieve `∑_x (N + (3/2) δ(x)⁻¹)⁻¹ |S(x)|² ≤ ∑ |a_n|²` of Montgomery–Vaughan:
+  ExplicitZetaBounds target 13. The unweighted forbidden-residue large sieve with the sharp
+  constant `H − 1 + Q²` (SieveMethodsAndPrimePatterns §2.9) is not enough for the constant `2` of
+  §0.1 (§0.1 Checks).
 - The progression carriers `psiAP q a x` and `primeCountAP q a x` (modulus `q`, residue `a : ZMod q`,
   real `x`) and the theta sum `θ(x; a, q)`: AnalyticNumberTheoryPartI §0.2.
 - The rational prime-counting adapter `TauCeti.primeCount ℚ Set.univ x = π(⌊x⌋₊)`:
@@ -222,10 +224,13 @@ docstring with what they lack.
   parameters of one row of a published table, is at most the row's value; it is stated in the
   section of that theorem, after the error function it evaluates. A *finite-range proposition*
   asserts a stated inequality on a stated bounded range, and is stated in Layer 1. Both are `Prop`s
-  with their data in the statement. A theorem of Layers 4–7 that consumes a Layer 3 bound is
-  stated from that bound as an explicit pointwise hypothesis (its *input*), and the instance that
-  supplies the input is named after it: the transfer is the theorem, and the instance is the
-  composite with the Layer 3 theorem.
+  with their data in the statement. A theorem of Layers 4–7, or a transfer of §3.5 from `θ` to `π`,
+  that consumes a Layer 3 bound is stated from that bound as an explicit pointwise hypothesis (its
+  *input*), and the instance that supplies the input is named after it: the transfer is the
+  theorem, and the instance is the composite with the Layer 3 theorem. Where such a theorem needs
+  only one consequence of a finite-range proposition (a gap bound drawn from the record table, the
+  bounded-range clause of its own statement), that consequence is the hypothesis, and the section
+  of the proposition says how it follows.
 - Refereed and unrefereed sources. A statement whose only source is a preprint is a target like any
   other (its proof is planned here from the stated inputs), but it is marked *(preprint)* where it
   is stated, it is never the headline of its section, and the refereed statement it would sharpen
@@ -343,8 +348,9 @@ docstring with what they lack.
 - §2.9 the large sieve for forbidden residues: for a finite set of primes `P`, forbidden residue
   sets `Ω_p ⊆ 𝔽_p` with `|Ω_p| < p`, and a sequence `a_n` supported on `H` consecutive integers and
   vanishing on every forbidden residue, `J(Q) |∑ a_n|² ≤ (H − 1 + Q²) ∑ |a_n|²`, where `J(Q)` is the
-  sum over squarefree `d ≤ Q` composed of primes of `P` of `∏_{p ∣ d} |Ω_p|/(p − |Ω_p|)`. This is
-  the input of the Brun–Titchmarsh inequality of §0.1.
+  sum over squarefree `d ≤ Q` composed of primes of `P` of `∏_{p ∣ d} |Ω_p|/(p − |Ω_p|)`. It enters
+  §0.1 only in the negative-control Check showing that it does not give the constant `2`; the input
+  of §0.1 is the weighted large sieve of ExplicitZetaBounds target 13.
 - §3.1 `SieveDistribution.primeCountAP` (real `x`, modulus `q : ℕ`, residue `a : ℕ`, the
   congruence being equality at `q = 0`), for the agreement lemma of §0.6 only.
 
@@ -357,9 +363,18 @@ docstring with what they lack.
 
 ExplicitZetaBounds precedes this roadmap in the order of supply and owns the decimal constants of
 the zero-free regions, the explicit zero counts, the zero densities, the weighted sums over the
-ordinates and the verified heights. Each item below is cited as a gap (`gap:<slug>`) wherever a
-theorem needs it; the general theorems of Layers 3, 6 and 7 take the corresponding object as an
-explicit parameter, so only their instances wait for these items.
+ordinates and the verified heights. One of its targets is consumed exactly as that roadmap states
+it:
+
+- Target 13, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ`, `δ(x)` the
+  distance from `x` to the rest of `X`, and complex `a_n` on `M < n ≤ M + N`,
+  `∑_{x ∈ X} (N + (3/2) δ(x)⁻¹)⁻¹ |∑_n a_n e(nx)|² ≤ ∑ |a_n|²` (the constant `c = 3/2`, from the
+  `3π/2` Hilbert inequality of AnalyticNumberTheoryPartI §1.5a). This is the input of the
+  Brun–Titchmarsh inequality of §0.1.
+
+Each item below is cited as a gap (`gap:<slug>`) wherever a theorem needs it; the general
+theorems of Layers 3, 6 and 7 take the corresponding object as an explicit parameter, so only
+their instances wait for these items.
 
 What ExplicitZetaBounds must provide (gap:rh-up-to-height): For real `H`, the proposition `RH(H)` that every zero of the entire completion of `ζ` with `0 ≤ Re s ≤ 1` and `|Im s| ≤ H` has real part `1/2`, antitone in `H` and implied by Mathlib's `RiemannHypothesis`, with the named instances at `H = 545 439 823`, `30 610 046 000` and `3 000 175 332 800` and the named verification that `ζ` has no zero `s` with `0 < Re s < 1` and `|Im s| ≤ 14`. Required location: target 20.
 
@@ -385,7 +400,7 @@ What ExplicitZetaBounds must provide (gap:lehman-weighted-zero-sum): The weighte
 
 ## How to read the build
 
-Layer 0 proves the Brun–Titchmarsh inequality with the constant `2` from the sharp large sieve,
+Layer 0 proves the Brun–Titchmarsh inequality with the constant `2` from the weighted large sieve,
 builds the carriers that the library lacks (`ψ̃`, `C(q, a)`) and the exact transfer identities
 between `ψ`, `θ`, `π`, `Li` and `li`, so that every later bound for one of these functions
 converts into bounds for the others by a theorem rather than by a repeated argument. Layer 1 states
@@ -422,16 +437,39 @@ integers `k`, `l` with `y > k`,
 lines 82–87). The constant `2` holds for every `x > 0` and every `y > k`, with no lower bound on `x`
 and no secondary term.
 
-Route: the integers of `(x, x + y]` in the class of `l` are `l₀ + km` for `m` in an interval of at
-most `y/k + 1` consecutive integers. Sift them by the primes `p ≤ Q` not dividing `k`, one
-forbidden class of `m` for each (the class with `p ∣ l₀ + km`, which exists because `p ∤ k`), and
-apply the forbidden-residue large sieve of SieveMethodsAndPrimePatterns §2.9 with its sharp
-constant `H − 1 + Q²` to the indicator of the `m` for which `l₀ + km` is a prime larger than `Q`.
-Here `J(Q)` is the sum over squarefree `d ≤ Q` prime to `k` of `1/φ(d)`, which is at least
-`(φ(k)/k)(log Q + c₀)` with an absolute `c₀ > 0` (for `k = 1`, at least `log Q + 1.07` once
-`Q ≥ 6`), and the at most `Q/k + 1` primes of the class below `Q` are added back; the choice
-`Q² ≍ y/k` balances the two terms of `H − 1 + Q²`, and the positive constant `c₀` absorbs the
-lower-order terms, which is what leaves the constant exactly `2`.
+Route, after Montgomery–Vaughan, whose proof argues from the weighted large sieve: the
+unweighted sieve gives the constant `2` only up to a factor `1 + O(log log(y/k)/log(y/k))`, and the
+weights remove that factor (`montgomery-1978` lines 377–388 and 517–528). Put `t = y/k`. The
+integers of `(x, x + y]` in the class of `l` are `l₀ + km` for `m` in an interval of
+`N ≤ ⌊t⌋ + 1` consecutive integers; let `a_m` be the indicator of the `m` for which `l₀ + km` is a
+prime larger than `Q`, `Z = ∑ a_m` and `S(α) = ∑ a_m e(mα)`. For a prime `p ≤ Q` with `p ∤ k` the
+sequence vanishes on the class of `m` with `p ∣ l₀ + km`, which exists because `p ∤ k`; the primes
+dividing `k` forbid nothing.
+
+- Two distinct reduced fractions `a/q`, `a′/q′` with `q, q′ ≤ Q` lie at distance at least
+  `1/(qq′) ≥ 1/(qQ)` in `ℝ/ℤ`, so the weighted large sieve (ExplicitZetaBounds target 13) gives
+  `∑_{q ≤ Q} ∑*_{a mod q} (N + (3/2) qQ)⁻¹ |S(a/q)|² ≤ ∑ |a_m|² = Z`.
+- For squarefree `q` prime to `k`, `∑*_{a mod q} |S(a/q)|² ≥ Z²/φ(q)`. For a prime `p`,
+  `∑_{a mod p} |S(a/p)|² = p ∑_h Z(p, h)²`, where `Z(p, h)` counts the `m` of the support with
+  `m ≡ h (mod p)` (`montgomery-1978` lines 482–497); Cauchy–Schwarz over the at most `p − 1`
+  classes that meet the support gives at least `p Z²/(p − 1)`, so the terms with `a ≢ 0` contribute
+  at least `Z²/(p − 1)`. A squarefree `q = pq′` follows by induction, applying the prime case to
+  the twisted sequences `a_m e(mb/q′)`, `b` prime to `q′`, which vanish on the same classes; this
+  is the step from one prime to a squarefree modulus in the forbidden-residue sieve of
+  SieveMethodsAndPrimePatterns §2.9, stated here because that section does not state it alone.
+- Together, `Z ≤ 1/L_k(Q)` with `L_k(Q) = ∑_{q ≤ Q, (q, k) = 1} μ²(q)/(φ(q)(N + (3/2) qQ))`.
+  Writing a squarefree `q ≤ Q` as `dq′` with `d ∣ k` and `(q′, k) = 1`, the weight decreasing in
+  `q` and `∑_{d ∣ k} μ²(d)/φ(d) = k/φ(k)` give `L₁(Q) ≤ (k/φ(k)) L_k(Q)`; the primes of the class
+  up to `Q` number at most `π(Q)`. The count is therefore at most
+  `(k/φ(k)) (1/L₁(Q) + π(Q))` with `N = ⌊t⌋ + 1`, and it remains to find, for each `t`, a `Q` with
+  `1/L₁(Q) + π(Q) ≤ 2t/log t`, a statement about `t` alone.
+- For large `t`, partial summation from `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` (`u ≥ 6`) at
+  `Q² ≍ 2t/3` gives `1/L₁(Q) ≤ 2N/(log N + c₁)` with `c₁ > 0`: at that `Q` the weights cost
+  `(1/2) log 6 = 0.896` against the main term `(1/2) log N`, and the constant `1.07` repays it. The
+  saving, of order `t/log² t`, absorbs `π(Q) ≍ √t/log t`. Below the point where this explicit
+  saving takes over and down to `t = 25`, `L₁(Q)` is evaluated exactly; for `1 < t < 25` the members
+  of the class prime to `6`, together with `2` and `3`, are already fewer than
+  `2y/(φ(k) log t)`, whichever of `2` and `3` divide `k`.
 
 - At `k = 1` it reads `π(x + y) − π(x) ≤ 2y/log y` for `y > 1`; this is the form the
   prime-power and edge estimates of §2.5 use.
@@ -440,7 +478,7 @@ lower-order terms, which is what leaves the constant exactly `2`.
 - The hypothesis `y > k` makes `log(y/k)` positive; the coprimality of `k` and `l` is what makes
   `φ(k)` the density of the class.
 
-*Needs:* SieveMethodsAndPrimePatterns §2.9 (the forbidden-residue large sieve); Mathlib
+*Needs:* ExplicitZetaBounds target 13 (the weighted large sieve with `c = 3/2`); Mathlib
 `Nat.totient`, `ArithmeticFunction.moebius`, `Nat.Coprime`, `Nat.primeCounting`.
 
 **Checks.**
@@ -456,6 +494,17 @@ lower-order terms, which is what leaves the constant exactly `2`.
   `y ≥ k`.
 - A test over `20 000` random cases with `k ≤ 60`, `x ≤ 2·10⁵`, `k < y ≤ 50k`, and over a grid of
   `x ≤ 100`, `k < y ≤ k + 28` for `k ≤ 12`, finds no case where the count exceeds the bound.
+- The unweighted sieve does not reach the constant `2` (negative control): at `k = 1`,
+  `y = 10⁶`, `H − 1 + Q² = y + Q²` and the forbidden-residue sieve of SieveMethodsAndPrimePatterns
+  §2.9 gives at best `min_Q (y + Q²)/J(Q) = 154 578.5` (at `Q = 267`), above
+  `2y/log y = 144 764.8` before any prime is added back; the ratio is `1.068` at `y = 10⁸` as well.
+- The weighted sieve on the same instance: `1/L₁(807) = 136 188.2` and `π(807) = 139`, total
+  `136 327 < 144 765`; at `t = 10³`, `1/L₁(22) + π(22) = 269.5 < 289.5`.
+- The exact evaluation stops at `t = 25`: there `1/L₁(3) + π(3) = 15.51 ≤ 2t/log t = 15.53`, while
+  at `t = 24` the best value is `15.11 > 15.10`. At `t = 24`, `k = 1`, the `25` integers of an
+  interval contain at most `2 ⌈25/6⌉ + 2 = 12` primes, below `15.10`.
+- The reduction to `k = 1`: at `k = 30`, `N = 100`, `Q = 10`, only `q = 1, 7` are prime to `30`,
+  and `L₁(Q) = 0.02571 ≤ (k/φ(k)) L₃₀(Q) = 3.75 · 0.009509 = 0.03566`.
 
 ### 0.2 The logarithmic progression sum and its Mertens constant
 
@@ -986,6 +1035,13 @@ enumeration, `p = Nat.nth Nat.Prime n` and `p⁺ = Nat.nth Nat.Prime (n + 1)`.
   the rows with `P_i ≥ 11` suffices; below `11` nothing is asserted.
 - `PrimeGapLogSquareVerified` bounds every gap below `4·10¹⁸` by `log²(4·10¹⁸) = 1834.6`, which is
   what §7.1 uses; the record table gives the sharper `1476`.
+- *MaximalPrimeGapTable* implies the two gap bounds that are hypotheses of §7.4's
+  `trudgian_interval` and `axler_interval`: `p⁺ − p ≤ p/(111 log² p)` for consecutive primes with
+  `4 652 353 ≤ p ≤ 4·10¹⁸`, and `p⁺ − p ≤ (0.048668 + 8.22·10⁻¹¹) p/log³ p` for consecutive primes
+  with `p⁺ ≥ 2·10⁷` and `p ≤ 4·10¹⁸`. A prime `p` with `P_i ≤ p < P_{i+1}` (or `p ≥ P_i` at the
+  last row) has `p⁺ − p ≤ g_i`, and both lengths increase in `p`, so it suffices that `g_i` is at
+  most the length at `q = max(P_i, 4 652 353)`, respectively at `q = max(P_i, 2·10⁷ − g_i)`, for
+  every row that governs a prime of the range: a finite check over the rows.
 
 *Needs:* Mathlib `Nat.nth Nat.Prime`, `Nat.prime_nth_prime`.
 
@@ -1000,6 +1056,11 @@ enumeration, `p = Nat.nth Nat.Prime n` and `p⁺ = Nat.nth Nat.Prime (n + 1)`.
 - `PrimeGapLogSquareVerified` up to `2.1·10⁷`: no prime `11 ≤ p ≤ 2.1·10⁷` has a gap of at least
   `log² p` (checked with a sieve), while the gaps after `2`, `3` and `7` (`1`, `2`, `4`) are at least
   `log² 2 = 0.48`, `log² 3 = 1.21`, `log² 7 = 3.79`: the threshold `11` cannot be lowered.
+- The gap bounds of §7.4 against the table: for the first the tightest row is `(4 652 353, 154)`,
+  length `177.8` (ratio `0.866`), while the previous record `(2 010 733, 148)`, with length `86`,
+  is why the range starts at `4 652 353`; for the second the tightest rows are `(20 831 323, 210)`,
+  length `211.8` (ratio `0.991`), and `(17 051 707, 180)` at `q = 2·10⁷ − 180`, length `204.9`.
+  Both bounds also hold at every prime up to `2·10⁷` (checked with a sieve).
 
 ### 1.5 Progression tabulations
 
@@ -1095,8 +1156,9 @@ AnalyticNumberTheoryPartI §0.34; `gap:real-zero-gap`.
 - *BanksGap* at `q = 10¹⁰` gives only `1 − β ≥ 3.0·10⁻³/23.03 = 1.30·10⁻⁴`, weaker than
   *LuZamanZhaoSweep* there (`8.7·10⁻³`); its content is for `q > 10¹⁰`.
 - *BanksGap* against the Siegel-type bound `1 − β ≥ 100/(√q log² q)` of `thorner-zaman-2024`
-  Theorem 2.6: `3.0·10⁻³/log q ≥ 100/(√q log² q)` exactly when `√q log q ≥ 3.33·10⁴`, that is for
-  `q ≥ 4.6·10⁶` (at `q = 5·10⁶`: `√q log q = 3.45·10⁴`); above `10¹⁰` the gap is far stronger.
+  Theorem 2.6: `3.0·10⁻³/log q ≥ 100/(√q log² q)` exactly when `√q log q ≥ 10⁵/3 = 3.333·10⁴`,
+  that is for `q ≥ 4.707·10⁶` (at `q = 4.6·10⁶`: `√q log q = 3.290·10⁴`, still below; at
+  `q = 5·10⁶`: `3.45·10⁴`); above `10¹⁰` the gap is far stronger.
 - Only zeros in `(1/2, 1)` matter for small `c`: for a primitive real `χ` the functional equation
   pairs a real zero `β` with `1 − β`, and a zero with `β ≤ 1/2` has
   `(1 − β) log q ≥ (log 3)/2 = 0.549`; so for `c ≤ 0.549` (both instances) the proposition is a
@@ -1374,8 +1436,10 @@ Under `ButheVerified` (§1.3):
 ### 2.5 Short intervals under the Riemann hypothesis
 
 - Schoenfeld's corollary (from §2.2): under `RiemannHypothesis`, for every `x > 599` the interval
-  `(x − √x log² x/(4π), x]` contains a prime: `θ(x) − θ(x − h) ≥ h − 2 √x log² x/(8π) > 0` for
-  `h = √x log² x/(4π)`, using the lower bound at `x` and the one-sided upper bound at `x − h`.
+  `(x − √x log² x/(4π), x]` contains a prime. With `A(y) = √y log² y/(8π)` and `h = 2A(x)`,
+  `θ(x) − θ(x − h) > h − A(x) − A(x − h) ≥ h − 2A(x) = 0`: the first step uses the strict lower
+  bound `|θ(x) − x| < A(x)` at `x > 599` and the strict one-sided bound `θ(y) − y < A(y)` at
+  `y = x − h > 0`, the second that `A` increases on `y > 1` and `x − h > 1`.
 - Dudek (`dudek-2015` lines 51–52, Theorem 2): under `RiemannHypothesis`, for every `x ≥ 2` the
   interval `(x − (4/π) √x log x, x]` contains a prime. Route: a weighted explicit formula (§2.1 with
   a kernel supported in `[x − h, x]`), `∑_ρ 1/|ρ|² = 2 + γ − log 4π` (§2.1) and the explicit zero
@@ -1807,11 +1871,15 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   `x ≥ 2` and is the bound the `π` conversion below starts from. Route: the standard route with
   §3.1(c) in its Pintz form.
 - Fiori–Kadiri–Swidinsky for `π` (`fiori-kadiri-swidinsky-2023`, Res. Number Theory 9, lines
-  159–182, Theorem 3; lines 712–725, Corollary 22): the general conversion of an admissible
-  asymptotic `θ`-bound `|θ(x) − x| ≤ A_θ (log x/R)^B exp(−C √(log x/R)) x` on `[x₀, ∞)`, with
-  `B ≥ max(3/2, 1 + C²/(16R))`, into the `π`-bound
-  `|π(x) − Li x| ≤ (1 + ν)(1 + μ) A_θ (log x/R)^{B−1} exp(−C √(log x/R)) x` on `[x₁, ∞)` with the
-  explicit `ν = ν(x₀)`, `μ = μ(x₀, x₁)` of their displays (27) and (9); and its instance under
+  159–176, Theorem 3; lines 700–707, Corollary 21; lines 712–726, Corollary 22): the general
+  conversion of an admissible asymptotic `θ`-bound `|θ(x) − x| ≤ A_θ (log x/R)^B exp(−C √(log x/R)) x`
+  on `[x₀, ∞)`, with `B ≥ max(3/2, 1 + C²/(16R))`, into the `π`-bound
+  `|π(x) − Li x| ≤ (1 + μ) A_θ (log x/R)^B exp(−C √(log x/R)) x/log x` on `[x₁, ∞)`, for every
+  `x₁ ≥ max(x₀, exp((1 + C/(2√R))²))`, with the explicit `μ = μ(x₀, x₁)` of their display (9) (the
+  source measures `|π(x) − Li x|` against `x/log x`, lines 29–30 and 149). Starting from an
+  admissible `ψ`-bound with constant `A_ψ`, their Proposition 13 gives `A_θ = (1 + ν) A_ψ` with
+  `ν = ν(x₀)` of display (27) (lines 415–418), whence the factor `(1 + ν)(1 + μ)` of Corollary 21;
+  and its instance under
   *BroadbentRow*, the classical-shape region with `R = 5.5666305` and `RH(3·10¹²)`:
   `|π(x) − Li x| ≤ 9.2211 x √(log x) exp(−0.84768363 √log x)` for `x ≥ 2`. This is the headline `π`
   bound of the classical-region shape; Johnston–Yang's `9.59 x (log x)^{0.515} exp(−0.8274 √log x)`
@@ -1846,6 +1914,12 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
 - Trudgian's region at `|t| = 24`: `6.455 log(24/17) = 2.226 > 2`, so the region `σ ≥ 0.5508` is to
   the right of the critical line; at `|t| = 23` it would be `σ ≥ 0.4875`, and the threshold `24` is
   needed.
+- The `π` conversion with its normalisation: at `B = 3/2`, `C = 2`, `R = 5.5666305`,
+  `(log x/R)^{3/2} x/log x = √(log x) x/R^{3/2}` and `2/√R = 0.84768363`, so Corollary 22's
+  `A_π = 121.107` (admissible for `x > 2`; `121.103` for `x ≥ e^{20 000}` from
+  `A_θ = 121.0961` and `μ ≤ 5.01516·10⁻⁵`) gives `121.107/R^{3/2} = 121.107/13.13375 = 9.2211`. A
+  display with `(log x/R)^{B−1} x` in place of `(log x/R)^B x/log x` would drop the factor `1/R` and
+  give the coefficient `121.1/√R = 51.3` (negative control).
 - Fiori–Kadiri–Swidinsky at `x = 2`: `9.2211 · 2 · 0.8326 · 0.4937 = 7.58 ≥ |π(2) − Li 2| = 1`; the
   bound is below `x/log x` once `9.2211 (log x)^{3/2} e^{−0.8477 √log x} < 1`, for instance at
   `log x = 300` where it is `0.02`.
@@ -1880,12 +1954,28 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   summation of §0.4 from `x₀ = 10¹¹` with the rows of §3.3, and `π(x) < li x` with the comparison
   of the bounds with `li` below `10¹¹`, direct counts at the start.
 - Axler 2024, the headline (`axler-2024`, Integers 24, A34; journal Theorems 2–4 and Proposition 4,
-  arXiv v4 Theorems 1.3–1.4 and Propositions 4.5, 5.3), under the `θ`-bound
-  `|θ(x) − x| < 0.024334 x/log³ x` for `x ≥ 1 757 126 630 797` and the tables of §3.7, Johnston's
-  range of §2.3 (from `RH(3 000 175 332 800)`), `ButheVerified` and *Axler2024Range*:
-  -
-    `π(x) < x/(log x − 1 − 1/log x − 3.024334/log² x − 12.975666/log³ x − 71.048668/log⁴ x − 461.364417856444/log⁵ x − 4331.1/log⁶ x)`
-    for `x ≥ 48`;
+  arXiv v4 Theorems 1.3–1.4 and Propositions 4.5, 5.3). Prove `axler_primeCounting_upper`: from the
+  input `|θ(t) − t| < 0.024334 t/log³ t` for every `t ≥ 1 757 126 630 797`,
+  `RiemannHypothesisUpTo 3 000 175 332 800`, `ButheVerified` and `Buthe2016Range` (the hypotheses
+  of Johnston's range, §2.3) and the first clause of *Axler2024Range* (the bound itself for
+  `48 ≤ x ≤ 10¹⁹`), for every `x ≥ 48`,
+
+  ```text
+  π(x) < x/(log x − 1 − 1/log x − 3.024334/log² x − 12.975666/log³ x − 71.048668/log⁴ x
+          − 461.364417856444/log⁵ x − 4331.1/log⁶ x).
+  ```
+
+  The input is Axler's `θ`-bound of §3.7, so the theorem holds under the tables of §3.7 and
+  *Axler2024Range*. Route: on `[48, 10¹⁹]` the finite clause; on `[10¹⁹, 10²⁶]` Johnston's
+  `|π(x) − li x| ≤ √x log x/(8π)` (`johnston_of_riemannHypothesisUpTo` at
+  `T = 3 000 175 332 800`, whose condition holds up to `1.101·10²⁶`), the bound exceeding `li x` by
+  more than that; beyond `x₁ = 10²⁶`, the partial summation of §0.4 from `x₁`,
+  `π(x) = π(x₁) − θ(x₁)/log x₁ + θ(x)/log x + ∫_{x₁}^x θ(t)/(t log² t) dt`, with Johnston's `π` and
+  `θ` clauses at `x₁` and the input on `[x₁, ∞)`, which gives
+  `π(x) ≤ li x + 0.024334 (x/log⁴ x + ∫_{x₁}^x dt/log⁵ t) + 2 √x₁ log x₁/(8π)`, below the bound for
+  every `x ≥ x₁`. The coefficients `3.024334 = 3 + 0.024334`, `12.975666 = 13 − 0.024334`, … are
+  Panaitopol's `k_m` perturbed by the `θ`-constant `0.024334`. Under the same `θ`-bound, the tables
+  of §3.7, Johnston's range, `ButheVerified` and *Axler2024Range*, the paper's other three bounds:
   -
     `π(x) > x/(log x − 1 − 1/log x − 2.975666/log² x − 13.024334/log³ x − 70.951332/log⁴ x − 460.634397856444/log⁵ x − 3444.031844143556/log⁶ x)`
     for `x ≥ 1 751 189 194 177`;
@@ -1893,12 +1983,10 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
     arXiv v4 Proposition 5.3 proves it on `[65 405 887, e^{1697}]` and from `e^{2256}`);
   - `π(x) < x/(log x − 1 − 1/log x − 3/log² x − 70.935/log³ x)` for `x ≥ 29.53`.
 
-  Route (the paper's §§4–5): beyond the point where the bound exceeds `li x + √x log x/(8π)`,
-  Rosser–Schoenfeld's comparison function built on the `θ`-bound (the partial summation of §0.4
-  with `|θ(t) − t| < η t/log^k t`); between that point and `1.101·10²⁶`, Johnston's
-  `|π(x) − li x| < √x log x/(8π)` (§2.3) and the comparison of the bound with `li`; below `10¹⁹`,
-  *Axler2024Range*. The coefficients `3.024334 = 3 + 0.024334`, `12.975666 = 13 − 0.024334`, … are
-  Panaitopol's `k_m` perturbed by the `θ`-constant `0.024334`.
+  Route for these (the paper's §§4–5): Rosser–Schoenfeld's comparison function built on the
+  `θ`-bound (the partial summation of §0.4 with `|θ(t) − t| < η t/log^k t`) where the bound differs
+  from `li x` by more than `√x log x/(8π)`, Johnston's range below that point and up to
+  `1.101·10²⁶`, and *Axler2024Range* below `10¹⁹`.
 - Axler 2018 (`axler-2018`, Integers 18, A52, Theorems 1.2–1.3), under the `θ`-bound
   `|θ(x) − x| < 0.15 x/log³ x` for `x ≥ 19 035 709 163` (its Theorem 1.1, obtained there from the
   tables of `dusart-2018` and re-proved as Corollary 11.1 of `broadbent-kadiri-lumley-ng-wilk-2021`,
@@ -1978,6 +2066,17 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   `346 065 951 617`; the 2018 lower bound gives `346 063 677 799`. The bound
   `x/(log x − 1 − 1/log x − 3/log² x)` is `664 694 > π(10⁷) = 664 579` at `x = 10⁷`, below its
   threshold, and `5 761 181 < 5 761 455 = π(10⁸)` at `x = 10⁸`.
+- The route of `axler_primeCounting_upper`, with `U(x)` its right side: on `[10¹⁹, 10²⁶]` the excess
+  `U(x) − li x` is at least `12.38 · √x log x/(8π)`, the minimum being at `x = 10¹⁹`; Johnston's
+  condition at `x = 10²⁶` reads `9.06 √(x/log x)/log log x = 2.861·10¹² ≤ 3 000 175 332 800`. At
+  `x₁ = 10²⁶`, `U(x₁) − li x₁ − 0.024334 x₁/log⁴ x₁ = 3.65·10¹⁵` against the constant
+  `2 √x₁ log x₁/(8π) = 4.76·10¹³`, and for large `x` the difference
+  `U(x) − li x − 0.024334 (x/log⁴ x + ∫^x dt/log⁵ t)` is about `881 x/log⁸ x` (`853 x/log⁸ x` at
+  `log x = 1000`): the coefficients cancel the terms in `x/log⁶ x` and `x/log⁷ x` exactly. The
+  finite clause holds on `[48, 2·10⁷]` with least margin `8.7`, at `x = 1627` (checked with a sieve).
+  Starting the partial summation at `10¹⁹` from `ButheVerified` alone fails just above `10¹⁹`
+  (negative control): the term `1.95 √x₁/log x₁ = 1.4·10⁸` exceeds the available margin
+  `2.1·10⁷` there, which is why Johnston's range is an input.
 - Axler 2016 against 2024 (upper bounds): at `log x = 4` they are `72.3` and `95.3`, at `log x = 6`
   `89.8` and `90.0`, at `log x = 10` `2492.1` and `2491.5`, at `log x = 30` the 2024 bound is smaller
   by `4.5·10⁶`: neither implies the other on the whole range, which is why both are stated.
@@ -2168,8 +2267,13 @@ for the initial segments:
   `O*(1/(4 log x))` for `x ≥ 115`. Route: *Ramare2013Range* up to `10¹⁰` (the inequality for
   `1 < x < 8950`, the `1.31/√x` statement and the three `1/log x` forms on `[threshold, 10¹⁰]`,
   finite computations); on `[10¹⁰, 10¹⁹]` Theorem 1.1 with `ButheVerified`, the error being at most
-  `1.44/√x + 1.75·10⁻¹²`; beyond `10¹⁹` for the `1/log x` forms, Theorem 1.1 and Dusart's
-  `0.006409 x/log x` (§3.3), since `1/(2√x) + 1.75·10⁻¹² ≤ 0.000291/log x` there. The route for
+  `1.44/√x + 1.75·10⁻¹²`; beyond `10¹⁹` for the `1/log x` forms, Dusart's `0.006409 x/log x`
+  (§3.3) for `(ψ(x) − x)/x` and, for the integral, the first form of Theorem 1.1 on
+  `10¹⁹ < x ≤ e⁹²⁷⁰`, where `1/(2√x) + 1.75·10⁻¹² ≤ 0.000291/log x` (this fails once
+  `log x > 0.000291/(1.75·10⁻¹²) = 1.663·10⁸`, so the constant term cannot be carried to every `x`),
+  and the second form for `log x ≥ 9270`, whose tail `(1 + 2X) e^{−2X}/(2π)`,
+  `X = √(log x/5.69693)`, is at most `1.2·10⁻³⁴` there and decreases faster than
+  `0.000291/log x`. The route for
   `1.833/log² x` beyond `10¹⁹`: Dusart's bound up to `e²⁸⁶` (`0.006409 log x ≤ 1.833`), Dusart's
   `0.905·10⁻⁷` up to `e⁴⁵⁰⁰`, the Platt–Trudgian rows up to `e^{10⁴}`, and the second form of
   Theorem 1.1 beyond.
@@ -2199,6 +2303,10 @@ for the initial segments:
 - `x = 1`: the sum is empty, `log 1 − γ = −0.5772`, and `1.31/√1 = 1.31 > 0.5772`, so the
   `1 ≤ x` form is consistent at its left end; `1.833/log² x` is unbounded as `x → 1⁺`.
 - At `x = e²²`: `1/(2√x) = 8.35·10⁻⁶ < 0.000291/22 = 1.32·10⁻⁵`, so `0.006409 + 0.000291 = 0.0067`.
+- The first form of Theorem 1.1 alone does not give `0.0067/log x` for every large `x` (negative
+  control): at `log x = 2·10⁸`, `0.000291/log x = 1.455·10⁻¹² < 1.75·10⁻¹²`. At `log x = 9270`, where
+  the second form starts, `X = 40.338` and its tail is `1.19·10⁻³⁴`, against
+  `0.000291/9270 = 3.14·10⁻⁸`.
 - A transfer with a constant `ε` has a divergent tail (§0.7 Checks); the instances use decaying
   error functions.
 - The corrected thresholds have room (computed with a sieve to `2.1·10⁷`): the difference
@@ -2558,21 +2666,26 @@ the general statement does not depend on §5.2.
 - Massias–Robin (`massias-robin-1996`, Théorème A, cited by locator): the constant `1` is admissible in the lower bound for `p_k ≤ e⁵⁹⁸` and for
   `p_k ≥ e¹⁸⁰⁰`, the intermediate range being the one their method could not then close (lines
   163–166 describe the iteration over `[600, 1800]`).
-- Dusart (`dusart-1999-mc` lines 116–125, Theorem 3; line 168): under `RH(545 439 823)`, the
-  hypotheses of §3.3 and *DusartThesisRange*: `p_k ≥ k(log k + log log k − 1)` for every `k ≥ 2`;
+- Dusart (`dusart-1999-mc` lines 116–125, Theorem 3; line 168). Prove `dusart_nth_prime_lower`:
+  from Robin's finite statement (`p_k ≥ k(log k + log log k − 1)` for `k ≥ 2` with `p_k ≤ 10¹¹`),
+  Robin's lower bound for `θ(p_k)` above (for `k ≥ 3`), and the inputs
+  `|θ(x) − x| < 0.0077629 x/log x` for `x > e²²` ((5.6b*) of Schoenfeld's Theorem 7*, §3.2;
+  `schoenfeld-1976` line 772), `|θ(x) − x| < 1.657·10⁷ x/log⁴ x` for `x > 1` ((5.8*)–(5.9*) of his
+  Theorem 8*, lines 1280–1283) and `|ψ(x) − x| ≤ 0.905·10⁻⁷ x` for `x ≥ e⁵⁰` (§3.3), for every
+  `k ≥ 2`, `p_k ≥ k(log k + log log k − 1)`. The inputs are instances of §3.2 and §3.3 (Dusart's
+  `η₄ = 1 717 433` of §3.3 implies the second), so the theorem holds under `RH(545 439 823)`, the
+  hypotheses of §3.3 and *DusartThesisRange*; under the same hypotheses,
   `p_k ≤ k(log k + log log k − 0.9484)` for `k ≥ 39 017`. Route for the first (`dusart-1999-mc`
-  lines 116–159): Robin's finite statement for `p_k ≤ 10¹¹`; in each of the three ranges below,
-  `p_k ≥ θ(p_k) − (θ(p_k) − p_k)` with Robin's lower bound for `θ(p_k)` above, so it suffices that
-  `θ(p_k) − p_k ≤ k (log log k − 2.1454)/log k`. For `10¹¹ ≤ p_k ≤ e⁵⁰⁰`, Schoenfeld's
-  `θ(p_k) − p_k ≤ 0.0077629 p_k/log p_k` ((5.6b*) of Schoenfeld's Theorem 7*, §3.2, valid for
-  `x > e²²`) with `p_k ≤ k log p_k`; for
-  `e⁵⁰⁰ < p_k < e¹⁸⁰⁰`, Dusart's `|ψ(x) − x| ≤ 0.905·10⁻⁷ x` of §3.3 with `θ ≤ ψ` and
-  `p_k ≤ k(log k + log log k)`, which suffices because
-  `0.905·10⁻⁷ ≤ (log log k − 2.1454)/(log k (log k + log log k))` there; for `p_k ≥ e¹⁸⁰⁰`,
-  Dusart's `|θ(x) − x| < η₄ x/log⁴ x` with `η₄ = 1 717 433` (§3.3), which gives
-  `θ(p_k) − p_k ≤ η₄ k/log³ p_k` and suffices because `log² k (log log k − 2.1454) ≥ 1.7·10⁷ > η₄`
-  for `log k ≥ 1792` (the source uses Schoenfeld's `η₄ = 1.657·10⁷` at lines 133–141, which also
-  suffices).
+  lines 116–159): the finite statement for `p_k ≤ 10¹¹`; in each of the three ranges below,
+  `p_k ≥ θ(p_k) − (θ(p_k) − p_k)` with Robin's lower bound for `θ(p_k)`, so it suffices that
+  `θ(p_k) − p_k ≤ k (log log k − 2.1454)/log k`. The source also uses `p_k ≤ k log p_k` and
+  `p_k ≤ k(log k + log log k)` (its Lemma 1); up to a factor `1 + 10⁻³`, which the margins below
+  absorb, both follow from `θ(p_k) ≤ k log p_k` and the lower half of the `θ`-inputs. For
+  `10¹¹ ≤ p_k ≤ e⁵⁰⁰`, `θ(p_k) − p_k < 0.0077629 p_k/log p_k ≤ 1.0004 · 0.0077629 k`; for
+  `e⁵⁰⁰ < p_k < e¹⁸⁰⁰`, the `ψ`-input with `θ ≤ ψ` (Mathlib `Chebyshev.theta_le_psi`), which suffices
+  because `0.905·10⁻⁷ ≤ (log log k − 2.1454)/(log k (log k + log log k))` there; for `p_k ≥ e¹⁸⁰⁰`,
+  the `η₄`-input, which gives `θ(p_k) − p_k ≤ 1.657·10⁷ (1 + 2·10⁻⁶) k/log³ p_k` and suffices
+  because `log k ≥ 1792.5` and `log² k (log log k − 2.1454) ≥ 1.7177·10⁷ > 1.6571·10⁷` there.
 - Dusart's later two-term bounds (`dusart-2018`, Propositions 6.6–6.7 of the arXiv copy), under the
   hypotheses of §3.3 (its `θ` rows, re-proved there through §3.7):
   `p_k ≤ k(log k + log log k − 1 + (log log k − 2)/log k)` for `k ≥ 688 383`, and
@@ -2582,7 +2695,8 @@ the general statement does not depend on §5.2.
   below, the list of primes (`p_k < e²⁷`). The `−1` of Dusart 1999 stays the headline lower bound;
   these are its refinements.
 
-*Needs:* §5.1; §3.2; §3.3; §3.7; §1.3.
+*Needs:* §5.1; §3.2; §3.3; §3.7; §1.3; for `dusart_nth_prime_lower`, only its inputs and Mathlib
+`Nat.nth Nat.Prime`, `Chebyshev.theta`, `Chebyshev.psi`, `Chebyshev.theta_le_psi`.
 
 **Checks.**
 
@@ -2603,6 +2717,11 @@ the general statement does not depend on §5.2.
   `p_k = e¹⁸⁰⁰`, below `0.0077629`. The source's sentence that the minimum over
   `10¹¹ ≤ p_k ≤ e¹⁸⁰⁰` exceeds `c` (`dusart-1999-mc` lines 131–132) should read `e⁵⁰⁰`, the range of
   its first bullet.
+- The inputs of `dusart_nth_prime_lower` at small `k`: Robin's lower bound for `θ(p_k)` holds for
+  every `3 ≤ k ≤ 1 270 677` and the conclusion for every `2 ≤ k ≤ 1 270 677` (checked with a
+  sieve); at `k = 3`, `θ(5) = log 30 = 3.40` against Robin's `3(1.0986 + 0.0940 − 1 − 1.8673) = −5.02`.
+  The third range has a margin of `3.7%` with Schoenfeld's `η₄`: at `log k = 1792.5`,
+  `log² k (log log k − 2.1454) = 3 213 056 · 5.3460 = 1.7177·10⁷`.
 - The middle range of Dusart's route cannot be extended upward: at `log k = 10⁴` the ratio
   `(log log k − 2.1454)/(log k (log k + log log k))` is `7.06·10⁻⁸ < 0.905·10⁻⁷` (it drops below
   `0.905·10⁻⁷` near `log k = 8700`), whereas at `log k = 1792.5` it is `1.66·10⁻⁶`; hence the third
@@ -2632,7 +2751,8 @@ the general statement does not depend on §5.2.
 - Dropping the `−1` changes the estimate by `n = 10⁶`, far outside the error; the third term is
   positive since `log log n > 2` for `n > e^{e²} = 1619`.
 - The expansion is asymptotic, not a bound: at `n = 10` it gives
-  `10(2.3026 + 0.8340 − 1 − 0.5063 − 0.1535) = 14.8` against `p_10 = 29`.
+  `10(2.3026 + 0.8340 − 1 − 0.5064 − 0.6310) = 9.99` against `p_10 = 29`, the third-order term
+  being `−((log log 10)² − 6 log log 10 + 11)/(2 log² 10) = −6.6914/10.6038 = −0.6310`.
 
 ### 5.5 Sums of the first n primes
 
@@ -3209,28 +3329,47 @@ at the parameters of every row, is positive for every `x ≥ x₀`:
   `(x, x(1 + c/log^k x)]` contains a prime: with `y = x(1 + c/log^k x)`,
   `θ(y) − θ(x) ≥ (y − x) − η y/log^k y − η x/log^k x ≥ (c − η(2 + c/log^k x)) x/log^k x > 0`,
   using `log y ≥ log x`.
-- Trudgian (`trudgian-2016` lines 229–236, Corollary 2 and Lemma 1), under the hypotheses of §3.4's
-  Trudgian theorem, *FaberKadiriTable*, *MaximalPrimeGapTable* and *TrudgianRange*:
-  `|θ(x) − x| ≤ 0.0045 x/log² x` for `x ≥ e³⁵` (Faber–Kadiri's rows on `[e³⁵, e⁴⁰⁰⁰]` through the
-  source's Table 1, lines 237–267, then Trudgian's `ε₀` of §3.4 beyond `e⁴⁰⁰⁰`),
-  and `[x, x(1 + 1/(111 log² x))]` contains a prime for every `x ≥ 2 898 242`. The source prints
-  the threshold `2 898 239`, which is false (§1.3 Checks). Route: for `x ≥ e³⁵` the lemma with
+- Trudgian (`trudgian-2016` lines 229–236, Corollary 2 and Lemma 1). Prove `trudgian_interval`:
+  from the input `|θ(t) − t| ≤ 0.0045 t/log² t` for every `t ≥ e³⁵` (Lemma 1 there), the gap bound
+  `p⁺ − p ≤ p/(111 log² p)` for consecutive primes `p < p⁺` with `4 652 353 ≤ p ≤ 4·10¹⁸`, and the
+  interval clause of *TrudgianRange*, for every `x ≥ 2 898 242` the interval
+  `[x, x(1 + 1/(111 log² x))]` contains a prime. The source prints the threshold `2 898 239`, which
+  is false (§1.3 Checks). The gap bound follows from *MaximalPrimeGapTable* (§1.4): a prime
+  `p ≥ 4 652 353` below the next record `P_{i+1}` has `p⁺ − p ≤ g_i`, every record with
+  `P_{i+1} > 4 652 353` has `g_i ≤ q/(111 log² q)` at `q = max(P_i, 4 652 353)`, and the length
+  `q/(111 log² q)` increases. The input holds under the hypotheses of §3.4's Trudgian theorem and
+  *FaberKadiriTable* (Faber–Kadiri's rows on `[e³⁵, e⁴⁰⁰⁰]` through the source's Table 1, lines
+  237–267, then Trudgian's `ε₀` of §3.4 beyond `e⁴⁰⁰⁰`). Route: for `x ≥ e³⁵` the lemma with
   `η = 0.0045`, `k = 2`, `c = 1/111`; for `4 652 353 ≤ x ≤ 4·10¹⁸` (a range containing
-  `[4 652 353, e³⁵]`, `e³⁵ = 1.59·10¹⁵`) *MaximalPrimeGapTable*, because every record `(P_i, g_i)`
-  with `P_i ≥ 4 652 353` has `g_i ≤ P_i/(111 log² P_i)` and the length `x/(111 log² x)` increases,
-  so the gap containing `x` ends inside the interval; for `2 898 242 ≤ x ≤ 4 652 353`,
-  *TrudgianRange*.
+  `[4 652 353, e³⁵]`, `e³⁵ = 1.59·10¹⁵`) the gap bound: with `p` the largest prime `≤ x` (so
+  `p ≥ 4 652 353`, a prime) and `p⁺` the next, `p⁺ ≤ p + p/(111 log² p) ≤ x + x/(111 log² x)`; for
+  `2 898 242 ≤ x ≤ 4 652 353`, *TrudgianRange*.
 - Axler 2024, the headline at the `log³`, `log⁴` and `log⁵` scales (`axler-2024` Theorem 1.2 of
-  arXiv v4, journal Theorem 1), under the tables of §3.7, *MaximalPrimeGapTable* and
-  *Axler2024Range*: for every `x ≥ 17 051 708` there is a prime in
-  `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]`; for every `x ≥ 2` there is a prime in
-  `(x, x(1 + (114.368 + 2.145·10⁻¹⁰)/log⁴ x)]` and one in `(x, x(1 + (268 820 + 5.0363·10⁻⁷)/log⁵ x)]`.
-  Route: the lemma above with the rows of §3.7 — the relative rows (`k = 0`) up to a switch point
-  and the `k`-th row (`η₃ = 0.024334`, `η₄ = 57.184`, `η₅ = 1.3441·10⁵`) beyond it, the leading
-  constants being `2η_k` and the small additions the second-order term `2η_k²/log^k x₀` of the lemma's
-  condition at the switch point; *MaximalPrimeGapTable* on `[2·10⁷, 4·10¹⁸]`, every record
-  `(P_i, g_i)` there satisfying `g_i ≤ k P_i/log^n P_i`; *Axler2024Range* on `[17 051 708, 2·10⁷]`
-  for the first, and the list of primes up to `2·10⁷` for the other two.
+  arXiv v4, journal Theorem 1). Prove `axler_interval`: with `c = 0.048668 + 8.22·10⁻¹¹`, from the
+  inputs `|θ(t) − t| < 2.1482·10⁻⁸ t` for `t > e⁴⁰` and `|θ(t) − t| < 1.1344·10⁻⁹ t` for `t > e⁵⁰`
+  (the rows `log X₀ = 40` and `50` of `broadbent-kadiri-lumley-ng-wilk-2021` Table 14, lines 1669
+  and 1672, whose `m₀` exceeds `M₀`) and `|θ(t) − t| < 0.024334 t/log³ t` for `t > e²⁹` (the row
+  `log X₀ = 29` of Table 15, line 1727), the gap bound `p⁺ − p ≤ c p/log³ p` for consecutive primes
+  `p < p⁺` with `p⁺ ≥ 2·10⁷` and `p ≤ 4·10¹⁸`, and the interval clause of *Axler2024Range*, for
+  every `x ≥ 17 051 708` the interval `(x, x(1 + c/log³ x)]` contains a prime. The three inputs are
+  rows of *BKLNWThetaTables* (§3.7), and the gap bound follows from *MaximalPrimeGapTable* as in
+  Trudgian's case, the closest records being `(17 051 707, 180)` at `q = 2·10⁷ − 180` (length
+  `204.9`) and `(20 831 323, 210)` (length `211.8`). Route: on `[17 051 708, 2·10⁷]`
+  *Axler2024Range*; on `[2·10⁷, 4·10¹⁸]` the gap bound, with `p` the largest prime `≤ x`; for
+  `x > e⁴⁰`, with `y = x(1 + c/log³ x)` and a relative row `|θ(t) − t| < ε t`,
+  `θ(y) − θ(x) > (y − x) − ε (x + y) ≥ 0` as soon as `ε (2 + c/log³ x) ≤ c/log³ x`, which the row
+  `ε = 2.1482·10⁻⁸` gives for `log x ≤ 104` and the row `ε = 1.1344·10⁻⁹` for `log x ≤ 277`; for
+  `x ≥ e²⁵⁰`, the lemma with `η = 0.024334`, `k = 3`, `x₀ = e²⁵⁰`, whose condition
+  `c (1 − η/250³) > 2η` holds with `6.4·10⁻¹²` to spare. The leading constant is `2η₃` and the
+  addition `8.22·10⁻¹¹` is the second-order term `2η₃²/log³ x₀` of the lemma's condition at the
+  switch point, which must satisfy `log x₀ > 243.31`. Under the tables of §3.7,
+  *MaximalPrimeGapTable* and the list of primes up to `2·10⁷`, the paper's other two intervals: for
+  every `x ≥ 2` there is a prime in `(x, x(1 + (114.368 + 2.145·10⁻¹⁰)/log⁴ x)]` and one in
+  `(x, x(1 + (268 820 + 5.0363·10⁻⁷)/log⁵ x)]`. Route for these: the same scheme with the relative
+  rows up to a switch point and the `k`-th row (`η₄ = 57.184`, `η₅ = 1.3441·10⁵`) beyond it, the
+  leading constants being `2η_k` and the additions `2η_k²/log^k x₀`; *MaximalPrimeGapTable* on
+  `[2·10⁷, 4·10¹⁸]`, every record there satisfying `g_i ≤ c_n P_i/log^n P_i` with `c_n` the
+  constant of the `log^n` interval; the list of primes below `2·10⁷`.
 - Axler 2018 (`axler-2018` Theorem 1.4), kept for `6 034 256 ≤ x < 17 051 708` and for its `log⁴`
   form, under the same inputs and *Axler2018Range*: for every `x ≥ 6 034 256` there is a prime in
   `(x, x(1 + 0.087/log³ x)]`, and for every `x > 1` one in `(x, x(1 + 198.2/log⁴ x)]`. Route: the
@@ -3252,7 +3391,8 @@ at the parameters of every row, is positive for every `x ≥ x₀`:
   has `g_i ≤ P_i/(5000 log² P_i)` (the closest is `(1 294 268 491, 288)`, with length `588`), and
   *Dusart2018Range* on `[468 991 632, 10⁹]`.
 
-*Needs:* §3.1 (*FaberKadiriTable*); §3.3; §3.4; §3.5; §3.7; §1.3; §1.4.
+*Needs:* §3.1 (*FaberKadiriTable*); §3.3; §3.4; §3.5; §3.7; §1.3; §1.4; for `trudgian_interval`
+and `axler_interval`, only their inputs and Mathlib `Chebyshev.theta`, `Nat.nth Nat.Prime`.
 
 **Checks.**
 
@@ -3292,6 +3432,13 @@ at the parameters of every row, is positive for every `x ≥ x₀`:
 - Axler's `c = 1.1817` with `k = 3` requires `η < 0.59`, and Dusart's row `η = 1/2` satisfies the
   lemma's condition with `c = 1.1817` but not with `c = 1`: the interval `[x, x(1 + 1/log³ x)]` is
   not a consequence of the row `(1/2, 767 135 587)`.
+- The ranges of `axler_interval` overlap: `e⁴⁰ = 2.35·10¹⁷ < 4·10¹⁸`, the row `ε = 2.1482·10⁻⁸`
+  covers `log x ≤ 104.2`, the row `ε = 1.1344·10⁻⁹` covers `log x ≤ 277.9` (at `log x = 250`,
+  `ε (2 + c/log³ x) = 2.27·10⁻⁹ < c/log³ x = 3.11·10⁻⁹`), and the `k = 3` lemma covers
+  `log x ≥ 250`. With the `k = 3` row alone from `e²⁹` the condition would need
+  `c > 2η/(1 − η/29³) = 0.048668 + 4.86·10⁻⁸` (negative control): the relative rows are what keep the
+  addition at `8.22·10⁻¹¹`. The interval clauses of *TrudgianRange* on `[2 898 242, 4 652 353]` and
+  of *Axler2024Range* on `[17 051 708, 2·10⁷]` hold at every point (checked with a sieve).
 
 ### 7.5 Primes between consecutive powers
 
@@ -3417,7 +3564,9 @@ theorem named, through the quotation named where there is one.
 
 - `montgomery-vaughan-1973` H. L. Montgomery, R. C. Vaughan, The large sieve, Mathematika 20 (1973),
   Theorem 2 (cited by locator); `tmeemt-art14` the TME-EMT page on sieve bounds (Art14), which quotes that
-  theorem with its hypotheses.
+  theorem with its hypotheses; `montgomery-1978` H. L. Montgomery, The analytic principle of the
+  large sieve, Bull. Amer. Math. Soc. 84 (1978), §6 (the weighted inequality, display (16)) and §8
+  (the passage from the large sieve to the sieve bound and to Brun–Titchmarsh).
 - `rosser-schoenfeld-1962` J. B. Rosser, L. Schoenfeld, Approximate formulas for some functions of
   prime numbers, Illinois J. Math. 6 (1962).
 - `rosser-schoenfeld-1975` J. B. Rosser, L. Schoenfeld, Sharper bounds for the Chebyshev functions
