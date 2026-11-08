@@ -13,29 +13,29 @@ tower is built from Mathlib's schemes and Tau Ceti's divisor classes, coherent c
 Picard functors and abelian varieties: line bundles, divisors and degree (Layer A); coherent
 cohomology over `k` with finiteness, Serre duality through a named trace and Riemann–Roch
 (Layer B); relative coherent cohomology, base change and symmetric powers (Layer C); the relative
-Picard functor, its representability and the Jacobian by Galois descent (Layer D); abelian
+Picard functor, its representability and the Jacobian over any field (Layer D); abelian
 varieties, duals, polarizations and multiplication (Layer E); Abel–Jacobi, genus one, the closed
 immersion and base change (Layer F).
 
 ## Scope and ownership
 
-**Owned here.** The curve applications of the Weil/Cartier divisor, line-bundle and degree APIs
-on the standing curve (Layer A); coherent sheaves and their cohomology on a proper scheme over
-`k` with finite-dimensionality, the genus, Serre duality through the residue trace on smooth
-curves, and Riemann–Roch for line bundles on the standing curve without a rational point
-(Layer B); coherence of higher direct images under proper morphisms over locally Noetherian
-bases without flatness, flat base change over a non-affine base, semicontinuity and cohomology
-and base change in every degree, Grauert's theorem, and the Hilbert scheme of points (symmetric
-powers) of a curve (Layer C); the Picard functor, sheaf and rigidified functor and their
-comparison, the Picard–Brauer obstruction, the Picard scheme as a named representing object over
-an arbitrary base, Hilbert quotients for Picard charts, representability of the Picard scheme of
-a projective geometrically integral scheme over any field, the degree-zero piece and the Abel
-maps of a curve, the neutral component with its smoothness, properness and projectivity, and
-the Jacobian over any field by Galois descent (Layer D); the theorems of the cube
-and square, projectivity of abelian varieties, the dual abelian variety with its Poincaré bundle
-and duality API, polarizations and theta, the Picard pullback along the Abel map and
-autoduality, and multiplication by `n` (Layer E); the Abel–Jacobi morphism, its Albanese
-property, the genus-one and closed-immersion theorems and base change (Layer F).
+**Owned here.** The curve applications of the Weil/Cartier divisor, line-bundle and degree APIs on
+the standing curve (Layer A); coherent sheaves and their cohomology on a proper scheme over `k` with
+finite-dimensionality, the genus, Serre duality through the residue trace on smooth curves, and
+Riemann–Roch for line bundles on the standing curve without a rational point (Layer B); coherence of
+higher direct images under proper morphisms over locally Noetherian bases without flatness, flat
+base change over a non-affine base, semicontinuity and cohomology and base change in every degree,
+Grauert's theorem, and the Hilbert scheme of points (symmetric powers) of a curve (Layer C); the
+Picard functor, sheaf and rigidified functor and their comparison, the Picard–Brauer obstruction,
+the Picard scheme as a named representing object over an arbitrary base, Hilbert quotients for
+Picard charts, representability of the Picard scheme of a projective geometrically integral scheme
+over any field, the degree-zero piece and the Abel maps of a curve, the neutral component with its
+smoothness, properness and projectivity, and the Jacobian over any field with its field base change
+(Layer D); the theorem of the cube for products of varieties over a field and the theorem of the
+square, projectivity of abelian varieties, the dual abelian variety with its Poincaré bundle and
+duality API, polarizations and theta, the Picard pullback along the Abel map and autoduality, and
+multiplication by `n` (Layer E); the Abel–Jacobi morphism, its Albanese property, the genus-one and
+closed-immersion theorems and the base change of the Abel–Jacobi morphism (Layer F).
 
 **Left to other roadmaps.**
 
@@ -184,19 +184,43 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
 - Coherent sheaves and cohomology: `FinitelyPresentedSheaf`
   (`TauCeti/AlgebraicGeometry/FinitelyPresentedSheaf/Basic.lean`), `Scheme.Modules.Cohomology`
   with its `k`-module structure and `Scheme.Modules.cohomologyMapBaseLinear`, `Scheme.genus`,
-  `Scheme.relativeDifferentials`, `relativeDifferentialsIsoDivisorSheaf`,
-  `SchemeWeilDivisor.repartitionToCohomologyOne`,
+  `Scheme.relativeDifferentials`, `relativeDifferentialsIsoDivisorSheaf` (on an integral curve
+  with exact constants, from a separating transcendental element and the divisor of its Weil
+  differential), `SchemeWeilDivisor.repartitionToCohomologyOne` with the quotient equivalence
+  `SchemeWeilDivisor.repartitionQuotientEquivCohomologyOne`
+  (`WeilDivisor/Scheme/PrincipalParts/RepartitionCohomology.lean`),
   `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero`,
   `genus_eq_genus_functionField`, `finrank_cohomology_zero_relativeDifferentials`,
   `finrank_cohomology_zero_sub_finrank_cohomology_zero_differentials_tensor_dual`,
-  `eulerDegree_relativeDifferentials`.
+  `eulerDegree_relativeDifferentials`. A quasi-coherent sheaf has no cohomology in positive degree
+  on an affine open, `Scheme.Modules.subsingleton_cohomologyOn_succ_of_isAffineOpen`
+  (`Cohomology/Affine.lean`), and the Čech complex of a finite open cover with affine finite
+  intersections computes `Hⁿ(X, M)` for quasi-coherent `M`,
+  `Scheme.Modules.homologyCechComplexIsoCohomology` (`Cohomology/Cech/Basic.lean`). On a smooth
+  proper connected curve of relative dimension one over `k`, a quasi-coherent sheaf has no
+  cohomology in degrees at least two and finite-dimensional cohomology when it is of finite type,
+  `Scheme.Modules.subsingleton_cohomology_of_two_le_of_smooth` and
+  `Scheme.Modules.finiteDimensional_cohomology_of_smooth` (`Curves/Cohomology.lean`). Serre
+  duality for line bundles as the existence of a linear equivalence
+  `H¹(X, L)^∨ ≃ H⁰(X, ω ⊗ L⁻¹)`, with no pairing selected:
+  `InvertibleSheaf.nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual` for a
+  representative `ω` of the canonical class (`LineBundle/SerreDuality.lean`) and
+  `nonempty_cohomologyOneDualEquivCohomologyZero_differentials_tensor_dual` for `ω = Ω_{X/k}`
+  over an exact constant field (`Modules/Differentials/Canonical.lean`); the pairing of
+  `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero` is `(f, a) ↦ ω(f · a)` on repartitions,
+  `SchemeWeilDivisor.cohomologyOneDualEquivCohomologyZero_symm_apply_repartitionToCohomologyOne`
+  (`WeilDivisor/Scheme/SerreDuality.lean`).
 - Relative cohomology. `Scheme.Hom.higherDirectImage f q`, the right derived functors `R^q f_*`
   of pushforward on all sheaves of modules, for every morphism, with no properness, flatness or
   finiteness (`TauCeti/AlgebraicGeometry/Cohomology/HigherDirectImage/Basic.lean`); their
   vanishing in positive degree along closed immersions,
   `isZero_higherDirectImage_succ_of_isClosedImmersion` (`HigherDirectImage/ClosedImmersion.lean`),
   and finite presentation along finite morphisms to a locally Noetherian base,
-  `isFinitePresentation_higherDirectImage_of_isFinite` (`HigherDirectImage/Affine.lean`). Flat
+  `isFinitePresentation_higherDirectImage_of_isFinite` (`HigherDirectImage/Affine.lean`); their
+  vanishing in positive degree along affine morphisms on quasi-coherent sheaves,
+  `Scheme.Hom.isZero_higherDirectImage_succ_of_isAffineHom` (`HigherDirectImage/Affine.lean`);
+  and their formation is local on the target, `Scheme.Hom.higherDirectImageRestrictIso`
+  (`HigherDirectImage/Restrict.lean`). Flat
   base change over an affine base: for `X` quasi-compact with affine diagonal over a ring `R`,
   `R → R'` flat and `M` quasi-coherent, the canonical map `R' ⊗_R Hⁿ(X, M) → Hⁿ(X_{R'}, M_{R'})`
   is bijective, `bijective_cohomologyBaseChange`, with the linear equivalence
@@ -232,20 +256,26 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `Place.traceResidue_coord_smul_eq_repartitionDualComponent` (local components are trace
   residues at places with separable residue field), in
   `TauCeti/FieldTheory/FunctionField/Differential/{Comparison,LocalComponent,Independence}.lean`.
-- Picard functors: `rigidifiedPicardFunctor`, `rigidifiedPicardDegreeZeroFunctorIso`,
-  `relativePicardFppfSheaf` (group-valued, `AddCommGrpCat.{u+1}`, no representability asserted),
-  `relativePicardPresheafBaseChangeIso`, `relativePicardFiberDegree`,
-  `relativePicardDegreeZeroFppfSheaf`, `relativePicardDegreeZeroFppfSheafι`,
-  `relativePicardDegreeZeroFunctorBaseChangeIso`, `abelJacobiMapOfDegree`,
+- Picard functors: `rigidifiedPicardFunctor`, the degree-zero rigidified functor
+  `rigidifiedPicardDegreeZeroFunctor` with `rigidifiedPicardDegreeZeroFunctorIso`
+  (`PicardFunctor/PicZero/Rigidified.lean`), `relativePicardFppfSheaf` (group-valued,
+  `AddCommGrpCat.{u+1}`, no representability asserted), `relativePicardPresheafBaseChangeIso`,
+  `relativePicardFiberDegree`, the degree-zero presheaf `relativePicardDegreeZeroFunctor`,
+  `relativePicardDegreeZeroFppfSheaf`, `relativePicardDegreeZeroFppfSheafι`, the presheaf base
+  change `relativePicardDegreeZeroFunctorBaseChangeIso` and the base change of a representing
+  object of the presheaf, `relativePicardDegreeZeroFunctorBaseChangeRepresentableBy`
+  (`PicardFunctor/PicZero/BaseChange.lean`), `abelJacobiMapOfDegree`,
   `abelJacobiMapToPicZeroFppf` (`TauCeti/AlgebraicGeometry/PicardFunctor/*`).
 - Relative effective Cartier divisors: `relativeEffectiveCartierDegreeSubfunctor` and
   `relativeEffectiveCartierDegreeOneSection`
   (`TauCeti/AlgebraicGeometry/EffectiveCartierDivisor/Degree/Basic.lean`).
-- Descent: `DescentDatum` and `DescentDatum.exists_isAffine_baseChange_hom_isIso`.
 - Abelian varieties: `AbelianVariety` (fields `toOver`, `grpObj`, `isProper`,
-  `geometricallyIntegral`), its `Hom`, `dim`, `baseChange`, `mulBy`, `IsIsogeny`, and
-  `AbelianVariety.IsAlbanese` with `isAlbanese_of_isIso`
-  (`TauCeti/AlgebraicGeometry/AbelianVariety/*`).
+  `geometricallyIntegral`), its `Hom`, `dim`, `baseChange` with
+  `AbelianVariety.baseChange_toOver` (the underlying object of `A.baseChange L` is the pullback
+  of `A.toOver`, `AbelianVariety/Basic.lean`), `mulBy`, `IsIsogeny`, the tangent space at the
+  identity `AbelianVariety.TangentSpace` with `finrank_tangentSpace_eq_dim` (its dimension is
+  `dim A`, `AbelianVariety/TangentSpace.lean`), and `AbelianVariety.IsAlbanese` with
+  `isAlbanese_of_isIso` (`TauCeti/AlgebraicGeometry/AbelianVariety/*`).
 
 ### From `TauCetiRoadmap.SchemeAndStackFoundations`
 
@@ -261,19 +291,19 @@ two roadmaps document this target-level direction.
 
 ## How to read the build
 
-Layer A fixes the line-bundle, divisor and degree vocabulary on a curve over `k`. Layer B
-builds coherent cohomology over `k`, finiteness, the genus, Serre duality through the residue
-trace on smooth curves and Riemann–Roch for line bundles. Layer C is the relative theory that
-the classical symmetric-power argument quietly relies on: coherence of higher direct images,
-base change, semicontinuity, and the Hilbert scheme of points (symmetric powers) of the curve.
-Layer D builds, in this order, the Picard functor, the Picard scheme as a named representing
-object over any base, Hilbert quotients and representability for projective geometrically
-integral schemes, the curve's degree-zero piece and Abel maps, its neutral component with
-smoothness and properness, and the Jacobian over any field by Galois descent. Layer E supplies
-the abelian-variety theory (cube, dual, polarizations, the Picard pullback along the Abel map,
-multiplication). Layer F states the Abel–Jacobi morphism, its Albanese property, the genus-one
-isomorphism, the closed immersion and base change. `Suggested.lean` states the headline theorems
-of Layers B–F against the pinned libraries.
+Layer A fixes the line-bundle, divisor and degree vocabulary on a curve over `k`. Layer B builds
+coherent cohomology over `k`, finiteness, the genus, Serre duality through the residue trace on
+smooth curves and Riemann–Roch for line bundles. Layer C is the relative theory that the classical
+symmetric-power argument quietly relies on: coherence of higher direct images, base change,
+semicontinuity, and the Hilbert scheme of points (symmetric powers) of the curve. Layer D builds, in
+this order, the Picard functor, the Picard scheme as a named representing object over any base,
+Hilbert quotients and representability for projective geometrically integral schemes, the curve's
+degree-zero piece and Abel maps, its neutral component with smoothness and properness, and the
+Jacobian over any field with its field base change. Layer E supplies the abelian-variety theory
+(cube, dual, polarizations, the Picard pullback along the Abel map, multiplication). Layer F states
+the Abel–Jacobi morphism, its Albanese property, the genus-one isomorphism, the closed immersion and
+the base change of the Abel–Jacobi morphism. `Suggested.lean` states the headline theorems of Layers
+B–F against the pinned libraries.
 
 ## Layer A: line bundles, divisors, Picard group, degree
 
@@ -358,7 +388,7 @@ group (A.2–A.3); the pointless real conic, whose line bundles all have even de
 Mathlib schemes and invertible sheaves; Tau Ceti `LineBundleClass`, `Scheme.CartierDivisor`,
 `SchemeWeilDivisor`, `InvertibleSheaf.eulerDegree`. No other layer.
 
-## Layer B: coherent cohomology over `k`: Serre duality, genus, Riemann–Roch
+## Layer B: coherent cohomology over `k`: genus, Riemann–Roch, Serre duality
 
 ### B.1 Coherent sheaves and cohomology
 
@@ -690,20 +720,21 @@ pinned base-change and semicontinuity files, `relativeEffectiveCartierDegreeSubf
 ### D.1 The Picard functor, sheaf and rigidified functor
 
 For `f : X → Spec k` proper, flat, finitely presented with geometrically integral fibres (so
-`f_*𝒪_X = 𝒪` universally), `Pic_{X/k}` is the fppf sheafification of `T ↦ Pic(X_T)/Pic(T)`,
-Tau Ceti's `relativePicardFppfSheaf f`. Keep the three notions distinct (Picard *stack* versus
-*functor/sheaf* versus *rigidified functor*), and record the obstruction (`Br`-flavoured)
-between `Pic(X_T)/Pic(T)` and `Pic_{X/k}(T)`. The section `x₀` rigidifies it (line bundles
-trivialized along `x₀,T`; the Poincaré bundle) and removes that obstruction. Identify the
-rigidified classes naturally with the existing
-`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor f x₀ hx₀`, preserving pullback and tensor
-product. Prove the obstruction sequence
-`0 → Pic(T) → Pic(X_T) → Pic_{X/k}(T) → H²_fppf(T, 𝔾_m) → H²_fppf(X_T, 𝔾_m)`. Use
-invertible-sheaf descent from SchemeAndStackFoundations §1.1, its §2.11's identification of
-`H¹_fppf(−, 𝔾_m)` with the Picard group, and §2.2's Leray sequence (Stacks
-[0B9N](https://stacks.math.columbia.edu/tag/0B9N); Kleiman, *The Picard scheme*, Theorem 2.5,
-pp. 17–18). *Needs:* A.1, C.2; SchemeAndStackFoundations §1.1, §2.2, §2.11; Tau Ceti
-`relativePicardFppfSheaf`, `rigidifiedPicardFunctor`.
+`f_*𝒪_X = 𝒪` universally), `Pic_{X/k}` is the fppf sheafification of `T ↦ Pic(X_T)/Pic(T)`, Tau
+Ceti's `relativePicardFppfSheaf f`. Keep the three notions distinct (Picard *stack* versus
+*functor/sheaf* versus *rigidified functor*), and record the obstruction (`Br`-flavoured) between
+`Pic(X_T)/Pic(T)` and `Pic_{X/k}(T)`. The section `x₀` rigidifies it (line bundles trivialized along
+`x₀,T`; the Poincaré bundle) and removes that obstruction: with a section and `𝒪_T = f_{T*}𝒪_{X_T}`
+universally, `0 → Pic(T) → Pic(X_T) → Pic_{X/k}(T) → 0` is exact and split by `x₀,T^*` (Stacks
+[0B9N](https://stacks.math.columbia.edu/tag/0B9N)). Identify the rigidified classes naturally with
+the existing `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor f x₀ hx₀`, preserving pullback and
+tensor product. Prove the obstruction sequence
+`0 → Pic(T) → Pic(X_T) → Pic_{X/k}(T) → H²_fppf(T, 𝔾_m) → H²_fppf(X_T, 𝔾_m)`. Use invertible-sheaf
+descent from SchemeAndStackFoundations §1.1, its §2.11's identification of `H¹_fppf(−, 𝔾_m)` with
+the Picard group, and §2.2's Leray sequence (Kleiman, *The Picard scheme*, Remark 2.11, sequence
+(2.11.4) and the paragraph after it, pp. 20–21; its first three terms are Stacks
+[0B9M](https://stacks.math.columbia.edu/tag/0B9M)). *Needs:* A.1, C.2; SchemeAndStackFoundations
+§1.1, §2.2, §2.11; Tau Ceti `relativePicardFppfSheaf`, `rigidifiedPicardFunctor`.
 
 **Checks.**
 - For `ℙ¹_k` with a rational point, the rigidified functor is the sheaf of locally constant
@@ -786,7 +817,7 @@ complete linear systems. Apply D.3 and glue these open quotients. Supply the nat
 representing comparison on all test schemes, the tensor-product group law, the unit and
 inverse, and coherent field base change. Each fixed-Hilbert-polynomial piece is an increasing
 union of open quasi-projective schemes; these quasi-compact open charts are of finite
-presentation over `k` (Kleiman, Theorems 2.5, 4.8 and Lemma 4.9, pp. 17–18, 27–31; Stacks
+presentation over `k` (Kleiman, Theorems 2.5, 4.8 and Lemma 4.9, pp. 18, 27–31; Stacks
 [01TP](https://stacks.math.columbia.edu/tag/01TP), [01TX](https://stacks.math.columbia.edu/tag/01TX)).
 Extend the locally Noetherian test-scheme construction to arbitrary tests using
 finite-presentation limits from SchemeAndStackFoundations §0.9 and invertible-sheaf descent;
@@ -819,15 +850,19 @@ Tau Ceti `relativePicardFppfSheaf`.
 
 ### D.5 The degree-zero piece and the Abel maps of the curve
 
-For the standing curve `X` over `k` (with `hasPicardScheme_of_curve`, no rational point), the
-fibre degree of a class on `X_T` (Tau Ceti's
+For the standing curve `X` over `k` (with `hasPicardScheme_of_curve`, no rational point), write
+`picZeroSets X` for Tau Ceti's `relativePicardDegreeZeroFppfSheaf X.hom` as a presheaf of sets
+on `Over (Spec k)`. The fibre degree of a class on `X_T` (Tau Ceti's
 `relativePicardFiberDegree`) is a locally constant function on every test scheme `T`, by local
 constancy of the Euler characteristic in flat proper families (C.2; Stacks
 [0B9T](https://stacks.math.columbia.edu/tag/0B9T)) on locally Noetherian `T`
 and by the finite-presentation limits of SchemeAndStackFoundations §0.9 on arbitrary `T`. So
-Tau Ceti's `relativePicardDegreeZeroFppfSheaf X.hom` is represented, through
-`relativePicardDegreeZeroFppfSheafι`, by an open and closed subgroup scheme `Pic⁰_{X/k}` of
-`picardScheme X.hom`; D.8 identifies it with the Jacobian scheme. The degree-`d` pieces
+`relativePicardDegreeZeroFppfSheaf X.hom` is represented, through
+`relativePicardDegreeZeroFppfSheafι`, by the locus of fibre degree zero, an open and closed
+subgroup scheme `Pic⁰_{X/k}` of `picardScheme X.hom`. This proves
+`isRepresentable_picZeroSets`, the representability of the degree-zero Picard sheaf of the
+standing curve over any field, with no rational point and no extension of `k`; D.8 names its
+representing object. The degree-`d` pieces
 `Pic^d_{X/k}` and their torsor structure under `Pic⁰_{X/k}` are SchemeAndStackFoundations §3.6
 (`picardComponent`, `picardComponent_torsor`), and over a general base they are
 JacobianChallengePartII §§0.1–0.2 and 0.4; this roadmap uses `Pic^d` only through the
@@ -903,64 +938,70 @@ Theorem 4.8(2), pp. 27–31). *Needs:* C.4, D.4–D.6.
 - In genus two `AJ_2` has positive-dimensional fibres over special classes; properness and
   projectivity do not require it to be a finite morphism.
 
-### D.8 The Jacobian over any field, by Galois descent
+### D.8 The Jacobian over any field
 
 Drop the rational point: let `X/k` be smooth, proper and geometrically connected of dimension
-one, and write `picZeroSets X` for Tau Ceti's `relativePicardDegreeZeroFppfSheaf X.hom` as a
-presheaf of sets on `Over (Spec k)`. Choose a finite Galois extension `l/k` with `X(l)`
-nonempty (Stacks [056U](https://stacks.math.columbia.edu/tag/056U): closed points with finite
-separable residue field are dense; take the Galois closure of one residue field). D.4–D.7 apply
-to `X_l` with an `l`-point: `Pic⁰_{X_l/l}` is a smooth, projective, geometrically connected
-group scheme of dimension `g`. Tau Ceti's `relativePicardDegreeZeroFunctorBaseChangeIso`, after
-sheafification, identifies `Pic⁰` of `X_l` with `Pic⁰` of `X` restricted along `Over.map`, so
-the two pullbacks of `Pic⁰_{X_l/l}` to `Spec (l ⊗_k l)` represent the same sheaf; uniqueness of
-representing objects gives a descent datum for `Spec l ⟶ Spec k` in the sense of Tau Ceti's
-`DescentDatum`, whose cocycle condition is automatic and which respects the group law; in Galois
-form it is a semilinear action of `Gal(l/k)`, the dictionary that Stacks
-[0CDR](https://stacks.math.columbia.edu/tag/0CDR) states for quasi-coherent modules. Descend it:
-every `Gal(l/k)`-orbit of points of the projective `Pic⁰_{X_l/l}` lies in an affine open (Stacks
-01ZY), and intersecting the Galois conjugates gives a cover by stable affine opens; each
-descends by Tau Ceti's `DescentDatum.exists_isAffine_baseChange_hom_isIso` (descent data on
-affine morphisms are effective, Stacks [0245](https://stacks.math.columbia.edu/tag/0245)), and the
-pieces glue by Mathlib's scheme gluing (a descent datum that is effective on a stable open cover
-is effective, Stacks [0AP4](https://stacks.math.columbia.edu/tag/0AP4)). The descended `k`-scheme represents `picZeroSets X` on all test
-schemes, by the sheaf condition along the fppf covering `Spec l ⟶ Spec k`: this proves
-`isRepresentable_picZeroSets`, the representability of the degree-zero Picard sheaf over any
-field, which D.5 identifies with the open and closed subgroup scheme `Pic⁰_{X/k}` of
-`picardScheme`. With it in scope (the instance `instIsRepresentablePicZeroSets`) the
-**Jacobian scheme** is `jacobianScheme X := (picZeroSets X).reprX`, its representation is
+one. With D.5's `isRepresentable_picZeroSets` in scope (the instance
+`instIsRepresentablePicZeroSets`), the **Jacobian scheme** is
+`jacobianScheme X := (picZeroSets X).reprX`, its representation is
 `jacobianSchemeRepresentableBy X : (picZeroSets X).RepresentableBy (jacobianScheme X)`, and
 its group law is tensor product of degree-zero classes transported along that representation
 (the instance `jacobianSchemeCommGrpObj`, Mathlib's `CommGrpObj.ofRepresentableBy` applied to
-the sheaf written multiplicatively through `AddCommGrpCat.toCommGrp`). Prove
+the sheaf written multiplicatively through `AddCommGrpCat.toCommGrp`). Uniqueness of
+representing objects (Mathlib's `Functor.RepresentableBy.isoReprX`) identifies
+`jacobianScheme X` with D.5's open and closed subgroup scheme `Pic⁰_{X/k}` of `picardScheme`,
+compatibly with the two representations and the group laws. The definition uses no rational
+point and no extension of `k`.
+
+**Field base change.** For every field extension `K/k`, prove that the base change
+`(jacobianScheme X)_K` represents the degree-zero Picard fppf sheaf of the curve `X_K`, with no
+rational point. D.2's base change gives `picardScheme (X_K).hom ≅ (picardScheme X.hom)_K`
+compatibly with `picardSchemeIso`, and it carries the degree-zero piece onto the degree-zero
+piece: Tau Ceti's `relativePicardDegreeZeroFunctorBaseChangeIso` is the restriction of
+`relativePicardPresheafBaseChangeIso` to the classes of fibre degree zero, because the fibre of
+`X_K ×_K T` over a point of a `K`-scheme `T` is the fibre of `X ×_k T` over the same point.
+Sheafifying that presheaf comparison gives the base-change isomorphism for
+`relativePicardDegreeZeroFppfSheaf`: the sheaf of `X_K` is the restriction along `Over.map` of
+the sheaf of `X`, and `(jacobianScheme X)_K` represents it through the representation induced by
+`jacobianSchemeRepresentableBy X` and the adjunction `Over.map ⊣ Over.pullback`. Tau Ceti has the
+comparison and the base change of a representing object only for the presheaf
+`relativePicardDegreeZeroFunctor` (`relativePicardDegreeZeroFunctorBaseChangeRepresentableBy`);
+the sheaf form and the representation of `picZeroSets` of `X_K` are targets here. The
+isomorphism `(Jac X)_K ≅ Jac X_K` it gives is the unique one compatible with both
+representations and respects the group laws.
+
+**Properness and geometric integrality.** Choose a finite separable extension `l/k` with `X(l)`
+nonempty (Stacks [056U](https://stacks.math.columbia.edu/tag/056U): on a smooth `k`-scheme the
+closed points with finite separable residue field are dense). D.4–D.7 apply to `X_l` with an
+`l`-point: `Pic⁰_{X_l/l}` is a smooth, projective, geometrically connected group scheme of
+dimension `g`, and it is `(jacobianScheme X)_l` by the base change above. Prove
 `isProper_jacobianScheme` and `geometricallyIntegral_jacobianScheme`: properness, smoothness
 and finite type descend along `Spec l ⟶ Spec k` (SchemeAndStackFoundations §0.11), and
 geometric connectedness and dimension `g` are statements after extension to an algebraic
 closure containing `l`; these are the instances `instIsProperJacobianScheme` and
-`instGeometricallyIntegralJacobianScheme`. The **Jacobian** `JacobianVariety X` is the Jacobian
-scheme with its group law on Tau Ceti's `AbelianVariety` carrier, and `dim_jacobianVariety`
-states `dim (JacobianVariety X) = g` through D.6's tangent identification with Tau Ceti's
-`AbelianVariety.TangentSpace` and `finrank_tangentSpace_eq_dim` (Kleiman, Theorem 5.11; Milne,
-*Abelian Varieties*, III Proposition 2.1, p. 91). Its definition uses no
-rational point and no choice of `l`: any two choices are dominated by a third, and representing
-objects are unique up to unique isomorphism. The `x₀`-pointed statements are theorems about this
-object for every `k`-point `x₀`: the comparison with Tau Ceti's
-`rigidifiedPicardDegreeZeroFunctor` (`rigidifiedPicardDegreeZeroFunctorIso`), the translated
-Abel maps, and Layer F's Albanese property. *Needs:* C.4, D.2–D.7; SchemeAndStackFoundations §0.11;
-Tau Ceti `DescentDatum`, `DescentDatum.exists_isAffine_baseChange_hom_isIso`,
-`relativePicardDegreeZeroFppfSheaf`, `relativePicardDegreeZeroFunctorBaseChangeIso`,
-`AbelianVariety`, `AbelianVariety.TangentSpace`, `finrank_tangentSpace_eq_dim`; Mathlib `Functor.reprX`, `Functor.representableBy`,
-`CommGrpObj.ofRepresentableBy`, `AddCommGrpCat.toCommGrp`, scheme gluing.
+`instGeometricallyIntegralJacobianScheme`. The extension `l` enters only these proofs. The
+**Jacobian** `JacobianVariety X` is the Jacobian scheme with its group law on Tau Ceti's
+`AbelianVariety` carrier, and `dim_jacobianVariety` states `dim (JacobianVariety X) = g` through
+D.6's tangent identification with Tau Ceti's `AbelianVariety.TangentSpace` and
+`finrank_tangentSpace_eq_dim` (Kleiman, Theorem 5.11; Milne, *Abelian Varieties*, III
+Proposition 2.1, p. 91). The `x₀`-pointed statements are theorems about this object for every
+`k`-point `x₀`: the comparison with Tau Ceti's `rigidifiedPicardDegreeZeroFunctor`
+(`rigidifiedPicardDegreeZeroFunctorIso`), the translated Abel maps, and Layer F's Albanese
+property. *Needs:* D.2, D.4–D.7; SchemeAndStackFoundations §0.11; Tau Ceti
+`relativePicardDegreeZeroFppfSheaf`, `relativePicardPresheafBaseChangeIso`,
+`relativePicardDegreeZeroFunctorBaseChangeIso`, `rigidifiedPicardDegreeZeroFunctor`,
+`rigidifiedPicardDegreeZeroFunctorIso`, `AbelianVariety`, `AbelianVariety.TangentSpace`,
+`finrank_tangentSpace_eq_dim`; Mathlib `Functor.reprX`, `Functor.representableBy`,
+`Functor.RepresentableBy.isoReprX`, `CommGrpObj.ofRepresentableBy`, `AddCommGrpCat.toCommGrp`.
 
 **Checks.**
-- A pointless real conic: `JacobianVariety` is `Spec ℝ`, the zero abelian variety, with
-  `l = ℂ`, although `X(ℝ)` is empty.
+- A pointless real conic: `JacobianVariety` is `Spec ℝ`, the zero abelian variety, although
+  `X(ℝ)` is empty; its base change to `ℂ` is `Spec ℂ = jacobianScheme (ℙ¹_ℂ)`, with `l = ℂ`.
 - Selmer's cubic `3x³ + 4y³ + 5z³ = 0` over `ℚ` has no rational point: `JacobianVariety` is an
   elliptic curve over `ℚ` with its origin, so it is not isomorphic to `X` over `ℚ`, while over
   any `l` with `X(l)` nonempty the translated `AJ_1` identifies `X_l` with the base change of
   `JacobianVariety X` to `l`.
-- When `X` has a `k`-point, `l = k` is allowed, the descent datum is trivial and the
-  construction is that of D.4–D.7.
+- When `X` has a `k`-point, `l = k` is allowed and D.6–D.7 apply to `X` itself.
 - The representation is the one of the degree-zero sheaf, not of the whole Picard sheaf: for
   `ℙ¹_k`, `jacobianScheme` is `Spec k`, while `picardScheme` is `∐_{d ∈ ℤ} Spec k`.
 
@@ -974,22 +1015,39 @@ the pointless real conic and Selmer's cubic (Jacobians of pointless curves); a c
 
 Layers A–C; SchemeAndStackFoundations §0.9, §0.11, §1.1, §2.2, §2.11, §4.9, §4.14; Mathlib
 representability and group objects by representability, scheme gluing; Tau Ceti Picard functors,
-relative effective Cartier divisors and Abel maps, `DescentDatum`, `AbelianVariety` with its
-tangent space.
+relative effective Cartier divisors and Abel maps, `AbelianVariety` with its tangent space.
 
 ## Layer E: abelian varieties
 
 ### E.1 Cube and square
 
-Prove the theorem of the cube for invertible sheaves on an abelian variety's triple product,
-with its unique trivialization extending compatible trivializations on the three
-coordinate-zero faces. Deduce the theorem of the square and that `a ↦ t_a^* L ⊗ L⁻¹` is a
-homomorphism into relative Picard classes on all test schemes, compatible with field extension
-(Milne, *Abelian Varieties*, I §5, Theorem 5.1, Corollary 5.2 and Theorem 5.5, pp. 21–26).
+Prove the theorem of the cube over a field: let `U` and `V` be proper geometrically integral
+`k`-schemes with rational points `u₀` and `v₀`, and `W` a connected `k`-scheme with a point `w₀`; an
+invertible sheaf on `U ×_k V ×_k W` whose restrictions to `{u₀} × V × W`, `U × {v₀} × W` and the
+fibre `U × V × {w₀}` are trivial is trivial (Stacks
+[0BF4](https://stacks.math.columbia.edu/tag/0BF4), More on Morphisms, Theorem 33.8, in its form over
+a field; Milne, *Abelian Varieties*, I §5, Theorem 5.1, p. 21, is the case of complete geometrically
+irreducible `U`, `V`, `W` with rational base points). For an abelian variety `A`, deduce the cube
+relation `m₁₂₃^*L ⊗ m₁^*L ⊗ m₂^*L ⊗ m₃^*L ≅ m₁₂^*L ⊗ m₁₃^*L ⊗ m₂₃^*L` on `A × A × A`, where `m_I`
+adds the coordinates indexed by `I`, with its unique trivialization extending compatible
+trivializations on the three coordinate-zero faces (Stacks
+[0BFE](https://stacks.math.columbia.edu/tag/0BFE); Milne I Corollary 5.2, pp. 21–22). Deduce the
+theorem of the square and that `a ↦ t_a^* L ⊗ L⁻¹` is a homomorphism into relative Picard classes on
+all test schemes, compatible with field extension (Milne I Theorem 5.5 and Remark 5.6, p. 23).
 *Needs:* A.1, C.2; Tau Ceti `AbelianVariety`, `relativePicardFppfSheaf`.
 
 **Checks.**
-- For the trivial bundle the normalized cube trivialization is the identity.
+- On `ℙ¹ × ℙ¹ × ℙ¹` with rational base points, `𝒪(1, 0, 0)` is trivial on `{u₀} × ℙ¹ × ℙ¹` but
+  restricts to `𝒪(1, 0)` on the other two faces, so triviality on one face does not suffice.
+- Geometric integrality of `U` is used: for `U = Spec k ⊔ Spec k` with `u₀` in the first copy,
+  `V = W = E` an elliptic curve with origin `0`, and `L` trivial on the first copy and equal to
+  `𝒪_{E×E}(Δ − {0} × E − E × {0})` on the second, all three faces are trivial (on `{0} × E` the
+  three divisors restrict to `[0]`, the trivial normal bundle and `[0]`), while `L` restricted to
+  `{a} × E` in the second copy is `𝒪([a] − [0])`, nontrivial for `a ≠ 0`.
+- For an abelian variety, restricting the cube relation to `A × A × {0}` gives
+  `m₁₂^*L ⊗ m₁^*L ⊗ m₂^*L ⊗ 𝒪 ≅ m₁₂^*L ⊗ m₁^*L ⊗ m₂^*L`, an identity, so the general statement
+  with `U = V = W = A` gives the relation; for the trivial bundle the normalized cube
+  trivialization is the identity.
 - For a symmetric bundle, `[n]^* L ≅ L^{⊗n²}`.
 - For a translation-invariant bundle, `[n]^* L ≅ L^{⊗n}`; these formulas agree for the trivial
   bundle in dimension zero.
@@ -1212,17 +1270,11 @@ group.
 
 ### F.3 Base change
 
-For every field extension `K/k`, prove that the base change `(Jac X)_K` (Tau Ceti's
+For every field extension `K/k`, the base change `(Jac X)_K` (Tau Ceti's
 `AbelianVariety.baseChange`) represents the degree-zero Picard fppf sheaf of the curve `X_K`,
-with no rational point, through the representation induced by `jacobianSchemeRepresentableBy X`
-and a base-change isomorphism for `relativePicardDegreeZeroFppfSheaf`: the sheaf of the base
-change is the restriction along `Over.map` of the sheaf of `X`, obtained by sheafifying Tau
-Ceti's presheaf comparison `relativePicardDegreeZeroFunctorBaseChangeIso`. Tau Ceti has the
-comparison and the base change of a representing object only for the presheaf
-`relativePicardDegreeZeroFunctor` (`relativePicardDegreeZeroFunctorBaseChangeRepresentableBy`);
-the sheaf form and the representation of `picZeroSets` of `X_K` are targets here. The isomorphism
-`(Jac X)_K ≅ Jac X_K` it gives is the unique one compatible with both representations and
-respects the group laws. For a `k`-point `x₀`, define `abelJacobiBaseChange X K x₀`, the
+with no rational point, and `(Jac X)_K ≅ Jac X_K` is the unique isomorphism compatible with both
+representations; both are D.8's, consumed here. This section states the pointed form and its
+Albanese property. For a `k`-point `x₀`, define `abelJacobiBaseChange X K x₀`, the
 pullback of `abelJacobi X x₀` to `X_K`, read as a morphism into the underlying scheme of
 `(Jac X)_K` through Tau Ceti's `AbelianVariety.baseChange_toOver`, and prove
 `isAlbanese_baseChange_abelJacobi`: `(Jac X)_K`, with `abelJacobiBaseChange X K x₀`, has the
@@ -1231,14 +1283,14 @@ Albanese property for `X_K` pointed at the base change of `x₀`. Prove that
 its map on `T`-points, for `T` over `K`, is that of `abelJacobi X x₀` on `T` regarded over
 `k`. With `isAlbanese_abelJacobi` for `X_K` this determines the isomorphism
 `(Jac X)_K ≅ Jac X_K` of abelian varieties, with its group law, as the unique one carrying
-`a_{x₀}` to `a_{x₀,K}`. Route: the representation statement, the identification of
-`a_{x₀,K}` with the base change of `a_{x₀}` on functors of points, then F.1 over `K`. The genus
-does not change under base change (Tau Ceti's `genus_eq_of_isPullback_of_smooth`), so `dim` is
-preserved. *Needs:* C.2, D.2, D.8, F.1; Tau Ceti `AbelianVariety.baseChange`,
-`relativePicardDegreeZeroFunctorBaseChangeIso`, `genus_eq_of_isPullback_of_smooth`.
+`a_{x₀}` to `a_{x₀,K}`. Route: D.8's representation of the degree-zero sheaf of `X_K` by
+`(Jac X)_K`, the identification of `a_{x₀,K}` with the base change of `a_{x₀}` on functors of
+points, then F.1 over `K`. The genus does not change under base change (Tau Ceti's
+`genus_eq_of_isPullback_of_smooth`), so `dim` is preserved. *Needs:* D.8, F.1; Tau Ceti
+`AbelianVariety.baseChange`, `AbelianVariety.baseChange_toOver`,
+`genus_eq_of_isPullback_of_smooth`.
 
 **Checks.**
-- For a pointless real conic, `(Jac X)_ℂ = Spec ℂ = Jac (ℙ¹_ℂ)`, with no rational point over `ℝ`.
 - For Selmer's cubic, `(Jac X)_l ≅ X_l` for every `l` with `X(l)` nonempty, through the
   translated `AJ_1` over `l`.
 - The identity extension `K = k` gives the identity representation, and
@@ -1262,7 +1314,7 @@ Selmer's cubic (base change to a field with a point).
 
 Layers B, D, E; Mathlib `IsClosedImmersion`, the elliptic-curve point group; Tau Ceti
 `abelJacobiMapToPicZeroFppf`, `AbelianVariety.IsAlbanese`, `AbelianVariety.baseChange`,
-`relativePicardDegreeZeroFunctorBaseChangeIso`, `abelJacobiMap_app_injective_of_genus_pos`,
+`AbelianVariety.baseChange_toOver`, `abelJacobiMap_app_injective_of_genus_pos`,
 `genus_eq_of_isPullback_of_smooth`, and the elliptic-curve abelian variety, point-group and `Pic⁰`
 comparisons.
 
@@ -1282,9 +1334,12 @@ comparisons.
   and finite affine cohomology; AdicSpacesPartIII consumes Layers B–C for affine acyclicity and
   Serre vanishing on blow-ups.
 - AlgebraicCurves Layer 12 consumes Layers A–B for smooth proper geometrically connected models
-  of separably generated function fields; ModularCurves imports this roadmap's module for its
-  Picard and Jacobian contracts; EtaleCohomologyFoundations §0.11 consumes Layer D's pointed
-  Jacobian for its algebraic smooth-curve trace.
+  of separably generated function fields; ModularCurves consumes, as prose contracts, Layer A's
+  invertible sheaves, divisor–line-bundle correspondence and base change of `𝒪(D)`, Layer B's
+  Riemann–Roch and Serre duality, and Layer C's proper-flat cohomology, Grauert's theorem and
+  base change, while its own Layer 2D represents the degree-zero relative Picard sheaf of an
+  elliptic curve over an arbitrary base; EtaleCohomologyFoundations §0.11 consumes Layer D's
+  pointed Jacobian for its algebraic smooth-curve trace.
 - JacobianChallengePartII consumes Layers A–F for the relative Jacobian over a noetherian base,
   the degree components and torsors, and the section-free Abel maps; its §0.3 consumes D.2's
   `picardScheme` and proves `HasPicardScheme` for smooth projective curve families over a
@@ -1292,6 +1347,8 @@ comparisons.
 - AbelianSchemesAndArithmeticModuli A0.2 and A2.2 consume Layer E's field duality, cube and
   square and polarizations; AlgebraicVectorBundles consumes Layer A's invertible sheaves as its
   rank-one objects.
+- ArakelovGeometryAndAbelianHeightsPartII §10.9a consumes E.1's theorem of the cube for products
+  of complete geometrically irreducible varieties over a field, on a triple product of curves.
 
 ## References
 
@@ -1312,13 +1369,14 @@ comparisons.
   Corollary).
 - H. Stichtenoth, *Algebraic Function Fields and Codes*, 2nd ed., Sections I.7 and 4.3: Weil
   differentials, local components and trace residues, the form Tau Ceti implements.
-- The Stacks Project: *Picard schemes of curves* (tag 0B95), *Divisors* (tag 01WP), *Cohomology
-  and base change* (tag 0B91) with semicontinuity and the Euler characteristic (tags 0BDN,
-  0B9T), *Quot/Hilbert and Picard functors* (tag 0D04), *Duality for schemes* (tag 0BS2),
-  *Descent* (tags 0CDR, 0245, 0AP4), *Abelian varieties* (tags 03RP, 0BFG, 0BFH).
-- S. L. Kleiman, [*The Picard scheme*](https://arxiv.org/abs/math/0504020): Theorems 2.5, 4.8,
-  Lemma 4.9, Theorem 5.11, Proposition 5.19 and Remark 5.24; locators above use the preprint
-  numbering.
+- The Stacks Project: *Picard schemes of curves* (tag 0B95, with 0B9M and 0B9N), *Divisors* (tag
+  01WP), *Cohomology and base change* (tag 0B91) with semicontinuity and the Euler characteristic
+  (tags 0BDN, 0B9T), *Quot/Hilbert and Picard functors* (tag 0D04), *Duality for schemes* (tag
+  0BS2), *Descent* (tag 02L6), the theorem of the cube in *More on morphisms* (tag 0BF4),
+  *Abelian varieties* (tags 03RP, 0BFE, 0BFG, 0BFH).
+- S. L. Kleiman, [*The Picard scheme*](https://arxiv.org/abs/math/0504020): Theorem 2.5,
+  Remark 2.11 with sequence (2.11.4), Theorem 4.8, Lemma 4.9, Theorem 5.11, Proposition 5.19 and
+  Remark 5.24; locators above use the preprint numbering and pages.
 
 ## Acknowledgements
 

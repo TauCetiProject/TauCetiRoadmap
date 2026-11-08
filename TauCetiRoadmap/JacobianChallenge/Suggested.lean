@@ -15,16 +15,15 @@ public import TauCeti.AlgebraicGeometry.PicardFunctor.PicZero.Fppf
 /-!
 # The Jacobian challenge: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
-definitions those statements need, all with real bodies on Mathlib's representability API:
-the Picard scheme of a morphism (`HasPicardScheme`, `picardScheme`, `picardSchemeIso`) and the
-Jacobian of a smooth proper geometrically connected curve over a field (`picZeroSets`,
-`jacobianScheme`, `jacobianSchemeRepresentableBy`, its group law, `JacobianVariety`,
-`abelJacobi` and its base change `abelJacobiBaseChange`). The Jacobian is the representing object of the degree-zero Picard fppf sheaf,
-so it is defined without a rational point; the point enters only through the Abel–Jacobi
-morphism. Multiplication statements carry the nonzero-integer and positive-dimension
-hypotheses.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline theorems
+against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few definitions those
+statements need, all with real bodies on Mathlib's representability API: the Picard scheme of a
+morphism (`HasPicardScheme`, `picardScheme`, `picardSchemeIso`) and the Jacobian of a smooth proper
+geometrically connected curve over a field (`picZeroSets`, `jacobianScheme`,
+`jacobianSchemeRepresentableBy`, its group law, `JacobianVariety`, `abelJacobi` and its base change
+`abelJacobiBaseChange`). The Jacobian is the representing object of the degree-zero Picard fppf
+sheaf, so it is defined without a rational point; the point enters only through the Abel–Jacobi
+morphism. Multiplication statements carry the nonzero-integer and positive-dimension hypotheses.
 
 Headline theorems stated here: finite-dimensionality of coherent cohomology on a proper
 scheme over a field; Serre duality on a smooth proper curve through a trace on
@@ -35,16 +34,21 @@ being a closed immersion in genus at least one and an isomorphism in genus one; 
 property of its base change along a field extension; `[n]` an isogeny and étale exactly when
 `n` is invertible in `k`.
 
-Not statable at the pins: the Serre-duality trace as a named map (it needs the repartition
-description of `H¹(X, Ω_{X/k})` and residues at closed points of arbitrary residue field; the
-duality statement quantifies the trace existentially instead); the degree-`d` pieces of the
-Picard scheme (no degree-`d` subsheaf); the representation of the degree-zero Picard sheaf of
-`X_K` by the base change of `Jac X` without a rational point (Tau Ceti has a base-change
-isomorphism for the presheaf `relativePicardDegreeZeroFunctor` only, none for
-`relativePicardDegreeZeroFppfSheaf`); the dual abelian variety, polarizations, theta and the
-Picard-pullback comparison (no dual carrier); the canonical identification
-`T₀ Jac X ≅ H¹(X, 𝒪_X)` (the deformation map from `H¹(X, 𝒪_X)` into Tau Ceti's
-`AbelianVariety.TangentSpace` is a construction not available at the pin; its dimension
+Not statable at the pins: the Serre-duality trace as a named map. The pin describes `H¹(X, 𝒪_X(D))`
+by repartitions (`SchemeWeilDivisor.repartitionToCohomologyOne` and the quotient equivalence
+`SchemeWeilDivisor.repartitionQuotientEquivCohomologyOne`) and has the local components
+`repartitionDualComponent`, which give the residue at a closed point of arbitrary residue field; but
+it reaches `H¹(X, Ω_{X/k})` only through `relativeDifferentialsIsoDivisorSheaf`, which needs an
+integral curve with exact constants and takes a separating transcendental element and the divisor of
+its Weil differential as arguments. A trace free of these choices on every smooth proper curve,
+connected or not, is a construction (README B.2), so the duality statement quantifies the trace
+existentially instead. Also not statable: the degree-`d` pieces of the Picard scheme (no degree-`d`
+subsheaf); the representation of the degree-zero Picard sheaf of `X_K` by the base change of `Jac X`
+without a rational point (Tau Ceti has a base-change isomorphism for the presheaf
+`relativePicardDegreeZeroFunctor` only, none for `relativePicardDegreeZeroFppfSheaf`); the dual
+abelian variety, polarizations, theta and the Picard-pullback comparison (no dual carrier); the
+canonical identification `T₀ Jac X ≅ H¹(X, 𝒪_X)` (the deformation map from `H¹(X, 𝒪_X)` into Tau
+Ceti's `AbelianVariety.TangentSpace` is a construction not available at the pin; its dimension
 consequence is `dim_jacobianVariety`).
 
 Mathlib's `WeierstrassCurve.Jacobian` means Jacobian *coordinates*, not the Jacobian
@@ -59,7 +63,7 @@ open CategoryTheory MonoidalCategory AlgebraicGeometry Opposite
 
 universe u
 
-/-! ## Layer B: coherent cohomology over `k`, Serre duality and the genus -/
+/-! ## Layer B: coherent cohomology over `k`: genus, Riemann–Roch, Serre duality -/
 
 /-- **Finiteness of coherent cohomology.** On a proper scheme over a field, every cohomology
 group of a finitely presented sheaf of modules is finite-dimensional (Stacks 02O6). -/
@@ -137,7 +141,8 @@ noncomputable abbrev picZeroSets {k : Type u} [Field k] (X : Over (Spec (.of k))
 
 /-- **`Pic⁰` is representable over any field.** The degree-zero Picard fppf sheaf of a smooth
 proper geometrically connected curve is representable on all test schemes over `k`; no rational
-point is assumed (the README builds the representing scheme by Galois descent). -/
+point is assumed (README D.5 represents it by the open and closed locus of fibre degree zero in
+the Picard scheme of `hasPicardScheme_of_curve`). -/
 @[stacks 0BA0 "More general: the degree-zero piece over any field."]
 theorem isRepresentable_picZeroSets {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom] :
@@ -174,8 +179,9 @@ noncomputable instance jacobianSchemeCommGrpObj {k : Type u} [Field k] (X : Over
     ((TauCeti.AlgebraicGeometry.relativePicardDegreeZeroFppfSheaf X.hom).obj ⋙
       AddCommGrpCat.toCommGrp) (jacobianSchemeRepresentableBy X)
 
-/-- **The Jacobian scheme is proper** over `k` (Stacks 0BA0 over a separably closed field;
-descended to any field in the README). -/
+/-- **The Jacobian scheme is proper** over `k` (Stacks 0BA0 over a separably closed field; over
+any field, properness descends from a finite separable extension with a rational point, README
+D.8). -/
 theorem isProper_jacobianScheme {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom] :
     IsProper (jacobianScheme X).hom := by
