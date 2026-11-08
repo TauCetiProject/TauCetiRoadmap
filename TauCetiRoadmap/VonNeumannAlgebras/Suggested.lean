@@ -9,10 +9,12 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
-predicates (factor, finiteness, type II₁, projection comparison, cyclic and separating vectors,
-tracial states) that those statements need. Concrete von Neumann algebras are Mathlib's
-`VonNeumannAlgebra H` on a complete complex Hilbert space `H`; the strong and weak operator
-topologies are Mathlib's `H →Lₚₜ[ℂ] H` and `H →WOT[ℂ] H`.
+predicates (factor, finiteness, types II₁ and II∞, type I₂ summands, projection comparison, cyclic
+and separating vectors, tracial states, injectivity and hyperfiniteness) that those statements
+need. Concrete von Neumann algebras are Mathlib's `VonNeumannAlgebra H` on a complete complex
+Hilbert space `H`; the strong and weak operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and
+`H →WOT[ℂ] H`. The nondegeneracy clause of the Layer 0 representations is the body of Tau Ceti's
+`NonUnitalStarAlgHom.IsNondegenerate`, written out so that the file imports only Mathlib.
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
@@ -44,14 +46,23 @@ Headline theorems of the README that are not statable at the pins, and the carri
 * Layer 11: weights, spatial derivatives, Connes cocycles, the continuous core, Takesaki duality,
   the invariants `S` and `T`, and the flow of weights (no normal weights and no modular theory).
 * Layer 12: the two-projection structure theorem (it identifies the general-position part with
-  `B ⊗̄ M₂(ℂ)`, which needs the completed tensor product), tracial ultraproducts, central
-  sequences, property Γ, the Mackey–Gleason–Bunce–Wright theorem and Dye's theorem (no tracial
-  ultraproduct, no normal Jordan map or finitely additive projection measure on a von Neumann
-  algebra).
-* Layer 13: injectivity versus semidiscreteness, hyperfiniteness, and the classification of
-  injective factors of types II₁, II∞, IIIλ, III₀ and III₁ (no conditional expectation onto a von
-  Neumann subalgebra, no completely positive approximation of the identity in the point-ultraweak
-  topology, and no Connes invariants).
+  `B ⊗̄ M₂(ℂ)`, which needs the completed tensor product), the tracial ultraproduct and
+  `R_ω′ ∩ R^ω = R` for the hyperfinite II₁ factor `R` (no tracial ultraproduct), and the
+  central-sequence theorems that `R` has property Γ while the free group factors lack it and so
+  are not isomorphic to `R` (no group von Neumann algebra and no infinite tensor product model of
+  `R`). The Mackey–Gleason–Bunce–Wright
+  theorem and Dye's theorem are stated below; normality of the Dye isomorphism is omitted there
+  because it is automatic: a Jordan *-isomorphism is an order isomorphism, so it preserves
+  suprema of bounded increasing nets.
+* Layer 13: semidiscreteness and its equivalence with injectivity (no normal completely positive
+  map and no ultraweak topology, which the definition of semidiscreteness uses), and the
+  classification of the injective factors of types IIIλ (0 < λ < 1), III₀ and III₁ (no Connes
+  invariants `S` and `T` and no flow of weights, which separate these types). Injectivity versus
+  hyperfiniteness and the uniqueness of the injective II₁ and II∞ factors are stated below.
+  "Separable predual" is expressed there through a separable acting Hilbert space: a von Neumann
+  algebra is separable when it has a faithful normal representation on a separable Hilbert space
+  (Anantharaman–Popa, Definition 2.6.6, p. 48), and injectivity does not depend on the
+  representation (Anantharaman–Popa, Proposition 10.2.2, p. 161).
 -/
 
 open scoped ComplexOrder
@@ -76,7 +87,7 @@ and nondegenerate. -/
 theorem exists_faithful_nondegenerate_representation (A : Type u) [NonUnitalCStarAlgebra A] :
     ∃ (K : Type u) (_ : NormedAddCommGroup K) (_ : InnerProductSpace ℂ K) (_ : CompleteSpace K)
       (π : A →⋆ₙₐ[ℂ] (K →L[ℂ] K)), Function.Injective π ∧
-        Dense (Submodule.span ℂ {ξ : K | ∃ a η, π a η = ξ} : Set K) := by
+        Dense (Submodule.span ℂ (⋃ a, Set.range (π a)) : Set K) := by
   sorry
 
 /-- **Separable faithful representation on `ℓ²`.** Every nonzero separable C*-algebra, possibly
@@ -88,7 +99,7 @@ theorem exists_injective_nondegenerate_representation_lp
     {A : Type*} [NonUnitalCStarAlgebra A] [TopologicalSpace.SeparableSpace A] [Nontrivial A] :
     ∃ π : A →⋆ₙₐ[ℂ] (lp (fun _ : ℕ ↦ ℂ) 2 →L[ℂ] lp (fun _ : ℕ ↦ ℂ) 2),
       Function.Injective π ∧
-        Dense (Submodule.span ℂ {ξ | ∃ a η, π a η = ξ} : Set (lp (fun _ : ℕ ↦ ℂ) 2)) := by
+        Dense (Submodule.span ℂ (⋃ a, Set.range (π a)) : Set (lp (fun _ : ℕ ↦ ℂ) 2)) := by
   sorry
 
 /-! ## Layer 1: Operator topologies and the bicommutant theorem -/
@@ -219,6 +230,19 @@ theorem isSimpleRing_of_isTypeIIOne {M : VonNeumannAlgebra H} (hM : IsTypeIIOne 
     IsSimpleRing M.toStarSubalgebra := by
   sorry
 
+/-! ## Layer 6: Tracial standard form and semifinite factors -/
+
+/-- A type II∞ factor: an infinite factor with no minimal projection that has a nonzero finite
+projection `p`, one that is equivalent to no proper subprojection (every `v ∈ M` with `v* v = p`
+and `v v* ≤ p` has `v v* = p`). The finite projection makes `M` semifinite, which excludes type
+III; the absence of minimal projections excludes type I∞, and infiniteness excludes type II₁. -/
+def IsTypeIIInfinity (M : VonNeumannAlgebra H) : Prop :=
+  IsFactor M ∧ ¬ IsFinite M ∧
+  (∃ p ∈ M, IsStarProjection p ∧ p ≠ 0 ∧
+    ∀ v ∈ M, star v * v = p → v * star v ≤ p → v * star v = p) ∧
+  ∀ p ∈ M, IsStarProjection p → p ≠ 0 →
+    ∃ q ∈ M, IsStarProjection q ∧ q ≠ 0 ∧ q ≠ p ∧ q ≤ p
+
 /-! ## Layer 8: Group algebras, actions, and discrete crossed products -/
 
 /-- **Dense translations are ergodic.** Left translation by a countable dense subgroup of a
@@ -230,6 +254,50 @@ theorem ergodicSMul_dense_subgroup
     (μ : MeasureTheory.Measure G) [μ.IsHaarMeasure] [μ.Regular]
     (Γ : Subgroup G) [Countable Γ] (hd : Dense (Γ : Set G)) :
     ErgodicSMul Γ G μ := by
+  sorry
+
+/-! ## Layer 12: Two projections, ultraproducts, and central sequences -/
+
+/-- `M` has a nonzero central summand of type I₂: a nonzero central projection `z = e + f` that is
+the sum of two orthogonal equivalent projections `e ∼ f` of `M` with `eMe` commutative, so that
+`zM ≅ M₂(eMe)` with `eMe` abelian. `M₂(ℂ)` and `M₂(ℂ) ⊕ M₃(ℂ)` have one; `M₃(ℂ)`, `M₄(ℂ)`, the
+abelian algebras and the II₁ factors do not. -/
+def HasTypeITwoSummand (M : VonNeumannAlgebra H) : Prop :=
+  ∃ e f : H →L[ℂ] H, ProjectionEquivalent M e f ∧ e * f = 0 ∧ e + f ≠ 0 ∧
+    e + f ∈ M.commutant ∧
+    ∀ x ∈ M, ∀ y ∈ M, (e * x * e) * (e * y * e) = (e * y * e) * (e * x * e)
+
+/-- **The Mackey–Gleason–Bunce–Wright theorem.** If `M` has no nonzero central summand of type
+I₂, every bounded finitely additive complex measure `μ` on the projections of `M` (additive on
+orthogonal pairs) is the restriction of a unique bounded complex-linear functional on `M`
+(README, V12.J.Scalar; Bunce–Wright, Theorems A and B, p. 289). On `M₂(ℂ)` the conclusion
+fails. -/
+theorem exists_unique_extension_of_finitelyAdditive {M : VonNeumannAlgebra H}
+    (hM : ¬ HasTypeITwoSummand M) (μ : (H →L[ℂ] H) → ℂ)
+    (hμ : ∀ p ∈ M, ∀ q ∈ M, IsStarProjection p → IsStarProjection q → p * q = 0 →
+      μ (p + q) = μ p + μ q)
+    (hμb : ∃ C : ℝ, ∀ p ∈ M, IsStarProjection p → ‖μ p‖ ≤ C) :
+    ∃! φ : M.toStarSubalgebra →L[ℂ] ℂ,
+      ∀ p (hp : p ∈ M), IsStarProjection p → φ ⟨p, hp⟩ = μ p := by
+  sorry
+
+/-- **Dye's theorem.** If `M` has no nonzero central summand of type I₂, every bijection `α`
+between the projections of `M` and those of `N` that preserves orthogonality in both directions
+is the restriction of a unique Jordan *-isomorphism `Φ : M → N`, a complex-linear bijection
+preserving adjoints and squares (README, V12.J.Dye; Dye's theorem as recalled in Hamhalter,
+pp. 2–3, and its AW*-form, Theorem 4.3, p. 14). No hypothesis on `N` is needed. `Φ` is unital
+because `α` preserves the top projection, and normal because it is an order isomorphism; these
+conclusions are therefore not restated. -/
+theorem dye {K : Type*} [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    {M : VonNeumannAlgebra H} {N : VonNeumannAlgebra K} (hM : ¬ HasTypeITwoSummand M)
+    (α : {p : H →L[ℂ] H // p ∈ M ∧ IsStarProjection p} ≃
+      {q : K →L[ℂ] K // q ∈ N ∧ IsStarProjection q})
+    (hα : ∀ p q : {p : H →L[ℂ] H // p ∈ M ∧ IsStarProjection p},
+      (p : H →L[ℂ] H) * q = 0 ↔ (α p : K →L[ℂ] K) * α q = 0) :
+    ∃! Φ : M.toStarSubalgebra ≃ₗ[ℂ] N.toStarSubalgebra,
+      (∀ x, Φ (star x) = star (Φ x)) ∧ (∀ x, Φ (x * x) = Φ x * Φ x) ∧
+        ∀ p : {p : H →L[ℂ] H // p ∈ M ∧ IsStarProjection p},
+          (Φ ⟨p.1, p.2.1⟩ : K →L[ℂ] K) = α p := by
   sorry
 
 /-! ## Layer 13: Hyperfiniteness and injective classification -/
@@ -245,6 +313,54 @@ theorem tomiyama
     (∀ x, 0 ≤ x → 0 ≤ P x) ∧
       (∀ a ∈ S, ∀ b ∈ S, ∀ x, P (a * x * b) = a * P x * b) ∧
       ∃ Φ : CompletelyPositiveMap A A, Φ.toLinearMap = P.toLinearMap := by
+  sorry
+
+/-- `M` is injective: there is a contractive projection of `B(H)` onto `M`, a bounded linear map
+with range in `M` fixing `M` pointwise and of norm at most one. For `M ≠ 0` such a map has norm
+one and is a conditional expectation by Tomiyama's theorem, so this is injectivity in the given
+representation, which does not depend on the representation (Anantharaman–Popa, Definition
+10.2.1 and Proposition 10.2.2, p. 161). -/
+def IsInjective (M : VonNeumannAlgebra H) : Prop :=
+  ∃ P : (H →L[ℂ] H) →L[ℂ] (H →L[ℂ] H),
+    (∀ x, P x ∈ M) ∧ (∀ x ∈ M, P x = x) ∧ ‖P‖ ≤ 1
+
+/-- `M` is hyperfinite: it is generated as a von Neumann algebra by an increasing sequence of
+finite-dimensional unital star subalgebras of `B(H)`, that is, the double commutant of their union
+is `M` (each of them then lies in `M`). This is the sequential form used for algebras with
+separable predual (Anantharaman–Popa, Theorem 11.2.2(3), p. 186). -/
+def IsHyperfinite (M : VonNeumannAlgebra H) : Prop :=
+  ∃ A : ℕ → StarSubalgebra ℂ (H →L[ℂ] H), Monotone A ∧
+    (∀ n, FiniteDimensional ℂ (A n)) ∧
+    Set.centralizer (Set.centralizer (⋃ n, (A n : Set (H →L[ℂ] H)))) = (M : Set (H →L[ℂ] H))
+
+/-- **Connes's theorem: injective equals hyperfinite.** A von Neumann algebra with separable
+predual, here acting on a separable Hilbert space, is injective exactly when it is hyperfinite
+(README, V13b; for finite algebras Anantharaman–Popa, Theorem 11.1.3, p. 173, and for II₁ factors
+Theorem 11.2.2, p. 186). Without separability the sequential form is too narrow. -/
+theorem isInjective_iff_isHyperfinite [TopologicalSpace.SeparableSpace H]
+    (M : VonNeumannAlgebra H) : IsInjective M ↔ IsHyperfinite M := by
+  sorry
+
+/-- **Uniqueness of the injective II₁ factor.** Any two injective II₁ factors with separable
+predual are star isomorphic, both being the hyperfinite II₁ factor `R` (README, V13b;
+Anantharaman–Popa, Theorem 11.2.2, p. 186). -/
+theorem nonempty_starAlgEquiv_of_isTypeIIOne_of_isInjective [TopologicalSpace.SeparableSpace H]
+    {K : Type*} [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    [TopologicalSpace.SeparableSpace K] {M : VonNeumannAlgebra H} {N : VonNeumannAlgebra K}
+    (hM : IsTypeIIOne M) (hN : IsTypeIIOne N) (hMi : IsInjective M) (hNi : IsInjective N) :
+    Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] N.toStarSubalgebra) := by
+  sorry
+
+/-- **Uniqueness of the injective II∞ factor.** Any two injective II∞ factors with separable
+predual are star isomorphic, both being `R ⊗̄ B(ℓ²)` (README, V13b; Anantharaman–Popa,
+Corollary 11.2.4, p. 188, for the hyperfinite form). -/
+theorem nonempty_starAlgEquiv_of_isTypeIIInfinity_of_isInjective
+    [TopologicalSpace.SeparableSpace H]
+    {K : Type*} [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    [TopologicalSpace.SeparableSpace K] {M : VonNeumannAlgebra H} {N : VonNeumannAlgebra K}
+    (hM : IsTypeIIInfinity M) (hN : IsTypeIIInfinity N) (hMi : IsInjective M)
+    (hNi : IsInjective N) :
+    Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] N.toStarSubalgebra) := by
   sorry
 
 end TauCetiRoadmap.VonNeumannAlgebras
