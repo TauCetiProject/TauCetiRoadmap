@@ -1,0 +1,12 @@
+'TauCeti.IsJordanCurve.natCard_connectedComponents_compl_eq_two' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.IsJordanCurve.connectedComponentIn_eq_filledHull_sdiff_or_compl' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_frontier' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
