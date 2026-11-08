@@ -13,7 +13,10 @@ presentable categories a functor is a right adjoint exactly when it preserves li
 accessible, and a left adjoint exactly when it preserves colimits (1.4); a category is finitely
 accessible exactly when it is `Ind A` for a small `A` (1.5); for a ring `R`, `ModuleCat R` is
 locally finitely presentable, its finitely presentable objects being the finitely presented modules
-(1.6). Gabriel–Ulmer duality (Layer 3): for a small category `T` the functors `T ⥤ Type w`
+(1.6); a small category is accessible exactly when its idempotents split, and a directed union of
+accessible full subcategories along accessible inclusions is accessible (1.7); `C` and `Cᵒᵖ` are
+both locally presentable exactly when `C` is equivalent to a small complete lattice (1.8).
+Gabriel–Ulmer duality (Layer 3): for a small category `T` the functors `T ⥤ Type w`
 preserving `κ`-small limits form a small-orthogonality class and a locally `κ`-presentable category
 `Mod_κ T` (3.1); every locally `κ`-presentable category is `Mod_κ T` for a small `T` with `κ`-small
 limits (3.2); such a `T` is recovered as the opposite of the `κ`-presentable models (3.3);
@@ -28,8 +31,11 @@ algebra, so every accessible endofunctor of a locally presentable category has a
 (4.4, Adámek 1974). For a small family `D` of limit shapes (Layer 5): the models of a small category
 in `Type w` that preserve `D`-limits form a reflective locally presentable subcategory (5.1); the
 free completion `Ĩ` of a small `I` under `D`-limits is essentially small and has the universal
-property of the `D`-envelope (5.2); and a small set `S` of arrows of a small category can be
-inverted inside the 2-category of categories with `D`-limits (5.3).
+property of the `D`-envelope (5.2); a small set `S` of arrows of a small category can be
+inverted inside the 2-category of categories with `D`-limits (5.3); and a functor `i : I → R` from
+a small set generates `R` under `D`-limits exactly when every fully faithful `D`-functor through
+which it factors is essentially surjective, and exactly when `R` is reached from the envelope of `I`
+by a small transfinite sequence of localisations and adjunctions of arrows (5.5).
 
 Suggested home: `TauCeti/CategoryTheory/Presentable/`, beside Mathlib's
 `Mathlib/CategoryTheory/Presentable/`.
@@ -43,13 +49,16 @@ an arbitrary small theory, that concern locally presentable and accessible categ
   small-orthogonality classes in presheaf categories, accessible-and-complete, the adjoint functor
   theorem between locally presentable categories, and finitely accessible categories as `Ind A`
   (Layers 1 and 2), with the category of modules over a ring as the standard locally finitely
-  presentable category (1.6);
+  presentable category (1.6); accessibility of small categories and of directed unions of
+  accessible full subcategories (1.7); categories that are locally presentable together with their
+  opposite (1.8);
 - the categories `Mod_κ T` of models of small theories with `κ`-small limits, Gabriel–Ulmer
   duality on objects and on 1-cells, and essentially algebraic theories (Layer 3);
 - the categories of algebras of finite-product (Lawvere-type, many-sorted) theories and their
   recognition theorem, and initial algebras of endofunctors through the initial chain (Layer 4);
 - categories with `D`-limits for a small family `D` of shapes, their models, `D`-envelopes,
-  localisation in the 2-category they form, and sound doctrines (Layer 5).
+  localisation in the 2-category they form, sound doctrines, and generation under `D`-limits with
+  its comparison to presentation by envelopes, localisations and adjunctions of arrows (Layer 5).
 
 **Supplied by Mathlib and consumed by name.** `κ`-presentable objects, `κ`-filtered categories,
 locally `κ`-presentable and `κ`-accessible categories and their unbounded versions, strong
@@ -159,7 +168,11 @@ here; if it is about one particular category, about ∞-categories, or about top
   `ObjectProperty.le_limitsClosure`, `ObjectProperty.isEssentiallySmall_limitsClosure`;
   `ObjectProperty.ofObj`, `ObjectProperty.lift`, `ObjectProperty.ι`,
   `ObjectProperty.FullSubcategory`, `ObjectProperty.colimitsOfShape`, `ObjectProperty.Small`;
-  `MorphismProperty.IsSmall`, `MorphismProperty.IsInvertedBy`.
+  `MorphismProperty.IsSmall`, `MorphismProperty.IsInvertedBy`;
+  `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`: `ObjectProperty.ιOfLE`.
+- `Mathlib/CategoryTheory/Idempotents/Basic.lean`: `IsIdempotentComplete`;
+  `Mathlib/CategoryTheory/Category/Preorder.lean`: `Preorder.smallCategory` (the category of a
+  complete lattice); `Mathlib/Order/CompleteLattice/Defs.lean`: `CompleteLattice`.
 - `Mathlib/Algebra/Category/ModuleCat/Basic.lean`: `ModuleCat`, `ModuleCat.of`;
   `…/ModuleCat/Colimits.lean`: `ModuleCat.hasColimitsOfSize`;
   `Mathlib/Algebra/Module/FinitePresentation.lean`: `Module.FinitePresentation`.
@@ -170,8 +183,8 @@ here; if it is about one particular category, about ∞-categories, or about top
 - Limits: `HasLimitsOfSize`, `HasLimitsOfShape`, `PreservesLimitsOfShape`,
   `PreservesLimitsOfSize`, `PreservesColimitsOfSize`, `PreservesFiniteProducts`,
   `HasFiniteProducts`, `comp_preservesLimitsOfShape`; `HasCardinalLT`; `Functor.IsRightAdjoint`,
-  `Functor.IsLeftAdjoint`, `Functor.IsEquivalence`, `Functor.whiskeringLeft`, `coyoneda`,
-  `EssentiallySmall`.
+  `Functor.IsLeftAdjoint`, `Functor.IsEquivalence`, `Functor.Full`, `Functor.Faithful`,
+  `Functor.EssSurj`, `Functor.whiskeringLeft`, `coyoneda`, `EssentiallySmall`.
 
 **From Tau Ceti.** Nothing.
 
@@ -182,16 +195,18 @@ Nothing is consumed from another roadmap.
 Layer 0 fixes the `κ`-small shapes and the two predicates on them that Layer 3 uses. Layer 1 proves
 the structure theorems on Mathlib's locally presentable and accessible categories: completeness, the
 representation as reflective subcategories of presheaf categories, the characterisation as
-accessible and complete, the adjoint functor theorem, `Ind`, and modules over a ring. Layer 2 gives
-the representation by small-orthogonality classes, from Mathlib's reflection theorem and 3.1–3.2.
-Layer 3 defines the categories of models `Mod_κ T` and proves Gabriel–Ulmer duality on objects
-(3.1–3.3) and on morphisms (3.4); 3.5 compares with the syntactic essentially algebraic theories.
-Layer 4 specialises to finite products: algebras, sifted colimits, and the recognition theorem; it
-ends with initial algebras of endofunctors (4.4). Layer 5 replaces `κ`-small limits by an arbitrary
-small family `D` of shapes: models, the `D`-envelope of a small category, localisation, and sound
-doctrines. Within Layer 1, 1.2 comes first and 1.1 uses its forward half; Layer 2 uses 3.1 and 3.2;
-Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4 uses 3.1, and 4.4 uses 1.1; Layer 5 uses 3.1. The hardest
-targets are 1.4 (via the solution-set condition), 3.4 and 5.3.
+accessible and complete, the adjoint functor theorem, `Ind`, modules over a ring, small and
+directed-union accessible categories, and the self-dual case. Layer 2 gives the representation by
+small-orthogonality classes, from Mathlib's reflection theorem and 3.1–3.2. Layer 3 defines the
+categories of models `Mod_κ T` and proves Gabriel–Ulmer duality on objects (3.1–3.3) and on
+morphisms (3.4); 3.5 compares with the syntactic essentially algebraic theories. Layer 4 specialises
+to finite products: algebras, sifted colimits, and the recognition theorem; it ends with initial
+algebras of endofunctors (4.4). Layer 5 replaces `κ`-small limits by an arbitrary small family `D`
+of shapes: models, the `D`-envelope of a small category, localisation, sound doctrines, and
+generation under `D`-limits (5.5, on 5.2 and 5.3). Within Layer 1, 1.2 comes first and 1.1 uses its
+forward half; Layer 2 uses 3.1 and 3.2; Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4 uses 3.1, and 4.4
+uses 1.1; Layer 5 uses 3.1. The hardest targets are 1.4 (via the solution-set condition), 3.4 and
+5.3.
 
 ## Layer 0: `κ`-small shapes
 
@@ -391,6 +406,73 @@ conservative. `ModuleCat R` is cocomplete, so Mathlib's
   the filtered union of its finite-dimensional subspaces, and `ℕ →₀ R` is not finitely presentable.
   For the zero ring every module is zero and `ModuleCat R` is equivalent to `PUnit`.
 
+### 1.7 Small accessible categories and directed unions
+
+Prove `isAccessibleCategory_iff_isIdempotentComplete`: a small category `C : Type w` is accessible
+iff its idempotents split (`IsIdempotentComplete C`) (Tendas 2022, Theorem 3.7, at `V = Set`, where
+Cauchy completeness is the splitting of idempotents). Route, forward: an idempotent `e : X ⟶ X` is a
+diagram over the one-object category of the monoid `{1, e}`, which is `κ`-filtered for every `κ`
+(`e` coequalizes every family of parallel arrows); its colimit, which a `κ`-accessible category
+has, is a splitting of `e`. Backward: for `κ` regular and larger than the number of morphisms of
+`C`, a `κ`-filtered diagram in `C` factors, from some index on, through an idempotent of one of its
+values, and its colimit is the splitting of that idempotent; so every object is `κ`-presentable, and
+it is the colimit of the constant diagram on a point.
+
+Prove `isAccessibleCategory_of_directed`: let `ι : Type w` be a directed preorder and
+`P : ι → ObjectProperty C` a monotone family of full subcategories of `C` whose union contains
+every object; if each `P i` is an accessible category and each inclusion `ObjectProperty.ιOfLE` of
+`P i` into `P j` is an accessible functor, then `C` is accessible and each inclusion `(P i).ι` is
+accessible (Paré–Rosický 2013, Theorem 2.1, where `C` is the colimit of the `P i` in the category
+of categories). Route, as there: for `κ` regular, larger than the cardinality of `ι` and such that
+every `P i` is `κ`-accessible with `κ`-accessible inclusions preserving `κ`-presentable objects, a
+`κ`-directed diagram in `C` has a cofinal part in a single `P i`, whose colimit there is its colimit
+in `C`. *Needs:* Mathlib `IsAccessibleCategory`, `Functor.IsAccessible`, `IsIdempotentComplete`,
+`ObjectProperty.ιOfLE`, `IsCardinalAccessibleCategory.uniformization`.
+
+**Checks.**
+
+- Colimits of accessible categories along accessible functors need not be accessible. Let `B` be the
+  free category on arrows `a : u ⟶ v`, `b : v ⟶ w`, `h : u ⟶ w`, sent to the chain `0 < 1 < 2` and
+  to the one-object category of the free monoid on `t` (`a, b, h ↦ t`). The pushout is the
+  one-object category with endomorphisms `{1, t}` and `t ∘ t = t`, since `h = b ∘ a` in the chain:
+  the idempotent `t` does not split (a splitting through the only object would need `r ∘ s = 1` with
+  `s ∘ r = t`), so by 1.7 the pushout is not accessible, while `B`, the chain and the monoid `ℕ` are
+  small with split idempotents (their only idempotents are identities), hence accessible, and every
+  functor between small categories with split idempotents is accessible, their `κ`-filtered
+  colimits for large `κ` being splittings of idempotents, which every functor preserves. The
+  pseudo-pushout is equivalent to the strict one.
+- The accessibility index of a directed union is not that of its pieces: the chain
+  `Set → Set² → Set³ → ⋯`, extending a path `A₁ → ⋯ → Aₙ` by an identity, has as colimit the
+  eventually constant paths `A₁ → A₂ → ⋯`, which is `ℵ₁`-accessible and not `ℵ₀`-accessible
+  (Paré–Rosický 2013, Example 2.2).
+- Splitting of idempotents is self-dual, so for small `C` accessibility of `C` and of `Cᵒᵖ` agree:
+  the one-object category of the monoid `ℕ` and its opposite are both accessible, and neither is
+  a preorder.
+
+### 1.8 Categories whose opposite is locally presentable
+
+Prove `isLocallyPresentable_and_op_iff`: `C` and `Cᵒᵖ` are both locally presentable iff `C` is
+equivalent to a complete lattice `L : Type w` with its category structure (Gabriel–Ulmer 1971,
+Satz 7.13: such a `C` is a preorder). Route, forward: by Satz 7.13 `C` is thin; its `κ`-presentable
+objects are essentially small (Mathlib) and every object is a colimit, here a join, of them, so its
+poset of isomorphism classes is small, and it has all `w`-small joins by cocompleteness, hence is a
+complete lattice. Backward: in a complete lattice `L : Type w` and for `κ` regular and larger than
+the cardinality of `L`, every `κ`-directed subset has a largest element, so every element is
+`κ`-presentable; `L` is cocomplete, hence locally `κ`-presentable; `Lᵒᵖ` is the dual complete
+lattice; conclude with `Equivalence.isLocallyPresentable`. *Needs:* Mathlib
+`IsLocallyPresentable`, `Equivalence.isLocallyPresentable`, `CompleteLattice`,
+`Preorder.smallCategory`.
+
+**Checks.**
+
+- The two-element chain `0 < 1` is a complete lattice, equal to its own opposite up to
+  isomorphism: it and its opposite are locally presentable and it is not equivalent to `PUnit`.
+- `Type w` is locally presentable and not a preorder, and accordingly `Type wᵒᵖ` is not locally
+  presentable (1.1, second Check).
+- Cocompleteness is needed: the discrete category on two objects is a preorder, and it and its
+  opposite are accessible (1.7: small, with split idempotents), but it has no terminal object and
+  is not a lattice; the monoid `ℕ` of 1.7, third Check, is accessible both ways and not thin.
+
 ### Examples
 
 - For a small site `(C, J)`, `Sheaf J (Type w)` is a reflective subcategory of presheaves whose
@@ -405,7 +487,8 @@ conservative. `ModuleCat R` is cocomplete, so Mathlib's
 Mathlib: `CategoryTheory.Presentable` (`Basic`, `Finite`, `LocallyPresentable`, `StrongGenerator`,
 `Adjunction`, `Dense`, `SolutionSetCondition`, `Uniformization`, `Presheaf`, `Type`),
 `CategoryTheory.Limits.Indization`, the adjoint functor theorems, `Algebra.Category.ModuleCat`,
-`Algebra.Module.FinitePresentation` (for 1.6).
+`Algebra.Module.FinitePresentation` (for 1.6), `CategoryTheory.Idempotents` (for 1.7),
+`Order.CompleteLattice` and `CategoryTheory.Category.Preorder` (for 1.8).
 
 ## Layer 2: orthogonality classes
 
@@ -789,6 +872,75 @@ Lack–Rosický, Proposition 4.20). *Needs:* 3.1, 5.1; Mathlib `IsSifted`, `IsFi
   (pullbacks), the condition is on spans `(WalkingCospan)ᵒᵖ ≌ WalkingSpan`, not on cospans; the
   three families above are closed under opposites and do not separate the two readings.
 
+### 5.5 Generation under `D`-limits
+
+For `R` with `D`-limits and `i : I → R` with `I : Type w`, define `Generates D i`: the closure of
+the image of `i` under limits of the shapes `D a` (Mathlib's `ObjectProperty.limitsClosure` of
+`ObjectProperty.ofObj i`) is all of `R`; equivalently, every replete full subcategory of `R`
+containing the image and closed in `R` under `D`-limits is `R`. The closure is the union of the
+transfinite stages `I₀ ⊆ I₁ ⊆ ⋯` (`I₀` the repletion of the image, `Iβ₊₁` adding the limits of
+`D`-diagrams in `Iβ`, unions at limit ordinals); when every `D a` has fewer than `ρ` morphisms, for
+`ρ` regular, it is `Iρ`, and it is essentially small when `I` is small and `R` has `w`-small
+hom-sets (Kelly, §3.5, pp. 44–45, dualised). Prove `generates_iff_essSurj`: `Generates D i` holds
+iff every fully faithful `D`-functor `u : B ⥤ R` from a category with `D`-limits through whose
+essential image `i` passes is essentially surjective. Route, forward: the essential image of `u` is
+replete, contains the image of `i`, and is closed under `D`-limits, since a `D`-diagram on objects
+`u bₖ` lifts to `B` by fullness and faithfulness, has a limit there, and `u` preserves it. Backward:
+apply the condition to the inclusion of the closure, whose `D`-limits are computed in `R`.
+
+The functor `i` is *basic* when there are a small ordinal `γ` and a sequence `(Rβ)_{β ≤ γ}` of
+categories with `D`-limits and `D`-functors `Rβ ⥤ Rβ'` for `β ≤ β'`, with `R₀ = Ĩ`, the envelope
+(5.2) of the discrete category on `I`; each `Rβ ⥤ Rβ₊₁` a localisation at a small set of arrows
+(5.3) or the adjunction of a small set `H` of arrows between given objects, the `D`-functor
+`Rβ ⥤ Rβ⟨H⟩` whose `D`-functors to every `C` with `D`-limits are the pairs of a `D`-functor `ψ` on
+`Rβ` and arrows `ψ aₕ ⟶ ψ bₕ`, `h ∈ H` (Kelly, §6.4, Theorem 6.23, pp. 122–123, for the sketch of
+the `D`-limit cones of `Rβ` with the new arrows adjoined to its underlying category); the 2-colimit
+in the 2-category of categories with `D`-limits at limit ordinals; and an equivalence `Rγ ≌ R`
+whose composite with `I → Ĩ → Rγ` is isomorphic to `i`. Equalising a pair of arrows is a
+localisation (5.3). Prove, for a small family `D` and `R` with `w`-small hom-sets: `i` is basic iff
+`Generates D i`, with the base `I` fixed. Route, basic ⇒ generation, for every family `D`: by
+induction along the sequence, with `generates_iff_essSurj`: for `u : B ⥤ R_β` fully faithful through
+which the image of `I` passes, the universal property of the envelope, of the localisation, of the
+adjoined arrows or of the 2-colimit, applied with target `B`, gives a `D`-functor `r : Rβ ⥤ B`
+with `r ⋙ u ≅ 𝟭`, so `u` is essentially surjective (fullness of `u` lifts the adjoined arrows and
+faithfulness the equations). Generation ⇒ basic: `R` is essentially small (Kelly, §3.5); for
+`ρ` regular exceeding the numbers of morphisms of the `D a`, build `Sβ`, `β ≤ ρ`, small with
+`D`-limits, with `D`-functors `Φβ : Sβ ⥤ R` extending `i`, from `S₀ = Ĩ` and `Φ₀` the extension of
+5.2; at successor steps adjoin a formal arrow `a ⟶ b` for every arrow `Φβ a ⟶ Φβ b` of `R`, then
+equalise every pair of parallel arrows that `Φβ` identifies; at limit ordinals take the union,
+which is the 2-colimit because every `D`-diagram in it lies in an earlier stage. Then `Φρ` is fully
+faithful, its essential image is closed under `D`-limits, so by `Generates D i` it is an
+equivalence. *Needs:* 5.2, 5.3; Mathlib `ObjectProperty.limitsClosure`, `ObjectProperty.ofObj`,
+`Functor.Full`, `Functor.Faithful`, `Functor.EssSurj`.
+
+**Checks.**
+
+- `α` empty: the closure is the repletion of the image, so `Generates D i` says that `i` is
+  essentially surjective. For `R` the walking isomorphism `0 ≅ 1` and `i` picking `0` it holds,
+  although `1` is not in the image: a definition without repletion would not be invariant under
+  the equivalence of `R` with `PUnit`.
+- Faithfulness is weaker than generation. With `α` empty, let `R` have objects `x`, `y` and arrows
+  generated by `r : x ⟶ y` and `s : y ⟶ x` with `s ≫ r = 𝟙 y`, so that `e = r ≫ s ≠ 𝟙 x`, and let
+  `i` pick `x` (a model: `x = Bool`, `y = PUnit`, `s` the inclusion of `false`, `r` constant). A
+  natural transformation `σ : F ⟶ F'` is determined by `σ x`, since naturality and `s ≫ r = 𝟙 y`
+  give `σ y = F.map s ≫ σ x ≫ F'.map r`, so restriction to `x` is faithful for every `C`; but `y`
+  is not isomorphic to `x` (`End y = {𝟙}` and `End x = {𝟙, e}`), so `Generates D i` fails, and
+  `i` is not basic.
+- Smallness of `D` is needed. Take for `D` all `w`-small categories, indexed by a type of
+  `Type (w + 1)` and so outside the convention of this layer, and `i : PUnit → Type w` picking
+  `Bool`. Every type `X` is in bijection with the equaliser of the two maps
+  `f, g : (Set X → Bool) ⟶ (Set (Set X) ⊕ Set X → Bool)`, `f u = (S ↦ u (⋂₀ S), A ↦ u Aᶜ)` and
+  `g u = (S ↦ ⋀_{A ∈ S} u A, A ↦ ¬ u A)`, through `x ↦ (A ↦ [x ∈ A])`: the equaliser is the set of
+  complete Boolean homomorphisms `Set X → Bool`, each the evaluation at a unique point. So
+  `I₂ = Type w`, and `Fin 3 ∉ I₁`, since a limit of copies of `Bool` is closed under the ternary
+  operation `x + y + z` of `ℤ/2` and no three-element subset of a power of `Bool` is. Thus
+  `Generates D i` holds. But `i` is not basic: dually, the target of a basic functor for all small
+  colimits is the reflective orthogonality class of a small sketch in a presheaf category, closed
+  there under `λ`-filtered colimits for some regular `λ` (Kelly, §6.2, Theorem 6.5, p. 117, §6.3,
+  Theorem 6.11, p. 119, and §5.12, Theorem 5.56, p. 108, along the sequence), so each of its
+  objects is presentable, while `op Bool` is not `κ`-presentable in `Type wᵒᵖ` for any regular `κ`
+  (1.1, second Check).
+
 ### Examples
 
 - `Mod_κ T` of Layer 3 is the case of 5.1 where `D` is a set of representatives of the `κ`-small
@@ -797,7 +949,8 @@ Lack–Rosický, Proposition 4.20). *Needs:* 3.1, 5.1; Mathlib `IsSifted`, `IsFi
 ### Dependencies
 
 Mathlib: `CategoryTheory.ObjectProperty.LimitsClosure`, `CategoryTheory.MorphismProperty`,
-`CategoryTheory.Limits.Sifted`. This roadmap: 3.1.
+`CategoryTheory.Limits.Sifted`. This roadmap: 3.1; 5.2 and 5.3 (for 5.5); 1.1, second Check (for
+the last Check of 5.5).
 
 ## Downstream consumers
 
@@ -815,7 +968,15 @@ and natural transformations; 3.2–3.4 are its statements on objects, on recover
 (Kelly 1982) and over more general bases with more general classes of limits (Lack–Power 2009;
 Lack–Rosický 2011, Theorem 5.4), and its doctrinal form is the theory of sound doctrines of 5.4.
 Grothendieck's lectures at Buffalo in 1973 worked in the 2-category of categories with `D`-limits
-of Layer 5, where the envelope and localisation of 5.2 and 5.3 are constructions on theories.
+of Layer 5, where the envelope and localisation of 5.2 and 5.3 are constructions on theories, and
+asked whether a theory presented from a set of objects by such constructions is the same as one
+generated by them under `D`-limits; 5.5 is the comparison, for small `D`, and its last Check shows
+that it fails for all small limits. On the side of limits, accessible categories and accessible
+functors are closed under the 2-categorical limits computed in categories (Makkai–Paré 1989,
+ch. 5; Mathlib has the comma categories), while for colimits beyond the directed unions of 1.7
+only partial results are known; under the existence of a proper class of strongly compact
+cardinals, directed colimits of accessible embeddings that are not full are accessible
+(Paré–Rosický 2013, Corollary 3.2).
 
 ## References
 
@@ -842,5 +1003,12 @@ of Layer 5, where the envelope and localisation of 5.2 and 5.3 are constructions
   *J. Pure Appl. Algebra* 175 (2002), no. 1–3, 7–30. doi:10.1016/S0022-4049(02)00126-3.
 - G. M. Kelly, « Structures defined by finite limits in the enriched context. I »,
   *Cahiers Topologie Géom. Différentielle* 23 (1982), no. 1, 3–42. Numdam: CTGDC_1982__23_1_3_0.
+- M. Makkai, R. Paré, *Accessible categories: the foundations of categorical model theory*,
+  Contemp. Math. 104, Amer. Math. Soc., 1989. doi:10.1090/conm/104.
+- R. Paré, J. Rosický, « Colimits of accessible categories », *Math. Proc. Cambridge Philos. Soc.*
+  155 (2013), no. 1, 47–50. doi:10.1017/S0305004113000030; arXiv:1110.0767 (numbering of arXiv
+  version 1).
+- G. Tendas, « On continuity of accessible functors », *Appl. Categ. Structures* 30 (2022), no. 5,
+  937–946. doi:10.1007/s10485-022-09677-x; arXiv:2110.14192 (numbering of arXiv version 2).
 - S. Lack, J. Power, « Gabriel–Ulmer duality and Lawvere theories enriched over a general base »,
   *J. Funct. Programming* 19 (2009), no. 3–4, 265–286. doi:10.1017/S0956796809007254.

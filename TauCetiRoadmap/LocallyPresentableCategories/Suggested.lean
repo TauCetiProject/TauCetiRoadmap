@@ -28,6 +28,11 @@ Headline theorems stated here:
 * README 1.6, `isFinitelyPresentable_moduleCat_iff` and `isLocallyFinitelyPresentable_moduleCat`:
   the finitely presentable objects of `ModuleCat R` are the finitely presented modules, and
   `ModuleCat R` is locally finitely presentable.
+* README 1.7, `isAccessibleCategory_iff_isIdempotentComplete` and
+  `isAccessibleCategory_of_directed`: small accessible categories are those with split
+  idempotents, and directed unions of accessible full subcategories are accessible.
+* README 1.8, `isLocallyPresentable_and_op_iff`: `C` and `Cᵒᵖ` are both locally presentable
+  exactly when `C` is equivalent to a small complete lattice.
 * README 2.1, `isCardinalLocallyPresentable_iff_exists_isLocal`: locally `κ`-presentable
   categories are the small-orthogonality classes in presheaf categories, for maps between
   `κ`-presentable presheaves.
@@ -54,6 +59,8 @@ Headline theorems stated here:
 * README 5.2, `envelope_universal`: the `D`-envelope of a small category.
 * README 5.3, `exists_localization`: inverting a set of arrows inside the 2-category of
   categories with `D`-limits.
+* README 5.5, `generates_iff_essSurj`: generation under `D`-limits (`Generates`) is detected by
+  fully faithful `D`-functors.
 
 The two restriction functors `restrict` and `restrictInverting` carry proofs that restriction
 preserves the defining limits; nothing in this file is data built on `sorry`.
@@ -61,7 +68,9 @@ preserves the defining limits; nothing in this file is data built on `sorry`.
 Not stated here: README 3.5, the syntactic essentially algebraic theories (sorts, total and
 partial operations, equations) and their equivalence with small categories with `κ`-small
 limits, and README 5.4, sound doctrines; neither is a headline of the Summary, and both are kept
-in the README.
+in the README. Not stated: the equivalence of README 5.5 between basic functors and generation
+under `D`-limits, lacking a 2-colimit of a transfinite chain in the 2-category of categories with
+`D`-limits, on which the notion of a basic functor is built.
 
 Conventions (README §Conventions): `κ`-small shapes are small categories `J` with
 `HasCardinalLT (Arrow J) κ`; models are covariant functors `T ⥤ Type w`; a family of limit shapes
@@ -139,6 +148,27 @@ theorem isFinitelyPresentable_moduleCat_iff (R : Type u) [Ring R] (M : ModuleCat
 /-- README 1.6. The category of modules over a ring is locally finitely presentable. -/
 theorem isLocallyFinitelyPresentable_moduleCat (R : Type u) [Ring R] :
     IsLocallyFinitelyPresentable.{u} (ModuleCat.{u} R) := sorry
+
+/-- README 1.7. A small category is accessible iff its idempotents split (Tendas 2022,
+Theorem 3.7, at `V = Set`). -/
+theorem isAccessibleCategory_iff_isIdempotentComplete (C : Type w) [SmallCategory C] :
+    IsAccessibleCategory.{w} C ↔ IsIdempotentComplete C := sorry
+
+/-- README 1.7. A directed union of accessible full subcategories along accessible inclusions is
+accessible, and so are the inclusions of the pieces (Paré–Rosický 2013, Theorem 2.1). -/
+theorem isAccessibleCategory_of_directed {C : Type u} [Category.{v} C] {ι : Type w} [Preorder ι]
+    [IsDirectedOrder ι] (P : ι → ObjectProperty C) (hP : Monotone P)
+    (hacc : ∀ i, IsAccessibleCategory.{w} (P i).FullSubcategory)
+    (hincl : ∀ ⦃i j : ι⦄ (h : i ≤ j), (ObjectProperty.ιOfLE (hP h)).IsAccessible.{w})
+    (hcover : ∀ X : C, ∃ i, P i X) :
+    IsAccessibleCategory.{w} C ∧ ∀ i, (P i).ι.IsAccessible.{w} := sorry
+
+/-- README 1.8. A category and its opposite are both locally presentable iff the category is
+equivalent to a small complete lattice (Gabriel–Ulmer 1971, Satz 7.13: such a category is a
+preorder). -/
+theorem isLocallyPresentable_and_op_iff (C : Type u) [Category.{v} C] :
+    IsLocallyPresentable.{w} C ∧ IsLocallyPresentable.{w} Cᵒᵖ ↔
+      ∃ (L : Type w) (_ : CompleteLattice L), Nonempty (C ≌ L) := sorry
 
 /-! ## Layer 2: orthogonality classes -/
 
@@ -381,6 +411,19 @@ theorem exists_localization (R : Type w) [SmallCategory R] (S : MorphismProperty
       (hS : S.IsInvertedBy q), HasDLimits D R' ∧
       ∀ (C : Type u) [Category.{w} C], HasDLimits D C →
         (restrictInverting D q hq hS C).IsEquivalence := sorry
+
+/-- A functor `i : I → R` generates `R` under `D`-limits: the closure of its image under limits of
+the shapes `D a` is all of `R` (README 5.5). -/
+def Generates {R : Type u} [Category.{v} R] {I : Type w} (i : I → R) : Prop :=
+  (ObjectProperty.ofObj i).limitsClosure D = ⊤
+
+/-- README 5.5. In a category with `D`-limits, `i` generates iff every fully faithful `D`-functor
+through whose essential image `i` passes is essentially surjective. -/
+theorem generates_iff_essSurj {R : Type u} [Category.{v} R] (hR : HasDLimits D R) {I : Type w}
+    (i : I → R) :
+    Generates D i ↔
+      ∀ (B : Type u) [Category.{v} B] (F : B ⥤ R) [F.Full] [F.Faithful], HasDLimits D B →
+        PreservesDLimits D F → (∀ x, ∃ b, Nonempty (F.obj b ≅ i x)) → F.EssSurj := sorry
 
 end DLimits
 
