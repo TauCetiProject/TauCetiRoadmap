@@ -453,7 +453,7 @@ ModularCurvesPartII's `latticeQuasiPeriod_legendre`, not reproved; its corollari
 For `τ` in the upper half-plane and `L = ofUpperHalfPlane τ`: `η(1) = G₂(τ) = (π²/3) E₂(τ)` with
 Mathlib's `G2` (`quasiPeriod_ofUpperHalfPlane_one`). `E₂` is only quasi-modular and ModularForms
 §10D does not cover it; the companions `g₂ = (4π⁴/3) E₄(τ)` and `g₃ = (8π⁶/27) E₆(τ)` are §10D's
-(Exact supplier contracts). Prove the last one row by row: the series for
+(Exact supplier contracts). Prove `η(1) = G₂(τ)` row by row: the series for
 `ζ(z+1) − ζ(z)` has summands `O(|l|⁻³)`, so it may be grouped by rows `l = mτ + n`; in each row
 the terms `1/(z+1−l) − 1/(z−l)` telescope to `0` over symmetric partial sums, leaving
 `∑'_n (mτ+n)⁻²`, which is Mathlib's `e2Summand m τ` (with `e2Summand 0 τ = 2ζ(2)`); the outer sum
