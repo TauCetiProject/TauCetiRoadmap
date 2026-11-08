@@ -36,7 +36,10 @@ integration over them and the de Rham theorem (layer 8), the Poincaré pairing a
 duality (layer 9), null sets, Sard's theorem on manifolds and the Brouwer mapping degree
 (layer 10), the hairy ball theorem (layer 11) and the Riemannian calculus (layer 12). Citations
 of a single section 5.5 (densities and Stokes with corners) refer to 5.5a (densities) and 5.5b
-(smooth faces, abstract boundary and corner Stokes).
+(smooth faces, abstract boundary and corner Stokes). Citations of the layer 4 names
+Distribution, IsInvolutive and leafThrough refer to the family `D` with
+`TauCeti.IsContMDiffDistribution`, to `TauCeti.IsInvolutiveDistribution` and to the leaf of
+`Distribution.exists_leaf` (4.2–4.4).
 
 Already in the library, at the Tau Ceti revision the content repository pins (*From Tau Ceti*,
 the de Rham modules): all of layer 6 and 7.1–7.3, the carriers of 8.3, the integral over a
@@ -237,6 +240,17 @@ Checked against the pin; re-grep before citing anything in code.
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
   — universal cover, π₁-action, deck groups and the classification; 2.4 consumes the
   two-sheeted case.
+- **Oriented atlases**: `Geometry/Manifold/Orientation.lean` — `TauCeti.OrientationPreservingOn`
+  (differentiable within `range I` with derivative of positive determinant, read in the model),
+  `TauCeti.orientationPreservingGroupoid`, `TauCeti.IsOrientedAtlas I n A` (charts of the maximal
+  `C^n` atlas that cover `M` and whose coordinate changes lie in that groupoid, over every model)
+  and the class `TauCeti.Orientable I n M` (an oriented atlas exists). 2.2's atlas criterion is
+  stated with `IsOrientedAtlas`. At the Tau Ceti revision the content repository pins,
+  `IsOrientedAtlas` lives in `Geometry/Manifold/Orientation/OrientedAtlas.lean` with the same
+  signature, the direction from an oriented atlas to an orientation is
+  `TauCeti.IsOrientedAtlas.orientable`, and `TauCeti.Orientable` names the chart-sign class of
+  2.1, which is why the criterion is stated with `IsOrientedAtlas` and not with either
+  `Orientable`.
 
 - **The boundary manifold** (geometric-topology roadmap):
   `Geometry/Manifold/Boundary/{Model,Charts}.lean` — `TauCeti.isManifold_boundary` (the boundary of
@@ -358,8 +372,8 @@ Frobenius APIs. `TauCeti.IsContMDiffDistribution`, local
 `TauCeti.IsInvolutiveDistribution`, the foliation carrier and the local
 integral-graph theorem are the shared production interfaces. Extend them
 with the restrictions, transport laws and consumers below; do not build a
-parallel distribution or involutivity theory. The bundled local record in
-`Suggested.lean` is a signature presentation of this data. The pinned files are
+parallel distribution or involutivity theory. `Suggested.lean` states layer 4
+on these predicates directly and adds only the bundled integral manifold. The pinned files are
 `TauCeti/Geometry/Manifold/Distribution.lean`,
 `TauCeti/Geometry/Manifold/Foliation/Basic.lean` and
 `TauCeti/Geometry/Manifold/Distribution/Graph.lean`.
@@ -765,9 +779,21 @@ Geometric Topology.
   continuous top forms ↔
   orientations (`exists_orientation_of_topForm`), the smooth direction under
   `[T2Space M] [SigmaCompactSpace M]` (`exists_topForm_of_orientation`) [Lee, Prop. 15.5]; the
-  oriented-atlas criterion as a theorem for boundaryless `M` (`orientable_iff_exists_atlas`)
-  [Lee, Prop. 15.6].
+  oriented-atlas criterion for boundaryless `C¹` `M`: `Orientable I M` holds exactly when `M`
+  has an oriented atlas `TauCeti.IsOrientedAtlas I 1` (`orientable_iff_exists_atlas`)
+  [Lee, Prop. 15.6]. The direction from an oriented atlas to an orientation holds over every
+  model; the converse needs `[BoundarylessManifold I M]`.
   **Checks.**
+  - Negative control for the boundaryless hypothesis: `Set.Icc 0 1` over `𝓡∂ 1` has an
+    orientation (2.1) but no oriented atlas. A chart of the maximal atlas around `0` sends the
+    boundary point `0` to the boundary point `0` of `[0, ∞)` and so is increasing near `0`; one
+    around `1` sends `1` there and so is decreasing near `1`. Positive transition derivatives
+    would make the sign of the derivative of the charts, read against the coordinate of
+    `[0, 1]`, locally constant on the connected `[0, 1]`, and it is `+` at `0` and `−` at `1`.
+  - On `ℝ`, the atlas `{id}` is oriented, and the atlas `{id, t ↦ −t}` (both in the maximal
+    smooth atlas) is not, since its transition has derivative `−1`; an orientable manifold can
+    carry a non-oriented atlas, so the criterion asks for some oriented atlas, not for the given
+    one.
   - Negative control: the empty map from the empty manifold modelled on `ℝ²` to `ℝ` is a local
     diffeomorphism and `ℝ` has an orientation indexed by `Fin 1`, but the empty manifold has none
     indexed by `Fin 1` (`card_eq` would force `1 = 2`); the pullback statement without the
@@ -926,15 +952,15 @@ integral-graph theorem
 `TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt`, using
 `TauCeti/Analysis/ODE/Frobenius.lean`. These are consumed, not scheduled again.
 
-The local `Distribution` record in `Suggested.lean` is a bundled
-signature presentation of that shared data. Its `fiber` is the
-canonical family; its rank and frame fields express the existing regularity
-predicate. Its local `IsInvolutive` spelling expands the canonical local
-predicate. Neither is a target for a second production implementation.
-Any convenience wrapper retained in Tau Ceti must package the existing family
-and predicates, and the theorem implementations must use that shared API.
-Consume the proved native results through that shared API; a signature
-presentation is not a reason to duplicate their implementation.
+Every headline of this layer takes the family `D` with the hypotheses
+`TauCeti.IsContMDiffDistribution I ∞ k D` (rank `k`, smooth local frames) and,
+where needed, `TauCeti.IsInvolutiveDistribution I D`, and concludes the latter
+where involutivity is the conclusion. The only definition `Suggested.lean`
+adds is the bundled integral manifold `Distribution.IntegralManifold` of 4.2.
+At the Tau Ceti revision the content repository pins, that bundle is
+`TauCeti.IntegralManifold` (`Geometry/Manifold/Distribution/IntegralManifold.lean`),
+which also asks for a nonempty carrier; the declaration of `Suggested.lean` is
+that target's signature, never a second definition.
 
 - **4.1 Distributions and frames.** Consume the existing rank, frame,
   regularity, constant-distribution and contact-distribution APIs. Add the
@@ -946,9 +972,9 @@ presentation is not a reason to duplicate their implementation.
 - **4.2 Integral manifolds and involutivity.** An integral immersion has its
   own smooth `k`-dimensional manifold carrier and a smooth immersion into `M`
   whose differential has image exactly `D` at every point (the bundled data
-  `Distribution.IntegralManifold`, on the signature presentation `Distribution` with its
-  involutivity predicate `Distribution.IsInvolutive`). Define the unbundled predicate and the
-  bundled data, with their evaluation laws.
+  `Distribution.IntegralManifold`, over the family `D` itself; regularity and involutivity are
+  `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`). Define the
+  unbundled predicate and the bundled data, with their evaluation laws.
   A parametrizing immersion need not be injective. Distinguish it from an
   injectively immersed integral submanifold.
 
@@ -965,25 +991,31 @@ presentation is not a reason to duplicate their implementation.
   they do not replace the local definition of involutivity.
 
   **Checks.**
-  - `Distribution`: the constant rank-`k` family `span(e₁, …, e_k)` on `ℝⁿ`, with the constant
-    fields as frame, and the contact family `ker(dz − y dx)` on `ℝ³`, with the global frame
-    `∂y`, `∂x + y ∂z`, are `Distribution`s of ranks `k` and `2`; the family on `ℝ` that is
-    `span(∂x)` off `0` and `0` at `0` is not one, since `finrank_fiber` fails at `0`. Rank `0`
-    is the family `⊥`, with the empty frame; rank `dim E` is `⊤`.
-  - `Distribution.IsInvolutive`: the constant family is involutive, the bracket of two fields
-    with values in a fixed subspace having its values there; the contact family is not, since
-    `X = ∂x + y ∂z` and `Y = ∂y` are tangent to it and `[Y, X] = ∂z` is not. The test is local:
-    on the non-Hausdorff manifold of *Statements that must not enter the library* every global
-    section satisfies the bracket condition, while the local pair `X`, `Y` on the central chart
-    has bracket `−∂z` outside the family, so `IsInvolutive` fails there, as it must, and a
-    global-sections-only predicate would wrongly hold.
-  - `Distribution.IntegralManifold`: the affine slice `u ↦ (u, c)`, `ℝ^k → ℝⁿ`, is an integral
-    manifold of the constant family with carrier `ℝ^k`; `range_mfderiv` is an equality, so an
-    immersion of `ℝ^j`, `j < k`, into the same slice is not one (with `≤` in place of `=` every
-    positive-rank family, the contact one included, would have integral manifolds through every
-    point, refuting 4.2's implication); and the irrational line on the torus is an integral
-    manifold of the constant-slope family with carrier `ℝ` and dense image, which with the
-    subspace topology is not a manifold.
+  - `Distribution.IntegralManifold`, constant family: the affine slice `u ↦ (u, c)`,
+    `ℝ^k → ℝⁿ`, is an integral manifold of `span(e₁, …, e_k)` with carrier `ℝ^k`; the
+    differential of the slice at every point has image exactly `span(e₁, …, e_k)`.
+  - Equality, not containment: for `j < k` the immersion `u ↦ (u, 0, c)` of `ℝ^j` into the
+    slice has differential image a proper subspace of `span(e₁, …, e_k)`, so it is not an
+    integral manifold of the constant family with carrier dimension `j`. With `≤` in place of
+    `=` it would be one, and every family of positive rank, the contact one included, would have
+    one-dimensional integral manifolds (the integral curves of a frame field) through every
+    point. When the carrier dimension is the rank, as in the headlines, `≤` and `=` agree,
+    because the differential of an immersion is injective.
+  - Its own topology: the irrational line `t ↦ (t, αt)` on the torus `ℝ²/ℤ²` is an integral
+    manifold of the constant-slope family with carrier `ℝ` and dense image; its image with the
+    subspace topology is not a manifold, so a carrier given by the image would be wrong.
+  - The hypotheses of the headlines: the constant family satisfies
+    `TauCeti.IsContMDiffDistribution` at rank `k` with the constant frame, rank `0` being `⊥`
+    with the empty frame and rank `dim E` being `⊤`; the family on `ℝ` that is `span(∂x)` off `0`
+    and `0` at `0` satisfies it at no rank (rank `1` fails at `0`, rank `0` off `0`). The contact
+    family `ker(dz − y dx)` on `ℝ³` satisfies it at rank `2` with the global frame `∂y`,
+    `∂x + y ∂z`, and is not involutive: `X = ∂x + y ∂z` and `Y = ∂y` are tangent to it, and
+    `[Y, X] = ∂z` is not, since `dz(∂z) − y dx(∂z) = 1`.
+  - Involutivity is tested locally: on the non-Hausdorff manifold of *Statements that must not
+    enter the library* every global section satisfies the bracket condition, while the local pair
+    `X`, `Y` on the central chart has bracket `−∂z` outside the family, so
+    `TauCeti.IsInvolutiveDistribution` fails there, as it must, and a global-sections-only
+    predicate would wrongly hold.
 
 - **4.3 Local Frobenius.** On a finite-dimensional smooth Hausdorff
   boundaryless manifold, an involutive smooth distribution has flat charts
@@ -2141,9 +2173,10 @@ Riesz duality.*
 
 Each is a tempting mistake with its refutation.
 
-- **"Orientable = admits a positive-Jacobian atlas", as a definition.** `Set.Icc 0 1` is orientable
-  but its two charts cannot be made positively transitioning; chart signs are the definition (2.1),
-  the atlas criterion a theorem for boundaryless `M`.
+- **"Orientable = admits a positive-Jacobian atlas", as a definition.** `Set.Icc 0 1` over `𝓡∂ 1`
+  is orientable but has no oriented atlas (`TauCeti.IsOrientedAtlas`, 2.2's Check); chart signs are
+  the definition (2.1). Tau Ceti's oriented-atlas notion agrees with chart-sign orientability on
+  boundaryless manifolds, which is 2.2's criterion, and is narrower for 1-manifolds with boundary.
 - **"The sigma topology on pointwise orientations is the orientation cover."** It is discrete, so
   the projection is not a local homeomorphism.
 - **"Integral manifolds are embedded", "leaves carry the subspace topology", "`T_pS ⊆ D_p`
