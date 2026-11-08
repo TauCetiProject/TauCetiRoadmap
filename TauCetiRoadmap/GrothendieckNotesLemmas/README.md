@@ -200,8 +200,9 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
   divisibility over a principal ideal ring, and the injectivity of quotients of a faithful
   division algebra, used by 2.8 and cited in Scope.
 - `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero`
-  (`TauCeti/Algebra/Module/Injective/Hom.lean`): a linear map into an injective module sends `a`
-  to `x` exactly when every scalar killing `a` kills `x`, used by 2.8.
+  (`TauCeti/Algebra/Module/Injective/Hom.lean`): for `a : M` and `x` in an injective module `Q`,
+  some linear map `M → Q` sends `a` to `x` exactly when every scalar killing `a` kills `x`, used
+  by 2.8.
 - `Derivation.leibniz_prod` (`TauCeti/RingTheory/Derivation/Basic.lean`): the Leibniz rule for a
   finite product.
 - `IsSemisimpleModule.nonempty_linearEquiv_of_trace_eq`
@@ -523,15 +524,15 @@ Mathlib `AddSubgroup`, `Module ℚ`.
 
 ### 2.8 Injective modules over a principal ideal domain
 
-Prove `Module.injective_iff_forall_smul_surjective`: over a principal ideal domain, a module is
-injective if and only if it is divisible; and `Module.Injective.quotient`: over a principal ideal
+Prove `Module.injective_iff_forall_smul_surjective`: over a principal ideal domain, a module `Q`
+is injective if and only if it is divisible; and `Module.Injective.quotient`: over a principal ideal
 domain, every quotient of an injective module is injective (own statements in this generality;
 Mathlib's `Module.Baer.of_divisible` is the case of `ℤ`). Both carry `[Small.{v} R]` for a module
 in universe `v`. Route: divisibility gives Baer's criterion by Tau Ceti's
 `Module.Baer.of_surjective_smul`, hence injectivity by `Module.Baer.injective`; conversely, over a
 domain `r • ·` is injective on `R`, so only `s = 0` kills `r ≠ 0`, and Tau Ceti's
 `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero` extends `r ↦ x` to a linear map
-`R → M`. A quotient of a divisible module is divisible, which gives the second statement from the
+`f : R → Q`, and `x = r • f 1`. A quotient of a divisible module is divisible, which gives the second statement from the
 first. *Needs:* Tau Ceti `Module.Baer.of_surjective_smul`,
 `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero`; Mathlib `Module.Baer`,
 `Module.Baer.injective`, `Module.Baer.of_injective`, `IsPrincipalIdealRing`, `Submodule.mkQ`.
