@@ -2,7 +2,7 @@
 
 **Summary.** Quantitative primes, the uniform exclusion of Landau–Siegel zeros with its effective consequences, explicit formulas, Hecke and Artin comparisons, multiplicative means, smooth numbers and proved zeta moments.
 
-`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), its effective consequences — the lower bound for `L(1,χ)` (§0.9), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§0.18) and its quadratic prime-interval form (§0.28) — Weierstrass primary products with equal-divisor factorization, finite-order and paired Hadamard factorization, effective Siegel–Walfisz, Chebyshev's factorial identity, Mertens's von Mangoldt sum with its constant `γ`, and the local expansion and half-plane bounds of `ζ′/ζ` (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas (Mestre's general formula and the `C¹` formula for `ζ` with Gauss's digamma integral), Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); the K-Bessel kernel, the level-one Eisenstein series with its Fourier expansion and completed continuation, Artin and Swan conductors with their integrality, Hecke's continuation for unitary characters, Zaman's prime-ideal count, Louboutin, the effective real quadratic bound for `hR` (§2.13) and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments with the divisor-square Euler identity and the Beurling remainder equivalence (Layer 3). Every published finite computation a theorem rests on is a named proposition there and an explicit hypothesis of that theorem. Its definitions serve those statements.
+`Suggested.lean` states the headline theorems on native library carriers: the uniform exclusion of Landau–Siegel zeros with its classification, Landau-deduction and inert-prime targets (§0.34), its effective consequences — the lower bound for `L(1,χ)` (§0.9), the exception-free bounded-height Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term (§0.18) and its quadratic prime-interval form (§0.28) — Weierstrass primary products with equal-divisor factorization, finite-order and paired Hadamard factorization, effective Siegel–Walfisz, Chebyshev's factorial identity, Mertens's von Mangoldt sum with its constant `γ`, and the local expansion and half-plane bounds of `ζ′/ζ` (Layer 0); Davenport cancellation, half-interval and Weil explicit formulas (Mestre's general formula and the `C¹` formula for `ζ` with Gauss's digamma integral), Dirichlet-polynomial means, Selberg density and conditional prime errors (Layer 1); the K-Bessel kernel, the level-one Eisenstein series with its Fourier expansion and completed continuation, Artin and Swan conductors with their integrality, Hecke's continuation for unitary characters, Zaman's effective lower bound for Chebotarev primes, Louboutin, the effective real quadratic bound for `hR` (§2.13) and bounded-degree Brauer–Siegel (Layer 2); and Shiu, Halász, Dickman, Landau–Ramanujan, restricted Sathe–Selberg, Atkinson, zeta moments with the divisor-square Euler identity and the Beurling remainder equivalence (Layer 3). Every published finite computation a theorem rests on is a named proposition there and an explicit hypothesis of that theorem. Its definitions serve those statements.
 
 ## Scope and ownership
 
@@ -26,7 +26,7 @@ ArithmeticDirichletSeries supplies norm-indexed ideal coefficients, genuine Eule
 
 Integral Brauer induction and nilpotent monomiality are already in Tau Ceti; their exact combination is specified under From RepresentationTheory. The Artin targets add arithmetic Euler-factor and continuation comparisons, rather than another representation-theoretic induction theorem.
 
-Qualitative prime counts use `TauCeti.primeIdealTheorem` and `TauCeti.primeCount_univ_isEquivalent_div_log` (`TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem`), and `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.FrobeniusPrimeCount`). Chebotarev Layers 13–14 supply rational progression/total-prime specializations. Its `NumberField.Chebotarev.frobeniusVonMangoldtCoeff_galEquivZMod_symm_of_coprime` compares inclusive rational sums on coprime inputs; the all-input `frobeniusVonMangoldtCoeff_galEquivZMod_symm` needs `q%4≠2`. Otherwise discard prime powers dividing `q`: prime 2 in the conductor-reduced cyclotomic field is not a unit modulo 6. This roadmap adds quantitative errors.
+Qualitative prime counts use `TauCeti.primeIdealTheorem` and `TauCeti.primeCount_univ_isEquivalent_div_log` (`TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem`), and `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.FrobeniusPrimeCount`). §2.9 counts with `NumberField.Chebotarev.frobeniusPrimeCount K L C x` (`TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt`), for a finite Galois extension `L/K` of number fields and a conjugacy class `C` of `L ≃ₐ[K] L`: the number of primes of `K` unramified in `L`, of norm at most `x`, whose Artin class (arithmetic Frobenius) is `C`. Ramified primes are never counted, and the cutoff is inclusive. Chebotarev Layers 13–14 supply rational progression/total-prime specializations. Its `NumberField.Chebotarev.frobeniusVonMangoldtCoeff_galEquivZMod_symm_of_coprime` compares inclusive rational sums on coprime inputs; the all-input `frobeniusVonMangoldtCoeff_galEquivZMod_symm` needs `q%4≠2`. Otherwise discard prime powers dividing `q`: prime 2 in the conductor-reduced cyclotomic field is not a unit modulo 6. This roadmap adds quantitative errors.
 
 `TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation.Nonvanishing` supplies `continuedLFunctionOfWeight_ne_zero_of_one_lt_re`, `continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` and `continuedLFunctionOfWeight_ne_zero_of_isTrivialOnGood_sq`: respectively `Re s>1`, square cancellation on `Re s≥1`, and quadratic weights away from 1. The Hecke boundary adapter identifies the ray character and transports LFunctions Layer 7’s quadratic endpoint to canonical Hecke continuation.
 
@@ -83,7 +83,7 @@ H2.2 supplies `ζ_K(s)=ζ(s)L(s,χ_D)` on `Re s>1` for a quadratic field `K` of 
 | [ZerosOfLFunctions 0.1–0.2][R11] | `OrderLE f A`: cobounded big-`O` of `exp(‖z‖^b)` for each `b>A`, with entirety separate. `entireCompletion` is the unique analytic pole-cleared extension with its exact divisor and nonzero former-pole values; for `ζ` it is `s(s−1)Λ`, without 1/2. |
 | [ZerosOfLFunctions 1.2–1.4][R12] | Analytic `logΓ` on `|arg z|<π−δ, |z|>1`, normalized at 2, Stirling remainder, vertical-strip modulus/phase, digamma and balanced Gamma quotients. §0.23a supplies the normalized slit-plane extension, its Stieltjes representation and higher remainder derivatives. |
 | [ZerosOfLFunctions 3.3–3.4][R13] | Pole-cleared conductor-uniform convexity at fixed degree and bounded shifts; order at most one for `ζ` and primitive Hecke entire completions. Finite order alone does not suffice. |
-| [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height `O(log analyticQ)` local counts. Bounded-height conductor uniformity is refined here. |
+| [ZerosOfLFunctions Layer 4][R14] | Locally finite analytic zero divisor, multiplicity-weighted restrictions, finite counts and high-height local counts `O(log Q_an)` in the analytic conductor `Q_an` of its Layer 2 (*analyticConductorAt*). Bounded-height conductor uniformity is refined here. |
 | [ZerosOfLFunctions 5.2–5.6][R15] | Zero summability/tails, `E₁(w)=(1−w)exp(w)` and its API, locally uniform unordered products, Hadamard at order `≤1` for `f(0)≠0`, and logarithmic derivative. The origin-zero adapter extends this locally. |
 | [ZerosOfLFunctions 6.2–6.4][R16] | Fixed-degree conductor-uniform regions, including `ζ`, with at most one simple real exception for real characters: 6.3's predicate *IsExceptionalZero* holds for at most one `β`, of multiplicity one, only for a real character, and then `β≥1/2`. Use the supplied width; §0.1 compares `c` before inheriting these assertions, and §0.34b uses the conductor bound 6.4d. Family Landau–Page is additional, and §0.34 shows that the exception does not occur at width `c_LS`. |
 | [ZerosOfLFunctions 7.4][R17] | Multiplicity-sensitive Riemann–von Mangoldt formula with Gamma phase and safe heights. |
@@ -185,7 +185,7 @@ By §0.34 the predicate is empty at every width `0<c≤c_LS`: a zero in the wind
 
 See [47][R47], Section 7, Proposition 7.1 and following paragraph, pp. 373-374; [109], Theorem 1, for the emptiness.
 
-Comparison with the supplier: for the degree-one constant `c₁>0` of [ZerosOfLFunctions 6.3–6.4][R16] and `0<c≤min(c₁/3,log3/2)`, a `c`-exceptional `β` satisfies *IsExceptionalZero* through §0.30. Indeed `N≥3`, `β>1/2` and `log analyticQ(χ,0)≤log(4N)≤3logN`, so `c/logN≤c₁/log analyticQ(χ,0)`. Conversely require the supplier predicate, stricter cutoff and primitive nonprincipal quadratic conditions. Inherit uniqueness/simplicity only at this width. Reducing `c` preserves exclusion, not existence. The width comparison for `c_star` is `0<c_star≤min(c₁/3,log3/2,c_LS)`.
+Comparison with the supplier: for the degree-one constant `c₁>0` of [ZerosOfLFunctions 6.3–6.4][R16] and `0<c≤min(c₁/3,log3/2)`, a `c`-exceptional `β` satisfies *IsExceptionalZero* through §0.30. Indeed `N≥3`, `β>1/2` and the analytic conductor `Q_an(χ,s)` of ZerosOfLFunctions Layer 2 (*analyticConductorAt*) satisfies `log Q_an(χ,0)≤log(4N)≤3logN`, its archimedean factor at `s=0` being 3 or 4, so `c/logN≤c₁/log Q_an(χ,0)`. Conversely require the supplier predicate, stricter cutoff and primitive nonprincipal quadratic conditions. Inherit uniqueness/simplicity only at this width. Reducing `c` preserves exclusion, not existence. The width comparison for `c_star` is `0<c_star≤min(c₁/3,log3/2,c_LS)`.
 
 *Needs:* `DirichletCharacter.LFunction`; §0.30; [ZerosOfLFunctions 6.3–6.4][R16]; §0.34.
 
@@ -224,7 +224,7 @@ For `x≥exp(10000)` prove the bound from the explicit zero-free-region Chebyshe
 
 ### 0.4 Prime powers do not erase the character-sum margin
 
-Put `ε=0.002811`. For real `k≥2*10^10`, the prime-power mass `M=ψ(k)−θ(k)−ψ(k/2)+θ(k/2)` is smaller than `(((1−3*ε)/8)−0.1239)*k`. For `b:ℕ→ℂ` with `|b(n)|≤1` whenever `k/2<n≤k`, put `P=Σ_{k/2<p≤k, p prime}b(p)log p` and `V=Σ_{k/2<n≤k}b(n)Λ(n)`. Then `|V−P|≤M`, so `|P|≥(1−3*ε)*k/8` implies `|V|>0.1239*k`.
+Put `ε=0.002811`. For real `k≥2·10^10`, the prime-power mass `M=ψ(k)−θ(k)−ψ(k/2)+θ(k/2)` is smaller than `((1−3ε)/8−0.1239)k`. For `b:ℕ→ℂ` with `|b(n)|≤1` whenever `k/2<n≤k`, put `P=Σ_{k/2<p≤k, p prime}b(p)log p` and `V=Σ_{k/2<n≤k}b(n)Λ(n)`. Then `|V−P|≤M`, so `|P|≥(1−3ε)k/8` implies `|V|>0.1239k`.
 
 Use `Λ(p)=logp` and `|b(p^j)|≤1` to get `|V−P|≤M`, hence `|V|≥|P|−M`. Estimate higher powers by `θ` at `k^(1/j)` after subtracting endpoints; retain the strict margin.
 
@@ -248,7 +248,7 @@ For `x≥exp(10000)` prove the pair from Rosser–Schoenfeld (1962), §7, Lemmas
 
 The theorem expresses the absence of any exceptional zero in a bounded-height family of primitive characters.
 
-The signature is `landau_page_bounded_height`. There is an effective absolute `c>0` such that, for `T≥2`, no primitive Dirichlet character of modulus `q≤T` has a zero `ρ=β+i*t` of `DirichletCharacter.LFunction` with `|t|≤T` and `β>1-c/log T`. Page's theorem and the classical Landau–Page form (at most one such zero, a simple real zero of a real character) follow at once; this exception-free form is the stronger one and is the one stated.
+The signature is `landau_page_bounded_height`. There is an effective absolute `c>0` such that, for `T≥2`, no primitive Dirichlet character of modulus `q≤T` has a zero `ρ=β+it` of `DirichletCharacter.LFunction` with `|t|≤T` and `β>1−c/log T`. Page's theorem and the classical Landau–Page form (at most one such zero, a simple real zero of a real character) follow at once; this exception-free form is the stronger one and is the one stated.
 
 Use ZerosOfLFunctions §§6.2–6.4 through §0.30. For `q,|t|≤T`, `log(q(|t|+2))≤3logT+O(1)`; shrink one effective width so that a zero in the region can only be a simple real zero of a real nonprincipal character. §0.34 excludes it, since such a zero has `1−β≥c_LS/log q≥c_LS/log T`. Shrink again for bounded `T`, with cutoff `>1/2` at `T=2`. For the principal character, the `ζ` region excludes nonreal zeros and `η(s)>0` gives `ζ(s)=η(s)/(1−2^(1−s))<0` on `(0,1)`. Count multiplicities.
 
@@ -264,7 +264,7 @@ See [47][R47], §12 opening, p. 386; Bombieri §5 p.39; Iwaniec–Kowalski Theor
 
 ### 0.7 Quadratic real-zero separation from one
 
-`quadratic_real_zero_le_of_bmor`: assume `BMORFiniteInput` and `BMORClassNumberInput`. For `q≥3` and a nonprincipal quadratic Dirichlet character modulo `q`, a real zero `β>0` satisfies `β≤1-40/(√(q)*(log q)^2)`.
+`quadratic_real_zero_le_of_bmor`: assume `BMORFiniteInput` and `BMORClassNumberInput`. For `q≥3` and a nonprincipal quadratic Dirichlet character modulo `q`, a real zero `β>0` satisfies `β≤1−40/(√q·(log q)^2)`.
 
 - `BMORFiniteInput`: `L(β,χ)≠0` for real `0<β<1` and every primitive nonprincipal quadratic `χ` of conductor `3≤q≤400000`; and `√q·L(1,χ)>12`, equivalently `h⁺(ℚ(√q))log η_q>12`, for every even primitive quadratic `χ` of conductor `400000≤q<26500000000`. Source: [48][R48], §6.1, Lemma 6.3 and proof of Proposition 1.11, pp.491–494.
 - `BMORClassNumberInput`: `h(ℚ(√d))≥46` for every negative fundamental discriminant `d<−319867`; by the class-number formula of ImaginaryQuadraticClassNumber H2.2, `√q·L(1,χ)≥46π` for every odd primitive quadratic `χ` of conductor `q>319867`. Source: [48][R48], Lemma 6.3, pp.491–492, from Watkins' classification (Table 4).
@@ -350,7 +350,7 @@ for a varying quadratic field is not an absolute constant over its characters.
 *Needs:* §0.11; the completed ArithmeticDirichletSeries summation and prime-power
 APIs; native Chebyshev (`Chebyshev.theta_le_log4_mul_x`) and Abel summation
 (`sum_mul_eq_sub_sub_integral_mul`). The tail derivation is the Stieltjes
-integration-by-parts identity for `dθ(t)` against `t^(-2)`, with `θ(t)=O(t)`.
+integration-by-parts identity for `dθ(t)` against `t^(−2)`, with `θ(t)=O(t)`.
 
 #### 0.11b Uniform Euler logarithmic derivatives
 
@@ -503,7 +503,7 @@ See [51][R51], §7.2 Definition 7.5 and its enumeration paragraph, p.61.
 
 `ξ(s)=1/2+(1/2)s(s−1)completedRiemannZeta₀(s)`. This is the entire extension of `(1/2)s(s−1)π^(−s/2)Γ(s/2)ζ(s)` away from the completed poles, not the pointwise pole-multiplication convention at `s=0,1`. Prove the identity off 0 and 1 and the reflection for this pole-cancelled entire function.
 
-The comparison is `2 * riemannXi = entireCompletion (dirichletData 1)`, using [LFunctions 4][R52] and [ZerosOfLFunctions 0.2][R11]. This equality is of analytic extensions, including 0 and 1. Entirety, symmetry and order one are inherited from that completion. In particular `ξ(0)=ξ(1)=1/2` and `ξ(2)=ξ(−1)=π/6`; omitting the factor 2 would fail both pairs of values.
+The comparison is `2ξ=entireCompletion d₁`, where `d₁` is the record of the trivial character modulo 1 (LFunctions' `dirichletData` at that character and its primitivity, [LFunctions 4][R52]) and `entireCompletion` is the pole-cleared extension of [ZerosOfLFunctions 0.2][R11], which for this record is `s(s−1)Λ(s)` without the factor 1/2. This equality is of analytic extensions, including 0 and 1. Entirety, symmetry and order one are inherited from that completion. In particular `ξ(0)=ξ(1)=1/2` and `ξ(2)=ξ(−1)=π/6`; omitting the factor 2 would fail both pairs of values.
 
 Entirety and reflection follow from the pole-subtracted completion and finite algebra; `completedRiemannZeta_eq` compares off 0,1. Comparison with `Γ·ζ` also uses Gamma nonvanishing.
 
@@ -550,7 +550,7 @@ See [114], Theorem 15.6, Lemma 15.8 and Theorem 15.9; [54][R54], Appendix B.1, d
 
 ### 0.16 Mod-eight prime mass
 
-`thetaAP_eight_interval_ge`: assume `ModEightFiniteInput`. With `ε=0.002811`, for `a=3` or 5 and `k≥2*10^10, θ(k;a,8)-θ(k/2;a,8)≥(1-3*ε)*k/8`.
+`thetaAP_eight_interval_ge`: assume `ModEightFiniteInput`. With `ε=0.002811`, for `a=3` or 5 and `k≥2·10^10`, `θ(k;a,8)−θ(k/2;a,8)≥(1−3ε)k/8`.
 
 - `ModEightFiniteInput`: `|θ(x;a,8)−x/4|≤0.002811x/4` for `a∈{3,5}` and every real `10^10≤x<exp(10000)`; and every zero of `L(s,χ)` with `0<Re s<1` and `|Im s|≤10000`, for every Dirichlet character `χ` modulo 8, has `Re s=1/2`. Source: for the theta clause, [Ramaré–Rumely][RR-primes], Theorem 1, p.398, with Table 1, p.419 (`k=8`, `x₀=10^10`, `ε=0.002811`), which bounds `max_(y≤x)|θ(y;8,a)−y/4|` by `εx/4` for every `x≥10^10`; for the zero clause, its Theorem 2.1.1, p.399, at the primitive conductors 1, 4 and 8; see also [47][R47], §6, pp.369, 372.
 
@@ -560,7 +560,7 @@ For `x≥exp(10000)` prove the same theta bound from the zero hypothesis, the hi
 
 ### 0.17 Two-real-zero inequality
 
-There is an effective absolute `c_star>0` such that if distinct real primitive quadratic characters of conductors `N1,N2>1` have real zeros `beta1,beta2`, then `min(beta1,beta2)<1-3*c_star/log(N1*N2)`.
+There is an effective absolute `c_star>0` such that if distinct real primitive quadratic characters of conductors `N₁,N₂>1` have real zeros `β₁,β₂`, then `min(β₁,β₂)<1−3c_star/log(N₁N₂)`.
 
 Put `χ₁,χ₂` and their nonprincipal product at a common level dividing `N₁N₂`. The nonnegative logarithmic factor of `ζLχ₁Lχ₂Lχ₁χ₂` is `(1+χ₁(p)^k)(1+χ₂(p)^k)`. ZerosOfLFunctions §§6.4b–d controls primitive-source, Gamma and logarithmic-derivative terms. Discard other zero terms to obtain, for `1<σ≤2`,
 `1/(σ−β₁)+1/(σ−β₂)≤1/(σ−1)+C log(N₁N₂)`.
@@ -574,7 +574,7 @@ See [47][R47], Proposition 7.1(i), (23), p. 373.
 
 No exceptional-zero term occurs; absolute constants are chosen before the conductor.
 
-The signature is `character_psi_le`. For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)*Λ(m)=O(X*exp(-c*log X/(√(log X)+log N))*(log N)^4)`; `c>0`, the implied constant and the threshold are absolute and effective. This form, without the term `−X^β/β` of an exceptional zero, is the stronger one and is the one stated.
+The signature is `character_psi_le`. For a primitive nonprincipal character `χ` of conductor `N>1` and `X` sufficiently large, `Σ_{m≤X}χ(m)Λ(m)=O(X exp(−c log X/(√(log X)+log N))(log N)^4)`; `c>0`, the implied constant and the threshold are absolute and effective. This form, without the term `−X^β/β` of an exceptional zero, is the stronger one and is the one stated.
 
 Use the character explicit formula. The conductor-uniform region of ZerosOfLFunctions 6.3–6.4 (through §0.30 and §0.1's supplier comparison) contains no zero except possibly one simple real zero `β≥1/2` of a real `χ`. §0.34 gives `1−β≥c_LS/log N`, so its term satisfies `X^β/β≤2X exp(−c_LS log X/log N)`, which the stated error absorbs once `c≤c_LS`. Optimize the height using the conductor-uniform region; preserve `log N` and the effective constants.
 
@@ -590,7 +590,7 @@ See [47][R47], Theorem 5, (26), p. 374; Iwaniec–Kowalski Theorem 5.27; both ca
 
 ### 0.19 Explicit reciprocal-prime estimate
 
-There is the prime Mertens constant `B=0.26149`.. such that for `x≥286, |Σ_{p≤x}1/p-log log x-B|<1/(2*(log x)^2)`.
+There is the prime Mertens constant `B=0.26149`.. such that for `x≥286`, `|Σ_{p≤x}1/p−log log x−B|<1/(2(log x)^2)`.
 
 Use the original reciprocal-prime theorem and its common prime Mertens constant. Keep `x≥286`; the rounded decimal is a label, not the definition of `B`.
 
@@ -653,11 +653,11 @@ See [54][R54], Appendix B.1, (B.1)–(B.3), pp.901–902; [Kupers][R95], Theorem
 **§0.23a Higher derivatives of the Gamma remainder.** The intermediate target constructs the holomorphic logarithm `logΓ` on the slit plane `ℂ∖(−∞,0]`, normalized by `logΓ(1)=0`, with `exp(logΓ(z))=Γ(z)` and real values on the positive real axis. With the principal `Log z`, define `R(z)=logΓ(z)−(z−1/2)Log z+z−log(2π)/2`. Prove the Stieltjes identity `R(z)=∫₀^∞Q(t)/(z+t)²dt`, where `Q(t)=({t}−{t}²)/2`. On every compact slit-plane subset prove absolute convergence and a common integrable majorant. On the supplier sector `|arg z|<π−δ, |z|>1`, `0<δ<π`, identify this logarithm with [ZerosOfLFunctions 1.2–1.4][R12]’s branch: both take value 0 at 2, and their difference is a constant in `2πiℤ`.
 
 For every integer `j≥1` and `z` in the slit plane,
-`R^(j)(z)=(-1)^j (j+1)! ∫₀^∞ Q(t)/(z+t)^(j+2) dt`,
+`R^(j)(z)=(−1)^j (j+1)! ∫₀^∞ Q(t)/(z+t)^(j+2) dt`,
 `|R^(j)(z)|≤j! sec^(j+2)(arg(z)/2)/(8|z|^(j+1))`.
 The slit-plane Stieltjes identity is a local extension of the supplier’s sectorial Stirling and digamma estimates. Fix `δ>0` before taking a uniform constant on `|arg z|≤π−δ`.
 
-Differentiate the Stieltjes integral under the integral sign: every compact subset of the slit plane has `|z+t|≥c_K(1+t)`. Use `0≤Q≤1/8` and `|z+t|≥cos(arg(z)/2)(|z|+t)`, then integrate the resulting power. The interface consists of the Stieltjes integral, its compact domination, agreement with the supplier branch, the integral formula for iterated derivatives and their sector bound. **Checks:** `logΓ(1)=logΓ(2)=0` and `R(1)=1−log(2π)/2`; `R′(x)<0` for `x>0`; at `x=1, R′(1)=1/2−EulerGamma`; the kernel `(z+1)⁻²` has first derivative `−1/4` and second derivative 3/8 at `z=1`, fixing the sign and factorial; `δ=0` and `z=0` are excluded. The geometric estimate remains valid when `Re z<0` inside the slit sector.
+Differentiate the Stieltjes integral under the integral sign: every compact subset of the slit plane has `|z+t|≥c_K(1+t)`. Use `0≤Q≤1/8` and `|z+t|≥cos(arg(z)/2)(|z|+t)`, then integrate the resulting power. The interface consists of the Stieltjes integral, its compact domination, agreement with the supplier branch, the integral formula for iterated derivatives and their sector bound. **Checks:** `logΓ(1)=logΓ(2)=0` and `R(1)=1−log(2π)/2`; `R′(x)<0` for `x>0`; at `x=1`, `R′(1)=1/2−γ`; the kernel `(z+1)⁻²` has first derivative `−1/4` and second derivative 3/8 at `z=1`, fixing the sign and factorial; `δ=0` and `z=0` are excluded. The geometric estimate remains valid when `Re z<0` inside the slit sector.
 
 See [Nemes, Gamma error bounds][R55], (2.5) and Lemma 2.1, §2 p.6; the displayed derivative formula follows by dominated differentiation. *Needs:* [ZerosOfLFunctions 1.2–1.4][R12]; dominated differentiation of parameter integrals.
 
@@ -673,7 +673,7 @@ See [47][R47], Proposition 7.1 and equation (25), pp. 373-374.
 
 ### 0.25 Explicit prime Euler-product bound
 
-`prod_one_add_inv_prime_le`: assume `PrimeProductFiniteInput`. For real `x≥10^8, ∏_{p prime,p≤x}(1+1/p)≤2*log x`.
+`prod_one_add_inv_prime_le`: assume `PrimeProductFiniteInput`. For real `x≥10^8`, `∏_{p prime,p≤x}(1+1/p)≤2log x`.
 
 - `PrimeProductFiniteInput`: `Σ_(p≤x)1/p≤log log x+0.27+5/log x` for every real `10^8≤x<exp(10000)`. Source: Rosser–Schoenfeld (1962), Theorem 5, (3.17), p.70, whose upper bound `Σ_(p≤x)1/p<log log x+B+1/(2log²x)` for `x>1`, with `B=0.2614…`, implies the displayed inequality since `B<0.27` and `1/(2log²x)<5/log x`.
 
@@ -1090,7 +1090,7 @@ See [53][R53], §7.3, Conjecture 7.8, p. 45; §10.3, Conjecture 10.4 and Remark 
 
 The signature `selberg_zero_density` counts zeros with `Re ρ≥σ`, `Re ρ<1` and `|Im ρ|≤T`, using their analytic multiplicities.
 
-For `ε>0, Q≥2, T≥2`, and `1/2≤σ≤1, Σ_{q≤Q} Σ_{χ primitive mod q} N(σ,T,χ) ≤ C_ε (Q^(5+ε)*T^(3+ε))^(1-σ)`. The bound is log-free: at `σ=1−1/log(QT)` the right side is at most `C_ε e^(5+ε)`, so the count includes a possible exceptional zero without a separate term; and `(Q^(5+ε)T^(3+ε))^(1−σ)≥1` throughout the range, so no additive constant is needed.
+For `ε>0, Q≥2, T≥2`, and `1/2≤σ≤1`, `Σ_{q≤Q} Σ_{χ primitive mod q} N(σ,T,χ) ≤ C_ε (Q^(5+ε)T^(3+ε))^(1−σ)`. The bound is log-free: at `σ=1−1/log(QT)` the right side is at most `C_ε e^(5+ε)`, so the count includes a possible exceptional zero without a separate term; and `(Q^(5+ε)T^(3+ε))^(1−σ)≥1` throughout the range, so no additive constant is needed.
 
 Route, in two ranges. For `4/5≤σ≤1`, Jutila's Theorem 1, (1.8), gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪_ε (Q²T)^((2+ε)(1−σ))` uniformly for `T≥1`, by Selberg pseudocharacters, a zero-detecting Dirichlet polynomial averaged over the pseudocharacter parameter, the large sieve and Halász's inequality; since `Q^(4+2ε)T^(2+ε)≤Q^(5+2ε)T^(3+2ε)` for `Q,T≥1`, the statement follows on that range with `ε` replaced by `2ε`. For `1/2≤σ≤4/5`, Montgomery's density theorem gives `Σ_{q≤Q}Σ*_χ N(σ,T,χ)≪(Q²T)^(3(1−σ)/(2−σ))(log QT)^A` with an absolute `A`, uniformly for `1/2≤σ≤1` and `T≥2`; there `3/(2−σ)≤5/2`, so the power is at most `(Q⁵T^(5/2))^(1−σ)≤(Q⁵T³)^(1−σ)`, and since `1−σ≥1/5` the logarithm is absorbed: `(log QT)^A≤C_ε(QT)^(ε/5)≤C_ε(QT)^(ε(1−σ))`. Neither input alone covers the statement: Jutila's theorem is stated only for `σ≥4/5`, and Montgomery's logarithmic factor is not absorbed as `σ→1`. At `σ=3/4` and `Q=1` the second range gives `N(3/4,T)≪T^(3/5)(log T)^A≤C_εT^((3+ε)/4)`, which is what the statement asserts there. Selberg's estimate `(Q⁵T³)^((1+ε)(1−σ))`, quoted as (1.4) in the same paper, is unpublished and is not an input. A density bound whose exponent carries an additive `+ε`, such as `(Q²T)^(A(σ)(1−σ)+ε)`, or a factor `(log QT)^A`, is not bounded at `σ=1−1/log(QT)` and does not imply this statement.
 
@@ -1440,17 +1440,19 @@ See [60][R60], §7, p970.
 
 *Needs:* [LFunctions Layer 2][R9]; `NumberField.dedekindZeta`; [ArithmeticDirichletSeries 1][R4]; [ArithmeticDirichletSeries 5][R7]; [GlobalNumberFields 2][R21]; `TauCeti.IdealArithmeticFunction`; `TauCeti.normCoeff`; `ClassGroup.mk0`; `NumberField.NarrowClassGroup.mk0`; `NumberField.NarrowClassGroup.mk0_map_ringOfIntegersQuadraticConj_eq_inv`.
 
-### 2.9 Lemma 4.4 (Zaman's effective lower bound for prime ideals)
+### 2.9 Zaman's effective lower bound for Chebotarev primes
 
-`primeIdeal_lower_thirtyfive_nineteen`: assume `ZamanDigammaInput` of §2.9a. For each fixed degree `n` there is a positive effective `c_n` and an absolute effective `D₀` such that `π_k(Y)≥c_n D_k^(−19)Y/log Y` whenever `[k:Q]=n, D_k≥D₀` and `Y≥D_k^35`.
+`frobeniusPrimeCount_lower_thirtyfive_nineteen`: assume `ZamanDigammaInput` of §2.9a. There are absolute effective constants `c>0` and `D₀≥2` such that, for every finite Galois extension `L/F` of number fields with group `G`, every conjugacy class `C⊆G`, `D_L=|Disc L|≥D₀` and every real `x≥D_L^35`, `π_C(x)≥c D_L^(−19)(|C|/|G|)x/log x`. Here `π_C(x)` is Tau Ceti's `frobeniusPrimeCount F L C x`, the number of prime ideals of `F` unramified in `L` with norm at most `x` and arithmetic Frobenius class `C`.
 
-Fix `n=[k:ℚ]≥1`; `D_k` is the absolute discriminant; one absolute effective threshold `D₀≥2` and an effective `c_n>0` precede all `k` and `Y`, with `Y≥D_k^35`; `π_k` counts nonzero prime ideals of norm `≤Y`. The case `D_k=1` is outside the discriminant threshold, not a counterexample.
+`c` and `D₀` are fixed before `L`, `F`, `C` and `x`, and depend on neither `[L:ℚ]` nor `[F:ℚ]`. The case `D_L=1`, that is `L=ℚ`, is outside the discriminant threshold, not a counterexample. Zaman's count uses norms `<x` and the main term `Li(x)`. The inclusive cutoff only enlarges the count, and `Li(x)≥x/log x` on the range `x≥2^35`, so the stated form follows from his.
 
-Use the §2.9a below, including the exponent 35 in place of the printed 40 and the integer-rounding margin. Retain the absolute discriminant threshold and `Y≥D^35`.
+- **Prime ideals of one field.** Take `L=F=k` and `C={1}`. Then `|C|/|G|=1`, and every nonzero prime of `k` is unramified in `k/k` with trivial Frobenius, so `frobeniusPrimeCount k k {1} Y` counts all nonzero prime ideals of norm at most `Y`. Hence `π_k(Y)≥c D_k^(−19)Y/log Y` for every number field `k` with `D_k≥D₀` and every `Y≥D_k^35`, with one absolute `c` for all degrees. [66][R66], Lemma 4.4, p.22 states this count with an implied constant depending on `[k:ℚ]`.
 
-See [66][R66], Lemma 4.4, p.22, citing [Zam17], Forum Math. Pi 13 (2025), e19; [66][R66], §4, Lemma 4.4 and ensuing discussion, p.22; [67][R67], Theorem 1.3.1, pp.11–12; conventions §1.5 p.26; selected §7.2.1 pp.159–160 and §7.2.4 pp.166–169.
+Use §2.9a below, including the exponent 35 in place of the printed 40 and the integer-rounding margin. Retain the absolute discriminant threshold and `x≥D_L^35`.
 
-*Needs:* [ArithmeticDirichletSeries 4][R8].
+See [67][R67], Theorem 1.3.1, pp.11–12, with `π_C` defined in (1.15), p.6, and the convention that implied constants are absolute and effective, §1.5 p.26; proof §7.2.1 pp.159–160 and §7.2.4 pp.166–169. [66][R66] (Forum Math. Pi 13 (2025), e19), §4, Lemma 4.4 and the ensuing discussion, p.22, cites the same result as its reference [Zam17].
+
+*Needs:* [ArithmeticDirichletSeries 4][R8]; [Chebotarev 13][R43] (`frobeniusPrimeCount`); [Chebotarev 8][R46].
 
 **§2.9a The exact 35/19 prime-ideal adapter.** The primary source is [67][R67], Theorem 1.3.1, pp.11–12, with proof §7.2, pp.159–169. Its Lemma 7.2.3, pp.159–160, still prints 40 in both its premise and conclusion. The proof of that lemma uses no inequality specific to 40: it converts any verified range `B≥B₀` into `x≥D_L^(B₀)`. Under `ZamanDigammaInput` below, the following contract makes the substitution `B₀=35` explicit and also leaves room for the rounding of `ℓ` in the final case.
 
@@ -1471,7 +1473,7 @@ where `φ=(1−1/√5)/2`, all zeros have `β<1−λ/ℒ` at `|γ|≤1`, and the
 
 The discriminant input is unconditional: [Odlyzko][R69], Theorem 1(4), p.210 gives `log D≥r₁log60.1+2r₂log22.2−254`, since `f₁≥0`. Hence `r₁log60+2r₂log22≤log D` for sufficiently large `D`: absorb the fixed left side in bounded degree and 254 by the positive logarithmic gaps in growing degree. The harmonic maximum principle reduces pp.212–215’s estimate to positivity of its rational function on `x=1`; its positive-denominator polynomial inequality on `y²∈[0,1600]` and leading-term tail for `y≥40` are the analytic inputs. The finite input is one named hypothesis:
 
-- `ZamanDigammaInput`: with `ψ=Γ′/Γ`, `δ(x,t)=Re ψ((x+it)/2)` (`zamanDelta`), `G₁(α,t)=(δ(α+1,0)+δ(α+1,t))/2−logπ` (`zamanG₁`), `G₂(α,t)=(δ(α+1,0)+δ(α+2,0)+δ(α+1,t)+δ(α+2,t))/4−logπ` (`zamanG₂`), `W₁(α)=Σ_(k≥0)(α+1+2k)^−2`, `W₂(α)=Σ_(k≥0)(α+1+k)^−2` and `Q(α,t)=((α+1/2)²/α)[1/α+max(0,(G₁(α,t)+αW₁(α))/(αlog60),(G₂(α,t)+αW₂(α)/2)/(αlog22))]` (`zamanQ`), one has `Q(α,T)<C/24` at the eleven triples `(T,α,C)=(1,3.50,31.4)`, `(3.5,3.77,32.7)`, `(8.7,5.39,35)`, `(22,7.30,38.4)`, `(54,8.92,42)`, `(134,10.17,45.9)`, `(332,11.21,49.7)`, `(825,12.26,53.6)`, `(2048,13.22,57.4)`, `(5089,14.17,61.2)`, `(12646,15.23,65)`, and `((α+1)²/(2α))[1/α+max(0,G₁(α,0)/(αlog60),G₂(α,0)/(αlog22))]<0.6882` at `α=5.8`. Source: [67][R67], (6.7), (6.25), (6.29) and the `(T,α,C)` entries of p.151, pp.145, 151–152.
+- `ZamanDigammaInput`: with Mathlib's digamma `ψ=Γ′/Γ` (`Complex.digamma`), `δ(x,t)=Re ψ((x+it)/2)` (`zamanDelta`), `G₁(α,t)=(δ(α+1,0)+δ(α+1,t))/2−logπ` (`zamanG₁`), `G₂(α,t)=(δ(α+1,0)+δ(α+2,0)+δ(α+1,t)+δ(α+2,t))/4−logπ` (`zamanG₂`), `W₁(α)=Σ_(k≥0)(α+1+2k)^−2`, `W₂(α)=Σ_(k≥0)(α+1+k)^−2` and `Q(α,t)=((α+1/2)²/α)[1/α+max(0,(G₁(α,t)+αW₁(α))/(αlog60),(G₂(α,t)+αW₂(α)/2)/(αlog22))]` (`zamanQ`), one has `Q(α,T)<C/24` at the eleven triples `(T,α,C)=(1,3.50,31.4)`, `(3.5,3.77,32.7)`, `(8.7,5.39,35)`, `(22,7.30,38.4)`, `(54,8.92,42)`, `(134,10.17,45.9)`, `(332,11.21,49.7)`, `(825,12.26,53.6)`, `(2048,13.22,57.4)`, `(5089,14.17,61.2)`, `(12646,15.23,65)`, and `((α+1)²/(2α))[1/α+max(0,G₁(α,0)/(αlog60),G₂(α,0)/(αlog22))]<0.6882` at `α=5.8`. Source: [67][R67], (6.7), (6.25), (6.29) and the `(T,α,C)` entries of p.151, pp.145, 151–152.
 
 The positive slack in each strict inequality absorbs the additive terms in (6.25) and the power-sum ε after an effective discriminant threshold. Every numerical repulsion, real-zero-gap and 35/19 counting conclusion in §§2.9–2.9a carries `ZamanDigammaInput`.
 
@@ -1488,9 +1490,9 @@ The ten `(T_j,C_j)` pairs are `(3.5,32.7)`,`(8.7,35)`,`(22,38.4)`,`(54,42)`,`(13
 `O(ℒλ₁^(33.23/32.7)+Σ_(j=2)^10 ℒe^[2log(2/(0.88T_(j−1)))ℒ]λ₁^(33.23/C_j)+ℒ³e^(−16.615ℒ)).`
 Here `33.23/32.7−1/200>1.011` and, for all nine `j, 2log(2/(0.88T_(j−1)))+16.6(1−33.23/C_j)<−0.02`. Combine `λ₁≫ℒe^(−16.6ℒ)` with `λ₁<ℒ^(−200)` to obtain `o(λ₁)`. The rounding margin 33.23 replaces the literal p.168 inequality `35−2⌈ℒ⌉·0.88/ℒ≥33.24`, which is not valid for noninteger `ℒ`. All inequalities needed by p.169 survive this weakening.
 
-Finally `T≫1` with `A≥0.01,ℓA≤3` gives `π_C(x)≫D_L^(−6)(|C|/|G|)x/log x`. In the other case `T≫λ₁` with `A≫1/ℒ,ℓA≤1` gives `π_C(x)≫D_L^(−2)λ₁(|C|/|G|)x/log x≫D_L^(−19)(|C|/|G|)x/log x`. All thresholds are absolute and effective, fixed before `L,F,C,B`. This is Lemma 7.2.3's proof with `B≥35`; the printed constant 40 is not used. Apply `L=F=k` and `C={1}`; counting all prime ideals only increases this degree-one lower count. This gives the deduction of §2.9 under `ZamanDigammaInput`.
+Finally `T≫1` with `A≥0.01,ℓA≤3` gives `π_C(x)≫D_L^(−6)(|C|/|G|)x/log x`. In the other case `T≫λ₁` with `A≫1/ℒ,ℓA≤1` gives `π_C(x)≫D_L^(−2)λ₁(|C|/|G|)x/log x≫D_L^(−19)(|C|/|G|)x/log x`. All thresholds are absolute and effective, fixed before `L,F,C,B`. This is Lemma 7.2.3's proof with `B≥35`; the printed constant 40 is not used. Counting all primes in `C`, not only those of degree one, only increases the lower count. This gives §2.9 under `ZamanDigammaInput`, and its prime-ideal corollary at `L=F=k`, `C={1}`.
 
-Required final interfaces are the transfer from the weighted sum to the prime-ideal count, positivity of the weight from exponent 35, and `primeIdeal_lower_thirtyfive_nineteen` with the displayed quantifier order. These are arithmetic/analytic adapters owned here.
+Required final interfaces are the transfer from the weighted sum to `frobeniusPrimeCount`, positivity of the weight from exponent 35, and `frobeniusPrimeCount_lower_thirtyfive_nineteen` with the displayed quantifier order. These are arithmetic/analytic adapters owned here.
 
 **Checks.**
 
@@ -1498,6 +1500,15 @@ Required final interfaces are the transfer from the weighted sum to the prime-id
 - At `B=35` all four parameter rows remain valid. Replacing the final row's ceil by an exact real parameter would invalidate its integer convolution definition.
 - The secondary zero `1−β₁` is retained even when other zeros are repelled; symmetry alone does not eliminate it.
 - A least-prime existence theorem does not imply this counting lower bound; the explicit weight-to-count inequality supplies the multiplicity of primes.
+
+**Checks of the digamma quantities.**
+
+- `δ(2,0)=ψ(1)=−γ=−0.5772157` and `δ(1,0)=ψ(1/2)=−γ−2log2=−1.9635100`, by Mathlib's `Complex.digamma_one` and `Complex.digamma_one_half`. Without the halving of the argument, `(2,0)` would give `ψ(2)=1−γ=0.4227843`.
+- `δ(2,2)=Re ψ(1+i)=0.0946503`, which agrees with the series `−γ+Σ_(n≥1)1/(n(n²+1))`. This fixes the imaginary direction: a definition that ignored `t` would return `δ(2,0)`.
+- `G₁(1,0)=ψ(1)−logπ=−1.7219456` and `G₂(1,0)=(ψ(1)+ψ(3/2))/2−logπ=−1.4150927`, with `ψ(3/2)=ψ(1/2)+2`. At `t=2` they are `G₁(1,2)=−1.3860126` and `G₂(1,2)=−1.1691891`; averaging only the `t`-terms would change both.
+- `W₁(1)=π²/24=0.4112335` and `W₂(1)=π²/6−1=0.6449341`. The step 2 in `W₁` and the step 1 in `W₂` separate the two sums.
+- `Q(1,0)=(9/4)·1=2.25`. Both arguments of the maximum, `(G₁+W₁)/log60=−0.3201274` and `(G₂+W₂/2)/log22=−0.3534813`, are negative, so the `0` is the maximum. Omitting it would give `1.5297133`.
+- At the first listed point, `(G₁+αW₁)/(αlog60)=−0.0046178` and `(G₂+αW₂/2)/(αlog22)=0.0001114` at `(α,t)=(3.5,1)`. The second is the maximum, and `Q(3.5,1)=1.3066316<31.4/24=1.3083333`. The other ten triples hold with margins from `0.00018`, at `Q(8.92,54)=1.74982<1.75`, to `0.0037`, at `Q(3.77,3.5)=1.35877<1.3625`. At `α=5.8` the real-zero quantity is `0.6881037<0.6882`. So `ZamanDigammaInput` is satisfiable and tight.
 
 ### 2.10 Imaginary quadratic genus-character classification
 
@@ -1698,7 +1709,7 @@ See [LFunctions Layers 5 and 7][R9]; [53][R53], §3.4, Theorems 3.10–3.11, pp.
 
 This is the Rademacher–Thorner–Zaman refinement of [ZerosOfLFunctions 3.3][R13]: its one implied constant is absolute, independent of `K, n` and `r`. All degree and strip-width dependence remains in the displayed `ζ(1+r)^n, (2π)^n` and height factors. The supplier’s generic fixed-degree, `ε`-dependent convexity estimate is consumed, not restated as a target.
 
-Let `χ` be a primitive finite-order Hecke character over a degree-`n` number field `K, Q=D_K*N(f_chi), 0<r≤1/2`, and -`r≤σ≤1+r`. For `s=σ+it` with `χ` nontrivial or `s≠1, |L_f(s,χ)| ≪ |(1+s)/(1-s)|^δ(χ) * ζ_ℚ(1+r)^n * (Q*(3+|t|)^n/(2π)^n)^((1+r-σ)/2)`, with an absolute implied constant. Define the pole factor to be `|(1+s)/(1-s)|` for the trivial character, and 1 for every nontrivial character (including at `s=1`); `ζ_ℚ` means the Riemann zeta function.
+Let `χ` be a primitive finite-order Hecke character over a number field `K` of degree `n`, with finite conductor `𝔣_χ`. Put `Q=D_K N(𝔣_χ)`, and let `0<r≤1/2` and `−r≤σ≤1+r`. For `s=σ+it` with `χ` nontrivial or `s≠1`, `|L_f(s,χ)| ≪ |(1+s)/(1−s)|^δ(χ) ζ_ℚ(1+r)^n (Q(3+|t|)^n/(2π)^n)^((1+r−σ)/2)`, with an absolute implied constant. Define the pole factor to be `|(1+s)/(1−s)|` for the trivial character, and 1 for every nontrivial character (including at `s=1`); `ζ_ℚ` means the Riemann zeta function.
 
 Use the primitive completed functional equation and the absolutely convergent right-edge bound. Apply the pole-cleared Phragmén–Lindelöf theorem with the displayed strip and height; retain the principal-character pole factor.
 
@@ -1710,7 +1721,7 @@ See [73][R73], Lemma 2.3 [Rademacher 1959], unnumbered bound, p.1142.
 
 ### 2.22 Logarithmic functional equation at zero and one
 
-Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_E/F` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|, f_η` for its finite conductor, and `Q=D_F N(f_η)=D_E/D_F`. For `ℓ_j=L_f ′(j,η)/L_f(j,η)`, both denominators are nonzero and `ℓ_0+ℓ_1=-log Q+g*(γ+log(2π))`, where `γ` is Euler constant. Differentiate the completed functional equation; `Γ_R` prime/`Γ_R` at 1 and 2 sum to -`γ-log(2π)`. Nonvanishing at 0 follows from the functional equation and `L_f(1)>0`. Each real local component of `η` is the sign character, so the conductor-normalized completion is `Q^(s/2) Γ_R(s+1)^g L_f(s,η)`, with `Γ_R(s)=π^(−s/2)Γ(s/2)`. This odd archimedean formula is not asserted for a real quadratic extension of a totally real field.
+Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_(E/F)` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|` for a number field `K`, `𝔣_η` for the finite conductor of `η`, and `Q=D_F N(𝔣_η)=D_E/D_F`. For `ℓ_j=L_f′(j,η)/L_f(j,η)`, both denominators are nonzero and `ℓ_0+ℓ_1=−log Q+g(γ+log(2π))`, where `γ` is Euler's constant. Differentiate the completed functional equation, using `Γ_R′/Γ_R(1)+Γ_R′/Γ_R(2)=−γ−log(2π)`. Nonvanishing at 0 follows from the functional equation and `L_f(1)>0`. Each real local component of `η` is the sign character, so the conductor-normalized completion is `Q^(s/2) Γ_R(s+1)^g L_f(s,η)`, with `Γ_R(s)=π^(−s/2)Γ(s/2)`. This odd archimedean formula is not asserted for a real quadratic extension of a totally real field.
 
 Use §2.22a's CM completion and gamma correction. After endpoint nonvanishing differentiate at 0,1 and use Gamma logarithmic derivatives at 1,2. Keep `Q` distinct from `D_E` until arithmetic identification; export the finite Hecke endpoint sum.
 
@@ -1918,7 +1929,7 @@ See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
 ### 2.34 A fixed small circle gives a subpolynomial derivative
 
-Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_E/F` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|, f_η` for its finite conductor, and `Q=D_F N(f_η)=D_E/D_F`. For fixed `g` and every `ε>0, |L_f prime(1,eta_E/F)| ≪_(g,ε) D_E^ε`. Set `r=min(ε,1/4)>0`. The closed circle `|s-1|=r` is in `[-r,1+r]` in real part, `|t|≤r`, and the convexity exponent is at most `r`. Hence its supremum is at most `C_(g,r)*Q^r`, and Cauchy gives `|L_f prime(1)|≤C_(g,r)*Q^r/r`. Holomorphy is required on the entire disk; a zero-free disk is unnecessary.
+Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_(E/F)` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|` for a number field `K`, `𝔣_η` for the finite conductor of `η`, and `Q=D_F N(𝔣_η)=D_E/D_F`. For fixed `g` and every `ε>0`, `|L_f′(1,η_(E/F))| ≪_(g,ε) D_E^ε`. Set `r=min(ε,1/4)>0`. The closed circle `|s−1|=r` is in `[−r,1+r]` in real part, `|t|≤r`, and the convexity exponent is at most `r`. Hence its supremum is at most `C_(g,r)Q^r`, and Cauchy gives `|L_f′(1)|≤C_(g,r)Q^r/r`. Holomorphy is required on the entire disk; a zero-free disk is unnecessary.
 
 Choose `r=min(ε,1/4)`, and apply the finite-order convexity bound on the complete circle `|s−1|=r`. Use Cauchy on the holomorphic disk, with bound `Q^r/r`; no zero-free disk is assumed.
 
@@ -2079,7 +2090,7 @@ Work with the CM normal-closure family `F(E)` of §2.6 and its degree-uniform co
 
 Use the same CM family and canonical full Euler-series continuation; endpoint germs are finite, nonzero and conjugation-compatible.
 
-Integral Brauer and finite-order Hecke equations give the completed Artin identity with its arithmetic conductor and odd infinity type. Verify nonzero analytic endpoints, then differentiate. The Lean calculus adapter keeps the arithmetic conductor identification separate.
+Integral Brauer and finite-order Hecke equations give the completed Artin identity with its arithmetic conductor and odd infinity type. Verify nonzero analytic endpoints, then differentiate. Keep the arithmetic conductor identification separate from the differentiation.
 
 See [64][R64], Theorem 3.2 and proof of Corollary 3.3, pp.383–384.
 
@@ -2099,7 +2110,7 @@ See [64][R64], Proof of Corollary 3.3, p. 384; [64][R64], Theorem 3.2 and proof 
 
 ### 2.46 Uniform subpolynomial Dedekind residues
 
-For each `n≥1` and `ε>0` there are `c,C>0` depending only on `n,ε` such that `c*D_K^(-ε)≤κ_K≤C*D_K^ε` for every number field of degree at most `n`. Constants may be ineffective. Derive from bounded-degree Brauer-Siegel, the explicit residue formula, the bounded number of roots of unity, and a finite adjustment for small discriminants. Normality is not added to the bounded-degree contract.
+For each `n≥1` and `ε>0` there are `c,C>0` depending only on `n,ε` such that `c D_K^(−ε)≤κ_K≤C D_K^ε` for every number field of degree at most `n`. Constants may be ineffective. Derive from bounded-degree Brauer-Siegel, the explicit residue formula, the bounded number of roots of unity, and a finite adjustment for small discriminants. Normality is not added to the bounded-degree contract.
 
 Use bounded-degree Brauer–Siegel and the explicit positive residue formula. Uniformly bound roots of unity by degree and absorb the finite small-discriminant range.
 
@@ -2151,7 +2162,7 @@ See [67][R67], §1.2, equations (1.18), (1.20), (1.21), pp. 7–8; [78][R78], §
 
 ### 2.50 Two-sided quadratic Hecke value bound
 
-Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_E/F` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|, f_η` for its finite conductor, and `Q=D_F N(f_η)=D_E/D_F`. For each fixed `g` and `ε>0, D_E^(-ε) ≪_(g,ε) L_f(1,eta_E/F) ≪_(g,ε) D_E^ε`. Constants may be ineffective. Use `kappa_E/kappa_F`, the degree bounds 2g and `g`, and `D_F≤D_E^(1/2)`, choosing each residue exponent at most `2*ε/3`.
+Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_(E/F)` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|` for a number field `K`, `𝔣_η` for the finite conductor of `η`, and `Q=D_F N(𝔣_η)=D_E/D_F`. For each fixed `g` and `ε>0`, `D_E^(−ε) ≪_(g,ε) L_f(1,η_(E/F)) ≪_(g,ε) D_E^ε`. Constants may be ineffective. Use `κ_E/κ_F`, the degree bounds 2g and `g`, and `D_F≤D_E^(1/2)`, choosing each residue exponent at most `2ε/3`.
 
 Apply the positive residue quotient and both residue bounds with exponent `≤2ε/3`. Use `D_F≤D_E^(1/2)` to keep the total exponent `≤ε`.
 
@@ -2161,7 +2172,7 @@ See [64][R64], Derived residue-quotient adapter for Tsimerman, Corollary 3.3, p.
 
 ### 2.51 Subpolynomial logarithmic derivative at one
 
-Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_E/F` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|, f_η` for its finite conductor, and `Q=D_F N(f_η)=D_E/D_F`. For each fixed `g` and `ε>0, |L_f prime(1,η)/L_f(1,η)| ≪_(g,ε) D_E^ε`. Apply the derivative bound with `ε/2` and the reciprocal value bound with `ε/2`. The latter, rather than Cauchy, is the possible ineffective input.
+Let `E` be a CM number field, `F` its maximal totally real subfield, `[F:ℚ]=g≥1`, and `η=η_(E/F)` the canonical nontrivial primitive quadratic Hecke character. Write `D_K=|Disc(K)|` for a number field `K`, `𝔣_η` for the finite conductor of `η`, and `Q=D_F N(𝔣_η)=D_E/D_F`. For each fixed `g` and `ε>0`, `|L_f′(1,η)/L_f(1,η)| ≪_(g,ε) D_E^ε`. Apply the derivative bound with `ε/2` and the reciprocal value bound with `ε/2`. The latter, rather than Cauchy, is the possible ineffective input.
 
 Apply the derivative estimate with `ε/2`. Multiply by the reciprocal positive-value estimate with `ε/2`.
 
@@ -2219,7 +2230,7 @@ Write `τ(n)=∏_(p|n)(a_p+1)` by `Nat.card_divisors` and `n=∏_(p|n)p^a_p` by 
 
 ### 3.2 Largest prime factor of a quadratic conductor
 
-`largest_prime_factor_quadratic_conductor`: assume `SchoenfeldFiniteRangeInput` and `QuadraticConductorFiniteInput`. If `N>1` is the conductor of a primitive quadratic character, then `P(N)>0.94*log(N)`, where `P(N)=max{p:p prime,p|N}`.
+`largest_prime_factor_quadratic_conductor`: assume `SchoenfeldFiniteRangeInput` and `QuadraticConductorFiniteInput`. If `N>1` is the conductor of a primitive quadratic character, then `P(N)>0.94 log N`, where `P(N)=max{p:p prime,p|N}`.
 
 - `QuadraticConductorFiniteInput`: `P(N)>0.94log N` for every conductor `1<N<12000000000` of a primitive nonprincipal quadratic character. Source: [47][R47], Lemma 7.3 and its proof, p.375.
 
@@ -2231,7 +2242,7 @@ See [47][R47], Lemma 7.3, p. 375.
 
 ### 3.3 Uniform coefficient bound by a divisor function
 
-For a degree-`n` number field `K, n≥1`, let `a_K(m)` count nonzero integral ideals of `norm m`. For each `m≥1, a_K(m)≤d_n(m)`, where `d_n` counts ordered `n`-tuples of positive integers with product `m`. At each rational prime the Euler factor product over `p`-adic prime ideals `(1-T^f_i)^(-1)` is coefficientwise bounded by `(1-T)^(-n)`, since `f_i≥1` and the number of factors is `≤n`; multiply over primes.
+For a degree-`n` number field `K, n≥1`, let `a_K(m)` count nonzero integral ideals of `norm m`. For each `m≥1, a_K(m)≤d_n(m)`, where `d_n` counts ordered `n`-tuples of positive integers with product `m`. At each rational prime the Euler factor product over `p`-adic prime ideals `(1−T^(f_i))^(−1)` is coefficientwise bounded by `(1−T)^(−n)`, since `f_i≥1` and the number of factors is `≤n`; multiply over primes.
 
 See [64][R64], Elementary Euler-factor adapter for Tsimerman §2.2, pp.380–381; count split prime-power exponents and compare with `d_n`.
 
@@ -2239,7 +2250,7 @@ See [64][R64], Elementary Euler-factor adapter for Tsimerman §2.2, pp.380–381
 
 ### 3.4 Subpolynomial fixed-order divisor function
 
-For each integer `n≥1` and `ε>0` there is `C_(n,ε)` with `d_n(m)≤C_(n,ε)*m^ε` for every `m≥1`. Use `d_n(p^a)=binomial(a+n-1,n-1)`. For large `p` this is `≤n^a≤p^(ε*a)`; for the finitely many smaller primes the supremum of the polynomial in a divided by `p^(ε*a)` is finite. The product of those finitely many constants is independent of `m`.
+For each integer `n≥1` and `ε>0` there is `C_(n,ε)` with `d_n(m)≤C_(n,ε)m^ε` for every `m≥1`. Use `d_n(p^a)=binomial(a+n−1,n−1)`. For large `p` this is `≤n^a≤p^(εa)`; for the finitely many smaller primes the supremum of the polynomial in a divided by `p^(εa)` is finite. The product of those finitely many constants is independent of `m`.
 
 See [64][R64], Elementary fixed-degree adapter for Tsimerman §2.2, pp.380–381, using the small/large-prime split of the divisor bound.
 
@@ -2657,6 +2668,14 @@ Prove that the cap is nonnegative, at most one, even, continuous everywhere, and
 - `c(1/2)=c(−1/2)=1`.
 - `c(2)=c(−2)=1/2`; replacing the cap by the constant 1 would lose the summable tail.
 
+**Checks of the coprime error and its integral.**
+
+- `divisorCoprimeError 2 4=Δ(4)−Δ(1)=10−4log4−6γ=0.9915286`. Dividing by `δ` instead of `δ²` would give `Δ(4)−Δ(2)=0.5322543`.
+- `divisorCoprimeError 6 4=Δ(4)−Δ(1)−Δ(4/9)+Δ(1/9)=0.9267283`, where `D=0` below 1 gives `Δ(4/9)=0.2917773` and `Δ(1/9)=0.2269770`. Dropping the Möbius signs would give `3.2014202`.
+- `divisorCoprimeError 1 4=Δ(4)=12−4log4−8γ=1.8370972`, and at `x=0` every summand is 0.
+- `divisorRemainderIntegral 1 2 (7/4)=∫_1^2(1−u(log u+2γ−1))u^(−7/4)du=0.1537822`. The weight `u^(+7/4)` would give `−0.0315315`.
+- `divisorRemainderIntegral 1 2 (3/2)=0.1541893`, so the exponent `σ` is used. `divisorRemainderIntegral 2 2 (7/4)=−0.0118280`, since on `[1,2]` the term `−Δ(u/4)=(u/4)(log(u/4)+2γ−1)` is present. `divisorRemainderIntegral D 1 σ=0` for every `D` and `σ`.
+
 *Needs:* §3.22, its harmonic remainder and exact hyperbola identity; finite Möbius inversion and Abel summation; Layer 1 Mellin/contour adapters and `ζ²`; [BBR], Lemma 5.1 and §§8–10 as the proof route of the named explicit bounds.
 
 **§3.23b Second-kind Bessel function and positive-axis remainders.** Use §2.1a's `K_ν` and Mathlib's `J_ν(z)=Complex.besselJ ν z`, with the following first-kind API for every complex order `ν`:
@@ -2665,7 +2684,7 @@ Prove that the cap is nonnegative, at most one, even, continuous everywhere, and
 - For `y>0`, `y²J″+yJ′+(y²−ν²)J=0` and `J_(ν−1)(y)+J_(ν+1)(y)=(2ν/y)J_ν(y)`.
 - `J_(1/2)(y)=√(2/(πy))sin y` for `y>0`, and `J_(−n)=(−1)^nJ_n` for integers `n≥0` (`Complex.besselJ_neg_int`).
 
-Differentiate the series termwise and compare coefficients, using `Γ(z+1)=zΓ(z)` and the totalized reciprocal Gamma at its poles; the half-order value is the sine series. For positive `x`, `x^s=exp(s log x)`, with `x^(s+t)=x^sx^t` and order derivative `log x·x^s`. Source: [DLMF-Bessel], 10.2.1, 10.2.2, 10.4.1, 10.6.1, 10.16.1. Define `besselY : ℂ → ℂ → ℂ` for arbitrary complex order `ν` and `Re z>0` by
+Differentiate the series termwise and compare coefficients, using `Γ(z+1)=zΓ(z)` and the totalized reciprocal Gamma at its poles; the half-order value is the sine series. For positive `x`, `x^s=exp(s log x)`, with `x^(s+t)=x^sx^t` and order derivative `log x·x^s`. Source: [DLMF-Bessel], 10.2.1, 10.2.2, 10.4.1, 10.6.1, 10.16.1. Define the second-kind Bessel function `Y_ν(z)`, for every complex order `ν` and every `z` with `Re z>0`, by
 
 `Y_ν(z)=π⁻¹∫_0^π sin(z sinθ−νθ)dθ−π⁻¹∫_0^∞[exp(νt)+cos(πν)exp(−νt)]exp(−z sinh t)dt.`
 
@@ -2763,7 +2782,7 @@ Deform the real segment along `x±η(1+i)μ(x)`, choose the sign away from the s
 
 *Needs:* Layer 1 contour/Cauchy estimates; real and complex Gaussian integration (including `integral_gaussian_complex`); finite-segment integration by parts; positive real powers and elementary exponential bounds. The parameter functions are numerical formulas, not extra analytic carriers.
 
-**§3.23d Logarithmic saddle family.** For positive `α,β,γ` with `α≠1, T≥T₀≥1, k≥1, 0<a≤min(1,T/(8πk))` and `b≥T`, put `atkinson.logRatio(y)=L(y)=log((1+y)/y)` for `y>0` and `atkinson.logarithmicWeight(α,β,γ,y)=y^(−α)(1+y)^(−β)L(y)^(−γ)`. Their API is positivity and smoothness on `y>0, L′(y)=−1/(y(1+y))`, and the weight comparison `Φ` and derivative estimates below. Prove the logarithmic saddle estimate for
+**§3.23d Logarithmic saddle family.** For positive `α,β,γ` with `α≠1, T≥T₀≥1, k≥1, 0<a≤min(1,T/(8πk))` and `b≥T`, put `L(y)=log((1+y)/y)` for `y>0` and the weight `w_(α,β,γ)(y)=y^(−α)(1+y)^(−β)L(y)^(−γ)`. Their API is positivity and smoothness on `y>0, L′(y)=−1/(y(1+y))`, and the weight comparison `Φ` and derivative estimates below. Prove the logarithmic saddle estimate for
 
 `I_±=∫_a^b y^(−α)(1+y)^(−β)L(y)^(−γ)exp(i[TL(y)±2πky])dy.`
 
@@ -2795,15 +2814,15 @@ The logarithmic boundary theorem states failure of the ordinary unpaired imprope
 
 - At `y=1, L=log2` and the weight with `α=β=1/2,γ=1` is `1/(√2 log2)`.
 - At `y=1/2, L=log3` and that weight is `2/(√3 log3)`.
-- At `y=2, L=log(3/2)` and that weight is `1/(√6 log(3/2))`. The analytic domain excludes `y=0` even though the light Lean formulas totalize there.
+- At `y=2, L=log(3/2)` and that weight is `1/(√6 log(3/2))`. The domain excludes `y=0`, where `L(y)` and `y^(−α)` are unbounded; no value is assigned there.
 
 *Needs:* §3.23c, elementary `log/arcsinh` identities, dominated convergence on finite intervals, and integration-by-parts control of the oscillatory tails.
 
 **§3.23e Moving-cutoff saddle family.** For `α,A,A′>0,T≥1,n≥1` and `A√T≤a≤A′√T`, put
 
-`atkinson.movingWeight(T,x)=Q_T(x)={asinh(x√(π/(2T)))[√(T/(2πx²)+1/4)+1/2](T/(2πx²)+1/4)^(1/4)}⁻¹`,
+`Q_T(x)={asinh(x√(π/(2T)))[√(T/(2πx²)+1/4)+1/2](T/(2πx²)+1/4)^(1/4)}⁻¹`,
 
-`atkinson.movingPhase(T,x)=h_T(x)=−2T asinh(x√(π/(2T)))−√(2πx²T+π²x⁴)+πx²`.
+`h_T(x)=−2T asinh(x√(π/(2T)))−√(2πx²T+π²x⁴)+πx²`.
 
 Their API is positivity of `Q` for `T,x>0`, smoothness in both positive parameters, `Q_(c²T)(cx)=Q_T(x)` and `h_(c²T)(cx)=c²h_T(x)` for `c>0`, and `h′_T(x)=2πx−2√(π²x²+2πT)`. Every denominator in `Q` is strictly positive on this domain.
 
@@ -2957,7 +2976,7 @@ The main signature is `zetaFourthMoment.asymptotic`.
 
 As `T→∞, ∫_0^T|ζ(1/2+it)|⁴dt=(1/(2π²))T(log T)^4+O(T(log T)^3)`, with an absolute constant.
 
-Use the unshifted specialization of [Kösters][R96], §3 pp.9–15, keeping the error rates in its proof, rather than only the limit in Theorem 1.3. Put `A(t)=Σ_(n≤t/(2π))τ(n)n^(−1/2−it)` and `S(t)=χ(1/2+it)^(-1)A(t)`, where `χ` is the actual zeta functional-equation multiplier, of modulus 1. The auxiliary targets are:
+Use the unshifted specialization of [Kösters][R96], §3 pp.9–15, keeping the error rates in its proof, rather than only the limit in Theorem 1.3. Put `A(t)=Σ_(n≤t/(2π))τ(n)n^(−1/2−it)` and `S(t)=χ(1/2+it)^(−1)A(t)`, where `χ` is the actual zeta functional-equation multiplier, of modulus 1. The auxiliary targets are:
 
 - `ζ(1/2+it)²=A(t)+χ(1/2+it)²·conj(A(t))+O(log t)`, uniformly for `t≥2` (p.9). Construct the two truncated Perron contours, apply the zeta functional equation and Stirling, and bound their tails; the pole and cutoff endpoint terms belong to this estimate.
 - `Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²)`, and `Σ_(n≤X)τ(n)²/n=(log X)^4/(4π²)+O((log X)³), X≥2` (Appendix A, Lemmas A.5–A.6, p.20). The Euler identity `Στ(n)²n^(−s)=ζ(s)^4/ζ(2s)`, finite divisor hyperbola summation and Abel summation give these estimates; the coefficient is `(1/3!)/ζ(2)=1/π²`.

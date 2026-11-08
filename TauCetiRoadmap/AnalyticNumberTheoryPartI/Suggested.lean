@@ -6,6 +6,7 @@ import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
 import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
 import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
 import TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.Realization
+import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 
 /-!
 # Analytic number theory, Part I: target signatures
@@ -24,7 +25,8 @@ Mertens's von Mangoldt sum with its constant `γ`, and the local expansion of `�
 half-plane bounds. Layer 1 states Davenport cancellation, the half-interval explicit formula,
 Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula, the `C¹` explicit
 formula for `ζ` with Gauss's digamma integral, and the conditional RH/GRH prime estimates. Layer 2
-states Louboutin's residue bound, the effective real quadratic bound for `h R` (§2.13) and
+states Zaman's effective lower bound for Chebotarev primes on Tau Ceti's `frobeniusPrimeCount`
+(§2.9), Louboutin's residue bound, the effective real quadratic bound for `h R` (§2.13) and
 bounded-degree Brauer–Siegel. Layer 3 states the
 Landau–Ramanujan and restricted Sathe–Selberg counts, Shiu's bound, both Halász mean theorems, the
 Dickman limit, Atkinson's formula, the second and fourth zeta moments with the divisor-square Euler
@@ -724,12 +726,11 @@ theorem heckeContinuation
 
 end Hecke
 
-/-! ### Zaman's digamma input and the 35/19 prime-ideal count (§§2.9–2.9a) -/
+/-! ### Zaman's digamma input and the 35/19 Chebotarev prime count (§§2.9–2.9a) -/
 
-/-- `δ(x, t) = Re ψ((x + i t) / 2)` for the digamma function `ψ = Γ′/Γ` (§2.9a). -/
+/-- `δ(x, t) = Re ψ((x + i t) / 2)` for Mathlib's digamma function `ψ = Γ′/Γ` (§2.9a). -/
 def zamanDelta (x t : ℝ) : ℝ :=
-  (deriv Complex.Gamma (((x : ℂ) + (t : ℂ) * I) / 2) /
-    Complex.Gamma (((x : ℂ) + (t : ℂ) * I) / 2)).re
+  (Complex.digamma (((x : ℂ) + (t : ℂ) * I) / 2)).re
 
 /-- `G₁(α, t)` of §2.9a. -/
 def zamanG₁ (α t : ℝ) : ℝ :=
@@ -756,15 +757,21 @@ def ZamanDigammaInput : Prop :=
     (5.8 + 1) ^ 2 / (2 * 5.8) * (1 / 5.8 + max 0 (max
       (zamanG₁ 5.8 0 / (5.8 * Real.log 60)) (zamanG₂ 5.8 0 / (5.8 * Real.log 22)))) < (0.6882 : ℝ)
 
-/-- Zaman's effective lower bound for prime ideals with the exponents `35` and `19` (§2.9): the
-threshold `D₀` is absolute and `c_n` depends only on the degree. -/
-theorem primeIdeal_lower_thirtyfive_nineteen (h : ZamanDigammaInput) :
-    ∃ D₀ : ℝ, 2 ≤ D₀ ∧ ∀ n : ℕ, 1 ≤ n → ∃ c : ℝ, 0 < c ∧
-      ∀ (k : Type) [Field k] [NumberField k], Module.finrank ℚ k = n →
-        D₀ ≤ |(discr k : ℝ)| → ∀ Y : ℝ, |(discr k : ℝ)| ^ (35 : ℝ) ≤ Y →
-          c * |(discr k : ℝ)| ^ (-19 : ℝ) * Y / Real.log Y ≤
-            (Nat.card {P : Ideal (𝓞 k) // P.IsPrime ∧ P ≠ ⊥ ∧
-              (Ideal.absNorm P : ℝ) ≤ Y} : ℝ) := by
+/-- Zaman's effective lower bound in the Chebotarev density theorem with the exponents `35` and
+`19` (§2.9): there are absolute constants `c > 0` and `D₀` such that, for every finite Galois
+extension `L/K` of number fields, every conjugacy class `C` of `Gal(L/K)` and every
+`x ≥ |disc L| ^ 35` with `|disc L| ≥ D₀`, Tau Ceti's `frobeniusPrimeCount K L C x` (unramified
+primes of `K` of norm at most `x` with arithmetic Frobenius class `C`) is at least
+`c |disc L|^(−19) (|C| / |Gal(L/K)|) x / log x`. The README requires `c` and `D₀` to be effective.
+Source: Zaman's thesis, Theorem 1.3.1. -/
+theorem frobeniusPrimeCount_lower_thirtyfive_nineteen (h : ZamanDigammaInput) :
+    ∃ c D₀ : ℝ, 0 < c ∧ 2 ≤ D₀ ∧
+      ∀ (K L : Type) [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
+        [IsGalois K L] (C : ConjClasses (L ≃ₐ[K] L)),
+        D₀ ≤ |(discr L : ℝ)| → ∀ x : ℝ, |(discr L : ℝ)| ^ (35 : ℝ) ≤ x →
+          c * |(discr L : ℝ)| ^ (-19 : ℝ) *
+              ((Nat.card C.carrier : ℝ) / Nat.card (L ≃ₐ[K] L)) * x / Real.log x ≤
+            (NumberField.Chebotarev.frobeniusPrimeCount K L C x : ℝ) := by
   sorry
 
 /-- Louboutin's bound for the Dedekind residue retains the degree and discriminant. -/
