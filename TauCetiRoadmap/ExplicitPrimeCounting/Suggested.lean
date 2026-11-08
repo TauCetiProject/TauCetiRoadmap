@@ -2,6 +2,7 @@ module
 
 import Mathlib
 import TauCeti.Analysis.SpecialFunctions.LogIntegral
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
 import TauCeti.NumberTheory.LFunctions.Mertens
 
 /-!
@@ -9,14 +10,23 @@ import TauCeti.NumberTheory.LFunctions.Mertens
 
 This file is not the roadmap. The roadmap is `README.md`; this file states, against the pinned
 Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable at the pins, each
-with `sorry`, together with the few definitions their statements need. Every computational input
-that a theorem uses (a finite-range verification, a verified height of zeros) is a hypothesis
-with its data in the statement, exactly as in the README. The bounded-height Riemann hypothesis
-`RiemannHypothesisUpTo` is the proposition of the roadmap ExplicitZetaBounds (§0.2), copied
-verbatim because a roadmap module cannot be imported.
+with `sorry`, together with the few definitions their statements need. Every computational fact
+that a theorem uses (a finite-range verification, a gap bound below `4·10¹⁸`, a verified height of
+zeros) is a named proposition with its data in the statement and an explicit hypothesis of the
+theorems that use it, exactly as in the README; nothing here proves or plans the computation behind
+it. The bounded-height Riemann hypothesis `RiemannHypothesisUpTo` is the proposition of the roadmap
+ExplicitZetaBounds (§0.2), copied verbatim because a roadmap module cannot be imported.
 
 Headline theorems stated here:
 
+* Layer 0 carriers: the unoffset logarithmic integral `li`, defined by the exponential-integral
+  series at `log x`, with its derivative (`hasDerivAt_li`), its behaviour at `0`
+  (`tendsto_li_nhdsWithin_zero`), its integral and principal-value representations
+  (`li_eq_integral_of_lt_one`, `tendsto_li_principalValue`), the offset `Li x = li x − li 2`
+  (`logIntegral_eq_li_sub_liTwo`), its monotonicity and sign (`strictAntiOn_li`, `strictMonoOn_li`,
+  `existsUnique_li_eq_zero`, `li_pos_of_three_halves_le`) and its asymptotic expansion
+  (`li_isBigO`); the rational prime-count adapter (`primeCount_rat_eq_primeCounting`) and
+  `p_n ∼ n log n` (`nth_prime_isEquivalent`).
 * Layer 0: Montgomery–Vaughan's Brun–Titchmarsh inequality with the constant `2`
   (`brun_titchmarsh`), from the two finite-range propositions of its route: Montgomery–Vaughan's
   diagonal bound `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` on `[6, 10⁹)` (`MVDiagonalFiniteRange`)
@@ -32,17 +42,18 @@ Headline theorems stated here:
 * Layer 3: Dusart's bound for `ψ` and `θ` from a zero-free region of constant `R`, the absence
   of zeros up to height `14` and Rosser's bound for the sum of `1/γ³` over the zeros
   (`dusart_of_zeroFreeRegion`, `ZetaZeroCubeSum`), and Axler's upper bound for `π(x)` from its
-  `θ`-input (`axler_primeCounting_upper`).
+  `θ`-input and its bounded range (`axler_primeCounting_upper`, `AxlerPrimeCountingUpperRange`).
 * Layer 4: Vanlalngaia's explicit second theorem of Mertens from its `θ`-input
   (`vanlalngaia_sum_inv_prime`).
-* Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs
-  (`dusart_nth_prime_lower`).
+* Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
+  range (`dusart_nth_prime_lower`, `RobinNthPrimeRange`).
 * Layer 6: Lamzouri–Li–Soundararajan's least prime `p ≤ (φ(q) log q)²` in a reduced class under
   the generalised Riemann hypothesis (`lamzouri_li_soundararajan`).
 * Layer 7: Schoenfeld's prime in `(x, x + x/16597)` from its `ψ`-input
   (`schoenfeld_interval`), Trudgian's prime in `[x, x(1 + 1/(111 log² x))]` and Axler's prime in
-  `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs and the record prime gaps
-  (`trudgian_interval`, `axler_interval`).
+  `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs, their gap bounds below
+  `4·10¹⁸` and their bounded ranges (`trudgian_interval`, `axler_interval`, `TrudgianGapBound`,
+  `AxlerGapBound`, `TrudgianIntervalRange`, `AxlerIntervalRange`).
 
 Headline theorems that are not statable at the pins, and what each lacks:
 
@@ -78,27 +89,82 @@ Headline theorems that are not statable at the pins, and what each lacks:
 
 noncomputable section
 
-open Real
+open Real Filter Topology Asymptotics
 
 namespace TauCetiRoadmap.ExplicitPrimeCounting
 
 /-! ## Carriers -/
 
-/-- The value `li 2 = 1.04516…` of the unoffset logarithmic integral at `2`, by the
-exponential-integral series `li 2 = γ + log log 2 + ∑_{n ≥ 1} (log 2)ⁿ/(n · n!)`. It equals the
-Cauchy principal value `⨍₀² dt/log t`; the logarithmic integral `li` itself is owned by the
-roadmap SpecialFunctionsEiLiErfIncompleteGamma (§8.2), and this local copy exists only to make
-the statements below statable at the pins. -/
-def liTwo : ℝ :=
-  eulerMascheroniConstant + log (log 2) +
-    ∑' n : ℕ, log 2 ^ (n + 1) / (((n : ℝ) + 1) * ((n + 1).factorial : ℝ))
-
-/-- The unoffset logarithmic integral `li x = Li x + li 2` for `x > 1`, where
-`Li x = ∫₂ˣ dt/log t` is Tau Ceti's `TauCeti.Real.logIntegral`. For `x > 1` it agrees with
-SpecialFunctionsEiLiErfIncompleteGamma's `li` (§8.2); the statements below use it only for
-`x > 1`. -/
+/-- The unoffset logarithmic integral `li x = γ + log |log x| + ∑_{n ≥ 1} (log x)ⁿ/(n · n!)`, the
+exponential integral at `log x` (README §0.3a). Mathlib's `log` is `log |·|`, so the body is the
+series for every `x > 0`, `x ≠ 1`; the value at `x = 1` is junk. For `x > 1` it is the principal
+value `⨍₀ˣ dt/log t` (`tendsto_li_principalValue`). -/
 def li (x : ℝ) : ℝ :=
-  TauCeti.Real.logIntegral x + liTwo
+  eulerMascheroniConstant + log (log x) +
+    ∑' n : ℕ, log x ^ (n + 1) / (((n : ℝ) + 1) * ((n + 1).factorial : ℝ))
+
+/-- The value `li 2`, the offset between `li` and Tau Ceti's `Li = TauCeti.Real.logIntegral`. -/
+def liTwo : ℝ :=
+  li 2
+
+/-- **The derivative of `li`**: `li′(x) = 1/log x` for `x > 0`, `x ≠ 1`. -/
+theorem hasDerivAt_li {x : ℝ} (hx₀ : 0 < x) (hx₁ : x ≠ 1) : HasDerivAt li (1 / log x) x := by
+  sorry
+
+/-- **`li` at `0`**: `li x → 0` as `x → 0⁺`. -/
+theorem tendsto_li_nhdsWithin_zero : Tendsto li (𝓝[>] 0) (𝓝 0) := by
+  sorry
+
+/-- **`li` below `1` is an integral**: `li x = ∫₀ˣ dt/log t` for `0 < x < 1`. -/
+theorem li_eq_integral_of_lt_one {x : ℝ} (hx₀ : 0 < x) (hx₁ : x < 1) :
+    li x = ∫ t in (0 : ℝ)..x, 1 / log t := by
+  sorry
+
+/-- **`li` above `1` is a principal value**: for `x > 1`,
+`li x = lim_{ε → 0⁺} (∫₀^{1−ε} dt/log t + ∫_{1+ε}^x dt/log t)`. -/
+theorem tendsto_li_principalValue {x : ℝ} (hx : 1 < x) :
+    Tendsto (fun ε : ℝ => (∫ t in (0 : ℝ)..(1 - ε), 1 / log t) + ∫ t in (1 + ε)..x, 1 / log t)
+      (𝓝[>] 0) (𝓝 (li x)) := by
+  sorry
+
+/-- **The offset**: `Li x = li x − li 2` for `x > 1`, with `Li = TauCeti.Real.logIntegral`. -/
+theorem logIntegral_eq_li_sub_liTwo {x : ℝ} (hx : 1 < x) :
+    TauCeti.Real.logIntegral x = li x - liTwo := by
+  sorry
+
+/-- `li` is strictly decreasing on `(0, 1)`. -/
+theorem strictAntiOn_li : StrictAntiOn li (Set.Ioo 0 1) := by
+  sorry
+
+/-- `li` is strictly increasing on `(1, ∞)`. -/
+theorem strictMonoOn_li : StrictMonoOn li (Set.Ioi 1) := by
+  sorry
+
+/-- **Soldner's constant**: `li` has exactly one zero in `(1, ∞)`. -/
+theorem existsUnique_li_eq_zero : ∃! μ : ℝ, 1 < μ ∧ li μ = 0 := by
+  sorry
+
+/-- `li x > 0` for every `x ≥ 3/2`, so Soldner's constant lies below `3/2`. -/
+theorem li_pos_of_three_halves_le {x : ℝ} (hx : 3 / 2 ≤ x) : 0 < li x := by
+  sorry
+
+/-- **The asymptotic expansion of `li`**: for every `n`,
+`li x = (x/log x) ∑_{k < n} k!/(log x)^k + O(x/(log x)^{n+1})` as `x → ∞`. -/
+theorem li_isBigO (n : ℕ) :
+    (fun x : ℝ => li x - x / log x * ∑ k ∈ Finset.range n, (k.factorial : ℝ) / log x ^ k)
+      =O[atTop] fun x => x / log x ^ (n + 1) := by
+  sorry
+
+/-- **The rational prime-count adapter**: Tau Ceti's count of the height-one primes of `𝓞 ℚ` of
+absolute norm at most `x` is `π(⌊x⌋₊)`. -/
+theorem primeCount_rat_eq_primeCounting (x : ℝ) :
+    TauCeti.primeCount ℚ Set.univ x = (Nat.primeCounting ⌊x⌋₊ : ℝ) := by
+  sorry
+
+/-- **The `n`-th prime**: `Nat.nth Nat.Prime n ∼ n log n` as `n → ∞`. -/
+theorem nth_prime_isEquivalent :
+    (fun n : ℕ => (Nat.nth Nat.Prime n : ℝ)) ~[atTop] fun n => (n : ℝ) * log n := by
+  sorry
 
 /-- Riemann's weighted prime count `π*(x) = ∑_{k ≥ 1} π(x^{1/k})/k`; only finitely many terms
 are nonzero, those with `x^{1/k} ≥ 2`. -/
@@ -126,7 +192,7 @@ def MVDiagonalFiniteRange : Prop :=
 `L = ∑_{q ≤ Q} μ²(q)/(φ(q)(n + 1 + (3/2) q Q))` is the weighted diagonal sum for an interval of
 `n + 1` consecutive integers. From `2·10⁴` on, the choice `Q = ⌊√(2(n + 1)/3)⌋` and the
 diagonal bound (`MVDiagonalFiniteRange` with Büthe's asymptotic) give the same inequality by
-partial summation; at `n = 24` it fails for every `Q`. -/
+partial summation. -/
 def BrunTitchmarshFiniteRange : Prop :=
   ∀ n : ℕ, 25 ≤ n → n ≤ 20000 → ∃ Q : ℕ, 2 ≤ Q ∧
     1 / (∑ q ∈ Finset.Icc 1 Q, ((ArithmeticFunction.moebius q : ℤ) : ℝ) ^ 2 /
@@ -137,8 +203,8 @@ def BrunTitchmarshFiniteRange : Prop :=
 /-- **Brun–Titchmarsh inequality** (Montgomery–Vaughan, *The large sieve*, 1973, Theorem 2).
 For real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`, the number of primes
 `p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. The proof is the weighted large
-sieve with the constant `3/2`; the two finite-range propositions are the computations it uses
-(the diagonal bound below `10⁹`, and the exact evaluation for `25 ≤ y/k ≤ 2·10⁴`). -/
+sieve with the constant `3/2`; the two finite-range propositions are the computational facts it
+assumes (the diagonal bound below `10⁹`, and the weighted sieve for `25 ≤ y/k ≤ 2·10⁴`). -/
 theorem brun_titchmarsh (hD : MVDiagonalFiniteRange) (hE : BrunTitchmarshFiniteRange)
     (x y : ℝ) (hx : 0 < x) (k l : ℕ) (hk : 0 < k) (hkl : Nat.Coprime k l)
     (hy : (k : ℝ) < y) :
@@ -162,8 +228,7 @@ def ClassicalZeroFreeRegion (R t₀ : ℝ) : Prop :=
   ∀ s : ℂ, riemannZeta s = 0 → t₀ ≤ |s.im| → s.re < 1 - 1 / (R * log |s.im|)
 
 /-- **Büthe's verified bounds** (Büthe, *An analytic method for bounding ψ(x)*, Math. Comp. 87
-(2018), Theorem 2, obtained from the zeros of `ζ` up to height `10¹¹`), with the second
-inequality from `1427` on: the printed threshold `1423` fails on `1426.47 < x < 1427`. -/
+(2018), Theorem 2, which prints the second inequality from `1423`). -/
 def ButheVerified : Prop :=
   (∀ x : ℝ, 11 < x → x ≤ 10 ^ 19 → |Chebyshev.psi x - x| ≤ 0.94 * √x) ∧
   (∀ x : ℝ, 1427 ≤ x → x ≤ 10 ^ 19 → x - Chebyshev.theta x ≤ 1.95 * √x) ∧
@@ -173,9 +238,9 @@ def ButheVerified : Prop :=
     li x - Nat.primeCounting ⌊x⌋₊ ≤ √x / log x * (1.95 + 3.9 / log x + 19.5 / log x ^ 2)) ∧
   (∀ x : ℝ, 2 ≤ x → x ≤ 10 ^ 19 → 0 < li x - Nat.primeCounting ⌊x⌋₊)
 
-/-- **The closing computation of Büthe's proof** (Büthe, *Estimating π(x) and related functions
-under partial RH assumptions*, Math. Comp. 85 (2016), proof of Theorem 2), with the `π*` clause
-from `97` on: the printed `x > 59` fails on `96.29 < x < 97`. -/
+/-- **The finite range of Büthe's proof** (Büthe, *Estimating π(x) and related functions under
+partial RH assumptions*, Math. Comp. 85 (2016), end of the proof of Theorem 2, which prints the
+`π*` clause from `59`). -/
 def Buthe2016Range : Prop :=
   (∀ x : ℝ, 59 < x → x < 5000 → |Chebyshev.psi x - x| ≤ √x * log x ^ 2 / (8 * π)) ∧
   (∀ x : ℝ, 599 < x → x < 5000 → |Chebyshev.theta x - x| ≤ √x * log x ^ 2 / (8 * π)) ∧
@@ -207,9 +272,9 @@ def LeeNosalRange : Prop :=
   (∀ x : ℝ, 2657 ≤ x → x ≤ 3382 →
     |Chebyshev.theta x - x| ≤ √x * log x * (log x - log (log x)) / (8 * π))
 
-/-- **The reciprocal sum over the low zeros** (the computation quoted by Lee–Nosal, display
-(10)): the sum of `1/γ` over the zeros `β + iγ` of `riemannZeta` with `0 < β < 1` and
-`0 < γ ≤ 10⁷`, each counted with its multiplicity, is at most `16.2106480369`. -/
+/-- **The reciprocal sum over the low zeros** (Lee–Nosal, display (10)): the sum of `1/γ` over
+the zeros `β + iγ` of `riemannZeta` with `0 < β < 1` and `0 < γ ≤ 10⁷`, each counted with its
+multiplicity, is at most `16.2106480369`. -/
 def ZetaZeroReciprocalSum : Prop :=
   ∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ 10 ^ 7},
       (analyticOrderNatAt riemannZeta ρ.1 : ℝ) / ρ.1.im ≤ 16.2106480369
@@ -218,8 +283,7 @@ def ZetaZeroReciprocalSum : Prop :=
 1941, Lemma 17, as Dusart uses it in the proof of Lemma 3.4 of Math. Comp. 85 (2016)): for every
 `T`, the sum of `1/γ³` over the zeros `β + iγ` of `riemannZeta` with `0 < β < 1` and `0 < γ ≤ T`,
 each counted with its multiplicity, is at most `0.000835`; over the zeros of both signs this is
-Rosser's `∑ 1/|γ|³ < 0.00167`. The full sum is `0.000730…`; the zero count with no zero below
-height `14` bounds it only by `0.00159`, so the bound is a computation on the low zeros. -/
+Rosser's `∑ 1/|γ|³ < 0.00167`. -/
 def ZetaZeroCubeSum : Prop :=
   ∀ T : ℝ, ∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ T},
       (analyticOrderNatAt riemannZeta ρ.1 : ℝ) / ρ.1.im ^ 3 ≤ 0.000835
@@ -227,9 +291,7 @@ def ZetaZeroCubeSum : Prop :=
 /-- **The zero count at low height**: for `2π ≤ T ≤ 10⁹`, the number `N(T)` of zeros `ρ` of
 `riemannZeta` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T`, each counted with its multiplicity, satisfies
 `|N(T) − M(T)| ≤ 0.28 log T` with `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`. It is the part below
-height `10⁹` of the first branch of the zero count quoted by Lee–Nosal (display (8)); from `10⁹` on
-Rosser's bound `0.137 log T + 0.443 log log T + 1.588` (*Explicit bounds for some functions of prime
-numbers*, 1941, Theorem 19) is smaller than `0.28 log T`. -/
+height `10⁹` of the first branch of the zero count quoted by Lee–Nosal (display (8)). -/
 def ZetaZeroCountLowRange : Prop :=
   ∀ T : ℝ, 2 * π ≤ T → T ≤ 10 ^ 9 →
     |(∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ T},
@@ -242,6 +304,51 @@ quoted by Carneiro–Milinovich–Soundararajan, (1.15)): consecutive primes `p 
 def PrimeGapLogSquareVerified : Prop :=
   ∀ n : ℕ, 11 ≤ Nat.nth Nat.Prime n → (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
     (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n < log (Nat.nth Nat.Prime n) ^ 2
+
+/-- **Trudgian's gap bound** (from the record gaps of Oliveira e Silva–Herzog–Pardi, Math. Comp.
+83 (2014), Table 8): consecutive primes `p < p⁺` with `4 652 353 ≤ p ≤ 4·10¹⁸` satisfy
+`p⁺ − p ≤ p/(111 log² p)`. -/
+def TrudgianGapBound : Prop :=
+  ∀ n : ℕ, 4652353 ≤ Nat.nth Nat.Prime n → (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
+    (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
+      Nat.nth Nat.Prime n / (111 * log (Nat.nth Nat.Prime n) ^ 2)
+
+/-- **Axler's gap bound** (from the same table of record gaps): consecutive primes `p < p⁺` with
+`p⁺ ≥ 2·10⁷` and `p ≤ 4·10¹⁸` satisfy `p⁺ − p ≤ (0.048668 + 8.22·10⁻¹¹) p/log³ p`. -/
+def AxlerGapBound : Prop :=
+  ∀ n : ℕ, 2 * 10 ^ 7 ≤ Nat.nth Nat.Prime (n + 1) →
+    (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
+    (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
+      (0.048668 + 8.22e-11) * Nat.nth Nat.Prime n / log (Nat.nth Nat.Prime n) ^ 3
+
+/-- **Robin's range** (Dusart, Math. Comp. 68 (1999), line 118): with
+`p_k = Nat.nth Nat.Prime (k − 1)`, `p_k ≥ k (log k + log log k − 1)` for every `k ≥ 2` with
+`p_k ≤ 10¹¹`. -/
+def RobinNthPrimeRange : Prop :=
+  ∀ k : ℕ, 2 ≤ k → (Nat.nth Nat.Prime (k - 1) : ℝ) ≤ 10 ^ 11 →
+    (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1)
+
+/-- **Axler's range for his upper bound of `π(x)`** (Axler, Integers 24 (2024), A34, §§3–5 of
+arXiv v4): the bound of `axler_primeCounting_upper` for every `48 ≤ x ≤ 10¹⁹`. -/
+def AxlerPrimeCountingUpperRange : Prop :=
+  ∀ x : ℝ, 48 ≤ x → x ≤ 10 ^ 19 →
+    (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
+      12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
+      4331.1 / log x ^ 6)
+
+/-- **Trudgian's interval range** (Trudgian, Ramanujan J. 39 (2016), Corollary 2, which prints the
+threshold `2 898 239`): for every `2 898 242 ≤ x ≤ 4 652 353` the interval
+`[x, x (1 + 1/(111 log² x))]` contains a prime. -/
+def TrudgianIntervalRange : Prop :=
+  ∀ x : ℝ, 2898242 ≤ x → x ≤ 4652353 →
+    ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x * (1 + 1 / (111 * log x ^ 2))
+
+/-- **Axler's interval range** (Axler, Integers 24 (2024), A34, proof of Theorem 1.2 of arXiv v4):
+for every `17 051 708 ≤ x ≤ 2·10⁷` the interval `(x, x (1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]`
+contains a prime. -/
+def AxlerIntervalRange : Prop :=
+  ∀ x : ℝ, 17051708 ≤ x → x ≤ 2 * 10 ^ 7 →
+    ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3)
 
 /-- **Vanlalngaia's finite range**: his three bounds for `∑_{p ≤ x} 1/p − log log x − B` up to
 `89 967 803`, with `B` the Meissel–Mertens constant. -/
@@ -356,15 +463,12 @@ over primes*, Integers 24 (2024), A34): for every `x ≥ 48`,
 `|θ(t) − t| < 0.024334 t/log³ t` for `t ≥ 1 757 126 630 797` (Axler's Proposition 1.1, from the
 tables of Broadbent–Kadiri–Lumley–Ng–Wilk), the zeros of `ζ` up to height `3 000 175 332 800` on
 the critical line with Büthe's inputs (which give Johnston's `|π(x) − li x| ≤ √x log x/(8π)` and
-`|θ(x) − x| ≤ √x log² x/(8π)` up to `10²⁶`), and the bound itself on `[48, 10¹⁹]`. -/
+`|θ(x) − x| ≤ √x log² x/(8π)` up to `10²⁶`), and the bound itself on `[48, 10¹⁹]`
+(`AxlerPrimeCountingUpperRange`). -/
 theorem axler_primeCounting_upper
     (hθ : ∀ t : ℝ, 1757126630797 ≤ t → |Chebyshev.theta t - t| < 0.024334 * t / log t ^ 3)
     (hT₀ : RiemannHypothesisUpTo 3000175332800) (hB : ButheVerified) (hR : Buthe2016Range)
-    (hfin : ∀ x : ℝ, 48 ≤ x → x ≤ 10 ^ 19 →
-      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
-        12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
-        4331.1 / log x ^ 6))
-    (x : ℝ) (hx : 48 ≤ x) :
+    (hfin : AxlerPrimeCountingUpperRange) (x : ℝ) (hx : 48 ≤ x) :
     (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / (log x - 1 - 1 / log x - 3.024334 / log x ^ 2 -
       12.975666 / log x ^ 3 - 71.048668 / log x ^ 4 - 461.364417856444 / log x ^ 5 -
       4331.1 / log x ^ 6) := by
@@ -392,14 +496,12 @@ theorem vanlalngaia_sum_inv_prime
 /-- **Dusart's lower bound for the `k`-th prime** (Dusart, *The `k`th prime is greater than
 `k(ln k + ln ln k − 1)` for `k ≥ 2`*, Math. Comp. 68 (1999), Theorem 3): with
 `p_k = Nat.nth Nat.Prime (k − 1)`, `p_k ≥ k (log k + log log k − 1)` for every `k ≥ 2`, from
-Robin's finite range (`p_k ≤ 10¹¹`), Robin's lower bound
+Robin's range (`RobinNthPrimeRange`), Robin's lower bound
 `θ(p_k) ≥ k (log k + log log k − 1 + (log log k − 2.1454)/log k)` for `k ≥ 3` (Robin 1983,
 Théorème 8), Schoenfeld's `|θ(x) − x| < 0.0077629 x/log x` for `x > e²²` and
 `|θ(x) − x| < 1.657·10⁷ x/log⁴ x` for `x > 1` (Schoenfeld 1976, (5.6b*) and (5.8*)), and Dusart's
 `|ψ(x) − x| ≤ 0.905·10⁻⁷ x` for `x ≥ e⁵⁰` (Theorem 2 there). -/
-theorem dusart_nth_prime_lower
-    (hfin : ∀ k : ℕ, 2 ≤ k → (Nat.nth Nat.Prime (k - 1) : ℝ) ≤ 10 ^ 11 →
-      (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1) ≤ Nat.nth Nat.Prime (k - 1))
+theorem dusart_nth_prime_lower (hfin : RobinNthPrimeRange)
     (hRobin : ∀ k : ℕ, 3 ≤ k →
       (k : ℝ) * (log (k : ℝ) + log (log (k : ℝ)) - 1 +
           (log (log (k : ℝ)) - 2.1454) / log (k : ℝ)) ≤
@@ -442,18 +544,12 @@ theorem schoenfeld_interval (hS : Schoenfeld1976Range) (hG : PrimeGapLogSquareVe
 /-- **Trudgian's prime interval** (Trudgian, *Updating the error term in the prime number
 theorem*, Ramanujan J. 39 (2016), Corollary 2): for every `x ≥ 2 898 242` the interval
 `[x, x (1 + 1/(111 log² x))]` contains a prime, from the `θ`-input `|θ(t) − t| ≤ 0.0045 t/log² t`
-for `t ≥ e³⁵` (Lemma 1 there), the bound `p⁺ − p ≤ p/(111 log² p)` for consecutive primes
-`p < p⁺` with `4 652 353 ≤ p ≤ 4·10¹⁸` (a consequence of the table of record prime gaps of
-Oliveira e Silva–Herzog–Pardi), and the interval on `[2 898 242, 4 652 353]`. The source prints
-the threshold `2 898 239`, which fails at `x = 2 898 240`. -/
+for `t ≥ e³⁵` (Lemma 1 there), the gap bound `TrudgianGapBound` and the interval on
+`[2 898 242, 4 652 353]` (`TrudgianIntervalRange`). The source prints the threshold
+`2 898 239`. -/
 theorem trudgian_interval
     (hθ : ∀ t : ℝ, exp 35 ≤ t → |Chebyshev.theta t - t| ≤ 0.0045 * t / log t ^ 2)
-    (hgap : ∀ n : ℕ, 4652353 ≤ Nat.nth Nat.Prime n → (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
-      (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
-        Nat.nth Nat.Prime n / (111 * log (Nat.nth Nat.Prime n) ^ 2))
-    (hfin : ∀ x : ℝ, 2898242 ≤ x → x ≤ 4652353 →
-      ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x * (1 + 1 / (111 * log x ^ 2)))
-    (x : ℝ) (hx : 2898242 ≤ x) :
+    (hgap : TrudgianGapBound) (hfin : TrudgianIntervalRange) (x : ℝ) (hx : 2898242 ≤ x) :
     ∃ p : ℕ, p.Prime ∧ x ≤ p ∧ (p : ℝ) ≤ x * (1 + 1 / (111 * log x ^ 2)) := by
   sorry
 
@@ -462,21 +558,13 @@ arXiv v4, Theorem 1.2): for every `x ≥ 17 051 708` the interval
 `(x, x (1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` contains a prime, from three `θ`-inputs of
 Broadbent–Kadiri–Lumley–Ng–Wilk (Math. Comp. 90 (2021): the rows `|θ(t) − t| < 2.1482·10⁻⁸ t` for
 `t > e⁴⁰` and `|θ(t) − t| < 1.1344·10⁻⁹ t` for `t > e⁵⁰` of their Table 14, and
-`|θ(t) − t| < 0.024334 t/log³ t` for `t > e²⁹` of their Table 15), the bound
-`p⁺ − p ≤ (0.048668 + 8.22·10⁻¹¹) p/log³ p` for consecutive primes `p < p⁺` with `p⁺ ≥ 2·10⁷` and
-`p ≤ 4·10¹⁸` (a consequence of the table of record prime gaps), and the interval on
-`[17 051 708, 2·10⁷]`. -/
+`|θ(t) − t| < 0.024334 t/log³ t` for `t > e²⁹` of their Table 15), the gap bound `AxlerGapBound`
+and the interval on `[17 051 708, 2·10⁷]` (`AxlerIntervalRange`). -/
 theorem axler_interval
     (hθ₄₀ : ∀ t : ℝ, exp 40 < t → |Chebyshev.theta t - t| < 2.1482e-8 * t)
     (hθ₅₀ : ∀ t : ℝ, exp 50 < t → |Chebyshev.theta t - t| < 1.1344e-9 * t)
     (hθ₃ : ∀ t : ℝ, exp 29 < t → |Chebyshev.theta t - t| < 0.024334 * t / log t ^ 3)
-    (hgap : ∀ n : ℕ, 2 * 10 ^ 7 ≤ Nat.nth Nat.Prime (n + 1) →
-      (Nat.nth Nat.Prime n : ℝ) ≤ 4 * 10 ^ 18 →
-      (Nat.nth Nat.Prime (n + 1) : ℝ) - Nat.nth Nat.Prime n ≤
-        (0.048668 + 8.22e-11) * Nat.nth Nat.Prime n / log (Nat.nth Nat.Prime n) ^ 3)
-    (hfin : ∀ x : ℝ, 17051708 ≤ x → x ≤ 2 * 10 ^ 7 →
-      ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3))
-    (x : ℝ) (hx : 17051708 ≤ x) :
+    (hgap : AxlerGapBound) (hfin : AxlerIntervalRange) (x : ℝ) (hx : 17051708 ≤ x) :
     ∃ p : ℕ, p.Prime ∧ x < p ∧ (p : ℝ) ≤ x * (1 + (0.048668 + 8.22e-11) / log x ^ 3) := by
   sorry
 
