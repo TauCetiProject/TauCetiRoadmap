@@ -161,7 +161,7 @@ theorem injective_stability {R : Type u} [Ring R] (s : ℕ) (hR : HasStableRange
 
 /-- Bass: a semilocal ring, one whose quotient by the Jacobson radical is semisimple, has stable
 range one. The quotient is Artinian, hence of stable range one, and the stable range does not
-change modulo a radical ideal (Weibel, *The K-book*, Chapter I, Exercises 1.5(c) and 1.12(v);
+change modulo the Jacobson radical (Weibel, *The K-book*, Chapter I, Exercises 1.5(c) and 1.12(v);
 semilocal as in Chapter II, Exercise 2.6). -/
 theorem hasStableRangeLE_one_of_isSemisimpleRing (R : Type u) [Ring R]
     [IsSemisimpleRing (R ⧸ Ring.jacobson R)] : HasStableRangeLE R 1 := by
