@@ -6,6 +6,8 @@ public import TauCeti.Algebra.Homology.SpectralSequence.Bicomplex
 public import TauCeti.Algebra.Category.ModuleCat.Tower.DerivedLimit
 public import TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney
 public import TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial
+public import TauCeti.RingTheory.DividedPowerAlgebra.Homogeneous
+public import TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic
 
 /-!
 # DerivedModuleAlgebra: target signatures
@@ -54,8 +56,14 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
   cochain bicomplex is constructed to feed the pinned filtered-complex spectral sequence, and no
   edge morphism from the second page to the abutment is constructed; the identification of the
   classical second page in the homological form is stated below;
-* the cotangent complex, its powers and the deformation classes (§§0.1–0.25): the simplicial
-  polynomial resolution and the full complex `L_(B/A)` are targets of §§0.1 and 0.4;
+* the cotangent complex and its deformation theory (§§0.1, 0.4–0.13 and 0.25): the simplicial
+  polynomial resolution and the full complex `L_(B/A)` are constructions of §§0.1 and 0.4;
+* the derived functors `LF`, `L∧ⁿ`, `LSymⁿ` and `LΓⁿ` on `D^(≤0)` with their base change and
+  graded multiplications, the filtration of `L∧ⁿ` of a fibre sequence, and the décalage
+  equivalences `LSymⁿ(M[1]) ≃ (L∧ⁿM)[n]` and `L∧ⁿ(M[1]) ≃ (LΓⁿM)[n]` for a connective complex `M`
+  (§§0.3 and 0.14–0.17): these functors are constructions of §§0.3 and 0.14–0.16; the resolution
+  independence that makes `LF` well defined (§0.3) and both décalage equivalences for a flat
+  module in degree zero (§0.17) are stated below;
 * the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
   above; the exactness of the pinned derived limit (§1.1) is stated below;
 * derived Nakayama (§1.3), the Koszul completion tower (§1.4) and the ordinary-quotient comparison
@@ -79,7 +87,7 @@ namespace TauCetiRoadmap.DerivedModuleAlgebra
 
 open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated
 open TensorProduct Polynomial
-open scoped TensorProduct BigOperators
+open scoped TensorProduct BigOperators Simplicial
 
 noncomputable section
 universe u v w w'
@@ -139,6 +147,65 @@ theorem bisimplicialDiagonalComparison (R : Type u) [CommRing R]
           ((SimplicialObject.diag (ModuleCat.{u} R)).obj Z))
         (((SimplicialObject.doubleComplex (ModuleCat.{u} R)).obj Z).total (ComplexShape.down ℕ)),
       e.hom = SimplicialObject.diagAlexanderWhitney Z := by
+  sorry
+
+/-- **Levelwise functors preserve weak equivalences of projective simplicial modules**
+(README 0.3; Dold–Puppe, Satz 1.15, p. 209, Satz 3.31, p. 225, and 4.4–4.6, p. 228). Let `F` be
+an arbitrary functor from `R`-modules to `R′`-modules, not necessarily additive, and `f : X ⟶ Y` a
+map of simplicial `R`-modules that are projective in every simplicial degree. If `f` induces a
+quasi-isomorphism of alternating face complexes, then so does the levelwise map `F(f)`. This is
+the resolution independence that makes the derived functor `LF` of §0.3 well defined. Projectivity
+of the target is needed: the augmentation of the Dold–Kan object of `[ℤ --2→ ℤ]` to the constant
+`ℤ/2` is a quasi-isomorphism, but under `F(V) = V ⊗ V` its first homology is `ℤ/2` against `0`. -/
+theorem quasiIso_whiskering_of_projective (R : Type u) [Ring R] (R' : Type v) [Ring R']
+    (F : ModuleCat.{w} R ⥤ ModuleCat.{w'} R') {X Y : SimplicialObject (ModuleCat.{w} R)}
+    [∀ n : ℕ, Projective (X _⦋n⦌)] [∀ n : ℕ, Projective (Y _⦋n⦌)] (f : X ⟶ Y)
+    [QuasiIso ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{w} R)).map f)] :
+    QuasiIso ((AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{w'} R')).map
+      (((SimplicialObject.whiskering (ModuleCat.{w} R) (ModuleCat.{w'} R')).obj F).map f)) := by
+  sorry
+
+end DerivedDeRham
+
+/-! ## Layer 2: cotangent calculus, integral powers and deformations -/
+
+namespace DerivedDeRham
+
+/-- **Illusie's décalage for exterior powers of a flat module** (README 0.17; [SAG],
+Proposition 25.2.4.2, p. 1704, read with the alternating exterior power of README 0.14, and
+Proposition 25.2.3.4, p. 1703, for flat modules). Let `N` be a flat module over a commutative ring
+`R` and `X = Γ₀(N[1])` the Dold–Kan simplicial module of `N` placed in homological degree one. The
+alternating face complex of the levelwise exterior power `⋀ⁿ X` has homology the degree-`n`
+divided power `Γⁿ_R(N)` in degree `n` and zero in every other degree, that is
+`L∧ⁿ(N[1]) ≃ Γⁿ(N)[n]`. Over `𝔽₂` with `N = 𝔽₂` and `n = 2` the homology is `Γ²(𝔽₂) ∋ γ₂(1)`
+although `⋀²𝔽₂ = 0`. Flatness is needed: for `N = ℤ/2` over `ℤ` and `n = 2` the degree-two
+homology is `ℤ/2`, while `Γ²_ℤ(ℤ/2) ≅ ℤ/4`. -/
+theorem exteriorPower_decalage (R : Type u) [CommRing R] (N : ModuleCat.{u} R)
+    [Module.Flat R N] (n : ℕ) :
+    let X := (AlgebraicTopology.DoldKan.Γ₀ (C := ModuleCat.{u} R)).obj
+      ((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.down ℕ) 1).obj N)
+    let K := (AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{u} R)).obj
+      (((SimplicialObject.whiskering (ModuleCat.{u} R) (ModuleCat.{u} R)).obj
+        (ModuleCat.exteriorPower.functor.{u} R n)).obj X)
+    (∀ k : ℕ, k ≠ n → IsZero (K.homology k)) ∧
+      Nonempty (K.homology n ≅
+        ModuleCat.of R (DividedPowerAlgebra.homogeneousSubmodule (R := R) (M := N) n)) := by
+  sorry
+
+/-- **Illusie's décalage for symmetric powers of a flat module** (README 0.17; [SAG],
+Proposition 25.2.4.2, p. 1704, and Proposition 25.2.3.4, p. 1703, for flat modules). Let `N` be a
+flat module over a commutative ring `R` and `X = Γ₀(N[1])` as above. The alternating face complex
+of the levelwise symmetric power `Symⁿ X` has homology the exterior power `⋀ⁿ_R N` in degree `n`
+and zero in every other degree, that is `LSymⁿ(N[1]) ≃ (⋀ⁿN)[n]`. For `N = R` and `n = 2` it is
+acyclic, although `Sym²R = R` is nonzero in simplicial degree one. -/
+theorem symmetricPower_decalage (R : Type u) [CommRing R] (N : ModuleCat.{u} R)
+    [Module.Flat R N] (n : ℕ) :
+    let X := (AlgebraicTopology.DoldKan.Γ₀ (C := ModuleCat.{u} R)).obj
+      ((HomologicalComplex.single (ModuleCat.{u} R) (ComplexShape.down ℕ) 1).obj N)
+    let K := (AlgebraicTopology.alternatingFaceMapComplex (ModuleCat.{u} R)).obj
+      (((SimplicialObject.whiskering (ModuleCat.{u} R) (ModuleCat.{u} R)).obj
+        (ModuleCat.symmetricPower.functor.{u} R n)).obj X)
+    (∀ k : ℕ, k ≠ n → IsZero (K.homology k)) ∧ Nonempty (K.homology n ≅ N.exteriorPower n) := by
   sorry
 
 end DerivedDeRham

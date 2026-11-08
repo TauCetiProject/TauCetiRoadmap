@@ -53,10 +53,13 @@ the section, or the pinned declaration, in the right column.
 | `Algebra.CotangentComplex.diagonalComparison`, `diagonalModel` | §0.9 |
 | `Algebra.CotangentComplex.baseChange` | §0.10 |
 | `Algebra.CotangentComplex.filteredColimit` | §0.11 |
+| `Algebra.CotangentComplex.smooth` | §0.12 |
+| `Algebra.CotangentComplex.regularQuotient` | §0.13 |
 | `DerivedDeRham.derivedExteriorPower` | §0.14 |
 | `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.liftMorphism`, `Algebra.CotangentComplex.kernelExtensionClass`, `Algebra.CotangentComplex.kernelExtensionClass_zero`, `Algebra.CotangentComplex.deformationObstruction`, `Algebra.CotangentComplex.deformationObstruction_zero`, `Algebra.CotangentComplex.derivationEvaluation`, `Algebra.CotangentComplex.derivationEvaluation_differential`, `Algebra.CotangentComplex.derivationEvaluation_zero`, `Algebra.CotangentComplex.transitivityConnecting`, `Algebra.CotangentComplex.transitivityConnecting_triangle`, `Algebra.CotangentComplex.transitivityConnecting_identity_source`, `Algebra.CotangentComplex.transitivityTriangle_cone_sign`, `Algebra.CotangentComplex.polynomialLift_sign`, `Algebra.CotangentComplex.polynomialLift_positive` | §0.25 |
 | `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | §S.1: the exact-rows comparison, the edge morphisms and naturality |
 | `CompactCoefficients.Tower`, `CompactCoefficients.Tower.toModuleFunctor`, `CompactCoefficients.Tower.limComparison`, `CompactCoefficients.Tower.limOneComparison` | Tau Ceti `TauCeti.ModuleTower` over `ℤ`, with `TauCeti.ModuleTower.lim` and `TauCeti.ModuleTower.limOne` |
+| `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne` and the difference map `TauCeti.ModuleTower.shift`, over `ℤ` for the `CompactCoefficients` names |
 | `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
 | `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
 | `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p` | §1.1: the degreewise-surjective model with its Milnor maps, and the multiplication-by-`p` Check |
@@ -84,7 +87,8 @@ connected-sum comparison; §0.2 here supplies the comparison with general module
 ## Conventions
 
 Rings are commutative except where multiplicative polynomial laws, module K-injective replacements,
-generic towers or ordinary-module perfectness explicitly permit associative unital rings. Complexes
+the homotopy invariance of levelwise functors in §0.3, generic towers or ordinary-module perfectness
+explicitly permit associative unital rings. Complexes
 are cohomologically indexed; simplicial or Koszul homological degree `n` becomes cohomological
 degree `−n`, and `[1]` shifts a discrete module to degree `−1`. Connective means `D^(≤0)`. Exterior powers impose repeated-factor vanishing even at `2`.
 Towers have transitions from `n+1` to `n`, and limits retain their module actions and all connecting maps.
@@ -111,12 +115,13 @@ the headline theorems that are statable against the pinned libraries, with the f
 | From Tau Ceti spectral sequences | The spectral sequence `CochainComplex.spectralSequence` of a filtered cochain complex `CochainComplex.filtrationFunctor`, with its abutment `CochainComplex.filtrationAbutmentIso` and stabilization `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`TauCeti.Algebra.Homology.SpectralSequence.Filtered`); for a first-quadrant homological bicomplex in `HomologicalComplex₂ C (down ℕ) (down ℕ)`, `HomologicalComplex₂.rowFiltrationSpectralSequence` and `HomologicalComplex₂.columnFiltrationSpectralSequence`, their first pages `HomologicalComplex₂.rowFiltrationSpectralSequenceFirstPageXIso` and `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`, abutments `HomologicalComplex₂.rowFiltrationAbutmentIso` and `HomologicalComplex₂.columnFiltrationAbutmentIso`, and convergence `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`, `HomologicalComplex₂.isZero_rowFiltration_abutmentFiltration` and `HomologicalComplex₂.isIso_rowFiltration_abutmentFiltrationι` (`TauCeti.Algebra.Homology.SpectralSequence.Bicomplex`). Consumed in §S.1. |
 | From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`, `Fintype.linearCombination`; the Koszul complexes below are built on them. |
 | From Tau Ceti Koszul complexes | In `TauCeti.RingTheory.KoszulComplex`: the Koszul complex `TauCeti.koszulComplex φ` of a linear functional `φ : M → R`, an `ℕ`-indexed chain complex with terms `⋀ⁿ M` and differential the contraction by `φ`, with its first differential `TauCeti.zeroEquiv_koszulDifferential_zero`, the induced chain maps `TauCeti.koszulComplex.map` (with `TauCeti.koszulComplex.map_id` and `TauCeti.koszulComplex.map_comp`), the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of multiplication by `φ(m)`, the zeroth homology `TauCeti.koszulComplex.homologyZeroEquivSpan` of a finite sequence, the tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`, and acyclicity for weakly regular sequences `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`. These formalise §0.K.1 apart from its algebra-map and mapping-cone clauses; consumed in §§1.3–1.5. |
-| From Tau Ceti simplicial objects | The Alexander–Whitney map `CategoryTheory.SimplicialObject.alexanderWhitney` from the alternating face complex of `X ⊗ Y` to the tensor product of those of `X` and `Y`, natural by `CategoryTheory.SimplicialObject.alexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney`); the diagonal `CategoryTheory.SimplicialObject.diag` and the double complex `CategoryTheory.SimplicialObject.doubleComplex` of a bisimplicial object, and the Alexander–Whitney chain map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from the alternating face complex of the diagonal to the total complex, natural by `CategoryTheory.SimplicialObject.diagAlexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial`). Consumed in §0.2.2. |
-| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
+| From Tau Ceti simplicial objects | The Alexander–Whitney map `CategoryTheory.SimplicialObject.alexanderWhitney` from the alternating face complex of `X ⊗ Y` to the tensor product of those of `X` and `Y`, natural by `CategoryTheory.SimplicialObject.alexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney`); the diagonal `CategoryTheory.SimplicialObject.diag` and the double complex `CategoryTheory.SimplicialObject.doubleComplex` of a bisimplicial object, and the Alexander–Whitney chain map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from the alternating face complex of the diagonal to the total complex, natural by `CategoryTheory.SimplicialObject.diagAlexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial`); the Eilenberg–Zilber theorem for free simplicial modules on simplicial sets, the shuffle map `SSet.shuffle` (`TauCeti.AlgebraicTopology.SimplicialSet.Shuffle`) and the homotopy equivalence `SSet.eilenbergZilberHomotopyEquiv` between the chains of a product and the tensor product of chains (`TauCeti.AlgebraicTopology.SimplicialSet.EilenbergZilber`), which §0.2.2 extends to arbitrary simplicial modules; the symmetric power functor `ModuleCat.symmetricPower.functor` (`TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic`). Consumed in §§0.2.2 and 0.17. |
+| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan with `AlgebraicTopology.DoldKan.Γ₀`, combinatorial simplicial homotopies `CategoryTheory.SimplicialObject.Homotopy` with `CategoryTheory.SimplicialObject.Homotopy.whiskerRight` (a functor applied levelwise carries homotopies) and `CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy` (the induced chain homotopy of alternating face complexes), used in §0.3, the exterior power functor `ModuleCat.exteriorPower.functor`, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
 | From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
 | From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and edge maps. |
 | From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
-| From Tau Ceti injective envelopes and Matlis duality | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; hull existence `TauCeti.exists_isInjectiveEnvelope` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`); the action `TauCeti.AdicCompletion.torsionModule` of the `I`-adic completion on a module whose elements are killed by powers of `I` (`TauCeti.RingTheory.AdicCompletion.Torsion`); biduality for modules of finite length `TauCeti.IsInjectiveEnvelope.bijective_applyₗ` (`TauCeti.RingTheory.MatlisDuality.FiniteLength`); and the Artinian criterion `TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap` (`TauCeti.RingTheory.MatlisDuality.Artinian`). Consumed in §1.M.2. |
+| From Tau Ceti injective envelopes and Matlis duality | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; hull existence `TauCeti.exists_isInjectiveEnvelope` and its form inside a given injective module `TauCeti.exists_isInjectiveEnvelope_submodule` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`); the action `TauCeti.AdicCompletion.torsionModule` of the `I`-adic completion on a module whose elements are killed by powers of `I` (`TauCeti.RingTheory.AdicCompletion.Torsion`); in `TauCeti.RingTheory.MatlisDuality.FiniteLength`, the residue-field duality `TauCeti.residueFieldLinearMapEquiv`, injectivity of evaluation into the double dual for every module `TauCeti.injective_applyₗ_of_injective`, preservation of length `TauCeti.IsInjectiveEnvelope.length_linearMap` and biduality for modules of finite length `TauCeti.IsInjectiveEnvelope.bijective_applyₗ`; and the Artinian criterion `TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap` (`TauCeti.RingTheory.MatlisDuality.Artinian`). Consumed in §§1.M.1–1.M.2. |
+| From Tau Ceti pseudo-coherent modules | `TauCeti.Huber.IsPseudoCoherentOver A M m`, existence of a finite free resolution of `M` exact up to length `m` (`TauCeti.Algebra.Module.PseudoCoherent.Basic`, any `[Ring A]`), with `TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing` (finite modules over Noetherian rings, `m = ⊤`) and the resolving chain complex `TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` (`TauCeti.Algebra.Module.PseudoCoherent.ChainComplex`). Consumed in §1.E.0 for modules in degree zero. |
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -1012,7 +1017,12 @@ the exact-rows comparison while the statements here stay on Mathlib's
 
 ### 0.2.2 Simplicial module tensor and diagonal comparisons
 
-**Simplicial module tensor comparison.** For simplicial modules `X, Y` over a commutative ring
+**Simplicial module tensor comparison.** Tau Ceti proves the Eilenberg–Zilber theorem for the free
+simplicial modules on simplicial sets: for simplicial sets `K, L` and coefficient objects `R, S`, its
+shuffle map `SSet.shuffle` and its Alexander–Whitney map are inverse chain homotopy equivalences
+between the chains of `K × L` with coefficients `R ⊗ S` and the tensor product of the chains of `K`
+and of `L` (`SSet.eilenbergZilberHomotopyEquiv`), with the same bidegree-`(1,1)` shuffle signs as
+below. This section extends it to arbitrary simplicial modules. For simplicial modules `X, Y` over a commutative ring
 `A`, construct the natural shuffle map and prove that it and Tau Ceti's natural Alexander–Whitney map
 `CategoryTheory.SimplicialObject.alexanderWhitney` are inverse chain homotopy equivalences
 `Tot_⊕(s(X) ⊗_A s(Y)) ≃ s(X ⊗_A Y)`. Here `s` is Mathlib's alternating-face complex,
@@ -1035,7 +1045,9 @@ change laws. ([Stacks](https://stacks.math.columbia.edu/tag/08QD), Remark 21.39.
 
 *Needs:* §0.2 (K-flat models and derived tensor); Tau Ceti
 `CategoryTheory.SimplicialObject.alexanderWhitney` and
-`CategoryTheory.SimplicialObject.alexanderWhitney_naturality`; Mathlib's alternating-face and
+`CategoryTheory.SimplicialObject.alexanderWhitney_naturality`; as a proof route by acyclic models
+on the standard simplices, Tau Ceti `SSet.shuffle` and `SSet.eilenbergZilberHomotopyEquiv`;
+Mathlib's alternating-face and
 normalized Moore complexes, their homotopy equivalence, module tensor products and
 `HomologicalComplex.tensorObj`.
 
@@ -1058,8 +1070,9 @@ bidegree-(1,1) component is the signed two-shuffle formula below.
 
 **Bisimplicial module diagonal comparison.** For any bisimplicial `A`-module `Z`, prove that
 Tau Ceti's Alexander–Whitney map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from
-`s(diag Z)` to `Tot_⊕(s_h s_v Z)` is a chain homotopy equivalence, with homotopy inverse the
-shuffle map; this is the headline `DerivedDeRham.bisimplicialDiagonalComparison`. Here
+`s(diag Z)` to `Tot_⊕(s_h s_v Z)` is a chain homotopy equivalence; this is the headline
+`DerivedDeRham.bisimplicialDiagonalComparison`. Its homotopy inverse is the shuffle map constructed
+here. Here
 `(diag Z)_n = Z_(n,n)` with face maps applying the same face in both directions (Tau Ceti's
 `CategoryTheory.SimplicialObject.diag`), and `s_h s_v Z` is Tau Ceti's
 `CategoryTheory.SimplicialObject.doubleComplex`, with horizontal (outer) degree `p`, vertical (inner)
@@ -1098,7 +1111,20 @@ a projective resolution, pass through the Dold–Kan correspondence to a simplic
 define `LF(M) = N(F(X•))`, the alternating face complex of the levelwise application. Two projective
 simplicial resolutions are homotopy equivalent and `F` preserves simplicial homotopies, so `LF` is a
 well-defined functor `D^(≤0)(R) → D^(≤0)(R′)` ([DoldPuppe] §4, 4.1–4.6, pp.227–229, with 1.15 for
-homotopies and §3 for the Dold–Kan correspondence; [StacksSimp] Remark 14.26.4). If `F` is additive,
+homotopies and §3 for the Dold–Kan correspondence; [StacksSimp] Remark 14.26.4). Mathlib supplies
+the second step: a combinatorial simplicial homotopy `CategoryTheory.SimplicialObject.Homotopy` is
+carried by any functor applied levelwise (`CategoryTheory.SimplicialObject.Homotopy.whiskerRight`)
+and induces a chain homotopy of alternating face complexes
+(`CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy`). The first step, that a weak
+equivalence of degreewise projective simplicial modules is a simplicial homotopy equivalence, comes
+from the Dold–Kan correspondence of homotopies ([DoldPuppe] Satz 3.31, p.225). Together they give
+the headline `DerivedDeRham.quasiIso_whiskering_of_projective`: for associative unital rings `R` and
+`R′`, a functor `F` from `R`-modules to `R′`-modules, not necessarily additive, and a map `f : X → Y`
+of simplicial `R`-modules that are projective in every degree and whose alternating face complexes
+are quasi-isomorphic through `f`, the levelwise map `F(f)` is again a quasi-isomorphism of
+alternating face complexes ([DoldPuppe] 4.4–4.6, p.228, with Satz 1.15, p.209). Only the values of
+`F` on the projective terms and on maps between them enter, so the same statement holds for a
+functor defined on projective modules only. If `F` is additive,
 `LF` is the classical left derived functor ([DoldPuppe] 4.7, p.228). If `F` commutes with filtered
 colimits of projective modules, so does `LF`. When `F` is obtained from its restriction to finite
 projective modules by filtered colimits, `LF` is the sifted-colimit extension of its values on finite
@@ -1106,8 +1132,10 @@ free modules. [SAG] Proposition 25.2.1.2 and Corollary 25.2.1.3, pp.1698–1699,
 ∞-categorical formulation for ring-module pairs; the strict model above uses simplicial modules.
 An arbitrary functor on all projective modules need not have this colimit property.
 
-*Needs:* §0.1 (Simplicial polynomial resolutions); §0.2.1 (Flat modules as filtered colimits of finite free modules) (for the finite-projective extension); Mathlib `AlgebraicTopology.DoldKan`,
-`AlgebraicTopology.alternatingFaceMapComplex`, `DerivedCategory`.
+*Needs:* §0.2.1 (Flat modules as filtered colimits of finite free modules) (for the finite-projective
+extension); Mathlib `AlgebraicTopology.DoldKan`, `AlgebraicTopology.alternatingFaceMapComplex`,
+`CategoryTheory.SimplicialObject.Homotopy`, `CategoryTheory.SimplicialObject.Homotopy.whiskerRight`,
+`CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy`, `DerivedCategory`.
 
 Prove the following laws.
 
@@ -1123,6 +1151,11 @@ Prove the following laws.
 - for `F = id`, `LF(M) ≅ M`.
 - for `F(X) = X ⊗_R X` and `R = ℤ`, `M = ℤ/2`, `LF(M)` has nonzero
   `H^−1`, so it is not the underived value `(ℤ/2) ⊗ (ℤ/2)` in degree zero.
+- the augmentation from the Dold–Kan object of `[ℤ --2→ ℤ]` to the constant simplicial module
+  `ℤ/2` is a quasi-isomorphism whose target is not projective. Under `F(X) = X ⊗_ℤ X` the source
+  has `H^−1 = Tor₁(ℤ/2, ℤ/2) = ℤ/2` by the shuffle comparison of §0.2.2, the target has `H^−1 = 0`,
+  so the levelwise map is not a quasi-isomorphism: the invariance needs projective terms on both
+  sides.
 - for the constant functor `F(X) = R′`, `LF(M) ≅ R′[0]` for every
   connective `M`, including `M = 0`; a construction through chain complexes rather than simplicial
   modules would not apply to this non-additive functor.
@@ -1237,10 +1270,9 @@ Prove the following laws.
 - a `B`-linear map `M → N` induces
   `Der_A(B, M) → Der_A(B, N)` and `Exal_A(B, M) → Exal_A(B, N)` (pushout of extensions), preserving the
   zero derivation and the split class.
-- the class of an extension is its
-  the morphism obstruction for the identity map, normalized on a lift of the degree-zero polynomial
-  resolution by subtracting the two lifted faces in the order `d₀ − d₁`
- .
+- the class of an extension is its morphism obstruction for the identity map, normalized on a
+  lift of the degree-zero polynomial resolution by subtracting the two lifted faces in the order
+  `d₀ − d₁`.
 
 **Checks.**
 
@@ -1340,8 +1372,8 @@ is the image of `r` under `R → E`. This pins the cocycle and kernel signs.
 
 For composable ring maps `A → B → C` there is a natural distinguished triangle
 `L_(B/A) ⊗^L_B C → L_(C/A) → L_(C/B) → (L_(B/A) ⊗^L_B C)[1]` in `D(C)`. Its first two arrows are
-images under `DerivedCategory.Q` of chain maps the first transitivity map and
-the second transitivity map induced by the squares `(A → B) → (A → C)` and `(A → C) → (B → C)`; only the
+images under `DerivedCategory.Q` of chain maps, the first and second transitivity maps, induced by
+the squares `(A → B) → (A → C)` and `(A → C) → (B → C)`; only the
 connecting arrow is chosen. On low-degree homology the middle maps are
 `Algebra.H1Cotangent.δ`, with exactness given by `Algebra.H1Cotangent.exact_map_δ` and
 `Algebra.H1Cotangent.exact_δ_mapBaseChange`. The left term remains
@@ -1584,7 +1616,20 @@ degreewise split short exact sequence of simplicial projective modules, so apply
 levelwise gives a natural finite filtration of `L∧ⁿL` of length `n+1` with graded pieces
 `L∧^j K ⊗^L L∧^(n−j) M`, multiplicative for the weight grading. For connective `M` there are the
 décalage equivalences `LSymⁿ(M[1]) ≃ (L∧ⁿM)[n]` and `L∧ⁿ(M[1]) ≃ (LΓⁿM)[n]`; for a flat discrete
-module `N`, `L∧ⁿ(N[1]) ≃ Γⁿ(N)[n]`.
+module `N` over a commutative ring `R` they read `L∧ⁿ(N[1]) ≃ Γⁿ(N)[n]` and
+`LSymⁿ(N[1]) ≃ (∧ⁿN)[n]`, by the flat-module laws of §§0.14 and 0.16.
+
+For flat `N` both are stated on the strict model: let `X = Γ₀(N[1])` be Mathlib's Dold–Kan
+simplicial module (`AlgebraicTopology.DoldKan.Γ₀`) of `N` placed in homological degree one, a finite
+sum of copies of `N` in each level. The headline `DerivedDeRham.exteriorPower_decalage` says that
+the alternating face complex of the levelwise exterior power `∧ⁿX` (Mathlib's
+`ModuleCat.exteriorPower.functor`) has homology `Γⁿ_R(N)`, Tau Ceti's
+`DividedPowerAlgebra.homogeneousSubmodule`, in homological degree `n` and zero in every other
+degree. The headline `DerivedDeRham.symmetricPower_decalage` says that the alternating face complex
+of the levelwise symmetric power `Symⁿ X` (Tau Ceti's `ModuleCat.symmetricPower.functor`) has
+homology `∧ⁿ_R N` in degree `n` and zero elsewhere. These three functors commute with filtered
+colimits, so by Lazard's theorem (§0.2.1) the levelwise values on this degreewise flat model
+compute the derived functors of §§0.14–0.16, by §0.3 on the finite free terms.
 
 [DM], Lemma 3.3 and its proof, pp.21–22 (the filtration for a short exact sequence of projective
 modules and its levelwise application to cotangent complexes); [SAG], Proposition 25.2.4.2 (Illusie)
@@ -1592,7 +1637,10 @@ with its proof, pp.1704–1707 (the Koszul filtrations `F_i`, `G_i` and the déc
 [Bhatt12], Proposition 3.22 and Remark 3.43, pp.11–12, 18, for the uses below.
 
 *Needs:* §0.14 (Derived exterior powers); §0.15 (Derived symmetric powers); §0.16 (Derived divided powers);
-§0.3 (Derived functors of non-additive functors); §0.2.2 / Simplicial module tensor comparison.
+§0.3 (Derived functors of non-additive functors); §0.2.2 / Simplicial module tensor comparison;
+for the flat-module headlines, §0.2.1, Mathlib `AlgebraicTopology.DoldKan.Γ₀` and
+`ModuleCat.exteriorPower.functor`, and Tau Ceti `ModuleCat.symmetricPower.functor` and
+`DividedPowerAlgebra.homogeneousSubmodule`.
 
 For simplicial projective representatives `X, Y` of `K, M`, the levelwise graded piece is
 `s(∧^j X ⊗_B ∧^(n−j) Y)`. The exterior powers of these projective modules are projective;
@@ -1607,6 +1655,16 @@ compatibilities identify the products on the filtration and on its graded pieces
   the graded pieces are `∧²K = 0`, `K ⊗ M ≅ B(e ∧ f)` and `∧²M = 0`, matching `∧²(B²) ≅ B`.
 - for `N = ℤ` and `n = 2`, `L∧²(ℤ[1]) ≃ Γ²(ℤ)[2] ≅ ℤ[2]` is nonzero, whereas the
   ordinary exterior square of a rank-one module is zero; over `F₂` the same holds with `γ₂` surviving.
+- on the strict model with `N = R` and `n = 2`, the normalized complex of `∧²X` is `R` in
+  homological degree two alone (the cross-effect `R ⊗ R`, since `∧²R = 0` in degree one), matching
+  `Γ²(R) = R·γ₂(e)`. That of `Sym²X` is `R → R` in degrees two and one with a unit as differential
+  (on the bar model of `X`, `e₁e₂ ↦ −e²`), so it is acyclic, matching `∧²R = 0`, although
+  `Sym²R = R` is nonzero in degree one. For `n = 0` both complexes are `R` in degree zero, `Γ⁰` and
+  `∧⁰`; for `N = 0` and `n ≥ 1` both vanish, as do `Γⁿ(0)` and `∧ⁿ0`.
+- flatness cannot be dropped from the strict statement. For `N = ℤ/2` over `ℤ` and `n = 2`, the
+  levelwise `∧²_ℤ` of the model is `∧²_(F₂)` of the `F₂`-model, whose homology is
+  `Γ²_(F₂)(F₂) = F₂` in degree two. But `Γ²_ℤ(ℤ/2) ≅ ℤ/4`, generated by `γ₂(1)` with
+  `1·1 = 2γ₂(1) ≠ 0` and `4γ₂(1) = γ₂(2) = 0`.
 
 ### 0.25 Cotangent obstruction theory for square-zero lifts
 
@@ -1650,7 +1708,7 @@ pp.31–32, 37–38; [StacksAlg] Lemma 10.99.8 (Tag 051C).
 - for `A′ = ℤ/4`, `A = B = F₂`, `J = N = F₂` and `c = 0`, the ring
   `B′ = F₂[ε]/ε²`, a `ℤ/4`-algebra through `F₂`, solves the arbitrary-`c` problem: its kernel is `F₂ε ≅ N`
   and it induces `c = 0`. But `2B′ = 0`, so `JB′ = 0`, `B′/JB′ = B′ ≠ B` and `B′` is not flat over `ℤ/4`.
-  the flat specialization needs the canonical `c`.
+  The flat specialization needs the canonical `c`.
 
 For a square-zero extension `E : A′ → A` with kernel `J` and an `A`-algebra `B`, construct
 the transitivity connecting map for `A′ → A → B`. The triangle compatibility law fixes the first two arrows as
@@ -1937,7 +1995,10 @@ Prove the following laws.
 - `Λ_(p)(ℤ/p^m) ≃ ℤ/p^m` for `m ≥ 1`.
 - At `I = A` the complete objects are the zero objects, since `Hom(A[n], M) = H^(−n)(M)`; the left
   adjoint is the zero functor. At `I = 0` every object is complete and the left adjoint is the
-  identity. A definition testing only `n = 0` would admit `ℤ[1]` as `ℤ`-complete at `I = ℤ`.
+  identity. A definition testing only `n = 0` would admit `ℤ[−1]`, `ℤ` in cohomological degree
+  one, as `ℤ`-complete at `I = ℤ`: every `Hom(ℤ[1/f], ℤ[−1])` is a negative Ext group and
+  vanishes, while `f = 1`, `n = −1` gives `Hom(ℤ[−1], ℤ[−1]) = ℤ`. The shift `ℤ[1]` is no witness:
+  at `f = 2` already `Hom(ℤ[1/2], ℤ[1]) = Ext¹(ℤ[1/2], ℤ) = ℤ_2/ℤ ≠ 0` (§1.1.1).
 - For `I = 0` all objects are complete, but multiplication by two on `ℤ[0]` has no categorical
   cokernel in `D(ℤ)`. A cokernel would be an epimorphism, hence split in a triangulated category;
   its target would be a summand of `ℤ[0]`. Since `End(ℤ[0]) = ℤ`, its only summands are zero
@@ -2083,15 +2144,15 @@ This is an adjunction for algebra maps in `H_A`.
 
 Prove the following laws, with `hI : I.FG` throughout.
 
-- the descended natural unit, represented by the strict model unit through
-  the localization comparison for units.
-- the natural isomorphism `L_I ⋙ U ≅ U ⋙ Λ_I`, satisfying
-  the displayed underlying-unit equation as displayed above.
+- the algebra unit `η` is natural and is represented by the strict model unit through the
+  localization comparison for units.
+- the natural isomorphism `α : L_I ⋙ U ≅ U ⋙ Λ_I` satisfies the unit equation
+  `U(η_B) ≫ α_B.hom = completionUnit_(U B)` above.
 - for any `f : B → C` in `H_A`,
   `f ≫ η_C = η_B ≫ L_I(f)`; the underlying completed map agrees with module completion via `α`.
 - `derivedCompleteness A I (U(L_I B))` for every `B`.
-- the algebra-map bijection, with
-  precomposition with the unit identifying it with `g ↦ η_B ≫ g`.
+- for complete `C`, the algebra-map bijection `Hom_(H_A)(L_I B, C) ≃ Hom_(H_A)(B, C)` is
+  precomposition with the unit, `g ↦ η_B ≫ g`.
 - `η_C` is an isomorphism for complete `C`. In particular,
   `L_I(η_B) = η_(L_I B)` and its inverse gives `L_I L_I B ≅ L_I B` naturally in `H_A`.
 
@@ -2228,7 +2289,11 @@ perfect-complex namespace used by the trace consumer.
 
 For unital rings define `IsPseudoCoherent A K` by a bounded-above finite-free representative.
 The bounded-above finite-projective formulation is equivalent, by successively adjoining
-finite-projective complements. Define Tor amplitude [a,b] for K over commutative A by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
+finite-projective complements. For a module `M` in degree zero, `IsPseudoCoherent A M[0]` holds
+exactly when `M` has an infinite resolution by finite free modules, which is Tau Ceti's
+`TauCeti.Huber.IsPseudoCoherentOver A M ⊤`; in one direction
+`TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` supplies the representing complex,
+reindexed to nonpositive cohomological degrees ([StacksMA], Lemma 15.66.4(4), Tag 064T, p.162). Define Tor amplitude [a,b] for K over commutative A by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
 and `i ∉ [a,b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
 and the third vertex of distinguished triangles, and closure under retracts, for unital rings.
 For commutative rings provide arbitrary derived scalar change and a finite Tor interval for
@@ -2241,7 +2306,8 @@ Lemma 15.76.5, Tag 066S; Definition 15.66.1, Tag 064Q; §15.68, Tag 0651;
 the general-ring closure laws follow from finite-projective representatives and their retracts.)
 
 *Needs:* §0.2 (derived tensor and scalar extension); Mathlib `Module.Projective`, `Module.Free`,
-`Module.Finite`, complexes and `DerivedCategory.Q`.
+`Module.Finite`, complexes and `DerivedCategory.Q`; Tau Ceti `TauCeti.Huber.IsPseudoCoherentOver`
+with `TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` for modules in degree zero.
 
 *Lean:* `Suggested.lean` declares `DerivedDeRham.IsPerfect`,
 `IsPseudoCoherent`, `IsFiniteFreeModel A P b` (finite freeness in every degree and vanishing above
@@ -2353,8 +2419,10 @@ bounded-above finite-free model `P` of `K`, whose residue fibres are the termwis
 
 - A bounded finite-projective complex supported in `[a,b]` satisfies this residue-field criterion
   and is recovered with that same support bound.
-- For `A = k[ε]/(ε²)`, the module `k` is pseudo-coherent, but its derived tensor with the residue
-  field has nonzero cohomology in every nonpositive degree. It has no finite Tor interval.
+- For `A = k[ε]/(ε²)`, the module `k` is pseudo-coherent, as is every finite module over a
+  Noetherian ring (`TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing`; [StacksMA],
+  Lemma 15.66.17(3), Tag 066E), but its derived tensor with the residue field has nonzero
+  cohomology in every nonpositive degree. It has no finite Tor interval.
 - For `[k[[t]] --t→ k[[t]]]`, the residue fibre is `[k --0→ k]` in `[−1,0]`; the criterion keeps
   degree `−1` even though the original complex has zero `H^−1`.
 
@@ -2424,13 +2492,19 @@ The module biduality is stated in `Suggested.lean` in §1.M.2 for an arbitrary r
 finite-residue-field case here is its specialisation.
 Downstream consumers construct the comparison with normalized dualizing complexes and local cohomology.
 
-*Proof sketch.* Construct an essential injective hull of `k` inside an injective module
-containing it. Exactness of `D` is injectivity of `E_R(k)`; biduality for modules of finite length
-follows by induction on the length. Completeness of `R` and the compatible reductions modulo `𝔪ⁿ`
-give the anti-equivalence between finite-type and cofinite-type modules and its equivariant form.
-([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§2.2–2.3,
-pp. 51–53; §3.1, pp. 75–76.) *Needs:* Mathlib `DerivedCategory`; Mathlib
-`CategoryTheory.IsGrothendieckAbelian.enoughInjectives`.
+*Proof sketch.* The module-level inputs are at the pinned Tau Ceti: an essential injective hull of
+`k` inside any injective module containing it (`TauCeti.exists_isInjectiveEnvelope_submodule`), the
+residue-field duality `D(k) ≅ k` (`TauCeti.residueFieldLinearMapEquiv`), injectivity of evaluation
+`M → D(D(M))` for every module `M` (`TauCeti.injective_applyₗ_of_injective`), preservation of length
+by `D` (`TauCeti.IsInjectiveEnvelope.length_linearMap`) and biduality for modules of finite length
+(`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`). Exactness of `D` is injectivity of `E_R(k)`.
+Completeness of `R` and the compatible reductions modulo `𝔪ⁿ` give the anti-equivalence between
+finite-type and cofinite-type modules and its equivariant form, and termwise application gives the
+complex form. ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf),
+§§2.2–2.3, pp. 51–53; §3.1, pp. 75–76.) *Needs:* Tau Ceti
+`TauCeti.exists_isInjectiveEnvelope_submodule`, `TauCeti.residueFieldLinearMapEquiv`,
+`TauCeti.injective_applyₗ_of_injective`, `TauCeti.IsInjectiveEnvelope.length_linearMap` and
+`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`; Mathlib `DerivedCategory`; Mathlib `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`.
 
 **Checks.**
 
@@ -2451,10 +2525,13 @@ pp. 51–53; §3.1, pp. 75–76.) *Needs:* Mathlib `DerivedCategory`; Mathlib
   endomorphism ring of `K/R` is `R̂`, as in §1.M.2 (Stacks, Lemma 47.7.5, tag 08Z6).
 - For `R = ℤ_p` and `E = ℚ_p/ℤ_p`, the module `R ⊕ E` is neither finite nor Artinian, but
   `D(R ⊕ E) ≅ E ⊕ R` and evaluation is an isomorphism, by additivity of `D` on finite sums.
-- `D(k) = Hom_R(k, E_R(k)) = k` (the socle of `E_R(k)`), and `k → D(D(k))` is an isomorphism; by
-  induction on length every module of finite length is canonically bidual.
+- `D(k) = Hom_R(k, E_R(k)) = k` (the socle of `E_R(k)`; `TauCeti.residueFieldLinearMapEquiv`), and
+  `k → D(D(k))` is an isomorphism; by induction on length every module of finite length is
+  canonically bidual. An injective module containing `k` but larger than its hull, such as
+  `E_R(k) ⊕ E_R(k)`, has `Hom_R(k, −) = k²`, so `D(k)` would have length two.
 - For `R = k` (so `E_R(k) = k`) and `M = ⊕_ℕ k`, which is neither finitely generated nor Artinian,
-  `D(M) = ∏_ℕ k` and `M → D(D(M))` is injective but not surjective.
+  `D(M) = ∏_ℕ k` and `M → D(D(M))` is injective (as for every module, by
+  `TauCeti.injective_applyₗ_of_injective`) but not surjective.
 
 ### 1.M.2 Matlis duality and completion inputs
 
@@ -2463,8 +2540,10 @@ field, Tau Ceti formalises an injective hull `E` of `κ`, obtained by maximal es
 inside injective modules (`TauCeti.exists_isInjectiveEnvelope`, unique by
 `TauCeti.IsInjectiveEnvelope` and its uniqueness API), the canonical `R̂`-action on every module
 whose elements are killed by powers of `𝔪`, in particular on `E`
-(`TauCeti.AdicCompletion.torsionModule`), evaluation biduality for modules of finite length
-(`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`), and the criterion that a module whose Matlis dual
+(`TauCeti.AdicCompletion.torsionModule`), injectivity of evaluation `M → Hom_R(Hom_R(M, E), E)`
+for every module (`TauCeti.injective_applyₗ_of_injective`), preservation of length by Matlis
+duality (`TauCeti.IsInjectiveEnvelope.length_linearMap`), evaluation biduality for modules of
+finite length (`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`), and the criterion that a module whose Matlis dual
 is finite over `R̂` is Artinian, with no torsion hypothesis on the module
 (`TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap`). Construct the exact
 duality between Artinian `R`-modules and finite `R̂`-modules and prove evaluation biduality on both
@@ -2478,9 +2557,12 @@ complete for its maximal ideal, an injective envelope `e : κ → E` in the sens
 `TauCeti.IsInjectiveEnvelope`, and `M` finite, respectively Artinian, the dual `Hom_R(M, E)` is
 Artinian, respectively finite, and evaluation `M → Hom_R(Hom_R(M, E), E)` is bijective; no
 finiteness of the residue field is assumed (Stacks, Proposition 47.7.8, tag 08Z9; §47.7, tag 08Z1,
-especially Remark 47.7.9.) *Needs:* Mathlib enough injectives in `ModuleCat`, `AdicCompletion`;
+especially Remark 47.7.9.) The injectivity half of both bijections is
+`TauCeti.injective_applyₗ_of_injective`; the content of the two headlines is surjectivity and the
+finiteness, respectively Artinian, property of the dual. *Needs:* Mathlib enough injectives in `ModuleCat`, `AdicCompletion`;
 Tau Ceti `TauCeti.Algebra.Module.Injective.Envelope.Basic`, `TauCeti.exists_isInjectiveEnvelope`,
-`TauCeti.AdicCompletion.torsionModule`, `TauCeti.IsInjectiveEnvelope.bijective_applyₗ` and
+`TauCeti.AdicCompletion.torsionModule`, `TauCeti.injective_applyₗ_of_injective`,
+`TauCeti.IsInjectiveEnvelope.length_linearMap`, `TauCeti.IsInjectiveEnvelope.bijective_applyₗ` and
 `TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap`; §1.M.1
 (*Matlis duality for arithmetic coefficients*, the complete finite-residue-field case).
 
