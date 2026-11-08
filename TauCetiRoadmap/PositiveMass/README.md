@@ -22,9 +22,11 @@ Hölder spaces on AE manifolds and their Fredholm theory away from the indicial
 weights; the round-sphere spinor restriction and its monogenic spectrum; the
 harmonically flat approximation and the zero-mass deformation; the AE large-ball
 volume limit; the compact torus obstruction for smooth stable hypersurfaces in
-ambient dimension at most 7 and the negative-mass compactification; spinors at
-infinity and the boundary mass identity; doubled Callias operators with chiral
-boundary conditions; and the localized Callias argument for one AE end.
+ambient dimension at most 7 and the negative-mass compactification; Gauss–Bonnet
+for compact domains with piecewise smooth boundary in an oriented surface, by
+triangulation and the Euler identification, with its naturality for exhaustions;
+spinors at infinity and the boundary mass identity; doubled Callias operators
+with chiral boundary conditions; and the localized Callias argument for one AE end.
 
 It also owns three closed-manifold conformal inputs that its compact
 obstruction uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature
@@ -41,6 +43,9 @@ It leaves to other roadmaps:
 - the Levi-Civita connection, curvature, Gauss equation, hypersurface variation,
   Bishop–Gromov comparison with its small-ball limit and its equality case, and
   spherical harmonics: RiemannianGeometry R1–R5, R4.1, R7.8, R8;
+- Gauss–Bonnet for disks and annuli with piecewise smooth boundary, reflex corners
+  included, the signed turning theorem, and their boundary, corner and common-arc
+  interfaces: RiemannianGeometry/Surfaces S3;
 - gradient, divergence, Laplace–Beltrami, Green identities, orientation cover and
   Sard: DifferentialGeometry 2, 10, 12.2–12.5;
 - Euclidean weak spaces, maximum principles, elliptic existence and regularity:
@@ -137,6 +142,14 @@ full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)
 compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
 realization. R7.8: smooth Lipschitz approximation of distance functions. R8.1–R8.2:
 scalar spherical harmonics and their completeness in the compact L² realization.
+
+### From TauCetiRoadmap.RiemannianGeometry.Surfaces
+
+S3: Gauss–Bonnet for disks and annuli with piecewise smooth boundary, reflex corners
+included; the boundary term against local connection forms; cancellation along a
+common boundary arc together with its endpoint-angle terms. Its conventions are
+those of 3.1: each boundary component oriented with the domain on its left, `k_g`
+against the inward conormal, signed exterior angles. Used in 3.1.
 
 ### From TauCetiRoadmap.DifferentialGeometry (on main)
 
@@ -694,19 +707,23 @@ independent pulled-back H¹ classes with nonzero cup product, so b₁≥2 and
 AlgebraicTopology Stage 7's Euler–Poincaré identity gives χ = 2−b₁ ≤ 0, a contradiction
 without surface classification.
 
-For compact oriented surfaces with smooth boundary prove
-`∫K dA + ∫_(∂Σ) k_g ds = 2πχ(Σ)` with outward-first boundary orientation and
-`k_g = ⟨∇_T T, inward conormal⟩`, including piecewise smooth corners with exterior
-angles, the triangulation and Euler identification, and naturality for exhaustion
+For a compact domain Σ with piecewise smooth boundary in an oriented smooth
+Riemannian surface without boundary, a closed surface being the case ∂Σ = ∅, prove
+`∫K dA + ∫_(∂Σ) k_g ds + ∑ᵢ αᵢ = 2πχ(Σ)` with outward-first boundary orientation,
+`k_g = ⟨∇_T T, inward conormal⟩` and signed exterior corner angles αᵢ, together with
+the triangulation and Euler identification and naturality for exhaustion
 boundaries, from RiemannianGeometry R1, R5a, DifferentialGeometry's Stokes theorem,
 the smooth triangulation of GeometricTopology's smoothing-and-triangulation comparison
 (item 1) and AlgebraicTopology Stage 7 (do Carmo, *Differential Geometry of Curves and
-Surfaces*, §4-5, Global Gauss–Bonnet theorem). A closed index
-formula alone is not the boundary theorem.
+Surfaces*, §4-5, Global Gauss–Bonnet theorem). The local inputs, the formula on each
+disk with corners, its boundary term against local connection forms and the
+cancellation along common edges with their endpoint-angle terms, are
+RiemannianGeometry/Surfaces S3. A closed index formula alone is not the boundary
+theorem.
 
-*Needs:* GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b; AlgebraicTopology
-Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology,
-smoothing-and-triangulation comparison, item 1; 3.0.
+*Needs:* GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
+RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
+2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1; 3.0.
 
 **Checks.**
 
@@ -719,6 +736,8 @@ smoothing-and-triangulation comparison, item 1; 3.0.
   total 2π = 2πχ. On the annulus 1<r<2: outer boundary contributes `(1/2)(4π) = 2π`,
   inner boundary `(−1)(2π) = −2π`, total 0 = 2πχ. On the round hemisphere: area 2π, geodesic
   boundary, total 2π = 2πχ. Using the outward conormal would flip both boundary signs.
+  A planar L-shaped hexagon has K=0, `k_g = 0`, five exterior angles π/2 and one reflex
+  angle −π/2, total 2π = 2πχ; unsigned angles would give 3π.
 - `T³` with its flat metric has Scal=0, consistent with the obstruction, and `S³` admits
   Scal>0 but has no nonzero-degree map to `T³`.
 
@@ -804,10 +823,11 @@ as the model closed manifold of the obstruction.
 
 ### Dependencies
 
-Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b; AlgebraicTopology
-Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology,
-smoothing-and-triangulation comparison, item 1; UnboundedOperators UO-D06;
-VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a; PDE Lane C.
+Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
+RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
+2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1;
+UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a;
+PDE Lane C.
 
 ## Layer 4: spinors at infinity and the boundary mass identity
 
