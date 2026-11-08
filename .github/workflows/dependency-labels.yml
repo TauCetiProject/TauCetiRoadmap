@@ -1,24 +1,26 @@
 name: dependency-labels
 
 # Keep `awaiting-dependencies` on exactly the open pull requests that still wait for another one, and
-# take it off as soon as the last of those merges.
+# take it off as soon as the last of those merges (and off merged pull requests that still carry it).
 #
-# What a pull request waits for is recorded by the roadmap worker's AI review of its head, in the
-# verdict file on the job board (TauCetiRoadmapJobs): the supplier roadmaps its README names that are
-# not on main, the open revisions whose numbering it cites, and the pull requests its description
-# names as dependencies. `tauceti-roadmap roadmaps dependency-labels` re-checks those records against
-# main and the pull requests' states and adds or removes the label; a head no review has recorded
-# yet keeps its label as it is. See docs/OPERATORS.md in TauCetiRoadmapWorker, "The dependency label".
+# `tauceti-roadmap roadmaps dependency-labels` (TauCetiRoadmapWorker, docs/OPERATORS.md, "The
+# dependency label") works it out afresh on every run, recording nothing: it fetches every open head,
+# reads every open pull request's current description and the states of the pull requests those name,
+# and counts as outstanding the supplier roadmaps a README names or a Suggested.lean imports that are
+# not on main, the open revisions whose numbering a README cites, and the dependencies a description
+# declares (its `<!-- depends-on -->` block, then its prose) that have not merged. A pull request
+# GitHub did not answer for keeps its label as it is.
 #
 # It runs when a pull request merges (the moment a dependency is met), hourly (for anything a merge
-# event missed), and on demand. A run reads the open roadmap pull requests, main's tree, the board's
-# review jobs and their verdicts: about 25 REST and 20 GraphQL requests.
+# event missed), and on demand. A run fetches the open heads (about 140 MB) and makes a few dozen
+# GraphQL queries; it takes a few minutes.
 #
 # pull_request_target rather than pull_request so the App secrets are available when a fork's pull
-# request merges. This job never checks out or runs pull request code: it installs the worker and
-# reads pull requests through the API. The org disables a writing GITHUB_TOKEN, so the label is
-# written with a tauceti-review-bot App token limited to pull requests on this repository. The
-# worker is installed from its main branch, as the job board's own workflow installs it.
+# request merges. This job never checks out or runs pull request code: it installs the worker, fetches
+# the heads into a bare mirror as data, and reads pull requests through the API. The org disables a
+# writing GITHUB_TOKEN, so the label is written with a tauceti-review-bot App token limited to reading
+# this repository and writing its pull requests. The worker is installed from its main branch, as the
+# job board's own workflow installs it.
 on:
   pull_request_target:
     types: [closed]
@@ -38,9 +40,9 @@ jobs:
   labels:
     if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
-      - name: Mint App token (pull-requests write)
+      - name: Mint App token (contents read, pull-requests write)
         id: token
         uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         with:
@@ -48,6 +50,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: TauCetiProject
           repositories: TauCetiRoadmap
+          permission-contents: read
           permission-pull-requests: write
       - name: State directory outside any checkout
         run: echo "TAUCETI_PROJECT_STATE=$RUNNER_TEMP/state" >> "$GITHUB_ENV"
