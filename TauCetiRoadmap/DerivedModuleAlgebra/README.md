@@ -93,6 +93,7 @@ are cohomologically indexed; simplicial or Koszul homological degree `n` becomes
 degree `−n`, and `[1]` shifts a discrete module to degree `−1`. Connective means `D^(≤0)`. Exterior powers impose repeated-factor vanishing even at `2`.
 Towers have transitions from `n+1` to `n`, and limits retain their module actions and all connecting maps.
 Every derived completion functor and unit carries a finite-generation witness for the ideal.
+In Checks and examples, a coefficient ring written `k` is a field; in particular `k ≠ 0`.
 
 The section labels identify the mathematical contracts; §0.7 precedes §0.6 in construction order.
 
@@ -2429,7 +2430,7 @@ bounded-above finite-free model `P` of `K`, whose residue fibres are the termwis
   cohomology in every nonpositive degree. It has no finite Tor interval.
 - For `[k[[t]] --t→ k[[t]]]`, the residue fibre is `[k --0→ k]` in `[−1,0]`; the criterion keeps
   degree `−1` even though the original complex has zero `H^−1`.
-- For `A_n = k[t]/(t^(n+1))`, unit reflection holds: `1 + t` maps to `1 ∈ A_0 = k` and is a unit
+- For a field `k` and `A_n = k[t]/(t^(n+1))`, unit reflection holds: `1 + t` maps to `1 ∈ A_0 = k` and is a unit
   of `k[[t]]`, while `t` maps to `0` and is not. The shifted tower `A_n = k[t]/(t^n)` has
   `A_0 = 0` and the same limit `k[[t]]`; there `π_0(t) = 0` is a unit of the zero ring, but `t` is
   not a unit. The hypothesis fails at `n = 0`: the kernel of `A_1 = k → A_0 = 0` contains the
