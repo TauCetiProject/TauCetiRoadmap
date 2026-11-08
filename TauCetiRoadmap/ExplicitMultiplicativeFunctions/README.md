@@ -55,8 +55,9 @@ not the roadmap.
   Ramaré–Zuniga Alterman's instance, the coprime variants, the linear bounds from finitely many zeros
   of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and Lee–Leong's
   bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
-  `3 000 175 332 800`, with the two bounds of Leong near that height that the join of its contour
-  uses (Layer 1);
+  `3 000 175 332 800` and the records `BrentPlattTrudgianRecord` and `LeongRecord` of
+  ExplicitZetaBounds §0.4b, with the two bounds of Leong near that height that the join of its
+  contour uses (Layer 1);
 - Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
   Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
   the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
@@ -132,11 +133,12 @@ not the roadmap.
   ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
   the zero data named in *ZetaResidueSumVerified*; the bounds for `1/ζ` that the route of
   Lee–Leong's bound of 1.9 takes from a supplier are ExplicitZetaBounds §7.10's, each given
-  `RH(3 000 175 332 800)`. Two further bounds of Leong that only the join of that contour uses, at
-  heights just below the verified one, are stated in 1.9: a row of the corollary whose
-  classical-region row §7.10 states, and the bound for `ζ'/ζ` that §7.10's route uses without
-  stating it. The bound for `1/ζ` on `σ = 3/4`, `|t| ≤ 14`, a computation on a compact segment, is
-  the proposition *ZetaReciprocalSegmentVerified* of Layer 0.7;
+  `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, and Leong's line bound and the bound on
+  `σ ≥ 3/4` also given `LeongRecord` (records of its §0.4b). Two further bounds of Leong that only
+  the join of that contour uses, at heights just below the verified one, are stated in 1.9: a row
+  of the corollary whose classical-region row §7.10 states, and the bound for `ζ'/ζ` that §7.10's
+  route uses without stating it. The bound for `1/ζ` on `σ = 3/4`, `|t| ≤ 14`, a computation on a
+  compact segment, is the proposition *ZetaReciprocalSegmentVerified* of Layer 0.7;
 - the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
   (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
   this roadmap consumes from that roadmap is its §5.1 (above);
@@ -178,6 +180,11 @@ not the roadmap.
   `Σ_{n ≤ Z} τ_k(n) ≤ Z (1 + log Z)^{k−1}` for real `Z ≥ 1` (SieveMethodsAndPrimePatterns §1.1);
   Bordellès' bound of Layer 7.5 differs in having `γ + 1/x` in place of `1`, which is smaller for
   every `x > 1/(1 − γ) = 2.365…`;
+- the Rankin-type bound `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for every real `x ≥ 1` and
+  every multiplicative `f` with `f(p^ν) = f(p) ≥ 1` for every prime `p` and `ν ≥ 1`
+  (ProbabilisticAndMetricNumberTheory §3.7, which precedes this roadmap in the order of supply);
+  Bordellès' bound of Layer 6.4 differs in keeping the product `∏_{p ≤ x}(1 + (f(p) − 1)/p)` in
+  place of its exponential and in allowing `f(p^ν)` to increase with `ν`;
 - the qualitative maximal orders `τ(n) ≤ exp((log 2 + ε) log n/log log n)` for large `n` and
   `n/φ(n) ≤ C log log n` (AnalyticNumberTheoryPartI §§3.7 and 3.11), of which Layer 9 proves the
   explicit forms;
@@ -396,9 +403,9 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
 - §1.1: the proposition `RH(H)` (every zero of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has
   `Re s = 1/2`), the first clause of *ZetaResidueSumVerified* (Layer 0.7), and, at the height
   `3 000 175 332 800` of Platt and Trudgian's verification recorded in ExplicitZetaBounds §0.4, the
-  hypothesis of Layer 1.9. The proposition is ExplicitZetaBounds §0.2's, which §1.1 cites; by its
-  antitonicity `RH(3 000 175 332 800)` gives `RH(3·10¹²)`, the hypothesis of the supplier statements
-  that 1.9 uses.
+  verified-height hypothesis of Layer 1.9. The proposition is ExplicitZetaBounds §0.2's, which §1.1
+  cites; by its antitonicity `RH(3 000 175 332 800)` gives `RH(3·10¹²)`, the verification that the
+  supplier statements 1.9 uses ask for beside their records (ExplicitZetaBounds contract below).
 - §1.3, the proposition *ButheVerified*: `|ψ(x) − x| ≤ 0.94 √x` for every real `11 < x ≤ 10^{19}`.
   Used in Layers 1.8 and 1.10; it also gives the first clause of `gap:psi-initial-range` on
   `(11, 10^{10}]`.
@@ -406,8 +413,10 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
   *MeisselMertensEnclosure* (`|B − 0.2614972128| < 10^{−9}` for `B = mertensConstant ℚ`), stated
   there once for both roadmaps. Used wherever a proof here evaluates `γ` or `B` numerically
   (Layers 5.2, 7.4, 8.1).
-- §1.7: the proposition *RealZeroGap* `c Q` with its named instances *LuZamanZhaoSweep* and
-  *BanksGap* (zero-free inputs, below).
+- §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`,
+  given the record `LuZamanZhaoRecord` of ExplicitZetaBounds §0.4b, and *RealZeroGap*
+  `(3.0·10^{−3}) ∞`, Banks's instance (a preprint), which a statement that uses it takes as a
+  hypothesis (zero-free inputs, below).
 - §3.2: `ψ(x) < 1.03883 x` for every real `x > 0` (Rosser–Schoenfeld Theorem 12), used as
   `ψ(x) ≤ 1.04 x` for `x ≥ 0` in Layers 1.5 and 1.10; and `θ(x) > x(1 − 1/(2 log x))` for every real
   `x ≥ 563` (Rosser–Schoenfeld Theorem 4), used in Layer 9.4.
@@ -482,14 +491,21 @@ Below, `H₀ = 3 000 175 332 800`.
 
 - §0.4: Platt and Trudgian's verification `RH(H₀)`, recorded there as a hypothesis; it is the
   hypothesis of Layer 1.9, taken as the proposition `RH(H)` of ExplicitPrimeCounting §1.1 (above).
+- §0.4b: the records `BrentPlattTrudgianRecord` (Brent, Platt and Trudgian's value of
+  `Σ_{γ>0} γ^{−2}` over the zeros of `ζ`, to within `5·10^{−28}`) and `LeongRecord` (Leong's
+  computation, for `t ≤ 500`, of his bounds for `1/ζ` on and near the line one), recorded there as
+  hypotheses: hypotheses of the statements of §§7.3 and 7.10 below, and so of Layer 1.9; neither is
+  discharged here.
 - §6.1: the smoothed truncated Perron formula, whose error term stays finite when `x` is an integer;
   an alternative to Tau Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` in the route of
   Layer 1.9.
-- §7.3, the classical zero-free region in its `5.558691` instance: given `RH(3·10¹²)`, `ζ(σ + it) ≠ 0`
-  for every real `t` with `|t| ≥ 2` and every real `σ ≥ 1 − 1/(5.558691 log|t|)`, hence for every
-  `R₀ ≥ 5.558691` in place of `5.558691`; at `R₀ = 5.56` it keeps the zeros out of the region that
-  the contour of Layer 1.9 encloses above the height `H₀`.
-- §7.10: the bounds for `1/ζ` that the route of Layer 1.9 uses, each given `RH(H₀)`: Lee and
+- §7.3, the classical zero-free region in its `5.558691` instance: given `RH(3·10¹²)` and
+  `BrentPlattTrudgianRecord`, `ζ(σ + it) ≠ 0` for every real `t` with `|t| ≥ 2` and every real
+  `σ ≥ 1 − 1/(5.558691 log|t|)`, hence for every `R₀ ≥ 5.558691` in place of `5.558691`; at
+  `R₀ = 5.56` it keeps the zeros out of the region that the contour of Layer 1.9 encloses above the
+  height `H₀`.
+- §7.10: the bounds for `1/ζ` that the route of Layer 1.9 uses, each given `RH(H₀)` and
+  `BrentPlattTrudgianRecord`, and the second and third also given `LeongRecord`: Lee and
   Leong's `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H₀` and every real
   `σ ≥ 1 − 1/(5.56 log t)`; their `1/|ζ(σ + it)| ≤ e^{146} log t` for every real `σ ≥ 3/4` and every
   real `t` with `14 ≤ t ≤ H₀ − 1/2`; and Leong's `1/|ζ(1 + it)| ≤ 29.388 log t` for every real
@@ -501,8 +517,9 @@ Below, `H₀ = 3 000 175 332 800`.
 - §4.1: the Kusmin–Landau inequality (`|Σ_{X<n≤X+Y} e(f(n))| ≤ cot(πθ/2)` for monotone `f'` with
   `θ ≤ f' − k ≤ 1 − θ`), used in the route of Bordellès–Daval's smoothed divisor remainder (Layer 7.4).
 
-§7.10 meets the supplier gap `gap:zeta-reciprocal-bounds` of Layer 1.9: it states the bound
-`1237 (log t)^{11/12}` above `H₀`, the bound `30.812 log t` on `σ ≥ 1` for `t ≥ 13`, and the bound
+§7.10 meets the supplier gap `gap:zeta-reciprocal-bounds` of Layer 1.9: it states, given `RH(H₀)`
+and `BrentPlattTrudgianRecord`, the bound `1237 (log t)^{11/12}` above `H₀`, and, given
+`LeongRecord` as well, the bound `30.812 log t` on `σ ≥ 1` for `t ≥ 13` and the bound
 `e^{146} log t` on `σ ≥ 3/4`, the last for `14 ≤ t ≤ H₀ − 1/2`, the range its proof reaches (a zero
 just above `H₀` is not excluded). The Littlewood and Korobov–Vinogradov companions of the first
 serve only the members (10) and (11) of Lee and Leong's theorem, which belong to Part II (Scope).
@@ -516,12 +533,13 @@ Two results bear on the constants of this roadmap without changing any statement
 
 - The exclusion of Landau–Siegel zeros. Its qualitative form is AnalyticNumberTheoryPartI §0.34
   (`openai2026siegel` Theorem 1, an unrefereed preprint); its numerically explicit forms are
-  ExplicitPrimeCounting §1.7's *RealZeroGap* `c Q`, with the instances *LuZamanZhaoSweep*
-  (`c = 1/5`, `Q = 10^{10}`, the computation of `luZamanZhao2026`) and *BanksGap* (`c = 3.0·10^{−3}`,
-  `Q = ∞`, `banks2026`, an unrefereed preprint). No theorem of this roadmap is proved from them.
-  They bear on two inputs only: the exceptional-zero branch of ExplicitPrimeCounting §6.3 for
-  moduli beyond `10^5`, which Layer 8.3 consumes only through that section, and any lower bound for
-  `|L(1, χ)|` uniform in `q` that a consumer of Layer 4.1 supplies;
+  ExplicitPrimeCounting §1.7's *RealZeroGap* `c Q`, with the instances *RealZeroGap*
+  `(1/5) 10^{10}` (the computation of `luZamanZhao2026`, given its record `LuZamanZhaoRecord` of
+  ExplicitZetaBounds §0.4b) and *RealZeroGap* `(3.0·10^{−3}) ∞` (`banks2026`, an unrefereed
+  preprint, taken as a hypothesis by any statement that uses it). No theorem of this roadmap is
+  proved from them. They bear on two inputs only: the exceptional-zero branch of
+  ExplicitPrimeCounting §6.3 for moduli beyond `10^5`, which Layer 8.3 consumes only through that
+  section, and any lower bound for `|L(1, χ)|` uniform in `q` that a consumer of Layer 4.1 supplies;
   no numerical lower bound for `L(1, χ)` derived from them is in print, so `|L(1, χ)|` is a parameter
   of 4.1.
 - The zero-free half-plane `Re s > 7/8` for every Dirichlet `L`-function (`openai2026quasiRH`
@@ -1644,25 +1662,33 @@ ExplicitPrimeCounting §4.2.
 State Lee–Leong's bound of de la Vallée Poussin shape (`leeLeong2022` (9), the row `W = 5.56` of
 their Theorem 2.2 (17) and Table 1, a preprint, by its locator; the Littlewood and
 Korobov–Vinogradov members (10) and (11) belong to Part II, Scope): with `H₀ = 3 000 175 332 800`,
-given `RH(H₀)` and *ZetaReciprocalSegmentVerified* `(3/4) 14 16` (Layer 0.7),
+given `RH(H₀)`, the records `BrentPlattTrudgianRecord` and `LeongRecord` (ExplicitZetaBounds
+§0.4b) and *ZetaReciprocalSegmentVerified* `(3/4) 14 16` (Layer 0.7),
 `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. The source states it
-without a hypothesis, reading Platt and Trudgian's verification and the bound it quotes for `1/ζ`
-near the real axis as theorems; here both are hypotheses (Conventions), the first the proposition
-`RH(H)` of ExplicitPrimeCounting §1.1 at the height recorded in ExplicitZetaBounds §0.4. The
+without a hypothesis, reading Platt and Trudgian's verification, the computations that its quoted
+zero-free region and bounds for `1/ζ` rest on, and the bound it quotes for `1/ζ` near the real axis
+as theorems; here all are hypotheses (Conventions): the first is the proposition `RH(H)` of
+ExplicitPrimeCounting §1.1 at the height recorded in ExplicitZetaBounds §0.4, and the records are
+those under which ExplicitZetaBounds §§7.3 and 7.10 state what the route uses
+(`BrentPlattTrudgianRecord` for the region of §7.3 and for every item of §7.10 used, `LeongRecord`
+for Leong's line bound and the bound on `σ ≥ 3/4`). The
 threshold is `exp(5.56 log² H₀)`, where the truncation height `T = exp(√(log x/5.56))` of the route
 reaches `H₀`.
 
-State with it, given `RH(H₀)`, the two bounds of Leong (`leong2026`, arXiv v5, a preprint, by its
-locator) that the join of its contour below the verified height uses:
+State with it the two bounds of Leong (`leong2026`, arXiv v5, a preprint, by its locator) that the
+join of its contour below the verified height uses:
 
-- (a) `|ζ'/ζ(σ + it)| ≤ 10.175 log t` for every real `σ ≥ 0.95` and every real `t` with
-  `13 ≤ t ≤ H₀ − 1/2` (Corollary 3 in the row `σ₀ = 0.95` of his Table 2, `leong2026` lines 121–136
-  and 1031–1044; his height `H` is `H₀ − 1/2`, line 78; it is the last of the five rows from which
-  Lee and Leong's Lemma 4.3 is built). With the line bound `1/|ζ(1 + it)| ≤ 29.388 log t` of
-  ExplicitZetaBounds §7.10 and the identity
-  `log(1/|ζ(σ + it)|) = log(1/|ζ(1 + it)|) + ∫_σ^1 Re (ζ'/ζ)(y + it) dy` it gives
-  `1/|ζ(σ + it)| ≤ 29.388 t^{10.175(1 − σ)} log t` for `0.95 ≤ σ ≤ 1` at those heights.
-- (b) `1/|ζ(σ + it)| ≤ 1719 log t` for every real `t ≥ 13` and every real `σ ≥ 1 − 1/(13 log t)`
+- (a) given `RH(H₀)`, `|ζ'/ζ(σ + it)| ≤ 10.175 log t` for every real `σ ≥ 0.95` and every real
+  `t` with `13 ≤ t ≤ H₀ − 1/2` (Corollary 3 in the row `σ₀ = 0.95` of his Table 2, `leong2026`
+  lines 121–136 and 1031–1044; his height `H` is `H₀ − 1/2`, line 78; it is the last of the five
+  rows from which Lee and Leong's Lemma 4.3 is built). With the line bound
+  `1/|ζ(1 + it)| ≤ 29.388 log t` of ExplicitZetaBounds §7.10 (given also `BrentPlattTrudgianRecord`
+  and `LeongRecord`) and the identity
+  `log(1/|ζ(σ + it)|) = log(1/|ζ(1 + it)|) + ∫_σ^1 Re (ζ'/ζ)(y + it) dy` it gives, under those three
+  hypotheses, `1/|ζ(σ + it)| ≤ 29.388 t^{10.175(1 − σ)} log t` for `0.95 ≤ σ ≤ 1` at those heights.
+- (b) given `RH(H₀)`, `BrentPlattTrudgianRecord` (for the region of ExplicitZetaBounds §7.3 above
+  `H₀`) and `LeongRecord` (through §7.10's line bound for `t ≤ 500`),
+  `1/|ζ(σ + it)| ≤ 1719 log t` for every real `t ≥ 13` and every real `σ ≥ 1 − 1/(13 log t)`
   (Corollary 4 in its row `(W, Y) = (13, 1719)`, `leong2026` lines 140–154 and 1546–1557). Every row
   of his Table 4 with `W ≥ 6` serves the route as well; the row `W = 5.56` does not.
 
@@ -1700,12 +1726,14 @@ the bound for every `x ≥ e^{4589.20}`, inside the margin of the source's const
 shape, and it improves on the power-of-log rows of 1.4 once `log x` exceeds about `5200`.
 
 *Needs:* `RH(H₀)` (ExplicitPrimeCounting §1.1, at the height recorded in ExplicitZetaBounds §0.4);
-Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1 (the
-truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
+`BrentPlattTrudgianRecord` and `LeongRecord` (ExplicitZetaBounds §0.4b); Tau Ceti
+`TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1 (the truncated
+Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
 `LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`, `riemannZeta`; ExplicitZetaBounds
 §7.10 (the bounds for `1/ζ`) and §7.3 (no zero inside the contour above `H₀`); items (a) and (b);
-*ZetaReciprocalSegmentVerified* (Layer 0.7). For (a) and (b): `RH(H₀)`; ExplicitZetaBounds §§4.8,
-4.10, 7.3 and 7.10 (the line bound); Mathlib `Complex.borelCaratheodory`.
+*ZetaReciprocalSegmentVerified* (Layer 0.7). For (a) and (b): `RH(H₀)`; for the bound for `1/ζ`
+derived in (a), and for (b), also `BrentPlattTrudgianRecord` and `LeongRecord`; ExplicitZetaBounds
+§§4.8, 4.10, 7.3 and 7.10 (the line bound); Mathlib `Complex.borelCaratheodory`.
 
 **Checks.**
 
@@ -1728,6 +1756,14 @@ truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_i
   beyond it the bound of this section is the smaller.
 - Reading check: the exponent is `−√(log x/5.56)`, not `−√(log x)/5.56`; the second reading would give
   `33.56·4589.2·e^{−12.18} = 0.79` at the threshold, barely better than the trivial `|M(x)| ≤ x`.
+- Where each record enters item (b). Below `H₀ − 1/2` it follows from (a) and §7.10's line bounds:
+  `σ = 1 − 1/(13 log t)` is `0.97001 ≥ 0.95` at `t = 13`, and on the region of (b) the factor
+  `t^{10.175(1 − σ)}` is at most `e^{10.175/13} = 2.18735`, so (a) gives the bound
+  `29.388·2.18735 log t = 64.28 log t ≤ 1719 log t` for `σ < 1`, and §7.10 gives `30.812 log t` for
+  `σ ≥ 1`; both line bounds rest on `LeongRecord` for `t ≤ 500`. Above `H₀` the region of (b) lies
+  in that of §7.3: at `t = H₀` its boundary is `σ = 0.9973225`, right of the `5.558691` boundary
+  `0.9937382`, and that region is stated given `BrentPlattTrudgianRecord`. A statement of (b) given
+  `RH(H₀)` alone would use both records without naming them.
 
 ### 1.10 The transfer with the sharper prime inputs of Ramaré–Zuniga Alterman
 
@@ -1797,7 +1833,8 @@ Layers 1.4, 1.5, 1.7, 2.3 and 3.2 but on none of 1.8–1.10); Layer 2.3 for 1.8 
 not use 1.8); ExplicitPrimeCounting §§1.1, 1.3, 3.2, 3.3, 4.2 and 6.1; the supplier gaps
 `gap:psi-initial-range`, `gap:psi-log-power`, `gap:psi-relative-bklnw` and `gap:psi-tilde-difference`
 of ExplicitPrimeCounting; for 1.9 the hypothesis `RH(3 000 175 332 800)` (ExplicitPrimeCounting
-§1.1 at the height recorded in ExplicitZetaBounds §0.4), the truncated Perron formula (Tau Ceti
+§1.1 at the height recorded in ExplicitZetaBounds §0.4), the records `BrentPlattTrudgianRecord` and
+`LeongRecord` (ExplicitZetaBounds §0.4b), the truncated Perron formula (Tau Ceti
 `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1), the bounds for `1/ζ`
 of ExplicitZetaBounds §7.10 with the zero-free region of its §7.3, and, for its items (a) and (b),
 ExplicitZetaBounds §§4.8 and 4.10 with Mathlib `Complex.borelCaratheodory`; and the zero data
@@ -2137,29 +2174,31 @@ neither 2.6 nor 1.10, which rests on 2.3 through 7.2.
 
 ### 3.1 The identity and the integral bound
 
-Prove Ramaré's identity (`ramare2015mc` lines 652–689, Lemma 3.2, with the sign of `h'` as
-corrected by `ramare2015corr` lines 13–19, and with the middle coefficient as it follows from the
-source's own intermediate identity, line 661, substituted into Balazard's identity): for `x ≥ 1`,
+Prove Ramaré's identity (`ramare2015corr` lines 76–82, Lemma 3.2 as corrected, p. 2384, which
+replaces `ramare2015mc` lines 652–689, Lemma 3.2: the corrigendum changes the sign of `h'` and
+prints the middle coefficient `5 − 4γ` in place of `6 − 4γ`): for `x ≥ 1`,
 
     m̌(x) − 1 = (6 − 8γ)/(3x) − (5 − 4γ)/x² + (6 − 4γ)/(3x⁴) + (1/x) ∫_1^x M(x/t) h'(t) dt
 
-with `h'(t) = (3/2 − γ) ε₁'(t) − g'(t)`, `g(x) = −1/(12x) + x ε_{6,0}(x)` as defined at line 663
-(`g(1) = 1/2 − γ`), and `|t² h'(t)| ≤ 7/4 − γ` (line 657, (3.6), from `0 ≤ t² ε₁' ≤ 1` and
-`|t² g'(t)| ≤ 1/4`, line 688; the printed middle coefficient `6 − 4γ` gives the value `−2` at
-`x = 1`, where the left side is `−1`, and `5 − 4γ` is the value the derivation yields). Since
+with `h'(t) = (3/2 − γ) ε₁'(t) − g'(t)`, `g(x) = −1/(12x) + x ε_{6,0}(x)` (`ramare2015corr`
+line 87, (3.7); `ramare2015mc` line 663; `g(1) = 1/2 − γ`), and `|t² h'(t)| ≤ 7/4 − γ`
+(`ramare2015corr` line 81, (3.6), from `0 ≤ t² ε₁' ≤ 1` and `|t² g'(t)| ≤ 1/4`, line 119; the
+middle coefficient `6 − 4γ` of the original, `ramare2015mc` line 654, gives the value `−2` at
+`x = 1`, where the left side is `−1`). Since
 `x` times the polynomial part, `(6 − 8γ)/3 − (5 − 4γ)/x + (6 − 4γ)/(3x³)`, lies in
 `[−1.0712, 0.4608]` for every `x ≥ 1` (its minimum `−1.07115` is at `x = 1.1711`), this gives Theorem 1.4
 (`abs_moebiusLogSum_sub_one_le`): for `x ≥ 1`,
 
     |m̌(x) − 1| ≤ ((7/4 − γ)/x²) ∫_1^x |M(t)| dt + 2/x
 
-(lines 155–163). Route: Balazard's identity for `m` (1.1), the Euler–Maclaurin expansion of
-`Σ_{n ≤ y} log(y/n)/n` with the Bernoulli-periodic remainder `ε_{6,0}` (lines 577–651, Lemma 3.1),
-and the bound `|t² h'(t)| ≤ 7/4 − γ` at every non-integer `t > 0`, from `0 ≤ t² ε₁'(t) ≤ 1` (1.1)
-and `|t² g'(t)| ≤ |{t}² − {t} + 1/12| + (1/6)/2 ≤ 1/4` (line 688, with `|B₂(v)| ≤ 1/6`). The
-positivity `h' ≥ 0` of the source's (3.6), line 657, concerns the uncorrected sign
-`(3/2 − γ) ε₁' + g'` and is not used: with the corrected sign only the two-sided bound holds, and
-it is all Theorem 1.4 needs.
+(`ramare2015mc` lines 155–163). Route: Balazard's identity for `m` (1.1), the Euler–Maclaurin
+expansion of `Σ_{n ≤ y} log(y/n)/n` with the Bernoulli-periodic remainder `ε_{6,0}`
+(`ramare2015mc` lines 577–651, Lemma 3.1), and the bound `|t² h'(t)| ≤ 7/4 − γ` at every
+non-integer `t > 0`, from `0 ≤ t² ε₁'(t) ≤ 1` (1.1) and
+`|t² g'(t)| ≤ |{t}² − {t} + 1/12| + (1/6)/2 ≤ 1/4` (`ramare2015mc` line 688, `ramare2015corr`
+line 119, with `|B₂(v)| ≤ 1/6`). The positivity `h' ≥ 0` of `ramare2015mc`'s (3.6), line 657,
+concerns the uncorrected sign `(3/2 − γ) ε₁' + g'` and is not used: with the corrected sign only
+the two-sided bound holds, and it is all Theorem 1.4 needs.
 
 Prove the derived theorem: if `|M(t)| ≤ ε(t) t` on `[t₀, x]` with `ε` nonincreasing and
 `∫_1^{t₀} |M(t)| dt ≤ I`, then `|m̌(x) − 1| ≤ (7/4 − γ)(I/x² + ∫_{t₀}^x ε(t) t dt/x²) + 2/x`.
@@ -2169,8 +2208,12 @@ Prove the derived theorem: if `|M(t)| ≤ ε(t) t` on `[t₀, x]` with `ε` noni
 **Checks.**
 
 - `x = 1`: `m̌(1) − 1 = −1`; the polynomial part is
-  `(6 − 8γ)/3 − (5 − 4γ) + (6 − 4γ)/3 = (2 − 5 + 2) + (−8/3 + 4 − 4/3)γ = −1`, and the integral over `[1, 1]` vanishes: the identity balances. With the
-  printed `6 − 4γ` in the middle the value would be `−2`.
+  `(6 − 8γ)/3 − (5 − 4γ) + (6 − 4γ)/3 = (2 − 5 + 2) + (−8/3 + 4 − 4/3)γ = −1`, and the integral
+  over `[1, 1]` vanishes: the identity balances. With the `6 − 4γ` of `ramare2015mc` line 654 in
+  the middle the value would be `−2`. The term `−(1/2 − γ) M(x)/x` that the corrigendum's proof
+  carries at line 93, and its statement at line 78 does not, would add `γ − 1/2 = 0.0772` at
+  `x = 1` (`M(1) = 1`), giving `−0.9228`: the statement is the identity, the extra term a misprint
+  (the `M(x)/x` terms of its line 85 and of (2.1) cancel).
 - `x = 2`: `m̌(2) − 1 = log 2 − 1 = −0.3069`; the polynomial part is
   `(6 − 8γ)/6 − (5 − 4γ)/4 + (6 − 4γ)/48 = 0.2304 − 0.6728 + 0.0769 = −0.3655`, so the integral term `(1/2) ∫_1^2 h'(t) dt`
   (`M(2/t) = 1` on `(1, 2)`) must equal `0.0586`, i.e. `∫_1^2 h' = 0.117`, inside the range
@@ -2676,12 +2719,7 @@ integers: for a multiplicative `g` with `g(1) = 1` whose local series converge a
 inequalities are this identity with the terms `n > y` dropped, at `g(n) = f(n)/n` for the second and
 at its truncation `g(p^m) = 0` for `p^m > y` for the first. Route: every `n ≤ y` is `y`-smooth with
 each prime power `p^m ∥ n` satisfying `p^m ≤ y`, so `f(n)/n` is a term of the expanded finite product
-(`Nat.equivProdNatFactoredNumbers`, AnalyticNumberTheoryPartI §3.35a's indexing). The Rankin-type
-bound `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for multiplicative `f` with
-`f(p^ν) = f(p) ≥ 1` is the case `f(p^ν) = f(p)` of `bordelles2012` Theorem 4.28 (restated in 6.4:
-there `(1 − 1/p)(1 + Σ_{a ≥ 1} f(p)/p^a) = 1 + (f(p) − 1)/p`) followed by `1 + u ≤ e^u`; it is proved
-here, as in 6.4, by applying the first inequality to `h = f ⋆ μ` (`h(p) = f(p) − 1 ≥ 0`,
-`h(p^ν) = 0` for `ν ≥ 2`).
+(`Nat.equivProdNatFactoredNumbers`, AnalyticNumberTheoryPartI §3.35a's indexing).
 
 *Needs:* `Nat.equivProdNatFactoredNumbers`; `EulerProduct.summable_and_hasSum_smoothNumbers_prod_primesBelow_tsum`;
 `Finset.prod_le_prod`; multiplicativity.
@@ -2790,6 +2828,13 @@ Route: `g = f ⋆ μ` has `g(p^a) = f(p^a) − f(p^{a−1}) ≥ 0`, so `g ≥ 0`
   `1 ≤ 1`) but fails at `x = 2` (`2 > 2·(3/4) = 1.5`) and `x = 3` (`3 > 3·(3/4)(8/9) = 2`): the
   monotonicity hypothesis is needed.
 - `x < 1`: excluded; `x = 1`: `1 ≤ 1`.
+- The case `f(p^ν) = f(p) ≥ 1` for every `ν ≥ 1` satisfies the hypotheses, and its local factor is
+  `(1 − 1/p)(1 + f(p)/(p − 1)) = 1 + (f(p) − 1)/p`; with `1 + u ≤ e^u` the bound becomes the
+  Rankin-type bound `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` of
+  ProbabilisticAndMetricNumberTheory §3.7 (Scope). At `f = 2^ω`, `x = 10`: the left side is `23`,
+  the product bound `10·(3/2)(4/3)(6/5)(8/7) = 27.43` and the exponential one
+  `10·exp(1/2 + 1/3 + 1/5 + 1/7) = 32.42`; dropping the factor `1 − 1/p` would give
+  `10·3·2·(3/2)·(4/3) = 120`.
 
 ### 6.5 Coprimality removal (van Lint–Richert)
 
@@ -3564,8 +3609,8 @@ every `a` coprime to `q`, to at least `100` digits (`languascoZaccagnini2009`), 
 hypothesis for those moduli. For moduli beyond the range where ExplicitPrimeCounting §6.3 is
 tabulated, the constant `c_θ(q)` of that input carries an exceptional-zero branch;
 ExplicitPrimeCounting §6.3 states it under its three interchangeable hypotheses (among them
-*LuZamanZhaoSweep* and *BanksGap* of its §1.7), and this roadmap consumes the statement as stated
-there.
+*RealZeroGap* `(1/5) 10^{10}` given `LuZamanZhaoRecord` and *RealZeroGap* `(3.0·10^{−3}) ∞`, of
+its §1.7), and this roadmap consumes the statement as stated there.
 
 *Needs:* 8.1's transfer; ExplicitPrimeCounting §6.3; *ProgressionProductTableVerified*;
 *ProgressionMertensConstantEnclosure*;
@@ -3740,13 +3785,13 @@ Théorème 2, with `e^γ` on both iterated logarithms: equality at the displayed
 resp. `ω(n) ≥ 166 000`, and the explicit prime bounds `p_k`, `θ(p_k)` (as in 9.1).
 
 State Robin's unconditional bound, by its locator: for every natural `n ≥ 3`,
-`σ(n)/n < e^γ log log n + 0.6483/log log n` (`robin1984` Théorème 2, uncertified; restated at
-`axlerNicolas2023` lines 156–161: the constant is the value `0.648213…` at `n = 12`, where equality
-holds, so `0.6483` is strict). The source's route reduces to the colossally abundant numbers and
-uses explicit bounds for `θ` together with a finite verification over the colossally abundant
-numbers below its analytic range, in forms fixed only in the source: the bounds for `θ` are part of
-this target, the verification is the source's hypothesis and is not performed here, and the
-statement is therefore not one of the acceptance tests of `Suggested.lean`. State Axler–Nicolas'
+`σ(n)/n < e^γ log log n + 0.6483/log log n` (`robin1984` Théorème 2, uncertified; restated in
+`axlerNicolas2023` §1, uncertified: the constant is the value `0.648213…` at `n = 12`, where
+equality holds, so `0.6483` is strict). The source's route reduces to the colossally abundant
+numbers and uses explicit bounds for `θ` together with a finite verification over the colossally
+abundant numbers below its analytic range, in forms fixed only in the source: the bounds for `θ`
+are part of this target, the verification is the source's hypothesis and is not performed here,
+and the statement is therefore not one of the acceptance tests of `Suggested.lean`. State Axler–Nicolas'
 sharpening (`axlerNicolas2023` (1.22), by its locator):
 `σ(n)/n < e^γ log log n + 0.0167853/(log log n)²` for every natural `n > 5040`, as the conjunction
 of *RobinInequalityVerified* `M(0)` (Layer 0.7) and the bound with the same constant for `n ≥ M(0)`
@@ -3854,10 +3899,6 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - ExplicitNumberFields: the Piltz divisor bounds and the `τ₄` asymptotic with
   *DivisorPowerRangeVerified* (7.5) for regulator-free class-number bounds; the divisor pointwise
   bounds (9.2) for discriminant estimates.
-- ProbabilisticAndMetricNumberTheory §3.7: the Rankin-type bound
-  `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for multiplicative `f` with `f(p^ν) = f(p) ≥ 1`
-  is the instance of 6.1 recorded there; this roadmap precedes that one in the order of supply and
-  owns the bound, so §3.7 is a consumer of 6.1 for it.
 - ExplicitCharacterSumsAndSieves, Part II: the pointwise bounds on `τ(q)`, `2^{ω(q)}` and `q/φ(q)`
   (Layer 9, in particular Rosser–Schoenfeld's `q/φ(q) < e^γ log log q + 2.50637/log log q` of 9.4,
   and the product bound 6.1) for the Burgess constants; `Σ μ²(n)/φ(n)` with coprimality (7.2) and
