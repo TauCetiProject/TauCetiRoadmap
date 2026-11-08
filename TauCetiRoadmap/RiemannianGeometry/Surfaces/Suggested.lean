@@ -27,8 +27,6 @@ Headlines that cannot yet be stated, and the carrier each one lacks:
   exponential of a boundary arc of a surface domain.
 * Layer 3.2, Gauss–Bonnet for a disk with corners: a compact disk domain in a surface with a
   piecewise smooth boundary parametrization and its corners.
-* Layer 4.1, disk filling in a chart: an embedded compact disk with piecewise smooth boundary
-  in a surface.
 
 The rescaling identity of Layer 5.1 is proved here, since it follows from the two pinned
 conformal lemmas; the remaining statements are targets.
@@ -151,6 +149,26 @@ end Planar
 
 /-! ## Layer 4: normal balls in nonpositive curvature -/
 
+section DiskFilling
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+  {M : Type*} [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+
+/-- Layer 4.1: in a simply connected open set `B` lying in the source of one chart of the
+maximal atlas of a surface, a simple closed curve bounds a compact disk `D ⊆ B`: `D` is compact,
+its frontier is the trace of the curve, and `D` is homeomorphic to the closed unit disk. -/
+theorem exists_disk_of_simpleClosedCurve (hE : Module.finrank ℝ E = 2) {B : Set M}
+    (hB : IsOpen B) (hsc : SimplyConnectedSpace B)
+    (hchart : ∃ e ∈ IsManifold.maximalAtlas I ∞ M, B ⊆ e.source)
+    (c : ℝ → M) {L : ℝ} (hL : 0 < L) (hper : Function.Periodic c L) (hcont : Continuous c)
+    (hinj : InjOn c (Ico 0 L)) (hcB : range c ⊆ B) :
+    ∃ D ⊆ B, IsCompact D ∧ frontier D = range c ∧
+      Nonempty (D ≃ₜ Metric.closedBall (0 : ℂ) 1) := by
+  sorry
+
+end DiskFilling
+
 section NormalBall
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
@@ -208,15 +226,15 @@ theorem integral_norm_mgradient_sq_rescale (hE : Module.finrank ℝ E = 2)
   rw [← real_inner_self_eq_norm_sq, ← real_inner_self_eq_norm_sq, hE, inner_mgradient_rescale]
   simp [smul_eq_mul, (hf_pos _).ne']
 
-variable {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
-  {H' : Type*} [TopologicalSpace H'] {J : ModelWithCorners ℝ E' H'}
+variable {H' : Type*} [TopologicalSpace H'] {J : ModelWithCorners ℝ E H'}
   {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J ∞ N] [LindelofSpace N]
-  {gN : ContMDiffRiemannianMetric J n E' (fun y : N ↦ TangentSpace J y)}
+  {gN : ContMDiffRiemannianMetric J n E (fun y : N ↦ TangentSpace J y)}
 
-/-- Layer 5.2: a conformal diffeomorphism `Φ : (M, g) → (N, g_N)`, `Φ^* g_N = f g`, preserves
-the surface Dirichlet energy, `E_g(φ ∘ Φ) = E_{g_N}(φ)`. -/
+/-- Layer 5.2: a conformal diffeomorphism `Φ : (M, g) → (N, g_N)` of surfaces modelled on one
+model vector space, `Φ^* g_N = f g`, preserves the surface Dirichlet energy,
+`E_g(φ ∘ Φ) = E_{g_N}(φ)`. -/
 theorem integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale
-    (hE : Module.finrank ℝ E = 2) (hE' : Module.finrank ℝ E' = 2)
+    (hE : Module.finrank ℝ E = 2)
     (Φ : M ≃ₘ^∞⟮I, J⟯ N) (hΦ : ContMDiff I J (n + 1) Φ)
     (hinj : ∀ x, Function.Injective (mfderiv I J Φ x))
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) n f) (hf_pos : ∀ x, 0 < f x)

@@ -106,8 +106,12 @@ opposite sign convention would give `−cot φ₀`.
   and metric carriers.
 - `LipschitzWith.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Rademacher.lean`):
   Rademacher's theorem, used by Layer 2 for the distance to an arc in charts.
-- `SimplyConnectedSpace`, `Complex.arg`, `intervalIntegral`, `IntervalIntegrable`,
-  `HasDerivAt`, `derivWithin`: the carriers of the Layer 3 and Layer 4 statements.
+- `SimplyConnectedSpace`, `IsSimplyConnected`, `Complex.arg`, `intervalIntegral`,
+  `IntervalIntegrable`, `HasDerivAt`, `derivWithin`: the carriers of the Layer 3 and Layer 4
+  statements.
+- `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib/Analysis/Complex/BranchLogRoot.lean`):
+  a continuous nonvanishing function on an open simply connected planar set has a continuous
+  logarithm there, used by Layer 4.1.
 
 ### From Tau Ceti
 
@@ -144,16 +148,24 @@ surface.
   exponential of an embedding and its tube.
 - `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`) and
   `laplaceBeltrami` (`…/Riemannian/Laplacian.lean`).
-- `TauCeti.riemannianVolume` (`…/Riemannian/VolumeDensity/Volume.lean`).
+- `TauCeti.riemannianVolume` (`…/Riemannian/VolumeDensity/Volume.lean`);
+  `Homeomorph.measurePreserving_riemannianVolume` (`…/Riemannian/VolumeDensity/Isometry.lean`),
+  the isometry invariance of the Riemannian volume for a differentiable homeomorphism whose
+  tangent maps preserve the inner products, between manifolds modelled on one vector space:
+  the change of variables of Layer 5.2.
 - `TauCeti.WithMetric`, `ContMDiffRiemannianMetric.rescale` and `conformalClass`
   (`…/Riemannian/WithMetric.lean`, `Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
   `TauCeti.WithMetric.inner_mgradient_rescale` (`…/Riemannian/Conformal.lean`) and
   `integral_riemannianVolume_rescale` (`…/Riemannian/VolumeDensity/Conformal.lean`), the
-  pointwise and volume halves of Layer 5; `ContMDiffRiemannianMetric.pullback`
-  (`…/Riemannian/Pullback/Basic.lean`).
+  pointwise and volume halves of Layer 5; `ContMDiffRiemannianMetric.pullback` and
+  `pullback_inner` (`…/Riemannian/Pullback/Basic.lean`).
 - `TauCeti.Contour.windingNumber` (`Analysis/Contour/Winding/Number/Basic.lean`),
   `TauCeti.IsJordanCurve` (`Topology/JordanCurve/Basic.lean`) and `TauCeti.filledHull`
-  (`Topology/FilledHull.lean`), the planar carriers of Layers 3 and 4.
+  (`Topology/FilledHull.lean`), the planar carriers of Layers 3 and 4;
+  `TauCeti.HasContinuousLogOn` (`Analysis/Complex/ContinuousLog/Basic.lean`) and the
+  filled-hull criterion `hasContinuousLogOn_sub_iff_notMem_filledHull`
+  (`Analysis/Complex/PlaneSeparation/Basic.lean`): for a bounded closed `K ⊆ ℂ`, `z ↦ z − a`
+  has a continuous logarithm on K exactly when `a ∉ filledHull K`, used by Layer 4.1.
 
 ### From TauCetiRoadmap.RiemannianGeometry
 
@@ -169,8 +181,8 @@ variation past an interior focal point. All are stated for boundaryless manifold
 
 [DifferentialGeometry](../../DifferentialGeometry/README.md) 5.3–5.5: Stokes on manifolds
 with boundary and corners; 5.6.3: the winding-weighted Green identity for piecewise `C¹`
-cycles; 10.2: manifold Sard; 12.2–12.5: gradient, Hessian, Laplacian, the density/measure
-comparison and the divergence theorem.
+cycles; 10.2: manifold Sard; 12.2–12.5: the gradient with its chain rule, Hessian, Laplacian,
+the density/measure comparison and the divergence theorem.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
@@ -180,9 +192,10 @@ rectifiable curves; G2: the area and coarea formulas.
 ### From Completed.ConformalMapping
 
 [ConformalMapping](../../../Completed/ConformalMapping/README.md) L3: the Riemann mapping
-theorem; L5: the planar Jordan curve theorem with the index `±1` on the bounded
-complementary component, the filled-hull containment and separation API, and the
-Carathéodory closed-disc correspondence.
+theorem; L5: the planar Jordan curve theorem, with exactly two complementary components, the
+inside `filledHull C \ C` open, bounded and connected with frontier C, the filled-hull
+containment and separation API, and the Carathéodory closed-disc correspondence for Jordan
+domains. L5 states no index value.
 
 ## How to read the build
 
@@ -332,7 +345,10 @@ geodesic spherical coordinates, p. 112; do Carmo, *Curves and Surfaces*, §4-6).
 
 - Euclidean plane: `L = 2πr`, `V = πr²`.
 - Unit sphere: `L = 2π sin r`, `V = 2π(1 − cos r)`, so `L′ = 2π cos r = 2π − V` and
-  `V′ = 2π sin r = L`; integrated, `2π(sin r − r) = −2π ∫₀ʳ (t − sin t) dt`.
+  `V′ = 2π sin r = L`; integrated, `2π(sin r − r) = −2π ∫₀ʳ (1 − cos t) dt`, both sides being
+  `−2π(1 − sin 1) = −0.9961` at `r = 1`.
+- Unit sphere, the area identity: `2π(1 − cos r) − πr² = −2π ∫₀ʳ (t − sin t) dt`, both sides
+  being `−0.2532` at `r = 1`.
 - Hyperbolic plane: `L = 2π sinh r`, `V = 2π(cosh r − 1)`, so
   `L′ = 2π cosh r = 2π + 2π(cosh r − 1)`.
 
@@ -475,7 +491,8 @@ Fenchel is a different theorem. Lean name:
   `α = −π/2`, `Σα = 2π`.
 - Figure eight: not a Jordan curve, total turning `0`.
 
-*Needs:* R4.9.6a; `TauCeti.Contour.windingNumber`; ConformalMapping L5.
+*Needs:* R4.9.6a, with its orientation comparison; `TauCeti.Contour.windingNumber`;
+ConformalMapping L5 for the Jordan separation.
 
 ### 3.2 Gauss–Bonnet for disks with corners
 
@@ -496,10 +513,10 @@ conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula
 **API.**
 
 - Cancellation along a common boundary arc of two adjacent disks, with the corresponding
-  endpoint-angle terms: at a point where the common arc meets the outer boundary, the two
-  exterior angles sum to the exterior angle of the union minus π.
-- The restriction, orientation-reversal and disk-difference laws for these domains, the
-  last giving the annulus between two nested disks.
+  endpoint-angle terms: at a point where the common arc meets the outer boundary, the
+  interior angles add, so the two exterior angles sum to the exterior angle of the union
+  plus π.
+- The restriction and orientation-reversal laws for these domains.
 - The frame-independence of `∫_(∂D) (dθ + ω)` on the disk, with `dω = −K dA`.
 
 **Checks.**
@@ -510,6 +527,9 @@ conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula
   `α = −π/2`, `Σα = 2π`; unsigned exterior angles would give `3π`, so the sign convention is
   load-bearing.
 - Spherical lune of angle β: `2β + 0 + 2(π − β) = 2π`.
+- Rectangle `[0,2] × [0,1]` split along `x = 1`: at `(1,0)` each unit square has exterior
+  angle `π/2` and the rectangle has no corner, so `π/2 + π/2 = 0 + π`. The two disk formulas
+  sum to `4π`, the two meeting points carry `π` each, and the rectangle gets `4π − 2π = 2π`.
 - Negative control for the conormal: with the outward conormal the unit disk gives
   `−2π ≠ 2π`.
 
@@ -520,15 +540,16 @@ conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula
 - Round annulus `1 < r < 2` in the plane, as a Check of PositiveMass §3.1 against this
   layer: cut along the radial arcs `θ = 0` and `θ = π` into two half-annuli, each a disk with
   four right-angle corners. Each half gives `0 + (π − π) + 4 · π/2 = 2π`. Gluing, the two
-  radial arcs cancel and the eight corner angles `4π` disappear, leaving `2π − 2π = 0` for
-  the annulus, which is `2πχ`.
+  radial arcs cancel, and each of the four meeting points carries `π` by the common-arc law,
+  so the annulus gets `2 · 2π − 4π = 0`, which is `2πχ`.
 - The cap `{φ ≤ φ₀}` of the unit sphere: `2π(1 − cos φ₀) + 2π sin φ₀ · cot φ₀ = 2π`, with
   the boundary term computed from the connection form in the conventions.
 
 ### Dependencies
 
-R4.9.6a's smooth signed turning theorem; DifferentialGeometry's Stokes with corners and the
-density comparison; ConformalMapping L5 for the Jordan orientation; R1's curvature.
+R4.9.6a's smooth signed turning theorem and orientation comparison; DifferentialGeometry's
+Stokes with corners and the density comparison; ConformalMapping L5 for the Jordan
+separation; R1's curvature.
 Independent of Layers 1–2 and of every completeness or curvature-sign hypothesis.
 
 ## Layer 4 (S4): normal balls in nonpositive curvature
@@ -538,25 +559,34 @@ Independent of Layers 1–2 and of every completeness or curvature-sign hypothes
 Let B be an open subset of a smooth surface that is simply connected and lies in the source
 of one chart of the maximal atlas, as it does for a planar domain and for a disk
 parametrized by one chart; by ConformalMapping L3 this is the same as B being diffeomorphic
-to the open unit disk. Let c be a simple closed piecewise `C¹` curve in B with corners of
-signed exterior angles in `(−π, π)`. Prove that c bounds a compact embedded disk `D ⊆ B` with
-the corner regularity of Layer 3. The chart image ĉ of c is a planar Jordan curve, and the
-image Ω of B is open. Since c is null-homotopic in B, the index of ĉ vanishes at every point
-outside Ω. By ConformalMapping L5, ĉ has exactly two complementary components, its index is
-`±1` on the bounded one, so the bounded component lies in Ω and `filledHull ĉ ⊆ Ω`; L5's
-closed-disc correspondence identifies the filled hull with a closed disk whose frontier is
-ĉ. Pulling back by the chart gives D (L5 for the planar statements; Lee, 2nd ed., "Some
-Plane Geometry", pp. 263–270, states the Jordan curve theorem for curved polygons).
+to the open unit disk. Let c be a simple closed curve in B: continuous, L-periodic and
+injective on a period. Prove that c bounds a compact disk `D ⊆ B`: D is compact, its frontier
+is the trace of c, and D is homeomorphic to the closed unit disk. When c is piecewise `C¹`
+with corners of signed exterior angles in `(−π, π)`, D has the corner regularity of Layer 3.
+Lean name: `exists_disk_of_simpleClosedCurve`.
+
+Fix a linear isomorphism of the two-dimensional model space with ℂ, so that the chart
+carries B onto a nonempty open simply connected `Ω ⊆ ℂ` and c onto a planar Jordan curve ĉ
+with trace in Ω. For `a ∉ Ω`, the function `z ↦ z − a` is continuous and nonvanishing on Ω,
+so by `Complex.exists_continuousOn_eqOn_exp_comp` it has a continuous logarithm on Ω, hence
+on the trace of ĉ, and `hasContinuousLogOn_sub_iff_notMem_filledHull` gives
+`a ∉ filledHull ĉ`. Therefore `filledHull ĉ ⊆ Ω`. By ConformalMapping L5, ĉ has exactly two
+complementary components, the filled hull is the closure of the bounded one with frontier ĉ,
+and L5's closed-disc correspondence identifies it with a closed disk. Pulling back by the
+chart gives D (Lee, 2nd ed., "Some Plane Geometry", pp. 263–270, states the Jordan curve
+theorem for curved polygons). No index value and no regularity of c enter.
 
 **Checks.**
 
 - A circle in the unit-disk chart bounds the corresponding disk.
 - The core circle of an annulus chart is not null-homotopic and is excluded by the
-  hypothesis on B; its index is `1` at the hole, outside Ω.
+  hypothesis on B: for a the hole, `z ↦ z − a` has no continuous logarithm on the circle, and
+  the hole lies in its filled hull but outside Ω.
 - A geodesic bigon in the Poincaré disk bounds the hyperbolic lune between its sides.
 
-*Needs:* ConformalMapping L3, L5; `TauCeti.IsJordanCurve`, `TauCeti.filledHull`;
-`SimplyConnectedSpace`.
+*Needs:* ConformalMapping L3, L5; `Complex.exists_continuousOn_eqOn_exp_comp`;
+`TauCeti.HasContinuousLogOn`, `hasContinuousLogOn_sub_iff_notMem_filledHull`,
+`TauCeti.IsJordanCurve`, `TauCeti.filledHull`; `SimplyConnectedSpace`, `IsSimplyConnected`.
 
 ### 4.2 Normal balls under `K ≤ 0`
 
@@ -606,14 +636,19 @@ corner regularity, and 3.2 gives `∫_D K dμ = β₁ + β₂` for a bigon with 
   compact. A point of the equator near q is joined to p by two shortest paths, one across
   each face, exchanged by the reflection in the equatorial plane, so `exp_p` is not injective
   on the tangent R-ball. Here `K > 0` everywhere.
-- Negative control for compactness of the closed ball: the punctured plane with `R` larger
-  than the distance to the puncture; the open ball is not simply connected either.
+- Negative control for compactness of the closed ball alone: the slit plane
+  `ℝ² ∖ {(x, 0) : x ≥ 1}` with `p = 0` and `R = 2`. The open ball is the disk of radius 2 minus
+  the segment `[1, 2) × {0}`; it is star-shaped about p, so simply connected, and planar, so
+  it lies in one chart, and `K = 0`. The closed ball is not compact, the radial geodesic in
+  direction `(1, 0)` leaves the surface at `t = 1`, so the tangent ball is not in the domain
+  of `exp_p` and the conclusion fails. Only the compactness hypothesis fails.
 
 ### Dependencies
 
 Layer 3's disk formula; HopfRinow's geodesic continuation and minimizing segments; the
-pinned nonpositive-curvature Jacobi lemmas; ConformalMapping L3 and L5 for disk filling.
-Independent of Layers 1–2 and of R4.4.
+pinned nonpositive-curvature Jacobi lemmas; ConformalMapping L3 and L5, Mathlib's continuous
+logarithm on simply connected planar sets and the pinned filled-hull criterion for disk
+filling. Independent of Layers 1–2 and of R4.4.
 
 ## Layer 5 (S5): conformal invariance of the surface Dirichlet energy
 
@@ -630,8 +665,9 @@ Combine the pinned `inner_mgradient_rescale`, the gradient law `|dφ|²_(fg) = f
 Neither side needs a regularity or support hypothesis on φ. Prove integrability of both
 sides for `C¹` φ with compact support, and compatibility with restriction to an open
 subdomain containing the support (Lee, 2nd ed., "Methods for Constructing Riemannian
-Metrics", conformal metrics, pp. 15–25; the coordinate density `dμ_(fg) = f^(N/2) dμ_g` is
-Lee and Parker, *The Yamabe problem*, p. 42). Lean name:
+Metrics", conformal metrics, pp. 15–25; the coordinate density `dV_g = (det g)^(1/2) |dx|` is
+Lee and Parker, *The Yamabe problem*, p. 42, and since `det(fg) = f^N det g` it gives
+`dμ_(fg) = f^(N/2) dμ_g`, which is the pinned `integral_riemannianVolume_rescale`). Lean name:
 `integral_norm_mgradient_sq_rescale`, proved in `Suggested.lean` from the two pinned lemmas.
 
 **Checks.**
@@ -646,31 +682,38 @@ Lee and Parker, *The Yamabe problem*, p. 42). Lean name:
 
 ### 5.2 Conformal diffeomorphisms
 
-For a smooth diffeomorphism `F : U → V` of surfaces with `F*g_V = f g_U` for a smooth
-positive f, define the energy `E_g(ψ) = ∫ |grad_g ψ|_g² dμ_g` and prove
-`E_(g_U)(φ ∘ F) = E_(g_V)(φ)` for every real φ on V. Use the pullback metric
-`ContMDiffRiemannianMetric.pullback`, the change of variables for diffeomorphisms of the
-Riemannian volume, and 5.1. The Riemannian density permits orientation-reversing F (Lee,
-2nd ed., "Methods for Constructing Riemannian Metrics", pullback metrics, pp. 15–25). Lean
-name: `integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale`.
+For a smooth diffeomorphism `Φ : M → N` of surfaces with `Φ*g_N = f g` for a smooth positive
+f, define the energy `E_g(ψ) = ∫ |grad_g ψ|_g² dμ_g` and prove `E_g(φ ∘ Φ) = E_(g_N)(φ)` for
+every real φ on N. The two surfaces are modelled on one model vector space E, possibly with
+different model spaces H; this is the stated generality, and any pair of surfaces is brought
+to it by transporting the structure of one along a linear isomorphism of the two-dimensional
+model spaces. Form the pullback metric `ContMDiffRiemannianMetric.pullback`. By
+`pullback_inner` the tangent maps of Φ preserve the inner products from `Φ*g_N` to `g_N`, so
+Φ is an isometry `(M, Φ*g_N) → (N, g_N)`: `Homeomorph.measurePreserving_riemannianVolume`
+gives the change of variables of the Riemannian volume, and DifferentialGeometry 12.2's chain
+rule transports `grad_(g_N) φ` to `grad_(Φ*g_N)(φ ∘ Φ)`, so `E_(Φ*g_N)(φ ∘ Φ) = E_(g_N)(φ)`.
+Then 5.1 gives `E_(Φ*g_N) = E_(fg) = E_g`. The Riemannian density permits
+orientation-reversing Φ (Lee, 2nd ed., "Methods for Constructing Riemannian Metrics", pullback
+metrics, pp. 15–25). Lean name: `integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale`.
 
 **API.**
 
 - `E_g` is invariant under isometries, `E_(cg) = E_g` for constant `c > 0`, and
   `E_g(φ) = ∫ ⟨dφ, dφ⟩_g dμ_g` on the `WithMetric` carrier.
 - Invariance under the conformal class: `E_(g′) = E_g` for every `g′ ∈ g.conformalClass`.
-- Composition law: the conformal factor of `F ∘ G` is `(f_F ∘ G) · f_G`, and the energy
+- Composition law: the conformal factor of `Φ ∘ Ψ` is `(f_Φ ∘ Ψ) · f_Ψ`, and the energy
   identity composes.
 
 **Checks.**
 
-- `F(z) = 2z` on ℂ: `∫ 4|∇φ(2z)|² dx dy = ∫ |∇φ|² dw`.
-- `F(z) = z̄`, orientation-reversing with `f = 1`: equal energies.
+- `Φ(z) = 2z` on ℂ: `∫ 4|∇φ(2z)|² dx dy = ∫ |∇φ|² dw`.
+- `Φ(z) = z̄`, orientation-reversing with `f = 1`: equal energies.
 - Stereographic projection from the unit sphere to the plane, with `f` the stereographic
   factor: the energy of a function on the sphere equals the planar energy of its
   stereographic transform.
 
-*Needs:* 5.1; `ContMDiffRiemannianMetric.pullback`; DifferentialGeometry 12.4.
+*Needs:* 5.1; `ContMDiffRiemannianMetric.pullback` and `pullback_inner`;
+`Homeomorph.measurePreserving_riemannianVolume`; DifferentialGeometry 12.2.
 
 ### Examples
 
@@ -679,8 +722,8 @@ name: `integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale`.
 
 ### Dependencies
 
-The two pinned conformal lemmas, the pullback metric and DifferentialGeometry 12.4.
-Independent of Layers 1–4.
+The two pinned conformal lemmas, the pullback metric, the pinned isometry invariance of the
+Riemannian volume and DifferentialGeometry 12.2's chain rule. Independent of Layers 1–4.
 
 ## Downstream consumers
 
@@ -713,4 +756,4 @@ RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply it and take nothing b
 - D. B. A. Epstein, *Curves on 2-manifolds and isotopies*, Acta Math. 115 (1966), 83–107,
   Theorem 1.7: the disk-filling theorem on arbitrary surfaces, which Layer 4 does not own.
 - J. M. Lee and T. H. Parker, *The Yamabe problem*, Bull. Amer. Math. Soc. 17 (1987), 37–91,
-  p. 42: the coordinate density of a conformally changed metric.
+  p. 42: the coordinate expression of the Riemannian density.
