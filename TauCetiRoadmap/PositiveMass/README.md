@@ -23,8 +23,9 @@ weights; the round-sphere spinor restriction and its monogenic spectrum; the
 harmonically flat approximation and the zero-mass deformation; the AE large-ball
 volume limit; the compact torus obstruction for smooth stable hypersurfaces in
 ambient dimension at most 7 and the negative-mass compactification; Gauss–Bonnet
-for compact domains with piecewise smooth boundary in an oriented surface, by
-triangulation and the Euler identification, with its naturality for exhaustions;
+for compact domains with piecewise smooth boundary, reflex corners included and
+cusps excluded, in an oriented surface, by triangulation and the Euler
+identification, with its naturality for exhaustions;
 spinors at infinity and the boundary mass identity; doubled Callias operators
 with chiral boundary conditions; and the localized Callias argument for one AE end.
 
