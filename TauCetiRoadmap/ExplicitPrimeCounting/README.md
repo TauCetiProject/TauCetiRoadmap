@@ -3988,25 +3988,27 @@ formula, for Bach–Sorenson's route); `gap:dirichlet-zero-count-error`.
   integer `1 ≤ q ≤ x`, the product `∏_{χ mod q} L(s, χ)`, the principal character included, has at
   most four zeros, counted with multiplicity, with `|Im s| ≤ x/q` and `Re s ≥ 1 − 1/(3.82 log x)`
   (Liu–Wang's Theorem 1, as quoted at `kadiri-2008` lines 337–341, her Theorem 2.2, and applied
-  there at `x = q` and `x = qH`). ExplicitZetaBounds leaves it to the theorem using it; the source
-  of the statement is the quotation, and the instances below carry it as a hypothesis.
+  there at `x = q`, which the hypothesis `x ≥ 8·10⁹` allows only for `q ≥ 8·10⁹`, and at `x = qH`
+  with `H ≥ 1`). ExplicitZetaBounds leaves it to the theorem using it; the source of the statement
+  is the quotation, and the instances below carry it as a hypothesis.
 - Existence (`kadiri-2008` lines 128–131, Theorem 1.1, with `α` uniform in the modulus as its Table 1
   gives it): under `RH(3·10¹²)`, the region of `gap:dirichlet-zero-free-constants`,
   *LiuWangFourZeros* and the Dirichlet zero count of `gap:dirichlet-zero-count-error`, for every
   `ε > 0` there is `α > 0` such that for every `q ≥ 3`
   not exceptional in Kadiri's sense, every unit `a` modulo `q` and every `x ≥ α log² q`, the
-  interval `[eˣ, e^{x+ε}]` contains a prime `p ≡ a (mod q)`. Route: for `q ≥ 5·10⁴`, Kadiri's
+  interval `[eˣ, e^{x+ε}]` contains a prime `p ≡ a (mod q)`. Route: for `q ≥ 8·10⁹`, where
+  *LiuWangFourZeros* applies at `x = q` and at `x = qH`, Kadiri's
   smoothed lower bound (lines 102–125) for the weighted sum of `Λ(n)/n` over the class of `a` in
   `(eˣ, e^{x+ε}]`, at `x = α log² q` with a height `H` chosen from `q` and `ε` (line 117), with the
   region for the zeros with `|γ| > H`, the four-zero region for the zeros near `σ = 1` and the
   zero count for the rest; its error terms are explicit in `q` and `ε` (the paper's §4 computes `α`
   from them for every `ε`, line 132), and the prime powers, which contribute `O(x e^{−x/2})`, are
-  negligible once `x ≥ α log² q` (line 118). For the finitely many moduli `3 ≤ q < 5·10⁴`, the
+  negligible once `x ≥ α log² q` (line 118). For the finitely many moduli `3 ≤ q < 8·10⁹`, the
   prime number theorem in progressions (Tau Ceti's
   `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`: the primes
   `≡ a (mod q)` up to `y` number `∼ Li(y)/φ(q)`) gives, modulus by modulus,
   `π(e^{x+ε}; q, a) − π(eˣ; q, a) ∼ (e^ε − 1) eˣ/(φ(q) x)`, hence a threshold `α_q`; `α` is the
-  largest of these and of the value for `q ≥ 5·10⁴`. The theorem as printed lets
+  largest of these and of the value for `q ≥ 8·10⁹`. The theorem as printed lets
   `α` depend on `q`; in that weak form it follows from the prime number theorem in progressions
   alone, for every `q ≥ 1`, so its content is the uniformity. McCurley's shape of §6.1 is not a
   route to it: §6.1 states that shape only at the entries of McCurley's Table 1, the smallest
@@ -4014,20 +4016,28 @@ formula, for Bach–Sorenson's route); `gap:dirichlet-zero-count-error`.
 - The quantitative instances (Table 1, lines 140–162): under `RH(3·10¹²)`, the region of
   `gap:dirichlet-zero-free-constants`, *LiuWangFourZeros*, the Dirichlet zero count
   (`gap:dirichlet-zero-count-error`) and *Kadiri2008Table*:
-  for every entry `(q₀, ε) ↦ α(q₀, ε)`, every `q ≥ q₀` not exceptional in Kadiri's sense, every
-  unit `a` and every `x ≥ α(q₀, ε) log² q`, the interval `[eˣ, e^{x+ε}]` contains a prime
-  `p ≡ a (mod q)`. Route: the smoothed lower bound of lines 102–125 for the weighted sum over the
-  class of `a`, the region for the zeros with `|γ| > H`, the four-zero region for the few zeros near
-  `σ = 1` (`x = q` and `x = qH` in its statement), and the zero count for the rest.
+  for every entry `(q₀, ε) ↦ α(q₀, ε)`, every `q ≥ max(q₀, 8·10⁹)` not exceptional in Kadiri's
+  sense, every unit `a` and every `x ≥ α(q₀, ε) log² q`, the interval `[eˣ, e^{x+ε}]` contains a
+  prime `p ≡ a (mod q)`. Route: the smoothed lower bound of lines 102–125 for the weighted sum over
+  the class of `a`, the region for the zeros with `|γ| > H`, the four-zero region for the few zeros
+  near `σ = 1` (*LiuWangFourZeros* at `x = q` for those with `|γ| ≤ 1` and at `x = qH` for those
+  with `|γ| ≤ H`, lines 633–639; both are admissible since `q ≥ 8·10⁹` and `H ≥ 1`), and the zero
+  count for the rest. The row `q₀ = 5·10⁴` is therefore asserted only from `q = 8·10⁹` on, where it
+  covers the moduli `8·10⁹ ≤ q < 10¹⁰` below the next row; the paper applies its Theorem 2.2 at
+  `x = q` for every `q ≥ 5·10⁴` (lines 342 and 633–636), outside that theorem's hypothesis
+  `x ≥ 8·10⁹` when `q < 8·10⁹`, and no input stated here bounds the number of zeros its split needs
+  there (Checks).
 - The exceptional clause discharged on a range (§6.7(a)): under *LuZamanZhaoRecord* in addition
   (for *RealZeroGap* `(1/5) 10¹⁰`, §1.7), with *BrentPlattTrudgianRecord* and *PlattRecord* for the
   region of constant `6.4355`, the quantitative instances hold for every `q` with
-  `q₀ ≤ q ≤ 10¹⁰`, with no exceptional modulus left out. For `q > 10¹⁰` the clause stays a
-  hypothesis: *RealZeroGap* `(3.0·10⁻³) ∞` does not discharge it (§6.7(b)).
+  `max(q₀, 8·10⁹) ≤ q ≤ 10¹⁰`, with no exceptional modulus left out. For `q > 10¹⁰` the clause
+  stays a hypothesis: *RealZeroGap* `(3.0·10⁻³) ∞` does not discharge it (§6.7(b)).
 
 Table proposition of this section: *Kadiri2008Table* (`kadiri-2008` lines 140–162, Table 1): for
 every entry, the explicit lower bound of the paper's §§3–4 for the weighted sum of `Λ(n)/n` over
-`eˣ < n ≤ e^{x+ε}`, `n ≡ a (mod q)`, is positive for every `q ≥ q₀` and `x ≥ α(q₀, ε) log² q`.
+`eˣ < n ≤ e^{x+ε}`, `n ≡ a (mod q)`, is positive for every `q ≥ max(q₀, 8·10⁹)` and
+`x ≥ α(q₀, ε) log² q`, the range on which the quantitative instances use it (the table is printed
+from `q₀`).
 
 *Needs:* §0.3; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`) with `RH(3·10¹²)`
 (`gap:rh-up-to-height`); *LiuWangFourZeros*; `gap:dirichlet-zero-count-error`; for the existence
@@ -4037,6 +4047,12 @@ clause also Tau Ceti
 **Checks.**
 
 - `ε = 0` is excluded: the interval `[eˣ, eˣ]` contains a prime only if `eˣ` is one.
+- The row `q₀ = 5·10⁴` below `8·10⁹` (negative control): at `q = 5·10⁴` the four zeros of the
+  paper's split have `|γ| ≤ 1` and `1 − 1/(3.82 log q) = 0.975805 ≤ β ≤ 1 − 1/(6.50 log q) = 0.985781`
+  (lines 633–636), while *LiuWangFourZeros* admits only `x ≥ 8·10⁹`, where its strip is
+  `σ ≥ 1 − 1/(3.82 log x) ≥ 1 − 1/(3.82 log(8·10⁹)) = 0.988520`: it counts no zero of that band, and
+  `x = qH ≥ 8·10⁹` would need `H ≥ 1.6·10⁵`. At `q = 8·10⁹` the instance `x = q` is admissible and
+  its strip `σ ≥ 0.988520`, `|Im s| ≤ 1` is exactly the band's lower edge and height.
 - For an exceptional modulus the theorem is not asserted; the exceptional zero would add a term
   `−x^β/(β φ(q))` that can cancel the main term for `x ≤ exp(c log² q)`.
 - The two exceptional notions are nested one way: a zero with `σ ≥ 1 − 1/(6.50 log q)` also has
