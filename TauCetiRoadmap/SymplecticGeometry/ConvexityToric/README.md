@@ -26,7 +26,7 @@ Consume [MorseTheory M1–M5](../../MorseTheory/README.md)'s ordinary and abstra
 Morse–Bott normal-form, deformation and attachment theory. T2 owns its moment-map
 specialization and equivariant perfection.
 Symplectic toric manifolds are distinct from algebraic/analytic toric varieties of
-[AnalyticToricGeometry](../../AnalyticToricGeometry/README.md); lattice comparisons are shared,
+[AnalyticToricGeometry](../../../Completed/AnalyticToricGeometry/README.md); lattice comparisons are shared,
 while quotient symplectic forms and Hamiltonian classification live here.
 
 ## T1. Compact symplectic actions and local models
