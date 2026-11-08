@@ -29,9 +29,11 @@ coefficients. Those objects are absent at the pins and need the constructions of
 
 Layer 5 also states the adelic harmonic analysis this part owns for later roadmaps:
 restricted products of Haar measures, Weil's quotient measure and the `GL₂` class
-number (§§5.3f, 5.3k, 5.3m). Adelic Fourier analysis, Siegel sets and the `GL₂`
-Eisenstein series (§§5.3h, 5.3m, 5.3n) need an adelic Schwartz–Bruhat carrier and
-adelic `GL₂` quotients with their Haar measures, absent at the pins.
+number (§§5.3f, 5.3k, 5.3m). Adelic Fourier analysis with its Pontryagin
+self-duality and Poisson summation (§5.3h) needs the standard complex character of
+the adeles and an adelic Schwartz–Bruhat carrier; Siegel sets and the `GL₂`
+Eisenstein series (§§5.3m, 5.3n) need adelic `GL₂` quotients with their Haar
+measures. These carriers are absent at the pins.
 
 Layer 6 states generation of the native rational torsion group algebra by first
 Eisenstein functions, existence and uniqueness of critical scaling measures on
