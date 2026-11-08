@@ -353,7 +353,17 @@ facts that carry those inputs to every universe.
    does; that Hilbert symbols, and solvability of `a = x² - d y²`, agree at corresponding places;
    and that the record of `σQ` is the record of `Q` reindexed along the two correspondences of
    places, with its discriminant mapped by `σ`, a reindexing that preserves
-   `GlobalFormInvariants.IsAdmissible`.
+   `GlobalFormInvariants.IsAdmissible`. On local forms: write `τ_v : K_v ≃+* K'_(σ v)` for the
+   isomorphism `adicCompletionCongr`. A form `U_v` over `K_v` on `Fin n → K_v` gives the form
+   `τ_v U_v`, `x ↦ τ_v(U_v(τ_v⁻¹ ∘ x))`, over `K'_(σ v)` on `Fin n → K'_(σ v)`. Prove that
+   `τ_v U_v` is regular exactly when `U_v` is, that its discriminant is the image under `τ_v` of
+   the discriminant of `U_v`, and that the two have the same local Hasse invariant
+   `TauCeti.RegularFormClass.localHasse`, because the Hilbert symbols of `K_v` and `K'_(σ v)` agree
+   along `τ_v`. A form `R_w` over `ℝ` at a real place `w` of `K` is kept, at the real place of `K'`
+   that corresponds to `w`. Hence a family `(U, R)` realizing a record `I`
+   (`GlobalFormInvariants.IsLocalRealization`) transports to a family realizing the reindexed
+   record: the discriminants match because `τ_v` agrees with `σ` on `K`, and the Hasse signs and
+   positive indices are reindexed along the same correspondences of places.
 
 Together these give each of the eight inputs for number fields in every universe: transport the
 data to a model in `Type` by the first fact, apply the input there, and transport the conclusion
@@ -367,7 +377,9 @@ back by the second. This is how 4.2, 4.3, 7.2 and 7.3 reach the generality of th
 `IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv`,
 `IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv`, `QuadraticForm.atFinitePlace`,
 `QuadraticForm.atRealPlace`, `HeightOneSpectrum.unitAtFinitePlace`, `TauCeti.hilbertSymbol`,
-`QuadraticForm.globalInvariants`, `GlobalFormInvariants.IsAdmissible`.
+`TauCeti.RegularFormClass.discr`, `TauCeti.RegularFormClass.localHasse`,
+`QuadraticForm.globalInvariants`, `GlobalFormInvariants.IsAdmissible`,
+`GlobalFormInvariants.IsLocalRealization`.
 
 **Checks.**
 
@@ -376,6 +388,11 @@ back by the second. This is how 4.2, 4.3, 7.2 and 7.3 reach the generality of th
   not a square in `K_𝔭`, where its valuation is `1`. Its image `σ(2 + i) = 2 - i` is a square in
   `K_(σ 𝔭̄) = K_𝔭` and not in `K_𝔭̄`. A transport that kept each place fixed would assert that
   `2 - i` is a square in `K_𝔭̄`, which is false: the correspondence of places must follow `σ`.
+- With the same `σ`, the local form `⟨1, -(2 + i)⟩` over `K_𝔭̄` is isotropic, since `2 + i` is a
+  square there. Its transport along `τ_𝔭̄ : K_𝔭̄ ≃+* K_𝔭` is `⟨1, -(2 - i)⟩` over `K_𝔭`, again
+  isotropic, as `i ≡ -2` and `2 - i ≡ 4 = 2²` modulo `𝔭`. The same coefficients read over `K_𝔭̄`
+  give an anisotropic form, since `2 - i` has valuation `1` there: a local realization transports
+  to the place `σ v`, not to `v`.
 - `K = ℚ(√5)` with `θ² = θ + 1` and its model `ℚ[X]/(X² - X - 1)`, `θ ↦ X̄`: the real place
   `θ ↦ (1 + √5)/2` corresponds to `X̄ ↦ (1 + √5)/2` and likewise for the conjugate, and the record
   of `⟨1, θ, θ⟩`, with positive indices `3` and `1` at these two places, goes to the record of
@@ -411,9 +428,11 @@ theory input is stated.
 ⚠ Steps 2 and 3 need no statement about the distribution of primes: the finitely many places where
 `a` is not a local square are absorbed by weak approximation in step 3. The argument "a nontrivial
 quadratic extension cannot split at almost every place" is this theorem in other words and cannot
-replace step 5. The identity `I_K = Kˣ · I_K^S` is false already for `K = ℚ` and `S` the
-archimedean place, so step 4 cannot pass through it; step 3 approximates one idele by one global
-element instead.
+replace step 5. Step 3 cannot ask for `α` equal to `i_v` at every `v ∈ S`, that is, for `i` to be
+a global element times an idele whose components at the places of `S` are `1`: over `ℚ` with `S`
+the real place, the idele with component `√2` at the real place and `1` at every prime is not of
+that form, since the global element would have to be `√2`, which is not rational. Step 3 asks only
+that `i_v / α` be a square at each place of `S`, which `α = 1` already achieves for this idele.
 
 *Needs:* 4.1; Tau Ceti `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places`,
 `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
@@ -674,13 +693,19 @@ form with record `I` is isometric to `U_v` and `R_w` by
 The correction planes work because `d(P) = [-b] = [-a²b] = d(P')` and
 `s_v(P') = (a, -ab)_v = (a, -a)_v (a, b)_v = (a, b)_v` while `s_v(P) = (1, -b)_v = 1`: replacing
 `P` by `P'` flips the Hasse sign exactly where `(a, b)_v = -1`, a set chosen by Hilbert sign
-prescription, and keeps rank and discriminant. A dimension and a discriminant leave at most two
-local classes, separated by the Hasse sign, except in rank one and in rank two with discriminant
-`[-1]`, where there is one class; the admissibility clauses for these two cases are what make the
-local data realizable there.
+prescription, and keeps rank and discriminant. At a finite place, a dimension and a discriminant
+leave at most two classes, separated by the Hasse sign, except in rank one and in rank two with
+discriminant `[-1]`, where there is one class (Milne, VIII, Theorem 6.10 and Proposition 6.11,
+p. 255); the admissibility clauses for these two cases are what make the local data realizable
+there. At a real place the class is fixed by the positive index `p_w`, which the record carries.
+There the discriminant and the real Hasse sign determine `p_w` only in rank at most three (Milne,
+VIII, p. 256): in rank four with discriminant `[1]`, the signatures `(4, 0)`, `(2, 2)` and
+`(0, 4)` give three classes, and `(4, 0)` and `(0, 4)` both have real Hasse sign `1`.
 
 *Needs:* 4.1 (`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` is stated
-for `K` in `Type`), 6.2; Tau Ceti `GlobalFormInvariants.isAdmissible_ofLocalForms`,
+for `K` in `Type`; its hypothesis, a family of local forms realizing `I`, reaches the model in
+`Type` through the transport of local forms in 4.1), 6.2; Tau Ceti
+`GlobalFormInvariants.isAdmissible_ofLocalForms`,
 `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
 `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace`,
@@ -890,5 +915,7 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
   cyclic extensions); Theorem 3.5, p. 235, with Proposition 3.7, p. 236, and the proof of 3.5(b),
   p. 237 (Hasse–Minkowski for isotropy over a number field and its binary and ternary steps);
   Proposition 6.2, p. 251 (Witt cancellation); Theorem 6.3, p. 252 (the local–global principle for
-  isometry); Theorem 6.10, p. 255 (classification over a nonarchimedean local field). Its Hasse
-  invariant is the product over `i ≤ j`.
+  isometry); Theorem 6.10 and Proposition 6.11, p. 255 (classification over a nonarchimedean local
+  field, and the invariants that occur); the remarks on real forms before Theorem 6.12, p. 256
+  (over `ℝ`, discriminant and Hasse invariant determine the negative index only in rank at most
+  three). Its Hasse invariant is the product over `i ≤ j`.
