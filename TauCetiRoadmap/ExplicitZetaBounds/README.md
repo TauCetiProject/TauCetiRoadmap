@@ -2,28 +2,32 @@
 
 **Summary.** This roadmap is the numerically explicit layer of analytic number theory above the
 [zeros of L-functions roadmap](../ZerosOfLFunctions/README.md), which proves every shape used here
-with existential constants and leaves decimal constants out of its scope. On Mathlib's
-`riemannZeta` and `DirichletCharacter.LFunction`, on the analytic records of the
+with existential constants and leaves decimal constants out of its scope. On Mathlib's `riemannZeta`
+and `DirichletCharacter.LFunction`, on the analytic records of the
 [L-functions roadmap](../LFunctions/README.md), and on Mathlib's `Complex.Gamma`, it builds: the
 explicit error calculus `f = g + O*(h)`; the bounded-height Riemann hypotheses `RH(H)` and
-`GRH(q, H)` with their bridge to Platt's finite-conductor theorem; Stirling's series for `log Γ` with
-Stieltjes' sector remainder, the two-sided modulus bound for `Γ` and the real-axis brackets of Alzer,
-Ramanujan–Mortici, Nemes and Diamond–Straub; the explicit Phragmén–Lindelöf principle and
-Rademacher's convexity bound on records of finite-order type; Backlund's strip bounds, the bounds
-right of the line one and an explicit approximate functional equation; the van der Corput
+`GRH(q, H)` with their bridge to Platt's finite-conductor theorem; the Euler–Maclaurin formula;
+Stirling's series for
+`log Γ` with Stieltjes' sector remainder, the two-sided modulus bound for `Γ` and the real-axis
+brackets of Alzer, Ramanujan–Mortici, Nemes and Diamond–Straub; the explicit Phragmén–Lindelöf
+principle and Rademacher's convexity bound on records of finite-order type; Backlund's strip bounds,
+the bounds right of the line one and an explicit approximate functional equation; the van der Corput
 derivative tests with explicit constants, the explicit Vinogradov mean value theorem with the
-Richert-type bounds it gives, the Riemann–Siegel formula with Gabcke's remainder and the
-critical-line and one-line bounds that follow from them; Backlund's argument lemma for records of
-any degree and the explicit Riemann–von Mangoldt formulas for `ζ` and `L(s, χ)`; weighted zero sums;
-smoothed Perron formulas, mean values of Dirichlet polynomials and of `ζ`, and the weighted and
-maximal large sieves; upper and lower bounds for `|L(1, χ)|`; classical, Littlewood-type and
-Vinogradov–Korobov zero-free regions with their decimal constants, real-zero bounds for quadratic
-characters and the numerical instance of the Landau–Siegel exclusion; and explicit zero-density
-estimates. The end theorems are statements with literal constants: for instance `ζ(σ + it) ≠ 0`
-for `|t| ≥ 2`, `σ ≥ 1 − 1/(5.558691 log |t|)` given `RH(3·10¹²)`,
-`|N(T) − (T/2π) log(T/2πe)| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` for
-`T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)` below that height, and
-`|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 3`.
+Richert-type bounds it gives, Hardy's function and the Riemann–Siegel formula with Gabcke's
+remainder and the critical-line and one-line bounds that follow from them; Backlund's argument lemma
+for records of any degree and the explicit Riemann–von Mangoldt formulas for `ζ` and `L(s, χ)`;
+weighted zero sums; smoothed Perron formulas, mean values of Dirichlet polynomials and of `ζ`, and
+the weighted and maximal large sieves; upper and lower bounds for `|L(1, χ)|`; classical,
+Littlewood-type and Vinogradov–Korobov zero-free regions with their decimal constants, real-zero
+bounds for quadratic characters and the real-zero gap of the Landau–Siegel exclusion with its
+instances; and explicit zero-density estimates. Every computation a theorem rests on is a named
+record taken as a hypothesis (0.4, 0.4b). The end theorems are statements with literal constants:
+for instance `ζ(σ + it) ≠ 0` for `|t| ≥ 2`, `σ ≥ 1 − 1/(5.558691 log |t|)` given `RH(3·10¹²)` and
+the recorded value of `Σ_{γ>0} γ^{−2}`,
+`|N(T) − (T/2π) log(T/2πe)| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` for `T ≥ 30 610 046 000`,
+and for `T ≥ e` given the recorded bound for `S(T)` below that height, and
+`|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 5.5·10⁷`, and for `t ≥ 3` given the recorded values
+below that height.
 
 Suggested home: `TauCeti/NumberTheory/ExplicitBounds/`, divided into `BigOStar/`, `VerifiedZeros/`,
 `Gamma/`, `Convexity/`, `ExponentialSums/`, `ZeroCounting/`, `MeanValues/`, `LOne/`, `ZeroFree/` and
@@ -38,8 +42,9 @@ not the roadmap.
 - the explicit error predicate `f = g + O*(h)` and its calculus (Layer 0);
 - the bounded-height Props `RH(H)` and `GRH(q, H)`, their monotonicity, their limits `RiemannHypothesis`
   and `DirichletGRH`, their agreement with *AllOnCriticalLine*, the bridge from Platt's
-  finite-conductor theorem, the recorded verifications of `RH(H)` used as hypotheses, and the class
-  of admissible cosine polynomials with the convention for named numerical certificates (Layer 0);
+  finite-conductor theorem, the named records that theorems here take as hypotheses, the class of
+  admissible cosine polynomials, and the Euler–Maclaurin formula for functions with values in a
+  real Banach space (Layer 0);
 - Stirling's series for `log Γ` with every explicit remainder bound in a sector, in the right
   half-plane and on the positive axis, the Stirling coefficients of `Γ` and Nemes' bound, Binet's
   second formula and the two-sided modulus bound for `Γ`, and the real-axis inequalities for `log Γ`,
@@ -53,24 +58,24 @@ not the roadmap.
   A-process), the second-derivative tests, Patel's corrected third, fourth and fifth derivative
   tests, the `k`-th derivative test with recursive constants, truncated Poisson summation,
   stationary phase and the B-process, and an explicit approximate functional equation — together
-  with the Riemann–Siegel formula with Gabcke's remainder and
-  the explicit bounds for `|ζ(1/2 + it)|`, `|ζ(1 + it)|`, `|ζ|` on the lines `σ_k = 1 − k/(2^k − 2)`
-  and `|L(1/2 + it, χ)|` that they give; the explicit Vinogradov mean value theorem for complete and
-  incomplete systems, the bound for the short sums `Σ (n + u)^{−it}` that it gives, and the
-  Richert-type bounds for `ζ` and the Hurwitz zeta function (Layer 4);
+  with Mathlib's Hardy function written through the theta function, the Riemann–Siegel formula with
+  Gabcke's remainder and the explicit bounds for `|ζ(1/2 + it)|`, `|ζ(1 + it)|`, `|ζ|` on the lines
+  `σ_k = 1 − k/(2^k − 2)` and `|L(1/2 + it, χ)|` that they give; the explicit Vinogradov mean value
+  theorem for complete and incomplete systems, the bound for the short sums `Σ (n + u)^{−it}` that
+  it gives, and the Richert-type bounds for `ζ` and the Hurwitz zeta function (Layer 4);
 - Backlund's argument lemma for analytic records of any degree, the explicit Riemann–von Mangoldt
-  formulas for `ζ` and primitive Dirichlet L-functions, Lehman's weighted zero sum and its
-  derivative form, and the value of `Σ_{γ>0} γ⁻²` (Layer 5);
+  formulas for `ζ` and primitive Dirichlet L-functions, and Lehman's weighted zero sum and its
+  derivative form (Layer 5);
 - the smoothed truncated Perron formulas and Landau's iterated Perron identity, the majorant
   principle, the explicit mean values of
   Dirichlet polynomials and of `ζ` on vertical lines, the weighted large sieve with the
   Montgomery–Vaughan and Preissmann constants and Elliott's maximal large sieve (Layer 6);
 - the criteria behind the classical, Littlewood-type and Vinogradov–Korobov zero-free regions, the
   regions with decimal constants for `ζ` and `L(s, χ)`, the real-zero bounds for quadratic
-  characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q` with its
-  instances up to `10¹⁰` and, numerically, without a cap, and the explicit bounds for `1/ζ(σ + it)`
-  on the line one, on `σ ≥ 1`, in the classical region and on `σ ≥ 3/4` below a verified height
-  (Layer 7);
+  characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q`, with its
+  instance up to `10¹⁰` given the recorded real-zero check and its instances without a cap, and the
+  explicit bounds for `1/ζ(σ + it)` on the line one, on `σ ≥ 1`, in the classical region and on
+  `σ ≥ 3/4` below a verified height (Layer 7);
 - the explicit zero-density estimates for `ζ` and for Dirichlet L-functions, including the log-free
   densities (Layer 8);
 - upper bounds for `|L(1, χ)|` for every primitive character and their refinements under
@@ -107,9 +112,6 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   Dirichlet-polynomial mean square with error `6π Σ n|a_n|²` (§1.5), the weighted Hilbert
   inequality with constant `3π/2` (§1.5a), `DirichletGRH` and `GRH` (§1.6) and the effective
   Landau–Siegel exclusion (§0.34): `AnalyticNumberTheoryPartI`;
-- the Euler–Maclaurin formula with periodic Bernoulli remainder: `AsymptoticExpansions` §13.1;
-- Platt's finite-conductor zero theorem (§4.22) and the absence of real zeros for conductor at most
-  `400 000` (§4.24): `ComputationalNumberTheory`;
 - the sharp additive and primitive-character large sieves and the separated Hilbert inequality:
   `SieveMethodsAndPrimePatterns` §2.9;
 - the Kronecker description of real primitive characters: `AnalyticNumberTheoryPartI` §0.34a.
@@ -132,8 +134,8 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   (`ExplicitMultiplicativeFunctions`);
 - the theory of exponent pairs beyond the explicit A- and B-processes of Layer 4 (Huxley's discrete
   Hardy–Littlewood method and decoupling bounds): no statement here uses it;
-- every algorithm, interval-arithmetic procedure and table: the README states what a recorded
-  verification or a certificate asserts (Conventions), never how it is computed;
+- every computation, algorithm and table: a computation that a theorem here rests on is a named
+  record (Conventions), taken as a hypothesis and never proved or performed here;
 - the Barnes `G` remainder (`AnalyticNumberTheoryPartII` §4.3a);
 - the asymptotic second moment
   `∫₀^T |ζ(1/2 + it)|² dt = T log(T/2π) + (2γ − 1)T + O(√T log T)` and its explicit error under a
@@ -231,23 +233,21 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   `S_f(a, N) = |Σ_{a < n ≤ a+N} e(f(n))|` for integers `a` and `N ≥ 1` and a real phase `f` (Layer 4).
 - **Heights.** `t ≥ t₀` thresholds are part of every statement; a bound stated for `t ≥ 3` is not
   asserted for `t < 3`. `log log t` appears only where `t ≥ e`.
-- **Recorded verifications and certificates.** Where a source closes its argument by a computation,
-  the README names that computation next to the theorem, with the source's equation, table or
-  section numbers, and says what it asserts. A *recorded verification* is one of the bounded-height
-  propositions about the zeros of `ζ` listed in 0.4 (`RH(H₀)` at a literal height, the absence of
-  zeros up to height `14`, and the bound for `S(T)` up to `30 610 046 000`, which rests on the
-  location of every zero of `ζ` below that height); it is a hypothesis of every theorem that uses
-  it, also when the source uses it on part of its range only. Every other computation is a
-  *certificate*: a *polynomial certificate*, the admissibility (0.5) of one cosine polynomial whose
-  coefficients are literal rationals, or a *numerical certificate*, a finite list of inequalities
-  at literal parameter values, between explicit closed-form real expressions or between values of
-  `ζ`, `L(s, χ)` or `S(T)` on a bounded range of heights or conductors (the range `[2π, 168π]` of
-  5.4, for instance), other than the propositions of 0.4. A certificate is a closed proposition.
-  The general statements (the recursion of 4.4, Kadiri's criterion in 7.3) take the corresponding
-  condition at free parameters as a hypothesis; an instance with literal constants is stated as its
-  source states it, with the recorded verifications it uses as hypotheses, and its route names the
-  certificate that discharges the criterion's condition. The README never reproduces a certificate
-  or a procedure that checks one.
+- **Records.** A finite verification that a theorem here rests on — the location of the zeros of
+  `ζ` below a height, the values of `ζ`, `L(s, χ)` or `L(1, χ)` on a bounded range of heights or
+  conductors, a numerical value of a sum over the zeros — is a *record*: a named proposition,
+  listed with what it asserts and its source in 0.4 (the zeros of `ζ`) or 0.4b (the others), and
+  an explicit hypothesis of every theorem that uses it, also when the source uses it on part of its
+  range only and when the use passes through another theorem here. Nothing here proves or performs
+  a record. The remaining numerical steps of the sources — the choice of literal parameters (the
+  coefficients of a cosine polynomial, a smoothing, a table of parameters) and the evaluation of
+  the source's closed-form constants there — are inequalities between explicit real numbers inside
+  the proof of the instance that carries those constants. The general statements (the recursion of
+  4.4, Kadiri's criterion in 7.3) take the corresponding condition at free parameters as a
+  hypothesis; an instance with literal constants is stated as its source states it, with the
+  records it uses as hypotheses, and its route names the source's parameters. A *polynomial
+  certificate* is the admissibility (0.5) of one cosine polynomial whose coefficients are literal
+  rationals.
 - **Uniformity.** A constant that is displayed is absolute. Quantifier order follows the source:
   "for `q ≥ 3` and `t ∈ ℝ`" means the displayed constant serves every such pair.
 
@@ -274,7 +274,11 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
 - `Complex.Gamma`, `Real.Gamma`, `Complex.Gamma_conj`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_apply_add_one`,
   `Real.eulerMascheroniConstant`, `Stirling.le_factorial_stirling`;
-- `bernoulli`, `Polynomial.bernoulli`, `bernoulliFun`, `hasSum_zeta_two`, `PowerSeries.exp`;
+- `bernoulli`, `Polynomial.bernoulli`, `bernoulliFun`, `hasDerivAt_bernoulliFun`,
+  `bernoulliFun_endpoints_eq_of_ne_one`, `hasSum_zeta_two`, `PowerSeries.exp`,
+  `intervalIntegral.integral_smul_deriv_eq_deriv_smul_of_hasDerivAt`, `iteratedDerivWithin`;
+- `hardyZ` (`Λ(1/2 + it)/|Γℝ(1/2 + it)|`) and `abs_hardyZ`
+  (`Mathlib/NumberTheory/LSeries/HardyZ.lean`);
 - `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` and
   `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip₀₁'` (the three-lines
   theorem for a function bounded and holomorphic on a closed strip),
@@ -344,22 +348,6 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   and the identification of such `χ` with a Kronecker character of fundamental discriminant
   `χ(−1) q`.
 
-### From TauCetiRoadmap.AsymptoticExpansions
-
-- §13.1: `sum_Icc_eq_eulerMaclaurin`, the Euler–Maclaurin formula for `f ∈ C^{2m}[a, n]`, integers
-  `a < n`, `m ≥ 1`, with remainder `∫_a^n (B_{2m} − B̃_{2m}(x)) f^{(2m)}(x) dx/(2m)!`.
-
-### From TauCetiRoadmap.ComputationalNumberTheory
-
-- §4.22: `platt_bounded_height`: for primitive `χ` of modulus `2 ≤ q ≤ 400 000`, every zero of
-  `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H(q)` has `Re s = 1/2`, where
-  `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` for even `q` and `max(10⁸/q, 3.75·10⁷/q + 200)` for odd `q`.
-  Only moduli `q ≥ 2` are consumed, and the supplier's range is required to start there: the
-  modulus `1`, whose primitive character has L-function `riemannZeta`
-  (`DirichletCharacter.isPrimitive_one_level_one`, `DirichletCharacter.LFunction_modOne_eq`), is not
-  part of Platt's computation (0.3), and with it the statement would assert `RH(10⁸)`.
-- §4.24: for primitive `χ` of modulus `2 ≤ q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`.
-
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
 - §2.9: `SieveTaper.sharp_additive_largeSieve` (constant `N − 1 + δ⁻¹` for `δ`-separated
@@ -369,8 +357,9 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
 ## How to read the build
 
 Layer 0 fixes the language: the explicit error predicate, the bounded-height Riemann hypotheses with
-the bridge from Platt's theorem and the recorded verifications, with the Riemann–Siegel theta
-function as the integral that the recorded bound for `S(T)` uses, and admissible cosine polynomials.
+the bridge from Platt's theorem, the named records, with the Riemann–Siegel theta function as the
+integral that the recorded bound for `S(T)` uses, admissible cosine polynomials and the
+Euler–Maclaurin formula.
 Layers 1 and 2 are the Gamma function with explicit constants, on the positive axis and in the
 complex plane, ending with the Stirling form of the theta function (2.9); everything later that
 touches a gamma factor uses them. Layer 3 turns the Gamma bounds into pointwise bounds for `ζ` and
@@ -387,7 +376,7 @@ quadratic ones. Layer 6 depends only on Layers 0–3, except the mean squares of
 the approximate functional equation 4.5a; the rest of Layer 6 can be built in parallel with Layers 4
 and 5.
 
-## Layer 0: explicit errors, verified zeros and cosine polynomials
+## Layer 0: explicit errors, recorded computations, cosine polynomials and Euler–Maclaurin
 
 ### 0.1 The explicit error predicate
 
@@ -482,78 +471,55 @@ The open strip excludes the trivial zeros and the junk value of `riemannZeta` at
   reads "its zeros up to height `H` in the strip are on the line iff `GRH(1, H)` and `GRH(2, H)`",
   that is iff `RH(H)`. The same law with the closed condition `0 ≤ Re ρ` in place of `0 < Re ρ`
   would fail for every `H ≥ 9.07`, at the zero `ρ = 2πi/log 2` of height `9.0647`.
-- `RH(14)` asserts nothing about the zero `1/2 + 14.1347…i`, whose ordinate exceeds `14`; it is a
-  statement about the empty set of zeros with `|γ| ≤ 14` and follows from any recorded
-  verification of 0.4.
 
 ### 0.3 Platt's finite-conductor theorem in bounded-height form
 
 For `2 ≤ q ≤ 400 000` let `H(q) = max(10⁸/q, 7.5·10⁷/q + 200)` if `q` is even and
-`H(q) = max(10⁸/q, 3.75·10⁷/q + 200)` if `q` is odd. Prove `GRH(q, H(q))` for every such `q`
-(Platt, Theorem 7.1, `platt2016grh` lines 951–963). Corollaries: `GRH(q, 10⁸/q)` for
-`2 ≤ q ≤ 400 000`; `GRH(q, 10 000)` for `2 ≤ q ≤ 13`; `GRH(q, 2500)` for `2 ≤ q ≤ 40 000`; and
-`GRH(8, 10 000)`. The modulus `q = 1`, where `GRH(1, H)` is `RH(H)`, is not part of Platt's
-computation; it is covered by the recorded verifications of 0.4. For `q ≥ 2` these contain every
-range of Rumely's verification (`rumely1993`, Table 1), which is therefore not a hypothesis of any
-theorem here.
+`H(q) = max(10⁸/q, 3.75·10⁷/q + 200)` if `q` is odd (`plattHeight`); `GRH(q, H(q))` for every such
+`q` is the record `PlattRecord` of 0.4b (Platt's Theorem 7.1). Given it, prove the corollaries
+`GRH(q, 10⁸/q)` for `2 ≤ q ≤ 400 000`, `GRH(q, 10 000)` for `2 ≤ q ≤ 13`, `GRH(q, 2500)` for
+`2 ≤ q ≤ 40 000` and `GRH(8, 10 000)`; and, given also `PlattCentralRecord` (0.4b), that for `χ`
+primitive modulo `2 ≤ q ≤ 400 000` and real `0 < s < 1`, `L(s, χ) ≠ 0`
+(`LFunction_ne_zero_of_platt`): a real zero has height `0 ≤ H(q)`, so it would be `1/2`, which the
+central record excludes. The modulus `q = 1`, where `GRH(1, H)` is `RH(H)`, is not part of Platt's
+record; `RH(H)` at the heights used here is a record of 0.4. For `q ≥ 2` Platt's ranges contain
+every range of Rumely's verification (`rumely1993`, Table 1), which is therefore not a hypothesis
+of any theorem here.
 
-*Needs:* `ComputationalNumberTheory` §4.22 `platt_bounded_height`; 0.2 antitonicity.
+*Needs:* 0.2 antitonicity; 0.4b (`PlattRecord`, `PlattCentralRecord`).
 
 **Checks.**
 
 - `H(3) = 10⁸/3 ≈ 3.33·10⁷`, `H(400 000) = 7.5·10⁷/400 000 + 200 = 387.5` (the second branch wins
   for large even `q`) and `H(399 999) = 293.75…`; a reading with `10⁸/q` alone would give `250` at
-  `q = 400 000`, weaker than the theorem.
+  `q = 400 000`, weaker than the record.
 - `GRH(13, 10 000)` follows because `10⁸/13 ≈ 7.69·10⁶ ≥ 10⁴`, and `GRH(112, 2500)` because
   `10⁸/112 ≈ 8.93·10⁵ ≥ 2500`.
 - The parity in `H(q)` is that of the modulus `q`, not of the character: at `q = 5` (odd) both even
   and odd characters get `H(5) = 2·10⁷`.
-- The range starts at `q = 2`: the primitive characters of modulus `q ≤ 400 000` number
-  `29 565 923 838` including the trivial character modulo `1`, and Platt's computation treats
-  `29 565 923 837` L-functions (`platt2016grh` line 952), so `ζ` is not among them. A reading
-  "`1 ≤ q`" would turn `RH(10⁸)` into a consequence of this theorem.
+- The range starts at `q = 2`: a reading "`1 ≤ q`" would turn `RH(10⁸)` into a consequence of the
+  record, the primitive character modulo `1` having L-function `riemannZeta`
+  (`DirichletCharacter.isPrimitive_one_level_one`, `DirichletCharacter.LFunction_modOne_eq`).
 
 ### 0.4 Recorded verifications of the Riemann hypothesis
 
-The following verifications are recorded as hypotheses: a theorem that rests on one takes the
-displayed Prop as an explicit hypothesis, and nothing here proves it.
+Each item is a named proposition about the zeros of `ζ` and an explicit hypothesis of every
+theorem that uses it.
 
-- `RH(545 439 823)` (van de Lune, te Riele and Winter, `vandeluneterielewinter1986`);
-- `RH(10⁹)` (Platt's thesis, `platt2011thesis`);
-- `RH(30 610 046 000)`: every zero with `|γ| ≤ 3.0610046·10¹⁰` is simple and on the line (Platt,
-  Theorem 5.1, `platt2017zeros` line 527);
-- `RH(3 000 175 332 800)`, hence `RH(3·10¹²)` (Platt and Trudgian, Theorem 1, `platttrudgian2021`
-  line 48);
-- `ζ` has no zero `ρ` with `0 < Re ρ < 1` and `|Im ρ| ≤ 14`: the least positive ordinate is
-  `γ₁ = 14.134725…` (`kadiri2005` line 992), and `ζ` does not vanish on `0 ≤ Re s ≤ 1`,
-  `|Im s| ≤ 14.13` (`thornerzaman2024` line 305);
-- `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000`, with `ϑ` the Riemann–Siegel theta
-  function `riemannSiegelTheta` defined below: the bound `|S(T)| ≤ 2.5167` on that range for `S(T)`
-  the argument function of `ZerosOfLFunctions` 7.3 (Bellotti and Wong, (1.2), `bellottiwong2025`
-  lines 121–124), read off Platt's rigorous isolation of all the zeros below that height
-  (lines 199–202; `platt2017zeros`), through `N(T) = ϑ(T)/π + 1 + S(T)` (2.9; at an ordinate,
-  `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right). As a hypothesis it is the displayed
-  inequality, which needs only the definition of `ϑ` below.
+- `RiemannHypothesisUpTo 545439823`, that is `RH(545 439 823)` (`vandeluneterielewinter1986`,
+  Section 1).
+- `RiemannHypothesisUpTo (10 ^ 9)`, that is `RH(10⁹)` (`platt2011thesis`).
+- `RiemannHypothesisUpTo 30610046000`, that is `RH(30 610 046 000)` (`platt2017zeros`,
+  Theorem 5.1, line 527).
+- `RiemannHypothesisUpTo 3000175332800`, that is `RH(3 000 175 332 800)`, hence `RH(3·10¹²)` by
+  0.2 (`platttrudgian2021`, Theorem 1, line 48).
+- `ZetaZeroFreeUpTo 14`: `ζ` has no zero `ρ` with `0 < Re ρ < 1` and `|Im ρ| ≤ 14` (`kadiri2005`
+  line 992; `thornerzaman2024` line 305).
+- `ZetaArgumentBoundUpTo 30610046000 2.5167`: `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for
+  `0 ≤ T ≤ 30 610 046 000`, with `ϑ = riemannSiegelTheta` (0.4a) (`bellottiwong2025` (1.2),
+  lines 121–124).
 
-By 0.2, `RH(3·10¹²)` implies each of the other three `RH(H₀)`. The last two propositions are not of
-that form, since `RH(H)` allows zeros on the line and says nothing about how many there are: the
-fifth is the statement `N(14) = 0`, and the sixth bounds `N(T) − ϑ(T)/π − 1` for every
-`T ≤ 30 610 046 000`, which no `RH(H₀)` implies. The ZetaGrid and
-Gourdon–Demichel announcements are context only: every theorem a paper proves from them is stated here from `RH(3·10¹²)`.
-
-**Checks.**
-
-- `3·10¹² ≥ 3.0610046·10¹⁰ ≥ 10⁹ ≥ 545 439 823`, so antitonicity orders the four hypotheses.
-- Platt's Theorem 5.1 also gives `N(3.0610046·10¹⁰) = 103 800 788 359` (`platt2017zeros`
-  line 525); with `T = 3.0610046·10¹⁰` the main term `(T/2π) log(T/2πe) + 7/8` is
-  `1.0380078·10¹¹`, consistent with Layer 5.
-- The absence of zeros up to height `14` is strictly stronger than `RH(14)`: both hold, but `RH(14)`
-  would also hold if `ζ` had a zero `1/2 + 13i`, which `N(14) = 0` excludes; at height `14.2` the
-  absence of zeros fails, at the zero `1/2 + 14.1347…i`.
-- The bound for `S(T)` is not implied by `RH(30 610 046 000)`, which allows every zero below that
-  height to be double. At `T = 100`, `ϑ(100)/π + 1 = 29.00241`, so the true count `N(100) = 29`
-  gives `S(100) = −0.00241`, while doubled zeros would give `N(100) = 58` and `S(100) = 28.998`,
-  far above `2.5167`; at `T = 14.14` (`ϑ(T)/π + 1 = 0.45043`) the true `S` is `0.54957`.
+### 0.4a The Riemann–Siegel theta function
 
 Define `riemannSiegelTheta T = ∫₀^T (Re ψ(1/4 + it/2) − log π)/2 dt` for real `T`, with `ψ` Mathlib's
 `Complex.digamma` (the logarithmic derivative of `Complex.Gamma`); this is the Riemann–Siegel theta
@@ -572,14 +538,47 @@ Its identification with `Im log Γ(1/4 + iT/2) − (T/2) log π`, the relation
 
 **Checks.**
 
-- `ϑ(100) = 87.97217` and `ϑ(14.14) = −1.72653`, so `ϑ/π + 1` is `29.00241` and `0.45043`, the
-  values used above; `ϑ(−100) = −87.97217`.
-- `ϑ` is negative on `(0, 17.84560)`, with its minimum `−3.53097` at `T = 6.28984`, where
-  `Re ψ(1/4 + iT/2) = log π` (close to `2π`, as `Re ψ(1/4 + iT/2) ≈ log(T/2)`); a definition without the term `−(T/2) log π` would give
-  `ϑ(100)/π + 1 = 47.221` against `N(100) = 29`.
-- The principal argument of `Γ(1/4 + 50i)` is `0.69540` and the continuous one is `145.20866`, so a
-  definition through the principal `Complex.log` would give `ϑ(100) = −56.54110`: the integral is the
-  continuous branch.
+- A definition without the term `− log π` in the integrand would grow like `(T/2) log(T/2)` instead
+  of `(T/2) log(T/2π)`, and so would not satisfy the expansion of 2.9.
+- The integral is the continuous branch: a definition through the principal `Complex.log` of
+  `Γ(1/4 + iT/2)` would be bounded in its imaginary part and so could not grow like
+  `(T/2) log(T/2πe)`.
+
+### 0.4b Recorded values of `ζ` and `L(s, χ)`
+
+Each item is a named proposition and an explicit hypothesis of every theorem that uses it.
+
+- `HiaryPatelYangRecord`: `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `3 ≤ t < 5.5·10⁷`
+  (`hiarypatelyang2024` §3, lines 147–200).
+- `HiaryRecord`: `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3` (`hiary2016zeta` Theorem 1.1 and
+  Lemma 2.2, lines 65–66).
+- `PatelRecord`: `|ζ(1 + it)| ≤ log t` for `3 ≤ t ≤ 50` (`patel2022`, the first branch of
+  Theorem 1.1 on that range, lines 61–66).
+- `HiaryLeongYangRecord`: `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `3 ≤ t ≤ 500`
+  (`hiaryleongyang2025` lines 1171–1175).
+- `LeongRecord`: for `t ≤ 500`, `1/|ζ(1 + it)| ≤ 29.388 log t` if `t ≥ 2`, and, if `t ≥ 13`,
+  `1/|ζ(σ + it)| ≤ 30.812 log t` for `σ ≥ 1` and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for
+  `σ ≥ 1 − 1/(5.56 log t)` (`leong2026` (49), lines 1520–1545).
+- `BrentPlattTrudgianRecord`: `Σ_{γ>0} γ^{−2} = 0.0231049931154189707889338104 + O*(5·10^{−28})`,
+  the sum `zetaOrdinateInvSqSum` over the zeros of `ζ` in the open strip with `γ > 0`, with
+  multiplicity (`brentplatttrudgian2021` Corollary 1, lines 412–417).
+- `LuZamanZhaoRecord`: for `q ≤ 10¹⁰` and every quadratic `χ` modulo `q`, primitive or not,
+  `L(σ, χ) ≠ 0` for real `σ ≥ 1 − 1/(5 log q)` (`luzamanzhao2026` Theorem 1.1, lines 39–42).
+- `LuZamanZhaoLOneRecord`: `L(1, χ) ≥ 1/(8 log q)` for `q ≤ 10⁶` and `χ` primitive, quadratic and
+  non-trivial modulo `q` (`luzamanzhao2026` Corollary 1.3, lines 96–99).
+- `MossinghoffStarichkovaTrudgianRecord`: `|L(1, χ)| ≥ 1/(9.690292 log(q/π))` for `2 ≤ q ≤ 10⁶`
+  and `χ` primitive and not quadratic modulo `q` (`mossinghoffstarichkovatrudgian2022`
+  lines 442–446 and 475–478).
+- `PlattSaadEddinRecord`: for `1 < q ≤ 2·10⁶` and `χ` primitive modulo `q`,
+  `|L(1, χ)| ≤ (1/3) log q + 0.368296` if `3 ∣ q` and `χ` is even, `≤ (1/3) log q + 0.838374` if
+  `3 ∣ q` and `χ` is odd, and `≤ (1/2) log q − 0.02012` if `χ` is even with `χ(2) = 1`
+  (`plattsaadeddin2013` §5; `saadeddin2016` lines 791–799).
+- `BordignonRecord`: `L(1, χ) ≥ 12.52/√q` for every real primitive `χ` of conductor `q > 4·10⁵`
+  (the class-number data of Watkins and of Bennett et al., as `bordignon2019` uses them).
+- `PlattRecord`: `GRH(q, H(q))` (`DirichletGRHUpTo q (plattHeight q)`) for every modulus
+  `2 ≤ q ≤ 400 000`, with `H(q)` of 0.3 (`platt2016grh` Theorem 7.1, lines 951–963).
+- `PlattCentralRecord`: `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ q ≤ 2·10⁶`
+  (`platt2016grh` Theorem 7.2).
 
 ### 0.5 Admissible cosine polynomials
 
@@ -617,17 +616,55 @@ is read off `a`. A *polynomial certificate* is this Prop at literal rational coe
   (`0 ≤ a 0`, `a 0 = 1 < a 1 = 2`, and `P(θ) = 1 ≥ 0` over `range 1`), contradicting `n ≥ 1`,
   and 7.3 would read `A = f_0(0) − a₀ = 0` from a vector whose `a₁ = 2` lies outside `P`.
 
+### 0.5a The Euler–Maclaurin formula
+
+Let `E` be a real Banach space (`ℝ` or `ℂ` in every use below), let `a < n` be integers, and let
+`B̃_k(x) = B_k({x})` be the periodic Bernoulli function (`bernoulliFun k` at `Int.fract x`). Prove:
+
+- (first order) for `f : ℝ → E` continuously differentiable on `[a, n]`,
+  `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + ∫_a^n B̃₁(x) f′(x) dx`, where
+  `B̃₁(x) = {x} − 1/2` (`sum_Icc_eq_integral_add_sawtooth`);
+- (order `2m`, DLMF 2.10.1, `dlmf`) for `m ≥ 1` and `f : ℝ → E` of class `C^{2m}` on `[a, n]`,
+  with the derivatives taken within `[a, n]`,
+  `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + Σ_{s=1}^{m−1} (B_{2s}/(2s)!)(f^{(2s−1)}(n) − f^{(2s−1)}(a)) + ∫_a^n ((B_{2m} − B̃_{2m}(x))/(2m)!) f^{(2m)}(x) dx`
+  (`sum_Icc_eq_eulerMaclaurin`).
+
+Route: on each `[j, j + 1]`, `∫_j^{j+1} (x − j − 1/2) f′(x) dx = (f(j) + f(j + 1))/2 − ∫_j^{j+1} f`
+by parts, and summing over `j` gives the first-order form. For order `2m`, integrate by parts
+against the periodic Bernoulli functions, using `B̃_{k+1}′ = (k + 1) B̃_k` off the integers
+(`hasDerivAt_bernoulliFun`), the continuity of `B̃_k` for `k ≥ 2`
+(`bernoulliFun_endpoints_eq_of_ne_one`) and `B_{2s+1} = 0` for `s ≥ 1`: one step turns the
+first-order remainder into the case `m = 1`, and each further pair of steps passes from `2m` to
+`2m + 2` and contributes the term `(B_{2m}/(2m)!)(f^{(2m−1)}(n) − f^{(2m−1)}(a))`.
+
+*Needs:* Mathlib `bernoulli`, `bernoulliFun`, `hasDerivAt_bernoulliFun`,
+`bernoulliFun_endpoints_eq_of_ne_one`,
+`intervalIntegral.integral_smul_deriv_eq_deriv_smul_of_hasDerivAt` (integration by parts with values
+in `E`), `iteratedDerivWithin`, `Int.fract`.
+
+**Checks.**
+
+- `f(x) = x` on `[0, n]`, first order: `∫₀ⁿ ({x} − 1/2) dx = 0` over whole periods, and the formula
+  reads `Σ_{j=0}^{n} j = n²/2 + n/2`.
+- `f(x) = x²` on `[0, n]`, `m = 1`: `f″ = 2` and `∫₀ⁿ (B₂ − B̃₂(x)) dx = n/6`, since
+  `∫₀¹ B₂(x) dx = 0` and `B₂ = 1/6`, so the formula reads `Σ_{j=0}^{n} j² = n³/3 + n²/2 + n/6`;
+  without the constant `B_{2m}` in the remainder the term `n/6` would be lost.
+- Mathlib's `B₁ = −1/2` does not enter the order-`2m` form, whose Bernoulli numbers have even index;
+  `B̃₁(x) = {x} − 1/2` is `bernoulliFun 1` at `Int.fract x`.
+- The values must be allowed in `ℂ`: the uses of 1.1 (`u ↦ Log(z + u)`), 3.3 (`u ↦ u^{−s}`) and 4.5
+  (`u ↦ e(f(u))`) are complex-valued.
+
 ### Examples
 
 - `π = 3 + O*(0.1416)`; `RH(3·10¹²)` implies `RH(30 610 046 000)`; `GRH(8, 10 000)` from Platt's
-  theorem; the `3-4-1` polynomial.
+  theorem; the `3-4-1` polynomial; `Σ_{j=1}^{n} j² = n(n + 1)(2n + 1)/6` from 0.5a.
 
 ### Dependencies
 
 Mathlib normed groups, `riemannZeta`, `DirichletCharacter.LFunction`, `RiemannHypothesis`,
-`Complex.digamma` and interval integrals (for `riemannSiegelTheta`). Tau Ceti
-nonnegative trigonometric combinations. `AnalyticNumberTheoryPartI` §1.6; `ZerosOfLFunctions` 6.5 and
-Layer 9; `ComputationalNumberTheory` §4.22.
+`Complex.digamma` and interval integrals (for `riemannSiegelTheta`), the Bernoulli API and
+integration by parts (for 0.5a). Tau Ceti nonnegative trigonometric combinations.
+`AnalyticNumberTheoryPartI` §1.6; `ZerosOfLFunctions` 6.5 and Layer 9.
 
 ## Layer 1: Stirling's series and the Gamma function on the positive axis
 
@@ -642,7 +679,7 @@ equivalently `r_{n+1}(z) = −∫₀^∞ B_{2n}({u})/(2n (u + z)^{2n}) du` (Olve
 `u ↦ Log(z + u)` on `[0, N]`, Gauss's product for `Γ` and `N → ∞`; the difference of two
 consecutive orders is `T_n(z)` because `∫₀^∞ (u + z)^{−2n} du = z^{1−2n}/(2n − 1)`.
 
-*Needs:* `AsymptoticExpansions` §13.1 `sum_Icc_eq_eulerMaclaurin`; `AnalyticNumberTheoryPartI` §0.23a
+*Needs:* 0.5a (`sum_Icc_eq_eulerMaclaurin` with values in `ℂ`); `AnalyticNumberTheoryPartI` §0.23a
 (the slit-plane `log Γ` and the case `n = 1`); Mathlib `bernoulli`, `Polynomial.bernoulli`,
 `bernoulliFun`, `Complex.Gamma`.
 
@@ -676,9 +713,7 @@ measures.
 
 - `m = 0` gives `log Γ(x) > (x − 1/2) log x − x + (1/2) log(2π)` for all `x > 0`; at `x = 1` the
   two sides are `0` and `−0.081061`.
-- At `x = 1`: `ψ(1) = −γ = −0.577216` lies between `0 − 1/2 − 1/12 = −0.583333` and `−1/2`; at
-  `x = 1/5` the computed value `ψ(0.2) = −5.28904` lies in
-  `(log 0.2 − 2.5 − 2.08333, log 0.2 − 2.5) = (−6.19277, −4.10944)`.
+- At `x = 1`: `ψ(1) = −γ = −0.577216` lies between `0 − 1/2 − 1/12 = −0.583333` and `−1/2`.
 - The bracket fails if the parities are swapped: at `x = 1`, `Σ_{i≤1} T_i(1) = 0.083333` is an upper,
   not a lower, bound for `r₁(1) = 0.081061`.
 
@@ -716,8 +751,8 @@ Mortici's monotonicity proof, Theorem 1, `mortici2011ramanujan`). Route: monoton
 - `θ₁ = 0.33593`, `θ₂ = 0.51176`, `θ₁₀ = 0.87001`, `θ₁₀₀ = 0.98632`: increasing, inside `(3/10, 1)`.
 - At `x = 1` the lower bound `(13.01)^{1/6} √π/e = 0.999985` and the upper bound `1.000283` bracket
   `Γ(2) = 1`; with `1/30` replaced by `1/100` the upper bound becomes `0.999985 < 1` and fails.
-- Monotonicity holds only on `[1, ∞)`: `θ_x → 30/π³ = 0.96755` as `x → 0⁺`, while `θ_{0.5} = 0.32076`,
-  `θ_{0.9} = 0.32036` and `θ₁ = 0.33593`, so `θ` decreases and then increases on `(0, 1]`.
+- Monotonicity holds only on `[1, ∞)`: `θ_x → 30/π³ = 0.96755` as `x → 0⁺`, while
+  `θ_{0.5} = 0.32076` (from `Γ(3/2) = √π/2`) and `θ₁ = 0.33593`, so `θ` is not monotone on `(0, 1]`.
 
 ### 1.5 Diamond–Straub comparisons
 
@@ -732,7 +767,7 @@ reversed; if `N ≡ 2 (mod 4)` and `λ ∈ [0, λ₀]` then `ψ(x) > F_N(λ; x)`
 1.2. Route: Euler–Maclaurin for `Σ 1/(x + k)` (their Proposition 3.2) and the sign of the periodic
 Bernoulli remainder on `[λ, ∞)`.
 
-*Needs:* 1.1, 1.2; `AsymptoticExpansions` §13.1; Mathlib `Polynomial.bernoulli`.
+*Needs:* 1.1, 1.2; 0.5a; Mathlib `Polynomial.bernoulli`.
 
 **Checks.**
 
@@ -769,8 +804,7 @@ prove `a(x) < ψ(x + 1) + log(e^{1/(x+1)} − 1) < b(x)` (Mortici, Theorem 1.1 i
 
 ### Dependencies
 
-`AsymptoticExpansions` §13.1; `AnalyticNumberTheoryPartI` §0.23a. Mathlib Gamma, digamma and
-Bernoulli API.
+0.5a; `AnalyticNumberTheoryPartI` §0.23a. Mathlib Gamma, digamma and Bernoulli API.
 
 ## Layer 2: the Gamma function in the complex plane
 
@@ -790,12 +824,9 @@ holomorphic in `u` off `−z + (−∞, 0]`).
 
 **Checks.**
 
-- On 2000 random points with `0.3 ≤ |z| ≤ 100` and `|θ| ≤ 3.1`, the ratio of `|r₁(z)|` to the bound
-  stays below `0.99998`, and of `|r₂(z)|` below `0.9996`: the bound is nearly attained near the
-  negative axis.
-- The secant factor is needed: at `z = e^{3.1i}` the computed `|ξ(z)| = 1.389` exceeds the first
-  omitted term `|T₁(z)| = 1/12`, so the real-axis enveloping bound does not extend to the plane; the
-  bound `sec²(1.55)/12 = 192.7` holds.
+- The secant factor is needed: `r_n` inherits the logarithmic singularities of `log Γ` at the
+  negative integers, on the boundary `|θ| = π` of the sector, so no bound uniform in `θ` holds,
+  and `sec^{2n}(θ/2) → ∞` as `|θ| → π`.
 - At `θ = 0` the bound is `|T_n(x)|`, consistent with the strict enveloping of 1.2.
 
 ### 2.2 Lindelöf's bound in the right half-plane
@@ -850,8 +881,6 @@ integrals, integration by parts.
 - On the imaginary axis `|Γ(it)|² = π/(t sinh πt)` gives `Re ξ(it) = −(1/2) log(1 − e^{−2πt}) > 0`; at
   `t = 1` this is `0.000935`, and the formula's integrand gives the same value as `z → i`.
 - At real `x`, the second formula gives `ξ(x) > 0`, matching 1.2 at `m = 0`.
-- The positivity fails off the right half-plane: at `z = −1/2 + 2i`, `Re ξ(z) = −0.01004` by the
-  computed `log Γ`, so `Re z > 0` is needed.
 
 ### 2.5 The modulus of `Γ` on vertical lines
 
@@ -868,8 +897,6 @@ Route: `log|Γ(s)| = (1/2) log 2π + (σ − 1/2) log|s| − t arg s − σ + Re
 
 **Checks.**
 
-- On 3000 random points with `0.01 ≤ σ ≤ 31` and `0.1 ≤ |t| ≤ 300` the lower bound holds with
-  logarithmic margin at least `1.3·10⁻⁸` and the upper with margin at least `5.3·10⁻⁴`.
 - At `σ = 1/2`, `t = 10`: `|s|^{σ−1/2} = 1` and `|Γ(1/2 + 10i)| = √(π/cosh 10π) = 3.77753·10⁻⁷`, which
   equals `√(2π) e^{−5π} (1 + e^{−20π})^{−1/2}`; it lies between `√(2π) e^{−5π} e^{−1/2400}` and
   `√(2π) e^{−5π} e^{1/60.075}`.
@@ -910,8 +937,7 @@ upper bound `exp(1/(12x))` that 1.2 gives at `m = 0`.
   `(−1)^N γ_{2N−1} ≥ 0` taken over unchanged would claim `γ₁ ≤ 0` and `γ₃ ≥ 0`, false here; it is
   the sign pattern of his convention, in which `γ₁ = −1/12` and `γ₃ = 139/51840`.
 - The real bound at `x = 1`: the ratio is `e/√(2π) = 1.084438` against `1 + 1/12 + 1/288 = 1.086806`; at
-  `x = 10`: `1.0083654` against `1.0083681`, while `exp(1/120) = 1.0083682` is weaker; at `x = 0.01` the
-  ratio `4.19548` is far below the bound `44.06`.
+  `x = 10`: `1.0083654` against `1.0083681`, while `exp(1/120) = 1.0083682` is weaker.
 - At `N = 2`, `z = 10`: Theorem 1.3 gives `(1 + π²/6) · ((2√2 + 1)/2)/((2π)³ · 100) =
   2.644934 · 1.914214/24805.02 = 0.000204`, while the true
   `R₂(10) = Γ(10)/(√(2π) 10^{9.5} e^{−10}) − 1 − 1/120 = 3.20·10⁻⁵`; the bound holds. The reading
@@ -931,8 +957,6 @@ in which the gamma factor of `ζ` enters Layers 5 and 8; here `σ > −2` and `t
 **Checks.**
 
 - At `z = 1`: `ψ(1) = −γ = −0.5772`, `Log 1 − 1/2 = −0.5`, difference `0.0772 ≤ 1/8`.
-- At `z = 10i`: computed `ψ(10i) = 2.303419 + 1.620796i`, against `Log(10i) − 1/(20i) = 2.302585 +
-  1.620796i`; the difference `0.000834` is below `sec³(π/4)/800 = 0.003536`.
 - The real-axis bracket of 1.2 is sharper on `(0, ∞)`: `1/(12x²)` against `1/(8x²)`.
 
 ### 2.8 Gamma quotients on vertical lines
@@ -952,13 +976,12 @@ inputs are Stirling's formula with the explicit remainder of 2.1, `Γ(w + 1) = w
   `Γ(3/4) = (−1/4) Γ(−1/4)`.
 - At `σ = 1/2` both sides are `1`: `|Γ((1/2 − it + a)/2)/Γ((1/2 + it + a)/2)| = 1` by `Γ(conj w) =
   conj Γ(w)`.
-- On 8000 random points with `|t| ≤ 200` the ratio of the two sides never exceeds `0.99999999956`;
-  the exponent `1/2 + σ` in place of `1/2 − σ` fails at `σ = −1/2`, `t = 100`, `a = 0`, where it gives
-  the bound `1` against the true value `50.0006`.
+- The exponent `1/2 + σ` in place of `1/2 − σ` fails at `σ = −1/2`, `t = 100`, `a = 0`, where it
+  gives the bound `1` against the exact value `|(1 + s)/2| = 50.0006` of the quotient.
 
 ### 2.9 The Riemann–Siegel theta function in Stirling form
 
-For real `T`, with `ϑ = riemannSiegelTheta` of 0.4, prove:
+For real `T`, with `ϑ = riemannSiegelTheta` of 0.4a, prove:
 
 - `ϑ(T) = Im log Γ(1/4 + iT/2) − (T/2) log π` with the slit-plane branch of `log Γ`
   (`AnalyticNumberTheoryPartI` §0.23a): both sides vanish at `0`, and the derivative of
@@ -975,25 +998,16 @@ Route: Stirling's series for `log Γ(1/4 + iT/2)` (1.1) with the remainder bound
 lines 499–510 and 576–584) is another route to the same bracket. For the relation with `N(T)`, the
 argument principle on the rectangle of `ZerosOfLFunctions` 7.4 for the completed function.
 
-*Needs:* 0.4 (`riemannSiegelTheta`), 1.1, 2.3; `AnalyticNumberTheoryPartI` §0.23a;
+*Needs:* 0.4a (`riemannSiegelTheta`), 1.1, 2.3; `AnalyticNumberTheoryPartI` §0.23a;
 `ZerosOfLFunctions` 7.3–7.4; Mathlib `Complex.digamma`.
 
 **Checks.**
 
-- At `T = e`, `ϑ(e)/π + 1 − (e/2π) log(1/(2π)) = 0.877491`, inside
-  `(7/8, 7/8 + 1/(40e)) = (0.875, 0.884197)`; on `[e, 3·10⁶]` the excess over `7/8` stays below
-  `0.0068/T`.
-- The leading term `1/(48πT)` of the excess is not an upper bound for it: at `T = e` the excess is
-  `0.0024909`, above `1/(48πe) = 0.0024396`, because the next term `7/(5760πT³) = 0.0000193` and
-  `arctan(e^{−πT})/(2π) = 0.0000311` are positive; the constant `1/40 > 1/(48π)` of the bracket
-  is what absorbs them. At `T = 100` the excess is `6.6315·10⁻⁵`, equal to `1/(48π·100)` to five
-  digits.
-- At `T = 100` the continuous `Im log Γ(1/4 + 50i)` is `145.20866`, and
-  `145.20866 − 50 log π = 145.20866 − 57.23649 = 87.97217 = ϑ(100)`, the value of the integral of
-  0.4; with `N(100) = 29` the relation gives `S(100) = −0.00241`. At `T = 14`, below the first
-  ordinate, `N(14) = 0` and `ϑ(14)/π + 1 = 0.43247`, so `S(14) = −0.43247`; without the term `1`
-  (the contribution of the pole of `ζ` at `1`) the relation would give `S(14) = 0.56753` and
-  `S(100) = 0.99759`, a mean of about `1` where `S` has mean `0`.
+- The excess over `7/8` is `1/(48πT) + 7/(5760πT³) + arctan(e^{−πT})/(2π) + …`, whose terms after
+  the first are positive for small `T`, so the leading term `1/(48πT)` alone is not an upper bound;
+  the constant `1/40 > 1/(48π) = 0.0066315` of the bracket is what absorbs them.
+- Without the term `1` (the contribution of the pole of `ζ` at `1`) the relation with `N(T)` would
+  give `S` the mean `1` instead of `0`.
 
 ### Examples
 
@@ -1002,7 +1016,7 @@ argument principle on the rectangle of `ZerosOfLFunctions` 7.4 for the completed
 
 ### Dependencies
 
-Layer 1; 0.4 (`riemannSiegelTheta`, for 2.9); `AnalyticNumberTheoryPartI` §0.23a;
+Layer 1; 0.4a (`riemannSiegelTheta`, for 2.9); `AnalyticNumberTheoryPartI` §0.23a;
 `ZerosOfLFunctions` 7.3–7.4 (for 2.9); Mathlib `Complex.Gamma`, `Complex.digamma`,
 `PowerSeries.exp`, `Real.arctan`.
 
@@ -1072,10 +1086,6 @@ on the right edge and at most `(1 + η)/(1 − η) ≤ 3` on the left edge. Fini
 
 **Checks.**
 
-- The Dirichlet instance for `χ₄` and the quadratic character modulo `5`, on the grid
-  `η ∈ {0.05, 0.1, 0.25, 0.5}`, `σ ∈ {−η, −η/2, 1/2, 1, 1 + η}`, `|t| ≤ 60` (step `1/2`): the ratio
-  of the two sides stays below `0.53` and `0.73` respectively, its largest values lying on the
-  edges `σ = −η` and `σ = 1 + η`.
 - The `ζ` instance is attained: at `η = 1/2` and `s = −1/2` the factor `3|(1 + s)/(1 − s)|` is `1`,
   the gamma quotient of 2.8 is an equality, and `|ζ(−1/2)| = ζ(3/2)/(4π) = 0.207886` equals the bound
   `(1/(4π)) ζ(3/2)`. A constant smaller than `3` in the pole factor would make the bound false there.
@@ -1096,12 +1106,10 @@ form `|ζ(1 + it)| ≤ log t` is quoted from (53) in `trudgian2014argument` line
 Euler–Maclaurin formula for `ζ(s) − Σ_{n ≤ N} n^{−s}` with `N ≈ t/(2π)`, the functional equation with
 the gamma quotient of 2.5 on `σ ≤ 0`, and 3.1 between `σ = 0` and `σ = 1`.
 
-*Needs:* 2.5, 3.1; `AsymptoticExpansions` §13.1; Mathlib `riemannZeta_one_sub`.
+*Needs:* 2.5, 3.1; 0.5a; Mathlib `riemannZeta_one_sub`.
 
 **Checks.**
 
-- On `50 ≤ t ≤ 125` the computed ratios of `|ζ|` to the three bounds stay below `0.623`, `0.615` and
-  `0.616` respectively.
 - At `σ = 1/2`, `t = 50` the middle bound is `(2500/2496)(50/2π)^{1/4} log 50 = 6.581`, slightly
   better than Lehman's `4(t/2π)^{1/4} = 6.718` (4.7); at `t = 55` the order is reversed (`6.902`
   against `6.880`), since `log t > 4t²/(t² − 4)` for `t ≥ 55`.
@@ -1114,18 +1122,21 @@ For real `σ > 1` and all real `t`, prove `|ζ(σ + it)| ≤ ζ(σ) ≤ e^{γ(σ
 Rogalski, `bastienrogalski2002`; Ramaré, Lemma 5.4, `ramare2016density` line 654), and
 `−Re (ζ'/ζ)(σ + it) ≤ −(ζ'/ζ)(σ) ≤ 1/(σ − 1) − 1/(2σ²)` (Delange, `delange1987`). Route: the first
 inequalities in each chain are termwise from the Dirichlet series; the second come from the
-Euler–Maclaurin representation `ζ(σ) = 1/(σ − 1) + 1/2 + σ ∫₁^∞ ({u} − 1/2) u^{−σ−1} du` and the
-convexity of `σ ↦ log((σ − 1) ζ(σ))`.
+Euler–Maclaurin representation `ζ(σ) = 1/(σ − 1) + 1/2 − σ ∫₁^∞ ({u} − 1/2) u^{−σ−1} du` (0.5a at
+first order, with `N → ∞`) and the convexity of `σ ↦ log((σ − 1) ζ(σ))`.
 
-*Needs:* 1.1; `AsymptoticExpansions` §13.1; Mathlib `riemannZeta`, `Real.eulerMascheroniConstant`,
+*Needs:* 1.1; 0.5a; Mathlib `riemannZeta`, `Real.eulerMascheroniConstant`,
 `ArithmeticFunction.vonMangoldt`.
 
 **Checks.**
 
-- On `1 < σ ≤ 11` (step `1/40`) the ratio `ζ(σ)(σ − 1)e^{−γ(σ−1)}` never exceeds `0.99994`, tending to
-  `1` as `σ → 1⁺`; at `σ = 2`, `1.64493 ≤ e^{γ} = 1.78107`.
-- `−ζ'/ζ(σ) − 1/(σ − 1) + 1/(2σ²) ≤ −0.0957` on `1.025 ≤ σ ≤ 11`; as `σ → 1⁺` the left side tends to
-  `−γ + 1/2 = −0.0772`, so the constant `1/2` in `1/(2σ²)` cannot be replaced by `γ + 0.01`.
+- At `σ = 2`, `ζ(2) = π²/6 = 1.64493 ≤ e^{γ} = 1.78107`; as `σ → 1⁺` the ratio
+  `ζ(σ)(σ − 1)e^{−γ(σ−1)}` tends to `1`.
+- As `σ → 1⁺`, `−ζ'/ζ(σ) − 1/(σ − 1) + 1/(2σ²)` tends to `−γ + 1/2 = −0.0772`, so the constant `1/2`
+  in `1/(2σ²)` cannot be replaced by `γ + 0.01`.
+- The sign in the representation: as `σ → 1⁺` it gives
+  `ζ(σ) − 1/(σ − 1) → 1/2 − ∫₁^∞ ({u} − 1/2) u^{−2} du = γ`, since `∫₁^∞ {u} u^{−2} du = 1 − γ`;
+  with `+σ` in place of `−σ` the limit would be `1 − γ`.
 - At `σ = 2`: `−ζ'/ζ(2) = 0.56996 ≤ 1 − 1/8 = 0.875`.
 
 ### 3.5 The Poisson–Jensen inequality on a strip
@@ -1152,15 +1163,10 @@ controlling the passage to the unbounded strip.
   boundary lines and `e^{πt} > 0` at `1/2 + it`: the inequality fails, and the growth rate is exactly
   `c = π`, so the hypothesis `c < π` cannot be relaxed.
 
-### Examples
-
-- `|L(1/2, χ₄)| = 0.66769 ≤ (4 · 1.5/(2π))^{1/2} ζ(3/2) = 2.55283` (3.2 with `η = 1/2`).
-- `|ζ(1 + 50i)| = 0.52326 ≤ log 50 − 0.048 = 3.864` (3.3).
-
 ### Dependencies
 
-Layers 1–2. L-functions Layers 0 and 4; `ZerosOfLFunctions` Layer 0, 1.6 and 3.4;
-`AsymptoticExpansions` §13.1; Mathlib three-lines and Phragmén–Lindelöf theorems.
+Layers 1–2; 0.5a. L-functions Layers 0 and 4; `ZerosOfLFunctions` Layer 0, 1.6 and 3.4; Mathlib
+three-lines and Phragmén–Lindelöf theorems.
 
 ## Layer 4: explicit exponential sums and the size of `ζ` on vertical lines
 
@@ -1268,12 +1274,13 @@ For integers `a`, `N > 0`, `k ≥ 3`, `f` with `k` continuous derivatives, `f^{(
 `λ_k ≤ |f^{(k)}(x)| ≤ h λ_k` on `(a, a + N]` with `λ_k > 0`, `h > 1`, and `K = 2^{k−1}`, prove
 `S_f(a, N) ≤ A_k h^{2/K} N λ_k^{1/(2K−2)} + B_k N^{1−2/K} λ_k^{−1/(2K−2)}` for every `η > 0`, with
 `A₃(η, h)`, `B₃(η)`, `λ₀` and `δ₃` defined in closed form and `A_k`, `B_k`, `δ_k` for `k ≥ 4` by the
-recursions of Yang, Lemmas 2.4–2.5 (`yang2024` lines 344–360 and 487–513; `patelyang2024`
-Lemma 1.4, lines 150–181). At `k = 3` the bound reads `A₃ h^{1/2} N λ₃^{1/6} + B₃ N^{1/2} λ₃^{−1/6}`.
-For `k ≥ 10` and `1 < h ≤ 3`:
-`S_f(a, N) ≤ 2.762 h^{2/K} N λ_k^{1/(2K−2)} + 1.02 N^{1−2/K} λ_k^{−1/(2K−2)}` (Lemma 2.6, lines 658–666, with `η = 4.7399` and the recursion computed to `k = 10`,
-a numerical certificate). Route: 4.2 with `q` chosen in terms of `λ_k`, reducing `k` to `k − 1`,
-and 4.3 at the bottom, with the trivial bound when `λ_k ≥ λ₀`.
+recursions of Yang, Lemmas 2.4–2.5 (`yang2024` lines 344–360 and 487–513; `patelyang2024` Lemma 1.4,
+lines 150–181). At `k = 3` the bound reads `A₃ h^{1/2} N λ₃^{1/6} + B₃ N^{1/2} λ₃^{−1/6}`. For
+`k ≥ 10` and `1 < h ≤ 3`:
+`S_f(a, N) ≤ 2.762 h^{2/K} N λ_k^{1/(2K−2)} + 1.02 N^{1−2/K} λ_k^{−1/(2K−2)}` (Lemma 2.6, lines
+658–666, with `η = 4.7399` and the recursion evaluated to `k = 10`). Route: 4.2 with `q` chosen in
+terms of `λ_k`, reducing `k` to `k − 1`, and 4.3 at the bottom, with the trivial bound when
+`λ_k ≥ λ₀`.
 
 And Patel's corrected third, fourth and fifth derivative tests (`patel2022` Lemmas 2.5, 3.1 and
 3.2, lines 160–164, 191–196 and 266–270). Let `N` be an integer, `L ≥ 1`, `W > 1`, `λ ≥ 1`, and
@@ -1305,7 +1312,8 @@ the lag sums `Σ_{m≤M} (1 − m/M) m^s ≤ M^{s+1}/((s + 1)(s + 2))` for `−1
 line 232). A lag with `W/m ≤ 1` is bounded trivially by `L`, which is below the first term of the
 lag bound because `α̃₃ ≥ 2 + 2√2` and `α̃₄ ≥ (72/91)√(2 + 2√2) > 1`.
 
-*Needs:* 4.2, 4.3; for the `k ≥ 10` constants the numerical certificate of `yang2024` (2.71).
+*Needs:* 4.2, 4.3; for the `k ≥ 10` constants the recursion of `yang2024` (2.71) at those
+parameters.
 
 **Checks.**
 
@@ -1343,7 +1351,7 @@ the Fourier series of the sawtooth for the first; the second by van der Corput's
 applied to each phase `f(x) − νx`, `α + 1/2 < ν < β − 1/2`, whose derivative vanishes at the
 interior point `x_ν` (`patelyang2024` (2.32)–(2.33), lines 672–700).
 
-*Needs:* `AsymptoticExpansions` §13.1; Mathlib `intervalIntegral`, `Real.fourierChar`.
+*Needs:* 0.5a (first order); Mathlib `intervalIntegral`, `Real.fourierChar`.
 
 **Checks.**
 
@@ -1356,9 +1364,8 @@ interior point `x_ν` (`patelyang2024` (2.32)–(2.33), lines 672–700).
   `∫_ℝ e(−x²/2) dx = e(−1/8)`.
 - The third bound with no stationary point: `f(x) = x/2 − x²/(8M)` on `[0, M]` has `f'` decreasing
   from `β = 1/2` to `α = 1/4`, `λ₂ = 1/(4M)`, `h₂ = 1` and `f''' = 0`; no integer lies in `(1/4, 1/2]`,
-  so the dual sum is empty and the bound reads `|Σ_{0<n≤M} e(f(n))| ≤ 9.372 √M + 7.291`, at `M = 100`
-  `101.01` against the true `1.1215`. A hypothesis `f'(c) = 0` for some `c` would exclude this phase,
-  since `f' ≥ 1/4`.
+  so the dual sum is empty and the bound reads `|Σ_{0<n≤M} e(f(n))| ≤ 9.372 √M + 7.291`. A
+  hypothesis `f'(c) = 0` for some `c` would exclude this phase, since `f' ≥ 1/4`.
 
 ### 4.5a An explicit approximate functional equation
 
@@ -1376,7 +1383,7 @@ approximate functional equation (`titchmarsh1986` Theorem 4.13) with every error
 Euler–Maclaurin for the two partial sums, the functional equation with 2.5 for `χ(s)`, and the
 Kusmin–Landau inequality 4.1 with the truncated Poisson formula 4.5 for the exponential sums.
 
-*Needs:* 2.1, 2.5, 4.1, 4.5; `AsymptoticExpansions` §13.1; Mathlib `riemannZeta_one_sub`.
+*Needs:* 2.1, 2.5, 4.1, 4.5; 0.5a; Mathlib `riemannZeta_one_sub`.
 
 **Checks.**
 
@@ -1388,9 +1395,42 @@ Kusmin–Landau inequality 4.1 with the truncated Poisson formula 4.5 for the ex
   Riemann–Siegel remainder for `1/2 ≤ σ ≤ 1` and are not asserted here.
 - At `σ = 1/2` the two error terms are `E x^{−1/2}` and `F y^{−1/2}`, symmetric under `x ↔ y`, as the
   functional equation requires.
-- At `s = 1/2 + 100i` with `x = y = √(100/2π) = 3.98942` (three terms in each sum, `|χ(s)| = 1`), the
-  computed `|R₁| = 0.4532` is below `36.094 x^{−1/2} = 18.07`, and below the source's symmetric
-  `4.257 x^{−1/2} = 2.131`.
+
+### 4.5b Hardy's function and the Riemann–Siegel expansion
+
+Mathlib's `hardyZ` is Hardy's function `Z(t) = Λ(1/2 + it)/|Γℝ(1/2 + it)|`, real-valued with
+`|Z(t)| = |ζ(1/2 + it)|` (`abs_hardyZ`). For `t > 0` put `τ = t/(2π)`, `n₁ = ⌊√τ⌋` and
+`p = √τ − n₁`. Prove:
+
+- `Z(t) = e^{iϑ(t)} ζ(1/2 + it)` for real `t`, with `ϑ = riemannSiegelTheta` (0.4a)
+  (`hardyZ_eq_exp_riemannSiegelTheta_mul`): `Γℝ(1/2 + it) = π^{−1/4−it/2} Γ(1/4 + it/2)`, whose
+  argument is `ϑ(t)` modulo `2π` by 2.9, so `Λ(1/2 + it) = |Γℝ(1/2 + it)| e^{iϑ(t)} ζ(1/2 + it)`.
+- (the Riemann–Siegel formula with Gabcke's remainder, `gabcke1979` Satz 4.2.3, in the form of
+  `hiarypatelyang2024` Lemma 2.1, lines 72–80) for `t ≥ 200`,
+  `Z(t) = 2 Σ_{n≤n₁} n^{−1/2} cos(ϑ(t) − t log n) + O*(1.48 t^{−1/4} + 0.127 t^{−3/4})`
+  (`abs_hardyZ_sub_riemannSiegel_le`).
+
+Route for the second: Riemann's contour-integral representation of `ζ(1/2 + it)`, with the contour
+moved across the poles that give the two partial sums of the approximate functional equation
+(`titchmarsh1986` §4.16; the two sums combine into the cosine sum through the first item), and
+the remaining integral evaluated through its saddle point. Along the line of steepest descent the
+exponent is expanded to second order about the saddle; the Gaussian part gives
+`(−1)^{n₁−1} τ^{−1/4} C₀(p)` with `C₀(p) = cos(2π(p² − p − 1/16))/cos(2πp)`, and Gabcke bounds the
+rest explicitly, the Taylor remainder on the line and the integrand off it. Then
+`τ^{−1/4}|C₀(p)| ≤ (2π)^{1/4} cos(π/8) t^{−1/4} < 1.463 t^{−1/4}`, the maximum of `|C₀|` on
+`[0, 1)` being `C₀(0) = cos(π/8)`, and Gabcke's bound for the rest give the error.
+
+*Needs:* 0.4a, 2.9; Mathlib `hardyZ`, `abs_hardyZ`, `Complex.Gammaℝ`, `riemannZeta_one_sub`;
+`ZerosOfLFunctions` 7.1–7.2 (rectangle contours).
+
+**Checks.**
+
+- At `t = 200`, `τ = 31.831`, `n₁ = 5` and `p = 0.6419`; the error term is
+  `R(200) = 1.48 · 0.2659 + 0.127 · 0.0188 = 0.396`.
+- `C₀` is continuous at `p = 1/4` and `p = 3/4`, where numerator and denominator vanish together,
+  with `C₀(1/4) = C₀(3/4) = 1/2`; and `C₀(p) = C₀(1 − p)`.
+- The sign of the phase factor matters in the first item:
+  `e^{−iϑ(t)} ζ(1/2 + it) = e^{−2iϑ(t)} Z(t)` is not real in general.
 
 ### 4.6 The Riemann–Siegel formula with Gabcke's remainder
 
@@ -1400,55 +1440,51 @@ For `t ≥ 200` and `n₁ = ⌊√(t/2π)⌋`, prove
 for its remainder, `gabcke1979`); and the Riemann–Siegel–Lehman bound
 `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4} − 2.08` for `t ≥ 200` (Lemma 2.2, lines 81–85), which contains
 Lehman's `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4}` for `t ≥ 128π` (`lehman1970`, Lemma 2, as quoted in
-`ford2002zerofree` line 139). Route: the saddle-point derivation of the Riemann–Siegel formula
-`Z(t) = 2 Σ_{n≤n₁} n^{−1/2} cos(ϑ(t) − t log n) + (−1)^{n₁−1}(t/2π)^{−1/4}(C₀(p) + R₀(t))` with
-`p = √(t/2π) − n₁`, Gabcke's bound for `R₀`, and `|C₀| ≤ 1` (then `n^{−1/2}` summed by an integral
-for `n > 5`, for the second statement).
+`ford2002zerofree` line 139). Route: 4.5b, with `|Z(t)| = |ζ(1/2 + it)|` and
+`2 Σ_{n≤n₁} n^{−1/2} cos(ϑ(t) − t log n) = 2 Re(e^{iϑ(t)} Σ_{n≤n₁} n^{−1/2−it})`, of modulus at most
+`2|Σ_{n≤n₁} n^{−1/2+it}|`; for the second statement the cosine sum is bounded termwise and
+`Σ_{n≤n₁} n^{−1/2}` is estimated by an integral for `n > 5`.
 
-*Needs:* 2.9 (for `ϑ(t) = Im log Γ(1/4 + it/2) − (t/2) log π`); Mathlib `riemannZeta_one_sub`;
-`ZerosOfLFunctions` 7.1–7.2 (rectangle contours); the saddle-point estimates of `AsymptoticExpansions`
-Layer 5.
+*Needs:* 4.5b.
 
 **Checks.**
 
-- At `t = 200`: `4(200/2π)^{1/4} − 2.08 = 7.42`; the computed maximum of `|ζ(1/2 + it)|` on
-  `200 ≤ t ≤ 260` is `0.766` times the bound.
-- `R(200) = 1.48 · 0.2659 + 0.127 · 0.0188 = 0.396`: the remainder is small but not negligible
-  against the main sum of `n₁ = 5` terms.
-- At `t = 200` (`n₁ = 5`): `|Σ_{n≤5} n^{−1/2+200i}| = 2.7964`, so the bound is `2 · 2.7964 + 0.3959 =
-  5.989`, against `|ζ(1/2 + 200i)| = 5.590`. Without the factor `2` (the two halves of the
-  Riemann–Siegel formula) the bound would be `3.192`, false; on `200 ≤ t ≤ 260` the ratio
-  `|ζ(1/2 + it)|/|Σ_{n≤n₁} n^{−1/2+it}|` reaches `3.66`.
+- At `t = 200`: `4(200/2π)^{1/4} − 2.08 = 7.42`.
+- `R(200) = 0.396`: the remainder is small but not negligible against the main sum of `n₁ = 5`
+  terms.
+- The factor `2` comes from the two partial sums `Σ n^{−s}` and `χ(s) Σ n^{s−1}` of the approximate
+  functional equation, which on the critical line become complex conjugates after multiplication
+  by `e^{iϑ(t)}`; without it the main term would be one of them only.
 
 ### 4.7 Bounds on the critical line
 
 Prove:
 
 - (Hiary, Patel and Yang, Theorem 1.1, `hiarypatelyang2024` lines 64–65)
-  `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 3`, from the numerical certificate of their §3 for `3 ≤ t < 5.5·10⁷`
-  (an interval-arithmetic bound `0.595` on `[3, 200)` and the checks of the Riemann–Siegel–Lehman
-  bound on `[200, 5.5·10⁷)`, lines 147–200); this is `norm_riemannZeta_criticalLine_le`. Route for
-  `t ≥ 5.5·10⁷`: 4.6, dyadic blocks of the main
+  `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 5.5·10⁷`, and for `t ≥ 3` given
+  `HiaryPatelYangRecord` (0.4b), which is the bound on `3 ≤ t < 5.5·10⁷`; the second form is
+  `norm_riemannZeta_criticalLine_le`. Route for `t ≥ 5.5·10⁷`: 4.6, dyadic blocks of the main
   sum, 4.2 with their improved second and third derivative tests for the phase
   `(t/2π) log(rK + x)` (Lemmas 2.5–2.6, lines 109–141, themselves from 4.1 and 4.3), with the
   parameters of lines 201–556.
-- (Hiary, Theorem 1.1, `hiary2016zeta` lines 65–66) `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3`, from the
-  interval-arithmetic certificate of its Lemma 2.2. Hiary's `0.63 t^{1/6} log t` for `t ≥ 3` follows
-  from the first item; its own proof used the incorrect Kusmin–Landau constant (4.1, Checks).
-- Lehman's bound on the whole range `t ≥ 0.2`: `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4}`, from the second item
-  on `[0.2, 3]` (where `4(t/2π)^{1/4} ≥ 1.6895 > 1.461`), the first on `[3, 200]` (where
-  `0.618 t^{1/6} log t ≤ 4(t/2π)^{1/4}`, with margin at least `1.58`) and 4.6 above `200`; so no
-  finite-range hypothesis is needed to extend Lehman's lemma below `128π`.
+- Hiary's `|ζ(1/2 + it)| ≤ 0.63 t^{1/6} log t` (`hiary2016zeta` Theorem 1.1, lines 65–66) follows
+  from the first item, for `t ≥ 5.5·10⁷` and, given `HiaryPatelYangRecord`, for `t ≥ 3`; its own
+  proof used the incorrect Kusmin–Landau constant (4.1, Checks). The bound
+  `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3` of the same theorem is the record `HiaryRecord` (0.4b).
+- Lehman's bound on the whole range `t ≥ 0.2`, given `HiaryPatelYangRecord` and `HiaryRecord`:
+  `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4}`, from `HiaryRecord` on `[0.2, 3]` (where
+  `4(t/2π)^{1/4} ≥ 1.6895 > 1.461`), `HiaryPatelYangRecord` on `[3, 200]` (where
+  `0.618 t^{1/6} log t ≤ 4(t/2π)^{1/4}`, with margin at least `1.58`) and 4.6 above `200`.
 - (Patel and Yang, Theorem 1.1, `patelyang2024` lines 49–50) `|ζ(1/2 + it)| ≤ 66.7 t^{27/164}` for
-  `t ≥ 3`. Route: 4.6, 4.2, 4.5 (the B-process) and 4.4, organized as their §3, with the numerical
-  certificate of §3.1 for the parameter choices.
+  `t ≥ 3`. Route: 4.6, 4.2, 4.5 (the B-process) and 4.4, organized as their §3, with the
+  parameters of §3.1.
 - (Thorner and Zaman, Proposition 2.10, `thornerzaman2024` line 317) for `χ` primitive of conductor
   `q` and real `t`, `|L(1/2 + it, χ)| ≤ 2.97655 (q|1 + it|)^{1/4}` (restated as Proposition 2.3 of
   `benligoeltwisszaman2026`, lines 145–147). Route for `χ ≠ 1`: 3.5 with
   `F(x) = L(x + it, χ)`, the functional equation on `Re s = 0`, 2.8 on the line `σ = 0` (which gives
-  `|Γ((1 + a + iτ)/2)/Γ((a − iτ)/2)| ≤ (|1 + iτ|/2)^{1/2}`), and the numerical certificate
-  `2 Σ_{j≥0} (−1)^j log ζ(j + 3/2) ≤ 1.4988` (lines 366–379; the sum itself is `0.74940`); for
-  `χ = 1`, the first two items.
+  `|Γ((1 + a + iτ)/2)/Γ((a − iτ)/2)| ≤ (|1 + iτ|/2)^{1/2}`), and the inequality
+  `2 Σ_{j≥0} (−1)^j log ζ(j + 3/2) ≤ 1.4988` (lines 366–379); for `χ = 1` the item is stated given
+  `HiaryPatelYangRecord` and `HiaryRecord`, from those records below height `200` and 4.6 above.
 - (Hiary, Corollary 1.1 and Theorem 1.2, `hiary2016hybrid` lines 57–86) if `q > 1` is a sixth power
   and `χ` is primitive modulo `q`, then `|L(1/2 + it, χ)| ≤ 9.05 τ(q)(q|t|)^{1/6} log^{3/2}(q|t|)` for
   `|t| ≥ 200`, with `τ(q)` the number of divisors of `q` (`ArithmeticFunction.sigma 0`); the general
@@ -1458,41 +1494,35 @@ Prove:
   Lemma 3.3), with 4.1–4.3.
 
 *Needs:* 4.1–4.6, 3.5, 2.8; L-functions Layer 4 `dirichletData`; Mathlib
-`DirichletCharacter.IsPrimitive.completedLFunction_one_sub`, `ArithmeticFunction.sigma`; the named numerical
-certificates.
+`DirichletCharacter.IsPrimitive.completedLFunction_one_sub`, `ArithmeticFunction.sigma`; 0.4b
+(`HiaryPatelYangRecord`, `HiaryRecord`).
 
 **Checks.**
 
-- At `t = 3`: `0.618 · 3^{1/6} log 3 = 0.8154`, and on `3 ≤ t ≤ 60` the computed ratio
-  `|ζ(1/2 + it)|/(0.618 t^{1/6} log t)` stays below `0.822`; on `[0, 3]` the maximum of
-  `|ζ(1/2 + it)|` is `|ζ(1/2)| = 1.46035 ≤ 1.461`, attained at `t = 0`.
+- At `t = 3`: `0.618 · 3^{1/6} log 3 = 0.8154`.
 - The Patel–Yang bound is the weaker of the two below `t = e^{89.90}` and the stronger above: at
   `t = 3` it is `79.92`.
-- Thorner–Zaman for `χ₄` and the quadratic character modulo `5`: on `0 ≤ t ≤ 100` the ratio stays
-  below `0.334` and `0.519`.
 - For `q = 64 = 2⁶`, `t = 200` the hybrid bound is `8911`, against `31.66` from Thorner–Zaman; the
   hybrid bound wins only when `log(q|t|) > 123.4` (for `τ(q) = 7`), as a Weyl-type bound in the
   conductor should.
 
 ### 4.8 Bounds on the line one
 
-Prove (Patel, Theorem 1.1, `patel2022` lines 61–66) `|ζ(1 + it)| ≤ min(log t, (1/2) log t + 1.93,
-(1/5) log t + 44.02)` for `t ≥ 3`, and (Hiary, Leong and Yang, Theorem 1 and Proposition 3,
+Prove (Patel, Theorem 1.1, `patel2022` lines 61–66)
+`|ζ(1 + it)| ≤ min(log t, (1/2) log t + 1.93, (1/5) log t + 44.02)` for `t ≥ 3` given `PatelRecord`
+(0.4b), the first branch on `3 ≤ t ≤ 50`, and (Hiary, Leong and Yang, Theorem 1 and Proposition 3,
 `hiaryleongyang2025` lines 31–32 and 109–117) `|ζ(1 + it)| ≤ 1.731 log t/log log t` for `t ≥ 3`,
 `|ζ(1 + it)| ≤ (1/3) log t + 4.66` for `t ≥ e¹⁶` and `≤ (8/33) log t + 12.45` for `t ≥ e⁸⁸`. Patel's
-bound together with the first Hiary–Leong–Yang bound is `norm_riemannZeta_one_add_le`. Each from
-the numerical certificates of its source (Patel's parameter choices, lines 914–941, and the range
-`3 ≤ t ≤ 50` of the first branch; Hiary–Leong–Yang's values `A(k)`, lines 439–448). Route: the
-Euler–Maclaurin approximation of `ζ(1 + it)` by `Σ_{n≤t} n^{−1−it}`, partial summation, and on dyadic
-blocks Patel's corrected third, fourth and fifth derivative tests (4.4) and the recursive tests of
-4.4, with 4.6 for the Riemann–Siegel part of Hiary–Leong–Yang.
+bound together with the first Hiary–Leong–Yang bound is `norm_riemannZeta_one_add_le`. Each at the
+parameters of its source (Patel's, lines 914–941; Hiary–Leong–Yang's values `A(k)`, lines 439–448).
+Route: the Euler–Maclaurin approximation of `ζ(1 + it)` by `Σ_{n≤t} n^{−1−it}`, partial summation,
+and on dyadic blocks Patel's corrected third, fourth and fifth derivative tests (4.4) and the
+recursive tests of 4.4, with 4.6 for the Riemann–Siegel part of Hiary–Leong–Yang.
 
-*Needs:* 3.3 (the range `t ≥ 50` of the first branch), 4.1–4.6; `AsymptoticExpansions` §13.1.
+*Needs:* 3.3 (the range `t ≥ 50` of the first branch), 4.1–4.6; 0.5a; 0.4b (`PatelRecord`).
 
 **Checks.**
 
-- `|ζ(1 + 3i)| = 0.63797 ≤ log 3 = 1.0986`, and on `3 ≤ t ≤ 60` the computed ratio to `log t` stays
-  below `0.645`.
 - The branches cross at `log t = 3.86` (`t = 47.5`; `(1/2) log 47 + 1.93 = 3.855 > log 47 = 3.850`) and
   at `log t = 140.3` (`t = 8.54·10⁶⁰`; Patel prints `8.261…·10⁶⁰` from unrounded constants).
 - At `t = 3` the bound `1.731 log t/log log t = 20.2` is far weaker than `log 3`; it wins for very large
@@ -1504,14 +1534,13 @@ blocks Patel's corrected third, fourth and fifth derivative tests (4.4) and the 
 For integers `k ≥ 4` and `t ≥ 3`, prove `|ζ(σ_k + it)| ≤ 1.546 t^{1/(2^k−2)} log t` (Yang,
 Theorem 1.1, `yang2024` lines 53–55), for instance `|ζ(5/7 + it)| ≤ 1.546 t^{1/14} log t`. Route:
 the approximate functional equation 4.5a or Euler–Maclaurin, dyadic blocks and 4.4 at order `k`, with
-the numerical certificate of Yang's parameter choices.
+Yang's parameters.
 
-*Needs:* 4.5a, 4.4; `AsymptoticExpansions` §13.1.
+*Needs:* 4.5a, 4.4; 0.5a.
 
 **Checks.**
 
-- `k = 4`: `σ₄ = 1 − 4/14 = 5/7`, exponent `1/14`; at `t = 3` the bound is `1.837`, and on `3 ≤ t ≤ 60`
-  the computed ratio stays below `0.387`.
+- `k = 4`: `σ₄ = 1 − 4/14 = 5/7`, exponent `1/14`; at `t = 3` the bound is `1.837`.
 - `k → ∞`: `σ_k → 1` and the exponent `1/(2^k − 2) → 0`, matching `|ζ(1 + it)| ≪ log t`.
 - Convexity between the critical line and the line one gives only `t^{13/147 + ε}` at `σ = 5/7`
   (`yang2024` lines 55–58), and `13/147 > 1/14`.
@@ -1564,13 +1593,13 @@ Arkhipov–Karatsuba device for incomplete systems (lines 214–219 and 262–28
 for `S(N, t)` when `λ ≥ 87` from the second clause of Theorem 3 and from Theorem 4, through his
 Lemma 5.1 (lines 2031–2471); §6 proves it for `λ ≤ 87`, by Weyl differencing for `λ ≤ 2.6` and by his
 Lemma 6.3, which bounds `S(N, t)` through `J_{s,k}(M)`, with mean-value bounds for small `k` iterated
-by his Lemmas 6.5–6.7 (Lemma 6.8 and the rows of Table 6.1, a numerical certificate). Bellotti
+by his Lemmas 6.5–6.7 (Lemma 6.8 and the rows of Table 6.1). Bellotti
 reruns the argument with Preobrazhenskiĭ's and Tyrina's bounds for `J_{s,k}` (`bellotti2024`
 lines 173–182 and 357–386) and moves the critical value of `λ` from `87` to `84`.
 
 *Needs:* Mathlib `Real.fourierChar` (for `e(x)`), `MeasureTheory.volume` on `[0, 1]^k`,
-`Nat.primeFactors`; the numerical certificates of `ford2002vinogradov` Table 6.1 and of
-`bellotti2024` §§3–4.
+`Nat.primeFactors`; the parameters of `ford2002vinogradov` Table 6.1 and of `bellotti2024`
+§§3–4.
 
 **Checks.**
 
@@ -1619,14 +1648,14 @@ in Ford's Lemmas 7.1–7.3 (`ford2002vinogradov` lines 3053–3222) for the pass
 
 ### Examples
 
-- Near the first zero `|ζ(1/2 + 14.1347i)| ≈ 0`, against `0.618 · 14.1347^{1/6} log 14.1347 = 2.545`.
-- `|ζ(1 + 100i)| = 1.634` against `min(log 100, (1/2) log 100 + 1.93, …) = 4.233` (4.8).
+- `min(log 100, (1/2) log 100 + 1.93, (1/5) log 100 + 44.02) = (1/2) log 100 + 1.93 = 4.233` (4.8 at
+  `t = 100`, past the crossing at `t = 47.5`).
 
 ### Dependencies
 
-Layers 2–3; `AsymptoticExpansions` §§13.1 and Layer 5; L-functions Layer 4; Mathlib exponential sums
-over `Real.fourierChar`, `ArithmeticFunction.sigma`, `HurwitzZeta.hurwitzZeta`; 4.10 depends on 4.9a, which
-rests on the numerical certificates of Ford's Table 6.1 and of Bellotti's §§3–4.
+Layers 2–3; 0.4a, 0.4b and 0.5a; `ZerosOfLFunctions` 7.1–7.2 (for 4.5b); L-functions Layer 4;
+Mathlib `hardyZ`, exponential sums over `Real.fourierChar`, `ArithmeticFunction.sigma`,
+`HurwitzZeta.hurwitzZeta`; 4.10 depends on 4.9a.
 
 ## Layer 5: zero counting with explicit errors
 
@@ -1671,8 +1700,8 @@ Prove, with `N(T)` as in the Conventions:
 - (Bellotti and Wong, Theorem 1.1, `bellottiwong2025` lines 31–38) for `T ≥ 30 610 046 000`,
   `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and
   `≤ 0.11200 log T + 0.12567 log log T + 3.77417`, the first being the smaller for `T ≥ e^{447.981}`
-  (`abs_zetaZeroCount_sub_le`); given the recorded bound `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for
-  `0 ≤ T ≤ 30 610 046 000` (0.4, with `ϑ = riemannSiegelTheta`), the same two bounds for every
+  (`abs_zetaZeroCount_sub_le`); given the record `ZetaArgumentBoundUpTo 30610046000 2.5167` (0.4),
+  that is `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000`, the same two bounds for every
   `T ≥ e`, which is their Theorem 1.1 as stated (`abs_zetaZeroCount_sub_le_of_recorded`); and the
   general form, their Theorem 1.2 (lines 63–74), in which the
   constants are explicit functions (their (3.11)–(3.15)) of parameters `c, r, η` with `θ_{1+η} ≤ 2.1` and of input bounds
@@ -1681,19 +1710,17 @@ Prove, with `N(T)` as in the Conventions:
   `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.137 log T + 0.443 log log T + 1.588`; in the normalization
   without `7/8` the constant is `2.463` (`bellottiwong2025` Table 1, line 54).
 
-Route: `N(T) = ϑ(T)/π + 1 + S(T)` (2.9, with `ϑ` of 0.4 and `S(T)` of `ZerosOfLFunctions` 7.3), the
+Route: `N(T) = ϑ(T)/π + 1 + S(T)` (2.9, with `ϑ` of 0.4a and `S(T)` of `ZerosOfLFunctions` 7.3), the
 Stirling expansion of `ϑ(T)` (2.9), and `|S(T)|` bounded by 5.1 with the two-disc refinement, the
 inputs being 3.3 and 4.8 on the line one, 4.7 and 4.9 in the strip, 3.1 for the interpolation: this
 analytic argument with the parameters of their Table 2 gives both bounds for `T ≥ 30 610 046 000`
 (`bellottiwong2025` lines 1024–1037), from bounds for `ζ` on vertical lines (lines 75–80) and no
 input about the location of the zeros. For `e ≤ T ≤ 30 610 046 000` the bounds follow from the
-recorded bound `|S(T)| ≤ 2.5167` on that range (0.4), read off Platt's isolation of the zeros below
-that height (`bellottiwong2025` lines 121–124 and 1038–1054), with the expansion
-`7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)` of 2.9: on that range
-`|N(T) − (T/2π) log(T/(2πe))| ≤ 2.5167 + 7/8 + 1/(40e) = 3.4009`, below both right sides at `T = e`
-(`8.184` and `3.886`), which increase with `T`. A bounded-height Riemann hypothesis alone does not
-bound `S(T)` (0.4, Checks), and locating `10¹¹` zeros is not a computation a proof can carry, so
-that bound is a hypothesis and the unconditional statement starts at `30 610 046 000`.
+record for `S(T)` (0.4), with the expansion `7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`
+of 2.9: on that range `|N(T) − (T/2π) log(T/(2πe))| ≤ 2.5167 + 7/8 + 1/(40e) = 3.4009`, below both
+right sides at `T = e` (`8.184` and `3.886`), which increase with `T`. A bounded-height Riemann
+hypothesis does not bound `S(T)`, since it allows multiple zeros, so the statement below
+`30 610 046 000` takes the record as a hypothesis.
 
 Two earlier bounds follow. Trudgian's bound in the normalization above,
 `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.112 log T + 0.278 log log T + 3.385` for `T ≥ e`
@@ -1709,42 +1736,37 @@ recorded bound of 0.4,
 `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 9.3675`, since
 `8.08344 + 7/8 = 8.95844 < 9.3675`, `0.10076 < 0.1038`, `0.24460 < 0.2573` and `log log T ≥ 0`.
 
-*Needs:* 5.1, 2.1, 2.9, 3.1, 3.3, 4.7, 4.8, 4.9; `ZerosOfLFunctions` 7.2–7.4; 0.4 (the recorded bound
-(1.2) on `S(T)`, for `T < 30 610 046 000`); the numerical certificates of `bellottiwong2025` (its
-Table 2) and of `rosser1941`.
+*Needs:* 5.1, 2.1, 2.9, 3.1, 3.3, 4.7, 4.8, 4.9; `ZerosOfLFunctions` 7.2–7.4; 0.4 (the record for
+`S(T)`, for `T < 30 610 046 000`); the parameters of `bellottiwong2025` Table 2.
 
 **Checks.**
 
-- `N(100) = 29`: the main term `(100/2π) log(100/2πe) = 28.127` plus `7/8` is `29.002`; Rosser's
-  error at `T = 100` is `2.895`, Bellotti–Wong's two errors are `8.921` and `4.482`; all contain `29`.
-  At this height Bellotti–Wong's bounds are the conditional ones, through `|S(100)| = 0.0024`.
-- `N(1000) = 649`: main term plus `7/8` is `648.616`, Rosser's error `3.391`.
-- `N(14) = 0` and `N(15) = 1` (the first ordinate is `14.1347…`): at `T = 14` the main term plus `7/8`
-  is `0.432` and Rosser's error `2.379`.
-- At `T = 3.0610046·10¹⁰` the main term plus `7/8` is `103 800 788 358.63` against Platt's count
-  `103 800 788 359` (0.4).
+- In the normalization without `7/8`, Rosser's constant becomes `1.588 + 7/8 = 2.463`, the value of
+  `bellottiwong2025` Table 1.
+- The two Bellotti–Wong bounds cross at `T = e^{447.981}`; below it the second, with constant
+  `3.77417`, is the smaller.
 
 ### 5.3 The explicit zero count for primitive Dirichlet L-functions
 
 For `χ` primitive of conductor `q > 1` and `T ≥ 5/7`, put `ℓ = log(q(T + 2)/(2π))`. Prove: if
 `ℓ ≤ 1.567` then `N(T, χ) = 0`; if `ℓ > 1.567` then
 `|N(T, χ) − ((T/π) log(qT/(2πe)) − χ(−1)/4)| ≤ 0.22737 ℓ + 2 log(1 + ℓ) − 0.5` (Bennett, Martin,
-O'Bryant and Rechnitzer, Theorem 1.1, `bmor2021` lines 56–63), with `N(T, χ)` the number of zeros with
-`0 < β < 1` and `|γ| ≤ T`, that is `zeroCount` of `DirichletCharacter.completedLFunction χ` on
-`Icc 0 1 ×ℂ Icc (−T) T`. Route: the argument principle for the completed function (`ZerosOfLFunctions`
-7.2), the gamma factor by 2.1, `S(T, χ)` by 5.1 in the form of their Propositions 5.4–5.5 with the
-convexity bound of 3.2 extended to `σ < 0` (their Theorem 5.7), and the numerical certificate of
+O'Bryant and Rechnitzer, Theorem 1.1, `bmor2021` lines 56–63), with `N(T, χ)` the number of zeros
+with `0 < β < 1` and `|γ| ≤ T`, that is `zeroCount` of `DirichletCharacter.completedLFunction χ` on
+`Icc 0 1 ×ℂ Icc (−T) T`. Route: the argument principle for the completed function
+(`ZerosOfLFunctions` 7.2), the gamma factor by 2.1, `S(T, χ)` by 5.1 in the form of their
+Propositions 5.4–5.5 with the convexity bound of 3.2 extended to `σ < 0` (their Theorem 5.7), and
 their Lemma 6.1 for `q < 935`. This is `dirichletZeroCount_explicit`.
 
 *Needs:* 5.1, 2.1, 3.2; `ZerosOfLFunctions` 7.2, 6.5; L-functions Layer 4; Mathlib
-`DirichletCharacter.completedLFunction`; the numerical certificate of `bmor2021` §6.
+`DirichletCharacter.completedLFunction`; `bmor2021` §6.
 
 **Checks.**
 
 - `ℓ ≤ 1.567` means `q(T + 2) ≤ 2π e^{1.567} = 30.11`; at `q = 3`, `T = 5/7`, `ℓ = 0.259` and the theorem
-  asserts no zero with `|γ| ≤ 5/7` (the first zero of `L(s, χ₋₃)` has ordinate about `8.04`).
+  asserts no zero with `|γ| ≤ 5/7`.
 - `χ₄`, `T = 10`: `ℓ = 2.0333`, main term `(10/π) log(40/2πe) + 1/4 = 2.959`, error `2.182`, so
-  `N(10, χ₄) ∈ [0.78, 5.14]`; the true value is `2` (the zeros `1/2 ± 6.0209…i`).
+  `N(10, χ₄) ∈ [0.78, 5.14]`.
 - The parity term has the sign `−χ(−1)/4`: `+1/4` for odd `χ`; at `q = 1` (excluded) the formula
   would not reduce to `2N(T)` for `ζ`, whose pole is outside the hypotheses.
 
@@ -1758,38 +1780,30 @@ Prove:
   `T₂` has weight `1/2`; and with `A` in place of `2` (that is `A(2φ(T₁) log T₁ + ∫ φ/t)`) whenever
   `|N(T) − ϑ(T)/π − 1| ≤ A log T` for `T ≥ T₁` (`brentplatttrudgian2021` Lemma 1, lines 38–43).
 - (Brent, Platt and Trudgian, Lemma 3 and Theorem 1, lines 54–71 and 186–197) if `φ` is `C²` on
-  `[T₀, ∞)` with `φ ≥ 0`, `φ' ≤ 0`, `φ'' > 0` and `2π ≤ T₀ ≤ T₁ ≤ T₂`, then the error
+  `[T₀, ∞)` with `φ ≥ 0`, `φ' ≤ 0`, `φ'' > 0` and `168π < T₀ ≤ T₁ ≤ T₂`, then the error
   `E(T₁, T₂) = Σ′_{T₁≤γ≤T₂} φ(γ) − (1/2π)∫_{T₁}^{T₂} φ(t) log(t/2π) dt` equals
   `φ(T₂)Q(T₂) − φ(T₁)Q(T₁) + E₂` with `|E₂| ≤ 2(2.067 + 0.059 log T₁)|φ'(T₁)| + (0.059 + 1/150) φ(T₁)/T₁`,
   where `Q = N − L` with `L` their smooth main term ((4)–(5)); and the same with `T₂ = ∞` when
-  `∫^∞ φ(t) log t dt < ∞`.
-- (Brent, Platt and Trudgian, Corollary 1, lines 412–417) `Σ_{γ>0} γ^{−2} = 0.0231049931154189707889338104 + O*(5·10^{−28})`,
-  from Theorem 1 with `φ(t) = t^{−2}` and the numerical certificate over the first `10¹⁰` zeros.
+  `∫^∞ φ(t) log t dt < ∞`. The source's range `2π ≤ T₀` rests on a computation with the zeros below
+  `168π` (lines 170–174) and is not a target here.
+
+The value of `Σ_{γ>0} γ^{−2}` is the record `BrentPlattTrudgianRecord` (0.4b).
 
 Route: Stieltjes integration against `dN(t)`, `N = L + Q`, integration by parts, and a bound for
-`|Q(t)|` (5.2) and for `∫ Q` (the constants `A₀ = 2.067`, `A₁ = 0.059` for `T > 168π`, extended to
-`[2π, 168π]` by the certificate of `brentplatttrudgian2021` lines 170–174).
+`|Q(t)|` (5.2) and for `∫ Q` (the constants `A₀ = 2.067`, `A₁ = 0.059` for `T > 168π`).
 
 *Needs:* 5.2; `ZerosOfLFunctions` 4.5; Mathlib `StieltjesFunction` (Stieltjes integration against
-`dN`), `intervalIntegral`; the named numerical certificates.
+`dN`), `intervalIntegral`.
 
 **Checks.**
 
 - `φ = 1` on `[T₁, T₂]` turns Lehman's lemma into the Riemann–von Mangoldt formula with error
   `4 log T₁ + 2 log(T₂/T₁)`, consistent with 5.2.
-- `Σ_{γ>0} γ^{−2} = 0.023105`: the value `0.023105` that Mossinghoff and Trudgian use
-  (`mossinghofftrudgian2015` lines 377–392) is an upper bound consistent with it; the first zero alone
-  contributes `14.1347^{−2} = 0.005005`.
-- Lehman's lemma needs `T₁ ≥ 2πe = 17.08`; Brent–Platt–Trudgian need only `T₀ ≥ 2π`, which admits
-  `T₁ = 14 < γ₁` and hence the full sum over all zeros.
-
-### Examples
-
-- `N(100) = 29` within every bound of 5.2; `N(10, χ₄) = 2` within 5.3.
+- Lehman's lemma needs `T₁ ≥ 2πe = 17.08`, where `log(t/2π) ≥ 1`.
 
 ### Dependencies
 
-Layers 2–4; `ZerosOfLFunctions` Layers 4 and 7; the numerical certificates named in 5.2–5.4.
+Layers 2–4; 0.4 (the record for `S(T)`, for 5.2); `ZerosOfLFunctions` Layers 4 and 7.
 
 ## Layer 6: Perron's formula, mean values and large sieves
 
@@ -1972,8 +1986,8 @@ Plancherel for the Mellin transform (for the tails), and Jensen's inequality for
 
 **Checks.**
 
-- At `T = 4`, `σ = 1/2`: the bound is `107.2`, and at `σ = 1` it is `43.54`; both far above the true
-  integrals, as the constants are tuned for large `T`.
+- At `T = 4`, `σ = 1/2`: the bound is `107.2`, and at `σ = 1` it is `43.54`; the constants are tuned
+  for large `T`.
 - The main term `T log T` exceeds the true `T log(T/2π) + (2γ − 1)T` because
   `log 2π = 1.838 > 2γ − 1 = 0.154`; Simonič's main term is the true one, with the secondary error `70.26 T^{3/4} √log(T/2π)`.
 - The tail at `σ = 1` has main term `π²/(6T) = ζ(2)/T`, the integral of the mean value `ζ(2)` of
@@ -2011,8 +2025,7 @@ by `ZerosOfLFunctions` 1.4; the uniform convergence of the truncated sums from t
 **Checks.**
 
 - At `s = 2`: `−ζ'/ζ(2) = 0.569961`, and the right side is `1 + (1/2) ψ(2) − (1/2) log π − Σ_ρ Re 1/(2 − ρ)
-  = 1 + 0.211392 − 0.572365 − Σ_ρ Re 1/(2 − ρ)`, so the zero sum is `0.069066`; the first pair of zeros
-  contributes `2 · 1.5/(1.5² + 14.1347²) = 0.014848`.
+  = 1 + 0.211392 − 0.572365 − Σ_ρ Re 1/(2 − ρ)`, so the zero sum is `0.069066`.
 - At `s = 2` the term `Re 1/(s − 1) = 1` is the pole; without it the zero sum would be negative,
   contradicting the positivity of each summand.
 - For `χ₄` (`q = 4`, `a = 1`) the constant is `(1/2) log(4/π) = 0.120782`; using `log q` without
@@ -2047,10 +2060,11 @@ zeros below `5.45·10⁸` on the critical line by the hypothesis (`ford2002zerof
 1272) and the bound for `|ζ(1/2 + it)|` that Ford takes as input, which is implied by 4.6 and 4.7:
 the bound `min(6t^{1/4} + 57, 3t^{1/6} log t)` follows from Lehman's `4(t/2π)^{1/4}` and from
 `0.618 t^{1/6} log t`, and Ford's argument is monotone in that input (`ford2002zerofree`
-lines 137–143 record that the proof of the original input by Cheng and Graham is invalid).
+lines 137–143 record that the proof of the original input by Cheng and Graham is invalid). The
+argument uses the input at heights of at least `5.45·10⁸`, where 4.6 and the first item of 4.7
+hold without a record of 0.4b.
 
-*Needs:* 7.1, 4.6, 4.7, 0.4, 0.5 (Ford's polynomial); the numerical certificate of
-`ford2002zerofree` §§8–9.
+*Needs:* 7.1, 4.6, 4.7, 0.4, 0.5 (Ford's polynomial); the parameters of `ford2002zerofree` §§8–9.
 
 **Checks.**
 
@@ -2070,27 +2084,28 @@ lines 137–143 record that the proof of the original input by Cheng and Graham 
 
 ### 7.3 Kadiri's criterion and the classical region
 
-Let `f_n = (a_k)` be admissible (0.5) with `A = f_n(0) − a₀ = Σ_{1≤k≤n} a_k`, `T₀ > 0` with `RH(T₀)`,
-`R > r > 0` such that every zero of `ζ` with `|γ| ≥ 2` has `β ≤ 1 − 1/(R log|γ|)` (an established
-region in the form with `>`: no zero with `|γ| ≥ 2` and `β > 1 − 1/(R log|γ|)`), and `t₀ ∈ [1, T₀]`.
-Let the smoothing `h` be a nonnegative function on `[0, d₁]`, `d₁ > 0`, twice continuously
-differentiable there and extended by `0` beyond `d₁`, with `h(d₁) = h'(0) = h'(d₁) = h''(d₁) = 0`
-and with a Laplace transform of nonnegative real part on `Re z ≥ 0` (`jangkwon2014` lines 215–217
-and 353–354, conditions (1) and (4); `mty2024` lines 1281–1284). Put `g₁ = h(0)`,
-`m = max_{[0, d₁]} |h''|` and `K(w) = ∫₀^{d₁} (a₁ e^{−u} − a₀) h(u) e^{wu} du`. With `η₀, σ₀, w₀` as in
-(2.1) of `mossinghofftrudgian2015` (lines 164–166), `δ` and `κ` as there (lines 182–213, with the
-`g₁` and `m` of `h`), and the error term `C(η)` of Kadiri's (52)–(64) with Mossinghoff and
-Trudgian's refinements (lines 296–440), prove: if the numerical certificate holds — `C(η) ≤ 0` for
-`0 ≤ η ≤ η₀`, and `K` is nondecreasing on `[w₀, 1]` — then every zero of `ζ` with `|γ| ≥ 2` has
-`β ≤ 1 − 1/(R₀ log|γ|)`, that is `ζ` has no zero with `|γ| ≥ 2` and `β > 1 − 1/(R₀ log|γ|)`, for
-every `R₀ ≥ max(r, A g₁ (1 − κ)/(2 K(w₀)))`, and likewise with the refined bound (3.1) of
-`mossinghofftrudgian2015` (line 263), `(A/2) g₁ (1 − κ) min_{0<η₁≤η₀} max(1/K(w₁), 1/(K(w₀) − C(η₁)))`,
-in place of `A g₁ (1 − κ)/(2 K(w₀))` (Kadiri's method, `kadiri2005` criterion (10);
-`mossinghofftrudgian2015` (2.2)–(3.1), lines 221–225; `jangkwon2014` (6), lines 440–441). The method
-takes a hypothetical zero `ρ₀ = β₀ + iγ₀` with `1 − 1/(r log γ₀) ≤ β₀ ≤ 1 − 1/(R log γ₀)` and proves
-`β₀ ≤ 1 − 1/(R₀ log γ₀)` (`mossinghofftrudgian2015` lines 157–163), so it gives the region with `>`;
-the region with `≥` (no zero with `β ≥ 1 − 1/(R₀ log|γ|)`) follows for every `R₀` strictly larger
-than the maximum. The smoothings of the instances below are Heath-Brown's and Xylouris':
+Let `f_n = (a_k)` be admissible (0.5) with `A = f_n(0) − a₀ = Σ_{1≤k≤n} a_k`, `T₀ > 0` with
+`RH(T₀)`, `R > r > 0` such that every zero of `ζ` with `|γ| ≥ 2` has `β ≤ 1 − 1/(R log|γ|)` (an
+established region in the form with `>`: no zero with `|γ| ≥ 2` and `β > 1 − 1/(R log|γ|)`), and
+`t₀ ∈ [1, T₀]`. Let the smoothing `h` be a nonnegative function on `[0, d₁]`, `d₁ > 0`, twice
+continuously differentiable there and extended by `0` beyond `d₁`, with
+`h(d₁) = h'(0) = h'(d₁) = h''(d₁) = 0` and with a Laplace transform of nonnegative real part on
+`Re z ≥ 0` (`jangkwon2014` lines 215–217 and 353–354, conditions (1) and (4); `mty2024` lines
+1281–1284). Put `g₁ = h(0)`, `m = max_{[0, d₁]} |h''|` and
+`K(w) = ∫₀^{d₁} (a₁ e^{−u} − a₀) h(u) e^{wu} du`. With `η₀, σ₀, w₀` as in (2.1) of
+`mossinghofftrudgian2015` (lines 164–166), `δ` and `κ` as there (lines 182–213, with the `g₁` and
+`m` of `h`), and the error term `C(η)` of Kadiri's (52)–(64) with Mossinghoff and Trudgian's
+refinements (lines 296–440), prove: if `C(η) ≤ 0` for `0 ≤ η ≤ η₀` and `K` is nondecreasing on
+`[w₀, 1]`, then every zero of `ζ` with `|γ| ≥ 2` has `β ≤ 1 − 1/(R₀ log|γ|)`, that is `ζ` has no
+zero with `|γ| ≥ 2` and `β > 1 − 1/(R₀ log|γ|)`, for every `R₀ ≥ max(r, A g₁ (1 − κ)/(2 K(w₀)))`,
+and likewise with the refined bound (3.1) of `mossinghofftrudgian2015` (line 263),
+`(A/2) g₁ (1 − κ) min_{0<η₁≤η₀} max(1/K(w₁), 1/(K(w₀) − C(η₁)))`, in place of
+`A g₁ (1 − κ)/(2 K(w₀))` (Kadiri's method, `kadiri2005` criterion (10); `mossinghofftrudgian2015`
+(2.2)–(3.1), lines 221–225; `jangkwon2014` (6), lines 440–441). The method takes a hypothetical zero
+`ρ₀ = β₀ + iγ₀` with `1 − 1/(r log γ₀) ≤ β₀ ≤ 1 − 1/(R log γ₀)` and proves `β₀ ≤ 1 − 1/(R₀ log γ₀)`
+(`mossinghofftrudgian2015` lines 157–163), so it gives the region with `>`; the region with `≥` (no
+zero with `β ≥ 1 − 1/(R₀ log|γ|)`) follows for every `R₀` strictly larger than the maximum. The
+smoothings of the instances below are Heath-Brown's and Xylouris':
 
 - `h^{(4)}_θ` for `θ ∈ (π/2, π)` (Kadiri's `h_θ`), with `d₁ = −2θ cot θ` and
   `g₁ = sec²θ (3 − θ tan θ − 3θ cot θ)` (`mossinghofftrudgian2015` lines 167–179; `mty2024` (9.1),
@@ -2100,42 +2115,44 @@ than the maximum. The smoothings of the instances below are Heath-Brown's and Xy
 - Xylouris' `h^{(5)}_γ = g ∗ g` on `(0, 2γ)`, where `g(t) = c₁ cos(x₁t) + c₂ cosh(x₂t) − c₃` on
   `[−γ, γ]` and `0` outside, `c₃` making `g(±γ) = 0` (`jangkwon2014` lines 556–568).
 
-Instances, each with its source's polynomial certificate, smoothing and numerical certificate:
+Instances, each at its source's polynomial, smoothing and parameters:
 
 - `R₀ = 5.69693` (Kadiri, Théorème 1.1, `kadiri2005`; the value of the published version, quoted in
   `jangkwon2014` line 13, `mossinghofftrudgian2015` line 111 and `mty2024` line 1279; the preprint
   prints `5.70176`), from `R = 9.645908801`, the polynomial `(0.91 + cos φ)²(0.265 + cos φ)²`,
   `h^{(4)}_θ` with `θ = 1.848`, and Kadiri's `T₀ = 3 330 657 430.697` (`mossinghofftrudgian2015`
   lines 226–229), so given `RH(30 610 046 000)`, the least recorded verification above that height,
-  in the form with `≥`: the computation gives the maximum `5.696924…` (`mossinghofftrudgian2015`
-  line 240), below the printed value;
+  in the form with `≥`, the maximum there being `5.696924…` (`mossinghofftrudgian2015` line 240);
 - `R₀ = 5.68371` (Jang and Kwon, Proposition 11, `jangkwon2014` lines 10–15 and 603), from Kadiri's
   region and `RH(30 610 046 000)`, with Xylouris' smoothing `h^{(5)}_γ` at `γ = 0.509607`
   (Proposition 10, lines 570–598), in the form with `≥` as stated there;
 - `R₀ = 5.573412` (Mossinghoff and Trudgian, Theorem 1, `mossinghofftrudgian2015` lines 117–118),
   from `R = 5.7`, `RH(3.06·10¹⁰)`, their degree-16 polynomial `F₁₆` (Table 5), `h^{(4)}_θ` with
-  `θ = 1.85573` (line 265) and the sum
-  `Σ_{γ>0} γ^{−2} ≤ 0.023105` (5.4), in the form with `>` as stated there; the form with `≥` at
-  `5.573412` follows from the next instance, since `1/(5.573412 log|γ|) < 1/(5.558691 log|γ|)`;
+  `θ = 1.85573` (line 265) and `Σ_{γ>0} γ^{−2} ≤ 0.023105` (lines 377–392), which
+  `BrentPlattTrudgianRecord` (0.4b) gives, in the form with `>` as stated there, so given
+  `RH(30 610 046 000)` and `BrentPlattTrudgianRecord`; the form with `≥` at `5.573412` follows from
+  the next instance, since `1/(5.573412 log|γ|) < 1/(5.558691 log|γ|)`;
 - `R₀ = 5.558691` (Mossinghoff, Trudgian and Yang, Theorem 1.3, `mty2024` lines 96–97 and §9), in the
   form with `≥`, from `R = 5.573412` in the form with `>` (which is what the hypothesis asks for),
   `RH(3·10¹²)`, the polynomial `F₁₆`, the smoothing `h^{(1)}_θ` with `θ = 1.13489` (lines 1362–1368),
-  for which `C(η) ≤ 0` on `[0, 1/(5 log(3·10¹²))]` and `K` increasing on `[0, 1]` are verified
-  (lines 1374–1377), and seven iterations (Table 3); stated given `RH(3·10¹²)`, this instance is
+  for which `C(η) ≤ 0` on `[0, 1/(5 log(3·10¹²))]` and `K` is increasing on `[0, 1]`
+  (lines 1374–1377), and seven iterations (Table 3); given `RH(3·10¹²)` and
+  `BrentPlattTrudgianRecord` (through the `5.573412` instance), this instance is
   `riemannZeta_ne_zero_classical`;
 - `R₀ = 4.896` for `t ≥ 3`, in the form with `>`: no zero with `t ≥ 3` and `β > 1 − 1/(4.896 log t)`
   (Bellotti, Trudgian and Yang, Theorem 1, `bellottitrudgianyang2026` line 67, an unrefereed
-  preprint): their Lemma 1 for `3 ≤ t ≤ exp(76.47)` from `RH(3·10¹²)`, and the Littlewood-type
-  region 7.4 above.
+  preprint), given `RH(3·10¹²)` and `BrentPlattTrudgianRecord`: their Lemma 1 for
+  `3 ≤ t ≤ exp(76.47)` from `RH(3·10¹²)`, and the Littlewood-type region 7.4 above.
 
-The regions are antitone in `R₀`: for `R₀ ≥ R₀'` the region of `R₀` lies inside that of `R₀'`, so the
-`5.558691` instance gives the region with `≥` for every `R₀ ≥ 5.558691`, among them `5.573412` and
-`5.5666305` (the constant that Mossinghoff and Trudgian recorded for a verification of the Riemann
-hypothesis up to `3·10¹¹`, `mty2024` lines 86–87). And, given `RH(3·10¹²)`, `ζ` has no zero with
-`|γ| ≥ 21` and `β ≥ 1 − 1/(9.645908801 log(|γ|/17))`: for `21 ≤ |γ| ≤ 3·10¹²` that boundary lies to
-the right of `1/2`, because `log(21/17) = 0.21130 > 2/9.645908801 = 0.20734`; and for
-`|γ| > 3·10¹²` it lies inside the `5.558691` region, because
-`9.645908801 log(|γ|/17) ≥ 5.558691 log|γ|` as soon as `log|γ| ≥ 9.645908801 log 17/4.087218 = 6.6864`.
+The regions are antitone in `R₀`: for `R₀ ≥ R₀'` the region of `R₀` lies inside that of `R₀'`, so
+the `5.558691` instance gives, under its hypotheses, the region with `≥` for every `R₀ ≥ 5.558691`,
+among them `5.573412` and `5.5666305` (the constant that Mossinghoff and Trudgian recorded for a
+verification of the Riemann hypothesis up to `3·10¹¹`, `mty2024` lines 86–87). And, given
+`RH(3·10¹²)` and `BrentPlattTrudgianRecord`, `ζ` has no zero with `|γ| ≥ 21` and
+`β ≥ 1 − 1/(9.645908801 log(|γ|/17))`: for `21 ≤ |γ| ≤ 3·10¹²` that boundary lies to the right of
+`1/2`, because `log(21/17) = 0.21130 > 2/9.645908801 = 0.20734`; and for `|γ| > 3·10¹²` it lies
+inside the `5.558691` region, because `9.645908801 log(|γ|/17) ≥ 5.558691 log|γ|` as soon as
+`log|γ| ≥ 9.645908801 log 17/4.087218 = 6.6864`.
 
 Given `RH(545 439 823)`, the starting region `R = 9.645908801` follows from 7.2 for `|γ| ≥ 3`
 (Theorem 4 has `8.464 < 9.645908801`) and from the hypothesis itself for `2 ≤ |γ| < 3`, where the
@@ -2144,8 +2161,8 @@ the region; apply `Σ_k a_k Re(−ζ'/ζ)` at the points `σ + ikγ₀`, smoothe
 `h`; bound the zero sums by 7.1 with the zeros below `T₀` on the line by `RH(T₀)`, the tail by
 Lehman's lemma (5.4) and the gamma terms by 2.7.
 
-*Needs:* 7.1, 7.2, 0.4, 0.5, 2.7, 5.4; 7.4 (for the `4.896` instance); the named polynomial and
-numerical certificates.
+*Needs:* 7.1, 7.2, 0.4, 0.4b (`BrentPlattTrudgianRecord`), 0.5, 2.7, 5.4; 7.4 (for the `4.896`
+instance); the sources' polynomials and parameters.
 
 **Checks.**
 
@@ -2169,27 +2186,22 @@ numerical certificates.
 - The criterion needs `a₀ < a₁`: for `(1, 1)` the factor `a₁e^{−u} − a₀ = e^{−u} − 1` is `≤ 0` on
   `[0, d₁]`, so for a nonnegative smoothing `h` the integral `K(w)` is `≤ 0` and no positive `R₀`
   results.
-- The threshold of the criterion, at Kadiri's first iterate (`jangkwon2014` lines 442–445): with the
-  polynomial `(0.91 + cos φ)²(0.265 + cos φ)²`, whose coefficients `a₀, …, a₄` are
-  `1.3646158, 2.3292025, 1.4314625, 0.5875, 0.125` (so `A/a₀ = 3.27797`), `h^{(4)}_θ` at
-  `θ = 1.848` (`d₁ = 1.05162`, `g₁ = 147.8411`),
-  `w₀ = 0.579471` and `κ = 0.44213`, the value `A g₁ (1 − κ)/(2 K(w₀))` is `5.94294`, Kadiri's
-  `5.942924085` up to the rounding of `w₀` and `κ`; the reading `A g₁/((1 − κ)² K(w₀))` would give
-  `68.46`, larger by the factor `2/(1 − κ)³ = 11.52`. Jang and Kwon's final step (lines 597–598)
-  has the same shape, `R₀ = (A/2)(1 − κ) h(0)/K(w₀)` with `κ = 0.439672` and `R₀ = 5.68371`.
+- The shape of the threshold: Jang and Kwon's final step (lines 597–598) is
+  `R₀ = (A/2)(1 − κ) h(0)/K(w₀)`, the expression `A g₁ (1 − κ)/(2 K(w₀))` of the criterion with
+  `g₁ = h(0)`; a reading `A g₁/((1 − κ)² K(w₀))` would be larger by the factor `2/(1 − κ)³`.
 
 ### 7.4 The Littlewood-type region
 
-Given `RH(30 610 046 000)` (0.4), prove: `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
-`σ > 1 − log log|t|/(21.233 log|t|)` (Yang, Corollary 1.2, `yang2024` lines 88–89); this is
-`riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ −3` by `ζ(s̄) = conj ζ(s)`), with
-`L = log t`:
+Given `RH(30 610 046 000)` (0.4) and `BrentPlattTrudgianRecord` (0.4b), prove: `ζ(σ + it) ≠ 0` for
+`|t| ≥ 3` and `σ > 1 − log log|t|/(21.233 log|t|)` (Yang, Corollary 1.2, `yang2024` lines 88–89);
+this is `riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ −3` by
+`ζ(s̄) = conj ζ(s)`), with `L = log t`:
 
 - for `t ≤ 30 610 046 000` (`L ≤ 24.1446`) the hypothesis, since the boundary
   `1 − log L/(21.233 L) ≥ 1 − 1/(21.233 e) = 0.98267` lies right of `1/2`;
 - for `30 610 046 000 < t < e^{41}` the region of 7.3 at `R₀ = 5.573412`, in the form with `>`,
-  given the verification up to `3.06·10¹⁰` that the hypothesis implies: it contains this one while
-  `log L ≤ 21.233/5.573412 = 3.80970`, that is `L ≤ 45.137`;
+  given the verification up to `3.06·10¹⁰` that the first hypothesis implies and the second
+  hypothesis: it contains this one while `log L ≤ 21.233/5.573412 = 3.80970`, that is `L ≤ 45.137`;
 - for `e^{41} ≤ t < e^{170.2}` Ford's region 7.2 in its exact form with `log 0.618`, which contains
   this one for `40.898 ≤ L ≤ 185.64`;
 - for `t ≥ e^{170.2}` Yang's argument (`yang2024` lines 2326–2372): the bounds 4.9 and 4.10
@@ -2201,10 +2213,11 @@ Yang takes the verification only up to `5.45·10⁸` and the simplified region o
 (lines 2328–2333). That region contains this one only for `50.13 ≤ L ≤ 170.26`, Ford's exact region
 only for `40.898 ≤ L ≤ 185.64`, and Theorem 4's region `σ ≥ 1 − 1/(8.464 log t)` nowhere on
 `20.12 ≤ L ≤ 171`; with the regions stated here, the least recorded verification of 0.4 that covers
-`20.12 ≤ L < 40.898` is `RH(30 610 046 000)`, through the regions of 7.3 that it gives.
+`20.12 ≤ L < 40.898` is `RH(30 610 046 000)`, through the `5.573412` region of 7.3 that it gives
+with `BrentPlattTrudgianRecord`.
 
-*Needs:* 0.4, 0.5, 3.1, 4.7, 4.9, 4.10, 7.1, 7.2, 7.3 (its `5.573412` instance); the named
-certificates.
+*Needs:* 0.4, 0.4b (`BrentPlattTrudgianRecord`), 0.5, 3.1, 4.7, 4.9, 4.10, 7.1, 7.2, 7.3 (its
+`5.573412` instance); the polynomial of `mty2024`.
 
 **Checks.**
 
@@ -2232,42 +2245,46 @@ certificates.
 Prove the following. The products in the first, third and fourth items include the principal
 characters, whose L-functions vanish in the open strip exactly at the zeros of `ζ`, and so does the
 sum over the powers `χᵏ` in the proof of the second item (`kadiri2018` lines 142–147 and 668–669,
-where McCurley's region is applied to every `χᵏ`, the principal one included); Platt's theorem
-(0.3) says nothing about `ζ`, so each of the first four items is stated given a recorded
-verification (0.4), which with a region for `ζ` keeps the zeros of `ζ` out of each region below;
-the fifth item concerns only zeros with `|γ| ≥ 1000` and treats `ζ` as the case `k = 1`, and needs
-no verification. For the second, third and
-fourth items `RH(545 439 823)` suffices: it puts the zeros of `ζ` with `|γ| < 3` on `Re s = 1/2`, left
-of every boundary there (each is at least `0.8374`), and for `|γ| ≥ 3` Ford's region
-`σ ≥ 1 − 1/(8.464 log|t|)` (7.2, given the same verification) contains McCurley's region and
-Lu–Zaman–Zhao's, since `log max(q, q|t|) ≥ log|t|` and `8.464 < 9.645908801 < 10`. The first item is
-stated given `RH(3·10¹²)`: below height `2` that hypothesis puts the zeros of `ζ` on `Re s = 1/2`,
-left of the boundary (at least `1 − 1/(6.4355 log 2) = 0.7758`), and for `|t| ≥ 2`,
-`6.4355 log max(q, q|t|) ≥ 6.4355 log(2|t|) ≥ 5.558691 log|t|` puts its region inside the
-`5.558691` region of 7.3.
+where McCurley's region is applied to every `χᵏ`, the principal one included); Platt's theorem (0.3)
+says nothing about `ζ`, so each of the first four items is stated given a recorded verification
+(0.4), which with a region for `ζ` keeps the zeros of `ζ` out of each region below; the fifth item
+concerns only zeros with `|γ| ≥ 1000` and treats `ζ` as the case `k = 1`, and needs no verification.
+For the second, third and fourth items `RH(545 439 823)` suffices: it puts the zeros of `ζ` with
+`|γ| < 3` on `Re s = 1/2`, left of every boundary there (each is at least `0.8374`), and for
+`|γ| ≥ 3` Ford's region `σ ≥ 1 − 1/(8.464 log|t|)` (7.2, given the same verification) contains
+McCurley's region and Lu–Zaman–Zhao's, since `log max(q, q|t|) ≥ log|t|` and
+`8.464 < 9.645908801 < 10`. The first item is stated given `RH(3·10¹²)` and
+`BrentPlattTrudgianRecord`, the hypotheses of the `5.558691` region of 7.3: below height `2` the
+first puts the zeros of `ζ` on `Re s = 1/2`, left of the boundary (at least
+`1 − 1/(6.4355 log 2) = 0.7758`), and for `|t| ≥ 2`,
+`6.4355 log max(q, q|t|) ≥ 6.4355 log(2|t|) ≥ 5.558691 log|t|` puts its region inside the `5.558691`
+region of 7.3.
 
 - (Kadiri, Théorème 11.1, `kadiri2002thesis` lines 1958–1980, English form (115) at lines 2063–2068)
-  given `RH(3·10¹²)`, for `q ≥ 2`, the product `L_q(s) = ∏_{χ mod q} L(s, χ)` has at most one zero
-  with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, and such a zero is real, simple and belongs to
-  a real non-principal character; with Rumely's verified heights as input, which 0.3 implies.
+  given `RH(3·10¹²)`, `BrentPlattTrudgianRecord` and `PlattRecord`, for `q ≥ 2`, the product
+  `L_q(s) = ∏_{χ mod q} L(s, χ)` has at most one zero with
+  `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, and such a zero is real, simple and belongs to a
+  real non-principal character; its input is Rumely's verified heights, which `PlattRecord`
+  implies (0.3).
 - (Kadiri, Theorem 1.1, `kadiri2018` lines 16–18; `LFunction_ne_zero_kadiri`) given
-  `RH(545 439 823)`, for `3 ≤ q ≤ 400 000` and `χ` non-principal primitive modulo `q`, `L(s, χ) ≠ 0`
-  for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`, from `GRH(q, H(q))` of 0.3 (`kadiri2018`
-  lines 130–135), McCurley's region of the third item for the zeros of the `L(s, χᵏ)` (lines 142–147
+  `RH(545 439 823)` and `PlattRecord`, for `3 ≤ q ≤ 400 000` and `χ` non-principal primitive
+  modulo `q`, `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`, from `GRH(q, H(q))` of
+  0.3 (`kadiri2018` lines 130–135), McCurley's region of the third item for the zeros of the `L(s, χᵏ)` (lines 142–147
   and 668–669) and the zero counts of 5.2 and 5.3 for the sums over those zeros.
 - (McCurley, Theorem 1, `mccurley1984`, as sharpened in `thornerzaman2024` Lemma 2.3, lines 164–170)
-  given `RH(545 439 823)`, for `q ≥ 3`, `∏_{χ mod q} L(s, χ)` has at most one zero with
-  `Re s ≥ 1 − 1/(9.645908801 log max(q, q|Im s|))`; such a zero exists only if `q > 400 000`, and is
-  then real, simple and a zero of `L(s, χ₁)` for a unique quadratic `χ₁` modulo `q`
-  (`LFunction_zeroFree_mcCurley`, with the zeros read through `meromorphicOrderAt`). And
-  (Theorem 2.6, lines 219–226), given `RH(545 439 823)`, for `Q ≥ 3`, the
-  product of `L(s, χ)` over primitive `χ` of conductor at most `Q` has the same region with
-  `max(Q, Q|Im s|)`, except possibly one zero `β₁(Q)`; if `β₁(Q) ≥ 1 − 1/(9.645908801 log Q)` then
-  `Q > 400 000`, `β₁(Q)` is simple and a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor
-  `q₁ ∈ (400 000, Q]`, and `β₁(Q) ≤ 1 − 100/(√q₁ log² q₁)` (7.7).
+  given `RH(545 439 823)` and `PlattRecord`, for `q ≥ 3`, `∏_{χ mod q} L(s, χ)` has at most one zero
+  with `Re s ≥ 1 − 1/(9.645908801 log max(q, q|Im s|))`; such a zero exists only if `q > 400 000`
+  (for smaller conductors `PlattRecord` puts a real zero on `Re s = 1/2`), and is then real, simple
+  and a zero of `L(s, χ₁)` for a unique quadratic `χ₁` modulo `q` (`LFunction_zeroFree_mcCurley`,
+  with the zeros read through `meromorphicOrderAt`). And (Theorem 2.6, lines 219–226), given
+  `RH(545 439 823)` and `PlattRecord`, for `Q ≥ 3`, the product of `L(s, χ)` over primitive `χ` of
+  conductor at most `Q` has the same region with `max(Q, Q|Im s|)`, except possibly one zero
+  `β₁(Q)`; if `β₁(Q) ≥ 1 − 1/(9.645908801 log Q)` then `Q > 400 000`, `β₁(Q)` is simple and a zero
+  of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, and, given also
+  `BordignonRecord`, `β₁(Q) ≤ 1 − 100/(√q₁ log² q₁)` (7.7).
 - (Lu, Zaman and Zhao, Corollary 1.2, `luzamanzhao2026` lines 15–20 and 44) given
-  `RH(545 439 823)`, for `q ≤ 10¹⁰`, `∏_{χ mod q} L(s, χ)` has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))`, from
-  7.8 and McCurley's region.
+  `RH(545 439 823)` and `LuZamanZhaoRecord` (7.8), for `q ≤ 10¹⁰`, `∏_{χ mod q} L(s, χ)` has no zero
+  with `σ > 1 − 1/(10 log max(q, q|t|, 10))`, from that record and McCurley's region.
 - (Ramaré and Rumely, Theorems 3.6.2 and 3.6.3, `ramare-rumely-1996` lines 795–848) for `χ`
   primitive of conductor `k ≥ 1` (at `k = 1`, `L(s, χ) = ζ(s)`) and `R = 9.645908801`: every zero
   `β + iγ` of `L(s, χ)` with `|γ| ≥ 1000` satisfies `1 − β ≥ 1/(Rℓ − 3.2356 √ℓ)` with
@@ -2284,18 +2301,17 @@ Route: the analogue of 7.3 with `−Re L'/L` from 7.1 summed over `χ^k`, the re
 handled by the positivity of `ζ(s)L(s, χ)`'s Dirichlet coefficients, the verified heights for small
 conductors, and for the principal characters the region of 7.2 (second to fourth items) or of 7.3
 (first item). For the fifth item, McCurley's argument with a degree-four cosine polynomial (0.5),
-the passage from `χᵐ` to its primitive character through the local constants `D*_p`, and the
-numerical certificate of their Lemma 3.6.1 (the monotonicity of `G₁/G₂` and of `G(1 + Δ)` on
-`[0, 0.062]`, checked on subintervals of length `0.001`).
+the passage from `χᵐ` to its primitive character through the local constants `D*_p`, and their
+Lemma 3.6.1 (the monotonicity of `G₁/G₂` and of `G(1 + Δ)` on `[0, 0.062]`).
 
-*Needs:* 0.3, 0.4, 0.5, 5.2, 5.3, 7.1, 7.2, 7.3, 7.7, 7.8; `ZerosOfLFunctions` 6.3 (*IsExceptionalZero*);
-`ComputationalNumberTheory` §4.22; Mathlib `DirichletCharacter.LFunction`, `MulChar.IsQuadratic`;
-the named certificate of `ramare-rumely-1996` Lemma 3.6.1.
+*Needs:* 0.3, 0.4, 0.4b, 0.5, 5.2, 5.3, 7.1, 7.2, 7.3, 7.7, 7.8; `ZerosOfLFunctions` 6.3
+(*IsExceptionalZero*); Mathlib `DirichletCharacter.LFunction`,
+`MulChar.IsQuadratic`; `ramare-rumely-1996` Lemma 3.6.1.
 
 **Checks.**
 
 - `q = 3`, `t = 0`: Kadiri's 2018 region is `σ ≥ 0.837457`, and `L(s, χ₋₃)` has no real zero in
-  `(0, 1)` at all (`ComputationalNumberTheory` §4.24), consistent.
+  `(0, 1)` at all given the records of 0.3, consistent.
 - The verification is needed for the principal characters: the factor `L(s, χ₀)` modulo `3` is
   `(1 − 3^{−s}) ζ(s)`, and a zero of `ζ` at `0.95 + 2i` (which no unconditional statement here
   excludes) would lie in McCurley's region at `q = 3`, whose boundary at `|t| = 2` is
@@ -2309,24 +2325,17 @@ the named certificate of `ramare-rumely-1996` Lemma 3.6.1.
 - Ramaré–Rumely at `k = 1`, `|γ| = 1000`: `ℓ = 5.47941` and the first bound is `1 − β ≥ 0.022085`;
   the source prints "less than `0.02194`" (line 814), and its proof uses only that the bound is
   below `1/2`, so that zeros with `β ≤ 1/2` satisfy it.
-- At `k = 3`, `|γ| = 10⁴` the first bound is `0.013155`, and the second with the source's value
-  `C₁(3, 10⁴) = 20.92` (line 846) is `0.014264`; McCurley's region of the third item gives
+- At `k = 3`, `|γ| = 10⁴` the first bound is `0.013155`; McCurley's region of the third item gives
   `1/(9.645908801 log(3·10⁴)) = 0.010056` there and Kadiri's `5.60` region `0.017322`. Dividing by
-  `C₁(k, H) > 1` inside the logarithm is what widens the region; a reading with `k|γ| C₁` would
-  give `0.007766`, narrower than McCurley's.
-- `C₁(k, H)` depends on the conductor (through `Δ` and `D*`), so one character's constant does not
-  serve another of the same modulus: at `k = 1`, where `D* = 0`, the source's
-  `C₁(1, 5.45·10⁸) = 38.31` fixes `G(1 + Δ) = 0.73057` at `Δ(1, 5.45·10⁸) = 0.018141`; `G(1 + Δ)`
-  decreases in `Δ` (Lemma 3.6.1), and `G₁/G₂` is a quotient of two affine functions of `G` with
-  determinant `1/x² > 0`, so it increases in `G`; hence at `Δ(1, 10⁴) = 0.043564` the constant
-  `C₁(1, 10⁴)` lies in `[10.816, 20.114]` (`G` between `0` and `0.73057`), below
-  `C₁(3, 10⁴) = 20.92`.
-- At `k = 1`, `|γ| = 5.45·10⁸` the source's `C₁ = 38.31` (line 845) gives `0.0062943`, wider than
-  Ford's `1/(8.464 log|γ|) = 0.0058732` (7.2) and narrower than the region `0.0089428` of 7.3.
+  `C₁(k, H) > 1` inside the logarithm is what widens the second region; a reading with `k|γ| C₁`
+  would narrow it.
+- `C₁(k, H)` depends on the conductor, through `Δ` and `D*`, so one character's constant does not
+  serve another of the same modulus.
 
 ### 7.6 Vinogradov–Korobov regions
 
-Given `RH(3·10¹²)`, prove that `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
+Given `RH(3·10¹²)` and `BrentPlattTrudgianRecord` (0.4b, through the regions of 7.3 and 7.4 below
+the threshold), prove that `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
 `1 − σ ≤ 1/(c (log|t|)^{2/3}(log log|t|)^{1/3})` with `c = 57.54` (Ford, Theorem 5,
 `ford2002zerofree` lines 135–136), `c = 55.241` (Mossinghoff, Trudgian and Yang, Theorem 1.1,
 `mty2024` lines 53–54; `riemannZeta_ne_zero_vinogradovKorobov`) and `c = 54.004` (Bellotti,
@@ -2337,10 +2346,10 @@ Theorem 1.2) and `c = 48.0718` (`bellotti2024` Theorem 1.3). For Dirichlet L-fun
 Theorem 1.1, `khale2024` lines 24–26): for `q ≥ 3` and every `χ` modulo `q`, `L(σ + it, χ) ≠ 0` for
 `|t| ≥ 10` and `σ ≥ 1 − 1/(10.5 log q + 61.5 (log|t|)^{2/3}(log log|t|)^{1/3})`. Route: Richert-type
 bounds 4.10 inserted in the zero-detecting inequality of 7.1 with an admissible polynomial (degree 40
-in `mty2024`), the intermediate regions 7.2–7.4 below the threshold, and the numerical certificates
-of the sources; for Khale, McCurley's region (7.5) for `|t| ≤ e^{1944}`.
+in `mty2024`), the intermediate regions 7.2–7.4 below the threshold, and the parameters of the
+sources; for Khale, McCurley's region (7.5) for `|t| ≤ e^{1944}`.
 
-*Needs:* 0.4 (`RH(3·10¹²)`), 4.10, 7.1–7.5, 0.5; the named certificates.
+*Needs:* 0.4 (`RH(3·10¹²)`), 0.4b (`BrentPlattTrudgianRecord`), 4.10, 7.1–7.5, 0.5.
 
 **Checks.**
 
@@ -2355,23 +2364,21 @@ of the sources; for Khale, McCurley's region (7.5) for `|t| ≤ e^{1944}`.
 
 ### 7.7 Real zeros of quadratic L-functions
 
-Prove (Bordignon, Theorem 1.3, `bordignon2019` lines 63–71): for a non-principal real primitive
-character `χ` of conductor `q`, a real zero `β₀` of `L(s, χ)` satisfies `β₀ ≤ 1 − 800/(√q log² q)` if `χ`
-is odd and `q > 4·10⁵`; `β₀ ≤ 1 − 515/(√q log² q)` if `χ` is even and `4·10⁵ < q ≤ 10⁷`; and
-`β₀ ≤ 1 − 80/(√q log² q)` if `χ` is even and `q > 10⁷` (these three bounds, for every real zero, are
-`LFunction_real_zero_le_bordignon`; real zeros `β₀ ≤ 0` satisfy them trivially); and
-(`bordignon2020` Theorem 1.3, lines 64–66)
-`β₀ ≤ 1 − 100/(√q log² q)` for even `χ` and `q > 4·10⁵`. And (Ralaivaosaona and Razakarinoro,
-Theorem 1.1 of the journal version, with constant `6.035`; Theorem 1 of arXiv v2,
-`ralaivaosaonarazakarinoro2026` lines 69–76, with constant `6.5`) for `−d` a fundamental
-discriminant with `d > 3·10⁸`, `L(s, χ_{−d})` has no real zero `β ≥ 1 − 6.035/√d`. Route: a real zero gives
-`L(1, χ) = (1 − β₀) L'(σ*, χ)` for some `σ* ∈ (β₀, 1)`; an upper bound for `|L'(σ, χ)|` near `1`
-(`|L'| ≤ (1/8) log² q` in `bordignon2020` lines 56–62) and a lower bound for `L(1, χ)` through the
-class number formula (`L(1, χ) ≥ 12.52/√q`, from the class-number data of Watkins and of Bennett et
-al., numerical certificates) give the bound; `q ≤ 4·10⁵` is `ComputationalNumberTheory` §4.24.
+Given `BordignonRecord` (0.4b), prove (Bordignon, Theorem 1.3, `bordignon2019` lines 63–71): for a
+non-principal real primitive character `χ` of conductor `q`, a real zero `β₀` of `L(s, χ)` satisfies
+`β₀ ≤ 1 − 800/(√q log² q)` if `χ` is odd and `q > 4·10⁵`; `β₀ ≤ 1 − 515/(√q log² q)` if `χ` is even
+and `4·10⁵ < q ≤ 10⁷`; and `β₀ ≤ 1 − 80/(√q log² q)` if `χ` is even and `q > 10⁷` (these three
+bounds, for every real zero, are `LFunction_real_zero_le_bordignon`; real zeros `β₀ ≤ 0` satisfy
+them trivially); and (`bordignon2020` Theorem 1.3, lines 64–66) `β₀ ≤ 1 − 100/(√q log² q)` for even
+`χ` and `q > 4·10⁵`. And (Ralaivaosaona and Razakarinoro, Theorem 1.1 of the journal version, with
+constant `6.035`; Theorem 1 of arXiv v2, `ralaivaosaonarazakarinoro2026` lines 69–76, with constant
+`6.5`) for `−d` a fundamental discriminant with `d > 3·10⁸`, `L(s, χ_{−d})` has no real zero
+`β ≥ 1 − 6.035/√d`. Route: a real zero gives `L(1, χ) = (1 − β₀) L'(σ*, χ)` for some `σ* ∈ (β₀, 1)`;
+an upper bound for `|L'(σ, χ)|` near `1` (`|L'| ≤ (1/8) log² q` in `bordignon2020` lines 56–62) and
+the lower bound `L(1, χ) ≥ 12.52/√q` of `BordignonRecord` give the bound; `q ≤ 4·10⁵` is 0.3, given
+its records.
 
-*Needs:* `AnalyticNumberTheoryPartI` §0.34a (Kronecker characters); `ComputationalNumberTheory` §4.24;
-the named certificates.
+*Needs:* `AnalyticNumberTheoryPartI` §0.34a (Kronecker characters); 0.3; 0.4b (`BordignonRecord`).
 
 **Checks.**
 
@@ -2385,100 +2392,81 @@ the named certificates.
 
 ### 7.8 Real zeros for conductors up to `10¹⁰`
 
-Prove (Lu, Zaman and Zhao, Theorem 1.1, `luzamanzhao2026` lines 39–42;
-`LFunction_real_ne_zero_luZamanZhao`): for `q ≤ 10¹⁰` and every quadratic `χ` modulo `q`, `L(σ, χ) ≠ 0` for real `σ ≥ 1 − 1/(5 log q)`, from
-`ComputationalNumberTheory` §4.24 for `q ≤ 4·10⁵` and the numerical certificate of their explicit
-inequality (2.5) for `4·10⁵ < q ≤ 10¹⁰`. Route: their Theorem 2.1, an explicit inequality between
-`−ζ'/ζ(σ)`, `−L'/L(σ, χ)` and a finite prime sum that a real zero in the interval would violate (7.1,
-Mertens-type explicit sums).
-
-*Needs:* 7.1; `ComputationalNumberTheory` §4.24; the named certificate.
-
-**Checks.**
-
-- At `q = 10¹⁰` the interval is `[0.991314, 1)`.
-- For `q = 4` the statement says `L(σ, χ₄) ≠ 0` on `[1 − 1/(5 log 4), 1) = [0.855730, 1)`, and indeed
-  `L(σ, χ₄) > 0` on `[0, 1]`.
-- Imprimitive quadratic characters are included: their extra Euler factors vanish only on
-  `Re s = 0`.
+The absence of real zeros of `L(s, χ)` on `[1 − 1/(5 log q), 1)` for every quadratic `χ` modulo
+`q ≤ 10¹⁰` (Lu, Zaman and Zhao, Theorem 1.1) is the record `LuZamanZhaoRecord` of 0.4b, a hypothesis
+of the fourth item of 7.5, of 7.9 and of 9.3. Imprimitive quadratic characters are included: their
+extra Euler factors vanish only on `Re s = 0`.
 
 ### 7.9 The numerical Landau–Siegel gap
 
-Define *HasLandauSiegelGap* `c Q`, for real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, as: for every
-primitive real nonprincipal Dirichlet character `χ` of conductor `q` with `3 ≤ q ≤ Q` and every real
-zero `β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`. `AnalyticNumberTheoryPartI` §0.34 proves
-`∃ c > 0, HasLandauSiegelGap c ∞`. Prove *HasLandauSiegelGap* `(1/5) 10¹⁰` (Lu, Zaman and Zhao,
-Theorem 1.1, `luzamanzhao2026` lines 39–42): for `3 ≤ q ≤ 10¹⁰`, 7.8 excludes real zeros in
-`[1 − 1/(5 log q), 1)`, so every real zero in `(0, 1)` has `(1 − β) log q > 1/5`. Prove
-*HasLandauSiegelGap* `(3.0·10⁻³) ∞` (Banks, Theorem 1.1, `banks2026` lines 89–107, an unrefereed
-preprint): for `q ≥ 10¹⁰` from the explicit form of the argument of §0.34 (Banks §§2–7, with the
-constants of its Remark 7.1), and for `q ≤ 10¹⁰` from the first instance, since `3.0·10⁻³ < 1/5`.
-Prove *HasLandauSiegelGap* `(1/100) ∞` (Guo, Theorem 1.1, `guo2026` lines 54–56, an unrefereed
-preprint), with the strict inequality `(1 − β) log q > 1/100` for every conductor `q ≥ 3`, by one
-choice of parameters and without a zero computation for small conductors (lines 23–26 and 57–61):
-the Frobenius method with integer coefficient counting, polynomial congruences, a paired-tail
-hyperbola estimate and a logarithmically weighted comparison of positive sums (its §§2–5). By
-antitonicity it implies Banks's instance.
+Define *HasLandauSiegelGap* `c Q` (`HasLandauSiegelGap`), for real `c` and a conductor cap
+`Q ∈ ℕ ∪ {∞}` (`ℕ∞` in [`Suggested.lean`](Suggested.lean)), as: for every primitive real
+nonprincipal Dirichlet character `χ` of conductor `q` with `3 ≤ q ≤ Q` and every real zero
+`β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`. `AnalyticNumberTheoryPartI` §0.34 proves
+`∃ c > 0, HasLandauSiegelGap c ∞`. Prove:
 
-- Antitone in both arguments: `c ≤ c'`, `Q ≤ Q'` and *HasLandauSiegelGap* `c' Q'` give
-  *HasLandauSiegelGap* `c Q`.
-- Trivial cases: *HasLandauSiegelGap* `c Q` holds for every real `c` when `Q ≤ 400 000`, since no
+- antitonicity in both arguments: `c ≤ c'`, `Q ≤ Q'` and *HasLandauSiegelGap* `c' Q'` give
+  *HasLandauSiegelGap* `c Q`;
+- the trivial cases: *HasLandauSiegelGap* `c Q` for every real `c` when `Q ≤ 400 000`, since no
   primitive character of conductor at most `400 000` has a real zero in `(0, 1)`
-  (`ComputationalNumberTheory` §4.24); and for every `Q` when `c ≤ 0`, since `(1 − β) log q > 0`.
-- Zero-free form: *HasLandauSiegelGap* `c Q` holds if and only if, for every such `χ`, `L(σ, χ) ≠ 0`
-  for every real `σ` with `0 < σ < 1` and `σ > 1 − c/log q`; the endpoint `σ = 1 − c/log q` is not
-  excluded.
-- Against 7.5: for a modulus `q ≤ Q`, *HasLandauSiegelGap* `c Q` with `c > 1/9.645908801` excludes
-  the possible exceptional zero of McCurley's region (a real zero of a quadratic character modulo `q`
-  with `(1 − β) log q ≤ 1/9.645908801`, inherited from the primitive character of conductor
-  `d ∣ q`, `d ≥ 3`, with `(1 − β) log q ≥ (1 − β) log d`); at `c = 1/9.645908801` exactly a zero on
-  the boundary of that region is not excluded; at `c = 3.0·10⁻³` the zero is confined to
-  `1 − β ≥ c/log q`.
+  (0.3, given `PlattRecord` and `PlattCentralRecord`), and for every `Q` when `c ≤ 0`;
+- the zero-free form: *HasLandauSiegelGap* `c Q` holds if and only if, for every such `χ`,
+  `L(σ, χ) ≠ 0` for every real `σ` with `0 < σ < 1` and `σ > 1 − c/log q`;
+- against 7.5: for a modulus `q ≤ Q`, *HasLandauSiegelGap* `c Q` with `c > 1/9.645908801` excludes
+  the possible exceptional zero of McCurley's region, which is a zero of the primitive quadratic
+  character of conductor `d ∣ q`, `d ≥ 3`, with `(1 − β) log q ≥ (1 − β) log d`.
 
-*Needs:* `AnalyticNumberTheoryPartI` §§0.34, 0.34a; 7.5, 7.8; `ComputationalNumberTheory` §4.24;
+The instances:
+
+- given `LuZamanZhaoRecord` (0.4b), *HasLandauSiegelGap* `(1/5) 10¹⁰`, with the strict inequality
+  (`hasLandauSiegelGap_one_fifth`): the record excludes real zeros on `[1 − 1/(5 log q), 1)`;
+- given `LuZamanZhaoRecord`, *HasLandauSiegelGap* `(3.0·10⁻³) ∞` (Banks, Theorem 1.1, `banks2026`
+  lines 89–107, an unrefereed preprint): for `q ≥ 10¹⁰` from the explicit form of the argument of
+  §0.34 (Banks §§2–7, with the constants of its Remark 7.1), and for `q ≤ 10¹⁰` from the first
+  instance;
+- *HasLandauSiegelGap* `(1/100) ∞`, with the strict inequality (Guo, Theorem 1.1, `guo2026`
+  lines 54–56, an unrefereed preprint), for every conductor `q ≥ 3` by one choice of parameters
+  (lines 23–26 and 57–61): the Frobenius method with integer coefficient counting, polynomial
+  congruences, a paired-tail hyperbola estimate and a logarithmically weighted comparison of
+  positive sums (its §§2–5). By antitonicity it implies Banks's instance.
+
+*Needs:* `AnalyticNumberTheoryPartI` §§0.34, 0.34a; 0.3, 0.4b, 7.5;
 `ZerosOfLFunctions` 6.3; Mathlib `MulChar.IsQuadratic`, `DirichletCharacter.IsPrimitive`.
 
 **Checks.**
 
-- `q = 3`: the instance `(3.0·10⁻³, ∞)` excludes zeros with `β > 1 − 0.002731`, the instance
-  `(1/5, 10¹⁰)` those with `β > 1 − 1/(5 log 3) = 1 − 0.182048`, far more at this conductor (and
-  §4.24 excludes every real zero there).
-- At `q = 10¹⁰` the uncapped instance gives `1 − β ≥ 1.303·10⁻⁴`, against `8.686·10⁻³` from the
-  capped one; the uncapped instance matters only above `10¹⁰`, and at `q = 10¹¹`, outside the cap,
-  it is all there is: `1 − β ≥ 3.0·10⁻³/log 10¹¹ = 1.184·10⁻⁴`.
-- `1/5 > 1/9.645908801 = 0.103671 > 1/100 > 3.0·10⁻³`: the capped instance removes McCurley's
-  exceptional zero for every modulus up to `10¹⁰`, the two uncapped ones for none.
-- Guo's instance at `q = 3`, `10¹⁰` and `10¹¹`: `1 − β > 0.009102`, `4.343·10⁻⁴` and `3.948·10⁻⁴`,
-  against Banks's `0.002731`, `1.303·10⁻⁴` and `1.184·10⁻⁴`; it is the stronger uncapped instance at
-  every conductor, and below `10¹⁰` the capped instance `(1/5, 10¹⁰)` is stronger than both.
 - The lower bound `3 ≤ q` excludes no character: a primitive real nonprincipal character has
   conductor at least `3` (the character modulo `1` is principal, and no character modulo `2` is
   primitive), so `log q ≥ log 3 > 0`; a definition through the modulus of an imprimitive character
   would be weaker, since the character modulo `6` induced by `χ₋₃` has the real zeros of `L(s, χ₋₃)`
   and `log 6 > log 3`.
+- The zero-free form leaves the endpoint `σ = 1 − c/log q` open: at `c = 1/9.645908801` a zero on
+  the boundary of McCurley's region is not excluded.
 
 ### 7.10 The reciprocal of `ζ` near the line one
 
 Prove:
 
 - (Hiary, Leong and Yang, Theorem 2, `hiaryleongyang2025` lines 41–43) given `RH(30 610 046 000)`
-  (0.4), which 7.4 uses, `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `t ≥ 3`; this is
-  `inv_norm_riemannZeta_one_add_le`. The proof uses Yang's region at every height from `t₀ = 500`
-  on (lines 1013–1017 and 1157), so it needs the verification that 7.4 needs.
+  and `BrentPlattTrudgianRecord`, the hypotheses of 7.4, and `HiaryLeongYangRecord` (0.4b),
+  `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `t ≥ 3`; this is `inv_norm_riemannZeta_one_add_le`.
+  The proof uses Yang's region at every height from `t₀ = 500` on (lines 1013–1017 and 1157), so it
+  needs the hypotheses of 7.4.
 - (Leong, Corollary 4, `leong2026` lines 140–176, arXiv v5) given `RH(3 000 175 332 800)` (0.4),
+  `BrentPlattTrudgianRecord` (for the region of 7.3) and `LeongRecord` (0.4b),
   `1/|ζ(1 + it)| ≤ 29.388 log t` for `t ≥ 2`; `1/|ζ(σ + it)| ≤ 30.812 log t` for every real
   `σ ≥ 1` and `t ≥ 13`; and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for `t ≥ 13` and
   `σ ≥ 1 − 1/(5.56 log t)` (the row `W = 5.56` of his Table 4, line 1547, quoted as (12) in
-  `leeLeong2022` lines 155–167), a region inside that of 7.3. The hypothesis enters through
+  `leeLeong2022` lines 155–167), a region inside that of 7.3. The verification enters through
   Leong's bound for `|ζ'/ζ|` on `σ ≥ σ₀ > 1/2` and `t₀ ≤ t ≤ H₀ − 1/2`, `H₀ = 3 000 175 332 800`
   (his Corollary 3, lines 78–79, 121–136 and 986), which his Corollaries 1 and 2, and through them
   Corollary 4, use below that height (lines 1249–1276 and 1411).
 - (Lee and Leong, Theorem 1.1 (6), `leeLeong2022` lines 100–111, arXiv v5, an unrefereed preprint)
-  given `RH(3 000 175 332 800)`, for `t ≥ 3 000 175 332 800` and `σ ≥ 1 − 1/(5.56 log t)`,
-  `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}`; the region lies inside the `5.558691` region of 7.3, as
-  their requirement `W > Z₁` asks (lines 242–243).
-- (Lee and Leong, Lemma 4.3, `leeLeong2022` lines 1084–1159) given `RH(3 000 175 332 800)`, for
-  `σ ≥ 3/4` and `14 ≤ t ≤ 3 000 175 332 800 − 1/2`,
+  given `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, for `t ≥ 3 000 175 332 800` and
+  `σ ≥ 1 − 1/(5.56 log t)`, `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}`; the region lies inside the
+  `5.558691` region of 7.3, as their requirement `W > Z₁` asks (lines 242–243).
+- (Lee and Leong, Lemma 4.3, `leeLeong2022` lines 1084–1159) given the hypotheses of the second
+  item, for `σ ≥ 3/4` and `14 ≤ t ≤ 3 000 175 332 800 − 1/2`,
   `1/|ζ(σ + it)| ≤ 29.388 t^{4.964} log t ≤ e^{146} log t`: for `σ ≥ 1` it is the second item,
   and for `3/4 ≤ σ < 1` the integral of `Re ζ'/ζ` from `σ` to `1` is at most `4.964 log t` by
   Leong's Corollary 3 on five strips of width `1/20` (lines 1135–1158). The source prints the range
@@ -2489,66 +2477,53 @@ Prove:
 
 Route: for the first item, the Borel–Carathéodory and Hadamard three-circle method with the
 Richert-type bound 4.10, Yang's region 7.4 (`hiaryleongyang2025` lines 1013–1022), the bounds of
-Ramaré for `|ζ'/ζ|` near the line one (`ramare2016density`), and the numerical certificate for
-`2 ≤ t ≤ 500` (lines 1171–1175). For the others, the identity
+Ramaré for `|ζ'/ζ|` near the line one (`ramare2016density`), and `HiaryLeongYangRecord` for
+`t ≤ 500`. For the others, the identity
 `log(1/|ζ(σ + it)|) = −Re log ζ(1 + δ₁ + it) + ∫_σ^{1+δ₁} Re (ζ'/ζ)(x + it) dx` (`leong2026` (42),
 lines 1300–1315), the first term by a nonnegative trigonometric polynomial (0.5) and 3.4, the
 integral by bounds for `|ζ'/ζ|` inside zero-free regions: by Borel–Carathéodory from bounds for
 `|ζ|` near the line one (4.8, 4.10) in the region of 7.3 above the verified height, and from the
-hypothesis below it; for the second item the numerical certificate of `leong2026` (49) for
-`2 ≤ t ≤ 500` (lines 1520–1545); for the third, Lee and Leong's splitting of the integral into
-many short steps across the region, each with a locally optimised bound for `ζ'/ζ`
-(`leeLeong2022` lines 249–257), a numerical certificate.
+verification below it; for the second item `LeongRecord` for `t ≤ 500`; for the third, Lee and
+Leong's splitting of the integral into short steps across the region, each with a locally
+optimised bound for `ζ'/ζ` (`leeLeong2022` lines 249–257).
 
-*Needs:* 0.4, 0.5, 3.4, 4.8, 4.10, 7.3, 7.4; Mathlib `Complex.borelCaratheodory`;
-the named certificates.
+*Needs:* 0.4, 0.4b, 0.5, 3.4, 4.8, 4.10, 7.3, 7.4; Mathlib `Complex.borelCaratheodory`.
 
 **Checks.**
 
-- `1/|ζ(1 + 3i)| = 1.5675 ≤ 431.7 log 3/log log 3 = 5043`; on `3 ≤ t ≤ 300` the computed ratio of
-  `1/|ζ(1 + it)|` to the bound stays below `0.0027`.
 - `1/|ζ(1 + it)|` is unbounded as `t → ∞` (`titchmarsh1986` §8.6), so no constant bound is possible.
   The shape `log t/log log t` is that of Weyl's method; for very large `t` it is weaker than the
   order `(log t)^{2/3}(log log t)^{1/3}` that the Vinogradov–Korobov region gives, and the
   constant `431.7` is what makes it the useful bound at moderate heights.
-- At `t = 13`: `1/|ζ(1 + 13i)| = 1.37875`, Leong's line bound is `29.388 log 13 = 75.379`, his
-  bound on `σ ≥ 1` is `30.812 log 13 = 79.031`, and the first item gives
-  `431.7 log 13/log log 13 = 1175.5`. The first item implies the bound `30.812 log t` only once
-  `log log t ≥ 431.7/30.812 = 14.011`, and is below `29.388 log t` only once
-  `log log t > 14.690`, that is `log t > 2.397·10⁶`; and it says nothing for `σ > 1`.
-- The half-plane bound is not the line bound: at `t = 13` the maximum of `1/|ζ(σ + 13i)|` over
-  `1 ≤ σ ≤ 5` is `1.37903`, attained near `σ = 1.030`, above the value `1.37875` at `σ = 1`;
-  for large `σ` the value tends to `1`, and `1/|ζ(σ + it)| ≤ ζ(σ)/ζ(2σ)` for `σ > 1`.
+- The first item implies the bound `30.812 log t` only once `log log t ≥ 431.7/30.812 = 14.011`, and
+  is below `29.388 log t` only once `log log t > 14.690`, that is `log t > 2.397·10⁶`; and it says
+  nothing for `σ > 1`.
+- For `σ > 1`, `1/|ζ(σ + it)| ≤ Σ |μ(n)| n^{−σ} = ζ(σ)/ζ(2σ)`, which tends to `1` as `σ → ∞` and to
+  `∞` as `σ → 1⁺`: the half-plane bound of the second item matters near the line one.
 - Lee and Leong's region and constant at `t = 3 000 175 332 800` (`log t = 28.72969`): the region
   is `σ ≥ 0.9937397`, inside the `5.558691` region `σ ≥ 0.9937382` of 7.3, and the bound is
   `1237 · 28.72969^{11/12} = 26 864`, against `885.2` from `30.812 log t` on `σ ≥ 1`; the factor
   `(log t)^{−1/12} = 0.756` is the saving over the shape `log t`.
-- The bound below the verified height: `29.388 · (3 000 175 332 800)^{4.964} = e^{145.995} ≤ e^{146}`;
-  at `σ = 3/4`, `t = 14` the true value `1/|ζ(3/4 + 14i)| = 4.9554` is far below
-  `29.388 · 14^{4.964} log 14 = 3.79·10⁷`. The line `σ = 1/2` is excluded: `1/ζ` has a pole at the
-  zero `1/2 + 14.1347…i`, inside the range of `t`; the hypothesis puts every zero with
-  `|γ| ≤ 3 000 175 332 800` on that line, at distance at least `1/4` from `σ ≥ 3/4`. A zero with
-  ordinate just above that height and real part between `3/4` and `0.99289` (the boundary there
-  of the widest region of 7.3, `R₀ = 4.896`), which no statement here excludes, would make `1/ζ`
-  unbounded near `σ + i·3 000 175 332 800` for such `σ`, which is why the range stops half a unit
-  below the height.
-- Leong's classical-region bound at `t = 13`: the region is `σ ≥ 1 − 1/(5.56 log 13) = 0.929879`,
-  where `1/|ζ(0.929879 + 13i)| = 1.37567` against `7.59·10³¹ log 13 = 1.95·10³²`; the constant
-  falls quickly as the region narrows (`1719` at `W = 13`, Table 4, line 1555), and above the
-  verified height Lee and Leong's `1237 (log t)^{11/12}` replaces it.
+- The bound below the verified height:
+  `29.388 · (3 000 175 332 800)^{4.964} = e^{145.995} ≤ e^{146}`. The line `σ = 1/2` is excluded:
+  `1/ζ` has poles at the zeros on that line; the verification puts every zero with
+  `|γ| ≤ 3 000 175 332 800` on it, at distance at least `1/4` from `σ ≥ 3/4`. A zero with ordinate
+  just above that height and real part between `3/4` and `0.99289` (the boundary there of the widest
+  region of 7.3, `R₀ = 4.896`), which no statement here excludes, would make `1/ζ` unbounded near
+  `σ + i·3 000 175 332 800` for such `σ`, which is why the range stops half a unit below the height.
 
 ### Examples
 
-- `ζ(σ + 100i) ≠ 0` for `σ ≥ 1 − 1/(5.558691 log 100) = 0.960935`; the zero `1/2 + 101.3178…i` lies
-  well to the left.
-- For `χ₋₃`, Kadiri's region and §4.24 together say that `L(s, χ₋₃)` has no zero in
-  `σ ≥ 0.837457` for `|t| ≤ 1`.
+- Given `RH(3·10¹²)` and `BrentPlattTrudgianRecord`, `ζ(σ + 100i) ≠ 0` for
+  `σ ≥ 1 − 1/(5.558691 log 100) = 0.960935`.
+- For `χ₋₃`, Kadiri's region and 0.3, given their records, together say that `L(s, χ₋₃)` has no zero
+  in `σ ≥ 0.837457` for `|t| ≤ 1`.
 
 ### Dependencies
 
 Layers 0–5; `ZerosOfLFunctions` Layers 1, 4–6; `AnalyticNumberTheoryPartI` §§0.34, 0.34a;
-`ComputationalNumberTheory` §§4.22, 4.24; 4.10, and through it 4.9a, for 7.4, 7.6, 7.10; the named
-certificates.
+0.3; 4.10, and through it 4.9a, for 7.4, 7.6, 7.10; the
+records of 0.4 and 0.4b.
 
 ## Layer 8: zero-density estimates
 
@@ -2566,40 +2541,40 @@ for `N` bounds `N°`. The converse fails: `N(σ, T)` also counts zeros on the li
 
 Let `H₀ = 3.061·10¹⁰` and assume `RH(H₀)` (0.4). For `σ ≥ 0.55`, `T ≥ H₀`, `0.5208 < σ₀ < 0.9723`
 with `σ₀ < σ`, and `10³ ≤ H ≤ H₀`, prove `N(σ, T) ≤ b₁(T − H) + b₂ log(T/H) + b₃` with `b₁, b₂, b₃` the closed forms of
-(6.3) in `kadiri2013density` (Theorem 1.1, lines 46–50); in particular, from the numerical certificate
-of its Table 1, `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and
+(6.3) in `kadiri2013density` (Theorem 1.1, lines 46–50); in particular, at the parameters of its
+Table 1, `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and
 `N(σ, T) ≤ 0.4421 T + 0.6443 log T − 363 301` for `σ ≥ 0.90` (lines 53–54 and the rows `σ = 0.85`
 and `σ = 0.90` of Table 1, lines 655 and 660; the second as quoted in `kadirilumleyng2018` line 59),
 both for `T ≥ H₀`; these two instances, given `RH(30 610 046 000)`, are `zetaZeroCountRight_le_kadiri`. Route: Littlewood's lemma for a mollified `ζ` on
 rectangles `[σ, 1.5002] × [H, T]`, Jensen's inequality with the mean value 6.6 (Kadiri's Theorem 1.4)
 and the one-sided approximation of 4.5a, and `RH(H₀)` for the zeros below `H₀`.
 
-*Needs:* 4.5a, 6.6, 0.4 (`RH(30 610 046 000)`, which implies `RH(H₀)`); `ZerosOfLFunctions` 7.2; the
-named certificate.
+*Needs:* 4.5a, 6.6, 0.4 (`RH(30 610 046 000)`, which implies `RH(H₀)`); `ZerosOfLFunctions` 7.2.
 
 **Checks.**
 
 - The count is one-sided: the bound at `σ = 17/20` is for `N(σ, T)`, not for `2N(σ, T)`.
-- At `T = H₀` the two bounds are `1.70·10¹⁰` and `1.35·10¹⁰`, below the trivial `N(H₀)/2 = 5.19·10¹⁰`
-  and consistent with the true value `0` (all zeros below `H₀` lie on the line).
+- At `T = H₀` the two bounds are `1.70·10¹⁰` and `1.35·10¹⁰`; given `RH(H₀)` the count `N(σ, H₀)` is
+  `0` for `σ > 1/2`.
 - The slope `0.5561 < 1/(2π) log(T/2π)` for `T ≥ H₀`: a bound with slope at least that of `N(T)`
   would be no better than trivial.
 
 ### 8.3 The Kadiri–Lumley–Ng density bound
 
 Let `H₀ = 3.0610046·10¹⁰`. Let `10⁹/H₀ ≤ k ≤ 1`, `d > 0`, `H ∈ [1002, H₀)`, `α > 0`, `δ ≥ 1`,
-`η₀ = 0.23622…`, `η ∈ (η₀, 1/2)`, `1 + η₀ ≤ μ ≤ 1 + η`, and `σ > 1/2 + d/log H₀`. Given `RH(H₀)`,
-prove: for every `T ≥ H₀`,
+`η₀ = 0.23622…`, `η ∈ (η₀, 1/2)`, `1 + η₀ ≤ μ ≤ 1 + η`, and `σ > 1/2 + d/log H₀`. Given `RH(H₀)` and
+`HiaryPatelYangRecord` (0.4b, for the critical-line bound below `5.5·10⁷`), prove: for every
+`T ≥ H₀`,
 `N°(σ, T) ≤ ((T − H) log T/(2πd)) log(1 + C₁ (log kT)^{2σ} (log T)^{4(1−σ)} T^{8(1−σ)/3}/(T − H)) + (C₂/(2πd)) log² T`, hence
 `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T`, with `C₁ = C₁(α, d, δ, k, H, σ)` and `C₂ = C₂(d, η, k, H, μ, σ)` the closed forms
-(4.72)–(4.73) of `kadirilumleyng2018` (Theorem 1.1, lines 74–81). From the numerical certificate of
-its Table 1: `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (lines 83–87),
+(4.72)–(4.73) of `kadirilumleyng2018` (Theorem 1.1, lines 74–81). At the parameters of its
+Table 1: `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (lines 83–87),
 which is `zetaZeroDensityCount_nine_tenths_lt`.
 Route: Ingham's argument with a general smoothing weight, the argument of a holomorphic function
 bounded by 5.1, the mean value 6.4 for the mollified sums, the critical-line bound
 `|ζ(1/2 + it)| ≤ 0.63 t^{1/6} log t` (which 4.7 implies) and `RH(H₀)`.
 
-*Needs:* 0.4, 4.7, 5.1, 6.4, 6.6; the named certificate.
+*Needs:* 0.4, 0.4b (`HiaryPatelYangRecord`), 4.7, 5.1, 6.4, 6.6.
 
 **Checks.**
 
@@ -2645,11 +2620,11 @@ verification for the zeros of `ζ`, through their Lemma 2.1 (lines 156–158, us
 
 - At `Q = 3`, `σ = 39/40`: `log₁₀` of the first bound is `88 + (421 + 99 log₁₀ 3)/40 = 99.71`; the
   estimate is log-free (no power of `log Q`) and its constants are not small.
-- At `Q = 3` the factors are `ζ` and `L(s, χ₋₃)`: `N(39/40, 3) = 0` (no zero of either with
-  `|γ| ≤ 3` off the trivial ones, the first zero of `L(s, χ₋₃)` having ordinate `8.04`), and the pole
-  of `ζ` at `1`, of order `−1`, counts `0`; a count by signed orders would give `−1`. The largest real
-  zero is `β₁(3) = −1`, the trivial zero of the odd `L(s, χ₋₃)`, so `min(1, (1 − β₁) log 3) = 1`; at
-  `Q = 5` the even character modulo `5` gives `β₁(5) = 0`.
+- At `Q = 3` the factors are `ζ` and `L(s, χ₋₃)`; the pole of `ζ` at `1`, of order `−1`, lies in the
+  counted set and counts `0`, where a count by signed orders would subtract `1`. The largest real
+  zero is `β₁(3) = −1`, the trivial zero of the odd `L(s, χ₋₃)` (neither factor has a real zero in
+  `(0, 1)` given the records of 0.3), so `min(1, (1 − β₁) log 3) = 1`; at `Q = 5` the even
+  character modulo `5` gives `β₁(5) = 0`.
 - At `σ = 1` both bounds are constants, `10^{88}` and `10^{93} min(1, (1 − β₁) log Q)`, the second
   vanishing as the exceptional zero approaches `1`: the Deuring–Heilbronn phenomenon.
 - `|γ| ≤ Q` couples the height to the conductor range; a statement with a separate height `T` is a
@@ -2657,15 +2632,16 @@ verification for the zeros of `ζ`, through their Lemma 2.1 (lines 156–158, us
 
 ### 8.5 A log-free density near `σ = 1` for `ζ`
 
-Given `RH(3·10¹²)`, prove: for `3·10¹² < T ≤ exp(6.7·10¹²)` and `σ ∈ [0.9927, 1]`,
-`N°(σ, T) ≤ 1.62·10¹¹ T^{1.448(1−σ)}`, and the
+Given `RH(3·10¹²)`, `BrentPlattTrudgianRecord` (for the regions of 7.3, 7.4 and 7.6),
+`HiaryPatelYangRecord` and `HiaryRecord` (0.4b, for the critical-line bounds), prove: for
+`3·10¹² < T ≤ exp(6.7·10¹²)` and `σ ∈ [0.9927, 1]`, `N°(σ, T) ≤ 1.62·10¹¹ T^{1.448(1−σ)}`, and the
 sharper constants `(B, C)` of `bellotti2025density` Table 2 on its subranges (Bellotti, Theorem 1.1,
-lines 91–101); the uniform bound is `zetaZeroDensityCount_le_bellotti`. Route: the Halász–Montgomery large-values method for zero detectors, the zero-free
-regions 7.3, 7.4 and 7.6, the critical-line bounds 4.7 (Hiary's `1.461` for `|t| ≤ 3`,
-`0.618 t^{1/6} log t` up to `e^{105}`, `66.7 t^{27/164}` beyond), `RH(3·10¹²)`, and the numerical certificate of its
-tables.
+lines 91–101); the uniform bound is `zetaZeroDensityCount_le_bellotti`. Route: the Halász–Montgomery
+large-values method for zero detectors, the zero-free regions 7.3, 7.4 and 7.6, the critical-line
+bounds 4.7 (`HiaryRecord` for `|t| ≤ 3`, `0.618 t^{1/6} log t` up to `e^{105}`, `66.7 t^{27/164}`
+beyond), `RH(3·10¹²)`, and the parameters of its tables.
 
-*Needs:* 0.4, 4.7, 6.4, 7.3, 7.4, 7.6 (the region with `c = 53.989`); the named certificate.
+*Needs:* 0.4, 0.4b, 4.7, 6.4, 7.3, 7.4, 7.6 (the region with `c = 53.989`).
 
 **Checks.**
 
@@ -2677,11 +2653,12 @@ tables.
 
 ### Examples
 
-- Given `RH(H₀)`: `N°(9/10, 10¹¹) < 11.499 (log 10¹¹)^{16/5} (10¹¹)^{4/15} + 3.186 (log 10¹¹)²`.
+- Given `RH(H₀)` and `HiaryPatelYangRecord`:
+  `N°(9/10, 10¹¹) < 11.499 (log 10¹¹)^{16/5} (10¹¹)^{4/15} + 3.186 (log 10¹¹)²`.
 
 ### Dependencies
 
-Layers 0, 3–7; `SieveMethodsAndPrimePatterns` §2.9; the named certificates.
+Layers 0, 3–7; `SieveMethodsAndPrimePatterns` §2.9; the records of 0.4 and 0.4b.
 
 ## Layer 9: the size of `L(1, χ)`
 
@@ -2711,24 +2688,17 @@ Mathlib `Fourier.fourierIntegral`.
   `L(1, χ₅) = 2 log((1 + √5)/2)/√5 = 0.430409 ≤ (1/2) log 5 = 0.804719`.
 - `2 | q`: `q = 4` gives `π/4 = 0.785398 ≤ 1.047267`; `q = 8` gives `log(1 + √2)/√2 = 0.623225 ≤
   0.866434` (even) and `π/(2√2) = 1.110721 ≤ 1.220554` (odd), the last with a margin of only `9%`.
-- The even-modulus odd bound is nearly attained: among the primitive characters of conductor
-  below `160`, the largest ratio of `|L(1, χ)|` to its bound is at `q = 104 = 8 · 13`, where an odd
-  primitive character has `|L(1, χ)| = 1.848351` against `(1/4) log 104 + 5/4 − (1/2) log 3 =
-  1.861792`; the constant `5/4 − (1/2) log 3` cannot be lowered by `0.014`. The largest ratios in
-  the other three cases are `0.930` (odd, `q = 119`), `0.849` (even, `q = 145`) and `0.936`
-  (even, `2 | q`, `q = 76`).
 
 ### 9.2 Refinements under conditions on `χ(2)` and `χ(3)`
 
 Prove (Platt and Saad Eddin, Theorem 1.1, `plattsaadeddin2013` lines 27–37): if `3 | q`, then
 `|L(1, χ)| ≤ (1/3) log q + 0.368296` for even `χ` and `≤ (1/3) log q + 0.838374` for odd `χ`; and (Saad
 Eddin, Theorem 1, `saadeddin2016` lines 29–31): if `χ` is even and `χ(2) = 1`, then
-`|L(1, χ)| ≤ (1/2) log q − 0.02012`. Each from Ramaré's method for large `q` (`q > 2·10⁶`, and the
-ranges `2·10⁶ < q ≤ 2·10¹⁰` and `q > 2·10¹⁰` of Saad Eddin) and the numerical certificate of Platt's
-rigorous computation of `|L(1, χ)|` for `q ≤ 2·10⁶` (`plattsaadeddin2013` §5;
-`saadeddin2016` lines 791–799).
+`|L(1, χ)| ≤ (1/2) log q − 0.02012`; both given `PlattSaadEddinRecord` (0.4b), which is the range
+`q ≤ 2·10⁶`. Above it each follows from Ramaré's method (`q > 2·10⁶`, and the ranges
+`2·10⁶ < q ≤ 2·10¹⁰` and `q > 2·10¹⁰` of Saad Eddin).
 
-*Needs:* 9.1 (the approximate formula); the named numerical certificates.
+*Needs:* 9.1 (the approximate formula); 0.4b (`PlattSaadEddinRecord`).
 
 **Checks.**
 
@@ -2743,34 +2713,32 @@ rigorous computation of `|L(1, χ)|` for `q ≤ 2·10⁶` (`plattsaadeddin2013` 
 ### 9.3 Lower bounds
 
 Prove (Mossinghoff, Starichkova and Trudgian, Theorem 1.1, `mossinghoffstarichkovatrudgian2022`
-lines 44–49; the first bound is `norm_LFunction_one_ge`): for `χ` primitive and not quadratic, `|L(1, χ)| ≥ 1/(9.690292 log(q/π))` for every
-`q ≥ 2`, and `|L(1, χ)| ≥ (1 + o(1))/(9.122545 log(q/π))` as `q → ∞`; the first from the numerical
-certificate of Platt's computation of `|L(1, χ)|` for `q ≤ 10⁶` (lines 442–446, 475–478) and the
-analytic argument above it. Louboutin's earlier `|L(1, χ)| ≥ 1/(10 log(q/π))` (`louboutin2015`) is a
-corollary. And (Lu, Zaman and Zhao, Corollary 1.3, `luzamanzhao2026` lines 96–99): for `q ≤ 10¹⁰` and
-`χ` primitive quadratic modulo `q`, `χ ≠ 1`, the real number `L(1, χ)` satisfies
-`L(1, χ) ≥ 1/(8 log q)` (`LFunction_one_ge_luZamanZhao`, on the real part of
-`DirichletCharacter.LFunction χ 1`), from the numerical certificate for `q ≤ 10⁶` and, above,
-Hoffstein's lemma together with 7.8. The clause `χ ≠ 1` excludes the trivial character modulo `1`,
-which `MulChar.IsQuadratic` admits and whose value at `1` is Mathlib's junk value
-`riemannZeta 1 = (γ − log 4π)/2 = −0.97690` (`riemannZeta_one`), below `1/(8 log 1) = 0` in Lean's division. Route for the non-quadratic bound:
+lines 44–49; the first bound is `norm_LFunction_one_ge`): for `χ` primitive and not quadratic,
+`|L(1, χ)| ≥ 1/(9.690292 log(q/π))` for every `q ≥ 2` given `MossinghoffStarichkovaTrudgianRecord`
+(0.4b), which is the range `q ≤ 10⁶`, the analytic argument giving it above `10⁶`; and
+`|L(1, χ)| ≥ (1 + o(1))/(9.122545 log(q/π))` as `q → ∞`. Louboutin's earlier
+`|L(1, χ)| ≥ 1/(10 log(q/π))` (`louboutin2015`) is a corollary. And (Lu, Zaman and Zhao, Corollary
+1.3, `luzamanzhao2026` lines 96–99): for `q ≤ 10¹⁰` and `χ` primitive quadratic modulo `q`, `χ ≠ 1`,
+the real number `L(1, χ)` satisfies `L(1, χ) ≥ 1/(8 log q)` (`LFunction_one_ge_luZamanZhao`, on the
+real part of `DirichletCharacter.LFunction χ 1`), given `LuZamanZhaoLOneRecord` (0.4b), which is the
+range `q ≤ 10⁶`, and `LuZamanZhaoRecord` (7.8), through Hoffstein's lemma above `10⁶`. The clause
+`χ ≠ 1` excludes the trivial character modulo `1`, which `MulChar.IsQuadratic` admits and whose
+value at `1` is Mathlib's junk value `riemannZeta 1 = (γ − log 4π)/2 = −0.97690`
+(`riemannZeta_one`), below `1/(8 log 1) = 0` in Lean's division. Route for the non-quadratic bound:
 Louboutin's theorem (`mossinghoffstarichkovatrudgian2022` Theorem 2.1, lines 94–140): for `χ` of
 order greater than `m` and an admissible vector `(a₀, …, a_m)` (0.5, in the normalization
 `a₀ + 2Σ a_k cos kθ`, so that admissibility reads `a₀ < 2a₁`) with `a₀ + 2Σ a_k Re χ^k(n) ≥ 0` for
 every integer `n`, `|L(1, χ)| ≥ F(s(q))/(λ log(q/π))` once `s(q) = 1 + 1/(c log(q/π))` is at most
 `min(s₀, 1.92326)`, with `c`, `λ` and the function `F` of `ζ` and `Γ` (`F(s) = 1 + O(s − 1)`) as in
-their (2.2)–(2.3); the threshold `s₀` comes from an inequality between digamma values and `ζ'/ζ` at real
-arguments (their Lemma 2.2), and no zero-free region enters. Below `q₀ = 10⁶` the bound is Platt's
-computation.
+their (2.2)–(2.3); the threshold `s₀` comes from an inequality between digamma values and `ζ'/ζ` at
+real arguments (their Lemma 2.2), and no zero-free region enters. Below `q₀ = 10⁶` the bound is the
+record.
 
-*Needs:* 0.5, 1.2, 3.4; 7.8 (for the quadratic case); Mathlib
-`DirichletCharacter.LFunction_apply_one_ne_zero`, `MulChar.IsQuadratic`; the named numerical
-certificates.
+*Needs:* 0.4b, 0.5, 1.2, 3.4; 7.8 (for the quadratic case); Mathlib
+`DirichletCharacter.LFunction_apply_one_ne_zero`, `MulChar.IsQuadratic`.
 
 **Checks.**
 
-- The quartic character modulo `5` (`χ(2) = i`): `|L(1, χ)| = 0.888577 ≥ 1/(9.690292 log(5/π)) =
-  0.222066`, which is also `≥ 1/(10 log(5/π)) = 0.215189`.
 - The two constants of Mossinghoff–Starichkova–Trudgian are ordered as they must be:
   `1/9.690292 = 0.103196 < 1/9.122545 = 0.109619`.
 - Lu–Zaman–Zhao at `q = 3`: `0.604600 ≥ 1/(8 log 3) = 0.113780`; the bound is not asserted for
@@ -2783,40 +2751,44 @@ certificates.
 ### Dependencies
 
 Layers 0–3 and 7.8 (for 9.3); L-functions Layer 4; Mathlib Gauss sums and Dirichlet
-L-functions; the named numerical certificates.
+L-functions; the records of 0.4b.
 
 ## Downstream consumers
 
 - `ExplicitPrimeCounting` takes 0.2–0.4 (`RH(H)` and `GRH(q, H)` with the passage to imprimitive
-  characters, the Platt bridge, whose ranges contain Rumely's, and the recorded verifications,
-  among them the absence of zeros up to height `14`), 5.2 (Rosser's bound for `T ≥ 2`, Bellotti and
-  Wong's, Trudgian's in the normalization without `7/8`, and the form with `7/8` and `9.3675`), 5.3 (the count for primitive
-  Dirichlet L-functions), 5.4 (Lehman's lemma, Brent–Platt–Trudgian's form and `Σ γ^{−2}`), 6.1–6.2
-  (Perron), 6.5 (Montgomery and Vaughan's weighted large sieve, for its Brun–Titchmarsh
-  inequality), 7.3 (the regions for every `R₀ ≥ 5.558691`, among them `5.573412` and `5.5666305`, the
-  instance `5.69693`, and the region with `log(|γ|/17)` for `|γ| ≥ 21`), 7.5 (Kadiri's `6.4355` and
-  `5.60`, McCurley's `9.645908801`, Lu–Zaman–Zhao's Corollary 1.2, Thorner–Zaman's Theorem 2.6
-  with its bound for `β₁(Q)`, and Ramaré and Rumely's region with `C₁(k, H)`), 7.6 (the Vinogradov–Korobov constants, `57.54` among them), 7.9
-  (*HasLandauSiegelGap* at `(1/5, 10¹⁰)` and `(3.0·10⁻³, ∞)`) and 8.1, 8.3 (the densities of Kadiri
-  and of Kadiri–Lumley–Ng). The bounded-height Riemann hypotheses over all characters modulo `q`
-  and the capped real-zero gap that its hypotheses layer uses (its §§1.1, 1.2 and 1.7) are the
-  propositions of 0.2 and 7.9, which this roadmap owns. The other zero-free regions, densities and
-  forms of the zero count that it uses are listed under "Not owned here" with the reason.
+  characters, the Platt bridge, whose ranges contain Rumely's, and the records of 0.4, among them
+  `ZetaZeroFreeUpTo 14`), 0.4b (`PlattRecord`, `BrentPlattTrudgianRecord` for `Σ γ^{−2}` and
+  `LuZamanZhaoRecord`), 5.2 (Rosser's bound for `T ≥ 2`, Bellotti and Wong's, Trudgian's in the
+  normalization without `7/8`, and the form with `7/8` and `9.3675`), 5.3 (the count for primitive
+  Dirichlet L-functions), 5.4 (Lehman's lemma and Brent–Platt–Trudgian's form), 6.1–6.2 (Perron),
+  6.5 (Montgomery and Vaughan's weighted large sieve, for its Brun–Titchmarsh inequality), 7.3 (the
+  regions for every `R₀ ≥ 5.558691`, among them `5.573412` and `5.5666305`, given
+  `BrentPlattTrudgianRecord`, the instance `5.69693`, and the region with `log(|γ|/17)` for
+  `|γ| ≥ 21`), 7.5 (Kadiri's `6.4355` and `5.60`, McCurley's `9.645908801`, Lu–Zaman–Zhao's
+  Corollary 1.2, Thorner–Zaman's Theorem 2.6 with its bound for `β₁(Q)`, and Ramaré and Rumely's
+  region with `C₁(k, H)`), 7.6 (the Vinogradov–Korobov constants, `57.54` among them), 7.9
+  (*HasLandauSiegelGap* at `(1/5, 10¹⁰)` and `(3.0·10⁻³, ∞)`, given `LuZamanZhaoRecord`) and 8.1,
+  8.3 (the densities of Kadiri and of Kadiri–Lumley–Ng), each with the records its statement here
+  carries. The bounded-height Riemann hypotheses over all characters modulo `q` and the capped
+  real-zero gap that its hypotheses layer uses (its §§1.1, 1.2 and 1.7) are the propositions of 0.2
+  and 7.9, which this roadmap owns. The other zero-free regions, densities and forms of the zero
+  count that it uses are listed under "Not owned here" with the reason.
 - `ExplicitCharacterSumsAndSieves` takes the finite van der Corput inequality and its normalized
   form (4.2) for its real-part form and its iterated inequality (its §§0.3 and 1.1, variants built
   on 4.2 that no route here uses), and Montgomery–Vaughan's weighted large sieve of 6.5.
 - `ExplicitMultiplicativeFunctions` takes 4.1 (the Kusmin–Landau inequality, for its §7.4), 6.1
   (Perron), 7.3 (the `5.558691` region, used at `R₀ = 5.56`), 7.10 (the bounds for `1/ζ` that its
-  §1.9 uses, each given `RH(3 000 175 332 800)`: Leong's on the line one for `t ≥ 2`, Lee and
-  Leong's in the classical region above that height, and theirs on `σ ≥ 3/4` for `14 ≤ t` up to
-  half a unit below that height) and the recorded verification `RH(3 000 175 332 800)` of 0.4, its
+  §1.9 uses, each given `RH(3 000 175 332 800)` and `BrentPlattTrudgianRecord`, and, for Leong's and
+  for those on `σ ≥ 3/4`, `LeongRecord`: Leong's on the line one for `t ≥ 2`, Lee and Leong's in
+  the classical region above that height, and theirs on `σ ≥ 3/4` for `14 ≤ t` up to half a unit
+  below that height) and the recorded verification `RH(3 000 175 332 800)` of 0.4, its
   verified-zero hypothesis, as the proposition `RH(H)` of 0.2 through `ExplicitPrimeCounting` §1.1.
 - `ExplicitNumberFields` takes 3.2 at `dedekindZetaData K` (the Dedekind instance of Rademacher's
-  bound), 5.1 with 3.2 for the argument of Dedekind zeta functions of any degree, 2.1 and 2.5 for the
-  gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3 (`GRH(q, H)`), 0.5 (admissible cosine
-  polynomials), 7.7 (the Siegel-shape bound `6.035/√d`), 7.9 (the real-zero gap, with Guo's
-  instance `(1/100) ∞`) and 9.1 (Ramaré's bounds for `L(1, χ)`); its own polynomial certificates are
-  listed under "Not owned here".
+  bound), 5.1 with 3.2 for the argument of Dedekind zeta functions of any degree, 2.1 and 2.5 for
+  the gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3 (`GRH(q, H)`), 0.5 (admissible
+  cosine polynomials), 7.7 (the Siegel-shape bound `6.035/√d`), 7.9 (the real-zero gap
+  `HasLandauSiegelGap`, with Guo's instance `(1/100) ∞`) and 9.1 (Ramaré's bounds for `L(1, χ)`);
+  its own polynomial certificates are listed under "Not owned here".
 - A Part II of this roadmap placed after `ExplicitCharacterSumsAndSieves` takes Layer 9 for the
   quadratic `L(1, χ)` bounds that need explicit Pólya–Vinogradov inequalities.
 
@@ -2847,7 +2819,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `ralaivaosaonarazakarinoro2026`: Dimbinaina Ralaivaosaona, Faratiana Brice Razakarinoro, *An explicit upper bound for Siegel zeros of imaginary quadratic fields*, Journal of Number Theory 281 (2026); doi:10.1016/j.jnt.2025.10.014, arXiv:2001.05782v2. Cited for: Theorem 1.1 of the journal version (constant `6.035`), which is Theorem 1 of arXiv v2 (constant `6.5`, lines 69–76, the text read).
 - `kadiring2012`: Habiba Kadiri, Nathan Ng, *Explicit zero density theorems for Dedekind zeta functions*, Journal of Number Theory 132 (2012); doi:10.1016/j.jnt.2011.09.002, arXiv:1201.3932v1. Cited for: Theorem 1 (explicit N_K(T)); context only, Dedekind case belongs to ExplicitNumberFields.
 - `kadirilumleyng2018`: Habiba Kadiri, Allysa Lumley, Nathan Ng, *Explicit zero density for the Riemann zeta function*, J. Math. Anal. Appl. 465 (2018), no. 1, 22–46; doi:10.1016/j.jmaa.2018.04.071, arXiv:2101.12263v1. Cited for: Theorem 1.1 and its corollary at sigma = 9/10.
-- `platt2016grh`: David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016); doi:10.1090/mcom/3077, arXiv:1305.3087v1. Cited for: Theorem 7.1.
+- `platt2016grh`: David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016); doi:10.1090/mcom/3077, arXiv:1305.3087v1. Cited for: Theorems 7.1 and 7.2.
 - `alzer1997`: H. Alzer, *On some inequalities for the gamma and psi functions* (1997). Cited for: Theorems 8 and 9.
 - `chenggraham2004`: Y. Cheng, S. W. Graham, *Explicit estimates for the Riemann zeta function*, Rocky Mountain J. Math. 34 (2004). Cited for: Lemma 2.
 - `kadiri2002thesis`: H. Kadiri, *Une région explicite sans zéros pour les fonctions L de Dirichlet*, thèse de doctorat (2002). Cited for: Théorème 11.1 and its English form (115) (`R₁ = 6.4355`).
@@ -2878,7 +2850,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `ramare2022excursions`: O. Ramaré, *Excursions in Multiplicative Number Theory*, Birkhäuser Advanced Texts, Birkhäuser/Springer, Cham (2022); doi:10.1007/978-3-030-73169-4. Cited for: Chapter 20, Section 20.2.
 - `platt2011thesis`: D. J. Platt, *Computing degree 1 L-functions rigorously*, PhD thesis, University of Bristol (2011). Cited for: the chapter verifying RH to height 10^9.
 - `helfgott2017mo`: H. A. Helfgott, *L² bounds for tails of ζ(s) on a vertical line (MathOverflow answer 285338 to question 285197)*, MathOverflow, CC BY-SA (2017). Cited for: the answer, equations for `c_{1,σ}`, `c♭_{1,σ}`, `c♭_{2,σ}`, `c_{3,σ}`, `κ_{σ,T}`.
-- `dlmf`: NIST, *Digital Library of Mathematical Functions*, https://dlmf.nist.gov (2024). Cited for: §5.9 (Binet's formulas), §5.11.
+- `dlmf`: NIST, *Digital Library of Mathematical Functions*, https://dlmf.nist.gov (2024). Cited for: §2.10 (the Euler–Maclaurin formula 2.10.1), §5.9 (Binet's formulas), §5.11.
 - `delange1987`: H. Delange, *Une remarque sur la dérivée logarithmique de la fonction zêta de Riemann*, Colloquium Mathematicum 53 (1987); doi:10.4064/cm-53-2-333-335. Cited for: Théorème.
 - `lehman1966`: R. S. Lehman, *On the difference π(x) − li(x)*, Acta Arithmetica 11 (1966); doi:10.4064/aa-11-4-397-410. Cited for: Lemma 1.
 - `vandeluneterielewinter1986`: J. van de Lune, H. J. J. te Riele, D. T. Winter, *On the zeros of the Riemann zeta-function in the critical strip. IV*, Mathematics of Computation 46 (1986); doi:10.1090/S0025-5718-1986-0829637-3. Cited for: Section 1.
@@ -2914,4 +2886,4 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `guo2026`: Victor Zhenyu Guo, *An explicit elementary proof of no Landau–Siegel zeros* (2026); arXiv:2610.30476v1. Cited for: Theorem 1.1 (an unrefereed preprint).
 - `kedlaya2025notes`: Kiran S. Kedlaya, *Notes on analytic number theory*, author's text, CC BY-SA 4.0 (2015–2025). Cited for: §1.6, Exercise 6 (the kernel of the iterated Perron identity).
 - `mccurley1984`: K. S. McCurley, *Explicit zero-free regions for Dirichlet L-functions*, Journal of Number Theory 19 (1984), 7-32 (1984); doi:10.1016/0022-314X(84)90089-1. Cited for: Theorem 1.
-- `titchmarsh1986`: E. C. Titchmarsh (revised by D. R. Heath-Brown), *The Theory of the Riemann Zeta-Function, 2nd edition*, Oxford University Press (1986). Cited for: Theorem 4.13 (approximate functional equation); §8.6; §9.4 (Backlund's argument).
+- `titchmarsh1986`: E. C. Titchmarsh (revised by D. R. Heath-Brown), *The Theory of the Riemann Zeta-Function, 2nd edition*, Oxford University Press (1986). Cited for: Theorem 4.13 (approximate functional equation); §4.16 (the Riemann–Siegel formula); §8.6; §9.4 (Backlund's argument).
