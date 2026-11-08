@@ -191,7 +191,9 @@ All paths are under `TauCeti/`.
   `QuadraticForm.LocallyRepresents`, `QuadraticForm.LocallyEquivalent`, each a conjunction over
   every finite and every real place; `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
   `QuadraticForm.LocallyEquivalent.of_equivalent`, `QuadraticForm.LocallyRepresents.of_isRepresentedBy`,
-  `QuadraticForm.LocallyEquivalent.finrank_eq`, `QuadraticForm.LocallyRepresents.finrank_le` and
+  `QuadraticForm.LocallyEquivalent.finrank_eq`, `QuadraticForm.LocallyRepresents.finrank_le`,
+  `QuadraticForm.LocallyRepresentsScalar.of_represents` (a scalar represented by `Q` over `K` is
+  represented by its localization at every finite and every real place) and
   `QuadraticForm.LocallyRepresentsScalar.isLocallyIsotropic_smul_sq_prod` (local representation of
   `a` makes `⟨-a⟩ ⊥ W` locally isotropic).
 - Complex places (`NumberTheory/QuadraticForm/Global/ComplexPlaces.lean`):
@@ -260,12 +262,17 @@ All paths are under `TauCeti/`.
   infinite completion).
 - Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Witt/Cancellation.lean`,
   `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`,
-  `NumberTheory/LocalField/QuadraticForm/Classification.lean`, `Realization.lean`):
+  `NumberTheory/LocalField/QuadraticForm/Hasse.lean`, `Classification.lean`, `Realization.lean`):
   `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
   `QuadraticMap.not_anisotropic_prod_of_represents_neg`,
   `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` (a regular isotropic form is
   universal), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
   `QuadraticMap.IsometryEquiv.exists_extension` (Witt extension),
+  `TauCeti.RegularFormClass.discr` (over a field in which `2` is invertible, the class in
+  `SquareClassGroup K` of the product of the weights of any diagonalization, independent of the
+  diagonalization), `TauCeti.RegularFormClass.localHasse` (over a nonarchimedean local field in
+  which `2` is invertible, the product over `i < j` of the Hilbert symbols `(aᵢ, aⱼ)` of the
+  weights of any diagonalization `⟨a₁, …, aₙ⟩`, independent of the diagonalization, in `ℤˣ`),
   `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`,
   `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq` and
   `TauCeti.RegularFormClass.exists_of_realization`.
