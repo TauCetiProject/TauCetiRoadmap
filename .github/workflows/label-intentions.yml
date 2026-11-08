@@ -35,8 +35,8 @@ jobs:
       startsWith(github.event.issue.title, '[Intention]:') &&
       !contains(github.event.issue.labels.*.name, 'intention')
     runs-on:
-      group: TauCetiControl
-      labels: tauceti-fleet-control
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     steps:
       - name: Mint App token (issues write)
         id: token

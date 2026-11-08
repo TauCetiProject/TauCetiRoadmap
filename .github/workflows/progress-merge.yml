@@ -47,8 +47,8 @@ jobs:
           && !github.event.pull_request.draft
           && startsWith(github.event.pull_request.head.ref, 'progress/'))
     runs-on:
-      group: TauCetiControl
-      labels: tauceti-fleet-control
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     outputs:
       pr: ${{ steps.pick.outputs.pr }}
     steps:
@@ -93,7 +93,7 @@ jobs:
       pull-requests: write
     uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@74d2a99278636a35a4b239bd63ba7b0a807bd6eb
     with:
-      runs_on: '{"group":"TauCetiControl","labels":"tauceti-fleet-control"}'
+      runs_on: '{"group":"TauCetiRoadmap","labels":"tauceti-fleet-roadmap"}'
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
       progress_ref: 74d2a99278636a35a4b239bd63ba7b0a807bd6eb
       # There is deliberately no author allowlist. Anyone may publish a progress report, including

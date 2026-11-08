@@ -40,8 +40,8 @@ permissions:
 jobs:
   grant:
     runs-on:
-      group: TauCetiControl
-      labels: tauceti-fleet-control
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     steps:
       - name: Mint App token (organization Members write)
         id: token

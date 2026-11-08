@@ -13,8 +13,8 @@ jobs:
   label:
     if: github.repository == 'TauCetiProject/TauCetiRoadmap'
     runs-on:
-      group: TauCetiControl
-      labels: tauceti-fleet-control
+      group: TauCetiRoadmap
+      labels: tauceti-fleet-roadmap
     timeout-minutes: 5
     steps:
       # No checkout: neither PR code nor comment text is ever executed.
