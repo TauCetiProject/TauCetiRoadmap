@@ -267,9 +267,9 @@ normal forms, compact-band deformation, cell attachments and abstract Morse–Bo
 attachments and gradient convergence. [HeegaardFloer Lane M](../HeegaardFloer/README.md#lane-m-morse-homology-stage-0)
 owns Morse–Smale trajectories and Morse homology.
 R3 defines the single general complete-manifold finite broken-geodesic carrier
-and path-sublevel comparison for any complete smooth metric. It does not need
-the Bott-chain constructions in HomotopySpheres Stage 4B.
-MorseTheory M2 owns ordinary attachments and M5 owns the abstract
+and path-sublevel comparison for any complete smooth metric. It needs no
+Bott-chain construction beyond the abstract finite-dimensional Morse–Bott
+theorem. MorseTheory M2 owns ordinary attachments and M5 owns the abstract
 finite-dimensional Morse–Bott theorem.
 [DGFloer](../DGFloer/README.md) consumes R2–R3 for generic Jacobi/index/path
 geometry and owns free-loop extensions and CP/HP applications on the same
@@ -920,7 +920,7 @@ homotopy comparison. The native sequential-space instance and
 `eq_compactlyGenerated` identify k-ification with the original topology on
 these metrizable path spaces. R3 constructs its sphere suspension range from
 its Morse filtration. The smooth-triangulation item 1 in
-[GeometricTopology's smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison)
+[GeometricTopology's smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison-far-horizon)
 supplies a smooth triangulation. Construct here its finite marked-point
 refinement: for every finite set F of distinct points of M, refine the locally
 finite triangulation so that each point of F is a vertex. In the simplex whose
@@ -1048,8 +1048,7 @@ to j after endpoint change. Use the native loop homotopy-group equivalence
 `pathLoopSpaceMulEquiv` to identify j_* with the suspension homomorphism
 π_q(S^(n−1))→π_(q+1)(Sⁿ), including the degree and basepoint equations.
 This supplies the Morse proof of the sphere Freudenthal range independently;
-stable homotopy calculations remain with
-HomotopySpheres.
+stable homotopy calculations are outside this roadmap.
 
 ### Examples
 
