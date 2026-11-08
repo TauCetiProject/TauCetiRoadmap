@@ -137,9 +137,9 @@ it and the `build` check passes. Roadmap content is owned by that team; infrastr
 (the workflows, the Lake config, the toolchain pin) stay with `@TauCetiProject/humans`, so a PR
 touching those needs their approval too.
 
-Apply the **`awaiting-review`** label when you open it. If you cannot apply labels yet, see
-[Permissions](#permissions) below, and in the meantime say so in the PR description or the
-[Zulip topic][zulip-topic] and someone will apply it.
+Apply the **`awaiting-review`** label when you open it. You can do this without triage
+access by posting `awaiting-review` on its own line in a new PR comment; see
+[Changing labels by comment](#changing-labels-by-comment).
 
 **A roadmap pull request touches only its own directory under `TauCetiRoadmap/`.** Four files
 list the roadmaps, and all four are derived from the set of directories that contain a
@@ -166,7 +166,8 @@ can do for the people reviewing, because it is how they find work.
 | `awaiting-review` | The ball is with a reviewer. Nothing is expected of the author right now. |
 | `awaiting-author` | A review has landed. The ball is with the author. |
 
-Nothing applies these automatically. The convention is:
+These labels change through direct label edits or explicit comment commands, not through
+pushes or review submission. The convention is:
 
 - **The author** applies `awaiting-review` when opening the PR, and again each time they have
   finished responding to a round of review.
@@ -179,6 +180,32 @@ Nothing applies these automatically. The convention is:
 Pushing a commit does not move the label, and reviewers should not have to infer from the
 commit log that you are ready. If you have pushed a partial response and are still working,
 leave `awaiting-author` in place.
+
+## Changing labels by comment
+
+Anyone who can comment can add or remove the labels below, without triage access.
+Post a new issue or pull request conversation comment with the exact label on its own
+line to add it, or prefix it with `-` to remove it. For example:
+
+```text
+-awaiting-author
+awaiting-review
+```
+
+Names are case-sensitive; surrounding whitespace is ignored. You can put several commands
+on separate lines, and the last command for each label wins. Other text is ignored.
+Editing or deleting a comment does not undo a command; post a new comment instead.
+Review bodies and inline review comments are not processed.
+
+The allowed labels are `awaiting-author`, `awaiting-review`, `awaiting-dependencies`,
+`roadmap-feedback`, `meta`, `bug`, `documentation`, `enhancement`, `question`,
+`help wanted`, `good first issue`, and `dont-repair-in-queue`. The last label records the
+same repair preference used by TauCeti's implementation merge queue; it does not change
+Roadmap's human approval or GitHub merge-queue requirements.
+
+To hand a PR back to reviewers, post both `-awaiting-author` and `awaiting-review` on
+separate lines; the workflow changes only the labels you name. `administrative-hold`,
+`ai-approved`, CI labels, and generated roadmap-area labels remain outside this allowlist.
 
 ## Resolving review conversations
 
