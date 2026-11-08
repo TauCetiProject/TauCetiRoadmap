@@ -101,8 +101,8 @@ noncomputable instance (ρ : Representation O G V) (ϖ : O) (r : ℕ) :
 
 end ModPow
 
-/-- README §4.4, degree one (FKP19 Lemma B.1, p.64; Lazard V, Theorems 2.2.2.3, 2.2.3.1 and
-2.4.10). Let `G` be a compact group with a `ℚ_p`-analytic manifold structure of dimension `d`
+/-- README §4.4, degree one (FKP19 Lemma B.1, p.64; Lazard65 V (2.2.2.3), (2.2.3.1) and
+Theorem (2.4.10)). Let `G` be a compact group with a `ℚ_p`-analytic manifold structure of dimension `d`
 and analytic group operations, whose Lie algebra, the tangent space at the identity with the
 bracket of left-invariant vector fields, is semisimple over `ℚ_p`. Let `O` be a discrete
 valuation ring finite over `ℤ_p`, `ϖ` an irreducible element of `O`, `V` a finite free
