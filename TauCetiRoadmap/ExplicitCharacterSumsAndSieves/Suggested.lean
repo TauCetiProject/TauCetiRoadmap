@@ -1,22 +1,18 @@
 module
 
 import Mathlib
-import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
 
 /-!
 # Explicit exponential sums, character sums and sieve bounds: target signatures
 
 This file is not the roadmap. The roadmap is `README.md`; this file states, against the pinned
-Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable at the pins, each
-with `sorry`, together with the few definitions their statements need. Every finite verification
-a theorem rests on is a named proposition, listed in Layer 6 of the README, and an explicit
-hypothesis of each theorem that uses it.
+Mathlib, the headline theorems of the roadmap that are statable at the pins, each with `sorry`,
+together with the few definitions their statements need. Every finite verification a theorem
+rests on is a named proposition, listed in Layer 6 of the README, and an explicit hypothesis of
+each theorem that uses it.
 
 Headline theorems stated here:
 
-* Layer 0: the quadratic-character point count of a Weierstrass equation with `a₁ = a₃ = 0` over a
-  finite field of odd characteristic (`pointCount_eq_card_add_sum_quadraticChar`,
-  `frobeniusTrace_eq_neg_sum_quadraticChar`), consumed by Burgess's moment bound.
 * Layer 1: Arias de Reyna's iterated van der Corput inequality (`iterated_vanDerCorput`). The
   finite van der Corput inequality, the Kusmin–Landau lemma and the derivative tests for
   exponential sums, Patel's corrected third, fourth and fifth derivative tests among them, belong
@@ -88,27 +84,6 @@ def roughCount (x z : ℝ) : ℕ :=
 def butheRho (f : ℝ → ℝ) (x y : ℝ) : ℝ :=
   (∫ t in x..x + y, |f t|) /
     (sSup ((fun t => |f t|) '' Set.Icc x (x + y)) + ∫ t in x..x + y, |deriv f t|)
-
-/-! ## Layer 0: the quadratic-character point count -/
-
-/-- **The quadratic-character point count** (Silverman, §V.1). Over a finite field `F` of odd
-characteristic, a Weierstrass equation `y² = x³ + a₂x² + a₄x + a₆` (that is, `a₁ = a₃ = 0`) has
-projective point count `q + 1 + ∑_x η(x³ + a₂x² + a₄x + a₆)`, `η` the quadratic character of `F`
-and `q = |F|`. The count is Tau Ceti's `WeierstrassCurve.pointCount`, which includes every singular
-solution, so no ellipticity is assumed. -/
-theorem pointCount_eq_card_add_sum_quadraticChar {F : Type*} [Field F] [Fintype F]
-    [DecidableEq F] (hF : ringChar F ≠ 2) (W : WeierstrassCurve F) [W.IsCharNeTwoNF] :
-    (W.pointCount : ℤ) = Fintype.card F + 1 +
-      ∑ x : F, quadraticChar F (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) := by
-  sorry
-
-/-- **The Frobenius trace as a quadratic-character sum.** Under the hypotheses of
-`pointCount_eq_card_add_sum_quadraticChar`, the trace `q + 1 − #W(F)` is
-`−∑_x η(x³ + a₂x² + a₄x + a₆)`, singular equations included. -/
-theorem frobeniusTrace_eq_neg_sum_quadraticChar {F : Type*} [Field F] [Fintype F]
-    [DecidableEq F] (hF : ringChar F ≠ 2) (W : WeierstrassCurve F) [W.IsCharNeTwoNF] :
-    W.frobeniusTrace = -∑ x : F, quadraticChar F (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) := by
-  sorry
 
 /-! ## Layer 1: the iterated van der Corput inequality -/
 

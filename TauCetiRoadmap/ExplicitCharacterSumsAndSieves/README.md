@@ -12,11 +12,11 @@ Montgomery–Vaughan's weighted arithmetic large sieve and their sifted form of 
 inequality with the prime-power sums of Ramaré–Viswanadham, Büthe's weighted Brun–Titchmarsh
 inequalities, Greaves's lower bound for Selberg's density sum and Fan's bounds for integers free
 of small prime factors. Everything rests on Mathlib's Dirichlet characters, Gauss sums, quadratic
-character, Selberg-sieve carrier and Fourier character, on Tau Ceti's Gauss-sum norm, partial-sum
-lemmas, Weierstrass point count and Hasse bound, on the forbidden-residue large sieve and Selberg's
-weights of SieveMethodsAndPrimePatterns, the finite van der Corput inequality and the weighted
-large sieve of ExplicitZetaBounds, Weil's bound of CharacterSumsOverFiniteFields, the explicit
-prime-number estimates of AnalyticNumberTheoryPartI, and the Brun–Titchmarsh inequality and
+character, Selberg-sieve carrier and Fourier character, on Tau Ceti's Gauss-sum norm and
+partial-sum lemmas, on the forbidden-residue large sieve and Selberg's weights of
+SieveMethodsAndPrimePatterns, the finite van der Corput inequality and the weighted large sieve of
+ExplicitZetaBounds, Weil's bound of CharacterSumsOverFiniteFields, the explicit prime-number
+estimates of AnalyticNumberTheoryPartI, and the Brun–Titchmarsh inequality and
 Montgomery–Vaughan's lower bound for the diagonal sum `Σ_{q ≤ u} μ²(q)/φ(q)` of
 ExplicitPrimeCounting. Every result that rests on a table or on a finite verification takes that
 verification as a named hypothesis, listed in Layer 6, and the analytic argument is proved from it.
@@ -44,13 +44,12 @@ with the few definitions their statements need; it is not the roadmap.
 Reyna's iterated van der Corput inequality (Layer 1), the explicit counts of integer points near a
 curve by the first and second derivative and by exponential sums (Layer 2), the explicit
 Pólya–Vinogradov inequalities and the elementary character-sum identities they use (Layers 0 and
-3), the quadratic-character point count of a Weierstrass equation `y² = x³ + a₂x² + a₄x + a₆` over
-a finite field of odd characteristic (§0.6a), the explicit Burgess inequalities for a prime
-modulus together with Burgess's moment bound and McGown–Trudgian's refinement of it at `r = 2`, the
-multiplicative-energy counts and Burgess's amplification inequality (Layer 4), the Selberg diagonal
-carriers with the coprime comparison, the explicit asymptotic for Büthe's weight mass and the
-diagonal bound from `z = 3`, the weighted arithmetic large sieve and the explicit sieve upper bounds
-(Layer 5), and the named computational hypotheses (Layer 6).
+3), the explicit Burgess inequalities for a prime modulus together with Burgess's moment bound and
+McGown–Trudgian's refinement of it at `r = 2`, the multiplicative-energy counts and Burgess's
+amplification inequality (Layer 4), the Selberg diagonal carriers with the coprime comparison,
+the explicit asymptotic for Büthe's weight mass and the diagonal bound from `z = 3`, the weighted
+arithmetic large sieve and the explicit sieve upper bounds (Layer 5), and the named computational
+hypotheses (Layer 6).
 
 **The van der Corput toolkit.** ExplicitZetaBounds, earlier in the order of supply, owns the
 Kusmin–Landau inequality in its symmetric and asymmetric forms (§4.1), the finite van der Corput
@@ -68,9 +67,8 @@ parity and primitive character, Gauss sums of multiplicative characters and thei
 for primitive characters, the quadratic character of a finite field, the native `BoundingSieve`
 and `SelbergSieve` carriers, the von Mangoldt function, prime counting, totient, Möbius function,
 absolutely continuous functions and `Real.fourierChar`. Tau Ceti supplies the norm of a primitive
-Gauss sum, the vanishing of a nonprincipal character over a full period, the projective point
-count and Frobenius trace of a Weierstrass equation over a finite field and the Hasse bound for
-elliptic curves over finite fields. SieveMethodsAndPrimePatterns §2.9 owns the large sieve for
+Gauss sum and the vanishing of a nonprincipal character over a full period.
+SieveMethodsAndPrimePatterns §2.9 owns the large sieve for
 forbidden residues `J(Q)|Σ aₙ|² ≤ (H − 1 + Q²)Σ|aₙ|²`, consumed by Fan's bound, and §1.3 owns
 Selberg's optimal weights on the native carrier, consumed by Büthe's weighted sieve; its §1.1
 owns the qualitative asymptotics of Selberg diagonal sums, and §5.1 here differs from it in
@@ -78,7 +76,8 @@ having explicit constants. ExplicitZetaBounds §6.5 owns Montgomery–Vaughan's 
 `Σ_x (N + (3/2)δ(x)⁻¹)⁻¹|S(x)|² ≤ Σ|aₙ|²` for an arbitrary finite set of points, consumed by the
 weighted arithmetic large sieve of §5.5, which differs from it in being its sieve form, at the
 Farey fractions and for sequences avoiding residue classes. CharacterSumsOverFiniteFields
-§4.7 owns Weil's bound `|Σ_x χ(f(x))| ≤ (m − 1)√q`, consumed by Burgess's moment bound.
+§4.7 owns Weil's bound `|Σ_x χ(f(x))| ≤ (m − 1)√q`, consumed by Burgess's moment bound and its
+`r = 2` refinements.
 AnalyticNumberTheoryPartI §§0.5, 0.8, 0.19 and 0.20 own the explicit Rosser–Schoenfeld estimates
 for `π(x)`, `Σ log p/p` and `Σ 1/p`, consumed by McGown's Burgess inequality and by Fan's bound.
 ExplicitPrimeCounting §0.1 owns Montgomery–Vaughan's Brun–Titchmarsh inequality
@@ -94,7 +93,7 @@ large sieve, which differs from that step in allowing `ω(p)` forbidden classes 
 and an arbitrary sifted set, and the sifted form, which differs from `brun_titchmarsh` in counting
 every integer of the progression free of prime factors up to a level `z`, with `π(z)` added, the
 form that the prime-power sums need. No large-sieve constant, Selberg weight, diagonal bound,
-Gauss-sum evaluation, Weil bound or Hasse bound is proved a second time.
+Gauss-sum evaluation or Weil bound is proved a second time.
 
 **Not owned here.** The qualitative Brun–Titchmarsh bound with an unspecified constant and the
 qualitative twin-prime and Goldbach upper bounds are SieveMethodsAndPrimePatterns §1.6; the
@@ -222,13 +221,10 @@ At the pinned commit `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
   78, 217 and 251). The carrier records a finite weighted support, a squarefree prime product, a
   multiplicative density with `0 < ν(p) < 1` and an approximation `X`; it carries no remainder
   estimate.
-- `quadraticChar`, `quadraticChar_ne_one` and `quadraticChar_card_sqrts`
-  (`Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean`, lines 120, 207 and 214): the
-  quadratic character `η` of a finite field `F` (of `ZMod p` for an odd prime `p` it is the unique
-  character of order two of the cyclic group `(ZMod p)ˣ`), and, when `F` has odd characteristic,
-  the number of `y ∈ F` with `y² = a` is `1 + η(a)` for every `a ∈ F`, `a = 0` included.
-- `WeierstrassCurve.IsCharNeTwoNF` (`Mathlib/AlgebraicGeometry/EllipticCurve/NormalForms.lean`,
-  line 107): a Weierstrass equation with `a₁ = a₃ = 0`, that is `y² = x³ + a₂x² + a₄x + a₆`.
+- `quadraticChar` and `quadraticChar_ne_one`
+  (`Mathlib/NumberTheory/LegendreSymbol/QuadraticChar/Basic.lean`, lines 120 and 207): the quadratic
+  character of `ZMod p` for an odd prime `p`, which is the unique character of order two of the
+  cyclic group `(ZMod p)ˣ`.
 - `Nat.primeCounting`, `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.moebius`,
   `Nat.totient`, `ArithmeticFunction.cardDistinctFactors`, `ArithmeticFunction.sigma`,
   `Nat.doubleFactorial`, `Real.eulerMascheroniConstant`, `Real.eulerMascheroniSeq` (the sequence
@@ -275,18 +271,6 @@ At the pinned commit `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
   (`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`, lines 30, 37 and 49): a
   nonprincipal character sums to zero over a full period, its initial sums depend on the endpoint
   modulo the level, and they are bounded by the level.
-- `WeierstrassCurve.hasse_bound` and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`
-  (`TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean`, lines 57 and 44): an elliptic curve
-  over a finite field with `q` elements has `(#E(𝔽_q) − (q + 1))² ≤ 4q`, the count including the
-  point at infinity, and its Frobenius trace `a_q` has `a_q² ≤ 4q`.
-- `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`,
-  `WeierstrassCurve.frobeniusTrace`, `WeierstrassCurve.frobeniusTrace_def` and
-  `WeierstrassCurve.frobeniusTrace_eq_card_point`
-  (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`, lines 73, 80, 101, 109 and 115): the
-  projective point count of any Weierstrass equation over a field, the number of solutions of the
-  affine equation (singular ones included) plus one for the point at infinity, and, over a finite
-  field with `q` elements, the trace `q + 1` minus that count, which on an elliptic equation is
-  measured against Mathlib's point type.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
@@ -304,7 +288,10 @@ At the pinned commit `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
 
 - §4.7, `weil_mulChar_sum_bound`: for a finite field `F` with `q` elements, `χ ≠ 1` of order `d`
   and `f ∈ F[X]` nonzero, not of the form `c·h^d`, with `m` distinct roots in `F̄`,
-  `|Σ_{x ∈ F} χ(f(x))| ≤ (m − 1)√q`. Consumed at `F = ZMod p` in 4.1.
+  `|Σ_{x ∈ F} χ(f(x))| ≤ (m − 1)√q`. Consumed at `F = ZMod p` in 4.1: with `m ≤ 2r` in the moment
+  bound, with `m ≤ 4` in the `r = 2` refinement for characters of order greater than `2`, and with
+  `m = 3`, for a cubic with three distinct roots, in the `r = 2` refinement for the quadratic
+  character.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
@@ -365,16 +352,15 @@ Its §0.1 writes `S(u) = Σ_{q ≤ u} μ²(q)/φ(q)`, which is `selbergDiagonal`
 Layer 0 fixes the carriers (the exponential sum over the integers of an interval, the distance to
 the nearest integer and the near-integer count, the character interval sum and its maximum),
 proves the real-part form of the normalised van der Corput inequality from the finite inequality
-of ExplicitZetaBounds, the elementary identities for character sums (periodicity, the symmetry of
-even characters, the reduction to the primitive character) and the quadratic-character point count
-of a Weierstrass equation over a finite field. Layer 1 proves Arias de Reyna's iterated van der
-Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
+of ExplicitZetaBounds, and the elementary identities for character sums (periodicity, the
+symmetry of even characters, the reduction to the primitive character). Layer 1 proves Arias de
+Reyna's iterated van der Corput inequality from the normalised form of ExplicitZetaBounds §4.2.
 Layer 2 counts integer points near curves by the mean value theorem,
 by Huxley's reduction and by Fejér's kernel. Layer 3 expands character sums in Gauss sums and
-proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound from
-Weil's bound (and, at `r = 2` for the quadratic character, from Hasse's bound through the point
-count of Layer 0), the multiplicative-energy counts and Burgess's amplification inequality, and
-derives the tabulated Burgess constants from the Layer 6 propositions. Layer 5 proves the explicit
+proves the explicit Pólya–Vinogradov inequalities. Layer 4 proves Burgess's moment bound and its
+`r = 2` refinements from Weil's bound, the multiplicative-energy counts and Burgess's
+amplification inequality, and derives the tabulated Burgess constants from the Layer 6
+propositions. Layer 5 proves the explicit
 bounds for Selberg diagonal sums that the sieves need beyond those of ExplicitPrimeCounting, the
 weighted arithmetic large sieve and the explicit sieve upper bounds. Layer 6 lists the
 computational hypotheses: numerical inequalities over explicitly bounded ranges, and, for
@@ -544,51 +530,16 @@ equals `χ*(n)` when `gcd(n, r) = 1` and `0` otherwise (Mathlib
 `DirichletCharacter.changeLevel_primitiveCharacter`, `ArithmeticFunction.moebius`,
 `ArithmeticFunction.cardDistinctFactors`; §0.4.
 
-### 0.6a the quadratic-character point count of a Weierstrass equation
-
-Let `F` be a finite field of odd characteristic with `q` elements, `η` its quadratic character
-(Mathlib `quadraticChar F`), and `W` a Weierstrass equation over `F` with `a₁ = a₃ = 0` (Mathlib
-`WeierstrassCurve.IsCharNeTwoNF`), so `W` is `y² = f(x)` with `f(x) = x³ + a₂x² + a₄x + a₆`. Write
-`#W(F)` for its projective point count, Tau Ceti `WeierstrassCurve.pointCount`: the solutions
-`(x, y) ∈ F²` of the equation, singular ones included, plus the point at infinity. Prove
-`pointCount_eq_card_add_sum_quadraticChar` and `frobeniusTrace_eq_neg_sum_quadraticChar`:
-
-    #W(F) = q + 1 + Σ_{x ∈ F} η(f(x)),        a_q(W) = q + 1 − #W(F) = −Σ_{x ∈ F} η(f(x))
-
-(silverman2009 §V.1). No ellipticity is assumed, and `f` may have repeated roots. Proof: the
-solutions with first coordinate `x` are the square roots of `f(x)`, of which there are `1 + η(f(x))`
-by Mathlib `quadraticChar_card_sqrts` (one when `f(x) = 0`); summing over the `q` values of `x`
-and adding the point at infinity gives the count, and Tau Ceti `WeierstrassCurve.frobeniusTrace_def`
-gives the trace. §4.1 consumes it at `F = ZMod p`, with Tau Ceti's Hasse bound when `f` is
-squarefree.
-
-**Checks.**
-
-- Over `𝔽₅`, `y² = x³ + x`: the values of `f` at `x = 0, …, 4` are `0, 2, 0, 0, 3`, with `η`-values
-  `0, −1, 0, 0, −1`, so `#W = 6 − 2 = 4` (the solutions `(0, 0)`, `(2, 0)`, `(3, 0)` and the point
-  at infinity) and the trace is `2`; the opposite sign convention would give `−2`.
-- Singular solutions are counted: over `𝔽₅`, the cusp `y² = x³` has `η(x³) = η(x)`, so the sum is
-  `0` and `#W = 6`, namely the five affine solutions `(0, 0)`, `(1, ±1)`, `(4, ±2)` and the point
-  at infinity; a count of nonsingular points would give `5`.
-- Odd characteristic is needed: over `𝔽₂`, `y² = x³ + 1` has the solutions `(0, 1)` and `(1, 0)`, so
-  `#W = 3`, while `2 + 1 + η(1) + η(0) = 4`.
-
-*Needs:* Mathlib `quadraticChar`, `quadraticChar_card_sqrts`, `WeierstrassCurve.IsCharNeTwoNF`;
-Tau Ceti `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`,
-`WeierstrassCurve.frobeniusTrace_def`.
-
 ### Examples
 
 The quadratic character modulo `5` has `M_χ = 2` and initial-sum maximum `1`; the real-part form
-of §0.3 at `b = (1, −1)` on `(0, 2]`, `H = 2` bounds `0` by `1.5`; `R(x/3, 0, 6, 0.1) = 3`; over
-`𝔽₅` the equation `y² = x³ + x` has four points and trace `2`.
+of §0.3 at `b = (1, −1)` on `(0, 2]`, `H = 2` bounds `0` by `1.5`; `R(x/3, 0, 6, 0.1) = 3`.
 
 ### Dependencies
 
 Mathlib: `Real.fourierChar`, `UnitAddCircle.norm_eq`, Dirichlet characters, primitive characters,
-Möbius function, `Complex.re_le_norm`, `quadraticChar_card_sqrts`. Tau Ceti: the partial-sum lemmas
-of `TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean` and the point count of
-`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`. ExplicitZetaBounds §4.2 (for §0.3).
+Möbius function, `Complex.re_le_norm`. Tau Ceti: the partial-sum lemmas of
+`TauCeti/NumberTheory/DirichletCharacter/PartialSum.lean`. ExplicitZetaBounds §4.2 (for §0.3).
 
 ## Layer 1: the iterated van der Corput inequality
 
@@ -1062,10 +1013,13 @@ order 2 (`χ` is then the quadratic character, Mathlib `quadraticChar (ZMod p)`)
 of the four linear factors, and the tuples fall into five patterns: `aaaa` (`h` tuples, sum
 `p − 1`), `aabb` (`3h(h − 1)`, sum `p − 2`), `aaab` (`4h(h − 1)`, sum `−1`), `aabc`
 (`6h(h − 1)(h − 2)`, sum `−1 − χ((b − a)(c − a))`, of modulus at most `2`) and `abcd`
-(`h(h − 1)(h − 2)(h − 3)`). For four distinct values the substitution `x = −a + 1/u` turns
-`Σ_x χ(f(x))` into `Σ_u χ(g(u)) − 1` with `g` a squarefree cubic, which after scaling by its
-leading coefficient is, up to sign, the Frobenius trace of an elliptic curve over `ZMod p` (§0.6a),
-of modulus at most `2√p` by Tau Ceti's `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`; so
+(`h(h − 1)(h − 2)(h − 3)`). For four distinct values, with `a` one of them and `j` running over
+the other three, the substitution `x = −a + 1/u` maps the `u ≠ 0` bijectively onto the `x ≠ −a`,
+where `f(−a) = 0`, and gives `f(x) = u⁻⁴ g(u)` with `g(u) = ∏_j (1 + (j − a)u)`; since
+`χ(u⁻⁴) = 1` and `g(0) = 1`, it turns `Σ_x χ(f(x))` into `Σ_u χ(g(u)) − 1`. The three numbers
+`j − a` are distinct and nonzero modulo `p` (because `h < p`), so `g` is a cubic with the three
+distinct roots `−1/(j − a)`, and, having odd degree, it is not a constant times a square;
+CharacterSumsOverFiniteFields §4.7 with `m = 3` gives `|Σ_u χ(g(u))| ≤ 2√p`, so
 `|Σ_x χ(f(x))| ≤ 2√p + 1`. The source bounds this sum by `2√p` (line 180), which is false for
 single tuples (Checks), but the inequality survives: the difference between the right side and
 `W₂` is at least
@@ -1095,13 +1049,16 @@ positive when `h ≤ 12√p − 9`; and when `h > 12√p − 9`, the bound
   `3 · 4 · 7 + 3 · 16√7 = 211.0` (the general bound at `r = 2`). For the cubic character
   modulo `7` at `h = 2`, `W₂ = 22` against the order-`> 2` refinement `6 · 7 + 30√7 = 121.4`.
 - Negative control for the per-tuple bound: at `p = 19`, `Σ_x χ((x + 1)(x + 2)(x + 4)(x + 9)) = −9`,
-  of modulus above `2√19 = 8.72` and below `2√19 + 1 = 9.72`.
+  of modulus above `2√19 = 8.72` and below `2√19 + 1 = 9.72`. With `a = 1` the cubic is
+  `g(u) = (1 + u)(1 + 3u)(1 + 8u)`, with roots `18, 6, 7` modulo `19`, and `Σ_u χ(g(u)) = −8`,
+  inside the bound `2√19 = 8.72` of §4.7 at `m = 3`; §4.7 applied to the quartic itself (`m = 4`)
+  gives only `3√19 = 13.08`. At `p = 53` the tuple `(1, 3, 4, 7)` gives `−15` and `−14`, against
+  `2√53 = 14.56`.
 - `h = 1`: both refinements read `(3 − 2)p + 2(1 − 3 + 2)√p = (2 − 1)p + 3(1 − 2 + 1)√p = p`, while
   `W₂(1) = Σ_x |χ(x)|⁴ = p − 1`; the strict inequality holds with margin `1`, and a version with
   `p − 1` in place of `p` in the leading term would read `p − 1 < p − 1`, which is false.
 
-*Needs:* CharacterSumsOverFiniteFields §4.7; §0.6a; Tau Ceti
-`DirichletCharacter.sum_range_level_eq_zero`, `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`;
+*Needs:* CharacterSumsOverFiniteFields §4.7; Tau Ceti `DirichletCharacter.sum_range_level_eq_zero`;
 Mathlib `Polynomial`, `ZMod`, `MulChar`, `quadraticChar`, `Nat.doubleFactorial`,
 `ConvexOn.map_integral_le` (Jensen's inequality).
 
@@ -1215,6 +1172,18 @@ side of (A.2), which satisfies (A.1) by `McGownTableCertificate`; since `√(11r
 
 **Checks.**
 
+- `mcgownConstant 2 = 10.0366` is `C₀(2) = 252^{1/4}/(1 − 2/√11) = 3.98428/0.396977 = 10.036550`
+  rounded up, and `mcgownConstant 3 = 4.9539` is
+  `C₀(3) = 660^{1/6}/(1 − 2 · 11^{−2/3}) = 2.95069/0.595640 = 4.953819` rounded up; rounding to
+  the nearest `10⁻⁴` would give `10.0365` and `4.9538`, below `C₀(2)` and `C₀(3)`, and
+  `McGownTableCertificate` would be false.
+- The tightest row is `r = 8`: `C₀(8) = 2.2720993` against `mcgownConstant 8 = 2.2721`, a margin of
+  `7.5 · 10⁻⁷`; the value `2.2720` would make `McGownTableCertificate` false.
+- (A.1) at `r = 2`, `C = C₀(2)`, `p₀ = 2 · 10⁴`: `100.73 · 3.448 · 3.147 = 1093.2 ≥ 528 · 2 = 1056`;
+  this is the tightest of the fourteen rows (ratio `1.035`), and at `r = 15` the left side is
+  `1.66 · 10⁵` against `7920`.
+- `mcgownConstant 1 = mcgownConstant 16 = 0`: outside `2 ≤ r ≤ 15` the definition carries no
+  constant, and no theorem is stated there.
 - `d = 4` is excluded: `1 − 2 · 4^{−1/2} = 0` makes (A.2) undefined.
 - The prime-count lower bound is the one with `1 + log A`: the bound `π(A) ≥ A/log A` fails at
   `A = 4`, where `4/log 4 = 2.885 > 2 = π(4)`.
@@ -1289,16 +1258,16 @@ range restriction (lines 1324–1334).
 
 ### Examples
 
-Burgess's moment bound at `r = 1` is the orthogonality identity `⌊B⌋p − ⌊B⌋²`; at `r = 2`,
-`p = 7`, `h = 2` the quadratic character gives `W₂ = 34 < 98.3`.
+McGown's constant at `r = 2` is `C₀(2) = 252^{1/4}/(1 − 2/√11) = 10.036550`, tabulated as
+`10.0366`. Burgess's moment bound at `r = 1` is the orthogonality identity `⌊B⌋p − ⌊B⌋²`; at
+`r = 2`, `p = 7`, `h = 2` the quadratic character gives `W₂ = 34 < 98.3`.
 
 ### Dependencies
 
-Layer 0 (§§0.4, 0.6a), Layer 3 (§3.2). CharacterSumsOverFiniteFields §4.7;
-AnalyticNumberTheoryPartI §0.5 (for §4.4). Tau Ceti: `DirichletCharacter.sum_range_level_eq_zero`,
-`WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`. Mathlib: Jensen's inequality,
-`Nat.primeCounting`. Layer 6: `McGownSmallRange`, `McGownTableCertificate`,
-`TrevinoTable1Certificate`, `TrevinoTable3Certificate`.
+Layer 0 (§0.4), Layer 3 (§3.2). CharacterSumsOverFiniteFields §4.7;
+AnalyticNumberTheoryPartI §0.5 (for §4.4). Tau Ceti: `DirichletCharacter.sum_range_level_eq_zero`.
+Mathlib: Jensen's inequality, `Nat.primeCounting`. Layer 6: `McGownSmallRange`,
+`McGownTableCertificate`, `TrevinoTable1Certificate`, `TrevinoTable3Certificate`.
 
 ## Layer 5: explicit sieve upper bounds
 
@@ -1629,66 +1598,219 @@ comparison of `L₁` and `L_k` in 5.5, `brun_titchmarsh` in the Checks of 5.4); 
 ## Layer 6: computational hypotheses
 
 Each item is a proposition declared in `Suggested.lean` and carried as an explicit hypothesis by
-every theorem that uses it; this roadmap proves none of them.
+every theorem that uses it; this roadmap proves none of them. Items 6.1–6.5 and 6.8–6.10 are
+statements about explicitly given numbers, or about integers, characters and primes in an
+explicitly bounded range. Items 6.6 and 6.7 are, for each of finitely many table rows, an
+inequality between explicit elementary functions of one real variable `p` on the half-line
+`[p₀, ∞)`. No item mentions an unbounded family of characters or primes, and none contains the
+conclusion of the theorem that consumes it.
 
-- **6.1** `LapkovaSmallModuliVerified`: for every `2 ≤ q ≤ 25` and every primitive character `χ`
-  modulo `q`, `LapkovaBound χ` (§3.5) holds (lapkova2018, proof of Lemma 3A, lines 291–408).
-- **6.2** `ButheSmallRangeVerified`: for every real `1 < Y < 20000` there is a real `z ≥ 1` with
-  `Y ∏_{p ≤ z}(1 − 1/p) + 2^{π(z)} + π(z) < 2Y/log Y` (buthe2014, proof of Theorem 4.3,
-  lines 633–649).
-- **6.3** `ButheMediumRangeVerified`: for every real `20000 ≤ Y ≤ 4 · 10^18` there is a real
-  `z ≥ 1` with `Y/S(z) + H₁(z)²/S(z)² + π(z) < 2Y/log Y` (buthe2014, proof of Theorem 4.3,
-  lines 650–655).
-- **6.4** `FanFiniteRange`: for all reals `x < 2 · 10⁶` and `1 < z ≤ x`, `Φ(x, z) < x/log z`; if
-  moreover `x ≥ 8` and `z ≥ max(3, √x)`, `Φ(x, z) < x/log z − x/(2 log² z)`; and if
-  `max(2, x^{2/5}) ≤ z ≤ √x`, `Φ(x, z) < 2x/(3 log z)` (fan2022, proof of the Theorem,
-  lines 164–463).
-- **6.5** `McGownTableCertificate`: for each `2 ≤ r ≤ 15`, with
-  `C₀(r) = (12(2r − 1)(4r − 1))^{1/(2r)}/(1 − 2 · 11^{−(1 − 1/r)})`, `C₀(r) < mcgownConstant r`
-  and `C₀(r)^r (2 · 10⁴)^{1/4 − 1/(4r)} (log(2 · 10⁴))^{1/2} ≥ 528r` (mcgown2012, Theorem A.1 from
-  Theorem A.9 at `d = 11`, `p₀ = 2 · 10⁴`, line 1433).
-- **6.6** `TrevinoTable1Certificate`: for each `e ∈ {7, 10, 20}`, `2 ≤ r ≤ 10` and real
-  `p ≥ 10^e`, with `c = trevinoTable1 e r`, `(k, c′) = trevinoTable5 e r`,
-  `D = ((2r − 3)!!(r − 1))^{1/r}`, `B = D p^{1/(2r)}`, `A = k c′^r p^{1/4 − 1/(4r)} log p/D`,
-  `s = 1` if `r = 2` and `s = (trevinoTable1 e (r − 1)/c′)^{r(r−1)}` if `r ≥ 3`,
-  `g = AB/((A − 1)(B − 1))`, `h = (A + 1)(B + 1)/(AB)`,
-  `num = g (2r(2r − 1)D/(r − 1))^{1/(2r)} b^{1/(2r)}` with `b` the sum of
-  `s²/(D p^{(r−2)/(2(r−1))})`, `1/(4k log p)`, `1/(4r(r − 1)k log p)` and
-  `log(1.85 s k log p/D)/(k log² p)`, and `den = 1 − (2r²/(2r − 1)²) k^{1−1/r} h^{2−1/r} g`, one
-  has `A ≥ 29`, `c′ < c`, `den > 0` and `num ≤ c · den`; here `trevinoTable5 e r` is the pair
-  `(k, c′)` of the source's Table 5 at `p₀ = 10^e` for `2 ≤ r ≤ 10`, and `(0, 0)` elsewhere: for
-  `p₀ = 10⁷`, `(2/45, 2.738)`,
-  `(1/16, 2.019)`, `(1/12, 1.729)`, `(1/12, 1.610)`, `(1/12, 1.548)`, `(11/150, 1.504)`,
-  `(19/300, 1.470)`, `(19/300, 1.441)`, `(4/75, 1.415)` (`r = 2, …, 10`); for `10¹⁰`,
-  `(1/30, 2.517)`, `(11/150, 1.737)`, `(31/300, 1.515)`, `(7/75, 1.456)`, `(1/12, 1.426)`,
-  `(11/150, 1.404)`, `(19/300, 1.383)`, `(19/300, 1.366)`, `(4/75, 1.349)`; for `10²⁰`,
-  `(1/30, 2.354)`, `(2/15, 1.369)`, `(37/300, 1.310)`, `(31/300, 1.298)`, `(7/75, 1.289)`,
-  `(1/12, 1.281)`, `(1/12, 1.272)`, `(11/150, 1.264)`, `(11/150, 1.256)` (trevino2015, displays
-  (46)–(47), lines 889–941, and Table 5, lines 1013–1024).
-- **6.7** `TrevinoTable3Certificate`: for each `e ∈ {10, 15, 20}`, `2 ≤ r ≤ 10` and real
-  `p ≥ 10^e`, with `c = trevinoTable3 e r`, `(k, c′) = trevinoTable7 e r`, `D`, `B`, `g`, `h` and
-  `den` as in 6.6, `A = k c′^r p^{1/4 − 1/(4r)} √(log p)/D`,
-  `s = (trevinoTable3 e (r − 1)/c′)^{r(r−1)}` and
-  `num = g (2r(2r − 1)D/(r − 1))^{1/(2r)} b^{1/(2r)}` with `b = 3/(8k)` if `r = 2` and
-  `b = log(1.85 s k √(log p)/D)/(k log p) + 1/(4k) + 1/(4r(r − 1)k)` if `r ≥ 3`, one has
-  `A ≥ 31`, `8k < D`, `c′ < c`, `den > 0` and `num < c · den`; here `trevinoTable7 e r` is the
-  pair `(k, c′)` of the source's Table 7 at `p₀ = 10^e` for `2 ≤ r ≤ 10`, and `(0, 0)` elsewhere:
-  for `p₀ = 10¹⁰`, `(0.124, 3.65)`, `(0.126, 2.58)`, `(0.106, 2.19)`, `(0.091, 1.98)`,
-  `(0.080, 1.85)`, `(0.072, 1.75)`, `(0.064, 1.68)`, `(0.058, 1.625)`, `(0.054, 1.579)`
-  (`r = 2, …, 10`); for `10¹⁵`, `(0.124, 3.58)`, `(0.131, 2.51)`, `(0.116, 2.12)`,
-  `(0.101, 1.92)`, `(0.090, 1.79)`, `(0.079, 1.70)`, `(0.071, 1.635)`, `(0.065, 1.58)`,
-  `(0.060, 1.54)`; for `10²⁰`, `(0.124, 3.57)`, `(0.135, 2.49)`, `(0.120, 2.10)`,
-  `(0.107, 1.90)`, `(0.095, 1.77)`, `(0.084, 1.68)`, `(0.077, 1.61)`, `(0.070, 1.56)`,
-  `(0.064, 1.52)` (trevino2015, displays (58)–(59), lines 1218–1265, and Table 7,
-  lines 1311–1322).
-- **6.8** `McGownSmallRange`: `Σ_{a prime ≤ X} (π(a) − 1)/a < π(X)/3` for every integer
-  `2 ≤ X ≤ 100`, and `π(A) ≥ A/(1 + log A)` for every integer `3 ≤ A ≤ 58` (mcgown2012, Lemma A.8,
-  lines 1192–1204, and the proof of Theorem A.9).
-- **6.9** `RosserSchoenfeldFiniteRangeInput`: for every real `59 ≤ x < exp 10000`,
-  `(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))` (the named input of
-  AnalyticNumberTheoryPartI §0.5, restated with the same content).
-- **6.10** `MVDiagonalFiniteRange`: for every real `6 ≤ z < 10⁹`, `S(z) ≥ log z + 1.07` (the named
-  input of ExplicitPrimeCounting §0.1, restated with the same content).
+### 6.1 small moduli in Lapkova's lemma
+
+`LapkovaSmallModuliVerified`: for every `2 ≤ q ≤ 25` and every primitive character `χ` modulo `q`,
+`LapkovaBound χ` (§3.5) holds (lapkova2018, proof of Lemma 3A, lines 291–408). §3.5 consumes it
+for `q ≤ 25`, and §3.4 through §3.5 for the odd characters of modulus `11 ≤ q ≤ 25`.
+
+**Checks.**
+
+- `q = 3`, the odd quadratic character: `M_χ = 1 ≤ 0.303 + 1.421 + 1.029 = 2.75`; `q = 4`, the odd
+  character `χ₄`: `M_χ = 1 ≤ 3.11`.
+- `q = 5`, the even quadratic character: `M_χ = 2 ≤ 0.729 + 2.117 + 1.668 = 4.51`.
+- `q = 23`, the odd quadratic character: the initial sum over `1 ≤ n ≤ 9` is `5` (the residues
+  `1, 2, 3, 4, 6, 8, 9` against the non-residues `5, 7`), `M_χ = 5`, and the odd bound is
+  `0.1592 · 4.796 · 3.135 + 0.8204 · 4.796 + 1.0285 = 7.356`. Over the `123` primitive characters
+  of modulus at most `25` the largest ratio of `M_χ` to its bound is this one, `0.680`.
+- A modulus `q ≡ 2 (mod 4)`, such as `q = 6` or `22`, has no primitive character, so it imposes
+  nothing.
+- The range stops at `25`: for `q > 25` §3.5 is proved analytically, and a version of the
+  hypothesis claiming every `q` would contain the conclusion of §3.5.
+
+### 6.2 Büthe's small range
+
+`ButheSmallRangeVerified`: for every real `1 < Y < 20000` there is a real `z ≥ 1` with
+`Y ∏_{p ≤ z}(1 − 1/p) + 2^{π(z)} + π(z) < 2Y/log Y` (buthe2014, proof of Theorem 4.3,
+lines 633–649). §5.4 consumes it.
+
+**Checks.**
+
+- `Y = 100`, `z = 7`: `22.86 + 16 + 4 = 42.86 < 200/log 100 = 43.43`.
+- `Y = 1.5`, `z = 1` (empty product, `π(1) = 0`): `1.5 + 1 + 0 = 2.5 < 3/log 1.5 = 7.40`.
+- The witness depends on `Y`: `z = 7` fails at `Y = 20`
+  (`4.57 + 16 + 4 = 24.57 > 40/log 20 = 13.35`), where `z = 1` gives `20 + 1 = 21 > 13.35` and
+  `z = 2` gives `10 + 2 + 1 = 13 < 13.35`; a version with one `z` for every `Y` would be false.
+
+### 6.3 Büthe's medium range
+
+`ButheMediumRangeVerified`: for every real `20000 ≤ Y ≤ 4 · 10^18` there is a real `z ≥ 1` with
+`Y/S(z) + H₁(z)²/S(z)² + π(z) < 2Y/log Y` (buthe2014, proof of Theorem 4.3, lines 650–655). §5.4
+consumes it.
+
+**Checks.**
+
+- At `Y = 20000` the right side is `2 · 20000/log 20000 = 4039.0`, and `z = 65` (`S = 5.4714`,
+  `H₁ = 99.386`, `π(65) = 18`) gives `3655.3 + 330.0 + 18 = 4003.3 < 4039.0`.
+- The term `Y/S(z)` excludes small `z` and the term `H₁(z)²/S(z)²` large `z`: at `Y = 20000`,
+  `z = 40` gives `4154.9`, `z = 100` gives `4073.0` and `z = 1` gives `20001`; the integer
+  witnesses are `57 ≤ z ≤ 84`, and the three terms are constant on `[n, n + 1)`.
+- The diagonal sum is `S(z) = Σ μ²(n)/φ(n)`: with the harmonic sum `Σ_{n ≤ z} 1/n = 4.7593` in its
+  place at `z = 65`, the first term alone is `20000/4.7593 = 4202.3 > 4039.0`.
+
+### 6.4 Fan's finite range
+
+`FanFiniteRange`: for all reals `x < 2 · 10⁶` and `1 < z ≤ x`, `Φ(x, z) < x/log z`; if moreover
+`x ≥ 8` and `z ≥ max(3, √x)`, `Φ(x, z) < x/log z − x/(2 log² z)`; and if
+`max(2, x^{2/5}) ≤ z ≤ √x`, `Φ(x, z) < 2x/(3 log z)` (fan2022, proof of the Theorem,
+lines 164–463). §5.6 consumes it.
+
+**Checks.**
+
+- `x = 9`, `z = 3 = √9`: `Φ = 3` (`1, 5, 7`), below `9/log 3 = 8.19` and below the middle bound
+  `8.19 − 3.73 = 4.46`.
+- `x = 32`, `z = 4 = 32^{2/5}`: `Φ = 11` (the integers prime to `6` up to `32`)
+  `< 64/(3 log 4) = 15.39`, the third inequality at the lower end of its range.
+- `x = z = 1.5`: `Φ = 1 < 1.5/log 1.5 = 3.70`; the first inequality reaches `z` arbitrarily close
+  to `1`.
+- Without the restriction `x ≥ 8` the middle inequality would make the proposition false at
+  `x = 7`, `z ∈ (4.9910, 5)`, where `Φ(7, z) = 3` and the right side lies between `2.9981` and `3`
+  (§5.6).
+
+### 6.5 McGown's table
+
+`McGownTableCertificate`: for each `2 ≤ r ≤ 15`, with
+`C₀(r) = (12(2r − 1)(4r − 1))^{1/(2r)}/(1 − 2 · 11^{−(1 − 1/r)})`, `C₀(r) < mcgownConstant r`
+and `C₀(r)^r (2 · 10⁴)^{1/4 − 1/(4r)} (log(2 · 10⁴))^{1/2} ≥ 528r` (mcgown2012, Theorem A.1 from
+Theorem A.9 at `d = 11`, `p₀ = 2 · 10⁴`, line 1433). §4.4 consumes it.
+
+**Checks.**
+
+- `C₀(2) = 252^{1/4}/(1 − 2/√11) = 10.036550 < 10.0366` and `C₀(3) = 4.953819 < 4.9539`.
+- The tightest row of the first inequality is `r = 8`: `C₀(8) = 2.2720993 < 2.2721`, a margin of
+  `7.5 · 10⁻⁷`.
+- The second inequality, `(A.1)` at `d = 11`, is tightest at `r = 2`:
+  `C₀(2)² · (2 · 10⁴)^{1/8} · (log(2 · 10⁴))^{1/2} = 100.73 · 3.448 · 3.147 = 1093.2 ≥ 1056`; the
+  factor `528 = 4 · 11 · 12` is `4d(d + 1)` at `d = 11`, and at `r = 15` the left side is
+  `1.66 · 10⁵` against `7920`.
+
+### 6.6 Treviño's Table 1
+
+`TrevinoTable1Certificate`: for each `e ∈ {7, 10, 20}`, `2 ≤ r ≤ 10` and real `p ≥ 10^e`, with
+`c = trevinoTable1 e r`, `(k, c′) = trevinoTable5 e r`, `D = ((2r − 3)!!(r − 1))^{1/r}`,
+`B = D p^{1/(2r)}`, `A = k c′^r p^{1/4 − 1/(4r)} log p/D`, `s = 1` if `r = 2` and
+`s = (trevinoTable1 e (r − 1)/c′)^{r(r−1)}` if `r ≥ 3`, `g = AB/((A − 1)(B − 1))`,
+`h = (A + 1)(B + 1)/(AB)`, `num = g (2r(2r − 1)D/(r − 1))^{1/(2r)} b^{1/(2r)}` with `b` the sum of
+`s²/(D p^{(r−2)/(2(r−1))})`, `1/(4k log p)`, `1/(4r(r − 1)k log p)` and
+`log(1.85 s k log p/D)/(k log² p)`, and `den = 1 − (2r²/(2r − 1)²) k^{1−1/r} h^{2−1/r} g`, one has
+`A ≥ 29`, `c′ < c`, `den > 0` and `num ≤ c · den` (trevino2015, displays (46)–(47),
+lines 889–941). Define `trevinoTable5` `e r`, the pair `(k, c′)` of the source's Table 5 at
+`p₀ = 10^e` for `e ∈ {7, 10, 20}` and `2 ≤ r ≤ 10`, and `(0, 0)` elsewhere: for `p₀ = 10⁷`,
+`(2/45, 2.738)`, `(1/16, 2.019)`, `(1/12, 1.729)`, `(1/12, 1.610)`, `(1/12, 1.548)`,
+`(11/150, 1.504)`, `(19/300, 1.470)`, `(19/300, 1.441)`, `(4/75, 1.415)` (`r = 2, …, 10`); for
+`10¹⁰`, `(1/30, 2.517)`, `(11/150, 1.737)`, `(31/300, 1.515)`, `(7/75, 1.456)`, `(1/12, 1.426)`,
+`(11/150, 1.404)`, `(19/300, 1.383)`, `(19/300, 1.366)`, `(4/75, 1.349)`; for `10²⁰`,
+`(1/30, 2.354)`, `(2/15, 1.369)`, `(37/300, 1.310)`, `(31/300, 1.298)`, `(7/75, 1.289)`,
+`(1/12, 1.281)`, `(1/12, 1.272)`, `(11/150, 1.264)`, `(11/150, 1.256)` (trevino2015, Table 5,
+lines 1013–1024). §4.5 consumes the proposition.
+
+**Checks.**
+
+- `trevinoTable5 7 2 = (2/45, 2.738)`, while `trevinoTable5 7 11` and `trevinoTable5 15 2` are
+  `(0, 0)`, outside the table. At `(e, r) = (7, 2)` and `p = 10⁷`, `D = 1` and
+  `A = (2/45) · 2.738² · 10^{7/8} · log 10⁷ = 40.27 ≥ 29`.
+- Every row reproduces Table 1 at `p = p₀`: `num/den` is `2.738070` at `(7, 2)` (tabulated
+  `2.7381`), `2.019615` at `(7, 3)` with `s = (2.7381/2.019)^6 = 6.221` (tabulated `2.0197`),
+  `1.349428` at `(10, 10)` (tabulated `1.3495`) and `1.256098` at `(20, 10)` (tabulated `1.2562`).
+- The prefactor at `r = 2` is `(2r(2r − 1)D/(r − 1))^{1/(2r)} = 12^{1/4}`, that of display (46); a
+  prefactor `(1/2)^{1/4}` in its place gives `num/den = 1.237` at `(7, 2)`, far below the
+  tabulated `2.7381`, so the table pins the encoding.
+
+### 6.7 Treviño's Table 3
+
+`TrevinoTable3Certificate`: for each `e ∈ {10, 15, 20}`, `2 ≤ r ≤ 10` and real `p ≥ 10^e`, with
+`c = trevinoTable3 e r`, `(k, c′) = trevinoTable7 e r`, `D`, `B`, `g`, `h` and `den` as in 6.6,
+`A = k c′^r p^{1/4 − 1/(4r)} √(log p)/D`, `s = (trevinoTable3 e (r − 1)/c′)^{r(r−1)}` and
+`num = g (2r(2r − 1)D/(r − 1))^{1/(2r)} b^{1/(2r)}` with `b = 3/(8k)` if `r = 2` and
+`b = log(1.85 s k √(log p)/D)/(k log p) + 1/(4k) + 1/(4r(r − 1)k)` if `r ≥ 3`, one has `A ≥ 31`,
+`8k < D`, `c′ < c`, `den > 0` and `num < c · den` (trevino2015, displays (58)–(59),
+lines 1218–1265). Define `trevinoTable7` `e r`, the pair `(k, c′)` of the source's Table 7 at
+`p₀ = 10^e` for `e ∈ {10, 15, 20}` and `2 ≤ r ≤ 10`, and `(0, 0)` elsewhere: for `p₀ = 10¹⁰`,
+`(0.124, 3.65)`, `(0.126, 2.58)`, `(0.106, 2.19)`, `(0.091, 1.98)`, `(0.080, 1.85)`,
+`(0.072, 1.75)`, `(0.064, 1.68)`, `(0.058, 1.625)`, `(0.054, 1.579)` (`r = 2, …, 10`); for
+`10¹⁵`, `(0.124, 3.58)`, `(0.131, 2.51)`, `(0.116, 2.12)`, `(0.101, 1.92)`, `(0.090, 1.79)`,
+`(0.079, 1.70)`, `(0.071, 1.635)`, `(0.065, 1.58)`, `(0.060, 1.54)`; for `10²⁰`,
+`(0.124, 3.57)`, `(0.135, 2.49)`, `(0.120, 2.10)`, `(0.107, 1.90)`, `(0.095, 1.77)`,
+`(0.084, 1.68)`, `(0.077, 1.61)`, `(0.070, 1.56)`, `(0.064, 1.52)` (trevino2015, Table 7,
+lines 1311–1322). §4.5 consumes the proposition.
+
+**Checks.**
+
+- `trevinoTable7 10 2 = (0.124, 3.65)` and `trevinoTable7 7 2 = (0, 0)`: Table 7 has no row at
+  `p₀ = 10⁷`. The condition `8k < D` is tightest at `r = 2`, where `D = 1` and `8 · 0.124 = 0.992`;
+  at `r = 3`, `D = 6^{1/3} = 1.817` against `8 · 0.126 = 1.008`.
+- Every row reproduces Table 3 at `p = p₀`: `num/den` is `3.652847` at `(e, r) = (10, 2)`, where
+  `A = 140.97` (tabulated `3.6529`), `1.579302` at `(10, 10)` (tabulated `1.5794`) and `1.521507`
+  at `(20, 10)` (tabulated `1.5216`).
+- The value at `p = p₀` does not by itself bound larger `p`. At `(10, 10)` (`k = 0.054`,
+  `c′ = 1.579`, `s = (1.6283/1.579)^{90} = 15.91`) the bracket `b` grows from `4.7426` at
+  `p = 10¹⁰` to `4.8535` at `p = 10^{23.3}`; the quotient `num/den` still falls, from `1.57930` to
+  `1.51542`, because `g` falls from `1.0485` to `1.0098`. That is a property of the row, not of
+  the display, so the proposition quantifies over every `p ≥ p₀`.
+
+### 6.8 McGown's small range
+
+`McGownSmallRange`: `Σ_{a prime ≤ X} (π(a) − 1)/a < π(X)/3` for every integer `2 ≤ X ≤ 100`, and
+`π(A) ≥ A/(1 + log A)` for every integer `3 ≤ A ≤ 58` (mcgown2012, Lemma A.8, lines 1192–1204,
+and the proof of Theorem A.9). §4.4 consumes it.
+
+**Checks.**
+
+- The first part is tightest at `X = 23`:
+  `0 + 1/3 + 2/5 + 3/7 + 4/11 + 5/13 + 6/17 + 7/19 + 8/23 = 2.97934 < 3 = π(23)/3`; at `X = 2` it
+  reads `0 < 2/3`.
+- The second part is tightest at `A = 4`: `π(4) = 2 ≥ 4/(1 + log 4) = 1.6762`; the form
+  `π(A) ≥ A/log A` would be false there, since `4/log 4 = 2.885`.
+- The ranges end where §4.4 takes over: for `X > 100` the first inequality follows from the case
+  `X ≤ 100` and `π(n) − 1 ≤ n/3` for `n ≥ 100`, and for `A ≥ 59` the second follows from
+  AnalyticNumberTheoryPartI §0.5, because `(A/log A)(1 + 1/(2 log A)) > A/(1 + log A)`.
+
+### 6.9 Rosser–Schoenfeld's finite range
+
+`RosserSchoenfeldFiniteRangeInput`: for every real `59 ≤ x < exp 10000`,
+`(x/log x)(1 + 1/(2 log x)) < π(x) < (x/log x)(1 + 3/(2 log x))`, with `π(x) = π(⌊x⌋)` (the named
+input of AnalyticNumberTheoryPartI §0.5, restated with the same content). §§4.4 and 5.6 consume
+it.
+
+**Checks.**
+
+- `x = 59`: `16.244 < π(59) = 17 < 19.792`.
+- The range starts at `59`: at `x = 58.99`, `π = 16` lies below the lower bound `16.242`.
+- `x = 10⁴`: `1144.68 < π(10⁴) = 1229 < 1262.56`; `x = 10⁶`: `75002.0 < 78498 < 80241.2`.
+
+### 6.10 Montgomery–Vaughan's diagonal range
+
+`MVDiagonalFiniteRange`: for every real `6 ≤ z < 10⁹`, `S(z) ≥ log z + 1.07` (the named input of
+ExplicitPrimeCounting §0.1, restated with the same content). §§5.1, 5.5 and 5.6 consume it.
+
+**Checks.**
+
+- `S(6) = 1 + 1 + 1/2 + 1/4 + 1/2 = 3.25 ≥ log 6 + 1.07 = 2.862`.
+- The range starts at `6`: on `[5, 6)` the sum is `S = 2.75`, below `log 5.99 + 1.07 = 2.860`;
+  §5.1's bound from `z = 3` has the smaller constant `0.89` for that reason.
+- Below `10⁶` the margin is smallest as `z → 10⁻`: `S(9) = 3.41667` against
+  `log 10 + 1.07 = 3.37259`, a margin of `0.044`.
+
+### Examples
+
+`McGownTableCertificate` at `r = 2` is the pair `10.036550 < 10.0366`, `1093.2 ≥ 1056`;
+`ButheSmallRangeVerified` at `Y = 100` is witnessed by `z = 7`; `McGownSmallRange` at `X = 23` is
+`2.97934 < 3`.
+
+### Dependencies
+
+The statements use §3.5 (`LapkovaBound`), §4.4 (`mcgownConstant`), §4.5 (`trevinoTable1`,
+`trevinoTable3`), §5.1 (`selbergDiagonal`, `selbergWeightMass`) and §5.6 (`roughCount`), and
+Mathlib `DirichletCharacter.IsPrimitive`, `Nat.primeCounting` and `Nat.doubleFactorial`; no
+theorem of this roadmap. The consumers are §3.4 and §3.5 (6.1), §4.4 (6.5, 6.8, 6.9), §4.5
+(6.6, 6.7), §5.1 (6.10), §5.4 (6.2, 6.3), §5.5 (6.10) and §5.6 (6.4, 6.9, 6.10).
 
 ## Downstream consumers
 
@@ -1772,8 +1894,6 @@ every theorem that uses it; this roadmap proves none of them.
   45–74: Lemma 4.
 - **siebert1976** — H. Siebert, *Montgomery's weighted sieve for dimension two*, Monatsh. Math.
   82 (1976), 327–336.
-- **silverman2009** — J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., Graduate Texts
-  in Mathematics 106, Springer, 2009: §V.1, point counts over finite fields.
 - **tmeemt-art11**, **tmeemt-art14**, **tmeemt-art15** — A. de Camargo, O. Ramaré, D. Benielli
   (eds.), TME-EMT wiki pages on integer points near curves, sieve bounds and character sums.
 - **trevino2015** — E. Treviño, *The Burgess inequality and the least k-th power non-residue*, Int.
