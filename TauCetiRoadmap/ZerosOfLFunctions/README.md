@@ -12,11 +12,7 @@ the semantics of a certified list of zeros. The end theorems are the de la Vall�
 for the Dedekind zeta function and for the L-functions of finite-order ray-class characters, the
 uniform Riemann–von Mangoldt formula for both families, and the effective prime ideal theorem, the
 effective prime count in a ray class, and the effective abelian Chebotarev count with error
-`O(x exp(−c √log x))` and main term the offset logarithmic integral. Over `ℚ` the exceptional
-alternative disappears: with the exclusion of Landau–Siegel zeros, stated in
-AnalyticNumberTheoryPartI §0.34 and consumed downstream (6.3), the region for Dirichlet
-L-functions has no exception and the prime count in an arithmetic progression is uniform in the
-modulus, with effective absolute constants.
+`O(x exp(−c √log x))` and main term the offset logarithmic integral.
 
 Suggested home: `TauCeti/NumberTheory/LFunctions/Zeros/`, divided into `Growth/`,
 `GammaAsymptotics/`, `AnalyticConductor/`, `Convexity/`, `Counting/`, `Hadamard/`, `ZeroFree/`,
@@ -43,14 +39,12 @@ not the roadmap.
 - the Weierstrass elementary factor `E₁`, the canonical product indexed by a divisor, and
   Hadamard's factorization at order at most one for a general entire function (Layer 5);
 - the zero-free regions for Dedekind zeta functions and for L-functions of primitive finite-order
-  ray-class characters, with the exceptional-zero predicate, and over `ℚ` the region for Dirichlet
-  L-functions without exception (Layer 6);
+  ray-class characters, with the exceptional-zero predicate (Layer 6);
 - the boundary of a rectangle as a closed piecewise-`C¹` curve, its winding numbers, the argument
   principle on a rectangle in divisor language, and the Riemann–von Mangoldt formula (Layer 7);
 - the contour shift for `−ζ'_K/ζ_K`, the truncated and Weil explicit formulas, the effective
   prime ideal theorem, the effective prime count in a ray class, its transport to an abelian
-  extension, over `ℚ` the prime count in an arithmetic progression uniform in the modulus, and the
-  two-term comparison `Li x − x/log x ∼ x/log² x` (Layer 8);
+  extension, and the two-term comparison `Li x − x/log x ∼ x/log² x` (Layer 8);
 - the semantics of a certified list of zeros and the generalized Riemann hypothesis as a `Prop`
   over the two families (Layer 9).
 
@@ -85,18 +79,11 @@ not the roadmap.
 - constructing L-functions, continuing them, or proving functional equations (the L-functions
   roadmap); no zero theorem here is stated for a bare record without the continuation of its
   family;
-- proving the Riemann hypothesis or the generalized Riemann hypothesis;
-- the exclusion of Landau–Siegel zeros, `(1 − β) log q ≥ c_LS` for every real zero `β ∈ (0, 1)`
-  of every primitive real nonprincipal Dirichlet L-function of conductor `q ≥ 3`, and its
-  effective corollaries, among them Siegel's theorem in the form `L(1, χ) ≥ c/log q`, the
-  exception-free Landau–Page theorem and the character prime-number estimate uniform in the
-  conductor: AnalyticNumberTheoryPartI §§0.34, 0.9, 0.6 and 0.18, consumed downstream as the
-  outside input of the forms over `ℚ` in 6.3, 6.4 and 8.6–8.8;
-- over a field `K ≠ ℚ`, the nonexistence of exceptional zeros, every lower bound for `1 − β`
-  uniform in the field or the character, the identification of an exceptional zero with the zero
-  of a quadratic character's L-function (a Stark-type statement), and the Landau–Page statement
-  across a family of Hecke characters; so over `K ≠ ℚ` no effective estimate here is uniform in
-  the modulus or the character;
+- proving the Riemann hypothesis, the generalized Riemann hypothesis, or the nonexistence of
+  exceptional zeros; Siegel's theorem and every lower bound for `1 − β` uniform in the conductor,
+  so no effective estimate here is uniform in the modulus or the character;
+- identifying an exceptional zero with the zero of a quadratic character's L-function (a
+  Stark-type statement), and the Landau–Page statement across a family of characters;
 - interval arithmetic, numerical evaluation of zeros, and decimal constants: constants in the
   zero-free regions and the effective estimates are existential, with their dependence pinned;
 - Weierstrass factorization beyond genus `0` and `1`: elementary factors `E_p` for `p ≥ 2` and
@@ -166,10 +153,6 @@ not the roadmap.
 - **Uniformity.** Uniformity in a parameter is a quantifier order: the constant is chosen before
   that parameter. An `=O[atTop]` after fixing a field, a modulus or a character is a fixed-object
   statement whose constant and threshold may depend on it.
-- **Effectivity.** A constant is effective when its proof computes it, threshold included.
-  Siegel's ineffective theorem is used nowhere here. `c_LS` is the effective absolute constant of
-  the exclusion of Landau–Siegel zeros (AnalyticNumberTheoryPartI §0.34, consumed downstream);
-  the forms over `ℚ` in 6.3, 6.4 and 8.6–8.8 that use it have effective absolute constants.
 
 ## Exact supplier contracts
 
@@ -184,13 +167,13 @@ not the roadmap.
 - `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`,
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
-- `Complex.PhragmenLindelof.vertical_strip` (convexity on a strip);
+- `PhragmenLindelof.vertical_strip` (convexity on a strip);
 - `Complex.exists_continuousOn_eqOn_exp_comp` (a continuous logarithm on a simply connected open
   set);
 - `Complex.differentiableOn_update_limUnder_of_bddAbove` (removable singularities);
-- `multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
-  `logDeriv_tprod_eq_tsum` (infinite products), with `Complex.multipliable_sineTerm` and
-  `Complex.cot_series_rep` as the genus-`0` model;
+- `Summable.multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
+  `logDeriv_tprod_eq_tsum` (infinite products), with `multipliable_sineTerm` and
+  `cot_series_rep` as the genus-`0` model;
 - `Complex.borelCaratheodory`;
 - `Complex.Gamma`, `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
@@ -322,24 +305,6 @@ and nonabelian Chebotarev is not owned here.
   modulus) and `rayClassArtinMap_surjective`. They discharge the reciprocity hypothesis of 8.8 and
   are not used elsewhere.
 
-### The exclusion of Landau–Siegel zeros, consumed downstream
-
-AnalyticNumberTheoryPartI stands after this roadmap and takes its Layers 0–8 as stated for a
-general field, the exceptional-zero alternative of 6.3–6.4 included. Its §0.34
-(`landau_siegel_exclusion`) proves `(1 − β) log q ≥ c_LS` for every real zero `β ∈ (0, 1)` of
-every primitive real nonprincipal Dirichlet L-function of conductor `q ≥ 3`, with `c_LS > 0`
-absolute and effective and no excluded range of conductors. It is not a supplier contract. It
-enters only the forms over `ℚ` listed below, which are proved after it; nothing else here depends
-on them, in particular nothing that AnalyticNumberTheoryPartI takes from this roadmap.
-
-| Form over `ℚ` | Input from AnalyticNumberTheoryPartI |
-| --- | --- |
-| 6.3, the exceptional set at width at most `c_LS` is empty | §0.34; its §0.1 corollary `ExceptionalRealZero.empty` |
-| 6.4, `dirichletLFunction_zeroFreeRegion` without exception | §0.34, through 6.3 |
-| 8.6, `ψ(x, χ)` without the term `−x^β/β` | §0.34, through 6.4 |
-| 8.7, `primeCounting_progression_effective` uniform in the modulus | §0.34, through the character estimate of its §0.18 |
-| 8.8, abelian Chebotarev over `ℚ` without exceptional term | §0.34, through 6.3 and 8.7 |
-
 ## How to read the build
 
 Layers 0–2 are general analysis over the L-functions roadmap's record: growth predicates and the
@@ -349,9 +314,7 @@ uses finite order as an explicit hypothesis in generic convexity and completed s
 Jensen's formula, without contour integrals; Layer 5 is Hadamard's factorization, general and then
 for the families. Layer 6 proves the zero-free regions, Layer 7 the exact count by the argument
 principle on a rectangle, and Layer 8 the explicit formulas and the effective prime counts. Layer
-9 needs only Layers 0 and 4 and can be built early. The forms over `ℚ` without exceptional zero
-in 6.3, 6.4 and 8.6–8.8 come last, after the exclusion of Landau–Siegel zeros consumed
-downstream (see the table above).
+9 needs only Layers 0 and 4 and can be built early.
 
 ## Layer 0: growth predicates and the entire completion
 
@@ -720,14 +683,14 @@ Layer 3 `completedPartialZeta_eq_mellin`, `completedDedekindZeta_eq_sum_complete
 
 If `g` is holomorphic on a neighbourhood of a closed strip, of finite order there, and bounded by
 `C(1 + |t|)^a` and `C(1 + |t|)^b` on the two edges, then it is bounded by `C'(1 + |t|)^{ℓ(σ)}` on
-the strip, `ℓ` the linear interpolation. Consume `Complex.PhragmenLindelof.vertical_strip`; the
+the strip, `ℓ` the linear interpolation. Consume `PhragmenLindelof.vertical_strip`; the
 work is its growth hypothesis: a finite-order bound `exp(C(1+‖s‖)^A)` on the strip is
 `O(exp(B exp(c|Im s|)))` for any `0 < c < π/(σ₂−σ₁)`, where `[σ₁,σ₂]`, `σ₁ < σ₂`,
 is the strip.
 Normalize the polynomial edge bounds before applying the pinned theorem. It is never applied to
 a function with a pole in the strip, and edge bounds alone do not imply finite order.
 
-*Needs:* Mathlib `Complex.PhragmenLindelof.vertical_strip`.
+*Needs:* Mathlib `PhragmenLindelof.vertical_strip`.
 
 ### 3.3 The two edges
 
@@ -736,6 +699,9 @@ For `δ > 0`: on `Re s = 1 + δ`, `‖continuedL d s‖ ≤ C(δ)` by the averag
 equation of 1.6 against `d.dual` together with the gamma-quotient estimate
 `log ‖γ_dual(1 − s)/γ(s)‖ = (n/2)(1 + 2δ) log |t| + O(1)`, in which the two exponentials cancel
 because conjugating the shifts changes no real part. That cancellation is a named sub-target.
+These are the two edge estimates behind the convexity bound (Iwaniec–Kowalski §5.2; for `ζ`,
+Titchmarsh §5.1, where the edge exponents `0` and `1/2 − σ` are read off the Dirichlet series and
+the functional equation with Stirling's formula).
 
 *Needs:* 1.5, 1.6, 2.2; L-functions Layer 0 average coefficient growth.
 
@@ -833,7 +799,7 @@ There is no completed bound uniform in unbounded real part.
 
 ### Dependencies
 
-Mathlib `Complex.PhragmenLindelof.vertical_strip`. Layers 0, 1.5, 1.6, 2. L-functions Layers 0,
+Mathlib `PhragmenLindelof.vertical_strip`. Layers 0, 1.5, 1.6, 2. L-functions Layers 0,
 3, 5, 6 (the kernel inputs for 3.1).
 
 ## Layer 4: zero counting
@@ -995,15 +961,16 @@ Define *E₁* `z = (1 − z) exp z`.
 
 For entire `f` with `OrderLE f 1` and `f 0 ≠ 0`, `∑_ρ m_ρ ‖ρ‖^{−1−ε} < ∞` for every `ε > 0` by
 partial summation from 5.1, so `∑_ρ m_ρ ‖ρ‖^{−2} < ∞`; the product `∏_ρ E₁(s/ρ)^{m_ρ}` converges
-locally uniformly on `ℂ` (`multipliableLocallyUniformlyOn_one_add` with the estimate of 5.2), its
-limit is entire, and its divisor is `divisor f univ`. This is the genus-one construction of
-Davenport §11, adapted to the pinned divisor carrier: 4.3 (`AnalyticOnNhd.sum_divisor_le`)
-and Abel summation give zero summability; `multipliableLocallyUniformlyOn_one_add` gives the
-product, `TendstoLocallyUniformlyOn.differentiableOn` gives entirety, and
+locally uniformly on `ℂ` (`Summable.multipliableLocallyUniformlyOn_one_add` with the estimate
+of 5.2), its limit is entire, and its divisor is `divisor f univ`. This is the genus-one
+construction of Davenport §11, adapted to the pinned divisor carrier: 4.3
+(`AnalyticOnNhd.sum_divisor_le`) and Abel summation give zero summability;
+`Summable.multipliableLocallyUniformlyOn_one_add` gives the product,
+`TendstoLocallyUniformlyOn.differentiableOn` gives entirety, and
 `tprod_one_add_ne_zero_of_summable` applied after removing the factors at a fixed zero gives
 its exact multiplicity.
 
-*Needs:* 5.1, 5.2; Mathlib `multipliableLocallyUniformlyOn_one_add`,
+*Needs:* 5.1, 5.2; Mathlib `Summable.multipliableLocallyUniformlyOn_one_add`,
 `tprod_one_add_ne_zero_of_summable`, `TendstoLocallyUniformlyOn.differentiableOn`.
 
 **Checks** for the canonical product.
@@ -1122,27 +1089,7 @@ Define *IsExceptionalZero* `χ β`, for a primitive character `χ` (the trivial 
   vanish only on `Re s = 0` (6.4b).
 - `{β | IsExceptionalZero χ β}` is a subsingleton; no total `exceptionalZero : ℝ` is defined.
 
-**Over `ℚ`.** A primitive Dirichlet character `χ` of conductor `q` enters through the L-functions
-roadmap's `dirichletData` (Layer 4), whose card has one real gamma shift `a ∈ {0, 1}`; hence
-`q(χ, 0) = (3 + a) q` and `log q < log q(χ, 0)`.
-
-- At `K = ℚ` an exceptional zero `β` belongs to a real nonprincipal `χ`, so `q ≥ 3`; it is a zero
-  of `DirichletCharacter.LFunction χ` in `[1/2, 1)` and satisfies
-  `(1 − β) log q < heckeZeroFreeConstant 1`.
-- Every such zero has `(1 − β) log q ≥ c_LS`, by the exclusion of Landau–Siegel zeros
-  (AnalyticNumberTheoryPartI §0.34, consumed downstream). So an exceptional zero at `K = ℚ` has
-  `c_LS ≤ (1 − β) log q < heckeZeroFreeConstant 1`, and there is none if
-  `heckeZeroFreeConstant 1 ≤ c_LS`.
-- With the width `heckeZeroFreeConstant 1` replaced by any `c ∈ (0, c_LS]`, the predicate at
-  `K = ℚ` holds for no `χ` and no `β` (recorded downstream as `ExceptionalRealZero.empty`).
-  Hence the region of 6.4 at `K = ℚ`, of width `min (heckeZeroFreeConstant 1) c_LS`, contains
-  no zero of a primitive Dirichlet L-function, and by 6.4b none of an imprimitive one: this is
-  `dirichletLFunction_zeroFreeRegion`, with an effective absolute constant.
-
-The general statements of this section and of 6.4 are what other statements here build on; only
-the forms over `ℚ` in 6.4 and 8.6–8.8 use the last two bullets.
-
-*Needs:* 6.2, 6.4, 6.4b; L-functions Layers 4–5 `dirichletData`, `PrimitiveRayClassCharacter.of`.
+*Needs:* 6.2, 6.4; L-functions Layer 5.
 
 **Checks.**
 
@@ -1150,23 +1097,14 @@ the forms over `ℚ` in 6.4 and 8.6–8.8 use the last two bullets.
 - For a non-real character the set is empty by the reality clause.
 - A definition with `β < 1 − c/log q` (outside the region) would describe every real zero in
   `(1/2, 1)` below the region, which no theorem here controls.
-- At `K = ℚ` the conductors `1` and `2` carry no real nonprincipal primitive character, so the set
-  is empty there at every width; for a real nonprincipal `χ` it is empty at width at most `c_LS`,
-  while at the width `heckeZeroFreeConstant 1` a zero with
-  `c_LS ≤ (1 − β) log q < heckeZeroFreeConstant 1` is neither asserted nor excluded.
-- Siegel's bound `1 − β ≥ c_ε q^(−ε)` would not empty the set at any fixed width: for fixed `ε`,
-  `c_ε q^(−ε) < c/log (4q)` once `q` is large. The logarithmic form `(1 − β) log q ≥ c_LS` is what
-  matches the width of the region.
 
 ### 6.4 The region for Hecke L-functions
 
 For `χ` a primitive finite-order ray-class character of conductor `𝔣`: if `χ` is not real,
 `L(χ, ·)` has no zero in the region; if `χ` is real it has at most one, real and simple. The constant
-depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` the real-character
-alternative does not occur: 6.3 combines this statement with the exclusion of Landau–Siegel zeros,
-consumed downstream, into `dirichletLFunction_zeroFreeRegion`, a region free of every zero of every
-Dirichlet L-function. No source proves the statement at this generality; it is assembled from six
-targets.
+depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` this is
+`dirichletLFunction_zeroFreeRegion`. No source proves the statement at this generality; it is
+assembled from six targets.
 
 - **(4a)** 6.1.
 - **(4b) Imprimitive characters.** Consume `heckeLFunctionC_eq_primitive`. The zeros of
@@ -1230,16 +1168,13 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 ### Examples
 
 - `riemannZeta_zeroFreeRegion`: `ζ(s) ≠ 0` for `Re s ≥ 1 − c/log(|Im s| + 3)`, `s ≠ 1`.
-- `dirichletLFunction_zeroFreeRegion`: no zero of any Dirichlet L-function in the region, real
-  characters included, with an effective absolute constant and the cap `c ≤ log 3/2` (6.3).
-- Over a field `K ≠ ℚ`, for a real character neither branch of the disjunction follows from the
-  other targets; over `ℚ`, at width at most `c_LS`, the branch without a zero holds (6.3).
+- `dirichletLFunction_zeroFreeRegion`, with the exceptional zero allowed for real characters and
+  the cap `c ≤ log 3/2`.
+- For a real character neither branch of the disjunction follows from the other targets.
 
 ### Dependencies
 
 L-functions Layers 3, 5, 7, 8. Layers 2, 4, 5.6. Global Number Fields Layer 2 ray-class finiteness.
-The forms over `ℚ` in 6.3–6.4 also take the exclusion of Landau–Siegel zeros, consumed
-downstream (6.3).
 
 ## Layer 7: the Riemann–von Mangoldt formula
 
@@ -1469,11 +1404,8 @@ At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
 For fixed `K` there is `c > 0` with `ψ_K(x) = x − x^β/β + O(x exp(−c √log x))` under
 *IsExceptionalZero* `1 β` (the trivial character, whose completion is `completedDedekindZeta`), and
 `ψ_K(x) = x + O(x exp(−c √log x))` when there is none. For fixed `K` the two are the same estimate,
-since `x^β = o(x exp(−c √log x))` for fixed `β < 1`; the term is carried for its meaning. At
-`K = ℚ` it never occurs, `ζ` having no zero in `(0, 1)`. Absorbing it uniformly in `K` would need a
-lower bound for `1 − β` uniform in the field, which is not owned here; for quadratic `K`, where
-`ζ_K = ζ · L(·, χ_{d_K})` (L-functions Layer 4 `dedekindZetaC_quadratic`), it is the exclusion of
-Landau–Siegel zeros, `1 − β ≥ c_LS/log |d_K|`, consumed downstream (6.3). By Abel summation
+since `x^β = o(x exp(−c √log x))` for fixed `β < 1`; the term is carried for its meaning, and only a
+conductor-uniform absorption would need Siegel's theorem. By Abel summation
 (`TauCeti.idealSummatory_mul_eq_sub_integral_mul`) the number of nonzero prime ideals of norm at
 most `x` is `Li x + O(x exp(−c √log x))`, `Li = TauCeti.Real.logIntegral`: this is
 `primeIdealCount_effective` (Davenport §18 for `K = ℚ`).
@@ -1491,13 +1423,6 @@ coming from the reflection to `χ⁻¹`; order `#{j : a_j = 0} + r₂` at `s = 0
 `log |d_K|`. For fixed `K` and `χ`: `ψ_K(x, χ) = −x^β/β + O(x exp(−c √log x))` under
 *IsExceptionalZero* `χ β`, and `O(x exp(−c √log x))` otherwise (Davenport §§19–20 for `K = ℚ`).
 
-At `K = ℚ` the term `−x^β/β` is dropped: for every nontrivial primitive Dirichlet character `χ`,
-`ψ(x, χ) = O(x exp(−c √log x))`, with `c` absolute and effective and the implied constant depending
-on `χ`, by 8.2–8.4 over the region of `dirichletLFunction_zeroFreeRegion`, which has no exception
-(6.3). The form uniform in the conductor `q`,
-`ψ(x, χ) = O(x exp(−c log x/(√log x + log q)) (log q)⁴)` with absolute effective constants, is
-AnalyticNumberTheoryPartI §0.18, consumed downstream; it rests on the same exclusion.
-
 *Needs:* 8.2–8.5, 6.3–6.5, 1.5.
 
 **Checks.**
@@ -1509,10 +1434,6 @@ AnalyticNumberTheoryPartI §0.18, consumed downstream; it rests on the same excl
   the conjugation.
 - At `K = ℚ` and an odd character, the order at `s = 0` is `0` (`a = 1`), and the trivial zeros are
   at the negative odd integers.
-- At `K = ℚ` a real zero with `1 − β ≥ c_LS/log q` contributes at most
-  `x^β/β ≤ 2x exp(−c_LS log x/log q)`: `o(x exp(−c √log x))` for fixed `q`, and at most
-  `2x exp(−c √log x)` for all `q` with `log q ≤ √log x` once `c ≤ c_LS`; so no term survives over
-  `ℚ`, for fixed `χ` or uniformly in that range.
 
 ### 8.7 Effective counting in a ray class
 
@@ -1541,10 +1462,6 @@ by `Li(x^β)` in place of `x^β/β`.
 - Both vanish when no character at `𝔪` has an exceptional zero.
 - For `x ≥ 2`, Abel summation sends each summand `x^β/β` to
   `Li(x^β) − Li(2^β)`; the fixed lower-endpoint constant is kept separately.
-- At `K = ℚ` and `𝔪 = (q)∞` both terms are `0` for `q ≤ 2`. For `q ≥ 3` every summand comes from a
-  real zero with `1 − β ≥ c_LS/log q` (6.3, the conductor dividing `q`), so both terms are `0` when
-  `heckeZeroFreeConstant 1 ≤ c_LS`, and in every case
-  `|exceptionalRayClassTerm 𝔪 c x| ≤ 2x exp(−c_LS log x/log q)`.
 
 **Checks for the exceptional terms.** These conditional tests specify the value if the indicated
 zero data occur; they do not assert the existence of an exceptional zero.
@@ -1578,19 +1495,8 @@ character enters through 8.6 after 6.4b replaces it by its primitive source; the
 `Re s > 0`, and the deleted factors move the logarithmic derivative by `O(log 𝔑𝔪)`. The passage to
 the prime count is Abel summation, `x^β/β` becoming `Li(x^β) − Li(2^β)` under `u = t^β`, legitimate
 because `β ≥ 1/2` (6.3). `x/log x` is not an admissible main term: `Li x − x/log x ∼ x/log² x`,
-which is not `O(x exp(−c √log x))`. At `K = ℚ` and `𝔪 = (q)∞` the main term is `Li x/φ(q)` and
-the exceptional terms are dropped, absorbed for fixed `q` by the bound above.
-
-**The count over `ℚ`, uniform in the modulus.** There are absolute, effective `c₀ > 0` and `A₀`
-such that for every `q ≥ 1`, every `a` prime to `q` and every `x ≥ 2`,
-`|π(x; q, a) − Li x/φ(q)| ≤ A₀ x exp(−c₀ √log x)`: this is `primeCounting_progression_effective`
-(Davenport §20, with its exceptional term removed). For `q ≤ exp(√log x)` the orthogonality
-relation above reduces `ψ(x; q, a)` to 8.5 at `K = ℚ` for the principal character and, for each
-other character, after 6.4b replaces it by its primitive source of conductor at most `q` at a cost
-`O(log q log x)`, to the conductor-uniform estimate of AnalyticNumberTheoryPartI §0.18 quoted in
-8.6, consumed downstream; there `log q ≤ √log x` bounds its error by
-`x exp(−(c/2) √log x) (log x)²`. For `q > exp(√log x)` the trivial count `π(x; q, a) ≤ x/q + 1`
-and `φ(q) ≫ q/log log q` suffice. Abel summation passes from `ψ` to `π` as above, uniformly in `q`.
+which is not `O(x exp(−c √log x))`. At `K = ℚ` and `𝔪 = (q)∞` this is
+`primeCounting_progression_effective` (Davenport §20), with main term `Li x/φ(q)`.
 
 *Needs:* 8.5, 8.6, 6.3, 6.4b; L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`,
 `PrimitiveRayClassCharacter.of`; Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
@@ -1605,10 +1511,6 @@ Arithmetic Dirichlet Series §§2.3, 6.1–6.2 `IdealArithmeticFunction.vonMango
   integers `≡ 1 (mod 3)` up to `x`, which is a different count.
 - `K = ℚ`, `𝔪 = 1`: one class, *rayClassPsi* is `Chebyshev.psi`, and the exceptional term is `0`
   because `ζ` has no real zero in `(0, 1)`.
-- The uniform count over `ℚ` needs the exclusion: real zeros with `(1 − β) log q = δ → 0` would, at
-  `√log x = c₀ log q/(2δ)`, give a term `Li(x^β)/φ(q)` of size about
-  `x exp(−(c₀/2) √log x)/(φ(q) log x)`, which exceeds `A₀ x exp(−c₀ √log x)` once `δ < c₀²/8` and
-  `x` is large, although `q ≤ exp(√log x)`.
 - `K = ℚ(√−5)`, `𝔪 = 1`: two classes, the principal and non-principal prime ideals each with
   coefficient `1/2`; the split primes `p ≡ 1, 9 (mod 20)` have principal factors.
 
@@ -1640,16 +1542,6 @@ same with `Li(x^β)`. Then `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` 
 through `Li x ∼ x/log x`, as consistency theorems. Lagarias–Odlyzko prove the estimate for every
 Galois `L/K` through Artin L-functions; the nonabelian case is not owned here.
 
-At `K = ℚ` both exceptional terms are dropped. With the dictionary at an admissible modulus
-`𝔪 = (f)∞`, *exceptionalChebotarevTerm* `C x` is the sum of *exceptionalRayClassTerm* over a fibre
-of `φ(f)/#G` classes, so by 8.7 it is `0` when `heckeZeroFreeConstant 1 ≤ c_LS`; and from its
-definition, each character contributing at most one `β`, it is at most
-`2x exp(−c_LS log x/log f)` in every case. Up to the primes dividing `f`,
-`frobeniusPrimeCount C x` is the sum of `π(x; f, a)` over the residues `a` of that fibre, so
-`primeCounting_progression_effective` gives
-`frobeniusPrimeCount C x = (#C/#G) Li x + O(φ(f) x exp(−c₀ √log x))` with the absolute effective
-constants of 8.7, and likewise `frobeniusPsi` from the `ψ` form in the proof of 8.7.
-
 *Needs:* 8.7; Number Field Arithmetic §2.3 `NumberField.artinSymbol`;
 Chebotarev Layers 11, 13–14 `NumberField.Chebotarev.frobeniusPsi`,
 `NumberField.Chebotarev.frobeniusPrimeCount`, `NumberField.Chebotarev.tendsto_frobeniusPrimeCount`,
@@ -1662,9 +1554,6 @@ discharge the hypothesis.
   exceptional term is `0`, and the estimate reads `π(x) = Li x + O(x exp(−c √log x))`.
 - `L = ℚ(i)`, `K = ℚ`, `𝔪 = (4)∞`, `Φ` the isomorphism `(ℤ/4)ˣ ≅ Gal(L/ℚ)`: the class of complex
   conjugation counts the primes `≡ 3 (mod 4)`, coefficient `1/2`.
-- `L = ℚ(√5)`, `K = ℚ`, `𝔪 = (5)∞`: the fibre of the nontrivial automorphism is `{2, 3} ⊆ (ℤ/5)ˣ`,
-  the nontrivial character is the real character of conductor `5`, and over `ℚ` the count of the
-  primes `≡ 2, 3 (mod 5)` is `Li x/2 + O(x exp(−c₀ √log x))` with no exceptional term.
 - With main term `x/log x` the `K = L = ℚ` case would assert
   `π(x) − x/log x = O(x exp(−c √log x))`, false since `(x/log² x)/(x exp(−c √log x)) → ∞`.
 
@@ -1690,15 +1579,13 @@ asymptotic bounds for the remainder integral.
 
 - `chebyshevPsi_explicitFormula` and `riemannZeta_weilExplicitFormula` at `K = ℚ`.
 - `primeIdealCount_effective` at `K = ℚ` is `π(x) = Li x + O(x exp(−c √log x))`.
-- `primeCounting_progression_effective` at `q = 4`, `a = 3`, with the constants shared by every
-  modulus.
+- `primeCounting_progression_effective` at `q = 4`, `a = 3`.
 
 ### Dependencies
 
 Arithmetic Dirichlet Series §§2.3, 6.1–6.4; Global Number Fields Layers 2, 3E, 9;
 Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform. Layers 1.4, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3,
-5, 8. Class Field Theory Layer 12 (8.8). The forms over `ℚ` in 8.6–8.8 also take the exclusion of
-Landau–Siegel zeros, consumed downstream (6.3).
+5, 8. Class Field Theory Layer 12 (8.8).
 
 ## Layer 9: certified zeros
 
@@ -1781,9 +1668,10 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
 - The Stirling and reciprocal-gamma statements of Layer 1 and Hadamard's theorem of Layer 5 are
   general complex analysis for any consumer.
 - AnalyticNumberTheoryPartI takes Layers 0–8 as stated for a general field, the exceptional-zero
-  alternative of 6.3–6.4 included, and proves from them the exclusion of Landau–Siegel zeros
-  (§0.34) and the conductor-uniform character estimate (§0.18). These in turn are the input of the
-  forms over `ℚ` in 6.3, 6.4 and 8.6–8.8, proved after them.
+  alternative of 6.3–6.4 included, and proves from them the exclusion of Landau–Siegel zeros (its
+  §0.34) and the exception-free forms over `ℚ` (its §§0.1, 0.6, 0.9, 0.18, 0.32): the region for
+  Dirichlet L-functions without exception, Siegel's theorem and the prime count in a progression
+  uniform in the modulus are stated there, not here.
 
 ## References
 
@@ -1809,14 +1697,6 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   analytic conductor (5.7)) and §5.2 (convexity). Cited by locator.
 - J. C. Lagarias, A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in
   *Algebraic Number Fields* (1977) — effective counting in a fixed Galois extension.
-- OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository —
-  Theorem 1 (`(1 − β) log q ≥ c` for every real zero `β ∈ (0, 1)` of every primitive real
-  nonprincipal Dirichlet L-function of conductor `q ≥ 3`), the input of the forms over `ℚ` in 6.3,
-  6.4 and 8.6–8.8 through AnalyticNumberTheoryPartI §0.34, consumed downstream.
-- B. Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026) — Theorem 1.1 (inert primes carry
-  at most three quarters of the Mertens mass), a variant proof of the same exclusion.
-- T. Tao, *A sketch of the proof of non-existence of Siegel zeroes*, blog post (2026) — an
-  exposition of the argument.
 - NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.11.1 (Stirling
   for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on bounded real-part intervals), and §5.11(ii)
   (remainder bounds).
