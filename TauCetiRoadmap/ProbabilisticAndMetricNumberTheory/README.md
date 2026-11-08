@@ -8,7 +8,7 @@ This roadmap owns additive arithmetic predicates and their prime-power represent
 
 Mathlib supplies `ArithmeticFunction`, `cardDistinctFactors` (ω), `cardFactors` (Ω), native continued fractions and positional digits, Haar measure on circles and tori, Gaussian measures and weak convergence. Tau Ceti supplies `Probability.empiricalMeasure`, Gaussian centered moments, conditional-expectation and martingale tools, and mean ergodic convergence. These are prerequisites. The pointwise theorem in §4.1 applies to every integrable observable; the existing L2 mean theorem and its L1 consequence under an L2 hypothesis supply a different statement. Moment convergence to a determinate law, including the Gaussian specialization used in §1.5, belongs to RandomMatrices §3.2, with its reusable tightness and uniform-integrability machinery (the shared-foundations contract of FreeProbability).
 
-Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. Quotients by discrete subgroups, their invariant probabilities, Howe–Moore, Moore ergodicity and Mahler's criterion are the targets of §§4.9a–4.9b; the Cartan, Iwasawa and KAK decompositions and restricted roots they use come from RepresentationTheory/LieGroups. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
+Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. Quotients by discrete subgroups, their invariant probabilities, Howe–Moore, Moore ergodicity and Mahler's criterion are the targets of §§4.9a–4.9b; the Cartan, Iwasawa and KAK decompositions and restricted roots they use, including the Cartan datum of a connected semisimple group with finite centre, come from RepresentationTheory/LieGroups Layer 9. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
 
 The finite weighted sums and exact remainder formulas specialize native counting, CRT and empirical-measure declarations; their generic counting and probability theorems are consumed under the pinned names below. The stronger summed rough-number, restricted Dirichlet, long-mean, high-twist Liouville, modulated short-sum, prime fourth-moment and divisor-bounded-mean statements are owned in §§0.13, 3.7, 5.1–5.2. These strengthen the generic mean-square and Halász inputs rather than treating those inputs as the desired conclusions. The sieve targets concern the full smooth/rough decomposition and arbitrary bounded prime phases; no smaller prime family is selected.
 
@@ -18,7 +18,7 @@ The constant-tail conditional-expectation and reverse-L¹ statements are supplie
 
 ## Conventions
 
-Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039` as implementation pins. Use native measures, probability measures and conditional expectations. Real, complex and torus carriers have their Borel structures; the abstract probability spaces in Layers 0 and 4 may have arbitrary measurable structures. Finite sets use `Finset`; repeated observations keep their multiplicity. Real and complex arithmetic functions retain their value zero at input zero. Multiplication in `ArithmeticFunction` is Dirichlet convolution; a pointwise product of observations is written explicitly.
+Use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` as implementation pins. Use native measures, probability measures and conditional expectations. Real, complex and torus carriers have their Borel structures; the abstract probability spaces in Layers 0 and 4 may have arbitrary measurable structures. Finite sets use `Finset`; repeated observations keep their multiplicity. Real and complex arithmetic functions retain their value zero at input zero. Multiplication in `ArithmeticFunction` is Dirichlet convolution; a pointwise product of observations is written explicitly.
 
 For m∈ℕ put N=m+1 and let μ_N be the existing `TauCeti.Probability.empiricalMeasure (fun k => k+1) m`. It samples exactly 1,…,N, with
 
@@ -50,7 +50,7 @@ For tori consume native continuous Fourier characters, density of trigonometric 
 
 For metric approximation consume Borel–Cantelli, the native additive well-approximable circle sets and their zero–one theorem, native Hausdorff measure/dimension and bounded variation. For dynamics consume `MeasurableSpace.invariants`, `MeasureTheory.condExp`, change of variables under measure preservation, measurable representatives and native conditional-expectation convergence along filtrations and decreasing sigma-algebras. The existing Tau Ceti mean theorem identifies the invariant L2 projection; Layer 4 extends the pointwise and L1 conclusions to arbitrary integrable real functions. Native `GenContFract.IntFractPair.stream`, `GenContFract.of`, `nums`, `dens` and their recurrence/nontermination bounds supply the continued-fraction carrier; no second carrier is constructed.
 
-For homogeneous dynamics consume the quotient topology, left action and open quotient map of `Mathlib/Topology/Algebra/Group/Quotient.lean`, properly discontinuous quotients (`Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite`, `t2Space_of_properlyDiscontinuousSMul_of_t2Space`), the fundamental-domain quotient measures and unfolding of `Mathlib/MeasureTheory/Measure/Haar/Quotient.lean`, uniqueness of Haar measure, the modular fundamental domain `ModularGroup.fd` with `ModularGroup.exists_smul_mem_fd`, `ContRepresentation` with its `invariants`, and the composition isometries of L^p spaces with their continuity in `Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean`.
+For homogeneous dynamics consume the quotient topology, left action and open quotient map of `Mathlib/Topology/Algebra/Group/Quotient.lean`, properly discontinuous quotients (`Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite`, `t2Space_of_properlyDiscontinuousSMul_of_t2Space`), the fundamental-domain quotient measures and unfolding of `Mathlib/MeasureTheory/Measure/Haar/Quotient.lean`, uniqueness of Haar measure, the modular fundamental domain `ModularGroup.fd` with `ModularGroup.exists_smul_mem_fd`, the subspace topology on `Matrix.SpecialLinearGroup` in `Mathlib/Topology/Algebra/Group/Matrix.lean`, the discreteness instance `Matrix.SpecialLinearGroup.discreteSpecialLinearGroupIntRangeSL` for the image of SL_n(ℤ) in SL_n(ℝ), in `Mathlib/NumberTheory/ModularForms/ArithmeticSubgroups.lean`, `ContRepresentation` with its `invariants`, and the composition isometries of L^p spaces with their continuity in `Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean`.
 
 ### From Tau Ceti
 
@@ -82,7 +82,7 @@ Consume the §0.5 native convergent-error inequalities and §0.6 BadlyApproximab
 
 ### From TauCetiRoadmap.RepresentationTheory (LieGroups)
 
-Consume RepresentationTheory/LieGroups in the setting of a model `I` with `LieGroup I ∞ L` and Lie algebra `LeftInvariantDerivation I L`: Layers 1–4 for `lieExp`, `Ad`, the correspondence between Lie subalgebras and connected subgroups and Lie's theorems; Layer 7 for compact real forms; and Layer 9 for `CartanInvolution`, `IwasawaData`, `kakDecomposition` and the restricted root system. Section 4.9a uses them only for the general simple-group statements `howe_moore` and `moore_ergodicity`; the SL₂(ℝ) applications in §4.9b verify the same hypotheses by matrix computations.
+Consume RepresentationTheory/LieGroups in the setting of a model `I` with `LieGroup I ∞ L` and Lie algebra `LeftInvariantDerivation I L`: Layers 1–4 for `lieExp`, `Ad`, the correspondence between Lie subalgebras and connected subgroups and Lie's theorems; and Layer 9 for the Cartan datum `CartanInvolution`, which that layer constructs for a connected semisimple group with finite centre from its adjoint image (so such a group is real reductive), together with `IwasawaData`, `kakDecomposition` and the restricted root system. Section 4.9a uses them only for the general simple-group statements `howe_moore` and `moore_ergodicity`; the SL₂(ℝ) applications in §4.9b verify the same hypotheses by matrix computations.
 
 ## How to read the build
 
@@ -194,9 +194,9 @@ the prime-power clause of strong additivity term by term.
 
 ### 0.1a Complete additivity and exponentials of additive functions
 
-Complete additivity drops the coprimality guard of §0.1; native Omega and the logarithm are its basic instances. Exponentiating an additive function gives a multiplicative function in Mathlib's sense, with n ↦ 2^{ω(n)} as the basic instance.
+Complete additivity drops the coprimality guard of §0.1; native Omega and the logarithm are its basic instances. Exponentiating an additive function gives a multiplicative function in Mathlib's sense, with `n ↦ 2^ω(n)` as the basic instance.
 
-Define `IsCompletelyAdditive`. For f:ArithmeticFunction R with R an additive commutative monoid, IsCompletelyAdditive f
+Define IsCompletelyAdditive. For f:ArithmeticFunction R with R an additive commutative monoid, IsCompletelyAdditive f
 means f(1)=0 and f(mn)=f(m)+f(n) for all positive m,n. As for IsAdditive, native f(0)=0 is retained, the
 positive-input guards avoid a false law at zero, and multiplication is on inputs. The clause f(1)=0 is stated
 because f(1)=f(1)+f(1) does not imply it in an additive monoid without cancellation. ([IK2004](#references)
@@ -237,7 +237,7 @@ this is the second clause of the definition. ([IK2004](#references) Chapter 1.)
 
 *Needs:* §0.1a (complete additivity and exponentials of additive functions).
 
-Prove `IsCompletelyAdditive.isAdditive`. A completely additive function is additive. Keep map_one and restrict
+Prove IsCompletelyAdditive.isAdditive. A completely additive function is additive. Keep map_one and restrict
 map_mul to coprime pairs; no factorization is used. ([IK2004](#references) Chapter 1.)
 
 *Needs:* §0.1 (additive functions in the native arithmetic carrier); §0.1a (complete additivity and
@@ -270,32 +270,32 @@ Both vanish at 0 in the native carrier; at n>0 compare the two factorization for
 
 *Needs:* §0.1a (complete additivity and exponentials of additive functions).
 
-Define `powOfAdditive`. For R a monoid with zero, k∈R and f:ArithmeticFunction ℕ, powOfAdditive k f is the
-arithmetic function with value k^{f(n)} at every n>0 and value 0 at n=0. The guard at zero is forced by the
-native carrier, since k^{f(0)}=k⁰=1. The exponent is a natural number, so k is arbitrary, including 0 and
+Define powOfAdditive. For R a monoid with zero, k∈R and f:ArithmeticFunction ℕ, powOfAdditive k f is the
+arithmetic function with value `k^(f n)` at every n>0 and value 0 at n=0. The guard at zero is forced by the
+native carrier, since `k^(f 0) = k^0 = 1`. The exponent is a natural number, so k is arbitrary, including 0 and
 non-units. ([IK2004](#references) Chapter 1, exponentials of additive functions.)
 
 Its basic API consists of these facts.
 
-- For n>0 its value at n is k^{f(n)}, and its value at 0 is 0.
+- For n>0 its value at n is `k^(f n)`, and its value at 0 is 0.
 - It has value 1 at 1 whenever f(1)=0.
 
 **Checks.**
 
 - In a semiring, powOfAdditive 1 f and powOfAdditive k 0 both equal the cast of Mathlib's ζ.
 
-- 2^{ω} is multiplicative but not completely multiplicative: 2^{ω(12)}=4=2^{ω(4)}·2^{ω(3)}, while
-  2^{ω(4)}=2 and 2^{ω(2)}·2^{ω(2)}=4.
+- `2^ω` is multiplicative but not completely multiplicative: `2^ω(12) = 4 = 2^ω(4) · 2^ω(3)`, while
+  `2^ω(4) = 2` and `2^ω(2) · 2^ω(2) = 4`.
 
-- 2^{Ω} is completely multiplicative; for instance 2^{Ω(4)}=4=2^{Ω(2)}·2^{Ω(2)}.
+- `2^Ω` is completely multiplicative; for instance `2^Ω(4) = 4 = 2^Ω(2) · 2^Ω(2)`.
 
 *Needs:* Mathlib `ArithmeticFunction`.
 
-Prove `IsAdditive.isMultiplicative_of_eq_monoidHom`. Let A be an additive commutative monoid, R a monoid with
+Prove IsAdditive.isMultiplicative_of_eq_monoidHom. Let A be an additive commutative monoid, R a monoid with
 zero, f:ArithmeticFunction A additive, φ:Multiplicative A →* R a monoid homomorphism and g:ArithmeticFunction R
 with g(n)=φ(ofAdd f(n)) for every n>0. Then g is multiplicative in the sense of Mathlib
 `ArithmeticFunction.IsMultiplicative`. For a real additive f and c>0, the homomorphism a ↦ c^a (`Real.rpow_add`)
-gives n ↦ c^{f(n)}. ([IK2004](#references) Chapter 1.)
+gives `n ↦ c^(f n)`. ([IK2004](#references) Chapter 1.)
 
 First g(1)=φ(ofAdd 0)=1 by IsAdditive.map_one and the unit law of φ. For coprime positive m,n,
 IsAdditive.map_mul and the product law of φ give g(mn)=g(m)g(n). If m=0, coprimality forces n=1
@@ -304,32 +304,32 @@ IsAdditive.map_mul and the product law of φ give g(mn)=g(m)g(n). If m=0, coprim
 *Needs:* §0.1 (additive functions in the native arithmetic carrier); Mathlib
 `ArithmeticFunction.IsMultiplicative`; `Nat.coprime_zero_left`.
 
-Prove `IsAdditive.isMultiplicative_powOfAdditive`. If f:ArithmeticFunction ℕ is additive, then for every monoid
+Prove IsAdditive.isMultiplicative_powOfAdditive. If f:ArithmeticFunction ℕ is additive, then for every monoid
 with zero R and every k∈R, powOfAdditive k f is multiplicative. Apply IsAdditive.isMultiplicative_of_eq_monoidHom
 with φ=powersHom R k, which sends ofAdd a to k^a (Mathlib `powersHom_apply`). ([IK2004](#references) Chapter 1.)
 
 *Needs:* §0.1a (complete additivity and exponentials of additive functions); Mathlib `powersHom`.
 
-Prove `IsCompletelyAdditive.powOfAdditive_mul`. If f:ArithmeticFunction ℕ is completely additive, R is a monoid
+Prove IsCompletelyAdditive.powOfAdditive_mul. If f:ArithmeticFunction ℕ is completely additive, R is a monoid
 with zero and k∈R, then powOfAdditive k f (mn) = powOfAdditive k f m · powOfAdditive k f n for all natural m,n,
-with no coprimality hypothesis. With the value 1 at 1, powOfAdditive k f is completely multiplicative; k^{Ω} is
+with no coprimality hypothesis. With the value 1 at 1, powOfAdditive k f is completely multiplicative; `k^Ω` is
 the instance. If m or n is 0 both sides are 0; otherwise apply IsCompletelyAdditive.map_mul and pow_add.
 
 *Needs:* §0.1a (complete additivity and exponentials of additive functions).
 
-Prove `isMultiplicative_powOfAdditive_cardDistinctFactors`. For every monoid with zero R and every k∈R, the
-arithmetic function n ↦ k^{ω(n)}, with value 0 at 0, is multiplicative; at k=2 this is the multiplicativity of
-2^{ω}. Native omega is additive as a natural-valued arithmetic function, since ω(1)=0 and Mathlib
+Prove isMultiplicative_powOfAdditive_cardDistinctFactors. For every monoid with zero R and every k∈R, the
+arithmetic function `n ↦ k^ω(n)`, with value 0 at 0, is multiplicative; at k=2 this is the multiplicativity of
+`2^ω`. Native omega is additive as a natural-valued arithmetic function, since ω(1)=0 and Mathlib
 `ArithmeticFunction.cardDistinctFactors_mul` adds on coprime inputs; then apply
 IsAdditive.isMultiplicative_powOfAdditive. ([IK2004](#references) Chapter 1.)
 
 *Needs:* §0.1a (complete additivity and exponentials of additive functions); Mathlib
 `ArithmeticFunction.cardDistinctFactors_mul`.
 
-Prove `powOfAdditive_cardDistinctFactors_eq_prodPrimeFactors`. For R a commutative monoid with zero and k∈R,
-powOfAdditive k ω equals Mathlib's prodPrimeFactors (fun _ => k), the arithmetic function n ↦ ∏_{p∣n}k. Both
+Prove powOfAdditive_cardDistinctFactors_eq_prodPrimeFactors. For R a commutative monoid with zero and k∈R,
+powOfAdditive k ω equals Mathlib's prodPrimeFactors (fun _ => k), the arithmetic function `n ↦ ∏_{p∣n} k`. Both
 vanish at 0. At n>0, Mathlib `ArithmeticFunction.prodPrimeFactors_apply` and `Finset.prod_const` give
-k^{#n.primeFactors}, which is k^{ω(n)} because n.primeFactors is the finset of the native prime-factor list
+`k^(#n.primeFactors)`, which is `k^ω(n)` because n.primeFactors is the finset of the native prime-factor list
 and `List.card_toFinset` counts its deduplication. Mathlib
 `ArithmeticFunction.IsMultiplicative.prodPrimeFactors` then gives a second proof of the previous target.
 
@@ -2566,13 +2566,7 @@ n ↦ x ((q q') n + (q r' + r)), again a progression with q q' ≥ 1, so the not
 
 - The constant sequence at p is totally equidistributed for diracProba p.
 
-- q = 1, r = 0: TotallyAsympEquidistributed x μ → AsympEquidistributed x μ.
-
-- Total equidistribution implies equidistribution.
-
-- n (1/2) in ℝ/ℤ is equidistributed for (δ₀ + `δ_{1/2})/2` but not totally, for any μ.
-
-- Constant sequences are totally equidistributed for their Dirac measure.
+- n ↦ n • (√2 : ℝ/ℤ) is totally equidistributed for circleHaar: along q n + r it is the linear sequence with step q√2, irrational for every q ≥ 1, so the Weyl criterion of §2.4 gives Haar. A definition that also admitted q = 0 would reject it, since at q = 0 the subsequence is constantly r√2 and its law is a Dirac mass.
 
 *Needs:* §2.1 (equidistribution as weak convergence).
 
@@ -2605,14 +2599,7 @@ matters (the source's footnote 2).
 - x n = if 0 ≤ n then 0 else n • √2 is not AsympEquidistributedInt for circleHaar, although its negative half
   is.
 
-- Function.update x 0 p is AsympEquidistributedInt iff x is.
-
-- n ↦ n α with α irrational in T is equidistributed on ℤ for circleHaar: both halves are linear sequences with
-  irrational steps ±α.
-
-- A sequence that is 0 for n ≥ 0 and n √2 for n < 0 is not: its positive half is constant.
-
-- Changing x 0 does not change either notion.
+- The sequence equal to 0 for n ≥ 0 and to 1/2 in ℝ/ℤ for n < 0 has averages over −N,…,N converging to `(δ₀ + δ_{1/2})/2`, but it is AsympEquidistributedInt for no μ: its positive half has limit δ₀ and its negative half δ_(1/2). A definition by symmetric windows would accept it.
 
 *Needs:* §2.1 (equidistribution as weak convergence); §2.2 (progressions and two-sided integer indexing).
 
@@ -6335,7 +6322,7 @@ A discrete subgroup meets each compact set in a finite set. Apply Mathlib `Subgr
 
 Prove `lattice_invariant_probability_unique`. Any two Borel probabilities on X preserved by every left translation are equal. If μ is one of them and λ is a left Haar measure of G, then a Borel subset of X is μ-null exactly when its preimage in G is λ-null. Moreover, every Borel fundamental domain F of the right Γ-action has 0<λ(F)<∞, and μ is the image of λ restricted to F, divided by λ(F). ([BHV2007](#references) Appendix B.1.)
 
-One route is Weil's argument. For such a probability ν, the functional F↦∫_X Σ_{γ∈Γ}F(xγ) dν(xΓ) on compactly supported continuous F on G is positive and left invariant. By the Riesz representation (Mathlib `RealRMK.integral_rieszMeasure`) and uniqueness of Haar measure (Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) it is c·λ for some c≥0. Every compactly supported continuous function on X is such a periodization, and Mathlib `QuotientGroup.integral_eq_integral_automorphize` evaluates c as 1/λ(F). Finite Borel measures on the second countable locally compact space X are regular, so agreement on compactly supported continuous functions gives equality. Countably many right Γ-translates of F cover G, which gives λ(F)>0; fundamental domains have equal measure (Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`).
+One route is Weil's argument. For such a probability ν, the functional `F ↦ ∫_X Σ_{γ∈Γ} F(xγ) dν(xΓ)` on compactly supported continuous F on G is positive and left invariant. By the Riesz representation (Mathlib `RealRMK.integral_rieszMeasure`) and uniqueness of Haar measure (Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) it is c·λ for some c≥0. Every compactly supported continuous function on X is such a periodization, and Mathlib `QuotientGroup.integral_eq_integral_automorphize` evaluates c as 1/λ(F). Finite Borel measures on the second countable locally compact space X are regular, so agreement on compactly supported continuous functions gives equality. Countably many right Γ-translates of F cover G, which gives λ(F)>0; fundamental domains have equal measure (Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`).
 
 **Checks.**
 
@@ -6359,7 +6346,7 @@ Strong continuity is Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous`
 
 *Needs:* `lattice_quotient_ergodic`; Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`; Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous`.
 
-Prove `howe_moore_of_cartan`. Let K≤G be a compact subgroup and A⁺⊆G a set of pairwise commuting elements with G=KA⁺K. For a sequence a=(a_j), its contraction group is U⁺(a)={u: a_j⁻¹ua_j→1} and its opposite contraction group is U⁻(a)={u: a_jua_j⁻¹→1}. Assume that every sequence in A⁺ leaving every compact set has a subsequence a for which U⁺(a)∪U⁻(a) generates a dense subgroup of G. Then every coefficient of every strongly continuous unitary representation of G without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) Theorems 1.1 and 3.2, pp.2, 9; Definition 2.11, Lemmas 2.12–2.13 and 3.1, pp.6–8.)
+Prove `howe_moore_of_cartan`. Let K≤G be a compact subgroup and A⁺⊆G a set of pairwise commuting elements with G=KA⁺K. For a sequence a=(a_j), its contraction group is U⁺(a)={u: a_j⁻¹ua_j→1} and its opposite contraction group is U⁻(a)={u: a_jua_j⁻¹→1}. Assume that every sequence in A⁺ leaving every compact set has a subsequence a for which U⁺(a)∪U⁻(a) generates a dense subgroup of G. Then every coefficient of every strongly continuous unitary representation of G without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) Theorem 1.2, p.2, proved as Theorem 3.2, p.9, which asks the contraction groups to generate G itself; Definition 2.11, Lemmas 2.12–2.13 and 3.1, pp.6–8. Dense generation suffices by step 3 below.)
 
 One route follows Ciobotaru's proof.
 
@@ -6377,17 +6364,11 @@ One route follows Ciobotaru's proof.
 
 *Needs:* §4.9a (Koopman representations); Tau Ceti `ContRepresentation.IsUnitary.continuous_apply_prod`; Tau Ceti `ContRepresentation.IsUnitary.norm_inner_map_le`; Mathlib `ContRepresentation.invariants`.
 
-**Cartan involutions of semisimple groups with finite centre.** Let L be a connected real Lie group in the setting of RepresentationTheory/LieGroups (model I, `LieGroup I ∞ L`) whose Lie algebra `LeftInvariantDerivation I L` is semisimple and whose centre is finite. Construct a Cartan involution datum for L in the sense of RepresentationTheory/LieGroups Layer 9 (`CartanInvolution`), so that L is real reductive there. ([Knapp2002](#references) Chapter VI, §§1–3.)
-
-A compact real form of the complexified Lie algebra, chosen stable under complex conjugation, gives a Cartan involution θ of the Lie algebra. Take the compact real form from RepresentationTheory/LieGroups Layer 7, applied to the adjoint group. Write 𝔨 and 𝔭 for the +1 and −1 eigenspaces of θ, and K for the connected subgroup with Lie algebra 𝔨. Polar decomposition in the linear group Ad(L) gives L=K·lieExp(𝔭), with (k,X)↦k·lieExp X a diffeomorphism from K×𝔭. The map k·lieExp X↦k·lieExp(−X) is then a smooth involutive automorphism with fixed group K. K contains the centre and has compact image in Ad(L), so K is compact because the centre is finite.
-
-*Needs:* RepresentationTheory/LieGroups Layers 3–4, 7 and 9.
-
 Prove `howe_moore`. Let L be a connected real Lie group in the setting of RepresentationTheory/LieGroups, Hausdorff and second countable, with finite centre and simple Lie algebra `LeftInvariantDerivation I L`. Every coefficient of every strongly continuous unitary representation of L on a complex Hilbert space without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) §4.1, Lemma 4.2, pp.9–10.)
 
-Verify the hypotheses of `howe_moore_of_cartan`. The preceding target and `kakDecomposition` of RepresentationTheory/LieGroups Layer 9 give L=K·A⁺·K, with K compact and A⁺ the image under `lieExp` of the closed positive chamber in the abelian subspace 𝔞. Let a_j=lieExp(H_j) leave compact sets with H_j in the closed chamber. Restricted roots span the dual of 𝔞, so after passing to a subsequence the set Φ_∞ of positive restricted roots α with α(H_j)→∞ is nonempty, and every other positive root stays bounded. Since Ad(a_j⁻¹) multiplies 𝔤_α by exp(−α(H_j)), lieExp(𝔤_α)⊆U⁺(a) and lieExp(𝔤_{−α})⊆U⁻(a) for α∈Φ_∞. The bounded roots and 𝔤₀ span a subalgebra 𝔩 normalizing 𝔫_∞=⊕_{α∈Φ_∞}𝔤_α and its opposite 𝔫_∞⁻. Since 𝔤=𝔫_∞⁻⊕𝔩⊕𝔫_∞, the subalgebra generated by 𝔫_∞ and 𝔫_∞⁻ is a nonzero ideal, hence all of 𝔤. The subgroup generated by lieExp(𝔫_∞)∪lieExp(𝔫_∞⁻) therefore contains a neighbourhood of 1. It is open, hence L.
+Verify the hypotheses of `howe_moore_of_cartan`. RepresentationTheory/LieGroups Layer 9 constructs the Cartan datum (`CartanInvolution`) of a connected semisimple group with finite centre from its adjoint image, so L is real reductive there, and its `kakDecomposition` gives L=K·A⁺·K, with K compact and A⁺ the image under `lieExp` of the closed positive chamber in the abelian subspace 𝔞. Let a_j=lieExp(H_j) leave compact sets with H_j in the closed chamber. Restricted roots span the dual of 𝔞, so after passing to a subsequence the set Φ_∞ of positive restricted roots α with α(H_j)→∞ is nonempty, and every other positive root stays bounded. Since Ad(a_j⁻¹) multiplies 𝔤_α by exp(−α(H_j)), `lieExp(𝔤_α) ⊆ U⁺(a)` and `lieExp(𝔤_{−α}) ⊆ U⁻(a)` for α∈Φ_∞. The bounded roots and 𝔤₀ span a subalgebra 𝔩 normalizing `𝔫_∞ = ⊕_{α∈Φ_∞} 𝔤_α` and its opposite 𝔫_∞⁻. Since 𝔤=𝔫_∞⁻⊕𝔩⊕𝔫_∞, the subalgebra generated by 𝔫_∞ and 𝔫_∞⁻ is a nonzero ideal, hence all of 𝔤. The subgroup generated by lieExp(𝔫_∞)∪lieExp(𝔫_∞⁻) therefore contains a neighbourhood of 1. It is open, hence L.
 
-*Needs:* `howe_moore_of_cartan`; §4.9a (Cartan involutions of semisimple groups with finite centre); RepresentationTheory/LieGroups Layers 1–4 and 9 (`lieExp`, `Ad`, the subgroup–subalgebra correspondence, `kakDecomposition` and the restricted root system).
+*Needs:* `howe_moore_of_cartan`; RepresentationTheory/LieGroups Layers 1–4 (`lieExp`, `Ad`, the subgroup–subalgebra correspondence) and Layer 9 (the Cartan datum `CartanInvolution` of a connected semisimple group with finite centre, `IwasawaData`, `kakDecomposition` and the restricted root system).
 
 Prove `moore_ergodicity`. For L as in `howe_moore`, a lattice Γ≤L with invariant probability μ on L/Γ, and a closed noncompact subgroup S≤L, the restricted action of S on (L/Γ,μ) is ergodic. ([Morris2015](#references) §14.2, pp.289–292.)
 
@@ -6401,17 +6382,17 @@ Let E be S-almost invariant. Then 1_E−μ(E) is an S-fixed vector of the Koopma
 
 ### 4.9b The modular lattice and Mahler's criterion
 
-Here G=SL₂(ℝ) with its matrix topology (the native alias `homogeneousGroupTopology`), Γ=SL₂(ℤ) embedded entrywise, and X=G/Γ with the Borel σ-algebra of the quotient topology (`homogeneousQuotientMeasurableSpace`). Write n_x=[[1,x],[0,1]], d_y=diag(√y,1/√y) for y>0, k_θ for rotation by θ, and a_t=diag(exp t,exp(−t)). G acts on Mathlib's upper half-plane by Möbius transformations.
+Here G=SL₂(ℝ) with Mathlib's topology on `Matrix.SpecialLinearGroup`, the subspace topology of the matrices, Γ=SL₂(ℤ) embedded entrywise, and X=G/Γ with the Borel σ-algebra of the quotient topology (`homogeneousQuotientMeasurableSpace`). Write n_x=[[1,x],[0,1]], d_y=diag(√y,1/√y) for y>0, k_θ for rotation by θ, and a_t=diag(exp t,exp(−t)). G acts on Mathlib's upper half-plane by Möbius transformations.
 
-Prove `modularLattice_discrete`. Γ is a discrete subgroup of G.
+For every n the image of SL_n(ℤ) in SL_n(ℝ) is discrete, hence closed: this is the Mathlib instance `Matrix.SpecialLinearGroup.discreteSpecialLinearGroupIntRangeSL`.
 
-The entrywise embedding is continuous. Distinct integer matrices lie at entrywise distance at least one, so Γ is discrete, and therefore closed.
-
-*Needs:* Mathlib `Matrix.SpecialLinearGroup.map`.
-
-**Iwasawa coordinates and Haar measure.** The map (x,y,θ)↦n_xd_yk_θ from ℝ×(0,∞)×[0,2π) to G is a Borel bijection with (n_xd_yk_θ)·i=x+iy. The image of y⁻²dx dy dθ is a Haar measure of G, both left and right invariant. ([Knapp2002](#references) Chapter VIII, §3.)
+**Iwasawa coordinates and Haar measure.** The map (x,y,θ)↦n_xd_yk_θ from ℝ×(0,∞)×[0,2π) to G is a Borel bijection with (n_xd_yk_θ)·i=x+iy. The image of y⁻²dx dy dθ is a Haar measure of G, both left and right invariant. ([Morris2015](#references) Theorem 7.1.1, p.154, and Exercise 7.1#5, p.156, for the decomposition G=NAK with unique factors; §7.2, Example 7.2.3, p.157, and Exercise 7.2#12, pp.159–160, for Haar measure in these coordinates.)
 
 For g∈G put g·i=x+iy. Then (n_xd_y)⁻¹g fixes i and is a rotation. Left translation by n_b shifts x, left translation by d_c scales (x,y) by c, preserving y⁻²dx dy, and right translation by k_φ shifts θ. G equals its commutator subgroup, so its modular character, a continuous homomorphism to the positive reals, is trivial. Hence a Haar measure and the image measure are both invariant under the simply transitive action of the group of upper triangular matrices with positive diagonal (by left translation) times SO(2) (by right translation). By uniqueness of Haar measure on that product group they are proportional.
+
+**Checks.**
+
+- The density y⁻² is pinned by left translation by d_4=diag(2,1/2), which sends (x,y) to (4x,4y). The box [0,1]×[1,2] has y⁻²dx dy-mass 1·(1−1/2)=1/2, and so does its image [0,4]×[4,8], with 4·(1/4−1/8)=1/2. The density 1 (the masses 1 and 16) and the density y⁻¹ (the masses log 2 and 4 log 2) both fail.
 
 *Needs:* Mathlib `UpperHalfPlane`; Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`.
 
@@ -6421,13 +6402,13 @@ Every point of the upper half-plane has a Γ-translate in the standard domain `M
 
 **Checks.**
 
-- G is noncompact, so its Haar measure is infinite and the trivial subgroup is not a lattice. The finiteness comes from the cusp integral ∫_{y≥√3/2}y⁻²dy.
+- G is noncompact, so its Haar measure is infinite and the trivial subgroup is not a lattice. The finiteness comes from the cusp integral `∫_{y≥√3/2} y⁻² dy = 2/√3`.
 
-*Needs:* `modularLattice_discrete`; §4.9b (Iwasawa coordinates and Haar measure); `lattice_invariant_probability_unique`; Tau Ceti `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; Mathlib `ModularGroup.fd`; Mathlib `ModularGroup.exists_smul_mem_fd`; Mathlib `MeasureTheory.QuotientMeasureEqMeasurePreimage.smulInvariantMeasure_quotient`.
+*Needs:* Mathlib `Matrix.SpecialLinearGroup.discreteSpecialLinearGroupIntRangeSL`; §4.9b (Iwasawa coordinates and Haar measure); `lattice_invariant_probability_unique`; Tau Ceti `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; Mathlib `ModularGroup.fd`; Mathlib `ModularGroup.exists_smul_mem_fd`; Mathlib `MeasureTheory.QuotientMeasureEqMeasurePreimage.smulInvariantMeasure_quotient`.
 
 Prove `modular_timeOne_mixing`. For the invariant probability μ on X, the time-one map S(z)=a_1·z satisfies `IsStrongMixing`. ([Ciobotaru2014](#references) Theorem 1.1, p.2; [Morris2015](#references) §§11.1–11.2, pp.213–220.)
 
-Apply `howe_moore_of_cartan` with K=SO(2) and A⁺={a_t: t≥0}. The decomposition G=KA⁺K is the singular value decomposition of a determinant-one matrix. If t_j→∞, then a_{t_j}⁻¹n_xa_{t_j}=n_{exp(−2t_j)x}→1, and similarly for lower unipotent matrices, so U⁺ and U⁻ contain the upper and lower unipotent groups. These generate G: a matrix [[a,b],[c,d]] with c≠0 equals n_{(a−1)/c}·[[1,0],[c,1]]·n_{(d−1)/c}, and the case c=0 reduces to this one after one lower unipotent factor. By the Koopman target, L²₀(μ) has no nonzero G-fixed vector, so its coefficients along a_n=a_1ⁿ, which leave compact sets, tend to 0. For Borel A,B, the defect μ(A∩S⁻ⁿB)−μ(A)μ(B) is such a coefficient of the mean-zero parts of 1_A and 1_B.
+Apply `howe_moore_of_cartan` with K=SO(2) and A⁺={a_t: t≥0}. The decomposition G=KA⁺K is the singular value decomposition of a determinant-one matrix. If t_j→∞, then `a_{t_j}⁻¹ n_x a_{t_j} = n_{exp(−2t_j)x} → 1`, and similarly for lower unipotent matrices, so U⁺ and U⁻ contain the upper and lower unipotent groups. These generate G: a matrix [[a,b],[c,d]] with c≠0 equals `n_{(a−1)/c} · [[1,0],[c,1]] · n_{(d−1)/c}`, and the case c=0 reduces to this one after one lower unipotent factor. By the Koopman target, L²₀(μ) has no nonzero G-fixed vector, so its coefficients along a_n=a_1ⁿ, which leave compact sets, tend to 0. For Borel A,B, the defect μ(A∩S⁻ⁿB)−μ(A)μ(B) is such a coefficient of the mean-zero parts of 1_A and 1_B.
 
 **Checks.**
 
@@ -6435,16 +6416,16 @@ Apply `howe_moore_of_cartan` with K=SO(2) and A⁺={a_t: t≥0}. The decompositi
 
 *Needs:* `howe_moore_of_cartan`; §4.9a (Koopman representations); `modularQuotient_existsUnique_invariant`; §4.6 (`IsStrongMixing`).
 
-Prove `mahler_relativelyCompact_iff`. For every n, let Γ_n=SL_n(ℤ) be the integral subgroup of G_n=SL_n(ℝ), and identify gΓ_n with the unimodular column lattice gℤⁿ. Its first minimum m(gΓ_n)=min_{z∈ℤⁿ∖0}‖gz‖ uses the max norm on ℝⁿ (Mathlib's norm on `Fin n → ℝ`) and does not depend on the representative. A subset A of G_n/Γ_n has compact closure exactly when some ε>0 bounds m from below on A. In particular, for each ε>0 the set of classes with m≥ε is compact. ([Benoist2019](#references) Fact 1.5, physical p.7; [Mahler1946](#references) §7, Theorem 8, printed p.159.)
+Prove `mahler_relativelyCompact_iff`. For every n, let Γ_n=SL_n(ℤ) be the integral subgroup of G_n=SL_n(ℝ), and identify gΓ_n with the unimodular column lattice gℤⁿ. Its first minimum `m(gΓ_n) = min_{z∈ℤⁿ∖0} ‖gz‖` uses the max norm on ℝⁿ (Mathlib's norm on `Fin n → ℝ`) and does not depend on the representative. A subset A of G_n/Γ_n has compact closure exactly when some ε>0 bounds m from below on A. In particular, for each ε>0 the set of classes with m≥ε is compact. ([Benoist2019](#references) Fact 1.5, physical p.7; [Mahler1946](#references) §3, Definitions 1–2 and Theorem 2, printed pp.155–156.)
 
-On a compact neighbourhood C of g, ‖hz‖≥‖z‖/sup_C‖h⁻¹‖ for h∈C. So the minimum runs over finitely many z and is continuous; it is positive and right-Γ_n-invariant, and so descends to X_n. Compact closure therefore gives a positive lower bound. Conversely, let L=gℤⁿ have covolume one and first minimum at least ε. Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, for the cube [−1,1]ⁿ of volume 2ⁿ, gives λ₁⋯λ_n≤1, so λ_n≤ε^{1−n}. Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin` and `ZLattice.exists_basis_gauge_le_max_one_mul` give a ℤ-basis of L with max norms at most nε^{1−n}. After negating one vector if necessary, its matrix h lies in G_n and hℤⁿ=L, so h⁻¹g∈Γ_n and hΓ_n=gΓ_n. These h form a closed bounded, hence compact, subset of G_n, whose image is compact. It contains A, and X_n is Hausdorff because Γ_n is discrete by the entrywise argument of `modularLattice_discrete`.
+On a compact neighbourhood C of g, ‖hz‖≥‖z‖/sup_C‖h⁻¹‖ for h∈C. So the minimum runs over finitely many z and is continuous; it is positive and right-Γ_n-invariant, and so descends to X_n. Compact closure therefore gives a positive lower bound. Conversely, let L=gℤⁿ have covolume one and first minimum at least ε. Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, for the cube [−1,1]ⁿ of volume 2ⁿ, gives λ₁⋯λ_n≤1, so `λ_n ≤ ε^(1−n)`. Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin` and `ZLattice.exists_basis_gauge_le_max_one_mul` give a ℤ-basis of L with max norms at most `n·ε^(1−n)`. After negating one vector if necessary, its matrix h lies in G_n and hℤⁿ=L, so h⁻¹g∈Γ_n and hΓ_n=gΓ_n. These h form a closed bounded, hence compact, subset of G_n, whose image is compact. It contains A, and X_n is Hausdorff because Γ_n is discrete (Mathlib `Matrix.SpecialLinearGroup.discreteSpecialLinearGroupIntRangeSL`).
 
 **Checks.**
 
 - For n=2 the classes of a_t have first minimum exp(−t)→0, so they leave every compact set. The identity class has first minimum one, so every sublevel with 0<ε≤1 is nonempty.
 - A nonclosed set with a uniform bound has compact closure but need not be compact.
 
-*Needs:* §4.9a (topology of the quotient); `modularLattice_discrete`; Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`; Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`; Tau Ceti `ZLattice.exists_basis_gauge_le_max_one_mul`.
+*Needs:* §4.9a (topology of the quotient); Mathlib `Matrix.SpecialLinearGroup.discreteSpecialLinearGroupIntRangeSL`; Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`; Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`; Tau Ceti `ZLattice.exists_basis_gauge_le_max_one_mul`.
 
 ### 4.10 Modular homogeneous-space consumers
 
@@ -6493,7 +6474,7 @@ Choose p=−round(qx) and t=log(2q/δ)≥0. The second coordinate has absolute v
 absolute value at least δ. Use exp t=2q/δ and rearrange.
 
 Prove `homogeneous_birkhoff`. Let G=SL(2, real), Γ=SL(2, integer) embedded entrywise, X=G/Γ with its quotient
-Borel structure (the native aliases `homogeneousGroupTopology` and `homogeneousQuotientMeasurableSpace`), μ the G-invariant probability of `modularQuotient_existsUnique_invariant`, a_t=diag(exp t, exp(-t)), and S(gΓ)=a_1 gΓ.
+Borel structure (Mathlib's topology on `Matrix.SpecialLinearGroup` and the native alias `homogeneousQuotientMeasurableSpace`), μ the G-invariant probability of `modularQuotient_existsUnique_invariant`, a_t=diag(exp t, exp(-t)), and S(gΓ)=a_1 gΓ.
 For every μ-integrable real f, native Birkhoff averages of S converge μ-almost everywhere to ∫f dμ.
 ([Sarig2023](#references) Theorem 2.2, printed p.37, physical p.45; §4.1 and `modular_timeOne_mixing` give the pointwise and time-one ergodicity inputs.)
 
@@ -6721,24 +6702,25 @@ AnalyticNumberTheoryPartI §1.5; restricted dirichlet-polynomial mean square; st
 
 ### 5.1a Finite-label entropy
 
-For a probability space (Ω,μ) and a measurable label X:Ω→A into a finite type with its discrete σ-algebra, define `labelEntropy` μ X=Σ_a negMulLog(μ(X=a)), with Mathlib `Real.negMulLog`, natural logarithms and zero contribution from values of mass zero. For a second such label Y:Ω→B define `condLabelEntropy` μ X Y=Σ_{a,b}p_{ab}log(p_b/p_{ab}), where p_{ab}=μ(X=a,Y=b) and p_b=μ(Y=b). Cells of mass zero contribute zero under Mathlib's conventions for log 0 and division by zero. No standard-Borel or countable-generation hypothesis is placed on Ω. ([TaoLogChowla](#references) §3, (3.1)–(3.5), p.19.)
+For a probability space (Ω,μ) and a measurable label X:Ω→A into a finite type with its discrete σ-algebra, define labelEntropy μ X=Σ_a negMulLog(μ(X=a)), with Mathlib `Real.negMulLog`, natural logarithms and zero contribution from values of mass zero. For a second such label Y:Ω→B define condLabelEntropy μ X Y as `Σ_{a,b} p_ab · log(p_b / p_ab)`, where p_ab=μ(X=a,Y=b) and p_b=μ(Y=b). Cells of mass zero contribute zero under Mathlib's conventions for log 0 and division by zero. No standard-Borel or countable-generation hypothesis is placed on Ω. ([TaoLogChowla](#references) §3, (3.1)–(3.5), p.19.)
 
-Prove `labelEntropy_pair_eq_add`, the chain rule H((X,Y))=H(Y)+H(X|Y) for the joint label ω↦(X ω,Y ω).
+Prove labelEntropy_pair_eq_add, the chain rule H((X,Y))=H(Y)+H(X|Y) for the joint label ω↦(X ω,Y ω).
 
-On cells of positive mass write −log p_{ab}=−log p_b+log(p_b/p_{ab}). Sum over a, using Σ_a p_{ab}=p_b from finite additivity over the measurable partition by values of X.
+On cells of positive mass write `−log p_ab = −log p_b + log(p_b / p_ab)`. Sum over a, using `Σ_a p_ab = p_b` from finite additivity over the measurable partition by values of X.
 
-Prove `labelEntropy_nonneg_le_log_card`. For nonempty A, 0≤H(X)≤log|A|.
+Prove labelEntropy_nonneg_le_log_card. For nonempty A, 0≤H(X)≤log|A|.
 
 Each summand is nonnegative on [0,1] (Mathlib `Real.negMulLog_nonneg`). The upper bound is Jensen's inequality for the concave `Real.negMulLog` (Mathlib `Real.concaveOn_negMulLog`) at the uniform average, using Σ_a μ(X=a)=1.
 
-Prove `labelEntropy_pair_of_indepFun`. If X and Y are independent (Mathlib `ProbabilityTheory.IndepFun`), then H((X,Y))=H(X)+H(Y).
+Prove labelEntropy_pair_of_indepFun. If X and Y are independent (Mathlib `ProbabilityTheory.IndepFun`), then H((X,Y))=H(X)+H(Y).
 
-Independence gives p_{ab}=p_ap_b. Apply Mathlib `Real.negMulLog_mul` and sum, using Σ_a p_a=Σ_b p_b=1.
+Independence gives `p_ab = p_a · p_b`. Apply Mathlib `Real.negMulLog_mul` and sum, using Σ_a p_a=Σ_b p_b=1.
 
 **Checks.**
 
 - A constant label has entropy 0. A fair bit has entropy log 2, not the base-two value 1. Enlarging A by an unused value leaves the entropy unchanged.
 - A label conditioned on itself has conditional entropy 0, and the chain rule then reads H((X,X))=H(X).
+- The order of the arguments is fixed by an asymmetric joint law: with μ(X=0,Y=0)=1/2, μ(X=1,Y=0)=μ(X=1,Y=1)=1/4 and μ(X=0,Y=1)=0, condLabelEntropy μ X Y = (1/2)log(3/2)+(1/4)log 3 ≈ 0.4774, while conditioning the other way gives (1/2)log 2 ≈ 0.3466. The chain rule checks the first value: H(Y)+H(X|Y) ≈ 0.5623+0.4774 = 1.0397 = (3/2)log 2 = H((X,Y)). Writing log(p_ab/p_b) instead would give −0.4774.
 
 *Needs:* Mathlib `Real.negMulLog`; Mathlib `Real.negMulLog_nonneg`; Mathlib `Real.negMulLog_mul`; Mathlib `Real.concaveOn_negMulLog`; Mathlib `ProbabilityTheory.IndepFun`; native finite sums.
 
@@ -6871,11 +6853,11 @@ After the affine-invariance transport this gives sup_α `E|Σ_{j=1}^H` f(an+j)e(
 
 *Needs:* AnalyticNumberTheoryPartI §1.5 mean squares and §3.33 Halász; the finite character/height hypothesis and scale hierarchy in this section.
 
-For a probability space (Ω,μ) and measurable labels X:Ω→A and Y:Ω→B into finite nonempty alphabets with discrete σ-algebras, write H(X)=`labelEntropy` μ X and H(X|Y)=`condLabelEntropy` μ X Y from §5.1a. Define finiteMutualInformation μ X Y as H(X)+H(Y)−H((X,Y)), a real number, where (X,Y) is the joint label ω↦(X ω,Y ω). ([TaoLogChowla](#references), §3, (3.1)–(3.5) and Remark 3.1, p.19.)
+For a probability space (Ω,μ) and measurable labels X:Ω→A and Y:Ω→B into finite nonempty alphabets with discrete σ-algebras, write H(X)=labelEntropy μ X and H(X|Y)=condLabelEntropy μ X Y from §5.1a. Define finiteMutualInformation μ X Y as H(X)+H(Y)−H((X,Y)), a real number, where (X,Y) is the joint label ω↦(X ω,Y ω). ([TaoLogChowla](#references), §3, (3.1)–(3.5) and Remark 3.1, p.19.)
 
 Its basic API has the following statements for those probability and measurability hypotheses.
 
-- Mutual information is symmetric and equals H(X)−H(X|Y), by the chain rule `labelEntropy_pair_eq_add`.
+- Mutual information is symmetric and equals H(X)−H(X|Y), by the chain rule labelEntropy_pair_eq_add.
 - Mutual information is nonnegative: applying `Real.concaveOn_negMulLog` to the mixture of conditional laws gives H(X|Y)≤H(X).
 - Independent labels have mutual information zero; a label paired with itself has mutual information H(X).
 
@@ -7106,37 +7088,37 @@ The locators above use the linked author, preprint or published version. Page nu
 
 - **TAO-RESIDUES** — Terence Tao, [254A, Supplement 4: Probabilistic models and heuristics for the primes (optional)](https://terrytao.wordpress.com/2015/01/04/254a-supplement-4-probabilistic-models-and-heuristics-for-the-primes-optional/). Author web exposition dated 4 January 2015
 
-- **ML-ARITH** — Mathlib contributors, [Mathlib arithmetic functions and prime-factor counting](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-ARITH** — Mathlib contributors, [Mathlib arithmetic functions and prime-factor counting](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **ML-COUNT** — Mathlib contributors, [Mathlib counting of positive multiples](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Factorization/Basic.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-COUNT** — Mathlib contributors, [Mathlib counting of positive multiples](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Nat/Factorization/Basic.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **ML-PRIME** — Mathlib contributors, [Mathlib natural prime and least-common-multiple arithmetic](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Prime/Basic.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-PRIME** — Mathlib contributors, [Mathlib natural prime and least-common-multiple arithmetic](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Nat/Prime/Basic.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **TC-EMP** — The Tau Ceti contributors, [Empirical measures of sequences](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Probability/Process/EmpiricalMeasure.lean). a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039
+- **TC-EMP** — The Tau Ceti contributors, [Empirical measures of sequences](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Probability/Process/EmpiricalMeasure.lean). 2fd255d997f47c0b5d834ee416c7015d55444ce5
 
-- **ML-UNIFORM** — Kexing Ying and Bhavik Mehta, [Classical probability: uniformOn](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/UniformOn.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-UNIFORM** — Kexing Ying and Bhavik Mehta, [Classical probability: uniformOn](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/UniformOn.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **ML-FINITE-PRODUCT** — Mathlib contributors, [Mathlib finite coprime products and subset expansions](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/BigOperators/Ring/Finset.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-FINITE-PRODUCT** — Mathlib contributors, [Mathlib finite coprime products and subset expansions](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/BigOperators/Ring/Finset.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
 - **GS-SIEVING** — Andrew Granville and K. Soundararajan, [Sieving and the Erdos-Kac theorem](https://dms.umontreal.ca/~andrew/PDF/ErdosKac.pdf). Author typeset copy with 2006 footer and internal pages 1-13; related published chapter in Equidistribution in Number Theory, An Introduction (2007), pp.15-27, DOI 10.1007/978-1-4020-5404-4_2. The author copy is not identified as the version of record.
 
-- **ML-MOMENT-TOOLS** — Mathlib contributors, [Pinned finite-moment and power-estimate suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/Distributions/Bernoulli.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-MOMENT-TOOLS** — Mathlib contributors, [Pinned finite-moment and power-estimate suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/Distributions/Bernoulli.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **ML-MULTINOMIAL** — Mathlib contributors, [Pinned multinomial and fixed-support counting suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Choose/Multinomial.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-MULTINOMIAL** — Mathlib contributors, [Pinned multinomial and fixed-support counting suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Nat/Choose/Multinomial.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **TC-GAUSSIAN-MOMENTS** — The Tau Ceti contributors, [Existing real Gaussian centered moments](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Probability/Distributions/Gaussian/Moments.lean). a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039
+- **TC-GAUSSIAN-MOMENTS** — The Tau Ceti contributors, [Existing real Gaussian centered moments](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Probability/Distributions/Gaussian/Moments.lean). 2fd255d997f47c0b5d834ee416c7015d55444ce5
 
-- **ML-CUTOFF-TOOLS** — Mathlib contributors, [Pinned prime-cutoff, logarithmic and finite moment-transfer suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/PrimeCounting.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-CUTOFF-TOOLS** — Mathlib contributors, [Pinned prime-cutoff, logarithmic and finite moment-transfer suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/PrimeCounting.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
 - **TAO-PRIME-FACTORS** — Terence Tao, [254A, Notes 1: Elementary multiplicative number theory](https://terrytao.wordpress.com/2014/11/23/254a-notes-1-elementary-multiplicative-number-theory/). Author web exposition dated 23 November 2014.
 
-- **ML-EXCESS-TOOLS** — Mathlib contributors, [Pinned repeated-prime-factor and finite comparison suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Nat/Factorization/Basic.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-EXCESS-TOOLS** — Mathlib contributors, [Pinned repeated-prime-factor and finite comparison suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Nat/Factorization/Basic.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
 - **TAO-CLT-2010** — Terence Tao, [254A, Notes 2: The central limit theorem](https://terrytao.wordpress.com/2010/01/05/254a-notes-2-the-central-limit-theorem/). Author web exposition dated 5 January 2010.
 
-- **ML-ARITHMETIC-LIMITS** — Mathlib contributors, [Pinned probability-law and weak-convergence suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/Measure/LevyConvergence.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-ARITHMETIC-LIMITS** — Mathlib contributors, [Pinned probability-law and weak-convergence suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/LevyConvergence.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
-- **ML-EXCESS-MOMENTS** — Mathlib contributors, [Pinned finite geometric, exponential and CRT suppliers](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Analysis/Complex/Exponential.lean). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-EXCESS-MOMENTS** — Mathlib contributors, [Pinned finite geometric, exponential and CRT suppliers](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Complex/Exponential.lean). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
 - **TAO-HOFA-1.1** — Terence Tao, [Higher order Fourier analysis, Section 1.1: Equidistribution of polynomial sequences in tori](https://terrytao.wordpress.com/wp-content/uploads/2012/12/gsm-142-tao7-higher-book-05june2012.pdf). Graduate Studies in Mathematics 142, American Mathematical Society, 2012; author's preliminary version of 5 June 2012, available with the publisher's permission, linked from the author's book page.
 
@@ -7164,7 +7146,7 @@ The locators above use the linked author, preprint or published version. Page nu
 
 - **TaoLogChowla** — Terence Tao, [The logarithmically averaged Chowla and Elliott conjectures for two-point correlations](https://arxiv.org/pdf/1509.05422v4). arXiv:1509.05422v4, 29 July 2016
 
-- **ML-PM79** — Mathlib contributors, [Pinned native metric probability interfaces](https://github.com/leanprover-community/mathlib4/tree/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib). 6b7abb3c7686292736be2955bd3eb9ebf63b456a
+- **ML-PM79** — Mathlib contributors, [Pinned native metric probability interfaces](https://github.com/leanprover-community/mathlib4/tree/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib). 1b1ccf4b088b32fa3f23f2de1127433254a81e1e
 
 - **Harper** — Adam J. Harper, [Moments of random multiplicative functions, II: High moments](https://msp.org/ant/2019/13-10/ant-v13-n10-p02-s.pdf). Algebra & Number Theory 13:10 (2019), 2277–2321, version of record
 
@@ -7194,5 +7176,4 @@ The locators above use the linked author, preprint or published version. Page nu
 - **Falconer1990** — Kenneth Falconer, *Fractal Geometry: Mathematical Foundations and Applications*, 1990, Proposition 1.7; cited by locator.
 - **PollingtonVaughan1990** — A. D. Pollington and R. C. Vaughan, *The k-dimensional Duffin and Schaeffer conjecture*, Mathematika 37 (1990), 190–200, DOI 10.1112/S0025579300012900, divergence theorem and proof; cited by locator.
 - **Rogozin1961a** — B. A. Rogozin, *An estimate of the concentration functions*, 1961, concentration inequality; cited by locator.
-- **Knapp2002** — Anthony W. Knapp, *Lie Groups Beyond an Introduction*, second edition, Birkhäuser, 2002; cited by chapter and section.
 - **Rogozin1961b** — B. A. Rogozin, *On the increase of dispersion of sums of independent random variables*, 1961, concentration inequality; cited by locator.

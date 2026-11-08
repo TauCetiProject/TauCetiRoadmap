@@ -17,8 +17,7 @@ valuation metadata and their quality are absent. Its construction and theorem
 are README targets. The signatures below cover the additive limit laws,
 polynomial Haar-mixture limits, discrepancy, normality, metric and Hausdorff
 approximation, pointwise and Gauss dynamics, lattice quotients with Howe–Moore,
-Moore ergodicity and Mahler's criterion, finite-label entropy, and multiplicative
-correlations.
+Moore ergodicity and Mahler's criterion, and multiplicative correlations.
 Simple definitions specify only the objects occurring in these signatures.
 Finite exact-period corollaries, native probability transports and continued-
 fraction recurrence comparisons are targets in README.md, not acceptance declarations.
@@ -105,48 +104,6 @@ namespace MetricNumberTheory
 /-- Coprime positive products become sums; input one has value zero. -/
 def IsAdditive {R : Type*} [AddCommMonoid R] (f : ArithmeticFunction R) : Prop :=
   f 1 = 0 ∧ ∀ m n : ℕ, 0 < m → 0 < n → m.Coprime n → f (m*n) = f m + f n
-
-/-- All positive products become sums; input one has value zero. -/
-def IsCompletelyAdditive {R : Type*} [AddCommMonoid R] (f : ArithmeticFunction R) : Prop :=
-  f 1 = 0 ∧ ∀ m n : ℕ, 0 < m → 0 < n → f (m*n) = f m + f n
-
-/-- A completely additive arithmetic function is additive. -/
-theorem IsCompletelyAdditive.isAdditive {R : Type*} [AddCommMonoid R]
-    {f : ArithmeticFunction R} (hf : IsCompletelyAdditive f) : IsAdditive f := by sorry
-
-/-- The power `k ^ f n` at positive inputs, extended by zero at input zero. -/
-def powOfAdditive {R : Type*} [MonoidWithZero R] (k : R) (f : ArithmeticFunction ℕ) :
-    ArithmeticFunction R where
-  toFun n := if n = 0 then 0 else k ^ f n
-  map_zero' := by simp
-
-/-- A monoid homomorphism applied to an additive function at positive inputs is multiplicative. -/
-theorem IsAdditive.isMultiplicative_of_eq_monoidHom {A R : Type*} [AddCommMonoid A]
-    [MonoidWithZero R] {f : ArithmeticFunction A} (hf : IsAdditive f)
-    (φ : Multiplicative A →* R) (g : ArithmeticFunction R)
-    (hg : ∀ n : ℕ, 0 < n → g n = φ (Multiplicative.ofAdd (f n))) :
-    g.IsMultiplicative := by sorry
-
-/-- Every power of a natural-valued additive function is multiplicative. -/
-theorem IsAdditive.isMultiplicative_powOfAdditive {R : Type*} [MonoidWithZero R]
-    {f : ArithmeticFunction ℕ} (hf : IsAdditive f) (k : R) :
-    (powOfAdditive k f).IsMultiplicative := by sorry
-
-/-- Powers of a completely additive function are multiplicative on all pairs of inputs. -/
-theorem IsCompletelyAdditive.powOfAdditive_mul {R : Type*} [MonoidWithZero R]
-    {f : ArithmeticFunction ℕ} (hf : IsCompletelyAdditive f) (k : R) (m n : ℕ) :
-    powOfAdditive k f (m * n) = powOfAdditive k f m * powOfAdditive k f n := by sorry
-
-/-- The function `n ↦ k ^ ω n`, zero at zero, is multiplicative; `k = 2` gives `2 ^ ω`. -/
-theorem isMultiplicative_powOfAdditive_cardDistinctFactors {R : Type*} [MonoidWithZero R]
-    (k : R) : (powOfAdditive k ArithmeticFunction.cardDistinctFactors).IsMultiplicative := by
-  sorry
-
-/-- The power `k ^ ω` is Mathlib's product of `k` over the distinct prime factors. -/
-theorem powOfAdditive_cardDistinctFactors_eq_prodPrimeFactors {R : Type*}
-    [CommMonoidWithZero R] (k : R) :
-    powOfAdditive k ArithmeticFunction.cardDistinctFactors =
-      ArithmeticFunction.prodPrimeFactors (fun _ => k) := by sorry
 
 /-- The supremal mass of strict intervals of radius δ; nonpositive radii give zero. -/
 def concentration (ν : ProbabilityMeasure ℝ) (δ : ℝ) : ℝ :=
@@ -704,15 +661,9 @@ section HomogeneousConsumers
 local notation "G" => Matrix.SpecialLinearGroup (Fin 2) ℝ
 local notation "Γ" => MonoidHom.range (Matrix.SpecialLinearGroup.map (Int.castRingHom ℝ) :
   Matrix.SpecialLinearGroup (Fin 2) ℤ →* G)
-/-- The special linear group carries the existing determinant-one subtype topology. -/
-local instance homogeneousGroupTopology : TopologicalSpace G :=
-  inferInstanceAs (TopologicalSpace {A : Matrix (Fin 2) (Fin 2) ℝ // A.det = 1})
 local notation "X" => G ⧸ Γ
 /-- The homogeneous quotient uses its Borel measurable structure. -/
 local instance homogeneousQuotientMeasurableSpace : MeasurableSpace X := borel X
-
-/-- The integral special linear group is discrete in the real one. -/
-theorem modularLattice_discrete : DiscreteTopology Γ := sorry
 
 /-- The modular quotient carries exactly one Borel probability preserved by every left
 translation. -/
@@ -752,38 +703,6 @@ theorem typical_unbounded_semiorbit : ∀ᵐ x ∂m,
 end HomogeneousConsumers
 
 /-! ## Layer 5: Short intervals, logarithmic correlations and random models -/
-section FiniteLabelEntropy
-
-/-- Shannon entropy, in natural logarithms, of a label with finitely many values. -/
-def labelEntropy {Ω A : Type*} [MeasurableSpace Ω] [Fintype A] (μ : Measure Ω) (X : Ω → A) :
-    ℝ :=
-  ∑ a, Real.negMulLog (μ.real (X ⁻¹' {a}))
-
-/-- Conditional entropy of one finite label given another; cells of mass zero contribute zero. -/
-def condLabelEntropy {Ω A B : Type*} [MeasurableSpace Ω] [Fintype A] [Fintype B]
-    (μ : Measure Ω) (X : Ω → A) (Y : Ω → B) : ℝ :=
-  ∑ a, ∑ b, μ.real (X ⁻¹' {a} ∩ Y ⁻¹' {b}) *
-    Real.log (μ.real (Y ⁻¹' {b}) / μ.real (X ⁻¹' {a} ∩ Y ⁻¹' {b}))
-
-variable {Ω A B : Type*} [MeasurableSpace Ω] [Fintype A] [Fintype B]
-  [MeasurableSpace A] [DiscreteMeasurableSpace A] [MeasurableSpace B] [DiscreteMeasurableSpace B]
-  (μ : Measure Ω) [IsProbabilityMeasure μ] {X : Ω → A} {Y : Ω → B}
-
-/-- The chain rule for the joint label. -/
-theorem labelEntropy_pair_eq_add (hX : Measurable X) (hY : Measurable Y) :
-    labelEntropy μ (fun ω => (X ω, Y ω)) = labelEntropy μ Y + condLabelEntropy μ X Y := by sorry
-
-/-- Entropy lies between zero and the logarithm of the alphabet size. -/
-theorem labelEntropy_nonneg_le_log_card [Nonempty A] (hX : Measurable X) :
-    0 ≤ labelEntropy μ X ∧ labelEntropy μ X ≤ Real.log (Fintype.card A) := by sorry
-
-/-- Independent labels have additive joint entropy. -/
-theorem labelEntropy_pair_of_indepFun (hX : Measurable X) (hY : Measurable Y)
-    (hXY : ProbabilityTheory.IndepFun X Y μ) :
-    labelEntropy μ (fun ω => (X ω, Y ω)) = labelEntropy μ X + labelEntropy μ Y := by sorry
-
-end FiniteLabelEntropy
-
 /-- Inclusive short intervals contain h+1 terms but are normalized by h. -/
 def shortMean (f : ArithmeticFunction ℝ) (x h : ℕ) : ℝ :=
   (∑ n ∈ Finset.Icc x (x+h), f n)/(h:ℝ)
