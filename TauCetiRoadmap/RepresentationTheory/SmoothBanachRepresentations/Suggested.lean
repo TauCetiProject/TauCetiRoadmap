@@ -22,8 +22,9 @@ distribution-to-smooth-dual interface; native distribution convergence alone
 does not state those comparisons. Holomorphic closure
 needs the general Banach-algebra holomorphic functional calculus of BanachAlgebras
 A2; the pinned continuous functional calculus does not supply that carrier.
-The one-parameter generator adapter and local integral estimates are supporting
-APIs in the README, not additional acceptance theorems.
+The scaling and coefficient laws of the one-parameter generators, whose two-sided
+theory is already in Tau Ceti, and the local integral estimates are supporting
+targets in the README, not additional acceptance theorems.
 -/
 
 open scoped Manifold ContDiff Topology
