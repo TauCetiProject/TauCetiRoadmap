@@ -381,11 +381,15 @@ theorem nonordinary_pairs_lt_200 (p k : ℕ) (hp : p.Prime) (hp200 : p < 200)
         (173, 24), (173, 152), (193, 72), (193, 124)] : List (ℕ × ℕ)) := by
   sorry
 
+/-- The prime 107 of the weight-82 companion system, as the instance that
+`ResidualCuspSpace 107 82` needs (README §3.14). -/
+instance instFactPrime107 : Fact (Nat.Prime 107) := ⟨by norm_num⟩
+
 /-- The normalized integral weight-26 form has a simultaneous companion at
 weight 82 modulo 107, with eigenvalue l^81 a_l for every prime l ≠ 107
 (README §3.14; BCG Theorem 2.4, proof). The normalization identifies the unique
 weight-26 cusp form ΔE₄²E₆. -/
-theorem weight82_companion_system [Fact (Nat.Prime 107)] (T : IntegralHeckeAction 82)
+theorem weight82_companion_system (T : IntegralHeckeAction 82)
     (f : integralCuspLattice 26)
     (hf : (qExpansion 1 (f : CuspForm 𝒮ℒ 26)).coeff 1 = 1) :
     ∃ a : ℕ → ℤ, (∀ n, (qExpansion 1 (f : CuspForm 𝒮ℒ 26)).coeff n = a n) ∧
@@ -566,8 +570,6 @@ theorem cusp_mellin_tail (k : ℕ) (hk : (0 : ℤ) < k)
 -- heights `TauCetiRoadmap.ExplicitZetaBounds.plattHeight`, the records
 -- `TauCetiRoadmap.ExplicitZetaBounds.PlattRecord` and
 -- `TauCetiRoadmap.ExplicitZetaBounds.PlattCentralRecord`, and the absence of real zeros
--- `TauCetiRoadmap.ExplicitZetaBounds.LFunction_ne_zero_of_platt`. From
--- TauCetiRoadmap.ExplicitPrimeCounting (its README §6.2a), the one-character form
--- `TauCetiRoadmap.ExplicitPrimeCounting.LFunction_ofReal_ne_zero_of_criticalLineUpTo`.
+-- `TauCetiRoadmap.ExplicitZetaBounds.LFunction_ne_zero_of_platt`.
 
 end TauCetiRoadmap.ComputationalNumberTheory

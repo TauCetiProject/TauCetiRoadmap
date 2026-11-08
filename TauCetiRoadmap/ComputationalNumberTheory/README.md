@@ -121,9 +121,6 @@ It consumes the following mathematics by its existing ownership:
   `plattHeight`, the named records `PlattRecord` and `PlattCentralRecord`, and the absence of real
   zeros in `(0, 1)` for primitive characters of modulus at most `400 000`
   (`LFunction_ne_zero_of_platt`). This roadmap states none of them.
-- **ExplicitPrimeCounting** §6.2a owns the one-character form of that absence of real zeros, at
-  any height up to which the zeros are on the critical line
-  (`LFunction_ofReal_ne_zero_of_criticalLineUpTo`).
 - **ExplicitNumberFields** 1.1a owns the digamma and trigamma remainders on `Re z > 0`
   (`digamma_series_remainder`, `trigamma_series_remainder`); §4.18 applies them to the CT scalars.
 
@@ -179,7 +176,7 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
 
 - Elementary arithmetic and primality: `lucas_primality`, `reverse_lucas_primality`
   (`Mathlib.NumberTheory.LucasPrimality`),
@@ -218,7 +215,7 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   `Ideal.radical` (`Mathlib.RingTheory.Ideal.Operations`).
 - Submodule division: `Submodule.mem_div_iff_forall_mul_mem`,
   `Submodule.mem_div_iff_smul_subset` and `Submodule.le_div_iff_mul_le`
-  (`Mathlib/Algebra/Algebra/Operations.lean`, lines 875–885) identify I / J with
+  (`Mathlib/Algebra/Algebra/Operations.lean`, lines 873–883) identify I / J with
   the elements x for which xJ⊆I. Section 2.2 packages I / I as a ℤ-subalgebra.
 - Modular forms and `L`-functions: `ModularForm.dimension_level_one`,
   `ModularForm.sturm_bound_levelOne_nat`
@@ -245,18 +242,18 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   (`Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Degree`); the polynomial
   definitions are in `Mathlib.AlgebraicGeometry.EllipticCurve.DivisionPolynomial.Basic`.
 - Scalar extension of integer operators: `LinearMap.baseChange`
-  (`Mathlib/LinearAlgebra/TensorProduct/Tower.lean`, line 657) acts on pure tensors
+  (`Mathlib/LinearAlgebra/TensorProduct/Tower.lean`, line 655) acts on pure tensors
   by applying the original map to the second factor; `Module.Basis.baseChange`
-  (`Mathlib/LinearAlgebra/TensorProduct/Basis.lean`, line 63) extends a basis.
+  (`Mathlib/LinearAlgebra/TensorProduct/Basis.lean`, line 66) extends a basis.
 - Finite analytic expressions: `ascPochhammer` (`Mathlib/RingTheory/Polynomial/Pochhammer.lean`,
-  line 50) is the rising-factorial polynomial, and `bernoulli`
-  (`Mathlib/NumberTheory/Bernoulli.lean`, line 194) uses B₁=−1/2.
+  line 51) is the rising-factorial polynomial, and `bernoulli`
+  (`Mathlib/NumberTheory/Bernoulli.lean`, line 197) uses B₁=−1/2.
   `ModularForm.weakFEPair` and `ModularForm.L`
-  (`Mathlib/NumberTheory/ModularForms/LFunction.lean`, lines 61 and 134) fix the
+  (`Mathlib/NumberTheory/ModularForms/LFunction.lean`, lines 65 and 151) fix the
   Fricke factor i^k and the uncompleted L-value normalization.
 - Matrices: `Matrix.PosDef` and `Matrix.PosSemidef` (`Mathlib.LinearAlgebra.Matrix.PosDef`).
 
-### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
 
 - `TauCeti.Contour.argumentPrinciple_starConvex` (`TauCeti.Analysis.Contour.StarConvex`)
   and `TauCeti.Contour.argumentPrinciple_nullHomologous`
@@ -275,17 +272,14 @@ carries its own primality, finite-generation, completeness and scalar-tower hypo
   assumptions: units of depth `2*v_L(2)+1` are squares.
 - Finite extensions of a nonarchimedean local field `K` (Mathlib `IsNonarchimedeanLocalField`,
   with the instance for `ℚ_[p]` in `Mathlib.NumberTheory.Padics.LocalField`), as implemented
-  for LocalFieldsRamification: `TauCeti.finiteExtensionValuativeRel` and
-  `TauCeti.finiteExtension_valuativeExtension`
-  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) put on a finite extension `M`
-  the valuative relation of the spectral norm, extending that of `K`, and
-  `TauCeti.finiteExtension_isNonarchimedeanLocalField` (same module) makes `M` a
-  nonarchimedean local field. Tau Ceti revisions from
-  `2fd255d997f47c0b5d834ee416c7015d55444ce5` on state the first two for an algebraic
-  extension, as `TauCeti.algebraicExtensionValuativeRel` and
-  `TauCeti.algebraicExtension_valuativeExtension` in
-  `TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`, and keep the third under its
-  name. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
+  for LocalFieldsRamification: `TauCeti.algebraicExtensionValuativeRel` and
+  `TauCeti.algebraicExtension_valuativeExtension`
+  (`TauCeti.NumberTheory.LocalField.AlgebraicExtension.Basic`, under the hypothesis
+  `[Algebra.IsAlgebraic K M]`, which a finite extension satisfies) put on an algebraic
+  extension `M` the valuative relation of the spectral norm, extending that of `K`, and
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField`
+  (`TauCeti.NumberTheory.LocalField.FiniteExtension.Basic`) makes a finite `M` a
+  nonarchimedean local field. For local fields `L/K` with `ValuativeExtension K L`, `TauCeti.ramificationIndex`
   (`TauCeti.NumberTheory.LocalField.RamificationIndex`), `TauCeti.inertiaDegree` and
   `TauCeti.ramificationIndex_mul_inertiaDegree`
   (`TauCeti.NumberTheory.LocalField.InertiaDegree`) give `e`, `f` and `e·f = [L : K]`.
@@ -401,12 +395,6 @@ lower count, rather than another abstract localization relation.
 `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ q ≤ 2·10⁶` (Platt Theorems 7.1–7.2). At the
 modulus `1`, outside both records, the bounded-height statement at `H(1) = 10⁸` follows from the
 record `RiemannHypothesisUpTo 545439823` of §0.4 by the antitonicity of §0.2.
-
-### From TauCetiRoadmap.ExplicitPrimeCounting
-
-§6.2a supplies `LFunction_ofReal_ne_zero_of_criticalLineUpTo`: for a Dirichlet character `χ`
-modulo `q ≥ 1` and `H ≥ 0`, if every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has
-`Re s = 1/2` and `L(1/2, χ) ≠ 0`, then `L(β, χ) ≠ 0` for every real `β ∈ (0, 1)`.
 
 ### From TauCetiRoadmap.ExplicitNumberFields
 
@@ -1393,7 +1381,7 @@ pp.14–15; GMN line 684). *Needs:* factorization by φ-Newton sides and the res
 
 Let p be prime, φ and f monic in ℤ[X], deg φ>0, and φ mod p irreducible. Suppose f mod p=(φ mod p)^n, n>0, and the whole φ-polygon is the finite side from (0,hd) to (ed,0), with n=ed and coprime positive h,e. If its residual polynomial is irreducible over F_φ, then f is irreducible over ℚ_p. For a root θ the resulting local extension ℚ_p(θ)/ℚ_p has ramification index e and residue degree deg(φ)·deg(R); these are Tau Ceti's `TauCeti.ramificationIndex` and `TauCeti.inertiaDegree` for the local-field structure that `TauCeti.finiteExtension_isNonarchimedeanLocalField` puts on ℚ_p(θ).
 
-Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.finiteExtension_valuativeExtension`, `TauCeti.ramificationIndex`, `TauCeti.inertiaDegree` and `TauCeti.ramificationIndex_mul_inertiaDegree`; `henselLift` (1.26).
+Use the product theorem for φ-polygons and residual polynomials, the polygon factorization theorem and residual factorization theorem. An irreducible residual factor of exponent one admits only one irreducible local factor. The native local degree formula then gives the ramification and residue degrees. ([GMN](#source-gmn), Theorem 1.19 and Corollary 1.20, pp.14–15.) *Needs:* `phiResidualPolynomial` (2.19); the φ-polygon product identity, the residual product identity, factorization by φ-Newton sides, factorization by residual factors (2.19a); Tau Ceti `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.algebraicExtension_valuativeExtension`, `TauCeti.ramificationIndex`, `TauCeti.inertiaDegree` and `TauCeti.ramificationIndex_mul_inertiaDegree`; `henselLift` (1.26).
 
 ### 2.21 Finite local expansion presentation
 
@@ -1421,8 +1409,8 @@ If u ≡ w² modulo 4π then w is a unit, and the polynomial X² − u satisfies
 For a characteristic-zero nonarchimedean local field L, irreducible π∈O_L with π²=2,
 and u∈O_Lˣ with u=3+2π in L, prove that u is a square
 and has a square representative modulo 4π, witnessed by 1+π.
-The native `ℤ_[p]` specialization is is square iff is square mod padic;
-local square controls bundles the 17, 5 and 6 comparisons below.
+Its specialization to `ℤ_[p]` is the same statement with `π = p` and modulus `4p`; the
+Checks below are its instances at 17 and 5 in ℚ₂ and at 6 in ℚ₅.
 
 **Checks.**
 
@@ -1708,7 +1696,8 @@ The acceptance carrier `ResidualCuspSpace p k` is
 `AlgebraicClosure (ZMod p) ⊗[ℤ] integralCuspLattice k`, using the prime-field
 scalar map. The operator `residualHecke T l` is `LinearMap.baseChange` of the
 integer operator, with that same algebraic closure as coefficient field.
-The weight-82 statement takes any integral weight-26 form with first coefficient
+The primality of 107, which `ResidualCuspSpace 107 82` needs, is the global instance
+`instFactPrime107`. The weight-82 statement takes any integral weight-26 form with first coefficient
 one; its one-dimensional space identifies it with ΔE₄²E₆. It produces one
 nonzero vector for the whole prime family, with the exact integer Fourier
 coefficients of that form in the eigenvalue formula.
@@ -1860,7 +1849,7 @@ Let A be an additive commutative group, p a prime and G ≤ A generated by g₁,
 
 Suppose V_p = 0 and A[p] ≤ G. If pa ∈ G, write pa = Σ c_i g_i; then c̄ ∈ V_p, so c = p·c′, and a − Σ c′_i g_i lies in A[p] ≤ G, hence a ∈ G. Independence in G/pG holds because pG ⊆ pA. Conversely, saturation gives A[p] ≤ G and G ∩ pA = pG, so an element of V_p has Σ b_i g_i ∈ pG and b̄ = 0 by independence. Lines suffice because V_p is a subspace. ([Siksek](#source-siksek), §4, equation (39), and §4.1, p.17; §4.2, projective representatives and the p = 2 exception, p.18.) *Needs:* EffectiveDiophantineMethods §3.17.
 
-The variant is psaturated iff forall not dvd of span quotient assumes only g_i ∈ G and that their classes generate G/pG: every x ∈ G can be written Σ c_i g_i + py with y ∈ G. It has the same equivalence between V_p = 0 together with A[p] ≤ G, and p-saturation together with independence in G/pG. In the forward proof write pa = Σ c_i g_i + py, then apply the preceding argument to a − y. This is the version used when prime-to-p torsion is omitted from the generator list.
+The quotient-generating variant assumes only g_i ∈ G and that their classes generate G/pG: every x ∈ G can be written Σ c_i g_i + py with y ∈ G. It has the same equivalence between V_p = 0 together with A[p] ≤ G, and p-saturation together with independence in G/pG. In the forward proof write pa = Σ c_i g_i + py, then apply the preceding argument to a − y. This is the version used when prime-to-p torsion is omitted from the generator list.
 
 **Checks.**
 
@@ -2410,12 +2399,11 @@ Mathlib `ModularForm.L` and `ModularForm.weakFEPair`.
 **Checks.**
 
 - The zero form admits the singleton rectangle `{0}×{0}` at every precision.
-- For normalized Δ, delta l twelve bounds states
-  `1/2 < Re L(Delta,12) < 3/2` and `Im L(Delta,12)=0`. Thus
+- For normalized Δ, prove `1/2 < Re L(Delta,12) < 3/2` and `Im L(Delta,12)=0`. Thus
   `[1/2,3/2]×{0}` is an admissible P=0 output excluding zero. Positivity also follows
   independently from Δ(it)>0 and its Mellin integral. The coefficient-growth target states
   `abs(tau(n)) ≤ 1000*n^6` for every n≥1; this bound, three Mellin terms and §4.20a give the displayed rational bounds;
-  prove that bound from `ModularForm.discriminant_eq_q_prod` on the standard fundamental domain (`Mathlib/NumberTheory/ModularForms/Discriminant.lean`, line 114).
+  prove that bound from `ModularForm.discriminant_eq_q_prod` on the standard fundamental domain (`Mathlib/NumberTheory/ModularForms/Discriminant.lean`, line 115).
 - For −Δ the reflected rectangle `[−3/2,−1/2]×{0}` is admissible; a sign-insensitive
   enclosure would fail to distinguish these values. This follows from linearity in f.
 
@@ -2430,7 +2418,7 @@ away from its poles, with equality of meromorphic germs everywhere. The Gamma-pr
 expression is used away from Gamma poles; at trivial zeros its removable continuation
 is essential. The native comparison is
 `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`
-(`Mathlib.NumberTheory.LSeries.DirichletContinuation`, line 258).
+(`Mathlib.NumberTheory.LSeries.DirichletContinuation`, line 266).
 Define the horizontal Dirichlet argument by
 `S_chi(t)=Im(integral(sigma=infinity to 1/2, L'_chi/L_chi(sigma+i*t)))/pi`,
 using the right-hand limit at a zero or pole ordinate (for q=1 the path at t=0 meets the pole of ζ at s=1). Prove local integrability, the
