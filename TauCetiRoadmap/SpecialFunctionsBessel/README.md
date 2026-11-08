@@ -144,6 +144,7 @@ Tau Ceti nor a consumed roadmap provides:
 |---|---|
 | `J_ν(z)` and `I_ν(z)` are entire in `ν` for `z` in the slit plane, and the quotients 10.2.3 and 10.27.4 have removable singularities at the integers | 1.2, 1.7 |
 | Uniqueness for Bessel's equation on the slit plane given value and derivative at one point | 1.1 |
+| Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous `q₁ ≤ q₂`, between two consecutive zeros of a nontrivial real solution of `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` has a zero, unless `q₁ = q₂` and `v` is a multiple of `u`; and the zeros of a nontrivial real solution are simple and isolated | 7.1 |
 | Neumann's polynomials `O_n(t)` of 10.23.13, and their generating function 10.23.12 | 2.6 |
 | Gegenbauer's polynomials `C_n^{(ν)}(x)` by the explicit sum 18.5.10, with the generating function 18.12.4, the expansion 18.18.17 of `(2x)ⁿ` and `C_n^{(1/2)}(x) = P_n(x)` | 2.5 |
 | The holomorphic continuation of `𝐅(α, β; γ; x)` (Mathlib's `Complex.regularizedGaussHGFun`) from `|x| < 1` to `ℂ \ [1, ∞)` for `α = (μ + ν)/2`, `β = (μ + ν + 1)/2`, `γ = ν + 1`, `Re(μ + ν) > 0` | 8.2 |
@@ -1013,23 +1014,25 @@ Layers 1–5; AsymptoticExpansions Layers 5 and 11.
 
 For real `ν ≥ 0` the positive zeros of `J_ν`, `Y_ν`, `J′_ν`, `Y′_ν` are simple, infinitely many, and
 enumerated increasingly by `Real.besselJZero` and the others (`besselJZero_spec`). The statement for
-`J_ν` holds for `ν > −1`: there are infinitely many positive zeros by Sturm comparison for
-`x^{1/2} J_ν(x)` (10.13.1 at `λ = 1`), and they are simple because `x > 0` is an ordinary point of
-10.2.1. For `ν ≥ −1` all zeros of `J_ν` are real (DLMF §10.21(i)), so the zeros of `I_ν` are on the
-imaginary axis; for real `ν`, `K_ν` has no zeros with `z ≠ 0` and `|ph z| ≤ π/2` (DLMF §10.42). For
-real `ν < −1`, `ν ∉ ℤ`, the entire function `z ↦ 𝐅(ν + 1)(−z²/4)` has exactly `2⌊−ν⌋` non-real
-zeros, two of them on the imaginary axis when `⌊−ν⌋` is odd (DLMF §10.21(i), Hurwitz; Watson 1944,
-§15.27). Consequently (DLMF §10.42, by 10.27.6), for real `ν` the entire function
-`z ↦ 𝐅(ν + 1)(z²/4)` has nonzero real zeros only when `−2ℓ < ν < −(2ℓ − 1)` for some integer
-`ℓ ≥ 1`, and then exactly two, `±x₀`; equivalently `I_ν` has exactly one zero on `(0, ∞)` in that
-case and none otherwise. At negative integer `ν` that function also vanishes at `0`, since
-`1/Γ(ν + 1) = 0`. The reduced functions `z ↦ 𝐅(ν + 1)(∓z²/4)` are defined by the series and equal
-`(z/2)^{−ν} J_ν(z)` and `(z/2)^{−ν} I_ν(z)` for `z ≠ 0`. At `z = 0` the totalized product need not
-agree: at `ν = 1` it is `0` and the series is `1`. The zero-free statement for `K_ν` is for `z ≠ 0`,
-since `K_ν(0)` is totalized to `0`. The distribution of the complex zeros of `K_n(nz)`, which DLMF
-gives only by figures, is not a target. The route: the phase `θ_ν` of 5.4 is strictly increasing
-with `θ_ν(0+) = −π/2` and `θ_ν(x) → ∞`, so 10.21.12 locates the zeros; reality of the zeros of `J_ν`
-is the Lommel integral 10.22.5 against `J_ν(z̄ t)`.
+`J_ν` holds for `ν > −1`: there are infinitely many positive zeros by Sturm comparison (auxiliary):
+`u = x^{1/2} J_ν(x)` solves `u″ + (1 − (ν² − ¼)/x²) u = 0` (10.13.1 at `λ = 1`), whose coefficient
+is at least `1 − ε` on `(X, ∞)` for `X` large, so `u` has a zero between any two consecutive zeros
+of `sin(√(1 − ε) x)` there; and they are simple because `x > 0` is an ordinary point of 10.2.1. For
+`ν ≥ −1` all zeros of `J_ν` are real (DLMF §10.21(i)), so the zeros of `I_ν` are on the imaginary
+axis; for real `ν`, `K_ν` has no zeros with `z ≠ 0` and `|ph z| ≤ π/2` (DLMF §10.42). For real
+`ν < −1`, `ν ∉ ℤ`, the entire function `z ↦ 𝐅(ν + 1)(−z²/4)` has exactly `2⌊−ν⌋` non-real zeros, two
+of them on the imaginary axis when `⌊−ν⌋` is odd (DLMF §10.21(i), Hurwitz; Watson 1944, §15.27).
+Consequently (DLMF §10.42, by 10.27.6), for real `ν` the entire function `z ↦ 𝐅(ν + 1)(z²/4)` has
+nonzero real zeros only when `−2ℓ < ν < −(2ℓ − 1)` for some integer `ℓ ≥ 1`, and then exactly two,
+`±x₀`; equivalently `I_ν` has exactly one zero on `(0, ∞)` in that case and none otherwise. At
+negative integer `ν` that function also vanishes at `0`, since `1/Γ(ν + 1) = 0`. The reduced
+functions `z ↦ 𝐅(ν + 1)(∓z²/4)` are defined by the series and equal `(z/2)^{−ν} J_ν(z)` and
+`(z/2)^{−ν} I_ν(z)` for `z ≠ 0`. At `z = 0` the totalized product need not agree: at `ν = 1` it is
+`0` and the series is `1`. The zero-free statement for `K_ν` is for `z ≠ 0`, since `K_ν(0)` is
+totalized to `0`. The distribution of the complex zeros of `K_n(nz)`, which DLMF gives only by
+figures, is not a target. The route: the phase `θ_ν` of 5.4 is strictly increasing with
+`θ_ν(0+) = −π/2` and `θ_ν(x) → ∞`, so 10.21.12 locates the zeros; reality of the zeros of `J_ν` is
+the Lommel integral 10.22.5 against `J_ν(z̄ t)`.
 
 **Checks.**
 - `j_{0,1} = 2.40482 55577…`, `j_{1,1} = 3.83170 59702…`, `y_{0,1} = 0.89357 69663…`.
