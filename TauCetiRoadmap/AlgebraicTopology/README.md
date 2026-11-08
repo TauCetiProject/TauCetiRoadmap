@@ -119,9 +119,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers.
 - Layer 4.8 is the single owner of the compact-generation coreflection, convenient
   products, exponentials, CW comparisons and the foundational pointed suspension–loop
-  adjunction. HomotopySpheres' pointed cones, Puppe sequences and stabilization are
-  consumers of this foundation and of this roadmap's cofibration and relative-homotopy
-  results; supply runs from this roadmap to those applications. Layer 4.4 owns the
+  adjunction. Pointed cones, Puppe sequences and stabilization are consumers of this
+  foundation and of this roadmap's cofibration and relative-homotopy results; supply
+  runs from this roadmap to those applications. Layer 4.4 owns the
   additional raw-quotient comparisons
   and their interval-last normalization. GeneralizedCohomology G2.1 owns the
   simplicial-realization product comparison from these foundations,
@@ -134,8 +134,8 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   generic tower construction the library lacks, the maps of shifted cones induced by
   tower maps whose squares commute up to specified homotopies, with their composition
   and second-homotopy laws; it has no topological prerequisite, and its algebraic
-  consumers, DerivedModuleAlgebra §1.1's localization of the derived limit among them,
-  take it from 6.0. Layer 6.0 also owns the singular and cellular restriction-tower
+  consumers take it from 6.0 (DerivedModuleAlgebra §1.1's localization of the derived
+  limit consumes it for its exact-functor comparison). Layer 6.0 also owns the singular and cellular restriction-tower
   adapters and their limit comparisons; Layer 6.1 extends these comparisons to direct
   local-system cochains.
 - TopologicalSheafCohomology §§1.1–1.2 owns raw Čech refinements, the comparison
@@ -217,7 +217,10 @@ These choices are part of the specification.
 
 ### From Mathlib and Tau Ceti
 
-The development starts from these pinned APIs.
+The development starts from these pinned APIs, read at the revisions the content
+repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and
+Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file
+named in this section is cited as it is at those revisions.
 
 - `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop` and
   `CompactlyGenerated.fullyFaithfulCompactlyGeneratedToTop` in
@@ -938,7 +941,6 @@ Consume native finite-CW Euler--Poincare and finite-generation results;
    Layer 4.8 owns the comparison of these kified raw quotients with the pointed
    convenient smash and suspension, and consumes the k-counit comparisons of this
    item for it.
-   HomotopySpheres consumes these comparisons for its pointed cones and Puppe sequences.
    RiemannianGeometry R3 consumes the raw reduced-suspension quotient map and the
    reduced-suspension sphere homeomorphism.
 
@@ -985,9 +987,9 @@ Consume native finite-CW Euler--Poincare and finite-generation results;
    relation to the sphere normalization. The radial
    D^(n+1)-boundary→Sⁿ comparison has coefficient +1 for n≥1; for n=0
    the oriented interval boundary [p]−[−p] is minus the chosen reduced
-   generator. HomotopySpheres §3A/§3B and RiemannianGeometry R3 consume these
-   homeomorphisms and the explicit generator comparisons, without constructing
-   a second sphere-suspension identification.
+   generator. RiemannianGeometry R3 consumes these homeomorphisms and the explicit
+   generator comparisons, without constructing a second sphere-suspension
+   identification.
    Derive these quotient-sign comparisons from §2.5's coordinate shuffle class,
    the quotient/relative-homology comparison (Hatcher, Proposition 2.22,
    p.124), the product boundary formula (Proposition 3B.1, pp.269–270), and
@@ -3346,13 +3348,10 @@ Identity maps on ∅, a point, S¹ and S² induce identity maps on components an
 
 ## Downstream consumers
 
-HomotopySpheres' pointed cones, Puppe sequences and stabilization consume Layer 4.8's
-compact-generation and pointed suspension–loop foundation, Layer 4.4's normalized
-quotient comparisons and Layer 8's relative homotopy; CharacteristicClasses consumes
-cohomology, compact supports and the tower comparison; DGFloer consumes the raw bar
-and CW foundations; DifferentialGeometry consumes singular integration
-inputs and the homological fundamental classes. Stable and geometric applications use
-the ordinary interfaces without supplying their foundations.
+CharacteristicClasses consumes cohomology, compact supports and the tower comparison;
+DGFloer consumes the raw bar and CW foundations; DifferentialGeometry consumes singular
+integration inputs and the homological fundamental classes. Stable and geometric
+applications use the ordinary interfaces without supplying their foundations.
 
 The objects consumers cite are carried by the following sections.
 
@@ -3371,10 +3370,9 @@ The objects consumers cite are carried by the following sections.
 - AffineMorseLefschetz (A4) consumes §8.1's based top pair.
 - MorseTheory (M4) consumes §6.2's categorical cover, category count, normalized category
   and cup length.
-- DerivedModuleAlgebra (§1.1's localization of the derived limit to the derived category
-  of strict towers, with its exact-functor comparison) consumes §6.0's homotopy-square
-  maps, with their composite and second-homotopy laws, alongside Tau Ceti's tower algebra.
-- FuchsianOrbifolds (Layer 5), HeegaardFloer and HomotopySpheres consume §8.7's
+- DerivedModuleAlgebra §1.1's localization of the derived limit consumes §6.0's
+  homotopy-square maps for its exact-functor comparison.
+- FuchsianOrbifolds (Layer 5) and HeegaardFloer consume §8.7's
   `compactManifoldFiniteCWType` and `FiniteCWTypeModel`, and §7.1's
   `finiteCWEulerCharacteristic` transported through that model.
 - GeneralizedCohomology (G2.1) consumes §4.7's realization CW structure on every
