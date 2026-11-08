@@ -153,25 +153,26 @@ Crystalline and finite-flat conditions on Tate modules and automorphic `ε`-fact
 Section 2.7 owns arithmetic character constants defined by finite Gauss sums, the scalar adelic
 Fourier foundations, the standard-test-function evaluations, the finite-sum root-number product
 formula and the finite-order character globalisation. It consumes no continued L-function: the
-continuation and functional equations of Hecke L-functions are LFunctions Layers 0, 5–6 and
-AutomorphicLFunctionsAndLocalFactors AL.1, which this roadmap does not consume. The meromorphic
-Artin functional equation `Λ(s,ρ) = w(ρ) Λ(1 − s, ρ^∨)` of finite-image representations, assembled
-from finite-order Hecke equations along a Brauer expression, is AnalyticNumberTheoryPartI §2.41's,
-on its §§2.2a and 2.18a; it does not use §2.7. The existence and uniqueness of the
+continuation and functional equations of Hecke L-functions are LFunctions Layers 0, 5–6 for
+finite-order and algebraic characters and AnalyticNumberTheoryPartI §2.3a for every continuous
+unitary character, with `W(ω)` the normalised Gauss sum of the finite part times the archimedean
+signs, and this roadmap consumes neither. The meromorphic Artin functional equation
+`Λ(s,ρ) = w(ρ) Λ(1 − s, ρ^∨)` of finite-image representations, assembled from finite-order Hecke
+equations along a Brauer expression, is AnalyticNumberTheoryPartI §2.41's, on its §§2.2a and
+2.18a; it does not use §2.7. The existence and uniqueness of the
 Deligne–Langlands local constants of complex Weil representations by Deligne's global transfer,
 their Weil–Deligne extension and the conductor exponent in their unramified twists are the
 downstream ArtinRepresentations §2.4's, built on §2.7's scalar constants and finite-order
-globalisation. The comparison of the standard zeta integral with the completed Hecke function
-belongs to ArithmeticGaloisRepresentations Part II, which consumes §2.7 here and the Hecke
-suppliers above. The identification of `W_H` with a functional-equation constant is made by the
-two downstream constructions that follow.
-The downstream AutomorphicLFunctionsAndLocalFactors AL.1 owns `rank-one-local-functional-equation`,
-including the comparison of its analytic constant with *tateLocalConstant*, and
-`hecke-l-functional-equation`, the scalar endpoint for all continuous unitary Hecke characters
-from AL.2's `global-godement-jacquet` at `n = 1`, whose constant is §2.7's `W_H`. The downstream
-AutomorphicSpectralTheory §1.15c owns `unitary-hecke-functional-equation` via Eisenstein
-continuation; with the same primitive conductor and archimedean factors, the two constructions
-agree on `Re(s) > 1` and hence as meromorphic germs, with the same root number `W_H`.
+globalisation. The comparison of the global zeta integral at the standard test function with the
+completed Hecke function is the `n = 1` case of AutomorphicLFunctionsAndLocalFactors AL.2.4.1,
+the global standard L-function, whose local standard evaluations AL.1.2.1, AL.1.2.3 and AL.1.2.4
+consume §2.7's. Downstream, AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local
+zeta integral and functional equation, compares its analytic constant with *tateLocalConstant*;
+AL.1.6.1 identifies §2.7's local-constant product with the root-number factor `W(ω) A^(1/2−s)`,
+`A = |disc F| N(𝔣(ω))`, of AnalyticNumberTheoryPartI §2.3a; and AutomorphicSpectralTheory §1.15c
+derives the same equation by Eisenstein theory. With the same primitive conductor and
+archimedean factors, these completions agree on `Re(s) > 1` and hence as meromorphic germs, with
+root number §2.7's `W_H`.
 AdelicAlgebraicGroups AA.2.4 supplies
 finite-image Artin factors, induction and meromorphic assembly; §2.5a owns their comparison with
 the geometric-Frobenius local polynomials on the dual ℓ-adic representation. CFSGBasicProperties T1–T2 supplies finite
@@ -2266,8 +2267,8 @@ and (3.4.3)–(3.4.7), p. 15; Deligne 1973, 3.4, p. 528, and 5.4–5.7, pp. 548�
 *Needs:* ClassFieldTheory Layer 7's character conductor; local residue rings and Haar measure;
 Mathlib's Gauss-sum API and Tau Ceti's
 `DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` for Dirichlet checks.
-The downstream `rank-one-local-functional-equation` of AutomorphicLFunctionsAndLocalFactors
-AL.1 identifies its analytic constant with this finite-sum constant.
+The downstream AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local zeta integral
+and functional equation, identifies its analytic constant with this finite-sum constant.
 
 **Checks.**
 - Unramified `ω` and `ν = 0` give `ε(ω |·|^s) = 1`; for `ν = 1` the value is
@@ -2407,10 +2408,10 @@ character by `b ∈ F^×` leaves the product unchanged by the product formula an
 
 For checks on completions, write `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` initially in
 `Re u > 1`, with factors `Γ_ℝ(u+i r_v+b_v)` and `Γ_ℂ(u+i r_v+|k_v|/2)`.
-The downstream AutomorphicLFunctionsAndLocalFactors AL.1 target `hecke-l-functional-equation`
-identifies `W_H(ω)` with the scalar functional-equation constant for every continuous unitary `ω`,
-using AL.2's `global-godement-jacquet` at `n = 1`. AutomorphicSpectralTheory §1.15c's
-`unitary-hecke-functional-equation` constructs the same conductor-balanced completion from
+The downstream AutomorphicLFunctionsAndLocalFactors AL.1.6.1 identifies `W_H(ω)` with the root
+number of AnalyticNumberTheoryPartI §2.3a's functional equation for every continuous unitary `ω`,
+and AL.2.4.1 at `n = 1` recovers that completion as a global zeta integral.
+AutomorphicSpectralTheory §1.15c constructs the same conductor-balanced completion from
 Eisenstein theory: equality on `Re(u) > 1` identifies their meromorphic germs and root numbers.
 (Source: Neukirch VII (7.4)–(7.7), pp. 488–490, and (8.5)–(8.6), pp. 502–503;
 Tate, *Number theoretic background*, (3.2.6), pp. 13–14; Deligne 1973, 3.11–3.12 and 5.5.)
@@ -5553,28 +5554,24 @@ and §1.2's coefficient comparisons for the frame-to-module comparison.
 ClassicalSerreModularity consumes §6.1's matrix realization over `F̄_p` with invariant trace
 and determinant. These are consumer interfaces, not prerequisites of their construction.
 
-AutomorphicLFunctionsAndLocalFactors AL.1 owns
-[`rank-one-local-functional-equation`](../AutomorphicLFunctionsAndLocalFactors/README.md#rank-one-local-functional-equation),
-the local zeta integral and functional equation, and identifies its constant with §2.7's
-[`local-constant-gauss-sum`](#local-constant-gauss-sum). It also consumes
-[`standard-test-function-evaluations`](#standard-test-function-evaluations) and the
-finite-sum [`root-number-product-formula`](#root-number-product-formula).
-AutomorphicLFunctionsAndLocalFactors AL.1 also owns
-[`hecke-l-functional-equation`](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation),
-the all-unitary scalar continuation and functional equation obtained from AL.2's
-[`global-godement-jacquet`](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet)
-at `n = 1`. AutomorphicSpectralTheory §1.15c owns
-[`unitary-hecke-functional-equation`](../AutomorphicSpectralTheory/README.md#unitary-hecke-functional-equation)
-via Eisenstein continuation. For the same primitive conductor and archimedean factors, both
-constructions give `Λ_H(ω,s) = A^(s/2) L_∞(ω,s) L_f(ω,s)` on `Re(s) > 1`, so their
-meromorphic continuations agree and their functional-equation constant is §2.7's `W_H(ω)`.
+AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local zeta integral and functional
+equation, identifies its constant with §2.7's [`local-constant-gauss-sum`](#local-constant-gauss-sum);
+the local standard evaluations AL.1.2.1, AL.1.2.3 and AL.1.2.4 of that roadmap consume
+[`standard-test-function-evaluations`](#standard-test-function-evaluations), and AL.1.6.1 consumes
+the finite-sum [`root-number-product-formula`](#root-number-product-formula) and identifies that
+product with the root-number factor of AnalyticNumberTheoryPartI §2.3a, the owner of the
+all-unitary scalar continuation and functional equation. AutomorphicSpectralTheory §1.15c, the
+unitary Hecke functional equation and Eisenstein comparison, derives the same equation by
+Eisenstein continuation. For the same primitive conductor and archimedean factors, Hecke's theta
+construction and the Eisenstein one both give `Λ_H(ω,s) = A^(s/2) L_∞(ω,s) L_f(ω,s)` on
+`Re(s) > 1`, so their meromorphic continuations agree and their functional-equation constant is
+§2.7's `W_H(ω)`.
 These downstream analytic targets consume the arithmetic constants. The finite-image Artin
 functional equation is AnalyticNumberTheoryPartI §2.41's, on its §§2.2a and 2.18a, and does not
 use §2.7. The higher-rank Deligne–Langlands local constants and their Weil–Deligne extension are
 ArtinRepresentations §2.4's, which consumes §2.7's scalar constants and finite-order
-globalisation. The comparison of the standard zeta integral with the completed Hecke function is
-ArithmeticGaloisRepresentations Part II's, built on §2.7 and on LFunctions Layers 0, 5–6 or
-AutomorphicLFunctionsAndLocalFactors AL.1.
+globalisation. The comparison of the global zeta integral at the standard test function with the
+completed Hecke function is the `n = 1` case of AutomorphicLFunctionsAndLocalFactors AL.2.4.1.
 
 ## References
 
