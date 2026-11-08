@@ -2633,8 +2633,10 @@ integer rings.
 **Finite wild image.** Prove that for `ρ` continuous on a finite-dimensional `V`, `ρ(P_K)` is a finite
 `p`-group when the coefficients are (a) discrete, (b) `ℂ` (then `ρ(G_K)` is finite), (c) a finite
 extension `E` of `ℚ_ℓ` or (d) `ℚ̄_ℓ`, with `ℓ ≠ p`; in case (c) the map `ρ(P_K) → GL(Λ/𝔪_EΛ)` is
-injective for every stable lattice `Λ`; for `ℓ = p` (c) fails (Ulmer, §5, p. 4). Prove that for `V` of
-the setting there is a finite Galois `L/K` in `K^sep` with `Gal(K^sep/L) ∩ P_K ⊆ ker ρ`; that for such
+injective for every stable lattice `Λ`, because the kernel of reduction on `GL(Λ)` is pro-`ℓ` and
+`ρ(P_K)` is pro-`p` (Ulmer, §5, p. 4). For `ℓ = p` (c) fails: for odd `p` the `p`-adic cyclotomic
+character of `G_{ℚ_p}` maps `P_{ℚ_p}` onto the infinite group `1 + pℤ_p`. Prove that for `V` of the
+setting there is a finite Galois `L/K` in `K^sep` with `Gal(K^sep/L) ∩ P_K ⊆ ker ρ`; that for such
 `L` the wild action factors uniquely through `Gal(L/K)_1` with image `ρ(P_K)`, conjugation by
 `Gal(L/K)` corresponding to conjugation by any lift in `G_K`; that every finite Galois `L' ⊇ L` again
 kills the wild kernel, with `Gal(L'/K)_1` acting through restriction to `L`; and that if `ρ(I_K)` is
@@ -2657,10 +2659,11 @@ Sw(V) = Σ_λ λ · dim V(λ)                          (sum over the breaks)
 a nonnegative rational number, the last sum for any finite Galois `L/K` with
 `Gal(K^sep/L) ∩ P_K ⊆ ker ρ`, `G_i` (`i ≥ 1`) acting through lifts in `P_K`. Intended signatures:
 *Conductor.breaks* `ρ : Finset ℚ`, *Conductor.swanConductor* `ρ : ℚ`. Its API is the equality of the
-three expressions for every admissible `L`, using the finite-quotient surjections above;
+three expressions for every admissible `L`, using the finite-quotient surjections above (the
+integral and the weighted lower sum agree by Ulmer, §4, (4.1), pp. 3–4);
 `Sw = 0` iff `ρ(P_K) = 1`; dependence only on `ρ|_{P_K}` up
 to isomorphism, invariance under extension of coefficients, and `Sw ≤` *highestBreak* `· dim V` with
-equality iff there is at most one break (Ulmer, §4, (4.1), pp. 3–4). *Needs:* Mathlib
+equality iff there is at most one break, read off from `Sw = Σ_λ λ · dim V(λ)`. *Needs:* Mathlib
 `Representation.invariants`, `PerfectField`;
 RamificationOfCompleteDiscretelyValuedFields §4a.1 (the absolute upper filtration, including its
 finite-quotient surjections, and `G_K^{0+} = P_K`), as recorded in §3.0; the finite-wild-image
@@ -2803,9 +2806,10 @@ residue elements and a Weil–Deligne representation `(r, N)` on `V` over a fiel
 *Conductor.wdConductor* `D : ℕ`), the Swan term using only `G_K^u ⊆ P_K ⊆ W_K` for `u > 0`. The monodromy
 contribution is `dim V^{r(I_K)} − dim (ker N)^{r(I_K)} ≥ 0`, not `dim V − dim ker N`. Its API is
 `a(r, N) = a(r) + dim V^{r(I_K)} − dim (ker N)^{r(I_K)}`; `a(r, 0) = a(r)`; `a(ρ) = a(WD ρ)` for `ℓ ≠ p`,
-for every Frobenius lift and every trivialisation of `ℤ_ℓ(1)`; invariance under Frobenius
-semisimplification; additivity on direct sums; invariance under unramified twists; and
-`a(Sp(n) ⊗ χ) = n − 1` for `χ` unramified and `n · a(χ)` otherwise (Ulmer, §§6–8, pp. 5–7). *Needs:*
+for every Frobenius lift and every trivialisation of `ℤ_ℓ(1)` (Ulmer, §§6–8, pp. 5–7); invariance
+under Frobenius semisimplification; additivity on direct sums; invariance under unramified twists;
+and `a(Sp(n) ⊗ χ) = n − 1` for `χ` unramified and `n · a(χ)` otherwise, from the definition: for
+unramified `χ`, `r` is unramified and `ker N` is a line, and otherwise `V^{r(I_K)} = 0`. *Needs:*
 §3.2; §2.4, §2.5; `TauCetiRoadmap.ClassFieldTheory` layer 9.
 
 **Checks.**
@@ -2835,8 +2839,10 @@ inertia images are finite of order invertible in the coefficients; and the posit
 - The trivial representation has `N^Σ = (1)` for every `Σ`.
 - The Dirichlet character of conductor `4`, read as a character of `G_ℚ`, has `N = 4`.
 - For `p` odd, `N(ω_p) = 1` although `ω_p` ramifies at `p`: the places above `p` must be excluded.
-- `ρ̄ = χ̄_{−4} ⊕ 1` over `F_3` has `N(ρ̄) = 4`: the wild exponent `a_2 = 2` is kept for coefficients
-  of characteristic `3`, and a definition using only `codim ρ̄^{I_2}` gives `2`.
+- `ρ̄ = χ̄_{−4} ⊕ 1` over `F_3` has `N(ρ̄) = 4`: on `Gal(ℚ_2(i)/ℚ_2)`, with `G_0 = G_1` of order `2`
+  and `G_2 = 1` (§3.2), `χ̄_{−4}` takes the value `−1 ≠ 1` in `F_3`, so
+  `a_2 = codim ρ̄^{I_2} + Sw(ρ̄) = 1 + 1 = 2`, while a definition keeping only the tame term
+  `codim ρ̄^{I_2}` gives `N(ρ̄) = 2`.
 - For `χ_{−3}` the quadratic character of `ℚ(√−3)`, ramified only at `3`, `ρ̄ = χ̄_{−3} ⊕ 1` over
   `F_5` has `N(ρ̄) = 3`, since `χ̄_{−3}` takes the value `−1 ≠ 1` on `I_3`. Over `F_2` it is trivial,
   since `−1 = 1` in `F_2`, and has `N(ρ̄) = 1`, whereas its `2`-adic lift `χ_{−3} ⊕ 1` on `V = ℚ_2²`
@@ -2955,15 +2961,20 @@ the setting, whose inertia image may be infinite, uses the absolute filtration o
 ### 3.6 Reduction modulo `ℓ`
 
 **Conductors of reductions.** In the setting let `ℓ ≠ p`, `E/ℚ_ℓ` finite, `ρ` continuous on an
-`E`-space `V`, `Λ` a stable lattice and `ρ̄_Λ := Λ/𝔪_EΛ`. Prove `Sw(ρ̄_Λ) = Sw(ρ) = Sw(ρ̄_Λ^ss)`
-(Darmon–Diamond–Taylor 2007, Lemma 2.7, pp. 54–55);
+`E`-space `V`, `Λ` a stable lattice and `ρ̄_Λ := Λ/𝔪_EΛ`. Prove `Sw(ρ̄_Λ) = Sw(ρ)`
+(Darmon–Diamond–Taylor 2007, Lemma 2.7, pp. 54–55; Ulmer, §6, p. 5) and `Sw(ρ̄_Λ) = Sw(ρ̄_Λ^ss)`, by
+the additivity of `Sw` in exact sequences of §3.4 applied to `ρ̄_Λ`, whose coefficients `k_E` have
+characteristic `ℓ ≠ p`;
 `a(ρ̄_Λ) = a(ρ) − (dim ρ̄_Λ^{I_K} − dim V^{I_K}) ≤ a(ρ)`, with equality exactly when
 `Λ^{I_K} ⊗ k_E → ρ̄_Λ^{I_K}` is surjective, as it is whenever the inertia image is finite of order
-prime to `ℓ` (same lemma); `a(ρ̄_Λ^ss) ≤ a(ρ̄_Λ) ≤ a(ρ)`, with `a(ρ̄_Λ^ss)` independent of `Λ` (Ulmer,
-§6, p. 5); and for a global `ℓ`-adic `ρ` of finite ramification, `N^{(ℓ)}(ρ̄_Λ) | N^{(ℓ)}(ρ)` with
-quotient `∏_{v ∤ ℓ} 𝔭_v^{dim ρ̄_Λ^{I_v} − dim V^{I_v}}`, and `N^{(ℓ)}(ρ̄_Λ^ss) | N^{(ℓ)}(ρ)`
-(Darmon–Diamond–Taylor 2007, Lemma 2.7). *Needs:* §3.1, §3.4, §1.9 (independence of the residual
-semisimplification).
+prime to `ℓ` (same lemma), the difference being `≥ 0` because `Λ^{I_K} = Λ ∩ V^{I_K}` is saturated
+in `Λ` of rank `dim V^{I_K}`, so that `Λ^{I_K} ⊗ k_E → ρ̄_Λ^{I_K}` is injective; hence
+`a(ρ̄_Λ^ss) ≤ a(ρ̄_Λ) ≤ a(ρ)`, the first inequality being §3.4's `a(W) ≥ a(W^ss)` for `W = ρ̄_Λ`,
+with `a(ρ̄_Λ^ss)` independent of `Λ` because `ρ̄_Λ^ss` is, up to isomorphism (§1.9, independence of
+the lattice); and for a global `ℓ`-adic `ρ` of finite ramification, `N^{(ℓ)}(ρ̄_Λ) | N^{(ℓ)}(ρ)` with
+quotient `∏_{v ∤ ℓ} 𝔭_v^{dim ρ̄_Λ^{I_v} − dim V^{I_v}}` (Darmon–Diamond–Taylor 2007, Lemma 2.7),
+and `N^{(ℓ)}(ρ̄_Λ^ss) | N^{(ℓ)}(ρ̄_Λ) | N^{(ℓ)}(ρ)` by the local chain at each `v ∤ ℓ`. *Needs:* §3.1,
+§3.4, §1.9 (independence of the residual semisimplification).
 
 ### 3.7 Computations and Artin–Schreier characters
 
