@@ -17,7 +17,8 @@ theorems against the pinned Mathlib and Tau Ceti APIs.
 Headlines: Martin's dimension formula and sharp equality criterion; the integral
 norm bound; sharp Kraus rational and full-two-torsion realization; uniform
 irreducibility and absolute irreducibility with rational two-torsion; the prime,
-non-CM prime and composite rational cyclic-isogeny degree classifications; finite-prime
+non-CM prime and composite rational cyclic-isogeny degree classifications; the rational
+j-tables at levels 11, 17 and 37; finite-prime
 coefficient rationality; integral ideal-congruence Sturm; Cartan integrality,
 the proper-image classification and Lemos's rational-isogeny surjectivity theorem;
 unconditional modular abelian rank zero and the weight-two modular class
@@ -29,9 +30,11 @@ residual Artin conductor and Serre weight interfaces are missing. The Cartan
 correspondence, winding quotient and formal immersion headlines
 lack the modular curves with their moduli/j maps, modular Jacobians with integral
 Hecke quotients, and their canonical integral models. They remain README targets;
-no replacement predicates or admitted constructions are used here. The Bilu–Parent–Rebolledo rational-point theorem, normalized modular coordinates
-and rational-point tables are not statable:
-the corresponding modular curves with their moduli and j maps are missing. The
+no replacement predicates or admitted constructions are used here. The Bilu–Parent–Rebolledo
+rational-point theorem and the normalized modular coordinates are not statable: the
+corresponding modular curves with their moduli and j maps are missing. The rational j-tables
+at levels 11, 17 and 37 are stated in moduli form, on elliptic curves over ℚ with a rational
+cyclic isogeny; their form as j-images of `Y₀(r)(ℚ)` lacks the same modular curves. The
 unconditional modular abelian rank-zero theorem lacks the attached modular quotient
 and its L-function; the integral winding comparison lacks its Hecke quotient and
 Néron cotangent realization. The coefficient-prime reduction alternative and
@@ -219,6 +222,18 @@ theorem rational_two_irreducible (E : WeierstrassCurve ℚ) [E.IsElliptic]
       ((torsionRepresentation E ell).baseChange (AlgebraicClosure (ZMod ell))).IsIrreducible := by sorry
 
 /-! ## Layer 6: rational-isogeny uniformity -/
+
+/-- The rational j-tables at levels 11, 17 and 37, in moduli form: the j-invariants of the
+elliptic curves over ℚ with a rational cyclic isogeny of degree 11, 17 or 37 are exactly the
+listed values (Lemos, §2, p. 5). No listed value is 0 or 1728, so these are also the j-images
+of the noncuspidal rational points of `Y₀(r)`. -/
+theorem rational_isogeny_j_tables :
+    {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), HasCyclicIsogeny E 11 ∧ E.j = j} =
+        {-(11 * 131 ^ 3), -(2 ^ 15), -(11 ^ 2)} ∧
+      {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), HasCyclicIsogeny E 17 ∧ E.j = j} =
+        {-(17 ^ 2 * 101 ^ 3) / 2, -(17 * 373 ^ 3) / 2 ^ 17} ∧
+      {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), HasCyclicIsogeny E 37 ∧ E.j = j} =
+        {-(7 * 137 ^ 3 * 2083 ^ 3), -(7 * 11 ^ 3)} := by sorry
 
 /-- The torsion image normalizes a quadratic finite subfield of its endomorphism
 ring. The units of that field are a nonsplit Cartan subgroup. -/
