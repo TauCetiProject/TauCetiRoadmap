@@ -618,6 +618,8 @@ No roadmap on main cites this one.
   113–147, Proposition 2.10. Zbl 1342.14012; arXiv:1312.6267.
 - D. Mumford, « Picard groups of moduli problems », in *Arithmetical Algebraic Geometry*
   (Purdue, 1963), Harper & Row (1965), 33–81. Zbl 0187.42801.
+- W. Fulton, *Intersection Theory*, 2nd ed., Ergeb. Math. Grenzgeb. (3) 2, Springer (1998),
+  Theorem 3.3 (a) and Appendix B.5.
 - W. Fulton, M. Olsson, « The Picard group of `M_{1,1}` », *Algebra Number Theory* 4 (2010), no. 1,
   87–104, Theorem 1.1. Zbl 1198.14010; arXiv:0704.2214.
 - A. Arsie, A. Vistoli, « Stacks of cyclic covers of projective spaces », *Compos. Math.* 140
