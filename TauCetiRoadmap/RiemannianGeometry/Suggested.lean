@@ -16,34 +16,38 @@ public import TauCeti.Geometry.Manifold.Orientation
 
 **This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only
-the simple Jacobi-field, comparison-model, paraboloid and polynomial definitions those headlines
-need: the Jacobi predicate `IsJacobiFieldOn`, the model function `modelSine` and model ball volume
-`modelBallVolume`, the graph parametrization `paraboloidGraph`, and the polynomial Laplacian
-`polynomialLaplacian` with the squared radius `squaredRadius`.
+the simple Jacobi-field, comparison-model and paraboloid definitions those headlines need: the
+Jacobi predicate `IsJacobiFieldOn`, the model function `modelSine` and model ball volume
+`modelBallVolume`, and the graph parametrization `paraboloidGraph`.
 
-Statable at the pins and stated here: the algebraic characterization of constant sectional
-curvature (R1), Schur's theorem and Einstein-factor constancy (R1), existence and interval uniqueness of Jacobi fields (R2),
-the absence of endpoint-zero Jacobi fields under nonpositive sectional curvature (R3/R4),
-the Rauch comparison under an upper sectional bound (R4.1), the Bishop–Gromov relative-volume
-monotonicity against the model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in
-its distance form and the finiteness of the fundamental group (R4.5), Synge's theorem in its
-even-dimensional and odd-dimensional forms (R4.6), the three cases of the Killing–Hopf
-classification of simply connected space forms (R4.7), two distinct fixed-interval geodesics between
-distinct points of a connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic
-images on a smooth two-sphere (R4.9) and the smooth-function duality for the Riemannian distance
-(R7.8), the paraboloid crossing and vertex-pole theorems (R5a.3), and the finite
-Fischer splitting and its iterated harmonic decomposition over real or complex coefficients (R8.1).
+Statable at the pins and stated here: existence of Jacobi fields with prescribed initial data on a
+compact geodesic interval (R2), the Rauch comparison under an upper sectional bound (R4.1), the
+Bishop–Gromov relative-volume monotonicity against the model of curvature `κ` (R4.1),
+Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the finiteness of the fundamental
+group (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms (R4.6), the three
+cases of the Killing–Hopf classification of simply connected space forms (R4.7), two distinct
+fixed-interval geodesics between distinct points of a connected closed positive-dimensional
+manifold (R4.8), the three simple closed geodesic images on a smooth two-sphere (R4.9), the
+paraboloid crossing and vertex-pole theorems (R5a.3) and the smooth-function duality for the
+Riemannian distance (R7.8).
+
+Not restated here, because Tau Ceti proves them and the README cites the declarations: the
+characterization of constant sectional curvature, Schur's theorem and the constancy of the
+Einstein factor (R1), uniqueness of Jacobi fields from initial data and the absence of
+endpoint-zero Jacobi fields under nonpositive sectional curvature (R2), the scalar Bochner
+identity and the Lichnerowicz eigenvalue bound (R7.0), and the Fischer decomposition of
+homogeneous polynomials (R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
-version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM` and the
-conjugate-point multiplicity, neither of which has a carrier at the pin; the Günther volume
-comparison (R4.1), whose full-ball range `r < inj(p)` needs the injectivity radius, absent at the
-pin; the Gauss, Codazzi and
-Ricci equations and the first and second variation of volume (R5a, R5b), which need the second
-fundamental form of an isometric immersion, hence the pullback ambient connection, absent at the
-pin; the Bochner vanishing theorems (R7.6, R7.7), which need the Hodge Laplacian on forms and the
-de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem (R8.4),
-which needs a Laplacian on functions on the round sphere, absent at the pin.
+version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
+has no carrier at the pin; the Günther volume comparison (R4.1), whose full-ball range
+`r < inj(p)` needs the injectivity radius, absent at the pin; the Gauss, Codazzi and Ricci
+equations and the first and second variation of volume (R5a, R5b), which need the second
+fundamental form of an isometric immersion between manifolds, hence the pullback ambient
+connection, absent at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the
+Weitzenböck curvature term on `p`-forms, absent at the pin, and whose Ricci case `b₁ = 0` needs
+the de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem (R8.4),
+which needs the mean curvature of an isometric immersion into a round sphere, absent at the pin.
 -/
 
 @[expose] public section
@@ -55,7 +59,7 @@ namespace TauCetiRoadmap.RiemannianGeometry
 open Set Bundle
 open scoped Manifold ContDiff
 
-/-! ## Layer 1: Intrinsic curvature calculus -/
+/-! ## Layer 2: Jacobi fields -/
 
 section Intrinsic
 
@@ -65,42 +69,11 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [RiemannianBundle (fun x : M => TangentSpace I x)]
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
 
-/-- R1.2: constant sectional curvature `κ` on every tangent two-plane is equivalent to the
-pointwise curvature tensor being `κ(⟨Z,Y⟩X − ⟨Z,X⟩Y)`, with the library's two predicates. -/
-theorem constant_sectional_tensor_iff (κ : ℝ) :
-    (CovariantDerivative.leviCivitaConnection I M).HasConstantSectionalCurvature
-      (CovariantDerivative.isMetricCompatible_leviCivitaConnection I) κ ↔
-    (RiemannianBundle.g (E := fun x : M => TangentSpace I x)).IsConstantCurvatureTensor
-      (CovariantDerivative.leviCivitaConnection I M) inferInstance κ := by
-  sorry
-
-/-- R1.3: Schur's theorem. On a connected manifold of dimension at least three, if every tangent
-two-plane at each point `x` has sectional curvature `κ x`, then `κ` is constant. -/
-theorem schur [ConnectedSpace M] (hdim : 3 ≤ Module.finrank ℝ E)
-    (κ : M → ℝ)
-    (hplanes : ∀ x, (CovariantDerivative.leviCivitaConnection I M).HasSectionalCurvatureAt
-      (CovariantDerivative.isMetricCompatible_leviCivitaConnection I) x (κ x)) :
-    ∀ x y : M, κ x = κ y := by
-  sorry
-
-/-- R1.3: on a connected smooth Riemannian manifold of dimension at least three,
-if the Ricci tensor is pointwise a scalar multiple of the metric, that scalar is constant.
-No separate regularity assumption on the scalar is needed: it is scalar curvature divided
-by the nonzero dimension. -/
-theorem einstein_factor_constant [ConnectedSpace M] (hdim : 3 ≤ Module.finrank ℝ E)
-    (a : M → ℝ)
-    (hRic : ∀ x (u v : TangentSpace I x),
-      (CovariantDerivative.leviCivitaConnection I M).ricciTensor x u v =
-        a x * inner ℝ u v) :
-    ∀ x y : M, a x = a y := by
-  sorry
-
-/-! ## Layer 2: Jacobi fields -/
-
 /-- R2: a Jacobi field along the geodesic `γ` on the parameter set `s`: a `C²` section of `γ*TM`
 (its lift to the tangent bundle is `C²` on `s`) satisfying `D_t²X + R(X,γ′)γ′ = 0` on `s`, with
 the covariant derivative along `γ` taken within `s` by the Levi-Civita connection. The geodesic
-predicate carries the `UniqueDiffOn` hypothesis on `s`. -/
+predicate carries the `UniqueDiffOn` hypothesis on `s`. These are the three clauses of Tau Ceti's
+Jacobi predicate, cited by the README. -/
 def IsJacobiFieldOn (γ : ℝ → M) (X : ∀ t, TangentSpace I (γ t)) (s : Set ℝ) : Prop :=
   TauCeti.Manifold.IsGeodesicCurveOn I γ s ∧
   ContMDiffOn 𝓘(ℝ, ℝ) I.tangent 2
@@ -112,18 +85,6 @@ def IsJacobiFieldOn (γ : ℝ → M) (X : ∀ t, TangentSpace I (γ t)) (s : Set
         (X t) (TauCeti.Manifold.curveVelocityWithin I γ s t)
         (TauCeti.Manifold.curveVelocityWithin I γ s t) = 0
 
-/-- R2: two Jacobi fields on `[a, b]` with the same value and covariant derivative at `a` agree
-on `[a, b]`; nothing is asserted about values outside the interval. -/
-theorem jacobi_eq_of_initial_data {γ : ℝ → M}
-    {X Y : ∀ t, TangentSpace I (γ t)} {a b : ℝ} (hab : a < b)
-    (hX : IsJacobiFieldOn (I := I) γ X (Icc a b))
-    (hY : IsJacobiFieldOn (I := I) γ Y (Icc a b))
-    (hpos : X a = Y a)
-    (hvel : (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc a b) a =
-      (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ Y (Icc a b) a) :
-    ∀ t ∈ Icc a b, X t = Y t := by
-  sorry
-
 /-- R2: along a geodesic on `[a, b]`, every initial value and initial covariant derivative at `a`
 is attained by a Jacobi field on `[a, b]`. -/
 theorem exists_jacobi_initial_data {γ : ℝ → M} {a b : ℝ} (hab : a < b)
@@ -134,24 +95,12 @@ theorem exists_jacobi_initial_data {γ : ℝ → M} {a b : ℝ} (hab : a < b)
       (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc a b) a = v := by
   sorry
 
-/-! ## Layer 3: index form consequences -/
-
-/-- R3/R4: under nonpositive sectional curvature (`⟨R(u,v)v,u⟩ ≤ 0` for all `u, v`), a Jacobi
-field on `[a, b]` vanishing at both endpoints vanishes on `[a, b]`: there are no conjugate
-points. -/
-theorem jacobi_eq_zero_of_nonpositive_curvature {γ : ℝ → M}
-    {X : ∀ t, TangentSpace I (γ t)} {a b : ℝ} (hab : a < b)
-    (hX : IsJacobiFieldOn (I := I) γ X (Icc a b))
-    (hK : ∀ x (u v : TangentSpace I x),
-      inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u ≤ 0)
-    (ha : X a = 0) (hb : X b = 0) : ∀ t ∈ Icc a b, X t = 0 := by
-  sorry
-
 /-! ## Layer 4: Rauch comparison -/
 
 /-- R4.1: the model function `s_κ`, the solution of `s'' + κ s = 0` with `s(0) = 0` and
 `s'(0) = 1`: `sin(√κ t)/√κ` for `κ > 0`, `t` for `κ = 0` and `sinh(√(−κ) t)/√(−κ)` for `κ < 0`.
-Its first positive zero is `π/√κ` when `κ > 0`; it has none otherwise. -/
+Its first positive zero is `π/√κ` when `κ > 0`; it has none otherwise. This is the three-case
+body of Tau Ceti's model sine, cited by the README. -/
 def modelSine (κ t : ℝ) : ℝ :=
   if 0 < κ then Real.sin (Real.sqrt κ * t) / Real.sqrt κ
   else if κ = 0 then t
@@ -448,38 +397,5 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
-
-/-! ## Layer 8: Finite Fischer decomposition -/
-
-/-- The Euclidean polynomial Laplacian, the sum of the ordinary second partial
- derivatives, over real or complex coefficients. -/
-def polynomialLaplacian {𝕜 : Type*} [RCLike 𝕜] {n : ℕ}
-    (p : MvPolynomial (Fin n) 𝕜) : MvPolynomial (Fin n) 𝕜 :=
-  ∑ i, MvPolynomial.pderiv i (MvPolynomial.pderiv i p)
-
-/-- The real Euclidean squared-radius polynomial, extended algebraically to the
- coefficient field. Over complex coefficients this is a sum of squares, not a
- Hermitian norm on complex points. -/
-def squaredRadius (𝕜 : Type*) [RCLike 𝕜] (n : ℕ) : MvPolynomial (Fin n) 𝕜 :=
-  ∑ i : Fin n, (MvPolynomial.X i) ^ 2
-
-/-- R8.1, Fischer splitting: a homogeneous polynomial of degree `d + 2` has a
- unique homogeneous radial quotient of degree `d` whose subtraction leaves a
- harmonic polynomial. This applies to both real and complex coefficients. -/
-theorem fischer_split {𝕜 : Type*} [RCLike 𝕜] (n d : ℕ) (hn : 2 ≤ n)
-    (p : MvPolynomial (Fin n) 𝕜) (hp : p.IsHomogeneous (d + 2)) :
-    ∃! q : MvPolynomial (Fin n) 𝕜,
-      q.IsHomogeneous d ∧ polynomialLaplacian (p - squaredRadius 𝕜 n * q) = 0 := by
-  sorry
-
-/-- R8.1, iterated Fischer decomposition: a homogeneous degree-`d` polynomial is
- uniquely a finite sum of powers of the squared radius times harmonic homogeneous
- polynomials of degrees `d - 2*k`, for `0 ≤ k ≤ d/2`. -/
-theorem fischer_decomposition {𝕜 : Type*} [RCLike 𝕜] (n d : ℕ) (hn : 2 ≤ n)
-    (p : MvPolynomial (Fin n) 𝕜) (hp : p.IsHomogeneous d) :
-    ∃! h : Fin (d / 2 + 1) → MvPolynomial (Fin n) 𝕜,
-      (∀ k, (h k).IsHomogeneous (d - 2 * k.val) ∧ polynomialLaplacian (h k) = 0) ∧
-      p = ∑ k, squaredRadius 𝕜 n ^ k.val * h k := by
-  sorry
 
 end TauCetiRoadmap.RiemannianGeometry
