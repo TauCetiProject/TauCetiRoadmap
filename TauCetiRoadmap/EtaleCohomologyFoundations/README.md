@@ -184,7 +184,7 @@ structure of stalks, the tensor/coefficient comparison, and stalk naturality und
 `GrothendieckTopology.Point.comap` and `GrothendieckTopology.Point.sheafFiberComapIso` for the
 base-change functor of small étale sites and the identification of the comapped point with
 `Scheme.pointSmallEtale (x ≫ f)`.
-Integer invertibility is `Scheme.IsInvertibleOn N X`; prove its stalkwise, affine,
+Integer invertibility is Scheme.IsInvertibleOn N X; prove its stalkwise, affine,
 residue-characteristic and `ℤ[1/N]`-factorization criteria, together with pullback/restriction
 and divisor stability. Finite lisse means locally constant (below) with finite module fibres. Build
 the constructible stratifications below, their common refinements and the Noetherian/global
@@ -325,9 +325,9 @@ Connected components, Galois objects and deck transformations are Mathlib's Galo
 This section adds what the pinned libraries lack. Prove that finite étale covers and their
 morphisms satisfy effective descent along étale coverings, and descend along limits of qcqs
 schemes with affine transition maps (Stacks 01ZM, 07RP). Define `π₁` as
-`EtaleFundamentalGroup x` (below) and paths as `EtalePath x y`, isomorphisms of geometric fibre
+`EtaleFundamentalGroup x` (below) and paths as EtalePath x y, isomorphisms of geometric fibre
 functors; neither definition assumes connectedness. Prove that `EtaleFundamentalGroup x` and
-`EtaleFundamentalGroup y` act on `EtalePath x y` by composition of isomorphisms on the side of `x`
+`EtaleFundamentalGroup y` act on EtalePath x y by composition of isomorphisms on the side of `x`
 and of `y` respectively, each simply transitively when the path set is nonempty, and that
 conjugation by a path `γ` is an isomorphism of topological groups from the first group to the
 second. VanishingCycles.lisseMonodromyEquiv is an equivalence of categories, given as `≌`
@@ -350,7 +350,7 @@ categories; Tau Ceti's finite étale package (supplier table).
   rank-one `ℤ/3` local system of §F.0.1's Checks to `ℤ/3` with complex conjugation acting by `−1`,
   and the constant sheaf to the trivial action; a construction that forgot the action would
   identify the two.
-- For `X = Spec 𝔽_p` and `x = y` the point `Spec 𝔽̄_p`, `EtalePath x x` is the underlying set of
+- For `X = Spec 𝔽_p` and `x = y` the point `Spec 𝔽̄_p`, EtalePath x x is the underlying set of
   `EtaleFundamentalGroup x ≅ Gal(𝔽̄_p/𝔽_p)`, the profinite completion of `ℤ`, and both actions are
   simply transitive; a definition of paths as isomorphisms of the separably closed fields would
   instead give the set `Aut(𝔽̄_p)`, on which `Gal(𝔽̄_p/𝔽_p)` acts by composition with the same
@@ -368,7 +368,7 @@ in universe `u+1`; prove EtaleFundamentalGroup.small, an instance `Small.{u}` of
 essential smallness of the finite étale covers of `S` (instance search does not find it from the
 definition). Downstream theorems are stated for any profinite `G` with
 `[PreGaloisCategory.IsFundamentalGroup (fiber x) G]`, so that a Galois group or a chosen small
-model can be used without transport. `EtalePath x y` is `fiber x ≅ fiber y`. For a morphism
+model can be used without transport. EtalePath x y is `fiber x ≅ fiber y`. For a morphism
 `f : T ⟶ S` and a geometric point `x` of `T`, `EtaleFundamentalGroup.map f x` is the
 homomorphism from `EtaleFundamentalGroup x` to `EtaleFundamentalGroup (x ≫ f)` that whiskers an
 automorphism of the fibre functor by `TauCeti.FiniteEtaleScheme.pullback f` and transports it
@@ -406,9 +406,9 @@ For every scheme `X` and every finite commutative `Λ`, put `n = ringChar Λ` an
 `Λ(1) = Λ ⊗_(ℤ/n) μ_n` from SchemeAndStackFoundations' `muEtale`. Define the tensor powers
 `Λ(m)`, `m ≥ 0`, the dual powers `Λ(−m) = ℋom(Λ(m), Λ)` and the twist `K ↦ K ⊗ Λ(m)` on
 `D(X,Λ)` for every integer `m`. These definitions carry no hypothesis; the twist is this sheaf,
-and no class of twist data is introduced. Under `Scheme.IsInvertibleOn n X` prove that `Λ(1)` is
+and no class of twist data is introduced. Under Scheme.IsInvertibleOn n X prove that `Λ(1)` is
 finite lisse and invertible of rank one, twist addition `Λ(a) ⊗ Λ(b) ≅ Λ(a+b)`, independence of
-`n`: for every `N` with `NΛ = 0` and `Scheme.IsInvertibleOn N X` the sheaf `Λ ⊗_(ℤ/N) μ_N` is
+`n`: for every `N` with `NΛ = 0` and Scheme.IsInvertibleOn N X the sheaf `Λ ⊗_(ℤ/N) μ_N` is
 canonically `Λ(1)`, and the pullback/tensor/dual identities and all coefficient reductions,
 using the Kummer sequence of SchemeAndStackFoundations §2.11. A primitive root over a
 separably closed field gives a coordinate, whose change is multiplication by a unit. Integral
@@ -1003,7 +1003,7 @@ formula for global sections against `RΓ(X,K)` hold, and the tensor/global-secti
 are bounded below with the required Tor bounds. These are explicit sufficient hypotheses
 on arbitrary `k`-schemes. Retain Tor terms, cup products, pullbacks, base change, Koszul
 symmetry, associativity, finite groups and coefficient reductions. (Stacks §59.97,
-Lemmas 59.97.6–59.97.9; SGA 4 XVII §5; Milne, Abelian Varieties, §15.)
+Lemmas 59.97.6–59.97.9; SGA 4 XVII §5; Milne, Abelian Varieties, §12, Theorem 12.1.)
 *Needs:* F.1, properBaseChange, smoothBaseChange; finite-coefficient projection/exchange
 lemmas built here; §F.3.0 etaleCohomologicalDimension;
 `ClassicalDerived.tensorHom` and scheme limits.
@@ -1771,7 +1771,7 @@ ClassicalAlgebraic.lciCycleClass.
 
 ## 0.11 Algebraic smooth trace and curve duality
 
-**Algebraic smooth trace.** For a separated smooth finitely presented `f:X→S` of relative pure dimension `d` over a qcqs base `S`, compactifiable (`Nonempty (TauCeti.Compactification f)`, §G.1), `n>0` with `Scheme.IsInvertibleOn n S` and `Λ=ℤ/n`, provide ClassicalAlgebraic.smoothTrace: `Rf!Λ(d)[2d]→Λ`, with §0.8's canonical `Rf!`. Construct it by the diagonal argument, over the qcqs base and not over fields first: the trace of `𝔸¹_S` comes from the purity of its zero section, obtained from the Kummer boundary map of §0.9 and normalized so that `c₁(O(1))` on `ℙ¹_S` has trace `1`; smooth base change (§F.2.2) and étale-local coordinates (SchemeAndStackFoundations §0.8) extend it to `𝔸^d_S` and to every smooth `f`; the cycle class of the diagonal `X → X ×_S X`, a section of the first projection (§0.9's ClassicalAlgebraic.lciCycleClass), shows independence of the coordinates and descends the trace. Normalize by degree-one point classes and prove composition, open restriction, finite flat trace and arbitrary base-change compatibility. No Jacobian and no curve-specific construction is used. (SGA 4, Exposé XVIII, §§1–3, especially Theorem 3.2.5; SGA 4½, *Cycle*, §2; the analytic analogue is Li–Reinecke–Zavyalov, §6.1, Theorem 6.1.1, p. 66, where the trace of a separated smooth morphism of locally noetherian analytic adic spaces is characterized by compatibility with composition, with base change, with the étale trace and with the algebraic trace of `ℙ¹`.)
+**Algebraic smooth trace.** For a separated smooth finitely presented `f:X→S` of relative pure dimension `d` over a qcqs base `S`, compactifiable (`Nonempty (TauCeti.Compactification f)`, §G.1), `n>0` with Scheme.IsInvertibleOn n S and `Λ=ℤ/n`, provide ClassicalAlgebraic.smoothTrace: `Rf!Λ(d)[2d]→Λ`, with §0.8's canonical `Rf!`. Construct it by the diagonal argument, over the qcqs base and not over fields first: the trace of `𝔸¹_S` comes from the purity of its zero section, obtained from the Kummer boundary map of §0.9 and normalized so that `c₁(O(1))` on `ℙ¹_S` has trace `1`; smooth base change (§F.2.2) and étale-local coordinates (SchemeAndStackFoundations §0.8) extend it to `𝔸^d_S` and to every smooth `f`; the cycle class of the diagonal `X → X ×_S X`, a section of the first projection (§0.9's ClassicalAlgebraic.lciCycleClass), shows independence of the coordinates and descends the trace. Normalize by degree-one point classes and prove composition, open restriction, finite flat trace and arbitrary base-change compatibility. No Jacobian and no curve-specific construction is used. (SGA 4, Exposé XVIII, §§1–3, especially Theorem 3.2.5; SGA 4½, *Cycle*, §2; the analytic analogue is Li–Reinecke–Zavyalov, §6.1, Theorem 6.1.1, p. 66, where the trace of a separated smooth morphism of locally noetherian analytic adic spaces is characterized by compatibility with composition, with base change, with the étale trace and with the algebraic trace of `ℙ¹`.)
 
 *Needs:* EnhancedDerivedSheaves §§0.1–0.4; §§0.5–0.10 and F.2.2; §G.1 compactifiability; SchemeAndStackFoundations §§0.8, 2.11 (étale coordinates, Kummer).
 
