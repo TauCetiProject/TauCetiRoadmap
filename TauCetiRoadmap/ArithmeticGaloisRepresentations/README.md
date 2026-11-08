@@ -74,8 +74,9 @@ The roadmap owns:
   of `G_K`, the derived eventual Herbrand formula used for induction, the
   representation-theoretic character-conductor comparison given by the unit-filtration
   reciprocity declared on ClassFieldTheory as gap:unit-filtration-reciprocity, Swan and Artin
-  conductors with
-  integrality, induction and twist formulas, the conductor of a Weil–Deligne representation,
+  conductors of representations of `G_K` with finite wild image, with integrality, induction
+  and twist formulas, on the finite-level conductors of AnalyticNumberTheoryPartI §2.2a,
+  the conductor of a Weil–Deligne representation,
   global conductors and the prime-to-`p` conductor `N(ρ̄)`, and the behaviour of conductors under
   reduction (Layer 3);
 - complex conjugations and oddness, the finite subgroups of `GL₂` and `PGL₂` over finite fields
@@ -121,7 +122,10 @@ inertia, wild inertia and the tame quotient for nonarchimedean local fields
 sections); the local inertia and
 wild inertia subgroups of `G_K`, arithmetic Frobenius lifts, the cyclotomic character and the
 `ℓ`-adic tame character (Tau Ceti); the local Weil group, its degree map, the local Artin map,
-`normResidue` and `characterConductorExp` (`TauCetiRoadmap.ClassFieldTheory` Layers 7 and 9).
+`normResidue` and `characterConductorExp` (`TauCetiRoadmap.ClassFieldTheory` Layers 7 and 9);
+the lower Artin and Swan conductors of a finite group acting on a local ring with their
+integrality, and the induction and conductor–discriminant formulas for Artin representations of
+number fields (`TauCetiRoadmap.AnalyticNumberTheoryPartI` §2.2a).
 The extension of the ramification filtrations to arbitrary perfect residue fields in both
 characteristics, with the structure of the lower quotients, Hilbert's different formula,
 Hasse–Arf, the absolute upper filtration with its inertia `G_K^0` and wild inertia `G_K^{0+}`,
@@ -359,7 +363,8 @@ extensions of nonarchimedean local fields, `TauCeti.LocalFieldsRamification.lowe
 `TauCeti.LocalFieldsRamification.hasseArf`, and the conductor exponent of a character
 `TauCeti.LocalFieldsRamification.artinConductorExponent` with Serre's lower-sum formula
 `TauCeti.LocalFieldsRamification.artinConductorExponent_mul_card_lowerRamificationGroup_zero`;
-§3.2's finite-level conductors are stated on the first. Number fields:
+the finite-level conductors of AnalyticNumberTheoryPartI §2.2a, which §3.2 uses, are stated on
+the first. Number fields:
 `Ideal.isUnramifiedAt_iff_inertia_eq_bot`, `NumberField.Chebotarev.frobeniusPrimeSet`,
 `NumberField.isArithFrobAt_eq_of_isUnramifiedAt`, `Multiquadratic.galoisGroupEquiv`,
 `NumberField.exists_isArithFrobAt_multiquadratic`, `NumberField.isArithFrobAt_apply_sqrt`.
@@ -455,6 +460,23 @@ Checks the conductor theory recomputes, and plans none of them; §§3.1–3.2 co
 upper filtration, the transition functions, Hasse–Arf and the comparison for representation
 breaks and conductors.
 
+### From `TauCetiRoadmap.AnalyticNumberTheoryPartI`
+
+Section 2.2a: for a group `G` acting by ring automorphisms on a local ring `B`, with lower
+ramification groups `G_i = TauCeti.IsLocalRing.ramificationGroup G B i`, and a representation
+`ρ` of `G` on a vector space over a field, the lower Artin and Swan sums
+`TauCetiRoadmap.AnalyticNumberTheoryPartI.lowerArtinConductor` and
+`TauCetiRoadmap.AnalyticNumberTheoryPartI.lowerSwanConductor`, with their tame decomposition,
+isomorphism invariance, additivity on direct sums, vanishing and character values;
+Artin's integrality theorem `TauCetiRoadmap.AnalyticNumberTheoryPartI.lowerConductors_integral`
+(for a finite group acting faithfully on a complete discrete valuation ring with perfect residue
+field and coefficients of characteristic `0` or prime to the residue characteristic, both sums
+are natural numbers); and, for finite Galois extensions of number fields, the finite Artin
+conductor ideal, its induction formula with local form, and the conductor–discriminant formula.
+Section 3.2 identifies the lower sums with the conductors of representations of `G_K` that
+factor through a finite Galois group, §3.5 extends integrality and induction to the conductor
+setting, and §6.6 bounds the Swan sum.
+
 ### From `TauCetiRoadmap.ClassFieldTheory`
 
 Layer 7: `artinMap` with its normalisation (a uniformiser maps to an arithmetic Frobenius lift,
@@ -502,8 +524,7 @@ unions, squeeze).
 ### From `TauCetiRoadmap.RepresentationTheory`
 
 `InductionRestriction` layer 5 (Clifford's theorem and the Clifford correspondence over a normal
-subgroup), layer 6 (Brauer's induction theorem: every character is a `ℤ`-combination of characters
-induced from linear characters of elementary subgroups) and layer 7 (projective representations,
+subgroup) and layer 7 (projective representations,
 factor sets, and the obstruction `cliffordObstruction` in `H²(T/N, k^×)` to extending a stable
 irreducible representation); §7.6 uses its factor-set algebra with continuous sections and finite
 discrete kernels. The extension theorem for cyclic `G/N` and the vanishing of `H²` of a finite
@@ -646,6 +667,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Jointly continuous representations and stable integral models | EtaleCohomologyFoundations §F.4.0 | Shared foundation supplied there; §§1.1–1.2 and 1.6 consume it and add arithmetic results |
 | Henselian-trait/local-field tame-character comparison | EtaleCohomologyFoundations §F.3a | Supplied comparison and transport laws; §2.1a transports them along global decomposition-group embeddings |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
+| Finite-level Artin and Swan conductors, their integrality, induction and the conductor–discriminant formula | AnalyticNumberTheoryPartI §2.2a, `lowerArtinConductor`, `lowerSwanConductor`, `lowerConductors_integral` | Supplier targets; §3.2 identifies the lower sums with the conductors of representations factoring through a finite Galois group, §3.5 extends integrality and induction to the conductor setting, §6.6 bounds the Swan sum |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
 | Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `wd-complete-coefficients` (Grothendieck monodromy, `grothendieck_quasiUnipotent_complete`), `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
@@ -2471,8 +2493,9 @@ reciprocity; finite-order character globalisation is owned in §2.7.
 
 This layer defines the breaks, Swan and Artin conductors of local Galois representations, the
 conductor of a Weil–Deligne representation, global conductors and the prime-to-`p` conductor
-`N(ρ̄)`; it proves conductor integrality from Hasse–Arf, functoriality, the induction and
-conductor–discriminant formulas and the behaviour under reduction modulo `ℓ`. Layers 4–7 and every level statement
+`N(ρ̄)`; it proves conductor integrality, functoriality, the induction and conductor–discriminant
+formulas and the behaviour under reduction modulo `ℓ`, extending AnalyticNumberTheoryPartI
+§2.2a's finite-level conductors and their properties to this setting. Layers 4–7 and every level statement
 consume these numbers; the downstream elliptic conductor comparisons are owned by
 NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3i.
 
@@ -2707,27 +2730,20 @@ below; `TauCetiRoadmap.ClassFieldTheory` Layer 7 (`characterConductorExp`); Math
   (`N e₂ = e₁`) reduces to an unramified `ρ̄` with `a = 0`: the conductor of a reduction is computed from
   the reduction.
 
-**Finite-level conductors.** For a group `G` acting by ring automorphisms on a local ring `B`,
-with lower ramification groups `G_i = TauCeti.IsLocalRing.ramificationGroup G B i` (the elements
-acting trivially on `B/𝔪_B^{i+1}`), and a representation `ρ` of `G` on a vector space `W` over a
-field `C`, define the rational numbers
-
-```text
-Conductor.lowerArtinConductor G B ρ = Σ_{i ≥ 0} (|G_i|/|G_0|) · codim_W W^{G_i}
-Conductor.lowerSwanConductor  G B ρ = Σ_{i ≥ 1} (|G_i|/|G_0|) · codim_W W^{G_i}
-```
-
-For `L/K` finite Galois in the conductor setting, `G = Gal(L/K)` and `B = O_L`, they are the lower
-sums of §3.1 and of the API above, so for `V` of the setting on which `G_K` acts through
-`Gal(L/K)` they are `a(V)` and `Sw(V)` (Serre 1961, n° 3.7, (28)–(29), p. 137; Serre 1987,
-(4.9.1)–(4.9.2), p. 215). Their API:
+**Finite-level conductors.** The lower sums
+`lowerArtinConductor G B ρ = Σ_{i ≥ 0} (|G_i|/|G_0|) · codim_W W^{G_i}` and
+`lowerSwanConductor G B ρ = Σ_{i ≥ 1} (|G_i|/|G_0|) · codim_W W^{G_i}` of a representation `ρ` on
+`W` of a group `G` acting on a local ring `B`, with
+`G_i = TauCeti.IsLocalRing.ramificationGroup G B i`, are AnalyticNumberTheoryPartI §2.2a's, with
+their tame decomposition, isomorphism invariance, additivity on direct sums and vanishing for
+`W = 0` and for trivial inertia. For `L/K` finite
+Galois in the conductor setting, `G = Gal(L/K)` and `B = O_L`, they are the lower sums of §3.1
+and of the API above, so for `V` of the setting on which `G_K` acts through `Gal(L/K)` they are
+`a(V)` and `Sw(V)` (Serre 1961, n° 3.7, (28)–(29), p. 137; Serre 1987, (4.9.1)–(4.9.2), p. 215).
+Further API:
 - for finite `G` acting faithfully on a discrete valuation ring the sums are finite, since
   `G_i = 1` for large `i` (Tau Ceti `TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot`),
-  and the Artin sum is the Swan sum plus the tame part `codim W^{G_0}`;
-- both sums vanish for `W = 0` and whenever `G_0` acts trivially, and the Swan sum vanishes
-  whenever `G_1` acts trivially;
-- both depend only on the isomorphism class of `ρ` and are additive on direct sums, because the
-  invariant dimensions are;
+  and the Swan sum vanishes whenever `G_1` acts trivially;
 - for the regular representation of `G = Gal(L/K)` the Artin sum is `f · d(L/K) = v_K(𝔡_{L/K})`,
   by Hilbert's formula `d(L/K) = Σ_{i ≥ 0} (|G_i| − 1)` of §3.0 and `|G| = f |G_0|`;
 - for `L/K` a finite abelian extension of nonarchimedean local fields and a character `χ` of
@@ -2737,19 +2753,14 @@ sums of §3.1 and of the API above, so for `V` of the setting on which `G_K` act
   `TauCeti.LocalFieldsRamification.artinConductorExponent_mul_card_lowerRamificationGroup_zero`
   (`codim W^{G_i}` is `1` exactly when `χ` is nontrivial on `G_i`).
 
+The last two hold over every perfect residue field and every nonarchimedean local field, of
+either characteristic; at the completion of a number field they are AnalyticNumberTheoryPartI
+§2.2a's regular-representation and character values.
+
 **Checks.**
-- `χ_8` on `Gal(ℚ_2(ζ_8)/ℚ_2)`, lower orders `4, 4, 2, 2, 1`: the Artin sum is
-  `1 + 1 + 1/2 + 1/2 = 3` and the Swan sum `2`; without the weights `|G_i|/|G_0|` the sums would
-  be `4` and `3`, and omitting the term `i = 0` from the Artin sum would give `2`.
 - The regular representation of `Gal(ℚ_2(i)/ℚ_2)`, with `G_0 = G_1` of order `2` and `G_2 = 1`,
   has `codim W^{G_i} = 1` for `i = 0, 1`: Artin sum `2 = v_2(−4)`, the discriminant exponent, and
   Swan sum `1`.
-- A nontrivial tame quadratic character over `ℚ_p`, `p` odd (`G = G_0` of order `2`, `G_1 = 1`),
-  has Artin sum `1` and Swan sum `0`; an unramified character (`G_0 = 1`) has both sums `0`.
-- If `G_0` is infinite, the normalisation `Nat.card G_0` is `0` and every weight is `0`: the
-  sums are conductors only for finite `G`, which every statement about them assumes.
-
-*Lean:* `Conductor.lowerArtinConductor`, `Conductor.lowerSwanConductor`.
 
 **Characters.** Prove that a ramified character `χ` with finite wild image has an integer upper break
 `u(χ)` with `Sw(χ) = u(χ)` and `a(χ) = 1 + u(χ)`, and a tamely ramified `χ` has break `0`: the
@@ -2760,8 +2771,9 @@ Prove that for `K` a nonarchimedean local field and `χ` of finite order,
 `a(χ) = characterConductorExp (χ ∘ artinMap)`: by gap:unit-filtration-reciprocity,
 `χ ∘ artinMap` is trivial on `U_K^n` iff `χ` is trivial on `G_K^n`, iff
 `n ≥ 1 + u(χ)` for ramified `χ` and `n ≥ 0` for unramified `χ`, and `characterConductorExp` is
-the least such `n`. *Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.3 (Hasse–Arf in
-both characteristics) and §4a.3 (the completed maximal-unramified comparison), as recorded in
+the least such `n`. At the completion of a number field this comparison is
+AnalyticNumberTheoryPartI §2.2a's character value; here `K` may have characteristic `p`.
+*Needs:* RamificationOfCompleteDiscretelyValuedFields §3a.3 (Hasse–Arf in both characteristics) and §4a.3 (the completed maximal-unramified comparison), as recorded in
 §3.0; §3.1 (breaks); ClassFieldTheory Layer 7 (`artinMap`, `characterConductorExp`) and
 gap:unit-filtration-reciprocity for the local-field character-conductor comparison.
 
@@ -2826,14 +2838,18 @@ allowed for Artin representations; intended predicate *AdmissibleExcludedPlaces*
 `N^Σ(ρ) := ∏_{v ∉ Σ} 𝔭_v^{a_v(ρ)}`, `a_v(ρ) = a(ρ_ι)` for an embedding `ι` at `v` (§2.1);
 `N(ρ) := N^∅(ρ)` for Artin `ρ`; `N^{(ℓ)}(ρ) := N^{{v | ℓ}}(ρ)` for `ℓ`-adic `ρ`; and the prime-to-`p`
 conductor `N(ρ̄) := N^{{v | p}}(ρ̄)` for `ρ̄` over a finite field of characteristic `p`. Places in `Σ`
-are excluded from the product, not given exponent `0`. Intended signatures:
+are excluded from the product, not given exponent `0`. For an Artin representation `N(ρ)` is
+AnalyticNumberTheoryPartI §2.2a's finite Artin conductor `𝔣(ρ)` of any finite Galois quotient
+through which `ρ` factors, by §3.2's finite-level comparison; the general form admits `ℓ`-adic and
+residual `ρ` and excluded places. Intended signatures:
 *Conductor.globalConductor* `ρ Σ : Ideal (𝓞 F)`, *Conductor.primeToPConductor* `ρ̄ : Ideal (𝓞 F)`. Its API
 is `v_𝔭(N^Σ) = a_v` off `Σ` and `0` on `Σ`; `N^Σ = 1` iff `ρ` is unramified at every finite `v ∉ Σ`;
 `N(ρ̄)` prime to `p`; independence of the isomorphism class and of the `ι_v`; multiplicativity on
 direct sums, and `N^Σ(ρ) N^Σ(ρ') | N^Σ(ρ'')` for an extension `ρ''` of `ρ'` by `ρ` with equality when
 inertia images are finite of order invertible in the coefficients; and the positive generator over `ℚ`
 (Serre 1987, §1.2, (1.2.3), p. 181). *Needs:* §3.2; §2.1; `TauCetiRoadmap.NumberFieldArithmetic` layer
-5; Mathlib `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`.
+5; AnalyticNumberTheoryPartI §2.2a (`𝔣(ρ)`, for the Artin case); Mathlib
+`IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`.
 
 **Checks.**
 - The trivial representation has `N^Σ = (1)` for every `Σ`.
@@ -2897,6 +2913,9 @@ characteristic `≠ p` with `ρ(P_L)` finite, `Ind_{G_L}^{G_K} V` has finite wil
 `Sw_K(Ind V) = f Sw_L(V) + (δ(L/K) − [L : K] + f) dim V`; (c) `a_K(Ind V) = δ(L/K) dim V + f a_L(V)`. In
 particular `a_K(Ind 1) = δ(L/K)` (conductor–discriminant) and `Sw_K(Ind 1) = f(d(L/K) − e + 1)`; `V` need
 not factor through a finite quotient (BK, §2, (2.5), p. 230; Serre 1961, n° 3.7, (31), p. 138).
+At the completion of a number field and for `V` factoring through a finite quotient, (c) and its
+case `V = 1` are AnalyticNumberTheoryPartI §2.2a's local induction and conductor–discriminant
+formulas.
 *Needs:* the invariants target above; RamificationOfCompleteDiscretelyValuedFields §4a.2
 (transition functions on open subgroups), as recorded in §3.0; §3.1 (the eventual Herbrand
 formula and break decomposition); §1.3.
@@ -2906,45 +2925,32 @@ finite place `v` of `F`, `v(𝔡_{F'/F}) = Σ_{w | v} δ(F'_w/F_v)`, by combinin
 different with the valuation of the relative discriminant. Prove that for `Σ` admissible, `Σ'` the
 places above it, and `ρ` a representation of `G_{F'}` with conductor defined outside `Σ'`,
 `N_F^Σ(Ind ρ) = (𝔡_{F'/F})_Σ^{dim ρ} · Nm_{F'/F}(N_{F'}^{Σ'}(ρ))`, `𝔡_{F'/F}` the relative
-discriminant and `(·)_Σ` its part prime to `Σ`; and that for `F = ℚ`, `M` quadratic and `ψ` of finite
-order, `N(Ind ψ) = |d_M| · Nm_{M/ℚ}(𝔣(ψ))` with `𝔣(ψ)` the Artin conductor ideal of `ψ` (prime-to-`ℓ`
-parts for `ℓ`-adic `ψ`), which is the conductor of the corresponding Hecke character by §3.2 (BK,
-(2.5), p. 230). *Needs:* the local induction formula; §3.3; `TauCetiRoadmap.NumberFieldArithmetic`
-layer 5 (§5.9, the different localizes; §5.10, the relative discriminant valuation); Mathlib
-`differentIdeal`, `NumberField.discr`, `Representation.ind`.
+discriminant and `(·)_Σ` its part prime to `Σ`, which for `ρ` of finite image and `Σ = ∅` is
+AnalyticNumberTheoryPartI §2.2a's induction formula for Artin conductors; and that for `F = ℚ`,
+`M` quadratic and `ψ` of finite order, `N(Ind ψ) = |d_M| · Nm_{M/ℚ}(𝔣(ψ))` with `𝔣(ψ)` the Artin
+conductor ideal of `ψ` (prime-to-`ℓ` parts for `ℓ`-adic `ψ`), which is the conductor of the
+corresponding Hecke character by AnalyticNumberTheoryPartI §2.2a (BK, (2.5), p. 230). *Needs:*
+the local induction formula; §3.3; AnalyticNumberTheoryPartI §2.2a (the Artin case and the
+Hecke-character conductor); `TauCetiRoadmap.NumberFieldArithmetic` layer 5 (§5.9, the different
+localizes; §5.10, the relative discriminant valuation); Mathlib `differentIdeal`,
+`NumberField.discr`, `Representation.ind`.
 
 **Checks.**
 - `a(Ind_{G_{ℚ_2(i)}}^{G_{ℚ_2}} 1) = 2 = v_2(d_{ℚ(i)})`, and `Ind 1 = 1 ⊕ χ_{−4}` gives `0 + 2`.
 - For `L/K` unramified, `δ = 0` and `a_K(Ind V) = f a_L(V)`.
 - For `L/K` tame of index `e`, `Sw_K(Ind 1) = f(d − e + 1) = 0` since `d = e − 1`.
 
-**Hasse–Arf integrality.** Prove that for a finite group `G` acting faithfully by ring
-automorphisms on a complete discrete valuation ring `B` with perfect residue field, and a
-finite-dimensional representation `W` of `G` over a field `C` whose characteristic is `0` or
-differs from the residue characteristic of `B`, `Conductor.lowerArtinConductor G B W` and
-`Conductor.lowerSwanConductor G B W` are natural numbers. These data are exactly a finite Galois
-`L/K` with `K` complete for a discrete valuation with perfect residue field, `G = Gal(L/K)` and
-`B = O_L` (`L = Frac B`, `K = L^G`, and `O_K = B^G` is again a complete discrete valuation ring
-with perfect residue field), so this is `a(W), Sw(W) ∈ ℕ` for every representation `W` of
-`Gal(L/K)` over such a field; in residue characteristic `0`, `G_1 = 1` and both statements are
-immediate, whatever the characteristic of `C`. Route: in characteristic zero, Brauer induction
-from the case of characters and the finite-image case of the local induction formula above, with
-Hasse–Arf for the characters (Serre 1961, n° 3.7, Thm 2, p. 138, and Remarque 2°, p. 139,
-reducing an arbitrary residue field to an algebraically closed one); in characteristic `ℓ ≠ p`,
-the tame part `codim W^{G_0}` is a natural number and the Swan sum, which depends only on the
-semisimple restriction of `W ⊗ C̄` to the `p`-group `G_1`, is a sum over `G_0`-orbits of
-`G_1`-constituents of Swan sums of characteristic-zero representations, by the characteristic-zero
-lifts of §3.2, *Wild characters and their extensions* (Serre 1987, §1.2 (a), p. 181, states it
-over `ℚ_q` with coefficients of characteristic prime to `q`). In the residue characteristic itself
-the statement fails (the first Check below). Prove that for `V` of the setting,
-`Sw(V), a(V) ∈ ℕ`; that both are independent of the auxiliary `L`, of the algebraic closure, of the
-extension of the valuation and of the isomorphism class; that `a(V) = 0` iff `I_K` acts trivially,
-`Sw(V) = 0` iff `P_K` acts trivially, and `a(V) = codim V^{I_K}` iff `V` is tame (Serre 1987, §1.2
-(a), p. 181). *Needs:* the targets on characters and wild characters of §3.2; the finite-level
-conductors of §3.2; the local induction formula above; `TauCetiRoadmap.RepresentationTheory/InductionRestriction` layer 6 (Brauer's induction
-theorem).
-*Lean:* `Conductor.lowerConductors_integral` (the finite-level statement; the statement for `V` of
-the setting, whose inertia image may be infinite, uses the absolute filtration of §3.0).
+**Hasse–Arf integrality.** Prove that for `V` of the setting, `Sw(V), a(V) ∈ ℕ`; that both are
+independent of the auxiliary `L`, of the algebraic closure, of the extension of the valuation and
+of the isomorphism class; that `a(V) = 0` iff `I_K` acts trivially, `Sw(V) = 0` iff `P_K` acts
+trivially, and `a(V) = codim V^{I_K}` iff `V` is tame (Serre 1987, §1.2 (a), p. 181). When `G_K`
+acts on `V` through a finite Galois group `Gal(L/K)`, integrality is AnalyticNumberTheoryPartI
+§2.2a's `lowerConductors_integral` for `Gal(L/K)` acting on `O_L`, by §3.2's finite-level
+comparison; in general the tame term `codim V^{I_K}` is a natural number, and §3.2's *Wild
+characters and their extensions* writes `Sw(V)` as a sum of Swan conductors of
+characteristic-zero representations of the inertia group `G_0` of a finite `M/K_0` acting on
+`O_M`, to which that theorem applies. *Needs:* AnalyticNumberTheoryPartI §2.2a (`lowerConductors_integral`); the
+finite-level conductors and the wild characters of §3.2; §3.1.
 
 **Checks.**
 - For `L = ℚ_3(ζ_3, ∛2)`, totally ramified of degree `6` over `ℚ_3`, the different exponent is
@@ -2955,8 +2961,6 @@ the setting, whose inertia image may be infinite, uses the absolute filtration o
   has no nonzero invariants and the same sums `3` and `1`. Over `F_3` the sum-zero plane
   `{x ∈ F_3³ : Σ xᵢ = 0}` contains `(1, 1, 1)`, so both codimensions are `1` and the Artin sum is
   `1 + (1/2) · 1 = 3/2`: coefficients of the residue characteristic are excluded.
-- In residue characteristic `0` (for `μ_n` acting on `ℂ[[t]]` by `t ↦ ζt`), `G_1 = 1`, the Swan sum
-  is `0` and the Artin sum is `codim W^{G_0}` over every coefficient field, `F_ℓ` included.
 
 ### 3.6 Reduction modulo `ℓ`
 
@@ -3045,7 +3049,9 @@ functions and the completed maximal-unramified comparison);
 filtration, the absolute Galois group);
 `TauCetiRoadmap.ClassFieldTheory` layers 7 (with gap:unit-filtration-reciprocity) and 9;
 `TauCetiRoadmap.NumberFieldArithmetic` layer 5;
-`TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5–7;
+`TauCetiRoadmap.AnalyticNumberTheoryPartI` §2.2a (finite-level Artin and Swan conductors, their
+integrality, the induction and conductor–discriminant formulas);
+`TauCetiRoadmap.RepresentationTheory/InductionRestriction` layers 5 and 7;
 `TauCetiRoadmap.AlgebraicCurves` layer 8 (function-field ramification groups, for comparison);
 Tau Ceti's `TauCeti.IsLocalRing.ramificationGroup` and the local-field ramification, Hasse–Arf and
 character-conductor declarations listed in the supplier contracts.
@@ -4328,7 +4334,8 @@ maps onto the `G_1` of `G/H`, since inertia maps onto inertia and `G_1` is its `
 so `c` can only grow. The finite-level statement takes `G` finite acting faithfully on the
 complete discrete valuation ring `B = O_L` of characteristic zero with perfect residue field of
 characteristic `p`, and writes `e_K = v_L(p)/|G_0|`, which is `v_K(p)` by `v_L|_K = e v_K` and
-`|G_0| = e` (§3.0). *Needs:* §§3.1, 3.2 (the finite-level conductors); §3.0 (`|G_0| = e`).
+`|G_0| = e` (§3.0). *Needs:* §3.1; AnalyticNumberTheoryPartI §2.2a (`lowerSwanConductor`) and its
+identification with `Sw` in §3.2; §3.0 (`|G_0| = e`).
 *Lean:* `Conductor.lowerSwanConductor_le`.
 
 **Checks.**
@@ -4356,8 +4363,8 @@ with Euler factor `1 − aT + qT²` (Darmon–Diamond–Taylor 2007, §2.1, p. 5
 Layers 1–5; AbelianSchemesAndArithmeticModuli A3, A4.1, A6.10–A6.12;
 `TauCetiRoadmap.EllipticCurves` layers 1–4; ProfiniteProPGroups Layers 0 and 3;
 `TauCetiRoadmap.LocalFieldsRamification` (unramified extensions and Frobenius);
-`TauCetiRoadmap.NumberFieldArithmetic` layer 5; Tau Ceti's abelian varieties, isogenies and elliptic
-Tate modules.
+`TauCetiRoadmap.NumberFieldArithmetic` layer 5; `TauCetiRoadmap.AnalyticNumberTheoryPartI` §2.2a
+(the lower Swan sum of §6.6); Tau Ceti's abelian varieties, isogenies and elliptic Tate modules.
 
 ## Layer 7: dimension-general arithmetic API
 

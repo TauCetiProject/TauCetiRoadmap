@@ -12,12 +12,11 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
 These statements suggest Lean forms for headline theorems; discharging them finishes neither
 all the targets of a layer nor the roadmap. Section references are to `README.md`.
 
-The statements cover coefficient-field and integral descent and Brauer–Nesbitt (Layer 1),
-Artin–Arf integrality of the Artin and Swan conductors and Serre's wild bound for a
-representation of a finite Galois group (Layers 3 and 6), odd absolute irreducibility and
-Dickson's classification (Layer 4), Frobenius recognition, the image-algebra descent obstruction
-and Carayol's lemma (Layer 5), the multiplicative residual unramified criterion and finite
-Frattini detection (Layer 6), and projective lifting, the constituent-dimension adequacy bound,
+The statements cover coefficient-field and integral descent and Brauer–Nesbitt (Layer 1), odd
+absolute irreducibility and Dickson's classification (Layer 4), Frobenius recognition, the
+image-algebra descent obstruction and Carayol's lemma (Layer 5), the multiplicative residual
+unramified criterion, finite Frattini detection and Serre's wild bound for a representation of a
+finite Galois group (Layer 6), and projective lifting, the constituent-dimension adequacy bound,
 tensor adequacy, and enormous symmetric-power and general-rank images (Layer 7).
 Representations use Mathlib's `Representation`, with joint continuity imposed explicitly, or
 continuous matrix homomorphisms. The small definitions below use native integral closures,
@@ -40,9 +39,11 @@ RamificationOfCompleteDiscretelyValuedFields §4a.1 over complete discretely val
 perfect residue field, as recorded in §3.0, and the break decomposition of §3.1; that absolute
 filtration over a general perfect residue field has no Mathlib or Tau Ceti carrier. The
 character-conductor comparison of §3.2 uses the unit-filtration reciprocity declared on
-ClassFieldTheory as gap:unit-filtration-reciprocity, which has no carrier either. A
-representation of a finite Galois group needs only the lower ramification groups, which Tau Ceti
-has for any group acting on a local ring, and its conductors are stated here.
+ClassFieldTheory as gap:unit-filtration-reciprocity, which has no carrier either. The lower
+Artin and Swan conductors of a representation of a finite Galois group and their integrality are
+AnalyticNumberTheoryPartI §2.2a's `lowerArtinConductor`, `lowerSwanConductor` and
+`lowerConductors_integral`; that file is not imported here, so Serre's wild bound writes the lower
+Swan sum out.
 The general Tate-module, pairing, determinant and coefficient adapters require the geometric
 abelian-scheme torsion and `AbelianTate` fibre; the elliptic Tate module alone does not supply them.
 Function-field recognition requires closed-point Frobenius on the restricted-ramification
@@ -118,50 +119,9 @@ def frobeniusSet {F : Type*} [Field F] [NumberField F]
 
 end GaloisRep
 
-/-! ## Layer 3: Artin and Swan conductors -/
-
-namespace Conductor
-
-open TauCeti.IsLocalRing
-
-/-- The Artin conductor of a representation `ρ` of a group `G` acting on a local ring `B`, as the
-lower sum `Σ_{i ≥ 0} (|G_i| / |G_0|) · codim W^{G_i}` over the ramification groups
-`G_i = TauCeti.IsLocalRing.ramificationGroup G B i` (§3.2; Serre 1961, n° 3.7, (28)–(29)).
-For `G = Gal(L/K)` acting on `B = O_L` it is the Artin conductor of a representation of the
-finite Galois group. -/
-def lowerArtinConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
-    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
-    (ρ : Representation C G W) : ℚ :=
-  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B i) : ℚ) / Nat.card (ramificationGroup G B 0)) *
-    Module.finrank C (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B i).subtype))
-
-/-- The Swan conductor of `ρ`, the lower sum `Σ_{i ≥ 1} (|G_i| / |G_0|) · codim W^{G_i}` over the
-wild ramification groups (§3.1; Serre 1987, (4.9.2)). -/
-def lowerSwanConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
-    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
-    (ρ : Representation C G W) : ℚ :=
-  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B (i + 1 : ℕ)) : ℚ) /
-      Nat.card (ramificationGroup G B 0)) *
-    Module.finrank C
-      (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B (i + 1 : ℕ)).subtype))
-
-/-- Artin–Arf integrality (§3.5): for a finite group acting faithfully on a complete discrete
-valuation ring with perfect residue field, that is for `G = Gal(L/K)` acting on `O_L` with `L/K`
-finite Galois in the conductor setting, the Artin and Swan conductors of every
-finite-dimensional representation over a field of characteristic zero or of characteristic
-different from the residue characteristic are natural numbers (Serre 1961, n° 3.7, Thm 2 and
-Remarque 2°; Serre 1987, §1.2 (a)). Coefficients of the residue characteristic are excluded:
-the sum-zero plane of `F₃³`, permuted by `S₃ = Gal(ℚ₃(ζ₃, ∛2)/ℚ₃)`, has Artin sum `3/2`. -/
-theorem lowerConductors_integral {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
-    [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
-    [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
-    {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
-    (hC : ringChar C = 0 ∨ ringChar C ≠ ringChar (IsLocalRing.ResidueField B))
-    (ρ : Representation C G W) :
-    (∃ n : ℕ, lowerArtinConductor G B ρ = n) ∧ ∃ n : ℕ, lowerSwanConductor G B ρ = n := by
-  sorry
-
-end Conductor
+-- Supplied by AnalyticNumberTheoryPartI:
+-- §2.2a `TauCetiRoadmap.AnalyticNumberTheoryPartI.lowerArtinConductor`, `lowerSwanConductor` and
+-- `lowerConductors_integral` (Layer 3's finite-level conductors and their integrality).
 
 /-! ## Layer 4: residual images and oddness -/
 
@@ -388,7 +348,9 @@ namespace Conductor
 ring `B` of characteristic zero with perfect residue field of characteristic `p`, a
 representation of dimension `N` over a field of characteristic `≠ p` and `|G_1| = p^c`, the
 Swan conductor is at most `N e_K (c + 1/(p − 1))`, where `e_K = v_L(p) / |G_0|` is the absolute
-ramification index of the fixed field (Serre 1987, §4.9, Prop. 9, p. 215). -/
+ramification index of the fixed field (Serre 1987, §4.9, Prop. 9, p. 215). The left side is the
+lower Swan sum `Σ_{i ≥ 1} (|G_i| / |G_0|) · codim W^{G_i}`, AnalyticNumberTheoryPartI §2.2a's
+`lowerSwanConductor G B ρ`. -/
 theorem lowerSwanConductor_le {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
     [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B] [CharZero B]
     [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
@@ -396,7 +358,11 @@ theorem lowerSwanConductor_le {G B : Type*} [Group G] [Finite G] [CommRing B] [I
     {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
     (hC : ringChar C ≠ p) (ρ : Representation C G W) (c : ℕ)
     (hc : Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 1) = p ^ c) :
-    lowerSwanConductor G B ρ ≤ Module.finrank C W *
+    ∑ᶠ i : ℕ, ((Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i + 1 : ℕ)) : ℚ) /
+        Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0)) *
+      Module.finrank C (W ⧸ Representation.invariants
+        (ρ.comp (TauCeti.IsLocalRing.ramificationGroup G B (i + 1 : ℕ)).subtype)) ≤
+      Module.finrank C W *
       (((IsDiscreteValuationRing.addVal B (p : B)).toNat : ℚ) /
         Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0)) * (c + 1 / ((p : ℚ) - 1)) := by
   sorry
