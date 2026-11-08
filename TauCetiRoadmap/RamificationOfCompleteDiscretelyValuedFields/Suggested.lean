@@ -33,9 +33,10 @@ with the open-subgroup identity (§4a.2) and the completed maximal unramified ba
 The absolute filtration is defined through the upper numbering at every finite level `M` of
 `AlgebraicClosure K`, on the integer ring `integralClosure A M`, and neither pinned library makes
 that ring a local ring for a complete discrete valuation ring `A` (Mathlib supplies its Galois
-action, not its local-ring structure); its identification with inertia and wild inertia also
-needs those subgroups over a general complete discretely valued field, and Tau Ceti's
-`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` assume `IsNonarchimedeanLocalField K`.
+action, not its local-ring structure). Its term at `0+` is wild inertia, which exists at the pins
+only as `TauCeti.wildInertiaSubgroup`, for nonarchimedean local fields; inertia, its term at `0`,
+is Mathlib's `ValuationSubring.inertiaSubgroup` over any field, the zeroth lower group of the
+decomposition group by `TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`.
 The transition function `ψ_(L/K)` of a non-Galois `L` is defined through a Galois closure, on the
 same integer rings, and the open-subgroup identity is stated on the absolute filtration. The base
 change of §4a.3 is to the completion `K′` of the maximal unramified extension: that extension
