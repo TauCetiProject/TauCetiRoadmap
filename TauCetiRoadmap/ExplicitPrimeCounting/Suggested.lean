@@ -14,9 +14,10 @@ with `sorry`, together with the few definitions their statements need. Every com
 that a theorem uses (a finite-range verification, a gap bound below `4·10¹⁸`, a verified height of
 zeros) is a named proposition with its data in the statement and an explicit hypothesis of the
 theorems that use it, exactly as in the README; nothing here proves or plans the computation behind
-it. The bounded-height Riemann hypothesis `RiemannHypothesisUpTo` and the three records
-`HiaryRecord`, `PatelRecord` and `YangRecord` are propositions of the roadmap ExplicitZetaBounds
-(§§0.2 and 0.4b), copied verbatim because a roadmap module cannot be imported.
+it. The bounded-height Riemann hypothesis `RiemannHypothesisUpTo`, the three records
+`HiaryRecord`, `PatelRecord` and `YangRecord` and the classical-region predicate
+`ClassicalZeroFreeRegion` are propositions of the roadmap ExplicitZetaBounds (§§0.2, 0.4b and 7.3a),
+copied verbatim because a roadmap module cannot be imported.
 
 Headline theorems stated here:
 
@@ -79,7 +80,8 @@ Headline theorems that are not statable at the pins, and what each lacks:
   on the positivity of the explicit quantity (2.64) of Kadiri–Lumley at tabulated parameters, and
   Cully-Hugill–Lee's also on Kadiri–Lumley–Ng's zero density at the height `3 000 175 332 800`,
   whose constants are closed forms in six parameters (README §7.3).
-* Dudek's and Cully-Hugill's primes between consecutive powers: their route applies the
+* Dudek's and Cully-Hugill's primes between consecutive cubes and `155`-th powers, and
+  Cully-Hugill–Johnston's between consecutive `140`-th powers: their route applies the
   truncated explicit formula of README §2.1 at `x` and at `x + h` through its table proposition
   (`CullyHugillJohnstonTable`, a numerical inequality on the explicit error function of that
   formula, which is not a simple definition), and Dudek's threshold `c_A` is defined only through
@@ -159,7 +161,9 @@ def RiemannHypothesisUpTo (H : ℝ) : Prop :=
   ∀ s : ℂ, riemannZeta s = 0 → 0 < s.re → s.re < 1 → |s.im| ≤ H → s.re = 1 / 2
 
 /-- **A zero-free region of the classical shape** with constant `R` from height `t₀`: no zero `s`
-of `riemannZeta` has `|Im s| ≥ t₀` and `Re s ≥ 1 − 1/(R log |Im s|)`. -/
+of `riemannZeta` has `|Im s| ≥ t₀` and `Re s ≥ 1 − 1/(R log |Im s|)`. This is the predicate of the
+roadmap ExplicitZetaBounds (§7.3a), copied verbatim only to make `dusart_of_zeroFreeRegion`
+statable at the pins; its laws and its instances belong to that roadmap. -/
 def ClassicalZeroFreeRegion (R t₀ : ℝ) : Prop :=
   ∀ s : ℂ, riemannZeta s = 0 → t₀ ≤ |s.im| → s.re < 1 - 1 / (R * log |s.im|)
 
