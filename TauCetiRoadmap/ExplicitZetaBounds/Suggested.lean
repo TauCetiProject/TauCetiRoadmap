@@ -7,10 +7,11 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib, each with `sorry`, together with the definitions they need:
-the bounded-height Riemann hypothesis `RiemannHypothesisUpTo` of Layer 0.2, Vinogradov's count
-`vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and `dirichletZeroCount` of
-Layer 5, the density counts `zetaZeroCountRight` and `zetaZeroDensityCount` of Layer 8 (each
-written with the meromorphic order, in the rectangle of the source it serves), and the count
+the bounded-height Riemann hypothesis `RiemannHypothesisUpTo` of Layer 0.2, the Riemann–Siegel
+theta function `riemannSiegelTheta` of Layer 0.4, Vinogradov's count `vinogradovCount` of
+Layer 4.9a, the zero counts `zetaZeroCount` and `dirichletZeroCount` of Layer 5, the density
+counts `zetaZeroCountRight` and `zetaZeroDensityCount` of Layer 8 (each written with the
+meromorphic order, in the rectangle of the source it serves), and the count
 `primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of primitive
 L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
 
@@ -22,8 +23,8 @@ Stated here:
   Hiary–Leong–Yang's bounds for `‖ζ(1 + it)‖`; Layer 4.9a, Ford's explicit Vinogradov mean value
   theorem; Layer 4.10, Ford's Richert-type bound for `ζ` and the Hurwitz zeta function;
 * Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for
-  `T ≥ 30 610 046 000`; Layer 5.3, the explicit zero count for primitive Dirichlet L-functions
-  (Bennett–Martin–O'Bryant–Rechnitzer);
+  `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`; Layer 5.3, the
+  explicit zero count for primitive Dirichlet L-functions (Bennett–Martin–O'Bryant–Rechnitzer);
 * Layer 7.3, the classical region with `R₀ = 5.558691` (Mossinghoff–Trudgian–Yang); Layer 7.4,
   Yang's Littlewood-type region; Layer 7.5, McCurley's region for the product of the L-functions
   modulo `q` in Thorner–Zaman's form, and Kadiri's region for `3 ≤ q ≤ 400 000`; Layer 7.6, the
@@ -39,11 +40,13 @@ Stated here:
   Mossinghoff–Starichkova–Trudgian lower bound for non-quadratic characters and Lu–Zaman–Zhao's
   lower bound for quadratic characters of conductor up to `10¹⁰`.
 
-The recorded verifications of the Riemann hypothesis up to a height (README 0.4) are the only
-computational inputs taken as hypotheses, as in the README: `RiemannHypothesisUpTo 545439823`
-(van de Lune, te Riele and Winter) in 7.4, 7.10 and in the two regions of 7.5 (for the zeros of
-`ζ` that the principal characters carry), `RiemannHypothesisUpTo 30610046000` (Platt) in 8.1 and
-8.3, and `RiemannHypothesisUpTo (3 * 10 ^ 12)` (Platt and Trudgian) in 7.3, 7.6, 8.4 and 8.5. The
+The recorded verifications (README 0.4) are the only computational inputs taken as hypotheses,
+as in the README: `RiemannHypothesisUpTo 545439823` (van de Lune, te Riele and Winter) in 7.4,
+7.10 and in the two regions of 7.5 (for the zeros of `ζ` that the principal characters carry),
+`RiemannHypothesisUpTo 30610046000` (Platt) in 8.1 and 8.3,
+`RiemannHypothesisUpTo (3 * 10 ^ 12)` (Platt and Trudgian) in 7.3, 7.6, 8.4 and 8.5, and the
+recorded bound `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000` (Bellotti and Wong,
+read off Platt's isolation of the zeros below that height) in the second form of 5.2. The
 polynomial and numerical certificates that the README names in the routes are closed
 propositions about literal numbers (or about finitely many values of `ζ` and `L(s, χ)`): the
 theorems are stated as their sources state them, and their proofs establish those certificates.
@@ -53,16 +56,13 @@ Not statable at the pins:
 * Rademacher's bound (3.2) at the generality of an analytic record of finite-order type, which
   needs the record `AnalyticLFunctionData` of the L-functions roadmap and its continued
   L-function, absent from Mathlib and Tau Ceti; its Dirichlet instance is stated.
-* The Bellotti–Wong bounds of 5.2 for `e ≤ T < 30 610 046 000`, which rest on the recorded bound
-  `|S(T)| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000` (README 0.4). Stating that hypothesis needs `S(T)`,
-  that is the Riemann–Siegel theta function `ϑ(T)` (a continuous branch of `arg Γ(1/4 + iT/2)`)
-  or a continuous argument of `ζ` along a path; neither a complex logarithm of `Γ` nor such an
-  argument exists in Mathlib or Tau Ceti at the pins, so 5.2 is stated on its analytic range.
 
 Not stated: the README instances that rest on unrefereed preprints (the region of 7.3 with
-`R₀ = 4.896` and the real-zero gap of 7.9 without a conductor cap), and Ramaré's averaged density
-for Dirichlet L-functions (8.2), whose paper `kadirilumleyng2018` (lines 93–95) records to contain
-a mistake (in its bound for `ζ` alone) without saying which of its statements the mistake reaches.
+`R₀ = 4.896` and the real-zero gaps of 7.9 without a conductor cap, Banks's and Guo's), and
+Ramaré's averaged density for Dirichlet L-functions (8.2): `kadirilumleyng2018` (lines 93–95)
+records a mistake in that paper, next to its bound for `ζ` alone, without saying which of its
+statements the mistake reaches; that bound is the case `Q = 1` of the argument of 8.2, and its
+revision has a leading constant about `200` times the printed one.
 The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
 they are the lemmas on the way to the theorems below. So are the remaining instances of Layers 3–9:
@@ -85,6 +85,15 @@ excludes the trivial zeros and the junk value of `riemannZeta` at `1`; for `H < 
 is vacuous. -/
 def RiemannHypothesisUpTo (H : ℝ) : Prop :=
   ∀ ρ : ℂ, riemannZeta ρ = 0 → 0 < ρ.re → ρ.re < 1 → |ρ.im| ≤ H → ρ.re = 1 / 2
+
+/-- **Layer 0.4, the Riemann–Siegel theta function.**
+`ϑ(T) = ∫₀^T (Re ψ(1/4 + it/2) − log π)/2 dt`, with `ψ = Complex.digamma` the logarithmic
+derivative of `Γ`. It is `Im log Γ(1/4 + iT/2) − (T/2) log π` for the continuous branch of
+`log Γ` that is real on the positive axis (both vanish at `0` and have the same derivative), and
+`N(T) = ϑ(T)/π + 1 + S(T)` with `S(T)` the argument of `ζ` along the usual path; at `T = 100`,
+`ϑ(T)/π + 1 = 29.00241`. -/
+noncomputable def riemannSiegelTheta (T : ℝ) : ℝ :=
+  ∫ t in (0 : ℝ)..T, ((Complex.digamma (1 / 4 + (t : ℂ) / 2 * I)).re - Real.log π) / 2
 
 /-! ## Layer 2: the Gamma function in the complex plane -/
 
@@ -183,10 +192,26 @@ noncomputable def dirichletZeroCount {q : ℕ} [NeZero q] (χ : DirichletCharact
 /-- **Layer 5.2, the explicit Riemann–von Mangoldt formula on its analytic range.** For
 `T ≥ 30 610 046 000`, `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344`
 and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` (Bellotti and Wong, Theorem 1.1, proved there
-on this range by their Theorem 1.2 with the first and third rows of Table 2). Their range `T ≥ e`
-also needs the recorded bound `|S(T)| ≤ 2.5167` below `30 610 046 000` (README 0.4), which is not
-statable at the pins (see the module docstring). -/
+on this range by their Theorem 1.2 with the first and third rows of Table 2, from bounds for `ζ`
+on vertical lines and no input about the location of the zeros). Their range `T ≥ e` is
+`abs_zetaZeroCount_sub_le_of_recorded`. -/
 theorem abs_zetaZeroCount_sub_le (T : ℝ) (hT : 30610046000 ≤ T) :
+    |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
+        0.10076 * Real.log T + 0.24460 * Real.log (Real.log T) + 8.08344 ∧
+      |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
+        0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 3.77417 := sorry
+
+/-- **Layer 5.2, the explicit Riemann–von Mangoldt formula from `T = e`.** Given the recorded
+bound `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000` (README 0.4: Bellotti and Wong's
+(1.2), read off Platt's isolation of the zeros below that height), the two bounds of
+`abs_zetaZeroCount_sub_le` hold for every `T ≥ e` (Bellotti and Wong, Theorem 1.1 as stated).
+Below `30 610 046 000` they follow from the hypothesis and
+`7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`, since `2.5167 + 7/8 + 1/(40e) = 3.4009`
+is below both right sides at `T = e`. -/
+theorem abs_zetaZeroCount_sub_le_of_recorded
+    (hS : ∀ T : ℝ, 0 ≤ T → T ≤ 30610046000 →
+      |(zetaZeroCount T : ℝ) - riemannSiegelTheta T / π - 1| ≤ 2.5167)
+    (T : ℝ) (hT : Real.exp 1 ≤ T) :
     |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.10076 * Real.log T + 0.24460 * Real.log (Real.log T) + 8.08344 ∧
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
