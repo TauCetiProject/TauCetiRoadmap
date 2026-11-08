@@ -5,8 +5,10 @@ error term for a prime sum, and the Dirichlet series of the classical arithmetic
 starts from Mathlib's Fourier transform `𝓕`, `mellin`, `mellinInv`, `LSeries`, `riemannZeta` and
 `ArithmeticFunction`, and from Tau Ceti's residue calculus, its one-dimensional bounded-variation
 measures and its presented Hecke `L`-functions. In order it proves: Fourier decay for functions of
-bounded variation and principal-value inversion on vertical lines with a quantitative window
-(Layer 7); the rectangle residue theorem in Mathlib's edge form, the derivative form of the
+bounded variation, principal-value inversion on vertical lines with a quantitative window and
+Brown's aliasing bound for the sampling series (Layer 7); the rectangle residue theorem in
+Mathlib's edge form, with residues and with circle integrals about arbitrary isolated
+singularities, the L-shaped contour shift to `Re s = −∞`, the derivative form of the
 Borel–Carathéodory inequality and Landau's local logarithmic-derivative lemma (Layer 8); Mellin
 convolution, Mellin transforms of compactly supported bumps, delta spikes for `dx/x` and the
 smoothed cutoffs `1̃_ε` (Layer 9); the smoothed sum of a Dirichlet series as an inverse Mellin
@@ -16,8 +18,8 @@ Poussin region for the Hecke `L`-function of every ray class character of every 
 (Layer 10); complete multiplicativity, the divisor functions `σ_ν` and `d_z` with complex
 parameter, Ramanujan's four-shift identity and the series of `2^ω`, `μ²`, `λ` and `φ` with their
 exact abscissas (Layer 11); the Hardy–Landau Tauberian theorem for Cesàro means (Layer 12); and the
-asymptotics of Erdős problem 392 and the Goldbach-range propositions with their transfers
-(Layer 13).
+asymptotics of Erdős problem 392 with the waste-and-score framework of its upper bound, and the
+Goldbach-range propositions with their transfers and derived ranges (Layer 13).
 
 [`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
 not the roadmap.
@@ -44,9 +46,13 @@ objects.
 - Layer 7: decay of `𝓕f` for integrable functions of bounded variation and for functions with a
   derivative of bounded variation; two uniform bounds on the truncated Dirichlet integral;
   pointwise principal-value inversion of the two-sided Laplace and the Mellin transform on a
-  vertical line, and its windowed error.
+  vertical line, and its windowed error; the aliasing error of the sampling series
+  `Σ f(n/2W) sinc(π(2Wt − n))` for `f` the inverse Fourier transform of an integrable function,
+  with its optimal constant.
 - Layer 8: the residue theorem on a rectangle in Mathlib's edge form and the U-shaped contour
-  identity that follows; Carathéodory's coefficient inequality and the derivative form of
+  identity that follows; the same edge expression as a sum of circle integrals about finitely many
+  arbitrary isolated singularities; the shift of a segment `[1, 1 + iT]` onto an L-shaped contour
+  running to `Re s = −∞`; Carathéodory's coefficient inequality and the derivative form of
   Borel–Carathéodory; Landau's local logarithmic-derivative lemma for an arbitrary holomorphic
   function on a disc. ZerosOfLFunctions §7.2 is the argument principle on its rectangle curve
   *rectBoundary*, an identity for `f′/f`; 8.1 differs in treating a general meromorphic `f` and
@@ -89,8 +95,10 @@ objects.
 - Layer 12: the Hardy–Landau Tauberian theorem for Cesàro means, one-sided for real sequences and
   two-sided in real normed spaces.
 - Layer 13: the asymptotics of the least number of factors of `n!` bounded by `n²` (Erdős problem
-  392) and by `n`; the Goldbach-range propositions, their transfers, and the published finite
-  verifications as named propositions.
+  392) and by `n`, with the approximate factorizations, waste and score of the upper bound; the
+  Goldbach-range propositions, their transfers, the published finite verifications as named
+  propositions, and the ranges that the short-interval theorems of ExplicitPrimeCounting Layer 7
+  give from them.
 
 ### Consumed, not redefined
 
@@ -118,8 +126,8 @@ objects.
 - The Dirichlet series of `d_k = ζ^k`, `k ∈ ℕ`: ArithmeticDirichletSeriesPartII §5.1, a Check of
   11.2.
 - Complete additivity and the multiplicativity of `2^ω`: ProbabilisticAndMetricNumberTheory §0.1a.
-- Schoenfeld's short interval containing a prime: ExplicitPrimeCounting §7.1, an instance of the
-  hypothesis of 13.2 in the Examples of Layer 13.
+- Schoenfeld's, Ramaré–Saouter's and Kadiri–Lumley's short intervals containing a prime:
+  ExplicitPrimeCounting §§7.1–7.3, instances of the hypothesis of 13.2 in the Examples of Layer 13.
 
 ### Not owned here
 
@@ -144,8 +152,9 @@ objects.
   own routes; 10.2 claims only an unspecified constant `c`, and 13.2 takes a short-interval prime
   statement as a hypothesis.
 - The shift of a full vertical line across a strip with finitely many poles under uniform decay:
-  AsymptoticExpansions §8.2. 8.1 here differs in being a finite-height rectangle statement with no
-  decay hypothesis.
+  AsymptoticExpansions §8.2. 8.1 and 8.1a here differ in being finite-height rectangle statements
+  with no decay hypothesis, and 8.1b in moving a segment of finite height to the left, with decay
+  only as `Re s → −∞`.
 - The sine integral `Si` as an entire function, with its continuation, asymptotics and Gibbs
   phenomenon: SpecialFunctionsEiLiErfIncompleteGamma Layer 9. 7.2 here states only two uniform
   bounds on the real truncated Dirichlet integral, without defining a function.
@@ -226,7 +235,9 @@ objects.
   `Real.fourier_deriv` (for differentiable `f` with `f, f′` integrable) and
   `Real.one_add_sq_mul_norm_fourier_le` (`Mathlib/Analysis/Fourier/FourierTransformDeriv.lean`: for
   `ContDiff ℝ 2 f` with `iteratedDeriv k f` integrable for `k ≤ 2`); the Riemann–Lebesgue lemma
-  `Real.zero_at_infty_fourier`.
+  `Real.zero_at_infty_fourier`; the inverse transform `𝓕⁻ g x = ∫ e^{2πixξ} g(ξ) dξ`; `Real.sinc`
+  (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Sinc.lean`: `sin x / x`, with value `1` at
+  `0`).
 - `BoundedVariationOn`, `eVariationOn`, `Function.leftLim`, `Function.rightLim`;
   `BoundedVariationOn.vectorMeasure` and `BoundedVariationOn.variation_vectorMeasure_univ_le`
   (`Mathlib/MeasureTheory/VectorMeasure/BoundedVariation.lean`), with the vector-measure integral
@@ -239,9 +250,10 @@ objects.
   `mellin_eq_fourier`, `mellinInv_mellin_eq` (`Mathlib/Analysis/MellinInversion.lean`; the latter
   takes `0 < x`, `MellinConvergent f σ`, `VerticalIntegrable (mellin f) σ` and `ContinuousAt f x`).
 - `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
-  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`), whose four-edge expression 8.1 uses verbatim;
+  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`), whose four-edge expression 8.1 uses verbatim,
+  and `Complex.circleIntegral_eq_of_differentiable_on_annulus_off_countable` (same file);
   `Complex.reProdIm` (`×ℂ`); Cauchy's estimates; `circleIntegral`; `logDeriv`;
-  `analyticOrderNatAt`.
+  `analyticOrderNatAt`; `MeasureTheory.intervalIntegral_tendsto_integral_Iic`.
 - `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
   differentiable on `‖z‖ < R` with `Re f ≤ M`, `0 < M`, the bound
   `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)`); `AnalyticOnNhd.sum_divisor_le` (Jensen,
@@ -266,7 +278,10 @@ objects.
   (`Mathlib/Analysis/Asymptotics/SpecificAsymptotics.lean`).
 - `Stirling.factorial_isEquivalent_stirling`, `Stirling.le_factorial_stirling`;
   `Chebyshev.theta_le_log4_mul_x`, `Chebyshev.psi` (`Mathlib/NumberTheory/Chebyshev.lean`);
-  `Nat.factorization_factorial` (`Mathlib/Data/Nat/Choose/Factorization.lean`).
+  `Nat.factorization_factorial` (`Mathlib/Data/Nat/Choose/Factorization.lean`); `Nat.smoothNumbers`
+  (`Mathlib/NumberTheory/SmoothNumbers.lean`: the `m ≠ 0` all of whose prime factors are `< k`);
+  Bertrand's postulate `Nat.exists_prime_lt_and_le_two_mul`; Lucas's primality test
+  `lucas_primality` (`Mathlib/NumberTheory/LucasPrimality.lean`).
 
 ### From Tau Ceti
 
@@ -366,9 +381,13 @@ enters 11.2 as a Check. §0.1 (`HasLaplace`) and §3.2 (Delange's theorem) are n
 ### From TauCetiRoadmap.ExplicitPrimeCounting
 
 §7.1 (Schoenfeld's interval): under that section's named hypotheses, for every `x > 2 010 759.9`
-the open interval `(x, x + x/16597)` contains a prime. It enters the Examples of Layer 13 as an
-instance of the short-interval hypothesis of 13.2; no theorem here depends on it. §§1.4, 2.1, 3.1,
-3.6 and Layer 7 are named in Scope only.
+the open interval `(x, x + x/16597)` contains a prime. §7.2 (Ramaré–Saouter's intervals): under
+that section's named hypotheses, `(x(1 − 1/28 314 000), x]` contains a prime for every
+`x > 10 726 905 041`. §7.3 (Kadiri–Lumley's rows): under that section's named hypotheses, for
+every `x > e⁵⁹` the interval `((1 − 1/1 946 282 821)x, x)` contains a prime, and for every
+`x > e⁶⁰` the interval `((1 − 1/1 966 196 911)x, x)`. They enter the Examples of Layer 13 as
+instances of the short-interval hypothesis of 13.2; no theorem here depends on them. §§1.4, 2.1,
+3.1, 3.6 and the rest of Layer 7 are named in Scope only.
 
 Every prerequisite above is a declaration of the pinned Mathlib or Tau Ceti or a section of one of
 the roadmaps named in this section.
@@ -385,12 +404,12 @@ Layer 12 uses only finite sums and limits. A proof sketch names one route and it
 target's *Needs* line lists what its statement and that route use, so another route is not
 blocked. `Suggested.lean` states the definitions `deltaSpike`, `smoothCutoff`, `inghamExponent`,
 `sigmaC`, `generalizedDivisor`, `factorialFactorCount`, `EvenGoldbachUpTo` and `OddGoldbachUpTo`,
-which the headline statements need, and the headline theorems of 7.1, 7.3, 8.1, 8.2, 8.3, 9.4,
-10.1, 10.2, 10.3, 11.2, 11.3, 11.4, 12.1, 13.1 and 13.2; 8.1 is stated with
+which the headline statements need, and the headline theorems of 7.1, 7.3, 7.4, 8.1, 8.1a, 8.1b,
+8.2, 8.3, 9.4, 10.1, 10.2, 10.3, 11.2, 11.3, 11.4, 12.1, 13.1 and 13.2; 8.1 is stated with
 `TauCeti.Contour.residue` and 10.3 with `TauCeti.LFunctions.heckeLFunctionC`, and the file imports
-the two Tau Ceti modules that declare them. The definitions *mellinConv* (9.1) and
-*IsCompletelyMultiplicative* (11.1) and the remaining targets are README targets, named here in
-italics.
+the two Tau Ceti modules that declare them. The definitions *mellinConv* (9.1),
+*IsCompletelyMultiplicative* (11.1) and the approximate factorizations of 13.1 with their *waste*,
+*balance* and *score*, and the remaining targets, are README targets, named here in italics.
 
 ## Layer 7: Fourier and Laplace tools
 
@@ -403,8 +422,9 @@ two limits; integrability forces them to be `0` (`kontorovichtao-pntplus` line 1
 step of Lemma 3.1.4).
 
 *Decay.* For such `f` and every real `ξ ≠ 0`, `‖𝓕f(ξ)‖ ≤ V/(2π|ξ|)`; this is
-`norm_fourier_le_eVariationOn_div` (`kontorovichtao-pntplus` line 189, Lemma 3.1.4; katznelson2004,
-Chapter I, for the analogue for Fourier coefficients on the circle). Route: apply the Tau Ceti
+`norm_fourier_le_eVariationOn_div` (`kontorovichtao-pntplus` line 189, Lemma 3.1.4;
+`primenumbertheoremand`; katznelson2004, Chapter I, for the analogue for Fourier coefficients on the
+circle). Route: apply the Tau Ceti
 integration by parts to the real and imaginary parts of `φ_R(x) = χ(x/R) e^{−2πixξ}` with a fixed
 bump `χ`, equal to `1` near `0`; the terms with `χ′(x/R)/R` vanish as `R → ∞` because `f` is
 integrable, dominated convergence for `∫ᵛ` passes to the limit, and
@@ -415,8 +435,8 @@ integrable, dominated convergence for `∫ᵛ` passes to the limit, and
 total variation `V₁`, and `f(x) = f(0) + ∫_0^x g` with `f` integrable. Prove
 `𝓕g(ξ) = 2πiξ 𝓕f(ξ)` for every `ξ`; hence `‖𝓕f(ξ)‖ ≤ V₁/(2π|ξ|)²` for `ξ ≠ 0` and
 `(1 + ξ²)‖𝓕f(ξ)‖ ≤ ‖f‖₁ + V₁/(4π²)` for every `ξ` (`kontorovichtao-pntplus` lines 198–209, Lemmas
-3.1.5–3.1.6). The first identity is the absolutely continuous form of `Real.fourier_deriv`: on
-`[−R, R]` integrate by parts with the primitive, and `f(±R) → 0`.
+3.1.5–3.1.6; `primenumbertheoremand`). The first identity is the absolutely continuous form of
+`Real.fourier_deriv`: on `[−R, R]` integrate by parts with the primitive, and `f(±R) → 0`.
 
 *The `C²` form.* If `f : ℝ → ℂ` is `C²` and `|f(t)|, |f″(t)| ≤ A/(1 + t²)` for all `t`, then `f′` is
 integrable and `(1 + ξ²)‖𝓕f(ξ)‖ ≤ (π + 1/(4π)) A` for every `ξ` (`kontorovichtao-pntplus` lines
@@ -473,10 +493,11 @@ maximum of `Si` at `π`); one integration by parts gives
 integrable, and `G(c + iy) = ∫ g(u) e^{−(c+iy)u} du`. If `g` is of bounded variation on some
 interval `[u₀ − δ, u₀ + δ]`, `δ > 0`, then
 `(2π)⁻¹ ∫_{−T}^{T} G(c + iy) e^{(c+iy)u₀} dy → (g(u₀⁻) + g(u₀⁺))/2` as `T → ∞`
-(montgomeryvaughan2007, Chapter 5, §5.1; titchmarsh1986, Chapter III, the truncated Perron lemma).
-Route: the truncated integral equals `e^{cu₀} ∫ h(u₀ − v) D_T(v) dv`; split at `|v| = δ`; the tail
-tends to `0` by the Riemann–Lebesgue lemma applied to `v ↦ h(u₀ − v) 1_{|v|>δ}/v`; on the window
-write `h(u₀ ± v) = h(u₀^±) + (h(u₀ ± v) − h(u₀^±))` and use 7.2.
+(montgomeryvaughan2007, Chapter 5, §5.1; titchmarsh1986, Chapter III, the truncated Perron lemma;
+primenumbertheoremand). Route: the truncated integral equals `e^{cu₀} ∫ h(u₀ − v) D_T(v) dv`; split
+at `|v| = δ`; the tail tends to `0` by the Riemann–Lebesgue lemma applied to
+`v ↦ h(u₀ − v) 1_{|v|>δ}/v`; on the window write `h(u₀ ± v) = h(u₀^±) + (h(u₀ ± v) − h(u₀^±))` and
+use 7.2.
 
 *Pointwise inversion, Mellin form.* Let `f : ℝ → ℂ`, `σ ∈ ℝ`, `MellinConvergent f σ`, and `f` of
 bounded variation on `[x₀ − δ, x₀ + δ]` with `0 < δ < x₀`. Then
@@ -524,6 +545,56 @@ gives no rate in `T` (see the Checks).
 `Function.rightLim`, `Real.zero_at_infty_fourier`; Tau Ceti `TauCeti.truncatedPerronKernel_one`
 (for the instance).
 
+### 7.4 The aliasing error of the sampling series
+
+Let `G : ℝ → ℂ` be integrable, `f = 𝓕⁻G`, that is `f(t) = ∫ G(ξ) e^{2πiξt} dξ`, and `W > 0`. For
+`N ∈ ℕ` and real `t` put `S_N(t) = Σ_{|n|≤N} f(n/2W) sinc(π(2Wt − n))`, with Mathlib's
+`Real.sinc x = sin x/x`. Prove: for every real `t` the limit `S(t) = lim_{N→∞} S_N(t)` exists and
+`|f(t) − S(t)| ≤ 2 ∫_{|ξ|>W} |G(ξ)| dξ`; this is `exists_tendsto_samplingSum_norm_sub_le`. The
+constant `2` is attained: for `G(ξ) = e^{−πiξ/(2W)}` on `(W, 3W)` and `0` elsewhere, at
+`t = 1/(4W)`, `S_N(t) → −2W` while `f(t) = 2W` and `∫_{|ξ|>W} |G| = 2W`; this is
+`samplingSum_aliasing_sharp` (brown1967, Theorem 1, in angular frequency `ω = 2πξ`, with
+`f(t) = (2π)⁻¹ ∫ F(ω) e^{iωt} dω` and the bound `π⁻¹ ∫_{|ω|>2πW} |F(ω)| dω`; ieantn). Only
+integrability of `G` is assumed: no bounded variation, no realness of `f`. The limit is taken over
+the symmetric partial sums and is not a `tsum`, since the series need not converge absolutely (see
+the Checks). If `G` vanishes off `[−W, W]` the bound is `0`, which is the sampling theorem for
+`f`.
+
+Route (Brown's): fix `t` and let `g_t` be the `2W`-periodic function equal to `e^{2πiξt}` on
+`(−W, W)` and to `cos 2πWt` at `ξ ≡ W (mod 2W)`. Its Fourier coefficients are
+`(2W)⁻¹ ∫_{−W}^{W} e^{2πiξ(t − n/2W)} dξ = sinc(π(2Wt − n))`, so exchanging the finite sum with
+the integral gives `S_N(t) = ∫ G(ξ) σ_N(ξ) dξ`, where
+`σ_N(ξ) = Σ_{|n|≤N} sinc(π(2Wt − n)) e^{πiξn/W}` is the symmetric partial Fourier sum of `g_t`.
+It is the convolution of `g_t` with the periodic Dirichlet kernel `sin((N + ½)x)/sin(x/2)`;
+replacing `1/sin(x/2)` by `2/x` changes the kernel by a bounded function, and the argument of 7.3
+with the uniform bound of 7.2 shows that `σ_N → g_t` pointwise (to the mean `cos 2πWt` at the
+jumps) with `sup_{N,ξ} |σ_N(ξ)| < ∞`, `g_t` being smooth on `(−W, W)` with one jump per period.
+Dominated convergence gives `S(t) = ∫ G g_t`. Since `g_t = e^{2πiξt}` on `|ξ| < W` and
+`|e^{2πiξt} − g_t(ξ)| ≤ 2`, `|f(t) − S(t)| ≤ 2 ∫_{|ξ|>W} |G|`. In the sharp instance
+`g_t(ξ) = e^{2πi(ξ − 2W)t} = −e^{2πiξt}` on `(W, 3W)` at `t = 1/(4W)`, so the inequality is an
+equality.
+
+**Checks.**
+
+- Integer sampling, `W = 1/2`, with the extremal `G(ξ) = e^{−πiξ}` on `(1/2, 3/2)` and `t = 1/2`:
+  `f(n) = 2(−1)^n/(π(2n − 1))` and `sinc(π(1/2 − n)) = 2(−1)^n/(π(1 − 2n))`, so each term is
+  `−4/(π²(2n − 1)²)`, and `Σ_{n∈ℤ} (2n − 1)^{−2} = π²/4` gives `S(1/2) = −1` against
+  `f(1/2) = 1`. The error `2` equals `2 ∫_{|ξ|>1/2} |G|`, so a bound with constant `1` (Brown's
+  `1/(2π)`) is false.
+- At a sample point `t = m/(2W)`, `sinc(π(m − n))` vanishes for `n ≠ m`, so `S_N(t) = f(t)` once
+  `N ≥ |m|` and the error is `0`.
+- The symmetric limit is needed. Take `W = 1/2` and `G = h` on `[−1/2, 1/2]`, `0` elsewhere, where
+  `h(ξ) = Σ_{n∈ℤ} e^{2πinξ}/log(|n| + 2)` is nonnegative and integrable on a period (katznelson2004,
+  Chapter I, the theorem on convex coefficient sequences). Then `f(n) = 1/log(|n| + 2)` and the
+  bound is `0`, but at `t = 1/2` the terms have modulus `2/(π|2n − 1| log(|n| + 2))`, whose sum
+  diverges: the family is not summable, Mathlib's `tsum` is the junk `0`, while
+  `S(1/2) = f(1/2) = ∫ h(ξ) cos πξ dξ > 0`.
+- Realness is not assumed: at `W = 1/2` the extremal `G` gives `f(1/4) = −2√2 i/π`, so the case
+  of equality above lies outside a statement for real-valued `f`.
+
+*Needs:* 7.2 and the argument of 7.3; Mathlib `𝓕⁻`, `Real.sinc`,
+`MeasureTheory.tendsto_integral_of_dominated_convergence`, `Real.zero_at_infty_fourier`.
+
 ### Examples
 
 - `𝓕(1_[0,1])` attains the bound of 7.1 at `ξ = 1/2`.
@@ -532,9 +603,9 @@ gives no rate in `T` (see the Checks).
 
 ### Dependencies
 
-Mathlib Fourier analysis, bounded variation and vector-measure integrals, Mellin transform; Tau
-Ceti one-dimensional bounded variation and the Dirichlet integral; ArithmeticDirichletSeries §6.3
-for the Perron Check.
+Mathlib Fourier analysis, bounded variation and vector-measure integrals, Mellin transform,
+`Real.sinc`; Tau Ceti one-dimensional bounded variation and the Dirichlet integral;
+ArithmeticDirichletSeries §6.3 for the Perron Check.
 
 ## Layer 8: contours and discs
 
@@ -548,9 +619,9 @@ meromorphic at each point of `P`. Then Mathlib's boundary expression of
 `∫_{σ₁}^{σ₂} f(x + it₁) dx − ∫_{σ₁}^{σ₂} f(x + it₂) dx + i ∫_{t₁}^{t₂} f(σ₂ + iy) dy − i ∫_{t₁}^{t₂} f(σ₁ + iy) dy`,
 equals `2πi Σ_{p∈P} Res_p f`, with `TauCeti.Contour.residue`; this is
 `rectangle_boundary_integral_eq_residues` (kontorovichtao-pntplus lines 621–642, Theorem 4.1.2 and
-Lemmas 4.1.2–4.1.4, for simple poles). Route: the counterclockwise boundary curve of
-ZerosOfLFunctions §7.1 is piecewise `C¹`, closed, null-homologous in `U`, with winding number `1`
-about each point of the open rectangle; apply
+Lemmas 4.1.2–4.1.4, for simple poles; primenumbertheoremand; ieantn). Route: the counterclockwise
+boundary curve of ZerosOfLFunctions §7.1 is piecewise `C¹`, closed, null-homologous in `U`, with
+winding number `1` about each point of the open rectangle; apply
 `TauCeti.Contour.classicalResidueTheorem_nullHomologous` and split the curve integral into the four
 edges.
 
@@ -585,6 +656,81 @@ Lemma 4.1.1). This is the edge expression above divided by `i` and solved for th
 *Needs:* ZerosOfLFunctions §7.1; Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous`,
 `TauCeti.Contour.residue`; Mathlib `Complex.integral_boundary_rect_eq_zero_of_differentiableOn` (for
 the edge bookkeeping); ContourIntegration Layers 2–4.
+
+### 8.1a Circle integrals about isolated singularities
+
+Let `σ₁ < σ₂`, `t₁ < t₂`, `r > 0` and `P` a finite set such that the closed discs `closedBall ρ r`,
+`ρ ∈ P`, are pairwise disjoint and contained in the open rectangle `(σ₁, σ₂) ×ℂ (t₁, t₂)`. If `f` is
+complex differentiable on `[σ₁, σ₂] ×ℂ [t₁, t₂] ∖ P` (Mathlib's `DifferentiableOn`, as in
+`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`), then the edge expression of 8.1
+equals `Σ_{ρ∈P} ∮_{C(ρ,r)} f`; this is `rectangle_boundary_integral_eq_sum_circleIntegral` (ieantn).
+No open neighbourhood of the rectangle and no meromorphy is assumed, so the points of `P` may be
+essential singularities.
+
+Route: for `ρ ∈ P` let `f_ρ(z) = (2πi)⁻¹ ∮_{C(ρ,r)} f(w)/(z − w) dw`, holomorphic off
+`closedBall ρ r`. On a thin annulus `r < |z − ρ| < r′` inside the rectangle and away from the other
+discs, Cauchy's formula (Mathlib
+`Complex.circleIntegral_eq_of_differentiable_on_annulus_off_countable` applied to
+`w ↦ (f(w) − f(z))/(w − z)`) writes `f − f_ρ` as the Cauchy integral of `f` over `C(ρ, r′)`,
+holomorphic on `ball ρ r′`. Hence `f − Σ_ρ f_ρ` agrees off the discs with a function differentiable
+on the closed rectangle, whose edge expression is `0` by Mathlib's theorem. For each `ρ`, Fubini
+(`MeasureTheory.integral_integral_swap`) and the value `2πi` of the edge expression of
+`z ↦ 1/(z − w)` for `w` in the open rectangle (8.1 at a simple pole) turn the edge expression of
+`f_ρ` into `∮_{C(ρ,r)} f`.
+
+**Checks.**
+
+- `f = exp(1/s)` on `[−1, 1] ×ℂ [−1, 1]`, `P = {0}`, `r = 1/2`: an essential singularity, outside
+  8.1. Both the edge expression and `∮_{C(0,1/2)} exp(1/z) dz` equal `2πi`, the coefficient of `1/z`
+  in `Σ_k z^{−k}/k!` being `1`.
+- Agreement with 8.1: where `f` is meromorphic at `ρ`, `∮_{C(ρ,r)} f = 2πi Res_ρ f` for small `r`
+  (`TauCeti.Contour.classicalResidueTheorem_nullHomologous` on the circle), so 8.1a returns 8.1's
+  `2πi Σ_{p∈P} Res_p f`; for `f = 1/s` on `[−1, 1] ×ℂ [−1, 1]`, `∮_{C(0,1/2)} dz/z = 2πi`, the value
+  of 8.1's first Check.
+- Disjointness is needed: `f = 1/s`, `P = {0, 3/10}`, `r = 1/2` (`f` is differentiable off `P`).
+  Both circles enclose `0`, so the sum is `4πi`, while the edge expression is `2πi`.
+
+*Needs:* 8.1 (at the simple pole of `1/(z − w)`); Mathlib
+`Complex.integral_boundary_rect_eq_zero_of_differentiableOn`,
+`Complex.circleIntegral_eq_of_differentiable_on_annulus_off_countable`,
+`MeasureTheory.integral_integral_swap`.
+
+### 8.1b The L-shaped contour to `Re s = −∞`
+
+Let `T > 0`, `w ∈ ℂ` with `Re w ≤ 1` and `0 < Im w < T`, and
+`D_w = {s : Re s ≤ 1, 0 ≤ Im s ≤ T} ∖ {s : Re s < Re w, Im s < Im w}`, the half-infinite strip with
+its lower-left block removed. Let `r > 0` and `P` a finite set whose closed discs `closedBall ρ r`
+are pairwise disjoint and contained in `{s : Re s < 1, Im w < Im s < T}`. Let `f` be complex
+differentiable on `D_w ∖ P`, with `f(s) → 0` as `Re s → −∞` uniformly in `Im w ≤ Im s ≤ T`, and
+with `x ↦ f(x + i Im w)` integrable on `(−∞, Re w]` and `x ↦ f(x + iT)` integrable on `(−∞, 1]`.
+Then
+
+`i ∫_0^T f(1 + iy) dy = ∫_1^{Re w} f(x) dx + i ∫_0^{Im w} f(Re w + iy) dy − ∫_{−∞}^{Re w} f(x + i Im w) dx + ∫_{−∞}^1 f(x + iT) dx + Σ_{ρ∈P} ∮_{C(ρ,r)} f`,
+
+the first three terms on the right being the integral of `f` along the L-shaped path
+`1 → Re w → w → −∞ + i Im w`; this is `vertical_integral_eq_lShaped_add_sum_circleIntegral`
+(ieantn). Differentiability is required on `D_w` only, so `f` may be singular in the removed block,
+and the points of `P` may be essential singularities. With `P = ∅` this is the pole-free shift.
+
+Route: for large `X` apply 8.1a to the rectangle `[−X, 1] ×ℂ [Im w, T]`, which contains every disc,
+and Mathlib's `Complex.integral_boundary_rect_eq_zero_of_differentiableOn` to
+`[Re w, 1] ×ℂ [0, Im w]`; in the sum of the two edge expressions the segment from `w` to
+`1 + i Im w` cancels. Let `X → ∞`: the left edge `i ∫_{Im w}^{T} f(−X + iy) dy` tends to `0` by the
+uniform decay, and the two horizontal integrals converge by integrability
+(`MeasureTheory.intervalIntegral_tendsto_integral_Iic`).
+
+**Checks.**
+
+- `f(s) = eˢ`, `P = ∅`: the left side is `e(e^{iT} − 1)`, and the right side
+  `(e^{Re w} − e) + e^{Re w}(e^{i Im w} − 1) − e^w + e^{1+iT}` is the same for every admissible `w`.
+- The sign of the circle term, at `f(s) = eˢ/(s − ρ₀)`, `ρ₀ = −1 + 1.2i`, `T = 2`,
+  `w = 0.5 + 0.5i`, `r = 0.3`: both sides are `≈ −2.22089 + 1.12902i`, the circle term being
+  `2πi e^{ρ₀}`; with `−Σ ∮` the right side would be `≈ 2.08784 − 0.54613i`.
+- The removed block matters: `f(s) = eˢ/s` has its pole at `0`, in the block when `Re w > 0`, and is
+  differentiable on `D_w` with `P = ∅`; on the full strip it is not.
+
+*Needs:* 8.1a; Mathlib `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`,
+`MeasureTheory.intervalIntegral_tendsto_integral_Iic`.
 
 ### 8.2 Carathéodory's inequality and the derivative form of Borel–Carathéodory
 
@@ -659,8 +805,9 @@ bound its real part above by `M + O(M)`, and apply 8.2 with `k = 1`.
 
 ### Dependencies
 
-Mathlib complex analysis (Cauchy, power series, Borel–Carathéodory, Jensen); Tau Ceti residue
-theorem; ZerosOfLFunctions §§4.3 and 7.1; ContourIntegration Layers 2–4.
+Mathlib complex analysis (Cauchy, power series, Borel–Carathéodory, Jensen, circle integrals on
+annuli, improper integrals on half-lines); Tau Ceti residue theorem; ZerosOfLFunctions §§4.3 and
+7.1; ContourIntegration Layers 2–4.
 
 ## Layer 9: Mellin smoothing
 
@@ -1182,16 +1329,59 @@ junk `0` when none exists, which happens exactly when `B` is smaller than the la
 Prove, as `n → ∞`:
 
 - `factorialFactorCount (n²) n = n/2 − n/(2 log n) + o(n/log n)`; this is
-  `factorialFactorCount_sq_sub_isLittleO` (Erdős problem 392);
+  `factorialFactorCount_sq_sub_isLittleO` (Erdős problem 392; ieantn; primenumbertheoremand);
 - `factorialFactorCount n n = n − n/log n + o(n/log n)`; this is
-  `factorialFactorCount_self_sub_isLittleO`.
+  `factorialFactorCount_self_sub_isLittleO` (ieantn; primenumbertheoremand).
 
 The upper bounds are kontorovichtao-pntplus lines 3096–3101 (Theorems 8.1.1–8.1.2): a factorization
-into factors at most `n`, balanced by the waste-and-score argument of lines 2984–3095, and pairing
-for `n²`; their inputs are Legendre's formula, Chebyshev's bound `θ(x) ≤ x log 4` and
-`π(n) ≤ √n + 2n log 4/log n` (Sublemma 8.1.16), and Stirling. The lower bounds are
-`t log B ≥ log n!` with Stirling. Method background: alexeevetal2025factorial, §1 (the neighbouring
-Erdős problem 391).
+into factors at most `n`, balanced by the waste-and-score argument of lines 2984–3095 (stated
+below), and pairing for `n²`; their inputs are Legendre's formula, Chebyshev's bound
+`θ(x) ≤ x log 4` and `π(n) ≤ √n + 2n log 4/log n` (Sublemma 8.1.16), and Stirling. The lower bounds
+are `t log B ≥ log n!` with Stirling. Method background: alexeevetal2025factorial, §1 (the
+neighbouring Erdős problem 391).
+
+*The waste-and-score framework* (kontorovichtao-pntplus lines 2984–3095; primenumbertheoremand).
+These are README targets, for a fixed `n ≥ 1`:
+
+- An *approximate factorization* of `n!` is a finite multiset `A` of integers in `[1, n]`, of size
+  `t = |A|`. Its *waste* is `Σ_{a∈A} log(n/a) ≥ 0`; its *balance* at a prime `p` is
+  `v_p(∏_{a∈A} a) − v_p(n!) ∈ ℤ` (with `Nat.factorization`); its *total imbalance* is
+  `Σ_{p≤n} |balance_p|`. Prove: total imbalance `0` gives `∏_{a∈A} a = n!` (primes above `n` divide
+  neither side), and then `waste = t log n − log n!`.
+- For a cutoff `L ∈ ℕ`, the *score* of `A` is its waste, plus `log n` if the total imbalance is
+  nonzero, plus, for each prime `p ≤ n`: `balance_p · log p` if `balance_p > 0`;
+  `|balance_p| · log L` if `balance_p < 0` and `p ≤ L`; `|balance_p| · log(n/p)` if `balance_p < 0`
+  and `p > L`. A balanced `A` has score equal to its waste.
+- Prove: if some prime `p ≤ n` has `balance_p ≠ 0`, there is an approximate factorization with
+  smaller total imbalance and no larger score. Route, in three cases: divide a surplus prime out of
+  a factor containing it (waste `+log p`, surplus term `−log p`); add a deficit prime `p > L` as a
+  new factor (waste `+log(n/p)`, deficit term `−log(n/p)`); otherwise every deficit prime is at most
+  `L`, and either the product of all deficit primes, counted with multiplicity, is at most `n` and
+  is added as one factor (waste at most `log n`, against the `log n` for imbalance), or a greedy
+  product `m ≤ n` of deficit primes into which no further deficit prime fits is added, so that
+  `m > n/L` (waste `< log L`, against at least one deficit term `log L`). By induction on the total
+  imbalance, every approximate factorization `A` and cutoff `L` give an exact factorization of `n!`
+  into `t` factors at most `n` with `t log n ≤ log n! + score_L(A)`.
+- *The initial factorization.* For integers `M, L ≥ 2` with `n > L²` and `⌊n/L⌋ > √n`, let `A₀`
+  consist of `M` copies of each integer `m` with `n − ⌊n/M⌋ ≤ m < n` and
+  `m ∈ Nat.smoothNumbers ⌊n/L⌋` (all prime factors `< ⌊n/L⌋`). Prove: `|A₀| ≤ n`; its waste is at
+  most `n log(1/(1 − 1/M))`; and its balances satisfy `−⌊n/p⌋ ≤ balance_p ≤ 0` for `p ≥ ⌊n/L⌋`,
+  `balance_p ≤ M` for `p > √n`, `balance_p ≥ −M` for `√n < p < ⌊n/L⌋`, `balance_p ≤ M log n/log 2`
+  for every `p`, `balance_p ≥ −M log n/log 2` for `L < p ≤ √n`, and
+  `balance_p ≥ −M log n − M L² π(n)` for `p ≤ L`. Route: Legendre's formula
+  (`Nat.factorization_factorial`), at most `log n/log 2` powers of `p` dividing an integer up to
+  `n`, at least `⌊⌊n/M⌋/p⌋` multiples of `p` among `⌊n/M⌋` consecutive integers, and, for `p ≤ L`,
+  a count of the removed non-smooth integers, each a prime `q ≥ ⌊n/L⌋` times a cofactor `c ≤ n/q`.
+- *The initial score.* Prove `score_L(A₀) ≤ n log(1/(1 − 1/M)) + Σ_{p≤n/L} M log n
+  + Σ_{p≤√n} M log² n/log 2 + Σ_{n/L≤p≤n} (n/p) log(n/p) + Σ_{p≤L} (M log n + M L² π(n)) log L`,
+  from the balance bounds and `log p + log(n/p) = log n`; and, for every `ε > 0`, that each of the
+  five terms is at most `εn`: the first for `M` large in terms of `ε`; the second for `L` large in
+  terms of `M` and `ε`, then `n` large in terms of `L`; the third for `n` large in terms of `M` and
+  `ε`; the fourth for `n` large in terms of `L` and `ε` (each term is `O(L log L)` and
+  `π(n) = o(n)`); the fifth for `n` large in terms of `M`, `L` and `ε`. The inputs are Chebyshev's
+  `π(n) ≤ √n + 2n log 4/log n` and its consequence `π(n) = o(n)`. Hence for every `ε > 0` and all
+  large `n` there are `M` and `L` with `score_L(A₀) ≤ εn`, and Stirling turns
+  `t log n ≤ log n! + εn` into the upper bound of `factorialFactorCount n n`.
 
 **Checks.**
 
@@ -1204,25 +1394,42 @@ Erdős problem 391).
 - The main terms differ by the factor `2` between the two bounds, as `log(n²) = 2 log n` predicts; a
   statement with main term `n/2 − n/log n` for `B = n²` contradicts the lower bound
   `log n!/(2 log n) = n/2 − n/(2 log n) + O(1)`.
+- Waste at `n = 4`: `A = {2, 3, 4}` is balanced, with waste `log 2 + log(4/3) = log(8/3) ≈ 0.981`,
+  equal to `3 log 4 − log 24`.
+- Reduction at `n = 4`, `L = 2`: `A = {4, 4}` has balance `+1` at `2` and `−1` at `3`, and score
+  `log 4 + log 2 + log(4/3) = log(32/3) ≈ 2.367`. Dividing a `4` by `2` gives `{2, 4}` with the same
+  score; adding the deficit prime `3 > L` gives the balanced `{2, 3, 4}` of score `log(8/3)`, and
+  `3 log 4 = log 64 ≤ log 24 + log(32/3) = log 256`.
+- The initial factorization at `n = 100`, `M = L = 2`: `A₀` is two copies of the `40` integers in
+  `[50, 100)` other than the ten primes there, so `|A₀| = 80 ≤ 100`; its waste is `≈ 24.81`, below
+  `100 log 2 ≈ 69.31`; its balances are `−1 = −⌊100/p⌋` at the ten primes `53, …, 97`, `+1` at
+  `2, 11, 13, 17, 19, 29, 31` and `+4` at `3`, within the bounds above, and its score at `L = 2` is
+  `≈ 55.33`, giving a factorization of `100!` into at most `91` factors at most `100`.
 
-*Needs:* Mathlib `Nat.factorization_factorial`, `Chebyshev.theta_le_log4_mul_x`,
-`Stirling.factorial_isEquivalent_stirling`, `Stirling.le_factorial_stirling`.
+*Needs:* Mathlib `Nat.factorization_factorial`, `Nat.factorization`, `Nat.smoothNumbers`,
+`Chebyshev.theta_le_log4_mul_x`, `Stirling.factorial_isEquivalent_stirling`,
+`Stirling.le_factorial_stirling`.
 
 ### 13.2 Goldbach ranges
 
 Define, for real `H`, `EvenGoldbachUpTo H`: every even `n` with `4 ≤ n ≤ H` is a sum of two primes;
 and `OddGoldbachUpTo H`: every odd `n` with `7 ≤ n ≤ H` is a sum of three primes (primes may
-repeat). For each fixed real `H` both are decidable by a finite search over `n ≤ ⌊H⌋`. Prove:
+repeat) (ieantn; primenumbertheoremand). For each fixed real `H` both are decidable by a finite
+search over `n ≤ ⌊H⌋`. Prove:
 
 - both are antitone in `H` as propositions (`H ≤ H′` and the statement at `H′` give it at `H`);
 - the even range up to `H` gives the odd range up to `H + 3` (subtract the prime `3`);
-- the interval transfer: let `Δ > 1` and `x₀` with `x₀(1 − 1/Δ) ≥ 2`, and suppose every interval
-  `(x(1 − 1/Δ), x]` with `x ≥ x₀` contains a prime. Then `EvenGoldbachUpTo H` and
-  `OddGoldbachUpTo (x₀ + 4)` give `OddGoldbachUpTo ((H − 4)Δ + 4)`; this is
-  `oddGoldbachUpTo_of_primeGaps` (the prime-ladder argument recalled in helfgottplatt2013 lines
-  27–31, with a multiplicative gap). Route: for odd `n > x₀ + 4` take a prime
-  `p ∈ (x(1 − 1/Δ), x]` at `x = n − 4`; `p > 2` is odd, and `n − p` is even with
-  `4 ≤ n − p < 4 + x/Δ ≤ H`.
+- the interval transfer: let `x₀`, `H` and `Δ` be real, and suppose that for every natural number
+  `x ≥ x₀` the interval `(x(1 − 1/Δ), x]` contains a prime (`1/Δ` is Mathlib's real division, `0` at
+  `Δ = 0`). Then `EvenGoldbachUpTo H` and `OddGoldbachUpTo (x₀ + 4)` give
+  `OddGoldbachUpTo ((H − 4)Δ + 4)`; this is `oddGoldbachUpTo_of_primeGaps` (the prime-ladder
+  argument recalled in helfgottplatt2013 lines 27–31, with a multiplicative gap; ieantn;
+  primenumbertheoremand). The hypothesis is needed at integers only, and there is no condition on
+  `x₀` or `Δ`: for `Δ ≤ 0` the interval is empty at every natural `x ≥ max(x₀, 1)`, so the
+  hypothesis fails. Route: for odd `n` with `x₀ + 4 < n ≤ (H − 4)Δ + 4` the integer `x = n − 4 ≥ 3`
+  is at least `x₀`; the largest prime `p ≤ x` lies in the interval, since some prime does, and
+  `p ≥ 3` because `3 ≤ x`; so `n − p` is even, `n − p ≥ 4`, and `n − p < 4 + x/Δ ≤ H` because
+  `Δ > 0`.
 
 The published verifications are named propositions that theorems take as hypotheses, never proved
 here: `EvenGoldbachUpTo (4 · 10¹⁸)` (oliveiraesilva-herzog-pardi2014 lines 13–14) and
@@ -1238,11 +1445,16 @@ Examples).
 - The lower limits are needed: `2` is not a sum of two primes and `5` is not a sum of three, so a
   definition starting at `2` or `5` makes the propositions false at every `H ≥ 2` or `H ≥ 5`.
 - `EvenGoldbachUpTo 3` and `OddGoldbachUpTo 6` hold vacuously.
-- Transfer with Bertrand (`Δ = 2`, `x₀ = 5`, `x₀/2 ≥ 2`): `EvenGoldbachUpTo 30` and
-  `OddGoldbachUpTo 9` give `OddGoldbachUpTo 56`; for instance `55 = 3 + 5 + 47`, and a finite
-  search confirms every odd `n ∈ [7, 56]`.
+- Transfer with Bertrand (`Δ = 2`, `x₀ = 2`, so `x₀(1 − 1/Δ) = 1`): for every natural `x ≥ 2`,
+  `Nat.exists_prime_lt_and_le_two_mul` at `⌊x/2⌋` puts a prime in `(x/2, x]`. `EvenGoldbachUpTo 30`
+  and the vacuous `OddGoldbachUpTo 6` give `OddGoldbachUpTo 56`; for instance `55 = 3 + 5 + 47`, and
+  a finite search confirms every odd `n ∈ [7, 56]`.
+- The route takes the largest prime in the interval: at `Δ = 3/2`, `n = 9`, `x = 5`, the interval
+  `(5/3, 5]` contains `2`, `3` and `5`; the choice `p = 2` leaves the odd `7`, while `p = 5` leaves
+  `4 = 2 + 2`.
 
-*Needs:* Mathlib `Nat.Prime`, `Even`, `Odd`; the published verifications only as hypotheses.
+*Needs:* Mathlib `Nat.Prime`, `Even`, `Odd`; the published verifications only as hypotheses;
+Mathlib `Nat.exists_prime_lt_and_le_two_mul` for the Check.
 
 ### Examples
 
@@ -1254,11 +1466,38 @@ Examples).
   prime. With `EvenGoldbachUpTo (4 · 10¹⁸)`, which gives `OddGoldbachUpTo (x₀ + 4)` by the
   elementary transfer, this yields `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 16598 + 4)`, about
   `6.639 · 10²²`.
+- Ramaré–Saouter's interval (ExplicitPrimeCounting §7.2, under its named hypotheses: a prime in
+  `(x(1 − 1/28 314 000), x]` for every `x > 10 726 905 041`) gives the hypothesis of the interval
+  transfer with `Δ = 28 314 000` and `x₀ = 10 726 905 042`. With `EvenGoldbachUpTo (4 · 10¹⁸)`,
+  which gives `OddGoldbachUpTo (x₀ + 4)` by the elementary transfer, this yields
+  `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 28 314 000 + 4)`, that is
+  `OddGoldbachUpTo 113 255 999 999 999 999 886 744 004`, hence `OddGoldbachUpTo (1.1325 · 10²⁶)` by
+  antitonicity (ieantn; primenumbertheoremand).
+- Kadiri–Lumley's rows (ExplicitPrimeCounting §7.3, under its named hypotheses: for `x > e⁵⁹` a
+  prime in `((1 − 1/1 946 282 821)x, x)`, for `x > e⁶⁰` one in `((1 − 1/1 966 196 911)x, x)`) extend
+  the previous range in two transfers, each with `EvenGoldbachUpTo (4 · 10¹⁸)`. First the `e⁵⁹` row
+  with `x₀ = e⁵⁹ + 1`, whose `OddGoldbachUpTo (x₀ + 4)` the previous Example supplies
+  (`e⁵⁹ ≈ 4.201 · 10²⁵`), gives `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 1 946 282 821 + 4)`, about
+  `7.785 · 10²⁷`; then the `e⁶⁰` row with `x₀ = e⁶⁰ + 1` (`e⁶⁰ ≈ 1.142 · 10²⁶`, inside that range)
+  gives `OddGoldbachUpTo ((4 · 10¹⁸ − 4) · 1 966 196 911 + 4)`, about `7.865 · 10²⁷` (ieantn;
+  primenumbertheoremand). The `e⁶⁰` row cannot be applied directly after the Ramaré–Saouter step,
+  since `1.1325 · 10²⁶ < e⁶⁰`.
+- `EvenGoldbachUpTo (4 · 10¹⁸)` gives `EvenGoldbachUpTo (4 · 10¹⁸ + 4)`, exactly: the two new even
+  numbers are `4 · 10¹⁸ + 2 = 3 999 999 999 999 999 791 + 211` and
+  `4 · 10¹⁸ + 4 = 3 999 999 999 999 999 691 + 313`, and the four summands are prime
+  (primenumbertheoremand). Route: `211` and `313` by `norm_num`; the two nineteen-digit numbers by
+  Lucas's test `lucas_primality` applied recursively (a Pratt certificate), from
+  `3 999 999 999 999 999 790 = 2 · 5 · 399 999 999 999 999 979` with
+  `399 999 999 999 999 978 = 2 · 3³ · 23 · 211 · 239 851 · 6 363 769`, and
+  `3 999 999 999 999 999 690 = 2 · 3² · 5 · 29 · 41 · 37 379 684 141 669` with
+  `37 379 684 141 668 = 2² · 11 · 389 · 18 913 · 115 471`, the remaining factors being below `10⁷`.
+  With it, the last transfer of the previous Example gives
+  `OddGoldbachUpTo (4 · 10¹⁸ · 1 966 196 911 + 4)`.
 
 ### Dependencies
 
-Mathlib, with the published computations as hypotheses; ExplicitPrimeCounting §7.1 for an
-Example.
+Mathlib, with the published computations as hypotheses; ExplicitPrimeCounting §§7.1–7.3 for the
+Examples.
 
 ## Downstream consumers
 
@@ -1270,8 +1509,8 @@ Example.
 - The inversion theorems of Layer 7 and the smoothing kernels of Layer 9 are general Mellin
   analysis for every consumer that sums an arithmetic function against a compactly supported or
   sharp weight.
-- The rectangle residue theorem 8.1, the derivative form of Borel–Carathéodory 8.2 and Landau's
-  lemma 8.3 are general complex analysis for any consumer.
+- The rectangle theorems 8.1–8.1a, the L-shaped contour shift 8.1b, the derivative form of
+  Borel–Carathéodory 8.2 and Landau's lemma 8.3 are general complex analysis for any consumer.
 - The series and abscissas of Layer 11 serve every consumer that averages the classical
   arithmetic functions by contour integration, and 12.1 every consumer that upgrades Cesàro
   convergence to convergence.
@@ -1306,4 +1545,14 @@ Example.
 - `hardy1949`: G. H. Hardy, *Divergent Series*, the Tauberian theorems for Cesàro means (cited by
   locator).
 - `katznelson2004`: Y. Katznelson, *An Introduction to Harmonic Analysis*, 3rd ed., Chapter I, the
-  periodic analogue of 7.1 (cited by locator).
+  periodic analogue of 7.1 and the theorem on convex coefficient sequences used in a Check of 7.4
+  (cited by locator).
+- `brown1967`: J. L. Brown, Jr., *On the error in reconstructing a non-bandlimited function by
+  means of the bandpass sampling theorem*, J. Math. Anal. Appl. 18 (1967), 75–84, Theorem 1 (cited
+  by locator).
+- `primenumbertheoremand`: A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, Lean
+  formalization project, <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>; cited for
+  §§7.1, 7.3, 8.1, 13.1, 13.2.
+- `ieantn`: T. Tao and contributors, *IEANTN: Integrated Explicit Analytic Number Theory Network*,
+  Lean formalization project, <https://github.com/teorth/IEANTN>; cited for §§7.4, 8.1, 8.1a, 8.1b,
+  13.1, 13.2.

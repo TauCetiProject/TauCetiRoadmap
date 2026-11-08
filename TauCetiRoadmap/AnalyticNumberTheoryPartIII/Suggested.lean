@@ -19,10 +19,12 @@ Stated here:
 
 * Layer 7: Fourier decay `‖𝓕 f ξ‖ ≤ V / (2π|ξ|)` for integrable functions of bounded variation;
   principal-value Mellin inversion at a point of local bounded variation; the windowed error of
-  the Dirichlet-kernel integral;
-* Layer 8: the rectangle residue theorem in Mathlib's edge form, with Tau Ceti's residue; the
-  derivative form of the Borel–Carathéodory inequality; Landau's local logarithmic-derivative
-  lemma;
+  the Dirichlet-kernel integral; Brown's aliasing bound for the sampling series of an integrable
+  spectrum, with its optimal constant;
+* Layer 8: the rectangle residue theorem in Mathlib's edge form, with Tau Ceti's residue, and with
+  circle integrals about arbitrary isolated singularities; the L-shaped contour shift to
+  `Re s = −∞`; the derivative form of the Borel–Carathéodory inequality; Landau's local
+  logarithmic-derivative lemma;
 * Layer 9: the Mellin transform of the smoothed cutoff and its decay, uniform in the smoothing
   parameter;
 * Layer 10: the smoothed sum as an inverse Mellin integral; the transfer theorem from a zero-free
@@ -35,13 +37,15 @@ Stated here:
 * Layer 12: the Hardy–Landau Tauberian theorem for Cesàro means, one-sided for real sequences and
   two-sided in a real normed space;
 * Layer 13: the asymptotics of the least number of factors of `n!` bounded by `n²` (Erdős problem
-  392) and by `n`; the transfer of Goldbach ranges along a short-interval prime hypothesis.
+  392) and by `n`; the transfer of Goldbach ranges along a short-interval prime hypothesis at
+  integers.
 
 Every headline theorem of the roadmap is statable at the pins. The remaining targets of the
 README (the Dirichlet-integral bounds of 7.2, the Mellin convolution of 9.1 and the bump
 transforms of 9.2, the comparison of smoothed and sharp sums in 10.1, complete multiplicativity in
-11.1, the `τ(n²)` series of 11.3, the elementary Goldbach transfers of 13.2) are lemmas on the way
-to these statements and stay in the README.
+11.1, the `τ(n²)` series of 11.3, the waste-and-score framework of 13.1, the elementary Goldbach
+transfers and the derived ranges of 13.2) are lemmas on the way to these statements, or instances
+of them, and stay in the README.
 -/
 
 namespace TauCetiRoadmap.AnalyticNumberTheoryPartIII
@@ -53,7 +57,7 @@ open scoped Real FourierTransform ArithmeticFunction.vonMangoldt
 
 /-- **7.1, Fourier decay for bounded variation.** If `f : ℝ → E` is integrable and of bounded
 variation on `ℝ`, with total variation `V`, then `‖𝓕 f ξ‖ ≤ V / (2π|ξ|)` for every real `ξ ≠ 0`
-(Kontorovich–Tao, PNT+ blueprint, Lemma 3.1.4). The constant is attained by `1_[0,1]` at
+(Kontorovich–Tao, Lemma 3.1.4). The constant is attained by `1_[0,1]` at
 `ξ = 1/2`. -/
 theorem norm_fourier_le_eVariationOn_div {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     [CompleteSpace E] {f : ℝ → E} (hf : Integrable f) (hbv : BoundedVariationOn f univ)
@@ -88,6 +92,31 @@ theorem norm_dirichletKernel_integral_sub_mean_le :
             (eVariationOn h (Ico (u₀ - δ) u₀)).toReal + (eVariationOn h univ).toReal / (T * δ)) :=
   sorry
 
+/-- **7.4, Brown's aliasing bound.** Let `G : ℝ → ℂ` be integrable, `f = 𝓕⁻ G` (so
+`f(t) = ∫ G(ξ) e^{2πiξt} dξ`) and `W > 0`. For every real `t` the symmetric partial sums
+`Σ_{|n| ≤ N} f(n/2W) sinc(π(2Wt − n))` of the sampling series converge, and their limit differs
+from `f(t)` by at most `2 ∫_{|ξ| > W} |G(ξ)| dξ`; `Real.sinc x = sin x / x`. No bounded variation
+and no realness of `f` is assumed. The series need not be summable, so the limit is over symmetric
+partial sums and not a `tsum` (Brown, Theorem 1, in angular frequency with constant `1/π`). -/
+theorem exists_tendsto_samplingSum_norm_sub_le {G : ℝ → ℂ} (hG : Integrable G) {W : ℝ}
+    (hW : 0 < W) (t : ℝ) :
+    ∃ L : ℂ, Tendsto (fun N : ℕ ↦ ∑ n ∈ Finset.Icc (-(N : ℤ)) N,
+        𝓕⁻ G (n / (2 * W)) * (Real.sinc (π * (2 * W * t - n)) : ℂ)) atTop (𝓝 L) ∧
+      ‖𝓕⁻ G t - L‖ ≤ 2 * ∫ ξ in {ξ : ℝ | W < |ξ|}, ‖G ξ‖ :=
+  sorry
+
+/-- **7.4, the constant `2` is attained.** For `W > 0`, `G(ξ) = e^{−πiξ/(2W)}` on `(W, 3W)` and
+`0` elsewhere, and `t = 1/(4W)`: the partial sums of the sampling series tend to `−2W`, while
+`f(t) = 2W` and `∫_{|ξ| > W} |G| = 2W`, so the error `4W` equals the bound of
+`exists_tendsto_samplingSum_norm_sub_le`. -/
+theorem samplingSum_aliasing_sharp {W : ℝ} (hW : 0 < W) {G : ℝ → ℂ}
+    (hG : G = (Ioo W (3 * W)).indicator fun ξ ↦ cexp (-((π * ξ / (2 * W) : ℝ) * I))) :
+    Tendsto (fun N : ℕ ↦ ∑ n ∈ Finset.Icc (-(N : ℤ)) N,
+        𝓕⁻ G (n / (2 * W)) * (Real.sinc (π * (2 * W * (4 * W)⁻¹ - n)) : ℂ))
+      atTop (𝓝 (-(2 * W))) ∧
+      𝓕⁻ G (4 * W)⁻¹ = 2 * W ∧ ∫ ξ in {ξ : ℝ | W < |ξ|}, ‖G ξ‖ = 2 * W :=
+  sorry
+
 /-! ## Layer 8: contours and discs -/
 
 /-- **8.1, the rectangle residue theorem in edge form.** Let `σ₁ < σ₂`, `t₁ < t₂`, `U` open
@@ -102,6 +131,47 @@ theorem rectangle_boundary_integral_eq_residues {σ₁ σ₂ t₁ t₂ : ℝ} (h
     (∫ x : ℝ in σ₁..σ₂, f (x + t₁ * I)) - (∫ x : ℝ in σ₁..σ₂, f (x + t₂ * I)) +
         I * (∫ y : ℝ in t₁..t₂, f (σ₂ + y * I)) - I * (∫ y : ℝ in t₁..t₂, f (σ₁ + y * I)) =
       2 * π * I * ∑ p ∈ P, TauCeti.Contour.residue f p :=
+  sorry
+
+/-- **8.1a, the rectangle theorem with circle integrals.** Let `σ₁ < σ₂`, `t₁ < t₂`, `r > 0` and
+`P` a finite set such that the closed discs of radius `r` about the points of `P` are pairwise
+disjoint and lie in the open rectangle `(σ₁, σ₂) ×ℂ (t₁, t₂)`. If `f` is complex differentiable on
+the closed rectangle minus `P`, Mathlib's boundary expression equals `Σ_{ρ ∈ P} ∮_{C(ρ, r)} f`. No
+open neighbourhood and no meromorphy is assumed: the points of `P` may be essential
+singularities. -/
+theorem rectangle_boundary_integral_eq_sum_circleIntegral {σ₁ σ₂ t₁ t₂ r : ℝ} (hσ : σ₁ < σ₂)
+    (ht : t₁ < t₂) (hr : 0 < r) {P : Finset ℂ}
+    (hP : ∀ ρ ∈ P, Metric.closedBall ρ r ⊆ Ioo σ₁ σ₂ ×ℂ Ioo t₁ t₂)
+    (hdisj : (P : Set ℂ).Pairwise fun ρ ρ' ↦
+      Disjoint (Metric.closedBall ρ r) (Metric.closedBall ρ' r))
+    {f : ℂ → ℂ} (hf : DifferentiableOn ℂ f (Icc σ₁ σ₂ ×ℂ Icc t₁ t₂ \ P)) :
+    (∫ x : ℝ in σ₁..σ₂, f (x + t₁ * I)) - (∫ x : ℝ in σ₁..σ₂, f (x + t₂ * I)) +
+        I * (∫ y : ℝ in t₁..t₂, f (σ₂ + y * I)) - I * (∫ y : ℝ in t₁..t₂, f (σ₁ + y * I)) =
+      ∑ ρ ∈ P, ∮ z in C(ρ, r), f z :=
+  sorry
+
+/-- **8.1b, the L-shaped contour shift.** Let `T > 0`, `w` with `Re w ≤ 1` and `0 < Im w < T`,
+and `D` the closed region `{Re s ≤ 1, 0 ≤ Im s ≤ T}` minus the block `{Re s < Re w, Im s < Im w}`.
+Let `r > 0` and `P` a finite set whose closed discs of radius `r` are pairwise disjoint and lie in
+`{Re s < 1, Im w < Im s < T}`. If `f` is complex differentiable on `D ∖ P`, tends to `0` uniformly
+as `Re s → −∞` with `Im w ≤ Im s ≤ T`, and is integrable on the horizontal rays ending at `w` and
+at `1 + iT`, then `i ∫_0^T f(1 + iy) dy` equals the integral along `1 → Re w → w → −∞ + i Im w`
+plus `∫_{−∞}^1 f(x + iT) dx` plus `Σ_{ρ ∈ P} ∮_{C(ρ, r)} f`. -/
+theorem vertical_integral_eq_lShaped_add_sum_circleIntegral {T r : ℝ} {w : ℂ} {P : Finset ℂ}
+    (hT : 0 < T) (hr : 0 < r) (hw : w.re ≤ 1) (hw₀ : 0 < w.im) (hwT : w.im < T)
+    (hP : ∀ ρ ∈ P, Metric.closedBall ρ r ⊆ {s : ℂ | s.re < 1 ∧ w.im < s.im ∧ s.im < T})
+    (hdisj : (P : Set ℂ).Pairwise fun ρ ρ' ↦
+      Disjoint (Metric.closedBall ρ r) (Metric.closedBall ρ' r))
+    {f : ℂ → ℂ}
+    (hf : DifferentiableOn ℂ f
+      ({s : ℂ | s.re ≤ 1 ∧ 0 ≤ s.im ∧ s.im ≤ T ∧ (w.re ≤ s.re ∨ w.im ≤ s.im)} \ P))
+    (hdecay : Tendsto f (comap Complex.re atBot ⊓ 𝓟 {s : ℂ | w.im ≤ s.im ∧ s.im ≤ T}) (𝓝 0))
+    (hw_int : IntegrableOn (fun x : ℝ ↦ f (x + w.im * I)) (Iic w.re))
+    (hT_int : IntegrableOn (fun x : ℝ ↦ f (x + T * I)) (Iic 1)) :
+    I * (∫ y : ℝ in (0 : ℝ)..T, f (1 + y * I)) =
+      (∫ x : ℝ in (1 : ℝ)..w.re, f x) + I * (∫ y : ℝ in (0 : ℝ)..w.im, f (w.re + y * I)) -
+          (∫ x in Iic w.re, f (x + w.im * I)) + (∫ x in Iic (1 : ℝ), f (x + T * I)) +
+        ∑ ρ ∈ P, ∮ z in C(ρ, r), f z :=
   sorry
 
 /-- **8.2, the derivative form of Borel–Carathéodory.** If `f` is holomorphic on the open disc
@@ -360,12 +430,14 @@ primes being allowed to repeat. -/
 def OddGoldbachUpTo (H : ℝ) : Prop :=
   ∀ n : ℕ, Odd n → 7 ≤ n → (n : ℝ) ≤ H → ∃ p q r : ℕ, p.Prime ∧ q.Prime ∧ r.Prime ∧ n = p + q + r
 
-/-- **13.2, the interval transfer.** Let `Δ > 1` and `x₀` with `x₀(1 − 1/Δ) ≥ 2`, and suppose
-every interval `(x(1 − 1/Δ), x]` with `x ≥ x₀` contains a prime. Then the even range up to `H`
-and the odd range up to `x₀ + 4` give the odd range up to `(H − 4)Δ + 4` (the prime-ladder
-argument recalled by Helfgott–Platt, §1). -/
-theorem oddGoldbachUpTo_of_primeGaps {Δ x₀ H : ℝ} (hΔ : 1 < Δ) (hx₀ : 2 ≤ x₀ * (1 - 1 / Δ))
-    (hgap : ∀ x : ℝ, x₀ ≤ x → ∃ p : ℕ, p.Prime ∧ x * (1 - 1 / Δ) < p ∧ (p : ℝ) ≤ x)
+/-- **13.2, the interval transfer.** Let `x₀`, `H` and `Δ` be real, and suppose that for every
+natural number `x ≥ x₀` the interval `(x(1 − 1/Δ), x]` contains a prime. Then the even range up
+to `H` and the odd range up to `x₀ + 4` give the odd range up to `(H − 4)Δ + 4` (the prime-ladder
+argument recalled by Helfgott–Platt, §1). The hypothesis is needed at integers only, and no
+condition on `Δ` or `x₀` is imposed: for `Δ ≤ 0` the hypothesis fails at every natural
+`x ≥ max(x₀, 1)`. -/
+theorem oddGoldbachUpTo_of_primeGaps {Δ x₀ H : ℝ}
+    (hgap : ∀ x : ℕ, x₀ ≤ x → ∃ p : ℕ, p.Prime ∧ (x : ℝ) * (1 - 1 / Δ) < p ∧ p ≤ x)
     (hE : EvenGoldbachUpTo H) (hO : OddGoldbachUpTo (x₀ + 4)) :
     OddGoldbachUpTo ((H - 4) * Δ + 4) :=
   sorry
