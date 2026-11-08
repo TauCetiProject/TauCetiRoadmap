@@ -642,10 +642,9 @@ lattices, crystalline/Wach factors and CM lines. Layer 6 constructs integral
 Hecke families and their deformation maps from the whole geometric determinant.
 Layer 7 assembles strict fixed-form systems and their large-image and
 ordinary-density consequences. The internal prerequisites of each subsection
-point backward in this build. Suggested.lean states the counting bound of §0.2e,
-and Bol's identity and the strict small-slope criterion of §0.2f, on Mathlib's power
-series and bounded operators, and the ordinary-prime density theorem of §7.7 on the
-pinned newform, coefficient-field and prime-density carriers. The geometric, local and integral-family targets require the
+point backward in this build. Suggested.lean states the ordinary-prime density
+theorem of §7.7 on the pinned newform, coefficient-field and prime-density carriers.
+The analytic-form, geometric, local and integral-family targets require the
 arithmetic carriers specified in their layers.
 
 ## Layer 0: Period, family and geometric interfaces
@@ -808,8 +807,10 @@ follows from the expansion `w_γ=b/d+(det γ/d²)z∑_k(−cz/d)^k`.)
   sends `−1` to `∞`, and the condition on `c` is what keeps `𝒪_v` stable.
 - Over `K[ε]/(ε²)` the character `u↦1+ε log u` is a nonreduced weight whose `ε`-part no
   field-valued point sees. At `p=2` the family `u↦exp(w log u)` is formed on `1+4ℤ₂` and
-  extended through `{±1}`; on `1+2ℤ₂` it would need `exp` on `2ℤ₂`, where the series
-  diverges.
+  extended through `{±1}`. For `|w|≤1` the same formula converges on all of
+  `ℤ₂^×=1+2ℤ₂`, since `log(1+2ℤ₂)=4ℤ₂` (`v₂(log 3)=2`), but `log(−1)=0` makes it
+  trivial on `−1`: at `w=1` it sends `−1` to 1 and `3` to `−3`, so it is not `u↦u`, and
+  the sign is a separate character of `{±1}`.
 - The series `∑_m(ηz)^m` with `|η|<1` has coefficients of norm `|η|^m` and fails to be
   restricted at radius `|η|⁻¹`.
 - For trivial weight and `γ=diag(p,1)`, `z^r↦p^rz^r`: the matrix is diagonal and meets
@@ -945,9 +946,13 @@ for the level/radius comparison.)
   the radius `r|ϖ_v|^{s_v}` alone does not supply it.
 - A single class whose stabiliser acts trivially, with constant coefficients, gives a
   one-dimensional space.
-- For `F` real quadratic and maximal level, each stabiliser contains a unit of infinite
-  order. When `n_σ+2s_σ` is parallel that unit acts as the identity, so the stabiliser
-  still acts through a finite group.
+- For `F` real quadratic and `U` containing `Ô_F^×`, each stabiliser contains `𝒪_F^×`,
+  which has a unit `u` of infinite order. When `n_σ+2s_σ=w` is parallel, `u` acts by
+  `N_{F/ℚ}(u)^w=±1` (§R17.3.8a), so the stabiliser still acts through a finite group.
+  Over `ℚ(√2)` the unit `ε=1+√2` has norm `−1` and acts by `−1` when `w` is odd, while
+  `ε²` acts by 1; a model in which parallel-weight units act as the identity misses this
+  sign. For weights `(w₁,w₂)` with `w₁≠w₂`, `u` acts by `N(u)^{w₂}σ₁(u)^{w₁−w₂}`, of
+  infinite order, and the finite-group hypothesis fails.
 - Over `ℚ`, `𝔸_{ℚ,f}^×=ℚ_{>0}^×·Ẑ^×`. If `U∩𝔸_{ℚ,f}^×` is the group of units of `Ẑ`
   congruent to 1 modulo `N≥3`, then `C_U≅(ℤ/N)^×/{±1}`, of order `φ(N)/2`: the global
   unit `−1` lies in `F^×`, so `ψ(−1)=1` is forced, and averaging over `(ℤ/N)^×` instead
@@ -1056,7 +1061,7 @@ projection of norm at most `C` gives rows `Cb_j` for `BE` and the bound `C^n∏_
 Through NewtonPolygons Layer 2 these bound the partial sums of the ordered slopes. In
 the contractive one-variable case `s=|ϖ_v|`, the summand of slope at most `h` has
 dimension at most the largest `n` with `v_p(ϖ_v)∑_{j<n}⌊j/h_U⌋≤nh`, and every such `n`
-is smaller than `h_U(⌊2h/v_p(ϖ_v)⌋+2)` (`lt_of_slope_sum_le`), for every real `h`.
+is smaller than `h_U(⌊2h/v_p(ϖ_v)⌋₊+2)`, for every real `h`, where `⌊x⌋₊=max(⌊x⌋,0)`.
 Over the field `K`, a finite-dimensional `U_P`-stable subspace `W`, such as a classical
 subspace, has a bounded complement in the property (Pr) module, because finitely many
 coordinate functionals of the model space are independent on `W`; so the
@@ -1143,8 +1148,8 @@ trivial on `1+p^tℤ_p`, so it is a nebentypus modulo `p^t`. The determinant cha
 is **algebraic** when `ν₀=∏_σσ^{s_σ}` with integers `s_σ`.
 
 **Bol's identity.** For `N=az+b` and `L=cz+d` with `d≠0`, prove
-`D^r(N^{j+r}L^{−(j+1)})=(ad−bc)^r(j+r)(j+r−1)⋯(j+1)N^jL^{−(j+r+1)}` for all `j,r≥0`
-(`bol_identity`). Use RestrictedPowerSeries §2.3's derivative, with
+`D^r(N^{j+r}L^{−(j+1)})=(ad−bc)^r(j+r)(j+r−1)⋯(j+1)N^jL^{−(j+r+1)}` for all `j,r≥0`,
+as formal power series in `z` over any field. Use RestrictedPowerSeries §2.3's derivative, with
 `D^rz^m=m(m−1)⋯(m−r+1)z^{m−r}`, operator norm bounded by one at unit radius and kernel
 the polynomials of degree below `r` in characteristic zero; on a disc `z=a+ρw` it
 carries the factor `ρ^{−r}`. Deduce *the analytic Bol identity*: applied in the variable
@@ -1206,8 +1211,8 @@ on every stage where the automorphy factors of `κ′_τ` on `U` and on the cose
 representatives have Gauss norm at most one, as for field-valued weights. Then prove
 *the strict small-slope criterion*: if `(U_v−μ)^Nf=0` with `μ≠0` and `v_p(μ)<r_τ/e_v`,
 `e_v` the absolute ramification index of `F_v`, then `Θ_τf=0`, because
-`U′_v−μ/τ(ϖ_v)^{r_τ}` is invertible by the Neumann series
-(`eq_zero_of_intertwining_of_norm_lt`). Hence a simultaneous generalized eigenvector of
+`U′_v−μ/τ(ϖ_v)^{r_τ}` is invertible by the Neumann series on the complete target.
+Hence a simultaneous generalized eigenvector of
 the `U_v`, `v∈P`, with nonzero eigenvalues `μ_v` and `v_p(μ_v)<min_{τ∈Σ_v}r_τ/e_v` for
 every `v`, lies in every `ker Θ_τ` and is classical in the sense just described. When
 every `U_v` has norm at most one, the classical and overconvergent summands of slope at

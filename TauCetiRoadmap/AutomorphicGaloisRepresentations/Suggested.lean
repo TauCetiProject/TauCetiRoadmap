@@ -7,9 +7,9 @@ public import TauCeti.NumberTheory.ModularForms.Newforms.Fields
 /-!
 # Galois representations attached to modular and Hilbert modular forms: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for its headline results.
-The pins are Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and
+**This file is not the roadmap.** The roadmap is `README.md`; this file states,
+against the pinned Mathlib and Tau Ceti, those of its headline theorems that are
+statable there. The pins are Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and
 Tau Ceti 2fd255d997f47c0b5d834ee416c7015d55444ce5.
 
 The density-one ordinary-prime theorem of README §7.7 is stated on Tau Ceti's
@@ -19,15 +19,14 @@ Squarefree level and trivial nebentypus exclude CM, so a separate CM predicate
 is unnecessary in this statement. All coefficient fields are allowed, and the
 existential quantifier over coefficient primes is retained.
 
-Three statements of Layer 0's analytic quaternionic theory are stated on Mathlib's
-power series and bounded operators: the counting bound behind the slope-dimension
-estimate of README §0.2e, and Bol's identity and the strict small-slope kernel
-criterion of README §0.2f.
-
-The other headline results require objects absent at these pins. The period,
-eigenvariety and geometric realization theorems of Layer 0 need period rings,
-the analytic and overconvergent quaternionic form spaces of README §§0.2b–0.2c
-and Shimura cohomology. Layer 1's DFG comparison needs parabolic premotives and their
+The other headline results require objects absent at these pins. Layer 0's
+period theorems need period rings. Its slope-finiteness and family theorems
+(README §0.2e), partial determinant identity and small-slope classicality
+(README §0.2f) and eigenvariety (README §0.3) are statements about the analytic
+and overconvergent quaternionic form spaces of README §§0.2a–0.2c and their
+Hecke operators, which need quaternionic level forms on the finite adelic units
+of a quaternion algebra; its geometric realization theorems need Shimura
+cohomology. Layer 1's DFG comparison needs parabolic premotives and their
 Kuga–Sato projector realizations. Layer 2's comparison of the weight-one
 Artin representation of AlgebraicModularFormsAndSerreWeights §6.4 with the
 normalization of Layer 1 needs that Galois representation, which is absent at
@@ -52,41 +51,6 @@ namespace TauCetiRoadmap.AutomorphicGaloisRepresentations
 
 open IsDedekindDomain UpperHalfPlane
 open scoped NumberField
-
-/-! ## Layer 0: analytic quaternionic forms -/
-
-/-- README §0.2e: the counting bound behind the slope-dimension estimate. If the lower
-bound `v * ∑_{j<n} ⌊j / hU⌋` for the sum of the first `n` slopes of a controlling operator
-with `hU` classes is at most `n * h`, then `n < hU * (⌊2h / v⌋ + 2)`. No sign condition
-on `h` is needed. -/
-theorem lt_of_slope_sum_le (hU : ℕ) (hhU : 0 < hU) {v h : ℝ} (hv : 0 < v) (n : ℕ)
-    (hn : v * ∑ j ∈ Finset.range n, ((j / hU : ℕ) : ℝ) ≤ n * h) :
-    n < hU * (⌊2 * h / v⌋₊ + 2) := by
-  sorry
-
-/-- README §0.2f: Bol's identity for `N = a X + b` and `L = c X + d` with `d ≠ 0`, in
-power series over a field: the `r`-th derivative of `N^(j+r) L^(-(j+1))` is
-`(ad - bc)^r (j+r)(j+r-1)⋯(j+1) N^j L^(-(j+r+1))`. -/
-theorem bol_identity {K : Type*} [Field K] (a b c d : K) (hd : d ≠ 0) (j r : ℕ) :
-    (⇑(PowerSeries.derivative (R := K)))^[r]
-        ((PowerSeries.C a * PowerSeries.X + PowerSeries.C b) ^ (j + r) *
-          (PowerSeries.C c * PowerSeries.X + PowerSeries.C d)⁻¹ ^ (j + 1)) =
-      PowerSeries.C ((a * d - b * c) ^ r * ((j + r).descFactorial r : K)) *
-        (PowerSeries.C a * PowerSeries.X + PowerSeries.C b) ^ j *
-        (PowerSeries.C c * PowerSeries.X + PowerSeries.C d)⁻¹ ^ (j + r + 1) := by
-  sorry
-
-/-- README §0.2f: the strict small-slope kernel criterion. If `Θ ∘ U = c • (U' ∘ Θ)`, the
-target operator has norm at most one and `‖c‖ < ‖μ‖`, then `Θ` kills the generalized
-`μ`-eigenspace of `U`. For a partial theta map `c` is `τ(ϖ_v)^(n_τ+1)` in the normalized
-determinant convention, and `‖c‖ < ‖μ‖` is the strict slope cutoff `v_p(μ) < (n_τ+1)/e_v`. -/
-theorem eq_zero_of_intertwining_of_norm_lt {K E E' : Type*} [NontriviallyNormedField K]
-    [NormedAddCommGroup E] [NormedSpace K E] [NormedAddCommGroup E'] [NormedSpace K E']
-    [CompleteSpace E'] (U : E →L[K] E) (U' : E' →L[K] E') (Θ : E →L[K] E') (c μ : K)
-    (hΘ : Θ.comp U = c • U'.comp Θ) (hU' : ‖U'‖ ≤ 1) (hμ : ‖c‖ < ‖μ‖) {N : ℕ} {f : E}
-    (hf : ((U - μ • 1) ^ N) f = 0) :
-    Θ f = 0 := by
-  sorry
 
 /-! ## Layer 7: density-one ordinary primes -/
 
