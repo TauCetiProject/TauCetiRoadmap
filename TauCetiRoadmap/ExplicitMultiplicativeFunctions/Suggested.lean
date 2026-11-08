@@ -90,13 +90,10 @@ def MoebiusTableVerified (c H : ℝ) : Prop :=
   ∀ x : ℝ, 33 ≤ x → x ≤ H → |moebiusSum x| ≤ c * Real.sqrt x
 
 /-- The finite computations of Ramaré 2013 on which the analytic part of its Theorem 1.1 rests
-(README 0.7): the Selberg-remainder bounds of Lemma 6.3, the bound `|R₂*(D)| ≤ 0.0213 D` on
-`[1.8·10⁹, 2.3104·10¹²]`, below the analytic range `D ≥ 1 520 000²` (where the printed proof relied
-on a false range of its Lemma 4.5), the
-integral of Lemma 6.4 with its value `−147.7678…` (the printed `−129.559` is not the value of the
-integral), the small-values sum of Lemma 7.1, the boundary value of the proof of Theorem 1.1
-(computed `−3.4852…`), the direct verification closing Lemma 7.2, and the extension of Lemma 4.2
-below `3 430 190`. -/
+(README 0.7), one conjunct each: the Selberg-remainder bounds of Lemma 6.3; `|R₂*(D)| ≤ 0.0213 D` on
+`[1.8·10⁹, 2.3104·10¹²]`, below the analytic range `D ≥ 1 520 000²`; the integral of Lemma 6.4; the
+small-values sum of Lemma 7.1; the boundary value of the proof of Theorem 1.1; the bound for
+`Σ_{d ≤ D} μ(d) log² d` on `[2 161 205, 8 613 000]`; and Lemma 4.2 on `[1 514 928, 3 430 190]`. -/
 def RamareTransferComputations : Prop :=
   (∀ D : ℝ, 3 ≤ D → D ≤ 1.1e8 →
     |selbergRemainder D| ≤ 1.80 * Real.sqrt D * Real.log D) ∧
@@ -335,9 +332,8 @@ theorem cardDistinctFactors_le_robin
   sorry
 
 /-- **The Nicolas–Robin bound for `τ(n)`** (README 9.2; Nicolas–Robin 1983, Théorème 1; Teo 2026,
-§6.1 and Table 12). For every natural `n ≥ 3`, `τ(n) ≤ n^{1.538 log 2/log log n}`; the maximum of
-`log τ(n) log log n/(log 2 log n)` is `1.53794…`, at `n = 6 983 776 800`. The hypothesis is the
-finite table of the superior highly composite numbers associated to `ε ∈ [0.1950, 0.3466]`. -/
+§6.1 and Table 12). For every natural `n ≥ 3`, `τ(n) ≤ n^{1.538 log 2/log log n}`. The hypothesis is
+the finite table of the superior highly composite numbers associated to `ε ∈ [0.1950, 0.3466]`. -/
 theorem sigma_zero_le_nicolasRobin (htab : SuperiorTableVerified 2 0.1950 0.3466 1.538)
     (n : ℕ) (hn : 3 ≤ n) :
     (ArithmeticFunction.sigma 0 n : ℝ) ≤
