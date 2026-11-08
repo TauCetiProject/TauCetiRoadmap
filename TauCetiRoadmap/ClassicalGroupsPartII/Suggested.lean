@@ -12,8 +12,8 @@ The central-isogeny and reductivity comparison, primitive exterior decomposition
 rational Cartan-model comparison, scalar-extension ring equivalence, rational
 character isomorphism, exact tensor-occurrence criterion, tensor-character
 isomorphism and representation-ring localization are not statable at the pins:
-the GSp coordinate Hopf algebra (PELModuli's Siegel similitude group, not in the
-pinned libraries) and hence its finite-comodule category, standard and primitive
+the GSp coordinate Hopf algebra (the similitude group of ArithmeticGaloisRepresentations
+§7.3, not in the pinned libraries) and hence its finite-comodule category, standard and primitive
 objects and representation ring are missing. The existing Sp and GL coordinate
 algebras do not supply that independent-multiplier carrier.
 -/
