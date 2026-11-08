@@ -161,8 +161,8 @@ It does not own, and consumes by name:
   (**StableReduction**, Layer 7);
 - schemes, descent, stacks, sites, étale and pro-étale cohomology, Brauer groups of schemes, curves,
   stable pointed curves, Popescu desingularization, Grothendieck existence and algebraization
-  (**SchemeAndStackFoundations**, Layers 0–4),
-  and the Weil bound for curves over finite fields (its §5.11, `weil_bound`); the smooth trace and
+  (**SchemeAndStackFoundations**, Layers 0–4); the Lang–Weil estimate for a fixed model
+  (**SieveMethodsAndPrimePatterns**, §5.4); the smooth trace and
   Poincaré duality in étale cohomology (**EtaleCohomologyFoundations**, §§F.5–F.6 /
   `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`, with invertible coefficients
   and finite Tor amplitude); Weil restriction
@@ -289,6 +289,12 @@ moduli of Belyi pairs), 12 (the `ℚ̄`/`ℂ` comparison, the geometric fundamen
 theorem and faithfulness on dessins). This roadmap uses their statements as written there, with the
 convention transport of Layer IG.6.
 
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Lang–Weil estimate for a fixed model | SieveMethodsAndPrimePatterns §5.4 / *Lang–Weil estimate for a fixed model* (a README target with no Lean name) | IG.2.5 *The integral thin-set count* and IG.2.7 *Hilbert points with weak approximation* use `#𝒱(κ(v)) = Nv^d + O(Nv^(d − 1/2))` over finite places `v ∤ m`, for a separated finite-type model over `O[1/m]` with geometrically irreducible generic fibre; the constant depends on the model. |
+
 ### From AdicEtaleGeometry
 
 | Object | Exact supplier | Convention/consumer |
@@ -404,8 +410,7 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 2 (sites, étale and pro-étale cohomology, Brauer groups of schemes), 3 (curves) and 4
 (deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
 §4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
-(`popescu_desingularization`) and §0.21 (G-rings), and §5.11 (`weil_bound`, the Weil bound for
-smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.3.1
+(`popescu_desingularization`) and §0.21 (G-rings); ArithmeticGaloisDuality §R02.3.1
 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
 (*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
 with transport to the absolute localization kernel only when `S` is the set of all places,
@@ -2090,40 +2095,6 @@ SchemeAndStackFoundations Layer 0.
 - Over `ℂ`, `z ↦ z²` is surjective on `ℂ`-points, so `𝔸¹(ℂ)` is thin: thinness of all rational points
   is the failure of the Hilbert property.
 
-**The Lang–Weil estimate.** Let `K` be a number field with ring of integers `O`, `m ≥ 1`, and
-`𝒱` a separated scheme of finite type over `O[1/m]` whose generic fibre `V` is geometrically
-irreducible of dimension `d`. Then, as `v` runs over the finite places of `K` prime to `m`,
-
-```text
-|𝒱(κ(v))| = Nv^d + O(Nv^(d − 1/2)),
-```
-
-with an implied constant depending on `𝒱`. In particular `𝒱(κ(v))` is nonempty for all `v` of
-large norm. Geometric irreducibility is essential. This target owns the reduction to curves and the
-bounded-family argument; the bound for a single smooth proper curve is SchemeAndStackFoundations
-§5.11 (`weil_bound`), consumed as stated there and not reproved. *Proof sketch.* Fibre `V` over a
-lower-dimensional base by curves of bounded degree and genus, reducing to curves; for a geometrically
-irreducible curve over `𝔽_q`, pass to the smooth proper model of its normalization, apply
-`weil_bound` (`|C(𝔽_q) − q − 1| ≤ 2g√q`), and bound the difference with the original curve by the
-number of singular and boundary points, which is bounded in the family; spread the constants over a
-model of `V` over `O[1/m]`. Source: Serre, *Topics in Galois
-Theory*,
-Theorem 3.6.1, printed p.31, for the statement and the reduction to curves. *Needs:*
-SchemeAndStackFoundations §5.11 (`weil_bound`); AlgebraicCurves Layers 3–5 and Layer 12 (normalization
-and smooth proper models of curves); Supplied by EtaleCohomologyFoundations §F.10.1 /
-`VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` (Frobenius and
-rational points as
-fixed points); SchemeAndStackFoundations Layers 0 and 3.
-Over the chosen finite field and closure, arithmetic Frobenius is `x↦x^q` and geometric Frobenius its
-inverse; rational points are the fixed points of their matching powers.
-
-**Checks.**
-
-- For `𝒱 = 𝔸^d` the count is exactly `Nv^d`.
-- For the conic `x² + y² = 1` over `ℤ[1/2]`, `|𝒱(𝔽_p)| = p − (−1/p)`, within `O(1)` of `p`.
-- For `V = {x² = 2}` over `ℚ`, which is irreducible but not geometrically irreducible,
-  `|𝒱(𝔽_p)|` is `0` or `2` according to `(2/p)`, never close to `Nv^0 = 1`; the hypothesis is needed.
-
 **The integral thin-set count.** Let `r ≥ 1` and let `E ⊂ ℚ^r` be thin (as a subset of `𝔸^r(ℚ)`).
 There is a real `C_E > 0`, depending on `E` through a fixed thin datum containing it, such that for
 all integers `N ≥ 2`
@@ -2145,9 +2116,9 @@ Serre, *Topics in Galois Theory*,
 for the integral-box bound and the large sieve;
 [Masser–Zannier](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf),
 Proof of Lemma 5.1, p.659, citing Cohen and Serre's *Lectures on the Mordell–Weil theorem*, for the
-quantitative form used there. *Needs:* *Thin sets for specialization*, *The Lang–Weil estimate*;
-ClassFieldTheory Layer 10, ClassFieldTheory Layer 12; Chebotarev (primes of positive density with
-prescribed Frobenius class).
+quantitative form used there. *Needs:* *Thin sets for specialization*; SieveMethodsAndPrimePatterns
+§5.4 *Lang–Weil estimate for a fixed model*; ClassFieldTheory Layer 10, ClassFieldTheory Layer 12;
+Chebotarev (primes of positive density with prescribed Frobenius class).
 
 **Checks.**
 
@@ -2321,10 +2292,10 @@ auxiliary-place argument and its constant-field splitting condition;
 [Breuil–Conrad–Diamond–Taylor](https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf), Proof
 of Theorem 2.2.1, author final copy p.19 / published p.864, where the rational modular parameter
 curve has weak approximation and the prescribed open is `3`-adic. *Needs:* *Hilbert subsets and
-Hilbertian fields*, *Thin sets for specialization*, *The Lang–Weil estimate* (through Serre's
-Propositions 3.5.1–3.5.2), *Full-group specialization of regular covers*;
-ClassFieldTheory Layer 12, Chebotarev (primes splitting completely in a finite extension),
-SchemeAndStackFoundations Layer 3.
+Hilbertian fields*, *Thin sets for specialization*, SieveMethodsAndPrimePatterns §5.4 *Lang–Weil
+estimate for a fixed model* (through Serre's Propositions 3.5.1–3.5.2), *Full-group
+specialization of regular covers*; ClassFieldTheory Layer 12, Chebotarev (primes splitting
+completely in a finite extension), SchemeAndStackFoundations Layer 3.
 
 **Checks.**
 
@@ -2537,9 +2508,9 @@ approximation, ClassFieldTheory Layers 10–12 for the global class-field input,
 primes of positive density with prescribed Frobenius, in the
 integral count and in the auxiliary places of weak approximation; Mathlib's `IsKrasner` gives local
 constancy of local fibres at finite places, and SchemeAndStackFoundations Layer 3 (curves,
-divisors and Picard objects) enters the weak-approximation theorem. The Lang–Weil estimate takes
-the Weil bound for a single curve from SchemeAndStackFoundations §5.11 (`weil_bound`) and owns only
-the reduction to curves. The norm pullback uses ReductiveGroupsPartII Layer RG2.0a for Weil
+divisors and Picard objects) enters the weak-approximation theorem. The integral count and weak
+approximation take the Lang–Weil estimate for a fixed model from SieveMethodsAndPrimePatterns §5.4.
+The norm pullback uses ReductiveGroupsPartII Layer RG2.0a for Weil
 restriction and norm tori. Hilbert specialization detected by the Frattini quotient uses the
 Hilbert-subset and finite-torsor interfaces of IG.0 and IG.2 and the closed-image detection supplied
 by ArithmeticGaloisRepresentations §6.4a; openness is assumed, with its compact-matrix case supplied
