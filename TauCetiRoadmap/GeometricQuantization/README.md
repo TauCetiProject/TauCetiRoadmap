@@ -27,10 +27,13 @@ Chern-class dictionary, while SchubertGeometry S9.1/S9.7 remains the earlier
 supplier of the flag geometry.
 
 SmoothBundlesConnections B1–B6 owns principal/associated bundles, connections,
-curvature, holonomy, integral existence and flat twists. HamiltonianSystems
-owns Hamiltonian fields and the Poisson bracket; SymplecticGeometry's
-CotangentLagrangian C1 and HamiltonianReduction R1–R3 own the cotangent,
-coadjoint and reduced manifolds. DifferentialGeometry owns differential-form
+curvature, holonomy, integral existence and flat twists. Hamiltonian vector
+fields, the symplectic Poisson bracket, infinitesimal actions, moment maps and
+the moment cocycle are already in Tau Ceti; LieGroupoidsPoisson §G4.1 and
+§G4.2 own the Lie algebra of smooth functions under that bracket.
+SymplecticGeometry's CotangentLagrangian C1 and HamiltonianReduction R1–R3 own
+the cotangent, coadjoint and reduced manifolds and the group-level moment-map
+defect. DifferentialGeometry owns differential-form
 calculus, integration and flows. ComplexKahlerGeometry K1–K7 owns the type,
 Dolbeault, Hermitian and projective-section foundations. Orbifolds O1–O5 owns
 the full-isotropy bundle and integration theory. Their constructions are
@@ -45,11 +48,15 @@ calculations and API checks live in this README.
 
 Use finite-dimensional Hausdorff second-countable smooth symplectic manifolds
 without boundary, with `ω : TauCeti.SmoothTwoForm I M` and `ω.IsSymplectic`.
-The symplectic linear/manifold structures are Tau Ceti's. Use the
-HamiltonianSystems, Hamiltonian-vector-field and Poisson-bracket targets
-for `ι_(X_f)ω=df` and `{f,g}=df(X_g)=ω(X_f,X_g)`, so
-`[X_f,X_g]=-X_{ {f,g} }`. Consume DifferentialGeometry 0.4's form migration
-and LieGroupoidsPoisson G4.2a's legacy Hamiltonian adapter for this convention.
+The symplectic linear/manifold structures are Tau Ceti's, and so are the
+Hamiltonian conventions: `TauCeti.SmoothTwoForm.hamiltonianVectorField` gives
+`ι_(X_f)ω=df` (`TauCeti.SmoothTwoForm.IsHamiltonianVectorField`) and
+`TauCeti.SmoothTwoForm.poissonBracket` is `{f,g}=ω(X_f,X_g)=df(X_g)`, so
+`[X_f,X_g]=-X_{ {f,g} }` for closed ω and C² functions
+(`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`).
+`TauCeti.SmoothTwoForm I M` is DifferentialGeometry 0.4's generic smooth
+degree-two form. In LieGroupoidsPoisson §G4.2's Poisson language
+`π♯=−(ω♭)⁻¹`, so `X_f=−π♯df` and `{f,g}=π(df,dg)`.
 
 
 Fix a real `ℏ>0`. A prequantum principal circle bundle has real connection
@@ -79,6 +86,9 @@ everywhere-defined unbounded-operator assertion is intended.
   F_∇(∂q,∂p)=−i/ℏ, fixing the dual-character sign.
 - For q,p on that plane, X_q=−∂p, X_p=∂q and {q,p}=1;
   on a polarized test function q, [Q_q,Q_p]q=−iℏq.
+- For f=q² and g=p, X_f=−2q∂p and X_g=∂q, so [X_f,X_g]=2∂p, while
+  `{f,g}=2q` and `X_(2q)=−2∂p`. Hence `[X_f,X_g]=−X_{ {f,g} }`; the opposite
+  sign would require 2∂p=−2∂p.
 - On a point ω=0 and Q_c=c; the zero function gives Y₀=0 and Q₀=0.
   ℏ=0 is excluded, so none of the displayed divisions uses a totalized zero inverse.
 
@@ -110,15 +120,46 @@ asserts smoothness of a homogeneous bundle or constructs a stabilizer.
 Use `TauCeti.SmoothTwoForm` and `TauCeti.SmoothTwoForm.IsSymplectic` in
 `TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, the latter bundling
 closedness and fibrewise nondegeneracy, with manifold separation assumptions
-as fixed in Conventions. The smooth parameter ODE estimates in
-`TauCeti/Analysis/ODE/SmoothParameter.lean` support the flow applications.
-The compact-circle and formal-character inputs are specified in Layer 6.
+as fixed in Conventions.
+
+The Hamiltonian inputs are `TauCeti.SmoothTwoForm.IsHamiltonianVectorField`,
+`TauCeti.SmoothTwoForm.hamiltonianVectorField` (the field `(ω♭)⁻¹df`) and
+`TauCeti.SmoothTwoForm.poissonBracket` in
+`TauCeti/Geometry/Symplectic/Hamiltonian/Manifold.lean`; the bracket identity
+`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`
+in `TauCeti/Geometry/Symplectic/Hamiltonian/Bracket.lean`, for a closed
+nondegenerate form on a finite-dimensional model and C² functions;
+`TauCeti.InfinitesimalAction` in
+`TauCeti/Geometry/Manifold/VectorField/InfinitesimalAction.lean`, a linear map
+`ξ↦ξ_M` to smooth vector fields with `[ξ,η]_M=−[ξ_M,η_M]`; and
+`TauCeti.SmoothTwoForm.IsMomentMap`, `TauCeti.SmoothTwoForm.momentCocycle`,
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_eq` (the cocycle is constant on
+a preconnected manifold when ω is closed) and
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_mem_twoCocycle` (it is a
+Lie-algebra 2-cocycle with trivial real coefficients) in
+`TauCeti/Geometry/Symplectic/Hamiltonian/MomentMap.lean`.
+
+`ODE.exists_contDiffAt_picard_solution` in
+`TauCeti/Analysis/ODE/SmoothParameter.lean` gives, for finite-dimensional
+parameter and state spaces and a field that is `C^(n+1)` at the base point
+and vanishes near the base state at the base parameter, a `C^(n+1)` family of
+local solutions for each finite n; §2.3 uses it for parameter
+dependence. Layer 6 consumes `TauCeti.fourierChar` and `TauCeti.fourierRep`
+in `TauCeti/RepresentationTheory/Compact/Circle.lean`, and
+`TauCeti.formalCharacter` with
+`TauCeti.formalCharacter_coeff_eq_finrank_weightSpace` and
+`TauCeti.isIntegralWeight_of_formalCharacter_coeff_ne_zero` in
+`TauCeti/Algebra/Lie/Weights/FormalCharacter.lean`, under the hypotheses
+recorded in §6.3.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
-Consume §0.4's two-form migration, §1.4's Cartan calculus, Layer 3 and §3.5's
-smooth parameter-dependent flows, Layer 4's Frobenius theorem, §5.4's homotopy
-operator, and Layers 5–8's integration, densities and de Rham comparison.
+Consume §0.4's two-form migration, §1.4's Cartan calculus, Layer 3's flows
+(§3.1's joint smooth dependence on time and initial condition, applied with
+parameters adjoined as constant coordinates, §3.2's maximal flows, §3.3's
+completeness criteria and §3.4's commuting flows), Layer 4's Frobenius
+theorem, §5.4's homotopy operator, and Layers 5–8's integration, densities and
+de Rham comparison.
 
 ### From TauCetiRoadmap.SmoothBundlesConnections
 
@@ -129,11 +170,13 @@ B3–B5 supply connections, curvature, constant connection-preserving gauge
 ambiguity and holonomy. B6.2–B6.5 supply the integral Chern class, integral
 existence and flat fixed-curvature torsor, retaining torsion and flat data.
 
-### From TauCetiRoadmap.HamiltonianSystems and TauCetiRoadmap.LieGroupoidsPoisson
+### From TauCetiRoadmap.LieGroupoidsPoisson
 
-HamiltonianSystems Layer 1 supplies the contraction and Poisson conventions,
-Layer 2 the Hamiltonian dynamics, and Layer 3 the moment-map Lie cocycle.
-LieGroupoidsPoisson §G4.2a supplies the legacy Hamiltonian adapter.
+§G4.1 installs the real Lie algebra structure on the smooth functions of a
+Poisson manifold, and §G4.2 identifies a symplectic form with a nondegenerate
+Poisson structure through `π♯=−(ω♭)⁻¹`. Its bracket `π(df,dg)=−dg(X_f)=df(X_g)`
+is then `TauCeti.SmoothTwoForm.poissonBracket`; on `ω=dq∧dp` both give
+`{q,p}=1`. §4.2 takes its observable Lie subalgebra inside this Lie algebra.
 
 ### From TauCetiRoadmap.SymplecticGeometry
 
@@ -329,7 +372,9 @@ convention and replace the curvature scale 2π by 1/ℏ before comparing signs.
   their bracket is −3∂t, agreeing with F_(−1)−2V.
 - For c constant, Y_c=(c/ℏ)V and L_(Y_c)a=0; on a point this is the whole lift.
 
-*Needs:* Layer 1; HamiltonianSystems' contraction and Poisson identities;
+*Needs:* Layer 1; Tau Ceti `TauCeti.SmoothTwoForm.hamiltonianVectorField`,
+`TauCeti.SmoothTwoForm.poissonBracket` and
+`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`;
 DifferentialGeometry §1.4's Cartan calculus; SmoothBundlesConnections B3/B4.
 
 ### 2.2 Operators and their complete-flow domains
@@ -394,11 +439,16 @@ DifferentialGeometry Layer 3's flows and Layer 5's integration by parts.
 ### 2.3 Lifted actions and central extensions
 
 For the group-action statements assume M and the acting Lie group G
-connected and nonempty. For a moment map write
-`c(ξ,η)={μ^ξ,μ^η}−μ^[ξ,η]`. Prove that the lift defect is
-`(c(ξ,η)/ℏ)V`; an equivariant μ has c=0. Cite HamiltonianReduction R1
-for the group-level moment-map defect and HamiltonianSystems for its
-Lie-algebra cocycle. Prove lifted fundamental fields are complete using
+connected and nonempty. The fundamental fields `ξ↦ξ_M` of the left action
+form a `TauCeti.InfinitesimalAction`, and a moment map μ, with
+`ι_(ξ_M)ω=dμ^ξ`, is a `TauCeti.SmoothTwoForm.IsMomentMap`. Its cocycle
+`c(ξ,η)={μ^ξ,μ^η}−μ^[ξ,η]` is `TauCeti.SmoothTwoForm.momentCocycle`; it is
+constant on connected M (`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_eq`)
+and a Lie-algebra 2-cocycle
+(`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_mem_twoCocycle`). Prove that
+the lift defect is `(c(ξ,η)/ℏ)V`; an equivariant μ has c=0.
+HamiltonianReduction R1 supplies the group-level moment-map defect, whose
+derivative at the identity is c. Prove lifted fundamental fields are complete using
 completeness of base group-action fields and the compact circle fibers.
 
 For equivariant μ integrate the anti-homomorphism `ξ↦−Y_(μ^ξ)` to a
@@ -411,10 +461,15 @@ global action with that infinitesimal action (Tuynman, arXiv v2,
 Theorem 7.9, p. 39, specialized to ordinary manifolds; translate his
 fundamental-field sign to the left-action anti-homomorphism here).
 The action projects to the
-original left action on M. Its kernel K acts by a circle character χ;
-descent to G holds iff χ is trivial. Construct
-`Ĝ=(G̃×Circle)/{(k,χ(k)⁻¹):k∈K}` and its action, and prove its Lie
-and principal-central-extension structure. For a non-equivariant μ
+original left action on M through the covering G̃→G. Let F be the kernel of
+this covering, a discrete central subgroup of G̃. Each f∈F acts trivially on
+M by a connection-preserving bundle automorphism, so on connected M it acts
+by a constant `χ(f)∈Circle` (B4's gauge subgroup), and χ is a character of F.
+Descent of the action to G holds iff χ is trivial on F. The kernel of the
+G̃-action on M may be strictly larger than F, and the values of the lifted
+action there do not decide descent. Construct
+`Ĝ=(G̃×Circle)/{(f,χ(f)⁻¹):f∈F}` and its action, and prove its Lie
+and principal-central-extension structure over G. For a non-equivariant μ
 construct the pullback of the connection-preserving bundle-automorphism
 group over G, prove it is a finite-dimensional smooth circle extension,
 and pin its Lie algebra by the anti-homomorphism
@@ -423,16 +478,18 @@ and pin its Lie algebra by the anti-homomorphism
 by time-one flows of `−Y_(μ^ξ)`. Prove any two lifts differ by a constant
 circle element, using connected M and B4's connection-preserving gauge
 subgroup. These lifts give identity charts `(ξ,z)`; prove their smooth
-transitions, multiplication and inversion using smooth parameter-dependent
-manifold flows from DifferentialGeometry 3.5. In charts the local parameter
+transitions, multiplication and inversion using DifferentialGeometry §3.1's
+joint smooth dependence of flows, with ξ adjoined as a constant coordinate,
+and §3.2's maximal flows. In charts the local parameter
 ξ enters linearly and the field vanishes at ξ=0; apply Tau Ceti's
-`Analysis/ODE/SmoothParameter` estimates and glue by flow uniqueness. Prove that for equivariant μ this pullback
-extension is isomorphic, as an extension with action, to the quotient
-`(G̃×Circle)/K` above. These constructions supply circle extensions for
+`ODE.exists_contDiffAt_picard_solution` at each finite order and glue by flow
+uniqueness. Prove that for equivariant μ this pullback
+extension is isomorphic, as an extension with action, to the quotient Ĝ
+above. These constructions supply circle extensions for
 moment-map defects, with no arbitrary-cocycle integrability assertion.
 
-- The kernel character multiplies under composition and controls descent through the
-  specified covering; the pullback extension retains its action on the same bundle.
+- The character χ of the covering kernel F multiplies under composition and controls
+  descent to G; the pullback extension retains its action on the same bundle.
 - The local time-one lifts define the smooth extension structure, with the Lie bracket
   dictated by the moment defect rather than by an arbitrary Lie-algebra cocycle.
 
@@ -441,12 +498,20 @@ moment-map defects, with no arbitrary-cocycle integrability assertion.
 - For the trivial group the pullback extension is Circle and its Lie bracket is zero.
 - For the SO(3) sphere with degree k, the SU(2) covering kernel acts by (−1)^k;
   degrees 1 and 2 give respectively −1 and 1, distinguishing failed and successful descent.
+- Let Circle act trivially on a point with ω=0, generator 1 with exp(t)=exp(it), and
+  constant moment map μ^1≡ℏ. Then −Y_ℏ=−V, so the cover ℝ acts on the fibre by
+  p↦p·exp(−it). Every t∈ℝ fixes the point and t=π acts on the fibre by exp(−iπ)=−1, but on
+  the covering kernel 2πℤ the character is exp(−2πi)=1, so the action descends to Circle.
+  With μ^1≡ℏ/2 the value at 2π is exp(−πi)=−1 and the action does not descend.
 - For translations on (ℝ²,dq∧dp), μ^q=q and μ^p=p have defect 1;
   the lifted extension has central bracket −1/ℏ, while the zero moment defect gives zero.
 
-*Needs:* §§2.1–2.2; HamiltonianReduction R1; HamiltonianSystems' moment cocycle;
+*Needs:* §§2.1–2.2; HamiltonianReduction R1; Tau Ceti `TauCeti.InfinitesimalAction`,
+`TauCeti.SmoothTwoForm.IsMomentMap`, `TauCeti.SmoothTwoForm.momentCocycle`,
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_eq` and
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_mem_twoCocycle`;
 LieGroups Layers 4–5; SmoothBundlesConnections B4's constant gauge subgroup;
-DifferentialGeometry Layers 3–4 and Tau Ceti smooth parameter ODE estimates.
+DifferentialGeometry Layers 3–4 and Tau Ceti `ODE.exists_contDiffAt_picard_solution`.
 
 ### Examples
 
@@ -455,8 +520,8 @@ separate analytic core, completeness and global descent conditions.
 
 ### Dependencies
 
-Layer 1, HamiltonianSystems, HamiltonianReduction R1, the named spectral and
-smooth-flow contracts, and LieGroups Layers 4–5.
+Layer 1, Tau Ceti's Hamiltonian and moment-map API, HamiltonianReduction R1,
+the named spectral and smooth-flow contracts, and LieGroups Layers 4–5.
 
 ## Layer 3: Homogeneous prequantization and ordinary periods (Q2A)
 
@@ -804,12 +869,17 @@ K1/K2/K4 for the Kähler branch.
 ### 4.2 Observable Lie algebra and basic functions
 
 Characterize polarization-preserving real Hamiltonians by
-`[X_f,Γ_local(P)]⊆Γ_local(P)`. Over the shared HamiltonianSystems
-real Lie algebra of Hamiltonian smooth functions with the declared Poisson
-bracket, construct their native `LieSubalgebra ℝ`: prove closure under
+`[X_f,Γ_local(P)]⊆Γ_local(P)`. Inside LieGroupoidsPoisson §G4.1's real Lie
+algebra of smooth functions, with the symplectic bracket of §G4.2, construct
+their native `LieSubalgebra ℝ`: prove closure under
 addition, real scalar multiplication and Poisson brackets, and inclusion of
-constants. Use Jacobi for the normalizer of local polarization fields and
-`X_{ {f,g} }=−[X_f,X_g]` for bracket closure. They need not be closed under
+constants. These are deductions, not supplier results: additivity and real
+homogeneity of f↦X_f give the first two, and X_c=0 the constants. For
+bracket closure, `X_{ {f,g} }=−[X_f,X_g]`
+(`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`)
+and the Jacobi identity for vector fields (`VectorField.leibniz_identity_mlieBracket`)
+give `[[X_f,X_g],Y]=[X_f,[X_g,Y]]−[X_g,[X_f,Y]]`, which lies in Γ_local(P)
+whenever Y does. They need not be closed under
 pointwise multiplication. Prove their Q operators preserve polarized smooth
 sections and retain `[Q_f,Q_g]=−iℏ Q_{ {f,g} }` on the actual common domains
 of Q2 and their invariant polarized restrictions; do not assert closure
@@ -818,9 +888,13 @@ under composition of first-order quantum operators.
 For a real polarization, let A_P be the smooth real functions annihilated
 by every local field in P. Prove A_P is a commutative subalgebra under
 pointwise operations, its Hamiltonian fields lie in P, and it is contained
-in the polarization-preserving Hamiltonians. The latter form an A_P-module
-under pointwise multiplication: use `X_(af)=a X_f+f X_a`, the Leibniz rule
-for vector-field brackets and involutivity of P.
+in the polarization-preserving Hamiltonians: for a∈A_P and Y in P,
+`ω(X_a,Y)=da(Y)=0`, so X_a lies in `P^ω=P`, and involutivity of P gives
+`[X_a,Y]∈P`. The latter form an A_P-module under pointwise multiplication,
+again a deduction: `X_(af)=a X_f+f X_a` follows from `d(af)=a df+f da` and
+linearity of `(ω♭)⁻¹`, and the Leibniz rule `VectorField.mlieBracket_smul_left`
+gives `[aX_f+fX_a,Y]=a[X_f,Y]−Y(a)X_f+f[X_a,Y]−Y(f)X_a`. Here Y(a)=0,
+`[X_f,Y]∈P`, X_a∈P and `[X_a,Y]∈P` by involutivity.
 
 Retain the vertical cotangent regression on `T*ℝ`, `ω=dq∧dp` and
 `P=span{∂p}`: `X_p=∂q` normalizes every local vertical field, whereas
@@ -844,7 +918,9 @@ Keep Q4's fibre-affine classification and kinetic-energy exclusion.
 - For the polarized section 1, Q_(p²)1=−p² and ∂p(−p²)=−2p,
   excluding that observable. For basic a=q and observable f=p, af=qp remains affine in p.
 
-*Needs:* §4.1; §2.1–§2.2; HamiltonianSystems' vector-field bracket and Leibniz laws;
+*Needs:* §4.1; §2.1–§2.2; LieGroupoidsPoisson §G4.1 and §G4.2's Lie algebra of smooth
+functions; Tau Ceti `TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`;
+Mathlib `VectorField.leibniz_identity_mlieBracket` and `VectorField.mlieBracket_smul_left`;
 Mathlib `LieSubalgebra` and the native subalgebra/module carriers.
 
 ### 4.3 Descent and Bohr–Sommerfeld leaves
@@ -1127,9 +1203,14 @@ ComplexComparisonPartII C1.7–C1.9; IndexTheory I6/I7.3/I8.4.
 Do not identify Tau Ceti's generic Lie `formalCharacter` carrier with the
 compact-torus lattice by coercion. Its native value is in
 `AddMonoidAlgebra ℤ (Module.Dual K L)` and its coefficients are dimensions of
-generalized Lie weight spaces. Under the stated Killing-semisimple Cartan,
-algebraically-closed characteristic-zero hypotheses, consume the native
-identification with honest weight spaces and its integral-support theorem.
+generalized Lie weight spaces. For a finite-dimensional module over a
+finite-dimensional Lie algebra with nondegenerate Killing form and a Cartan
+subalgebra H, over a field of characteristic zero, consume two native
+theorems. `TauCeti.formalCharacter_coeff_eq_finrank_weightSpace`, for an
+algebraically closed field, identifies the coefficient at χ with the
+dimension of the honest weight space. `TauCeti.isIntegralWeight_of_formalCharacter_coeff_ne_zero`,
+with algebraic closure replaced by triangularizability of H, shows that a
+linear form carrying a nonzero coefficient is an integral weight.
 For a compact circle of period P, construct the actual differential/period
 identification from `fourierChar P n` and `fourierRep P n`: its differential
 frequency is `2πn/P` under the convention `χ(exp X)=exp(i⟨λ,X⟩)`. Assemble the
@@ -1152,7 +1233,9 @@ them.
   takes angles (t,u) to exp(i(t−u)), and its two fundamental periods both give 1.
 
 *Needs:* CompactGroups' circle Fourier and character-projection APIs;
-Tau Ceti `TauCeti.fourierChar`, `TauCeti.fourierRep` and `TauCeti.formalCharacter`;
+Tau Ceti `TauCeti.fourierChar`, `TauCeti.fourierRep`, `TauCeti.formalCharacter`,
+`TauCeti.formalCharacter_coeff_eq_finrank_weightSpace` and
+`TauCeti.isIntegralWeight_of_formalCharacter_coeff_ne_zero`;
 ConvexityToric T1's period lattice; §6.1's geometric representation.
 
 ### 6.3a Equivariant Riemann–Roch and Fourier coefficients
@@ -1330,8 +1413,9 @@ here from the universal property and the explicit exponential, rather than
 assumed as an additional LieGroups contract. Construct its holomorphic action
 on M and the fibrewise complex-linear holomorphic lift to E from the
 commuting real holomorphic fields X_a and JX_a. Integrate their commuting
-flows using Q2's complete-field integration and DifferentialGeometry's
-parameter-dependent flow APIs; do not apply a finite-dimensional complex-group
+flows using Q2's complete-field integration, DifferentialGeometry §3.1's joint
+smooth dependence of flows (parameters adjoined as constant coordinates) and
+§3.4's commuting flows; do not apply a finite-dimensional complex-group
 universal property to an infinite-dimensional automorphism group. For the lift prove
 completeness of the fibre-linear scalar ODE over each finite base-flow
 interval. Verify the original T-periods and descend the integrated action
