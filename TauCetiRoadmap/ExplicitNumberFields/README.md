@@ -1320,7 +1320,7 @@ for `Real.eulerMascheroniConstant`. For `z ∈ ℂ` with `Re z > 0`, an integer 
 `T_N(z) = Σ_{0 ≤ n < N} 1/(n + z)²`. Every `n + z` is nonzero, its real part being positive, and
 `N − 1 + a ≥ a > 0`.
 
-Prove the series identities (`dlmf` 5.7.6 and 5.15.1): for `Re z > 0`,
+Prove the series identities (`dlmf` 5.7.6 and 5.15.1, `pntplus`): for `Re z > 0`,
 `ψ(z) = −γ + Σ_{n ≥ 0} (1/(n + 1) − 1/(n + z))` and `ψ'(z) = Σ_{n ≥ 0} 1/(n + z)²`, both series
 converging absolutely and uniformly on every set `{Re z ≥ a₀, |z| ≤ R}` with `a₀ > 0`.
 
@@ -3526,6 +3526,10 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   (`kerr2026`, context).
 - B. Kerr, K. McGown, T. Trudgian, The least primitive root modulo `p²`, J. Number Theory 215
   (2020) (`kerrmcgowntrudgian2020`).
+- A. Kontorovich, T. Tao et al., *PrimeNumberTheoremAnd*,
+  https://github.com/AlexKontorovich/PrimeNumberTheoremAnd, file
+  `PrimeNumberTheoremAnd/Mathlib/Analysis/SpecialFunctions/Gamma/DigammaSeries.lean` (`pntplus`,
+  cited for 1.1a).
 - Y. Lamzouri, X. Li, K. Soundararajan, Conditional bounds for the least quadratic non-residue
   and related problems, Math. Comp. 84 (2015) 2391–2412, arXiv:1309.3595
   (`lamzourilisoundararajan2015`, a boundary of Scope).
@@ -3593,6 +3597,8 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   of 4.7 and the input of 5.7.
 - J. S. Sunley, Class numbers of totally imaginary quadratic extensions of totally real fields,
   Trans. Amer. Math. Soc. 175 (1973) (`sunley1973`).
+- T. Tao et al., *IEANTN*, https://github.com/teorth/IEANTN (`ieantn`, cited for no section of
+  this roadmap).
 - J. Thorner, A. Zaman, An explicit bound for the least prime ideal in the Chebotarev density
   theorem, Algebra Number Theory 11 (2017), arXiv:1604.01750 (`thornerzaman2017`).
 - E. Treviño, The Burgess inequality and the least `k`-th power non-residue, Funct. Approx.
