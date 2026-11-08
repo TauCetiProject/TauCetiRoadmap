@@ -5,10 +5,10 @@ public import TauCeti.RingTheory.Huber.Basic
 public import TauCeti.RingTheory.Huber.Padic.Basic
 public import TauCeti.NumberTheory.Padics.PadicIntegers
 public import TauCeti.NumberTheory.Padics.Distribution.Amice.Basis
+public import TauCeti.NumberTheory.Padics.Distribution.Amice.Character
 public import TauCeti.NumberTheory.Padics.WeightSpace
 public import TauCeti.NumberTheory.Padics.Measure.CharacterIntegral
 public import TauCeti.Analysis.Normed.Module.Bases.Orthonormal
-public import TauCeti.Topology.ContinuousMap.ZeroAtInfty.Matrix
 public import TauCeti.NumberTheory.Padics.Measure.CompletedGroupAlgebra
 public import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.PowerSeries
 public import TauCeti.Topology.Algebra.Group.Profinite.ProP.PadicInt.Basic
@@ -17,19 +17,26 @@ public import TauCeti.Topology.Algebra.Group.Profinite.ProP.PadicInt.Basic
 # P-adic functional analysis: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`, which is
-definitive. This file states, against the pinned Mathlib and Tau Ceti, headline theorems of the
-roadmap that the pinned libraries do not already prove, together with the input-first matrix
-adapter of §2.6. It uses the pinned carriers `ContinuousLinearMap.matrixCoeff` (§2.6),
-`TauCeti.AnalyticStage` and `TauCeti.AnalyticStage.amiceMap` (§4.4), `TauCeti.WeightSpace` with
-`TauCeti.WeightSpace.finiteChar` and `TauCeti.WeightSpace.coord`, `AbstractMeasure` with
-`ContinuousMonoidHom.characterIntegralAlgHom`, and the completed-group-algebra equivalence
-`AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
-`TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3). Every result the pinned libraries
-already prove is cited by name in the README, not restated here.
+definitive. This file states, against the pinned Mathlib and Tau Ceti, the headline theorems of
+the roadmap that the pinned libraries do not already prove: Amice's theorem (§4.4), the analytic
+level of an additive character (§4.6), the adic universal character, the Amice-coordinate
+comparison and separation by weights (§5.3), and the analytic level of a weight (§5.4). It uses the
+pinned carriers `TauCeti.AnalyticStage` with `TauCeti.AnalyticStage.amiceMap` and
+`TauCeti.AnalyticStage.eval` (§§4.4, 4.6), `PadicInt.addChar_of_value_at_one` and
+`TauCeti.amiceRadius` (§4.6), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar`,
+`TauCeti.WeightSpace.coord` and `TauCeti.WeightSpace.principalChar` (§§5.3–5.4),
+`AbstractMeasure` with `ContinuousMonoidHom.characterIntegralAlgHom`, and the
+completed-group-algebra equivalence `AbstractMeasure.completedGroupAlgebraEquiv` with the
+power-series coordinate `TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3). Every
+result the pinned libraries already prove is cited by name in the README, not restated here.
 
-The unbounded Amice bijection of §4.7 is not stated: the pinned direct limit
-`TauCeti.LocallyAnalytic` carries no topology, and there is no pinned carrier for the
-distributions dual to it. The remaining targets of §§4.4–5.6 are specified in the README.
+Three headline targets are not statable at the pins and nothing is stated in their place. The
+unbounded Amice bijection of §4.7: the pinned direct limit `TauCeti.LocallyAnalytic` carries no
+topology, and there is no pinned carrier for the distributions dual to it. The scalar analytic
+factors of §5.5: no pinned declaration extends the principal part of a weight analytically to
+`1 + p^h 𝒪_K`, and the expansion of `κ(cz + d)` needs that extension. The annular coefficient ring
+`H` of §5.6: the ring is itself a target of the roadmap, so no carrier exists before the roadmap
+builds it. The remaining targets of §§4.4–5.6 are specified in the README.
 -/
 
 @[expose] public section
@@ -43,38 +50,44 @@ noncomputable section
 
 variable {p : ℕ} [Fact p.Prime]
 
-/-! ## Layer 2: the input-first matrix adapter -/
+/-! ## Layer 4: Amice's theorem and the analytic level of a character -/
 
-/-- **The input-first coefficients** (§2.6): `matrixCoeffInputFirst u j i` is the pinned
-output-first entry `ContinuousLinearMap.matrixCoeff u i j`, the `i`-th coordinate of the image of
-the `j`-th coordinate vector. It only reindexes coefficients and does not define another operator
-on `C₀`; composition reverses the order of the matrix product in this convention. -/
-def matrixCoeffInputFirst {R I J : Type*} [SeminormedRing R] [TopologicalSpace I]
-    [TopologicalSpace J] [DiscreteTopology J] [DecidableEq J]
-    (u : C₀(J, R) →L[R] C₀(I, R)) (j : J) (i : I) : R :=
-  ContinuousLinearMap.matrixCoeff u i j
-
-/-! ## Layer 4: Amice's theorem -/
-
-/-- **Amice's theorem** (§4.4; [Am], [Col] I.4). For a complete ultrametric normed module `E`
-with contractive `ℤ_p`-action, the pinned Amice map `(cₙ) ↦ ∑ₙ ⌊n/pʰ⌋! (x choose n) • cₙ`,
-`C₀(ℕ, E) → LA_h(E)`, is bijective and preserves norms. The pinned library proves only that it is
-norm-nonincreasing (`TauCeti.AnalyticStage.norm_amiceMap_le`). -/
+/-- **Amice's theorem** (§4.4; [Am], [Col] Théorème I.4.7). For a complete ultrametric normed
+module `E` with contractive `ℤ_p`-action, the pinned Amice map
+`(cₙ) ↦ ∑ₙ ⌊n/pʰ⌋! (x choose n) • cₙ`, `C₀(ℕ, E) → LA_h(E)`, is bijective and preserves norms.
+The pinned library proves only that it is norm-nonincreasing
+(`TauCeti.AnalyticStage.norm_amiceMap_le`). -/
 theorem amiceMap_bijective_and_norm_eq (h : ℕ) {E : Type*} [NormedAddCommGroup E]
     [Module ℤ_[p] E] [IsBoundedSMul ℤ_[p] E] [IsUltrametricDist E] [CompleteSpace E] :
     Function.Bijective (TauCeti.AnalyticStage.amiceMap p h ℤ_[p] (E := E)) ∧
       ∀ c : C₀(ℕ, E), ‖TauCeti.AnalyticStage.amiceMap p h ℤ_[p] c‖ = ‖c‖ := by
   sorry
 
-/-- **Amice's basis of `LA_h(ℤ_p)`** (§4.4; [Am], [Col] I.4): the disc expansions of the
-polynomials `e_{h,n}(x) = ⌊n/pʰ⌋! (x choose n)` form an orthonormal basis of the analytic stage
-`LA_h(ℤ_p)` over `ℤ_p`. -/
+/-- **Amice's basis of `LA_h(ℤ_p)`** (§4.4; [Am], [Col] Théorème I.4.7): the disc expansions of
+the polynomials `e_{h,n}(x) = ⌊n/pʰ⌋! (x choose n)` form an orthonormal basis of the analytic
+stage `LA_h(ℤ_p)` over `ℤ_p`. -/
 theorem isOrthonormalBasis_amiceTerm (h : ℕ) :
     TauCeti.IsOrthonormalBasis ℤ_[p]
       (fun n : ℕ ↦ TauCeti.AnalyticStage.amiceTerm p h n (1 : ℤ_[p])) := by
   sorry
 
-/-! ## Layer 5: the adic universal character and separation by weights -/
+/-- **The analytic level of an additive character** (§4.6; [Am], [Col] Théorème I.4.7 with the
+coefficient criterion `TauCeti.tendsto_amiceCharCoeff_iff`). For a complete ultrametric normed
+`ℚ_p`-algebra `K` with multiplicative norm, such as a complete normed field over `ℚ_p`, and a
+topologically nilpotent `t`, the character `χ_t(x) = (1 + t)^x` is the evaluation of a vector of
+the analytic stage `LA_h(K)` exactly when `‖t‖ < r_h = p^(−1/((p−1)pʰ))`. The pinned library
+proves the "if" direction (`TauCeti.AnalyticStage.eval_addCharExpansion`); the "only if" needs
+Amice's theorem. -/
+theorem exists_eval_eq_addChar_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
+    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
+    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K] {t : K}
+    (ht : Tendsto (t ^ ·) atTop (𝓝 0)) :
+    (∃ f : TauCeti.AnalyticStage p h K,
+        ⇑(TauCeti.AnalyticStage.eval ℤ_[p] f) = PadicInt.addChar_of_value_at_one t ht) ↔
+      ‖t‖ < TauCeti.amiceRadius p h := by
+  sorry
+
+/-! ## Layer 5: the adic universal character, separation by weights and analytic levels -/
 
 section Adic
 
@@ -125,6 +138,22 @@ integral measures. -/
 theorem measurePairing_injective :
     Function.Injective fun (μ : AbstractMeasure ℤ_[p]ˣ ℂ_[p] ℂ_[p])
       (κ : TauCeti.WeightSpace p ℂ_[p]) ↦ κ.weightTest.characterIntegralAlgHom μ := by
+  sorry
+
+/-- **The analytic level of a weight** (§5.4). For a weight `κ` with values in a complete
+ultrametric normed `ℚ_p`-algebra `K` with multiplicative norm, the principal part
+`s ↦ κ(γ^s) = (1 + T_κ)^s` of `κ` (`TauCeti.WeightSpace.principalChar`) is the evaluation of a
+vector of the analytic stage `LA_h(K)` exactly when `‖T_κ‖ < r_h = p^(−1/((p−1)pʰ))`. Through
+`x ↦ log(x/ω(x̄))/q`, this is analyticity of `κ` on the cosets of `1 + p^(h + v_p(q)) ℤ_p` in
+`ℤ_pˣ`, the level `h + v_p(q)` of the README, and `r_h = p^(−q/((p−1)p^(h + v_p(q))))`. It follows
+from `exists_eval_eq_addChar_iff` and `TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`. -/
+theorem exists_eval_eq_principalChar_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
+    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
+    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
+    (κ : TauCeti.WeightSpace p K) :
+    (∃ f : TauCeti.AnalyticStage p h K,
+        ⇑(TauCeti.AnalyticStage.eval ℤ_[p] f) = κ.principalChar) ↔
+      ‖κ.coord‖ < TauCeti.amiceRadius p h := by
   sorry
 
 end
