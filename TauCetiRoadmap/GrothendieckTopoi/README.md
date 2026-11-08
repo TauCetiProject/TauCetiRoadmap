@@ -205,7 +205,7 @@ their stability under pullback, are Moerdijk–Vermeulen 2000.
   `IsCompact.elim_directed_cover`, `QuasiSober`, `T0Space`, `Pi.instT0Space`, `Prod.instT0Space`,
   `Preperfect`, `IsCompactElement`, `isCompactElement_iff_le_of_directed_sSup_le`,
   `Algebra.GrothendieckGroup`.
-- Essential morphisms: `Functor.IsLeftAdjoint`,
+- Essential morphisms: `Functor.IsRightAdjoint`,
   `isRightAdjoint_of_preservesLimits_of_isCoseparating` (`Adjunction/AdjointFunctorTheorems`),
   `Limits.Pi.map`, `Sigma.desc`, `Pi.lift`, `IsIdempotentComplete`, `Idempotents.Karoubi`.
 - Abelian sheaves: `sheafIsAbelian` (`Sites/Abelian`), `GrothendieckTopology.overPullback`,
@@ -253,8 +253,9 @@ factorization. Layer 6 identifies points of a site with points of its topos (the
 Layer 7 compares locales and localic topoi on Layers 4–5. Layer 8 builds fibre products on
 Layers 2, 3, 5 and 7 and ends with products of spaces. Layer 9 passes to abelian sheaves on the
 slices of Layer 3 and the open and closed subtopoi of Layer 4: extension by zero, the recollement
-sequence, sections with support and the first local cohomology sheaf, and ends with the absence of
-projectives on `ℝ`. Essential morphisms (5.6) and essential points (6.5) close Layers 5 and 6.
+sequence, sections with support and the local cohomology sheaves, compared on a space with Tau
+Ceti's supported sections and local cohomology sheaves, and ends with the absence of projectives on
+`ℝ`. Essential morphisms (5.6) and essential points (6.5) close Layers 5 and 6.
 
 ## Layer 1: Grothendieck topoi and Giraud's theorem
 
@@ -712,9 +713,11 @@ Elephant A4.5.6).
   space with `A = F(X)` (the stalk at `c`), `B = F({o})` and the restriction as `A ⟶ Φ B`.
 - `Φ` constant at the terminal object (left exact): `Gl(Φ)` is `G × F`, the topos of a disjoint
   union.
-- Orientation: `Comma Φ (𝟭 G)` with `Φ` constant at the terminal object is the category of pointed
-  objects of `G`, which has a zero object and so is not a Grothendieck topos unless degenerate
-  (1.2: maps into an initial object are isomorphisms).
+- Orientation: `Comma Φ (𝟭 G)` with `Φ` constant at the terminal object has objects
+  `(B : F, A : G, ⊤ ⟶ A)`, so it is `F × Pointed(G)`, with `Pointed(G)` the category of pointed
+  objects of `G`. Its initial object is `(∅, 𝟙 ⊤)`, and the map `(∅, ⊤ ⊔ ⊤) ⟶ (∅, 𝟙 ⊤)` into it,
+  with `⊤ ⊔ ⊤` pointed by the first injection, is not invertible unless `G` is degenerate; so
+  `Comma Φ (𝟭 G)` is not a Grothendieck topos (1.2: maps into an initial object are isomorphisms).
 
 ### 4.5 Surjections and the surjection–embedding factorization
 
@@ -861,7 +864,7 @@ hyperconnected and localic is equivalent to `Type u`.
 
 ### 5.6 Essential morphisms
 
-Define `GeometricMorphism.IsEssential` (`f.inverse.IsLeftAdjoint`: a further left adjoint
+Define `GeometricMorphism.IsEssential` (`f.inverse.IsRightAdjoint`: a further left adjoint
 `f_! ⊣ f^*` exists). Prove `GeometricMorphism.isEssential_iff_preservesProducts`: between
 Grothendieck topoi, `f` is essential if and only if `f.inverse` preserves `u`-small products
 (SGA 4 IV, Exercice 7.6 a)). Route: for `f : E → F`, with finite limits, products give all
@@ -874,7 +877,7 @@ connected morphisms (5.2) are essential, that essential morphisms compose, and t
 sections morphism of a Grothendieck topos is essential exactly when it is locally connected (5.2,
 the case `F = Type u`); for a space `X`, `Sh(X) → Type u` is essential exactly when `X` is locally
 connected (SGA 4 IV, Exercice 7.6 i)).
-*Needs:* 1.2, 1.3, 1.4, 2.1, 3.2, 5.2; Mathlib `Functor.IsLeftAdjoint`,
+*Needs:* 1.2, 1.3, 1.4, 2.1, 3.2, 5.2; Mathlib `Functor.IsRightAdjoint`,
 `isRightAdjoint_of_preservesLimits_of_isCoseparating`.
 
 **Checks.**
@@ -1023,7 +1026,7 @@ from its presheaf topos up to equivalence exactly when `IsIdempotentComplete C` 
 Exercice 7.6 e)). Prove that in `Cᵒᵖ ⥤ Type u` a `u`-small product of epimorphisms is an
 epimorphism (`epi_piMap_presheaf`) and `u`-small products distribute over `u`-small coproducts
 (`isIso_sigma_pi_presheaf`): both are computed objectwise in `Type u`, the first by choice.
-*Needs:* 5.6, 6.2; Mathlib `Functor.IsLeftAdjoint`, `Limits.Pi.map`, `Sigma.desc`, `Pi.lift`,
+*Needs:* 5.6, 6.2; Mathlib `Functor.IsRightAdjoint`, `Limits.Pi.map`, `Sigma.desc`, `Pi.lift`,
 `IsIdempotentComplete`, `Idempotents.Karoubi`.
 
 **Checks.**
@@ -1279,14 +1282,15 @@ p. 18; Isbell 1981, Theorem 2, applied to the dense copies `ℚ` and `ℚ + √2
 
 Not targets. 8.5 does not extend to infinite products of locally compact spaces. Products of any
 family of compact Hausdorff spaces are spatial (Isbell 1972, Theorem 2.9, p. 22), and so are
-countable products of completely metrizable spaces (Theorem 3.12, p. 30); but the product locale of
-uncountably many separable completely metrizable spaces is the paracompact reflection of their
-product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not normal (Stone 1948, Theorem 3, p. 980),
-the localic product of `ω₁` copies of the discrete, locally compact `ℕ` is not spatial (also
-Bannister 2024, Corollary 3.13). Regular epimorphisms of locales are not stable under pullback, so
-the category of locales is not regular: every space is a quotient of a scattered space (8.4), which
-has no nonempty pointless sublocale, and pulling such a quotient back along a nonempty pointless
-sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem 1.7).
+countable products of completely metrizable spaces (Theorem 3.12 and the paragraph following its
+proof, p. 30); but the product locale of uncountably many separable completely metrizable spaces is
+the paracompact reflection of their product space (Theorem 3.13, p. 31). Since `ℕ^{ω₁}` is not
+normal (Stone 1948, Theorem 3, p. 980), the localic product of `ω₁` copies of the discrete, locally
+compact `ℕ` is not spatial (also Bannister 2024, Corollary 3.13). Regular epimorphisms of locales
+are not stable under pullback, so the category of locales is not regular: every space is a quotient
+of a scattered space (8.4), which has no nonempty pointless sublocale, and pulling such a quotient
+back along a nonempty pointless sublocale gives the empty locale (Isbell 1972, p. 14, before Theorem
+1.7).
 
 ### Examples
 
@@ -1509,7 +1513,8 @@ presheaf topoi (TotallyDistributiveTopoi 2.4).
 - [Isbell 1972] J. R. Isbell, « Atomless parts of spaces », *Mathematica Scandinavica* 31 (1972),
   5–32: locales, localic products, and the remark before 2.4 and the proof of 2.4, p. 18, the
   square of `ℚ`; p. 14, before Theorem 1.7, quotient maps of locales are not stable under
-  pullback; Theorems 2.9 (p. 22), 3.12 (p. 30) and 3.13 (p. 31), infinite product locales.
+  pullback; Theorems 2.9 (p. 22), 3.12 with the paragraph following its proof (p. 30) and 3.13
+  (p. 31), infinite product locales.
 - [Stone 1948] A. H. Stone, « Paracompactness and product spaces », *Bulletin of the American
   Mathematical Society* 54 (1948), 977–982: Theorem 3 (p. 980), the product of uncountably many
   copies of the discrete `ℕ` is not normal.

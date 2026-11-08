@@ -427,7 +427,7 @@ theorem GeometricMorphism.exists_hyperconnected_localic {E F : Type (u + 1)} [Ca
 /-- **Layer 5.6.** `f` is essential: its inverse image has a further left adjoint `f_!`. -/
 def GeometricMorphism.IsEssential {E : Type u₁} [Category.{v₁} E] {F : Type u₂}
     [Category.{v₂} F] (f : GeometricMorphism E F) : Prop :=
-  f.inverse.IsLeftAdjoint
+  f.inverse.IsRightAdjoint
 
 /-- **Layer 5.6.** Between Grothendieck topoi, `f` is essential exactly when its inverse image
 preserves `u`-small products (SGA 4 IV, Exercice 7.6 a)). -/
