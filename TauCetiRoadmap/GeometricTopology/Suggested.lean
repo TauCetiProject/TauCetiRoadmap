@@ -5,7 +5,7 @@ public import TauCeti.Geometry.Diffeomorphism.Disc
 public import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 public import TauCeti.Geometry.Manifold.Irreducible
 public import TauCeti.Geometry.Manifold.Haken
-public import TauCeti.Geometry.Manifold.Orientation
+public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.KnotTheory.Slice.Freedman
 public import TauCeti.KnotTheory.SmoothLink.Isotopy
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
@@ -20,12 +20,12 @@ public import TauCeti.Topology.TriangulationConjecture
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`: the resolved problems of
-Kirby's list and the classical theorems of three-manifold topology that the roadmap's layers
-make statable. Every carrier used here exists at the pins; no definition is made.
+Kirby's list and the classical theorems of surface and three-manifold topology that the
+roadmap's layers make statable. Every carrier used here exists at the pins; no definition is made.
 
 Of these, the proofs of Alexander's theorem, the sphere theorem and the knot-group theorem
-(Layer 8.1), Waldhausen's theorem (Layer 8.3) and Moise's triangulation theorem (Layer 11.2)
-are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
+(Layer 8.1), Waldhausen's theorem (Layer 8.3), Radó's triangulation theorem (Layer 11.2.1) and
+Moise's triangulation theorem (Layer 11.2) are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
 Gordon–Luecke theorem and the JSJ theorem (Layer 8) are GeometricTopology, Part II's, which
 starts from these statements. The annulus theorem is proved here in dimension at most three;
 its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
@@ -118,11 +118,12 @@ theorem alexander_sphere_bounds_ball :
 /-- The sphere theorem (Papakyriakopoulos; Hatcher, *Notes on Basic 3-Manifold Topology*,
 Theorem 3.8, orientable case): if a smooth orientable `3`-manifold without boundary has
 nontrivial `π₂` at some base point, it contains a locally flat embedded `2`-sphere that is
-homotopic to no constant map. Orientability is the pinned predicate on the smooth structure;
-without it the statement fails for `S¹ × ℝP²`. -/
+homotopic to no constant map. Orientability is the pinned `TauCeti.Orientable`, the existence
+of an orientation of the tangent spaces compatible with the chart Jacobians; without it the
+statement fails for `S¹ × ℝP²`. -/
 theorem sphere_theorem (M : Type u) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) ∞ M] [T2Space M]
-    [SecondCountableTopology M] [TauCeti.Orientable (𝓡 3) ∞ M]
+    [SecondCountableTopology M] [TauCeti.Orientable (𝓡 3) M]
     (x : M) (h : Nontrivial (HomotopyGroup.Pi 2 M x)) :
     ∃ f : C((TopCat.sphere 2 : TopCat.{u}), M), Topology.IsClosedEmbedding f ∧
       TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ f ∧
@@ -153,12 +154,11 @@ theorem gordon_luecke
 /-- Waldhausen's theorem: a homotopy equivalence between closed orientable Haken
 `3`-manifolds (irreducible, containing a closed bicollared incompressible surface of infinite
 fundamental group) is homotopic to a homeomorphism. The pinned Haken predicate carries the
-closed connected `3`-manifold package; orientability is the pinned predicate on the smooth
-structure. -/
+closed connected `3`-manifold package; orientability is the pinned `TauCeti.Orientable`. -/
 theorem waldhausen_theorem (M N : Type u) [TopologicalSpace M] [TopologicalSpace N]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [ChartedSpace (EuclideanSpace ℝ (Fin 3)) N]
     [IsManifold (𝓡 3) ∞ M] [IsManifold (𝓡 3) ∞ N]
-    [TauCeti.Orientable (𝓡 3) ∞ M] [TauCeti.Orientable (𝓡 3) ∞ N]
+    [TauCeti.Orientable (𝓡 3) M] [TauCeti.Orientable (𝓡 3) N]
     (hM : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold M)
     (hN : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold N)
     (e : ContinuousMap.HomotopyEquiv M N) :
@@ -187,6 +187,13 @@ theorem nonempty_homeomorph_sphere_of_simplyConnected (M : Type u) [TopologicalS
   sorry
 
 /-! ## Layer 11: triangulations -/
+
+/-- Radó's theorem, closed case: every closed topological surface is homeomorphic to the
+realization of a simplicial complex, the pinned triangulation conjecture in dimension two. The
+route is the existence of a smooth structure on every topological surface (Hatcher, *The Kirby
+torus trick for surfaces*, arXiv 1312.3518, Theorem A) followed by a smooth triangulation. -/
+theorem rado_triangulation : TauCeti.TriangulationConjecture.{u} 2 := by
+  sorry
 
 /-- Moise's theorem (Moise 1952; Bing 1959), closed case: every closed topological
 `3`-manifold is homeomorphic to the realization of a simplicial complex, the pinned

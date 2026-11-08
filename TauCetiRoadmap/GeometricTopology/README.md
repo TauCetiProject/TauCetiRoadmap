@@ -17,9 +17,10 @@ Mostow rigidity, Agol's virtual fibering and virtual Haken theorems, the JSJ the
 geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the Weeks
 manifold, Property P and Manolescu's non-triangulable manifolds, together with Alexander's
 sphere theorem, the knot-group theorem and the Gordon–Luecke theorem. `Suggested.lean` states
-the fourteen of these that are statable against the pinned libraries, together with three
-classical theorems of three-manifold topology that the layers prove and the pins make
-statable: Moise's triangulation theorem, the sphere theorem and Waldhausen's theorem.
+the fourteen of these that are statable against the pinned libraries, together with four
+classical theorems of low-dimensional topology that the layers prove and the pins make
+statable: Radó's and Moise's triangulation theorems, the sphere theorem and Waldhausen's
+theorem.
 
 ## Scope and ownership
 
@@ -29,8 +30,9 @@ This roadmap owns the following, by layer.
   along codimension-zero boundary faces, handle attachment, connected sum with explicit
   choices and its independence, the normal bundle and variable-radius tubes, the tubular
   neighbourhood theorem in a general Riemannian ambient manifold and metric-independence
-  of the normal bundle's smooth structure, and the comparison between smooth and PL
-  structures in dimension two.
+  of the normal bundle's smooth structure, and the relative triangulation and smoothing
+  adapter of compact surfaces used by the classification of Layer 1.7 (the comparison of
+  the topological, PL and smooth categories in dimension two is Layer 11.2.1's).
 - **Layer 2.** The structural theory of locally flat embeddings beyond what Tau Ceti has at
   the pins (composition and codimension-one collaring), Brown's generalized Schoenflies
   theorem, and the statement of the annulus theorem in every dimension.
@@ -96,7 +98,10 @@ This roadmap owns the following, by layer.
   on closed orientable 3-manifolds.
 - **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stars,
   links, subdivision, the CW structure), the triangulation theorem and Hauptvermutung in
-  dimension three, the equivalence of combinatorial manifolds and PL manifolds, smooth
+  dimension three; in dimension two, the existence and uniqueness up to isotopy of smooth
+  structures on topological surfaces, Radó's theorem, the two-dimensional Hauptvermutung
+  and the comparison of smooth and topological isotopy of surface diffeomorphisms
+  (Layer 11.2.1); the equivalence of combinatorial manifolds and PL manifolds, smooth
   triangulations in every dimension and uniqueness of smoothings in dimension at most
   three, the statement of Manolescu's theorem and the statement of Zeeman's conjecture.
 
@@ -107,7 +112,8 @@ This roadmap leaves the following to other roadmaps.
   volumes, locally flat embeddings and Brown's bicollaring theorem, the diffeomorphism group
   with its weak Whitney topology, smooth embeddings and their normal spaces, the Euclidean
   tubular neighbourhood with its normal vector bundle, Sard's theorem in its flat and its
-  boundaryless-manifold forms, slopes and framed boundary tori,
+  boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
+  plane and on the `2`-sphere, slopes and framed boundary tori,
   Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
   decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
   simplicial realization, combinatorial manifolds, collapse, triangulability, and the
@@ -119,32 +125,30 @@ This roadmap leaves the following to other roadmaps.
   distributions and the Frobenius theorem, integration of forms, Riemannian metrics and the
   existence of a smooth metric. **HopfRinow** owns the Levi-Civita connection, geodesics, the
   exponential map, normal neighbourhoods and the Hopf–Rinow theorem.
-- **HomotopySpheres** owns the handle calculus of compact cobordisms, built on Layer 1.3's
-  handle attachment, Layer 1.3.1's Morse functions on triads with their elementary handle
-  step, and Layer 1.5's tubes: the ordered handle decomposition of a Morse function as a
-  structure, reordering, creation and cancellation of handle pairs, handle slides and the
-  same-index basis change, the local Whitney move, and Whitney discs in codimension at
-  least three and on the five-dimensional level (HomotopySpheres §§1.2–1.6). No layer of
-  this roadmap uses them: Layer 1.7 iterates only Layer 1.3.1's elementary step over the
-  critical points of a Morse function on a surface. **MorseTheory** owns the Morse theory of
+- The handle calculus of compact cobordisms (the ordered handle decomposition of a Morse
+  function as a structure, reordering, creation and cancellation of handle pairs, handle
+  slides and the same-index basis change, the local Whitney move, and Whitney discs in
+  codimension at least three and on the five-dimensional level) is not a target of this
+  roadmap, and no layer uses it: Layer 1.7 iterates only Layer 1.3.1's elementary handle
+  step over the critical points of a Morse function on a surface. **MorseTheory** owns the Morse theory of
   functions on boundaryless manifolds and of their compact bands, and **HeegaardFloer** the
   generic Morse functions of Morse homology; both consume this roadmap, and Layer 1.3.1 takes
   the boundaryless results from Tau Ceti directly.
-- This roadmap owns the smooth classification of compact surfaces (Layer 1.7) and the
+- This roadmap owns the smooth classification of compact surfaces (Layer 1.7), the
   mapping class groups of compact surfaces with their Dehn twists, including Lickorish's
-  twist theorem (Layer 1.7.2); the combinatorial classification of surfaces up to
-  homeomorphism that **SurfaceTopology** states is not consumed here, since SurfaceTopology
-  consumes Layer 11.1's ordered-simplex chain complex and CW structure. Layer 1.7.2 is the
-  single owner of the mapping class groups of compact surfaces, their Dehn twists with the
-  sign convention pinned there, and Lickorish's theorem, for the roadmaps that consume this
-  one: **SurfaceTopology** (Layer 9), **MordellLawrenceVenkatesh** (LV.5, §§5.9–5.12, whose
-  punctured surfaces and marked points are its own) and **TeichmullerGeometry** (Layer 3.1)
-  take them from Layer 1.7.2 rather than planning them again, and compare their
-  homeomorphism classes with its diffeomorphism classes through PlanarTopology Layer 8.
-  MordellLawrenceVenkatesh normalizes the positive twist as the twist that turns left, which
-  is `T_c⁻¹` in Layer 1.7.2's convention; Layer 1.7.2 records the conversion as a Check. **PlanarTopology**
-  owns Radó's theorem, the two-dimensional Hauptvermutung and the
-  two-dimensional Schoenflies theorem. **TypeAHeckeAlgebras** owns the Hecke algebras and
+  twist theorem (Layer 1.7.2), and the two-dimensional comparison of the topological, PL and
+  smooth categories: smoothing, Radó's theorem, the two-dimensional Hauptvermutung and the
+  comparison of smooth and topological isotopy of surface diffeomorphisms (Layer 11.2.1).
+  The Jordan curve theorem and the Schoenflies theorem in the plane and on the `2`-sphere
+  are Tau Ceti's at the pin and are cited, not planned again. Layer 1.7.2 is the single owner
+  of the mapping class groups of compact surfaces, their Dehn twists with the sign
+  convention pinned there, and Lickorish's theorem, for the roadmaps that consume this one:
+  **MordellLawrenceVenkatesh** (LV.5, §§5.9–5.12, whose punctured surfaces and marked points
+  are its own) and **TeichmullerGeometry** (Layer 3.1) take them from Layer 1.7.2 rather
+  than planning them again, and compare their homeomorphism classes with its
+  diffeomorphism classes through Layer 11.2.1. MordellLawrenceVenkatesh normalizes the
+  positive twist as the twist that turns left, which is `T_c⁻¹` in Layer 1.7.2's convention;
+  Layer 1.7.2 records the conversion as a Check. **TypeAHeckeAlgebras** owns the Hecke algebras and
   the Ocneanu trace. **SuccessiveMinima** owns the successive minima of a discrete full
   lattice for a convex body and their attainment by a real basis of lattice vectors; Layer 7.3.1
   uses the first two minima of a cusp lattice for the closed unit disc of `ℂ` and adds only the
@@ -176,8 +180,8 @@ This roadmap leaves the following to other roadmaps.
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
   construction. Those developments need AlgebraicTopology, CharacteristicClasses,
   GeneralizedCohomology, TopologicalKTheory, MorseTheory, RiemannianGeometry,
-  KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism,
-  HomotopySpheres or FourManifolds, every one of which consumes this roadmap.
+  KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism or
+  FourManifolds, every one of which consumes this roadmap.
 - **Knot tables and computation.** Tabulated volumes, knot tables and finite enumerations are
   not targets. Small computed values appear only as Checks on the definitions they test.
 
@@ -304,7 +308,7 @@ constructs the compact link exterior.
   differential at every point. The instance
   `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
   subspace topology; it does not supply vector-bundle trivializations or smooth structure.
-- **Immersions** (`Geometry/Manifold/Immersion.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
+- **Immersions** (`Geometry/Manifold/Immersion/Basic.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
 - **Morse functions** (`Geometry/Manifold/Morse/`, `Analysis/Calculus/Morse/`):
   `TauCeti.IsMorseOn` and `TauCeti.IsMorse` (`Basic.lean`), `TauCeti.manifoldMorseIndex`
   (`Index.lean`); on a boundaryless finite-dimensional Hausdorff manifold, the existence
@@ -327,7 +331,7 @@ constructs the compact link exterior.
   boundaryless manifold, of any dimensions, form a meagre set. None of them treats a source
   with boundary; the reduction of Layer 1.7.1's relative transversality to the boundaryless
   interior of the disc is that section's work.
-- **The PL groupoid** (`Geometry/Manifold/PLGroupoid.lean`, `Topology/PL/`):
+- **The PL groupoid** (`Geometry/Manifold/PLGroupoid/Basic.lean`, `Topology/PL/`):
   `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
   `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction,
   and the witness `TauCeti.doubleRight_mem_PLGroupoid` of a PL map that is not affine.
@@ -374,21 +378,38 @@ constructs the compact link exterior.
   `TauCeti.PDCode.IsPlanar`, the face permutation and face count (`PDCode/Planar.lean`), the
   state sum `TauCeti.PDCode.kauffmanBracket`, `normalizedKauffmanBracket`,
   `TauCeti.PDCode.stateLoopCount` (`PDCode/Kauffman.lean`), `TauCeti.OrientedPDCode.jonesPolynomial`
-  with its Reidemeister, mirror and reversal laws (`PDCode/Jones.lean`);
+  with its Reidemeister, mirror and reversal laws (`PDCode/Jones/`);
   `TauCeti.BasedOrientedGaussCode` and `TauCeti.BasedOrientedGaussCode.toOrientedPDCode`
   (`GaussCode/`); `TauCeti.BraidGroup n`, `TauCeti.BraidWord n`, `TauCeti.BraidWord.closure`
   (`GroupTheory/SpecificGroups/Braid/`, `BraidWord/PDCode.lean`); `TauCeti.MarkovBraid`,
-  `TauCeti.MarkovEquiv`, `TauCeti.MarkovBraid.componentCount` (`Markov.lean`); the matrix
+  `TauCeti.MarkovEquiv`, `TauCeti.MarkovBraid.componentCount` (`Markov/Basic.lean`); the matrix
   Alexander polynomial `TauCeti.KnotTheory.alexanderMatrix`, `TauCeti.KnotTheory.alexander`,
   `TauCeti.KnotTheory.trefoilSeifertMatrix`, `TauCeti.KnotTheory.figureEightSeifertMatrix`
   (`Alexander.lean`); S-equivalence `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`
   (`SeifertMatrix/SEquivalence.lean`); the Burau representation and
   `TauCeti.MarkovBraid.burauAlexander` (`Burau/`); `TauCeti.KnotTheory.tristramLevineForm`,
   `TauCeti.KnotTheory.tristramLevineSignature` with the Hermitian signature
-  `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature.lean`);
+  `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature/Basic.lean`);
   `TauCeti.KnotTheory.jimboWeightedTrace` (a weighted trace, before writhe normalization),
   the Markov trace on the Temperley–Lieb algebra (`Jimbo/` and the
   `MarkovTrace` module of the `Algebra` folder).
+- **Plane topology** (`Topology/JordanCurve/Basic.lean`, `Topology/FilledHull.lean`,
+  `Analysis/Complex/PlaneSeparation/`, `Analysis/Complex/Conformal/Jordan/Schoenflies.lean`):
+  the Jordan-curve predicate `TauCeti.IsJordanCurve` (a set homeomorphic to the circle) and
+  the filled hull `TauCeti.filledHull` (the set together with the bounded components of
+  its complement); the Jordan curve theorem in `ℂ`: the complement of a Jordan curve `C` is not
+  connected (`TauCeti.IsJordanCurve.not_isPreconnected_compl`), its inside
+  `filledHull C \ C` is nonempty and is a single complementary component
+  (`TauCeti.IsJordanCurve.nonempty_filledHull_sdiff`,
+  `TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`), and every
+  complementary component has frontier `C` (`TauCeti.IsJordanCurve.frontier_connectedComponentIn`);
+  the Schoenflies theorem: a homeomorphism of `ℂ` carries the unit circle, the open unit
+  disc and the closed unit disc onto `C`, its inside and `filledHull C`
+  (`TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`, with a prescribed image of `0`
+  in `TauCeti.IsJordanCurve.exists_homeomorph_image_sphere_of_mem`), and on the unit sphere
+  of a three-dimensional real inner product space a homeomorphism fixing a point `v ∉ C`
+  carries the great circle orthogonal to `v` onto `C`
+  (`TauCeti.IsJordanCurve.exists_homeomorph_image_inner_eq_zero`).
 - **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
   up to sign), `TauCeti.BoundaryTorus`, `TauCeti.FramedBoundaryTorus` with `meridian`,
   `longitude`, `value` and `TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`.
@@ -400,7 +421,7 @@ constructs the compact link exterior.
   `TauCeti.SolidTorus.fiberSetoid p q`, `TauCeti.IsSeifertFibration`, `TauCeti.IsSeifertFibered`,
   invariance under homeomorphism, and the products `F × Circle`.
 - **Fundamental groups and van Kampen** (`FundamentalGroup/VanKampen/Basic.lean`,
-  `FundamentalGroup/VanKampen/Presentation.lean`, `Topology/Homotopy/`):
+  `FundamentalGroup/VanKampen/Presentation/`, `Topology/Homotopy/`):
   `TauCeti.isPushout_fundamentalGroup` (the pushout square of fundamental groups for an
   open cover by two sets with path-connected intersection, used for punctured discs),
   `TauCeti.vanKampen_hom_ext`, and `TauCeti.homeomorphMulEquivOfEq` (the isomorphism of
@@ -410,7 +431,10 @@ constructs the compact link exterior.
   `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
   `TauCeti.IsClosedIncompressibleSurfaceEmbedding`, `TauCeti.IsHakenSurfaceEmbedding`,
   `TauCeti.IsPossiblyNonorientableHakenThreeManifold` and its closed variant,
-  `TauCeti.IsVirtuallyHaken`; `TauCeti.Orientable I n M` (`Orientation.lean`).
+  `TauCeti.IsVirtuallyHaken`; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
+  the existence of a manifold orientation, an orientation of the tangent spaces compatible
+  with the chart Jacobians, for a model over a finite-dimensional space; it takes no
+  smoothness index and needs no `IsManifold` instance.
 - **Torus decompositions** (`LowDimTopology/JSJDecomposition.lean`,
   `LowDimTopology/Geometrization.lean`): `TauCeti.IsPeripheralTorus`, `TauCeti.IsAtoroidal`,
   `TauCeti.IsTorusDecomposition`, `TauCeti.IsJSJDecomposition` (minimality under inclusion),
@@ -426,7 +450,7 @@ constructs the compact link exterior.
   `TauCeti.HyperbolicMetric.HasFiniteVolume`, `TauCeti.IsFiniteVolumeHyperbolic`
   (`Hyperbolic/FiniteVolume.lean`); `TauCeti.IsMostowRigid`, `TauCeti.MostowRigidity`
   (`Hyperbolic/Mostow.lean`); the upper half space `TauCeti.UpperHalfSpace E`
-  (`Hyperbolic/UpperHalfSpace.lean`); `TauCeti.riemannianVolume` and
+  (`Hyperbolic/UpperHalfSpace/Basic.lean`); `TauCeti.riemannianVolume` and
   `TauCeti.riemannianTotalVolume` (`VolumeDensity/`).
 - **Mapping tori and virtual properties** (`Topology/`): `TauCeti.MappingTorus φ`,
   `TauCeti.FibersOverCircle`, `TauCeti.IsFiniteCover`, `TauCeti.IsVirtuallyFibered`,
@@ -461,13 +485,6 @@ smooth Riemannian metric on a paracompact manifold and the comparison of densiti
 The Levi-Civita connection and its regularity, the geodesic flow, the exponential map and its
 domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf–Rinow theorem
 (Layer 3).
-
-### From TauCetiRoadmap.PlanarTopology
-
-PlanarTopology Layer 5 supplies Radó's
-theorem and the two-dimensional Hauptvermutung, Layer 7 the two-dimensional Schoenflies
-theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two and the
-comparison of smooth and topological isotopy of surface diffeomorphisms.
 
 ### From TauCetiRoadmap.TypeAHeckeAlgebras
 
@@ -506,11 +523,13 @@ it is an instance.
 Six groups of targets are built before the layer numbering suggests. The disc theorem of
 Layer 3.3, which needs only the tubes of Layer 1.5, precedes the connected sum of Layer 1.4.
 Layers 3.1, 3.3 and 3.4, which need among the other layers only the tubes of Layer 1.5,
-precede the mapping class groups of Layer 1.7.2. The handlebodies and Heegaard splittings of Layer 9.1, which need
+precede the two-dimensional comparison of Layer 11.2.1 and the mapping class groups of
+Layer 1.7.2. The handlebodies and Heegaard splittings of Layer 9.1, which need
 Layers 1.3, 1.7, 1.7.2 and 11.2, precede the Lickorish–Wallace theorem of Layer 5.2.
-The realizations, Moise's theorems and the smooth triangulations of Layers 11.1–11.3, which
-need only Layer 1.6, precede Layer 1.7, the three-dimensional case of the annulus theorem in
-Layer 2.3, and Layers 8 and 9. The exterior of Layer 5.1, built from Layers 1.2, 1.5, 3.3
+The realizations and smooth triangulations of Layers 11.1 and 11.3, which need only
+Layer 1.6, then the surface theorems of Layer 11.2.1, which need in addition Layers 1.1, 3.3
+and 3.4, then Moise's theorems of Layer 11.2, which need Layer 11.2.1, precede Layer 1.7,
+the three-dimensional case of the annulus theorem in Layer 2.3, and Layers 8 and 9. The exterior of Layer 5.1, built from Layers 1.2, 1.5, 3.3
 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers
 8.1–8.4, which need Layers 1, 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of
 Layer 5.4 and the finite-volume theory of Layer 7.3. With these edges the graph of targets
@@ -890,14 +909,15 @@ Mathlib `HasGroupoid`, finite-dimensional compactness.
 
 ### 1.7 Compact smooth surfaces
 
-Consume PlanarTopology Layers 5 and 8 for Radó's theorem and the uniqueness of PL and
-smooth structures in dimension two. Build the independent two-dimensional
+Consume Layer 11.2.1 for the uniqueness up to isotopy of smooth structures on surfaces,
+the isotopy of homeomorphisms to diffeomorphisms and the two-dimensional Hauptvermutung.
+Build the independent two-dimensional
 triangulation/smoothing adapter needed here: construct finite arc/triangle
 subdivisions in coordinate discs and half-discs, smooth their edges/vertices
 with overlap and nondegeneracy checks, and extend prescribed compatible
 boundary data while fixing a smaller collar. Prove compatibility with the given
 smooth atlas and the relative uniqueness comparison. This surface prefix of 11.3
-uses the cited two-dimensional suppliers and does not consume the later
+uses Layer 11.2.1 and does not consume the later
 surface-embedding or knot classifications. Prove the smooth classification: every compact connected
 smooth surface, with or without boundary, is diffeomorphic to exactly one of the standard
 smooth models, the orientable surface of genus `g` with `b` boundary components (built from
@@ -914,7 +934,8 @@ torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and
 `rank H₁(F; ℚ) = 2g + b − 1` when `b ≥ 1`.
 
 - Two diffeomorphisms of a compact surface that are isotopic as homeomorphisms are smoothly
-  isotopic (PlanarTopology Layer 8); mapping class groups are Layer 1.7.2's.
+  isotopic, and every homeomorphism is isotopic to a diffeomorphism (Layer 11.2.1, items 2
+  and 5); mapping class groups are Layer 1.7.2's.
 - A compact connected orientable surface of genus `g` contains `g` disjoint embedded circles
   with connected complement, and any `g + 1` disjoint embedded circles disconnect it
   (Hirsch, Chapter 9, Theorem 3.6 for closed surfaces; cap the boundary circles otherwise);
@@ -941,7 +962,8 @@ torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and
   non-compact surfaces (the plane and the open annulus are both non-compact of genus zero
   and not diffeomorphic).
 
-*Needs:* PlanarTopology Layer 5, Layer 8; Layer 1.2, Layer 1.3 (handle attachment),
+*Needs:* Layer 11.2.1 (smoothing, isotopy comparison and Hauptvermutung in dimension two);
+Layer 1.2, Layer 1.3 (handle attachment),
 Layer 1.3.1 (Morse functions on the triad, regular bands and the elementary handle step),
 Layer 1.4, Layer 1.5 (tubes of circles); Layer 11.3 (smooth triangulations); Mathlib singular
 homology.
@@ -1130,8 +1152,9 @@ The constructions, separation, quotient and gluing proofs above are targets here
   satisfies it.
 
 *Needs:* 1.1–1.7, the independent two-dimensional triangulation/smoothing
-prefix of 11.3 and the relative collared-pair adapter from 11.2; Layer 1.7's compact classification, PlanarTopology's
-surface/plane comparisons; finite simplicial complexes; Tau Ceti's Sard theorem
+prefix of 11.3 and the relative collared-pair adapter from 11.2; Layer 1.7's compact classification, Layer 11.2.1's
+surface comparisons and Tau Ceti's Jordan curve and Schoenflies theorems
+(`TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`); finite simplicial complexes; Tau Ceti's Sard theorem
 (`ContMDiff.isMeagre_image_criticalPoints`, `ContDiff.addHaar_image_criticalPoints_eq_zero`,
 `ContDiff.dense_compl_image_criticalPoints`), the input of item 3's relative transversality and
 preimage theorem; native projectivization, Euclidean spaces, matrices and stereographic
@@ -1164,10 +1187,14 @@ which fixes the direction of the twist.
   orientation of the tube, the two choices giving mutually inverse classes, and
   `f T_c f⁻¹` is the twist about `f(c)` with the pushed-forward tube orientation. A twist
   about a circle bounding a disc in `F` is the identity class.
-- Alexander's trick: `Mod(D²)` is trivial, by the isotopy `f_s(x) = s f(x/s)` for
-  `|x| < s` and `f_s(x) = x` otherwise, straightened to a smooth isotopy by
-  PlanarTopology Layer 8 (Farb–Margalit, *A Primer on Mapping Class Groups*,
-  Lemma 2.1); `Mod⁺(S²)` is trivial, from `Diff(S²) ≃ O(3)` (Layer 3.4).
+- `Mod(D²)` is trivial. For homeomorphisms this is Alexander's trick, the isotopy
+  `f_s(x) = s f(x/s)` for `|x| < s` and `f_s(x) = x` otherwise (Farb–Margalit, *A Primer on
+  Mapping Class Groups*, Lemma 2.1), which is not smooth at the origin as `s → 0`. For
+  diffeomorphisms it is Smale's theorem that the diffeomorphisms of the square equal to the
+  identity near the boundary form a contractible space, through a family smooth in the
+  parameter (Layer 3.4), after a diffeomorphism fixing `∂D²` pointwise has been made the
+  identity near `∂D²` by the uniqueness of collars (Layer 1.1). `Mod⁺(S²)` is trivial, from
+  `Diff(S²) ≃ O(3)` (Layer 3.4).
 - `Mod(annulus)` is infinite cyclic, generated by the twist about the core circle
   (Farb–Margalit, Proposition 2.4): the lift to `ℝ × [0, 1]` of the image of the radial
   arc `{[0]} × [0, 1]` under `Tⁿ` starts at angular coordinate `0` and ends at `n`, and this
@@ -1245,8 +1272,8 @@ which fixes the direction of the twist.
 
 *Needs:* Layer 1.5 (tubes of circles), Layer 1.7 (the classification, Euler characteristic
 and intersection pairing), Layer 3.1 (the topology on diffeomorphism groups), Layer 3.3
-(isotopy extension), Layer 3.4 (`Diff(S²) ≃ O(3)`); PlanarTopology Layer 8 (smooth versus
-topological isotopy); Mathlib `Matrix.SpecialLinearGroup`, `Matrix.GeneralLinearGroup`,
+(isotopy extension), Layer 3.4 (`Diff(S²) ≃ O(3)` and Smale's theorem on the disc),
+Layer 1.1 (uniqueness of collars); Mathlib `Matrix.SpecialLinearGroup`, `Matrix.GeneralLinearGroup`,
 singular homology.
 
 ### Examples
@@ -1263,7 +1290,8 @@ Mathlib's manifold library; Tau Ceti's boundary manifold, collars, gluing of atl
 embeddings and normal spaces, Euclidean tubes, Morse functions on boundaryless manifolds
 (Layer 1.3.1) and Sard's theorem (Layer 1.7.1); DifferentialGeometry (corners, flows, metrics);
 HopfRinow
-(exponential map, normal neighbourhoods); PlanarTopology (surfaces); Layer 3.3 for the ambient
+(exponential map, normal neighbourhoods); Tau Ceti's Jordan curve and Schoenflies theorems and
+Layer 11.2.1 (surfaces); Layer 3.3 for the ambient
 isotopy of ball embeddings used in Layer 1.4, Layer 11.3 for the smooth triangulations used in
 Layer 1.7, and Layers 3.1, 3.3 and 3.4 for the diffeomorphism groups, isotopy extension and
 `Diff(S²) ≃ O(3)` used in Layer 1.7.2.
@@ -1348,8 +1376,11 @@ side.
 
 - The two balls meet along the sphere; the homeomorphisms may be chosen so that the union is
   the standard decomposition of `Sⁿ` into two hemispheres.
-- For `n ≤ 2` the result is PlanarTopology Layer 7's Schoenflies theorem; the proof here is
-  dimension-independent and does not consume it.
+- For `n = 2` the result without the boundary parametrization is the Schoenflies theorem on
+  `S²` that Tau Ceti has at the pin, `TauCeti.IsJordanCurve.exists_homeomorph_image_inner_eq_zero`,
+  which needs no bicollar hypothesis (the parametrization is then adjusted by the cone on a
+  homeomorphism of the circle); for `n = 1` it is the statement that two points cut `S¹` into two arcs. The
+  proof here is dimension-independent and does not consume either.
 
 **Checks.**
 - A round sphere of radius `r` in `Sⁿ` bounds the two round balls; the theorem returns them.
@@ -1404,8 +1435,8 @@ flatness; the round and locally flat Schoenflies theorems; the concentric annulu
 ### Dependencies
 
 Tau Ceti's locally flat embeddings, bicollars, Brown bicollaring and annulus statement;
-Layer 11.2 for the three-dimensional case of the annulus theorem; PlanarTopology Layer 7 for
-comparison in dimension two.
+Layer 11.2 for the three-dimensional case of the annulus theorem; Tau Ceti's Schoenflies
+theorem on `S²` for comparison in dimension two.
 
 ## Layer 3: diffeomorphism groups
 
@@ -1572,8 +1603,14 @@ parametric straightening of spheres and discs.
 
 - For `S¹` and `S²` the analogous statements are classical: `Diff(S¹) ≃ O(2)` by the
   straightening of a diffeomorphism to a rotation, and `Diff(S²) ≃ O(3)` (Smale, *Diffeomorphisms
-  of the 2-sphere*, Proc. Amer. Math. Soc. 10 (1959)). Both are proved here and are inputs to
-  Hatcher's argument.
+  of the 2-sphere*, Proc. Amer. Math. Soc. 10 (1959), Theorem A: the orientation-preserving
+  diffeomorphisms of `S²` deformation retract onto `SO(3)`). Both are proved here and are
+  inputs to Hatcher's argument. So is Smale's disc theorem, the route to `Diff(S²) ≃ O(3)`:
+  the diffeomorphisms of the square `[0, 1]²` equal to the identity on a neighbourhood of the
+  boundary form a contractible space, and the contraction can be chosen smooth in the
+  parameter and fixing the identity (Smale, Theorem B and Theorem 4). Consequently a
+  diffeomorphism of `D²` equal to the identity near `∂D²` is smoothly isotopic to the
+  identity through such diffeomorphisms; Layers 1.7.2 and 11.2.1 use this form.
 - In dimension four the analogue fails: `TauCeti.WatanabeTheorem` says that `π₁(Diff(D⁴, ∂))`
   has an element of infinite order (Watanabe, *Some exotic nontrivial elements of the rational
   homotopy groups of Diff(S⁴)*, arXiv 1812.02448, Theorem 1.1, which gives for every `k ≥ 1` a
@@ -2487,7 +2524,8 @@ The decoder, geometric realization and supporting-disc/move construction are out
 
 *Needs:* Layer 4.2 and4.2.4, native `BasedOrientedGaussCode`,
 `OrientedPDCode`, `PDCode`, perfect matchings, permutation-triple faces and
-`IsPlanar`; Layer 4.2's finite plane realization, PlanarTopology's Jordan/separation;
+`IsPlanar`; Layer 4.2's finite plane realization, Tau Ceti's Jordan curve theorem
+(`TauCeti.IsJordanCurve.not_isPreconnected_compl`, `TauCeti.IsJordanCurve.frontier_connectedComponentIn`);
 Layer 1.7's compact-surface classification; Layers 4.4,4.7,4.8 and 4.10
 for the seven-crossing polynomial, minimum and rational-reference comparisons.
 Those latter computations consume the decoding and do not supply its planarity.
@@ -2598,7 +2636,7 @@ above is the elementary form of that phenomenon.
   its starting count, with extra-crossing count `0`.
 
 *Needs:* 4.2's finite plane/sphere realization and local ambient-move comparisons;
-PlanarTopology's separation/Schoenflies and3.3's relative isotopy extension; native PD
+Tau Ceti's Jordan curve and Schoenflies theorems and 3.3's relative isotopy extension; native PD
 faces, crossings, orientations and Reidemeister operations; Mathlib finite types, finite
 sets, permutations and `SimpleGraph`. The local enumeration, finite graph and
 obstruction theorem are independent of4.2's global Reidemeister theorem; the latter is
@@ -3085,8 +3123,9 @@ They do not assume Markov's theorem, Yamada's braid-index theorem or any enumera
 of braid words.
 
 Use4.2.4's polygonal approximation, supported triangle moves and smoothing,
-Layer1.5's relative ambient extension and the plane separation/isotopy floor
-of PlanarTopology Layers 0, 1, 7 and 8. Consume the geometric braid carrier, its
+Layer1.5's relative ambient extension, Tau Ceti's Jordan curve and Schoenflies
+theorems for plane separation, and Layer 11.2.1's isotopy of homeomorphisms of surfaces
+to diffeomorphisms. Consume the geometric braid carrier, its
 relative tangle and boundary conventions and its native-word comparison from 4.2.8,
 which owns the smooth carrier and imports the presentation comparison from
 ReductiveGroups §11A. This section owns
@@ -3266,8 +3305,8 @@ identifying them with a threading solely because they are simple.
   the procedure is not required to minimize strand count.
 
 *Needs:*4.2/4.2.4's finite realized diagrams, polygonal/smooth comparison and
-supported moves; Layer1.5's relative isotopy extension; PlanarTopology's
-separation and disc-isotopy API; 4.2.8's geometric braids and native word
+supported moves; Layer1.5's relative isotopy extension; Tau Ceti's Jordan curve
+and Schoenflies theorems and Layer 3.3's disc theorem; 4.2.8's geometric braids and native word
 comparison, through ReductiveGroups §11A. Markov's theorem is used only by the final
 independence-of-choices consumer, never by either Alexander construction.
 
@@ -3760,8 +3799,7 @@ Layer1.5 (collars and tubes), Layer3.3 (supported ambient isotopy extension),
 Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3's basic
 Seifert/linking carriers; 4.3.4 for ordinary-genus minimum and trefoil
 minimality consumers. The realization/routing prefix does not use those
-minimum/calibration outputs; Layer1.7 and PlanarTopology
-Layers5,8; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
+minimum/calibration outputs; Layer1.7 and Layer 11.2.1; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
 `ZMod 2` linear maps. The finite-presentation, embedded-spine and relative
 straightening adapters are constructed here.
 
@@ -9779,7 +9817,8 @@ remainder.
 
 Use Layer 1.7.2
 for compact-surface curve/arc cuts, boundary-relative isotopy and mapping-class
-vocabulary, and PlanarTopology's separation, collars and disc straightening. This
+vocabulary, Tau Ceti's Jordan curve and Schoenflies theorems, Layer 1.1's collars and
+Layer 3.3's disc theorem. This
 section supplies the four-marked-point specialization: replace the points by small
 boundary circles, compare the boundary-relative cut system after capping them again, and
 realize the permitted point permutations by actual half-twists with collar maps.
@@ -12279,8 +12318,9 @@ GeometricTopology, Part II's. It states the sphere theorem as `sphere_theorem`: 
 orientable `3`-manifold without boundary whose `π₂` at some base point is nontrivial, in the
 sense of Mathlib's `HomotopyGroup`, there is a locally flat closed embedding of `S²` (the shape
 of sphere that `TauCeti.IsSphereBoundsBall` tests, `TauCeti.IsLocallyFlat`) that is homotopic
-to no constant map. The smooth structure is there because the pinned `TauCeti.Orientable` is a
-predicate on `C^k` structures with `k ≥ 1`; by Layer 11.2 it costs no generality, and
+to no constant map. The smooth structure is there because the pinned `TauCeti.Orientable` reads
+orientations off the Jacobians of the chart transition maps, which express orientability only
+for an atlas whose transition maps are differentiable; by Layer 11.2 it costs no generality, and
 two-sidedness is automatic for a sphere in an orientable manifold. Its proof is a target of
 this layer.
 
@@ -12966,8 +13006,9 @@ and deletions, stellar subdivision, `PreAbstractSimplicialComplex.IsCombinatoria
 its spheres and balls, `Collapsible`, `TauCeti.IsTriangulable`,
 `TauCeti.IsCombinatoriallyTriangulable`, `TauCeti.TriangulationConjecture n` and
 `TauCeti.ZeemanConjecture`. This layer joins them to Layer 1's PL manifolds, proves the
-three-dimensional and smooth triangulation theorems, and states Manolescu's theorem and
-Zeeman's conjecture.
+two-dimensional, three-dimensional and smooth triangulation theorems, compares the
+topological, PL and smooth categories in dimensions two and three, and states Manolescu's
+theorem and Zeeman's conjecture.
 
 ### 11.1 The realization and its CW structure
 
@@ -13019,8 +13060,8 @@ of a closed subset. `Suggested.lean` states the closed case of the triangulation
 every closed topological `3`-manifold is triangulable, as `moise_triangulation`, the pinned
 `TauCeti.TriangulationConjecture 3`; its proof is a target of this layer.
 
-- Dimension two is PlanarTopology Layer 5 (Radó) and Layer 8; dimension one is the
-  classification of `1`-manifolds.
+- Dimension two is Layer 11.2.1 (Radó's theorem, smoothing and the Hauptvermutung for
+  surfaces); dimension one is the classification of `1`-manifolds.
 - These are the theorems that let Layers 5, 8 and 9 pass freely between topological, PL and
   smooth `3`-manifolds.
 
@@ -13033,7 +13074,118 @@ every closed topological `3`-manifold is triangulable, as `moise_triangulation`,
   boundaries have a common subdivision, as the Hauptvermutung asserts.
 
 *Needs:* Tau Ceti `TauCeti.IsTriangulable`, `TauCeti.IsCombinatoriallyTriangulable`,
-`TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1; PlanarTopology Layers 5 and 8.
+`TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1, Layer 11.2.1.
+
+### 11.2.1 Surfaces: smoothing, Radó's theorem and the Hauptvermutung in dimension two
+
+In this section a surface is a Hausdorff, second-countable topological `2`-manifold, possibly
+with boundary; a smooth surface carries in addition a smooth atlas over `𝓡∂ 2` (over `𝓡 2`
+when the boundary is empty). Items 1 and 2 are proved by Kirby's torus trick in Hatcher's
+two-dimensional form (Hatcher, *The Kirby torus trick for surfaces*, arXiv 1312.3518): a
+handle smoothing theorem says that a topological embedding into a smooth surface of `ℝ²`, of
+a `1`-handle `D¹ × ℝ` already smooth near `∂D¹ × ℝ`, or of `D²` already smooth near `∂D²`, is
+isotopic, fixed outside a neighbourhood of the core and where it is already smooth, to one
+that is smooth near the core (§2, the Handle Smoothing Theorem); for `0`-handles the proof
+pulls the standard smooth structure back to a punctured torus, extends and identifies it with
+the standard torus, lifts to a bounded homeomorphism of `ℝ²` and applies Alexander's trick
+(§3).
+
+1. **Smoothing.** Prove that every surface admits a smooth structure, and that a smooth
+   structure given on an open subset extends to the whole surface (Hatcher, Theorem A, and
+   the refinement stated after Theorems A and B). The route smooths coordinate charts one at
+   a time over a triangulation of their overlap with simplices shrinking towards its frontier,
+   and treats the boundary through a collar: for a compact boundary this is Brown's
+   collaring theorem, `TauCeti.IsLocallyCollared.isCollared`; in general it is Connelly's
+   partition-of-unity argument quoted in Hatcher's proof of Theorem A.
+2. **Isotopy to diffeomorphisms.** Prove that every homeomorphism between smooth surfaces is
+   isotopic to a diffeomorphism, by an isotopy that moves points as little as desired and
+   that is fixed on a neighbourhood of the boundary when the homeomorphism is already a
+   diffeomorphism there (Hatcher, Theorem B, with the refinements stated after Theorems A
+   and B and after the proof of Theorem B). The route smooths the homeomorphism near the
+   vertices, then near the edges, then on the triangles of a smooth triangulation of the
+   source (Layer 11.3). Applied to the identity map between two smooth structures on one
+   surface, this shows that the smooth structure of item 1 is unique up to isotopy.
+3. **Radó's theorem.** Prove that every surface `M` is homeomorphic to the realization of a
+   locally finite combinatorial `2`-manifold, `TauCeti.IsCombinatoriallyTriangulable M 2`,
+   from item 1 and the smooth triangulations of Layer 11.3; the theorem is Radó's (1925),
+   whose proof used the Schoenflies theorem, and the route here does not. `Suggested.lean`
+   states the closed case, that every closed topological surface is triangulable, as
+   `rado_triangulation`, the pinned `TauCeti.TriangulationConjecture 2`.
+4. **PL surfaces and the Hauptvermutung.** Prove that every PL surface in the sense of
+   Layer 1.6 admits a smooth structure compatible with its PL structure, by rounding the
+   corners of the triangles on the stars of the vertices of a subdivision, unique up to
+   isotopy by item 2, so that the PL and smooth categories agree in dimension two (as Hatcher,
+   §1, records). Deduce the two-dimensional Hauptvermutung: every homeomorphism between PL
+   surfaces is isotopic to a PL homeomorphism, so any two triangulations of a surface have
+   isomorphic subdivisions, from item 2 and the uniqueness of the PL structure of a smooth
+   manifold (Layer 11.3).
+5. **Smooth and topological isotopy.** For a compact smooth surface `F`, prove that two
+   diffeomorphisms of `F` fixing `∂F` pointwise that are joined by an isotopy through
+   homeomorphisms fixing `∂F` pointwise are joined by a smooth isotopy, a `TauCeti.Diffeotopy`,
+   through diffeomorphisms fixing `∂F` pointwise. With item 2 in its relative form this makes
+   the forgetful map from the mapping class group `Mod(F)` of Layer 1.7.2 to the group of
+   isotopy classes of homeomorphisms of `F` fixing `∂F` a group isomorphism. Route: make the
+   two diffeomorphisms the identity near `∂F` by the uniqueness of collars (Layer 1.1), and
+   extend the whole isotopy by the identity over an external collar, so that every map in it
+   is the identity near the boundary. Cut the isotopy `f_t` at times `t_0 < … < t_k` with
+   every `f_{t_{i+1}} ∘ f_{t_i}⁻¹` uniformly close to the identity (uniform continuity on the
+   compact `F × [0, 1]`, inverses included), replace each `f_{t_i}` by a diffeomorphism
+   `g_i` uniformly close to it by item 2 (with `g_0` and `g_k` the given diffeomorphisms),
+   and prove that a diffeomorphism `d` equal to the identity near `∂F` and uniformly close
+   enough to the identity is smoothly isotopic to the identity relative to a neighbourhood of
+   `∂F`. For that, take a smooth triangulation of `F` (Layer 11.3) whose mesh is large
+   compared with the displacement of `d`; make `d` the identity near each vertex by the disc
+   theorem of Layer 3.3 applied in a small disc, `d` being orientation-preserving there since
+   it is close to the identity; carry the image of each edge back to the edge inside a disc
+   neighbourhood of the edge, the two arcs cutting that disc into discs by Tau Ceti's
+   Schoenflies theorem, made smooth by item 2, so that a diffeomorphism of the disc fixed near
+   its boundary carries one arc to the other and is smoothly isotopic to the identity by
+   Smale's disc theorem (Layer 3.4); and finish on each triangle, where `d` is now the
+   identity near the boundary and maps the triangle to itself, by Smale's disc theorem again.
+
+**Checks.**
+- A triangulation of a closed surface by a simplicial complex with `V` vertices, `E` edges
+  and `F` triangles has `3F = 2E`, `χ = V − E + F = V − E/3` and `E ≤ V(V − 1)/2`, so
+  `V² − 7V + 6χ ≥ 0`; moreover `V ≥ 4`, since the two triangles on an edge have distinct
+  third vertices. For `S²` (`χ = 2`) the inequality `(V − 3)(V − 4) ≥ 0` adds nothing, and
+  `V = 4` is attained by the boundary of the tetrahedron (`V, E, F = 4, 6, 4`); for `ℝP²`
+  (`χ = 1`) it reads `(V − 1)(V − 6) ≥ 0`, so `V ≥ 6`, attained by the antipodal
+  quotient of the icosahedron (`6, 15, 10`); for the torus (`χ = 0`) it reads `V(V − 7) ≥ 0`,
+  so `V ≥ 7`, attained by the
+  seven-vertex torus (`7, 21, 14`, every pair of vertices joined). The torus as a square with
+  opposite sides identified and one diagonal, one vertex, three edges and two triangles, is a
+  `Δ`-complex and not a simplicial complex, so it is not an instance of
+  `TauCeti.IsTriangulable`: the pinned predicate uses abstract simplicial complexes, which
+  the vertex bound distinguishes.
+- The plane is triangulable, by the locally finite triangulation of `ℝ²` by unit squares
+  each cut along a diagonal, but by no finite complex, whose realization is compact: Radó's
+  theorem for non-compact surfaces needs infinite locally finite complexes, and the closed
+  case is the one `TauCeti.TriangulationConjecture 2` states.
+- The boundaries of the tetrahedron (`4, 6, 4`) and of the octahedron (`6, 12, 8`), both
+  with `χ = 2`, triangulate `S²`; radial projection from the centre places both on the round
+  sphere, and their overlay is a common cell decomposition whose triangulation subdivides
+  both, as the Hauptvermutung of item 4 asserts.
+- On the annulus `S¹ × [0, 1]` the twist `(θ, t) ↦ (θ + 2πφ(t), t)`, with `φ` rising from `0`
+  near `0` to `1` near `1`, is joined to the identity by `(θ, t) ↦ (θ + 2πsφ(t), t)`,
+  `s ∈ [0, 1]`, a smooth isotopy that rotates the boundary circle `t = 1` by `2πs`; relative
+  to the boundary it is not isotopic to the identity, its radial arc winding once around
+  (Layer 1.7.2). So item 5 must fix `∂F` on both sides, and a version fixing it only for the
+  diffeomorphisms but not along the isotopy would identify every power of the twist with the
+  identity.
+- The reflection `(x, y, z) ↦ (x, y, −z)` of `S²` moves the poles a distance `2`, has degree
+  `−1` and is not isotopic to the identity, while the rotation by a small angle `ε` moves
+  every point at most `2 sin(ε/2)` and is smoothly isotopic to the identity through
+  rotations: the closeness hypothesis of the last step of item 5 cannot be dropped.
+- Items 1 and 2 hold in dimension three as well (Layer 11.2) and fail in dimension four:
+  `E₈` has no smooth structure and `ℝ⁴` has smooth structures that are not diffeomorphic, so
+  no dimension-free form is stated.
+
+*Needs:* Tau Ceti `TauCeti.IsTriangulable`, `TauCeti.IsCombinatoriallyTriangulable`,
+`TauCeti.TriangulationConjecture`, `TauCeti.IsLocallyCollared.isCollared`,
+`TauCeti.IsJordanCurve.exists_homeomorph_image_sphere`, `TauCeti.Diffeotopy`; Layer 1.1
+(uniqueness of collars), Layer 1.6 (PL surfaces), Layer 3.3 (the disc theorem), Layer 3.4
+(Smale's disc theorem), Layer 11.3 (smooth triangulations and the uniqueness of the PL
+structure of a smooth manifold); Mathlib `Homeomorph`, `IsManifold`.
 
 ### 11.3 Smooth triangulations and combinatorial manifolds
 
@@ -13086,7 +13238,7 @@ manifold of one dimension less.
 
 The triangulation conjecture in dimension `n` is the pinned `TauCeti.TriangulationConjecture n`:
 every closed topological `n`-manifold is triangulable. It holds for `n ≤ 3` by Radó
-(PlanarTopology Layer 5) and Moise (Layer 11.2, `moise_triangulation`), and it fails for every
+(Layer 11.2.1, `rado_triangulation`) and Moise (Layer 11.2, `moise_triangulation`), and it fails for every
 `n ≥ 5`: there is a
 closed `n`-manifold admitting no simplicial triangulation (Manolescu, *Pin(2)-equivariant
 Seiberg–Witten Floer homology and the triangulation conjecture*, J. Amer. Math. Soc. 29 (2016),
@@ -13138,34 +13290,31 @@ conjecture implies the Poincaré conjecture (Zeeman 1964).
 
 ### Examples
 
-The boundary of the simplex as a combinatorial sphere; the double suspension of the Poincaré
+The boundary of the simplex as a combinatorial sphere; the seven-vertex torus and the
+six-vertex projective plane as minimal triangulations; the double suspension of the Poincaré
 sphere as a non-combinatorial triangulation of `S⁵`; `E8 × S¹` as a triangulable manifold with
 no PL structure; the dunce hat; the tetrahedral smooth triangulation of `S²`.
 
 ### Dependencies
 
 Tau Ceti's simplicial complexes, realizations, combinatorial manifolds, collapse,
-triangulability and the two propositions; Layer 1.6 (PL manifolds); PlanarTopology Layers 5
-and 8; Mathlib CW complexes.
+triangulability and the two propositions, Brown's collaring theorem and the Schoenflies
+theorem; Layer 1.6 (PL manifolds); Layer 1.1 (collars) and Layers 3.3 and 3.4 (the disc
+theorem and Smale's disc theorem) for Layer 11.2.1; Mathlib CW complexes.
 
 ## Downstream consumers
 
 - **AlgebraicTopology** consumes Layer 11.1's CW structure on realizations and the transport
   of CW structures along homeomorphisms, and Layer 1's boundary and collar constructions.
 - **CharacteristicClasses**, **GeneralizedCohomology**, **TopologicalKTheory**,
-  **MorseTheory**, **RiemannianGeometry**, **IndexTheory**, **HomotopySpheres**,
+  **MorseTheory**, **RiemannianGeometry**, **IndexTheory**,
   **AffineMorseLefschetz** and **ComplexKahlerGeometry** consume Layer 1: collars, gluing,
   connected sums, tubular neighbourhoods and the metric-independent normal bundle.
-  HomotopySpheres builds its handle decompositions, cancellation and Whitney moves
-  (HomotopySpheres §§1.2–1.6) on Layer 1.3's handle attachment, Layer 1.3.1's Morse
-  functions on compact cobordisms with their elementary handle step, and Layer 1.5's tubes.
 - **MorseTheory** also consumes Layer 2.2's generalized Schoenflies theorem for a bicollared
   sphere, which is proved here and is the topological input of its target M4.1.
 - **TeichmullerGeometry** consumes Layer 3's topological group `Diff(M)` and isotopy
-  extension, and Layer 1.7.2's mapping class groups for its Layer 3.1.
-- **SurfaceTopology** consumes Layer 11.1's ordered-simplex chain complex and CW structure,
-  and Layer 1.7.2's mapping class groups, Dehn twists and Lickorish's theorem for its
-  Layer 9.
+  extension, Layer 1.7.2's mapping class groups for its Layer 3.1, and Layer 11.2.1's
+  comparison of smooth and topological isotopy classes of surface diffeomorphisms.
 - **MordellLawrenceVenkatesh** consumes Layer 1's collars and gluing along boundary pieces,
   and Layer 1.7.2's mapping class groups, Dehn twists and their action on homology for the
   compact surfaces of its LV.5, §§5.9–5.12.
@@ -13230,7 +13379,8 @@ and 8; Mathlib CW complexes.
 - J. Cerf, *Sur les difféomorphismes de la sphère de dimension trois (Γ₄ = 0)*, Lecture Notes
   in Math. 53 (1968), Théorème 1 and Corollaire 1. A. Hatcher, *A proof of the Smale
   conjecture, Diff(S³) ≃ O(4)*, Ann. of Math. 117 (1983), 553–607. S. Smale, *Diffeomorphisms
-  of the 2-sphere*, Proc. Amer. Math. Soc. 10 (1959), 621–626. T. Watanabe, *Some exotic
+  of the 2-sphere*, Proc. Amer. Math. Soc. 10 (1959), 621–626, Theorems A and B and
+  Theorem 4 (AMS open archive). T. Watanabe, *Some exotic
   nontrivial elements of the rational homotopy groups of Diff(S⁴)*, arXiv 1812.02448,
   Theorem 1.1.
 - W. B. R. Lickorish, *An Introduction to Knot Theory*, Springer GTM 175 (1997): Chapter 1
@@ -13245,6 +13395,9 @@ and 8; Mathlib CW complexes.
   Cambridge Philos. Soc. 60 (1964), 769–778, and its corrigendum, 62 (1966), 679–681.
   B. Farb, D. Margalit, *A Primer on Mapping Class Groups*, Princeton Math. Ser. 49 (2012),
   Lemma 2.1, Proposition 2.4, Theorem 2.5, Theorem 4.1.
+- A. Hatcher, *The Kirby torus trick for surfaces*, arXiv 1312.3518 (v3, 2025): §1, Theorems A
+  and B with the refinements stated after them and after the proof of Theorem B, §2 (the
+  Handle Smoothing Theorem), §3 (the torus trick for `0`-handles).
 - P. Freyd, D. Yetter, J. Hoste, W. B. R. Lickorish, K. Millett, A. Ocneanu, *A new polynomial
   invariant of knots and links*, Bull. Amer. Math. Soc. 12 (1985), 239–246, p. 244
   (mutation, pretzel permutations and the two-tangle composition formula).
