@@ -8,14 +8,19 @@ The roadmap is `README.md`; this file is not the roadmap. It states, each with `
 the pinned Mathlib and Tau Ceti, the roadmap's four end theorems (`hermiteJet_bijective`,
 `det_confluentVandermonde`, `exists_nonzero_ordinary_jet_on_frobenius_graph`,
 `det_gram_matrix_smul`) and the main statements of Layers 0–4 on which they and their consumers
-rest: the Frobenius substitution identities (Layer 0), the kernel of the unrestricted jet map
-(Layer 1), full-row minors and extended-ideal coordinates (Layer 2), row ideals, unitriangular row
-changes and ideal powers of derivatives of products (Layer 3), and the row-dependent determinant
-and derivative bounds (Layer 4). It defines only the three objects these statements need,
-`powerSubstitution`, `hermiteJet` and `confluentVandermonde`, all with real bodies on native
-carriers. Every headline theorem of the roadmap is statable at the pins. The norm statements of
-Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the multiplicativity of
-`Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets only.
+rest: the Frobenius substitution identities for every power `q = p ^ e` of the characteristic
+(Layer 0), the kernel of the unrestricted jet map (Layer 1), extended-ideal coordinates (Layer 2),
+row ideals, the Gram change of family and ideal powers of derivatives of products (Layer 3), and
+the row-dependent determinant and derivative bounds (Layer 4). It defines only the three objects
+these statements need, `powerSubstitution`, `hermiteJet` and `confluentVandermonde`, all with real
+bodies on native carriers. Every headline theorem of the roadmap is statable at the pins. The
+maximal-minor criterion for independent rows and the behaviour of minors under left
+multiplication are Tau Ceti's (`Matrix.linearIndependent_row_iff_exists_det_submatrix_ne_zero`,
+`Matrix.det_submatrix_mul_left`), so the transport of minors along ring maps (README 2.1) and the
+unitriangular row changes (README 3.2), a few lines from them, are README targets only. The norm
+statements of Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the
+multiplicativity of `Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets
+only.
 -/
 
 noncomputable section
@@ -44,21 +49,23 @@ theorem powerSubstitution_injOn (B : ℕ) (hB : 0 < B) :
       {f : MvPolynomial (Fin 2) R | f.degreeOf 0 < B} := by
   sorry
 
-/-- In characteristic `p`, ordinary derivatives of every order commute with the Frobenius
-substitution: `D ^ k (F(X, X ^ p)) = (∂_Z ^ k F)(X, X ^ p)`, since `D (X ^ p) = 0` (README 0.4). -/
+/-- In characteristic `p` and for `q = p ^ e` with `0 < e`, ordinary derivatives of every order
+commute with the Frobenius substitution: `D ^ k (F(X, X ^ q)) = (∂_Z ^ k F)(X, X ^ q)`, since
+`D (X ^ q) = q X ^ (q - 1) = 0` (README 0.4). At `e = 0` it fails: `D X = 1` while `∂_Z W = 0`. -/
 theorem iterate_derivative_powerSubstitution {p : ℕ} [Fact p.Prime] [CharP R p]
-    (k : ℕ) (f : MvPolynomial (Fin 2) R) :
-    (Polynomial.derivative^[k]) (powerSubstitution p f) =
-      powerSubstitution p ((MvPolynomial.pderiv (0 : Fin 2))^[k] f) := by
+    {e : ℕ} (he : 0 < e) (k : ℕ) (f : MvPolynomial (Fin 2) R) :
+    (Polynomial.derivative^[k]) (powerSubstitution (p ^ e) f) =
+      powerSubstitution (p ^ e) ((MvPolynomial.pderiv (0 : Fin 2))^[k] f) := by
   sorry
 
-/-- In characteristic `p`, Hasse derivatives of order `k < p` commute with the Frobenius
-substitution: `D^[k] (F(X, X ^ p)) = (∂_Z^[k] F)(X, X ^ p)` (README 0.4; Iwaniec–Kowalski,
-Lemma 11.17). The identity fails at `k = p`, witnessed by `F = W`. -/
+/-- In characteristic `p` and for `q = p ^ e`, Hasse derivatives of order `k < q` commute with
+the Frobenius substitution: `D^[k] (F(X, X ^ q)) = (∂_Z^[k] F)(X, X ^ q)` (README 0.4;
+Iwaniec–Kowalski, Lemma 11.17). The identity fails at `k = q`, witnessed by `F = W`; at `e = 0`
+only `k = 0` is admitted and the identity is trivial. -/
 theorem hasseDeriv_powerSubstitution {p : ℕ} [Fact p.Prime] [CharP R p]
-    (k : ℕ) (hk : k < p) (f : MvPolynomial (Fin 2) R) :
-    Polynomial.hasseDeriv k (powerSubstitution p f) =
-      powerSubstitution p (MvPolynomial.hasseDeriv (Finsupp.single 0 k) f) := by
+    {e : ℕ} (k : ℕ) (hk : k < p ^ e) (f : MvPolynomial (Fin 2) R) :
+    Polynomial.hasseDeriv k (powerSubstitution (p ^ e) f) =
+      powerSubstitution (p ^ e) (MvPolynomial.hasseDeriv (Finsupp.single 0 k) f) := by
   sorry
 
 end Substitution
@@ -67,18 +74,19 @@ section FrobeniusTest
 
 variable {K : Type*} [Field K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
-/-- **The Frobenius-graph nonvanishing test** (README 0.6). A nonzero bivariate `F` of `Z`-degree
-below `p` whose Frobenius substitution has degree below `#S · (m + 1)`, with `m < p`, has a
-nonzero ordinary `Z`-jet of order at most `m` at some point `(a, a ^ p)` with `a ∈ S`. Route: the
-root-count inequality over an arbitrary field for `F(X, X ^ p)`, from Tau Ceti's
-`Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero` and Mathlib's `Polynomial.card_roots'`, the
-Hasse identity `hasseDeriv_powerSubstitution`, and the unit `k!` for `k < p`. -/
-theorem exists_nonzero_ordinary_jet_on_frobenius_graph
-    (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p)
+/-- **The Frobenius-graph nonvanishing test** (README 0.6). For `q = p ^ e` with `0 < e`, a nonzero
+bivariate `F` of `Z`-degree below `q` whose Frobenius substitution has degree below
+`#S · (m + 1)`, with `m < p`, has a nonzero ordinary `Z`-jet of order at most `m` at some point
+`(a, a ^ q)` with `a ∈ S`. Route: the root-count inequality over an arbitrary field for
+`F(X, X ^ q)`, from Tau Ceti's `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero` and Mathlib's
+`Polynomial.card_roots'`, the Hasse identity `hasseDeriv_powerSubstitution` at `k ≤ m < p ≤ q`,
+and the unit `k!` for `k < p`. At `e = 0` it fails: `F = W`, `S = {0}`, `m = 1` over `ZMod 2`. -/
+theorem exists_nonzero_ordinary_jet_on_frobenius_graph {e : ℕ} (he : 0 < e)
+    (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p ^ e)
     (S : Finset K) (m : ℕ) (hm : m < p)
-    (hdeg : (powerSubstitution p F).natDegree < S.card * (m + 1)) :
+    (hdeg : (powerSubstitution (p ^ e) F).natDegree < S.card * (m + 1)) :
     ∃ a ∈ S, ∃ k ≤ m,
-      MvPolynomial.eval ![a, a ^ p] ((MvPolynomial.pderiv (0 : Fin 2))^[k] F) ≠ 0 := by
+      MvPolynomial.eval ![a, a ^ p ^ e] ((MvPolynomial.pderiv (0 : Fin 2))^[k] F) ≠ 0 := by
   sorry
 
 end FrobeniusTest
@@ -139,18 +147,11 @@ theorem det_confluentVandermonde (a : Fin r → R) (m : Fin r → ℕ) :
 
 end Vandermonde
 
-/-! ## Layer 2: rank, minors and coefficient coordinates -/
+/-! ## Layer 2: minors under ring maps and coefficient coordinates -/
 
-section Minors
+section Coordinates
 
-/-- **Full-row minors** (README 2.1): a matrix over a field with linearly independent rows has an
-injective choice of columns on which the square minor is nonzero. -/
-theorem exists_full_row_minor {K : Type*} [Field K] {m n : ℕ}
-    (A : Matrix (Fin m) (Fin n) K) (hA : LinearIndependent K A) :
-    ∃ c : Fin m → Fin n, Function.Injective c ∧ (A.submatrix id c).det ≠ 0 := by
-  sorry
-
-/-- **Extended-ideal coordinates** (README 2.3): for a commutative algebra `A` with a finite basis
+/-- **Extended-ideal coordinates** (README 2.2): for a commutative algebra `A` with a finite basis
 `b` over `R`, an element lies in the extended ideal `J A` iff each of its coordinates lies in `J`.
 The criterion concerns extended ideals only. -/
 theorem coordinates_mem_extended_ideal {R A ι : Type*} [CommRing R] [CommRing A]
@@ -158,7 +159,7 @@ theorem coordinates_mem_extended_ideal {R A ι : Type*} [CommRing R] [CommRing A
     a ∈ J.map (algebraMap R A) ↔ ∀ i, b.repr a i ∈ J := by
   sorry
 
-end Minors
+end Coordinates
 
 /-! ## Layer 3: ideal divisibility and changes of rows -/
 
@@ -171,14 +172,6 @@ ideal `J i`, the determinant lies in `∏ i, J i`; the empty product is `⊤`. -
 theorem det_mem_prod_row_ideals {n : ℕ} (A : Matrix (Fin n) (Fin n) R)
     (J : Fin n → Ideal R) (h : ∀ i j, A i j ∈ J i) :
     A.det ∈ ∏ i, J i := by
-  sorry
-
-/-- **Unitriangular row changes** (README 3.2): a lower unitriangular coefficient matrix `U`
-preserves every full-row minor of `A`; only `det U = 1` is used. -/
-theorem unitriangular_mul_minor {m n : ℕ} (U : Matrix (Fin m) (Fin m) R)
-    (hdiag : ∀ i, U i i = 1) (htri : ∀ i j, i < j → U i j = 0)
-    (A : Matrix (Fin m) (Fin n) R) (c : Fin m → Fin n) :
-    ((U * A).submatrix id c).det = (A.submatrix id c).det := by
   sorry
 
 /-- **The Gram change-of-family identity** (README 3.3): for `w i = ∑ j, U i j • v j` in a real
