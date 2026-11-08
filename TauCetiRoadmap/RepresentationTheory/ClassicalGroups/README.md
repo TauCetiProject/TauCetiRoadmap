@@ -133,7 +133,7 @@ similitude roadmap.
   `Matrix.SpecialLinearGroup (Fin n) R` (notation `SL(n, R)`, `LinearAlgebra/Matrix/SpecialLinearGroup.lean`)
   with `Matrix.SpecialLinearGroup.toGL`; `Matrix.symplecticGroup l R` (a `Submonoid` of
   `Matrix (l ⊕ l) (l ⊕ l) R`, with `Matrix.J`, `SymplecticGroup.symJ`, `SymplecticGroup.symplectic_det`,
-  `LinearAlgebra/SymplecticGroup.lean:59,102,133,149`); `Matrix.orthogonalGroup n R` and `Matrix.unitaryGroup n α`
+  `LinearAlgebra/SymplecticGroup.lean:58,101,132,148`); `Matrix.orthogonalGroup n R` and `Matrix.unitaryGroup n α`
   (`LinearAlgebra/UnitaryGroup.lean`, with `Matrix.UnitaryGroup.embeddingGL`).
 - **Representations.** `Representation k G V = G →* (V →ₗ[k] V)` (`RepresentationTheory/Basic.lean`) with the
   functorial constructions `Representation.tprod` (`V ⊗ W`), `Representation.dual` (`Module.Dual`),
@@ -149,7 +149,7 @@ similitude roadmap.
   `exteriorPower.map`, and the basis `Module.Basis.exteriorPower` indexed by the `k`-element subsets
   (`Set.powersetCard`) of the linearly ordered index type of a basis
   (`LinearAlgebra/ExteriorAlgebra/Basic.lean`, `LinearAlgebra/ExteriorPower/Basic.lean`,
-  `LinearAlgebra/ExteriorPower/Basis.lean:95`);
+  `LinearAlgebra/ExteriorPower/Basis.lean:94`);
   `SymmetricPower R ι M = Sym[R] ι M`, notation `Sym[R]^k M = Sym[R] (Fin k) M`, with `SymmetricPower.mk`,
   `SymmetricPower.tprod` (`LinearAlgebra/TensorPower/Symmetric.lean`); and `SymmetricAlgebra R M` with
   `IsSymmetricAlgebra` (`LinearAlgebra/SymmetricAlgebra/{Basic,Basis}.lean`).
@@ -165,7 +165,7 @@ similitude roadmap.
 - **Root systems and Lie weights (the abstract skeleton).** `RootPairing` and the root-system class
   `RootPairing.IsRootSystem` (`LinearAlgebra/RootSystem/Defs.lean:81,120`), `RootPairing.Base`
   (`LinearAlgebra/RootSystem/Base.lean:68`), the integer Cartan matrix of a base of a crystallographic
-  root pairing `RootPairing.Base.cartanMatrix` (`LinearAlgebra/RootSystem/CartanMatrix.lean:107`), and
+  root pairing `RootPairing.Base.cartanMatrix` (`LinearAlgebra/RootSystem/CartanMatrix.lean:106`), and
   `RootPairing.weylGroup` (`LinearAlgebra/RootSystem/WeylGroup.lean:55`); `LieModule.Weight`,
   `LieModule.genWeightSpace`, `LieModule.IsTriangularizable`, and `LieAlgebra.IsKilling.rootSystem` (the root
   system of a Lie algebra, `Algebra/Lie/Weights/*`). This roadmap consumes these as the *abstract* target
@@ -183,7 +183,7 @@ similitude roadmap.
   are its SO equivariance, square and highest-wedge eigenspace comparison.
 - **Linear-algebra glue.** `Matrix.diagonal`, `Matrix.mulVec`, `Module.Dual`, `Matrix.toLin`,
   `Module.finrank`, and the product basis of a tensor product of finitely many free modules
-  `Basis.piTensorProduct` (`LinearAlgebra/PiTensorProduct/Basis.lean:36`), which applied to `d`
+  `Basis.piTensorProduct` (`LinearAlgebra/PiTensorProduct/Basis.lean:33`), which applied to `d`
   copies of a basis of `V` indexed by `Fin n` is a basis of `⨂[ℂ]^d V` indexed by `Fin d → Fin n`.
 
 ### From Tau Ceti
