@@ -43,9 +43,10 @@ It leaves to other roadmaps:
 - the Levi-Civita connection, curvature, Gauss equation, hypersurface variation,
   Bishop–Gromov comparison with its small-ball limit and its equality case, and
   spherical harmonics: RiemannianGeometry R1–R5, R4.1, R7.8, R8;
-- Gauss–Bonnet for disks and annuli with piecewise smooth boundary, reflex corners
-  included, the signed turning theorem, and their boundary, corner and common-arc
-  interfaces: RiemannianGeometry/Surfaces S3;
+- Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
+  included and cusps excluded, with its boundary term against local connection forms
+  and the cancellation along a common boundary arc with its endpoint-angle terms:
+  RiemannianGeometry/Surfaces S3;
 - gradient, divergence, Laplace–Beltrami, Green identities, orientation cover and
   Sard: DifferentialGeometry 2, 10, 12.2–12.5;
 - Euclidean weak spaces, maximum principles, elliptic existence and regularity:
@@ -145,11 +146,13 @@ scalar spherical harmonics and their completeness in the compact L² realization
 
 ### From TauCetiRoadmap.RiemannianGeometry.Surfaces
 
-S3: Gauss–Bonnet for disks and annuli with piecewise smooth boundary, reflex corners
-included; the boundary term against local connection forms; cancellation along a
-common boundary arc together with its endpoint-angle terms. Its conventions are
-those of 3.1: each boundary component oriented with the domain on its left, `k_g`
-against the inward conormal, signed exterior angles. Used in 3.1.
+S3: Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
+included and cusps excluded; the boundary term against local connection forms;
+cancellation along a common boundary arc together with its endpoint-angle terms. Its
+conventions are those of 3.1: each boundary component oriented with the domain on its
+left, `k_g` against the inward conormal, signed exterior angles `αᵢ = π − βᵢ ∈ (−π, π)`
+with βᵢ the interior angle. S3 states disks only; annuli and every other Euler
+characteristic are 3.1's. Used in 3.1.
 
 ### From TauCetiRoadmap.DifferentialGeometry (on main)
 
@@ -232,8 +235,8 @@ Definition 2.3, p. 6, without boundary). The spin theorem with arbitrary other
 ends uses one end only and no finite-ended hypothesis. Cecchini–Zeidler's
 Definition 2.1 also makes integrability of the scalar curvature on the end part of
 an AE end; here it is a separate hypothesis, stated wherever a mass is asserted
-(0.2, 0.4, 2.2, 4.2, 5.2, 6.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd` is the decay
-condition alone.
+(0.2, 0.4, 2.1–2.2, 3.3, 4.2, 5.2, 6.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd`
+is the decay condition alone.
 
 - An end image is connected and open, and the end radius `|x|∘φ⁻¹` is a proper
   function on it; a finite-ended structure gives a compact exhaustion of M by
@@ -707,23 +710,27 @@ independent pulled-back H¹ classes with nonzero cup product, so b₁≥2 and
 AlgebraicTopology Stage 7's Euler–Poincaré identity gives χ = 2−b₁ ≤ 0, a contradiction
 without surface classification.
 
-For a compact domain Σ with piecewise smooth boundary in an oriented smooth
-Riemannian surface without boundary, a closed surface being the case ∂Σ = ∅, prove
+For a compact domain Σ in an oriented smooth Riemannian surface without boundary,
+whose boundary is a finite disjoint union of piecewise smooth simple closed curves
+without cusps, a closed surface being the case ∂Σ = ∅, prove
 `∫K dA + ∫_(∂Σ) k_g ds + ∑ᵢ αᵢ = 2πχ(Σ)` with outward-first boundary orientation,
-`k_g = ⟨∇_T T, inward conormal⟩` and signed exterior corner angles αᵢ, together with
-the triangulation and Euler identification and naturality for exhaustion
-boundaries, from RiemannianGeometry R1, R5a, DifferentialGeometry's Stokes theorem,
-the smooth triangulation of GeometricTopology's smoothing-and-triangulation comparison
-(item 1) and AlgebraicTopology Stage 7 (do Carmo, *Differential Geometry of Curves and
-Surfaces*, §4-5, Global Gauss–Bonnet theorem). The local inputs, the formula on each
-disk with corners, its boundary term against local connection forms and the
-cancellation along common edges with their endpoint-angle terms, are
-RiemannianGeometry/Surfaces S3. A closed index formula alone is not the boundary
-theorem.
+`k_g = ⟨∇_T T, inward conormal⟩` and signed exterior corner angles
+`αᵢ = π − βᵢ ∈ (−π, π)`, where βᵢ ∈ (0, 2π) is the interior angle of Σ at the i-th
+corner, together with the triangulation and Euler identification and naturality for
+exhaustion boundaries, from RiemannianGeometry R1, R5a, the smooth triangulation of
+GeometricTopology's smoothing-and-triangulation comparison (item 1) and
+AlgebraicTopology Stage 7 (do Carmo, *Differential Geometry of Curves and Surfaces*,
+§4-5, Global Gauss–Bonnet theorem). The local inputs, the formula on each disk with
+corners, its boundary term against local connection forms and the cancellation along
+common edges with their endpoint-angle terms, are RiemannianGeometry/Surfaces S3,
+whose route carries the Stokes argument. A closed index formula alone is not the
+boundary theorem.
 
-*Needs:* GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
-RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
-2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1; 3.0.
+*Needs:* for the torus obstruction, GeometricCurrents G1–G7; RiemannianGeometry R1,
+R5a–R5b; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; 3.0;
+and the Gauss–Bonnet theorem of this subsection. For Gauss–Bonnet, RiemannianGeometry
+R1, R5a; RiemannianGeometry/Surfaces S3; GeometricTopology, smoothing-and-triangulation
+comparison, item 1; AlgebraicTopology Stage 7; DifferentialGeometry 2, 12.2–12.5.
 
 **Checks.**
 
@@ -738,6 +745,14 @@ RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; Different
   boundary, total 2π = 2πχ. Using the outward conormal would flip both boundary signs.
   A planar L-shaped hexagon has K=0, `k_g = 0`, five exterior angles π/2 and one reflex
   angle −π/2, total 2π = 2πχ; unsigned angles would give 3π.
+- Negative control for cusps: the planar domain `0 ≤ x ≤ 1, |y| ≤ x²` has a cusp at
+  the origin. Here K = 0, each parabolic arc contributes `−arctan 2` to `∫k_g ds`, the
+  segment has `k_g = 0`, and the corners at `(1, ±1)` have exterior angles
+  `π/2 + arctan 2` each, so the left side is `π + α₀`. It equals `2π = 2πχ` only for
+  `α₀ = +π`; the other limiting sign `α₀ = −π` gives 0. The hypothesis
+  `αᵢ ∈ (−π, π)` excludes this domain, as S3 does; no consumer of 3.1 has a cusp, since
+  exhaustion boundaries are regular level sets and the closed surfaces of the
+  obstruction have no boundary.
 - `T³` with its flat metric has Scal=0, consistent with the obstruction, and `S³` admits
   Scal>0 but has no nonzero-degree map to `T³`.
 
