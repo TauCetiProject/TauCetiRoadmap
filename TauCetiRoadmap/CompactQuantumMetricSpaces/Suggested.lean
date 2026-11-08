@@ -23,16 +23,14 @@ triangle inequality, zero-distance rigidity, and completeness and the quantum co
 theorem in sequential form, on sequences of presentations in one universe (Layer 5).
 
 Not statable at the pins: the metric space of isometry classes of complete closed presentations
-(§5.5), a construction whose completeness is stated here on sequences instead; the
-identification `Φ_θ` (§6.1), which needs the rotation C*-algebra `A_θ`, provided by neither
-pinned library (the smooth noncommutative torus `TauCeti.SmoothNoncommutativeTorus θ` of
-`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`, a star algebra of rapidly decreasing
-coefficient functions, carries no norm and no completion); and the
-uniform continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance
-(§6.5), which needs the twisted group C*-algebra `A_Θ = C*(ℤᵈ, σ_Θ)` (§6.0), of which the
-pinned Tau Ceti has only the finitely supported algebra `TauCeti.twistedMonoidAlgebra`, with no
-involution, norm or completion, and its Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the
-self-adjoint part, whose density and kernel fields are Layer 4 and Layer 6 theorems.
+(§5.5), a construction whose completeness is stated here on sequences instead; the isometric
+star isomorphism `Φ_θ` (§6.1) from `A_Θ(θ)` onto the rotation C*-algebra `A_θ`; and the uniform
+continuity of the quantum tori `Θ ↦ (A_Θ, L_Θ)` in quantum Gromov–Hausdorff distance (§6.5).
+Both of the last two need the twisted group C*-algebra `A_Θ = C*(ℤᵈ, σ_Θ)` of §6.0, which
+neither pinned library provides: Tau Ceti has the finitely supported twisted monoid algebra
+`TauCeti.twistedMonoidAlgebra`, with no involution, norm or completion. §6.5 needs in addition
+the Lip-norm `L_Θ` as an `ExtendedLipschitzSeminorm` on the self-adjoint part, whose density
+and kernel fields are Layer 4 and Layer 6 theorems.
 -/
 
 noncomputable section
