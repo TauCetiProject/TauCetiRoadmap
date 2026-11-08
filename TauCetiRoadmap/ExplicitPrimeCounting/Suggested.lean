@@ -19,14 +19,6 @@ ExplicitZetaBounds (§0.2), copied verbatim because a roadmap module cannot be i
 
 Headline theorems stated here:
 
-* Layer 0 carriers: the unoffset logarithmic integral `li`, defined by the exponential-integral
-  series at `log x`, with its derivative (`hasDerivAt_li`), its behaviour at `0`
-  (`tendsto_li_nhdsWithin_zero`), its integral and principal-value representations
-  (`li_eq_integral_of_lt_one`, `tendsto_li_principalValue`), the offset `Li x = li x − li 2`
-  (`logIntegral_eq_li_sub_liTwo`), its monotonicity and sign (`strictAntiOn_li`, `strictMonoOn_li`,
-  `existsUnique_li_eq_zero`, `li_pos_of_three_halves_le`) and its asymptotic expansion
-  (`li_isBigO`); the rational prime-count adapter (`primeCount_rat_eq_primeCounting`) and
-  `p_n ∼ n log n` (`nth_prime_isEquivalent`).
 * Layer 0: Montgomery–Vaughan's Brun–Titchmarsh inequality with the constant `2`
   (`brun_titchmarsh`), from the two finite-range propositions of its route: Montgomery–Vaughan's
   diagonal bound `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` on `[6, 10⁹)` (`MVDiagonalFiniteRange`)
@@ -47,11 +39,8 @@ Headline theorems stated here:
   (`vanlalngaia_sum_inv_prime`).
 * Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
   range (`dusart_nth_prime_lower`, `RobinNthPrimeRange`).
-* Layer 6: the absence of a real zero of `L(s, χ)` in `(0, 1)` given the zeros up to a height
-  `H ≥ 0` on the critical line and `L(1/2, χ) ≠ 0`
-  (`LFunction_ofReal_ne_zero_of_criticalLineUpTo`), and Lamzouri–Li–Soundararajan's least prime
-  `p ≤ (φ(q) log q)²` in a reduced class under the generalised Riemann hypothesis
-  (`lamzouri_li_soundararajan`).
+* Layer 6: Lamzouri–Li–Soundararajan's least prime `p ≤ (φ(q) log q)²` in a reduced class under
+  the generalised Riemann hypothesis (`lamzouri_li_soundararajan`).
 * Layer 7: Schoenfeld's prime in `(x, x + x/16597)` from its `ψ`-input
   (`schoenfeld_interval`), Trudgian's prime in `[x, x(1 + 1/(111 log² x))]` and Axler's prime in
   `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs, their gap bounds below
@@ -101,73 +90,10 @@ namespace TauCetiRoadmap.ExplicitPrimeCounting
 /-- The unoffset logarithmic integral `li x = γ + log |log x| + ∑_{n ≥ 1} (log x)ⁿ/(n · n!)`, the
 exponential integral at `log x` (README §0.3a). Mathlib's `log` is `log |·|`, so the body is the
 series for every `x > 0`, `x ≠ 1`; the value at `x = 1` is junk. For `x > 1` it is the principal
-value `⨍₀ˣ dt/log t` (`tendsto_li_principalValue`). -/
+value `⨍₀ˣ dt/log t`, and `Li x = li x − li 2` (README §0.3a). -/
 def li (x : ℝ) : ℝ :=
   eulerMascheroniConstant + log (log x) +
     ∑' n : ℕ, log x ^ (n + 1) / (((n : ℝ) + 1) * ((n + 1).factorial : ℝ))
-
-/-- The value `li 2`, the offset between `li` and Tau Ceti's `Li = TauCeti.Real.logIntegral`. -/
-def liTwo : ℝ :=
-  li 2
-
-/-- **The derivative of `li`**: `li′(x) = 1/log x` for `x > 0`, `x ≠ 1`. -/
-theorem hasDerivAt_li {x : ℝ} (hx₀ : 0 < x) (hx₁ : x ≠ 1) : HasDerivAt li (1 / log x) x := by
-  sorry
-
-/-- **`li` at `0`**: `li x → 0` as `x → 0⁺`. -/
-theorem tendsto_li_nhdsWithin_zero : Tendsto li (𝓝[>] 0) (𝓝 0) := by
-  sorry
-
-/-- **`li` below `1` is an integral**: `li x = ∫₀ˣ dt/log t` for `0 < x < 1`. -/
-theorem li_eq_integral_of_lt_one {x : ℝ} (hx₀ : 0 < x) (hx₁ : x < 1) :
-    li x = ∫ t in (0 : ℝ)..x, 1 / log t := by
-  sorry
-
-/-- **`li` above `1` is a principal value**: for `x > 1`,
-`li x = lim_{ε → 0⁺} (∫₀^{1−ε} dt/log t + ∫_{1+ε}^x dt/log t)`. -/
-theorem tendsto_li_principalValue {x : ℝ} (hx : 1 < x) :
-    Tendsto (fun ε : ℝ => (∫ t in (0 : ℝ)..(1 - ε), 1 / log t) + ∫ t in (1 + ε)..x, 1 / log t)
-      (𝓝[>] 0) (𝓝 (li x)) := by
-  sorry
-
-/-- **The offset**: `Li x = li x − li 2` for `x > 1`, with `Li = TauCeti.Real.logIntegral`. -/
-theorem logIntegral_eq_li_sub_liTwo {x : ℝ} (hx : 1 < x) :
-    TauCeti.Real.logIntegral x = li x - liTwo := by
-  sorry
-
-/-- `li` is strictly decreasing on `(0, 1)`. -/
-theorem strictAntiOn_li : StrictAntiOn li (Set.Ioo 0 1) := by
-  sorry
-
-/-- `li` is strictly increasing on `(1, ∞)`. -/
-theorem strictMonoOn_li : StrictMonoOn li (Set.Ioi 1) := by
-  sorry
-
-/-- **Soldner's constant**: `li` has exactly one zero in `(1, ∞)`. -/
-theorem existsUnique_li_eq_zero : ∃! μ : ℝ, 1 < μ ∧ li μ = 0 := by
-  sorry
-
-/-- `li x > 0` for every `x ≥ 3/2`, so Soldner's constant lies below `3/2`. -/
-theorem li_pos_of_three_halves_le {x : ℝ} (hx : 3 / 2 ≤ x) : 0 < li x := by
-  sorry
-
-/-- **The asymptotic expansion of `li`**: for every `n`,
-`li x = (x/log x) ∑_{k < n} k!/(log x)^k + O(x/(log x)^{n+1})` as `x → ∞`. -/
-theorem li_isBigO (n : ℕ) :
-    (fun x : ℝ => li x - x / log x * ∑ k ∈ Finset.range n, (k.factorial : ℝ) / log x ^ k)
-      =O[atTop] fun x => x / log x ^ (n + 1) := by
-  sorry
-
-/-- **The rational prime-count adapter**: Tau Ceti's count of the height-one primes of `𝓞 ℚ` of
-absolute norm at most `x` is `π(⌊x⌋₊)`. -/
-theorem primeCount_rat_eq_primeCounting (x : ℝ) :
-    TauCeti.primeCount ℚ Set.univ x = (Nat.primeCounting ⌊x⌋₊ : ℝ) := by
-  sorry
-
-/-- **The `n`-th prime**: `Nat.nth Nat.Prime n ∼ n log n` as `n → ∞`. -/
-theorem nth_prime_isEquivalent :
-    (fun n : ℕ => (Nat.nth Nat.Prime n : ℝ)) ~[atTop] fun n => (n : ℝ) * log n := by
-  sorry
 
 /-- Riemann's weighted prime count `π*(x) = ∑_{k ≥ 1} π(x^{1/k})/k`; only finitely many terms
 are nonzero, those with `x^{1/k} ≥ 2`. -/
@@ -517,19 +443,6 @@ theorem dusart_nth_prime_lower (hfin : RobinNthPrimeRange)
   sorry
 
 /-! ## Layer 6: primes in arithmetic progressions -/
-
-/-- **No real zero below a verified height** (README §6.2a): if, for some height `H ≥ 0`, every
-zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has `Re s = 1/2`, and `L(1/2, χ) ≠ 0`, then
-`L(β, χ) ≠ 0` for every real `β ∈ (0, 1)`. With Platt's two records (ExplicitZetaBounds §0.4b) as
-the hypotheses at every primitive character of conductor `2 ≤ q ≤ 400 000`, it excludes the real
-zeros of all those characters. -/
-theorem LFunction_ofReal_ne_zero_of_criticalLineUpTo {q : ℕ} [NeZero q]
-    (χ : DirichletCharacter ℂ q) {H : ℝ} (hH : 0 ≤ H)
-    (hline : ∀ s : ℂ, DirichletCharacter.LFunction χ s = 0 → 0 < s.re → s.re < 1 →
-      |s.im| ≤ H → s.re = 1 / 2)
-    (hhalf : DirichletCharacter.LFunction χ (1 / 2) ≠ 0) {β : ℝ} (hβ₀ : 0 < β) (hβ₁ : β < 1) :
-    DirichletCharacter.LFunction χ β ≠ 0 := by
-  sorry
 
 /-- **The least prime in a progression under the generalised Riemann hypothesis**
 (Lamzouri–Li–Soundararajan, Math. Comp. 84 (2015), Corollary 1.2): for `q > 3`, if every
