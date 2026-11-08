@@ -19,6 +19,8 @@ injectivity of the global-to-local map of Witt rings. The end theorems are
 
 This roadmap owns:
 
+- transport along isomorphisms of number fields (4.1), through which the Tau Ceti inputs stated
+  for number fields in `Type` serve number fields in every universe;
 - the global square theorem (4.2) and the quadratic Hasse norm theorem read as representation by
   the binary form `⟨1, -d⟩` (4.3);
 - the binary and ternary cases of Hasse–Minkowski isotropy (5.1) and the theorem in every rank
@@ -49,6 +51,19 @@ the `ℚ(√5)` record.
 
 Section and name map, for citations of this roadmap that resolve to Tau Ceti declarations:
 
+- Layer 0, localizations and local predicates: `QuadraticForm.atFinitePlace`,
+  `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
+  `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
+  `QuadraticForm.LocallyRepresents` and `QuadraticForm.LocallyEquivalent`, with
+  `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` for the complex places.
+- Layer 1, real places: `QuadraticForm.realPositiveIndex`, `QuadraticForm.realNegativeIndex` and
+  `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`.
+- Layer 2, finite places: `QuadraticForm.finiteHasse`, `QuadraticForm.hasFiniteMulSupport_finiteHasse`
+  and `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq`.
+- Layer 3, admissible systems of local invariants: the record
+  `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` (3.1), `GlobalFormInvariants.IsAdmissible`
+  (3.2), and the record of a form `QuadraticForm.globalInvariants` with
+  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3).
 - 4.4, the localized product formula: `TauCeti.hilbertSymbol_productFormula`.
 - 4.4, the real symbol: `TauCeti.hilbertSymbol_real` and
   `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
@@ -73,7 +88,8 @@ This roadmap does not own, and cites:
 
 ## Conventions
 
-- `K` is a number field (`[Field K] [NumberField K]`, in any universe). A form is a
+- `K` is a number field (`[Field K] [NumberField K]`, in any universe); the Tau Ceti inputs stated
+  for number fields in `Type` reach every universe through 4.1. A form is a
   `QuadraticForm K V` on a finite-dimensional `V`; regular means `QuadraticForm.Nondegenerate`.
   Two forms on `V` and on `W` may live in different universes. Where a Tau Ceti carrier takes
   `[Invertible (2 : K)]` (the Witt ring), any instance serves: they are all equal.
@@ -118,7 +134,15 @@ This roadmap does not own, and cites:
 ## Exact supplier contracts
 
 There is no roadmap supplier. Every input below is a declaration of Mathlib or Tau Ceti at the
-pins.
+pins. Eight of the Tau Ceti inputs are stated for number fields in `Type`:
+`TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`,
+`TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
+`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
+`TauCeti.hilbertSymbol_productFormula`, `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
+`QuadraticForm.isAdmissible_globalInvariants`,
+`TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
+`TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`. Section 4.1 carries them to
+number fields in every universe.
 
 ### From Mathlib
 
@@ -138,6 +162,17 @@ pins.
 - `IdeleGroup` and `IdeleClassGroup` (`NumberTheory/NumberField/AdeleRing.lean`): the ideles and
   the idele classes.
 - `IsSquare`, `Function.HasFiniteMulSupport` and `finprod`.
+- Transport of number fields: `Field.exists_primitive_element`
+  (`FieldTheory/PrimitiveElement.lean`), `IntermediateField.adjoinRootEquivAdjoin`
+  (`FieldTheory/IntermediateField/Adjoin/Basic.lean`; `AdjoinRoot (minpoly F α) ≃ₐ[F] F⟮α⟯` for
+  integral `α`), `NumberField.RingOfIntegers.mapRingEquiv` (`NumberTheory/NumberField/Basic.lean`;
+  a field isomorphism restricted to the rings of integers),
+  `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv`
+  (`RingTheory/DedekindDomain/Ideal/Lemmas.lean`; the induced bijection of height-one primes),
+  `NumberField.InfinitePlace.comap`, `NumberField.InfinitePlace.isReal_comap_iff` (pulling back
+  along a ring isomorphism preserves reality) and `NumberField.InfinitePlace.comap_embedding_of_isReal`
+  (the pulled-back real embedding is the composite)
+  (`NumberTheory/NumberField/InfinitePlace/Ramification.lean`).
 
 ### From Tau Ceti
 
@@ -192,21 +227,34 @@ All paths are under `TauCeti/`.
   `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
   `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`.
 - Approximation (`NumberTheory/NumberField/Global/Approximation/Weak.lean`, `Vector.lean`,
-  `NumberTheory/QuadraticForm/Global/Continuity.lean`, `Nonsquare.lean`):
+  `SquareClass.lean`, `NumberTheory/QuadraticForm/Global/Nonsquare.lean`):
   `TauCeti.GlobalNumberFields.weakApproximation_denseRange` (the diagonal image of `K` is dense in
   any finite product of finite and infinite completions),
   `TauCeti.NumberField.exists_one_tmul_mem_of_mem_nhds` (the same for vectors),
-  `QuadraticForm.exists_isOpen_isSquare_div_atFinitePlace` and
-  `QuadraticForm.exists_isOpen_isSquare_div_atRealPlace` (near a vector of nonzero value the
-  value stays in its square class), and
+  `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places` (for finite sets of finite
+  places and of real places, prescribed units `a_v` of the finite completions and nonzero reals
+  `b_w`, one `x ∈ Kˣ` with `x / a_v` a square in `K_v` and `x / b_w` a square in `ℝ` through the
+  real embedding; it combines weak approximation with the openness of the squares, which at a
+  finite place is `TauCeti.isOpen_range_powMonoidHom` with exponent `2` and at a real place is the
+  openness of the positive reals), and
   `TauCeti.NumberField.QuadraticForm.exists_fieldUnit_not_isSquare_at_places`.
+- Transport (`RingTheory/DedekindDomain/AdicValuation/Transport.lean`,
+  `RingTheory/DedekindDomain/Ideal/Basic.lean`):
+  `IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv` (an isomorphism of Dedekind
+  domains carries the `v`-adic valuation of the fraction field to the valuation at the image prime),
+  `IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv` (the image prime of
+  `equivOfRingEquiv` is the image ideal) and `IsDedekindDomain.HeightOneSpectrum.adicCompletionCongr`
+  (a field isomorphism `σ : K ≃+* K'` compatible with the valuations at `v` and `w` extends to
+  `K_v ≃+* K'_w`, continuous and agreeing with `σ` on `K`).
 - Ideles and class field theory (`NumberTheory/NumberField/Global/Ideles/Norm/Relative.lean`,
   `Range.lean`, `NumberTheory/ClassFieldTheory/Global/IdeleClass/FirstInequality.lean`,
   `NumberTheory/ClassFieldTheory/Global/HasseNorm/Quadratic.lean`):
   `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
   `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff` (an idele is a norm exactly when each
   coordinate is a norm from the local algebra), `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`
-  (for a Galois extension `L/K` of number fields, `[L : K] ≤ [C_K : N(C_L)]`) and
+  (for a cyclic extension `L/K` of number fields in `Type`, that is `[IsGalois K L]` and
+  `[IsCyclic Gal(L/K)]`, `[L : K] ≤ [C_K : N(C_L)]`; without the cyclic hypothesis it fails, for
+  `L = ℚ(∛2, ζ₃)` has degree `6` over `ℚ` and norm index `2`) and
   `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion` (for a nonsquare `d` and
   `a ∈ Kˣ`, `a = x² - d y²` is solvable in `K` exactly when it is solvable in every finite and every
   infinite completion).
@@ -261,11 +309,12 @@ All paths are under `TauCeti/`.
 
 ## How to read the build
 
-The numbering of layers and sections is the one other roadmaps cite; it starts at Layer 4 because
-the foundations it numbered 0–3 (localization, local predicates, archimedean and finite
-invariants, the invariant record) are Tau Ceti declarations. Layer 4 proves the two arithmetic
-inputs of Hasse–Minkowski that are not in Tau Ceti: the global square theorem and the quadratic
-Hasse norm theorem in the language of forms. Layer 5 proves the binary and ternary cases and
+The build starts at Layer 4. The foundations (localization, local predicates, archimedean and
+finite invariants, the invariant record) are Tau Ceti declarations, and the section map in Scope
+and ownership resolves citations of Layers 0–3 to them. Layer 4 first carries the Tau Ceti inputs
+stated for number fields in `Type` to every universe, and then proves the two arithmetic inputs of
+Hasse–Minkowski that are not in Tau Ceti: the global square theorem and the quadratic Hasse norm
+theorem in the language of forms. Layer 5 proves the binary and ternary cases and
 assembles Hasse–Minkowski for isotropy in every rank from them and Tau Ceti's conditional
 quaternary and higher-rank steps. Layer 6 derives Hasse–Minkowski for representation and
 isometry. Layer 7 produces a global form from admissible local data, using Layer 6 for the single
@@ -274,26 +323,90 @@ the Witt-ring consequences. The worked examples test the end theorems on `ℚ` a
 
 ## Layer 4: global square, norm, and approximation lemmas
 
+### 4.1 Transport along isomorphisms of number fields
+
+The headline theorems are stated for number fields `K : Type u`, while the eight Tau Ceti inputs
+listed at the head of the supplier contracts are stated for number fields in `Type`. Prove the two
+facts that carry those inputs to every universe.
+
+1. Every number field `K : Type u` is isomorphic to a number field in `Type`. Route:
+   `Field.exists_primitive_element` gives `α ∈ K` with `ℚ⟮α⟯ = K`, and
+   `IntermediateField.adjoinRootEquivAdjoin` identifies `AdjoinRoot (minpoly ℚ α)`, a number field
+   in `Type`, with `ℚ⟮α⟯`.
+2. A ring isomorphism `σ : K ≃+* K'` of number fields, in any two universes, transports every
+   object of this roadmap. On places: the finite places correspond through
+   `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv (NumberField.RingOfIntegers.mapRingEquiv σ)`,
+   written `v ↦ σ v`, and `σ` extends to `IsDedekindDomain.HeightOneSpectrum.adicCompletionCongr`,
+   an isomorphism `K_v ≃+* K'_(σ v)` agreeing with `σ` on `K`, whose valuation hypothesis comes from
+   `IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv` and
+   `IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv`; the infinite places correspond
+   through `w' ↦ w'.comap σ`, which preserves reality (`NumberField.InfinitePlace.isReal_comap_iff`)
+   and real embeddings (`NumberField.InfinitePlace.comap_embedding_of_isReal`). On forms: a form
+   `Q` over `K` on `V` gives the form `σQ = σ ∘ Q` over `K'` on the same group `V`, with `K'`
+   acting through `σ⁻¹`. Prove that `σQ` is regular, is anisotropic, represents `σ a`, is
+   isometric to `σR`, or is injectively represented by `σR`, exactly when `Q` has the
+   corresponding property over `K`; that each of the four local predicates holds for `σQ` exactly
+   when it holds for `Q`, because the localization of `σQ` at `σ v` is isometric to the scalar
+   extension of the localization of `Q` at `v` along `adicCompletionCongr`, and at corresponding
+   real places the two localizations are scalar extensions along the same real embedding; that
+   `IsSquare (v.unitAtFinitePlace a)` holds exactly when `IsSquare ((σ v).unitAtFinitePlace (σ a))`
+   does; that Hilbert symbols, and solvability of `a = x² - d y²`, agree at corresponding places;
+   and that the record of `σQ` is the record of `Q` reindexed along the two correspondences of
+   places, with its discriminant mapped by `σ`, a reindexing that preserves
+   `GlobalFormInvariants.IsAdmissible`.
+
+Together these give each of the eight inputs for number fields in every universe: transport the
+data to a model in `Type` by the first fact, apply the input there, and transport the conclusion
+back by the second. This is how 4.2, 4.3, 7.2 and 7.3 reach the generality of their statements.
+
+*Needs:* Mathlib `Field.exists_primitive_element`, `IntermediateField.adjoinRootEquivAdjoin`,
+`NumberField.RingOfIntegers.mapRingEquiv`, `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv`,
+`NumberField.InfinitePlace.comap`, `NumberField.InfinitePlace.isReal_comap_iff`,
+`NumberField.InfinitePlace.comap_embedding_of_isReal`; Tau Ceti
+`IsDedekindDomain.HeightOneSpectrum.adicCompletionCongr`,
+`IsDedekindDomain.HeightOneSpectrum.valuation_ringEquivOfRingEquiv`,
+`IsDedekindDomain.HeightOneSpectrum.asIdeal_equivOfRingEquiv`, `QuadraticForm.atFinitePlace`,
+`QuadraticForm.atRealPlace`, `HeightOneSpectrum.unitAtFinitePlace`, `TauCeti.hilbertSymbol`,
+`QuadraticForm.globalInvariants`, `GlobalFormInvariants.IsAdmissible`.
+
+**Checks.**
+
+- Complex conjugation `σ` on `ℚ(i)` exchanges `𝔭 = (2 + i)` and `𝔭̄ = (2 - i)`. Modulo `𝔭̄` one has
+  `i ≡ 2` and `2 + i ≡ 4 = 2²`, a nonzero square modulo `5`, so `2 + i` is a square in `K_𝔭̄`; it is
+  not a square in `K_𝔭`, where its valuation is `1`. Its image `σ(2 + i) = 2 - i` is a square in
+  `K_(σ 𝔭̄) = K_𝔭` and not in `K_𝔭̄`. A transport that kept each place fixed would assert that
+  `2 - i` is a square in `K_𝔭̄`, which is false: the correspondence of places must follow `σ`.
+- `K = ℚ(√5)` with `θ² = θ + 1` and its model `ℚ[X]/(X² - X - 1)`, `θ ↦ X̄`: the real place
+  `θ ↦ (1 + √5)/2` corresponds to `X̄ ↦ (1 + √5)/2` and likewise for the conjugate, and the record
+  of `⟨1, θ, θ⟩`, with positive indices `3` and `1` at these two places, goes to the record of
+  `⟨1, X̄, X̄⟩` with the same indices at the corresponding places.
+- For `σ` the identity both correspondences of places are the identity and `σQ = Q`; the zero form
+  transports to the zero form, whose record has rank `0` and is admissible on neither side.
+
 ### 4.2 The global square theorem
 
 Prove that a unit `a ∈ Kˣ` which is a square in `K_v` for every finite place `v` outside a finite
-set `S` is a square in `K` (`isSquare_of_isSquare_unitAtFinitePlace_of_notMem`; O'Meara 65:15). No
-condition is imposed at the archimedean places. The case `S = ∅` is the form consumed by the binary
-case of 5.1.
+set `S` is a square in `K` (`isSquare_of_isSquare_unitAtFinitePlace_of_notMem`; O'Meara 65:15;
+Milne, VIII, Theorem 1.1 with `n = 2`, p. 229). No condition is imposed at the archimedean places.
+The case `S = ∅` is the form consumed by the binary case of 5.1.
 
-A route through the idele-class norm index:
+A route through the idele-class norm index. By 4.1 the hypothesis and the conclusion transport
+along an isomorphism of number fields, so it suffices to treat `K` in `Type`, where the class field
+theory input is stated.
 
-1. Suppose `a` is not a square in `K` and let `E = K(√a)`, a quadratic, hence Galois, extension.
-   Enlarge `S` by every archimedean place.
+1. Suppose `a` is not a square in `K` and let `E = K(√a)`, a quadratic extension, hence Galois with
+   cyclic Galois group of order `2`. Enlarge `S` by every archimedean place.
 2. At a finite place `v ∉ S`, `a` is a square in `K_v`, so `K_v ⊗_K E ≅ K_v × K_v` and every
    element of `K_vˣ` is a norm from it.
-3. Let `i` be an idele. By weak approximation at the places of `S` and the openness of square
-   classes, some `α ∈ Kˣ` has `i_v / α` a square in `K_vˣ` for each `v ∈ S`. A square `c²` is the
+3. Let `i` be an idele. By `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places`,
+   applied to the finite places of `S` and to the real places (whose completions are read in `ℝ`
+   through `InfinitePlace.Completion.ringEquivRealOfIsReal`), some `α ∈ Kˣ` has `i_v / α` a square
+   in `K_vˣ` for each `v ∈ S`; at a complex place every element is a square. A square `c²` is the
    norm of `c ∈ K_v ⊆ K_v ⊗_K E`.
 4. So every coordinate of `α⁻¹ i` is a local norm, and `mem_range_ideleNormMap_iff` puts `α⁻¹ i` in
    the image of the idele norm map. As `i` was arbitrary, the norm map on idele classes is onto.
-5. This contradicts `finrank_le_index_range_ideleClassNormMap`, which gives
-   `2 = [E : K] ≤ [C_K : N(C_E)]`.
+5. This contradicts `finrank_le_index_range_ideleClassNormMap` for the cyclic extension `E/K`,
+   which gives `2 = [E : K] ≤ [C_K : N(C_E)]`.
 
 ⚠ Steps 2 and 3 need no statement about the distribution of primes: the finitely many places where
 `a` is not a local square are absorbed by weak approximation in step 3. The argument "a nontrivial
@@ -302,13 +415,11 @@ replace step 5. The identity `I_K = Kˣ · I_K^S` is false already for `K = ℚ`
 archimedean place, so step 4 cannot pass through it; step 3 approximates one idele by one global
 element instead.
 
-*Needs:* Tau Ceti `TauCeti.GlobalNumberFields.weakApproximation_denseRange`,
-`QuadraticForm.exists_isOpen_isSquare_div_atFinitePlace`,
-`QuadraticForm.exists_isOpen_isSquare_div_atRealPlace`,
+*Needs:* 4.1; Tau Ceti `TauCeti.GlobalNumberFields.exists_fieldUnit_isSquare_div_at_places`,
 `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
 `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`,
 `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`; Mathlib `IdeleGroup`,
-`IdeleClassGroup`.
+`IdeleClassGroup`, `InfinitePlace.Completion.ringEquivRealOfIsReal`.
 
 **Checks.**
 
@@ -322,21 +433,23 @@ element instead.
   it must.
 - The exponent cannot be raised: `16` is an eighth power in `ℚ_p` for every odd prime `p` (one of
   `-1`, `2`, `-2` is a square modulo `p`, and `x⁸ - 16` has the factors `x² + 2x + 2`, `x² - 2`,
-  `x² + 2`) and in `ℝ`, but not in `ℚ`. So the eighth-power analogue of 4.2 is false, with exceptional
-  set `{2}`.
+  `x² + 2`) and in `ℝ`, but not in `ℚ` (Milne, VIII, Exercise 1.3, p. 229). So the eighth-power
+  analogue of 4.2 is false, with exceptional set `{2}`.
 
-### 4.3 The quadratic Hasse norm theorem as a representation statement
+### 4.3 The quadratic Hasse norm adapter
 
-Prove that for a nonsquare `d ∈ K` and `a ∈ Kˣ`, the binary form `⟨1, -d⟩` represents `a` over
-`K` exactly when it does so at every finite and every real place (`LocallyRepresentsScalar`).
-The arithmetic content is `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`;
-the work here is to identify, at each finite place and each real place, solvability of
+This section adapts the quadratic Hasse norm theorem to the language of forms. Prove that for a
+nonsquare `d ∈ K` and `a ∈ Kˣ`, the binary form `⟨1, -d⟩` represents `a` over `K` exactly when it
+does so at every finite and every real place (`LocallyRepresentsScalar`; the case of the quadratic
+extension `K(√d)/K` in Milne, VIII, Theorem 3.1, p. 234). The arithmetic content is
+`TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`, stated for `K` in `Type` and
+carried to every universe by 4.1; the work here is to identify, at each finite place and each real place, solvability of
 `a = x² - d y²` in the completion with representation of `a` by the localization of `⟨1, -d⟩`,
 the real completion being identified with `ℝ` through
 `InfinitePlace.Completion.ringEquivRealOfIsReal`, and to discharge the complex places, where
 `⟨1, -d⟩` represents every nonzero scalar.
 
-*Needs:* Tau Ceti `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
+*Needs:* 4.1; Tau Ceti `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
 `QuadraticForm.LocallyRepresentsScalar`, `QuadraticForm.atFinitePlace`,
 `QuadraticForm.atRealPlace`; Mathlib `InfinitePlace.Completion.ringEquivRealOfIsReal`.
 
@@ -360,23 +473,29 @@ the real completion being identified with `ℝ` through
 
 ### Dependencies
 
-Layer 4 uses only Mathlib and Tau Ceti: weak approximation, the openness of square classes, the
-idele norm map with its placewise description, the first inequality of global class field theory,
-and the quadratic Hasse norm theorem in coordinates.
+Layer 4 uses only Mathlib and Tau Ceti: the primitive element theorem and the transport of places
+and completions along ring isomorphisms (4.1), weak approximation in local square classes, the idele
+norm map with its placewise description, the first inequality of global class field theory for
+cyclic extensions, and the quadratic Hasse norm theorem in coordinates.
 
 ## Layer 5: Hasse–Minkowski isotropy
 
 ### 5.1 Binary and ternary cases
 
+These are the binary and ternary steps of the proof of Hasse–Minkowski in Milne, VIII, Theorem
+3.5(b), p. 237, whose reductions to squares and to norms are Proposition 3.7(b) and (c), p. 236.
+
 Prove that a regular binary form which is isotropic at every finite and every real place is
-isotropic over `K`. Route: a regular binary form is isotropic exactly when its discriminant is
+isotropic over `K` (Milne, VIII, proof of Theorem 3.5(b), case `n = 2`, through Proposition 3.7(b)
+and Theorem 1.1). Route: a regular binary form is isotropic exactly when its discriminant is
 `[-1]`, so `-det Q` is a square at every finite place; the global square theorem (4.2, `S = ∅`)
 makes it a square in `K`, and
 `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one` makes `Q` a
 hyperbolic plane.
 
 Prove that a regular ternary form which is isotropic at every finite and every real place is
-isotropic over `K`. Route: diagonalize and scale to `⟨1, -d, -a⟩`. If `d` is a square in `K`, the
+isotropic over `K` (the same proof, case `n = 3`, through Proposition 3.7(c) and the Hasse norm
+theorem for the quadratic extension `K(√d)/K`, Theorem 3.1). Route: diagonalize and scale to `⟨1, -d, -a⟩`. If `d` is a square in `K`, the
 summand `⟨1, -d⟩` is isotropic. Otherwise an isotropic vector has nonzero last coordinate, so `Q`
 is isotropic over a field `F ⊇ K` exactly when `⟨1, -d⟩` represents `a` over `F`, and where `d` is
 a local square both conditions hold; local isotropy therefore gives local representation of `a`,
@@ -560,7 +679,8 @@ local classes, separated by the Hasse sign, except in rank one and in rank two w
 `[-1]`, where there is one class; the admissibility clauses for these two cases are what make the
 local data realizable there.
 
-*Needs:* 6.2; Tau Ceti `GlobalFormInvariants.isAdmissible_ofLocalForms`,
+*Needs:* 4.1 (`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` is stated
+for `K` in `Type`), 6.2; Tau Ceti `GlobalFormInvariants.isAdmissible_ofLocalForms`,
 `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
 `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace`,
@@ -584,7 +704,8 @@ local data realizable there.
 ### 7.3 Realization of admissible records
 
 Prove that a record `I : GlobalFormInvariants K` is admissible exactly when it is the record of a
-regular form of positive rank. The forward direction is `exists_globalForm_of_isAdmissible`: from
+regular form of positive rank (O'Meara 72:1, through 7.2). The forward direction is
+`exists_globalForm_of_isAdmissible`: from
 `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization` and 7.2, an admissible record is the
 record of a regular form on `K^(I.rank)`. The reverse direction is
 `QuadraticForm.isAdmissible_globalInvariants`, which needs `1 ≤ rank`. Together with
@@ -593,7 +714,8 @@ record of a regular form on `K^(I.rank)`. The reverse direction is
 form-level statement: for any family `U, R` realizing `I`, the form `Q` it returns satisfies
 `Q_v ≅ U_v` and `Q_w ≅ R_w` at every place.
 
-*Needs:* 7.2; Tau Ceti `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
+*Needs:* 7.2, 4.1 (`QuadraticForm.isAdmissible_globalInvariants` is stated for `K` in `Type`);
+Tau Ceti `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
 `QuadraticForm.isAdmissible_globalInvariants`.
 
 **Checks.**
@@ -611,7 +733,10 @@ form-level statement: for any family `U, R` realizing `I`, the form `Q` it retur
 
 ### 7.4 Uniqueness
 
-Two regular forms with the same record are isometric. This is the reverse direction of 8.1: equal
+Two regular forms with the same record are isometric (Milne, VIII, Theorem 6.3, p. 252, with the
+local classification of Theorem 6.10, p. 255; there the Hasse invariant is the product over
+`i ≤ j`, which for forms of equal rank and discriminant `d` differs from ours by the same factor
+`(-1, d)_v` on both sides). This is the reverse direction of 8.1: equal
 records give local isometry (`QuadraticForm.LocallyEquivalent.of_globalInvariants_eq`, through
 local classification by rank, discriminant and Hasse sign at the finite places and by signature at
 the real places), and 6.3 gives a global isometry.
@@ -629,7 +754,8 @@ the real places), and 6.3 gives a global isometry.
 ### Dependencies
 
 Layer 7 uses 6.2 for the global representation and 6.3 for uniqueness, with Tau Ceti's local
-realization and reduction of 72:1.
+realization and reduction of 72:1, and 4.1 for the Tau Ceti inputs stated for number fields in
+`Type`.
 
 ## Layer 8: global classification and Witt consequences
 
@@ -658,7 +784,8 @@ the admissible records, and the zero form is the only regular form of rank zero 
 ### 8.2 Hyperbolicity and the global Witt kernel
 
 Prove that a regular form which is hyperbolic at every finite and every real place is hyperbolic
-over `K`: by `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff` the rank is even,
+over `K` (Milne, VIII, Theorem 6.3, p. 252, applied to the form and to `m · H`; the Witt-class
+statement below follows from the same theorem by Witt cancellation, Proposition 6.2, p. 251): by `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff` the rank is even,
 `2m`, and the form is locally isometric to `m · H`, so 6.3 makes it isometric to `m · H`. Prove the
 corresponding statement for Witt classes: two regular forms whose localizations have the same Witt
 class at every finite and every real place have the same Witt class over `K`, by applying the first
@@ -678,7 +805,8 @@ statement to `Q ⊥ (-R)`, which is hyperbolic exactly when `Q` and `R` have the
 
 Prove that the global-to-local map of Witt rings, whose component at a finite place `v` is
 `TauCeti.WittRing.baseChange` along `K → K_v` and whose component at a real place `w` is the same
-map along the real embedding of `w`, is injective (`injective_wittRing_baseChange_places`). This
+map along the real embedding of `w`, is injective (`injective_wittRing_baseChange_places`; the
+local–global principle it rests on is Milne, VIII, Theorem 6.3, p. 252, through 8.2). This
 map is `TauCeti.WittRing.globalToLocal`; the Lean statement writes its components out. Its kernel
 is 8.2: a class in the kernel is the class of an anisotropic form whose localizations are
 hyperbolic, which 8.2 makes hyperbolic, so the class is zero. Complex places add nothing: a class
@@ -695,11 +823,11 @@ sequence of Witt rings.
 - The class of `H` is zero and so is each of its components.
 - The class of `⟨1⟩` has odd dimension and is nonzero at every finite place.
 
-### 8.4 The isometry corollary for orthogonal groups
+### 8.4 The form-theoretic `SO` kernel consequence
 
 Export the statement consumed by the orthogonal-group roadmaps: regular forms that are isometric
 at every finite and every real place are isometric (`equivalent_of_locallyEquivalent`, the reverse
-direction of 6.3). Orthogonal and Spin Groups identifies its `H¹(K, SO(Q))` classes with twists of
+direction of 6.3; Milne, VIII, Theorem 6.3, p. 252). Orthogonal and Spin Groups identifies its `H¹(K, SO(Q))` classes with twists of
 `Q` and deduces that the localization kernel is trivial; this roadmap defines no `H¹`.
 
 *Needs:* 6.3.
@@ -756,3 +884,11 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
   product formula over `ℚ`); Ch. IV, §2.1 (the Hasse invariant as a product over `i < j`); Ch. IV,
   §3.2, Theorem 8 (Hasse–Minkowski over `ℚ`). It is a companion for the examples over `ℚ` and for
   the convention, not a source for arbitrary number fields.
+- J. S. Milne, *Class Field Theory*, course notes, version 4.03 (2020), on the author's page.
+  Chapter VIII, cited by printed page: Theorem 1.1 and Exercise 1.3, p. 229 (local and global
+  squares, and the eighth-power counterexample); Theorem 3.1, p. 234 (the Hasse norm theorem for
+  cyclic extensions); Theorem 3.5, p. 235, with Proposition 3.7, p. 236, and the proof of 3.5(b),
+  p. 237 (Hasse–Minkowski for isotropy over a number field and its binary and ternary steps);
+  Proposition 6.2, p. 251 (Witt cancellation); Theorem 6.3, p. 252 (the local–global principle for
+  isometry); Theorem 6.10, p. 255 (classification over a nonarchimedean local field). Its Hasse
+  invariant is the product over `i ≤ j`.
