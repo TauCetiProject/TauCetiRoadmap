@@ -169,7 +169,7 @@ turning theorem to corners. Layer 4 uses Layer 3's disk formula and the planar d
 of DifferentialGeometry 5.6.3 and ConformalMapping L5 to exclude geodesic bigons and loops.
 Layer 5 is independent of Layers 1–4.
 
-## Layer 1: polar coordinates and normal strips
+## Layer 1 (S1): polar coordinates and normal strips
 
 ### 1.1 Polar density
 
@@ -282,7 +282,7 @@ arc; DifferentialGeometry 12.4 and GeometricMeasureTheory G1 for the identificat
 densities with area and arclength. No curvature sign, no Gauss–Bonnet and no completeness
 input.
 
-## Layer 2: integration up to normal cut times
+## Layer 2 (S2): integration up to normal cut times
 
 ### 2.1 Cut time and normal coverage
 
@@ -338,7 +338,7 @@ Layer 1's strips and distance to an arc; R6's focal nullity and shortening varia
 R4.2's moving-endpoint variation; Mathlib's Rademacher theorem; DifferentialGeometry 10.2
 and 12.4; GeometricMeasureTheory G2. No Gauss–Bonnet input.
 
-## Layer 3: Gauss–Bonnet for disks with corners
+## Layer 3 (S3): Gauss–Bonnet for disks with corners
 
 ### 3.1 The turning theorem with corners
 
@@ -402,7 +402,7 @@ winding-weighted Green identity and the density comparison; ConformalMapping L5 
 Jordan orientation. Independent of Layers 1–2 and of every completeness or curvature-sign
 hypothesis.
 
-## Layer 4: normal balls in nonpositive curvature
+## Layer 4 (S4): normal balls in nonpositive curvature
 
 ### 4.1 Disk filling in a chart
 
@@ -462,7 +462,7 @@ Layer 3's disk formula; HopfRinow's geodesic continuation and minimizing segment
 pinned nonpositive-curvature Jacobi lemmas; DifferentialGeometry 5.6.3 and ConformalMapping
 L3, L5 for disk filling. Independent of Layers 1–2 and of R4.4.
 
-## Layer 5: conformal invariance of the surface Dirichlet energy
+## Layer 5 (S5): conformal invariance of the surface Dirichlet energy
 
 ### 5.1 Conformal rescaling
 
