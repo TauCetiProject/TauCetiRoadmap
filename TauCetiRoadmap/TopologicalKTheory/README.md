@@ -188,20 +188,26 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and algebraic periodicity. Existing Tau Ceti `Spin.Structure`, `Spin.OddStructure`
   and `Spin.Polarization.CliffordAction` are consumed; algebraic periodicity does
   not prove topological periodicity.
-- HomotopySpheres §4A–4B
-  supplies stable O/SO, the loop comparison with T1.6's oriented classifier,
-  and the full real Bott loop chain with its Clifford comparison. T1.5–T1.6
+- [DGFloerPartII 4.2a–4.2c](../DGFloerPartII/README.md)
+  supplies the stable orthogonal and special orthogonal groups `O` and `SO`,
+  the colimits of the finite groups along the block inclusions with the new
+  coordinate last, with their finite-to-stable range (4.2a); the Clifford
+  chain of iterated minimal centrioles with its stabilization and its
+  Grassmannian member Ω₇ (4.2b); and the eight stable Bott maps, their
+  homotopy equivalences and real Bott periodicity `O ≃ Ω⁸O` with the stable
+  homotopy groups of `O` (4.2c). T1.5–T1.6
   consume Tau Ceti's finite Grassmannian and finite oriented carriers and own
   their Schubert cells, fixed-rank BO(n)/BSO(n), stable BO/BSO colimits,
-  universal bundles and their finite-CW/numerable classification.
+  universal bundles and their finite-CW/numerable classification, T1.6a's
+  loop comparisons ΩBO≃O and ΩBSO≃SO, and T1.6d's comparison of the
+  homogeneous tower with 4.2b's Grassmannian member.
   T1.6a also owns the lifted cells on the oriented carriers;
   CharacteristicClasses C1.1a–b consumes these same classifier carriers.
-  HomotopySpheres uses them for its stable group/loop, clutching and framing
-  applications; any distinct homogeneous model has a named comparison to
+  Any distinct homogeneous model has a named comparison to
   these carriers, not a second classifier definition. T7 owns the geometric
-  KO/ABS and multiplicative normalization. Consume the supplier's exact
-  §4B.1–4B.9 real loop proof contract and construct unavailable mathematics in
-  Tau Ceti in that shape before its comparison is used.
+  KO/ABS and multiplicative normalization. Consume 4.2a–4.2c's exact
+  stable-group, Bott-map and periodicity contract and construct unavailable
+  mathematics in Tau Ceti in that shape before its comparison is used.
 - Mathlib `Analysis/Normed/Operator/Fredholm/{Basic,Open}` supplies
   native Fredholm packages, composition, openness and local index constancy.
   Tau Ceti `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
@@ -488,8 +494,27 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    stableOrientedGrassmannian BSO as the positive-cofinal rank-colimit on
    those lifted cells, with their universal bundle diagrams and stabilization.
    Set BSO(0)=pt for the canonically positively oriented zero bundle.
-   HomotopySpheres §4A consumes this carrier/classification and owns ΩBSO≃SO
-   and its comparison with its stable homogeneous-space models.
+   Own the loop comparisons ΩBO≃O and ΩBSO≃SO: the based loop space of
+   stableRealGrassmannian at its trivial-bundle basepoint is weakly homotopy
+   equivalent to DGFloerPartII 4.2a's stable `O`, and that of
+   stableOrientedGrassmannian to its `SO`. Route: the frame-span maps
+   V_n(ℝ^N)→Gr_n(ℝ^N) of T1.5a's orthonormal-frame carriers and their
+   oriented versions V_n(ℝ^N)→finiteOrientedGrassmannian n N, the
+   Stiefel-quotient comparison below, are principal O(n)-, respectively
+   SO(n)-bundles; their colimits along the rank and ambient stabilizations
+   are fibre sequences O→EO→BO and SO→ESO→BSO whose fibres, the colimits of
+   the finite groups along T1.6a's rank maps, are identified with 4.2a's
+   `O` and `SO` through the cyclic-permutation comparison with the
+   last-column inclusions in the finite oriented carriers paragraph below.
+   The total spaces are contractible: every
+   compact subset lies in a finite stage, and the (N−n−1)-connectivity of
+   V_n(ℝ^N) (T1.5a) grows without bound along the diagonal N=2n. The based
+   homotopy long exact sequence of AlgebraicTopology Stage 5.5 then makes
+   the connecting maps isomorphisms π_(i+1)(BO)≅π_i(O) and
+   π_(i+1)(BSO)≅π_i(SO) for every i≥0, realized by the path-lifting maps
+   ΩBO→O and ΩBSO→SO, which are therefore weak homotopy equivalences.
+   These are the fibration-sequence comparisons, not 4.2c's Bott map
+   `O≃Ω(ℤ×BO)`; their agreement on coefficients is part of T7's bridge.
    This supplies T7's BO/BSO classification input.
 
    **Finite oriented carriers (part of T1.6a).** For n≥1 an orientation of a
@@ -796,15 +821,22 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
 
    **T1.6d. Component and companion-model comparisons.**
    On BO×ℤ and BU×ℤ also add the integer components. Construct the
-   HomotopySpheres §4B.1 R₀ comparison using T1.6's own 2n-dimensional
-   homogeneous tower, cofinally compared with the supplier's tower: the orbit
+   comparison with DGFloerPartII 4.2b's Grassmannian member Ω₇ of the
+   Clifford chain using T1.6's own 2n-dimensional homogeneous tower,
+   cofinally compared with 4.2b's stages ⊔_(0≤p≤2n) G_p(ℝ^(2n)): the orbit
    map from O(2n)/(O(k)×O(2n−k)) sends
    a matrix to the span of its first k columns in T1.5's carrier.
    Label that stage by k−n, with the added-first-line/append-last-ambient
    stabilization preserving this virtual dimension. Prove the cofinal
-   based homotopy equivalence over ℤ, compatibility with the supplier's
-   finite-dimensional inclusions up to the elementary coordinate homotopies,
-   and transport the block sum along it.
+   based homotopy equivalence over ℤ with BO×ℤ, and compatibility with
+   4.2b's block stabilization, which appends the new block's +1-eigenline
+   last, up to the elementary coordinate homotopies: the two stabilizations
+   differ by composition with an element of SO(2n+2), since each image
+   leaves a line of the new ambient summand free, a path from the identity
+   in SO(2n+2) is the homotopy, and AT4.5's `cofibrationTowerHomotopyEquivalence`
+   compares the two telescopes, so that Ω₇≃ℤ×BO carries the component of
+   index d to {d}×BO and the base point J₇ into d=0. Transport the block
+   sum along it.
    T2.1 supplies the group-completion comparison for BU×ℤ.
    In rank one use Gr_1(𝕜^(N+1)): name `RP∞` for 𝕜=ℝ and `CP∞` for 𝕜=ℂ,
    with one cell in each nonnegative degree or each even nonnegative degree,
@@ -1470,9 +1502,10 @@ its characteristic-class consequences; G2.8 owns the generic
 
 1. Develop KO⁰'s finite-bundle/relative/support API and all negative suspension
    degrees, reusing T1.6's unoriented BO classification and its oriented BSO
-   comparison. First work on finite CW pairs. Use HomotopySpheres §4B.1–4B.9's
-   actual stable-space maps, increasing-connectivity comparisons and Clifford
-   comparison; identify the eight coefficient groups by sphere clutching.
+   comparison. First work on finite CW pairs. Use DGFloerPartII 4.2a–4.2c's
+   actual stable groups with their finite-to-stable range, Clifford chain
+   with its stabilization and eight stable Bott maps with their homotopy
+   equivalences; identify the eight coefficient groups by sphere clutching.
    Construct the category of finite-dimensional Z/2-graded real Clifford
    modules, its restriction functors and the cokernels of their Grothendieck
    group maps; these graded-module interfaces are additional work here, beyond
@@ -1489,8 +1522,8 @@ its characteristic-class consequences; G2.8 owns the generic
    for b. Prove the
    low-degree geometric comparison: Möbius clutching in degree1, the explicit
    winding-one SO(2) loop and its stable Z/2 class in degree2, quaternionic Hopf
-   clutching in degree4, and the degree8 class compared with the supplier's
-   real Bott map. In particular prove the Clifford tensor square of the
+   clutching in degree4, and the degree8 class compared with DGFloerPartII
+   4.2c's composite stable Bott map. In particular prove the Clifford tensor square of the
    degree1 representative gives that nonzero stable loop; an additive table
    alone cannot show η²≠0. Prove η² is the nonzero degree−2 generator,
    `2η=η³=ηa=0` and `a²=4b`. On the Clifford-module quotient side prove
@@ -1498,14 +1531,17 @@ its characteristic-class consequences; G2.8 owns the generic
    tensoring with the degree8 irreducible graded module, prove it intertwines
    restriction, and compute its action on both simple-module generators using
    grading/volume-element signs and dimensions. The ungraded matrix-algebra
-   periodicity of the supplier is an input to that proof, not the entire proof.
+   periodicity of SpinRepresentations is an input to that proof, not the
+   entire proof.
    For every n≥0 prove the precise geometric bridge: the coefficient map B_n
-   induced by RB's composite eight loop equivalences satisfies
+   induced by DGFloerPartII 4.2c's composite of the eight stable Bott
+   equivalences, read on ℤ×BO through T1.6d's comparison, satisfies
    `B_n(α_n(m))=α_(n+8)(m⊗λ₈)` for the ABS maps α and chosen graded
-   degree8 module λ₈. Construct the pointed comparison homotopies from the
-   supplier's concrete geodesic/stable maps, respecting the ordered eight
+   degree8 module λ₈. Construct the pointed comparison homotopies from
+   4.2b–4.2c's concrete minimal-geodesic and stable Bott maps, respecting
+   the ordered eight
    Clifford generators and stabilization; this full-degree compatibility is
-   a target here, beyond citing §4B.9's general comparison statement. Using
+   a target here, beyond citing 4.2c's periodicity statement. Using
    the degree0–7 clutching checks and the two periodic isomorphisms, prove
    α_n bijective for every n. ABS multiplicativity then identifies B_n with
    external product by b in every degree, including ηb≠0 and the other
@@ -1537,7 +1573,8 @@ its characteristic-class consequences; G2.8 owns the generic
    Export the full Z-graded theory and coefficient ring
    `Z[η,a,b,b^−1]/(2η,η³,ηa,a²−4b)`, with degrees−1,−4,−8. Algebraic Clifford
    periodicity supplies the module calculation, while the geometric identification
-   uses the real Bott proof supplier; neither substitutes for the other.
+   uses DGFloerPartII 4.2c's periodicity proof; neither substitutes for the
+   other.
 2. Compute K⁰(S¹)=Z, KO⁰(S¹)=Z⊕Z/2 and their geometric generators; the
    reduced real generator is Möbius−1. Compute the ring K⁰(S²)=Z[β]/(β²)
    with the specified gluing line, all complex sphere groups, and verify
@@ -1586,7 +1623,7 @@ splitting theorem; their Bott-sphere calculation uses the earlier T4 Bott
 comparison and no Hopf-invariant-one or bordism coefficient input. T4 precedes T5. T6 first constructs equivariant bundles and line Thom, then
 descent, the projective-family index and normalized transfer; only then does it prove
 general equivariant Thom and projective comparisons. T7's real
-periodicity consumes the existing HomotopySpheres proof, independently of the
+periodicity consumes DGFloerPartII 4.2a–4.2c's proof, independently of the
 complex Thom and index developments. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
