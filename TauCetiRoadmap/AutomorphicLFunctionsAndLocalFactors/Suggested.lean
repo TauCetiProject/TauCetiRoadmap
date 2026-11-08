@@ -1,32 +1,35 @@
 import Mathlib
-import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
-import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
 
 /-!
 # Automorphic L-functions and local factors: headline target statements
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. These statements give acceptance goals on the pinned Mathlib and Tau Ceti carriers.
+`README.md`. These statements give acceptance goals on the pinned Mathlib carriers.
 
 AL.0 states the finite-jet theorem for point-supported tempered distributions, the half-order
 K-Bessel derivative and the Bessel–Laplace Mellin identity. AL.1 states local eigenline
-uniqueness, Tate continuation and its local functional equation at every place, and Hecke
-continuation with the conductor-balanced functional equation for every unitary idele-class
-character, its polar divisor and complex norm twists. AL.2 states the local Godement–Jacquet
-theorem at every finite place in every rank (the standard L-factor as generator of the ideal of
-zeta integrals, and the local functional equation with its monomial epsilon factor), the paired
-Hadamard theorem and its positivity conclusions, the generic newform line in every positive rank,
-and Casselman's full GL₂ fixed-space dimension theorem. AL.3 states local Whittaker uniqueness in every rank: the
+uniqueness and Tate continuation with its local functional equation at every place. AL.2 states
+the local Godement–Jacquet theorem at every finite place in every rank (the standard L-factor as
+generator of the ideal of zeta integrals, and the local functional equation with its monomial
+epsilon factor), the generic newform line in every positive rank, and Casselman's full GL₂
+fixed-space dimension theorem. AL.3 states local Whittaker uniqueness in every rank: the
 `ψ_N`-equivariant functionals on an irreducible smooth admissible representation of `GLₙ(F)` form
 a space of rank at most one. The local-field statements allow both characteristics. All
 definitions below have bodies on native carriers.
 
-The vector-space adelic Poisson theorem needs the supplied adelic Schwartz space and its
-completed tensor/Fourier realization, absent at these pins. The all-place Godement–Jacquet
-and Rankin–Selberg theorems, multiplicity one, converse theorems and rational-period twisting
-need smooth automorphic cuspidal representations, restricted tensor Whittaker models and
-archimedean globalizations/cohomological rational structures. Those carriers are absent, as is
-the normalized Maass eigenform carrier needed for the Maass functional equation and norm formula.
+AnalyticNumberTheoryPartI states, in the namespace `TauCetiRoadmap.AnalyticNumberTheoryPartI`,
+the K-Bessel kernel `besselK` (§2.1a), centered growth and the paired Hadamard theorem
+(`IsCenteredOrderOne`, `pairedHadamard_*`, §§0.29–0.29b) and Hecke continuation for every unitary
+idele-class character (`heckeContinuation`, §2.3a); AnalyticNumberTheoryPartII §§5.3g–5.3h
+specifies the local and adelic Fourier analysis and vector-space Poisson summation. The
+AnalyticNumberTheoryPartI file is not imported here, so the two Bessel statements take the kernel
+as an argument together with its defining integral.
+
+The all-place Godement–Jacquet and Rankin–Selberg theorems, multiplicity one, converse theorems
+and rational-period twisting need smooth automorphic cuspidal representations, restricted tensor
+Whittaker models and archimedean globalizations/cohomological rational structures. Those
+carriers are absent, as is the normalized Maass eigenform carrier needed for the Maass
+functional equation and norm formula.
 The arithmetic identification of the local gamma scalar and the global root number needs the
 supplied `tateLocalConstant` and standard-vector comparisons, also absent at the pins. The
 archimedean Godement–Jacquet theorem needs Casselman–Wallach representations of `GLₙ(ℝ)` and
@@ -53,28 +56,34 @@ namespace TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
 namespace AL0
 
-/-- Half-integral adapter to AutomorphicFormsOnReductiveGroups §4.5's cosh Bessel kernel,
-    with complex order and positive real argument in the public API. -/
-def BesselK (ν : ℂ) (c : ℝ) : ℂ :=
-  (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
-    Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
-      Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)
-
 /-- Real exponential integral Ei(-r), only r>0 is used. -/
 def negativeEi (r : ℝ) : ℝ := -(∫ t : ℝ in Set.Ioi r, Real.exp (-t)/t)
 
+section Bessel
+
+-- The K-Bessel kernel is AnalyticNumberTheoryPartI §2.1a's, not importable here:
+-- open TauCetiRoadmap.AnalyticNumberTheoryPartI (besselK)
+-- It enters the two statements below as an argument with its defining integral.
+variable (besselK : ℂ → ℝ → ℂ)
+  (hbesselK : ∀ ν c, besselK ν c = (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
+    Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
+      Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ))
+include hbesselK
+
 /-- The order derivative at one half is expressed by the negative exponential integral. -/
 theorem BesselHalfOrderDerivative {c : ℝ} (hc : 0 < c) :
-    deriv (fun ν : ℂ => BesselK ν c) (1/2) =
+    deriv (fun ν : ℂ => besselK ν c) (1/2) =
       (-(Real.sqrt (Real.pi/2)*Real.exp c*c^(-1/2 : ℝ)*negativeEi (2*c)) : ℝ) := by sorry
 
 /-- Gross–Zagier's Laplace–Mellin integral, with the same K convention. -/
 theorem BesselLaplaceMellin (m t : ℝ) (s : ℂ) (hm : 0 < m) (ht : 0 < t)
     (hs : t < s.re) :
-    (∫ y : ℝ in Set.Ioi 0, (y : ℂ)^(s-1/2)*BesselK (t+1/2) (2*Real.pi*m*y)*
+    (∫ y : ℝ in Set.Ioi 0, (y : ℂ)^(s-1/2)*besselK (t+1/2) (2*Real.pi*m*y)*
       Complex.exp (-2*Real.pi*m*y)) =
     (Real.sqrt Real.pi : ℂ)*Complex.Gamma (s+t+1)*Complex.Gamma (s-t)/
       (Complex.Gamma (s+1)*(4*Real.pi*m : ℂ)^(s+1/2)) := by sorry
+
+end Bessel
 
 /-- A point-supported tempered distribution depends on only finitely many derivatives.
 The vanishing-jet form applies in every finite real dimension. -/
@@ -116,7 +125,9 @@ theorem archimedeanEigenSpace.finrank {F : Type*} [RCLike F]
     (χ : Fˣ →ₜ* ℂˣ) : Module.finrank ℂ (archimedeanEigenSpace χ) = 1 := by
   sorry
 
-/-- The local Tate integral on the multiplicative group of a local field. -/
+/-- The local Tate integral on the multiplicative group of a local field. With `ν` the
+multiplicative measure and `a` the normalized absolute value of a number-field completion, it
+is AnalyticNumberTheoryPartII §5.3j's local zeta integral. -/
 def localZetaIntegral {F : Type*} [Field F] [TopologicalSpace F] [MeasurableSpace F]
     (ν : Measure Fˣ) (a : F → ℝ) (χ : Fˣ →ₜ* ℂˣ) (f : F → ℂ) (s : ℂ) : ℂ :=
   ∫ x : Fˣ, f x * (χ x : ℂ) * (a x : ℂ)^s ∂ν
@@ -212,58 +223,10 @@ theorem finiteEigenSpace_finrank {F : Type*} [Field F] [ValuativeRel F]
     Module.finrank ℂ (finiteEigenSpace χ) = 1 := by
   sorry
 
-open IsDedekindDomain TauCeti.GlobalNumberFields
-variable {K : Type*} [Field K] [NumberField K]
-
-/-- The finite local factor, using a uniformizer at each finite completion. -/
-def heckeFiniteFactor (χ : HeckeCharacter K)
-    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
-    (v : HeightOneSpectrum (𝓞 K)) (s : ℂ) : ℂ :=
-  if χ.conductorExponent v = 0 then
-    (1 - (χ.finiteComponent v (ϖ v) : ℂ) * (Ideal.absNorm v.asIdeal : ℂ)^(-s))⁻¹
-  else 1
-
-/-- Deligne's archimedean factors in the supplied continuous infinity coordinates.
-The complex exponent in those coordinates uses the Euclidean absolute value. -/
-def heckeArchFactor (χ : HeckeCharacter K) (s : ℂ) : ℂ := by
-  classical
-  letI := Fintype.ofFinite (NumberField.InfinitePlace K)
-  exact (∏ w : {w : NumberField.InfinitePlace K // w.IsReal},
-    Complex.Gammaℝ (s + χ.infinityType.realExponent w +
-      ((χ.infinityType.realParity w).val : ℂ))) *
-  ∏ w : {w : NumberField.InfinitePlace K // w.IsComplex},
-    Complex.Gammaℂ (s + χ.infinityType.complexExponent w / 2 +
-      ((χ.infinityType.complexAngularFrequency w).natAbs : ℂ) / 2)
-
-/-- The conductor scale of the primitive balanced completion. -/
-def heckeConductorScale (χ : HeckeCharacter K) : ℝ :=
-  (NumberField.discr K).natAbs * Ideal.absNorm χ.finiteConductor
-
-/-- Hecke continuation and functional equation for every unitary idele-class character,
-including the translated poles of norm characters and all complex norm twists. -/
-theorem heckeContinuation
-    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
-    (hϖ : ∀ v, Valued.v (ϖ v : v.adicCompletion K) = WithZero.exp (-1 : ℤ)) :
-    ∃ Λ : HeckeCharacter K → ℂ → ℂ,
-      ∀ χ : HeckeCharacter K, (∀ x, ‖(χ x : ℂ)‖ = 1) →
-        MeromorphicOn (Λ χ) Set.univ ∧
-        (∀ s : ℂ, 1 < s.re →
-          Summable (fun v => ‖heckeFiniteFactor χ ϖ v s - 1‖) ∧
-          HasProd (fun v => heckeFiniteFactor χ ϖ v s)
-            (∏' v, heckeFiniteFactor χ ϖ v s) ∧
-          Λ χ s = (heckeConductorScale χ : ℂ)^(s/2) * heckeArchFactor χ s *
-            ∏' v, heckeFiniteFactor χ ϖ v s) ∧
-        (∃ W : ℂ, ‖W‖ = 1 ∧ ∀ s₀ : ℂ,
-          Λ χ =ᶠ[𝓝[≠] s₀] fun s => W * Λ χ⁻¹ (1-s)) ∧
-        ((¬ ∃ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ))) →
-          Differentiable ℂ (Λ χ)) ∧
-        (∀ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ)) →
-          meromorphicOrderAt (Λ χ) (-Complex.I * (t : ℂ)) = -1 ∧
-          meromorphicOrderAt (Λ χ) (1-Complex.I * (t : ℂ)) = -1 ∧
-          ∀ s : ℂ, s ≠ -Complex.I * (t : ℂ) → s ≠ 1-Complex.I * (t : ℂ) → AnalyticAt ℂ (Λ χ) s) ∧
-        (∀ t s₀ : ℂ, (Λ (χ * HeckeCharacter.normPow K t)) =ᶠ[𝓝[≠] s₀]
-          fun s => (heckeConductorScale χ : ℂ)^(-t/2) * Λ χ (s+t)) := by
-  sorry
+-- Hecke continuation for unitary idele-class characters, with its local factors and conductor
+-- scale, is AnalyticNumberTheoryPartI §2.3a, not importable here:
+-- open TauCetiRoadmap.AnalyticNumberTheoryPartI
+--   (heckeContinuation heckeFiniteFactor heckeArchFactor heckeConductorScale)
 
 end TateZeta
 
@@ -271,50 +234,10 @@ end TateZeta
 
 namespace AL2
 
-/-- Entire centered growth in the equivalent epsilon-bound form of the OrderLE predicate
-supplied by ZerosOfLFunctions layer 0. -/
-def IsCenteredOrderOne (f : ℂ → ℂ) : Prop :=
-  Differentiable ℂ f ∧ ∀ ε : ℝ, 0 < ε → ∃ C : ℝ, 0 < C ∧
-    ∀ z : ℂ, ‖f z‖ ≤ Real.exp (C * (1 + ‖z‖ ^ (1 + ε)))
-
-/-- Paired-zero specialization of ZerosOfLFunctions layer 5.6 after removing the central
-zero. Parity removes the linear exponential and eventual positivity fixes the constant.
-Zero entries in γ encode unused indices when the zero multiset is finite. -/
-theorem PairedHadamardFactorization (f : ℂ → ℂ) (δ : ℂ)
-    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
-    (hparity : ∀ z, f (-z) = δ * f z)
-    (hzeros : ∀ z, f z = 0 → z.re = 0)
-    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re) :
-    ∃ (m : ℕ) (c : ℝ) (γ : ℕ → ℝ), 0 < c ∧
-      (∀ n, 0 ≤ γ n) ∧ Summable (fun n => (γ n)⁻¹ ^ 2) ∧
-      δ = (-1 : ℂ) ^ m ∧
-      (∀ z : ℂ, Multipliable (fun n =>
-        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)) ∧
-      (∀ z : ℂ, f z = (c : ℂ) * z ^ m * ∏' n,
-        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2) ∧
-      (∀ K : Set ℂ, IsCompact K → TendstoUniformlyOn
-        (fun s : Finset ℕ => fun z : ℂ => (c : ℂ) * z ^ m *
-          ∏ n ∈ s, if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)
-        f Filter.atTop K) := by sorry
-
-/-- The paired product gives real nonnegative derivatives on the nonnegative real axis. -/
-theorem PairedHadamard_derivatives_nonnegative (f : ℂ → ℂ) (δ : ℂ)
-    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
-    (hparity : ∀ z, f (-z) = δ * f z)
-    (hzeros : ∀ z, f z = 0 → z.re = 0)
-    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
-    (k : ℕ) (x : ℝ) (hx : 0 ≤ x) :
-    (iteratedDeriv k f (x : ℂ)).im = 0 ∧ 0 ≤ (iteratedDeriv k f (x : ℂ)).re := by sorry
-
-/-- A nonpolynomial paired product gives strictly positive derivatives at positive real points. -/
-theorem PairedHadamard_derivatives_positive (f : ℂ → ℂ) (δ : ℂ)
-    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
-    (hparity : ∀ z, f (-z) = δ * f z)
-    (hzeros : ∀ z, f z = 0 → z.re = 0)
-    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
-    (hnonpoly : ¬ ∃ P : Polynomial ℂ, ∀ z, f z = P.eval z)
-    (k : ℕ) (x : ℝ) (hx : 0 < x) :
-    0 < (iteratedDeriv k f (x : ℂ)).re := by sorry
+-- Centered growth and the paired Hadamard theorem are AnalyticNumberTheoryPartI §§0.29–0.29b,
+-- not importable here:
+-- open TauCetiRoadmap.AnalyticNumberTheoryPartI (IsCenteredOrderOne pairedHadamard_factorization
+--   pairedHadamard_derivatives_nonnegative pairedHadamard_derivatives_positive)
 
 open Matrix
 open scoped ValuativeRel
