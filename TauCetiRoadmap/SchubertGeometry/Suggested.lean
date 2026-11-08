@@ -15,12 +15,12 @@ is statable at the pins of this folder's manifest:
   and their section representations; the Demazure operators themselves are the
   native `RootPairing.demazureOperator` of `TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`,
   a file that the Tau Ceti revision pinned by this folder's manifest does not have.
-* S4's operator-stability, component, character and tensor theorems are stated
-  on `TauCeti.LSPath`, `TauCeti.PLPath.lower`, `TauCeti.NormalCrystal` and
-  `RootPairing.demazureOperator` (`TauCeti/RepresentationTheory/LSPath/`,
-  `TauCeti/RepresentationTheory/Crystal/`); the Tau Ceti revision pinned by this
-  folder's manifest has none of these files, so they are not statable at its pins
-  and are stated once the manifest pins a revision that carries them.
+* S4's operator-stability, generation, character and tensor theorems need
+  `TauCeti.LSPath`, `TauCeti.PLPath.lower`, `TauCeti.NormalCrystal` and
+  `RootPairing.dotAlternatization` (`TauCeti/RepresentationTheory/LSPath/`,
+  `TauCeti/RepresentationTheory/Crystal/`,
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Integral.lean`); the Tau Ceti
+  revision pinned by this folder's manifest has none of these files.
 * S5's splitting, normality and vanishing theorems need the Schubert schemes
   and their Frobenius-module and coherent-cohomology constructions.
 * S6's all-degree standard monomial theorem needs geometric path sections and

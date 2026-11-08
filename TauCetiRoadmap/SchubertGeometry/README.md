@@ -161,11 +161,16 @@ a left descent s_i of w
 (`RootPairing.demazureOperator_mul_prod_map_demazureOperator_of_isLeftDescent`).
 `LongestElement.lean` proves Demazure's formula
 Δ·D_(w₀)(f)=Σ_(w∈W) sgn(w)e^(wρ−ρ)w(f) for a reduced word of the longest
-element, with Δ the Weyl denominator and the right side the dot
-alternatization J(f) (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`
+element (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`
 and its value `RootPairing.weylDenominator_mul_prod_map_demazureOperator_single`
-on e^λ), together with J(1)=Δ (`RootPairing.dotAlternatization_one`) and the
-Weyl invariance `RootPairing.isWeylInvariant_prod_map_demazureOperator` of
+on e^λ), with Δ=∏_(α>0)(1−e^(−α)) the Weyl denominator
+`TauCeti.weylDenominator` (`TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Basic.lean`)
+and the right side the dot alternatization J(f), `RootPairing.dotAlternatization`
+(`Weyl/Denominator/Integral.lean`, which also proves J(1)=Δ as
+`RootPairing.dotAlternatization_one`). Here wρ−ρ is minus the sum of the
+positive roots that w⁻¹ sends to negative roots, so every exponent lies in the
+weight lattice even when ρ does not (for PGL₂, ρ=α/2). `LongestElement.lean`
+also proves the Weyl invariance `RootPairing.isWeylInvariant_prod_map_demazureOperator` of
 D_(w₀)(f). `Parabolic.lean` proves the Levi case D_vf=f for v∈W_J and
 W_J-invariant f (`RootPairing.prod_map_demazureOperator_apply_eq_self_of_mem_parabolic`),
 the dependence of D_wf on the coset wW_J
@@ -330,15 +335,100 @@ the realized path of another encoding of shape λ, do not put a
 normal-crystal structure on `TauCeti.LSPath`, and do not prove the
 component, character or tensor theorems; those are S4's targets.
 
-### From the named roadmap suppliers
+### From TauCetiRoadmap.ModularCurves
 
-- [ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability, its charts and universal quotient. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
-- [ReductiveGroups](../ReductiveGroups/README.md) owns Hopf/scheme/point and rational-comodule dictionaries, group/root/pinning/central-isogeny structure, and field Bruhat theory. Its integral-distribution/rational-representation extension supplies full-lattice divided-power PBW/Dist(G), Δ/∇/L, induction, pinned extremal vectors and contravariant duality. The algebraic Steinberg input is the simple module Δ((p−1)ρ)=L((p−1)ρ)=∇((p−1)ρ) on the derived simply connected cover, with dimension p^|Φ+| and normalized PBW/extremal pairing. These algebraic constructions do not consume flag splitting or SMT.
+[ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability, its charts and universal quotient. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
 
-- [GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its GT initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
-- [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) supplies generic coherent cohomology, ample Serre, relative derived pushforward/base change and coherent/perfect K-theory at its stated scope; [StableReduction Layer2](../StableReduction/README.md) supplies relative Proj using AlgebraicVectorBundles L2A's single graded quasicoherent algebra and affine-ring interfaces. AlgebraicVectorBundles supplies tensor, dual, exterior and determinant sheaves and their pullbacks. These generic constructions are not redefined here.
-- [TopologicalKTheory T1.5](../TopologicalKTheory/README.md) supplies the single finite subspace Grassmannian and finite Schubert characteristic maps. LieGroups supplies compact full flags and their homogeneous complex comparisons. S9 compares these with the algebraic models; it does not rebuild their existing carriers.
-- [ComplexKahlerGeometry K3–K4](../ComplexKahlerGeometry/README.md) supplies finite-dimensional holomorphic germs, Weierstrass division, local analytic sets and the holomorphic sheaf/bundle calculus. S9.0 extends these local objects to analytic spaces with nilpotents and coherent analytification; K4's bundle theory alone is not coherent GAGA. RealAnalyticGeometry R3.2 supplies the native coherent module-sheaf predicate, coherent kernels and Cartan A/B on Stein manifolds. SchemeAndStackFoundations §§2.2, 2.6 and 4.12 supply algebraic coherent pushforward, projective-space cohomology and Chow modification for its proof.
+### From TauCetiRoadmap.ReductiveGroups
+
+[ReductiveGroups](../ReductiveGroups/README.md) Layers 7–10 (structure theory, field Bruhat theory and algebraic parabolics, classification, the pinned Chevalley–Demazure group schemes over ℤ, rational representations and highest weights) own Hopf/scheme/point and rational-comodule dictionaries, group/root/pinning/central-isogeny structure, and field Bruhat theory. Its integral-distribution/rational-representation extension supplies full-lattice divided-power PBW/Dist(G), Δ/∇/L, induction, pinned extremal vectors and contravariant duality. The algebraic Steinberg input is the simple module Δ((p−1)ρ)=L((p−1)ρ)=∇((p−1)ρ) on the derived simply connected cover, with dimension p^|Φ+| and normalized PBW/extremal pairing. These algebraic constructions do not consume flag splitting or SMT.
+
+### From TauCetiRoadmap.GroebnerGeometry
+
+[GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its GT initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer 1
+(descent, gluing, closed immersions, fibre products and base change), Layer 2
+with §2.2 (Leray and Čech spectral sequences) and §2.6 (quasi-coherent
+cohomology, projective-space cohomology and Serre vanishing), §4.12 (Chow's
+lemma) and Layer 5 with §5.7 (cycles and intersections; coherent and perfect
+classes K₀, G₀ and the K-theoretic pushforward) supply generic coherent
+cohomology, ample Serre vanishing, relative derived pushforward and base change
+and coherent/perfect K-theory at their stated scope. These generic
+constructions are not redefined here.
+
+### From TauCetiRoadmap.StableReduction
+
+[StableReduction Layer 2](../StableReduction/README.md) supplies relative Proj
+using AlgebraicVectorBundles L2A's single graded quasicoherent algebra and
+affine-ring interfaces; with Layer 4 it supplies the Rees blowup construction
+used in the worked blowup example. S5.6 and S6.1 consume the relative Proj and
+do not rebuild it.
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+[AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) supplies, in
+L2A, the graded quasicoherent algebra and affine-ring interfaces on which
+StableReduction's relative Proj is built, and its tensor, dual, exterior and
+determinant sheaves with their pullbacks, used by S1.1, S1.4 and S3.1. Nothing
+beyond their functoriality under pullback is assumed.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+[TopologicalKTheory T1.5](../TopologicalKTheory/README.md) supplies the single
+finite subspace Grassmannian and finite Schubert characteristic maps. S9
+compares these with the algebraic models; it does not rebuild their carriers.
+
+### From TauCetiRoadmap.LieGroups
+
+[LieGroups Layer 8](../RepresentationTheory/LieGroups/README.md) (Borel–Weil,
+flag manifolds and Bruhat) supplies the compact full and partial flags K/T and
+K/K_μ with their homogeneous complex comparisons, used by S2.5, S7.3 and
+S9.1–S9.8. S9 compares these with the algebraic models; it does not rebuild
+their carriers.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+[ComplexKahlerGeometry K3–K4](../ComplexKahlerGeometry/README.md) supplies finite-dimensional holomorphic germs, Weierstrass division, local analytic sets and the holomorphic sheaf/bundle calculus. S9.0 extends these local objects to analytic spaces with nilpotents and coherent analytification; K4's bundle theory alone is not coherent GAGA.
+
+### From TauCetiRoadmap.RealAnalyticGeometry
+
+[RealAnalyticGeometry R3.2](../RealAnalyticGeometry/README.md) supplies the
+native coherent module-sheaf predicate, coherent kernels and Cartan A/B on
+Stein manifolds; S9.0 uses them, with SchemeAndStackFoundations §§2.2, 2.6 and
+4.12, in its proof of proper GAGA.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology Stage 5, item 3](../AlgebraicTopology/README.md) supplies,
+for a finite covering p with connected base and constant fibre cardinality d,
+the transfer on singular chains with p_*∘transfer=d·id, and, for a regular
+covering with finite deck group G, transfer∘p_*=Σ_(g∈G) g_*. S9.6 applies it to
+the free covering K/T→K/N(T) with deck group W: over ℚ the two identities
+identify H*(K/N(T);ℚ) with the W-invariants of H*(K/T;ℚ); over ℤ nothing else
+is assumed and no averaging is used.
+
+### From TauCetiRoadmap.MorseTheory
+
+[MorseTheory M2](../MorseTheory/README.md) supplies compact-band deformation
+across regular levels, the attachment of one index-λ handle at each critical
+point of a critical level, and the resulting cell attachments with their
+attaching maps ∂D^λ→M_(c−ε) and characteristic maps
+(D^λ,∂D^λ)→(M_(c+ε),M_(c−ε)). S9.7 compares these characteristic maps with the
+Bruhat cells and S7.3's classes; it assumes only the attachment statements, not
+that a Schubert closure is the image of an embedded disc.
+
+### From TauCetiRoadmap.HamiltonianReduction
+
+[HamiltonianReduction R2a](../SymplecticGeometry/HamiltonianReduction/README.md)
+supplies, on the coadjoint orbit O_μ=K/K_μ of a compact connected group K, the
+heights f_X(p)=B(p,X) with df_X=ι_(X_O)ω and critical set {p:[X,p]=0}, the
+root-plane rotations J_α with the KKS form on each root plane, the critical set
+Wμ of a regular height and its finite even-index cell model. S9.7 consumes
+these on the same orbit and compares them with the algebraic flag; it does not
+rebuild the orbit, its form or its heights.
 
 ## How to read the build
 
@@ -411,7 +501,7 @@ pinned groups); SchemeAndStackFoundations Layer 1 (scheme gluing and descent).
 
 ### 1.1 Finite-locally-free flags and incidence (S1.1)
 
-For a finite locally free E/S and a strictly increasing admissible rank list, construct the universal relative flag with subbundles F_i and locally free quotients as the closed incidence subscheme of the product of ModularCurves §0G quotient Grassmannians. Export empty/single/full flag comparisons, tautological exact sequences, tensor/exterior/determinant pullbacks, forgetful maps, refinement-parameter schemes, annihilator flags in E*, and arbitrary base change. An opposite flag in E needs the displayed splitting/pairing or opposite-Borel data; no canonical opposite/refinement of an arbitrary flag is assumed. Cut out that closed immersion by the vanishing of the universal maps F_i→E/F_j for i<j; prove that the source's coordinate model and forgetful/refinement maps identify with those same maps. The product is an ambient space, not the flag itself. On a chosen splitting, compare these sheaf maps with polynomial matrix incidence equations. The construction is a deduction from the Grassmannian universal quotient and the closed zero locus of these maps (ModularCurves §0G; SchemeAndStackFoundations Layer 1).
+For a finite locally free E/S and a strictly increasing admissible rank list, construct the universal relative flag with subbundles F_i and locally free quotients as the closed incidence subscheme of the product of ModularCurves §0G quotient Grassmannians. Export empty/single/full flag comparisons, tautological exact sequences, tensor/exterior/determinant pullbacks, forgetful maps, refinement-parameter schemes, annihilator flags in E*, and arbitrary base change. An opposite flag in E needs the displayed splitting/pairing or opposite-Borel data; no canonical opposite/refinement of an arbitrary flag is assumed. Cut out that closed immersion by the vanishing of the universal maps F_i→E/F_j for i<j. Over ℂ, prove that this construction recovers the classical model of BrionFlags §1.2, p. 7 (BrionFlags lines 256–258), where the partial flag variety is the subvariety of the product of Grassmannians, together with its forgetful morphism from complete flags, a fibration whose fibre is the product of the complete flag varieties of the successive quotients (lines 266–272), and, for the line–hyperplane incidence variety in ℙ^(n−1)×ℙ̌^(n−1), its bihomogeneous equation x₁y₁+⋯+x_ny_n=0 (Example 1.2.3(5), pp. 9–10, lines 345–354); Brion indexes flags by the dimensions of successive quotients, which the comparison converts to this rank list. The product is an ambient space, not the flag itself. On a chosen splitting, compare these sheaf maps with polynomial matrix incidence equations. The construction is a deduction from the Grassmannian universal quotient and the closed zero locus of these maps (ModularCurves §0G; SchemeAndStackFoundations Layer 1).
 
 - The universal incidence equations represent nested locally direct summands;
   their functor of points identifies the immersion with the flag functor.
@@ -792,7 +882,7 @@ The operator identities are native: D_i²=D_i, the braid relations and the word 
 
 ### 3.5 Highest-line embeddings (S3.5)
 
-Construct coordinate maps for the complete linear system and the extremal-line orbit, and prove their scheme-theoretic comparison. Basepoint freeness and injectivity on geometric points do not prove a closed immersion in characteristicp. Own the exact stabilizer/separability and closed-immersion argument for the chosen canonical model; for a general highest-weight representation state the actual stabilizer conditions. Test the SL₂ Frobenius representation, where the orbit map can be purely inseparable. Over ℂ in type A the statement is BrionFlags §1.4: the product of the Plücker maps X→∏_d Gr(d,n)→∏_d ℙ(Λ^dℂⁿ) is a closed immersion and L(χ_d) is the pull-back of O(1) under X→Gr(d,n)→ℙ(Λ^dℂⁿ) (BrionFlags lines 562–568 and 653–654, pp. 15 and 17), and Proposition 1.4.1, p. 14 (BrionFlags lines 549–552) says that a divisor is ample exactly when it is a positive combination of the Schubert divisors and that every ample divisor on the flag variety is very ample; the closed-immersion argument through the scheme stabilizer in every characteristic is the target here.
+Construct coordinate maps for the complete linear system and the extremal-line orbit, and prove their scheme-theoretic comparison. Basepoint freeness and injectivity on geometric points do not prove a closed immersion in characteristicp. Own the exact stabilizer/separability and closed-immersion argument for the chosen canonical model; for a general highest-weight representation state the actual stabilizer conditions. Test the SL₂ Frobenius representation, where the orbit map can be purely inseparable. Over ℂ in type A the statement is BrionFlags §1.4: the product of the Plücker maps X→∏_d Gr(d,n)→∏_d ℙ(Λ^dℂⁿ) is a closed immersion and L(χ_d) is the pull-back of O(1) under X→Gr(d,n)→ℙ(Λ^dℂⁿ) (BrionFlags lines 562–568 and 653–654, pp. 15 and 17), and Proposition 1.4.1, p. 14 (BrionFlags lines 549–552) says that a divisor is ample exactly when it is a positive combination of the Schubert divisors and that every ample divisor on the flag variety is very ample. The target in every characteristic is the following. Let λ∈X have ⟨λ,α_i∨⟩=0 for the simple roots α_i of the Levi of P− and ⟨λ,α_i∨⟩>0 for the other simple roots. Then over every field k the line L(λ) is very ample on G/P−: the complete linear system G/P−→ℙ(H⁰(G/P−,L(λ))*) is a closed immersion, and it is the orbit map of the B−-stable line of weight −λ in H⁰(G/P−,L(λ))*. Over an algebraically closed field this is Ramanathan1987, Theorem 3.11(i), p. 86 (Ramanathan1987 line 950: in every characteristic the section ring of a line bundle with nonzero sections on G/Q is generated in degree one), together with Remark 2.4, p. 73 (line 490: generation in degree one in all large degrees forces an ample line bundle to be very ample); in characteristic p his input is the compatible splitting of the diagonal of G/Q×G/Q, Theorem 3.5(ii), p. 82 (line 803). Ramanathan works with a simply connected semisimple group (line 750); G/P− is also the flag variety of the simply connected cover of the derived group of G, with L(λ) the associated line of the restriction of λ, and over a non-closed field very ampleness descends from an algebraic closure by flat base change of H⁰ and fpqc descent of closed immersions. The route here is the scheme stabilizer: prove that the scheme-theoretic stabilizer of that line is P−, so that the orbit map is an immersion over k, closed because G/P− is proper. Ramanathan's route through degree-one generation is not used inside this roadmap, since S6.5's normal generation rests on S6.1, which consumes this embedding.
 
 - Evaluation is equivariant and descends to the stated quotient with its scheme stabilizer.
 - Its line pullback is the specified L(λ), including its linearization.
@@ -804,7 +894,7 @@ Construct coordinate maps for the complete linear system and the extremal-line o
 - With λ=0 the map has point image and differential rank 0; it is not an embedding of ℙ¹.
 - In characteristic p the Frobenius-twisted natural representation gives [x:y]↦[x^p:y^p], with differential 0 although the geometric point map is bijective.
 
-*Needs:* S3.1–3.2; S3.1's global generation and the scheme closed-immersion criterion; ReductiveGroups scheme stabilizers. BrionFlags Proposition 1.4.1 and the Plücker closed immersion (lines 549–552 and 562–568) give the complex type-A statement.
+*Needs:* S3.1–3.2; S3.1's global generation and the scheme closed-immersion criterion; ReductiveGroups scheme stabilizers. BrionFlags Proposition 1.4.1 and the Plücker closed immersion (lines 549–552 and 562–568) give the complex type-A statement; Ramanathan1987 Theorem 3.11(i) with Remark 2.4 (lines 950 and 490) gives the statement over an algebraically closed field of every characteristic.
 
 ### 3.6 A₂ signed-string character calculation (S3.6)
 
@@ -952,7 +1042,22 @@ Prove on these carriers what the native files leave open. First, S4.2's operator
 
 ### 4.4 Characters and tensor components (S4.4)
 
-Construct the generic finite-type character/component theorem on the native carriers, not just its typeA specialization. Positive-integer stretching is the native `TauCeti.LSPath.stretch` with the dilation law `TauCeti.LSPath.toPLPath_stretch` and the uniform integral subdivision `TauCeti.LSPath.exists_uniform_subdivision`; the ambient tensor rule for a concatenation is the native `TauCeti.PLPath.lower_mul` and `TauCeti.PLPath.raise_mul` (Kashiwara's tie convention: on the concatenation p*q, lowering acts on p when ε(q)<φ(p) and on q when φ(p)≤ε(q)), and the tensor product of crystals is `TauCeti.NormalCrystal.tensor`. Prove the root-operator word-distance bound and the linked-path subdivision/gluing lemmas required to compare an arbitrary dominant rational PL path of endpoint λ with the straight component, and the isomorphism theorem: the operator component of a path π with π(t) dominant for all t and π(1)=λ is strictly isomorphic to B(λ) (Littelmann1995, Theorem 7.1, p. 518, through Theorem 6.3, p. 517). Prove that the concatenation B(λ)*B(μ) is the native tensor crystal B(λ)⊗B(μ), and the tensor-component theorem: it is the direct sum of the components B(λ+π(1)) over the encodings π∈B(μ) with λ+π(t) dominant for all t (Littelmann1995, §10, p. 521), with the translated-chamber multiplicity rule and the actual tensor-factor convention. Derive the formal characters: the formal character `TauCeti.NormalCrystal.formalCharacter` of B(λ) satisfies Weyl's formula Σ_(w∈W) sgn(w)e^(wρ)·char B(λ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)) (Littelmann1995, Theorem 9.1, p. 520), hence equals D_(w₀)(eλ) by the native longest-element formula and J(1)=Δ of S3.4, and compare it with the rational representation supplier. In characteristic0 compare with simple rational modules; in characteristicp compare the formal Weyl/induced characters, which need not be the simple L(λ) characters; a crystal graph indexes weights and partial root operators, without asserting that actual Lie generators are single-target on a weight basis. The adjoint SL₃ example distinguishes simple generators from all root operators.
+Construct the generic finite-type character/component theorem on the native carriers, not just its typeA specialization. Positive-integer stretching is the native `TauCeti.LSPath.stretch` with the dilation law `TauCeti.LSPath.toPLPath_stretch` and the uniform integral subdivision `TauCeti.LSPath.exists_uniform_subdivision`; the ambient tensor rule for a concatenation is the native `TauCeti.PLPath.lower_mul` and `TauCeti.PLPath.raise_mul` (Kashiwara's tie convention: on the concatenation p*q, lowering acts on p when ε(q)<φ(p) and on q when φ(p)≤ε(q)), and the tensor product of crystals is `TauCeti.NormalCrystal.tensor`. Prove the root-operator word-distance bound and the linked-path subdivision/gluing lemmas required to compare an arbitrary dominant rational PL path of endpoint λ with the straight component, and the isomorphism theorem: the operator component of a path π with π(t) dominant for all t and π(1)=λ is strictly isomorphic to B(λ) (Littelmann1995, Theorem 7.1, p. 518, through Theorem 6.3, p. 517). Prove that the concatenation B(λ)*B(μ) is the native tensor crystal B(λ)⊗B(μ), and the tensor-component theorem: it is the direct sum of the components B(λ+π(1)) over the encodings π∈B(μ) with λ+π(t) dominant for all t (Littelmann1995, §10, p. 521), with the translated-chamber multiplicity rule and the actual tensor-factor convention. Derive the formal characters in the group ring ℤ[X] of the actual character lattice: the formal character `TauCeti.NormalCrystal.formalCharacter` of B(λ) satisfies Δ·char B(λ)=J(eλ), where Δ=∏_(α>0)(1−e^(−α)) is `TauCeti.weylDenominator` and J is the dot alternatization `RootPairing.dotAlternatization`, J(eλ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)−ρ), whose exponents wλ−(ρ−wρ) lie in X because ρ−wρ is a sum of positive roots. Since ℤ[X] is a domain and Δ≠0, the native longest-element formula of S3.4 then gives char B(λ)=D_(w₀)(eλ). Littelmann's form Σ_(w∈W) sgn(w)e^(wρ)·char B(λ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)) (Littelmann1995, Theorem 9.1, p. 520, with ρ fixed in his weight lattice at line 811) is this identity multiplied by e^ρ; it holds in ℤ[X+ℤρ] and is not an identity of ℤ[X] when ρ∉X, as for PGL₂. Compare the character with the rational representation supplier. In characteristic0 compare with simple rational modules; in characteristicp compare the formal Weyl/induced characters, which need not be the simple L(λ) characters; a crystal graph indexes weights and partial root operators, without asserting that actual Lie generators are single-target on a weight basis. The adjoint SL₃ example distinguishes simple generators from all root operators.
+
+   **Checks for the character formula.**
+
+   - For PGL₂, with X=ℤα and λ=α, B(α) has the three encodings of weights
+     α, 0, −α, so char B(α)=e^α+1+e^(−α), and Δ=1−e^(−α). Then
+     Δ·char B(α)=e^α−e^(−2α), and J(e^α)=e^α−e^(−2α), the reflection term
+     being −e^(s(α+ρ)−ρ)=−e^(−α−2ρ)=−e^(−2α); every exponent lies in ℤα.
+     Littelmann's form would need e^(±α/2), which is not in ℤ[ℤα].
+   - For SL₂, with X=ℤω, α=2ω and λ=ω, char B(ω)=e^ω+e^(−ω) and
+     Δ·char B(ω)=e^ω−e^(−3ω)=J(e^ω); here ρ=ω lies in X and multiplying by
+     e^ω gives Littelmann's (e^ω−e^(−ω))(e^ω+e^(−ω))=e^(2ω)−e^(−2ω).
+   - For λ=0, B(0) is a single element of weight 0 and J(1)=Δ, so
+     char B(0)=1. For a nonempty root system the unshifted alternant
+     Σ_(w∈W) sgn(w)e^(wλ) is 0 at λ=0 and would give char B(0)=0; for PGL₂ at λ=α it gives e^α−e^(−α), not
+     e^α−e^(−2α).
 
    **Checks for the adjoint comparison.** Work in characteristic zero and
    use the six matrix units E_ab, a≠b, with H₁=E₁₁−E₂₂ and
@@ -974,11 +1079,12 @@ Construct the generic finite-type character/component theorem on the native carr
    representations and their formal characters; S4.1–3's crystal B(λ); the
    native `TauCeti.LSPath.stretch`, `TauCeti.PLPath.lower_mul`,
    `TauCeti.NormalCrystal.tensor` and `TauCeti.NormalCrystal.formalCharacter`;
-   S3.4's native longest-element formula;
+   S3.4's native longest-element formula with `TauCeti.weylDenominator` and
+   `RootPairing.dotAlternatization`;
    Mathlib matrix multiplication for the displayed bracket calculation.
    The character/component route is Littelmann1995, Theorems 6.3, 7.1 and 9.1,
-   pp. 517–520, and §10, p. 521; the matrix controls are direct deductions
-   from the bracket formula.
+   pp. 517–520, and §10, p. 521, with Theorem 9.1 multiplied by e^(−ρ) to land in
+   ℤ[X]; the matrix controls are direct deductions from the bracket formula.
 
 
 ### 4.5 Chain simplices (S4.5)
@@ -1015,7 +1121,7 @@ After S5 and the divisor calculation S7.1–2, construct geometric path sections
 
 ### 4.7 Opposition and section weights (S4.7)
 
-Print the opposition/dual dictionary. Set κ=−w₀λ and θ(w)=w₀ww₀. Conjugating G/B− to G/B+ by the chosen longest representative sends X(w) to the positive-Borel X(θ(w)) and pulls the positive-Borel line with fibre−κ back to L(λ), with the actual linearization comparison. In the positive-Borel convention, LS path sections indexed by π∈B(κ) have weight−π(1) and survive on X(θ(w)) exactly when their initial direction is≤θ(w). Transporting gives weight−w₀π(1) on the chosen X(w). For partial flags use the actual minimal-coset projection W/W_P→W/W_λ before making this comparison; do not compare indices in different stabilizer quotients as though they were equal. Prove the terminal-direction formulation from the initial-direction condition of LLM §3, p. 309 by explicit opposition/reversal, rather than equating the two untransported symbols w. The point and longest-word tests must recover the single fibre λ and the full ∇λ.
+Print the opposition/dual dictionary. Set κ=−w₀λ and θ(w)=w₀ww₀. Conjugating G/B− to G/B+ by the chosen longest representative sends X(w) to the positive-Borel X(θ(w)) and pulls the positive-Borel line with fibre−κ back to L(λ), with the actual linearization comparison. In the positive-Borel convention, LS path sections indexed by π∈B(κ) have weight−π(1) and survive on X(θ(w)) exactly when their initial direction is≤θ(w). Transporting gives weight−w₀π(1) on the chosen X(w). For partial flags use the actual minimal-coset projection W/W_P→W/W_λ before making this comparison; do not compare indices in different stabilizer quotients as though they were equal. Prove the terminal-direction formulation from the initial-direction condition of LLM §3.1, Proposition 14, p. 312 (LLM line 809: the LS chains whose initial direction is at most w index a basis of the Demazure module V_λ(w), recalling Littelmann's Demazure basis), realized as sections through the dual embedding of LLM §4.1, pp. 314–315 (line 946), by explicit opposition/reversal, rather than equating the two untransported symbols w. The point and longest-word tests must recover the single fibre λ and the full ∇λ.
 
 *Needs:* S4.6; S1.0's inversion and ReductiveGroups opposition/contravariant duality; S3.1–3.2's fibre character and ordinary-dual comparison.
 
@@ -1529,7 +1635,7 @@ Compare the resulting integral full-flag CW classes with the Schubert Chow/degre
 
 ### 9.7 Moment–Morse comparison (S9.7)
 
-Construct the compact moment-Morse comparison with [HamiltonianReduction R2a](../HamiltonianReduction/README.md) on its same homogeneous coadjoint orbit (KnutsonSymplectic §§1–3, pp. 1–3, for the KKS form, stabilizers and even-index Morse route). For compact connected K, a real dominant μ∈t and H=K_μ, use LieGroups Layer8 and S9.1 to identify K/H with the analytic partial flag G/P− whose Levi roots vanish on μ. No integrality or prequantization of μ is required for this diffeomorphism; an associated line still requires the actual character lattice. Compare the inclusion derivative, root-plane coordinates, T action and the actual KKS form. At p∈O_μ∩t construct the invariant complex structure by J_flag|E_α=sign(α(p))J_α on the tangent planes α(p)≠0 and prove that it is the integrable structure transported from this flag. Then ω(v,J_flag w)=B(v,w)/|α(p)| on those planes. Extend the equality equivariantly and construct the positive K-invariant Kähler metric, rather than assume the arbitrary metric used for the Morse chart has this property.
+Construct the compact moment-Morse comparison with [HamiltonianReduction R2a](../SymplecticGeometry/HamiltonianReduction/README.md) on its same homogeneous coadjoint orbit (KnutsonSymplectic §§1–3, pp. 1–3, for the KKS form, stabilizers and even-index Morse route). For compact connected K, a real dominant μ∈t and H=K_μ, use LieGroups Layer8 and S9.1 to identify K/H with the analytic partial flag G/P− whose Levi roots vanish on μ. No integrality or prequantization of μ is required for this diffeomorphism; an associated line still requires the actual character lattice. Compare the inclusion derivative, root-plane coordinates, T action and the actual KKS form. At p∈O_μ∩t construct the invariant complex structure by J_flag|E_α=sign(α(p))J_α on the tangent planes α(p)≠0 and prove that it is the integrable structure transported from this flag. Then ω(v,J_flag w)=B(v,w)/|α(p)| on those planes. Extend the equality equivariantly and construct the positive K-invariant Kähler metric, rather than assume the arbitrary metric used for the Morse chart has this property.
 
    For regular X in the negative chamber, prove grad(f_X)=J_flag X_O and the complete negative-gradient flow is the complexified action exp(−itX). Construct its coordinate action in the actual root-subgroup charts and prove its unstable manifolds are the standard B− cells C(w), of complex dimension ℓ(w), with backward limit wμ; its stable manifolds are the opposite cells. The compact flow model is being compared to those root-coordinate cells, not used to define the algebraic Schubert schemes. For positive X, retain index(f_X)=dim(O_μ)−2ℓ(w) and use −f_X for the same index-2ℓ(w) model. Zero stabilizer roots are omitted on partial flags, and central components change only the height constant. Prove the convergence/limit and cell-coordinate statements and the parabolic projection when μ lies on a wall, with X still regular in the chosen chamber, not just agreement of cell counts or characters. If instead X lies on a wall, use R2a's centralizer-orbit Morse–Bott strata and their negative normal bundles; do not assert the same isolated-critical-point/Bruhat-cell statement for that height. An arbitrary invariant metric need not have these Bruhat unstable manifolds.
 
@@ -1715,14 +1821,30 @@ applications. These applications consume this roadmap's general theory. Geometri
 §§3.3–3.4 consumes S9.1/S9.7's partial-flag, Kähler and root-oriented cell
 comparisons for its ordinary Picard and forgetful-map conclusions.
 
+KacMoody §§5.4, 6.4 and 7.2–7.3 consume S4 (the finite-root-datum path crystal,
+LS chains and their cover bonds, the interval gcd, convexity and typed central
+translation) and S7 (the finite Chevalley divisor coefficient ⟨λ,β∨⟩) as the
+finite comparison case of its Layers 5–7. S4's bond, interval-gcd,
+central-transport and convexity statements are the Tau Ceti declarations named
+in the From Tau Ceti contract (`TauCeti.reflectionBond_pos_of_minimalCosetRepCovBy`,
+`TauCeti.bondGcd_eq_intervalBondGcd`, `TauCeti.LSPath.centralTransport`,
+`TauCeti.PLPath.evalTimed_mem_convexHull_orbit_weylGroup`), which KacMoody's S4
+citation reaches through S4. QuantumEnvelopingAlgebras §8.2 consumes S4 and S7
+(finite LS chains, normalized extremal sections and the Chevalley divisor
+coefficient). CharacteristicClasses C5a consumes S9.6's rational acyclicity of
+K/N(T), its finite-cover transfer and the computation SU(2)/N(T)=ℝP² with
+H⁰=ℤ and H²=ℤ/2. FlagVarieties §6.1 consumes S1's incidence comparisons and
+B− convention and S2.3's subword closure criterion.
+
 
 ## References
 
-Proof routes include Allen Knutson's Math 261 handouts named below; Peter Littelmann, *Paths and root operators in representation theory*, Annals of Mathematics 142 (1995), 499–525, read from the author's Cologne page (Littelmann1995), for the finite path/linking construction: Proposition 4.7 and Corollaries 2–3, pp. 511–512 (Littelmann1995 lines 502–526), Theorem 6.3, p. 517 (line 726), Theorem 7.1, p. 518 (line 747), Theorem 9.1, p. 520 (line 815) and §10, p. 521 (lines 848–865); Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
+Proof routes include Allen Knutson's Math 261 handouts named below; Peter Littelmann, *Paths and root operators in representation theory*, Annals of Mathematics 142 (1995), 499–525, read from the author's Cologne page (Littelmann1995), for the finite path/linking construction: Proposition 4.7 and Corollaries 2–3, pp. 511–512 (Littelmann1995 lines 502–526), Theorem 6.3, p. 517 (line 726), Theorem 7.1, p. 518 (line 747), Theorem 9.1, p. 520 (line 815) and §10, p. 521 (lines 848–865); Lakshmibai–Littelmann–Magyar's *Standard monomial theory for Bott–Samelson varieties*, Compositio Mathematica 130 (2002), Theorem 4 (§1.3, p. 299) and Theorem 6 (§1.4, p. 301), for the standard bases and section/vanishing comparisons, and Proposition 14 (§3.1, p. 312) with the dual embedding of §4.1, pp. 314–315, for the initial-direction basis of a Demazure module; and the root-coordinate/splitting/coherent constructions stated in S5. For the finite saturated-chain bond theorem use Chirivì–Fang–Littelmann, [*LS algebras, valuations and Schubert varieties*, arXiv:2203.12992v1, Definition 2.1 (p. 4) and §7.1 (p. 18)](https://arxiv.org/abs/2203.12992v1), in its dominant-weight/minimal-parabolic-coset setting; construct its chain-independent gcd through the combinatorial targets of S4.3. Each cited generic foundation retains its single owner.
 
 Source keys: LLM denotes the 2002 article, read in the author copy on
 Peter Magyar's page, whose theorem numbering is that of the published
-article, with Theorem 4 at LLM line 263 and Theorem 6 at LLM line 338. CFL denotes
+article, with Theorem 4 at LLM line 263, Theorem 6 at LLM line 338,
+Proposition 14 at LLM line 809 and the §4.1 dual embedding at LLM line 946. CFL denotes
 arXiv:2203.12992v1, with Definition 2.1 at CFL line 188 and the Schubert
 bond specialization at CFL line 960. The latter uses a dominant weight and
 minimal representatives in the parabolic Weyl quotient; its characteristic-zero
@@ -1743,7 +1865,9 @@ The scheme-theoretic nilpotent generality is taken from SGA1.
 
 Michel Brion, *Lectures on the geometry of flag varieties*,
 arXiv:math/0410240v1 (2004), §§1.1–1.4, 2.1–2.3 and 3.3–3.4
-(BrionFlags): Proposition 1.3.5, p. 13 (BrionFlags lines 501–509),
+(BrionFlags): the partial flag variety in the product of Grassmannians and its
+forgetful fibration, §1.2, p. 7 (BrionFlags lines 256–258 and 266–272), the
+incidence equation of Example 1.2.3(5), pp. 9–10 (lines 345–354), Proposition 1.3.5, p. 13 (BrionFlags lines 501–509),
 Proposition 1.4.1, p. 14 (lines 549–552), the Plücker closed immersion,
 p. 15 (lines 562–568), Proposition 1.4.3, p. 16 (lines 613–618) and
 Proposition 1.4.5, pp. 17–18 (lines 667–685). This source works over ℂ, with type-A coordinates; its
@@ -1772,8 +1896,9 @@ coefficient formula from the stated signed strings. These handouts work over
 A. Ramanathan, *Equations defining Schubert varieties and Frobenius splitting
 of diagonals*, Publications Mathématiques de l'IHÉS 65 (1987), 61–90
 (Ramanathan1987, Numdam): Definition 1.1, p. 65, Proposition 1.4, p. 66,
-§1.16, Proposition 1.17 and Lemmas 1.18–1.19, pp. 70–71, Theorem 3.5(i),
-pp. 82–83 and Theorem 3.7, p. 84. The original splitting paper is
+§1.16, Proposition 1.17 and Lemmas 1.18–1.19, pp. 70–71, Remark 2.4, p. 73
+(line 490), Theorem 3.5(i)–(ii), pp. 82–83 (lines 799–803), Theorem 3.7,
+p. 84 and Theorem 3.11(i), p. 86 (line 950). The original splitting paper is
 V. B. Mehta and A. Ramanathan, *Frobenius splitting and cohomology vanishing
 for Schubert varieties*, Annals of Mathematics 122 (1985), 27–40, cited only
 through Ramanathan1987. H. Pittie, *Homogeneous vector bundles on homogeneous
