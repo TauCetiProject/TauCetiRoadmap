@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
+import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Basic
 
 /-!
 # Quadratic forms over a base: target signatures
@@ -15,28 +16,34 @@ divides by `2`. A form is read through its upper-triangular coefficient matrix (
 
 Headline theorems stated here:
 
-* README 0.2, `mapCoeffs_apply`, `mapCoeffs_comp` and `mapCoeffs_eq_baseChange`: base change of
-  coefficients evaluates as expected, is functorial, and agrees with Mathlib's
+* README 0.2, `mapCoeffs_eq_baseChange`: base change of coefficients agrees with Mathlib's
   `QuadraticForm.baseChange` when `2` is invertible.
 * README 1.1, `two_mul_univHalfDisc`: in odd rank the universal discriminant is twice the
   universal half-discriminant.
 * README 1.2, `two_mul_halfDisc` and `halfDisc_eq_of_toQuadraticMap`.
-* README 1.3, `halfDisc_mapCoeffs`, `halfDisc_comp` and `halfDisc_smul`.
+* README 1.3, `halfDisc_mapCoeffs` and `halfDisc_comp`.
 * README 1.4, `four_dvd_univSignedDisc_sub_sq`, `discr_discAlgebra`.
 * README 2.2, `isSmooth_iff_isUnit_halfDisc` and `isSmooth_iff_isUnit_det`.
 * README 2.4, `isSmooth_iff_exists_faithfullyFlat` and `exists_etale_isometryEquiv_standard`.
 * README 3.1, `exists_hopfIdeal_toIdeal_eq` and `mem_orthogonalGroup_iff_le_ker`.
 * README 3.2, `det_sq_eq_one` and `mem_orthogonalGroup_iff_existsUnique`.
 * README 3.3, `smooth_orthogonal_iff` and `smooth_specialOrthogonal`.
-* README 4.1, `isAzumaya_even_iff`; README 4.2, `center_even_etale`.
-* README 5.1, `etale_quadraticAlgebra_iff`; README 5.2, `etale_discAlgebra_iff`;
-  README 5.3, `exists_productHom`.
-* README 6.1, `X_last_mul_univBinDisc` and `leadingCoeff_mul_binDisc`; README 6.2,
-  `binDisc_map` and `binDisc_of_coeff_eq_zero`; README 6.3, `isUnit_binDisc_iff_etale`.
+* README 4.1, `isAzumaya_even_iff`.
+* README 5.1, `etale_discAlgebra_iff`; README 5.2, `exists_productHom`.
 
-Not stated here: README 3.4, the bijection between isometry classes of smooth forms of rank `n`
-and torsor classes under `O(qₙ)`, lacking SchemeAndStackFoundations' `NonabelianH1` (§2.3) and
-the torsors of §1.15 at the pins.
+Not stated here, for lack of the carrier at the pins:
+
+* README 0.2, `mapCoeffs (algebraMap K L) Q = extendScalars Q L`, lacking
+  QuadraticFormInvariantsPartII's `extendScalars` (§0.2).
+* README 2.1, smoothness as ordinarity for `n ≥ 1`, lacking LefschetzPencilsAndVanishingCycles'
+  ordinary quadratic forms (§2.1).
+* README 3.1, the comparison with OrthogonalTamagawaAndLatticeMass' `O(q)` over a perfect field
+  of characteristic two, lacking that group (§0.1a).
+* README 3.4, the bijection between isometry classes of smooth forms of rank `n` and torsor
+  classes under `O(qₙ)`, lacking SchemeAndStackFoundations' `NonabelianH1` (§2.3) and the torsors
+  of §1.15.
+* README 6.1, `aₙ formDiscr n f = (-1)^(n(n-1)/2) Res_{n,n-1}(f, f')` at formal degree `n`,
+  lacking HyperellipticCurves' `formDiscr` (§0.1).
 
 Conventions (README §Conventions): the coefficient matrix of `Q` has `Q(eᵢ)` on the diagonal,
 `polar Q eᵢ eⱼ` above it and `0` below; the polar matrix is `(polar Q eᵢ eⱼ)`; an element `g` of
@@ -69,16 +76,6 @@ matrix. No hypothesis on `2` is needed. -/
 noncomputable def mapCoeffs {S : Type*} [CommRing S] (f : R →+* S)
     (Q : QuadraticForm R (Fin n → R)) : QuadraticForm S (Fin n → S) :=
   LinearMap.BilinMap.toQuadraticMap (Matrix.toLinearMap₂' S ((coeffMatrix Q).map f))
-
-/-- README 0.2: the base-changed form takes the value `f (Q x)` at the image of `x`. -/
-theorem mapCoeffs_apply {S : Type*} [CommRing S] (f : R →+* S) (Q : QuadraticForm R (Fin n → R))
-    (x : Fin n → R) : mapCoeffs f Q (f ∘ x) = f (Q x) := by
-  sorry
-
-/-- README 0.2: base change of coefficients is compatible with composition of ring maps. -/
-theorem mapCoeffs_comp {S T : Type*} [CommRing S] [CommRing T] (f : R →+* S) (g : S →+* T)
-    (Q : QuadraticForm R (Fin n → R)) : mapCoeffs g (mapCoeffs f Q) = mapCoeffs (g.comp f) Q := by
-  sorry
 
 /-- README 0.2: when `2` is invertible, base change of coefficients is Mathlib's
 `QuadraticForm.baseChange`, read through `A ⊗[R] (Fin n → R) ≃ Fin n → A`. -/
@@ -140,11 +137,6 @@ theorem halfDisc_mapCoeffs {S : Type*} [CommRing S] (f : R →+* S)
 theorem halfDisc_comp (hn : Odd n) (Q : QuadraticForm R (Fin n → R))
     (g : Matrix (Fin n) (Fin n) R) :
     halfDisc (Q.comp (Matrix.toLin' g)) = g.det ^ 2 * halfDisc Q := by
-  sorry
-
-/-- README 1.3: scaling the form by `a` multiplies `δ'` by `aⁿ`. -/
-theorem halfDisc_smul (Q : QuadraticForm R (Fin n → R)) (a : R) :
-    halfDisc (a • Q) = a ^ n * halfDisc Q := by
   sorry
 
 /-- The universal signed discriminant `(-1)^(n/2) det (U + Uᵀ)`. -/
@@ -225,18 +217,11 @@ theorem exists_etale_isometryEquiv_standard (Q : QuadraticForm R (Fin n → R)) 
 
 /-! ## Layer 3: the orthogonal group scheme -/
 
-/-- The points `O(Q)(A)`: the matrices of `GL n A` preserving the base-changed form. -/
-def orthogonalGroup (Q : QuadraticForm R (Fin n → R)) (A : Type*) [CommRing A] [Algebra R A] :
-    Subgroup (GL (Fin n) A) where
-  carrier := {g | ∀ x, mapCoeffs (algebraMap R A) Q ((g : Matrix (Fin n) (Fin n) A) *ᵥ x) =
-    mapCoeffs (algebraMap R A) Q x}
-  one_mem' := fun x => by simp
-  mul_mem' := fun {g h} hg hh x => by
-    rw [Units.val_mul, ← Matrix.mulVec_mulVec]
-    exact (hg _).trans (hh x)
-  inv_mem' := fun {g} hg x => by
-    have := hg ((↑g⁻¹ : Matrix (Fin n) (Fin n) A) *ᵥ x)
-    rwa [Matrix.mulVec_mulVec, Units.mul_inv, Matrix.one_mulVec, eq_comm] at this
+/-- The points `O(Q)(A)`: the image in `GL n A` of Tau Ceti's orthogonal group of the
+base-changed form `Q_A`, the matrices `g` with `Q_A (g x) = Q_A x` for every `x`. -/
+noncomputable def orthogonalGroup (Q : QuadraticForm R (Fin n → R)) (A : Type*) [CommRing A]
+    [Algebra R A] : Subgroup (GL (Fin n) A) :=
+  (QuadraticMap.orthogonalToGeneralLinear (mapCoeffs (algebraMap R A) Q)).range
 
 /-- The defining relations of `O(Q)` in the coordinate Hopf algebra of `GL n`: the entries of the
 coefficient matrix of `Q ∘ X` minus those of `Q`, `X` the generic matrix. -/
@@ -304,40 +289,17 @@ theorem isAzumaya_even_iff (hn : Odd n) (h3 : 3 ≤ n) (Q : QuadraticForm R (Fin
     IsAzumaya R (CliffordAlgebra.even Q) ↔ IsUnit (halfDisc Q) := by
   sorry
 
-/-- README 4.2: in even rank `n ≥ 2`, for a smooth form, the centre of the even Clifford algebra
-is a finite étale `R`-algebra, locally free of rank two. -/
-theorem center_even_etale (hn : Even n) (h2 : 2 ≤ n) (Q : QuadraticForm R (Fin n → R))
-    (hQ : IsSmooth Q) :
-    Algebra.Etale R (Subalgebra.center R (CliffordAlgebra.even Q)) ∧
-      Module.Finite R (Subalgebra.center R (CliffordAlgebra.even Q)) ∧
-      Module.Projective R (Subalgebra.center R (CliffordAlgebra.even Q)) ∧
-      ∀ p : PrimeSpectrum R,
-        Module.rankAtStalk (R := R) (Subalgebra.center R (CliffordAlgebra.even Q)) p = 2 := by
-  sorry
-
 /-! ## Layer 5: quadratic algebras without dividing by two -/
 
-/-- README 5.1: the free quadratic algebra `R[ω]/(ω² - bω - a)` is étale exactly when its
-discriminant `b² + 4a` is a unit. -/
-theorem etale_quadraticAlgebra_iff (a b : R) :
-    Algebra.Etale R (QuadraticAlgebra R a b) ↔ IsUnit (QuadraticAlgebra.discr a b) := by
-  sorry
-
-/-- README 5.2: in even rank, the discriminant algebra is étale exactly when the form is
+/-- README 5.1: in even rank, the discriminant algebra is étale exactly when the form is
 smooth. -/
 theorem etale_discAlgebra_iff (hn : Even n) (Q : QuadraticForm R (Fin n → R)) :
     Algebra.Etale R (discAlgebra Q) ↔ IsSmooth Q := by
   sorry
 
-/-- The canonical involution `ω ↦ b - ω` of a free quadratic algebra, as an algebra map. -/
-noncomputable def conj (a b : R) : QuadraticAlgebra R a b →ₐ[R] QuadraticAlgebra R a b :=
-  { starRingEnd (QuadraticAlgebra R a b) with
-    commutes' := fun r => by
-      ext <;> simp [QuadraticAlgebra.algebraMap_eq, starRingEnd_apply] }
-
-/-- README 5.3: the product `A₁ * A₂` of two free quadratic algebras maps to `A₁ ⊗ A₂` by
+/-- README 5.2: the product `A₁ * A₂` of two free quadratic algebras maps to `A₁ ⊗ A₂` by
 `ω ↦ 2 ω₁ω₂ - b₁ω₂ - b₂ω₁`; when `2, b₁, b₂` generate the unit ideal this map is injective with
-image the invariants of `σ₁ ⊗ σ₂`. -/
+image the invariants of `σ₁ ⊗ σ₂`, `σᵢ` Mathlib's `QuadraticAlgebra.starAlgEquiv`. -/
 theorem exists_productHom (a₁ b₁ a₂ b₂ : R) :
     ∃ φ : QuadraticAlgebra R (a₁ * b₂ ^ 2 + a₂ * b₁ ^ 2 + 4 * a₁ * a₂) (-(b₁ * b₂)) →ₐ[R]
         QuadraticAlgebra R a₁ b₁ ⊗[R] QuadraticAlgebra R a₂ b₂,
@@ -347,58 +309,10 @@ theorem exists_productHom (a₁ b₁ a₂ b₂ : R) :
             b₂ • (QuadraticAlgebra.omega ⊗ₜ (1 : QuadraticAlgebra R a₂ b₂)) ∧
         (Ideal.span {2, b₁, b₂} = ⊤ →
           Function.Injective φ ∧
-            Set.range φ = {x | Algebra.TensorProduct.map (conj a₁ b₁) (conj a₂ b₂) x = x}) := by
-  sorry
-
-/-! ## Layer 6: discriminant and resultant of a binary form -/
-
-/-- The universal polynomial `∑ᵢ aᵢ Xⁱ` of formal degree `n` over `ℤ[a₀, …, aₙ]`. -/
-noncomputable def univPoly (n : ℕ) : Polynomial (MvPolynomial (Fin (n + 1)) ℤ) :=
-  ∑ i : Fin (n + 1), Polynomial.C (X i) * Polynomial.X ^ (i : ℕ)
-
-/-- The universal signed resultant `(-1)^(n(n-1)/2) Res_{n,n-1}(f, f')`. -/
-noncomputable def univSignedRes (n : ℕ) : MvPolynomial (Fin (n + 1)) ℤ :=
-  (-1) ^ (n * (n - 1) / 2) *
-    Polynomial.resultant (univPoly n) (Polynomial.derivative (univPoly n)) n (n - 1)
-
-/-- The universal discriminant of a binary form of degree `n`: the signed resultant divided by
-the leading coefficient `aₙ`, monomial by monomial. -/
-noncomputable def univBinDisc (n : ℕ) : MvPolynomial (Fin (n + 1)) ℤ :=
-  ∑ m ∈ (univSignedRes n).support,
-    monomial (m - Finsupp.single (Fin.last n) 1) ((univSignedRes n).coeff m)
-
-/-- The discriminant of a polynomial `f` read as a binary form of degree `n`, that is with
-`aᵢ = f.coeff i` for `i ≤ n`. -/
-noncomputable def binDisc (f : Polynomial R) (n : ℕ) : R :=
-  eval₂ (Int.castRingHom R) (fun i : Fin (n + 1) => f.coeff i) (univBinDisc n)
-
-/-- README 6.1: the signed resultant is divisible by the leading coefficient, with quotient the
-universal discriminant. -/
-theorem X_last_mul_univBinDisc (hn : 1 ≤ n) :
-    X (Fin.last n) * univBinDisc n = univSignedRes n := by
-  sorry
-
-/-- README 6.1: `aₙ Disc_n(f) = (-1)^(n(n-1)/2) Res_{n,n-1}(f, f')` over any ring. -/
-theorem leadingCoeff_mul_binDisc (hn : 1 ≤ n) (f : Polynomial R) (hf : f.natDegree ≤ n) :
-    f.coeff n * binDisc f n =
-      (-1) ^ (n * (n - 1) / 2) * Polynomial.resultant f (Polynomial.derivative f) n (n - 1) := by
-  sorry
-
-/-- README 6.2: the discriminant commutes with base change. -/
-theorem binDisc_map {S : Type*} [CommRing S] (φ : R →+* S) (f : Polynomial R) (n : ℕ) :
-    binDisc (f.map φ) n = φ (binDisc f n) := by
-  sorry
-
-/-- README 6.2: read in degree `n ≥ 2` with `aₙ = 0`, the discriminant is `a_{n-1}²` times the
-discriminant in degree `n - 1`. -/
-theorem binDisc_of_coeff_eq_zero (hn : 2 ≤ n) (f : Polynomial R) (hf : f.coeff n = 0) :
-    binDisc f n = f.coeff (n - 1) ^ 2 * binDisc f (n - 1) := by
-  sorry
-
-/-- README 6.3: a monic polynomial of degree `n ≥ 1` has unit discriminant exactly when
-`R[X]/(f)` is étale over `R`. -/
-theorem isUnit_binDisc_iff_etale (f : Polynomial R) (hf : f.Monic) (hn : 1 ≤ n)
-    (hdeg : f.natDegree = n) : IsUnit (binDisc f n) ↔ Algebra.Etale R (AdjoinRoot f) := by
+            Set.range φ = {x | Algebra.TensorProduct.map
+              (QuadraticAlgebra.starAlgEquiv : QuadraticAlgebra R a₁ b₁ ≃ₐ[R] _).toAlgHom
+              (QuadraticAlgebra.starAlgEquiv : QuadraticAlgebra R a₂ b₂ ≃ₐ[R] _).toAlgHom x =
+                x}) := by
   sorry
 
 end TauCetiRoadmap.QuadraticFormsOverABase

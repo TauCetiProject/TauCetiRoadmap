@@ -2,28 +2,28 @@
 
 **Summary.** Build the theory of quadratic forms on the free module `Rⁿ = Fin n → R` over an
 arbitrary commutative ring `R`, without dividing by `2`, on Mathlib's `QuadraticForm` and
-`QuadraticAlgebra`, Mathlib's resultant, and Tau Ceti's coordinate Hopf algebra of `GLₙ`. The
-end theorems are: for `n` odd, the determinant of the polar matrix of the universal form is twice
-an integral polynomial, the half-discriminant `δ'`, which changes by `(det g)²` under `g ∈ GLₙ(R)`
-and commutes with base change; a form of odd rank is smooth (its radical vanishes at every
-geometric point) exactly when `δ'(Q)` is a unit, and a form of even rank exactly when the
-determinant of its polar matrix is a unit; a form is smooth exactly when it becomes isometric to
-the split form `qₙ` over a faithfully flat finitely presented `R`-algebra, which can be taken étale
-when `n` is even or `2 ∈ Rˣ`; for a smooth form `Q`, the functor `O(Q)` is represented by a
-quotient of the coordinate Hopf algebra of `GLₙ` by a Hopf ideal, its points have `det² = 1`,
-`O(Q) = μ₂ × SO(Q)` on points when `n` is odd, `O(Q)` is smooth exactly when `n` is even or
-`2 ∈ Rˣ`, and `SO(Q)` is smooth for `n` odd; isometry classes of smooth forms of rank `n` are the
-torsor classes under `O(qₙ)`; for `n` odd the even Clifford algebra `C₀(Q)` is Azumaya exactly
-when `δ'(Q)` is a unit, and for `n ≥ 2` even and `Q` smooth the centre of `C₀(Q)` is finite étale
-of rank two; in even rank `(−1)^(n/2) det` of the polar matrix is congruent to the square of the
-hafnian modulo `4`, which gives a free quadratic algebra of that discriminant, étale exactly when
-`Q` is smooth; the free quadratic algebra `R[ω]/(ω² − bω − a)` is étale exactly when `b² + 4a` is a
-unit, and two of them have a product with discriminant the product of the discriminants, which is
-the algebra of invariants of `σ₁ ⊗ σ₂` when `(2, b₁, b₂) = R`; and the discriminant of a binary
-form of degree `n ≥ 1` is defined over every ring, satisfies
-`aₙ Disc = (−1)^(n(n−1)/2) Res(f, f′)`, and for monic `f` is a unit exactly when `R[X]/(f)` is
-étale. The statements are those of Conrad 2014 (Appendix C), Knus 1991 (Chapter IV) and Voight
-2011.
+`QuadraticAlgebra` and on Tau Ceti's coordinate Hopf algebra of `GLₙ` and orthogonal group of a
+quadratic map. The end theorems are: for `n` odd, the determinant of the polar matrix of the
+universal form is twice an integral polynomial, the half-discriminant `δ'`, which is multiplied by
+`(det g)²` under every change of variables `g` and commutes with base change; a form of odd rank
+is smooth (its radical vanishes at every geometric point; for `n ≥ 1` this is ordinarity in the
+sense of LefschetzPencilsAndVanishingCycles §2.1) exactly when `δ'(Q)` is a unit, and a form of
+even rank exactly when the determinant of its polar matrix is a unit; a form is smooth exactly
+when it becomes isometric to the split form `qₙ` over a faithfully flat finitely presented
+`R`-algebra, which can be taken étale when `n` is even or `2 ∈ Rˣ`; for a smooth form `Q`, the
+functor `O(Q)` is represented by the quotient of the coordinate Hopf algebra of `GLₙ` by a Hopf
+ideal, its points have `det² = 1`, `O(Q) = μ₂ × SO(Q)` on points when `n` is odd, `O(Q)` is smooth
+exactly when `n` is even or `2 ∈ Rˣ`, and `SO(Q)` is smooth for `n` odd; isometry classes of
+smooth forms of rank `n` on locally free modules are the torsor classes under `O(qₙ)`; for `n ≥ 3`
+odd the even Clifford algebra `C₀(Q)` is Azumaya exactly when `δ'(Q)` is a unit; in even rank
+`(−1)^(n/2) det` of the polar matrix is congruent to the square of the hafnian modulo `4`, which
+gives a free quadratic algebra of that discriminant, étale exactly when `Q` is smooth; two free
+quadratic algebras `R[ω]/(ω² − bᵢω − aᵢ)` have a product whose discriminant is the product of
+their discriminants, and which is the algebra of invariants of `σ₁ ⊗ σ₂` when `(2, b₁, b₂) = R`;
+and a binary form `f` of formal degree `n ≥ 1` satisfies
+`aₙ formDiscr n f = (−1)^(n(n−1)/2) Res_{n,n−1}(f, f′)`, also when `aₙ = 0`. The statements are
+those of Conrad 2014 (Appendix C), Knus 1991 (Chapter IV) and Voight 2011; a target that names no
+source is proved by its route.
 
 Suggested home: `TauCeti/LinearAlgebra/QuadraticForm/OverRing/`, beside Tau Ceti's
 `LinearAlgebra/QuadraticForm/`, and `TauCeti/Algebra/AlgebraicGroup/OrthogonalForm/` beside
@@ -32,41 +32,63 @@ Suggested home: `TauCeti/LinearAlgebra/QuadraticForm/OverRing/`, beside Tau Ceti
 ## Scope and ownership
 
 **Owned here.** Every statement is about a quadratic form on `Fin n → R` for an arbitrary
-commutative ring `R`, about the group functor and group scheme it defines inside `GLₙ`, about its
-even Clifford algebra, about free quadratic algebras over `R`, or about polynomials of formal
-degree `n` over `R`:
+commutative ring `R` (3.4 alone reaches forms on locally free modules of rank `n`), about the group
+functor and group scheme it defines inside `GLₙ`, about its even Clifford algebra, about free
+quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`:
 
-- base change of forms along any ring map, by coefficients (Layer 0);
+- coefficient and polar matrices, and base change of forms along an arbitrary ring map by
+  coefficients, with its comparisons with QuadraticFormInvariantsPartII §0.2's `extendScalars`
+  (from a field to an algebra over it) and with Mathlib's `QuadraticForm.baseChange` when `2` is
+  invertible (Layer 0);
 - the universal discriminant and half-discriminant, and the hafnian congruence in even rank
   (Layer 1);
-- smoothness of a form, its two criteria, and fppf and étale local triviality (Layer 2);
-- the orthogonal group `O(Q)` of a form as a closed subgroup scheme of `GLₙ` over `R`, its
-  smoothness, `det² = 1`, the decomposition `μ₂ × SO(Q)` in odd rank, and the classification of
-  smooth forms by torsors (Layer 3). This is the most general owner of the orthogonal group
-  scheme of a quadratic form: the group over a perfect field of characteristic two, with its
-  reduction, its components and its point counts over finite fields, is
-  OrthogonalTamagawaAndLatticeMass §0.1a's, which specialises the one built here;
-- the Azumaya and centre statements on `C₀(Q)` (Layer 4);
-- free quadratic algebras without dividing by `2`: the étale criterion, the discriminant algebra of
-  a form of even rank, and the product (Layer 5);
-- the discriminant of a binary form of degree `n` over any ring (Layer 6).
+- smoothness of a form on `Fin n → R`, the coordinate carrier of LefschetzPencilsAndVanishingCycles
+  §2.1's ordinary forms, with its two unit criteria, fppf local triviality, and étale local
+  triviality in odd rank when `2 ∈ Rˣ` (Layer 2);
+- the orthogonal group `O(Q)` of a form as a closed subgroup scheme of `GLₙ` over an arbitrary
+  base, its smoothness, `det² = 1`, the decomposition `μ₂ × SO(Q)` in odd rank, and the
+  classification of smooth forms by torsors (Layer 3);
+- the Azumaya criterion for `C₀(Q)` in odd rank (Layer 4);
+- the discriminant algebra of a form of even rank and the product of free quadratic algebras,
+  without dividing by `2` (Layer 5);
+- the resultant identity of a binary form at formal degree (Layer 6).
 
 **Supplied at the pins.** Mathlib's `QuadraticForm`, `QuadraticMap.toBilin`, `polarBilin`,
-`radical`, isometries, `CliffordAlgebra.even`, `IsAzumaya`, `QuadraticAlgebra` and
-`Polynomial.resultant`; Tau Ceti's coordinate Hopf algebra of `GLₙ`, its generic matrix, its
-points and `HopfIdeal`. They are consumed by name; no second carrier is built.
+`radical`, `QuadraticMap.Nondegenerate`, isometries, `CliffordAlgebra.even`, `IsAzumaya`,
+`QuadraticAlgebra` with its involution `QuadraticAlgebra.starAlgEquiv`, `Polynomial.resultant` and
+`Polynomial.discr`; Tau Ceti's coordinate Hopf algebra of `GLₙ`, its generic matrix, its points,
+`HopfIdeal`, the orthogonal group `TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map with its
+coordinate embedding `QuadraticMap.orthogonalToGeneralLinear`, the étale criterion
+`QuadraticAlgebra.etale_iff_isUnit_discr` for free quadratic algebras, and the discriminant
+criteria `Polynomial.Monic.isUnit_discr_iff` and `Polynomial.Monic.etale_adjoinRoot_iff`. They are
+consumed by name; no second carrier is built.
 
-**Left to other roadmaps.** Quadratic forms over fields in which `2` is invertible (Witt rings,
-Hasse and Clifford invariants, Stiefel–Whitney classes) are QuadraticFormInvariants'; nonsingular
-and quasilinear forms over fields of characteristic two are QuadraticFormInvariantsPartII's.
-Torsors and their classes are SchemeAndStackFoundations' (§1.15 for torsors under a group space,
-§2.3 for the carrier `NonabelianH1`), consumed in 3.4. The orthogonal and special orthogonal
-groups of the standard symmetric bilinear form (`X Xᵀ = 1`) and their smoothness when `2` is
-invertible are Tau Ceti's `TauCeti.Orthogonal` and `TauCeti.SpecialOrthogonal`; they are groups of
-a bilinear form, not of a quadratic form, and agree with `O(qₙ)` only up to a change of form when
-`2` is invertible. Forms on projective modules of constant rank and forms valued in an invertible
-module are not treated: every statement here is about `Fin n → R`, to which they reduce
-Zariski-locally.
+**Left to other roadmaps.**
+
+- Quadratic forms over fields in which `2` is invertible (Witt rings, Hasse and Clifford
+  invariants, Stiefel–Whitney classes) are QuadraticFormInvariants'; nonsingular and quasilinear
+  forms over fields of characteristic two, and the coordinate scalar extension `extendScalars`
+  from a field, are QuadraticFormInvariantsPartII's (§0.2 for `extendScalars`).
+- Ordinary quadratic forms on locally free modules of positive rank over any base, their base
+  change and fibre criterion, their comparison with Mathlib's `QuadraticMap.Nondegenerate` over a
+  field, and their étale-local normal form are LefschetzPencilsAndVanishingCycles §2.1's. The
+  centre of the even Clifford algebra of an ordinary form of positive even rank, finite étale of
+  rank two, with `C₀(Q)` Azumaya over it, is its §2.2's (`evenClifford_center_etale_azumaya`).
+- The orthogonal group scheme of a quadratic space over a perfect field of characteristic two,
+  with its reduction, its components and its point counts over finite fields, is
+  OrthogonalTamagawaAndLatticeMass §0.1a's. Layer 3 constructs `O(Q)` over an arbitrary base and
+  compares it with that group (3.1).
+- The discriminant of a binary form at formal degree, `formDiscr`, with its degree-drop laws and
+  its compatibility with ring maps, is HyperellipticCurves §0.1's; the discriminant of a
+  polynomial is Mathlib's `Polynomial.discr`.
+- Torsors and their classes are SchemeAndStackFoundations' (§1.15 for torsors under a group
+  space, §2.3 for the carrier `NonabelianH1`), consumed in 3.4.
+- The orthogonal and special orthogonal groups of the standard symmetric bilinear form
+  (`X Xᵀ = 1`) are Tau Ceti's `TauCeti.Orthogonal` and `TauCeti.SpecialOrthogonal`, with the
+  smoothness of `SOₙ` when `2` is invertible; they are groups of a bilinear form, not of a
+  quadratic form, and agree with `O(qₙ)` only up to a change of form when `2` is invertible.
+- Forms valued in an invertible module are not treated, and forms on locally free modules appear
+  only in 3.4: every other statement is about `Fin n → R`, to which they reduce Zariski-locally.
 
 ## Conventions
 
@@ -78,8 +100,9 @@ Zariski-locally.
   `2 Q(eᵢ)` on the diagonal: `!![2a, b; b, 2c]` for the binary `q` above, of determinant
   `4ac − b²`.
 - **Base change.** `mapCoeffs f Q` applies `f : R →+* S` to the coefficient matrix. Mathlib's
-  `QuadraticForm.baseChange` needs `Invertible (2 : R)`; `mapCoeffs` does not, and 0.2 compares
-  them.
+  `QuadraticForm.baseChange` needs `Invertible (2 : R)`, and QuadraticFormInvariantsPartII's
+  `extendScalars Q L` goes from a field `K` to a `K`-algebra `L`; `mapCoeffs` goes along any ring
+  map with no hypothesis on `2`, and 0.2 compares it with both.
 - **Universal ring.** `ℤ[U] = MvPolynomial (Fin n × Fin n) ℤ`, `U = (Uᵢⱼ)`; a polynomial in the
   `Uᵢⱼ` is evaluated at a form through its coefficient matrix (`evalMatrix (coeffMatrix Q)`).
   Using all `n²` entries rather than the `n(n+1)/2` coefficients `i ≤ j` changes nothing: the
@@ -92,19 +115,22 @@ Zariski-locally.
   `det² = 1`. Witnesses: `δ'(q₁) = 1`, `δ'(q₃) = −1`, `det polar(q₂) = −1`.
 - **Signs.** `univSignedDisc n = (−1)^(n/2) det(U + Uᵀ)`; it is `b² − 4ac` for the binary `q`
   above, the discriminant of `a t² + b t + c`.
-- **Orthogonal group.** `g ∈ GLₙ(A)` acts on column vectors, and `g ∈ O(Q)(A)` means
-  `Q_A(g x) = Q_A(x)` for every `x ∈ Aⁿ`, `Q_A = mapCoeffs (algebraMap R A) Q`. Witness: for
+- **Orthogonal group.** `g ∈ GLₙ(A)` acts on column vectors, and `O(Q)(A)` is the image in
+  `GLₙ(A)` of Tau Ceti's `TauCeti.QuadraticMap.orthogonalGroup Q_A` under
+  `QuadraticMap.orthogonalToGeneralLinear`, `Q_A = mapCoeffs (algebraMap R A) Q`: the matrices `g`
+  with `Q_A(g x) = Q_A(x)` for every `x ∈ Aⁿ`. Witness: for
   `q = x₀x₁`, `!![t, 0; 0, t⁻¹]` and `!![0, 1; 1, 0]` lie in `O(q)(A)` for every `t ∈ Aˣ`, and
   `!![1, 1; 0, 1]` does not (it sends `e₁` to `e₀ + e₁`, where `q` is `1`, not `0`).
 - **Quadratic algebras.** Mathlib's `QuadraticAlgebra R a b` is `R ⊕ R ω` with `ω² = a + b ω`;
-  its discriminant is `QuadraticAlgebra.discr a b = b² + 4a`, and its involution is
-  `ω ↦ b − ω` (Mathlib's `star`). Witness: `ℤ[i] = QuadraticAlgebra ℤ (−1) 0` has discriminant
-  `−4`, and `ℤ[(1 + √5)/2] = QuadraticAlgebra ℤ 1 1` has discriminant `5`.
+  its discriminant is `QuadraticAlgebra.discr a b = b² + 4a`, and its involution `ω ↦ b − ω` is
+  Mathlib's `star`, bundled as `QuadraticAlgebra.starAlgEquiv`. Tau Ceti's
+  `QuadraticAlgebra.etale_iff_isUnit_discr`: `QuadraticAlgebra R a b` is étale exactly when
+  `b² + 4a` is a unit, with no hypothesis on `2`. Witness: `ℤ[i] = QuadraticAlgebra ℤ (−1) 0` has
+  discriminant `−4`, and `ℤ[(1 + √5)/2] = QuadraticAlgebra ℤ 1 1` has discriminant `5`.
 - **Binary forms.** A binary form of degree `n` is a polynomial `f = ∑_{i ≤ n} aᵢ Xⁱ` with formal
   degree `n` (`aₙ` may vanish); Mathlib's `resultant f g m n` is the resultant with formal
-  degrees `m` and `n`. The discriminant is normalised by
-  `aₙ Disc_n(f) = (−1)^(n(n−1)/2) Res_{n,n−1}(f, f′)`, so `Disc₂(c + bX + aX²) = b² − 4ac` and
-  `Disc₁(a₀ + a₁X) = 1`.
+  degrees `m` and `n`, and HyperellipticCurves §0.1's `formDiscr n f` is the discriminant at
+  formal degree `n`: `formDiscr 2 (c + bX + aX²) = b² − 4ac` and `formDiscr 1 (a₀ + a₁X) = 1`.
 
 ## Exact supplier contracts
 
@@ -113,17 +139,21 @@ Zariski-locally.
 - Quadratic forms: `QuadraticForm`, `QuadraticMap.polar`, `QuadraticMap.polarBilin`,
   `QuadraticMap.toBilin` and `QuadraticMap.toQuadraticMap_toBilin` (`QuadraticForm/Basis.lean`),
   `LinearMap.BilinMap.toQuadraticMap`, `QuadraticMap.comp`, `QuadraticMap.radical` and
-  `QuadraticMap.radical_eq_ker_polarBilin` (`QuadraticForm/Radical.lean`),
+  `QuadraticMap.radical_eq_ker_polarBilin` and `QuadraticMap.Nondegenerate`
+  (`QuadraticForm/Radical.lean`),
   `QuadraticMap.IsometryEquiv`, `QuadraticForm.baseChange` (`QuadraticForm/TensorProduct.lean`,
   under `Invertible (2 : R)`), `TensorProduct.piScalarRight`.
 - Matrices: `LinearMap.toMatrix₂'`, `Matrix.toLinearMap₂'`, `Matrix.toLin'`, `Matrix.det`,
   `Matrix.mulVec`, `Matrix.GeneralLinearGroup`.
 - Polynomials: `MvPolynomial`, `MvPolynomial.eval₂Hom`, `Polynomial.resultant`,
-  `Polynomial.resultant_map_map`, `Polynomial.derivative`, `AdjoinRoot`.
+  `Polynomial.resultant_eq_zero_of_lt_lt`, `Polynomial.discr`, `Polynomial.resultant_deriv`,
+  `Polynomial.discr_of_degree_eq_two`, `Polynomial.discr_of_degree_eq_three`
+  (`RingTheory/Polynomial/Resultant/Basic.lean`), `Polynomial.derivative`, `AdjoinRoot`.
 - Algebras: `CliffordAlgebra.even`, `IsAzumaya` (`Algebra/Azumaya/Defs.lean`),
   `Subalgebra.center` with its `CommRing` instance, `QuadraticAlgebra`, `QuadraticAlgebra.omega`,
   `QuadraticAlgebra.discr`, `QuadraticAlgebra.lift`, `QuadraticAlgebra.nonempty_algEquiv_iff`,
-  `starRingEnd`, `Algebra.TensorProduct.map`.
+  `QuadraticAlgebra.starAlgEquiv` (`Algebra/QuadraticAlgebra/Basic.lean`),
+  `Algebra.TensorProduct.map`.
 - Ring maps: `Algebra.Etale`, `Algebra.Smooth`, `Algebra.FinitePresentation`,
   `Module.FaithfullyFlat`, `Module.Projective`, `Module.rankAtStalk`, `IsAlgClosed`,
   `AlgebraicClosure`.
@@ -142,6 +172,32 @@ Zariski-locally.
   the same construction for the bilinear relations `X C Xᵀ = C`.
 - **Roots of unity** (`TauCeti/Algebra/AlgebraicGroup/RootsOfUnity/Smooth.lean`):
   `TauCeti.RootsOfUnityGroup.coordinateRing_smooth_iff`, used in 3.3 for the factor `μ₂`.
+- **The orthogonal group of a quadratic map**
+  (`TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean`):
+  `TauCeti.QuadraticMap.orthogonalGroup`, the `Q`-preserving linear automorphisms, and its
+  coordinate embedding `QuadraticMap.orthogonalToGeneralLinear` into `GL n R`, whose range is
+  `orthogonalGroup Q A` in 3.1.
+- **Quadratic étale algebras** (`TauCeti/Algebra/QuadraticAlgebra/Etale.lean`):
+  `QuadraticAlgebra.etale_iff_isUnit_discr`, used in 2.4 and 5.1.
+- **Discriminants** (`TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean` and
+  `TauCeti/RingTheory/Etale/AdjoinRoot.lean`): `Polynomial.Monic.isUnit_discr_iff`,
+  `Polynomial.discr_map_of_natDegree_eq` and `Polynomial.Monic.etale_adjoinRoot_iff`, read in
+  Layer 6.
+
+**From LefschetzPencilsAndVanishingCycles.** §2.1: ordinary quadratic forms on locally free
+modules of positive rank, their base change and fibre criterion, and the étale-local normal form
+`Σ xᵢ x_{i+m}` (with `+ λ x²`, `λ` a unit, in odd rank), consumed in 2.1 and 2.4. §2.2:
+`evenClifford_center_etale_azumaya`, the even Clifford centre in positive even rank, read in the
+Layer 4 Examples.
+
+**From OrthogonalTamagawaAndLatticeMass.** §0.1a: the orthogonal group `O(q) ⊂ GL(W)` of a
+quadratic space over a perfect field of characteristic two, consumed in the comparison of 3.1.
+
+**From QuadraticFormInvariantsPartII.** §0.2: `extendScalars`, the coordinate scalar extension
+from a field, consumed in the comparison of 0.2.
+
+**From HyperellipticCurves.** §0.1: `formDiscr`, the discriminant of a binary form at formal
+degree, consumed in 6.1.
 
 **From SchemeAndStackFoundations.** SchemeAndStackFoundations' `IsTorsor` (§1.15: torsors
 under a group space flat and of finite presentation, for the fppf topology) and
@@ -153,12 +209,14 @@ SchemeAndStackFoundations' `NonabelianH1` (§2.3: the pointed set of torsor clas
 Layer 0 fixes coordinates and base change, which is all the later layers need to say "over
 every `R`-algebra" without dividing by `2`. Layer 1 constructs the universal discriminant and
 half-discriminant over `ℤ` and their values at a form, with their transformation rules, and the
-hafnian congruence in even rank. Layer 2 defines smoothness geometrically and proves the two
-unit criteria and local triviality; it uses Layer 1. Layer 3 builds `O(Q)` inside Tau Ceti's
-`GLₙ` and proves its structure theorems from Layers 1 and 2; 3.3 is the hardest target, and 3.4
-needs SchemeAndStackFoundations. Layer 4 reads Layers 1 and 2 on the even Clifford algebra.
-Layer 5 works with free quadratic algebras; 5.2 joins it to Layer 1.4 and Layer 2. Layer 6 is
-independent of Layers 1–5 and uses only Mathlib's resultant.
+hafnian congruence in even rank. Layer 2 defines smoothness geometrically, compares it with
+LefschetzPencilsAndVanishingCycles' ordinary forms, and proves the two unit criteria and local
+triviality; it uses Layer 1. Layer 3 builds `O(Q)` inside Tau Ceti's `GLₙ` and proves its
+structure theorems from Layers 1 and 2; 3.3 is the hardest target, and 3.4 needs
+SchemeAndStackFoundations. Layer 4 reads Layers 1 and 2 on the even Clifford algebra. Layer 5
+works with free quadratic algebras; 5.1 joins it to 1.4 and Layer 2. Layer 6 is independent of
+Layers 1–5 and uses only Mathlib's resultant and HyperellipticCurves' discriminant at formal
+degree.
 
 ## Layer 0: coordinates and base change
 
@@ -188,25 +246,38 @@ entry `(i, j)` for `i < j` being the sum of the entries `(i, j)` and `(j, i)`.
 
 ### 0.2 Base change
 
-Define `mapCoeffs f Q` for `f : R →+* S` as in the Conventions. Prove `mapCoeffs_apply`
-(`mapCoeffs f Q (f ∘ x) = f (Q x)`), `mapCoeffs_comp`
-(`mapCoeffs g (mapCoeffs f Q) = mapCoeffs (g.comp f) Q`), `mapCoeffs (RingHom.id R) Q = Q`,
-`coeffMatrix (mapCoeffs f Q) = (coeffMatrix Q).map f`, and `mapCoeffs_eq_baseChange`: when
-`Invertible (2 : R)` and `A` is an `R`-algebra, `mapCoeffs (algebraMap R A) Q` is
-`(Q.baseChange A).comp (TensorProduct.piScalarRight R A A (Fin n)).symm.toLinearMap`.
+Define `mapCoeffs f Q` for `f : R →+* S` as in the Conventions. Prove that
+`mapCoeffs f Q (f ∘ x) = f (Q x)`, that `mapCoeffs g (mapCoeffs f Q) = mapCoeffs (g.comp f) Q`,
+that `mapCoeffs (RingHom.id R) Q = Q` and that
+`coeffMatrix (mapCoeffs f Q) = (coeffMatrix Q).map f`. Prove the comparison with
+QuadraticFormInvariantsPartII §0.2: for a field `K` and a commutative `K`-algebra `L`,
+`mapCoeffs (algebraMap K L) Q = extendScalars Q L`, both sides being
+`x ↦ ∑ᵢ Q(eᵢ) xᵢ² + ∑_{i<j} polar Q eᵢ eⱼ xᵢ xⱼ` with the coefficients mapped into `L`. Prove
+`mapCoeffs_eq_baseChange`: when `Invertible (2 : R)` and `A` is an `R`-algebra,
+`mapCoeffs (algebraMap R A) Q` is
+`(Q.baseChange A).comp (TensorProduct.piScalarRight R A A (Fin n)).symm.toLinearMap`. Route: both
+sides take the same values at the `eᵢ` and the same polar values at the pairs `(eᵢ, eⱼ)`
+(`QuadraticForm.baseChange_tmul`). For a field `K` this also follows from the comparison and
+QuadraticFormInvariantsPartII §0.2's identification of `extendScalars` with
+`QuadraticForm.baseChange`; `mapCoeffs_eq_baseChange` is its form over a ring. No source is
+named for these coordinate identities; the routes are their proofs.
 
 *Needs:* 0.1; Mathlib `Matrix.toLinearMap₂'`, `QuadraticForm.baseChange`,
-`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`.
+`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII
+§0.2 (`extendScalars`).
 
 **Checks.**
 
 - Along `ℤ → 𝔽₂`, `x² + x y` goes to `x² + x y`, with coefficient matrix `!![1, 1; 0, 0]`,
   while its polar matrix `!![2, 1; 1, 0]` goes to `!![0, 1; 1, 0]`, the polar matrix of both
   `x y` and `x² + x y`: base change through the polar matrix would lose the diagonal.
-- `mapCoeffs_apply` at `q = x y`, `f = ℤ → ℤ/6`, `x = (2, 3)`: `q x = 6 ↦ 0`, and
+- The evaluation law at `q = x y`, `f = ℤ → ℤ/6`, `x = (2, 3)`: `q x = 6 ↦ 0`, and
   `mapCoeffs f q (2, 3) = 2 · 3 = 0` in `ℤ/6`.
 - When `2 ∈ Rˣ`, `mapCoeffs_eq_baseChange` at `q = x²`, `A = R[t]`: both sides send
   `t e₀` to `t²`.
+- The comparison at `[1, a] = x² + x y + a y²` over a field `K`: `mapCoeffs (algebraMap K L)`
+  and `extendScalars · L` both give `x² + x y + a y²` over `L`, not `x² + a y²`, which is what a
+  definition dropping the off-diagonal coefficient would give.
 
 ### Examples
 
@@ -216,7 +287,7 @@ Define `mapCoeffs f Q` for `f : R →+* S` as in the Conventions. Prove `mapCoef
 ### Dependencies
 
 Mathlib `QuadraticMap.toBilin`, `polarBilin`, `LinearMap.toMatrix₂'`, `Matrix.toLinearMap₂'`,
-`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`.
+`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII §0.2.
 
 ## Layer 1: discriminants
 
@@ -267,7 +338,7 @@ matrix `A`, and `det(U + A + (U + A)ᵀ) = det(U + Uᵀ)` in `ℤ[U, A]`, which 
 
 Prove `halfDisc_mapCoeffs` (`δ'(mapCoeffs f Q) = f (δ'(Q))`, every `n`), `halfDisc_comp`
 (`n` odd: `δ'(Q ∘ g) = (det g)² δ'(Q)` for every matrix `g`, Conrad 2014, Proposition C.1.4 (2)
-and (3), p. 304) and `halfDisc_smul` (`δ'(a Q) = aⁿ δ'(Q)`, every `n`). Route: each identity
+and (3), p. 304) and that `δ'(a Q) = aⁿ δ'(Q)` for every `n`. Route: each identity
 holds in the universal ring after multiplication by `2`, where it is the corresponding identity
 for determinants, and the universal ring has no `2`-torsion; `halfDisc_comp` uses 1.2 to replace
 the non-upper-triangular `gᵀ U g` by its folded form.
@@ -284,19 +355,20 @@ the non-upper-triangular `gᵀ U g` by its folded form.
 
 ### 1.4 Even rank: the hafnian congruence
 
-Define the universal hafnian `univHafnian n`: the sum, over the perfect matchings `σ` of
-`Fin n` (involutions without fixed points), of `∏_{i < σ i} (U_{i σ i} + U_{σ i i})`, the
-off-diagonal entries of `U + Uᵀ`. Prove `four_dvd_univSignedDisc_sub_sq`: for `n` even,
-`4` divides `(−1)^(n/2) det(U + Uᵀ) − B²` in `ℤ[U]`, `B = univHafnian n`. Route, without
-Pfaffians: with `P = U + Uᵀ` and `K = U − Uᵀ = P − 2Uᵀ`, the first-order term of
-`det(P − t Uᵀ)` gives `det K ≡ (1 − n) det P (mod 4)`; `det K` is a square `r²` in `ℤ[U]` (an
-alternating matrix of even size over a field of characteristic `≠ 2` has square determinant, and
-`ℤ[U]` is integrally closed); modulo `2`, the determinant of a symmetric matrix with zero
-diagonal is the square of its matching sum, so `r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`; finally
-`(−1)^(n/2) ≡ 1 − n (mod 4)`. Define `univDiscConst n`, the coefficients of
+Define the universal hafnian `univHafnian n`: the sum, over the perfect matchings `σ` of `Fin n`
+(involutions without fixed points), of `∏_{i < σ i} (U_{i σ i} + U_{σ i i})`, the off-diagonal
+entries of `U + Uᵀ`. Prove `four_dvd_univSignedDisc_sub_sq`: for `n` even, `4` divides
+`(−1)^(n/2) det(U + Uᵀ) − B²` in `ℤ[U]`, `B = univHafnian n`. Route, without Pfaffians: with
+`P = U + Uᵀ` and `K = U − Uᵀ = P − 2Uᵀ`, the first-order term of `det(P − t Uᵀ)` gives
+`det K ≡ (1 − n) det P (mod 4)`; `det K` is a square `r²` in `ℤ[U]` (an alternating matrix of even
+size over a field of characteristic `≠ 2` has square determinant, and `ℤ[U]` is integrally closed);
+modulo `2`, the determinant of a symmetric matrix with zero diagonal is the square of its matching
+sum, so `r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`; finally `(−1)^(n/2) ≡ 1 − n (mod 4)`. No source is
+named for the congruence; the route is its proof. Define `univDiscConst n`, the coefficients of
 `(−1)^(n/2) det(U + Uᵀ) − B²` divided by `4`, and `discAlgebra Q`, the free quadratic algebra
 `QuadraticAlgebra R C B` at the values `C`, `B` of these polynomials at `coeffMatrix Q`. Prove
-`discr_discAlgebra`: for `n` even, its discriminant `B² + 4C` is `(−1)^(n/2) det(polarMatrix Q)`.
+`discr_discAlgebra`: for `n` even, its discriminant `B² + 4C` is `(−1)^(n/2) det(polarMatrix Q)`, by
+the divisibility above, evaluated at `coeffMatrix Q`.
 
 *Needs:* 0.1, 1.1; Mathlib `Matrix.det_transpose`, `Equiv.Perm`, `QuadraticAlgebra`,
 `QuadraticAlgebra.discr`, `IsIntegrallyClosed` of `MvPolynomial` over `ℤ`.
@@ -314,8 +386,10 @@ diagonal is the square of its matching sum, so `r ≡ B (mod 2)` and `det K ≡ 
 
 ### Examples
 
-- `δ'(standard (2m + 1)) = (−1)^m` and `det polarMatrix (standard (2m)) = (−1)^m` (Conrad 2014,
-  proof of Proposition C.1.4, p. 305).
+- `δ'(standard (2m + 1)) = (−1)^m` (Conrad 2014, proof of Proposition C.1.4, p. 305, for
+  Conrad's `q_{2m+1}`, which has the same `δ'` by the Conventions).
+- `det polarMatrix (standard (2m)) = (−1)^m`: the polar matrix is block diagonal with `m` blocks
+  `!![0, 1; 1, 0]`, each of determinant `−1`.
 
 ### Dependencies
 
@@ -325,15 +399,25 @@ Layer 0; Mathlib `Matrix.det`, `MvPolynomial`, `QuadraticAlgebra`.
 
 ### 2.1 Smoothness
 
-Define `IsSmooth Q`: for every algebraically closed field `K` in the universe of `R` and every
-ring map `f : R →+* K`, `(mapCoeffs f Q).radical = ⊥`, that is, no nonzero `x ∈ Kⁿ` has
-`Q_K x = 0` and `polar Q_K x = 0`. This is Conrad's non-degeneracy (Conrad 2014, §C.1, p. 302:
-the zero scheme of `q` in `ℙ(V*)` is a smooth hypersurface, fibre by fibre), called regularity or
-semi-regularity by Knus (Knus 1991, Chapter IV, (3.1), as Conrad cites it in Remark C.1.1).
-Prove that `IsSmooth` is stable under base change (`IsSmooth (mapCoeffs f Q)` for any `f`), under
-`Q ↦ Q ∘ g` for `g ∈ GLₙ(R)` and `Q ↦ u Q` for `u ∈ Rˣ`, and that it holds for `standard n`.
+Define `IsSmooth Q`: for every algebraically closed field `K` in the universe of `R` and every ring
+map `f : R →+* K`, `(mapCoeffs f Q).radical = ⊥`, that is, no nonzero `x ∈ Kⁿ` has `Q_K x = 0` and
+`polar Q_K x = 0`. This is Conrad's non-degeneracy (Conrad 2014, §C.1, p. 302: the zero scheme of
+`q` in `ℙ(V*)` is a smooth hypersurface, fibre by fibre, which SGA 7 calls *ordinary*), called
+regularity or semi-regularity by Knus (Knus 1991, Chapter IV, (3.1), as Conrad cites it in Remark
+C.1.1). Prove the comparison with LefschetzPencilsAndVanishingCycles §2.1: for `n ≥ 1`, `IsSmooth Q`
+holds exactly when `Q` is ordinary in the sense of §2.1 (nowhere zero, with smooth quadric) on the
+free module `Fin n → R`. Route: both sides may be tested at the geometric points of `Spec R` (§2.1);
+over an algebraically closed field the quadric is singular at `[v]` exactly when `Q(v) = 0` and
+`polar Q v = 0`, that is when `v` lies in the radical, and for `n ≥ 1` the zero form, the only form
+that is not nowhere zero there, has the whole space as radical. Rank `0` differs: the zero form on
+`Fin 0 → R` is smooth here and excluded by §2.1. No source is named for the comparison on
+`Fin n → R`; the route is its proof. Through §2.1, over a field `IsSmooth Q` is Mathlib's
+`QuadraticMap.Nondegenerate Q` (both hold when `n = 0`), and `IsSmooth` is stable under base change
+(`IsSmooth (mapCoeffs f Q)` for any `f`), under `Q ↦ Q ∘ g` for `g ∈ GLₙ(R)` and under `Q ↦ u Q` for
+`u ∈ Rˣ`; each of these also follows from the definition and 0.2.
 
-*Needs:* 0.2; Mathlib `QuadraticMap.radical`, `IsAlgClosed`.
+*Needs:* 0.2; Mathlib `QuadraticMap.radical`, `QuadraticMap.Nondegenerate`, `IsAlgClosed`;
+LefschetzPencilsAndVanishingCycles §2.1 (ordinary forms, base change, fibre criterion).
 
 **Checks.**
 
@@ -343,7 +427,13 @@ Prove that `IsSmooth` is stable under base change (`IsSmooth (mapCoeffs f Q)` fo
   the line `x = y` over `K̄`: not smooth; `x y` and `x² + x y + y²` are smooth.
 - Over `𝔽₂`, `x² + y z` is smooth (polar radical the `x`-axis, where `q = x² ≠ 0`) and
   `x² + y² + z²` is not; a definition by non-degeneracy of the polar form would call no form of
-  odd rank smooth in characteristic two.
+  odd rank smooth in characteristic two. `x² + y z` is ordinary in the sense of
+  LefschetzPencilsAndVanishingCycles §2.1 (the conic `x² + y z = 0` is smooth), as the
+  comparison requires.
+- Over `𝔽₂(t)`, `x² + t y²` has zero radical over `𝔽₂(t)` but not over its algebraic closure
+  (`x = √t y`), and its polar kernel has rank `2`, so `QuadraticMap.Nondegenerate` fails:
+  testing only rational vectors would call it smooth. The zero form on `Fin 0 → R` is smooth and
+  not ordinary, so the comparison needs `n ≥ 1`.
 
 ### 2.2 The unit criteria
 
@@ -352,9 +442,11 @@ Prove `isSmooth_iff_isUnit_halfDisc` (`n` odd: `IsSmooth Q ↔ IsUnit δ'(Q)`) a
 Proposition C.1.4 (3), p. 304, and the paragraph before it, p. 304). Route: both sides are
 fibrewise, an element is a unit exactly when it is nonzero at every geometric point, and over an
 algebraically closed field the defect `dim V^⊥` of the polar form has the parity of `n` in
-characteristic two (Conrad 2014, Exercise 1.6.10); for `n` odd and `q` degenerate, `q` is a form in
-fewer variables after a change of coordinates, so a lift over the Witt vectors has discriminant
-`0` (Conrad 2014, proof of Proposition C.1.4).
+characteristic two (Conrad 2014, Exercise 1.6.10, p. 50); for `n` odd and `q` degenerate, `q` is
+a form in fewer variables after a change of coordinates, so a lift over the Witt vectors has
+discriminant `0` (Conrad 2014, proof of Proposition C.1.4). In even rank, on `Fin n → R`,
+`IsUnit (det polarMatrix Q)` says that `polarBilin Q` is bijective, the form of ordinarity that
+LefschetzPencilsAndVanishingCycles §2.2 uses.
 
 *Needs:* 1.2, 1.3, 2.1; Mathlib `isUnit_iff_ne_zero`, `Ideal.exists_le_maximal`,
 `AlgebraicClosure`, `WittVector`.
@@ -386,15 +478,22 @@ with `δ'(standard (2m + 1)) = (−1)^m` and `det polarMatrix (standard (2m)) = 
 Prove `isSmooth_iff_exists_faithfullyFlat`: `Q` is smooth exactly when there are a faithfully
 flat, finitely presented `R`-algebra `S` and an isometry `mapCoeffs (algebraMap R S) Q ≃ qₙ`;
 and `exists_etale_isometryEquiv_standard`: when `Q` is smooth and `n` is even or `2 ∈ Rˣ`, `S` can
-be taken étale (Conrad 2014, Lemma C.2.1, p. 309, for `n ≥ 1`; `n = 0` is trivial). Route:
-étale-locally `Q` is `qₙ` or `u x² + q_{n−1}` with `u` a unit (Conrad 2014, proof of
-Lemma C.2.1), then adjoin `√(u⁻¹)`, which is étale when `2 ∈ Rˣ` and fppf in general; the finitely
-many members of an étale cover of `Spec R` give one étale algebra by taking their product. The
-converse is that smoothness descends along a faithfully flat map, since every geometric point of
-`R` lifts to `S`.
+be taken étale (Conrad 2014, Lemma C.2.1, p. 309, for `n ≥ 1`; `n = 0` is trivial). Route: for
+`n ≥ 1`, `Q` is ordinary by 2.1, and LefschetzPencilsAndVanishingCycles §2.1's normal form gives,
+étale-locally on `Spec R`, `Q ≅ Σ_{i=1}^{m} xᵢ x_{i+m}` for `n = 2m`, which is `qₙ` after a
+permutation of the coordinates, and `Q ≅ Σ_{i=1}^{m} xᵢ x_{i+m} + λ x_{2m+1}²` with `λ` a unit for
+`n = 2m + 1`. In odd rank pass to `T = QuadraticAlgebra S λ⁻¹ 0 = S[t]/(t² − λ⁻¹)`, where
+`λ (t y)² = y²`: `T` is free of rank two, hence faithfully flat and finitely presented, and it is
+étale when `2 ∈ Rˣ`, its discriminant `4λ⁻¹` being a unit (Tau Ceti
+`QuadraticAlgebra.etale_iff_isUnit_discr`). The finitely many members of an étale cover of
+`Spec R` give one faithfully flat étale algebra, their product. The converse is that smoothness
+descends along a faithfully flat map, since every geometric point of `R` lifts to `S`. Owned here
+are the odd-rank step, the passage to one algebra and the converse; the even-rank normal form is
+§2.1's.
 
 *Needs:* 2.1, 2.2, 2.3; Mathlib `Module.FaithfullyFlat`, `Algebra.Etale`,
-`Algebra.FinitePresentation`, `QuadraticMap.IsometryEquiv`.
+`Algebra.FinitePresentation`, `QuadraticMap.IsometryEquiv`, `QuadraticAlgebra`; Tau Ceti
+`QuadraticAlgebra.etale_iff_isUnit_discr`; LefschetzPencilsAndVanishingCycles §2.1 (normal form).
 
 **Checks.**
 
@@ -414,14 +513,19 @@ converse is that smoothness descends along a faithfully flat map, since every ge
 
 ### Dependencies
 
-Layers 0 and 1; Mathlib `QuadraticMap.radical`, `Module.FaithfullyFlat`, `Algebra.Etale`.
+Layers 0 and 1; Mathlib `QuadraticMap.radical`, `QuadraticMap.Nondegenerate`,
+`Module.FaithfullyFlat`, `Algebra.Etale`; Tau Ceti `QuadraticAlgebra.etale_iff_isUnit_discr`;
+LefschetzPencilsAndVanishingCycles §2.1.
 
 ## Layer 3: the orthogonal group scheme
 
 ### 3.1 Construction and representability
 
 Define the points `orthogonalGroup Q A ≤ GL (Fin n) A` for every commutative `R`-algebra `A`, as
-in the Conventions, the relations `orthogonalRelations Q` (the entries of
+in the Conventions: the range of Tau Ceti's
+`QuadraticMap.orthogonalToGeneralLinear (mapCoeffs (algebraMap R A) Q)`, so that the group of
+points is Tau Ceti's `TauCeti.QuadraticMap.orthogonalGroup` of `Q_A` read in coordinates. Define
+the relations `orthogonalRelations Q` (the entries of
 `coeffMatrix (Q_H ∘ X) − coeffMatrix Q` in `H = TauCeti.GeneralLinear.coordinateHopfAlgebra R n`,
 `X = TauCeti.GeneralLinear.genericMatrix R n`) and `orthogonalIdeal Q`, the ideal they generate.
 Prove `exists_hopfIdeal_toIdeal_eq` (it is the underlying ideal of a `TauCeti.HopfIdeal`, built
@@ -429,10 +533,15 @@ with `HopfIdeal.ofSpan`) and `mem_orthogonalGroup_iff_le_ker` (a point `φ : H �
 lies in `O(Q)(A)` exactly when `orthogonalIdeal Q ≤ ker φ`), so that `O(Q)` is represented by the
 finitely presented quotient `H ⧸ orthogonalIdeal Q` (Conrad 2014, §C.1, p. 303). Route: the
 comultiplication of an entry of `coeffMatrix (Q ∘ X) − coeffMatrix Q` is computed by
-`Q ∘ (X ⊗ X) − Q = (Q ∘ X − Q) ∘ X + (Q ∘ X − Q)`, as for `TauCeti.ConstantForm`.
+`Q ∘ (X ⊗ X) − Q = (Q ∘ X − Q) ∘ X + (Q ∘ X − Q)`, as for `TauCeti.ConstantForm`. Prove also the
+comparison with OrthogonalTamagawaAndLatticeMass §0.1a: over a perfect field `k` of
+characteristic two, `H ⧸ orthogonalIdeal Q` represents §0.1a's `O(q)` on `W = kⁿ`, both being cut
+out of `GLₙ` by the coefficients of `q(g x) − q(x)`; Layer 3 extends that group to an arbitrary
+base. No source is named for the comparison; the route is its proof.
 
 *Needs:* 0.1, 0.2; Tau Ceti `GeneralLinear.coordinateHopfAlgebra`, `genericMatrix`,
-`pointsMulEquiv`, `HopfIdeal`, `HopfIdeal.ofSpan`.
+`pointsMulEquiv`, `HopfIdeal`, `HopfIdeal.ofSpan`, `TauCeti.QuadraticMap.orthogonalGroup`,
+`QuadraticMap.orthogonalToGeneralLinear`; OrthogonalTamagawaAndLatticeMass §0.1a.
 
 **Checks.**
 
@@ -443,6 +552,8 @@ comultiplication of an entry of `coeffMatrix (Q ∘ X) − coeffMatrix Q` is com
   `X C Xᵀ = C` of `TauCeti.ConstantForm` at the polar matrix `C = !![0, 1; 1, 0]` give the same
   points over `ℤ[1/2]` but over `𝔽₂` they also allow `!![1, 1; 0, 1]`, which is not in `O(x₀x₁)`.
 - The zero form: `orthogonalIdeal 0 = ⊥` and `O(0) = GLₙ`.
+- The `x₀x₁` Check agrees with OrthogonalTamagawaAndLatticeMass §0.1a's Check at `q = x y` on
+  `𝔽₂²`: the points over `𝔽₂` are the identity and the swap, and the shear is excluded in both.
 
 ### 3.2 Determinant and the decomposition in odd rank
 
@@ -493,7 +604,8 @@ Prove that `P ↦ (the form P ∧^{O(qₙ)} qₙ)` is a bijection from SchemeAnd
 classes of smooth forms on locally free modules of rank `n`, with the trivial class going to
 `qₙ`; and that it restricts to the classes of forms on `Fin n → R` among them. Route: 2.4 says
 that every smooth form is an fppf twist of `qₙ`; fppf descent of modules with a quadratic form,
-and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations §1.15).
+and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations §1.15). No source is named
+for the bijection; the route is its proof.
 
 *Needs:* 2.4, 3.1; SchemeAndStackFoundations §1.15 (`IsTorsor`) and §2.3 (`NonabelianH1`,
 `NonabelianH1.mk`, `mk_eq_one_iff`).
@@ -501,8 +613,8 @@ and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations §1.15).
 **Checks.**
 
 - Over a local ring with `n` even, a smooth form is hyperbolic exactly when its torsor class
-  is trivial; over `ℝ`, `x² + y²` and `x y` are not isometric, and the class of `x² + y²` in
-  `H¹(ℝ, O(q₂))` is the nontrivial one.
+  is trivial. `H¹(ℝ, O(q₂))` has three elements, the classes of `x y` (trivial), `x² + y²` and
+  `−x² − y²`: the smooth real binary forms of signatures `(1, 1)`, `(2, 0)` and `(0, 2)`.
 - `n = 1`: `O(q₁) = μ₂`, and the classes are `H¹_fppf(R, μ₂)`, the forms `u x²` on invertible
   modules; over a field `k`, `k^×/k^{×2}`, also in characteristic two.
 - `n = 1` over `ℤ`: `H¹(ℤ, μ₂) = {±1}`, the forms `x²` and `−x²`.
@@ -514,8 +626,9 @@ and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations §1.15).
 
 ### Dependencies
 
-Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `RootsOfUnity`; SchemeAndStackFoundations
-§§1.15, 2.3.
+Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `RootsOfUnity`,
+`TauCeti.QuadraticMap.orthogonalGroup`; OrthogonalTamagawaAndLatticeMass §0.1a;
+SchemeAndStackFoundations §§1.15, 2.3.
 
 ## Layer 4: even Clifford algebras
 
@@ -540,57 +653,32 @@ arXiv numbering, for `R` Noetherian).
   discriminant `4`, not Azumaya; `δ' = 4`.
 - `n = 3`, `Q = standard 3` over `ℤ`: `C₀ ≅ M₂(ℤ)` and `δ' = −1`.
 
-### 4.2 Even rank
-
-Prove `center_even_etale`: for `n ≥ 2` even and `Q` smooth, the centre of
-`CliffordAlgebra.even Q` is a finite étale `R`-algebra, projective of rank `2` at every prime
-(Conrad 2014, Proposition C.2.2, p. 309).
-
-*Needs:* 2.4; Mathlib `CliffordAlgebra.even`, `Subalgebra.center`, `Algebra.Etale`,
-`Module.rankAtStalk`.
-
-**Checks.**
-
-- `n = 2`, `Q = x₀x₁`: `C₀ = R ⊕ R e₀e₁` is commutative, its own centre, `≅ R × R` by the
-  idempotent `e₀e₁` (Conrad 2014, Remark C.2.3, p. 310).
-- `n = 0`: `C₀ = R` has rank one; the hypothesis `n ≥ 2` is needed.
-- `n = 2`, `Q = x² + y²` over `𝔽₂`, not smooth: `C₀ = 𝔽₂[t]/(t² − 1)` with `t = e₀e₁`, not
-  étale.
-
 ### Examples
 
-- `n = 2`, `Q = x² + x y + y²` over `𝔽₂`: `C₀ = 𝔽₂[t]/(t² + t + 1) = 𝔽₄`.
+- `n = 2`, `Q = x² + x y + y²` over `𝔽₂`: `C₀ = 𝔽₂[t]/(t² + t + 1) = 𝔽₄` with `t = e₀e₁`, étale,
+  as LefschetzPencilsAndVanishingCycles §2.2 (`evenClifford_center_etale_azumaya`) says of the
+  centre of `C₀(Q)` for every smooth form of positive even rank over a nonzero ring: on
+  `Fin n → R`, the bijectivity of `polarBilin Q` it assumes is `IsUnit (det polarMatrix Q)`, that
+  is `IsSmooth Q` by 2.2.
+- `n = 2`, `Q = x₀x₁`: `C₀ = R ⊕ R e₀e₁ ≅ R × R` by the idempotent `e₀e₁` (Conrad 2014,
+  Remark C.2.3, p. 310); for `Q = x² + y²` over `𝔽₂`, not smooth, `C₀ = 𝔽₂[t]/(t² − 1)`, not
+  étale.
 
 ### Dependencies
 
-Layers 1 and 2; Mathlib `CliffordAlgebra`, `IsAzumaya`, `Algebra.Etale`.
+Layers 1 and 2; Mathlib `CliffordAlgebra`, `IsAzumaya`; LefschetzPencilsAndVanishingCycles §2.2
+(Examples).
 
 ## Layer 5: quadratic algebras without dividing by two
 
-### 5.1 The étale criterion
-
-Prove `etale_quadraticAlgebra_iff`: `QuadraticAlgebra R a b` is étale over `R` exactly when
-`b² + 4a` is a unit. Route: it is `R[X]/(X² − bX − a)` (Mathlib `QuadraticAlgebra.lift`), which is
-standard étale when the derivative `2X − b` is invertible modulo `X² − bX − a` (Stacks, Definition
-10.144.1 and Lemma 10.144.2, Tags 00UB, 00UC), and `(2ω − b)² = b² + 4a`; conversely, an étale
-algebra has `Ω = 0`, which forces `2ω − b` to be a unit.
-
-*Needs:* Mathlib `QuadraticAlgebra`, `QuadraticAlgebra.discr`, `QuadraticAlgebra.lift`,
-`Algebra.Etale`, `KaehlerDifferential`.
-
-**Checks.**
-
-- `QuadraticAlgebra 𝔽₂ 1 1 = 𝔽₄`, discriminant `1 + 4 = 1`: étale, although `2 = 0`.
-- `ℤ[i] = QuadraticAlgebra ℤ (−1) 0`, discriminant `−4`: not étale over `ℤ`, étale over
-  `ℤ[1/2]`.
-- `QuadraticAlgebra R 0 0 = R[ε]/(ε²)`, discriminant `0`: never étale over a nonzero `R`.
-
-### 5.2 The discriminant algebra of a form of even rank
+### 5.1 The discriminant algebra of a form of even rank
 
 Prove `etale_discAlgebra_iff`: for `n` even, `discAlgebra Q` (1.4) is étale exactly when `Q` is
-smooth. Route: 5.1, 1.4 and 2.2.
+smooth. Route: by Tau Ceti `QuadraticAlgebra.etale_iff_isUnit_discr` it is étale exactly when its
+discriminant is a unit; by 1.4 that discriminant is `(−1)^(n/2) det(polarMatrix Q)`; by 2.2 this
+is a unit exactly when `Q` is smooth. No source is named; the route is the proof.
 
-*Needs:* 1.4, 2.2, 5.1.
+*Needs:* 1.4, 2.2; Tau Ceti `QuadraticAlgebra.etale_iff_isUnit_discr`.
 
 **Checks.**
 
@@ -599,30 +687,28 @@ smooth. Route: 5.1, 1.4 and 2.2.
 - `n = 2`, `q = x² + y²` over `𝔽₂`: `B = 0`, `C = −1 = 1`, `discAlgebra q = 𝔽₂[ω]/(ω² + 1)`,
   not étale, and `q` is not smooth.
 
-### 5.3 The product of quadratic algebras
+### 5.2 The product of quadratic algebras
 
-Define the canonical involution `conj a b : QuadraticAlgebra R a b →ₐ[R] QuadraticAlgebra R a b`,
-`ω ↦ b − ω` (Mathlib's `starRingEnd`). Prove `exists_productHom`: for
-`A₁ = QuadraticAlgebra R a₁ b₁` and `A₂ = QuadraticAlgebra R a₂ b₂`, the product
-`A₁ * A₂ = QuadraticAlgebra R a b` with
-`a = a₁b₂² + a₂b₁² + 4a₁a₂` and `b = −b₁b₂` has an `R`-algebra map to `A₁ ⊗[R] A₂` with
-`ω ↦ 2 ω₁ ⊗ ω₂ − b₁ (1 ⊗ ω₂) − b₂ (ω₁ ⊗ 1)`, and when `2, b₁, b₂` generate the unit ideal this map
-is injective with image the invariants of `conj ⊗ conj`. The discriminant of `A₁ * A₂` is
-`(b₁² + 4a₁)(b₂² + 4a₂)`. Route: the relation
+Write `σ` for Mathlib's canonical involution `QuadraticAlgebra.starAlgEquiv`, `ω ↦ b − ω`. Prove
+`exists_productHom`: for `A₁ = QuadraticAlgebra R a₁ b₁` and `A₂ = QuadraticAlgebra R a₂ b₂`, the
+product `A₁ * A₂ = QuadraticAlgebra R a b` with `a = a₁b₂² + a₂b₁² + 4a₁a₂` and `b = −b₁b₂` has an
+`R`-algebra map to `A₁ ⊗[R] A₂` with `ω ↦ 2 ω₁ ⊗ ω₂ − b₁ (1 ⊗ ω₂) − b₂ (ω₁ ⊗ 1)`, and when
+`2, b₁, b₂` generate the unit ideal this map is injective with image the invariants of `σ ⊗ σ`.
+The discriminant of `A₁ * A₂` is `(b₁² + 4a₁)(b₂² + 4a₂)`. Route: the relation
 `(2 ω₁ω₂ − b₁ω₂ − b₂ω₁)² = a + b(2 ω₁ω₂ − b₁ω₂ − b₂ω₁)` holds in `A₁ ⊗ A₂` (expand and reduce
 with `ωᵢ² = aᵢ + bᵢωᵢ`); in the basis `ω₁^ε₁ ⊗ ω₂^ε₂` the invariants are computed by a `4 × 4`
 linear system whose solutions are spanned by `1` and the image of `ω` exactly when the ideal
-`(2, b₁, b₂)` is `R`.
+`(2, b₁, b₂)` is `R`. No source is named; the route is the proof.
 
-*Needs:* 5.1; Mathlib `QuadraticAlgebra.lift`, `QuadraticAlgebra.omega`, `starRingEnd`,
-`Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`.
+*Needs:* Mathlib `QuadraticAlgebra.lift`, `QuadraticAlgebra.omega`,
+`QuadraticAlgebra.starAlgEquiv`, `Algebra.TensorProduct.map`, `Algebra.TensorProduct.basis`.
 
 **Checks.**
 
 - `A₁ = A₂ = QuadraticAlgebra ℤ 1 1 = ℤ[(1 + √5)/2]`: `a = 6`, `b = −1`, discriminant
   `1 + 24 = 25 = 5 · 5`, and `(2, 1, 1) = ℤ`.
 - `A₁ = A₂ = ℤ[i]`: `a = 4`, `b = 0`, discriminant `16 = (−4)(−4)`; here `(2, 0, 0) ≠ ℤ`, and
-  the invariants of `conj ⊗ conj` contain `i ⊗ i`, which is not in the image of
+  the invariants of `σ ⊗ σ` contain `i ⊗ i`, which is not in the image of
   `ω ↦ 2 (i ⊗ i)`: the hypothesis on `(2, b₁, b₂)` is needed for surjectivity.
 - With `A₂ = R × R = QuadraticAlgebra R 0 1` (`ω² = ω`): `a = a₁` and `b = −b₁`, and
   `QuadraticAlgebra R a₁ (−b₁) ≅ A₁` by `ω ↦ −ω₁`: the split algebra is a unit for the product.
@@ -631,85 +717,75 @@ linear system whose solutions are spanned by `1` and the image of `ω` exactly w
 
 - Over `ℤ[1/2]`, `A₁ * A₂` with `A₁ = ℤ[1/2][√d₁]`, `A₂ = ℤ[1/2][√d₂]` is `ℤ[1/2][√(d₁d₂)]`
   up to the scaling `ω ↦ ω/2`: `a = 4d₁d₂`, `b = 0`.
+- Tau Ceti's `QuadraticAlgebra.etale_iff_isUnit_discr`, which 5.1 uses, at three algebras:
+  `QuadraticAlgebra 𝔽₂ 1 1 = 𝔽₄`, discriminant `1 + 4 = 1`, is étale although `2 = 0`;
+  `ℤ[i] = QuadraticAlgebra ℤ (−1) 0`, discriminant `−4`, is not étale over `ℤ` and is étale over
+  `ℤ[1/2]`; `QuadraticAlgebra R 0 0 = R[ε]/(ε²)`, discriminant `0`, is never étale over a nonzero
+  `R`.
 
 ### Dependencies
 
-Layers 1.4 and 2 (5.2 only); Mathlib `QuadraticAlgebra`, `Algebra.Etale`, `Algebra.TensorProduct`.
+Layers 1.4 and 2 (5.1 only); Mathlib `QuadraticAlgebra`, `Algebra.Etale`, `Algebra.TensorProduct`;
+Tau Ceti `QuadraticAlgebra.etale_iff_isUnit_discr`.
 
-## Layer 6: discriminant and resultant of a binary form
+## Layer 6: the resultant of a binary form at formal degree
 
-### 6.1 The universal discriminant
+The discriminant of a polynomial is Mathlib's `Polynomial.discr`, related to the resultant at the
+degrees of `f` and `f′` by `Polynomial.resultant_deriv`, with the values
+`Polynomial.discr_of_degree_eq_two` and `Polynomial.discr_of_degree_eq_three`; its base change
+along a degree-preserving map is Tau Ceti's `Polynomial.discr_map_of_natDegree_eq`, and for monic
+`f` it is a unit exactly when `R[X]/(f)` is étale, by Tau Ceti's
+`Polynomial.Monic.isUnit_discr_iff` and `Polynomial.Monic.etale_adjoinRoot_iff`
+(`IsUnit f.discr ↔ f.Separable ↔ Algebra.Etale R (AdjoinRoot f)`). The discriminant at formal
+degree, with its degree-drop laws and its compatibility with ring maps, is HyperellipticCurves
+§0.1's `formDiscr n f`. This layer adds the resultant identity at formal degree.
 
-Define `univPoly n = ∑_{i ≤ n} aᵢ Xⁱ` over `ℤ[a₀, …, aₙ]`, the signed resultant
-`univSignedRes n = (−1)^(n(n−1)/2) Res_{n,n−1}(f, f′)` with Mathlib's `resultant` at formal
-degrees `n` and `n − 1`, and `univBinDisc n`, the signed resultant divided by `aₙ` monomial by
-monomial. Define `binDisc f n` for `f : R[X]` by evaluating at the coefficients of `f`. Prove
-`X_last_mul_univBinDisc` (for `n ≥ 1`, `aₙ · univBinDisc n = univSignedRes n`) and
-`leadingCoeff_mul_binDisc` (for `f` of degree at most `n`,
-`f.coeff n · binDisc f n = (−1)^(n(n−1)/2) Res_{n,n−1}(f, f′)` over any ring). Route: in the
-universal case, the column of the Sylvester matrix of `f` and `f′` at formal degrees `n`, `n − 1`
-that holds the top coefficients has `aₙ` and `n aₙ` as its only nonzero entries, so `aₙ` divides
-the determinant; then `Polynomial.resultant_map_map`.
+### 6.1 The resultant at formal degree
 
-*Needs:* Mathlib `Polynomial.resultant`, `Polynomial.sylvester`, `Polynomial.resultant_map_map`,
-`Polynomial.derivative_map`, `MvPolynomial.eval₂`.
+Prove `coeff_mul_formDiscr`: for `n ≥ 1` and `f : R[X]` with `natDegree f ≤ n`, over any
+commutative ring, `f.coeff n * formDiscr n f = (−1)^(n(n−1)/2) * resultant f f′ n (n − 1)`. Route:
+if `natDegree f = n`, `formDiscr n f = discr f` (HyperellipticCurves §0.1) and the identity is
+Mathlib's `Polynomial.resultant_deriv`; if `natDegree f < n`, the left side is `0`, and so is the
+right side: for `n ≥ 2` by `Polynomial.resultant_eq_zero_of_lt_lt`, since
+`natDegree f′ ≤ n − 2 < n − 1`, and for `n = 1` because `f` is constant, `f′ = 0` and
+`resultant f 0 1 0` is the `1 × 1` determinant of the constant coefficient of `0`. No source is
+named; the route is the proof.
 
-**Checks.**
-
-- `n = 2`: `binDisc (c + bX + aX²) 2 = b² − 4ac`; with the sign `(−1)^(n(n−1)/2)` omitted it would
-  be `4ac − b²`.
-- `n = 1`: `binDisc (a₀ + a₁X) 1 = 1`.
-- `n = 3`: for `aX³ + bX² + cX + d`, `b²c² − 4ac³ − 4b³d − 27a²d² + 18abcd`; at `X³ − X` it is
-  `4`.
-
-### 6.2 Base change and formal degree
-
-Prove `binDisc_map` (`binDisc (f.map φ) n = φ (binDisc f n)`) and `binDisc_of_coeff_eq_zero`:
-for `n ≥ 2` and `aₙ = 0`, `binDisc f n = a_{n−1}² binDisc f (n − 1)`, the discriminant of a binary
-form with a root at infinity.
-
-*Needs:* 6.1; Mathlib `Polynomial.coeff_map`, `MvPolynomial.eval₂_map`.
+*Needs:* HyperellipticCurves §0.1 (`formDiscr`); Mathlib `Polynomial.resultant`,
+`Polynomial.resultant_deriv`, `Polynomial.resultant_eq_zero_of_lt_lt`, `Polynomial.derivative`.
 
 **Checks.**
 
-- `f = X` read in degree `2` (`a₂ = 0`, `a₁ = 1`, `a₀ = 0`): `binDisc f 2 = 1 = 1² · 1`.
-- `f = 1` read in degree `2`: `b² − 4ac = 0`: the binary form `y²` has a double root at
-  infinity.
-- Base change along `ℤ → 𝔽₂` of `X² + X + 1`: `−3 ↦ 1`.
-
-### 6.3 The étale criterion
-
-Prove `isUnit_binDisc_iff_etale`: for `f` monic of degree `n ≥ 1`, `binDisc f n` is a unit
-exactly when `R[X]/(f)` is étale over `R`. Route: for monic `f`, `Res(f, f′)` is the norm of
-`f′` in the free algebra `R[X]/(f)`, a unit exactly when `f′` is invertible there; then Stacks,
-Lemma 10.144.2 (Tag 00UC) for one direction and `Ω_{R[X]/(f)} = (R[X]/(f))/(f′)` for the
-other.
-
-*Needs:* 6.1; Mathlib `AdjoinRoot`, `Algebra.Etale`, `Algebra.norm`, `KaehlerDifferential`.
-
-**Checks.**
-
-- `X² + X + 1` over `𝔽₂`: discriminant `1`, and `𝔽₂[X]/(X² + X + 1) = 𝔽₄` is étale.
-- `X²` over any nonzero ring: discriminant `0`, not étale.
-- `X² − 2` over `ℤ`: discriminant `8`, not a unit, and `ℤ[√2]` is ramified at `2`.
+- `n = 2`, `f = c + bX + aX²`: `formDiscr 2 f = b² − 4ac` and `resultant f f′ 2 1 = a(4ac − b²)`,
+  so both sides are `a(b² − 4ac)`; with the sign `(−1)^(n(n−1)/2)` omitted the identity would read
+  `a(b² − 4ac) = a(4ac − b²)`, false at `a = b = 1`, `c = 0`.
+- `n = 2`, `f = c + bX` (a root at infinity): `formDiscr 2 f = b²` (HyperellipticCurves §0.1),
+  the left side is `0`, and `resultant f b 2 1 = 0`; the identity does not determine
+  `formDiscr n f` when `aₙ = 0`, which is why §0.1 states the degree drop separately.
+- `n = 1`: `a₁ · 1 = resultant (a₀ + a₁X) a₁ 1 0 = a₁`, including `a₁ = 0`; `n = 3`,
+  `f = X³ − X`: `formDiscr 3 f = 4` and `resultant f f′ 3 2 = −4 = (−1)³ · 4`.
 
 ### Examples
 
-- `X³ − X` over `ℤ[1/2]` has discriminant `4`, a unit, and `ℤ[1/2][X]/(X³ − X) ≅ ℤ[1/2]³`.
+- `X² + X + 1` over `𝔽₂` has discriminant `1`, and `𝔽₂[X]/(X² + X + 1) = 𝔽₄` is étale; `X² − 2`
+  over `ℤ` has discriminant `8`, not a unit, and `ℤ[√2]` is ramified at `2`; `X³ − X` over
+  `ℤ[1/2]` has discriminant `4`, a unit, and `ℤ[1/2][X]/(X³ − X) ≅ ℤ[1/2]³` (Tau Ceti
+  `Polynomial.Monic.isUnit_discr_iff`, `Polynomial.Monic.etale_adjoinRoot_iff`).
 
 ### Dependencies
 
-Mathlib `Polynomial.resultant`, `AdjoinRoot`, `Algebra.Etale`.
+HyperellipticCurves §0.1; Mathlib `Polynomial.resultant`, `Polynomial.discr`; Tau Ceti
+`Polynomial.Monic.isUnit_discr_iff`, `Polynomial.Monic.etale_adjoinRoot_iff`.
 
 ## Downstream consumers
 
-No roadmap on main or in an open pull request cites this one.
+None.
 
 ## Research context
 
 The half-discriminant was found independently by Grothendieck and by M. Kneser (Conrad 2014,
-§C.1, p. 304). Grothendieck's notes treat it for forms of odd rank over an arbitrary base
-(Montpellier fonds, folder 77, p. 68, https://grothendieck.umontpellier.fr/77.pdf).
+§C.1, p. 304). Grothendieck's notes on it are in the Montpellier fonds (folder 77, p. 68,
+https://grothendieck.umontpellier.fr/77.pdf).
 
 ## References
 
@@ -721,5 +797,3 @@ The half-discriminant was found independently by Grothendieck and by M. Kneser (
   Wissenschaften 294, Springer, 1991. doi:10.1007/978-3-642-75401-2.
 - J. Voight, « Characterizing quaternion rings over an arbitrary base », *J. reine angew. Math.*
   657 (2011), 113–134. doi:10.1515/crelle.2011.054; Zbl 1229.11146; arXiv:0904.4310.
-- The Stacks Project, Section 10.144, « Local structure of étale ring maps »,
-  https://stacks.math.columbia.edu/tag/00UB.
