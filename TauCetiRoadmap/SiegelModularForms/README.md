@@ -252,7 +252,7 @@ operator on Siegel modular forms, and no paramodular group.
   `symJ`, `mulEquivSymplecticGroup`, the Levi embedding `TauCeti.GLSymplectic.leviHom`, the
   unipotent subgroups `upperUnipotent`/`lowerUnipotent` and the generation theorems of
   `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.*`; the symplectic multiplier
-  lemmas `TauCeti.Matrix.det_eq_of_transpose_mul_J_mul_eq_smul` of
+  lemmas `Matrix.transpose_mul_J_mul_eq_det_smul` and `Matrix.transpose_mul_J_mul_eq_smul_iff` of
   `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`; the degree-one Hecke theory of
   `TauCeti.NumberTheory.HeckeRing.*` and `TauCeti.NumberTheory.ModularForms.HeckeSlash.*`; the
   newforms `HeckeRing.GL2.Newform` with their Satake parameters
@@ -272,10 +272,11 @@ operator on Siegel modular forms, and no paramodular group.
   its root subgroups and is the bridge check of 0.1, not the generation of `Γ_g = Sp_{2g}(ℤ)`,
   which 0.1 owns. `TauCeti.LinearAlgebra.SymplecticGroup`: `fromBlocks_upper_mem`,
   `fromBlocks_lower_mem`, `fromBlocks_diagonal_mem`, `transpose_eq_J_conj_inv`.
-- `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`: `transpose_mul_J_mul_eq_det_smul` and
-  `det_eq_of_transpose_mul_J_mul_eq_smul`, both for a singleton index type `l` (`[Unique l]`,
-  that is `g = 1`), where `Mᵀ J M = d J` gives `det M = d`; they are the `g = 1` bridge check of
-  0.2's `det M = μ(M)^g`, which 0.2 owns for every `g`.
+- `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier` (namespace `Matrix`):
+  `Matrix.transpose_mul_J_mul_eq_det_smul` (`Mᵀ J M = det M • J`) and
+  `Matrix.transpose_mul_J_mul_eq_smul_iff` (`Mᵀ J M = d • J ↔ det M = d`), both over a commutative
+  ring and for a singleton index type `l` (`[Unique l]`, that is `g = 1`); they are the `g = 1`
+  bridge check of 0.2's `det M = μ(M)^g`, which 0.2 owns for every `g`.
 - `TauCeti.Topology.Algebra.SymplecticGroup`: `isClosed_symplecticGroup`, `isClosed_GLSymplectic`.
 - The degree-one theory at the pin: `TauCeti.NumberTheory.HeckeRing.*` (the abstract Hecke
   ring with its convolution product, the `GL_n` and `GL₂` double-coset theory),
@@ -288,9 +289,14 @@ operator on Siegel modular forms, and no paramodular group.
   (`normalizedCharEisensteinSeriesMF`), `…ModularForms.FiniteDimensional`,
   `…ModularForms.SturmBound`, `…ModularForms.Petersson.*`.
 - `TauCeti.LinearAlgebra.IntegralLattice.*` and `TauCeti.NumberTheory.IntegralLattice.*`: the
-  rational lattice carrier. The pinned Tau Ceti has no theta-series module; the degree-one theta
-  series is the theta-series roadmap's `thetaSeries L` (its *Layer 3*), which 5.1 generalizes to
-  degree `g`.
+  rational lattice carrier.
+- `TauCeti.NumberTheory.ModularForms.ThetaSeries.*`: the theta-series roadmap's degree-one theta
+  series `thetaSeries L` (its *Layer 3*) is `ZLattice.thetaSeries L`,
+  `τ ↦ ∑_{v ∈ L} exp(π i ‖v‖² τ)` for `L : Submodule ℤ E` (`…ThetaSeries.Basic`), with the
+  inversion law `ZLattice.thetaSeries_S_smul` in rank `2k` (`…ThetaSeries.Inversion`, that
+  roadmap's *Layer 4*) and the level-one form `ZLattice.thetaForm` of an even unimodular lattice
+  (`…ThetaSeries.LevelOne`, its *Layer 5*); 5.1 generalizes `ZLattice.thetaSeries L` to degree
+  `g`, with the same exponent `π i ‖v‖² τ` at `g = 1`.
 - `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: the abelian-variety carrier that the
   prose statement of the paramodular conjecture (10.6) refers to.
 
@@ -482,7 +488,7 @@ Prove: `det M = μ(M)^g` for every `g`, an owned target (from
 `Mᵀ J M = μ(M) J`, equivalent to `M J Mᵀ = μ(M) J` for invertible `M`: taking determinants gives
 only `det(M)² = μ^{2g}`, so the sign is fixed by the Pfaffian, `Pf(Mᵀ J M) = det(M) Pf(J)` and
 `Pf(μ J) = μ^g Pf(J)`, or by reducing `M` to a block-diagonal `diag(A, μ A⁻ᵀ)` by symplectic row
-operations; Tau Ceti's `det_eq_of_transpose_mul_J_mul_eq_smul` is the case `g = 1`, for a
+operations; Tau Ceti's `Matrix.transpose_mul_J_mul_eq_smul_iff` is the case `g = 1`, for a
 singleton index type, and is the bridge check); positive scalars `c·1` have `μ = c²`;
 `M^∨ := μ(M) M⁻¹ = [[Dᵀ, −Bᵀ], [−Cᵀ, Aᵀ]]` is an anti-involution with `μ(M^∨) = μ(M)`;
 `diag(1_g, m 1_g)` has multiplier `m`. For `g = 2` and `R = ℝ` the group is
@@ -506,8 +512,8 @@ bridge check; `AutomorphicFormsOnReductiveGroups` §6.4 for the degree-two compa
 - `diag(1_g, m·1_g)` satisfies `M J Mᵀ = m J`: multiplier `m`, determinant `m^g` (`4` for `g = 2`,
   `m = 2`, a value no rank-two lemma covers); the scalar `c·1` has `μ = c²` and `det = c^{2g}`;
   `M^∨` carries `diag(1, m)` to `diag(m, 1)` with the same multiplier. For `diag(1, 2)` and
-  `g = 1`, `M J Mᵀ = [[0, −2], [2, 0]]`, whose `(inl 0, inr 0)` entry is `−2`: the multiplier read
-  off by `GSpPos.mult` is its negative, `2`; the entry taken without the sign, or the
+  `g = 1`, `M J Mᵀ = [[0, −2], [2, 0]]`, whose `(inl 0, inr 0)` entry is `−2`: the multiplier, read
+  off as the negative of that entry, is `2`; the entry taken without the sign, or the
   `(inr 0, inl 0)` entry `+2` taken with it, would give `−2`, rejected by positivity.
 - `diag(1, 2) ∈ O₁(2)` and `diag(1, 2)² = diag(1, 4) ∈ O₁(4) ∖ O₁(2)`: a fixed-multiplier piece
   is not closed under multiplication; `O_g(1) = Sp_{2g}(ℤ)` since the inverse `−J Mᵀ J` of an
@@ -516,8 +522,8 @@ bridge check; `AutomorphicFormsOnReductiveGroups` §6.4 for the degree-two compa
   is positive for even `g`, so a definition through `det > 0` would wrongly admit it.
 - The `R`-points of CG.0.1 with `ν > 0` are the same subgroup, and `ν` restricted to it is `μ`;
   `g = 1` gives `GL₂⁺(R)` with `μ = det`.
-- `GSpPos 2 ℝ = positiveSimilitude` (`AutomorphicFormsOnReductiveGroups` §6.4): the same matrices
-  `g ∈ GL₄(ℝ)` with `g J gᵀ = ν(g) J`, `ν(g) > 0`, and `ℝ_{>0}·Sp₄(ℝ)` is all of it since
+- In degree two over `ℝ`, `GSp⁺₄(ℝ)` is `AutomorphicFormsOnReductiveGroups` §6.4's `G⁺`: the
+  same matrices `g ∈ GL₄(ℝ)` with `g J gᵀ = ν(g) J`, `ν(g) > 0`, and `ℝ_{>0}·Sp₄(ℝ)` is all of it since
   `ν(c·1) = c²` reaches every positive multiplier (`diag(1, 1, 2, 2) = √2 · (√2)⁻¹diag(1, 1, 2, 2)`
   with the second factor in `Sp₄(ℝ)`); `diag(1, 1, −1, −1)` has `ν = −1` and lies in neither.
 
@@ -784,8 +790,9 @@ structure on `ModularForm` needs, is the proof obligation `map_spOneToGL_hasDetO
   form although `ρ(−1) = diag(1, −1) ≠ 1`; a statement of the lemma with `ρ(−1) ≠ 1` in place of
   "`ρ(−1)` fixes no nonzero vector" is false. The genus matters: on `Γ₂`, `det(−1₂) = 1` gives
   `ρ(−1) = diag(1, 1)`, and the same `f` is not a counterexample to anything.
-- The boundedness field of `SiegelModularForm` at `g = 1` corresponds to Mathlib's boundedness at
-  the cusps; dropping it admits `j(τ)`, which is holomorphic and `SL₂(ℤ)`-invariant (2.4).
+- The boundedness condition of 1.3 (after every slash by `Sp_{2g}(ℚ)`) at `g = 1` corresponds to
+  Mathlib's boundedness at the cusps; dropping it admits `j(τ)`, which is holomorphic and
+  `SL₂(ℤ)`-invariant (2.4).
 
 ### Examples
 
@@ -3166,8 +3173,9 @@ weight one is a zero space by 6.3. At every weight the rational Hecke action imp
 field (the knowl `mf.siegel.coefficient_field`); `Suggested.lean` states this as
 `finiteDimensional_coefficientField` for `coefficientField`, the field generated by the scalars
 `c` with `T(m) F = c F` for some `m ≥ 1`, which for an eigenform `F` are its eigenvalues
-`λ_F(T(m))` and generate `ℚ(F)`, since over `ℚ` each local algebra is generated by `T(p)` and
-`T(p²)` (7.4) and the `T(p)` with `T₁(p²)` generate it equally; its algebraic-integrality statement
+`λ_F(T(m))` and generate `ℚ(F)`, since on `M_k(Γ₂)`, where `T₂(p²)` acts by the rational scalar
+`p^{2k−6}`, the image of each local algebra `H_p ⊗ ℚ` is generated by `T(p)` and `T(p²)`,
+equivalently by `T(p)` and `T₁(p²)` (7.4); its algebraic-integrality statement
 `eigenvalue_isIntegral` takes the eigenvalue as the scalar `c` with `T(m) F = c F`. If its simultaneous eigenspace in the
 chosen rational Hecke module is one-dimensional, prove it is defined over this field:
 normalizing `a(T₀) = 1` at a nonzero coefficient gives all Fourier coefficients in `ℚ(F)`,
