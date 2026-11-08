@@ -119,10 +119,6 @@ def frobeniusSet {F : Type*} [Field F] [NumberField F]
 
 end GaloisRep
 
--- Supplied by AnalyticNumberTheoryPartI:
--- §2.2a `TauCetiRoadmap.AnalyticNumberTheoryPartI.lowerArtinConductor`, `lowerSwanConductor` and
--- `lowerConductors_integral` (Layer 3's finite-level conductors and their integrality).
-
 /-! ## Layer 4: residual images and oddness -/
 
 namespace GaloisRep
