@@ -13,7 +13,7 @@ public import TauCeti.Analysis.Contour.Winding.Number.Basic
 public import TauCeti.Analysis.Normed.Module.FilledHull
 
 /-!
-# Differential geometry — forms, Stokes, flows, planar Green and Riemannian calculus: target signatures
+# Differential geometry — forms, Stokes, flows, de Rham cohomology, degree, planar Green and Riemannian calculus: target signatures
 
 **This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
@@ -34,10 +34,11 @@ integrability implies involutivity, the annihilator criterion, local Frobenius w
 slices, weak embeddedness and global leaves [Lee, Ch. 19] (4); outward fields
 [Lee, Prop. 15.33], the planar radial primitive and the moving-pullback identity (5.1–5.4a);
 Green's theorem for absolutely continuous cycles, in winding-weighted form and at HOL Light's
-strength, and the one-cell identities on vertical and horizontal cells (5.6); existence of
-Riemannian metrics [Lee, Prop. 13.3], symmetry of the Hessian, the Riemannian divergence theorem
-on boundaryless manifolds with Green's identities, and on half-space manifolds with the induced
-boundary measure and outward unit normal [Lee, Thm. 16.32] (12).
+strength, and the one-cell identities on vertical and horizontal cells (5.6); the hairy ball
+theorem in its tangent-field and tangent-bundle-section forms [Lee, Problem 16-6] (11);
+existence of Riemannian metrics [Lee, Prop. 13.3], symmetry of the Hessian, the Riemannian
+divergence theorem on boundaryless manifolds with Green's identities, and on half-space manifolds
+with the induced boundary measure and outward unit normal [Lee, Thm. 16.32] (12).
 
 Headline theorems not statable at the pins, and what each lacks: Stokes' theorem for the
 half-space (5.3) and for smooth faces and corners (5.5b) lack the integral of a top form over a
@@ -50,15 +51,23 @@ densities with the integral of top forms (5.5a) and of the Riemannian volume for
 Riemannian density (12.4) lack those integrals and the volume form; Cartan's formula (1.4) lacks
 the Lie derivative of forms; the finite type-I/type-II division theorems (5.6.2) lack the oriented
 boundary chain of finite integer-weighted sums of parametrized arcs with its Henstock–Kurzweil
-integrals; the migration equivalence of 0.4 lacks the generic carrier in Tau Ceti.
+integrals; the migration equivalence of 0.4 lacks the generic carrier in Tau Ceti; the de Rham
+theorem (8.5) and the multiplicativity of the de Rham homomorphism lack the de Rham complex (whose
+differential needs `d ∘ d = 0`, a theorem), the complex of smooth singular chains with its
+integration map, and singular cohomology with real coefficients; Poincaré duality (9.3) and the
+top-cohomology theorems (9.2) lack the de Rham complex and the integral of top forms; the degree
+formula `∫_M f^*ω = deg f · ∫_N ω` and the homotopy invariance of the degree (10.3–10.5) lack the
+integral of top forms and the signed count of a fibre, a definition whose well-definedness is the
+theorem.
 
 The definitions `closedForms`, `toFlow`, `fullSimplex`, `fullSimplexEquivStdSimplex`, `Density`,
 `RoughDensity`, `CurvatureForm`, `circleAngularForm` and `Manifold.Orientation.pullback` are the
 carriers that other roadmaps import or cite by name; each has a real body. Hypotheses are
 unbundled and stated at their point of use; finite dimension, Hausdorffness and σ-compactness are
 written wherever they are used; measure statements carry `[MeasurableSpace M] [BorelSpace M]`.
-De Rham cohomology and everything built on it belong to DeRhamCohomologyAndDuality, which
-consumes this roadmap.
+The de Rham complex and cohomology, Mayer–Vietoris, smooth chains and the de Rham theorem,
+Poincaré duality, Sard's theorem, the degree and the hairy ball theorem (layers 6–11) are this
+roadmap's; DeRhamCohomologyAndDuality consumes them for its relative theory.
 -/
 
 public section
@@ -782,15 +791,19 @@ noncomputable def flowOf (v : (x : M) → TangentSpace I x) (t : ℝ) (x : M) : 
 variable [T2Space M] [BoundarylessManifold I M] [CompleteSpace E]
 
 /-- **Layer 3.2, the Banach extension of Tau Ceti's maximal-flow API**: joint openness of the
-domain and joint smoothness of the maximal flow with `[CompleteSpace E]` in place of
-`[FiniteDimensional ℝ E]`. These generalize `TauCeti.isOpen_maximalIntegralCurveFlowDomain` and
-`TauCeti.contMDiffOn_maximalIntegralCurve` verbatim; 3.1 is the input. -/
+domain of the maximal flow of a `C¹` field, with `[CompleteSpace E]` in place of
+`[FiniteDimensional ℝ E]`. This generalizes `TauCeti.isOpen_maximalIntegralCurveFlowDomain`
+verbatim; 3.1 is the input. -/
 theorem isOpen_maximalIntegralCurveFlowDomain_of_completeSpace [IsManifold I 1 M]
     {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) :
     IsOpen (TauCeti.maximalIntegralCurveFlowDomain v) :=
   sorry
 
+/-- **Layer 3.2, the Banach extension of Tau Ceti's maximal-flow API**: the maximal flow of a
+`C^n` field, `1 ≤ n`, is jointly `C^n` in the point and the time on its (open) domain, with
+`[CompleteSpace E]` in place of `[FiniteDimensional ℝ E]`. This generalizes
+`TauCeti.contMDiffOn_maximalIntegralCurve` verbatim; 3.1 is the input. -/
 theorem contMDiffOn_maximalIntegralCurve_of_completeSpace {n : ℕ∞} (hn : 1 ≤ n)
     [IsManifold I 1 M] [IsManifold I n M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent n (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) :
@@ -840,7 +853,8 @@ noncomputable def toFlow [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
       simpa [flowDomain] using (show ((0 : ℝ), x) ∈ flowDomain v from hc ▸ mem_univ _)
     exact maximalIntegralCurve_zero h0
 
-/-- **Layer 3.3.** The maps of `toFlow` are `flowOf`. -/
+/-- **Layer 3.3.** The maps of `toFlow` are `flowOf`, by construction. Kept because
+MorseNovikov's `Suggested.lean` consumes it by this name. -/
 theorem toFlow_apply [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M)))
     (hc : IsCompleteVectorField v) (t : ℝ) (x : M) : toFlow hv hc t x = flowOf v t x :=
@@ -1220,12 +1234,16 @@ end Densities
 
 section Gates
 
-/-- **Layer 5.5a, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`, and its
-pullback `dθ` to the circle along the inclusion. -/
+/-- **Layer 5.5a, acceptance: the angular form.** The flat form `x dy − y dx` on `ℂ = ℝ²`; its
+pullback to the circle is `circleAngularForm`. -/
 noncomputable def planeAngularForm : RoughForm 𝓘(ℝ, ℂ) ℂ ℝ 1 :=
   fun z ↦ ContinuousAlternatingMap.ofSubsingleton ℝ ℂ ℝ (0 : Fin 1)
     (z.re • Complex.imCLM - z.im • Complex.reCLM)
 
+/-- **Layer 5.5a, acceptance: the angular form `dθ` on the circle**, the pullback of
+`x dy − y dx` along the inclusion `Circle → ℂ`. It takes the value `1` on the counterclockwise
+unit tangent vector `i z` at `z`, is closed (every `1`-form on a `1`-manifold is) but not exact,
+and integrates to `2π` over the circle. -/
 noncomputable def circleAngularForm : RoughForm (𝓡 1) Circle ℝ 1 :=
   mpullback (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) planeAngularForm
 
@@ -1389,6 +1407,38 @@ theorem green_ac_index_one {γ : ℝ → ℂ} {a b : ℝ} {U : Set ℂ} {P Q : �
 end
 
 end Green
+
+/-! ## Layer 11: the hairy ball theorem -/
+
+section HairyBall
+
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+  [Fact (Module.finrank ℝ E = n + 1)]
+
+/-- **Layer 11.1, the hairy ball theorem** [Lee, Problem 16-6]: a continuous tangent vector field
+on an even-dimensional sphere vanishes somewhere. The field is a map `v : E → E` which is
+continuous on the unit sphere `Sⁿ ⊆ E` and tangent to it, `⟪v x, x⟫ = 0`; the dimension `n` of
+the sphere is even. For `n = 0` the sphere is two points and every tangent vector is `0`. The
+route is the mapping degree of Layer 10: a nowhere-vanishing field gives a homotopy from the
+identity of `Sⁿ` to the antipodal map, whose degree `(−1)^(n+1)` is `−1` for even `n`. -/
+theorem exists_eq_zero_of_inner_eq_zero (hn : Even n) {v : E → E}
+    (hv : ContinuousOn v (Metric.sphere (0 : E) 1))
+    (ht : ∀ x ∈ Metric.sphere (0 : E) 1, ⟪v x, x⟫_ℝ = 0) :
+    ∃ x ∈ Metric.sphere (0 : E) 1, v x = 0 :=
+  sorry
+
+/-- **Layer 11.2, the section form of the hairy ball theorem**: a continuous section of the
+tangent bundle of the even-dimensional unit sphere, Mathlib's manifold `sphere (0 : E) 1` over
+`𝓡 n`, vanishes at some point. It is bridged to 11.1 by composing with the differential of the
+inclusion, whose range is the orthogonal complement of `x` (`range_mfderiv_coe_sphere`). -/
+theorem exists_eq_zero_of_continuous_section (hn : Even n)
+    {V : (x : Metric.sphere (0 : E) 1) → TangentSpace (𝓡 n) x}
+    (hV : Continuous
+      (fun x ↦ (⟨x, V x⟩ : TangentBundle (𝓡 n) (Metric.sphere (0 : E) 1)))) :
+    ∃ x, V x = 0 :=
+  sorry
+
+end HairyBall
 
 /-! ## Layer 12: Riemannian metrics and the Laplace–Beltrami operator -/
 
@@ -1650,7 +1700,9 @@ noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ Tange
   inferInstanceAs (RiemannianBundle
     (fun x : Metric.sphere (0 : ℂ) 1 ↦ TangentSpace (𝓡 1) x))
 
-/-- Continuity of the round metric is consumed from the native round-sphere instance. -/
+/-- **Layer 12.1, the circle volume gate**: `vol(S¹) = 2π` for the Riemannian volume of the native
+round metric `roundMetricCircle`, through the angular integral `∫_{S¹} dθ = 2π` of 5.5a. The
+continuity instance the volume needs is the native round-sphere instance. -/
 theorem volume_circle :
     let _ := roundMetricCircle
     let _ : IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
