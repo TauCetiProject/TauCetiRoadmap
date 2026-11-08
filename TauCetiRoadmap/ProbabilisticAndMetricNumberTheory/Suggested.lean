@@ -106,6 +106,48 @@ namespace MetricNumberTheory
 def IsAdditive {R : Type*} [AddCommMonoid R] (f : ArithmeticFunction R) : Prop :=
   f 1 = 0 ∧ ∀ m n : ℕ, 0 < m → 0 < n → m.Coprime n → f (m*n) = f m + f n
 
+/-- All positive products become sums; input one has value zero. -/
+def IsCompletelyAdditive {R : Type*} [AddCommMonoid R] (f : ArithmeticFunction R) : Prop :=
+  f 1 = 0 ∧ ∀ m n : ℕ, 0 < m → 0 < n → f (m*n) = f m + f n
+
+/-- A completely additive arithmetic function is additive. -/
+theorem IsCompletelyAdditive.isAdditive {R : Type*} [AddCommMonoid R]
+    {f : ArithmeticFunction R} (hf : IsCompletelyAdditive f) : IsAdditive f := by sorry
+
+/-- The power `k ^ f n` at positive inputs, extended by zero at input zero. -/
+def powOfAdditive {R : Type*} [MonoidWithZero R] (k : R) (f : ArithmeticFunction ℕ) :
+    ArithmeticFunction R where
+  toFun n := if n = 0 then 0 else k ^ f n
+  map_zero' := by simp
+
+/-- A monoid homomorphism applied to an additive function at positive inputs is multiplicative. -/
+theorem IsAdditive.isMultiplicative_of_eq_monoidHom {A R : Type*} [AddCommMonoid A]
+    [MonoidWithZero R] {f : ArithmeticFunction A} (hf : IsAdditive f)
+    (φ : Multiplicative A →* R) (g : ArithmeticFunction R)
+    (hg : ∀ n : ℕ, 0 < n → g n = φ (Multiplicative.ofAdd (f n))) :
+    g.IsMultiplicative := by sorry
+
+/-- Every power of a natural-valued additive function is multiplicative. -/
+theorem IsAdditive.isMultiplicative_powOfAdditive {R : Type*} [MonoidWithZero R]
+    {f : ArithmeticFunction ℕ} (hf : IsAdditive f) (k : R) :
+    (powOfAdditive k f).IsMultiplicative := by sorry
+
+/-- Powers of a completely additive function are multiplicative on all pairs of inputs. -/
+theorem IsCompletelyAdditive.powOfAdditive_mul {R : Type*} [MonoidWithZero R]
+    {f : ArithmeticFunction ℕ} (hf : IsCompletelyAdditive f) (k : R) (m n : ℕ) :
+    powOfAdditive k f (m * n) = powOfAdditive k f m * powOfAdditive k f n := by sorry
+
+/-- The function `n ↦ k ^ ω n`, zero at zero, is multiplicative; `k = 2` gives `2 ^ ω`. -/
+theorem isMultiplicative_powOfAdditive_cardDistinctFactors {R : Type*} [MonoidWithZero R]
+    (k : R) : (powOfAdditive k ArithmeticFunction.cardDistinctFactors).IsMultiplicative := by
+  sorry
+
+/-- The power `k ^ ω` is Mathlib's product of `k` over the distinct prime factors. -/
+theorem powOfAdditive_cardDistinctFactors_eq_prodPrimeFactors {R : Type*}
+    [CommMonoidWithZero R] (k : R) :
+    powOfAdditive k ArithmeticFunction.cardDistinctFactors =
+      ArithmeticFunction.prodPrimeFactors (fun _ => k) := by sorry
+
 /-- The supremal mass of strict intervals of radius δ; nonpositive radii give zero. -/
 def concentration (ν : ProbabilityMeasure ℝ) (δ : ℝ) : ℝ :=
   sSup {v : ℝ | ∃ u : ℝ, v = (ν : Measure ℝ).real (Set.Ioo (u-δ) (u+δ))}

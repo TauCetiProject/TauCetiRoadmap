@@ -192,6 +192,150 @@ the prime-power clause of strong additivity term by term.
 
 *Needs:* §0.1 (additive functions in the native arithmetic carrier).
 
+### 0.1a Complete additivity and exponentials of additive functions
+
+Complete additivity drops the coprimality guard of §0.1; native Omega and the logarithm are its basic instances. Exponentiating an additive function gives a multiplicative function in Mathlib's sense, with n ↦ 2^{ω(n)} as the basic instance.
+
+Define `IsCompletelyAdditive`. For f:ArithmeticFunction R with R an additive commutative monoid, IsCompletelyAdditive f
+means f(1)=0 and f(mn)=f(m)+f(n) for all positive m,n. As for IsAdditive, native f(0)=0 is retained, the
+positive-input guards avoid a false law at zero, and multiplication is on inputs. The clause f(1)=0 is stated
+because f(1)=f(1)+f(1) does not imply it in an additive monoid without cancellation. ([IK2004](#references)
+Chapter 1, additive and completely additive functions.)
+
+Its basic API consists of these facts.
+
+- A completely additive function has value 0 at 1.
+- For positive m,n, its value at mn is the sum of its values at m and n.
+- A completely additive function is additive.
+- For n>0 and every natural k, its value at nᵏ is k•f(n).
+- Pointwise addition preserves complete additivity.
+
+**Checks.**
+
+- The native zero arithmetic function is completely additive.
+
+- The real cast of native Omega is completely additive, by Mathlib `ArithmeticFunction.cardFactors_mul`.
+
+- Native `ArithmeticFunction.log` is completely additive: `Real.log_mul` applies to the positive casts, and
+  log 1 = 0.
+
+- For a prime p, the natural-valued arithmetic function n ↦ n.factorization p is completely additive, by
+  Mathlib `Nat.factorization_mul`.
+
+- The real cast of native omega is additive but not completely additive: omega(4)=1 but
+  omega(2)+omega(2)=2.
+
+*Needs:* §0.1 (additive functions in the native arithmetic carrier); Mathlib `ArithmeticFunction`.
+
+Prove IsCompletelyAdditive.map_one. If f is completely additive, f(1)=0; this is the first clause of the
+definition. ([IK2004](#references) Chapter 1.)
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+Prove IsCompletelyAdditive.map_mul. For positive m,n, f(mn)=f(m)+f(n), retaining both positivity hypotheses;
+this is the second clause of the definition. ([IK2004](#references) Chapter 1.)
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+Prove `IsCompletelyAdditive.isAdditive`. A completely additive function is additive. Keep map_one and restrict
+map_mul to coprime pairs; no factorization is used. ([IK2004](#references) Chapter 1.)
+
+*Needs:* §0.1 (additive functions in the native arithmetic carrier); §0.1a (complete additivity and
+exponentials of additive functions).
+
+Prove IsCompletelyAdditive.map_pow. For completely additive f, n>0 and k∈ℕ, f(nᵏ)=k•f(n). Induct on k: the
+case k=0 is map_one, and the step applies map_mul to the positive inputs nᵏ and n.
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+Prove IsCompletelyAdditive.add. The pointwise sum of completely additive functions is completely additive;
+both clauses add, regrouped by commutativity of R.
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+**Factorization formula for completely additive functions**. For completely additive f and n>0,
+`f(n)=Σ_{p∈n.primeFactors}(n.factorization p)•f(p)`; this is the empty sum at n=1. ([IK2004](#references)
+Chapter 1.)
+
+Apply the prime-power representation of §0.1 through IsCompletelyAdditive.isAdditive, then
+IsCompletelyAdditive.map_pow to each prime power p^(n.factorization p).
+
+*Needs:* §0.1 (additive functions in the native arithmetic carrier); §0.1a (complete additivity and
+exponentials of additive functions).
+
+**Determination by prime values**. Two completely additive f,g:ArithmeticFunction R with f(p)=g(p) for every
+natural prime p are equal.
+
+Both vanish at 0 in the native carrier; at n>0 compare the two factorization formulas term by term.
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+Define `powOfAdditive`. For R a monoid with zero, k∈R and f:ArithmeticFunction ℕ, powOfAdditive k f is the
+arithmetic function with value k^{f(n)} at every n>0 and value 0 at n=0. The guard at zero is forced by the
+native carrier, since k^{f(0)}=k⁰=1. The exponent is a natural number, so k is arbitrary, including 0 and
+non-units. ([IK2004](#references) Chapter 1, exponentials of additive functions.)
+
+Its basic API consists of these facts.
+
+- For n>0 its value at n is k^{f(n)}, and its value at 0 is 0.
+- It has value 1 at 1 whenever f(1)=0.
+
+**Checks.**
+
+- In a semiring, powOfAdditive 1 f and powOfAdditive k 0 both equal the cast of Mathlib's ζ.
+
+- 2^{ω} is multiplicative but not completely multiplicative: 2^{ω(12)}=4=2^{ω(4)}·2^{ω(3)}, while
+  2^{ω(4)}=2 and 2^{ω(2)}·2^{ω(2)}=4.
+
+- 2^{Ω} is completely multiplicative; for instance 2^{Ω(4)}=4=2^{Ω(2)}·2^{Ω(2)}.
+
+*Needs:* Mathlib `ArithmeticFunction`.
+
+Prove `IsAdditive.isMultiplicative_of_eq_monoidHom`. Let A be an additive commutative monoid, R a monoid with
+zero, f:ArithmeticFunction A additive, φ:Multiplicative A →* R a monoid homomorphism and g:ArithmeticFunction R
+with g(n)=φ(ofAdd f(n)) for every n>0. Then g is multiplicative in the sense of Mathlib
+`ArithmeticFunction.IsMultiplicative`. For a real additive f and c>0, the homomorphism a ↦ c^a (`Real.rpow_add`)
+gives n ↦ c^{f(n)}. ([IK2004](#references) Chapter 1.)
+
+First g(1)=φ(ofAdd 0)=1 by IsAdditive.map_one and the unit law of φ. For coprime positive m,n,
+IsAdditive.map_mul and the product law of φ give g(mn)=g(m)g(n). If m=0, coprimality forces n=1
+(`Nat.coprime_zero_left`), and g(0·1)=g(0)=g(0)g(1); the case n=0 is symmetric.
+
+*Needs:* §0.1 (additive functions in the native arithmetic carrier); Mathlib
+`ArithmeticFunction.IsMultiplicative`; `Nat.coprime_zero_left`.
+
+Prove `IsAdditive.isMultiplicative_powOfAdditive`. If f:ArithmeticFunction ℕ is additive, then for every monoid
+with zero R and every k∈R, powOfAdditive k f is multiplicative. Apply IsAdditive.isMultiplicative_of_eq_monoidHom
+with φ=powersHom R k, which sends ofAdd a to k^a (Mathlib `powersHom_apply`). ([IK2004](#references) Chapter 1.)
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions); Mathlib `powersHom`.
+
+Prove `IsCompletelyAdditive.powOfAdditive_mul`. If f:ArithmeticFunction ℕ is completely additive, R is a monoid
+with zero and k∈R, then powOfAdditive k f (mn) = powOfAdditive k f m · powOfAdditive k f n for all natural m,n,
+with no coprimality hypothesis. With the value 1 at 1, powOfAdditive k f is completely multiplicative; k^{Ω} is
+the instance. If m or n is 0 both sides are 0; otherwise apply IsCompletelyAdditive.map_mul and pow_add.
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions).
+
+Prove `isMultiplicative_powOfAdditive_cardDistinctFactors`. For every monoid with zero R and every k∈R, the
+arithmetic function n ↦ k^{ω(n)}, with value 0 at 0, is multiplicative; at k=2 this is the multiplicativity of
+2^{ω}. Native omega is additive as a natural-valued arithmetic function, since ω(1)=0 and Mathlib
+`ArithmeticFunction.cardDistinctFactors_mul` adds on coprime inputs; then apply
+IsAdditive.isMultiplicative_powOfAdditive. ([IK2004](#references) Chapter 1.)
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions); Mathlib
+`ArithmeticFunction.cardDistinctFactors_mul`.
+
+Prove `powOfAdditive_cardDistinctFactors_eq_prodPrimeFactors`. For R a commutative monoid with zero and k∈R,
+powOfAdditive k ω equals Mathlib's prodPrimeFactors (fun _ => k), the arithmetic function n ↦ ∏_{p∣n}k. Both
+vanish at 0. At n>0, Mathlib `ArithmeticFunction.prodPrimeFactors_apply` and `Finset.prod_const` give
+k^{#n.primeFactors}, which is k^{ω(n)} because n.primeFactors is the finset of the native prime-factor list
+and `List.card_toFinset` counts its deduplication. Mathlib
+`ArithmeticFunction.IsMultiplicative.prodPrimeFactors` then gives a second proof of the previous target.
+
+*Needs:* §0.1a (complete additivity and exponentials of additive functions); Mathlib
+`ArithmeticFunction.prodPrimeFactors`; Mathlib `Finset.prod_const`.
+
 ### 0.2 Weighted finite prime sums
 
 Finite truncations are elementary arithmetic functions on the existing carrier. The guard at zero and the distinction between strong and complete additivity are part of their specification.
@@ -7001,6 +7145,8 @@ The locators above use the linked author, preprint or published version. Page nu
 - **BSKK2023** — Lior Bary-Soroker, Dimitris Koukoulopoulos and Gady Kozma, [Irreducibility of random polynomials: general measures](https://arxiv.org/pdf/2007.14567v3). arXiv:2007.14567v3 (2023)
 
 - **KoymansPagano2022** — Peter Koymans and Carlo Pagano, [On Stevenhagen's conjecture](https://arxiv.org/pdf/2201.13424v1). arXiv:2201.13424v1 (2022)
+
+- **IK2004** — Henryk Iwaniec and Emmanuel Kowalski, *Analytic Number Theory*, American Mathematical Society Colloquium Publications 53, 2004, Chapter 1, additive, completely additive and multiplicative arithmetic functions; cited by locator.
 
 - **ElsholtzTao2011** — Christian Elsholtz and Terence Tao, [Counting the number of solutions to the Erdős–Straus equation on unit fractions](https://terrytao.wordpress.com/wp-content/uploads/2011/07/egyptian-count13.pdf). Author manuscript, egyptian-count13 (2011)
 
