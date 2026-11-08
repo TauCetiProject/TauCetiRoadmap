@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Basic
 import TauCeti.Geometry.Manifold.Orientation.Basic
+import TauCeti.Geometry.Manifold.Orientation.Preserving
 import TauCeti.Geometry.Manifold.SmoothTriangulation.Basic
 import TauCeti.Geometry.Diffeomorphism.Group
 import TauCeti.Geometry.Diffeomorphism.Topology
@@ -29,6 +30,15 @@ Stated here:
   `TauCeti.IsSmoothTriangulation`), the existence of compatible smoothings, their transport along
   diffeomorphisms, and isotopy of homeomorphisms to diffeomorphisms, absolute and relative to the
   boundary;
+* the classification of compact surfaces (§0.0f): polygon schemas realized as quotients of the
+  closed unit disc, the standard surfaces and their models, the boundary count and orientability
+  of a surface, existence and uniqueness of the standard model, the complete invariant and the
+  genus;
+* branched covers of surfaces, their local and global degree, and the topological Riemann–Hurwitz
+  formula (§0.0g);
+* the topological, relative, orientation-preserving, PL and smooth mapping class groups with their
+  forgetful comparisons (§0.0h, §5.3b), and the full mapping class groups of the sphere and the
+  torus (§5.4a);
 * the smooth based realization half of the Dehn–Nielsen–Baer theorem (Layer 5): every
   automorphism of the fundamental group of a closed orientable surface is induced by a
   basepoint-fixing diffeomorphism;
@@ -55,23 +65,25 @@ Not statable at the pins:
   the integrable almost-complex structures by `Diff₀⁺(Σ)` exists at the pins;
 * the full Dehn–Nielsen–Baer isomorphism `Mod±(Σ) ≃ Out(π₁ Σ)` (Layer 5): the pinned Tau Ceti
   has the topological group `TauCeti.Diff` with `Diffeomorph.weakWhitneyTopology`, so `π₀ Diff(Σ)`
-  is `ZerothHomotopy` of it, but neither a group structure on that `ZerothHomotopy` nor an outer
-  automorphism group `Out` of a group exists at the pins, and the comparison map needs the change of
-  basepoint along a path; the two halves of the theorem are stated separately above;
+  is `ZerothHomotopy` of it, with no group structure there; `MappingClassGroupSmooth` below
+  carries the group of smooth isotopy classes instead, but no outer automorphism group `Out` of a
+  group exists at the pins, and the comparison map needs the change of basepoint along a path; the
+  two halves of the theorem are stated separately above;
 * the marked holonomy comparison with discrete faithful representations of Euler number `2 − 2g`
   (Layers 4, 6): there is no Euler number of a surface-group representation at the pins;
 * the finiteness of arithmetic lattices of fixed signature (Layer 9): there is no arithmetic
   Fuchsian group at the pins;
-* the genus of a closed surface: Mathlib and Tau Ceti have no genus, so statements indexed by `g`
-  are not statable; the two Layer 5 theorems below are stated for every closed orientable surface,
-  which is their true generality;
 * the orientations of a combinatorial surface and its orientation double cover (§0.0c): the pins
-  have no coherent orientation of the triangles of an abstract simplicial complex;
-* the compact and relative PL approximation theorems and isotopy to a PL homeomorphism (§0.0a,
-  §0.0b), the curve and arc isotopy theorems and PL isotopy (§0.0d): the pins have Tau Ceti's
-  `IsPLOn` for maps of vector spaces and the existence statement `PLHomeomorphic` for complexes,
-  but no predicate saying that a prescribed map between realizations is piecewise linear, and no
-  piecewise-linear embedded curve or arc in a triangulated surface.
+  have no coherent orientation of the triangles of an abstract simplicial complex, so
+  `Surface.IsOrientable` and `MappingClassGroupPlus` are stated through smooth orientations, which
+  the orientation comparison of §0.0e identifies with the coherent ones;
+* the compact and relative PL approximation theorems and isotopy to a PL homeomorphism between two
+  triangulated surfaces (§0.0a, §0.0b), the curve and arc isotopy theorems and PL isotopy (§0.0d):
+  the pins have Tau Ceti's `IsPLOn` for maps of vector spaces and the existence statement
+  `PLHomeomorphic` for complexes; read in barycentric coordinates they give the predicates for
+  self-maps of one triangulated surface used by `MappingClassGroupPL` below, whose bijectivity
+  packages the self-map cases, but no piecewise-linear embedded curve or arc in a triangulated
+  surface.
 -/
 
 namespace TauCetiRoadmap.TeichmullerGeometry
@@ -289,6 +301,389 @@ theorem exists_isotopicRel_diffeomorph (f : M ≃ₜ M)
 
 end Smooth
 
+/-! ## Layer 0: the classification of compact surfaces (§0.0f) -/
+
+/-- A side of a polygon schema: an edge letter `i`, read against the counterclockwise direction
+when `inv` holds, which is glued to the other sides carrying the same letter; or a free side, left
+unglued, which becomes part of the boundary of the realization (§0.0f). -/
+inductive SchemaSide
+  | edge (i : ℕ) (inv : Bool)
+  | free
+
+/-- The point at parameter `t ∈ [0, 1]` of the `j`-th of `m` equal arcs into which the unit circle
+is cut, the arcs following each other counterclockwise from `1` (§0.0f). -/
+noncomputable def schemaPoint (m j : ℕ) (t : ℝ) : ℂ :=
+  Complex.exp (2 * Real.pi * Complex.I * ((j + t) / m))
+
+/-- The gluing relation of a polygon schema `w` on the closed unit disc: the point at parameter `t`
+of a side carrying the letter `i` is related to the point of another side carrying `i` at
+parameter `t` when the two flags agree and at parameter `1 - t` when they differ, so that the
+arrows of the letter match (§0.0f). -/
+def schemaGluing (w : List SchemaSide) (x y : Metric.closedBall (0 : ℂ) 1) : Prop :=
+  ∃ (j j' : Fin w.length) (i : ℕ) (ε ε' : Bool) (t : ℝ), j ≠ j' ∧ t ∈ Set.Icc (0 : ℝ) 1 ∧
+    w.get j = .edge i ε ∧ w.get j' = .edge i ε' ∧
+    (x : ℂ) = schemaPoint w.length j t ∧
+    (y : ℂ) = schemaPoint w.length j' (if ε = ε' then t else 1 - t)
+
+/-- The **realization of a polygon schema**: the closed unit disc modulo the equivalence relation
+generated by the side gluings (§0.0f). -/
+def schemaRealization (w : List SchemaSide) : Type :=
+  Quotient (Relation.EqvGen.setoid (schemaGluing w))
+
+instance (w : List SchemaSide) : TopologicalSpace (schemaRealization w) :=
+  inferInstanceAs (TopologicalSpace (Quotient _))
+
+instance (w : List SchemaSide) : CompactSpace (schemaRealization w) :=
+  inferInstanceAs (CompactSpace (Quotient _))
+
+/-- The **standard surfaces**: the orientable surface of genus `g` with `b` boundary circles, and
+the nonorientable surface with `k ≥ 1` crosscaps and `b` boundary circles (§0.0f). -/
+inductive StandardSurface
+  | orientable (g b : ℕ)
+  | nonorientable (k : ℕ) (hk : 0 < k) (b : ℕ)
+
+namespace StandardSurface
+
+/-- The `b` hole blocks `cⱼ hⱼ cⱼ⁻¹`, with `hⱼ` a free side, the letters `cⱼ` numbered from `n`
+(§0.0f). -/
+def holeWord (n b : ℕ) : List SchemaSide :=
+  (List.range b).flatMap fun j => [.edge (n + j) false, .free, .edge (n + j) true]
+
+/-- The canonical word of a standard surface: `a a⁻¹` for the sphere; otherwise the handle blocks
+`aᵢ bᵢ aᵢ⁻¹ bᵢ⁻¹`, respectively the crosscap blocks `aᵢ aᵢ`, followed by the hole blocks
+(§0.0f). -/
+def word : StandardSurface → List SchemaSide
+  | .orientable 0 0 => [.edge 0 false, .edge 0 true]
+  | .orientable g b =>
+      ((List.range g).flatMap fun i =>
+        [.edge (2 * i) false, .edge (2 * i + 1) false, .edge (2 * i) true,
+          .edge (2 * i + 1) true]) ++ holeWord (2 * g) b
+  | .nonorientable k _ b =>
+      ((List.range k).flatMap fun i => [.edge i false, .edge i false]) ++ holeWord k b
+
+/-- The **model** of a standard surface: the realization of its canonical word (§0.0f). -/
+def model (S : StandardSurface) : Type := schemaRealization S.word
+
+instance (S : StandardSurface) : TopologicalSpace S.model :=
+  inferInstanceAs (TopologicalSpace (schemaRealization _))
+
+instance (S : StandardSurface) : CompactSpace S.model :=
+  inferInstanceAs (CompactSpace (schemaRealization _))
+
+/-- The Euler characteristic of a standard surface: `2 - 2g - b`, respectively `2 - k - b`
+(§0.0f). -/
+def eulerChar : StandardSurface → ℤ
+  | .orientable g b => 2 - 2 * g - b
+  | .nonorientable k _ b => 2 - k - b
+
+/-- The genus of a standard surface: the number of handles, respectively of crosscaps (§0.0f). -/
+def genus : StandardSurface → ℕ
+  | .orientable g _ => g
+  | .nonorientable k _ _ => k
+
+/-- The number of boundary circles of a standard surface (§0.0f). -/
+def boundaryCount : StandardSurface → ℕ
+  | .orientable _ b => b
+  | .nonorientable _ _ b => b
+
+/-- The orientable family (§0.0f). -/
+def IsOrientable : StandardSurface → Prop
+  | .orientable _ _ => True
+  | .nonorientable _ _ _ => False
+
+end StandardSurface
+
+/-- A topological surface is **orientable** when some PL structure has a coherent orientation
+(§0.0c). Coherent orientations have no carrier at the pins, so this states the equivalent
+condition of the orientation comparison of §0.0e: some smooth structure on `M`, compatible with its
+topology, is orientable in Tau Ceti's sense (§0.0f). -/
+def Surface.IsOrientable (M : Type*) [TopologicalSpace M] : Prop :=
+  ∃ σ : ChartedSpace (EuclideanHalfSpace 2) M,
+    letI := σ; IsManifold (𝓡∂ 2) ∞ M ∧ TauCeti.Orientable (𝓡∂ 2) M
+
+/-- The number of boundary components of a topological surface (§0.0f). -/
+noncomputable def Surface.boundaryComponentCount (M : Type*) [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] : ℕ :=
+  Nat.card (ConnectedComponents ((𝓡∂ 2).boundary M))
+
+/-- Every standard model is a compact connected Hausdorff surface with `b` boundary circles,
+orientable exactly in the orientable family (§0.0f). -/
+theorem StandardSurface.isSurface_model (S : StandardSurface) :
+    T2Space S.model ∧ ConnectedSpace S.model ∧
+      ∃ σ : ChartedSpace (EuclideanHalfSpace 2) S.model,
+        letI := σ; Surface.boundaryComponentCount S.model = S.boundaryCount ∧
+          (Surface.IsOrientable S.model ↔ S.IsOrientable) := by
+  sorry
+
+/-- The Euler characteristic of a standard model, counted on the cell structure of its polygon
+(§0.0f). -/
+theorem StandardSurface.eulerChar_model (S : StandardSurface) :
+    Surface.eulerChar S.model = S.eulerChar := by
+  sorry
+
+/-- **Uniqueness of the standard model.** Homeomorphic models are equal: Euler characteristic,
+orientability and boundary count separate them (§0.0f). -/
+theorem StandardSurface.homeomorph_unique {S T : StandardSurface}
+    (h : Nonempty (S.model ≃ₜ T.model)) : S = T := by
+  sorry
+
+section Classification
+
+variable {M N : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M]
+  [T2Space M] [CompactSpace M] [ConnectedSpace M]
+  [TopologicalSpace N] [ChartedSpace (EuclideanHalfSpace 2) N]
+  [T2Space N] [CompactSpace N] [ConnectedSpace N]
+
+/-- **Existence of the standard model.** Every compact connected surface, with or without
+boundary, is homeomorphic to a standard model, by Radó's theorem and the reduction of polygon
+schemas to normal form (§0.0f). -/
+theorem exists_standard_homeomorph : ∃ S : StandardSurface, Nonempty (M ≃ₜ S.model) := by
+  sorry
+
+/-- **The classification of compact surfaces** (§0.0f). -/
+theorem classification_of_surfaces : ∃! S : StandardSurface, Nonempty (M ≃ₜ S.model) := by
+  sorry
+
+/-- **The complete invariant.** Compact connected surfaces are homeomorphic exactly when they have
+the same Euler characteristic, orientability and number of boundary components (§0.0f). -/
+theorem homeomorph_iff_invariants :
+    Nonempty (M ≃ₜ N) ↔
+      Surface.eulerChar M = Surface.eulerChar N ∧
+        (Surface.IsOrientable M ↔ Surface.IsOrientable N) ∧
+        Surface.boundaryComponentCount M = Surface.boundaryComponentCount N := by
+  sorry
+
+end Classification
+
+/-- The **genus** of a compact surface: the genus of the standard model homeomorphic to it, `0`
+for a space homeomorphic to none (§0.0f). -/
+noncomputable def Surface.genus (M : Type*) [TopologicalSpace M] : ℕ := by
+  classical
+  exact if h : ∃ S : StandardSurface, Nonempty (M ≃ₜ S.model) then h.choose.genus else 0
+
+/-- The models have the genus their name says (§0.0f). -/
+theorem Surface.genus_model (S : StandardSurface) : Surface.genus S.model = S.genus := by
+  sorry
+
+/-- A closed connected orientable compact surface has Euler characteristic `2 - 2g`, `g` its
+genus (§0.0f). -/
+theorem Surface.eulerChar_eq_two_sub_two_mul_genus {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M] [ConnectedSpace M]
+    (hb : (𝓡∂ 2).boundary M = ∅) (ho : Surface.IsOrientable M) :
+    Surface.eulerChar M = 2 - 2 * (Surface.genus M : ℤ) := by
+  sorry
+
+/-! ## Layer 0: branched covers and the Riemann–Hurwitz formula (§0.0g) -/
+
+section BranchedCover
+
+variable {X Y : Type*} [TopologicalSpace X] [ChartedSpace (EuclideanHalfSpace 2) X]
+  [TopologicalSpace Y] [ChartedSpace (EuclideanHalfSpace 2) Y]
+
+/-- `p` has a **power model** of exponent `n ≥ 1` at `x`: topological charts onto the open unit
+disc, with sources in the interiors and centred at `x` and `p x`, in which `p` reads `z ↦ zⁿ`
+(§0.0g). No analytic compatibility is asked of the charts. -/
+def HasPowerMapModelAt (p : X → Y) (x : X) (n : ℕ) : Prop :=
+  0 < n ∧ ∃ (φ : OpenPartialHomeomorph X ℂ) (ψ : OpenPartialHomeomorph Y ℂ),
+    x ∈ φ.source ∧ p x ∈ ψ.source ∧ φ x = 0 ∧ ψ (p x) = 0 ∧
+    φ.source ⊆ (𝓡∂ 2).interior X ∧ ψ.source ⊆ (𝓡∂ 2).interior Y ∧
+    φ.target = Metric.ball (0 : ℂ) 1 ∧ ψ.target = Metric.ball (0 : ℂ) 1 ∧
+    Set.MapsTo p φ.source ψ.source ∧ ∀ z ∈ φ.source, ψ (p z) = φ z ^ n
+
+/-- A **branched cover** of surfaces with marked interior values `B` and exponents `e`: a
+continuous surjection with finite fibres, a covering map off `B`, carrying boundary to boundary as
+a local homeomorphism, with a power model of exponent `e x` at every interior point and exponent
+one off `p⁻¹(B)` and on the boundary (§0.0g). -/
+structure IsBranchedCover (p : X → Y) (B : Finset Y) (e : X → ℕ) : Prop where
+  continuous : Continuous p
+  surjective : Function.Surjective p
+  finite_fibers : ∀ y, (p ⁻¹' {y}).Finite
+  branch_values_interior : (B : Set Y) ⊆ (𝓡∂ 2).interior Y
+  preimage_boundary : p ⁻¹' (𝓡∂ 2).boundary Y = (𝓡∂ 2).boundary X
+  covering_off_branch : IsCoveringMap (((B : Set Y)ᶜ).restrictPreimage p)
+  local_degree_pos : ∀ x, 0 < e x
+  local_degree_one_off_branch : ∀ x, p x ∉ B → e x = 1
+  local_power : ∀ x ∈ (𝓡∂ 2).interior X, HasPowerMapModelAt p x (e x)
+  boundary_unramified : IsLocalHomeomorphOn p ((𝓡∂ 2).boundary X)
+  local_degree_one_boundary : ∀ x ∈ (𝓡∂ 2).boundary X, e x = 1
+
+/-- The preimage of the marked values is finite, so the correction term of Riemann–Hurwitz is a
+finite sum (§0.0g). -/
+theorem IsBranchedCover.finite_preimage_branch {p : X → Y} {B : Finset Y} {e : X → ℕ}
+    (hp : IsBranchedCover p B e) : (p ⁻¹' (B : Set Y)).Finite := by
+  sorry
+
+/-- The exponent function is determined by the map: it does not depend on the charts or on regular
+values added to the marked set (§0.0g). -/
+theorem IsBranchedCover.local_degree_unique [T2Space X] [T2Space Y]
+    {p : X → Y} {B B' : Finset Y} {e e' : X → ℕ}
+    (hp : IsBranchedCover p B e) (hp' : IsBranchedCover p B' e') : e = e' := by
+  sorry
+
+/-- **The degree.** Over compact connected surfaces the fibre count weighted by the exponents is a
+positive constant (§0.0g). -/
+theorem IsBranchedCover.exists_degree [T2Space X] [T2Space Y]
+    [CompactSpace X] [CompactSpace Y] [ConnectedSpace X] [ConnectedSpace Y]
+    {p : X → Y} {B : Finset Y} {e : X → ℕ} (hp : IsBranchedCover p B e) :
+    ∃ d : ℕ, 0 < d ∧ ∀ y, ∑ x ∈ (hp.finite_fibers y).toFinset, e x = d := by
+  sorry
+
+/-- **The Riemann–Hurwitz formula** for a branched cover of degree `d` of compact connected
+surfaces, proved by lifting a triangulation of the base with the marked values among its vertices
+(§0.0g). -/
+theorem riemannHurwitz [T2Space X] [T2Space Y]
+    [CompactSpace X] [CompactSpace Y] [ConnectedSpace X] [ConnectedSpace Y]
+    {p : X → Y} {B : Finset Y} {e : X → ℕ} (hp : IsBranchedCover p B e) (d : ℕ)
+    (hd : ∀ y, ∑ x ∈ (hp.finite_fibers y).toFinset, e x = d) :
+    Surface.eulerChar X = (d : ℤ) * Surface.eulerChar Y -
+      ∑ x ∈ hp.finite_preimage_branch.toFinset, ((e x : ℤ) - 1) := by
+  sorry
+
+end BranchedCover
+
+/-! ## Layer 0: mapping class groups of compact surfaces (§0.0h) -/
+
+section MappingClassGroups
+
+variable (M : Type*) [TopologicalSpace M]
+
+/-- The homeomorphisms of `M` isotopic to the identity through embeddings (§0.0h). -/
+def isotopicToIdSubgroup : Subgroup (M ≃ₜ M) where
+  carrier := {f | TauCeti.Isotopic (f : C(M, M)) (ContinuousMap.id M)}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+instance isotopicToIdSubgroup.normal : (isotopicToIdSubgroup M).Normal := by
+  sorry
+
+/-- The **mapping class group**: homeomorphisms modulo isotopy (§0.0h). -/
+abbrev MappingClassGroupFull : Type _ := (M ≃ₜ M) ⧸ isotopicToIdSubgroup M
+
+variable [ChartedSpace (EuclideanHalfSpace 2) M]
+
+/-- The homeomorphisms of a surface fixing its boundary pointwise (§0.0h). -/
+def boundaryFixingSubgroup : Subgroup (M ≃ₜ M) where
+  carrier := {f | Set.EqOn f id ((𝓡∂ 2).boundary M)}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+/-- The boundary-fixing homeomorphisms isotopic to the identity by an isotopy fixing the boundary
+pointwise (§0.0h). -/
+def isotopicRelToIdSubgroup : Subgroup (boundaryFixingSubgroup M) where
+  carrier := {f | ∃ F : ContinuousMap.HomotopyRel ((f : M ≃ₜ M) : C(M, M)) (ContinuousMap.id M)
+      ((𝓡∂ 2).boundary M), ∀ t, Topology.IsEmbedding fun x => F (t, x)}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+instance isotopicRelToIdSubgroup.normal : (isotopicRelToIdSubgroup M).Normal := by
+  sorry
+
+/-- The **mapping class group relative to the boundary** (§0.0h). -/
+abbrev MappingClassGroupRel : Type _ := boundaryFixingSubgroup M ⧸ isotopicRelToIdSubgroup M
+
+/-- The **orientation-preserving mapping class group** relative to the boundary, for an
+orientation `o`: the classes of homeomorphisms carrying `o` to itself. The README defines it with
+the orientations of §0.0c; this form takes a smooth orientation and the classes of diffeomorphisms
+preserving it, which isotopy to a diffeomorphism relative to the boundary and the orientation
+comparison of §0.0e identify with the topological definition (§0.0h). -/
+def MappingClassGroupPlus [IsManifold (𝓡∂ 2) ∞ M]
+    (o : TauCeti.Manifold.Orientation (𝓡∂ 2) M (Fin 2)) : Subgroup (MappingClassGroupRel M) where
+  carrier := {c | ∃ (φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M) (hφ : φ.toHomeomorph ∈ boundaryFixingSubgroup M),
+      (∀ x, TauCeti.Manifold.Orientation.IsOrientationPreservingAt o o φ x) ∧
+        (QuotientGroup.mk ⟨φ.toHomeomorph, hφ⟩ : MappingClassGroupRel M) = c}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+variable {M}
+
+/-- A self-homeomorphism is **piecewise linear** for a PL structure `s` when, in the barycentric
+coordinates of `s`, it is the restriction of a map piecewise linear on the realization; its inverse
+is then piecewise linear too (§0.0h). -/
+def PLStructure.IsPLHomeomorph (s : PLStructure M) (f : M ≃ₜ M) : Prop :=
+  ∃ F : (s.ι → ℝ) → (s.ι → ℝ),
+    TauCeti.IsPLOn F
+      (Set.range fun y : AbstractSimplicialComplex.Realization s.K => ⇑(y : s.ι →₀ ℝ)) ∧
+    ∀ y : AbstractSimplicialComplex.Realization s.K,
+      F ⇑(y : s.ι →₀ ℝ) = ⇑(s.e.symm (f (s.e y)) : s.ι →₀ ℝ)
+
+/-- The PL homeomorphisms of a PL structure (§0.0h). -/
+def PLStructure.plHomeomorphSubgroup (s : PLStructure M) : Subgroup (M ≃ₜ M) where
+  carrier := {f | s.IsPLHomeomorph f}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+/-- Two homeomorphisms are **PL isotopic** when an isotopy through homeomorphisms joins them whose
+level-preserving map of `[0, 1] × |K|` is piecewise linear in barycentric coordinates (§0.0h). -/
+def PLStructure.IsPLIsotopic (s : PLStructure M) (f g : M ≃ₜ M) : Prop :=
+  ∃ F : TauCeti.Isotopy (f : C(M, M)) (g : C(M, M)),
+    (∀ t, Function.Surjective fun x => F (t, x)) ∧
+      ∃ G : ℝ × (s.ι → ℝ) → (s.ι → ℝ),
+        TauCeti.IsPLOn G (Set.Icc (0 : ℝ) 1 ×ˢ
+          Set.range fun y : AbstractSimplicialComplex.Realization s.K => ⇑(y : s.ι →₀ ℝ)) ∧
+        ∀ (t : unitInterval) (y : AbstractSimplicialComplex.Realization s.K),
+          G ((t : ℝ), ⇑(y : s.ι →₀ ℝ)) = ⇑(s.e.symm (F (t, s.e y)) : s.ι →₀ ℝ)
+
+/-- The PL homeomorphisms PL isotopic to the identity (§0.0h). -/
+def PLStructure.plIsotopicToIdSubgroup (s : PLStructure M) :
+    Subgroup s.plHomeomorphSubgroup where
+  carrier := {f | s.IsPLIsotopic f 1}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+instance PLStructure.plIsotopicToIdSubgroup.normal (s : PLStructure M) :
+    s.plIsotopicToIdSubgroup.Normal := by
+  sorry
+
+/-- The **PL mapping class group**: PL homeomorphisms modulo PL isotopy (§0.0h). -/
+abbrev MappingClassGroupPL (s : PLStructure M) : Type _ :=
+  s.plHomeomorphSubgroup ⧸ s.plIsotopicToIdSubgroup
+
+/-- The forgetful homomorphism from the PL to the topological mapping class group (§0.0h). -/
+def MappingClassGroupPL.toTop (s : PLStructure M) :
+    MappingClassGroupPL s →* MappingClassGroupFull M :=
+  QuotientGroup.map _ _ s.plHomeomorphSubgroup.subtype (by sorry)
+
+/-- The PL and topological mapping class groups agree: surjective by isotopy to a PL homeomorphism
+(§0.0b), injective by PL isotopy (§0.0d; §0.0h). -/
+theorem MappingClassGroupPL.toTop_bijective (s : PLStructure M) :
+    Function.Bijective (MappingClassGroupPL.toTop s) := by
+  sorry
+
+variable (M) [IsManifold (𝓡∂ 2) ∞ M]
+
+/-- The diffeomorphisms joined to the identity by a smooth diffeotopy (§0.0h). -/
+def smoothIsotopicToIdSubgroup : Subgroup (TauCeti.Diff (𝓡∂ 2) M ∞) where
+  carrier := {f | ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ M, Φ.final = f}
+  one_mem' := sorry
+  mul_mem' := sorry
+  inv_mem' := sorry
+
+instance smoothIsotopicToIdSubgroup.normal : (smoothIsotopicToIdSubgroup M).Normal := by
+  sorry
+
+/-- The **smooth mapping class group**: diffeomorphisms modulo smooth isotopy (§0.0h). -/
+abbrev MappingClassGroupSmooth : Type _ :=
+  TauCeti.Diff (𝓡∂ 2) M ∞ ⧸ smoothIsotopicToIdSubgroup M
+
+/-- The forgetful homomorphism from the smooth to the topological mapping class group (§0.0h). -/
+noncomputable def MappingClassGroupSmooth.toTop :
+    MappingClassGroupSmooth M →* MappingClassGroupFull M :=
+  QuotientGroup.map _ _ Diffeomorph.toHomeomorphHom (by sorry)
+
+/-- Every mapping class of a compact smooth surface has a diffeomorphism representative, by
+isotopy to a diffeomorphism (§0.0e; §0.0h). -/
+theorem MappingClassGroupSmooth.toTop_surjective [T2Space M] [CompactSpace M] :
+    Function.Surjective (MappingClassGroupSmooth.toTop M) := by
+  sorry
+
+end MappingClassGroups
+
 /-! ## Layer 5: mapping classes, automorphisms and stabilizers -/
 
 /-- **Dehn–Nielsen realization, smooth and based.** Let `S` be a smooth closed connected orientable
@@ -354,6 +749,30 @@ theorem smoothIsotopic_of_isotopic {M N : Type*}
     (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N)
     (h : TauCeti.Isotopic (φ.toHomeomorph : C(M, N)) (ψ.toHomeomorph : C(M, N))) :
     ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ M, ∀ x, ψ x = φ (Φ.final x) := by
+  sorry
+
+/-- **The smooth and topological mapping class groups agree.** For a compact smooth surface, with
+or without boundary and orientable or not, the forgetful homomorphism is bijective: surjective by
+isotopy to a diffeomorphism, injective by the smoothing of isotopies (Layer 5.3b). -/
+theorem MappingClassGroupSmooth.toTop_bijective (M : Type*)
+    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M]
+    [T2Space M] [CompactSpace M] :
+    Function.Bijective (MappingClassGroupSmooth.toTop M) := by
+  sorry
+
+/-- **The mapping class group of the sphere** has two elements, the class of a reflection being
+the nontrivial one: by Layer 5.3b it is `π₀ Diff(S²)`, which Smale's theorem identifies with
+`π₀ O(3)` (Layer 5.4a). -/
+theorem mcg_sphere_full :
+    Nonempty (MappingClassGroupFull (Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1) ≃*
+      Multiplicative (ZMod 2)) := by
+  sorry
+
+/-- **The mapping class group of the torus** is `GL₂(ℤ)`. The README pins the isomorphism by the
+action on `π₁(T², 0) = ℤ²` in the basis of the two circle factors, the class of the linear
+diffeomorphism of `A` going to `A`; this records its existence (Layer 5.4a). -/
+theorem mcg_torus_full :
+    Nonempty (MappingClassGroupFull (AddCircle (1 : ℝ) × AddCircle (1 : ℝ)) ≃* GL (Fin 2) ℤ) := by
   sorry
 
 /-! ## Layer 4: the projective model of `Isom(ℍ)` -/
