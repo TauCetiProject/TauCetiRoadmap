@@ -19,12 +19,11 @@ finishes neither a layer nor the roadmap. The declarations follow the README lay
 
 The targets are convergent Haar products (AA.0), the integral-model restricted product
 comparison (AA.1), the norm-one subgroup (AA.2), real reduction and general arithmetic covolume,
-class-number, finite-volume and compactness theorems (AA.3), semisimple weak approximation, neat
-levels and their covering maps, quaternion norm images and compact abelian Fourier limits (AA.4),
-and GL₁ logarithmic tori and the upper-half-plane decomposition of the GL₂ level space (AA.5).
-Restricted products of Haar measures, quotient measures and strong approximation for simply
-connected semisimple groups are stated in AnalyticNumberTheoryPartII and
-SieveMethodsAndPrimePatterns; the comment lines at their places below name those declarations.
+class-number, finite-volume and compactness theorems (AA.3), semisimple weak and strong
+approximation, neat levels and their covering maps, quaternion norm images and compact abelian
+Fourier limits (AA.4), and GL₁ logarithmic tori and the upper-half-plane decomposition of the GL₂
+level space (AA.5). Restricted products of Haar measures and quotient measures are stated in
+AnalyticNumberTheoryPartII; the comment lines at their places below name those declarations.
 The auxiliary definitions have real bodies on Mathlib's and Tau Ceti's point, character, measure,
 matrix and quotient carriers. The norm-one subgroup is the intersection of character-norm
 kernels, so no Harish-Chandra logarithm is needed to state it.
@@ -327,8 +326,15 @@ namespace Approximation
 
 open AdelicPoints IsDedekindDomain
 
--- Supplied by SieveMethodsAndPrimePatterns: §5.3a, the strong approximation predicate
--- `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.HasStrongApproximation`.
+/-- Strong approximation away from `∞ ∪ S_f`, expressed by density on the full adeles: the
+products `g y` of a rational point `g` and an adelic point `y` whose components at the finite
+places outside `S_f` are `1` are dense ([Rapinchuk], §2.1, Definition, p. 7; [Borel], §2.6,
+p. 13). -/
+def HasStrongApproximation (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
+  Dense {x : AdelicPoints F H | ∃ g : WithConv (H →ₐ[F] F), ∃ y : AdelicPoints F H,
+    (∀ v ∉ Sf, ∀ h : H,
+      (finiteProjection F H y).ofConv h v = (1 : FiniteAdelicPoints F H).ofConv h v) ∧
+    x = diagonal F H g * y}
 
 /-- Weak approximation at a finite set of infinite and finite places. -/
 def HasWeakApproximation (Sinf : Finset (NumberField.InfinitePlace F))
@@ -345,9 +351,19 @@ theorem hasWeakApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHopfA
     HasWeakApproximation F (G.obj : Type) Sinf Sf := by
   sorry
 
--- Supplied by SieveMethodsAndPrimePatterns: §5.3a, strong approximation for simply connected
--- semisimple groups,
--- `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`.
+/-- A simply connected semisimple group has strong approximation away from a finite set
+containing infinity when every nontrivial semisimple quotient has noncompact points over that
+set. This is the simple-factor condition expressed through injective coordinate morphisms
+([Arthur], Theorem 2.1(a), p. 12; [Platonov–Rapinchuk], Theorem 7.12, p. 427). -/
+theorem hasStrongApproximation_of_simplyConnected
+    (F : Type) [Field F] [NumberField F] (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sf : Finset (HeightOneSpectrum (𝓞 F)))
+    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
+      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
+        ¬ IsCompact (Set.univ : Set (InfinitePoints F Q.obj × ∀ v : Sf, LocalPoints F Q.obj v))) :
+    HasStrongApproximation F (G.obj : Type) Sf := by
+  sorry
 
 end Approximation
 

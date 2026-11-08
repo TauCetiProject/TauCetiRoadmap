@@ -52,9 +52,9 @@ The roadmap owns:
   coordinates for one fixed maximal compact, primitive `GL_n` and closed-orbit reduction, adelic
   Siegel sets, finiteness of class numbers, finite volume and compactness criteria, algebraic
   heights, cusps and the Orr–Schnell containment of subgroup Siegel sets (Layer AA.3);
-- weak approximation with its torsor bridges, the strong approximation statements beyond the
-  predicate and the simply connected semisimple theorem of SieveMethodsAndPrimePatterns §5.3a,
-  with their arithmetic-closure bridges, neat elements
+- weak and strong approximation with their torsor and arithmetic-closure bridges, the strong
+  approximation predicate, Borel density for `S`-arithmetic subgroups and strong approximation
+  for simply connected semisimple groups, neat elements
   and neat compact open levels, level quotients with their covering and fibre formulas, Hecke
   correspondences, volumes under level change, reductive abelianization, quaternion norms,
   idele classes modulo squares and Fourier limits on compact abelian groups (Layer AA.4);
@@ -73,6 +73,11 @@ outside this roadmap. The finite-image Artin L-functions, with their local facto
 induction identity, the one-dimensional comparison with Hecke L-functions, Brauer continuation
 and the leading coefficients at one, are AnalyticNumberTheoryPartI §2.18a; this roadmap consumes
 them for the convergence factors of AA.2.4.
+
+Moved: AA.2.4 finite-image Artin functions (the local factors on inertia invariants with
+arithmetic Frobenius, the induction identity at ramified places, the one-dimensional Artin–Hecke
+comparison, Brauer assembly and the leading coefficient at one, formerly owned by
+*convergence-factors*) → AnalyticNumberTheoryPartI §2.18a.
 
 The shared Haar-character, congruence-level and S-arithmetic interfaces draw on the API
 organization of the Imperial College London FLT project.
@@ -124,9 +129,7 @@ every finite place, the one-dimensional comparison with Hecke L-functions and Br
 continuation with the leading coefficient at one; AA assembles the convergence factors of the
 character module from them (*convergence-factors*). AnalyticNumberTheoryPartII supplies the
 restricted product of Haar measures (§5.3f) and the quotient measures with their two conventions
-(§5.3k). SieveMethodsAndPrimePatterns §5.3a supplies the strong approximation predicate, Borel
-density for `S`-arithmetic subgroups and strong approximation for simply connected semisimple
-groups. The `GL₂` targets of AnalyticNumberTheoryPartII §§5.3l–5.3m and the lattice targets of
+(§5.3k). The `GL₂` targets of AnalyticNumberTheoryPartII §§5.3l–5.3m and the lattice targets of
 ProbabilisticAndMetricNumberTheory §§4.9a–4.9b are special cases of statements here, cited where
 those statements specialise to them.
 RepresentationTheory/CompactGroups,
@@ -134,8 +137,8 @@ layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the H
 measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
 measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
 of products of circles. LocalFieldsRamification, layers 0 (valuations) and 1 (residue units), supplies the local-field
-input for the distance of `p`-adic roots of unity from one (AA.4.3). SmoothRepresentationsOfLocalGroups supplies ring-valued Haar measures (SR.1.1)
-; the arbitrary-characteristic local modulus is supplied by RG2.4,
+input for the distance of `p`-adic roots of unity from one (AA.4.3). SmoothRepresentationsOfLocalGroups supplies ring-valued Haar measures (SR.1.1);
+the arbitrary-characteristic local modulus is supplied by RG2.4,
 `LocalIntegration.modularCharacter_eq_adjointModulus`. IntegralLattices, 2F–2G, supplies
 Minkowski reduction for integral lattices. The
 [Fuchsian orbifolds roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FuchsianOrbifolds/README.md)
@@ -242,8 +245,7 @@ and `FiniteAdeleRing.denseRange_algebraMap` are the idele norm, the fundamental 
   implicit consequences of the rank-one examples. Gauge measures require nonarchimedean analytic
   charts and change of variables, finite-field order estimates, and the positivity and induction
   of the Artin leading coefficient (AnalyticNumberTheoryPartI §2.18a). Approximation
-  requires the `p`-adic analytic closed-subgroup theorem, Borel density
-  (SieveMethodsAndPrimePatterns §5.3a), local torsor vanishing
+  requires the `p`-adic analytic closed-subgroup theorem, Borel density, local torsor vanishing
   and the simply connected Hasse principle. Arithmetic closures over general number fields need
   native-field Lie algebras and exclusion of graphs linking distinct completions;
   `ℚ_p`-Zariski density alone is insufficient. Reduction requires general-dimensional
@@ -277,14 +279,11 @@ one, and a single weight of multiplicity two contributes the square.
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin L-functions | AnalyticNumberTheoryPartI §2.18a, specified in its README without a Lean statement: the local factors `L_v(ρ,s)` on inertia invariants with arithmetic Frobenius, the induction identity at every finite place including the ramified ones, the one-dimensional comparison with presented Hecke L-functions, and Brauer continuation with order `dim V^G` and a nonzero leading coefficient at one, positive for representations realized over `ℚ` | The character-module factors and leading coefficient of *convergence-factors*, the Artin product formula for `τ_G` and its transport under restriction of scalars (AA.2.5). |
-| Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
+| Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=\|det M\| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Restricted products of Haar measures | AnalyticNumberTheoryPartII §5.3f: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`; `AnalyticNumberTheoryPartII/Suggested.lean` | The measure `∏ʳ μ i` of AA.0.2 with its box formula, its restriction to the level subgroups `U_S` and its Haar property, in the multiplicative and the additive form (the Lean statement there is additive). AA.0 adds the Borel structure, right invariance, the convergent rescaling and the adelic and idelic normalizations. |
 | Quotient measures | AnalyticNumberTheoryPartII §5.3k: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`; `AnalyticNumberTheoryPartII/Suggested.lean` | Weil's quotient measure on `H\G` for right Haar measures with matching modular characters, its extension to nonnegative Borel and to integrable functions, its scaling and composition in stages, and the inversion between the left and right conventions for countable discrete subgroups of unimodular groups. AA.2.2 adds uniqueness among all invariant Radon measures; AA.2.3 applies the measure to rational and central quotients. |
-| Strong approximation | SieveMethodsAndPrimePatterns §5.3a: `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.HasStrongApproximation`, `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`; `SieveMethodsAndPrimePatterns/Suggested.lean`; Borel density for `S`-arithmetic subgroups, specified in its README | The predicate with its basic properties, Borel density and the theorem for simply connected semisimple groups, consumed in AA.4.2 and AA.5.2. AA.4.2 retains the unipotent, toral, quaternion and necessity statements and the arithmetic-closure bridges. |
-
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
-
 | Scheme centralizers, normalizers and character evaluation | RG2.1 targets `BruhatTits.GeometricRoots.characterValue`, `BruhatTits.GeometricRoots.characterValue_coe`, `centralizer`, `normalizer`, `centralizerIdeal`, `centralizerIdeal_points_iff`; `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | AA.3.1 spells the same contracts on the unbundled coordinate algebra `H` and the pinned `quotientPointsSubgroup`. The root-ray helper additionally accepts non-root characters and uses the pinned dynamic contraction subgroups. |
 | Arithmetic level carrier | `TauCetiRoadmap.AdelicAlgebraicGroups.Reduction.levelArithmetic`; `TauCetiRoadmap/AdelicAlgebraicGroups/Suggested.lean` | `Neat.IsNeatLevel` is stated through it; the arithmetic discreteness, neatness and component results consume the same subgroup. |
 | Algebraically closed central-simple splitting | Mathlib `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed`, `Mathlib/RingTheory/SimpleModule/IsAlgClosed.lean`; `Algebra.IsCentral`, `Mathlib/Algebra/Central/Defs.lean`; `Module.Basis.baseChange`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean`. | The `SL₁(D)` target of AA.3.4 uses this matrix splitting and the extended regular basis; its reduced-norm-one Hopf ideal and compact arithmetic quotients are the additional targets. |
@@ -295,7 +294,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Constant-form matrix subgroup | `TauCeti.ConstantForm.definingHopfIdeal`, `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` | The twisted orthogonal group of AA.3.7 is the determinant-one restriction of this equation for its explicit rational form; it does not define another general orthogonal-group construction. |
 | Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
 | Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
-| Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.AlgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
+| Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `BialgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
 | Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
 | Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
 | Compact norm-one idele classes | `TauCeti.GlobalNumberFields.IdeleClassGroup.isCompact_normOne`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Compact.lean` | Supplies the compactness assertion in Layer 5 directly. |
@@ -305,7 +304,6 @@ one, and a single weight of multiplicity two contributes the square.
 | Measurable fundamental domains | `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; `TauCeti/MeasureTheory/Group/ProperlyDiscontinuous.lean` | Apply to the countable discrete rational subgroup acting freely by translation; its Borel domain supplies the existence statement directly. |
 | Exponential tail integral | `integral_exp_mul_Ioi`; `Mathlib/Analysis/SpecialFunctions/ImproperIntegrals.lean` | Finite-product integration gives the relative-chamber integral. |
 | Change of double-coset level | `DoubleCoset.quotientMapOfLELeft`; `TauCeti/GroupTheory/DoubleCoset/Map.lean` | The level map here changes the right subgroup; its defining equation sends the class of `g` to the class of the same `g`. |
-
 
 All names in this section are part of the dependency contract. Each is cited again in the
 *Needs* clause of the target that consumes it.
@@ -526,17 +524,10 @@ there; *convergence-factors* and AA.2.5 consume it.
 measure with the box formula, its restriction to the level subgroups and the normalized local
 measures `dx_v`), consumed by AA.0; §5.3k (quotient measures and the two quotient conventions,
 `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`), consumed by
-AA.2.2–AA.2.3 and the quotient-measure arguments of AA.3.4.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-§5.3a (the strong approximation predicate
-`TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.HasStrongApproximation`
-with its basic properties; Borel density for `S`-arithmetic subgroups; strong approximation for
-simply connected semisimple groups,
-`TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`),
-consumed by AA.4.2 and AA.5.2. Its point carriers are the evaluation-topology convolution groups
-of AA.1.1.
+AA.2.2–AA.2.3 and the quotient-measure arguments of AA.3.4; §5.3h (the self-dual measure on
+`𝔸_F`, under which `𝔸_F/F` has volume one) and §5.3j (the multiplicative measure `d^×x` on
+`𝔸_F^×` built from the self-dual local measures), against which AA.0.4 compares its own
+normalizations.
 
 ### From other roadmaps
 
@@ -869,8 +860,8 @@ handles the non-unit local volumes needed for Tamagawa measure.
   - The product of the mixed-space fundamental parallelotope of `𝓞_K` (transported to `K_∞`)
     with `∏_v 𝒪_v` is a fundamental domain for `K` in `𝔸_K` and has measure `|d_K|^{1/2}`: the
     archimedean factor is `2^{r₂}` times the mixed volume `2^{−r₂} |d_K|^{1/2}`.
-  - So `vol(𝔸_K/K) = |d_K|^{1/2}`, which differs from the self-dual value `1` (the self-dual
-    normalization) whenever `|d_K| > 1`; omitting the factor `2` at complex places would give
+  - So `vol(𝔸_K/K) = |d_K|^{1/2}`, which differs from the value `1` of the self-dual
+    normalization (AnalyticNumberTheoryPartII §5.3h) whenever `|d_K| > 1`; omitting the factor `2` at complex places would give
     `2^{−r₂} |d_K|^{1/2}`. At the complex place of an imaginary quadratic field the unit square
     has mass `2`, where `dx dy` would give `1`.
 - **The idele norm is the additive Haar character.** (*idele-haar-character*)
@@ -901,12 +892,16 @@ handles the non-unit local volumes needed for Tamagawa measure.
   the idele group and that `d^×x` of
   `∏_v 𝒪_v^×` times a box at infinity is the archimedean volume of the box. The normalization
   `vol(𝒪_v^×) = 1` is this roadmap's convention; [Rosengarten], §1, p. 2, forms restricted products
-  of local Haar measures on adelic points. The archimedean factor `d^×x_∞` is fixed
+  of local Haar measures on adelic points. It is `|d_K|^{1/2}` times the measure `d^×x` of
+  AnalyticNumberTheoryPartII §5.3j, which has the same archimedean factors and gives `𝒪_v^×` the
+  mass `N(𝔇_v)^{−1/2}`, `𝔇_v` the local different, so the two differ only at the finitely many
+  places dividing the different, where `∏_v N(𝔇_v) = |d_K|`. The archimedean factor `d^×x_∞` is fixed
   by an equation: carried to `K_∞`, it is the additive measure
   `μ_∞` (`dx`, `2 dx dy`) restricted to the units with density `∏_w |x_w|_w⁻¹`, the
   normalized absolute value being squared at complex places (Mathlib
   `NumberField.mixedEmbedding.norm`). Without this equation the statement about `∏_v 𝒪_v^×` would only tie
-  `d^×x` to an archimedean measure left unspecified. *Needs:* AnalyticNumberTheoryPartII §5.3f; Mathlib
+  `d^×x` to an archimedean measure left unspecified. *Needs:* AnalyticNumberTheoryPartII §5.3f,
+  and §5.3j for the comparison; Mathlib
   `NumberField.IdeleGroup`, `RestrictedProduct.unitsEquiv`, `NumberField.mixedEmbedding.norm`;
   GlobalNumberFields, layer 6.
   *Lean:* none; specified in the README only.
@@ -919,6 +914,10 @@ handles the non-unit local volumes needed for Tamagawa measure.
     `d^×x` mass `(1 − 2⁻¹)⁻¹ · 4⁻¹ = 1/2`; without the factor at `2` it would be `1/4`.
   - At the complex place of an imaginary quadratic field the annulus `1 ≤ |z| ≤ e` has
     `d^×x_∞` mass `2 · 2π · log e = 4π`; the density `dx dy/(x² + y²)` would give `2π`.
+  - Over `ℚ(i)`, `∏_v 𝒪_v^×` times that annulus has mass `4π` here and `2π` under the
+    measure of AnalyticNumberTheoryPartII §5.3j: the different of `ℤ[i]` is `(2) = (1+i)²`, of
+    norm `4 = |d_{ℚ(i)}|`, so the finite masses there multiply to `4^{−1/2} = 1/2`. Over `ℚ` the
+    two measures agree.
 - **Products of form measures need convergence factors.** For `K = ℚ` and `ω = dx/x` on `G_m`,
   prove that the local measures `|ω|_p` built from the additive normalization `μ_p(ℤ_p) = 1` give
   `vol(ℤ_p^×) = 1 − p⁻¹`, and that `∏_p (1 − p⁻¹)` diverges to `0`. Hence the family `|ω|_p` does
@@ -942,7 +941,7 @@ that the form measures `|dx/x|_p` are not a restricted product of Haar measures.
 Mathlib's restricted products, product and Haar measures, and number-field adeles; Tau Ceti's
 nonarchimedean local fields at finite places; GlobalNumberFields, layers 4 and 6, for the finite
 adeles and the ideles; AnalyticNumberTheoryPartII §5.3f for the restricted product of Haar
-measures.
+measures, and §§5.3h and 5.3j for the self-dual normalizations compared in AA.0.4.
 
 ## Layer 1: adelic points of algebraic groups
 
@@ -960,7 +959,7 @@ every comparison.
   affine-points topology induced from `𝔸_F^H` by evaluation (the weakest topology making every
   evaluation `h ↦ x(h)` continuous), making it a topological group. Likewise
   `G(𝔸_{F,f})`, `G(F_∞) = G(F ⊗_ℚ ℝ)` and `G(F_v)`. Define `AdelicPoints.diagonal`, the diagonal
-  `ι : G(F) →* AdelicPoints H` given by the coefficient map (`TauCeti.AlgHom.mapValue`, equivalently
+  `ι : G(F) →* AdelicPoints H` given by the coefficient map (Tau Ceti `AlgHom.mapValue`, equivalently
   `mapPoints`) along `algebraMap F 𝔸_F`, and
   the continuous homomorphism `p_v : AdelicPoints H →* G(F_v)` given by the coefficient map
   along the projection `𝔸_F → F_v`; the finite and archimedean components are
@@ -1342,11 +1341,25 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
 ### 1.5 Unimodularity and compact open levels
 
 - **The modular character on compact and central elements.** For a locally compact group `G`,
-  prove that the modular character `Δ : G → ℝ_{>0}` is a homomorphism trivial on every compact
-  subgroup and on the centre of `G` ([Borel], §5.5, p. 20). *Needs:* Mathlib
+  prove that the modular character `Δ : G → ℝ_{>0}` (a homomorphism, Mathlib
+  `MeasureTheory.Measure.modularCharacter`) is trivial on every compact subgroup and on the
+  centre of `G`. This is an owned deduction: `Δ` is continuous, so the image of a compact
+  subgroup is a compact subgroup of `ℝ_{>0}`, which is `{1}`; for central `z` and a left Haar
+  measure `μ`, `μ(Ez) = μ(zE) = μ(E)`, so `Δ(z) = 1`. *Needs:* Mathlib
   `MeasureTheory.Measure.modularCharacter`,
-  `MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul`.
+  `MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul`; Tau Ceti
+  `TauCeti.continuous_modularCharacter`.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - On the upper Borel subgroup of `GL₂(ℝ)`, with left Haar measure `da db dd/(a²|d|)` in the
+    coordinates `[[a, b], [0, d]]`, Mathlib's convention `map (· * g) μ = Δ(g) • μ` gives
+    `Δ(diag(a, d)) = |a/d|`: `1` on the central `diag(a, a)` and on the compact subgroup
+    `{diag(±1, ±1)}`.
+  - Compactness cannot be weakened to closedness: on the closed subgroup `{diag(a, 1)}` of that
+    Borel subgroup, `Δ(diag(2, 1)) = 2`.
+  - On the `ax + b` group `{[[a, b], [0, 1]]}` the centre is trivial and `Δ` is `|a|`; on the
+    compact subgroup `{diag(±1, 1)}` it is `1`.
 - **Weyl orbit products lie in the split centre up to finite index.** Let `A` be a maximal split
   torus of a connected reductive group over a field and `W` its relative Weyl group. For
   `a ∈ A(E)`, prove that the product `∏_{w∈W} w(a)` lies in `(Z(G) ∩ A)(E)` up to an element of
@@ -1737,7 +1750,6 @@ restriction of scalars.
     equals `dg`.
   - For `G = SL_2(ℝ)` and `H` its upper triangular Borel, `Δ_G|_H ≠ Δ_H`; the canonical
     homogeneous quotient `ℙ¹(ℝ)` has no nonzero invariant Radon measure.
-  - For the upper triangular Borel in `SL₂(ℝ)`, the modular characters disagree; its quotient admits no nonzero invariant Radon measure.
 
 - **Inversion between left and right quotient conventions.** For any topological group `G` and
   subgroup `H`, define the homeomorphism `H\G ≃ₜ G/H` by `Hg ↦ g⁻¹H`. For a countable discrete
@@ -1841,9 +1853,6 @@ restriction of scalars.
     form with value `a` restricts with scalar `Algebra.norm ℚ a`.
   - The infinite torus `ℚ[ℕ →₀ ℤ]` has independent cotangent classes `T_i − 1` at every
     index; it fails the finite-dimensional hypothesis and has no `ω_G` in this API.
-
-
-  **Checks.**
   - On the concrete Hopf quotient `O(GL₂)/(X₁₀)`, `diag(2,1)` has adjoint determinant `2`,
     cotangent determinant `1/2` and right pullback `ω ↦ (1/2)ω`.
   - `diag(1,2)` reverses these factors: `1/2`, `2` and `ω ↦ 2ω`.
@@ -2192,7 +2201,8 @@ and Euler product; ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII,
 RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
 AnalyticNumberTheoryPartI §2.18a (finite-image Artin L-functions); AnalyticNumberTheoryPartII
-§5.3k (quotient measures and the two quotient conventions).
+§5.3f (restricted products of Haar measures, for the Tamagawa measure) and §5.3k (quotient
+measures and the two quotient conventions).
 
 ## Layer 3: reduction and arithmetic quotients
 
@@ -3351,18 +3361,19 @@ cannot replace the reduced norm in the defining equation.
 - **Local polynomial comparison for algebraic heights.** Define the local height at a finite
   place as the maximum of the normalized absolute values of entries of `r(g)` and its inverse,
   and at an infinite place as their combined Hilbert–Schmidt norm to the
-  archimedean multiplicity. Both are one in rank zero. The comparison is stated at finite and at
-  infinite places.
-  **Checks:** rank zero gives one; the identity gives one at
-  finite places and `sqrt(2m)^mult` at infinity; local heights are unchanged by
-  inversion. These local formulas agree with the factors in the height formula of *adelic-height*.
- For `F` a number field, `G` an affine
+  archimedean multiplicity. Both are one in rank zero. For `F` a number field, `G` an affine
   algebraic group over `F`, closed immersions `σ : G → GL_m` and `τ : G → GL_{m′}` over `F`, and
   local norms as in *adelic-height* applied to `σ ⊕ σ^∨` and `τ ⊕ τ^∨` (dual-augmented norms),
   prove that there are integers `N ≥ 1` and positive `c_v`, with `c_v = 1` at almost all finite
   places, such that `‖τ(g)‖_v ≤ c_v ‖σ(g)‖_v^N`; the statement includes inverse coordinates
-  ([Arthur], §13, p. 70). *Needs:* AA.1.1; AA.1.5.
+  and is stated at finite and at infinite places ([Arthur], §13, p. 70). *Needs:* AA.1.1; AA.1.5.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - Rank zero gives local height one at every place.
+  - The identity gives one at finite places and `sqrt(2m)^mult` at infinity.
+  - Local heights are unchanged by inversion. These local formulas agree with the factors in
+    the height formula of *adelic-height*.
 - **Properness of dual-augmented adelic height.** For `F` a number field, `G` an affine
   algebraic group over `F`, `σ : G → GL_n` a closed immersion over `F`, `r` containing `σ ⊕ σ^∨`,
   and local norms normalized as in *adelic-height*, prove that the product height of
@@ -4003,12 +4014,11 @@ quaternion norms and compact abelian Fourier limits.
   `D¹(𝔸_{F,f}) = D¹(F) · D¹(F_v) · U^{v,1}`, using identity extensions of the last
   two factors. The splitting identifies `D¹(F_v)` with the noncompact `SL₂(F_v)`;
   geometrically `D¹` is simply connected and absolutely almost simple. This is the
-  quaternion specialization of the strong approximation theorem of SieveMethodsAndPrimePatterns
-  §5.3a ([Rapinchuk], Theorem 2.3, p. 12). The norm is the base-change-natural unit norm `Nrd_A` of
+  quaternion specialization of *strong-approximation-sufficiency* below
+  ([Rapinchuk], Theorem 2.3, p. 12). The norm is the base-change-natural unit norm `Nrd_A` of
   the supplier table, built on the pinned `QuaternionAlgebra.normForm`; total definiteness is not
   required.
-  *Needs:* SieveMethodsAndPrimePatterns §5.3a (strong approximation for simply connected groups);
-  AA.1.2; Tau Ceti `QuaternionAlgebra.normForm`
+  *Needs:* AA.4.2 *strong-approximation-sufficiency*; AA.1.2; Tau Ceti `QuaternionAlgebra.normForm`
   and `TauCeti.QuaternionAlgebra.baseChange`;
   ReductiveGroups, layer 6, simply connected forms of `SL₂`.
   *Lean:* none; specified in the README only.
@@ -4020,17 +4030,37 @@ quaternion norms and compact abelian Fourier limits.
   - For such a definite algebra, replacing `S` by just `∞` fails the noncompactness
     criterion; removing the split finite place is not an allowed simplification.
 
-- **Strong approximation.** For an affine algebraic group `G` over `F` and a finite set
-  `S = ∞ ∪ S_f` of places containing every archimedean place, strong approximation with respect
-  to `S` is the predicate `SieveStrongApproximation.HasStrongApproximation F H S_f` of
-  SieveMethodsAndPrimePatterns §5.3a, with the properties proved there. Borel density for
-  `S`-arithmetic subgroups and strong approximation for connected semisimple simply connected
-  groups whose `F`-simple factors are noncompact over `S` are SieveMethodsAndPrimePatterns §5.3a
-  as well; the statements of this subsection extend them.
-  *Needs:* SieveMethodsAndPrimePatterns §5.3a.
-  *Lean:* none here; SieveMethodsAndPrimePatterns states
-  `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.HasStrongApproximation` and
-  `TauCetiRoadmap.SieveMethodsAndPrimePatterns.SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`.
+- **Strong approximation.** For an affine algebraic group `G = Spec H` over `F` and a finite
+  set `S` of places containing every archimedean place, write `S = ∞ ∪ S_f`, let
+  `G(F_S) ⊂ G(𝔸_F)` be the subgroup of adelic points whose component at every finite place
+  outside `S_f` is `1`, and define `Approximation.HasStrongApproximation F H S_f : Prop` to say
+  that `G(F)G(F_S)` is dense in `G(𝔸_F)`: strong approximation with respect to `S`. Prove that
+  this holds iff the image of `G(F)` is dense in `G(𝔸_F^S)`, the adelic points away from `S` (the
+  projection `G(𝔸_F) → G(𝔸_F^S)` is open, continuous and surjective, and `G(F)G(F_S)` is the
+  preimage of the image of `G(F)`); that it gives `G(𝔸_F^S) = G(F)U` for every open subgroup
+  `U ⊂ G(𝔸_F^S)`; that strong approximation for `S` implies it for every finite `S′ ⊇ S`; and
+  that if it holds for `S` the archimedean places then `G(F)\G(𝔸_{F,f})/U` is a point for every
+  compact open `U` ([Rapinchuk], §2.1, Definition, p. 7; restated in Theorem 2.3, p. 12;
+  [Borel], §2.6, p. 13, in the form `G(F)G(F_∞)` dense in `G(𝔸_F)`).
+  *Needs:* AA.1.2 (*restricted-product-comparison*); AA.0.3 (the splitting of finitely many
+  factors of a restricted product).
+  *Lean:* `Approximation.HasStrongApproximation` (the density predicate).
+
+  **Checks.**
+  - `G_a` over `F` has strong approximation for `S` the archimedean places (GlobalNumberFields
+    layer 6): `F + (F_∞ × {0})` is dense in `𝔸_F` because `F` is dense in `𝔸_{F,f}`.
+  - `G_m` over `ℚ` fails for `S = {∞}`: `ℚ^× ∩ ℤ̂^× = {±1}` with `ℤ̂^×` open, so `ℚ^×` is
+    discrete in `𝔸_f^×` (AA.1.3). Concretely, for `x` the finite idele with component `2` at `2`
+    and `1` elsewhere and `U = (1 + 5ℤ_5) × ∏_{p≠5} ℤ_p^×`, a rational point of `xU` has
+    valuation one at `2` and zero elsewhere, so it is `±2`, whose residues mod `5` are `2` and
+    `3`, not `1`: the open set `xU` contains no rational point.
+  - For `SL₂/ℚ` and `S = {∞}`, strong approximation holds; this applies to `SL_n`
+    over every number field.
+  - The trivial group has strong approximation for every `S`, its adelic points being one point.
+  - For `G_m` over `ℚ` and `v` the place of a prime `p`, the adelic point with component `p` at
+    `v` and `1` at every other place, the archimedean one included, lies in `G(F_S)` for
+    `S_f = {v}` and not for `S_f = ∅`.
+  - Every point whose finite component is `1` lies in `G(F_∞)`, the subgroup for `S_f = ∅`.
 
 - **Strong approximation for unipotent groups.** Every unipotent group `N` over the
   number field `F` has dense rational points in `N(𝔸_F^S)` for every nonempty set `S`
@@ -4038,8 +4068,8 @@ quaternion norms and compact abelian Fourier limits.
   ([Platonov–Rapinchuk–Rapinchuk], Lemma 5.7, pp. 301–302; Theorem 1.13, p. 15).
   The statement is density
   of `N(F)N(F_S)` on the full adelic carrier, with separate arbitrary sets of infinite and finite
-  places; its `S = ∞ ∪ S_f` specialization is the predicate
-  `SieveStrongApproximation.HasStrongApproximation` of SieveMethodsAndPrimePatterns §5.3a.
+  places; its `S = ∞ ∪ S_f` specialization is
+  `Approximation.HasStrongApproximation`.
   **Check.** `G_a/ℚ` is dense away from `{2}` although infinity is retained; it is not
   dense in all adeles when `S` is empty, since the rational diagonal is discrete;
   the complementary space is a point when `S` is every place.
@@ -4060,9 +4090,7 @@ quaternion norms and compact abelian Fourier limits.
   compact open subgroups with a saturated integral `p`-valuation ([Schneider],
   Theorem 27.1, pp. 192–194); closed subgroups have finite rank by Exercise 26.2,
   p. 181, and acquire their analytic structure by Corollary 29.6, p. 205, and
-  Theorem 29.8, pp. 206–208. This analytic input is work in AA.4.2. For `L = G(F_v)` at a
-  finite place `v` of a number field this is the closed-subgroup statement of
-  SieveMethodsAndPrimePatterns §5.3a.
+  Theorem 29.8, pp. 206–208. This analytic input is work in AA.4.2.
   *Lean:* none; specified in the README only.
 
   **Checks.** `ℤ_p ⊂ ℚ_p` has full Lie algebra and is open; `{0}` has zero Lie
@@ -4078,6 +4106,20 @@ quaternion norms and compact abelian Fourier limits.
   [Platonov–Rapinchuk–Rapinchuk], Proposition 3.11, p. 136). *Needs:* AA.4.2,
   closed subgroups of p-adic Lie groups.
   *Lean:* none; specified in the README only.
+- **Borel density for S-arithmetic groups.** For `G` connected absolutely almost simple over
+  any number field `F`, `M : IntegralModel F H S₀`, and finite `S ⊇ S₀ ∪ ∞`
+  with `G_S` noncompact, prove that `Γ(M,S)` is infinite and Zariski dense in `G`.
+  The same conclusion holds for every subgroup commensurable with `Γ(M,S)`
+  ([Rapinchuk], Theorem 2.3, remark after it, p. 12). *Needs:* AA.1.1; AA.3.4.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The standard model of `SL₂/ℚ` with `S = {∞}` gives the Zariski-dense `SL₂(ℤ)`.
+  - The norm-one group of a definite quaternion algebra over `ℚ` has finite integral
+    group at `S = {∞}` (the `24` norm-one units of the Hurwitz order); the noncompactness
+    hypothesis fails.
+  - For that norm-one group, adding a split finite place makes `G_S` noncompact and
+    the model's `S`-integral group infinite and Zariski dense.
 - **Open subgroups of finite covolume have finite index.** If `Δ` is an open subgroup of a
   locally compact group `H` such that `H/Δ` carries a nonzero finite `H`-invariant Radon measure,
   prove that `Δ` has finite index in `H` ([Rapinchuk], §2.6, p. 16). *Needs:* AA.2.2.
@@ -4126,8 +4168,8 @@ quaternion norms and compact abelian Fourier limits.
   Borel density makes each projected Lie algebra an ideal, and nondiscreteness makes it
   nonzero. Distinct primes are separated by the pro-`p` subgroups of compact opens
   ([Platonov], Proposition 3.2, pp. 1144–1145; [Rapinchuk], Lemma 2.7, p. 16 and §3,
-  pp. 17–18). *Needs:* AA.3.4; AA.4.2, closed subgroups of p-adic Lie groups;
-  SieveMethodsAndPrimePatterns §5.3a (Borel density).
+  pp. 17–18). *Needs:* AA.3.4; AA.4.2, closed subgroups of p-adic Lie groups and Borel density
+  for S-arithmetic groups.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -4221,8 +4263,8 @@ quaternion norms and compact abelian Fourier limits.
   absolutely almost simple and simply connected over `F`, `S` finite, containing the archimedean
   places, with `G_S` noncompact, `v ∉ S` a finite place at which `G` is `F_v`-isotropic, and
   `W ⊂ G(𝔸_F^{S∪{v}})` a compact open subgroup. Prove that the image of
-  `Γ_W = G(F) ∩ (G_S × G(F_v) × W)` is dense in `G(F_v)`; as `W` shrinks this gives the arithmetic
-  closure at an isotropic place of SieveMethodsAndPrimePatterns §5.3a ([Platonov], §3.4, p. 1145; [Rapinchuk], §2.6, pp. 16–17; [Rapinchuk], Remark 1
+  `Γ_W = G(F) ∩ (G_S × G(F_v) × W)` is dense in `G(F_v)`; consequently the closure of `G(F)G_S` in
+  `G(𝔸_F)` contains `G(F_v)`, placed at `v` ([Platonov], §3.4, p. 1145; [Rapinchuk], §2.6, pp. 16–17; [Rapinchuk], Remark 1
   after Theorem 2.3, p. 12). *Needs:* AA.3.4; AA.4.2; ReductiveGroupsPartII, RG2.4
   (kneser-tits-local); the openness of the arithmetic closure over `F` (*number-field-arithmetic-closure*). For each compact-open
   condition `W` and any `M : IntegralModel F H S₀` with `S₀ ⊆ S`,
@@ -4248,12 +4290,65 @@ quaternion norms and compact abelian Fourier limits.
   `𝒪_v` with finite residue field, a reductive model gives an unramified, hence quasi-split group);
   ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
+- **Strong approximation: sufficiency.** (*strong-approximation-sufficiency*) Let `G` be
+  connected, absolutely almost simple and simply connected over a number field `F`, and `S` a
+  finite set of places containing the archimedean ones with `G_S = ∏_{v∈S} G(F_v)` noncompact.
+  Prove that `G` has strong approximation with respect to `S` ([Rapinchuk], Theorem 2.3, p. 12;
+  [Rapinchuk], Remark 1 after Theorem 2.3, p. 12). Route: by *isotropic-almost-everywhere* and
+  the arithmetic closure at one isotropic place, the closure of `G(F)G_S` contains `G(F_v)` for
+  every `F_v`-isotropic `v ∉ S`; the anisotropic-factors argument with weak approximation then
+  gives the whole of `G(𝔸_F)`. *Needs:* AA.4.2; AA.4.1.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - `SL₂` over `ℚ` with `S = {∞}`: `SL₂(ℝ)` is noncompact, and the conclusion gives the
+    surjectivity of `SL₂(ℤ) → SL₂(ℤ/Nℤ)` for every `N ≥ 1`: every coset of the open kernel of
+    `SL₂(ℤ̂) → SL₂(ℤ/Nℤ)` contains a rational point, which lies in `SL₂(ℚ) ∩ SL₂(ℤ̂) = SL₂(ℤ)`
+    (Tau Ceti `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`).
+  - Simple connectedness cannot be dropped: `PGL₂` over `ℚ` with `S = {∞}` has noncompact
+    `PGL₂(ℝ)`, but the determinant modulo squares is continuous with open kernel, and the open
+    set of finite adelic points with component in `PGL₂(ℤ_p)` at every `p ≠ 5` and determinant
+    class `2` at `5` contains no rational point. The determinant class of such a point has even
+    valuation at every prime, so it is `±1`, and both `1` and `−1 ≡ 4` are squares mod `5`
+    while `2` is not.
+  - Noncompactness cannot be dropped: the norm-one group of a definite quaternion algebra over
+    `ℚ` is simply connected with compact `G_∞`; its integral group at the Hurwitz order is the
+    finite group of `24` units, so it is discrete in `G(𝔸_{ℚ,f})` and not dense.
 - **Strong approximation: necessity.** For `G` connected absolutely almost simple over `F` and
-  `S` finite containing all archimedean places, prove
+  `S` finite containing all archimedean places, in the setting of
+  *strong-approximation-sufficiency* without its hypotheses, prove
   that if `G` has strong approximation with respect to `S` then `G_S` is noncompact and `G` is
   simply connected ([Rapinchuk], §2.3, p. 11). *Needs:* AA.4.2; AA.1.3; Chebotarev, layer 10; Tau
   Ceti `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`.
   *Lean:* none; specified in the README only.
+- **Strong approximation for semisimple groups.** Let `G` be connected semisimple simply
+  connected over `F` and `S ⊇` archimedean places finite such that `G′(F_S)` is noncompact for
+  every `F`-simple factor `G′` of `G`. Prove that `G` has strong approximation with respect to
+  `S`, equivalently `G(𝔸_F) = G(F)·G(F_S)·U` for every compact open `U ⊂ G(𝔸_F^S)`; in
+  particular `G(F)\G(𝔸_{F,f})/U` is a single point when `S` is the set of archimedean places
+  ([Arthur], Theorem 2.1(a), p. 12). The equivalence holds because the compact open subgroups
+  form a neighbourhood basis of `1` in `G(𝔸_F^S)`. Route: `G` is the product of its `F`-simple
+  factors, each `Res_{E/F} G₁` with `G₁` absolutely almost simple simply connected over a number
+  field `E` (ReductiveGroups, layer 6); strong approximation for `Res_{E/F} G₁` with respect to
+  `S` is strong approximation for `G₁` with respect to the places of `E` above `S` (AA.1.4),
+  where *strong-approximation-sufficiency* applies. *Needs:* AA.4.2; AA.1.4; ReductiveGroups,
+  layer 6.
+  The factorwise noncompactness condition is equivalently noncompactness of `Q(F_S)` for every
+  nontrivial connected semisimple quotient `Q` of `G`. In coordinates these quotients are
+  injective Hopf maps `O(Q) → O(G)`; nontriviality is failure of surjectivity of the scalar map
+  `F → O(Q)`. A nontrivial semisimple quotient has a simple factor, while each simple factor
+  of `G` occurs as a quotient up to a central isogeny. Central isogenies preserve compactness
+  of local point groups, so the two conditions agree.
+  *Lean:* `Approximation.hasStrongApproximation_of_simplyConnected` (all number fields and finite `S = ∞ ∪ S_f`).
+
+  **Checks.**
+  - `SL_n` for `n ≥ 2` has noncompact archimedean points and satisfies strong approximation
+    away from infinity; ranks zero and one give the trivial group, with no nontrivial quotient.
+  - For a definite quaternion algebra over `ℚ`, its norm-one group is compact at infinity;
+    omitting this noncompactness hypothesis would falsely give strong approximation there.
+  - For a product of `SL₂` and that definite norm-one group, the full real point group is
+    noncompact but the second quotient is compact. Noncompactness of the whole group alone
+    does not imply strong approximation.
 
 ### 4.3 Neat elements and levels
 
@@ -4542,8 +4637,7 @@ quaternion norms and compact abelian Fourier limits.
   - For `GL_1/ℚ`, `U = ℤ̂^×` (the maximal compact open subgroup) and `K∞ = ℝ^×`,
     `LevelQuotient` is a point.
   - For `SL_2/ℚ` with `K∞ = 1` and `U = SL_2(ℤ̂)`, `LevelQuotient` is `SL_2(ℤ)\SL_2(ℝ)` (strong
-    approximation, SieveMethodsAndPrimePatterns §5.3a), not the one-point set `SL_2(ℚ)\SL_2(𝔸_f)/U`.
-  - For `GL₁/ℚ`, `U = ℤ̂^×`, `K∞ = ℝ^×`, the quotient is one point.
+    approximation, *strong-approximation-sufficiency*), not the one-point set `SL_2(ℚ)\SL_2(𝔸_f)/U`.
 
 - **Compact kernel of height on an archimedean level.** (*compact-kernel-split-centre*) For
   connected reductive `G/F`, let `K∞ ⊂ G(F_∞)` be closed, contain `A_G(ℝ)^0`, and be compact
@@ -4887,9 +4981,7 @@ covering maps; Tau Ceti's Hecke degrees, covering-map composition and quaternion
 ReductiveGroups, layers 1, 6 and 7; ReductiveGroupsPartII, RG2.3 and RG2.4; GlobalNumberFields,
 layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layers 5,
 10 and 13;
-LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layer 5;
-SieveMethodsAndPrimePatterns §5.3a (the strong approximation predicate, Borel density and strong
-approximation for simply connected semisimple groups); the `p`-adic
+LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layer 5; the `p`-adic
 closed-subgroup development in AA.4.2 and the finite reductive order formula in AA.2.4.
 
 ## Layer 5: worked examples
@@ -5105,8 +5197,8 @@ preceding layers; each item is a target with its own locator.
   `GL_2(ℚ)^+ \ (ℍ × GL_2(𝔸_f)/U)` (`AdelicExamples.GL2.LevelSpace`) over `FiniteAdeleRing ℤ ℚ`; its identification with
   `LevelMaps.LevelQuotient` for `GL_2` (finite adeles over `𝓞_ℚ`, `K∞ = ℝ^×SO(2)`), sending
   `[(g_∞, g_f)]` with `det g_∞ > 0` to `[(g_∞ · i, g_f)]`, is part of this target and is
-  specified in the README only. *Needs:* AA.3.4; AA.4.5; AA.4.2; SieveMethodsAndPrimePatterns
-  §5.3a (strong approximation for `SL₂`); Tau Ceti
+  specified in the README only. *Needs:* AA.3.4; AA.4.5; AA.4.2 (strong approximation for
+  `SL₂`); Tau Ceti
   `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`; AA.5.2, including the congruence
   groups of the components; Mathlib `Matrix.GeneralLinearGroup.det`; AA.4.4.
   *Lean:* `AdelicExamples.GL2.exists_componentHomeomorph`, with `AdelicExamples.GL2.Af`,
@@ -5260,8 +5352,7 @@ stabilizers at compact open levels are finite modulo their intersection with the
 Layers AA.1–AA.4; Mathlib's idele class group, unit lattice, upper half-plane action, arithmetic
 subgroups, congruence subgroups and quaternion algebras; Tau Ceti's `G_m` and `SL_2` comparison
 lemmas; GlobalNumberFields, layers 4 and 6; AlgebraicTopology, stage 6; FuchsianOrbifolds,
-layers 0, 1, 4 and 5; Tau Ceti's quaternion norm form and its base change;
-SieveMethodsAndPrimePatterns §5.3a (strong approximation for `SL₂`).
+layers 0, 1, 4 and 5; Tau Ceti's quaternion norm form and its base change.
 
 ## Downstream consumers
 
@@ -5283,7 +5374,8 @@ the neat levels of AA.4.3.
 | AutomorphicLFunctionsAndLocalFactors, AL.2, *gl2-newvectors* | AA.0.1 *local-haar-character*; AA.1.5 *local-congruence-levels*; AA.5.2 *number-field-congruence-levels* | Its local newvector `K₀` and last-row `K₁` are compared with the single-place comaps; its representation theory uses the same Haar normalization. |
 | GL2AutomorphicRepresentationsAndTransfer, R16.1.3 | AA.0.4 *adelic-borel-structure*, *idele-haar-character*; AA.1.5 *local-congruence-levels* | Its local-to-adelic level comparison uses the product factors and native units topology. |
 | HilbertModularVarietiesAndShimuraCurves, R18.3 | AA.4.2 *quaternion-norm-one-strong-approximation*; AA.4.4 *s-arithmetic-double-cosets* | Quaternionic components use the specified split finite place and the actual away-level stabilizers. |
-| AutomorphicFormsOnReductiveGroups, §0.3 | AA.0.1 *linear-haar-change-of-variables*; AA.0.4 *adelic-borel-structure*, *idele-haar-character* and `μ_𝔸` | Integration uses the single product Borel structure and the normalized Haar measure; the additive rational fundamental domain has mass `|d_F|^{1/2}`. |
+| AutomorphicFormsOnReductiveGroups, §0.3 | AA.0.1 *linear-haar-change-of-variables*; AA.0.4 *adelic-borel-structure*, *idele-haar-character* and `μ_𝔸` | Integration uses the single product Borel structure and the normalized Haar measure; the additive rational fundamental domain has mass `\|d_F\|^{1/2}`. |
+| ClassicalArithmeticCompletion, §§7.26, 7.44 | AA.3.4 the norm-one group `SL₁(D)` of a central division algebra; AA.4.2 the strong approximation predicate with `G(𝔸^S) = G(F)U` for every open `U`, and *strong-approximation-sufficiency* | §7.26 builds the norm-one groups of the simple components on `SL₁(D)`; §7.44 applies strong approximation to the norm-one groups `SL₁(C)` of the components satisfying Eichler's condition, with `S` the archimedean places. Its finite-image Artin functions (§7.30) are AnalyticNumberTheoryPartI §2.18a, which AA.2.4 consumes. |
 | KleinianGroups, Layer 3, `isDiscrete_bianchi` | AA.3.4 arithmetic discreteness for the integral `SL₂` level over an imaginary quadratic field | KleinianGroups identifies the integral level and the chosen complex embedding, then passes through the finite centre to its Bianchi subgroup of `PSL₂(ℂ)`. |
 
 For this specialization take `x = 1` and the compact open level `∏_{v finite} SL₂(𝒪_v)`;
