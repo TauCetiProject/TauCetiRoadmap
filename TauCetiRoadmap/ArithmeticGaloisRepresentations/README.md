@@ -2973,8 +2973,31 @@ in `Λ` of rank `dim V^{I_K}`, so that `Λ^{I_K} ⊗ k_E → ρ̄_Λ^{I_K}` is i
 with `a(ρ̄_Λ^ss)` independent of `Λ` because `ρ̄_Λ^ss` is, up to isomorphism (§1.9, independence of
 the lattice); and for a global `ℓ`-adic `ρ` of finite ramification, `N^{(ℓ)}(ρ̄_Λ) | N^{(ℓ)}(ρ)` with
 quotient `∏_{v ∤ ℓ} 𝔭_v^{dim ρ̄_Λ^{I_v} − dim V^{I_v}}` (Darmon–Diamond–Taylor 2007, Lemma 2.7),
-and `N^{(ℓ)}(ρ̄_Λ^ss) | N^{(ℓ)}(ρ̄_Λ) | N^{(ℓ)}(ρ)` by the local chain at each `v ∤ ℓ`. *Needs:* §3.1,
-§3.4, §1.9 (independence of the residual semisimplification).
+and `N^{(ℓ)}(ρ̄_Λ^ss) | N^{(ℓ)}(ρ̄_Λ)` for the `G_F`-semisimplification `ρ̄_Λ^ss`. At each `v ∤ ℓ` a
+`G_F`-composition series of `ρ̄_Λ` restricts to a `G_{F_v}`-stable filtration whose graded pieces
+have direct sum `ρ̄_Λ^ss|_{G_{F_v}}`, so §3.4's `a(V) ≥ a(V') + a(V'')`, applied along the
+filtration, and additivity on direct sums give `a_v(ρ̄_Λ^ss) ≤ a_v(ρ̄_Λ)`. The restriction
+`ρ̄_Λ^ss|_{G_{F_v}}` need not be `G_{F_v}`-semisimple, so this is not the local chain at `v`, whose
+left term is the conductor of the `G_{F_v}`-semisimplification and can be smaller (the first Check
+below). *Needs:* §3.1, §3.4, §1.9 (independence of the residual semisimplification).
+
+**Checks.**
+- `E: y² + y = x³ − x² − 10x − 20` over `ℚ` has `Δ = −11⁵`, `c₄ = 496` prime to `11`, and split
+  multiplicative reduction at `11` (`−c₆ = −20008 ≡ 1` is a square mod `11`), so `a_11(V_3E) = 1`
+  and its Tate parameter has `v_11(q) = 5`. Take `ℓ = 3`. As `3 ∤ 5`, inertia at `11` acts on
+  `ρ̄ = E[3]` through a nontrivial unipotent, and `a_11(ρ̄) = 1`. `E[3]` is irreducible: its
+  constituents would be `F_3^×`-valued characters unramified outside `3` (at `11` their restrictions
+  to inertia are trivial) with product `det ρ̄ = χ̄_3`, hence `1` and `χ̄_3`, forcing
+  `a_2 ≡ 1 + 2 ≡ 0 mod 3`, whereas `#E(F_2) = 5` gives `a_2 = −2`. So `ρ̄^ss = ρ̄`,
+  `a_11(ρ̄^ss) = 1` and the chain reads `1 ≤ 1 ≤ 1`, while the `G_{ℚ_11}`-semisimplification
+  `χ̄_3 ⊕ 1` is unramified with `a = 0`.
+- The same `E` with `ℓ = 5`: `5 | v_11(q)`, so `E[5]` is unramified at `11`, and the rational point
+  `(5, 5)` of order `5` gives `ρ̄^ss = 1 ⊕ χ̄_5`. Then `N^{(5)}(ρ̄^ss) = N^{(5)}(ρ̄) = 1` and
+  `N^{(5)}(V_5E) = 11`, the quotient being `11^{dim ρ̄^{I_11} − dim V^{I_11}} = 11^{2 − 1}`.
+- For the Kummer representation `(χ_ℓ c; 0 1)` of a Tate parameter `q` with `v(q) = 1`, `a(ρ) = 1`.
+  The lattice `ℤ_ℓe₁ ⊕ ℤ_ℓe₂` reduces to a ramified `ρ̄_Λ` with `a = 1`, and `ℤ_ℓe₁ ⊕ ℓℤ_ℓe₂` to
+  `χ̄_ℓ ⊕ 1` with `a = 0` and a drop `dim ρ̄^{I_K} − dim V^{I_K} = 2 − 1`. Both have
+  `ρ̄^ss = χ̄_ℓ ⊕ 1` with `a = 0`: `a(ρ̄_Λ)` depends on `Λ`, and only `a(ρ̄_Λ^ss)` does not.
 
 ### 3.7 Computations and Artin–Schreier characters
 
