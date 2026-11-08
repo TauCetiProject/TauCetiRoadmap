@@ -2426,7 +2426,7 @@ N≥1; 0<δ≤1; finite frequency family; circular separation. Since d(t)≤1/2 
 - Frequencies 0 and 1/2 with δ=1/2, N=1, a=(1): each phase has absolute value one, the left side is 2 and the right side (1−1+2)·1=2. Moving the second frequency to 1/3 with δ=1/2 violates the separation, since d(1/3)=1/3<1/2.
 - The empty frequency family gives 0≤(N−1+δ⁻¹)Σ_j|a_j|², whose right side is nonnegative because N≥1 and δ>0.
 
-*Needs:* Layer 2 §2.6 squared finite large-sieve duality; Layer 2 `SieveTaper.additive_largeSieve`; Layer 2 §2.9 separated hilbert inequality.
+*Needs:* Layer 2 §2.6 squared finite large-sieve duality; Layer 2 `SieveTaper.additive_largeSieve`; Layer 2 §2.9 separated hilbert inequality; Layer 2 §2.2 cardinality above the circle diameter; Mathlib `norm_sum_le`; Mathlib `Circle.norm_coe`; Mathlib `sq_sum_le_card_mul_sum_sq`.
 
 **Sharp primitive-character large sieve.** Prove `SieveApplications.sharp_primitive_largeSieve`. For a complex sequence supported on H consecutive integers, H≥1, and Q≥1, Σ_(q≤Q)q/φ(q)Σ_(χ primitive modq)|Σ_n a_nχ(n)|²≤(H−1+Q²)Σ_n|a_n|².
 
@@ -2442,7 +2442,7 @@ H,Q≥1; primitive characters; integer interval.
 - At Q=1,H=2,a=(1,1), the bound is 4≤2·2=4, with equality; it is the additive theorem at its endpoint δ=Q⁻²=1 with the single frequency 0.
 - At Q=2 the additive parameter is δ=1/4, and the sharp constant is H+3. Modulus two has no primitive character, but modulus one remains in the sum.
 
-*Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Layer 2 §2.3 squared norm of a primitive dirichlet gauss sum; Layer 2 §2.3 parseval identity over dirichlet characters.
+*Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Layer 2 §2.3 circular separation of reduced fractions; Layer 2 §2.3 gauss expansion of a finite character sum; Layer 2 §2.3 squared norm of a primitive dirichlet gauss sum; Layer 2 §2.3 parseval identity over dirichlet characters.
 
 **Large sieve for forbidden residues.** Let finite prime set P have forbidden Ω_p⊆F_p, |Ω_p|<p. Suppose a_n vanishes on every forbidden residue and is supported on H consecutive integers. Put h(d)=μ²(d)∏_(p|d,p∈P)|Ω_p|/(p−|Ω_p|), zero if any prime factor is outside P, and J(Q)=Σ_(d≤Q)h(d). Then J(Q)|Σa_n|²≤(H−1+Q²)Σ|a_n|². The multiplied form includes J=0.
 
@@ -2452,7 +2452,7 @@ Support actually avoids forbidden residues; squarefree moduli; Q,H≥1.
 
 *Proof sketch.* For Q=1 only d=1 occurs, J(1)=1, and Cauchy–Schwarz gives the stated constant H. For Q≥2 use δ=Q⁻²≤1/4 in the sharp additive theorem. For one prime, sum over allowed residue totals and apply Cauchy; finite additive orthogonality gives the missing nontrivial-phase energy. For coprime primes use the additive CRT phases a₁/q₁+a₂/q₂, preserving all other avoidance conditions under twisting. Sum the positive squarefree moduli and apply the sharp additive inequality.
 
-*Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Mathlib `ZMod`; Mathlib `Finset`.
+*Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Layer 2 §2.3 circular separation of reduced fractions; Mathlib `ZMod`; Mathlib `Finset`.
 
 **Least quadratic nonresidue.** Define `SieveApplications.leastNonresidue`. For odd prime p, q(p) is the least integer n≥1 with Jacobi(n,p)=−1; set q(p)=0 when p is not an odd prime. Divisible integers have symbol 0 and are not nonresidues.
 
@@ -4125,10 +4125,10 @@ Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3
 
 The following roadmaps take their statements from this one, by section:
 
-- ArithmeticStatisticsPartVII, in its multiplicative large sieve: the separated Hilbert inequality with constant π/δ, `SieveTaper.sharp_additive_largeSieve` for 0<δ≤1 and `SieveApplications.sharp_primitive_largeSieve` (§2.9). ExplicitZetaBounds and ExplicitPrimeCounting take the same §2.9 statements, and ExplicitPrimeCounting also the prime count in a residue class, `SieveDistribution.primeCountAP` (§3.1).
+- ArithmeticStatisticsPartVII, in its multiplicative large sieve: the separated Hilbert inequality with constant π/δ, `SieveTaper.sharp_additive_largeSieve` for 0<δ≤1 and `SieveApplications.sharp_primitive_largeSieve` (§2.9). ExplicitZetaBounds takes the same three §2.9 statements and the finite large-sieve duality of §2.6. ExplicitPrimeCounting takes the large sieve for forbidden residues (§2.9), as a comparison for its Brun–Titchmarsh inequality rather than an input, and the prime count in a residue class, `SieveDistribution.primeCountAP` (§3.1).
 - ArithmeticStatisticsPartIII, in its degree-uniform hypersurface smooth points (§2.23): `SieveLangWeil.lang_weil_uniform` (§5.4), for the affine cone of the hypersurface and for its singular cone, leaving only the removal of the singular locus. InverseGaloisAndArithmeticFundamentalGroups, in IG.2.5 and IG.2.7: the Lang–Weil estimate for a fixed model (§5.4).
 - GeometryOfNumbersAndQuadraticArithmetic (§4.1): Henk's and Davenport's lattice-point counts (§0.11a).
-- ErdosProgressionPowers (Layer 3): `SieveGram.sum_norm_inner_sq_le_of_row_le` and the diagonal/off-diagonal Gram inequality (§0.4).
+- ErdosProgressionPowers (Layer 3): the uniform Gram-row inequality `SieveGram.sum_norm_inner_sq_le_of_row_le` and its two specialisations of §0.4, the maximum-row Gram inequality and the diagonal/off-diagonal Gram inequality, which are README targets with no Lean declaration.
 - CircleMethodThreePrimes: `SieveVaughan.vaughan_identity` and the incomplete logarithm of §2.4.
 - ArithmeticStatisticsPartV: the quadratic ideal residue symbol, the short-character conjecture Cₘ and the conditional joint-spin prime bound (§5.6).
 - ArithmeticDirichletSeriesPartII and ExplicitMultiplicativeFunctions: the elementary upper bounds for τ_k (§1.1), and for ExplicitMultiplicativeFunctions the sieve-dimension predicate (§0.5).
