@@ -8,9 +8,9 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
 one definition a headline needs: the reduction map `ℤ[ω]/(m) → (ℤ/m)[ω̄]` induced by
 `QuadraticAlgebra.mapRingHom`, which has a real body. Every headline of the roadmap is statable
-at the pins: the conductor classifications of quadratic Dirichlet characters at odd prime-power
-and at two-power levels, the primitive discriminant of a real character at any level, the kernel
-and bijectivity of reduction modulo `m` with the cardinality of the quotient, the Frobenius
+at the pins: the classifications of the quadratic Dirichlet characters at odd prime-power and at
+two-power levels, the primitive discriminant of a real character at any level, the kernel and
+bijectivity of reduction modulo `m` with the cardinality of the quotient, the Frobenius
 identities on `QuadraticAlgebra F r 0` over a finite field in the inert and in the split case,
 the integral Frobenius congruence in `ℤ[√r]`, and the coordinate bound for every complex
 embedding of `ℚ(√r)`. Nothing is stated in place of a headline that is not statable, since there
@@ -25,26 +25,39 @@ open QuadraticAlgebra
 
 /-! ## Layer 1: quadratic characters, local conductors and the primitive discriminant -/
 
-/-- **Quadratic characters at an odd prime-power level.** A quadratic Dirichlet character modulo
-`p ^ k`, `p` an odd prime and `k ≥ 1`, is principal or induced from the Legendre character
-modulo `p`: its conductor is `1` or `p` (Montgomery–Vaughan, §9.3, pp. 295–296). -/
-theorem odd_prime_power_conductor {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hk : 0 < k) (χ : DirichletCharacter ℂ (p ^ k)) (hχ : χ.IsQuadratic) :
-    χ.conductor = 1 ∨ χ.conductor = p := by
+/-- **The quadratic characters at an odd prime-power level.** For an odd prime `p` and every
+`k`, a Dirichlet character modulo `p ^ k` with complex values is quadratic exactly when it is
+principal or the lift by `changeLevel` of the Legendre character `quadraticChar (ZMod p)`. The
+lift exists only for `k ≥ 1`; at `k = 0` the level is `1` and the only character is principal
+(Montgomery–Vaughan, §9.3, pp. 295–296). -/
+theorem odd_prime_power_classification {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (k : ℕ)
+    (χ : DirichletCharacter ℂ (p ^ k)) :
+    χ.IsQuadratic ↔ χ = 1 ∨ ∃ h : p ∣ p ^ k,
+      χ = DirichletCharacter.changeLevel h
+        ((quadraticChar (ZMod p)).ringHomComp (Int.castRingHom ℂ)) := by
   sorry
 
-/-- **Quadratic characters at a two-power level.** A quadratic Dirichlet character modulo `2 ^ k`
-is the lift of the principal character, of `χ₄`, of `χ₈` or of `χ₈'`: its conductor is `1`, `4`
-or `8` (Montgomery–Vaughan, §9.3, p. 296). -/
-theorem two_power_conductor (k : ℕ) (χ : DirichletCharacter ℂ (2 ^ k))
-    (hχ : χ.IsQuadratic) : χ.conductor ∈ ({1, 4, 8} : Finset ℕ) := by
+/-- **The quadratic characters at a two-power level.** A Dirichlet character modulo `2 ^ k` with
+complex values is quadratic exactly when it is principal, or the lift of `χ₄` (possible for
+`k ≥ 2`), or the lift of `χ₈` or of `χ₈'` (possible for `k ≥ 3`). So there is one quadratic
+character at levels `1` and `2`, two at level `4` and four at every level `2 ^ k` with `k ≥ 3`
+(Montgomery–Vaughan, §9.3, p. 296). -/
+theorem two_power_classification (k : ℕ) (χ : DirichletCharacter ℂ (2 ^ k)) :
+    χ.IsQuadratic ↔ χ = 1 ∨
+      (∃ h : 4 ∣ 2 ^ k,
+        χ = DirichletCharacter.changeLevel h (ZMod.χ₄.ringHomComp (Int.castRingHom ℂ))) ∨
+      (∃ h : 8 ∣ 2 ^ k,
+        χ = DirichletCharacter.changeLevel h (ZMod.χ₈.ringHomComp (Int.castRingHom ℂ))) ∨
+      (∃ h : 8 ∣ 2 ^ k,
+        χ = DirichletCharacter.changeLevel h (ZMod.χ₈'.ringHomComp (Int.castRingHom ℂ))) := by
   sorry
 
 /-- **The primitive discriminant of a real character.** A quadratic Dirichlet character of any
 positive level `N` agrees, at every integer coprime to `N`, with the complex realization of the
 character of exactly one fundamental discriminant `D`, and `|D|` is its conductor. The principal
-character corresponds to `D = 1`; the primitive nonprincipal case is
-AnalyticNumberTheoryPartI §0.34a, and the uniqueness uses `χ(-1) = sign D`. -/
+character corresponds to `D = 1`; for a primitive nonprincipal character this is
+Montgomery–Vaughan, Theorem 9.13, p. 297, reached from the radicand of
+AnalyticNumberTheoryPartI §0.34a; the uniqueness uses `χ(-1) = sign D`. -/
 theorem exists_unique_fundamental_discriminant {N : ℕ} [NeZero N]
     (χ : DirichletCharacter ℂ N) (hχ : χ.IsQuadratic) :
     ∃! D : ℤ, ∃ hD : Int.IsFundamentalDiscr D,
