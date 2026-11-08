@@ -21,23 +21,24 @@ every space `X`, `Sh X` satisfies (A) and (B) exactly when `Opens X` is complete
 the union of the completely join-prime open sets it contains; sheaves on `[0, 1)` with the lower
 topology satisfy (A) and (B), are not a presheaf topos and have no projective object but `0`;
 sheaves on the Cantor space satisfy (A), not (B), and have enough projectives, and sheaves on `ℝ`
-satisfy (B), not (A); and a sheaf topos is a presheaf topos exactly when it satisfies (B) and has
-enough projectives.
+satisfy (B), not (A); a sheaf topos is a presheaf topos exactly when it satisfies (B) and has
+enough projectives; and in every sheaf topos the Heyting implication of subobjects is stable under
+pullback.
 
 Suggested homes: `TauCeti/Order/CompletelyDistributive/` for Layer 1 and
 `TauCeti/CategoryTheory/Topos/TotallyDistributive/` for Layers 2–4.
 
 ## Scope and ownership
 
-**Owned here.** The two exactness conditions as predicates on a category
-(`ProductsPreserveEpis`, `ProductsDistribOverCoproducts`), total distributivity
-(`IsTotallyDistributive`), the predicate `IsPresheafTopos`, and every theorem relating them on
-sites, on spaces and on frames: completely distributive, locally connected and Alexandrov frames
-(Layer 1), connected sheaves and the decomposition of a sheaf into connected components when the
-constant sheaf functor has a left adjoint, with the site-level characterizations (Layer 2), the
-spatial and localic forms with the counterexample and the independence of (A) and (B) (Layer 3),
-and projectives (Layer 4). GrothendieckTopoi is the neighbouring owner; no other roadmap owns
-these objects.
+**Owned here.** The two exactness conditions as predicates on a category (`ProductsPreserveEpis`,
+`ProductsDistribOverCoproducts`), total distributivity (`IsTotallyDistributive`), the predicate
+`IsPresheafTopos`, and every theorem relating them on sites, on spaces and on frames: completely
+distributive, locally connected and Alexandrov frames (Layer 1), connected sheaves and the
+decomposition of a sheaf into connected components when the constant sheaf functor has a left
+adjoint, with the site-level characterizations, and the stability of the Heyting implication of
+subobjects under pullback (Layer 2), the spatial and localic forms with the counterexample and the
+independence of (A) and (B) (Layer 3), and projectives (Layer 4). GrothendieckTopoi is the
+neighbouring owner; no other roadmap owns these objects.
 
 **Already in Mathlib.** A `CompletelyDistribLattice` satisfies the minimal axioms
 (`CompletelyDistribLattice.MinimalAxioms.of`), and a complete lattice satisfying them carries a
@@ -113,7 +114,8 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
   `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`), `Sheaf.instHasColimitsOfShape`
   (`Sites/Limits`, the `u`-small coproducts of sheaves).
 - Categories: `HasProducts`, `HasCoproducts`, `Limits.Pi.map`, `Sigma.desc`, `Sigma.ι`, `Epi`,
-  `IsIso`, `IsInitial`, `BinaryCofan`, `pullback`, `yoneda`, `Adjunction`, `Functor.IsRightAdjoint`,
+  `IsIso`, `IsInitial`, `BinaryCofan`, `pullback`, `Subobject`, `Subobject.pullback`,
+  `Subobject.exists`, `yoneda`, `Adjunction`, `Functor.IsRightAdjoint`,
   `Functor.Full`, `Functor.Faithful`, `PreservesFiniteLimits`, `PreservesLimitsOfShape`,
   `Equivalence`, `Projective`, `EnoughProjectives`,
   `isRightAdjoint_of_preservesLimits_of_isCoseparating` (`Adjunction/AdjointFunctorTheorems`),
@@ -123,13 +125,15 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
 
 **From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`, satisfied by `Sheaf J (Type u)` for every
 small site and by `Type u`), 1.2 (`Sheaf J (Type u)` is balanced and every morphism into an initial
-object is an isomorphism), 1.4 (`isGrothendieckTopos_iff_giraudAxioms`: `u`-small coproducts in
-`Sheaf J (Type u)` are disjoint and universal and it has a small separating family; every
-Grothendieck topos is equivalent to `Sheaf J (Type u)` for a small subcanonical site), 2.3 (the
-global sections morphism of `Sheaf J (Type u)`, with inverse image `constantSheaf`), 5.2 (for
-`F = Type u`, a geometric morphism to `Type u` is locally connected exactly when the constant
-functor has a left adjoint; `Sh(X)` is locally connected exactly when `X` is), 5.6
-(`GeometricMorphism.IsEssential`, `GeometricMorphism.isEssential_iff_preservesProducts`), 6.5
+object is an isomorphism; each `Subobject F` is a frame, and `Subobject.pullback f` has the left
+adjoint `Subobject.exists f` and a right adjoint, for target 2.6), 1.4
+(`isGrothendieckTopos_iff_giraudAxioms`: `u`-small coproducts in `Sheaf J (Type u)` are disjoint
+and universal and it has a small separating family; every Grothendieck topos is equivalent to
+`Sheaf J (Type u)` for a small subcanonical site), 2.3 (the global sections morphism of
+`Sheaf J (Type u)`, with inverse image `constantSheaf`), 5.2 (for `F = Type u`, a geometric
+morphism to `Type u` is locally connected exactly when the constant functor has a left adjoint;
+`Sh(X)` is locally connected exactly when `X` is), 5.6 (`GeometricMorphism.IsEssential`,
+`GeometricMorphism.isEssential_iff_preservesProducts`), 6.5
 (`exists_equiv_presheaf_iff_essential_points`, `epi_piMap_presheaf`, `isIso_sigma_pi_presheaf`), 7.1
 (`Frame.grothendieckTopology`: subcanonical, and equal to `Opens.grothendieckTopology X` for
 `L = Opens X`; for targets 3.1 and 3.3–3.5).
@@ -142,8 +146,9 @@ the frames of lower sets. Layer 2 names (A), (B), total distributivity and presh
 proves the site-level characterizations: (B) is local connectedness, closure of covers under
 intersections is the existence of a left adjoint of sheafification, and (A) with (B) is essentiality
 in a presheaf topos and total distributivity; it first decomposes sheaves into connected components,
-and consumes GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6 and 6.5. Layer 3 specializes Layer 2 to
-spaces through Layer 1, states the localic forms that need GrothendieckTopoi 7.1, and ends with the
+ends with the Heyting implication of subobjects and its stability under pullback (2.6), and consumes
+GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6 and 6.5. Layer 3 specializes Layer 2 to spaces
+through Layer 1, states the localic forms that need GrothendieckTopoi 7.1, and ends with the
 counterexample on `[0, 1)` and the independence of (A) and (B). Layer 4 characterizes presheaf topoi
 among sheaf topoi by (B) and projectives, through Roos's theorem.
 
@@ -419,6 +424,39 @@ being, by choice, the sieve generated by `∏ f i`.
   topoi are the lex total categories with a small set of generators, Lucyshyn-Wright 2012, §1.1,
   after Street and Walters) and `c` has no left adjoint there.
 
+### 2.6 Heyting implication of subobjects and pullback
+
+Prove `exists_himp_subobject_pullback`: for a small site, a sheaf `F` and subobjects `A`, `B` of
+`F`, there is a subobject `H` of `F` with `D ≤ H ↔ D ⊓ A ≤ B` for every subobject `D` of `F` (the
+Heyting implication `A ⇨ B`), and for every `f : G ⟶ F` the pullback of `H` along `f` is the
+Heyting implication of the pullbacks of `A` and `B`: `D ≤ f*H ↔ D ⊓ f*A ≤ f*B` for every
+subobject `D` of `G`. So each `Subobject F` is a Heyting algebra and `Subobject.pullback f` is a
+homomorphism of Heyting algebras (Freyd 1972, Proposition 2.41, pp. 27–28, for every topos). The
+implication exists because `Subobject F` is a frame (GrothendieckTopoi 1.2); the content here is
+its stability under pullback. Route: `f* ⊣ ∀_f` and `∃_f ⊣ f*` (GrothendieckTopoi 1.2), and
+Frobenius reciprocity `∃_f (D ⊓ f*A) = ∃_f D ⊓ A`, from the stability of images under pullback
+in a topos; then `D ≤ f*(A ⇨ B)` iff `∃_f D ≤ A ⇨ B` iff `∃_f D ⊓ A ≤ B` iff
+`∃_f (D ⊓ f*A) ≤ B` iff `D ⊓ f*A ≤ f*B`. The inequality `f*(A ⇨ B) ≤ f*A ⇨ f*B` holds with
+pullbacks alone, since `f*` preserves `⊓`; the reverse one uses Frobenius.
+*Needs:* GrothendieckTopoi 1.2; Mathlib `Subobject`, `Subobject.pullback`, `Subobject.exists`,
+`Sheaf`.
+
+**Checks.**
+
+- For the trivial topology on `PUnit`, the topos is `Type u`, `Subobject X` is `Set X`,
+  `A ⇨ B = Aᶜ ∪ B`, and pullback along `f` is the preimage, which preserves complements and
+  unions: for `X = Fin 2`, `A = {0}`, `B = ∅`, the implication is `{1}`, and its preimage along
+  the constant map `Fin 1 → Fin 2` at `0` is `∅`, which is `Set.univ ⇨ ∅`, the implication of the
+  preimages of `A` and `B`.
+- The implication is not Boolean: in `Sh ℝ` the subobjects of the terminal sheaf are the open sets
+  of `ℝ`, with `U ⇨ V` the interior of `Uᶜ ∪ V`; for `U = ℝ ∖ {0}` and `V = ∅` it is `∅`, so
+  `U ⊔ (U ⇨ ⊥) = U ≠ ⊤`. Pullback along the inclusion of the sheaf represented by `W` is
+  restriction to `W`, and for `W = (0, 1)` it sends `U` to `W` and `U ⇨ ⊥ = ∅` to `∅ = W ⇨ ⊥`.
+- The topos hypothesis is needed: in `AddCommGrpCat` the subgroups of `ℤ/2 × ℤ/2` form `M₃`
+  (GrothendieckTopoi 1.2, Checks), and `A ⇨ 0` does not exist for a subgroup `A` of order `2`:
+  the two other subgroups `B`, `C` of order `2` meet `A` in `0`, so both would lie below it, hence
+  `B ⊔ C = ⊤`, while `⊤ ⊓ A = A ≠ 0`.
+
 ### Examples
 
 - Presheaf topoi satisfy (A) and (B) (GrothendieckTopoi 6.5) and are totally distributive
@@ -428,7 +466,7 @@ being, by choice, the sieve generated by `∏ f i`.
 ### Dependencies
 
 Layer 1 is not used; GrothendieckTopoi 1.1, 1.2, 1.4, 2.3, 5.2, 5.6 and 6.5, and Mathlib. Within
-the layer, 2.2–2.5 use 2.1, 2.4 uses 2.3, and 2.5 uses 2.4.
+the layer, 2.2–2.5 use 2.1, 2.4 uses 2.3, and 2.5 uses 2.4; 2.6 uses only GrothendieckTopoi 1.2.
 
 ## Layer 3: spaces, frames, the counterexample and independence
 
@@ -641,6 +679,9 @@ are not addressed here.
 
 ## References
 
+- [Freyd 1972] P. Freyd, « Aspects of topoi », *Bulletin of the Australian Mathematical Society* 7
+  (1972), 1–76. doi:10.1017/S0004972700044828. Proposition 2.41 (pp. 27–28: the subobjects of an
+  object of a topos form a Heyting algebra, and its operations are preserved by pulling back).
 - [Lucyshyn-Wright 2012] R. B. B. Lucyshyn-Wright, « Totally distributive toposes », *Journal of
   Pure and Applied Algebra* 216 (2012), 2425–2431. doi:10.1016/j.jpaa.2012.03.018; arXiv:1108.4032.
   The locators follow the numbering of arXiv:1108.4032v3: §1.1 (total and totally distributive
