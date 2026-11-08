@@ -70,11 +70,11 @@ which the layers need and which neither Mathlib nor Tau Ceti provides:
 |---|---|
 | `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` for `Re s > 0`, `Re z > 0` | 4.1 |
 | Watson's lemma in sectors and along rotated rays, with the gluing of the rotated integrals | 4.2, 4.3 |
-| The formal complex power of a power series and the Laplace coefficients `b_s` | 5.1 |
+| The formal complex power of a power series | 1.4 |
+| The Laplace coefficients `b_s` | 5.1 |
 | The continued Mellin transforms through an expansion at `0+` or at `+∞`, and the entire model integral `oscTail` for oscillatory tails | 8.3 |
-| `∫₀^∞ t^{α−1}(x+t)^{−α−β} dt = Γ(α)Γ(β)Γ(α+β)⁻¹ x^{−β}` (DLMF 2.6.4) | 9.1 |
+| `∫₀^∞ t^{α−1}(x+t)^{−α−β} dt = Γ(α)Γ(β)Γ(α+β)⁻¹ x^{−β}` (DLMF 2.6.4) for complex `α`, `β` with positive real parts and every `x > 0`, extending Tau Ceti's real case at `x = 1` | 9.1 |
 | Volterra integral equations with separable kernel bounds, and their discrete analogue | 10.1, 12 |
-| The Laurent coefficients `f_n` of a function on a punctured disc | 13.6 |
 | The line-shift identity with simple poles and vanishing horizontal connectors, and its iteration over infinitely many lines | 8.2 |
 | The pole-separated bound `\|Γ(x + iy)\| ≤ C (1 + \|y\|)^K e^{−π\|y\|/2}` on vertical strips | 8.6 |
 | The exponential Mellin inversion `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` | 8.7 |
@@ -97,8 +97,13 @@ consume them (see [Downstream consumers](#downstream-consumers)).
   cases of §§2.8(iii)–(vi), and the transition-point theory of §2.9(iii).
 - The remainder theory of §2.11(ii)–(vi): exponentially improved expansions, the Stokes
   phenomenon, hyperasymptotics and numerical acceleration.
+- Laplace integrals that converge only conditionally. DLMF assumes for 2.3.8 only that the
+  integral converges for large `x`; here the Laplace integrals of Layers 3–5 are Lebesgue
+  integrals, as in Mathlib's `laplace` and `LaplaceConvergent`, so Watson's lemma (3.3, 4.2) and
+  Laplace's method (5.2, 5.4) assume absolute convergence. The oscillatory integrals of 3.2 and
+  Layer 6 are improper integrals under DLMF's own hypotheses.
 
-See the last section for these.
+[Excluded material](#excluded-material) lists these with their owners.
 
 **The boundary in one sentence:** this roadmap owns the general asymptotic methods of the DLMF
 subsections listed at the top (all within §§2.1–2.10), stated for arbitrary functions under
@@ -148,11 +153,13 @@ def Asymptotics.HasAsymptoticExpansion (l : Filter α) (φ : ℕ → α → 𝕜
   factor bounded in every sector of finite opening. Bounds near `0+` are
   `O(t ^ (Re α − 1))` along `𝓝[>] 0` with real powers.
 - **Integrals.** Laplace integrals are `∫ t in Ioi 0, cexp (−(z * t)) • q t`, the shape of the
-  `laplace` of Mathlib's open Laplace-transform pull request (see
-  [Exact supplier contracts](#from-mathlib)). Absolute convergence is assumed throughout, as
-  integrability of `t ↦ e^{−σt} q t` on `(0, ∞)` for some real `σ`, except for the oscillatory
-  integrals of 3.2 and Layer 6. An oscillatory integral over an infinite range is the improper
-  integral `lim_{T→∞} ∫_a^T`, stated with `Tendsto (fun T => ∫ t in a..T, _) atTop`.
+  `laplace` of Mathlib pull request #40582 (Laplace transform; see
+  [Exact supplier contracts](#from-mathlib)). They converge absolutely, as integrability of
+  `t ↦ e^{−σt} q t` on `(0, ∞)` for some real `σ`. An oscillatory integral over an infinite range
+  (3.2, Layer 6) is the improper integral `lim_{T→∞} ∫_a^T`, stated with
+  `Tendsto (fun T => ∫ t in a..T, _) atTop`. Its hypothesis is DLMF's: an integral
+  `∫ e^{ixt} r(t) dt` **converges at `∞` uniformly for all sufficiently large `x`** when
+  `∀ ε > 0, ∃ c, ∀ x ≥ x₀, ∀ T′ ≥ T ≥ c, ‖∫_T^{T′} e^{ixt} r(t) dt‖ ≤ ε` for some `x₀`.
 - **Mellin transforms** are Mathlib's `mellin f s = ∫ t in Ioi 0, t ^ (s − 1) • f t`. The
   analytically continued transforms of DLMF 2.5.26 and 2.5.28 are the explicit functions
   `mellinContAtZero` and `mellinContAtTop` of 8.3.
@@ -191,6 +198,15 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
 
 ### From Tau Ceti
 
+- `TauCeti/Analysis/Complex/Laurent/Basic.lean` defines the Laurent coefficient
+  `TauCeti.circleLaurentCoeff f c R n = (2πi)⁻¹ ∮_{|z−c|=R} (z − c)^{−n−1} f(z) dz` and proves its
+  independence of the radius on an annulus of holomorphy
+  (`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`), the monomial
+  value (`TauCeti.circleLaurentCoeff_sub_zpow_smul`), additivity (`TauCeti.circleLaurentCoeff_add`)
+  and the Cauchy estimate (`TauCeti.norm_circleLaurentCoeff_le`). 13.6 uses it for `f_n`.
+- `TauCeti/Analysis/SpecialFunctions/Beta.lean` has Euler's second Beta integral
+  `TauCeti.integral_rpow_mul_one_add_rpow`:
+  `∫₀^∞ t^{a−1}(1 + t)^{−(a+b)} dt = B(a, b)` for real `a, b > 0`. 9.1 extends it.
 - `TauCeti/Analysis/Asymptotics/` has general `IsBigO` and summation lemmas in the namespace
   `Asymptotics`; this roadmap adds to that namespace.
 - `TauCeti/Analysis/Complex/LaplaceTransform.lean` has, for `f : ℝ → ℂ` and the integrand
@@ -227,8 +243,8 @@ residues and add the vertical-line shift with decay hypotheses; they define no n
   `Mathlib/Analysis/Complex/CauchyIntegral.lean`.
 - `Finset.sum_range_by_parts`.
 - `ODE_solution_unique` and the Picard–Lindelöf theorem `IsPicardLindelof`.
-- **Mathlib's open Laplace-transform pull request
-  [#40582](https://github.com/leanprover-community/mathlib4/pull/40582)** defines
+- **Mathlib pull request [#40582](https://github.com/leanprover-community/mathlib4/pull/40582)
+  (Laplace transform)** defines
   `laplace f s = ∫ t, Complex.exp ((−s) * t) • f t ∂(volume.restrict (Ioi 0))` with
   `LaplaceConvergent` and `HasLaplace`. The layers write Laplace integrals out in exactly this
   shape, `∫ t in Ioi 0, cexp (−(z * t)) • q t`, so that adopting that API when it lands is a
@@ -278,6 +294,18 @@ Define `IsAsymptoticScale` and `HasAsymptoticExpansion` as pinned. Prove:
 - `HasAsymptoticExpansion.unique`: for an asymptotic scale with every `φ n` frequently nonzero
   along `l`, the coefficients are unique.
 
+**Checks.**
+
+- `n ↦ x⁻ⁿ` is an asymptotic scale along `atTop` on `ℝ`, and not along `𝓝[>] 0`, where each
+  ratio `x^{−n−1}/x^{−n} = x⁻¹` tends to `∞`.
+- Along `atTop`, `e^{−x}` has the zero expansion in `x⁻ⁿ`, as `0` does: an expansion does not
+  determine the function.
+- With `φ n = x⁻ⁿ` and `ψ n = 2x⁻ⁿ` along `atTop`, `f = 1` has the coefficients `(1, 0, 0, …)` in
+  `φ` and `(½, 0, 0, …)` in `ψ`, as the rescaling rule gives; the coefficients `(1, 0, 0, …)` do
+  not expand `f` in `ψ`.
+
+*Needs:* Mathlib `IsBigO`, `IsLittleO` and their algebra.
+
 ### 1.2 Order-symbol examples
 
 DLMF 2.1.4–2.1.10, as checks: `tanh z ∼ z` as `z → 0` in `ℂ`; `e^{−x} = o(1)` as `x → +∞` in
@@ -286,12 +314,15 @@ DLMF 2.1.4–2.1.10, as checks: `tanh z ∼ z` as `z → 0` in `ℂ`; `e^{−x} 
 `x → ±∞` in `ℤ`; `e^{ix} = O(1)` on `ℝ` (along `⊤`); the tail of a power series convergent
 near `0` is `O(zⁿ)` (2.1.8); `e^z = 1 + z + O(z²)` (2.1.9).
 
+*Needs:* 1.1; Mathlib `IsEquivalent`, `Complex.tanh` and
+`HasFPowerSeriesAt.isBigO_sub_partialSum_pow`.
+
 ### 1.3 Poincaré expansions
 
 At infinity in a set `X ⊆ ℂ`, the scale is `z ↦ (zⁿ)⁻¹` along `cobounded ℂ ⊓ 𝓟 X`; on `ℝ` at
 `+∞` it is `x ↦ (xⁿ)⁻¹` along `atTop`; at a finite point `c` it is `z ↦ (z − c)ⁿ` along the
 punctured filter `𝓝[X \ {c}] c` (2.1.16). Prove:
-- these are asymptotic scales (`isAsymptoticScale_inv_pow` at infinity); uniqueness holds at
+- these are asymptotic scales; uniqueness holds at
   infinity when `cobounded ℂ ⊓ 𝓟 X` is not `⊥` (that is, `X` is unbounded), and at `c` when
   `𝓝[X \ {c}] c` is not `⊥` (that is, `c` is an accumulation point of `X`). Both are instances
   of the frequent-nonvanishing hypothesis of `HasAsymptoticExpansion.unique`; nonbottomness of
@@ -303,6 +334,8 @@ punctured filter `𝓝[X \ {c}] c` (2.1.16). Prove:
   `cobounded ℂ` (`hasAsymptoticExpansion_of_hasSum`);
 - **2.1.17**: in `|ph z| ≤ π/2 − δ`, the functions `0`, `e^{−z}` and `e^{−√z}` (principal
   root) all have the zero expansion.
+
+*Needs:* 1.1; Mathlib `HasSum` and `HasFPowerSeriesAt.isBigO_sub_partialSum_pow`.
 
 ### 1.4 Asymptotic power series
 
@@ -320,11 +353,30 @@ composition and inversion. The last two involve two filters: `l` on `α` with sm
   `H (y x) = w x`, then `σ ∘ y ∼ P.substInvOfIsUnit _` in `w` along `l`. The hypothesis
   `Tendsto y l m` selects the branch of the inverse; the equation `H (y x) = w x` alone does not.
 
-Prove the rules for complex powers and logarithms (DLMF §2.1(iii), "substitution, logarithms and
-powers"): if `f ∼ P` with `constantCoeff P ∈ slitPlane` and `ℓ = Complex.log (constantCoeff P)`,
-then the principal powers and logarithm satisfy `f ^ r ∼ formalCpow ℓ r P` (5.1) and
+For a power series `P` with constant coefficient `exp ℓ` and `r ∈ ℂ`, define the formal power
+
+```text
+formalCpow ℓ r P = C(exp(r ℓ)) · (binomialSeries ℂ r).subst (C(exp(−ℓ)) · P − 1),
+```
+
+the power `P^r` whose constant term is `exp(r ℓ)`. Prove the rules for complex powers and
+logarithms (DLMF §2.1(iii), "substitution, logarithms and powers"): if `f ∼ P` with
+`constantCoeff P ∈ slitPlane` and `ℓ = Complex.log (constantCoeff P)`, then the principal powers
+and logarithm satisfy `f ^ r ∼ formalCpow ℓ r P` and
 `log f ∼ C ℓ + (logSeries).subst (C (exp (−ℓ)) * P − 1)`, where
 `logSeries = PowerSeries.mk fun k => if k = 0 then 0 else (−1) ^ (k + 1) / k`.
+
+**Checks.**
+
+- `formalCpow ℓ 1 P = P`, `formalCpow ℓ (r + r′) P = formalCpow ℓ r P * formalCpow ℓ r′ P`,
+  and `formalCpow ℓ n P = P ^ n` for natural `n`.
+- For `P = 1 + X` (`ℓ = 0`), `formalCpow 0 r P = binomialSeries ℂ r`, with coefficients
+  `Ring.choose r k`.
+- `formalCpow (ℓ + 2πi) r P = exp(2πi r) · formalCpow ℓ r P`: the choice of `ℓ` is the choice of
+  branch, and it matters unless `r` is an integer.
+
+*Needs:* 1.1; Mathlib `PowerSeries.subst`, `PowerSeries.substInvOfIsUnit`,
+`PowerSeries.binomialSeries` and `Complex.log`.
 
 ### 1.5 Integration and differentiation
 
@@ -340,6 +392,8 @@ DLMF §2.1(ii).
   `O`. Consequently a Poincaré expansion of such an `f` may be differentiated termwise in closed
   subsectors.
 
+*Needs:* 1.1, 1.3; Mathlib's Cauchy estimates (for Ritt's theorem) and interval integrals.
+
 ### 1.6 Borel–Ritt existence and non-uniqueness
 
 For every `a : ℕ → ℂ` and every `θ ∈ (0, π)` there is `f`, holomorphic on `{1 < |z|, |ph z| < θ}`,
@@ -347,14 +401,14 @@ whose Poincaré expansion along `cobounded ℂ ⊓ 𝓟 {|ph z| ≤ θ}` is `∑
 (`exists_hasAsymptoticExpansion_sector`); and the same on the positive real axis. Two such
 functions differ by a function with the zero expansion, and nonzero such functions exist (2.1.17).
 
+*Needs:* 1.3; Mathlib `Complex.exp` and the principal `Complex.cpow`.
+
 ### Examples
 
 - The order-symbol examples of 1.2 and the zero expansions of 2.1.17 in 1.3.
 - `1/(z − 1) ∼ ∑_{s≥1} z^{−s}` along `cobounded ℂ`, by `hasAsymptoticExpansion_of_hasSum` with
   `R = 1`, `a₀ = 0` and `a_s = 1` for `s ≥ 1`.
-- With `φ n = x⁻ⁿ` and `ψ n = 2x⁻ⁿ` along `atTop`, `f = 1` has the coefficients `(1, 0, 0, …)` in
-  `φ` and `(½, 0, 0, …)` in `ψ`, as the rescaling rule of 1.1 gives; the coefficients
-  `(1, 0, 0, …)` do not expand `f` in `ψ`.
+- The checks of 1.1 and 1.4.
 
 ### Dependencies
 
@@ -370,11 +424,15 @@ DLMF 2.2.1–2.2.2. If `f` is continuous and strictly increasing on `[a, ∞)` a
 `x → +∞`, then for every `y > f(a)` the equation `f(x) = y` has a unique root `x(y) ∈ (a, ∞)`,
 and `x(y) ∼ y` as `y → +∞`.
 
+*Needs:* Mathlib's intermediate value theorem and `IsEquivalent`.
+
 ### 2.2 Successive resubstitution
 
 Example 2.2.3–2.2.6, as a check: for `y > ½ + ½ log 2`, the root `t > 1/√2` of `t² − log t = y`
 (the branch tending to `∞`; DLMF's `x = t² > ½`) satisfies
 `t = y^{1/2}(1 + ¼ y^{−1} log y + o(y^{−1}))`.
+
+*Needs:* 1.4, 2.1.
 
 ### 2.3 Lagrange's reversion
 
@@ -398,6 +456,8 @@ with `x(y) ∼ y`, then `y − x(y)` has the expansion `∑ F_s y^{−s}` along 
   `x = y − f₀ − f₁/y − f₀f₁/y² + O(y^{−3})`, agreeing with `F₀`, `F₁`, `F₂`.
 - For `f(x) = x + f₀`, every `F_s` with `s ≥ 1` vanishes and `x(y) = y − f₀` exactly.
 
+*Needs:* 1.3, 1.4, 2.1.
+
 ### Examples
 
 The resubstitution example 2.2 and the checks of 2.3.
@@ -415,13 +475,22 @@ then `∫₀^∞ e^{−xt} q(t) dt ∼ ∑ q^{(s)}(0) x^{−s−1}` as `x → +�
 every `σ_n = sup_{t>0} t^{−1} log |q^{(n)}(t)/q^{(n)}(0)|` is finite (with `q^{(n)}(0) ≠ 0`), the
 `n`th remainder is at most `|q^{(n)}(0)| / (xⁿ (x − σ_n))` for `x > max(0, σ_n)`.
 
+*Needs:* 1.3; Mathlib dominated convergence and integration by parts on intervals.
+
 ### 3.2 Fourier integrals at the endpoints
 
 DLMF 2.3.4–2.3.6. For `q` `C^∞` on `[a, b]`, `a < b` finite, `∫_a^b e^{ixt} q(t) dt` has the
-endpoint expansion 2.3.4 as `x → +∞`. For `b = ∞`, let `q` be `C^∞` on `[a, ∞)` with
-`q^{(s)}(t) → 0` as `t → ∞` and `q^{(s+1)}` integrable on `[a, ∞)` for every `s`; then the
-improper integral exists for `x > 0` and has the expansion 2.3.5. In both cases the `n`th
-remainder is bounded by `x^{−n} ∫_a^b |q^{(n)}|`.
+endpoint expansion 2.3.4 as `x → +∞`. For `b = ∞`, let `q` be `C^∞` on `[a, ∞)` such that each
+`∫ e^{ixt} q^{(s)}(t) dt` converges at `∞` uniformly for all sufficiently large `x` (see
+[Conventions](#conventions)); then the improper integral exists for large `x` and has the
+expansion 2.3.5. In both cases the `n`th remainder is bounded by `x^{−n} ∫_a^b |q^{(n)}|`.
+
+**Check.** If `q^{(s)}(t) → 0` as `t → ∞` and `q^{(s+1)}` is integrable on `[a, ∞)` for every
+`s`, the uniform convergence holds for `x ≥ 1`, by one integration by parts:
+`|∫_T^{T′} e^{ixt} q^{(s)}| ≤ x⁻¹ (|q^{(s)}(T)| + |q^{(s)}(T′)| + ∫_T^∞ |q^{(s+1)}|)`. The converse
+fails: `q(t) = sin t/t` meets the hypothesis for `x ≥ 2`, while `q′` is not integrable on `[1, ∞)`.
+
+*Needs:* 1.3; Mathlib integration by parts on intervals.
 
 ### 3.3 Watson's lemma on the real line
 
@@ -435,11 +504,15 @@ Then, as `x → +∞`, `∫₀^∞ e^{−xt} q(t) dt ∼ ∑ Γ(α_s) c_s x^{−
 gives `q(t) = O(t^{Re α₀ − 1})` at `0+`, which is integrable since `Re α₀ > 0`. Either form may be
 used as the hypothesis.
 
+*Needs:* 1.1; Mathlib `Complex.integral_cpow_mul_exp_neg_mul_Ioi` and dominated convergence.
+
 ### 3.4 The logarithmic variant
 
 DLMF 2.3.9. Under the hypotheses of 3.3, `∫₀^∞ e^{−xt} q(t) log t dt` has the generalized
 expansion with terms `(Γ′(α_s) − Γ(α_s) log x) c_s x^{−α_s}` with respect to the scale
 `x^{−Re α_s} log x`.
+
+*Needs:* 3.3; Mathlib `Complex.Gamma` and differentiation under the integral sign.
 
 ### 3.5 General kernels
 
@@ -447,6 +520,8 @@ DLMF 2.3.10–2.3.12. Let `f` and `q` be locally integrable on `(0, ∞)`, with
 `|f(t)| ≤ A e^{−a t^κ}` on `(0, ∞)`, `q(t) = O(e^{b t^κ})` as `t → +∞` (`A, a, b, κ > 0`), and
 `q` with the expansion of 3.3. Then `∫₀^∞ f(xt) q(t) dt ∼ ∑ 𝓜f(α_s) c_s x^{−α_s}` as `x → +∞`,
 with `𝓜f = mellin f`.
+
+*Needs:* 3.3; Mathlib `mellin`.
 
 ### Examples
 
@@ -460,16 +535,19 @@ with `𝓜f = mellin f`.
 
 ### Dependencies
 
-Mathlib `Real.Gamma`, `Complex.Gamma`, `mellin`, `integral_rpow_mul_exp_neg_mul_Ioi`, dominated
-convergence and integration by parts on intervals; 1.1.
+Mathlib `Real.Gamma`, `Complex.Gamma`, `mellin`, `Real.integral_rpow_mul_exp_neg_mul_Ioi`,
+`Complex.integral_cpow_mul_exp_neg_mul_Ioi`, dominated convergence and integration by parts on
+intervals; 1.1 and 1.3.
 
 ## Layer 4: Laplace transforms of a complex variable
 
 ### 4.1 The complex Gamma integral
 
-For `Re s > 0` and `Re z > 0`, `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` with the principal power,
-by analytic continuation in `z` from Mathlib's real case
-(`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`).
+For `Re s > 0` and `Re z > 0`, `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` with the principal power
+(`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`), by analytic continuation in `z` from Mathlib's
+real case `Complex.integral_cpow_mul_exp_neg_mul_Ioi`.
+
+*Needs:* Mathlib `Complex.integral_cpow_mul_exp_neg_mul_Ioi` and the identity theorem.
 
 ### 4.2 Watson's lemma in a sector
 
@@ -478,6 +556,8 @@ DLMF 2.4.1. Under the hypotheses of 3.3, for every `δ ∈ (0, π/2)`,
 `z ^ (−α_s)` (`hasAsymptoticExpansion_laplace_sector`). The Laplace integral converges absolutely
 for `Re z > σ`, which holds eventually along the sector filter. The real case 3.3 is its
 restriction to the positive axis.
+
+*Needs:* 3.3, 4.1.
 
 ### 4.3 Rotation of the path
 
@@ -520,6 +600,8 @@ corresponding sector.
   different points of the `ζ`-plane (`Im ζ = −π` and `Im ζ = π`), and the values `±i√(π/R)` above
   are those of `J_{±3π/4}` at `ζ = log R ∓ iπ`.
 
+*Needs:* 4.2; Mathlib's Cauchy theorem on rectangles and the identity theorem.
+
 ### 4.4 Inverse Laplace transforms
 
 DLMF 2.4.2–2.4.5.
@@ -528,7 +610,8 @@ DLMF 2.4.2–2.4.5.
   for every `t > 0` and `σ ≥ c`,
   `q(t) = lim_{η→∞} (2πi)⁻¹ ∫_{σ−iη}^{σ+iη} e^{tz} Q(z) dz`. The holomorphy extends Tau Ceti's
   `TauCeti.differentiableOn_integral_mul_cexp_neg_mul` from bounded kernels to integrable
-  `e^{−ct} q(t)`, through the truncations of `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul`.
+  `e^{−ct} q(t)`, through the truncations of
+  `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul`.
 - **2.4.4–2.4.5** (`exists_inverseLaplace_hasExpansion`): if `c > 0` and `Q` is holomorphic on a
   neighbourhood of `Re z ≥ c` with `Q(z) ∼ ∑ Γ(α_s) c_s z^{−α_s}` and
   `Q′(z) ∼ −∑ α_s Γ(α_s) c_s z^{−α_s−1}` as `z → ∞` in `Re z ≥ c` (`α` as in 3.3), then the
@@ -536,12 +619,18 @@ DLMF 2.4.2–2.4.5.
   is independent of `σ ∈ [c, ∞)`, and `q(t) − ∑_{s<N} c_s t^{α_s−1} = O(t^{Re α_N − 1})` as
   `t → 0+`.
 
+*Needs:* 3.3, 4.1; Tau Ceti's `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul` and
+`TauCeti.differentiableOn_integral_mul_cexp_neg_mul`; Mathlib's Riemann–Lebesgue lemma
+`tendsto_integral_exp_inner_smul_cocompact` and the unbounded-rectangle Cauchy theorems.
+
 ### 4.5 Haar's method
 
 DLMF 2.4.6–2.4.9. If `Q` and a comparison function `F` with inverse transform `f` (both given by
 4.4's improper integrals on `Re z = c`) satisfy `τ ↦ Q(c + iτ) − F(c + iτ)` integrable on `ℝ`,
 then `q(t) = f(t) + o(e^{ct})` as `t → +∞`; if also `Q^{(j)} − F^{(j)}` is integrable on the line
 for `j ≤ m`, then `q(t) = f(t) + o(t^{−m} e^{ct})`.
+
+*Needs:* 4.4; Mathlib's Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
 
 ### Examples
 
@@ -561,14 +650,8 @@ Ceti's `TauCeti/Analysis/Complex/LaplaceTransform.lean` (for 4.4).
 
 ### 5.1 The coefficients
 
-For a power series `P` with constant coefficient `exp ℓ`, define
-
-```text
-formalCpow ℓ r P = C(exp(r ℓ)) · (binomialSeries ℂ r).subst (C(exp(−ℓ)) · P − 1),
-```
-
-the power `P^r` whose constant term is `exp(r ℓ)`. For `μ > 0`, `λ ∈ ℂ` and power series `P`,
-`Q`, define the **Laplace coefficients**
+For `μ > 0`, `λ ∈ ℂ`, power series `P`, `Q` and a logarithm `ℓ` of `constantCoeff P`, define the
+**Laplace coefficients**, with the formal power `formalCpow` of 1.4,
 
 ```text
 b_s = laplaceCoeff μ λ ℓ P Q s = μ⁻¹ · [X^s] ( Q · formalCpow ℓ (−(λ+s)/μ) P ).
@@ -578,11 +661,11 @@ With `P = ∑ p_s X^s`, `Q = ∑ q_s X^s` these are the `b_s` of DLMF 2.3.15–2
 
 **Checks.**
 
-- `formalCpow ℓ 1 P = P`, `formalCpow ℓ (r + r′) P = formalCpow ℓ r P * formalCpow ℓ r′ P`,
-  and `formalCpow ℓ n P = P ^ n` for natural `n`.
 - 2.3.17 for `b₀`, `b₁`, `b₂`: for instance `b₀ = q₀ p₀^{−λ/μ}/μ` and
   `b₁ = p₀^{−(λ+1)/μ} (q₁/μ − (λ+1) p₁ q₀/(μ² p₀))`.
 - For `P = 1` (`ℓ = 0`) and `Q = 1`, `b₀ = μ⁻¹` and `b_s = 0` for `s ≥ 1`.
+
+*Needs:* 1.4.
 
 ### 5.2 Laplace's method on the real line
 
@@ -601,6 +684,8 @@ the `b_s` of 5.1 for `ℓ = log p₀` (`hasAsymptoticExpansion_laplace_method`).
 `[a, a + ε)`, the function `v ↦ q(T(p(a) + v)) / p′(T(p(a) + v))` has the expansion
 `∑ b_s v^{(s+λ−μ)/μ}` as `v → 0+`.
 
+*Needs:* 1.4, 3.3, 5.1.
+
 ### 5.3 The residue form
 
 DLMF 2.3.18. If `P`, `Q` are the Taylor series at `a` of functions `P̂`, `Q̂` holomorphic at `a`,
@@ -608,6 +693,8 @@ with `P̂(a) = exp ℓ`, let `L` be the holomorphic logarithm of `P̂` near `a` 
 `b_s` is `μ⁻¹` times the `TauCeti.Contour.residue` at `a` of
 `t ↦ (t − a)^{−s−1} Q̂(t) exp(−(λ+s) L(t)/μ)`. This is DLMF's
 `μ⁻¹ res[q(t)/(p(t) − p(a))^{(λ+s)/μ}]` with the branch made explicit.
+
+*Needs:* 5.1; ContourIntegration `TauCeti.Contour.residue`.
 
 ### 5.4 Laplace's method on a contour
 
@@ -618,7 +705,14 @@ containing `γ((0, ∞))`; the expansions 2.4.11 along the initial segment with 
 `p₀ ≠ 0`, the first differentiable; and conditions (b), (c) of DLMF §2.4(iii) for `z` in the
 closed sector `θ₁ ≤ ph z ≤ θ₂`, `θ₂ − θ₁ < π`, written in logarithmic coordinates. Then
 `e^{z p(a)} I(z) ∼ ∑ Γ((s+λ)/μ) b_s z^{−(s+λ)/μ}` in that sector, with `ℓ = log |p₀| + i ω₀` for
-the branch `ω₀` of `ph p₀` satisfying `|θ + μω + ω₀| ≤ π/2` for all `θ ∈ [θ₁, θ₂]` (2.4.13).
+the branch `ω₀` of `ph p₀` satisfying `|θ + μω + ω₀| ≤ π/2` for all `θ ∈ [θ₁, θ₂]` (2.4.13)
+(`hasAsymptoticExpansion_laplace_contour`). In logarithmic coordinates `z = e^ζ`, `θ = Im ζ`, the
+sector filter is `comap re atTop ⊓ 𝓟 {ζ | θ₁ ≤ Im ζ ≤ θ₂}` and `z^{−(s+λ)/μ} = e^{−(s+λ)ζ/μ}`:
+condition (b) is absolute convergence of `I(e^ζ)` at `∞`, uniformly for `Re ζ` large, and
+condition (c) is `Re(e^{iθ}(p(γ τ) − p(a))) > 0` for `τ > 0`, bounded below by a positive constant
+for large `τ`, uniformly in `θ ∈ [θ₁, θ₂]`.
+
+*Needs:* 1.4, 4.2, 5.1, 5.2.
 
 ### 5.5 Saddle points
 
@@ -629,11 +723,18 @@ splitting the path at `t₀` and applying 5.4 to both halves (`μ = 2`, `λ = 1`
 Prove the explicit `b₀` and `b₂` of 2.4.16, as checks, with `ω₀ = ph p″(t₀)` chosen so that
 `|θ + 2ω + ω₀| ≤ π/2`.
 
+*Needs:* 5.4.
+
 ### Examples
 
 - 5.2 with `a = 0`, `p(t) = t²`, `q = 1` (`μ = 2`, `λ = 1`, `p₀ = 1`):
   `∫₀^∞ e^{−xt²} dt = ½ √(π/x)`, the single term `Γ(½) b₀ x^{−1/2}` with `b₀ = ½`.
 - 5.2 with `p(t) = t`, `μ = 1`: the expansion is Watson's lemma 3.3 with `α_s = s + λ`.
+- 5.4 with `γ(τ) = τ`, `p(t) = t`, `q = 1` (`a = 0`, `ω = 0`, `μ = λ = 1`, `p₀ = 1`) in
+  `|ph z| ≤ π/2 − δ`: `I(z) = 1/z = Γ(1) b₀ z⁻¹` with `b₀ = 1`, and 2.4.13 holds with `ω₀ = 0`.
+- 5.5 with `p(t) = t²`, `q = 1` on the real line through `t₀ = 0`, in `|ph z| ≤ π/2 − δ`:
+  `b₀ = (2p″(0))^{−1/2} = ½` and `b₂ = 0`, so 2.4.15 reads
+  `∫_{−∞}^{∞} e^{−zt²} dt = 2 Γ(½) b₀ z^{−1/2} = √(π/z)`, which is exact.
 
 ### Dependencies
 
@@ -645,10 +746,13 @@ and `PowerSeries.subst`.
 ### 6.1 The Fourier analogue of Watson's lemma
 
 DLMF 2.3.20. Let `α`, `c` be as in 3.3 and let `q` be `C^∞` on `(0, ∞)`, with the expansion of
-3.3 as `t → 0+`, infinitely differentiable (see [Conventions](#conventions)), and such that for
-every `s` the derivative `q^{(s+1)}` is integrable on `[1, ∞)` and `q^{(s)}(t) → 0` as `t → ∞`.
-Then the improper integral `∫₀^∞ e^{ixt} q(t) dt` exists for `x > 0` and has the expansion
-`∑ e^{iπα_s/2} Γ(α_s) c_s x^{−α_s}` as `x → +∞` (`hasAsymptoticExpansion_fourier`).
+3.3 as `t → 0+`, infinitely differentiable (see [Conventions](#conventions)), and such that each
+`∫ e^{ixt} q^{(s)}(t) dt` converges at `∞` uniformly for all sufficiently large `x`. Then the
+improper integral `∫₀^∞ e^{ixt} q(t) dt` exists for large `x` and has the expansion
+`∑ e^{iπα_s/2} Γ(α_s) c_s x^{−α_s}` as `x → +∞` (`hasAsymptoticExpansion_fourier`). As in 3.2,
+`q^{(s)} → 0` at `∞` with `q^{(s+1)}` integrable on `[1, ∞)` for every `s` implies the hypothesis.
+
+*Needs:* 3.2, 3.3, 4.1.
 
 ### 6.2 Stationary phase at an endpoint
 
@@ -672,11 +776,15 @@ Put `P₀ = q/p′` and `P_{s+1} = P_s′/p′` on `(a, b)`, that is `P_s = (p�
 - (d) If `p(t) → ∞` as `t → b−`, `P₀(t) → 0` as `t → b−`, and each integral
   `∫ e^{ixp(t)} P_s(t) p′(t) dt` (2.3.22) converges at `b` uniformly for all sufficiently large
   `x`, then the improper integral `lim_{T→b−} ∫_a^T` exists for large `x` and the same holds
-  without the sum at `b`.
+  without the sum at `b`: `e^{−ixp(a)} ∫_a^b e^{ixp(t)} q(t) dt` has the expansion
+  `∑ e^{(s+λ)πi/(2μ)} Γ((s+λ)/μ) b_s x^{−(s+λ)/μ}` (`hasAsymptoticExpansion_stationaryPhase`, for
+  `b = ∞` with `p(t) → ∞` as `t → ∞`).
 
 The `b`-terms come from repeated integration by parts,
 `∫ e^{ixp} P_s p′ = [e^{ixp} P_s/(ix)] − (ix)⁻¹ ∫ e^{ixp} P_{s+1} p′`, and
 `(−1)^s (ix)^{−s−1} = −(i/x)^{s+1}`.
+
+*Needs:* 3.2, 5.1, 5.2, 6.1; Mathlib `descPochhammer` and change of variables on intervals.
 
 ### Examples
 
@@ -693,8 +801,8 @@ The `b`-terms come from repeated integration by parts,
 
 ### Dependencies
 
-3.2, 5.1 and 5.2; Mathlib `descPochhammer`, integration by parts and change of variables on
-intervals.
+3.2, 3.3, 4.1, 5.1 and 5.2; Mathlib `descPochhammer`, integration by parts and change of
+variables on intervals.
 
 ## Layer 7: coalescing critical points
 
@@ -713,6 +821,8 @@ equals the transformed integral 2.3.29 with `f` as in 2.3.30 and upper limit
 `κ(α) = lim_{t→k} w(α, t)`. If `p(α, t) → ∞` as `t → k`, then `κ(α) = ∞`; `k = ∞` alone does
 not give this. The sign of `a` is fixed by `w(α, 0) = 0`; DLMF 2.3.26 records its absolute
 value.
+
+*Needs:* Mathlib `HasStrictDerivAt.to_localInverse` and change of variables on intervals.
 
 ### 7.2 The uniform remainder bound and expansion
 
@@ -745,8 +855,8 @@ G_N(y) = bleisteinG λ N y = ∫₀^∞ exp(−τ²/2 + yτ) |τ − y|^N τ^{λ
 ```
 
   This is 2.3.32 with an explicit uniform remainder. Its hypothesis is on the transformed
-  amplitude `f`; conditions on `p` and `q` that imply it are outside this roadmap (see the last
-  section).
+  amplitude `f`; conditions on `p` and `q` that imply it are excluded (see
+  [Excluded material](#excluded-material)).
 
 **Checks.**
 
@@ -754,6 +864,8 @@ G_N(y) = bleisteinG λ N y = ∫₀^∞ exp(−τ²/2 + yτ) |τ − y|^N τ^{λ
 - `F₁(y) = 1` for `λ = 1` and every `y`, since `(τ − y) e^{−τ²/2 + yτ}` is minus the derivative
   of `e^{−τ²/2 + yτ}`.
 - `G_{2m} = F_{2m}` for every `m`, and `G_N(y) > 0` for every `y`.
+
+*Needs:* 7.1; Mathlib's Gaussian integrals and dominated convergence.
 
 ### 7.3 The cubic normal form
 
@@ -770,6 +882,9 @@ there are `ζ`, `η` holomorphic near `α̂` with `ζ(α̂) = 0`, and `w(α, t)`
 roots of `ζ(α)`, and `f(α, w) = q(α, t) dt/dw` (2.4.20) is holomorphic near `(α̂, 0)`. DLMF's
 form `w³/3 + a w² + b w + c` (2.4.18) is the translate `w ↦ w + a`. "Holomorphic" in two
 variables is `DifferentiableOn ℂ` on an open subset of `ℂ × ℂ`.
+
+*Needs:* Mathlib `HasStrictFDerivAt.implicitFunction` and Taylor's formula for holomorphic
+functions.
 
 ### Examples
 
@@ -798,6 +913,9 @@ hypothesis by Tonelli, the second is the integrability hypothesis, and the third
 restriction on `x` (it holds at every `x > 0` when, for example, `h` is bounded and continuous
 and `f` is integrable on `(0, ∞)`).
 
+*Needs:* Mathlib `mellin`, `mellinInv`, `mellinInv_mellin_eq`, `Complex.VerticalIntegrable` and
+Tonelli.
+
 ### 8.2 Shifting the line
 
 DLMF 2.5.6–2.5.7. Let `G` be holomorphic on a neighbourhood of the closed strip `d ≤ Re z ≤ c`
@@ -823,6 +941,9 @@ and as `T → −∞`. Then `∫_ℝ F(c + iy) dy − ∫_ℝ F(d + iy) dy = 2π
 The proof subtracts the finite principal parts and applies the rectangle Cauchy theorem to the
 holomorphic remainder. Line integrals use `dy`; the contour integrals use `dt = i dy`, which
 gives the factor `2πi`.
+
+*Needs:* ContourIntegration `TauCeti.Contour.residue`; Mathlib's rectangle Cauchy theorem and the
+Riemann–Lebesgue lemma.
 
 ### 8.3 Continued Mellin transforms
 
@@ -888,6 +1009,15 @@ and its continuation further left depends on the behaviour of `f` at `0+` (`mell
 - `oscTail (−κ) (conj w) = conj (oscTail κ w)`: the sign of `κ` reflects the rotation.
 - For `f(t) = e^{iκt}` (`p = 1`, `β_k = k`, `b₀ = 1` and `b_k = 0` for `k ≥ 1`):
   `mellinContOscTop f κ 1 b β n z = oscTail κ z` for every `n ≥ 1`.
+- For `f(t) = e^{iκt}(t⁻¹ + t⁻²)` (`p = 1`, `β_k = k + 1`, `b₀ = b₁ = 1` and `b_k = 0` for
+  `k ≥ 2`): at `n = 1` and at `n = 2`, `mellinContOscTop f κ 1 b β n z` is
+  `oscTail κ (z − 1) + oscTail κ (z − 2)`, at `n = 1` through `oscTail_spec` on `Re z < 2`.
+- For `p = 2` and `f(t) = e^{iκt²} t^{−3}` (`β₀ = 3`, `b₀ = 1` and `b_k = 0` for `k ≥ 1`):
+  `mellinContOscTop f κ 2 b β n z = ½ oscTail κ ((z − 3)/2)` for every `n ≥ 1`, by `u = t²`; a
+  definition without the factor `p⁻¹`, or with `z − β_k` in place of `(z − β_k)/p`, fails here.
+
+*Needs:* 1.1; Mathlib `mellin`, `mellin_differentiableAt_of_isBigO_rpow` and the Cauchy theorem
+for `oscTail`.
 
 ### 8.4 Handelsman–Lew
 
@@ -897,6 +1027,8 @@ DLMF 2.5.29–2.5.36. Under 2.5.17–2.5.20 (with `f`, `h` locally integrable on
 absolutely in the domain `D_{jk}` of DLMF Table 2.5.2. If `I_{jk}` has the Parseval
 representation 2.5.33 at `p_{jk} ∈ D_{jk}` and 2.5.34 holds for some `q_{jk} > p_{jk}`, then
 2.5.35 holds with `E_{jk}(x) = o(x^{−q_{jk}})` as `x → +∞`.
+
+*Needs:* 8.1, 8.2, 8.3.
 
 ### 8.5 Laplace transforms with a small parameter
 
@@ -914,6 +1046,9 @@ of 8.3, and the remainder `O(ζ^{l−δ−1})` as `ζ → 0+`. If no `β_n` is a
 
 with `𝓜h(n + 1)` the continued transform.
 
+*Needs:* 8.1, 8.2, 8.3; ZerosOfLFunctions §1.3 for the decay of `Γ` on vertical lines;
+ContourIntegration `TauCeti.Contour.residue`; Mathlib `Complex.digamma`.
+
 ### 8.6 The Gamma function on vertical strips
 
 For every real `u ≤ v` and `η > 0` there are `C > 0` and `K : ℕ` such that
@@ -928,6 +1063,8 @@ For every real `u ≤ v` and `η > 0` there are `C > 0` and `K : ℕ` such that
 Route: ZerosOfLFunctions §1.3 (DLMF 5.11.9) for large `|y|`, after exponentiating its bounded
 error; continuity of `Γ` off its poles and compactness for bounded `|y|`.
 
+*Needs:* ZerosOfLFunctions §1.3; Mathlib `Complex.Gamma` and its continuity off the poles.
+
 ### 8.7 Exponential Mellin inversion
 
 The Cahen–Mellin integral. For real `c > 0` and `Re w > 0`, `y ↦ Γ(c + iy) w^{−c−iy}` is
@@ -935,6 +1072,9 @@ integrable and `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}`, with the pr
 (`integral_Gamma_mul_cpow_neg`). Route: Mathlib's `mellinInv_mellin_eq` for `x ↦ e^{−x}` (with
 `Complex.GammaIntegral_eq_mellin`) at real `w > 0`, then the identity theorem in `w`, with locally
 uniform domination from 8.6 (`|w^{−iy}| = e^{y arg w}` and `|arg w| < π/2`).
+
+*Needs:* 8.6; Mathlib `mellinInv_mellin_eq`, `Complex.GammaIntegral_eq_mellin` and the identity
+theorem.
 
 ### Examples
 
@@ -965,7 +1105,12 @@ distributions of DLMF §2.6 (the space of rapidly decreasing test functions and 
 ### 9.1 The Beta-type integral
 
 DLMF 2.6.4. For `Re α > 0`, `Re β > 0` and `x > 0`,
-`∫₀^∞ t^{α−1}(x + t)^{−α−β} dt = Γ(α)Γ(β)/Γ(α+β) · x^{−β}`.
+`∫₀^∞ t^{α−1}(x + t)^{−α−β} dt = Γ(α)Γ(β)/Γ(α+β) · x^{−β}`. The substitution `t = xu` reduces it
+to `x = 1`, where the real case is Tau Ceti's `TauCeti.integral_rpow_mul_one_add_rpow`; the
+identity theorem in `α` and `β` gives the complex case.
+
+*Needs:* Tau Ceti `TauCeti.integral_rpow_mul_one_add_rpow`; Mathlib `Complex.betaIntegral`,
+`Complex.Gamma` and the identity theorem.
 
 ### 9.2 Stieltjes transforms
 
@@ -978,6 +1123,8 @@ DLMF 2.6.8–2.6.30. Let `f` be locally integrable on `[0, ∞)` with
   `d̃_s = lim_{z→s+1} (𝓜f(z) + a_s/(z − s − 1))` (2.6.29), the continued transform of 8.3;
 - `R_n(z) = O(|z|^{−n−α})` for `0 < α < 1`, and `O(|z|^{−n−1} log |z|)` for `α = 1`, as
   `z → ∞` in `|ph z| ≤ π − δ`.
+
+*Needs:* 8.3, 9.1.
 
 ### 9.3 Fractional integrals
 
@@ -992,6 +1139,8 @@ every `x > 0`, and the exact identities 2.6.45 (`0 < α < 1`) and 2.6.46 (`α = 
 `x > 0`, with `δ_n` as in 2.6.47 and `c_s`, `d_s` as in 9.2 and 2.6.21. Reciprocal Gamma factors
 are `(Gamma _)⁻¹`, which vanish at the poles; with this reading the identities hold for every
 `μ > 0`, integers included.
+
+*Needs:* 8.3, 9.2; Mathlib Fubini.
 
 ### 9.4 Regularization
 
@@ -1013,16 +1162,19 @@ with the continued transforms `𝓜h = mellinContAtTop h b (k ↦ k + β) n` and
 `𝓜f = mellinContAtZero f a (k ↦ k + α − 1) n`; and the last integral is `O(x^{−n−min(α,β)})` as
 `x → +∞`.
 
+*Needs:* 8.3; Mathlib Fubini and integration by parts.
+
 ### Examples
 
 - DLMF 2.6.1–2.6.7, for 9.2: for `f(t) = (1 + t)^{−1/3}` the expansion 2.6.7, including its
   second series, and the failure of the formal expansion 2.6.6.
-- 9.1 at `α = β = 1`: `∫₀^∞ (x + t)^{−2} dt = x⁻¹`.
+- 9.1 at `α = β = 1`: `∫₀^∞ (x + t)^{−2} dt = x⁻¹`; at `α = β = ½`, `x = 1`:
+  `∫₀^∞ t^{−1/2}(1 + t)⁻¹ dt = Γ(½)²/Γ(1) = π`.
 
 ### Dependencies
 
-Layer 1 and 8.3; Mathlib `Complex.betaIntegral`, `Complex.Gamma`, Fubini and integration by
-parts.
+Layer 1 and 8.3; Tau Ceti `TauCeti.integral_rpow_mul_one_add_rpow`; Mathlib `Complex.betaIntegral`,
+`Complex.Gamma`, Fubini and integration by parts.
 
 ## Layer 10: linear differential equations in the complex domain
 
@@ -1044,12 +1196,17 @@ continuous solution with `h = O(P)` on `[x, b)` for every `x`. If also `K(x, x) 
 `|h(x)| ≤ e^{P₀ Φ(x)} − 1` holds. The proof is the Picard iteration, with `n`th difference
 bounded by `P Φ Ψⁿ/n!`.
 
+*Needs:* Mathlib interval integrals and dominated convergence.
+
 ### 10.2 Ordinary points
 
 If `f` and `g` are holomorphic on the disc `|z − z₀| < r`, then for all `w₀`, `w₁` there is a
 unique solution holomorphic on the disc with `w(z₀) = w₀`, `w′(z₀) = w₁`; its Taylor
 coefficients satisfy the recursion obtained by equating coefficients, and the Taylor series
 converges on the whole disc.
+
+*Needs:* Mathlib `HasFPowerSeriesOnBall`, Cauchy estimates, `ODE_solution_unique` and
+`IsPicardLindelof`.
 
 ### 10.3 Regular singularities
 
@@ -1066,6 +1223,8 @@ principal powers and logarithm):
   the disc, normalized by `c = 1` when `N = 0` and by `b₀ = 1` when `N ≥ 1` (the coefficient
   `b_N` is omitted); its coefficients are determined by the equation;
 - the two solutions have nonvanishing Wronskian.
+
+*Needs:* 10.2; Mathlib `HasFPowerSeriesOnBall`, Cauchy estimates and `Complex.log`.
 
 ### 10.4 Irregular singularity of rank one at infinity
 
@@ -1097,6 +1256,8 @@ a_{s,1} − Λ₁ (λ₁ − λ₂)^{−s} ∑_{j<J} a_{j,2} (λ₁ − λ₂)^j
   than every term of the factorial scale: the series may then converge without terminating, and
   nothing about termination follows.
 
+*Needs:* 1.1, 10.1, 10.2; Mathlib's Cauchy integral formula and `Complex.Gamma`.
+
 ### 10.5 Fabry's transformation
 
 DLMF 2.7.19. If `f₀² = 4g₀`, then `W(t) = e^{f₀t²/2} w(t²)` solves `W″ + F(t) W′ + G(t) W = 0`
@@ -1105,6 +1266,8 @@ on `|t| > √a`, with `F(t) = 2t (f(t²) − f₀) − 1/t` and
 are `F₀ = 0`, `G₀ = 4g₁ − 2f₀f₁`, and `G₁ = 0`. Hence either `G₀ ≠ 0`, and the characteristic
 equation `λ² + G₀ = 0` of the new equation has unequal roots, or `G₀ = 0`, and `t = ∞` is a
 regular singularity of the new equation.
+
+*Needs:* 10.3, 10.4.
 
 ### Examples
 
@@ -1138,6 +1301,8 @@ solution `w₁` (respectively `w₂`) of `w″ = (f + g) w` of the form 2.7.21�
 `|ε_j(x)|, ½ f^{−1/2}(x) |ε_j′(x)| ≤ exp(½ V_j(x)) − 1` (2.7.23; `liouvilleGreen_recessive` for
 `w₂` with `a₂ = ∞`).
 
+*Needs:* 10.1; Mathlib's fundamental theorem of calculus.
+
 ### 11.2 Recessive and dominant solutions
 
 DLMF 2.7.26–2.7.30. If `∫_{a₁}^{a₂} |Φ| < ∞`, then `w₁ ∼ f^{−1/4} e^{ξ}` as `x → a₁+` and
@@ -1148,12 +1313,16 @@ Without unboundedness there is no uniqueness: on `(0, 1)` with `f = 1`, `g = 0`,
 moreover solutions `w₃ ∼ f^{−1/4} e^{ξ}` as `x → a₂−` and `w₄ ∼ f^{−1/4} e^{−ξ}` as `x → a₁+`,
 not unique, with `w₁/w₄ → 0` as `x → a₁+` (2.7.30) and `w₂/w₃ → 0` as `x → a₂−`.
 
+*Needs:* 11.1; Tau Ceti `TauCeti.wronskian_eq_of_hasDerivAt`.
+
 ### 11.3 The Liouville transformation
 
 DLMF 2.8.1–2.8.5. If `z = z(ξ)` is `C³` on an interval with `ż > 0` and `w` solves
 `d²w/dz² = (u² f(z) + g(z)) w`, then `W = ż^{−1/2} w` solves 2.8.3 with `ψ` given by 2.8.4.
 With `ż² f(z) = 1`, `ξ = ∫ f^{1/2}` (Case I, 2.8.5), the transformed equation is
 `d²W/dξ² = (u² + ψ(ξ)) W` (2.8.10).
+
+*Needs:* Mathlib's chain rule.
 
 ### 11.4 Case I: no transition points
 
@@ -1168,6 +1337,8 @@ uniformly for `ξ ∈ Δ₂`. The expansions differentiate:
 `e^{−uξ} ∂_ξW_{n,1} − ∑_{s<n} (u A_s + A_s′) u^{−s} = O(u^{1−n})` uniformly on `Δ₁`, and
 `e^{uξ} ∂_ξW_{n,2} − ∑_{s<n} (−1)^s (−u A_s + A_s′) u^{−s} = O(u^{1−n})` uniformly on `Δ₂`.
 Uniformity is along `𝓟 Δ_j ×ˢ atTop`, as pinned.
+
+*Needs:* 1.1, 10.1, 11.3; Mathlib Grönwall `norm_le_gronwallBound_of_norm_deriv_right_le`.
 
 ### Examples
 
@@ -1215,6 +1386,8 @@ as in 2.9.7 (`a_{0,j} = 1`), there are solutions with
 independent of `w₁`) and is unique up to a constant factor; when `|ρ₁| = |ρ₂|` and
 `Re α₁ = Re α₂`, both solutions are unique.
 
+*Needs:* 1.1 and the summation estimates of this layer's introduction.
+
 ### 12.2 Coincident characteristic roots
 
 DLMF 2.9.9–2.9.13. If `f₀² = 4g₀` with common root `ρ`: when `2g₁ ≠ f₀f₁`, there are solutions
@@ -1223,6 +1396,8 @@ substitution (the expansion is in powers of `n^{−1/2}`); when `2g₁ = f₀f�
 roots of 2.9.11 labelled so that `Re α₁ ≤ Re α₂`, there are solutions 2.9.12 if `α₂ − α₁ ∉ ℤ`,
 and solutions 2.9.12 (`j = 1`) and 2.9.13 if `α₂ − α₁ ∈ ℕ`, with the normalizations stated
 there. With this labelling the two alternatives exhaust the case.
+
+*Needs:* 12.1 and the summation estimates of this layer's introduction.
 
 ### Examples
 
@@ -1246,6 +1421,9 @@ within `[a, n]` (`sum_Icc_eq_eulerMaclaurin`):
                  + ∫_a^n (B_{2m} − B̃_{2m}(x))/(2m)! f^{(2m)}(x) dx.
 ```
 
+*Needs:* Mathlib `bernoulliFun`, `hasDerivAt_bernoulliFun`, `bernoulliFun_eq_integral` and
+integration by parts.
+
 ### 13.2 Abel–Plana
 
 DLMF 2.10.2. Let `a < n` be integers and let `f` be holomorphic on the open strip
@@ -1266,6 +1444,8 @@ uniformly in the strip, `f` real on `[a, n]`, and `y ↦ Im f(a + iy)/(e^{2πy} 
   bounded by `2/(2m)! ∫₀^∞ sup_{0≤ϑ≤1} |Im f^{(2m)}(n + iϑy)| y^{2m}/(e^{2πy} − 1) dy`. Together
   these give DLMF 2.10.2.
 
+*Needs:* Mathlib's Cauchy theorem on rectangles and Taylor's theorem.
+
 ### 13.3 Examples of Euler–Maclaurin
 
 DLMF 2.10.3–2.10.8.
@@ -1281,11 +1461,16 @@ DLMF 2.10.3–2.10.8.
 - **2.10.8**: `∑_{j=1}^{n−1} 1/j ∼ log n + γ − 1/(2n) − ∑_{s≥1} B_{2s}/(2s) n^{−2s}`, with the
   same remainder property.
 
+*Needs:* 1.1, 13.1; Mathlib `riemannZeta`, `riemannZeta_one_sub`, `Real.eulerMascheroniConstant`,
+`Real.tendsto_harmonic_sub_log` and `Ring.choose`.
+
 ### 13.4 Summation by parts
 
 DLMF 2.10.9–2.10.18. The identity 2.10.9–2.10.10 is Mathlib's `Finset.sum_range_by_parts`.
 **Example**: for real `α` and `β` with `e^{iβ} ≠ 1`, prove 2.10.12–2.10.17 and the approximation
 `∑_{j=1}^{n−1} e^{ijβ} j^α = e^{inβ}/(e^{iβ} − 1) · n^α + O(n^{α−1}) + O(1)` (2.10.18).
+
+*Needs:* Mathlib `Finset.sum_range_by_parts`.
 
 ### 13.5 Entire functions defined by power series
 
@@ -1293,12 +1478,16 @@ DLMF 2.10.19–2.10.24. For the series `∑_j x^j/(j!)³`, prove the contour ide
 2.10.20–2.10.23 and `∑_j x^j/(j!)³ ∼ exp(3x^{1/3}) / (2π √3 x^{1/3})` as `x → +∞`
 (`IsEquivalent`). The series is written out; no hypergeometric function is introduced.
 
+*Needs:* 5.4, 5.5; ZerosOfLFunctions §1.2; Mathlib `circleIntegral`.
+
 ### 13.6 Darboux's method
 
-DLMF 2.10.25–2.10.32. For `f` holomorphic on `0 < |z| < r`, the Laurent coefficient is
-`f_n = laurentCoeff f ρ n = (2πi)⁻¹ ∮_{|z|=ρ} f(z) z^{−n−1} dz` for any `ρ ∈ (0, r)`, independent
-of `ρ`. Let `g` be holomorphic on `0 < |z| < r` (the comparison function).
-- **2.10.29** (`tendsto_laurentCoeff_sub`): if `f − g` extends continuously to `0 < |z| ≤ r`,
+DLMF 2.10.25–2.10.32. For `f` holomorphic on `0 < |z| < r`, the Laurent coefficient is Tau
+Ceti's `f_n = TauCeti.circleLaurentCoeff f 0 ρ n = (2πi)⁻¹ ∮_{|z|=ρ} z^{−n−1} f(z) dz` for any
+`ρ ∈ (0, r)`, independent of `ρ` by
+`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`. Let `g` be holomorphic
+on `0 < |z| < r` (the comparison function).
+- **2.10.29** (`tendsto_circleLaurentCoeff_sub`): if `f − g` extends continuously to `0 < |z| ≤ r`,
   then `f_n = g_n + o(r^{−n})` as `n → ±∞` (along `cofinite` on `ℤ`).
 - **(b′), 2.10.30**: the same holds if `f − g` extends continuously to the circle `|z| = r`
   except at finitely many points `z_j`, near each of which `f − g = O(|z − z_j|^{σ_j − 1})` with
@@ -1310,10 +1499,16 @@ of `ρ`. Let `g` be holomorphic on `0 < |z| < r` (the comparison function).
 
 **Checks.**
 
-- `laurentCoeff (fun z => z ^ k) ρ n = if n = k then 1 else 0` for `k : ℤ` and every `ρ > 0`.
-- For `f(z) = 1/(1 − z)` on `0 < |z| < 1`: `laurentCoeff f ρ n = 1` for `n ≥ 0` and `0` for
-  `n < 0`, for every `ρ ∈ (0, 1)`.
-- `laurentCoeff` is linear in `f`, and `laurentCoeff (fun z => z * f z) ρ n = laurentCoeff f ρ (n − 1)`.
+- For `f(z) = 1/(1 − z)` on `0 < |z| < 1`: `TauCeti.circleLaurentCoeff f 0 ρ n = 1` for `n ≥ 0`
+  and `0` for `n < 0`, for every `ρ ∈ (0, 1)`.
+- For `f(z) = 1/(1 − z) + 1/(2 − z)`, `g(z) = 1/(1 − z)` and `r = 1`: `f − g = 1/(2 − z)` is
+  continuous on `|z| ≤ 1`, and `f_n − g_n = 2^{−n−1}` for `n ≥ 0` and `0` for `n < 0`, which is
+  `o(1)` as `n → ±∞`, as 2.10.29 says.
+
+*Needs:* Tau Ceti's `TauCeti.circleLaurentCoeff` with
+`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`,
+`TauCeti.circleLaurentCoeff_add` and `TauCeti.norm_circleLaurentCoeff_le`; Mathlib's
+Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`.
 
 ### Examples
 
@@ -1326,10 +1521,11 @@ of `ρ`. Let `g` be holomorphic on `0 < |z| < r` (the comparison function).
 
 ### Dependencies
 
-Layers 1, 3 and 5; Mathlib `bernoulli`, `bernoulliFun` and its derivative and integral lemmas
-(`hasDerivAt_bernoulliFun`, `bernoulliFun_eq_integral`), `riemannZeta`, `riemannZeta_one_sub`,
-`Real.tendsto_harmonic_sub_log`, `circleIntegral`, the Riemann–Lebesgue lemma; ZerosOfLFunctions
-§§1.2–1.3 for 13.5.
+Layer 1 and 5.4–5.5 (for 13.5); Tau Ceti `TauCeti.circleLaurentCoeff` and its lemmas (for
+13.6); Mathlib `bernoulli`, `bernoulliFun` and its derivative and integral lemmas
+(`hasDerivAt_bernoulliFun`, `bernoulliFun_eq_integral`), integration by parts, `riemannZeta`,
+`riemannZeta_one_sub`, `Real.tendsto_harmonic_sub_log`, `circleIntegral`, the Riemann–Lebesgue
+lemma; ZerosOfLFunctions §1.2 for 13.5.
 
 ## Downstream consumers
 
@@ -1344,18 +1540,20 @@ Layers 1, 3 and 5; Mathlib `bernoulli`, `bernoulliFun` and its derivative and in
 - Any special-function roadmap states its expansions through `HasAsymptoticExpansion` and takes
   its general methods from the layers here rather than restating them.
 
-## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+## Excluded material
 
-The following material is the natural continuation. It is recorded only to fix the boundary.
-- **Asymptotics of named special functions.** Each special-function roadmap owns the expansions of
-  its functions and consumes this roadmap's methods. This includes the examples of DLMF Chapter 2
-  that are stated through named functions: the Bessel example 2.5.8–2.5.16, the identity 2.5.49
-  with the exponential integral `E₁`, the hypergeometric remarks 2.6.31–2.6.32 and 2.6.48–2.6.53,
-  the Legendre example 2.10.33–2.10.36, and the generalized exponential integral of §2.11(ii)
-  (2.11.5–2.11.7). The identity 2.5.49 and §2.11(ii) belong to the roadmap for DLMF Chapters 6–8
-  (exponential, logarithmic, error and incomplete Gamma functions).
-- **Complex Stirling and the Gamma function on vertical lines** (DLMF 5.11): ZerosOfLFunctions
-  §§1.2–1.3.
+The following material is not part of this roadmap; where another roadmap owns it, the owner is
+named.
+- **Asymptotics of named special functions**, owned by the special-function roadmaps, which
+  consume this roadmap's methods. This includes the examples of DLMF Chapter 2 that are stated
+  through named functions: the Bessel example 2.5.8–2.5.16, the hypergeometric remarks
+  2.6.31–2.6.32 and 2.6.48–2.6.53, the Legendre example 2.10.33–2.10.36, and the identity 2.5.49
+  with the exponential integral `E₁` and the generalized exponential integral of §2.11(ii)
+  (2.11.5–2.11.7), which SpecialFunctionsEiLiErfIncompleteGamma owns.
+- **Complex Stirling and the Gamma function on vertical lines** (DLMF 5.11), owned by
+  ZerosOfLFunctions §§1.2–1.3.
+- **Conditionally convergent Laplace integrals** in Watson's lemma and Laplace's method (see
+  [Scope and ownership](#scope-and-ownership)).
 - **Uniform expansions in terms of special functions**: the Airy-function expansions completing
   the Chester–Friedman–Ursell method (DLMF 2.4.21 and §9.12 Scorer functions), the turning-point
   and simple-pole cases and their error bounds (DLMF §§2.8(iii)–(vi)), transition points of

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.Complex.Laurent.Basic
 public import TauCeti.Analysis.Contour.Residue.Basic
 
 /-!
@@ -9,8 +10,11 @@ public import TauCeti.Analysis.Contour.Residue.Basic
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here suggest Lean forms for headline targets of the layers, so that contributors
 and reviewers converge on names and signatures; discharging all of them finishes neither a layer
-nor the roadmap. Stationary phase (6.2) is stated for a finite upper limit `b` with `p(b)`
-finite; the case `p(b) = ∞` of the README is not stated here.
+nor the roadmap. Among the headline theorems, Handelsman–Lew (8.4) is not stated here: its
+hypotheses are the four truncations of DLMF 2.5.21–2.5.24 and the domains of DLMF Table 2.5.2,
+which this file has no carrier for, and the README states it in words. The saddle-point
+expansion (5.5) is two applications of `hasAsymptoticExpansion_laplace_contour` and is not
+stated separately.
 
 The definitions have real bodies. The scale functions are named `phi`, because `φ` is
 Mathlib's scoped notation for Euler's totient. Every theorem is stated with `sorry`.
@@ -50,11 +54,6 @@ theorem HasAsymptoticExpansion.unique {l : Filter α} {phi : ℕ → α → 𝕜
   sorry
 
 end Expansions
-
-/-- **1.3** The Poincaré scale `z⁻ⁿ` at infinity in any set `X ⊆ ℂ`. -/
-theorem isAsymptoticScale_inv_pow (X : Set ℂ) :
-    IsAsymptoticScale (Bornology.cobounded ℂ ⊓ 𝓟 X) fun (n : ℕ) (z : ℂ) => (z ^ n)⁻¹ :=
-  sorry
 
 /-- **1.3** DLMF 2.1.15: the Poincaré expansion at infinity in `X` is equivalent to the limits
 `zⁿ (f z − ∑_{s<n} a_s z⁻ˢ) → a_n`. -/
@@ -106,6 +105,11 @@ theorem hasAsymptoticExpansion_pow_substInv {α β : Type*} {l : Filter α} {m :
     HasAsymptoticExpansion l (fun n x => w x ^ n)
       (fun n => coeff n (P.substInvOfIsUnit hP1.isUnit)) fun x => σ (y x) :=
   sorry
+
+/-- **1.4** The power `P^r` of a formal power series whose constant term is `exp ℓ`, with the
+constant term's power fixed as `exp (r ℓ)`. -/
+def formalCpow (ℓ r : ℂ) (P : ℂ⟦X⟧) : ℂ⟦X⟧ :=
+  C (cexp (r * ℓ)) * (PowerSeries.binomialSeries ℂ r).subst (C (cexp (-ℓ)) * P - 1)
 
 /-- **1.5** Ritt's theorem (DLMF §2.1(ii)): `O`-bounds differentiate into closed subsectors. -/
 theorem isBigO_deriv_of_isBigO_sector {f : ℂ → ℂ} {R θ θ' ν : ℝ} (hθ : θ ≤ π)
@@ -216,11 +220,6 @@ theorem exists_inverseLaplace_hasExpansion {Q : ℂ → ℂ} {c : ℝ} {α a : �
 
 /-! ## Layer 5: Laplace's method -/
 
-/-- **5.1** The power `P^r` of a formal power series whose constant term is `exp ℓ`, with the
-constant term's power fixed as `exp (r ℓ)`. -/
-def formalCpow (ℓ r : ℂ) (P : ℂ⟦X⟧) : ℂ⟦X⟧ :=
-  C (cexp (r * ℓ)) * (PowerSeries.binomialSeries ℂ r).subst (C (cexp (-ℓ)) * P - 1)
-
 /-- **5.1** The coefficients `b_s` of Laplace's method (DLMF 2.3.15–2.3.18):
 `b_s = μ⁻¹ [Xˢ] Q P^{−(λ+s)/μ}`, where `p(t) − p(a) = (t−a)^μ P(t−a)`, `q(t) = (t−a)^{λ−1} Q(t−a)`
 and `ℓ` is the chosen logarithm of `p₀`. -/
@@ -247,21 +246,60 @@ theorem hasAsymptoticExpansion_laplace_method {p : ℝ → ℝ} {q : ℝ → ℂ
       fun x : ℝ => cexp (x * p a) * ∫ t in Ioi a, cexp (-(x * p t)) * q t :=
   sorry
 
+/-- **5.4** Laplace's method on a contour (DLMF 2.4.10–2.4.13). The path `γ` is `C¹` on `[0, ∞)`
+and straight on `[0, τ₀]`, with direction `ψ` (DLMF's `ω`) at `a = γ 0`; on that segment
+`(t − a)^c = τ^c e^{icψ}`. Condition (b) is absolute convergence at `∞`, uniform in the sector,
+and condition (c) is the positivity of `Re (e^{iθ} (p t − p a))` along the path, bounded away
+from `0` at the far end. The sector `θ₁ ≤ ph z ≤ θ₂` is written in logarithmic coordinates
+`z = exp ζ`, and `ψ₀` (DLMF's `ph p₀`) is the branch fixed by 2.4.13. -/
+theorem hasAsymptoticExpansion_laplace_contour {γ : ℝ → ℂ} {p q : ℂ → ℂ} {U : Set ℂ}
+    {τ₀ ψ ψ₀ μ θ₁ θ₂ : ℝ} {lam : ℂ} {ps qs : ℕ → ℂ}
+    (hτ₀ : 0 < τ₀) (hγ : ContDiffOn ℝ 1 γ (Ici 0))
+    (hseg : ∀ τ ∈ Icc 0 τ₀, γ τ = γ 0 + τ * cexp (ψ * I))
+    (hU : IsOpen U) (hγU : γ '' Ioi 0 ⊆ U) (hp : DifferentiableOn ℂ p U)
+    (hq : DifferentiableOn ℂ q U) (hμ : 0 < μ) (hlam : 0 < lam.re) (hp0 : ps 0 ≠ 0)
+    (hpexp : ∀ N, (fun τ : ℝ => p (γ τ) - p (γ 0) - ∑ s ∈ range N,
+        ps s * (τ : ℂ) ^ ((s : ℂ) + μ) * cexp (((s : ℂ) + μ) * ψ * I))
+      =O[𝓝[>] 0] fun τ => τ ^ ((N : ℝ) + μ))
+    (hp'exp : ∀ N, (fun τ : ℝ => deriv p (γ τ) - ∑ s ∈ range N,
+        ps s * ((s : ℂ) + μ) * (τ : ℂ) ^ ((s : ℂ) + μ - 1) * cexp (((s : ℂ) + μ - 1) * ψ * I))
+      =O[𝓝[>] 0] fun τ => τ ^ ((N : ℝ) + μ - 1))
+    (hqexp : ∀ N, (fun τ : ℝ => q (γ τ) - ∑ s ∈ range N,
+        qs s * (τ : ℂ) ^ ((s : ℂ) + lam - 1) * cexp (((s : ℂ) + lam - 1) * ψ * I))
+      =O[𝓝[>] 0] fun τ => τ ^ ((N : ℝ) + lam.re - 1))
+    (hθ : θ₁ ≤ θ₂) (hθπ : θ₂ - θ₁ < π)
+    (hconv : ∃ X : ℝ, (∀ ζ : ℂ, X ≤ ζ.re → θ₁ ≤ ζ.im → ζ.im ≤ θ₂ →
+        IntegrableOn (fun τ => cexp (-(cexp ζ * p (γ τ))) * q (γ τ) * deriv γ τ) (Ioi 0)) ∧
+      ∀ ε > 0, ∃ T : ℝ, ∀ ζ : ℂ, X ≤ ζ.re → θ₁ ≤ ζ.im → ζ.im ≤ θ₂ →
+        ∫ τ in Ioi T, ‖cexp (-(cexp ζ * p (γ τ))) * q (γ τ) * deriv γ τ‖ ≤ ε)
+    (hpos : ∀ θ ∈ Icc θ₁ θ₂, ∀ τ > 0, 0 < (cexp (θ * I) * (p (γ τ) - p (γ 0))).re)
+    (haway : ∃ η > 0, ∃ T : ℝ, ∀ θ ∈ Icc θ₁ θ₂, ∀ τ ≥ T,
+      η ≤ (cexp (θ * I) * (p (γ τ) - p (γ 0))).re)
+    (hψ₀ : ps 0 = ‖ps 0‖ * cexp (ψ₀ * I))
+    (hbranch : ∀ θ ∈ Icc θ₁ θ₂, |θ + μ * ψ + ψ₀| ≤ π / 2) :
+    HasAsymptoticExpansion (comap Complex.re atTop ⊓ 𝓟 {ζ | θ₁ ≤ ζ.im ∧ ζ.im ≤ θ₂})
+      (fun s ζ => cexp (-(((s : ℂ) + lam) / μ * ζ)))
+      (fun s => Gamma (((s : ℂ) + lam) / μ) *
+        laplaceCoeff μ lam (Real.log ‖ps 0‖ + ψ₀ * I) (PowerSeries.mk ps) (PowerSeries.mk qs) s)
+      fun ζ => cexp (cexp ζ * p (γ 0)) *
+        ∫ τ in Ioi (0 : ℝ), cexp (-(cexp ζ * p (γ τ))) * q (γ τ) * deriv γ τ :=
+  sorry
+
 /-! ## Layer 6: stationary phase -/
 
 /-- **6.1** The Fourier analogue of Watson's lemma (DLMF 2.3.20), for a general exponent
 sequence: `q` is smooth on `(0, ∞)`, its expansion at `0+` differentiates termwise to every
-order, and every derivative tends to `0` at `∞` with the next one integrable on `[1, ∞)`. -/
+order, and each `∫ e^{ixt} q^{(s)}(t) dt` converges at `∞` uniformly for large `x`. -/
 theorem hasAsymptoticExpansion_fourier {q : ℝ → ℂ} {α c : ℕ → ℂ}
     (hα0 : 0 < (α 0).re) (hα : StrictMono fun s => (α s).re)
     (hq : ContDiffOn ℝ ∞ q (Ioi 0))
     (hexp : ∀ k N : ℕ, (fun t : ℝ => iteratedDerivWithin k q (Ioi 0) t -
         ∑ s ∈ range N, c s * (descPochhammer ℂ k).eval (α s - 1) * (t : ℂ) ^ (α s - 1 - k))
       =O[𝓝[>] 0] fun t => t ^ ((α N).re - 1 - k))
-    (hint : ∀ k : ℕ, IntegrableOn (iteratedDerivWithin (k + 1) q (Ioi 0)) (Ici 1))
-    (hlim : ∀ k : ℕ, Tendsto (iteratedDerivWithin k q (Ioi 0)) atTop (𝓝 0)) :
+    (hunif : ∀ k : ℕ, ∃ x₀ : ℝ, ∀ ε > 0, ∃ c : ℝ, ∀ x ≥ x₀, ∀ T ≥ c, ∀ T' ≥ T,
+      ‖∫ t in T..T', cexp (((x * t : ℝ) : ℂ) * I) * iteratedDerivWithin k q (Ioi 0) t‖ ≤ ε) :
     ∃ F : ℝ → ℂ,
-      (∀ x : ℝ, 0 < x →
+      (∀ᶠ x in atTop,
         Tendsto (fun T : ℝ => ∫ t in (0 : ℝ)..T, cexp (((x * t : ℝ) : ℂ) * I) * q t) atTop
           (𝓝 (F x))) ∧
       HasAsymptoticExpansion atTop (fun s (x : ℝ) => (x : ℂ) ^ (-α s))
@@ -293,6 +331,37 @@ theorem isBigO_stationaryPhase_remainder {p : ℝ → ℝ} {q : ℝ → ℂ} {a 
               (PowerSeries.mk qs) s * (x : ℂ) ^ (-(((s : ℂ) + lam) / μ)) +
         cexp (((x * pb : ℝ) : ℂ) * I) * ∑ s ∈ range N, Pb s * (I / x) ^ (s + 1))
       =O[atTop] fun x : ℝ => x ^ (-((N : ℝ) + lam) / μ) + x ^ (-((N : ℝ) + 1)) :=
+  sorry
+
+/-- **6.2** Stationary phase at the left endpoint with `b = ∞` and `p(t) → ∞` (DLMF 2.3.22–2.3.23,
+condition (d)): `P₀ → 0` at `∞` and each `∫ e^{ixp} P_s p′` converges at `∞` uniformly for large
+`x`. The improper integral exists for large `x`, and only the stationary endpoint contributes. -/
+theorem hasAsymptoticExpansion_stationaryPhase {p : ℝ → ℝ} {q : ℝ → ℂ} {a μ lam : ℝ}
+    {ps : ℕ → ℝ} {qs : ℕ → ℂ} {P : ℕ → ℝ → ℂ}
+    (hμ : 0 < μ) (hlam : 0 < lam) (hp0 : 0 < ps 0)
+    (hp : ContDiffOn ℝ ∞ p (Ioi a)) (hq : ContDiffOn ℝ ∞ q (Ioi a))
+    (hp' : ∀ t ∈ Ioi a, 0 < deriv p t)
+    (hpexp : ∀ k N : ℕ, (fun t => iteratedDeriv k (fun t => p t - p a) t -
+        ∑ s ∈ range N, ps s * (descPochhammer ℝ k).eval ((s : ℝ) + μ) * (t - a) ^ ((s : ℝ) + μ - k))
+      =O[𝓝[>] a] fun t => (t - a) ^ ((N : ℝ) + μ - k))
+    (hqexp : ∀ k N : ℕ, (fun t => iteratedDeriv k q t -
+        ∑ s ∈ range N, qs s * (descPochhammer ℂ k).eval ((s : ℂ) + lam - 1) *
+          ((t - a : ℝ) : ℂ) ^ ((s : ℂ) + lam - 1 - k))
+      =O[𝓝[>] a] fun t => (t - a) ^ ((N : ℝ) + lam - 1 - k))
+    (hP0 : ∀ t ∈ Ioi a, P 0 t = q t / deriv p t)
+    (hP : ∀ s : ℕ, ∀ t ∈ Ioi a, P (s + 1) t = deriv (P s) t / deriv p t)
+    (hpinf : Tendsto p atTop atTop) (hP0lim : Tendsto (P 0) atTop (𝓝 0))
+    (hunif : ∀ s : ℕ, ∃ x₀ : ℝ, ∀ ε > 0, ∃ c : ℝ, ∀ x ≥ x₀, ∀ T ≥ c, ∀ T' ≥ T,
+      ‖∫ t in T..T', cexp (((x * p t : ℝ) : ℂ) * I) * P s t * ((deriv p t : ℝ) : ℂ)‖ ≤ ε) :
+    ∃ F : ℝ → ℂ,
+      (∀ᶠ x in atTop,
+        Tendsto (fun T : ℝ => ∫ t in a..T, cexp (((x * p t : ℝ) : ℂ) * I) * q t) atTop
+          (𝓝 (F x))) ∧
+      HasAsymptoticExpansion atTop (fun s (x : ℝ) => (x : ℂ) ^ (-(((s : ℂ) + lam) / μ)))
+        (fun s => cexp (((s : ℂ) + lam) * π * I / (2 * μ)) * Gamma (((s : ℂ) + lam) / μ) *
+          laplaceCoeff μ lam (Real.log (ps 0)) (PowerSeries.mk fun s => (ps s : ℂ))
+            (PowerSeries.mk qs) s)
+        fun x => cexp (-(((x * p a : ℝ) : ℂ) * I)) * F x :=
   sorry
 
 /-! ## Layer 7: coalescing critical points -/
@@ -596,17 +665,15 @@ theorem tendsto_sum_mul_log_sub :
       atTop (𝓝 (1 / 12 - (deriv riemannZeta (-1)).re)) :=
   sorry
 
-/-- **13.6** The Laurent coefficient `f_n = (2πi)⁻¹ ∮_{|z|=ρ} f(z) z^{−n−1} dz` (DLMF 2.10.26). -/
-def laurentCoeff (f : ℂ → ℂ) (ρ : ℝ) (n : ℤ) : ℂ :=
-  (2 * π * I)⁻¹ * ∮ z in C(0, ρ), z ^ (-(n + 1)) * f z
-
-/-- **13.6** Darboux's method (DLMF 2.10.27–2.10.29): `f_n = g_n + o(r^{−n})` as `n → ±∞`. -/
-theorem tendsto_laurentCoeff_sub {f g h : ℂ → ℂ} {r ρ : ℝ} (hρ : 0 < ρ) (hρr : ρ < r)
+/-- **13.6** Darboux's method (DLMF 2.10.27–2.10.29): `f_n = g_n + o(r^{−n})` as `n → ±∞`, with
+Tau Ceti's Laurent coefficients `f_n = circleLaurentCoeff f 0 ρ n` (DLMF 2.10.26). -/
+theorem tendsto_circleLaurentCoeff_sub {f g h : ℂ → ℂ} {r ρ : ℝ} (hρ : 0 < ρ) (hρr : ρ < r)
     (hf : DifferentiableOn ℂ f {z | 0 < ‖z‖ ∧ ‖z‖ < r})
     (hg : DifferentiableOn ℂ g {z | 0 < ‖z‖ ∧ ‖z‖ < r})
     (hh : ContinuousOn h {z | 0 < ‖z‖ ∧ ‖z‖ ≤ r})
     (hfg : ∀ z, 0 < ‖z‖ → ‖z‖ < r → h z = f z - g z) :
-    Tendsto (fun n : ℤ => (r : ℂ) ^ n * (laurentCoeff f ρ n - laurentCoeff g ρ n)) cofinite
+    Tendsto (fun n : ℤ => (r : ℂ) ^ n *
+        (TauCeti.circleLaurentCoeff f 0 ρ n - TauCeti.circleLaurentCoeff g 0 ρ n)) cofinite
       (𝓝 0) :=
   sorry
 
