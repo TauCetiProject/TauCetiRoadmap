@@ -70,7 +70,8 @@ The following headline theorems are not statable at the pinned libraries.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
   Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): they need the fppf and étale cohomology of a
   group over a scheme with restriction maps, as in the first item, and groups of multiplicative
-  type over a base scheme, which the pins have only over a field (README §7.12c defines them).
+  type over a base scheme, which the pins have only over a field (GroupSchemesOverABase §2.1
+  defines them).
 -/
 
 universe u v
