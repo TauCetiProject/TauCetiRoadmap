@@ -74,12 +74,14 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
   (Stage 6.3) and Poincaré duality with `ℤ/2` coefficients (Stage 6.4);
 * the cup-length lower bound for the Lusternik–Schnirelmann category (the categorical
   supplement after Stage 6.2);
-* relative Hurewicz in degrees at least three with only the subspace simply connected
+* relative Hurewicz in degrees at least two with only the subspace simply connected
   (Stage 8.4);
 * homological Whitehead for simply connected spaces of CW type (Stage 8.5) and proper homotopy
   rectification (Stage 8.5);
 * finite CW type of compact manifolds (Stage 8.7);
 * the `K(π, 1)` property of the bar model (Stage 8.8a);
+* the classification of pointed maps from a connected Hausdorff CW complex into an aspherical
+  space by homomorphisms of fundamental groups (Stage 8.8b);
 * Hurewicz modulo a Serre class satisfying Serre's tensor, `Tor` and `K(A, 1)` axioms
   (Stage 8.8d);
 * representability of `H^n(-; A)` by every `K(A, n)` model (Stage 8.10);
@@ -517,17 +519,18 @@ theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
 /-! ## Stage 8.4: relative Hurewicz with only the subspace simply connected -/
 
 /-- Stage 8.4 (Hatcher, Theorem 4.37): for a path-connected `Y`, a simply connected subspace `B`
-with `b ∈ B`, and the relative homotopy sets `π_i(Y, B, b)` trivial for `1 ≤ i ≤ n + 2`, the
-native relative Hurewicz map `π_{n+3}(Y, B, b) → H_{n+3}(Y, B; ℤ)`, `[p] ↦ p_*[Iⁿ⁺³]`, is
-bijective. The native `RelHomotopyGroup (Fin k)` is `π_{k+1}`. The native theorem
-`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` assumes instead
-that `Y` is also highly connected. -/
+with `b ∈ B`, and the relative homotopy sets `π_i(Y, B, b)` trivial for `1 ≤ i ≤ n + 1`, the
+native relative Hurewicz map `π_{n+2}(Y, B, b) → H_{n+2}(Y, B; ℤ)`, `[p] ↦ p_*[Iⁿ⁺²]`, is
+bijective, in every degree at least two. The native `RelHomotopyGroup (Fin k)` is `π_{k+1}`.
+The native theorem `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`
+assumes instead that `Y` is also highly connected; in degree two (`n = 0`) the two sets of
+hypotheses agree, since `π₁(B) = 0` and `π₁(Y, B) = 0` force `π₁(Y) = 0` by the pair sequence. -/
 theorem relHurewicz_bijective_of_simplyConnected_subspace {Y : TopCat.{0}} (B : Set Y) (b : B)
     [PathConnectedSpace Y] (n : ℕ)
     (hB : ∀ k < 2, Subsingleton (HomotopyGroup (Fin k) B b))
-    (hrel : ∀ k ≤ n + 1, Subsingleton (TauCeti.RelHomotopyGroup (Fin k) ⟨TopPair.ofSubset B, b⟩)) :
-    Function.Bijective fun a : TauCeti.RelHomotopyGroup (Fin (n + 2)) ⟨TopPair.ofSubset B, b⟩ ↦
-      (TauCeti.RelHomotopyGroup.hurewicz (ModuleCat.of ℤ ℤ) (n + 2) a).hom 1 := by
+    (hrel : ∀ k ≤ n, Subsingleton (TauCeti.RelHomotopyGroup (Fin k) ⟨TopPair.ofSubset B, b⟩)) :
+    Function.Bijective fun a : TauCeti.RelHomotopyGroup (Fin (n + 1)) ⟨TopPair.ofSubset B, b⟩ ↦
+      (TauCeti.RelHomotopyGroup.hurewicz (ModuleCat.of ℤ ℤ) (n + 1) a).hom 1 := by
   sorry
 
 /-! ## Stage 8.5: homological Whitehead and proper homotopy rectification -/
@@ -620,6 +623,25 @@ group `G`, through the contractible free `G`-space `|E G|` covering it. -/
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
+  sorry
+
+/-! ## Stage 8.8b: pointed maps from a connected CW complex into an aspherical space -/
+
+/-- Stage 8.8b (Hatcher, Proposition 1B.9): for a path-connected Hausdorff CW complex `X` with
+base point `x` and a space `Y` with base point `y` that is aspherical in the native sense
+(path connected with `π_k(Y, y) = 0` for `k ≥ 2`), every homomorphism `π₁(X, x) →* π₁(Y, y)`
+is induced by a map sending `x` to `y`, and two such maps inducing the same homomorphism are
+homotopic relative to `{x}`. Applied to the bar model `groupClassifyingSpace π`, aspherical by
+`groupClassifyingSpace_isEMOne`, this is the bijection `[X, Bπ]_* ≃ Hom(π₁(X, x), π)`. -/
+theorem exists_mapOfEq_eq_of_isAspherical_cwComplex
+    {X : Type u} [TopologicalSpace X] [T2Space X] [CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] (x : X)
+    {Y : Type v} [TopologicalSpace Y] {y : Y} (_hY : TauCeti.IsAspherical Y y)
+    (φ : FundamentalGroup X x →* FundamentalGroup Y y) :
+    ∃ (f : C(X, Y)) (hf : f x = y),
+      (∀ γ, FundamentalGroup.mapOfEq f hf γ = φ γ) ∧
+        ∀ (g : C(X, Y)) (hg : g x = y), (∀ γ, FundamentalGroup.mapOfEq g hg γ = φ γ) →
+          ContinuousMap.HomotopicRel f g {x} := by
   sorry
 
 /-! ## Stage 8.8d: Serre classes and Hurewicz modulo a class -/

@@ -97,8 +97,14 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   CW-type uniqueness, the cellular/bar projective-resolution comparisons and
   the identity-on-π₁ normalized comparison of the nerve/bar model with those
   models; no stage here consumes those models or that comparison. Stage8.8a
-  owns the raw nerve/bar construction; Stage8.8b owns only the bar model's own
-  normalized pointed interface. The raw bar also supplies the abelian input
+  owns the raw nerve/bar construction; Stage8.8b owns the classification of
+  pointed maps from a connected Hausdorff CW complex into an aspherical
+  space (every homomorphism of fundamental groups is induced by a pointed
+  map, unique up to pointed homotopy; Hatcher, Proposition 1B.9), its
+  specialization `[X,Bπ]_*≃Hom(π₁X,π)` to the bar model, and the bar model's
+  own normalized pointed interface; ClassifyingSpaces consumes that
+  classification for its uniqueness and model comparisons and owns no second
+  proof of it. The raw bar also supplies the abelian input
   used by Stage 8.8c.
 - The ordinary Serre and Eilenberg–MacLane machinery is owned here wherever the
   pinned Tau Ceti does not already prove it. Tau Ceti proves the degree-one and
@@ -443,8 +449,21 @@ The development starts from these current APIs.
   for finite groups `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
   `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology` (`Torsion.lean`), the
   uniqueness theorems `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` and
-  `TauCeti.IsAspherical.exists_homotopyEquiv` (`Uniqueness.lean`) and the circle comparison
-  `TauCeti.circleHomotopyEquivClassifyingSpace` (`Circle.lean`).
+  `TauCeti.IsAspherical.exists_homotopyEquiv` (`Uniqueness.lean`), the circle comparison
+  `TauCeti.circleHomotopyEquivClassifyingSpace` (`Circle.lean`), the presentation complex
+  `TauCeti.PresentationComplex` with `TauCeti.PresentationComplex.exists_mapOfEq_comp_fundamentalGroupHom`
+  (`ClassifyingSpace/PresentationComplex.lean`), the cellular model
+  `TauCeti.cellularClassifyingSpace` with `TauCeti.exists_mapOfEq_cellularClassifyingSpace`
+  (`Cellular.lean`), and the killing tower `TauCeti.killHomotopyGroups n X x` of a pointed
+  Hausdorff space (`Homotopy/KillHomotopyGroups.lean`) with
+  `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` (`π_k` unchanged for `k<n`),
+  `TauCeti.subsingleton_homotopyGroup_killHomotopyGroups` (`π_k=0` for `k≥n`),
+  `TauCeti.killHomotopyGroupsCWComplex` and `TauCeti.cwType_killHomotopyGroups` (a Hausdorff
+  CW source without cells above dimension `n`),
+  `TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups` (`n=2`) and the extension theorems
+  `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq` and
+  `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv` into a target with
+  vanishing homotopy from dimension `n` on.
 - Former names of this roadmap's own declarations that the native declarations replace, so
   that roadmaps citing them can follow: BasedTopPair is `TauCeti.BasedTopPair`;
   relativeCWConnectivityOfCellDimension and its transport are the `_of_isEmpty_cell` theorems
@@ -2281,18 +2300,21 @@ items 1–7 are independent of those later constructions.
    (`TauCeti.RelHomotopyGroup.surjective_hurewicz`) and its bijectivity
    `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` when both `A`
    and `X` are `(n-1)`-connected, which in degree two is the full relative Hurewicz theorem for
-   simply connected `A` and `X`.  Own the form for `n≥3` with only `A` simply connected and
-   `pi_i(X,A)=0` for `i<n`, which the native file leaves open:
+   simply connected `A` and `X`.  Own the form for `n≥2` with only `A` simply connected and
+   `pi_i(X,A)=0` for `i<n`:
    `relHurewicz_bijective_of_simplyConnected_subspace` states that for path-connected `X`,
    simply connected `A` with `a ∈ A` and trivial relative sets `pi_i(X,A,a)` for `1≤i<n`,
-   the native relative Hurewicz map is bijective in degree `n` (Hatcher, Theorem 4.37).
+   the native relative Hurewicz map is bijective in degree `n` (Hatcher, Theorem 4.37, whose
+   quotient `pi'_n(X,A)` by the `pi_1(A)`-action is `pi_n(X,A)` itself when `pi_1(A)=0`).
+   In degree two the hypotheses force `X` simply connected, since `pi_1(A)=0` and
+   `pi_1(X,A)=0` bracket `pi_1(X)` in the pair sequence, so that instance is the native
+   theorem; the new content is `n≥3`, which the native file leaves open.
    Path connectedness of `X` is a hypothesis, since a path component of `X` missing `A`
    contributes its absolute homology to `H_n(X,A)` and nothing to `pi_n(X,A,a)`.  Derive
    the exact isomorphism and surjectivity range for
    `H_i(A)->H_i(X)` from the pair sequence.  In degree two, the native
    `TauCeti.RelHomotopyGroup.mul_comm_of_subsingleton` gives commutativity of `pi_2(X,A)`
-   from simple connectivity of `A`; prove that the map to its abelianization is an
-   isomorphism, and only then identify it with relative homology.
+   from simple connectivity of `A`, in agreement with the bijection onto `H_2(X,A)`.
 5. Consume Whitehead's theorem for spaces of CW type, the native
    `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`, whose forward map is the given weak
    equivalence, together with its lifting and uniqueness API (Hatcher 4.22).  Own
@@ -2450,10 +2472,35 @@ items 1–7 are independent of those later constructions.
    and the comparison of the augmentation-preserving resolution maps; no
    item here consumes those.
    Item 8.8c aliases the abelian specialization as K(A,1);
-   the generic CW/cover proof is supplied only here. For each connected
-   pointed CW complex X prove `[X,Bπ]_*≃Hom(π₁X,π)` and that forgetting basepoints
-   gives the conjugation-orbit description of `[X,Bπ]`. Treat disconnected X
-   componentwise. Consume the native identification of the cohomology of the
+   the generic CW/cover proof is supplied only here. Own the classification
+   of pointed maps into an aspherical space,
+   `exists_mapOfEq_eq_of_isAspherical_cwComplex`: for a path-connected
+   Hausdorff CW complex X with base point x and a space Y with base point y
+   that is aspherical in the native sense `TauCeti.IsAspherical Y y` (path
+   connected with π_k(Y,y)=0 for k≥2), every homomorphism π₁(X,x)→π₁(Y,y) is
+   induced by a map sending x to y, and two such maps inducing the same
+   homomorphism are homotopic relative to x (Hatcher, Proposition 1B.9,
+   p. 90). The route is skeletal: send a maximal tree of the 1-skeleton to y
+   and each remaining edge to a loop representing the image of its class,
+   extend over a 2-cell because its attaching loop is a relation and so maps
+   to a null-homotopic loop, and over a cell of dimension k≥3 because the
+   composite of its attaching map with the map already defined on the lower skeleton is a based map
+   of S^(k−1) into Y, null-homotopic since π_(k−1)(Y)=0 at every base point
+   by path connectedness; uniqueness is the same extension over the cells of
+   X×I relative to X×∂I∪{x}×I, all of dimension at least two. The CW
+   hypothesis on X and asphericity of Y are both needed: the Warsaw circle
+   has trivial π₁ but admits a map to S¹ that is not null-homotopic, and the
+   identity and the constant map of S² induce the same map on π₁. Apply the
+   classification to the bar model, aspherical with π₁≅π by 8.8a, to obtain
+   `[X,Bπ]_*≃Hom(π₁X,π)` for each connected pointed Hausdorff CW complex X,
+   and prove that forgetting basepoints gives the conjugation-orbit
+   description of `[X,Bπ]`. Treat disconnected X componentwise.
+   ClassifyingSpaces consumes this classification for its uniqueness and
+   model comparisons; the native `TauCeti.exists_mapOfEq_cellularClassifyingSpace`
+   is its existence half for the cellular model as source, and the native
+   `TauCeti.IsAspherical.exists_homotopyEquiv` is the uniqueness of
+   aspherical spaces of CW type that follows from it.
+   Consume the native identification of the cohomology of the
    base of a contractible free quotient cover with group cohomology,
    `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`
    (`Cohomology/GroupCohomology.lean`), and apply it to the bar covering once
@@ -2507,16 +2554,28 @@ items 1–7 are independent of those later constructions.
    Own a second, comparison CW construction of K(A,n) from a presentation of
    A: for n≥2 a wedge of positively oriented n-spheres for its generators
    with (n+1)-cells attached along its relations, and for n=1 the
-   group-presentation 2-complex, followed by killing successive higher
-   homotopy groups by cells in dimensions ≥n+2, respectively ≥3. Prove each
-   stage preserves π_n and the lower groups, and the limit's homotopy groups
-   by compact-family factorization through the CW tower. Own Hatcher's
-   Lemma 4.31 skeletal extension: realize a supplied homomorphism on π_n by
-   maps of the generator spheres, extend over the presentation cells using
-   their null relations and over every higher cell using the target's
-   vanishing higher homotopy, with based maps, homotopies and coefficient
-   normalization; likewise own the general higher-cell killing construction
-   with its connectivity and preserved lower-group claims. These use Stage
+   group-presentation 2-complex `TauCeti.PresentationComplex`, followed by
+   the pinned killing tower `TauCeti.killHomotopyGroups` from dimension n+1,
+   respectively 2, on (`Homotopy/KillHomotopyGroups.lean`): on a pointed
+   Hausdorff space it attaches cells of dimensions ≥n+2, respectively ≥3,
+   preserves π_n and the lower groups
+   (`TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl`), kills the
+   groups from its starting dimension on
+   (`TauCeti.subsingleton_homotopyGroup_killHomotopyGroups`), and for a
+   Hausdorff CW source without cells above that dimension is a CW complex
+   (`TauCeti.killHomotopyGroupsCWComplex`, `TauCeti.cwType_killHomotopyGroups`);
+   for n=1 the result is the pinned `TauCeti.cellularClassifyingSpace`. The
+   limit's homotopy groups are those pinned theorems, not a target here. Own
+   the part of Hatcher's Lemma 4.31 skeletal extension that is not pinned:
+   realize a supplied homomorphism on π_n by maps of the generator spheres
+   and extend over the presentation cells using their null relations, with
+   based maps, homotopies and coefficient normalization; the extension over
+   the tower's cells into a target whose homotopy groups vanish from
+   dimension n+1 on is the pinned
+   `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq`, and for n=1 its
+   fundamental-group form is the pinned
+   `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv`.
+   These use Stage
    4's cell attachments and 8.1–8.7's relative homotopy/Hurewicz/Whitehead
    machinery. Give the coefficient-normalized comparison of the presentation
    model with the chosen bar/Dold–Kan model by skeletal extension and
@@ -2842,7 +2901,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 7 Euler characteristic | 2--6, with 4.6's CPⁿ cell structure for the CPⁿ check | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4 and the cited external roadmaps; proper8.5 additionally the supported-cellular supplement's compactly supported cochains, proper pullback, jointly proper homotopy invariance, cellular comparison and countability | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary6–7 |
 | 8.8a raw bar/abelian input | 4, ordinary6, native nerve/realization and universal-cover APIs | 8.8c's abelian K(A,1) specialization |
-| 8.8b normalized bar-model interface | 8.8a bar model, 4, 8.5 | 8.9 |
+| 8.8b aspherical-target classification and normalized bar-model interface | 8.8a bar model, 4, 8.5 | 8.9 |
 | 8.8c abelian EM family | 4.7, 4.8, 8.1–8.8a, 8.2's Kan/Moore comparison and 5.5's based path fibration for the loop identification; no 8.9–8.12 input | 7 |
 | 8.8d Serre classes/Hurewicz modulo a class | 4.8, 5.3 transfer, 5.5 Serre sequences and path fibrations, 8.3–8.5, 8.8c | 7 |
 | 8.9 primary relative obstructions | 4, 5.5 fibre transport, ordinary6 cellular cochains, 8.1–8.7 | 8.8b |
