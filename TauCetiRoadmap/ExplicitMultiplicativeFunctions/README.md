@@ -31,8 +31,7 @@ Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}`, Robin's
 layers carry the sharper statements of later work that improve it: Ramaré–Zuniga Alterman's
 `|M(D)| ≤ (0.006688 log D − 0.039) D/log² D` for `D ≥ 1 798 118`, Chirre–Helfgott's linear bound
 `|M(x)| ≤ (3/(π·10^{10})) x + 11.39 √x` for every `x ≥ 1` from the zeros of `ζ` up to a finite height,
-and the constants of Daval, Johnston–Leong–Tudzi, Zuniga Alterman, Platt–Trudgian, Tudzi and
-Palojärvi–Tudzi.
+and the constants of Daval, Johnston–Leong–Tudzi, Zuniga Alterman, Platt–Trudgian and Tudzi.
 
 Suggested home: `TauCeti/NumberTheory/Explicit/MultiplicativeFunctions/`, divided into `Moebius/`,
 `Convolution/`, `Averages/`, `EulerProducts/` and `Pointwise/`.
@@ -56,10 +55,9 @@ not the roadmap.
   Vallée Poussin shape with its `ζ` input as a supplier gap (Layer 1);
 - Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
   Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
-  the explicit tails of `Σ μ(d)/d²`, the coprime sums with a power `n^{−σ}` (`1 ≤ σ ≤ 2`), and the
-  `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
+  the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
 - the identities and bounds for `m̌(x)`, with the sign correction of the corrigendum, the coprime
-  positivity theorem and its higher-weight generalisation, and the decaying bounds with the exact
+  positivity theorem, and the decaying bounds with the exact
   value of `sup_{x ≥ 1} (log² x)|m̌(x) − 1|` (Layer 3);
 - the character-twisted logarithmic Möbius sum with a Pólya–Vinogradov bound as a parameter
   (Layer 4);
@@ -131,8 +129,22 @@ not the roadmap.
   the cubic reciprocal-prime remainder instead;
 - the `(log log x)^k/(log x)^k` family of bounds for `M(x)` of El Marraki 1995, Théorème 4, and the
   double-logarithmic sum `Σ_{n ≤ x} μ(n) log²(x/n)/n` of Ramaré 2015, Theorems 1.7–1.8 and
-  1.16–1.17, beyond the positivity and size bound of 3.3: they belong to
-  ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1 and 3 stop;
+  1.16–1.17, with its coprime consequence `0 ≤ Σ_{n ≤ x, (n, q) = 1} μ(n) log²(x/n)/n ≤ 2 (q/φ(q)) log x`
+  (Corollary 1.11): they belong to ExplicitMultiplicativeFunctions, Part II, which starts where
+  Layers 1 and 3 stop;
+- the statements whose proofs rest on inputs that no supplier states and that only their sources
+  fix: Ramaré–Zuniga Alterman's identity-factory results (`ramareZunigaAlterman2026` Theorems 1.2,
+  1.7 and 1.8: the coprime sums `Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ} log^k(X/n)` for `σ ≥ 1` and their
+  asymptotics for `1 ≤ σ ≤ 2`, which use bounds for the Möbius sums over odd integers taken from
+  Helfgott's monograph, the source's Lemma 5.4 and direct checks for `X < 47`, and, for `k ≥ 2`, the
+  double-logarithmic sums of the previous item); the odd form
+  `Σ_{d ≤ X, d odd} μ²(d)/d = (4/π²)(log X + C₂ + (log 2)/3) + O*(0.79/√X)` of Zuniga Alterman
+  (`zunigaAlterman2022` Lemma 4.1, second part, which uses a count of odd squarefree integers from
+  the same monograph); Palojärvi–Tudzi's Piltz remainders (`palojarviTudzi2026`
+  Theorem 1.1, which use explicit bounds for the second and fourth moments of `ζ` on the critical
+  line); and Lee–Leong's bounds for `M(x)` of Littlewood and Korobov–Vinogradov shape (`leeLeong2022`
+  (9)–(11), which use explicit bounds for `1/ζ` in the corresponding zero-free regions). They belong
+  to ExplicitMultiplicativeFunctions, Part II, which starts where Layers 1, 2, 3 and 7 stop;
 - Nicolas' Théorème 3 (the constant `2.597` for every `n ≥ 3` outside a table of twelve exceptional
   integers): it belongs to ExplicitMultiplicativeFunctions, Part II, and Layer 9.3 states Théorème 2,
   whose constant is attained;
@@ -296,7 +308,7 @@ What these do not include: no explicit constant in any prime estimate, no explic
   and of the Checks of Layer 5.5;
 - §0.19: there is a real `B` with `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)` for every real
   `x ≥ 286` (Rosser–Schoenfeld Theorem 5), unconditional; Layer 8.1 identifies this `B` with
-  `mertensConstant ℚ`;
+  `mertensConstant ℚ`, and Layer 1.4 uses its lower half for Schoenfeld's inequality;
 - §0.21: `Σ_{p ≤ x} 1/p = log log x + B + O(1/log x)` for `x ≥ 2`, and §0.26:
   `∏_{p ≤ x}(1 − 1/p)^{−1} = e^γ log x + O(1)` for `x ≥ 2`; together they give the identity
   `B = γ + Σ_p (log(1 − 1/p) + 1/p)` used in Layer 8.1;
@@ -358,7 +370,9 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
   9.3.
 - §4.2: `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 0.0067/log x` for every real `x ≥ 1 520 000` (Ramaré's
   corrected corollary; the range `x ≥ 23` printed at `ramare2013aa` line 251 is false: at `x = 23` the
-  left side is `0.053…` and the right side `0.0021…`), used in Layers 1.5 and 1.8.
+  left side is `0.053…` and the right side `0.0021…`), used in Layers 1.5 and 1.8; and
+  `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 1/(4 log x)` for every real `x ≥ 115` (the same corollary), used
+  in Layer 1.4.
 - §4.3: `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 1/log³ x` for every real `x ≥ 24 284`, with
   `B = mertensConstant ℚ` (Vanlalngaia's Corollary 1), used in Layers 8.1, 8.2 and 9.4; and Axler's
   `|Σ_{p ≤ x} 1/p − log log x − B| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for every real
@@ -408,11 +422,12 @@ of the contract: they are fields of `RamareTransferComputations` (Layer 0.7).
 
 ### From TauCetiRoadmap.ExplicitZetaBounds
 
-What ExplicitZetaBounds must provide (gap:zeta-reciprocal-bounds): explicit upper bounds for
-`|1/ζ(σ + it)|` in the zero-free regions of `ζ`, in the form Lee–Leong use: for
-`t ≥ H = 3 000 175 332 800` and `σ ≥ 1 − 1/(5.56 log t)`, `|1/ζ(σ + it)| ≤ 1237 (log t)^{11/12}`, with the
-Littlewood and Korobov–Vinogradov companions, `|1/ζ(σ + it)| ≤ 30.812 log t` for `σ ≥ 1`, `t ≥ 13`, and
-`|1/ζ(σ + it)| ≤ e^{146} log t` for `σ ≥ 3/4`, `14 ≤ t ≤ H`. Needed by Layer 1.9; never restated.
+What ExplicitZetaBounds must provide (gap:zeta-reciprocal-bounds): the three explicit upper bounds
+for `|1/ζ(σ + it)|` that the de la Vallée Poussin bound of Layer 1.9 uses, with
+`H = 3 000 175 332 800`: `|1/ζ(σ + it)| ≤ 1237 (log t)^{11/12}` for every real `t ≥ H` and every real
+`σ ≥ 1 − 1/(5.56 log t)` (the classical zero-free region); `|1/ζ(σ + it)| ≤ 30.812 log t` for every
+real `t ≥ 13` and `σ ≥ 1`; and `|1/ζ(σ + it)| ≤ e^{146} log t` for every real `t` with `14 ≤ t ≤ H`
+and `σ ≥ 3/4`. Needed by Layer 1.9; never restated.
 
 ### Zero-free inputs: exceptional zeros and half-planes
 
@@ -444,7 +459,7 @@ small `h`, with its models, and the explicit Levin–Fainleib theorem. Layer 6 g
 averages of nonnegative multiplicative functions that need no main term. Layer 7 applies Layers 5–6
 to the classical functions. Layer 8 turns the explicit reciprocal-prime sums into explicit Euler
 products. Layer 9 proves the pointwise maximal orders. Each layer ends with the targets that carry
-the sharpest constants of later work (1.7–1.10, 2.6–2.7, 3.4, 5.6, 7.8–7.9, 9.4's large-`n` forms):
+the sharpest constants of later work (1.7–1.10, 2.6, 3.4, 5.6, 7.8–7.9, 9.4's large-`n` forms):
 they reuse the identities and schemes of the earlier subsections with sharper inputs, and the
 refereed statements they improve are kept beside them, so that a preprint is never the only source
 of a statement. Within each layer the identities come first, then the parametric theorems, then the
@@ -705,6 +720,9 @@ is that roadmap's §1.7; none of them is restated here.
   (`ramareZunigaAlterman2025` (39)); `D₀ = 33`, `I = 59` (`johnstonLeongTudzi2024`).
 - *MoebiusLogIntegralLE* `D₀ I`: `∫_1^{D₀} |M(t)| dt/t ≤ I`. Instance: `D₀ = 1 078 853`, `I = 302`
   (`ramare2013aa` line 754; the integral is `301.904…`), the input of Layer 2.3's Corollary 1.2.
+- *LambdaDeviationRangeVerified*: `Σ_{n ≤ x} |Λ(n) − 1|/n < 2 log x − 2 log log x` for every real
+  `x` with `1 < x < 286` (Layer 1.4, Schoenfeld's inequality below the range of
+  AnalyticNumberTheoryPartI §0.19; `schoenfeld1969` line 113 checks `(1, 32)`).
 
 **The computations of the transfer theorems.**
 
@@ -712,8 +730,9 @@ is that roadmap's §1.7; none of them is restated here.
   analytic part of Layer 1.5 uses, each as a field, with `R₂*` the Selberg remainder
   `selbergRemainder` of Layer 1.5: (i) `|R₂*(D)| ≤ 1.80 √D log D` for `3 ≤ D ≤ 1.1·10^8` and
   `≤ 1.93 √D log D` for `1.1·10^8 ≤ D ≤ 1.8·10^9` (`ramare2013aa` lines 553–557, Lemma 6.3);
-  (ii) `|R₂*(D)| ≤ 0.0213 D` for `1.8·10^9 ≤ D ≤ 2.31·10^{12}` (the range in which the printed proof
-  used the uncorrected `ψ̃` input, see Layer 1.5); (iii)
+  (ii) `|R₂*(D)| ≤ 0.0213 D` for `1.8·10^9 ≤ D ≤ 2.3104·10^{12} = 1 520 000²` (the range below the
+  analytic argument of Layer 1.5, which needs the `ψ̃` input at `√D ≥ 1 520 000`; the printed proof
+  covered it with the uncorrected `ψ̃` range, see Layer 1.5); (iii)
   `∫_1^{10^8} (ψ(t) − t) dt/t = −147.768 + O*(0.01)`, the integral of lines 563–565, Lemma 6.4,
   whose printed value `−129.559` is not the value of the integral (Checks); (iv)
   `Σ_{k ≤ K} |Λ⋆Λ − Λ log + 2γ|(k)/k + |R₂*(K)|/K ≤ 0.03739 × 4345` for `K = 462 848` (lines 633–637, Lemma 7.1); (v)
@@ -727,7 +746,7 @@ is that roadmap's §1.7; none of them is restated here.
   are the instances of *MoebiusRangeVerified* and *MoebiusDivRangeVerified* above, and the integral
   it uses is *MoebiusLogIntegralLE* `1 078 853 302`. The source's finite extensions of Lemmas 4.3
   and 4.4 (lines 215–249) are not fields: with the corrected `ψ̃` range the analytic argument of
-  Layer 1.5 runs only for `D ≥ 2.31·10^{12}`, where `gap:psi-initial-range` and
+  Layer 1.5 runs only for `D ≥ 2.3104·10^{12}`, where `gap:psi-initial-range` and
   ExplicitPrimeCounting §6.1 cover the arguments `√D` and `D` directly.
 - *RamareZunigaAltermanComputations*: the finite computations of `ramareZunigaAlterman2025`, each a
   field: (i) `|ψ(x) − x| ≤ 0.71 √x` for `24 200 ≤ x ≤ 3·10^7`; (ii)
@@ -736,7 +755,7 @@ is that roadmap's §1.7; none of them is restated here.
   small-values sums `Σ_{k ≤ K} |Λ⋆Λ − Λ log + 2γ|(k)/k + |R₂*(K)|/K ≤ 4345 c_K` with
   `c_K = 0.0374, 0.0422, 0.0579, 0.0762` for `K = 462 848, 10^6, 10^7, 10^8`; (vi)
   `|M(X₀) − M₂(μ, X₀)/log² X₀| ≤ 7.01` at `X₀ = 4·10^7`; the bound of 1.10 on
-  `[1 798 118, 1.5·10^7)` and that of 2.7 on `[617 990, 1.5·10^7)` are instances of
+  `[1 798 118, 1.5·10^7)` and that of 2.6 on `[617 990, 1.5·10^7)` are instances of
   *MoebiusRangeVerified* and *MoebiusDivRangeVerified*, and the integral
   `∫_1^{1 798 118} |M(t)| dt ≤ 216 378 740` is *MoebiusAbsIntegralLE* `1 798 118 216 378 740`.
 - *DavalLinearComputations*: `0 < m₁(10^8) < 1.195·10^{−6}`, `Σ_{j ≤ 10^8} μ²(j)/√j ≤ 12 158.55` and
@@ -901,7 +920,11 @@ theorems about the propositions).
   `Σ_{p^k ≤ 10^8} log p · log(10^8/p^k) − (10^8 − 1) = −147.7678…`, and integrating the step function
   `ψ` over each `[n, n + 1)` gives the same value (at `X = 10^6` both give `−16.3925…`). The value
   enters the analytic argument of Layer 1.5 only through the term `I₀/D ≤ 6.4·10^{−11}` at
-  `D ≥ 2.31·10^{12}`, so Theorem 1.1 is unaffected by the correction.
+  `D ≥ 2.3104·10^{12}`, so Theorem 1.1 is unaffected by the correction.
+- Field (i) of `RamareTransferComputations` at every integer of `[3, 2·10^8]` (where `R₂*` is
+  constant on each `[N, N + 1)` and `√D log D` increases, so the integers suffice): the largest value
+  of `|R₂*(D)|/(√D log D)` is `1.3658` (at `D = 36 917 058`) on `[3, 1.1·10^8]` and `1.4519` (at
+  `D = 110 102 617`) on `[1.1·10^8, 2·10^8]`, within `1.80` and `1.93`.
 - *SquarefreeRangeVerified* `(x ↦ 0.02767 √x) 438 653 10^6` is false (as `x → 441 353⁻`,
   `R(x)/√x → −0.027772`), while *SquarefreeRangeVerifiedNat* `(n ↦ 0.02767 √n) 438 653 10^6` holds
   (the last integer `n` with `|R(n)| > 0.02767 √n` is `437 780`): the two forms differ.
@@ -972,8 +995,9 @@ inversion of the telescoping `Σ_{n ≤ x} k(1 − n/x)^{k−1} = x^{1−k}(b_k(
 `b_k(X + 1) − b_k(X) = k X^{k−1}`.
 
 Define Balazard's function
-`ε₁(t) = 1/3 − 1/(3t) + ((4/3){t}³ − (3/2){t}² + (1/2){t})/t² − ((1/3){t}⁴ − 2{t}³ + {t}²)/t³` for `t > 0` (`ramare2015mc` line 457, (2.3); `balazard2012` line
-426), and prove
+`ε₁(t) = 1/3 − 1/(3t) + (4/3)({t}³ − (3/2){t}² + (1/2){t})/t² − (1/3)({t}⁴ − 2{t}³ + {t}²)/t³` for
+`t > 0`, that is `ε₁(t) = 1/3 − 1/(3t) + (4/3) b₃({t})/t² − (1/3)(b₄({t}) − B₄)/t³` (`balazard2012` line
+426; `ramare2015mc` line 457, (2.3), prints `t⁴` in the last denominator, Checks), and prove
 Balazard's Proposition 6: at every non-integer `t > 0`, `ε₁'(t) = (((2{t} − 1)t + {t} − {t}²)/t²)²`
 (`balazard2012` lines 428–440), with `0 ≤ ε₁'(t) ≤ 1/t²` (line 458 of `ramare2015mc`; the upper bound
 is Balazard's Proposition 2, lines 321–328: `|(2{t} − 1)t + {t} − {t}²| ≤ t`).
@@ -998,10 +1022,13 @@ Prove El Marraki's identities (`ramare2013aa` lines 736–746): for `D ≥ 1`,
 Prove Ramaré's weight passage (`ramare2013aa` lines 696–704, Lemma 8.1): for an arithmetic
 function `f`, naturals `k ≥ 0`, and reals `D ≥ D₀ ≥ 1`, with `M_k(f, D) = Σ_{n ≤ D} f(n) log^k n`,
 
-    M₀(f, D) = M_k(f, D)/log^k D + M₀(f, D₀) − M_k(f, D₀)/log^k D₀ − k ∫_{D₀}^D M_k(f, t) dt/(t log^{k+1} t),
+    M₀(f, D) = M_k(f, D)/log^k D + M₀(f, D₀) − M_k(f, D₀)/log^k D₀ + k ∫_{D₀}^D M_k(f, t) dt/(t log^{k+1} t),
 
-by Abel summation against `1/log^k t` on `(D₀, D]`; for `k = 0` both sides are `M₀(f, D)` (the
-integral has the factor `k = 0`), and `D₀ > 1` is needed for `k ≥ 1` so that `log D₀ ≠ 0`.
+by Abel summation against `1/log^k t` on `(D₀, D]`, whose derivative `−k/(t log^{k+1} t)` makes the
+integral enter with the sign `+` (the source prints `− k ∫`; Checks); for `k = 0` both sides are
+`M₀(f, D)` (the integral has the factor `k = 0`), and `D₀ > 1` is needed for `k ≥ 1` so that
+`log D₀ ≠ 0`. The scheme of 1.5 uses the identity in absolute value, so the sign does not affect
+it.
 
 *Needs:* `ArithmeticFunction.moebius_mul_coe_zeta`; `Nat.floor` lemmas; `Polynomial.bernoulli`;
 `sum_mul_eq_sub_sub_integral_mul`; Layer 0.1.
@@ -1022,6 +1049,16 @@ integral has the factor `k = 0`), and `D₀ > 1` is needed for `k ≥ 1` so that
 - `ε₁(1) = 0` and `ε₁(2) = 1/3 − 1/6 = 1/6` (`{t} = 0` at the integers); `ε₁` is continuous, and
   `ε₁(t) → 1/3` as `t → ∞`; a version with `+1/(3t)` would give `ε₁(1) = 2/3`, not the value
   Balazard's identity at `x = 1` requires.
+- Continuity at `2`: as `t → 2⁻`, `{t} → 1` and `b₃(1) = b₄(1) − B₄ = 0`, so `ε₁(2⁻) = 1/6 = ε₁(2)`;
+  with the factors `4/3` and `1/3` on the leading monomials only, the left limit would be
+  `1/3 − 1/6 + (1/3)/4 + (2/3)/8 = 1/3`, a jump.
+- The defining identity at `x = 1.5`: `φ₃(1.5) = (b₃(1.5) − b₃(0.5))/2.25 = 1/3` and
+  `φ₄(1.5) = (b₄(1.5) − b₄(0.5))/3.375 = 4/27`, so `(4/3)φ₃ − (1/3)φ₄ = 32/81` and
+  `ε₁(1.5) = 0.5 − 32/81 = 17/162 = 0.104938`, which the formula gives
+  (`1/3 − 2/9 + 0 − (1/3)(1/16)/3.375`); with `t⁴` in the last denominator it would give `0.106996`,
+  and with the factors on the leading monomials `0.123457`.
+- Differentiating the formula at `t = 1.5` gives `1/81 = 0.012346`, the value of Proposition 6 there
+  (below); the version with the factors on the leading monomials has derivative `0.234568` there.
 - `ε₁'` at `t = 1.5`: `{t} = 1/2`, `(2{t} − 1) t + {t} − {t}² = 1/4`, so `ε₁'(1.5) = (1/9)² = 1/81`,
   between `0` and `1/t² = 4/9`; at an integer `t = 2⁺`, `{t} = 0` gives `ε₁' = (−2/4)² = 1/4 = 1/t²`,
   the upper bound is attained.
@@ -1034,7 +1071,10 @@ integral has the factor `k = 0`), and `D₀ > 1` is needed for `k ≥ 1` so that
   `∫_1^{1.5} 2 dt/t + ∫_{1.5}^2 dt/t + ∫_2^3 0 = 2 log 1.5 + log(4/3) = log 3`.
 - Lemma 8.1 at `f = μ`, `k = 2`, `D₀ = D`: both sides are `M(D)`; at `f = δ` (the convolution
   identity): `M_k(δ, D) = 0` for `k ≥ 1` and `M₀(δ, D) = 1`, so the identity reads
-  `1 = 0 + 1 − 0 − 0`.
+  `1 = 0 + 1 − 0 + 0`. Neither instance has a nonzero integral; the sign of the integral is pinned by
+  `f = 1_{n = 3}`, `k = 1`, `D₀ = 2`, `D = 4`: `M₀(f, 4) = 1`, `M₁(f, 4)/log 4 = log 3/log 4 = 0.79248`,
+  `M₀(f, 2) = M₁(f, 2) = 0` and `∫_2^4 M₁(f, t) dt/(t log² t) = log 3 (1/log 3 − 1/log 4) = 0.20752`,
+  so the right side is `0.79248 + 0.20752 = 1`, while `− k ∫` would give `0.585`.
 
 ### 1.2 Elementary linear bounds
 
@@ -1111,6 +1151,26 @@ the second route.
 
 ### 1.4 Logarithmic decay
 
+Prove Schoenfeld's inequality: for every real `x > 1`,
+`Σ_{n ≤ x} |Λ(n) − 1|/n < 2 log x − 2 log log x` (`schoenfeld1969` Lemma 2, (10), lines 110–115; it
+is the input (3.1) of `elMarraki1995`). Route: since `|a − 1| = a + 1 − 2 min(a, 1)` for `a ≥ 0`,
+the sum equals `Σ_{n ≤ x} 1/n + ψ̃(x) − 2 Σ_{p^k ≤ x} min(log p, 1)/p^k`. For `x ≥ 286` bound the
+first term by `log x + γ + 6/(11x)` (Layer 0.3), the second by `log x − γ + 1/(4 log x)` (the
+hypothesis `|ψ̃(x) − log x + γ| ≤ 1/(4 log x)` for `x ≥ 115`, ExplicitPrimeCounting §4.2), and the
+last sum from below by `Σ_{p ≤ x} 1/p − (1 − log 2)/2` plus the terms `p^k ≤ 286` with `k ≥ 2`,
+whose total is `0.591062`, with `Σ_{p ≤ x} 1/p > log log x + B − 1/(2 log² x)`
+(AnalyticNumberTheoryPartI §0.19) and `B > 2.009442 − 1.748345 = 0.2610` (§0.19 at `x = 286`, where
+`Σ_{p ≤ 286} 1/p = 2.009442` and `log log 286 + 1/(2 log² 286) = 1.748345`). The right side then
+exceeds the left by at least `1.31` for every `x ≥ 286`; on `(1, 286)` the inequality is the
+proposition *LambdaDeviationRangeVerified* (Layer 0.7), and the statement for every `x > 1` is the
+conjunction. The source covers `x ≥ 32` with Rosser–Schoenfeld's estimates and checks `(1, 32)`
+directly.
+
+State Ramaré–Zuniga Alterman's companion bound (`ramareZunigaAlterman2026` Theorem 1.3, with
+Balazard's appendix, a preprint, by its locator): `Σ_{n ≤ X} Λ(n)/n ≤ log X` for every real
+`X ≥ 1`, from `ψ(X) ≤ X log 3` for `X ≥ 1` (ExplicitPrimeCounting §3.2, since `1.03883 < log 3`) and
+a direct check on `[1, 12]`.
+
 Prove El Marraki's bounds (`elMarraki1995` Théorème 1, (4.5), p. 418: `|M(x)| < 0.002969 x/√(log x)`
 for `x ≥ 142 194`; Théorème 2, (4.6): `|M(x)| < 0.10917 x/log x` for `x ≥ 685`; its Corollaire:
 `|M(x)| ≤ 0.6437752 x/log x` for `x > 1`; the corollary of Théorème 3, p. 421:
@@ -1127,8 +1187,7 @@ direct verification on the initial range (*MoebiusRangeVerified*).
 For Théorème 1 the parameters are `(A, α) = (1/4345, 0)`, `(B, β) = (0.00776291, 1)` with the cut
 `T = 166.42`; the range `[2 160 535, e^{166.42}]` follows from `x/4345`, the range
 `[142 194, 2 160 535]` is *MoebiusRangeVerified* `(x ↦ 0.002969 x/√(log x)) 142 194 2 160 535`, and the iteration
-also uses the elementary inequality `Σ_{n ≤ x} |Λ(n) − 1|/n < 2 log x − 2 log log x` (`x > 1`;
-`elMarraki1995` (3.1), after Schoenfeld), cited by its locator.
+also uses Schoenfeld's inequality above, the input (3.1) of `elMarraki1995`.
 
 State the same iteration with the Chebyshev inputs of Broadbent et al. and Fiori–Kadiri–Swidinsky
 (`johnstonLeongTudzi2024` Theorem A.1, a preprint, the sharpest bounds of shape `x/(log x)^k`):
@@ -1143,11 +1202,23 @@ El Marraki's `362.7` by a factor `124`; El Marraki's rows stay the refereed ones
 Prove Schoenfeld's bound `|M(x)| ≤ 2.9 x/log x` for `x > 1` (`schoenfeld1969` lines 52–57) as a
 corollary of the Corollaire (`0.6437752 < 2.9`).
 
-*Needs:* 1.3; ExplicitPrimeCounting §3.3; `gap:psi-log-power` (for Theorem A.1); *MoebiusRangeVerified*;
-`MoebiusTableVerified`.
+*Needs:* 1.3; Layer 0.3 (for Schoenfeld's inequality); ExplicitPrimeCounting §§3.2, 3.3, 4.2;
+AnalyticNumberTheoryPartI §0.19; `gap:psi-log-power` (for Theorem A.1); *MoebiusRangeVerified*;
+*LambdaDeviationRangeVerified*; `MoebiusTableVerified`.
 
 **Checks.**
 
+- Schoenfeld's inequality at `x = 3`: the left side is `1 + (1 − log 2)/2 + (log 3 − 1)/3 = 1.18630`
+  and the right side `2 log 3 − 2 log log 3 = 2.00900`; over the integers of `[3, 2·10^7]` (the left
+  side is constant on each `[N, N + 1)` and the right side increases for `x > e`) the smallest
+  difference is this one, `0.8227`, and on `(1, 3)` the left side is `1` or `1.15343` against a
+  right side of at least `2` (its minimum, at `x = e`). As `x → 1⁺` the right side tends to `+∞`.
+- The difference of the two sides of Schoenfeld's inequality tends to
+  `2B + 2 Σ_p Σ_{k ≥ 2} min(log p, 1)/p^k − (1 − log 2) = 0.52299 + 1.23946 − 0.30685 = 1.4556`, so
+  `Σ_{n ≤ x} |Λ(n) − 1|/n < 2 log x − 2 log log x − 1.5` fails for every large `x`.
+- Ramaré–Zuniga Alterman's companion at `X = 2`: `log 2/2 = 0.3466 ≤ 0.6931`; at `X = 4`:
+  `0.3466 + 0.3662 + 0.1733 = 0.8861 ≤ 1.3863`; for `X < 1` the sum is empty and `log X < 0`, so the
+  range `X ≥ 1` is needed.
 - The maximum of `log x · |M(x)|/x` over `1 < x ≤ 3000` is `0.6437751…`, attained at `x = 5`
   (`|M(5)| = 2`, `2 log 5/5 = 0.64377516`): the Corollaire's constant is the supremum over `x > 1`
   to seven digits, so no smaller constant works for all `x > 1`.
@@ -1218,10 +1289,28 @@ instance of 1.10 uses.
   `ρ(D) = 2ε₄(√D) + 2η(√D) + η(√D)² + η(D) log D + (1 + 2γ)/D + 2ρ₄ + (I₀ + ε₅(D − 10^8))/D`,
   term by term from the displayed bound of Lemma 6.2 (`2√D |R(√D)| ≤ 2η(√D) D`,
   `R(√D)² ≤ η(√D)² D`, `|R(D)| log D ≤ η(D) D log D`);
-- (Lemma 7.2's scheme, lines 638–646) from `|R₂*(y)| ≤ ρ y` for `y ≥ K`, `|M(x)| ≤ x/A` for
-  `x ≥ X_A`, `Σ_{d ≤ y} μ²(d)/d ≤ (6/π²) log y + 1.166` (Layer 7.1), and the small-values sum
-  `S_K = Σ_{k ≤ K} |Λ⋆Λ − Λ log + 2γ|(k)/k + |R₂*(K)|/K`: for `D/K ≥ X_A`,
-  `|Σ_{d ≤ D} μ(d) log² d|/D ≤ 2γ/D + ρ((6/π²) log(D/K) + 1.166) + S_K/A`;
+- (Lemma 7.2's scheme, lines 638–646, with the arguments of `R₂*` split by size) let `K ≥ 1` be a
+  natural number and `K + 1 < Y₀ < Y` reals, and suppose: `|R₂*(y)| ≤ ρ y` for every `y ≥ Y`;
+  `|R₂*(y)| ≤ c₁ √y log y` for `K + 1 ≤ y ≤ Y₀` and `|R₂*(y)| ≤ c₂ √y log y` for `Y₀ < y < Y`, with
+  `0 < c₁ ≤ c₂` and `c₂ log Y/√Y ≤ ρ`; `|M(x)| ≤ x/A` for every `x ≥ X_A`; and
+  `(6/π²) log t + c₋ ≤ Σ_{ℓ ≤ t} μ²(ℓ)/ℓ ≤ (6/π²) log t + c₊` for every real `t ≥ 1` (Layer 7.1, with
+  `c₋ = 0.578`, `c₊ = 1.166`). Put `g(y) = c₁ log y/√y` on `[K + 1, Y₀]`, `g(y) = c₂ log y/√y` on
+  `(Y₀, Y)`, `J = (c₂ − c₁) log Y₀/√Y₀` and
+  `S_K = Σ_{k ≤ K} |Λ⋆Λ − Λ log + 2γ|(k)/k + |R₂*(K)|/K`. Then for every real `D ≥ (K + 1) X_A` with
+  `D ≥ Y`,
+
+      |Σ_{d ≤ D} μ(d) log² d|/D ≤ 2γ/D + ρ((6/π²) log(D/Y) + c₊) + (c₊ − c₋)(g(K + 1) + J) + (6/π²) ∫_{K+1}^{Y} g(y) dy/y + S_K/A.
+
+  Route: the hyperbola decomposition above; `|M(D/k)| ≤ D/(Ak)` for `k ≤ K` and
+  `|M(D/(K + 1))| ≤ D/(AK)` give the term `S_K/A`; the sum `Σ_{ℓ ≤ D/(K+1)} μ²(ℓ) |R₂*(D/ℓ)|/D` is at
+  most `Σ_{ℓ ≤ D/(K+1)} (μ²(ℓ)/ℓ) w(ℓ)` with `w(ℓ) = ρ` for `ℓ ≤ D/Y` and `w(ℓ) = g(D/ℓ)` beyond
+  (`g` decreases on `[e², ∞)`, so `w` increases in `ℓ` past `D/Y`, apart from the downward jumps at
+  `ℓ = D/Y` and, of size `J`, at `ℓ = D/Y₀`), and Abel summation against
+  `Σ_{ℓ ≤ t} μ²(ℓ)/ℓ` uses the upper bound `c₊` at `t = D/Y`, at the end point `D/(K + 1)` and at
+  the jump `J`, and the lower bound `c₋` on the stretches where `w` increases. With one ratio `ρ`
+  for every argument `y ≥ K + 1` the same route gives the source's form (lines 642–643)
+  `|Σ_{d ≤ D} μ(d) log² d|/D ≤ 2γ/D + ρ((6/π²) log(D/(K + 1)) + c₊) + S_K/A` for `D ≥ (K + 1) X_A`,
+  the form 1.10 uses; at the parameters of 1.5 it does not close (Checks);
 - (Lemma 8.1 with `k = 2`, lines 696–724) for reals `α, β > 0`, `D₁ > 1` and `C₁ ≥ 0`: if
   `|M₂(μ, t)| ≤ (α log t − β) t` for every real `t ≥ D₁` and `|M(D₁) − M₂(μ, D₁)/log² D₁| ≤ C₁`, then
   for every real `D ≥ D₁`, by Lemma 8.1,
@@ -1244,28 +1333,42 @@ for every real `x > e^{22}` (ExplicitPrimeCounting §3.3); `|ψ(x) − x| ≤ 0.
 `|M(x)| ≤ x/4345` for every real `x ≥ 2 160 535` of 1.3, used with `K = 462 848`
 (`462 848 × 2 160 535 ≤ 10^{12}`, line 646); the squarefree bounds
 `|Σ_{n ≤ x} μ²(n) − 6x/π²| ≤ 0.7 √x` for every real `x ≥ 1` (Layer 7.1; lines 267–276, Lemma 4.6)
-and `Σ_{d ≤ y} μ²(d)/d ≤ (6/π²) log y + 1.166` for every real `y ≥ 1` (Layer 7.1); and
-`RamareTransferComputations` (Layer 0.7). The route is Lemma 7.2:
+and `(6/π²) log y + 0.578 ≤ Σ_{d ≤ y} μ²(d)/d ≤ (6/π²) log y + 1.166` for every real `y ≥ 1`
+(Layer 7.1); and `RamareTransferComputations` (Layer 0.7). The route is Lemma 7.2:
 `|Σ_{d ≤ D} μ(d) log² d| ≤ (0.0130 log D − 0.144) D` for `D ≥ 2 161 205` (lines 680–684), by the
-scheme of Lemma 7.2 for `D/K ≥ 2 160 535`, by summation by parts against the table for
-`8 613 000 ≤ D ≤ 10^{12}` (lines 647–677), and by field (vi) on `[2 161 205, 8 613 000]`. With the direct
+scheme of Lemma 7.2 for `D ≥ K·2 160 535 = 999 999 303 680`, by summation by parts against the table
+for `8 613 000 ≤ D ≤ 10^{12}` (lines 647–677), and by field (vi) on `[2 161 205, 8 613 000]`. The
+scheme is used with `K = 462 848`, `A = 4345`, `X_A = 2 160 535`, `S_K/A ≤ 0.03739` (field (iv)),
+`c₁ = 1.80` up to `Y₀ = 1.1·10^8` and `c₂ = 1.93` up to `Y = 1.8·10^9` (field (i)), and `ρ = 0.0213`
+from `Y` on (field (ii) up to `2.3104·10^{12}`, Lemma 6.1's scheme beyond, below). Its terms are
+`g(K + 1) = 1.80 log(K + 1)/√(K + 1) = 0.034515`, `J = 0.13 log Y₀/√Y₀ = 0.000230`,
+`(c₊ − c₋)(g(K + 1) + J) = 0.588·0.034745 = 0.020430` and
+`(6/π²) ∫_{K+1}^{Y} g(y) dy/y = 0.047418` (from `∫ log y · y^{−3/2} dy = −2(log y + 2)/√y`), so the
+bound is `2γ/D + 0.012949 log D − 0.145879` for `D ≥ (K + 1)·2 160 535`. On
+`K·2 160 535 ≤ D < (K + 1)·2 160 535` the argument `D/(K + 1)` of the boundary term lies in
+`[2 160 530, 2 160 535)`, where the table gives `|M(D/(K + 1))| ≤ 0.571 √2 160 535 = 839.3`, so the
+boundary term adds at most `1.80 √K log K · 839.3/D ≤ 1.4·10^{−5}`. In both cases the bound is below
+`0.0130 log D − 0.144`, with a difference of at least `0.0000512 log D + 0.00186`, which is `0.0033`
+at `D = K·2 160 535` and increases (Checks). With the direct
 verification *MoebiusRangeVerified* `(D ↦ (0.0130/log D − 0.118/log² D) D) 1 078 853 2 161 205`
 (Layer 0.7) the bound holds for every real `D ≥ 1 078 853`, the range the source states. The
 parameters of the schemes are: `η(y) = 0.0065/log y` for `y ≥ x₂ = 1 514 928` (Lemma 4.2, lines
 208–214: ExplicitPrimeCounting §3.3 beyond `e^{22}`, the `0.8 √y` bound on `[3 430 190, 10^{10}]`,
 where `0.8 √y ≤ 0.0065 y/log y`, and field (vii) on `[1 514 928, 3 430 190]`); `a = 0.0065`, so
 `ρ₄ = 0.0065·1.04·(log 2 + 1/log D₄) = 0.004923`
-for `D ≥ D₄ = 2.31·10^{12} ≥ x₂²`; `ε₄(y) = 0.0067/log y` for `y ≥ x₄ = 1 520 000`
+for `D ≥ D₄ = 2.3104·10^{12} = x₄² ≥ x₂²`; `ε₄(y) = 0.0067/log y` for `y ≥ x₄ = 1 520 000`
 (ExplicitPrimeCounting §4.2); `I₀ = 147.778` (field (iii)) and `ε₅ = 0.000213`, valid for `t ≥ 10^8`
 (`gap:psi-initial-range` on `[10^8, 10^{10}]`, where `0.8 √t ≤ 0.00008 t`, and
-ExplicitPrimeCounting §6.1 beyond). For every `D ≥ 2.31·10^{12}` the terms of `ρ(D)` are at most
-`0.000941`, `0.000913`, `0.0065`, `2ρ₄ = 0.00985` and `0.000213` (their values at `D = 2.31·10^{12}`;
-the first two decrease in `D` and the last stays below `ε₅`), the others below `10^{−6}`, with sum
-`0.0185 ≤ 0.0213`: `|R₂*(D)| ≤ 0.0213 D` for `D ≥ 2.31·10^{12}`, field (ii)
-covers `[1.8·10^9, 2.31·10^{12}]` and field (i) extends the bound down to `D ≥ 1 435 319`, as in the
-source (line 583). The printed proof covered `D ≥ 1.3·10^9` analytically by invoking the `ψ̃`
-bound at `√D ≥ 36 055` with the uncorrected range `x ≥ 23`, which is false (Checks); with the
-corrected range `x ≥ 1 520 000` the analytic argument starts at `D = 2.31·10^{12}`, and the
+ExplicitPrimeCounting §6.1 beyond). For every `D ≥ 2.3104·10^{12}` the terms of `ρ(D)` are at most
+`0.000941`, `0.000913`, `0.0065`, `2ρ₄ = 0.00985` and `0.000213` (their values at
+`D = 2.3104·10^{12}`; the first two decrease in `D` and the last stays below `ε₅`), the others below
+`10^{−6}`, with sum `0.0185 ≤ 0.0213`: `|R₂*(D)| ≤ 0.0213 D` for `D ≥ 2.3104·10^{12}`, and field (ii)
+covers `[1.8·10^9, 2.3104·10^{12}]`. Field (i) implies `|R₂*(D)| ≤ 0.0213 D` only from
+`D ≥ 1 435 319` on (line 583), not on `[K + 1, 1 435 319]`, which is one reason the scheme above
+uses field (i) as a square-root bound below `1.8·10^9` rather than as the ratio `0.0213`. The
+printed proof covered `D ≥ 1.3·10^9` analytically by invoking the `ψ̃` bound at `√D ≥ 36 055` with
+the uncorrected range `x ≥ 23`, which is false (Checks); with the corrected range `x ≥ 1 520 000`
+the analytic argument starts at `D = 1 520 000² = 2.3104·10^{12}`, and the
 source's finite extensions of Lemmas 4.3–4.4 are not used, since `η` already bounds `R` at the
 arguments `√D ≥ 1 520 000` and `D`. Theorem 1.1 then follows from Lemma 7.2 by the Lemma 8.1
 scheme with `α = 0.0130`, `β = 0.144`, `D₁ = 2 161 205` and `C₁ = 3.49` (field (v)):
@@ -1277,7 +1380,8 @@ sharper instance of the transfer is 1.10.
 
 *Needs:* 1.1 (Lemma 8.1); Layer 0.7 (`RamareTransferComputations`, `MoebiusTableVerified`, and
 *MoebiusRangeVerified* for the range below `2 161 205`); 1.3; Layer 7.1 (the `0.7√D` squarefree
-remainder and `(6/π²) log y + 1.166`); ExplicitPrimeCounting §§3.2, 3.3, 4.2, 6.1;
+remainder and `(6/π²) log y + 0.578 ≤ Σ_{d ≤ y} μ²(d)/d ≤ (6/π²) log y + 1.166`);
+ExplicitPrimeCounting §§3.2, 3.3, 4.2, 6.1;
 `gap:psi-initial-range`; `ArithmeticFunction.vonMangoldt_mul_zeta`.
 
 **Checks.**
@@ -1311,6 +1415,19 @@ remainder and `(6/π²) log y + 1.166`); ExplicitPrimeCounting §§3.2, 3.3, 4.2
 - Threshold: `|M(1 078 853)| = 349 ≤ (0.0130/log D − 0.118/log² D) D = 349.915` at `D = 1 078 853`,
   while `|M(1 078 852)| = 350 > 349.915`: the threshold of Theorem 1.1 is exact, and there is no
   violation on `[1 078 853, 2.2·10^6]`.
+- Negative control for Lemma 7.2's scheme: the source's single-`ρ` form at `D = K·2 160 535`
+  (`log D = 27.631`, `log(D/K) = 14.586`) gives `0.0213(0.60793·14.586 + 1.166) + 0.03739 = 0.2511`,
+  above `0.0130 log D − 0.144 = 0.2152`; its slope in `log D` is `0.0213·6/π² = 0.012949` against
+  `0.0130`, so it closes only for `log D ≥ 729.4`. The split form gives `0.21192` there, and `0.22277`,
+  `0.24174`, `0.27156` at `D = 2.3104·10^{12}`, `10^{13}`, `10^{14}` against `0.22609`, `0.24514`,
+  `0.27507`. The weighted sum it bounds, `Σ_{ℓ ≤ D/(K+1)} μ²(ℓ) g(D/ℓ)/ℓ` with `g = ρ` beyond `Y`,
+  is `0.15150` at `D = K·2 160 535`, against its Abel-summation bound `0.17452`.
+- Why the ratio `0.0213` is not used below `1 435 319`: at `y = K + 1 = 462 849` field (i) gives only
+  `1.80 log y/√y = 0.0345`; the largest value of `|R₂*(y)|/y` on `[462 849, 1 435 319]` is
+  `0.021093` (at `y = 463 206`), and on `[1 435 319, 2·10^8]` it is `0.012308`.
+- The analytic range starts at `1 520 000² = 2.3104·10^{12}`: at `D = 2.31·10^{12}` the argument
+  `√D = 1 519 868.4` lies below the range `x ≥ 1 520 000` of the `ψ̃` input, so field (ii) has to
+  reach `2.3104·10^{12}`.
 
 ### 1.6 Coprime and semigroup variants
 
@@ -1386,9 +1503,9 @@ Mathlib `riemannZeta`; the explicit formula for `M` with a smoothed kernel, prov
   bound is meant for `x > 10^{16}`, where the table stops.
 - `L = 4345`: `(0.571·4345)² = 6 155 336.19…`, the start of the table's coverage in 1.3.
 - The height limits the reachable `L`: with the zeros only to height `T = 10^7 + 1` the linear
-  term is `7.85·10^{−8} x`, so `x/L` with `L = 8.7·10^6` (`1.149·10^{−7}`) needs
-  `6.738/√x ≤ 3.64·10^{−8}`, that is `x ≥ 3.4·10^{16}`, beyond the table; and no `L ≥ 1.27·10^7` is reachable
-  from that instance at all.
+  term is `π x/(2·10^7) = 1.5708·10^{−7} x`, already larger than `x/L = 1.149·10^{−7} x` at
+  `L = 8.7·10^6`, so no `L ≥ 2·10^7/π = 6.37·10^6` is reachable from that instance; the corollary on
+  `x/L` uses the first bound, whose linear term is `3x/(π·10^{10}) = 9.549·10^{−11} x`.
 
 ### 1.8 Linear bounds by linear conversion
 
@@ -1428,11 +1545,11 @@ ExplicitPrimeCounting §4.2.
 
 ### 1.9 The de la Vallée Poussin shape
 
-State Lee–Leong's bounds (`leeLeong2022` (9)–(11), a preprint, by its locator):
-`|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`, and the two companion
-bounds of Littlewood and Korobov–Vinogradov shape, each valid for `x ≥ e^{4589.20}`. Route: a
-truncated Perron formula for `M` and explicit upper bounds for `1/ζ` in the zero-free regions of `ζ`,
-which are `gap:zeta-reciprocal-bounds` (owed by ExplicitZetaBounds, never restated). It is the
+State Lee–Leong's bound of de la Vallée Poussin shape (`leeLeong2022` (9)–(11), a preprint, by its
+locator): `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. Route:
+a truncated Perron formula for `M` and the three bounds for `1/ζ` of `gap:zeta-reciprocal-bounds`
+(in the classical zero-free region beyond the height `H`, on the line `σ = 1`, and in `σ ≥ 3/4`
+below `H`; owed by ExplicitZetaBounds, never restated). It is the
 only explicit bound of this shape, and it improves on the power-of-log rows of 1.4 once `log x`
 exceeds about `5500`.
 
@@ -1492,7 +1609,8 @@ ExplicitPrimeCounting §§1.3 (*ButheVerified*), 3.2 and 3.3; `gap:psi-initial-r
 
 ### Dependencies
 
-Layer 0; AnalyticNumberTheoryPartI §3.22a (harmonic remainder, qualitative); Layer 7.1 (the
+Layer 0; AnalyticNumberTheoryPartI §3.22a (harmonic remainder, qualitative) and §0.19 (for
+Schoenfeld's inequality in 1.4); Layer 7.1 (the
 squarefree remainder and the elementary bounds for `Σ μ²(d)/d`, which depend only on Layers 0, 1.2,
 1.4, 2.5 and 5.1, none of which uses Layer 1.5); Layer 7.2 for 1.10 (Corollary 3.3, which depends on
 Layers 1.5, 2.3 and 3.2 but on none of 1.7–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
@@ -1642,7 +1760,7 @@ State Johnston–Leong–Tudzi's Theorem A.2 (`johnstonLeongTudzi2024`, a prepri
 `[33, 10^{16}]`; it improves Bordellès' `546` by a factor `119` and Daval's `362.84` by `79`, which
 stay the
 refereed rows. Ramaré's Theorem 1.2 is re-proved, with the corrected inputs, as
-`ramareZunigaAlterman2025` Corollary 1.3, and it is superseded from `617 990` on by 2.7.
+`ramareZunigaAlterman2025` Corollary 1.3, and it is superseded from `617 990` on by 2.6.
 
 *Needs:* 1.5; 1.4; 2.2; 1.3; Layer 0.7 (*MoebiusAbsIntegralLE*, *MoebiusDivRangeVerified*,
 *MoebiusRangeVerified*, *MoebiusLogIntegralLE*, `MoebiusTableVerified`).
@@ -1747,40 +1865,7 @@ This form is the input of Layer 7.7.
   the Abel-summation bound there is `3/2320 + 11.025/841 = 0.01440`: the two arguments meet near
   `D = 28`.
 
-### 2.6 Coprime and mollified sums from the identity factory
-
-State Ramaré–Zuniga Alterman's results (`ramareZunigaAlterman2026`, a preprint, by its locator),
-with `φ_s(q) = q^s ∏_{p ∣ q}(1 − p^{−s})`, `m_q(X; σ) = Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ}` and
-`m̌_q(X; σ) = Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ} log(X/n)`:
-
-- Theorem 1.3 (with Balazard's appendix): `Σ_{n ≤ X} Λ(n)/n ≤ log X` for every real `X ≥ 1`, from
-  `ψ(X) ≤ X log 3` for `X ≥ 1` and a direct check on `[1, 12]`;
-- Theorem 1.7: for `q ≥ 1`, `σ = 1 + ε ∈ [1, 2]` and `X ≥ 1`,
-  `m_q(X; σ) = m_q(X)/X^ε + (q^σ/φ_σ(q))/ζ(σ) + ε Δ_q(X, ε)/X^ε` with
-  `|Δ_q(X, ε)| ≤ 0.03 g₁(q)(q^ξ/φ_ξ(q)) 1_{X ≥ 10^{12}}/log X + (4.1 g₀(q) + (5 + ε 2^ε)/2)(√q/φ_{1/2}(q)) 2^ε/√X`,
-  where `ξ = 1 − 1/(12 log 10)`, `g₀(q) = (√6 − √3)/2` and `g₁(q) = 1.4378(1 − 2^{−ξ})` for even `q`,
-  and `g₀(q) = g₁(q) = 1` for odd `q`; and the one-sided bound `m_q(X; σ) ≥ m_q(X)/X^ε`; the main
-  term `(q^σ/φ_σ(q))/ζ(σ)` makes the crude bound `1 + ε` of 2.1 precise;
-- Theorem 1.8: for `σ = 1 + ε ∈ [1, 11/10]` and `X ≥ 15`, `m̌_q(X; σ)` equals
-  `(q^σ/φ_σ(q))(log X/ζ(σ) − ζ'(σ)/ζ(σ)² − ζ(σ)^{−1} Σ_{p ∣ q} log p/(p^σ − 1))` up to
-  `Δ̌_q(X, ε)/X^ε` with
-  `|Δ̌_q| ≤ 0.0336 g₁(q) 2^ε (q^ξ/φ_ξ(q)) 1_{X ≥ 10^{12}}/log X + (4.86 g₀(q) + 2.93 + 2.83 ε log X + 5.17 ε)(√q/φ_{1/2}(q)) 2^ε/√X`.
-
-Inputs: 2.7 (the source's Lemma 5.1); *MoebiusDivRangeVerified* `(x ↦ √(2/x)) 0 10^{14}`; the bounds on
-the Möbius sum over odd integers that the source quotes from Helfgott's monograph, cited through it;
-`∫_1^X |m_q|` bounded as in its Lemma 5.4; and the source's direct checks for `X < 47`.
-
-*Needs:* 2.7; 2.1 (for comparison); Layer 0.2; Layer 0.7 (*MoebiusDivRangeVerified*).
-
-**Checks.**
-
-- `q = 1`, `ε = 0`: Theorem 1.7 reads `m(X) = m(X) + 1/ζ(1) + 0`, with `1/ζ(1)` the value `0` at the
-  pole: the identity is trivial there, as it must be.
-- Theorem 1.3 at `X = 2`: `log 2/2 = 0.3466 ≤ 0.6931`; at `X = 4`:
-  `0.3466 + 0.3662 + 0.1733 = 0.8861 ≤ 1.3863`; for `X < 1` the sum is empty and `log X < 0`, so the range `X ≥ 1` is needed.
-- `g₀(2) = (√6 − √3)/2 = 0.35876`; `ξ = 0.963808…`.
-
-### 2.7 The logarithmic sum with the sharper prime inputs of Ramaré–Zuniga Alterman
+### 2.6 The logarithmic sum with the sharper prime inputs of Ramaré–Zuniga Alterman
 
 Prove Ramaré–Zuniga Alterman's Corollary 1.2 (`ramareZunigaAlterman2025`): for every real
 `X ≥ 617 990`, `|m(X)| ≤ (0.010032 log X − 0.0568)/log² X`, from Theorem 1.1 of 1.10 through
@@ -1802,12 +1887,12 @@ the conjunction. It is the strongest refereed `m`-bound of `1/log x` type from `
 - `m(10^6) = 0.000200…`, against Theorem 1.2's `0.0144/13.8 − 0.1/190.9 = 0.000519` and the
   `1/69 log x` row's `0.00105`.
 - `m_2(10) = 34/105` and
-  `m_6(30) = Σ_{n ≤ 30, (n, 6) = 1} μ(n)/n = 1 − 1/5 − 1/7 − 1/11 − 1/13 − 1/17 − 1/19 − 1/23 − 1/29 = 0.367…`, within `(6/φ(6))·0.78/log 5 = 1.45`.
+  `m_6(30) = Σ_{n ≤ 30, (n, 6) = 1} μ(n)/n = 1 − 1/5 − 1/7 − 1/11 − 1/13 − 1/17 − 1/19 − 1/23 − 1/29 = 0.2999…`, within `(6/φ(6))·0.78/log 5 = 1.45`.
 
 ### Dependencies
 
-Layer 0; Layer 1 (1.1, 1.2, 1.3, 1.4, 1.5, and 1.10 for 2.7); AnalyticNumberTheoryPartI §3.12
-(qualitative coprime sums, cited only). Within the layer, 2.6 uses 2.7, and 2.3 uses neither.
+Layer 0; Layer 1 (1.1, 1.2, 1.3, 1.4, 1.5, and 1.10 for 2.6); AnalyticNumberTheoryPartI §3.12
+(qualitative coprime sums, cited only). Within the layer, 2.6 uses 2.2, and 2.3 uses neither.
 
 ## Layer 3: the logarithmically weighted sum `m̌(x)`
 
@@ -1908,15 +1993,6 @@ Prove Ramaré's mollified log-weighted bound: for `r ≥ 1` and `0 ≤ ε ≤ 1.
 `|Σ_{d ≤ x, (d, r) = 1} μ(d) log(x/d)/d^{1+ε}| ≤ 1.4 + 4.7ε + 3.3ε² + (1 + ε)(r^{1+ε}/φ_{1+ε}(r)) x^ε`
 (`ramare2013facm` lines 54–62, Theorem 1.2), with `r^{1+ε}/φ_{1+ε}(r) = ∏_{p ∣ r}(1 − p^{−1−ε})^{−1}`.
 
-Prove the generalisation of Corollary 1.10 to higher logarithmic weights and to `σ ≥ 1`
-(`ramareZunigaAlterman2026` Theorem 1.2): for natural `k ≥ 1` and `q ≥ 1` and reals `σ ≥ 1`, `X ≥ 1`,
-
-    0 ≤ Σ_{n ≤ X, (n, q) = 1} μ(n) n^{−σ} log^k(X/n) ≤ c_k (q/φ(q)) (k + (σ − 1) log X)(log X)^{k−1},
-
-with `c_1 = 1.00303` and `c_k = 1` for `k ≥ 2`; at `(k, σ) = (1, 1)` it is Corollary 1.10. Inputs:
-Corollary 1.10 for `k = 1` and Ramaré's bound `k (q/φ(q)) log^{k−1} X` for `k ≥ 2` (`ramare2015mc`
-Corollary 1.11); the passage to `σ > 1` is the source's.
-
 *Needs:* 0.2; 2.1; 3.1 (`0 ≤ m̌(y) ≤ m̌(30)` for `y ≥ 1`, which is proved here from Theorem 1.4
 beyond `x₀` and *MoebiusLogRangeVerified* below).
 
@@ -1926,8 +2002,6 @@ beyond `x₀` and *MoebiusLogRangeVerified* below).
 - `q = 2`, `x = 4`: `m̌_2(4) = log 4 − log(4/3)/3 = 1.386 − 0.096 = 1.290 ≤ 1.00303·2 = 2.006`.
 - Mollified at `ε = 0`, `r = 1`: `|m̌(x)| ≤ 1.4 + 1 = 2.4`, weaker than `1.00303`; the theorem is
   stated for its uniformity in `ε`, not for its constant at `ε = 0`.
-- The generalisation at `k = 2`, `σ = 1`, `q = 1`, `X = 3`:
-  `Σ_{n ≤ 3} μ(n) n^{−1} log²(3/n) = log² 3 − (1/2) log²(3/2) = 1.2069 − 0.0822 = 1.1247 ≤ 2 log 3 = 2.1972`, and `≥ 0`.
 
 ### 3.4 Decaying bounds for `m̌(x) − 1` and its extremal value
 
@@ -2124,7 +2198,7 @@ against `1/n` gives the exact identity
 limit `lim (Σ_{n ≤ t} τ(n)/n − ½ log² t − 2γ log t)`, computed from
 `Σ_{n ≤ t} τ(n)/n = Σ_{d ≤ t} (1/d) Σ_{m ≤ t/d} 1/m`, the harmonic remainder twice and the definition
 of `γ₁` in Layer 0.5; with `|Δ(u)| ≤ 0.961 √u` the remainder is at most `3·0.961 t^{−1/2}`, and
-`3·0.961 t^{−1/6} ≤ 1.16` exactly for `t ≥ 235.2`; on `[1, 236]` the step function
+`3·0.961 t^{−1/6} ≤ 1.16` exactly for `t ≥ 235.7`; on `[1, 236]` the step function
 `Σ_{n ≤ N} τ(n)/n` is compared with `P(t)` on each `[N, N + 1)`, at both ends and at the interior
 extremum of `|Σ_{n ≤ N} τ(n)/n − P(t)| t^{1/3}`, with the two enclosures (the source's tabulated
 values on `[1, 10]` are at most `0.74`); the second form then follows on `(0, 1)` from
@@ -2582,16 +2656,12 @@ squares, so that `g ⋆ 1 = μ²`, `Σ g(m)/m = 6/π²`, the main term is `(6/π
 `D ≤ 10^{11}` (Lemma 9.2 and the direct verifications, lines 905–921 and 969–972), and Corollary
 3.3 follows from Theorem 3.2 for `D ≥ 10^{10}` (line 971).
 
-Prove the all-range forms of Zuniga Alterman (`zunigaAlterman2022` Lemma 4.1): for every real `X > 0`,
-`Σ_{d ≤ X} μ²(d)/d = (6/π²)(log X + C₂) + O*(1.044/√X)` and
-`Σ_{d ≤ X, d odd} μ²(d)/d = (4/π²)(log X + C₂ + (log 2)/3) + O*(0.79/√X)`, the latter with `0.407` for
-`X ≥ 1`. Route for the first: Theorem 3.2's form with `0.56/√(X log X)` for `X ≥ 4/3` (there
-`0.56/√(log X) ≤ 1.044`), a direct evaluation on `[1, 4/3)`, where the sum is `1`, and on `(0, 1)`,
-where it is empty, the exact supremum of `(6/π²)|log X + C₂| √X`, which is its value
-`(6/π²) C₂ = 1.04389…` as `X → 1⁻`; the odd form is the source's (a count of odd squarefree integers
-from Helfgott's monograph and an interval-arithmetic check on `[1, 1573]`), with
-`(4/π²)(C₂ + (log 2)/3) = 0.78957…` as the supremum on `(0, 1)`. The
-companion constant `0.43` for every real `X ≥ 1`, which the source quotes, is not stated (Checks).
+Prove the all-range form of Zuniga Alterman (`zunigaAlterman2022` Lemma 4.1, first part): for every
+real `X > 0`, `Σ_{d ≤ X} μ²(d)/d = (6/π²)(log X + C₂) + O*(1.044/√X)`. Route: Theorem 3.2's form with
+`0.56/√(X log X)` for `X ≥ 4/3` (there `0.56/√(log X) ≤ 1.044`), a direct evaluation on `[1, 4/3)`,
+where the sum is `1`, and on `(0, 1)`, where it is empty, the exact supremum of
+`(6/π²)|log X + C₂| √X`, which is its value `(6/π²) C₂ = 1.04389…` as `X → 1⁻`. The companion
+constant `0.43` for every real `X ≥ 1`, which the source quotes, is not stated (Checks).
 
 Prove Ramaré's `|R(x)| ≤ 1.06 √(x/log x)` for every real `x > 1` (`ramare2019bcp` lines 219–225,
 Corollary 3.4), by Abel summation from Theorem 3.2 for `x ≥ 10^{32}` (lines 1185–1236, with the
@@ -2644,8 +2714,7 @@ Theorem 3.2 with coprimality (Layer 5.4's hyperbola refinement applied to `μ²(
   `y = 500 000` the first bound is `(0.0195·13.122 − 0.11)/(500 000·172.19) = 1.69·10^{−9}`.
 - The constant `0.43` for every real `X ≥ 1` fails: on `[1, 2)` the sum is `1`, and
   `|1 − (6/π²)(log X + C₂)| √X` is `0.598` at `X = 1.9` and exceeds `0.43` on `(1.62, 2)`; `1.044`
-  holds there (its supremum on `[1, 2)` is `0.658`, as `X → 2⁻`). The odd form with `0.407` is
-  sharpest as `X → 3⁻`, where `(4/π²)(log 3 + 1.94819) − 1 = 0.2348` and `0.2348·√3 = 0.4067`.
+  holds there (its supremum on `[1, 2)` is `0.658`, as `X → 2⁻`).
 - Corollary 3.4: no violation of `|R(x)| ≤ 1.06 √(x/log x)` on `(1, 1.1·10^6]`; at `x = 1664` the
   bound is `1.06 √(1664/7.417) = 15.88`, against `0.1333 √1664 = 5.44`, so the row `0.1333` implies it
   there, as used on `[1664, 438 653]`.
@@ -2990,16 +3059,6 @@ analytic range must be rechecked, which is part of this target. State its Theore
 `|Δ₄(x)| < 20.087 x^{3/4} (log x)^{3/4}` for every real `x ≥ 10^{11}`; the rows `k = 5, 6`
 (`114.332 x^{4/5}(log x)^{6/5}` from `10^{12}`, `646.358 x^{5/6}(log x)^{5/3}` from `10^{13}`) apply the
 `(k − 1)`-bound at arguments below its stated range and are recorded by locator only.
-
-State Palojärvi–Tudzi's bounds (`palojarviTudzi2026` Theorem 1.1, a preprint, by its locator):
-`|Δ₃(x)| < 0.248 (log x)³ x^{859/1400}` for `x ≥ 1.601·10^{98}`; `|Δ₄(x)| < 0.084 (log x)^5 x^{3/5}` for
-`x ≥ 2.855·10^{41}`; and the rows for `5 ≤ k ≤ 9` of its table (for instance
-`|Δ₅(x)| < 9.272 (log x)^{41/7} x^{11/14}` from `1667`, `|Δ₆(x)| < 0.274 (log x)^{27/4} x^{33/40}` from `162 727`), proved
-for integer and half-integer `x` and extended to real `x` with a slightly larger constant (its Lemma
-4.1). Its inputs are explicit bounds for `ζ` on the critical line and for its second and fourth
-moments, which belong to ExplicitZetaBounds and are not restated. With 7.5, the best explicit
-remainder per range is: `k = 3`, Tudzi below `1.601·10^{98}` and Palojärvi–Tudzi above; `k = 4`,
-Cully-Hugill–Trudgian (7.5) below `2.855·10^{41}` and Palojärvi–Tudzi above.
 
 *Needs:* 7.4; 7.5; 5.2 (third form); Layer 0.5 (`γ₁`); Layer 0.7 (*PiltzRemainderRangeVerified*).
 
@@ -3384,11 +3443,13 @@ benefit method,
 reducing to the superchampions and the explicit prime bounds `p_k`, `θ(p_k)` (as in 9.1).
 
 State Robin's unconditional bound, by its locator: for every natural `n ≥ 3`,
-`σ(n)/n < e^γ log log n + 0.6483/log log n` (`sigma_one_div_lt_robin`; `robin1984` Théorème 2,
-uncertified; restated at
+`σ(n)/n < e^γ log log n + 0.6483/log log n` (`robin1984` Théorème 2, uncertified; restated at
 `axlerNicolas2023` lines 156–161: the constant is the value `0.648213…` at `n = 12`, where equality
-holds, so `0.6483` is strict); the source's route is the reduction to colossally abundant numbers
-with explicit lower bounds for `θ`, which here are inputs from the explicit-primes roadmap. State
+holds, so `0.6483` is strict). The source's route reduces to the colossally abundant numbers and
+uses explicit bounds for `θ` together with a verification over the colossally abundant numbers below
+its analytic range; the exact forms of both inputs are fixed only in the source, they are part of
+this target, and the statement is therefore not one of the acceptance tests of `Suggested.lean`.
+State
 Axler–Nicolas' sharpening (`axlerNicolas2023`
 (1.22), by its locator): `σ(n)/n < e^γ log log n + 0.0167853/(log log n)²` for every natural
 `n > 5040`, as the conjunction of *RobinInequalityVerified* `M(0)` (Layer 0.7: `σ(n)/n < e^γ log log n`
@@ -3498,9 +3559,10 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - ExplicitNumberFields: the Piltz divisor bounds and the `τ₄` asymptotic with
   *DivisorPowerRangeVerified* (7.5) for regulator-free class-number bounds; the divisor pointwise
   bounds (9.2) for discriminant estimates.
-- ProbabilisticAndMetricNumberTheory: the Rankin-type bound
-  `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` of its §3.7 is the instance of 6.1 recorded
-  there, which it imports rather than restates.
+- ProbabilisticAndMetricNumberTheory §3.7: the Rankin-type bound
+  `Σ_{n ≤ x} f(n) ≤ x exp(Σ_{p ≤ x} (f(p) − 1)/p)` for multiplicative `f` with `f(p^ν) = f(p) ≥ 1`
+  is the instance of 6.1 recorded there; this roadmap precedes that one in the order of supply and
+  owns the bound, so §3.7 is a consumer of 6.1 for it.
 - ExplicitCharacterSumsAndSieves, Part II: the pointwise bounds on `τ(q)`, `2^{ω(q)}` and `q/φ(q)`
   (Layer 9, in particular Rosser–Schoenfeld's `q/φ(q) < e^γ log log q + 2.50637/log log q` of 9.4,
   and the product bound 6.1) for the Burgess constants; `Σ μ²(n)/φ(n)` with coprimality (7.2) and
@@ -3667,7 +3729,7 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - `rosserSchoenfeld1962`: J. B. Rosser, L. Schoenfeld, Approximate formulas for some functions of
   prime numbers, Illinois J. Math. 6 (1962). Theorems 4–8, 12, 15; pp. 70–72 (uncertified).
 - `schoenfeld1969`: L. Schoenfeld, An improved estimate for the summatory function of the Möbius
-  function, Acta Arith. 15 (1969). The main inequality.
+  function, Acta Arith. 15 (1969). The main inequality; Lemma 2, (10).
 - `simonicStarichkova2023`: A. Simonič, V. V. Starichkova, Atkinson's formula for the mean square of
   `ζ(s)` with an explicit error term, J. Number Theory 244 (2023), 111–168. §3, footnote 6.
 - `tao2010`: T. Tao, A remark on partial sums involving the Möbius function, Bull. Aust. Math.

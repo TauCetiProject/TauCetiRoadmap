@@ -26,17 +26,19 @@ Balazard's inequality (Layers 2.1–2.2); Ramaré's bound for `m̌(x) − 1` (La
 theorem of the convolution method for a general exponent and the Dirichlet-divisor model with the
 constant term `γ² − 2γ₁` (Layers 5.1–5.2); the Hall–Tenenbaum inequality (Layer 6.3); the explicit
 Mertens product of Rosser–Schoenfeld and Axler's cubic refinement (Layer 8.1); Robin's bound for
-`ω(n)`, the Nicolas–Robin bound for `τ(n)`, Robin's bound for `σ(n)/n` and Rosser–Schoenfeld's
-bound for `n/φ(n)` (Layer 9).
+`ω(n)`, the Nicolas–Robin bound for `τ(n)` and Rosser–Schoenfeld's bound for `n/φ(n)` (Layer 9).
 
-Every headline theorem is statable at the pins. Two families of README targets are deliberately
+Every headline theorem is statable at the pins. Three groups of README targets are deliberately
 not stated here. Ramaré–Zuniga Alterman's sharper instance of the transfer (README 1.10): its
 constant `0.039` rests on the source's own treatment of the boundary terms of the weight passage,
 whose finite inputs the README does not fix, so no hypothesis list can be written that is known to
-suffice. The statements that rest on unrefereed preprints (the linear bounds for `M` from the zeros
-of `ζ`, the iterated power-of-logarithm bounds, Daval's conversions, the identity-factory sums, the
-smoothed divisor problem and the Piltz remainders of Tudzi and Palojärvi–Tudzi): they are README
-targets, not acceptance tests.
+suffice. Robin's unconditional bound `σ(n)/n < e^γ log log n + 0.6483/log log n` for `n ≥ 3`
+(README 9.3): its proof needs explicit bounds for `θ` and a verification over the colossally
+abundant numbers below the source's analytic range, in forms the README does not fix, so no
+hypothesis list can be written that is known to suffice.
+The statements that rest on unrefereed preprints (the linear bounds for `M` from the zeros of `ζ`,
+the iterated power-of-logarithm bounds, Daval's conversions, the smoothed divisor problem and
+Tudzi's Piltz remainders): they are README targets, not acceptance tests.
 -/
 
 noncomputable section
@@ -88,7 +90,8 @@ def MoebiusTableVerified (c H : ℝ) : Prop :=
 
 /-- The finite computations of Ramaré 2013 on which the analytic part of its Theorem 1.1 rests
 (README 0.7): the Selberg-remainder bounds of Lemma 6.3, the bound `|R₂*(D)| ≤ 0.0213 D` on
-`[1.8·10⁹, 2.31·10¹²]` (where the printed proof relied on a false range of its Lemma 4.5), the
+`[1.8·10⁹, 2.3104·10¹²]`, below the analytic range `D ≥ 1 520 000²` (where the printed proof relied
+on a false range of its Lemma 4.5), the
 integral of Lemma 6.4 with its value `−147.7678…` (the printed `−129.559` is not the value of the
 integral), the small-values sum of Lemma 7.1, the boundary value of the proof of Theorem 1.1
 (computed `−3.4852…`), the direct verification closing Lemma 7.2, and the extension of Lemma 4.2
@@ -98,7 +101,7 @@ def RamareTransferComputations : Prop :=
     |selbergRemainder D| ≤ 1.80 * Real.sqrt D * Real.log D) ∧
   (∀ D : ℝ, 1.1e8 ≤ D → D ≤ 1.8e9 →
     |selbergRemainder D| ≤ 1.93 * Real.sqrt D * Real.log D) ∧
-  (∀ D : ℝ, 1.8e9 ≤ D → D ≤ 2.31e12 → |selbergRemainder D| ≤ 0.0213 * D) ∧
+  (∀ D : ℝ, 1.8e9 ≤ D → D ≤ 2.3104e12 → |selbergRemainder D| ≤ 0.0213 * D) ∧
   |(∫ t in (1 : ℝ)..1e8, (Chebyshev.psi t - t) / t) + 147.768| ≤ 0.01 ∧
   (∑ k ∈ Icc 1 462848,
       |(ArithmeticFunction.vonMangoldt * ArithmeticFunction.vonMangoldt) k -
@@ -160,7 +163,8 @@ estimates `ψ(x) ≤ 1.04 x`, `|ψ(x) − x| ≤ 0.8 √x` on `[1500, 10¹⁰]`,
 `|ψ(x) − x| ≤ 0.0065 x/log x` beyond `e²²`, `|ψ(x) − x| ≤ 0.000213 x` from `10¹⁰` and
 `|Σ_{n ≤ x} Λ(n)/n − log x + γ| ≤ 0.0067/log x` from `1 520 000` (ExplicitPrimeCounting §§3.2,
 3.3, 6.1, 4.2), the Möbius table to `10¹²`, Cohen–Dress–El Marraki's `|M(x)| ≤ x/4345` from
-`2 160 535` (README 1.3), the squarefree bounds of README 7.1 and the finite computations of the
+`2 160 535` (README 1.3), the squarefree bounds of README 7.1 (the remainder `0.7 √x` and
+`(6/π²) log y + 0.578 ≤ Σ_{d ≤ y} μ²(d)/d ≤ (6/π²) log y + 1.166`) and the finite computations of the
 source. On `[1 078 853, 2 161 205]` the same bound is a direct verification (README 1.5). -/
 theorem abs_moebiusSum_le_ramare
     (hψ₁ : ∀ x : ℝ, 0 ≤ x → Chebyshev.psi x ≤ 1.04 * x)
@@ -178,6 +182,9 @@ theorem abs_moebiusSum_le_ramare
     (hQ' : ∀ y : ℝ, 1 ≤ y →
       ∑ d ∈ Icc 1 ⌊y⌋₊, (ArithmeticFunction.moebius d : ℝ) ^ 2 / d ≤
         6 / π ^ 2 * Real.log y + 1.166)
+    (hQ'' : ∀ y : ℝ, 1 ≤ y →
+      6 / π ^ 2 * Real.log y + 0.578 ≤
+        ∑ d ∈ Icc 1 ⌊y⌋₊, (ArithmeticFunction.moebius d : ℝ) ^ 2 / d)
     (hR : RamareTransferComputations) (D : ℝ) (hD : 2161205 ≤ D) :
     |moebiusSum D| ≤ (0.0130 / Real.log D - 0.118 / Real.log D ^ 2) * D := by
   sorry
@@ -334,14 +341,6 @@ theorem sigma_zero_le_nicolasRobin (htab : SuperiorTableVerified 2 0.1950 0.3466
     (n : ℕ) (hn : 3 ≤ n) :
     (ArithmeticFunction.sigma 0 n : ℝ) ≤
       (n : ℝ) ^ (1.538 * Real.log 2 / Real.log (Real.log n)) := by
-  sorry
-
-/-- **Robin's unconditional bound for `σ(n)/n`** (README 9.3; Robin 1984, Théorème 2). For every
-natural `n ≥ 3`, `σ(n)/n < e^γ log log n + 0.6483/log log n`; the constant `0.648213…` is attained
-at `n = 12`. -/
-theorem sigma_one_div_lt_robin (n : ℕ) (hn : 3 ≤ n) :
-    (ArithmeticFunction.sigma 1 n : ℝ) / n <
-      exp eulerMascheroniConstant * Real.log (Real.log n) + 0.6483 / Real.log (Real.log n) := by
   sorry
 
 /-- **Rosser–Schoenfeld's bound for `n/φ(n)`** (README 9.4; Rosser–Schoenfeld 1962, Theorem 15).
