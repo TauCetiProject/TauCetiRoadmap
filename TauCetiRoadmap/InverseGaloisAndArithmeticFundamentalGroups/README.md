@@ -989,8 +989,10 @@ covers are SchemeAndStackFoundations Layers 1–2, and replete topoi SchemeAndSt
 The curve trace of §IG.0.T1 uses JacobianChallenge Layers A–D (divisors, Riemann–Roch, relative
 cohomology and the Jacobian), AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11
 (torsion, the integral Tate module, the trace and the characteristic polynomial of an
-endomorphism) and SchemeAndStackFoundations §§2.11, 2.16, 5.6, 5.9 (intersection products on
-smooth varieties and the intersection pairing on surfaces).
+endomorphism), SchemeAndStackFoundations §§2.11 and 2.16 (Hilbert 90, the Kummer sequence,
+Tsen's theorem and the cohomology of `𝔾_m` on curves, for the finite-level `H¹`–Jacobian
+comparison) and SchemeAndStackFoundations §§5.6 and 5.9 (intersection products on smooth varieties
+and the intersection pairing on surfaces, for the graph–diagonal formula).
 The finite-cover contract uses connected nonempty locally Noetherian schemes for based `π₁`, without coefficient invertibility.
 
 ## Layer IG.1: arithmetic fundamental groups, inertia and specialization
