@@ -2634,7 +2634,7 @@ its analogue for Corollary 2, with `s = ω − 3` for `ω ≤ 50` and `s = ω �
 `10^{22} ≤ p < 2.2·10^{22}` and `ω(p − 1) = 17`.
 
 - At `ω = 17` no `s` satisfies (a)'s inequality with `10^{11}`: the least left side,
-  `1.462·10^{11}`, is at `s = 14` (`δ_{17,14} = 0.3359`), and `(q₁ ⋯ q_{17})^{1/2} = 4.38·10^{10}`;
+  `1.462·10^{11}`, is at `s = 14` (`δ_{17,14} = 0.33587`), and `(q₁ ⋯ q_{17})^{1/2} = 4.38·10^{10}`;
   condition (9) at `ω = 17` therefore holds only for `p ≥ (1.462·10^{11})² = 2.14·10^{22}`, and the
   primes of the window are the content of *McGownTrudgianWindowCheck*.
 - With the source's choice `s = ω − 5` the quantity `δ_{ω,ω−5}` is negative from `ω = 258` on,
@@ -2783,11 +2783,14 @@ follows from the clause on `ĝ` above `2791` (`g(p) ≤ ĝ(p)`) and from *Grossw
   (Bach's principal bound needs `RiemannHypothesis`, which `GRHMod p` gives), and not
   `DedekindERH ℚ(ζ_p)` by name, although the two are equivalent (0.5).
 - *GrosswaldSieveVerification* at `ω(p − 1) = 14`: `p − 1 ≥ q₁ ⋯ q₁₄ = 1.308·10¹⁶`; with `e` the
-  part of `p − 1` prime to its `11` largest prime factors, `δ ≥ 1 − Σ_{4 ≤ i ≤ 14} 1/q_i = 0.3930`
-  and the second alternative holds for every `p ≥ 1.709·10¹⁶` (at `p = 1.71·10¹⁶` the left side is
-  `1.30738·10⁸` against `√p − 2 = 1.30767·10⁸`, with `c(p, √p − 2) = 0.6966`). This is the source's
-  window `(1.30·10¹⁶, 1.71·10¹⁶)` (line 215), inside which the case split leaves no candidate, so at
-  `ω = 14` the predicate holds through its second alternative alone.
+  part of `p − 1` prime to its `11` largest prime factors, `δ ≥ 1 − Σ_{4 ≤ i ≤ 14} 1/q_i ≥ 0.39296`
+  (the sum is `0.607037`, so rounding `δ` up to `0.3930` would overstate it) and the second
+  alternative holds for every `p ≥ 1.71·10¹⁶` (at `p = 1.71·10¹⁶` with `δ = 0.39296` the left side
+  is `1.30740·10⁸` against `√p − 2 = 1.30767·10⁸`, with `c(p, √p − 2) = 0.6966`, and the ratio of
+  the two sides decreases in `p` from there; at `p = 1.709·10¹⁶` the left side `1.30734·10⁸`
+  exceeds `√p − 2 = 1.30729·10⁸`, so the alternative first holds between the two). This is the
+  source's window `(1.30·10¹⁶, 1.71·10¹⁶)` (line 215), inside which the case split leaves no
+  candidate, so at `ω = 14` the predicate holds through its second alternative alone.
 - The second alternative is a statement about the prime factors of `p − 1` only; Theorem 3, under
   `GRHMod p`, is what turns it into `ĝ(p) < √p − 2`, so the theorem uses the generalized Riemann
   hypothesis only through Theorems 2 and 3. A predicate asserting `ĝ(p) < √p − 2` on the whole
