@@ -10,6 +10,8 @@ import TauCeti.Topology.PL.Map
 import TauCeti.AlgebraicTopology.SimplicialComplex.CombinatorialManifold.Basic
 import TauCeti.AlgebraicTopology.SimplicialComplex.Realization.PL
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+import TauCeti.Topology.Covering.LocalPower
+import TauCeti.Analysis.Sobolev.WeakDeriv.Basic
 
 /-!
 # Teichmüller geometry of closed surfaces: target signatures
@@ -27,19 +29,23 @@ Stated here:
   and orientability of a surface, the Euler characteristic of the models, existence and
   uniqueness of the standard model, the complete invariant and the genus, the Euler
   characteristic being Tau Ceti's `TauCeti.eulerChar` throughout;
-* branched covers of surfaces, their local and global degree, and the topological Riemann–Hurwitz
-  formula (§0.0g);
+* branched covers of surfaces, locally power maps in Tau Ceti's sense `TauCeti.IsLocalPowerAt`,
+  their degree, and the topological Riemann–Hurwitz formula (§0.0g);
 * the topological and PL mapping class groups with the PL comparison (§0.0h), and the mapping
   class groups of the sphere and the torus, through `O(3)` and `GL₂(ℤ)` (§5.4a);
 * the projective model of the hyperbolic isometry group (Layer 4): Mathlib's action of
   `GL (Fin 2) ℝ` on `ℍ`, with negative-determinant matrices acting through complex conjugation,
   induces an isomorphism from `GL (Fin 2) ℝ` modulo its centre onto the isometry group of `ℍ`;
-* the smooth based realization half of the Dehn–Nielsen–Baer theorem (Layer 5): every
-  automorphism of the fundamental group of a closed orientable surface is induced by a
-  basepoint-fixing diffeomorphism;
+* the Dehn–Nielsen–Baer theorem (Layer 5): the mapping class group of a closed orientable surface
+  of genus at least one is the outer automorphism group of its fundamental group, with its smooth
+  based realization half, every automorphism of `π₁` of a closed orientable surface being induced
+  by a basepoint-fixing diffeomorphism, stated separately;
 * the smooth Baer–Epstein kernel theorem (Layer 5): a diffeomorphism of a closed surface that is
   homotopic to the identity is the final slice of a smooth diffeotopy, Tau Ceti's
   `TauCeti.Diffeotopy`;
+* the measurable Riemann mapping theorem (Layer 7): existence and uniqueness of the normalized
+  `W^{1,2}_loc` homeomorphism of `ℂ` solving the Beltrami equation `f_z̄ = μ f_z` for
+  `‖μ‖_∞ < 1`, with Tau Ceti's weak derivatives `TauCeti.HasWeakFDerivOn`;
 * the Nielsen realization theorem in its lifting form (Layer 8): a finite subgroup of the mapping
   class group of a closed orientable surface lifts isomorphically to a finite group of
   diffeomorphisms.
@@ -59,12 +65,6 @@ Not statable at the pins:
   formula (Layer 8), and the open dense loci of Layers 8–11, the arithmetic locus of Layer 9
   among them: no carrier for the marked quotient of the integrable almost-complex structures by
   `Diff₀⁺(Σ)` exists at the pins;
-* the full Dehn–Nielsen–Baer isomorphism `Mod±(Σ) ≃ Out(π₁ Σ)` (Layer 5): the pinned Tau Ceti
-  has the topological group `TauCeti.Diff` with `Diffeomorph.weakWhitneyTopology`, so `π₀ Diff(Σ)`
-  is `ZerothHomotopy` of it, with no group structure there; `MappingClassGroupFull` below carries
-  the group of isotopy classes of homeomorphisms, which is `Mod±(Σ)` by Layer 3.1, but no outer
-  automorphism group `Out` of a group exists at the pins, and the comparison map needs the change
-  of basepoint along a path; the two halves of the theorem are stated separately above;
 * the marked holonomy comparison with discrete faithful representations of Euler number `2 − 2g`
   (Layers 4, 6): there is no Euler number of a surface-group representation at the pins;
 * the orientations of a combinatorial surface and its orientation double cover (§0.0c): the pins
@@ -356,20 +356,11 @@ section BranchedCover
 variable {X Y : Type*} [TopologicalSpace X] [ChartedSpace (EuclideanHalfSpace 2) X]
   [TopologicalSpace Y] [ChartedSpace (EuclideanHalfSpace 2) Y]
 
-/-- `p` has a **power model** of exponent `n ≥ 1` at `x`: topological charts onto the open unit
-disc, with sources in the interiors and centred at `x` and `p x`, in which `p` reads `z ↦ zⁿ`
-(§0.0g). No analytic compatibility is asked of the charts. -/
-def HasPowerMapModelAt (p : X → Y) (x : X) (n : ℕ) : Prop :=
-  0 < n ∧ ∃ (φ : OpenPartialHomeomorph X ℂ) (ψ : OpenPartialHomeomorph Y ℂ),
-    x ∈ φ.source ∧ p x ∈ ψ.source ∧ φ x = 0 ∧ ψ (p x) = 0 ∧
-    φ.source ⊆ (𝓡∂ 2).interior X ∧ ψ.source ⊆ (𝓡∂ 2).interior Y ∧
-    φ.target = Metric.ball (0 : ℂ) 1 ∧ ψ.target = Metric.ball (0 : ℂ) 1 ∧
-    Set.MapsTo p φ.source ψ.source ∧ ∀ z ∈ φ.source, ψ (p z) = φ z ^ n
-
 /-- A **branched cover** of surfaces with marked interior values `B` and exponents `e`: a
 continuous surjection with finite fibres, a covering map off `B`, carrying boundary to boundary as
-a local homeomorphism, with a power model of exponent `e x` at every interior point and exponent
-one off `p⁻¹(B)` and on the boundary (§0.0g). -/
+a local homeomorphism, locally the power map `w ↦ w ^ e x` in topological charts at every interior
+point (Tau Ceti's `TauCeti.IsLocalPowerAt`, whose exponent is positive and determined by `p` and
+`x`), and with exponent one off `p⁻¹(B)` and on the boundary (§0.0g). -/
 structure IsBranchedCover (p : X → Y) (B : Finset Y) (e : X → ℕ) : Prop where
   continuous : Continuous p
   surjective : Function.Surjective p
@@ -377,18 +368,10 @@ structure IsBranchedCover (p : X → Y) (B : Finset Y) (e : X → ℕ) : Prop wh
   branch_values_interior : (B : Set Y) ⊆ (𝓡∂ 2).interior Y
   preimage_boundary : p ⁻¹' (𝓡∂ 2).boundary Y = (𝓡∂ 2).boundary X
   covering_off_branch : IsCoveringMap (((B : Set Y)ᶜ).restrictPreimage p)
-  local_degree_pos : ∀ x, 0 < e x
   local_degree_one_off_branch : ∀ x, p x ∉ B → e x = 1
-  local_power : ∀ x ∈ (𝓡∂ 2).interior X, HasPowerMapModelAt p x (e x)
+  local_power : ∀ x ∈ (𝓡∂ 2).interior X, TauCeti.IsLocalPowerAt p x (e x)
   boundary_unramified : IsLocalHomeomorphOn p ((𝓡∂ 2).boundary X)
   local_degree_one_boundary : ∀ x ∈ (𝓡∂ 2).boundary X, e x = 1
-
-/-- The exponent function is determined by the map: it does not depend on the charts or on regular
-values added to the marked set (§0.0g). -/
-theorem IsBranchedCover.local_degree_unique [T2Space X] [T2Space Y]
-    {p : X → Y} {B B' : Finset Y} {e e' : X → ℕ}
-    (hp : IsBranchedCover p B e) (hp' : IsBranchedCover p B' e') : e = e' := by
-  sorry
 
 /-- **The degree.** Over compact connected surfaces the fibre count weighted by the exponents is a
 positive constant (§0.0g). -/
@@ -544,6 +527,21 @@ theorem exists_mulEquiv_isometryEquiv_glAction :
       ∀ (g : GL (Fin 2) ℝ) (z : ℍ), e (QuotientGroup.mk g) z = g • z := by
   sorry
 
+/-- The inner automorphisms of a group form a normal subgroup of its automorphism group, since
+`φ ∘ conj g ∘ φ⁻¹ = conj (φ g)` (§4.2). -/
+instance innerAut_normal (G : Type*) [Group G] :
+    (MulAut.conj : G →* MulAut G).range.Normal where
+  conj_mem := by
+    rintro _ ⟨g, rfl⟩ φ
+    refine ⟨φ g, ?_⟩
+    ext x
+    simp [MulAut.conj_apply, mul_assoc]
+
+/-- The **outer automorphism group** `Out(G) = Aut(G)/Inn(G)`: the automorphisms of `G` modulo
+the inner ones, the range of `MulAut.conj` (§4.2). -/
+abbrev OuterAut (G : Type*) [Group G] : Type _ :=
+  MulAut G ⧸ (MulAut.conj : G →* MulAut G).range
+
 /-! ## Layer 5: mapping classes, automorphisms and stabilizers -/
 
 /-- **Dehn–Nielsen realization, smooth and based.** Let `S` be a smooth closed connected orientable
@@ -564,11 +562,13 @@ theorem exists_diffeomorph_mapOfEq_eq
 
 /-- **The smooth Baer–Epstein kernel theorem.** A diffeomorphism of a smooth closed connected
 surface, orientable or not, that is homotopic to the identity through continuous maps is the final
-slice of a smooth diffeotopy, that is, it is smoothly isotopic to the identity. For closed
-orientable surfaces this is the injectivity of `Mod±(S) → Out(π₁ S)` (Layer 5.4): Epstein's
-theorem `isotopic_of_homotopic_closedSurface` gives a topological isotopy, and GeometricTopology's
-smoothing of isotopies (its Layer 11.2.1 item 5) makes it smooth, both read through the `𝓡∂ 2`
-atlas of `S` of §0.0e. -/
+slice of a smooth diffeotopy, that is, it is smoothly isotopic to the identity (Layer 5.4):
+Epstein's theorem `isotopic_of_homotopic_closedSurface` gives a topological isotopy, and
+GeometricTopology's smoothing of isotopies (its Layer 11.2.1 item 5) makes it smooth, both read
+through the `𝓡∂ 2` atlas of `S` of §0.0e. On an aspherical surface, of genus at least one, a
+diffeomorphism inducing an inner automorphism of `π₁` is homotopic to the identity, so this gives
+the injectivity of `Mod±(S) → Out(π₁ S)`; on `S²` the antipodal map induces the identity of the
+trivial `π₁` without being homotopic to the identity, and that injectivity fails. -/
 theorem baer_epstein_smooth
     {S : Type*} [TopologicalSpace S] [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S]
     [IsManifold (𝓡 2) ∞ S]
@@ -576,6 +576,27 @@ theorem baer_epstein_smooth
     (f : TauCeti.Diff (𝓡 2) S ∞)
     (hf : ContinuousMap.Homotopic (f.toHomeomorph : C(S, S)) (ContinuousMap.id S)) :
     ∃ Φ : TauCeti.Diffeotopy (𝓡 2) ∞ S, Φ.final = f := by
+  sorry
+
+/-- **The Dehn–Nielsen–Baer theorem.** For a compact connected orientable surface `S` without
+boundary and of genus at least one, and a point `x₀`, the mapping class group of `S` (which is
+`Mod±(S)` by Layer 3.1) is isomorphic to the outer automorphism group of `π₁(S, x₀)`, the class of
+a homeomorphism fixing `x₀` going to the outer class of the automorphism it induces. Every class
+has a representative fixing `x₀`, and the outer class does not depend on it, an isotopy moving the
+base point along a loop changing the induced automorphism by an inner one. Surjectivity is the
+realization of Layer 5.2 (`exists_diffeomorph_mapOfEq_eq`); injectivity is asphericity (Layer 5.1;
+Hatcher, *Algebraic Topology*, Proposition 1B.9, p. 90) followed by Epstein's theorem
+`isotopic_of_homotopic_closedSurface` (Farb–Margalit, *A Primer on Mapping Class Groups*,
+Chapter 8; Layer 5.4). The genus hypothesis excludes `S²`, whose mapping class group has two
+elements while the outer automorphism group of its trivial fundamental group is trivial. -/
+theorem dehn_nielsen_baer {S : Type*} [TopologicalSpace S]
+    [ChartedSpace (EuclideanHalfSpace 2) S] [T2Space S] [CompactSpace S] [ConnectedSpace S]
+    (hb : (𝓡∂ 2).boundary S = ∅) (ho : Surface.IsOrientable S) (hg : 1 ≤ Surface.genus S)
+    (x₀ : S) :
+    ∃ e : MappingClassGroupFull S ≃* OuterAut (FundamentalGroup S x₀),
+      ∀ (f : S ≃ₜ S) (hf : f x₀ = x₀) (α : MulAut (FundamentalGroup S x₀)),
+        α.toMonoidHom = FundamentalGroup.mapOfEq (f : C(S, S)) hf →
+          e (QuotientGroup.mk f) = QuotientGroup.mk α := by
   sorry
 
 /-- **The mapping class group of the sphere** has two elements, the class of a reflection being
@@ -643,6 +664,26 @@ theorem mcg_torus_full :
     Function.Bijective (fun A : GL (Fin 2) ℤ =>
       (QuotientGroup.mk (torusLinearHomeomorph A) :
         MappingClassGroupFull (AddCircle (1 : ℝ) × AddCircle (1 : ℝ)))) := by
+  sorry
+
+/-! ## Layer 7: the measurable Riemann mapping theorem -/
+
+open MeasureTheory in
+/-- **The measurable Riemann mapping theorem.** For a measurable `μ : ℂ → ℂ` with `‖μ‖ ≤ k < 1`
+almost everywhere there is exactly one homeomorphism `f` of `ℂ` fixing `0` and `1` that lies in
+`W^{1,2}_loc` (a weak derivative `U`, Tau Ceti's `TauCeti.HasWeakFDerivOn` on the whole plane, with
+locally square-integrable entries) and solves the Beltrami equation `f_z̄ = μ f_z` almost
+everywhere, the weak Wirtinger derivatives being `f_z̄ = (f_x + i f_y)/2` and
+`f_z = (f_x − i f_y)/2` with `f_x = U z 1` and `f_y = U z i` (Ahlfors–Bers 1960, Theorem 1;
+Imayoshi–Taniguchi, §4.4; Layer 7.4). For constant `μ = a` it is
+`z ↦ (z + a z̄)/(1 + a)`. -/
+theorem measurable_riemann_mapping (μ : ℂ → ℂ) (hμ : AEStronglyMeasurable μ volume)
+    (k : ℝ) (hk : k < 1) (hbound : ∀ᵐ z ∂volume, ‖μ z‖ ≤ k) :
+    ∃! f : ℂ ≃ₜ ℂ, f 0 = 0 ∧ f 1 = 1 ∧
+      ∃ U : ℂ → ℂ →L[ℝ] ℂ, TauCeti.HasWeakFDerivOn volume ⊤ f U ∧
+        (∀ v : ℂ, ∀ K : Set ℂ, IsCompact K → MemLp (fun z => U z v) 2 (volume.restrict K)) ∧
+        ∀ᵐ z ∂volume, (U z 1 + Complex.I * U z Complex.I) / 2 =
+          μ z * ((U z 1 - Complex.I * U z Complex.I) / 2) := by
   sorry
 
 /-! ## Layer 8: finite actions -/
