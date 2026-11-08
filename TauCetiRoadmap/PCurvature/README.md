@@ -629,12 +629,13 @@ by 1.4.
   "almost every" would accept it, since `ψ = 0` at `p ≡ 1 (mod 4)`.
 
 Not a target: over `ℚ`, an explicit finite set of primes suffices in 4.3. For `u = A/B` with
-`A, B ∈ ℤ[x]` coprime, `deg A < deg B` and `B` squarefree (so `res(B, B′) ≠ 0`), the equation
-`y′ = u y` has a nonzero algebraic solution iff its `p`-curvature vanishes at every prime
-`p ∤ res(B, B′)` below the bound `σ` of Fürnsinn–Pannier, Theorem 1.2, for `±R`, where
-`R(w) = res_x(B, A − wB′)` and the sign makes the leading coefficient `|res(B, B′)|` positive
-(Fürnsinn–Pannier, Theorem 1.3 with `c = 1`, under the hypotheses of their Proposition 2.2(3));
-Katz 1982, §9, as they recall, gives a finite set non-constructively. Proof: the residues of `u`
+`A, B ∈ ℤ[x]` coprime, `deg A < deg B` and `B` without repeated roots (equivalently
+`res(B, B′) ≠ 0`), the equation `y′ = u y` has a nonzero algebraic solution iff its
+`p`-curvature vanishes at every prime `p ∤ res(B, B′)` below the bound `σ` of Fürnsinn–Pannier,
+Theorem 1.2, for `±R`, where `R(w) = res_x(B, A − wB′)` and the sign makes the leading
+coefficient `|res(B, B′)|` positive (Fürnsinn–Pannier, Theorem 1.3 with `c = 1`, under the
+hypotheses of their Proposition 2.2(3)); Katz 1982, §9, as they recall, gives a finite set
+non-constructively. Proof: the residues of `u`
 are the roots of `R` (their Theorem 2.1), so a solution is algebraic iff `R` splits in `ℚ[w]`
 (their Proposition 2.2); for `p ∤ res(B, B′)`, `p` does not divide the leading coefficient of `B`,
 so `B` keeps its degree modulo `p` and stays squarefree, the reduction of `u` is defined, and
@@ -769,6 +770,6 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
   Propositions 1.8, 3.1, 3.3, Example 3.4, Theorems 3.5–3.7, Theorem 3.12, Remark 3.13,
   Theorem 3.16, Theorem 3.19 (Cartier's lemma), §3.3.2.
 - F. Fürnsinn, L. Pannier, « An effective version of the p-curvature conjecture for order one
-  differential equations », arXiv:2510.00892, Theorems 1.1–1.3, Propositions 2.2–2.4.
+  differential equations », arXiv:2510.00892, Theorems 1.1–1.3 and 2.1, Propositions 2.2–2.4.
 - L. Kronecker, « Über die Irreducibilität von Gleichungen », *Monatsber. Königl. Preuss. Akad.
   Wiss. Berlin* (1880), 155–163.
