@@ -34,10 +34,12 @@ cohomological-dimension invariants of Layer 11 with the strict-dimension criteri
 class-module theorem, and the index-two cochains, graph class, class-level norm and its Galois
 transport of Layer 13, among others. Wherever a
 milestone below is stated on such an object, the declaration it names is Tau Ceti's, cited by its
-qualified name. `Suggested.lean` is the acceptance test, not an interface: it states only the
-headline theorems that the pinned libraries do not yet prove (Layer 11's universe independence of
-the dimension invariants), and its module docstring names the one headline that is not statable at the pins, the general Evens
-norm of Layer 13.
+qualified name. `Suggested.lean` is the acceptance test: it states the headline theorems that the
+pinned libraries do not yet prove (Layer 11's universe independence of the dimension invariants),
+and its module docstring names the one headline that is not statable at the pins, the general Evens
+norm of Layer 13. It also declares, under this roadmap's names, the declarations that the roadmaps
+importing it read; Downstream consumers lists them, each a Mathlib or Tau Ceti declaration or a
+short definition on their carriers.
 
 ---
 
@@ -109,7 +111,8 @@ This list is definitive, not a list of things that might come later.
 
 The Mathlib and Tau Ceti declarations named in Scope and ownership and in the layers are the sole
 continuous-cohomology interface consumed by `ProfiniteProPGroups`, `ClassFieldTheory`, `LocalGaloisGroups`, and
-`QuadraticFormInvariants`. Finite-group Tate cohomology in negative degrees and
+`QuadraticFormInvariants`; the names of `Suggested.lean` that these roadmaps read, listed under
+Downstream consumers, are those declarations under this roadmap's names. Finite-group Tate cohomology in negative degrees and
 `FiniteClassFormation` are owned by `ClassFieldTheory`; this roadmap contains neither. Ordinary
 continuous cohomology in all degrees, `TauCeti.cohomologicalDimensionAt`, continuous corestriction, Kummer theory, and the
 continuous cup product remain here.
@@ -3592,17 +3595,52 @@ Layers 5–7, consumes the five-term sequence, dimension theory and cup pairing 
 free pro-p groups and Demushkin groups. QuadraticFormInvariants, Layer 9 (transfer and the relative Stiefel–Whitney formula), consumes
 Layer 13's index-two norm and Galois transport and owns their Stiefel–Whitney application.
 
-Each consumer reads these layers through the Tau Ceti declarations named in them, not through
-`Suggested.lean`, which states only what Tau Ceti does not prove. In particular `cd_p` and `scd_p`
-are `TauCeti.cohomologicalDimensionAt.{u}` and `TauCeti.strictCohomologicalDimensionAt.{u}` for
-`G : Type u`; the graded cup of Layer 12 is `TauCeti.TopPairing.cup` on a `TauCeti.TopPairing`,
-with `TauCeti.ContinuousCohomology.degreeCast`, `TauCeti.ContinuousCohomology.coeffMap`,
-`TauCeti.ContinuousCohomology.infl`, `TauCeti.TopPairing.cup_coeffMap`,
-`TauCeti.TopPairing.cup_infl` and `TauCeti.TopPairing.cup_gradedComm`; the explicit `H²` is
-`TauCeti.ContCohomology.H2`; the class module is `TauCeti.abelianizationProP`,
-`TauCeti.abelianizationProPClass` and `TauCeti.abelianizationProPClass_generates`; and the Galois
-coefficients and the section of `D₁₆ → C₂ ≀ C₂` are `TauCeti.AbsoluteGaloisGroup`,
-`TauCeti.UnitsCoeff`, `TauCeti.KummerCoeff` and `TauCeti.wreathSection`.
+These four roadmaps import `Suggested.lean`, and besides the Tau Ceti declarations named in the
+layers they read part of the roadmap through names declared there. Each such name is a Mathlib or
+Tau Ceti declaration under this roadmap's name and argument order, with that declaration's
+hypotheses, except for the few short definitions and the two theorems described in full below.
+The cup product, `degreeCast` and `coeffMap` take values in
+`(TauCeti.ContinuousCohomology.continuousCohomologyFunctor R G n).obj X`, which is
+`continuousCohomology n X` by definition.
+
+- Completed/ProfiniteProPGroups reads `cd_p`, which is `TauCeti.cohomologicalDimensionAt.{u}` for
+  `G : Type u`.
+- Completed/LocalGaloisGroups reads `scd_p` (`TauCeti.strictCohomologicalDimensionAt.{u}`),
+  `abelianizationProP` (`TauCeti.abelianizationProP`), `abelianizationProPClass`
+  (`TauCeti.abelianizationProPClass`), `H2` (`TauCeti.ContCohomology.H2`) and
+  `abelianizationProPClass_generates`. The last is NSW (3.6.4) in degree two as 11.8 states it: for
+  a prime `p`, a profinite `G` with `scd_p G ≤ 2` and an open normal subgroup `V`, the class
+  `u_{G/V}(p)` generates `H²(G ⧸ V, V^ab(p))`, and that group has order `p ^ v_p(#(G ⧸ V))`. Its
+  conclusion is that of `TauCeti.abelianizationProPClass_generates`.
+- ClassFieldTheory reads `TopRep` (Mathlib's `TopRep` with coefficient modules in the universe of
+  `G`), `coeffMap` (`TauCeti.ContinuousCohomology.coeffMap`), `TopPairing` (`TauCeti.TopPairing`),
+  `cup` (Tau Ceti's bilinear `TauCeti.TopPairing.cup` applied to its two arguments),
+  `cup_add_left` (additivity of `cup` in its first argument), `cup_coeffMap`
+  (`TauCeti.TopPairing.cup_coeffMap`, naturality in the coefficients), `degreeCast` (transport
+  `Hᵐ(G, X) → Hⁿ(G, X)` along an equality `m = n`), `cd_p` and `scd_p`.
+- QuadraticFormInvariants reads `Invariants` (Mathlib's `FixedPoints.addSubgroup`),
+  `ofDiscreteModule` (`TauCeti.ofDiscreteModule ℤ G M`), `coeffMap`, `cochainClass`
+  (`TopRep.cochainClass`) and `cup`; the declarations of the same names in
+  `TauCeti.ContCohomology`: `Z2`, `H2`, `H2pi`, `discreteH2Equiv`,
+  `explicitH2IsoContinuousCohomology`, `explicitFiniteQuotientComparison2`,
+  `explicitFiniteQuotientColimit2`, `homClass`, `inhomogeneousCochain2`,
+  `inhomogeneousCochain2_d_eq_zero`, `cochainClass_inhomogeneousCochain2_eq_of_coboundary`,
+  `indexTwoInd` and `continuous_wreathD16Cocycle_indexTwoInd`; the declarations of the same names
+  in `TauCeti` and `TauCeti.WreathC2`: `AbsoluteGaloisGroup`, `KummerCoeff`, `UnitsCoeff`,
+  `kummerMapCanonical`, `h2KummerToUnits`, `galoisSubgroup`, `galoisSubgroup_index`, `trivialF2`,
+  `WreathC2`, `WreathC2.coordA`, `WreathC2.coordB`, `WreathC2.coordC`, `dihedralToWreath`,
+  `wreathD16Cocycle`, `wreathD16Cocycle_isCocycle`, `galoisF2Iso`, `galoisRes`, `galoisCor`,
+  `galoisEvens`, `galoisCharacter` and `galoisRes_eq_zero_iff`; and `f2Pairing`, which is
+  `TauCeti.trivialF2TopPairing`. Four further names are definitions or a theorem of their own:
+  `galoisConj` is the function `y ↦ res (cor y) − y` on `Hⁿ(G_L, 𝔽₂)`, the value of
+  `TauCeti.galoisConj` at `y`;
+  `WreathC2.sectionTable` is the section `(us)^i s^j ↦ r^i f^j` of `D₁₆ → C₂ ≀ C₂` on the
+  coordinates `(a, b, c)` of `C₂ ≀ C₂`, and `wreathSection` is that section on `C₂ ≀ C₂`, equal
+  pointwise to `TauCeti.wreathSection`; and `galoisEvens_galoisRes` says that for a quadratic
+  extension `L/K` and `y ∈ H¹(G_K, 𝔽₂)`, `N(res y) = y ⌣ y + χ_{L/K} ⌣ y` with
+  `χ_{L/K} = galoisCharacter`, Evens's identity 5 transported as in 13.3, with the conclusion of
+  `TauCeti.galoisEvens_galoisRes`.
+
 No arrow in these consumer contracts is an input to the present roadmap.
 
 ## References
