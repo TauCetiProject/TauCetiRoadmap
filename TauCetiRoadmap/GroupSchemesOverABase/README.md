@@ -21,8 +21,8 @@ that `G_red` is a smooth closed subgroup scheme when `k` is perfect, that the id
 is the faithfully flat homomorphism with kernel `G⁰` onto an étale group, universal for
 homomorphisms to étale groups, with the finite étale scheme `π₀(X/k)` of connected components of a
 scheme `X` of finite type over `k`; for `G` smooth with connected fibres, the specialization
-inequalities of the abelian rank and the reductive rank plus the abelian rank (lower), and of the
-nilpotent and unipotent ranks (upper), and, for `G` moreover affine, of the semisimple dimension
+inequalities of the abelian rank and the reductive rank plus the abelian rank (lower), and, for `G`
+moreover affine, of the nilpotent and unipotent ranks (upper) and of the semisimple dimension
 (lower); for `G` split reductive over a locally noetherian, normal, connected base,
 `Pic(S) ⊕ ℤ^Δ ≅ Pic(G/B⁻)`; for `G` split reductive with simply connected derived group, the
 Steinberg map `G → T/W`, smooth exactly on the regular locus, with a section when `G` is moreover
@@ -37,13 +37,13 @@ of a smooth group scheme (Layer 0); diagonalizable groups `D_S(M)` for finitely 
 1); groups of multiplicative type of finite type, tori, character and cocharacter sheaves and
 isotriviality (Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative
 type, centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of
-finite such subgroups in smooth separated groups (Layer 3); over a field, quotients by closed
-subgroups, Chevalley's theorem for every smooth connected group over a perfect field together with
-its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
+such subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by
+closed subgroups, Chevalley's theorem for every smooth connected group over a perfect field together
+with its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
 affinization, the rank invariants, and, for groups locally of finite type and not necessarily
 affine, separatedness, the reduced subgroup over a perfect field, the identity component and the
 étale group of connected components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type
-(Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of smooth affine
+(Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of smooth
 group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over
 a base and the Picard groups of `G/B⁻` and `G` (Layer 6); the Steinberg map, the regular locus, the
 Steinberg cross-section, the universal centralizer, the Grothendieck–Springer space and the Picard
@@ -95,6 +95,11 @@ groups of `G̃`, `G` and `G^reg` (Layer 7).
   normalized extremal section;
   EquivariantIntersectionTheory 1.1 owns `G`-linearised invertible sheaves and `Pic^G`, and 1.3
   the exact sequence `0 → X*(G) → Pic^G(X) → Pic(X)`. Layer 6 is the extension over a base.
+
+**Overlap.** PurityForFlatCohomology §§7.12a–7.12e restate diagonalizable groups, groups of
+multiplicative type, tori, the character sheaf and the largest subtorus over a base for its purity
+results. This roadmap owns them (1.1–1.4, 2.1–2.3, 2.7), and the two agree on `D_S(M)`, `X*(H)`
+and `Hᵗᵒʳ`.
 
 **Out of scope.** Groups of multiplicative type that are not of finite type (pro-objects such as
 `D(ℚ)`), pseudo-reductive groups, abelian schemes, Néron models, parahoric group schemes, and
@@ -542,9 +547,9 @@ InverseGaloisAndArithmeticFundamentalGroups IG.0.4.
 For a torus `T`, `X_*(T)` is the dual of `X*(T)`, and tori correspond to locally constant sheaves
 of free modules of finite rank. Subgroups of multiplicative type of `H` correspond to quotient
 sheaves of `X*(H)`, and the quotient of `H` by such a subgroup is of multiplicative type with
-character sheaf the kernel (1.4, 2.3). `Hᵗᵒʳ = D(X*(H)/torsion)` is the largest subtorus, and
-`H/Hᵗᵒʳ` is finite of multiplicative type with character sheaf the torsion of `X*(H)`.
-*Needs:* 2.3, 1.4.
+character sheaf the kernel (1.4, 2.3; SGA 3, Exp. IX, 2.7 and 2.11; Exp. X, 5.9).
+`Hᵗᵒʳ = D(X*(H)/torsion)` is the largest subtorus, and `H/Hᵗᵒʳ` is finite of multiplicative type
+with character sheaf the torsion of `X*(H)`. *Needs:* 2.3, 1.4.
 
 **Checks.**
 
@@ -645,15 +650,20 @@ points is `BialgHom.weylGroup`. *Needs:* 3.4; Tau Ceti `BialgHom.centralizerHopf
 - `Z_{GL₂}(μ₂ embedded as ±1)` is `GL₂`: a central subgroup.
 - For `μ_p` inside `SL_p` as the centre over `𝔽_p`, `Z = SL_p` is smooth although `μ_p` is not.
 
-### 3.6 Centralizers of finite subgroups in smooth separated groups
+### 3.6 Centralizers in smooth separated groups
 
-For `G` smooth, separated and of finite presentation over `S`, not necessarily affine, and `H ⊆ G`
-a subgroup of multiplicative type finite over `S`, `Z_G(H)` is represented by a closed subgroup
-scheme of `G`, smooth over `S`. Route: `H` is finite locally free over `S` (SGA 3, Exp. VIII, 6.3),
-so the fixed points of its conjugation action on the separated `G` form a closed subscheme of
-finite presentation (SGA 3, Exp. VIII, 6.4 and 6.5 d)); this functor is formally smooth, since
-`G` is smooth and `H` of multiplicative type (SGA 3, Exp. XI, 2.4, from Exp. IX, 3.6). For `G`
-affine this is 3.5 for finite `H`. *Needs:* 2.1, 3.1.
+For `G` smooth, separated and of finite presentation over `S`, not necessarily affine, and `H ⊆ G` a
+subgroup of multiplicative type and of finite type over `S`, `Z_G(H)` is represented by a closed
+subgroup scheme of `G`, smooth and of finite presentation over `S`. Route: `H` is essentially free
+over `S` (SGA 3, Exp. VIII, 6.3), so its centralizer in the separated `G` is a closed subgroup
+scheme of `G` (SGA 3, Exp. VIII, 6.4 and 6.5 e)). For `H` finite, `H` is finite locally free (SGA 3,
+Exp. VIII, 2.1 c), fpqc-locally), and the proof of VIII 6.4 generates the ideal of the centralizer
+by the coordinates of finitely many local equations, so the centralizer is of finite presentation
+since `G` is; in general the `H[n]`, `n > 0`, are finite locally free of multiplicative type and
+schematically dense (3.3), and the centralizer is of finite presentation (SGA 3, Exp. XI, 6.1 and
+6.4, as in the proof of 6.2). It is formally smooth, since `G` is smooth and `H` of multiplicative
+type (SGA 3, Exp. XI, 2.4, from Exp. IX, 3.6), hence smooth. For `G` affine this is 3.5. *Needs:*
+2.1, 3.1, 3.3.
 
 **Checks.**
 
@@ -922,11 +932,11 @@ Each invariant of 4.4 defines a function `S → ℕ` through geometric fibres. *
 ### 5.2 Maximal tori over a base
 
 A subtorus `T ⊆ G` is maximal if every geometric fibre `T_x` is a maximal torus of `G_x`. For `G`
-affine: `G` has a maximal torus étale-locally on `S` iff `ρ_r` is locally constant (SGA 3,
-Exp. XII, 1.7 b)); the functor of maximal tori is then represented by a smooth separated
-`S`-scheme of finite type (SGA 3, Exp. XII, 1.10); two maximal tori are conjugate étale-locally,
-and `T ↦ Z_G(T)` is a bijection onto the Cartan subgroups (SGA 3, Exp. XII, 7.1). *Needs:* 5.1,
-2.1, 3.5.
+affine, `G` has a maximal torus étale-locally on `S` iff `ρ_r` is locally constant (SGA 3,
+Exp. XII, 1.7 b)), and the functor of maximal tori is then represented by a smooth separated
+`S`-scheme of finite type (SGA 3, Exp. XII, 1.10). For every `G` of this layer with a maximal
+torus fpqc-locally on `S`, two maximal tori are conjugate étale-locally, and `T ↦ Z_G(T)` is a
+bijection onto the Cartan subgroups (SGA 3, Exp. XII, 7.1 a) and b)). *Needs:* 5.1, 2.1, 3.5.
 
 **Checks.**
 
@@ -936,19 +946,17 @@ and `T ↦ Z_G(T)` is a bijection onto the Cartan subgroups (SGA 3, Exp. XII, 7.
 
 ### 5.3 Specialization inequalities
 
-For `s` a specialization of `s′`: `ρ_ab(s) ≤ ρ_ab(s′)`, `ρ_r(s) + ρ_ab(s) ≤ ρ_r(s′) + ρ_ab(s′)`,
-`ρ_n(s) ≥ ρ_n(s′)` and `ρ_u(s) ≥ ρ_u(s′)` (SGA 3, Exp. X, Remarques 8.7, stated there without
-proof for a discrete valuation ring, and equivalently as semicontinuity); since the fibre
-dimension is locally constant, `dim L(s) ≥ dim L(s′)` follows. For `G` affine, moreover
+For `s` a specialization of `s′`: `ρ_ab(s) ≤ ρ_ab(s′)` and `ρ_r(s) + ρ_ab(s) ≤ ρ_r(s′) + ρ_ab(s′)`
+(SGA 3, Exp. X, Remarques 8.7, stated there without proof for a discrete valuation ring); since the
+fibre dimension is locally constant, `dim L(s) ≥ dim L(s′)` follows. For `G` affine, moreover
+`ρ_n(s) ≥ ρ_n(s′)` and `ρ_u(s) ≥ ρ_u(s′)`, which are 5.4 (SGA 3, Exp. XII, 1.7 a)), and
 `d_s(s) ≤ d_s(s′)`. Route: reduce to `S` locally noetherian by Noetherian approximation
-(SchemeAndStackFoundations §0.9), then to the spectrum of a discrete valuation ring dominating
-the specialization (EGA II, 7.1.9), and then to a complete one with separably closed residue
-field; prolong the prime-to-`p` torsion subgroups of a split maximal torus of the special fibre
-to finite étale subgroups of multiplicative type over the complete base (3.1, with SGA 3, Exp. IX,
-3.6, which needs `G` smooth only), take their centralizers (3.6, which needs `G` separated and not
-affine), and compare them with the centralizer of the torus by the density of torsion (3.3); the
-abelian rank uses the prime-to-characteristic Tate module of the abelian quotient
-(AbelianSchemesAndArithmeticModuli A4.1).
+(SchemeAndStackFoundations §0.9), then to the spectrum of a discrete valuation ring dominating the
+specialization (EGA II, 7.1.9), and then to a complete one with separably closed residue field;
+prolong the prime-to-`p` torsion subgroups of a split maximal torus of the special fibre to finite
+étale subgroups of multiplicative type over the complete base (3.1, with SGA 3, Exp. IX, 3.6, which
+needs `G` smooth only); the abelian rank uses the prime-to-characteristic Tate module of the
+abelian quotient (AbelianSchemesAndArithmeticModuli A4.1).
 
 The inequality for `d_s` is this roadmap's own statement, with the following route. The inclusion of
 a split maximal torus `T_s ≅ 𝔾_m^r` of `G_s` is a point of the smooth scheme `Hom(𝔾_m^r, G)` (3.4),
@@ -966,7 +974,7 @@ whose stabiliser in `W` is generated by the reflections `s_α` with `α|_H = 0` 
 `X_*(T′)` after moving the point into the dominant chamber by
 `RootPairing.exists_mem_dominantChamber`); not all of these vanish on `F`, so some `α_r ∈ Φ`
 restricts to a nonzero form on `F` with kernel `H`. Distinct reflections have distinct `H`, so
-`r ↦ ±α_r` is injective and `|Φ_s| ≤ |Φ|`. *Needs:* 5.1, 5.2, 3.1, 3.3, 3.4, 3.5, 3.6;
+`r ↦ ±α_r` is injective and `|Φ_s| ≤ |Φ|`. *Needs:* 5.1, 5.2, 5.4, 3.1, 3.4, 3.5;
 ReductiveGroups Layer 7; SchemeAndStackFoundations §0.9; AbelianSchemesAndArithmeticModuli A4.1; Tau
 Ceti `TauCeti.stabilizer_eq_closure_wallReflections`, `RootPairing.exists_mem_dominantChamber`.
 
@@ -1276,20 +1284,23 @@ Layer 6; ReductiveGroups Layer 8 and 9B; ModularCurves 0C; SchemeAndStackFoundat
   nothing from it.
 - EquivariantIntersectionTheory names this roadmap's line bundles `𝓛(λ)` on `G/B⁻` (6.1) as
   linearised invertible sheaves in the sense of its 1.1.
-- PurityForFlatCohomology consumes 1.3, 1.4, 2.1–2.3 and 2.7 (diagonalizable groups, groups of
-  multiplicative type and tori over a base, their character sheaf and the largest subtorus) for
-  its kernel-of-tori presentations and its flat cohomology of tori.
 
 The identifiers used in those roadmaps resolve here as follows: GS4.2 is 4.2; GS7 is, for
 `Bor(G)`, ReductiveGroups Layer 8 and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
 
 ## Research context
 
-SGA 3, Exp. X, Remarques 8.7, states `d_s(s) ≤ d_s(s′)` for every smooth group over a discrete
-valuation ring, without proof. The route of 5.3 needs `G` affine: a maximal torus of the special
-fibre need not lift when the generic fibre is not affine, as for a smooth group with generic fibre
-an elliptic curve and special fibre `𝔾_m` (SGA 3, Exp. X, 8.3), where the lifted torsion fills
-the elliptic curve.
+SGA 3, Exp. X, Remarques 8.7, states `ρ_n(s) ≥ ρ_n(s′)`, `ρ_u(s) ≥ ρ_u(s′)` and
+`d_s(s) ≤ d_s(s′)` for every smooth group over a discrete valuation ring, without proof. The routes
+of 5.3 and 5.4 need `G` affine: a maximal torus of the special fibre need not lift when the generic
+fibre is not affine, as for a smooth group with generic fibre an elliptic curve and special fibre
+`𝔾_m` (SGA 3, Exp. X, 8.3), where the lifted torsion fills the elliptic curve. Lifting only the
+torsion subgroups `H_n` of the torus and taking their centralizers, smooth by 3.6, gives
+`dim Z_{G_η}(H_{n,η}) = ρ_n(s)` for `n` large (3.3), and the nilpotent rank would follow from
+`dim Z_{G_η}(H_{n,η}) ≥ ρ_n(η)`; this holds when `H_{n,η}` lies in a maximal torus of `G_η`, but
+not for every finite subgroup of multiplicative type: in `PGL₂` over an algebraically closed field
+of characteristic `≠ 2`, the Klein four-group generated by the images of `diag(1, −1)` and
+`[[0, 1], [1, 0]]` is its own centralizer, of dimension `0 < 1 = ρ_n`.
 
 The étale-local conjugacy of maximal tori in 5.2 cannot be improved to Zariski-local conjugacy:
 over `S = Spec k`, Zariski-local means global, and over a field `k ≠ k_s` there are in general
@@ -1303,11 +1314,12 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 ## References
 
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
-  by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011): Exp. VI_A 0.2, 0.3, 0.5.1,
+  by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011), with the revised exposés on
+  P. Polo's page, https://webusers.imj-prg.fr/~patrick.polo/SGA3/: Exp. VI_A 0.2, 0.3, 0.5.1,
   1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1; Exp. VI_B 3.9, 3.10, 5.2, 5.6.4; Exp. VII_A
-  6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 3.3, 3.6, 4.7, 4.8,
-  5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 2.4, 4.2,
-  5.3, 5.3 bis, 5.9; Exp. XII 1.5, 1.7, 1.10, 7.1.
+  6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 2.7, 2.11, 3.3,
+  3.6, 4.7, 4.8, 5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7;
+  Exp. XI 2.4, 4.2, 5.3, 5.3 bis, 5.9, 6.1, 6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes* I, Panoramas et
@@ -1316,13 +1328,15 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 - J. S. Milne, *Algebraic groups: the theory of group schemes of finite type over a field*,
   Cambridge Stud. Adv. Math. 170, Cambridge University Press (2017), doi:10.1017/9781316711736:
   Propositions 1.22, 1.26, 1.29–1.31, 1.34 and 2.37, Example 1.27, Remark 1.33, Corollaries 1.35
-  and 1.39, Summary 1.36.
+  and 1.39, Summary 1.36. The author's version 2.00,
+  https://www.jmilne.org/math/CourseNotes/iAG200.pdf, numbers the statements used 1.12, 1.14–1.19
+  and A.82–A.84.
 - M. Demazure, P. Gabriel, *Groupes algébriques* I, Masson (1970), III, §3, 5.4 and 8.2.
 - A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie
   algébrique III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118,
   Théorème 7.2. Numdam SB_1960-1961__6__99_0.
 - A. Grothendieck, J. Dieudonné, *Éléments de géométrie algébrique* II and IV, Publ. Math. IHÉS 8,
-  24, 28, 32 (1961–1967): II 7.1.9; IV 11.3.10, 17.9.5.
+  24, 28, 32 (1961–1967): II 7.1.9; IV 11.3.10, 17.9.5. Numdam PMIHES_1961__8__5_0 (II).
 - R. Steinberg, « Regular elements of semisimple algebraic groups », *Publ. Math. IHÉS* 25
   (1965), 49–80, Theorems 1.1, 1.3, 1.4, 6.1, 7.1, 7.9 and 8.1. Numdam PMIHES_1965__25__49_0.
 - P. Slodowy, *Simple singularities and simple algebraic groups*, LNM 815, Springer (1980),
