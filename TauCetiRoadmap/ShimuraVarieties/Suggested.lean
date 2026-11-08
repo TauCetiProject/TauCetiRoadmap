@@ -13,15 +13,21 @@ discharging them finishes neither a layer nor the roadmap.
 Sections 3.4b–3.4e develop o-minimal structures on a linearly ordered type `R`,
 with definable subsets of `Fin n → R`, coordinate `0` as the fibre coordinate of
 a cylinder (`Fin.cons`, `Fin.tail`) and graphs, products and fibres read through
-`Fin.append`. The statements cover the coordinate, topological and map calculus
-of definable sets, the passage from sets definable with parameters in a
-first-order language, the semialgebraic structure on `ℝ`, monotonicity on a
-definable domain, cells with their definable connectedness and projection charts,
-cell decomposition, uniform finiteness, definable dimension with its
-decomposition, union, image, product, fibre and frontier laws, its agreement with
-`TauCeti.semialgebraicDim` on `ℝ`, the density and divisibility of ordered abelian
-groups carrying an o-minimal structure with definable addition, definable choice
-and curve selection.
+`Fin.append`. The statements cover the passage from sets definable with
+parameters in a first-order language, the semialgebraic structure on `ℝ` and the
+semialgebraic sets of every o-minimal expansion of an ordered ring, monotonicity
+on a definable domain, the definable connectedness and projection charts of
+cells, cell decomposition, uniform finiteness and the comparison with
+cylindrical algebraic decompositions, definable dimension with its
+decomposition, top-dimension, union, image, product, fibre and frontier laws, its
+agreement with `TauCeti.semialgebraicDim` on `ℝ`, the density and divisibility of
+ordered abelian groups carrying an o-minimal structure with definable addition,
+definable choice and curve selection.
+
+Section 3.5a states the o-minimality of `R_an,exp`, the expansion of the ordered
+real field by the real exponential and the restricted analytic functions, as a
+language of Mathlib's first-order logic interpreted on `ℝ`: its sets definable
+with parameters are the definable sets of an o-minimal structure.
 
 Section 5.1's reflex-field theorems are stated for arbitrary nonempty finite
 products of CM number fields: the trace-generated reflex field is a CM number
@@ -38,8 +44,8 @@ carriers:
 * Layers 2–3's Baily–Borel compactification, finite generation, Koecher principle
   and Borel algebraicity require those quotients, the admissible automorphic
   section ring, complex analytic spaces and scheme analytification. The
-  period-map and definable-Chow route also needs polarized variations, the
-  specified analytic structures and the structure `R_an,exp` of Section 3.5a.
+  period-map and definable-Chow route also needs polarized variations and the
+  specified analytic structures.
 * Layer 4's disjoint special reflex fields, translation descent and uniqueness
   require special torus data, cocharacter reflex norms and the canonical-model
   condition with its complex comparison.
@@ -63,7 +69,9 @@ namespace TauCetiRoadmap.ShimuraVarieties
 
 open Set
 
-/-! ## O-minimal structures and definable maps (Section 3.4b) -/
+/-! ## Layer 3: Algebraicity and complex compactification functoriality -/
+
+/-! ### O-minimal structures and definable maps (Section 3.4b) -/
 
 /-- An o-minimal structure on a linearly ordered type `R` (Section 3.4b; van den Dries,
 *Tame Topology and o-minimal Structures*, Chapter 1, §§2–3). For each `n` it singles out the
@@ -111,92 +119,6 @@ def DefinableFunOn {m : ℕ} (f : (Fin m → R) → R) (A : Set (Fin m → R)) :
 
 end Defs
 
-section Calculus
-
-variable {R : Type*} [LinearOrder R] (S : OMinimalStructure R)
-
-/-- Section 3.4b: the preimage of a definable set under a coordinate map `x ↦ x ∘ ι` is
-definable; these maps include permutations of coordinates and diagonal embeddings. -/
-theorem definable_preimage_comp {m n : ℕ} (ι : Fin m → Fin n) {A : Set (Fin m → R)}
-    (hA : S.Definable m A) : S.Definable n {x | x ∘ ι ∈ A} := by
-  sorry
-
-/-- Section 3.4b: the image of a definable set under a coordinate map `x ↦ x ∘ ι` is
-definable; these maps include all coordinate projections. -/
-theorem definable_image_comp {m n : ℕ} (ι : Fin m → Fin n) {A : Set (Fin n → R)}
-    (hA : S.Definable n A) : S.Definable m ((fun x => x ∘ ι) '' A) := by
-  sorry
-
-/-- Section 3.4b: the product of two definable sets, in concatenated coordinates, is
-definable. -/
-theorem definable_image_appendEquiv_prod {m n : ℕ} {A : Set (Fin m → R)}
-    {B : Set (Fin n → R)} (hA : S.Definable m A) (hB : S.Definable n B) :
-    S.Definable (m + n) (Fin.appendEquiv m n '' A ×ˢ B) := by
-  sorry
-
-/-- Section 3.4b: the fibre `{y | Fin.append x y ∈ A}` of a definable `A ⊆ Rᵐ⁺ⁿ` over a point
-`x ∈ Rᵐ` is definable. -/
-theorem definable_setOf_append_mem {m n : ℕ} {A : Set (Fin (m + n) → R)}
-    (hA : S.Definable (m + n) A) (x : Fin m → R) :
-    S.Definable n {y | Fin.append x y ∈ A} := by
-  sorry
-
-/-- Section 3.4b: for the order topology, the closure of a definable set is definable. -/
-theorem definable_closure [TopologicalSpace R] [OrderTopology R] {n : ℕ} {A : Set (Fin n → R)}
-    (hA : S.Definable n A) : S.Definable n (closure A) := by
-  sorry
-
-/-- Section 3.4b: for the order topology, the interior of a definable set is definable. -/
-theorem definable_interior [TopologicalSpace R] [OrderTopology R] {n : ℕ}
-    {A : Set (Fin n → R)} (hA : S.Definable n A) : S.Definable n (interior A) := by
-  sorry
-
-variable {S}
-
-/-- Section 3.4b: the domain of a definable map is definable. -/
-theorem DefinableMapOn.definable {m k : ℕ} {f : (Fin m → R) → Fin k → R}
-    {A : Set (Fin m → R)} (hf : S.DefinableMapOn f A) : S.Definable m A := by
-  sorry
-
-/-- Section 3.4b: definable maps compose. -/
-theorem DefinableMapOn.comp {m k l : ℕ} {g : (Fin k → R) → Fin l → R}
-    {f : (Fin m → R) → Fin k → R} {A : Set (Fin m → R)} {B : Set (Fin k → R)}
-    (hg : S.DefinableMapOn g B) (hf : S.DefinableMapOn f A) (hfAB : MapsTo f A B) :
-    S.DefinableMapOn (g ∘ f) A := by
-  sorry
-
-/-- Section 3.4b: a definable map stays definable on a definable subset of its domain. -/
-theorem DefinableMapOn.mono {m k : ℕ} {f : (Fin m → R) → Fin k → R} {A A' : Set (Fin m → R)}
-    (hf : S.DefinableMapOn f A) (hA' : S.Definable m A') (h : A' ⊆ A) :
-    S.DefinableMapOn f A' := by
-  sorry
-
-/-- Section 3.4b: on a definable set, a map into `Rᵏ` is definable exactly when each of its
-coordinates is. -/
-theorem definableMapOn_iff_forall_definableFunOn {m k : ℕ} {f : (Fin m → R) → Fin k → R}
-    {A : Set (Fin m → R)} (hA : S.Definable m A) :
-    S.DefinableMapOn f A ↔ ∀ i, S.DefinableFunOn (fun x => f x i) A := by
-  sorry
-
-/-- Section 3.4b: the image of a definable map is definable. -/
-theorem DefinableMapOn.definable_image {m k : ℕ} {f : (Fin m → R) → Fin k → R}
-    {A : Set (Fin m → R)} (hf : S.DefinableMapOn f A) : S.Definable k (f '' A) := by
-  sorry
-
-/-- Section 3.4b: the preimage of a definable set under a definable map is definable. -/
-theorem DefinableMapOn.definable_inter_preimage {m k : ℕ} {f : (Fin m → R) → Fin k → R}
-    {A : Set (Fin m → R)} {B : Set (Fin k → R)} (hf : S.DefinableMapOn f A)
-    (hB : S.Definable k B) : S.Definable m (A ∩ f ⁻¹' B) := by
-  sorry
-
-/-- Section 3.4b: a definable map injective on `A` has a definable inverse on its image. -/
-theorem DefinableMapOn.exists_leftInvOn {m k : ℕ} {f : (Fin m → R) → Fin k → R}
-    {A : Set (Fin m → R)} (hf : S.DefinableMapOn f A) (hinj : InjOn f A) :
-    ∃ g : (Fin k → R) → Fin m → R, S.DefinableMapOn g (f '' A) ∧ LeftInvOn g f A := by
-  sorry
-
-end Calculus
-
 end OMinimalStructure
 
 /-- Section 3.4b: if the strict order is definable with parameters in a first-order structure on
@@ -228,7 +150,7 @@ theorem OMinimalStructure.definable_of_isSemialgebraic {R : Type*} [CommRing R] 
     (hs : TauCeti.IsSemialgebraic s) : S.Definable n s := by
   sorry
 
-/-! ## Monotonicity and cell decomposition (Section 3.4c) -/
+/-! ### Monotonicity and cell decomposition (Section 3.4c) -/
 
 namespace OMinimalStructure
 
@@ -263,11 +185,6 @@ inductive IsCellDecomposition (S : OMinimalStructure R) :
       𝒟.Finite → Setoid.IsPartition 𝒟 → (∀ C ∈ 𝒟, ∃ d, IsCell S (n + 1) d C) →
       IsCellDecomposition S n (image Fin.tail '' 𝒟) → IsCellDecomposition S (n + 1) 𝒟
 
-/-- Section 3.4c: cells are definable. -/
-theorem IsCell.definable {S : OMinimalStructure R} {n d : ℕ} {C : Set (Fin n → R)}
-    (h : S.IsCell n d C) : S.Definable n C := by
-  sorry
-
 variable [Nonempty R] [DenselyOrdered R] [NoMinOrder R] [NoMaxOrder R] [OrderTopology R]
 
 /-- Section 3.4c, the monotonicity theorem: a function definable on a set `A ⊆ R` is, on each
@@ -278,16 +195,6 @@ theorem monotonicity (S : OMinimalStructure R) {A : Set R} {f : R → R}
     (hf : S.DefinableFunOn (fun x : Fin 1 → R => f (x 0)) {x | x 0 ∈ A}) :
     ∃ F : Finset R, ∀ I ⊆ A \ F, I.OrdConnected →
       ContinuousOn f I ∧ (StrictMonoOn f I ∨ StrictAntiOn f I ∨ ∃ c, ∀ x ∈ I, f x = c) := by
-  sorry
-
-/-- Section 3.4c: cells are nonempty. -/
-theorem IsCell.nonempty {S : OMinimalStructure R} {n d : ℕ} {C : Set (Fin n → R)}
-    (h : S.IsCell n d C) : C.Nonempty := by
-  sorry
-
-/-- Section 3.4c: cells are locally closed. -/
-theorem IsCell.isLocallyClosed {S : OMinimalStructure R} {n d : ℕ} {C : Set (Fin n → R)}
-    (h : S.IsCell n d C) : IsLocallyClosed C := by
   sorry
 
 /-- Section 3.4c: cells are definably connected. If two definable sets, each open in the cell
@@ -307,11 +214,6 @@ theorem IsCell.exists_isOpen_image_comp {S : OMinimalStructure R} {n d : ℕ}
       IsOpen ((fun x => x ∘ ι) '' C) ∧
       ∃ g : (Fin d → R) → Fin n → R, S.DefinableMapOn g ((fun x => x ∘ ι) '' C) ∧
         ContinuousOn g ((fun x => x ∘ ι) '' C) ∧ ∀ x ∈ C, g (x ∘ ι) = x := by
-  sorry
-
-/-- Section 3.4c: a set is a cell of at most one dimension. -/
-theorem IsCell.unique {S : OMinimalStructure R} {n d d' : ℕ} {C : Set (Fin n → R)}
-    (h : S.IsCell n d C) (h' : S.IsCell n d' C) : d = d' := by
   sorry
 
 /-- Section 3.4c, the cell decomposition theorem, part (I): finitely many definable sets are
@@ -349,7 +251,7 @@ theorem isCellDecomposition_of_isCAD (S : OMinimalStructure ℝ)
     S.IsCellDecomposition n 𝒞 := by
   sorry
 
-/-! ## Definable dimension (Section 3.4d) -/
+/-! ### Definable dimension (Section 3.4d) -/
 
 section Dimension
 
@@ -360,11 +262,6 @@ contained in `A`; the empty set has dimension `⊥` (van den Dries, Chapter 4, �
 noncomputable def dim (S : OMinimalStructure R) {n : ℕ} (A : Set (Fin n → R)) : WithBot ℕ∞ :=
   ⨆ (d : ℕ) (C : Set (Fin n → R)) (_ : C ⊆ A) (_ : S.IsCell n d C), (d : WithBot ℕ∞)
 
-/-- Section 3.4d: dimension is monotone. -/
-theorem dim_mono (S : OMinimalStructure R) {n : ℕ} {A B : Set (Fin n → R)} (h : A ⊆ B) :
-    S.dim A ≤ S.dim B := by
-  sorry
-
 variable [Nonempty R] [DenselyOrdered R] [NoMinOrder R] [NoMaxOrder R] [OrderTopology R]
   (S : OMinimalStructure R)
 
@@ -374,14 +271,6 @@ theorem dim_eq_iSup_of_isCellDecomposition {n : ℕ} {𝒟 : Set (Set (Fin n →
     (h𝒟 : S.IsCellDecomposition n 𝒟) {A : Set (Fin n → R)}
     (hA : ∀ C ∈ 𝒟, C ⊆ A ∨ Disjoint C A) :
     S.dim A = ⨆ (C ∈ 𝒟) (_ : C ⊆ A) (d : ℕ) (_ : S.IsCell n d C), (d : WithBot ℕ∞) := by
-  sorry
-
-/-- Section 3.4d: a subset of `Rⁿ` has dimension at most `n`. -/
-theorem dim_le {n : ℕ} (A : Set (Fin n → R)) : S.dim A ≤ n := by
-  sorry
-
-/-- Section 3.4d: exactly the empty set has dimension `⊥`. -/
-theorem dim_eq_bot_iff {n : ℕ} {A : Set (Fin n → R)} : S.dim A = ⊥ ↔ A = ∅ := by
   sorry
 
 /-- Section 3.4d: a subset of `Rⁿ` has dimension `n` exactly when its interior is nonempty. -/
@@ -441,7 +330,7 @@ theorem dim_eq_semialgebraicDim (S : OMinimalStructure ℝ) {n : ℕ} {A : Set (
     (hA : S.Definable n A) : S.dim A = TauCeti.semialgebraicDim A := by
   sorry
 
-/-! ## Definable choice and curve selection (Section 3.4e) -/
+/-! ### Definable choice and curve selection (Section 3.4e) -/
 
 section Choice
 
@@ -486,8 +375,42 @@ end Choice
 
 end OMinimalStructure
 
-/-! ## CM types and reflex fields (Section 5.1) -/
+/-! ### The o-minimal structure `R_an,exp` (Section 3.5a) -/
 
+/-- The language of `R_an,exp` (Section 3.5a). Its function symbols of arity `n` are the real
+polynomial maps `ℝⁿ → ℝ`, the restricted analytic functions (equal on the closed cube `[−1,1]ⁿ`
+to a function analytic at every point of the cube, hence on an open neighbourhood of it, and
+zero outside the cube) and, in arity one, the real exponential; its only relation symbol is the
+binary strict order. Equality is part of first-order logic. With real parameters the
+polynomial symbols give the ordered-field operations (Bakker–Klingler–Tsimerman, §1.2,
+p.3). -/
+abbrev ranExpLanguage : FirstOrder.Language :=
+  ⟨fun n => {f : (Fin n → ℝ) → ℝ //
+      (∃ p : MvPolynomial (Fin n) ℝ, ∀ x, f x = MvPolynomial.eval x p) ∨
+      (∃ g : (Fin n → ℝ) → ℝ, AnalyticOnNhd ℝ g (Icc (-1) 1) ∧
+        ∀ x, f x = if x ∈ Icc (-1 : Fin n → ℝ) 1 then g x else 0) ∨
+      ∃ i : Fin n, n = 1 ∧ ∀ x, f x = Real.exp (x i)},
+    fun n => PLift (n = 2)⟩
+
+/-- `ℝ` as a `ranExpLanguage`-structure: each function symbol is interpreted by the function it
+names and the relation symbol by the strict order `x 0 < x 1`. -/
+noncomputable instance ranExpStructure : ranExpLanguage.Structure ℝ where
+  funMap f x := f.1 x
+  RelMap {n} r x := x ⟨0, by have := r.down; omega⟩ < x ⟨1, by have := r.down; omega⟩
+
+/-- Section 3.5a, the o-minimality of `R_an,exp`: the subsets of `ℝⁿ` definable with real
+parameters in `ranExpLanguage` are the definable sets of an o-minimal structure on `ℝ`. By
+`exists_oMinimalStructure_definable_iff` this is equivalent to every subset of `Fin 1 → ℝ` so
+definable being a finite union of points and open intervals (van den Dries–Miller, Israel J.
+Math. 85 (1994); see Bakker–Klingler–Tsimerman, §1.2, p.3). -/
+theorem exists_oMinimalStructure_ranExp :
+    ∃ S : OMinimalStructure ℝ, ∀ (n : ℕ) (s : Set (Fin n → ℝ)),
+      S.Definable n s ↔ (univ : Set ℝ).Definable ranExpLanguage s := by
+  sorry
+
+/-! ## Layer 5: Complex multiplication and Siegel existence -/
+
+/-! ### CM types and reflex fields (Section 5.1) -/
 
 open scoped ComplexConjugate
 
