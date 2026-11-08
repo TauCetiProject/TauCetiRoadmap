@@ -80,6 +80,7 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
@@ -104,6 +105,7 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
