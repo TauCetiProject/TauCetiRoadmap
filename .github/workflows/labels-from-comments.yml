@@ -28,12 +28,9 @@ jobs:
               'awaiting-dependencies',
               'roadmap-feedback',
               'meta',
-              'bug',
               'documentation',
               'enhancement',
-              'question',
               'help wanted',
-              'good first issue',
             ]);
             const commands = new Map();
             for (const raw of context.payload.comment.body.split(/\r?\n/)) {

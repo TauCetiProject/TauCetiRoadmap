@@ -198,8 +198,8 @@ Editing or deleting a comment does not undo a command; post a new comment instea
 Review bodies and inline review comments are not processed.
 
 The allowed labels are `awaiting-author`, `awaiting-review`, `awaiting-dependencies`,
-`roadmap-feedback`, `meta`, `bug`, `documentation`, `enhancement`, `question`,
-`help wanted`, `good first issue`, and `dont-repair-in-queue`. The last label records the
+`roadmap-feedback`, `meta`, `documentation`, `enhancement`, `help wanted`, and
+`dont-repair-in-queue`. The last label records the
 same repair preference used by TauCeti's implementation merge queue; it does not change
 Roadmap's human approval or GitHub merge-queue requirements.
 
