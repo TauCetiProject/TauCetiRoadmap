@@ -60,7 +60,7 @@ For homogeneous dynamics consume the quotient topology, left action and open quo
 
 `TauCeti.MeasureTheory.condExp_ae_eq_integral_of_forall_zero_or_one`, in `TauCeti/MeasureTheory/Function/ConditionalExpectation.lean`, identifies conditional expectation on a trivial sub-σ-algebra for an integrable observable in a complete normed real vector space. `MeasureTheory.tendsto_eLpNorm_condExp_iInf`, in `TauCeti/Probability/Martingale/Convergence.lean`, gives L¹ convergence along decreasing sub-σ-algebras below the ambient one, for a finite measure. In Layer 4 the measure is a probability and the functions are real indicators; these declarations give the constant-tail and reverse-L¹ inputs directly.
 
-`ContRepresentation.IsUnitary`, `ContRepresentation.isUnitary_iff_norm_map` and `ContRepresentation.IsUnitary.norm_inner_map_le`, in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`, and `ContRepresentation.IsUnitary.continuous_apply_prod`, in `TauCeti/RepresentationTheory/Continuous/Unitary/StronglyContinuous.lean`, supply unitarity, coefficient bounds and joint continuity for §4.9a. `MeasureTheory.Measure.leftRegular`, in `TauCeti/RepresentationTheory/Continuous/LeftRegular.lean`, is the left regular representation g↦(f↦f(g⁻¹·)) of a group on `Lp E p μ` for a left-invariant μ, unitary for p=2 (`MeasureTheory.Measure.isUnitary_leftRegular`) and strongly continuous for p≠∞ (`MeasureTheory.Measure.continuous_leftRegular_apply`); the packaging of §4.9a agrees with it when the group acts on itself by left multiplication. `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, in `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`, `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`, in `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, and `ZLattice.exists_basis_gauge_le_max_one_mul`, in `TauCeti/Algebra/Module/ZLattice/GaugeBasis.lean`, supply Minkowski's second theorem and reduced bases for Mahler's criterion in §4.9b.
+`ContRepresentation.IsUnitary`, `ContRepresentation.isUnitary_iff_norm_map` and `ContRepresentation.IsUnitary.norm_inner_map_le`, in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`, and `ContRepresentation.IsUnitary.continuous_apply_prod`, in `TauCeti/RepresentationTheory/Continuous/Unitary/StronglyContinuous.lean`, supply unitarity, coefficient bounds and joint continuity for §4.9a. `MeasureTheory.Measure.leftRegular`, in `TauCeti/RepresentationTheory/Continuous/LeftRegular.lean`, is the left regular representation g↦(f↦f(g⁻¹·)) on `Lp E p μ`, for a group G with measurable multiplication, a left-invariant μ, a normed module E over a normed ring and 1≤p. It is unitary for p=2 when E is an inner product space over ℝ or ℂ (`MeasureTheory.Measure.isUnitary_leftRegular`), and it is strongly continuous (`MeasureTheory.Measure.continuous_leftRegular_apply`) when G is a topological group with its Borel σ-algebra, μ is locally finite and inner regular on finite-measure sets by compact sets, and p≠∞. The packaging of §4.9a agrees with it when the group acts on itself by left multiplication. `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, in `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`, `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`, in `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, and `ZLattice.exists_basis_gauge_le_max_one_mul`, in `TauCeti/Algebra/Module/ZLattice/GaugeBasis.lean`, supply Minkowski's second theorem and reduced bases for Mahler's criterion in §4.9b.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -101,7 +101,9 @@ Begin with the coprime-product law. Prime-power representation then determines w
 Define `IsAdditive`. For f:ArithmeticFunction R with R an additive commutative monoid, IsAdditive f means
 f(1)=0 and f(mn)=f(m)+f(n) for positive coprime m,n. Native f(0)=0 is retained; multiplication is on inputs,
 not Dirichlet convolution. ([ElsholtzTao2011](#references) Appendix A, additive convention and Lemma A.2,
-physical pp.37–38; [PNTPlus](#references) `IwaniecKowalskiCh1.lean`, `IsAdditive`.)
+physical pp.37–38.) The predicate `IsAdditive` of [PNTPlus](#references) (`IwaniecKowalskiCh1.lean`, lines 43–44)
+is the coprime law on positive inputs alone, for an `AddZeroClass` codomain, without the clause f(1)=0. It agrees
+with this one when R is additively cancellative, since f(1)=f(1·1)=f(1)+f(1) then forces f(1)=0.
 
 Its basic API consists of these facts.
 
@@ -121,6 +123,10 @@ at zero. The API is used by prime-power representation and the quadratic mean bo
 - The real cast of native Omega is additive.
 
 - The convolution unit takes value 1 at input 1 and is not additive.
+
+- Over the extended natural numbers ℕ∞, the arithmetic function equal to ⊤ at every positive integer satisfies
+  the coprime law, since ⊤=⊤+⊤, but is not additive, because its value at 1 is ⊤. The coprime law alone, without
+  the clause f(1)=0, would accept it.
 
 *Needs:* Mathlib `ArithmeticFunction`.
 
@@ -6359,9 +6365,10 @@ Prove scalarLpKoopman_strong: if G is a topological group acting continuously on
 **Checks.**
 
 - For the symmetric group S₃ acting on {1,2,3} with counting measure and p=2, π((12))δ₁=δ₂ and π((23))π((12))δ₁=δ₃=π((23)(12))δ₁, with ‖δ₁‖₂=1. The pullback f∘(g•) without the inverse sends δ₁ to the indicator of the point g⁻¹(1): it gives δ₃ for the composite of the two operators but δ₂ for the operator of the product (23)(12), so it violates the product law, and the trivial representation leaves δ₁ fixed.
-- When G acts on itself by left multiplication and μ is left invariant, scalarLpKoopman p μ is Tau Ceti `MeasureTheory.Measure.leftRegular` with scalars and values ℂ: for G=ℝ under addition with Lebesgue measure, p=2 and t=1, both send 1_[0,1] to 1_[1,2], of norm 1, whereas the pullback without the inverse gives 1_[−1,0].
+- When G, with measurable multiplication, acts on itself by left multiplication and μ is left invariant, scalarLpKoopman p μ is Tau Ceti `MeasureTheory.Measure.leftRegular` with scalars and values ℂ: for G=ℝ under addition with Lebesgue measure, p=2 and t=1, both send 1_[0,1] to 1_[1,2], of norm 1, whereas the pullback without the inverse gives 1_[−1,0].
 - For G=ℤ acting on the circle by n•x=x+nα with α irrational and p=2, π(1) is f↦f(·−α); on the character e_k it has eigenvalue e(−kα), whereas the other convention f↦f(·+α) gives e(kα), and the two differ for k≠0.
 - The hypothesis p≠∞ is needed: for G=ℝ acting on itself by translation with Lebesgue measure, the indicator of [0,1] satisfies ‖π(t)1_[0,1]−1_[0,1]‖_∞=1 for every t≠0.
+- Local finiteness is needed: counting measure on ℝ, with the Borel σ-algebra and the translation action, is invariant and inner regular on finite-measure sets by compact sets (those sets are finite), but every neighbourhood of 0 has infinite mass. For p=2, π(t) sends the indicator δ₀ of the point 0 to the indicator δₜ of the point t, so ‖π(t)δ₀−δ₀‖₂=√2 for every t≠0 and t↦π(t)δ₀ is not continuous at 0. The same holds for Tau Ceti `MeasureTheory.Measure.leftRegular`, whose strong continuity carries the same hypothesis.
 
 *Needs:* Mathlib `DomMulAct.smul_Lp_ae_eq`; Mathlib `DomMulAct.norm_smul_Lp`; Mathlib `DomMulAct.mk_mul`; Mathlib `DomMulAct.continuous_mk`; Mathlib `MeasureTheory.Lp.instContinuousSMulDomMulAct`; Tau Ceti `ContRepresentation.IsUnitary`; Tau Ceti `ContRepresentation.isUnitary_iff_norm_map`.
 
@@ -7161,7 +7168,7 @@ The locators above use the linked author, preprint or published version. Page nu
 
 - **IK2004** — Henryk Iwaniec and Emmanuel Kowalski, *Analytic Number Theory*, American Mathematical Society Colloquium Publications 53, 2004, Chapter 1, additive, completely additive and multiplicative arithmetic functions; cited by locator.
 
-- **PNTPlus** — Alex Kontorovich, Terence Tao and contributors, [Prime Number Theorem and More (PrimeNumberTheoremAnd)](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd). Lean formalisation, GitHub repository, file `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean`; cited for §0.1.
+- **PNTPlus** — Alex Kontorovich, Terence Tao and contributors, [Prime Number Theorem and More (PrimeNumberTheoremAnd)](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/127b50e33f6033e2147921167a117af96d9ba4ea/PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean). Apache-2.0 Lean formalisation, file `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` at revision 127b50e33f6033e2147921167a117af96d9ba4ea, `IsAdditive` at lines 43–44; cited for §0.1.
 
 - **ElsholtzTao2011** — Christian Elsholtz and Terence Tao, [Counting the number of solutions to the Erdős–Straus equation on unit fractions](https://terrytao.wordpress.com/wp-content/uploads/2011/07/egyptian-count13.pdf). Author manuscript, egyptian-count13 (2011)
 
