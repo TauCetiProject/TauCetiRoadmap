@@ -34,10 +34,12 @@ Consume the manifold `TauCeti.MorseChart` and
 [Geometry/Manifold/Morse/Lemma](https://github.com/TauCetiProject/TauCeti/blob/e8375e4fdc90df4033f28291a72d5f64234a301a/TauCeti/Geometry/Manifold/Morse/Lemma.lean);
 its quadratic equation carries a factor 1/2
 and an unordered list of ±1 weights. M1 supplies arbitrary-model transport,
-ordering/scaling and intrinsic-Hessian comparisons. The linked upstream
-manifold-chart and compact-finiteness APIs supply those construction targets;
-Suggested.lean uses the pinned Morse Basic/Index and vector-space NormalForm
-interfaces for its signatures.
+ordering/scaling and intrinsic-Hessian comparisons. The Morse-lemma,
+pseudo-gradient, compact-sublevel, global-flow and Riemannian-gradient files
+linked in this README exist in Tau Ceti at commit e8375e4f, later than the
+pinned a91d3aaf; their declarations are cited at that commit and consumed
+as stated there. Suggested.lean uses only the pinned Morse Basic/Index and
+vector-space NormalForm interfaces for its signatures.
 Own the single boundaryless-model transport on a named `def` type synonym
 M′ carrying M's topology, with an explicitly supplied E-charted structure
 and a constructed `IsManifold 𝓘(ℝ,E) ∞ M′` instance; do not install a second
@@ -56,25 +58,43 @@ along the scalar zero-subtype/level homeomorphism used in M2. These are
 narrow chart-form comparisons, with no general immersion-composition theorem
 as an input. Include critical/index and `IsAdaptedPseudoGradient` comparisons.
 All arbitrary-model consumers use this transport. Use Mathlib `PartialDiffeomorph`, `IsProperMap`, `CWComplex`, `RelCWComplex`,
-`ContinuousMap.HomotopyEquiv` and native singular (co)homology.
+`ContinuousMap.HomotopyEquiv` and native singular homology; cohomology comes
+from AlgebraicTopology Stage 6.
 
 [DG Layers 3,5,10,12](../DifferentialGeometry/README.md) supply flows, boundary-orientation interfaces,
 partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
 [AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
 chains, cofibrations, cellular/singular comparison, products, integral duality
 and relative homotopy. M4’s arbitrary-function LS bound consumes the
-categorical-cover/cup-length supplement after AT6.2; that supplement uses
+[categorical-cover/cup-length supplement in AT Stage 6](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality); that supplement uses
 only foundational products and native homotopies, not Morse theory or
 manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
-normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
+normal/tubular geometry, collars, handle gluing and disc bundles; this
+roadmap owns Brown's bicollared generalized Schoenflies theorem as the input
+of M4.1. The pinned Tau Ceti supplies local flatness (`IsLocallyFlat`, in
+`Geometry/Manifold/LocallyFlat/Basic`) and Brown's codimension-one
+bicollaring theorem (`brownBicollaring` in `LocallyFlat/Brown` and
+`IsLocallyBicollaredWithSides.exists_isBicollar` in `LocallyFlat/TwoSided`),
+and states the annulus conjecture (`AnnulusConjecture` in
+`LocallyFlat/Annulus`) without proving it; GT Layer 2 keeps the annulus
+theorem. [CharacteristicClasses C2](../CharacteristicClasses/README.md)
 supplies ordinary Thom classes and their local orientation coefficients.
+This roadmap owns Brouwer's invariance of domain in M4.1, in its
+equal-dimension form: a continuous injection from an open subset of ℝ^m into
+ℝ^m is an open map, and so, in charts, is a continuous injection between
+topological m-manifolds without boundary. Its homological inputs, the
+Jordan–Brouwer separation theorem and the acyclicity of the complement of an
+embedded closed ball in S^m, are the pinned Tau Ceti's
+`natCard_zerothHomotopy_sphere_compl_range_eq_two` and
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall`; M4.1 owns
+only the open-map deduction.
 
 This roadmap owns ordinary finite Morse deformation/attachment and their
 abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
 vertex carrier, Jacobi/index comparison and path-space limit, consuming this
 core. The symmetric-space and Bott applications use the same broken-path
 carrier and the attachments here, following
-[HomotopySpheres §4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284).
+HomotopySpheres §4B.
 [HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
 manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
 homology and its singular comparison. It consumes the finite Morse core here;
@@ -157,7 +177,9 @@ of f by constant subtraction, `range I=univ` and M1's `mfderiv` comparison;
 this supplies `hsurj`. `sectionLinearization_trivial` is a cross-check of
 that identification, not an input to the explicit constructor. Construct the actual zero-subtype/level
 homeomorphism induced by s(x)=0 iff f(x)=c and transfer these specific charts
-along it as `scalarRegularLevelChartedSpace`. The existential
+along it as the named scalar-level atlas, whose
+existence, smooth-embedding and tangent-range laws are packaged as
+`exists_scalarRegularLevelData`. The native existential
 `exists_isManifold_sectionZero_of_contMDiff` is a cross-check of the result.
 
 Export the chartAt/atlas, source/target, extend and inverse formulas for this
@@ -238,7 +260,7 @@ union of its reindexed lower/upper levels. Prove both smooth directions
 from these public source/target/apply/inverse laws; no private chartAt
 lemma or equality of differently typed `IsManifold` statements is an input.
 
-Consume [DifferentialGeometry 5.1's orientation interface](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
+Consume [DifferentialGeometry 5.1's orientation interface](../DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
 for `boundaryOrientation_spec`, on this native boundary manifold. Pin the
 metric-free outward co-orientation: df(v)>0 on ∂M_a and the upper band face,
 df(v)<0 on the lower band face. Mathlib's inward slot0 has outward vector
@@ -403,7 +425,8 @@ Iterate finite critical levels to construct compatible relative CW models for
 sublevel pairs. For a proper bounded-below Morse function, choose an exhausting
 sequence of regular levels with finite critical sets at each stage, prove the
 cofibration/compatibility statements and pass to a genuine CW complex homotopy
-equivalent to M with one λ-cell per critical point. Consume Mathlib TopCat
+equivalent to M with one λ-cell per critical point, with the cell counts
+compared in ℕ∞ (`exists_cwComplex_homotopyEquiv`). Consume Mathlib TopCat
 pushouts and AT4.5's `relativeCWPushout`, `relativeCWPushoutCWModel`,
 `homotopyPushoutGluingComparison`, `cofibrationTowerHomotopyEquivalence`
 and `cwSubcomplexTowerUnion`.
@@ -463,6 +486,10 @@ complex of M2 prove
 
 `Σ c_j t^j = Σ b_j t^j + (1+t)Q(t)`, with Q∈ℕ[t].
 
+This is `morse_inequalities`, stated coefficientwise in ℕ∞ with `bettiNumber`
+the dimension of the singular homology of M with coefficients in k, a field
+in M's universe; its finite left side is part of the claim.
+
 Identify Q's coefficients with the ranks of adjacent boundary maps; derive
 all strong alternating inequalities, the weak inequalities, Euler equality
 and total-critical-point lower bounds. Weak inequalities plus Euler equality
@@ -479,9 +506,9 @@ cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
 **Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
-AlgebraicTopology's categorical-cover supplement after Stage 6.2, with its
+[AlgebraicTopology Stage 6’s categorical covers and Lusternik–Schnirelmann bounds](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality), with its
 same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
-`lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
+`lsCupLength` carriers. Here prove the critical-point bound for **every
 smooth real-valued f on a compact boundaryless finite-dimensional smooth
 Hausdorff second-countable manifold M**, allowing arbitrary critical
 point degeneracy. Use the native manifold derivative zero locus; compare
@@ -489,7 +516,13 @@ point degeneracy. Use the native manifold derivative zero locus; compare
 `criticalPoints`. Both give the same critical set for these smooth data.
 Set `totalCriticalCount f=(criticalPoints f).encard : ℕ∞`. Prove
 
-`lsCategoryCount M M≤totalCriticalCount f`.
+`lsCategoryCount M M≤totalCriticalCount f`
+
+(Takens, *The minimal number of critical points of a function on a compact
+manifold and the Lusternik-Schnirelman category*, Invent. Math. 6 (1968),
+Introduction, p. 198, where the inequality for closed manifolds is attributed
+to Lusternik and Schnirelmann and the unnormalized category L.S.(X) is
+defined by open covers by sets contractible in X).
 
 For nonempty connected M this gives
 `#Crit(f)≥cat(M)+1≥cupLength(M;R)+1`, with cat(point)=0 and R any
@@ -562,7 +595,9 @@ Morse functions; prove nonemptiness, attainment, independence of the supplied
 witness and the universal lower bounds. The resulting natural minimum is
 also the extended-cardinal minimum over **all** smooth functions: infinite
 critical sets contribute∞ and cannot lower an existing finite minimum.
-This is the source's c(M), not a new restriction to Morse functions. Without
+This is Takens' F.(M), the minimum over all smooth functions of the number
+of critical points (Takens 1968, Introduction, p. 198), not a new restriction
+to Morse functions. Without
 the witness retain the extended counting statement, with no default finite
 minimum. This bound is not an Arnold fixed-point theorem.
 
@@ -575,16 +610,227 @@ smooth degenerate functions there. Manifolds with boundary are excluded:
 f(t)=t on [0,1] has no ordinary interior critical points. Relative/boundary
 Morse conditions require their own hypotheses and are not added here.
 
+### M4.1. Two critical points with arbitrary degeneracy
+
+Prove `nonempty_homeomorph_sphere_of_two_criticalPoints`: if M is compact,
+connected, boundaryless and smooth of real dimension m>0, and a smooth
+f:M→ℝ has exactly two distinct critical points, construct an actual
+homeomorphism M≃ₜS^m. Both critical points may be degenerate, including
+vanishing Hessians. The count is the same derivative-zero point count used
+above, not a count of critical values. Compact extrema and the boundaryless
+Fermat theorem identify the two points as the unique minimum p and maximum q,
+with a=f(p)<f(q)=b; every value in (a,b) is regular. This theorem is separate
+from the LS inequality: a categorical contraction or category bound does not
+recognize a disc or sphere. Do not perturb f to Morse while assuming its
+critical count stays two.
+
+First construct `exists_twoEuclideanOpenCover_of_two_criticalPoints`, with
+actual open subsets U,V covering M and homeomorphisms U≃ₜℝ^m and V≃ₜℝ^m.
+Choose a coordinate ball B at p with compact closure avoiding q and a coordinate
+ball V at q avoiding p. Consume the smooth metric and complete compact-manifold
+flow suppliers from DG3/DG12 already used in M2, using X=−grad f itself, not
+an adapted Morse pseudo-gradient. Its global flow Φ_t is a diffeomorphism
+with inverse Φ_−t and d(f∘Φ_t)/dt=−‖grad f‖². Since p is the unique minimum,
+choose ε>0 with {f≤a+ε}⊂B. This sublevel is invariant under the descending
+flow; no assertion that it is a disc is needed. K=M\V is compact and excludes
+the unique maximum, so choose δ>0 with f(K)≤b−δ. If K already lies below
+a+ε, use time0; otherwise on the compact critical-free band
+f⁻¹[a+ε,b−δ] the gradient norm has a strictly positive lower bound η.
+The energy identity gives a single T>0 sending every point of K into
+{f<a+ε}⊂B, by choosing T larger than the band width divided by η².
+Prove this uniform estimate, including trajectories which enter the invariant
+lower sublevel earlier. Then U=Φ_−T(B) covers K, and U∪V=M. The chart-ball
+homeomorphisms and Φ_T give the required Euclidean maps. This uses compact
+flow and elementary value estimates, not continuity of pointwise hitting times
+or the nondegenerate local normal form. Negating f gives the symmetric cover.
+
+*Needs:* M4's boundaryless Fermat theorem and the compact extreme-value
+theorem; DG3/DG12's smooth metric, the complete flow of a smooth vector field
+on a compact manifold and its energy identity; M1's coordinate balls at p
+and q.
+
+**Checks.**
+- Standard height h on S^m, m>0: p and q are the poles, B and V polar caps,
+  K=S^m∖V a closed cap, and Φ_(−T)(B) is a cap containing K; a construction
+  using Φ_T(B) in place of Φ_(−T)(B) shrinks B into itself and covers no
+  point of K outside B.
+- f=h−h³/3 on S^m: the same two critical points, both with vanishing Hessian;
+  the estimate uses only η=min‖grad f‖>0 on the compact band f⁻¹[a+ε,b−δ],
+  which contains no critical point, so no normal form is needed and none is
+  available.
+- Negative control: f=h² on S^m, m>0, has critical set {poles}∪{h=0}, with
+  count ⊤ for m≥2 and 4 for m=1, where the equator is two points; so
+  `totalCriticalCount f=2` fails in every dimension, while a count of critical
+  values, which is two here, would wrongly admit it.
+- Negative control: m=0 is excluded by the dimension hypothesis, since a
+  connected compact 0-manifold is a point with one critical point.
+
+Next prove **Brown's generalized Schoenflies theorem**, owned here as the
+topological input of M4.1: for m≥1 and a topological embedding
+β:S^(m−1)×[−1,1]→S^m, the complement of Σ=β(S^(m−1)×{0}) has exactly two
+components, and the closure of each is homeomorphic to the closed ball D^m by
+a homeomorphism carrying its frontier Σ onto ∂D^m (Brown 1960, Theorem 5,
+p. 76; Theorem 5 states only that each closure is an m-cell, and the frontier
+clause holds for the homeomorphism of Brown's proof of Theorem 2, which
+agrees near the frontier with the collapsing map of the proof of Theorem 5,
+and that map carries Σ onto the equator). For m≥2 the two open collar sides
+β(S^(m−1)×(0,1]) and β(S^(m−1)×[−1,0)) are connected and lie one in each
+component; for m=1 each of the two points of Σ has one of its two collar
+arcs in each component. The separation statement is the pinned Tau Ceti's
+Jordan–Brouwer theorem `natCard_zerothHomotopy_sphere_compl_range_eq_two`
+(`AlgebraicTopology/Singular/JordanBrouwer`): the complement of the image of
+a continuous injection of the unit sphere of a finite-dimensional real
+normed space E into the unit sphere of a space of dimension dim E+1 has
+exactly two path components. It applies to β(·,0) on the unit sphere of
+`EuclideanSpace ℝ (Fin m)`, and S^m∖Σ is open in S^m, so its components are
+its path components. Follow Brown's route: a cellular subset of an m-cell has
+an m-cell quotient (Theorems 0–2), a map of S^m onto itself whose only point
+preimages with more than one point are two sets A,B has A and B cellular
+(Theorems 3–4), and the map collapsing the two outer collar pieces to the
+poles has exactly those two inverse sets. The hypothesis is the explicit
+bicollar β; no local-flatness theorem, annulus theorem or
+Alexander-horned-sphere analysis is an input, and the statement is false for
+the horned sphere, which has no bicollar.
+Brown's Theorem 0 uses Brouwer's invariance of domain, whose open-map step is
+owned in this target: for every m a continuous injection from an open subset
+of ℝ^m into ℝ^m is an open map, hence, read in charts, so is a continuous
+injection from an open subset of a topological m-manifold without boundary
+(in particular of the interior of an m-cell, or of S^m) into another, and
+such an injection is an open embedding (Hatcher, *Algebraic Topology*,
+Theorem 2B.3, p. 172). Its two homological inputs are at the pin: for a
+continuous injection h of the closed m-ball into S^m, the reduced homology
+of S^m∖h(D^m) vanishes in every degree,
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall`
+(`AlgebraicTopology/Singular/CubeComplement`, stated for a Hausdorff space
+whose point complements are acyclic, which S^m is by
+`isZero_reducedSingularHomologyFunctor_sphere_compl_singleton`), and
+S^m∖h(∂D^m) has exactly two path components, the Jordan–Brouwer theorem
+above (Hatcher, Proposition 2B.1 and Corollary 2B.2, p. 169). What is
+proved here is Hatcher's deduction for m≥1: h(int D^m) and S^m∖h(D^m) are
+disjoint with union S^m∖h(∂D^m); the first is path connected, and the
+second is nonempty, since otherwise S^m∖h(∂D^m) would be path connected,
+and hence path connected by the vanishing of its reduced H̃₀; so they are the
+two path components, and they are open because S^m∖h(∂D^m) is open in S^m.
+For m=0 the statement concerns a point. In Theorem 0 this applies to f on
+the interior of Q minus its finitely many inverse sets, an open subset of
+int Q, so that only finitely many points of f(Q)∩D are frontier points of
+f(Q).
+The pinned Tau Ceti's local-flatness theory (`IsLocallyFlat`,
+`brownBicollaring`, `IsLocallyBicollaredWithSides.exists_isBicollar`) and
+GeometricTopology Layer 2's annulus theorem are not inputs here, because the
+bicollar below is written down in coordinates.
+
+*Needs:* the pinned Tau Ceti's
+`natCard_zerothHomotopy_sphere_compl_range_eq_two`,
+`isZero_reducedSingularHomologyFunctor_compl_range_closedBall` and
+`isZero_reducedSingularHomologyFunctor_sphere_compl_singleton`, for the
+separation statement and for invariance of domain; Brown's Theorems 0–4 and
+the open-map step of invariance of domain, owned in this target; Mathlib's
+`OnePoint` compactification.
+
+**Checks.**
+- m=1: a bicollar S⁰×[−1,1]→S¹ has image two disjoint closed arcs; Σ is two
+  points; S¹∖Σ has two components, open arcs, whose closures are closed arcs
+  ≃D¹ with endpoints Σ.
+- The equator of S^m with its latitude bicollar: the two closures are the
+  closed hemispheres, each ≃D^m with frontier the equator.
+- Negative control: the Alexander horned sphere in S³ has a complementary
+  domain that is not simply connected, so its closure is not D³; it admits
+  no bicollar and does not satisfy the hypothesis.
+- Separation: the pinned Jordan–Brouwer theorem gives exactly two path
+  components of S^m∖Σ, which are its components because S^m∖Σ is open in
+  S^m; "at least two components" would not determine which closure is which
+  cell.
+- Collar sides at m=1: with Σ={p,q} at the angles 0 and π on S¹ and the
+  bicollar β(+1,t) at the angle εt, β(−1,t) at the angle π−εt, both halves of
+  the side β(S⁰×(0,1]) lie in the upper arc; so at m=1 the two components are
+  not labelled by the two sides, while for m≥2 each side is connected and
+  lies in one component.
+- Invariance of domain: x↦x³ on ℝ is injective and carries (a,b) onto
+  (a³,b³), an open set; x↦x² is not injective and carries (−1,1) onto [0,1),
+  not open, so injectivity is not removable.
+- Invariance of domain, equal dimensions: x↦(x,0) from ℝ into ℝ² is a
+  continuous injection whose image contains no open set of ℝ²; the theorem
+  compares ℝ^m with itself.
+- Invariance of domain, cell interior: the inclusion of D¹=[−1,1] as an arc
+  of S¹ is a continuous injection carrying [−1,0), open in D¹, onto a
+  half-open arc, which is not open in S¹; the statement is about open
+  subsets of the interior of the cell.
+
+Then prove the **two-open-cell lemma**
+`nonempty_homeomorph_sphere_of_two_euclidean_opens`. For any compact Hausdorff
+space X covered by two open subsets U,V each homeomorphic to ℝ^m, m>0,
+construct X≃ₜS^m. In U coordinates choose a closed round m-ball D of radius r
+whose interior contains the compact set X\V. Thus Σ=∂D lies in the open set
+U∩V, and by compactness so does a thin coordinate annulus
+{r−η≤|u|≤r+η}; radial coordinates on it give an explicit bicollar
+β:S^(m−1)×[−1,1]→V of Σ. The complement C=X\int D is compact and lies
+inside V. Identify the one-point compactification of V≃ₜℝ^m with S^m using
+native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`, and
+apply Brown's theorem to β there. The two open sets X\D and
+(int D∩V)∪{∞} are nonempty and disjoint and partition S^m\Σ (the second is
+open because its complement C is compact in V); since S^m\Σ has exactly two
+components, each of the two sets is one of them, the outer collar side
+{r<|u|≤r+η} lying in the first and the inner side in the second. Hence C is
+the closure of the complementary component not containing ∞, and Brown gives
+C≃ₜD^m with its actual boundary map. D is the other closed cell. Compare
+their union with the boundary pushout, and extend the boundary gluing
+homeomorphism radially by the Alexander map to obtain X≃ₜS^m. Include m=1
+(two arcs and their two endpoints) explicitly; no high-dimensional surgery,
+Poincaré conjecture or differentiable Schoenflies statement is an input.
+For smooth M the cover of the previous paragraph consists of open sets
+diffeomorphic to ℝ^m, the hypothesis of Milnor 1959, Theorem 1(3), whose
+Corollary 1 (p. 442) is this topological conclusion; the lemma here needs
+only homeomorphisms.
+
+*Needs:* Brown's theorem above; Mathlib's `Homeomorph.onePointCongr` and
+`onePointEquivSphereOfFinrankEq`; the radial (Alexander) extension to D^m of a
+homeomorphism of ∂D^m, owned in this target.
+
+**Checks.**
+- X=S¹ as the union of two open arcs U,V: D is a closed subarc of U containing
+  S¹∖V, C=S¹∖int D is the complementary closed arc, and gluing the two arcs
+  along their two endpoints gives S¹, using the m=1 case of Brown's theorem.
+- X=S^m with U,V the complements of the two poles: D is a closed polar cap
+  and C the opposite closed cap; Brown identifies C with D^m and the radial
+  extension gives S^m.
+- Negative control: m=0 and X a point: U=V=X≃ℝ⁰ cover X, but X is not S⁰;
+  excluded by m>0.
+- Negative control: X=ℝ^m with U=V=X satisfies the cover hypotheses and is
+  not a sphere; excluded by compactness.
+- Negative control: a closed ball D^m, m>0, and the wedge S^m∨S^m have points
+  with no neighborhood homeomorphic to ℝ^m, so no such cover exists.
+
+Compose the two constructions for the degenerate Reeb–Milnor/Rosen theorem.
+Its output is topological only; exotic smooth spheres are not identified
+diffeomorphically with the standard sphere. In the nondegenerate case compare
+this result with M1/M2's two-disc-handle route at the level of existence of a
+homeomorphism, without asserting that two arbitrary choices of homeomorphism
+are isotopic. The all-smooth theorem does not assert that every small regular
+sublevel at a degenerate extremum is a disc or that its regular level is a
+standard sphere.
+
+*Needs:* the two preceding targets of M4.1 only.
+
+As a degenerate regression take standard height h:S^m→[−1,1] and
+f=h−h³/3, m>0. Compute df=(1−h²)dh: its critical set is exactly the two poles,
+and both intrinsic Hessians vanish. Apply the all-smooth theorem directly;
+M1's nondegenerate chart theorem is inapplicable to this f. Retain all empty,
+dimension0, boundary, infinite-critical-count and arbitrary-function LS cases
+above unchanged; they are not extra hypotheses on this positive-dimensional
+sphere theorem.
+
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
 inequality; and closed connected positive-dimensional M with exactly two
-critical points is homeomorphic to a sphere. The last conclusion follows from
-two disc handles and the topological radial extension of the boundary gluing;
-no diffeomorphism-to-standard-sphere assertion is made. Complex projective
-moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+critical points is homeomorphic to a sphere. For a Morse function the last conclusion follows from M1/M2's two disc
+handles and radial boundary extension. For an arbitrary smooth function,
+including degenerate extrema, use M4.1's Euclidean-open-cover and two-open-cell
+construction. Neither route asserts a diffeomorphism to the standard sphere. Complex projective
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
-through K1/#279's real restriction of the complex affine charts, the concrete
+through K1's real restriction of the complex affine charts, the concrete
 real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and
 `IsManifold Ireal_n ∞` structures, and complex orientation. Use the actual
 root theorem `finrank_real_of_complex` and `Module.finrank_pi` to identify
@@ -643,12 +889,20 @@ and finite convergence on compact M. Deduce Morse–Bott strong inequalities
 with the shifted critical-component Betti polynomials and the correct negative-
 orientation coefficients. Prove the ordinary Morse specialization is M2/M4.
 Hamiltonian [ConvexityToric T2](../SymplecticGeometry/ConvexityToric/README.md) consumes this attachment theorem and supplies
-complex negative bundles/equivariant perfection; Riemannian/PR284 path
+complex negative bundles/equivariant perfection; RiemannianGeometry and HomotopySpheres path
 applications supply their own critical components and Jacobi negative bundles.
 
 ## M6. Gradient convergence and exponential decay
 
-Consume `TauCeti.Manifold.riemannianGradient`, DG's maximal smooth gradient
+The gradient is [DifferentialGeometry 12.2](../DifferentialGeometry/README.md)'s
+`mgradient`: the pinned `Riemannian.Tensor.rieszDual`
+(`Geometry/Manifold/VectorBundle/Riemannian/Riesz`, the inverse of
+`InnerProductSpace.toDual` on the fibre) applied to `mfderiv I 𝓘(ℝ) f x`, for
+the inner product that Mathlib's `RiemannianBundle` puts on `TangentSpace I x`.
+The `mgradient` of `Suggested.lean` is that definition with the same body,
+restated so that the M6 headlines are statable; the smoothness of the metric
+is the hypothesis `IsContMDiffRiemannianBundle I ∞ E` on the tangent bundle.
+Consume DG's maximal smooth gradient
 flow and native vector-space
 `Morse/{GradientFlow,Convergence,Linearization,ExponentialConvergence}` estimates,
 including `IsIntegralCurveOn.exists_tendsto_atTop`,
@@ -662,8 +916,29 @@ negative-gradient trajectory trapped in a compact set, prove global forward
 existence, energy monotonicity and dissipation. Construct its nonempty
 connected omega-limit set, show it consists of critical points using flow
 invariance and dissipation, and use finiteness of the critical set to identify
-a single limit p. A proper bounded-below Morse function traps every forward
-trajectory in its initial compact sublevel, giving that corollary.
+a single limit p. This is `tendsto_of_isMIntegralCurveOn_neg_mgradient`: for a
+Morse f, a smooth metric and a curve γ that is an integral curve of −`mgradient`
+on [0,∞) in the sense of Mathlib's `IsMIntegralCurveOn` with γ([0,∞)) inside a
+compact set K, there is a critical point p in K with γ(t)→p. A proper
+bounded-below Morse function traps every forward trajectory in its initial
+compact sublevel, giving that corollary.
+
+**Checks.**
+- Standard height h on S^m: a trajectory of −grad h starting off the poles
+  stays in S^m and converges to the south pole, the unique critical point in
+  its ω-limit set; the north pole, a critical point, is never the limit of a
+  trajectory starting elsewhere.
+- Negative control: f(x)=x on ℝ has trajectories x(t)=x₀−t, trapped in no
+  compact set and convergent to no point; the compact-trapping hypothesis is
+  not removable.
+- Negative control: on ℝ with f(x)=x and the pointwise metric g=λg₀, where
+  λ(x)=x⁻² for x≠0 and λ(0)=1, an inner product at every point but
+  discontinuous at the regular point q=0, the field −grad_g f=−λ⁻¹ is −x² off
+  0 and −1 at 0; the trajectory from x₀>0 is x(t)=x₀/(1+x₀t), which converges
+  to the regular point 0 without reaching it, so the conclusion fails; the
+  theorem needs the smooth-metric hypothesis `IsContMDiffRiemannianBundle`.
+- A trajectory trapped in a compact K of a noncompact manifold has its limit
+  in K, since K is closed; the theorem needs no compactness of the manifold.
 
 Transport native `exists_mul_abs_sub_le_norm_gradient_sq` to manifold charts
 with equivalent metric norms. Prove locally `|f−f(p)|≤C‖grad f‖²` and
@@ -671,7 +946,23 @@ two-sided gradient/distance estimates. On a convergent descending trajectory
 E(t)=f(γ(t))−f(p)≥0; derive exponential decay of E and bound tail length by
 a constant times √E using its derivative and dissipation. Deduce
 `dist(γ(t),p)≤C' exp(−ct)` after a finite entry time. Treat an equilibrium
-separately; a saddle limit does not require local positivity of f−f(p).
+separately; a saddle limit does not require local positivity of f−f(p). This
+is `exists_edist_le_exp_of_tendsto_neg_mgradient`, stated for the Riemannian
+extended distance (Mathlib's `IsRiemannianManifold`, the distance being the
+infimum of lengths of C¹ paths) and every t≥0, the finite entry time absorbed
+into the constant: for a Morse f, a smooth metric and a forward trajectory
+γ→p, there are C and c>0 with `edist(γ(t),p)≤C exp(−ct)` for all t≥0.
+
+**Checks.**
+- Standard height on S^m: along a meridian with angle u from the south pole
+  the trajectory satisfies u′=−sin u, so u(t)≍e^(−t) and c=1 is the Hessian
+  eigenvalue at the minimum; no larger c works.
+- Negative control: f(x)=x⁴ on ℝ has the trajectory x(t)=(x₀⁻²+8t)^(−1/2),
+  which converges to the degenerate critical point 0 at a polynomial rate and
+  satisfies no exponential bound; excluded by the Morse hypothesis.
+- A constant trajectory at a critical point satisfies the bound with C=0.
+- A saddle on ℝ², f=x²−y²: the trajectory (x₀e^(−2t),0) converges to the
+  saddle with c=2 although f−f(p) changes sign near p.
 
 Use normalized-gradient reparametrization only on compact critical-free
 bands in M2; it need not be complete near a critical point. Closedness and
@@ -682,11 +973,24 @@ hypotheses.
 ## References and course targets
 
 - Milnor, *Morse Theory*, §§2–6 for local/deformation/CW/inequality proofs.
+  Theorem4.1 and Remark1 distinguish the nondegenerate two-disc proof from
+  the general degenerate statement. For M4.1's additional topological bridge,
+  see Milnor, [*Sommes de variétés différentiables et structures différentiables
+  des sphères*](https://numdam.org/articles/10.24033/bsmf.1538/), Bull. Soc.
+  Math. France87 (1959), Theorem1(3) and Corollary1 (p. 442), and R. H. Rosen,
+  *A weak form of the star conjecture for manifolds*, Notices Amer. Math.
+  Soc.7 (1960), abstract570-28, p.380, Lemma1. The required construction is
+  specified in M4.1 above.
+- M. Brown, [*A proof of the generalized Schoenflies theorem*](https://www.ams.org/journals/bull/1960-66-02/S0002-9904-1960-10400-4/S0002-9904-1960-10400-4.pdf),
+  Bull. Amer. Math. Soc.66 (1960) 74–76, Theorems 0–5; Theorem 5 (p. 76) is
+  the bicollared Schoenflies theorem owned in M4.1.
+- A. Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
+  Cambridge University Press, 2002, Proposition 2B.1, Corollary 2B.2 and
+  Theorem 2B.3, for the open-map step of invariance of domain in M4.1.
+- F. Takens, [*The minimal number of critical points of a function on a
+  compact manifold and the Lusternik-Schnirelman category*](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0006/LOG_0025.pdf),
+  Invent. Math. 6 (1968) 197–244, Introduction (p. 198), for the
+  arbitrary-function Lusternik–Schnirelmann inequality and the minimum F.(M)
+  of M4.
 - Cohen, Iga and Norbury, [Topics in Morse Theory](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
   classical part, for manifold normal forms, sublevels and cellular comparison.
-- Thomas Mark's *Math240 Riemannian Geometry* lecture/homework notes,
-  2001 lectures and Homework 11, catalogued separately in the course-source
-  audit, supply the
-  local/handle/CW/strong-inequality and Morse–Bott acceptance targets above.
-  Their global “Morse” convention is handled by separate properness/compact-band
-  hypotheses, matching native Tau Ceti's predicate.

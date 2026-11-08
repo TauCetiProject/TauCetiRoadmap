@@ -900,7 +900,7 @@ regularity](https://www.numdam.org/item/10.1007/s10240-014-0064-7.pdf).
 
 ### Layer 7: Riemannian Brenier--McCann transport
 
-The [Hopf--Rinow roadmap](../HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
+The [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
 connection, interval-aware geodesics, exponential maps and their local inverse logarithms on
 normal neighborhoods, Hopf--Rinow, and minimizing geodesics.  The
 [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes that connection
@@ -974,7 +974,7 @@ Theorem 1.1 and its distance-cost specialization.
 ### Layer 8: metric curves, dynamic plans, and Benamou--Brenier
 
 Consume metric curve length, length spaces, and constant-speed geodesic spaces from the shared API
-owned by the [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 4.  Build the remaining maximally
+owned by the [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layer 4.  Build the remaining maximally
 general path-space theory first, then the Eulerian specialization.
 
 1. Define `ACᵖ([0,T];X)`, metric derivatives, `p`-energy/action, and measurable families of
@@ -1303,7 +1303,7 @@ using it.
 9. Prove energy dissipation, mass preservation, positivity, and contraction/uniqueness
    where EVI applies.  Express each linear flow through the abstract C₀/contraction-
    semigroup API of the
-   [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md), and prove that
+   [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md), and prove that
    the entropy flow agrees with the concrete heat semigroup built in the
    [PDE roadmap](../PDE/README.md), Lane F.  Construct the Ornstein--Uhlenbeck/
    Fokker--Planck semigroup and its generator here unless an explicit upstream dependency
@@ -1958,14 +1958,14 @@ guardrails.
   the PDE/semigroup identification of JKO limits.  Nonlinear Monge--Ampère, continuity
   equations of measure-valued curves, Fokker--Planck semigroup construction, and OT first
   variations remain explicit work here.
-* The [Hopf--Rinow roadmap](../HopfRinow/README.md) builds the Levi-Civita connection, geodesic
+* The [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md) builds the Levi-Civita connection, geodesic
   flow, exponential and local logarithm maps, completeness and minimizing-geodesic theory, and
   the shared metric length/geodesic-space API.  Layers 7--9 consume these results; Layer 7 retains
   ownership of injectivity-radius, cut-locus, squared-distance, and transport-specific bridges.
 * The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes the
   Levi-Civita connection and builds Riemannian volume, curvature, and related manifold geometry.
   Layers 7 and 14 consume it and supply transport/synthetic-curvature bridges in return.
-* The [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md) supplies the
+* The [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md) supplies the
   abstract C₀/contraction-semigroup, generator, and resolvent API.  The PDE roadmap supplies
   the concrete heat semigroup.  Layer 11 constructs any remaining concrete linear Markov
   semigroups it names and proves that the linear Wasserstein gradient flows agree with
