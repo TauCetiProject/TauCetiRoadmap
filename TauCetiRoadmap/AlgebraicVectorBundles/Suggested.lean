@@ -1,42 +1,49 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.VectorBundle.Rank
-import TauCeti.AlgebraicGeometry.VectorBundle.Dual.Basic
-import TauCeti.AlgebraicGeometry.LineBundle.Basic
-import TauCeti.AlgebraicGeometry.Modules.TensorProduct
+import TauCeti.AlgebraicGeometry.VectorBundle.Determinant.LocallyConstantRank
 import TauCeti.AlgebraicGeometry.Modules.Pullback.Basic
-import TauCeti.AlgebraicGeometry.RelativeSpec.Functor
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.SymmetricPower.Basic
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
+import TauCeti.AlgebraicGeometry.Modules.Pullback.InternalHom.Basic
+import TauCeti.AlgebraicGeometry.Modules.SymmetricPower.Pullback.Basic
+import TauCeti.AlgebraicGeometry.Modules.ExteriorPower.Pullback.Basic
 
 /-!
 # Algebraic vector bundles: target signatures
 
 `README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, on the native carriers:
-Tau Ceti's `QuasicoherentSheaf`, `FiniteLocallyFreeSheaf` with its bundled rank and rank loci,
-`SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, `InvertibleSheaf`,
-`QuasicoherentAlgebra`, `AffineSchemeOver` and `relativeSpec`, with the canonical symmetric
-monoidal closed structure `Scheme.Modules.instMonoidalCategory` on `X.Modules`.
+`X.Modules` with its canonical symmetric monoidal closed structure, Tau Ceti's oplax monoidal
+module pullback, its internal-Hom base-change comparison `pullbackIhomComparison`, and its
+power-pullback comparisons `Scheme.Modules.pullbackSymmetricPowerComparison` and
+`Scheme.Modules.pullbackExteriorPowerComparison`. Each headline removes a quasi-coherence
+hypothesis under which Tau Ceti already proves the statement.
 
-The determinant of a finite locally free sheaf is defined here with a real body, as the product
-over `n` of the exterior powers `∧ⁿ E` restricted to the clopen rank loci and pushed forward
-again; that it is invertible is the Layer 3 headline `isInvertible_determinantModule`, and
-`determinantObj` packages it as an object of `InvertibleSheaf X`. The names `isFiniteLocallyFree`,
-`FiniteLocallyFreeSheaf` and `isFiniteLocallyFreeOfRank` are the Tau Ceti notions under this
-roadmap's namespace, kept because consumers build on them under these names.
+The following are Tau Ceti declarations at the pin and are consumed, not restated: the
+dualizability criterion `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`, on every
+scheme; quasi-coherence of internal Hom `isQuasicoherent_ihom_of_isFinitePresentation`; the ranks
+of powers `FiniteLocallyFreeSheaf.rank_symmetricPower_apply` and
+`FiniteLocallyFreeSheaf.rank_exteriorPower_apply`; the determinant `FiniteLocallyFreeSheaf.det`;
+the relative-Spec anti-equivalence `relativeSpecEquiv` and its base change
+`relativeSpecBaseChangeIso`; the linear-scheme equivalence `linearSpecEquiv`; the geometric-bundle
+equivalence `totalSpaceEquiv`; and the section-valued universal property `totalSpaceHomEquiv`.
+
+The names `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeOfRank` and
+`determinantObj` are Tau Ceti notions under this roadmap's namespace (the last is Tau Ceti's
+`FiniteLocallyFreeSheaf.det`), kept because consumers build on them under these names.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* the base-change isomorphism `Y ×_X Spec_X(A) ≅ Spec_Y(f^* A)` of Layer 5: pulling back a
-  quasi-coherent algebra needs the strong monoidal structure on `Scheme.Modules.pullback`
-  constructed in Layer 1; the pinned comparison is only oplax monoidal;
-* the linear-scheme equivalence `QCoh(X)ᵒᵖ ≌ LinearSch(X)` of Layer 6: the sheaf symmetric
-  algebra `Sym_{𝒪_X}(F)` as a quasi-coherent commutative algebra, the category of nonnegatively
-  graded quasi-coherent algebras and the category of linear schemes are all missing;
-* the equivalence `FinLocFree(X) ≌ GeomVB(X)` of Layer 7 and the universal property
-  `Hom_X(T, V(E)) ≃ Γ(T, f^* E)` of the geometric total space: the total space
-  `V(E) = Spec_X Sym(E^∨)` needs the same missing sheaf symmetric algebra, and the category of
-  geometric vector bundles is built on the missing linear schemes.
+* the determinant of a direct sum, `det(E ⊕ F) ≅ det E ⊗ det F` with the swap of summands acting
+  by `(−1)^(rank E · rank F)` (Layer 3): the isomorphism is data, and the sheaf-level exterior
+  multiplication `∧ᵃ E ⊗ ∧ᵇ F → ∧ᵃ⁺ᵇ (E ⊕ F)` from which it is built is missing, so its sign law
+  has nothing to refer to;
+* the identification, on `Spec A`, of the determinant of the sheaf of a finite projective module
+  with the ring-level determinant as graded lines (Layer 3): graded lines and the ring-level
+  determinant of finite projective modules are targets of PadicMeasuresIwasawaAlgebras §5.1, not
+  declarations at the pins;
+* the recognition of linear schemes as the module schemes over `𝔸¹_X` whose coordinate algebra
+  is free in degree one (Layer 4): the grading of the coordinate algebra of an affine scheme over
+  `X` induced by an action of the multiplicative monoid `𝔸¹_X`, and the category of such module
+  schemes, are missing.
 -/
 
 namespace TauCetiRoadmap.AlgebraicVectorBundles
@@ -44,19 +51,6 @@ namespace TauCetiRoadmap.AlgebraicVectorBundles
 open CategoryTheory Limits MonoidalClosed TauCeti.AlgebraicGeometry AlgebraicGeometry
 
 universe u
-
-/-! ## Layer 1: sheaves of modules -/
-
-/-- The canonical oplax tensor comparison of module pullback is invertible for every scheme
-morphism and every pair of module sheaves, without flatness or quasi-coherence assumptions
-(Stacks Project, Tag 01CD). Together with the pinned unit isomorphism and symmetry law this
-makes pullback strong symmetric monoidal. -/
-theorem pullback_tensor_isIso {X Y : Scheme.{u}} (f : Y ⟶ X)
-    (E F : X.Modules) :
-    IsIso (Functor.OplaxMonoidal.δ (Scheme.Modules.pullback f) E F) := by
-  sorry
-
-/-! ## Layer 2: quasi-coherent and finite locally free sheaves -/
 
 /-- Finite local freeness as a property of `𝒪_X`-modules: Tau Ceti's
 `Scheme.Modules.isFiniteLocallyFree X`, locally free and of finite presentation. -/
@@ -74,113 +68,59 @@ def isFiniteLocallyFreeOfRank (X : Scheme.{u}) (r : ℕ) : ObjectProperty X.Modu
   fun E => ∃ h : isFiniteLocallyFree X E,
     ∀ x : X, FiniteLocallyFreeSheaf.rank (⟨E, h⟩ : FiniteLocallyFreeSheaf X) x = r
 
-/-- A quasi-coherent sheaf is finite locally free exactly when it has a dual in the symmetric
-monoidal category of quasi-coherent sheaves. A dual there is a dual in `X.Modules`, which by
-Stacks Project, Tag 0FNU, makes the sheaf finitely presented and flat, hence finite locally free
-on affine opens by Tag 00NX; the converse direction is Tau Ceti's
-`QuasicoherentSheaf.nonempty_hasLeftDual_of_isFiniteLocallyFree`, and the affine case is Tau
-Ceti's `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`. -/
-theorem isFiniteLocallyFree_iff_nonempty_hasLeftDual {X : Scheme.{u}}
-    (E : QuasicoherentSheaf X) :
-    Scheme.Modules.isFiniteLocallyFree X E.obj ↔ Nonempty (HasLeftDual E) := by
+/-- The determinant `∧^(rank E) E` of a finite locally free sheaf, an invertible sheaf: Tau Ceti's
+`FiniteLocallyFreeSheaf.det`, which over the clopen locus where `E` has rank `n` is the top
+exterior power `∧ⁿ E`, of rank `C(n, n) = 1`, hence invertible by
+`FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one` (Hartshorne, *Algebraic Geometry*, II,
+Exercise 5.16). -/
+noncomputable abbrev determinantObj {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf X) :
+    InvertibleSheaf X :=
+  TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.det E
+
+/-! ## Layer 1: strong monoidal pullback -/
+
+/-- The canonical oplax tensor comparison `f^* (E ⊗ F) → f^* E ⊗ f^* F` of module pullback is
+invertible for every scheme morphism and every pair of module sheaves, without flatness or
+quasi-coherence assumptions (Stacks Project, Tag 01CD). Tau Ceti proves this when one factor is
+quasi-coherent (`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent`). Together with the pinned
+unit isomorphism and symmetry law this makes pullback strong symmetric monoidal on all of
+`X.Modules`. -/
+theorem pullback_tensor_isIso {X Y : Scheme.{u}} (f : Y ⟶ X)
+    (E F : X.Modules) :
+    IsIso (Functor.OplaxMonoidal.δ (Scheme.Modules.pullback f) E F) := by
   sorry
 
-/-- The internal Hom `Hom(E, F)` of the closed structure on `X.Modules` is quasi-coherent when
-`E` is finitely presented and `F` is quasi-coherent: locally it is the kernel of a map between
-finite direct sums of copies of `F` (Stacks Project, Tag 01CQ). On an affine chart, the
-exact tilde functor identifies this kernel with the associated sheaf of the kernel of the
-corresponding finite matrix on the module of sections of `F`. -/
-theorem ihom_isQuasicoherent {X : Scheme.{u}} (E F : X.Modules)
-    [E.IsFinitePresentation] [F.IsQuasicoherent] :
-    ((ihom E).obj F).IsQuasicoherent := by
+/-! ## Layer 2: flat base change of internal Hom -/
+
+/-- Along a flat morphism `f : X ⟶ Y`, the canonical comparison
+`f^* Hom(M, N) → Hom(f^* M, f^* N)` is an isomorphism for every finitely presented `M` and every
+`𝒪_Y`-module `N`, quasi-coherent or not (Stacks Project, Tag 0C6I). Tau Ceti proves this for a
+quasi-coherent target (`Scheme.Hom.isIso_pullbackIhomComparison_app`), and for a finite locally free
+source and every target and morphism (`FiniteLocallyFreeSheaf.isIso_pullbackIhomComparison`). The
+comparison is built on
+the quasi-coherence of `M`, which finite presentation implies; it is carried as an instance
+argument because instance search does not derive it on `Y.Modules`. -/
+theorem isIso_pullbackIhomComparison_app_of_flat {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f]
+    (M N : Y.Modules) [M.IsFinitePresentation] [M.IsQuasicoherent] :
+    IsIso ((pullbackIhomComparison M f).app N) := by
   sorry
 
 /-! ## Layer 3: symmetric and exterior powers, determinant -/
 
-/-- The `n`-th symmetric power of a finite locally free sheaf is finite locally free, and at
-each point its rank is the number `multichoose r n = C(r + n - 1, n)` of monomials of degree `n`
-in `r` variables, where `r` is the rank of the sheaf at that point. Local freeness is Stacks
-Project, Tag 01CK (6); the rank counts the monomial basis of the symmetric power of a free
-module. -/
-theorem symmetricPower_isFiniteLocallyFree_rank {X : Scheme.{u}}
-    (E : FiniteLocallyFreeSheaf X) (n : ℕ) :
-    ∃ h : Scheme.Modules.isFiniteLocallyFree X
-        ((SheafOfModules.symmetricPower X.sheaf n).obj E.obj),
-      ∀ x : X, FiniteLocallyFreeSheaf.rank
-        (⟨(SheafOfModules.symmetricPower X.sheaf n).obj E.obj, h⟩ : FiniteLocallyFreeSheaf X) x =
-          Nat.multichoose (FiniteLocallyFreeSheaf.rank E x) n := by
+/-- Symmetric powers commute with pullback on all module sheaves: for every `f : X ⟶ Y` and every
+`n`, Tau Ceti's canonical comparison `f^* (Symⁿ M) → Symⁿ (f^* M)` is a natural isomorphism, for
+every `𝒪_Y`-module `M` (Stacks Project, Tag 01CI). Tau Ceti proves invertibility at quasi-coherent
+`M` (`isIso_pullbackSymmetricPowerComparison_app`) and in degree one. -/
+theorem symmetricPower_pullback_isIso {X Y : Scheme.{u}} (f : X ⟶ Y) (n : ℕ) :
+    IsIso (Scheme.Modules.pullbackSymmetricPowerComparison f n) := by
   sorry
 
-/-- The `n`-th exterior power of a finite locally free sheaf is finite locally free, and at each
-point its rank is `C(r, n)`, where `r` is the rank of the sheaf at that point. With `n = r` on
-the locus of rank `r` this makes the determinant an invertible sheaf. Local freeness is Stacks
-Project, Tag 01CK (6); the rank counts Mathlib's basis `Module.Basis.exteriorPower`, indexed by the
-`n`-element subsets of a basis. -/
-theorem exteriorPower_isFiniteLocallyFree_rank {X : Scheme.{u}}
-    (E : FiniteLocallyFreeSheaf X) (n : ℕ) :
-    ∃ h : Scheme.Modules.isFiniteLocallyFree X
-        ((SheafOfModules.exteriorPower X.sheaf n).obj E.obj),
-      ∀ x : X, FiniteLocallyFreeSheaf.rank
-        (⟨(SheafOfModules.exteriorPower X.sheaf n).obj E.obj, h⟩ : FiniteLocallyFreeSheaf X) x =
-          (FiniteLocallyFreeSheaf.rank E x).choose n := by
-  sorry
-
-/-- Symmetric powers commute with arbitrary scheme pullback, naturally in every module
-sheaf (Stacks Project, Tag 01CI, on homogeneous components). -/
-theorem symmetricPower_pullback {X Y : Scheme.{u}} (f : Y ⟶ X) (n : ℕ) :
-    Nonempty ((SheafOfModules.symmetricPower X.sheaf n ⋙ Scheme.Modules.pullback f) ≅
-      (Scheme.Modules.pullback f ⋙ SheafOfModules.symmetricPower Y.sheaf n)) := by
-  sorry
-
-/-- Exterior powers commute with arbitrary scheme pullback, naturally in every module
-sheaf (Stacks Project, Tag 01CI, on homogeneous components). -/
-theorem exteriorPower_pullback {X Y : Scheme.{u}} (f : Y ⟶ X) (n : ℕ) :
-    Nonempty ((SheafOfModules.exteriorPower X.sheaf n ⋙ Scheme.Modules.pullback f) ≅
-      (Scheme.Modules.pullback f ⋙ SheafOfModules.exteriorPower Y.sheaf n)) := by
-  sorry
-
-/-- The determinant of a finite locally free sheaf `E` as an `𝒪_X`-module: the product over
-`n : ℕ` of the exterior power `∧ⁿ E` restricted to the clopen rank locus `U_n` of `E` (as an open
-subscheme, through `TopologicalSpace.Clopens.toOpens` and `Scheme.Opens.ι`) and pushed forward
-to `X` again. Over an open `V` its sections are the tuples of sections of `∧ⁿ E` over `V ∩ U_n`,
-so on `U_r` only the factor `n = r` has nonzero sections and the product is `∧ʳ E` there
-(Hartshorne, *Algebraic Geometry*, II, Exercise 5.16). -/
-noncomputable def determinantModule {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf X) :
-    X.Modules :=
-  ∏ᶜ fun n : ULift.{u} ℕ =>
-    (Scheme.Modules.pushforward (Scheme.Opens.ι (E.rankLocus n.down).toOpens)).obj
-      ((Scheme.Modules.pullback (Scheme.Opens.ι (E.rankLocus n.down).toOpens)).obj
-        ((SheafOfModules.exteriorPower X.sheaf n.down).obj E.obj))
-
-/-- The determinant of a finite locally free sheaf is an invertible sheaf: on the rank locus
-`U_r` it is `∧ʳ E`, locally free of rank `C(r, r) = 1` (Stacks Project, Tag 01CL for local
-freeness of the exterior power; Tau Ceti's
-`FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one` for rank one). -/
-theorem isInvertible_determinantModule {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf X) :
-    SheafOfModules.isInvertible X (determinantModule E) := by
-  sorry
-
-/-- The determinant of a finite locally free sheaf as an object of `InvertibleSheaf X`. -/
-noncomputable def determinantObj {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf X) :
-    InvertibleSheaf X :=
-  ⟨determinantModule E, isInvertible_determinantModule E⟩
-
-/-- On the rank locus `U_r` of `E` the determinant restricts to the exterior power `∧ʳ E`: the
-factors of the product with `n ≠ r` have no nonzero sections over opens of `U_r`. -/
-theorem determinantModule_restrict_rankLocus {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf X)
-    (r : ℕ) :
-    Nonempty ((Scheme.Modules.pullback (Scheme.Opens.ι (E.rankLocus r).toOpens)).obj
-        (determinantModule E) ≅
-      (Scheme.Modules.pullback (Scheme.Opens.ι (E.rankLocus r).toOpens)).obj
-        ((SheafOfModules.exteriorPower X.sheaf r).obj E.obj)) := by
-  sorry
-
-/-! ## Layer 5: the relative-Spec anti-equivalence -/
-
-/-- Relative Spec is an anti-equivalence between quasi-coherent commutative `𝒪_X`-algebras and
-schemes affine over `X`, with all `X`-morphisms between the latter (Stacks Project, Tag 01SA,
-with the functor of Tag 01LQ). -/
-theorem relativeSpec_isEquivalence (X : Scheme.{u}) : (relativeSpec X).IsEquivalence := by
+/-- Exterior powers commute with pullback on all module sheaves: for every `f : X ⟶ Y` and every
+`n`, Tau Ceti's canonical comparison `f^* (∧ⁿ M) → ∧ⁿ (f^* M)` is a natural isomorphism, for every
+`𝒪_Y`-module `M` (Stacks Project, Tag 01CI). Tau Ceti proves invertibility at quasi-coherent `M`
+(`isIso_pullbackExteriorPowerComparison_app`) and in degree one. -/
+theorem exteriorPower_pullback_isIso {X Y : Scheme.{u}} (f : X ⟶ Y) (n : ℕ) :
+    IsIso (Scheme.Modules.pullbackExteriorPowerComparison f n) := by
   sorry
 
 end TauCetiRoadmap.AlgebraicVectorBundles
