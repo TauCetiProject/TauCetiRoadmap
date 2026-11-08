@@ -37,6 +37,28 @@ public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
 public import TauCeti.Topology.Homotopy.Extension.CWComplex
 public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
+public import TauCeti.Topology.Homotopy.Extension.Prod
+public import TauCeti.Topology.Homotopy.Extension.HomotopyEquivRel
+public import TauCeti.AlgebraicTopology.Singular.BrouwerFixedPoint
+public import TauCeti.AlgebraicTopology.Singular.Transfer.Degree
+public import TauCeti.AlgebraicTopology.Singular.Transfer.PermutationLocalSystem
+public import TauCeti.AlgebraicTopology.Cohomology.UniversalCoefficient
+public import TauCeti.AlgebraicTopology.Cohomology.Bockstein
+public import TauCeti.AlgebraicTopology.Cohomology.MayerVietoris.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.MayerVietoris.Pair
+public import TauCeti.AlgebraicTopology.Cohomology.GradedCommutativity
+public import TauCeti.AlgebraicTopology.Cohomology.GroupCohomology
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Linear
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Chart
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.OpenEmbedding
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Transport
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.Cohomology
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.LocalCoefficients
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.Torsion
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.Uniqueness
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.Circle
+public import TauCeti.Topology.CWComplex.Classical.Cylinder
+public import TauCeti.Topology.CWComplex.Classical.CellularApproximation
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -45,48 +67,57 @@ The roadmap is `README.md`; this file is not the roadmap. It states, against the
 and Tau Ceti, the roadmap's headline theorems that are statable on native carriers, each with
 `sorry`, together with the simple definitions they need:
 
-* Brouwer's fixed-point theorem and the no-retraction theorem (Stage 2.7);
-* the pair-quotient comparisons, relative CW pushouts and cofibration extensions (Stage 4.5);
+* the pair-quotient comparisons, relative CW pushouts and the one-sided extension of homotopy
+  inverses over cofibered pairs (Stage 4.5);
 * CW approximation of an arbitrary space (Stage 4.8);
 * the compact-support theorem for locally represented top sections with local coefficients
   (Stage 6.3) and Poincaré duality with `ℤ/2` coefficients (Stage 6.4);
 * the cup-length lower bound for the Lusternik–Schnirelmann category (the categorical
   supplement after Stage 6.2);
+* relative Hurewicz in degrees at least three with only the subspace simply connected
+  (Stage 8.4);
 * homological Whitehead for simply connected spaces of CW type (Stage 8.5) and proper homotopy
   rectification (Stage 8.5);
 * finite CW type of compact manifolds (Stage 8.7);
 * the `K(π, 1)` property of the bar model (Stage 8.8a);
+* Hurewicz modulo a Serre class satisfying Serre's tensor, `Tor` and `K(A, 1)` axioms
+  (Stage 8.8d);
 * representability of `H^n(-; A)` by every `K(A, n)` model (Stage 8.10);
 * CW type of mapping spaces out of finite CW complexes and of based loop spaces (Stage 8.11a).
 
 Several results the roadmap states as targets are proved by the pinned Tau Ceti and are not
-restated: the degree-one and absolute Hurewicz theorems, relative Hurewicz for highly connected
-pairs, Whitehead's theorem, the homology invariance of weak equivalences, CW approximation of
+restated: the no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
+convex, closed-ball and finite-span forms, Strøm's cylinder theorem for closed cofibrations,
+homotopy inverses relative to subspaces and to points with the extension property, the
+degree-one and absolute Hurewicz theorems, relative Hurewicz for highly connected pairs,
+Whitehead's theorem, the homology invariance of weak equivalences, CW approximation of
 path-connected spaces, the connectivity of a CW pair from its cell dimensions, the cellular
 comparison in every dimension for module coefficients, Künneth over a field, the Euler
 characteristic of spaces of finite CW type with its homotopy invariance, the `lim`/`lim¹` algebra
 of towers, the unnormalized Lusternik–Schnirelmann category, proper homotopy equivalences,
 simple connectivity at infinity, the constant-coefficient compact-support theorem and the
-integral fundamental class, and the torsion Serre classes. The `#check` lines below pin them, and
-the README cites each by file.
+integral fundamental class, the torsion Serre classes, the transfer of a finite cover with its
+degree formulas and permutation local system, universal coefficients over a hereditary ring,
+the Bockstein, the cochain Mayer–Vietoris sequences, graded commutativity of the cup product,
+the determinant-sign action on local orientations and their chart, open-embedding and transport
+comparisons, the relative cylinder CW structure, cellular approximation, the cohomology of a
+contractible free quotient cover and of Milnor's classifying space, the torsion `K(A, 1)` axioms
+for finite groups, the uniqueness of `K(G, 1)` spaces of CW type and the circle comparison. The
+`#check` lines below pin them, and the README cites each by file.
 
 Headline theorems not statable at the pins, and what each lacks:
 
 * the Serre spectral sequence with its monodromy local system (Stage 5.5): the spectral sequence
   of a Serre fibration and its fibre-transport system are constructions of the roadmap;
-* the transfer of a finite cover with `p_* ∘ transfer = d` and the deck-sum formula, and the
-  Cartan–Leray spectral sequence of a regular cover (Stage 5.3): transfer is a chain map the
-  roadmap builds, and the deck chain complex in `Rep R G` is its construction;
+* the deck-sum formula and the Cartan–Leray spectral sequence of a regular cover (Stage 5.3):
+  the deck action on the native transfer and the deck chain complex in `Rep R G` are
+  constructions of the roadmap;
 * the cellular–singular chain comparison with local coefficients and chosen chain
   representatives (Stage 4.3): the chain map is data built on the roadmap's cellular
   representatives;
 * integral and twisted Poincaré–Lefschetz duality and the twisted relative fundamental class
   (Stages 6.3–6.4): the homological orientation local system with coefficients in a local system
   is a construction of the roadmap;
-* relative Hurewicz in degrees at least three with only the subspace simply connected (Stage
-  8.4): it is a statement about the roadmap's extension of the native relative Hurewicz map;
-* Hurewicz modulo a Serre class (Stage 8.8d): a `C`-isomorphism statement about the native
-  Hurewicz map needs the roadmap's `C`-isomorphism vocabulary;
 * the proper Whitehead theorem (Stage 8.5): the pinned libraries have no compactly supported
   cohomology, so its hypothesis cannot be written;
 * the relative obstruction class with local coefficients (Stage 8.9): the pinned libraries have
@@ -149,61 +180,43 @@ Inventory of `README.md`. -/
 #check TauCeti.SimplyConnectedAtInfinity
 #check AddCommGrpCat.isTorsion
 #check AddCommGrpCat.isKilledBySomePower
+#check TauCeti.noRetraction_diskBoundary
+#check TauCeti.brouwerFixedPoint_topCatDisk
+#check TauCeti.brouwerFixedPoint_compactConvex
+#check TauCeti.brouwerFixedPoint_compactConvex_continuousOn
+#check TauCeti.brouwerFixedPoint_closedBall
+#check TauCeti.brouwerFixedPoint_compactConvex_finiteSpan
+#check TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod
+#check TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel
+#check TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel
+#check TauCeti.RelHomotopyGroup.hurewicz
+#check HomotopyGroup.hurewiczHom
+#check IsCoveringMap.singularTransfer
+#check IsCoveringMap.singularTransfer_comp_chainComplexMap
+#check IsCoveringMap.singularTransfer_comp_chainComplexMap_eq_locallyConstantNsmul
+#check IsCoveringMap.singularHomologyPermutationIso
+#check TopCat.singularUniversalCoefficientEquiv
+#check TopCat.exact_singularExtToCohomology_singularKronecker
+#check TopCat.singularCohomologyBockstein
+#check TopPair.singularCohomologyBockstein
+#check TopCat.singularCohomologyMayerVietorisδ
+#check TopCat.singularCohomologyPairMayerVietorisδ
+#check TopCat.singularCup_gradedComm
+#check Orientation.localOrientation_map
+#check TauCeti.localOrientationOfManifoldOrientation
+#check Topology.IsOpenEmbedding.localOrientationEquiv
+#check TauCeti.localOrientationTransport
+#check TauCeti.relCWComplexCylinder
+#check TauCeti.exists_isCellular_homotopicRel
+#check IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology
+#check TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology
+#check TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology
+#check TauCeti.isAddTorsion_classifyingSpace_singularHomology
+#check TauCeti.isKilledBySomePower_classifyingSpace_singularHomology
+#check TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv
+#check TauCeti.circleHomotopyEquivClassifyingSpace
 
 universe u v
-
-/-! ## Stage 2.7: the no-retraction theorem and Brouwer's fixed-point theorem -/
-
-/-- Stage 2.7: Mathlib's inclusion of the boundary sphere into the disk has no continuous
-retraction, for every dimension including `n = 0`, where the boundary is empty. -/
-theorem noRetraction_diskBoundary (n : ℕ) :
-    ¬ ∃ r : TopCat.disk.{u} n ⟶ TopCat.diskBoundary.{u} n,
-      TopCat.diskBoundaryInclusion n ≫ r = 𝟙 (TopCat.diskBoundary.{u} n) := by
-  sorry
-
-/-- Stage 2.7: Brouwer's fixed-point theorem on Mathlib's disk, derived from the no-retraction
-theorem by the ray from `f x` through `x`. -/
-theorem brouwerFixedPoint_topCatDisk (n : ℕ)
-    (f : TopCat.disk.{u} n ⟶ TopCat.disk.{u} n) :
-    ∃ x : TopCat.disk.{u} n, Function.IsFixedPt f x := by
-  sorry
-
-section BrouwerFixedPoint
-variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E]
-
-/-- Stage 2.7: Brouwer's fixed-point theorem for every nonempty compact convex subset `C` of a
-finite-dimensional real normed space, with no full-dimensionality hypothesis: every continuous
-self-map of the subtype `C` has a fixed point. -/
-theorem brouwerFixedPoint_compactConvex (C : Set E) (hne : C.Nonempty)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : ContinuousMap C C) :
-    ∃ x : C, Function.IsFixedPt f x := by
-  sorry
-
-/-- Stage 2.7, the function-level form consumed by the operator-theory roadmaps: a function
-continuous on `C` that maps `C` into itself has a fixed point in `C`. -/
-theorem brouwerFixedPoint_compactConvex_continuousOn (C : Set E) (hne : C.Nonempty)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C) (f : E → E)
-    (hf : ContinuousOn f C) (hmaps : Set.MapsTo f C C) :
-    ∃ x ∈ C, Function.IsFixedPt f x := by
-  sorry
-
-end BrouwerFixedPoint
-
-section FiniteSpanBrouwer
-
-variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
-
-/-- Stage 2.7: Brouwer's theorem for a nonempty compact convex set lying in a finite-dimensional
-submodule of an arbitrary real normed space, the form used for finite convex hulls in
-infinite-dimensional ambient spaces. -/
-theorem brouwerFixedPoint_compactConvex_finiteSpan (C : Set E) (hne : C.Nonempty)
-    (hcompact : IsCompact C) (hconvex : Convex ℝ C)
-    (V : Submodule ℝ E) [FiniteDimensional ℝ V] (hCV : C ⊆ (V : Set E))
-    (f : ContinuousMap C C) : ∃ x : C, Function.IsFixedPt f x := by
-  sorry
-
-end FiniteSpanBrouwer
 
 /-! ## Stage 4.5: pair quotients, relative CW pushouts and cofibration extensions -/
 
@@ -303,17 +316,6 @@ theorem relativeCWPushout_base_isClosedEmbedding
       (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) := by
   sorry
 
-/-- Stage 4.5 (Strøm, *Note on cofibrations II*, Theorem 6): for a closed `A ⊆ X` with the
-native homotopy extension property, the pair `(I × X, (∂I × X) ∪ (I × A))` has the homotopy
-extension property; the cylinder coordinate comes first, as in the native cylinder. -/
-theorem closedCofibrationCylinderHomotopyExtension
-    {X : Type u} [TopologicalSpace X] (A : Set X) (hAc : IsClosed A)
-    (hA : TauCeti.HasHomotopyExtensionProperty A) :
-    TauCeti.HasHomotopyExtensionProperty
-      ((({0, 1} : Set unitInterval).prod (Set.univ : Set X)) ∪
-        (Set.univ : Set unitInterval).prod A) := by
-  sorry
-
 /-- Stage 4.5: for closed cofibered pairs `(X, A)` and `(X', A')` and a homotopy equivalence `e`
 carrying `A` into `A'` by a homotopy equivalence `e₀`, prescribed one-sided inverse data `g₀`
 and `H₀ : g₀ ∘ e₀ ≃ id_A` extend to a left inverse `g` of `e` with `g ∘ e ≃ id_X` restricting to
@@ -334,23 +336,6 @@ theorem homotopyInversePairExtension_left
       (∀ a' : A', g (a' : X') = (g₀ a' : X)) ∧
       (∀ (t : unitInterval) (a : A), H (t, (a : X)) = (H₀ (t, a) : X)) ∧
       (e.toFun.comp g).Homotopic (ContinuousMap.id X') := by
-  sorry
-
-/-- Stage 4.5 (Hatcher, Proposition 0.19): a homotopy equivalence of Hausdorff CW complexes that
-sends a chosen 0-cell basepoint to a chosen 0-cell basepoint has a based homotopy inverse, with
-unit and counit homotopies relative to the basepoints. -/
-theorem basedHomotopyInverseOfEquivalence {X Y : Type u}
-    [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
-    (e : ContinuousMap.HomotopyEquiv X Y) (x₀ : X) (y₀ : Y)
-    (hx₀ : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set X) 0,
-      x₀ ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) 0 i)
-    (hy₀ : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set Y) 0,
-      y₀ ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set Y)) 0 i)
-    (he : e.toFun x₀ = y₀) :
-    ∃ g : C(Y, X), g y₀ = x₀ ∧
-      (g.comp e.toFun).HomotopicRel (ContinuousMap.id X) {x₀} ∧
-      (e.toFun.comp g).HomotopicRel (ContinuousMap.id Y) {y₀} := by
   sorry
 
 end RelativeCWPushouts
@@ -529,6 +514,22 @@ theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
     lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ := by
   sorry
 
+/-! ## Stage 8.4: relative Hurewicz with only the subspace simply connected -/
+
+/-- Stage 8.4 (Hatcher, Theorem 4.37): for a path-connected `Y`, a simply connected subspace `B`
+with `b ∈ B`, and the relative homotopy sets `π_i(Y, B, b)` trivial for `1 ≤ i ≤ n + 2`, the
+native relative Hurewicz map `π_{n+3}(Y, B, b) → H_{n+3}(Y, B; ℤ)`, `[p] ↦ p_*[Iⁿ⁺³]`, is
+bijective. The native `RelHomotopyGroup (Fin k)` is `π_{k+1}`. The native theorem
+`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` assumes instead
+that `Y` is also highly connected. -/
+theorem relHurewicz_bijective_of_simplyConnected_subspace {Y : TopCat.{0}} (B : Set Y) (b : B)
+    [PathConnectedSpace Y] (n : ℕ)
+    (hB : ∀ k < 2, Subsingleton (HomotopyGroup (Fin k) B b))
+    (hrel : ∀ k ≤ n + 1, Subsingleton (TauCeti.RelHomotopyGroup (Fin k) ⟨TopPair.ofSubset B, b⟩)) :
+    Function.Bijective fun a : TauCeti.RelHomotopyGroup (Fin (n + 2)) ⟨TopPair.ofSubset B, b⟩ ↦
+      (TauCeti.RelHomotopyGroup.hurewicz (ModuleCat.of ℤ ℤ) (n + 2) a).hom 1 := by
+  sorry
+
 /-! ## Stage 8.5: homological Whitehead and proper homotopy rectification -/
 
 /-- Stage 8.5: a map between simply connected spaces of CW type inducing isomorphisms on
@@ -619,6 +620,51 @@ group `G`, through the contractible free `G`-space `|E G|` covering it. -/
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
+  sorry
+
+/-! ## Stage 8.8d: Serre classes and Hurewicz modulo a class -/
+
+/-- A homomorphism of abelian groups is a `C`-epimorphism when its cokernel lies in `C`. -/
+def IsCEpi (C : ObjectProperty AddCommGrpCat.{0}) {A B : Type} [AddCommGroup A] [AddCommGroup B]
+    (f : A →+ B) : Prop :=
+  C (AddCommGrpCat.of (B ⧸ f.range))
+
+/-- A homomorphism of abelian groups is a `C`-isomorphism when its kernel and its cokernel lie
+in `C`. -/
+def IsCIso (C : ObjectProperty AddCommGrpCat.{0}) {A B : Type} [AddCommGroup A] [AddCommGroup B]
+    (f : A →+ B) : Prop :=
+  C (AddCommGrpCat.of f.ker) ∧ IsCEpi C f
+
+/-- Serre's axioms on a class `C` of abelian groups beyond closure under subobjects, quotients
+and extensions: `A ⊗ B` and `Tor₁(A, B)` lie in `C` for `A, B ∈ C`, and the positive-degree
+integral homology of `K(A, 1)`, taken on Milnor's classifying space of `A`, lies in `C` for
+`A ∈ C` (Serre 1953, Chapter I, axioms II_A and III). The native torsion classes satisfy the
+first two, and the third for finite `A`. -/
+structure SatisfiesSerreAxioms (C : ObjectProperty AddCommGrpCat.{0}) : Prop where
+  /-- Closure under tensor products of two members. -/
+  tensor : ∀ A B : AddCommGrpCat.{0}, C A → C B → C (AddCommGrpCat.of (TensorProduct ℤ A B))
+  /-- Closure under `Tor₁` of two members. -/
+  tor : ∀ A B : AddCommGrpCat.{0}, C A → C B →
+    C (AddCommGrpCat.of (((Tor (ModuleCat.{0} ℤ) 1).obj (ModuleCat.of ℤ A)).obj (ModuleCat.of ℤ B)))
+  /-- The `K(A, 1)` axiom: the positive-degree homology of `B(Multiplicative A)` lies in `C`. -/
+  eilenbergMacLane : ∀ A : AddCommGrpCat.{0}, C A → ∀ n : ℕ,
+    C (AddCommGrpCat.of (((TauCeti.singularChains ℤ).obj
+      (TopCat.of (TauCeti.classifyingSpace (Multiplicative A)))).homology (n + 1)))
+
+/-- Stage 8.8d, Hurewicz modulo a Serre class (Serre 1953, Chapter III, Theorem 1): for a Serre
+class `C` satisfying Serre's axioms and a simply connected `X` whose homotopy groups
+`π_i(X)` for `2 ≤ i < n + 2` lie in `C`, the integral homology `H_i(X; ℤ)` lies in `C` for
+`0 < i < n + 2`, the native Hurewicz homomorphism in degree `n + 2` is a `C`-isomorphism, and
+the one in degree `n + 3` is a `C`-epimorphism. For `C = 0` this is the absolute Hurewicz
+theorem. -/
+theorem hurewicz_isCIso (C : ObjectProperty AddCommGrpCat.{0}) [C.IsSerreClass]
+    (hC : SatisfiesSerreAxioms C) (X : Type) [TopologicalSpace X] [SimplyConnectedSpace X]
+    (x : X) (n : ℕ)
+    (hπ : ∀ i < n, C (AddCommGrpCat.of (Additive (HomotopyGroup (Fin (i + 2)) X x)))) :
+    (∀ i, 0 < i → i < n + 2 →
+      C (AddCommGrpCat.of (SingularHomology ℤ (ModuleCat.of ℤ ℤ) (TopCat.of X) i))) ∧
+    IsCIso C (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 1)) ∧
+    IsCEpi C (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 2)) := by
   sorry
 
 /-! ## Stage 8.10: ordinary representability -/
