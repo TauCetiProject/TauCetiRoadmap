@@ -1340,6 +1340,11 @@ multiplicative (`ArithmeticFunction.natCoe_mul`), and `ArithmeticFunction.LSerie
 `ArithmeticFunction.LSeriesHasSum_mul`, `ArithmeticFunction.LSeriesHasSum_zeta`,
 `summable_norm_iff`.
 
+*Source.* Kontorovich, Tao et al., PrimeNumberTheoremAnd, `IwaniecKowalskiCh1.lean`:
+`LSeries_d_summable` and `LSeries_d_eq_riemannZeta_pow` for every `k`; at `k = 2`, where
+`d_2 = σ₀`, `LSeries_tau_eq_riemannZeta_sq` and the case `ν = 0` of
+`LSeries_sigma_eq_riemannZeta_mul` (`∑_{n≥1} σ_ν(n) n^(−s) = ζ(s) ζ(s − ν)`).
+
 **`zetaPow_counting`.** For every `k ∈ ℕ`:
 
 - `PoleBoundary (fun s ↦ ζ(s)^(k+1)) 1 k 1`;
@@ -1456,6 +1461,15 @@ Layer 4 (§5.1) and Layer 0 (§5.2). Mathlib `riemannZeta` and arithmetic functi
   [source](https://github.com/AxiomMath/PrimeNumberTheoremAnd/blob/2667e414c38e5a5dc9aa1946f16f13001e5cd3ed/PrimeNumberTheoremAnd/Wiener.lean):
   `wiener_ikehara_smooth` (pnt-wiener line 1877) and `WienerIkeharaInterval` (pnt-wiener
   line 2147), for the smoothed and interval forms of the Wiener–Ikehara theorem (§2.2a).
+- A. Kontorovich, T. Tao and contributors, *PrimeNumberTheoremAnd*, file
+  `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` at revision
+  `127b50e33f6033e2147921167a117af96d9ba4ea` (Apache-2.0),
+  [repository](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd): `LSeries_d_summable`,
+  `LSeries_d_eq_riemannZeta_pow`, `LSeries_tau_eq_riemannZeta_sq` and
+  `LSeries_sigma_eq_riemannZeta_mul`, for the Dirichlet series of `d_k` (§5.1).
+- T. Tao and contributors, *IEANTN: Integrated Explicit Analytic Number Theory Network*, revision
+  `466b41b28ecc224398cf53a99c5fe9618131398b` (Apache-2.0),
+  [repository](https://github.com/teorth/IEANTN). Cited for no section of this roadmap.
 - J. Lebl, *Notes on Diffy Qs: Differential Equations for Engineers*, version 6.11 (2026),
   [author page](https://www.jirka.org/diffyqs/); §6.2.1, p. 300 and Table 6.2, for the transform
   of a derivative (§0.1a).
