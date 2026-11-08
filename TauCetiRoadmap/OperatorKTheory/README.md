@@ -18,10 +18,14 @@ library whose geometric comparison, grading and boundary signs are explicit.
 
 This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not;
 Atkinson's theorem and the Hilbert-module index; extension semigroups; graded KK-theory and the
-Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra,
-twisted-group-algebra and Cuntz-algebra calculations of K7; the bootstrap class with the UCT and
-Künneth theorems; the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The
-layers are K1–K9 below. Subsection k.n of layer Kk is cited as `Kk.n`; subsections 2.4 and 7.3
+Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra
+and Cuntz-algebra calculations of K7; the twisted group C*-algebra `C*(L,c)` of a discrete abelian
+group L with a circle-valued 2-cocycle c, built in 7.5 on Tau Ceti's algebraic twisted group
+algebra in its twisted regular representation on ℓ²(L), with its trace, gauge action, universal
+property, centre and simplicity criterion, the noncommutative tori and the twisted algebras of
+lattices in phase space being instances; the bootstrap class with the UCT and Künneth theorems;
+the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The layers are K1–K9
+below. Subsection k.n of layer Kk is cited as `Kk.n`; subsections 2.4 and 7.3
 also keep their names K2.LocalNormed and K7.FreeGroups.
 
 The following stay with their owners and are not targets here.
@@ -38,8 +42,11 @@ The following stay with their owners and are not targets here.
   pullback boundary with A6 (3.3).
 - PseudodifferentialOperators owns elliptic symbols, parametrices and Fredholm operators on
   manifolds; this roadmap owns the general Atkinson, module-index and K-pairing bridges.
-- OperatorAlgebraDynamics owns the crossed-product constructions themselves and the finite
-  universal Cuntz algebras O_n; their K-theory and KK consequences belong here.
+- The full crossed product of a C*-dynamical system, and with it the full group C*-algebra
+  `ℂ⋊G`, is Tau Ceti's `TauCeti.CStarAction.FullCrossedProduct`. OperatorAlgebraDynamics owns the
+  reduced crossed products and reduced group C*-algebras, the comparison `ℂ⋊G≃C*(G)`, the duality
+  theorems and the finite universal Cuntz algebras O_n; their K-theory and KK consequences belong
+  here.
 - NoncommutativeGeometry owns smooth algebras' cyclic cohomology, spectral triples and their
   geometric index theorems.
 - CStarClassification owns dimension-group classification of AF algebras, the absorption and
@@ -166,7 +173,27 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   on `G →₀ k` sending the basis vector at h to `α(g,h)` times the basis vector at gh; the
   algebraic twisted monoid algebra, the span of these translations; and its universal property
   for families u with `u(1)=1` and `u(g)u(h)=α(g,h)u(gh)`, with uniqueness. K7.5 uses them over
-  ℂ on `Multiplicative L` for L=ℤ^d; the C*-completion is constructed there.
+  ℂ on `Multiplicative L` for a discrete abelian group L; the C*-completion is constructed there.
+- `TauCeti.Amenable.of_commGroup` (`TauCeti/GroupTheory/Amenable/Abelian.lean`): every commutative
+  topological group is amenable, `TauCeti.Amenable` meaning a left-invariant mean on the left
+  uniformly continuous bounded real functions, which for a discrete group are all bounded
+  functions. No rank, torsion or countability hypothesis is made. K7.5 applies it to
+  `Multiplicative L` with the discrete topology.
+- `TauCeti.CStarAction.FullCrossedProduct`, with `TauCeti.CStarAction.FullCrossedProduct.of`,
+  `TauCeti.CStarAction.FullCrossedProduct.lift` and
+  `TauCeti.CStarAction.CovariantRepresentation.integratedFull`
+  (`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`): for a point-norm continuous
+  action α of a locally compact group G on a C*-algebra A and a left Haar measure μ, the full
+  crossed product `A⋊_αG`, the completion of the twisted convolution algebra `C_c(G,A)` in the
+  supremum of the norms of the integrated forms of covariant representations on Hilbert spaces in
+  the universe of G and A, with the canonical dense map from `C_c(G,A)`, the extension of
+  *-homomorphisms bounded by that supremum, and the extension of every such integrated form. No
+  unit, separability or nondegeneracy is assumed.
+  `TauCeti.CStarAction.CovariantRepresentation.regular`
+  (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/Regular.lean`): the regular covariant
+  representation on `L²(G,H)` induced by a representation ρ of A on H, `π(a)ξ(r)=ρ(α_(r⁻¹)(a))ξ(r)`
+  and `λ_sξ(r)=ξ(s⁻¹r)`. K7 takes its full crossed products, and full group C*-algebras as `ℂ⋊G`,
+  from here.
 - `TauCeti.SmoothNoncommutativeTorus.twist`
   (`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`): the phase `(y,z)↦exp(2πiθ y₂z₁)` of
   the smooth noncommutative torus. K7.5's rotation cocycle is this phase; the smooth algebra itself
@@ -200,11 +227,12 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
 
 ### From TauCetiRoadmap.OperatorAlgebraDynamics
 
-- *[OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md).* Full and reduced
-  crossed products, full and reduced group C*-algebras with `ℂ⋊G≃C*(G)`, the regular quotient,
-  the faithful conditional expectation of a discrete reduced crossed product, Fell absorption
-  and the weak containment of the trivial representation in the regular representation of an
-  amenable group.
+- *[OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md).* Covariant
+  representations and their Haar and involution conventions, consumed with Tau Ceti's full crossed
+  product `TauCeti.CStarAction.FullCrossedProduct`; reduced crossed products, the regular Hilbert
+  module, full and reduced group C*-algebras with `ℂ⋊G≃C*(G)`, the regular quotient, the faithful
+  conditional expectation of a discrete reduced crossed product, Fell absorption and the weak
+  containment of the trivial representation in the regular representation of an amenable group.
 - *OperatorAlgebraDynamics D3–D4.* Green imprimitivity and Takai duality with its character
   conventions.
 - *OperatorAlgebraDynamics D6.* The finite universal Cuntz algebras O_n.
@@ -266,10 +294,10 @@ examples. K8 uses K6's semisplit exact sequences and K7's crossed products. The 
 morphisms of 9.1–9.3 use no K-theory; K9's E-theory uses K3's suspension conventions and
 compares with KK through K6.
 
-`Suggested.lean` states, with `sorry`, the headline theorems that are statable at the pins: the
-two Brown–Douglas–Fillmore theorems of 8.4, with the two operator predicates they need. Its
-module docstring lists the headline theorems that are not statable there and the carrier each
-lacks.
+`Suggested.lean` states, with `sorry`, the headline theorems that are statable at the pins:
+Atkinson's theorem of 4.1 in its parametrix form, and the two Brown–Douglas–Fillmore theorems of
+8.4 with the two operator predicates they need. Its module docstring lists the headline theorems
+that are not statable there and the carrier each lacks.
 
 ## K1. Projections, projective modules, and K₀
 
@@ -429,31 +457,46 @@ here.
 
 Define the canonical positive cone of K₀(A) as the set of classes of actual projections over A,
 the scale as the set of classes of projections in A itself, and the resulting preorder. For unital
-A record the distinguished order unit `[1_A]`. For a tracial state τ define the additive pairing
-through the unnormalized matrix trace `τ_n(p)=∑ᵢτ(p_ii)` (Blackadar, §6.3 for the order and §6.9
-for the states induced by traces). For a nonunital tracial state use `τ⁺(a+λ)=τ(a)+λ` on the
-forced unitization, and pair the representative `[e]−[p_n]` as `τ⁺_n(e)−n`. These are the
-projection and trace invariants that CStarClassification's dimension-group classification of AF
-algebras uses.
+A record the distinguished order unit `[1_A]`. Let τ be a positive tracial functional on A, a
+positive linear functional with `τ(ab)=τ(ba)`; it is bounded, as every positive functional on a
+C*-algebra is, and need not have norm 1. Define the additive pairing `τ_*:K₀(A)→ℝ` through the
+unnormalized matrix trace `τ_m(p)=∑ᵢτ(p_ii)` (Blackadar, §6.3 for the order and §6.9 for the
+states induced by traces). For nonunital A extend τ by `τ⁺(a+λ)=τ(a)+λ` to the forced
+unitization, and pair a representative `[e]−[p_n]`, with e in `M_m(A⁺)` whose scalar part is the
+rank-n scalar projection p_n, as `τ⁺_m(e)−n`; this is `τ_m(e−p_n)`, because `e−p_n` has entries
+in A, so neither positivity of τ⁺ nor a bound on ‖τ‖ enters. Tracial states are the norm-one case,
+and for unital A they induce states of `(K₀(A),K₀(A)⁺,[1_A])`. These are the projection and trace
+invariants that CStarClassification's dimension-group classification of AF algebras uses.
 
 - The preorder is a partial order when the cone is proper, `K₀(A)⁺∩(−K₀(A)⁺)=0`; partial-order
   statements are made only under that hypothesis.
 - For unital A, `[1_A]` is an order unit, and unital *-homomorphisms preserve the cone, the scale
   and the order unit.
 - The trace pairing is independent of representatives, additive and positive on the cone, and
-  compatible with *-homomorphisms along which the tracial states pull back. Its behaviour under
-  C*-inductive limits is stated in 2.3, after continuity of K₀.
+  natural: for a *-homomorphism φ:A→B and a positive tracial functional τ of B, `τ∘φ` is a
+  positive tracial functional of A and `(τ∘φ)_*=τ_*∘φ_*`. Its behaviour under C*-inductive limits
+  is stated in 2.3, after continuity of K₀.
 - For a finite-dimensional direct sum the pairing is computed summand by summand.
 - The compact-operator example uses its K₀ rank-one generator and the ordinary densely defined
-  trace on finite-rank and Pedersen-ideal elements; it does not assume a tracial state on K.
+  trace on finite-rank and Pedersen-ideal elements; K has no nonzero positive tracial functional.
 
 **Checks.**
 - For A=Mₙ(ℂ) with the normalized trace `tr/n`, a rank-one projection pairs to `1/n` and
   `[1_(M_k(A))]` pairs to k through the unnormalized matrix trace.
 - For A=C(X) and τ evaluation at a point x, the pairing of `[p]` is the rank of the bundle of p at
   x, an integer; a pairing through a normalized matrix trace would give rank divided by size.
-- For A=K the rank-one generator pairs to 1 with the densely defined trace, while K has no tracial
-  state, so the example cannot be routed through the state pairing.
+- For A=K the rank-one generator pairs to 1 with the densely defined trace, while a positive
+  tracial functional τ on K is 0: the matrix units give `τ(e_ii)=τ(e_ij e_ji)=τ(e_ji e_ij)=τ(e_jj)`
+  and `Nτ(e_00)=τ(e_00+⋯+e_(N−1,N−1))≤‖τ‖` for every N, so τ vanishes on every e_ii and, by the
+  Cauchy–Schwarz inequality, on the dense finite-rank operators. The example cannot be routed
+  through the functional pairing.
+- For `φ:ℂ→ℂ²`, `λ↦(λ,0)`, and `τ(a,b)=b` on ℂ², `τ∘φ=0` is a positive tracial functional that
+  is not a state, and `(τ∘φ)_*[1]=0=τ(1,0)=τ_*(φ_*[1])`; a pairing defined only for tracial
+  states would leave the left side undefined.
+- For A=C₀(ℝ²), τ the evaluation at a point x, and the Bott class `β=[p]−[p(∞)]` of Conventions,
+  the scalar part of p is `p(∞)=diag(1,0)` of rank 1 and `τ⁺_2(p)−1=trace p(x)−1=0`, which is
+  `τ_2(p−p(∞))`; omitting the correction −n would pair β, and also the zero class
+  `[p(∞)]−[p(∞)]`, to 1.
 
 ### 1.6 Commutative algebras and vector bundles
 
@@ -554,12 +597,12 @@ compact homotopy parameters. Deduce countable direct-sum additivity and countabi
 separable A.
 
 - Trace pairing under limits: for a C*-inductive system with limit A, maps `φ_(i,∞):Aᵢ→A` and a
-  tracial state τ of A, put `τᵢ=τ∘φ_(i,∞)`, a positive tracial functional of norm at most 1 on
-  Aᵢ, paired with K₀(Aᵢ) by the matrix-trace formula of 1.5. Then `τ_*∘(φ_(i,∞))_*=(τᵢ)_*` on
-  K₀(Aᵢ), and since every class of K₀(A) comes from a finite stage, the pairing of τ on K₀(A) is
-  the map induced on `lim K₀(Aᵢ)≅K₀(A)` by the `(τᵢ)_*`. The first identity is
-  `τ_n(φ(p))=Σ_jτ(φ(p_jj))=(τ∘φ)_n(p)`, the computation behind 1.5's naturality, which needs no
-  normalization of τ∘φ; the second is the continuity above.
+  positive tracial functional τ of A, a tracial state for instance, put `τᵢ=τ∘φ_(i,∞)`, a positive
+  tracial functional on Aᵢ that need not be a state, paired with K₀(Aᵢ) by 1.5. Then
+  `τ_*∘(φ_(i,∞))_*=(τᵢ)_*` on K₀(Aᵢ), and since every class of K₀(A) comes from a finite stage, the
+  pairing of τ on K₀(A) is the map induced on `lim K₀(Aᵢ)≅K₀(A)` by the `(τᵢ)_*`. The first
+  identity is 1.5's naturality, `τ_m(φ(p))=Σ_jτ(φ(p_jj))=(τ∘φ)_m(p)`, which needs no normalization
+  of τ∘φ; the second is the continuity above.
 
 Use H3–H4 to prove Morita invariance for σ-unital algebras (Roe, Proposition 12.17),
 identify the map induced by an imprimitivity module, and prove identity, composition and agreement
@@ -767,8 +810,9 @@ exactness assertion.
   is exact at every term, by the diagram chase between the six-term sequences of these two
   extensions. The first maps are `(p₁*,p₂*)` and the second maps are `π₁*−π₂*`. Blackadar, Theorem
   21.2.2, proves the sequence for any homology theory when both legs are surjective, and the remark
-  after it cites Schochet, *Topological methods for C*-algebras III*, 4.5, for removing that
-  hypothesis; the one-surjective-leg case here is the comparison of the two extensions above.
+  after it removes that hypothesis by Schochet, *Topological methods for C*-algebras III*, Theorem
+  4.5, p. 431, which needs only the first leg surjective; the one-surjective-leg case here is the
+  comparison of the two extensions above.
 - The sequence is natural for maps of pullback squares and compatible with suspension and the
   fixed Bott maps. Swapping the two legs and identifying the pullbacks negates the boundary.
 - For unital squares ∂₁ agrees with AlgebraicKTheory A6/A8 after the algebraic-to-topological K₁
@@ -882,12 +926,14 @@ TopologicalKTheory T2 and T4; Mathlib locally convex and metrizable-space APIs.
 `ContinuousLinearMap.index_add_of_isCompactOperator`, `Path.index_eq`; CStarAlgebras C1.6 Calkin
 algebra.
 
-Consume CStarAlgebras C1.6's Calkin algebra `Q(H)=B(H)/K(H)` and prove Atkinson's theorem: a bounded
-operator on a Hilbert space is Fredholm exactly when its Calkin class is invertible, equivalently
-when it has a bounded two-sided parametrix modulo compact operators (Zois, Analytic K-theory Lecture
-1, Theorem 1). Compare this predicate and index with `ContinuousLinearMap.IsFredholm` and its
-existing index, using the two library routes recorded in the supplier contracts. Under `K₀(K(H))≃ℤ`
-for infinite-dimensional separable H, prove that the index boundary is `dim ker T−dim coker T`
+Prove Atkinson's theorem `isFredholm_iff_exists_isCompactOperator_comp_sub_one`: a bounded
+operator T:H₀→H₁ between complex Hilbert spaces satisfies `ContinuousLinearMap.IsFredholm`
+exactly when some bounded S:H₁→H₀ makes `ST−1` compact on H₀ and `TS−1` compact on H₁ (Zois,
+Analytic K-theory Lecture 1, Theorem 1, p. 59, stated there for two Hilbert spaces). The forward
+and converse directions follow the two library routes recorded in the supplier contracts. For
+H₀=H₁=H, consume CStarAlgebras C1.6's Calkin algebra `Q(H)=B(H)/K(H)` and read the theorem as:
+T is Fredholm exactly when its Calkin class is invertible. Under `K₀(K(H))≃ℤ` for
+infinite-dimensional separable H, prove that the index boundary is `dim ker T−dim coker T`
 (Blackadar, 8.3.2; Roe, Exercise 7.13). Derive the index's homotopy, compact-perturbation and
 composition laws through this comparison, using the existing Fredholm theorems where they already
 supply the result.
@@ -900,6 +946,9 @@ supply the result.
   invertible; correspondingly every operator is Fredholm, with index 0.
 - An operator with a parametrix modulo compacts on one side only need not be Fredholm: the
   isometry `δ_n↦δ_(2n)` of ℓ²(ℕ) has the left inverse T* but a cokernel of infinite dimension.
+- Between different spaces: `0:{0}→ℂⁿ` is Fredholm of index −n, with parametrix S=0, since `S0−1`
+  is the zero operator of {0} and `0S−1=−1` is compact on ℂⁿ; the zero map `ℓ²(ℕ)→{0}` has an
+  infinite-dimensional kernel, and every S gives `S0−1=−1`, which is not compact on ℓ²(ℕ).
 
 ### 4.2 The module index and graded Fredholm pairs
 
@@ -1169,7 +1218,8 @@ that CStarClassification CL8 uses.
 
 *Needs:* 5.2; K3.1 Bott conventions; K4.1–4.2.
 
-Define `KK_i(A,B)=KK(A,B⊗̂Cl_i)` for all graded A,B and i modulo 2 (Blackadar, Definition
+Define `KK_i(A,B)=KK(A,B⊗̂Cl_i)` for separable graded A, σ-unital graded B and i modulo 2, the
+domain of 5.2: `B⊗̂Cl_i` is σ-unital because Cl_i is finite-dimensional (Blackadar, Definition
 17.3.1); ordinary K-group identifications use trivially graded B.
 
 - The suspension and Clifford pictures agree, and the graded Morita maps through `ℂ^(1|1)` give
@@ -1325,14 +1375,18 @@ completely positive contractive section, construct the extension element in `KK�
 semisplit hypothesis is stated at every application of KK excision; K-theory's exactness for
 arbitrary extensions does not remove it from the bivariant statement.
 
-- The six-term exact sequences in both variables hold for separable coefficient algebras
-  (Blackadar, Theorem 19.5.7); their boundaries are the products with this class, and they agree
-  with K3's index and positive-exponential maps.
+- The six-term exact sequences hold in both variables: in the second variable,
+  `KK_*(D,J)→KK_*(D,A)→KK_*(D,Q)` for every separable graded D, and in the first variable,
+  `KK_*(Q,D)→KK_*(A,D)→KK_*(J,D)` for every σ-unital graded D (Blackadar, Theorem 19.5.7, which
+  proves the first for semisplit extensions of σ-unital algebras and the second when A is
+  separable). Their boundaries are the products with this class, and they agree with K3's index and
+  positive-exponential maps.
 - The extension element is natural for morphisms of extensions, and compatible with suspension,
   mapping cones and the product boundary identities with their graded signs.
-- For trivially graded A,B, `KK₁(A,B)` is identified with the invertible stable extension classes
-  of K4 (Blackadar, Proposition 17.6.5), through the comparison between the compact-perturbation,
-  operator-homotopy and Hilbert-module-homotopy pictures used in that identification.
+- For trivially graded separable A and σ-unital B, `KK₁(A,B)` is identified with the invertible
+  stable extension classes of K4 (Blackadar, Proposition 17.6.5), through the comparison between
+  the compact-perturbation, operator-homotopy and Hilbert-module-homotopy pictures used in that
+  identification.
 
 **Checks.**
 - The Toeplitz extension is semisplit (C(𝕋) is nuclear); the product of `[z]∈K₁(C(𝕋))` with its
@@ -1383,7 +1437,8 @@ to prove exactness (Manuilov–Thomsen, Lemma 2, p. 4).
 
 *Needs:* 6.2; K5.4; K4.1; CStarAlgebras C8 unilateral shift; Mathlib `lp` and `cfc`.
 
-Construct the index pairing `K_i(A)×KK_i(A,ℂ)→ℤ` as Kasparov product. With the Clifford/suspension
+For separable A construct the index pairing `K_i(A)×KK_i(A,ℂ)→ℤ` as the Kasparov product over A
+of `KK_i(ℂ,A)≃K_i(A)` with `KK_i(A,ℂ)`. With the Clifford/suspension
 maps fixed in K5, consider the following odd Fredholm module over C(𝕋). On
 `lp (fun _ : ℤ => ℂ) 2` let u be the bilateral shift `uδ_n=δ_(n+1)`; its spectrum is the circle,
 and C(𝕋) acts by the continuous functional calculus `f↦f(u)`, so z acts as u. Let P be the
@@ -1478,20 +1533,22 @@ conditions, norm continuity of `g↦gFg⁻¹`, and compactness of `(gFg⁻¹−F
 
 ### 7.2 Descent and the Green–Julg theorem
 
-*Needs:* 7.1; OperatorAlgebraDynamics D1–D2; HilbertModules H1–H3; TopologicalKTheory T6.
+*Needs:* 7.1; Tau Ceti `TauCeti.CStarAction.FullCrossedProduct`; OperatorAlgebraDynamics D1–D2;
+HilbertModules H1–H3; TopologicalKTheory T6.
 
 Construct the full crossed-product Hilbert module from `C_c(G,E)`, with its convolution-valued
 inner product and compatibility with Dynamics D1's Haar and involution conventions, and the
 descent map `j_G:KK_G(A,B)→KK(A⋊G,B⋊G)` given by the left action and the descended cycle. For
 compact G, still second countable as above, and separable graded G-algebra B with a
-grading-preserving action, put `K_i^gr(D)=KK_i(ℂ,D)` for a graded C*-algebra D, using K5's fixed
-Clifford degree and period comparisons and trivially graded ℂ. Equip B⋊G with the grading induced
-by B and trivial grading on the group unitaries. Let `p_G=∫_G u_g dg∈C*(G)` for normalized Haar
-measure, meaning the integrated constant function 1 in `C_c(G)`, not an assumed operator-norm
-Bochner integral of the multiplier unitaries. Let `L²(G,B)` be the regular B⋊G–B correspondence
-from D1–D2 and H1–H3: the Hilbert-module completion of `C_c(G,B)` for `⟨ξ,η⟩=∫ ξ(r)*η(r)dr`, not
-the Banach-space Bochner L² norm of B-valued functions, with `ρ(b)ξ(r)=β_(r⁻¹)(b)ξ(r)`,
-`λ_sξ(r)=ξ(s⁻¹r)` and the commuting semilinear G-action `V_gξ(r)=β_g(ξ(rg))`.
+grading-preserving action, put `K_i^gr(D)=KK_i(ℂ,D)` for a σ-unital graded C*-algebra D, using
+K5's fixed Clifford degree and period comparisons and trivially graded ℂ. Equip B⋊G with the
+grading induced by B and trivial grading on the group unitaries. Let `p_G=∫_G u_g dg∈C*(G)` for
+normalized Haar measure, meaning the integrated constant function 1 in `C_c(G)`, not an assumed
+operator-norm Bochner integral of the multiplier unitaries. Let `L²(G,B)` be the regular B⋊G–B
+correspondence from D1–D2 and H1–H3: the Hilbert-module completion of `C_c(G,B)` for
+`⟨ξ,η⟩=∫ ξ(r)*η(r)dr`, not the Banach-space Bochner L² norm of B-valued functions, with
+`ρ(b)ξ(r)=β_(r⁻¹)(b)ξ(r)`, `λ_sξ(r)=ξ(s⁻¹r)` and the commuting semilinear G-action
+`V_gξ(r)=β_g(ξ(rg))`.
 
 - The convolution-valued inner product on `C_c(G,E)` is positive and its completion is a Hilbert
   module; the induced grading on B⋊G is compatible with the full crossed-product construction.
@@ -1532,8 +1589,9 @@ the Banach-space Bochner L² norm of B-valued functions, with `ρ(b)ξ(r)=β_(r�
 
 *Needs (tree cycle and Julg–Valette homotopy, full/reduced KK comparison, Toeplitz extension, PV
 sequence and K-group calculations):* 7.1–7.2; K6.3 quasihomomorphisms; K3.2; K2.2–2.3 stability
-and directed-limit continuity; OperatorAlgebraDynamics D1–D2 full and reduced group algebras and
-the regular quotient; CStarAlgebras C5 inductive limits.
+and directed-limit continuity; Tau Ceti `TauCeti.CStarAction.FullCrossedProduct` for the full group
+algebras `ℂ⋊F_n`; OperatorAlgebraDynamics D1–D2 full and reduced group algebras and the regular
+quotient; CStarAlgebras C5 inductive limits.
 
 For finite n≥1 put `F_n=FreeGroup (Fin n)` and label its distinguished generators by
 `g_(j+1)=FreeGroup.of j`, j∈Fin n. Use the full/reduced group algebras and regular quotient
@@ -1702,7 +1760,8 @@ hypotheses.
 
 ### 7.4 Pimsner–Voiculescu for ℤ-actions and the rotation algebras
 
-*Needs:* 7.2 descent; K6.3–6.4; OperatorAlgebraDynamics D1–D2; K3.4 for the commutative case.
+*Needs:* 7.2 descent; K6.3–6.4; Tau Ceti `TauCeti.CStarAction.FullCrossedProduct`;
+OperatorAlgebraDynamics D1–D2; K3.4 for the commutative case.
 
 For any C*-algebra A and automorphism α, fix U by `UaU*=α(a)`, and take T_α inside
 `(A⋊_αℤ)⊗T`: the closure of the span `(aU^(i−j))⊗S^i(S*)^j`, a∈A, i,j≥0. This definition covers
@@ -1759,10 +1818,12 @@ canonical trace `τ=HaarIntegral∘E` using D2's expectation.
 *Needs:* 7.4 for the rotation algebra; OperatorAlgebraDynamics D2 Fell absorption and weak
 containment for amenable groups; VonNeumannAlgebras V0 and V11; Tau Ceti `TauCeti.IsFactorSet`,
 `TauCeti.twistedTranslation`, `TauCeti.twistedMonoidAlgebra`,
-`TauCeti.TwistedMonoidAlgebra.lift` and `TauCeti.TwistedMonoidAlgebra.algHom_ext`; Mathlib `lp`,
-`lp.single`, `lp.hasSum_single`, `PontryaginDual` and `MeasureTheory.Measure.haar`.
+`TauCeti.TwistedMonoidAlgebra.lift`, `TauCeti.TwistedMonoidAlgebra.algHom_ext` and
+`TauCeti.Amenable.of_commGroup`; Mathlib `lp`, `lp.single`, `lp.hasSum_single`, `PontryaginDual`
+and `MeasureTheory.Measure.haar`.
 
-For a finite rank d≥0 put L=ℤ^d, and let c be a circle-valued factor set on L: a function
+Let L be a discrete abelian group, written additively; no countability, finite generation or
+torsion-freeness is assumed. Let c be a circle-valued factor set on L: a function
 `c : Multiplicative L → Multiplicative L → ℂˣ` with Tau Ceti's `TauCeti.IsFactorSet c`, which in
 additive notation says `c(x,y)c(x+y,z)=c(x,y+z)c(y,z)` and `c(0,x)=c(x,0)=1`, and with `|c(x,y)|=1`
 for all x, y. Tau Ceti's `TauCeti.twistedTranslation ℂ c x` sends `δ_z` to `c(x,z)δ_(x+z)` on
@@ -1777,9 +1838,10 @@ C*(L,c) as the norm closure of its range, the span of the W_x. Define the trace
 define the gauge action `α_χ=Ad(M_χ)`. Define the continuous alternating commutator
 bicharacter `ρ(x,y)=c(x,y)conjugate(c(y,x))`, its radical `C_ρ={x:∀y,ρ(x,y)=1}`, the characters
 κ_x(y)=ρ(x,y), `H_ρ=closure{κ_x:x∈L}⊆L̂`, and the conditional expectation
-`Q(a)=∫_(H_ρ) α_s(a) ds`, with probability Haar. Phillips (2006), Theorem 1.9, states the
-simplicity criterion for noncommutative tori and attributes the simplicity direction to Slawny
-(1972), Theorem 3.7.
+`Q(a)=∫_(H_ρ) α_s(a) ds`, with probability Haar on the compact group H_ρ, a closed subgroup of
+the compact dual of the discrete group L. Phillips (2006), Theorem 1.9, states the simplicity
+criterion for noncommutative tori, the case L=ℤ^d, and attributes the simplicity direction to
+Slawny (1972), Theorem 3.7; the route below uses neither finite generation nor torsion-freeness.
 
 - The twisted shifts are unitary and satisfy `W_xW_y=c(x,y)W_(x+y)`, `W_0=1` and
   `W_x*=conjugate(c(x,−x))W_(−x)`.
@@ -1793,7 +1855,8 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
   bounded for the norm transported along λ_c, so that it extends uniquely to a *-homomorphism
   C*(L,c)→B sending W_x to U_x: represent B faithfully (V0), tensor with the untwisted regular
   representation, and use D2's Fell absorption and the weak containment of the trivial
-  representation in the regular representation of the amenable group L.
+  representation in the regular representation of L, which is amenable by Tau Ceti's
+  `TauCeti.Amenable.of_commGroup`.
 - `Ad(W_x)=α_(κ_x)`, and H_ρ is the annihilator of C_ρ: consume VonNeumannAlgebras V11's Pontryagin
   duality and prove this discrete-abelian annihilator comparison here by character separation and
   Fourier coefficient uniqueness.
@@ -1802,7 +1865,7 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
   approximation.
 - Every closed two-sided ideal I is invariant under the inner action and its compact closure, so
   Q(I)⊆I; for a nonzero positive a∈I, Q(a) is nonzero since `τ∘Q=τ`. Hence every nonzero ideal
-  meets the center, and C*(L,c) is simple iff its center is ℂ1 iff C_ρ={0} iff H_ρ=L̂. Include d=0
+  meets the center, and C*(L,c) is simple iff its center is ℂ1 iff C_ρ={0} iff H_ρ=L̂. Include L=0
   and the trivial cocycle.
 - For the rotation algebra use W_(m,n)=v^m u^n and `c((m,n),(m′,n′))=exp(2πiθ n m′)`; A_θ is
   identified with C*(ℤ²,c) through the universal properties of both. This is the phase of Tau
@@ -1819,8 +1882,17 @@ simplicity criterion for noncommutative tori and attributes the simplicity direc
   τ is tracial on the span; `M_χW_xM_χ*δ_z=χ(x)W_xδ_z`.
 - For the rotation cocycle `ρ((m,n),(m′,n′))=exp(2πiθ(nm′−n′m))`, so `C_ρ={0}` for irrational θ,
   `C_ρ=qℤ²` for θ=p/q in lowest terms, and `C_ρ=ℤ²` for θ=0.
-- For d=0 the algebra is ℂ, `C_ρ=0` and `H_ρ=L̂` is trivial, so it is simple; for the trivial
-  cocycle and d≥1, `C_ρ=L` and C*(L,1)≅C(𝕋^d) is not simple.
+- For L=0 the algebra is ℂ, `C_ρ=0` and `H_ρ=L̂` is trivial, so it is simple. For the trivial
+  cocycle and L≠0, `C_ρ=L` and the Fourier transform gives C*(L,1)≅C(L̂), which is not simple
+  because the characters separate the points of L, so L̂ has more than one point; for L=ℤ^d this
+  is C(𝕋^d).
+- Torsion: on L=(ℤ/2)² put `c(x,y)=(−1)^(x₂y₁)`, a bicharacter and hence a normalized factor set.
+  Then `W_(1,0)²=c((1,0),(1,0))W_0=1` and `W_(0,1)²=1`, while `c((1,0),(0,1))=1` and
+  `c((0,1),(1,0))=−1` give `ρ((1,0),(0,1))=−1`, so these two self-adjoint unitaries anticommute;
+  `ρ((1,1),(1,0))=−1` and `ρ((0,1),(1,0))=−1` leave `C_ρ=0`, and C*(L,c), of dimension |L|=4, is
+  M₂(ℂ), simple. The untwisted algebra is C(L̂)≅ℂ⁴, not simple. The radical of c itself,
+  `{x: c(x,y)=1 for all y}={0,(1,0)}`, is nonzero, so a criterion stated with c in place of ρ
+  would wrongly predict a nontrivial centre here.
 - Convention witness for the rotation cocycle: at x=(0,1), y=(1,0) it gives `c(x,y)=exp(2πiθ)`
   and `c(y,x)=1`, so `W_xW_y=exp(2πiθ)W_(1,1)` and `W_yW_x=W_(1,1)`, that is `uv=exp(2πiθ)vu` as
   in 7.4. The transposed cocycle `exp(2πiθ m n′)` would give `vu=exp(2πiθ)uv` instead.
@@ -1864,7 +1936,8 @@ absorption and classification properties of O_∞ belong to CStarClassification.
 
 ### 7.7 Mapping tori and the Connes–Thom isomorphism
 
-*Needs:* 7.1–7.2; 7.4; K3.1–3.2; OperatorAlgebraDynamics D4 Takai duality.
+*Needs:* 7.1–7.2; 7.4; K3.1–3.2; Tau Ceti `TauCeti.CStarAction.FullCrossedProduct`;
+OperatorAlgebraDynamics D4 Takai duality.
 
 Develop the mapping torus `M_α={f∈C([0,1],A) | f(1)=α(f(0))}` (Blackadar, Definition 10.3.1) and
 its extension with quotient evaluation at 0 and ideal SA. For a strongly continuous action α of ℝ
@@ -1910,9 +1983,11 @@ at −∞ and +1 at +∞.
 ### Dependencies
 
 K1–K6; OperatorAlgebraDynamics D1–D4 and D6; HilbertModules H1–H3; CStarAlgebras C5;
-TopologicalKTheory T6; VonNeumannAlgebras V0 and V11; Tau Ceti's factor sets and twisted monoid
-algebra (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`); Mathlib free-group, Cayley-graph,
-`lp`, Pontryagin-dual and Haar-measure APIs.
+TopologicalKTheory T6; VonNeumannAlgebras V0 and V11; Tau Ceti's full crossed product
+(`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`), factor sets and twisted monoid
+algebra (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`) and amenability of commutative groups
+(`TauCeti/GroupTheory/Amenable/Abelian.lean`); Mathlib free-group, Cayley-graph, `lp`,
+Pontryagin-dual and Haar-measure APIs.
 
 ## K8. Bootstrap UCT and Künneth
 
@@ -2249,6 +2324,10 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
   conventions and its swapped parity reduction.
 - CStarClassification consumes K1's projection and trace invariants, K5's countable additivity,
   K8's UCT condition and K9's asymptotic morphisms.
+- The twisted algebras `C*(D,β)` of lattices D in phase space in HeisenbergImprimitivity Layer 3
+  and the quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0 are 7.5's `C*(L,c)` at L=D
+  and at L=ℤ^d, with the same twisted regular representation `W_xδ_z=c(x,z)δ_(x+z)`, trace
+  `⟨δ_0,aδ_0⟩`, gauge action `α_χ(W_y)=χ(y)W_y` and universal property.
 
 ## References
 
@@ -2266,7 +2345,7 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
   for the UCT, Künneth and geometric resolutions (8.3, 8.5); Definition 25.1.1 and Theorem 25.6.1
   for asymptotic morphisms and the universal property of E-theory (K9); the remaining locators are
   given at the claims they support. The pullback remark cites C. Schochet, *Topological methods for
-  C*-algebras III: axiomatic homology*, Pacific J. Math. 114 (1984), 399–445, 4.5.
+  C*-algebras III: axiomatic homology*, Pacific J. Math. 114 (1984), 399–445, Theorem 4.5, p. 431.
 - John Roe, [*Lectures on K-Theory and Operator
   Algebras*](https://bpb-us-e1.wpmucdn.com/sites.psu.edu/dist/1/4020/files/2017/12/KTheoryNotes-1uvuwyz.pdf):
   Lectures 7–8 for continuity, exactness and the Toeplitz proof of coefficient Bott periodicity

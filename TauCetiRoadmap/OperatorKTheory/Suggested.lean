@@ -10,10 +10,11 @@ import Mathlib
 # Operator K-theory, extensions, and KK-theory: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry`, the
-headline theorems of the README that are statable against the pinned Mathlib and Tau Ceti: the
-two Brown–Douglas–Fillmore classification statements of K8, together with the two operator
-predicates they need. Operators are Mathlib's `H →L[ℂ] H` with `ContinuousLinearMap.IsFredholm`,
-the index `LinearMap.index` and `IsCompactOperator`.
+headline theorems of the README that are statable against the pinned Mathlib and Tau Ceti:
+Atkinson's theorem of K4 in its parametrix form, and the two Brown–Douglas–Fillmore
+classification statements of K8 together with the two operator predicates they need. Operators
+are Mathlib's continuous linear maps between complex Hilbert spaces, with
+`ContinuousLinearMap.IsFredholm`, the index `LinearMap.index` and `IsCompactOperator`.
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
@@ -24,9 +25,11 @@ Headline theorems of the README that are not statable at the pins, and the carri
 * K3: Bott periodicity `K_i(S²A) ≃ K_i(A)`, the six-term exact sequence of an extension, the
   pullback Mayer–Vietoris sequence and the external product. Besides K₀ and K₁ these need the
   spatial tensor product of C*-algebras, which Mathlib does not have.
-* K4: the K₀(A)-valued module index, the Ext semigroup and its invertibility criterion, and the
-  group Ext(A,B) for separable nuclear A. There are no compact or adjointable operators on Hilbert
-  C*-modules, no corona algebra of `B ⊗ K` and no Busby invariants.
+* K4: the Calkin-algebra form of Atkinson's theorem, the K₀(A)-valued module index, the Ext
+  semigroup and its invertibility criterion, and the group Ext(A,B) for separable nuclear A. There
+  is no Calkin C*-algebra `B(H)/K(H)` (invertibility there is the parametrix form stated below), no
+  compact or adjointable operators on Hilbert C*-modules, no corona algebra of `B ⊗ K` and no
+  Busby invariants.
 * K5–K6: the groups KK(A,B), the Kasparov product and its associativity, the six-term sequences
   of semisplit extensions, the Manuilov–Thomsen sequence and the index pairing. There are no
   ℤ/2-graded Hilbert modules, no interior tensor product of Hilbert modules and no Kasparov cycles.
@@ -47,6 +50,23 @@ Headline theorems of the README that are not statable at the pins, and the carri
 noncomputable section
 
 namespace TauCetiRoadmap.OperatorKTheory
+
+/-! ## K4: Atkinson's theorem -/
+
+/-- **Atkinson's theorem.** A bounded operator `T : H₀ → H₁` between complex Hilbert spaces is
+Fredholm exactly when it is invertible modulo compact operators: some bounded `S : H₁ → H₀` makes
+`S ∘ T - 1` compact on `H₀` and `T ∘ S - 1` compact on `H₁` (Zois, *18 Lectures on K-Theory*,
+Analytic K-theory, Lecture 1, Theorem 1, p. 59; README, 4.1). For `H₀ = H₁` this says that the
+image of `T` in the Calkin algebra is invertible. A parametrix on one side only does not
+suffice: the isometry `V δₙ = δ₂ₙ` of `ℓ²(ℕ)` has `V* V = 1` but an infinite-dimensional
+cokernel. -/
+theorem isFredholm_iff_exists_isCompactOperator_comp_sub_one
+    {H₀ H₁ : Type*} [NormedAddCommGroup H₀] [InnerProductSpace ℂ H₀] [CompleteSpace H₀]
+    [NormedAddCommGroup H₁] [InnerProductSpace ℂ H₁] [CompleteSpace H₁] {T : H₀ →L[ℂ] H₁} :
+    T.IsFredholm ↔ ∃ S : H₁ →L[ℂ] H₀,
+      IsCompactOperator (S.comp T - 1 : H₀ →L[ℂ] H₀) ∧
+        IsCompactOperator (T.comp S - 1 : H₁ →L[ℂ] H₁) := by
+  sorry
 
 /-! ## K8: the Brown–Douglas–Fillmore theorem -/
 
