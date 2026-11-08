@@ -36,22 +36,16 @@ permissions:
 jobs:
   resolve:
     # The script's prefilter, lifted to the job so that an event which cannot concern a report is
-    # skipped without taking a runner. Every pull request event and every CI completion starts this
-    # workflow, and on 2026-11-07 a few hundred such runs sat in the org's runner queue only to print
-    # "not a progress branch". The script and the gate still check everything; this only has to let
-    # every real report through. `startsWith` ignores case, so it is looser than the script's `case`,
-    # which is the safe direction.
-    #
-    # For `workflow_run` the run's own head branch must be a progress branch. A fork's report can only
-    # be found through it anyway (see the script), and a report sharing its commit with some other
-    # branch is reconsidered when the CI run for its own branch completes.
+    # skipped without taking a runner. Every pull request event starts this workflow, and on
+    # 2026-11-07 a few hundred such runs sat in the org's runner queue only to print "not a progress
+    # branch". The script and the gate still check everything; this only has to let every real report
+    # through. `startsWith` ignores case, so it is looser than the script's `case`, which is the safe
+    # direction.
     if: >-
       github.event_name == 'workflow_dispatch'
       || (github.event_name == 'pull_request_target'
           && !github.event.pull_request.draft
           && startsWith(github.event.pull_request.head.ref, 'progress/'))
-      || (github.event_name == 'workflow_run'
-          && startsWith(github.event.workflow_run.head_branch, 'progress/'))
     runs-on: ubuntu-latest
     outputs:
       pr: ${{ steps.pick.outputs.pr }}
