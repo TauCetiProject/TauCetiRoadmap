@@ -13,13 +13,17 @@ index and trace/Chern values of N7.
 
 ## Scope and ownership
 
-The independent N1.Tensor prefix concerns complex Hausdorff locally convex
-vector spaces, the scalars of every algebra, cochain and spectral triple
-below. The same construction for real locally convex spaces and the two
-scalar-comparison maps between real and complex tensors, the
-complexification isomorphism `(E⊗̂_(π,ℝ) F)_ℂ ≃ E_ℂ⊗̂_(π,ℂ) F_ℂ` and the
-balancing quotient `E_ℝ⊗̂_(π,ℝ) F_ℝ → (E⊗̂_(π,ℂ) F)_ℝ`, are stated by
-SmoothBanachRepresentations §7.2a and are not planned here.
+The independent N1.Tensor prefix concerns Hausdorff locally convex
+vector spaces over 𝕜=ℝ or ℂ (`RCLike 𝕜`), with the same targets for both
+fields; from N1.Cyclic on the scalars of every algebra, cochain and
+spectral triple are complex. The two scalar-comparison maps between real
+and complex tensors, the complexification isomorphism
+`(E⊗̂_(π,ℝ) F)_ℂ ≃ E_ℂ⊗̂_(π,ℂ) F_ℂ` and the balancing quotient
+`E_ℝ⊗̂_(π,ℝ) F_ℝ → (E⊗̂_(π,ℂ) F)_ℝ`, are stated by
+SmoothBanachRepresentations §7.2a and are not planned here. Completed
+projective tensors over complete nonarchimedean fields belong to
+PadicLocalLanglandsForGL2Qp §0.1 for discretely valued fields and to
+LocallyAnalyticDistributions §0.0 in general.
 N1.Tensor is the generic locally convex tensor supplier of the library and
 uses nothing from the cyclic theory; N1.Cyclic owns the universal forms,
 the cyclic and mixed complexes, the SBI sequence and periodic cyclic
@@ -40,9 +44,7 @@ dense inverse-closed Fréchet subalgebra with that of its completion, the
 replacement of idempotents by projections and of invertibles by
 unitaries in a C*-algebra, Kasparov cycles and products, and the
 Pimsner–Voiculescu computation of `K_*(A_θ)` with its trace range
-`ℤ+θℤ` belong to OperatorKTheory, whose comparison with the pairings of
-N2, the Fredholm modules and index pairing of N3 and the torus classes of
-N6–N7 is that roadmap's. N2 states its pairings on idempotents and invertibles of the
+`ℤ+θℤ` belong to OperatorKTheory. N2 states its pairings on idempotents and invertibles of the
 smooth algebra and on the pinned algebraic K-groups; N3 defines its
 Hilbert-space Fredholm modules directly and takes the index of a
 compression from Mathlib's Fredholm theory. N6 alone owns the rotation
@@ -66,19 +68,22 @@ C*-module and module tensor products belong to HilbertModules, which is
 not an input here: N5's bounded transform of a self-adjoint operator with
 compact resolvent is an instance of N5's own Borel calculus, and N7's
 Heisenberg module carries its inner product and completion on Mathlib's
-carriers. The trace on trace-class operators, Hölder's inequality with
-constant one, the quasi-ideals S_p for 0<p<1 and the weak ideals are
-stated in N3–N4 for B(H) with its canonical trace Tr, which is all the
-characters and Dixmier traces use; RandomMatrices §8.3 builds the trace
-functional of trace-class integral operators on `L²(μ)` inside its
-determinantal constructor, while N3's trace is on an arbitrary separable
-H with its cyclicity on dual Schatten classes. Tracial Lp spaces over a
-general semifinite trace, with their measure topology, belong to
-NoncommutativeIntegration; its identification of Lp(B(H),Tr) with the
-Schatten classes and quasi-ideals of B(H) is that roadmap's comparison
-with N3, in the way it compares with OperatorIdeals for 1≤p≤∞, and is
-not an input here. Von Neumann algebras, preduals and normal
-functionals belong to VonNeumannAlgebras. N6 owns the identification of
+carriers. The canonical trace Tr on the trace-class operators of B(H),
+with its basis independence, `Tr|T|=‖T‖₁`, its cyclicity against
+bounded operators and the trace-class duality of B(H), is
+VonNeumannAlgebras V4.Core's and is consumed in N3–N4. Hölder's
+inequality with constant one, the quasi-ideals S_p for 0<p<1, the
+cyclicity of Tr on dual Schatten classes and the weak Schatten ideals are
+stated in N3–N4 for B(H), which is all the characters and Dixmier traces
+use. Tracial Lp spaces over a general semifinite trace, with their
+measure topology, belong to NoncommutativeIntegration; its identification
+of Lp(B(H),Tr) and weak Lp(B(H),Tr) with the Schatten classes, the
+quasi-ideals and the weak Schatten ideals of B(H), and its Hölder
+inequality and Lp–Lq trace cyclicity on B(H), are that roadmap's
+comparison with N3–N4, in the way
+it compares with OperatorIdeals for 1≤p≤∞, and are not an input here.
+Von Neumann algebras, preduals and normal functionals belong to
+VonNeumannAlgebras, of which N3–N4 consume only V4.Core on B(H). N6 owns the identification of
 the smooth two-torus with the smooth vectors of its gauge action, the
 comparison of its rapid-decay and derivative seminorms and the spectral
 invariance of `M_n(𝒜_θ)`; SmoothBanachRepresentations Layer 8 states the
@@ -96,7 +101,10 @@ planned again.
 
 ## Conventions
 
-Algebras are complex. The algebraic cyclic theory begins for associative
+N1.Tensor works over 𝕜=ℝ or ℂ; from N1.Cyclic on, algebras, cochains and
+Hilbert spaces are complex, except where a statement names its ground
+ring, as matrix Morita invariance in N1.Cyclic does (every commutative
+ℚ-algebra R with coefficients in an R-module M). The algebraic cyclic theory begins for associative
 unital algebras, with nonunital algebras handled by forced unitization and
 relative complexes; analytic statements use continuous cochains on complete Hausdorff
 locally convex algebras, and smooth dense Fréchet star subalgebras of
@@ -154,7 +162,8 @@ a C*-algebra are `CStarMatrix`, the continuous functional calculus of a
 normal element is `cfc`, and representations are star homomorphisms
 `StarAlgHom` into bounded operators. N1.Tensor
 consumes `TensorProduct`, `Seminorm`, `WithSeminorms`,
-`UniformSpace.Completion` and `PiTensorProduct`; N2 `Matrix.GeneralLinearGroup`
+`UniformSpace.Completion`, `PiTensorProduct` and the Hahn–Banach
+theorem `exists_dual_vector''` over `RCLike` fields; N2 `Matrix.GeneralLinearGroup`
 and `Matrix.transvection`; N5 `LinearPMap` closed operators and the compact
 self-adjoint spectral theorem.
 
@@ -169,14 +178,23 @@ rebuild them.
   `Module.End` with the associative Leibniz rule; the A-bimodule-valued
   universal-derivation comparison is constructed in N1.Cyclic using
   commuting left/right actions.
-- Completed projective tensors (N1.Tensor): `CompletedProjectiveTensorProduct`,
+- Completed projective tensors (N1.Tensor), over every normed field 𝕜:
+  `CompletedProjectiveTensorProduct`,
   the separated `UniformSpace.Completion` of the projective topology of a
   finite family of spaces with given seminorm families, with its continuous
   pure-tensor map, the extension `lift` of seminorm-bounded multilinear
-  maps, the completed tensor `map` of bounded linear maps
-  (`Analysis/Normed/Module/PiTensorProduct/Projective/Completion`), the
-  relabelling `reindex`, which for two factors is the completed tensor flip
-  (`…/PiTensorProduct/Reindex/Completion`), and the universal properties
+  maps, the completed tensor `map` of bounded linear maps with its
+  identity and composition laws `CompletedProjectiveTensorProduct.map_id`
+  and `CompletedProjectiveTensorProduct.map_comp`
+  (`Analysis/Normed/Module/PiTensorProduct/Projective/Completion`), first
+  countability of the algebraic projective topology for countable seminorm
+  families over a nontrivially normed field (`…/Projective/Topology`), the
+  relabelling `reindex`, which for two factors is the completed tensor flip,
+  with `CompletedProjectiveTensorProduct.reindex_refl`,
+  `CompletedProjectiveTensorProduct.reindex_trans` and its naturality
+  `CompletedProjectiveTensorProduct.map_comp_reindex`
+  (`…/PiTensorProduct/Reindex/Completion`), and, over a nontrivially
+  normed field, the universal properties
   `liftEquiv` of the algebraic projective tensor and
   `CompletedProjectiveTensorProduct.liftEquiv` of its completion for
   continuous multilinear maps into complete Hausdorff targets
@@ -248,9 +266,11 @@ rebuild them.
   `dixmierTrace` with its positivity, positive homogeneity, subadditivity,
   ideal bound, invariance under adjoints and unitaries, vanishing on trace
   class, the value 1 on `diag(1/(j+1))` and additivity on positive
-  operators for dilation-invariant ω (`…/DixmierTrace`). The pin has no
-  trace functional on trace-class operators, only `traceFreePart`; N3
-  builds the trace, N4 the linear Dixmier trace on `L^(1,∞)`.
+  operators for dilation-invariant ω (`…/DixmierTrace`). The pins have the
+  trace only in finite dimension (Mathlib's `LinearMap.trace`, Tau Ceti's
+  `TauCeti.traceCLM`) and no trace functional on trace-class operators,
+  which VonNeumannAlgebras V4.Core supplies; N4 builds the linear Dixmier
+  trace on `L^(1,∞)`.
 - Fredholm perturbation (N3, N5, N7), for bounded operators between
   Banach spaces over ℂ: Riesz–Schauder, `TauCeti.isFredholm_one_add`,
   that 1+K is Fredholm for compact K; Atkinson's compact perturbation,
@@ -285,8 +305,9 @@ rebuild them.
 | --- | --- |
 | [BanachAlgebras A1–A4,A6](../BanachAlgebras/README.md) | Banach-valued holomorphic calculus, spectra, bounded Hochschild cochains and the A4 dual-bimodule convention. N1 owns its resolution comparisons. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
-| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the trace functional, Hölder with constant one and the quasi-ideals for 0<p<1; N4 the weak ideals and singular traces. |
-| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The complex completed Banach projective tensor and its universal property, consumed by N1.Tensor; the Schmidt series `Tx=Σ_j s_j⟨e_j,x⟩f_j` of a compact operator with `s_j=μ_j(T)`, consumed by N3's trace. |
+| [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds Hölder with constant one, the quasi-ideals for 0<p<1 and the trace cyclicity on dual Schatten classes; N4 the weak ideals and singular traces. |
+| [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
+| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The completed Banach projective tensor over ℝ and ℂ and its universal property, consumed by N1.Tensor. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | Rotation crossed products, Fourier coefficient maps and the dual circle action. N6 constructs the two-torus gauge action. |
 
 ## How to read the build
@@ -299,8 +320,9 @@ homotopy and Morita invariance and the continuous theory on completed
 tensors (N1.Cyclic). N2 consumes the pinned pairings of cyclic cocycles
 with idempotents and invertibles and calibrates the pairing constants,
 Chern chains and smooth-homotopy transport. N3 builds bounded
-Fredholm modules, the trace, Hölder inequality and Schatten quasi-ideals on
-B(H), and the finitely summable character with its index theorem. N4 builds
+Fredholm modules, Hölder's inequality, the Schatten quasi-ideals and the
+dual-Schatten cyclicity of VonNeumannAlgebras' trace on B(H), and the
+finitely summable character with its index theorem. N4 builds
 the weak Schatten ideals, the linear Dixmier trace on the pinned
 logarithmic ideal and the Tauberian bridge. N5
 builds spectral triples, their Borel calculus and bounded transform on the
@@ -317,33 +339,39 @@ needs; the sections are cited as N1–N7.
 ### N1.Tensor. Completed locally convex projective tensors
 
 This is the generic locally convex tensor supplier of the library; it
-uses nothing from the cyclic theory below. Work over ℂ on complex
-Hausdorff locally convex spaces E,F whose topologies are given by
+uses nothing from the cyclic theory below. Fix 𝕜=ℝ or ℂ (`RCLike 𝕜`);
+every statement of this section is made for both fields. Work on
+Hausdorff locally convex 𝕜-spaces E,F whose topologies are given by
 seminorm families (`WithSeminorms`), without assigning a fictitious
 norm to a nonnormable space. The completed projective tensor E⊗̂_π F is
 the pinned `CompletedProjectiveTensorProduct` of the family (E,F): the
-algebraic `TensorProduct ℂ E F` with the topology generated by the
+algebraic `TensorProduct 𝕜 E F` with the topology generated by the
 projective seminorms `π_(p,q)(t)=inf_(t=Σx_i⊗y_i)Σp(x_i)q(y_i)` of finite
 suprema p, q of the defining seminorms, followed by its separated
 `UniformSpace.Completion`. Its canonical continuous bilinear map with
 dense algebraic image, the extension `lift` of seminorm-bounded bilinear
-maps, the completed tensor `map` of bounded linear maps, the flip
-`reindex` and the universal property `CompletedProjectiveTensorProduct.liftEquiv`
-for jointly continuous ℂ-bilinear maps into complete Hausdorff locally
-convex complex spaces, with uniqueness on pure tensors, are consumed from
-the pin. Prove here the identity/composition laws of `map`, associativity,
-scalar units and compatibility with finite sums, with their pure-tensor
-equations and coherence. Establish Fréchet completeness and
+maps, the completed tensor `map` of bounded linear maps with its identity
+and composition laws, the flip `reindex` with its naturality in `map`,
+and the universal property `CompletedProjectiveTensorProduct.liftEquiv`
+for jointly continuous 𝕜-bilinear maps into complete Hausdorff locally
+convex 𝕜-spaces, with uniqueness on pure tensors, are consumed from
+the pin. Prove here the cross property `π_(p,q)(x⊗y)=p(x)q(y)`, the pin
+giving only ≤, from functionals f, g with |f|≤p, f(x)=p(x), |g|≤q,
+g(y)=q(y) supplied by Hahn–Banach over 𝕜 (Mathlib's `exists_dual_vector''`
+on E with the seminorm p); then associativity, the scalar unit
+`𝕜⊗̂_π E≃E` and compatibility with finite direct sums, with their
+pure-tensor equations and coherence. Establish Fréchet completeness and
 metrizability when E,F are Fréchet; no nuclearity or approximation
-hypothesis is imposed for this construction. For complex Banach factors compare
-with BanachSpaceTheory B4's complex completed Banach projective tensor by the
-identity on pure tensors, including the norm/universal-property and
+hypothesis is imposed for this construction. For Banach factors compare
+with BanachSpaceTheory B4's completed Banach projective tensor over the
+same 𝕜 by the identity on pure tensors, including the norm/universal-property and
 finite-family `PiTensorProduct` comparisons. This consumes B4's tensor
 contract, not its approximation-property or nuclear-operator results.
 
 **Checks.**
 
-- On ℓ¹⊗̂_π ℓ¹ the projective norm of a pure tensor x⊗y is ‖x‖‖y‖:
+- On ℓ¹⊗̂_π ℓ¹, over either field, the projective norm of a pure tensor
+  x⊗y is ‖x‖‖y‖, the cross property:
   the one-term representation gives the upper bound, and norming
   functionals f,g with f(x)=‖x‖, g(y)=‖y‖ give
   `‖x‖‖y‖=Σf(x_i)g(y_i)≤Σ‖x_i‖‖y_i‖` for every representation. The
@@ -355,21 +383,23 @@ contract, not its approximation-property or nuclear-operator results.
   Hilbert tensor norm is √n. The comparison map to the Hilbert tensor product
   is continuous and not an isometry; a construction yielding the injective or
   Hilbert norm would give √n.
-- The universal property is for ℂ-bilinear maps. On ℂ⊗̂_π ℂ=ℂ the map
+- The universal property is for 𝕜-bilinear maps, and the field is part of
+  the data. Over 𝕜=ℂ, on ℂ⊗̂_π ℂ=ℂ the map
   (x,y)↦xy induces the identity, while (x,y)↦x·ȳ, additive in each
   variable and ℂ-linear only in x, induces no map at all: the pure tensors
   1⊗i and i⊗1 are both i·(1⊗1), equal in the complex tensor, but the two
-  values are −i and i. A construction over the real scalars would keep
-  them apart.
-- The scalar unit ℂ⊗̂_π E ≃ E sends λ⊗x to λx: for a continuous seminorm
+  values are −i and i. Over 𝕜=ℝ, with ℂ regarded as a real space, the
+  tensor ℂ⊗̂_π ℂ has real dimension 4 and keeps 1⊗i and i⊗1 apart, and
+  (x,y)↦x·ȳ induces a real-linear map.
+- The scalar unit 𝕜⊗̂_π E ≃ E sends λ⊗x to λx: for a continuous seminorm
   p on E, `π_(|·|,p)(Σλ_i⊗x_i)=p(Σλ_ix_i)`, the triangle inequality giving
   ≥ and the one-term representation `1⊗Σλ_ix_i` giving ≤. With p=0 the
   seminorm `π_(|·|,0)` vanishes identically, so no single seminorm of the
-  family separates points; the family separates the points of ℂ⊗E exactly
+  family separates points; the family separates the points of 𝕜⊗E exactly
   because the continuous seminorms of the Hausdorff space E separate its
   points. With E={0} the completed tensor is {0}.
 
-*Needs:* Tau Ceti `CompletedProjectiveTensorProduct` with its `lift`, `map`, `reindex` and `CompletedProjectiveTensorProduct.liftEquiv`; Mathlib `TensorProduct`, `Seminorm`, `WithSeminorms`, `UniformSpace.Completion` and `PiTensorProduct`; BanachSpaceTheory B4.
+*Needs:* Tau Ceti `CompletedProjectiveTensorProduct` with its `lift`, `map`, `CompletedProjectiveTensorProduct.map_id`, `CompletedProjectiveTensorProduct.map_comp`, `reindex` and `CompletedProjectiveTensorProduct.liftEquiv`; Mathlib `TensorProduct`, `Seminorm`, `WithSeminorms`, `UniformSpace.Completion`, `PiTensorProduct` and `exists_dual_vector''`; BanachSpaceTheory B4.
 
 ### N1.Cyclic. Universal forms and complexes
 
@@ -480,8 +510,28 @@ Prove matrix Morita invariance: for a unital algebra A over a
 commutative ℚ-algebra R, coefficients in an R-module M and a nonempty
 finite index set ι, the pinned matrix extension `φ↦φ#Tr` of N2 induces
 a bijection `HC^n(A;M)→HC^n(M_ι(A);M)` in every degree n
-(`bijective_matrixExtension`; the case of ℰ=A^ι of Connes 1985, Part II,
-Corollary 24, p. 113). The exterior product of cycles, with
+(`bijective_matrixExtension`). Connes 1985, Part II, Corollary 24,
+p. 113, applied to the bimodule ℰ=A^ι, is the case R=M=ℂ: Part II works
+with complex algebras and complex-valued cochains (p. 94). A route for
+general R and M: restriction of Hochschild cochains to a diagonal corner
+`a↦aE_rr` is a left inverse of `φ↦φ#Tr` (the pinned
+`matrixCochainExtension_single`), and an explicit chain homotopy between
+the identity of the Hochschild cochains of M_ι(A) and corner restriction
+followed by `φ↦φ#Tr`, built from the matrix units of the unital A, makes
+the two maps mutually inverse between `HH^n(A,Hom_R(A,M))` and
+`HH^n(M_ι(A),Hom_R(M_ι(A),M))`. Since `φ↦φ#Tr`
+commutes with every Hochschild coface, the cyclic operator, the cyclic
+norm, the unit insertion and Connes' B
+(`matrixCochainExtension_hochschildCoface`,
+`matrixCochainExtension_cyclicOperator`,
+`matrixCochainExtension_cyclicNorm`,
+`matrixCochainExtension_barContraction`,
+`matrixCochainExtension_connesB`), it is a map of cyclic bicomplexes
+compatible with I, B and S in the pinned SBI sequence. The five lemma
+along that sequence, by induction on the degree from `H^0(Tot)≅HH^0`,
+gives a bijection on the total cohomology in every degree, and the pinned
+quasi-isomorphism `quasiIsoAt_cyclicCochainComplexToTotal` over a
+ℚ-algebra carries it to cyclic cohomology. The exterior product of cycles, with
 `(ω⊗η)(ω′⊗η′)=(−1)^(deg η deg ω′)ωω′⊗ηη′` and
 `d(ω⊗η)=dω⊗η+(−1)^(deg ω)ω⊗dη`, and the exterior product of cyclic
 cocycles through it are at the pin. Prove the cochain shuffle
@@ -731,16 +781,18 @@ mixed-index inequality `μ_(j+k)(ST)≤μ_j(S)μ_k(T)` of OI-A22 alone gives
 only the constant `2^(1/r)`. Deduce `S_(p₁)⋯S_(p_k)⊆S_p` for
 1/p=Σ_j 1/p_j, and the inclusions S_p⊆S_q for p≤q with `‖T‖_q≤‖T‖_p`,
 from `μ_j(T)≤‖T‖_p` for every j; these inclusions are particular to
-B(H), whose minimal projections have trace one. Define the trace of a trace-class
-operator as `Tr(T)=Σ_j⟨e_j,Te_j⟩` over an orthonormal basis; prove its
-absolute convergence and independence of the basis by summing the
-Schmidt series of BanachSpaceTheory B4 term by term, which gives
-`Tr T=Σ_j μ_j(T)⟨e_j,f_j⟩` for the Schmidt pair `(e_j),(f_j)`; prove
-`|Tr T|≤‖T‖₁`, `Tr(T*)=conj(Tr T)`, `Tr T=Σ_j μ_j(T)` for positive T,
-`Tr(AT)=Tr(TA)` for bounded A and trace-class T, and the cyclicity
-`Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p≤∞ (Connes IV.1,
-p. 300), from the bounded case by Hölder and the S_p-density of
-finite-rank operators for p<∞.
+B(H), whose minimal projections have trace one. The trace
+`Tr(T)=Σ_j⟨e_j,Te_j⟩` of a trace-class operator, its independence of the
+orthonormal basis, `Tr|T|=‖T‖₁`, hence `Tr T=Σ_j μ_j(T)` for positive T,
+the bound `|Tr T|≤‖T‖₁`, which is the norm identity `‖x↦Tr(xT)‖=‖T‖₁`
+evaluated at x=1, and `Tr(AT)=Tr(TA)` for bounded A and trace-class T
+are VonNeumannAlgebras V4.Core's; `Tr(T*)=conj(Tr T)` holds termwise in
+the defining series. Prove here the cyclicity `Tr(ST)=Tr(TS)` for
+S∈S_p, T∈S_q with 1/p+1/q=1 and 1<p<∞ (Connes IV.1, p. 300), the cases
+p=1 and p=∞ being V4.Core's: ST and TS are trace class by Hölder, both
+sides are continuous in S for ‖·‖_p since
+`|Tr(ST)|≤‖ST‖₁≤‖S‖_p‖T‖_q`, and they agree on the ‖·‖_p-dense
+finite-rank S by V4.Core's cyclicity against the bounded T.
 
 **Checks.**
 - `diag((j+1)^(−3))` lies in S_p exactly when p>1/3: in S_(1/2), not in
@@ -769,12 +821,15 @@ finite-rank operators for p<∞.
   alone places ST in S_p for p>1 only; Hölder with p=q↓1 gives every
   r>1/2, and r=1/2 itself fails, so the exponent law is sharp on this
   example.
-- For the rank-one projection onto e₀ the standard basis gives `Tr=1`
-  and the basis `(e₀±e₁)/sqrt 2, e₂, e₃, …` gives `1/2+1/2=1`; for
-  T=diag(1/(j+1)²) the trace is `π²/6=Σ_j μ_j(T)=‖T‖₁`. The unilateral
-  shift has `⟨e_j,Se_j⟩=0` for every j, an absolutely convergent diagonal
-  series, and is not compact: convergence of the diagonal series in one
-  basis is not the definition.
+- Cyclicity on dual Schatten classes beyond V4.Core's cases: on ℓ²(ℕ)
+  let `Se_j=(j+1)^(−2/5)e_(j+1)` and `Te_(j+1)=(j+1)^(−7/10)e_j`, `Te₀=0`.
+  The singular values of S are `(j+1)^(−2/5)`, so S∈S₃∖S₂, and those of T
+  are `(j+1)^(−7/10)`, so T∈S_(3/2)∖S₁; neither factor is trace class and
+  S is not Hilbert–Schmidt. Then `ST=diag(0,1,2^(−11/10),3^(−11/10),…)`
+  and `TS=diag(1,2^(−11/10),3^(−11/10),…)` are different operators with
+  the same trace `ζ(11/10)≈10.584`. The exponent condition cannot be
+  weakened: with 1/p+1/q=2/3, replacing the weights of T by `(j+1)^(−2/5)`
+  puts T in S₃, and ST has diagonal `(j+1)^(−4/5)`, which is not summable.
 - Cyclicity needs a trace-class factor: for the unilateral shift S on
   ℓ²(ℕ), `S*S−SS*` is the rank-one projection onto e₀, of trace 1, so
   `Tr(AB)=Tr(BA)` fails for bounded A, B whose commutator is trace
@@ -826,7 +881,8 @@ map between the closed ranges of the bounded idempotent π(e) on the two
 gradings whose quasi-inverse is the compression of F from π(e)H⁻ back to
 π(e)H⁺ (Connes 1985, Part I, Appendix 2, Proposition 5, p. 91; Connes
 IV.1, Proposition 4, p. 303, whose proof represents the class by an
-idempotent, with the amplification of Proposition 2, p. 295); the odd
+idempotent, with the amplification of Connes IV, introduction,
+Proposition 2, which Connes cites as Proposition 0.2, p. 295); the odd
 pairing with an invertible u is `ind(Pπ̃(u)P)` on PH, with P=(1+F)/2
 and forced unitization where needed. For a unital algebra acting
 nonunitally replace π(u) by `π(u)+I−π(1)`. Construct the trace index
@@ -886,12 +942,13 @@ compression index 1; the circle Hardy compression with
 under the unswapped reduction and −1 under the swapped one; a nonsummable
 compact-commutator cycle. On B(H): `diag((j+1)^(−3))` in S_p exactly for
 p>1/3, `diag(1/(j+1))²` in S_r exactly for r>1/2, `diag((j+1)^(−2))` in
-S₁ but not in S_(1/2), Hölder attained on `I₂`, and the shift with
-`Tr(S*S−SS*)=1`.
+S₁ but not in S_(1/2), Hölder attained on `I₂`, the weighted shifts in
+S₃ and S_(3/2) whose products ST≠TS have the same trace `ζ(11/10)`, and
+the shift with `Tr(S*S−SS*)=1`.
 
 ### Dependencies
 
-*Needs:* N1.Cyclic, N2; OperatorTheory/OperatorIdeals Parts A–B (OI-A17, OI-A20, OI-A22, OI-A30, OI-B29–B30); Tau Ceti `OperatorIdealFamily.schatten` and `OperatorIdealFamily.traceClass`, `TauCeti.isFredholm_one_add`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`, `ContinuousLinearMap.index_add_of_isCompactOperator`, `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`, `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`; BanachSpaceTheory B4's Schmidt series; Mathlib `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`, `IsFredholm.index_comp`, `LinearMap.index` and `cfc`; Fack–Kosaki, Theorems 4.2 and 4.9.
+*Needs:* N1.Cyclic, N2; OperatorTheory/OperatorIdeals Parts A–B (OI-A17, OI-A20, OI-A22, OI-A30, OI-B29–B30); Tau Ceti `OperatorIdealFamily.schatten` and `OperatorIdealFamily.traceClass`, `TauCeti.isFredholm_one_add`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`, `ContinuousLinearMap.index_add_of_isCompactOperator`, `ContinuousLinearMap.IsFredholm.eventually_isFredholm_and_index_eq`, `Continuous.index_eq_of_preconnectedSpace` and `Path.index_eq`; VonNeumannAlgebras V4.Core (the trace on trace class and its cyclicity against bounded operators); Mathlib `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`, `IsFredholm.index_comp`, `LinearMap.index` and `cfc`; Fack–Kosaki, Theorems 4.2 and 4.9.
 
 ## N4. Weak ideals, generalized limits and Dixmier traces
 
@@ -933,11 +990,15 @@ trace class and additivity on the positive cone under the
 dilation-invariance hypothesis; on a non-positive T it takes the value
 `Tr_ω(|T|)`. Construct here the linear extension to a trace on
 L^(1,∞), prove `Tr_ω(AT)=Tr_ω(TA)` for bounded A and its boundedness.
-Call a linear functional on
-B(H) normal when it is `T↦Tr(ρT)` for a trace-class ρ; prove that no
-Dixmier trace is normal: a functional of that form vanishing on every
-rank-one operator has ρ=0, while Tr_ω vanishes on finite-rank operators
-and is nonzero.
+Prove that, for infinite-dimensional H, no Dixmier trace is the
+restriction to `L^(1,∞)` of a normal (ultraweakly continuous) functional
+on B(H), which by the trace-class duality of VonNeumannAlgebras V4.Core
+is `T↦Tr(ρT)` for a trace-class ρ: such a functional vanishing on every
+rank-one operator `ξ⊗η*:x↦⟨η,x⟩ξ` has `Tr(ρ(ξ⊗η*))=⟨η,ρξ⟩=0` for all
+ξ, η, hence ρ=0, while Tr_ω vanishes on the finite-rank operators and
+takes the value 1 on `diag(1/(j+1))` in an orthonormal sequence. On a
+finite-dimensional H every operator has finite rank, so Tr_ω=0 is the
+restriction of the normal functional with ρ=0.
 A general positive extension of limits
 without dilation invariance is not asserted to give an additive trace.
 Call T measurable when all Tr_ω with dilation-invariant ω agree; prove
@@ -992,7 +1053,7 @@ trace; the non-measurable operator with Dixmier traces `2/3+(log 2)/9` and
 
 ### Dependencies
 
-*Needs:* N3's trace, Hölder inequality and quasi-ideals; Tau Ceti `OperatorIdealFamily.logarithmic`, `GeneralizedLimit`, `IsDilationInvariant` and `dixmierTrace`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
+*Needs:* N3's Hölder inequality and quasi-ideals; VonNeumannAlgebras V4.Core (the trace on trace class and the trace-class duality of B(H)); Tau Ceti `OperatorIdealFamily.logarithmic`, `GeneralizedLimit`, `IsDilationInvariant` and `dixmierTrace`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
 
 ## N5. Spectral triples and the Hochschild class
 
@@ -1378,30 +1439,35 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
 
 ## Downstream consumers
 
-- SmoothBanachRepresentations §7.3 consumes N1.Tensor's complex completed
-  locally convex projective tensor for its smooth tensor comparison, and
-  its §7.2a owns the real construction and the scalar-comparison maps,
-  and its Layer 8 records N6 as the owner of the torus identification,
-  seminorm comparisons and spectral invariance and consumes none of them;
-  AutomorphicSpectralTheory, GanGrossPrasadUnitaryGroups and
-  RefinedTraceMethods consume N1's completed tensors and cyclic complexes.
+- SmoothBanachRepresentations §7.3 consumes N1.Tensor's completed
+  locally convex projective tensor at both fields for its smooth tensor
+  comparison, its §7.2a owns only the two scalar-comparison maps between
+  real and complex tensors, and its Layer 8 records N6 as the owner of
+  the torus identification, seminorm comparisons and spectral invariance
+  and consumes none of them; LocallyConvexDuality Layer 5 consumes
+  N1.Tensor over ℝ and ℂ with its Banach comparison;
+  AutomorphicSpectralTheory, AutomorphicSpectralTheoryPartII,
+  GanGrossPrasadUnitaryGroups and RefinedTraceMethods consume N1's
+  completed tensors and cyclic complexes.
 - SpectralManifolds consumes N1–N2 and N4–N5; CompactQuantumMetricSpaces
-  consumes N6's smooth two-torus; HilbertModules/HeisenbergImprimitivity
-  consumes N6's rotation algebra A_θ with its trace and N6–N7's torus
-  connections and Heisenberg modules.
+  consumes N5's spectral triples, N6's rotation algebra A_θ with its gauge
+  action, Fourier coefficients, faithful trace, smooth algebra 𝒜_θ and
+  derivations δ₁, δ₂, and N7's trace-GNS space with its ordered Fourier
+  basis and the Fourier Dirac operator;
+  HilbertModules/HeisenbergImprimitivity consumes N6's rotation algebra
+  A_θ with its smooth subalgebra and trace and N7's Heisenberg module with
+  its frames and Powers–Rieffel projection, for its comparison §6.3.
 - OperatorKTheory consumes N6's rotation C*-algebra A_θ, its universal
   presentation, the injectivity of its coordinate copy of C(𝕋) and its
   faithful trace τ; its Pimsner–Voiculescu computation of `K_*(A_θ)`,
   its Powers–Rieffel generator built from continuous circle functions
   and the trace range `ℤ+θℤ` are its own.
-  It compares its C*-K-groups, Bott generator, Kasparov cycles, products
-  and index pairings with N2's pairings and smooth Bott class, with N3's
-  Fredholm modules, index pairing and two product reductions, and with
-  N7's Heisenberg module and K₀ classes.
 - NoncommutativeIntegration §1.5 identifies its tracial Lp(B(H),Tr) with
   OperatorIdeals' Schatten classes for 1≤p<∞ and with N3's quasi-ideals
-  S_p for 0<p<1; that identification is its comparison with N3, and its
-  tracial Lp spaces are not an input here.
+  S_p for 0<p<1, its Hölder inequality of §1.4 and its Lp–Lq trace
+  cyclicity of §2.1 specialize on B(H) to N3's, and §1.6 identifies its weak Lp(B(H),Tr) with N4's weak Schatten ideals
+  and the weak trace class `S_(1,∞)`; these identifications are its
+  comparison with N3–N4, and its tracial Lp spaces are not an input here.
 
 ## References
 
@@ -1411,14 +1477,16 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   p. 197; the periodicity operator S, Lemma 14, p. 198; the SBI exact
   triangle, Theorem 26, p. 208. III §2: the torus Hochschild and periodic
   computations, Proposition 5 and Theorem 7, pp. 217–218. III §3: the even
-  and odd K-theory pairings, Propositions 2–3, pp. 229–230. Chapter IV §1:
-  p-summability for p≥1 and the Hölder corollary, Definition 3, p. 296;
-  matrix amplification, Proposition 2, p. 295; the trace cyclicity on
-  dual Schatten classes, p. 300; the conditional trace and
-  its cycle, Proposition 1, p. 299; compatibility with S, Proposition 2,
-  p. 300; the character normalization, Definition 3, p. 302; the index
+  and odd K-theory pairings, Propositions 2–3, pp. 229–230. Chapter IV,
+  introduction: matrix amplification and the index map of a Fredholm
+  module, Proposition 2 (cited in §1 as Proposition 0.2), p. 295;
+  p-summability for p≥1 and the Hölder corollary, Definition 3, p. 296.
+  IV §1: the trace cyclicity on dual Schatten classes, p. 300; the
+  conditional trace and its cycle, Proposition 1, p. 299; compatibility
+  with S, Proposition 2, p. 300; the character normalization, Definition 3, p. 302; the index
   theorem, Proposition 4, p. 303. IV §2: the Dixmier trace, Definition 2,
-  p. 312; the Tauberian criteria, Propositions 3–4, pp. 312–313; the
+  p. 312; the properties of `Tr_ω`, Proposition 3, pp. 312–313; the
+  Tauberian criterion, Proposition 4, p. 313; the
   Hochschild class, Theorem 8, p. 315. IV §6: the Heisenberg module and
   its connection, pp. 356–357; its elliptic index formula, pp. 358–361, is
   cited for comparison only. IV Appendix C: the partial-sum norms of
@@ -1427,10 +1495,11 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   Publ. Math. IHÉS 62 (1985), 41–144. Part I, Appendix 2, Proposition 5,
   p. 91: the index map of a Fredholm module on K₀, evaluated on every
   idempotent matrix by the compression of F between the ranges of the
-  idempotent. Part II, Corollary 24, p. 113:
-  cyclic cohomology is invariant under Morita equivalence of unital
-  algebras through a bimodule finite projective on both sides; matrix
-  Morita invariance is the case of `A^ι`.
+  idempotent. Part II, Corollary 24, p. 113: the cyclic cohomology of
+  complex algebras with complex-valued cochains (Part II, p. 94) is
+  invariant under Morita equivalence of unital algebras through a
+  bimodule finite projective on both sides; matrix Morita invariance
+  with R=M=ℂ is the case of `A^ι`.
 - T. Fack and H. Kosaki, [*Generalized s-numbers of τ-measurable
   operators*](https://msp.org/pjm/1986/123-2/pjm-v123-n2-p03-s.pdf),
   Pacific J. Math. 123 (1986), 269–300. Theorem 4.2, p. 286: Hölder with
