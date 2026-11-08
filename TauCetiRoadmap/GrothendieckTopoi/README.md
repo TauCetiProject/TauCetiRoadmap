@@ -1469,7 +1469,7 @@ and 9.5 uses 9.1 and 9.2.
 No roadmap on main cites this one. HomotopyTheoryOfCategories names it as the owner of
 Grothendieck topoi, their points and morphisms and the classifying topos `B G`, and uses none of
 that material: sites appear there only as bases of coefficient stacks. TotallyDistributiveTopoi
-consumes 5.2, 5.6, 6.5 and 7.1. The converse of the two exactness properties of presheaf topoi in
+consumes 1.1, 1.2, 1.4, 2.3, 5.2, 5.6, 6.5 and 7.1. The converse of the two exactness properties of presheaf topoi in
 6.5 fails there: sheaves on `[0, 1)` with the lower topology satisfy both without being a presheaf
 topos (TotallyDistributiveTopoi 3.5), and the topoi satisfying both are the essential subtopoi of
 presheaf topoi (TotallyDistributiveTopoi 2.4).
