@@ -46,7 +46,9 @@ jobs:
       || (github.event_name == 'pull_request_target'
           && !github.event.pull_request.draft
           && startsWith(github.event.pull_request.head.ref, 'progress/'))
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiControl
+      labels: tauceti-fleet-control
     outputs:
       pr: ${{ steps.pick.outputs.pr }}
     steps:
@@ -89,10 +91,11 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@d4a58106fa448f37b6a6ce58c7de240e6a030dd7
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@74d2a99278636a35a4b239bd63ba7b0a807bd6eb
     with:
+      runs_on: '{"group":"TauCetiControl","labels":"tauceti-fleet-control"}'
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: d4a58106fa448f37b6a6ce58c7de240e6a030dd7
+      progress_ref: 74d2a99278636a35a4b239bd63ba7b0a807bd6eb
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See

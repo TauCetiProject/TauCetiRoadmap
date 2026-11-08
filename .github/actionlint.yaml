@@ -1,0 +1,5 @@
+self-hosted-runner:
+  labels:
+    - tauceti-fleet-control
+    - tauceti-fleet-roadmap
+    - nscloud-*

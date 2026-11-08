@@ -39,7 +39,9 @@ permissions:
 
 jobs:
   grant:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiControl
+      labels: tauceti-fleet-control
     steps:
       - name: Mint App token (organization Members write)
         id: token

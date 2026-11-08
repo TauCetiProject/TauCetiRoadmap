@@ -34,7 +34,9 @@ jobs:
     if: >-
       github.event.pull_request.draft == false &&
       (github.event.action != 'edited' || github.event.changes.base != null)
-    runs-on: ubuntu-latest
+    runs-on:
+      group: TauCetiControl
+      labels: tauceti-fleet-control
     steps:
       - name: Mint App token (pull-requests + contents write)
         id: token
