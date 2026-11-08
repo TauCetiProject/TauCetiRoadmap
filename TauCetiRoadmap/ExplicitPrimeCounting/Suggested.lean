@@ -29,9 +29,10 @@ Headline theorems stated here:
   extension under Johnston's condition (`johnston_of_riemannHypothesisUpTo`), and
   Carneiro–Milinovich–Soundararajan's prime in `[x, x + (22/25) √x log x]` under the Riemann
   hypothesis (`carneiro_milinovich_soundararajan`).
-* Layer 3: Dusart's bound for `ψ` and `θ` from a zero-free region of constant `R` alone
-  (`dusart_of_zeroFreeRegion`), and Axler's upper bound for `π(x)` from its `θ`-input
-  (`axler_primeCounting_upper`).
+* Layer 3: Dusart's bound for `ψ` and `θ` from a zero-free region of constant `R`, the absence
+  of zeros up to height `14` and Rosser's bound for the sum of `1/γ³` over the zeros
+  (`dusart_of_zeroFreeRegion`, `ZetaZeroCubeSum`), and Axler's upper bound for `π(x)` from its
+  `θ`-input (`axler_primeCounting_upper`).
 * Layer 4: Vanlalngaia's explicit second theorem of Mertens from its `θ`-input
   (`vanlalngaia_sum_inv_prime`).
 * Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs
@@ -213,6 +214,16 @@ def ZetaZeroReciprocalSum : Prop :=
   ∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ 10 ^ 7},
       (analyticOrderNatAt riemannZeta ρ.1 : ℝ) / ρ.1.im ≤ 16.2106480369
 
+/-- **The cube sum over the zeros** (Rosser, *Explicit bounds for some functions of prime numbers*,
+1941, Lemma 17, as Dusart uses it in the proof of Lemma 3.4 of Math. Comp. 85 (2016)): for every
+`T`, the sum of `1/γ³` over the zeros `β + iγ` of `riemannZeta` with `0 < β < 1` and `0 < γ ≤ T`,
+each counted with its multiplicity, is at most `0.000835`; over the zeros of both signs this is
+Rosser's `∑ 1/|γ|³ < 0.00167`. The full sum is `0.000730…`; the zero count with no zero below
+height `14` bounds it only by `0.00159`, so the bound is a computation on the low zeros. -/
+def ZetaZeroCubeSum : Prop :=
+  ∀ T : ℝ, ∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ T},
+      (analyticOrderNatAt riemannZeta ρ.1 : ℝ) / ρ.1.im ^ 3 ≤ 0.000835
+
 /-- **The zero count at low height**: for `2π ≤ T ≤ 10⁹`, the number `N(T)` of zeros `ρ` of
 `riemannZeta` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T`, each counted with its multiplicity, satisfies
 `|N(T) − M(T)| ≤ 0.28 log T` with `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`. It is the part below
@@ -323,14 +334,16 @@ theorem carneiro_milinovich_soundararajan (hRH : RiemannHypothesis)
 
 /-! ## Layer 3: unconditional bounds for ψ, θ and π -/
 
-/-- **Dusart's bound from a zero-free region alone** (Dusart, Math. Comp. 85 (2016),
+/-- **Dusart's bound from a zero-free region** (Dusart, Math. Comp. 85 (2016),
 Theorem 1.1): if `ζ` has no zero with `|Im s| ≥ 2π` and `Re s ≥ 1 − 1/(R log |Im s|)`, then with
 `X = √(log x/R)`, `max(|θ(x) − x|, |ψ(x) − x|) < x √(8/π) X^{1/2} e^{−X}` whenever
 `X ≥ max(8.36, 8/R)`; the theorem as printed asks `X ≥ max(8.36, 8R)`, but its proof uses
 `X ≥ 8/R` (the inequality `e^{4X} ≤ √x` of its Lemma 3.4), which is what its Corollary 1.2 needs.
-The low zeros enter only through the absence of zeros of height at most `14`. -/
+The low zeros enter through the absence of zeros of height at most `14` and through Rosser's bound
+`ZetaZeroCubeSum` for the sum of `1/γ³`, which the proof of Lemma 3.4 uses. -/
 theorem dusart_of_zeroFreeRegion (R : ℝ) (hR : 0 < R) (hZ : ClassicalZeroFreeRegion R (2 * π))
-    (hlow : ∀ s : ℂ, riemannZeta s = 0 → 0 < s.re → s.re < 1 → 14 < |s.im|) (x : ℝ)
+    (hlow : ∀ s : ℂ, riemannZeta s = 0 → 0 < s.re → s.re < 1 → 14 < |s.im|)
+    (hcube : ZetaZeroCubeSum) (x : ℝ)
     (hX : max 8.36 (8 / R) ≤ √(log x / R)) :
     max |Chebyshev.theta x - x| |Chebyshev.psi x - x| <
       x * (√(8 / π) * √(√(log x / R)) * exp (-√(log x / R))) := by
