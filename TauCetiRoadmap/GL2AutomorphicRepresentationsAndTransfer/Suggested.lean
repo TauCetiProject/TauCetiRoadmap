@@ -26,13 +26,12 @@ arithmetic Frobenius traces and determinants of actual weight-one newforms.
 Finite Galois quotients express finite-image Galois representations; the residual
 statement supplies an integral coefficient field and a residue map above two.
 
-The classical quaternionic forms of R17.3.8a–R17.3.8d are stated with six
+The classical quaternionic forms of R17.3.8a–R17.3.8d are stated with five
 definitions: the weight-`(n, s)` slash `algWeightSlash` on polynomials of bounded
 degree and its right action `algWeightAction` of `∏ GL₂(K)`, the diagonal embedding
 `quaternionDiagonal` of `Dˣ` in the finite adelic units, the level-form module
-`quaternionLevelForms`, and `GL₂` of a local valuation ring inside the invertible
-integral matrices (`gl2Integral`, `gl2IntegralMonoid`). The statements give the action
-law, the rank and the symmetric-power comparison of the coefficient modules, finiteness
+`quaternionLevelForms`, and `GL₂` of a local valuation ring (`gl2Integral`). The statements
+give the action law and the symmetric-power comparison of the coefficient modules, finiteness
 of level forms at open levels for every quaternion algebra over every number field, the
 dimension of classical forms with trivial stabilizer action, and, in the local Hecke ring
 of `GL₂(𝒪)` inside any monoid containing it, the good-place relation
@@ -243,12 +242,6 @@ noncomputable def algWeightAction (n : ι → ℕ) (s : ι → ℤ) :
   map_one' := LinearMap.ext fun P => Subtype.ext (algWeightSlash_one n s P.2)
   map_mul' γ δ := LinearMap.ext fun P => Subtype.ext (algWeightSlash_mul n s δ.unop γ.unop P.2)
 
-/-- R17.3.8a: over a nonzero commutative ring, `L_{n,s}(K)`, free on the monomials by Mathlib's
-`MvPolynomial.basisRestrictSupport`, has rank `∏_i (n_i + 1)`. -/
-theorem finrank_algWeight [Nontrivial K] (n : ι → ℕ) :
-    Module.finrank K (restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) = ∏ i, (n i + 1) := by
-  sorry
-
 end AlgebraicCoefficients
 
 section SymmetricPowerComparison
@@ -353,20 +346,9 @@ variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L]
 noncomputable def gl2Integral : Subgroup (GL (Fin 2) L) :=
   (GeneralLinearGroup.map (𝒪[L]).subtype).range
 
-/-- R17.3.8d: the invertible matrices with entries in the valuation ring. -/
-noncomputable def gl2IntegralMonoid : Submonoid (GL (Fin 2) L) where
-  carrier := {g | ∀ i j, (g : Matrix (Fin 2) (Fin 2) L) i j ∈ 𝒪[L]}
-  mul_mem' {a b} ha hb i j := by
-    simp only [Units.val_mul, Matrix.mul_apply, Fin.sum_univ_two]
-    exact add_mem (mul_mem (ha _ _) (hb _ _)) (mul_mem (ha _ _) (hb _ _))
-  one_mem' i j := by
-    simp only [Units.val_one, Matrix.one_apply]
-    split_ifs
-    · exact one_mem _
-    · exact zero_mem _
-
 /-- R17.3.8d: every element of `GL₂(L)` commensurates `GL₂(𝒪)`, so any submonoid containing
-`GL₂(𝒪)`, such as `gl2IntegralMonoid L` or all of `GL₂(L)`, forms a Hecke pair with it. -/
+`GL₂(𝒪)`, such as the invertible matrices with entries in `𝒪` or all of `GL₂(L)`, forms a Hecke
+pair with it. -/
 theorem gl2Integral_isHeckeTriple {Δ : Submonoid (GL (Fin 2) L)}
     (hΔ : (gl2Integral L).toSubmonoid ≤ Δ) :
     IsHeckeTriple Δ (gl2Integral L) (gl2Integral L) := by sorry

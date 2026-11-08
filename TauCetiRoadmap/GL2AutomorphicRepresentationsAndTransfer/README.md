@@ -84,7 +84,14 @@ relation, inversion formulas and commutation. They specialize AutomorphicFormsOn
 §7.4's abstract level-form carrier and opposite-ring Hecke action to quaternion algebras over number
 fields. R17.3/definite-hilbert-exports owns the division-place coefficient adapter, the level
 colimit, the comparison of R17.3.8d's action with Pan’s `T_ℓ, S_ℓ`, and their JL spectrum.
-Overconvergent quaternionic forms and their p-adic families are outside this roadmap.
+AutomorphicGaloisRepresentations §§0.2a–0.2f owns the analytic weight actions at weights that need
+not be algebraic, the analytic and overconvergent quaternionic forms, property (Pr), the certified
+Hecke matrices and compact controlling operator, the Fredholm series, slope summands and families,
+and small-slope classicality. It builds them on R17.3.8a–R17.3.8d, from which it takes the
+algebraic coefficient modules with their determinant normalizations, nebentypus monoids and
+restricted-series slash at algebraic weights, the level and classical forms with their finiteness,
+norms, stabilizer averaging and dimension, and the Hecke operators with their coset
+decompositions, commutative Hecke algebra and norm bounds.
 
 ArithmeticGaloisRepresentations, Layers 1–5 and §§7.1–7.2, 7.6, owns continuous representations, lattices,
 Weil–Deligne objects, Artin/Swan conductors, finite-image classification, recognition and Galois
@@ -1796,8 +1803,8 @@ ideal, a uniformizer and the residue cardinality; for a field K and a set `Σ_v`
 Prove the following API.
 - Basis, rank and base change: the monomials `z^m` with `m_i ≤ n_i` form a basis over every
   commutative ring (Mathlib `MvPolynomial.basisRestrictSupport`), so `L_{n,s}(K)` is free, of rank
-  `∏_i(n_i+1)` when K is nonzero (`finrank_algWeight`). It is the tensor product over i of the
-  one-variable modules with the product action; for empty ι it is the trivial line. For a ring map
+  `∏_i(n_i+1)` when K is nonzero. It is the tensor product over i of the one-variable modules
+  with the product action; for empty ι it is the trivial line. For a ring map
   K → K′ the map `L_{n,s}(K)⊗_KK′ → L_{n,s}(K′)` is an isomorphism carrying the slash by γ to the
   slash by the image of γ in `∏_iGL₂(K′)`.
 - Symmetric powers: in one variable and over every commutative ring, `z^m ↦ e₁^m e₂^{n−m}`
@@ -1886,10 +1893,9 @@ Prove the following API.
 `Representation.charTwist`; R16.1 (the subgroups `K₀`, `K₁`); R16.6.3; RestrictedPowerSeries §§0.1
 and 2.2.
 
-*Source:* [gross99], the algebraic coefficient representations of definite groups, here in the
-homogeneous polynomial model for GL₂; [nt26], §1.2, p. 8, for the highest-weight convention
-matched with R16.6.3. The transpose identity, the normalization and integrality identities and the
-unit computation are proved from the definitions and the cited unit theorem.
+*Source:* [nt26], §1.2, p. 8, for the highest-weight convention matched with R16.6.3. The
+homogeneous polynomial model, the transpose identity, the normalization and integrality identities
+and the unit computation are proved from the definitions and the cited unit theorem.
 
 ### R17.3.8b Quaternionic level forms, evaluation and norms
 
@@ -1963,9 +1969,12 @@ Prove the following API.
 `IsDedekindDomain.FiniteAdeleRing`, `IsModuleTopology`, `DoubleCoset.Quotient` and
 `IsUltrametricDist`.
 
-*Source:* [gross99], the decomposition of algebraic modular forms at a level into a finite sum of
-invariants of the arithmetic stabilizers; the norm statements follow from that decomposition and
-the ultrametric inequality.
+*Source:* [loeffler11], Definition 3.3.2 and Proposition 3.3.3(1), p. 17, for module-valued forms
+at a compact open level and the evaluation isomorphism onto the finite sum of invariants of the
+arithmetic stabilizers, for groups compact modulo their centre at infinity (its Assumption 3.1.3,
+p. 15), which is the definite case; for every quaternion algebra and open level the decomposition
+is AutomorphicFormsOnReductiveGroups §7.4's evaluation equivalence. The norm statements follow from
+that decomposition and the ultrametric inequality.
 
 ### R17.3.8c Classical quaternionic forms
 
@@ -2022,8 +2031,9 @@ Prove the following API.
   `n_σ+2s_σ` is parallel (R17.3.8a). If `|H_i|` is a unit in R, then
   `e_i=|H_i|⁻¹Σ_{h∈H_i}(·)|h` is a projector of A onto `A^{Γ_i}`: it is Mathlib's
   `Representation.averageMap` for the left action `h ↦ (·)|h⁻¹`, with
-  `Representation.isProj_averageMap`. On R17.3.8b's normed model with U acting isometrically,
-  `‖e_i‖≤‖|H_i|⁻¹‖`, which exceeds one when the residue characteristic divides `|H_i|`, and
+  `Representation.isProj_averageMap`. On R17.3.8b's normed model with A ultrametric (Mathlib
+  `IsUltrametricDist`) and U acting isometrically, `‖e_i‖≤‖|H_i|⁻¹‖`, which for R a
+  nonarchimedean field exceeds one exactly when the residue characteristic divides `|H_i|`, and
   `⊕_ie_i` is a projection of `⊕_iA` onto the image of `M_D(U,A)` of norm at most
   `max_i‖|H_i|⁻¹‖`. For classical coefficients the image of `dim L_{n,s}(K)^{Γ_i}` in K is
   `|H_i|⁻¹Σ_{h∈H_i}tr(h)`; in characteristic zero this is the dimension.
@@ -2056,16 +2066,20 @@ Prove the following API.
   `d(wγw⁻¹)=a_γ` and w ∉ `F_v^×·K₀(𝔭_v^t)`.
 - `H=C₂` acting by −1 on `ℤ_2`: `|H|=2` is not a unit and there is no averaging projector; the
   integral invariants are 0, while the invariants modulo 2 are everything.
+- `H=C₂` swapping the coordinates of `A=ℚ_5²`, an isometry for the sup norm and for the norm
+  `|x|_5+|y|_5`: averaging sends (1,0) to (1/2,1/2), of sup norm 1, within the bound `|1/2|_5=1`,
+  but of norm 2 for `|x|_5+|y|_5`, which is not ultrametric; so the bound needs A ultrametric.
+  Over `ℚ_2` with the sup norm the same vector has norm `2=|1/2|_2`, and the bound is attained.
 
 *Needs:* R17.3.8a; R17.3.8b; AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and
 *definite-quaternion-stabilizers*; Tau Ceti `TauCeti.skolemNoether`; Mathlib `Algebra.IsCentral`,
-`IsSimpleRing`, `NumberField.IsTotallyReal`, `Representation.averageMap` and
-`Representation.isProj_averageMap`.
+`IsSimpleRing`, `NumberField.IsTotallyReal`, `Representation.averageMap`,
+`Representation.isProj_averageMap` and `IsUltrametricDist`.
 
-*Source:* [gross99], algebraic modular forms with coefficients in an algebraic representation;
-[loeffler11], Assumption 3.1.3 and Proposition 3.1.4, p. 15, for finite stabilizers of a group
-compact modulo its centre at infinity. The splitting and averaging statements are proved from the
-definitions and the Skolem–Noether theorem.
+*Source:* [loeffler11], Definition 3.3.2, p. 17, for forms with values in a module over the
+coefficients; Assumption 3.1.3 and Proposition 3.1.4, p. 15, for the finite index of the central
+subgroup in the arithmetic stabilizers of a group compact modulo its centre at infinity. The
+splitting and averaging statements are proved from the definitions and the Skolem–Noether theorem.
 
 ### R17.3.8d Hecke operators on quaternionic forms
 
@@ -2090,9 +2104,12 @@ or integral coefficients. Define:
   1 elsewhere.
 
 Prove the following API.
-- Right cosets: at `GL₂(𝒪_v)`, `T_v`, `T_{v²}` and `S_v` have `q_v+1`, `q_v²+q_v` and 1 right
-  cosets. At `K₀(𝔭_v^t)` and `K₁(𝔭_v^t)`, `Uη_vU=⊔_αUx_α`, where `x_α` is
-  `j_v⁻¹((ϖ_v 0; ϖ_v^tα 1))` at v and 1 elsewhere and α runs over any set of representatives of the
+- Right cosets: at `GL₂(𝒪_v)`, `T_v` has the `q_v+1` cosets of AutomorphicLFunctionsAndLocalFactors
+  AL.2.2.1, transported through `j_v` and extended by 1 away from v. That section decomposes
+  `GL₂(𝒪_v)diag(ϖ_v,1)GL₂(𝒪_v)` into cosets `rGL₂(𝒪_v)`; transposition fixes `GL₂(𝒪_v)` and
+  `diag(ϖ_v,1)`, so it turns this into the decomposition into the right cosets `GL₂(𝒪_v)rᵀ`.
+  `T_{v²}` and `S_v` have `q_v²+q_v` and 1 right cosets. At `K₀(𝔭_v^t)` and `K₁(𝔭_v^t)`,
+  `Uη_vU=⊔_αUx_α`, where `x_α` is `j_v⁻¹((ϖ_v 0; ϖ_v^tα 1))` at v and 1 elsewhere and α runs over any set of representatives of the
   residue field: `x_α=η_v·(1 0; ϖ_v^tα 1)`, and `x_αx_{α′}⁻¹=(1 0; ϖ_v^{t−1}(α−α′) 1)` lies in the
   level exactly when α ≡ α′ mod `𝔭_v`, giving `q_v` distinct cosets, which is the degree. Every
   `x_α` lies in `Σ₁(ϖ_v^t)`, with lower-right entry 1, and the operator does not depend on the
@@ -2102,7 +2119,7 @@ Prove the following API.
   and with δ chosen as `diag(1,d)` at v, `⟨d⟩` commutes with `U_{ϖ_v}` and with the operators at
   other places.
 - Good-place relation: for every submonoid of GL₂(F_v) containing `GL₂(𝒪_v)` it forms a Hecke pair
-  with `GL₂(𝒪_v)` (`gl2Integral`, `gl2IntegralMonoid`, `gl2Integral_isHeckeTriple`), and when it
+  with `GL₂(𝒪_v)` (`gl2Integral`, `gl2Integral_isHeckeTriple`), and when it
   contains the three double cosets, `T_v²=T_{v²}+(q_v+1)S_v` in its Hecke ring (`gl2_hecke_T_sq`).
   The products of the `q_v+1` cosets of `diag(ϖ_v,1)` have determinant valuation two, so they lie
   in the double cosets of `diag(ϖ_v²,1)` and of `ϖ_v`; the first occurs with coefficient one, and
@@ -2157,7 +2174,8 @@ Prove the following API.
 - At the good places 3 and 5, `T_3T_5` has 4·6=24 right cosets and equals `T_5T_3`.
 
 *Needs:* R17.3.8a; R17.3.8b; R17.3.8c; AutomorphicFormsOnReductiveGroups §§7.4 and 7.6; R16.1.3;
-AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors); Mathlib `IsHeckeTriple`,
+AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors), with AL.2.2.1 for the `q_v+1`
+cosets of `diag(ϖ_v,1)` at `GL₂(𝒪_v)`; Mathlib `IsHeckeTriple`,
 `HeckeCoset.mk`, `HeckeCosetModule` and `HeckeRing`; Tau Ceti `HeckeCosetModule.single` and
 `LeftCosetModule.deg`.
 
@@ -3413,6 +3431,17 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
   schemes, so its §§6.3–6.5 can consume the general interfaces rather than restate them.
   The reordered curve branches, the ideal-power contraction calculation, dual-stalk transpose
   and cusp extension by zero are the applications made here.
+- HilbertModularVarietiesAndShimuraCurves §§R18.3.1–R18.3.3, R18.3.6, R18.3.8, R18.5.16a–R18.5.16c
+  and R18.5.17a use R17.3.8a–R17.3.8d: the coefficient modules with their determinant
+  normalization, the class sets and level forms at every open level, the classical forms with
+  central characters, and the Hecke operators with their inversion formulas.
+- AutomorphicGaloisRepresentations §§0.2a–0.2d, 0.2f and 0.3 build their analytic and
+  overconvergent forms, property (Pr), compact Hecke operators, classicality and finite-slope
+  families on R17.3.8a–R17.3.8d: the monoids `Σ₀(ϖ_v^t)`,
+  `Σ₁(ϖ_v^t)` with their coset decompositions, the algebraic coefficient modules with their
+  normalizations and restricted-series slash at algebraic weights, the level and classical forms
+  with their norms and stabilizer averaging, and the Hecke operators at good places and at `K₀`,
+  `K₁` levels with their commutative Hecke algebra and norm bounds.
 
 ## References
 [jl70] H. Jacquet and R. P. Langlands, Automorphic forms on GL(2). LNM 114 (1970); locators cite the IAS retypeset edition (2026).
@@ -3466,7 +3495,6 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 [henniart83]: https://www.numdam.org/item/10.24033/msmf.295.pdf "Henniart, La conjecture de Langlands locale pour GL(3), Mém. SMF11–12 (1983)."
 [henniart02]: https://smf.emath.fr/system/files/2017-08/smf_bull_130_587-602.pdf "Henniart, Une caractérisation de la correspondance de Langlands locale pour GL(n). BSMF130 (2002),587–602."
 [deligne73]: https://publications.ias.edu/sites/default/files/Number20.pdf "Deligne, Les constantes des équations fonctionnelles des fonctions L. LNM349 (1973),501–597."
-[gross99] B. H. Gross, Algebraic modular forms. Israel J. Math. 113 (1999), 61–93.
 [loeffler11]: https://arxiv.org/pdf/0901.2279v3 "D. Loeffler, Overconvergent algebraic automorphic forms. Proc. London Math. Soc. 102 (2011), 193–228; arXiv v3 pagination."
 [shimura71] G. Shimura, Introduction to the arithmetic theory of automorphic functions. Publ. Math. Soc. Japan 11, Iwanami Shoten and Princeton University Press (1971).
 
