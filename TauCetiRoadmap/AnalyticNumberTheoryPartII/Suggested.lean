@@ -28,11 +28,12 @@ coefficients. Those objects are absent at the pins and need the constructions of
 §§5.5–5.6; arbitrary coefficient sequences would not state these theorems.
 
 Layer 5 also states the adelic harmonic analysis this part owns for later roadmaps:
-restricted products of Haar measures, Weil's quotient measure and the `GL₂` class
-number (§§5.3f, 5.3k, 5.3m). Adelic Fourier analysis with its Pontryagin
-self-duality and Poisson summation (§5.3h) needs the standard complex character of
-the adeles and an adelic Schwartz–Bruhat carrier; Siegel sets and the `GL₂`
-Eisenstein series (§§5.3m, 5.3n) need adelic `GL₂` quotients with their Haar
+restricted products of Haar measures, the Pontryagin self-duality of the adeles with
+`K^⊥ = K`, Weil's quotient measure and the `GL₂` class number (§§5.3f, 5.3h, 5.3k,
+5.3m). The self-duality is stated for every nontrivial continuous character of `𝔸_K`
+trivial on `K`, so it needs no standard character. The adelic Fourier transform and
+Poisson summation (§5.3h) need an adelic Schwartz–Bruhat carrier; Siegel sets and the
+`GL₂` Eisenstein series (§§5.3m, 5.3n) need adelic `GL₂` quotients with their Haar
 measures. These carriers are absent at the pins.
 
 Layer 6 states generation of the native rational torsion group algebra by first
@@ -277,6 +278,27 @@ theorem exists_unique_restrictedAddHaar [Countable ι] [∀ i, IsTopologicalAddG
   sorry
 
 end RestrictedHaar
+
+section AdelicSelfDuality
+
+open NumberField
+
+/-- Self-duality of the adeles (§5.3h, the case `V = K` with `B(x,y) = xy`): `𝔸_K` has a
+nontrivial continuous character trivial on `K` (the standard character of §5.3g), and for every
+such character `ψ` the map `y ↦ ψ(· y)` is a topological isomorphism of `𝔸_K` onto its Pontryagin
+dual under which the annihilator of `K` is `K` (Tate, *Fourier analysis in number fields*, §4.1). -/
+theorem adeleRing_selfDual (K : Type*) [Field K] [NumberField K] :
+    (∃ ψ : PontryaginDual (Multiplicative (AdeleRing (𝓞 K) K)), ψ ≠ 1 ∧
+      ∀ ξ : K, ψ (Multiplicative.ofAdd (algebraMap K (AdeleRing (𝓞 K) K) ξ)) = 1) ∧
+    ∀ ψ : PontryaginDual (Multiplicative (AdeleRing (𝓞 K) K)), ψ ≠ 1 →
+      (∀ ξ : K, ψ (Multiplicative.ofAdd (algebraMap K (AdeleRing (𝓞 K) K) ξ)) = 1) →
+      ∃ e : AdeleRing (𝓞 K) K ≃ₜ PontryaginDual (Multiplicative (AdeleRing (𝓞 K) K)),
+        (∀ x y, e y (Multiplicative.ofAdd x) = ψ (Multiplicative.ofAdd (x * y))) ∧
+        ∀ y, (∀ ξ : K, ψ (Multiplicative.ofAdd (algebraMap K (AdeleRing (𝓞 K) K) ξ * y)) = 1) ↔
+          y ∈ Set.range (algebraMap K (AdeleRing (𝓞 K) K)) := by
+  sorry
+
+end AdelicSelfDuality
 
 section QuotientMeasure
 
