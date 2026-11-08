@@ -11,12 +11,17 @@ This file is not the roadmap. The roadmap is `README.md`; this file states, agai
 Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable at the pins, each
 with `sorry`, together with the few definitions their statements need. Every computational input
 that a theorem uses (a finite-range verification, a verified height of zeros) is a hypothesis
-with its data in the statement, exactly as in the README.
+with its data in the statement, exactly as in the README. The bounded-height Riemann hypothesis
+`RiemannHypothesisUpTo` is the proposition of the roadmap ExplicitZetaBounds (§0.2), copied
+verbatim because a roadmap module cannot be imported.
 
 Headline theorems stated here:
 
 * Layer 0: Montgomery–Vaughan's Brun–Titchmarsh inequality with the constant `2`
-  (`brun_titchmarsh`).
+  (`brun_titchmarsh`), from the two finite-range propositions of its route: Montgomery–Vaughan's
+  diagonal bound `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` on `[6, 10⁹)` (`MVDiagonalFiniteRange`)
+  and the weighted large sieve evaluated exactly for `25 ≤ y/k ≤ 2·10⁴`
+  (`BrunTitchmarshFiniteRange`).
 * Layer 2: Schoenfeld's bounds under the Riemann hypothesis
   (`schoenfeld_of_riemannHypothesis`), Lee–Nosal's bounds for `ψ` and `θ` under the Riemann
   hypothesis (`leeNosal_of_riemannHypothesis`, `leeNosal_theta_of_riemannHypothesis`), Büthe's
@@ -99,10 +104,36 @@ def primeReciprocalSum (x : ℝ) : ℝ :=
 
 /-! ## Layer 0: the Brun–Titchmarsh inequality -/
 
+/-- **Montgomery–Vaughan's diagonal bound on its finite range**: for every real `u` with
+`6 ≤ u < 10⁹`, `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07`. From `10⁹` on the bound follows from
+Büthe's explicit asymptotic `log u + γ + ∑_p log p/(p(p − 1)) + O*(58/√u)` for this sum
+(Büthe, *A Brun–Titchmarsh inequality for weighted sums over prime numbers*, Lemma 4.5); together
+they give Montgomery–Vaughan's bound for every `u ≥ 6` (*The large sieve*, 1973, Lemma 7). -/
+def MVDiagonalFiniteRange : Prop :=
+  ∀ u : ℝ, 6 ≤ u → u < 10 ^ 9 →
+    log u + 1.07 ≤
+      ∑ q ∈ Finset.Icc 1 ⌊u⌋₊, ((ArithmeticFunction.moebius q : ℤ) : ℝ) ^ 2 / (q.totient : ℝ)
+
+/-- **The weighted large sieve evaluated below `2·10⁴`**: for every integer `n` with
+`25 ≤ n ≤ 2·10⁴` there is an integer `Q ≥ 2` with `1/L + π(Q) ≤ 2n/log n`, where
+`L = ∑_{q ≤ Q} μ²(q)/(φ(q)(n + 1 + (3/2) q Q))` is the weighted diagonal sum for an interval of
+`n + 1` consecutive integers. From `2·10⁴` on, the choice `Q = ⌊√(2(n + 1)/3)⌋` and the
+diagonal bound (`MVDiagonalFiniteRange` with Büthe's asymptotic) give the same inequality by
+partial summation; at `n = 24` it fails for every `Q`. -/
+def BrunTitchmarshFiniteRange : Prop :=
+  ∀ n : ℕ, 25 ≤ n → n ≤ 20000 → ∃ Q : ℕ, 2 ≤ Q ∧
+    1 / (∑ q ∈ Finset.Icc 1 Q, ((ArithmeticFunction.moebius q : ℤ) : ℝ) ^ 2 /
+          ((q.totient : ℝ) * ((n : ℝ) + 1 + 3 / 2 * (q : ℝ) * (Q : ℝ)))) +
+        (Nat.primeCounting Q : ℝ) ≤
+      2 * (n : ℝ) / log n
+
 /-- **Brun–Titchmarsh inequality** (Montgomery–Vaughan, *The large sieve*, 1973, Theorem 2).
 For real `x, y > 0` and coprime positive integers `k`, `l` with `y > k`, the number of primes
-`p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. -/
-theorem brun_titchmarsh (x y : ℝ) (hx : 0 < x) (k l : ℕ) (hk : 0 < k) (hkl : Nat.Coprime k l)
+`p ≡ l (mod k)` in `(x, x + y]` is at most `2y/(φ(k) log(y/k))`. The proof is the weighted large
+sieve with the constant `3/2`; the two finite-range propositions are the computations it uses
+(the diagonal bound below `10⁹`, and the exact evaluation for `25 ≤ y/k ≤ 2·10⁴`). -/
+theorem brun_titchmarsh (hD : MVDiagonalFiniteRange) (hE : BrunTitchmarshFiniteRange)
+    (x y : ℝ) (hx : 0 < x) (k l : ℕ) (hk : 0 < k) (hkl : Nat.Coprime k l)
     (hy : (k : ℝ) < y) :
     (((Finset.Ioc ⌊x⌋₊ ⌊x + y⌋₊).filter (fun p => p.Prime ∧ p % k = l % k)).card : ℝ) ≤
       2 * y / ((k.totient : ℝ) * log (y / k)) := by
@@ -111,7 +142,10 @@ theorem brun_titchmarsh (x y : ℝ) (hx : 0 < x) (k l : ℕ) (hk : 0 < k) (hkl :
 /-! ## Layer 1: hypotheses -/
 
 /-- **The Riemann hypothesis to height `H`**: every zero `s` of `riemannZeta` with
-`0 < Re s < 1` and `|Im s| ≤ H` has `Re s = 1/2`. -/
+`0 < Re s < 1` and `|Im s| ≤ H` has `Re s = 1/2`. This is the proposition of the roadmap
+ExplicitZetaBounds (§0.2), copied verbatim (up to the name of the bound variable) only to make
+the statements below statable at the pins; its laws and the recorded verifications used below
+(§0.4 there) belong to that roadmap. -/
 def RiemannHypothesisUpTo (H : ℝ) : Prop :=
   ∀ s : ℂ, riemannZeta s = 0 → 0 < s.re → s.re < 1 → |s.im| ≤ H → s.re = 1 / 2
 
