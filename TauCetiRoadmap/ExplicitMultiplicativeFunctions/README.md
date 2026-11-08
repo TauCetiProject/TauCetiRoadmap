@@ -17,7 +17,9 @@ Möbius table, a finite verification, a computed sum over the zeros of `ζ` up t
 explicit parameters or named propositions, and the published constants are then instances. The end
 theorems are Ramaré's transfer theorem with every computation it rests on named, and its instance
 `|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` for `D ≥ 1 078 853` (analytic from `2 161 205`, a direct
-verification below); Tao's bound
+verification below); the unconditional `L_λ(x) = o(x)` for the summatory function
+`L_λ(x) = Σ_{n ≤ x} λ(n)` of the Liouville function, through Davenport's bound for `M` and the
+transfer of bounds from `M` to `L_λ`; Tao's bound
 `|Σ_{n ∈ ⟨S⟩, n ≤ x} μ(n)/n| ≤ 1` for every set `S` of primes; Balazard's inequality
 `|m(x)| ≤ |M(x)|/x + x^{−2} ∫_1^x |M(t)| dt + 8/(3x)` and Ramaré's companion
 `|m̌(x) − 1| ≤ ((7/4 − γ)/x²) ∫_1^x |M(t)| dt + 2/x`; the comparison theorem of the convolution
@@ -26,9 +28,15 @@ method for a general exponent, with the Dirichlet-divisor model
 place of `1.16` for every `t > 0`, the form the comparison theorem consumes); the Hall–Tenenbaum
 inequality; the explicit Mertens product
 `e^γ log x ∏_{p ≤ x}(1 − 1/p) ∈ [1 − 1/log² x, 1 + 1/(2 log² x)]` with Axler's refinement
-`e^γ log x ∏_{p ≤ x}(1 − 1/p) < 1 + 0.07/log³ x`; Robin's `ω(n) ≤ 1.3841 log n/log log n`, the
+`e^γ log x ∏_{p ≤ x}(1 − 1/p) < 1 + 0.07/log³ x` and Dusart's two-sided cubic form, in which both
+`e^γ log x ∏_{p ≤ x}(1 − 1/p)` and its reciprocal lie strictly between `1 − 0.2/log³ x` and
+`1 + 0.2/log³ x` for every real `x ≥ 2 278 382` (from `2 278 383` by the transfer, a direct
+verification on the unit interval below); Robin's `ω(n) ≤ 1.3841 log n/log log n`, the
 Nicolas–Robin maximum `τ(n) ≤ n^{1.538 log 2/log log n}` and Rosser–Schoenfeld's
-`n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`. Robin's
+`n/φ(n) < e^γ log log n + 2.50637/log log n`, all for `n ≥ 3`; and a criterion in terms of six
+primes in `(√n, n)` for `lcm(1, …, n)` not to be highly abundant, with its consequence, from
+Dusart's primes in short intervals, that `lcm(1, …, n)` is not highly abundant for any
+`n ≥ 89 693²`. Robin's
 `σ(n)/n < e^γ log log n + 0.6483/log log n` for `n ≥ 3` is stated by its locator beside Nicolas'
 proved bounds for `σ(n)/n` (9.3), not as an end theorem: the inputs of its proof are fixed only in
 its source. Beside each refereed statement the
@@ -433,10 +441,10 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
   *MeisselMertensEnclosure* (`|B − 0.2614972128| < 10^{−9}` for `B = mertensConstant ℚ`), stated
   there once for both roadmaps. Used wherever a proof here evaluates `γ` or `B` numerically
   (Layers 5.2, 7.4, 8.1).
-- §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`,
-  given the record `LuZamanZhaoRecord` of ExplicitZetaBounds §0.4b, and *RealZeroGap*
-  `(3.0·10^{−3}) ∞`, Banks's instance (a preprint), which a statement that uses it takes as a
-  hypothesis (zero-free inputs, below).
+- §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`
+  given `LuZamanZhaoRecord` (the record of ExplicitZetaBounds §0.4b) and *RealZeroGap*
+  `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord` (Banks's instance, a preprint), which a statement
+  that uses it takes itself as a hypothesis (zero-free inputs, below).
 - §3.2: `ψ(x) < 1.03883 x` for every real `x > 0` (Rosser–Schoenfeld Theorem 12), used as
   `ψ(x) ≤ 1.04 x` for `x ≥ 0` in Layers 1.5 and 1.10; and `θ(x) > x(1 − 1/(2 log x))` for every real
   `x ≥ 563` (Rosser–Schoenfeld Theorem 4), used in Layer 9.4.
@@ -559,13 +567,13 @@ Two results bear on the constants of this roadmap without changing any statement
   (`openai2026siegel` Theorem 1, an unrefereed preprint); its numerically explicit forms are
   ExplicitPrimeCounting §1.7's *RealZeroGap* `c Q`, with the instances *RealZeroGap*
   `(1/5) 10^{10}` (the computation of `luZamanZhao2026`, given its record `LuZamanZhaoRecord` of
-  ExplicitZetaBounds §0.4b) and *RealZeroGap* `(3.0·10^{−3}) ∞` (`banks2026`, an unrefereed
-  preprint, taken as a hypothesis by any statement that uses it). No theorem of this roadmap is
-  proved from them. They bear on two inputs only: the exceptional-zero branch of
-  ExplicitPrimeCounting §6.3 for moduli beyond `10^5`, which Layer 8.3 consumes only through that
-  section, and any lower bound for `|L(1, χ)|` uniform in `q` that a consumer of Layer 4.1 supplies;
-  no numerical lower bound for `L(1, χ)` derived from them is in print, so `|L(1, χ)|` is a parameter
-  of 4.1.
+  ExplicitZetaBounds §0.4b) and *RealZeroGap* `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord`
+  (`banks2026`, an unrefereed preprint, whose instance any statement that uses it takes itself as a
+  hypothesis). No theorem of this roadmap is proved from them. They bear on two inputs only: the
+  exceptional-zero branch of ExplicitPrimeCounting §6.3 for moduli beyond `10^5`, which Layer 8.3
+  consumes only through that section, and any lower bound for `|L(1, χ)|` uniform in `q` that a
+  consumer of Layer 4.1 supplies; no numerical lower bound for `L(1, χ)` derived from them is in
+  print, so `|L(1, χ)|` is a parameter of 4.1.
 - The zero-free half-plane `Re s > 7/8` for every Dirichlet `L`-function (`openai2026quasiRH`
   Theorem 1.1, an unrefereed preprint with no numerical constants): a qualitative supplier of
   power-saving remainders such as `M(x) = O_ε(x^{7/8 + ε})`; it changes no explicit statement here,
@@ -1615,14 +1623,13 @@ function with `μ_□(d²) = μ(d)` and `μ_□ = 0` off the squares. Prove:
   and at `p^a` the first reads `Σ_{j ≤ a} (−1)^j = [a even]`; the other two follow from it, from
   `μ ⋆ ζ = δ` and from its image `1_□ ⋆ μ_□ = δ` under `n ↦ n²`;
 - the summatory identities: for every real `x`,
-  `L_λ(x) = Σ_{w ≤ √x} M(x/w²)` (`liouvilleSum_eq_sum_moebiusSum`) and
-  `M(x) = Σ_{w ≤ √x} μ(w) L_λ(x/w²)` (`moebiusSum_eq_sum_liouvilleSum`), over the naturals
+  `L_λ(x) = Σ_{w ≤ √x} M(x/w²)` and `M(x) = Σ_{w ≤ √x} μ(w) L_λ(x/w²)`, over the naturals
   `1 ≤ w ≤ √x` (both sides vanish for `x < 1`), by summing the second and third convolution
   identities over `n ≤ x` and grouping the terms by `w = d`; hence
   `|L_λ(x)| ≤ Σ_{w ≤ √x} |M(x/w²)|` and `|M(x)| ≤ Σ_{w ≤ √x} μ²(w) |L_λ(x/w²)|`;
 - the transfer of bounds: for reals `ε` and `Y ≥ 1`, if `|M(y)| ≤ ε y` for every real `y ≥ Y`,
-  then `|L_λ(x)| ≤ (π²/6) ε x + 2 x^{3/4}` for every real `x ≥ Y²`
-  (`abs_liouvilleSum_le_of_abs_moebiusSum_le`), and the same holds with `M` and `L_λ` exchanged.
+  then `|L_λ(x)| ≤ (π²/6) ε x + 2 x^{3/4}` for every real `x ≥ Y²`, and the same holds with `M`
+  and `L_λ` exchanged.
   Route: in the first summatory identity the terms with `w ≤ x^{1/4}` have `x/w² ≥ √x ≥ Y` and
   contribute at most `ε x Σ_{w ≥ 1} w^{−2} = (π²/6) ε x` (`hasSum_zeta_two`); the others satisfy
   `|M(x/w²)| ≤ x/w²`, and `Σ_{w > W} w^{−2} ≤ 1/⌊W⌋ ≤ 2/W` for `W = x^{1/4} ≥ 1`. For the exchanged
@@ -3071,10 +3078,10 @@ With `Q(x) = Σ_{n ≤ x} μ²(n)` and `R(x) = Q(x) − 6x/π²` of Layer 0.5 (`
 `hasSum_zeta_two`), prove:
 
 - for every real `x`, `Q(x) = Σ_{k ≤ x} M(√(x/k))` over the naturals `1 ≤ k ≤ x`
-  (`squarefreeCount_eq_sum_moebiusSum`; both sides vanish for `x < 1`). Route: the identity
+  (both sides vanish for `x < 1`). Route: the identity
   `μ²(n) = Σ_{d² ∣ n} μ(d)` behind 7.1's `Q(x) = Σ_{d ≤ √x} μ(d) ⌊x/d²⌋`, summed over `n ≤ x` with
   the pairs `(k, d)`, `k d² ≤ x`, grouped by `k` instead of by `d`;
-- for every real `x ≥ 0`, `∫_0^x M(√(x/u)) du = 6x/π²` (`integral_moebiusSum_sqrt_div`). Route: for
+- for every real `x ≥ 0`, `∫_0^x M(√(x/u)) du = 6x/π²`. Route: for
   `u > 0`, `M(√(x/u)) = Σ_{d ≥ 1} μ(d) [u ≤ x/d²]`; the integrals of the absolute values of the
   terms sum to `Σ_d x/d² < ∞`, so sum and integral commute, and the integral is
   `x Σ_d μ(d)/d² = 6x/π²` (`μ ⋆ ζ = δ` with absolute convergence and `hasSum_zeta_two`). The
@@ -3084,7 +3091,7 @@ With `Q(x) = Σ_{n ≤ x} μ²(n)` and `R(x) = Q(x) − 6x/π²` of Layer 0.5 (`
 
       R(x) = Σ_{1 ≤ k ≤ K} M(√(x/k)) − ∫_0^{K+1/2} M(√(x/u)) du − Σ_{K < k ≤ x+1} ∫_{k−1/2}^{k+1/2} (M(√(x/u)) − M(√(x/k))) du,
 
-  the last sum over the naturals `k` with `K < k ≤ ⌊x⌋ + 1` (`squarefreeRemainder_eq_midpoint`).
+  the last sum over the naturals `k` with `K < k ≤ ⌊x⌋ + 1`.
   Route: for `K > ⌊x⌋` the last sum is empty, and the form is the previous one, since
   `M(√(x/u)) = 0` for `u > x` and `M(√(x/k)) = 0` for `k > x`; for `K ≤ ⌊x⌋` write each term
   `M(√(x/k))` with `K < k ≤ ⌊x⌋ + 1` as the integral of that constant over `[k − 1/2, k + 1/2]`
@@ -3507,8 +3514,14 @@ about `exp(4.7·10^{15})`.
 
 State Kumchev–McCormick–McNew–Park–Scherr–Ziehr's theorem (`kumchevEtAl2023` Theorem 1, a preprint,
 by its locator): for every real `x ≥ 2`, the interval `(x, x + 11 x^{1/5} log x]` contains a
-squarefree integer; for `x ≤ 10^{18}` this is *SquarefreeGapVerified* `10^{18} 18` (Layer 0.7), and
-beyond the source's Propositions 1–3, with `5` in place of `11` for `x ≥ e^{400}` (its Theorem 3).
+squarefree integer. Up to `10^{18}` it follows from *SquarefreeGapVerified* `10^{18} 18` (Layer 0.7)
+and two explicit squarefree integers. For every real `x` with `3.77 ≤ x < 10^{18} − 19`,
+`11 x^{1/5} log x ≥ 19` (the left side increases in `x > 1` and is `19.04` at `3.77`), so the
+interval contains the `19` consecutive integers `⌊x⌋ + 1, …, ⌊x⌋ + 19`, all below `10^{18}`, which
+the proposition forbids from being all non-squarefree; for `2 ≤ x < 3.77` the interval contains the
+squarefree `5`; and for `10^{18} − 19 ≤ x ≤ 10^{18}` it contains
+`10^{18} + 1 = 101·9901·999 999 000 001`, a product of three distinct primes. Beyond `10^{18}` it is
+the source's Propositions 1–3, with `5` in place of `11` for `x ≥ e^{400}` (its Theorem 3).
 
 *Needs:* 1.7; 7.1; 7.2 (for the comparison); Layer 0.7 (*ZetaResidueSumVerified*,
 *SquarefreeRangeVerified*, `MoebiusTableVerified`, *SquarefreeGapVerified*).
@@ -3520,6 +3533,11 @@ beyond the source's Propositions 1–3, with `5` in place of `11` for `x ≥ e^{
 - Proposition 8.4(b) against 7.2's `1.06 √(x/log x)`: the ratio of the `√x` coefficients is
   `1.537·10^{−8} √(log x)/1.06`, below `1` while `log x < 4.75·10^{15}`; the whole right side of 8.4(b)
   drops below `1.06 √(x/log x)` at `x = 5.16·10^{10}` and stays below up to that upper limit.
+- The gap bound alone needs an interval of length at least `19`: `11 x^{1/5} log x` is `8.76` at
+  `x = 2`, `15.05` at `x = 3` and reaches `19` only at `x = 3.7627…`, so on `[2, 3.77)` the interval
+  can hold fewer than `19` integers, all of which *SquarefreeGapVerified* `10^{18} 18` allows to be
+  non-squarefree; there the squarefree `5` lies in `(x, x + 11 x^{1/5} log x]`, since
+  `x < 5 ≤ 2 + 8.76`.
 
 ### 7.9 Explicit Piltz remainders
 
@@ -3822,9 +3840,10 @@ every `a` coprime to `q`, to at least `100` digits (`languascoZaccagnini2009`), 
 *ProgressionMertensConstantEnclosure* (Layer 0.7), which supplies the enclosure of the first
 hypothesis for those moduli. For moduli beyond the range where ExplicitPrimeCounting §6.3 is
 tabulated, the constant `c_θ(q)` of that input carries an exceptional-zero branch;
-ExplicitPrimeCounting §6.3 states it under its three interchangeable hypotheses (among them
-*RealZeroGap* `(1/5) 10^{10}` given `LuZamanZhaoRecord` and *RealZeroGap* `(3.0·10^{−3}) ∞`, of
-its §1.7), and this roadmap consumes the statement as stated there.
+ExplicitPrimeCounting §6.3 states it under the forms of the exceptional clause that it lists
+(among them *RealZeroGap* `(1/5) 10^{10}` given `LuZamanZhaoRecord` and *RealZeroGap*
+`(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord` (Banks's instance, a preprint), of its §1.7), and this
+roadmap consumes the statement as stated there.
 
 *Needs:* 8.1's transfer; ExplicitPrimeCounting §6.3; *ProgressionProductTableVerified*;
 *ProgressionMertensConstantEnclosure*;
@@ -3919,8 +3938,7 @@ natural `n ≥ 1` (`teo2026` lines 113–116), with `τ_k = ζ^k` the `k`-fold D
   prime `p` with `p^ε ≤ k` (at a tie `p^ε = k` with `p ∤ N`, the integers `N` and `pN` give the same
   ratio, since `τ_k(p) = k`).
 
-Prove, for every natural `k` and every natural `n ≥ 1`, `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`
-(`pow_cardDistinctFactors_le_zeta_pow_apply` and `zeta_pow_apply_le_pow_cardFactors`), with equality
+Prove, for every natural `k` and every natural `n ≥ 1`, `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`, with equality
 on either side exactly when `k ≤ 1` or `n` is squarefree; at `k = 2` the first is
 `τ(n) ≥ 2^{ω(n)}`, and at a superior `k`-highly composite `n = N` it is `τ_k(N) ≥ k^{ω(N)}`. Route:
 for `k ≥ 1`, `τ_k = ζ^k` is multiplicative (`ArithmeticFunction.IsMultiplicative.pow` of
@@ -4076,17 +4094,18 @@ every natural `m < n` (Pillai's notion; `σ(0) = 0`, so `m = 0` imposes nothing)
 
 - for every `N ≥ 1`, the least `m ≤ N` at which `σ` attains its maximum over `[1, N]` is highly
   abundant, since an earlier `j` with `σ(j) ≥ σ(m)` would attain it first; as `σ(N) ≥ N`, these
-  maxima are unbounded, so there are infinitely many highly abundant numbers
-  (`setOf_isHighlyAbundant_infinite`);
+  maxima are unbounded, so there are infinitely many highly abundant numbers;
 - the six-prime criterion (`not_isHighlyAbundant_lcmUpto_of_criterion`): let `n` be natural and
   `p₁ < p₂ < p₃ < q₁ < q₂ < q₃` primes with `√n < p₁` and `q₃ < n` such that
 
       ∏_{i ≤ 3} (1 + 1/q_i) ≤ ∏_{i ≤ 3} (1 + 1/(p_i (p_i + 1))) · (1 + 3/(8n)) · (1 − 4 p₁p₂p₃/(q₁q₂q₃));
 
-  then `ℓ_n` is not highly abundant;
+  then `ℓ_n` is not highly abundant (`tao2025mo` lines 233–238, the Theorem of the answer, with its
+  proof at lines 240–261);
 - that `ℓ_n` is not highly abundant for every natural `n ≥ 89 693²`
   (`not_isHighlyAbundant_lcmUpto`), under Dusart's interval of ExplicitPrimeCounting §7.4: for
-  every real `y ≥ 89 693` there is a prime in `(y, y(1 + 1/log³ y)]`.
+  every real `y ≥ 89 693` there is a prime in `(y, y(1 + 1/log³ y)]` (`tao2025mo` lines 265–297,
+  where the same input is applied at `y = √n` and the range `n ≥ 89 693²` is reached).
 
 Route for the criterion. Put `P = p₁p₂p₃` and `Q = q₁q₂q₃`. Since `p_i² > n` and `q_i² > n`,
 every `p_i` and every `q_i` divides `ℓ_n` exactly once; write `ℓ_n = Q ℓ'` with no `q_i` dividing
@@ -4385,6 +4404,10 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   `ζ(s)` with an explicit error term, J. Number Theory 244 (2023), 111–168. §3, footnote 6.
 - `tao2010`: T. Tao, A remark on partial sums involving the Möbius function, Bull. Aust. Math.
   Soc. 81 (2010). Theorem 1.1.
+- `tao2025mo`: T. Tao, answer 501229 (5 October 2025, edited 20 January 2026) to the MathOverflow
+  question 501066, whether every `lcm(1, …, n)` is highly abundant; it uses Dusart's interval
+  (`dusart2018` Proposition 5.4 in print). The Theorem of the answer (the six-prime criterion) with
+  its proof, and the range `n ≥ 89 693²` (lines 233–297).
 - `teo2026`: L.-P. Teo, Superior highly composite numbers and the explicit upper bound of
   generalized divisor functions, Ramanujan J. 69 (2026), Art. 5; cited with the numbering of arXiv
   v2. §6, Tables 12–18.
