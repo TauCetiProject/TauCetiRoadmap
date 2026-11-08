@@ -230,6 +230,19 @@ docstring with what they lack.
 - The asymptotic prime-gap statements of Carneiro–Milinovich–Soundararajan (their Theorem 3 and
   Corollary 4), which rest on a Brun–Titchmarsh constant `36/11` that no roadmap plans; only their
   explicit Theorem 5 is a target (§2.5).
+- Primes between consecutive `k`-th powers for every `n ≥ 1` with `k` below the `155` of §7.5:
+  Cully-Hugill–Johnston's `k = 90` (`cully-hugill-johnston-2025` Theorem 1.4) and the preprint
+  statements built on it, `k = 86` (`lee-2026` Theorem 1.2) and a prime in `[x, x + x^{1 − 1/n}]`
+  for every `n ≥ 106` and real `x ≥ 1` (`visser-2025`, the third statement of its abstract). The
+  route of the first rests on the averaged truncated explicit formula of that paper (its Theorem
+  1.3, with a height `T* ∈ [T, 2T]` chosen by the averaging, at the rows with `α = 1/85` of its
+  Table 1), which `lee-2026` also uses (its display (3.3)), and on Kadiri–Lumley–Ng's density at
+  `σ₁ = 3/5` with the recomputed constants of `johnston-yang-2023` Table 3 (its §5), a constant
+  `C₂(3/5)` that neither that paper nor the table prints (the table's rows start at `σ = 0.980`,
+  `johnston-yang-2023` lines 1049–1073); the preprints add inputs that no refereed theorem states,
+  the zero-free constants of a thesis (`lee-2026` §2.1, display (2.2)) and the real-`x` form read
+  off the proof of the `k = 90` theorem (`visser-2025` §2.1, display (2.5)). None of them is stated
+  here.
 - The effective Chebotarev theorem under the generalised Riemann hypothesis for a general Galois
   extension (Bach–Sorenson's Theorem 5.1): §6.5 proves its rational instance for the characters
   modulo `q` directly from Dirichlet `L`-functions.
@@ -417,8 +430,9 @@ docstring with what they lack.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-- §0.2 `psiAP q a x`, `primeCountAP q a x`, `thetaAP q a x` with `theta_ap.level_one` and
-  `theta_ap.sum_classes`; §0.7 `quadratic_real_zero_le_of_bmor` (under its `BMORFiniteInput` and
+- §0.2 `psiAP q a x`, `primeCountAP q a x`, `thetaAP q a x` with the level-one identity
+  `θ(x; 0, 1) = Chebyshev.theta x` and, for `q ≥ 1`, the sum over the classes modulo `q`, which is
+  `Chebyshev.theta x` (both stated there in prose); §0.7 `quadratic_real_zero_le_of_bmor` (under its `BMORFiniteInput` and
   `BMORClassNumberInput`: for `q ≥ 3`, every real zero `β > 0` of `L(s, χ)` for a nonprincipal
   quadratic `χ` modulo `q` has `β ≤ 1 − 40/(√q log² q)`), for the exceptional clause of §6.3;
   §0.3, §0.5, §0.8, §0.16, §0.19, §0.20, §0.25 and their finite-range
@@ -580,8 +594,8 @@ published constants for `ψ` and `θ`, then transfers to `π`. Layers 4 and 5 de
 partial summation and inversion of the Layer 3 bounds, each stated from its Layer 3 input. Layer 6 repeats the scheme for a residue class modulo `q` with the zero data of the
 characters as parameters, applies Ramaré–Rumely's region for a modulus at Dusart's constant,
 and records which exceptional-modulus clauses a numerical real-zero gap removes, and Layer 7 derives
-the unconditional short-interval theorems from the smoothed explicit formula and the Layer 3
-bounds. Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
+the unconditional short-interval theorems from the smoothed explicit formula (§§7.2–7.3), the
+truncated explicit formula of §2.1 (§7.5) and the Layer 3 bounds (§§7.1, 7.4). Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
 statement and its route use, item by item.
 
 ## Layer 0: the Brun–Titchmarsh inequality, carriers and transfer identities
@@ -1030,7 +1044,8 @@ Schoenfeld's Theorem 11 (`schoenfeld-1976` lines 201–206), stated for an arbit
 
 ### 0.6 Agreement lemmas with AnalyticNumberTheoryPartI and the sieve carriers
 
-- `psiAP 1 0 x = ψ(x)` and `theta_ap.level_one`; for `q ≥ 1` and `a : ZMod q`,
+- `psiAP 1 0 x = ψ(x)` and the level-one identity `θ(x; 0, 1) = Chebyshev.theta x` of
+  AnalyticNumberTheoryPartI §0.2; for `q ≥ 1` and `a : ZMod q`,
   `primeCountAP q a x = SieveDistribution.primeCountAP x q a.val` (SieveMethodsAndPrimePatterns
   §3.1 counts `p ≤ ⌊x⌋` with `p ≡ a.val (mod q)`); for `a` a unit, *rayClassPsi* of
   ZerosOfLFunctions §8.7 at `K = ℚ`, `𝔪 = (q)∞` and the class of `a` equals `psiAP q a x`, since
@@ -4244,27 +4259,65 @@ and Mathlib `Chebyshev.theta`, `Nat.nth Nat.Prime`.
 
 ### 7.5 Primes between consecutive powers
 
-Under the region of `gap:vinogradov-korobov-constants`, `RH(3·10¹²)`, a density bound and the
-zero-count error:
+Each statement of this section is proved from the truncated explicit formula of §2.1, applied at
+`x` and at `x + h`, and holds under that section's hypotheses: `RH(3 000 175 332 800)`, the
+classical-shape region with `R₀ = 5.5666305` (`gap:classical-zero-free-constants`), Ford's region
+of ExplicitZetaBounds §7.2 for `t ≥ 1.88·10¹⁴`, the region of `gap:vinogradov-korobov-constants`
+and *PsiThetaUpper* `(1 + 1.93378·10⁻⁸, 1.04320, e⁴⁰)`, discharged in §3.7; under
+*CullyHugillJohnstonTable* (§2.1) at the row each item names; and under the density bound and the
+zero count each item names.
 
+- The common route. Let `x ≥ e⁴⁰`, `h > 0` and `T` satisfy `max(51, log(x + h)) < T < (x^α − 2)/2`
+  for the `α` of the row `(log x_M, α, λ, M)` used, with `x ≥ x_M`. Since `θ(x) ≤ ψ(x)` (Mathlib
+  `Chebyshev.theta_le_psi`) and `ψ(y) − θ(y) ≤ 2 √y log y` for `y ≥ 1` (Mathlib
+  `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`), the formula at `x` and at `x + h` gives
+  `θ(x + h) − θ(x) ≥ h − |∑_{|γ| ≤ T} ((x + h)^ρ − x^ρ)/ρ| − M (x log x + (x + h) log(x + h))/T − 2 √(x + h) log(x + h)`.
+  Each term of the sum is `∫_x^{x+h} u^{ρ−1} du`, of absolute value at most `h x^{β−1}`, and
+  `∑_{|γ| ≤ T} x^{β−1} = 2 N(T)/x + 2 (log x/x) ∫₀¹ N(σ, T) x^σ dσ`, where `N(σ, T)` counts the zeros
+  with `β > σ` and `0 < γ ≤ T`. The integral is bounded through the zero count below an abscissa
+  `σ₁`, the density bound on `[σ₁, 1 − ν(T)]` and the zero-free region `σ ≥ 1 − ν(T)` above it; the
+  counts up to `T` inclusive are at most the density and count bounds at every `T' > T`, which are
+  continuous in `T`. If the resulting lower bound is positive, `(x, x + h]` contains a prime.
+- Comparison with the sources. Dudek and Cully-Hugill bound the same difference with their own
+  truncated formulas, which they prove only for `x` half an odd integer (`dudek-2016` line 115,
+  Theorem 2.1; `cully-hugill-2021` lines 187–197, Theorem 2) and apply at `x + h` as well
+  (`dudek-2016` lines 619–626; `cully-hugill-2021` lines 563–565), a point that is in general not
+  half an odd integer; and they convert to `θ` with the bounds for `ψ − θ` of Dusart
+  (`dudek-2016` line 631) and of Costa Pereira and Broadbent–Kadiri–Lumley–Ng–Wilk
+  (`cully-hugill-2021` lines 151–165). At the rows used below, the error of §2.1 at `x` and `x + h`
+  is smaller than the source's at the source's `T`, by more than `2 √(x + h) log(x + h)` (Checks),
+  so the inequality from which each source reads its threshold ((24)–(25) of `dudek-2016`, (21) of
+  `cully-hugill-2021`) holds a fortiori for the lower bound above, at every real `x` of the range.
+  The statements below are for every real `x`; that form is this route's, and the sources state
+  their intervals from half odd integers (Cully-Hugill passes to real `x` through
+  `X = ⌊x + 1/2⌋ + 1/2`, which gives only `(x, X + 3X^{2/3}]`, lines 662–665).
 - Dudek (`dudek-2016` line 63, Theorem 1.1, arXiv text; the journal version prints `33.3`; the
-  argument at lines 700–806): if `N°(σ, T) ≤ A (3T)^{8(1−σ)/3} log^{5−2σ} T + 103 log² T` for
-  `T ≥ 2000` and `σ ≥ 0.52`, then for every real `x` with `x^{1/3} ≥ exp(exp(c_A))` the interval
-  `(x, x + 3x^{2/3}]` contains a prime (the argument bounds `ψ(x + 3x^{2/3}) − ψ(x)` from below), and
-  hence there is a prime between `n³` and `(n + 1)³` for every `n ≥ exp(exp(c_A))`, since
-  `n³ + 3n² < (n + 1)³`, with `c_A` the explicit solution of the paper's inequality (24) (line 802),
-  increasing in `A`, and `c_{9.7} = 33.217`. The paper takes `A = 9.7` from `ramare-2016`
-  Theorem 1.1, whose leading constant `broadbent-kadiri-lumley-ng-wilk-2021` lines 950–952 and
-  1128–1130 report to be off by a factor over 100; the threshold `exp(exp(33.217))` is therefore
-  stated only under the hypothesis with `A = 9.7`, and the unconditional cube statement is
-  Cully-Hugill's below. Under the zero input *RamareRevisedDensity* (below; `A = 965` and
-  `51.5 ≤ 103`) the hypothesis holds, and the theorem gives the threshold `exp(exp(c_{965}))`,
-  larger than `exp(exp(c_{9.7}))` since `c_A` increases with `A`; its value is not computed here.
-  The zero counts the paper takes from Trudgian's bound against `M(T)` with the `7/8`
-  (`N(T) < (T/2π) log T` for `T > 15`, line 690) follow from Rosser's bound of ExplicitZetaBounds
-  §5.2, since `(T/2π) log 2π + T/2π − 7/8` exceeds Rosser's right side from `T = 15` on.
+  argument at lines 619–828), at the row `(40, 1/2, 0.48, 6.431)`, under the region of
+  `gap:vinogradov-korobov-constants` (Ford's `57.54`, the paper's Lemma 3.3, lines 702–706) and
+  Rosser's zero count of ExplicitZetaBounds §5.2: if
+  `N°(σ, T) ≤ A (3T)^{8(1−σ)/3} log^{5−2σ} T + 103 log² T` for `T ≥ 2000` and `σ ≥ 0.52`, then for
+  every real `x` with `x^{1/3} ≥ exp(exp(c_A))` the interval `(x, x + 3x^{2/3}]` contains a prime,
+  and hence there is a prime between `n³` and `(n + 1)³` for every `n ≥ exp(exp(c_A))`, since
+  `n³ + 3n² < (n + 1)³`, with `c_A` the threshold from which the paper's inequalities (24) and (25)
+  both hold at its `k = 0.9359` (lines 796–828), nondecreasing in `A` (only (24) depends on `A`),
+  and `c_{9.7} = 33.217`, where (24) is the later of the two to hold. Route:
+  the common route at the paper's `T`, the solution of `x/((3T)^{8/3} log² T) = exp(log^k x)`, which
+  is below `x^{3/8}` (lines 737–742) and so in the range of the row, with the zeros split at
+  `σ₁ = 5/8` (lines 713–732). The paper takes `A = 9.7` from `ramare-2016` Theorem 1.1, whose
+  leading constant `broadbent-kadiri-lumley-ng-wilk-2021` lines 950–952 and 1128–1130 report to be
+  off by a factor over 100; the threshold `exp(exp(33.217))` is therefore stated only under the
+  hypothesis with `A = 9.7`, and the cube statement under recorded inputs is Cully-Hugill's below.
+  Under the zero input *RamareRevisedDensity* (below; `A = 965` and `51.5 ≤ 103`) the hypothesis
+  holds, and the theorem gives the threshold `exp(exp(c_{965}))`, larger than `exp(exp(c_{9.7}))`
+  since the solution of (24), which already decides `c_{9.7}`, increases with `A`; its value is
+  not computed here. The zero counts the paper takes
+  from Trudgian's bound against `M(T)` with the `7/8` (`N(T) < (T/2π) log T` for `T > 15`, line 690)
+  follow from Rosser's bound of ExplicitZetaBounds §5.2, since `(T/2π) log 2π + T/2π − 7/8` exceeds
+  Rosser's right side from `T = 15` on.
 - Cully-Hugill (`cully-hugill-2021`, published as J. Number Theory 247 (2023); line 28, Theorem 1;
-  line 662), with the zero input *CullyHugillDensity* below (the paper's recomputation of
+  line 662), at the row `(40, 1/2, 0.48, 6.431)`, under the region of
+  `gap:vinogradov-korobov-constants` (the paper's `ν₂`, the only region its cube argument uses,
+  lines 671–672), the zero input *CullyHugillDensity* below (the paper's recomputation of
   Kadiri–Lumley–Ng's density, lines 113–118 and 654–660) and the zero count of ExplicitZetaBounds
   §5.2 given *HiaryRecord*, *PatelRecord* and *YangRecord*: the paper quotes
   Hasanalizade–Shen–Wong's triple `(0.1038, 0.2573, 9.3675)` against `M(T)` with the `7/8`
@@ -4274,28 +4327,23 @@ zero-count error:
   (its §0.4): for every real `x ≥ exp(exp(33.990))` the interval `(x, x + 3x^{2/3}]` contains a
   prime; consequently there is a prime between `n³` and `(n + 1)³` for every
   `n ≥ exp(exp(32.892))`, since `n³ + 3n² < (n + 1)³` and
-  `exp(exp(33.990))^{1/3} = exp(exp(32.892))`; and, given also Ford's intermediate region of
-  ExplicitZetaBounds §7.2 (the region `ν₁` of the paper's (1), which is the wider one at the heights
-  `T = x^α` where its (21) is solved for `m = 155`, lines 671–678) and the rows of
-  *CullyHugillLeeTable* at `x₀ = 4·10¹⁸` and `log x₀ = 1200` with the hypotheses of those rows
-  (§7.3), there is a prime in `(n¹⁵⁵, (n + 1)¹⁵⁵)` for every `n ≥ 1`. For `m = 155` the paper's
-  (21) holds from `x = e^{4810}`, Cully-Hugill–Lee's intervals at those two rows are shorter than
-  the interval between consecutive `155`-th powers on `4·10¹⁸ ≤ x ≤ e^{4850}` (lines 679–687), and
-  below `4·10¹⁸` only `n = 1` occurs, `(1, 2¹⁵⁵)` containing `2`. The `x`-form implies the weaker
-  `(x, x + 3(x + 1)^{2/3} + 1]` of the arXiv text (lines 662–664). Route: the smoothed explicit
-  formula of §2.1 over `(x, x + h]` with `h = m x^{1 − 1/m}` (`h = 3x^{2/3}` for cubes), the zeros
-  above the verified height through the regions `ν₁` and `ν₂`, those with `0.6 ≤ β < 1 − ν(T)`
-  through the density bound, split at `σ₁ = 0.6` (lines 613–627), and the zeros below `σ₁` through
-  the zero count.
-- Cully-Hugill–Johnston (`cully-hugill-johnston-2025`, Funct. Approx. Comment. Math. 73, Theorem
-  1.4), under the same inputs with the truncated explicit formula with error `O(x/T)` of that paper:
-  there is a prime between `n⁹⁰` and `(n + 1)⁹⁰` for every `n ≥ 1`.
-- Further powers *(preprint)*: a prime between `n⁸⁶` and `(n + 1)⁸⁶` for every `n ≥ 1`
-  (`lee-2026`, the main result of its abstract, from a minimal zero-free region of Littlewood type computed for that
-  purpose, a parameter of `gap:vinogradov-korobov-constants`); a prime in `[x, x + x^{1 − 1/n}]` for
-  every integer `n ≥ 106` and every real `x ≥ 1` (`visser-2025`, the abstract's third statement),
-  which gives a prime between consecutive `n`-th powers for every `n ≥ 106` with the interval
-  starting at `m^n`. Both are stated beside the refereed `90` and `155`, not in their place.
+  `exp(exp(33.990))^{1/3} = exp(exp(32.892))`; and, under also the row `(1000, 1/100, 1.80, 0.6651)`,
+  Ford's intermediate region of ExplicitZetaBounds §7.2 (the region `ν₁` of the paper's (1), which
+  is the wider one at the heights `T = x^α` where its (21) is solved for `m = 155`, lines 671–678)
+  and the rows of *CullyHugillLeeTable* at `x₀ = 4·10¹⁸` and `log x₀ = 600` with the hypotheses of
+  those rows (§7.3), there is a prime in `(n¹⁵⁵, (n + 1)¹⁵⁵)` for every `n ≥ 1`. For `m = 155` the
+  paper's (21) holds from `x = e^{4810}` at `α = 0.0080146` (line 683); Cully-Hugill–Lee's interval
+  `(y(1 − Δ⁻¹), y]` at `y = x + 155 x^{154/155}` lies inside `(x, x + 155 x^{154/155}]` exactly when
+  `log x ≤ 155 log(155(Δ − 1))`, that is for `4·10¹⁸ ≤ x ≤ e^{3491.4}` at the row `x₀ = 4·10¹⁸`
+  (`Δ = 3.90970·10⁷`) and for `e⁶⁰⁰ ≤ x ≤ e^{4850.9}` at the row `log x₀ = 600`
+  (`Δ = 2.51949·10¹¹`) (the paper names `e^{1200}`, lines 684–686, a row the corrected table of
+  §7.3 does not have); and below `4·10¹⁸` only `n = 1` occurs, `(1, 2¹⁵⁵)` containing `2`. The
+  `x`-form implies the weaker `(x, x + 3(x + 1)^{2/3} + 1]` of the arXiv text (lines 662–665).
+  Route: the common route at the paper's `T = x^α` (`α = 1/3 + 10⁻¹⁰` for cubes, line 662;
+  `α = 0.0080146` for `m = 155`, line 683), with `h = m x^{1 − 1/m}` (`h = 3x^{2/3}` for cubes), the
+  zeros above the verified height through the regions `ν₁` and `ν₂`, those with
+  `0.6 ≤ β < 1 − ν(T)` through the density bound, split at `σ₁ = 0.6` (lines 613–627), and those
+  below `σ₁` through the zero count.
 
 Zero inputs of this section:
 
@@ -4316,31 +4364,61 @@ Zero inputs of this section:
   ExplicitZetaBounds states neither form (its Not owned here, the item on Ramaré's explicit density
   theorem), so the revised form is a hypothesis of the instance that uses it.
 
-*Needs:* §2.1; §3.6; §1.1; §7.3 (Cully-Hugill–Lee's rows at `x₀ = 4·10¹⁸` and `log x₀ = 1200`,
-for the `155`-th powers); `gap:rh-up-to-height`; `gap:vinogradov-korobov-constants`;
-ExplicitZetaBounds §7.2 (Ford's intermediate region, for the `155`-th powers); ExplicitZetaBounds
-§5.2 (`gap:explicit-zero-count-error`) with its §§0.4 and 0.4b (*HiaryRecord*, *PatelRecord*,
-*YangRecord*); *CullyHugillDensity*; *RamareRevisedDensity*.
+*Needs:* §2.1 (the truncated explicit formula and *CullyHugillJohnstonTable*, at the rows
+`(40, 1/2, 0.48, 6.431)` and `(1000, 1/100, 1.80, 0.6651)`); §3.7 (the discharge of
+*PsiThetaUpper*); §3.6; §1.1; §7.3 (Cully-Hugill–Lee's rows at `x₀ = 4·10¹⁸` and `log x₀ = 600`,
+for the `155`-th powers); `gap:rh-up-to-height`; `gap:classical-zero-free-constants`;
+`gap:vinogradov-korobov-constants`; ExplicitZetaBounds §7.2 (Ford's intermediate region);
+ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`) with its §§0.4 and 0.4b
+(*HiaryRecord*, *PatelRecord*, *YangRecord*); *CullyHugillDensity*; *RamareRevisedDensity*; Mathlib
+`Chebyshev.theta_le_psi`, `Chebyshev.abs_psi_sub_theta_le_sqrt_mul_log`.
 
 **Checks.**
 
 - The `x`-form against the cube interval: `(x^{1/3} + 1)³ = x + 3x^{2/3} + 3x^{1/3} + 1`, so
   `(x, x + 3x^{2/3}]` is the lower part of the cube interval above `x`, and
   `3x^{2/3} ≤ 3(x + 1)^{2/3} + 1` gives the arXiv form.
-- The power exponents are ordered `86 < 90 < 106 < 155`. Near `x = n^k` the interval between
-  consecutive `k`-th powers has relative length about `k x^{−1/k}`, which is smaller for smaller `k`
-  once `x` is large, so the preprint `86` would sharpen the refereed `90`, which sharpens `155`.
+- The sources' formulas do not apply at `x + h` (negative control for their route): `x = 7.5` is
+  half an odd integer and `x + 3x^{2/3} = 18.9946…` is not; §2.1 holds at every real `x ≥ x_M`, so
+  the common route needs no parity.
+- Dudek's threshold at `A = 9.7`, `c = 57.54` and `k = 0.9359`, with `y = log x` and the factor
+  `(log y)^{1/3}` of (24) dividing (as in line 754): (25) holds from `y = 7.71·10¹⁴` and (24) from
+  `y = 8.01·10¹⁴`, so `c_{9.7} = log(8.01·10¹⁴/3) = 33.219`, the printed `33.217` being
+  `log(8·10¹⁴/3)` (lines 827–828); at `A = 1`, (24) holds from `7.29·10¹⁴` and (25) decides.
+- The rows against the sources' errors. Cubes (Cully-Hugill): at `log x ≥ e^{33.990} = 5.78·10¹⁴`
+  her error is `K G(x, h)/T` with `K = 2.4798` (Table 2, `log x_K = 10⁶`, lines 540–543) and
+  `G(x, h) ≥ (x log x + (x + h) log(x + h)) log log x`, so per unit of `x log x/T` it is at least
+  `K log log x = 2.4798 · 33.990 = 84.29`, against `M = 6.431` of the row; the difference,
+  about `155.7 x^{2/3} log x` at `T = x^{1/3 + 10⁻¹⁰}`, exceeds `2 √(x + h) log(x + h)` by a factor
+  `x^{1/6}` up to logarithms. `m = 155`: from `x = e^{4810}`, `K log log x = 3.4747 · 8.4785 = 29.46`
+  (`K` of `log x_K = 1000`) against `M = 0.6651`, at `T = x^{0.0080146} = e^{38.55}`, which lies in
+  `(max(51, log x), (x^{1/100} − 2)/2) = (4810, e^{47.41})`. Dudek: his error `2 y log² y/T` at
+  each of `y = x, x + h` against `6.431 y log y/T`, smaller as soon as `log y > 3.22`; with
+  `T < x^{3/8}` the difference is at least about `x^{5/8} log x (4 log x − 12.9)`, which at
+  `x = e⁴⁰` and `T = x^{3/8}` is `1.09·10⁴` times `2 √(x + h) log(x + h)`, and `2 log x ≥ 1.6·10¹⁵` on his range
+  `log x ≥ 3 e^{33.217}`. In each case the sources' own `ψ − θ` terms are negative
+  (`0.9999 < 1.00007` and `0.999 < 1 + 1.99986·10⁻¹²`), so this difference is all the comparison
+  needs.
+- The row's range at the smallest `x` it admits: at `x = e⁴⁰`, `T = x^{1/3 + 10⁻¹⁰} = 6.17·10⁵` lies
+  in `(51, (√x − 2)/2) = (51, 2.43·10⁸)`; a `T` above `(√x − 2)/2` is outside every row of
+  *CullyHugillJohnstonTable*, whose `α ≤ 1/2`, and would need *DudekExplicitFormula*.
+- Coverage of the `155`-th powers: `log(4·10¹⁸) = 42.83`; the two Cully-Hugill–Lee rows cover
+  `[42.83, 3491.4]` and `[600, 4850.9]` in `log x`, and (21) covers `log x ≥ 4810`, so every
+  `x = n¹⁵⁵ ≥ 2¹⁵⁵ = 4.57·10⁴⁶` is covered; the row `x₀ = 4·10¹⁸` alone stops at `e^{3491.4}`, below
+  `e^{4810}`, which is why the row at `log x₀ = 600` is needed.
 
 ### Examples
 
 - Schoenfeld's prime in `(x, x + x/16597)` for every `x > 2 010 759.9` (§7.1).
 - A `θ`-bound `|θ(t) − t| ≤ η t/log^k t` from `x₀` gives a prime in `(x, x(1 + c/log^k x)]` for every
   `x ≥ x₀` once `c (1 − η/log^k x₀) > 2η` (§7.4).
-- Cubes from `n ≥ exp(exp(32.892))`; consecutive `90`-th powers for every `n ≥ 1`.
+- Cubes from `n ≥ exp(exp(32.892))`; consecutive `155`-th powers for every `n ≥ 1`, both for every
+  real `x` of the range in the interval form `(x, x + m x^{1 − 1/m}]` (§7.5).
 
 ### Dependencies
 
-Layers 0–3; ExplicitZetaBounds §5.4; the gaps `rh-up-to-height`, `classical-zero-free-constants`,
+Layers 0–3 (for §7.5, the truncated explicit formula of §2.1 with *CullyHugillJohnstonTable*, and
+§3.7 for *PsiThetaUpper*); ExplicitZetaBounds §5.4; the gaps `rh-up-to-height`, `classical-zero-free-constants`,
 `explicit-zero-count-error`, `explicit-zero-density`, `vinogradov-korobov-constants`; the zero
 inputs *ZeroCountBound* (§3.1, for §7.3), *CullyHugillDensity* and *RamareRevisedDensity* (§7.5);
 ExplicitZetaBounds §8.3 at `H₀ = 3 000 175 332 800` (for §7.3), §7.2 (for §7.5) and the records

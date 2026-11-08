@@ -79,9 +79,11 @@ Headline theorems that are not statable at the pins, and what each lacks:
   on the positivity of the explicit quantity (2.64) of Kadiri–Lumley at tabulated parameters, and
   Cully-Hugill–Lee's also on Kadiri–Lumley–Ng's zero density at the height `3 000 175 332 800`,
   whose constants are closed forms in six parameters (README §7.3).
-* Dudek's and Cully-Hugill's primes between consecutive powers: they rest on the region of
-  ExplicitZetaBounds §7.6 and on the explicit solution of an inequality in the paper's parameters,
-  Dudek's threshold `c_A` being defined only through that inequality (README §7.5).
+* Dudek's and Cully-Hugill's primes between consecutive powers: their route applies the
+  truncated explicit formula of README §2.1 at `x` and at `x + h` through its table proposition
+  (`CullyHugillJohnstonTable`, a numerical inequality on the explicit error function of that
+  formula, which is not a simple definition), and Dudek's threshold `c_A` is defined only through
+  the paper's inequalities (24)–(25) (README §7.5).
 -/
 
 noncomputable section
