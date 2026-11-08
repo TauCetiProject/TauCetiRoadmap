@@ -57,9 +57,9 @@ injective for every `A`-module `P`).
 - Faithfully flat descent of modules is Mathlib's (`comonadicExtendScalars`, extension of scalars
   along a faithfully flat ring map is comonadic) and Tau Ceti's
   (`Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`, the Amitsur equalizer for every
-  module); SchemeAndStackFoundations §1.1 owns fpqc descent of quasi-coherent modules on schemes
-  as a stack. Layer 4 is the affine statement for pure maps, which contains the faithfully flat
-  case, and its adapter to the quotient map.
+  module; FGA I, §B, Lemme 1.1); SchemeAndStackFoundations §1.1 owns fpqc descent of
+  quasi-coherent modules on schemes as a stack. Layer 4 is the affine statement for pure maps,
+  which contains the faithfully flat case, and its adapter to the quotient map.
 
 **Not here.** Quotients by finite equivalence relations of schemes of finite type in positive
 characteristic, and the existence of geometric quotients (Kollár 2012, Theorem 6 and
@@ -342,7 +342,9 @@ equivalence ideal. *Needs:* 0.3, 1.1, 1.2, Mathlib `IsEffectiveEquivalenceRelati
 
 - The quotient of `k × k` by its total relation is `Spec k`.
 - The kernel pair of a subalgebra `C ⊆ A`: `A^R ⊇ C`, and the relation is effective, with
-  `Y = Spec A^R`.
+  `Y = Spec A^R`. The inclusion can be strict: for `C = k[x³, x⁵] ⊆ A = k[x]`,
+  `x⁷ ⊗ 1 = x² ⊗ x⁵ = x⁵ ⊗ x² = 1 ⊗ x⁷` in `A ⊗[C] A`, so `x⁷ ∈ A^R` and `x⁷ ∉ C`; the finite
+  epimorphism `Spec A → Spec C` is not strict (FGA I, §A, n° 2, b).
 
 ### Dependencies
 
@@ -594,10 +596,13 @@ compatible maps `A ⊗[A^R] M → A` is bijective for every `A^R`-module `M`. Ro
 is `A`; the map `A ⊗[k] A → (A ⊗[k] A) ⧸ I` factors through `A ⊗[A^R] A`, since
 `differenceIdeal I ≤ I` (1.1); so `a ⊗ 1 = 1 ⊗ a` in `A ⊗[A^R] A` gives `a ⊗ 1 - 1 ⊗ a ∈ I`, that
 is `a ∈ A^R`. In the language of 1.2, `Spec A^R` is the coequalizer of the kernel pair of
-`Spec A → Spec A^R` in affine schemes. Prove `nonempty_comonadicLeftAdjoint_invariants`: under
-the hypotheses of 2.1, extension of scalars along `A^R → A` is comonadic, so the modules on
-`Y = Spec A^R` are the `A`-modules with descent data along `X → Y`, whose kernel pair is `R` by
-2.1 (SGA 1, Exp. VIII, Théorème 1.1, for faithfully flat quasi-compact morphisms). Route: Tau
+`Spec A → Spec A^R` in affine schemes; when `A` is a finite `A^R`-module, `Spec A → Spec A^R` is a
+strict epimorphism in all schemes, since a finite `Spec A' → Spec A` is one iff `A` is the
+equalizer of `A' ⇉ A' ⊗[A] A'` (FGA I, §A, n° 2, b). Prove
+`nonempty_comonadicLeftAdjoint_invariants`: under the hypotheses of 2.1, extension of scalars
+along `A^R → A` is comonadic, so the modules on `Y = Spec A^R` are the `A`-modules with descent
+data along `X → Y`, whose kernel pair is `R` by 2.1 (FGA I, §B, Théorème 1; SGA 1, Exp. VIII,
+Théorème 1.1, for faithfully flat quasi-compact morphisms). Route: Tau
 Ceti's `RingHom.IsSpecEquivRel.faithfullyFlat`, applied as in 2.1, makes `A` faithfully flat
 over `A^R`, and Mathlib's `comonadicExtendScalars` with `RingHom.faithfullyFlat_algebraMap_iff`
 gives comonadicity; equivalently 4.2, since faithfully flat maps are pure. *Needs:* 1.1, 2.1,
@@ -625,7 +630,9 @@ gives comonadicity; equivalently 4.2, since faithfully flat maps are pure. *Need
 - Finite products: for `f₁, …, fₙ` generating the unit ideal, `A → A_{f₁} × ⋯ × A_{fₙ}` is pure
   (Stacks, Example 35.4.7, Tag 08WN), and 4.2 is Zariski descent of modules.
 - Kernel pairs of split subalgebras `C ⊆ A`, such as invariants of a finite group of invertible
-  order: `C → A` is pure and modules descend along `Spec A → Spec C`.
+  order: `C → A` is pure and modules descend along `Spec A → Spec C`. Conversely, for `C`
+  noetherian and `A` a finite `C`-module, `A ⧸ C` is finitely presented, so `C → A` is pure only
+  if it is split as a map of `C`-modules (Stacks, Lemma 10.82.4, Tag 058L).
 
 ### Dependencies
 
@@ -646,11 +653,19 @@ closed residue field, and said that it was open even when `S` is the spectrum of
 §2, p. 212-05). Kollár asked the existence of geometric quotients by finite equivalence relations in
 characteristic zero (Kollár 2012, Question 8) and proved it in positive characteristic for schemes
 essentially of finite type (Theorem 6); Raicu's appendix answers the effectivity question on `𝔸²`
-and Raicu 2010 proves the toric case. Descent of flat modules along finite morphisms of local
-artinian rings need not be effective (Venken 1971), and Philippe 1973 studies descent along
-unramified morphisms. Without flatness, descent of all modules along a ring map is effective
-exactly when the map is pure: announced by Olivier, proved by Joyal and Tierney in unpublished
-work, with a first published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section 35.4).
+and Raicu 2010 proves the toric case. Grothendieck also asked whether descent data on flat
+quasi-coherent sheaves along a finite strict epimorphism are effective, even over a local artinian
+ring (FGA I, §A, n° 2, c); descent of flat modules along finite morphisms of local artinian rings
+need not be effective (Venken 1971), and Philippe 1973 studies descent along unramified
+morphisms. Without flatness, descent of all modules along a ring map is effective exactly when the
+map is pure: announced by Olivier, proved by Joyal and Tierney in unpublished work, with a first
+published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section 35.4). Being finitely
+generated, flat or finite projective descends along pure maps (Mesablishvili 2002, Theorem 3.2;
+Stacks, Theorem 35.4.25, Tag 08XD), so pure maps are effective descent morphisms for these
+modules too (Mesablishvili 2002, Theorem 1.1), and a ring map along which descent of flat modules
+is not effective is not pure. For quasi-compact morphisms of schemes, stable effective descent of
+quasi-coherent modules is equivalent to purity (Mesablishvili 2004a), and purity to being a
+stable regular epimorphism (Mesablishvili 2004b).
 
 Whether a non-effective closed equivalence relation exists on a finite scheme of length less
 than `15`, and whether every non-effective example comes, as in 3.2, from restricting one on an
@@ -662,6 +677,10 @@ affine space, is not known.
   III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118 (FGA III): §2,
   pp. 212-04 and 212-05; §5, Théorème 5.1, p. 212-12.
   http://www.numdam.org/item/SB_1960-1961__6__99_0
+- A. Grothendieck, « Technique de descente et théorèmes d'existence en géométrie algébrique I :
+  généralités, descente par morphismes fidèlement plats », Séminaire Bourbaki 5 (1958/60),
+  exp. 190, 299–327 (FGA I): §A, n° 2, b and c; §B, Théorème 1 and Lemme 1.1.
+  http://www.numdam.org/item/SB_1958-1960__5__299_0; Zbl 0229.14007.
 - M. Demazure, A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, tome I, Exp. V (P. Gabriel),
   « Construction de schémas quotients », Théorème 4.1; Lecture Notes in Math. 151, Springer,
   1970; re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
@@ -676,12 +695,20 @@ affine space, is not known.
   39.3.1 (Tag 022P), Section 39.23 (Tag 03BE), Lemma 39.23.4 (Tag 03BJ), Proposition 39.23.9
   (Tag 03BM); chapter « Descent »: Section 35.4 (Tag 08WE), Definition 35.4.5 (Tag 08WL),
   Examples 35.4.6 and 35.4.7 (Tags 08WM, 08WN), Lemma 35.4.8 (Tag 08WP), Definition 35.4.15
-  (Tag 08WY), Lemma 35.4.20 (Tag 08X7), Theorem 35.4.22 (Tag 08XA), Lemma 35.13.2 (Tag 0EUA);
-  chapter « Commutative Algebra »: Lemma 10.110.9 (Tag 00OF).
+  (Tag 08WY), Lemma 35.4.20 (Tag 08X7), Theorems 35.4.22 and 35.4.25 (Tags 08XA, 08XD),
+  Lemma 35.13.2 (Tag 0EUA); chapter « Commutative Algebra »: Lemma 10.82.4 (Tag 058L),
+  Lemma 10.110.9 (Tag 00OF).
 - B. Mesablishvili, « Pure morphisms of commutative rings are effective descent morphisms for
   modules — a new proof », *Theory Appl. Categ.* 7 (2000), no. 3, 38–42: Lemma 1, Propositions 2
   and 3, Theorem 4, pp. 38–40. http://www.tac.mta.ca/tac/volumes/7/n3/7-03abs.html;
   Zbl 0937.13002.
+- B. Mesablishvili, « On some properties of pure morphisms of commutative rings », *Theory Appl.
+  Categ.* 10 (2002), no. 9, 180–186: Theorems 1.1 and 3.2.
+  http://www.tac.mta.ca/tac/volumes/10/9/10-09abs.html; Zbl 1044.18006.
+- B. Mesablishvili, « Descent theory for schemes », *Appl. Categ. Structures* 12 (2004), 485–512
+  (Mesablishvili 2004a). doi:10.1023/B:APCS.0000049314.33172.0d; Zbl 1084.14003.
+- B. Mesablishvili, « More on descent theory for schemes », *Georgian Math. J.* 11 (2004), no. 4,
+  783–800 (Mesablishvili 2004b). doi:10.1515/GMJ.2004.783; Zbl 1084.14002.
 - A. Grothendieck, *Revêtements étales et groupe fondamental (SGA 1)*, Exp. VIII, Théorème 1.1;
   Lecture Notes in Math. 224, Springer, 1971; re-edition Documents Mathématiques 3, Soc. Math.
   France, 2003, arXiv:math/0206203.
