@@ -761,7 +761,25 @@ Route, on the incidence of elements and vertices alone (two elements share exact
 every vertex lies on at least two elements): take a vertex `a ∩ b` with exactly two elements from
 (a), two further vertices of `a` giving elements `c` and `d`, and sort a fifth element by how many
 of the six vertices of `{a, b, c, d}` it passes through (none, one, or an opposite pair).
-*Needs:* 1.3, 2.3, 2.6; Mathlib `Matroid.IsFlat`, `Matroid.eRk`.
+(c) Prove: if no element is bigonal, the `n` elements can be listed `e₁, …, eₙ` so that either
+`m = 4` and `e₁, …, e₄` are in general position, or `m = 6` and `e₁, …, e₆` form a complete
+quadrangle, and, for every `k` with `m ≤ k ≤ n`, no element is bigonal in the restriction of `χ`
+to `{e₁, …, e_k}` (deletion of the other elements, 1.5; each deletion is of a non-coloop, since
+four elements in general position remain). Route: a vertex of a restriction through an element
+`f` is the trace of its closure in every larger restriction, and distinct vertices have distinct
+closures, so listing more elements removes no vertex from `f`; it suffices that each `e_k`,
+`k > m`, lies on at least three vertices of the restriction to `{e₁, …, e_k}`. If `χ` contains a
+complete quadrangle, list it first and the other elements in any order: a vertex contains at most
+three of its six elements, only its four triple points contain three, and two triple points share
+an element, so an element outside it, which shares a vertex with each of the six, lies on at least
+three vertices. Otherwise take `Q` of four elements in general position from (b). An element
+outside `Q` lies on at most two of the six vertices of `Q`, and on two only if they are opposite
+(two vertices that are not opposite share an element of `Q`); one on at most one of them lies on
+at least three vertices of the restriction to `Q` and itself. An element on an opposite pair is a
+*diagonal* of `Q`; there is at most one, since two diagonals through the same pair are equal and
+two through different pairs form a complete quadrangle with `Q`. List `Q`, then the elements
+other than the diagonal in any order, and the diagonal last, when the restriction is `χ` itself.
+*Needs:* 1.3, 1.5, 2.3, 2.6; Mathlib `Matroid.IsFlat`, `Matroid.eRk`.
 
 **Checks.**
 
@@ -775,6 +793,21 @@ of the six vertices of `{a, b, c, d}` it passes through (none, one, or an opposi
 - (b) Three elements in general position have every element bigonal; in a near-pencil (all
   elements but one through one vertex) every pencil element is bigonal; four in general position
   have no bigonal element and are the case of exactly four elements.
+- (c) The complete quadrangle `ofVectorsFun` of `e₁, e₂, e₃, e₁ - e₂, e₁ - e₃, e₂ - e₃`, whose
+  triple points are `{e₁, e₂, e₁ - e₂}`, `{e₁, e₃, e₁ - e₃}`, `{e₂, e₃, e₂ - e₃}` and
+  `{e₁ - e₂, e₁ - e₃, e₂ - e₃}`, has `m = 6` and no listing with `m = 4`: deleting any one of
+  the six makes the element opposite to it bigonal (deleting `e₂ - e₃` leaves `e₁` on the two
+  vertices `{e₁, e₂, e₁ - e₂}` and `{e₁, e₃, e₁ - e₃}` only), so every five of them have a
+  bigonal element. The alternative `m = 6` cannot be dropped.
+- (c) For `Q = e₁, e₂, e₃, e₁ + e₂ + e₃`, its diagonal `δ = e₁ + e₂` (on the opposite vertices
+  `{e₁, e₂, δ}` and `{e₃, e₁ + e₂ + e₃, δ}`) and `ℓ = (1, 2, 5)`, no element of the six is
+  bigonal and there is no complete quadrangle (two triple points). The listing `Q, ℓ, δ` works;
+  `Q, δ, ℓ` does not, since `δ` is bigonal in `Q ∪ {δ}`: the diagonal must come last.
+- (c) For `e₁, e₂, e₁ + e₂, e₂ + e₃, e₁ + e₃` (three elements through one vertex and two through
+  another) the vertices are `{e₁, e₂, e₁ + e₂}` and the seven other pairs; the four-element sets
+  in general position are the three containing `e₂ + e₃` and `e₁ + e₃`, every listing starting
+  from one of them works, and the two containing the triple `e₁, e₂, e₁ + e₂` cannot start one. With
+  `n = 4` the listing is any order, and three elements, every one bigonal, are excluded.
 
 ### Examples
 
@@ -1501,8 +1534,8 @@ incidence schemes of marked points and lines in `ℙ²`, are as complicated as a
 semialgebraic sets; in scheme-theoretic form every singularity type occurs on some incidence
 scheme (Vakil 2006, Theorem 3.1). Whether the reconstruction of 8.4 (ii) extends to non-uniform
 simple rank-3 chirotopes with no bigonal element is open. Grothendieck's notes on pseudoline
-arrangements include the classification of 3.8 (b) (Montpellier fonds, folder 80, pp. 20–28,
-https://grothendieck.umontpellier.fr/80.pdf).
+arrangements include the classification of 3.8 (b) and the listing of 3.8 (c) (Montpellier fonds,
+folder 80, pp. 20–28, https://grothendieck.umontpellier.fr/80.pdf).
 
 ## References
 
