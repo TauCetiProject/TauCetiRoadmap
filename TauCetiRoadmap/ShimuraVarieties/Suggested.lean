@@ -142,8 +142,9 @@ theorem exists_oMinimalStructure_isSemialgebraic :
       S.Definable n s ↔ TauCeti.IsSemialgebraic s := by
   sorry
 
-/-- Section 3.4b: over a linearly ordered commutative ring, an o-minimal structure containing
-the graphs of addition and multiplication contains every semialgebraic set. -/
+/-- Section 3.4b: over a commutative ring carrying a linear order, which need not be compatible
+with the ring operations, an o-minimal structure containing the graphs of addition and
+multiplication contains every semialgebraic set. -/
 theorem OMinimalStructure.definable_of_isSemialgebraic {R : Type*} [CommRing R] [LinearOrder R]
     (S : OMinimalStructure R) (hadd : S.Definable 3 {x | x 2 = x 0 + x 1})
     (hmul : S.Definable 3 {x | x 2 = x 0 * x 1}) {n : ℕ} {s : Set (Fin n → R)}
@@ -163,10 +164,14 @@ variable {R : Type*} [LinearOrder R] [TopologicalSpace R]
 on `D` or the band between two such functions, each of which may be absent (the bound `−∞`,
 resp. `+∞`). Continuity is read in the given topology of `R`. -/
 inductive IsCell (S : OMinimalStructure R) : (n : ℕ) → ℕ → Set (Fin n → R) → Prop
+  /-- The whole of `R⁰`, a single point, is a cell of dimension `0`. -/
   | zero : IsCell S 0 0 univ
+  /-- The graph of a continuous definable function on a `d`-cell `D ⊆ Rⁿ` is a `d`-cell. -/
   | graph {n d : ℕ} {D : Set (Fin n → R)} (f : (Fin n → R) → R) :
       IsCell S n d D → S.DefinableFunOn f D → ContinuousOn f D →
       IsCell S (n + 1) d {x | Fin.tail x ∈ D ∧ x 0 = f (Fin.tail x)}
+  /-- The band over a `d`-cell `D ⊆ Rⁿ` strictly between a lower and an upper continuous definable
+  function, either of which may be absent, is a `(d + 1)`-cell. -/
   | band {n d : ℕ} {D : Set (Fin n → R)} (l u : Option ((Fin n → R) → R)) :
       IsCell S n d D →
       (∀ f ∈ l, S.DefinableFunOn f D ∧ ContinuousOn f D) →
@@ -180,7 +185,10 @@ inductive IsCell (S : OMinimalStructure R) : (n : ℕ) → ℕ → Set (Fin n �
 of `Rⁿ`. -/
 inductive IsCellDecomposition (S : OMinimalStructure R) :
     (n : ℕ) → Set (Set (Fin n → R)) → Prop
+  /-- The one-point space `R⁰` has the cell decomposition `{R⁰}`. -/
   | zero : IsCellDecomposition S 0 {univ}
+  /-- A finite partition of `Rⁿ⁺¹` into cells whose images under `Fin.tail` form a cell
+  decomposition of `Rⁿ` is a cell decomposition. -/
   | succ {n : ℕ} {𝒟 : Set (Set (Fin (n + 1) → R))} :
       𝒟.Finite → Setoid.IsPartition 𝒟 → (∀ C ∈ 𝒟, ∃ d, IsCell S (n + 1) d C) →
       IsCellDecomposition S n (image Fin.tail '' 𝒟) → IsCellDecomposition S (n + 1) 𝒟
@@ -420,6 +428,7 @@ The theorems apply this partition to nonempty finite products of CM number field
 structure CMType (E : Type*) [CommRing E] where
   /-- The selected complex embeddings. -/
   toSet : Set (E →+* ℂ)
+  /-- The conjugate `star φ` of an embedding lies in the type exactly when `φ` does not. -/
   star_mem_iff : ∀ φ : E →+* ℂ, star φ ∈ toSet ↔ φ ∉ toSet
 
 namespace CMType
