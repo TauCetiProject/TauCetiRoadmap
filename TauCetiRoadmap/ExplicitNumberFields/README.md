@@ -37,7 +37,8 @@ Brun–Titchmarsh theorems.
 
 - Layer 0: the Minkowski constant and the real Minkowski bound `b_K`, the local Euler factors
   `Π_K(p)` and their products over finite sets of primes, the class-number lemma
-  `h_K ≤ Σ_{m ≤ b_K} τ_n(m)` with the Nicolas–Tenenbaum bound
+  `h_K ≤ Σ_{m ≤ b} τ_n(m)` for every real `b` such that every ideal class contains a nonzero
+  integral ideal of norm at most `b` (`b_K` among them) with the Nicolas–Tenenbaum bound
   `Σ_{m ≤ x} τ_n(m) ≤ (x/(n−1)!)(log x + n − 1)^{n−1}` (which is not among the Piltz bounds of
   ExplicitMultiplicativeFunctions §7.5, and which only the class-number bounds of 5.3 use), the
   quadratic Hecke
@@ -64,8 +65,10 @@ Brun–Titchmarsh theorems.
   Garcia–Grenié–Lee–Molteni, Palojärvi–Simonič and Garcia–Lee.
 - Layer 4: the explicit zero-counting formulae for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong),
   Stark's one-zero lemma, the real-zero counting lemmas, Louboutin's Stark-like regions,
-  the explicit zero-free regions of Kadiri, Lee and Das–Gaba–Lee–Savalia–Wong, Stark's explicit
-  lower bound for the residue, the field form of the uniform real-zero gap for quadratic fields
+  the explicit zero-free regions of Kadiri, Lee and Das–Gaba–Lee–Savalia–Wong, Stark's lower
+  bound for the residue in terms of the possible real zero near `1` with a constant independent
+  of the degree, Stark's explicit lower bound for the residue, the field form of the uniform
+  real-zero gap for quadratic fields
   with its consequences for every `ζ_K`, and the explicit zero repulsion theorems.
 - Layer 5: the `h_K R_K` bounds, Bordellès' regulator-free class-number bounds, the cubic and
   quartic bounds, the upper and lower bounds for relative class numbers of CM-fields, and the
@@ -88,8 +91,7 @@ Brun–Titchmarsh theorems.
   Aramata entire quotient `ζ_K/ζ_E` for Galois `K/E`: its §2.39b; `DedekindERH` and
   `DirichletGRH`: its §2.42 and §1.6; normal-closure discriminant bounds: its §2.31d; Heilbronn's
   theorem that a simple real zero of `ζ_N` for Galois `N` comes from a quadratic subfield, and
-  Stark's near-one form of it without normality: its §2.39 and §2.31e; Stark's lower bound for
-  the residue in terms of the possible real zero near `1` (Stark's Lemmas 2–4): its §2.31e; the
+  Stark's near-one form of it without normality: its §2.39 and §2.31e; the
   qualitative uniform exclusion of Landau–Siegel zeros with an effective absolute constant: its
   §0.34.
 - The continued Dedekind zeta function, its completion, functional equation and residues:
@@ -176,6 +178,10 @@ Brun–Titchmarsh theorems.
   prime-power cyclotomic conductors: 0.4 proves `h(K⁺) ∣ h(K)` for every CM field `K` and defines
   `relativeClassNumber` as a natural number, which agrees with that ratio for abelian `K`; and its
   Euler product on `Re s > 1`, which 0.4a extends to the continued functions.
+- AnalyticNumberTheoryPartI §2.31e, Stark's lower bound `κ_K ≥ c min(1/log d_K, 1 − β_K)` in terms
+  of the possible real zero near `1`, stated in its section on fields of a fixed degree, with a
+  constant it does not say is independent of the degree: 4.7 states it with an effective constant
+  that is the same for every number field, the form 5.7 needs.
 - AnalyticNumberTheoryPartI §0.34, the uniform exclusion of Landau–Siegel zeros with an effective
   but unspecified constant `c_LS`, and ExplicitPrimeCounting §1.7, its numerical hypothesis
   *RealZeroGap*: 0.5 restates the latter on quadratic fields as *UniformQuadraticZeroGap*, the
@@ -365,6 +371,8 @@ Imported, as their owners state them:
   and `π*` listed beside it (ExplicitPrimeCounting §1.3).
 - *Schoenfeld1976Range*: Schoenfeld's inequalities on the initial ranges listed there, among them
   `|ψ(x) − x| < √x (log x)²/(8π)` for `73.2 < x ≤ 1427` (ExplicitPrimeCounting §1.3).
+- `Buthe2016Range`: `|ψ(x) − x| ≤ √x (log x)²/(8π)` for `59 < x < 5000`, with the companion bounds
+  for `θ`, `π*` and `π` listed beside it (ExplicitPrimeCounting §1.3).
 - *LeeNosalMertensRange*: `|Σ_{p ≤ x} (log p)/p − log x − E| ≤ 3 log² x/(8π√x)` for
   `43.1 ≤ x ≤ 10⁶` and `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for `24.4 ≤ x ≤ 10⁶`,
   with `E` the limit of `Σ_{p ≤ x} (log p)/p − log x` and `B` the Meissel–Mertens constant
@@ -565,13 +573,10 @@ log-convexity of `g`); §2.18 (the unit-disc coefficient construction of an Eule
 `1 − β < 1/(4 n! log d_K)` is a zero of `ζ_F` for a quadratic subfield `F ⊆ K`, without
 normality; for Galois `N` the character computation of that argument gives, at a simple
 real zero `β` of `ζ_N` with quadratic subfield `F`, `ζ_E(β) = 0` iff `F ⊆ E` for every
-intermediate field `E`; and Stark's Lemmas 2–4, its interface `dedekind_residue_lower_of_zero_gap`:
-for `K ≠ ℚ`, `κ_K ≥ c min(1/log d_K, 1 − β_K)` with `β_K` the real zero of `ζ_K` in Stark's
-one-zero rectangle `σ ≥ 1 − 1/(4 log d_K)`, `|t| ≤ 1/(4 log d_K)` when there is one, and
-`κ_K ≥ c/log d_K` when there is none; this contract takes `c > 0` absolute, independent of `K`
-and of its degree, as Stark's Lemma 4 gives it (`banks2026brauersiegel` §3.1, Lemma 3.3, citing
-Stark 1974 Lemma 4); used in 5.7. The fixed-degree residue bounds of §2.31e allow ineffective
-constants and are not used here); §2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of
+intermediate field `E`; used in 4.7. The fixed-degree residue bounds of §2.31e, and Stark's
+Lemmas 2–4 as that fixed-degree section states them, with a constant it does not say is
+independent of the degree, are not used here: 4.7 states the degree-uniform form that 5.7 needs);
+§2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of
 `ζ_N` for Galois `N/ℚ` is a zero of `ζ_F` for a quadratic subfield `F ⊆ N`); §2.39b (the Aramata
 entire quotient `ζ_K/ζ_E` for finite Galois `K/E`); §2.42 `DedekindERH K` (every zero of `ζ_K` with
 `0 < Re s < 1` has `Re s = 1/2`) with its abelian case (for `K/ℚ` abelian, `DirichletGRH` for the
@@ -650,10 +655,12 @@ boundary circle. The form normalised by `|f(a + iT)|` follows by applying it to 
 `u = conj f(a + iT)/|f(a + iT)|`, which has the same argument variation and
 `Re (u f)(a + iT) = |f(a + iT)|`. Used in 4.1 and 4.2.
 
-§0.5: *IsAdmissibleCosinePolynomial* `n a` (`0 ≤ a_k` for `k ≤ n`, `a₀ < a₁`, and
-`Σ_{k ≤ n} a_k cos(kθ) ≥ 0` for every real `θ`); a *polynomial certificate* is this proposition at
-literal rational coefficients. Used in the certificates of *Computational hypotheses* that 4.5,
-4.6 and 4.8 carry.
+§0.5: *IsAdmissibleCosinePolynomial* `n a` (`0 ≤ a_k` for `k ≤ n`, `a_k = 0` for `k > n`,
+`a₀ < a₁`, and `Σ_{k ≤ n} a_k cos(kθ) ≥ 0` for every real `θ`); the vanishing clause makes `a` the
+coefficient vector of the polynomial, so the vector of a certificate is the literal coefficients
+extended by zero, and `(3, 4, 1, 0, 0, 1, 0, …)` at `n = 4` is not admissible although its first
+five entries are; a *polynomial certificate* is this proposition at literal rational
+coefficients. Used in the certificates of *Computational hypotheses* that 4.5, 4.6 and 4.8 carry.
 
 §0.4b: `LuZamanZhaoRecord` (for every `q ≤ 10¹⁰` and every quadratic character `χ` modulo `q`,
 primitive or not, `L(σ, χ) ≠ 0` for every real `σ ≥ 1 − 1/(5 log q)`; `luzamanzhao2026`
@@ -766,6 +773,12 @@ hypotheses.
 §2.2: Schoenfeld's `|ψ(x) − x| < √x (log x)²/(8π)` for every real `x > 73.2`, under
 `RiemannHypothesis` and the finite verifications *ButheVerified* and *Schoenfeld1976Range* of its
 §1.3 (`schoenfeld-1976` Theorem 10). Used in 3.6 and 7.2, each of which carries the two predicates.
+Its two-sided form starts at `73.2`; below, its lower side alone holds from `59`.
+
+§1.3: `Buthe2016Range`, whose first clause is `|ψ(x) − x| ≤ √x (log x)²/(8π)` for every real
+`59 < x < 5000` (Büthe's computation, as that section states and locates it), a named finite
+verification. Used in 7.2 for `L = ℚ` on `59 < x ≤ 73.2`, between the small cases of
+*GrenieMolteniSmallCases* and Schoenfeld's range.
 
 §1.7: *RealZeroGap* `c Q` (every real zero `β ∈ (0, 1)` of
 `DirichletCharacter.LFunction χ`, for every primitive real nonprincipal character `χ` of
@@ -890,12 +903,17 @@ with product `m` (AnalyticNumberTheoryPartI §2.15a, which proves `0 ≤ a_K(m) 
 primes included, by injecting the norm fibre at each prime into compositions of the exponent into
 at most `n` parts; `bordelles2002` lines 72–77).
 
-Prove the class-number lemma: `h_K ≤ Σ_{m ≤ b_K} τ_n(m)` (`bordelles2002` line 79, Lemma 1.1;
-`bordelles2006` line 61, Lemma 1.1, with `b_K` any real such that every class contains an
-integral ideal of norm at most `b_K`). Route: choose in each class an ideal of norm at most `b_K`
-by 0.1; the choice is injective, so `h_K` is at most the number of ideals of norm at most `b_K`,
-which is at most `Σ_{m ≤ b_K} τ_n(m)` by the coefficient bound. The lemma is stated with the
-divisor sum because the Piltz bounds of Layer 5 apply to it.
+Prove the class-number lemma: for every real `b` such that every ideal class of `K` contains a
+nonzero integral ideal of norm at most `b`, `h_K ≤ Σ_{m ≤ b} τ_n(m)` (`bordelles2006` line 61,
+Lemma 1.1, in this generality; `bordelles2002` line 79, Lemma 1.1, states the instance at the
+Minkowski bound). Call such a `b` *admissible for `K`*. An admissible `b` is at least `1` (the
+trivial class), every real above an admissible one is admissible, and `b_K` of 0.1 is admissible
+by `exists_ideal_in_class_of_norm_le`, so `h_K ≤ Σ_{m ≤ b_K} τ_n(m)` is the instance at `b = b_K`.
+Route: choose in each class an ideal of norm at most `b`; the choice is injective, so `h_K` is at
+most the number of nonzero ideals of norm at most `b`, which is at most `Σ_{m ≤ b} τ_n(m)` by the
+coefficient bound. The lemma is stated with the divisor sum because the Piltz bounds of Layer 5
+apply to it, and for every admissible `b` because those bounds have thresholds (`b ≥ 6`, `13`,
+`193`) that `b_K` of a field of small discriminant does not reach.
 
 **Checks.**
 
@@ -904,6 +922,9 @@ divisor sum because the Piltz bounds of Layer 5 apply to it.
   with equality; there is no ideal of norm `3`, and `τ_2(3) = 2`.
 - `K = ℚ(i)`, `b_K ≈ 1.273`: `Σ_{m ≤ 1} τ_2(m) = 1`, so the lemma gives `h_K ≤ 1`, exact.
   `K = ℚ(√−14)`, `b_K ≈ 4.764`: `1 + 2 + 2 + 3 = 8 ≥ h_K = 4`.
+- Admissibility is needed: in `ℚ(√−14)` (class group of order `4`) the smallest norms in the four
+  classes are `1, 2, 3, 3`, so `b = 2.9` is not admissible, and the lemma's sum there is
+  `τ_2(1) + τ_2(2) = 3 < 4 = h_K`; any `b ≥ 3` is admissible, `b_K ≈ 4.764` among them.
 - `K = ℚ`, `n = 1`: `τ_1 = 1`, `b_ℚ = 1` and the bound is `1 = h_ℚ`. The intermediate count
   `#idealsLE K b_K` is sharper than `Σ τ_n` (in `ℚ(√−14)` it is `1 + 1 + 2 + 1 = 5`, the norms
   `1, 2, 3, 3, 4`, against `8`).
@@ -2221,6 +2242,55 @@ tower factor `t_K` is that of 0.5. Let `c₄ = 2 exp(21/8 − ψ(1/2)/(4 log 3))
   rounded `43.2` in its place the normal-tower bound would be `1/(43.2 · 16) = 0.0014468`, below
   the `0.0014480` of the consequences, so the consequences need `c₄` itself.
 
+Prove Stark's residue bound in terms of the real zero near `1`, with a constant independent of the
+degree (`stark1974` Lemmas 2–4, in the form quoted as `banks2026brauersiegel` §3.1, Lemma 3.3):
+there is an effective constant `c > 0`, the same for every number field, such that every number
+field `K ≠ ℚ` satisfies
+
+- `κ_K ≥ c min(1/log d_K, 1 − β) = c (1 − β)` if `ζ_K` has a real zero `β` with
+  `1 − 1/(4 log d_K) ≤ β < 1` (there is at most one, and it is simple: the one-zero lemma of 4.3
+  in its real form, `louboutin2015ijnt` line 28);
+- `κ_K ≥ c/log d_K` if `ζ_K` has no real zero in `[1 − 1/(4 log d_K), 1)`.
+
+Its value is not a target; the explicit clauses below are the numerical forms that Garcia–Lee
+derive from Stark's constants. The form for fields of a fixed degree, with a constant that may
+depend on it, is AnalyticNumberTheoryPartI §2.31e's; the uniformity in the degree is what 5.7
+uses. Route (`stark1974` Lemmas 2–4): with `σ₀ = 1 + 1/(4 log d_K)`,
+`log κ_K = log((σ₀ − 1) ζ_K(σ₀)) − ∫_1^{σ₀} (1/(σ − 1) + ζ'_K/ζ_K(σ)) dσ`, where `ζ_K(σ₀) ≥ 1`
+and the partial-fraction expansion of 4.3 writes the integrand as
+`−1/σ − (1/2) log d_K − (gamma terms) + Σ_ρ Re(1/(σ − ρ))`; the term of the possible real zero
+`β` integrates to `log((σ₀ − β)/(1 − β))`, which gives the factor
+`(1 − β)/(σ₀ − β) ≥ 2(1 − β) log d_K`, and the other zeros are bounded through the positivity of
+`−ζ'_K/ζ_K(σ₀)`. The degree enters only through the gamma terms, which on `1 ≤ σ ≤ 2` are negative
+and at least `−(n/2)(log π − ψ(1/2)) > −1.555 n` (1.1a), and `n ≤ (2/log 3) log d_K` for `K ≠ ℚ`
+(Mathlib `abs_discr_ge`: `d_K ≥ (4/9)(3π/4)ⁿ ≥ 3^{n/2}` for `n ≥ 3`, and `d_K ≥ 3` for `n = 2`),
+so every term is a bounded multiple of `log d_K` with bounds free of `n`: these are the constants
+`c₁ = 0`, `c₂ = 2/log 3` of Stark's Lemma 4 that Garcia–Lee use (`garcialee2022mertens`
+lines 1270–1277), and `c₄` above depends on nothing else.
+
+**Checks.**
+
+- The case split is needed: at a quadratic `K`, `κ_K = L(1, χ_K)`, so the second clause alone, for
+  every `K ≠ ℚ`, would contain the effective bound `L(1, χ_K) ≥ c/log d_K` for every quadratic
+  field, the effective exclusion of Landau–Siegel zeros, which Stark's argument does not give
+  (this roadmap takes it as *UniformQuadraticZeroGap*, 0.5); with a zero at
+  `1 − β = ε/log d_K`, `ε ≤ 1/4`, the first clause asserts only `κ_K ≥ c ε/log d_K`.
+- Uniformity, at the worst case of 5.7: for a Galois `K` of degree `n` with a real zero at
+  `(1 − β) log d_K = c₀ ≤ 1/4`, the first clause gives `κ_K ≥ c c₀/log d_K` for every `n`, which
+  is 5.7's `C = c min(c₀, 1/4)`; with a constant `c_n` depending on `n` the same steps give
+  `C = c_n min(c₀, 1/4)`, and 5.7 would not hold as stated.
+- The degree bound `n ≤ (2/log 3) log d_K`: at `n = 2` it is `d_K ≥ 3`, an equality at `ℚ(√−3)`;
+  at `n = 3`, `(4/9)(3π/4)³ = 5.81 ≥ 3^{3/2} = 5.20` (and the smallest cubic discriminant is
+  `23`); at `n = 10`, `2343.8 ≥ 243`; at `K = ℚ` it fails (`log 1 = 0`), one reason for `K ≠ ℚ`.
+- The gamma terms at the ends of `[1, 2]`: per real place `(1/2)(ψ(σ/2) − log π)` is `−1.5541` at
+  `σ = 1` and `−0.8610` at `σ = 2`; per complex place `ψ(σ) − log 2π` is `−2.4151` and `−1.4151`,
+  that is `−1.2075` and `−0.7075` per unit of degree, so the bound `−1.555 n` is attained in the
+  limit by totally real fields at `σ = 1`.
+- Size of `c`: `ℚ(√5)` and `ℚ(ζ₇)⁺` have no real zero of `ζ_K` in `[1 − 1/(4 log d_K), 1)`
+  (4.9, Checks), and `κ_K log d_K` is `0.43041 · 1.60944 = 0.69272` and
+  `0.30026 · 3.89182 = 1.16856`; so every valid `c` is at most `0.6927`, while the explicit clause
+  below has the constant `1/(4c₄) = 0.0057921` for Galois fields with no quadratic subfield.
+
 Prove Stark's theorem with Garcia–Lee's constants (`garcialee2022mertens` lines 1226–1305): for
 `n ≥ 3`,
 
@@ -2242,12 +2312,11 @@ second clause applies with `c₈ = 2/(e c₀)`. The clause under *QuadraticRealZ
 the target; this is its instance under the uniform gap, whose discharge (4.9) rests on unrefereed
 sources.
 
-Route (Stark 1974, Lemmas 2–4 and 8, with the constants of `garcialee2022mertens` §3): integrate
-the logarithmic derivative of `Λ_K` from `σ₀ = 1 + 1/(4 log d_K)` to `1`, isolate the possible real
-zero with the one-zero lemma of 4.3, and when the zero is close use Stark's quadratic subfield `F`
-of the quadratic-subfield theorem (AnalyticNumberTheoryPartI §2.31e, which states it without
-normality as Stark's Lemma 8, and states Stark's Lemmas 2–4 with an unnamed constant, whose
-explicit value `1/c₄` is what this section adds; the fixed-degree residue bounds of that section
+Route (`stark1974` Lemmas 2–4 and 8, with the constants of `garcialee2022mertens` §3): the
+integration of the degree-uniform bound above, with Garcia–Lee's evaluation of its constants,
+isolating the possible real zero with the one-zero lemma of 4.3; when the zero is close, Stark's
+quadratic subfield `F` of the quadratic-subfield theorem (AnalyticNumberTheoryPartI §2.31e, which
+states it without normality as Stark's Lemma 8; the fixed-degree residue bounds of that section
 allow ineffective constants and are not used here), the normal-closure discriminant bounds of
 §2.31d and the gap hypothesis at `F`.
 
@@ -2269,9 +2338,10 @@ allow ineffective constants and are not used here), the normal-closure discrimin
   `e/(200 d_K^{1/n}) = 0.01359/d_K^{1/n}`: the decay in `d_K` is still the Siegel shape
   `d_K^{−1/n}`; the logarithmic shape for Galois fields is 5.7.
 
-*Needs:* Mathlib `dedekindZeta_residue_def`, `Complex.digamma`, `Real.eulerMascheroniConstant`;
-0.5 (*QuadraticRealZeroGap*, *UniformQuadraticZeroGap*, `HasNormalTower`); 4.3 (the one-zero
-lemma); AnalyticNumberTheoryPartI §2.31d, §2.31e; ZerosOfLFunctions 5.6.
+*Needs:* Mathlib `dedekindZeta_residue_def`, `Complex.digamma`, `Real.eulerMascheroniConstant`,
+`abs_discr_ge`; 0.5 (*QuadraticRealZeroGap*, *UniformQuadraticZeroGap*, `HasNormalTower`); 1.1a
+(the gamma terms); 4.3 (the one-zero lemma and the partial-fraction expansion); for the explicit
+clauses AnalyticNumberTheoryPartI §2.31d, §2.31e (Stark's Lemma 8); ZerosOfLFunctions 5.6.
 
 ### 4.8 Das–Gaba–Lee–Savalia–Wong's regions
 
@@ -2504,7 +2574,13 @@ AnalyticNumberTheoryPartI §2.5; Mathlib `IsAbelianGalois`, `Real.geom_mean_le_a
 ### 5.3 Bordellès' regulator-free bounds
 
 Prove Bordellès' bounds (`bordelles2002` lines 185–204, Theorems 5.1–5.3; `bordelles2006`
-lines 158–161, Theorem 2.2), with `b = b_K` of 0.1:
+lines 158–161, Theorem 2.2), where in the first, second and fifth forms `b` is any real admissible
+for `K` (0.3: every ideal class contains a nonzero integral ideal of norm at most `b`), `b_K` of 0.1
+being one. `bordelles2006` states the fifth form in this generality; `bordelles2002` states the
+first two at the Minkowski bound, and their proofs (line 344) use the class-number lemma alone, so
+they hold for every admissible `b`. Since `max(b_K, 6)` and `max(b_K, 13)` are admissible, the
+second form applies to every field of degree `n ≥ 2` and the fifth to every field of degree
+`n ≥ 3`.
 
 - `h_K ≤ b (log b + γ + 1/b)^{n−1}` for every `n ≥ 1`;
 - `h_K ≤ 2b (log b)^{n−1}` for `n ≥ 2` and `b ≥ 6`, under ExplicitMultiplicativeFunctions'
@@ -2512,15 +2588,16 @@ lines 158–161, Theorem 2.2), with `b = b_K` of 0.1:
 - `classNumber_le_bordelles`: `h_K ≤ (2^{n−1}/(n−1)!) √d_K (log d_K)^{n−1}` for every `n ≥ 1`;
 - its general form: `h_K ≤ ((a+1)/2)^{n−1} √d_K (log d_K)^{n−1}/(n−1)!` for `n ≥ 2` and every
   `a > 0` with `a ≥ 2(n−1)/log d_K` (the previous bullet is `a = 3`);
-- `h_K ≤ (b/(n−1)!)(log b + n − 2)^{n−1}` for `n ≥ 3` and `b ≥ 13`, equivalently
-  `h_K ≤ (μ_K/(n−1)!)(log(μ_K² d_K)/2 + n − 2)^{n−1} √d_K` for `d_K ≥ 169/μ_K²`, under
-  ExplicitMultiplicativeFunctions' *BordellesPiltzRangeVerified*.
+- `h_K ≤ (b/(n−1)!)(log b + n − 2)^{n−1}` for `n ≥ 3` and every admissible `b ≥ 13`, under
+  ExplicitMultiplicativeFunctions' *BordellesPiltzRangeVerified*; at `b = b_K` it reads
+  `h_K ≤ (μ_K/(n−1)!)(log(μ_K² d_K)/2 + n − 2)^{n−1} √d_K` for `d_K ≥ 169/μ_K²`.
 
 Route: for the first, second and fifth forms, 0.3 and the Piltz divisor-sum bounds of
 ExplicitMultiplicativeFunctions §7.5, with their finite verifications where the bound uses them.
 For the third and fourth forms (`bordelles2002` lines 345–359), the Nicolas–Tenenbaum bound of 0.3
-and no finite verification: `h_K ≤ Σ_{m ≤ b_K} τ_n(m) ≤ Σ_{m ≤ √d_K} τ_n(m)` by the class-number
-lemma and `μ_K ≤ 1`; at `x = √d_K ≥ 1` the Nicolas–Tenenbaum bound gives
+and no finite verification: `h_K ≤ Σ_{m ≤ √d_K} τ_n(m)` by the class-number lemma at
+`b = √d_K`, which is admissible since `b_K = μ_K √d_K ≤ √d_K` (`μ_K ≤ 1`); at `x = √d_K ≥ 1` the
+Nicolas–Tenenbaum bound gives
 `(√d_K/(n−1)!)((1/2) log d_K + n − 1)^{n−1}`, and `n − 1 ≤ (a/2) log d_K` turns the base into
 `((a + 1)/2) log d_K`; for `a = 3` the condition is `log d_K ≥ 2(n−1)/3`, which Minkowski's bound
 `abs_discr_ge'` gives for every `n ≥ 2` (with `2r₂ ≤ n`, its logarithm exceeds `2(n−1)/3` by at
@@ -2530,8 +2607,9 @@ least `0.236`), while `n = 1` is `h_ℚ = 1`. The first form cannot serve here: 
 
 **Checks.**
 
-- `K = ℚ(√−14)`, `b ≈ 4.764`: `4.764 (1.561 + 0.577 + 0.210) = 11.2 ≥ h = 4`; the second form
-  needs `b ≥ 6` and does not apply; the third gives `2 √56 log 56 = 60.2`.
+- `K = ℚ(√−14)`, `b = b_K ≈ 4.764`: `4.764 (1.561 + 0.577 + 0.210) = 11.2 ≥ h = 4`; the second
+  form needs `b ≥ 6` and does not apply at `b_K`, while at the admissible `b = 6` it gives
+  `2 · 6 · log 6 = 21.50 ≥ 4`; the third gives `2 √56 log 56 = 60.2`.
 - `K = ℚ`: `b = 1`, `n = 1`: the first form is `1 · (0 + γ + 1)⁰ = 1 = h`, and the third is
   `(1/0!) · √1 · (log 1)⁰ = 1`, with `0⁰ = 1`, an equality.
 - `K = ℚ(√5)`, `n = 2`: the general-`a` form at `a = 2/log 5 = 1.243` gives
@@ -2540,6 +2618,10 @@ least `0.236`), while `n = 1` is `h_ℚ = 1`. The first form cannot serve here: 
   `(4/2) √23 (log 23)² = 2 · 4.796 · 9.832 = 94.3 ≥ h = 1`.
 - The fifth form at `n = 2`: `bordelles2006` states its Theorem 2.1 for `n ≥ 3` only, and no
   statement is made at `n = 2`.
+- The fifth form below its threshold: the cubic field of discriminant `−23` has
+  `b_K = (4/π)(6/27)√23 = 1.357 < 13`, so the instance at `b_K` says nothing there, while the
+  admissible `b = 13` gives `h_K ≤ (13/2)(log 13 + 1)² = 82.61 ≥ 1`. A statement restricted to
+  `b = b_K` would leave out every field with `b_K < 13`.
 
 *Needs:* 0.1, 0.3 (the class-number lemma and the Nicolas–Tenenbaum bound);
 ExplicitMultiplicativeFunctions §7.5 (with *PiltzRangeVerified*, *BordellesPiltzRangeVerified*), for
@@ -2548,24 +2630,26 @@ the first, second and fifth forms only; Mathlib `abs_discr_ge'`.
 ### 5.4 Cubic and quartic fields
 
 Prove the quartic bound (`cullyhugilltrudgian2021`, Theorem 2 and its corollary, consumed as the
-quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for `n = 4` and `b_K ≥ 193`,
-under ExplicitMultiplicativeFunctions' *DivisorPowerRangeVerified* `7560² (6·10⁵)`,
-`h_K ≤ (1/3) b_K (log b_K)³`.
+quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for `n = 4` and every real
+`b ≥ 193` admissible for `K` (0.3), under ExplicitMultiplicativeFunctions'
+*DivisorPowerRangeVerified* `7560² (6·10⁵)`, `h_K ≤ (1/3) b (log b)³`; at `b = b_K` this needs
+`b_K ≥ 193`. Route: the class-number lemma at `b` and the quartic divisor-sum bound at `x = b`.
 
 **Checks.**
 
 - Compared with 5.3's second form `2b (log b)³`, the constant improves by `6`; at `b = 193` both
   need `Σ_{m ≤ 193} τ_4(m) ≤ (1/3) 193 (log 193)³ = 9376.9`, and the actual sum is `9333`.
-- `b_K < 193` is excluded; `ℚ(ζ₅)` has `b = (4/π)²(24/256)√125 = 0.15198 · 11.180 = 1.699` and
-  is outside the statement (its `h = 1`).
+- `b < 193` is excluded; `ℚ(ζ₅)` has `b_K = (4/π)²(24/256)√125 = 0.15198 · 11.180 = 1.699`, so
+  the bound reaches it only at an admissible `b ≥ 193`, where `b = 193` gives `h ≤ 9376.9` (its
+  `h = 1`).
 - The hypothesis names the finite verification of the divisor remainder, not a verification about
   `K`.
 
 Prove the cubic bound (0.3 with Tudzi's remainder of ExplicitMultiplicativeFunctions §7.9): for
-`n = 3` and `b_K ≥ 2`, under its *PiltzRemainderRangeVerified* `3 2 (1.1·10¹⁰)`,
-`h_K ≤ b_K P₃(log b_K) + 2.968 b_K^{2/3} (log b_K)^{1/3}`, with
-`P₃(y) = y²/2 + (3γ − 1)y + 3γ² − 3γ − 3γ₁ + 1`. Route: `h_K ≤ Σ_{m ≤ b_K} τ_3(m)` (0.3) and the
-remainder bound.
+`n = 3` and every real `b ≥ 2` admissible for `K` (0.3), under its *PiltzRemainderRangeVerified*
+`3 2 (1.1·10¹⁰)`, `h_K ≤ b P₃(log b) + 2.968 b^{2/3} (log b)^{1/3}`, with
+`P₃(y) = y²/2 + (3γ − 1)y + 3γ² − 3γ − 3γ₁ + 1`; at `b = b_K` this needs `b_K ≥ 2`. Route:
+`h_K ≤ Σ_{m ≤ b} τ_3(m)` (0.3) and the remainder bound.
 
 **Checks.**
 
@@ -2573,7 +2657,8 @@ remainder bound.
   `(b/2)(log b + 1)²` is `31266.3`; at `b = 100`: `1471` against `1552.3` and `1570.9`. At
   `b = 10` the new bound (`66.4`) is above `(b/2)(log b + 1)² = 54.5`, so neither form dominates.
 - A cubic field has `b_K = (4/π)^{r₂}(2/9)√d_K`, so `b_K = 1000` needs `d_K ≈ 1.25·10⁷` when
-  `r₂ = 1`.
+  `r₂ = 1`; the cubic field of discriminant `−23` has `b_K = 1.357 < 2`, and at the admissible
+  `b = 2` the bound is `6.64`, against `Σ_{m ≤ 2} τ_3(m) = 1 + 3 = 4` and `h = 1`.
 - The polynomial is the residue of `ζ(s)³ xˢ/s` at `s = 1` in the convention
   `ζ(s) = 1/(s − 1) + γ − γ₁(s − 1) + …`; with the opposite sign of `γ₁` the constant would be
   `0.0494`, and the remainder at `x = 10⁶` would be `4.4·10⁵`, beyond Tudzi's bound `7.1·10⁴`.
@@ -2751,9 +2836,10 @@ an explicit `C` is not a target. Route (`banks2026brauersiegel` §3.1, Lemma 3.3
 Theorem 1.3(ii), pp. 9–10, at the base field `ℚ`, where the source's `η_ℚ` is `1` since `ζ` has no
 zero in `(0, 1)`): replacing `c₀` by `min(c₀, 1/4)`, which *UniformQuadraticZeroGap* allows since it
 is antitone in `c`, 4.9's Galois real-zero bound gives `(1 − β) log d_K ≥ c₀` for every real zero
-`β ∈ (0, 1)` of `ζ_K`; Stark's Lemmas 2–4 in the form of AnalyticNumberTheoryPartI §2.31e,
-`κ_K ≥ c min(1/log d_K, 1 − β_K)` with `c` absolute (`banks2026brauersiegel` Lemma 3.3), then give
-`κ_K ≥ c c₀/log d_K`, whether or not `ζ_K` has a real zero in Stark's rectangle; and Mathlib's
+`β ∈ (0, 1)` of `ζ_K`; the degree-uniform Stark bound of 4.7 (`stark1974` Lemmas 2–4, in the form
+`κ_K ≥ c min(1/log d_K, 1 − β)` of `banks2026brauersiegel` Lemma 3.3, with `c` the same for every
+number field) then gives `κ_K ≥ c c₀/log d_K`: from `1 − β ≥ c₀/log d_K` if `ζ_K` has a real zero
+`β ≥ 1 − 1/(4 log d_K)`, and from `c/log d_K ≥ c c₀/log d_K` if it has none; and Mathlib's
 `κ_K = 2^{r₁}(2π)^{r₂} R_K h_K/(w_K √d_K)` with `w_K ≥ 1` and `2^{r₁}(2π)^{r₂} ≤ (2π)ⁿ` gives the
 bound with `C = c min(c₀, 1/4)`. The source's uniform bound for Chebotarev sums (its Theorems
 1.4–1.5) enters only through its proof of the gap (its Theorem 1.1 and Corollary 1.2), which this
@@ -2774,8 +2860,8 @@ AnalyticNumberTheoryPartI.
 - Against 4.7 under the same predicate: Stark's second clause decays like `d_K^{−1/n}`, this one
   like `(log d_K)^{−1}`, for Galois `K` only.
 
-*Needs:* 0.5 (*UniformQuadraticZeroGap*); 4.9 (the Galois real-zero bound);
-AnalyticNumberTheoryPartI §2.31e (Stark's Lemmas 2–4); Mathlib `dedekindZeta_residue_def`,
+*Needs:* 0.5 (*UniformQuadraticZeroGap*); 4.7 (the degree-uniform Stark bound); 4.9 (the Galois
+real-zero bound); Mathlib `dedekindZeta_residue_def`,
 `classNumber`, `Units.regulator`.
 
 ### Examples
@@ -2786,8 +2872,8 @@ AnalyticNumberTheoryPartI §2.31e (Stark's Lemmas 2–4); Mathlib `dedekindZeta_
 
 ### Dependencies
 
-Layers 0 (with 0.4a), 3, and 4.3, 4.9; AnalyticNumberTheoryPartI §§2.5, 2.15, 2.15a, 2.22, 2.31d,
-2.31e, 2.39, 2.39b; ClassFieldTheory Layer 13; CyclotomicClassGroupsAndStickelberger §3.4;
+Layers 0 (with 0.4a), 3, and 4.3, 4.7, 4.9; AnalyticNumberTheoryPartI §§2.5, 2.15, 2.15a, 2.22,
+2.31d, 2.39, 2.39b; ClassFieldTheory Layer 13; CyclotomicClassGroupsAndStickelberger §3.4;
 ExplicitMultiplicativeFunctions §§7.5, 7.9; ExplicitZetaBounds §9.1.
 
 ## Layer 6: least primitive roots
@@ -3173,8 +3259,9 @@ exceptional zero appears in the error terms.
 
 Prove Grenié–Molteni's theorem (`greniemolteni2019` Theorem 1.1): for a Galois extension `L/K` of
 number fields with group `G` and a conjugacy class `C`, under `DedekindERH L`,
-*GrenieMolteniSmallCases*, and ExplicitPrimeCounting's *ButheVerified* and *Schoenfeld1976Range*
-(through Schoenfeld's bound in the case `L = ℚ`), for every real `x ≥ 1`,
+*GrenieMolteniSmallCases*, and ExplicitPrimeCounting's *ButheVerified*, *Schoenfeld1976Range*
+(through Schoenfeld's bound in the case `L = ℚ`) and `Buthe2016Range` (for `L = ℚ` on
+`59 < x ≤ 73.2`), for every real `x ≥ 1`,
 `| (|G|/|C|) ψ_C(x) − x | ≤ √x ((log x/(2π) + 2) log d_L + ((log x)²/(8π) + 2) n_L)`, with
 `ψ_C = frobeniusPsi K L C`, and the same for the function `ψ(C; x)` of the source, which adds the
 ramified prime powers with the averaged weight `θ(C; 𝔭^m) ∈ [0, 1]`; and its corollary
@@ -3187,9 +3274,14 @@ The prime ideal theorem under `DedekindERH K` (with the same predicates) is the 
 `ψ(C; x)` through the Artin L-functions of `L/K`, reduced by the usual comparison to `ζ_L` and its
 subfields; under `DedekindERH L` every zero in the strip has real part `1/2`, the zero sums are
 bounded by the explicit zero counts of the source's appendix for Hecke L-functions, the gamma
-terms by the digamma remainders of 1.1a, and for `L = ℚ`, `x > 73.2`, Schoenfeld's `ψ` bound
-(ExplicitPrimeCounting §2.2, under `RiemannHypothesis`, which `DedekindERH ℚ` gives, and the two
-predicates).
+terms by the digamma remainders of 1.1a. For `L = ℚ` (so `K = ℚ`, `ψ_C = ψ(C; x) = ψ`) the bound
+is `√x ((log x)²/(8π) + 2)` and three inputs cover `x ≥ 1`: *GrenieMolteniSmallCases* on
+`1 ≤ x ≤ 59`, the first clause of `Buthe2016Range` (`|ψ(x) − x| ≤ √x (log x)²/(8π)`) on
+`59 < x ≤ 73.2`, and Schoenfeld's `ψ` bound (ExplicitPrimeCounting §2.2, under
+`RiemannHypothesis`, which `DedekindERH ℚ` gives, and *ButheVerified* and *Schoenfeld1976Range*)
+on `x > 73.2`. The source extends Schoenfeld's bound down to `59` by a check it calls easy
+(`greniemolteni2019` arXiv v3, §1, p. 2, and §5, p. 19); this roadmap takes that range from the
+first clause of `Buthe2016Range`, carried as a hypothesis as every finite verification is.
 
 **Checks.**
 
@@ -3203,11 +3295,16 @@ predicates).
   correction is not restated here, and the `π_C` form above covers the case `L = K`.
 - No threshold: the inequalities hold for every `x ≥ 1`, which is why the small cases are a
   predicate.
+- `L = ℚ` between the two ranges: on `59 < x ≤ 73.2` the largest value of
+  `|ψ(x) − x|/(√x (log x)²/(8π))` is `0.810`, just below `x = 67` (`ψ = 62.337`,
+  `|ψ − x| = 4.663` against `5.758`), and the theorem's bound there is `22.13`; Schoenfeld's
+  two-sided statement starts at `73.2` and *GrenieMolteniSmallCases* stops at `59`, so without
+  `Buthe2016Range` the route would leave this interval uncovered.
 
 *Needs:* ZerosOfLFunctions 5.6, 7.5, Layer 9; LFunctions Layers 3 and 5; AnalyticNumberTheoryPartI
-§2.42 (`DedekindERH`); 1.1a; ExplicitPrimeCounting §2.2 (with
-*ButheVerified*, *Schoenfeld1976Range*); *GrenieMolteniSmallCases*; Tau Ceti `frobeniusPsi`,
-`frobeniusPrimeCount`; Mathlib `IsArithFrobAt`, `ArithmeticFunction.vonMangoldt`.
+§2.42 (`DedekindERH`); 1.1a; ExplicitPrimeCounting §2.2 (with *ButheVerified*,
+*Schoenfeld1976Range*) and §1.3 (`Buthe2016Range`); *GrenieMolteniSmallCases*; Tau Ceti
+`frobeniusPsi`, `frobeniusPrimeCount`; Mathlib `IsArithFrobAt`, `ArithmeticFunction.vonMangoldt`.
 
 ### 7.3 An unconditional effective Chebotarev theorem
 
@@ -3342,7 +3439,7 @@ zero of any L-function enters.
 
 Layers 1 (1.1a), 2, 3, 4 (4.2–4.10); ZerosOfLFunctions Layers 5, 6, 9; LFunctions Layers 3, 5, 8;
 ClassFieldTheory Layers 11–13; Completed/GlobalNumberFields Layers 2, 3; Completed/Chebotarev
-through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCounting §2.2.
+through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCounting §§1.3, 2.2.
 
 ## Downstream consumers
 
@@ -3485,6 +3582,9 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   ExplicitMultiplicativeFunctions §9.4.
 - L. Schoenfeld, Sharper bounds for the Chebyshev functions `θ(x)` and `ψ(x)`. II, Math. Comp. 30
   (1976) (`schoenfeld-1976`), Corollary 2: the contract of `gap:explicit-mertens-second`.
+- H. M. Stark, Some effective cases of the Brauer–Siegel theorem, Invent. Math. 23 (1974),
+  DOI 10.1007/BF01405166 (`stark1974`, cited by locator), Lemmas 2–4 and 8: the residue bounds
+  of 4.7 and the input of 5.7.
 - J. S. Sunley, Class numbers of totally imaginary quadratic extensions of totally real fields,
   Trans. Amer. Math. Soc. 175 (1973) (`sunley1973`).
 - J. Thorner, A. Zaman, An explicit bound for the least prime ideal in the Chebotarev density
