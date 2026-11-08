@@ -76,14 +76,11 @@ them. Each is the pinned Tau Ceti declaration under this roadmap's name and argu
 abbreviation, or a theorem proved by the Tau Ceti theorem), except for three short definitions on
 the same carriers (`degreeCast`, `cup` read as a function, `galoisConj`), the coordinate table
 `WreathC2.sectionTable` with the section `wreathSection` it defines, and two theorems stated with
-`sorry` that restate Tau Ceti theorems: NSW (3.6.4) as `abelianizationProPClass_generates`, Tau
-Ceti's `TauCeti.abelianizationProPClass_generates`
+`sorry` whose statements are those of Tau Ceti theorems: NSW (3.6.4) as
+`abelianizationProPClass_generates`, the statement of `TauCeti.abelianizationProPClass_generates`
 (`CohomologicalDimension/ClassModule/Sylow.lean`), and the restriction formula
-`galoisEvens_galoisRes` for the Evens norm of a quadratic extension, Tau Ceti's
-`TauCeti.galoisEvens_galoisRes` (`FieldTheory/GaloisCohomology/EvensNorm.lean`). Those two Tau
-Ceti theorems postdate the Tau Ceti revision this file is built against, which has neither
-`ClassModule/Sylow.lean` nor the quadratic-extension identities of `EvensNorm.lean`; each `sorry`
-is discharged by its Tau Ceti theorem once the build's Tau Ceti contains it.
+`galoisEvens_galoisRes` for the Evens norm of a quadratic extension, the statement of
+`TauCeti.galoisEvens_galoisRes` (`FieldTheory/GaloisCohomology/EvensNorm.lean`).
 -/
 
 @[expose] public section
