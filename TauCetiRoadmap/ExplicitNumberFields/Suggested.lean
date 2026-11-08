@@ -7,7 +7,6 @@ import TauCeti.NumberTheory.LFunctions.Mertens
 import TauCeti.NumberTheory.Chebotarev.FrobeniusPrimeSet
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
-import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 
 /-!
 # Explicit number fields: target signatures
@@ -22,11 +21,10 @@ least prime primitive root `leastPrimePrimitiveRoot` (0.6), and Stark's weight `
 Stated here:
 
 * Layer 0, the divisibility `h(K⁺) ∣ h(K)` that makes the relative class number of a CM-field a
-  natural number (0.4), and, for an abelian field `F` with primitive character group `X(F)`, the
-  Euler product `ζ_F = ∏ L(s, χ)`, the residue product `κ_F = ∏_{χ ≠ 1} L(1, χ)`, the Gauss-sum
-  product `∏ τ(χ) = i^{r₂} √|d_F|` and, for abelian CM `F`, the odd-character Bernoulli product
-  for the relative class number (0.4a);
-* Layer 1, the explicit remainders of the digamma and trigamma series on `Re z > 0` (1.1a);
+  natural number (0.4);
+* Layer 1, the explicit remainders of the digamma and trigamma series on `Re z > 0` (1.1a), the
+  roadmap's own analytic input for the gamma factors of `Λ_K`, which ComputationalNumberTheory
+  consumes by these names;
 * Layer 2, the explicit ideal counts: Sunley's count in the discriminant (2.2), Debaene's uniform
   counts of all ideals and of the ideals in one class (2.4), and Gun–Ramaré–Sivaraman's count in
   a narrow ray class (2.5);
@@ -37,13 +35,15 @@ Stated here:
 * Layer 6, the explicit bound for the least prime primitive root under the generalized Riemann
   hypothesis for the characters modulo `p` (6.4);
 * Layer 7, Garcia–Lee's three explicit Mertens theorems for number fields (7.1), Ahn–Kwon's
-  bound for the least prime ideal with a given Frobenius class (7.4), and Debaene's
-  Brun–Titchmarsh inequality for the Chebotarev density theorem (7.5).
+  bound for the least prime ideal with a given Frobenius class and Kadiri–Ng–Wong's bound beyond
+  an absolute discriminant threshold (7.4), and Debaene's Brun–Titchmarsh inequality for the
+  Chebotarev density theorem (7.5).
 
 Not statable at the pins:
 
 * every statement about the zeros or the values of the Dedekind zeta function `ζ_K` off the
-  half-plane of convergence: Rademacher's bound (1.1), the zero-dependent and conditional residue
+  half-plane of convergence: the Euler product of an abelian field as continued functions (0.4a),
+  Rademacher's bound (1.1), the zero-dependent and conditional residue
   bounds (3.1, 3.4, 3.5, 3.6), the zero counts, real-zero lemmas, Stark-like and zero-free regions
   and zero repulsion (4.1–4.6, 4.8–4.10), the consequences of the uniform real-zero gap for
   every `ζ_K` (4.9), the lower bounds for relative class numbers (5.6), and the explicit
@@ -70,13 +70,12 @@ The other statable targets are variants of these headlines or of a supplier's, a
 targets: Lee's count (2.3), whose constant differs between the two printings of the source;
 Ramaré's counts for imaginary quadratic fields (2.7); Louboutin's refinements (3.2, 5.1, 5.2) of
 the residue bound of AnalyticNumberTheoryPartI §2.15; the other forms of Bordellès' bound (5.3);
-and Garcia–Lee's bounds for the Mertens constant (7.1). Kadiri–Ng–Wong's bound `N𝔭 ≤ d_L^{16}`
-beyond an absolute threshold (7.4), which is not comparable with Ahn–Kwon's, is statable on the
-carriers of `leastPrimeIdeal_ahnKwon` but is not stated: its source is cited by locator only, so the
-form of its conclusion beyond the exponent (the threshold and the degree of the prime) is not
-checked against the text. The results resting on unrefereed preprints (Fehnker 2.6, Amberger 4.2,
-Das–Gaba–Lee–Savalia–Wong 4.8 and 4.10, Guo and Banks 4.9 and 5.7, Das–Kadiri–Ng 7.3) and the API
-lemmas and intermediate targets of every layer are README targets, not headlines.
+and Garcia–Lee's bounds for the Mertens constant (7.1). The Euler, residue, Gauss-sum and
+Bernoulli products of an abelian field on `Re s > 1` are CyclotomicClassGroupsAndStickelberger
+§3.4's and are not restated. The results resting
+on unrefereed preprints (Fehnker 2.6, Das–Gaba–Lee–Savalia–Wong 4.8 and 4.10, Guo and Banks 4.9
+and 5.7, Das–Kadiri–Ng 7.3) and the API lemmas and intermediate targets of every layer are README
+targets, not headlines.
 -/
 
 namespace TauCetiRoadmap.ExplicitNumberFields
@@ -97,65 +96,6 @@ noncomputable def relativeClassNumber (K : Type*) [Field K] [NumberField K] [IsC
 onto, since the Hilbert class field of `K⁺` is totally real and so meets `K` in `K⁺`. -/
 theorem classNumber_maximalRealSubfield_dvd (K : Type*) [Field K] [NumberField K] [IsCMField K] :
     classNumber (maximalRealSubfield K) ∣ classNumber K := by
-  sorry
-
-open Classical in
-/-- **0.4a, the Euler product of an abelian field.** For an intermediate field `F` of a
-cyclotomic field `K = ℚ(ζ_m)` and `Re s > 1`, `ζ_F(s)` is the product of the L-functions of the
-characters modulo `m` that are trivial on `Gal(K/F)`, each taken at its primitive character: the
-product over the primitive character group `X(F)`. -/
-theorem dedekindZeta_eq_prod_LFunction (m : ℕ) [NeZero m]
-    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
-    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) (s : ℂ) (hs : 1 < s.re) :
-    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
-    dedekindZeta F s =
-      ∏ χ : DirichletCharacter ℂ m,
-        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
-        if χ ∈ X then DirichletCharacter.LFunction χ.primitiveCharacter s else 1 := by
-  sorry
-
-open Classical in
-/-- **0.4a, the residue of an abelian field as a product of `L(1, χ)`.** In the setting of
-`dedekindZeta_eq_prod_LFunction`, `κ_F` is the product of the values at `1` of the L-functions of
-the nontrivial characters of `X(F)`. -/
-theorem dedekindZeta_residue_eq_prod_LFunction_one (m : ℕ) [NeZero m]
-    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
-    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
-    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
-    (dedekindZeta_residue F : ℂ) =
-      ∏ χ : DirichletCharacter ℂ m,
-        letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
-        if χ ∈ X ∧ χ ≠ 1 then DirichletCharacter.LFunction χ.primitiveCharacter 1 else 1 := by
-  sorry
-
-open Classical in
-/-- **0.4a, the Gauss-sum product of an abelian field.** The Gauss sums, with the standard
-additive character, of the primitive characters of `X(F)` multiply to `i^{r₂(F)} √|d_F|`, with the
-positive square root. -/
-theorem abelianCharacter_gauss_product (m : ℕ) [NeZero m]
-    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
-    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) :
-    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
-    (∏ χ : DirichletCharacter ℂ m,
-      letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
-      if χ ∈ X then gaussSum χ.primitiveCharacter ZMod.stdAddChar else 1) =
-        Complex.I ^ InfinitePlace.nrComplexPlaces F * (Real.sqrt |(discr F : ℝ)| : ℂ) := by
-  sorry
-
-open Classical in
-/-- **0.4a, the relative class number of an abelian CM-field as a Bernoulli product.** For a CM
-intermediate field `F` of a cyclotomic field, `h⁻(F) = Q_F w_F ∏_{χ ∈ X(F) odd} (−B_{1,χ}/2)`,
-with `B_{1,χ}` the first generalized Bernoulli number of the primitive character. By
-`classNumber_maximalRealSubfield_dvd`, `h⁻(F)` is the rational ratio `h(F)/h(F⁺)`. -/
-theorem relativeClassNumber_character_product (m : ℕ) [NeZero m]
-    (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
-    [IsAbelianGalois ℚ K] (F : IntermediateField ℚ K) [IsCMField F] :
-    let X := IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F
-    (relativeClassNumber F : ℂ) =
-      (IsCMField.indexRealUnits F : ℂ) * Units.torsionOrder F *
-        ∏ χ : DirichletCharacter ℂ m,
-          letI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
-          if χ ∈ X ∧ χ.Odd then -χ.primitiveCharacter.generalizedBernoulli 1 / 2 else 1 := by
   sorry
 
 /-- **0.5, the generalized Riemann hypothesis for the characters modulo `q`.** Every Dirichlet
@@ -361,6 +301,18 @@ theorem leastPrimeIdeal_ahnKwon (K L : Type*) [Field K] [NumberField K] [Field L
     ∃ 𝔭 ∈ NumberField.Chebotarev.frobeniusPrimeSet K L C,
       (Ideal.absNorm 𝔭.asIdeal).Prime ∧
         (Ideal.absNorm 𝔭.asIdeal : ℝ) ≤ |(discr L : ℝ)| ^ 12577 := by
+  sorry
+
+/-- **7.4, Kadiri–Ng–Wong's least prime ideal** (`kadiringwong2019` Theorem 1.1). There is an
+absolute threshold `D₀` such that for every Galois extension `L/K` of number fields with
+`|d_L| ≥ D₀` and every conjugacy class `C` of `Gal(L/K)`, some prime `𝔭` of `K`, unramified in `L`
+with Frobenius class `C` and of degree one, has `N𝔭 ≤ |d_L|^{16}`. -/
+theorem leastPrimeIdeal_kadiriNgWong :
+    ∃ D₀ : ℝ, ∀ (K L : Type) [Field K] [NumberField K] [Field L] [NumberField L]
+      [Algebra K L] [IsGalois K L] (C : ConjClasses (L ≃ₐ[K] L)), D₀ ≤ |(discr L : ℝ)| →
+      ∃ 𝔭 ∈ NumberField.Chebotarev.frobeniusPrimeSet K L C,
+        (Ideal.absNorm 𝔭.asIdeal).Prime ∧
+          (Ideal.absNorm 𝔭.asIdeal : ℝ) ≤ |(discr L : ℝ)| ^ 16 := by
   sorry
 
 /-- **7.5, Debaene's Brun–Titchmarsh inequality for the Chebotarev density theorem**

@@ -8,7 +8,7 @@ zeta function at `1` (Louboutin, Friedman, Stark, Garcia–Lee, and under the ge
 hypothesis Garcia–Grenié–Lee–Molteni and Palojärvi–Simonič), the class-number, regulator and
 relative class-number bounds that follow through the class-number formula (Louboutin, Bordellès,
 Cully-Hugill–Trudgian, Tudzi), explicit zero-counting formulae, zero-free regions and zero
-repulsion for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong, Amberger, Stark, Louboutin, Kadiri, Lee,
+repulsion for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong, Stark, Louboutin, Kadiri, Lee,
 Das–Gaba–Lee–Savalia–Wong, Kadiri–Ng–Wong, Kadiri–Ng), the consequences of a uniform gap for real
 zeros of quadratic Dedekind zeta functions for the real zeros of every `ζ_K` and for an effective
 Brauer–Siegel bound over Galois fields (Guo; Banks, with the computation of Lu–Zaman–Zhao),
@@ -42,12 +42,12 @@ Brun–Titchmarsh theorems.
   ExplicitMultiplicativeFunctions §7.5, and which only the class-number bounds of 5.3 use), the
   quadratic Hecke
   character `η_K` of a CM-field, the relative class number `relativeClassNumber` as a natural
-  number with the divisibility `h(K⁺) ∣ h(K)` and the relative class-number formula, the
-  primitive character group `X(F)` of an abelian field with its Euler product, its residue
-  product, its Gauss-sum product and the odd-character Bernoulli product for the relative class
-  number of an abelian CM field, the predicates *DedekindConjecture*, *CMPositivity*, `GRHMod`,
-  *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap* and
-  `HasNormalTower`, and the least primitive root and least prime primitive root modulo an integer.
+  number with the divisibility `h(K⁺) ∣ h(K)` and the relative class-number formula, the Euler
+  product of an abelian field as an identity of continued functions (whose form on `Re s > 1` is
+  CyclotomicClassGroupsAndStickelberger's), the predicates *DedekindConjecture*, *CMPositivity*,
+  `GRHMod`, *QuadraticRealZeroGap*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*
+  and `HasNormalTower`, and the least primitive root and least prime primitive root modulo an
+  integer.
 - The named propositions of *Computational hypotheses*, which the theorems carry as hypotheses;
   none of them is proved here.
 - Layer 1: Rademacher's convexity bound for `ζ_K`, as the Dedekind instance of the general bound;
@@ -62,8 +62,8 @@ Brun–Titchmarsh theorems.
   extension of Schoenfeld's second Mertens theorem to `x ≥ 1.048`, the explicit short-sum theorem
   of Duke on unit-disc Euler-product records, and the conditional two-sided bounds of
   Garcia–Grenié–Lee–Molteni, Palojärvi–Simonič and Garcia–Lee.
-- Layer 4: the explicit zero-counting formulae for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong,
-  Amberger), Stark's one-zero lemma, the real-zero counting lemmas, Louboutin's Stark-like regions,
+- Layer 4: the explicit zero-counting formulae for `ζ_K` (Trudgian, Hasanalizade–Shen–Wong),
+  Stark's one-zero lemma, the real-zero counting lemmas, Louboutin's Stark-like regions,
   the explicit zero-free regions of Kadiri, Lee and Das–Gaba–Lee–Savalia–Wong, Stark's explicit
   lower bound for the residue, the field form of the uniform real-zero gap for quadratic fields
   with its consequences for every `ζ_K`, and the explicit zero repulsion theorems.
@@ -88,8 +88,10 @@ Brun–Titchmarsh theorems.
   Aramata entire quotient `ζ_K/ζ_E` for Galois `K/E`: its §2.39b; `DedekindERH` and
   `DirichletGRH`: its §2.42 and §1.6; normal-closure discriminant bounds: its §2.31d; Heilbronn's
   theorem that a simple real zero of `ζ_N` for Galois `N` comes from a quadratic subfield, and
-  Stark's near-one form of it without normality: its §2.39 and §2.31e; the qualitative uniform
-  exclusion of Landau–Siegel zeros with an effective absolute constant: its §0.34.
+  Stark's near-one form of it without normality: its §2.39 and §2.31e; Stark's lower bound for
+  the residue in terms of the possible real zero near `1` (Stark's Lemmas 2–4): its §2.31e; the
+  qualitative uniform exclusion of Landau–Siegel zeros with an effective absolute constant: its
+  §0.34.
 - The continued Dedekind zeta function, its completion, functional equation and residues:
   LFunctions Layer 3; the quadratic and cyclotomic factorizations: LFunctions Layer 4;
   finite-order Hecke L-functions with their completions and entirety: LFunctions Layer 5; their
@@ -115,14 +117,13 @@ Brun–Titchmarsh theorems.
   `Σ μ²(n)/n`: its §§2.3, 2.5 and 7.1; the lower bound for Mertens' product under the Riemann
   hypothesis: its §8.1.
 - Schoenfeld's bound for `ψ(x) − x` under the Riemann hypothesis: ExplicitPrimeCounting §2.2; the
-  real-zero gap for quadratic Dirichlet L-functions as a hypothesis, with Lu–Zaman–Zhao's
-  computation and Banks's constant as named instances: its §1.7.
+  real-zero gap for quadratic Dirichlet L-functions as a hypothesis, *RealZeroGap*: its §1.7.
 - Rademacher's convexity bound for records of finite-order type: ExplicitZetaBounds §3.2;
   Stieltjes' sector bound for the Stirling remainder of `log Γ` and the two-sided bound for `|Γ|`
   on vertical lines: its §§2.1 and 2.5; Backlund's argument lemma: its §5.1; admissible cosine
-  polynomials: its §0.5; Banks's numerical Landau–Siegel gap: its §7.9; Ramaré's bounds for
-  `|L(1, χ)|`: its §9.1. Landau's iterated Perron identity and Guo's constant for the uniform
-  real-zero gap: ExplicitZetaBounds (supplier gaps below).
+  polynomials: its §0.5; Landau's iterated Perron identity: its §6.1a; Lu–Zaman–Zhao's computation
+  `LuZamanZhaoRecord`: its §0.4b; the numerical Landau–Siegel gaps of Guo and of Banks: its §7.9;
+  Ramaré's bounds for `|L(1, χ)|`: its §9.1.
 - Burgess's moment bound with its shifted form and its refinements at `r = 2`:
   ExplicitCharacterSumsAndSieves §4.1; Lapkova's Pólya–Vinogradov inequality for initial sums with
   one constant `A(q₀)`, under the finite verification of its §6.1: its §3.5.
@@ -132,6 +133,10 @@ Brun–Titchmarsh theorems.
   realizing ClassFieldTheory Layer 12; the Hilbert class field and its Galois group,
   Kronecker–Weber and the conductor–discriminant formula: its Layer 13; the Legendre character is
   primitive: ClassicalArithmeticCompletion §1.5.
+- The primitive character group `X(F)` of an abelian field, its Euler product
+  `ζ_F = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` with the residue comparison at `s = 1`, the Gauss-sum
+  product and the relative class-number character product of an abelian CM field:
+  CyclotomicClassGroupsAndStickelberger §3.4.
 
 **Already in the library or stated by an earlier roadmap, and how the targets here differ.**
 
@@ -166,6 +171,11 @@ Brun–Titchmarsh theorems.
   `log d_K ≥ r₁ log 60.1 + 2 r₂ log 22.2 − 254` of Odlyzko's second paper; and Poitou's bound
   `P(n, r₁, b) ≤ log d_K` for every `b > 0`, with its totally complex consequences in fixed
   degrees, is SmallRamificationAndAbelianVarietyBaseCases §1.7.
+- CyclotomicClassGroupsAndStickelberger §3.4, the relative class number `h(F)/h(F⁺)` of an
+  abelian CM field as a positive rational number with its character product, integral at the
+  prime-power cyclotomic conductors: 0.4 proves `h(K⁺) ∣ h(K)` for every CM field `K` and defines
+  `relativeClassNumber` as a natural number, which agrees with that ratio for abelian `K`; and its
+  Euler product on `Re s > 1`, which 0.4a extends to the continued functions.
 - AnalyticNumberTheoryPartI §0.34, the uniform exclusion of Landau–Siegel zeros with an effective
   but unspecified constant `c_LS`, and ExplicitPrimeCounting §1.7, its numerical hypothesis
   *RealZeroGap*: 0.5 restates the latter on quadratic fields as *UniformQuadraticZeroGap*, the
@@ -175,8 +185,8 @@ Brun–Titchmarsh theorems.
 `σ` (only zero repulsion, 4.10, is stated); subconvexity; every explicit inequality about `ζ` and
 Dirichlet L-functions, primes and arithmetic functions (the four explicit roadmaps above),
 including the uniform gap for real zeros of quadratic Dirichlet L-functions, which is consumed
-from ExplicitZetaBounds §7.9 and, for Guo's constant, as `gap:uniform-landau-siegel-gap`, and
-the bounds for `L(1, χ)` under the generalized Riemann hypothesis (Lamzouri–Li–Soundararajan,
+from ExplicitZetaBounds §7.9 (the instances of Guo and of Banks), and the bounds for `L(1, χ)`
+under the generalized Riemann hypothesis (Lamzouri–Li–Soundararajan,
 `lamzourilisoundararajan2015`); the ineffective Brauer–Siegel theorem and
 every ineffective residue bound (AnalyticNumberTheoryPartI §§2.31e, 2.32, 2.46), while the
 effective bound for Galois fields under the uniform real-zero gap is 5.7; the imaginary quadratic
@@ -185,9 +195,10 @@ class-number formula (ImaginaryQuadraticClassNumber H2.2) and the Goldfeld–Oes
 McGown, Booker: ExplicitCharacterSumsAndSieves); algorithms and certified computation, which
 nothing here uses: every computation a theorem rests on is a named hypothesis (Conventions).
 Louboutin's explicit Li-type residue bound (`louboutin2015mmj`), which makes the residue bounds of
-Layer 3 depend on the explicit Li coefficients of `ζ_K`, and Chen's estimates behind the criterion
-of 6.5 in their own right, extend Layers 3 and 6 in their direction and belong to
-ExplicitNumberFields, Part II.
+Layer 3 depend on the explicit Li coefficients of `ζ_K`, Amberger's zero count (`amberger2026`
+Theorem 1), whose proof rests on a numerical majorant for the auxiliary function of its Lemma 3,
+and Chen's estimates behind the criterion of 6.5 in their own right, extend Layers 3, 4 and 6 in
+their direction and belong to ExplicitNumberFields, Part II.
 
 ## Conventions
 
@@ -255,12 +266,11 @@ ExplicitNumberFields, Part II.
   `banks2026brauersiegel`, with `openai2026siegel`, `kerr2026` and `green2026` as context) are
   unrefereed preprints. They enter only through the predicate *UniformQuadraticZeroGap* of 0.5:
   every consequence (4.7, 4.9, 5.6, 5.7) is a theorem under that predicate, the conditional
-  statements of 4.7 and 5.6 under *QuadraticRealZeroGap* and *NoImaginaryQuadraticRealZero* are
-  kept beside them, and the two theorems discharging the predicate (4.9) are separate targets.
-  Fehnker's counts (2.6), Amberger's zero count (4.2), the regions of
-  Das–Gaba–Lee–Savalia–Wong (4.8, 4.10) and the Chebotarev bound of Das–Kadiri–Ng (7.3) rest on
-  preprints too; each is stated beside a refereed counterpart, which is the one the later layers
-  use.
+  statements of 4.7 and 5.6 under *QuadraticRealZeroGap* and *NoImaginaryQuadraticRealZero* are kept
+  beside them, and the two theorems discharging the predicate (4.9) are separate targets. Fehnker's
+  counts (2.6), the regions of Das–Gaba–Lee–Savalia–Wong (4.8, 4.10) and the Chebotarev bound of
+  Das–Kadiri–Ng (7.3) rest on preprints too; each is stated beside a refereed counterpart, which is
+  the one the later layers use.
 - **Thresholds.** A theorem a source states "for `d_K` sufficiently large" is stated with an
   absolute threshold `D₀` that exists and does not depend on `K` or `n`; every other threshold is
   the source's numeral.
@@ -281,9 +291,6 @@ Declared here:
   satisfies `κ_K ≤ (2e^γ (log log d_K)^{1 + 19/log log d_K})^{n−1}` and
   `κ_K ≥ ζ(n)/(2e^γ (log log d_K)^{1 + 19(n−1)/log log d_K})` (`gglm2026` end of §4.3 and
   Remark 4.2).
-- *AmbergerMajorantCertificate*: the auxiliary function of `amberger2026` Lemma 3, which
-  majorises the contribution of a single zero, satisfies the sign conditions of that lemma at the
-  parameters chosen for its Theorem 1 (`amberger2026` Lemma 3 and the proof of Theorem 1).
 - *KadiriDedekindPolynomialCertificate*: each degree-four cosine polynomial of the proofs of
   Theorem 1.1 and Corollary 1.2 of `kadiri2012` satisfies *IsAdmissibleCosinePolynomial* `4 a`
   (ExplicitZetaBounds §0.5) at its literal coefficients `a` (`kadiri2012`, the polynomials `P₄`
@@ -291,9 +298,17 @@ Declared here:
 - *MossinghoffTrudgianF16Certificate*: the degree-sixteen polynomial `F₁₆` satisfies
   *IsAdmissibleCosinePolynomial* `16 a` at its literal coefficients `a` (`mossinghofftrudgian2015`
   Table 5, the polynomial of `lee2021zerofree` lines 110–135).
-- *DGLSWPolynomialCertificates*: each nonnegative even trigonometric polynomial of the proofs of
-  Theorems 1.1–1.5 of `dglsw2025` satisfies *IsAdmissibleCosinePolynomial* at its literal
-  coefficients (`dglsw2025` §§2–5).
+- *DGLSWPolynomialCertificates*: *IsAdmissibleCosinePolynomial* `n a` (ExplicitZetaBounds §0.5,
+  which is the class `P_n` of `dglsw2025` §2) holds at the literal coefficients `a` of each
+  polynomial `p_n` that the proofs of `dglsw2025` use: Mossinghoff–Trudgian–Yang's `p₄₆` (`n = 46`,
+  coefficients in `dglsw2025` Table 13), used for Theorem 1.1 (Table 11) and for Theorem 1.2 at
+  `n = 2` and `n ≥ 7` (Tables 2–3); their `p₄₀` (`n = 40`, Table 12), used for Theorem 1.2 at
+  `n = 2` (Table 2); Mossinghoff–Trudgian's `p₁₆` (`n = 16`), the `F₁₆` of
+  *MossinghoffTrudgianF16Certificate*, used at `n = 3` (Tables 2–3); Kondrat'ev's `p₈` (`n = 8`),
+  used at `n = 4, 5, 6` (Tables 2–3); and the degree-four `p₄` (`n = 4`) of Theorem 1.3
+  (Tables 4–5). `dglsw2025` prints the coefficients of `p₄₀` and `p₄₆` only, and takes `p₈` from
+  Kondrat'ev's paper and `p₄` from Kadiri's (§3.3 and §§4.2–4.6). Theorems 1.4–1.5 use the
+  logarithmic derivative at `k = 0` alone and no polynomial (§§5.1–5.2, Tables 6–7).
 - *MinimalDiscriminantTable*: every number field `K` of degree `n ≥ 2` has `d_K ≥ d_min(n)`, with
   `d_min(n) = 3, 23, 117, 1609, 9747, 184607, 1257728, 2.29·10⁷, 1.56·10⁸, 3.91·10⁹, 2.74·10¹⁰`,
   `7.56·10¹¹, 5.43·10¹², 1.61·10¹⁴, 1.17·10¹⁵, 3.70·10¹⁶, 2.73·10¹⁷, 9.03·10¹⁸, 6.74·10¹⁹` for
@@ -337,8 +352,8 @@ Declared here:
 - *PaszkiewiczTable*: `h(p) = g(p)` for every odd prime `p ≤ 10¹²` other than `40487` and
   `6692367337` (`kerrmcgowntrudgian2020` lines 41–43).
 - *SmallPrimitiveRootsModPSquare*: `h(p) < p^{0.99}` for every odd prime `p ≤ 409` and for
-  `p ∈ {40487, 6692367337}` (`kerrmcgowntrudgian2020` lines 278–297, the small cases of the proof of
-  Theorem 1).
+  `p ∈ {40487, 6692367337}` (`kerrmcgowntrudgian2020` lines 82–84, the small cases of the proof of
+  Theorem 1: Paszkiewicz's computation and the two exceptional primes).
 - *GrenieMolteniSmallCases*:
   `| (|G|/|C|) ψ_C(x) − x | ≤ √x ((log x/(2π) + 2) log d_L + ((log x)²/(8π) + 2) n_L)`, and the
   same for the source's `ψ(C; x)`, for `L = ℚ` and `1 ≤ x ≤ 59` and for every Galois extension
@@ -353,10 +368,18 @@ Imported, as their owners state them:
 - *LeeNosalMertensRange*: `|Σ_{p ≤ x} (log p)/p − log x − E| ≤ 3 log² x/(8π√x)` for
   `43.1 ≤ x ≤ 10⁶` and `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for `24.4 ≤ x ≤ 10⁶`,
   with `E` the limit of `Σ_{p ≤ x} (log p)/p − log x` and `B` the Meissel–Mertens constant
-  (ExplicitPrimeCounting).
-- *LuZamanZhaoSweep*: *RealZeroGap* `(1/5) 10¹⁰`: every real zero `β ∈ (0, 1)` of `L(s, χ)`, for
-  a primitive real character `χ` of conductor `3 ≤ q ≤ 10¹⁰`, has `(1 − β) log q ≥ 1/5`
-  (ExplicitPrimeCounting §1.7).
+  (ExplicitPrimeCounting §1.3).
+- `LeeNosalRange`: `|ψ(x) − x| ≤ √x log x (log x − log log x)/(8π)` for `101 ≤ x ≤ 338` and the
+  same bound for `|θ(x) − x|` for `2657 ≤ x ≤ 3382` (ExplicitPrimeCounting §1.3).
+- `ZetaZeroReciprocalSum`: `Σ_{0 < γ ≤ 10⁷} 1/γ ≤ 16.2106480369` over the zeros of `ζ` with
+  multiplicity, and `ZetaZeroCountLowRange`: `|N(T) − M(T)| ≤ 0.28 log T` for every real
+  `2π ≤ T ≤ 10⁹` (ExplicitPrimeCounting §1.1).
+- *PsiThetaUpper* `(1 + 1.93378·10⁻⁸, 1.04320, e⁴⁰)`: `ψ(x) − θ(x) < a₁ √x + a₂ x^{1/3}` for
+  `x ≥ X` (ExplicitPrimeCounting §§0.3 and 2.2, discharged by its §3.7, whose inputs a statement
+  here may carry in its place).
+- `LuZamanZhaoRecord`: for every `q ≤ 10¹⁰` and every quadratic Dirichlet character `χ` modulo
+  `q`, primitive or not, `L(σ, χ) ≠ 0` for every real `σ ≥ 1 − 1/(5 log q)` (ExplicitZetaBounds
+  §0.4b, the computation of `luzamanzhao2026`).
 - *PiltzRangeVerified* `k`: `Σ_{m ≤ x} τ_k(m) ≤ 2x (log x)^{k−1}` for real
   `6 ≤ x < exp((k − 1)(γ + 1/6)/log 2)` (ExplicitMultiplicativeFunctions §7.5).
 - *BordellesPiltzRangeVerified*: `Σ_{m ≤ x} τ₃(m) ≤ (x/2)(log x + 1)²` for real `13 ≤ x ≤ 670`,
@@ -378,9 +401,22 @@ Imported, as their owners state them:
   every interval sum of `χ` is at most `(2/π²)√q log q + 0.9467√q + 1.668` in absolute value if
   `χ` is even and `(1/(2π))√q log q + 0.8204√q + 1.0285` if `χ` is odd
   (ExplicitCharacterSumsAndSieves §6.1).
-- The finite verifications under which ExplicitMultiplicativeFunctions §§2.3, 2.5 and 7.1 state
-  the bounds for `Σ_{d ≤ X} μ(d)/d`, `Σ_{d > X} μ(d)/d²`, `Σ_{d ≤ X} μ²(d)` and
-  `Σ_{d ≤ X} μ²(d)/d` consumed in 6.2, under the names given there.
+- *MoebiusDivRangeVerified* `ε a b` (`|Σ_{d ≤ x} μ(d)/d| ≤ ε(x)` for every real `x ∈ [a, b]`), at
+  the instances under which ExplicitMultiplicativeFunctions §2.3 states Ramaré's
+  `|Σ_{d ≤ X} μ(d)/d| ≤ 1/10` for `X ≥ 7`: the row `x ↦ 1/10` on `[7, 463 421]` and
+  `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 (3·10⁷)`; with the further inputs of its Theorem 1.2,
+  *MoebiusAbsIntegralLE* `1 078 853 113 556 832` and the hypotheses of its §§1.5 and 1.7
+  (ExplicitMultiplicativeFunctions Layer 0.7 and §2.3).
+- *MoebiusRangeVerified* `(x ↦ x/80) 1119 2087` and `(x ↦ (x + 1)/80 + 11/2) 0 1119`, with
+  `MoebiusTableVerified 0.571 10¹²`, under which ExplicitMultiplicativeFunctions §1.2 states
+  MacLeod's bounds for `Σ_{d ≤ x} μ(d)`, the inputs of the tail bound
+  `|Σ_{d > X} μ(d)/d²| ≤ 1/X` of its §2.5 (ExplicitMultiplicativeFunctions Layer 0.7, §§1.2 and
+  2.5).
+- *SquarefreeRangeVerified* and *SquarefreeRangeVerifiedNat* (the squarefree remainder `R(x)`
+  bounded on the sources' finite ranges), under which ExplicitMultiplicativeFunctions §7.1 states
+  Cipu's `Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X`; and *SquarefreeReciprocalRangeVerified*
+  `0.578 1.166 1 14 831`, under which it states `Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 1.166`
+  (ExplicitMultiplicativeFunctions Layer 0.7 and §7.1).
 
 ## Exact supplier contracts
 
@@ -426,14 +462,11 @@ Imported, as their owners state them:
   `hasDerivAt_of_tendstoLocallyUniformlyOn`, `HasDerivAt.real_of_complex`,
   `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm` and
   `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
-- For 0.4a: `IsCyclotomicExtension.Rat.galEquivZMod`, `galEquivZMod_stabilizer`,
-  `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar` with
-  `card_intermediateFieldEquivSubgroupChar`, the decomposition of rational primes in cyclotomic
-  fields (`ramificationIdxIn_eq`, `inertiaDegIn_eq`), `DirichletCharacter.primitiveCharacter`,
-  `gaussSum`, `ZMod.stdAddChar`, `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` with
-  `rootNumber`, `DirichletCharacter.fourierTransform_eq_inv_mul_gaussSum`,
-  `differentiable_LFunction`, `riemannZeta_residue_one` and
-  `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`.
+- For 0.4a: `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar` (the character group of
+  an intermediate field of a cyclotomic field, the carrier of the products of
+  CyclotomicClassGroupsAndStickelberger §3.4), `DirichletCharacter.primitiveCharacter`,
+  `DirichletCharacter.LFunction` with `DirichletCharacter.differentiable_LFunction` (entire for a
+  nontrivial character) and `riemannZeta`.
 
 ### From Tau Ceti
 
@@ -479,12 +512,9 @@ Imported, as their owners state them:
   `TauCeti.conreyGenerator_three` (`TauCeti/NumberTheory/DirichletCharacter/Conrey.lean`): the
   least primitive root `h(p)` modulo `p²` of 0.6 and 6.5.
 - `TauCeti.Contour.argumentPrinciple_nullHomologous` through ZerosOfLFunctions 7.2.
-- For 0.4a: `DirichletCharacter.generalizedBernoulli`
-  (`TauCeti/NumberTheory/DirichletCharacter/GeneralizedBernoulli.lean`),
-  `DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`
-  (`TauCeti/NumberTheory/DirichletCharacter/GaussSum.lean`) and
-  `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`
-  (`TauCeti/Analysis/Meromorphic/Continuation.lean`).
+- For 0.4a: `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`
+  (`TauCeti/Analysis/Meromorphic/Continuation.lean`), uniqueness of meromorphic continuation from a
+  right half-plane.
 - `NumberField.classNumber_le_bound` and `NumberField.card_ideal_absNorm_le`
   (`TauCeti/NumberTheory/EffectiveBounds/`), realizing Completed/EffectiveBounds, as comparisons.
 
@@ -535,8 +565,14 @@ log-convexity of `g`); §2.18 (the unit-disc coefficient construction of an Eule
 `1 − β < 1/(4 n! log d_K)` is a zero of `ζ_F` for a quadratic subfield `F ⊆ K`, without
 normality; for Galois `N` the character computation of that argument gives, at a simple
 real zero `β` of `ζ_N` with quadratic subfield `F`, `ζ_E(β) = 0` iff `F ⊆ E` for every
-intermediate field `E`); §2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of `ζ_N`
-for Galois `N/ℚ` is a zero of `ζ_F` for a quadratic subfield `F ⊆ N`); §2.39b (the Aramata
+intermediate field `E`; and Stark's Lemmas 2–4, its interface `dedekind_residue_lower_of_zero_gap`:
+for `K ≠ ℚ`, `κ_K ≥ c min(1/log d_K, 1 − β_K)` with `β_K` the real zero of `ζ_K` in Stark's
+one-zero rectangle `σ ≥ 1 − 1/(4 log d_K)`, `|t| ≤ 1/(4 log d_K)` when there is one, and
+`κ_K ≥ c/log d_K` when there is none; this contract takes `c > 0` absolute, independent of `K`
+and of its degree, as Stark's Lemma 4 gives it (`banks2026brauersiegel` §3.1, Lemma 3.3, citing
+Stark 1974 Lemma 4); used in 5.7. The fixed-degree residue bounds of §2.31e allow ineffective
+constants and are not used here); §2.39 (Heilbronn's theorem: a simple real zero `β ∈ (0, 1)` of
+`ζ_N` for Galois `N/ℚ` is a zero of `ζ_F` for a quadratic subfield `F ⊆ N`); §2.39b (the Aramata
 entire quotient `ζ_K/ζ_E` for finite Galois `K/E`); §2.42 `DedekindERH K` (every zero of `ζ_K` with
 `0 < Re s < 1` has `Re s = 1/2`) with its abelian case (for `K/ℚ` abelian, `DirichletGRH` for the
 primitive characters of `K` gives `DedekindERH K`); §§2.43, 2.49 as comparisons.
@@ -566,6 +602,18 @@ Required location: Layer 11.
 
 H2.2 (the imaginary quadratic class-number formula with its exact constants), the degree-two case
 of the relative class-number formula of 0.4.
+
+### From TauCetiRoadmap.CyclotomicClassGroupsAndStickelberger
+
+§3.4: the primitive character group `X(F)` of an abelian number field `F`, realized for an
+intermediate field `F` of a cyclotomic field `ℚ(ζ_m)` by the characters modulo `m` of
+`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F`, each taken at its primitive
+character; the Euler-product identity `ζ_F(s) = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` and its
+residue comparison `κ_F = ∏_{1 ≠ χ ∈ X(F)} L(1, χ)` with `dedekindZeta_residue`;
+the Gauss-sum product `∏_{χ ∈ X(F)} τ(χ) = i^{r₂(F)} √d_F`; and, for abelian CM `F`, the rational
+ratio `h(F)/h(F⁺)` with its odd-character Bernoulli product
+`h(F)/h(F⁺) = Q_F w_F ∏_{χ ∈ X(F) odd} (−B_{1,χ}/2)`, with which Layer 0's natural number agrees.
+Used in 0.4, 0.4a, 5.2 and 5.6.
 
 ### From TauCetiRoadmap.SuccessiveMinima
 
@@ -607,33 +655,36 @@ boundary circle. The form normalised by `|f(a + iT)|` follows by applying it to 
 literal rational coefficients. Used in the certificates of *Computational hypotheses* that 4.5,
 4.6 and 4.8 carry.
 
+§0.4b: `LuZamanZhaoRecord` (for every `q ≤ 10¹⁰` and every quadratic character `χ` modulo `q`,
+primitive or not, `L(σ, χ) ≠ 0` for every real `σ ≥ 1 − 1/(5 log q)`; `luzamanzhao2026`
+Theorem 1.1), a named computation that every statement using it carries. Used in 4.9.
+
 §7.9: *HasLandauSiegelGap* `c Q` (for every primitive real nonprincipal Dirichlet character `χ` of
 conductor `q` with `3 ≤ q ≤ Q` and every real zero `β ∈ (0, 1)` of `L(s, χ)`,
-`(1 − β) log q ≥ c`), the proposition of ExplicitPrimeCounting §1.7's *RealZeroGap*; and Banks's
-instance *HasLandauSiegelGap* `(3.0·10⁻³) ∞` (`banks2026siegel` Theorem 1.1, an unrefereed preprint,
-for `q ≥ 10¹⁰`, whose Remark 7.1 computes the constant `3.069…·10⁻³`), which below `10¹⁰` rests on
-the computation of Lu, Zaman and Zhao (*HasLandauSiegelGap* `(1/5) 10¹⁰`). Used in 4.9, which
-carries that computation as ExplicitPrimeCounting's *LuZamanZhaoSweep*.
+`(1 − β) log q ≥ c`), the proposition of ExplicitPrimeCounting §1.7's *RealZeroGap*, with two of
+its instances as that section states them. Guo's: *HasLandauSiegelGap* `(1/100) ∞`, with the
+strict inequality `(1 − β) log q > 1/100` for every conductor `q ≥ 3` (`guo2026` Theorem 1.1, an
+unrefereed preprint, with no computation). Banks's: given `LuZamanZhaoRecord`,
+*HasLandauSiegelGap* `(3.0·10⁻³) ∞` (`banks2026siegel` Theorem 1.1, an unrefereed preprint, for
+`q ≥ 10¹⁰`, whose Remark 7.1 computes the constant `3.069…·10⁻³`; below `10¹⁰` from the instance
+*HasLandauSiegelGap* `(1/5) 10¹⁰` that the record gives, with the strict inequality). Used in 4.9,
+whose Banks instance carries `LuZamanZhaoRecord`.
+
+§7.7: Ralaivaosaona and Razakarinoro's bound: for `−d` a fundamental discriminant with
+`d > 3·10⁸`, `L(s, χ_{−d})` has no real zero `β ≥ 1 − 6.035/√d`. Used in the Checks of 0.5.
 
 §9.1: Ramaré's bounds: for a primitive Dirichlet character `χ` of conductor `q > 1`,
 `|L(1, χ)| ≤ (1/2) log q` if `χ` is even and `|L(1, χ)| ≤ (1/2) log q + 5/2 − log 6` if `χ` is
 odd (`ramare2001` Corollary 1). Used in 5.2 and 5.6.
 
-What ExplicitZetaBounds must provide (gap:iterated-perron): Landau's iterated Perron identity. For
-`F(s) = Σ_{k ≥ 1} a_k k^{−s}` absolutely convergent on `Re s > κ_a`, an integer `j ≥ 1`, a real
-`c > max(κ_a, 0)` and `x > 0`, the integral
+§6.1a: Landau's iterated Perron identity. For `F(s) = Σ_{k ≥ 1} a_k k^{−s}` absolutely
+convergent on `Re s > κ_a`, an integer `j ≥ 1`, a real `c > max(κ_a, 0)` and `x > 0`, the integral
 `(1/2πi) ∫_{c−i∞}^{c+i∞} F(s) x^{s+j} ds/(s(s+1)⋯(s+j))` converges absolutely and equals
-`(1/j!) Σ_{k ≤ x} a_k (x − k)^j`, which is the `j`-fold iterated integral
+`(1/j!) Σ_{k ≤ x} a_k (x − k)^j`, which is also the `j`-fold iterated integral
 `∫_0^x ∫_0^{y_j} ⋯ ∫_0^{y_2} Σ_{k ≤ y_1} a_k dy_1 ⋯ dy_j` (the kernel integral is
-`(1 − 1/y)^j/j!` for `y > 1` and `0` for `0 < y ≤ 1`). This is the form 2.2 and 2.3 use with
+`(1 − 1/y)^j/j!` for `y ≥ 1` and `0` for `0 < y ≤ 1`). This is the form 2.2 and 2.3 use with
 `j = n` and 3.6 with `j = 1`; the truncated and averaged Perron formulas of its §§6.1–6.2, and
-Tau Ceti's `truncatedPerron_LSeries`, are other forms and are not needed. Required location:
-Layer 6, beside §6.2.
-
-What ExplicitZetaBounds must provide (gap:uniform-landau-siegel-gap): Guo's constant,
-*HasLandauSiegelGap* `(1/100) ∞`: for every primitive real Dirichlet character `χ` of conductor
-`q ≥ 3` and every real zero `β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q > 1/100` (`guo2026`, main
-theorem, preprint, with no computation). Required location: §7.9, beside Banks's instance.
+Tau Ceti's `truncatedPerron_LSeries`, are other forms and are not needed.
 
 ### From TauCetiRoadmap.ExplicitCharacterSumsAndSieves
 
@@ -687,14 +738,22 @@ consumes; it gives the form with `2.51` that 6.5 uses. Used in 6.5.
 bound `|Σ_{d > X} μ(d)/d²| ≤ 1/X` for every real `X ≥ 1` (§2.5), Cipu's
 `Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X` for every real `X ≥ 1` and the bound
 `Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 1.166` for every real `X ≥ 1` (§7.1), each under the finite
-verifications that section names. They are the inputs of McGown–Trudgian's estimates for `S(X)` and
-`T(X)` in the ranges `X ≥ 38` and `X ≥ 1000` (`mcgowntrudgian2020` lines 300–353). Used in 6.2.
+verifications that section names: *MoebiusDivRangeVerified* at the row `x ↦ 1/10` on `[7, 463 421]`
+and at `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 (3·10⁷)`, with *MoebiusAbsIntegralLE*
+`1 078 853 113 556 832` and the hypotheses of its §§1.5 and 1.7 (§2.3); *MoebiusRangeVerified*
+`(x ↦ x/80) 1119 2087` and `(x ↦ (x + 1)/80 + 11/2) 0 1119` with `MoebiusTableVerified 0.571 10¹²`,
+through MacLeod's bounds of its §1.2 (§2.5); *SquarefreeRangeVerified* and
+*SquarefreeRangeVerifiedNat* (Cipu's bound) and *SquarefreeReciprocalRangeVerified*
+`0.578 1.166 1 14 831` (§7.1), all of its Layer 0.7. They are the inputs of McGown–Trudgian's
+estimates for `S(X)` and `T(X)` in the ranges `X ≥ 38` and `X ≥ 1000` (`mcgowntrudgian2020` lines
+300–353). Used in 6.2.
 
 §8.1: Mertens' product under the Riemann hypothesis (`leenosal2026` Corollary 1.3, quoted as
 Lemma 2.2 of `gglm2026`): under `RiemannHypothesis` and the Mertens estimate
 `|Σ_{p ≤ x} 1/p − log log x − B| ≤ ε_RH(x) = 3 log x/(8π√x)` for every real `x ≥ 24.4` of
 ExplicitPrimeCounting §4.7, with the finite verifications that section carries (*ButheVerified*,
-*LeeNosalMertensRange* and the inputs of its §2.2), for every real `x ≥ 24.4`,
+*LeeNosalMertensRange*, `LeeNosalRange`, `ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange` and
+*PsiThetaUpper* or the inputs of its §3.7 that discharge it), for every real `x ≥ 24.4`,
 `e^{−ε_RH(x)} < e^γ (log x) ∏_{p ≤ x} (1 − 1/p)`; since `e^{−ε} ≥ 1 − ε`, this gives
 `∏_{p ≤ x} (1 − 1/p) ≥ (e^{−γ}/log x)(1 − 3 log x/(8π√x))`, the form 3.6 uses at `x ≥ 5·10⁵`.
 Used in 3.6.
@@ -709,16 +768,17 @@ hypotheses.
 §1.3 (`schoenfeld-1976` Theorem 10). Used in 3.6 and 7.2, each of which carries the two predicates.
 
 §1.7: *RealZeroGap* `c Q` (every real zero `β ∈ (0, 1)` of
-`DirichletCharacter.LFunction χ`, for every primitive real character `χ` of conductor
-`3 ≤ q ≤ Q`, has `(1 − β) log q ≥ c`), with its named instances *LuZamanZhaoSweep*
-(*RealZeroGap* `(1/5) 10¹⁰`, the computation of `luzamanzhao2026`) and *BanksGap* (*RealZeroGap*
-`(3.0·10⁻³) ∞`); used in 0.5 and 4.9.
+`DirichletCharacter.LFunction χ`, for every primitive real nonprincipal character `χ` of
+conductor `3 ≤ q ≤ Q`, has `(1 − β) log q ≥ c`), its name for ExplicitZetaBounds §7.9's
+*HasLandauSiegelGap* `c Q`, whose instances are consumed from that section; used in 0.5.
 
 §4.7: Lee–Nosal's second Mertens theorem under the Riemann hypothesis,
 `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real `x ≥ 24.4`, with
-`B = mertensConstant ℚ`, under `RiemannHypothesis`, *ButheVerified*, *LeeNosalMertensRange* and the
-other inputs of its §2.2; it is the estimate that ExplicitMultiplicativeFunctions §8.1 turns into
-Mertens' product, and 3.6 carries its finite verifications with that product.
+`B = mertensConstant ℚ`, under `RiemannHypothesis`, *ButheVerified*, *LeeNosalMertensRange*,
+`ZetaZeroReciprocalSum`, *PsiThetaUpper* (or the inputs of its §3.7 that discharge it) and the other
+inputs of its §2.2 (`LeeNosalRange`, `ZetaZeroCountLowRange`); it is the estimate that
+ExplicitMultiplicativeFunctions §8.1 turns into Mertens' product, and 3.6 carries its finite
+verifications with that product.
 
 What ExplicitPrimeCounting must provide (gap:explicit-mertens-second): Schoenfeld's second Mertens
 theorem under the Riemann hypothesis from `x = 13.5`: under `RiemannHypothesis`, for every real
@@ -739,8 +799,8 @@ in progressions. Required location: §6.5.
 
 Layer 0 fixes the invariants and predicates every later statement mentions: the Minkowski
 constant, the local Euler factors, the quadratic Hecke character and relative class number of a
-CM-field, the primitive character group of an abelian field with its Euler, Gauss-sum and
-Bernoulli products, the conjectural and gap predicates, and the least primitive roots. Layer 1 is
+CM-field, the Euler product of an abelian field as continued functions, the conjectural and gap
+predicates, and the least primitive roots. Layer 1 is
 the one convexity bound for `ζ_K`, an instance of the general bound, and the digamma and trigamma
 series with explicit remainders, which bound the gamma terms of `Λ'_K/Λ_K` in Layers 4 and 7.
 Layer 2 proves the explicit lattice-point count and the explicit ideal counts; it needs Layers 0 and
@@ -776,6 +836,17 @@ Define the Minkowski constant `μ_K = (4/π)^{r₂} · n!/nⁿ` and the real Min
 - `b_K` is not Mathlib's `minkowskiBound K 1`, which equals `2^{r₁+r₂} √d_K` by
   `volume_fundamentalDomain_latticeBasis`.
 
+**Checks.**
+
+- `K = ℚ(i)`: `r₂ = 1`, `n = 2`, `μ_K = (4/π)(2/4) = 2/π ≈ 0.6366` and `b_K = (2/π)·2 = 4/π ≈ 1.273`,
+  so every class contains an ideal of norm `1` and `h_K = 1`; the value
+  `minkowskiBound ℚ(i) 1 = 2^1 · 2 = 4` is a different quantity.
+- `K = ℚ(√−14)`: `b_K = (2/π)√56 ≈ 4.764`, which is Mathlib's `M K` of
+  `exists_ideal_in_class_of_norm_le` there (`(4/π)¹ · 2!/2² · √56`); `K = ℚ(√5)`: `r₂ = 0`,
+  `μ_K = 1/2`, `b_K = √5/2 ≈ 1.118`.
+- `K = ℚ`: `μ_ℚ = 1`, `b_ℚ = 1`, and the class group is trivial; a definition with the exponent
+  `r₁` in place of `r₂` would give `4/π > 1` here and fail `μ_K ≤ 1`.
+
 *Needs:* Mathlib `exists_ideal_in_class_of_norm_le`, `abs_discr_ge'`, `Ideal.absNorm`,
 `volume_fundamentalDomain_latticeBasis`.
 
@@ -798,6 +869,16 @@ Every theorem of this roadmap evaluates it at a prime. For a finite set `S` of p
 - `Π_K(2)/2ⁿ ≤ 1`, with equality iff `2` splits completely, and `Π_K(2)/2ⁿ = 1/(2ⁿ − 1)` iff `2`
   is inert (`louboutin2005` lines 50–51).
 
+**Checks.**
+
+- `K = ℚ(i)`: `Π_K(2) = (1 − 1/2)⁻¹ = 2` (one ramified prime of norm `2`),
+  `Π_K(5) = (5/4)² = 1.5625` (two primes of norm `5`), `Π_K(3) = 9/8` (one prime of norm `9`); a definition using `p`
+  in place of `N𝔭` would give `3/2` at `p = 3`.
+- `Λ_{{2}} = (1 + 2^{−1/2})⁴ ≈ 8.4926`, `Λ_∅ = 1`, and for `K = ℚ`, `Π_ℚ({2, 3}) = 2 · 3/2 = 3`.
+- Off the primes: `Π_ℚ(6) = 2 · 3/2 = 3`, larger than `(6/5)¹`, so the bound `(p/(p−1))ⁿ` is stated
+  for primes only; `Π_K(1) = 1`, while `p/(p−1)` at `p = 1` is `1/0 = 0` in Lean; `Π_K(0) = 1` is
+  the `finprod` junk value. No theorem evaluates these.
+
 *Needs:* Mathlib `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`, `finprod`; LFunctions
 Layer 3 (the Euler product).
 
@@ -816,6 +897,17 @@ by 0.1; the choice is injective, so `h_K` is at most the number of ideals of nor
 which is at most `Σ_{m ≤ b_K} τ_n(m)` by the coefficient bound. The lemma is stated with the
 divisor sum because the Piltz bounds of Layer 5 apply to it.
 
+**Checks.**
+
+- In `ℚ(i)`, the only ideal of norm `4` is `(1 + i)² = (2)` (the ideal `(4) = (2)²` has norm
+  `16`), and `τ_2(4) = 3`; the ideals of norm `5` are the two primes above `5`, and `τ_2(5) = 2`,
+  with equality; there is no ideal of norm `3`, and `τ_2(3) = 2`.
+- `K = ℚ(i)`, `b_K ≈ 1.273`: `Σ_{m ≤ 1} τ_2(m) = 1`, so the lemma gives `h_K ≤ 1`, exact.
+  `K = ℚ(√−14)`, `b_K ≈ 4.764`: `1 + 2 + 2 + 3 = 8 ≥ h_K = 4`.
+- `K = ℚ`, `n = 1`: `τ_1 = 1`, `b_ℚ = 1` and the bound is `1 = h_ℚ`. The intermediate count
+  `#idealsLE K b_K` is sharper than `Σ τ_n` (in `ℚ(√−14)` it is `1 + 1 + 2 + 1 = 5`, the norms
+  `1, 2, 3, 3, 4`, against `8`).
+
 Prove the Nicolas–Tenenbaum bound (`bordelles2002` lines 85–91, (1.2), stated there for every
 `n ≥ 1` and real `x ≥ 1`, with the remark that it follows by induction): for every natural `n ≥ 1`
 and real `x ≥ 1`, `Σ_{m ≤ x} τ_n(m) ≤ (x/(n−1)!)(log x + n − 1)^{n−1}`. Route: induction on `n`,
@@ -824,6 +916,17 @@ the case `n = 1` being `⌊x⌋ ≤ x`. From `τ_{n+1} = τ_n ⋆ 1`,
 `f(d) = (x/d)(log(x/d) + n − 1)^{n−1}/(n−1)!`, which is nonnegative and decreasing in `d ∈ [1, x]`;
 so the outer sum is at most `f(1) + ∫_1^x f(t) dt = (x/n!)(n y^{n−1} + yⁿ − (n−1)ⁿ)` with
 `y = log x + n − 1`, which is at most `(x/n!)(y + 1)ⁿ` since `(y + 1)ⁿ ≥ yⁿ + n y^{n−1}`.
+
+**Checks.**
+
+- `x = 1`: the sum is `1` and the right side is `(n − 1)^{n−1}/(n−1)!`, which is `1` for `n = 1, 2`
+  (equality) and `2` for `n = 3`. For `n = 1` the bound is `⌊x⌋ ≤ x`, an equality at every integer;
+  at `n = 2`, `x = 10`, `Σ_{m ≤ 10} τ(m) = 27` against `10 (log 10 + 1) = 33.03`.
+- Negative control: with `log x + n − 2` in place of `log x + n − 1` (the shape of Bordellès'
+  sharper bound of ExplicitMultiplicativeFunctions §7.5, which needs `x ≥ 13`), the right side at
+  `n = 2`, `x = 1` is `0 < 1`, so a bound for every `x ≥ 1` needs `n − 1`.
+- `n = 2`, `x = √56 = 7.483` (the value used for `ℚ(√−14)` in 5.3): `Σ_{m ≤ 7} τ(m) = 16` against
+  `7.483 (log 7.483 + 1) = 22.54`.
 
 *Needs:* 0.1; Mathlib `ArithmeticFunction.zeta`, `Ideal.absNorm`, the factorization of ideals in a
 Dedekind domain, `Nat.floor` and the comparison of a monotone sum with an integral;
@@ -844,6 +947,16 @@ quadratic extension `K/K⁺` of AnalyticNumberTheoryPartI §2.7, a `PrimitiveRay
   `1`.
 - `L(σ, η_K)` is real for real `σ`.
 
+**Checks.**
+
+- `K = ℚ(i)`: `η_K` is `χ₋₄` under the dictionary with Dirichlet characters, of conductor `4·∞`,
+  `L(1, η_K) = π/4 = κ_{ℚ(i)}/κ_ℚ`, `d_K/d_{K⁺} = 4`.
+- `K = ℚ(ζ₈)`, `K⁺ = ℚ(√2)`: `L(s, η_K) = L(s, χ₋₄) L(s, χ₋₈)` by the cyclotomic factorization,
+  `d_K/d_{K⁺} = 256/8 = 32`, `L(1, η_K) = (π/4)(π/√8) ≈ 0.8724`.
+- `K = ℚ(√2)` is not CM (it is totally real), so no character is attached; a definition that
+  accepted any quadratic extension would produce an even character there, against the odd gamma
+  factor `Γ_ℝ(s+1)ⁿ`.
+
 Define `relativeClassNumber K : ℕ` as `h_K / h_{K⁺}` (natural-number division) and prove
 `classNumber_maximalRealSubfield_dvd`: `h_{K⁺} ∣ h_K` for every CM-field `K` (`washington1997`
 Theorem 4.10). Route: let `H` be the Hilbert class field of `K⁺`; it is totally real, since it is
@@ -860,102 +973,80 @@ finite groups gives the divisibility.
   real), use `R_K/R_{K⁺} = 2^{n−1}/Q_K` and `L(1, η_K) = κ_K/κ_{K⁺}`.
 - In degree `2n = 2`, `K⁺ = ℚ`, `h⁻_K = h_K`, and the formula is the imaginary quadratic
   class-number formula of ImaginaryQuadraticClassNumber H2.2.
-- For abelian CM `K`, `h⁻_K` is the odd-character Bernoulli product of 0.4a
-  (`relativeClassNumber_character_product`).
+- For abelian CM `K`, `relativeClassNumber K` is the rational ratio `h_K/h_{K⁺}` of
+  CyclotomicClassGroupsAndStickelberger §3.4, and so equals its odd-character Bernoulli product
+  `Q_K w_K ∏_{χ ∈ X(K) odd} (−B_{1,χ}/2)` there.
+
+**Checks.**
+
+- `K = ℚ(i)`: `Q = 1`, `w = 4`, `√(d_K/d_{K⁺}) = 2`, `L(1, η) = π/4`: `1·4·2·(π/4)/(2π) = 1 = h⁻`.
+  `K = ℚ(√−3)`: `w = 6`, `√3`, `L(1, χ₋₃) = π/(3√3)`: `6 √3 π/(3√3 · 2π) = 1`.
+- `K = ℚ(√−5)`: `h_K = 2`, `h_{K⁺} = h_ℚ = 1`, `relativeClassNumber K = 2/1 = 2`; the formula
+  gives `1·2·√20·L(1, χ₋₂₀)/(2π)` with `L(1, χ₋₂₀) = 2π·2/(2√20)`, that is `2`.
+- `K = ℚ(ζ₈)`: `h_K = h_{K⁺} = 1`, `Q = 1`, `w = 8`, `√32 · 0.8724 · 8/(4π²) = 1.000`, consistent
+  with the Check above; a formula with `R_K/R_{K⁺} = 2ⁿ/Q` (the wrong power) would give
+  `8 · 5.6569 · 0.87236/(2 · 39.478) = 1/2`.
+- Natural-number division is only meaningful with the divisibility: for the ratio of two
+  arbitrary class numbers `3/2` it would truncate to `1`; for a CM-field the divisibility makes
+  `relativeClassNumber K · h_{K⁺} = h_K` exact.
 
 *Needs:* Mathlib `IsCMField`, `maximalRealSubfield`, `indexRealUnits`,
 `regulator_div_regulator_eq_two_pow_mul_indexRealUnits_inv`, `dedekindZeta_residue_def`,
 `classNumber`; AnalyticNumberTheoryPartI §2.7, §2.17a, §2.22; LFunctions Layer 5; ClassFieldTheory
 Layer 13 (`hilbertClassField`, `gal_hilbertClassField_equiv_classGroup`, conductor–discriminant);
-`gap:artin-norm-compatibility`; 0.4a (the abelian case).
+`gap:artin-norm-compatibility`; CyclotomicClassGroupsAndStickelberger §3.4 (the abelian
+agreement).
 
-### 0.4a The primitive character group of an abelian field
+### 0.4a The Euler product of an abelian field as continued functions
 
-For an abelian number field `F` (`IsAbelianGalois ℚ F`), embed `F` in a cyclotomic field `K`
-with `IsCyclotomicExtension {m} ℚ K`, which Kronecker–Weber allows (ClassFieldTheory Layer 13,
-`kroneckerWeber`). Let `Y(F)` be the subgroup
-`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F` of the Dirichlet
-characters modulo `m`, those trivial on the image of `Gal(K/F)` under `galEquivZMod`. Define the
-primitive character group `X(F)` as the set of primitive characters `χ*` (Mathlib's
-`DirichletCharacter.primitiveCharacter`, of conductor `f_χ`) of the `χ ∈ Y(F)`. For `χ ∈ X(F)`,
-`L(s, χ)` is Mathlib's `DirichletCharacter.LFunction` of `χ*`, `τ(χ) = gaussSum χ* ZMod.stdAddChar`,
-and `B_{1,χ} = f_χ⁻¹ Σ_{a=1}^{f_χ} a χ*(a)` is Tau Ceti's
-`DirichletCharacter.generalizedBernoulli χ* 1`. `Suggested.lean` writes a product over `X(F)` as
-the product over `Y(F)`, each character evaluated at its primitive character.
+For an abelian number field `F`, `X(F)` is the primitive character group of
+CyclotomicClassGroupsAndStickelberger §3.4: `F` embeds in a cyclotomic field `K` with
+`IsCyclotomicExtension {m} ℚ K` (Kronecker–Weber, ClassFieldTheory Layer 13), and `X(F)` is the set
+of primitive characters `χ*` (Mathlib's `DirichletCharacter.primitiveCharacter`, of conductor
+`f_χ`) of the characters `χ` modulo `m` in
+`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar m K ℂ F`. For `χ ∈ X(F)`, `L(s, χ)` is
+Mathlib's `DirichletCharacter.LFunction` of `χ*`: `riemannZeta` for the trivial character, of
+conductor `1`, and entire otherwise (`DirichletCharacter.differentiable_LFunction`). That section
+proves `ζ_F(s) = ∏_{χ ∈ X(F)} L(s, χ)` on `Re s > 1` and `κ_F = ∏_{1 ≠ χ ∈ X(F)} L(1, χ)`; this
+section owns only the passage to the continued functions, which 4.3's character arguments and 5.6
+need off the half-plane of convergence.
 
-- `X(F)` does not depend on `m` or on the embedding: for `m ∣ m'` the subgroups `Y(F)` at levels
-  `m` and `m'` correspond under `changeLevel`, which does not change primitive characters;
-  `χ ↦ χ*` is injective on `Y(F)`, so `#X(F) = [F:ℚ]` (`card_intermediateFieldEquivSubgroupChar`).
-  `X(F)` contains the trivial character (conductor `1`), is closed under `χ ↦ χ̄`, and
-  `X(E) ⊆ X(F)` for an abelian subfield `E ⊆ F`.
-- Parity: `F` is Galois, hence totally real or totally imaginary. Complex conjugation corresponds
-  to `−1` under `galEquivZMod`, so every `χ ∈ X(F)` is even when `F` is totally real, and otherwise
-  `χ ↦ χ*(−1)` is a nontrivial character of `X(F)` and exactly `[F:ℚ]/2 = r₂(F)` elements are odd.
-  For CM `F`, `X(F⁺)` is the set of even elements of `X(F)`.
-- The conductor–discriminant formula `d_F = ∏_{χ ∈ X(F)} f_χ` is ClassFieldTheory Layer 13's,
-  through the dictionary between `X(F)` and the characters of `Gal(F/ℚ)` that `galEquivZMod`
-  gives.
-
-Prove `dedekindZeta_eq_prod_LFunction`, the Euler product: for `Re s > 1`,
-`ζ_F(s) = ∏_{χ ∈ X(F)} L(s, χ)`, and the same identity between the continued `ζ_F` of LFunctions
-Layer 3 and the product of the continued L-functions, as germs at every point and pointwise away
-from `s = 1`. Route: compare the Euler factors at a prime `p`. Write `m = p^k m'` with `p ∤ m'`.
-Under `galEquivZMod`, `Gal(K/ℚ) ≅ (ℤ/p^k)ˣ × (ℤ/m')ˣ`; the inertia group at `p` is the first factor
-and the Frobenius class is `p` in the second (Mathlib `galEquivZMod_stabilizer`,
-`ramificationIdxIn_eq`, `inertiaDegIn_eq`), and their images in `Gal(F/ℚ)` are the inertia group
-and the Frobenius class of `p` in `F`. If `p = (𝔭₁ ⋯ 𝔭_g)^e` in `F` with residue degree `f`, the
-`χ ∈ X(F)` with `p ∤ f_χ` are the characters trivial on the inertia group, and `χ*(p)` runs
-through the `f`-th roots of unity, each `g` times; so
-`∏_{χ ∈ X(F)} (1 − χ*(p) p^{−s})^{−1} = (1 − p^{−fs})^{−g}`, the Euler factor of `ζ_F` at `p`,
-the characters with `p ∣ f_χ` contributing `1`. The identity of continued functions follows by
-uniqueness of meromorphic continuation (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
-as in LFunctions Layer 4, whose `dedekindZetaC_quadratic` and `dedekindZetaC_cyclotomic` are the
+Prove the Euler product of continued functions: for every `s ≠ 1`,
+`dedekindZetaC F s = ∏_{χ ∈ X(F)} L(s, χ)`, and the two sides agree as germs at `s = 1`. Route:
+both sides are analytic on the connected set `ℂ ∖ {1}` (LFunctions Layer 3 for `dedekindZetaC`,
+Mathlib for the factors) and agree on `Re s > 1` (CyclotomicClassGroupsAndStickelberger §3.4, with
+the agreement of `dedekindZetaC` and `dedekindZeta` there), so they agree on `ℂ ∖ {1}` by uniqueness
+of meromorphic continuation (`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`, as in
+LFunctions Layer 4, whose `dedekindZetaC_quadratic` and `dedekindZetaC_cyclotomic` are the
 quadratic and full cyclotomic cases).
 
-Prove `dedekindZeta_residue_eq_prod_LFunction_one`: `κ_F = ∏_{1 ≠ χ ∈ X(F)} L(1, χ)`. Route:
-multiply the Euler product by `s − 1` and let `s → 1⁺`; the left side tends to `κ_F` (Mathlib
-`tendsto_sub_one_mul_dedekindZeta_nhdsGT`), the trivial factor `(s − 1) ζ(s)` to `1` (Mathlib
-`riemannZeta_residue_one`), and every other factor to its value at `1`, since `L(s, χ)` is entire
-for `χ ≠ 1` (Mathlib `differentiable_LFunction`).
+- Orders of zeros add: for every `s ≠ 1`, the order of `ζ_F` at `s` is the sum over `χ ∈ X(F)` of
+  the orders of `L(·, χ)`; since `ζ` has no zero in `(0, 1)`, a real zero `β ∈ (0, 1)` of `ζ_F` is a
+  zero of `L(s, χ)` for some nontrivial `χ ∈ X(F)`.
+- Parity: complex conjugation corresponds to `−1` under `IsCyclotomicExtension.Rat.galEquivZMod`,
+  so for totally real `F` every `χ ∈ X(F)` is even, and a real zero of `ζ_F` in `(0, 1)` is a zero
+  of an even primitive `L(s, χ)`.
 
-Prove `abelianCharacter_gauss_product`: `∏_{χ ∈ X(F)} τ(χ) = i^{r₂(F)} √d_F`, with the positive
-square root. Route: Mathlib's completed function `Λ(χ, s) = Γ_ℝ(s + a_χ) L(s, χ)`, `a_χ ∈ {0, 1}`
-the parity of `χ`, satisfies `Λ(χ, 1 − s) = f_χ^{s − 1/2} W(χ) Λ(χ̄, s)` with
-`W(χ) = τ(χ)/(i^{a_χ} √f_χ)` (`IsPrimitive.completedLFunction_one_sub`, `rootNumber`). By the
-Euler product, the parity count and `Γ_ℝ(s) Γ_ℝ(s + 1) = Γ_ℂ(s)` (`Gammaℝ_mul_Gammaℝ_add_one`),
-`∏_{χ ∈ X(F)} Λ(χ, s) = d_F^{−s/2} Λ_F(s)`. The product of the functional equations over `X(F)`,
-which `χ ↦ χ̄` permutes, compared with `Λ_F(1 − s) = Λ_F(s)` (LFunctions Layer 3
-`completedDedekindZeta_one_sub`) and `∏ f_χ = d_F`, gives `∏_{χ} W(χ) = 1`, hence
-`∏_{χ} τ(χ) = i^{#odd} √(∏ f_χ) = i^{r₂(F)} √d_F`.
+**Checks.**
 
-Prove the value at `1`: for an odd primitive Dirichlet character `χ` of conductor `f`,
-`L(1, χ) = (πi τ(χ)/f) B_{1,χ̄}`. Route: `Σ_{a mod f} χ̄(a) e(an/f) = τ(χ̄) χ(n)` (Mathlib
-`DirichletCharacter.fourierTransform_eq_inv_mul_gaussSum`), so Abel's limit theorem (Mathlib
-`Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`) applied to `−log(1 − z) = Σ zⁿ/n` gives
-`L(1, χ) = −τ(χ̄)⁻¹ Σ_{0 < a < f} χ̄(a) log(1 − e(a/f))`; for odd `χ` the terms
-`log|1 − e(a/f)|` cancel between `a` and `f − a`, `arg(1 − e(a/f)) = π(a/f − 1/2)`, and
-`τ(χ) τ(χ̄) = χ(−1) f = −f` (Tau Ceti
-`DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`).
+- `F = ℚ(√5)` (`m = 5`): `X(F) = {1, χ₅}`, and at `s = 0`, `ζ(0) L(0, χ₅) = (−1/2) · 0 = 0`, the
+  simple zero of `ζ_F` of order `r₁ + r₂ − 1 = 1`; the even character `χ₅` carries the trivial zero.
+- `F = ℚ(i)` (`m = 4`): `ζ(0) L(0, χ₋₄) = (−1/2)(1/2) = −1/4 = −h/w`, the value `ζ_F(0)` of 2.7.
+  Embedded in `ℚ(ζ₈)` (`m = 8`), `F` has the trivial character and the one induced by `χ₋₄`
+  modulo `8`; without passing to primitive characters their product would be
+  `(1 − 2^{−s}) ζ(s) L(s, χ₋₄)`, which vanishes at `s = 2πi/log 2`, where `ζ_F = ζ L(·, χ₋₄)` has
+  no zero (neither factor vanishes on `Re s = 0`).
+- `F = ℚ(ζ₇)⁺` (`m = 7`): `X(F) = {1, χ, χ̄}` with `χ` cubic of conductor `7`, and a real zero of
+  `ζ_F` in `(0, 1)` would be a zero of both `L(s, χ)` and `L(s, χ̄)` (the values are conjugate),
+  hence of even order, as 4.3's corollary allows.
+- At `s = 1` the identity is not asserted pointwise: `dedekindZetaC F 1 = 0` by the normal-form
+  convention, while the right side is `riemannZeta 1 · κ_F = ((γ − log 4π)/2) κ_F ≠ 0`.
 
-Prove `relativeClassNumber_character_product`: for an abelian CM field `K` with `[K⁺:ℚ] = n`,
-`h⁻_K = Q_K w_K ∏_{χ ∈ X(K) odd} (−B_{1,χ}/2)`, as complex numbers; by 0.4 `h⁻_K` is the rational
-ratio `h_K/h_{K⁺}`. Route: the residue product for `K` and for `K⁺`, whose characters are the even
-ones, gives `κ_K/κ_{K⁺} = ∏_{χ odd} L(1, χ)`; the value at `1`, the Gauss product for `K` and for
-`K⁺` (`r₂(K) = n`, `r₂(K⁺) = 0`), which gives `∏_{χ odd} τ(χ) = iⁿ √(d_K/d_{K⁺})`, and
-`∏_{χ odd} f_χ = d_K/d_{K⁺}` turn this into
-`κ_K/κ_{K⁺} = (−π)ⁿ ∏_{χ odd} B_{1,χ}/√(d_K/d_{K⁺})`, `χ ↦ χ̄` permuting the odd characters; the
-relative class-number formula of 0.4 gives the product.
-
-*Needs:* 0.4; ClassFieldTheory Layer 13 (`kroneckerWeber`, conductor–discriminant); LFunctions
-Layers 3 and 4; Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`,
-`DirichletCharacter.generalizedBernoulli`,
-`DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`; Mathlib
-`IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`, `galEquivZMod_stabilizer`,
-`ramificationIdxIn_eq`, `inertiaDegIn_eq`, `DirichletCharacter.LFunction`,
-`differentiable_LFunction`, `riemannZeta_residue_one`, `tendsto_sub_one_mul_dedekindZeta_nhdsGT`,
-`IsPrimitive.completedLFunction_one_sub`, `rootNumber`, `Gammaℝ_mul_Gammaℝ_add_one`,
-`DirichletCharacter.fourierTransform_eq_inv_mul_gaussSum`,
-`Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`.
+*Needs:* CyclotomicClassGroupsAndStickelberger §3.4; ClassFieldTheory Layer 13 (`kroneckerWeber`);
+LFunctions Layers 3 and 4; Tau Ceti `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`;
+Mathlib `IsCyclotomicExtension.Rat.intermediateFieldEquivSubgroupChar`,
+`IsCyclotomicExtension.Rat.galEquivZMod`, `DirichletCharacter.primitiveCharacter`,
+`DirichletCharacter.LFunction`, `DirichletCharacter.differentiable_LFunction`, `riemannZeta`.
 
 ### 0.5 Conjectural predicates, gap predicates and the normal-tower predicate
 
@@ -969,6 +1060,16 @@ Define *DedekindConjecture* `K` as: there is an entire function `F : ℂ → ℂ
   AnalyticNumberTheoryPartI §2.39b at `E = ℚ`, with `dedekindZetaC ℚ = riemannZeta` as germs
   (LFunctions Layer 3).
 
+**Checks.**
+
+- `K = ℚ(i)`: `F = L(·, χ₋₄)`, entire by Mathlib; `K = ℚ(√2)`: `F = L(·, χ₈)`.
+- A definition demanding `F s · ζ(s) = ζ_K(s)` for every `s` is false at `s = 1`, where
+  `dedekindZetaC K 1 = 0` by the normal-form convention while `F 1 · ζ(1) = κ_K · ζ(1)` and
+  `riemannZeta 1 = (γ − log 4π)/2 ≈ −0.977 ≠ 0`.
+- A non-Galois cubic field with Galois closure of group `S₃` satisfies the predicate (its `F` is
+  the Artin L-function of the two-dimensional representation, entire since `S₃` is solvable), but
+  the Galois case above does not apply to it; no theorem here proves that case.
+
 Define *CMPositivity* `K`, for `IsCMField K`, as `∀ σ ∈ Ioo 0 1, 0 ≤ Re L(σ, η_K)` (the value is
 real by 0.4, so this is `0 ≤ ζ_K(σ)/ζ_{K⁺}(σ)` wherever `ζ_{K⁺}(σ) ≠ 0`).
 
@@ -976,6 +1077,17 @@ real by 0.4, so this is `0 ≤ ζ_K(σ)/ζ_{K⁺}(σ)` wherever `ζ_{K⁺}(σ) �
   `L(σ, η_K) ζ_{K⁺}(σ)² = ζ_K(σ) ζ_{K⁺}(σ)`, both sides are continuous on `(0, 1)`, and the zeros of `ζ_{K⁺}` there are
   isolated.
 - It holds for every imaginary quadratic `K` with `L(σ, χ_K) > 0` on `(0, 1)`.
+
+**Checks.**
+
+- `K = ℚ(√−3)`: `L(σ, χ₋₃) = Σ_k ((3k+1)^{−σ} − (3k+2)^{−σ}) > 0` termwise for `σ > 0`, so the
+  predicate holds. `K = ℚ(i)`: the alternating series `Σ (−1)^k (2k+1)^{−σ}` with decreasing
+  terms is positive, so it holds.
+- Louboutin's examples: dihedral and quaternion CM-fields of degree at least `8` satisfy it
+  (`louboutin2003` line 369); nothing here proves this.
+- The closed interval would evaluate `L(0, η_K)` and `L(1, η_K)`; both are finite and positive for
+  the CM character (`L(0, η_K) ≠ 0` by the functional equation with odd gamma factors), so the
+  open interval is a choice of convention, not a correction.
 
 Define `GRHMod q`, for `q ≥ 1`, as `DirichletGRH χ` (AnalyticNumberTheoryPartI §1.6) for every
 Dirichlet character `χ` modulo `q`: every zero `s` of `DirichletCharacter.LFunction χ` with
@@ -987,6 +1099,16 @@ Dirichlet character `χ` modulo `q`: every zero `s` of `DirichletCharacter.LFunc
   the primitive characters of an abelian field gives its `DedekindERH`), the other the cyclotomic
   factorization `ζ_{ℚ(ζ_q)} = ∏ L(s, χ*)` over the primitive characters
   inducing the characters modulo `q` (LFunctions Layer 4), whose factors are entire except `ζ`.
+
+**Checks.**
+
+- `q = 2`: the principal character has `L(s) = (1 − 2^{−s}) ζ(s)` with zeros on `Re s = 0`, which
+  the strict inequality leaves unconstrained, so `GRHMod 2 ↔ RiemannHypothesis`.
+- `q = 4`: `GRHMod 4` is `RiemannHypothesis ∧ DirichletGRH χ₋₄`, which is `DedekindERH ℚ(i)`
+  (AnalyticNumberTheoryPartI §2.42).
+- A definition over primitive characters only would be equivalent, by primitive induction; a
+  definition over `Re s ≥ 0` would be false for `q = 2`, and one without the exception at the pole
+  of the principal character would constrain the junk value `LFunction 1 1`.
 
 Define *QuadraticRealZeroGap* `c`, for a real `c > 0`, as: for every quadratic number field `F`
 (`finrank ℚ F = 2`) and every real `β ∈ (0, 1)` with `ζ_F(β) = 0`, `β ≤ 1 − 1/(c √d_F)`; and
@@ -1006,6 +1128,19 @@ quadratic fields only.
   lines 1239–1243, where Stark's quadratic subfield may be real. Neither is proved here: every
   theorem that needs one carries it as a hypothesis, and 5.6 needs only the imaginary one.
 
+**Checks.**
+
+- `F = ℚ(i)`, `c = π/6`: the imaginary predicate asserts no zero of `L(s, χ₋₄)` in
+  `[1 − 3/π, 1) ≈ [0.045, 1)`, true since the alternating series is positive on `(0, 1)`;
+  `F = ℚ(√−3)`, `c = π/6`: the interval `[1 − 6/(π√3), 1)` starts at `−0.103`, the predicate
+  looks only at `β ∈ (0, 1)`, and `L(σ, χ₋₃) > 0` there termwise.
+- For `d_F > 3·10⁸` the imaginary instance at `c = 1/6.035` is ExplicitZetaBounds §7.7; at
+  `c = π/6 > 1/6.035` it follows there, so *ImaginaryQuadraticRealZeroGap* `(π/6)` only carries
+  weight for `d_F ≤ 3·10⁸`. It says nothing about real quadratic fields: for `F = ℚ(√5)` the
+  all-quadratic predicate asks in addition that `L(s, χ₅)` have no zero in `[1 − 1/(c√5), 1)`.
+- The predicate at `c` tending to `0` would say `β ≤ 1 − ∞`, impossible if a zero exists; it is a
+  hypothesis, not a theorem, and no `c` is asserted.
+
 Define *UniformQuadraticZeroGap* `c`, for a real `c > 0`, as: for every quadratic number field `F`
 and every real `β ∈ (0, 1)` with `ζ_F(β) = 0`, `(1 − β) log d_F ≥ c`. It is the logarithmic form
 of the gap, in which `log d_F` replaces `√d_F`; 4.9 discharges it at `c = 1/100` and, under a
@@ -1023,6 +1158,19 @@ named computation, at `c = 3/1000`, from unrefereed sources (Conventions).
 - If *UniformQuadraticZeroGap* `c` and `c' > 0`, then every imaginary quadratic `F` with
   `√d_F/log d_F ≥ 1/(c c')` satisfies the condition of *ImaginaryQuadraticRealZeroGap* `c'` at `F`.
 
+**Checks.**
+
+- `c = 1/100`: the implied Siegel-shape gap is *QuadraticRealZeroGap* `(200/e)`, `200/e = 73.576`,
+  and the condition of *ImaginaryQuadraticRealZeroGap* `(π/6)` holds at every imaginary quadratic
+  `F` with `d_F ≥ 10⁷`, since `√d/log d ≥ 6/(0.01π) = 190.99` there (`196.19` at `d = 10⁷`, while
+  `9·10⁶` gives `187.35` and fails).
+- `F = ℚ(√5)` and `F = ℚ(√−3)`: `L(σ, χ)` has no zero in `(0, 1)` and the condition at `F` is
+  vacuous for every `c`.
+- A definition with `(1 − β) √d_F ≥ c` is *QuadraticRealZeroGap* `(1/c)` and is weaker for large
+  `d_F`; one with `log d_F` replaced by `log(d_F)/2` or by the logarithm of the conductor of a
+  non-primitive character changes `c` and does not match the sources, which use the conductor
+  `q = d_F` of the primitive character `χ_F`.
+
 Define `HasNormalTower K` as: there is a chain `ℚ = K₀ ≤ K₁ ≤ ⋯ ≤ K_r = K` of intermediate fields
 with each `K_{i+1}/K_i` Galois (in Lean, `IsGalois K_i (IntermediateField.extendScalars h_i)` for
 the inclusions `h_i`). Garcia–Lee's tower factor is `t_K = 1` if `HasNormalTower K` and `t_K = n!`
@@ -1032,6 +1180,18 @@ otherwise.
   steps is a normal tower; `ℚ` has the tower of length zero.
 - A field of prime degree with no normal tower is exactly a non-Galois field of prime degree, its
   only subfields being `ℚ` and itself.
+
+**Checks.**
+
+- `ℚ(ζ₈)` has a normal tower (it is Galois); `ℚ(2^{1/4})` has the tower `ℚ ⊂ ℚ(√2) ⊂ ℚ(2^{1/4})`
+  of quadratic, hence Galois, steps; a non-Galois cubic field has no normal tower.
+- `ℚ` has the empty tower (`r = 0`, `K₀ = ⊥ = ⊤`).
+- The quartic field `ℚ(α)`, `α⁴ − α − 1 = 0`, has no normal tower: the polynomial is irreducible
+  (it is irreducible modulo `2`), its discriminant `−283` is not a square and its resolvent cubic
+  `x³ + 4x − 1` has no rational root, so the Galois group of the normal closure is `S₄`; the
+  stabiliser `S₃` of a root is maximal, so there is no intermediate field, and the field is not
+  Galois. A definition by "degree a power of `2`" would accept it, and one by "has a quadratic
+  subfield" would reject the cyclic cubic field `ℚ(ζ₇)⁺`, which is Galois.
 
 *Needs:* Mathlib `riemannZeta`, `Differentiable`, `DirichletCharacter.LFunction`, `IsGalois`,
 `IntermediateField.extendScalars`, `RiemannHypothesis`; LFunctions Layers 3 and 4;
@@ -1059,16 +1219,38 @@ value, and is not redefined here.
   (`TauCeti.conreyGenerator_le`).
 - `orderOf (g : ZMod m) = totient m` iff `g` is coprime to `m` and its unit generates `(ZMod m)ˣ`.
 
+**Checks.**
+
+- `g(2) = 1`, `g(3) = 2`, `g(7) = 3`, `g(409) = 21`, `ĝ(7) = 3`, `ĝ(409) = 29`: the least
+  primitive root `21 = 3 · 7` of `409` is composite, and the primes `2, 3, …, 23` are not
+  primitive roots modulo `409`, so `ĝ(409) > g(409)`.
+- `h(3) = 2` (`2` has order `6` modulo `9`; Tau Ceti's `TauCeti.conreyGenerator_three`),
+  `h(5) = 2` (`2^{10} ≡ 24 (mod 25)`, `2^4 = 16`), and
+  `h(2) = 3`, the least generator of `(ℤ/4)ˣ`, so `h(2) = 3 > 2^{0.99}`: the bound of 6.5 cannot
+  hold at `p = 2`. Likewise `ĝ(2) = 3`, the least odd prime, while `g(2) = 1`.
+- `0` never belongs to either set for `m ≥ 2` (its order is `0 ≠ φ(m)`), while for `m = 1` every
+  `g` has order `1 = φ(1)`, so `g(1) = 0` and `ĝ(1) = 2` are junk; no theorem evaluates `m ≤ 1`.
+
 *Needs:* Mathlib `orderOf`, `Nat.totient`, `ZMod.isCyclic_units_prime`,
 `ZMod.isCyclic_units_of_prime_pow`, `Nat.infinite_setOfPred_prime_and_eq_mod`; Tau Ceti
 `TauCeti.conreyGenerator`.
 
+### Examples
+
+- `ℚ(i)`: `μ_K = 2/π`, `b_K = 4/π`, `Π_K(2) = 2`, `η_K = χ₋₄`, `h⁻ = 1`, *DedekindConjecture* with
+  `F = L(·, χ₋₄)`, *CMPositivity*.
+- `ℚ(ζ₈)`: `h⁻ = 1`, `L(1, η) ≈ 0.8724`, `Q = 1`.
+- `ℚ(√5)`: `ζ_F = ζ · L(·, χ₅)` as continued functions, with the zero of `ζ_F` at `0` carried by
+  `L(0, χ₅) = 0`.
+- `p = 7`: `g = 3`, `h = 3`, `ĝ = 3`.
+
 ### Dependencies
 
 Mathlib number-field, CM-field, cyclotomic Galois, Dirichlet L-function and `ZMod` API; Tau Ceti
-generalized Bernoulli numbers and Gauss sums; LFunctions Layers 3, 4 and 5;
+uniqueness of meromorphic continuation and `conreyGenerator`; LFunctions Layers 3, 4 and 5;
 AnalyticNumberTheoryPartI §§0.34a, 1.6, 2.7, 2.15a, 2.17a, 2.22, 2.39b, 2.42; ClassFieldTheory
-Layer 13; ExplicitPrimeCounting §1.7; `gap:artin-norm-compatibility`.
+Layer 13; CyclotomicClassGroupsAndStickelberger §3.4; ExplicitPrimeCounting §1.7;
+ExplicitZetaBounds §7.7 (a Check of 0.5); `gap:artin-norm-compatibility`.
 
 ## Layer 1: the size of `ζ_K` and the digamma remainders
 
@@ -1084,6 +1266,22 @@ which has degree `n`, conductor `d_K`, root number `1`, gamma shifts `0` (with m
 (ZerosOfLFunctions 3.1), and coefficients `0 ≤ a_K(k) ≤ τ_n(k)` (AnalyticNumberTheoryPartI §2.15a,
 recalled in 0.3), so that `Σ_k a_K(k) k^{−σ} = ζ_K(σ) ≤ ζ(σ)ⁿ` for real `σ > 1`, the majorant of
 that section; nothing of Phragmén–Lindelöf is redone here.
+
+**Checks.**
+
+- `K = ℚ`, `η = 1/2`, `s = 1/2`: the right side is `3 · 3 · (3/(4π))^{1/2} ζ(3/2) ≈ 11.49` and
+  `|ζ(1/2)| ≈ 1.460`.
+- `K = ℚ`, `s = 1 + η` real: the right side is `3(2+η)/η · ζ(1+η) ≥ ζ(1+η) = |ζ(1+η)|`, with the
+  pole factor accounting for the blow-up as `η → 0`.
+- `K = ℚ(i)`, `s = 1/2 + 10i`, `η = 1/2`: `(4 (|1.5 + 10i|/(2π))²)^{1/2} ≈ 2 · 1.609 = 3.22`, so
+  the bound is `3 · (|1.5+10i|/|0.5−10i|) · 3.22 · ζ(3/2)² ≈ 3 · 1.010 · 3.22 · 6.82 ≈ 66.5`;
+  a statement with `d_K |1+s|/(2π)` without the `n`-th power on the height would give
+  `(4·1.609)^{1/2} = 2.54` instead of `3.22` and is not Rademacher's.
+- Negative control for the general bound: the record of `10 ζ` (coefficients `10`, degree `1`,
+  conductor `1`, root number `1`, a simple pole at `1`) has a nonnegative coefficient majorant
+  `Σ_k 10 k^{−σ} = 10 ζ(σ)`, but not one by `ζ(σ)`; at `s = 1/2`, `η = 1/2` its value
+  `|10 ζ(1/2)| = 14.60` exceeds the bound `9 (1.5/(2π))^{1/2} ζ(3/2) = 11.49`. The majorant
+  `Σ_k |a(k)| k^{−σ} ≤ ζ(σ)^m` of ExplicitZetaBounds §3.2 is what excludes it.
 
 *Needs:* ExplicitZetaBounds §3.2; LFunctions Layer 3 `dedekindZetaData`; ZerosOfLFunctions
 Layer 2 (`arithmeticConductor (dedekindZetaData K) = d_K`) and 3.1 (finite order); 0.3.
@@ -1133,12 +1331,28 @@ tails `Σ_{n ≥ N} (z − 1)/((n + 1)(n + z))` and `Σ_{n ≥ N} 1/(n + z)²`. 
 and `1/(n + a)²`. For `n ≥ 1`, `1/(n + a)² ≤ 1/((n − 1 + a)(n + a)) = 1/(n − 1 + a) − 1/(n + a)`,
 which telescopes to `Σ_{n ≥ N} 1/(n + a)² ≤ 1/(N − 1 + a)`.
 
+**Checks.**
+
+- `z = 3`, `N = 1`: `ψ(3) = 3/2 − γ` and `D_1(3) = 2/3 − γ`, a remainder `5/6` within the bound
+  `|3 − 1|/1 = 2`; with `a = Re z` in place of `min(1, Re z)` the bound would be `2/3 < 5/6`, so the
+  cap at `1` is needed.
+- `z = 1 + i`, `N = 1`: `ψ(1 + i) = 0.09465 + 1.07667i` and `D_1(1 + i) = 1/2 − γ + i/2`, a
+  remainder `|0.17187 + 0.57667i| = 0.6017` within `|i|/1 = 1`.
+- Trigamma: `z = 1`, `N = 1`: `ψ'(1) − T_1(1) = π²/6 − 1 = 0.6449 ≤ 1`; at `z = 0.999`, `N = 50`
+  the remainder is `0.01980` against `1/49.999 = 0.02000`, so the constant `1` cannot be lowered
+  much; at `z = 0.1`, `N = 1` it is `1.4333` against `1/0.1 = 10`.
+
 *Needs:* Mathlib `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_nat_add_one`,
 `Complex.digamma_apply_add_nat`, `Complex.digamma_one_sub`, `Real.BohrMollerup.tendsto_log_gamma`,
 `Real.tendsto_harmonic_sub_log`, `hasDerivAt_of_tendstoLocallyUniformlyOn`,
 `HasDerivAt.real_of_complex`, `Complex.Gamma_ofReal`, `Complex.differentiableAt_Gamma`,
 `Complex.Gamma_ne_zero`, `Complex.differentiableOn_tsum_of_summable_norm`,
 `Complex.hasSum_deriv_of_summable_norm`, `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
+
+### Examples
+
+- `K = ℚ` recovers the pole-factor form of Rademacher's Theorem 3 at `q = 1`.
+- `z = 2`, `N = 1`: `ψ(2) = 1 − γ` and `D_1(2) = 1/2 − γ`, a remainder `1/2` against the bound `1`.
 
 ### Dependencies
 
@@ -1161,28 +1375,50 @@ defect, Tau Ceti's cell count `abs_ncard_inter_mul_sub_measureReal_le` for the b
 Minkowski's second theorem for the defect bound `Ω ≤ D^{3D/2}/(2π)^{D/2}`. Tau Ceti's
 `exists_abs_ncard_smul_inter_vadd_sub_le` is the same statement with an existential constant.
 
+**Checks.**
+
+- `D = 1`, `Λ = ℤ`, `S = [0, X]`: `∂S` is two points (`M = 2`, `L = 0`), `λ₁ = 1`, and
+  `|⌊X⌋ + 1 − X| ≤ 1 ≤ 1 · 2 · 1`.
+- `D = 2`, `Λ = ℤ²`, `S` the disc of radius `R` (`M = 1`, `L = 2πR`): the bound is
+  `2^6 · max(1, 2πR) = 128πR` for `R ≥ 1`, while the true error is `O(R^{2/3})`; the bound is an
+  upper estimate, not an asymptotic.
+- `Λ = ℤ × 10⁻³ℤ`, `λ₁ = 10⁻³`: the `i = 1` term is `L/10⁻³`, a thousand times larger than for
+  `ℤ²`; a statement without the successive minima (with `max L^i` alone) is false for such thin
+  lattices, which is why Debaene's and Gun–Ramaré–Sivaraman's proofs need them.
+
 *Needs:* Tau Ceti `ZLattice.successiveMin`,
 `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`,
 `abs_ncard_inter_mul_sub_measureReal_le`, `IsLipschitzParametrizable`; Mathlib `ZLattice.covolume`.
 
 ### 2.2 Sunley's explicit ideal count
 
-Prove `idealCount_sunley` (`sunley1973` lines 110–112, Theorem 1.1(1); restated at
-`lee2023ideals` lines 39–41): for `n ≥ 2` and real `x > 0`,
+Prove `idealCount_sunley` (`sunley1973` lines 110–112, Theorem 1.1(1); restated at `lee2023ideals`
+lines 39–41): for `n ≥ 2` and real `x > 0`,
 `| #idealsLE K x − κ_K x | ≤ e^{28.2n+5} (n+1)^{5(n+1)/2} d_K^{1/(n+1)} (log d_K)ⁿ x^{(n−1)/(n+1)}`.
-Route (Landau's contour method made explicit): the iterated Perron identity of
-`gap:iterated-perron` with `j = n` writes the `n`-fold iterated integral of `#idealsLE K` as a
-contour integral of `ζ_K(s) x^{s+n}/(s(s+1)⋯(s+n))` on `Re s = c > 1`; the contour is moved to
-`Re s = −η` with `0 < η ≤ 1/2`, crossing the poles at `s = 1` (residue `κ_K x^{n+1}/(n+1)!`) and
-`s = 0` (residue `ζ_K(0) x^n/n!`, nonzero for `n ≥ 2` only when `K` is imaginary quadratic,
-`lee2023ideals` lines 136–171); Rademacher's bound of 1.1 on the new line, the functional
-equation and the explicit Stirling bounds for the gamma quotients bound the remaining integral;
-and the `n`-fold integration is undone at the end by an `n`-th finite difference of step `y`,
-with the monotonicity of `#idealsLE K` and an optimised `y`. The source counts the ideals of norm
-below `x`; the count up to `x` inclusive satisfies the same non-strict bound, by passing to the
-limit from the right, the right side being continuous in `x`.
+Route (Landau's contour method made explicit): the iterated Perron identity of ExplicitZetaBounds
+§6.1a with `j = n` writes the `n`-fold iterated integral of `#idealsLE K` as a contour integral of
+`ζ_K(s) x^{s+n}/(s(s+1)⋯(s+n))` on `Re s = c > 1`; the contour is moved to `Re s = −η` with
+`0 < η ≤ 1/2`, crossing the poles at `s = 1` (residue `κ_K x^{n+1}/(n+1)!`) and `s = 0` (residue
+`ζ_K(0) x^n/n!`, nonzero for `n ≥ 2` only when `K` is imaginary quadratic, `lee2023ideals` lines
+136–171); Rademacher's bound of 1.1 on the new line, the functional equation and the explicit
+Stirling bounds for the gamma quotients bound the remaining integral; and the `n`-fold integration
+is undone at the end by an `n`-th finite difference of step `y`, with the monotonicity of
+`#idealsLE K` and an optimised `y`. The source counts the ideals of norm below `x`; the count up to
+`x` inclusive satisfies the same non-strict bound, by passing to the limit from the right, the right
+side being continuous in `x`.
 
-*Needs:* 1.1; `gap:iterated-perron`; ExplicitZetaBounds §§2.1, 2.5; LFunctions Layer 3 (the
+**Checks.**
+
+- `n = 1` is excluded: `#idealsLE ℚ x = ⌊x⌋` and `|⌊x⌋ − x| < 1`, which no term of the right side
+  dominates at `x < 1`.
+- `K = ℚ(i)`, `x = 10`: the number of ideals of norm `m` is `Σ_{d ∣ m} χ₋₄(d) = r_2(m)/4`, which is
+  `1, 1, 0, 1, 2, 0, 0, 1, 1, 2` for `m = 1, …, 10`, so `#idealsLE = 9`, against
+  `κ_K x = 10π/4 ≈ 7.854` (error `1.146`); the right side exceeds `e^{61.4}`.
+- For `0 < x < 1` the left side is `κ_K x < κ_K ≤ (e log d_K/(2n−2))^{n−1}`, which the right side
+  dominates since `x^{(n−1)/(n+1)} ≥ x`; at `x = 0` both sides are `0`, which is why the statement
+  is for `x > 0` with a non-strict inequality.
+
+*Needs:* 1.1; ExplicitZetaBounds §§2.1, 2.5, 6.1a; LFunctions Layer 3 (the
 functional equation and the residue); Tau Ceti `TauCeti.idealsLE`.
 
 ### 2.3 Lee's refinement
@@ -1205,7 +1441,24 @@ Route: Sunley's argument with the parameters optimised and the explicit bounds f
 kernels `K(w)` and `K^{(n)}(w)` of Lee's Theorems 3.1 and 3.2, which are targets of this
 section.
 
-*Needs:* 2.2's route; 1.1; `gap:iterated-perron`; ExplicitZetaBounds §§2.1, 2.5.
+**Checks.**
+
+- `𝔪(2) = (π/4)² · 16/4 ≈ 2.467`, `log 𝔪(2) ≈ 0.9032`, `λ(2) ≈ 1.4732·10⁹`, and
+  `A_L(2) ≈ 2.49·10¹⁰`, the value `2.49133·10¹⁰` of the paper's Table 1 (line 46);
+  `A_L(3) ≈ 8.45·10¹¹` (line 47).
+- The two printings differ at `n = 2`: the published text has the constant `8.81·10¹¹` there (as
+  quoted by `ramare2025` §1), while the arXiv v2 closed form above gives `2.49·10¹⁰`. The statement
+  with the published constant is a consequence of the target; `8.80·10¹¹` is a rounding of the
+  published value.
+- At `n = 2` and imaginary quadratic `K`, 2.7 has the same exponent `x^{1/3}` with the constants
+  `1.4` (`d_K = 4`), `1.94` (`d_K = 3`) and `3.4` (the thirteen fields `ℚ(√−m)` of its
+  Corollary 1.6, whose discriminants lie between `−68` and `−3`, for `x ≥ 68`), against
+  `2.49·10¹⁰ d_K^{1/3} log d_K` here.
+- The exponent of `log d_K` is `n − 1`, one less than Sunley's `n`; the exponent of `x` is the same
+  `(n−1)/(n+1)`. At `n = 1`, `𝔪(1) = π/4 < 1` and the formula is not defined, matching the
+  hypothesis `n ≥ 2`.
+
+*Needs:* 2.2's route; 1.1; ExplicitZetaBounds §§2.1, 2.5, 6.1a.
 
 ### 2.4 Debaene's uniform count
 
@@ -1227,6 +1480,23 @@ modulo units; the region is partitioned (Schmidt's partition trick) into pieces 
 have Lipschitz class independent of the fundamental units, counted by 2.1 with the successive
 minima of the ideal lattice bounded through Minkowski's second theorem and the regulator, and the
 sum over ideals of `N(𝔟)^{−(n−1)/n}` bounded by `debaene2019` Lemma 12 (lines 876–899).
+
+**Checks.**
+
+- `K = ℚ(i)`, `R = h = 1`: the error term is `2^{40} x^{1/2}`; for `x = 10` the actual error is
+  `|9 − 7.854| = 1.146`.
+- The cubic field of discriminant `−23` (`α³ = α + 1`, fundamental unit `α`, `h = 1`):
+  `R_K = log 1.324718 = 0.281200`, so `1 + log(R_K h_K) = −0.2687` and the printed form would take
+  a real power of a negative base (Mathlib's `Real.rpow` gives `(−0.2687)^{4/3} = −0.087`, making
+  the right side negative and the statement false); with `log⁺` the base is `1`.
+- `K = ℚ`, `n = 1`: `n^{10} = 1`, `R h = 1`, the exponents vanish, and the statement is
+  `|⌊x⌋ − x| ≤ 1`, true; the class version is the same, the class group being trivial.
+- The class count summed over the `h_K` classes is the total count, and the error terms add to
+  `h_K n^{10n²} R^{1/n}(1 + log⁺ R)^{(n−1)²/n} x^{1−1/n}`; since `(R h)^{1/n} ≤ h R^{1/n}` and
+  `log⁺(R h) ≥ log⁺ R`, neither statement implies the other.
+- `x < 1` is outside the statement, as in the source: there the count is `0` and the left side is
+  `κ_K x`, while `x^{1−1/n}` tends to `0` with `x` only for `n ≥ 2`; at `n = 1` and `x = 1/2` the
+  statement would read `1/2 ≤ 1`, true, so the restriction is the source's, not a correction.
 
 *Needs:* 2.1; Tau Ceti `TauCeti.idealsLE`, `rayClassIdealCountingFunction` at `Modulus.one K`;
 Completed/GlobalNumberFields Layer 3 (the shape); Mathlib `Units.regulator`, `classNumber`,
@@ -1252,6 +1522,19 @@ Prove `rayClassIdealCount_gunRamareSivaraman` (lines 66–80, Theorem 1): for ev
 `≤ E(K) F(𝔮)^{1/n} (log 3F(𝔮))ⁿ (x/N𝔮)^{1−1/n} + n^{8n} R_K w_K F(𝔮)`.
 Route: a fundamental domain for the congruence units built from a Korkine–Zolotarev reduced
 basis, its Lipschitz class, and 2.1.
+
+**Checks.**
+
+- `𝔮 = 𝓞 K`, `K = ℚ`: the narrow ray class group of `(1)∞` is trivial, `φ(𝔮) = 1`, so
+  `F = 2^{r₁} φ(𝔮) h/#H = 2`, `n = 1`, `E(ℚ) = 1000 · (1/2) · log 8 ≈ 1039.7`, and the statement is
+  `|⌊x⌋ − x| ≤ 1039.7 · 2 · log 6 + 1 · 1 · 2 · 2 ≈ 3730`, true since the left side is below `1`; a
+  definition of `F` without the factor `2^{r₁}` would give `F = 1` and the bound
+  `1039.7 · log 3 + 2 ≈ 1144`.
+- `K = ℚ`, `𝔮 = (5)`: `φ(𝔮) = 4`, `H_𝔮 = (ℤ/5)ˣ` of order `4`, `F = 2`, and the main term
+  `x · 4/(4 · 5) = x/5` is the density of the integers `≤ x` in one class modulo `5`.
+- At the trivial modulus the main term is `κ_K/h_K^{narrow}`, matching 2.4's main term only when
+  the narrow and ordinary class numbers agree (`r₁ = 0`, or every signature is attained by a
+  unit); for `K = ℚ(√3)` the narrow class number is `2` while `h = 1`, and the two counts differ.
 
 *Needs:* 2.1; Tau Ceti `RayClassGroup`, `narrowModulus`,
 `rayClassIdealCountingFunction`, `rayClassIdealMainTerm_eq`; Completed/GlobalNumberFields Layers 2,
@@ -1279,6 +1562,21 @@ the orthogonality defect enters and the factor `D^{3D²/2}` of 2.1 disappears; a
 domain for the action of the units is chosen among the admissible ones so as to control its
 boundary, before Schmidt's partition trick as in 2.4. The sum over the classes in (B2) uses
 Debaene's Lemma 12 as in 2.4. The covering-radius count is part of this target.
+
+**Checks.**
+
+- Degree dependence: `E₂(2) = 1.73·10⁸`, `E₂(3) = 5.16·10¹⁰`, `E₂(5) = 1.75·10¹⁵`,
+  `E₂(10) = 1.02·10²⁶`, against Debaene's `n^{10n²} = 10^{12.0}, 10^{42.9}, 10^{174.7}, 10^{1000}`;
+  `E₁(2) = 1.11·10⁶`.
+- `K = ℚ(i)` (`R = h = 1`, `w = 4`): the range is `t ≥ 80² = 6400`, and (B2) reads
+  `| #idealsLE K t − πt/4 | ≤ (E₂(2)/4)(log 60)^{1/2} t^{1/2} = 8.77·10⁷ t^{1/2}`, against
+  `2^{40} t^{1/2} = 1.10·10¹² t^{1/2}` from 2.4.
+- Neither count implies the other: 2.4 holds for every `x ≥ 1`, this section only for
+  `t ≥ (10n²√d_K)ⁿ`; below that range nothing is asserted here. `fehnker2026` §7 compares the
+  two forms with 2.3, whose exponent `1 − 2/(n+1)` is smaller but whose constant depends on `d_K`
+  alone.
+- The truncation is `log₁`, not `log⁺`: with `log⁺` the factor would vanish whenever its argument
+  is at most `1`, which the proof does not allow.
 
 *Needs:* 2.4's reduction and Debaene's Lemma 12; Tau Ceti `TauCeti.idealsLE`; Mathlib
 `Units.regulator`, `Units.torsionOrder`, `classNumber`, `NumberField.mixedEmbedding.idealLattice`.
@@ -1314,15 +1612,35 @@ Bessel bounds are part of this target. Corollary 1.6 specialises Theorem 1.1 wit
 for `r_K` of Lemmas 3.3–3.4; Corollaries 1.4–1.5 do the same above the threshold and use the
 predicate below it.
 
+**Checks.**
+
+- `ℚ(i)`, `X = 10`: count `9`, `πX/4 = 7.854`, error `1.146 ≤ 1.4 · 10^{1/3} = 3.016`; `X = 100`:
+  count `79` against `78.540`.
+- `ℚ(√−3)`, `X = 10`: the ideals of norm at most `10` have norms `1, 3, 4, 7, 7, 9`, count `6`
+  against `πX/(3√3) = 6.046`; with the constant term `ζ_K(0) = −1/6` the difference is `0.121`.
+- The constant term: `d = 4`: `(1/8)(1·1 + 3·(−1)) = −1/4 = −h/w`; `d = 3`: `(1/6)(1 − 2) = −1/6`.
+  Theorem 1.1 and Corollary 1.6 keep it; Corollaries 1.4–1.5 absorb it into their constants. A
+  definition of the count including the zero ideal would add `1` and is not `#idealsLE`.
+- Against 2.3 at `n = 2`: the exponent `x^{1/3}` is the same, while
+  `A_L(2) · 4^{1/3} log 4 = 5.5·10¹⁰` at `ℚ(i)` against `1.4`.
+
 *Needs:* LFunctions Layer 4 (`dedekindZetaC_quadratic`, the functional equation of `L(s, χ)`);
 Mathlib `DirichletCharacter`, `NumberField.classNumber`; Tau Ceti `TauCeti.idealsLE`;
 *RamareSmallRangeCheck*.
+
+### Examples
+
+- `ℚ(i)`, `x = 10`: count `9`, main term `7.854`.
+- `ℚ(√3)`: narrow class number `2`, class number `1`.
+- The cubic field of discriminant `−23`: `R_K h_K = 0.2812 < 1/e`, where Debaene's printed
+  `1 + log` turns negative and `1 + log⁺` is `1`.
+- `ℚ(√−3)`, `X = 10`: count `6`, main term `6.046`, Ramaré's bound `1.94 · 10^{1/3} = 4.18`.
 
 ### Dependencies
 
 Layers 0 and 1; Tau Ceti geometry of numbers and ray-class counting
 (Completed/GlobalNumberFields, SuccessiveMinima); LFunctions Layers 3 and 4; ExplicitZetaBounds
-(`gap:iterated-perron`, §§2.1, 2.5).
+(§§2.1, 2.5, 6.1a).
 
 ## Layer 3: the residue
 
@@ -1342,6 +1660,17 @@ of §2.15a, the kernel `u ↦ x^{u−1} + x^{−u}` is increasing on `u ≥ 1/2`
 log-convexity of §2.15a at `s = 1 + 2n/log d_K` give the display, with the exponent `n` because no
 factor `(s−1)^{−1}` is cancelled.
 
+**Checks.**
+
+- `K = ℚ(√5)`, if `ζ_K(β) = 0` with `β ∈ [1/2, 1)` then
+  `κ_K = 0.43041 ≤ (1−β)(e log 5/4)² = (1−β) · 1.19624`, so `1 − β ≥ 0.35980`: no real zero in
+  `(0.64020, 1)`, consistent with the absence of real zeros of `L(s, χ₅)` in `(0, 1)`.
+- The hypothesis `β ≥ 1/2` is used exactly once, in the monotonicity of the kernel: its derivative
+  in `u` is `log x (x^{u−1} − x^{−u})`, nonnegative for `x ≥ 1` iff `u ≥ 1/2`; for `β < 1/2` the
+  kernel is decreasing at `u = β` and the argument gives nothing, which is why the statement is
+  restricted.
+- `n = 1` is vacuous (`ζ` has no real zero in `(0, 1)`), and the formula would have `log 1 = 0`.
+
 *Needs:* AnalyticNumberTheoryPartI §2.15a; LFunctions Layer 3.
 
 ### 3.2 The bound taking the prime `2` into account
@@ -1358,6 +1687,19 @@ Route: in §2.15a replace `ζ_K(s) ≤ ζ(s)ⁿ` by `ζ_K(s) ≤ (Π_K(2, s)/(1 
 `(1 − 2^{−s})ⁿ ≤ 2^{−n} 2^{n(s−1)} = 2^{−n} e^{n(n−1) log 4/log d_K}`; the rest is §2.15a, with
 `g(6) ≤ 1` for every signature with `r₁ + r₂ ≥ 2`, which `n ≥ 3` guarantees.
 
+**Checks.**
+
+- `2` inert: `Π_K(2)/2ⁿ = 1/(2ⁿ − 1)`, so the bound improves Louboutin's first bound by that factor
+  up to the exponential correction; `2` totally split: `Π_K(2)/2ⁿ = 1` and the bound is weaker
+  than §2.15 by `e^{n(n−1) log 4/log d_K}`.
+- `n = 2`, `K` imaginary quadratic with `2` inert (`d_K = 3`): `s* = 1 + 2/log 3 ≈ 2.82`, and
+  `g(6) ≤ 1` fails for the signature `(0, 1)` (§2.15a), so the route needs `n ≥ 3`; the statement
+  is not asserted at `n = 2`.
+- A cubic field with `2` inert and `d_K = 23` (`ℚ(α)`, `α³ − α − 1 = 0`, irreducible modulo
+  `2`, so `2` is inert; `r₁ = r₂ = 1`, `R_K = 0.281200`, `h = 1`, `w = 2`):
+  `κ_K = 2 · 2π · 0.281200/(2√23) = 0.3684`; the bound is
+  `(1/7)(e log 23/4 · e^{3 log 4/log 23})² = (1/7)(2.131 · 3.767)² ≈ 9.21`, true.
+
 *Needs:* AnalyticNumberTheoryPartI §2.15a; 0.2; 0.3.
 
 ### 3.3 Friedman's unconditional lower bound
@@ -1366,6 +1708,16 @@ Prove `dedekindZeta_residue_ge_friedman` (`garcialee2022mertens` lines 1214–12
 `n ≥ 2`, `κ_K ≥ 0.36232/√d_K`. Route: `2^{r₁}(2π)^{r₂} ≥ 4` for `n ≥ 2`, `h_K ≥ 1`, and Friedman's
 bound `R_K/w_K ≥ 0.09058` (`friedman1989`, Theorem B, cited by its locator; quoted at line 1215).
 The lower bound that improves on this for `n ≥ 3`, Stark's, needs the one-zero lemma and is 4.7.
+
+**Checks.**
+
+- `K = ℚ(i)`: `κ = π/4 ≈ 0.785 ≥ 0.36232/2 = 0.181`; `K = ℚ(√5)`: `0.4304 ≥ 0.162`;
+  `K = ℚ(ζ₅)`: `R_K = 2 log((1 + √5)/2) = 0.96242` (`R_K/R_{K⁺} = 2/Q_K` with `Q_K = 1`), so
+  `κ = 4π² · 0.96242/(10 √125) = 0.33984 ≥ 0.0324`.
+- The cubic field of discriminant `−23`: `κ = 0.3684 ≥ 0.36232/√23 = 0.0756`, with
+  `R_K/w_K = 0.1406 ≥ 0.09058`.
+- `n = 1`: `κ_ℚ = 1 ≥ 0.36232` holds, but the route's factor `2^{r₁}(2π)^{r₂}` is `2 < 4`
+  there, which is why the statement is made for `n ≥ 2`.
 
 *Needs:* Mathlib `dedekindZeta_residue_def`, `classNumber_pos`; `friedman1989` (locator).
 
@@ -1398,6 +1750,23 @@ first term `H_n(x/A)` is bounded below explicitly; the Euler factors at `S` ente
 `S_K` with the series of the ideals prime to `S`. The thresholds are the numerical conditions under
 which the kernel bounds hold.
 
+**Checks.**
+
+- The sign of the polar term: at `s = 1/2`, `λ/(s(s − 1)) = −4λ`, and the term is negative on all
+  of `(0, 1)`, which is what lets `F_K(β) ≤ 0` bound `λ` from below by the integral; the form
+  `λ(1/s + 1/(1 − s)) = λ/(s(1 − s))` would give `+4λ`, and with it `F_K(β) ≤ 0` could never hold
+  for `β ∈ (0, 1)`, both terms on the right being positive.
+- `m = 1`, `S = ∅`, `K` imaginary quadratic with `d_K ≥ 270²`: if `ζ_K(β) ≤ 0` with
+  `β ≥ 1 − 2/log d_K` then `κ_K ≥ (1/2)(1−β) e^{−1}`; at `β = 1 − 1/log d_K` this is
+  `κ_K ≥ 1/(2e log d_K)`, consistent with the class-number formula `κ_K = 2πh/(w√d_K)` only when
+  `h ≥ w√d_K/(4πe log d_K)`, a form of Siegel's bound.
+- `Λ_{{2}} = (1 + 2^{−1/2})⁴ ≈ 8.4926`, so `ϱ(1) · Λ_{{2}} ≈ 2293` while `ϱ_2(1) = 36000`: the
+  table of (2) is not the product form of (1); and `2π² Λ_{{2}} ≈ 167.638`,
+  `32π² Λ_{{2}} ≈ 2682.21`, the two constants of the statement.
+- `β < 1 − 2/log d_K` is outside the statement; at `β = 1/2` and `d_K = 10⁶`,
+  `d_K^{(β−1)/2} = 10^{−1.5}`, and the right side is below `κ_K` for every field in the range, so
+  the hypothesis on `β` is what makes the bound non-trivial.
+
 *Needs:* LFunctions Layer 3 (the completed function and functional equation for totally
 imaginary `K`); AnalyticNumberTheoryPartI §2.15a (the Mellin split); 0.2.
 
@@ -1420,12 +1789,38 @@ shifts `0` with multiplicity `r₁ + r₂ − 1` and `1` with multiplicity `r₂
   (`garcialee2022artin` line 886, (29): `−1` when `p` is inert, `n − 1` when `p` splits
   completely).
 
+**Checks.**
+
+- `K = ℚ(i)`: the record is `dirichletData χ₋₄` field by field (degree `1`, conductor `4`, shift
+  `1`).
+- `K = ℚ`: degree `0`, coefficients `1, 0, 0, …`, completed function `1`.
+- A real cubic field: shifts `{0, 0}`, degree `2`; a record with the shift `1` once (as for a
+  complex cubic field) differs in its gamma factor, and the two functional equations are not
+  interchangeable.
+
 The prime-reciprocal input is Garcia–Lee's extension of Schoenfeld's bound to `x ≥ 1.048`, the
 range that conductors `N ≥ 3` need (`(log 3)^{1/2} > 1.048`). With `M = mertensConstant ℚ` and
 `m(x) = (3 log x + 4)/(8π√x) + 5/x²`, prove Garcia–Lee's Mertens lemma (`garcialee2022artin` lines
 121–131, Lemma 3): under `RiemannHypothesis` and *GarciaLeeMertensSmallRange*, for every real
 `x ≥ 1.048`, `|Σ_{p ≤ x} 1/p − log log x − M| < m(x)`. Route: for `x ≥ 13.5`,
 `gap:explicit-mertens-second` with `(3 log x + 4)/(8π√x) < m(x)`; below, the predicate.
+
+**Checks.**
+
+- `x = 1.048`: the sum is empty, `log log 1.048 = −3.0601` and the left side is `2.7986`, against
+  `m(1.048) = 4.7134`; the unconditional error `1/log² x` of the Rosser–Schoenfeld form would be
+  `454.9` there, which is why the theorem is the conditional one.
+- `x = 13.5`: `Σ_{p ≤ 13} 1/p = 1.344022`, `log log 13.5 = 0.956545`, left side `0.125980`, below
+  Schoenfeld's `(3 log 13.5 + 4)/(8π√13.5) = 0.127871` and `m(13.5) = 0.155306`; without the
+  term `5/x²` the bound would be Schoenfeld's, which fails below `13.5` (at `x = 2` it is
+  `0.171044` against the left side `0.605016`).
+- The tightest point of the predicate is `x = 7`: `Σ_{p ≤ 7} 1/p = 1.176190`, `log log 7 = 0.665730`,
+  left side `0.248963` against `m(7) = 0.249988` (the clearance `0.0010` of
+  `garcialee2022artin` lines 145–147); a constant below `4.95` in place of the `5` of `5/x²`
+  fails there.
+- Just below `x = 2` the left side is `|log log x + M| → 0.105016`; at `x = 2` the sum jumps by
+  `1/2` and the left side is `0.605016`, both below `m(2) = 1.421044`, so the sum over `p ≤ x` and
+  the sum over `p < x` both satisfy the bound there, while they differ at every prime.
 
 Prove the explicit Duke short-sum theorem (`garcialee2022artin` lines 24–29, Theorem 1): for a
 record `d` of degree `m ≥ 1` and conductor `N ≥ 3` with Dirichlet agreement, an Euler product
@@ -1444,6 +1839,19 @@ lines 136, 152–167). For `d = 𝒬_K` the coefficients are real and `L > 0` on
 not contain it. Route: the explicit formula for the entire completion with its Hadamard product
 (ZerosOfLFunctions 5.5–5.6), *GRH* to place every zero on `Re s = 1/2`, explicit gamma-function
 integrals, and Garcia–Lee's Mertens lemma at `x²` and at `y` (lines 690–718).
+
+**Checks.**
+
+- `d = dirichletData χ₋₄` under `DirichletGRH χ₋₄`: `log(π/4) = −0.2416`, `(log 4)^{1/2} = 1.18`,
+  the empty prime sum, and `|−0.2416| ≤ 13.53`.
+- `m = 0` is excluded: `L = 1` and the statement would read `0 ≤ 0`, true but not Duke's theorem;
+  `N < 3` makes `(log N)^{1/2}` ill-defined or below `1.048`.
+- A record with a pole at `1` (`ζ` itself) is excluded by the entirety hypothesis; the statement
+  is meaningless for it since `log L(1)` is not defined.
+- The branch: for `d = 𝒬_K` the coefficients are real and `L(σ) > 0` on `[1, ∞)` (it has no zero
+  there and tends to `1`), so the continuous logarithm is the real logarithm and
+  `log L(1) = log κ_K`; the choice of branch matters only for records with non-real coefficients,
+  such as `dirichletData χ` for a cubic character `χ` modulo `7`.
 
 *Needs:* LFunctions Layer 0 (`ofSeries`), Layer 3; Mathlib `Complex.Gammaℝ_mul_Gammaℝ_add_one`,
 `RiemannHypothesis`; Tau Ceti `TauCeti.LFunctions.mertensConstant`; Tau Ceti
@@ -1470,8 +1878,9 @@ sums of the inverse roots of `𝒬_K` (3.5), for every real `x ≥ 5·10⁵`,
 Route (`gglm2026` §3): average `Σ_K` over `[x, x + h]` with `√x (log x)² ≤ h < x`, the averaging
 error being at most `(n − 1)` times the increment of `Σ Λ(m)/(m log m)` over `[x, x + h]` (the
 previous theorem, with `RiemannHypothesis` from `DedekindERH K` and *DedekindConjecture* `K` as in
-the Garcia–Lee route below); write the averaged sum by `gap:iterated-perron` at `j = 1` as a
-contour integral of `log L(s)` for the quotient record; and move the contour to
+the Garcia–Lee route below); write the averaged sum by the iterated Perron identity of
+ExplicitZetaBounds §6.1a at `j = 1` as a contour integral of `log L(s)` for the quotient record;
+and move the contour to
 `Re s = 1/2 + ε`, where *GRH* for the record bounds `L'/L` through the Hadamard expansion
 (ZerosOfLFunctions 5.5–5.6; `gglm2026` Lemma 3.2), with the gamma factors by
 ExplicitZetaBounds §§2.1 and 2.5.
@@ -1480,8 +1889,9 @@ Prove the GRH two-sided bound of Garcia–Grenié–Lee–Molteni (`gglm2026` Th
 and `d_K ≥ 14`, under `DedekindERH K`, `dedekindZetaC K (1/2) ≠ 0`, *DedekindConjecture* `K`,
 *GGLMPsiSmallRange*, *GGLMSmallDiscriminantTable*, *ButheVerified*, *Schoenfeld1976Range* and the
 finite verifications under which ExplicitPrimeCounting §4.7 states the Mertens estimate that
-ExplicitMultiplicativeFunctions §8.1 turns into Mertens' product (*LeeNosalMertensRange* and the
-inputs of ExplicitPrimeCounting §2.2),
+ExplicitMultiplicativeFunctions §8.1 turns into Mertens' product (*LeeNosalMertensRange*,
+`LeeNosalRange`, `ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange` and *PsiThetaUpper* or the
+inputs of ExplicitPrimeCounting §3.7 that discharge it),
 
 - `κ_K ≤ (2e^γ (log log d_K)^{1 + 19/log log d_K})^{n−1}`,
 - `κ_K ≥ ζ(n)/(2e^γ (log log d_K)^{1 + 19(n−1)/log log d_K})`.
@@ -1521,19 +1931,60 @@ bound uses `a(p) ≥ −1` (with only `|a(p)| ≤ n − 1` it would come out as
 `(log log d_K)^{−(n−1)}`), and both use the upper side of Garcia–Lee's Mertens lemma at
 `x = (log d_K)^{1/2} ≥ 1.048`, with `d_K ≥ 3`.
 
+**Checks.**
+
+- *GGLMPsiSmallRange* at `x = e`: the only term is `m = 2`, `Λ(2)/(2 log 2) = 1/2`, and
+  `|1/2 − log log e − γ| = 0.0772 ≤ 3(1 + 2)/(8π√e) = 0.2172`; the Riemann-hypothesis range starts
+  at `73.2`, where Schoenfeld's `ψ` bound of ExplicitPrimeCounting §2.2 takes over.
+- `K = ℚ(√−5)` (`n = 2`, `d_K = 20`, `κ_K = 2π · 2/(2√20) = 1.405`): the bounds of
+  Garcia–Grenié–Lee–Molteni are `0.0845 ≤ κ_K ≤ 19.48`; `K = ℚ(√−14)` (`d_K = 56`,
+  `κ_K = 1.679`): `0.00362 ≤ κ_K ≤ 454.9`; the cubic field of discriminant `−23`
+  (`κ_K = 0.3684`): `0.00349 ≤ κ_K ≤ 1402`.
+- `d_K ≥ 14` is needed for the upper function to exceed the lower one (`gglm2026` §1); the fields
+  with `d_K ≤ 13` are `ℚ` and the nine quadratic fields of discriminant
+  `−3, −4, 5, −7, ±8, −11, 12, 13`, where only the Garcia–Lee form is asserted. For `K = ℚ(i)` (`d_K = 4`,
+  `log log 4 = 0.3266`) it reads `1/(e^{17.81} · 0.3266) ≤ π/4 ≤ e^{17.81} · 0.3266`.
+- The Garcia–Lee form follows from the Garcia–Grenié–Lee–Molteni form for `d_K ≥ 14`: with
+  `u = log log d_K > 0`, `u^{19/u} ≤ e^{19/e} < 1086` and
+  `2e^γ · 1086 = 3868.5 < e^{17.81} = 5.43·10⁷` for the upper bound, and
+  `ζ(n) e^{17.81(n−1)} > 2e^γ e^{19(n−1)/e}` for the lower bound.
+- Palojärvi–Simonič's upper bound is the sharper one where it applies: at `d_K = 10⁷`
+  (`u = 2.780`) its factor `e^{2.475/u} = 2.44` replaces `u^{19/u} = 1084`; at `d_K = 5.4·10⁶` and
+  `n = 2` the two upper bounds are `24.1` and `10595`.
+- The hypothesis `dedekindZetaC K (1/2) ≠ 0` is part of the generalized Riemann hypothesis as
+  `gglm2026` §1 states it (zeros in the strip have real part `1/2` and nonzero imaginary part); it
+  is not implied by `DedekindERH K` and is kept as a separate hypothesis of the two theorems that
+  use it.
+- For `n = 2` and imaginary quadratic `K` with `d_K = q ≥ 10¹⁰`, `κ_K = L(1, χ_K)` and, under
+  `DirichletGRH χ_K`, the bound of `lamzourilisoundararajan2015` Theorem 1.5,
+  `L(1, χ) ≤ 2e^γ (log log q − log 2 + 1/2 + 1/log log q)`, gives `11.62` at `q = 10¹⁰` against
+  `11363` here; that bound and its companion lower bound (Corollary 1.3 for `h(−q)`) are
+  statements about Dirichlet L-functions and stay with ExplicitZetaBounds.
+- `log log d_K > 0` needs `d_K > e`, which `n ≥ 2` gives (`d_K ≥ 3`); at `n = 1` both forms divide
+  by `log log 1 = log 0`.
+- *DedekindConjecture* `K` holds for Galois `K` by 0.5 and is not needed for `n ≤ 4`
+  (`garcialee2022artin` lines 72–74 say it is known for cubic and quartic fields); every statement
+  keeps it as a hypothesis in every degree.
+
 *Needs:* 3.5 (the quotient record, the short-sum theorem, Garcia–Lee's Mertens lemma,
 *GarciaLeeMertensSmallRange*); 0.5; AnalyticNumberTheoryPartI §2.42; ZerosOfLFunctions 5.5,
-5.6, Layer 9; `gap:iterated-perron`; ExplicitZetaBounds §§2.1, 2.5; ExplicitPrimeCounting
+5.6, Layer 9; ExplicitZetaBounds §§2.1, 2.5, 6.1a; ExplicitPrimeCounting
 §2.2 (with *ButheVerified*, *Schoenfeld1976Range*); ExplicitMultiplicativeFunctions §8.1 (with
 the finite verifications of ExplicitPrimeCounting §4.7); *GGLMPsiSmallRange*;
 *GGLMSmallDiscriminantTable*; Mathlib `riemannZeta`, `ArithmeticFunction.vonMangoldt`.
+
+### Examples
+
+- `ℚ(√5)`: `κ = 0.4304`; the real-zero-dependent bound shows no real zero in `(0.64020, 1)`.
+- The cubic field of discriminant `−23` with `2` inert: `κ = 0.3684`, with Friedman's lower bound
+  `0.0756` and the bound `9.21` of 3.2.
 
 ### Dependencies
 
 Layer 0; AnalyticNumberTheoryPartI §§2.15, 2.15a, 2.18, 2.42; LFunctions Layers 0, 3;
 ZerosOfLFunctions Layers 5, 9; Tau Ceti `mertensConstant`, `EulerProductData`; ExplicitPrimeCounting
 (§§2.2, 4.7 and `gap:explicit-mertens-second`); ExplicitMultiplicativeFunctions §8.1;
-ExplicitZetaBounds (`gap:iterated-perron`, §§2.1, 2.5); `friedman1989` by locator.
+ExplicitZetaBounds §§2.1, 2.5, 6.1a; `friedman1989` by locator.
 
 ## Layer 4: zeros of `ζ_K`
 
@@ -1555,6 +2006,20 @@ Stirling bounds, bound the argument variation of `ζ_K` on the horizontal edges 
 lemma with `M` from 1.1 at the base point `c = 1 + η' + iT`, and pass back to `Λ_K` by 4.2 and
 6.5.
 
+**Checks.**
+
+- `K = ℚ`, `T = 15`: `N_ℚ(15) = 2`, main term `(15/π) log(15/(2πe)) = 4.775 · (−0.1298) = −0.620`,
+  error bound `0.317 · 2.708 + 6.333 + 3.482 = 10.67`, and `|2 + 0.620| ≤ 10.67`.
+- `K = ℚ(i)`, `T = 100`: `ζ_K = ζ · L(s, χ₋₄)`, so `N_K(100) = N_ℚ(100) + N(100, χ₋₄)` with both
+  counts symmetric in `γ` (`trudgian2015` line 17, `hasanalizadeshenwong2022` line 27);
+  `N_ℚ(100) = 2 · 29 = 58`, and Trudgian's Theorem 1 for `χ₋₄` (`k = 4`) places `N(100, χ₋₄)` within
+  `(100/π) log(400/(2πe)) ± (0.317 log 400 + 6.401) = 100.38 ± 8.30`, so `150 ≤ N_K(100) ≤ 166`.
+  The main term is `(100/π) log(4 (100/(2πe))²) = 31.83 · 4.921 = 156.64` and the bound is
+  `0.317 (1.386 + 2 · 4.605) + 12.666 + 3.482 = 19.51`, which covers the whole range; a one-sided
+  count of the zeros of `L(s, χ₋₄)` (about `50`) would give `N_K(100) ≈ 108`, outside it.
+- `T < 1` is excluded; at `T → 0⁺` the main term tends to `0` and `N_K(0) = 0`, consistent, but
+  the proof's base point needs `T ≥ 1`.
+
 *Needs:* ZerosOfLFunctions 4.1, 4.2, 6.5, 7.1, 7.2, 7.3; 1.1; ExplicitZetaBounds §5.1 (Backlund's
 lemma), §§2.1, 2.5; LFunctions Layer 3.
 
@@ -1569,20 +2034,16 @@ Route: 4.1's method with Bennett–Martin–O'Bryant–Rechnitzer's refinement o
 lemma and the term `r₁/4` kept from the gamma factors; the corollary absorbs `r₁/4 ≤ n/4` and
 `log(T+2) − log T ≤ log 3`.
 
-Prove Amberger's count (`amberger2026` Theorem 1, preprint): under *AmbergerMajorantCertificate*,
-for `T ≥ 1`, `| N_K(T) − (T/π) log(d_K (T/(2πe))ⁿ) | ≤ 0.194 (log d_K + n log T) + 7.806 n + 1.808`.
-Route: the argument principle for `Λ_K` as in 4.1, but, after Turing, part of the contour is moved
-into the half-plane of absolute convergence, and what remains is an absolutely convergent sum over
-the zeros; the contribution of each zero is majorised by a combination of first- and second-order
-poles evaluated to the right of the strip, so that the sum becomes the first and second logarithmic
-derivatives of `Λ_K` at points with `Re s > 1`, which split into the discriminant term, the gamma
-terms (bounded by the digamma and trigamma remainders of 1.1a) and the Euler product. Backlund's
-lemma is not used. The source counts the zeros of ordinate `±T` with weight `1/2`; the statement
-for `N_K(T)` follows by applying it at `T' ↓ T`, since no zero has ordinate in `(T, T']` for `T'`
-close to `T` and the right side is continuous in `T`.
+**Checks.**
 
-*Needs:* 4.1's inputs; for Amberger's count, ZerosOfLFunctions 5.6, 7.2 and 1.1a (both
-remainders), without Backlund's lemma; *AmbergerMajorantCertificate*.
+- `K = ℚ`, `T = 15`: `|2 + 0.620 + 1/4| = 2.87 ≤ 0.22737 · log(17/(2π)) + 23.03 + 4.52 = 27.78`.
+- The corollary's constant `0.228 > 0.22737` and `23.108 > 23.02528` absorb `r₁/4` and the shift
+  from `T + 2` to `T`; the triple `(0.316, 5.872, 3.655)` of Trudgian's Table 2 is not a target
+  (lines 39–41: those table rows were repaired by this paper).
+- `K` totally complex: `r₁ = 0` and Theorem 1.1 has no shift; for `K = ℚ(√2)`, `r₁ = 2` and the
+  shift is `1/2`, consistent with `N_K(T) = N_ℚ(T) + N(T, χ₈)` and the two shifts `1/4`.
+
+*Needs:* 4.1's inputs.
 
 ### 4.3 Real zeros
 
@@ -1619,6 +2080,22 @@ with multiplicity in `σ ≥ 1 − c₂/log d_K`, whose hypothesis `log d_K > 1.
 excludes only zeros of odd multiplicity: a double real zero is allowed by Theorem 3 at `m = 2` and
 does not change sign.
 
+**Checks.**
+
+- `m = 1`: `c₁ = 2(√2 − 1)² ≈ 0.3431 > 1/4`, so Theorem 3 at `m = 1` improves Stark's constant
+  `1/4` on the real axis, as `louboutin2017` lines 27–30 note; Theorem 6 at `m = 1` gives
+  `c'₁ = ((5+√5)/4) · 0.3431 ≈ 0.6207` for `d_K > e^{1.2416} = 3.46`.
+- `K = ℚ(√5)` (`d_K = 5`, `log 5 = 1.609 > max(1.464, 1.072)`, `m = 2`): at most two real zeros
+  in `σ ≥ 1 − 0.666`; there are none.
+- `K = ℚ(ζ₇)⁺` (Galois cubic, `d_K = 49`): `1 − 1.0718/3.892 = 0.7246`, so `ζ_K ≤ 0` on
+  `[0.7246, 1)`. Here `ζ_K = ζ · L(s, χ) L(s, χ̄)` for the cubic character `χ` modulo `7`, and a
+  real zero `β` of `L(s, χ)` would also be a zero of `L(s, χ̄)` (the values are conjugate), so a
+  double zero of `ζ_K`: the corollary does not exclude it, which is why it is stated for zeros of
+  odd multiplicity.
+- `K = ℚ(√5)` (degree `2`, not odd): the corollary does not apply, since the quadratic subfield
+  `K` itself can carry a simple real zero.
+- `K = ℚ`: `log d_K = 0` and every hypothesis fails; `ζ` has no real zero in `(0, 1)` anyway.
+
 *Needs:* ZerosOfLFunctions 5.6, 6.4(4d), 6.5; LFunctions Layer 3; 1.1a; AnalyticNumberTheoryPartI
 §2.39 (for the corollary); Mathlib `abs_discr_ge`.
 
@@ -1634,11 +2111,27 @@ root), and the constants `D₁ = 2(1 − S₀ − S₀²)/(2 + S₀)`, `C₁ = 2
   then increases on `[0, 1]`, its derivative `4S³ + 6S² − 4S − 4` changing sign once there.
 - `S_K(c, d) ⊆ S_K(c', d')` for `c ≤ c'` and `d ≤ d'`.
 
+**Checks.**
+
+- On `[0, √2]` there is a second root `1.221332`, since `P(√2) = 4 + 4√2 − 4 − 4√2 + 2 = 2 > 0`;
+  a definition by "the root in `[0, √2]`" does not determine `S₀`, and taking the larger root
+  would give `1 − S₀ − S₀² < 0` and `D₁ < 0`.
+- `(1/4, 1/4)` is Stark's region of 4.3 and is contained in `(C₁, 0)`'s real part and in
+  `S_K(D₁, D₁)` since `D₁ > 1/4`.
+- `(0.59110, 1/4)` contains Kadiri's `(1/1.7, 1/4)` region, since `0.59110 > 1/1.7 = 0.58823`
+  (lines 52–53), and is unconditional in `d_K` where Kadiri's has a threshold.
+
 Prove Louboutin's Stark-like regions: Stark's conclusion (at most one zero, real and simple) holds
 in `S_K(c, d)` for `(c, d) ∈ {(C₁, 0), (D₁, D₁)}` (lines 31–35, Theorem 2),
 `{(C₂, 0), (D₂, D₂), (0.59110, 1/4)}` (lines 47–52, Theorem 3), and `(0.10379, 1)` when `d_K > 8`
 (line 53). Route: Stark's inequality as in 4.3 with Stechkin's weight `λ` for Theorem 3, the
 quartic equation for `S₀` arising from optimising the comparison point.
+
+**Checks.**
+
+- `d_K ≤ 8`: the region `(0.10379, 1)` is not asserted; for `K = ℚ(√5)`, `d_K = 5`, the other
+  regions apply.
+- `S_K(c, 0)` is a real segment: Stark's conclusion there says at most one real zero, simple.
 
 *Needs:* 4.3's inputs; Mathlib `Polynomial`, the intermediate value theorem.
 
@@ -1658,6 +2151,20 @@ point `s'` with weight `λ = 1 − 1/√5`; the threshold `D₀` is where the lo
 absorbed (lines 93–94: the theorems can be made explicit for every `log d_K`, with other
 constants).
 
+**Checks.**
+
+- `K = ℚ`, `|t| = 14.13`: the region reads `σ ≥ 1 − 1/(9.69 · 2.648 + 3.03 + 58.63) = 0.9885`,
+  weaker than the classical `1 − 1/(5.573 log t) = 0.932`, consistent.
+- The two Corollary regions are the `(1/2, 1/2)` and `(1/1.7, 1/4)` Stark-like regions, quoted at
+  `louboutin2017` lines 36–37; 4.4 gives `(0.59110, 1/4)` without a threshold.
+- The constant `1.62` sometimes attached to these regions is Kadiri's real-zero constant `1.6110`
+  rounded up: for `d_K ≥ D₀`, `ζ_K` has at most one real zero in `σ ≥ 1 − 1/(1.6110 log d_K)`
+  (`kadiri2012` p. 146, recorded as (1.4) of `dglsw2025`). It is not a target: `1/1.6110 = 0.62073`
+  is below Louboutin's `C₂ = 0.620756` of 4.4, whose real region holds without a threshold, and
+  4.8 gives the degree-indexed form.
+- 4.8 dispenses with the threshold `D₀` in both kinds of region and, for `n ≥ 3` and `|t| ≥ 1`, replaces
+  `3.03 n + 58.63` by `−11.59548 n + 4.57803`.
+
 *Needs:* ZerosOfLFunctions 5.6, 6.1, 6.4(4d), 6.5; ExplicitZetaBounds §0.5
 (*IsAdmissibleCosinePolynomial*); *KadiriDedekindPolynomialCertificate*; 1.1a; LFunctions Layer 3.
 
@@ -1670,6 +2177,22 @@ with `σ ≥ 1 − 1/(12.2411 log d_K + 9.5347 n log|t| + 0.05017 n + 2.2692)`; 
 one zero with `|t| < 1` and `σ ≥ 1 − 1/(12.43436 log d_K)`, real and simple. Route: Kadiri's
 argument with the Mossinghoff–Trudgian degree-sixteen polynomial and the improved constants `S(k)`
 (lines 110–135).
+
+**Checks.**
+
+- `K = ℚ`, `|t| = 14.13`: `σ ≥ 1 − 1/(9.5347 · 2.648 + 0.05017 + 2.2692) = 0.9637`, consistent.
+- Theorem 1 carries no threshold on `d_K` (lines 103–105), unlike Kadiri's. Its quadruple
+  `(12.2411, 9.5347, 0.05017, 2.2692)` is that of arXiv v3, and `dglsw2025` §1 records the same
+  quadruple for the published version; the rounded `0.0501` of secondary tables would give a
+  slightly wider region and is not used. `dglsw2025` records the low-lying constant as `12.44`,
+  the rounding up of `12.43436`, so the statement here implies the recorded one.
+- `12.43436 < 12.74`: the one-zero region is wider than Kadiri's, as it must be for an
+  improvement; it is not wider than the Stark-like `(0.10379, 1)` of 4.4 in the real direction
+  (`1/12.43 = 0.0804 < 0.10379`), while it is unbounded in `|t| < 1` where 4.4 caps at
+  `1/log d_K`. 4.8 dispenses with the threshold `D₁` of Theorem 2 (Theorem 1.2 there, for every
+  `K`), whose constants `11.78180` (`n = 6`) and `11.51910` (`n ≥ 7`) are also below `12.43436`;
+  for `2 ≤ n ≤ 5` the constants of 4.8 are larger and the present statement stays the sharper
+  one above `D₁`.
 
 *Needs:* 4.5's inputs, with *MossinghoffTrudgianF16Certificate* in place of Kadiri's polynomial.
 
@@ -1685,6 +2208,18 @@ tower factor `t_K` is that of 0.5. Let `c₄ = 2 exp(21/8 − ψ(1/2)/(4 log 3))
 - `starkAlpha K ≤ 16 · t_K` in every case (`4 ≤ 16`, `16 ≤ 16`, `4 · n! ≤ 16 · n!`), so
   `1/(c₄ starkAlpha K) ≥ 1/(16 c₄ t_K) > 0.0014480/t_K`.
 - `starkAlpha K ≤ 4 · n!` for `n ≥ 3`, with equality exactly when `K` has no normal tower.
+
+**Checks.**
+
+- `ℚ(ζ₅)` (Galois quartic): `starkAlpha = 4`, `t = 1`; `ℚ(2^{1/4})` (not Galois, normal tower
+  `ℚ ⊂ ℚ(√2) ⊂ ℚ(2^{1/4})`): `starkAlpha = 16`, `t = 1`; a non-Galois cubic field (no normal
+  tower): `starkAlpha = 4 · 3! = 24`, `t = 6`.
+- A definition with only the two cases "Galois: `4`, otherwise: `4 · n!`" would give
+  `ℚ(2^{1/4})` the value `96` in place of `16`, and one with `t = 1` for Galois fields only would
+  give it `24` in place of `1`.
+- The constant: `ψ(1/2) = −1.963510`, so `c₄ = 2 e^{2.625 + 0.446816} = 43.162115`; with the
+  rounded `43.2` in its place the normal-tower bound would be `1/(43.2 · 16) = 0.0014468`, below
+  the `0.0014480` of the consequences, so the consequences need `c₄` itself.
 
 Prove Stark's theorem with Garcia–Lee's constants (`garcialee2022mertens` lines 1226–1305): for
 `n ≥ 3`,
@@ -1711,9 +2246,28 @@ Route (Stark 1974, Lemmas 2–4 and 8, with the constants of `garcialee2022merte
 the logarithmic derivative of `Λ_K` from `σ₀ = 1 + 1/(4 log d_K)` to `1`, isolate the possible real
 zero with the one-zero lemma of 4.3, and when the zero is close use Stark's quadratic subfield `F`
 of the quadratic-subfield theorem (AnalyticNumberTheoryPartI §2.31e, which states it without
-normality as Stark's Lemma 8; the residue bounds of that section allow ineffective constants and
-are not used here), the normal-closure discriminant bounds of §2.31d and the gap hypothesis at
-`F`.
+normality as Stark's Lemma 8, and states Stark's Lemmas 2–4 with an unnamed constant, whose
+explicit value `1/c₄` is what this section adds; the fixed-degree residue bounds of that section
+allow ineffective constants and are not used here), the normal-closure discriminant bounds of
+§2.31d and the gap hypothesis at `F`.
+
+**Checks.**
+
+- For a Galois cubic field with `d_K = 49` (`ℚ(ζ₇)⁺`, no quadratic subfield): `starkAlpha = 4`,
+  and the first clause gives `κ > 1/(43.1621 · 4 · 3.892) = 0.001488`, while
+  `κ_K = 2³ R_K/(2 · 7) = 0.3003` (`R_K = 0.525455`, `h = 1`).
+- The second clause carries *QuadraticRealZeroGap* `c₈` because the only cited justification of
+  `c₈ = π/6` is a remark (`garcialee2022mertens` lines 1277–1279, 1306–1310); Pintz's
+  `π/12 + o(1)` is asymptotic. A theorem stating the `d_K^{1/n}` form without the hypothesis would
+  assert an unproved claim, while the first clause needs none.
+- The normal-tower case of the consequence: `1/(c₄ · 16) = 0.00144803 > 0.0014480`, the margin
+  being `3·10⁻⁸`; the Galois and no-tower cases have the larger constants `1/(4c₄) = 0.0057921`
+  and `0.0057921/n!`.
+- `n ≤ 2` is outside the first clause: a quadratic field is its own subfield of degree `2`, and at
+  `K = ℚ` the bound would divide by `log 1 = 0`.
+- Under the uniform gap at `c₀ = 1/100` the second term of the minimum is
+  `e/(200 d_K^{1/n}) = 0.01359/d_K^{1/n}`: the decay in `d_K` is still the Siegel shape
+  `d_K^{−1/n}`; the logarithmic shape for Galois fields is 5.7.
 
 *Needs:* Mathlib `dedekindZeta_residue_def`, `Complex.digamma`, `Real.eulerMascheroniConstant`;
 0.5 (*QuadraticRealZeroGap*, *UniformQuadraticZeroGap*, `HasNormalTower`); 4.3 (the one-zero
@@ -1744,6 +2298,30 @@ Stark's. At the fields of *DGLSWSmallFieldGRH* that predicate gives Theorems 1.2
 both abscissae lying to the right of `1/2` there, and at `n = 2` Theorem 1.4 follows for every `K`
 from Louboutin's `(C₂, 0)` region of 4.4, since `C₂ ≥ 1/A''(2)`.
 
+**Checks.**
+
+- The negative coefficient of `n`: for `n = 3`, `d_K ≥ 23` and at `|t| = 1` the denominator is
+  `12.21124 log 23 − 3 · 11.59548 + 4.57803 = 8.08 > 0`, against `40.80` in Lee's 4.6, so the
+  region `σ ≥ 0.876` is much wider than `σ ≥ 0.9755` there; at `|t| = 10⁶` the denominators are
+  `403.6` and `436.0`.
+- Theorem 1.4 and 4.4: `1/A''(2) = 1/1.61094 = 0.620756` equals Louboutin's `C₂` to six digits,
+  so at `n = 2` and `n ≥ 7` the two real regions coincide, while for `3 ≤ n ≤ 6`
+  (`1/A''(3) = 0.5177`) Louboutin's `(C₂, 0)` region is the wider one; both are kept.
+- Theorem 1.2 against Kadiri's `12.74` and Lee's `12.43436` (both for `d_K` beyond a threshold):
+  wider for `n ≥ 6`, narrower for `2 ≤ n ≤ 5`, and valid for every `K`.
+- *MinimalDiscriminantTable* is not Minkowski's bound: `abs_discr_ge'` gives only `d_K ≥ 13` for
+  a cubic field, against the true minimum `23`.
+- At the fields of *DGLSWSmallFieldGRH* the predicate gives Theorems 1.2 and 1.4 directly: the
+  one-zero abscissa `1 − 1/(A(n) log d_K)` is at least `0.943` (`n = 2`, `d_K = 3`), and the
+  real-zero abscissa `1 − 1/(A''(n) log d_K)` is at least `0.835` and `0.888` for `n = 3, 4`
+  (`d_K = 23`, `117`), all above `1/2`; at `n = 2` Theorem 1.4 holds for every `K` by Louboutin's
+  `(C₂, 0)` region of 4.4, since `C₂ = 0.6207565 ≥ 1/A''(2) = 0.6207556`, which covers `ℚ(√−3)`,
+  where `1 − 1/(A''(2) log 3) = 0.435` lies below `1/2`. *MinimalDiscriminantTable* says nothing
+  about zeros and does not replace the predicate.
+- For `n = 2`, `dglsw2025` §1 notes that Kadiri's region for Dirichlet L-functions gives at most
+  one zero in `σ ≥ 1 − 1/(6.44 log(d_K max(1, |t|)))`; that statement belongs to
+  ExplicitZetaBounds.
+
 *Needs:* 4.3; 4.4 (the case `n = 2` of Theorem 1.4); ZerosOfLFunctions 5.6, 6.1, 6.4(4d), 6.5;
 ExplicitZetaBounds §0.5; 1.1a; LFunctions Layer 3;
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*.
@@ -1751,15 +2329,15 @@ ExplicitZetaBounds §0.5; 1.1a; LFunctions Layer 3;
 ### 4.9 Real zeros of quadratic Dedekind zeta functions
 
 Prove Guo's gap, *UniformQuadraticZeroGap* `(1/100)` (`guo2026`, preprint); and Banks's gap, under
-ExplicitPrimeCounting §1.7's *LuZamanZhaoSweep*, *UniformQuadraticZeroGap* `(3/1000)`
-(`banks2026siegel` Theorem 1.1, preprint, for `d_F ≥ 10¹⁰`; below `10¹⁰`, *LuZamanZhaoSweep* gives
-`(1 − β) log d_F ≥ 1/5`). Route: the
-`ζ_F` form of the supplier statements: for quadratic `F`, `ζ_F = ζ · L(s, χ_F)` with `χ_F`
+ExplicitZetaBounds §0.4b's `LuZamanZhaoRecord`, *UniformQuadraticZeroGap* `(3/1000)`
+(`banks2026siegel` Theorem 1.1, preprint, for `d_F ≥ 10¹⁰`; below `10¹⁰` the record gives
+`(1 − β) log d_F > 1/5` through the first instance of ExplicitZetaBounds §7.9). Route:
+the `ζ_F` form of the supplier statements: for quadratic `F`, `ζ_F = ζ · L(s, χ_F)` with `χ_F`
 primitive of conductor `d_F` (LFunctions Layer 4 `dedekindZetaC_quadratic`), and `ζ` has no zero in
-`(0, 1)`; by the agreement of 0.5, the first statement is the field form of Guo's
-*HasLandauSiegelGap* `(1/100) ∞` (`gap:uniform-landau-siegel-gap`), and the second that of
-ExplicitZetaBounds §7.9's *HasLandauSiegelGap* `(3.0·10⁻³) ∞`, which is ExplicitPrimeCounting's
-*BanksGap*. The proofs belong to the supplier; in the sources they compare
+`(0, 1)`; by the agreement of 0.5, the first statement is the field form of Guo's instance
+*HasLandauSiegelGap* `(1/100) ∞` of ExplicitZetaBounds §7.9, and the second that of Banks's
+instance *HasLandauSiegelGap* `(3.0·10⁻³) ∞` there, given `LuZamanZhaoRecord`, which the second
+statement therefore carries. The proofs belong to the supplier; in the sources they compare
 the archimedean size of a nonzero interpolation determinant, built over `ℚ(√d)` or over the
 biquadratic field `ℚ(√d, √2)`, with its divisibility by the primes that a real zero near `1`
 forces to be inert. `openai2026siegel` states the gap with an unspecified effective constant (the
@@ -1782,10 +2360,22 @@ Galois extension `N/K`), so `β` is a real zero of `ζ_N`, and the Galois case f
 `log d_N ≤ m_N log d_K` (§2.31d) gives the bound. These two statements are the targets; their
 instances at `c₀ = 1/100` are corollaries of Guo's gap.
 
+**Checks.**
+
+- The constants: Banks's Remark 7.1 computes `3.069…·10⁻³` for `q ≥ 10¹⁰`, and the computation
+  gives `1/5` below `10¹⁰`, so `3/1000` holds for every `F`; Guo's `1/100` is larger and needs no
+  computation.
+- `ℚ(ζ₇)⁺` (Galois cubic, `d_K = 49`, no quadratic subfield): no real zero of `ζ_K` is simple, so
+  there is none in `(1 − 1/(4 log 49), 1) = (0.9358, 1)` without any predicate; the Galois
+  statement adds nothing there.
+- `ℚ(√5)` and `ℚ(√−3)`: `L(σ, χ)` has no real zero in `(0, 1)`, and both statements are vacuous.
+- A non-Galois cubic field (`m_N = 6`) gets `(1 − β) log d_K ≥ c₀/6`; the factor `1/m_N` is the
+  cost of passing to the normal closure.
+- A version with `c₀ > 1/4` is not asserted: the route uses the alternative
+  `1 − β ≥ 1/(4 log d_K)` of 4.3.
+
 *Needs:* 0.5; 4.3; AnalyticNumberTheoryPartI §§2.31d, 2.39, 2.39b; LFunctions Layer 4;
-ExplicitZetaBounds §7.9; `gap:uniform-landau-siegel-gap`; ExplicitPrimeCounting §1.7
-(*LuZamanZhaoSweep*); Mathlib
-`normalClosure`.
+ExplicitZetaBounds §§0.4b, 7.9 (`LuZamanZhaoRecord`, for Banks's gap); Mathlib `normalClosure`.
 
 ### 4.10 Zero repulsion
 
@@ -1803,13 +2393,18 @@ Both take *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH* and *DGLSWPolynomialC
 (4.8); at the fields of *DGLSWSmallFieldGRH* their hypothesis cannot hold, since a real zero
 `β₁ ≥ 1 − ν/log d_K ≥ 1 − 1/(2 log 3)` would have `β₁ > 1/2`.
 
-Prove Kadiri–Ng–Wong's repulsion (`kadiringwong2019` Theorems 1.2–1.3 and Corollary 1.3.1): there
-are absolute constants `D₀` and `κ > 0` such that, for `d_K ≥ D₀` and a real zero `β₁` of `ζ_K`
-with `β₁ ≥ 1 − 1/(12.74 log d_K)`, every other zero `β' + iγ'` with `β' ≥ 1/2` and `|γ'| ≤ 1`
-satisfies `β' ≤ 1 − log(κ/((1 − β₁) log d_K))/(14.144 log d_K)`, and every other real zero
-`β' ∈ (0, 1)` satisfies `β' ≤ 1 − log(κ/((1 − β₁) log d_K))/(7.071998 log d_K)`; consequently there
-is an absolute `c > 0` with `1 − β₁ ≥ c d_K^{−7.072}` for every real zero `β₁` of `ζ_K` when
-`d_K ≥ D₀`. And Kadiri–Ng's repulsion (`kadiring2012` Theorem 4): for `d_K ≥ D₀` and a real zero
+Prove Kadiri–Ng–Wong's repulsion (`kadiringwong2019` Theorems 1.2–1.3 and Corollary 1.3.1, arXiv v1
+pp. 1–2): there are absolute constants `D₀` and `κ > 0` such that, for `d_K ≥ D₀`,
+
+- (Theorem 1.2) if `ζ_K` has a real zero `β₁ ≥ 1 − 1/(12.74 log d_K)`, the exceptional zero of
+  Kadiri's region of 4.5, every other zero `β' + iγ'` with `β' ≥ 1/2` and `|γ'| ≤ 1` satisfies
+  `β' ≤ 1 − log(κ/((1 − β₁) log d_K))/(14.144 log d_K)`;
+- (Theorem 1.3) for every real zero `β₁ ∈ (0, 1)` of `ζ_K`, exceptional or not, every other real
+  zero `β' ∈ (0, 1)` satisfies `β' ≤ 1 − log(κ/((1 − β₁) log d_K))/(7.071998 log d_K)`;
+- (Corollary 1.3.1) consequently there is an absolute `c > 0` with `1 − β₁ ≥ c d_K^{−7.072}` for
+  every real zero `β₁ ∈ (0, 1)` of `ζ_K`.
+
+And Kadiri–Ng's repulsion (`kadiring2012` Theorem 4): for `d_K ≥ D₀` and a real zero
 `β₁ = 1 − λ₁/log d_K` with `λ₁ < 1/12.74`, every zero `β' + iγ' ≠ β₁` with `|γ'| ≤ 1` has
 `(1 − β') log d_K ≥ min(0.6546 log(1/λ₁), (log log d_K)/13.85)`. Route: for `dglsw2025`, the
 argument of 4.8 with the exceptional zero kept in the explicit inequality; for
@@ -1818,16 +2413,32 @@ from Harnack's inequality for nonnegative harmonic functions; for `kadiring2012`
 smoothed explicit inequality (its Theorem 3) with the weight `φ = (1 − 1/√5)/2`; the corollary of
 `kadiringwong2019` applies the real-zero repulsion to `β' = 1 − β₁`.
 
+**Checks.**
+
+- With an exceptional zero at `ν = 1/20` the region `|t| ≤ 1` widens from `A(3) = 19.55293`
+  (4.8) to `A_{1/20}(3) = 3.316475`.
+- `7.071998 = 14.144/2` up to rounding: real zeros repel twice as strongly in these statements.
+- For quadratic `K`, 4.9 under the uniform gap gives `1 − β₁ ≥ c₀/log d_K`, far beyond
+  `d_K^{−7.072}`; the repulsion holds for every `K` with no predicate.
+- The thresholds of `kadiringwong2019` and `kadiring2012` are absolute and not computed; the
+  statements of `dglsw2025` have none.
+
 *Needs:* 4.3, 4.5, 4.8; ZerosOfLFunctions 5.6, 6.4; 1.1a;
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*.
+
+### Examples
+
+- `N_ℚ(15) = 2`; `150 ≤ N_{ℚ(i)}(100) ≤ 166`.
+- `ℚ(ζ₇)⁺`: `ζ_K ≤ 0` on `[0.7246, 1)`, and Stark's bound `κ > 0.001488` against `κ = 0.3003`.
+- A cubic field with `d_K = 23`: the region of 4.8 at `|t| = 1` is `σ ≥ 0.876`.
 
 ### Dependencies
 
 ZerosOfLFunctions Layers 4–7; LFunctions Layers 3 and 4; Layer 0 (0.5); Layer 1 (1.1, 1.1a);
-AnalyticNumberTheoryPartI §§2.31d, 2.31e, 2.39, 2.39b; ExplicitPrimeCounting §1.7;
-ExplicitZetaBounds (§§0.5, 2.1, 2.5, 5.1, 7.9, `gap:uniform-landau-siegel-gap`);
+AnalyticNumberTheoryPartI §§2.31d, 2.31e, 2.39, 2.39b;
+ExplicitZetaBounds (§§0.4b, 0.5, 2.1, 2.5, 5.1, 7.9);
 *KadiriDedekindPolynomialCertificate*, *MossinghoffTrudgianF16Certificate*,
-*DGLSWPolynomialCertificates*, *AmbergerMajorantCertificate*, *MinimalDiscriminantTable*,
+*DGLSWPolynomialCertificates*, *MinimalDiscriminantTable*,
 *DGLSWSmallFieldGRH*.
 
 ## Layer 5: class numbers
@@ -1846,6 +2457,16 @@ multiplied by the class-number formula, which is Mathlib's definition
 - the bound with the local factor at `2`: for `n ≥ 3`,
   `h_K R_K ≤ (w_K/2)(2/π)^{r₂} (Π_K(2)/2ⁿ)(e log d_K/(4n−4) · e^{n log 4/log d_K})^{n−1} √d_K`.
 
+**Checks.**
+
+- `K = ℚ(√5)`: `h R = log((1+√5)/2) = 0.4812`, `w = 2`, `r₂ = 0`: the bound is
+  `(e log 5/4) √5 = 1.0937 · 2.236 = 2.446`.
+- `K = ℚ(i)`: `h R = 1`, `w = 4`, `r₂ = 1`: `2 · (2/π) · (e log 4/4) · 2 = 2.40`;
+  `K = ℚ(√−3)`: `3 · (2/π) · (e log 3/4) · √3 = 2.47`.
+- The identity `κ_K/2ⁿ = (1/2)(e log d_K/(2n−2))^{n−1}/2^{n−1} = (1/2)(e log d_K/(4n−4))^{n−1}`
+  is what moves `2ⁿ` into the base; a form with `(e log d_K/(2n−2))^{n−1}` and the factor `w_K/2ⁿ`
+  outside is the same number.
+
 *Needs:* Mathlib `dedekindZeta_residue_def`, `card_add_two_mul_card_eq_rank`;
 AnalyticNumberTheoryPartI §2.15; 3.1; 3.2.
 
@@ -1855,14 +2476,29 @@ Prove Louboutin's abelian bound (`louboutin2005` lines 42–43, with Ramaré's b
 abelian of degree `n ≥ 2`,
 `h_K R_K ≤ (w_K/2)(2/π)^{r₂} (log d_K/(4n−4) + (5 − 2 log 6)/4)^{n−1} √d_K`, and its totally real
 case: for `K` abelian and totally real, `h_K R_K ≤ (log d_K/(4n−4))^{n−1} √d_K`. Route:
-`κ_K = ∏_{1 ≠ χ ∈ X(K)} L(1, χ)` (`dedekindZeta_residue_eq_prod_LFunction_one`, 0.4a), the
+`κ_K = ∏_{1 ≠ χ ∈ X(K)} L(1, χ)` (the residue comparison of CyclotomicClassGroupsAndStickelberger
+§3.4), the
 bounds
 `|L(1, χ)| ≤ (1/2) log f_χ + c_χ` with `c_χ = 0` for even and `5/2 − log 6` for odd `χ`,
 `Σ_{χ ≠ 1} log f_χ = log d_K` by the conductor–discriminant formula (`f_1 = 1`), and the
 arithmetic–geometric mean inequality over the `n − 1` nontrivial characters; for totally real `K`
 every character is even and `w_K = 2`, `r₂ = 0`.
 
-*Needs:* 0.4a; ClassFieldTheory Layer 13 (conductor–discriminant); ExplicitZetaBounds §9.1;
+**Checks.**
+
+- `K` imaginary quadratic: the first bound reads `h ≤ w√d_K ((1/2) log d_K + 5/2 − log 6)/(2π)`,
+  which is Ramaré's odd bound in the class-number formula `h = w√d_K L(1, χ)/(2π)`; for
+  `d_K = 163`, `h ≤ 2 · 12.77 · (2.547 + 0.708)/(2π) = 13.2`, and `h = 1`.
+- `K = ℚ(√5)`: `h R = 0.4812 ≤ (log 5/4)√5 = 0.899`, sharper than 5.1's `2.446` by the factor
+  `e^{n−1}`.
+- `K = ℚ(ζ₅)` (`n = 4`, `r₂ = 2`, `w = 10`, `d = 125`): the constant is
+  `(5 − 2 log 6)/4 = 0.3541`, and `5 · (4/π²) · (log 125/12 + 0.3541)³ · √125`
+  `= 5 · 0.4053 · 0.7565³ · 11.18 = 9.81 ≥ h R = 0.962`. The base is
+  `(1/2)(log d_K/(2n−2) + κ)` with `κ = (5 − 2 log 6)/2 = 0.7082` of `louboutin2005` line 43;
+  putting `κ` itself in place of `κ/2` next to `log d_K/(4n−4)` would give `31.0`.
+
+*Needs:* CyclotomicClassGroupsAndStickelberger §3.4; ClassFieldTheory Layer 13
+(conductor–discriminant); ExplicitZetaBounds §9.1;
 AnalyticNumberTheoryPartI §2.5; Mathlib `IsAbelianGalois`, `Real.geom_mean_le_arith_mean_weighted`.
 
 ### 5.3 Bordellès' regulator-free bounds
@@ -1892,6 +2528,19 @@ least `0.236`), while `n = 1` is `h_ℚ = 1`. The first form cannot serve here: 
 `d_K → ∞` its ratio to the third tends to `μ_K (n−1)!/4^{n−1} = n!(n−1)!/(nⁿ 4^{n−1})`, which is
 `0.90` at `n = 26` and `2.20` at `n = 27`.
 
+**Checks.**
+
+- `K = ℚ(√−14)`, `b ≈ 4.764`: `4.764 (1.561 + 0.577 + 0.210) = 11.2 ≥ h = 4`; the second form
+  needs `b ≥ 6` and does not apply; the third gives `2 √56 log 56 = 60.2`.
+- `K = ℚ`: `b = 1`, `n = 1`: the first form is `1 · (0 + γ + 1)⁰ = 1 = h`, and the third is
+  `(1/0!) · √1 · (log 1)⁰ = 1`, with `0⁰ = 1`, an equality.
+- `K = ℚ(√5)`, `n = 2`: the general-`a` form at `a = 2/log 5 = 1.243` gives
+  `1.121 · 2.236 · 1.609 = 4.03 ≥ 1`; at `a = 3` it is the `2^{n−1}` form.
+- The cubic field of discriminant `−23`: the third form gives
+  `(4/2) √23 (log 23)² = 2 · 4.796 · 9.832 = 94.3 ≥ h = 1`.
+- The fifth form at `n = 2`: `bordelles2006` states its Theorem 2.1 for `n ≥ 3` only, and no
+  statement is made at `n = 2`.
+
 *Needs:* 0.1, 0.3 (the class-number lemma and the Nicolas–Tenenbaum bound);
 ExplicitMultiplicativeFunctions §7.5 (with *PiltzRangeVerified*, *BordellesPiltzRangeVerified*), for
 the first, second and fifth forms only; Mathlib `abs_discr_ge'`.
@@ -1903,11 +2552,31 @@ quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for `n = 4`
 under ExplicitMultiplicativeFunctions' *DivisorPowerRangeVerified* `7560² (6·10⁵)`,
 `h_K ≤ (1/3) b_K (log b_K)³`.
 
+**Checks.**
+
+- Compared with 5.3's second form `2b (log b)³`, the constant improves by `6`; at `b = 193` both
+  need `Σ_{m ≤ 193} τ_4(m) ≤ (1/3) 193 (log 193)³ = 9376.9`, and the actual sum is `9333`.
+- `b_K < 193` is excluded; `ℚ(ζ₅)` has `b = (4/π)²(24/256)√125 = 0.15198 · 11.180 = 1.699` and
+  is outside the statement (its `h = 1`).
+- The hypothesis names the finite verification of the divisor remainder, not a verification about
+  `K`.
+
 Prove the cubic bound (0.3 with Tudzi's remainder of ExplicitMultiplicativeFunctions §7.9): for
 `n = 3` and `b_K ≥ 2`, under its *PiltzRemainderRangeVerified* `3 2 (1.1·10¹⁰)`,
 `h_K ≤ b_K P₃(log b_K) + 2.968 b_K^{2/3} (log b_K)^{1/3}`, with
 `P₃(y) = y²/2 + (3γ − 1)y + 3γ² − 3γ − 3γ₁ + 1`. Route: `h_K ≤ Σ_{m ≤ b_K} τ_3(m)` (0.3) and the
 remainder bound.
+
+**Checks.**
+
+- At `b = 1000`: `Σ_{m ≤ 1000} τ_3(m) = 29425`, the bound is `29964.2`, and 5.3's fifth form
+  `(b/2)(log b + 1)²` is `31266.3`; at `b = 100`: `1471` against `1552.3` and `1570.9`. At
+  `b = 10` the new bound (`66.4`) is above `(b/2)(log b + 1)² = 54.5`, so neither form dominates.
+- A cubic field has `b_K = (4/π)^{r₂}(2/9)√d_K`, so `b_K = 1000` needs `d_K ≈ 1.25·10⁷` when
+  `r₂ = 1`.
+- The polynomial is the residue of `ζ(s)³ xˢ/s` at `s = 1` in the convention
+  `ζ(s) = 1/(s − 1) + γ − γ₁(s − 1) + …`; with the opposite sign of `γ₁` the constant would be
+  `0.0494`, and the remainder at `x = 10⁶` would be `4.4·10⁵`, beyond Tudzi's bound `7.1·10⁴`.
 
 *Needs:* 0.1, 0.3; ExplicitMultiplicativeFunctions §§7.5, 7.9 (with
 *DivisorPowerRangeVerified*, *PiltzRemainderRangeVerified*).
@@ -1921,6 +2590,16 @@ by 0.4, `h⁻_K ≤ 2 Q_K w_K √Q (e log Q/(4πn))ⁿ`. Route: the positive Mel
 for `Λ_K` and `Λ_{K⁺}` with `Λ_K = Λ_{K⁺} Λ(·, η_K)`, the odd completion
 `Λ(s, η_K) = Q^{s/2} Γ_ℝ(s+1)ⁿ L(s, η_K)` of 0.4, optimised at `s = 1 + 2n/log Q`.
 
+**Checks.**
+
+- `K = ℚ(i)`: `2 · 1 · 4 · 2 · (e log 4/(4π))¹ = 16 · 0.2999 = 4.80 ≥ h⁻ = 1`;
+  `K = ℚ(√−3)`: `2 · 6 · √3 · (e log 3/(4π)) = 4.94`; `d_K = 163`: `2 · 2 · 12.77 · 1.102 = 56.3`;
+  `K = ℚ(√−5)` (`h⁻ = 2`, `w = 2`, `Q = 20`): `4 · √20 · (e log 20/(4π)) = 11.59 ≥ 2`.
+- `K = ℚ(ζ₈)`: `Q = 32`, `n = 2`: `2 · 8 · √32 · (e log 32/(8π))² = 90.5 · 0.1405 = 12.7 ≥ 1`, and
+  `L(1, η) = 0.8724 ≤ 2 (e log 32/4)² = 11.1`.
+- The exponent is `n`, not `n − 1`: the character is nontrivial and no pole is cancelled, exactly
+  as in 3.1.
+
 *Needs:* 0.4; AnalyticNumberTheoryPartI §2.15a, §2.22; LFunctions Layer 5.
 
 ### 5.6 Relative class numbers: lower bounds
@@ -1932,14 +2611,26 @@ Define `v_n = (n/(n−1))^{n−1}` for `n ≥ 2` and `v_1 = 1`, with `2 ≤ v_n 
 empty product gives `B_ℚ = 1`.
 
 - `v_n` increases to `e`: `v_2 = 2`, `v_3 = 2.25`, `v_n → e`.
-- `κ_k ≤ B_k` (`louboutin2003` line 316, (10)): `κ_k = ∏_{1 ≠ χ} L(1, χ)` by the residue product
-  of 0.4a, every `χ` is even, and `|L(1, χ)| ≤ (1/2) log f_χ` by
-  ExplicitZetaBounds §9.1.
+- `κ_k ≤ B_k` (`louboutin2003` line 316, (10)): `κ_k = ∏_{1 ≠ χ} L(1, χ)` by the residue
+  comparison of CyclotomicClassGroupsAndStickelberger §3.4, every `χ` is even (0.4a), and
+  `|L(1, χ)| ≤ (1/2) log f_χ` by ExplicitZetaBounds §9.1.
 - `B_k ≤ (v_n/2^{n−1}) (log ρ_k)^{n−1}` for `n ≥ 2` (lines 321–330): the arithmetic–geometric mean
   inequality and `Σ_{χ ≠ 1} log f_χ = log d_k` (conductor–discriminant).
 - If `ζ_k(β) = 0` for some `β ∈ [1/2, 1)`, then `κ_k ≤ (1 − β) (log f_k/4) B_k` (line 318, (11)),
-  from `|L(1, χ)| ≤ ((1 − β)/8) log² f_χ` for the even primitive `χ` with `L(β, χ) = 0`
-  (`louboutin2003` lines 337–339, Lemma 7(2), quoting `louboutin2001` Theorem 7) and `f_χ ≤ f_k`.
+  from `|L(1, χ)| ≤ ((1 − β)/8) log² f_χ` for an even primitive `χ ∈ X(k)` with `L(β, χ) = 0`,
+  which exists by the Euler product of continued functions of 0.4a (`louboutin2003` lines
+  337–339, Lemma 7(2), quoting `louboutin2001` Theorem 7), and `f_χ ≤ f_k`.
+
+**Checks.**
+
+- `k = ℚ`: `B_ℚ = 1 = κ_ℚ`; a definition over all of `X(k)`, the trivial character included, would
+  contain the factor `(log 1)/2 = 0` and give `B_k = 0 < κ_k` for every `k`.
+- `k = ℚ(√5)`: `X(k) = {1, χ₅}`, `B_k = (log 5)/2 = 0.8047 ≥ κ_k = 0.4304`.
+- `k = ℚ(ζ₇)⁺` (two cubic characters of conductor `7`):
+  `B_k = ((log 7)/2)² = 0.94664 ≥ κ_k = 0.3003`, and the mean-value bound `(v_3/4)(log 49^{1/3})² = 0.5625 · 1.68291 = 0.94664`
+  is attained, since the two conductors are equal; a definition with the conductor `f_k` of the
+  field in place of each `f_χ` agrees here but not for `ℚ(√5, √13)`, whose characters have
+  conductors `5, 13, 65`.
 
 Define *NoImaginaryQuadraticRealZero* `K c D` as: for every imaginary quadratic subfield `F ⊆ K`
 and every `β ∈ [1 − c/log D, 1)`, `ζ_F(β) ≠ 0`.
@@ -1951,6 +2642,17 @@ and every `β ∈ [1 − c/log D, 1)`, `ζ_F(β) ≠ 0`.
   `c/log D < 1/(c₀ √d_F)` for every imaginary quadratic `F ⊆ K` (the gap leaves the open interval
   `(1 − 1/(c₀ √d_F), 1)` zero-free).
 
+**Checks.**
+
+- `K = ℚ(ζ₅)`: its only quadratic subfield is `ℚ(√5)`, which is real, so the predicate is
+  vacuous; a definition over every quadratic subfield would ask about `L(s, χ₅)`.
+- `K = ℚ(i)`, `c = 2`, `D = d_K = 4`: the interval is `[1 − 2/log 4, 1) = [−0.443, 1)`; on
+  `(0, 1)`, `L(β, χ₋₄) > 0`; `ζ_F(0) = ζ(0) L(0, χ₋₄) = (−1/2)(1/2) = −1/4`; and on
+  `[−0.443, 0)`, `ζ < 0` and `L(β, χ₋₄) ≠ 0` by the functional equation, so the predicate holds.
+- Direction: the predicate at `c = 2` asks about a longer interval than at `c₂ = 1.0718`
+  (`[1 − 2/log D, 1) ⊃ [1 − 1.0718/log D, 1)`), so Theorem 9's hypothesis with `c = 2` for
+  abelian `K` implies the one with `c₂`, not conversely.
+
 Prove the passage from the uniform gap. If `0 < c₀ ≤ 1/4`, *UniformQuadraticZeroGap* `c₀`,
 `c > 0`, `D > 1`, and `c log d_F < c₀ log D` for every imaginary quadratic `F ⊆ K`, then
 *NoImaginaryQuadraticRealZero* `K c D`. Route: `c/log D < c₀/log d_F < 1`, so
@@ -1959,6 +2661,16 @@ Prove the passage from the uniform gap. If `0 < c₀ ≤ 1/4`, *UniformQuadratic
 Theorems 9 and 12 below hold as soon as `c log d_F < c₀ log d_K`, respectively
 `c₁ log d_F < c₀ log d_N`, for every imaginary quadratic `F ⊆ K`. Theorems 9, 12 and 13 keep their
 conditional form; this lemma is how the uniform gap enters.
+
+**Checks.**
+
+- Degrees: for `K` CM of degree `2n` and an imaginary quadratic `F ⊆ K`, `d_F^n ≤ d_K`, so the
+  condition with `D = d_K` holds once `n > c/c₀`: at `c₀ = 1/100` for `n ≥ 108` when `c = c₂` and
+  for `n ≥ 201` when `c = 2`. In the latter range Theorem 13's hypothesis of a common zero in
+  `[1 − 2/log d_K, 1)` cannot be met, and Theorem 13 is vacuous there.
+- `K = ℚ(i)`, `F = K`: `c log 4 < c₀ log 4` fails for every `c ≥ c₀`, and nothing is concluded,
+  consistently with the interval `[1 − 2/log 4, 1)` reaching below `0`, where the gap says
+  nothing.
 
 With `k = K⁺`, `ρ_k = d_k^{1/n}`, `ρ_K = d_K^{1/(2n)}`, and `(12)`, `(13)` the inequalities
 
@@ -2001,9 +2713,30 @@ the normal closure, Aramata's theorem (§2.39b) and `d_N ≤ d_K^{m_N}`, `m_N �
 Theorem 13, the gap hypothesis at `F` gives `1 − β ≥ 6/(π√d_F)`, `√d_F ≤ ρ_K` (since
 `d_F^n ≤ d_K`), 3.4(4) gives `κ_K ≥ (1−β) e^{−1}`, and `√(d_K/d_k)/ρ_K ≥ (d_K/d_k)^{1/2 − 1/n}`.
 
+**Checks.**
+
+- `n = 1` in Theorem 11: `K` imaginary quadratic, `k = ℚ`, `v_1 = 1`, `ρ_k = 1`, `log ρ_k = 0` and
+  `(πe log ρ_k)⁰ = 1`: `(12)` reads `h ≥ 2 w √d_K/(2π e log d_K)`, that is
+  `L(1, χ) ≥ 2/(e log d_K)`, asserted for `d_K = ρ_K² ≥ 2600² = 6.76·10⁶` under *CMPositivity*,
+  which here says `L(σ, χ) ≥ 0` on `(0, 1)`.
+- Negative control for the threshold: `K = ℚ(√−3)` satisfies *CMPositivity* (0.5, Checks), with
+  `Q = 1`, `w = 6`, `d_K = 3`; `(12)` with `c = 2` would give
+  `h ≥ 2 · 6 · √3/(2π e log 3) = 20.785/18.763 = 1.108 > 1 = h`, and `(13)` with `B_ℚ = 1` gives
+  the same `1.108`. The threshold excludes it (`ρ_K = √3 < 2600`). At `d_K = 163`
+  (`ρ_K = 12.77`, also excluded) the right side of `(12)` is `0.587`.
+- The second inequality of `(12)` (lines 409–413),
+  `h⁻_K ≥ (c/(2n v_n e^{c/2−1})) (√ρ_K/(πe log ρ_K))ⁿ`, follows from `Q w ≥ 2`,
+  `√(d_K/d_k) ≥ ρ_K^{n/2}`, `log d_K = 2n log ρ_K` and `ρ_k ≤ ρ_K`; it is a corollary, not a
+  separate target.
+- Theorem 13's bound has `(πe log ρ_K)^{n−1}` in the denominator: at `n = 3`, `ρ_K = 2800`,
+  `d_K/d_k ≥ ρ_K³`, the bound is `0.0823 · 53.0/4597 ≈ 9.5·10⁻⁴`, and it grows with `ρ_K`; the
+  same expression with the power in the numerator would force `h⁻ > 20000` for every such field.
+- The thresholds are `ρ_K ≥ 2800`, that is `d_K ≥ 2800^{2n}`; a threshold `d_K ≥ 2800ⁿ` is a
+  different, weaker hypothesis under which nothing is asserted.
+
 *Needs:* 0.4, 0.5 (*CMPositivity*, *ImaginaryQuadraticRealZeroGap*, *UniformQuadraticZeroGap*);
 3.1, 3.4; 4.3; 5.2's route; AnalyticNumberTheoryPartI §§2.15, 2.31d, 2.39, 2.39b; 0.4a;
-ClassFieldTheory Layer 13 (conductor–discriminant);
+CyclotomicClassGroupsAndStickelberger §3.4; ClassFieldTheory Layer 13 (conductor–discriminant);
 ExplicitZetaBounds §9.1; `louboutin2001` Theorem 7 (by locator, through `louboutin2003`
 Lemma 7(2)); Mathlib `normalClosure`.
 
@@ -2014,22 +2747,47 @@ field `ℚ`, preprint): for every `c₀ > 0` with *UniformQuadraticZeroGap* `c�
 that every Galois `K/ℚ` of degree `n ≥ 2` satisfies `h_K R_K ≥ C √d_K/((2π)ⁿ log d_K)`;
 equivalently `κ_K ≥ C 2^{r₁}(2π)^{r₂}/(w_K (2π)ⁿ log d_K)`. The constant depends only on `c₀` (the
 hypothesis is a predicate), and the proof is effective; the source gives no numerical value, and
-an explicit `C` is not a target. Route (`banks2026brauersiegel`): the source's bound for
-`Σ_{N𝔭 ≤ X} δ_𝔭 log N𝔭/N𝔭` over the primes of `K`, uniform over Galois `K` once `X ≥ d_K^C` (the
-tool of both of its theorems), together with the uniform gap at the quadratic subfields, to which
-a real zero close to `1` is moved by 4.3 and AnalyticNumberTheoryPartI §2.39 as in 4.9. The
-uniform Chebotarev-type bound is part of this target. The non-Galois case, the forms over a base
-field `k ≠ ℚ` with the source's constant `c(k)`, and the Artin-L generalisation of
+an explicit `C` is not a target. Route (`banks2026brauersiegel` §3.1, Lemma 3.3 and the proof of
+Theorem 1.3(ii), pp. 9–10, at the base field `ℚ`, where the source's `η_ℚ` is `1` since `ζ` has no
+zero in `(0, 1)`): replacing `c₀` by `min(c₀, 1/4)`, which *UniformQuadraticZeroGap* allows since it
+is antitone in `c`, 4.9's Galois real-zero bound gives `(1 − β) log d_K ≥ c₀` for every real zero
+`β ∈ (0, 1)` of `ζ_K`; Stark's Lemmas 2–4 in the form of AnalyticNumberTheoryPartI §2.31e,
+`κ_K ≥ c min(1/log d_K, 1 − β_K)` with `c` absolute (`banks2026brauersiegel` Lemma 3.3), then give
+`κ_K ≥ c c₀/log d_K`, whether or not `ζ_K` has a real zero in Stark's rectangle; and Mathlib's
+`κ_K = 2^{r₁}(2π)^{r₂} R_K h_K/(w_K √d_K)` with `w_K ≥ 1` and `2^{r₁}(2π)^{r₂} ≤ (2π)ⁿ` gives the
+bound with `C = c min(c₀, 1/4)`. The source's uniform bound for Chebotarev sums (its Theorems
+1.4–1.5) enters only through its proof of the gap (its Theorem 1.1 and Corollary 1.2), which this
+statement takes as the hypothesis *UniformQuadraticZeroGap* `c₀`. The non-Galois case, the forms
+over a base field `k ≠ ℚ` with the source's constant `c(k)`, and the Artin-L generalisation of
 `cholemkeoliverzaman2025` are not stated; the ineffective Brauer–Siegel theorem stays with
 AnalyticNumberTheoryPartI.
 
-*Needs:* 0.5 (*UniformQuadraticZeroGap*); 4.3; 4.9's route; AnalyticNumberTheoryPartI §§2.31d,
-2.39; Mathlib `dedekindZeta_residue_def`, `classNumber`, `Units.regulator`.
+**Checks.**
+
+- `K` imaginary quadratic: `R_K = 1` and the bound reads `h_K ≥ C √d_K/(4π² log d_K)`, the
+  effective form of Siegel's theorem, equivalent to `L(1, χ_K) ≥ C'/log d_K`.
+- `K = ℚ` is excluded: `log d_ℚ = 0`.
+- The constant at Guo's `c₀ = 1/100` is `C = c/100`, the source's `c₃(ℚ) = c₂ min(1/4, c(ℚ), η_ℚ)`
+  with `c(ℚ) = 1/100` and `η_ℚ = 1`; when `ζ_K` has no real zero in Stark's rectangle the residue
+  bound is `c/log d_K`, larger than `c c₀/log d_K`, so the worst case of the route is a real zero
+  with `(1 − β) log d_K = c₀`.
+- Against 4.7 under the same predicate: Stark's second clause decays like `d_K^{−1/n}`, this one
+  like `(log d_K)^{−1}`, for Galois `K` only.
+
+*Needs:* 0.5 (*UniformQuadraticZeroGap*); 4.9 (the Galois real-zero bound);
+AnalyticNumberTheoryPartI §2.31e (Stark's Lemmas 2–4); Mathlib `dedekindZeta_residue_def`,
+`classNumber`, `Units.regulator`.
+
+### Examples
+
+- `ℚ(√5)`: `h R = 0.4812`, bounds `2.446` (5.1) and `0.899` (5.2).
+- `ℚ(√−14)`: `h = 4`, Bordellès' first bound `11.2`, the third `60.2`.
+- `ℚ(ζ₈)`: `h⁻ = 1`, upper bound `12.7`.
 
 ### Dependencies
 
 Layers 0 (with 0.4a), 3, and 4.3, 4.9; AnalyticNumberTheoryPartI §§2.5, 2.15, 2.15a, 2.22, 2.31d,
-2.39, 2.39b; ClassFieldTheory Layer 13;
+2.31e, 2.39, 2.39b; ClassFieldTheory Layer 13; CyclotomicClassGroupsAndStickelberger §3.4;
 ExplicitMultiplicativeFunctions §§7.5, 7.9; ExplicitZetaBounds §9.1.
 
 ## Layer 6: least primitive roots
@@ -2045,6 +2803,19 @@ generates `G` iff no prime `q ∣ m` has `x ∈ G^q`; the indicator of `G^q` is 
 and inclusion–exclusion over the squarefree divisors with `Σ_{χ^d = 1} χ = Σ_{e ∣ d} Σ_{ord χ = e} χ`
 gives the Möbius coefficients.
 
+**Checks.**
+
+- `G` trivial (`m = 1`): the only element generates, and the right side is `1 · 1 · 1 = 1`.
+- `G = ℤ/2`: generators `{1}`; at `x = 1`: `(1/2)(1 + (−1)(−1)) = 1`; at `x = 0`:
+  `(1/2)(1 + (−1)(1)) = 0`.
+- `G = ℤ/6`: `φ(6)/6 = 1/3`; at `x = 1` the sum is
+  `1 + (−1)(−1) + (−1/2)(ω + ω²) + (1/2)(−ω − ω²) = 1 + 1 + 1/2 + 1/2 = 3`, giving `1`; at `x = 2`
+  (order `3`): `1 + (−1)(1) + (−1/2)(ω² + ω) + (1/2)(ω² + ω) = 0`.
+- A non-cyclic group (`ℤ/2 × ℤ/2`, `m = 4`) has no generators and is outside the statement: the
+  formula would give `(φ(4)/4)(1 + (μ(2)/φ(2)) Σ_{ord χ = 2} χ(x)) = (1/2)(1 − Σ_{χ ≠ 1} χ(x))`
+  (the term `d = 4` has `μ(4) = 0`), which is `(1/2)(1 − 3) = −1` at `x = 0` and `(1/2)(1 + 1) = 1`
+  at each `x ≠ 0`, not the indicator `0`.
+
 *Needs:* Mathlib `IsCyclic`, `MonoidHom`, `orderOf`, `ArithmeticFunction.moebius`, `Nat.totient`,
 character orthogonality for finite abelian groups.
 
@@ -2052,10 +2823,13 @@ character orthogonality for finite abelian groups.
 
 With `S(X) = X Σ_{q ≤ X} φ(q)/q − Σ_{q ≤ X} φ(q)` and `T(X) = Σ_{q ≤ X} φ(q)`
 (`mcgowntrudgian2020` lines 284–297), prove McGown–Trudgian's interval count (`mcgowntrudgian2020`
-lines 201–234, Proposition 3): under *McGownTrudgianMoebiusChecks* and the finite verifications of
-the four bounds of ExplicitMultiplicativeFunctions §§2.3, 2.5 and 7.1 that its route uses (every
-later theorem of this layer that uses the interval count carries them with
-*McGownTrudgianMoebiusChecks*), for a prime `p`, real `H ∈ (0, p)`, an integer `h ≥ 2`,
+lines 201–234, Proposition 3): under *McGownTrudgianMoebiusChecks* and the finite verifications
+under which ExplicitMultiplicativeFunctions §§2.3, 2.5 and 7.1 state the four bounds its route
+uses, *MoebiusDivRangeVerified* (with *MoebiusAbsIntegralLE* and the inputs of that roadmap's
+§§1.5 and 1.7), *MoebiusRangeVerified* with `MoebiusTableVerified`, *SquarefreeRangeVerified*,
+*SquarefreeRangeVerifiedNat* and *SquarefreeReciprocalRangeVerified*, at the instances listed in
+*Computational hypotheses* (every later theorem of this layer that uses the interval count carries
+them with *McGownTrudgianMoebiusChecks*), for a prime `p`, real `H ∈ (0, p)`, an integer `h ≥ 2`,
 `X = H/h ≥ 2` with `2HX < p`, the intervals `I(q, t) = (tp/q, (tp + H)/q − h + 1]` and
 `J(q, t) = [(tp − H)/q, tp/q − h + 1)` for `0 ≤ t < q ≤ X`, `gcd(t, q) = 1`, are pairwise disjoint
 subsets of `[−H, p − H)`; for `0 ≤ m < h`, `z ∈ I(q, t)` gives `q(z + m) − tp ∈ (0, H]` and
@@ -2070,10 +2844,28 @@ for `X ≥ 2` (lines 300–353), whose initial ranges are *McGownTrudgianMoebius
 `Σ_{d ≤ X} μ²(d) ≤ 6X/π² + 0.679091 √X` and `Σ_{d ≤ X} μ²(d)/d ≤ (6/π²) log X + 2`
 (ExplicitMultiplicativeFunctions §§2.3, 2.5, 7.1).
 
+**Checks.**
+
+- *McGownTrudgianMoebiusChecks* at its first points: `S(1) = 1 · 1 − 1 = 0` and
+  `|0 − 3/π²| = 0.304 ≤ 2/3`; `T(2) = φ(1) + φ(2) = 2` and `|2 − 12/π²| = 0.784 ≤ 2 log 2 = 1.386`.
+  With `X Σ_{q ≤ X} φ(q)/q` alone in place of `S(X)` the first would read
+  `|1 − 0.304| = 0.696 > 2/3`.
+- `X = 2`: the pairs `(t, q)` with `0 ≤ t < q ≤ 2` and `gcd(t, q) = 1` are `(0, 1)` and `(1, 2)`,
+  that is `(q, t) = (1, 0)` and `(2, 1)` (`(t, q) = (0, 2)` has `gcd = 2`);
+  `A(2) = 1 − π²/9 = −0.097 < 0`, so the lower bound is vacuous at the threshold, and
+  `B(2) = 1 + 1.097 + 1/h + 1.140/h`.
+- `h = 2`, `H = 4`, `p = 101` (`X = 2`, `2HX = 16 < 101`): `I(1, 0) = (0, 3]`, `J(1, 0) = [−4, −1)`,
+  `I(2, 1) = (50.5, 51.5]`, `J(2, 1) = [48.5, 49.5)`: four disjoint intervals
+  with `3 + 3 + 1 + 1 = 8` integers; `B(2) = 3.1667` and
+  `B(2) (6/π²) X² h = 3.1667 · 0.6079 · 8 = 15.40 ≥ 8`; here `S(2) = 2(1 + 1/2) − 2 = 1` and `T(2) = 2`, and `2hS = 4 ≤ 8 ≤ 2hS + 2T = 8`.
+- `2HX ≥ p` is excluded: with `p = 7`, `H = 4`, `h = 2` (`2HX = 16 > 7`), the interval
+  `[(p − H)/2, (p + H)/2] = [1.5, 5.5]` of `(q, t) = (2, 1)` meets `[−4, 4]` of `(1, 0)`, and
+  disjointness fails: `2` lies in `J(2, 1) = [1.5, 2.5)` and in `I(1, 0) = (0, 3]`.
+
 *Needs:* Mathlib `ArithmeticFunction.moebius`, `Nat.totient`, `Int.floor`;
-*McGownTrudgianMoebiusChecks*; ExplicitMultiplicativeFunctions §§2.3, 2.5 and 7.1 (the bounds for
-`Σ_{d ≤ X} μ(d)/d`, `Σ_{d > X} μ(d)/d²`, `Σ_{d ≤ X} μ²(d)` and `Σ_{d ≤ X} μ²(d)/d`, with their
-finite verifications).
+*McGownTrudgianMoebiusChecks*; ExplicitMultiplicativeFunctions §§1.2, 2.3, 2.5 and 7.1 (the bounds
+for `Σ_{d ≤ X} μ(d)/d`, `Σ_{d > X} μ(d)/d²`, `Σ_{d ≤ X} μ²(d)` and `Σ_{d ≤ X} μ²(d)/d`, with the
+finite verifications of its Layer 0.7 named above).
 
 ### 6.3 The least primitive root modulo `p`
 
@@ -2084,7 +2876,8 @@ For integers `0 ≤ s < ω` put `δ_{ω,s} = 1 − Σ_{ω−s < i ≤ ω} 1/q_i`
 Prove McGown–Trudgian's main criterion (lines 421–430, Theorem 3): under
 *McGownTrudgianMoebiusChecks* (through 6.2), for an odd prime `p`, an even divisor `e` of
 `p − 1`, the primes `p₁, …, p_s` dividing `p − 1` but not `e`, `δ = 1 − Σ 1/p_i > 0`, integers
-`r, h ≥ 2` and real `H ≥ 2h` with `2H² < hp`, `X = H/h`: if
+`r ≥ 1` and `h ≥ 2` and real `H ≥ 2h` with `2H² < hp`, `X = H/h` (`mcgowntrudgian2020` lines 416
+and 423: `r, h` positive integers with `h ≥ 2`): if
 `(π²/6) B(X)^{2r−1} A(X)^{−2r} ((2 + (s−1)/δ) 2^{ω(p−1)−s})^{2r} h √p W(p, h, r) < H²`, where
 `W(p, h, r)` is the Burgess moment constant (`Σ_x |Σ_{m<h} χ(x+m)|^{2r} ≤ W(p, h, r) √p h^{2r}`,
 line 420, from Burgess's moment bound of ExplicitCharacterSumsAndSieves §4.1), then `g(p) < H`. Route: if no primitive root lies
@@ -2115,6 +2908,28 @@ Grosswald's bound outside the gap (`mcgownsorenson2024` Theorem 1): under the sa
 hypotheses, `g(p) < √p − 2` for every prime `p > 409` outside `(10¹⁶, 10⁵⁶)`. Route: for
 `p ≤ 10¹⁶` the table; for `10¹⁶ < p < 10²²` the alternative (i) with the main criterion; for
 `p ≥ 10²²` Corollary 1; for Grosswald's bound the table below `10¹⁶` and Corollary 2 from `10⁵⁶`.
+
+**Checks.**
+
+- The second inequality of Corollary 2, `0.999√p < √p − 2`, holds iff `√p > 2000`, that is
+  `p > 4·10⁶`, so it is a triviality in the range `p ≥ 10⁵⁶`.
+- Corollary 1 at `r = 2`: `2² 2^{2ω} p^{3/8} < p^{5/8}` iff `2^{2ω+2} < p^{1/4}`, which for
+  `p ≥ 10²²` needs `ω(p−1) ≤ 8`; larger `ω` is handled by Theorem 2 with `s > 0` and by (a).
+- `p = 3`: `g(3) = 2`, outside every range; Theorem 3 at `p = 3` has `h ≥ 2`, `H ≥ 4`,
+  `2H² ≥ 32 > hp = 6`, so no admissible parameters exist and nothing is asserted.
+- `δ ≤ 0` is excluded: with `e = 2` and `p − 1` divisible by the first ten primes `2, 3, …, 29`
+  (by `6469693230`), the primes dividing `p − 1` but not `e` include `3, …, 29` and
+  `Σ 1/p_i ≥ 1.0334 > 1`; with only the primes `3, …, 23` the sum is `0.99896` and `δ = 0.00104 > 0`,
+  so the first nine primes alone do not force `δ ≤ 0`.
+- `p > 3` is sharp in McGown–Sorenson's bound: `g(3) = 2 > 3^{5/8} = 1.987`; the small primes are
+  the tight cases (`g(7) = 3 < 3.374`, `g(23) = 5 < 7.10`, `g(409) = 21 < 42.9`), while at the
+  record `p = 6525032504501281`, `g(p) = 417` is far below `p^{5/8}`.
+- The unconditional Grosswald range: the clause of Cohen–Oliveira e Silva–Trudgian above
+  `3.67·10⁷¹` and the finite range up to `2.5·10¹⁵` leave a gap that the table and Corollary 2
+  shrink to `(10¹⁶, 10⁵⁶)`.
+- `mcgownsorenson2024` Theorem 5 tabulates exponents below `5/8` with thresholds, for instance
+  `g(p) < p^{0.62}` for `p > 1.91·10²³` and `g(p) < p^{0.58}` for `p > 8.21·10³⁴`; they rest on
+  further case analyses and are not targets.
 
 *Needs:* 6.1, 6.2; *McGownTrudgianMoebiusChecks*, *McGownTrudgianOmegaChecks*,
 *McGownTrudgianWindowCheck*, *McGownSorensonTable*, *McGownSorensonGapChecks*;
@@ -2154,6 +2969,35 @@ irrational); the range `2791 < p < 2.5·10¹⁵` for `ĝ` is *GrosswaldPrimeFini
 and the clause on `g`
 follows from the clause on `ĝ` above `2791` (`g(p) ≤ ĝ(p)`) and from *GrosswaldFiniteRange* on
 `409 < p ≤ 2791`.
+
+**Checks.**
+
+- `p = 409`: `g(409) = 21 > √409 − 2 = 18.22`, so the conjecture starts after `409`;
+  `p = 2791`: `ĝ(2791) = 53 > √2791 − 2 = 50.83` (the prime `2791` is Grosswald's last exception
+  for `ĝ`), so the second clause starts after `2791`. There `g(2791) = 6`: the computation for `g`
+  says nothing about `ĝ`, which is why *GrosswaldPrimeFiniteRange* is a separate predicate; at
+  `p = 11971`, `g(p) = 10` and `ĝ(p) = 79 < √p − 2 = 107.41`.
+- `p = 10⁹ + 7`: `p − 1 = 2 · 500000003` with `500000003` prime, so `ω(p − 1) = 2` and
+  `leastPrimePrimitiveRoot_le_grh` gives `ĝ(p) ≤ ((8/5) · 3 · 20.723)² = 9895 < √p − 2 = 31620.8`,
+  Grosswald's bound directly. `p = 1000000021`: `p − 1 = 2² · 3 · 5 · 19 · 739 · 1187`,
+  `ω(p − 1) = 6`, and Theorem 2 gives `((8/5) · 63 · 20.723)² = 4.36·10⁶`, far above
+  `√p − 2 = 31620.8`; the sieved Theorem 3 is what reaches `√p − 2` there.
+- `GRHMod p` is the hypothesis for every character modulo `p`, including the principal one
+  (Bach's principal bound needs `RiemannHypothesis`, which `GRHMod p` gives), and not
+  `DedekindERH ℚ(ζ_p)` by name, although the two are equivalent (0.5).
+- *GrosswaldSieveVerification* at `ω(p − 1) = 14`: `p − 1 ≥ q₁ ⋯ q₁₄ = 1.308·10¹⁶`; with `e` the
+  part of `p − 1` prime to its `11` largest prime factors, `δ ≥ 1 − Σ_{4 ≤ i ≤ 14} 1/q_i ≥ 0.39296`
+  (the sum is `0.607037`, so rounding `δ` up to `0.3930` would overstate it) and the second
+  alternative holds for every `p ≥ 1.71·10¹⁶` (at `p = 1.71·10¹⁶` with `δ = 0.39296` the left side
+  is `1.30740·10⁸` against `√p − 2 = 1.30767·10⁸`, with `c(p, √p − 2) = 0.6966`, and the ratio of
+  the two sides decreases in `p` from there; at `p = 1.709·10¹⁶` the left side `1.30734·10⁸`
+  exceeds `√p − 2 = 1.30729·10⁸`, so the alternative first holds between the two). This is the
+  source's window `(1.30·10¹⁶, 1.71·10¹⁶)` (line 215), inside which the case split leaves no
+  candidate, so at `ω = 14` the predicate holds through its second alternative alone.
+- The second alternative is a statement about the prime factors of `p − 1` only; Theorem 3, under
+  `GRHMod p`, is what turns it into `ĝ(p) < √p − 2`, so the theorem uses the generalized Riemann
+  hypothesis only through Theorems 2 and 3. A predicate asserting `ĝ(p) < √p − 2` on the whole
+  range would contain the conclusion there.
 
 *Needs:* 6.1; 0.5 (`GRHMod`), 0.6; `gap:bach-grh-smoothed-sum`; ExplicitMultiplicativeFunctions
 §9.1 (with *PrimorialTableVerified*); *GrosswaldFiniteRange*, *GrosswaldPrimeFiniteRange*,
@@ -2227,11 +3071,43 @@ whenever `p − 1 < q₁ ⋯ q_{k+1}`, so `ω(p − 1) ≤ 105` up to `10²³⁴
 exceeds the subtracted ones by a factor above `900`, and from `10²⁷⁴` on Robin's bound
 (ExplicitMultiplicativeFunctions §9.1), under which the factor is above `2`.
 
+**Checks.**
+
+- `p = 2`: `h(2) = 3 > 2^{0.99} ≈ 1.99`, so Kerr–McGown–Trudgian's bound is false at `2` and is
+  stated for odd `p` (line 25); `p = 3`: `h(3) = 2 < 3^{0.99} = 2.97`.
+- The exponent cannot go below `log 2/log 3 ≈ 0.6309`, since `h(3) = 2 = 3^{0.6309}` (lines
+  51–53). At `p = 3`, `h(3) = 2 < 3^{2/3} = 2.080` (and `< 3^{0.661} = 2.067`), the tightest case
+  of McGown–Sorenson's bound; Chen's `h(p) < p^{0.74}` (`chen2022` Theorem 1.1) and the `0.99`
+  above follow.
+- `mcgownsorenson2024` Theorem 4 is printed for every prime, but `h(2) = 3 > 2^{2/3} = 1.587`;
+  likewise its Theorem 2 lists only `40487` and `6692367337` as primes `p ≤ 10¹⁶` with
+  `g(p) ≠ h(p)`, while `g(2) = 1 ≠ h(2) = 3`. Both statements are for odd `p`, as in
+  *PaszkiewiczTable* and *SmallPrimitiveRootsModPSquare*.
+- `p = 40487`: `g = 5` is not a primitive root modulo `p²` and `h(p) = 10`; `10 < 40487^{0.99}`,
+  which is *SmallPrimitiveRootsModPSquare* at that prime.
+- The Pólya–Vinogradov constant at `q₀ = 10¹²`: `A(q₀) = 0.159155 + 0.029691 + 0.000000037 =
+  0.188846`, and at `q = 10¹²`, `A(q₀)√q log q = 5.21801·10⁶` equals Lapkova's odd bound
+  `(1/(2π))√q log q + 0.8204√q + 1.0285` there, while the source's `0.16` falls `15%` below it.
+  With `A = 0.1889` condition (3) of `kerrmcgowntrudgian2020` (line 286) still holds for every
+  `p ≥ 10¹²` (`s = 0` for `p ≥ 10¹⁵` and for `ω(p − 1) ≤ 8`, `s = 7` for `9 ≤ ω(p − 1) ≤ 13`): its
+  left side is at least `8.1 p^{0.7475}` with Rosser–Schoenfeld's bound for `e/φ(e)`, the smallest
+  margin being at `ω(p − 1) = 9` and `p = 10¹²`; so the route survives the corrected constant.
+- Negative control for `X < p` in the count of `p`-th powers: `p = 3`, `ε = 1/2`, `z = 4`
+  (`P_z = 6`), `X = 1000`: the cubes modulo `9` coprime to `3` are `±1`, and the integers
+  `m ≤ 1000` coprime to `6` with `m ≡ ±1 (mod 9)` are those `≡ 1, 17 (mod 18)`, `111` of them,
+  against `√3 · 1000^{1/2} = 54.77`. For `X < 3` the count is at most `1` (only `m = 1`), below
+  `√3 X^{1/2} ≥ √3`.
+
 *Needs:* 6.1; 0.6; *PaszkiewiczTable*, *SmallPrimitiveRootsModPSquare*, *GrosswaldFiniteRange*,
 *McGownSorensonTable*, *McGownSorensonGapChecks*; ExplicitCharacterSumsAndSieves §3.5 (with
 *LapkovaSmallModuliVerified* of its §6.1); ExplicitMultiplicativeFunctions §§9.1, 9.4
 (with *PrimorialTableVerified*, *PrimorialTotientTableVerified*); `chen2022` by locator; Mathlib
 `ZMod.isCyclic_units_of_prime_pow`, `Nat.Coprime`.
+
+### Examples
+
+- `g(7) = 3`, `h(7) = 3`; `g(409) = 21`, `ĝ(409) = 29`; `h(40487) = 10`.
+- `ℤ/6`: the sieve identity evaluated at every element.
 
 ### Dependencies
 
@@ -2272,6 +3148,23 @@ third statements by partial summation and the Euler product, and (M2) from the s
 being at least `−n/(p(p − 1))`, with `Σ_p 1/(p(p−1)) < 1`. No zero of `ζ_K` enters, so no
 exceptional zero appears in the error terms.
 
+**Checks.**
+
+- `K = ℚ(i)`: `γ + log(π/4) − 2 = −1.664 ≤ M_K ≤ γ + log(π/4) = 0.336`; `Λ_K` is of order
+  `5·10³⁰`, so the statements are far from sharp but hold for every `x ≥ 2`; at `x = 2` the only
+  prime is `(1 + i)` of norm `2`, and the first sum is `(log 2)/2 = 0.347`, against `log 2`.
+- At `K = ℚ` the formula for `M_K` gives `γ + Σ_p (1/p + log(1 − 1/p)) = 0.2615`, the
+  Meissel–Mertens constant of 3.5; the theorem itself needs `n ≥ 2`, since `Υ_K` divides by
+  `n − 1`.
+- A version with `Σ_{N𝔭 ≤ x} log N𝔭/(N𝔭 − 1)` (prime powers included) differs by a convergent
+  sum and is not the statement.
+- The normalisation of the product: at `K = ℚ(i)` and `x = 10` the primes of norm at most `10`
+  are `(1 + i)`, the two primes above `5` and `(3)`, the product is
+  `(1/2)(4/5)²(8/9) = 0.2844`, and `e^γ κ_K log x` times it is `0.9162`, so the left side of the
+  third bullet is `0.0838`; with `e^{−γ}` in place of `e^γ` the same expression is `0.2888` and
+  does not tend to `1`. At `K = ℚ` (outside the theorem, which needs `n ≥ 2`) and `x = 10⁶`,
+  `e^γ log x ∏_{p ≤ x} (1 − 1/p) = 0.99996`, Mertens' third theorem.
+
 *Needs:* 2.2; LFunctions Layer 8 (the series expression of the constant, for (M2)); Tau Ceti
 `TauCeti.primesLE`, `TauCeti.LFunctions.mertensConstant`; Mathlib `dedekindZeta_residue_def`,
 `Ideal.absNorm`.
@@ -2297,6 +3190,19 @@ bounded by the explicit zero counts of the source's appendix for Hecke L-functio
 terms by the digamma remainders of 1.1a, and for `L = ℚ`, `x > 73.2`, Schoenfeld's `ψ` bound
 (ExplicitPrimeCounting §2.2, under `RiemannHypothesis`, which `DedekindERH ℚ` gives, and the two
 predicates).
+
+**Checks.**
+
+- `K = L = ℚ(i)`, `x = 100`: `ψ_K(100) = 93.93`, so `|ψ_K(100) − 100| = 6.07`, against the bound
+  `94.76`.
+- `L = ℚ`: `n_L = 1`, `d_L = 1`, and the bound is `√x ((log x)²/(8π) + 2)`, weaker than
+  Schoenfeld's `√x (log x)²/(8π)` by the term `2√x`; the source notes that the constants `+2` can
+  be traded for an additive `40`.
+- `greniemolteni2019` §1 records that Corollary 1.4 of `greniemolteni2016` (the prime ideal
+  theorem for `π_K` under GRH) was misstated there and displays the corrected form; the
+  correction is not restated here, and the `π_C` form above covers the case `L = K`.
+- No threshold: the inequalities hold for every `x ≥ 1`, which is why the small cases are a
+  predicate.
 
 *Needs:* ZerosOfLFunctions 5.6, 7.5, Layer 9; LFunctions Layers 3 and 5; AnalyticNumberTheoryPartI
 §2.42 (`DedekindERH`); 1.1a; ExplicitPrimeCounting §2.2 (with
@@ -2327,6 +3233,20 @@ where the term `x^{β₀−1}/β₀` is present only if `ζ_L` has a zero `β₀
 4.2 for the low-lying zeros; and explicit bounds for the sums over the zeros, with the parameters
 `m = 1`, `T₀ = t₀ = 40` of the source.
 
+**Checks.**
+
+- `L = ℚ(i)`, `K = ℚ`: the first range is `log x ≥ 2915 (log 4)²/2 = 2801`, `λ_L = 1.961`, and at
+  `log x = 2801` the last term is `9.3·10⁻⁴`; there is no `β₀`, since `ζ_ℚ(i) = ζ · L(s, χ₋₄)` has
+  no real zero in `(0, 1)`.
+- For `L/ℚ` Galois with no quadratic subfield there is no `β₀` (4.3 and AnalyticNumberTheoryPartI
+  §2.39); for `L/ℚ` Galois and *UniformQuadraticZeroGap* `c₀` with `c₀ ≤ 1/4`, 4.9 gives
+  `x^{β₀−1} ≤ e^{−c₀ log x/log d_L}`.
+- The range `log x ≫ (log d_L)²/n_L` is `n_L²` times wider than Lagarias–Odlyzko's
+  `n_L (log d_L)²`; Winckler's unpublished constant in the second form was
+  `1.51·10¹² e^{−0.014 √(log x/n_L)}` for `log x ≥ 1545 n_L (log d_L)²`. Thorner and Zaman's wider
+  range `log x ≫ (log d_L)(log log d_L) + n_L (log n_L)²` has uncomputed constants and is not a
+  target.
+
 *Needs:* 4.2, 4.3, 4.6 (with *MossinghoffTrudgianF16Certificate*), 4.8 (with
 *MinimalDiscriminantTable*, *DGLSWSmallFieldGRH*, *DGLSWPolynomialCertificates*);
 ZerosOfLFunctions 5.6, 6.4; 1.1a; Tau Ceti `frobeniusPsi`; Mathlib
@@ -2337,8 +3257,10 @@ ZerosOfLFunctions 5.6, 6.4; 1.1a; Tau Ceti `frobeniusPsi`; Mathlib
 Prove `leastPrimeIdeal_ahnKwon` (`ahnkwon2019` Theorem 1): for a Galois extension `L/K` of number
 fields with `L ≠ ℚ` and a conjugacy class `C` of `Gal(L/K)`, there is a prime `𝔭` of `K` in Tau
 Ceti's `frobeniusPrimeSet K L C` (unramified in `L`, with `σ_𝔭 = C`) whose absolute norm `N𝔭` is a
-rational prime with `N𝔭 ≤ d_L^{12577}`; Kadiri–Ng–Wong's bound (`kadiringwong2019` Theorem 1.1):
-there is an absolute `D₀` such that for `d_L ≥ D₀` such a prime exists with `N𝔭 ≤ d_L^{16}`; and
+rational prime with `N𝔭 ≤ d_L^{12577}`; `leastPrimeIdeal_kadiriNgWong`, Kadiri–Ng–Wong's bound
+(`kadiringwong2019` Theorem 1.1, arXiv v1 p. 1, which states it for `d_L` sufficiently large and a
+prime of degree one): there is an absolute `D₀` such that for every such `L/K` and `C` with
+`d_L ≥ D₀` such a prime exists with `N𝔭 ≤ d_L^{16}`; and
 Bach–Sorenson's bound (`bachsorenson1996`, as quoted in (1.4) of `thornerzaman2017`): under *GRH*
 for the Hecke L-functions (ZerosOfLFunctions Layer 9), such a prime exists with
 `N𝔭 ≤ (4 log d_L + 2.5 n_L + 5)²`. Route: the method of Lagarias, Montgomery and Odlyzko, which
@@ -2348,6 +3270,20 @@ the explicit formula, with explicit zero-free regions, zero counts and zero repu
 in place of 4.8's); `kadiringwong2019` uses 4.10's repulsion, from its version of Turán's
 power-sum method with Harnack's inequality (the proof gives the exponent `15.72`). The
 Bach–Sorenson bound is the explicit formula under *GRH*.
+
+**Checks.**
+
+- `L = ℚ(i)`, `K = ℚ`, `C` complex conjugation: the least such prime is `3`; the bounds are
+  `4^{12577}`, and `(4 log 4 + 5 + 5)² = 241.7` under *GRH*; for `C` the identity the least is `5`.
+- `L = ℚ` is excluded: `d_ℚ = 1` and the bound `N𝔭 ≤ 1` cannot hold; for `L = K ≠ ℚ` (`G = 1`) the
+  statement asks for a degree-one prime of `K` of norm at most `d_K^{12577}`.
+- The exponents `12577` (every `L ≠ ℚ`) and `16` (beyond an absolute threshold) are not comparable
+  statements; neither implies the other.
+- Thorner and Zaman's bound through an abelian subgroup `A` with `A ∩ C ≠ ∅`,
+  `≪ D_K^{694} Q^{521} + D_K^{232} Q^{367} [K:ℚ]^{290[K:ℚ]}` with an absolute implied constant
+  (`thornerzaman2017` Theorem 1.1, with `K = L^A` and `Q` the largest conductor norm of the
+  characters of `A`), is not a target; AnalyticNumberTheoryPartI §2.49(iii) has the bound
+  `N𝔭 ≪ D^B` with an effective absolute `B`, which these statements make numerical.
 
 *Needs:* 4.2 (Hasanalizade–Shen–Wong's counts), 4.5–4.7, 4.10 (Kadiri–Ng–Wong's repulsion);
 ZerosOfLFunctions 5.6, Layer 9; Tau Ceti `frobeniusPrimeSet`;
@@ -2376,10 +3312,31 @@ extension `L/K` (ClassFieldTheory Layer 11, with the agreement `globalArtinMap_i
 primes with Frobenius class meeting `C ∩ H` into prime ideals of `K` in prescribed ray classes; no
 zero of any L-function enters.
 
+**Checks.**
+
+- `L = K = ℚ` (`G = H = 1`, `n = 1`, `𝔣 = (1)`): `c_K = 1`, the range is `x > e` with
+  `(log x)⁵ ≤ x` (for instance `x = 3` or `x = 10⁶`), and the bound
+  `(2 + 41 log log x/log x) x/log x` is `15.05` at `x = 3`, against `π(3) = 2`, and `7.09·10⁵` at
+  `x = 10⁶`, against `π(10⁶) = 78498`.
+- Negative control for `x > e`: at `L = ℚ` and `x = 2`, `(log 2)⁵ = 0.16 ≤ 2`, so `x = 2` lies in
+  the printed range, while the right side is
+  `(2 + 41 log log 2/log 2) · 2/log 2 = −56.8 < π(2) = 1`; at `x = 2.6` it is `0.13 < 1`, and at
+  `x = e` it is `2e = 5.44`.
+- The cubic field of discriminant `−23` as `K`: the printed factor `(1 + log 0.2812)^{12}` is
+  `1.4·10⁻⁷`, which would shrink `c_K` and widen the range without justification; with `log⁺` the
+  factor is `1`.
+- The range `x ≫ d_K^{7/2 − 3/n + ε}` (`debaene2019`, remark after Theorem 1) comes from class
+  number and regulator data alone.
+
 *Needs:* 2.1, 2.4 (Debaene's Theorem 11 and Lemma 12); ClassFieldTheory Layer 11
 (`globalArtinMap_ideal`); Tau Ceti `TauCeti.ClassFieldTheory.abelianConductor`,
 `frobeniusPrimeCount`; Completed/GlobalNumberFields Layers 2, 3; Mathlib `Units.regulator`,
 `classNumber`, `IntermediateField.fixedField`, `IsMulCommutative`, `IsArithFrobAt`.
+
+### Examples
+
+- `ℚ(i)`: `ψ_{ℚ(i)}(100) = 93.93`; `M_{ℚ(i)} ∈ [−1.664, 0.336]`.
+- `ℚ(i)/ℚ` with `C` complex conjugation: least prime `3`.
 
 ### Dependencies
 
@@ -2389,8 +3346,11 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
 
 ## Downstream consumers
 
-- ExplicitNumberFields, Part II: Louboutin's Li-type residue bound and Chen's estimates in their
-  own right, extending Layers 3 and 6 (Scope).
+- ExplicitNumberFields, Part II: Louboutin's Li-type residue bound, Amberger's zero count and Chen's
+  estimates in their own right, extending Layers 3, 4 and 6 (Scope).
+- ComputationalNumberTheory §4.18: the digamma and trigamma remainders of 1.1a
+  (`digamma_series_remainder`, `trigamma_series_remainder`), applied at arguments of real part at
+  least `1/4` in its rational enclosures of the CT scalars.
 - Roadmaps later in the order of supply that need numerical constants for number fields: the
   class-number, regulator and relative class-number bounds of Layer 5 (for determinations of
   fields of small class number or relative class number), the uniform ideal counts of 2.4 and 2.6
@@ -2404,7 +3364,7 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
 - J.-H. Ahn, S.-H. Kwon, An explicit upper bound for the least prime ideal in the Chebotarev
   density theorem, Ann. Inst. Fourier 69 (2019) 1411–1458, arXiv:1807.00508 (`ahnkwon2019`).
 - V. Amberger, Estimating the number of zeros of Dedekind zeta-functions, arXiv:2510.27444 v5,
-  preprint (`amberger2026`).
+  preprint (`amberger2026`, the zero count of ExplicitNumberFields, Part II; a boundary of Scope).
 - E. Bach, J. Sorenson, Explicit bounds for primes in residue classes, Math. Comp. 65 (1996)
   1717–1735 (`bachsorenson1996`, cited through its quotation in `thornerzaman2017`).
 - W. D. Banks, On the OpenAI proof that Landau–Siegel zeros do not exist, arXiv:2610.15483,
