@@ -3,8 +3,8 @@ import Mathlib
 /-!
 # Painlevé equations: target signatures
 
-The roadmap is `README.md`. The statements here are selected target signatures. Their
-proofs are roadmap work.
+The roadmap is `README.md`. This file states its scalar headline theorems against the
+pinned library APIs. Their proofs are roadmap work.
 
 The construction of the isomonodromic connection (§2.4) and the dimension theorem (§1.5)
 require moduli of decorated meromorphic connections and analytic algebraic spaces.
@@ -62,7 +62,8 @@ theorem painleveIV_meromorphic_extension {α β : ℂ} {q : ℂ → ℂ} {t₀ :
 
 /-- An ordinary or degenerate PV solution extends on the logarithmic time plane. -/
 theorem painleveV_meromorphic_extension {α β γ δ : ℂ} {q : ℂ → ℂ}
-    {t₀ : ℂ} {r : ℝ} (hr : 0 < r) (hprimitive : δ ≠ 0 ∨ γ ≠ 0)
+    {t₀ s₀ : ℂ} {r : ℝ} (hr : 0 < r) (hlift : Complex.exp s₀ = t₀)
+    (hprimitive : δ ≠ 0 ∨ γ ≠ 0)
     (hq : AnalyticOnNhd ℂ q (Metric.ball t₀ r))
     (hdom : ∀ t ∈ Metric.ball t₀ r, t ≠ 0 ∧ q t ≠ 0 ∧ q t ≠ 1)
     (hODE : ∀ t ∈ Metric.ball t₀ r,
