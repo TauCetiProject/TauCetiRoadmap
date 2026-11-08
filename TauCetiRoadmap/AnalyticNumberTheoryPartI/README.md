@@ -281,7 +281,7 @@ There exists an absolute real constant `E` such that, for every real `x≥319, l
 
 Use the published two-sided estimate with a single constant `E`, on `x≥319`. The interval corollary is a separate subtraction lemma below.
 
-See [47][R47], §9 p.384; Rosser–Schoenfeld Theorem 6, p.70; [116][R116], `RosserSchoenfeldPrime.lean`, `RSPrimeLower.lean` and `RosserSchoenfeldPrime_tables.lean` (`Mertens-constant`, `rs-420`).
+See [47][R47], §9 p.384; Rosser–Schoenfeld Theorem 6, p.70; [116][R116], `PrimeNumberTheoremAnd/IEANTN/RosserSchoenfeld/RosserSchoenfeldPrime.lean` (`Mertens-constant`, `rs-420`).
 
 *Needs:* `Chebyshev.theta`.
 
@@ -315,7 +315,7 @@ For `X≥2, Σ_{p<X}(log p)/p=log X+O(1)`, with an absolute implied constant.
 
 Sum `log n=Σ_(d|n)Λ(d)` to get `Σ_(n≤x)log n=Σ_(d≤x)Λ(d)floor(x/d)`. Chebyshev `ψ(x)=O(x)` controls floor replacement. Insert `xlog x−x+O(log x)`, divide by `x`, and remove higher powers with the convergent majorant `Σ_(m≥2)log m/[m(m−1)]`. The layer's Mertens note specifies both elementary inputs. Changing `p≤x` to `p<x` costs at most `log x/x` for `x≥2`.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(a) and proof, p.40; [116][R116], `RosserSchoenfeldPrime.lean`, `RSPrimeLower.lean` and `RosserSchoenfeldPrime_tables.lean` (`Mertens-constant`, `rs-420`), and `Mertens.lean` (`Mertens-sum-log-eq-sum-mangoldt`, `Mertens-first-error-mangoldt`, `Mertens-first-error-prime`, `Mertens-first-theorem-prime-bounded`).
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(a) and proof, p.40; [116][R116], `PrimeNumberTheoremAnd/IEANTN/RosserSchoenfeld/RosserSchoenfeldPrime.lean` (`Mertens-constant`, `rs-420`), and `PrimeNumberTheoremAnd/IEANTN/Mertens.lean` (`Mertens-sum-log-eq-sum-mangoldt`, `Mertens-first-error-mangoldt`, `Mertens-first-error-prime`, `Mertens-first-theorem-prime-bounded`).
 
 *Needs:* §0.11d; `ArithmeticFunction.vonMangoldt_sum`; `Chebyshev.psi_le_const_mul_self`; `sum_mul_eq_sub_sub_integral_mul`.
 
@@ -347,7 +347,7 @@ for a varying quadratic field is not an absolute constant over its characters.
 - The constant: Stieltjes integration by parts gives `Σ_{p≥y} (log p)/p² = −θ(y⁻)/y² + 2∫_y^∞ θ(t) t⁻³ dt ≤ 2 log 4 ∫_y^∞ t⁻² dt`, so `C = 2 log 4` serves.
 - The exponent: with the weight `(log p)/p` in place of `(log p)/p²` the tail diverges by Mertens, so no `C` exists; the bound separates the two weights.
 
-See [116][R116], `Mertens.lean` (`Mertens-first-error-mangoldt`).
+See [116][R116], `PrimeNumberTheoremAnd/IEANTN/Mertens.lean` (`Mertens-first-error-mangoldt`).
 
 *Needs:* §0.11; the completed ArithmeticDirichletSeries summation and prime-power
 APIs; native Chebyshev (`Chebyshev.theta_le_log4_mul_x`) and Abel summation
@@ -385,10 +385,10 @@ convergence half-plane.
 - The regularized error `−ζ′/ζ(1+η) − η⁻¹` tends to `−γ` as `η → 0⁺`, by the Laurent expansion `ζ(s) = 1/(s−1) + γ + O(s−1)`, which gives `ζ′/ζ(1+η) = −η⁻¹ + γ + O(η)`; subtracting the pole with the wrong sign, `−ζ′/ζ(1+η) + η⁻¹ = 2η⁻¹ − γ + O(η)`, is unbounded as `η → 0⁺`.
 - The principal character modulo `q` is allowed: `L(s,χ₀) = ζ(s) ∏_{p∣q} (1−p^(−s))`, so `−L′/L(σ,χ₀) − Σ_{p∤q} (log p)/p^σ` differs from the level-`1` quantity by `−Σ_{p∣q} (log p)/(p^σ(p^σ−1))`, of absolute value at most `Σ_p (log p)/(p(p−1))`, independent of `q`.
 
-See [117][R117], `ZetaLogDerivValues/v1` (`logDeriv_laurent_alternating`), for the regularized limit `−γ` at 1.
+The regularized limit `−γ` at 1 in the second Check is Mathlib's `log_deriv_riemannZeta_add_inv_sub_sub_isBigO` (`Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean`): `ζ′/ζ(s)+(s−1)⁻¹−γ=O(s−1)` as `s→1`, `s≠1`, built on the Laurent constant `tendsto_riemannZeta_sub_one_div` (`ζ(s)−1/(s−1)→γ`).
 
 *Needs:* §0.11a for prime carriers; Mathlib Euler logarithmic derivatives and the
-regularized zeta function; ArithmeticDirichletSeries prime-power regrouping. The
+regularized zeta function; `log_deriv_riemannZeta_add_inv_sub_bounded` for the error near `η=0`; ArithmeticDirichletSeries prime-power regrouping. The
 geometric-majorant argument above supplies the uniformity without any zero-free
 region to the left of one.
 
@@ -465,7 +465,7 @@ trapezoid `(log k+log(k+1))/2` at most `∫_k^(k+1)log t dt`, so `log n!≤n log
   read `log2≤2log2−1≈0.386`, which is false.
 
 See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(a) and proof, p.40; [116][R116],
-`Chebyshev.lean` (`cheby-def-T`, `cheby-T-upper`, `cheby-T-lower`, `cheby-T-Lambda`). *Needs:*
+`PrimeNumberTheoremAnd/IEANTN/Chebyshev.lean` (`cheby-def-T`, `cheby-T-upper`, `cheby-T-lower`, `cheby-T-Lambda`). *Needs:*
 `Real.sum_log_eq_log_factorial`; `Real.le_sum_log`; `Real.sum_log_le`;
 `Stirling.le_log_factorial_stirling`; `ArithmeticFunction.vonMangoldt_sum`;
 `Chebyshev.psi_eq_psi_coe_floor`; `Nat.floor_div_natCast`.
@@ -523,7 +523,7 @@ Entirety and reflection follow from the pole-subtracted completion and finite al
 - `ξ(1)=1/2`, not 0.
 - `ξ(2)=ξ(−1)=π/6`, fixing both the centre 1/2 and the factor 2 against the supplier completion.
 
-See [53][R53], §5.1 (5.1.4), xi definition and reflection, pp.34–35; Lemma 8.3 p.47; [116][R116], `ZetaBounds.lean`, `ZetaConj.lean`, `MediumPNT.lean`, `StrongPNT.lean`, `Mathlib/NumberTheory/LSeries/RiemannZetaValues.lean`, `Mathlib/NumberTheory/LSeries/ZetaFunctionalEquation.lean` and `Mathlib/Analysis/SpecialFunctions/CompletedXi.lean`.
+See [53][R53], §5.1 (5.1.4), xi definition and reflection, pp.34–35; Lemma 8.3 p.47; [116][R116], `PrimeNumberTheoremAnd/Mathlib/Analysis/SpecialFunctions/CompletedXi.lean` (`ξ` defined from the pole-removed completion, its entireness, the product formula off `0,1`, reflection and `ξ(0)=1/2`) and `PrimeNumberTheoremAnd/Mathlib/NumberTheory/LSeries/RiemannZetaValues.lean` (`completedRiemannZeta(2)=π/6`), files of that repository, not of Mathlib.
 
 *Needs:* `completedRiemannZeta₀`; `differentiable_completedZeta₀`; `completedRiemannZeta₀_one_sub`; `completedRiemannZeta_eq`.
 
@@ -547,7 +547,7 @@ The power series of `1−E_p` has nonnegative real coefficients, vanishing throu
 - `E₀(−1)=2`, `E₁(−1)=2exp(−1)` and `E₂(−1)=2exp(−1/2)`, distinguishing the genera at one argument.
 - Two genus-zero factors at `a=1` give `(1−z)²` and order 2 at 1, not the cardinality 1 of the distinct support.
 
-See [114], Theorem 15.6, Lemma 15.8 and Theorem 15.9; [54][R54], Appendix B.1, definition preceding (B.1), p.901; [116][R116], `Mathlib/Analysis/Complex/WeierstrassFactor.lean` and `Mathlib/Analysis/Complex/CanonicalProduct.lean`.
+See [114], Theorem 15.6, Lemma 15.8 and Theorem 15.9; [54][R54], Appendix B.1, definition preceding (B.1), p.901; [116][R116], `PrimeNumberTheoremAnd/Mathlib/Analysis/Complex/WeierstrassFactor.lean` and `PrimeNumberTheoremAnd/Mathlib/Analysis/Complex/CanonicalProduct.lean`, files of that repository, not of Mathlib.
 
 *Needs:* [ZerosOfLFunctions 5.3][R15]; Mathlib `Summable.hasProdUniformlyOn_one_add`, `HasProdLocallyUniformlyOn`, `analyticOrderAt` and holomorphic locally uniform limits; the Taylor series of `Complex.log` on the unit disc.
 
@@ -621,7 +621,7 @@ Pass to inclusive primes at cost `≤log x/x`. For bounded `R(t)=Σ_(p≤t)log p
 
 One `B` and one absolute error constant work for every real `x≥2`. At `x=2` the prime 2 is included; changing the endpoint convention only changes the bounded remainder.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(b) and its proof, pp.40–41; [116][R116], `RosserSchoenfeldPrime.lean`, `RSPrimeLower.lean` and `RosserSchoenfeldPrime_tables.lean` (`Meissel-Mertens-constant`, `rs-419`), and `Mertens.lean` (`Meissel-Mertens-constant`, `Mertens-second-error-prime-eq`).
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(b) and its proof, pp.40–41; [116][R116], `PrimeNumberTheoremAnd/IEANTN/RosserSchoenfeld/RosserSchoenfeldPrime.lean` (`Meissel-Mertens-constant`, `rs-419`), and `PrimeNumberTheoremAnd/IEANTN/Mertens.lean` (`Meissel-Mertens-constant`, `Mertens-second-error-prime-eq`).
 
 *Needs:* §0.11; `sum_mul_eq_sub_sub_integral_mul`.
 
@@ -651,7 +651,7 @@ For `ρ<σ<s<n+1`, Jensen gives `N(r)=O(r^σ)`, hence summability at `n+1`. Appl
 
 Checks: `f=1` has an empty zero product and a constant logarithm; `f(z)=z²exp(z)` has `m=2`, an empty nonzero-zero product and degree-one exponent; `f(z)=(z−1)²` uses two occurrences of the same zero and genus zero; `f(z)=exp(z²)` has order two and a quadratic exponent, so a degree-one conclusion would fail.
 
-See [54][R54], Appendix B.1, (B.1)–(B.3), pp.901–902; [Kupers][R95], Theorem 14.1.1 and proof, Lemmas 14.1.4–14.1.5 and Corollary 14.1.6, pp.89–93; [116][R116], `Mathlib/Analysis/Complex/HadamardFactorization.lean` with `HadamardFactorization/Growth.lean`, `HadamardFactorization/Order.lean` and `HadamardFactorization/Summability.lean`, `ValueDistribution/LogCounting/`, the `Cartan*.lean` files, and `ExpPoly.lean` with `ExpPoly/Growth.lean`, all under `Mathlib/Analysis/Complex/`. Use the strict upper endpoint `ρ<n+1` required by that proof.
+See [54][R54], Appendix B.1, (B.1)–(B.3), pp.901–902; [Kupers][R95], Theorem 14.1.1 and proof, Lemmas 14.1.4–14.1.5 and Corollary 14.1.6, pp.89–93; [116][R116], `HadamardFactorization.lean` with `HadamardFactorization/Growth.lean`, `HadamardFactorization/Order.lean` and `HadamardFactorization/Summability.lean`, `ValueDistribution/LogCounting/Basic.lean` and `ValueDistribution/LogCounting/Growth.lean`, `CartanBound.lean`, `CartanInverseFactorBound.lean`, `CartanMajorantBound.lean` and `CartanProductBound.lean`, and `ExpPoly.lean` with `ExpPoly/Growth.lean`, all in that repository's folder `PrimeNumberTheoremAnd/Mathlib/Analysis/Complex/`; they are not the pinned Mathlib's files of the same names (its `ValueDistribution/LogCounting/` and `ValueDistribution/Cartan.lean` are Nevanlinna theory). Use the strict upper endpoint `ρ<n+1` required by that proof.
 
 *Needs:* [ZerosOfLFunctions Entire order at most `ρ`][R11]; §0.15; §0.15a; `AnalyticOnNhd.sum_divisor_le`; `Complex.borelCaratheodory`.
 
@@ -694,7 +694,7 @@ For real `x≥2, ∏_{p≤x}(1−1/p)^−1=e^γ log x+O(1)`, with `γ` Euler’s
 
 From reciprocal-prime Mertens and `−log(1−u)−u=O(u²), 0≤u≤1/2`, obtain `log∏_(p≤x)(1−1/p)^−1=log log x+κ+O(1/log x)`; the square-power tail is `O(1/x)`. Identify `κ=γ` through the real Euler product at `1+ε/log x` and Exercise 5.4(c)–(d)'s corrected integral. The tilted-product, prime-tail and Euler-constant comparisons remain required named inputs. Exponentiating after identifying `κ` gives the additive `O(1)`; a two-sided comparison alone cannot identify it.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(c), (3.6), pp.40–41; Exercise 5.4, p.61; [116][R116], `Mertens.lean` (`Mertens-third-error`, `Mertens-third-theorem-error`).
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(c), (3.6), pp.40–41; Exercise 5.4, p.61; [116][R116], `PrimeNumberTheoremAnd/IEANTN/Mertens.lean` (`Mertens-third-error`, `Mertens-third-theorem-error`).
 
 *Needs:* §0.21.
 
@@ -704,7 +704,7 @@ Taking logarithms in §0.26, with the identification `κ=γ` made there, gives `
 
 Checks: at `x=4` the sum is `1/2+1/3+1/8=23/24`, the prime square `4` contributing `Λ(4)/(4log4)=1/8`, whereas `Σ_(p≤4)1/p=5/6`. The constant of the prime-only sum is `B<γ`: the prime 2 alone lowers it by `log2−1/2>0`, so the constants of the two sums cannot be interchanged. The weight is `Λ(n)/(n log n)`; §0.11's weight `Λ(n)/n` has the different sum `log x+O(1)`.
 
-See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(b)–(c), pp.40–41, and Exercise 5.4, p.61; [116][R116], `Mertens.lean` (`Euler-Mascheroni-const-alt`, `Euler-Mascheroni-eq`, `Mertens-second-error-mangoldt`, `Mertens-second-error-mangoldt-eq`, `Mertens-second-error-mangoldt-bound`, `Mertens-second-theorem-mangoldt-weak`, `log-zeta-eq`, `log-zeta-eq-2`). *Needs:* §0.21; §0.26; `ArithmeticFunction.vonMangoldt`; `Real.eulerMascheroniConstant`.
+See Koukoulopoulos, *The Distribution of Prime Numbers*, Theorem 3.4(b)–(c), pp.40–41, and Exercise 5.4, p.61; [116][R116], `PrimeNumberTheoremAnd/IEANTN/Mertens.lean` (`Euler-Mascheroni-const-alt`, `Euler-Mascheroni-eq`, `Mertens-second-error-mangoldt`, `Mertens-second-error-mangoldt-eq`, `Mertens-second-error-mangoldt-bound`, `Mertens-second-theorem-mangoldt-weak`, `log-zeta-eq`, `log-zeta-eq-2`). *Needs:* §0.21; §0.26; `ArithmeticFunction.vonMangoldt`; `Real.eulerMascheroniConstant`.
 
 ### 0.27 Landau repulsion for exceptional squareclasses
 
@@ -822,7 +822,7 @@ Take `s₀=2+i Im s`, `r=3`, `r′=4`: every nontrivial zero of the window lies 
 
 Checks: at `s₀=2` and `r′≥4` the disc contains the trivial zero `−2`, which the sum counts; near `s=1`, `ζ′/ζ(s)=−1/(s−1)+γ+O(s−1)`, so the left side without `+1/(s−1)` is unbounded at bounded height; a zero of order 2 contributes `2/(s−ρ)`; conjugation fixes the zero set of `ζ`, so a single safe height suffices, unlike the two-character choice above.
 
-See [112], Chapters 15 and 17, for the window form and the heights; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §3.9, for the nested-disc expansion; [116][R116], `StrongPNT.lean` and `BorelCaratheodory.lean` (`CFunction`, `CfAnalytic`), and `StrongPNT.lean` and `HoffsteinLockhart.lean` (`ZetaShiftFiniteZeros`, `ZeroWindow`). *Needs:* ZerosOfLFunctions 3.4, 4.3 and 4.5; `riemannZeta_eulerProduct_tprod`; `differentiableAt_riemannZeta`; native finite analytic orders, maximum modulus and Cauchy estimates.
+See [112], Chapters 15 and 17, for the window form and the heights; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §3.9, for the nested-disc expansion; [116][R116], `PrimeNumberTheoremAnd/StrongPNT.lean` (`CFunction`, `CfAnalytic`, `ZetaShiftFiniteZeros`, `ZeroWindow`). *Needs:* ZerosOfLFunctions 3.4, 4.3 and 4.5; `riemannZeta_eulerProduct_tprod`; `differentiableAt_riemannZeta`; `Complex.borelCaratheodory`; native finite analytic orders, maximum modulus and Cauchy estimates.
 
 ### 0.31 Mertens product input
 
@@ -866,7 +866,7 @@ There exist `0<β<1` and `C>0` such that for `Z={s:1−β/log(|Im s|+2)≤Re s�
 
 Join the imported high-height zero-free region to bounded-height real-line nonvanishing and the pole germ by shrinking `β`. Bound `ζ` after pole subtraction and `1/ζ` logarithmically at high height; compact bounds enter `C`. These quantitative proofs remain required: nonvanishing alone gives no logarithmic bound.
 
-See [59][R59], Appendix A, Lemma A.1, p.541; [116][R116], `ZetaBounds.lean` (`ZetaUpperBnd`, `ZetaBnd_aux2`, `ZetaLowerBound3`, `ZetaInvBound2`, `ZetaInvBnd`, `ZetaLowerBnd`).
+See [59][R59], Appendix A, Lemma A.1, p.541; [116][R116], `PrimeNumberTheoremAnd/ZetaBounds.lean` (`ZetaUpperBnd`, `ZetaBnd_aux2`, `ZetaLowerBound3`, `ZetaInvBound2`, `ZetaInvBnd`, `ZetaLowerBnd`).
 
 *Needs:* [ZerosOfLFunctions 6.2][R16]; [ZerosOfLFunctions its local logarithmic derivative and zero counts][R14]; [ZerosOfLFunctions its Gamma estimates][R12]; native right-half-plane nonvanishing and the pole germ at 1; compact continuity.
 
@@ -876,7 +876,7 @@ Let `β₀` and `C₀` be the width and constant supplied by §0.33, put `β=β�
 
 Checks: near `s=1`, `ζ′(s)=−1/(s−1)²+O(1)` and `ζ′/ζ(s)=−1/(s−1)+γ+O(s−1)`, so without the subtracted pole terms neither bound holds at bounded height. The bound for `ζ′/ζ` does not follow from §0.33 by multiplying: `ζ′/ζ=ζ′·(1/ζ)` with §0.33's bound for `1/ζ` gives only `log³(|Im s|+2)`. On `Re s≥2` both functions are bounded, so dropping the upper limit `Re s≤10` of `Z` costs nothing.
 
-See Montgomery–Vaughan, *Multiplicative Number Theory I. Classical Theory*, §1.3 for `ζ′` and Theorem 6.7 for `ζ′/ζ`; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §§3.9–3.11; [116][R116], `ZetaBounds.lean` (`ZetaDerivUpperBnd`, `DerivUpperBnd_aux7`), `Unused/ZetaBoundsUnused.lean` (`LogDerivZetaBnd`, `LogDerivZetaBndUnif99`), and `StrongPNT.lean` and `HoffsteinLockhart.lean` (`LogDerivZetaUniformLogSquaredBoundStrip`, `LogDerivZetaUniformLogSquaredBound`).
+See Montgomery–Vaughan, *Multiplicative Number Theory I. Classical Theory*, §1.3 for `ζ′` and Theorem 6.7 for `ζ′/ζ`; Titchmarsh, *The Theory of the Riemann Zeta-Function*, 2nd ed., §§3.9–3.11; [116][R116], `PrimeNumberTheoremAnd/ZetaBounds.lean` (`ZetaDerivUpperBnd`, `DerivUpperBnd_aux7`, `LogDerivZetaBnd`, `LogDerivZetaBndUnif99`) and `PrimeNumberTheoremAnd/StrongPNT.lean` (`LogDerivZetaUniformLogSquaredBoundStrip`, `LogDerivZetaUniformLogSquaredBound`).
 
 *Needs:* §0.33; §0.30a (`riemannZeta_logDeriv_window`); §0.11b; [ZerosOfLFunctions 6.2][R16]; `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`; native Cauchy estimates.
 
@@ -1156,7 +1156,7 @@ Checks: at `t=0` the weight is `Re ψ(1/4)=−γ−π/2−3log 2≈−4.227`, wh
 - The archimedean integrand tends to `(5/2)F(0)` as `x→0⁺`; integrating `(F(x/2)+F(−x/2))e^(−x/4)/(1−e^(−x))` apart from the subtracted term diverges at 0 unless `F(0)=0`.
 - Gauss's integral at `z=1` is `−γ<0` by `Complex.digamma_one`, and its integrand `e^(−t)(1/t−1/(1−e^(−t)))` is indeed negative, since `1−e^(−t)<t`; the reversed integrand would give `+γ`.
 
-See [61][R61], §I.2, Lemmas 1.2.1–1.2.2, pp.212–215, for the archimedean term; [112], Chapter 17, for the contour at well-chosen heights; Whittaker–Watson, *A Course of Modern Analysis*, §12.3, for Gauss's integral; [116][R116], `Kadiri.lean` (`kadiri-thm-3-1-q1` and the nodes `kadiri-thm-3-1-q1-*`), `KadiriEq11Reduction.lean`, `KadiriEq12Foundations.lean`, `KadiriEq13.lean`, `KadiriEq14.lean`, `KadiriEq15.lean` and `KadiriSupport.lean`, for the critical-line form and the formula in `φ`.
+See [61][R61], §I.2, Lemmas 1.2.1–1.2.2, pp.212–215, for the archimedean term; [112], Chapter 17, for the contour at well-chosen heights; Whittaker–Watson, *A Course of Modern Analysis*, §12.3, for Gauss's integral; [116][R116], `PrimeNumberTheoremAnd/IEANTN/Kadiri.lean` (`kadiri-thm-3-1-q1` and the nodes `kadiri-thm-3-1-q1-*`), with `KadiriEq11Reduction.lean`, `KadiriEq12Foundations.lean`, `KadiriEq13.lean`, `KadiriEq14.lean`, `KadiriEq15.lean` and `KadiriSupport.lean` in the same folder, for the statement of the critical-line form and of the formula in `φ`: its Lean statement `kadiri_thm_3_1_q1` has the two-sided transform `∫_ℝφ(y)e^(−zy)dy` and the minus sign of the `n^(−1)`-series used here, and its proof at that commit is not complete.
 
 *Needs:* §0.30a (`riemannZeta_logDeriv_window`, `riemannZeta_safe_height`); [ZerosOfLFunctions 1.4][R12]; [ZerosOfLFunctions 4.5][R14]; the residue theorem of the ContourIntegration contract (`TauCeti.Contour.Cycle.classicalResidueTheorem_nullHomologous`); `completedRiemannZeta_one_sub`; `LSeries_vonMangoldt_eq_deriv_riemannZeta_div`; `MeasureTheory.Lp.norm_fourier_eq`; `Complex.digamma`; `Complex.digamma_apply_add_nat`; `Complex.digamma_one`; `Complex.Gamma_conj`; `Real.eulerMascheroniConstant`.
 
@@ -1257,7 +1257,7 @@ For the expansion, take `Re s>1` and write `ζ(2s)E(z,s)=(1/2)y^sΣ_((c,d)≠0)|
 - Summing primitive pairs without the factor `1/2` doubles `E`; at `s=1` the primitive-pair series diverges.
 - An uncompleted period of `E` cannot replace an `E*` period without dividing by `Λ(2s)`.
 
-See [60][R60], §5, (5.2)–(5.5), pp.961–962, and the remark that `E` is integrable by (5.3), p.963; proof of Lemma 1, p.972, for the cusp decay; [116][R116], `IwaniecKowalskiCh1.lean` (`sigmaR`, `sigmaR_apply`), for `σ_w`.
+See [60][R60], §5, (5.2)–(5.5), pp.961–962, and the remark that `E` is integrable by (5.3), p.963; proof of Lemma 1, p.972, for the cusp decay; [116][R116], `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` (`sigmaR`, `sigmaR_apply`), for `σ_w`.
 
 *Needs:* §2.1a; Mathlib `completedRiemannZeta`, `completedRiemannZeta_one_sub`, `Real.tsum_eq_tsum_fourier_of_rpow_decay` and the Gaussian Fourier transform; `UpperHalfPlane` and the action of `PSL₂(ℤ)`.
 
@@ -2267,7 +2267,7 @@ See [64][R64], Elementary Euler-factor adapter for Tsimerman §2.2, pp.380–381
 
 For each integer `n≥1` and `ε>0` there is `C_(n,ε)` with `d_n(m)≤C_(n,ε)m^ε` for every `m≥1`. Use `d_n(p^a)=binomial(a+n−1,n−1)`. For large `p` this is `≤n^a≤p^(εa)`; for the finitely many smaller primes the supremum of the polynomial in a divided by `p^(εa)` is finite. The product of those finitely many constants is independent of `m`.
 
-See [64][R64], Elementary fixed-degree adapter for Tsimerman §2.2, pp.380–381, using the small/large-prime split of the divisor bound; [116][R116], `IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`), for `d_n(p^a)`.
+See [64][R64], Elementary fixed-degree adapter for Tsimerman §2.2, pp.380–381, using the small/large-prime split of the divisor bound; [116][R116], `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`), for `d_n(p^a)`.
 
 *Needs:* `Nat.factorization`.
 
@@ -3465,6 +3465,10 @@ The uniform exclusion of Landau–Siegel zeros (§0.34) and its effective coroll
 - SieveMethodsAndPrimePatterns: its small-conductor and Bombieri–Vinogradov estimates, through §§0.18 and 0.32.
 - The explicit prime-counting roadmaps, through Siegel–Walfisz (§0.32) and the real-character estimates (§§0.18, 0.31b), and AnalyticNumberTheoryPartII, through §2.31e, whose quadratic step uses the effective gap of §0.31b.
 
+Weil's explicit formula for `ζ` with `C¹` tests (§1.8a) has this downstream consumer:
+
+- ExplicitZetaBounds: its §7.3a (Kadiri's smoothed explicit formula) on `Re s>1`, through `zeta_explicit_formula_laplace` and `zeta_weil_archimedean_critical_line`. For its `f` (twice continuously differentiable on `[0,d]`, extended by `0`, with `f(d)=f′(0)=f′(d)=0`) and `Re s>1`, the test `φ_s(y)=(f(0)−f(y))e^(−sy)` for `y≥0`, `φ_s(y)=0` for `y<0`, has `WeilC1TestFunction (fun x ↦ φ_s(x)e^(x/2))` for every exponent `0<ε<Re s−1`, transform `Φ(z)=f(0)/(s+z)−∫_0^d f(t)e^(−(s+z)t)dt`, `φ_s(0)=0` and a vanishing `n^(−1)`-series; the formula of §1.8a at `φ_s`, recombined with that roadmap's partial-fraction expansion of `ζ′/ζ(s)` (its 7.1), is that section's identity on `Re s>1`, and its continuation to `Re s>1/2` stays there.
+
 ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and keep their statements; what this part takes from them (ZerosOfLFunctions Layers 0–8, ImaginaryQuadraticClassNumber H2.2) precedes §0.34. The exception-free forms over `ℚ` of ZerosOfLFunctions 6.3–6.4 and 8.6–8.8 and the effective forms of ImaginaryQuadraticClassNumber H2.3–H2.4 (`quadratic_LFunction_siegel`, `imaginary_classNumber_lower_bound`) are stated here (§§0.1, 0.6, 0.9, 0.18, 0.32) and consumed from here by the roadmaps above.
 
 ## References
@@ -3527,8 +3531,7 @@ ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and k
 - [113] John B. Friedlander and Henryk Iwaniec, *A note on Dirichlet L-functions*, Expo. Math. 36 (2018), 343–350, doi:10.1016/j.exmath.2018.06.003.
 - [114] Walter Rudin, *Real and Complex Analysis*, 3rd ed., McGraw–Hill, 1987; Chapter 15 (infinite products and Weierstrass factorization).
 - [115] Jean-Pierre Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer, 1979; Chapter VI (Artin and Swan representations, conductors) and Chapter XV §2 (upper numbering and local reciprocity).
-- [116][R116] Alex Kontorovich and Terence Tao, *Prime Number Theorem and More* (PrimeNumberTheoremAnd), Lean formalization, GitHub repository; cited for §§0.8, 0.11, 0.11a, 0.11d, 0.14, 0.15, 0.21, 0.23, 0.26, 0.26a, 0.30a, 0.33, 0.33a, 1.8a, 2.1b and 3.4.
-- [117][R117] *Integrated Explicit Analytic Number Theory Network* (IEANTN), GitHub repository; cited for §0.11b.
+- [116][R116] Alex Kontorovich, Terence Tao and contributors, *Prime Number Theorem and More* (PrimeNumberTheoremAnd), Lean formalization, GitHub repository, 2024–2026, commit `127b50e` of 20 October 2026, which the link names. Paths are from the repository root; its folder `PrimeNumberTheoremAnd/Mathlib/` holds the project's own files, not Mathlib's; names in parentheses are blueprint labels or declarations of the file named. Cited for §§0.8, 0.11, 0.11a, 0.11d, 0.14, 0.15, 0.21, 0.23, 0.26, 0.26a, 0.30a, 0.33, 0.33a, 1.8a, 2.1b and 3.4.
 
 - **Bessel functions.** [NIST Digital Library of Mathematical Functions, Chapter 10][DLMF-Bessel], particularly §§10.2,10.4,10.6,10.9,10.16; equation numbers are the locators in this unpaginated reference.
 - **Nemes.** [Gergő Nemes — Error bounds for the large-argument asymptotic expansions of the Hankel and Bessel functions][Nemes], arXiv:1606.07961v2, 2017; positive-axis remainder theory and Appendix A.
@@ -3623,8 +3626,7 @@ ZerosOfLFunctions and ImaginaryQuadraticClassNumber stand before this part and k
 [R96]: https://arxiv.org/pdf/0803.1141v1
 [R97]: https://journals.msp.org/mscand/article/download/1943/1942
 [R99]: https://www.numdam.org/item/AST_1987__18__1_0/
-[R116]: https://github.com/AlexKontorovich/PrimeNumberTheoremAnd
-[R117]: https://github.com/teorth/IEANTN
+[R116]: https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/tree/127b50e33f6033e2147921167a117af96d9ba4ea
 
 [DLMF-Bessel]: https://dlmf.nist.gov/10
 [Nemes]: https://arxiv.org/pdf/1606.07961v2
