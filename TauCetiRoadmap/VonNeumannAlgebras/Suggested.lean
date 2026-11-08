@@ -21,9 +21,8 @@ Headline theorems of the README that are not statable at the pins, and the carri
 * Layer 1: the ultraweak and ultrastrong closure forms of the bicommutant and Kaplansky theorems,
   and the ultraweak form of the projection-closure theorem. Mathlib has no ultraweak or
   ultrastrong topology on `H →L[ℂ] H` (only the WOT and pointwise copies used below).
-* Layer 2: the completed spatial tensor product `M ⊗̄ N`, its commutation theorem and the
-  classification of abelian von Neumann algebras by `L∞` of a measure space with multiplicity.
-  There is no completed Hilbert tensor product of von Neumann algebras and no direct integral.
+* Layer 2: the completed spatial tensor product `M ⊗̄ N` and its commutation theorem. There is
+  no completed Hilbert tensor product of von Neumann algebras.
 * Layers 3 and 6: the type decomposition and the semifinite/standard-form classification. They
   need central decomposition, normal semifinite traces and the standard form, none of which
   exist.
@@ -32,6 +31,9 @@ Headline theorems of the README that are not statable at the pins, and the carri
   normal functionals or an ultraweak topology; the same lack is why the trace theorems below omit
   normality. The existence of a Banach predual for a concrete von Neumann algebra and Sakai's
   theorem are statable through `WStarAlgebra`'s conjugate-linear predual and are stated below.
+  The classification of abelian von Neumann algebras by `L∞` of a measure space with
+  multiplicity is not statable: `MeasureTheory.Lp` has no ring structure for `p = ∞`, only the
+  heterogeneous Hölder scalar action, and there is no direct integral of Hilbert spaces.
 * Layers 5 and 7: projection modularity versus finiteness (no lattice structure on the
   projections of a von Neumann algebra), the coupling constant and the Jones index of a II₁
   subfactor (no normal Hilbert modules over a II₁ factor and no coupling dimension).
@@ -59,10 +61,12 @@ Headline theorems of the README that are not statable at the pins, and the carri
   classification of the injective factors of types IIIλ (0 < λ < 1), III₀ and III₁ (no Connes
   invariants `S` and `T` and no flow of weights, which separate these types). Injectivity versus
   hyperfiniteness and the uniqueness of the injective II₁ and II∞ factors are stated below.
-  "Separable predual" is expressed there through a separable acting Hilbert space: a von Neumann
-  algebra is separable when it has a faithful normal representation on a separable Hilbert space
-  (Anantharaman–Popa, Definition 2.6.6, p. 48), and injectivity does not depend on the
-  representation (Anantharaman–Popa, Proposition 10.2.2, p. 161).
+  "Separable predual" is expressed there through a separable acting Hilbert space. Such an
+  algebra is separable in the sense of Anantharaman–Popa (a faithful normal representation on a
+  separable Hilbert space, Definition 2.6.6, p. 48), every algebra separable in that sense is
+  isomorphic to one acting on a separable space, and the README proves these to be exactly the
+  algebras with separable predual (V4.Core). Injectivity does not depend on the representation
+  (Anantharaman–Popa, Proposition 10.2.2, p. 161).
 -/
 
 open scoped ComplexOrder
@@ -335,8 +339,11 @@ def IsHyperfinite (M : VonNeumannAlgebra H) : Prop :=
 
 /-- **Connes's theorem: injective equals hyperfinite.** A von Neumann algebra with separable
 predual, here acting on a separable Hilbert space, is injective exactly when it is hyperfinite
-(README, V13b; for finite algebras Anantharaman–Popa, Theorem 11.1.3, p. 173, and for II₁ factors
-Theorem 11.2.2, p. 186). Without separability the sequential form is too narrow. -/
+(README, V13b; Connes's theorem as recalled in the Notes to Chapter 10 of Anantharaman–Popa,
+p. 171, with the classification-independent proof of Takesaki III, XVI.1.9 and XVI.1.22–1.23).
+Anantharaman–Popa, Theorem 11.1.3, p. 173, is only the direction from injective to hyperfinite
+for finite algebras, in a finite-set `L²` form, and Theorem 11.2.2, p. 186, the equivalence for
+II₁ factors. Without separability the sequential form is too narrow. -/
 theorem isInjective_iff_isHyperfinite [TopologicalSpace.SeparableSpace H]
     (M : VonNeumannAlgebra H) : IsInjective M ↔ IsHyperfinite M := by
   sorry
