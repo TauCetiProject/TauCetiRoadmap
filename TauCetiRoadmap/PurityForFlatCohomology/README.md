@@ -20,7 +20,7 @@ integral schemes.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | `puncturedSpectrum`, `RΓ_Z(X, F)` on the big fppf site, continuity, regular-sequence vanishing, Hartogs |
+| [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | the punctured spectrum `U_R` of a semilocal ring, `RΓ_Z(X, F)` on the big fppf site, continuity, regular-sequence vanishing, Hartogs |
 | [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, local Lefschetz, Gabber's étale-depth bound, Zariski–Nagata purity for `vdim ≥ 3` |
 | [2](#layer-2-the-crystalline-key-formula-over-perfect-schemes) | The crystalline key formula over perfect schemes | `RΓ_Z(S, G) ≅ RΓ_Z(W_n(S), 𝕄(G))^{V=1}` with supports, from the perfect-base Dieudonné triangle |
 | [3](#layer-3-flat-cohomology-of-animated-rings) | Flat cohomology of animated rings | supports, nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals, descent modulo `p` |
@@ -45,18 +45,16 @@ ArithmeticGaloisDuality ──────────────────�
 
 The headline theorems stated in `Suggested.lean` are Zariski–Nagata purity in virtual dimension
 `≥ 2` and `≥ 3` (`zariskiNagata_full_faithful_connected`, `zariskiNagata_isEquivalence`, §1.8),
-Gabber's local Picard conjecture (`localPicard_torsion_eq_one`, §7.6) and the vanishing of the local
-Picard group of a regular local ring (`localPicard_subsingleton`, §7.6), with
-three classical inputs proved here: Katz's theorem on Frobenius-fixed vectors
-(`frobeniusSemilinear_exists_fixed_basis`, §5.6), Auslander's freeness criterion
-(`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of regular local rings
-(`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). It also states the theory of groups of
-multiplicative type over a base on which §§7.13–7.15 and Layer 8 rest (§§7.12a–7.12e): the
-diagonalizable group `diagonalizableGroup` with its homomorphisms, kernels and smoothness, étaleness
-and flatness criteria, the predicates `IsMultiplicativeType` and `IsTorus` with their étale-local and
-fpqc-local characterisations, their agreement over a field with the Tau Ceti predicates, the
-Cartier-dual criterion for finite groups, and the closedness of subgroups, the kernels and the
-largest subtorus of a group of multiplicative type.
+Gabber's local Picard conjecture (`localPicard_torsion_eq_one`, §7.6), the vanishing of the local
+Picard group of a regular local ring (`localPicard_subsingleton`, §7.6) and the Picard groups of global
+complete intersections (`picard_globalCompleteIntersection_torsion_eq_one`,
+`picard_globalCompleteIntersection_bijective_zpow`, §7.8), with three classical inputs proved here:
+Katz's theorem on Frobenius-fixed vectors (`frobeniusSemilinear_exists_fixed_basis`, §5.6), Auslander's
+freeness criterion (`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of regular local rings
+(`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). The local headlines are stated on Tau Ceti's
+punctured spectrum of a local ring and its restriction functor on finite étale schemes.
+The theory of groups of multiplicative type over a base on which §§7.13–7.15 and Layer 8 rest
+(§§7.12a–7.12e) is supporting theory, specified here only.
 The flat-cohomological headline theorems are specified in this README; the module docstring of
 `Suggested.lean` names the carrier each of them lacks at the pinned libraries.
 
@@ -85,18 +83,22 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
 
 **Owned elsewhere and consumed here.** Each object has one owner.
 
-- *The punctured spectrum of a local ring, finite étale covers of it, completion and purity for
-  regular local rings*: LocalPurity §1.1 (the local punctured spectrum and `PurityHolds`), §1.3
+- *The punctured spectrum of a local ring, finite étale schemes over a scheme with their pullback,
+  and restriction to the punctured spectrum*: already in Tau Ceti at the pin
+  (`TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.FiniteEtaleScheme.pullback`,
+  `TauCeti.IsLocalRing.restrictPunctured`, `TauCeti.IsLocalRing.PurityHolds`; supplier contracts), which
+  realises LocalPurity §1.1. *Completion and purity for regular local rings*: LocalPurity §1.3
   (`extends_iff_completion_extends`, Stacks 0BLL) and §§2.1–2.2 (`purityHolds_of_isRegularLocalRing`,
   Stacks 0BMA; `finiteEtale_extend_of_purity`, Stacks 0EY7). Here §0.1 adds only the semilocal
-  carrier, which agrees with the LocalPurity carrier for a local ring.
+  carrier, which agrees with Tau Ceti's carrier for a local ring.
 - *Depth, Cohen–Macaulay rings, Zariski cohomology with supports and local cohomology, henselian
   pairs and henselization, coherent extension and Hartogs, limits of schemes and Noetherian
   approximation, descent of quasi-coherent modules and of sheaves along covers, torsors, stacks and
   gerbes, the big-site sheaves `𝔾_a`, `𝔾_m`, `μ_n`, topology comparisons, Hilbert 90 and the Kummer and
   Artin–Schreier sequences, Gabber's affine proper base change, Azumaya algebras and Brauer groups of
-  schemes, Picard groups*: SchemeAndStackFoundations §§0.4, 0.6, 0.9, 0.12–0.14, 0.17, 0.24, 1.1, 1.15,
-  1.18, 2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4.
+  schemes, Picard groups, `Proj` and the relative `Proj`, excellent rings and schemes, formal spectra and
+  formal completion*: SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.9, 0.12–0.14, 0.17, 0.21, 0.24, 1.1,
+  1.15, 1.18, 2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4, 4.7, 4.8.
   The supported cohomology of §2.7 there is that of abelian sheaves on a ringed space; §0.2 here is its big-fppf-site counterpart and agrees with it
   for quasi-coherent coefficients. Its §2.22 `brauer_regular_injectivity` is the affine Azumaya case of §7.9
   here, which treats `H²(X, 𝔾_m)` of every Noetherian integral regular scheme and the torsion of all
@@ -106,9 +108,12 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   and `μ_N`, and effective faithfully flat descent of affine schemes and of group objects*: ModularCurves
   0B, 0E. §7.12a here constructs `D_S(M)` for every finitely generated `M` and identifies it with the 0B
   group for finite `M`.
-- *The finite étale Galois category and étale fundamental group of a scheme, the topological
-  invariance of the étale site, and étale duality on schemes of finite type over a field and on
-  traits*: EtaleCohomologyFoundations §§F.0.2, F.0.4, F.5.
+- *The finite étale Galois category of a connected scheme and its fundamental groups* (the
+  automorphism groups of geometric fibre functors): already in Tau Ceti at the pin (the
+  `GaloisCategory (TauCeti.FiniteEtaleScheme S)` instance and `TauCeti.FiniteEtaleScheme.fiber`;
+  supplier contracts), which realises EtaleCohomologyFoundations §F.0.2. *The topological invariance
+  of the étale site, and étale duality on schemes of finite type over a field and on traits*:
+  EtaleCohomologyFoundations §§F.0.4, F.5.
 - *Absolute cohomological purity (Gabber)*: LefschetzPencilsAndVanishingCycles §0.10.
 - *The Auslander–Buchsbaum formula*: PurityOfBranchLocus §0.3. The freeness of maximal
   Cohen–Macaulay modules over regular local rings and of reflexive modules over regular local rings
@@ -247,11 +252,16 @@ Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`; each declaration was read 
   also asks the final quotient to be nonzero, is used nowhere here.
 - `AdicCompletion` with its commutative ring structure (`Mathlib/RingTheory/AdicCompletion/Algebra.lean`):
   classical completion, not derived completion.
-- `MorphismProperty.Over`, `MorphismProperty.Over.pullback`, `AlgebraicGeometry.IsFinite`,
-  `AlgebraicGeometry.Etale`, `AlgebraicGeometry.Flat`, `AlgebraicGeometry.LocallyOfFinitePresentation`:
-  finite étale schemes over a base and pullback.
-- `CategoryTheory.PreGaloisCategory`, `CategoryTheory.PreGaloisCategory.functorToContAction`
+- `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Etale`, `AlgebraicGeometry.Flat`,
+  `AlgebraicGeometry.LocallyOfFinitePresentation`: the morphism properties; finite étale schemes over
+  a base and their pullback are Tau Ceti's (below).
+- `CategoryTheory.PreGaloisCategory`, `CategoryTheory.GaloisCategory`,
+  `CategoryTheory.PreGaloisCategory.functorToContAction`
   (`Mathlib/CategoryTheory/Galois/Equivalence.lean`): the fundamental theorem of Galois categories.
+- `AlgebraicGeometry.Proj`, `AlgebraicGeometry.Proj.basicOpen`, `HomogeneousIdeal`,
+  `MvPolynomial.homogeneousSubmodule`, `MvPolynomial.gradedAlgebra` (the grading by total degree,
+  `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean`), `MvPolynomial.IsHomogeneous`: the projective
+  scheme `Proj (k[X₀, …, Xₙ] ⧸ I)` of §7.8. `Subgroup.zpowers`, `IsOfFinOrder`, `ConnectedSpace`.
 - `CategoryTheory.Grp`, `CategoryTheory.Grp.forget`, `CategoryTheory.Functor.mapGrp`,
   `CategoryTheory.Functor.mapGrpIdIso`, `CategoryTheory.Functor.mapGrpCompIso`, `IsCommMonObj`
   (`Mathlib/CategoryTheory/Monoidal/Grp.lean`, `Mon.lean`) and `CategoryTheory.Over.pullback`,
@@ -311,7 +321,18 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
   (`TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Exact.lean`): over every ring, an injective
   homomorphism of commutative groups induces a faithfully flat map of group algebras, and a short exact
   sequence `1 → L → M → N → 1` induces a short exact sequence of the coordinate Hopf algebras of
-  `D(N) → D(M) → D(L)`. `TauCeti.MonoidAlgebra.etale_of_isUnit_card` (`…/MonoidAlgebra/Etale.lean`) and
+  `D(N) → D(M) → D(L)`. `TauCeti.DiagonalizableGroup.kernelCoordinateIso` and
+  `TauCeti.DiagonalizableGroup.finrank_kernelCoordinate`
+  (`TauCeti/Algebra/AlgebraicGroup/DiagonalizableGroup/Kernel.lean`): over every commutative ring `R` and
+  for every homomorphism `p : M → N` of commutative groups, the coordinate Hopf algebra of the kernel of
+  `D(N) → D(M)` is `R[N/p(M)]`, of rank `|N/p(M)|` over a nonzero `R`;
+  `TauCeti.DiagonalizableGroup.etale_kernelCoordinate_of_isUnit_card` and, over a field,
+  `TauCeti.DiagonalizableGroup.etale_kernelCoordinate_iff_isUnit_card` (`…/DiagonalizableGroup/Etale.lean`):
+  for finite `N/p(M)` that kernel is étale when `|N/p(M)|` is a unit, and over a field only then;
+  `TauCeti.DiagonalizableGroup.isCentralIsogeny_groupSchemeMap_of_injective_of_finite_quotient`
+  (`…/DiagonalizableGroup/Scheme/Isogeny.lean`): an injective homomorphism of finitely generated groups
+  with finite cokernel induces a central isogeny of the groups `Spec R[−]`.
+  `TauCeti.MonoidAlgebra.etale_of_isUnit_card` (`…/MonoidAlgebra/Etale.lean`) and
   `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card` (`…/MonoidAlgebra/Smooth.lean`): for a finite
   commutative group `M`, `R[M]` is étale over `R` when `|M|` is a unit of `R`, and over a field `k`,
   `k[M]` is smooth iff `|M|` is a unit of `k`. These are the affine case of §7.12b.
@@ -325,7 +346,36 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
 - `TauCeti.GradedAlgebra.gradedAlgebraQuotientPiece`
   (`TauCeti/RingTheory/GradedAlgebra/Homogeneous/Quotient.lean`): the grading induced on the quotient by
   a homogeneous ideal, the degree-`i` piece being the image of the degree-`i` piece; it grades the
-  homogeneous coordinate ring of §7.8. The twisting sheaf `𝒪(1)` on `Proj` is not at the pin.
+  homogeneous coordinate ring of §7.8. `HomogeneousIdeal.quotientGrading` (same file) is that grading
+  for a homogeneous ideal `I`, and `HomogeneousIdeal.mk_X_mem_quotientGrading`
+  (`TauCeti/RingTheory/GradedAlgebra/HomogeneousLocalization/Dehomogenization.lean`) puts the class of
+  each coordinate `Xⱼ` in degree one.
+- `HomogeneousIdeal.iSup_basicOpen_eq_top`
+  (`TauCeti/AlgebraicGeometry/ProjectiveSpectrum/PolynomialQuotient.lean`): the standard charts `D₊(Xⱼ)`
+  cover `Proj (R[X₀, …, Xₙ] ⧸ I)`. `AlgebraicGeometry.Proj.twistingSheaf`
+  (`TauCeti/AlgebraicGeometry/ProjectiveSpectrum/TwistingSheaf/Basic.lean`): the twisting sheaves
+  `𝒪(n)`, `n ∈ ℤ`, on `Proj A` of a graded ring `A`;
+  `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top`
+  (`…/TwistingSheaf/LocalTriviality.lean`): every `𝒪(n)` is invertible when the standard opens of a
+  family of degree-one elements cover `Proj A`; `AlgebraicGeometry.Proj.lineBundleClass_twistingSheaf_eq_zpow`
+  (`…/TwistingSheaf/TensorProduct.lean`): then `[𝒪(n)] = [𝒪(1)]^n` in `LineBundleClass (Proj A)`.
+  With `TauCeti.AlgebraicGeometry.LineBundleClass.mk` these give the class `classTwistingSheafOne I` of
+  `𝒪(1)` used in §7.8.
+- `TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.IsLocalRing.mem_puncturedSpectrum_iff` and
+  `TauCeti.IsLocalRing.isCompact_puncturedSpectrum_of_fg_maximalIdeal`
+  (`TauCeti/AlgebraicGeometry/PuncturedSpectrum.lean`): the open subscheme `Spec R ∖ {𝔪}` of a local ring,
+  whose points are the primes other than `𝔪`, quasi-compact when `𝔪` is finitely generated.
+  `TauCeti.FiniteEtaleScheme` (`TauCeti/AlgebraicGeometry/FiniteEtale/Basic.lean`): finite étale schemes over `S`, the full
+  subcategory of `Over S`; `TauCeti.FiniteEtaleScheme.pullback`, `TauCeti.FiniteEtaleScheme.pullbackId`,
+  `TauCeti.FiniteEtaleScheme.pullbackComp` (`…/FiniteEtale/Fiber.lean`): base change along `f : T ⟶ S`,
+  with its identity and composition isomorphisms, and the instances making it preserve finite limits
+  and finite coproducts (`…/FiniteEtale/Exactness.lean`). `TauCeti.IsLocalRing.restrictPunctured`,
+  `TauCeti.IsLocalRing.PurityHolds` and `TauCeti.IsLocalRing.restrictPunctured_faithful_iff`
+  (`…/FiniteEtale/PuncturedSpectrum.lean`): pullback along the inclusion of the punctured spectrum,
+  purity as its essential surjectivity, and its faithfulness exactly when `0 < ringKrullDim R`. The
+  instance `GaloisCategory (TauCeti.FiniteEtaleScheme S)` for connected `S`
+  (`…/FiniteEtale/Galois/Category.lean`), with fibre functors the geometric fibres
+  `TauCeti.FiniteEtaleScheme.fiber x` (`…/FiniteEtale/Fiber.lean`): the Galois category of §1.8.
 - `TauCeti.IsRegularLocalRing.isDomain` (`TauCeti/RingTheory/RegularLocalRing/Basic.lean`): the instance
   making a regular local ring a domain, so that `UniqueFactorizationMonoid R` is meaningful in §7.4.
 - `TauCeti.IsRegularLocalRing.free_of_ringKrullDim_le_depth` and
@@ -356,6 +406,7 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
+§0.3 `Proj` of a graded ring, its base change and the relative `Proj` with its twisting sheaves (§7.8);
 §0.4 `coherent_extension` (a coherent sheaf on an open of a Noetherian scheme is the restriction of a
 coherent sheaf on the whole scheme; it does not assert coherence of `j_*F`); §0.6 `coherent_hartogs`,
 `reflexive_extension_normal`, `reflexive_extension_of_depth` (for an open `j : U → X` of a locally
@@ -365,7 +416,8 @@ coherent reflexive modules on `X` and on `U`; in particular `j_*F` is coherent f
 pair, `henselization_flat`, `henselization_noetherian`; §0.14 `henselian_finiteEtale_equivalence`;
 §0.17 the theory of depth and of Cohen–Macaulay modules and rings (depth bounds, unmixedness,
 Serre's conditions), on the pinned carriers Mathlib `IsLocalRing.depth` and Tau Ceti
-`Module.IsCohenMacaulay`, `TauCeti.Ring.IsCohenMacaulay`; §0.24 perfect schemes and
+`Module.IsCohenMacaulay`, `TauCeti.Ring.IsCohenMacaulay`; §0.21 regular ring maps, G-rings and
+excellent rings and schemes (§1.4); §0.24 perfect schemes and
 perfection; §1.1 `qcoh_fpqc_descent` and `sheaf_stack` (descent of quasi-coherent modules along fpqc
 covers, and of sheaves and abelian sheaves along covers of a site); §1.15 torsors; §1.18 stacks in
 groupoids and gerbes; §§2.1–2.3 cohomology on sites, Leray and Čech spectral sequences, torsor
@@ -378,11 +430,12 @@ classes; §2.7 `cohomologyWithSupport`,
 `etale_galois_comparison`, `etale_cohomology_limits`; §2.22 `SchemeBrauerGroup`,
 `CohomologicalBrauer`, `SchemeBrauerGroup.toCohomologicalBrauer`, `azumaya_equivalent_conditions`,
 `brauer_regular_injectivity` (affine regular integral `X`), `brauer_henselian_local`; §3.4 Picard
-groups. Assumed as stated there.
+groups; §4.7 adic rings, the formal spectrum and adic thickening systems; §4.8 formal completion of a
+scheme along a closed subscheme and coherent formal modules (§1.7). Assumed as stated there.
 
 ### From TauCetiRoadmap.LocalPurity
 
-§1.1 the punctured spectrum of a local ring and `PurityHolds`; §1.3 `extends_iff_completion_extends`
+§1.3 `extends_iff_completion_extends`
 (Stacks 0BLL); §2.1 `purityHolds_of_isRegularLocalRing` (Stacks 0BMA); §2.2
 `finiteEtale_extend_of_purity` (Stacks 0EY7).
 
@@ -399,10 +452,8 @@ scheme already descended (used in §§7.12c–7.12d).
 
 ### From TauCetiRoadmap.EtaleCohomologyFoundations
 
-§F.0.2 `VanishingCycles.finiteEtaleGaloisCategory` (the Galois category of finite étale covers of a
-connected scheme and its fundamental group); §F.0.4 étale topological invariance (the étale site of
-a scheme and of a nil-thickening of it coincide); §F.5 exceptional inverse image and duality on its
-stated domains.
+§F.0.4 étale topological invariance (the étale site of a scheme and of a nil-thickening of it
+coincide); §F.5 exceptional inverse image and duality on its stated domains.
 
 ### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
@@ -570,40 +621,42 @@ sequences, valid over arbitrary rings, to which the vanishing statements of Laye
 
 ### 0.1 The punctured spectrum of a semilocal ring
 
-Define `puncturedSpectrum R`, for a commutative ring `R`, as the open subscheme of `Spec R`
-complementary to the zero locus of the Jacobson radical `J(R)` (Mathlib `Ring.jacobson`). For a
-semilocal ring this removes exactly the finitely many closed points ([C19] §1.5, p. 3); for a local
-ring `(R, 𝔪)` it is `Spec R ∖ {𝔪}`, the punctured spectrum of LocalPurity §1.1. For a ring that is
-not semilocal the definition is still meaningful but is not used.
+Define the **punctured spectrum** `U_R`, for a commutative ring `R`, as the open subscheme of
+`Spec R` complementary to the zero locus of the Jacobson radical `J(R)` (Mathlib `Ring.jacobson`). For
+a semilocal ring this removes exactly the finitely many closed points ([C19] §1.5, p. 3); for a local
+ring `(R, 𝔪)` it is `Spec R ∖ {𝔪}`, Tau Ceti's `TauCeti.IsLocalRing.puncturedSpectrum R`, on which the
+local headlines of §§1.8 and 7.6 are stated. For a ring that is not semilocal the definition is still
+meaningful but is not used.
 *Needs:* Mathlib `AlgebraicGeometry.Scheme.Opens`, `PrimeSpectrum.zeroLocus`, `Ring.jacobson`,
-`IsLocalRing.closedPoint`; LocalPurity §1.1 (comparison).
+`IsLocalRing.closedPoint`; Tau Ceti `TauCeti.IsLocalRing.puncturedSpectrum`,
+`TauCeti.IsLocalRing.isCompact_puncturedSpectrum_of_fg_maximalIdeal` (comparison).
 
 API (each a target):
-- A prime of `R` lies in `puncturedSpectrum R` iff it does not contain `J(R)`; for semilocal `R`
-  iff it is not maximal; for local `R` iff it differs from `IsLocalRing.closedPoint R`, so the
-  carrier agrees with that of LocalPurity §1.1.
-- For `R` Noetherian, `puncturedSpectrum R` is quasi-compact and its inclusion into `Spec R` is a
-  quasi-compact open immersion: `J(R)` is finitely generated, so the complement of `V(J(R))` is a
-  finite union of principal opens.
-- For `R` nonzero and semilocal, `puncturedSpectrum R` is empty iff `ringKrullDim R = 0`.
+- A prime of `R` lies in `U_R` iff it does not contain `J(R)`; for semilocal `R` iff it is not
+  maximal; for local `R` iff it differs from `IsLocalRing.closedPoint R`, so that `U_R` is
+  `TauCeti.IsLocalRing.puncturedSpectrum R` (Tau Ceti `TauCeti.IsLocalRing.mem_puncturedSpectrum_iff`).
+- For `R` Noetherian, `U_R` is quasi-compact and its inclusion into `Spec R` is a quasi-compact open
+  immersion: `J(R)` is finitely generated, so the complement of `V(J(R))` is a finite union of
+  principal opens. For local `R` this is
+  `TauCeti.IsLocalRing.isCompact_puncturedSpectrum_of_fg_maximalIdeal`.
+- For `R` nonzero and semilocal, `U_R` is empty iff `ringKrullDim R = 0`.
 - For a finite ring map `R → R′` with `R` semilocal, `R′` is semilocal, its maximal ideals are those
-  over maximal ideals of `R`, and `puncturedSpectrum R′` is the preimage of `puncturedSpectrum R`
-  (the identity `V_{R′} = U_{R′}` used in [C19] Corollary 2.4).
+  over maximal ideals of `R`, and `U_{R′}` is the preimage of `U_R` (the identity `V_{R′} = U_{R′}`
+  used in [C19] Corollary 2.4).
 - For `R` Noetherian local with completion `R̂`, henselization `R^h` or strict henselization
-  `R^{sh}`, the punctured spectrum of each is the preimage of `puncturedSpectrum R`.
-- For `R` Noetherian local of depth `≥ 2`, restriction `Γ(Spec R, 𝒪) → Γ(puncturedSpectrum R, 𝒪)` is
-  bijective (SchemeAndStackFoundations §0.6, `coherent_hartogs`).
+  `R^{sh}`, the punctured spectrum of each is the preimage of `U_R`.
+- For `R` Noetherian local of depth `≥ 2`, restriction `Γ(Spec R, 𝒪) → Γ(U_R, 𝒪)` is bijective
+  (SchemeAndStackFoundations §0.6, `coherent_hartogs`).
 
 **Checks.**
-- For a field `K`, `puncturedSpectrum K` is empty, so its Krull dimension is `⊥` (the dimension of the
+- For a field `K`, `U_K` is empty, so its Krull dimension is `⊥` (the dimension of the
   empty poset, Mathlib `Order.krullDim_eq_bot`), while `ringKrullDim K = 0`: the two dimensions differ,
   and the dimension-zero characterisation above is about `ringKrullDim K`, not about the empty carrier.
 - For a discrete valuation ring `R` with uniformizer `π` and fraction field `K`,
-  `puncturedSpectrum R ≅ Spec K` and `Γ(puncturedSpectrum R, 𝒪) = R[1/π] ≠ R`: the depth-two
+  `U_R ≅ Spec K` and `Γ(U_R, 𝒪) = R[1/π] ≠ R`: the depth-two
   hypothesis of Hartogs cannot be dropped. For `ℤ_p` this is `ℚ_p`, for `k⟦t⟧` it is `k((t))`.
-- For `R = k⟦x, y⟧`, `puncturedSpectrum R = D(x) ∪ D(y)` is quasi-compact, not affine, and
-  `Γ(puncturedSpectrum R, 𝒪) = R`.
-- For `R = k × k` (two closed points) `puncturedSpectrum R = ∅`; removing only one closed point
+- For `R = k⟦x, y⟧`, `U_R = D(x) ∪ D(y)` is quasi-compact, not affine, and `Γ(U_R, 𝒪) = R`.
+- For `R = k × k` (two closed points) `U_R = ∅`; removing only one closed point
   would leave a copy of `Spec k`, so the semilocal carrier is not the complement of a single point.
 - For the zero ring the carrier is empty while `ringKrullDim` is `⊥`; the dimension-zero
   characterisation is stated for nonzero rings.
@@ -755,7 +808,8 @@ the valuation modulo `p`, so the bound `i ≤ dim R` of §6.5 is sharp in dimens
 ### Dependencies
 
 Mathlib sites, sheaf cohomology, local cohomology and regular sequences; SchemeAndStackFoundations
-§§0.6, 0.9, 2.1–2.3, 2.7, 2.10, 2.15; DerivedModuleAlgebra §0.K.1; LocalPurity §1.1.
+§§0.6, 0.9, 2.1–2.3, 2.7, 2.10, 2.15; DerivedModuleAlgebra §0.K.1; Tau Ceti
+`TauCeti.IsLocalRing.puncturedSpectrum`.
 
 ## Layer 1: Virtual dimension, étale depth and Zariski–Nagata purity
 
@@ -1006,29 +1060,27 @@ on punctured spectra).
 
 ### 1.8 Zariski–Nagata purity in virtual dimension at least three
 
-Define `finiteEtalePullback f`, for a morphism of schemes `f : Y ⟶ X`, as Mathlib's
-`MorphismProperty.Over.pullback` for the morphism property finite and étale, the restriction functor
-on finite étale schemes of LocalPurity §1.1.
-
-API (each a target):
-- `finiteEtalePullback (𝟙 X)` is isomorphic to the identity functor, and pullback along a composite is
-  isomorphic to the composite of the pullbacks.
-- For `X = Spec R` with `R` local and `f` the inclusion of `puncturedSpectrum R`, it is the restriction
-  functor of LocalPurity §1.1, so `PurityHolds R` is essential surjectivity of `finiteEtalePullback f`.
-- It preserves finite coproducts and the empty scheme.
+Restriction of finite étale schemes to the punctured spectrum `U_R = Spec R ∖ {𝔪}` of a local ring
+is Tau Ceti's `TauCeti.IsLocalRing.restrictPunctured R`, the base change
+`TauCeti.FiniteEtaleScheme.pullback` along the inclusion of `TauCeti.IsLocalRing.puncturedSpectrum R`;
+pullback is functorial up to `TauCeti.FiniteEtaleScheme.pullbackId` and
+`TauCeti.FiniteEtaleScheme.pullbackComp`, preserves finite limits and finite coproducts, and
+`TauCeti.IsLocalRing.PurityHolds R` is the essential surjectivity of `restrictPunctured R`.
 
 Prove ([CS24] Theorem 3.3.1 and proof, pp. 34–35;
 Remark 3.3.2, p. 35): for a Noetherian local ring `(R, 𝔪)`,
-(a) `zariskiNagata_full_faithful_connected`: if `vdim(R) ≥ 2`, pullback from finite étale schemes
-over `Spec R` to finite étale schemes over `puncturedSpectrum R` is fully faithful and
-`puncturedSpectrum R` is connected; then `π_1^ét(U_R) → π_1^ét(Spec R)` is surjective;
-(b) `zariskiNagata_isEquivalence`: if `vdim(R) ≥ 3`, this pullback is an equivalence of categories;
-then `π_1^ét(U_R) → π_1^ét(Spec R)` is an isomorphism.
+(a) `zariskiNagata_full_faithful_connected`: if `vdim(R) ≥ 2`, `restrictPunctured R` (from finite étale
+schemes over `Spec R` to finite étale schemes over `U_R`) is fully faithful and `U_R` is connected;
+then `π_1^ét(U_R) → π_1^ét(Spec R)` is surjective;
+(b) `zariskiNagata_isEquivalence`: if `vdim(R) ≥ 3`, `restrictPunctured R` is an equivalence of
+categories; then `π_1^ét(U_R) → π_1^ét(Spec R)` is an isomorphism.
 No excellence, normality or complete-intersection hypothesis is made.
 Route: connectedness follows from full faithfulness applied to `Spec R ⊔ Spec R`; the statements on
 `π_1` follow from those on functors by the fundamental theorem of Galois categories ([SGA1] V,
-Proposition 6.9 and Corollaire 6.10; EtaleCohomologyFoundations §F.0.2 with Mathlib
-`CategoryTheory.PreGaloisCategory.functorToContAction`). Reduce to complete `R` by
+Proposition 6.9 and Corollaire 6.10), applied to Tau Ceti's Galois categories
+`GaloisCategory (TauCeti.FiniteEtaleScheme S)` for `S = U_R` and `S = Spec R` with fibre functors
+`TauCeti.FiniteEtaleScheme.fiber` at a geometric point of `U_R` and at its image, and Mathlib
+`CategoryTheory.PreGaloisCategory.functorToContAction`. Reduce to complete `R` by
 LocalPurity §1.3 (`extends_iff_completion_extends` for essential surjectivity; for morphisms, flat
 descent of sections of finite étale schemes along `R → R̂`), and write `R = R̃/𝔣` with `R̃` complete
 regular and `𝔣 = (f_1, …, f_n)` minimally generated, so `vdim R = dim R̃ − n`. Finite étale schemes
@@ -1038,9 +1090,11 @@ morphisms over an open `V ⊃ U_R` whose complement has codimension `≥ 2`, and
 (SchemeAndStackFoundations §0.6) extends them. For (b), §1.7(b) algebraizes covers over such `V` with
 complement of codimension `≥ 3`, and Zariski–Nagata purity for the regular `R̃` (LocalPurity §§2.1–2.2)
 extends them.
-*Needs:* §§0.1, 1.1, 1.7; LocalPurity §§1.1, 1.3, 2.1, 2.2; SchemeAndStackFoundations §§0.6, 0.14;
-EtaleCohomologyFoundations §F.0.2; Mathlib `MorphismProperty.Over.pullback`,
-`CategoryTheory.PreGaloisCategory`.
+*Needs:* §§0.1, 1.1, 1.7; LocalPurity §§1.3, 2.1, 2.2; SchemeAndStackFoundations §§0.6, 0.14; Tau Ceti
+`TauCeti.IsLocalRing.restrictPunctured`, `TauCeti.IsLocalRing.puncturedSpectrum`,
+`TauCeti.FiniteEtaleScheme.pullback`, `TauCeti.FiniteEtaleScheme.fiber`, the instance
+`GaloisCategory (TauCeti.FiniteEtaleScheme S)`; Mathlib `CategoryTheory.PreGaloisCategory`,
+`CategoryTheory.PreGaloisCategory.functorToContAction`.
 
 **Checks.**
 - For `R` regular of dimension `2`, `vdim = 2` and (a) gives full faithfulness; the equivalence is
@@ -1054,11 +1108,12 @@ EtaleCohomologyFoundations §F.0.2; Mathlib `MorphismProperty.Over.pullback`,
   étale cover of `U_R` extends ([SGA2] X, Théorème 3.4(ii)), in agreement with (b).
 - For `R = k⟦x, y, z, t⟧/(x², y², xz − yt)`, `vdim = 1 < 2`, so no assertion is made even though
   `dim R = 2`.
-- For `f` an isomorphism `finiteEtalePullback f` is an equivalence; for the inclusion of the empty open
-  subscheme every finite étale scheme pulls back to the empty one, so the functor is essentially
-  surjective but not faithful as soon as `X` has a nonempty finite étale scheme with two distinct
-  endomorphisms (for instance `X ⊔ X`).
-- For `f : Spec ℂ → Spec ℝ`, `finiteEtalePullback f` sends the connected degree-two cover
+- In dimension `0` the hypotheses fail (`vdim R ≤ dim R = 0`), and so does the conclusion: `U_R` is
+  empty, every finite étale scheme over `Spec R` restricts to the empty one, and `restrictPunctured R`
+  is essentially surjective but not faithful, since the two inclusions `Spec R → Spec R ⊔ Spec R`
+  become equal (Tau Ceti `TauCeti.IsLocalRing.restrictPunctured_faithful_iff`: faithful iff
+  `0 < ringKrullDim R`).
+- For `f : Spec ℂ → Spec ℝ`, `TauCeti.FiniteEtaleScheme.pullback f` sends the connected degree-two cover
   `Spec ℂ → Spec ℝ` to `Spec ℂ ⊔ Spec ℂ`, since `ℂ ⊗_ℝ ℂ ≅ ℂ × ℂ`: the rank `2` is preserved,
   connectedness is not, and the functor is not full, because there is no map `Spec ℝ → Spec ℂ` over
   `Spec ℝ` (no `ℝ`-algebra map `ℂ → ℝ`) while after pullback there are two maps
@@ -1077,8 +1132,9 @@ only `H^0_𝔪(R, ℤ/ℓ) = 0`.
 §§0.1–0.2; DeformationAndDerivedPatchingAlgebra §3.4; DerivedDeRhamCohomology §§0.19, 0.21 and the
 complete-intersection defect contract; PerfectoidSpaces §P7.16a;
 ModularCurves Layer 4D; LefschetzPencilsAndVanishingCycles §0.10;
-EtaleCohomologyFoundations §§F.0.2, F.0.4, F.5; PrismaticCohomology §2.0; SchemeAndStackFoundations
-§§0.6, 0.14, 0.17, 0.21, 2.7, 2.10, 2.15, 4.7–4.8; LocalPurity §§1.1, 1.3, 2.1, 2.2; Tau Ceti
+EtaleCohomologyFoundations §§F.0.4, F.5; PrismaticCohomology §2.0; SchemeAndStackFoundations
+§§0.6, 0.14, 0.17, 0.21, 2.7, 2.10, 2.15, 4.7–4.8; LocalPurity §§1.3, 2.1, 2.2; Tau Ceti
+`TauCeti.IsLocalRing.restrictPunctured`, the instance `GaloisCategory (TauCeti.FiniteEtaleScheme S)`,
 `ModuleCat.projectiveDimension_add_depth_le_ringKrullDim`.
 
 ## Layer 2: The crystalline key formula over perfect schemes
@@ -1964,7 +2020,7 @@ Tau Ceti `TauCeti.IsRegularLocalRing.isDomain`, `TauCeti.IsRegularLocalRing.uniq
 ### 7.5 Parafactorial and geometrically parafactorial local rings
 
 Define a local ring `(R, 𝔪)` to be parafactorial if pullback is an equivalence from invertible sheaves on
-`Spec R` to invertible sheaves on `puncturedSpectrum R`; equivalently `Γ(Spec R, 𝒪) → Γ(U_R, 𝒪)` is
+`Spec R` to invertible sheaves on `U_R`; equivalently `Γ(Spec R, 𝒪) → Γ(U_R, 𝒪)` is
 bijective and `Pic(U_R)` (Tau Ceti `LineBundleClass`) is trivial. It is geometrically parafactorial if its
 strict henselization is parafactorial. A pair `(X, Y)` of a scheme and a closed subset is parafactorial if
 for every open `V ⊂ X` restriction of invertible sheaves from `V` to `V ∖ Y` is an equivalence ([EGA44]
@@ -2004,10 +2060,10 @@ API (each a target):
 ### 7.6 Gabber's conjecture on the local Picard group
 
 Prove `localPicard_torsion_eq_one`: for a Noetherian local ring `(R, 𝔪)` that is a complete intersection
-of dimension `≥ 3`, every torsion element of `Pic(puncturedSpectrum R)` (Tau Ceti `LineBundleClass`) is
-trivial ([CS24] Theorem 7.2.1 and proof, pp. 88–89; announced as Theorem 1.1.3(a), p. 3; [Gab04b]
-Conjecture 3). Prove `localPicard_subsingleton`: for a regular local ring `R` (of any dimension),
-`Pic(puncturedSpectrum R)` is trivial (the regular clause of [CS24] Theorem 7.2.1). Together with the
+of dimension `≥ 3`, every torsion element of `Pic(U_R)` (Tau Ceti `LineBundleClass` of
+`TauCeti.IsLocalRing.puncturedSpectrum R`) is trivial ([CS24] Theorem 7.2.1 and proof, pp. 88–89;
+announced as Theorem 1.1.3(a), p. 3; [Gab04b] Conjecture 3). Prove `localPicard_subsingleton`: for a regular local ring `R` (of any dimension),
+`Pic(U_R)` is trivial (the regular clause of [CS24] Theorem 7.2.1). Together with the
 vanishing of `Pic(U_R)` for complete intersections of dimension `≥ 4` (DeformationAndDerivedPatchingAlgebra
 §6.9, recorded in §7.5), this is the whole of [CS24] Theorem 7.2.1. Route: for regular `R` a line bundle
 on `U_R` extends to a line bundle on `Spec R` by §7.4 (Weil divisors on the factorial `R`, with
@@ -2026,7 +2082,7 @@ Kummer sequence (SchemeAndStackFoundations §2.11) for some `n ≥ 1`, and its i
   is trivial, in agreement with the regular clause.
 - Dimension-two complete intersections can have torsion: for the local ring `S` at the vertex of the
   affine cone over a smooth plane cubic over `ℂ`, a two-dimensional hypersurface, `Pic(U_S)_tors` is
-  infinite ([CS24] Remark 7.2.4).
+  infinite ([CS24] Remark 7.2.6, p. 90).
 - The `A_1` singularity `k⟦x, y, z⟧/(xz − y²)` is a complete intersection of dimension `2` with
   `Pic(U_R) = ℤ/2 ≠ 0`: `localPicard_torsion_eq_one` excludes it by `dim R ≥ 3` and
   `localPicard_subsingleton` because it is not regular.
@@ -2053,15 +2109,37 @@ units of `R` are squares, so the Kummer sequence identifies `H^1(U_R, μ_2)` wit
 
 ### 7.8 Picard groups of global complete intersections
 
-Prove: for a field `k` and a global complete intersection `X ⊂ ℙⁿ_k` of dimension `≥ 2`,
-`(Pic(X)/ℤ·[𝒪(1)])_tors = 0`; if `dim X ≥ 3`, `Pic(X)` is free of rank one, generated by `[𝒪(1)]` ([CS24]
-Corollary 7.2.3 and proof, p. 89; [SGA2] XII, Corollaire 3.7, p. 121; Deligne for smooth `X`). Route: the
-homogeneous coordinate ring `R = k[x_0, …, x_n]/(f_1, …, f_{n−d})` with `f` a regular sequence of forms
-satisfies `R ≅ ⊕_{m≥0} Γ(X, 𝒪(m))`, a line bundle `L` gives the graded module `⊕_m Γ(X, L(m))` restricting to
-a line bundle on `U_{R_𝔪}`, compatibly with tensor products, which gives an injection
-`Pic(X)/ℤ·[𝒪(1)] → Pic(U_{R_𝔪})`; `R_𝔪` is a complete intersection of dimension `d + 1`, and §7.6 applies.
-*Needs:* §7.6; SchemeAndStackFoundations §§0.3, 3.4; Mathlib `AlgebraicGeometry.Proj`; Tau Ceti
-`TauCeti.GradedAlgebra.gradedAlgebraQuotientPiece` (the grading of `R` induced from the polynomial ring).
+A global complete intersection of dimension `d` in `ℙⁿ_k`, `k` a field, is
+`X = Proj (k[X₀, …, Xₙ] ⧸ I)` with `I = (f_1, …, f_c)` generated by forms `f_i` of positive degree that
+form a regular sequence (Mathlib `RingTheory.Sequence.IsWeaklyRegular`, which for forms of positive
+degree has nonzero final quotient), so that `d = n − c`; `Proj` is taken for the grading of the
+quotient by total degree (Tau Ceti `HomogeneousIdeal.quotientGrading`). The class `[𝒪(1)]` in
+`Pic(X)` (Tau Ceti `LineBundleClass`) is `classTwistingSheafOne I`, the class of Tau Ceti's twisting
+sheaf `AlgebraicGeometry.Proj.twistingSheaf … 1`, invertible because the charts `D₊(Xⱼ)` cover `X`
+(`HomogeneousIdeal.iSup_basicOpen_eq_top`, `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top`);
+the class of `𝒪(m)` is `[𝒪(1)]^m` (`AlgebraicGeometry.Proj.lineBundleClass_twistingSheaf_eq_zpow`).
+
+Prove ([CS24] Corollary 7.2.3 and proof, p. 89; [SGA2] XII, Corollaire 3.7, p. 121; Deligne for smooth
+`X`): (a) `picard_globalCompleteIntersection_torsion_eq_one`: if `d ≥ 2`, every torsion element of the
+quotient `Pic(X)/ℤ·[𝒪(1)]` is trivial; (b) `picard_globalCompleteIntersection_bijective_zpow`: if
+`d ≥ 3`, `m ↦ [𝒪(1)]^m` is a bijection `ℤ → Pic(X)`, that is, `Pic(X)` is free of rank one with
+generator `[𝒪(1)]`. Route for (a): the homogeneous coordinate ring `R = k[X₀, …, Xₙ]/(f_1, …, f_c)`
+satisfies `R ≅ ⊕_{m≥0} Γ(X, 𝒪(m))`, a line bundle `L` gives the graded module `⊕_m Γ(X, L(m))`
+restricting to a line bundle on `U_{R_𝔪}`, `𝔪 = (X₀, …, Xₙ)`, compatibly with tensor products, which
+gives an injection `Pic(X)/ℤ·[𝒪(1)] → Pic(U_{R_𝔪})`; `R_𝔪` is a complete intersection of dimension
+`d + 1`, and §7.6 applies. Route for (b): the same injection lands in `Pic(U_{R_𝔪})`, which vanishes
+for the complete intersection `R_𝔪` of dimension `d + 1 ≥ 4` (DeformationAndDerivedPatchingAlgebra
+§6.9, recorded in §7.5); [SGA2] XII argues instead by induction on the number of equations through its
+Corollaire 3.6. `[𝒪(1)]` has infinite order because `X` is projective of positive dimension and `𝒪(1)`
+is ample.
+*Needs:* §§7.5, 7.6; DeformationAndDerivedPatchingAlgebra §6.9; SchemeAndStackFoundations §§0.3, 3.4;
+Mathlib `AlgebraicGeometry.Proj`, `MvPolynomial.gradedAlgebra`, `HomogeneousIdeal`,
+`RingTheory.Sequence.IsWeaklyRegular`, `Subgroup.zpowers`, `IsOfFinOrder`; Tau Ceti
+`TauCeti.GradedAlgebra.gradedAlgebraQuotientPiece`, `HomogeneousIdeal.quotientGrading`,
+`HomogeneousIdeal.mk_X_mem_quotientGrading`, `HomogeneousIdeal.iSup_basicOpen_eq_top`,
+`AlgebraicGeometry.Proj.twistingSheaf`, `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top`,
+`AlgebraicGeometry.Proj.lineBundleClass_twistingSheaf_eq_zpow`,
+`TauCeti.AlgebraicGeometry.LineBundleClass`.
 
 **Checks.**
 - A cubic threefold `X ⊂ ℙ⁴` has `Pic(X) = ℤ[𝒪(1)]`.
@@ -2071,6 +2149,11 @@ a line bundle on `U_{R_𝔪}`, compatibly with tensor products, which gives an i
   prime-to-characteristic torsion points; [CS24] Remark 7.2.4, p. 90, uses an elliptic curve): dimension `≥ 2` is
   needed. Smoothness matters for this Check: for the cuspidal cubic `y²z = x³` over `ℂ`,
   `Pic^0(X) ≅ (ℂ, +)` is torsion free and, as `deg 𝒪(1) = 3`, the torsion subgroup is `ℤ/3`.
+- For `c = 0`, `X = ℙⁿ`: for `n ≥ 3`, (b) is `Pic(ℙⁿ) = ℤ·[𝒪(1)]` with `[𝒪(1)]` of infinite order; for
+  `n = 2`, (a) holds with trivial quotient and (b) makes no assertion.
+- Positive degree of the forms is needed: the constant `1` is a nonzerodivisor of degree `0`, and with
+  `f_1 = 1` the quotient ring is zero, `X` is empty, `Pic(X)` is trivial and `m ↦ [𝒪(1)]^m` is not
+  injective, although `n − c` can be as large as `n − 1`.
 
 ### 7.9 Torsion of 𝔾_m-cohomology for schemes with factorial strict henselizations
 
@@ -2089,13 +2172,16 @@ injection in degree two.
 **Checks.**
 - For `X = Spec R`, `R` a discrete valuation ring, (b) is the injectivity `Br(R) → Br(K)`.
 - For `X = 𝔸²_ℂ`, (b) embeds `H²(X, 𝔾_m)` into `Br(ℂ(x, y))`, a torsion group, as (a) also says.
-- For `X = Spec K` a field both parts say `H^i(K, 𝔾_m)` is torsion for `i ≥ 1`.
+- For `X = Spec K` a field, (a) says that `H^i(K, 𝔾_m)` is torsion for `i ≥ 2` (Galois cohomology of a
+  profinite group in positive degree), and in (b) the map is the identity of `H²(K, 𝔾_m)`, so (b)
+  asserts nothing more; `H^1(K, 𝔾_m) = 0` is Hilbert 90 (SchemeAndStackFoundations §2.11), not a case
+  of either part.
 
 ### 7.10 The Brauer comparison of Gabber and de Jong
 
 Prove: for a scheme `X` with an ample invertible sheaf (EGA II 4.5.3, so `X` is quasi-compact and
 separated), in particular for every quasi-compact open subscheme of an affine scheme (Mathlib's
-`IsQuasiAffine` includes `CompactSpace`): `Spec R` for every ring `R`, and `puncturedSpectrum R` whenever
+`IsQuasiAffine` includes `CompactSpace`): `Spec R` for every ring `R`, and `U_R` whenever
 it is quasi-compact, for instance for `R` Noetherian (§0.1), the map
 `SchemeBrauerGroup.toCohomologicalBrauer : Br(X) → H²(X, 𝔾_m)_tors` of SchemeAndStackFoundations §2.22 is
 an isomorphism ([dJ02], Theorem 1.1, after Gabber; [CS24] proof of Theorem 7.2.5, p. 90). Route: de Jong's
@@ -2107,13 +2193,13 @@ locally free `α`-twisted sheaf of positive rank, whose endomorphism algebra is 
 **Checks.**
 - For `X = Spec K` a field it is the classical identification of `Br(K)` with `H²(K, 𝔾_m)`.
 - For `X = Spec R` affine the ample bundle is `𝒪`, recovering Gabber's affine theorem; for
-  `X = puncturedSpectrum k⟦x, y, z⟧` (quasi-affine, not affine) the theorem still applies.
+  `X = U_R` for `R = k⟦x, y, z⟧` (quasi-affine, not affine) the theorem still applies.
 - Quasi-compactness of the open is a hypothesis, not a consequence of §0.1: for
   `R = k[x_1, x_2, …]_{(x_1, x_2, …)}` (every finite subset of variables, localised at the maximal ideal
-  they generate), `puncturedSpectrum R = ⋃_i D(x_i)` has no finite subcover, since the prime
-  `(x_1, …, x_n)R` lies in `D(x_{n+1})` but in none of `D(x_1), …, D(x_n)`; so `puncturedSpectrum R` is
-  not quasi-affine in Mathlib's sense and the theorem makes no assertion about it. For `R = k⟦x, y⟧`,
-  `puncturedSpectrum R = D(x) ∪ D(y)` is quasi-compact and the theorem applies.
+  they generate), `U_R = ⋃_i D(x_i)` has no finite subcover, since the prime `(x_1, …, x_n)R` lies in
+  `D(x_{n+1})` but in none of `D(x_1), …, D(x_n)`; so `U_R` is not quasi-affine in Mathlib's sense and
+  the theorem makes no assertion about it. For `R = k⟦x, y⟧`, `U_R = D(x) ∪ D(y)` is quasi-compact and
+  the theorem applies.
 - The comparison is only for torsion classes: for the four-dimensional complete intersection
   `R = S^{sh}⟦x, y⟧/(xy)` built from the Segre cone `S` (§7.12, Checks), `H²(U_R, 𝔾_m)` has nontorsion
   classes, which are not Azumaya.
@@ -2172,16 +2258,16 @@ dimension `≥ 3`); the remaining case is §7.11.
 ### 7.12a Diagonalizable groups over a base scheme
 
 For a scheme `S` and a finitely generated commutative group `M` (an object of `TauCeti.FGCommGrpCat`,
-written multiplicatively), define the **diagonalizable group** `diagonalizableGroup S M`, written
-`D_S(M)`, as the base change along the unique morphism `S → Spec ℤ` (Mathlib `specULiftZIsTerminal`)
-of `TauCeti.DiagonalizableGroup.groupScheme` over `ℤ`: over an affine open `Spec A ⊂ S` it is
+written multiplicatively), define the **diagonalizable group** `D_S(M)` as the base change along the
+unique morphism `S → Spec ℤ` (Mathlib `specULiftZIsTerminal`) of `TauCeti.DiagonalizableGroup.groupScheme`
+over `ℤ`: over an affine open `Spec A ⊂ S` it is
 `Spec A[M]`, with comultiplication `m ↦ m ⊗ m`, counit `m ↦ 1` and antipode `m ↦ m⁻¹`. For a
-homomorphism `φ : N → M` define `diagonalizableGroupMap S φ : D_S(M) → D_S(N)` as the base change of
+homomorphism `φ : N → M` define `D_S(φ) : D_S(M) → D_S(N)` as the base change of
 `TauCeti.DiagonalizableGroup.groupSchemeMap`; on coordinate rings it is `A[N] → A[M]`, `n ↦ φ(n)`, so
 `D_S` is contravariant. A group over `S` is an object of Mathlib's `Grp (Over S)`, and base change
 along `f : S′ → S` is `(Over.pullback f).mapGrp`, functorial up to the coherent isomorphisms
 `Over.pullbackId`, `Over.pullbackComp`, `Functor.mapGrpIdIso` and `Functor.mapGrpCompIso` (SGA 3 VIII,
-1.1; [C19] §2; [CS24] §7.2, p. 91).
+1.1; [CS24] §7.2, p. 91).
 *Needs:* Mathlib `Grp`, `Over.pullback`, `Functor.mapGrp`, `specULiftZIsTerminal`, `IsCommMonObj`,
 `Scheme.Hom.fiber`, `LocallyConstant`; Tau Ceti `TauCeti.FGCommGrpCat`,
 `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap`,
@@ -2192,20 +2278,21 @@ along `f : S′ → S` is `(Over.pullback f).mapGrp`, functorial up to the coher
 ModularCurves 0B; SchemeAndStackFoundations §2.9.
 
 API (each a target):
-- `D_S(M)` is a commutative group over `S` (`isCommMonObj_diagonalizableGroup`) whose structure
-  morphism is affine, flat, surjective and locally of finite presentation
-  (`diagonalizableGroup_affine_faithfullyFlat_finitePresentation`; SGA 3 VIII, 2.1): `A[M]` is a free
+- `D_S(M)` is a commutative group over `S` (Mathlib `IsCommMonObj`) whose structure morphism is
+  affine, flat, surjective and locally of finite presentation (SGA 3 VIII, 2.1): `A[M]` is a free
   `A`-module on `M`, nonzero when `A` is, and a finitely presented `A`-algebra because `M` is finitely
   generated.
-- Over an affine base it is the Tau Ceti group, `D_{Spec R}(M) ≅ TauCeti.DiagonalizableGroup.groupScheme R M`
-  (`diagonalizableGroup_spec_iso`). Its formation commutes with base change: for every `f : S′ → S`,
-  `(Over.pullback f).mapGrp` carries `D_S(M)` to `D_{S′}(M)` (`diagonalizableGroup_pullback_iso`) and
-  `D_S(φ)` to `D_{S′}(φ)`. In particular the fibre of `D_S(M)` at `s ∈ S` (Mathlib `Scheme.Hom.fiber`) is
-  `D_{κ(s)}(M)`, of multiplicative type over the field `κ(s)`
+- Over an affine base it is the Tau Ceti group: the canonical isomorphism induced by
+  `R ⊗_ℤ ℤ[M] ≅ R[M]` identifies `D_{Spec R}(M)` with `TauCeti.DiagonalizableGroup.groupScheme R M`.
+  Its formation commutes with base change: for every `f : S′ → S`, the canonical isomorphism of
+  iterated base changes identifies `(Over.pullback f).mapGrp` of `D_S(M)` with `D_{S′}(M)`, and of
+  `D_S(φ)` with `D_{S′}(φ)`. In particular the fibre of `D_S(M)` at `s ∈ S` (Mathlib `Scheme.Hom.fiber`)
+  is `D_{κ(s)}(M)`, of multiplicative type over the field `κ(s)`
   (`TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`).
 - Points: for a scheme `T` over `S`, the `S`-morphisms `T → D_S(M)` are in natural bijection with the
-  homomorphisms `M → Γ(T, 𝒪_T)^×`, compatibly with the group structures on both sides
-  (`diagonalizableGroup_points_equiv`); for `S = Spec R` and `T = Spec A` this is
+  homomorphisms `M → Γ(T, 𝒪_T)^×`, compatibly with the group structures on both sides: a point
+  `t : T → D_S(M)` goes to the homomorphism taking `m` to `t^*(m)`, the pullback of the group-like
+  coordinate `m`. For `S = Spec R` and `T = Spec A` this is
   `TauCeti.DiagonalizableGroup.schemePointsMulEquiv`.
 - `D_S` takes the trivial group to the trivial group `S` and products to fibre products over `S`. Through
   the points, `D_S(ℤ)` represents SchemeAndStackFoundations §2.9's `Gm S`, `D_S(ℤ/n)` represents its
@@ -2218,11 +2305,11 @@ API (each a target):
   for `TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme R M`, and over `S` its base change, Cartier
   duality commuting with base change (ModularCurves 0B).
 - Homomorphisms: for connected `S`, `φ ↦ D_S(φ)` is a bijection from the homomorphisms `N → M` onto the
-  group homomorphisms `D_S(M) → D_S(N)` over `S` (`diagonalizableGroupMap_bijective`; SGA 3 VIII, 1.6);
+  group homomorphisms `D_S(M) → D_S(N)` over `S` (SGA 3 VIII, 1.6);
   over an affine base it is the fullness and faithfulness of `TauCeti.DiagonalizableGroup.schemeFunctor`.
   For arbitrary `S`, the group homomorphisms `D_S(M) → D_S(N)` are the locally constant functions
-  `S → Hom(N, M)`, `D_S(φ)` being the constant function `φ`
-  (`diagonalizableGroupHom_equiv_locallyConstant`), and the functor `T ↦ Hom_T(D_T(M), D_T(N))` on
+  `S → Hom(N, M)` (Mathlib `LocallyConstant`), `D_S(φ)` being the constant function `φ`, and the
+  functor `T ↦ Hom_T(D_T(M), D_T(N))` on
   `S`-schemes is represented by the constant `S`-scheme `⊔_{Hom(N, M)} S` (SGA 3 VIII, 1.5). Route: a
   homomorphism is a map of Hopf algebras `𝒪_S[N] → 𝒪_S[M]`, determined by the images of the elements of
   `N`, which are group-like; the group-like elements of `A[M]` are the sums `∑ e_m m` for decompositions
@@ -2244,9 +2331,9 @@ API (each a target):
 
 ### 7.12b Smoothness, exactness and kernels of diagonalizable groups
 
-Prove `smooth_diagonalizableGroup_iff`: `D_S(M) → S` is smooth iff the order of the torsion subgroup
-`M_tors` of `M` (Mathlib `CommGroup.torsion`) is a unit of `Γ(S, 𝒪_S)`, that is, invertible on `S`; and
-`etale_diagonalizableGroup_iff`: for nonempty `S`, `D_S(M) → S` is étale iff `M` is finite and `|M|` is
+Prove: `D_S(M) → S` is smooth iff the order of the torsion subgroup `M_tors` of `M` (Mathlib
+`CommGroup.torsion`) is a unit of `Γ(S, 𝒪_S)`, that is, invertible on `S`; and, for nonempty `S`,
+`D_S(M) → S` is étale iff `M` is finite and `|M|` is
 invertible on `S` (SGA 3 VIII, 2.1). Route: `D_S(M)` is flat and locally of finite presentation
 (§7.12a), so it is smooth iff its fibres are ([EGA44] 17.5.1); write `M ≅ ℤ^r × M_tors`, so that
 `D_κ(M) ≅ 𝔾_m^r × D_κ(M_tors)` over a field `κ`; `κ[M_tors]` is étale over `κ` when `|M_tors|` is a unit
@@ -2254,15 +2341,16 @@ of `κ` (`TauCeti.MonoidAlgebra.etale_of_isUnit_card`) and not smooth otherwise
 (`TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`); étaleness adds that the relative dimension `r`
 vanishes.
 
-Prove `isPullback_diagonalizableGroupMap_quotient`: for every homomorphism `φ : N → M`, the kernel of
-`D_S(φ) : D_S(M) → D_S(N)`, that is, its fibre product with the unit section of `D_S(N)`, is
-`D_S(M/φ(N))`, embedded by the closed immersion `D_S(M → M/φ(N))`
+Prove: for every homomorphism `φ : N → M`, the kernel of `D_S(φ) : D_S(M) → D_S(N)`, that is, its fibre
+product (Mathlib `CategoryTheory.IsPullback`) with the unit section of `D_S(N)`, is `D_S(M/φ(N))`,
+embedded by the closed immersion `D_S(M → M/φ(N))`
 (`TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`) (SGA 3 VIII, 3.1). Route:
-over `Spec A`, the tensor product `A[M] ⊗_{A[N]} A` along the counit of `A[N]` is the quotient of `A[M]`
-by the ideal generated by the `φ(n) − 1`, which is `A[M/φ(N)]`; injectivity of `φ` is not used.
+over `Spec A` this is Tau Ceti's `TauCeti.DiagonalizableGroup.kernelCoordinateIso` (the coordinate Hopf
+algebra `A[M] ⊗_{A[N]} A` of the kernel, the quotient of `A[M]` by the Hopf ideal generated by the
+`φ(n) − 1`, is `A[M/φ(N)]` through the quotient map, over every commutative ring `A`); base change along
+`S → Spec ℤ`, with which kernels commute, gives it over `S`. Injectivity of `φ` is not used.
 
-Prove, for an injective `φ : N → M`, `flat_diagonalizableGroupMap_of_injective` and
-`surjective_diagonalizableGroupMap_of_injective`: `D_S(φ)` is flat and surjective; it is moreover affine
+Prove, for an injective `φ : N → M`: `D_S(φ)` is flat and surjective; it is moreover affine
 and locally of finite presentation, hence an epimorphism of sheaves on the big fppf site (SGA 3 VIII,
 3.2). Route: over `Spec A`, `A[M]` is a free `A[N]`-module on any set of representatives of the cosets
 of `φ(N)` (`TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`), and a finitely
@@ -2277,8 +2365,12 @@ change along `S → Spec ℤ` gives it over `S`.
 `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`,
 `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`,
 `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`,
-`TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`; SchemeAndStackFoundations
-§§2.9, 2.11.
+`TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`,
+`TauCeti.DiagonalizableGroup.kernelCoordinateIso`, `TauCeti.DiagonalizableGroup.finrank_kernelCoordinate`,
+`TauCeti.DiagonalizableGroup.etale_kernelCoordinate_of_isUnit_card`,
+`TauCeti.DiagonalizableGroup.etale_kernelCoordinate_iff_isUnit_card`,
+`TauCeti.DiagonalizableGroup.isCentralIsogeny_groupSchemeMap_of_injective_of_finite_quotient`;
+SchemeAndStackFoundations §§2.9, 2.11.
 
 API (each a target):
 - For `s ∈ S`, the fibre `D_{κ(s)}(M)` is smooth iff the characteristic of `κ(s)` does not divide
@@ -2286,6 +2378,12 @@ API (each a target):
   invertible.
 - If `φ` is injective with finite cokernel, `D_S(φ)` is a torsor under `D_S(M/φ(N))`, finite locally free
   of degree `[M : φ(N)]`, and étale exactly over the open subscheme on which `[M : φ(N)]` is invertible.
+  Over `Spec A` the kernel and its degree are `TauCeti.DiagonalizableGroup.kernelCoordinateIso` and
+  `TauCeti.DiagonalizableGroup.finrank_kernelCoordinate` (for `A` nonzero), the étale criterion is
+  `TauCeti.DiagonalizableGroup.etale_kernelCoordinate_of_isUnit_card` (the converse over a field,
+  `TauCeti.DiagonalizableGroup.etale_kernelCoordinate_iff_isUnit_card`, applied at the residue fields),
+  and `D_{Spec A}(φ)` is a central isogeny
+  (`TauCeti.DiagonalizableGroup.isCentralIsogeny_groupSchemeMap_of_injective_of_finite_quotient`).
 - For `n ≥ 1` and `φ` the `n`-th power map of `ℤ` (written multiplicatively), the exact sequence is the
   Kummer sequence `1 → μ_n → 𝔾_m → 𝔾_m → 1` of SchemeAndStackFoundations §2.11
   (`fppf_kummer_sequence`), and its kernel statement is `mu_eq_ker_pow` of §2.9 there, through the
@@ -2309,20 +2407,19 @@ API (each a target):
 ### 7.12c Groups of multiplicative type and tori over a base
 
 Define, for a group `G` over a scheme `S`:
-- `IsDiagonalizable G`: `G ≅ D_S(M)` for some finitely generated `M`;
-- `IsMultiplicativeType G`: some fppf cover `{S_i → S}` (Mathlib `Scheme.Cover` for
+- `G` is **diagonalizable** if `G ≅ D_S(M)` for some finitely generated `M`;
+- `G` is **of multiplicative type** if some fppf cover `{S_i → S}` (Mathlib `Scheme.Cover` for
   `Scheme.fppfPrecoverage`) has every base change `G_{S_i}` diagonalizable, `G_{S_i} ≅ D_{S_i}(M_i)`, the
   finitely generated group `M_i` being allowed to depend on `i`;
-- `IsTorus G`: the same with every `M_i` torsion free (Mathlib `IsMulTorsionFree`), hence free of finite
-  rank.
+- `G` is a **torus** if the same holds with every `M_i` torsion free (Mathlib `IsMulTorsionFree`), hence
+  free of finite rank.
 These are the groups of multiplicative type of finite type over `S` and the tori of SGA 3 IX, 1.1, where
 fpqc covers are used; for finitely generated `M_i` the étale, fppf and fpqc versions agree by the theorem
-below ([CS24] §7.2, p. 91; [C19] §2).
+below ([CS24] §7.2, p. 91).
 
-Prove `isMultiplicativeType_iff_exists_etaleCover` and `isMultiplicativeType_iff_exists_fpqcCover`: `G`
-is of multiplicative type iff some étale cover (Mathlib `Scheme.etalePrecoverage`) makes every `G_{S_i}`
-diagonalizable, iff some fpqc cover (Mathlib `Scheme.fpqcPrecoverage`) does (SGA 3 X, 4.5). Route: étale
-covers are fppf covers and fppf covers are fpqc covers. Conversely, a group that is fpqc-locally
+Prove: `G` is of multiplicative type iff some étale cover (Mathlib `Scheme.etalePrecoverage`) makes
+every `G_{S_i}` diagonalizable, iff some fpqc cover (Mathlib `Scheme.fpqcPrecoverage`) does (SGA 3 X,
+4.5). Route: étale covers are fppf covers and fppf covers are fpqc covers. Conversely, a group that is fpqc-locally
 diagonalizable is affine and of finite presentation over `S` by fpqc descent from §7.12a (ModularCurves
 0E). For `s ∈ S`, its base change to the strict henselization `𝒪^{sh}_{S,s}` (ModularCurves Layer 4D) is
 diagonalizable: the closed fibre is a group of multiplicative type over a separably closed field, hence
@@ -2340,24 +2437,23 @@ colimit of the étale neighbourhoods of `s`, is already defined over one of them
 API (each a target):
 - Diagonalizable groups are of multiplicative type (by the identity cover), `D_S(ℤ^r)` is a torus, and
   tori are of multiplicative type. The three predicates are invariant under isomorphism, stable under
-  base change along every `S′ → S` (`IsMultiplicativeType.pullback`, and likewise for the other two) and
-  under fibre products over `S`; being of multiplicative type, or a torus, may be checked after base change
+  base change along every `S′ → S` and under fibre products over `S`; being of multiplicative type, or
+  a torus, may be checked after base change
   to the members of any fppf cover of `S`.
-- A group of multiplicative type is commutative (`IsMultiplicativeType.isCommMonObj`), and its structure
-  morphism is affine, flat, surjective and locally of finite presentation
-  (`IsMultiplicativeType.affine_faithfullyFlat_finitePresentation`), by fpqc descent of these properties
+- A group of multiplicative type is commutative (Mathlib `IsCommMonObj`), and its structure morphism is
+  affine, flat, surjective and locally of finite presentation, by fpqc descent of these properties
   from §7.12a, of affineness through ModularCurves 0E. It is smooth iff, for every member of a cover
-  splitting it, the torsion order of `M_i` is invertible on `S_i`; in particular a torus is smooth over `S`
-  (`IsTorus.smooth`), étale-locally `𝔾_m^r` (§7.12b).
+  splitting it, the torsion order of `M_i` is invertible on `S_i`; in particular a torus is smooth over `S`,
+  étale-locally `𝔾_m^r` (§7.12b).
 - Over a field `k`, for an affine group of finite type over `k` (an object of
-  `TauCeti.FiniteTypeAffineGroupSchemeCat`), the predicates here agree with Tau Ceti's:
-  `isMultiplicativeType_iff_multiplicativeTypeAffineGroupSchemeProperty` and
-  `isTorus_iff_torusAffineGroupSchemeProperty` (both sides amount to diagonalizability, resp. splitting,
+  `TauCeti.FiniteTypeAffineGroupSchemeCat`), being of multiplicative type, resp. a torus, agrees with
+  Tau Ceti's `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`, resp.
+  `TauCeti.torusAffineGroupSchemeProperty` (both sides amount to diagonalizability, resp. splitting,
   after extension to an algebraic closure of `k`, equivalently after some finite separable extension).
 - Finite groups: over `Spec R`, a commutative finite locally free group `G` (an object of
   `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`) is of multiplicative type iff its Cartier dual
-  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G` is étale over `Spec R`
-  (`isMultiplicativeType_iff_etale_cartierDual`): the dual of `D(M)` for finite `M` is the constant group
+  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G` is étale over `Spec R`: the dual
+  of `D(M)` for finite `M` is the constant group
   `M` (`TauCeti.DiagonalizableGroup.cartierDualIso`), a commutative finite étale group is étale-locally
   constant, and Cartier duality commutes with base change (ModularCurves 0B). Both conditions being local
   on `S`, the same criterion holds over every scheme `S` for the finite locally free commutative groups of
@@ -2389,7 +2485,7 @@ group of multiplicative type is, this is concrete: a character of `G_T` is a uni
 `M` on that site sends `T` to the locally constant functions `T → M` and is represented by `⊔_M S`. An
 abelian sheaf `F` on the big étale site of `S` is **twisted constant of finite type** if some étale cover
 `{S_i → S}` has every restriction `F|_{S_i}` isomorphic to `(M_i)_{S_i}` for a finitely generated group
-`M_i`, which may depend on `i` (SGA 3 X, 5.1). Prove (SGA 3 X, §5; [C19] §2):
+`M_i`, which may depend on `i` (SGA 3 X, 5.1). Prove (SGA 3 X, §5):
 (a) `X^*(D_S(M)) ≅ M_S`, naturally in `M`; for `G` of multiplicative type, `X^*(G)` is twisted constant of
 finite type, with the `M_i` of any étale cover splitting `G` (§7.12c).
 (b) `G ↦ X^*(G)` is an anti-equivalence from groups of multiplicative type over `S` onto twisted constant
@@ -2432,12 +2528,12 @@ API (each a target):
 
 Prove, for groups of multiplicative type over `S` (SGA 3 VIII, §3; IX, §2; X, §5):
 (a) For a homomorphism `u : G → G′`, the kernel `ker u`, the fibre product of `u` with the unit section
-of `G′`, is a closed subgroup of `G` of multiplicative type (`isMultiplicativeType_of_isKernel`); the fppf
+of `G′`, is a closed subgroup of `G` of multiplicative type; the fppf
 quotient `G/ker u` is representable and of multiplicative type, `G → G/ker u` is affine, faithfully flat
 and of finite presentation, and `G/ker u → G′` is a closed immersion. So groups of multiplicative type
 over `S` form an abelian category, on which `X^*` is exact.
 (b) A homomorphism of groups of multiplicative type that is a monomorphism of schemes is a closed
-immersion (`isClosedImmersion_of_mono`). The subgroups `H ⊂ G` of multiplicative type correspond
+immersion. The subgroups `H ⊂ G` of multiplicative type correspond
 bijectively to the twisted constant quotient sheaves of finite type `X^*(G) ↠ Q`, through restriction of
 characters `H ↦ (X^*(G) ↠ X^*(H))`; the quotient `G/H` has character sheaf `ker(X^*(G) → X^*(H))`.
 (c) For a torus `T`, the **cocharacter sheaf** `X_*(T) = ℋom(X^*(T), ℤ_S)` is twisted constant with free
@@ -2447,7 +2543,7 @@ free stalks of finite rank.
 (d) The torsion subsheaf `X^*(G)_tors` is twisted constant of finite type; `G^tor = D_S(X^*(G)/X^*(G)_tors)`
 is a torus, closed in `G` by (b), and contains every subtorus of `G`, since the character sheaf of a torus
 is torsion free: it is the **largest subtorus** of `G`, and every homomorphism from a torus to `G` factors
-uniquely through it, its image being a subtorus by (a) (`exists_largestSubtorus`). The quotient
+uniquely through it, its image being a subtorus by (a). The quotient
 `G/G^tor = D_S(X^*(G)_tors)` is finite locally free and of multiplicative type.
 Route: étale-locally on `S` every statement is one about diagonalizable groups and is §7.12b; for (b), a
 homomorphism `D(M) → D(N)` is Zariski-locally some `D(φ)` (§7.12a), and if it is a monomorphism its kernel
@@ -2477,7 +2573,8 @@ API (each a target):
 ### 7.13 Kernel-of-tori presentations of groups of multiplicative type
 
 For a scheme `X`, groups of multiplicative type, tori and the character sheaf `X^*(T) = ℋom(T, 𝔾_m)` are
-those of §§7.12c–7.12d (SGA 3 IX, 1.1 and X, 4.5; [CS24] §7.2, p. 91; [C19] §2); over a field they are
+those of §§7.12c–7.12d (SGA 3 IX, 1.1 and X, 4.5; [CS24] §7.2, p. 91; for tori, [C19] proof of
+Theorem 6.1, p. 13, which uses SGA 3 X, 4.5); over a field they are
 Tau Ceti's `TauCeti.MultiplicativeTypeAffineGroupSchemeCat` and `TauCeti.TorusAffineGroupSchemeCat`
 (§7.12c). Prove, for a finite type `X`-group `T` of multiplicative type:
 (a) Zariski locally on `X`, `T` is the kernel of a homomorphism of tori `S_1 → S_2` (SGA 3 IX, 2.11; [CS24]
@@ -2492,7 +2589,7 @@ factors as `T → S → T` with `S` the torus with character sheaf `m·X^*(T)`, 
 with kernel `T[m] = D(X^*(T)/m)`, which is finite locally free (§7.12e), and `S → T` a closed immersion
 onto the largest subtorus `D(X^*(T)/torsion)` of §7.12e(d): the inclusion `m·X^*(T) ⊂ X^*(T)`
 and the surjection `X^*(T) → m·X^*(T)`, `x ↦ mx`, with kernel the torsion, compose to multiplication by
-`m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`, §§7.12b–7.12c, `IsTorus.smooth`), so their
+`m`. (c) Tori are smooth over `X` (étale locally `D(ℤ^r)`, §§7.12b–7.12c), so their
 fppf and étale cohomology agree (SchemeAndStackFoundations §2.10).
 *Needs:* §§7.12a–7.12e; SchemeAndStackFoundations
 §§1.18, 2.9, 2.10; Tau Ceti `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
@@ -2576,14 +2673,21 @@ For `R = k⟦x_1, …, x_5⟧/(x_1x_2 − x_3x_4 + x_5²)` (a four-dimensional h
 §§0.1–0.5, 1.1, 6.2, 6.5; DeformationAndDerivedPatchingAlgebra §§3.4, 6.9; PurityOfBranchLocus §0.3;
 ModularCurves 0B, 0E, Layer 4D;
 SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.9, 0.17, 1.1, 1.15, 1.18, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
-Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
+Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.IsLocalRing.puncturedSpectrum`,
+`HomogeneousIdeal.quotientGrading`, `HomogeneousIdeal.iSup_basicOpen_eq_top`,
+`AlgebraicGeometry.Proj.twistingSheaf`, `AlgebraicGeometry.Proj.isInvertible_twistingSheaf_of_iSup_eq_top`,
+`TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
 `TauCeti.TorusAffineGroupSchemeCat`, `TauCeti.FiniteTypeAffineGroupSchemeCat`, `TauCeti.FGCommGrpCat`,
 `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap`,
 `TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`,
-`TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`,
+`TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`, `TauCeti.DiagonalizableGroup.kernelCoordinateIso`,
+`TauCeti.DiagonalizableGroup.finrank_kernelCoordinate`,
+`TauCeti.DiagonalizableGroup.etale_kernelCoordinate_of_isUnit_card`,
+`TauCeti.DiagonalizableGroup.isCentralIsogeny_groupSchemeMap_of_injective_of_finite_quotient`,
 `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`,
 `TauCeti.MonoidAlgebra.etale_of_isUnit_card`, `TauCeti.MonoidAlgebra.smooth_iff_isUnit_card`,
-`TauCeti.DiagonalizableGroup.cartierDualIso`, `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`, `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay`,
+`TauCeti.DiagonalizableGroup.cartierDualIso`, `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`,
+`TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay`,
 `TauCeti.IsRegularLocalRing.free_of_isReflexive`, `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`,
 `TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, `TauCeti.isRegularRing_of_isRegularLocalRing`.
 

@@ -1,11 +1,11 @@
 module
 
 public import Mathlib
-public import TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Scheme.Basic
-public import TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.FiniteLocallyFree
-public import TauCeti.AlgebraicGeometry.AffineGroupScheme.MultiplicativeType
-public import TauCeti.AlgebraicGeometry.AffineGroupScheme.Torus
+public import TauCeti.AlgebraicGeometry.FiniteEtale.PuncturedSpectrum
 public import TauCeti.AlgebraicGeometry.LineBundle.Class
+public import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.PolynomialQuotient
+public import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.TwistingSheaf.LocalTriviality
+public import TauCeti.RingTheory.GradedAlgebra.HomogeneousLocalization.Dehomogenization
 public import TauCeti.RingTheory.RegularLocalRing.Basic
 
 /-!
@@ -13,26 +13,25 @@ public import TauCeti.RingTheory.RegularLocalRing.Basic
 
 **This file is not the roadmap.** The roadmap is `README.md`. This file states, against the
 pinned Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable there, each
-with `sorry`, together with the few definitions their statements need: the punctured spectrum of a
-semilocal ring (README §0.1), Cohen presentations, complete intersections and the virtual
-dimension (§1.1), pullback of finite étale schemes (§1.8), and diagonalizable groups, groups of
-multiplicative type and tori over a base scheme (§§7.12a, 7.12c). The stated headlines are
-Zariski–Nagata purity in virtual dimension `≥ 2` and `≥ 3` (Česnavičius–Scholze, *Purity for flat
-cohomology*, Theorem 3.3.1; README §1.8), Gabber's conjecture on the local Picard group of
-complete intersections of dimension `≥ 3` and the vanishing of the local Picard group of a regular
-local ring (*loc. cit.* Theorem 7.2.1; README §7.6; the vanishing for complete intersections of
-dimension `≥ 4` is `localCI_parafactorial` of DeformationAndDerivedPatchingAlgebra §6.9 and is not
-restated), together with three classical inputs the roadmap proves: Katz's theorem on
-Frobenius-fixed vectors over an algebraically closed field (README §5.6), Auslander's freeness
-criterion through endomorphisms (§7.2) and the factoriality of regular local rings (§7.4).
-It also states the basic theory of groups of multiplicative type over a base on which the purity
-statements for such groups rest (SGA 3, Exposés VIII–X; README §§7.12a–7.12c, 7.12e): the
-structure, base change, points and homomorphisms of the diagonalizable group `D_S(M)`, its
-smoothness, étaleness, flatness and kernels, the étale-local and fpqc-local characterisations of
-groups of multiplicative type, their structure morphisms and base change, the smoothness of tori,
-their agreement over a field with the Tau Ceti predicates, the Cartier-dual criterion for finite
-groups, and the closedness of subgroups, the kernels and the largest subtorus of a group of
-multiplicative type.
+with `sorry`, together with the few definitions their statements need: Cohen presentations,
+complete intersections and the virtual dimension (README §1.1), and the class of the twisting
+sheaf `𝒪(1)` on the projective spectrum of a quotient of a polynomial ring (§7.8). The punctured
+spectrum of a local ring and restriction of finite étale schemes to it are Tau Ceti's
+`TauCeti.IsLocalRing.puncturedSpectrum` and `TauCeti.IsLocalRing.restrictPunctured`.
+
+The stated headlines are Zariski–Nagata purity in virtual dimension `≥ 2` and `≥ 3`
+(Česnavičius–Scholze, *Purity for flat cohomology*, Theorem 3.3.1; README §1.8), Gabber's
+conjecture on the local Picard group of complete intersections of dimension `≥ 3` and the
+vanishing of the local Picard group of a regular local ring (*loc. cit.* Theorem 7.2.1; README
+§7.6; the vanishing for complete intersections of dimension `≥ 4` is `localCI_parafactorial` of
+DeformationAndDerivedPatchingAlgebra §6.9 and is not restated), the Picard groups of global
+complete intersections (*loc. cit.* Corollary 7.2.3; README §7.8), together with three classical
+inputs the roadmap proves: Katz's theorem on Frobenius-fixed vectors over an algebraically closed
+field (README §5.6), Auslander's freeness criterion through endomorphisms (§7.2) and the
+factoriality of regular local rings (§7.4). The fundamental-group clauses of Theorem 3.3.1 are
+equivalent, through Tau Ceti's Galois category of finite étale schemes over a connected scheme and
+Mathlib's `CategoryTheory.PreGaloisCategory.functorToContAction` (SGA 1, Exposé V, 6.9–6.10), to
+the clauses on the restriction functor stated here, and are not restated.
 
 The following headline theorems are not statable at the pinned libraries.
 
@@ -44,8 +43,8 @@ The following headline theorems are not statable at the pinned libraries.
   `CategoryTheory.Sheaf.cohomologyPresheaf` requires its input sheaf to take values in
   `AddCommGrpCat.{v}`, `v` the universe of the site's morphisms, with a sheafification instance at
   that coefficient universe, which the big fppf and étale sites lack at the pin (its output universe
-  `w′` is a separate parameter); `CategoryTheory.Sheaf.H` has no restriction maps; and there is no functor from commutative
-  group schemes to abelian fppf sheaves.
+  `w′` is a separate parameter); `CategoryTheory.Sheaf.H` has no restriction maps; and there is no
+  functor from commutative group schemes to abelian fppf sheaves.
 * The crystalline key formula with supports over perfect schemes (Theorem 4.1.8, (4.1.8.2);
   §2.1): it needs, in addition, the crystalline Dieudonné module of a finite locally free group
   over a perfect scheme, which PrismaticCohomologyPartIII §6.0 constructs.
@@ -65,24 +64,9 @@ The following headline theorems are not statable at the pinned libraries.
   no Brauer group of Azumaya algebras on a scheme and no étale cohomology of `𝔾_m` with
   restriction maps.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
-  Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): the groups are defined below (§7.12c), but the
-  statements need the fppf and étale cohomology of a group over a scheme with restriction maps, as
-  in the first item.
-* The character sheaf of a group over a scheme and the anti-equivalence between groups of
-  multiplicative type and twisted constant sheaves of finite type (SGA 3, Exposé X, §5; §7.12d),
-  with the correspondence between subgroups of multiplicative type and quotients of the character
-  sheaf and the cocharacter sheaf of a torus (§7.12e(b)–(c)): abelian sheaves on the big étale site
-  of a scheme exist, but there is no constant sheaf of a group on it at the pin (Mathlib builds
-  constant sheaves by sheafification, missing at that coefficient universe as in the first item), so
-  twisted constant sheaves are not available. The consequences of §7.12e that need no sheaves are
-  stated.
-* Picard groups of global complete intersections (Corollary 7.2.3; §7.8): the grading on the
-  quotient of a polynomial ring by a homogeneous ideal exists
-  (`TauCeti.GradedAlgebra.gradedAlgebraQuotientPiece`), so the global complete intersection is
-  available as a `Proj`, but its twisting line bundle `𝒪(1)` and that bundle's class in
-  `TauCeti.AlgebraicGeometry.LineBundleClass` are not.
-* The fundamental-group clauses of Theorem 3.3.1: finite étale schemes over a connected scheme are
-  not given the structure of a Galois category with a fibre functor.
+  Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): they need the fppf and étale cohomology of a
+  group over a scheme with restriction maps, as in the first item, and groups of multiplicative
+  type over a base scheme, which the pins have only over a field (README §7.12c defines them).
 -/
 
 universe u v
@@ -94,17 +78,6 @@ namespace TauCetiRoadmap.PurityForFlatCohomology
 noncomputable section
 
 open AlgebraicGeometry CategoryTheory IsLocalRing
-open scoped CategoryTheory.MonObj
-
-/-! ## Layer 0: Punctured spectra, flat cohomology with supports and Hartogs extension -/
-
-/-- The **punctured spectrum** of a semilocal ring `R`: the open subscheme of `Spec R`
-complementary to the zero locus of the Jacobson radical, that is, `Spec R` with its finitely
-many closed points removed (Česnavičius, *Purity for the Brauer group*, §1.5). For a local ring
-it is `Spec R ∖ {𝔪}`, the punctured spectrum of LocalPurity §1.1. README §0.1. -/
-def puncturedSpectrum (R : Type u) [CommRing R] : (Spec (.of R)).Opens where
-  carrier := (PrimeSpectrum.zeroLocus (Ring.jacobson R : Set R))ᶜ
-  is_open' := (PrimeSpectrum.isClosed_zeroLocus _).isOpen_compl
 
 /-! ## Layer 1: Virtual dimension, étale depth and Zariski–Nagata purity -/
 
@@ -145,35 +118,24 @@ def virtualDimension (R : Type u) [CommRing R] [IsLocalRing R] : ℤ :=
   sInf {n : ℤ | ∃ P : CohenPresentation R,
     n = ((maximalIdeal P.ring).spanFinrank : ℤ) - ((RingHom.ker P.toCompletion).spanFinrank : ℤ)}
 
-/-- Pullback of finite étale schemes along a morphism `f : Y ⟶ X`, as Mathlib's
-`MorphismProperty.Over.pullback` for the property "finite and étale": the restriction functor
-`FEt.pullback` of LocalPurity §1.1, restated here because a roadmap's file does not import another
-roadmap's module. README §1.8. -/
-def finiteEtalePullback {X Y : Scheme.{u}} (f : Y ⟶ X) :
-    MorphismProperty.Over (@IsFinite ⊓ @Etale : MorphismProperty Scheme.{u}) ⊤ X ⥤
-      MorphismProperty.Over (@IsFinite ⊓ @Etale : MorphismProperty Scheme.{u}) ⊤ Y := by
-  letI : (@IsFinite ⊓ @Etale : MorphismProperty Scheme.{u}).IsStableUnderBaseChange :=
-    MorphismProperty.IsStableUnderBaseChange.inf
-  exact MorphismProperty.Over.pullback (@IsFinite ⊓ @Etale) ⊤ f
-
 /-- **Zariski–Nagata purity in virtual dimension `≥ 2`.** For a Noetherian local ring `R` of
-virtual dimension at least `2`, pullback from finite étale schemes over `Spec R` to finite étale
-schemes over the punctured spectrum is fully faithful, and the punctured spectrum is connected.
-Česnavičius–Scholze, Theorem 3.3.1(a). README §1.8. -/
+virtual dimension at least `2`, restriction of finite étale schemes over `Spec R` to the punctured
+spectrum `Spec R ∖ {𝔪}` (Tau Ceti `TauCeti.IsLocalRing.restrictPunctured`) is fully faithful, and
+the punctured spectrum is connected. Česnavičius–Scholze, Theorem 3.3.1(a). README §1.8. -/
 theorem zariskiNagata_full_faithful_connected (R : Type u) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] (h : 2 ≤ virtualDimension R) :
-    (finiteEtalePullback (puncturedSpectrum R).ι).Full ∧
-      (finiteEtalePullback (puncturedSpectrum R).ι).Faithful ∧
-      ConnectedSpace (puncturedSpectrum R) := by
+    (TauCeti.IsLocalRing.restrictPunctured R).Full ∧
+      (TauCeti.IsLocalRing.restrictPunctured R).Faithful ∧
+      ConnectedSpace (TauCeti.IsLocalRing.puncturedSpectrum R) := by
   sorry
 
 /-- **Zariski–Nagata purity in virtual dimension `≥ 3`.** For a Noetherian local ring `R` of
-virtual dimension at least `3`, pullback from finite étale schemes over `Spec R` to finite étale
-schemes over the punctured spectrum is an equivalence of categories. No excellence, normality or
-complete-intersection hypothesis is made. Česnavičius–Scholze, Theorem 3.3.1(b). README §1.8. -/
+virtual dimension at least `3`, restriction of finite étale schemes over `Spec R` to the punctured
+spectrum is an equivalence of categories. No excellence, normality or complete-intersection
+hypothesis is made. Česnavičius–Scholze, Theorem 3.3.1(b). README §1.8. -/
 theorem zariskiNagata_isEquivalence (R : Type u) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] (h : 3 ≤ virtualDimension R) :
-    (finiteEtalePullback (puncturedSpectrum R).ι).IsEquivalence := by
+    (TauCeti.IsLocalRing.restrictPunctured R).IsEquivalence := by
   sorry
 
 /-! ## Layer 5: Perfectoid rings: Dieudonné modules and the key formula -/
@@ -216,7 +178,7 @@ complete intersection of dimension at least `3`, the Picard group of the punctur
 torsion free. Česnavičius–Scholze, Theorem 7.2.1. README §7.6. -/
 theorem localPicard_torsion_eq_one (R : Type u) [CommRing R] [IsLocalRing R]
     [IsNoetherianRing R] (hR : IsCompleteIntersection R) (hdim : 3 ≤ ringKrullDim R)
-    (x : TauCeti.AlgebraicGeometry.LineBundleClass (puncturedSpectrum R))
+    (x : TauCeti.AlgebraicGeometry.LineBundleClass (TauCeti.IsLocalRing.puncturedSpectrum R))
     (hx : IsOfFinOrder x) :
     x = 1 := by
   sorry
@@ -228,224 +190,62 @@ Theorem 7.2.1. The clause for complete intersections of dimension `≥ 4` (SGA 2
 Théorème 3.13(ii)) is `localCI_parafactorial` of DeformationAndDerivedPatchingAlgebra §6.9 and is
 not restated. README §7.6. -/
 theorem localPicard_subsingleton (R : Type u) [CommRing R] [IsRegularLocalRing R] :
-    Subsingleton (TauCeti.AlgebraicGeometry.LineBundleClass (puncturedSpectrum R)) := by
+    Subsingleton
+      (TauCeti.AlgebraicGeometry.LineBundleClass (TauCeti.IsLocalRing.puncturedSpectrum R)) := by
   sorry
 
-/-- The **diagonalizable group** `D_S(M)` of a finitely generated commutative group `M` over a
-scheme `S`: the base change along `S → Spec ℤ` of the group `Spec ℤ[M]`, so that over an affine
-open `Spec A ⊂ S` it is `Spec A[M]` with every element of `M` group-like. SGA 3, Exposé VIII, 1.1.
-README §7.12a. -/
-def diagonalizableGroup (S : Scheme.{u}) (M : TauCeti.FGCommGrpCat.{u}) : Grp (Over S) :=
-  (Over.pullback (specULiftZIsTerminal.from S)).mapGrp.obj
-    (TauCeti.DiagonalizableGroup.groupScheme (ULift.{u} ℤ) M)
+section GlobalCompleteIntersection
 
-/-- The homomorphism `D_S(M) → D_S(N)` induced by a homomorphism `φ : N → M`; on coordinate rings it
-is the map `A[N] → A[M]` induced by `φ`. README §7.12a. -/
-def diagonalizableGroupMap (S : Scheme.{u}) {M N : TauCeti.FGCommGrpCat.{u}} (φ : N ⟶ M) :
-    diagonalizableGroup S M ⟶ diagonalizableGroup S N :=
-  (Over.pullback (specULiftZIsTerminal.from S)).mapGrp.map
-    (TauCeti.DiagonalizableGroup.groupSchemeMap (ULift.{u} ℤ) φ)
+attribute [local instance] MvPolynomial.gradedAlgebra
 
-/-- The diagonalizable group `D_S(M)` is commutative. README §7.12a. -/
-theorem isCommMonObj_diagonalizableGroup (S : Scheme.{u}) (M : TauCeti.FGCommGrpCat.{u}) :
-    IsCommMonObj (diagonalizableGroup S M).X := by
+/-- The class `[𝒪(1)]` in the Picard group (Tau Ceti `LineBundleClass`) of
+`X = Proj (k[X₀, …, Xₙ] ⧸ I)` for a homogeneous ideal `I` and a field `k`: the twisting sheaf
+`𝒪(1)` (Tau Ceti `AlgebraicGeometry.Proj.twistingSheaf`) is invertible because the standard
+charts `D₊(Xⱼ)`, cut out by the degree-one classes of the coordinates, cover `X`. README §7.8. -/
+def classTwistingSheafOne {k : Type u} [Field k] {n : ℕ}
+    (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k)) :
+    TauCeti.AlgebraicGeometry.LineBundleClass (Proj I.quotientGrading) :=
+  TauCeti.AlgebraicGeometry.LineBundleClass.mk
+    ⟨Proj.twistingSheaf I.quotientGrading 1,
+      Proj.isInvertible_twistingSheaf_of_iSup_eq_top
+        (fun j : ULift.{u} (Fin (n + 1)) ↦ Ideal.Quotient.mk I.toIdeal (MvPolynomial.X j.down))
+        (fun j ↦ I.mk_X_mem_quotientGrading j.down)
+        (by
+          rw [← I.iSup_basicOpen_eq_top]
+          exact Equiv.ulift.surjective.iSup_comp fun j ↦
+            Proj.basicOpen I.quotientGrading (Ideal.Quotient.mk I.toIdeal (MvPolynomial.X j)))
+        1⟩
+
+/-- **Picard groups of global complete intersections of dimension `≥ 2`.** Let `k` be a field and
+`X = Proj (k[X₀, …, Xₙ] ⧸ (f₁, …, f_c))` for forms `fᵢ` of positive degree forming a regular
+sequence, so that `X ⊂ ℙⁿ_k` is a global complete intersection of dimension `n − c`. If
+`n − c ≥ 2`, the quotient `Pic(X) / ℤ·[𝒪(1)]` is torsion free. Česnavičius–Scholze,
+Corollary 7.2.3. README §7.8. -/
+theorem picard_globalCompleteIntersection_torsion_eq_one {k : Type u} [Field k] {n : ℕ}
+    (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k))
+    (fs : List (MvPolynomial (Fin (n + 1)) k)) (hhom : ∀ f ∈ fs, ∃ d, 0 < d ∧ f.IsHomogeneous d)
+    (hreg : RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin (n + 1)) k) fs)
+    (hI : I.toIdeal = Ideal.ofList fs) (hdim : fs.length + 2 ≤ n)
+    (y : TauCeti.AlgebraicGeometry.LineBundleClass (Proj I.quotientGrading) ⧸
+      Subgroup.zpowers (classTwistingSheafOne I))
+    (hy : IsOfFinOrder y) :
+    y = 1 := by
   sorry
 
-/-- The structure morphism of `D_S(M)` is affine, faithfully flat and locally of finite
-presentation. SGA 3, Exposé VIII, 2.1. README §7.12a. -/
-theorem diagonalizableGroup_affine_faithfullyFlat_finitePresentation (S : Scheme.{u})
-    (M : TauCeti.FGCommGrpCat.{u}) :
-    IsAffineHom (diagonalizableGroup S M).X.hom ∧ Flat (diagonalizableGroup S M).X.hom ∧
-      Surjective (diagonalizableGroup S M).X.hom ∧
-      LocallyOfFinitePresentation (diagonalizableGroup S M).X.hom := by
+/-- **Picard groups of global complete intersections of dimension `≥ 3`** (Grothendieck–Lefschetz).
+For a field `k` and a global complete intersection `X = Proj (k[X₀, …, Xₙ] ⧸ (f₁, …, f_c))` as above
+with `n − c ≥ 3`, `Pic(X)` is free of rank one with generator `[𝒪(1)]`: the map `ℤ → Pic(X)`,
+`m ↦ [𝒪(1)]^m`, is bijective. SGA 2, Exposé XII, Corollaire 3.7; Česnavičius–Scholze,
+Corollary 7.2.3. README §7.8. -/
+theorem picard_globalCompleteIntersection_bijective_zpow {k : Type u} [Field k] {n : ℕ}
+    (I : HomogeneousIdeal (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) k))
+    (fs : List (MvPolynomial (Fin (n + 1)) k)) (hhom : ∀ f ∈ fs, ∃ d, 0 < d ∧ f.IsHomogeneous d)
+    (hreg : RingTheory.Sequence.IsWeaklyRegular (MvPolynomial (Fin (n + 1)) k) fs)
+    (hI : I.toIdeal = Ideal.ofList fs) (hdim : fs.length + 3 ≤ n) :
+    Function.Bijective (fun m : ℤ ↦ classTwistingSheafOne I ^ m) := by
   sorry
 
-/-- Over an affine base `Spec R`, `D_S(M)` is the Tau Ceti group `Spec R[M]`. README §7.12a. -/
-theorem diagonalizableGroup_spec_iso (R : Type u) [CommRing R] (M : TauCeti.FGCommGrpCat.{u}) :
-    Nonempty (diagonalizableGroup (Spec (CommRingCat.of R)) M ≅
-      TauCeti.DiagonalizableGroup.groupScheme R M) := by
-  sorry
-
-/-- The formation of `D_S(M)` commutes with base change along every morphism `S′ → S`.
-README §7.12a. -/
-theorem diagonalizableGroup_pullback_iso {S S' : Scheme.{u}} (f : S' ⟶ S)
-    (M : TauCeti.FGCommGrpCat.{u}) :
-    Nonempty ((Over.pullback f).mapGrp.obj (diagonalizableGroup S M) ≅
-      diagonalizableGroup S' M) := by
-  sorry
-
-/-- The points of `D_S(M)` with values in a scheme `T` over `S` are the group homomorphisms from
-`M` to the units of `Γ(T, 𝒪_T)`. SGA 3, Exposé VIII, 1.1. README §7.12a. -/
-theorem diagonalizableGroup_points_equiv (S : Scheme.{u}) (M : TauCeti.FGCommGrpCat.{u})
-    (T : Over S) :
-    Nonempty ((T ⟶ (diagonalizableGroup S M).X) ≃* (M →* (Γ(T.left, ⊤))ˣ)) := by
-  sorry
-
-/-- **Homomorphisms of diagonalizable groups over a connected base.** Over a connected scheme `S`,
-every group homomorphism `D_S(M) → D_S(N)` is induced by a unique homomorphism `N → M`. SGA 3,
-Exposé VIII, 1.6. README §7.12a. -/
-theorem diagonalizableGroupMap_bijective (S : Scheme.{u}) [ConnectedSpace S]
-    (M N : TauCeti.FGCommGrpCat.{u}) :
-    Function.Bijective (fun φ : N ⟶ M ↦ diagonalizableGroupMap S φ) := by
-  sorry
-
-/-- **Homomorphisms of diagonalizable groups.** Over an arbitrary scheme `S`, the group
-homomorphisms `D_S(M) → D_S(N)` are the locally constant functions from `S` to the homomorphisms
-`N → M`, the homomorphism induced by `φ` being the constant function `φ`. SGA 3, Exposé VIII, 1.5.
-README §7.12a. -/
-theorem diagonalizableGroupHom_equiv_locallyConstant (S : Scheme.{u})
-    (M N : TauCeti.FGCommGrpCat.{u}) :
-    ∃ e : (diagonalizableGroup S M ⟶ diagonalizableGroup S N) ≃ LocallyConstant S (N →* M),
-      ∀ φ : N ⟶ M, e (diagonalizableGroupMap S φ) = LocallyConstant.const S φ.hom.hom := by
-  sorry
-
-/-- **Smoothness of diagonalizable groups.** `D_S(M)` is smooth over `S` iff the order of the
-torsion subgroup of `M` is invertible on `S`. SGA 3, Exposé VIII, 2.1. README §7.12b. -/
-theorem smooth_diagonalizableGroup_iff (S : Scheme.{u}) (M : TauCeti.FGCommGrpCat.{u}) :
-    Smooth (diagonalizableGroup S M).X.hom ↔
-      IsUnit ((Nat.card (CommGroup.torsion M) : Γ(S, ⊤))) := by
-  sorry
-
-/-- **Étaleness of diagonalizable groups.** Over a nonempty scheme `S`, `D_S(M)` is étale over `S`
-iff `M` is finite of order invertible on `S`. SGA 3, Exposé VIII, 2.1. README §7.12b. -/
-theorem etale_diagonalizableGroup_iff (S : Scheme.{u}) [Nonempty S]
-    (M : TauCeti.FGCommGrpCat.{u}) :
-    Etale (diagonalizableGroup S M).X.hom ↔ Finite M ∧ IsUnit ((Nat.card M : Γ(S, ⊤))) := by
-  sorry
-
-/-- **Kernels of homomorphisms of diagonalizable groups.** For every homomorphism `φ : N → M`, the
-kernel of `D_S(φ) : D_S(M) → D_S(N)`, the fibre product with the unit section of `D_S(N)`, is
-`D_S(M ⧸ φ(N))`, embedded through the quotient map. No injectivity of `φ` is assumed. SGA 3,
-Exposé VIII, 3.1. README §7.12b. -/
-theorem isPullback_diagonalizableGroupMap_quotient (S : Scheme.{u})
-    {M N : TauCeti.FGCommGrpCat.{u}} (φ : N ⟶ M) :
-    IsPullback
-      (diagonalizableGroupMap S
-        (TauCeti.FGCommGrpCat.ofHom (QuotientGroup.mk' φ.hom.hom.range))).hom.hom
-      (CartesianMonoidalCategory.toUnit _) (diagonalizableGroupMap S φ).hom.hom
-      η[(diagonalizableGroup S N).X] := by
-  sorry
-
-/-- For an injective homomorphism `φ : N → M`, the induced homomorphism `D_S(M) → D_S(N)` is
-flat. SGA 3, Exposé VIII, 3.2. README §7.12b. -/
-theorem flat_diagonalizableGroupMap_of_injective (S : Scheme.{u})
-    {M N : TauCeti.FGCommGrpCat.{u}} (φ : N ⟶ M) (hφ : Function.Injective φ.hom.hom) :
-    Flat ((Grp.forget (Over S)).map (diagonalizableGroupMap S φ)).left := by
-  sorry
-
-/-- For an injective homomorphism `φ : N → M`, the induced homomorphism `D_S(M) → D_S(N)` is
-surjective. SGA 3, Exposé VIII, 3.2. README §7.12b. -/
-theorem surjective_diagonalizableGroupMap_of_injective (S : Scheme.{u})
-    {M N : TauCeti.FGCommGrpCat.{u}} (φ : N ⟶ M) (hφ : Function.Injective φ.hom.hom) :
-    Surjective ((Grp.forget (Over S)).map (diagonalizableGroupMap S φ)).left := by
-  sorry
-
-/-- A group over `S` is **diagonalizable** if it is isomorphic to `D_S(M)` for some finitely
-generated commutative group `M`. README §7.12c. -/
-def IsDiagonalizable {S : Scheme.{u}} (G : Grp (Over S)) : Prop :=
-  ∃ M : TauCeti.FGCommGrpCat.{u}, Nonempty (G ≅ diagonalizableGroup S M)
-
-/-- A group over `S` is **of multiplicative type** (of finite type) if it becomes diagonalizable
-after base change to the members of some fppf cover of `S`, the character group being allowed to
-vary with the member. SGA 3, Exposé IX, 1.1. README §7.12c. -/
-def IsMultiplicativeType {S : Scheme.{u}} (G : Grp (Over S)) : Prop :=
-  ∃ 𝒰 : Scheme.Cover.{u} Scheme.fppfPrecoverage S,
-    ∀ i, IsDiagonalizable ((Over.pullback (𝒰.f i)).mapGrp.obj G)
-
-/-- A group over `S` is a **torus** if after base change to the members of some fppf cover of `S`
-it becomes isomorphic to `D(M)` for a torsion-free, hence free, finitely generated group `M`.
-SGA 3, Exposé IX, 1.1. README §7.12c. -/
-def IsTorus {S : Scheme.{u}} (G : Grp (Over S)) : Prop :=
-  ∃ 𝒰 : Scheme.Cover.{u} Scheme.fppfPrecoverage S, ∀ i, ∃ M : TauCeti.FGCommGrpCat.{u},
-    IsMulTorsionFree M ∧
-      Nonempty ((Over.pullback (𝒰.f i)).mapGrp.obj G ≅ diagonalizableGroup (𝒰.X i) M)
-
-/-- **Groups of multiplicative type are étale-locally diagonalizable.** SGA 3, Exposé X, 4.5.
-README §7.12c. -/
-theorem isMultiplicativeType_iff_exists_etaleCover {S : Scheme.{u}} (G : Grp (Over S)) :
-    IsMultiplicativeType G ↔ ∃ 𝒰 : Scheme.Cover.{u} Scheme.etalePrecoverage S,
-      ∀ i, IsDiagonalizable ((Over.pullback (𝒰.f i)).mapGrp.obj G) := by
-  sorry
-
-/-- Diagonalizability fpqc-locally on the base already gives multiplicative type, so the fppf
-definition agrees with the fpqc definition of SGA 3. SGA 3, Exposé IX, 1.1, and Exposé X, 4.5.
-README §7.12c. -/
-theorem isMultiplicativeType_iff_exists_fpqcCover {S : Scheme.{u}} (G : Grp (Over S)) :
-    IsMultiplicativeType G ↔ ∃ 𝒰 : Scheme.Cover.{u} Scheme.fpqcPrecoverage S,
-      ∀ i, IsDiagonalizable ((Over.pullback (𝒰.f i)).mapGrp.obj G) := by
-  sorry
-
-/-- Being of multiplicative type is stable under base change along every morphism `S′ → S`.
-README §7.12c. -/
-theorem IsMultiplicativeType.pullback {S S' : Scheme.{u}} (f : S' ⟶ S) {G : Grp (Over S)}
-    (hG : IsMultiplicativeType G) : IsMultiplicativeType ((Over.pullback f).mapGrp.obj G) := by
-  sorry
-
-/-- A group of multiplicative type is commutative. README §7.12c. -/
-theorem IsMultiplicativeType.isCommMonObj {S : Scheme.{u}} {G : Grp (Over S)}
-    (hG : IsMultiplicativeType G) : IsCommMonObj G.X := by
-  sorry
-
-/-- The structure morphism of a group of multiplicative type is affine, faithfully flat and locally
-of finite presentation. README §7.12c. -/
-theorem IsMultiplicativeType.affine_faithfullyFlat_finitePresentation {S : Scheme.{u}}
-    {G : Grp (Over S)} (hG : IsMultiplicativeType G) :
-    IsAffineHom G.X.hom ∧ Flat G.X.hom ∧ Surjective G.X.hom ∧
-      LocallyOfFinitePresentation G.X.hom := by
-  sorry
-
-/-- A torus is smooth over its base. README §7.12c. -/
-theorem IsTorus.smooth {S : Scheme.{u}} {G : Grp (Over S)} (hG : IsTorus G) :
-    Smooth G.X.hom := by
-  sorry
-
-/-- Over a field, multiplicative type in the sense of README §7.12c agrees with the Tau Ceti
-predicate on affine groups of finite type. -/
-theorem isMultiplicativeType_iff_multiplicativeTypeAffineGroupSchemeProperty (k : Type u)
-    [Field k] (G : TauCeti.FiniteTypeAffineGroupSchemeCat (CommRingCat.of k)) :
-    IsMultiplicativeType G.obj.obj ↔ TauCeti.multiplicativeTypeAffineGroupSchemeProperty k G := by
-  sorry
-
-/-- Over a field, tori in the sense of README §7.12c agree with the Tau Ceti predicate on affine
-groups of finite type. -/
-theorem isTorus_iff_torusAffineGroupSchemeProperty (k : Type u) [Field k]
-    (G : TauCeti.FiniteTypeAffineGroupSchemeCat (CommRingCat.of k)) :
-    IsTorus G.obj.obj ↔ TauCeti.torusAffineGroupSchemeProperty k G := by
-  sorry
-
-/-- **Finite groups of multiplicative type.** A commutative finite locally free group over
-`Spec R` is of multiplicative type iff its Cartier dual is étale. README §7.12c. -/
-theorem isMultiplicativeType_iff_etale_cartierDual (R : Type u) [CommRing R]
-    (G : TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat (CommRingCat.of R)) :
-    IsMultiplicativeType G.obj.obj ↔
-      Etale (TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G).obj.obj.X.hom := by
-  sorry
-
-/-- **Kernels of homomorphisms of groups of multiplicative type** are of multiplicative type: if
-`K → G` realizes `K` as the fibre product of `u : G → G′` with the unit section of `G′`, then `K`
-is of multiplicative type. SGA 3, Exposé VIII, §3, descended along an étale cover splitting `G`
-and `G′`. README §7.12e. -/
-theorem isMultiplicativeType_of_isKernel {S : Scheme.{u}} {G G' K : Grp (Over S)}
-    (hG : IsMultiplicativeType G) (hG' : IsMultiplicativeType G') (u : G ⟶ G') (i : K ⟶ G)
-    (h : IsPullback i.hom.hom (CartesianMonoidalCategory.toUnit K.X) u.hom.hom η[G'.X]) :
-    IsMultiplicativeType K := by
-  sorry
-
-/-- **Subgroups of multiplicative type are closed.** A homomorphism of groups of multiplicative
-type whose underlying morphism of schemes is a monomorphism is a closed immersion. README §7.12e. -/
-theorem isClosedImmersion_of_mono {S : Scheme.{u}} {H G : Grp (Over S)}
-    (hH : IsMultiplicativeType H) (hG : IsMultiplicativeType G) (u : H ⟶ G)
-    [Mono u.hom.hom.left] : IsClosedImmersion u.hom.hom.left := by
-  sorry
-
-/-- **The largest subtorus.** A group of multiplicative type `G` has a closed subtorus through which
-every homomorphism from a torus to `G` factors uniquely; its character sheaf is the quotient of that
-of `G` by its torsion. README §7.12e. -/
-theorem exists_largestSubtorus {S : Scheme.{u}} {G : Grp (Over S)}
-    (hG : IsMultiplicativeType G) :
-    ∃ (T : Grp (Over S)) (i : T ⟶ G), IsTorus T ∧ IsClosedImmersion i.hom.hom.left ∧
-      ∀ (T' : Grp (Over S)) (i' : T' ⟶ G), IsTorus T' → ∃! f : T' ⟶ T, f ≫ i = i' := by
-  sorry
+end GlobalCompleteIntersection
 
 end
 
