@@ -23,7 +23,7 @@ Mertens sums `∑ Λ(n)/n` and `∑ 1/p`, for the sums `∑_{p ≤ x} p^r`, for 
 progressions, and for short intervals `(x(1 − Δ⁻¹), x]` that contain a prime. Every computational
 fact a source relies on (a verified height of zeros, a table of constants, a finite-range check, a
 table of prime gaps) is an assumption: a named proposition with its data in the statement, stated
-once (a verified height in ExplicitZetaBounds §0.4; a finite-range check, a gap bound or a
+once (a verified height in ExplicitZetaBounds §§0.4–0.4b; a finite-range check, a gap bound or a
 tabulation in Layer 1, or in §0.1 for the two that the Brun–Titchmarsh inequality uses; a table of
 constants next to the general theorem whose error function it evaluates), and an explicit
 hypothesis of every theorem that uses it. The roadmap proves, performs and plans no computation.
@@ -105,13 +105,12 @@ docstring with what they lack.
   general conversion of a `ψ`-bound into `θ`- and `π`-bounds (Layer 0).
 - The hypotheses, each a named assumption that nothing here proves: the finite-range
   verifications, the prime-gap verifications, the progression tabulations and the decimal
-  enclosures of Euler's constant `γ` and of the Meissel–Mertens constant `B` (Layer 1), the
-  computations on the low zeros of `ζ` (§1.1) and the absence of real zeros of `L(s, χ)` for
-  conductors up to `400 000` (§1.7); the tables of constants, each in the section of the
+  enclosures of Euler's constant `γ` and of the Meissel–Mertens constant `B` (Layer 1), and the
+  computations on the low zeros of `ζ` (§1.1); the tables of constants, each in the section of the
   general theorem whose error function it evaluates (Layers 2–7). The bounded-height Riemann
-  hypotheses and the real-zero gap are ExplicitZetaBounds' (see Consumed, not redefined); §§1.1, 1.2
-  and 1.7 cite them. The decimal enclosures are stated here because the roadmap
-  `ExplicitMultiplicativeFunctions`, which also needs them, is later in the order of supply.
+  hypotheses with Platt's two records and the real-zero gap are ExplicitZetaBounds' (see Consumed,
+  not redefined); §§1.1, 1.2 and 1.7 cite them. The decimal enclosures are stated here because the
+  roadmap `ExplicitMultiplicativeFunctions`, which also needs them, is later in the order of supply.
 - Bounds for `ψ`, `θ`, `π` under the Riemann hypothesis and under the Riemann hypothesis to a height
   (Layer 2); unconditionally, the general scheme and its published instances (Layer 3).
 - Explicit Mertens sums, Ramaré's weighted prime sums, Treviño's sums of primes and
@@ -119,7 +118,9 @@ docstring with what they lack.
 - Two-sided bounds for the `n`-th prime, Cipolla's expansion, and sums of the first `n` primes
   (Layer 5).
 - Primes in arithmetic progressions with explicit constants, the general theorem and its instances,
-  and the consequences of a numerical real-zero gap for the exceptional-modulus clauses (Layer 6);
+  the absence of real zeros of `L(s, χ)` below a verified height and its instance at the conductors
+  up to `400 000` (§6.2a), and the consequences of a numerical real-zero gap for the
+  exceptional-modulus clauses (Layer 6);
   short intervals containing a prime, conditional (Layer 2) and unconditional (Layer 7).
 
 ### Consumed, not redefined
@@ -150,10 +151,12 @@ docstring with what they lack.
   §8.3 states with an inexplicit `O`, is §2.1 here.
 - The bounded-height propositions `RH(H)` (`RiemannHypothesisUpTo`) and `GRH(f, H)` (primitive
   characters modulo `f`), their antitonicity in `H`, their limits `RiemannHypothesis` and
-  `DirichletGRH`, the passage from primitive to all characters of a modulus, the instances at the
-  heights `H(f) ≥ 10⁸/f` of `platt-2016`, and the recorded verifications of `ζ`
-  (the heights `545 439 823`, `30 610 046 000` and `3 000 175 332 800`, and the absence of zeros up
-  to height `14`): ExplicitZetaBounds §§0.2–0.4 (`gap:rh-up-to-height`, `gap:grh-up-to-height`).
+  `DirichletGRH`, the passage from primitive to all characters of a modulus, Platt's records
+  *PlattRecord* (`GRH(f, H(f))` for `2 ≤ f ≤ 400 000`, at heights `H(f) ≥ 10⁸/f`) and
+  *PlattCentralRecord* (`L(1/2, χ) ≠ 0` for primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`) with the
+  corollaries given them, and the recorded verifications of `ζ` (the heights `545 439 823`,
+  `30 610 046 000` and `3 000 175 332 800`, and the absence of zeros up to height `14`):
+  ExplicitZetaBounds §§0.2–0.4b (`gap:rh-up-to-height`, `gap:grh-up-to-height`).
   §§1.1–1.2 cite them; `Suggested.lean` carries a verbatim copy of `RiemannHypothesisUpTo` only to
   make its headlines statable.
 - Dirichlet characters and `L(s, χ)`: Mathlib `DirichletCharacter.LFunction`, with
@@ -427,9 +430,11 @@ them:
   antitonicity in `H`, `RH(H) ↔ GRH(1, H)`, the limits `RiemannHypothesis` and `DirichletGRH`, and
   the passage to imprimitive characters: for `q ≥ 1`, every character modulo `q` has its zeros with
   `0 < Re s < 1` and `|Im s| ≤ H` on `Re s = 1/2` iff `GRH(f, H)` holds for every `f ∣ q`.
-- §0.3, `GRH(f, H(f))` for `2 ≤ f ≤ 400 000` (`H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f`,
-  `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f`), hence `GRH(f, 10⁸/f)` there, `GRH(f, 10 000)` for
-  `2 ≤ f ≤ 13` and `GRH(f, 2500)` for `2 ≤ f ≤ 40 000`.
+- §§0.3 and 0.4b, Platt's two records, named propositions there: *PlattRecord*, `GRH(f, H(f))` for
+  `2 ≤ f ≤ 400 000` (`H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f`,
+  `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f`), and *PlattCentralRecord*, `L(1/2, χ) ≠ 0` for every
+  primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`; and, given *PlattRecord*, `GRH(f, 10⁸/f)` for
+  `2 ≤ f ≤ 400 000`, `GRH(f, 10 000)` for `2 ≤ f ≤ 13` and `GRH(f, 2500)` for `2 ≤ f ≤ 40 000`.
 - §0.4, the recorded verifications `RH(545 439 823)`, `RH(30 610 046 000)` and
   `RH(3 000 175 332 800)`, and the absence of zeros of `ζ` with `0 < Re s < 1` and `|Im s| ≤ 14`.
 - §5.4, the weighted sums over the ordinates `γ > 0` of the zeros of `ζ`, counted with
@@ -464,7 +469,7 @@ their instances wait for these items.
 
 What ExplicitZetaBounds must provide (gap:rh-up-to-height): For real `H`, the proposition `RH(H)` that every zero `s` of `riemannZeta` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2`, antitone in `H` and implied by Mathlib's `RiemannHypothesis`, with the recorded verifications at `H = 545 439 823`, `30 610 046 000` and `3 000 175 332 800` and the recorded verification that `ζ` has no zero `s` with `0 < Re s < 1` and `|Im s| ≤ 14`. Required location: target 20 (its §§0.2 and 0.4).
 
-What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f ≥ 1` and real `H`, the proposition `GRH(f, H)` that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2` for every primitive character `χ` modulo `f`, antitone in `H`, with the passage to imprimitive characters (every character modulo `q` has its zeros of the open strip up to height `H` on the line iff `GRH(f, H)` holds for every `f ∣ q`) and the instances `GRH(f, H(f))` for `2 ≤ f ≤ 400 000`, `H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f` and `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f` (`platt-2016` Theorem 1); these contain Rumely's verified ranges (`rumely-1993` lines 29–36). Required location: target 20 (its §§0.2 and 0.3).
+What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f ≥ 1` and real `H`, the proposition `GRH(f, H)` that every zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has real part `1/2` for every primitive character `χ` modulo `f`, antitone in `H`, with the passage to imprimitive characters (every character modulo `q` has its zeros of the open strip up to height `H` on the line iff `GRH(f, H)` holds for every `f ∣ q`), Platt's record *PlattRecord*, the proposition `GRH(f, H(f))` for every `2 ≤ f ≤ 400 000`, `H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f` and `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f` (`platt-2016` Theorem 7.1, arXiv numbering), whose ranges contain Rumely's (`rumely-1993` lines 29–36), with its corollaries at the heights `10⁸/f`, `10 000` and `2500`, and Platt's central record *PlattCentralRecord*, the proposition that `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ f ≤ 2·10⁶` (`platt-2016` Theorem 7.2). Required location: target 20 (its §§0.2, 0.3 and 0.4b).
 
 What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.69693`, `5.573412` and `5.5666305`, and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16.
 
@@ -501,10 +506,11 @@ form and in Pintz's form on the truncated explicit formula, and its two density-
 zero-counting error), specialises it to the
 published constants for `ψ` and `θ`, then transfers to `π`. Layers 4 and 5 derive sums over primes and bounds for the `n`-th prime by
 partial summation and inversion of the Layer 3 bounds, each stated from its Layer 3 input. Layer 6 repeats the scheme for a residue class modulo `q` with the zero data of the
-characters as parameters and records which exceptional-modulus clauses a numerical real-zero gap
-removes, and Layer 7 derives the unconditional short-interval theorems from the
-smoothed explicit formula and the Layer 3 bounds. Each layer ends with its examples and its
-dependencies; a `*Needs:*` line lists what a statement and its route use, item by item.
+characters as parameters, excludes the real zeros of small conductor from Platt's two records, and
+records which exceptional-modulus clauses a numerical real-zero gap removes, and Layer 7 derives
+the unconditional short-interval theorems from the smoothed explicit formula and the Layer 3
+bounds. Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a
+statement and its route use, item by item.
 
 ## Layer 0: the Brun–Titchmarsh inequality, carriers and transfer identities
 
@@ -908,8 +914,9 @@ Every proposition of this layer is a `Prop` with its data in the statement, assu
 established here: each theorem that uses one carries it as an explicit hypothesis, and no target
 of this roadmap performs, checks or plans the computation behind it. Each is listed once, with
 what it asserts and where its source states it. The bounded-height propositions `RH(H)` and
-`GRH(f, H)`, with their laws and the recorded verifications, are ExplicitZetaBounds §§0.2–0.4
-(`gap:rh-up-to-height`, `gap:grh-up-to-height`), and the real-zero gap with its instances is its
+`GRH(f, H)`, with their laws, the recorded verifications and Platt's two records, are
+ExplicitZetaBounds §§0.2–0.4b (`gap:rh-up-to-height`, `gap:grh-up-to-height`), and the real-zero
+gap with its instances is its
 §7.9 (`gap:real-zero-gap`): §§1.1, 1.2 and 1.7 cite them and fix the names this roadmap uses for
 them. Every proposition this layer states mentions only Layer 0 and the pinned libraries.
 
@@ -974,14 +981,23 @@ character inducing it differ by Euler factors `1 − χ*(p) p^{−s}`, `p ∣ q`
 `Re s = 0`), that statement is `GRH(f, H)` for every `f ∣ q`, abbreviated `GRH*(q, H)`
 (Conventions). No new proposition is defined.
 
-- Instances, from ExplicitZetaBounds §§0.3–0.4: `GRH*(q, 10 000)` for `q ≤ 13`, `GRH*(q, 2500)` for
-  every `q ≤ 40 000` and `GRH*(q, 10⁸/q)` for `q ≤ 400 000`, since every `f ∣ q` with `f ≥ 2` has
-  `f ≤ q` and `10⁸/f ≥ 10⁸/q`, and `f = 1` is `RH(H)`, given by `RH(3 000 175 332 800)`. The first
-  two contain every range of Rumely's verification (`rumely-1993` lines 29–36; the moduli Ramaré
-  takes from it are listed at `ramare-2002` lines 152–159, the largest being `486`), which is
-  therefore not a hypothesis of any theorem here.
+Platt's records, named propositions of ExplicitZetaBounds §0.4b and hypotheses never discharged
+here:
 
-*Needs:* ExplicitZetaBounds §§0.2–0.4 (`gap:grh-up-to-height`); Mathlib
+- *PlattRecord*: `GRH(f, H(f))` for every `2 ≤ f ≤ 400 000`, with
+  `H(f) = max(10⁸/f, 7.5·10⁷/f + 200)` for even `f` and `max(10⁸/f, 3.75·10⁷/f + 200)` for odd `f`
+  (`platt-2016` Theorem 7.1, arXiv numbering).
+- *PlattCentralRecord*: `L(1/2, χ) ≠ 0` for every primitive `χ` modulo `2 ≤ f ≤ 2·10⁶`
+  (`platt-2016` Theorem 7.2, arXiv numbering).
+
+Given *PlattRecord* and `RH(3 000 175 332 800)` (§1.1), `GRH*(q, 10 000)` holds for `q ≤ 13`,
+`GRH*(q, 2500)` for every `q ≤ 40 000` and `GRH*(q, 10⁸/q)` for `q ≤ 400 000`, by the corollaries
+of ExplicitZetaBounds §0.3: every `f ∣ q` with `f ≥ 2` has `f ≤ q` and `H(f) ≥ 10⁸/f ≥ 10⁸/q`, and
+`f = 1` is `RH(H)`. The first two contain every range of Rumely's verification (`rumely-1993`
+lines 29–36; the moduli Ramaré takes from it are listed at `ramare-2002` lines 152–159, the largest
+being `486`), which is therefore not a hypothesis of any theorem here.
+
+*Needs:* ExplicitZetaBounds §§0.2–0.4b (`gap:grh-up-to-height`); Mathlib
 `DirichletCharacter.LFunction`, `DirichletCharacter.IsPrimitive`.
 
 **Checks.**
@@ -1148,14 +1164,9 @@ order of supply:
 ExplicitZetaBounds §7.9's *HasLandauSiegelGap* `c Q`: for every primitive real nonprincipal
 Dirichlet character `χ` of conductor `q` with `3 ≤ q ≤ Q` and every real `β ∈ (0, 1)` with
 `DirichletCharacter.LFunction χ β = 0`, `(1 − β) log q ≥ c`. Its laws (antitone in `c` and in `Q`;
-true for some `c > 0` at `Q = ∞`, by AnalyticNumberTheoryPartI §0.34) are proved there; under
-*PlattRealZeroFree* below it holds for every `c` when `Q ≤ 400 000`, the condition being vacuous.
-Its two instances used here are named in ExplicitZetaBounds §7.9; with the verification of small
-conductors, they are hypotheses never discharged here:
+true for some `c > 0` at `Q = ∞`, by AnalyticNumberTheoryPartI §0.34) are proved there. Its two
+instances used here are named in ExplicitZetaBounds §7.9 and are hypotheses never discharged here:
 
-- *PlattRealZeroFree*: for every primitive Dirichlet character `χ` of conductor at most `400 000`
-  and every real `β ∈ (0, 1)`, `DirichletCharacter.LFunction χ β ≠ 0` (`platt-2016` Theorems
-  7.1–7.2, arXiv numbering).
 - *LuZamanZhaoSweep*: *RealZeroGap* `(1/5) 10¹⁰` (`lu-zaman-zhao-2026` Theorem 1.1).
 - *BanksGap*: *RealZeroGap* `(3.0·10⁻³) ∞` (`banks-2026` Theorem 1.1, *(preprint)*).
 
@@ -1185,9 +1196,9 @@ none.
 
 Mathlib `riemannZeta`, `analyticOrderNatAt`, `DirichletCharacter.LFunction`,
 `DirichletCharacter.IsPrimitive`, `Real.eulerMascheroniConstant`, `Nat.nth`; Tau Ceti
-`TauCeti.LFunctions.mertensConstant`; ExplicitZetaBounds §§0.2–0.4, 7.9 (the gaps `rh-up-to-height`,
-`grh-up-to-height`, `real-zero-gap`); ZerosOfLFunctions §4.1; AnalyticNumberTheoryPartI §§0.2, 0.8,
-0.34, 1.6; Layer 0. No later layer is used.
+`TauCeti.LFunctions.mertensConstant`; ExplicitZetaBounds §§0.2–0.4b, 7.9 (the gaps
+`rh-up-to-height`, `grh-up-to-height`, `real-zero-gap`); ZerosOfLFunctions §4.1;
+AnalyticNumberTheoryPartI §§0.2, 0.8, 0.34, 1.6; Layer 0. No later layer is used.
 
 ## Layer 2: bounds under the Riemann hypothesis and under the Riemann hypothesis to a height
 
@@ -2857,10 +2868,50 @@ and `x₀ ≤ x ≤ 10¹⁰`, `max_{1 ≤ y ≤ x} |θ(y; k, l) − y/φ(k)| ≤
 
 *Needs:* §1.5; AnalyticNumberTheoryPartI §0.2.
 
+### 6.2a Real zeros of small conductor
+
+**No real zero below a verified height** (`LFunction_ofReal_ne_zero_of_criticalLineUpTo`): let `χ`
+be a Dirichlet character modulo `q ≥ 1` and `H ≥ 0`. If every zero `s` of `L(s, χ)` with
+`0 < Re s < 1` and `|Im s| ≤ H` has `Re s = 1/2`, and `L(1/2, χ) ≠ 0`, then `L(β, χ) ≠ 0` for every
+real `β ∈ (0, 1)`.
+
+*Instance at the conductors up to `400 000`.* Under `GRH(f, H_f)` for every `2 ≤ f ≤ 400 000`, with
+some `H_f ≥ 0` (*PlattRecord* gives it at `H_f = H(f)`, and `GRH*(q, 10⁸/q)` for `q ≤ 400 000` at
+`H_f = 10⁸/f`, §1.2), and under *PlattCentralRecord* (§1.2), no primitive character of conductor
+`2 ≤ q ≤ 400 000` has a zero in `(0, 1)`. Under the absence of zeros of `ζ` with `0 < Re s < 1` and
+`|Im s| ≤ 14` (§1.1), neither has the primitive character of conductor `1`, whose L-function is `ζ`
+(`DirichletCharacter.LFunction_modOne_eq`). Consequently, under these hypotheses, no real
+nonprincipal character modulo `q ≤ 400 000` has a zero in `(0, 1)`, by the passage to all
+characters of a modulus of §1.7, and *RealZeroGap* `c Q` holds for every real `c` when
+`Q ≤ 400 000`, its condition being vacuous.
+
+Proof: a real zero `β ∈ (0, 1)` lies in the open strip at height `|Im β| = 0 ≤ H`, so
+`β = Re β = 1/2`, which `L(1/2, χ) ≠ 0` excludes. The instance applies this to each primitive `χ` of
+conductor `2 ≤ q ≤ 400 000` at the height `H_q`, its central value being nonzero by
+*PlattCentralRecord*; at conductor `1` a real zero has height `0 ≤ 14`.
+
+ExplicitZetaBounds §0.3 states the instance at the moduli `2 ≤ q ≤ 400 000` from Platt's two
+records; this section owns the form for one character at any height `H ≥ 0`, which §6.3 uses at the
+height `10⁸/q`, and the conductor `1`.
+
+*Needs:* §1.1 (the absence of zeros of `ζ` up to height `14`); §1.2 (*PlattRecord*,
+*PlattCentralRecord*, `GRH*`); §1.7 (*RealZeroGap*, the passage to all characters of a modulus);
+`gap:rh-up-to-height`; `gap:grh-up-to-height`; Mathlib `DirichletCharacter.LFunction`,
+`DirichletCharacter.IsPrimitive`, `DirichletCharacter.LFunction_modOne_eq`.
+
+**Checks.**
+
+- The hypothesis `H ≥ 0` cannot be dropped: for `H < 0` the bounded-height hypothesis is vacuous
+  and says nothing about the real zeros.
+- Without the central value the bounded-height hypothesis does not exclude a real zero: it puts
+  every real zero at `1/2`, a point on the critical line.
+
 ### 6.3 Bennett–Martin–O'Bryant–Rechnitzer
 
-Under `GRH*(q, 10⁸/q)` for all `q ≤ 400 000` (the supplier's instance of `gap:grh-up-to-height`
-through §1.2), *PlattRealZeroFree* (§1.7), the region for `L(s, χ)` with `R = 6.4355` and its exceptional clause
+Under `GRH*(q, 10⁸/q)` for all `q ≤ 400 000` (given *PlattRecord* and `RH(3 000 175 332 800)`,
+through §1.2), *PlattCentralRecord* (§1.2; with the former it excludes every real zero in `(0, 1)`
+of the real characters of conductor at most `400 000`, §6.2a), the region for `L(s, χ)` with
+`R = 6.4355` and its exceptional clause
 (`gap:dirichlet-zero-free-constants`), the Dirichlet zero count (`gap:dirichlet-zero-count-error`),
 and *BMORTables* (`bennett-martin-obryant-rechnitzer-2018` lines 165–195, Theorems 1.1–1.3): for
 `q ≥ 3` and `a` a unit modulo `q`, with
@@ -2896,7 +2947,8 @@ Table proposition of this section:
   three inequalities hold with them on the bounded ranges where that error function is not used
   (`bennett-martin-obryant-rechnitzer-2018` lines 165–167 and its tables).
 
-*Needs:* §6.1; §6.7; §0.3; §0.4; §1.2; §1.7 (*PlattRealZeroFree*); `gap:grh-up-to-height`; `gap:dirichlet-zero-free-constants`; `gap:dirichlet-zero-count-error`;
+*Needs:* §6.1; §6.2a; §6.7; §0.3; §0.4; §1.2 (*PlattRecord*, *PlattCentralRecord*);
+`gap:grh-up-to-height`; `gap:dirichlet-zero-free-constants`; `gap:dirichlet-zero-count-error`;
 `gap:real-zero-gap`.
 
 **Checks.**
@@ -3102,6 +3154,8 @@ AnalyticNumberTheoryPartI §0.34; Mathlib `DirichletCharacter.LFunction`.
 
 - The row `(8, 0.002811, 10¹⁰)` and the theta clause of *ModEightFiniteInput*.
 - `(φ(q)/2) log(q/2) ≤ log |disc ℚ(ζ_q)| ≤ φ(q) log q` for every `q ≥ 1` (§6.5).
+- No real zero in `(0, 1)` of a primitive character of conductor `2 ≤ q ≤ 400 000`, under Platt's
+  two records (§6.2a).
 - No exceptional modulus up to `10¹⁰` under *LuZamanZhaoSweep*; the least prime `p ≤ (φ(q) log q)²`
   for `q > 3` under the generalised Riemann hypothesis.
 
@@ -3110,7 +3164,8 @@ AnalyticNumberTheoryPartI §0.34; Mathlib `DirichletCharacter.LFunction`.
 Layers 0–3; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30, 0.34, 1.6; ZerosOfLFunctions §8.6;
 LFunctions Layer 4 (`dirichletData`, through ZerosOfLFunctions §8.6); ClassFieldTheory Layer 13
 (the conductor–discriminant formula, §6.5); ExplicitZetaBounds
-§5.4; Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`; the gaps `rh-up-to-height`,
+§§0.3, 0.4b (Platt's records, §6.2a), 5.4; Mathlib `IsCyclotomicExtension.Rat.natAbs_discr`,
+`DirichletCharacter.LFunction_modOne_eq`; the gaps `rh-up-to-height`,
 `grh-up-to-height`, `dirichlet-zero-free-constants` (with Ramaré–Rumely's region and its form for a
 modulus, the fifth item of its §7.5), `dirichlet-zero-count-error`, `real-zero-gap`; the zero input
 *LiuWangFourZeros* (§6.6). No later layer is used.

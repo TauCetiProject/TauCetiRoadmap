@@ -47,8 +47,11 @@ Headline theorems stated here:
   (`vanlalngaia_sum_inv_prime`).
 * Layer 5: Dusart's `p_k ≥ k(log k + log log k − 1)` from its `θ`- and `ψ`-inputs and Robin's
   range (`dusart_nth_prime_lower`, `RobinNthPrimeRange`).
-* Layer 6: Lamzouri–Li–Soundararajan's least prime `p ≤ (φ(q) log q)²` in a reduced class under
-  the generalised Riemann hypothesis (`lamzouri_li_soundararajan`).
+* Layer 6: the absence of a real zero of `L(s, χ)` in `(0, 1)` given the zeros up to a height
+  `H ≥ 0` on the critical line and `L(1/2, χ) ≠ 0`
+  (`LFunction_ofReal_ne_zero_of_criticalLineUpTo`), and Lamzouri–Li–Soundararajan's least prime
+  `p ≤ (φ(q) log q)²` in a reduced class under the generalised Riemann hypothesis
+  (`lamzouri_li_soundararajan`).
 * Layer 7: Schoenfeld's prime in `(x, x + x/16597)` from its `ψ`-input
   (`schoenfeld_interval`), Trudgian's prime in `[x, x(1 + 1/(111 log² x))]` and Axler's prime in
   `(x, x(1 + (0.048668 + 8.22·10⁻¹¹)/log³ x)]` from their `θ`-inputs, their gap bounds below
@@ -514,6 +517,19 @@ theorem dusart_nth_prime_lower (hfin : RobinNthPrimeRange)
   sorry
 
 /-! ## Layer 6: primes in arithmetic progressions -/
+
+/-- **No real zero below a verified height** (README §6.2a): if, for some height `H ≥ 0`, every
+zero of `L(s, χ)` with `0 < Re s < 1` and `|Im s| ≤ H` has `Re s = 1/2`, and `L(1/2, χ) ≠ 0`, then
+`L(β, χ) ≠ 0` for every real `β ∈ (0, 1)`. With Platt's two records (ExplicitZetaBounds §0.4b) as
+the hypotheses at every primitive character of conductor `2 ≤ q ≤ 400 000`, it excludes the real
+zeros of all those characters. -/
+theorem LFunction_ofReal_ne_zero_of_criticalLineUpTo {q : ℕ} [NeZero q]
+    (χ : DirichletCharacter ℂ q) {H : ℝ} (hH : 0 ≤ H)
+    (hline : ∀ s : ℂ, DirichletCharacter.LFunction χ s = 0 → 0 < s.re → s.re < 1 →
+      |s.im| ≤ H → s.re = 1 / 2)
+    (hhalf : DirichletCharacter.LFunction χ (1 / 2) ≠ 0) {β : ℝ} (hβ₀ : 0 < β) (hβ₁ : β < 1) :
+    DirichletCharacter.LFunction χ β ≠ 0 := by
+  sorry
 
 /-- **The least prime in a progression under the generalised Riemann hypothesis**
 (Lamzouri–Li–Soundararajan, Math. Comp. 84 (2015), Corollary 1.2): for `q > 3`, if every
