@@ -27,9 +27,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
-    runs-on:
-      group: TauCetiRoadmap
-      labels: tauceti-fleet-roadmap
+    runs-on: ubuntu-latest
     steps:
       - name: Mint App token (organization Members write)
         id: token

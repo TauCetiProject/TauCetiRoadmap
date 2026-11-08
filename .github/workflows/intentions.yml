@@ -25,9 +25,7 @@ jobs:
     if: >-
       github.event_name != 'issue_comment'
       || github.event.comment.performed_via_github_app.id != fromJSON(vars.CLAIM_BOT_APP_ID)
-    runs-on:
-      group: TauCetiRoadmap
-      labels: tauceti-fleet-roadmap
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.event_name == 'issue_comment' && format('intentions-issue-{0}', github.event.issue.number) || (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'intentions-sweep' || format('intentions-item-{0}', github.event.issue.number || github.event.pull_request.number) }}
       cancel-in-progress: false

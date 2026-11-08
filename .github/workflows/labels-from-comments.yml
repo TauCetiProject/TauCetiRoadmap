@@ -14,9 +14,7 @@ permissions: {}
 jobs:
   label:
     if: github.repository == 'TauCetiProject/TauCetiRoadmap'
-    runs-on:
-      group: TauCetiRoadmap
-      labels: tauceti-fleet-roadmap
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       # No checkout: neither PR code nor comment text is ever executed.
