@@ -404,14 +404,21 @@ Totaro 1999, Theorem 1.1 and Definition 1.2). Prove that such `(V, U)` exist for
 For `G`-schemes and `G`-morphisms satisfying Convention 5: proper pushforward, flat pullback, the
 localisation sequence `A^G_i(Z) → A^G_i(X) → A^G_i(X ∖ Z) → 0` for an invariant closed `Z`,
 equivariant Chern classes of equivariant vector bundles, intersection products for `X` smooth, and
-homotopy invariance for equivariant vector bundles and affine bundles (Edidin–Graham 1998,
-§§2.3–2.6: Proposition 1 for proper pushforward and flat and lci pullback, Definition-Proposition 2
-and the remark after it for Chern classes and the product on smooth `X`, Proposition 3 for the
-localisation sequence; homotopy invariance is SchemeAndStackFoundations §5.2 on the mixed spaces),
-all deduced from
-SchemeAndStackFoundations §§5.2–5.6 applied to the mixed spaces of 2.1, which inherit Convention 5
-(invariant closed and open subschemes, and equivariant vector bundles, of a quasi-projective `X`
-with a linearised ample sheaf are again of that kind). Prove invariance under change of
+homotopy invariance for equivariant vector bundles and for equivariant affine bundles, that is
+equivariant torsors `E → X` under an equivariant vector bundle `V` (Edidin–Graham 1998, §§2.3–2.6:
+Proposition 1 for proper pushforward and flat and lci pullback, Definition-Proposition 2 and the
+remark after it for Chern classes and the product on smooth `X`, Proposition 3 for the localisation
+sequence), all deduced from SchemeAndStackFoundations §§5.2–5.6 applied to the mixed spaces of 2.1,
+which inherit Convention 5 (invariant closed and open subschemes, and equivariant vector bundles,
+of a quasi-projective `X` with a linearised ample sheaf are again of that kind). Homotopy
+invariance for vector bundles is `chow_affine_bundle` of SchemeAndStackFoundations §5.2, which
+covers total spaces of locally free sheaves only. For a torsor `E` under `V`, let
+`0 → V → Ṽ → O → 0` be the extension it defines, so that `E` is the preimage of `1` in `Ṽ` and
+`E = ℙ(Ṽ) ∖ ℙ(V)` in the projective bundles of lines; the localisation sequence (§5.2) for
+`ℙ(V) ⊆ ℙ(Ṽ)` and the projective bundle formula (§5.4), with `[ℙ(V)] = c₁(O(1)) ∩ [ℙ(Ṽ)]`, show
+that `p^* : A_k(X) → A_{k+r}(E)` is an isomorphism, `r = rank V`; on mixed spaces the equivariant
+extension `Ṽ` descends with `E`. This is the argument of Fulton 1998, Theorem 3.3 (a), for the
+projective completion `ℙ(V ⊕ 1)`, run on a nonsplit extension. Prove invariance under change of
 presentation: if `[X/G] ≅ [Y/H]` with `X` and `Y` smooth, then `A^*_G(X) ≅ A^*_H(Y)` as graded
 rings, graded by codimension, by the double fibration of Edidin–Graham 1998, Proposition 9.
 *Needs:* 2.1; 1.4; SchemeAndStackFoundations §§5.2–5.6.
@@ -435,8 +442,12 @@ this roadmap's own computations, by the following route. For `𝔾_m^r`, the app
 `(𝔸^l ∖ 0)^r` with quotient `(ℙ^{l−1})^r` (Edidin–Graham 1998, §2.2, Example) and the projective
 bundle formula. For `GL_n`, with `T ⊆ B` the diagonal torus and a Borel subgroup, the flag variety
 `Fl = GL_n/B` satisfies `[Fl/GL_n] ≅ [Spec k/B]`, so `A^*_{GL_n}(Fl) = A^*_B = A^*_T` by change of
-presentation and homotopy invariance along the affine bundle with fibre `B/T` (2.2); `Fl` is an
-iterated projective bundle, and the projective bundle formula gives
+presentation and homotopy invariance along the bundle with fibre `B/T` (2.2), which is a tower of
+`N = n(n − 1)/2` torsors under line bundles: for a chain `R = R₀ ⊇ R₁ ⊇ … ⊇ R_N = 1` of
+`T`-stable normal subgroups of the unipotent radical `R` of `B` with `R_m/R_{m+1} ≅ 𝔾_a` central
+in `R/R_{m+1}`, each step `U/(T R_{m+1}) → U/(T R_m)` of the approximations of 2.1 is a torsor
+under the line bundle of the character (a root) of `T` on `R_m/R_{m+1}`; `Fl` is an iterated
+projective bundle, and the projective bundle formula gives
 `A^*_{GL_n}(Fl) = A^*_{GL_n} ⊗_{ℤ[c₁, …, c_n]} ℤ[t₁, …, t_n]`, with `c_i` the elementary symmetric
 functions and `c_i ↦ c_i(V)` for the standard representation `V`; as `ℤ[t₁, …, t_n] = A^*_T` is
 free over `ℤ[c₁, …, c_n]`, faithful flatness gives `A^*_{GL_n} = ℤ[c₁, …, c_n]`. For `μ_n`,
