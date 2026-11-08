@@ -2,7 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicGeometry.Compactification.Basic
-public import TauCeti.AlgebraicGeometry.RationalPoint.Count
+public import TauCeti.AlgebraicGeometry.FiniteEtale.Fiber
 
 /-!
 # Étale cohomology foundations: target signatures
@@ -16,6 +16,10 @@ Stated here:
 * `nagataCompactification` (§G.2): every separated finite-type morphism to a quasi-compact
   quasi-separated scheme has a compactification, on Tau Ceti's carrier
   `TauCeti.Compactification`.
+* `arithmeticExactSequence` (§F.0.A2): for a quasi-compact geometrically connected scheme over a
+  field, the étale fundamental groups `EtaleFundamentalGroup` of Tau Ceti's geometric fibre
+  functors form the exact sequence `1 → π₁(X_k̄) → π₁(X) → π₁(Spec k) → 1` under the maps
+  `EtaleFundamentalGroup.map` induced by morphisms of schemes.
 * `VanishingCycles.etaleCohomologicalDimension` (§F.3.0): étale cohomology of a finite-type
   scheme over a separably closed field with prime-to-characteristic torsion coefficients vanishes
   above twice the dimension.
@@ -25,9 +29,6 @@ Stated here:
   scheme over a separably closed field with finite constant coefficients of invertible order.
 * `VanishingCycles.subsingleton_ellAdicCohomology` (§F.4.4): Mathlib's pro-étale `ℓ`-adic
   cohomology vanishes above twice the dimension.
-* `Scheme.Hom.pointCount_eq_numberOfRationalPoints` and `VanishingCycles.frobeniusFixedPoints`
-  (§F.10.1): point counts over finite extensions of a finite field, on Tau Ceti's
-  `Scheme.Hom.numberOfRationalPoints`, and their computation by fixed points of Frobenius.
 
 Headline theorems of the README that cannot be stated at the pins, and what each lacks:
 
@@ -42,11 +43,13 @@ Headline theorems of the README that cannot be stated at the pins, and what each
   (§F.8): no constructible étale sheaves and no bounded constructible derived category.
 * The monodromy equivalence for finite lisse sheaves (§F.0.2): no locally constant sheaves of
   modules on the small étale site, and the equivalence is data.
-* The arithmetic fundamental-group exact sequence (§F.0.A2): no map between automorphism groups
-  of Tau Ceti's fibre functors `TauCeti.FiniteEtaleScheme.fiber` induced by a morphism of schemes.
-* The henselian-trait inertia sequence and the tame character (§F.3a): no specialization map from
-  the absolute Galois group of the fraction field of a henselian discrete valuation ring to that
-  of its residue field.
+* The tame character of a henselian trait (§F.3a): Tau Ceti's tame character
+  `TauCeti.inertiaTameCharacter` is defined for nonarchimedean local fields only, and the pins
+  have no tame character and no wild inertia subgroup for a general henselian discrete valuation
+  ring. The inertia sequence of a trait is not a headline: its surjectivity is Mathlib's
+  `Ideal.Quotient.stabilizerHom_surjective_of_profinite` for the integral closure of the trait in
+  a separable closure of its fraction field, whose maximal ideal the whole Galois group
+  stabilizes because the trait is henselian.
 * Finite generation of `ℓ`-adic cohomology over `ℤ_ℓ` (§F.4.4) and the Frobenius modules of
   §F.10.2b: Mathlib's `Scheme.EllAdicCohomology` carries no `ℤ_[ℓ]`-module structure, and there is
   no Frobenius action on it.
@@ -59,7 +62,7 @@ noncomputable section
 
 namespace TauCetiRoadmap.EtaleCohomologyFoundations
 
-open CategoryTheory AlgebraicGeometry
+open CategoryTheory AlgebraicGeometry Limits
 
 universe u
 
@@ -73,6 +76,57 @@ compactifications of `f` a cofiltered category. -/
 theorem nagataCompactification {X S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]
     (f : X ⟶ S) [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f] :
     Nonempty (TauCeti.Compactification f) := by
+  sorry
+
+/-! ## F.0.2 The étale fundamental group -/
+
+/-- **The étale fundamental group** `π₁(S, x)` of a scheme `S` at a geometric point
+`x : Spec Ω ⟶ S`, `Ω` separably closed: the automorphism group of Tau Ceti's geometric fibre
+functor `TauCeti.FiniteEtaleScheme.fiber x` on finite étale `S`-schemes (SGA 1, Exposé V, §7).
+No connectedness of `S` is assumed; for the spectrum of a field it is the absolute Galois group
+(`TauCeti.FiniteEtaleScheme.galContinuousMulEquivAutFiber`). -/
+abbrev EtaleFundamentalGroup {S : Scheme.{u}} {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (x : Spec (.of Ω) ⟶ S) :=
+  Aut (TauCeti.FiniteEtaleScheme.fiber x)
+
+/-- **Functoriality of `π₁`.** A morphism `f : T ⟶ S` and a geometric point `x` of `T` induce
+`π₁(T, x) → π₁(S, x ≫ f)`: an automorphism of the fibre functor at `x` is whiskered by base change
+of finite étale covers along `f` and transported along Tau Ceti's identification
+`TauCeti.FiniteEtaleScheme.pullbackCompFiberIso` of the fibre at `x` of a base change with the
+fibre at `x ≫ f` (SGA 1, Exposé V, §7). -/
+def EtaleFundamentalGroup.map {T S : Scheme.{u}} (f : T ⟶ S) {Ω : Type u} [Field Ω]
+    [IsSepClosed Ω] (x : Spec (.of Ω) ⟶ T) :
+    EtaleFundamentalGroup x →* EtaleFundamentalGroup (x ≫ f) where
+  toFun σ := .of ((TauCeti.FiniteEtaleScheme.pullbackCompFiberIso f x).symm ≪≫
+    Functor.isoWhiskerLeft (TauCeti.FiniteEtaleScheme.pullback f) σ.asIso ≪≫
+      TauCeti.FiniteEtaleScheme.pullbackCompFiberIso f x)
+  map_one' := by
+    apply Aut.ext
+    ext X y
+    simp
+  map_mul' σ τ := by
+    apply Aut.ext
+    ext X y
+    simp
+
+/-! ## F.0.A2 The arithmetic fundamental-group sequence -/
+
+/-- **The arithmetic fundamental-group exact sequence** (SGA 1, Exposé IX, Théorème 6.1,
+p. 195). Let `X` be a quasi-compact scheme over a field `k` that is geometrically connected, that
+is `X_k̄ = X ×_k k̄` is connected for an algebraic closure `k̄` of `k`, and let `x` be a geometric
+point of `X_k̄`. The maps on étale fundamental groups induced by the projection `X_k̄ → X` and by
+the structure morphism `X → Spec k` form an exact sequence
+`1 → π₁(X_k̄, x) → π₁(X, x) → π₁(Spec k, x) → 1`. -/
+theorem arithmeticExactSequence {k : Type u} [Field k] (kbar : Type u) [Field kbar]
+    [Algebra k kbar] [IsAlgClosure k kbar] {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
+    [CompactSpace X]
+    [ConnectedSpace ↥(pullback p (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
+    {Ω : Type u} [Field Ω] [IsSepClosed Ω]
+    (x : Spec (.of Ω) ⟶ pullback p (Spec.map (CommRingCat.ofHom (algebraMap k kbar)))) :
+    Function.Injective (EtaleFundamentalGroup.map (pullback.fst _ _) x) ∧
+      Function.Surjective (EtaleFundamentalGroup.map p (x ≫ pullback.fst _ _)) ∧
+      (EtaleFundamentalGroup.map (pullback.fst _ _) x).range =
+        (EtaleFundamentalGroup.map p (x ≫ pullback.fst _ _)).ker := by
   sorry
 
 /-! ## F.3.0 Geometric étale dimension bound -/
@@ -127,57 +181,6 @@ theorem VanishingCycles.subsingleton_ellAdicCohomology {k : Type u} [Field k] [I
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f]
     (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : k) ≠ 0) (q : ℕ) (hq : 2 * topologicalKrullDim X < q) :
     Subsingleton (X.EllAdicCohomology ℓ q) := by
-  sorry
-
-/-! ## F.10.1 Finite-field descent and rational-point fixed points -/
-
-/-- **Arithmetic Frobenius.** Mathlib's `FiniteField.frobeniusAlgEquivOfAlgebraic`, the
-`k`-automorphism `x ↦ x ^ Nat.card k` of an algebraic extension `L` of the finite field `k`. The
-`Fintype` structure it uses is internal to the definition and does not change its value. -/
-noncomputable def VanishingCycles.arithmeticFrobenius (k L : Type u) [Field k] [Finite k]
-    [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] : L ≃ₐ[k] L :=
-  letI := Fintype.ofFinite k
-  FiniteField.frobeniusAlgEquivOfAlgebraic k L
-
-/-- **Finiteness of rational points.** A scheme of finite type over a finite field `k` has only
-finitely many points with values in a finite extension field `L` of `k`. -/
-theorem VanishingCycles.rationalPoints_finite (k L : Type u) [Field k] [Finite k]
-    [Field L] [Finite L] [Algebra k L]
-    (X : Scheme.{u}) (a : X ⟶ Spec (CommRingCat.of k))
-    [LocallyOfFiniteType a] [QuasiCompact a] :
-    Finite {x : Spec (CommRingCat.of L) ⟶ X //
-      x ≫ a = Spec.map (CommRingCat.ofHom (algebraMap k L))} := by
-  sorry
-
-/-- **Point counts over finite extensions.** For `f : X ⟶ Spec k` with `k` finite of cardinality
-`q`, the number of points of `X` with values in the degree-`r` extension of `k`, modelled as the
-splitting field of `X ^ (q ^ r) - X` over `k`: Tau Ceti's `Scheme.Hom.numberOfRationalPoints` of
-that field. -/
-noncomputable def Scheme.Hom.pointCount {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
-    (f : X ⟶ Spec (.of k)) (r : ℕ) : ℕ :=
-  f.numberOfRationalPoints
-    (Polynomial.SplittingField (Polynomial.X ^ Nat.card k ^ r - Polynomial.X : Polynomial k))
-
-/-- **Independence of the model of the extension.** For every finite extension `E` of the finite
-field `k`, `Scheme.Hom.pointCount f [E : k]` is the number of `E`-points of `X` over `k`. -/
-theorem Scheme.Hom.pointCount_eq_numberOfRationalPoints {k : Type u} [Field k] [Finite k]
-    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (E : Type u) [Field E] [Algebra k E]
-    [Module.Finite k E] :
-    Scheme.Hom.pointCount f (Module.finrank k E) = f.numberOfRationalPoints E := by
-  sorry
-
-/-- **Points as Frobenius fixed points.** For `r > 0` and an algebraic closure `L` of the finite
-field `k`, the points of `X` over the degree-`r` extension of `k` are counted by the `L`-points of
-`X` over `k` fixed by the `r`-th power of arithmetic Frobenius. The underlying bijection is Tau
-Ceti's `AlgEquiv.fromSpecFixedFieldEquiv`; no finiteness hypothesis on `X` is needed. -/
-theorem VanishingCycles.frobeniusFixedPoints {k : Type u} [Field k] [Finite k]
-    (L : Type u) [Field L] [Algebra k L] [Algebra.IsAlgebraic k L] [IsAlgClosed L]
-    {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (r : ℕ) (hr : 0 < r) :
-    Scheme.Hom.pointCount f r =
-      Nat.card {x : Spec (.of L) ⟶ X //
-        x ≫ f = Spec.map (CommRingCat.ofHom (algebraMap k L)) ∧
-        Spec.map (CommRingCat.ofHom
-          (VanishingCycles.arithmeticFrobenius k L ^ r).toRingHom) ≫ x = x} := by
   sorry
 
 end TauCetiRoadmap.EtaleCohomologyFoundations
