@@ -10,6 +10,13 @@ their coordinate, naturality, regularity, and computational APIs.
 The definitive specification is this README. `Suggested.lean` gives selected
 interfaces and is not an exhaustive checklist.
 
+The sub-roadmap [Local geometry of Riemannian surfaces](Surfaces/README.md) owns polar
+coordinates and normal strips on surfaces, integration up to normal cut times on surface
+domains, Gauss–Bonnet for disks and annuli with corners and the signed turning theorem,
+nonpositively curved normal balls without completeness, and conformal invariance of the
+surface Dirichlet energy. It is independently definitive and states its boundaries with the
+milestones below.
+
 ## Conventions and suppliers
 
 Work with finite-dimensional real, Hausdorff, second-countable, boundaryless smooth
@@ -216,6 +223,21 @@ suspension-map comparison for sphere Freudenthal connectivity.
    from R2's Jacobi equation, not an assumed Taylor formula for exp. In
    particular for unit T,Y with Y⊥T,
    `|d exp_(tT)(tY)|²=t²−⅓K(T,Y)t⁴+O(t⁵)`.
+5. Let N be a fixed smooth Riemannian n-manifold, C⊂N compact, `p_j∈C`,
+   `E_j:ℝⁿ→T_(p_j)N` linear isometries and `λ_j→∞`. For each fixed L>0 prove
+   that `F_j(x)=exp_(p_j)(E_j(x)/λ_j)` is defined on a neighbourhood of the
+   closed Euclidean L-ball and is a diffeomorphism onto its image for all large
+   j, and that `g_j=λ_j²F_j*g` converges to the Euclidean metric in every C^m
+   norm on that ball: uniform convergence of all coefficient derivatives of order
+   at most m. Include convergence of the inverse coefficients and the volume
+   densities, and convergence of the Christoffel symbols to zero with every fixed
+   finite number of derivatives. Make the coefficient bounds uniform over the
+   centres in C and all orthonormal frames, consuming SBC B6.0's uniform normal
+   radius and smooth dependence of the exponential map on its base point;
+   constants depend on g and C, and sectional-curvature bounds alone do not
+   supply the higher-derivative bounds. Identify the sectional curvature of g_j
+   with λ_j⁻² times that of g by the constant-scaling law of this section, and
+   check that a Euclidean metric is unchanged by the construction.
 
 The algebra/connection part precedes R2; the jet computations follow it.
 Use Mathlib's tensor, Gram, continuous-linear-map and finite-dimensional spectral
@@ -618,7 +640,15 @@ stable homotopy calculations remain with
    normal directions gives the model pullback metric and local isometry.
    On a smooth normal-distance domain derive radial Hessian zero and the
    corresponding transverse lower/upper bounds by `(s_κ'/s_κ)g`, together
-   with the Laplacian trace and the scalar sign dictionary. Derive Günther
+   with the Laplacian trace and the scalar sign dictionary. There let S be the
+   Hessian endomorphism of r on the orthogonal complement of grad r; in a
+   parallel trivialization along each unit-speed radial geodesic γ prove
+   `S′+S²+R(·,γ′)γ′=0` and `tS(t)→Id` in operator norm as t↓0, and derive the
+   lower bound under radial `K≤κ` and the upper bound under radial `K≥κ` by
+   comparison with `s_κ'/s_κ`, before the first positive model zero. Prove
+   that r² extends smoothly across p with `Hess(r²)_p=2g_p`, and that under
+   radial `K≤κ` the Hessian of r² is positive definite on every such normal ball
+   of radius below `π/(2√κ)` when κ>0, and on every such ball when κ≤0. Derive Günther
    lower-volume comparison from sectional upper bounds: on connected complete M
    with K≤κ, at p use 0<r<inj(p), and also r<π/√κ when κ>0, to conclude
    Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. Treat the
@@ -857,17 +887,17 @@ Fix every input point-curve throughout, including those outside P₀. The consta
 
 Choose the standard round metric g₀ as an auxiliary regularization device. Prove that the topology d_F+|ΔL| on Jordan images and points is independent of the smooth positive-definite metric on compact S². Use separate type synonyms S²_g and S²_(g₀), each carrying its own Riemannian distance, with the identity smooth diffeomorphism and its bi-Lipschitz metric comparison. Define the induced image/point bijection V_g→V_(g₀) and prove it and its inverse continuous. On positive-length bands work in the uniform quotient of constant-speed representatives by rotations and reversal. For each convergent sequence choose matched representatives with uniformly bounded Lipschitz constants, then use weak derivative convergence and convergence of arclength energy to obtain strong derivative convergence in a fixed smooth embedding; this proves convergence of length for the other metric. At points use uniform metric norm equivalence and length tending to zero. Construct the corresponding transport under a smooth diffeomorphism of compact surfaces, with variation and reparametrization laws. These are concrete curve-carrier/homeomorphism interfaces for the two-metric regularization.
 
-Construct the shared periodic, interior and conditional blowup theorems in6b first, then their round applications here. Before any round area evolution or annulus nonfattening application, own the following signed boundary curvature–area construction on the actual unit-round-sphere carrier with metric g₀, its fixed orientation and canonical Riemannian area.
+Construct the shared periodic, interior and conditional blowup theorems in6b first, then their round applications here. Before any round area evolution or annulus nonfattening application, specialize [Surfaces S3](Surfaces/README.md#s3--gaussbonnet-for-disks-and-annuli) to the actual unit-round-sphere carrier with metric g₀, its fixed orientation and canonical Riemannian area.
 
-For a selected smooth Jordan disk D, orient ∂D with D on the left. Let n_D be its inward unit conormal in the sphere and let k_D be the signed geodesic curvature defined by ∇_T T=k_D n_D for the unit-speed positive boundary tangent. Construct the boundary arclength integral and its comparison with DG's oriented line integral, and prove
+For a selected smooth Jordan disk D, orient ∂D with D on the left. Let n_D be its inward unit conormal in the sphere and let k_D be the signed geodesic curvature defined by ∇_T T=k_D n_D for the unit-speed positive boundary tangent. Since K_(g₀)=1, S3 gives
 `∫_(∂D) k_D ds_(g₀) + Area_(g₀)(D) = 2π`.
-This is a theorem for either selected side, with its own induced orientation and normal; it does not designate a smaller side. For a smooth annular domain Ann use the two induced boundary orientations, inward conormals into Ann, and prove
+This is a theorem for either selected side, with its own induced orientation and normal; it does not designate a smaller side. For a smooth annular domain Ann with the two induced boundary orientations and inward conormals into Ann, S3 gives
 `∫_(∂Ann) k_Ann ds_(g₀) + Area_(g₀)(Ann) = 0`.
 Give the restriction, orientation-reversal, disk-difference and parameter-dependent integral laws needed for these actual domains.
 
-Build the signed turning input here: an oriented smooth embedded planar Jordan curve bounding a disk on its left has tangent-map degree+1 and signed Euclidean total curvature2π. Construct the tangent-angle lift on intervals, its degree/turning-integral identity, and the Jordan orientation comparison giving degree+1; unsigned Fenchel is a different theorem. For a selected spherical disk choose a stereographic pole in the opposite open component, transport it to a compact planar smooth Jordan disk, and use R1's stereographic metric and conformal connection comparisons. For g₀=e^(2u)(dx²+dy²), prove the signed boundary identity `k_(g₀) ds_(g₀)=(k_e+∂_(n_out)u)ds_e` and curvature identity `K_(g₀)dA_(g₀)=−Δu dxdy`. DG's Green/Stokes theorem and the signed turning theorem then give the disk formula because K_(g₀)=1. Derive the annulus formula by subtracting the two nested disk formulas and reversing the inner boundary. Own these geometric/line-integral/volume comparisons here; generic Stokes alone does not assert them.
+The signed planar turning theorem, the comparison of the boundary arclength integral with DG's oriented line integral and the area comparison are S3's; this section owns their round-sphere specialization above.
 
-For a smooth moving Jordan disk establish the signed moving-boundary formula `A_side′=−∫k_D ds` with the same curvature/normal convention. Combine it with the owned disk identity to obtain `A_side′=A_side−2π`, and construct its continuous finite-endpoint area trace. For two nested evolving smooth boundaries prove the corresponding variation formula with both induced annulus orientations on their common lifetime; the annulus identity gives `A_ann′=A_ann`, hence `A_ann(t)=exp(t−s)A_ann(s)` before either boundary loses smooth existence. Retain the nesting and endpoint-trace hypotheses when taking approximation limits. These focused round disk/annulus theorems supply the applications in this section; no general Gauss–Bonnet–Chern theorem is a prerequisite. The arbitrary-metric finite-time alternative and the disk area equation give finite extinction exactly when A_side(0)≠2π; area bisection excludes finite collapse.
+For a smooth moving Jordan disk establish the signed moving-boundary formula `A_side′=−∫k_D ds` with the same curvature/normal convention. Combine it with the disk identity above to obtain `A_side′=A_side−2π`, and construct its continuous finite-endpoint area trace. For two nested evolving smooth boundaries prove the corresponding variation formula with both induced annulus orientations on their common lifetime; the annulus identity gives `A_ann′=A_ann`, hence `A_ann(t)=exp(t−s)A_ann(s)` before either boundary loses smooth existence. Retain the nesting and endpoint-trace hypotheses when taking approximation limits. These focused round disk/annulus theorems supply the applications in this section; no general Gauss–Bonnet–Chern theorem is a prerequisite. The arbitrary-metric finite-time alternative and the disk area equation give finite extinction exactly when A_side(0)≠2π; area bisection excludes finite collapse.
 
 Construct the round circular-singularity theorem by a small-length closed-curve distance comparison. For an embedded round flow extinct at (p,T), enter once L≤L_*<2π. The spherical distance of a pair is at most its shorter arc l≤L/2<π, so antipodal pairs are excluded and m≠0. Use the exact ambient chord `D_ch=|X(y)−X(x)|` in ℝ³ and `ψ(L,l)=(L/π)sin(πl/L)`, where l is the shorter arclength. Prove that a positive constant `0<β≤1` with D_ch≥βψ initially retains this inequality for all later times before T; equivalently the minimum D_ch/ψ is nondecreasing. Include the continuous diagonal value1, the two half-arc branches at l=L/2 and a strict ε first-contact barrier. The exact ambient equation is `X_t=κ_e+X`; the measure/subarc equations are `L′=−∫|κ_e|²ds+L` and `l′=−∫_arc|κ_e|²ds+l`. Homogeneity `Lψ_L+lψ_l=ψ` cancels the pure homothety contribution in D_ch/ψ. At contact set θ=πl/L, `w=(Y−X)/D_ch`, `m=(X+Y)/2` and `c_contact=β cosθ`. The sphere and first-variation identities give `T_x·w=T_y·w=c_contact`, `T_x·m=Dc/2`, `T_y·m=−Dc/2` and `c²≤|m|²`. Resolve the remaining tangent components in the line orthogonal to span(X,Y). For equal residual signs the (+,+) second variation gives `D_t≥D_ch(1−c²/|m|²)≥0`, while ψ_t≤0. For opposite residual signs the (+,−) variation gives `D_t≥D_ch−4βπ²ψ/L²`. Own the ambient-ℝ³ closed Fenchel inequality `∫|κ_e|ds≥2π` and the endpoint-tangent turning bound on the selected arc, followed by Cauchy–Schwarz: `∫_arc|κ_e|²ds≥4(acos c_contact)²/l≥4π²l/L²` and `∫|κ_e|²ds≥4π²/L`. Hence the corresponding geodesic-curvature energies are at least `(4π²/L²−1)l` and `(4π²/L²−1)L`. Since ψ_L,ψ_l≥0 on θ∈[0,π/2], `−ψ_t≥(4π²/L²−1)ψ`, making `(D_ch−βψ)_t≥0` in the opposite-sign case too. Construct the finite-dimensional first/second-variation, turning and Fenchel lemmas with their regular-closed/arc hypotheses, then apply the strict barrier argument. This exact spherical calculation yields the scale-independent bound `D_ch≥(2β/π)l` while L→0.
 
@@ -1477,7 +1507,9 @@ R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a us
 bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
 R4.9 uses R4.6's short-geodesic/injectivity estimates, the geodesic ODE, the planar Jordan/arclength/winding theorems, and finite AT/CC constructions. Its topological order is the Fréchet-plus-length carrier and component cover, relative cocycle/finite Thom detection, positive widths, and finite parameter carriers. The shared periodic normal-graph theorem, general nonzero linear zero-number theorem, interior parabolic-box compactness and scalar Harnack feed their stated g₀/arbitrary-g applications; the fixed-endpoint construction separately uses the Dirichlet boundary theorem. The round closed small-length two-point comparison precedes its Type-II exclusion and circular Type-I/stability output. Final entry neighbourhoods consume the local exit constants before the global curvature-gap theorem. The round branch then constructs its finite-length Jordan smoothing/trace and weak-set avoidance outputs; its finite-collapse conclusion consumes the arbitrary-g finite-time alternative plus the Gauss–Bonnet area ODE, while circular-singularity asymptotics and great-circle convergence are separate outputs with the routes stated in R4.9.6a. The arbitrary-g branch separately proves the finite-time BI/BII exclusion, the immortal derivative estimate as a reusable output, compact primitive geodesic sets, and smooth local graph/exit estimates. The safe family clock, intrinsic restriction/cubical face-identification laws and compatible-choice comparisons feed uniform point-relative finite-family localization and cap/minimax realization. No minimax or three-geodesic conclusion is an input to either smooth-flow analysis. R4.8's distinct-endpoint path theorem and DGF's free-loop Morse/Bott machinery keep their separate scopes.
 R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
-input. R6's Euclidean comparison follows R5a and
+input. R1's item 5 follows R1's normal jets and SBC B6.0. The Surfaces
+sub-roadmap uses HopfRinow, R2, R4.2 and R6; its S3 precedes R4.9.6a's round
+disk and annulus identities. R6's Euclidean comparison follows R5a and
 consumes GT Layer 1's chart Hessian/normal-derivative pairing. GT's nearest-point
 theorem has no R6 input. General
 R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PDO P1 and K5a;
