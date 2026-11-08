@@ -20,10 +20,9 @@ The prototypes concern the reusable floor: the actual tangent splitting and its 
 curvature (0.1), an autonomous specialization of proper-semiconjugacy completeness (0.4),
 and evaluation of a holomorphic observation along a curve (0.7). They use native Mathlib
 tangent bundles and hom bundles, Tau Ceti's maximal-flow domain and completeness predicate,
-and Tau Ceti's meromorphic functions on Riemann surfaces. They do not replace these carriers
-with private versions. The full time-dependent continuation theorem, moduli constructions,
-Riemann–Hilbert comparisons and Painlevé realization theorems remain the targets specified
-in the README; these signatures do not represent all roadmap targets.
+and Tau Ceti's meromorphic functions on Riemann surfaces. The README specifies the full
+time-dependent continuation theorem, moduli constructions, Riemann–Hilbert comparisons
+and Painlevé realization theorems.
 -/
 
 public noncomputable section
@@ -68,14 +67,14 @@ def NonlinearConnection.horizontal (h : NonlinearConnection I J proj) (x : M) :
   (h.lift x).range
 
 /-- The vertical and horizontal subspaces are complementary; this is a consequence of the
-right-inverse identity, rather than additional data in the connection object (0.1). -/
+right-inverse identity in the connection object (0.1). -/
 theorem NonlinearConnection.isCompl_vertical_horizontal (h : NonlinearConnection I J proj)
     (x : M) : IsCompl (mfderiv I J proj x).ker (h.horizontal x) := by
   sorry
 
 /-- The horizontal spaces form a `C¹` distribution in Tau Ceti's native distribution API,
-of rank equal to the dimension of the base. This constructs local frames from the tangent
-splitting; a distribution or frame is not assumed as additional data (0.1). -/
+of rank equal to the dimension of the base, with local frames constructed from the tangent
+splitting (0.1). -/
 theorem NonlinearConnection.isContMDiffDistribution_horizontal
     [FiniteDimensional 𝕜 E] [FiniteDimensional 𝕜 F]
     (h : NonlinearConnection I J proj) :
@@ -116,9 +115,8 @@ semiconjugacy need not be injective or locally invertible. Properness is stated 
 as compactness of inverse images, exactly the condition used in the continuation argument.
 
 The semiconjugacy identity is required at every point and every time of its maximal-flow
-domain, including points on exceptional fibres. The full 0.4 theorem concerns piecewise
-`C¹` base paths and continuous-time lifted equations; it is not replaced by this autonomous
-specialization. -/
+domain, including points on exceptional fibres. The full theorem in 0.4 treats
+piecewise `C¹` base paths and continuous-time lifted equations. -/
 theorem isCompleteVectorField_of_proper_semiconjugacy
     {E H M R : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [TopologicalSpace H]
