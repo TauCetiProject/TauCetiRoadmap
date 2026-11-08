@@ -452,10 +452,14 @@ invariance, and that GH2's finite-pole output is the germ with that principal pa
 regular germ. Prove the product formula: a fixed negative coefficient of `φψ` is the finite
 convolution of the coefficients of `φ` and `ψ`, because both Laurent series are bounded below;
 transport the restriction, finite-sum and differentiation laws of GH2's coefficients through
-the pinned field operations rather than through a second Laurent construction. Prove the
-ℂ-specific facts the applications need beyond the pinned generality over a normed field: the
-local-inverse identities of `meromorphicGermsEquiv` for a biholomorphism given in a chart of
-K1, and the compatibility of `regularEval` with the evaluation of `O_a` under that chart.
+the pinned field operations rather than through a second Laurent construction. A change of
+K1's charts at `a` is a local biholomorphism `e` of ℂ, and its pinned facts are consumed:
+`meromorphicGermsEquiv` is a ring isomorphism whose inverse is pullback along `e.symm`
+(`meromorphicGermsEquiv_symm_apply`), pullback along an analytic map preserves the value of a
+regular germ (`regularEval_pullback`, `…StructureSheaf.RegularEval`), and `regularEval` is the
+evaluation of `O_a` at `a` through the regular part (`regularEval_eq_eval_regularPart`). For
+`e(z)=2z` at `a=0`, `1/z` pulls back to `1/(2z)`, pullback of `1/(2z)` along `w↦w/2` returns
+`1/w`, and the regular germ `1+z` pulls back to `1+2z`, with value 1 on both sides.
 K3.MeromorphicGermField consumes the stalk/identity foundation, these native
 analytic/meromorphic APIs and this local GH2 phase, and precedes applications needing scalar
 meromorphic coefficient germs. It has no QFT prerequisite. General isolated
@@ -1654,8 +1658,11 @@ unique class in `H_(2k)(V;ℤ)` whose local images at regular points are K1's
 complex-orientation generators. Prove existence and uniqueness by the
 following construction, including reducible V with coefficient one on every
 regular component. For smooth V this definition agrees with AT6.3's integral
-fundamental class. Consume DG9.3's general fundamental-class integration
-formula to identify its real pushforward with the analytic integration class.
+fundamental class (Tau Ceti's `HomologicalOrientation.fundamentalClass`).
+Apply K6.1.RelativeIntegration (iii) below, the integration comparison
+`∫_N η=⟨deRhamHom[η],[N]_ℝ⟩` for compact oriented boundaryless N, to N=V and
+η=ι*α, with the naturality of DG8.4's `deRhamHom`, to identify its real
+pushforward with the analytic integration class.
 
 For singular V, consume K3's finite regular-piece partition and construct the
 subcomplex comparison for a triangulation of the compact ambient M with V and
@@ -1708,37 +1715,95 @@ of unity. Extend χβ by
 zero and set `α′=α−d(χβ)`. Prove α′ is smooth, closed, cohomologous to α
 and zero on U. Analytic-set Stokes gives
 `∫_(V_reg)α′=∫_(V_reg)α`; the ambient homology pairing is unchanged too.
-DG8.4's open-pair cone sends `(α′,0)` to `[α′]_rel∈H^(2k)(M,U;ℝ)`,
-whose absolute image is `deRhamHom[α′]`. Evaluate this relative class on
+K6.1.RelativeIntegration (ii) sends the relative cocycle `(α′,0)` of the
+open pair (M,U) to `[α′]_rel∈H^(2k)(M,U;ℝ)`, whose absolute image is
+`deRhamHom[α′]`. Evaluate this relative class on
 the image of `[V]` under the continuous map of pairs
 `(V,V∩U)→(M,U)`. Excise the closed singular locus, which is contained in
 the interior of V∩U, to obtain
 `H_(2k)(V_reg,V_reg∩U;ℤ)≃H_(2k)(V,V∩U;ℤ)`.
-The remaining inclusion `(V_reg,V_reg∩U)→(M,U)` is smooth, so DG8.4's relative
-chain integration `chainIntegral`, whose value on the pulled-back form over a chain is its
-value on the form over the image chain, compares evaluation with the pulled-back form.
+The remaining inclusion `(V_reg,V_reg∩U)→(M,U)` is a smooth map of open
+pairs, so the naturality of K6.1.RelativeIntegration (ii) under smooth maps
+of open pairs compares evaluation with the pulled-back form.
 Let C be the closed support of that top form on V_reg; prove C is compact,
 and `V_reg∩U⊆V_reg∖C`. Under enlargement of the relative subset to
 V_reg∖C, the class coming from `[V]` is AT6.3's compact-set orientation
-class. Prove this by its local orientation images and excision naturality.
+class (Tau Ceti's `fundamentalClassOn`). Prove this by its local orientation images and excision naturality.
 Prove the analytic integral of a form whose pullback has compact support
 equals DG5's `integralTopForm` on the oriented smooth manifold V_reg.
-Apply DG9.3's compactly supported relative integration formula and DG8.3's
-smooth/continuous relative-chain comparison, with compatibility of the
-two relative evaluation maps under enlargement.
+Apply K6.1.RelativeIntegration (iii)'s compact-support formula on N=V_reg
+with K=C and its independence of K, and (i)'s relative smooth/continuous
+chain comparison with its naturality under enlargement of the relative
+subset.
 This yields `∫_(V_reg)α=⟨deRhamHom[α],ι_*[V]_ℝ⟩` without a smoothness
 assumption on the analytic triangulation. Positivity proves the integral
 ambient class is nonzero. Extend to effective analytic cycles by summing
 their irreducible component classes with the specified positive integer
 multiplicities, and prove additivity of the integration comparison.
 
+**K6.1.RelativeIntegration — open pairs and fundamental classes.** Own the
+relative integration theory that the analytic-cycle comparison uses, on top of
+DifferentialGeometry 8.3–8.5's absolute smoothing, chain integration and de Rham
+theorem, which do not treat pairs. Let M be a Hausdorff σ-compact
+finite-dimensional boundaryless manifold and U⊆M open; the cases used above are
+the compact ambient M and the regular locus V_reg.
+
+- (i) Relative smooth chains: the quotient of Tau Ceti's smooth singular chains
+  of M (`smoothSingularSubcomplex`) by the image of those of U under
+  `smoothSingularSubcomplexMap` of the inclusion, with its map to relative
+  singular chains. Prove that map a quasi-isomorphism by the five lemma from
+  DG8.3's absolute smoothing equivalences for M and for U, natural in smooth
+  maps of open pairs and under enlargement of U.
+- (ii) The relative de Rham complex: degree-q term `Ω^q(M)⊕Ω^(q−1)(U)` with
+  differential `(α,β)↦(dα,α|_U−dβ)`, and relative integration
+  `(α,β)↦(c↦∫_cα−∫_(∂c)β)` on relative smooth chains through Tau Ceti's
+  `SmoothSimplex.integral`. Prove it is well defined on the quotient (on a
+  chain in U it is `∫_c dβ−∫_(∂c)β=0` by DG8.4's Stokes for chains), a cochain
+  map into the duals of relative smooth chains, and natural under smooth maps
+  of open pairs (`integral_smoothSingularSubcomplexMap_app`). A closed α
+  vanishing on U gives the relative cocycle `(α,0)`, whose class
+  `[α]_rel∈H^q(M,U;ℝ)` has absolute image DG8.4's `deRhamHom[α]`.
+- (iii) The integration comparison: for compact oriented N of dimension n and a
+  smooth top form η, `∫_Nη=⟨deRhamHom[η],[N]_ℝ⟩`, with `[N]_ℝ` Tau Ceti's
+  `realFundamentalClass` of AT6.3's homological orientation of N; for oriented
+  N, compact K⊆N and η vanishing outside K, `∫_Nη=⟨[η]_rel,[N]_K⟩` for the
+  relative cocycle `(η,0)` of `(N,N∖K)` and the real image `[N]_K` of
+  `fundamentalClassOn` for K, independent of K through the map of pairs
+  `(N,N∖K′)→(N,N∖K)` for K⊆K′. Route: subdivide a representative of `[N]_K`
+  until each simplex meeting K lies in one oriented chart, compute there by the
+  one-chart integral, and sum by the finite additivity of DG5's
+  `integralTopForm`.
+
+*Needs:* DG5's `integralTopForm`, DG8.3's smoothing and DG8.4's Stokes and
+`deRhamHom`; Tau Ceti's smooth singular simplices and their integral, its
+relative singular chains and its fundamental classes; AT6.3's homological
+orientation of an oriented smooth manifold.
+
+**Checks.**
+
+- Sign of (ii): on `(ℝ,ℝ∖{0})` let ψ be supported in `(−1,1)` with `∫ψ=1`, Ψ
+  its primitive vanishing far left, and `β=Ψ|_U`, which is 0 left of the
+  support and 1 right of it. Then `(ψdx,β)=d(Ψ,0)`, and relative integration
+  over the path from −1 to 1 gives `1−(1−0)=0`; evaluating by `∫_cα+∫_(∂c)β`
+  would give 2 on this coboundary.
+- Compact support in (iii): on `N=ℝ` with `K=[−1,1]` and `η=ψdx`, `[N]_K` is
+  the class of the smooth path from −2 to 2, whose boundary lies in `N∖K`, and
+  the pairing is `∫_(−2)^2ψ=1`; enlarging K to `[−3,3]` (the path from −4 to 4)
+  gives 1 again. The absolute class `deRhamHom[η]` is 0 since `H¹_dR(ℝ)=0`, so
+  only the relative formula sees η.
+- Compact case of (iii): on the counterclockwise circle `∫dθ=2π=⟨deRhamHom[dθ],[S¹]_ℝ⟩`;
+  reversing the orientation negates both sides.
+- Degenerate pairs: `U=∅` gives the absolute complex and DG8.5's comparison;
+  `U=M` gives an acyclic relative complex and zero relative homology.
+
 ## K7. Projective, torus, and Hopf examples
 
 **K7.1. Projective charts and orientation.** Use the single carrier
-`Projectivization ℂ (Fin (n+1) → ℂ)` with Tau Ceti's quotient topology from the nonzero
-vectors, `Projectivization.instTopologicalSpace` (`TauCeti.Topology.Algebra.Projectivization`;
-the generic quotient topology that AlgebraicTopology Stage 4.6 plans is this pinned
-declaration), its open quotient map `isOpenQuotientMap_mk'` and the pinned instances
+`Projectivization ℂ (Fin (n+1) → ℂ)` with Mathlib's quotient topology from the nonzero
+vectors, `Projectivization.instTopologicalSpace`, and its open quotient map
+`isOpenQuotientMap_mk'` (`Mathlib.Topology.Algebra.Projectivization`, the interface that
+AlgebraicTopology Stage 4.6 names), and Tau Ceti's instances
+(`TauCeti.Topology.Algebra.Projectivization`)
 `instT2Space` (continuous linear forms separate the points of the vector space),
 `instCompactSpace` (finite-dimensional normed spaces over ℝ or ℂ, by the continuous surjection
 from the unit sphere), `instSecondCountableTopology` and `instPathConnectedSpace` (every nonzero
@@ -1760,10 +1825,30 @@ every `r`, and the charts and their inverses are `C^r` (`contMDiffOn_affineChart
 the enumeration and `Fin.insertNth i 1 z` for the inverse insertion, in every formula below.
 Mathlib and Tau Ceti each declare `Projectivization.instTopologicalSpace`, so a file importing
 all of Mathlib cannot import this Tau Ceti module until one copy is removed; the Lean
-acceptance tests of K7 therefore state nothing on this carrier. Give the complex-linear
+acceptance tests of K7 therefore use the second pinned model below. Give the complex-linear
 comparison to `EuclideanSpace ℂ (Fin n)` and its real scalar restriction. These affine charts
 construct the projective manifold directly; the discrete quotient theorem in ComplexManifolds
 is not used for the ℂ× action.
+
+Tau Ceti pins a second model of ℂPⁿ that imports together with Mathlib:
+`TauCeti.ComplexProjectiveSpace n`, the quotient of the unit sphere of
+`EuclideanSpace ℂ (Fin (n+1))` by the unit complex scalars
+(`TauCeti.Topology.ComplexProjectiveSpace.Basic`, with `instCompactSpace`, `instT2Space`,
+`instPathConnectedSpace` and `mk_eq_mk_iff`: two unit vectors give the same point exactly when
+they differ by a unit scalar). Its charts `affineChart k` read the homogeneous ratios
+`ratio k (k.succAbove j)` on `affineOpen k={v_k≠0}`, with inverse `affineParam k` inserting the
+coordinate one (`TauCeti.Topology.ComplexProjectiveSpace.Charts`); they form `instChartedSpace`
+with model `Fin n → ℂ`, and `instIsManifold r` holds for every `r` including ω
+(`TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace`). These are the coordinate
+conventions above. Own the comparison of the two models, which neither pin has: through the
+identification of `Fin (n+1) → ℂ` with `EuclideanSpace ℂ (Fin (n+1))`, the map
+`[v]↦[v/‖v‖]` from `Projectivization ℂ (Fin (n+1) → ℂ)` to `TauCeti.ComplexProjectiveSpace n`
+is well defined (two representatives of a line normalize to unit vectors differing by a unit
+scalar), a homeomorphism whose inverse is induced by the inclusion of the sphere into the
+nonzero vectors, and a biholomorphism: it carries `U_i` onto `affineOpen i` and is the identity
+in the charts `Projectivization.affineChart i` and `affineChart i`, both of which read
+`v_(i.succAbove j)/v_i`. Transport every K7 theorem through it in both directions; the Lean
+statements of K7.2 are on the sphere-quotient model.
 
 Prove the underlying real smooth atlas and its
 complex orientation agree with K1. Upgrade the existing equivalence
@@ -1858,14 +1943,33 @@ Hodge or projective cohomology calculations.
 - `n=0`: the tangent space of ℂP⁰ is zero, `H` is the zero form and `PU(1)` is
   trivial; `∫_(ℂP¹)ω_FS=1` in the chart is `∫_ℂ (1/π)(1+|w|²)^(−2) dλ=1`.
 
-Compute the projective Dolbeault/Hodge groups and cup
-ring: construct on this same carrier Mathlib's `CWComplex` structure with
-one cell in each even dimension 0,2,…,2n and none in odd dimensions, specifying
-its characteristic maps and skeleta. The CW construction uses only K7.1
-and AlgebraicTopology Stage 4. Its cellular/cup calculation consumes Stage 6, without
-its Stage 7 Euler-characteristic theorem. Own the cellular/cup calculation `H*(ℂPⁿ;ℤ)=ℤ[u]/(u^(n+1))`, |u|=2, using
-AlgebraicTopology's cellular groups and products, with u the hyperplane class
-normalized by `⟨u,[ℂP¹]⟩=+1`. Compare its real de Rham image with
+Compute the projective Dolbeault/Hodge groups and cup ring. The CW
+structure and the additive groups are pinned on the sphere-quotient model of
+K7.1: `TauCeti.ComplexProjectiveSpace.cwComplex`
+(`TauCeti.Topology.CWComplex.Classical.ComplexProjective`) is Mathlib's
+`CWComplex` structure with one cell in each even dimension 0,2,…,2n and none
+in odd dimensions (`nat_card_cell_cwComplex`), whose characteristic map
+`cellMap` sends the closed disk of `ℂⁱ` to the classes of
+`(v,√(1−‖v‖²),0,…,0)` and whose skeleta are the linear ℂPⁱ; its cellular
+homology gives `H₂ᵢ(ℂPⁿ;R)≅R` for i≤n (`singularHomologyIso`) and zero in odd
+degrees and above 2n (`isZero_singularHomology_of_odd`,
+`isZero_singularHomology_of_lt`, `TauCeti.AlgebraicTopology.Cellular.ComplexProjective`),
+with Euler characteristic n+1 (`eulerChar_complexProjectiveSpace`). Transport
+them to the `Projectivization` carrier through K7.1's comparison. The cup
+calculation consumes Stage 6, without its Stage 7 Euler-characteristic
+theorem. Own the cup calculation `H*(ℂPⁿ;ℤ)=ℤ[u]/(u^(n+1))`, |u|=2, with Tau
+Ceti's integral cup product `TopCat.integralCup` and AlgebraicTopology's
+products, with u the hyperplane class normalized by `⟨u,[ℂP¹]⟩=+1`
+(Demailly, Chapter V, (15.10)). `integralCohomology_complexProjectiveSpace`
+states the ring on the sphere-quotient model through the cup powers
+`integralCupPow`: some `u∈H²(ℂPⁿ;ℤ)` has powers `u^k` generating
+`H^(2k)(ℂPⁿ;ℤ)` freely for k≤n, and the groups in odd degrees and in degrees
+above 2n vanish; the normalization fixes the sign of u. On the same model,
+`finrank_dolbeaultCohomology_complexProjectiveSpace` states `h^(p,q)(ℂPⁿ)=1`
+for p=q≤n and `h^(p,q)(ℂPⁿ)=0` otherwise (Demailly, Chapter VI, (8.8)), and
+`finrank_deRhamCohomology_complexProjectiveSpace` states `b_k(ℂPⁿ)=1` for even
+k≤2n and `b_k(ℂPⁿ)=0` otherwise (Demailly, Chapter V, (15.10), with DG8.5's de
+Rham theorem); both hold for every n, p, q and k. Compare its real de Rham image with
 `[ω_FS]` and SBC B6.2's `c₁(P)` for the Hopf circle bundle P,
 whose dual-character associated line is O(1),
 using SBC B6.3's Chern–Weil comparison. This c₁ is the independently
@@ -1879,6 +1983,24 @@ comparison; AT 8.12 consumes that later comparison.
 Prove nonempty closed complex submanifolds of projective space are compact Kähler and `h^(k,k)≥1` for
 0≤k≤dim from nonzero Kähler powers. These are the geometric inputs to
 GeometricQuantization, whose scaled symplectic forms use k≥1.
+
+**Checks.**
+
+- `n=0`: ℂP⁰ is a point, `h^(0,0)=b₀=1`, every other Hodge and Betti number is
+  zero, `H²(ℂP⁰;ℤ)=0` forces `u=0`, and `u⁰=1` generates `H⁰=ℤ`.
+- `n=1`: `h^(1,1)=1`, `h^(1,0)=h^(0,1)=0`, `b₂=1`, `b₁=0`; `p=q=2>n` gives
+  `h^(2,2)(ℂP¹)=0`, which a statement without `p≤n` would get wrong (it would
+  give 1), as there are no nonzero 4-forms on a real surface.
+- `n=2`: the wedge `S²∨S⁴` has the same integral cohomology groups as ℂP² but
+  `u²=0`, so the condition that `u²` generate `H⁴` separates ℂP² from it; a
+  class `u` equal to twice a generator of `H²` fails already at k=1.
+- Agreement with K6.1: ℂPⁿ is compact Kähler, and `∑_(p≤k) h^(p,k−p)` is 1 for
+  even k≤2n (the single term p=k/2) and 0 otherwise, which is `b_k`, as the
+  Hodge decomposition `finrank_deRhamCohomology_eq_sum_dolbeault` requires;
+  Hodge symmetry and the dual Hodge-diamond symmetry `h^(p,q)=h^(n−p,n−q)` hold
+  for the diagonal diamond.
+- The Euler characteristic `∑(−1)^k b_k=n+1` agrees with the pinned
+  `eulerChar_complexProjectiveSpace`.
 
 **K7.2.TautologicalIncidence — blowdown and homogeneous functions.** For a
 nonzero finite-dimensional complex vector space V of dimension d, use the
@@ -2014,39 +2136,69 @@ Prove its flat Kähler structure, invariant holomorphic forms, and
 `h^(p,q)=binomial(n,p)binomial(n,q)`. Include the elliptic one-dimensional case and its
 genus/Betti dictionary. For every compact connected Riemann surface define
 its geometric genus g=h^(1,0) and prove `h^(0,0)=h^(1,1)=1`,
-`h^(0,1)=g` and `b₁=2g` by Hodge comparison. Prove the topological dictionary:
-use K1's realification of the complex curve and its complex tangent
-orientation to construct the native topological surface required by
-[PlanarTopology's surface convention](../PlanarTopology/README.md).
-Own the adapter from its real two-dimensional atlas to the half-space-charted
-carrier, with empty boundary, T2, compactness and connectedness, and compare
-the complex orientation with
-[PlanarTopology Layer 6's `Surface.Orientation`](../PlanarTopology/README.md).
-Consume [SurfaceTopology Layers 2–3](../SurfaceTopology/README.md)'s
-presentation/realization comparisons,
-[Layer 6](../SurfaceTopology/README.md)'s polygon normal forms and
-[Layer 8](../SurfaceTopology/README.md)'s compact-surface classification
-to obtain the unique orientable closed model of genus j and a homeomorphism.
-Transport the chosen complex orientation to that model, comparing it with
-the polygon orientation (and an orientation-reversing model reflection when
-needed). K7 owns this orientation adapter; a classification homeomorphism
-does not assert compatibility with a preassigned smooth triangulation.
-Construct the comparison of that realization with AlgebraicTopology's
-standard CW model (one vertex, 2j edges, one face attached by the product of
-commutators), treating j=0 by the sphere comparison rather than identifying
-an empty polygon word with SurfaceTopology's schema. Use AT's singular/cellular
-comparison to compute b₁=2j, hence g=j. SurfaceTopology supplies presentations
-and their topological uniqueness; K7 with AT owns cohomology, the
-real/smooth de Rham comparison and the genus calculation. On this oriented CW model compute
-`H²(Σ;ℤ)≃ℤ`, identify its generator by evaluation on AlgebraicTopology
-Stage6.3's fundamental class, and prove that evaluation is an isomorphism.
-Compute the integral degree-one cup pairing on the 2g polygon generators
-as the standard unimodular symplectic matrix, preserving the complex
-orientation and the cohomology comparison with the smooth surface.
-These are the integral fundamental/intersection comparisons used in Index I7.4.
-Define the geometric genus of a
-compact n-fold as `h^(n,0)`. The theta sections of positive torus line bundles and their
+`h^(0,1)=g` and `b₁=2g` by Hodge comparison (Demailly, Chapter VI,
+(10.1)–(10.2)); every positive (1,1)-form on a curve is a Kähler form, so
+K6.1 applies. `finrank_dolbeaultCohomology_riemannSurface` states
+`h^(0,1)=h^(1,0)` and `b₁=2h^(1,0)` on every compact complex manifold of
+complex dimension one, with no Kähler form assumed and connectedness not
+needed, both sides being additive over components. Prove the integral dictionary
+on the realified surface Σ itself, with K1's real restriction and complex
+tangent orientation; no step classifies surfaces or uses a homeomorphism to
+a standard genus-g model. Σ is a closed, connected, oriented real surface of
+finite CW type (AlgebraicTopology Stage 8, item 7), so `H_*(Σ;ℤ)` is
+finitely generated. AlgebraicTopology Stage 6.3 turns K1's tangent
+orientation into a homological orientation, and Tau Ceti's
+`TauCeti.HomologicalOrientation.fundamentalClass` is its integral fundamental
+class `[Σ]`, with `fundamentalClassEquiv` giving `H₂(Σ;ℤ)=ℤ[Σ]` for connected
+Σ. Evaluation on `[Σ]` is an isomorphism `H²(Σ;ℤ)≃ℤ`. Route: Stage 6.4's
+Poincaré duality gives `H₁(Σ;ℤ)≃H¹(Σ;ℤ)`; Tau Ceti's universal-coefficient
+sequence (`TopCat.singularUniversalCoefficientEquiv`, through the Kronecker
+map `TopCat.singularKronecker`) gives `H¹(Σ;ℤ)≃Hom(H₁(Σ;ℤ),ℤ)`, as
+`H₀(Σ;ℤ)=ℤ` is free, so `H₁(Σ;ℤ)` is free; the same sequence in degree two
+then identifies `H²(Σ;ℤ)` with `Hom(H₂(Σ;ℤ),ℤ)≃ℤ` by evaluation on `[Σ]`.
+The degree-one cup pairing `(a,b)↦⟨a⌣b,[Σ]⟩`, with Tau Ceti's integral cup
+product `TopCat.integralCup`, is unimodular on the free module `H¹(Σ;ℤ)`: its
+adjoint is the composite of Stage 6.4's duality `b↦[Σ]⌢b` onto `H₁(Σ;ℤ)`
+with the evaluation isomorphism of a finitely generated free module onto its
+double dual (Stage 6.5's intersection pairing on a closed oriented manifold
+of finite CW type). It is alternating: `integralCup_self_add_self_eq_zero`
+gives `2(a⌣a)=0` for `a` of degree one, and `H²(Σ;ℤ)≃ℤ` is torsion-free. Its rank
+is `b₁=2g`. Own the algebra target that fixes its normal form: a unimodular
+alternating bilinear form ω on a free ℤ-module L of finite rank r has even
+rank r=2h and a symplectic basis `a₁,b₁,…,a_h,b_h` with `ω(a_i,b_j)=δ_ij`
+and `ω(a_i,a_j)=ω(b_i,b_j)=0`. Route: for r>0 pick a primitive x; under the
+adjoint isomorphism `L≃Hom(L,ℤ)` the functional `ω(x,−)` is primitive, hence
+surjective, so `ω(x,y)=1` for some y; the plane P spanned by x and y has Gram
+matrix `[[0,1],[−1,0]]`, which is unimodular, so `L=P⊕P^⊥` with `P^⊥`
+unimodular alternating of rank r−2; induct, with the empty basis at r=0.
+Applied to the cup pairing it gives a basis of `H¹(Σ;ℤ)` whose cup matrix is
+the block sum of g copies of `[[0,1],[−1,0]]`, for the complex orientation,
+and compatible with the smooth surface through the real de Rham comparison.
+These are the integral fundamental/intersection comparisons used in
+IndexTheory I7.4. Define the geometric genus of a compact n-fold as
+`h^(n,0)`. The theta sections of positive torus line bundles and their
 quantization are GeometricQuantization's targets.
+
+**Checks.**
+
+- Elliptic curve `ℂ/(ℤ+τℤ)`: `g=1`, `H¹(Σ;ℤ)=ℤ²`, and the classes dual to
+  the loops `1` and `τ` have cup matrix `[[0,1],[−1,0]]`; its determinant 1
+  is the unimodularity.
+- `ℂP¹`: `g=0`, `H¹(Σ;ℤ)=0` with the empty symplectic basis, and evaluation
+  on `[ℂP¹]` identifies `H²(ℂP¹;ℤ)` with ℤ.
+- Two disjoint elliptic curves: `h^(1,0)=h^(0,1)=2` and `b₁=4=2·2`, so
+  `finrank_dolbeaultCohomology_riemannSurface` needs no connectedness; there
+  `H²≃ℤ²`, which is why the integral dictionary assumes Σ connected.
+- Negative control in dimension two: the Hopf surface has `h^(1,0)=0`,
+  `h^(0,1)=1` and `b₁=1`, so neither identity of the dictionary survives
+  outside complex dimension one without a Kähler form.
+- Negative control: `[[0,2],[−2,0]]` on ℤ² is alternating and nondegenerate
+  over ℚ but has determinant 4, so no basis puts it in the standard form;
+  unimodularity, not mere nondegeneracy, is what the normal form uses.
+- Negative control: the symmetric unimodular form `[[1,0],[0,1]]` has
+  `ω(e₁,e₁)=1≠0`; the alternating law excludes it, as it must for a cup
+  pairing of degree-one classes.
+
 
 **K7.FlatDegreeZero — elliptic lines and vanishing cohomology.** Fix Im τ>0
 and the same complex-torus carrier `E_τ=ℂ/(ℤ+τℤ)` supplied above. Write
@@ -2268,10 +2420,15 @@ global compact Hodge/Serre conclusions for locally finite varying ranks.
 PDO P1.1 and P2 onward consume this analysis. K5b uses K1, K2, K4
 and K5a. K6.0 uses K1/K2/K4 and K5a local identities, and precedes
 RealAnalyticGeometry R3/R4/R5. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
-atlas, RealAnalyticGeometry R1/R5, DG8.3–8.5/9.3/12.1, AT4.5/4.7/6.1/6.3
+atlas, RealAnalyticGeometry R1/R5, DG5/8.3–8.5/12.1 (the absolute smoothing,
+chain integration, `deRhamHom` and `deRhamEquiv`), Tau Ceti's smooth singular
+simplices and fundamental classes for K6.1.RelativeIntegration, AT4.5/4.7/6.1/6.3
 and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
-ComplexManifolds Milestones 1–3 and Tau Ceti's `Projectivization.instTopologicalSpace` and affine atlas, and precedes K2's ℂP¹ acceptance. K7.2's CW
-construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
+ComplexManifolds Milestones 1–3, Mathlib's `Projectivization.instTopologicalSpace`, Tau Ceti's
+projectivization instances and affine atlas and Tau Ceti's sphere-quotient model
+`TauCeti.ComplexProjectiveSpace` with its atlas, and precedes K2's ℂP¹ acceptance. K7.2's CW
+structure and additive groups are Tau Ceti's on the sphere-quotient model, transported by
+K7.1's comparison; its cup calculation uses AT Stage 6 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
 and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison, K3's function sheaf, K4's line
 bundles and SBC B6.1–B6.2; its ℂP¹ normalization check uses K7.1's charts. Its
@@ -2284,11 +2441,12 @@ K7.1; its bundle and section comparisons use K7.2's twists and monomial
 section calculation. Its explicit higher-twist surjectivity uses monomial
 products. K7.2's torus computations follow
 ComplexTori Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
-computations follow K1's realification/complex orientation, the K7 adapter to
-[PlanarTopology](../PlanarTopology/README.md) and
-[SurfaceTopology Layers 2/3/6/8](../SurfaceTopology/README.md),
-AT Stage4's CW theory, Stage6's cellular/cohomology-product comparisons
-including Stage6.3, and K6.1. Its Hopf computations
+computations follow K1's realification/complex orientation, Tau Ceti's
+integral fundamental class, universal-coefficient sequence and integral cup
+product, AT Stage 6.3's tangent-to-homological orientation comparison, Stage
+6.4–6.5's Poincaré duality and intersection pairing, Stage 8 item 7's finite
+CW type of compact manifolds, and K6.1; they use no classification of
+surfaces. Its Hopf computations
 follow ComplexManifolds Milestone 4, K2's Leray-cover comparison, K3's Hartogs theorem,
 K5b's Serre duality and DG's Mayer–Vietoris theorem. The Iwasawa quotient
 consumes ComplexManifolds Milestone 4; the general invariant-cohomology comparisons

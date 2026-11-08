@@ -1,10 +1,12 @@
 module
 
 public import Mathlib
+public import TauCeti.AlgebraicTopology.Cohomology.IntegralCup
 public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
 public import TauCeti.Geometry.Manifold.DeRham.Wedge
 public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
 public import TauCeti.Geometry.Manifold.DifferentialForm.Dolbeault.Basic
+public import TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace
 public import TauCeti.Geometry.Symplectic.Manifold.JHolomorphic
 public import TauCeti.Geometry.Symplectic.Manifold.Nijenhuis
 public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
@@ -16,7 +18,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 definitions needed to state them: an open polydisc, Dolbeault cohomology as a quotient of
 submodules cut out by the pinned `delBar` and type projections, the Kähler condition on the real
-carrier and the Lefschetz map on the pinned real de Rham cohomology. The almost complex structure
+carrier, the Lefschetz map on the pinned real de Rham cohomology and the cup powers of a
+degree-two integral class. The almost complex structure
 of a complex manifold is the pinned `SmoothAlmostComplexStructure.ofComplexManifold`,
 multiplication by `i` on every tangent space.
 
@@ -30,7 +33,10 @@ and Hartogs extension across a point (K3); temperate growth
 of the complex-order Bessel symbol (K5a); finiteness of Dolbeault cohomology and the dual
 Hodge-diamond symmetry on a compact complex manifold (K5b.1); and, on a compact Kähler
 manifold, the `∂∂̄`-lemma, the Hodge decomposition in its dimension form, Hodge symmetry, the
-evenness of the odd Betti numbers and the Hard Lefschetz theorem (K6.1).
+evenness of the odd Betti numbers and the Hard Lefschetz theorem (K6.1); the Hodge numbers, the
+Betti numbers and the integral cohomology ring of `ℂPⁿ`, on Tau Ceti's sphere-quotient model
+`TauCeti.ComplexProjectiveSpace n` with its homogeneous-coordinate complex atlas, and the genus
+dictionary `h^(0,1) = h^(1,0)`, `b₁ = 2 h^(1,0)` of a compact Riemann surface (K7).
 
 Not statable at the pins, so nothing is stated in their place:
 * the Dolbeault theorem `H^q(M, Ω^p) ≃ H^(p,q)` (K2): the pins have no sheaf of holomorphic
@@ -38,9 +44,15 @@ Not statable at the pins, so nothing is stated in their place:
 * the analyticity and dimension drop of the singular locus, the regular-locus manifolds and
   Hartogs extension across an analytic subset of codimension at least two (K3): the pins have
   no analytic-subset carrier with a dimension theory;
-* Chern connections, Koszul–Malgrange, the flat-connection and local-system equivalences (K4)
-  and Dolbeault theory and Serre duality with coefficients in a holomorphic bundle (K5b): the
-  native `VectorBundle` has no holomorphic-transition mixin at the pins;
+* Chern connections and Koszul–Malgrange (K4) and Dolbeault theory and Serre duality with
+  coefficients in a holomorphic bundle (K5b): holomorphic bundles are Mathlib's
+  `ContMDiffVectorBundle ∞ F V 𝓘(ℂ, EB)`, but the pins have no Dolbeault operator `∂̄_V` on
+  `V`-valued forms of type `(p, q)` (the pinned `delBar` acts on forms with a constant
+  coefficient space), so neither the `(0,1)` part of a connection nor bundle-valued Dolbeault
+  cohomology can be stated;
+* the flat-connection and local-system equivalences (K4): the pins have covariant derivatives
+  and their curvature, but no category of holomorphic vector bundles with connection and
+  connection-preserving bundle maps, the source of these equivalences;
 * the exponential sequence, `Pic_hol(M) ≃ H¹(M,𝒪×)` and the Chern-class identification
   (K4.P): Tau Ceti's `holomorphicStructureSheaf` is a sheaf of commutative rings, and the pins
   have no sheaf of its units and hence no `H¹(M,𝒪×)`;
@@ -57,10 +69,15 @@ Not statable at the pins, so nothing is stated in their place:
 * the analytic-cycle classes (K6.1): integration over the regular locus of a compact
   analytic subvariety needs the analytic-subset dimension theory and the complex-valued
   integration that the pins lack;
-* the projective, torus and Hopf computations (K7): Tau Ceti's complex atlas
-  `Projectivization.instIsManifold` on K7.1's carrier cannot be imported together with Mathlib,
-  since both libraries declare `Projectivization.instTopologicalSpace`; the complex tori, the
-  Hopf surface and the elliptic flat lines are roadmap constructions;
+* the projective computations on K7.1's carrier `Projectivization ℂ (Fin (n+1) → ℂ)` (K7):
+  Tau Ceti's complex atlas `Projectivization.instIsManifold` cannot be imported together with
+  Mathlib, since both libraries declare `Projectivization.instTopologicalSpace`; the K7
+  statements below use the sphere-quotient model instead, which K7.1 compares with it;
+* the sections of `O(k)` on `ℂPⁿ` and the incidence blowup (K7.2): the pins have no
+  tautological line bundle on either model of `ℂPⁿ`; the Fubini–Study normalizations (K7.2):
+  the Fubini–Study form is itself a K7.2 construction, glued from its chart formulas;
+* the Hodge numbers of complex tori, the Hopf surface and the elliptic flat lines (K7): the pins
+  have no complex torus `ℂⁿ/Λ` and no Hopf surface with a complex atlas;
 * the Frölicher spectral sequence and the Iwasawa-manifold computation (K8): the spectral
   sequence of the type bicomplex and the Iwasawa quotient are constructions of K8.
 -/
@@ -427,5 +444,60 @@ theorem hard_lefschetz {n : ℕ} (hdim : Module.finrank ℝ E = 2 * n) (form : S
   sorry
 
 end CompactKahlerReal
+
+/-! ## Layer K7: Projective, torus, and Hopf examples -/
+
+section ProjectiveSpace
+
+/-- **The Hodge numbers of complex projective space** (Demailly, Chapter VI, (8.8)). On `ℂPⁿ`,
+Tau Ceti's circle quotient `TauCeti.ComplexProjectiveSpace n` of the unit sphere of `ℂⁿ⁺¹` with
+its homogeneous-coordinate complex atlas, `h^(p,q) = 1` when `p = q ≤ n` and `h^(p,q) = 0`
+otherwise; above the complex dimension `n` there are no nonzero forms of type `(p, q)`. -/
+theorem finrank_dolbeaultCohomology_complexProjectiveSpace (n p q : ℕ) :
+    Module.finrank ℂ (DolbeaultCohomology (Fin n → ℂ) (TauCeti.ComplexProjectiveSpace n) p q) =
+      if p = q ∧ p ≤ n then 1 else 0 := by
+  sorry
+
+/-- **The Betti numbers of complex projective space** (Demailly, Chapter V, (15.10), with the de
+Rham theorem). The real de Rham cohomology of `ℂPⁿ` is one-dimensional in each even degree
+`k ≤ 2n` and zero in every other degree. -/
+theorem finrank_deRhamCohomology_complexProjectiveSpace (n k : ℕ) :
+    Module.finrank ℝ (deRhamCohomology 𝓘(ℝ, Fin n → ℂ) (TauCeti.ComplexProjectiveSpace n) k) =
+      if Even k ∧ k ≤ 2 * n then 1 else 0 := by
+  sorry
+
+/-- The `k`-th cup power `u ⌣ ⋯ ⌣ u` of a degree-two integral cohomology class, for Tau Ceti's
+integral cup product, with `u⁰` the unit class. -/
+def integralCupPow {X : TopCat.{0}} (u : X.integralCohomology 2) :
+    (k : ℕ) → X.integralCohomology (2 * k)
+  | 0 => X.integralCohomologyOne
+  | k + 1 => X.integralCup 2 (2 * k) (2 * (k + 1)) (by ring) u (integralCupPow u k)
+
+/-- **The integral cohomology ring of complex projective space** (Demailly, Chapter V, (15.10)):
+`H^•(ℂPⁿ; ℤ) ≅ ℤ[u]/(u^(n+1))` with `u` of degree two. Some class `u ∈ H²(ℂPⁿ; ℤ)` has cup
+powers `u^k` generating `H^(2k)(ℂPⁿ; ℤ)` freely for `k ≤ n`, and the integral cohomology vanishes
+in odd degrees and in degrees above `2n`. The wedge `S² ∨ S⁴` has the same groups for `n = 2`
+but `u² = 0`, so the condition on cup powers is not a statement about groups alone. -/
+theorem integralCohomology_complexProjectiveSpace (n : ℕ) :
+    ∃ u : (TopCat.of (TauCeti.ComplexProjectiveSpace n)).integralCohomology 2,
+      (∀ k ≤ n, Function.Bijective fun m : ℤ ↦ m • integralCupPow u k) ∧
+      ∀ j, Odd j ∨ 2 * n < j →
+        Subsingleton ((TopCat.of (TauCeti.ComplexProjectiveSpace n)).integralCohomology j) := by
+  sorry
+
+end ProjectiveSpace
+
+/-- **The genus dictionary of a compact Riemann surface** (Demailly, Chapter VI, (10.1)–(10.2)).
+On a compact complex manifold of complex dimension one, `h^(0,1) = h^(1,0)`, the geometric genus
+`g`, and the first Betti number is `2g`. No Kähler form is assumed: on a curve every positive
+`(1,1)`-form is one. Connectedness is not needed, both sides being additive over components. -/
+theorem finrank_dolbeaultCohomology_riemannSurface
+    {M : Type*} [TopologicalSpace M] [T2Space M] [CompactSpace M] [ChartedSpace ℂ M]
+    [IsManifold 𝓘(ℂ) ∞ M] :
+    Module.finrank ℂ (DolbeaultCohomology ℂ M 0 1) =
+        Module.finrank ℂ (DolbeaultCohomology ℂ M 1 0) ∧
+      Module.finrank ℝ (deRhamCohomology 𝓘(ℝ, ℂ) M 1) =
+        2 * Module.finrank ℂ (DolbeaultCohomology ℂ M 1 0) := by
+  sorry
 
 end TauCetiRoadmap.ComplexKahlerGeometry
