@@ -17,8 +17,9 @@ field: Mathlib's discrete valuation rings with a finite group acting with invari
 (`TauCeti.IsLocalRing.ramificationGroup`). Stated here: Hilbert's different formula over a
 separable residue extension (§3a.1); the Herbrand function, its inverse and the upper numbering
 on the local-ring filtration, with Herbrand's quotient theorem and tower transitivity for
-separable residue extension (§3a.2); and Hasse–Arf without residue finiteness in Serre's
-lower-numbering form (§3a.3). The finite-local-field Hasse–Arf is Tau Ceti's
+separable residue extension (§3a.2); Hasse–Arf without residue finiteness in Serre's
+lower-numbering form (§3a.3); and the finite-level subgroup identity of §4a.2, which needs neither
+a discrete valuation nor a normal subgroup. The finite-local-field Hasse–Arf is Tau Ceti's
 `TauCeti.LocalFieldsRamification.hasseArf`, owned by the completed roadmap LocalFieldsRamification
 and consumed, not restated; §3a.3 owns its generalization.
 
@@ -29,7 +30,8 @@ quasialgebraic groups and their pro-category at the pins.
 Not statable at the pins, and therefore README targets only: over a perfect residue field, the
 absolute upper filtration of `Field.absoluteGaloisGroup K` with inertia and wild inertia as its
 terms at `0` and `0+` (§4a.1), the transition function `ψ_(L/K)` of a finite separable extension
-with the open-subgroup identity (§4a.2) and the completed maximal unramified base change (§4a.3).
+as a function of `L` alone, with the open-subgroup identity (§4a.2), and the completed maximal
+unramified base change (§4a.3).
 The absolute filtration is defined through the upper numbering at every finite level `M` of
 `AlgebraicClosure K`, on the integer ring `integralClosure A M`, and neither pinned library makes
 that ring a local ring for a complete discrete valuation ring `A` (Mathlib supplies its Galois
@@ -38,10 +40,12 @@ only as `TauCeti.wildInertiaSubgroup`, for nonarchimedean local fields; inertia,
 is Mathlib's `ValuationSubring.inertiaSubgroup` over any field, the zeroth lower group of the
 decomposition group by `TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`.
 The transition function `ψ_(L/K)` of a non-Galois `L` is defined through a Galois closure, on the
-same integer rings, and the open-subgroup identity is stated on the absolute filtration. The base
-change of §4a.3 is to the completion `K′` of the maximal unramified extension: that extension
-exists at the pins only for nonarchimedean local fields (`TauCeti.maximalUnramifiedExtension`),
-and its completion for the extended valuation is a construction of §4a.3.
+same integer rings, and the open-subgroup identity is stated on the absolute filtration; at a
+single finite level `M` it is `φ_(M/L) ∘ ψ_(M/K)`, and its subgroup identity is stated below.
+The base change of §4a.3 is to the completion `K′` of the maximal unramified extension: that
+extension exists at the pins only for nonarchimedean local fields
+(`TauCeti.maximalUnramifiedExtension`), and its completion for the extended valuation is a
+construction of §4a.3.
 -/
 
 public section
@@ -104,10 +108,10 @@ separable residue extension, and let `H` be a normal subgroup. Mathlib makes `G 
 fixed ring `B^H = FixedPoints.subalgebra A B H` with invariants `A`. The ring `B^H` is the
 integral closure of `A` in `(Frac B)^H`, a discrete valuation ring; its local-ring structure is
 carried as a hypothesis because the pinned libraries do not infer it. Then
-`(G ⧸ H)^v = G^v H / H` for every `v ≥ -1` (Serre, *Local Fields*, IV §3, Proposition 14; Serre,
-*Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1, Proposition 3, printed
-p. 128, for totally ramified extensions). Completeness of `A` is not required; separability of the
-residue extension cannot be dropped. -/
+`(G ⧸ H)^v = G^v H / H` for every `v ≥ -1` (Serre, *Local Fields*, IV §3, Propositions 14 and 15;
+Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1, Proposition 3,
+printed p. 128, for totally ramified extensions). Completeness of `A` is not required;
+separability of the residue extension cannot be dropped. -/
 theorem upperRamificationGroup_quotient_eq_map
     (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
     [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
@@ -123,10 +127,10 @@ theorem upperRamificationGroup_quotient_eq_map
 /-- **§3a.2, tower transitivity.** In the setting of Herbrand's theorem, with `H` normal in `G`
 acting on `B` by restriction and `G ⧸ H` acting on the fixed ring `B^H`, the Herbrand functions
 satisfy `φ_G = φ_(G ⧸ H) ∘ φ_H` on `[-1, ∞)`, that is `φ_(M/K) = φ_(L/K) ∘ φ_(M/L)` for
-`L = M^H`; the inverse functions compose in the opposite order (Serre, *Sur les corps locaux à
-corps résiduel algébriquement clos*, n° 3.1, Proposition 4, printed p. 128, for totally ramified
-extensions). Completeness of `A` is not required; separability of the residue extension cannot
-be dropped. -/
+`L = M^H`; the inverse functions compose in the opposite order (Serre, *Local Fields*, IV §3,
+Proposition 15; Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1,
+Proposition 4, printed p. 128, for totally ramified extensions). Completeness of `A` is not
+required; separability of the residue extension cannot be dropped. -/
 theorem herbrandFun_tower
     (A B : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
     [CommRing B] [IsDomain B] [IsDiscreteValuationRing B] [Algebra A B]
@@ -159,6 +163,23 @@ theorem hasseArf_dvd_sum_card_ramificationGroup
       TauCeti.IsLocalRing.ramificationGroup G B ((j : ℤ) + 1)) :
     Nat.card (TauCeti.IsLocalRing.ramificationGroup G B 0) ∣
       ∑ i ∈ Finset.Icc 1 j, Nat.card (TauCeti.IsLocalRing.ramificationGroup G B (i : ℤ)) :=
+  sorry
+
+/-! ## Layer 4a: the finite-level subgroup identity -/
+
+/-- **§4a.2, the finite-level subgroup identity.** Let a finite group `G` act on a local ring `S`
+and let `H` be any subgroup, acting by restriction. With the finite-level transition function
+`ψ = φ_H ∘ ψ_G`, the trace on `H` of the upper group `G^u` is `H^(ψ(u))`. For `G = Gal(M/K)` and
+`H = Gal(M/L)` acting on the integer ring of a finite Galois `M ⊇ L ⊇ K`, this is
+`Gal(M/L) ∩ Gal(M/K)^u = Gal(M/L)^(ψ_(L/K)(u))` (Serre, *Local Fields*, IV §1, Proposition 2,
+for the lower numbering). It follows from the trace formula `H_t = H ∩ G_t`
+(`TauCeti.IsLocalRing.subgroupOf_ramificationGroupReal`) and `ψ_H ∘ φ_H = id`, so `H` need not be
+normal, `L/K` need not be Galois, `S` need not be a discrete valuation ring and no hypothesis on
+the residue extension is needed; it holds for every real `u`, in particular on `[-1, ∞)`. -/
+theorem subgroupOf_upperRamificationGroup (G : Type*) [Group G] [Finite G] (S : Type*)
+    [CommRing S] [IsLocalRing S] [MulSemiringAction G S] (H : Subgroup G) (u : ℝ) :
+    (upperRamificationGroup G S u).subgroupOf H =
+      upperRamificationGroup H S (herbrandFun H S (inverseHerbrandFun G S u)) :=
   sorry
 
 end TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
