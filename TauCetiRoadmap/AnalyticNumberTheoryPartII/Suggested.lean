@@ -27,13 +27,11 @@ locally free cubic orders, their discriminant ideals and weighted signature
 coefficients. Those objects are absent at the pins and need the constructions of
 §§5.5–5.6; arbitrary coefficient sequences would not state these theorems.
 
-The harmonic analysis under the binary-cubic theory is stated where its carriers
-exist: restricted products of Haar measures, Weil's quotient measure and the class
-number of `GL₂` over a number field (§§5.3f–5.3m). The K-Bessel kernel and Hecke
-continuation on Tau Ceti's idele-class characters are AnalyticNumberTheoryPartI
-§§2.1a and 2.3a. The adelic Schwartz–Bruhat space, Siegel sets and the `GL₂`
-Eisenstein series need an adelic Schwartz–Bruhat carrier and adelic `GL₂` quotients
-with their Haar measures, absent at the pins, and have no signatures here.
+Layer 5 also states the adelic harmonic analysis this part owns for later roadmaps:
+restricted products of Haar measures, Weil's quotient measure and the `GL₂` class
+number (§§5.3f, 5.3k, 5.3m). Adelic Fourier analysis, Siegel sets and the `GL₂`
+Eisenstein series (§§5.3h, 5.3m, 5.3n) need an adelic Schwartz–Bruhat carrier and
+adelic `GL₂` quotients with their Haar measures, absent at the pins.
 
 Layer 6 states generation of the native rational torsion group algebra by first
 Eisenstein functions, existence and uniqueness of critical scaling measures on
@@ -56,6 +54,8 @@ open Filter Topology Complex MeasureTheory
 open scoped BigOperators NumberField
 
 namespace TauCetiRoadmap.AnalyticNumberTheoryPartII
+
+/-! ## Layer 4: Lerch continuation, complex Hurwitz zeta and Barnes G -/
 
 /-- The initial Lerch series, with principal logarithms (§4.1). -/
 def lerchSeries (z s c : ℂ) : ℂ :=
@@ -172,6 +172,8 @@ theorem barnesG_asymptotic :
           ‖deriv (barnesRemainder N) z‖ ≤ C / ‖z‖ ^ (2 * N + 1) := by
   sorry
 
+/-! ## Layer 5: Double Dirichlet series and binary-cubic zeta functions -/
+
 /-- Heath-Brown's quadratic large sieve with arbitrary complex coefficients
 and both odd squarefree cutoffs (§5.29). -/
 theorem quadratic_large_sieve (e : ℝ) (he : 0 < e) :
@@ -262,10 +264,10 @@ each Borel box that is cofinitely `B i` the product of the local masses. -/
 theorem exists_unique_restrictedAddHaar [Countable ι] [∀ i, IsTopologicalAddGroup (G i)]
     [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, SecondCountableTopology (G i)]
     [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    [MeasurableSpace (Πʳ i, [G i, B i])] [BorelSpace (Πʳ i, [G i, B i])]
     (hB : ∀ᶠ i in Filter.cofinite, IsCompact (B i : Set (G i)))
     (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsAddHaarMeasure]
     (hμ : ∀ᶠ i in Filter.cofinite, μ i (B i) = 1) :
-    letI : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
     ∃! ν : Measure (Πʳ i, [G i, B i]), ν.IsAddHaarMeasure ∧
       ∀ C : ∀ i, Set (G i), (∀ i, MeasurableSet (C i)) →
         (∀ᶠ i in Filter.cofinite, C i = B i) →
@@ -273,11 +275,6 @@ theorem exists_unique_restrictedAddHaar [Countable ι] [∀ i, IsTopologicalAddG
   sorry
 
 end RestrictedHaar
-
--- Supplied by AnalyticNumberTheoryPartI:
--- §2.1a `TauCetiRoadmap.AnalyticNumberTheoryPartI.besselK`, `besselK_neg`, `besselK_one_half`;
--- §2.3a `TauCetiRoadmap.AnalyticNumberTheoryPartI.heckeContinuation`, with `heckeFiniteFactor`,
--- `heckeArchFactor` and `heckeConductorScale`.
 
 section QuotientMeasure
 
@@ -290,13 +287,14 @@ with matching modular characters, there is exactly one right-`G`-invariant Radon
 `H \ G` with `∫_G f = ∫_{H \ G} ∫_H f(h g) dh dġ` for compactly supported continuous `f`. -/
 theorem exists_unique_quotientMeasure (H : Subgroup G) (hH : IsClosed (H : Set G))
     [LocallyCompactSpace H] [MeasurableSpace H] [BorelSpace H]
+    [MeasurableSpace (MulAction.orbitRel.Quotient H G)]
+    [BorelSpace (MulAction.orbitRel.Quotient H G)]
     (μG : Measure G) [μG.IsMulRightInvariant] [IsFiniteMeasureOnCompacts μG]
     [μG.IsOpenPosMeasure]
     (μH : Measure H) [μH.IsMulRightInvariant] [IsFiniteMeasureOnCompacts μH]
     [μH.IsOpenPosMeasure]
     (hmod : ∀ h : H, Measure.modularCharacter (G := G) h =
       Measure.modularCharacter (G := H) h) :
-    letI : MeasurableSpace (MulAction.orbitRel.Quotient H G) := borel _
     ∃! ν : Measure (MulAction.orbitRel.Quotient H G), IsFiniteMeasureOnCompacts ν ∧
       (∀ g : G, Measure.map (fun q : MulAction.orbitRel.Quotient H G =>
         (Quotient.mk'' (q.out * g) : MulAction.orbitRel.Quotient H G)) ν = ν) ∧
@@ -333,6 +331,8 @@ theorem gl2_classNumber :
   sorry
 
 end GL2ClassNumber
+
+/-! ## Layer 6: The Bost–Connes system and compact spectral determinants -/
 
 /-- First trigonometric Eisenstein functions in the rational torsion group
 algebra; the annihilating level is the additive order (§6.26). -/
