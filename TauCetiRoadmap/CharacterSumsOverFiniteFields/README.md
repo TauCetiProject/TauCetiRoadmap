@@ -180,8 +180,11 @@ smooth conic has zeta numerator `1` and two rational points at infinity.
   primitive Dirichlet Gauss-sum identities `gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive`,
   `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`, `IsPrimitive.norm_gaussSum` and
   `gaussSum_ne_zero_of_isPrimitive`, with `gaussSumOfPrimitiveRoot`
-  (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1, 7.2 and 7.7;
-  the local Teichmüller lifts `TauCeti.teichmuller` (`TauCeti.RingTheory.Henselian.Teichmuller`)
+  (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`), used in 7.1, 7.2 and 7.7; the conductor
+  of a product of characters with coprime conductors, `DirichletCharacter.conductor_mul_of_coprime`
+  (`TauCeti.NumberTheory.DirichletCharacter.Conductor`), which with Mathlib's
+  `conductor_changeLevel` gives the conductor and primitivity of the Chinese-remainder factors in
+  0.7; the local Teichmüller lifts `TauCeti.teichmuller` (`TauCeti.RingTheory.Henselian.Teichmuller`)
   and `TauCeti.teichmullerLift` (`TauCeti.NumberTheory.LocalField.Teichmuller`), which 6.1 and 6.4
   compare with the global character `ω_𝔓`.
 - From `AutomorphicSpectralTheory` §1.16: the integer-modulus sum
@@ -348,7 +351,8 @@ Dirichlet characters: `DirichletCharacter R n := MulChar (ZMod n) R`, `changeLev
 (`gaussSum χ (e.mulShift a) = χ⁻¹ a * gaussSum χ e` for primitive `χ`, every `a : ZMod N`),
 `gaussSum_eq_zero_of_isPrimitive_of_not_isPrimitive`, `factorsThrough_of_gaussSum_ne_zero`,
 `DirichletCharacter.rootNumber`, `DirichletCharacter.conductor_ne_zero` (`conductor χ ≠ 0` at
-nonzero level).
+nonzero level), `conductor_dvd_level`, `conductor_changeLevel` (`changeLevel` to a nonzero
+multiple of the level preserves the conductor; 0.7).
 
 Finite fields and polynomials: `Fintype.ofFinite`, `Fintype.subsingleton`, `Nat.card`,
 `Algebra.trace`, `Algebra.norm`, `Algebra.norm_zero`,
@@ -386,7 +390,11 @@ in a domain), `gaussSum_mul_gaussSum_inv_eq_neg_one_mul_card_of_isPrimitive`
 `gaussSum_sq_of_isPrimitive_of_isQuadratic`, consumed in 7.1, 7.2 and 7.7;
 `gaussSumOfPrimitiveRoot` with `map_gaussSumOfPrimitiveRoot`, `gaussSumOfPrimitiveRoot_ne_zero`
 and `stabilizer_gaussSumOfPrimitiveRoot` (`TauCeti.NumberTheory.DirichletCharacter.GaussSum`);
-`FiniteField.primitiveChar_to_Complex_ne_one` (`TauCeti.NumberTheory.LegendreSymbol.Complex`);
+conductors of products, `DirichletCharacter.conductor_mul_of_coprime` (for `χ, ψ` modulo the same
+`N` with coprime conductors, `conductor (χ ψ) = conductor χ · conductor ψ`, any coefficient
+monoid with zero) and `conductor_prod_of_pairwise_coprime` (its finite-product form, for a
+nonempty index set or nonzero level) (`TauCeti.NumberTheory.DirichletCharacter.Conductor`),
+consumed in 0.7; `FiniteField.primitiveChar_to_Complex_ne_one` (`TauCeti.NumberTheory.LegendreSymbol.Complex`);
 `MulChar.ofUnitHom_inv_eq_star` (`TauCeti.NumberTheory.MulChar.Lemmas`); the Teichmüller lift of a
 Henselian local ring `TauCeti.teichmuller : (ResidueField R)ˣ →* Rˣ`
 (`TauCeti.RingTheory.Henselian.Teichmuller`) and the zero-preserving lift of a nonarchimedean local
@@ -727,14 +735,20 @@ characters `χ₁ := crtFactorLeft χ`, `χ₂ := crtFactorRight χ` of a Dirich
 `c₁ c₂` by restricting `χ` along the two coordinate embeddings, prove `χ(x) = χ₁(x) χ₂(x)` (where
 `χ_i(x)` reads `x` modulo `c_i`), and prove that `ZMod.stdAddChar (c₁ c₂)` corresponds to
 `(ZMod.stdAddChar c₁).mulShift c̄₂ × (ZMod.stdAddChar c₂).mulShift c̄₁`, with `c̄₂ c₂ ≡ 1 (mod c₁)`
-and `c̄₁ c₁ ≡ 1 (mod c₂)`. Prove that `χ` is primitive iff both factors are, and
-`conductor χ = conductor χ₁ · conductor χ₂`. *Needs:* Mathlib.
+and `c̄₁ c₁ ≡ 1 (mod c₂)`. The conductor of `χ` is then read off from the libraries, not
+reproved: the identity `χ(x) = χ₁(x) χ₂(x)` says `χ = changeLevel χ₁ · changeLevel χ₂` at level
+`c₁ c₂`, the two factors have conductors `conductor χ₁ ∣ c₁` and `conductor χ₂ ∣ c₂` (Mathlib's
+`conductor_changeLevel` and `conductor_dvd_level`), which are coprime, so Tau Ceti's
+`DirichletCharacter.conductor_mul_of_coprime` gives `conductor χ = conductor χ₁ · conductor χ₂`;
+hence `χ` is primitive iff both factors are (a divisor of `c₁` times a divisor of `c₂` equals
+`c₁ c₂` only when both are the full levels). *Needs:* Mathlib, Tau Ceti's
+`conductor_mul_of_coprime`.
 
 The supporting API comprises:
 
 - The two CRT factors recover the original multiplicative character by multiplying their values on the coordinate residues.
 - The additive factors use the inverse-modulus shifts `c̄₂,c̄₁`.
-- The conductor is the product of the conductors of the two factors, and primitivity is equivalent to primitivity of both factors.
+- As a consequence of the identity and of Tau Ceti's `conductor_mul_of_coprime`, the conductor is the product of the conductors of the two factors, and primitivity is equivalent to primitivity of both factors.
 
 **Checks.**
 
@@ -760,8 +774,9 @@ factors of a character and the decomposition `ψ_15(x) = ψ_3(2 x₁) ψ_5(2 x�
 ### Dependencies
 
 Mathlib's finite fields, `MulChar`, `AddChar`, `quadraticChar`, `Algebra.trace`, `Algebra.norm`,
-`DirichletCharacter` and `ZMod.chineseRemainder`; Tau Ceti's `MulChar.GaloisOrbit` for 0.5. Nothing
-from another roadmap; 0.7 is independent of 0.1–0.6.
+`DirichletCharacter` and `ZMod.chineseRemainder`; Tau Ceti's `MulChar.GaloisOrbit` for 0.5 and
+`DirichletCharacter.conductor_mul_of_coprime` for 0.7. Nothing from another roadmap; 0.7 is
+independent of 0.1–0.6.
 
 ## Layer 1: Gauss sums
 
