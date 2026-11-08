@@ -58,17 +58,14 @@ Not statable at the pins:
   L-function, absent from Mathlib and Tau Ceti; its Dirichlet instance is stated.
 
 Not stated: the README instances that rest on unrefereed preprints (the region of 7.3 with
-`R₀ = 4.896` and the real-zero gaps of 7.9 without a conductor cap, Banks's and Guo's), and
-Ramaré's averaged density for Dirichlet L-functions (8.2): `kadirilumleyng2018` (lines 93–95)
-records a mistake in that paper, next to its bound for `ζ` alone, without saying which of its
-statements the mistake reaches; that bound is the case `Q = 1` of the argument of 8.2, and its
-revision has a leading constant about `200` times the printed one.
+`R₀ = 4.896`, the real-zero gaps of 7.9 without a conductor cap, Banks's and Guo's, and Lee and
+Leong's bounds for `1/ζ` in the classical region and on `σ ≥ 3/4` of 7.10).
 The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
 they are the lemmas on the way to the theorems below. So are the remaining instances of Layers 3–9:
 inputs to the theorems below (3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2),
 and other constants and ranges for the quantities bounded below (the further regions of 7.5–7.7,
-9.2).
+Leong's bounds for `1/ζ` of 7.10, 9.2).
 -/
 
 namespace TauCetiRoadmap.ExplicitZetaBounds
@@ -90,8 +87,8 @@ def RiemannHypothesisUpTo (H : ℝ) : Prop :=
 `ϑ(T) = ∫₀^T (Re ψ(1/4 + it/2) − log π)/2 dt`, with `ψ = Complex.digamma` the logarithmic
 derivative of `Γ`. It is `Im log Γ(1/4 + iT/2) − (T/2) log π` for the continuous branch of
 `log Γ` that is real on the positive axis (both vanish at `0` and have the same derivative), and
-`N(T) = ϑ(T)/π + 1 + S(T)` with `S(T)` the argument of `ζ` along the usual path; at `T = 100`,
-`ϑ(T)/π + 1 = 29.00241`. -/
+`N(T) = ϑ(T)/π + 1 + S(T)` with `S(T)` the argument of `ζ` along the usual path (README 2.9); at
+`T = 100`, `ϑ(T)/π + 1 = 29.00241`. -/
 noncomputable def riemannSiegelTheta (T : ℝ) : ℝ :=
   ∫ t in (0 : ℝ)..T, ((Complex.digamma (1 / 4 + (t : ℂ) / 2 * I)).re - Real.log π) / 2
 

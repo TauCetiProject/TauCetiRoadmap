@@ -67,8 +67,10 @@ not the roadmap.
   Montgomery–Vaughan and Preissmann constants and Elliott's maximal large sieve (Layer 6);
 - the criteria behind the classical, Littlewood-type and Vinogradov–Korobov zero-free regions, the
   regions with decimal constants for `ζ` and `L(s, χ)`, the real-zero bounds for quadratic
-  characters, and the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q` with its
-  instances up to `10¹⁰` and, numerically, without a cap (Layer 7);
+  characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q` with its
+  instances up to `10¹⁰` and, numerically, without a cap, and the explicit bounds for `1/ζ(σ + it)`
+  on the line one, on `σ ≥ 1`, in the classical region and on `σ ≥ 3/4` below a verified height
+  (Layer 7);
 - the explicit zero-density estimates for `ζ` and for Dirichlet L-functions, including the log-free
   densities (Layer 8);
 - upper bounds for `|L(1, χ)|` for every primitive character and their refinements under
@@ -85,8 +87,9 @@ it: `ExplicitCharacterSumsAndSieves` consumes the finite van der Corput inequali
 normalized form (4.2), and owns two variants built on them, Arias de Reyna's real-part form of the
 normalized inequality (its §0.3, which keeps the real part of the weighted lag sum) and his
 iterated inequality (its §1.1, which assumes no derivative bound); no route here uses either.
-`ExplicitMultiplicativeFunctions` takes the Kusmin–Landau inequality (4.1) for the divisor-problem
-route of its smoothed Dirichlet remainder.
+`ExplicitMultiplicativeFunctions` takes the Kusmin–Landau inequality (4.1) for the route of its
+Dirichlet divisor remainder (its §7.4); the second-derivative test in Bordellès and Daval's form
+that the same route uses differs from those of 4.3 and is that roadmap's.
 
 ### Consumed, not redefined
 
@@ -117,7 +120,7 @@ route of its smoothed Dirichlet remainder.
   (`ZerosOfLFunctions`), the effective but non-numerical Landau–Siegel exclusion and lower bound
   `L(1, χ) ≥ c/log q` (`AnalyticNumberTheoryPartI` §§0.34 and 0.9), and the log-free density for
   the family of primitive characters with an unspecified constant `C_ε`
-  (`AnalyticNumberTheoryPartI` §1.7, of which 8.2 and 8.4 are explicit forms): only decimal
+  (`AnalyticNumberTheoryPartI` §1.7, of which 8.4 is an explicit form): only decimal
   constants and the explicit arguments producing them live here;
 - the sharp unweighted large sieves and the separated Hilbert inequality with constant `π/δ`
   (`SieveMethodsAndPrimePatterns` §2.9);
@@ -145,28 +148,46 @@ route of its smoothed Dirichlet remainder.
   Kadiri's paper on short intervals quotes it): the quotation does not say how the principal
   factor, which carries the zeros of `ζ`, enters it, and Liu and Wang's paper is not among the
   sources here, so `ExplicitPrimeCounting` states the bound from that paper with the theorem that
-  needs it. Ramaré and Rumely's region for the zeros of `L(s, χ)` with `|γ| ≥ 1000` is 7.5;
-- Ramaré's bound for the zeros of `ζ` alone and the revised form of it that `kadirilumleyng2018`
-  quotes (lines 63–66 and 93–95: the paper contains a mistake, and the revision, with leading
-  constant `965` against the printed `4.9`, rests on an unpublished proof; 8.2); and Johnston and
-  Yang's recomputed constants for the Kadiri–Lumley–Ng density, which change an input of that
-  argument (a divisor-sum bound that no route here uses) and which `ExplicitPrimeCounting` states
-  with the theorem that uses them; 8.3 states the Kadiri–Lumley–Ng theorem with its closed-form
-  constants;
+  needs it. Ramaré and Rumely's region for the zeros of `L(s, χ)` with `|γ| ≥ 1000`, with the
+  constant `C₁(k, H)`, is not of this kind: it is owned here (7.5, fifth item), and
+  `ExplicitPrimeCounting` takes it from there;
+- Ramaré's explicit density theorem (`ramare2016density` Theorem 1.1, lines 83–97): its averaged
+  bound for `T ≥ 2000`, `T ≥ Q ≥ 10` and `σ ≥ 0.52`,
+  `Σ_{q≤Q} (q/φ(q)) Σ_{χ mod* q} N(σ, T, χ) ≤ 20 (56 Q⁵ T³)^{1−σ} log^{5−2σ}(Q²T) + 32 Q² log²(Q²T)`
+  (the inner sum over the primitive characters modulo `q`, `N(σ, T, χ)` the number of zeros with
+  `β ≥ σ` and `|γ| ≤ T`), its bound for the zeros of `ζ` alone, and the revised form of the latter
+  that `kadirilumleyng2018` quotes. Kadiri, Lumley and Ng record a mistake in the paper without
+  locating it (lines 93–95, a footnote to their quotation, lines 63–66); the revision of the bound
+  for `ζ`, with leading constant `965` against the printed `9.8/2 = 4.9` for the zeros with
+  `γ > 0`, rests on a proof the author communicated to them and did not publish; and the bound for
+  `ζ` is the case `Q = 1` of the argument that gives the averaged bound (`ramare2016density`
+  lines 98–104 and 208–213). So no constant of that theorem is asserted here; the explicit
+  densities here are 8.1, 8.3 and 8.5 for `ζ` and 8.4 for the family of primitive characters;
+- Johnston and Yang's recomputed constants for the Kadiri–Lumley–Ng density, which change an input
+  of Kadiri, Lumley and Ng's argument (a divisor-sum bound that no route here uses) and which
+  `ExplicitPrimeCounting` states with the theorem that uses them; 8.3 states the Kadiri–Lumley–Ng
+  theorem with its closed-form constants;
 - the first branch `|N(T) − M(T)| ≤ 0.28 log T` for `T ≥ 2π` (with `M(T)` including `7/8`) of the
-  form that `ExplicitPrimeCounting` quotes from Lee and Nosal, whose source is not among those here
-  and which no statement here implies: below `T = 8008` it is sharper than the recorded bound for
-  `S(T)` (0.4) gives, and at `T = 30 610 046 000` it asks for `6.760` where 5.2 gives `7.753`. Its
-  second branch `0.1038 log T + 0.2573 log log T + 9.3675` holds as a consequence of 5.2 and is
-  stated there. And Trudgian's bound in the normalization with `7/8`, which `bellottiwong2025`
-  lines 61 and 83–84 re-establish only in the normalization without `7/8` (5.2);
-- the bounds for `1/ζ(σ + it)` inside the classical region and on `σ ≥ 3/4` below `3·10¹²` that
-  `ExplicitMultiplicativeFunctions` quotes from Lee and Leong's preprint, which is not among the
-  sources here, and states with the theorem that uses them; 7.10 is the bound on the line one;
+  form that `ExplicitPrimeCounting` quotes from Lee and Nosal, whose source is not among those
+  here. From `T = 8008.3` on it follows from statements here: up to `30 610 046 000` from the
+  recorded bound for `S(T)` (0.4) with the expansion of `ϑ` in 2.9, which give
+  `|N(T) − M(T)| ≤ 2.5167 + 1/(40T)`, at most `0.28 log T` once `log T ≥ 8.98823`; and from
+  `T = e^{20.455} = 7.65·10⁸` on from Rosser's bound (5.2): with `L = log T`,
+  `0.137 L + 0.443 log L + 1.588 ≤ 0.28 L` exactly when `0.143 L − 0.443 log L ≥ 1.588`, whose
+  left side increases for `L > 3.1` and reaches `1.588` at `L = 20.455` (at `T = 30 610 046 000`
+  Rosser's bound is `6.306`, against `0.28 log T = 6.760`). On `[2π, 8008]` it is sharper than the
+  recorded bound and rests on a computation with the zeros there, which `ExplicitPrimeCounting`
+  carries as a hypothesis of the theorems that use it. Its second branch
+  `0.1038 log T + 0.2573 log log T + 9.3675` holds as a consequence of 5.2 and is stated there. And
+  Trudgian's bound in the normalization with `7/8`, which `bellottiwong2025` lines 61 and 83–84
+  re-establish only in the normalization without `7/8` (5.2);
 - the nonnegative trigonometric polynomials for Dedekind zeta functions that `ExplicitNumberFields`
-  uses: each is a polynomial certificate (the Prop of 0.5 at literal coefficients) of one of its
-  theorems, and it states each with that theorem; the certificates of the regions here (Kadiri's
-  polynomial and `F₁₆`) are named in 7.3.
+  uses (Kadiri's for Dedekind zeta functions and those of Das, Gaba, Lee, Savalia and Wong, whose
+  coefficients are optimised together with the other parameters of the region they serve): each is
+  a polynomial certificate (the Prop of 0.5 at literal coefficients) of one of its theorems, and by
+  the Conventions it is named with that theorem. The certificates of the regions here, Kadiri's
+  polynomial `(0.91 + cos φ)²(0.265 + cos φ)²` and Mossinghoff and Trudgian's `F₁₆`, are named in
+  7.3, where a consumer that uses the same polynomial cites them.
 
 ## Conventions
 
@@ -344,21 +365,23 @@ route of its smoothed Dirichlet remainder.
 ## How to read the build
 
 Layer 0 fixes the language: the explicit error predicate, the bounded-height Riemann hypotheses with
-the bridge from Platt's theorem, and admissible cosine polynomials. Layers 1 and 2 are the Gamma
-function with explicit constants, on the positive axis and in the complex plane; everything later
-that touches a gamma factor uses them. Layer 3 turns the Gamma bounds into pointwise bounds for `ζ`
-and `L(s, χ)` by the explicit Phragmén–Lindelöf principle. Layer 4 is the explicit theory of
-exponential sums, by van der Corput's and by Vinogradov's methods, and the subconvex, one-line and
-Richert-type bounds it gives. Layer 5 counts zeros with explicit
-errors, from Layers 3 and 4 and the argument principle of `ZerosOfLFunctions` Layer 7. Layer 6 is
-Perron's formula, mean values and large sieves. Layer 7 proves the zero-free regions, from the
-partial-fraction identities, the Gamma bounds, the zero counts and the pointwise bounds, and bounds
-real zeros of quadratic L-functions. Layer 8 proves zero-density estimates from the mean values, the
-pointwise bounds and the zero-free regions. Layer 9 bounds `L(1, χ)`, above from Ramaré's approximate
-formula and below by Louboutin's method for non-quadratic characters and from the real-zero bounds
-of 7.8 for quadratic ones. Layer 6 depends only on Layers 0–3, except the mean squares of `ζ`
-(6.6), which use the approximate functional equation 4.5a; the rest of Layer 6 can be built in
-parallel with Layers 4 and 5.
+the bridge from Platt's theorem and the recorded verifications, with the Riemann–Siegel theta
+function as the integral that the recorded bound for `S(T)` uses, and admissible cosine polynomials.
+Layers 1 and 2 are the Gamma function with explicit constants, on the positive axis and in the
+complex plane, ending with the Stirling form of the theta function (2.9); everything later that
+touches a gamma factor uses them. Layer 3 turns the Gamma bounds into pointwise bounds for `ζ` and
+`L(s, χ)` by the explicit Phragmén–Lindelöf principle. Layer 4 is the explicit theory of exponential
+sums, by van der Corput's and by Vinogradov's methods, and the subconvex, one-line and Richert-type
+bounds it gives. Layer 5 counts zeros with explicit errors, from Layers 3 and 4 and the argument
+principle of `ZerosOfLFunctions` Layer 7. Layer 6 is Perron's formula, mean values and large sieves.
+Layer 7 proves the zero-free regions, from the partial-fraction identities, the Gamma bounds, the
+zero counts and the pointwise bounds, bounds real zeros of quadratic L-functions and bounds `1/ζ`
+near the line one. Layer 8 proves zero-density estimates from the mean values, the pointwise bounds
+and the zero-free regions. Layer 9 bounds `L(1, χ)`, above from Ramaré's approximate formula and
+below by Louboutin's method for non-quadratic characters and from the real-zero bounds of 7.8 for
+quadratic ones. Layer 6 depends only on Layers 0–3, except the mean squares of `ζ` (6.6), which use
+the approximate functional equation 4.5a; the rest of Layer 6 can be built in parallel with Layers 4
+and 5.
 
 ## Layer 0: explicit errors, verified zeros and cosine polynomials
 
@@ -504,8 +527,9 @@ displayed Prop as an explicit hypothesis, and nothing here proves it.
   function `riemannSiegelTheta` defined below: the bound `|S(T)| ≤ 2.5167` on that range for `S(T)`
   the argument function of `ZerosOfLFunctions` 7.3 (Bellotti and Wong, (1.2), `bellottiwong2025`
   lines 121–124), read off Platt's rigorous isolation of all the zeros below that height
-  (lines 199–202; `platt2017zeros`), through `N(T) = ϑ(T)/π + 1 + S(T)` (at an ordinate,
-  `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right).
+  (lines 199–202; `platt2017zeros`), through `N(T) = ϑ(T)/π + 1 + S(T)` (2.9; at an ordinate,
+  `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right). As a hypothesis it is the displayed
+  inequality, which needs only the definition of `ϑ` below.
 
 By 0.2, `RH(3·10¹²)` implies each of the other three `RH(H₀)`. The last two propositions are not of
 that form, since `RH(H)` allows zeros on the line and says nothing about how many there are: the
@@ -532,17 +556,14 @@ Define `riemannSiegelTheta T = ∫₀^T (Re ψ(1/4 + it/2) − log π)/2 dt` for
 function `ϑ(T)`. The integrand is continuous, since `Γ` has neither a pole nor a zero on the line
 `Re s = 1/4`.
 
-- `ϑ(0) = 0`, `ϑ` is odd, and `ϑ` is differentiable with `ϑ'(T) = (Re ψ(1/4 + iT/2) − log π)/2`.
-- `ϑ(T) = Im log Γ(1/4 + iT/2) − (T/2) log π` with the slit-plane branch of `log Γ` of 2.1
-  (`AnalyticNumberTheoryPartI` §0.23a): both sides vanish at `0`, and the derivative of
-  `Im log Γ(1/4 + iT/2)` is `Re ψ(1/4 + iT/2)/2`.
-- For `T > 0` that is not the ordinate of a zero of `ζ`, `N(T) = ϑ(T)/π + 1 + S(T)` with `S(T)` of
-  `ZerosOfLFunctions` 7.3; at an ordinate `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right,
-  since `N` counts the zeros with `γ ≤ T`.
-- For `T ≥ e`, `7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`, from Stirling's series for
-  `log Γ(1/4 + iT/2)` with the remainder bound of 2.3.
+- `ϑ(0) = 0`, and `ϑ` is differentiable with `ϑ'(T) = (Re ψ(1/4 + iT/2) − log π)/2`.
+- `ϑ` is odd: `Re ψ(1/4 − iT/2) = Re ψ(1/4 + iT/2)`, since `ψ(conj z) = conj ψ(z)` by
+  `Complex.Gamma_conj`, so the integrand is even.
 
-*Needs:* 2.1, 2.3; `ZerosOfLFunctions` 7.3; Mathlib `Complex.digamma`,
+Its identification with `Im log Γ(1/4 + iT/2) − (T/2) log π`, the relation
+`N(T) = ϑ(T)/π + 1 + S(T)` and its Stirling expansion are 2.9.
+
+*Needs:* Mathlib `Complex.digamma`, `Complex.Gamma_conj`,
 `intervalIntegral.integral_hasDerivAt_right`.
 
 **Checks.**
@@ -555,9 +576,6 @@ function `ϑ(T)`. The integrand is continuous, since `Γ` has neither a pole nor
 - The principal argument of `Γ(1/4 + 50i)` is `0.69540` and the continuous one is `145.20866`, so a
   definition through the principal `Complex.log` would give `ϑ(100) = −56.54110`: the integral is the
   continuous branch.
-- At `T = e`, `ϑ(e)/π + 1 − (e/2π) log(1/(2π)) = 0.877491`, inside
-  `(7/8, 7/8 + 1/(40e)) = (0.875, 0.884197)`; on `[e, 3·10⁶]` the excess over `7/8` stays below
-  `0.0068/T`.
 
 ### 0.5 Admissible cosine polynomials
 
@@ -602,7 +620,8 @@ is read off `a`. A *polynomial certificate* is this Prop at literal rational coe
 
 ### Dependencies
 
-Mathlib normed groups, `riemannZeta`, `DirichletCharacter.LFunction`, `RiemannHypothesis`. Tau Ceti
+Mathlib normed groups, `riemannZeta`, `DirichletCharacter.LFunction`, `RiemannHypothesis`,
+`Complex.digamma` and interval integrals (for `riemannSiegelTheta`). Tau Ceti
 nonnegative trigonometric combinations. `AnalyticNumberTheoryPartI` §1.6; `ZerosOfLFunctions` 6.5 and
 Layer 9; `ComputationalNumberTheory` §4.22.
 
@@ -933,6 +952,45 @@ inputs are Stirling's formula with the explicit remainder of 2.1, `Γ(w + 1) = w
   the exponent `1/2 + σ` in place of `1/2 − σ` fails at `σ = −1/2`, `t = 100`, `a = 0`, where it gives
   the bound `1` against the true value `50.0006`.
 
+### 2.9 The Riemann–Siegel theta function in Stirling form
+
+For real `T`, with `ϑ = riemannSiegelTheta` of 0.4, prove:
+
+- `ϑ(T) = Im log Γ(1/4 + iT/2) − (T/2) log π` with the slit-plane branch of `log Γ`
+  (`AnalyticNumberTheoryPartI` §0.23a): both sides vanish at `0`, and the derivative of
+  `Im log Γ(1/4 + iT/2)` is `Re ψ(1/4 + iT/2)/2`. This is Brent's definition of `ϑ` as the
+  continuous argument of `Γ(1/4 + iT/2)` minus `(T/2) log π` (`brent2019` lines 38–43).
+- For `T > 0` that is not the ordinate of a zero of `ζ`, `N(T) = ϑ(T)/π + 1 + S(T)` with `S(T)` of
+  `ZerosOfLFunctions` 7.3; at an ordinate `N(T) − ϑ(T)/π − 1` is the limit of `S` from the right,
+  since `N` counts the zeros with `γ ≤ T`.
+- For `T ≥ e`, `7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`.
+
+Route: Stirling's series for `log Γ(1/4 + iT/2)` (1.1) with the remainder bound of 2.3 at
+`z = 1/4 + iT/2`, which has `Re z > 0`; Brent's expansion of `ϑ` with the exponentially small term
+`arctan(e^{−πT})/2` and his bound for its remainder (Theorem 5 and Corollary 3, `brent2019`
+lines 499–510 and 576–584) is another route to the same bracket. For the relation with `N(T)`, the
+argument principle on the rectangle of `ZerosOfLFunctions` 7.4 for the completed function.
+
+*Needs:* 0.4 (`riemannSiegelTheta`), 1.1, 2.3; `AnalyticNumberTheoryPartI` §0.23a;
+`ZerosOfLFunctions` 7.3–7.4; Mathlib `Complex.digamma`.
+
+**Checks.**
+
+- At `T = e`, `ϑ(e)/π + 1 − (e/2π) log(1/(2π)) = 0.877491`, inside
+  `(7/8, 7/8 + 1/(40e)) = (0.875, 0.884197)`; on `[e, 3·10⁶]` the excess over `7/8` stays below
+  `0.0068/T`.
+- The leading term `1/(48πT)` of the excess is not an upper bound for it: at `T = e` the excess is
+  `0.0024909`, above `1/(48πe) = 0.0024396`, because the next term `7/(5760πT³) = 0.0000193` and
+  `arctan(e^{−πT})/(2π) = 0.0000311` are positive; the constant `1/40 > 1/(48π)` of the bracket
+  is what absorbs them. At `T = 100` the excess is `6.6315·10⁻⁵`, equal to `1/(48π·100)` to five
+  digits.
+- At `T = 100` the continuous `Im log Γ(1/4 + 50i)` is `145.20866`, and
+  `145.20866 − 50 log π = 145.20866 − 57.23649 = 87.97217 = ϑ(100)`, the value of the integral of
+  0.4; with `N(100) = 29` the relation gives `S(100) = −0.00241`. At `T = 14`, below the first
+  ordinate, `N(14) = 0` and `ϑ(14)/π + 1 = 0.43247`, so `S(14) = −0.43247`; without the term `1`
+  (the contribution of the pole of `ζ` at `1`) the relation would give `S(14) = 0.56753` and
+  `S(100) = 0.99759`, a mean of about `1` where `S` has mean `0`.
+
 ### Examples
 
 - On `Re z ≥ 0`, 2.1 gives `|ξ(z)| ≤ 1/(6|z|)`, and 2.2 gives `|ξ(z)| ≤ 1/(12|z|)` for `|θ| ≤ π/4`.
@@ -940,7 +998,8 @@ inputs are Stirling's formula with the explicit remainder of 2.1, `Γ(w + 1) = w
 
 ### Dependencies
 
-Layer 1; `AnalyticNumberTheoryPartI` §0.23a; Mathlib `Complex.Gamma`, `Complex.digamma`,
+Layer 1; 0.4 (`riemannSiegelTheta`, for 2.9); `AnalyticNumberTheoryPartI` §0.23a;
+`ZerosOfLFunctions` 7.3–7.4 (for 2.9); Mathlib `Complex.Gamma`, `Complex.digamma`,
 `PowerSeries.exp`, `Real.arctan`.
 
 ## Layer 3: explicit convexity and pointwise bounds
@@ -1331,7 +1390,7 @@ Lehman's `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4}` for `t ≥ 128π` (`lehman1970`, Le
 `p = √(t/2π) − n₁`, Gabcke's bound for `R₀`, and `|C₀| ≤ 1` (then `n^{−1/2}` summed by an integral
 for `n > 5`, for the second statement).
 
-*Needs:* 2.1 (for `ϑ(t) = Im log Γ(1/4 + it/2) − (t/2) log π`); Mathlib `riemannZeta_one_sub`;
+*Needs:* 2.9 (for `ϑ(t) = Im log Γ(1/4 + it/2) − (t/2) log π`); Mathlib `riemannZeta_one_sub`;
 `ZerosOfLFunctions` 7.1–7.2 (rectangle contours); the saddle-point estimates of `AsymptoticExpansions`
 Layer 5.
 
@@ -1607,15 +1666,15 @@ Prove, with `N(T)` as in the Conventions:
   `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.137 log T + 0.443 log log T + 1.588`; in the normalization
   without `7/8` the constant is `2.463` (`bellottiwong2025` Table 1, line 54).
 
-Route: `N(T) = ϑ(T)/π + 1 + S(T)` (`ZerosOfLFunctions` 7.3, with `ϑ` of 0.4), the Stirling
-expansion of `ϑ(T)` (2.1, 0.4), and `|S(T)|` bounded by 5.1 with the two-disc refinement, the inputs being
-3.3 and 4.8 on the line one, 4.7 and 4.9 in the strip, 3.1 for the interpolation: this analytic
-argument with the parameters of their Table 2 gives both bounds for `T ≥ 30 610 046 000`
+Route: `N(T) = ϑ(T)/π + 1 + S(T)` (2.9, with `ϑ` of 0.4 and `S(T)` of `ZerosOfLFunctions` 7.3), the
+Stirling expansion of `ϑ(T)` (2.9), and `|S(T)|` bounded by 5.1 with the two-disc refinement, the
+inputs being 3.3 and 4.8 on the line one, 4.7 and 4.9 in the strip, 3.1 for the interpolation: this
+analytic argument with the parameters of their Table 2 gives both bounds for `T ≥ 30 610 046 000`
 (`bellottiwong2025` lines 1024–1037), from bounds for `ζ` on vertical lines (lines 75–80) and no
-input about the location of the zeros. For `e ≤ T ≤ 30 610 046 000`
-the bounds follow from the recorded bound `|S(T)| ≤ 2.5167` on that range (0.4), read off Platt's
-isolation of the zeros below that height (`bellottiwong2025` lines 121–124 and 1038–1054), with
-the expansion `7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)` of 0.4: on that range
+input about the location of the zeros. For `e ≤ T ≤ 30 610 046 000` the bounds follow from the
+recorded bound `|S(T)| ≤ 2.5167` on that range (0.4), read off Platt's isolation of the zeros below
+that height (`bellottiwong2025` lines 121–124 and 1038–1054), with the expansion
+`7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)` of 2.9: on that range
 `|N(T) − (T/2π) log(T/(2πe))| ≤ 2.5167 + 7/8 + 1/(40e) = 3.4009`, below both right sides at `T = e`
 (`8.184` and `3.886`), which increase with `T`. A bounded-height Riemann hypothesis alone does not
 bound `S(T)` (0.4, Checks), and locating `10¹¹` zeros is not a computation a proof can carry, so
@@ -1635,7 +1694,7 @@ recorded bound of 0.4,
 `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 9.3675`, since
 `8.08344 + 7/8 = 8.95844 < 9.3675`, `0.10076 < 0.1038`, `0.24460 < 0.2573` and `log log T ≥ 0`.
 
-*Needs:* 5.1, 2.1, 3.1, 3.3, 4.7, 4.8, 4.9; `ZerosOfLFunctions` 7.2–7.4; 0.4 (the recorded bound
+*Needs:* 5.1, 2.1, 2.9, 3.1, 3.3, 4.7, 4.8, 4.9; `ZerosOfLFunctions` 7.2–7.4; 0.4 (the recorded bound
 (1.2) on `S(T)`, for `T < 30 610 046 000`); the numerical certificates of `bellottiwong2025` (its
 Table 2) and of `rosser1941`.
 
@@ -2328,17 +2387,50 @@ antitonicity it implies Banks's instance.
   would be weaker, since the character modulo `6` induced by `χ₋₃` has the real zeros of `L(s, χ₋₃)`
   and `log 6 > log 3`.
 
-### 7.10 The reciprocal of `ζ` on the line one
+### 7.10 The reciprocal of `ζ` near the line one
 
-Given `RH(545 439 823)` (0.4), which 7.4 uses, prove `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for
-`t ≥ 3` (Hiary, Leong and Yang, Theorem 2, `hiaryleongyang2025` lines 41–43); this is
-`inv_norm_riemannZeta_one_add_le`. Route: the Borel–Carathéodory and Hadamard three-circle method
-with the Richert-type bound 4.10, Yang's region 7.4 (`hiaryleongyang2025` lines 1013–1022), the
-bounds of Ramaré for `|ζ'/ζ|` near the line one (`ramare2016density`), and the numerical certificate
-for `2 ≤ t ≤ 500` (lines 1171–1175).
+Prove:
 
-*Needs:* 0.4, 3.4, 4.8, 4.10, 7.4; Mathlib `Complex.borelCaratheodory`;
-the named certificate.
+- (Hiary, Leong and Yang, Theorem 2, `hiaryleongyang2025` lines 41–43) given `RH(545 439 823)`
+  (0.4), which 7.4 uses, `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for `t ≥ 3`; this is
+  `inv_norm_riemannZeta_one_add_le`.
+- (Leong, Corollary 4, `leong2026` lines 140–176, arXiv v5) given `RH(3 000 175 332 800)` (0.4),
+  `1/|ζ(1 + it)| ≤ 29.388 log t` for `t ≥ 2`; `1/|ζ(σ + it)| ≤ 30.812 log t` for every real
+  `σ ≥ 1` and `t ≥ 13`; and `1/|ζ(σ + it)| ≤ 7.59·10³¹ log t` for `t ≥ 13` and
+  `σ ≥ 1 − 1/(5.56 log t)` (the row `W = 5.56` of his Table 4, line 1547, quoted as (12) in
+  `leeLeong2022` lines 155–167), a region inside that of 7.3. The hypothesis enters through
+  Leong's bound for `|ζ'/ζ|` on `σ ≥ σ₀ > 1/2` and `t₀ ≤ t ≤ H₀ − 1/2`, `H₀ = 3 000 175 332 800`
+  (his Corollary 3, lines 78–79, 121–136 and 986), which his Corollaries 1 and 2, and through them
+  Corollary 4, use below that height (lines 1249–1276 and 1411).
+- (Lee and Leong, Theorem 1.1 (6), `leeLeong2022` lines 100–111, arXiv v5, an unrefereed preprint)
+  given `RH(3 000 175 332 800)`, for `t ≥ 3 000 175 332 800` and `σ ≥ 1 − 1/(5.56 log t)`,
+  `1/|ζ(σ + it)| ≤ 1237 (log t)^{11/12}`; the region lies inside the `5.558691` region of 7.3, as
+  their requirement `W > Z₁` asks (lines 242–243).
+- (Lee and Leong, Lemma 4.3, `leeLeong2022` lines 1084–1159) given `RH(3 000 175 332 800)`, for
+  `σ ≥ 3/4` and `14 ≤ t ≤ 3 000 175 332 800 − 1/2`,
+  `1/|ζ(σ + it)| ≤ 29.388 t^{4.964} log t ≤ e^{146} log t`: for `σ ≥ 1` it is the second item,
+  and for `3/4 ≤ σ < 1` the integral of `Re ζ'/ζ` from `σ` to `1` is at most `4.964 log t` by
+  Leong's Corollary 3 on five strips of width `1/20` (lines 1135–1158). The source prints the range
+  up to `3 000 175 332 800`; its proof takes Leong's Corollary 3, which holds up to
+  `H₀ − 1/2` (`leong2026` lines 78–79), so that every disc of radius `1/2` it uses lies below the
+  verified height, and the range here is that of the proof. Above it the third bound of the
+  second item applies in the classical region.
+
+Route: for the first item, the Borel–Carathéodory and Hadamard three-circle method with the
+Richert-type bound 4.10, Yang's region 7.4 (`hiaryleongyang2025` lines 1013–1022), the bounds of
+Ramaré for `|ζ'/ζ|` near the line one (`ramare2016density`), and the numerical certificate for
+`2 ≤ t ≤ 500` (lines 1171–1175). For the others, the identity
+`log(1/|ζ(σ + it)|) = −Re log ζ(1 + δ₁ + it) + ∫_σ^{1+δ₁} Re (ζ'/ζ)(x + it) dx` (`leong2026` (42),
+lines 1300–1315), the first term by a nonnegative trigonometric polynomial (0.5) and 3.4, the
+integral by bounds for `|ζ'/ζ|` inside zero-free regions: by Borel–Carathéodory from bounds for
+`|ζ|` near the line one (4.8, 4.10) in the region of 7.3 above the verified height, and from the
+hypothesis below it; for the second item the numerical certificate of `leong2026` (49) for
+`2 ≤ t ≤ 500` (lines 1520–1545); for the third, Lee and Leong's splitting of the integral into
+many short steps across the region, each with a locally optimised bound for `ζ'/ζ`
+(`leeLeong2022` lines 249–257), a numerical certificate.
+
+*Needs:* 0.4, 0.5, 3.4, 4.8, 4.10, 7.3, 7.4; Mathlib `Complex.borelCaratheodory`;
+the named certificates.
 
 **Checks.**
 
@@ -2348,7 +2440,31 @@ the named certificate.
   The shape `log t/log log t` is that of Weyl's method; for very large `t` it is weaker than the
   order `(log t)^{2/3}(log log t)^{1/3}` that the Vinogradov–Korobov region gives, and the
   constant `431.7` is what makes it the useful bound at moderate heights.
-- At `t = 3`, `log log t = 0.0940` makes the bound large; it is meaningful for large `t`.
+- At `t = 13`: `1/|ζ(1 + 13i)| = 1.37875`, Leong's line bound is `29.388 log 13 = 75.379`, his
+  bound on `σ ≥ 1` is `30.812 log 13 = 79.031`, and the first item gives
+  `431.7 log 13/log log 13 = 1175.5`. The first item implies the bound `30.812 log t` only once
+  `log log t ≥ 431.7/30.812 = 14.011`, and is below `29.388 log t` only once
+  `log log t > 14.690`, that is `log t > 2.397·10⁶`; and it says nothing for `σ > 1`.
+- The half-plane bound is not the line bound: at `t = 13` the maximum of `1/|ζ(σ + 13i)|` over
+  `1 ≤ σ ≤ 5` is `1.37903`, attained near `σ = 1.030`, above the value `1.37875` at `σ = 1`;
+  for large `σ` the value tends to `1`, and `1/|ζ(σ + it)| ≤ ζ(σ)/ζ(2σ)` for `σ > 1`.
+- Lee and Leong's region and constant at `t = 3 000 175 332 800` (`log t = 28.72969`): the region
+  is `σ ≥ 0.9937397`, inside the `5.558691` region `σ ≥ 0.9937382` of 7.3, and the bound is
+  `1237 · 28.72969^{11/12} = 26 864`, against `885.2` from `30.812 log t` on `σ ≥ 1`; the factor
+  `(log t)^{−1/12} = 0.756` is the saving over the shape `log t`.
+- The bound below the verified height: `29.388 · (3 000 175 332 800)^{4.964} = e^{145.995} ≤ e^{146}`;
+  at `σ = 3/4`, `t = 14` the true value `1/|ζ(3/4 + 14i)| = 4.9554` is far below
+  `29.388 · 14^{4.964} log 14 = 3.79·10⁷`. The line `σ = 1/2` is excluded: `1/ζ` has a pole at the
+  zero `1/2 + 14.1347…i`, inside the range of `t`; the hypothesis puts every zero with
+  `|γ| ≤ 3 000 175 332 800` on that line, at distance at least `1/4` from `σ ≥ 3/4`. A zero with
+  ordinate just above that height and real part between `3/4` and `0.99289` (the boundary there
+  of the widest region of 7.3, `R₀ = 4.896`), which no statement here excludes, would make `1/ζ`
+  unbounded near `σ + i·3 000 175 332 800` for such `σ`, which is why the range stops half a unit
+  below the height.
+- Leong's classical-region bound at `t = 13`: the region is `σ ≥ 1 − 1/(5.56 log 13) = 0.929879`,
+  where `1/|ζ(0.929879 + 13i)| = 1.37567` against `7.59·10³¹ log 13 = 1.95·10³²`; the constant
+  falls quickly as the region narrows (`1719` at `W = 13`, Table 4, line 1555), and above the
+  verified height Lee and Leong's `1237 (log t)^{11/12}` replaces it.
 
 ### Examples
 
@@ -2397,41 +2513,6 @@ named certificate.
   and consistent with the true value `0` (all zeros below `H₀` lie on the line).
 - The slope `0.5561 < 1/(2π) log(T/2π)` for `T ≥ H₀`: a bound with slope at least that of `N(T)`
   would be no better than trivial.
-
-### 8.2 Ramaré's averaged density for Dirichlet L-functions
-
-Given `RH(545 439 823)`, for `T ≥ 2000`, `T ≥ Q ≥ 10` and `σ ≥ 0.52`, prove
-`Σ_{q≤Q} (q/φ(q)) Σ_{χ mod* q} N(σ, T, χ) ≤ 20 (56 Q⁵ T³)^{1−σ} log^{5−2σ}(Q²T) + 32 Q² log²(Q²T)`, the
-inner sum over primitive characters modulo `q` (the trivial character modulo `1` included, whose
-L-function is `ζ`) and `N(σ, T, χ)` the number of zeros of `L(s, χ)` with `β ≥ σ` and `|γ| ≤ T`
-(Ramaré, Theorem 1.1, `ramare2016density` lines 83–92). The proof first reduces to `Q²T ≥ 10⁹`
-(lines 208–213): for `Q ≤ 400 000` and `T ≤ 10⁸/Q` every zero counted lies on `Re s = 1/2`, by
-Platt's theorem for `q ≥ 2` (0.3) and, for `ζ`, up to height `10⁸/Q ≤ 10⁷`, which is where the
-recorded verification enters. Route: Ingham's method
-with a mollifier, the hybrid large sieve over primitive characters (from
-`SieveMethodsAndPrimePatterns` §2.9 and the mean value theorem 6.4), and the explicit Möbius sums of
-its §5.
-
-The paper contains a mistake that `kadirilumleyng2018` records without locating it (lines 93–95, a
-footnote to their quotation of the paper's bound for `ζ` alone, lines 63–66). That bound
-(`ramare2016density` lines 95–104) is the case `Q = 1` of the same argument, and the revised form
-the author communicated to them, unpublished, has leading constant `965` for the zeros with
-`γ > 0`, against the printed `9.8/2 = 4.9`. Since the mistake may reach Theorem 1.1, the target's
-proof re-derives every constant of the source's §§2–11 instead of transcribing them, and the
-target is the bound with the constants that this re-derivation gives: the printed `20`, `56` and
-`32` when it confirms them. For the same reason the bound for `ζ` alone is not a target, and 8.2 is
-not a headline of [`Suggested.lean`](Suggested.lean).
-
-*Needs:* 0.3, 0.4, 6.4; `SieveMethodsAndPrimePatterns` §2.9; Mathlib `Nat.totient`,
-`DirichletCharacter.IsPrimitive`.
-
-**Checks.**
-
-- At `Q = 10`, `T = 2000`, `σ = 0.6` the right side is `1.23·10¹²`, far above the trivial bound; the
-  estimate is meant for `σ` near `1`, where the factor `(56Q⁵T³)^{1−σ}` is small.
-- The weight `q/φ(q) ≥ 1` makes the left side at least the plain sum over primitive characters.
-- At `σ = 1` the right side is `20 log³(Q²T) + 32 Q² log²(Q²T)`, which still exceeds `0`, as the zeros
-  of the possible exceptional character are not excluded.
 
 ### 8.3 The Kadiri–Lumley–Ng density bound
 
@@ -2640,7 +2721,8 @@ L-functions; the named numerical certificates.
   among them the absence of zeros up to height `14`), 5.2 (Rosser's bound for `T ≥ 2`, Bellotti and
   Wong's, Trudgian's in the normalization without `7/8`, and the form with `7/8` and `9.3675`), 5.3 (the count for primitive
   Dirichlet L-functions), 5.4 (Lehman's lemma, Brent–Platt–Trudgian's form and `Σ γ^{−2}`), 6.1–6.2
-  (Perron), 7.3 (the regions for every `R₀ ≥ 5.558691`, among them `5.573412` and `5.5666305`, the
+  (Perron), 6.5 (Montgomery and Vaughan's weighted large sieve, for its Brun–Titchmarsh
+  inequality), 7.3 (the regions for every `R₀ ≥ 5.558691`, among them `5.573412` and `5.5666305`, the
   instance `5.69693`, and the region with `log(|γ|/17)` for `|γ| ≥ 21`), 7.5 (Kadiri's `6.4355` and
   `5.60`, McCurley's `9.645908801`, Lu–Zaman–Zhao's Corollary 1.2, Thorner–Zaman's Theorem 2.6
   with its bound for `β₁(Q)`, and Ramaré and Rumely's region with `C₁(k, H)`), 7.6 (the Vinogradov–Korobov constants, `57.54` among them), 7.9
@@ -2652,10 +2734,11 @@ L-functions; the named numerical certificates.
 - `ExplicitCharacterSumsAndSieves` takes the finite van der Corput inequality and its normalized
   form (4.2) for its real-part form and its iterated inequality (its §§0.3 and 1.1, variants built
   on 4.2 that no route here uses), and Montgomery–Vaughan's weighted large sieve of 6.5.
-- `ExplicitMultiplicativeFunctions` takes 3.4 (bounds right of the line one), 4.1 (the
-  Kusmin–Landau inequality), 6.1 (Perron) and `RH(H)` of 0.2, its verified-zero hypothesis, through
-  `ExplicitPrimeCounting` §1.1; the bounds for `1/ζ` inside the classical region that it uses are
-  listed under "Not owned here".
+- `ExplicitMultiplicativeFunctions` takes 4.1 (the Kusmin–Landau inequality, for its §7.4), 6.1
+  (Perron), 7.10 (the bounds for `1/ζ` that its §1.9 uses, each given `RH(3 000 175 332 800)`: in
+  the classical region above that height, on `σ ≥ 1` for `t ≥ 13`, on `σ ≥ 3/4` up to half a unit
+  below that height, and in the classical region from `t = 13`) and `RH(H)` of 0.2, its
+  verified-zero hypothesis, through `ExplicitPrimeCounting` §1.1.
 - `ExplicitNumberFields` takes 3.2 at `dedekindZetaData K` (the Dedekind instance of Rademacher's
   bound), 5.1 with 3.2 for the argument of Dedekind zeta functions of any degree, 2.1 and 2.5 for the
   gamma factors, 6.1a (the iterated Perron identity), 0.2–0.3 (`GRH(q, H)`), 0.5 (admissible cosine
@@ -2736,6 +2819,8 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `hiarypatelyang2024`: Ghaith A. Hiary, Dhir Patel, Andrew Yang, *An improved explicit estimate for ζ(1/2+it)* (2022); arXiv:2207.02366v1. Cited for: Theorem 1.1, Lemmas 2.1–2.6.
 - `patelyang2024`: Dhir Patel, Andrew Yang, *An explicit sub-Weyl bound for ζ(1/2 + it)* (2023); arXiv:2302.13444v1. Cited for: Theorem 1.1, Lemmas 1.2, 1.4, 2.1.
 - `hiaryleongyang2025`: Ghaith A. Hiary, Nicol Leong, Andrew Yang, *Explicit bounds for the Riemann zeta-function on the 1-line* (2023); arXiv:2306.13289v3. Cited for: Theorems 1 and 2.
+- `leong2026`: Nicol Leong, *Explicit estimates for the logarithmic derivative and the reciprocal of the Riemann zeta function*, J. Number Theory 285 (2026), 230–261; arXiv:2405.04869v5, the text read, whose numbering is cited. Cited for: Corollaries 1–4, Table 4, (42), (49).
+- `leeLeong2022`: Ethan Simpson Lee, Nicol Leong, *New explicit bounds for Mertens function and the reciprocal of the Riemann zeta-function* (2022–2026); arXiv:2208.06141v5 (an unrefereed preprint). Cited for: Theorem 1.1 (6), Lemma 4.3, Theorem 2.1 and its remarks.
 - `bellottiwong2025`: Chiara Bellotti, Peng-Jie Wong, *Improved estimates for the argument and zero-counting function of the Riemann zeta-function* (2024); arXiv:2412.15470v2. Cited for: Theorems 1.1 and 1.2, Tables 1 and 2, the bound (1.2) for S(T).
 - `brentplatttrudgian2021`: Richard P. Brent, David J. Platt, Timothy S. Trudgian, *Accurate estimation of sums over zeros of the Riemann zeta-function*, Mathematics of Computation 90 (2021), 2923–2935; doi:10.1090/mcom/3652, arXiv:2009.13791v1. Cited for: Lemmas 1 and 3, Theorem 1, Corollary 1.
 - `cullyhugilljohnston2023`: Michaela Cully-Hugill, Daniel R. Johnston, *On the error term in the explicit formula of Riemann--von Mangoldt* (2021); arXiv:2111.10001v5. Cited for: Theorem 2.1, Lemma 2.2.
