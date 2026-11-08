@@ -22,7 +22,8 @@ together with three complements on the native carriers (Layer 0). The end theore
 `pow_succ_dvd_lowerIndex_sub`.
 
 The implementation review and exact-source inventory are in [COMPLETION.md](COMPLETION.md).
-`Suggested.lean` contains the admitted Layer 1 target; it is not the completion certificate.
+`Suggested.lean` contains the admitted Layer 1 target, which is not the completion certificate, and
+the names other roadmaps import from this one (*Names imported by other roadmaps*).
 
 ## Scope and ownership
 
@@ -569,15 +570,78 @@ Layer 1.
 
 ## Downstream consumers
 
-- **ClassFieldTheory** consumes the local arithmetic through the Tau Ceti declarations above,
-  including Hasse–Arf (Layer 2) for the integrality of conductors (its Layer 7).
+- **ClassFieldTheory** consumes the normalized valuation, the unit filtration, `e`, `f`, Frobenius,
+  the norm group and inertia, and Hasse–Arf (Layer 2) for the integrality of conductors (its
+  Layer 7). Its unramified coordinate is stated against Tau Ceti's
+  `TauCeti.restrictMaximalUnramifiedHom`, `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`,
+  `TauCeti.inertiaSubgroup` and `TauCeti.IsArithFrobeniusLift`, which `Suggested.lean` imports.
 - **NumberFieldArithmetic** consumes local monogenicity, the lower filtration and the local
-  different through the same Tau Ceti declarations.
+  different.
 - **MassFormula** consumes `e`, `f`, total ramification, Eisenstein generators, the different and
-  discriminant exponents and their invariance, and the Eisenstein power-basis valuation formula.
-- **LocalGaloisGroups** consumes the unit filtration, Frobenius, inertia and the tame quotient.
+  discriminant exponents and their invariance, the Eisenstein power-basis valuation formula and
+  the structures on a finite intermediate field.
+- **LocalGaloisGroups** consumes the power-class counts (its Layer 1), the deep-unit logarithm,
+  inertia, wild inertia, the tame quotient and the marked Iwasawa presentation (its Layer 7).
+- **QuadraticFormInvariants** (its Layer 6A) and **OrthogonalSpinGroups** (its Layers 2 and 3)
+  consume the normalized valuation, the unit filtration, the square-class counts and the local
+  square theorem.
 - Roadmaps on Galois representations and on curves over local fields use Tau Ceti's `hasseArf`
   (Layer 2) for the integrality of Artin and Swan conductors.
+
+### Names imported by other roadmaps
+
+The consumers above cite the names below, in the namespace `TauCetiRoadmap.LocalFieldsRamification`,
+and `Suggested.lean` keeps them after the Layer 1 target. Each is an abbreviation of a Tau Ceti
+declaration, a definition read off one, or a theorem closed by Tau Ceti's theorem, and its
+docstring names the Tau Ceti declaration. None of them is a target, and a consumer's statement is
+about Tau Ceti's object.
+
+- *Valuations, `e` and `f`:* `normalizedValuation`, `normalizedValuation_surjective`,
+  `normalizedValuation_eq_one_iff`, `normalizedValuation_irreducible`,
+  `finiteIntermediateFieldNormedField`, `finiteIntermediateFieldValuativeRel`,
+  `finiteIntermediateFieldTopology`, `finiteIntermediateField_valuativeExtension`,
+  `finiteIntermediateField_isValuativeTopology`,
+  `finiteIntermediateField_isNonarchimedeanLocalField`, `ramificationIndex`, `inertiaDegree`,
+  `IsTotallyRamified`, `normalizedValuation_algebraMap`, `card_residueField`,
+  `ramificationIndex_mul_inertiaDegree`, `isTotallyRamified_iff_inertiaDegree_eq_one`,
+  `natCastValuation`, `normalizedValuation_natCast`, `natCastValuation_eq_zero_iff`,
+  `absoluteRamificationIndex`, `absoluteRamificationIndex_eq_natCastValuation`.
+- *Units and power classes:* `unitFiltration`, `mem_unitFiltration_zero`,
+  `mem_unitFiltration_succ_congr`, `mem_unitFiltration_succ_valuation`, `unitFiltration_antitone`,
+  `iInf_unitFiltration`, `UnitFiltrationGraded`, `teichmuller`, `teichmuller_section`,
+  `deepUnitExpLogEquiv`, `card_powerClasses_of_isUnit`, `card_powerClasses_mixed`,
+  `isOpen_range_powMonoidHom`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`,
+  `square_eq_range_powMonoidHom`, `unitFiltration_le_range_powMonoidHom_two`,
+  `not_unitFiltration_le_range_powMonoidHom_two`.
+- *Unramified extensions and norms:* `frobeniusAlgEquiv`, `normGroup`,
+  `map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`.
+- *Ramified extensions, the different and the discriminant:* `lowerRamificationGroup`,
+  `IsTamelyRamified`, `IsWildlyRamified`, `exists_integerRing_adjoin_eq_top`,
+  `isTotallyRamified_iff_exists_eisenstein_generator`, `addVal_sum_eisenstein_powerBasis`,
+  `differentExponent`, `localDiscriminantIdeal`, `discriminantExponent`,
+  `discriminantExponent_eq_inertiaDegree_mul_differentExponent`,
+  `differentExponent_eq_of_algEquiv`, `discriminantExponent_eq_of_algEquiv`,
+  `differentExponent_eq_ramificationIndex_sub_one_iff`, `differentExponent_bounds_of_wild`.
+- *The absolute Galois group:* `maximalUnramified`, `inertia`, `IsArithFrobeniusLift`,
+  `exists_isArithFrobeniusLift`, `wildInertia`, `wildInertia_normal`, `wildInertia_isProP`,
+  `tameQuotient`, `tameInertia`, `exists_topologicalClosure_zpowers_eq_tameInertia`,
+  `IwasawaGroup`, `iwasawaSigma`, `iwasawaTau`, `tameQuotientEquiv`,
+  `tameQuotientEquiv_mk_frobenius`, `tameQuotientEquiv_mk_tameGenerator`.
+
+Where the packaging differs from Tau Ceti's, the name adapts the hypotheses and states the same
+mathematics. `frobeniusAlgEquiv`, `map_norm_unitFiltration_zero` and
+`mem_normGroup_iff_dvd_normalizedValuation` take `e(L/K) = 1` in place of the class
+`TauCeti.IsUnramified K L`. The `ℚ_p`-indexed statements take `[Algebra ℚ_[p] K]`,
+`[ValuativeExtension ℚ_[p] K]` and `[Module.Finite ℚ_[p] K]`, from which Tau Ceti's
+`TauCeti.FinitePadicExtension K p` is found. `deepUnitExpLogEquiv` is the exponential direction
+`𝓂[K]^i ≃* U(K,i)` of Tau Ceti's logarithm. `isTotallyRamified_iff_exists_eisenstein_generator`
+asks for `𝒪[L] = 𝒪[K][ξ]` (Tau Ceti's
+`TauCeti.isTotallyRamified_iff_exists_eisenstein_integral_generator`), and so does the generation
+hypothesis of `addVal_sum_eisenstein_powerBasis`. `tameQuotientEquiv K σ τ hσ hτ` asks that the
+class of `τ` topologically generate tame inertia, which puts `τ` in inertia and makes its tame
+character a topological generator of `Ẑ^{(p')}(1)`, the hypotheses of Tau Ceti's
+`TauCeti.tameQuotientEquiv`. `IsArithFrobeniusLift` is protected, so that a consumer opening both
+`TauCeti` and this namespace reads the short name as Tau Ceti's.
 
 ## References
 

@@ -1199,8 +1199,8 @@ Theorem 2.8), whose only modular input is the modular Artin theorem of
     `[Lˣ/(Lˣ)^ℓ] = [𝔽_ℓ] + [μ_ℓ] + latticeDefect (U(L,1))`. For `ℓ ≠ p` the pro-`p` group
     `U(L,1)` is uniquely `ℓ`-divisible and its defect is `0`. For `ℓ = p` its defect is that of
     `U(L,n)` (`latticeDefect_eq_of_finiteIndex`), which the logarithm identifies
-    `G`-equivariantly with `𝔭_L^n` for `(p − 1)n > e` (`LocalFieldsRamification.localLogarithm`,
-    `localExponential`); then that of the lattice `𝒪[L]`, and then that of `M = ∑_σ 𝒪[K] σθ` for
+    `G`-equivariantly with `𝔭_L^n` for `(p − 1)n > e` (`LocalFieldsRamification.deepUnitExpLogEquiv`);
+    then that of the lattice `𝒪[L]`, and then that of `M = ∑_σ 𝒪[K] σθ` for
     `θ ∈ 𝒪[L]` a multiple of Mathlib's normal basis element `IsGalois.normalBasis K L 1` by a power
     of a uniformizer of `K`, which is `[K:ℚ_p] · [𝔽_p[G]]`: by `IsGalois.normalBasis_apply`, `M` is
     free over `𝒪[K][G]` on `θ`. The integral form `𝒪[L] ≅ 𝒪[K][G]` is not needed.
@@ -1336,10 +1336,9 @@ definition with a body.
 - **Unramified coordinate.** `unramifiedCoordinate : G_K^ab →* Ẑ` is the descent to the topological
   abelianization of `restrictMaximalUnramifiedHom` followed by
   `maximalUnramifiedGaloisGroupEquivZHat`, so `unramifiedCoordinate_mk` computes it on every class.
-  Both are Tau Ceti's and landed after this repository's Tau Ceti pin; `LocalFieldsRamification`
-  states them under their Tau Ceti names. It is continuous and surjective
+  Both are Tau Ceti's, and `LocalFieldsRamification` imports them. It is continuous and surjective
   (`continuous_unramifiedCoordinate`, `surjective_unramifiedCoordinate`), its kernel is the image of
-  inertia (`unramifiedCoordinate_mk_eq_one_iff`, against `LocalFieldsRamification`'s
+  inertia (`unramifiedCoordinate_mk_eq_one_iff`, against Tau Ceti's
   `inertiaSubgroup`), and it sends exactly the arithmetic Frobenius lifts to `zHat.gen`
   (`unramifiedCoordinate_mk_eq_gen_iff`, against `IsArithFrobeniusLift`). On the Artin map it is the
   normalized valuation (`unramifiedCoordinate_artinMap`), by `artinMap_restrict` at the finite
