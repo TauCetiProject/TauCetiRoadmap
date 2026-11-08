@@ -20,8 +20,9 @@ sheaf on the fppf site and its Leray comparison. The semiample contraction dicti
 numerical uniqueness lack the graded section algebra of an invertible sheaf on a scheme.
 Openness of ampleness for proper algebraic spaces lacks algebraic spaces. The
 Nakai–Moishezon criterion over an arbitrary field and Kleiman's nonnegativity theorem lack
-iterated first-Chern intersection numbers on higher-dimensional subschemes; the real ample
-and nef cones, absolute and relative, lack the real space of curve classes.
+iterated first-Chern intersection numbers on higher-dimensional subschemes; the closed-cone
+descriptions of the real ample and nef cones, absolute and relative, lack the real space of
+curve classes, and the real ample cone is stated through curve degrees instead.
 Geometric exceptional negativity and Zariski's lemma lack the geometric intersection
 pairing, although their matrix inequalities are supplied by Tau Ceti.
 Negative-curve descent and intersection-label descent lack that pairing.
@@ -138,6 +139,38 @@ theorem isAmple_mul_of_mem_numericallyTrivialClasses (k : Type u) [Field k] (X :
     (a b : TauCeti.AlgebraicGeometry.LineBundleClass X) (ha : a.IsAmple)
     (hb : b ∈ numericallyTrivialClasses k X x) :
     (a * b).IsAmple := by
+  sorry
+
+/-- Kleiman's criterion for real classes: on a proper scheme over an arbitrary field carrying an
+ample class `h`, a finite real combination `∑ tₗ aₗ` of line-bundle classes is numerically
+equivalent to a nonempty finite combination of ample classes with positive real coefficients
+exactly when, for some real `ε > 0`, its degree on every integral closed curve is at least `ε`
+times that of `h`, that is, when its difference with `ε h` is nef. Numerical equivalence of real
+classes is equality of their degrees on every integral closed curve. Through their classes this
+covers ℚ-Cartier and ℝ-Cartier divisors. No reducedness, irreducibility, perfection or
+characteristic hypothesis is imposed. Lazarsfeld, Definition 1.3.11, Corollary 1.4.10 and
+Theorem 1.4.23. -/
+theorem exists_isAmple_realCombination_iff_exists_pos_nef_sub (k : Type u) [Field k]
+    (X : Scheme.{u}) (x : X ⟶ Spec (CommRingCat.of k)) [IsProper x]
+    (h : TauCeti.AlgebraicGeometry.LineBundleClass X) (hh : h.IsAmple)
+    {ι : Type*} [Fintype ι] (t : ι → ℝ) (a : ι → TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    (∃ (n : ℕ) (s : Fin (n + 1) → ℝ)
+        (b : Fin (n + 1) → TauCeti.AlgebraicGeometry.LineBundleClass X),
+      (∀ j, 0 < s j ∧ (b j).IsAmple) ∧
+      ∀ (C : Scheme.{u}) (_ : IsIntegral C) (i : C ⟶ X) (_ : IsClosedImmersion i),
+        topologicalKrullDim C = 1 →
+          letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
+          ∑ l, t l *
+              (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (a l) : ℝ) =
+            ∑ j, s j *
+              (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (b j) : ℝ)) ↔
+      ∃ ε : ℝ, 0 < ε ∧
+        ∀ (C : Scheme.{u}) (_ : IsIntegral C) (i : C ⟶ X) (_ : IsClosedImmersion i),
+          topologicalKrullDim C = 1 →
+            letI : C.Over (Spec (CommRingCat.of k)) := ⟨i ≫ x⟩
+            ε * (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i h : ℝ) ≤
+              ∑ l, t l *
+                (TauCeti.AlgebraicGeometry.LineBundleClass.intersectionNumber k i (a l) : ℝ) := by
   sorry
 
 /-- Relative ampleness for a morphism `f : X → S`: the restriction of the class to the preimage
