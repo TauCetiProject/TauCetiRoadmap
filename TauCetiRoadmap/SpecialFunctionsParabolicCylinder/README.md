@@ -728,12 +728,16 @@ DLMF 12.5.1. For `Re a > −½` and all `z`:
 with the integral over `Set.Ioi 0` and absolutely convergent (`parabolicCylinderU_eq_integral`).
 
 The proof route: the right side is entire in `z`, by differentiation under the integral sign
-with the dominating function `t^{Re a−½} e^{−t²/2 + Rt}` for `|z| < R`; it solves Weber's equation,
-by two integrations by parts in `t`; and its value and derivative at `z = 0` are Gamma integrals
-equal to those of 3.2, so 2.4 identifies it with `U(a, ·)`.
+with the dominating function `(1 + t) t^{Re a−½} e^{−t²/2 + Rt}` for `|z| < R`, which bounds both
+the integrand and its `z`-derivative. Write `I(z)` for the integral. It solves Weber's equation,
+because `I″ − zI′ − (a + ½) I` is the integral of `−∂_t(t^{a+½} e^{−t²/2 − zt})`, whose boundary
+values vanish for `Re a > −½`. Its value and derivative at `z = 0` are Gamma integrals, and the
+duplication formula turns them into those of 3.2, so 2.4 identifies the right side with
+`U(a, ·)`.
 
 *Needs:* 2.4 and 3.2; Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
-`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul` and `Complex.Gamma_eq_integral`.
+`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`, `Complex.Gamma_eq_integral` and
+`Complex.Gamma_mul_Gamma_add_half`.
 
 ### 6.2 Positivity
 
@@ -1071,15 +1075,25 @@ It receives no separate definition. The square root in the integral is the posit
 square root for `t > 0`. All four integrals are absolutely convergent over `Set.Ioi 0`;
 convergence at `∞` uses Layer 7.
 
-The proof route: 12.12.1, 12.12.3 and 12.12.4 by inserting 6.1 and Fubini for `Re a > −½`, then
-the identity theorem in `a`, both sides being holomorphic in `a` on the stated half-planes. The
-integrand of 12.12.2 behaves like `U(a, 0) t^{−a−3/2}` at `0`, so its half-plane `Re a < −½` does
-not meet that of 6.1. For `−3/2 < Re a < −½`, write
+The proof route: 12.12.1 and 12.12.3 by inserting 6.1 and Fubini for `−½ < Re a`, then the
+identity theorem in `a`, both sides being holomorphic in `a` on the stated half-planes. 12.12.1
+also uses the Beta integral and the duplication formula; the right side of 12.12.3 is 6.1 at
+parameter `−a`. The integrand of 12.12.2 behaves like `U(a, 0) t^{−a−3/2}` at `0`, so its
+half-plane `Re a < −½` does not meet that of 6.1. For `−3/2 < Re a < −½`, write
 `U(a, t) = t U(a + 1, t) + (a + 3/2) U(a + 2, t)` (12.8.1, from 4.1), insert 6.1 for `a + 1` and
 `a + 2`, and apply Fubini; the identity theorem in `a` extends the result to `Re a < −½`.
 
-*Needs:* 4.1, 6.1 and 7.4; Mathlib `MeasureTheory.integral_integral_swap`, the Gamma integral and
-the identity theorem.
+For 12.12.4, 12.2.20 (3.5) gives `U(a, z)² + Ū(a, z)² = (2/π) Γ(½ − a)² U(−a, iz) U(−a, −iz)` for
+`Re a < ½`. Insert 6.1 with parameter `−a` in both factors; this is valid on the whole half-plane
+`Re a < ½`, so no continuation in `a` is needed. Change variables to `u = s − r`, `p = sr`, with
+`ds dr = du dp/√(u² + 4p)`. Write `1/√(u² + 4p) = π^{−½} ∫₀^∞ λ^{−½} e^{−λ(u² + 4p)} dλ` and
+apply Fubini. The `p`-integral is a Gamma integral and the `u`-integral is a Gaussian. Finally
+put `λ = (e^{2t} − 1)/4`.
+
+*Needs:* 3.5, 4.1, 6.1 and 7.4; Mathlib `MeasureTheory.integral_integral_swap`,
+`Complex.integral_cpow_mul_exp_neg_mul_Ioi`, `integral_cexp_quadratic`,
+`Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.Gamma_mul_Gamma_add_half` and the identity
+theorem.
 
 ### 8.2 Addition theorems
 
@@ -1139,7 +1153,7 @@ in the interior formula and let `r → 1⁻`, using continuity of its prefactor 
 
 ### Dependencies
 
-Layers 3–5, 6.1 and 7; entire Taylor expansion for 8.2 and the
+Layers 3–5, 6.1 and 7, with 3.5 (12.2.20) for 12.12.4; entire Taylor expansion for 8.2 and the
 Hermite–Gaussian Fourier representation and moment estimate proved in 8.3.
 
 ## Layer 9: the real solutions `W(a, ±x)`
