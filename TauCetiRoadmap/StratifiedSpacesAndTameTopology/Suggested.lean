@@ -25,7 +25,6 @@ Headlines stated here (README target, Lean name):
 * 3.3(a), `ExitPathCategory.nonempty_equivalence_fundamentalGroupoid`.
 * 3.3(e), `OpenCone.nonempty_unique_hom_apex`.
 * 3.4, `nonempty_equivalence_sphere` (on `sphereStratification`).
-* 4.1, `openSimplex`.
 * 4.3, `exists_triangulation_semialgebraic`.
 
 Not statable at the pins, with the carrier each lacks (a roadmap's module cannot import another
@@ -209,13 +208,6 @@ theorem nonempty_equivalence_sphere :
 
 /-! ## Layer 4: triangulation and conical structure of definable sets -/
 
-/-- **Layer 4.1.** The open simplex spanned by a finite set of points: strictly positive
-barycentric combinations. -/
-def openSimplex {R : Type u} [Field R] [LinearOrder R] {n : ℕ} (τ : Finset (Fin n → R)) :
-    Set (Fin n → R) :=
-  {x | ∃ w : (Fin n → R) → R, (∀ v ∈ τ, 0 < w v) ∧ ∑ v ∈ τ, w v = 1 ∧
-    ∑ v ∈ τ, w v • v = x}
-
 /-- **Layer 4.3.** The semialgebraic triangulation theorem, the specialization of the o-minimal
 triangulation theorem 4.1 to the semialgebraic structure on `ℝ`: a semialgebraic set is
 semialgebraically homeomorphic to a union of open simplices of a finite complex, compatibly with
@@ -226,9 +218,11 @@ theorem exists_triangulation_semialgebraic {n : ℕ} (A : Set (Fin n → ℝ))
     ∃ (K : Geometry.SimplicialComplex ℝ (Fin n → ℝ)) (T : Set (Finset (Fin n → ℝ)))
       (Φ : (Fin n → ℝ) → (Fin n → ℝ)),
       K.faces.Finite ∧ T ⊆ K.faces ∧ TauCeti.IsSemialgebraicOn Φ A ∧
-      ContinuousOn Φ A ∧ InjOn Φ A ∧ Φ '' A = ⋃ τ ∈ T, openSimplex τ ∧
+      ContinuousOn Φ A ∧ InjOn Φ A ∧
+      Φ '' A = ⋃ τ ∈ T, intrinsicInterior ℝ (convexHull ℝ (τ : Set (Fin n → ℝ))) ∧
       ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
-      ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ τ ∈ T', openSimplex τ := by
+      ∀ B ∈ ℬ, ∃ T' ⊆ T,
+        Φ '' B = ⋃ τ ∈ T', intrinsicInterior ℝ (convexHull ℝ (τ : Set (Fin n → ℝ))) := by
   sorry
 
 end TauCetiRoadmap.StratifiedSpacesAndTameTopology

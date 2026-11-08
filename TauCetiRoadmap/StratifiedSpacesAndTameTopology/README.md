@@ -41,39 +41,38 @@ abstract boundary `∂̃M` of a manifold with corners, which it uses for Stokes'
 consumes it and builds the face structure on top of it, defining no second boundary carrier.
 
 **Left to other roadmaps.** General o-minimal structures and definable maps, monotonicity, cell
-decomposition, uniform finiteness, dimension, definable choice, curve selection and the
-o-minimality of semialgebraic sets on `ℝ` are ShimuraVarieties §§3.4b–3.4e, consumed in Layers 4
-and 7 with its coordinates (Convention 7). Smooth stratified spaces, Whitney's condition (b),
-Thom–Mather control data and their normalisation, Mather's existence theorem, controlled vector
-fields and Thom's first isotopy lemma, with the local conical structure, are
-AlgebraicTopologyPartII §§16.1a–16.1e, consumed in Layers 6 and 7; its §16.2 is the equivariant
-form for an involution. The incidence order of a smooth stratification in §16.1a, with its
-restriction and product rules, is the specialization of 1.3 to smooth strata; Layers 1–3 work over
-any poset, with no smoothness. Semialgebraic sets, cylindrical algebraic decomposition,
-Tarski–Seidenberg and sign determination are RealAlgebraicGeometry (completed); its exports in Tau
-Ceti are consumed by 4.3. Semianalytic and subanalytic sets, the o-minimality of `ℝ_an` and
-`ℝ_exp`, Nash and analytic regularity of simplices, semianalytic dimension (R1.1) and Łojasiewicz's
-triangulation are RealAnalyticGeometry (R1, R2, R5). The CAD-based construction of triangulations of
-compact semialgebraic sets with its lifting data, the definition of semialgebraic dimension from CAD
-cells, and its product and fibre-dimension laws are AffineMorseLefschetz A4.1; by 4.3 its
-existential triangulation theorem is a specialization of 4.1, and its lifting construction keeps an
-independent role, since RealAnalyticGeometry R2.1 consumes the lifting data that 4.1 does not
-supply. The Euler characteristic of spaces of finite CW type is AlgebraicTopology Stage 7; no
-roadmap states the o-minimal Euler characteristic of a definable set (van den Dries, Chapter 4,
-§2). The collar theorem for manifolds with boundary and the tubular neighbourhood theorem are
-GeometricTopology Layer 1.
+decomposition, uniform finiteness, dimension, definable choice, curve selection and the o-minimality
+of semialgebraic sets on `ℝ` are ShimuraVarieties §§3.4b–3.4e, consumed in Layers 4 and 7 with its
+coordinates (Convention 7). Smooth stratified spaces, Whitney's condition (b), Thom–Mather control
+data and their normalisation, Mather's existence theorem, controlled vector fields and Thom's first
+isotopy lemma, with the local conical structure, are AlgebraicTopologyPartII §§16.1a–16.1e, consumed
+in Layers 6 and 7; its §16.2 is the equivariant form for an involution. The incidence order of a
+smooth stratification in §16.1a, with its restriction and product rules, is the specialization of
+1.3 to smooth strata; Layers 1–3 work over any poset, with no smoothness. Semialgebraic sets,
+cylindrical algebraic decomposition, Tarski–Seidenberg and sign determination are
+RealAlgebraicGeometry (completed); its exports in Tau Ceti are consumed by 4.3. Semianalytic sets,
+Nash and analytic regularity of simplices, semianalytic dimension (R1.1) and Łojasiewicz's
+triangulation are RealAnalyticGeometry (R1, R2, R5). The o-minimality of `ℝ_an,exp`, and hence of
+its reducts `ℝ_an` and `ℝ_exp`, is ShimuraVarieties §3.5a. The CAD-based construction of
+triangulations of compact semialgebraic sets with its lifting data, the definition of semialgebraic
+dimension from CAD cells, and its product and fibre-dimension laws are AffineMorseLefschetz A4.1;
+compact 4.3 implies its existential triangulation theorem, while its lifting data, which
+RealAnalyticGeometry R2.1 consumes, are not supplied by 4.1. The Euler characteristic of spaces of
+finite CW type is AlgebraicTopology Stage 7; no roadmap states the o-minimal Euler characteristic of
+a definable set (van den Dries, Chapter 4, §2). The collar theorem for manifolds with boundary and
+the tubular neighbourhood theorem are GeometricTopology Layer 1.
 
-**Out of scope.** Constructible sheaves on stratified spaces, exit-path ∞-categories and
-2-categories, constructible stacks and hypercoverings; intersection homology; Whitney's condition
-(a) and Verdier's condition (w) as subjects; the second isotopy lemma. No roadmap on main states
-them. Not targets either: in an o-minimal structure, a definable subset `X ⊆ Rⁿ` is definably
-compact (every definable curve `(a, b) → X` has limits in `X` at both ends) iff it is closed and
-bounded (Peterzil–Steinhorn 1999, Theorem 2.1, as recalled in Andújar Guerrero 2025, Remark 5.9,
-whose Theorem A compares the notions of definable compactness); smooth `Cᵏ` manifolds with corners
-have `Cᵏ` triangulations (the Cairns–Whitehead theorem, stated with corners in Murayama–Shiota 2013,
-p. 160); for finite `p` and an o-minimal expansion of the real field, compact definable `Cᵖ`
-manifolds with corners have definable triangulations, `Cᵖ` on open faces (Commelin–Huber, appendix
-to Huber 2022, Proposition A.1).
+**Out of scope.** Subanalytic sets; constructible sheaves on stratified spaces, exit-path
+∞-categories and 2-categories, constructible stacks and hypercoverings; intersection homology;
+Whitney's condition (a) and Verdier's condition (w) as subjects; the second isotopy lemma. No
+roadmap on main states them. Not targets either: in an o-minimal structure, a definable subset
+`X ⊆ Rⁿ` is definably compact (every definable curve `(a, b) → X` has limits in `X` at both ends)
+iff it is closed and bounded (Peterzil–Steinhorn 1999, Theorem 2.1, as recalled in Andújar Guerrero
+2025, Remark 5.9, whose Theorem A compares the notions of definable compactness); smooth `Cᵏ`
+manifolds with corners have `Cᵏ` triangulations (the Cairns–Whitehead theorem, stated with corners
+in Murayama–Shiota 2013, p. 160); for finite `p` and an o-minimal expansion of the real field,
+compact definable `Cᵖ` manifolds with corners have definable triangulations, `Cᵖ` on open faces
+(Commelin–Huber, appendix to Huber 2022, Proposition A.1).
 
 ## Conventions
 
@@ -109,11 +108,14 @@ to Huber 2022, Proposition A.1).
 6. **Depth.** For a stratification over a finite `P` satisfying the frontier condition, the depth
    of a nonempty stratum `p` is the largest `k` with a chain `p = p₀ < p₁ < ⋯ < p_k` in the
    incidence order (1.3); maximal strata, among them the nonempty open strata, have depth `0`, as
-   in Ayala–Francis–Tanaka and Nocera–Volpe. The depth of a point of a manifold with corners (5.1)
-   is a different number, its number of vanishing corner coordinates; 6.6 uses that one. Witness:
-   in `ℝ` stratified as in Convention 1 the point stratum has depth `1` and the open stratum depth
-   `0`; in the quadrant `[0, ∞)²` stratified by its four faces the origin has depth `2`, equal to
-   its corner depth.
+   in Albin, Leichtnam, Mazzeo and Piazza, §2.1. Ayala–Francis–Tanaka, Definition 2.4.4, use the
+   codimension `dim_x X − dim_x X_{s(x)}` instead, which is at least the chain depth (Nocera–Volpe,
+   Remark 2.21). The depth of a point of a manifold with corners (5.1) is a different number, its
+   number of vanishing corner coordinates; 6.6 uses that one. Witness: in `ℝ` stratified as in
+   Convention 1 the point stratum has depth `1` and the open stratum depth `0`; in the quadrant
+   `[0, ∞)²` stratified by its four faces the origin has depth `2`, equal to its corner depth;
+   `ℝ²` stratified by `{0} < ℝ² ∖ {0}` separates the two notions, with chain depth `1` at the
+   origin against codimension `2`.
 7. **Coordinates for tame geometry.** Definable sets live in `Fin n → R`, as in ShimuraVarieties
    §3.4b. A cylinder over `Fin n → R` adds coordinate `0`: the point over `x` at height `t` is
    `Fin.cons t x`, and the projection is `Fin.tail`, as in RealAlgebraicGeometry and Tau Ceti's
@@ -171,7 +173,7 @@ to Huber 2022, Proposition A.1).
   (`TauCeti/AlgebraicTopology/SimplicialComplex/OrderComplex.lean`), whose faces are the nonempty
   finite chains of a poset; `AbstractSimplicialComplex.Realization`
   (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`);
-  `TauCeti.IsTriangulable` (`TauCeti/Topology/Triangulable.lean`).
+  `TauCeti.IsTriangulable` (`TauCeti/Topology/Triangulable/Basic.lean`).
 - `TauCeti.IsCollar` and `TauCeti.IsLocallyCollared`
   (`TauCeti/Geometry/Manifold/Boundary/Collar/Global.lean`), and Brown's collaring theorem
   `TauCeti.IsLocallyCollared.isCollared` (`TauCeti/Geometry/Manifold/Boundary/Collar/Brown.lean`).
@@ -529,24 +531,25 @@ Work with an o-minimal structure in the sense of ShimuraVarieties §3.4b on a li
 
 ### 4.1 Triangulation
 
-Over an ordered field `R`, define `openSimplex τ` for a finite `τ ⊆ Fin n → R`: the strictly
+Over an ordered field `R`, the open simplex of an affinely independent finite `τ ⊆ Fin n → R` is the
+intrinsic interior of its convex hull, `intrinsicInterior R (convexHull R τ)`, that is, the strictly
 positive barycentric combinations of the points of `τ`. For an o-minimal expansion of an ordered
 field (the graphs of `+` and `·` definable), prove the triangulation theorem: every definable
 `A ⊆ Fin n → R` and finitely many definable `B_i ⊆ A` admit a finite
-`Geometry.SimplicialComplex R (Fin n → R)`, a set `T` of its faces and a definable homeomorphism
-of `A` onto the union of the `openSimplex τ`, `τ ∈ T`, mapping each `B_i` onto a union of open
+`Geometry.SimplicialComplex R (Fin n → R)`, a set `T` of its faces and a definable homeomorphism of
+`A` onto the union of the open simplices of the `τ ∈ T`, mapping each `B_i` onto a union of open
 simplices (van den Dries, Chapter 8, (2.9)). The proof runs on the cell decomposition, dimension,
 definable choice and curve selection of ShimuraVarieties §§3.4c–3.4e, whose hypotheses an ordered
 field satisfies. For `R = ℝ` and closed bounded `A`, deduce `TauCeti.IsTriangulable A` through
 RealAnalyticGeometry R2.1's comparison of a finite `Geometry.SimplicialComplex ℝ E` with the
 realization carrier.
-*Needs:* ShimuraVarieties §§3.4b–3.4e; Mathlib `Geometry.SimplicialComplex`; RealAnalyticGeometry
-R2.1; Tau Ceti `TauCeti.IsTriangulable`.
+*Needs:* ShimuraVarieties §§3.4b–3.4e; Mathlib `Geometry.SimplicialComplex`, `intrinsicInterior`,
+`convexHull`; RealAnalyticGeometry R2.1; Tau Ceti `TauCeti.IsTriangulable`.
 
 **Checks.**
 
-- `openSimplex {v} = {v}`, `openSimplex {v, w}` is the open segment, and `openSimplex ∅ = ∅`
-  (the weights would sum to `0`).
+- The open simplex of `{v}` is `{v}`, that of `{v, w}` is the open segment, and that of `∅` is
+  empty (the weights would sum to `0`).
 - `A = (0, 1]` in `ℝ` is triangulated by the complex with vertices `0`, `1`, `T = {{1}, {0, 1}}`
   and `Φ = id`: `T` need not be a subcomplex, which is why non-closed sets are allowed.
 - The closed unit disc with its boundary circle as `B` is triangulated through the semialgebraic
@@ -569,11 +572,12 @@ conically stratified over the face poset (2.3(b)) and satisfies the frontier con
 
 For the semialgebraic structure on `ℝ` of ShimuraVarieties §3.4b, prove
 `exists_triangulation_semialgebraic`: 4.1 for semialgebraic `A` and `B_i`, with `Φ` semialgebraic
-on `A` (`TauCeti.IsSemialgebraicOn`). For compact `A` it is the finite compatible triangulation of
-a compact semialgebraic set, and A4.1's existential triangulation theorem is this statement
-transported along R2.1's carrier comparison. Restricted to bounded `A`, 4.3 is
-RealAnalyticGeometry R2.1's bounded affine theorem, which R2.1 proves with Nash regularity on open
-simplices and A4.1's lifting data; 4.3 adds the unbounded case as a specialization of 4.1.
+on `A` (`TauCeti.IsSemialgebraicOn`). For compact `A`, the union of the open simplices of `T` is
+closed, so `T` is a subcomplex, and 4.3 implies AffineMorseLefschetz A4.1's compatible
+triangulation with the complex in the same ambient space. For bounded `A`, 4.3 follows from
+RealAnalyticGeometry R2.1's bounded affine theorem applied to `A` and the `B_i`, by inverting its
+homeomorphism on `A`. R2.1 proves more: a triangulation of the closure with Nash maps on the open
+simplices. 4.3 adds the unbounded case.
 *Needs:* 4.1; ShimuraVarieties §3.4b (the semialgebraic structure); Tau Ceti
 `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`.
 
@@ -583,10 +587,10 @@ simplices and A4.1's lifting data; 4.3 adds the unbounded case as a specializati
   `TauCeti.IsSemialgebraicOn id A` holds, as `Φ = id` in the second check of 4.1 requires.
 - The closed unit disc of 4.1 is compact semialgebraic, and its triangulation is the compatible
   triangulation of A4.1 with the circle as a subcomplex.
-- The unbounded `A = [0, ∞)` in `ℝ` is carried by the semialgebraic `Φ(x) = x / (1 + x)`, with
-  graph `{(x, y) : x ≥ 0, y (1 + x) = x}`, onto `[0, 1) = openSimplex {0} ∪ openSimplex {0, 1}`,
-  so `T = {{0}, {0, 1}}`. The union over a subcomplex is compact, so for unbounded `A` the set `T`
-  is never a subcomplex.
+- The unbounded `A = [0, ∞)` in `ℝ` is carried by the semialgebraic `Φ(x) = x / (1 + x)`, with graph
+  `{(x, y) : x ≥ 0, y (1 + x) = x}`, onto `[0, 1)`, the union of the open simplices of `{0}` and
+  `{0, 1}`, so `T = {{0}, {0, 1}}`. The union over a subcomplex is compact, so for unbounded `A` the
+  set `T` is never a subcomplex.
 
 ### Examples
 
@@ -597,8 +601,7 @@ cone `{x² + y² = z²}` with link two circles.
 
 ShimuraVarieties §§3.4b–3.4e, Tau Ceti's semialgebraic exports (RealAlgebraicGeometry),
 RealAnalyticGeometry R2.1 for the corollary of 4.1, and 2.3 for 4.2. Within the layer, 4.2 and
-4.3 use 4.1. No item of the layer uses A4.1's or R2.1's triangulation theorems, so A4.1 and R2.1
-can state theirs as specializations of 4.1 and 4.3 without a cycle.
+4.3 use 4.1. No item of the layer uses A4.1's or R2.1's triangulation theorems.
 
 ## Layer 5: manifolds with corners, faces and embedded corners
 
@@ -744,13 +747,13 @@ are then closed embedded submanifolds with corners of codimension two.
 
 ### 6.2 Gluing
 
-Define `glue(Σ) = (⊔_j Σ_j)/∼` with `∼` generated by `y ∼ s_ij(y)` for `y ∈ ∂_iΣ_j`, stratified
-over `I` by sending the image of `Σ_j ∖ ⋃_i ∂_iΣ_j` to `j`. Prove: `glue(Σ)` is Hausdorff, compact
-when every `Σ_j` is; its stratum `j` is homeomorphic to `Σ_j ∖ ⋃_i ∂_iΣ_j`; it is conically
-stratified, the link of a point of stratum `i` over `b ∈ Σ_i` being `glue` of the fibre datum
-`(s_ij⁻¹(b))_{j > i}` over `I_{>i}`. Own construction; the gluing follows the déplissage of
-Albin, Leichtnam, Mazzeo and Piazza, §2.3. Route: the relation is closed, since the `∂_iΣ_j` are
-closed and the `s_ij` continuous, and two points are separated by the images of collar
+Define `glue(Σ) = (⊔_j Σ_j)/∼` with `∼` generated by `y ∼ s_ij(y)` for `y ∈ ∂_iΣ_j`, stratified over
+`I` by sending the image of `Σ_j ∖ ⋃_i ∂_iΣ_j` to `j`. Prove: `glue(Σ)` is Hausdorff, compact when
+every `Σ_j` is; its stratum `j` is homeomorphic to `Σ_j ∖ ⋃_i ∂_iΣ_j`; it is conically stratified,
+the link of a point of stratum `i` over `b ∈ Σ_i` being `glue` of the fibre datum
+`(s_ij⁻¹(b))_{j > i}` over `I_{>i}`. Own construction; the gluing is the blowdown of Albin,
+Leichtnam, Mazzeo and Piazza, Proposition 2.3 (§2.2). Route: the relation is closed, since the
+`∂_iΣ_j` are closed and the `s_ij` continuous, and two points are separated by the images of collar
 neighbourhoods `c_ij(∂_iΣ_j × [0, δ))`; near a point of stratum `i` over `b`, local triviality of
 `s_ij` and the collars give a neighbourhood `U × C(glue(s_ij⁻¹(b))_{j>i})`.
 *Needs:* 2.2, 6.1.
@@ -774,7 +777,8 @@ the bound of their properness clause. There are smooth `ε_i : X_i → (0, ∞)`
 `T_i(ε_i) ∩ π_i⁻¹(T_h(ε_h)) ⊆ T_h(ε_h)` for `h < i` (so that `s_ij = π_i` lands in `Σ_i`), such
 that `Σ_j = closure X_j ∖ ⋃_{i<j} T_i(ε_i)`, `∂_iΣ_j = Σ_j ∩ {ρ_i = ε_i ∘ π_i}`, `s_ij = π_i`,
 and collars from the flow of a controlled vector field transverse to the level sets of `ρ_i`
-(§16.1d) form a smooth unfolding datum (Albin, Leichtnam, Mazzeo and Piazza, §2). The control
+(§16.1d) form a smooth unfolding datum (the resolution of Albin, Leichtnam, Mazzeo and Piazza,
+Proposition 2.5 (§2.3)). The control
 conditions give `s_ik = s_ij ∘ s_jk`; the local triviality of tubes, a case of the first isotopy
 lemma (§16.1e), gives local triviality.
 *Needs:* 1.1, 6.1; AlgebraicTopologyPartII §§16.1a, 16.1b, 16.1d, 16.1e.
@@ -804,7 +808,7 @@ lemma (§16.1e), gives local triviality.
 For `X` and `Σ` as in 6.3, `glue(Σ)` is homeomorphic to `X` by a stratum-preserving homeomorphism
 that is the identity on the complement in each `Σ_j` of the images of the collars `c_ij`. For
 conically smooth spaces the analogous resolution is the unzipping of Ayala, Francis and Tanaka,
-Theorem 6.3.8.
+Theorem 7.3.8.
 *Needs:* 6.2, 6.3.
 
 **Checks.**
@@ -862,10 +866,11 @@ For `i ≤ j ≤ k` in a Thom–Mather space over `I` with normalised control da
 `M^j_{ik} = (T_i ∩ closure X_k) ∖ ⋃_{j ≤ l < k} X_l`. Prove: `M^i_{ik} = T_i ∩ X_k` (a point of
 `T_i ∩ closure X_k` lies in a stratum `l` with `i ≤ l` by (A10), the first condition of the
 normalisation, and `l ≤ k` by Convention 1; only (A10) is used here),
-`M^k_{ik} = T_i ∩ closure X_k`, `j ↦ M^j_{ik}` is monotone, and over a small open `U ⊆ X_i`,
-`π_i : M^j_{ik} ∩ π_i⁻¹(U) → U` is trivial with fibre the subset of `C(L_i) ∩ closure X_k`
-obtained by deleting the strata indexed in `[j, k[`, where `C(L_i)` is the cone on the link of
-the local conical structure of AlgebraicTopologyPartII §16.1e. Own construction, after Mather's
+`M^k_{ik} = T_i ∩ closure X_k`, `j ↦ M^j_{ik}` is monotone, and, for a small open ball
+`U ⊆ X_i` and `ε > 0` small as in the local conical structure of AlgebraicTopologyPartII §16.1e,
+`π_i : M^j_{ik} ∩ π_i⁻¹(U) ∩ {ρ_i < ε} → U` is trivial with fibre the subset of
+`C(L_i) ∩ closure X_k` obtained by deleting the strata indexed in `[j, k[`, where `C(L_i)` is the
+cone on the link of that local conical structure. Own construction, after Mather's
 tubes `T_{X,Y}` (Mather, §8).
 *Needs:* 6.3; AlgebraicTopologyPartII §§16.1b, 16.1e.
 
@@ -878,8 +883,15 @@ tubes `T_{X,Y}` (Mather, §8).
   normalisation the first identity fails.
 - The `ℝ²` data of 6.3, `i = 0`, `k = 2`: `M^0_{02} = X₂`, `M^1_{02} = ℝ² ∖ X₁`,
   `M^2_{02} = ℝ²`, increasing.
-- `j = k` deletes nothing: `M^k_{ik} = T_i ∩ closure X_k`, whose fibre over `U` is the whole
+- `j = k` deletes nothing: `M^k_{ik} ∩ {ρ_i < ε}`, whose fibre over `U` is the whole
   `C(L_i) ∩ closure X_k`.
+- The cut `ρ_i < ε` cannot be dropped: on `ℝ` with `X₀ = {0} < X₁ = ℝ ∖ {0}`, take
+  `T₀ = (−1, 1) ∪ (2, 3)`, `π₀ = 0`, `ρ₀ = x²` on `(−1, 1)` and `ρ₀ = x` on `(2, 3)`, and
+  `T₁ = X₁`, normalised with `ε₀ = 1/8` (`{ρ₀ ≤ 1/8} = [−1/√8, 1/√8]` is compact). The link `L₀`
+  is two points. The whole `M^0_{01} = (−1, 0) ∪ (0, 1) ∪ (2, 3)` has three components, against two
+  for `C(L₀)` minus its apex, and `M^1_{01} = T₀` has two against one for `C(L₀)`. With
+  `ε = 1/8`, `M^0_{01} ∩ {ρ₀ < ε} = (−1/√8, 0) ∪ (0, 1/√8)` is `C(L₀)` minus its apex and
+  `M^1_{01} ∩ {ρ₀ < ε} = (−1/√8, 1/√8)` is `C(L₀)`.
 
 ### Examples
 
@@ -980,9 +992,9 @@ stratification in the sense of 1.1.
 - J. Mather, "Notes on topological stability", *Bulletin of the AMS* 49 (2012), 475–506 (Harvard
   notes, 1970): §8 (the tubes `T_{X,Y}`).
 - P. Albin, É. Leichtnam, R. Mazzeo and P. Piazza, "The signature package on Witt spaces",
-  *Annales scientifiques de l'École normale supérieure* 45 (2012), 241–310, §2 (resolution of a
-  Thom–Mather space to a manifold with corners and iterated fibration structure, and its
-  blow-down).
+  *Annales scientifiques de l'École normale supérieure* 45 (2012), 241–310, §2: §2.1 (depth of a
+  stratum), Proposition 2.3 (blowdown of a manifold with corners with iterated fibration structure)
+  and Proposition 2.5 (resolution of a smoothly stratified space).
 - D. Joyce, "On manifolds with corners", in *Advances in Geometric Analysis*, Advanced Lectures in
   Mathematics 21 (2012), 225–258, §2; numbering of arXiv:0910.3518v2: Definition 2.3 (depth),
   Definitions 2.5–2.6 (local boundary components and the boundary `∂X`), Remark 2.11 (manifolds
@@ -991,10 +1003,11 @@ stratification in the sense of 1.1.
   Springer (2013), Theorem 9.25 (the collar theorem).
 - D. Ayala, J. Francis and H. L. Tanaka, "Local structures on stratified spaces", *Advances in
   Mathematics* 307 (2017), 903–1028, doi:10.1016/j.aim.2016.11.032; numbering of
-  arXiv:1409.0501: Theorem 7.3.8 (unzipping).
+  arXiv:1409.0501: Definition 2.4.4 (depth) and Theorem 7.3.8 (unzipping).
 - G. Nocera and M. Volpe, "Whitney stratifications are conically smooth", *Selecta Mathematica
   (N.S.)* 29 (2023), Paper No. 68, doi:10.1007/s00029-023-00877-4; numbering of arXiv:2105.09243:
-  Theorem 1.1 (abstract stratified sets) and Theorem 2.25 (Whitney stratified spaces).
+  Remark 2.21 (two notions of depth), Theorem 1.1 (abstract stratified sets) and Theorem 2.25
+  (Whitney stratified spaces).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §5 ("tame topology"), in *Geometric Galois
   Actions 1*, LMS Lecture Note Series 242 (1997). His notes on stratified spaces are in the
   Montpellier fonds, folder 150, p. 11, https://grothendieck.umontpellier.fr/150.pdf.
