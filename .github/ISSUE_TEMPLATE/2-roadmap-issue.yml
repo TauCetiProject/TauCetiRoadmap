@@ -32,11 +32,13 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
@@ -48,6 +50,7 @@ body:
         - DGAInfinity
         - DGFloer
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - ECM
@@ -56,7 +59,12 @@ body:
         - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -72,17 +80,23 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
         - LFunctions
+        - LieGroupoidsPoisson
         - LocalPurity
+        - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -91,6 +105,7 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -100,10 +115,15 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
         - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
         - RandomMatrices
@@ -114,29 +134,38 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
