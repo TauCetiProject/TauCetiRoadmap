@@ -568,9 +568,10 @@ def IsTamelyRamifiedAt (A B : Type*) [CommRing A] [CommRing B] [Algebra A B]
     ¬ ringChar (A ⧸ P.under A) ∣ P.ramificationIdx A
 
 /-- Tameness is tested at every nonzero prime. For the integer rings of a finite extension of
-nonarchimedean local fields this is Tau Ceti's `TauCeti.IsTamelyRamified`, whose tower and
-divisibility theorems `TauCeti.IsTamelyRamified.tower_bot` and
-`TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one` the README consumes. -/
+nonarchimedean local fields this is Tau Ceti's `TauCeti.IsTamelyRamified`, whose tower theorem
+`TauCeti.isTamelyRamified_tower_iff` (a tower is tame exactly when both steps are) and
+divisibility theorem `TauCeti.IsTamelyRamified.ramificationIndex_dvd_card_residueField_sub_one`
+the README consumes. -/
 def IsTamelyRamified (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] : Prop :=
   ∀ (P : Ideal B) [P.IsPrime], P ≠ ⊥ → IsTamelyRamifiedAt A B P
 
