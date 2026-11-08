@@ -1,5 +1,9 @@
 module
 import Mathlib
+import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
+import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
+import TauCeti.Algebra.AlgebraicGroup.Semisimple.Basic
+import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 /-!
 # Sieve methods and prime patterns: target signatures
@@ -13,17 +17,24 @@ Jutila’s unweighted and weighted real-character means; Linnik's exceptional-pr
 Koymans–Pagano row mean; Vaughan's identity; the uniform small-conductor estimate;
 logarithm-square convolution, variance and congruence-correlation estimates;
 Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters and
-variational growth; and Chen's two theorems. The unconditional prime-distribution statements
-have effective constants, through the exclusion of Landau–Siegel zeros in
-AnalyticNumberTheoryPartI §0.34; a Lean statement records the shape, not the effectivity.
+variational growth; Chen's two theorems; Henk's and Davenport's lattice-point counts; and
+strong approximation for simply connected semisimple groups. The unconditional
+prime-distribution statements have effective constants, through the exclusion of Landau–Siegel
+zeros in AnalyticNumberTheoryPartI §0.34; a Lean statement records the shape, not the
+effectivity.
+
+Finite verifications and numerical records are named propositions, never proved here:
+Maynard's Gram-form values at k = 5 and certificate at k = 105, the admissible tuples of
+diameters 12 and 600, and the two logarithmic evaluations behind Chen's constants. Every theorem
+resting on one of them takes it as an explicit hypothesis.
 
 The finite-character
 Gram bound from lattice discrepancies and binary convex sieve lack the L-domain
 carrier; the weighted general sieve endpoints lack their sieve-function carriers.
-The joint-spin sign-distribution endpoint lacks the ideal spin and generator-domain carriers;
-its analytic chain is supplied by ArithmeticStatisticsPartV §3.30. Affine
-saturation and squarefree expansion lack the word-population and congruence-mixing
-interfaces. Their full statements remain README targets, without proxy predicates.
+The joint-spin chain and its sign-distribution endpoint lack the ideal spin and
+generator-domain carriers. Affine saturation and squarefree expansion lack the word-population
+and congruence-mixing interfaces. Their full statements remain README targets, without proxy
+predicates.
 
 Cutoffs are strict where stated; remainders include the term at one. Inner products are
 conjugate-linear in the first variable. Prime indices start at zero. Almost-primality
@@ -74,6 +85,58 @@ def discriminantValue (D : ℤ) (n : ℕ) : ℝ :=
       else (jacobiSym D p : ℝ)) ^ n.factorization p
 
 end SieveRealCharacters
+
+namespace SieveLattice
+open Module MeasureTheory
+
+/-- Henk's bound: for a discrete full lattice in a real normed space of dimension `d ≥ 2` and a
+centrally symmetric convex body with `0` in its interior, `|L ∩ K| < 2^(d-1) ∏ (⌊2/λ_i⌋ + 1)`,
+with Tau Ceti's zero-based successive minima. The count includes the origin and the boundary. -/
+theorem lattice_count_lt_successive_minima {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hKs : ∀ x ∈ K, -x ∈ K) (hK : (0 : E) ∈ interior (K : Set E))
+    (hd : 2 ≤ finrank ℝ E) :
+    (Nat.card ↥((L : Set E) ∩ (K : Set E)) : ℝ) <
+      2 ^ (finrank ℝ E - 1) * ∏ i, ((⌊2 / ZLattice.successiveMin L K i⌋₊ : ℝ) + 1) := by
+  sorry
+
+/-- A bounded multiplicity function at most `m` whose superlevels `{x | j ≤ w x}`, `1 ≤ j ≤ m`, are
+described by the signs of at most `k` real polynomials of total degree at most `ell`. -/
+structure SemialgebraicMultiset (n m k ell : ℕ) where
+  /-- The multiplicity of each point. -/
+  multiplicity : (Fin n → ℝ) → ℕ
+  bounded_support : Bornology.IsBounded (Function.support multiplicity)
+  multiplicity_le : ∀ x, multiplicity x ≤ m
+  format : ∀ j, 1 ≤ j → j ≤ m →
+    ∃ p : Fin k → MvPolynomial (Fin n) ℝ, (∀ i, (p i).totalDegree ≤ ell) ∧
+      ∃ signs : Set (Fin k → SignType),
+        {x | j ≤ multiplicity x} =
+          {x | (fun i => SignType.sign (MvPolynomial.eval x (p i))) ∈ signs}
+
+/-- The lattice count of a multiplicity function, with multiplicities. -/
+def multisetLatticeCount {n : ℕ} (w : (Fin n → ℝ) → ℕ) : ℝ :=
+  ∑' z : Fin n → ℤ, (w (fun i => (z i : ℝ)) : ℝ)
+
+/-- The volume of a multiplicity function, with multiplicities. -/
+def multisetVolume {n : ℕ} (w : (Fin n → ℝ) → ℕ) : ℝ := ∫ x, (w x : ℝ)
+
+/-- Davenport's estimate, uniform over triangular unipotent changes of coordinates, with the
+error bounded by the proper coordinate-projection volumes of the original support. -/
+theorem davenport_multiset_estimate (n m k ell : ℕ) (hn : 1 ≤ n) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ M : SemialgebraicMultiset n m k ell,
+      ∀ A : Matrix.GeneralLinearGroup (Fin n) ℝ,
+        ((A : Matrix (Fin n) (Fin n) ℝ).IsUpperTriangular ∨
+          (A : Matrix (Fin n) (Fin n) ℝ).IsLowerTriangular) →
+        (∀ i, (A : Matrix (Fin n) (Fin n) ℝ) i i = 1) →
+        |multisetLatticeCount (fun x =>
+            M.multiplicity ((A⁻¹ : Matrix.GeneralLinearGroup (Fin n) ℝ).val.mulVec x)) -
+          multisetVolume M.multiplicity| ≤ C * max 1
+            (sSup {r : ℝ | ∃ s : Finset (Fin n), s.Nonempty ∧ s.card < n ∧
+              r = volume.real ((fun x : Fin n → ℝ => fun i : s => x i) ''
+                Function.support M.multiplicity)}) := by
+  sorry
+
+end SieveLattice
 
 /-! ## Layer 1: Brun and Selberg sieves and polynomial values -/
 
@@ -502,25 +565,98 @@ theorem eventually_log_sub_lt_maynardM :
       Real.log k - 2 * Real.log (Real.log k) - 2 < maynardM k := by
   sorry
 
-/-- The exact rational polynomial witness gives M₅≥1417255/708216>2. -/
+/-- Maynard's corrected Lemma 8.1 in multinomial form:
+`∫_{ℛ_k} (1 - P₁)^a P_j^b = a! b! / (k + a + j b)! · Σ_{b₁+⋯+b_k=b} ∏ (j bᵢ)! / bᵢ!`. -/
+def simplexMoment (k a j b : ℕ) : ℚ :=
+  (a.factorial * b.factorial : ℚ) / (k + a + j * b).factorial *
+    ∑ v ∈ Finset.Nat.antidiagonalTuple k b, ∏ i, ((j * v i).factorial : ℚ) / (v i).factorial
 
-theorem maynardM_five_ge : (1417255 / 708216 : ℝ) ≤ maynardM 5 := by
+/-- The I-entry of Maynard's Lemma 8.2 between the monomials `(1-P₁)^b P₂^c`, `u = (b, c)`. -/
+def maynardGramI (k : ℕ) (u v : ℕ × ℕ) : ℚ :=
+  simplexMoment k (u.1 + v.1) 2 (u.2 + v.2)
+
+/-- The entry of Maynard's Lemma 8.2 for the sum over `m` of the coordinate functionals `J_k^(m)`:
+`k` times the first-coordinate entry. -/
+def maynardGramJ (k : ℕ) (u v : ℕ × ℕ) : ℚ :=
+  k * ∑ c₁ ∈ Finset.range (u.2 + 1), ∑ c₂ ∈ Finset.range (v.2 + 1),
+    (u.2.choose c₁ * v.2.choose c₂ : ℚ) *
+      ((u.1.factorial * (2 * (u.2 - c₁)).factorial : ℚ) / (u.1 + 2 * (u.2 - c₁) + 1).factorial) *
+      ((v.1.factorial * (2 * (v.2 - c₂)).factorial : ℚ) / (v.1 + 2 * (v.2 - c₂) + 1).factorial) *
+      simplexMoment (k - 1) (u.1 + 2 * (u.2 - c₁) + 1 + (v.1 + 2 * (v.2 - c₂) + 1)) 2 (c₁ + c₂)
+
+/-- The exponent pairs `(b, c)` with `b + 2c ≤ D`. -/
+def maynardMonomials (D : ℕ) : Finset (ℕ × ℕ) :=
+  (Finset.range (D + 1) ×ˢ Finset.range (D + 1)).filter fun u => u.1 + 2 * u.2 ≤ D
+
+/-- The quadratic form of a Gram kernel on a finite set of exponent pairs. -/
+def gramForm (G : ℕ × ℕ → ℕ × ℕ → ℚ) (S : Finset (ℕ × ℕ)) (a : ℕ × ℕ → ℚ) : ℚ :=
+  ∑ u ∈ S, ∑ v ∈ S, a u * a v * G u v
+
+/-- The polynomial `Σ_{u ∈ S} a_u (1 - P₁)^b P₂^c` on the simplex, extended by zero. -/
+def maynardPolynomial (k : ℕ) (S : Finset (ℕ × ℕ)) (a : ℕ × ℕ → ℚ) (t : Fin k → ℝ) : ℝ :=
+  if t ∈ maynardSimplex k then
+    ∑ u ∈ S, (a u : ℝ) * (1 - ∑ i, t i) ^ u.1 * (∑ i, t i ^ 2) ^ u.2
+  else 0
+
+/-- Maynard's Lemma 8.2 for `I_k`. -/
+theorem maynardI_maynardPolynomial (k : ℕ) (S : Finset (ℕ × ℕ)) (a : ℕ × ℕ → ℚ) :
+    maynardI k (maynardPolynomial k S a) = (gramForm (maynardGramI k) S a : ℝ) := by
   sorry
 
-/-- The exact rational 42-coefficient witness gives M₁₀₅>4. -/
-
-theorem four_lt_maynardM_105 : 4 < maynardM 105 := by
+/-- Maynard's Lemma 8.2 for the sum of the coordinate functionals `J_k^(m)`. -/
+theorem sum_maynardJ_maynardPolynomial (k : ℕ) (S : Finset (ℕ × ℕ)) (a : ℕ × ℕ → ℚ) :
+    ∑ m, maynardJ k m (maynardPolynomial k S a) = (gramForm (maynardGramJ k) S a : ℝ) := by
   sorry
 
-/-- Infinitely many consecutive prime gaps are at most six hundred. -/
+/-- The coefficients of Maynard's witness (8.16) at `k = 5`:
+`(1-P₁)P₂ + (7/10)(1-P₁)² + (1/14)P₂ - (3/14)(1-P₁)`. -/
+def maynardFiveCoefficients (u : ℕ × ℕ) : ℚ :=
+  if u = (1, 1) then 1 else if u = (2, 0) then 7 / 10 else if u = (0, 1) then 1 / 14
+  else if u = (1, 0) then -3 / 14 else 0
 
-theorem frequently_nth_prime_succ_sub_le_600 :
+/-- Numerical record, assumed: Maynard (8.17), the values of the two Gram forms of the witness
+(8.16) at `k = 5`. -/
+def MaynardFiveRecord : Prop :=
+  gramForm (maynardGramI 5) (maynardMonomials 3) maynardFiveCoefficients = 29509 / 1222452000 ∧
+    gramForm (maynardGramJ 5) (maynardMonomials 3) maynardFiveCoefficients =
+      1417255 / 708216 * (29509 / 1222452000)
+
+/-- Numerical record, assumed: Maynard (8.15), a rational witness on the 42 monomials with
+`b + 2c ≤ 11` whose ratio exceeds four at `k = 105`. -/
+def MaynardCertificate105 : Prop :=
+  ∃ a : ℕ × ℕ → ℚ, 0 < gramForm (maynardGramI 105) (maynardMonomials 11) a ∧
+    4 * gramForm (maynardGramI 105) (maynardMonomials 11) a <
+      gramForm (maynardGramJ 105) (maynardMonomials 11) a
+
+/-- Numerical record, assumed: an admissible set of 105 natural numbers in `[0, 600]`
+(Maynard, footnote 2). -/
+def Admissible105Diam600 : Prop :=
+  ∃ H : Finset ℕ, H.card = 105 ∧ IsAdmissible H ∧ ∀ h ∈ H, h ≤ 600
+
+/-- Numerical record, assumed: an admissible set of 5 natural numbers in `[0, 12]`
+(Maynard, proof of Theorem 1.4). -/
+def Admissible5Diam12 : Prop :=
+  ∃ H : Finset ℕ, H.card = 5 ∧ IsAdmissible H ∧ ∀ h ∈ H, h ≤ 12
+
+/-- Under the record (8.17), the witness (8.16) gives M₅ ≥ 1417255/708216 > 2. -/
+theorem maynardM_five_ge (h : MaynardFiveRecord) : (1417255 / 708216 : ℝ) ≤ maynardM 5 := by
+  sorry
+
+/-- Under the certificate (8.15), M₁₀₅ > 4. -/
+theorem four_lt_maynardM_105 (h : MaynardCertificate105) : 4 < maynardM 105 := by
+  sorry
+
+/-- Infinitely many consecutive prime gaps are at most six hundred, from the certificate at
+`k = 105` and an admissible 105-tuple of diameter at most 600. -/
+theorem frequently_nth_prime_succ_sub_le_600 (hM : MaynardCertificate105)
+    (hH : Admissible105Diam600) :
     ∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 1) - Nat.nth Nat.Prime n ≤ 600 := by
   sorry
 
-/-- Assuming Elliott–Halberstam, the consecutive and three-prime diameters are bounded. -/
-
-theorem elliottHalberstam_gaps (hEH : ElliottHalberstam) :
+/-- Assuming Elliott–Halberstam and the four numerical records, the consecutive and three-prime
+diameters are bounded. -/
+theorem elliottHalberstam_gaps (hEH : ElliottHalberstam) (hM5 : MaynardFiveRecord)
+    (hM : MaynardCertificate105) (hH5 : Admissible5Diam12) (hH : Admissible105Diam600) :
     (∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 1) - Nat.nth Nat.Prime n ≤ 12) ∧
       ∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 2) - Nat.nth Nat.Prime n ≤ 600 := by
   sorry
@@ -548,18 +684,88 @@ end SieveMaynard
 namespace SieveWeighted
 attribute [local instance] Classical.propDecidable
 
-/-- Every sufficiently large even integer has quantitatively many prime-plus-P₂ representations; the P₂ factor is not a unit. -/
+/-- Numerical record, assumed: Chen (24), the logarithmic envelope of the switched-triple
+integral on the subintervals with endpoints `(16 - i)/10` is below `0.49255`. -/
+def ChenUpperEnvelope : Prop :=
+  (∑ i ∈ Finset.range 7,
+    ((Real.log ((16 - i : ℝ) / 10) + (4 + i : ℝ) / (16 - i)) *
+        Real.log ((108 + 23 * i - (i : ℝ) ^ 2) / (78 + 23 * i - (i : ℝ) ^ 2)) -
+      3 / ((16 - i : ℝ) / 10) * Real.log ((27 - i : ℝ) / (26 - i)))) < 0.49255
 
-theorem chen_goldbach : ∃ c : ℝ, 0 < c ∧ ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Even N →
+/-- Numerical record, assumed: Chen (26)–(27), the lower constant exceeds `2.6408`. -/
+def ChenLowerConstant : Prop :=
+  2.6408 < 8 * (Real.log 4 - Real.log 8 / 2 +
+    (1 / 2 + 3 / 4 * Real.log (9 / 8) - 3 / 2 * Real.log (4 / 3) - 1 / 4 * Real.log 2))
+
+/-- Under the two numerical records, every sufficiently large even integer has quantitatively many
+prime-plus-P₂ representations; the P₂ factor is not a unit. -/
+theorem chen_goldbach (hU : ChenUpperEnvelope) (hL : ChenLowerConstant) :
+    ∃ c : ℝ, 0 < c ∧ ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Even N →
     c*N/(Real.log N)^2 ≤ (((Finset.Icc 2 (N-2)).filter
       (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (N-p) ∧ ArithmeticFunction.cardFactors (N-p) ≤ 2)).card : ℝ) := by sorry
 
-/-- For a fixed positive even shift, quantitatively many primes have a nonunit P₂ translate. -/
-
-theorem chen_prime_shift (h : ℕ) (hh : 0 < h) (hh2 : Even h) : ∃ c : ℝ, 0 < c ∧ ∃ x₀ : ℕ,
+/-- Under the two numerical records, for a fixed positive even shift, quantitatively many primes
+have a nonunit P₂ translate. -/
+theorem chen_prime_shift (hU : ChenUpperEnvelope) (hL : ChenLowerConstant)
+    (h : ℕ) (hh : 0 < h) (hh2 : Even h) : ∃ c : ℝ, 0 < c ∧ ∃ x₀ : ℕ,
     ∀ x : ℕ, x₀ ≤ x → c*x/(Real.log x)^2 ≤ (((Finset.Icc 1 x).filter
       (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (p+h) ∧ ArithmeticFunction.cardFactors (p+h) ≤ 2)).card : ℝ) := by sorry
 
 end SieveWeighted
+
+namespace SieveStrongApproximation
+open IsDedekindDomain NumberField
+
+variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
+
+/-- The coarsest topology on points with values in a topological algebra making every
+evaluation continuous; scoped, so that it does not compete with other point topologies. -/
+scoped instance evaluationTopology (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
+    TopologicalSpace (WithConv (H →ₐ[F] R)) :=
+  ⨅ h : H, TopologicalSpace.induced (fun x => x.ofConv h) inferInstance
+
+variable [NumberField F]
+
+/-- Adelic points of `Spec H`. -/
+abbrev AdelicPoints := WithConv (H →ₐ[F] NumberField.AdeleRing (𝓞 F) F)
+
+/-- Finite adelic points of `Spec H`. -/
+abbrev FiniteAdelicPoints := WithConv (H →ₐ[F] FiniteAdeleRing (𝓞 F) F)
+
+/-- Archimedean points of `Spec H`. -/
+abbrev InfinitePoints := WithConv (H →ₐ[F] NumberField.InfiniteAdeleRing F)
+
+/-- Points of `Spec H` over the completion at a finite place. -/
+abbrev LocalPoints (v : HeightOneSpectrum (𝓞 F)) := WithConv (H →ₐ[F] v.adicCompletion F)
+
+/-- The rational diagonal in the adelic points. -/
+def diagonal : WithConv (H →ₐ[F] F) →* AdelicPoints F H :=
+  AlgHom.mapValue (Algebra.ofId F _)
+
+/-- Projection of adelic points to finite adelic points. -/
+def finiteProjection : AdelicPoints F H →* FiniteAdelicPoints F H :=
+  AlgHom.mapValue (AlgHom.snd F _ _)
+
+/-- Strong approximation with respect to `∞ ∪ S_f`: rational points times the adelic points
+trivial at every finite place outside `S_f` are dense in the adelic points. -/
+def HasStrongApproximation (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
+  Dense {x : AdelicPoints F H | ∃ g : WithConv (H →ₐ[F] F), ∃ y : AdelicPoints F H,
+    (∀ v ∉ Sf, ∀ h : H,
+      (finiteProjection F H y).ofConv h v = (1 : FiniteAdelicPoints F H).ofConv h v) ∧
+    x = diagonal F H g * y}
+
+/-- A connected semisimple simply connected group has strong approximation with respect to
+`∞ ∪ S_f` when every nontrivial semisimple quotient, given by an injective Hopf map whose scalar
+map is not surjective, has noncompact points over `∞ ∪ S_f`. -/
+theorem hasStrongApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sf : Finset (HeightOneSpectrum (𝓞 F)))
+    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
+      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
+        ¬ IsCompact (Set.univ : Set (InfinitePoints F Q.obj × ∀ v : Sf, LocalPoints F Q.obj v))) :
+    HasStrongApproximation F (G.obj : Type) Sf := by
+  sorry
+
+end SieveStrongApproximation
 
 end TauCetiRoadmap.SieveMethodsAndPrimePatterns

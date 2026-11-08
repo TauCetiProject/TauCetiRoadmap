@@ -10,13 +10,15 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. ErdosProgressionPowers §3.1 owns the uniform Gram-row, maximum-row and diagonal/off-diagonal inequalities; the weighted denominator inequality here is stronger and remains a target.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 owns fixed-model Lang–Weil. GeometryOfNumbersAndQuadraticArithmetic §4.1 owns general lattice counting, and AdelicAlgebraicGroups §4.2 owns algebraic-group strong approximation. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a), the uniform and fixed-model Lang–Weil estimates (§5.4), and adelic points with strong approximation for simply connected semisimple groups (§5.3a). The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
-AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. ArithmeticStatisticsPartV §3.30, “Conditional joint-spin prime bound”, owns the arithmetic setup, unit-averaged sequence, generator independence, Type I and Type II estimates and prime-ideal cancellation. Layer 5 retains the general short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; it does not reconstruct the supplied joint-spin chain.
+AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
 
 The tuple W-trick here is a construction for Maynard weights. Layer 5 states the conjectural short-character input Cₘ and its reduced-conductor progression consequence; every spin conclusion retains Cₘ as a hypothesis. Elliott–Halberstam, the prime-tuple conjecture, Bouniakowsky and Schinzel H remain named conjectures. The general affine endpoint uses lazy walks on the same group whose squarefree congruence expansion is assumed. The explicit free-tree bound separately requires mixing for its chosen free subgroup.
 
-The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4; rational-point strong approximation in AdelicAlgebraicGroups §4.2 is consumed only at its stated strength. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments are consumed within ArithmeticStatisticsPartV §3.30's conditional joint-spin theorem and have no second construction here.
+The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4, and rational-point strong approximation to §5.3a. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
+
+Finite verifications and numerical records are never computed here. Each one a theorem rests on — Maynard's variational witnesses, the admissible tuples of diameters 12 and 600, and the two logarithmic evaluations behind Chen's constants — is a named proposition (§§4.6 and 5.5) and an explicit hypothesis of every theorem that uses it.
 
 ## Conventions
 
@@ -76,38 +78,13 @@ Use §3.22 for the summatory divisor bound and §3.24, `zetaFourthMoment.divisor
 
 Use §5.29 for the odd-squarefree quadratic large sieve and its primitive-real and square-pair versions: for every ε>0 the constant is uniform in M,N≥1 and all complex coefficients. Both odd squarefree ranges include 1; the square-pair version retains all pairs whose product is square. For M=1,N=3 and a₁=1,a₃=−1 the squared sum is 0 and energy is 2; with a₃=1 they are 4 and 2.
 
-### From TauCetiRoadmap.ArithmeticStatisticsPartV
-
-Use §3.30, “Conditional joint-spin prime bound”, with a fixed finite Galois K/ℚ of degree n, nonempty inverse-disjoint S, the positive-unit square hypothesis in the totally real case, and its fixed class representatives, modulus F and unit-square-invariant residue weight ψ. It supplies the unit-averaged ideal sequence, generator independence, Type I uniformly in every nonzero ideal m, Type II for coefficients bounded by 1, and prime cancellation under C_(|S|n). The Type I saving is δ/(54n|S|²), the Type II exponents are 1/(6n), and prime cancellation saves δ/[54|S|²n(12n+1)]. The totally complex sequence retains every torsion/free-unit coset; constants depend on fixed ψ and auxiliary choices. At n=3,|S|=1,δ=1 the prime saving is 1/5994; ψ=0 gives the zero sequence; an involution cannot belong to S.
-
-For the supplied kernel reciprocity comparison, write Φ(α,β)=∏_(σ∈S)(α/[σ(β)σ⁻¹(β)])_(K,2). When the exchanged kernels are nonzero, the factor in Φ(α,β)=ε(α,β)Φ(β,α) is ∏_(σ∈S,v|2∞)(α,σ(β))_v(α,σ⁻¹(β))_v. A shared odd denominator prime makes both exchanged kernels zero. On totally positive generator domains the infinite factors are 1; for totally complex fields there are no real factors (KM-21 §4, (4.3), properties (P1)–(P3), lines 1238–1276; FIMR-13 Lemma 2.1).
-
-**Checks.**
-
-- In ℚ(t), t³+t²−2t−1=0, with σ(t)=t²−2, S={σ}, α=1+8t and β=1+16σ(t), the norms are 377=13·29 and 3569=43·83. Choose the two ideal-class representatives over 41 and 71; their resulting F is coprime to both norms. Both residues are 1 modulo 8, but Φ(α,β)=1 and Φ(β,α)=−1. The dyadic factors are 1 and the infinite factor is −1, giving 1=(−1)(−1).
-- In that field Φ(α,1)=Φ(1,α)=1. Residue data alone would assign the same exchange sign to this pair and the preceding pair.
-- With α=β=3, both kernels vanish. Cancelling a kernel without its nonvanishing hypothesis would be invalid.
-
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-Use GeometryOfNumbersAndQuadraticArithmetic §4.1 for its Henk and Davenport bounds. Curvature-uniform errors belong to §0.11; the sliced-domain and codimension-two estimates used by joint spins belong to ArithmeticStatisticsPartV §3.30.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-AdelicAlgebraicGroups §4.2 supplies strong approximation for algebraic-group rational points; the finitely generated subgroup theorem and finite-ring expansion inputs belong to §5.4.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 supplies fixed-model Lang–Weil; the uniform finite-presentation version is a §5.4 target.
-
 ### From TauCetiRoadmap.IntegralLattices
 
 IntegralLattices Layers 0 and 3 supply even-bilinear half-norms and integral local GL₂ changes, including dyadic cases; Layer 0 here supplies the residue bijections.
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
-GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. The conductor-prime norm counts are constructed in §0.9.
+GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. Layer 1 supplies weak approximation for the field, and Layer 6 the adele ring with additive strong approximation, used in §5.3a. The conductor-prime norm counts are constructed in §0.9.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -141,6 +118,26 @@ Isoperimetry I2 supplies convex-body isoperimetry.
 
 RiemannianGeometry R4.9.6a supplies signed planar turning and the tangent-angle comparison for smooth Jordan curves. Their specialization and C² approximation give the curvature-to-area comparison of §1.4.
 
+### From TauCetiRoadmap.SuccessiveMinima
+
+SuccessiveMinima 1.2 `finite_gauge_sublevel` and 1.11 `exists_integral_minimum_flag` supply finiteness of gauge sublevels and an integral basis whose flag contains the strict sublevels of the successive minima. Tau Ceti supplies `ZLattice.successiveMin` (zero-based), `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin` in `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`. §0.11a uses them for Henk's count.
+
+### From TauCetiRoadmap.RealAlgebraicGeometry
+
+[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md) Layers 5–6 supply Collins projection, cylindrical algebraic decomposition and quantifier elimination over ℝ. §0.11a derives from them the fibre-component bound of Davenport's estimate, uniform in the number and degrees of the defining polynomials.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.8 `generic_fibre_spreading` and `fibre_locus_constructible` spread geometric irreducibility and dimension from the generic fibre to the fibres over a dense open; §5.11 `weil_bound` bounds the points of a smooth proper geometrically integral curve over a finite field; §5.12 `bezout_inequality` bounds the degrees of the components of an intersection. The Lang–Weil estimates of §5.4 rest on them.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+AlgebraicCurves supplies function fields of curves over a field, their places, genus and Riemann–Roch; §5.4 counts points of a geometrically irreducible curve through its smooth projective model.
+
+### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
+
+ReductiveGroups Layers 6–7a supply semisimple and simply connected groups, their almost simple factors and Lang's theorem over finite fields. ReductiveGroupsPartII RG2.0 supplies the topology on points over a local field and RG2.3 reductive models; RG2.4 supplies `Decomposition.kneserTits_local` and `eq_top_of_finiteIndex`: an isotropic simply connected absolutely almost simple group over a nonarchimedean local field is generated by its unipotent radicals and has no proper subgroup of finite index. Tau Ceti supplies `TauCeti.SemisimpleCommHopfAlgCat`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` and `AlgHom.mapValue` for points of Hopf algebras. §5.3a uses them for strong approximation.
+
 ### Short-character conjecture owned in Layer 5
 
 For each integer m≥3, Cₘ asserts that some δ(m)>0 has this property: for every ε>0 there is C(m,ε)>0 such that every integer Q≥3, real nonprincipal Dirichlet character χ of modulus 1<q≤Q, integer interval origin M and integer length 0≤N≤Q^(1/m) satisfy
@@ -153,7 +150,7 @@ This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conject
 
 ## How to read the build
 
-Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, exact variational certificates and admissible tuples. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
+Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, the variational quantity and admissible tuples; its numerical inputs are named hypotheses. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
 
 
 
@@ -945,7 +942,7 @@ The definition exposes the following operations and laws:
 
 `|#(a⁻¹(E−v)∩ℤ²)−area(E)/a²| ≤ C(R/a)^θ`.
 
-Fix whether the boundary belongs to E. Keep that convention in every count. Prove the C² bound with θ=2/3+ε for each ε>0, and the ellipse bound θ=131/208+ε with the C³ regularity and uniformity of the cited estimate (KHAYUTIN-19, Definition 9.4 and Remark 9.5, p.222). This is the analytic lattice-discrepancy theorem, beyond the Henk and Davenport counts consumed from GeometryOfNumbersAndQuadraticArithmetic §4.1.
+Fix whether the boundary belongs to E. Keep that convention in every count. Prove the C² bound with θ=2/3+ε for each ε>0, and the ellipse bound θ=131/208+ε with the C³ regularity and uniformity of the cited estimate (KHAYUTIN-19, Definition 9.4 and Remark 9.5, p.222). This is the analytic lattice-discrepancy theorem, beyond the Henk and Davenport counts of §0.11a.
 
 The definition's API consists of:
 
@@ -961,6 +958,55 @@ The definition's API consists of:
 - At a=2 the unit disk has scaled area π/4<1, so the defining estimate makes no assertion there. The scaled open disk nevertheless has count 1 and error 1−π/4; this prevents using the law outside its area range.
 
 *Needs:* Mathlib planar volume and finite lattice counts; RiemannianGeometry R4.9.6a signed planar turning for the curvature convention; the analytic lattice-counting bounds at KHAYUTIN-19 Remark 9.5, p.222, with their stated regularity.
+
+### 0.11a lattice-point counts by successive minima and by volume
+
+Throughout this subsection E is a real normed space of finite dimension d, L⊆E a discrete full ℤ-lattice, K a convex body with 0 in its interior, and λ_i=`ZLattice.successiveMin L K i` for zero-based i<d. Counts are natural cardinals and include boundary points and the origin. Symmetry of K is imposed only where stated.
+
+**Henk's lattice-point bounds.** Prove, in this order:
+
+- *Index count.* For an additive commutative group G, a finite-index subgroup N, a finite T⊆G and any S⊆G such that x,y∈S and x−y∈N imply x−y∈T, |S|≤[G:N]·|T|. No finiteness of S is assumed.
+- *Sublattice count.* For K symmetric and M≤L of finite nonzero index m=[L:M], |L∩K|≤m·|M∩2K|; in coordinates with full M, m=covol(M)/covol(L).
+- *Congruence-free count.* If G has a ℤ-basis of n elements, q≥1, and no two distinct elements of S⊆G differ by an element of qG, then |S|≤qⁿ.
+- *First-minimum bound.* For K symmetric and d≥1, |L∩K|≤(⌊2/λ₀⌋+1)^d.
+- *Divisible rounding.* For positive antitone q:Fin d→ℕ there is n with q_i≤n_i, n_i=q_i at the last index, n_i<2q_i at earlier indices, and n_j|n_i for i≤j; for d≥2, ∏n_i<2^(d−1)∏q_i.
+- *Successive-minima bound.* Prove `SieveLattice.lattice_count_lt_successive_minima`: for K symmetric and d≥2, |L∩K|<2^(d−1)∏_(i<d)(⌊2/λ_i⌋+1).
+
+([HENK-02](#references), Theorem 1.5, inequality (1.3), Lemma 2.1 and (2.1)–(2.5), pp.2–5.)
+
+*Proof sketch.* The index count injects S into the finite set (G/N)×T after fixing one representative per coset. For the sublattice count, two points of L∩K in one coset of M differ by a point of M∩2K, by symmetry and convexity. The congruence-free count is the index count with N=qG, of index qⁿ. For the first-minimum bound take q=⌊2/λ₀⌋+1, so 2/q<λ₀ and qL∩2K={0}; apply the sublattice count to M=qL. For the successive-minima bound take the integral basis b of SuccessiveMinima 1.11, put q_i=⌊2/λ_i⌋+1 (antitone because the minima increase), round to n_i as above and let M be spanned by the n_ib_i. Its index is ∏n_i, and M∩2K={0}: at the largest index with a nonzero coordinate, that coordinate is a nonzero multiple of n_i, and the flag property with 2/n_i<λ_i forbids the point from 2K. The sublattice count and the rounding product give the strict bound.
+
+**Checks.**
+
+- The standard unit square has 9 lattice points and 9<2·3·3=18; a rectangle with minima (1,3) has 3 points and 3<6.
+- In dimension one, L=ℤ and K=[−1,1] have 3 points and 2⁰·(⌊2/1⌋+1)=3, so the strict bound fails: d≥2 is needed.
+- For N={0} in ℤ the natural index is 0 although |{0}|=1; the index count needs finite index.
+
+*Needs:* Tau Ceti `ZLattice.successiveMin`, `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin`; SuccessiveMinima 1.2 `finite_gauge_sublevel` and 1.11 `exists_integral_minimum_flag`; Mathlib `Subgroup.relIndex`, `ZLattice.covolume_div_covolume_eq_relIndex'`, `index_range_nsmul`, `Module.Basis.flag`, `Module.Basis.mem_flag_iff_repr_eq_zero`, `midpoint_mem_segment`.
+
+**Davenport's lattice-point estimate.** For n≥1 and H≥1, let E⊆ℝⁿ be closed and bounded such that E, and each of its orthogonal projections onto a coordinate subspace, meets every line parallel to a coordinate axis in at most H intervals or points. Prove
+
+`|#(E∩ℤⁿ)−vol(E)| ≤ Σ_(j=0)^(n−1) H^(n−j) V_j`,
+
+where V_j is the sum of the j-dimensional volumes of the projections of E onto the coordinate subspaces of dimension j, and V₀=1. Prove the same bound for #(A(E)∩ℤⁿ), with the projection volumes of the original E, for every upper or lower triangular real matrix A with unit diagonal. For a bounded set whose superlevels are Boolean combinations of at most k polynomial sign conditions of degree at most ℓ, prove that the fibre-component bound holds with H depending only on (n,k,ℓ), also for half-open endpoints.
+
+Define `SieveLattice.SemialgebraicMultiset n m k ell`: a multiplicity μ:ℝⁿ→ℕ with bounded support, μ≤m, and for every 1≤j≤m a description of {μ≥j} by the signs of at most k real polynomials of total degree at most ell; its superlevels are semialgebraic in the sense of Tau Ceti's `TauCeti.IsSemialgebraic`. Define `SieveLattice.multisetLatticeCount μ`=Σ_(z∈ℤⁿ)μ(z) and `SieveLattice.multisetVolume μ`=∫μ, both additive and equal to the sums over superlevels. Prove `SieveLattice.davenport_multiset_estimate`: there is C(n,m,k,ell) with
+
+`|multisetLatticeCount(μ∘A⁻¹)−multisetVolume(μ)| ≤ C·max(1, max_(0<j<n) vol_j(proj_j supp μ))`
+
+for every such μ and every triangular unipotent A; for n=1 the inner maximum is empty and the bound is C.
+
+([DAVENPORT-51](#references), the theorem and its induction, pp.179–183, with the 1964 correction, p.580.)
+
+*Proof sketch.* Induct on n. Apply the (n−1)-dimensional estimate to each slice of E at a fixed last coordinate and integrate; separately replace integration in that coordinate by summation, at a cost of at most H times the indicator of the projection onto the remaining coordinates, and apply induction to that projection. Adding the two estimates gives each proper coordinate subset the weight H^(n−j). The base case counts endpoints and isolated points. For a shear, translate the last coordinate by a linear function of the earlier ones in the same induction; the fibre bound is uniform over translated fibres, and the projection terms remain those of E. For bounded format, a cylindrical decomposition adapted to the k defining polynomials has a number of cells bounded in terms of (n,k,ℓ), and its projections are again of bounded format (the 1964 correction replaces the claim that projections are cut out by boundedly many inequalities). Sum over the m superlevels for the multiset estimate.
+
+**Checks.**
+
+- For [0,N] with N a nonnegative integer the count minus the length is 1, including N=0; a volume-only error fails.
+- The unit square sheared by (x,y)↦(x,y+Mx) has 4 lattice points for every integer M, and its coordinate projections keep length one.
+- Arbitrarily many isolated points violate every fixed fibre bound although their volume is zero.
+
+*Needs:* RealAlgebraicGeometry Layers 5–6 cylindrical decomposition and projection; Tau Ceti `TauCeti.IsSemialgebraic`; Mathlib `MeasureTheory.integral_prod`, `MvPolynomial.totalDegree`, `Matrix.IsUpperTriangular`.
 
 ### Construction requirements
 
@@ -982,7 +1028,7 @@ Q=x₀² modulo 9 has three x₀ values and nine x₁ values, giving ρ_Q(9)=27.
 
 ### Dependencies
 
-External inputs: AnalyticNumberTheoryPartI §3.26; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; GlobalNumberFields Layer 11 orders and Picard groups; IntegralLattices Layers 0 and 3 half-norms and integral local classification.
+External inputs: AnalyticNumberTheoryPartI §3.26; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; GlobalNumberFields Layer 11 orders and Picard groups; IntegralLattices Layers 0 and 3 half-norms and integral local classification; SuccessiveMinima Layer 1 and Tau Ceti `ZLattice.successiveMin` for §0.11a; RealAlgebraicGeometry Layers 5–6 for §0.11a.
 
 ## Layer 1: Brun and Selberg sieves and polynomial values
 
@@ -1284,7 +1330,7 @@ Q mod p nonzero for every p<z; the stated convex C² geometry; L-domain input; �
 
 *Proof sketch.* Set b=max(5,7−2θ), so 5≤b<7, and w=z^(5/b)≤z. The curvature-to-area comparison gives w²≤√A, and R^θw^b=R^θz⁵≤A. The finite-character Gram bound is at most (1+3Cₗ)A, since N≤A+CₗR^θ and w≥1. For coefficients masked to the survivors, finite Parseval and Cauchy–Schwarz at a prime p give nontrivial-character energy at least ρ_Q(p)/(p²−ρ_Q(p)) times the squared survivor count. Iterate this inequality over squarefree moduli by CRT; this tensor calculation is part of this proof. A full local bad set makes the survivor count zero and is handled first. Otherwise the resulting denominator H includes d=1, hence H≥1; the character bound gives S(w)²H≤(1+3Cₗ)A S(w). Handle S(w)=0 separately and cancel only a positive count, then use the Euler denominator at w, retaining only primes p<w. The rough-point count at z is at most that at w. The Euler cutoff comparison with s=b/5≤7/5 bounds the latter product by C_degree·s^degree times the product at z. For 1<w<2 the only modulus is one and H=1, so exactly the same Euler-product comparison applies. Thus the full result has constants depending only on degree and Cₗ, for every 0<θ≤2.
 
-*Needs:* Layer 1 §1.4 finite-character Gram bound from lattice discrepancies; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.7 binary polynomial local densities; Layer 0 §0.7 binary schwartz–zippel specialization; Layer 1 §1.4 binary sieve euler denominator; ErdosProgressionPowers §3.1 uniform Gram-row inequality; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 finite-character Gram bound from lattice discrepancies; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.7 binary polynomial local densities; Layer 0 §0.7 binary schwartz–zippel specialization; Layer 1 §1.4 binary sieve euler denominator; ErdosProgressionPowers §3.1 uniform Gram-row inequality; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Binary polynomial sieve at power level.** If A≥1, R^θ≤A^(1−η), 0<η<1/2, θ∈(0,2], and 1≤z≤A^ς for fixed ς>0, the positive-value rough-point count is ≤C `A∏_{deg Q<p<z}(1−ρ_Q(p)/p²),` with C depending only on degree,C_l,η,ς. Content primes below z give an empty sifted set.
 
@@ -1294,7 +1340,7 @@ L(C_l,θ) domain; polynomial nonzero; η∈(0,1/2); ς>0; positive Q-values.
 
 *Proof sketch.* Apply the safe-cutoff large sieve at z₀=min(z,A^(η/5)); since η<1/2 this also satisfies z₀≤A^(1/4). The rough-point set decreases as the cutoff increases. Compare Euler products with s=max(1,5ς/η), retaining all constant dependence. Handle bounded area directly.
 
-*Needs:* Layer 1 §1.4 binary-form large sieve on convex domains; Layer 1 §1.4 binary sieve cutoff comparison; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 binary-form large sieve on convex domains; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Binary sieve with divisibility conditions.** For A≥1, R^θ≤A^(1−3η), η∈(0,1/2), θ∈(0,2], a≥1 with a≤A^η, and 1≤z≤A^ς, the count of points with a|Q, gcd(a,Q/a)=1 and Q/a positive and z-rough is at most C Aρ̃_Q(a)/a² times `∏_{deg Q<p<z,p∤a}(1−ρ_Q(p)/p²).` Without the gcd condition use ordinary ρ_Q(a).
 
@@ -1304,7 +1350,7 @@ L-domain as above; positive quotient; integer a≥1; fixed ς>0.
 
 *Proof sketch.* Split into the zero residue classes modulo a and rescale the domain by a. The gcd condition removes precisely the classes with maximal singular lifts, leaving corrected density; removing the condition retains every zero class. At primes not dividing a the translated quotient polynomial has the same local count. Check the rescaled area and radius inequalities before applying the level theorem.
 
-*Needs:* Layer 0 §0.7 curve lifting and singular correction; Layer 1 §1.4 binary polynomial sieve at power level; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 0 §0.7 curve lifting and singular correction; Layer 1 §1.4 binary polynomial sieve at power level; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Multiplicative decoupling inequality.** For nonnegative multiplicative native arithmetic functions g,ψ, h=ζ*ψ, integer Z≥1 and prime-power tails `Σ_{j≥v}g(p^j)` summable, `Σ_{a≤Z}g(a)h(a)≤Σ_{a≤Z}g(a)·∏_{p≤Z}[1+Σ_{1≤v≤floor(log` Z/log `p)}ψ(p^v)Σ_{j≥v}g(p^j)].` A finite-tail version with the full admissible exponent cutoff avoids unnecessary convergence assumptions.
 
@@ -1358,7 +1404,7 @@ Positive Q-values explicitly required because f is defined on naturals; every an
 
 **Analytic proof requirement.** The ordinary-density R₂ estimate used in Khayutin Theorem 9.7, equation (47), p.233, does not follow from the corrected-density hypothesis: Q=x₀² has ρ_Q(p²)=p³. The named conclusion here is a construction objective requiring a valid replacement for that R₂ estimate at precisely these hypotheses. Its congruence consequences also require that replacement. An additional ordinary-density hypothesis would give a separately scoped theorem, not discharge this objective.
 
-*Needs:* Layer 1 §1.4 binary sieve with divisibility conditions; Layer 1 §1.4 average absorption of the density correction; Layer 1 §1.4 large smooth-factor saving; Layer 1 §1.4 extremely smooth-factor saving; Layer 1 §1.4 binary sieve cutoff comparison; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 binary sieve with divisibility conditions; Layer 1 §1.4 average absorption of the density correction; Layer 1 §1.4 large smooth-factor saving; Layer 1 §1.4 extremely smooth-factor saving; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Binary sieve with a fixed divisor.** For k₀≥1, the binary multiplicative sieve bounds `Σ_{k₀|Q}f(Q/k₀)` by C′A times the Euler product over deg Q<p≤X/k₀ excluding content primes and p|k₀, times `Σ_{a≤X/k₀}` f(a)ρ̃_Q(k₀a)/(k₀a)². Require the rescaled curvature inequality (R/k₀)^θ≤(A/k₀²)^(1−3η), X≤A^δ k₀^(1−2δ), positive quotients, and the same fixed parameters. Constants are independent of k₀.
 
@@ -1409,7 +1455,7 @@ where e=v_p(k₀) and j=v_p(a). The zero-exponent factors are ordinary densities
 - In the short-modulus estimate, k₀=1 gives n=a and the ordinary divisibility sieve. For Q=x₀² and n=2, gcd(2,Q/2)=1 is impossible, and ρ̃_Q(2)=0; for n=4 the permitted first coordinates are 2 modulo 4 and ρ̃_Q(4)=4. Thus replacing the corrected density by a smooth-only count would lose nonempty populations.
 - For B=4096,η=1/6,θ=1 and a=4=B^η, the rescaled area is 256 and the radius bound is (R/n)≤16≤256^(5/6). The cutoff exponent changes from ς to 3ς/2, since 4096^ς=256^(3ς/2). Values with c>4 are outside this short-modulus range.
 
-*Needs:* Layer 1 §1.4 binary multiplicative-function sieve and its factor-range estimates with the stated valuation restrictions; Layer 1 §1.4 binary polynomial sieve at power level and binary sieve with divisibility conditions for the short-modulus estimate; Layer 0 §0.7 curve lifting and singular correction; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 binary multiplicative-function sieve and its factor-range estimates with the stated valuation restrictions; Layer 1 §1.4 binary polynomial sieve at power level and binary sieve with divisibility conditions for the short-modulus estimate; Layer 0 §0.7 curve lifting and singular correction; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Binary sieve with a unit congruence.** For k₀,k₁,k₂≥1, prime support(k₁)⊆prime support(k₂), gcd(k₀,k₂)=1, k₀k₁k₂≤A^(η/2), ℓ a unit modulo k₂, R^θ≤A^(1−4η), X≤A^(δ/2), the sum of f(Q/k₀) restricted by Q≡k₀k₁ℓ mod k₀k₁k₂ is bounded by C′A f(k₁)ρ_Q(k₀k₁ℓ;k₁k₂)/(k₁k₂)² times the Euler product to X/(k₀k₁) excluding content primes and p|k₀k₂, times `Σ_{a≤X/(k₀k₁),gcd(a,k₂)=1}` f(a)ρ̃_Q(k₀a)/(k₀a)². Here `ρ_Q(t;k)=ρ_{Q−t}(k).`
 
@@ -1425,7 +1471,7 @@ All main-sieve hypotheses and displayed strengthened restrictions; positive quot
 - For Q=x₀,k₀=1,k₁=k₂=2,ℓ=1, a selected class gives Q₁=2u+1. Its densities at 2 vanish, while at 3 it has ρ̃_(Q₁)(3)=3, equal to Q's density.
 - For Q=x₀,k₀=2,k₁=k₂=3,ℓ=1, choose x₀=9u+6. Then Q₁=3u+2 and, when 2|Q₁, Q₁/2 is a unit modulo 3. At u=0 the identity for multiplicative f reads f(3)=f(3)f(1).
 
-*Needs:* Layer 1 §1.4 binary sieve with a fixed divisor; Layer 0 §0.7 binary polynomial local densities; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 binary sieve with a fixed divisor; Layer 0 §0.7 binary polynomial local densities; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 ### 1.5 Brun's sieve for polynomial vectors
 
@@ -1559,7 +1605,7 @@ Parity counts multiplicity: 1 and 4 have even weight one, 12 has odd weight one 
 
 ### Dependencies
 
-Layer 0. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.26; Layer 1 §1.1 uniform multiplicative mean values; Layer 1 §1.1 ordered-divisor harmonic majorant; AnalyticNumberTheoryPartI §0.11; AnalyticNumberTheoryPartI §§3.34–3.35; Layer 1 §1.4 extremely smooth-factor saving; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`; Layer 0 §0.10 finite-field irreducible counts; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies.
+Layer 0. External inputs: AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.26; Layer 1 §1.1 uniform multiplicative mean values; Layer 1 §1.1 ordered-divisor harmonic majorant; AnalyticNumberTheoryPartI §0.11; AnalyticNumberTheoryPartI §§3.34–3.35; Layer 1 §1.4 extremely smooth-factor saving; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`; Layer 0 §0.10 finite-field irreducible counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 ## Layer 2: large sieves and Vaughan decomposition
 
@@ -2750,7 +2796,7 @@ Layer 2. External inputs: AnalyticNumberTheoryPartI §§0.18, 0.32 and 0.34; Lay
 
 ## Layer 4: prime tuples and Maynard clusters
 
-A common local residue class makes the multidimensional weights nonnegative. Exact simplex integrals and rational polynomial witnesses certify the variational lower bounds; the prime-distribution input then gives infinitely many prime clusters.
+A common local residue class makes the multidimensional weights nonnegative. Simplex integrals of polynomial witnesses reduce the variational lower bounds to rational quadratic forms, whose numerical values are the named hypotheses of §4.6; the prime-distribution input then gives infinitely many prime clusters.
 
 ### 4.1 admissible tuples and the prime-tuple conjecture
 
@@ -2773,11 +2819,8 @@ The definition exposes the following operations and laws:
 
 - {0,2} is admissible: it misses 1 mod 2.
 - {0,2,4} is not admissible: it meets all three classes mod 3. A definition that checked only p=2, or only p>#H, would accept it.
-- {0,2,6,8,12} is admissible: it misses 1 mod 2, 1 mod 3 and 4 mod 5.
 - ∅ is admissible.
 - {0,1} is not admissible: it covers ℤ/2.
-
-{0,2,6,8,12} (Theorem 1.4) and Engelsma's 105-element set (footnote 2) are admissible. {0,2,4} is not, since it covers ℤ/3.
 
 *Needs:* Mathlib `Nat.ModEq`.
 
@@ -3055,7 +3098,7 @@ The hᵢ are distinct. M_k is the quantity of Layer 4 `SieveMaynard.maynardM`. F
 
 *Proof sketch.* For k=0 the prime count in the statement is zero and every n works. For k=1, Cauchy–Schwarz and smooth approximation give M₁=1; infinitely many translated primes supply the one prime in the statement. For k≥2 use the variational argument below with 0<δ<θ/2. Choose F₀∈𝒮_k with ratio > M_k − δ, and then a smooth F₁ with ratio > M_k − 2δ (Layer 4 exists smooth maynard ratio gt). Proposition 4.1 gives S=S₂−ρS₁=(φ(W)^k N(log `R)^k/W^{k+1})·((log` R/log N)Σ_m `J^{(m)}(F₁)−ρI_k(F₁)+o(1)).` Factoring out I_k(F₁)>0 then gives a lower bound with bracket (θ/2−δ)(M_k−2δ)−ρ+o(1). This is (4.4), whose printed sum index j should be m. Take ρ = θM_k/2 − ε, with δ small in terms of ε. Then S > 0 for all large N. The weights are nonnegative, so the positivity criterion gives, for each large N, some n∈[N,2N) with at least ⌊ρ+1⌋ = ⌈θM_k/2⌉ of the n+hᵢ prime (ε small). Since this holds for every large N, there are infinitely many such n. The gap statement is Layer 4 from prime clusters to prime gaps.
 
-k = 105 and θ = 1/2 − ε give r₁₀₅ ≥ 2 (Theorem 1.3). k = 5 and θ = 1 − ε give r₅ ≥ 2 under Elliott–Halberstam (Theorem 1.4).
+Under the hypotheses of §4.6, k = 105 and θ = 1/2 − ε give r₁₀₅ ≥ 2 (Theorem 1.3), and k = 5 and θ = 1 − ε give r₅ ≥ 2 under Elliott–Halberstam (Theorem 1.4).
 
 *Needs:* Layer 4 §4.4 maynard's asymptotics for s₁ and s₂ (proposition 4.1); Layer 4 §4.3 smooth approximation within the simplex; Layer 4 §4.5 the gpy positivity criterion; Layer 4 `SieveMaynard.maynardM`; Layer 4 `SieveMaynard.IsAdmissible`; Layer 4 §4.5 from prime clusters to prime gaps; Mathlib `Nat.infinite_setOfPred_prime`.
 
@@ -3073,7 +3116,7 @@ Only the leading term log k matters for Theorem 1.1. The −2 absorbs the loss l
 
 *Needs:* Layer 4 `SieveMaynard.maynardM`.
 
-**Moments on the simplex (Maynard Lemma 8.1, corrected).** For integers k ≥ 1 and a, b, j ≥ 0: `∫_{ℛ_k}` (1 − P₁)^a P_j^b dt = (a! b!/(k+a+jb)!) `Σ_{b₁+…+b_k=b}` ∏ᵢ (jbᵢ)!/bᵢ! = `(a!/(k+jb+a)!)·G_{b,j}(k).` Here P_j = Σtᵢ^j and `G_{b,j}(x)` = b! `Σ_{r=0}^{b}` C(x,r) `Σ_{b₁,…,b_r≥1, Σbᵢ=b}` ∏(jbᵢ)!/bᵢ!. The term r = 0, which makes `G_{0,j}` = 1, is needed; the printed formula starts at r = 1.
+**Moments on the simplex (Maynard Lemma 8.1, corrected).** For integers k ≥ 1 and a, b, j ≥ 0: `∫_{ℛ_k}` (1 − P₁)^a P_j^b dt = (a! b!/(k+a+jb)!) `Σ_{b₁+…+b_k=b}` ∏ᵢ (jbᵢ)!/bᵢ! = `(a!/(k+jb+a)!)·G_{b,j}(k).` Here P_j = Σtᵢ^j and `G_{b,j}(x)` = b! `Σ_{r=0}^{b}` C(x,r) `Σ_{b₁,…,b_r≥1, Σbᵢ=b}` ∏(jbᵢ)!/bᵢ!. The term r = 0, which makes `G_{0,j}` = 1, is needed; the printed formula starts at r = 1. Define `SieveMaynard.simplexMoment k a j b` as the rational number on the right, in its multinomial form.
 
 The multinomial form, summed over all (b₁,…,b_k) including zero entries, needs no convention at b = 0.
 
@@ -3085,110 +3128,44 @@ k = 5, a = 2, b = 0: the integral is 2!/7! = 1/2520, while the printed formula g
 
 *Needs:* Layer 4 `SieveMaynard.maynardM`; Mathlib `Finset.Nat.antidiagonalTuple`; Mathlib `Complex.Gamma_mul_Gamma_eq_betaIntegral`.
 
-**I_k and J_k as quadratic forms (Maynard Lemma 8.2).** For P = `Σ_{i=1}^d` aᵢ(1 − `P₁)^{bᵢ}P₂^{cᵢ}` and F = P on ℛ_k (0 elsewhere), with k ≥ 2: I_k(F) = `Σ_{i,j}` aᵢaⱼ(bᵢ+bⱼ)! `G_{cᵢ+cⱼ,2}(k)/(k+bᵢ+bⱼ+2cᵢ+2cⱼ)!,` and `J_k^{(m)}(F)` = `Σ_{i,j}` aᵢaⱼ `Σ_{c′₁≤cᵢ, c′₂≤cⱼ}` `C(cᵢ,c′₁)C(cⱼ,c′₂)·γ·G_{c′₁+c′₂,2}(k−1)/(k+bᵢ+bⱼ+2cᵢ+2cⱼ+1)!.` Here γ = bᵢ!bⱼ!(2cᵢ−2c′₁)!(2cⱼ−2c′₂)!(bᵢ+bⱼ+2cᵢ+2cⱼ−2c′₁−2c′₂+2)!/((bᵢ+2cᵢ−2c′₁+1)!(bⱼ+2cⱼ−2c′₂+1)!), and G includes the r = 0 term. So I_k and Σ_m `J_k^{(m)}` are quadratic forms aᵀA₁a and aᵀA₂a with rational A₁, A₂.
+**I_k and J_k as quadratic forms (Maynard Lemma 8.2).** For a finite set S of exponent pairs u=(b,c), rational coefficients a, and F = `SieveMaynard.maynardPolynomial k S a`, the polynomial P = Σ_(u∈S) a_u(1 − P₁)^b P₂^c on ℛ_k and 0 elsewhere, prove `SieveMaynard.maynardI_maynardPolynomial`: I_k(F) = Σ_(u,v∈S) a_u a_v `SieveMaynard.maynardGramI k u v`, and `SieveMaynard.sum_maynardJ_maynardPolynomial`: Σ_m `J_k^{(m)}(F)` = Σ_(u,v∈S) a_u a_v `SieveMaynard.maynardGramJ k u v`. Here maynardGramI k u v = simplexMoment k (b+b′) 2 (c+c′) for u=(b,c), v=(b′,c′), and maynardGramJ k u v is k times `Σ_{c₁≤c, c₂≤c′}` C(c,c₁)C(c′,c₂)·[b!(2c−2c₁)!/(b+2c−2c₁+1)!]·[b′!(2c′−2c₂)!/(b′+2c′−2c₂+1)!]·simplexMoment (k−1) B 2 (c₁+c₂), with B=b+b′+2c+2c′−2c₁−2c₂+2. Write `SieveMaynard.gramForm G S a` for Σ_(u,v∈S) a_u a_v G(u,v) and `SieveMaynard.maynardMonomials D` for the pairs with b+2c≤D. So I_k and Σ_m `J_k^{(m)}` are rational quadratic forms aᵀA₁a and aᵀA₂a.
 
-F is symmetric, so `J_k^{(m)}` does not depend on m and Σ_m `J_k^{(m)}` = `kJ_k^{(1)}.`
+F is symmetric, so `J_k^{(m)}` does not depend on m and Σ_m `J_k^{(m)}` = `kJ_k^{(1)}.` In Maynard's notation with G including the r = 0 term, the I-entry is (b+b′)! `G_{c+c′,2}(k)/(k+b+b′+2c+2c′)!`.
 
 ([MAYNARD-2015](#references), §8, Lemma 8.2 and proof, (8.7)–(8.10), pp. 410–411.)
 
-*Proof sketch.* I_k: expand P² and apply the corrected Lemma 8.1 with j = 2 (8.7). J: expand P₂^c = Σ `C(c,c′)(P′₂)^{c′}` `t₁^{2c−2c′}` and integrate in t₁ with the Beta integral (8.8); then square (8.9). Apply Lemma 8.1 on `ℛ_{k−1}:` `∫_{ℛ_{k−1}}(1−P′₁)^B(P′₂)^{c′}` = B! `G_{c′,2}(k−1)/(k−1+B+2c′)!.` The printed (8.10) has (k+b+c−1)! and `G_{c,2}.` With B = bᵢ+bⱼ+2cᵢ+2cⱼ−2c′₁−2c′₂+2 the denominator is (k+bᵢ+bⱼ+2cᵢ+2cⱼ+1)!, as in the lemma.
-
-k = 5 with (8.16): exact rational arithmetic with these formulas gives I₅ = 29509/1222452000 and ratio 1417255/708216, which agrees with direct integration. The printed G (r ≥ 1) gives I₅ = 17753/977961600 and ratio 26784/17753 ≈ 1.509. For a linearly independent polynomial basis on the simplex, A₁ is positive definite and A₂ is positive semidefinite. Whitening A₁ gives the largest generalized Rayleigh quotient even when A₂ has a kernel. A lower bound needs only one explicit coefficient vector. The blanket positive-definiteness claim for A₂ on p.411 is false.
+*Proof sketch.* I_k: expand P² and apply the corrected Lemma 8.1 with j = 2 (8.7). J: expand P₂^c = Σ `C(c,c′)(P′₂)^{c′}` `t₁^{2c−2c′}` and integrate in t₁ with the Beta integral (8.8); then square (8.9). Apply Lemma 8.1 on `ℛ_{k−1}:` `∫_{ℛ_{k−1}}(1−P′₁)^B(P′₂)^{c′}` = B! `G_{c′,2}(k−1)/(k−1+B+2c′)!.` The printed (8.10) has (k+b+c−1)! and `G_{c,2}.` With B as above the denominator is (k+b+b′+2c+2c′+1)!, as in the lemma. On a linearly independent family of monomials A₁ is positive definite and A₂ is positive semidefinite; A₂ need not be definite.
 
 *Needs:* Layer 4 §4.6 moments on the simplex (maynard lemma 8.1, corrected); Layer 4 `SieveMaynard.maynardM`.
 
-**M₅ > 2 (Maynard Proposition 4.3(1)).** Prove `SieveMaynard.maynardM_five_ge`. M₅ ≥ 1417255/708216 > 2.
+**Numerical hypotheses for Maynard's constants.** These propositions are assumed, never proved here; each is an explicit hypothesis of the theorems below that use it. The Gram forms are those of Lemma 8.2 above.
 
-F = `P·1_{ℛ₅}` with P = (1−P₁)P₂ + (7/10)(1−P₁)² + (1/14)P₂ − (3/14)(1−P₁) (8.16).
+- `SieveMaynard.MaynardFiveRecord`: for a=`SieveMaynard.maynardFiveCoefficients`, the coefficient vector of P=(1−P₁)P₂+(7/10)(1−P₁)²+(1/14)P₂−(3/14)(1−P₁) on the monomials (1−P₁)^bP₂^c with b+2c≤3, the k=5 Gram forms take the values I=29509/1222452000 and ΣJ=(1417255/708216)·I. ([MAYNARD-2015](#references), §8, (8.16)–(8.17), p.412.)
+- `SieveMaynard.MaynardCertificate105`: some rational coefficient vector on the 42 monomials (1−P₁)^bP₂^c with b+2c≤11 has, at k=105, positive I-form and J-form strictly greater than four times its I-form. ([MAYNARD-2015](#references), §8, (8.15), p.412.)
+- `SieveMaynard.Admissible105Diam600`: some admissible set of 105 natural numbers lies in [0,600]. ([MAYNARD-2015](#references), §4, footnote 2, p.390.)
+- `SieveMaynard.Admissible5Diam12`: some admissible set of 5 natural numbers lies in [0,12]. ([MAYNARD-2015](#references), §4, proof of Theorem 1.4, p.390.)
 
-([MAYNARD-2015](#references), §8, (8.16)–(8.17), p. 412.)
+**M₅ > 2 (Maynard Proposition 4.3(1)).** Prove `SieveMaynard.maynardM_five_ge`: under `SieveMaynard.MaynardFiveRecord`, M₅ ≥ 1417255/708216 > 2.
 
-*Proof sketch.* F is bounded and supported on ℛ₅, with I ≠ 0 and every `J^{(m)}` ≠ 0, so it is admissible. Lemma 8.2 with these four monomials gives I₅(F) = 29509/1222452000, Σ_m `J₅^{(m)}(F)` = `5J₅^{(1)}(F),` and the ratio exactly 1417255/708216 (8.17). maynardRatio_le_maynardM.
+F = `P·1_{ℛ₅}` with P = (1−P₁)P₂ + (7/10)(1−P₁)² + (1/14)P₂ − (3/14)(1−P₁) (8.16), that is, maynardPolynomial 5 (maynardMonomials 3) maynardFiveCoefficients.
 
-1417255/708216 ≈ 2.001162. Direct Dirichlet-integral expansion and the corrected Lemma 8.2 give the same exact value. θM₅/2 > 1 needs θ > 2·708216/1417255 ≈ 0.99942, which is why Theorem 1.4 needs Elliott–Halberstam.
+([MAYNARD-2015](#references), §8, (8.16), p. 412.)
 
-*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 `SieveMaynard.maynardM`.
+*Proof sketch.* F is bounded and supported on ℛ₅, hence square integrable. Lemma 8.2 identifies I₅(F) and Σ_m `J₅^{(m)}(F)` with the two Gram forms, whose values the hypothesis supplies: I₅(F) > 0 and ratio 1417255/708216. By symmetry each `J₅^{(m)}(F)` is one fifth of the sum, hence nonzero, so F is admissible, and its ratio is at most M₅. θM₅/2 > 1 then needs θ > 2·708216/1417255, which is why Theorem 1.4 needs Elliott–Halberstam.
 
-**M₁₀₅ > 4 (Maynard Proposition 4.3(2)).** Prove `SieveMaynard.four_lt_maynardM_105`. M₁₀₅ > 4.
+*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 `SieveMaynard.MaynardFiveRecord`; Layer 4 `SieveMaynard.maynardM`.
 
-P is a linear combination of the 42 monomials (1−P₁)^bP₂^c with b + 2c ≤ 11, and k = 105.
+**M₁₀₅ > 4 (Maynard Proposition 4.3(2)).** Prove `SieveMaynard.four_lt_maynardM_105`: under `SieveMaynard.MaynardCertificate105`, M₁₀₅ > 4.
+
+The witness is a linear combination of the 42 monomials (1−P₁)^bP₂^c with b + 2c ≤ 11, and k = 105.
 
 ([MAYNARD-2015](#references), §8, (8.15) and the following sentence, p. 412.)
 
-*Proof sketch.* Form the 42×42 rational matrices A₁, A₂ of Lemma 8.2 at k = 105. The largest eigenvalue of `A₁^{−1}A₂` is ≈ 4.0020697 (8.15). Instead of bounding an eigenvalue, take a rational approximation a of the eigenvector and check aᵀA₂a > 4aᵀA₁a in exact arithmetic, as the source suggests. maynardRatio_le_maynardM.
+*Proof sketch.* Take the coefficient vector a of the hypothesis and F = maynardPolynomial 105 (maynardMonomials 11) a. Lemma 8.2 gives I₁₀₅(F) > 0 and Σ_m `J₁₀₅^{(m)}(F)` > 4I₁₀₅(F). By symmetry every `J^{(m)}` is positive, so F is admissible with ratio greater than 4, and its ratio is at most M₁₀₅. Then (1/2 − ε)M₁₀₅/2 > 1 for small ε: this is the input of Theorem 1.3.
 
-An approximate eigenvalue about 4.00206976 motivates the polynomial choice. The rational certificate below supplies the lower bound 4.000543795842…>4 without identifying the optimal eigenvalue. (1/2 − ε)M₁₀₅/2 > 1 for small ε: this is the input of Theorem 1.3.
-
-Take P=Σa_(b,c)(1−P₁)^bP₂^c with the following exact coefficients. The factorial/G formulas give I>0 and ΣJ>4I by rational cross multiplication; this proves a lower bound and does not assert an optimal eigenvalue.
-
-| b | c | rational coefficient a_(b,c) |
-| --- | --- | --- |
-| 0 | 0 | -7959504348236574171698535907224883807458440923/500000000000000000000000000000000000000000000000000000000000 |
-| 1 | 0 | -8226304044054793420259518452307497324875488574313/1000000000000000000000000000000000000000000000000000000000000 |
-| 2 | 0 | -1381024523110021981075977294446146317788676442433/20000000000000000000000000000000000000000000000000000000000 |
-| 3 | 0 | -900688796131919014018001420502987124011154423181387/1000000000000000000000000000000000000000000000000000000000000 |
-| 4 | 0 | 248062716921567419511116596593875987941930556206682957/1000000000000000000000000000000000000000000000000000000000000 |
-| 5 | 0 | -352278682472027784628003160852398361531128421256344269/500000000000000000000000000000000000000000000000000000000000 |
-| 6 | 0 | -32171607742238853969593917986349773988727778607027220961/1000000000000000000000000000000000000000000000000000000000000 |
-| 7 | 0 | 89988713206766199847841848476167434583933689164669640409/1000000000000000000000000000000000000000000000000000000000000 |
-| 8 | 0 | 133729280896555832234867127543976136445217801183042518387/200000000000000000000000000000000000000000000000000000000000 |
-| 9 | 0 | 345409768764135417804631879582428792969398355758722641933/125000000000000000000000000000000000000000000000000000000000 |
-| 10 | 0 | -18097325249658249912665943072021721263269963883082054895781/500000000000000000000000000000000000000000000000000000000000 |
-| 11 | 0 | 67378640723274614887128315378385922915799240745690793292853/1000000000000000000000000000000000000000000000000000000000000 |
-| 0 | 1 | 755333237876125683153576088949183073049291036687/200000000000000000000000000000000000000000000000000000000000 |
-| 1 | 1 | 473710841127898284974586018353284816317767022831059/250000000000000000000000000000000000000000000000000000000000 |
-| 2 | 1 | 5624687142848131010332994990393670724020573257369643/250000000000000000000000000000000000000000000000000000000000 |
-| 3 | 1 | -269224931149896395068162893912381850951448901066875527/1000000000000000000000000000000000000000000000000000000000000 |
-| 4 | 1 | -46742083442661270043792071667542428296375033689589249701/1000000000000000000000000000000000000000000000000000000000000 |
-| 5 | 1 | 28680217790119391254600235402434507261911501327314774173/125000000000000000000000000000000000000000000000000000000000 |
-| 6 | 1 | 1109378564649753330351628300593826171562573974580296534071/250000000000000000000000000000000000000000000000000000000000 |
-| 7 | 1 | -2310407433006155019546184649979165197025074143865782574187/200000000000000000000000000000000000000000000000000000000000 |
-| 8 | 1 | -7015364824080514948031258301462041917069798045806482541687/50000000000000000000000000000000000000000000000000000000000 |
-| 9 | 1 | 217380369838340653295678103574060545183134321261941125642357/500000000000000000000000000000000000000000000000000000000000 |
-| 0 | 2 | -366884309322016665897304051153354168757185797164219/1000000000000000000000000000000000000000000000000000000000000 |
-| 1 | 2 | -3509973120672230968607873466626535345412962339801391/20000000000000000000000000000000000000000000000000000000000 |
-| 2 | 2 | -611442981274554491668257697087407507947668040036330743/250000000000000000000000000000000000000000000000000000000000 |
-| 3 | 2 | 13133118297801224478495002133287650651565956633239819411/200000000000000000000000000000000000000000000000000000000000 |
-| 4 | 2 | 3005097953214044772053529714082571520307920127754973297231/1000000000000000000000000000000000000000000000000000000000000 |
-| 5 | 2 | -21284675971444268343631618981906260073019012628836687421931/1000000000000000000000000000000000000000000000000000000000000 |
-| 6 | 2 | -95879616756225812990528036323448950155644270929978678679903/500000000000000000000000000000000000000000000000000000000000 |
-| 7 | 2 | 1 |
-| 0 | 3 | 2317813448193801743728007668269904929245118909552061/125000000000000000000000000000000000000000000000000000000000 |
-| 1 | 3 | 8264067473266183438377843244816172919038717601093691999/1000000000000000000000000000000000000000000000000000000000000 |
-| 2 | 3 | 111628886251164136482509530042589066650822902742613102973/1000000000000000000000000000000000000000000000000000000000000 |
-| 3 | 3 | -2135979963258043669265965035293447020801152320160298375087/500000000000000000000000000000000000000000000000000000000000 |
-| 4 | 3 | -17009742187588430639694714381365010699741729408298905925331/250000000000000000000000000000000000000000000000000000000000 |
-| 5 | 3 | 140717460778941566019730476128307591424120210861763781171377/200000000000000000000000000000000000000000000000000000000000 |
-| 0 | 4 | -247414538761529771242574573074156116346760947023190593/500000000000000000000000000000000000000000000000000000000000 |
-| 1 | 4 | -100475989278642031773267233927135803600495803780682319917/500000000000000000000000000000000000000000000000000000000000 |
-| 2 | 4 | -1869957415760311221148546369705832362195334514830264292099/1000000000000000000000000000000000000000000000000000000000000 |
-| 3 | 4 | 45850062329923695868372726832024370745910007475628680479007/500000000000000000000000000000000000000000000000000000000000 |
-| 0 | 5 | 2809008817533307505265163706150029726563634668966742923/500000000000000000000000000000000000000000000000000000000000 |
-| 1 | 5 | 2056635676700897886048289641857281036790415959742580276807/1000000000000000000000000000000000000000000000000000000000000 |
-
-The exact values are
-
-```text
-I = 623175844096011471471769405170468799747306260895147598500801461974217784833845377078007509036136439618790079017702635431298083/154428634378677361490535674381273580183154725339727092683822230757848997435328098235561681528023095431683856566950834296074312813613199455934543180015187588172158214083916595200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-sumJ = 2577422148586207415524935988461372234661832848149160309489025997367457012178671486982971016102663638154802413755719463394702679867/159655449696109518340984574129562839820123039120456317359274675491191578886985356945072999979740800200140848635370708687633751093458569283673866179954163168079523569022141464576000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-ratio = 33506487931620696401824167849997839050603827025939084023357337965776941158322729330778623209334627296012431378824353024131134838271/8375483344650394176580580805491100668603796146430783723850771648933487028166881867928420921445673748476538661997923420196646235520
-```
-
-*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 `SieveMaynard.maynardM`.
+*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 `SieveMaynard.MaynardCertificate105`; Layer 4 `SieveMaynard.maynardM`.
 
 ### 4.7 admissible sets and bounded gaps between primes
-
-**Engelsma's admissible 105-tuple of diameter 600.** The 105-element set H₁₀₅ = {0, 10, 12, 24, 28, …, 594, 598, 600} of Maynard's footnote 2 is admissible, contains 0 and 600, and lies in [0,600].
-
-The full 105-element set is given in the worked examples below.
-
-([MAYNARD-2015](#references), §4, footnote 2, p. 390.)
-
-*Proof sketch.* By isAdmissible_iff_card_image_lt, only the 27 primes p ≤ 103 need checking. For each, exhibit a missed residue: for example 1 mod 2, 2 mod 3, 1 mod 5, 4 mod 7, 7 mod 11 and 6 mod 13. This is a finite, decidable computation.
-
-The 105 elements are distinct and sorted, the set is admissible, and its diameter is 600. The list in the published text agrees with arXiv v3.
-
-*Needs:* Layer 4 `SieveMaynard.IsAdmissible`.
 
 **The first k primes above k are admissible.** For every k, the first k primes greater than k form an admissible set. With primes indexed from 0, its diameter for k≥1 is `p_{π(k)+k−1}−p_{π(k)},` and is O(k log k) as k→∞. The empty k=0 set is admissible.
 
@@ -3202,29 +3179,29 @@ k = 5: {7, 11, 13, 17, 19}. It misses 0 mod 5 because no element is divisible by
 
 *Needs:* Layer 4 `SieveMaynard.IsAdmissible`; Mathlib `Nat.nth`; Mathlib `Nat.prime_nth_prime`; Mathlib `Chebyshev.pi_ge'`.
 
-**Bounded gaps between primes (Maynard Theorem 1.3).** Prove `SieveMaynard.frequently_nth_prime_succ_sub_le_600`. liminf_n `(p_{n+1}` − p_n) ≤ 600.
+**Bounded gaps between primes (Maynard Theorem 1.3).** Prove `SieveMaynard.frequently_nth_prime_succ_sub_le_600`: under `SieveMaynard.MaynardCertificate105` and `SieveMaynard.Admissible105Diam600`, liminf_n `(p_{n+1}` − p_n) ≤ 600.
 
-Unconditional. It uses Bombieri–Vinogradov and none of Zhang's technology.
+No distribution hypothesis: it uses Bombieri–Vinogradov and none of Zhang's technology. The two numerical hypotheses of §4.6 remain explicit.
 
 ([MAYNARD-2015](#references), §1, Theorem 1.3, p. 385; proof, p. 390.)
 
-*Proof sketch.* Bombieri–Vinogradov gives level θ = 1/2 − ε. Since M₁₀₅ > 4, θM₁₀₅/2 > 1 for small ε, so r₁₀₅ = ⌈θM₁₀₅/2⌉ ≥ 2. Proposition 4.2 with Engelsma's admissible H₁₀₅ (diameter 600): infinitely many n have two primes among the n + H₁₀₅. Hence `liminf(p_{n+1}` − p_n) ≤ 600.
+*Proof sketch.* Bombieri–Vinogradov gives level θ = 1/2 − ε. By `SieveMaynard.four_lt_maynardM_105`, M₁₀₅ > 4, so θM₁₀₅/2 > 1 for small ε and r₁₀₅ = ⌈θM₁₀₅/2⌉ ≥ 2. Apply Proposition 4.2 to an admissible 105-element H ⊆ [0,600] supplied by `SieveMaynard.Admissible105Diam600`: infinitely many n have two primes among the n + H, and max H − min H ≤ 600. Hence `liminf(p_{n+1}` − p_n) ≤ 600.
 
 This is not the twin prime conjecture, and 600 is not optimal (Maynard, p. 385).
 
-*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.7 engelsma's admissible 105-tuple of diameter 600; Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`; Layer 4 §4.5 from prime clusters to prime gaps.
+*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.6 `SieveMaynard.Admissible105Diam600`; Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`; Layer 4 §4.5 from prime clusters to prime gaps.
 
-**Gaps under Elliott–Halberstam (Maynard Theorem 1.4).** Prove `SieveMaynard.elliottHalberstam_gaps`. If the primes have level of distribution θ for every θ < 1 (the Elliott–Halberstam conjecture), then `liminf(p_{n+1}` − p_n) ≤ 12 and `liminf(p_{n+2}` − p_n) ≤ 600.
+**Gaps under Elliott–Halberstam (Maynard Theorem 1.4).** Prove `SieveMaynard.elliottHalberstam_gaps`. Assume the four hypotheses of §4.6. If the primes have level of distribution θ for every θ < 1 (the Elliott–Halberstam conjecture), then `liminf(p_{n+1}` − p_n) ≤ 12 and `liminf(p_{n+2}` − p_n) ≤ 600.
 
 Conditional on the named hypothesis ElliottHalberstam of Layer 3 `SieveDistribution.PrimesHaveLevel`.
 
 ([MAYNARD-2015](#references), §1, Theorem 1.4, p. 385; proof, p. 390.)
 
-*Proof sketch.* Take k = 105 and θ = 1 − ε: θM₁₀₅/2 > 2, so three primes occur among n + H₁₀₅ infinitely often, and `liminf(p_{n+2}` − p_n) ≤ 600. k = 5, H = {0,2,6,8,12} (admissible, diameter 12) and θ = 1 − ε: θM₅/2 > 1, so `liminf(p_{n+1}` − p_n) ≤ 12.
+*Proof sketch.* Take k = 105, θ = 1 − ε and the admissible H ⊆ [0,600] of `SieveMaynard.Admissible105Diam600`: θM₁₀₅/2 > 2, so three primes occur among n + H infinitely often, and `liminf(p_{n+2}` − p_n) ≤ 600. Take k = 5, θ = 1 − ε and the admissible H ⊆ [0,12] of `SieveMaynard.Admissible5Diam12`: θM₅/2 > 1 by `SieveMaynard.maynardM_five_ge`, so `liminf(p_{n+1}` − p_n) ≤ 12.
 
 12 appears to be optimal for the method in this form (Maynard, p. 385).
 
-*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.maynardM_five_ge`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.7 engelsma's admissible 105-tuple of diameter 600; Layer 4 `SieveMaynard.IsAdmissible`; Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 4 §4.5 from prime clusters to prime gaps.
+*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.maynardM_five_ge`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.6 `SieveMaynard.Admissible105Diam600` and `SieveMaynard.Admissible5Diam12`; Layer 4 `SieveMaynard.IsAdmissible`; Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 4 §4.5 from prime clusters to prime gaps.
 
 **m + 1 primes in bounded intervals (Maynard Theorem 1.1).** Prove `SieveMaynard.exists_frequently_nth_prime_sub_le`. There is an absolute constant C such that liminf_n `(p_{n+m}` − p_n) ≤ C m³ `e^{4m}` for every m ≥ 1.
 
@@ -3283,28 +3260,15 @@ The definition exposes the following operations and laws:
 
 ### Analytic requirements
 
-Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32, Layer 1 §1.1 ordered-divisor harmonic majorant, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. Rational M₅/M₁₀₅ and finite admissibility certificates do not establish the analytic distribution input.
+Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32, Layer 1 §1.1 ordered-divisor harmonic majorant, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. The numerical hypotheses of §4.6 supply no distribution input, and the distribution input supplies none of them.
 
 ### Examples
 
 For the triangle indicator I₂=1/2, each J₂=1/3 and the ratio is 4/3. Zero fails positive energy; a constant one on the square violates simplex support and would give ratio two. G_(0,2)(5)=1 uses the empty-composition term.
 
-At k=5, P=(1−P₁)P₂+(7/10)(1−P₁)²+(1/14)P₂−(3/14)(1−P₁) gives I₅=29509/1222452000 and ratio 1417255/708216>2. The 42-coefficient k=105 certificate above gives ratio 4.000543795842…>4 in exact arithmetic.
-
 On the triangle F=∂ₓ∂ᵧ[x²y²(1−x−y)²], extended by zero, is symmetric, satisfies F(1/4,1/4)=1/128 and I₂=1/3150, and has both fibre integrals zero. Thus the J matrix may have a kernel; the I matrix is positive definite only on an independent polynomial basis.
 
-The full 105-element admissible set is:
-
-~~~text
-{0, 10, 12, 24, 28, 30, 34, 42, 48, 52, 54, 64, 70, 72, 78, 82, 90,
-      94, 100, 112, 114, 118, 120, 124, 132, 138, 148, 154, 168, 174, 178, 180, 184, 190, 192,
-      202, 204, 208, 220, 222, 232, 234, 250, 252, 258, 262, 264, 268, 280, 288, 294, 300, 310,
-      322, 324, 328, 330, 334, 342, 352, 358, 360, 364, 372, 378, 384, 390, 394, 400, 402, 408,
-      412, 418, 420, 430, 432, 442, 444, 450, 454, 462, 468, 472, 478, 484, 490, 492, 498, 504,
-      510, 528, 532, 534, 538, 544, 558, 562, 570, 574, 580, 582, 588, 594, 598, 600}
-~~~
-
-Its endpoints are 0 and 600. Only the 27 primes ≤105 require checking. The first k primes above k miss residue zero at p≤k and cannot cover p>k with only k points. The empty set is admissible; for k≥1 its zero-based diameter is p_(π(k)+k−1)−p_(π(k)).
+The first k primes above k miss residue zero at p≤k and cannot cover p>k with only k points. The empty set is admissible; for k≥1 its zero-based diameter is p_(π(k)+k−1)−p_(π(k)).
 
 The nonadmissible tuples {0,1} and {0,2,4} have prime translates {2} and {3}; these nonempty finite sets show why the conjecture requires infinitude.
 
@@ -3521,7 +3485,7 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 
 ([KM-21](#references), §2.5, Conjecture C_n and Corollary 2.2, pp.6–7; [FIMR-ERRATUM-2015](#references), Items 1,3–5,7, pp.923–925.)
 
-*Proof sketch.* Assume C_m, as stated under the short-character conjecture contract, uniformly in the interval origin; derive here the progression form of KM Corollary 2.2, recording the exponent (1−δ)/m. For joint-pattern moments at subsets T⊆S, partition longer intervals to transfer C_|S|n to a weaker C_|T|n; the loss must be explicit. Use the corrected progression reduction of the published FIMR2015 erratum; when q∤k, the reduced conductor is greater than 1. The actual spin exceptional-set argument must also incorporate the different and the corrected norm divisibility condition from that erratum.
+*Proof sketch.* Assume C_m, as stated under the short-character conjecture contract, uniformly in the interval origin; derive here the progression form of KM Corollary 2.2, recording the exponent (1−δ)/m. For joint-pattern moments at subsets T⊆S, partition longer intervals to transfer C_|S|n to a weaker C_|T|n; the loss must be explicit. Use the corrected progression reduction of the published FIMR2015 erratum; when q∤k, the reduced conductor is greater than 1. The joint-spin Type I estimate of §5.6 incorporates the different and the corrected norm divisibility condition from that erratum in its exceptional-set argument.
 
 **Checks.**
 
@@ -3529,7 +3493,87 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 - For the nonprincipal character modulo 3 with values 1,−1,0, the interval (0,2] has sum 0 while (1,3] has sum −1. Uniformity in the origin cannot be omitted.
 - For q=15,k=3 the reduced conductor is 5>1; for k=15 it is 1 and the progression condition fails. A principal character modulo 3 has sum 2 on every complete period of length 3, so it cannot satisfy an arbitrarily long power-saving version of this conjectural bound.
 
-*Needs:* The explicit Cₘ hypothesis in Exact supplier contracts; ArithmeticStatisticsPartV §3.30 joint-spin arithmetic data.
+*Needs:* The explicit Cₘ hypothesis in Exact supplier contracts; Mathlib `DirichletCharacter` and its conductor.
+
+### 5.3a adelic points and strong approximation
+
+Throughout this subsection F is a number field and G=Spec H for a commutative Hopf F-algebra H, finitely generated as an algebra in the topological statements. A finite set S of places contains every archimedean place, S=∞∪S_f, and G_S=∏_(v∈S)G(F_v).
+
+**Adelic and local points.** For an F-algebra R the points G(R) form the native convolution group of F-algebra maps H→R; for a topological ring R give G(R) the coarsest topology making every evaluation continuous. Define `SieveStrongApproximation.AdelicPoints`, `SieveStrongApproximation.FiniteAdelicPoints`, `SieveStrongApproximation.InfinitePoints` and `SieveStrongApproximation.LocalPoints` with values in the adele ring, the finite adele ring, the infinite adele ring and the completion F_v; `SieveStrongApproximation.diagonal` is the rational diagonal and `SieveStrongApproximation.finiteProjection` the projection to finite adelic points, both by post-composition. An integral model away from a finite set S₀ of finite places is a finitely presented commutative Hopf algebra over the S₀-integers with a Hopf isomorphism of its generic fibre with H; it defines the local integral points G(O_v)⊆G(F_v) for v∉S₀ and the S-integral points Γ(M,S)⊆G(F) for S⊇S₀. For G⊆GL_n over ℚ the schematic closure in GL_n over ℤ[1/q₀] is an integral model, and reduction modulo p∤q₀ sends Γ⊆G(ℚ)∩GL_n(ℤ) into the 𝔽_p-points of that model.
+
+The carriers expose the following laws:
+
+- The point groups are topological groups, and post-composition with continuous algebra maps is continuous.
+- The rational diagonal is injective with discrete image, and G(𝔸_(F,f)) is the restricted product of the G(F_v) with respect to the G(O_v), as topological groups.
+- Changing the integral model changes G(O_v) at finitely many v and Γ(M,S) only up to commensurability.
+
+([CONRAD-12](#references), Theorems 3.4 and 3.6 and Remark 3.5, pp.5–6.)
+
+**Checks.**
+
+- For G=G_a the adelic points are the adele ring and the diagonal is the usual embedding of F.
+- For G=G_m over ℚ with the standard model, Γ(M,{∞})={±1} and G(ℤ_p)=ℤ_p^×.
+
+*Needs:* Mathlib `NumberField.AdeleRing`, `IsDedekindDomain.FiniteAdeleRing`, `NumberField.InfiniteAdeleRing`, `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and `RestrictedProduct`; Tau Ceti `AlgHom.mapValue`; GlobalNumberFields Layer 6 adeles; ReductiveGroupsPartII RG2.0 topology on local points.
+
+**The strong approximation predicate.** Define `SieveStrongApproximation.HasStrongApproximation F H S_f`: G(F)·G(F_S) is dense in G(𝔸_F), where G(F_S) is the subgroup of adelic points trivial at every finite place outside S_f. Prove that this is equivalent to density of G(F) in the adelic points away from S; that it gives G(𝔸^S)=G(F)U for every open subgroup U⊆G(𝔸^S); that it passes from S to every S′⊇S; and that for S_f=∅ the double coset space G(F)\G(𝔸_(F,f))/U is a point for every compact open U.
+
+([RAPINCHUK-14](#references), §2.1, Definition, p.7, and Theorem 2.3, p.12.)
+
+**Checks.**
+
+- G_a has strong approximation with S_f=∅: this is GlobalNumberFields Layer 6.
+- G_m over ℚ fails for S_f=∅: ℚ^×∩∏_pℤ_p^×={±1}, so ℚ^× is discrete in the finite ideles.
+
+*Needs:* §5.3a adelic and local points.
+
+**S-arithmetic subgroups.** Let G be connected semisimple over F, M an integral model away from S₀, and S⊇S₀∪∞ finite. Prove that the diagonal image of Γ(M,S) is a lattice in G_S. If moreover G is absolutely almost simple and G_S is noncompact, prove that Γ(M,S) and every subgroup commensurable with it are infinite and Zariski dense in G.
+
+([RAPINCHUK-14](#references), §2.6, p.16, and the remark after Theorem 2.3, p.12; [BOREL-63](#references), Introduction, p.6, and §8, pp.26–30.)
+
+*Proof sketch.* Reduction theory: Siegel sets attached to a minimal F-parabolic subgroup and a maximal compact subgroup cover G(F)\G(𝔸_F), only finitely many rational translates of one Siegel set meet it, and Siegel sets of a group without rational characters have finite Haar volume. Intersecting with G_S×∏_(v∉S)G(O_v) gives a lattice in G_S, and a lattice in a noncompact group is infinite. For Zariski density, let J be the identity component of the Zariski closure of Γ(M,S). Every rational point commensurates Γ(M,S), since conjugation changes only finitely many local integrality conditions, so J is normalized by G(F). Rational points of a connected group in characteristic zero are Zariski dense, so J is normal in G, hence J=G for absolutely almost simple G and infinite Γ(M,S).
+
+*Needs:* §5.3a adelic and local points; ReductiveGroups Layers 6–7 parabolic subgroups and rational points; Mathlib `MeasureTheory.Measure.IsHaarMeasure` and `MeasureTheory.IsFiniteMeasure`.
+
+**Closed subgroups of p-adic analytic groups.** For a finite place v over p, every closed subgroup C of G(F_v) is a ℚ_p-analytic subgroup with a ℚ_p-Lie subalgebra Lie(C) of the Lie algebra of G(F_v) regarded over ℚ_p. If Lie(C) is everything then C is open; if Lie(C)=0 then C is discrete.
+
+([SCHNEIDER-11](#references), Theorem 27.1, pp.192–194; Corollary 29.6, p.205; Theorem 29.8, pp.206–208.)
+
+*Proof sketch.* Construct a compact open subgroup with a saturated integral p-valuation, on which the exponential and logarithm are inverse analytic bijections. A closed subgroup of finite rank acquires a unique analytic structure from these charts, its Lie algebra is the set of tangent directions of its one-parameter subgroups, and the dimension of that Lie algebra is the local dimension of C.
+
+*Needs:* ReductiveGroupsPartII RG2.0 topology on local points; Mathlib `Padic`, `PadicInt` and analytic functions over complete normed fields.
+
+**Weak approximation for simply connected groups.** For G connected semisimple and simply connected over F and every finite set T of places, G(F) is dense in ∏_(v∈T)G(F_v).
+
+([PR-94](#references), §7.3, Theorem 7.8, p.415, and its proof.)
+
+*Proof sketch.* G is unirational over F; with weak approximation for F and the local implicit function theorem, the closure W of G(F) in G_T contains a nonempty open set, so W is an open subgroup. For each v∈T, the G(F_v)-conjugates of the regular parts of finitely many maximal F_v-tori cover G(F_v) up to a closed nowhere dense set. Choose maximal F-tori locally conjugate to each of them and having weak approximation with respect to T; their existence is where simple connectedness is used. Then W contains a dense open subset of G_T, so W=G_T.
+
+*Needs:* ReductiveGroups Layers 6–7a maximal tori, unirationality and rational points; GlobalNumberFields Layer 1 weak approximation for F; Mathlib inverse function theorem over complete normed fields.
+
+**Arithmetic closure at an isotropic place.** Let G be connected, simply connected and absolutely almost simple over F, S finite with G_S noncompact, and v∉S a finite place at which G is F_v-isotropic. Prove that the closure of G(F)·G_S in G(𝔸_F) contains G(F_v), placed at v.
+
+([RAPINCHUK-14](#references), Lemma 2.7, p.16, and §2.6, pp.16–17; [PLATONOV-69](#references), §3.4, p.1145.)
+
+*Proof sketch.* Let Δ be the closure in G(F_v) of the image of Γ=Γ(M,S∪{v}). Its subgroup Γ(M,S) is infinite and maps injectively into the compact G(O_v), so Δ is not discrete and Lie(Δ)≠0. Lie(Δ) is invariant under the Zariski-dense Γ, hence an ideal of the Lie algebra of G(F_v) over ℚ_p; that Lie algebra splits over the algebraic closure into simple factors permuted transitively by Galois, so Lie(Δ) is everything and Δ is open. Pushing the finite invariant measure of the lattice quotient of G_S×G(F_v) forward gives a finite invariant measure on G(F_v)/Δ, which is discrete, so Δ has finite index and equals G(F_v) by `eq_top_of_finiteIndex`. Approximating g∈G(F_v) by elements of Γ gives the containment.
+
+*Needs:* §5.3a S-arithmetic subgroups and closed subgroups of p-adic analytic groups; ReductiveGroupsPartII RG2.4 `Decomposition.kneserTits_local` and `eq_top_of_finiteIndex`.
+
+**Strong approximation for simply connected groups.** Prove `SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`: let G be connected semisimple and simply connected over F, and S_f a finite set of finite places such that every nontrivial semisimple quotient of G has noncompact points over S (equivalently, G′_S is noncompact for every F-simple factor G′). Then G has strong approximation with respect to S. In particular, for S_f=∅ and every compact open U, G(F)\G(𝔸_(F,f))/U is a point.
+
+Noncompactness is required of every F-simple factor, not only of G_S. In the Lean signature the quotients are injective Hopf maps from the coordinate ring of Q whose scalar map is not surjective.
+
+([PR-94](#references), §7.4, Theorem 7.12, p.427; [RAPINCHUK-14](#references), Theorem 2.3 and Remark 1 after it, p.12; [PLATONOV-69](#references), §3, pp.1144–1145.)
+
+*Proof sketch.* G is the product of its F-simple factors, each the restriction of scalars of an absolutely almost simple simply connected group over a finite extension; strong approximation passes to products and to restrictions of scalars, so assume G absolutely almost simple with G_S noncompact. G has a reductive model away from finitely many places and is quasi-split, hence isotropic, at the remaining ones by Lang's theorem over the residue field; let T be the finite set of anisotropic finite places outside S. The closure C of G(F)·G_S contains G(F_v) at every isotropic v∉S, hence, being a closed subgroup, the restricted product over all places outside S∪T. Weak approximation makes the projection of C to ∏_(v∈T)G(F_v) dense. A closed subgroup of A×B that contains A×{1} and projects densely to B is A×B, so C=G(𝔸_F).
+
+**Checks.**
+
+- For SL_n over ℚ with S_f=∅, SL_n(ℚ) is dense in SL_n(𝔸_(ℚ,f)), so SL_n(ℤ)→SL_n(ℤ/Nℤ) is onto for every N≥1.
+- The norm-one group of a definite quaternion algebra over ℚ is compact at ∞; with S_f=∅ the hypothesis fails, and so does the conclusion. Adding a split prime to S_f satisfies it.
+- For the product of SL₂ with that norm-one group, G_S is noncompact while one simple factor is compact at S; the factorwise hypothesis is needed.
+
+*Needs:* §5.3a strong approximation predicate, weak approximation for simply connected groups and arithmetic closure at an isotropic place; ReductiveGroups Layers 6–7a simple factors, restriction of scalars and Lang's theorem; ReductiveGroupsPartII RG2.3 reductive models; Tau Ceti `TauCeti.SemisimpleCommHopfAlgCat` and `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`.
 
 ### 5.4 affine sieve data and saturation
 
@@ -3541,9 +3585,13 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 - The subgroup congruent to 1 modulo 2 has image of size 1 at 2, so the theorem must allow 2|q₀.
 - At d=1 the squarefree product is the one-element group, leaving only the image modulo q₀.
 
-*Needs:* AdelicAlgebraicGroups §4.2 arithmetic-group carriers; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
+*Needs:* Layer 5 §5.3a integral models and S-integral points; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
 
-**Uniform algebraic point counts.** For fixed ambient dimension n, number of equations r and degree bound d, prove a constant C_(n,r,d) such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2). Prove also #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible ones. Apply the latter to proper hypersurface intersections. These uniform statements extend the fixed-model contract of InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 (BGS-10, (3.34)–(3.40), pp.580–581; (3.52)–(3.53), p.582, Lang–Weil applications).
+**Uniform algebraic point counts.** For fixed ambient dimension n, number of equations r and degree bound d, prove a constant C_(n,r,d) such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2). Prove also #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible ones. Apply the latter to proper hypersurface intersections.
+
+([LANG-WEIL-54](#references), Theorem 1 and Lemma 1; BGS-10, (3.34)–(3.40), pp.580–581; (3.52)–(3.53), p.582, Lang–Weil applications.)
+
+*Proof sketch.* By `bezout_inequality` a variety in the presentation class has at most a bounded number of geometric components, each of degree bounded in terms of (n,r,d). For the upper bound, a generic linear projection of a component of dimension e and degree D onto 𝔸^e is finite with fibres of size at most D, giving at most Dq^e points; finitely many q are absorbed into the constant. For the irreducible estimate first take e=1: the function field of the curve gives a smooth projective model of genus at most (D−1)(D−2)/2, `weil_bound` counts its points within 2g√q of q+1, and the singular points and points at infinity number at most a bound in D. For e≥2 count incidences between V and the linear subspaces of codimension e−1 through pairs of its points: all but a proportion O(q^(−1)) of these sections are geometrically irreducible curves of degree D, by a uniform Bertini argument whose exceptional set lies in a hypersurface of bounded degree in the Grassmannian, and averaging the curve estimate over them gives |#V(𝔽_q)−q^e|≤Cq^(e−1/2).
 
 **Checks.**
 
@@ -3551,7 +3599,21 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 - The union xy=0 in 𝔽₃² has 5 points and dimension one. It needs the reducible upper bound, rather than an irreducible leading coefficient 1.
 - Two distinct affine lines meet in one point; coincident lines meet in a line with 3 points over 𝔽₃. The local-factor application must retain distinct geometric factors.
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 fixed-model Lang–Weil and the uniform finite-presentation proof; native affine varieties, dimension and finite fields.
+*Needs:* SchemeAndStackFoundations §5.11 `weil_bound` and §5.12 `bezout_inequality`; AlgebraicCurves function fields, places and genus; native affine varieties, dimension and finite fields; Layer 0 §0.10 finite-field polynomial counts.
+
+**Lang–Weil estimate for a fixed model.** Let K be a number field with ring of integers O, m≥1, and 𝒱 a separated scheme of finite type over O[1/m] whose generic fibre is geometrically irreducible of dimension d. Prove that, as v runs over the finite places of K prime to m, #𝒱(κ(v))=Nv^d+O(Nv^(d−1/2)), with implied constant depending on 𝒱. In particular 𝒱(κ(v)) is nonempty for all v of sufficiently large norm. Geometric irreducibility is required: an irreducible but not geometrically irreducible generic fibre gives no such estimate.
+
+([LANG-WEIL-54](#references), Theorem 1, applied to the reductions of a fixed model.)
+
+*Proof sketch.* By `generic_fibre_spreading`, over a dense open of Spec O[1/m] every fibre is geometrically irreducible of dimension d. Cover 𝒱 by finitely many affine opens, each with a fixed presentation by r equations of degree at most d₀ in n variables; one of them is fibrewise dense, and its complement and the pairwise overlaps have fibres of dimension at most d−1 over a smaller dense open. Reducing the fixed presentations modulo v keeps (n,r,d₀), so the uniform algebraic point counts give the main term from the dense open and O(Nv^(d−1)) for the rest. The finitely many remaining places are absorbed into the constant.
+
+**Checks.**
+
+- For 𝒱=𝔸^d the count is exactly Nv^d.
+- For the conic x²+y²=1 over ℤ[1/2], #𝒱(𝔽_p)=p−(−1/p), within 1 of p.
+- For V={x²=2} over ℚ, irreducible but not geometrically irreducible, #𝒱(𝔽_p) is 0 or 2 according to (2/p), never close to 1.
+
+*Needs:* Layer 5 §5.4 uniform algebraic point counts; SchemeAndStackFoundations §0.8 `generic_fibre_spreading` and `fibre_locus_constructible`.
 
 **Squarefree-ring sum-product.** Fix 0<δ₁≤δ₂<1. Prove that some δ₃>0 gives |A+A|+|AA|>q^δ₃|A| for every squarefree q>1 and A⊆ℤ/qℤ satisfying |A|<q^(1−δ₁) and |π_d A|>d^δ₂ for every d|q with d>q^(δ₁/3) (BGS-10, Theorem 1.3, p.565; proof §5). Constants depend only on δ₁,δ₂.
 
@@ -3579,7 +3641,7 @@ O nonempty follows from primitivity; integer-valued polynomial; nonzero/nonunit 
 
 ([BGS-10](#references), Definition of primitive pair §1, pp.560–561; local obstruction discussion §2.4, pp.571–573.)
 
-*Construction.* Use native integer evaluation and simultaneous congruence avoidance. Strong approximation supplies the finite local-obstruction reduction for the algebraic-group applications.
+*Construction.* Use native integer evaluation and simultaneous congruence avoidance. Strong approximation (§5.3a) and the subgroup reduction images supply the finite local-obstruction reduction for the algebraic-group applications.
 
 The definition exposes the following operations and laws:
 
@@ -3664,7 +3726,7 @@ Consequently V(z)=∏_(p<z,p∤q₀)(1−β(p))≥c(log z)^(−t) for z≥2 and 
 
 ([BGS-10](#references), §3.2, (3.6), pp.574–575, for the rational absolutely irreducible factor case; (3.34)–(3.40), pp.580–581, for the point-count inputs. The component-wise upper bound follows by the intersection argument below.)
 
-*Proof sketch.* Apply the uniform algebraic point counts of this subsection to each Frobenius-fixed geometric component and to G. Each fixed component contributes p^(dim G−1)+O(p^(dim G−3/2)). A rational point on a non-fixed component lies also on its distinct Frobenius conjugate, whose intersection has dimension at most dim G−2; sum the corresponding O(p^(dim G−2)) counts. The uniform presentation bound applies to the union of these intersections, which descends to the finite field. Divide by #G(𝔽_p)=p^dim G+O(p^(dim G−1/2)), enlarging q₀ to make the denominator positive and at least a fixed multiple of p^dim G. Use the subgroup reduction-image theorem; the rational-point strong-approximation contract alone is insufficient. The upper bound β(p)≤t/p+O(p^(−3/2)) and AnalyticNumberTheoryPartI §§0.21, 0.26 give the displayed product inequality: the reciprocal-prime error is O(1/log w) and the summable local error tail is O(w^(−1/2)). Enlarge K for the bounded prime range. Repeated factors do not change the zero locus, but their multiplicities remain in deg f for the height bound.
+*Proof sketch.* Apply the uniform algebraic point counts of this subsection to each Frobenius-fixed geometric component and to G. Each fixed component contributes p^(dim G−1)+O(p^(dim G−3/2)). A rational point on a non-fixed component lies also on its distinct Frobenius conjugate, whose intersection has dimension at most dim G−2; sum the corresponding O(p^(dim G−2)) counts. The uniform presentation bound applies to the union of these intersections, which descends to the finite field. Divide by #G(𝔽_p)=p^dim G+O(p^(dim G−1/2)), enlarging q₀ to make the denominator positive and at least a fixed multiple of p^dim G. Use the subgroup reduction-image theorem; rational-point strong approximation (§5.3a) alone is insufficient, since Γ need not be arithmetic. The upper bound β(p)≤t/p+O(p^(−3/2)) and AnalyticNumberTheoryPartI §§0.21, 0.26 give the displayed product inequality: the reciprocal-prime error is O(1/log w) and the summable local error tail is O(w^(−1/2)). Enlarge K for the bounded prime range. Repeated factors do not change the zero locus, but their multiplicities remain in deg f for the height bound.
 
 **Checks.**
 
@@ -3673,7 +3735,7 @@ Consequently V(z)=∏_(p<z,p∤q₀)(1−β(p))≥c(log z)^(−t) for z≥2 and 
 - For f=a²+b² the product over p=3,5 is V=(1−0)(1−1/3)=2/3; the inverse product is 3/2. A zero local density contributes factor one and is allowed by the upper dimension condition.
 - The constant f=2 has β(2)=1 and fails primitivity; it cannot be repaired by omitting the prime 2. A unit f=1 has empty zero locus and t=0, outside the nonunit endpoint hypotheses.
 
-*Needs:* Layer 5 §5.4 primitive affine sieve pair; AdelicAlgebraicGroups §4.2; Layer 5 §5.4 subgroup reduction images; Layer 0 §0.10 finite-field polynomial counts; InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 and Layer 5 §5.4 uniform algebraic point counts; AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
+*Needs:* Layer 5 §5.4 primitive affine sieve pair; Layer 5 §5.3a integral models and strong approximation; Layer 5 §5.4 subgroup reduction images; Layer 0 §0.10 finite-field polynomial counts; Layer 5 §5.4 uniform algebraic point counts and Lang–Weil estimate for a fixed model; AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
 
 **Fixed-modulus conditioning and walk remainders.** Under the algebraic hypotheses of local densities above, suppose the normalized symmetric operators P_(S,q) have every nonconstant eigenvalue at most 1−ε, uniformly over all squarefree q≥1 on their actual images H_q, for some 0<ε≤1. This includes squarefree q containing exceptional primes. The lazy operators then have nonconstant spectrum in [0,ρ], with ρ=1−ε/2∈[1/2,1). For any h∈H_q prove
 
@@ -3687,7 +3749,7 @@ Prove, uniformly in L≥0 and good squarefree d≥1, that |R_(d,c)|≤C X_L^τ d
 
 ([BGS-10](#references), §3.3, p.583, (3.56)–(3.57), for walk equidistribution; §2.4, Proposition 2.1, p.572, for simultaneous primitivity and exceptional moduli.)
 
-*Proof sketch.* On counting L²(H_q), self-adjointness and laziness give ‖T_q^L(δ₁−uniform)‖₂≤ρ^L, hence the pointwise estimate. For a subset B⊆H_(bd), Cauchy–Schwarz also gives error at most X_Lρ^L√|B|. Apply it to B={c}×{f=0 mod d}; CRT makes its uniform main term β(d)Y_L. If g=dim G, fixed-model point counts and CRT give |H_d|≪_a d^(g+a) for every fixed a>0, by absorbing a fixed factor per prime into d^a. As g≥3, choose a=g−2 to obtain √|B|≤√|H_d|≪d^(g−1), including d=1. The term at one records the conditioning error. Reduction from q₀ to b preserves the CRT comparison, and coprimality with b is precisely avoidance of all exceptional primes; no expansion for a subgroup extracted from Γ is invoked.
+*Proof sketch.* On counting L²(H_q), self-adjointness and laziness give ‖T_q^L(δ₁−uniform)‖₂≤ρ^L, hence the pointwise estimate. For a subset B⊆H_(bd), Cauchy–Schwarz also gives error at most X_Lρ^L√|B|. Apply it to B={c}×{f=0 mod d}; CRT makes its uniform main term β(d)Y_L. If g=dim G, the fixed-model Lang–Weil estimate and CRT give |H_d|≪_a d^(g+a) for every fixed a>0, by absorbing a fixed factor per prime into d^a. As g≥3, choose a=g−2 to obtain √|B|≤√|H_d|≪d^(g−1), including d=1. The term at one records the conditioning error. Reduction from q₀ to b preserves the CRT comparison, and coprimality with b is precisely avoidance of all exceptional primes; no expansion for a subgroup extracted from Γ is invoked.
 
 **Checks.**
 
@@ -3774,7 +3836,7 @@ Squarefree q; actual image quotient Γ/Γ(q); no claim for arbitrary prime power
 
 *Proof sketch.* Use the squarefree-ring sum-product and noncommutative flattening targets of this subsection. Prove the flattening, representation-multiplicity and product-growth argument of BGS §4 with those inputs. Do not present the conditional finite mixing inequality as a proof of expansion.
 
-*Needs:* Layer 5 §5.4 subgroup reduction images, Layer 5 §5.4 squarefree-ring sum-product and Layer 5 §5.4 noncommutative flattening; Layer 5 §5.4 squarefree-ring sum-product and noncommutative flattening; AdelicAlgebraicGroups §4.2; Layer 5 §5.4 subgroup reduction images.
+*Needs:* Layer 5 §5.4 subgroup reduction images, squarefree-ring sum-product and noncommutative flattening; Layer 5 §5.3a strong approximation for simply connected groups.
 
 ### 5.5 Chen's weight, the Goldbach local factor and Chen's theorems
 
@@ -3828,39 +3890,42 @@ The definition exposes the following operations and laws:
 
 *Needs:* Mathlib `Nat.primeFactors`; Mathlib `Real.summable_one_div_nat_pow`; Mathlib `Summable.of_nonneg_of_le`; Mathlib `Real.multipliable_one_add_of_summable`; Mathlib `Real.summable_log_one_add_of_summable`.
 
-**Chen switched triple upper bound.** For even N sufficiently large, set Q_N=∏_(2≤q<N^(1/4),q prime)q. Count ordered prime triples satisfying N^(1/10)<p₁≤N^(1/3)<p₂≤sqrt(N/p₁), p₂≤p₃≤N/(p₁p₂), and gcd(N−p₁p₂p₃,Q_N)=1. Their count T_N is≤3.9404 C_N N/log²N, with C_N the Goldbach local factor. Each triple has its ordering and multiplicity; this is an upper bound for the switched correction, not ordinary BV.
+**Numerical hypotheses for Chen's constants.** These propositions are assumed, never proved here; each is an explicit hypothesis of the estimates below that use it.
+
+- `SieveWeighted.ChenUpperEnvelope`: with aᵢ=(16−i)/10, Σ_(i=0)^6 [(log aᵢ+(4+i)/(16−i))·log((108+23i−i²)/(78+23i−i²)) − (3/aᵢ)·log((27−i)/(26−i))] < 0.49255. ([CHEN-73-CN](#references), equation (24), pp.124–125.)
+- `SieveWeighted.ChenLowerConstant`: with V=1/2+(3/4)log(9/8)−(3/2)log(4/3)−(1/4)log 2, 8(log 4−(1/2)log 8+V) > 2.6408. ([CHEN-73-CN](#references), equations (26)–(27), p.127.)
+
+**Chen switched triple upper bound.** Assume `SieveWeighted.ChenUpperEnvelope`. For even N sufficiently large, set Q_N=∏_(2≤q<N^(1/4),q prime)q. Count ordered prime triples satisfying N^(1/10)<p₁≤N^(1/3)<p₂≤sqrt(N/p₁), p₂≤p₃≤N/(p₁p₂), and gcd(N−p₁p₂p₃,Q_N)=1. Their count T_N is≤3.9404 C_N N/log²N, with C_N the Goldbach local factor. Each triple has its ordering and multiplicity; this is an upper bound for the switched correction, not ordinary BV.
 
 Even N above an absolute threshold; strict/inclusive cutoffs as displayed; all three entries prime; all primes dividing N retained in the local factor.
 
 ([CHEN-73-CN](#references), Definition of Ω, p.116; Lemmas 5–7, pp.117–124; Lemma 8 and equations (23)–(24), pp.124–125.)
 
-*Proof sketch.* Use the explicit Selberg coefficients supported on d≤N^(1/4−ε/2), replace the p₃ sum by a smoothed von Mangoldt sum, and separate principal and primitive character contributions (original equations (5)–(11)). Lemma 6 bounds the nonprincipal M₂ by O(N/(log N)^2.01), not O(N/(log N)^20). Its contour/zero-free and fourth-moment arguments remain the analytic proof target; this o(N/log²N) bound is sufficient for the final constant. Partial summation reduces the principal sum to ∫_(1/10)^(1/3) log(2−3α)/(α(1−α))dα. Certify the rational/logarithmic upper envelope of equation (24), pp.124–125, below 0.49255; multiplying by 8 leaves room for the stated 3.9404 bound.
+*Proof sketch.* Use the explicit Selberg coefficients supported on d≤N^(1/4−ε/2), replace the p₃ sum by a smoothed von Mangoldt sum, and separate principal and primitive character contributions (original equations (5)–(11)). Lemma 6 bounds the nonprincipal M₂ by O(N/(log N)^2.01), not O(N/(log N)^20). Its contour/zero-free and fourth-moment arguments remain the analytic proof target; this o(N/log²N) bound is sufficient for the final constant. Partial summation reduces the principal sum to ∫_(1/10)^(1/3) log(2−3α)/(α(1−α))dα. Bound this integral by the rational/logarithmic envelope of equation (24), pp.124–125, on the seven subintervals with endpoints (16−i)/10; the hypothesis bounds the envelope by 0.49255, and multiplying by 8 gives the stated 3.9404.
 
-An independent rational-log interval calculation bounds the equation (24) envelope by 0.492463256408<0.49255. Its exact formula is recorded in the worked example below; Prove the displayed rational/logarithmic bound by exact interval estimates.
+*Needs:* Layer 5 §5.5 goldbach local factor; `SieveWeighted.ChenUpperEnvelope`; Layer 1 §1.3 selberg optimal weights; Layer 2 `SieveCharacters.primitive_largeSieve`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates.
 
-*Needs:* Layer 5 §5.5 goldbach local factor; Layer 1 §1.3 selberg optimal weights; Layer 2 `SieveCharacters.primitive_largeSieve`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates.
-
-**Chen primes with an almost-prime shift.** Prove `SieveWeighted.chen_prime_shift`. For each fixed positive even h there are c_h>0,x_h such that for x≥x_h, #{p≤x:p prime,1≤Ω(p+h)≤2}≥c_hx/log²x. Thus there are infinitely many such primes.
+**Chen primes with an almost-prime shift.** Prove `SieveWeighted.chen_prime_shift` under `SieveWeighted.ChenUpperEnvelope` and `SieveWeighted.ChenLowerConstant`. For each fixed positive even h there are c_h>0,x_h such that for x≥x_h, #{p≤x:p prime,1≤Ω(p+h)≤2}≥c_hx/log²x. Thus there are infinitely many such primes.
 
 Fixed h>0 even; threshold and constant may depend on h.
 
 ([CHEN-73-CN](#references), Theorem 2, p.112.)
 
-*Proof sketch.* Repeat the original switched argument for p+h with its h-dependent local factors; do not infer the shifted theorem merely from Goldbach.
+*Proof sketch.* Repeat the original switched argument for p+h with its h-dependent local factors: the shifted switched-triple and original-family estimates have the same integrals, so the two numerical hypotheses give the same constants. Do not infer the shifted theorem merely from Goldbach.
 
-*Needs:* Layer 5 §5.5 chen switched triple upper bound; Layer 5 §5.5 chen switching weight; Layer 3 §3.4 weighted prime-distribution transfer.
+*Needs:* Layer 5 §5.5 chen switched triple upper bound and chen original-family lower estimate, in their shifted forms; Layer 5 §5.5 chen switching weight; Layer 3 §3.4 weighted prime-distribution transfer.
 
-**Chen original-family lower estimate.** Let P_N(z) count primes p≤N for which q∤N−p for every prime 3≤q<z. Let P_N(q,z) count those same primes additionally satisfying q|N−p. For even N sufficiently large, at z=N^(1/10), P_N(z)−(1/2)Σ_(z<q≤N^(1/3),q prime)P_N(q,z)≥2.6408 C_N N/log²N. The finite exceptional primes dividing N and endpoint equalities are estimated separately in the final conversion.
+**Chen original-family lower estimate.** Assume `SieveWeighted.ChenLowerConstant`. Let P_N(z) count primes p≤N for which q∤N−p for every prime 3≤q<z. Let P_N(q,z) count those same primes additionally satisfying q|N−p. For even N sufficiently large, at z=N^(1/10), P_N(z)−(1/2)Σ_(z<q≤N^(1/3),q prime)P_N(q,z)≥2.6408 C_N N/log²N. The finite exceptional primes dividing N and endpoint equalities are estimated separately in the final conversion.
 
 N even and above an absolute threshold; cutoffs exactly as stated; q=2 omitted from the original-family sieve.
 
 ([CHEN-73-CN](#references), Lemma 9, pp.125–127, equations (25)–(27).)
 
-*Proof sketch.* Apply Richert 1969 TheoremA and its uniform progression estimates at the displayed levels N^(1/2−ε) and N^(1/2−ε)/q. Theorem A and its proof are a proof requirement at that locator. Use the delay functions through f(5), the exact integral in equations (26)–(27), and the logarithm bounds. The expression in (27) is approximately−0.0164726270754, so the printed lower endpoint−0.0164725 is false. Replace it by−0.0164727. Exact rational log intervals still give a final lower margin greater than 2.6408077, hence 2.6408. Prove the displayed bound by exact rational log intervals.
+*Proof sketch.* Apply Richert 1969 TheoremA and its uniform progression estimates at the displayed levels N^(1/2−ε) and N^(1/2−ε)/q. Theorem A and its proof are a proof requirement at that locator. Use the delay functions through f(5) and the exact integral in equations (26)–(27): the lower constant is 8(log 4−(1/2)log 8+V), with V the expression (27), and the hypothesis bounds it below by 2.6408.
 
-*Needs:* Layer 5 §5.5 goldbach local factor; Layer 5 §5.2 rosser–iwaniec linear sieve; Layer 3 §3.4 weighted prime-distribution transfer.
+*Needs:* Layer 5 §5.5 goldbach local factor; `SieveWeighted.ChenLowerConstant`; Layer 5 §5.2 rosser–iwaniec linear sieve; Layer 3 §3.4 weighted prime-distribution transfer.
 
-**Chen’s Goldbach theorem.** Prove `SieveWeighted.chen_goldbach`. There are absolute c>0,N₀ such that every even N≥N₀ has at least cN/log²N representations N=p+m with p prime and 1≤Ω(m)≤2. A singular-factor refinement multiplies the bound by ∏_(odd p|N)(p−1)/(p−2); the absolute-c headline does not prescribe the numerical constant 0.67 in Chen’s normalization.
+**Chen’s Goldbach theorem.** Prove `SieveWeighted.chen_goldbach` under `SieveWeighted.ChenUpperEnvelope` and `SieveWeighted.ChenLowerConstant`. There are absolute c>0,N₀ such that every even N≥N₀ has at least cN/log²N representations N=p+m with p prime and 1≤Ω(m)≤2. A singular-factor refinement multiplies the bound by ∏_(odd p|N)(p−1)/(p−2); the absolute-c headline does not prescribe the numerical constant 0.67 in Chen’s normalization.
 
 Even sufficiently large N; Ω counts multiplicity, so prime squares are allowed.
 
@@ -3946,7 +4011,82 @@ Uniform TypeI; divisor/logarithmic coefficient norms; the owned ideal divisor an
 
 *Proof sketch.* Proposition 5.1 uses the exact ideal von Mangoldt convolution identity, the hyperbola separation kernel and a cutoff y with z=X/y≥y. In the dyadic decomposition use M≤z and N≤2z (or both≤2z), with MN≤2X. The last dyadic block may exceed z when y=z; the factor 2 only changes absolute constants. Choose y=X^(ϑ/(2+θ)); control smaller S(z) iteratively. The integrable separation kernel uses DFI-1997, Lemma 9, cited by its theorem locator. Divisor/logarithmic coefficient bounds in KM follow from bounded TypeII after absorbing their growth into ε; keep these bounds visible.
 
-*Needs:* Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; the stated uniform Type I and coefficient-weighted Type II hypotheses. This generic conversion is independent of the supplied joint-spin construction.
+*Needs:* Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; the stated uniform Type I and coefficient-weighted Type II hypotheses. This generic conversion uses no property of the joint-spin sequence beyond these two estimates.
+
+**Joint-spin coefficient sequence.** Fix a finite Galois extension M/ℚ of degree n and a nonempty S⊆Gal(M/ℚ) with S∩S⁻¹=∅. If M is totally real assume that every totally positive unit is a square; impose no unit hypothesis when M is totally complex. Fix ideal-class representatives and a modulus F as in KM-21 §2.2, a function ψ:(O_M/F)^×→ℂ invariant under multiplication by squares of units and extended by 0 off the unit classes, and a decomposition O_M^×=T_M×V_M into torsion and a free part. For an odd principal ideal a=(α) coprime to F define
+
+`s_a = Σ_(t∈T_M) Σ_(v∈V_M/V_M²) 1_(tvα totally positive) ψ(tvα mod F) ∏_(σ∈S) (tvα/σ(tvα))_(M,2)`,
+
+with the quadratic ideal residue symbol adapter of this subsection, and set s_a=0 for every other nonzero ideal. Prove generator independence: s_a does not depend on the generator α nor on the coset representatives v. Prove |s_a|≤|T_M|·|V_M/V_M²|·max|ψ|.
+
+([KM-21](#references), §2.2 and §2.3, (2.4), pp.5–6.)
+
+*Proof sketch.* Replacing α by a unit multiple permutes T_M×V_M/V_M² up to unit squares. Replacing a representative v by vw² multiplies tvα by the unit square w², which preserves total positivity and ψ, multiplies each numerator by a square and leaves each denominator ideal (σ(tvα)) unchanged. In the totally real case the hypothesis on totally positive units makes the joint spin ∏_σ(α/σ(α)) of a totally positive generator independent of that generator.
+
+**Checks.**
+
+- In a totally complex field the positivity indicator is identically one.
+- ψ=0 gives the zero sequence; an involution σ=σ⁻¹ cannot lie in S, and the empty S is excluded, so n≥3 for every admissible S.
+
+*Needs:* Layer 5 §5.6 quadratic ideal residue symbol adapter; GlobalNumberFields Layers 3 and 3C generators, units and class representatives; Mathlib `NumberField.Units`.
+
+**Kernel reciprocity for joint spins.** For nonzero odd α,β∈O_M coprime to F put Φ(α,β)=∏_(σ∈S)(α/[σ(β)σ⁻¹(β)])_(M,2). When the exchanged kernels Φ(α,β) and Φ(β,α) are nonzero, prove Φ(α,β)=ε(α,β)Φ(β,α) with
+
+`ε(α,β) = ∏_(σ∈S) ∏_(v|2∞) (α,σ(β))_v (α,σ⁻¹(β))_v`.
+
+A shared odd prime divisor of α and σ^(±1)(β) makes both kernels zero. On totally positive generators the infinite-place factors are 1, and a totally complex field has no real factors, so ε then depends only on the dyadic completions and is determined by α,β modulo a fixed power of 2.
+
+([KM-21](#references), §4, (4.3) and properties (P1)–(P3), p.20; [FIMR-13](#references), Lemma 2.1, p.6.)
+
+*Proof sketch.* Apply the ideal-symbol reciprocity adapter of this subsection to α and each of σ(β), σ⁻¹(β), and use Galois equivariance of the symbol, (σ(α)/σ(β))=(α/β), to match the factors of Φ(β,α).
+
+**Checks.**
+
+- With α=β=3 both kernels vanish; cancelling a kernel without its nonvanishing hypothesis is invalid.
+- For S={σ} in a cyclic cubic field, Φ(α,1)=Φ(1,α)=1 for every α.
+
+*Needs:* Layer 5 §5.6 ideal-symbol reciprocity adapter; QuadraticFormInvariants §6C local Hilbert symbols; ClassFieldTheory Layer 14.
+
+**Type I estimate for joint spins.** Assume C_(|S|n), with saving δ>0 as in the short-character conjecture. For every ε>0 there is C(M,ψ,S,ε) such that for all X≥2 and every nonzero ideal m,
+
+`|Σ_(Na≤X, m|a) s_a| ≤ C(M,ψ,S,ε) X^(1−δ/(54n|S|²)+ε)`.
+
+The bound is uniform in m.
+
+([KM-21](#references), §2.6, (2.5), p.7; proof in §3; [FIMR-ERRATUM-2015](#references), Items 1, 3–5 and 7, pp.923–925.)
+
+*Proof sketch.* Write a=mb and parametrize the principal b by generators in a fundamental domain for the action of the totally positive units, sliced into translates of a sublattice of O_M≅ℤⁿ along one coordinate. On each slice, kernel reciprocity turns ∏_σ(β/σ(β)) into a fixed sign times a real character of the remaining variable, of conductor dividing a norm form in the other coordinates. Apply the progression form of C_(|S|n) from §5.3 to these short sums; the reduced conductor stays above 1 except on a common-divisor locus. Bound that exceptional locus, where the norm form has a large common divisor with the modulus, by counting lattice points of codimension two in the sliced domain with §0.11a, including the different and the corrected norm condition of the erratum. Balancing the slice length against the exceptional count gives the saving δ/(54n|S|²).
+
+*Needs:* Layer 5 §5.6 joint-spin coefficient sequence and kernel reciprocity; Layer 5 §5.3 short character input for joint spins; Layer 0 §0.11a lattice-point counts; GlobalNumberFields Layers 3 and 11.
+
+**Type II estimate for joint spins.** For every ε>0 there is C(M,ψ,S,ε) such that for all x,y≥2 and complex coefficients with |v_a|,|w_b|≤1,
+
+`|Σ_(Na≤x, Nb≤y) v_a w_b s_(ab)| ≤ C(M,ψ,S,ε) (x^(−1/(6n))+y^(−1/(6n))) (xy)^(1+ε)`.
+
+No short-character hypothesis is used.
+
+([KM-21](#references), §2.6, (2.6), p.7; proof in §4.)
+
+*Proof sketch.* For principal a=(α), b=(β), multiplicativity of the symbol and kernel reciprocity write the spin of αβ as the spins of α and β times Φ(α,β), up to dyadic and infinite Hilbert symbols that depend only on signs and on α,β modulo a fixed modulus. Split into those classes, apply Cauchy–Schwarz to remove v, and expand the square in b. For a pair (β,β′) the sum over α runs over a function periodic modulo |N(ββ′)|, by property (P3), which is a nontrivial character unless ββ′ is a square up to units; bound the nontrivial sums over boxes in a fundamental domain by completing them, and count the square pairs with the ideal divisor bounds of this subsection.
+
+*Needs:* Layer 5 §5.6 joint-spin coefficient sequence and kernel reciprocity; Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds; Layer 0 §0.11a lattice-point counts.
+
+**Conditional joint-spin prime bound.** Assume C_(|S|n) with saving δ. For every ε>0 and X≥2,
+
+`|Σ_(𝔭 prime, N𝔭≤X) s_𝔭| ≤ C(M,ψ,S,ε) X^(1−δ/(54|S|²n(12n+1))+ε)`.
+
+All auxiliary choices are fixed, and the constant may depend on them and on ψ.
+
+([KM-21](#references), Theorem 1, p.2; §2.6, pp.7–8.)
+
+*Proof sketch.* Apply the FIMR sieve conversion of this subsection to a_a=s_a/(|T_M|·|V_M/V_M²|·max|ψ|), with Type I saving ϑ=δ/(54n|S|²) and Type II exponent θ=1/(6n). The Type II estimate for bounded coefficients gives the coefficient-weighted form after absorbing Λ and τ by the ideal divisor bounds, since (x^(−θ)+y^(−θ))xy≤2(x+y)^θ(xy)^(1−θ). The conversion saves ϑθ/(2+θ)=δ/(54|S|²n(12n+1)); prime powers of norm at most X contribute O(X^(1/2)).
+
+**Checks.**
+
+- At n=3, |S|=1 and δ=1 the saving is 1/5994.
+- Replacing ψ by cψ multiplies the sum by c; the constant must allow dependence on ψ.
+
+*Needs:* Layer 5 §5.6 Type I and Type II estimates for joint spins; Layer 5 §5.6 FIMR sieve conversion to prime ideals; Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds.
 
 **Equidistribution of joint spin signs.** For totally real Galois K/Q with the positive-unit square property, admissible nonempty S={σ₁,…,σ_t}, and C_tn, each sign vector e∈{±1}^t has asymptotic proportion 2^(−t) among principal prime ideals of norm≤X as X→∞.
 
@@ -3954,32 +4094,23 @@ Real field; principal prime denominator; no inverse pairs; short-character hypot
 
 ([KM-21](#references), Theorem 2, p.2; proof in §2.6, pp.7–8.)
 
-*Proof sketch.* Expand the sign indicator into the finite Fourier sum over subsets of S. Apply ArithmeticStatisticsPartV §3.30 to each nonempty subset using the explicit transferred short-character bound. Remove the finitely many ramified/bad primes and the O(sqrt X) higher-residue-degree primes where spin vanishes. Import the prime ideal theorem in the principal class to normalize.
+*Proof sketch.* Expand the sign indicator into the finite Fourier sum over subsets of S. Apply the conditional joint-spin prime bound of this subsection to each nonempty subset, using the explicit transferred short-character bound. Remove the finitely many ramified/bad primes and the O(sqrt X) higher-residue-degree primes where spin vanishes. Import the prime ideal theorem in the principal class to normalize.
 
-*Needs:* ArithmeticStatisticsPartV §3.30 conditional joint-spin prime bound; Layer 5 §5.3 short character input for joint spins; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c.
+*Needs:* Layer 5 §5.6 conditional joint-spin prime bound; Layer 5 §5.3 short character input for joint spins; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c.
 
 ### Analytic and native-interface requirements
 
-Construct Iwaniec's normalized general-κ functions and constants, proving existence, uniqueness, delay equations and normalization at infinity. For Richert certify integral positivity and optimization with α=γ/4, β=γ/(1+3^(−r)), a strict margin and a square-divisor exceptional mass before concluding a bound on Ω.
+Construct Iwaniec's normalized general-κ functions and constants, proving existence, uniqueness, delay equations and normalization at infinity. For Richert prove integral positivity and optimization with α=γ/4, β=γ/(1+3^(−r)), a strict margin and a square-divisor exceptional mass before concluding a bound on Ω.
 
-For Chen prove the original-family lower bound 2.6408 C_N N/log²N and ordered switched-triple upper bound 3.9404 C_N N/log²N. Retain Lemma 3's fourth moment (statement p.114, proof p.115), switched discrepancies, certified integral estimates and Lemma 6 error N/log^(2.01)N. Lemma 9 uses RICHERT-1969, Theorem A, cited by its theorem locator. Keep 0.6706−0.67 when absorbing the N^0.91 exception; a switched complement need not be prime. For each even h>0 reconstruct the shifted family, local factors and switching estimates with h-dependent constants.
+For Chen prove the original-family lower bound 2.6408 C_N N/log²N under `SieveWeighted.ChenLowerConstant` and the ordered switched-triple upper bound 3.9404 C_N N/log²N under `SieveWeighted.ChenUpperEnvelope`. Retain Lemma 3's fourth moment (statement p.114, proof p.115), switched discrepancies, the reductions of the integrals to the two hypotheses, and Lemma 6 error N/log^(2.01)N. Lemma 9 uses RICHERT-1969, Theorem A, cited by its theorem locator. Keep 0.6706−0.67 when absorbing the N^0.91 exception; a switched complement need not be prime. For each even h>0 reconstruct the shifted family, local factors and switching estimates with h-dependent constants.
 
-The ideal-symbol comparison and the generic ideal coefficient/prime-extraction interfaces have their stated hypotheses. Spin-sign moments use ArithmeticStatisticsPartV §3.30 with ArithmeticStatisticsPartV §3.30 conditional joint-spin prime bound; each nonempty subset retains C_(|T|n) through §5.3. The imported chain keeps its sliced-lattice and codimension-two exceptional estimates, uniformity in all nonzero ideals, and dyadic/infinite-place reciprocity factors.
+The ideal-symbol comparison and the generic ideal coefficient/prime-extraction interfaces have their stated hypotheses. Spin-sign moments use the conditional joint-spin prime bound of §5.6 for each nonempty subset T, which retains C_(|T|n) through §5.3. The Type I estimate keeps its sliced-lattice and codimension-two exceptional estimates and uniformity in all nonzero ideals; kernel reciprocity keeps the dyadic and infinite-place factors.
 
 For affine sieves supply native subgroup, reduction-image, labelled-walk orbit and CRT density comparisons, identifying relative polynomial density with rational Zariski closure. The general endpoint uses original-group lazy walks, the fixed squarefree modulus b, a simultaneously primitive class c, main scale X_L/|H_b| and its signed remainder at one. Reconstruct SL₂ squarefree expansion from sum-product/flattening and convert its ordinary gap to lazy mixing. Prove conditioned remainders and effective power-saving escape for that same population. The separate free-tree bound retains its chosen subgroup’s independent mixing and escape inputs, primitive-coset reduction, heights, growth r=2k−1 and strict saturation margin.
 
 ### Examples
 
 Multiplicity gives 1 at-most-zero-almost-prime, 25 a P₂, 8 not a P₂ and zero excluded. Richert can leave positive weight at 8, so the square exception is necessary. Chen at N=1000 gives weights one at 11, zero at 2·11·13 and 1/2 at 3 and 27; the last tests squarefreeness.
-
-Certify Chen's logs by setting t=(r−1)/(r+1), r≥1, summing 2Σ_(j=0)^199 t^(2j+1)/(2j+1), and using remainder ≤2t^401/[401(1−t²)]. For equation (24), sum over i=0,…,6, with a=(16−i)/10,
-
-~~~text
-(log a+(4+i)/(16−i)) log((108+23i−i²)/(78+23i−i²))
-  −(3/a) log((27−i)/(26−i)).
-~~~
-
-The upper rational endpoint is <0.49255, with value about 0.49246325640747. Put V=1/2+(3/4)log(9/8)−(3/2)log(4/3)−(1/4)log 2. Then −0.0164727<V<−0.0164725 and 8(log 4−(1/2)log 8+V)>2.6408. The corrected safe endpoint preserves the margin. These rational checks do not replace the analytic integral reductions.
 
 C₆=2C₂,C₁₀=(4/3)C₂ and C₁₈=C₆ test distinct Goldbach corrections. Over ℚ, ideal symbols give (0/𝒪)=1,(2/(5))=−1,(4/(5))=1,(15/(5))=0; in degree two (2/(5𝒪_K))=1, so rational ideal and rational prime denominators differ.
 
@@ -3989,7 +4120,7 @@ Affine values {2,3} have gcd one but fail simultaneous avoidance at modulus six.
 
 ### Dependencies
 
-Layers 0, 1, 2 and 3. External inputs: Layer 5 §5.4 squarefree-ring sum-product and noncommutative flattening; AdelicAlgebraicGroups §4.2; Layer 5 §5.4 subgroup reduction images; AnalyticNumberTheoryPartI §0.32; ArithmeticStatisticsPartV §3.30; ArithmeticStatisticsPartV §3.30 conditional joint-spin prime bound; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; InverseGaloisAndArithmeticFundamentalGroups §IG.2.5 and Layer 5 §5.4 uniform algebraic point counts; GeometryOfNumbersAndQuadraticArithmetic §4.1; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassFieldTheory Layer 14; QuadraticFormInvariants §6C; Layer 5 §5.6 ideal-symbol reciprocity adapter; GlobalNumberFields Layer 3 geometry of numbers and ray class ideal counting.
+Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassFieldTheory Layer 14; QuadraticFormInvariants §6C; GlobalNumberFields Layers 1, 3, 3C, 6 and 11; SchemeAndStackFoundations §§0.8, 5.11 and 5.12; AlgebraicCurves function fields and genus; ReductiveGroups Layers 6–7a; ReductiveGroupsPartII RG2.0, RG2.3 and RG2.4.
 
 ## Downstream consumers
 
@@ -4063,7 +4194,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **MAYNARD-2015, §7, sentence before (7.10), p. 407 (arXiv v3 p. 19)** The dropped constraint is `Σ_{i=2}^{k}` u_i > k − T: the error integral E_k of (7.7) is over u₂,…,u_k, and there is no variable u₁ in (7.7)–(7.10).
 
-**MAYNARD-2015, Lemma 8.1, definition of `G_{b,j},` p. 409 (arXiv v3 p. 21); also (8.6)** The sum must start at r = 0, so that `G_{0,j}` = 1 (the empty composition of 0). Equivalently use the multinomial form (8.5), which is correct for every b. For b = 0 the printed `G_{0,j}` is an empty sum, 0, so Lemma 8.1 gives `∫_{ℛ_k}(1` − P₁)^a = 0 instead of a!/(k+a)!; for k = 5, a = 2 the true value is 1/2520. Lemma 8.2 uses `G_{c_i+c_j,2}` and `G_{c′₁+c′₂,2}` with index 0 whenever a monomial has no P₂ factor. For (8.16) exact rational arithmetic with the printed G gives I₅ = 17753/977961600 and ratio 26784/17753 ≈ 1.509 < 2, while with `G_{0,j}` = 1 it gives I₅ = 29509/1222452000 and the stated ratio 1417255/708216, which agrees with direct integration. The paper's numerical results (8.15) and (8.17) are therefore correct: the author's computations evidently used `G_{0,j}` = 1. The eigenvalue 4.0020697 of (8.15) was also reproduced with the corrected formula.
+**MAYNARD-2015, Lemma 8.1, definition of `G_{b,j},` p. 409 (arXiv v3 p. 21); also (8.6)** The sum must start at r = 0, so that `G_{0,j}` = 1 (the empty composition of 0). Equivalently use the multinomial form (8.5), which is correct for every b. For b = 0 the printed `G_{0,j}` is an empty sum, 0, so Lemma 8.1 gives `∫_{ℛ_k}(1` − P₁)^a = 0 instead of a!/(k+a)!; for k = 5, a = 2 the true value is 1/2520. Lemma 8.2 uses `G_{c_i+c_j,2}` and `G_{c′₁+c′₂,2}` with index 0 whenever a monomial has no P₂ factor. The numerical records (8.15) and (8.17) are the hypotheses of §4.6, stated for the Gram forms with `G_{0,j}` = 1.
 
 **MAYNARD-2015, Proof of Lemma 8.2, display (8.10), p. 411 (arXiv v3 p. 23)** The right side of (8.10) is b!/(k + b + 2c′ − 1)! · `G_{c′,2}(k` − 1): Lemma 8.1 with k − 1 variables, j = 2 and exponent c′ gives a!/((k−1) + 2c′ + a)! · `G_{c′,2}(k−1).` The printed right-hand side uses c instead of c′, and the coefficient 1 instead of 2. The statement of Lemma 8.2 is consistent with the corrected display: with B = b_i+b_j+2c_i+2c_j−2c′₁−2c′₂+2, (k − 1) + B + 2(c′₁+c′₂) = k + b_i + b_j + 2c_i + 2c_j + 1.
 
@@ -4125,7 +4256,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **MAYNARD-2015, Published Ann. Math. 181 (2015), p.404, (6.18)** The product excludes i=m. The preceding m-coordinate integration removes precisely that coordinate. The printed free index j cannot define the expression.
 
-**MAYNARD-2015, Published Ann. Math. 181 (2015), p.411, matrix-positivity assertion after Lemma 8.2** A₁ is positive definite on a linearly independent basis; A₂ is only guaranteed positive semidefinite. Whitening A₁ still gives the generalized Rayleigh maximum. At k=2 take F=∂_x∂_y[x²y²(1−x−y)²]. This nonzero symmetric polynomial has I₂=1/3150, but each fiber integral vanishes by the boundary terms, hence J₁=J₂=0. It is in the stated symmetric polynomial span. Repeated basis monomials also make A₁ singular.
+**MAYNARD-2015, Published Ann. Math. 181 (2015), p.411, matrix-positivity assertion after Lemma 8.2** A₁ is positive definite on a linearly independent basis; A₂ is only guaranteed positive semidefinite. At k=2 take F=∂_x∂_y[x²y²(1−x−y)²]. This nonzero symmetric polynomial has I₂=1/3150, but each fiber integral vanishes by the boundary terms, hence J₁=J₂=0. It is in the stated symmetric polynomial span. Repeated basis monomials also make A₁ singular.
 
 **KHAYUTIN-19, Published Ann. Math. 189 (2019), pp.230–231, Lemma 9.21, (43)–(44) and final prime-sum estimate** Retain the Möbius-difference factors p^(jβ)−p^((j−1)β) and prove a uniform Euler-factor bound; the displayed coarse bound does not suffice. For fixed s,κ and z→∞ every summand is at least 1/p, so the sum diverges like log log z. This flags the last proof step, not a counterexample to the target.
 
@@ -4139,7 +4270,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **BGS-10, Published Invent. Math. 179 (2010), p.581, (3.47), compared with Theorem 3.1 and (3.33)** Choose δ<(1−τ)/dim G and s>9t, then z=X^(δ/s); state the resulting factor bound with a strict margin. The earlier estimates need a smaller distribution power and a strict Brun parameter. Simultaneous equality cannot be inferred from them. The stated strict factor bound is retained.
 
-**CHEN-73-CN, Chinese original, p.127, (27)** Replace that endpoint by −0.0164727. The final lower estimate still exceeds 2.6408. Exact rational log intervals give an expression between−0.016472627076 and−0.016472627074, below the printed endpoint. Combining the preceding terms gives a lower margin greater than 2.6408077.
+**CHEN-73-CN, Chinese original, p.127, (27)** The printed lower endpoint −0.0164725 is not a lower bound for the expression (27). `SieveWeighted.ChenLowerConstant` states the lower constant through that expression itself and uses no endpoint.
 
 ## References
 
@@ -4196,6 +4327,24 @@ The following conventions fix the mathematical statements at the cited versions.
 - **FIMR-ERRATUM-2015.** John Friedlander, Henryk Iwaniec, Barry Mazur and Karl Rubin. [Erratum to: The spin of prime ideals](https://link.springer.com/content/pdf/10.1007/s00222-015-0613-9.pdf). Inventiones Mathematicae 202 (2015), 923–925, DOI 10.1007/s00222-015-0613-9.
 
 - **BGS-10.** Jean Bourgain, Alex Gamburd and Peter Sarnak. [Affine linear sieve, expanders, and sum-product](https://link.springer.com/content/pdf/10.1007/s00222-009-0225-3.pdf). Inventiones Mathematicae 179 (2010), 559–644 (open access).
+
+- **HENK-02.** Martin Henk. [Successive minima and lattice points](https://arxiv.org/pdf/math/0204158v1). arXiv:math/0204158v1, seven-page preprint; published in Rendiconti del Circolo Matematico di Palermo (2), Supplemento 70 (2002), 377–384, which is not the edition cited here.
+
+- **DAVENPORT-51.** Harold Davenport. [On a principle of Lipschitz](https://doi.org/10.1112/jlms/s1-26.3.179). Journal of the London Mathematical Society 26 (1951), 179–183; correction, ibid. 39 (1964), 580.
+
+- **LANG-WEIL-54.** Serge Lang and André Weil. Number of points of varieties in finite fields. American Journal of Mathematics 76 (1954), 819–827.
+
+- **CONRAD-12.** Brian Conrad. [Weil and Grothendieck approaches to adelic points](https://math.stanford.edu/~conrad/papers/adelictop.pdf). L'Enseignement Mathématique 58 (2012), 61–97; locators use the author's preprint pagination.
+
+- **RAPINCHUK-14.** Andrei S. Rapinchuk. [On strong approximation for algebraic groups](https://arxiv.org/abs/1207.4425). In Thin Groups and Superstrong Approximation, MSRI Publications 61 (2014), 269–298; locators use arXiv:1207.4425.
+
+- **PR-94.** Vladimir Platonov and Andrei Rapinchuk. Algebraic Groups and Number Theory. Pure and Applied Mathematics 139, Academic Press, 1994; locators use printed pages.
+
+- **PLATONOV-69.** V. P. Platonov. [The problem of strong approximation and the Kneser–Tits conjecture for algebraic groups](https://www.mathnet.ru/eng/im2220). Mathematics of the USSR-Izvestiya 3 (1969), 1139–1147.
+
+- **BOREL-63.** Armand Borel. [Some finiteness properties of adele groups over number fields](http://www.numdam.org/item/PMIHES_1963__16__5_0.pdf). Publications mathématiques de l'IHÉS 16 (1963), 5–30.
+
+- **SCHNEIDER-11.** Peter Schneider. p-Adic Lie Groups. Grundlehren der mathematischen Wissenschaften 344, Springer, 2011; locators use printed pages.
 
 Two inputs have secondary cross-references: Halberstam–Richert, Lemmas 5.3–5.4, as cited by GGPY §2, and Richert (1969), Theorem A, as cited by Chen, Lemma 9. The statements used here are the versions reproduced at those exact secondary locators. The Heath-Brown sieve citations use arXiv:math/0209360v1, the Koymans–Milovic citations arXiv:1809.09597v1 and the GGPY citations arXiv:math/0609615v1. The published 2015 erratum of Friedlander–Iwaniec–Mazur–Rubin is applied in addition to its preprint.
 
