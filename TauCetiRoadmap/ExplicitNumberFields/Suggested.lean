@@ -48,12 +48,14 @@ Not statable at the pins:
   Ceti continues it only to `Re s > 1 − 1/[K : ℚ]`; and neither library has its continuation to
   `ℂ`, its completion, or the L-function of a Hecke character;
 * the bounds `g(p) < p^{5/8}`, `h(p) < p^{0.99}` and `h(p) < p^{2/3}` and Grosswald's conjecture
-  under the generalized Riemann hypothesis (6.3–6.5): each is conditional on finite verifications
-  that either assert the conclusion itself on an initial range (*McGownSorensonTable*,
-  *SmallPrimitiveRootsModPSquare*, *GrosswaldFiniteRange*, *GrosswaldPrimeFiniteRange*) or are
-  case analyses of the source's sieve with no statement on the pinned carriers
-  (*McGownTrudgianOmegaChecks*, *McGownSorensonGapChecks*, *GrosswaldSieveVerification*); they
-  lack a statement of that input other than the conclusion.
+  under the generalized Riemann hypothesis (6.3–6.5): each carries the finite verification
+  *PrimorialTableVerified* `26` under which ExplicitMultiplicativeFunctions states Robin's bound
+  for `ω`, and the two bounds modulo `p²` also its *PrimorialTotientTableVerified* `24284` and
+  ExplicitCharacterSumsAndSieves' *LapkovaSmallModuliVerified*; neither pinned library declares
+  these predicates, and restating them here would duplicate their owners'. Besides,
+  *McGownTrudgianOmegaChecks*, *McGownSorensonGapChecks* and *GrosswaldSieveVerification* would
+  need long ad hoc encodings of the sources' sieve criteria (the Burgess moment constant
+  `W(p, h, r)`, the sieve weights `δ_{ω,s}`, Bach's constant `c(p, x)` and Chen's criterion).
 
 The other statable targets are variants of these headlines or of a supplier's, and are README
 targets: Lee's count (2.3), whose constant differs between the two printings of the source;
