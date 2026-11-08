@@ -6,11 +6,11 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. Discharging these statements finishes neither a layer nor the roadmap.
 
-The statements are analytic Fredholm continuation (§0.16), continuation of the completed
-full modular Eisenstein series with its functional equation and residues (§2.18), and
-continuation of the level-N automorphic Green kernel with its residue (§2.24).
-The scalar series and kernels below are defined on Mathlib's upper half-plane, using its
-congruence subgroups, complex powers, sums and integrals. Their defining expressions are
+The statements are analytic Fredholm continuation (§0.16) and continuation of the level-N
+automorphic Green kernel with its residue (§2.24). The completed full modular Eisenstein
+series, with its continuation, functional equation and residues, is AnalyticNumberTheoryPartI
+§2.1b. The scalar series and kernels below are defined on Mathlib's upper half-plane, using
+its congruence subgroups, complex powers, sums and integrals. Their defining expressions are
 used only in the convergence regions specified in the theorem statements.
 
 The general reductive Eisenstein continuation and Hecke comparison (§§1.15a–1.15c),
@@ -53,27 +53,9 @@ theorem analytic_fredholm {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
           ∀ᶠ w in 𝓝[≠] z,
             R w = g w + ∑ j, (((w - z) ^ (j.val + 1))⁻¹ • A j) := by sorry
 
-namespace Modular
-
-/-- The primitive-pair Eisenstein series for PSL₂(ℤ), initially for `1 < re s`.
-The factor `1 / 2` counts each pair of opposite primitive vectors once (§1.14). -/
-def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
-  1 / 2 * (z.im : ℂ) ^ s *
-    ∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
-      (‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ : ℂ) ^ (-2 * s)
-
-/-- Completed E has a meromorphic continuation, reflection, and residues −1/2 and 1/2.
-Point values at the poles carry no residue information. -/
-theorem completed_eisenstein_continuation :
-    ∃ E : UpperHalfPlane → ℂ → ℂ,
-      (∀ z, MeromorphicOn (E z) Set.univ) ∧
-      (∀ z, AnalyticOnNhd ℂ (E z) ({0, 1}ᶜ : Set ℂ)) ∧
-      (∀ z s, 1 < s.re → E z s = completedRiemannZeta (2 * s) * nonholomorphic_eisenstein z s) ∧
-      (∀ z s, s ∉ ({0, 1} : Set ℂ) → E z (1 - s) = E z s) ∧
-      (∀ z, Tendsto (fun s => s * E z s) (𝓝[≠] 0) (𝓝 (-1 / 2))) ∧
-      (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (1 / 2))) := by sorry
-
-end Modular
+-- Supplied by AnalyticNumberTheoryPartI:
+-- §2.1b `TauCetiRoadmap.AnalyticNumberTheoryPartI.nonholomorphic_eisenstein` and
+-- `TauCetiRoadmap.AnalyticNumberTheoryPartI.completed_eisenstein_continuation`.
 
 namespace SpecialFunctions
 

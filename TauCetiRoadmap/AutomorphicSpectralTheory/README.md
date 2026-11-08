@@ -44,6 +44,8 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | VonNeumannAlgebras | V4.0.Fields: measurable separable Hilbert fields on standard `σ`-finite bases, complete direct integrals, decomposable operators and measure transport; V4.Core: generic complex traces on OperatorIdeals carriers. Sections 0.1–0.3 and 0.9 consume these contracts; §0.7 identifies them with SA-B85's supplied representation-to-multiplicity model. |
 | OperatorTheory/SelfAdjointSpectralTheory | SA-B85: cyclic multiplication models, the nondegenerate `C₀(X)` specialization, finite control measures, measurable multiplicity, onto unitaries, PVM-null-set equivalence and independence of choices. Section 0.7 supplies the automorphic normalization adapter. |
 | OperatorTheory/UnboundedOperators | OperatorTheory/UnboundedOperators Part A, UO-A01–UO-A02: the unbounded PVM integral, exact second-moment domain, polarized action and recovery of a self-adjoint partial operator with its actual domain. This prefix uses SelfAdjointSpectralTheory independently of V10 multiplier models. |
+| AnalyticNumberTheoryPartI | §2.1b: the level-one Eisenstein series, its completion, Fourier expansion, continuation with residues and functional equation, cusp decay and core integrability; §2.1c: narrow classes, genus characters, reduced cycles and Nielsen surfaces with area and boundary length; §3.23b: the first-kind Bessel API on `Complex.besselJ` and the positive-base complex power. |
+| AnalyticNumberTheoryPartII | §5.3n: `GL₂` Eisenstein series in the convergence chamber over a number field, with the Weyl intertwiner and constant term; §5.21w: continuation and functional equation of the spherical `GL₂` Eisenstein series. |
 
 | Shared mathematics | Canonical owner and boundary |
 |---|---|
@@ -55,11 +57,11 @@ ArithmeticGaloisDuality §§R02.3.0d, R02.4.5a–R02.4.5b and R02.4.6 supply fin
 
 ### From Mathlib
 
-The statements are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declarations in `Suggested.lean` are `analytic_fredholm`, `Modular.completed_eisenstein_continuation` and `Modular.green_kernel_continuation`, with the definitions `Modular.nonholomorphic_eisenstein`, `SpecialFunctions.legendre_q`, `SpecialFunctions.point_pair_invariant` and `Modular.automorphic_green`. Other target names specify the library to be built. Library notions remain native: `Lp`, `HilbertBasis`, `LinearPMap`, `ContinuousLinearMap`, `SchwartzMap`, `TestFunction`, `HomologicalComplex`, `AnalyticOnNhd` and `MeromorphicOn`.
+The statements are expressed against Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The declarations in `Suggested.lean` are `analytic_fredholm` and `Modular.green_kernel_continuation`, with the definitions `SpecialFunctions.legendre_q`, `SpecialFunctions.point_pair_invariant` and `Modular.automorphic_green`. Other target names specify the library to be built. Library notions remain native: `Lp`, `HilbertBasis`, `LinearPMap`, `ContinuousLinearMap`, `SchwartzMap`, `TestFunction`, `HomologicalComplex`, `AnalyticOnNhd` and `MeromorphicOn`.
 
 - `MeasureTheory.L2.inner_def` gives the conjugate-first scalar `L²` pairing. `MeasureTheory.integral_prod` and `MeasureTheory.integral_tsum` supply Fubini and summation under their integrability hypotheses; they do not justify a formally divergent spectral integral.
 - `hasFDerivAt_integral_of_dominated_of_fderiv_le` and `hasDerivAt_integral_of_dominated_loc_of_deriv_le` supply differentiated integrals with local domination. `WithSeminorms.banach_steinhaus` supplies equicontinuity on barrelled spaces, rather than a nuclear LF construction.
-- `Complex.besselJ` in `Mathlib.Analysis.SpecialFunctions.Bessel` supplies the principal-power first-kind Bessel function, `Complex.besselJ_neg_int` its integer-order symmetry, `Complex.besselJ_zero` its zero value, and `Complex.analyticOnNhd_besselJ` and `Complex.analyticOnNhd_besselJ_int` its slit-plane and integer-order analyticity. Use these declarations for `J` throughout; §0.25 adds its series, differential equation, recurrences and half-order evaluation.
+- `Complex.besselJ` in `Mathlib.Analysis.SpecialFunctions.Bessel` supplies the principal-power first-kind Bessel function, `Complex.besselJ_neg_int` its integer-order symmetry, `Complex.besselJ_zero` its zero value, and `Complex.analyticOnNhd_besselJ` and `Complex.analyticOnNhd_besselJ_int` its slit-plane and integer-order analyticity. Use these declarations for `J` throughout; AnalyticNumberTheoryPartI §3.23b adds its series, differential equation, recurrence and half-order evaluation.
 - `Complex.regularizedHGFun`, `Complex.radius_regularizedHGFunSeries_eq_top`, `Complex.betaIntegral_eq_Gamma_mul_div` and `Complex.Gamma_mul_Gamma_add_half` supply the series, `beta` integral and duplication identities used for Whittaker and Bessel functions. `completedRiemannZeta_one_sub` and `zeta_eq_tsum_one_div_nat_add_one_cpow` supply scalar zeta normalization in their stated domains.
 - `MonoidHom.measurePreserving` applies to the surjective homomorphisms of compact groups with probability Haar. `UnitAddTorus.hasSum_mFourier_series_apply_of_summable`, `AddChar.expect_eq_ite` and `AddChar.complexBasis` supply summable torus Fourier inversion and finite-character orthogonality; finite components are retained.
 - `UpperHalfPlane.cosh_dist` and `UpperHalfPlane.tanh_half_dist` identify the hyperbolic point-pair coordinate. `CongruenceSubgroup.Gamma0` supplies the level subgroup, not its nonholomorphic Eisenstein series.
@@ -93,6 +95,10 @@ SelfAdjointSpectralTheory Part B supplies projection-valued measures (SA-B14–S
 
 OperatorIdeals supplies the nuclear gauge and the trace-class family (OI-B29–OI-B30), the Hilbert–Schmidt energy `hilbertSchmidtEnergy` and its basis independence (OI-B32–OI-B35), the Hilbert–Schmidt norm and family (OI-B36–OI-B41), the identification of Schatten exponent `1` with trace class (OI-B83) and the Hilbert–Schmidt compactness and energy API (OI-B90, OI-C01–OI-C14). In the notation used below, the basis-norm contract is `‖A‖HS²=Σ_j‖Ae_j‖²` (OI-B32–OI-B35) and the ideal bound is `‖BAC‖HS≤‖B‖‖A‖HS‖C‖` (OI-B40). VonNeumannAlgebras V4 supplies the complex trace on these carriers, its basis formula, trace-class product cyclicity, Hilbert–Schmidt product pairing and the dual pairing `(D,A)↦tr(DA)` identifying `B(H)` with the dual of trace class. Its Hilbert–Schmidt product contract gives `BC` trace class with `‖BC‖₁≤‖B‖HS‖C‖HS` and factorization of every trace-class operator into two Hilbert–Schmidt factors ([Tes09], §6.3, Lemma 6.13, pp.142–143). Trace class means summable singular values; the gauge is `Σs_j(A)`. The measurable-kernel formulas below use this supplied complex trace; no second trace or ideal carrier is defined here. ([Tes09], §§6.2–6.3, Theorems 6.6–6.7, Lemmas 6.10, 6.13, 6.15–6.16 and Corollary 6.14, pp.136–144.) RepresentationTheory/CompactGroups supplies Peter–Weyl, with the convolution operators of continuous kernels used in its proof (Layer 5); general square-integrable kernels are §0.8 here. RepresentationTheory/LieHighestWeight Layer 7 supplies the Harish-Chandra central algebra and infinitesimal characters.
 
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI and AnalyticNumberTheoryPartII
+
+AnalyticNumberTheoryPartI §2.1b supplies the level-one series `E(z,s)` (`TauCetiRoadmap.AnalyticNumberTheoryPartI.nonholomorphic_eisenstein`), its completion `E*(z,s)=Λ(2s)E(z,s)` with Fourier expansion `completed_eisenstein_fourier`, the continuation of `E*` with its residues and functional equation (`TauCetiRoadmap.AnalyticNumberTheoryPartI.completed_eisenstein_continuation`), and on `Re s=1/2` the cusp estimates `cusp_decay` and `eisenstein_core_integrable`; §§1.14–1.15, 2.17–2.18, 4.18 and 4.20 point there. Its §2.1c supplies `quadratic_weyl_domains`: the narrow class group, genus characters, reduced cycles and the Nielsen surfaces `F_A` with `area(F_A)=πℓ_A` and `length(∂F_A)=2 log ε_D`, used in §§4.17a–4.20. Its §3.23b supplies the series, differential equation, recurrence, half-order value and integer-order symmetry of `J_ν(y)=Complex.besselJ ν y`, and the positive-base complex power `x^s=exp(s log x)`; §0.25 builds `I_ν` beside them. AnalyticNumberTheoryPartII §5.3n supplies the `GL₂` Eisenstein series in the convergence chamber over any number field, with its Weyl intertwiner and constant term, and §5.21w the continuation and functional equation of the spherical `GL₂` Eisenstein series; §§1.2–1.5 and 2.4 specialize to them.
+
 ### From the adelic and local representation roadmap targets
 
 AdelicAlgebraicGroups Layer 0, §§0.1–0.3 supplies the restricted products and Haar product; §§2.1–2.3 supplies logarithmic height, modulus and quotient integration with integration in stages and split-centre comparison; §3.1 supplies Levi and Iwasawa data, relative roots and chambers; §§3.4–3.6 supplies rational reduction, adelic heights, Siegel covering and finiteness. SmoothRepresentationsOfLocalGroups SR.1.1–SR.1.3 supplies the Hecke action, SR.2.2 normalized parabolic induction and Jacquet modules, SR.3.1 finite length, SR.3.3 tempered representations and the Langlands classification conditional on Harish–Chandra tempered support (so §2.7 inherits that hypothesis), and SR.4.1–SR.4.2 Satake and spherical parameters. ReductiveGroupsPartII RG2.0 supplies the local-point topology, RG2.4 the nonarchimedean decompositions and integration, and RG2.5 the dual group and `L`-group to these contracts; the rational parabolics and relative roots are supplied by ReductiveGroups Layer 7. None of these contracts supplies an Eisenstein continuation or automorphic spectral completeness theorem.
@@ -111,7 +117,7 @@ Layer 0 constructs the new analytic interfaces and explicit kernels. Construct �
 
 The layers group targets by subject. Two branches therefore cite later-numbered sections; the dependency graph has no cycles, and the following orders build them.
 
-- *Modular branch.* The special functions of §§0.25–0.45 and the series of §§1.14–1.28 come first, then the completed series and its Fourier expansion and continuation (§1.15, §§2.17–2.18). The growth and weight-two expansions §§1.29–1.30 use §2.17. The self-adjoint level-`N` Laplacians and their cusp domains of §1.16a precede the spectral expansion §4.8, which also needs the main-branch completeness of §§4.3–4.4. The resolvent and residue sections §§2.19–2.23 use §4.8 and come after it, as do §§4.9 and 4.18–4.20. The initial Green sum §2.25 needs only Layers 0–1; its continued residue theorem §2.24 needs both §2.25 and the resolvent §2.19.
+- *Modular branch.* The special functions of §§0.25–0.45 and the series of §§1.15a–1.28 come first; the level-one series, its completion, Fourier expansion and continuation are AnalyticNumberTheoryPartI §2.1b. The growth and weight-two expansions §§1.29–1.30 use AnalyticNumberTheoryPartI §2.1b. The self-adjoint level-`N` Laplacians and their cusp domains of §1.16a precede the spectral expansion §4.8, which also needs the main-branch completeness of §§4.3–4.4. The resolvent and residue sections §§2.19–2.23 use §4.8 and come after it, as do §§4.9 and 4.18–4.20. The initial Green sum §2.25 needs only Layers 0–1; its continued residue theorem §2.24 needs both §2.25 and the resolvent §2.19.
 - *Function-field branch* (everywhere-unramified `GLₙ` over `𝔽_q(X)`). `(1)` The function-field adelic and cuspidal analytic prerequisites §§1.10a–1.10b, then the finite-dimensional prefix: the character tori §1.11, determinant root coordinates §3.10, Weyl-fixed Levis §6.25 and torus pairings §6.26. `(2)` The discrete spectrum and discrete pairs §§4.11–4.12, then the induced sections §1.12. `(3)` Additive and multiplicative `(G,M)`-families and their identities: §§6.7–6.8, then §§6.27–6.33. `(4)` Good representatives, residual classification and scalar applications: §§4.13–4.15e, then §4.17 and §4.16, using the cuspidal families of §1.10b and the retained AutomorphicLFunctionsAndLocalFactors AL.3 cuspidal factors. In particular, §§4.14–4.15e precede the residual specialization of §2.16. Section 4.14a is the separate number-field branch. `(5)` Extend the intertwiner families §2.15 to these discrete data, then §1.13 and §2.16. `(6)` The degree cutoffs §§3.11–3.19. `(7)` The cycle covers §§0.19–0.24, then §6.34. `(8)` The fixed-degree trace §§6.21–6.22, the bundle, Higgs and stability dictionaries §§6.22a–6.22c, then §§6.23–6.24, then §§6.36, 6.37, 6.38, 6.35 and 6.39. The root-basis identity §6.40 needs only §3.1 and §3.10.
 
 ## Layer 0: Hilbert fields, vector analysis and rank-one kernels
@@ -518,37 +524,24 @@ Prove `torus_fourier_decay`. On a finite product of Circle and a finite abelian 
 
 ### 0.25 Bessel functions `J_ν` and `I_ν`
 
-For the supplied first-kind function write `J_ν(y)=Complex.besselJ ν y`. Define the modified Bessel function for `ν∈ℂ` and real `y` by `I_ν(y)=(y/2)^ν ₀F̃₁(;ν+1;y²/4)`, where `(y/2)^ν` is Mathlib's principal complex power and `₀F̃₁` is Mathlib's entire regularized hypergeometric function `Complex.regularizedHGFun`. Equivalently `J_ν(y)=Σ_{k≥0}(−1)^k(y/2)^{ν+2k}/(k!Γ(ν+k+1))` and `I_ν` drops the sign, with `1/Γ` read as entire, so every order is allowed. At `y=0` Mathlib's `0^0=1` gives `I₀(0)=J₀(0)=1`. For positive `x`, use Mathlib's complex power `x^s=exp(s log x)`. Prove `x^(s+t)=x^s x^t` and differentiation in the order with factor `log x`.
-
-**Checks of the positive-base power.**
-
-- `4^(1/2)=2`.
-- `4^(−1)=1/4` and `1^s=1` for every `s`.
-- `x=0` is excluded from this analytic interface: a totalized real-log expression there is not the complex-power convention `0^0=1`, `0^1=0`.
-
+The first-kind function `J_ν(y)=Complex.besselJ ν y`, with its series, differential equation, recurrence, half-order value and integer-order symmetry, and the positive-base complex power `x^s=exp(s log x)` with `x^(s+t)=x^s x^t` and order derivative `log x·x^s`, are AnalyticNumberTheoryPartI §3.23b. Define the modified Bessel function for `ν∈ℂ` and real `y` by `I_ν(y)=(y/2)^ν ₀F̃₁(;ν+1;y²/4)`, where `(y/2)^ν` is Mathlib's principal complex power and `₀F̃₁` is Mathlib's entire regularized hypergeometric function `Complex.regularizedHGFun`. Equivalently `I_ν(y)=Σ_{k≥0}(y/2)^{ν+2k}/(k!Γ(ν+k+1))`, the `J` series without its sign, with `1/Γ` read as entire, so every order is allowed. At `y=0` Mathlib's `0^0=1` gives `I₀(0)=1`.
 
 *Standing hypotheses:* `ν∈ℂ` arbitrary; statements about derivatives are for `y>0`.
 
 Prove the following API statements.
-- Series: the displayed power series converge absolutely for every `y`.
-- Differential equations: for `y>0`, `y²w″+yw′+(y²−ν²)w=0` for `w=J_ν` and `y²w″+yw′−(y²+ν²)w=0` for `w=I_ν`.
-- `bessel_j_recurrence`: `J_{ν−1}(y)+J_{ν+1}(y)=(2ν/y)J_ν(y)` for `y>0`.
+- Series: the displayed power series converges absolutely for every `y`.
+- Differential equation: for `y>0`, `y²w″+yw′−(y²+ν²)w=0` for `w=I_ν`.
 - `bessel_i_recurrence`: `I_{ν−1}(y)−I_{ν+1}(y)=(2ν/y)I_ν(y)` for `y>0`.
 - `bessel_i_neg_int`: `I_{−n}(y)=I_n(y)` for integral `n≥0` and `y>0`.
-
-**Checks of `J`.**
-- `J_{1/2}(y)=√(2/(πy)) sin y` for `y>0`.
-- `J_{−n}=(−1)^n J_n` for integers `n≥0`. The library's totalized reciprocal gamma vanishes at gamma poles; treating a classical pole as an undefined summand would invalidate the series.
-- `J₀(0)=1` in the totalized series convention; setting every zero-base power to zero loses this value.
 
 **Checks of `I`.**
 - `I_{1/2}(y)=√(2/(πy)) sinh y` for `y>0`, so `I` is not `J` with the sign of `y²` forgotten.
 - `I₀(0)=1` in the totalized series convention.
 - `I_{−1}(y)=I₁(y)` for `y>0`, whereas `J_{−1}(y)=−J₁(y)`; this distinguishes the modified-Bessel order symmetry.
 
-([DLMF](https://dlmf.nist.gov/10) 10.2.1, 10.2.2, 10.4.1, 10.6.1, 10.16.1, 10.16.9, 10.25.1, 10.25.2, 10.27.1, 10.29.1 and 10.39.1.)
+([DLMF](https://dlmf.nist.gov/10) 10.25.1, 10.25.2, 10.27.1, 10.29.1 and 10.39.1.)
 
-*Needs:* `Complex.regularizedHGFun`; `Complex.radius_regularizedHGFunSeries_eq_top`.
+*Needs:* AnalyticNumberTheoryPartI §3.23b; `Complex.regularizedHGFun`; `Complex.radius_regularizedHGFunSeries_eq_top`.
 
 
 ### 0.26 Whittaker `M` and `W` functions
@@ -604,7 +597,7 @@ Prove the sine-power integral identity. For `Re(ν)>0` and complex `β`, `∫_0^
 
 ([DIT16], Appendix A, p.984; the sine-power identity numbered 3.892(1) in the integral-table reference cited there.)
 
-*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; §0.25; §0.27.
+*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b; §0.27.
 
 
 ### 0.30 Whittaker cycle integral
@@ -613,7 +606,7 @@ Prove `whittaker_cycle_integral`. For `μ∈ℂ`, `t>0` and `Re(s)>0`, `∫_0^π
 
 ([DIT16], Lemma 7, display (9.4), p. 980 (statement); restated as (A.1), Appendix A, p. 983; proof Appendix A, pp. 983–985.)
 
-*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; §0.25.
+*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
 ### 0.31 Endpoint-justified integration by parts for both signs
@@ -640,7 +633,7 @@ Prove `bessel_cycle_series`. For `μ ∈ ℂ`, `Re(s) > 0`, `t > 0`: `G(s,μ) t^
 
 ([DIT16], Appendix A, (A.3), p. 985.)
 
-*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; §0.25.
+*Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
 ### 0.34 Agreement of the first coefficients of (A.2) and (A.3)
@@ -786,7 +779,7 @@ Prove `archimedean_v_bessel_k`. For `t > 0`: `V*_s(t) = i Σ_{a,b,c≥0, 2a+b+c=
 
 ([GZ86], Chapter IV, §3, proof of (3.3), p. 280.)
 
-*Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39; §0.26; §0.25; AutomorphicLFunctionsAndLocalFactors AL.0, Bessel transforms.
+*Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39; §0.26; AnalyticNumberTheoryPartI §3.23b; AutomorphicLFunctionsAndLocalFactors AL.0, Bessel transforms.
 
 
 ### 0.46 Entire continuation of Schwartz families
@@ -883,7 +876,7 @@ For `μ=aδ₀+bδ₁` the direct-integral norm is `a‖v₀‖²+b‖v₁‖²`
 
 ### Dependencies
 
-The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF adapter to AutomorphicFormsOnReductiveGroups §0.2 before projective tensors or continuation. The rank-one branch uses regularized hypergeometric functions, gamma identities, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
+The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF adapter to AutomorphicFormsOnReductiveGroups §0.2 before projective tensors or continuation. The rank-one branch uses regularized hypergeometric functions, gamma identities, AnalyticNumberTheoryPartI §3.23b's `J`-Bessel API, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
 
 ## Layer 1: Normalized induction and convergent Eisenstein families
 
@@ -912,7 +905,7 @@ Prove the following API statements.
 
 ### 1.2 Eisenstein series in the convergence chamber
 
-Define `eisenstein_series` as follows. For `φ∈H_P⁰`, define `E_P(g,φ,λ)=Σ_{δ∈P(F)\G(F)}φ(δg)exp((λ+ρ_P)H_P(δg))`. It is smooth and automorphic in the positive chamber, independent of representatives. For cuspidal data, identify it with the family supplied by AutomorphicFormsOnReductiveGroups §3.2's analytic prefix, using the same inducing realization, half-modulus and quotient measures. Layer 2 extends that family to discrete data and supplies its spectral functional equations.
+Define `eisenstein_series` as follows. For `φ∈H_P⁰`, define `E_P(g,φ,λ)=Σ_{δ∈P(F)\G(F)}φ(δg)exp((λ+ρ_P)H_P(δg))`. It is smooth and automorphic in the positive chamber, independent of representatives. For cuspidal data, identify it with the family supplied by AutomorphicFormsOnReductiveGroups §3.2's analytic prefix, using the same inducing realization, half-modulus and quotient measures. Layer 2 extends that family to discrete data and supplies its spectral functional equations. For `G=GL₂`, `P=B` and `σ=χ₁⊗χ₂` with unitary idele-class characters, `E_P`, the intertwiner of §1.4 and the constant term of §1.5 are AnalyticNumberTheoryPartII §5.3n's chamber series, intertwiner and constant term with its parameter `z=λ(α∨)+1`, and the chamber `Re(λ−ρ_P)(α∨)>0` becomes `Re z>2`.
 
 *Standing hypotheses:* `Re(λ−ρ_P)(α∨)>0` for every simple root; `φ` is smooth `K`-finite finite-level discrete inducing data; the sum ranges over all rational cosets.
 
@@ -924,7 +917,7 @@ Prove the following API statements.
 **Checks.**
 - For `P=G`, `E_G(g,φ,0)=φ(g)`.
 - `E(g,0,λ)=0`.
-- For `Γ=SL₂(ℤ)`, the spherical section gives `Σ_{Γ∞\Γ}Im(γz)^s` for `Re s>1`, with `λ=s−1/2`.
+- For `Γ=SL₂(ℤ)` and `λ=s−1/2`, the spherical section gives AnalyticNumberTheoryPartI §2.1b's `nonholomorphic_eisenstein` for `Re s>1`.
 
 ([Art05], §7 (7.1), p.33; Lemma 7.1, p.34.)
 
@@ -957,8 +950,8 @@ Prove the following API statements.
 
 **Checks.**
 - For `P=Q` and `w=1` the unipotent quotient is a point, so `M(1,λ)φ=φ`; a definition carrying a nontrivial measure or normalizing constant at `w=1` fails this.
-- For `GL₂` over `ℚ`, the convergent real spherical integral times its finite-prime Euler product gives `ξ(2s−1)/ξ(2s)` on the spherical eigenline, with `λ=s−1/2` and `ξ` the completed Riemann zeta function.
-- For `GL₂`, the Borel `B` and the nontrivial Weyl element `w`, `M(w,λ)` maps the space induced from `χ₁⊗χ₂` to the space induced from `χ₂⊗χ₁`, with parameter `wλ=−λ`. A definition that leaves the inducing character untransported fails the intertwining identity.
+- For `GL₂` over `ℚ` on the spherical eigenline with `λ=s−1/2`, `M(w,λ)` is AnalyticNumberTheoryPartII §5.3n's spherical scalar `c(2s)`.
+- For `GL₂`, the Borel `B` and the nontrivial Weyl element `w`, `M(w,λ)` is AnalyticNumberTheoryPartII §5.3n's intertwiner `I(χ₁,χ₂,z)→I(χ₂,χ₁,2−z)`, so `wλ=−λ`. A definition that leaves the inducing character untransported fails the intertwining identity.
 
 ([Art05], §7 equation (7.2) and Lemma 7.1, p.34.)
 
@@ -1158,46 +1151,17 @@ Prove the following API statements.
 
 ### 1.14 Nonholomorphic Eisenstein series
 
-Define `nonholomorphic_eisenstein` as follows. For `Re(s)>1`, `E(z,s)=Σ_{Γ∞\PSL₂(Z)}Im(γz)^s=(1/2)y^sΣ_{gcd(c,d)=1}|cz+d|^(−2s)`. The half accounts for `±(c,d)`. Prove local normal convergence and `ΔE=s(1−s)E`.
-
-Prove the following API statements.
-- `cosetSum`: Define `E` by `ΣIm(γz)^s` in `Re(s)>1`.
-- `primitivePairs`: The `coprime(c, d)` expression has factor `1/2` for `±`pairs.
-- `automorphy`: `E(γz, s)=E(z, s)` and `ΔE=s(1−s)E` in the normal-convergence region.
-- Convergence: The primitive-pair sum is absolutely and locally normally convergent for `Re(s)>1`.
-
-**Checks.**
-- Along the imaginary axis `E(iy,2)/y²` tends to one as `y` tends to infinity, testing the Eisenstein leading constant term.
-- Summing primitive pairs without `1/2` doubles `E`.
-- At `s=1` the primitive-pair series diverges. Critical-line values require continuation as well.
-
-([DIT16], §5, (5.2), p.961.)
-
-*Needs:* §1.3.
+The level-one series `E(z,s)=Σ_{Γ∞\PSL₂(ℤ)}Im(γz)^s`, its primitive-pair form, convergence, automorphy and eigen-equation are AnalyticNumberTheoryPartI §2.1b's `nonholomorphic_eisenstein`.
 
 
 ### 1.15 Completed Eisenstein series
 
-Define `completed_eisenstein` as follows. Let `Λ(s)=π^(−s/2)Γ(s/2)ζ(s)`, and `E*(z,s)=Λ(2s)E(z,s)`, with meromorphic values interpreted through continuation. Its critical-line use includes the limit at `t=0`.
-
-Prove the following API statements.
-- `completion`: Multiply `E(z, s)` by `Λ(2 s)` where `Λ` is the completed scalar zeta.
-- `constantTerm`: Its constant Fourier coefficient is `Λ(2 s)y^s+Λ(2−2 s)y^(1−s)`.
-- `continuation`: Define equality with the initial completion on `Re(s)>1` and extend meromorphically (`completed_eisenstein_continuation`). The uncompleted continuation has residue `3/π` at one.
-
-**Checks.**
-- Residues at `0` and `1` are `−1/2` and `+1/2`.
-- At critical `t=0`, cancellations between meromorphic pieces require a limit.
-- An uncompleted `E` period cannot be substituted into Theorem 3 of [DIT16] without dividing by `Λ(2 s)`.
-
-([DIT16], §5, (5.3), p.962.)
-
-*Needs:* §1.3; §1.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier analysis); ArithmeticGaloisRepresentations §2.7, Standard-test-function evaluations and Root-number product formula (standard evaluations and finite-sum epsilon product); AutomorphicLFunctionsAndLocalFactors AL.1.5.3, Canonical rank-one comparison (algebraic Hecke comparison with LFunctions Layers 5–6); §1.15c Unitary Hecke continuation and functional equation; AutomorphicLFunctionsAndLocalFactors Rank-one local zeta integral and functional equation (AL.1.3.2); AutomorphicLFunctionsAndLocalFactors The global standard L-function (AL.2.4.1) at `n = 1` (global zeta integral for arbitrary Schwartz–Bruhat test functions, continuation and reflected equation); AL.1 (number-field normalization adapters).
+The completion `E*(z,s)=Λ(2s)E(z,s)`, its constant term and the residue `3/π` of the uncompleted continuation at one are AnalyticNumberTheoryPartI §2.1b.
 
 
 ### 1.15a Fredholm continuation of Eisenstein series
 
-**Fredholm continuation of Eisenstein series.** Prove `eisensteinSeries_meromorphicContinuation_fredholm` for a connected reductive group `G` over a number field `F`, a rational parabolic `P=MN`, and an automorphic inducing form `φ` on `N(𝔸)M(F)\G(𝔸)`. Require smoothness, a fixed compact open finite-adelic level, `K_∞`-finiteness, finiteness under the Levi infinitesimal centre `Z(𝔪_∞)` and moderate growth; no cuspidality or discrete-spectrum hypothesis is imposed on `φ`. Use the compatible Iwasawa data, normalized induction and unipotent quotient measures of §§1.1–1.4, and `λ∈𝔞_P,ℂ*`. The chamber Eisenstein sum extends meromorphically with values in uniform-moderate-growth functions on `G(F)\G(𝔸)`. At regular parameters its values are automorphic forms. For associate parabolics the unnormalised integral `M(w,λ)φ` also continues, in a finite-dimensional output space for each fixed inducing form. Prove `E_Q(M(w,λ)φ,wλ)=E_P(φ,λ)` and `M(vw,λ)=M(v,wλ)M(w,λ)`, as meromorphic identities. Singularities lie on locally finite affine root hyperplanes; on finite-dimensional inducing blocks retain common local denominators. The `GL₂` Borel family is a specialization.
+**Fredholm continuation of Eisenstein series.** Prove `eisensteinSeries_meromorphicContinuation_fredholm` for a connected reductive group `G` over a number field `F`, a rational parabolic `P=MN`, and an automorphic inducing form `φ` on `N(𝔸)M(F)\G(𝔸)`. Require smoothness, a fixed compact open finite-adelic level, `K_∞`-finiteness, finiteness under the Levi infinitesimal centre `Z(𝔪_∞)` and moderate growth; no cuspidality or discrete-spectrum hypothesis is imposed on `φ`. Use the compatible Iwasawa data, normalized induction and unipotent quotient measures of §§1.1–1.4, and `λ∈𝔞_P,ℂ*`. The chamber Eisenstein sum extends meromorphically with values in uniform-moderate-growth functions on `G(F)\G(𝔸)`. At regular parameters its values are automorphic forms. For associate parabolics the unnormalised integral `M(w,λ)φ` also continues, in a finite-dimensional output space for each fixed inducing form. Prove `E_Q(M(w,λ)φ,wλ)=E_P(φ,λ)` and `M(vw,λ)=M(v,wλ)M(w,λ)`, as meromorphic identities. Singularities lie on locally finite affine root hyperplanes; on finite-dimensional inducing blocks retain common local denominators. The `GL₂` Borel family is a specialization; on the spherical section it is AnalyticNumberTheoryPartII §5.21w's continued series.
 
 Use Bernstein's continuation principle: the chamber family is the unique solution of the holomorphic equations determined by its leading cuspidal constant terms and convolution eigenrelations. Prove local finite type through weighted Hilbert spaces, compact smoothing and the Fredholm input of §0.16; finite-dimensional analytic linear algebra then gives several-variable continuation. Prove the root-hyperplane assertion through the constant-term exponents. The one-variable Fredholm theorem alone gives neither this geometry nor the uniqueness of the automorphic solution. On cuspidal data identify the result with AutomorphicFormsOnReductiveGroups §3.2 by chamber agreement and the identity theorem, and with §2.4 on their common domain. This route uses no prior discrete-spectrum decomposition or global `L`-function continuation.
 
@@ -1211,7 +1175,7 @@ The continuation theorem does not supply the following estimates required by the
 **Checks.**
 
 - For `P=G`, continuation is `φ` itself and the identity intertwiner has denominator `1`.
-- For spherical `SL₂/ℚ`, the classical parameter `z` of §1.14 corresponds to the induction difference `s=2z−1`; the constant coefficient is `Γ_ℝ(s)ζ(s)/(Γ_ℝ(s+1)ζ(s+1))`. It is recovered from the continued Eisenstein family without assuming continuation of `ζ`.
+- For spherical `SL₂/ℚ`, the classical parameter `z` of AnalyticNumberTheoryPartI §2.1b corresponds to the induction difference `s=2z−1`; the constant coefficient is `Γ_ℝ(s)ζ(s)/(Γ_ℝ(s+1)ζ(s+1))`. It is recovered from the continued Eisenstein family without assuming continuation of `ζ`.
 - A pole `λ(α∨)=c` requires its affine root factor in a denominator; assigning a value on that hyperplane does not make the family holomorphic.
 - Scalar meromorphy on every `K`-type does not imply a common smooth-operator denominator or finite vertical-strip order. The family `z↦z^(−n)` on the nth compact type has no common pole-clearing exponent.
 
@@ -1338,7 +1302,7 @@ Prove the following API statements.
 
 ([DIT16], §8, p.974.)
 
-*Needs:* §0.26; §0.27; §0.25; §1.16.
+*Needs:* §0.26; §0.27; §0.25; AnalyticNumberTheoryPartI §3.23b; §1.16.
 
 
 ### 1.18 Weight-zero Poincaré family
@@ -1414,7 +1378,7 @@ Prove `poincare_fourier_expansion`. Let `m≠0` and `Re(s)>1`. Then `F_m(z,s)=f_
 
 ### 1.23 Weight-0 Eisenstein series `E_N(z, s)` at `∞` (2.14)
 
-Define the level-N Eisenstein series as follows. For `N≥1` and `Re(s)>1` define the cusp-`∞` Eisenstein series `E_N(z,s)=Σ_{γ∈Γ∞\Γ₀(N)}Im(γz)^s`, equivalently `(1/2)Σ y^s|cz+d|^(−2s)` over coprime `(c,d)` with `N|c`. Prove local normal convergence, `Γ₀(N)`-invariance and that `E_1` is the series of §1.14. Under `Δ_GZ=+y²(∂x²+∂y²)`, `Δ_GZ E_N=s(s−1)E_N`; `−4πE_N` has residue `κ_N=−12/[SL₂(ℤ):Γ₀(N)]` at `s=1`.
+Define the level-N Eisenstein series as follows. For `N≥1` and `Re(s)>1` define the cusp-`∞` Eisenstein series `E_N(z,s)=Σ_{γ∈Γ∞\Γ₀(N)}Im(γz)^s`, equivalently `(1/2)Σ y^s|cz+d|^(−2s)` over coprime `(c,d)` with `N|c`. Prove local normal convergence, `Γ₀(N)`-invariance and that `E_1` is the series of AnalyticNumberTheoryPartI §2.1b. Under `Δ_GZ=+y²(∂x²+∂y²)`, `Δ_GZ E_N=s(s−1)E_N`; `−4πE_N` has residue `κ_N=−12/[SL₂(ℤ):Γ₀(N)]` at `s=1`.
 
 Prove the following API statements.
 - `coprime_pairs`: `E_N` is half the sum over coprime `(c,d)` with `N|c` in `Re(s)>1`.
@@ -1424,13 +1388,13 @@ Prove the following API statements.
 **Checks.**
 - `N=1` gives `E` and residue `3/π`.
 - For `N=p` the congruence-pair Eisenstein continuation, with Mathlib Riemann zeta normalization, gives residue `3/[π(p+1)]` at `s=1`.
-- The unrestricted nonzero integer-pair Eisenstein sum at `s=2` equals `2ζ(4)` times the primitive-coset `nonholomorphic_eisenstein` series and differs from that normalized series.
+- The unrestricted nonzero integer-pair Eisenstein sum at `s=2` equals `2ζ(4)` times AnalyticNumberTheoryPartI §2.1b's primitive-coset `nonholomorphic_eisenstein` series and differs from that normalized series.
 - At `N=0` the coprime-pair expression retains only `c=0,d=±1` and equals `y^s`; it is outside the positive-level analytic and residue assertions.
 
 
 ([GZ86], Chapter II, §2, (2.14), p. 239.)
 
-*Needs:* §1.14; Mathlib `CongruenceSubgroup.Gamma0`; `zeta_eq_tsum_one_div_nat_add_one_cpow`.
+*Needs:* AnalyticNumberTheoryPartI §2.1b; Mathlib `CongruenceSubgroup.Gamma0`; `zeta_eq_tsum_one_div_nat_add_one_cpow`.
 
 
 ### 1.24 `E_N` via the `SL₂(ℤ)` series (2.16)
@@ -1439,7 +1403,7 @@ Prove `level_eisenstein_mobius`. For `N ≥ 1`: `E_N(z, s) = N^{−s} ∏_{p|N} 
 
 ([GZ86], Chapter II, §2, (2.16), p. 240; p. 241.)
 
-*Needs:* §1.14; §1.23; Mathlib `CongruenceSubgroup.Gamma0`; `ArithmeticFunction.moebius`.
+*Needs:* AnalyticNumberTheoryPartI §2.1b; §1.23; Mathlib `CongruenceSubgroup.Gamma0`; `ArithmeticFunction.moebius`.
 
 
 ### 1.25 Non-holomorphic Eisenstein series `E_s = E_{M,ε,2k−1,s}` of level `M = N|D|`
@@ -1500,25 +1464,25 @@ Prove `genus_eisenstein_fourier`. Let `D<0` be an odd fundamental discriminant, 
 
 ### 1.29 Growth of the `SL₂(ℤ)` Eisenstein series: `E(z,s) = y^s + O(y^{1−s})`
 
-Prove the Eisenstein growth estimate. For real `s > 1` let `E(z,s) = Σ_{γ∈Γ_∞\SL₂(ℤ)} Im(γz)^s = Σ_{(c,d)=1, mod ±} y^s/|cz+d|^{2s}`. Then `E(z,s) = y^s + O(y^{1−s})` as `y → ∞` (uniformly in `x`).
+Prove the Eisenstein growth estimate. For real `s > 1` let `E(z,s)` be AnalyticNumberTheoryPartI §2.1b's `nonholomorphic_eisenstein`. Then `E(z,s) = y^s + O(y^{1−s})` as `y → ∞` (uniformly in `x`).
 
 ([GZ86], Chapter IV §5 proof of (5.1), p.289; estimate follows from Chapter II, (2.17), p.240.)
 
-*Needs:* §2.17.
+*Needs:* AnalyticNumberTheoryPartI §2.1b.
 
 
 ### 1.30 Fourier expansion of the weight-0 Eisenstein series and of `E_{2,s}`
 
-Prove `eisenstein_fourier_weight_two`. For `E(z,s) = Σ_{Γ∞\SL₂(ℤ)} Im(γz)^s` (weight `0`): `E(z,s) = y^s + π^{1/2}Γ(s−½)ζ(2s−1)/(Γ(s)ζ(2s)) · y^{1−s} + (2π^s y^{1/2}/(Γ(s)ζ(2s))) Σ_{m≠0} |m|^{1/2−s} σ_{2s−1}(m) K_{s−1/2}(2π|m|y) e^{2πimx}`, `σ_ν(m) = Σ_{d|m} d^ν`, `K_ν = K`-Bessel function. The identity `(cz+d)^{−2}|cz+d|^{−2s} y^s = (2i/(s+1)) ∂/∂z (y^{s+1}/|cz+d|^{2s+2})` gives `E_{2,s}(z) = (2i/(s+1)) ∂/∂z E(z, s+1)`, hence `E_{2,s}(z) = y^s − π^{1/2} s Γ(s+½)ζ(2s+1)/(Γ(s+2)ζ(2s+2)) · y^{−1−s} + Σ_{m≠0} e_{2,s}(m,y)e^{2πimz}` with `e_{2,s}(m,y) = (2π^{s+1}|m|^{−s−1/2}/(Γ(s+2)ζ(2s+2))) σ_{2s+1}(m) e^{2πmy} (∂/∂y − 2πm)(√y K_{s+1/2}(2π|m|y))`.
+Prove `eisenstein_fourier_weight_two`. For the weight-`0` series `E(z,s)` of AnalyticNumberTheoryPartI §2.1b, whose Fourier expansion is §2.1b's `completed_eisenstein_fourier` divided by `Λ(2s)`, the identity `(cz+d)^{−2}|cz+d|^{−2s} y^s = (2i/(s+1)) ∂/∂z (y^{s+1}/|cz+d|^{2s+2})` gives `E_{2,s}(z) = (2i/(s+1)) ∂/∂z E(z, s+1)`, hence `E_{2,s}(z) = y^s − π^{1/2} s Γ(s+½)ζ(2s+1)/(Γ(s+2)ζ(2s+2)) · y^{−1−s} + Σ_{m≠0} e_{2,s}(m,y)e^{2πimz}` with `e_{2,s}(m,y) = (2π^{s+1}|m|^{−s−1/2}/(Γ(s+2)ζ(2s+2))) σ_{2s+1}(m) e^{2πmy} (∂/∂y − 2πm)(√y K_{s+1/2}(2π|m|y))`, `σ_ν(m) = Σ_{d|m} d^ν`, `K_ν = K`-Bessel function.
 
 ([GZ86], Chapter IV, §6, proof of (6.2), pp. 298-299.)
 
-*Needs:* §2.17; §1.20.
+*Needs:* AnalyticNumberTheoryPartI §2.1b; §1.20.
 
 
 ### Examples
 
-In the full modular case `λ=s−1/2` and `E(z,s)=½y^sΣ_(c,d)=1|cz+d|^(−2s)`. Its constant leading term at infinity is `y^s`; deleting the half doubles it. For `N=p` the cusp-`∞` residue is `3/[π(p+1)]`. For the nonzero Poincaré seed the `I`-Bessel growth prevents `L²` membership, so it cannot be inserted as an `L²` vector. Changing a spherical section from `ρ` to `ρ⁻¹` sends its value two to one half when `ρ=2`; closed operator compositions must be conjugated with this transport.
+In the full modular case `λ=s−1/2` and `E(z,s)` is AnalyticNumberTheoryPartI §2.1b's `nonholomorphic_eisenstein`. Its constant leading term at infinity is `y^s`; deleting the half doubles it. For `N=p` the cusp-`∞` residue is `3/[π(p+1)]`. For the nonzero Poincaré seed the `I`-Bessel growth prevents `L²` membership, so it cannot be inserted as an `L²` vector. Changing a spherical section from `ρ` to `ρ⁻¹` sends its value two to one half when `ρ=2`; closed operator compositions must be conjugated with this transport.
 
 ### Dependencies
 
@@ -1592,7 +1556,7 @@ Prove `local_normalization`. There exist scalar meromorphic `r_Q|P(π_λ)`, prod
 
 ### 2.4 Langlands meromorphic continuation and functional equations
 
-Prove `eisenstein_continuation`. For `φ∈H_P⁰`, `E_P(g,φ,λ)` and `M(w,λ)φ` extend meromorphically to all `𝔞_P,ℂ*`. On each finite inducing/K-type block there is a common local product of affine linear forms clearing the polar divisor. They obey `E_Q(g,M(w,λ)φ,wλ)=E_P(g,φ,λ)` and `M(vw,λ)=M(v,wλ)M(w,λ)`. On `i𝔞_P*` both families are regular and `M(w,λ)` extends to a unitary `H_P→H_Q`. Regularity here is for unitary discrete inducing data and the global family; a scalar normalizing factor or arbitrary nonunitary local family can still have a pole.
+Prove `eisenstein_continuation`. For `φ∈H_P⁰`, `E_P(g,φ,λ)` and `M(w,λ)φ` extend meromorphically to all `𝔞_P,ℂ*`. On each finite inducing/K-type block there is a common local product of affine linear forms clearing the polar divisor. They obey `E_Q(g,M(w,λ)φ,wλ)=E_P(g,φ,λ)` and `M(vw,λ)=M(v,wλ)M(w,λ)`. On `i𝔞_P*` both families are regular and `M(w,λ)` extends to a unitary `H_P→H_Q`. Regularity here is for unitary discrete inducing data and the global family; a scalar normalizing factor or arbitrary nonunitary local family can still have a pole. For `G=GL₂`, `P=B`, trivial `σ` and the spherical section, with `z=λ(α∨)+1` as in §1.2, the continued `E_B` is AnalyticNumberTheoryPartII §5.21w's continued `E(z,g)`, and after multiplication by `Z_F(z)` the equation `E_B(g,M(w,λ)φ,−λ)=E_B(g,φ,λ)` becomes its functional equation `E*(z,g)=E*(2−z,g)`.
 
 On cuspidal inputs use the continuation supplied by AutomorphicFormsOnReductiveGroups §3.2 and prove agreement with §1.2 and uniqueness: after multiplication by local denominators, evaluation at each `g` and inducing vector reduces equality to the holomorphic identity theorem on the connected parameter space. Construct the discrete-data extension and the stated hyperplane control, functional equations and unitary-axis conclusions on that same family. Its smooth extension in §2.4a restricts to this identified family.
 
@@ -1603,7 +1567,7 @@ On cuspidal inputs use the continuation supplied by AutomorphicFormsOnReductiveG
 **Checks.**
 
 - For `P=G`, the cuspidal family is the inducing function with denominator `1`.
-- For spherical `SL₂/ℚ` data, both constructions give the chamber sum of §1.2 and its constant-term coefficient `ξ(2s−1)/ξ(2s)`; their continued meromorphic germs therefore agree.
+- For spherical `SL₂/ℚ` data, both constructions give the chamber sum of §1.2 and its constant-term coefficient, AnalyticNumberTheoryPartII §5.3n's `c(2s)`; their continued meromorphic germs therefore agree.
 - Multiplying a local pole `z⁻¹A` by `z` gives holomorphic value `A` at zero. Equality is of meromorphic germs, independent of any point value assigned to the original family at the pole.
 
 *Needs:* §1.10; §1.8; §1.4; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal continuation and finite-block denominators); §0.6; §0.15; §0.16.
@@ -1809,20 +1773,12 @@ Prove `spherical_scalar_intertwiner`. Let `(P,π)` be a good everywhere-unramifi
 
 ### 2.17 Eisenstein Fourier expansion
 
-Prove `completed_eisenstein_fourier`. `E*(z,s)=Λ(2s)y^s+Λ(2−2s)y^(1−s)+2√y Σ_{n≠0}|n|^(s−1/2)σ_{1−2s}(|n|)K_{s−1/2}(2π|n|y)e(nx)`. Prove local convergence and parameter continuation of the expansion.
-
-([DIT16], §5, (5.3), p.962.)
-
-*Needs:* §1.15; §2.4.
+The Fourier expansion of `E*(z,s)`, with its local convergence and parameter continuation, is AnalyticNumberTheoryPartI §2.1b's `completed_eisenstein_fourier`.
 
 
 ### 2.18 Eisenstein continuation and residues
 
-The statement `Modular.completed_eisenstein_continuation` in `Suggested.lean` asserts that `E*(z,s)` extends meromorphically with only simple poles at `s=0,1`, residues `−1/2,+1/2`, and `E*(z,s)=E*(z,1−s)`. Do not infer this function-valued statement from scalar `ζ` continuation alone.
-
-([DIT16], §5, text before (5.4), (5.4) and (5.5), p.962.)
-
-*Needs:* §1.15; §2.4.
+The meromorphic continuation of `E*(z,s)` with simple poles at `s=0,1`, residues `−1/2,+1/2`, and `E*(z,s)=E*(z,1−s)` is AnalyticNumberTheoryPartI §2.1b's `completed_eisenstein_continuation`.
 
 
 ### 2.19 Weight-zero resolvent kernel
@@ -1910,7 +1866,7 @@ Prove the following API statements.
 
 ([GZ86], Chapter II, §2, (2.10)–(2.13), p.239.)
 
-*Needs:* §0.35; §0.36; §0.37; §0.6; §1.14; §1.16; Mathlib `CongruenceSubgroup.Gamma0`.
+*Needs:* §0.35; §0.36; §0.37; §0.6; AnalyticNumberTheoryPartI §2.1b; §1.16; Mathlib `CongruenceSubgroup.Gamma0`.
 
 
 ### Examples
@@ -1919,7 +1875,7 @@ For unramified `GL₂` at `q=2,z=−1`, the raw spherical factor is `(1−q⁻¹
 
 ### Dependencies
 
-The main continuation uses the convergent pseudo-Eisenstein inner product and elementary cuspidal-data orthosum, locally convex regularization, the analytic Fredholm interface and local representation theory. Packet normalization takes compatible tempered packets as data. `GLₙ` scalar L/epsilon factors use AutomorphicLFunctionsAndLocalFactors AL.1–AL.3; classical-group local parameter factors use ArithmeticGaloisRepresentations §§2.4–2.7 and ReductiveGroupsPartII RG2.5 under §2.8's compatibility hypothesis. The residual function-field normalizing scalars are constructed in §4.15d from the supplied AL.3 cuspidal pair factors. The modular resolvent branch uses the completed Fourier expansion, the modular spectral theorem in Layer 4 and genuine bounded-inverse or weighted-space continuation hypotheses. The initial effective-group Green sum precedes its continued residue assertion.
+The main continuation uses the convergent pseudo-Eisenstein inner product and elementary cuspidal-data orthosum, locally convex regularization, the analytic Fredholm interface and local representation theory. Packet normalization takes compatible tempered packets as data. `GLₙ` scalar L/epsilon factors use AutomorphicLFunctionsAndLocalFactors AL.1–AL.3; classical-group local parameter factors use ArithmeticGaloisRepresentations §§2.4–2.7 and ReductiveGroupsPartII RG2.5 under §2.8's compatibility hypothesis. The residual function-field normalizing scalars are constructed in §4.15d from the supplied AL.3 cuspidal pair factors. The modular resolvent branch uses AnalyticNumberTheoryPartI §2.1b's completed Fourier expansion, the modular spectral theorem in Layer 4 and genuine bounded-inverse or weighted-space continuation hypotheses. The initial effective-group Green sum precedes its continued residue assertion.
 
 ## Layer 3: Truncation, Maass–Selberg relations and wave packets
 
@@ -2640,28 +2596,16 @@ Prove `residual_eisenstein_residue`, due to Langlands ([MW94], `V.3.13(iii)`). L
 
 ### 4.17a Real-quadratic surfaces and genus characters
 
-Construct `quadratic_weyl_domains` for a real quadratic field `K` of positive fundamental discriminant `D`. Construct its narrow ideal class group `Cl⁺(K)`, with the class `J` exchanging the two norm signs, and the genus character `χ` attached to `D=d′d`, a factorization into fundamental discriminants. Define `χ` on prime ideals coprime to the discriminants using the Kronecker symbol and prove multiplicative extension, independence of ideal representatives and `χ(J)=sgn(d)=sgn(d′)`.
-
-For `A∈Cl⁺(K)`, construct the reduced quadratic irrational and its periodic minus-continued-fraction cycle, DIT's subgroup `Γ_A⊆PSL₂(ℤ)`, Nielsen region and finite-area hyperbolic orbifold surface `F_A` with its oriented boundary. Changing the reduced representative conjugates the subgroup and transports the surface and boundary measures. Construct the map to the modular surface, retaining multiplicities, and prove `area(F_A)=πℓ_A` and `length(∂F_A)=2 log ε_D`, where `ε_D>1` is the primitive norm-one unit and `ℓ_A` the cycle length. Prove the compact-core/finite-width-cusp decomposition and compatibility of area measure `dxdy/y²` and boundary arclength `y^(−1)|dz|` with the Stokes orientation. These give well-defined genus-weighted surface and boundary integrals.
-
-**Checks.**
-
-- For `D=28`, the principal class has minus cycle `(3,6)`, surface area `2π` and boundary length `2 log(8+3√7)`.
-- Replacing a reduced representative by its next cycle element gives the same surface and weighted integrals under the induced isometry.
-- The factorization `D=1·D` gives the trivial genus character; when `d,d′<0`, `χ(J)=−1`, distinguishing the boundary sign case from `d,d′>0`.
-
-([DIT16], §§2–3, pp.951–959, especially Theorem 1 and (3.3), pp.957–958, and §7, genus-character definition, p.971.)
-
-*Needs:* GlobalQuadraticForms and NumberFieldArithmetic (quadratic fields, ideals and units); FuchsianOrbifolds (hyperbolic quotients, fundamental polygons and Gauss–Bonnet); §0.37.
+The narrow class group `Cl⁺(K)`, the genus characters, the reduced minus-continued-fraction cycles, DIT's subgroups `Γ_A`, the Nielsen surfaces `F_A` with `area(F_A)=πℓ_A` and `length(∂F_A)=2 log ε_D`, and their projection to the modular surface with multiplicities are AnalyticNumberTheoryPartI §2.1c's `quadratic_weyl_domains`.
 
 
 ### 4.18 Cusp decay for the Stokes input
 
-Prove `cusp_decay`. For `u=E(z,1/2+it)`, its derivative constant terms are `O(Y^(−1/2))` for fixed `t`, with the `t=0` limit treated separately; nonconstant terms decay exponentially. Cusp forms have exponential decay. Hence the horizontal derivative integral tends to `0` and `u` is absolutely integrable on each finite-width core cusp.
+For `u=E(z,1/2+it)`, the constant-term derivative bound, the exponential decay of the nonconstant terms, the vanishing of the horizontal derivative integral and absolute integrability on each finite-width core cusp are AnalyticNumberTheoryPartI §2.1b's `cusp_decay` and `eisenstein_core_integrable`. Prove that cusp forms have exponential decay.
 
 ([DIT16], proof of Lemma 1, p.972.)
 
-*Needs:* §4.17a; §2.17; §4.8.
+*Needs:* AnalyticNumberTheoryPartI §§2.1b–2.1c; §4.8.
 
 
 ### 4.19 Vanishing of the Weyl integrals of the wrong sign
@@ -2670,18 +2614,12 @@ Prove `wrong_sign_weyl_vanishing`. Let `D>0` be a fundamental discriminant, `D=d
 
 ([DIT16], §5, p.963, paragraph after (5.12).)
 
-*Needs:* §4.17a; §2.17; §4.8.
+*Needs:* AnalyticNumberTheoryPartI §§2.1b–2.1c; §4.8.
 
 
 ### 4.20 Absolute integrability of `E(z,s)` over `F_A` on the critical line
 
-Prove `eisenstein_core_integrable`. For `Re(s)=1/2`, `E(z,s)` is absolutely integrable over `F_A` with respect to `dμ=y^{−2}dxdy`.
-
-*Standing hypotheses:* convention `D`; the quotient has a compact part and finitely many cusp ends of finite width; at removable points `E` takes its continued value.
-
-([DIT16], §5, p.963, the remark that `E` is integrable by (5.3).)
-
-*Needs:* §4.17a; §2.17; §4.8.
+For `Re(s)=1/2`, absolute integrability of `E(z,s)` over `F_A` for `dμ=y^{−2}dxdy` is AnalyticNumberTheoryPartI §2.1b's `eisenstein_core_integrable`, which covers every region compact apart from finitely many cusp ends of finite width.
 
 
 ### Examples
@@ -2690,7 +2628,7 @@ A reflected compatible rank-one parameter family has half the norm squared of th
 
 ### Dependencies
 
-The associate model uses direct integrals and continued unitary intertwiner fields. The isometric packet map uses Layer 3's norm identity; onto completeness also uses the elementary decomposition of Layer 1 and all residual flags. The finite-multiplicity extension is built on the supplied cuspidal finiteness. Compact quotient kernels use the measurable kernel and trace API. Function-field discrete-pair classification, torus covers and spherical sections form the separate branch specified in How to read the build; critical modular integrals use Fourier decay at every cusp endpoint.
+The associate model uses direct integrals and continued unitary intertwiner fields. The isometric packet map uses Layer 3's norm identity; onto completeness also uses the elementary decomposition of Layer 1 and all residual flags. The finite-multiplicity extension is built on the supplied cuspidal finiteness. Compact quotient kernels use the measurable kernel and trace API. Function-field discrete-pair classification, torus covers and spherical sections form the separate branch specified in How to read the build; critical modular integrals use the cusp decay of AnalyticNumberTheoryPartI §2.1b and §4.18 at every cusp endpoint.
 
 ## Layer 5: Weighted cohomology and cuspidal support
 
