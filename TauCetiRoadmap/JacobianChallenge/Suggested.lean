@@ -21,26 +21,31 @@ definitions those statements need, all with real bodies on Mathlib's representab
 the Picard scheme of a morphism (`HasPicardScheme`, `picardScheme`, `picardSchemeIso`) and the
 Jacobian of a smooth proper geometrically connected curve over a field (`picZeroSets`,
 `jacobianScheme`, `jacobianSchemeRepresentableBy`, its group law, `JacobianVariety`,
-`abelJacobi`). The Jacobian is the representing object of the degree-zero Picard fppf sheaf,
+`abelJacobi` and its base change `abelJacobiBaseChange`). The Jacobian is the representing object of the degree-zero Picard fppf sheaf,
 so it is defined without a rational point; the point enters only through the Abel–Jacobi
 morphism. Multiplication statements carry the nonzero-integer and positive-dimension
 hypotheses.
 
 Headline theorems stated here: finite-dimensionality of coherent cohomology on a proper
 scheme over a field; Serre duality on a smooth proper curve through a trace on
-`H¹(X, Ω_{X/k})`; the Picard scheme of the curve and the Hilbert scheme of points;
+`H¹(X, Ω_{X/k})`; the Hilbert scheme of points of a curve; the Picard scheme of the curve;
 representability of the degree-zero Picard sheaf, properness and geometric integrality of the
 representing scheme; `dim Jac X = g`; the Albanese property of the Abel–Jacobi morphism, its
-being a closed immersion in genus at least one and an isomorphism in genus one; base change
-of the Jacobian; `[n]` an isogeny and étale exactly when `n` is invertible in `k`.
+being a closed immersion in genus at least one and an isomorphism in genus one; the Albanese
+property of its base change along a field extension; `[n]` an isogeny and étale exactly when
+`n` is invertible in `k`.
 
 Not statable at the pins: the Serre-duality trace as a named map (it needs the repartition
 description of `H¹(X, Ω_{X/k})` and residues at closed points of arbitrary residue field; the
-duality statement quantifies the trace existentially instead); duality and Riemann–Roch on
-Gorenstein curves (no sheaf of regular differentials and no Gorenstein predicate on schemes);
-the degree-`d` pieces of the Picard scheme (no degree-`d` subsheaf); the dual abelian variety,
-polarizations, theta and the Picard-pullback comparison (no dual carrier); the identification
-`T₀ Jac X ≅ H¹(X, 𝒪_X)` (no tangent-space carrier on `Over (Spec k)` at the pin).
+duality statement quantifies the trace existentially instead); the degree-`d` pieces of the
+Picard scheme (no degree-`d` subsheaf); the representation of the degree-zero Picard sheaf of
+`X_K` by the base change of `Jac X` without a rational point (Tau Ceti has a base-change
+isomorphism for the presheaf `relativePicardDegreeZeroFunctor` only, none for
+`relativePicardDegreeZeroFppfSheaf`); the dual abelian variety, polarizations, theta and the
+Picard-pullback comparison (no dual carrier); the canonical identification
+`T₀ Jac X ≅ H¹(X, 𝒪_X)` (the deformation map from `H¹(X, 𝒪_X)` into Tau Ceti's
+`AbelianVariety.TangentSpace` is a construction not available at the pin; its dimension
+consequence is `dim_jacobianVariety`).
 
 Mathlib's `WeierstrassCurve.Jacobian` means Jacobian *coordinates*, not the Jacobian
 *variety*; the name here is `JacobianVariety`.
@@ -67,10 +72,10 @@ theorem finiteDimensional_cohomology {k : Type u} [Field k] (X : Scheme.{u})
 /-- **Serre duality through a trace.** On a proper curve smooth of relative dimension one over
 `k` there is a `k`-linear trace `t : H¹(X, Ω_{X/k}) → k` such that, for every quasi-coherent
 `F`, each linear form on `H¹(X, F)` is `t ∘ H¹(φ)` for exactly one `φ : F ⟶ Ω_{X/k}`. The
-README normalizes `t` as the residue sum; for `F = L` invertible the statement says that the
+README (B.2) normalizes `t` as the residue sum; for `F = L` invertible the statement says that the
 cup pairing `H⁰(X, Ω_{X/k} ⊗ L⁻¹) × H¹(X, L) → k` is perfect, and for `F = 𝒪_X` that
 `dim_k H⁰(X, Ω_{X/k}) = dim_k H¹(X, 𝒪_X)` (Tate 1968, §4, Corollary to Theorem 5). -/
-@[stacks 0BS2 "(5) and (6), with the trace named"]
+@[stacks 0BS2 "(5) and (6); the trace is quantified, its residue normalisation is README B.2"]
 theorem serreDuality_exists_trace {k : Type u} [Field k] (X : Scheme.{u})
     [X.Over (Spec (.of k))] [SmoothOfRelativeDimension 1 (X ↘ Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] :
@@ -78,6 +83,19 @@ theorem serreDuality_exists_trace {k : Type u} [Field k] (X : Scheme.{u})
       ∀ (F : X.Modules) [F.IsQuasicoherent],
         Function.Bijective (fun φ : F ⟶ X.relativeDifferentials k =>
           t ∘ₗ Scheme.Modules.cohomologyMapBaseLinear k X φ 1) := by
+  sorry
+
+/-! ## Layer C: relative coherent cohomology and the Hilbert scheme of points -/
+
+/-- **The Hilbert scheme of points of a curve.** For a proper curve smooth of relative
+dimension one over a field and every `d`, relative effective Cartier divisors of degree `d`
+form a representable functor on all test schemes; the representing scheme is the symmetric
+power `Symᵈ X`. -/
+@[stacks 0B9A "Special case: a proper curve smooth of relative dimension one over a field."]
+theorem isRepresentable_relativeEffectiveCartierDegreeSubfunctor {k : Type u} [Field k]
+    (X : Over (Spec (.of k))) [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] (d : ℕ) :
+    Functor.IsRepresentable
+      (TauCeti.AlgebraicGeometry.relativeEffectiveCartierDegreeSubfunctor X.hom d).toFunctor := by
   sorry
 
 /-! ## Layer D: the relative Picard functor and the Jacobian scheme -/
@@ -108,17 +126,6 @@ field has a Picard scheme. No rational point is assumed. -/
 theorem hasPicardScheme_of_curve {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom] :
     HasPicardScheme X.hom := by
-  sorry
-
-/-- **The Hilbert scheme of points of a curve.** For a proper curve smooth of relative
-dimension one over a field and every `d`, relative effective Cartier divisors of degree `d`
-form a representable functor on all test schemes; the representing scheme is the symmetric
-power `Symᵈ X`. -/
-@[stacks 0B9A "Special case: a proper curve smooth of relative dimension one over a field."]
-theorem isRepresentable_relativeEffectiveCartierDegreeSubfunctor {k : Type u} [Field k]
-    (X : Over (Spec (.of k))) [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] (d : ℕ) :
-    Functor.IsRepresentable
-      (TauCeti.AlgebraicGeometry.relativeEffectiveCartierDegreeSubfunctor X.hom d).toFunctor := by
   sorry
 
 /-- The degree-zero relative Picard fppf sheaf of a smooth proper geometrically connected curve
@@ -205,8 +212,9 @@ noncomputable def JacobianVariety {k : Type u} [Field k] (X : Over (Spec (.of k)
   isProper := inferInstance
   geometricallyIntegral := inferInstance
 
-/-- **The dimension of the Jacobian is the genus**, through `T₀ Pic⁰ ≅ H¹(X, 𝒪_X)` (Kleiman,
-Theorem 5.11; Milne, *Abelian Varieties*, III Proposition 2.1). -/
+/-- **The dimension of the Jacobian is the genus**, through `T₀ Pic⁰ ≅ H¹(X, 𝒪_X)` and the
+dimension of Tau Ceti's `AbelianVariety.TangentSpace` (Kleiman, Theorem 5.11; Milne, *Abelian
+Varieties*, III Proposition 2.1). -/
 theorem dim_jacobianVariety {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom]
     [FiniteDimensional k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
@@ -265,7 +273,7 @@ theorem isClosedImmersion_abelJacobi {k : Type u} [Field k] (X : Over (Spec (.of
   sorry
 
 /-- In genus one the Abel–Jacobi morphism is an isomorphism of the pointed curve with its
-Jacobian: `Jac (E, O) ≅ E` (Milne, *Abelian Varieties*, III Proposition 2.3 and Remark 12.5). -/
+Jacobian: `Jac (E, O) ≅ E` (Milne, *Abelian Varieties*, III Propositions 2.1 and 2.3). -/
 theorem isIso_abelJacobi_of_genus_eq_one {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom]
     [FiniteDimensional k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
@@ -274,18 +282,31 @@ theorem isIso_abelJacobi_of_genus_eq_one {k : Type u} [Field k] (X : Over (Spec 
     IsIso (abelJacobi X x₀) := by
   sorry
 
-/-- **Base change of the Jacobian.** For a field extension `K/k` and a curve `X'` over `K`
-isomorphic to the base change of `X`, the base change of `Jac X` (Tau Ceti's
-`AbelianVariety.baseChange`) represents the degree-zero Picard fppf sheaf of `X'`; the README
-specifies the representation as the one induced by Tau Ceti's
-`relativePicardDegreeZeroFunctorBaseChangeIso`. -/
-theorem jacobianVariety_baseChange {k : Type u} [Field k] (X : Over (Spec (.of k)))
+/-- The **base change of the Abel–Jacobi morphism** along a field extension `K/k`: the pullback
+of `abelJacobi X x₀` to the curve `X_K`, as a morphism into the underlying scheme of the
+base-changed Jacobian `(Jac X)_K` (Tau Ceti's `AbelianVariety.baseChange`, whose underlying
+object is the pullback of that of `Jac X` by `AbelianVariety.baseChange_toOver`). -/
+noncomputable def abelJacobiBaseChange {k : Type u} [Field k] (X : Over (Spec (.of k)))
     [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom]
-    (K : Type u) [Field K] [Algebra k K] (X' : Over (Spec (.of K)))
-    [SmoothOfRelativeDimension 1 X'.hom] [IsProper X'.hom] [GeometricallyConnected X'.hom]
-    (e : X' ≅ (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap k K)))).obj X) :
-    Nonempty ((picZeroSets X').RepresentableBy
-      ((JacobianVariety X).baseChange K).toOver) := by
+    (K : Type u) [Field K] [Algebra k K] (x₀ : 𝟙_ (Over (Spec (.of k))) ⟶ X) :
+    (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap k K)))).obj X ⟶
+      ((JacobianVariety X).baseChange K).toOver :=
+  (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap k K)))).map (abelJacobi X x₀) ≫
+    eqToHom (TauCeti.AlgebraicGeometry.AbelianVariety.baseChange_toOver _ K).symm
+
+/-- **Base change of the Abel–Jacobi morphism has the Albanese property.** For a field extension
+`K/k` and a `k`-rational point `x₀`, the base change `(Jac X)_K`, with
+`abelJacobiBaseChange X K x₀`, has the Albanese property for the curve `X_K` pointed at the base
+change of `x₀`. With `isAlbanese_abelJacobi` for `X_K` this determines the isomorphism
+`(Jac X)_K ≅ Jac X_K` of abelian varieties, with its group law, as the unique one carrying one
+Abel–Jacobi morphism to the other. -/
+theorem isAlbanese_baseChange_abelJacobi {k : Type u} [Field k] (X : Over (Spec (.of k)))
+    [SmoothOfRelativeDimension 1 X.hom] [IsProper X.hom] [GeometricallyConnected X.hom]
+    (K : Type u) [Field K] [Algebra k K] (x₀ : 𝟙_ (Over (Spec (.of k))) ⟶ X) :
+    TauCeti.AlgebraicGeometry.AbelianVariety.IsAlbanese
+      (Functor.LaxMonoidal.ε (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap k K)))) ≫
+        (Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap k K)))).map x₀)
+      (abelJacobiBaseChange X K x₀) := by
   sorry
 
 end TauCetiRoadmap.JacobianChallenge
