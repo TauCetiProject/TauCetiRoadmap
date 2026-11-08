@@ -25,7 +25,7 @@ The ambient Witt operations, divided powers, fraction-field isocrystals, the mod
 
 Let p be a prime. Assume p>2 throughout, except in §§0.2 and 0.5: the perfect-ring Dieudonné anti-equivalence and its height-one shtuka reformulation hold for every prime p, including p=2, because they use the perfect-ring category directly and not the odd-prime complete-local Zink-ring constructions of §§0.1 and 0.13. Layers 0–1 allow any perfect field k of characteristic p. Layers 2–4 and 6 take k=F̄_p. Layer 5 states separately when k is merely perfect, separably closed or finite. These residue hypotheses are part of the individual theorem, including its torsor-triviality conclusion. Complete local rings are nonzero Noetherian rings with the indicated residue field, separated and complete for their maximal-ideal topology. Complete-local maps are continuous local maps over the stated coefficient ring. Perfect rings in the perfect-ring comparison may be disconnected and need not be fields; finite projective ranks are locally constant. No global basis is imposed there.
 
-Put W=W(k), K₀=Frac(W)=W[1/p], and let K/K₀ be finite totally ramified unless a finite residue extension is displayed. Write 𝔖=W[[u]], with φ restricting to Witt σ on W and φ(u)=uᵖ. For a uniformizer π of K, E(u) is its monic Eisenstein polynomial; E(0)/p is a unit. The letter E without an argument denotes a reflex field, π_E its uniformizer, and Ĕ its completed maximal unramified extension with residue k. S denotes the p-completed Eisenstein PD evaluation ring. Ŵ(R) denotes the Zink coefficient ring. These are three different rings; every comparison specifies its scalar map. Numerical free ranks use nonzero coefficient rings and 0≤d≤h; the zero frame has only the zero finite module and its unique tilde comparison, without a numerical rank assertion. A p-frame has φ|I=pφ₁, and “strict” means that φ₁ is preserved without a unit multiplier.
+Put W=W(k), K₀=Frac(W)=W[1/p], and let K/K₀ be finite totally ramified unless a finite residue extension is displayed. Write 𝔖=W[[u]], with φ restricting to Witt σ on W and φ(u)=uᵖ. For a uniformizer π of K, E(u) is its monic Eisenstein polynomial; E(0)/p is a unit. The letter E without an argument denotes a reflex field, π_E its uniformizer, and Ĕ its completed maximal unramified extension with residue k. S denotes the p-completed Eisenstein PD evaluation ring, except in the p-frame notation (S,I,φ,φ₁) of §0.3, used in §§0.3–0.10 and 1.2, where S is the underlying ring of an arbitrary p-frame. Ŵ(R) denotes the Zink coefficient ring. These are three different rings; every comparison specifies its scalar map. Numerical free ranks use nonzero coefficient rings and 0≤d≤h; the zero frame has only the zero finite module and its unique tilde comparison, without a numerical rank assertion. A p-frame has φ|I=pφ₁, and “strict” means that φ₁ is preserved without a unit multiplier.
 
 Use contravariant D(H). The Hodge submodule Fil¹ has rank dim(H), whereas its quotient has rank ht(H)−dim(H). Normalize D(ℚ_p/ℤ_p) by F=σ and D(`μ_{p∞}`) by F=pσ. Put L=Hom_ℤp(T_pH,ℤ_p)=T_p(H*)⊗ℤ_p(−1), where H* denotes Cartier dual. Thus D(H*)=D(H)∨(−1). A Tate twist r multiplies crystalline Frobenius by p^(−r) and sends Filⁱ to Filⁱ⁺ʳ. For the ordinary height-two group, the multiplicative line has jump 1 and multiplier p, the étale line has jump 0 and multiplier 1, and dualizing and twisting exchanges them. These two lines fix every sign used below (Kisin17, §1.1.5–1.1.9, pp.7–9; Kisin17 lines 325 and 349).
 
@@ -531,11 +531,11 @@ A proof can proceed as follows. Extend the tensor-frame trivialization and use u
 
 ### 1.7 Crystalline deformation of displays
 
-For surjections S→R of complete Noetherian local rings with perfect residue field, equip the kernel with nilpotent divided powers compatible with the canonical p-divided powers and continuous in the sense that they descend through a fundamental system of open quotient ideals. For these thickenings, passing from displays on the relative Dieudonné frame `D_{S/R}` to displays on D_R is an equivalence. Combined with Grothendieck–Messing, lifting a marked display across a nilpotent PD thickening amounts to lifting its Hodge direct summand. Retain the nilpotence, continuity and perfect-residue hypotheses; this is not a claim about arbitrary ideal quotients. (Hoff23, Theorem 1.23 and Proposition 1.26, pp.14–15; Hoff23 line 641).
+For surjections B→R of complete Noetherian local rings with perfect residue field, equip the kernel with nilpotent divided powers compatible with the canonical p-divided powers and continuous in the sense that they descend through a fundamental system of open quotient ideals. For these thickenings, passing from displays on the relative Dieudonné frame `D_{B/R}` of §0.7 to displays on D_R is an equivalence. Combined with Grothendieck–Messing, lifting a marked display across a nilpotent PD thickening amounts to lifting its Hodge direct summand. Retain the nilpotence, continuity and perfect-residue hypotheses; this is not a claim about arbitrary ideal quotients. (Hoff23, Theorem 1.23 and Proposition 1.26, pp.14–15; Hoff23 line 641).
 
 A proof can proceed as follows. Apply relative-frame crystalline descent, then recover the Hodge lift from the absolute frame pair. Use the imported crystalline site and GM functor, with the contravariant convention checked on the two rank-one displays.
 
-*Needs:* §0.13 (displays and p-divisible groups); §1.2 (tilde factorization through an enlarged frame ideal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2; CrystallineCohomology §CR.7.1.
+*Needs:* §0.13 (displays and p-divisible groups); §0.7 (relative dieudonné–witt frame); §1.2 (tilde factorization through an enlarged frame ideal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2; CrystallineCohomology §CR.7.1.
 
 
 ### 1.8 Universal display with rigid first order
@@ -829,7 +829,7 @@ Layers 0–1; ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; PadicHodgeTheory §
 
 ### 3.1 Integral tensors along a formal curve
 
-Let a:Spec k[[u]]→Mloc pass through x. In S=W(k)[[u]] form M_S=Λ⊗S and the inverse image `M_{S,1}` of the induced filtration modulo p. Then pM_S⊂`M_{S,1}`⊂M_S, `M_{S,1}` is finite free, and the invariant tensors in its rationalization lie in `M_{S,1}`^⊗. This is the p-frame curve lattice; it is not the Eisenstein modification for an arbitrary ramified O_K. (KPZ26, Lemma 5.3.13, pp.57–58; KPZ26 line 2514).
+Let a:Spec k[[u]]→Mloc pass through x. In 𝔖=W(k)[[u]] form M_𝔖=Λ⊗𝔖 and the inverse image `M_{𝔖,1}` of the induced filtration modulo p. Then pM_𝔖⊂`M_{𝔖,1}`⊂M_𝔖, `M_{𝔖,1}` is finite free, and the invariant tensors in its rationalization lie in `M_{𝔖,1}`^⊗. This is the curve lattice of a pair over the p-frame (𝔖,(p)); it is not the Eisenstein modification for an arbitrary ramified O_K. (KPZ26, Lemma 5.3.13, pp.57–58; KPZ26 line 2514).
 
 A proof can proceed as follows. Over W(K), K an algebraic closure of k((u)), the local-model lattice is gΛ with g∈G(W(K)[1/p]), so invariant tensors are integral there. In the common fraction object use W(k)[[u]][1/p]∩W(K)=W(k)[[u]] coefficientwise. Flatness of the quotient filtration proves the elementary-modification freeness.
 
@@ -1146,13 +1146,13 @@ A proof can proceed as follows. Apply the universal deformation functor and rigi
 
 ### 4.9 Interpolation of two tensor displays
 
-Suppose two marked adapted displays over O_K have identified underlying tensor filtration pairs and the same residual display. For S=O_K[[T]], the surjection S→O_K×_k O_K sending T↦(0,π_K) lifts their two Ψ maps to a tensor-preserving Ψ_S. It gives an interpolating marked display with the required two endpoint specializations. Surjectivity is onto the fibre product, not onto O_K×O_K. (KP18, Proof of Proposition 3.2.17, pp.176–177; KP18 line 2290; Hoff23, Lemma 2.34, p.28; Hoff23 line 1317).
+Suppose two marked adapted displays over O_K have identified underlying tensor filtration pairs and the same residual display. For B=O_K[[T]], the surjection B→O_K×_k O_K sending T↦(0,π_K) lifts their two Ψ maps to a tensor-preserving Ψ_B. It gives an interpolating marked display with the required two endpoint specializations. Surjectivity is onto the fibre product, not onto O_K×O_K. (KP18, Proof of Proposition 3.2.17, pp.176–177; KP18 line 2290; Hoff23, Lemma 2.34, p.28; Hoff23 line 1317).
 
 The API includes the following facts.
 
-- Produce Ψ_S with endpoints Ψ and Ψ′ after the stated identification of pairs.
+- Produce Ψ_B with endpoints Ψ and Ψ′ after the stated identification of pairs.
 - Evaluation at T=0 and T=π_K returns the two marked displays.
-- The universal ambient display classifies the interpolating family by a continuous map R_E→S.
+- The universal ambient display classifies the interpolating family by a continuous map R_E→B.
 
 **Checks.**
 
@@ -1160,7 +1160,7 @@ The API includes the following facts.
 - For identical endpoint Ψ the constant display is an allowed interpolation.
 - The pair (0,1) does not belong to O_K×_k O_K, so the endpoint map is not claimed surjective onto the unrestricted product.
 
-A proof can proceed as follows. Check the coefficient and Zink-Witt fibre-product surjections. Smoothness of the tensor-isomorphism torsor lifts its point along their complete-local kernel. Use ambient universality to lift the interpolation to a map R_E→S.
+A proof can proceed as follows. Check the coefficient and Zink-Witt fibre-product surjections. Smoothness of the tensor-isomorphism torsor lifts its point along their complete-local kernel. Use ambient universality to lift the interpolation to a map R_E→B.
 
 *Needs:* §4.6 (a tensor-preserving first-order rigid section); §2.6 (integral tilde tensors and tensor frames); §0.12 (base change of displays).
 
@@ -1180,9 +1180,9 @@ Do not infer equality of integral tangent lattices from equal ranks alone; retai
 
 Under (A)–(C) of §4.10, normality and generic regularity of R_G, every continuous local map ξ:R_E→O_K whose induced deformation is (𝒢,μ_y)-adapted factors through R_G. Thus factorization is independent of the ambient coordinate map inducing the marked deformation. The converse follows by the tensor-preserving display section. The proof requires the named formal-completion and point-detection inputs and the Mathlib separatedness and contraction statements; they are not supplied merely by smoothness of the group. (KP18, Proposition 3.2.17, pp.175–177; KP18 line 2279; KZ25, Proposition 3.2.7, pp.24–25; KZ25 line 1046).
 
-A proof can proceed as follows. After a finite scalar extension and a marked 𝒢 frame change, identify the two O_K filtration points. Interpolate their Ψ maps over O_K[[T]]. Put n_y=ker(y:R_G→O_K) for the chosen reference filtration point. For I_n=ker(R_E→S/Tⁿ), J_G=ker(R_E→R_G), and J_Gⁿ=ker(R_E→(R_G/n_yⁿ)[1/p]), apply the tangent criterion to the indicated common quotients. Over the fraction field the relevant descending finite-dimensional tangent subspaces stabilize. Generic regularity turns their equality into the needed completed-ideal containment. Contract through the p-torsion-free quotients, obtain J_G⊂I_n for every n and use ∩I_n=ker(R_E→S). Specialization at the second endpoint gives factorization.
+A proof can proceed as follows. After a finite scalar extension and a marked 𝒢 frame change, identify the two O_K filtration points. Interpolate their Ψ maps over B=O_K[[T]] as in §4.9. Put n_y=ker(y:R_G→O_K) for the chosen reference filtration point. For I_n=ker(R_E→B/TⁿB), J_G=ker(R_E→R_G), and J_Gⁿ=ker(R_E→(R_G/n_yⁿ)[1/p]), apply the tangent criterion to the indicated common quotients. Over the fraction field the relevant descending finite-dimensional tangent subspaces stabilize. Generic regularity turns their equality into the needed completed-ideal containment. Contract through the p-torsion-free quotients, obtain J_G⊂I_n for every n and use ∩I_n=ker(R_E→B). Specialization at the second endpoint gives factorization.
 
-Regularity of R_G[1/p] turns equality of tangent spaces into the completed-ideal containment; finite dimensionality of the tangent spaces gives the stabilization; p-torsion-freeness of the quotients gives the contraction, by `IsLocalization.algebraMap_mem_map_algebraMap_iff`; T-adic separatedness gives ∩ₙI_n=ker(R_E→S), by `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`.
+Regularity of R_G[1/p] turns equality of tangent spaces into the completed-ideal containment; finite dimensionality of the tangent spaces gives the stabilization; p-torsion-freeness of the quotients gives the contraction, by `IsLocalization.algebraMap_mem_map_algebraMap_iff`; T-adic separatedness of B gives ∩ₙI_n=ker(R_E→B), by `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`.
 
 *Needs:* §4.10 (four infinitesimal adaptedness criteria); §4.9 (interpolation of two tensor displays); §1.6 (the rational section preserves lifted tensors); §2.3 (completed orbit deformation ring); SchemeAndStackFoundations §§4.1–4.4 and 4.7–4.8; ModularCurves §0G; Mathlib `Ideal.iInf_pow_smul_eq_bot_of_le_jacobson` and `IsLocalization.algebraMap_mem_map_algebraMap_iff`; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:formal-dvr-point-detection.
 
@@ -1270,11 +1270,11 @@ A proof can proceed as follows. Build the normal-cover system and its compatible
 
 ### 5.3 Weak admissibility of the toral filtration
 
-For the fixed tensor G-isocrystal (D,δσ), let T⊂J_δ be a maximal ℚ_p-torus and let μ_T be a T-cocharacter geometrically conjugate to the given inverse Hodge type. Require its Galois average in X_*(T)⊗ℚ, computed over a finite splitting field, to equal ν_δ⁻¹. Its inverse defines a weakly admissible filtration over a field of definition; the imported weak-admissible-to-admissible theorem makes it admissible. This statement retains the embedding in the σ-centralizer and the average equality, rather than asserting that an arbitrary toral Hodge filtration is admissible. (Kisin17, Proof of Theorem 2.2.3, p.32 (citing Rapoport–Zink Proposition 1.21); Kisin17 line 1455).
+Let k=F̄_p, so that K₀=ℚ̆_p. Let G be a connected reductive group over ℚ_p with a geometric conjugacy class {μ} of cocharacters, the inverse Hodge type, let δ∈G(K₀), let (D,δσ) be the tensor G-isocrystal of δ, and let J_δ be its rational σ-centralizer of §2.0. The residue field is fixed because J_δ depends on it: over 𝔽_p, where K₀=ℚ_p and σ is the identity, the same equation gives the ordinary centralizer of δ, which for δ=[[0,1],[p,0]] in GL₂ is the torus ℚ_p(√p)^× rather than the quaternion unit group of §2.0. Let T⊂J_δ be a maximal ℚ_p-torus and let μ_T be a T-cocharacter which, viewed in G over K₀ through the inclusion of §2.0, lies in {μ}. Require its Galois average in X_*(T)⊗ℚ, computed over a finite splitting field, to equal ν_δ⁻¹. Its inverse defines a weakly admissible filtration of D over the field of definition K of μ_T, a finite extension of K₀; the imported weak-admissible-to-admissible theorem makes it admissible. This statement retains the embedding in the σ-centralizer and the average equality, rather than asserting that an arbitrary toral Hodge filtration is admissible. (Kisin17, Proof of Theorem 2.2.3, p.32 (citing Rapoport–Zink Proposition 1.21); Kisin17 line 1455).
 
 A proof can proceed as follows. Reduce the degree and subobject inequalities to the torus weights and Newton average in the stated centralizer setting. Prove the degree equality and every Frobenius-stable subobject inequality in this normalization; the criterion is RZ96, Proposition 1.21, in the form applied in Kisin17, proof of Theorem 2.2.3, p.32.
 
-*Needs:* PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.13; the torus and Newton-average hypotheses of the toral filtration theorem.
+*Needs:* PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.13; §2.0 (rational σ-centralizer).
 
 
 ### 5.4 Hyperspecial adapted lift
@@ -1444,7 +1444,7 @@ A proof can proceed as follows. For an adapted lift use the universal tensor sec
 
 ### 5.15 Comparison with geometric realization tensors
 
-Let S be a given normal flat Hodge-type integral model, for example the normalization of the closure in a Siegel model, and A/S its pulled-back abelian scheme. Fix the mixed tensors cutting out its integral Hodge embedding. Assume their generic étale realizations are integral of the smooth full-fixer type of §4.4, and their de Rham realizations extend over S. At every O_K-valued point in the tensor-frame residue-field range of §4.3, the p-adic comparison identifies its integral generic étale tensors with the de Rham tensors and the residual contravariant crystalline tensors. The local p-divisible assertions are §4.4 and §5.13. The existence of S and global extension of its tensors remain downstream inputs; the supplier contract is only the rational absolute-Hodge comparison on the given abelian scheme, which does not consume §4.12. (vanHoften24, §3.1.5–3.1.7, pp.27–28; vanHoften24 line 1190; Kisin17, proof of Proposition 1.3.9, p.21; Kisin17 line 953).
+Let 𝒮 be a given normal flat Hodge-type integral model, for example the normalization of the closure in a Siegel model, and A/𝒮 its pulled-back abelian scheme. Fix the mixed tensors cutting out its integral Hodge embedding. Assume their generic étale realizations are integral of the smooth full-fixer type of §4.4, and their de Rham realizations extend over 𝒮. At every O_K-valued point in the tensor-frame residue-field range of §4.3, the p-adic comparison identifies its integral generic étale tensors with the de Rham tensors and the residual contravariant crystalline tensors. The local p-divisible assertions are §4.4 and §5.13. The existence of 𝒮 and global extension of its tensors remain downstream inputs; the supplier contract is only the rational absolute-Hodge comparison on the given abelian scheme, which does not consume §4.12. (vanHoften24, §3.1.5–3.1.7, pp.27–28; vanHoften24 line 1190; Kisin17, proof of Proposition 1.3.9, p.21; Kisin17 line 953).
 
 A proof can proceed as follows. Import the geometric family and its Hodge tensors, compare their generic realization maps, and specialize its p-divisible crystal using the stated integral comparison. Use the rational absolute-Hodge comparison and §4.4 to identify the residual integral tensor images; §5.13 supplies the local universal-family compatibility.
 
