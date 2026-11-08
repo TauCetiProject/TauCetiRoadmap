@@ -37,6 +37,12 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 
 **Left to other roadmaps.**
 
+- *The Hasse multiplicity criterion over a finite field* (a root of multiplicity at least `k` is
+  a common zero of the Hasse derivatives of orders `j < k`) and the vanishing
+  `hasseDeriv k (f ^ q) = 0` for `0 < k < q`: CharacterSumsOverFiniteFields, §4.1. Target 1.3 is
+  the characterisation of the kernel over every commutative ring of characteristic `p`; over a
+  finite field with `q = p ^ e` elements that vanishing is its direction from `expand`, since
+  `f ^ q = expand q f`.
 - *Stable range one for semilocal rings*, with its commutative specialisation to rings with
   finitely many maximal ideals: AlgebraicKTheory, §4.2.
 - *Singular values, Ky Fan sums and Ky Fan's inequality*: OperatorTheory/Majorization,
@@ -135,6 +141,7 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 
 - Binomial coefficients and polynomials: `Choose.choose_modEq_choose_mod_mul_choose_div` and
   `Choose.choose_modEq_prod_range_choose` (Lucas's theorem), `Nat.add_choose_eq` (Vandermonde),
+  `Nat.Prime.dvd_choose_self`,
   `Polynomial.hasseDeriv` with `Polynomial.hasseDeriv_mul`, `Polynomial.expand`,
   `Polynomial.eval`, `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`, `IsCoprime`.
 - Resultants, cited in Scope: `Polynomial.resultant`, `Polynomial.resultant_prod_left`,
@@ -146,6 +153,7 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 - Modules: `Module.Flat`, `Module.Flat.directSum_iff`, `Module.Flat.of_linearEquiv`,
   `Module.Flat.of_retract`, `DirectSum.linearEquivFunOnFintype`,
   `TensorProduct.piRightHom`, `Module.FinitePresentation`, `Module.Finite`, `IsNoetherianRing`,
+  `Module.finitePresentation_of_finite`, `Module.FinitePresentation.fg_ker`, `Shrink.linearEquiv`,
   `TensorProduct.equivFinsuppOfBasisRight`, `LinearMap.rTensor`, `Module.Basis`,
   `Module.Injective`, `Module.Baer`, `Module.Baer.injective`,
   `Module.Baer.of_injective`, `Module.Baer.of_divisible`, `IsPrincipalIdealRing`,
@@ -190,13 +198,17 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 - `Module.Baer.of_surjective_smul` and `Submodule.injective_quotient_of_divisionRing`
   (`TauCeti/Algebra/Module/Injective/PrincipalIdealRing.lean`): Baer's criterion for scalar
   divisibility over a principal ideal ring, and the injectivity of quotients of a faithful
-  division algebra.
+  division algebra, used by 2.8 and cited in Scope.
+- `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero`
+  (`TauCeti/Algebra/Module/Injective/Hom.lean`): a linear map into an injective module sends `a`
+  to `x` exactly when every scalar killing `a` kills `x`, used by 2.8.
 - `Derivation.leibniz_prod` (`TauCeti/RingTheory/Derivation/Basic.lean`): the Leibniz rule for a
   finite product.
 - `IsSemisimpleModule.nonempty_linearEquiv_of_trace_eq`
   (`TauCeti/RingTheory/Semisimple/Trace/Basic.lean`), cited in Scope.
 - `TauCeti.Units.coe_inv_mem_adjoin` (`TauCeti/RingTheory/Adjoin/Unit.lean`), cited in Scope.
-- `Matrix.pairMinor_mul` (`TauCeti/LinearAlgebra/Matrix/Minor.lean`), cited in Scope.
+- `Matrix.pairMinor_mul` (`TauCeti/LinearAlgebra/Matrix/Minor.lean`): Cauchy–Binet for `2 × 2`
+  minors, summed over increasing pairs, cited in Scope and compared with 5.2.
 
 Nothing is consumed from another roadmap.
 
@@ -211,8 +223,8 @@ module theory: flatness, finite presentation, injective modules, adic completene
 differentials, associated primes, the module `K ⁄ A` and torsion modules of finite length.
 Layer 3 extends Mathlib's and Tau Ceti's derivation API. Layer 4 is general topology. Layer 5
 collects finite monoids, two identities, traces, Grothendieck groups, and simple modules recognised
-by their traces. The smallest targets are 1.5, 1.7, 1.8, 2.1, 2.5, 2.11, 3.1 and 3.2; 2.5, 2.11
-and the finite-product form of 2.1 follow from the pins in two lines.
+by their traces. The smallest targets are 1.5, 1.7, 1.8, 2.1, 2.5, 2.11, 3.1 and 3.2; 1.7, 2.5,
+2.11 and the finite-product form of 2.1 follow from the pins in two lines.
 
 ## Layer 1: binomial coefficients, Hasse derivatives, a determinant, commutators
 
@@ -319,13 +331,13 @@ determinant `1` (own statement). Route: Vandermonde's convolution writes it as `
 
 ### 1.7 Odd prime powers of a product with central commutator
 
-Prove `mul_pow_prime_of_commute_commutatorElement`: in a group, if `d = ⁅v, u⁆ = v u v⁻¹ u⁻¹`
-commutes with `u` and with `v`, then for an odd prime `p` with `d ^ p = 1`,
-`(u v) ^ p = u ^ p v ^ p` (own statement, the class-two case of the Hall–Petrescu formula). Route:
-Tau Ceti's binomial formula of nilpotency class two (see Scope) at `n = p` gives
-`(u v) ^ p = u ^ p v ^ p d ^ (p.choose 2)`, and `p ∣ p.choose 2 = p (p − 1) ⁄ 2` as `p` is odd.
+In a group, if `d = ⁅v, u⁆ = v u v⁻¹ u⁻¹` commutes with `u` and with `v`, then for an odd prime
+`p` with `d ^ p = 1`, `(u v) ^ p = u ^ p v ^ p` (the class-two case of the Hall–Petrescu formula).
+This follows in two lines from the pins: Tau Ceti's binomial formula of nilpotency class two (see
+Scope) at `n = p` gives `(u v) ^ p = u ^ p v ^ p d ^ (p.choose 2)`, and `p ∣ p.choose 2` by
+Mathlib's `Nat.Prime.dvd_choose_self`, as `0 < 2 < p` for `p` odd, so `d ^ (p.choose 2) = 1`.
 *Needs:* Tau Ceti `Commute.mul_pow_eq_pow_mul_pow_mul_commutatorElement_pow_choose_two`; Mathlib
-`commutatorElement`, `Commute`.
+`Nat.Prime.dvd_choose_self`, `commutatorElement`, `Commute`.
 
 **Checks.**
 
@@ -398,7 +410,8 @@ converse holds because a direct summand of a flat module is flat (`Module.Flat.o
 - `ι` empty: the product is the zero module, which is flat, and the right side holds vacuously.
 - Finiteness is needed for the direction from the factors: by Chase's theorem (Chase 1960,
   Theorem 2.1) every product of flat modules over `R` is flat only when `R` is coherent, so over a
-  non-coherent ring some power `R ^ ℕ` is not flat although `R` is.
+  non-coherent ring some power `R ^ A`, for an index set `A` depending on `R`, is not flat although
+  `R` is.
 
 ### 2.2 Tensor products with products
 
@@ -421,10 +434,12 @@ commutative ring and any family `P` of modules, `TensorProduct.piRightHom` from 
 
 Prove `isNoetherianRing_iff_forall_finitePresentation`: a ring `R` is Noetherian if and only if
 every finitely generated `R`-module in universe `v` is finitely presented, for `R` small in universe
-`v` (own statement; the forward direction is Stacks, Tag 00IK). Route: over a Noetherian ring the
-kernel of `R ^ n → M` is finitely generated; conversely `R ⧸ I` finitely presented forces `I`
-finitely generated. *Needs:* Mathlib `IsNoetherianRing`, `Module.Finite`,
-`Module.FinitePresentation`.
+`v` (own statement; the forward direction is Mathlib's `Module.finitePresentation_of_finite`,
+Stacks, Tag 00IK). Route: the forward direction is that declaration; conversely, for an ideal `I`,
+`Shrink.linearEquiv` puts a copy of `R ⧸ I` in universe `v`, and
+`Module.FinitePresentation.fg_ker` applied to the surjection `R → R ⧸ I` makes `I` finitely
+generated. *Needs:* Mathlib `IsNoetherianRing`, `Module.Finite`, `Module.FinitePresentation`,
+`Module.finitePresentation_of_finite`, `Module.FinitePresentation.fg_ker`, `Shrink.linearEquiv`.
 
 **Checks.**
 
@@ -514,10 +529,12 @@ domain, every quotient of an injective module is injective (own statements in th
 Mathlib's `Module.Baer.of_divisible` is the case of `ℤ`). Both carry `[Small.{v} R]` for a module
 in universe `v`. Route: divisibility gives Baer's criterion by Tau Ceti's
 `Module.Baer.of_surjective_smul`, hence injectivity by `Module.Baer.injective`; conversely, over a
-domain `r • ·` is injective on `R`, and an injective module extends `r ↦ x` along it. A quotient of
-a divisible module is divisible, which gives the second statement from the first. *Needs:* Tau
-Ceti `Module.Baer.of_surjective_smul`; Mathlib `Module.Baer`, `Module.Baer.injective`,
-`Module.Baer.of_injective`, `IsPrincipalIdealRing`, `Submodule.mkQ`.
+domain `r • ·` is injective on `R`, so only `s = 0` kills `r ≠ 0`, and Tau Ceti's
+`TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero` extends `r ↦ x` to a linear map
+`R → M`. A quotient of a divisible module is divisible, which gives the second statement from the
+first. *Needs:* Tau Ceti `Module.Baer.of_surjective_smul`,
+`TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero`; Mathlib `Module.Baer`,
+`Module.Baer.injective`, `Module.Baer.of_injective`, `IsPrincipalIdealRing`, `Submodule.mkQ`.
 
 **Checks.**
 
@@ -609,8 +626,9 @@ Tau Ceti `TauCeti.isFiniteLength_of_nonZeroDivisor_mem_annihilator`; Mathlib `Mo
 ### Dependencies
 
 Mathlib module theory as listed in the supplier contracts; Tau Ceti `Module.Flat.pi`,
-`Module.Flat.prod`, `TauCeti.isAdicComplete_of_pow_smul_eq_bot`, `Module.Baer.of_surjective_smul`
-and `TauCeti.isFiniteLength_of_nonZeroDivisor_mem_annihilator`. Within the layer, in 2.8 the
+`Module.Flat.prod`, `TauCeti.isAdicComplete_of_pow_smul_eq_bot`, `Module.Baer.of_surjective_smul`,
+`TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero` and
+`TauCeti.isFiniteLength_of_nonZeroDivisor_mem_annihilator`. Within the layer, in 2.8 the
 statement on quotients uses the equivalence, and in 2.9 the statement on associated primes uses
 the regularity statement.
 
@@ -745,11 +763,15 @@ the permutations of `E`, trivial by hypothesis. *Needs:* Mathlib `Monoid`, `Mono
 
 Prove `Finset.sum_sum_mul_sub_mul_mul_mul_sub_mul`: over a commutative ring,
 `∑ i, ∑ j, (a i b j − a j b i)(c i d j − c j d i) = 2 ((∑ a c)(∑ b d) − (∑ a d)(∑ b c))`, sums over
-a finite set `s` (own statement in this form). Lagrange's identity over a commutative ring is its
-case `c = a`, `d = b`. Prove `RCLike.sum_sum_norm_mul_sub_mul_sq`: over `ℝ` or `ℂ`,
+a finite set `s` (own statement in this form). This is the `2 × 2` Cauchy–Binet formula, Tau
+Ceti's `Matrix.pairMinor_mul`, for the matrix with rows `a`, `b` times the matrix with columns `c`,
+`d`; it differs in summing over the ordered pairs of a finite set of any index type, with no
+`Fintype` or `LinearOrder`, which doubles the sum over `i < j`. Lagrange's identity over a
+commutative ring is its case `c = a`, `d = b`. Prove `RCLike.sum_sum_norm_mul_sub_mul_sq`: over
+`ℝ` or `ℂ`,
 `∑ i, ∑ j, ‖a i b j − a j b i‖ ² = 2 ((∑ ‖a i‖ ²)(∑ ‖b i‖ ²) − ‖∑ conj (a i) b i‖ ²)`, which gives
-the Cauchy–Schwarz inequality with its defect (own statement in this form). *Needs:* Mathlib
-`RCLike`, `Finset.sum_mul_sq_le_sq_mul_sq`.
+the Cauchy–Schwarz inequality with its defect (own statement in this form). *Needs:* Tau Ceti
+`Matrix.pairMinor_mul`; Mathlib `RCLike`, `Finset.sum_mul_sq_le_sq_mul_sq`.
 
 **Checks.**
 
@@ -839,7 +861,8 @@ on `S` and as `0` on `T`, of traces `1` and `0`. *Needs:* Mathlib `IsSimpleModul
 ### Dependencies
 
 Mathlib `Matrix`, `RCLike`, `Algebra.GrothendieckGroup`, `LinearMap.trace` and the density
-theorem. The targets of the layer are independent of one another.
+theorem; Tau Ceti `Matrix.pairMinor_mul` (5.2). The targets of the layer are independent of one
+another.
 
 ## Downstream consumers
 

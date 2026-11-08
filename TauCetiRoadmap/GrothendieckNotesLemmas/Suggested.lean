@@ -15,8 +15,7 @@ Headline theorems stated here (README target, Lean name):
 * 1.1, `Nat.pow_dvd_iff_forall_dvd_choose`; 1.2, `Nat.choose_pow_sub_one_modEq_neg_one_pow`;
   1.3, `Polynomial.forall_hasseDeriv_eq_zero_iff_exists_expand`; 1.4,
   `Polynomial.hasseDeriv_expand_mul`; 1.5, `Polynomial.isCoprime_X_sub_C_iff`; 1.6,
-  `Matrix.det_pascal`; 1.7, `mul_pow_prime_of_commute_commutatorElement`; 1.8,
-  `Subgroup.isPerfect_normalClosure`.
+  `Matrix.det_pascal`; 1.8, `Subgroup.isPerfect_normalClosure`.
 * 2.1, `Module.Flat.prod_iff`; 2.2, `Module.FinitePresentation.piRightHom_bijective`; 2.3,
   `isNoetherianRing_iff_forall_finitePresentation`; 2.4,
   `TensorProduct.mem_range_rTensor_iff_equivFinsuppOfBasisRight`; 2.6,
@@ -36,8 +35,10 @@ Headline theorems stated here (README target, Lean name):
   `IsSimpleModule.nonempty_linearEquiv_of_trace_eq`.
 
 Every headline of the README is statable at the pins. The homeomorphism of README 4.1 is the
-bundling of its two continuity theorems and is not restated. Three README statements follow from
-the pins in two lines and are not restated: the finite-product form of 2.1 (Mathlib's
+bundling of its two continuity theorems and is not restated. Four README statements follow from
+the pins in two lines and are not restated: 1.7 (Tau Ceti's
+`Commute.mul_pow_eq_pow_mul_pow_mul_commutatorElement_pow_choose_two` at `n = p`, with Mathlib's
+`Nat.Prime.dvd_choose_self`), the finite-product form of 2.1 (Mathlib's
 `Module.Flat.directSum_iff`, transported by `Module.Flat.of_linearEquiv` along
 `DirectSum.linearEquivFunOnFintype`), 2.5 (Tau Ceti's `TauCeti.isAdicComplete_of_pow_smul_eq_bot`)
 and 2.11 (Mathlib's `Submodule.annihilator_top_inter_nonZeroDivisors` and
@@ -104,15 +105,6 @@ theorem Matrix.det_pascal (R : Type*) [CommRing R] (n : ℕ) :
     (Matrix.of fun i j : Fin n ↦ (((i : ℕ) + j).choose i : R)).det = 1 := by
   sorry
 
-open scoped commutatorElement in
-/-- For an odd prime `p`, if `⁅v, u⁆` commutes with `u` and `v` and `⁅v, u⁆ ^ p = 1`, then
-`(u * v) ^ p = u ^ p * v ^ p` (from Tau Ceti's
-`Commute.mul_pow_eq_pow_mul_pow_mul_commutatorElement_pow_choose_two` at `n = p`). -/
-theorem mul_pow_prime_of_commute_commutatorElement {G : Type*} [Group G] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) {u v : G} (hu : Commute u ⁅v, u⁆) (hv : Commute v ⁅v, u⁆)
-    (hd : ⁅v, u⁆ ^ p = 1) : (u * v) ^ p = u ^ p * v ^ p := by
-  sorry
-
 /-- The normal closure of a perfect subgroup is perfect (`Subgroup.isPerfect_iff`, and
 `Subgroup.normalClosure_le_normal` applied to the normal subgroup `⁅N, N⁆`). -/
 theorem Subgroup.isPerfect_normalClosure {G : Type*} [Group G] (H : Subgroup G)
@@ -139,7 +131,9 @@ theorem Module.FinitePresentation.piRightHom_bijective {R M ι : Type*} [CommRin
 
 universe v in
 /-- A ring `R` is Noetherian if and only if every finitely generated `R`-module, in a universe in
-which `R` is small, is finitely presented. -/
+which `R` is small, is finitely presented. The forward direction is Mathlib's
+`Module.finitePresentation_of_finite`; the converse applies `Module.FinitePresentation.fg_ker` to
+`R → R ⧸ I`, moved to universe `v` by `Shrink.linearEquiv`. -/
 theorem isNoetherianRing_iff_forall_finitePresentation (R : Type*) [Ring R] [Small.{v} R] :
     IsNoetherianRing R ↔ ∀ (M : Type v) [AddCommGroup M] [Module R M] [Module.Finite R M],
       Module.FinitePresentation R M := by
