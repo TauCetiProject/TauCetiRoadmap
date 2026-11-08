@@ -1,10 +1,11 @@
-import Mathlib
-import TauCeti.NumberTheory.HilbertSymbol.Basic
-import TauCeti.NumberTheory.QuadraticForm.Global.Localization
-import TauCeti.NumberTheory.QuadraticForm.Global.Predicates
-import TauCeti.NumberTheory.QuadraticForm.Global.Invariants
-import TauCeti.NumberTheory.QuadraticForm.Global.FormInvariants
-import TauCeti.LinearAlgebra.QuadraticForm.Witt.BaseChange
+module
+
+public import Mathlib
+public import TauCeti.NumberTheory.QuadraticForm.Global.Localization
+public import TauCeti.NumberTheory.QuadraticForm.Global.Predicates
+public import TauCeti.NumberTheory.QuadraticForm.Global.Invariants
+public import TauCeti.NumberTheory.QuadraticForm.Global.FormInvariants
+public import TauCeti.LinearAlgebra.QuadraticForm.Witt.BaseChange
 
 /-!
 # Global quadratic forms over number fields: target signatures
@@ -12,128 +13,85 @@ import TauCeti.LinearAlgebra.QuadraticForm.Witt.BaseChange
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
-The carriers of Layers 0–3 are landed Tau Ceti code and are used here as they are: the
-localizations `QuadraticForm.atFinitePlace` and `QuadraticForm.atRealPlace`, the localized units
-`HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`, the local predicates
-`QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresents`,
-`QuadraticForm.LocallyRepresentsScalar` and `QuadraticForm.LocallyEquivalent`, the invariant
-carrier `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` with its admissibility predicate
-`GlobalFormInvariants.IsAdmissible`, the invariants `QuadraticForm.globalInvariants` of a regular
-form, the norm-equation symbol `TauCeti.hilbertSymbol`, and the Witt ring `TauCeti.WittRing` with
-its scalar extension `TauCeti.WittRing.baseChange`. The field-generic quaternary descent
-of Layer 5.1 is landed as `QuadraticForm.not_anisotropic_of_not_anisotropic_baseChange_quaternary`
-and is not restated.
+The statements use Tau Ceti's carriers as they are: the localizations
+`QuadraticForm.atFinitePlace` and `QuadraticForm.atRealPlace`, the localized unit
+`HeightOneSpectrum.unitAtFinitePlace`, the local predicates `QuadraticForm.IsLocallyIsotropic`,
+`QuadraticForm.LocallyRepresentsScalar`, `QuadraticForm.LocallyRepresents` and
+`QuadraticForm.LocallyEquivalent`, the invariant record
+`TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` with its predicate
+`GlobalFormInvariants.IsAdmissible`, the record `QuadraticForm.globalInvariants` of a regular form,
+and the Witt ring `TauCeti.WittRing` with its scalar extension `TauCeti.WittRing.baseChange`.
 
-Every headline theorem of the roadmap is statable at the pins; none is omitted.
+The headline theorems are the global square theorem (4.2), Hasse–Minkowski for isotropy (5.5),
+for the representation of nonzero scalars (6.1), for the representation of forms (6.2) and for
+isometry (6.3), the existence of a global form with prescribed admissible invariants (7.3), the
+classification of regular forms by their invariants (8.1), the injectivity of the global-to-local
+map of Witt rings (8.3), and the isometry corollary consumed by the orthogonal-group roadmaps
+(8.4). Each is statable at the pins and is stated below.
 -/
+
+public section
 
 namespace TauCetiRoadmap.GlobalQuadraticForms
 
 open IsDedekindDomain NumberField
-open TauCeti (hilbertSymbol unitAtRealPlace)
 open TauCeti.NumberField.QuadraticForm (GlobalFormInvariants)
 
-universe u v
+universe u v w
 
-/-! ## Layer 4: the global square theorem and Hilbert sign prescription -/
+/-! ## Layer 4: the global square theorem -/
 
-section GlobalArithmetic
+section GlobalSquare
 
 variable {K : Type u} [Field K] [NumberField K]
 
 /-- **4.2, the global square theorem** (O'Meara 65:15). A unit of a number field that is a square
-in all but finitely many finite completions is a square in `K`. No archimedean hypothesis is
-needed. The proof route is the norm-index argument: if `a` is a nonsquare, weak approximation
-makes every idele a principal idele times an idele norm from `K(√a)`, contradicting the index
-`[C_K : N C_{K(√a)}] = 2`. -/
+in the completion at all but finitely many finite places is a square in `K`. No archimedean
+hypothesis is needed. -/
 theorem isSquare_of_isSquare_unitAtFinitePlace_of_notMem
     (a : Kˣ) (S : Finset (HeightOneSpectrum (𝓞 K)))
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → IsSquare (v.unitAtFinitePlace a)) :
     IsSquare a :=
   sorry
 
-/-- **4.4, the localized product formula** (Hilbert reciprocity). For `a b : Kˣ`
-and a finite set `S` of finite places outside which the finite symbols are trivial, the product of
-the norm-equation symbols over `S` and over the real places is `1`. Complex places contribute `1`,
-so only the real ones appear. -/
-theorem hilbertSymbol_localized_productFormula (a b : Kˣ)
-    (S : Finset (HeightOneSpectrum (𝓞 K)))
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S →
-      hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b) = 1) :
-    letI : Fintype {w : InfinitePlace K // w.IsReal} := Fintype.ofFinite _
-    (∏ v ∈ S, hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b)) *
-        ∏ w : {w : InfinitePlace K // w.IsReal},
-          hilbertSymbol (unitAtRealPlace w a) (unitAtRealPlace w b) = 1 :=
-  sorry
+end GlobalSquare
 
-/-- **4.4, Hilbert sign prescription with a prescribed second argument** (O'Meara 71:19). Given a
-finite set of finite and real places of even total cardinality at each of which `b` is a
-nonsquare, some `a : Kˣ` has symbol `(a, b)_v = -1` exactly at the places of that set. This is an
-existence theorem; the product formula alone does not prove it. -/
-theorem exists_hilbertSymbol_eq_neg_one_iff
-    (b : Kˣ)
-    (Tf : Finset (HeightOneSpectrum (𝓞 K)))
-    (Tr : Finset {w : InfinitePlace K // w.IsReal})
-    (hpar : Even (Tf.card + Tr.card))
-    (hbf : ∀ v ∈ Tf, ¬ IsSquare (v.unitAtFinitePlace b))
-    (hbr : ∀ w ∈ Tr, ¬ IsSquare (unitAtRealPlace w b)) :
-    ∃ a : Kˣ,
-      (∀ v : HeightOneSpectrum (𝓞 K),
-          hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b) = -1 ↔ v ∈ Tf) ∧
-        ∀ w : {w : InfinitePlace K // w.IsReal},
-          hilbertSymbol (unitAtRealPlace w a) (unitAtRealPlace w b) = -1 ↔ w ∈ Tr :=
-  sorry
-
-/-- **4.4, Hilbert sign prescription without a prescribed second argument** (O'Meara 71:19). Every
-finite set of finite and real places of even total cardinality is exactly the set of places where
-`(a, b)_v = -1` for some pair `a b : Kˣ`. -/
-theorem exists_hilbertSymbol_eq_neg_one_iff_pair
-    (Tf : Finset (HeightOneSpectrum (𝓞 K)))
-    (Tr : Finset {w : InfinitePlace K // w.IsReal})
-    (hpar : Even (Tf.card + Tr.card)) :
-    ∃ a b : Kˣ,
-      (∀ v : HeightOneSpectrum (𝓞 K),
-          hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b) = -1 ↔ v ∈ Tf) ∧
-        ∀ w : {w : InfinitePlace K // w.IsReal},
-          hilbertSymbol (unitAtRealPlace w a) (unitAtRealPlace w b) = -1 ↔ w ∈ Tr :=
-  sorry
-
-end GlobalArithmetic
-
-/-! ## Layers 5–6: Hasse–Minkowski, representation, and isometry -/
+/-! ## Layers 5–6: Hasse–Minkowski for isotropy, representation and isometry -/
 
 section HasseMinkowski
 
 variable {K : Type u} [Field K] [NumberField K]
   {V : Type v} [AddCommGroup V] [Module K V]
 
-/-- **5.5, Hasse–Minkowski isotropy** (O'Meara 66:1), over an arbitrary number field: a regular
-form is isotropic exactly when it is isotropic at every finite and every real place. -/
+/-- **5.5, Hasse–Minkowski for isotropy** (O'Meara 66:1), over an arbitrary number field: a
+regular form is isotropic exactly when it is isotropic at every finite and every real place. -/
 theorem hasseMinkowski_isotropic [FiniteDimensional K V]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
     ¬ Q.Anisotropic ↔ Q.IsLocallyIsotropic :=
   sorry
 
-/-- **6.1, scalar representation**: a regular form represents a nonzero scalar
-exactly when it represents it at every finite and every real place. -/
+/-- **6.1, Hasse–Minkowski for the representation of a nonzero scalar** (O'Meara 66:3 in
+dimension one): a regular form represents a nonzero scalar exactly when it represents it at every
+finite and every real place. -/
 theorem represents_iff_locallyRepresents [FiniteDimensional K V]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (a : K) (ha : a ≠ 0) :
     QuadraticMap.Represents Q a ↔ Q.LocallyRepresentsScalar a :=
   sorry
 
-/-- **6.2, representation of forms** (O'Meara 66:3): a regular form `Q` admits an injective
-isometry into a regular form `R` exactly when it does so at every finite and every real place. -/
+/-- **6.2, Hasse–Minkowski for the representation of forms** (O'Meara 66:3): a regular form `Q`
+admits an injective isometry into a regular form `R` exactly when it does so at every finite and
+every real place. -/
 theorem represented_iff_locallyRepresented [FiniteDimensional K V]
-    {W : Type v} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+    {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
     (R : QuadraticForm K W) (hR : R.Nondegenerate) :
     Q.IsRepresentedBy R ↔ Q.LocallyRepresents R :=
   sorry
 
-/-- **6.3, Hasse–Minkowski isometry** (O'Meara 66:4): two regular forms are isometric exactly when
-they are isometric at every finite and every real place. -/
+/-- **6.3, Hasse–Minkowski for isometry** (O'Meara 66:4): two regular forms are isometric exactly
+when they are isometric at every finite and every real place. -/
 theorem hasseMinkowski_equivalent [FiniteDimensional K V]
-    {W : Type v} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+    {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
     (R : QuadraticForm K W) (hR : R.Nondegenerate) :
     Q.Equivalent R ↔ Q.LocallyEquivalent R :=
@@ -141,65 +99,56 @@ theorem hasseMinkowski_equivalent [FiniteDimensional K V]
 
 end HasseMinkowski
 
-/-! ## Layers 7–8: global existence and classification -/
+/-! ## Layers 7–8: global existence, classification and Witt consequences -/
 
 section Existence
 
 variable {K : Type u} [Field K] [NumberField K]
 
-/-- **7.3, existence from an admissible invariant system** (O'Meara 72:1). Every admissible system
-`(n, d, s, p)` is the system of invariants of a regular form on `Kⁿ`. -/
+/-- **7.3, existence from an admissible invariant record** (O'Meara 72:1). Every admissible
+record `(n, d, s, p)` is the record of invariants of a regular form on `Kⁿ`. Admissibility
+includes `1 ≤ n`; the zero form, whose record has rank `0`, is the regular form excluded. -/
 theorem exists_globalForm_of_isAdmissible (I : GlobalFormInvariants K)
     (hI : I.IsAdmissible) :
     ∃ Q : QuadraticForm K (Fin I.rank → K),
       ∃ hQ : Q.Nondegenerate, Q.globalInvariants hQ = I :=
   sorry
 
-/-- **7.4, uniqueness of a global realization**: two regular forms with the same rank, global
-discriminant, finite Hasse signs and real positive indices are isometric. -/
-theorem equivalent_of_globalInvariants_eq
-    {V W : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
-    (R : QuadraticForm K W) (hR : R.Nondegenerate)
-    (h : Q.globalInvariants hQ = R.globalInvariants hR) :
-    Q.Equivalent R :=
-  sorry
-
-/-- **8.1, complete global classification**: equality of rank, global
-discriminant, every finite Hasse sign and every real positive index is necessary and sufficient
-for two regular forms to be isometric. -/
+/-- **8.1, classification by invariants** (O'Meara 66:5): two regular forms are
+isometric exactly when they have the same rank, global discriminant, finite Hasse signs and real
+positive indices. The statement includes rank zero. -/
 theorem equivalent_iff_globalInvariants_eq
-    {V W : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+    {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
     (R : QuadraticForm K W) (hR : R.Nondegenerate) :
     Q.Equivalent R ↔ Q.globalInvariants hQ = R.globalInvariants hR :=
   sorry
 
-/-- **8.4, the form-theoretic consequence consumed by Orthogonal and Spin Groups**: locally
-isometric regular forms are isometric. That roadmap owns the translation to `H¹(K, SO(Q))`. -/
+/-- **8.4, the isometry corollary consumed by the orthogonal-group roadmaps**: locally isometric
+regular forms are isometric. The translation to `H¹(K, SO(Q))` belongs to those roadmaps. -/
 theorem equivalent_of_locallyEquivalent
-    {V W : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [AddCommGroup W] [Module K W] [FiniteDimensional K W]
+    {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
     (R : QuadraticForm K W) (hR : R.Nondegenerate)
     (h : Q.LocallyEquivalent R) :
     Q.Equivalent R :=
   (hasseMinkowski_equivalent Q hQ R hR).2 h
 
-/-- **8.3, injectivity of the global-to-local Witt map.** A Witt class of `K` that becomes zero in
-the Witt ring of every finite completion and of every real completion is zero. Together with 8.2
-this is the Witt-ring form of Hasse–Minkowski. Complex places are omitted: a class that vanishes
-at one finite place has even rank, and rank parity is the only invariant of `W(ℂ)`. -/
-theorem injective_wittRing_baseChange_places :
-    letI : Invertible (2 : K) := invertibleOfNonzero two_ne_zero
+/-- **8.3, injectivity of the global-to-local map of Witt rings.** A Witt class of `K` whose
+scalar extensions to the Witt rings of every finite completion and of every real completion
+vanish is zero; equivalently, the map below is injective. The real component at `w` is scalar
+extension along the real embedding of `w`. Complex places are not needed: a class that vanishes
+at one finite place has even dimension, and the dimension modulo two is the only invariant of
+`W(ℂ)`. -/
+theorem injective_wittRing_baseChange_places [Invertible (2 : K)] :
     Function.Injective fun x : TauCeti.WittRing K =>
       ((fun v : HeightOneSpectrum (𝓞 K) =>
           TauCeti.WittRing.baseChange (L := v.adicCompletion K) x),
         fun w : {w : InfinitePlace K // w.IsReal} =>
-          letI : Algebra K ℝ := (InfinitePlace.embedding_of_isReal w.2).toAlgebra
-          TauCeti.WittRing.baseChange (L := ℝ) x) :=
+          @TauCeti.WittRing.baseChange K ℝ _ _
+            (InfinitePlace.embedding_of_isReal w.2).toAlgebra _ _ x) :=
   sorry
 
 end Existence
