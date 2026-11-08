@@ -1,17 +1,22 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.InnerProductSpace.ProjValMeasure.Basic
 
 /-!
 # Noncompact quantum symmetry: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, with simple definitions on native carriers.
-The stated headlines are Wigner reconstruction, both characteristic-zero Whitehead
-lemmas, equivariant Polish realization, and the strongly continuous unitary induced
-representation on the actual L² carrier. Automatic continuity of Borel homomorphisms
-of Polish groups and the Polishness of second-countable locally compact groups are
-supplied by OperatorAlgebraDynamics D1.BorelPrefix and are not stated here.
+The stated headlines are Wigner reconstruction, equivariant Polish realization, the
+strongly continuous unitary induced representation on the actual L² carrier, and
+Mackey's imprimitivity theorem for transitive systems on a separable Hilbert space,
+with Tau Ceti's `TauCeti.ProjValMeasure` as the projection-valued measure. Automatic
+continuity of Borel homomorphisms of Polish groups and the Polishness of
+second-countable locally compact groups are supplied by OperatorAlgebraDynamics
+D1.BorelPrefix, and the degree-one and degree-two Whitehead lemmas consumed by P.4 are
+Tau Ceti's `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero` and
+`LieModule.Cohomology.exists_d₁₂_eq`; none of these is stated here.
 
 The following further headlines are not statable on the pinned carriers:
 * P.2–P.4's unitary/antiunitary quotient-topology and locally continuous extension
@@ -24,9 +29,9 @@ The following further headlines are not statable on the pinned carriers:
   with hull-kernel topology and spatial type-I factor representations. M0's compact-type,
   analytic-vector and admissibility comparisons need the compatible smooth and analytic
   vector modules and completed compact-isotypic Hilbert tensor decomposition.
-* M1's imprimitivity equivalence needs projection-valued measures and covariant systems;
-  its measured subgroup, tensor and stages comparisons need measurable Hilbert fields
-  and their direct integrals. Graded imprimitivity also needs antiunitary field morphisms.
+* M1's measured subgroup, tensor and stages comparisons need measurable Hilbert fields
+  and their direct integrals, which neither library has. Graded imprimitivity also needs
+  antiunitary field morphisms between such fields.
 * M2's ordinary and twisted orbit/little-group classification needs the measurable
   irreducible dual and induced equivalence-class carriers; fixed-twist type-I and
   parameterized irreducible refinement need twisted group C*-algebras, measurable
@@ -35,8 +40,11 @@ The following further headlines are not statable on the pinned carriers:
 * M3's Euclidean/Galilei/Bargmann exhaustion and generator comparisons need their
   topological covering/central-extension groups, induced-dual models and closed generators.
 * M4's Lorentz and full graded Poincaré classifications, Plancherel theorem, Riesz
-  endpoint comparisons and localization results need the unitary-dual Hilbert models,
-  measurable spectral transforms and covariant position PVMs, beyond the native matrices.
+  endpoint comparisons and localization results need the unitary-dual Hilbert models as
+  data (the massive, helicity and Lorentz representations, which the induced-model theorem
+  below supplies only existentially), the unitary dual with its measure classes and the
+  measurable spectral transforms. The covariant position measure itself is a
+  `TauCeti.ProjValMeasure`; it is not the missing carrier.
 * M5's de Sitter dual and restriction theorems need those noncompact Hilbert models and
   their Fell topology. Deformation-to-the-normal-cone and all-sequence contraction,
   including massless dilation, need the deformation groupoid C*-algebra, continuous fields
@@ -80,29 +88,6 @@ theorem wigner_reconstruction (H : Type*) [NormedAddCommGroup H]
       Φ p = Projectivization.map U.toLinearEquiv.toLinearMap U.injective p) ∨
     (∃ U : H ≃ₗᵢ⋆[ℂ] H, ∀ p,
       Φ p = Projectivization.map U.toLinearEquiv.toLinearMap U.injective p) := by
-  sorry
-
-/-- Every one-cocycle of a finite-dimensional semisimple Lie algebra over a
-characteristic-zero field with finite-dimensional coefficients is a coboundary
-(Weibel, Corollary 7.8.10). -/
-theorem whitehead_one (K L V : Type*) [Field K] [CharZero K]
-    [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] [LieAlgebra.IsSemisimple K L]
-    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [LieRingModule L V] [LieModule K L V]
-    (f : LieModule.Cohomology.oneCochain K L V)
-    (hf : LieModule.Cohomology.d₁₂ K L V f = 0) :
-    ∃ v : V, ∀ x : L, f x = ⁅x, v⁆ := by
-  sorry
-
-/-- Every two-cocycle of a finite-dimensional semisimple Lie algebra over a
-characteristic-zero field with finite-dimensional coefficients is a coboundary
-(Weibel, Corollary 7.8.12). -/
-theorem whitehead_two (K L V : Type*) [Field K] [CharZero K]
-    [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] [LieAlgebra.IsSemisimple K L]
-    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [LieRingModule L V] [LieModule K L V]
-    (c : LieModule.Cohomology.twoCocycle K L V) :
-    ∃ f : LieModule.Cohomology.oneCochain K L V, LieModule.Cohomology.d₁₂ K L V f = c.val := by
   sorry
 
 /-! ## Layer 4: M1 — realization and induced representations -/
@@ -195,5 +180,54 @@ theorem InducedModelData.exists_inducedRepresentation (d : InducedModelData G H 
   sorry
 
 end Induction
+
+/-- A system of imprimitivity based on a measurable `G`-space `X` (README M1.Core): a strongly
+continuous unitary representation `U` of `G` on a complex Hilbert space `E` and a normalized,
+countably additive projection-valued measure `P` on the measurable sets of `X`, with
+`U g ∘ P(B) = P(g • B) ∘ U g` for every `g` and measurable `B`, that is
+`U g P(B) (U g)⁻¹ = P(g • B)`. Isometric operators of a group representation are onto, hence
+unitary. No topology on `X` and no separability of `E` is assumed here. -/
+structure SystemOfImprimitivity (G X E : Type*) [Group G] [TopologicalSpace G]
+    [MeasurableSpace G] [MeasurableSpace X] [MulAction G X] [MeasurableSMul G X]
+    [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E] where
+  /-- The group representation. -/
+  rep : ContRepresentation ℂ G E
+  /-- Each `rep g` is isometric. -/
+  rep_isometry : ∀ g, Isometry (rep g)
+  /-- Strong continuity: every orbit map is continuous. -/
+  rep_continuous_orbit : ∀ v, Continuous fun g : G => rep g v
+  /-- The normalized projection-valued measure on the measurable sets of `X`. -/
+  pvm : TauCeti.ProjValMeasure X E
+  /-- Covariance `U g ∘ P(B) = P(g • B) ∘ U g`. -/
+  covariant : ∀ (g : G) (B : Set X) (hB : MeasurableSet B),
+    (rep g).comp (pvm.proj B hB) = (pvm.proj (g • B) (hB.const_smul g)).comp (rep g)
+
+/-- **Mackey's imprimitivity theorem** (README M1.Core), transitive case. Let `G` be a
+Hausdorff second-countable locally compact group, `H` a closed subgroup and `X` a Polish
+`G`-space identified with `G ⧸ H` by an equivariant homeomorphism `e`. Every system of
+imprimitivity based on `X` on a separable Hilbert space `E` is unitarily equivalent to an
+induced system: there are a separable Hilbert space `K`, induced-model data `d` on the same
+identification `e` (a quasi-invariant measure, a measurable section and a strongly continuous
+unitary representation of `H` on `K`) and a unitary `W : E ≃ L²(X, d.measure; K)` carrying
+`U g` to the section action of `d` and `P(B)` to multiplication by the indicator of `B`. -/
+theorem SystemOfImprimitivity.exists_induced
+    {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [LocallyCompactSpace G] [SecondCountableTopology G] [T2Space G]
+    [MeasurableSpace G] [BorelSpace G] {H : Subgroup G} [IsClosed (H : Set G)]
+    {X : Type*} [TopologicalSpace X] [MeasurableSpace X] [BorelSpace X] [PolishSpace X]
+    [MulAction G X] [ContinuousSMul G X]
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [CompleteSpace E]
+    [TopologicalSpace.SeparableSpace E]
+    (e : (G ⧸ H) ≃ₜ X) (he : ∀ (g : G) (q : G ⧸ H), e (g • q) = g • e q)
+    (S : SystemOfImprimitivity G X E) :
+    ∃ (K : Type) (_ : NormedAddCommGroup K) (_ : InnerProductSpace ℂ K) (_ : CompleteSpace K)
+      (_ : TopologicalSpace.SeparableSpace K) (d : InducedModelData G H X K)
+      (W : E ≃ₗᵢ[ℂ] MeasureTheory.Lp K 2 d.measure),
+      d.quotientEquiv = e ∧
+      (∀ (g : G) (F : MeasureTheory.Lp K 2 d.measure),
+        ∀ᵐ x ∂d.measure, (W (S.rep g (W.symm F)) : X → K) x = d.sectionAction g F x) ∧
+      ∀ (B : Set X) (hB : MeasurableSet B) (F : MeasureTheory.Lp K 2 d.measure),
+        (W (S.pvm.proj B hB (W.symm F)) : X → K) =ᵐ[d.measure] B.indicator F := by
+  sorry
 
 end TauCetiRoadmap.NoncompactQuantumSymmetry
