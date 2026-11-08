@@ -162,6 +162,7 @@ body:
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
