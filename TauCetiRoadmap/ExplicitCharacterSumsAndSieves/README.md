@@ -109,9 +109,9 @@ zeros (AnalyticNumberTheoryPartI §0.34) is not used.
 
 **ExplicitCharacterSumsAndSieves, Part II.** The following explicit results are the subject of
 ExplicitCharacterSumsAndSieves, Part II, a later roadmap that consumes Layers 0–6 of this one. This
-roadmap stops at the derivative tests of Layer 1, the first and second derivative counts of Layer
-2, the Pólya–Vinogradov inequalities of Layer 3, the Burgess inequalities for a prime modulus of
-Layer 4 and the sieve bounds of Layer 5.
+roadmap stops at the iterated van der Corput inequality of Layer 1, the first and second
+derivative counts of Layer 2, the Pólya–Vinogradov inequalities of Layer 3, the Burgess
+inequalities for a prime modulus of Layer 4 and the sieve bounds of Layer 5.
 
 - Arias de Reyna's uniform explicit `d`-th derivative estimate for exponential sums
   (ariasdereyna2024 Theorem 11, line 555), built on §1.1.
