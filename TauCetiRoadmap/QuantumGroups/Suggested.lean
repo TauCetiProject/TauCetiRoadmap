@@ -15,36 +15,39 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the few definitions (real bodies on native carriers) that those statements need.
 
-Stated here: star compatibility of counit and antipode and the weighted Schur orthogonality
-relations on a Hopf *-algebra with a positive invariant functional (§3.1); the algebraic
-compact-type equivalence (§4.1); the free orthogonal coefficient relation with its cup invariance
-and the `SUq(2)` relations as unitarity of the fundamental matrix (Layer 5); and, for the generic
-quantized enveloping algebra `U_q(sl₂)` presented as a `RingQuot` of a free algebra (Layer 8): the
-unique coassociative coproduct, the PBW basis, the domain property, the centre `ℂ[Ω]`, the signed
-ladder classification of finite-dimensional simple modules together with the existence of every
-ladder, finite complete reducibility, and the characterisation and semisimplicity of locally
-finite modules.
+Stated here: the weighted Schur orthogonality relations on a Hopf *-algebra with a positive
+invariant functional (§3.1); the algebraic compact-type equivalence, the existence and uniqueness
+of the modular automorphism of the Haar functional and the Kac equivalence between traciality of
+the Haar functional and involutivity of the antipode (§4.1); and, for the generic quantized
+enveloping algebra `U_q(sl₂)` presented as a `RingQuot` of a free algebra (Layer 8): the unique
+coassociative coproduct, the PBW basis, the domain property, the centre `ℂ[Ω]`, the signed ladder
+classification of finite-dimensional simple modules together with the existence of every ladder,
+finite complete reducibility, and the characterisation and semisimplicity of locally finite
+modules.
 
 Not statable at the pins:
 
 * Layer 0: Hilbert-module adjointable and compact operators, interior tensor products,
-  C*-categories with standard conjugates and the positive Temperley–Lieb completions are
-  constructions of the roadmap; no carrier for any of them exists at the pins. The bicommutant
-  theorem, Tomita–Takesaki theory and full left Hilbert algebras are VonNeumannAlgebras' targets
-  and are not restated here.
+  C*-categories with standard conjugates, the unitary Temperley–Lieb category and the minimal
+  C*-tensor product are constructions of the roadmap or of VonNeumannAlgebras; no carrier for
+  any of them exists at the pins. The bicommutant theorem, Tomita–Takesaki theory and full left
+  Hilbert algebras are VonNeumannAlgebras' targets and are not restated here.
 * Layer 1 existence and uniqueness of the Haar state of a compact quantum group, and every
   Layer 1, 2, 4 and 7 statement about a C*-bialgebra `Δ : A → A ⊗_min A`: neither Mathlib nor Tau
   Ceti has the minimal (spatial) C*-tensor product of two C*-algebras.
 * Layer 2 decomposition of unitary corepresentations on arbitrary Hilbert spaces and the
   analytic Peter–Weyl theorem: Mathlib's `CStarModule` exists, but the free Hilbert module
   `H ⊗ A` and its adjointable operators, on which the coaction is defined, do not.
-* §§3.2–3.4, the modular identity `h(ab) = h(b θ(a))`, the Woronowicz characters `f_z`, the Kac
-  equivalences and the Tomita comparison: the characters need the complex powers `F^z` of the
-  positive matrix of every irreducible block of the Peter–Weyl decomposition of the core, which
-  is a construction of §3.1, and the Tomita comparison needs the full left Hilbert algebra of
-  VonNeumannAlgebras Layer 11, which has no carrier at the pins.
+* §§3.2–3.4, the Woronowicz characters `f_z` and the scaling and modular groups `τ_t`, `σ_t`:
+  they are defined blockwise by the complex powers `F^z` of the positive matrices of the
+  Peter–Weyl decomposition of the core, a construction of §3.1; the pivotal structure and
+  intrinsic dimensions of §3.3 need the C*-tensor category of §0.2; and the Tomita comparison
+  needs the full left Hilbert algebra of VonNeumannAlgebras Layer 11. None has a carrier at the
+  pins.
 * Layer 4 universal and reduced completions and the coamenability criteria: they need the
   C*-envelope of a Hopf *-algebra and the minimal tensor product above.
+* Layer 5: the universal C*-algebras `C(SUq(2))` and `A_o(F)` as compact matrix quantum groups,
+  whose coproducts take values in the minimal tensor product above.
 * Layer 6 Tannaka–Krein reconstruction: there is no unitary rigid C*-tensor category, dagger
   fibre functor or finite Hilbert-space dagger category at the pins.
 * Layer 7 fusion rules, dimensions and Haar laws of `SUq(2)` and `O_F^+`: they are statements
@@ -77,17 +80,6 @@ class StarCompatibleHopf : Prop where
   comul_star : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) =
     star (Coalgebra.comul (R := ℂ) a)
 
-/-- In a Hopf *-algebra the counit is star-preserving: `ε(a*) = conj ε(a)`. -/
-theorem counit_star [StarCompatibleHopf (A := A)] (a : A) :
-    Coalgebra.counit (R := ℂ) (star a) = star (Coalgebra.counit (R := ℂ) a) := by
-  sorry
-
-/-- In a Hopf *-algebra `S(S(a*)*) = a`; hence the antipode is bijective with
-`S⁻¹(a) = S(a*)*` (uniqueness of convolution inverses). -/
-theorem antipode_star_antipode_star [StarCompatibleHopf (A := A)] (a : A) :
-    HopfAlgebra.antipode ℂ (star (HopfAlgebra.antipode ℂ (star a))) = a := by
-  sorry
-
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   [TauCeti.Comodule ℂ A H]
 variable {ι : Type w} [Fintype ι] [DecidableEq ι]
@@ -106,11 +98,12 @@ structure AlgebraicHaar where
       (Coalgebra.comul (R := ℂ) a)) = functional a • (1 : A)
   positive : ∀ a : A, 0 ≤ functional (star a * a)
 
-/-- Schur orthogonality (§3.1; Timmermann, *An Invitation to Quantum Groups and Duality*,
-Theorem 3.2.12 and Proposition 3.2.17): for an irreducible finite comodule with unitary
-coefficient matrix `u` there is a positive invertible `F̃` with `Tr F̃ = Tr F̃⁻¹`,
-`h(u_ij* u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and `h(u_ij u_kl*) = δ_ik F̃_jl / Tr F̃`.
-The matrix is the README's pre-antipode `F̃`, not its transpose `F`. -/
+/-- Schur orthogonality (§3.1; Neshveyev–Tuset, *Compact Quantum Groups and Their
+Representation Categories*, Theorem 1.4.2, p. 9, whose `ρ_U` is the transpose of `F̃`): for an
+irreducible finite comodule with unitary coefficient matrix `u` there is a positive invertible
+`F̃` with `Tr F̃ = Tr F̃⁻¹`, `h(u_ij* u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and
+`h(u_ij u_kl*) = δ_ik F̃_jl / Tr F̃`. The matrix is the README's pre-antipode `F̃`, not its
+transpose `F`. -/
 theorem schur_orthogonality [StarCompatibleHopf (A := A)]
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
@@ -148,49 +141,23 @@ theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
   sorry
 
-/-! ## Layer 5: Compact matrix presentations -/
-
-section StarPresentations
-
-variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A] [StarModule ℂ A]
-variable {ι : Type w} [Fintype ι] [DecidableEq ι]
-
-omit [StarModule ℂ A] in
-/-- The defining relations of the free orthogonal quantum group `O_F^+` on a matrix `U`:
-`U` is unitary and `U = F bar(U) F⁻¹`, where `bar(U) = (U_ij*)` is the entrywise star. -/
-def freeOrthogonalRelation (F : Matrix ι ι ℂ) [Invertible F] (U : Matrix ι ι A) : Prop :=
-  U ∈ unitary (Matrix ι ι A) ∧
-    U = F.map (algebraMap ℂ A) * U.map star * (⅟ F).map (algebraMap ℂ A)
-
-/-- Under the `O_F^+` relations the cup vector `Σ_{i,j} F_ji e_i ⊗ e_j` is invariant for the
-tensor square `U_13 U_23`: `Σ_{j,l} U_ij F_lj U_kl = F_ki` (§5.2). -/
-theorem freeOrthogonalCup_invariant (F : Matrix ι ι ℂ) [Invertible F]
-    (U : Matrix ι ι A) (hU : freeOrthogonalRelation F U) (i k : ι) :
-    ∑ j, ∑ l, U i j * algebraMap ℂ A (F l j) * U k l =
-      algebraMap ℂ A (F k i) := by
+/-- The modular automorphism of the Haar functional (§4.1, from §3.2; Neshveyev–Tuset,
+Theorem 1.7.3, p. 22): a positive normalized invariant integral `h` on a Hopf *-algebra has
+exactly one algebra automorphism `θ` with `h(ab) = h(b θ(a))` for all `a, b`. On a unitary
+coefficient matrix `θ(u) = F u F`; uniqueness is the faithfulness of `h`. -/
+theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
+    [StarModule ℂ A] [StarCompatibleHopf (A := A)] (h : AlgebraicHaar (A := A)) :
+    ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
   sorry
 
-omit [StarModule ℂ A] in
-/-- The fundamental matrix `[[a, −q c*], [c, a*]]` of `SUq(2)`. -/
-def suqMatrix (q : ℝ) (a c : A) : Matrix (Fin 2) (Fin 2) A :=
-  !![a, -(q : ℂ) • star c; c, star a]
-
-omit [StarModule ℂ A] in
-/-- Woronowicz's `SUq(2)` relations on generators `a, c`, for every real `q`. -/
-structure SUqRelations (q : ℝ) (a c : A) : Prop where
-  initial : star a * a + star c * c = 1
-  final : a * star a + (q ^ 2 : ℂ) • (star c * c) = 1
-  c_normal : star c * c = c * star c
-  ac : a * c = (q : ℂ) • (c * a)
-  ac_star : a * star c = (q : ℂ) • (star c * a)
-
-/-- The fundamental matrix `suqMatrix q a c` is unitary exactly when `a, c` satisfy the
-`SUq(2)` relations (§5.1). -/
-theorem suqMatrix_unitary_iff (q : ℝ) (a c : A) :
-    suqMatrix q a c ∈ unitary (Matrix (Fin 2) (Fin 2) A) ↔ SUqRelations q a c := by
+/-- The Kac equivalence (§4.1, from §3.3; Neshveyev–Tuset, Proposition 1.7.7, p. 23): a positive
+normalized invariant integral `h` on a Hopf *-algebra is a trace exactly when the antipode is
+involutive. -/
+theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
+    [StarModule ℂ A] [StarCompatibleHopf (A := A)] (h : AlgebraicHaar (A := A)) :
+    (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
+      ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
-
-end StarPresentations
 
 /-! ## Layer 8: Generic U_q(sl₂), signed modules and integrability -/
 
