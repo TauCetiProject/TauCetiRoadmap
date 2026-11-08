@@ -13,11 +13,8 @@ equivalence relation with a flat projection is effective and `A` is flat over `A
 finite equivalence relation on `𝔸²_k` is not `X ×_Y X` for `Y = Spec A^R`, over every field;
 its restriction to the finite local subscheme `Z = V(f₁², f₂², f₃²)`, `f₁ = x₁²`,
 `f₂ = x₁x₂ - x₂²`, `f₃ = x₂³`, is a closed equivalence relation on a finite local `k`-scheme which
-is not effective, over every field, with an explicit obstruction over `𝔽₃`; toric equivalence
-relations on affine toric varieties are effective (Raicu 2010); and Venken's relation on the
-spectrum of a `33`-dimensional local artinian `k`-algebra in six variables is a closed
-equivalence relation with finite projections which is not effective, over every field
-(Venken 1971, Corollaire 3.1). For modules, along any map of
+is not effective, over every field, with an explicit obstruction over `𝔽₃`; and toric equivalence
+relations on affine toric varieties are effective (Raicu 2010). For modules, along any map of
 commutative rings `A → B`: base change is a bijection from `Hom_A(M, N)` onto the morphisms of
 descent data `B ⊗ M → B ⊗ N` for every `M` iff `N → B ⊗ N ⇉ (B ⊗ B) ⊗ N` is an equalizer; this
 holds for every `N` iff `A → B` is pure, iff extension of scalars is comonadic (the Joyal–Tierney
@@ -25,25 +22,23 @@ theorem, Mesablishvili 2000); the quotient map `A^R → A` satisfies the equaliz
 for every `I`, and in the flat case modules on `Spec A^R` are the modules on `X` with descent data
 along the quotient map; and `Spec B → Spec A` is a universal effective epimorphism of affine schemes
 iff `A → B` is pure. The question whether every closed equivalence relation on a finite scheme over
-a field is effective is Grothendieck's (FGA III, §2, 1961); Venken's relation and the relation on
-`Z` answer it in the negative.
+a field is effective is Grothendieck's (FGA III, §2, 1961).
 
 Suggested home: `TauCeti/AlgebraicGeometry/Quotient/FiniteEquivalenceRelation.lean`, beside
 Tau Ceti's `TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
 
 ## Scope and ownership
 
-**Owned here.** The ideal-theoretic description of closed equivalence relations on affine schemes
-over a ring `k` and its comparison with Mathlib's internal equivalence relations in `Scheme`; the
-ring of invariants and the difference ideal `J(B)`; the categorical quotient and the effectivity
-criterion for `A` finite over a field; the restriction to closed subschemes; Raicu's examples (the
-non-effective relation on `𝔸²` and the toric theorem); the non-effective relations on finite local
-schemes of Layer 3, the restriction of Raicu's and Venken's; the Amitsur condition, descent of
-morphisms of modules and the Joyal–Tierney theorem for pure ring maps, with their application to the
-quotient map `A^R → A` and the universal effective epimorphisms of affine schemes (Layer 4). No
-roadmap on main or in an open pull request states descent along pure maps; this roadmap gives no
-name to purity itself and writes the condition out (`P → B ⊗[A] P` injective for every `A`-module
-`P`).
+**Owned here.** The ideal-theoretic description of closed equivalence relations on affine
+schemes over a ring `k` and its comparison with Mathlib's internal equivalence relations in
+`Scheme`; the ring of invariants and the difference ideal `J(B)`; the categorical quotient and
+the effectivity criterion for `A` finite over a field; the restriction to closed subschemes;
+Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the non-effective
+relation on a finite local scheme of Layer 3; the Amitsur condition, descent of morphisms of
+modules and the Joyal–Tierney theorem for pure ring maps, with their application to the quotient
+map `A^R → A` and to the universal effective epimorphisms of affine schemes (Layer 4). No roadmap
+on main or in an open pull request states descent along pure maps; this roadmap gives no name to
+purity itself and writes the condition out (`P → B ⊗[A] P` injective for every `A`-module `P`).
 
 **Owned elsewhere.**
 
@@ -69,9 +64,8 @@ name to purity itself and writes the condition out (`P → B ⊗[A] P` injective
 
 **Not here.** Quotients by finite equivalence relations of schemes of finite type in positive
 characteristic, and the existence of geometric quotients (Kollár 2012, Theorem 6 and
-Question 8), are research context. Venken's non-effective descent datum on a flat module along a
-finite morphism of local artinian rings (Venken 1971) is research context; his non-effective
-equivalence relation is 3.5.
+Question 8), are research context. Venken's example of a finite morphism of local artinian rings
+along which descent of flat modules is not effective (Venken 1971) is research context.
 
 ## Conventions
 
@@ -177,12 +171,13 @@ Layer 0 translates closed equivalence relations on `Spec A` into ideals of `A �
 any commutative ring `k`. Layer 1 builds the invariants and the quotient and proves the effectivity
 criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. Layer 2 derives the
 flat case from Tau Ceti's quotient by a finite locally free equivalence relation. Layer 3 gives the
-examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, an
-explicit obstruction over `𝔽₃`, Raicu's toric theorem, and Venken's relation. Layer 4 turns to
-modules: the Amitsur condition and descent of morphisms along any ring map, the Joyal–Tierney
-theorem for pure maps, its application to the quotient map `A^R → A`, and the universal effective
-epimorphisms of affine schemes. The hardest targets are 1.2 (coequalizers in all schemes, not only
-affine ones) and 3.4; 3.2, 3.3 and 3.5 are finite computations.
+examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, which
+answers Grothendieck's question over a field in the negative, an explicit obstruction over `𝔽₃`, and
+Raicu's toric theorem. Layer 4 turns to modules: the Amitsur condition and descent of morphisms
+along any ring map, the Joyal–Tierney theorem for pure maps, its application to the quotient
+map `A^R → A`, and the universal effective epimorphisms of affine schemes. The hardest targets are
+1.2 (coequalizers in all schemes, not only affine ones) and 3.4; 3.2 and 3.3 are finite
+computations.
 
 ## Layer 0: equivalence relations as ideals
 
@@ -440,19 +435,18 @@ closed equivalence relation on `Z = Spec O(Z)`, with finite projections since `O
 finite-dimensional. Since `f₁² = x₁⁴` and `f₃² = x₂⁶`, `Z` is supported at the origin, and `O(Z)` is
 a local artinian `k`-algebra with residue field `k`. Prove
 `not_isEffectiveEquivalenceRelation_raicuArtin`: over every field `k`, this relation is not
-effective. It is a second negative answer, after Venken's (3.5), to the question of FGA III, §2,
-p. 212-05, whether every closed equivalence relation on a finite scheme over a field is effective,
-of length `15` (`16` in characteristic `2`) against `33`, in two variables against six. The
-restriction to `Z` is this roadmap's own; it is not in Raicu's or Kollár's text. It is not formal:
-the invariants `B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can be more than the images of the
-invariants on `𝔸²`, so the difference ideal can grow. Route: by 1.3 it suffices that
-`I(Z) ≠ J(B(Z))`, `I(Z) = raicuArtinRelation k`; both are graded, and in degree `5` their lifts to
-`k[x, y]` satisfy `dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z` and `J` the lift
-of `J(B(Z))`, a rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the
-eliminations divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every
-other prime `p` the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes
-are checked directly, and ranks do not change under field extension from the prime field. *Needs:*
-0.2, 1.3, 3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+effective. This answers negatively, over a field, the question of FGA III, §2, p. 212-05: whether
+every closed equivalence relation on a finite scheme over a field is effective. The restriction to
+`Z` is this roadmap's own; it is not in Raicu's or Kollár's text. It is not formal: the invariants
+`B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can be more than the images of the invariants on
+`𝔸²`, so the difference ideal can grow. Route: by 1.3 it suffices that `I(Z) ≠ J(B(Z))`,
+`I(Z) = raicuArtinRelation k`; both are graded, and in degree `5` their lifts to `k[x, y]` satisfy
+`dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z` and `J` the lift of `J(B(Z))`, a
+rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
+divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
+the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
+directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
+3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
 
 **Checks.**
 
@@ -509,50 +503,10 @@ Theorem 3.1). *Needs:* 0.1, 1.1, Mathlib `AddMonoidAlgebra`, `Bialgebra.comulAlg
   `(0, 2)`, so 3.4 and 3.1 do not conflict.
 - `σ = ℕ`, `I = ker μ = (x - y)`: `x - y ↦ (x - y) ⊗ χ¹`, toric, with `A^R = A`.
 
-### 3.5 Venken's relation
-
-Define `venkenIdeal k ⊆ k[m, n, x, y, z, w]`, generated by `m², mn, n², yz, ny, mz, nxy, myw` and
-the monomials of degree `3` in `x, y, z, w`; the algebra
-`VenkenAlgebra k = k[m, n, x, y, z, w] ⧸ venkenIdeal k`, with `venkenVar k i` the classes of the
-variables; and `venkenRelation k`, the ideal of `VenkenAlgebra k ⊗[k] VenkenAlgebra k` generated by
-the `a ⊗ 1 - 1 ⊗ a` for `a = m, n, mx, nw, my - nz` and by `mxy ⊗ w`. The first generators cut out
-`O(V) ⊗[C] O(V)`, `O(V) = VenkenAlgebra k` and `C` the subalgebra generated by
-`m, n, mx, nw, my - nz`, so `venkenRelation k` is the ideal of the closed subscheme of
-`Spec (O(V) ⊗[C] O(V))` cut out by `mxy ⊗ w`. Prove `venkenRelation_isEquivIdeal` and
-`not_isEffectiveEquivalenceRelation_venken`: over every field `k`, this is a closed equivalence
-relation on the spectrum of a local artinian `k`-algebra of dimension `33` with residue field `k`,
-with finite projections, and it is not effective (Venken 1971, Corollaire 3.1, with his `B` our
-`O(V)` and his `A` our `C`). This is the first negative answer to the question of FGA III, §2,
-p. 212-05. Route: every generator is homogeneous for the total degree and `O(V)` vanishes in degrees
-above `3`, so the three conditions of 0.1 and the criterion of 1.3 are finitely many rank
-computations in `O(V) ⊗[k] O(V)` and `O(V) ⊗[k] (O(V) ⊗[k] O(V))`. The ring of invariants `B(V)` has
-dimension `10`, and `venkenRelation k` and `J(B(V))` differ only in degree `4`, where `mxy ⊗ w` lies
-in the first and not in the second. Every elimination has pivots `±1`, so the ranks are those over
-`ℤ` and the conclusion holds over every field. *Needs:* 0.1, 1.1, 1.3, Mathlib `MvPolynomial`,
-`Ideal.span`, `Ideal.Quotient`.
-
-**Checks.**
-
-- `dim_k O(V) = 33` and `O(V)` is zero in degrees above `3`. The maximal ideal of `C` has square
-  zero, since every product of two of `m, n, mx, nw, my - nz` lies in `(m², mn, n²)`, so
-  `dim_k C = 6` and `C` is not the ring of invariants: `dim_k B(V) = 10`. An effectivity test
-  comparing `venkenRelation k` with `J(C)`, the ideal of `O(V) ⊗[C] O(V)`, instead of `J(B(V))`
-  would not be the criterion of 1.3.
-- Reflexivity: `μ (mxy ⊗ w) = mxyw = 0`, since `xyw` is a monomial of degree `3` in
-  `x, y, z, w`; the generators `a ⊗ 1 - 1 ⊗ a` lie in `ker μ`. They are needed: the ideal
-  generated by `mxy ⊗ w` alone in `O(V) ⊗[k] O(V)` is reflexive and not symmetric, since in the
-  monomial basis `w ⊗ mxy` is not a multiple of `mxy ⊗ w` (`w` is not a multiple of `mxy`).
-- In degree `4`, `dim (venkenRelation k)₄ = 269` and `dim J(B(V))₄ = 268`; in every other degree
-  the two agree. With `venkenIdeal` replaced by the ideal generated by `m², mn, n²` and the
-  monomials of degree `3` in `x, y, z, w` alone, `dim_k O(V) = 45`, the invariants have dimension
-  `8`, and the relation is again not effective, with dimensions `410 > 409` in degree `4`: the
-  other generators shorten the computation and do not cause the gap.
-
 ### Examples
 
 - Raicu's relation on `𝔸²_k` (3.1) and its restriction to `Z` (3.2).
 - Kernel pairs of monomial maps `k[τ] → k[σ]`, which are toric.
-- Venken's relation (3.5), on a local artinian algebra of dimension `33` in six variables.
 
 ### Dependencies
 
@@ -731,23 +685,22 @@ Grothendieck asked the question in the third of his Bourbaki talks on the constr
 without flatness he did not know whether equivalence relations in the category of finite schemes
 over `S` are effective, reduced it to `S` the spectrum of a local artinian ring with algebraically
 closed residue field, and said that it was open even when `S` is the spectrum of a field (FGA III,
-§2, p. 212-05). Venken answered it in the negative over every field ten years later, in a note on
-the descent of flat modules (Venken 1971, Corollaire 3.1; target 3.5). Kollár asked the existence of
-geometric quotients by finite equivalence relations in characteristic zero (Kollár 2012, Question 8)
-and proved it in positive characteristic for schemes essentially of finite type (Theorem 6); Raicu's
-appendix answers the effectivity question on `𝔸²` and Raicu 2010 proves the toric case. Grothendieck
-also asked whether descent data on flat quasi-coherent sheaves along a finite strict epimorphism are
-effective, even over a local artinian ring (FGA I, §A, n° 2, c); descent of flat modules along
-finite morphisms of local artinian rings need not be effective (Venken 1971), and Philippe 1973
-studies descent along unramified morphisms. Without flatness, descent of all modules along a ring
-map is effective exactly when the map is pure: announced by Olivier, proved by Joyal and Tierney in
-unpublished work, with a first published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section
-35.4). Being finitely generated, flat or finite projective descends along pure maps
-(Mesablishvili 2002, Theorem 3.2; Stacks, Theorem 35.4.25, Tag 08XD), so pure maps are effective
-descent morphisms for these modules too (Mesablishvili 2002, Theorem 1.1), and a ring map along
-which descent of flat modules is not effective is not pure. For quasi-compact morphisms of schemes,
-stable effective descent of quasi-coherent modules is equivalent to purity (Mesablishvili 2004a),
-and purity to being a stable regular epimorphism (Mesablishvili 2004b).
+§2, p. 212-05). Kollár asked the existence of geometric quotients by finite equivalence relations in
+characteristic zero (Kollár 2012, Question 8) and proved it in positive characteristic for schemes
+essentially of finite type (Theorem 6); Raicu's appendix answers the effectivity question on `𝔸²`
+and Raicu 2010 proves the toric case. Grothendieck also asked whether descent data on flat
+quasi-coherent sheaves along a finite strict epimorphism are effective, even over a local artinian
+ring (FGA I, §A, n° 2, c); descent of flat modules along finite morphisms of local artinian rings
+need not be effective (Venken 1971), and Philippe 1973 studies descent along unramified
+morphisms. Without flatness, descent of all modules along a ring map is effective exactly when the
+map is pure: announced by Olivier, proved by Joyal and Tierney in unpublished work, with a first
+published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section 35.4). Being finitely
+generated, flat or finite projective descends along pure maps (Mesablishvili 2002, Theorem 3.2;
+Stacks, Theorem 35.4.25, Tag 08XD), so pure maps are effective descent morphisms for these
+modules too (Mesablishvili 2002, Theorem 1.1), and a ring map along which descent of flat modules
+is not effective is not pure. For quasi-compact morphisms of schemes, stable effective descent of
+quasi-coherent modules is equivalent to purity (Mesablishvili 2004a), and purity to being a
+stable regular epimorphism (Mesablishvili 2004b).
 
 Whether a non-effective closed equivalence relation exists on a finite scheme of length less
 than `15`, and whether every non-effective example comes, as in 3.2, from restricting one on an
