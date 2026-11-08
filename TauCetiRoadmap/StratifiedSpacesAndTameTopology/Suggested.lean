@@ -25,25 +25,21 @@ Headlines stated here (README target, Lean name):
 * 3.3(a), `ExitPathCategory.nonempty_equivalence_fundamentalGroupoid`.
 * 3.3(e), `OpenCone.nonempty_unique_hom_apex`.
 * 3.4, `nonempty_equivalence_sphere` (on `sphereStratification`).
-* 4.1, `OMinimalStructure`, `OMinimalStructure.DefinableFunOn`,
-  `OMinimalStructure.DefinableMapOn`.
-* 4.2, `exists_oMinimalStructure_eq_isSemialgebraic`.
-* 4.4, `OMinimalStructure.IsCell`, `OMinimalStructure.IsCellDecomposition` and the cell
-  decomposition theorem `OMinimalStructure.exists_isCellDecomposition`.
-* 4.7, `OMinimalStructure.exists_triangulation` (on `openSimplex`).
-* 4.9(b), `exists_triangulation_semialgebraic`.
+* 4.1, `openSimplex`.
+* 4.3, `exists_triangulation_semialgebraic`.
 
-Not statable at the pins, with the carrier each lacks:
+Not statable at the pins, with the carrier each lacks (a roadmap's module cannot import another
+roadmap's, and neither pin declares these carriers):
 
-* 5.3, existence of control data; 5.5, Thom's first isotopy lemma and its corollary 5.5(a), local
-  conical structure: they lack smooth stratified spaces, whose strata are smooth manifolds with
-  the subspace topology; no structure of a smooth manifold on a subset with its subspace
-  topology is declared at the pins.
-* 7.3–7.4, unfolding of a Thom–Mather space and reconstruction: they lack, in addition,
-  DifferentialGeometry 5.5's abstract boundary of a manifold with corners, on which the face
-  structure of 6.1 is built; neither pin declares it.
-* 8.2, Whitney stratification of definable sets, and 8.3, Nash strata: they lack the same
-  submanifold carrier as 5.3.
+* 4.1, the triangulation theorem for an o-minimal expansion of an ordered field: it lacks
+  ShimuraVarieties §3.4b's `TauCetiRoadmap.ShimuraVarieties.OMinimalStructure`.
+* 6.3–6.4, unfolding of a Thom–Mather space and reconstruction: they lack AlgebraicTopologyPartII
+  §§16.1a–16.1b's `TauCetiRoadmap.AlgebraicTopologyPartII.IsSmoothStratification` and
+  `TauCetiRoadmap.AlgebraicTopologyPartII.ControlData`, and DifferentialGeometry 5.5's abstract
+  boundary of a manifold with corners, on which the face structure of 5.1 is built.
+* 7.2, Whitney stratification of definable sets, and 7.3, Nash strata: they lack
+  AlgebraicTopologyPartII §16.1a's `TauCetiRoadmap.AlgebraicTopologyPartII.IsWhitneyStratification`
+  and ShimuraVarieties §3.4b's o-minimal structures.
 -/
 
 @[expose] public section
@@ -211,138 +207,17 @@ theorem nonempty_equivalence_sphere :
     Nonempty (ExitPathCategory sphereStratification ≌ Fin 2) := by
   sorry
 
-/-! ## Layer 4: o-minimal structures, cells, dimension, triangulation -/
+/-! ## Layer 4: triangulation and conical structure of definable sets -/
 
-/-- **Layer 4.1.** A structure on a linearly ordered type `R` in the sense of van den Dries, with
-o-minimality built in: definable sets of every arity form Boolean algebras closed under cylinders
-on either side, containing the diagonals and the order, closed under the projection `Fin.tail`,
-and the definable subsets of `R` are exactly the finite unions of points and open intervals. -/
-structure OMinimalStructure (R : Type u) [LinearOrder R] where
-  /-- The definable subsets of `Fin n → R`. -/
-  Definable : (n : ℕ) → Set (Set (Fin n → R))
-  /-- The empty set is definable. -/
-  empty_mem : ∀ n, (∅ : Set (Fin n → R)) ∈ Definable n
-  /-- Complements of definable sets are definable. -/
-  compl_mem : ∀ n, ∀ A ∈ Definable n, Aᶜ ∈ Definable n
-  /-- Unions of two definable sets are definable. -/
-  union_mem : ∀ n, ∀ A ∈ Definable n, ∀ B ∈ Definable n, A ∪ B ∈ Definable n
-  /-- Cylinders `R × A`, with the new coordinate `0`, are definable. -/
-  tail_cylinder_mem : ∀ n, ∀ A ∈ Definable n,
-    {x : Fin (n + 1) → R | Fin.tail x ∈ A} ∈ Definable (n + 1)
-  /-- Cylinders `A × R`, with the new coordinate last, are definable. -/
-  init_cylinder_mem : ∀ n, ∀ A ∈ Definable n,
-    {x : Fin (n + 1) → R | Fin.init x ∈ A} ∈ Definable (n + 1)
-  /-- The diagonals are definable. -/
-  diagonal_mem : ∀ n (i j : Fin n), {x : Fin n → R | x i = x j} ∈ Definable n
-  /-- The order is definable. -/
-  lt_mem : {x : Fin 2 → R | x 0 < x 1} ∈ Definable 2
-  /-- Images under the projection `Fin.tail` are definable. -/
-  image_tail_mem : ∀ n, ∀ A ∈ Definable (n + 1),
-    {y : Fin n → R | ∃ x ∈ A, Fin.tail x = y} ∈ Definable n
-  /-- O-minimality: the definable subsets of `R` are the finite unions of points and open
-  intervals. -/
-  mem_one_iff : ∀ A : Set (Fin 1 → R), A ∈ Definable 1 ↔
-    ∃ (F : Finset R) (J : Finset (WithBot R × WithTop R)),
-      A = {x | x 0 ∈ (F : Set R) ∨
-        ∃ ab ∈ J, ab.1 < ((x 0 : R) : WithBot R) ∧ ((x 0 : R) : WithTop R) < ab.2}
-
-namespace OMinimalStructure
-
-variable {R : Type u} [LinearOrder R]
-
-/-- **Layer 4.1.** A function on `C ⊆ Fin n → R` is definable when its graph, with the value as
-coordinate `0`, is definable. -/
-def DefinableFunOn (S : OMinimalStructure R) {n : ℕ} (C : Set (Fin n → R))
-    (f : (Fin n → R) → R) : Prop :=
-  {y : Fin (n + 1) → R | Fin.tail y ∈ C ∧ y 0 = f (Fin.tail y)} ∈ S.Definable (n + 1)
-
-/-- **Layer 4.1.** A map on `A ⊆ Fin m → R` is definable when its graph is definable. -/
-def DefinableMapOn (S : OMinimalStructure R) {m n : ℕ} (A : Set (Fin m → R))
-    (f : (Fin m → R) → (Fin n → R)) : Prop :=
-  {z : Fin (m + n) → R | ∃ x ∈ A, z = Fin.append x (f x)} ∈ S.Definable (m + n)
-
-variable [TopologicalSpace R] [OrderTopology R]
-
-/-- **Layer 4.4.** Cells, built by graphs and bands over cells of one dimension lower; the new
-coordinate is coordinate `0`. A band boundary is either infinite or a continuous definable
-function. -/
-inductive IsCell (S : OMinimalStructure R) : (n : ℕ) → Set (Fin n → R) → Prop
-  /-- The point `Fin 0 → R` is a cell. -/
-  | zero : IsCell S 0 univ
-  /-- The graph of a continuous definable function on a cell is a cell. -/
-  | graph {n : ℕ} {C : Set (Fin n → R)} (f : (Fin n → R) → R) :
-      IsCell S n C → ContinuousOn f C → S.DefinableFunOn C f →
-      IsCell S (n + 1) {y | Fin.tail y ∈ C ∧ y 0 = f (Fin.tail y)}
-  /-- The band between two continuous definable functions, or infinite boundaries, on a cell is
-  a cell. -/
-  | band {n : ℕ} {C : Set (Fin n → R)} (f : (Fin n → R) → WithBot R)
-      (g : (Fin n → R) → WithTop R) :
-      IsCell S n C →
-      ((∀ x ∈ C, f x = ⊥) ∨ ∃ f' : (Fin n → R) → R, ContinuousOn f' C ∧
-        S.DefinableFunOn C f' ∧ ∀ x ∈ C, f x = (f' x : WithBot R)) →
-      ((∀ x ∈ C, g x = ⊤) ∨ ∃ g' : (Fin n → R) → R, ContinuousOn g' C ∧
-        S.DefinableFunOn C g' ∧ ∀ x ∈ C, g x = (g' x : WithTop R)) →
-      (∀ x ∈ C, ∃ t : R, f x < (t : WithBot R) ∧ (t : WithTop R) < g x) →
-      IsCell S (n + 1)
-        {y | Fin.tail y ∈ C ∧ f (Fin.tail y) < ((y 0 : R) : WithBot R) ∧
-          ((y 0 : R) : WithTop R) < g (Fin.tail y)}
-
-open scoped Classical in
-/-- **Layer 4.4.** A cell decomposition of `Fin n → R` (van den Dries, Chapter 3, (2.10)): a
-finite partition into cells whose projections form a cell decomposition one dimension lower. -/
-def IsCellDecomposition (S : OMinimalStructure R) :
-    (n : ℕ) → Finset (Set (Fin n → R)) → Prop
-  | 0, 𝒞 => 𝒞 = {univ}
-  | n + 1, 𝒞 => (∀ C ∈ 𝒞, S.IsCell (n + 1) C) ∧
-      Setoid.IsPartition (↑𝒞 : Set (Set (Fin (n + 1) → R))) ∧
-      IsCellDecomposition S n (𝒞.image fun C => {x : Fin n → R | ∃ y ∈ C, Fin.tail y = x})
-
-/-- **Layer 4.4.** The cell decomposition theorem, part (I) (van den Dries, Chapter 3, (2.11)),
-for an o-minimal structure on a nonempty dense linear order without endpoints. -/
-theorem exists_isCellDecomposition [Nonempty R] [DenselyOrdered R] [NoMinOrder R] [NoMaxOrder R]
-    (S : OMinimalStructure R) {n : ℕ} (𝒜 : Finset (Set (Fin n → R)))
-    (h𝒜 : ∀ A ∈ 𝒜, A ∈ S.Definable n) :
-    ∃ 𝒞 : Finset (Set (Fin n → R)), S.IsCellDecomposition n 𝒞 ∧
-      ∀ A ∈ 𝒜, ∀ C ∈ 𝒞, C ⊆ A ∨ Disjoint C A := by
-  sorry
-
-end OMinimalStructure
-
-/-- **Layer 4.7.** The open simplex spanned by a finite set of points: strictly positive
+/-- **Layer 4.1.** The open simplex spanned by a finite set of points: strictly positive
 barycentric combinations. -/
 def openSimplex {R : Type u} [Field R] [LinearOrder R] {n : ℕ} (τ : Finset (Fin n → R)) :
     Set (Fin n → R) :=
   {x | ∃ w : (Fin n → R) → R, (∀ v ∈ τ, 0 < w v) ∧ ∑ v ∈ τ, w v = 1 ∧
     ∑ v ∈ τ, w v • v = x}
 
-/-- **Layer 4.7.** The triangulation theorem (van den Dries, Chapter 8, (2.9)) for an o-minimal
-expansion of an ordered field: a definable set is definably homeomorphic to a union of open
-simplices of a finite complex, compatibly with finitely many definable subsets. -/
-theorem OMinimalStructure.exists_triangulation {R : Type u} [Field R] [LinearOrder R]
-    [IsStrictOrderedRing R] [TopologicalSpace R] [OrderTopology R] (S : OMinimalStructure R)
-    (hadd : {x : Fin 3 → R | x 0 = x 1 + x 2} ∈ S.Definable 3)
-    (hmul : {x : Fin 3 → R | x 0 = x 1 * x 2} ∈ S.Definable 3)
-    {n : ℕ} (A : Set (Fin n → R)) (hA : A ∈ S.Definable n)
-    (ℬ : Finset (Set (Fin n → R))) (hℬ : ∀ B ∈ ℬ, B ∈ S.Definable n ∧ B ⊆ A) :
-    ∃ (K : Geometry.SimplicialComplex R (Fin n → R)) (T : Set (Finset (Fin n → R)))
-      (Φ : (Fin n → R) → (Fin n → R)),
-      K.faces.Finite ∧ T ⊆ K.faces ∧ S.DefinableMapOn A Φ ∧ ContinuousOn Φ A ∧ InjOn Φ A ∧
-      Φ '' A = ⋃ τ ∈ T, openSimplex τ ∧ ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
-      ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ τ ∈ T', openSimplex τ := by
-  sorry
-
-/-! ## Layers 4.2 and 4.9: the semialgebraic structure and the specialization -/
-
-/-- **Layer 4.2.** Semialgebraic sets form an o-minimal structure on `ℝ`: there is one whose
-definable sets are exactly the `TauCeti.IsSemialgebraic` sets. Closure under `Fin.tail` is Tau
-Ceti's `TauCeti.IsSemialgebraic.image_tail` (Tarski–Seidenberg); the one-variable axiom comes from
-the sign descriptions of semialgebraic sets and the finiteness of real roots. -/
-theorem exists_oMinimalStructure_eq_isSemialgebraic :
-    ∃ S : OMinimalStructure ℝ, ∀ n, S.Definable n = {A | TauCeti.IsSemialgebraic A} := by
-  sorry
-
-/-- **Layer 4.9(b).** The semialgebraic triangulation theorem, the specialization of
-`OMinimalStructure.exists_triangulation` to the structure of 4.2: a semialgebraic set is
+/-- **Layer 4.3.** The semialgebraic triangulation theorem, the specialization of the o-minimal
+triangulation theorem 4.1 to the semialgebraic structure on `ℝ`: a semialgebraic set is
 semialgebraically homeomorphic to a union of open simplices of a finite complex, compatibly with
 finitely many semialgebraic subsets. -/
 theorem exists_triangulation_semialgebraic {n : ℕ} (A : Set (Fin n → ℝ))
