@@ -1082,7 +1082,7 @@ Throughout this subsection, unless a statement says otherwise: γ is multiplicat
 
 `Σ_(1≤d<z,(d,k)=1) μ(d)²/φ(d) ≥ c (φ(k)/k) log z`.
 
-This last lower estimate is uniform in k, unlike a fixed-k asymptotic (HB-SIEVES, (3.5)–(3.6), pp.17–18). Prove also the degree-uniform squarefree Euler lower bound of §1.4 directly by its complementary prime-value convolution; it does not require a claim that a general analytic supplier proves it.
+This last lower estimate is uniform in k, unlike a fixed-k asymptotic (HB-SIEVES, (3.5)–(3.6), pp.17–18; [PNT-PLUS](#references), `PrimeNumberTheoremAnd/Mathlib/NumberTheory/Sieve/SelbergBounds.lean`, `selbergBoundingSum_ge_sum_div`). Prove also the degree-uniform squarefree Euler lower bound of §1.4 directly by its complementary prime-value convolution; it does not require a claim that a general analytic supplier proves it.
 
 **Checks.**
 
@@ -1287,7 +1287,7 @@ The definition exposes the following operations and laws:
 
 The native weights are nonnegative; X is totalMass and r_d is the native rem, including d=1. No estimate of the remainder sum is assumed or inferred from the cutoff.
 
-([HB-SIEVES](#references), §2, the Fundamental Theorem for Selberg's sieve and its proof, pp.11–12.)
+([HB-SIEVES](#references), §2, the Fundamental Theorem for Selberg's sieve and its proof, pp.11–12; [PNT-PLUS](#references), `PrimeNumberTheoremAnd/Mathlib/NumberTheory/Sieve/Selberg.lean`, `selberg_bound_simple`.)
 
 *Proof sketch.* Apply the native upper-Möbius theorem to λ_z(1)=1. At a squarefree d each prime is in the first divisor, second divisor, or both, giving 3^ω(d) pairs. Nonzero λ_z(d₁)λ_z(d₂) forces lcm(d₁,d₂)<z². Keep the exact error before bounding it.
 
@@ -4325,6 +4325,10 @@ The following conventions fix the mathematical statements at the cited versions.
 - **DAVENPORT-51.** Harold Davenport. [On a principle of Lipschitz](https://doi.org/10.1112/jlms/s1-26.3.179). Journal of the London Mathematical Society 26 (1951), 179–183; correction, ibid. 39 (1964), 580.
 
 - **LANG-WEIL-54.** Serge Lang and André Weil. Number of points of varieties in finite fields. American Journal of Mathematics 76 (1954), 819–827.
+
+- **PNT-PLUS.** Alex Kontorovich, Terence Tao and contributors. [PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd). GitHub repository; locators are file paths and declaration names in it. Cited in §1.1 and §1.3.
+
+- **IEANTN.** Terence Tao and contributors. [IEANTN: the Integrated Explicit Analytic Number Theory Network](https://github.com/teorth/IEANTN). GitHub repository; locators are node paths in it. Cited in no section of this roadmap.
 
 Two inputs have secondary cross-references: Halberstam–Richert, Lemmas 5.3–5.4, as cited by GGPY §2, and Richert (1969), Theorem A, as cited by Chen, Lemma 9. The statements used here are the versions reproduced at those exact secondary locators. The Heath-Brown sieve citations use arXiv:math/0209360v1, the Koymans–Milovic citations arXiv:1809.09597v1 and the GGPY citations arXiv:math/0609615v1. The published 2015 erratum of Friedlander–Iwaniec–Mazur–Rubin is applied in addition to its preprint.
 
