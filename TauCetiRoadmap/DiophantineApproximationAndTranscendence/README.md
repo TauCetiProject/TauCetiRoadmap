@@ -9,7 +9,12 @@ Own the field comparisons of relative and absolute heights, absolute tuple heigh
 The height, Mahler-measure, coefficient-height, subspace-height, Northcott and
 Siegel foundation has one owner here: §§0.2–0.3,1.3,2.5,2.8. All consumers in
 this roadmap use those sections, and this foundation supplies the same interfaces
-to other roadmaps. Relative sup coefficient, matrix and Plücker heights use
+to other roadmaps. Its carriers (absolute tuple and affine heights, polynomial,
+matrix, Euclidean and subspace heights, Plücker coordinates, approximation
+exponents, Hasse derivatives, the weighted index, general position and
+nondegenerate solutions) and their field comparisons are pinned Tau Ceti
+declarations, named in the Tau Ceti supplier contract; these sections build on
+them and do not define them again. Relative sup coefficient, matrix and Plücker heights use
 `Height.AdmissibleAbsValues` over an arbitrary field; their coordinate types are
 finite, and polynomial coefficients use the native Finsupp carrier. Number-field
 hypotheses enter for Euclidean factors, field-degree roots, fixed-field
@@ -30,7 +35,7 @@ covolume/height conversion belong here. Suggested library home:
 
 Mathlib owns places, relative and absolute heights, number-field house, polynomial Mahler measure, univariate Hasse derivatives, power series and differential modules. The variants here concern arbitrary algebraic elements, coefficient vectors and auxiliary constructions. Fixed-field Northcott and Dirichlet’s unit rank, torsion/basis decomposition and infinitude criterion are supplied by Mathlib; bounded-degree finiteness in the algebraic closure, Kronecker’s theorem and the Mahler/absolute-height dictionary belong here (§§0.2–0.3). Mathlib’s `Orientation.abs_volumeForm_apply_le` and `Orientation.volumeForm_robust'` supply the real determinant form of Hadamard’s inequality, including the empty family. Tau Ceti's `Matrix.det_gram_le_prod_norm_sq` supplies the Gram-determinant upper bound for real and complex inner-product spaces and finite families in arbitrary ambient dimension.
 
-GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. [IntegralLattices](../IntegralLattices/README.md), Layer 0A and Layer 2, owns integral quadratic lattices and their bounded-norm finiteness; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. The ordinary algebraic de Rham differential on Mathlib’s Kähler/exterior-power carriers, over an arbitrary commutative base ring, is constructed in §5.6 with its uniqueness, square-zero and graded Leibniz laws; Ax’s argument uses it over characteristic-zero fields. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc Cauchy, Schwarz and interpolation estimates are §3.4 targets here. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
+GlobalNumberFields Layer 0 owns places, completions, extension multiplicities and product formula. The geometric estimates in §0.0 use Mathlib’s discrete lattice and covolume carriers. Integral quadratic lattices and their bounded-norm finiteness are Tau Ceti's `TauCeti.IntegralLattice` (`TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`) and `TauCeti.IntegralLattice.IsPosDef.finite_setOf_norm_le` (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/Finite.lean`), not used here; [EffectiveBounds](../../Completed/EffectiveBounds/README.md), Layer 0, owns the measure-free lattice counting and doubling interface. [AlgebraicCurves](../AlgebraicCurves/README.md), Layer 9, owns the Kähler/Weil differential comparison for function fields; the arbitrary finite-type differential rank and algebraic Cartan calculus are §5.4 and §5.6 here. The ordinary algebraic de Rham differential on Mathlib’s Kähler/exterior-power carriers, over an arbitrary commutative base ring, is constructed in §5.6 with its uniqueness, square-zero and graded Leibniz laws; Ax’s argument uses it over characteristic-zero fields. [ContourIntegration](../../Completed/ContourIntegration/README.md), Layer 2 “residues, the Cauchy primitive, and the classical residue theorem” and Layer 3 “the global (homological) Cauchy theorem”, supplies complex contour integrals and one-variable Cauchy estimates; the polydisc Cauchy, Schwarz and interpolation estimates are §3.4 targets here. [DifferentialGeometry](../DifferentialGeometry/README.md), the differential-forms and de Rham layers, owns smooth forms, distinct from Ax’s algebraic forms.
 
 The shared foundations have the following single suppliers. Each dependency is on the
 specified layers, independently of the supplier's later applications. The contracts below
@@ -42,9 +47,9 @@ of a supplied theorem.
 | §0.0 and §2.5 real-lattice minima | Tau Ceti `ZLattice.successiveMin`, `ZLattice.successiveMin_isLeast`, `ZLattice.exists_basis_gauge_eq_successiveMin` (`TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`) | Package compact convex sets as ConvexBody; retain the zero-based index i : Fin d and the library carrier |
 | §0.0 and §2.5 Minkowski product bounds | Tau Ceti `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, `ZLattice.two_pow_div_factorial_mul_covolume_le_prod_successiveMin_mul_measure` (`TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`) | Transport the Haar volume and the covolume together |
 | §0.0 linear forms | Tau Ceti `Matrix.exists_ne_zero_int_abs_sum_mul_le` (`TauCeti/NumberTheory/GeometryOfNumbers/LinearForms.lean`) | Consume the non-strict coordinate bounds, including determinant equality |
-| §§1–5 scalar and tuple heights | This roadmap §0.2 / Mahler measure, house and absolute height: absoluteProjectiveTupleHeight, mulHeight_pow_finrank, absMulHeight₁_eq; §0.3 / Finiteness and size estimates: finite_setOf_absMulHeight₁_le | Native relative Height carriers; absolute degree root; Mahler measure retains the leading coefficient; bounded-degree Northcott |
-| §§1–5 coefficient and matrix heights | This roadmap §1.3 / Coefficient heights and products: Polynomial.mulHeight/logHeight, MvPolynomial.mulHeight/logHeight, matrixMulHeight, matrixMulHeight_mul_le | AdmissibleAbsValues generality; coefficients/entries have relative projective height; a linear form uses its coefficient tuple, a row space uses maximal minors |
-| §§2,4–5 Euclidean and subspace heights | This roadmap §2.5 / Relative Euclidean projective normalization and Native Plücker heights: arakelovMulHeight, relativePluckerPoint, relativeSubspaceHeight, relativeSubspaceArakelovHeight | height2 and subspaceHeight are absolute Euclidean adapters; vector zero height 0, projective zero height 1, zero-subspace height 1; dot-product perpendicular is transported dual annihilation |
+| §§1–5 scalar and tuple heights | Tau Ceti `TauCeti.absoluteProjectiveTupleHeight` and `TauCeti.absoluteLogHeightAff` (`TauCeti/NumberTheory/Height/ProjectiveTuple.lean`), `NumberField.mulHeight_algebraMap` and `NumberField.absMulHeight₁_eq_rpow` (`TauCeti/NumberTheory/Height/NumberField.lean`), `TauCeti.finite_setOf_absMulHeight₁_le` (`TauCeti/NumberTheory/Height/Absolute.lean`); §0.2 records them as absoluteProjectiveTupleHeight, mulHeight_pow_finrank and absMulHeight₁_eq | Native relative Height carriers; absolute degree root; Mahler measure retains the leading coefficient; bounded-degree Northcott |
+| §§1–5 coefficient and matrix heights | Tau Ceti `Polynomial.mulHeight`, `Polynomial.logHeight` and `Polynomial.mulHeight_mul_le` (`TauCeti/NumberTheory/Height/Polynomial/Basic.lean`), `MvPolynomial.mulHeight` and `MvPolynomial.logHeight` (`TauCeti/NumberTheory/Height/MvPolynomial.lean`), `Matrix.mulHeight` and `Matrix.mulHeight_mul_le` (`TauCeti/NumberTheory/Height/Matrix.lean`); §1.3 records the last two as matrixMulHeight and matrixMulHeight_mul_le | AdmissibleAbsValues generality; coefficients/entries have relative projective height; a linear form uses its coefficient tuple, a row space uses maximal minors |
+| §§2,4–5 Euclidean and subspace heights | Tau Ceti `TauCeti.height2` and `TauCeti.arakelovMulHeight` (`TauCeti/NumberTheory/Height/Arakelov/Basic.lean`), `TauCeti.absoluteHeight2` (`TauCeti/NumberTheory/Height/Arakelov/Absolute.lean`), `TauCeti.plucker` (`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`), `Submodule.relativePluckerPoint` (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`), `Submodule.relativeSubspaceHeight` (`TauCeti/NumberTheory/Height/Subspace/Basic.lean`), `Submodule.relativeSubspaceArakelovHeight` and `Submodule.subspaceHeight` (`TauCeti/NumberTheory/Height/Arakelov/Subspace/Basic.lean`) | height2 and subspaceHeight are absolute Euclidean adapters; vector zero height 0, projective zero height 1, zero-subspace height 1; dot-product perpendicular is transported dual annihilation |
 | §§1–5 Siegel estimates | This roadmap §0.3 / integer Siegel estimate and §2.8 / Saturated kernel lattices; Extraction through field towers; Kernel bases of bounded height; Relative-field Siegel and coefficient conditions: kernelLattice_covolume, linearIndependent_card_le_finrank_mul, exists_linearIndependent_comp_of_lt_finrank_span, exists_linearIndependent_comp_finrank_mul, exists_ne_zero_height2_le, siegelKernelBasis, siegelRelativeKernelBasis | One owner for arbitrary-tower extraction, number-field kernel covolume, discriminant constants and basis bounds; real-lattice inputs come from §0.0’s supplier |
 | §5.6 exponential algebraic groups | [ReductiveGroups](../ReductiveGroups/README.md), Layers 0 and 3 / affine group schemes, Hopf ideals and closed subgroups; Layer 4 / diagonalizable groups and tori with their character lattices | Use the native group and subgroup carriers and the diagonalizable anti-equivalence; finite-product generation with vanishing forms, vector/torus separation, character-to-differential conversion and constant-field descent are owned here by axGeneratedSubgroupForms, axAdditiveTorusSeparation, axTorusCharacterRelation and axConstantFieldClosure |
 | §0.0 Gram estimate | Tau Ceti `Matrix.det_gram_le_prod_norm_sq` (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`) | Consumption for complex coefficient estimates |
@@ -80,9 +85,11 @@ Tau Ceti also supplies at the pins the geometry-of-numbers declarations of the t
 
 `Polynomial.hasseWronskian` (`TauCeti/RingTheory/Polynomial/HasseWronskian.lean`) is the Hasse Wronskian det(Dᵏgₗ), with rows 0≤k<m, of a family g : Fin m → R[X] over a commutative ring R; the empty determinant is 1. §1.4 consumes its API: `Polynomial.hasseWronskian_fin_zero`, `Polynomial.hasseWronskian_fin_one` and `Polynomial.hasseWronskian_fin_two` (families of length 0, 1 and 2, the last equal to Mathlib's `Polynomial.wronskian`); `Polynomial.prod_factorial_mul_hasseWronskian` (multiplying by ∏ₖk! gives the ordinary Wronskian); `Polynomial.hasseWronskian_comp_perm` and `Polynomial.hasseWronskian_update_add_smul` (the sign under a permutation, and invariance under adding a multiple of one member to another); `Polynomial.hasseWronskian_map` (coefficient ring maps); `Polynomial.hasseWronskian_eq_zero_of_not_linearIndependent` (over a domain, dependence forces vanishing, in every characteristic); and `Polynomial.hasseWronskian_ne_zero_of_linearIndependent` with `Polynomial.linearIndependent_iff_hasseWronskian_ne_zero` (the criterion over a field of characteristic zero). The generalized Wronskian `MvPolynomial.genWronskian` (`TauCeti/RingTheory/MvPolynomial/HasseDeriv/Wronskian.lean`) is det(∂^(Dₖ)fₗ) for derivative rows D : Fin m → σ →₀ ℕ, with its API in the same file: the empty determinant 1 and the singleton case, coefficient ring maps, the specialization to one-variable families placed in one coordinate, vanishing on families dependent over a domain for every row family, and the characteristic-zero criterion that a family is independent if and only if some generalized Wronskian with admissible rows |Dₖ|≤k is nonzero.
 
+The carriers of Layers 0–2 are Tau Ceti definitions at the pins, and this roadmap does not define them again: the approximation exponents `TauCeti.irrationalityExponent` (`TauCeti/NumberTheory/DiophantineApproximation/Exponent.lean`), `TauCeti.linearFormExponent` and `TauCeti.mahlerExponent` (`TauCeti/NumberTheory/DiophantineApproximation/LinearFormExponent.lean`) and `TauCeti.algebraicApproximationExponent` (`TauCeti/NumberTheory/DiophantineApproximation/AlgebraicExponent.lean`); the absolute heights `TauCeti.absoluteProjectiveTupleHeight` and `TauCeti.absoluteLogHeightAff` (`TauCeti/NumberTheory/Height/ProjectiveTuple.lean`); the Hasse derivative `MvPolynomial.hasseDeriv` (`TauCeti/Algebra/MvPolynomial/HasseDeriv/Basic.lean`) and the weighted index `MvPolynomial.weightedIndex` (`TauCeti/RingTheory/MvPolynomial/WeightedIndex.lean`); the coefficient and entry heights `Polynomial.mulHeight` (`TauCeti/NumberTheory/Height/Polynomial/Basic.lean`), `MvPolynomial.mulHeight` and `MvPolynomial.logHeight` (`TauCeti/NumberTheory/Height/MvPolynomial.lean`) and `Matrix.mulHeight` (`TauCeti/NumberTheory/Height/Matrix.lean`); the Plücker coordinates `TauCeti.plucker` (`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`) and the Plücker point `Submodule.relativePluckerPoint` (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`); the Euclidean heights `TauCeti.height2` and `TauCeti.arakelovMulHeight` (`TauCeti/NumberTheory/Height/Arakelov/Basic.lean`) and `TauCeti.absoluteHeight2` (`TauCeti/NumberTheory/Height/Arakelov/Absolute.lean`); the subspace heights `Submodule.relativeSubspaceHeight` (`TauCeti/NumberTheory/Height/Subspace/Basic.lean`), `Submodule.relativeSubspaceArakelovHeight` and `Submodule.subspaceHeight` (`TauCeti/NumberTheory/Height/Arakelov/Subspace/Basic.lean`); general position `TauCeti.InGeneralPosition` (`TauCeti/LinearAlgebra/LinearIndependent/GeneralPosition.lean`); and nondegenerate solutions `TauCeti.IsNondegenerateSolution` and `TauCeti.IsNondegenerateHomogeneousSolution` (`TauCeti/NumberTheory/UnitEquation/Nondegenerate.lean`). The same files prove the field comparisons of §0.2 (`NumberField.InfinitePlace.prod_comap_pow_mult` in `TauCeti/NumberTheory/NumberField/InfinitePlace/Mult.lean`; `NumberField.mulHeight_algebraMap`, `NumberField.mulHeight₁_algebraMap`, `NumberField.mulHeight_ringEquiv`, `NumberField.absMulHeight₁_eq_rpow` and `NumberField.absMulHeight₁_eq_of_minpoly_eq` in `TauCeti/NumberTheory/Height/NumberField.lean`), the product bounds `Polynomial.mulHeight_mul_le` and `Matrix.mulHeight_mul_le`, the Plücker identities `TauCeti.plucker_eq_repr_ιMulti` and `TauCeti.det_mul_transpose_eq_sum_plucker_mul`, and the comparison, duality and Northcott statements for subspace heights (`Submodule.subspaceHeight_le_sqrt_choose_mul_relativeSubspaceHeight_rpow`, `Submodule.relativeSubspaceHeight_euclideanDual`, `Submodule.subspaceHeight_euclideanDual`, `Submodule.instNorthcottRelativeSubspaceHeight`). A statement of §§0.2, 0.5, 1.2, 1.3, 2.1, 2.3 or 2.5 about these carriers that one of these files proves is consumed from it. `Suggested.lean` keeps the names `irrationalityExponent`, `mahlerExponent`, `algebraicApproximationExponent`, `absoluteProjectiveTupleHeight`, `absoluteLogHeightAff`, `matrixMulHeight`, `MvPolynomial.weightedIndex`, `MvPolynomial.logHeight`, `plucker`, `relativeSubspaceHeight`, `arakelovMulHeight`, `relativeSubspaceArakelovHeight`, `subspaceHeight`, `InGeneralPosition`, `IsNondegenerateSolution` and `IsNondegenerateHomogeneousSolution` as abbreviations of these definitions, because the target signatures of SubspaceTheorem and HeightsAndUnits import them under these names; its headline statements use the Tau Ceti names.
+
 The following headline theorems of this roadmap are proved at the pinned Tau Ceti, and `Suggested.lean` pins them by `#check` instead of restating them: `TauCeti.finite_setOf_absMulHeight₁_le` and `TauCeti.inv_norm_le_natDenominator_pow_mul_house_pow` (§0.3), `TauCeti.mahlerMeasure_eq_one_iff` (§0.2), `Matrix.dirichlet_linearForms` and `TauCeti.kronecker_approximation` (§0.4), `TauCeti.ae_irrationalityExponent_eq_two` (§0.5), `IsAlgebraic.finite_setOfPred_abs_sub_le_mulHeight₁_rpow_neg`, `IsAlgebraic.exists_pos_mul_mulHeight₁_rpow_neg_le_norm_sub`, `MvPolynomial.IsHomogeneous.exists_pos_mul_max_abs_rpow_le_abs_eval`, `TauCeti.thue_approximation_real` and `MvPolynomial.IsHomogeneous.finite_setOf_eval_eq_of_three_le_card_roots` (§1.6), `TauCeti.linearIndependent_exp` and `TauCeti.algebraicIndependent_exp` (§3.2), and `TauCeti.transcendental_rpow` (§3.3).
 
-**From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. IntegralLattices, Layer 0A “integral lattices” and Layer 2 “definite lattices”, supplies the quadratic-lattice carrier and its bounded-norm finiteness; Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. The ordinary de Rham differential on exteriorPower B n (KaehlerDifferential A B) is a §5.6 target of this roadmap. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; the several-variable estimates of §3.4 are targets here.
+**From other roadmaps.** GlobalNumberFields, Layer 0 “places, completions, and the product formula”, supplies the place-extension interface through the Tau Ceti declarations named above. Euclidean full lattices here use Mathlib directly. EffectiveBounds, Layer 0 “the geometry-of-numbers engine”, supplies measure-free packing and doubling on the Mathlib lattice carrier. AlgebraicCurves, Layer 9 “Kähler differentials, residues, and the comparison”, supplies the function-field comparison with Weil differentials. The universal Kähler module itself is Mathlib’s `KaehlerDifferential`, with `KaehlerDifferential.D` and `Derivation.liftKaehlerDifferential`; no second module is constructed here. The ordinary de Rham differential on exteriorPower B n (KaehlerDifferential A B) is a §5.6 target of this roadmap. ContourIntegration, Layers 2–3, supplies the one-variable integral estimates used in §3.3; the several-variable estimates of §3.4 are targets here.
 
 
 **Geometric, unit and series carriers from Mathlib.** `ZLattice.covolume` fixes the Haar-volume normalization; `ZLattice.setFinite_inter` gives finiteness in a bounded set in a proper finite-dimensional ambient space. `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure` supplies Minkowski’s first theorem for a compact convex symmetric body and a discrete countable lattice with an additive fundamental domain, in a nontrivial finite-dimensional real normed space: volume at least 2^d times the fundamental-domain volume gives a nonzero lattice point. The successive-minima calculus, both second convex-body bounds, the linear forms theorem and the Hermitian Gram bound are the Tau Ceti declarations in the table above; the exact boundary and empty-family conventions are specified in §0.0. `Orientation.abs_volumeForm_apply_le` together with `Orientation.volumeForm_robust'` bounds real coordinate determinants; `Matrix.posSemidef_gram` and `Matrix.PosSemidef.det_nonneg` supply nonnegativity of real and complex Gram determinants.
@@ -195,7 +202,7 @@ Its API includes `house_nonneg`: 0≤⌈x⌉; `norm_le_house`: |x|≤⌈x⌉ for
 
 For x in a number field K, identify the field-independent house with maxσ|σ(x)|=NumberField.house x. (E19, ch. 3, p. 52.)
 
-For number fields K⊆L and a commutative-monoid-valued g on InfinitePlace K, prove ∏w g(w|K)ᵐʷ=∏v g(v)^(mᵥ[L:K]). Equivalently Σw|v mʷ=mᵥ[L:K]. Real places have multiplicity 1 and complex places multiplicity 2. Group the places of L by their restriction to K; above v, Mathlib's `NumberField.InfinitePlace.mult_mul_finrank` gives mʷ=mᵥ[L_w:K_v], and `NumberField.InfinitePlace.inertiaDeg_eq_finrank` with `NumberField.InfinitePlace.sum_inertiaDeg_eq_finrank` gives Σw|v [L_w:K_v]=[L:K]. (Wu, §2, Lem. 2.2, p. 3; Yang, p. 4.)
+For number fields K⊆L and a commutative-monoid-valued g on InfinitePlace K, prod_infinitePlace_comap_pow_mult is the identity ∏w g(w|K)ᵐʷ=∏v g(v)^(mᵥ[L:K]), equivalently Σw|v mʷ=mᵥ[L:K]; it is Tau Ceti's `NumberField.InfinitePlace.prod_comap_pow_mult` (`TauCeti/NumberTheory/NumberField/InfinitePlace/Mult.lean`). Real places have multiplicity 1 and complex places multiplicity 2. (Wu, §2, Lem. 2.2, p. 3; Yang, p. 4.)
 
 **Checks.**
 
@@ -203,9 +210,7 @@ For number fields K⊆L and a commutative-monoid-valued g on InfinitePlace K, pr
 - For L=ℚ(2^(1/3)) over ℚ there are one real and one complex place; their multiplicities add to 3=[L:ℚ], whereas the number of places is 2.
 - For L=ℚ(√2) over ℚ two real places lie over the real place, so g(v)=2 gives 4 on both sides.
 
-*Needs:* Mathlib infinite places, their completions and local degrees.
-
-For a finite tuple x over number fields K⊆L, prove Hrel,K(x)^[L:K]=Hrel,L(x), including the zero tuple (both values 1). Apply this to (x,1) for scalar height. Write both heights by `NumberField.mulHeight_eq`. At a place w|v the coordinatewise maximum of the |xᵢ|_w is that of the |xᵢ|_v raised to [L_w:K_v], by `normalizedAbsValue_inl_algebraMap` and `normalizedAbsValue_inr_algebraMap`; the local degrees above v add to [L:K], by prod_infinitePlace_comap_pow_mult at infinity and `Ideal.sum_ramification_inertia_eq_finrank` at finite places. (Wu, §2, Lem. 2.5, p. 4; Yang, p. 4.)
+For a finite tuple x over number fields K⊆L, mulHeight_pow_finrank is the identity Hrel,K(x)^[L:K]=Hrel,L(x), including the zero tuple (both values 1), and mulHeight₁_pow_finrank is its scalar case, applied to (x,1). They are Tau Ceti's `NumberField.mulHeight_algebraMap` and `NumberField.mulHeight₁_algebraMap` (`TauCeti/NumberTheory/Height/NumberField.lean`). (Wu, §2, Lem. 2.5, p. 4; Yang, p. 4.)
 
 **Checks.**
 
@@ -213,9 +218,7 @@ For a finite tuple x over number fields K⊆L, prove Hrel,K(x)^[L:K]=Hrel,L(x), 
 - (√2,1) has relative height 2 over ℚ(√2) and 4 over ℚ(√2,i).
 - The zero tuple has value 1 over every field, consistent with 1^[L:K]=1.
 
-*Needs:* prod_infinitePlace_comap_pow_mult; the Tau Ceti place-extension interface of the supplier contract.
-
-A ring isomorphism of number fields preserves relative tuple height and scalar height: prove mulHeight_ringEquiv. An isomorphism e:K≃K′ fixes ℚ and identifies the infinite and finite places of K′ with those of K, preserving multiplicities and normalized absolute values; equivalently it is the degree-one case of mulHeight_pow_finrank for the algebra structure transported along e. (Yang, p. 4.)
+A ring isomorphism of number fields preserves relative tuple height and scalar height (mulHeight_ringEquiv): these are Tau Ceti's `NumberField.mulHeight_ringEquiv` and `NumberField.mulHeight₁_ringEquiv` (same file), the degree-one case of mulHeight_pow_finrank for the algebra structure transported along the isomorphism. (Yang, p. 4.)
 
 **Checks.**
 
@@ -223,9 +226,7 @@ A ring isomorphism of number fields preserves relative tuple height and scalar h
 - The isomorphism ℚ[X]/(X²−2)≅ℚ(√2) sends (X,1) to (√2,1); both have relative height 2.
 - A rational tuple keeps its height in every isomorphic copy of K, since e fixes ℚ.
 
-*Needs:* mulHeight_pow_finrank.
-
-For x∈K with K a number field of degree D, prove Habs(x)=Hrel,K(x)^(1/D), identifying the native definition through ℚ(x) with computation in K. Apply mulHeight_pow_finrank to ℚ(x)⊆K and use [K:ℚ]=[ℚ(x):ℚ][K:ℚ(x)] (`Module.finrank_mul_finrank`). (Wu, §2, Def. 2.7, p. 4; Smyth, §1, p. 323.)
+For x∈K with K a number field of degree D, absMulHeight₁_eq is the identity Habs(x)=Hrel,K(x)^(1/D), identifying the native definition through ℚ(x) with computation in K; it is Tau Ceti's `NumberField.absMulHeight₁_eq_rpow` (same file). (Wu, §2, Def. 2.7, p. 4; Smyth, §1, p. 323.)
 
 **Checks.**
 
@@ -233,9 +234,7 @@ For x∈K with K a number field of degree D, prove Habs(x)=Hrel,K(x)^(1/D), iden
 - For x=2/3 in ℚ, Habs(x)=Hrel,ℚ(x)=3; in ℚ(i) the relative height is 9 and the square root is again 3.
 - Habs(0)=1, the height of the pair (0,1).
 
-*Needs:* mulHeight_pow_finrank.
-
-Equal rational minimal polynomials give equal absolute heights in any characteristic-zero fields: prove `absMulHeight₁_eq_of_minpoly_eq`. Hence absolute height is invariant under field embeddings; transcendental elements have value 1. For algebraic x and y, ℚ(x) and ℚ(y) are both isomorphic to the field obtained by adjoining a root of the common minimal polynomial (`IntermediateField.adjoinRootEquivAdjoin`), and mulHeight_ringEquiv compares the heights of the generators. If one element is transcendental its minimal polynomial is 0, so the other is transcendental too and both heights are the junk value. (Yang, p. 4; Smyth, §1, p. 323.)
+Equal rational minimal polynomials give equal absolute heights in any characteristic-zero fields, Tau Ceti's `NumberField.absMulHeight₁_eq_of_minpoly_eq` (same file); hence absolute height is invariant under field embeddings (`NumberField.absMulHeight₁_map`), and transcendental elements, whose minimal polynomial is 0, have the junk value 1. (Yang, p. 4; Smyth, §1, p. 323.)
 
 **Checks.**
 
@@ -243,18 +242,14 @@ Equal rational minimal polynomials give equal absolute heights in any characteri
 - π and e are transcendental, have minimal polynomial 0, and both take the junk value 1.
 - 2 and 1/2 have different minimal polynomials but the same absolute height 2; the converse implication fails.
 
-*Needs:* mulHeight_ringEquiv, absMulHeight₁_eq.
-
-Define `absoluteProjectiveTupleHeight x` for a finite tuple x in a characteristic-zero field. If every coordinate is algebraic, it is `Height.mulHeight` of x computed in the number field ℚ(x) generated by the coordinates, raised to 1/[ℚ(x):ℚ]; otherwise it is the junk value 1. The zero tuple has value 1, the projective convention of `Height.mulHeight_zero`. Prove absoluteProjectiveTupleHeight_eq: for x in a number field K it equals Hrel,K(x)^(1/[K:ℚ]); absoluteProjectiveTupleHeight_comp: it is invariant under homomorphisms of characteristic-zero fields; and `absMulHeight₁_eq_absoluteProjectiveTupleHeight`: Habs(x) is the absolute height of (x,1). The first is mulHeight_pow_finrank for ℚ(x)⊆K with the degree tower; the second holds because a homomorphism maps ℚ(x) isomorphically onto the field generated by the image, so mulHeight_ringEquiv applies; the third uses `Height.mulHeight₁_eq_mulHeight` and ℚ(x,1)=ℚ(x). (Wu, §2, Lem. 2.5 and Def. 2.7, p. 4; Yang, p. 4.)
+The absolute projective height `absoluteProjectiveTupleHeight x` of a finite tuple x in a characteristic-zero field is Tau Ceti's `TauCeti.absoluteProjectiveTupleHeight` (`TauCeti/NumberTheory/Height/ProjectiveTuple.lean`). If every coordinate is algebraic, it is `Height.mulHeight` of x computed in the number field ℚ(x) generated by the coordinates, raised to 1/[ℚ(x):ℚ]; otherwise it is the junk value 1. The zero tuple has value 1, the projective convention of `Height.mulHeight_zero`. The same file proves `TauCeti.absoluteProjectiveTupleHeight_eq` (for x in a number field K it equals Hrel,K(x)^(1/[K:ℚ])), `TauCeti.absoluteProjectiveTupleHeight_comp` (invariance under homomorphisms of characteristic-zero fields) and `TauCeti.absMulHeight₁_eq_absoluteProjectiveTupleHeight` (Habs(x) is the absolute height of (x,1)). (Wu, §2, Lem. 2.5 and Def. 2.7, p. 4; Yang, p. 4.)
 
 **Checks.**
 
 - (√2,1) has relative height 2 in ℚ(√2) and 4 in ℚ(√2,i); both computations give absolute height √2.
 - (2/3,1) has relative height 3 over ℚ and 9 over ℚ(i); its absolute height 3 is Habs(2/3).
 - (1/3,1/3) has absolute height 1, as (1,1) does, while appending a coordinate 1 gives (1,1/3,1/3) of height 3.
-- The zero tuple has value 1, whereas the Euclidean `height2` of §2.5 is 0 there.
-
-*Needs:* mulHeight_pow_finrank, mulHeight_ringEquiv.
+- The zero tuple has value 1, whereas the Euclidean height2 of §2.5 is 0 there.
 
 For a primitive P∈ℤ[X] and a finite place w of a number field, the radius-one Gauss norm of the mapped polynomial is 1. Every integer has |·|_w≤1; if w lies over the prime p, primitivity gives a coefficient prime to p, which has |·|_w=1. Over ℚ this is Mathlib's `Polynomial.isPrimitive_iff_forall_gaussNorm_eq_one`. (Smyth, §1, p. 323; Wu, §3, Lem. 3.1, p. 5.)
 
@@ -296,7 +291,7 @@ Use `Polynomial`: `mapMahlerMeasure`, `mahlerMeasure`, `mahlerMeasure_eq_leading
 
 ### 0.3 Finiteness and size estimates
 
-For d∈ℕ and B∈ℝ, the algebraic α∈ℂ with degree ≤d and H(α)≤B form a finite set of cardinality ≤d(2⌊B⌋₊+1)^(d+1); it is empty for B<1. (E19, ch. 1, Thm. 1.7, p. 5; Wu, §3, Thm. 3.4, p. 6.)
+For d∈ℕ and B∈ℝ, the algebraic α∈ℂ with degree ≤d and H(α)≤B form a finite set of cardinality ≤d(2⌊B⌋₊+1)^(d+1); it is empty for B<1. The count is the number (2⌊B⌋₊+1)^(d+1) of integer coefficient vectors of size at most B times the d roots of each. (E19, ch. 1, proof of Thm. 1.7(ii), p. 5; Wu, §3, proof of Thm. 3.4, p. 6.)
 
 *Needs:* §0.1.
 
@@ -345,11 +340,11 @@ Use `Polynomial`: `card_roots'`, `supNorm`, `supNorm_le_choose_natDegree_div_two
 
 ### 0.4 Dirichlet and Kronecker approximation
 
-For m,n≥1, A∈ℝ^(m×n) and Q>1, obtain y∈ℤⁿ∖{0}, x∈ℤᵐ with ‖y‖∞≤Q and |(Ay)ᵢ−xᵢ|≤Q^(−n/m). Use the closed-boundary linear-forms theorem. (E19, ch. 1, Thm. 1.1, p. 1; E19, ch. 1, Thm. 1.3, p. 2; E19, ch. 2, Corollary 2.6, p. 20; E19, ch. 2, Corollary 2.7, p. 22; E19, ch. 2, Exercise 2.6, p. 22.)
+For m,n≥1, A∈ℝ^(m×n) and Q>1, obtain y∈ℤⁿ∖{0}, x∈ℤᵐ with ‖y‖∞≤Q and |(Ay)ᵢ−xᵢ|≤Q^(−n/m). Use the closed-boundary linear-forms theorem. (E19, ch. 1, Thm. 1.1, p. 1; E19, ch. 1, Thm. 1.3, p. 2; E19, ch. 2, Corollary 2.6, p. 20; E19, ch. 2, Corollary 2.7, p. 21, and its proof, pp. 21–22; E19, ch. 2, Exercise 2.6, p. 22.)
 
 *Needs:* §0.0 successive minima and linear forms.
 
-If m,n≥1 and Ay∈ℤᵐ for integer y only when y=0, infinitely many pairs (y,x), y≠0, satisfy |(Ay)ᵢ−xᵢ|≤‖y‖∞^(−n/m). (E19, ch. 2, Exercise 2.6, p. 22; E19, ch. 2, Corollary 2.7, p. 22.)
+If m,n≥1 and Ay∈ℤᵐ for integer y only when y=0, infinitely many pairs (y,x), y≠0, satisfy |(Ay)ᵢ−xᵢ|≤‖y‖∞^(−n/m). (E19, ch. 2, Exercise 2.6, p. 22; E19, ch. 2, Corollary 2.7, p. 21.)
 
 For n≥1, α∈ℝⁿ and Q>1, obtain integers x,y with 0<y≤Qⁿ and |xᵢ−αᵢy|≤Q⁻¹. (E19, ch. 1, Thm. 1.4(i), p. 3.)
 
@@ -367,7 +362,7 @@ Use `Irrational`.
 
 ### 0.5 Exponents of approximation
 
-Define `irrationalityExponent ξ` as sup{ofReal p : LiouvilleWith p ξ} in ℝ≥0∞. Exact approximants are excluded. For irrational ξ it also equals the supremum of p with |ξ−r|<den(r)⁻ᵖ for infinitely many distinct r∈ℚ. (Sondow, §2, Def. 2, p. 3; E19, ch. 1, §1.2, p. 3; Bugeaud, §1, Def. 1.1, p. 1.)
+The irrationality exponent `irrationalityExponent ξ` is Tau Ceti's `TauCeti.irrationalityExponent` (`TauCeti/NumberTheory/DiophantineApproximation/Exponent.lean`): sup{ofReal p : LiouvilleWith p ξ} in ℝ≥0∞. Exact approximants are excluded. For irrational ξ it also equals the supremum of p with |ξ−r|<den(r)⁻ᵖ for infinitely many distinct r∈ℚ. (Sondow, §2, Def. 2, p. 3; E19, ch. 1, §1.2, p. 3; Bugeaud, §1, Def. 1.1, p. 1.)
 
 Its API includes `one_le_irrationalityExponent`: 1≤μ(ξ); `le_irrationalityExponent_of_liouvilleWith`: LiouvilleWith p ξ→ofReal p≤μ(ξ); `liouvilleWith_of_lt_irrationalityExponent`: ofReal p < μ(ξ)→LiouvilleWith p ξ; For irrational ξ: μ(ξ)=sup of the p such that |ξ − r| < den(r)^(-p) for infinitely many r∈ℚ; μ(ξ)=⊤↔Liouville ξ; μ(q)=1 for q∈ℚ; `two_le_irrationalityExponent_iff`: 2≤μ(ξ)↔ξ irrational; μ(ξ + r)=μ(ξ) for r∈ℚ; μ(rξ)=μ(ξ) for r∈ℚ, r≠0; μ(−ξ)=μ(ξ); `ae_irrationalityExponent_eq_two`: μ(ξ)=2 for Lebesgue-almost every ξ.
 
@@ -378,7 +373,7 @@ Its API includes `one_le_irrationalityExponent`: 1≤μ(ξ); `le_irrationalityEx
 - irrationalityExponent (liouvilleNumber 10)=⊤.
 - irrationalityExponent 0≠⊤: the exact approximations 0=0/n are excluded.
 
-For θ∈ℝⁿ define `linearFormExponent θ` as the supremum of w with 0<|x₀+Σⱼxⱼθⱼ|≤‖x‖∞⁻ʷ for infinitely many x∈ℤⁿ⁺¹; all n+1 coordinates enter the norm. Define `mahlerExponent n ξ` by θ=(ξ,…,ξⁿ). Suprema lie in ℝ≥0∞, so negative w contribute 0. (Bugeaud, §2, Def. 2.1, p. 4; Bugeaud, §1, Def. 1.2, p. 2.)
+For θ∈ℝⁿ, Tau Ceti's `TauCeti.linearFormExponent θ` (`TauCeti/NumberTheory/DiophantineApproximation/LinearFormExponent.lean`) is the supremum of w with 0<|x₀+Σⱼxⱼθⱼ|≤‖x‖∞⁻ʷ for infinitely many x∈ℤⁿ⁺¹; all n+1 coordinates enter the norm. Mahler's exponent `mahlerExponent n ξ` is Tau Ceti's `TauCeti.mahlerExponent` (same file), the case θ=(ξ,…,ξⁿ). Suprema lie in ℝ≥0∞, so negative w contribute 0. (Bugeaud, §2, Def. 2.1, p. 4; Bugeaud, §1, Def. 1.2, p. 2.)
 
 Its API includes: For irrational ξ: w(ξ) + 1=μ(ξ); `le_linearFormExponent_of_infinite`: If the solution set for w is infinite then ofReal w≤w(θ); w_m(ξ)≤w_n(ξ) for m≤n.
 
@@ -406,7 +401,7 @@ Its API includes: For irrational ξ: λ(ξ) + 1=μ(ξ); `simultaneousExponent_eq
 - simultaneousExponent of the empty vector=⊤.
 - simultaneousExponent ![√2, √3]≤1.
 
-Define `algebraicApproximationExponent n ξ` as the supremum of w with 0<|ξ−α|≤H(α)⁻ʷ⁻¹ for infinitely many distinct complex algebraic α of degree ≤n. The height is naive, and α need not be real. Removing α≠ξ changes the set by at most one point and leaves infinitude unchanged. (Bugeaud, §2, Def. 2.1, p. 4; E19, ch. 7, Thm. 7.8, p. 144.)
+The exponent `algebraicApproximationExponent n ξ` is Tau Ceti's `TauCeti.algebraicApproximationExponent` (`TauCeti/NumberTheory/DiophantineApproximation/AlgebraicExponent.lean`): the supremum of w with 0<|ξ−α|≤H(α)⁻ʷ⁻¹ for infinitely many distinct complex algebraic α of degree ≤n. The height is naive, and α need not be real. Removing α≠ξ changes the set by at most one point and leaves infinitude unchanged. (Bugeaud, §2, Def. 2.1, p. 4; E19, ch. 7, Thm. 7.8, p. 144.)
 
 Its API includes: For irrational ξ: w*_1(ξ) + 1=μ(ξ); w*_m(ξ)≤w*_n(ξ) for m≤n; `algebraicApproximation_infinite_iff_allow_eq`: For every n, ξ and real w, the set of algebraic α of degree≤n satisfying 0 < |ξ − α|≤H(α)^(-w-1) is infinite iff the same set with only |ξ − α|≤H(α)^(-w-1) is infinite. Their difference is contained in {ξ}.
 
@@ -524,7 +519,7 @@ Use `Polynomial`: `homogenize`, `mahlerMeasure`, `mahlerMeasure_eq_leadingCoeff_
 
 ### 1.2 Divided partial derivatives and weighted index
 
-Over a commutative semiring define `MvPolynomial.hasseDeriv d` as the linear operator Dᵈ(Xᵐ)=∏ⱼbinom(mⱼ,dⱼ)X^(m−d), with zero if any dⱼ>mⱼ. It preserves integer coefficients and agrees with factorial-divided partial differentiation over a ℚ-algebra. (P22, §2.6, Lem. 2.6.1, pp. 68-69.)
+Over a commutative semiring, the Hasse derivative `MvPolynomial.hasseDeriv d` is Tau Ceti's (`TauCeti/Algebra/MvPolynomial/HasseDeriv/Basic.lean`): the linear operator Dᵈ(Xᵐ)=∏ⱼbinom(mⱼ,dⱼ)X^(m−d), with zero if any dⱼ>mⱼ. It preserves integer coefficients and agrees with factorial-divided partial differentiation over a ℚ-algebra. (P22, §2.6, Lem. 2.6.1, pp. 68-69.)
 
 Its API includes: ∂^d(a x^m)=(∏_j binom(m_j, d_j)) a x^(m−d); ∂^0=id; k! ∂^(k e_i) P=(∂/∂x_i)^k P (Mathlib's pderiv iterated); If deg_(x_i) P < d_i then ∂^d P=0; deg_(x_i)(∂^d P)≤deg_(x_i) P − d_i.
 
@@ -541,7 +536,7 @@ For an absolute value v on a commutative ring, v([Xᵐ]DᵈP)≤2^|m+d|v([X^(m+d
 
 For nonarchimedean v the factor 2^|m+d| can be omitted. (P22, §3.4.6, p. 92.)
 
-Define `MvPolynomial.weightedIndex` as follows. Over a commutative ring define `weightedIndex r a P` as inf{Σⱼiⱼ/rⱼ : DⁱP(a)≠0} in ℝ≥0∞. Empty infima are ∞. Positive integer weights make the index of a nonzero polynomial finite and rational. (P22, §2.6, Def. 2.6.2, p. 69.)
+The weighted index `MvPolynomial.weightedIndex` is Tau Ceti's (`TauCeti/RingTheory/MvPolynomial/WeightedIndex.lean`): over a commutative semiring, `weightedIndex r a P` is inf{Σⱼiⱼ/rⱼ : DⁱP(a)≠0} in ℝ≥0∞. Empty infima are ∞. Positive integer weights make the index of a nonzero polynomial finite and rational. (P22, §2.6, Def. 2.6.2, p. 69.)
 
 Its API includes: Ind_(a,r)(0)=∞; For r_j≠0: Ind_(a,r)(P)=0 iff P(a)≠0; For r_j≠0 and P≠0 the index is finite; For an injective ring map f: Ind_(f∘a,r)(map f P)=Ind_(a,r)(P).
 
@@ -582,7 +577,7 @@ Use `MvPolynomial`: `pderiv`, `rename`; `Polynomial`: `hasseDeriv`, `toMvPolynom
 
 ### 1.3 Coefficient heights and products
 
-For K with admissible absolute values define `MvPolynomial.mulHeight` as Finsupp.mulHeight of the coefficient vector, and `MvPolynomial.logHeight` as its logarithm. Prove MvPolynomial.logHeight_eq_finsupp identifying it with the native Finsupp logarithmic height. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
+For K with admissible absolute values, `MvPolynomial.mulHeight` and `MvPolynomial.logHeight` are Tau Ceti's (`TauCeti/NumberTheory/Height/MvPolynomial.lean`): the projective height of the coefficient vector and its logarithm, identified with the native Finsupp logarithmic height by Tau Ceti's MvPolynomial.logHeight_eq_finsupp in the same file. For a nonzero polynomial over a number field this is Σw|∞ mʷ log maxμ|Pμ|w + Σv finite log maxμ|Pμ|v. It is relative; divide by [K:ℚ] for the absolute normalization. (P22, §3.2, Def. 3.2.1, Lem. 3.2.2, p. 80.)
 
 Its API includes: h(P)≥0; h(0)=0; h(cP)=h(P) for c≠0 (projectivity; Pottmeyer, Lemma 3.2.2); h(c)=0 for a constant; h is invariant under injective renaming of variables; The place-by-place formula over a number field (Mathlib's NumberField.mulHeight_eq).
 
@@ -593,7 +588,7 @@ Its API includes: h(P)≥0; h(0)=0; h(cP)=h(P) for c≠0 (projectivity; Pottmeye
 - h(x_0 − q)=Mathlib's logHeight₁ q for q∈ℚ.
 - h(2x_0 + 2)=0, not log 2=log of the largest coefficient: the height is projective.
 
-Define `Polynomial.mulHeight` by Finsupp.mulHeight of the coefficients of K[X], and `Polynomial.logHeight` as its logarithm. Prove `Polynomial.logHeight_eq_finsupp`. Embedding the polynomial into one multivariate coordinate preserves this height. (P22, §3.2, Def. 3.2.1, p. 80.)
+`Polynomial.mulHeight` and `Polynomial.logHeight` are Tau Ceti's (`TauCeti/NumberTheory/Height/Polynomial/Basic.lean`): the projective height of the coefficients of K[X] and its logarithm, with `Polynomial.logHeight_eq_finsupp`. Embedding the polynomial into one multivariate coordinate preserves this height. (P22, §3.2, Def. 3.2.1, p. 80.)
 
 Its API includes `Polynomial.logHeight_nonneg`: h(p)≥0; `Polynomial.logHeight_zero`: h(0)=0; `Polynomial.logHeight_C_mul`: h(cp)=h(p) for c≠0; `Polynomial.logHeight_X_sub_C`: h(X − β)=logHeight₁ β (Mathlib's height of β).
 
@@ -617,7 +612,7 @@ therefore definitional. Prove Finsupp.mulHeight_coe_eq:
 Height.mulHeight ⇑x=Finsupp.mulHeight x with no finiteness on the index type, and
 derive Finsupp.logHeight_eq_log_finsuppMulHeight:
 Finsupp.logHeight x=Real.log (Finsupp.mulHeight x); both polynomial log bridges
-go through this identity. Also prove the height
+go through this identity. Also prove Finsupp.mulHeight_eq_mulHeight_comp: the height
 is Height.mulHeight (x ∘ e) for any injective e:ι→α from a finite ι whose range
 contains the support; and `Finsupp.mulHeight_smul_eq_mulHeight` for c≠0. Then
 prove the dictionary for both polynomial heights, scaling invariance for nonzero scalars, height 1
@@ -635,26 +630,18 @@ and y=(0,c), H(x)H(y)=1 while H(x+y)=H(1,c)=mulHeight₁ c is unbounded in c∈�
 needs that a nonzero tuple has local factor 1 at all but finitely many
 nonarchimedean values, which Mathlib proves only as the private
 `Height.hasFiniteMulSupport_iSup_nonarchAbsVal`; reprove it or reach it with
-`import all`. Prove
-`Polynomial.mulHeight_mul_le`: H(fg)≤N^totalWeight(K)H(f)H(g) with
-N=min(deg f,deg g)+1. The zero case is immediate. For nonzero f, g the number
-of pairs (i,j) with i+j=k varies with k, while the tuple sum bound uses one
-finset s for every coordinate, so pad to N slots. By symmetry let deg f≤deg g
-and take s=range N. Take w on (Fin(deg f+1)×Fin(deg g+1))⊕Unit to be the Segre
-tensor (i,j)↦fᵢgⱼ extended by one zero coordinate, so that H(w)=H(f)H(g) by
-`Height.mulHeight_sumElim_zero_eq`, `Height.mulHeight_fun_mul_eq` and the
-finite-tuple dictionary. Send slot a of coordinate k to (a,k−a) when a≤k and
-k−a≤deg g, and to the zero coordinate otherwise; the slot sum is then the k-th
-coefficient of fg. The padding coordinate must be 0, not 1, since a 1 would add
-spurious summands. (Alternatively, state a corollary of the tuple sum bound for
-coordinates that are sums of at most N terms, and apply that.)
-`Height.mulHeight_linearMap_apply_le` charges
-the cardinality of the whole source index and does not give this constant. The lower Gelfond bound below retains its number-field
-hypotheses. Define `matrixMulHeight A` as Height.mulHeight of the entry tuple on
-m×n for finite m,n, with its logarithm and projective/scaling/reindexing API;
-a linear form uses Height.mulHeight of its coefficient tuple. Prove
-H(AB)≤(#n)^totalWeight(K)H(A)H(B) for a nonempty
-finite inner index n, by the tuple sum bound on the Segre tensor of the entries
+`import all`. The product bound H(fg)≤N^totalWeight(K)H(f)H(g) with
+N=min(deg f,deg g)+1 is Tau Ceti's `Polynomial.mulHeight_mul_le`
+(`TauCeti/NumberTheory/Height/Polynomial/Basic.lean`); Mathlib's
+`Height.mulHeight_linearMap_apply_le` charges the cardinality of the whole source
+index and does not give this constant. The lower Gelfond bound below retains its
+number-field hypotheses. The matrix height `matrixMulHeight A` is Tau Ceti's
+`Matrix.mulHeight` (`TauCeti/NumberTheory/Height/Matrix.lean`), Height.mulHeight
+of the entry tuple on m×n for finite m,n, with `Matrix.logHeight` and its
+projective, scaling and reindexing API; a linear form uses Height.mulHeight of
+its coefficient tuple. matrixMulHeight_mul_le, H(AB)≤(#n)^totalWeight(K)H(A)H(B)
+for a nonempty finite inner index n, is Tau Ceti's `Matrix.mulHeight_mul_le` (same
+file), proved by the tuple sum bound on the Segre tensor of the entries
 indexed by (m×n)×(n×p). Matrix entry height is distinct from row-space Plücker
 height. Over number fields, all relative coefficient and entry heights raise to
 [L:K] on extension; their absolute versions are the degree roots from §0.2.
@@ -889,7 +876,7 @@ Layer 0 heights, Northcott and Siegel; Mathlib Hasse derivatives, coefficient op
 
 ### 2.1 Linear forms and exceptional subspaces
 
-Define `InGeneralPosition` as follows. For finite coefficient vectors Lᵢ over a field, define `InGeneralPosition L` by linear independence of every n-element subfamily in n variables. This permits r<n, although the product theorems require r≥n. (E19, ch. 7, §7.1, Thm. 7.4, p. 140; E19, ch. 7, §7.1, p. 137.)
+General position `InGeneralPosition` is Tau Ceti's `TauCeti.InGeneralPosition` (`TauCeti/LinearAlgebra/LinearIndependent/GeneralPosition.lean`): for coefficient vectors Lᵢ in n variables over a field, `InGeneralPosition L` asserts linear independence of every subfamily of n distinct members. This permits r<n, although the product theorems require r≥n. (E19, ch. 7, §7.1, Thm. 7.4, p. 140; E19, ch. 7, §7.1, p. 137.)
 
 Its API includes `InGeneralPosition.linearIndependent`: If InGeneralPosition L and S : Finset ι has #S=n then the subfamily (L i)_(i∈S) is linearly independent; InGeneralPosition L↔for every injective e : Fin n→ι, det (fun k j ↦ L (e k) j)≠0; If Fintype.card ι=n then InGeneralPosition L↔LinearIndependent F L; For n=2: InGeneralPosition L↔for all i≠j the vectors L i and L j are linearly independent (no two forms are proportional); If InGeneralPosition L and e : κ→ι is injective then InGeneralPosition (L ∘ e); `InGeneralPosition.smul`: If InGeneralPosition L and c : ι→F with c i≠0 for all i, then InGeneralPosition (fun i ↦ c i • L i); `InGeneralPosition.map`: If σ : F →+* F' is a ring homomorphism of fields and InGeneralPosition L then InGeneralPosition (fun i ↦ σ ∘ L i) (used for Galois transport in Lemma 7.11); If A is an invertible n × n matrix over F and InGeneralPosition L, then InGeneralPosition (fun i ↦ Aᵀ.mulVec (L i)), i.e. general position is preserved by the linear change of variables x ↦ A x; For every n≥1 the n + 1 forms X_1, …, X_n, X_1 + ⋯ + X_n are in general position over any field.
 
@@ -985,7 +972,7 @@ Prove `finite_thueMahler`, Mahler's theorem on Thue–Mahler equations: for a sq
 
 For a finitely generated Γ≤ℚ× and a,b∈ℚ×, the equation ax+by=1 has finitely many (x,y)∈Γ². (E19, ch. 8, Thm. 8.12, p. 167; E19, ch. 8, p. 167.)
 
-Define `IsNondegenerateSolution` as follows. Define `IsNondegenerateSolution a x` by Σaᵢxᵢ=1 and Σi∈I aᵢxᵢ≠0 for every nonempty index subset I. This includes the full subset. (E19, ch. 8, §8.3, p. 168.)
+Nondegenerate solutions `IsNondegenerateSolution` are Tau Ceti's `TauCeti.IsNondegenerateSolution` (`TauCeti/NumberTheory/UnitEquation/Nondegenerate.lean`): `IsNondegenerateSolution a x` asserts Σaᵢxᵢ=1 and Σi∈I aᵢxᵢ≠0 for every nonempty index subset I. This includes the full subset. (E19, ch. 8, §8.3, p. 168.)
 
 Its API includes: IsNondegenerateSolution α x→Σ_i α_ix_i=1; IsNondegenerateSolution α x→I.Nonempty→Σ_(i∈I) α_ix_i≠0; IsNondegenerateSolution α x→∀ i, α_i x_i≠0 (singleton subsums); `IsNondegenerateSolution.map`: For a ring homomorphism φ : K →+* K' that is injective on the finitely many elements Σ_(i∈I) α_ix_i, IsNondegenerateSolution α x→IsNondegenerateSolution (φ ∘ α) (φ ∘ x) (the specialisation step of ESS §3); If ι has one element and α_i x_i=1 then IsNondegenerateSolution α x; `IsNondegenerateSolution.restrict`: If Σ_i α_i x_i=1, the subsum over I vanishes, and every nonempty subsum of the complement is nonzero, then restriction to the complement is a nondegenerate solution. Choosing I maximal among vanishing subsets ensures this condition; choosing I minimal does not.
 
@@ -996,7 +983,7 @@ Its API includes: IsNondegenerateSolution α x→Σ_i α_ix_i=1; IsNondegenerate
 - With one unknown, x=α⁻¹ is the unique solution and it is non-degenerate.
 - For two unknowns, (x, y) is non-degenerate iff αx + βy=1, αx≠0 and βy≠0.
 
-Define `IsNondegenerateHomogeneousSolution` as follows. Define `IsNondegenerateHomogeneousSolution a x` by Σaᵢxᵢ=0 and nonvanishing of every proper nonempty subsum. Its projective use requires at least two terms and nonzero coefficients and coordinates. (E19, ch. 8, p. 169.)
+`IsNondegenerateHomogeneousSolution` is Tau Ceti's `TauCeti.IsNondegenerateHomogeneousSolution` (same file): `IsNondegenerateHomogeneousSolution a x` asserts Σaᵢxᵢ=0 and nonvanishing of every proper nonempty subsum. Its projective use requires at least two terms and nonzero coefficients and coordinates. (E19, ch. 8, p. 169.)
 
 Its API includes `IsNondegenerateHomogeneousSolution.sum_eq_zero`: Σ_i α_ix_i=0; `IsNondegenerateHomogeneousSolution.smul`: For λ≠0, IsNondegenerateHomogeneousSolution α x→IsNondegenerateHomogeneousSolution α (λ • x); For ι=Option κ, α none=−1 and x none=1: IsNondegenerateHomogeneousSolution α x↔IsNondegenerateSolution (α ∘ some) (x ∘ some); `IsNondegenerateHomogeneousSolution.merge`: If x_p=βx_q (p≠q) and x is non-degenerate, then dropping x_p and replacing α_q by α_q + βα_p gives a non-degenerate solution with one unknown fewer (proof of Theorem 8.14); Each x_i with α_i≠0 is non-zero when #ι≥2.
 
@@ -1021,11 +1008,11 @@ Use `PerfectField.separable_iff_squarefree`; `Polynomial.nodup_roots`; `IsAlgClo
 
 ### 2.4 Finite-rank multiplicative groups and recurrences
 
-Prove for a complex recurrence E with characteristic polynomial having nonzero constant term, every solution u admits polynomials P_θ indexed by the distinct characteristic roots, with deg(P_θ)<multiplicity(θ), such that u(n)=Σ_θ P_θ(n)θ^n for all n≥0. This includes the order-zero recurrence, whose only solution is zero; a simple recurrence has constant P_θ. For (X−1)², u(n)=n is represented by P_1=X, so repeated roots cannot be treated by constant coefficients. (E19, ch. 8, §8.4, pp. 173–175; Mathlib `LinearRecurrence.charPoly`.) *Needs:* Mathlib recurrence solution space, characteristic polynomial and Jordan decomposition over ℂ.
+Prove closedFormRecurrence: for a complex recurrence E with characteristic polynomial having nonzero constant term, every solution u admits polynomials P_θ indexed by the distinct characteristic roots, with deg(P_θ)<multiplicity(θ), such that u(n)=Σ_θ P_θ(n)θ^n for all n≥0. This includes the order-zero recurrence, whose only solution is zero; a simple recurrence has constant P_θ. For (X−1)², u(n)=n is represented by P_1=X, so repeated roots cannot be treated by constant coefficients. (E19, ch. 8, §8.4, pp. 173–175; Mathlib `LinearRecurrence.charPoly`.) *Needs:* Mathlib recurrence solution space, characteristic polynomial and Jordan decomposition over ℂ.
 
 A finitely generated algebra over an algebraically closed field of characteristic zero admits a specialisation fixing the base field and preserving nonvanishing of any specified finite set of units. This reduces the finite data of a unit equation to algebraic coefficients. (ESS02, §3, Lem. 3.1, pp. 815–816; ESS02, §3, Lem. 3.1.)
 
-Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction exists_subspaces_unit_equation_algebraic): let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h_aff(z)≤n⁻¹exp(−(5n)^(3n))(1+h_aff(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Here h_aff is the absolute affine logarithmic tuple height, log H_proj(1,x), with H_proj the absolute tuple height `absoluteProjectiveTupleHeight` of §0.2. Over a containing number field K it is Height.logHeight (Fin.cons 1 x)/[K:ℚ]. `absoluteLogHeightAff` realizes it on ℚ̄-tuples, and absoluteLogHeightAff_eq gives the containing-field formula from absoluteProjectiveTupleHeight_eq and absoluteProjectiveTupleHeight_comp; absoluteLogHeightAff_nonneg gives nonnegativity and absoluteLogHeightAff_one gives zero on the tuple of ones. (ESS02, §2, Thm. 2.1, p. 815, with the perturbation budget used in §11 (11.19); EF13, §1.3, p. 4.)
+Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction exists_subspaces_unit_equation_algebraic): let Γ≤(ℚ̄×)^n have finite rank r and n≥2. The y=xz with x∈Γ, h_aff(z)≤n⁻¹exp(−(5n)^(3n))(1+h_aff(x)) and Σyᵢ=1 lie in at most exp((5n)^(3n)(r+1)) proper subspaces. Here h_aff is the absolute affine logarithmic tuple height, log H_proj(1,x), with H_proj the absolute tuple height `absoluteProjectiveTupleHeight` of §0.2. Over a containing number field K it is Height.logHeight (Fin.cons 1 x)/[K:ℚ]. `absoluteLogHeightAff` (Tau Ceti's `TauCeti.absoluteLogHeightAff`) realizes it on tuples in any characteristic-zero field, ℚ̄ included, and absoluteLogHeightAff_eq gives the containing-field formula from absoluteProjectiveTupleHeight_eq and absoluteProjectiveTupleHeight_comp; absoluteLogHeightAff_nonneg gives nonnegativity and absoluteLogHeightAff_one gives zero on the tuple of ones. (ESS02, §2, Thm. 2.1, p. 815, with the perturbation budget used in §11 (11.19); EF13, §1.3, p. 4.)
 
 **Checks.**
 
@@ -1038,7 +1025,7 @@ Prove `absolutePerturbedUnitEquation` (and its unperturbed restriction exists_su
 **Small-height hyperplane foundation.** Build `scalarSumHeight x`=Σ_i h_abs(x_i)
 on (ℚ̄×)^n and h_aff(x)≤h_s(x)≤n h_aff(x),
 h_s(x^−1)=h_s(x) and h_s(xz)≤h_s(x)+h_s(z). For n≥2 and b_i≠0,
-prove b·w=1 has at most q₀(n)=exp((4n)^(3n))
+prove smallHeightHyperplaneBound: b·w=1 has at most q₀(n)=exp((4n)^(3n))
 nondegenerate algebraic solutions with h_s(w)<q₀(n)^−1. Degrees and b's
 height are unrestricted. (ESS02 §7 (7.4)–(7.7), §11 Proposition 11.1;
 Schmidt, *Heights of points on subvarieties of G_m^n*, Theorem 4, pp.157–187.)
@@ -1078,7 +1065,7 @@ so h_s(yb^−1)<q₀^−1. Apply the small-height foundation to the equation
 degenerate ones lie in at most 2^n subsum hyperplanes. (ESS02 §§7–8,
 Lemma 11.2 and Corollary 11.3, pp.824–835.)
 
-Build for h_aff(x)>4n log n use the
+Build unitEquationHeightAssembly: for h_aff(x)>4n log n use the
 special-point packing of ESS02 §8, the local log pattern and centered
 weights of §9, then the absolute parametric theorem in §2.8. Prove the
 large-solution cover bound 2^(2(n+9)^2)(8n²+2n)^(n+4+r) (ESS02 Corollary
@@ -1147,7 +1134,7 @@ Prove `skolem_mahler_lech_simple`: for nonzero distinct characteristic roots wit
 
 *Needs:* closedFormRecurrence in §2.4.
 
-Prove `ncard_zeros_simple_recurrence_le` in the case without root-of-unity quotients: for n≥3, distinct αᵢ≠0 and aᵢ≠0 in characteristic zero, the zero set in ℤ of Σaᵢαᵢ^m is a union of at most exp((6n)^(3n)) singletons and arithmetic progressions. If no root quotient is a root of unity, the same number bounds the finite zero set. (ESS02, Thm. 1.2, pp. 812–813; ESS02, §5, Thm. 1.2.)
+Prove `ncard_zeros_simple_recurrence_le` in the case without root-of-unity quotients: for n≥3, distinct αᵢ≠0 and aᵢ≠0 in a field of characteristic zero, the zero set in ℤ of Σaᵢαᵢ^m is a union of at most exp((6n)^(3n)) singletons and arithmetic progressions. If no root quotient is a root of unity, the same number bounds the finite zero set. ESS02 work over an algebraically closed field; the general case follows by embedding K into its algebraic closure, which keeps the zero set and the hypotheses on the αᵢ. (ESS02, Thm. 1.2, pp. 812–813; ESS02, §5, Thm. 1.2.)
 
 *Needs:* §2.3.
 
@@ -1184,7 +1171,7 @@ H_aff^*(Â₁^−1,…,Â_s^−1)≤H_L^(R^n) under EF13 (8.1)–(8.9), includin
 the coordinate system at the distinguished place. Here H_aff^* appends 1 to
 the whole coefficient tuple. Cramer's rule expresses those coefficients as
 ratios of the determinant coordinates. For the augmented algebraic systems
-of §2.8 prove H_L is at most n^(n/2) times the product of the absolute augmented row heights. The ≤RD conjugate rows each have augmented height ≤H*, and coordinate rows have height 1, giving H_L≤n^(n/2)(H*)^(DR)
+of §2.8 prove formSystemHeight_augmented_le: H_L is at most n^(n/2) times the product of the absolute augmented row heights. The ≤RD conjugate rows each have augmented height ≤H*, and coordinate rows have height 1, giving H_L≤n^(n/2)(H*)^(DR)
 after the Galois transport. This is a height of all minors, distinct from Δ_L
 and from individual Euclidean form heights. (EF13 (2.11)–(2.12), Lemma 5.1
 and Lemma 11.5, pp.9,23,47.) *Needs:* §0.2 absolute tuple heights and their
@@ -1234,9 +1221,9 @@ Its API includes: rationalSuccessiveInfimum L c Q i := sInf {λ≥0 | i≤finran
 - For the preceding rational two-coordinate weights and Q>1, the absolute infima are Q^(−1/2),Q^(1/2); the absolute gap space is the ℚ̄-line spanned by e₁ and descends to the corresponding ℚ-line.
 - At Q=1 those infima coincide and the first absolute infimum space is the whole plane, excluding a rule that always selects a coordinate line.
 
-Define `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x), with H the §0.2 `absoluteProjectiveTupleHeight`; this is the comparison max≤ℓ²≤√N·max at each infinite place. Use the native `plucker` coordinates and `relativePluckerPoint` specified below. `subspaceHeight U` is the [K:ℚ]-th root of `relativeSubspaceArakelovHeight U`, the relative Euclidean height of that same Plücker point. Basis independence follows because a basis change multiplies the wedge by a nonzero determinant, which the product formula removes. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
+The absolute Euclidean height `absoluteHeight2 x` is Tau Ceti's `TauCeti.absoluteHeight2` (`TauCeti/NumberTheory/Height/Arakelov/Absolute.lean`), zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; its K-rational restriction is Tau Ceti's `TauCeti.height2` (`TauCeti/NumberTheory/Height/Arakelov/Basic.lean`). For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x), with H the §0.2 `absoluteProjectiveTupleHeight` (`TauCeti.absoluteProjectiveTupleHeight_le_absoluteHeight2` and `TauCeti.absoluteHeight2_le_sqrt_natCard_mul_absoluteProjectiveTupleHeight`); this is the comparison max≤ℓ²≤√N·max at each infinite place. Use the native `plucker` coordinates and `relativePluckerPoint` specified below. `subspaceHeight U` is the [K:ℚ]-th root of `relativeSubspaceArakelovHeight U`, the relative Euclidean height of that same Plücker point. Basis independence follows because a basis change multiplies the wedge by a nonzero determinant, which the product formula removes. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
 
-Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^(mult w/(2[K:ℚ])) times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^(1/[K:ℚ]), for y : ι→K; `plucker`: plucker x : Set.powersetCard ι p→K, the maximal minors of x:Fin p→ι→K, with ι any finite linearly ordered type; `subspaceHeight`: subspaceHeight T := relativeSubspaceArakelovHeight(T)^(1/[K:ℚ]), equivalently height2 of the nonzero Plücker vector, including its singleton coordinate at T=⊥ or T=⊤; subspaceHeight_bot: subspaceHeight ⊥=1; subspaceHeight_top: subspaceHeight ⊤=1; subspaceHeight_span_singleton: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; subspaceHeight_le_prod: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; for K=ℚ, a subspace T of ℚ^n and any ℤ-basis b of T ∩ ℤ^n, subspaceHeight T is the Euclidean norm of the Plücker vector of b (including T=⊥, where both sides are 1); the covolume of T ∩ ℤ^n in its real span is the K=ℚ case of §2.8's kernelLattice_covolume.
+Its API includes `TauCeti.height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^(mult w/(2[K:ℚ])) times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^(1/[K:ℚ]), for y : ι→K; `plucker`: plucker x : Set.powersetCard ι p→K, the maximal minors of x:Fin p→ι→K, with ι any finite linearly ordered type; `subspaceHeight`: subspaceHeight T := relativeSubspaceArakelovHeight(T)^(1/[K:ℚ]), equivalently height2 of the nonzero Plücker vector, including its singleton coordinate at T=⊥ or T=⊤; subspaceHeight_bot: subspaceHeight ⊥=1; subspaceHeight_top: subspaceHeight ⊤=1; subspaceHeight_span_singleton: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; subspaceHeight_le_prod: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; for K=ℚ, a subspace T of ℚ^n and any ℤ-basis b of T ∩ ℤ^n, subspaceHeight T is the Euclidean norm of the Plücker vector of b (including T=⊥, where both sides are 1); the covolume of T ∩ ℤ^n in its real span is the K=ℚ case of §2.8's kernelLattice_covolume.
 
 **Checks.**
 
@@ -1263,10 +1250,12 @@ Prove `finite_subspaceHeight_le` from a bound on subspaceHeight T bounds the abs
 - absoluteHeight2(0,0)=0 and absoluteHeight2(1,1)=√2.
 - Computing the height of (√2,1) in ℚ(√2) or ℚ(√2,i) gives √3 in both fields. Forgetting the complex multiplicity or the degree root changes the latter computation.
 
-**Height and duality compatibility.** Prove height2 is unchanged
-under a homomorphism of number fields K→E. As in mulHeight_pow_finrank, the Euclidean
-factor at a place of E over w is the factor at w raised to the local degree, the local
-degrees above w add to [E:K], and the exponents 1/[E:ℚ] absorb [E:K].
+**Height and duality compatibility.** height2_baseExtension, that height2 is unchanged
+under an extension of number fields K→E, is Tau Ceti's `TauCeti.height2_algebraMap`
+(`TauCeti/NumberTheory/Height/Arakelov/Extension.lean`), with `RingEquiv.height2_comp`
+for isomorphisms: as in mulHeight_pow_finrank, the Euclidean factor at a place of E over
+w is the factor at w raised to the local degree, the local degrees above w add to [E:K],
+and the exponents 1/[E:ℚ] absorb [E:K].
 For a p-dimensional U≤K^ι, n=#ι, prove subspaceHeight_sup_le comparing its sup and Euclidean Plücker heights by
 H_sup(U)≤subspaceHeight U≤binom(n,p)^(1/2)H_sup(U), with both absolute; H_sup is
 `absoluteProjectiveTupleHeight` of the same Plücker vector, identified with
@@ -1293,23 +1282,27 @@ the product over places gives the inequality of heights. (EF13 §6.1 (6.11)–(6
 
 *Needs:* prod_infinitePlace_comap_pow_mult and the place-extension interface, `absoluteProjectiveTupleHeight`, Mathlib determinants, Gram matrices and dual annihilators.
 
-**Relative Euclidean projective normalization.** Define `arakelovMulHeight x`
-for x:ι→K, ι finite and K a number field of degree D: its value is 1 at zero,
-and H₂(x)^D otherwise. Define its logarithm and the affine scalar version by
-appending 1. Prove arakelovMulHeight_eq_height2 with the zero case explicit,
-and for x≠0,
-Habs(x)≤H₂(x)≤√(#ι)Habs(x). The relative comparison
-arakelovMulHeight_sup_comparison gives
+**Relative Euclidean projective normalization.** For x:ι→K, ι finite and K a
+number field of degree D, the relative Euclidean projective height
+`arakelovMulHeight x` is Tau Ceti's `TauCeti.arakelovMulHeight`
+(`TauCeti/NumberTheory/Height/Arakelov/Basic.lean`): 1 at zero and H₂(x)^D
+otherwise. The same file has its logarithm, the affine version
+`TauCeti.arakelovMulHeightAff` obtained by appending 1,
+`TauCeti.arakelovMulHeight_eq_height2` with the zero case explicit, positivity,
+scaling invariance (`TauCeti.arakelovMulHeight_smul`, `TauCeti.height2_smul`)
+and reindexing (`TauCeti.arakelovMulHeight_comp_equiv`,
+`TauCeti.height2_comp_equiv`); `TauCeti.absoluteHeight2` extends the nonzero
+theory to algebraic tuples in any characteristic-zero field, with value 0 at
+zero and junk value 1 on tuples with a transcendental coordinate, and
+`TauCeti.absoluteProjectiveTupleHeight_smul` gives scaling by nonzero algebraic
+scalars. For x≠0, Habs(x)≤H₂(x)≤√(#ι)Habs(x). Prove
+arakelovMulHeight_sup_comparison:
 H_K(x)≤arakelovMulHeight(x)≤(#ι)^(D/2)H_K(x), with ι nonempty for
-the upper comparison at zero. Prove scaling invariance, reindexing,
-positivity, and extension and ring-isomorphism transport for this relative
-height using height2_baseExtension; the relative height raises to [E:K]
-on extension. Extend the nonzero theory of `absoluteHeight2` to algebraic
-tuples in any characteristic-zero field by computation in ℚ(x), and keep
-value 0 at zero and junk value 1 on tuples with a transcendental coordinate.
-Prove absoluteProjectiveTupleHeight_smul for nonzero algebraic scalars,
-height2_smul, and reindexing for both heights. Projective descent in an
-algebraic ambient field uses these scaling theorems. (EF13 §6.1, (6.1)–(6.4),
+the upper comparison at zero. Its extension and ring-isomorphism transport are
+`TauCeti.arakelovMulHeight_algebraMap`, by which the relative height raises to
+[E:K] on extension, and `RingEquiv.arakelovMulHeight_comp`, in the file of
+height2_baseExtension. Projective descent in an algebraic ambient field uses
+the scaling theorems. (EF13 §6.1, (6.1)–(6.4),
 §6.3; Mathlib Height.mulHeight_zero and NumberField.mulHeight_eq.)
 
 **Checks.**
@@ -1321,30 +1314,38 @@ algebraic ambient field uses these scaling theorems. (EF13 §6.1, (6.1)–(6.4),
 
 *Needs:* §§0.2,2.5 and the place-extension contract.
 
-**Native Plücker heights.** For any commutative ring R, finite linearly
-ordered coordinate type ι and x:Fin p→ι→R, define `plucker x` on
-Set.powersetCard ι p by its maximal minors. Prove
-these are the coordinates of
-exteriorPower.ιMulti R p x in (Pi.basisFun R ι).exteriorPower p.
-Prove plucker_cauchyBinet over R: for x,y:Fin p→ι→R,
-det(x yᵀ)=Σ_s plucker(x)_s plucker(y)_s, including p=0 and p>#ι.
-At complex places apply it to y=conj(x) to identify the squared Euclidean
-Plücker norm with the Hermitian Gram determinant. The Gram bound is Tau Ceti's
-`Matrix.det_gram_le_prod_norm_sq` (§0.0).
-For a field K and U≤K^ι, define `relativePluckerPoint U` as the projective
-point of the Plücker vector of a basis of U. That vector is nonzero, because a
-linearly independent family has a nonzero maximal minor, and in rank 0 the empty
-minor is 1; prove this nonvanishing as part of the construction, then its
-independence of basis and injectivity in each rank. For
-`Height.AdmissibleAbsValues K`, define `relativeSubspaceHeight U` as
-Projectivization.mulHeight of that point, with its logarithm. Prove
-relativeSubspaceHeight_span_range, positivity, height 1 at zero and whole
-space, and rank-one compatibility with Height.mulHeight. Prove
-relativeSubspaceHeight_dualAnnihilator through complementary minors for the
-standard-basis transport of U.dualAnnihilator. This relative sup theory needs
-neither a number field nor characteristic zero. Over number fields define
-`relativeSubspaceArakelovHeight` from the same coordinates using
-arakelovMulHeight; subspaceHeight is its degree-root adapter. Both relative
+**Native Plücker heights.** For any commutative ring R, linearly ordered
+coordinate type ι and x:Fin p→ι→R, the Plücker coordinates `plucker x` on
+Set.powersetCard ι p, the maximal minors of x, are Tau Ceti's `TauCeti.plucker`
+(`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`). For finite ι the same file
+proves plucker_eq_exteriorPower_coordinates, that these are the coordinates of
+exteriorPower.ιMulti R p x in (Pi.basisFun R ι).exteriorPower p
+(`TauCeti.plucker_eq_repr_ιMulti`), and plucker_cauchyBinet,
+det(x yᵀ)=Σ_s plucker(x)_s plucker(y)_s for x,y:Fin p→ι→R, including p=0 and
+p>#ι (`TauCeti.det_mul_transpose_eq_sum_plucker_mul`); its conjugate form
+`TauCeti.det_mul_conjTranspose_eq_sum_plucker_mul_star` identifies the squared
+Euclidean Plücker norm at complex places with the Hermitian Gram determinant.
+The Gram bound is Tau Ceti's `Matrix.det_gram_le_prod_norm_sq` (§0.0).
+For a field K and U≤K^ι, the Plücker point `relativePluckerPoint U`, the
+projective point of the Plücker vector of a basis of U, is Tau Ceti's
+`Submodule.relativePluckerPoint` (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`),
+with its independence of basis and injectivity in each rank; the vector is
+nonzero because a linearly independent family has a nonzero maximal minor, and
+in rank 0 the empty minor is 1. For `Height.AdmissibleAbsValues K`, the relative
+sup height `relativeSubspaceHeight U` is Tau Ceti's
+`Submodule.relativeSubspaceHeight` (`TauCeti/NumberTheory/Height/Subspace/Basic.lean`),
+Projectivization.mulHeight of that point, with its logarithm,
+`Submodule.relativeSubspaceHeight_span_range`, positivity, height 1 at zero and
+whole space, rank-one compatibility with Height.mulHeight and the duality
+`Submodule.relativeSubspaceHeight_euclideanDual` for the dot-product
+perpendicular. Prove relativeSubspaceHeight_dualAnnihilator, the same duality
+for the standard-basis transport of U.dualAnnihilator, from it and
+orthogonalBilin_eq_dualAnnihilator_comap. This relative sup theory needs
+neither a number field nor characteristic zero. Over number fields
+`relativeSubspaceArakelovHeight` and its degree-root `subspaceHeight` are Tau
+Ceti's `Submodule.relativeSubspaceArakelovHeight` and `Submodule.subspaceHeight`
+(`TauCeti/NumberTheory/Height/Arakelov/Subspace/Basic.lean`), built from the same
+coordinates with arakelovMulHeight. Both relative
 subspace heights raise to [L:K] under extension. The duality, submodularity,
 covolume and Northcott targets above use this one Plücker construction;
 submodularity with constant 1 uses the Euclidean normalization.
@@ -1410,7 +1411,7 @@ normalized by [K:ℚ]. Require A to be integral invertible at almost every finit
 place. Its subspace height uses the induced exterior power. The restricted
 infinite product, extension invariance and local isometric reduction are part of
 this target. For symmetric degree r, prove det(Sym^r A)=(det A)^binom(r+n−1,n).
-Build for A∈GL₂(𝔄_K), r≥1, there are independent
+Build absoluteBinarySmallBasis: for A∈GL₂(𝔄_K), r≥1, there are independent
 algebraic y₁,y₂, each of coordinate-field degree at most r over K, with
 H_A(y₁)H_A(y₂)≤2(r+1)^(1/r)C(K)^(2/r)|det A|_𝔄.
 Here C(K)=|disc K|^(1/(2[K:ℚ])). Prove the fixed-field
@@ -1463,11 +1464,11 @@ obtain D_A=Δ_L Q^(−Σc_iv) and the next theorem, with no discriminant factor.
 - The approximating basis lives in a finite extension depending on η; neither an attained minimum nor a fixed field containing all approximants is required.
 - A single local scale 2 changes D_A by 1/2; scaling a form globally by a rational nonzero number leaves its determinant product unchanged.
 
-Prove for n≥2, independent local forms with finitely many values and finite weight support, let α=Σv,i cᵢv and Δ_L=∏v|det(L₁v,…,Lₙv)|v. For Q≥1, the absolute successive minima satisfy n^(−n/2)Δ_L Q^(−α)≤∏λᵢ≤2^(n(n−1)/2)Δ_L Q^(−α). This theorem concerns ℚ̄-minima; it is not the discriminant-free statement for K-rational minima. (EF13, §9, Prop. 9.2, p. 36.)
+Prove absoluteMinkowskiSecondTheorem: for n≥2, independent local forms with finitely many values and finite weight support, let α=Σv,i cᵢv and Δ_L=∏v|det(L₁v,…,Lₙv)|v. For Q≥1, the absolute successive minima satisfy n^(−n/2)Δ_L Q^(−α)≤∏λᵢ≤2^(n(n−1)/2)Δ_L Q^(−α). This theorem concerns ℚ̄-minima; it is not the discriminant-free statement for K-rational minima. (EF13, §9, Prop. 9.2, p. 36.)
 
 *Needs:* absoluteAdelicMinima and absoluteMinimaRealScales above. The absolute Davenport basis, gap spaces, filtration asymptotics and §2.8 compound construction consume this bound.
 
-Prove assume n≥2, local independence, ≤R distinct forms with R≥n, finite weights, Σᵢcᵢv=0 and Σv maxᵢcᵢv≤1. For 0<δ≤1 and A≥n^(1/δ), a single proper K-defined subspace contains all x with twisted height ≤Δ_L^(1/n)Q⁻δ throughout A≤Q<A^(1+δ/2). (EF13, §4, Prop. 4.2, p. 16; EF13, §4, Prop. 4.2, p. 18.)
+Prove absoluteGapPrinciple: assume n≥2, local independence, ≤R distinct forms with R≥n, finite weights, Σᵢcᵢv=0 and Σv maxᵢcᵢv≤1. For 0<δ≤1 and A≥n^(1/δ), a single proper K-defined subspace contains all x with twisted height ≤Δ_L^(1/n)Q⁻δ throughout A≤Q<A^(1+δ/2). (EF13, §4, Prop. 4.2, p. 16; EF13, §4, Prop. 4.2, p. 18.)
 
 *Needs:* §0.0 Hadamard inequalities.
 
@@ -1492,7 +1493,7 @@ irrelevant ideals. Prove chart and projective-coordinate independence,
 Z_0=(ℙ¹)^m, and that membership is weightedIndex≥t.
 Build the effective cycles, Cartier cuts and multidegrees needed here:
 for L=Σd_hL_h, L_h the hyperplane class of factor h, L_h²=0 and
-(L_1⋯L_m)=1. Prove if I is generated
+(L_1⋯L_m)=1. Prove binaryIntersectionMultiplicity: if I is generated
 by forms of multidegree d and its zero locus has codimension-s components Z_j,
 then Σ_j length(O_(Z_j)/I O_(Z_j))(Z_j·L^e)≤(L^s·L^e), |e|=m−s.
 Construct the cuts by integer combinations of at most C generators with
@@ -1513,7 +1514,7 @@ For s=codim Z≥1 and δ_h=dim p_h(Z)−dim p_(h+1)(Z), where p_h projects
 to factors h,…,m and the last empty projection has dimension 0, prove
 length(O_Z/I O_Z)≥(ε′/s)^s∏d_h^(1−δ_h).
 Construct the generic smooth projection and tangent-space calculation giving
-this lower bound. Prove some e_h∈{0,1}
+this lower bound. Prove binaryProjectionMultidegrees: some e_h∈{0,1}
 has Σe_h=dim Z, (Z·∏L_h^e_h)>0, all suffix sums
 η_i=Σ_(j≥i)(δ_j−e_j)≥0, and
 Σ_(i=2)^m η_i≥Σ_h dim π_h(Z)−dim Z.
@@ -1537,7 +1538,7 @@ field-extension invariance; prove independence of the section used in the
 recursion, additivity and symmetry. Thus h(P_h,L_h)=log H₂(P_h),
 h(Z,L^(m−s+1))≥0 for effective Z, and cutting by a nonvanishing section f
 increases height by at most log H₂(coeff f)(Z·L^(m−s)).
-Prove for integral generators of
+Prove binaryArithmeticIntersectionBound: for integral generators of
 multidegree d with every conjugate coefficient ℓ²-norm ≤H_σ, set
 H=(∏_σ H_σ)^(1/D). The codimension-s components satisfy
 Σ_j m_j h(Z_j,L^(m−s+1))≤m!∏d_h·(m²Σd_h+s log H).
@@ -1862,7 +1863,7 @@ of the unit polydisc has real volume ≥π^k. Construct the product-of-balls
 slicing argument, including the log-concave integral inequality used to obtain
 the lower bounds; this specialized slicing work is owned here.
 Apply `exists_linearIndependent_comp_finrank_mul` to prove
-in the Dk-dimensional mixed-embedding span of
+siegelBasisExtraction: in the Dk-dimensional mixed-embedding span of
 a K-subspace W, a simultaneous real minimum family in W∩𝓞_K^V contains a
 K-independent k-tuple whose j-th vector can be chosen among its first
 D(j−1)+1 members. A K-span of j−1 vectors has real dimension D(j−1).
@@ -1991,7 +1992,7 @@ Assume n≥2, ≤R independent distinct local forms with R≥n, finite weights, 
 
 *Needs:* §2.5; §2.6.
 
-Prove for the absolute upper-hull filtration with d_l=dim T_l and slopes μ_l, every δ>0 admits Q₀ such that Q≥Q₀ gives Q^(−μ_l−δ)≤λᵢ(Q)≤Q^(−μ_l+δ) for d_(l−1)<i≤d_l, and absoluteInfimumSpace(d_l,Q)=T_l. The K-rational asymptotic version is a separate target with its own minima. (EF13, §16, Thm. 16.1, p. 71.)
+Prove absoluteFiltrationAsymptotics: for the absolute upper-hull filtration with d_l=dim T_l and slopes μ_l, every δ>0 admits Q₀ such that Q≥Q₀ gives Q^(−μ_l−δ)≤λᵢ(Q)≤Q^(−μ_l+δ) for d_(l−1)<i≤d_l, and absoluteInfimumSpace(d_l,Q)=T_l. The K-rational asymptotic version is a separate target with its own minima. (EF13, §16, Thm. 16.1, p. 71.)
 
 *Needs:* §2.5.
 
@@ -2016,13 +2017,20 @@ For a finite set S of places, system forms L and exponents d, define the light a
 - If d is constant in i at every selected place, all centered weights vanish.
 - With a selected infinite place carrying forms (2X₁,X₂), those forms remain there while an unselected finite place has (X₁,X₂).
 
-Prove for n≥2, 0<ε≤1 and a finite-place inequality system with nonpositive dᵢv summing to −n−ε, algebraic forms of coefficient degree ≤D, augmented coefficient height ≤H* and ≤R distinct forms, pass to a Galois coefficient field K′. At v′|v transport L by τ_v′⁻¹ and set cᵢv′=d(v′|v)n/(n+ε)(dᵢv−n⁻¹Σⱼdⱼv), with coordinate forms and zero weights elsewhere. Then δ=ε/(n+ε), Q=H(x)^(1+ε/n), R′=RD+n and every Galois conjugate of a system solution has twisted height ≤Δ_L^(1/n)Q⁻δ; H_L≤n^(n/2)(H*)^(DR). All local extensions and determinant normalizations are retained. (EF13, §5, Lem. 5.1, p. 23.)
+Prove absoluteAlgebraicSystemTransport: for n≥2, 0<ε≤1 and a finite-place inequality system with nonpositive dᵢv summing to −n−ε, algebraic forms of coefficient degree ≤D, augmented coefficient height ≤H* and ≤R distinct forms, pass to a Galois coefficient field K′. At v′|v transport L by τ_v′⁻¹ and set cᵢv′=d(v′|v)n/(n+ε)(dᵢv−n⁻¹Σⱼdⱼv), with coordinate forms and zero weights elsewhere. Then δ=ε/(n+ε), Q=H(x)^(1+ε/n), R′=RD+n and every Galois conjugate of a system solution has twisted height ≤Δ_L^(1/n)Q⁻δ; H_L≤n^(n/2)(H*)^(DR). All local extensions and determinant normalizations are retained. (EF13, §5, Lem. 5.1, p. 23.)
 
 *Needs:* §2.5; §0.0 Hadamard inequalities.
 
-Prove `subspace_theorem_for_systems`; for that system normalize |Lᵢv(σx)|v/|σx|v≤A_vH(x)^dᵢv for every Galois σ, where A_v=|det(L₁v,…,Lₙv)|v^(1/n). The solutions with H(x)≥C₁=max((H*)^(1/(3RD)),n^(n/ε)) lie in at most 10⁹2^(2n)n¹⁴ε⁻³log(3ε⁻¹RD)log(ε⁻¹log(3RD)) proper K-defined subspaces. (EF13, §3.3, Thm. 3.1, pp. 13–14; EF13, §5, Thm. 3.1, p. 25.)
+Prove `subspace_theorem_for_systems`, the absolute quantitative Subspace theorem for systems: fix for every place v of K an extension |·|v to K̄ of its degree-normalized absolute value `normAbs v`, and take the data of the preceding system: n≥2, a finite set S of places, at each v∈S linearly independent forms L₁v,…,Lₙv with coefficients in K̄, inhomogeneous absolute heights H(1,Lᵢv)≤H*, [K(Lᵢv):K]≤D, at most R distinct forms, and dᵢv≤0 with Σv∈S Σᵢ dᵢv=−n−ε, 0<ε≤1. Then the x∈K̄ⁿ∖{0} with H(x)≥C₁=max((H*)^(1/(3RD)),n^(n/ε)) and |Lᵢv(σx)|v≤|σx|v A_v H(x)^dᵢv for every v∈S, every i and every σ∈Gal(K̄/K), where A_v=|det(L₁v,…,Lₙv)|v^(1/n) and |y|v=maxⱼ|yⱼ|v, lie in at most 10⁹2^(2n)n¹⁴ε⁻³log(3ε⁻¹RD)log(ε⁻¹log(3RD)) proper subspaces of K̄ⁿ defined over K. H is the absolute projective height `TauCeti.absoluteProjectiveTupleHeight`, and a subspace defined over K is the K̄-span of a K-subspace of Kⁿ. (EF13, §3.1–§3.3, (3.1)–(3.10), Thm. 3.1, pp. 12–14; EF13, §5, Thm. 3.1, p. 25.)
 
-Prove for the same system put m₁=⌊10⁸2^(2n)n¹⁴ε⁻²log(3ε⁻¹RD)⌋ and ω₁=3nε⁻¹log(3RD). There are an effectively determinable proper exceptional space T and C₁≤H₁<⋯<H_m₁ such that each solution lies in T or has height in [1,C₁)∪⋃h[H_h,H_h^ω₁). The exceptional space belongs to a finite collection determined by the forms, while interval endpoints remain ineffective. The projective K-points outside T are finite. (EF13, §3.3, Thm. 3.3, p. 15; EF13, §1.1, p. 2.)
+**Checks.**
+
+- For x∈Kⁿ and forms with coefficients in K, so D=1, every σ∈Gal(K̄/K) fixes x and the forms, and the condition for all σ is the single inequality |Lᵢv(x)|v≤|x|v A_v H(x)^dᵢv; the K-points of the theorem are covered by the same subspaces. A statement for K-points only does not cover points of K̄ⁿ outside Kⁿ: applying it over each field K(x) gives a cover depending on that field.
+- The zero vector satisfies every inequality, with both sides 0, and has projective height 1<C₁, since n^(n/ε)≥4 for n≥2; it is excluded by the height condition and by x≠0.
+- S is never empty, since an empty S gives Σv∈S Σᵢ dᵢv=0≠−n−ε; at a place v∈S the n independent forms are distinct, so R≥n≥2, D≥1, log(3RD)≥log 6>1 and both logarithms in the bound are positive.
+- For n=2, S={∞} over K=ℚ with the forms X₁−√2X₂ and X₂ (D=2, R=2) and d=(−2−ε,0): A_∞=|det|^(1/2)=1, and a primitive integer point x=(p,q) has |x|_∞=H(x)=max(|p|,|q|), so the conditions read |p−θq|≤max(|p|,|q|)^(−1−ε) and |q|≤H(x), with θ=±√2 the image of √2 under the embedding that defines the chosen extension at ∞. These are the approximations of Roth's theorem, and the theorem covers them by finitely many rational lines.
+
+Prove absoluteSystemIntervalRefinement: for the same system put m₁=⌊10⁸2^(2n)n¹⁴ε⁻²log(3ε⁻¹RD)⌋ and ω₁=3nε⁻¹log(3RD). There are an effectively determinable proper exceptional space T and C₁≤H₁<⋯<H_m₁ such that each solution lies in T or has height in [1,C₁)∪⋃h[H_h,H_h^ω₁). The exceptional space belongs to a finite collection determined by the forms, while interval endpoints remain ineffective. The projective K-points outside T are finite. (EF13, §3.3, Thm. 3.3, p. 15; EF13, §1.1, p. 2.)
 
 *Needs:* §2.5.
 
@@ -2381,7 +2389,7 @@ not themselves prove this determinant order estimate.
 - Multiplying the minor by its denominator changes both its conjugate bounds and its distinguished absolute value; the same factor occurs on both sides of Liouville's inequality.
 
 **Waldschmidt parameter choice and assembly.** Prove
-from exactly the hypotheses of
+waldschmidtParameterChoice: from exactly the hypotheses of
 `waldschmidt_measure` below, construct positive integers T₀,T₁,S₀♯,S₀,S_j,
 finite S⊂ℤ^m and positive U,B₁,B₂ satisfying the rank hypotheses,
 using working height bounds Â_j and an interpolation radius Ê≥e. Carry
@@ -2471,7 +2479,7 @@ algebraic subgroup, classify it by its additive factor and its character
 lattice, and bound its multidegrees by character minors. The §0.0
 Gram and real-minima bounds give the small independent character vectors
 of Proposition 19.2; prove its convex-volume comparison here.
-Prove the explicit choices of §§10–12 satisfy
+Prove matveevParameterChoice: the explicit choices of §§10–12 satisfy
 the auxiliary and extrapolation inequalities and turn that subgroup
 obstruction into Theorem 2.1 under rational independence. For dependent
 logarithms, use the rational relation lattice and its integer minors as
@@ -2493,7 +2501,7 @@ Prove `matveev`, Matveev's theorem: let n≥1 and K⊆ℂ be a number field of d
 *Needs:* matveevAuxiliaryData, matveevArithmeticExtrapolation, matveevMultiplicityEstimate, matveevParameterChoice and §3.1.
 
 **Additive-to-multiplicative logarithm conversion.** Prove
-for n≥1, α_j∈ℂ×, b_j∈ℤ,
+logarithm_product_branch_reduction: for n≥1, α_j∈ℂ×, b_j∈ℤ,
 B=max|b_j|, and 0<|∏α_j^b_j−1|<1/3, some integer k has |k|≤nB and
 0<|kπi+Σb_jlog α_j|≤2|∏α_j^b_j−1|, using principal logarithms.
 The branch integer is even; bound it from the principal arguments and prove
@@ -2504,7 +2512,7 @@ to 1, its sign is positive; use log|α_j| to eliminate the sign factors and
 obtain the real constant. For |product−1|≥1/3 use the trivial bound.
 Derive matveev_rat by the rational specialization and the sharper
 2/3 factor; do not identify a sum of logarithms with product−1.
-(BMS06 §9.1, proof of Theorem 9.4; E19 §5.1, Theorem 5.4.)
+(BMS06 §9.1, proof of Theorem 9.4; Matveev, §2, Cor. 2.3, p. 1219.)
 
 **Checks.**
 
@@ -2512,7 +2520,7 @@ Derive matveev_rat by the rational specialization and the sharper
 - A product equal to 1 is excluded even when a chosen sum of logarithms is a nonzero multiple of 2πi.
 - At |product−1|=1/3 the trivial branch applies. The rational bound retains 2/3 rather than silently claiming a unit prefactor.
 
-For nonzero rational a₁,…,a_m and integer b with ∏aᵢ^bᵢ≠1, put B=max|bᵢ| and C′=(e/2)m^(4.5)30^(m+3)∏max(1,log H(aᵢ)). Then |∏aᵢ^bᵢ−1|≥(2/3)(eB)⁻C′; the factor 2/3 is retained in passing from the logarithmic bound. (E19, ch. 5, §5.1, Thm. 5.4, p. 87.)
+For nonzero rational a₁,…,a_m and integer b with ∏aᵢ^bᵢ≠1, put B=max|bᵢ| and C′=(e/2)m^(4.5)30^(m+3)∏max(1,log H(aᵢ)). Then |∏aᵢ^bᵢ−1|≥(2/3)(eB)⁻C′; the factor 2/3 is retained in passing from the logarithmic bound. The constant is that of `matveev` with κ=1 and D=1, where C₁(m,1)·∏Aᵢ≤C′ for Aᵢ=max(1,log H(aᵢ)), through the conversion above. (Matveev, §2, Cor. 2.3, p. 1219; E19, ch. 5, §5.1, Thm. 5.4, p. 87 states the same kind of bound |∏aᵢ^bᵢ−1|>(eB)^(−C″) with the larger constant C″=12e·m^(4.5)30^(m+3)∏max(1,log H(aᵢ)).)
 
 *Needs:* §0.2.
 
@@ -2584,7 +2592,7 @@ integers and auxiliary prime q≠p. Carry the separation and q-divisibility
 hypotheses of that grid into its interpolation denominators. Prove the
 polynomial evaluation valuation bound of Lemma 1.3 from polynomial length,
 coordinate heights and denominators, and the binomial-polynomial bounds
-of Lemmas 1.6–1.7. Prove for fixed algebraic α≠0
+of Lemmas 1.6–1.7. Prove yuOneFactorBound: for fixed algebraic α≠0
 and α^b≠1, an explicit constant C depending on α and the place bounds
 ord_𝔭(α^b−1)≤C(1+log max(1,|b|)). Separate nonunits, roots of unity
 and principal units; on the last use a residue-field power followed by the
@@ -2606,7 +2614,7 @@ required by their independent classes in K×/(K×)^q. Construct the bounded
 integer coefficient array p(λ,d₀,d) of Yu 1990 Lemma 2.1, using the index
 ranges (2.53)–(2.54), the linear derivative/grid conditions (2.55) and
 the strict equation deficit supplied by the parameter inequalities.
-Prove under a contrary large valuation
+Prove yuQuantitativeExtrapolation: under a contrary large valuation
 of Θ=∏α_j^b_j−1, propagate those equations through the q-fold support
 refinements and divided-derivative grids for
 0≤J≤⌊log L_n/log q⌋+1. At each step compare the local analytic upper
@@ -2631,7 +2639,7 @@ and descending ord_𝔭 and the height bounds to the generated field
 K₀=ℚ(α₁,…,α_n). Build the root-extraction, Vahlen–Capelli and degree
 comparisons of Yu 1990 §3 and their Yu 1994 modifications; the bounds
 must account for changes of e and f under those extensions.
-Prove for exactly the data of `yu` below, including
+Prove yuParameterChoice: for exactly the data of `yu` below, including
 principal complex log heights and arbitrary nonzero α_j, sort h_j,
 construct the auxiliary parameters, verify the conditional inequalities,
 and carry out each reduction case of Yu 1990 §4 with the replacements
@@ -2654,7 +2662,7 @@ Let n≥2, α_1, …, α_n nonzero algebraic numbers, K := ℚ(α_1, …, α_n) 
 *Needs:* yuLocalEstimates → yuAuxiliaryConstruction → yuQuantitativeExtrapolation → yuKummerDescent → yuParameterChoice.
 
 **Valuation and multiplicative power-law adapter.** Prove
-for Θ≠0,
+yuValuationAdapter: for Θ≠0,
 |Θ|_𝔭=(p^f)^(−ord_𝔭 Θ) and its ℚ_p-normalized modulus is
 p^(−ord_𝔭 Θ/e). Thus the constructed ord_𝔭 upper bound gives
 |Θ|_𝔭>(p^f)^(−Φlog(dB)), exactly the adicAbv statement of `yu`.
@@ -2791,7 +2799,7 @@ Under that bound, a^m−b^n=k≠0 implies max(m,n)≤2(log|k|+C₁)/log 2+2(C₁
 
 *Needs:* §4.1.
 
-Prove `pow_sub_pow_eq_finite`: for a,b≥2 and k≠0, these positive exponent solutions are finite, with the preceding bound for C₁=1+(e/2)2^(4.5)30⁵max(1,log a)max(1,log b). (E19, ch. 5, Thm. 5.4, Corollary 5.5, pp. 87-88.)
+Prove `pow_sub_pow_eq_finite`: for a,b≥2 and k≠0, these positive exponent solutions are finite, with the preceding bound for C₁=1+(e/2)2^(4.5)30⁵max(1,log a)max(1,log b), the constant of the §3.6 rational bound for m=2 plus 1 for its factor 2/3. (E19, ch. 5, Corollary 5.5, p. 88; Matveev, §2, Cor. 2.3, p. 1219.)
 
 *Needs:* §3.6.
 
@@ -2995,7 +3003,7 @@ E-functions are closed under addition, the Hurwitz coefficient product and shift
 
 *Needs:* §5.1.
 
-If T F′=M F with polynomial T,M, every vector of fixed-degree monomials f^e, |e|=N, satisfies T(f^e)′=Σe′ M′_e,e′f^e′ with polynomial M′. Its singularities lie among the zeros of T. E-function coordinates give E-function monomials. (B06, Thm. 1.3, p. 8.)
+If T F′=M F with polynomial T,M, every vector of fixed-degree monomials f^e, |e|=N, satisfies T(f^e)′=Σe′ M′_e,e′f^e′ with polynomial M′. Its singularities lie among the zeros of T. E-function coordinates give E-function monomials. (B06, proof of Thm. 1.3, p. 8.)
 
 For rational E-coefficients a with f(1)=0, the entire quotient f(z)/(1−z) is E, with coefficients b_n=n!Σk≤n a_k/k!. (B06, Corollary 2.2, pp. 3-4; B08, Corollary 3.4.2, p. 15.)
 
@@ -3139,12 +3147,12 @@ Wronskians and §5.2 entireness; no division at a general algebraic zero.
 - For the multivalued solution 1+√z, its minimal order is two, but the trivial identity component has a one-dimensional orbit span; entireness cannot be omitted from this descent argument.
 
 **Conjugate composita and vanishing transfer.** Prove
-embed the Picard–Vessiot fields of the
+picardVessiotConjugateCompositum: embed the Picard–Vessiot fields of the
 finitely many coefficient-conjugate equations L^σ into a common meromorphic-germ
 field at an ordinary point. Their differential compositum is the Picard–Vessiot
 field of the direct-sum system, with constants ℂ. Restriction embeds its
 algebraic group H into ∏G_σ and is surjective onto each G_σ. Prove
-a surjective morphism of linear
+identityComponent_projection_surjective: a surjective morphism of linear
 algebraic groups over an algebraically closed characteristic-zero field maps
 H⁰ onto G_σ⁰. Prove closedness of the algebraic group image using
 constructibility and translations; the finite component quotient makes the
@@ -3173,7 +3181,7 @@ the rational zero theorem below supplies the vanishing of H·F.
 - For F=(z−1)e^z and its rational coefficient field there is one factor; the closed evaluation kernel contains its entire orbit.
 - The disconnected group μ₂ is the union of two proper closed points; the finite-cover argument uses the irreducible identity component, not the whole group.
 
-Prove for a nonzero E-function
+Prove eFunction_rational_minimal_equation_zero: for a nonzero E-function
 with rational Taylor coefficients and f(1)=0, every holomorphic local solution
 of its minimal equation vanishes at 1, an apparent singularity. Use the
 rational-coefficient isEFunction_div_one_sub of §5.2 and André's holomorphic
@@ -3182,7 +3190,7 @@ directly. (B06, Corollary 2.2, pp.3–4.)
 
 *Needs:* §5.2 rational division; André's theorem above.
 
-Prove for a nonzero E-function with
+Prove eFunction_minimal_equation_zero: for a nonzero E-function with
 f(ξ)=0, ξ∈ℚ̄×, every holomorphic local solution of its minimal equation
 vanishes at ξ, an apparent singularity. Scale z by ξ, apply the rational
 zero theorem to the conjugate product, and use eFunction_conjugate_zero_transfer.
@@ -3225,7 +3233,7 @@ eFunction_minimal_equation_zero, isEFunction_div_linear, and the
 following gauge adapter. The determinant vanishing order drops at each
 linear-factor division, so the removal terminates.
 
-**Gauge transformation.** Prove if F=B E,
+**Gauge transformation.** Prove solvesSystem_gauge_transform: if F=B E,
 F′=A F and B is invertible over ℂ(z), then
 E′=(B⁻¹AB−B⁻¹B′)E. The analytic signature carries differentiability and
 invertibility at its evaluation point. In beukers_removal_of_singularities,
@@ -3311,7 +3319,7 @@ forms, analytic power series, identity and Abel theorems; the system equivalence
 - For g(z)=1−2z and A(z)=(1−2z)/(1−2z²), α=1/2 is a nonpole with value 0, but A⁻¹ has a pole there. Nonpole evaluation does not require regularity of this system.
 - For the Fredholm germ, continuation agrees with its Taylor sum throughout |z|<1, and using ℓ or ℓ+1 gives the same value by F(z)=A(z)F(z²).
 
-**Algebraic Mahler rationality.** Prove a q-Mahler
+**Algebraic Mahler rationality.** Prove algebraic_mahler_rational: a q-Mahler
 germ algebraic over ℚ̄(z) belongs to ℚ̄(z). The conclusion also holds for
 meromorphic germs at zero satisfying such a relation: multiply by a power
 of z to reduce to a power series. Record the equivalent version over ℂ(z)
@@ -3327,7 +3335,7 @@ regularity. (Nishioka, Theorem 5.1.7; AF17, Lemma 2.2, p.10.)
 - z⁻¹ is covered by the meromorphic-germ version after multiplication by z; a restriction to holomorphic field elements would not suffice for regularity.
 
 **Regularity of the generated function field.** Prove
-for convergent algebraic-coefficient F solving
+mahler_function_field_regular: for convergent algebraic-coefficient F solving
 an invertible rational Mahler system, ℚ̄(z) is algebraically closed in
 L=ℚ̄(z)(F). The relative algebraic closure L′ is finite over ℚ̄(z): build
 this finite-generation consequence for a finitely generated characteristic-zero
@@ -3356,7 +3364,7 @@ Build the needed analytic realization of its finitely many algebraic entries
 off their finite branch/pole/zero set, choosing compatible branches along
 sufficiently deep iterates. Prove the orbit-transport identity
 P(φ(z)A_k(z),z^(q^k))=0 for P∈I.
-Then prove for τ∈ℚ̄^n with τF(α)=0,
+Then prove mahler_auxiliary_relation_identity: for τ∈ℚ̄^n with τF(α)=0,
 choose a sufficiently large k₀ and put ξ=α^(q^k₀) and
 Θ_k(z)=A_k₀(α)φ(ξ)⁻¹φ(z)A_(k−k₀)(z), for k≥k₀.
 The analytic germ τΘ_k₀(z)F(z) at ξ vanishes identically. Its proof constructs
@@ -3424,7 +3432,7 @@ such that every value relation of total degree d at 0<|β|<ρ′ lifts to a
 functional relation over ℚ̄(z), regular at β, of the same degree d.
 Apply relationIdeal_specialization to the homogenized relation ideal;
 Nishioka supplies equal heights of the two prime ideals, so containment
-becomes equality. Prove at a regular α,
+becomes equality. Prove mahler_relation_transport: at a regular α,
 transport the value relation to β=α^(q^ℓ) using A_ℓ(α), lift locally, and
 pull back with A_ℓ(z)⁻¹ and z↦z^(q^ℓ). Substitution by an invertible linear
 matrix preserves X-degree. Clear denominators regular at α and divide
@@ -3460,13 +3468,13 @@ near zero suffices; values outside that disc use the continuation API.
 - The zero polynomial can be assigned any homogeneous degree; a nonzero degree-zero relation is impossible. Adding the constant coordinate 1 gives the inhomogeneous version without changing regularity.
 
 **Removing system singularities at nonpole values.** Prove
-for a convergent system over a number field
+mahler_remove_system_poles: for a convergent system over a number field
 k containing α, with 0<|α|<1 and every coordinate a nonpole at α, embed it
 in a larger system over k(z) whose coefficient matrix has no poles anywhere
 on the forward orbit. Its first coordinates at α are λ_iF_i(α), with
 λ_i∈k×. Build the convergent denominator product, finite jets at its zeros,
 and the shifted-product normalization giving these algebraic multipliers.
-Then prove if A already has no poles
+Then prove mahler_regular_system_extension: if A already has no poles
 on that orbit, enlarge by finitely many iterated coordinates so that α is
 regular, retaining the original coordinates. These constructions remove
 poles of A and then zeros of its determinant; neither assumes that the
@@ -3574,7 +3582,7 @@ orders, ideals and dimension; the invariant-ideal and cycle estimates above.
 - A nonzero constant has degree and order 0, while P=0 is excluded because its order is infinite.
 
 **Controlled auxiliary polynomials and independence.** Prove
-for all large d there is nonzero integral P_d
+modularAuxiliaryPolynomial: for all large d there is nonzero integral P_d
 with deg P_d≤d, log coefficient sup norm ≤C d log d and
 c d^4≤ord₀(P_d∘Φ)≤C' d^4, with c>0. Impose vanishing of
 M=⌊N/2⌋ initial coefficients on N=binom(d+4,4) unknown coefficients.
@@ -3589,7 +3597,7 @@ most 2(2NB)^(M/(N−M)) because M/(N−M)≤1, hence
 log‖v‖∞≤log 2+log(2NB)=O(d log d).
 The nonzero integral kernel vector gives P_d and modularZeroEstimate gives
 its upper order bound.
-Prove for fixed 0<|z|<1 one can choose
+Prove modularValueDerivativeSelection: for fixed 0<|z|<1 one can choose
 k_d=O(d log d) with −αm_d≤log|(P_d∘Φ)^(k_d)(z)|≤−βm_d,
 α>β>0 and m_d=ord₀(P_d∘Φ). Its proof uses integral nonzero initial
 coefficients, Schwarz/Cauchy interpolation and the explicit parameter estimates
@@ -3652,11 +3660,11 @@ and degree-one equivalences.
 
 **Algebraic Cartan and Lie-derivative adapter.** Use the native contraction
 i_D by Derivation.liftKaehlerDifferential D, of degree −1. Prove
-the differential d raises and i_D lowers degree,
+algebraicCartanDegreeShift: the differential d raises and i_D lowers degree,
 and L_D=i_Dd+di_D preserves it, with i_D=0 on degree zero. Define
 lieDerivativeOneForm D as the unique C-linear operator supplied by
 exists_lieDerivativeOneForm, with
-L_D(a db)=D(a)db+a d(Db). Prove after the
+L_D(a db)=D(a)db+a d(Db). Prove lieDerivativeOneForm_eq_cartan: after the
 native degree-one equivalence, this operator is i_D²∘d₁+d₀∘i_D¹, where d is the
 differential of the preceding paragraph and the superscript on i_D denotes its
 source degree. Use the elementary-form laws of d in that comparison. Its API proves lieDerivativeOneForm_smul_D,

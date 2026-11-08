@@ -1,18 +1,24 @@
 import Mathlib
 import TauCeti.Algebra.LinearRecurrence.Nondegenerate
+import TauCeti.LinearAlgebra.ExteriorPower.Plucker
 import TauCeti.LinearAlgebra.LinearIndependent.GeneralPosition
+import TauCeti.NumberTheory.DiophantineApproximation.AlgebraicExponent
 import TauCeti.NumberTheory.DiophantineApproximation.Dirichlet
 import TauCeti.NumberTheory.DiophantineApproximation.Exponent
 import TauCeti.NumberTheory.DiophantineApproximation.Kronecker
+import TauCeti.NumberTheory.DiophantineApproximation.LinearFormExponent
 import TauCeti.NumberTheory.DiophantineApproximation.Roth.BinaryForm
 import TauCeti.NumberTheory.DiophantineApproximation.Roth.Theorem
 import TauCeti.NumberTheory.DiophantineApproximation.Thue.GapPrinciple
 import TauCeti.NumberTheory.Height.Absolute
 import TauCeti.NumberTheory.Height.Arakelov.Basic
+import TauCeti.NumberTheory.Height.Arakelov.Subspace.Basic
 import TauCeti.NumberTheory.Height.House
 import TauCeti.NumberTheory.Height.MahlerMeasure
-import TauCeti.NumberTheory.Height.Naive
+import TauCeti.NumberTheory.Height.Matrix
+import TauCeti.NumberTheory.Height.MvPolynomial
 import TauCeti.NumberTheory.Height.ProjectiveTuple
+import TauCeti.NumberTheory.Height.Subspace.Basic
 import TauCeti.NumberTheory.Height.Twisted.Basic
 import TauCeti.NumberTheory.Height.Twisted.Determinant
 import TauCeti.NumberTheory.NumberField.Global.Places.Extension
@@ -20,6 +26,7 @@ import TauCeti.NumberTheory.Transcendental.AlgebraicLogs
 import TauCeti.NumberTheory.Transcendental.GelfondSchneider.Theorem
 import TauCeti.NumberTheory.Transcendental.Lindemann.Theorem
 import TauCeti.NumberTheory.UnitEquation.Nondegenerate
+import TauCeti.RingTheory.MvPolynomial.WeightedIndex
 import TauCeti.RingTheory.Polynomial.HasseWronskian
 import TauCeti.RingTheory.PowerSeries.DFinite
 
@@ -30,11 +37,12 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 definitions those statements need. The README carries every construction, API list and Check.
 
-The definitions of Layers 0–2 below (approximation exponents, the weighted index, polynomial and
-matrix heights, absolute, affine, Euclidean and subspace heights, general position and
-nondegenerate solutions) are carriers that the target signatures of the SubspaceTheorem and
-HeightsAndUnits roadmaps import from this file; several have equal Tau Ceti counterparts, which
-the headline statements below use where no importing roadmap depends on the local name.
+The carriers of Layers 0–2 (approximation exponents, the weighted index, polynomial, matrix,
+absolute, affine, Euclidean and subspace heights, Plücker coordinates, general position and
+nondegenerate solutions) are pinned Tau Ceti definitions, and the headline statements below use
+them directly. The target signatures of the SubspaceTheorem and HeightsAndUnits roadmaps import
+some of them from this file under the names of this roadmap; those names are abbreviations of the
+Tau Ceti definitions, not second definitions.
 
 Headline theorems that the pinned Tau Ceti already proves are not restated: they are pinned below
 by `#check`. These are bounded-degree Northcott finiteness, Kronecker's theorem on Mahler measure
@@ -50,8 +58,9 @@ Headline theorems of the README that are not statable at the pins, and what each
   extension and its differential Galois group, which neither library has;
 * the generated-subgroup and torus-separation statements of README §5.6 need algebraic subgroups
   of `Gₐⁿ × Gₘⁿ` with their character lattices, which neither library has;
-* the absolute (`ℚ̄`-rational) forms of the parametric Subspace theorem in README §2.5 need the
-  twisted height on `ℚ̄ⁿ`, which neither library has; the `K`-rational forms are stated below.
+* the absolute (`ℚ̄`-rational) forms of the parametric Subspace theorem in README §2.8 need the
+  twisted height on `ℚ̄ⁿ`, which neither library has; the `K`-rational forms are stated below. The
+  absolute Subspace theorem for systems needs no twisted height and is stated over `ℚ̄`.
 -/
 
 namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
@@ -82,50 +91,35 @@ open scoped ENNReal NNReal Topology
 
 namespace DiophantineApproximation
 
-/-- The irrationality exponent `μ(ξ) ∈ [1, ∞]`: the supremum of the `p` with
-`LiouvilleWith p ξ` (README §0.5). The target signatures of the SubspaceTheorem roadmap use this
-carrier. -/
-def irrationalityExponent (ξ : ℝ) : ℝ≥0∞ :=
-  ⨆ (p : ℝ) (_ : LiouvilleWith p ξ), ENNReal.ofReal p
+/-- The irrationality exponent `μ(ξ) ∈ [1, ∞]`: the supremum of the `p` with `LiouvilleWith p ξ`
+(README §0.5). This name abbreviates Tau Ceti's `TauCeti.irrationalityExponent`. -/
+abbrev irrationalityExponent (ξ : ℝ) : ℝ≥0∞ := TauCeti.irrationalityExponent ξ
 
-/-- The exponent `w(θ)` of approximation of zero by the linear form
-`x₀ + x₁θ₁ + ⋯ + xₙθₙ` (Bugeaud, Definition 2.1, for a general vector). -/
-def linearFormExponent {n : ℕ} (θ : Fin n → ℝ) : ℝ≥0∞ :=
-  ⨆ (w : ℝ) (_ : {x : Fin (n + 1) → ℤ |
-      0 < |∑ j, (x j : ℝ) * (Fin.cons (1 : ℝ) θ : Fin (n + 1) → ℝ) j| ∧
-      |∑ j, (x j : ℝ) * (Fin.cons (1 : ℝ) θ : Fin (n + 1) → ℝ) j| ≤ ‖x‖ ^ (-w)}.Infinite),
-    ENNReal.ofReal w
+/-- Mahler's exponent `w_n(ξ)`: the supremum of the `w` for which
+`0 < |x₀ + x₁ξ + ⋯ + xₙξⁿ| ≤ ‖x‖^(-w)` has infinitely many integer solutions `x`, the sup norm
+taken over all `n + 1` coordinates (README §0.5). This name abbreviates Tau Ceti's
+`TauCeti.mahlerExponent`. -/
+abbrev mahlerExponent (n : ℕ) (ξ : ℝ) : ℝ≥0∞ := TauCeti.mahlerExponent n ξ
 
-/-- Mahler's exponent `w_n(ξ) = w(ξ, ξ², …, ξⁿ)`. -/
-abbrev mahlerExponent (n : ℕ) (ξ : ℝ) : ℝ≥0∞ :=
-  linearFormExponent (fun j : Fin n => ξ ^ ((j : ℕ) + 1))
+/-- The exponent `w*_n(ξ)`: the supremum of the `w` for which infinitely many complex algebraic
+`α` of degree at most `n` satisfy `0 < |ξ - α| ≤ H(α)^(-w-1)`, with `H` the naive height
+(README §0.5). This name abbreviates Tau Ceti's `TauCeti.algebraicApproximationExponent`. -/
+abbrev algebraicApproximationExponent (n : ℕ) (ξ : ℝ) : ℝ≥0∞ :=
+  TauCeti.algebraicApproximationExponent n ξ
 
-/-- The exponent `w*_n(ξ)` of approximation by algebraic numbers of degree at most `n`,
-measured with the naive height (Bugeaud, Definition 2.1). -/
-def algebraicApproximationExponent (n : ℕ) (ξ : ℝ) : ℝ≥0∞ :=
-  ⨆ (w : ℝ) (_ : {α : ℂ | IsAlgebraic ℚ α ∧ (minpoly ℚ α).natDegree ≤ n ∧
-      0 < ‖(ξ : ℂ) - α‖ ∧ ‖(ξ : ℂ) - α‖ ≤ TauCeti.naiveHeight α ^ (-w - 1)}.Infinite),
-    ENNReal.ofReal w
+/-- The absolute projective height of a finite tuple in a field of characteristic zero: the
+relative height in the number field generated by the coordinates, to the power one over its
+degree; the zero tuple has value one, and a tuple with a transcendental coordinate has the junk
+value one (README §0.2). This name abbreviates Tau Ceti's `TauCeti.absoluteProjectiveTupleHeight`.
+-/
+abbrev absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K] {ι : Type*} [Finite ι]
+    (x : ι → K) : ℝ :=
+  TauCeti.absoluteProjectiveTupleHeight x
 
-open Classical in
-/-- The absolute projective height of a finite tuple in a characteristic-zero field: the relative
-height in the number field generated by the coordinates, with its degree root (README §0.2). The
-zero tuple has value one, and a tuple with a transcendental coordinate has junk value one. The
-HeightsAndUnits target signatures use this carrier. -/
-def absoluteProjectiveTupleHeight {K : Type*} [Field K] [CharZero K]
-    {ι : Type*} [Fintype ι] (x : ι → K) : ℝ :=
-  if hx : ∀ i, IsIntegral ℚ (x i) then
-    let E := IntermediateField.adjoin ℚ (Set.range x)
-    haveI : FiniteDimensional ℚ E := IntermediateField.finiteDimensional_adjoin
-      (by rintro y ⟨i, rfl⟩; exact hx i)
-    haveI : NumberField E := {}
-    Height.mulHeight (fun i => (⟨x i, IntermediateField.subset_adjoin ℚ _
-      (Set.mem_range_self i)⟩ : E)) ^ (Module.finrank ℚ E : ℝ)⁻¹
-  else 1
-
-/-- The absolute affine logarithmic height of an algebraic tuple is `log H(1, x)` (README §2.4). -/
-def absoluteLogHeightAff {n : ℕ} (x : Fin n → AlgebraicClosure ℚ) : ℝ :=
-  Real.log (absoluteProjectiveTupleHeight (Fin.cons 1 x))
+/-- The absolute affine logarithmic height `log H(1, x)` of a tuple in a field of characteristic
+zero (README §2.4). This name abbreviates Tau Ceti's `TauCeti.absoluteLogHeightAff`. -/
+abbrev absoluteLogHeightAff {K : Type*} [Field K] [CharZero K] {n : ℕ} (x : Fin n → K) : ℝ :=
+  TauCeti.absoluteLogHeightAff x
 
 end DiophantineApproximation
 
@@ -138,41 +132,31 @@ approximate it to an order exceeding Roth's exponent (E19, ch. 6, Exercise 6.5).
 theorem transcendental_tsum_inv_pow_three_pow (b : ℕ) (hb : 2 ≤ b) :
     Transcendental ℚ (∑' k : ℕ, ((b : ℝ)⁻¹) ^ (3 ^ (k + 1))) := sorry
 
-/-- The relative height of a matrix is the projective height of its entries, rather than of its
-maximal minors (README §1.3). -/
-def matrixMulHeight {K m n : Type*} [Field K] [Height.AdmissibleAbsValues K]
+/-- The relative height of a matrix over a field with admissible absolute values: the projective
+height of its tuple of entries, not of its maximal minors (README §1.3). This name abbreviates Tau
+Ceti's `Matrix.mulHeight`. -/
+abbrev matrixMulHeight {K m n : Type*} [Field K] [Height.AdmissibleAbsValues K]
     [Finite m] [Finite n] (A : Matrix m n K) : ℝ :=
-  Height.mulHeight (fun ij : m × n ↦ A ij.1 ij.2)
+  Matrix.mulHeight A
 
 end DiophantineApproximation
 
 namespace MvPolynomial
 
-/-- The divided (Hasse) partial derivative `∂^d`, sending `X^m` to
-`(∏ⱼ (mⱼ choose dⱼ)) X^(m - d)` (Pottmeyer, (2.34)). -/
-noncomputable def hasseDeriv {R σ : Type*} [CommSemiring R] (d : σ →₀ ℕ) :
-    MvPolynomial σ R →ₗ[R] MvPolynomial σ R :=
-  (Finsupp.lsum R fun m : σ →₀ ℕ =>
-    (d.prod fun j dj => ((m j).choose dj : R)) •
-      (_root_.MvPolynomial.monomial (m - d) : R →ₗ[R] MvPolynomial σ R)).comp
-    (AddMonoidAlgebra.coeffLinearEquiv R).toLinearMap
-
 /-- The index of `P` at the point `a` with respect to the weights `r` (Pottmeyer, Definition
-2.6.2): the least value of `∑ⱼ iⱼ / rⱼ` over the `i` with `(∂^i P)(a) ≠ 0`; it is `⊤` at `P = 0`. -/
-noncomputable def weightedIndex {R σ : Type*} [CommRing R] (r : σ → ℕ) (a : σ → R)
+2.6.2): the least value of `∑ⱼ iⱼ / rⱼ` over the `i` whose Hasse derivative `∂^i P` does not
+vanish at `a`; it is `⊤` at `P = 0`. This name abbreviates Tau Ceti's `MvPolynomial.weightedIndex`.
+-/
+abbrev weightedIndex {R σ : Type*} [CommSemiring R] (r : σ → ℕ) (a : σ → R)
     (P : MvPolynomial σ R) : ℝ≥0∞ :=
-  ⨅ (i : σ →₀ ℕ) (_ : _root_.MvPolynomial.eval a (hasseDeriv i P) ≠ 0),
-    ∑ j ∈ i.support, ((i j : ℝ≥0∞) / (r j : ℝ≥0∞))
+  _root_.MvPolynomial.weightedIndex r a P
 
-/-- The relative projective height of a multivariate polynomial is its coefficient height. -/
-noncomputable def mulHeight {σ K : Type*} [Field K] [Height.AdmissibleAbsValues K]
+/-- The relative logarithmic height of a multivariate polynomial over a field with admissible
+absolute values: the logarithm of the projective height of its coefficient vector (README §1.3).
+This name abbreviates Tau Ceti's `MvPolynomial.logHeight`. -/
+abbrev logHeight {σ K : Type*} [Field K] [Height.AdmissibleAbsValues K]
     (P : MvPolynomial σ K) : ℝ :=
-  Finsupp.mulHeight P.coeff
-
-/-- The logarithm of the relative multiplicative coefficient height. -/
-noncomputable def logHeight {σ K : Type*} [Field K] [Height.AdmissibleAbsValues K]
-    (P : MvPolynomial σ K) : ℝ :=
-  Real.log (mulHeight P)
+  _root_.MvPolynomial.logHeight P
 
 end MvPolynomial
 
@@ -207,62 +191,63 @@ open Matrix TauCeti.GlobalNumberFields
 
 namespace DiophantineApproximation
 
-/-- Plücker coordinates on the native finite-subset index: the maximal minors in increasing
-column order, over any commutative ring. -/
-def plucker {R ι : Type*} [CommRing R] [Fintype ι] [LinearOrder ι] {p : ℕ}
+/-- The Plücker coordinates of a family `x` of `p` vectors in `ι → R` over a commutative ring:
+at a `p`-element subset `s` of the linearly ordered `ι`, the maximal minor on the columns in `s`,
+taken in increasing order. This name abbreviates Tau Ceti's `TauCeti.plucker`. -/
+abbrev plucker {R ι : Type*} [CommRing R] [LinearOrder ι] {p : ℕ}
     (x : Fin p → ι → R) : Set.powersetCard ι p → R :=
-  fun s ↦ Matrix.det (Matrix.of fun i j ↦ x i (Set.powersetCard.ofFinEmbEquiv.symm s j))
+  TauCeti.plucker x
 
 /-- The relative sup height of a subspace `T ≤ K^ι` over a field with admissible absolute
-values: the height of the Plücker vector of a basis of `T`. That vector is nonzero, so this is the
-height of the Plücker point of `T`; it does not depend on the basis, and the zero subspace has
-the empty minor `1` and height `1` (README §2.5). -/
-def relativeSubspaceHeight {K ι : Type*} [Field K] [Height.AdmissibleAbsValues K]
-    [Fintype ι] [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
-  Height.mulHeight (plucker fun i ↦ ((Module.finBasis K T i : T) : ι → K))
+values: the projective height of the Plücker vector of any basis of `T`; the zero subspace and
+the whole space have height one (README §2.5). This name abbreviates Tau Ceti's
+`Submodule.relativeSubspaceHeight`. -/
+abbrev relativeSubspaceHeight {K ι : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    [Finite ι] [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
+  Submodule.relativeSubspaceHeight T
 
-/-- The absolute Euclidean height `H₂` of a `K`-rational vector: Euclidean norms at the infinite
-places and max norms at the finite places, with degree-normalized exponents. The zero vector has
-value zero (README §2.5). -/
-def height2 {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι] (y : ι → K) : ℝ :=
-  (∏ w : InfinitePlace K,
-      (∑ i, ‖w.embedding (y i)‖ ^ 2) ^ ((w.mult : ℝ) / (2 * Module.finrank ℚ K))) *
-    ∏ᶠ v : FinitePlace K, (⨆ i, v (y i)) ^ ((1 : ℝ) / Module.finrank ℚ K)
-
-open Classical in
-/-- The relative Euclidean projective height, with the projective value one at zero. -/
-def arakelovMulHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
+/-- The relative Euclidean projective height of a tuple over a number field `K`: one at the zero
+tuple, and otherwise the `[K : ℚ]`-th power of the absolute Euclidean height `H₂`, which uses
+Euclidean norms at the infinite places and max norms at the finite places (README §2.5). This
+name abbreviates Tau Ceti's `TauCeti.arakelovMulHeight`. -/
+abbrev arakelovMulHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Finite ι]
     (y : ι → K) : ℝ :=
-  if y = 0 then 1 else height2 y ^ Module.finrank ℚ K
+  TauCeti.arakelovMulHeight y
 
-/-- The relative Euclidean height of a subspace, from the same Plücker coordinates as the sup
-height. -/
-def relativeSubspaceArakelovHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι]
+/-- The relative Euclidean height of a subspace `T ≤ K^ι` over a number field: the relative
+Euclidean projective height of the Plücker vector of any basis of `T` (README §2.5). This name
+abbreviates Tau Ceti's `Submodule.relativeSubspaceArakelovHeight`. -/
+abbrev relativeSubspaceArakelovHeight {K : Type*} [Field K] [NumberField K] {ι : Type*}
+    [Finite ι] [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
+  Submodule.relativeSubspaceArakelovHeight T
+
+/-- The absolute Euclidean height of a subspace `T ≤ K^ι` over a number field: the `[K : ℚ]`-th
+root of its relative Euclidean height; the zero subspace and the whole space have height one
+(README §2.5). This name abbreviates Tau Ceti's `Submodule.subspaceHeight`. -/
+abbrev subspaceHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Finite ι]
     [LinearOrder ι] (T : Submodule K (ι → K)) : ℝ :=
-  arakelovMulHeight (plucker fun i ↦ ((Module.finBasis K T i : T) : ι → K))
+  Submodule.subspaceHeight T
 
-/-- The absolute Euclidean subspace height is the degree root of the relative Plücker height;
-the zero and the whole subspace both have height one. -/
-def subspaceHeight {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι] [LinearOrder ι]
-    (T : Submodule K (ι → K)) : ℝ :=
-  relativeSubspaceArakelovHeight T ^ ((Module.finrank ℚ K : ℝ)⁻¹)
+/-- A family of coefficient vectors in `Fⁿ` is in general position if every subfamily of `n`
+distinct members is linearly independent; a family with fewer than `n` members is in general
+position (README §2.1). This name abbreviates Tau Ceti's `TauCeti.InGeneralPosition`. -/
+abbrev InGeneralPosition {F ι : Type*} [Field F] {n : ℕ} (L : ι → Fin n → F) : Prop :=
+  TauCeti.InGeneralPosition L
 
-/-- A family of linear forms (coefficient vectors) is in general position if every
-`n`-element subfamily is linearly independent. -/
-def InGeneralPosition {F ι : Type*} [Field F] {n : ℕ} (L : ι → Fin n → F) : Prop :=
-  ∀ s : Finset ι, s.card = n → LinearIndependent F (fun i : s ↦ L i)
+/-- A nondegenerate solution of `∑ αᵢ xᵢ = 1`: no nonempty subsum `∑_{i ∈ I} αᵢ xᵢ` vanishes
+(README §2.3). This name abbreviates Tau Ceti's `TauCeti.IsNondegenerateSolution`. -/
+abbrev IsNondegenerateSolution {K ι : Type*} [Field K] [Fintype ι] (α x : ι → K) : Prop :=
+  TauCeti.IsNondegenerateSolution α x
 
-/-- A nondegenerate solution of `Σ αᵢ xᵢ = 1`: no nonempty subsum vanishes. -/
-def IsNondegenerateSolution {K ι : Type*} [Field K] [Fintype ι] (α x : ι → K) : Prop :=
-  ∑ i, α i * x i = 1 ∧ ∀ I : Finset ι, I.Nonempty → ∑ i ∈ I, α i * x i ≠ 0
-
-/-- A nondegenerate solution of `Σ αᵢ xᵢ = 0`: no proper nonempty subsum vanishes. -/
-def IsNondegenerateHomogeneousSolution {K ι : Type*} [Field K] [Fintype ι] (α x : ι → K) :
+/-- A nondegenerate solution of `∑ αᵢ xᵢ = 0`: no proper nonempty subsum vanishes (README §2.3).
+This name abbreviates Tau Ceti's `TauCeti.IsNondegenerateHomogeneousSolution`. -/
+abbrev IsNondegenerateHomogeneousSolution {K ι : Type*} [Field K] [Fintype ι] (α x : ι → K) :
     Prop :=
-  ∑ i, α i * x i = 0 ∧
-    ∀ I : Finset ι, I.Nonempty → I ≠ Finset.univ → ∑ i ∈ I, α i * x i ≠ 0
+  TauCeti.IsNondegenerateHomogeneousSolution α x
 
-/-- `Layer 2 subspace theorem and its exceptional subspaces` (Schmidt; Evertse Theorem 7.1). -/
+/-- **Schmidt's Subspace theorem** (E19, ch. 7, Theorem 7.1): for `n ≥ 2` linearly independent
+linear forms `L₁, …, Lₙ` with algebraic coefficients and `C, δ > 0`, the integer points `x` with
+`|L₁(x)⋯Lₙ(x)| ≤ C‖x‖^(-δ)` lie in finitely many proper rational subspaces of `ℚⁿ`. -/
 theorem subspace_theorem {n : ℕ} (hn : 2 ≤ n) (L : Fin n → Fin n → ℂ)
     (halg : ∀ i j, IsAlgebraic ℚ (L i j)) (hL : LinearIndependent ℂ L) {C δ : ℝ}
     (hC : 0 < C) (hδ : 0 < δ) :
@@ -271,9 +256,12 @@ theorem subspace_theorem {n : ℕ} (hn : 2 ≤ n) (L : Fin n → Fin n → ℂ)
         ∃ V ∈ T, (fun j ↦ (x j : ℚ)) ∈ V := by
   sorry
 
-/-- `Layer 2 subspace theorem general position` (Evertse Theorem 7.4). -/
+/-- **The Subspace theorem for forms in general position** (E19, ch. 7, Theorem 7.4): for
+`r ≥ n ≥ 2` linear forms with algebraic coefficients, every `n` of them linearly independent, and
+`C, δ > 0`, the integer points `x` with `|L₁(x)⋯L_r(x)| ≤ C‖x‖^(r-n-δ)` lie in finitely many
+proper rational subspaces of `ℚⁿ`. -/
 theorem subspace_theorem_general_position {n r : ℕ} (hn : 2 ≤ n) (hr : n ≤ r)
-    (L : Fin r → Fin n → ℂ) (halg : ∀ i j, IsAlgebraic ℚ (L i j)) (hL : InGeneralPosition L)
+    (L : Fin r → Fin n → ℂ) (halg : ∀ i j, IsAlgebraic ℚ (L i j)) (hL : TauCeti.InGeneralPosition L)
     {C δ : ℝ} (hC : 0 < C) (hδ : 0 < δ) :
     ∃ T : Finset (Submodule ℚ (Fin n → ℚ)), (∀ V ∈ T, V ≠ ⊤) ∧
       ∀ x : Fin n → ℤ, ‖∏ i, L i ⬝ᵥ (fun j ↦ (x j : ℂ))‖ ≤ C * ‖x‖ ^ ((r : ℝ) - n - δ) →
@@ -284,9 +272,12 @@ section PAdic
 
 variable {K : Type*} [Field K] [NumberField K]
 
-/-- `Layer 2 p adic subspace theorem` (Schlickewei; Evertse Theorem 8.7). The index `none`
-stands for the infinite place, `some p` for the prime `p ∈ S`; `v` are the chosen
-extensions (notation (8.4)). -/
+/-- **Schlickewei's `p`-adic Subspace theorem** (E19, ch. 8, Theorem 8.7): let `S` be a finite
+set of primes and `v` absolute values on the number field `K` extending the ordinary absolute
+value of `ℚ` (index `none`) and the `p`-adic absolute values for `p ∈ S` (index `some p`), as in
+E19 notation (8.4). If at each of these places `n ≥ 2` linearly independent linear forms with
+coefficients in `K` are given and `C, ε > 0`, the integer points `x` with
+`∏_v ∏ᵢ |Lᵢᵥ(x)|_v ≤ C‖x‖^(-ε)` lie in finitely many proper rational subspaces of `ℚⁿ`. -/
 theorem padic_subspace_theorem {n : ℕ} (hn : 2 ≤ n) (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime)
     (v : Option S → AbsoluteValue K ℝ) (hvInf : ∀ q : ℚ, v none (q : K) = |(q : ℝ)|)
     (hvp : ∀ (p : S) (q : ℚ), v (some p) (q : K) = padicNorm p q)
@@ -298,13 +289,16 @@ theorem padic_subspace_theorem {n : ℕ} (hn : 2 ≤ n) (S : Finset ℕ) (hS : �
           ∃ V ∈ T, (fun j ↦ (x j : ℚ)) ∈ V := by
   sorry
 
-/-- `Layer 2 p adic subspace theorem general position` (Evertse Theorem 8.8). -/
+/-- **The `p`-adic Subspace theorem for forms in general position** (E19, ch. 8, Theorem 8.8):
+with the places of `padic_subspace_theorem` and, at each place `v`, `r_v ≥ n` linear forms over
+`K` in general position, the primitive integer points `x` with
+`∏_v ∏ᵢ |Lᵢᵥ(x)|_v ≤ C‖x‖^(r_∞-n-ε)` lie in finitely many proper rational subspaces of `ℚⁿ`. -/
 theorem padic_subspace_theorem_general_position {n : ℕ} (hn : 2 ≤ n) (S : Finset ℕ)
     (hS : ∀ p ∈ S, p.Prime) (v : Option S → AbsoluteValue K ℝ)
     (hvInf : ∀ q : ℚ, v none (q : K) = |(q : ℝ)|)
     (hvp : ∀ (p : S) (q : ℚ), v (some p) (q : K) = padicNorm p q)
     (r : Option S → ℕ) (hr : ∀ p, n ≤ r p) (L : (p : Option S) → Fin (r p) → Fin n → K)
-    (hL : ∀ p, InGeneralPosition (L p)) {C ε : ℝ} (hC : 0 < C) (hε : 0 < ε) :
+    (hL : ∀ p, TauCeti.InGeneralPosition (L p)) {C ε : ℝ} (hC : 0 < C) (hε : 0 < ε) :
     ∃ T : Finset (Submodule ℚ (Fin n → ℚ)), (∀ V ∈ T, V ≠ ⊤) ∧
       ∀ x : Fin n → ℤ, Finset.univ.gcd x = 1 →
         ∏ p, ∏ i, v p (L p i ⬝ᵥ (fun j ↦ (x j : K))) ≤ C * ‖x‖ ^ ((r none : ℝ) - n - ε) →
@@ -313,9 +307,12 @@ theorem padic_subspace_theorem_general_position {n : ℕ} (hn : 2 ≤ n) (S : Fi
 
 end PAdic
 
-/-- `Layer 2 approximation by algebraic numbers of bounded degree` (Evertse Theorem 7.8), in the
-equivalent form counting the primitive minimal polynomials `F` (the height of a root of `F` is
-the maximum of the absolute values of the coefficients of `F`). -/
+/-- **Approximation by algebraic numbers of bounded degree** (E19, ch. 7, Theorem 7.8): for
+algebraic `α`, `d ∈ ℕ`, `C > 0` and `κ > d + 1`, only finitely many algebraic `ξ` of degree at
+most `d` satisfy `|ξ - α| ≤ C·H(ξ)^(-κ)`, `H` the naive height. It is stated in the equivalent
+form counting the primitive irreducible integer polynomials `F` with positive leading coefficient
+that have such a root, the naive height of a root of `F` being the largest modulus of a
+coefficient of `F`. -/
 theorem finite_approximation_bounded_degree (α : ℂ) (hα : IsAlgebraic ℚ α) (d : ℕ)
     {C κ : ℝ} (hC : 0 < C) (hκ : (d : ℝ) + 1 < κ) :
     {F : Polynomial ℤ | F.IsPrimitive ∧ Irreducible F ∧ 0 < F.leadingCoeff ∧ F.natDegree ≤ d ∧
@@ -327,7 +324,11 @@ section NormForm
 
 variable {K : Type*} [Field K] [NumberField K]
 
-/-- `Layer 2 schmidt norm form theorem` (Schmidt 1972; Evertse 7.13, (i) ⇒ (ii)). -/
+/-- **Schmidt's norm form theorem**, finiteness direction (Schmidt 1972; E19, ch. 7, Theorem
+7.13, (i) ⇒ (ii)): let `M` be the `ℤ`-module spanned by `ℚ`-linearly independent
+`α₁, …, αₙ ∈ K`. If `M` contains no `μ·𝓞_L` with `μ ≠ 0` and `L ≠ ℚ` a subfield of `K` that is
+not imaginary quadratic, then for every nonzero rational `c` only finitely many `ξ ∈ M` have norm
+`N_{K/ℚ}(ξ) = c`. -/
 theorem schmidt_normForm {n : ℕ} (α : Fin n → K) (hα : LinearIndependent ℚ α)
     (h : ¬ ∃ μ : K, μ ≠ 0 ∧ ∃ L : IntermediateField ℚ K, L ≠ ⊥ ∧
       ¬ (Module.finrank ℚ L = 2 ∧ IsTotallyComplex L) ∧
@@ -338,7 +339,10 @@ theorem schmidt_normForm {n : ℕ} (α : Fin n → K) (hα : LinearIndependent �
 
 end NormForm
 
-/-- `Layer 2 thue mahler finiteness` (Mahler; Evertse Theorem 8.10). -/
+/-- **Mahler's theorem on the Thue–Mahler equation** (E19, ch. 8, Theorem 8.10): for a binary
+form `F` with integer coefficients, of degree `n ≥ 3` and squarefree over `ℚ`, and a finite set `S`
+of primes, the equation `|F(x, y)| = ∏_{p ∈ S} p^(z_p)` has only finitely many solutions with
+`x, y` coprime and integer exponents `z_p`. -/
 theorem finite_thueMahler (F : MvPolynomial (Fin 2) ℤ) {n : ℕ} (hn : 3 ≤ n)
     (hF : F.IsHomogeneous n) (hsq : Squarefree (MvPolynomial.map (Int.castRingHom ℚ) F))
     (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
@@ -347,36 +351,52 @@ theorem finite_thueMahler (F : MvPolynomial (Fin 2) ℤ) {n : ℕ} (hn : 3 ≤ n
         ∏ p : S, ((p : ℕ) : ℚ) ^ xz.2 p}.Finite := by
   sorry
 
-/-- `Layer 2 s unit equation finiteness` (Evertse Theorem 8.13). -/
+/-- **Finiteness of the nondegenerate solutions of a unit equation** (E19, ch. 8, Theorem 8.13):
+over a field of characteristic zero, for nonzero `α₁, …, αₙ` and a finitely generated subgroup
+`Γ` of `K×`, only finitely many `x ∈ Γⁿ` solve `α₁x₁ + ⋯ + αₙxₙ = 1` with no vanishing subsum. -/
 theorem finite_nondegenerate_solutions {K : Type*} [Field K] [CharZero K] {n : ℕ}
     (α : Fin n → K) (hα : ∀ i, α i ≠ 0) (Γ : Subgroup Kˣ) (hΓ : Γ.FG) :
-    {x : Fin n → Γ | IsNondegenerateSolution α (fun i ↦ ((x i : Kˣ) : K))}.Finite := by
+    {x : Fin n → Γ | TauCeti.IsNondegenerateSolution α (fun i ↦ ((x i : Kˣ) : K))}.Finite := by
   sorry
 
-/-- `Layer 2 uniform bound nondegenerate solutions` (Evertse–Schlickewei–Schmidt Theorem 1.1). -/
+/-- **The Evertse–Schlickewei–Schmidt bound** (ESS02, Theorem 1.1): over a field of
+characteristic zero, for nonzero `a₁, …, aₙ` and a subgroup `Γ` of `(K×)ⁿ` of rank at most `r`,
+the equation `a₁x₁ + ⋯ + aₙxₙ = 1` has at most `exp((6n)^(3n)(r + 1))` solutions `x ∈ Γ` with no
+vanishing subsum. -/
 theorem card_nondegenerate_solutions_le {K : Type*} [Field K] [CharZero K] {n : ℕ}
     (Γ : Subgroup (Fin n → Kˣ)) (r : ℕ) (hΓ : Module.rank ℤ (Additive Γ) ≤ r)
     (a : Fin n → Kˣ) (M : Finset (Fin n → Kˣ))
-    (hM : ∀ x ∈ M, x ∈ Γ ∧ IsNondegenerateSolution (fun i ↦ (a i : K)) (fun i ↦ (x i : K))) :
+    (hM : ∀ x ∈ M, x ∈ Γ ∧
+      TauCeti.IsNondegenerateSolution (fun i ↦ (a i : K)) (fun i ↦ (x i : K))) :
     (M.card : ℝ) ≤ Real.exp ((6 * n : ℝ) ^ (3 * n) * (r + 1)) := by
   sorry
 
-/-- `Layer 2 skolem mahler lech simple roots`, recurrence form. -/
+/-- **The Skolem–Mahler–Lech theorem for simple recurrences** (E19, ch. 8, Theorem 8.18, proved
+there in this case): a nonzero complex linear recurrence sequence whose characteristic polynomial
+is separable, with nonzero roots and no quotient of distinct roots a root of unity, has only
+finitely many zeros. -/
 theorem skolem_mahler_lech_simple (E : _root_.LinearRecurrence ℂ)
     (hE : LinearRecurrence.IsNondegenerate E) (hsep : E.charPoly.Separable) (u : ℕ → ℂ)
     (hu : E.IsSolution u) (hu₀ : u ≠ 0) : {h : ℕ | u h = 0}.Finite := by
   sorry
 
-/-- `Layer 2 uniform bound zeros simple recurrence`, non-degenerate case. -/
-theorem ncard_zeros_simple_recurrence_le {K : Type*} [Field K] [IsAlgClosed K] [CharZero K]
+/-- **The uniform bound for zeros of simple recurrences** (ESS02, Theorem 1.2, (1.18)): over a
+field of characteristic zero, if `n ≥ 3`, all `aᵢ` and `αᵢ` are nonzero and no quotient `αᵢ/αⱼ`
+with `i ≠ j` is a root of unity, the set of `m ∈ ℤ` with `∑ᵢ aᵢαᵢ^m = 0` is finite with at most
+`exp((6n)^(3n))` elements. ESS02 state it over an algebraically closed field; embedding `K` into
+its algebraic closure keeps the zero set and the hypotheses. -/
+theorem ncard_zeros_simple_recurrence_le {K : Type*} [Field K] [CharZero K]
     {n : ℕ} (hn : 3 ≤ n) (a α : Fin n → K) (ha : ∀ i, a i ≠ 0) (hα : ∀ i, α i ≠ 0)
     (hnd : ∀ i j, i ≠ j → ¬ IsOfFinOrder (α i / α j)) :
     {m : ℤ | ∑ i, a i * α i ^ m = 0}.Finite ∧
       ({m : ℤ | ∑ i, a i * α i ^ m = 0}.ncard : ℝ) ≤ Real.exp ((6 * n : ℝ) ^ (3 * n)) := by
   sorry
 
-/-- Perturbed finite-rank unit solutions admit a uniform proper-subspace cover,
-using affine heights and the small-error budget of ESS02 equation (11.19). -/
+/-- **The perturbed unit equation** (ESS02, Theorem 2.1, with the perturbation of §11, (11.19)):
+for `n ≥ 2` and a subgroup `Γ` of `(ℚ̄×)ⁿ` of rank at most `r`, at most `exp((5n)^(3n)(r + 1))`
+proper subspaces of `ℚ̄ⁿ` contain every product `y = x·z` with `x ∈ Γ`, `∑ᵢ yᵢ = 1` and
+`h_aff(z) ≤ n⁻¹ exp(-(5n)^(3n)) (1 + h_aff(x))`, where `h_aff` is the absolute affine logarithmic
+height `TauCeti.absoluteLogHeightAff`. -/
 theorem absolutePerturbedUnitEquation {n : ℕ} (hn : 2 ≤ n)
     (Γ : Subgroup (Fin n → (AlgebraicClosure ℚ)ˣ)) (r : ℕ)
     (hΓ : Module.rank ℤ (Additive Γ) ≤ r) :
@@ -384,9 +404,9 @@ theorem absolutePerturbedUnitEquation {n : ℕ} (hn : 2 ≤ n)
       (T.card : ℝ) ≤ Real.exp ((5 * n : ℝ) ^ (3 * n) * (r + 1)) ∧
       (∀ V ∈ T, V ≠ ⊤) ∧
       ∀ x ∈ Γ, ∀ z : Fin n → (AlgebraicClosure ℚ)ˣ,
-        absoluteLogHeightAff (fun i => (z i : AlgebraicClosure ℚ)) ≤
+        TauCeti.absoluteLogHeightAff (fun i => (z i : AlgebraicClosure ℚ)) ≤
           (n : ℝ)⁻¹ * Real.exp (-((5 * n : ℝ) ^ (3 * n))) *
-            (1 + absoluteLogHeightAff (fun i => (x i : AlgebraicClosure ℚ))) →
+            (1 + TauCeti.absoluteLogHeightAff (fun i => (x i : AlgebraicClosure ℚ))) →
         (∑ i, (x i : AlgebraicClosure ℚ) * (z i : AlgebraicClosure ℚ)) = 1 →
         ∃ V ∈ T, (fun i => (x i : AlgebraicClosure ℚ) * (z i : AlgebraicClosure ℚ)) ∈ V :=
   by sorry
@@ -395,7 +415,10 @@ section TwistedHeight
 
 variable {K : Type*} [Field K] [NumberField K] {n : ℕ}
 
-/-- The conditions (2.4)–(2.9) on `(L, c)`. -/
+/-- The data `(L, c)` of the parametric Subspace theorem (EF13, (2.4)–(2.9)): `n ≥ 2`; at every
+place `v` the `n` forms `L v` are linearly independent; only finitely many systems of forms occur;
+the weights `c v` vanish outside a finite set of places; at every place they sum to zero; and the
+maxima `maxᵢ c v i` sum to at most one over all places. -/
 structure IsTwistedData (L : Place K → Fin n → Fin n → K) (c : Place K → Fin n → ℝ) : Prop where
   two_le : 2 ≤ n
   linearIndependent : ∀ v, LinearIndependent K (L v)
@@ -404,8 +427,11 @@ structure IsTwistedData (L : Place K → Fin n → Fin n → K) (c : Place K →
   sum_eq_zero : ∀ v, ∑ i, c v i = 0
   sum_max_le_one : ∑ᶠ v, (⨆ i, c v i) ≤ 1
 
-/-- `Layer 2 parametric subspace theorem` (Evertse–Ferretti Theorem 2.1), `K`-rational and
-qualitative in `Q_0`. -/
+/-- **The parametric Subspace theorem** (EF13, Theorem 2.1), `K`-rational and qualitative in the
+threshold: for data `(L, c)` satisfying `IsTwistedData` with at most `R` distinct forms and
+`0 < δ ≤ 1`, there are `Q₀` and at most `10⁶ 2^(2n) n¹⁰ δ⁻³ log(3R/δ) log(log(3R)/δ)` proper
+subspaces of `Kⁿ` such that, for every `Q ≥ Q₀`, the points of twisted height at most
+`Δ_L^(1/n) Q^(-δ)` lie in one of them. -/
 theorem parametric_subspace_theorem (L : Place K → Fin n → Fin n → K)
     (c : Place K → Fin n → ℝ) (hLc : IsTwistedData L c) {δ : ℝ} (hδ : 0 < δ) (hδ1 : δ ≤ 1)
     (R : ℕ) (hR : Nat.card (Set.range fun p : Place K × Fin n ↦ L p.1 p.2) ≤ R) :
@@ -416,10 +442,13 @@ theorem parametric_subspace_theorem (L : Place K → Fin n → Fin n → K)
         {x | TauCeti.twistedHeight L c Q x ≤ TauCeti.deltaL L ^ ((1 : ℝ) / n) * Q ^ (-δ)} ⊆ V := by
   sorry
 
-/-- `Layer 2 sharp roths theorem` (Evertse 1995), `K`-rational, with absolute heights
-`H = height2` (Euclidean at infinite places): `F` has index `< mΘ` at `x`, i.e.
-some partial derivative `∂^i F` with `Σ_h (i_{h0} + i_{h1}) / d_h < mΘ` does not vanish at `x`
-(dividing by factorials does not affect non-vanishing in characteristic zero). -/
+/-- **Evertse's sharp Roth lemma** (E96, §7, Lemma 23; E95), `K`-rational: let `m ≥ 2`,
+`0 < Θ ≤ 1` and positive degrees with `d_h / d_(h+1) ≥ 2m²/Θ`. Let `F ≠ 0` be a polynomial over
+`K` in `m` pairs of variables, homogeneous of degree `d_h` in the `h`-th pair, and let the nonzero
+pairs `x_h ∈ K²` satisfy `H₂(x_h)^(d_h) ≥ (e^(d₁ + ⋯ + d_m) H₂(F))^((3m²/Θ)^m)`, with `H₂` the
+absolute Euclidean height `TauCeti.height2`. Then `F` has index less than `mΘ` at `x`: some
+partial derivative `∂^i F` with `∑_h (i_(h,0) + i_(h,1)) / d_h < mΘ` does not vanish at `x`
+(dividing by factorials does not affect nonvanishing in characteristic zero). -/
 theorem sharp_roths_lemma {m : ℕ} (hm : 2 ≤ m) (d : Fin m → ℕ) (hd : ∀ h, 0 < d h) {Θ : ℝ}
     (hΘ : 0 < Θ) (hΘ1 : Θ ≤ 1)
     (hdd : ∀ h h' : Fin m, h'.val = h.val + 1 → 2 * (m : ℝ) ^ 2 / Θ ≤ (d h : ℝ) / d h')
@@ -427,34 +456,51 @@ theorem sharp_roths_lemma {m : ℕ} (hm : 2 ≤ m) (d : Fin m → ℕ) (hd : ∀
     (hFh : ∀ μ ∈ F.support, ∀ h, μ (h, 0) + μ (h, 1) = d h) (x : Fin m → Fin 2 → K)
     (hx : ∀ h, x h ≠ 0)
     (hH : ∀ h, (Real.exp (∑ h, (d h : ℝ)) *
-        height2 (fun μ : F.support ↦ F.coeff μ)) ^
+        TauCeti.height2 (fun μ : F.support ↦ F.coeff μ)) ^
           ((3 * (m : ℝ) ^ 2 / Θ) ^ m) ≤
-        height2 (x h) ^ d h) :
+        TauCeti.height2 (x h) ^ d h) :
     ∃ i : Fin m × Fin 2 → ℕ, ∑ h, ((i (h, 0) + i (h, 1) : ℕ) : ℝ) / d h < m * Θ ∧
       MvPolynomial.eval (fun p ↦ x p.1 p.2)
         (((Finset.univ : Finset (Fin m × Fin 2)).toList.map fun p ↦
           (MvPolynomial.pderiv p).toLinearMap ^ i p).prod F) ≠ 0 := by
   sorry
 
-/-- `Layer 2 absolute subspace theorem for systems` (Evertse–Ferretti Theorem 3.1), for forms and
-points over `K` (`D = 1`); `H^*` bounds the absolute heights of `(1, α_1, …, α_n)`. -/
-theorem subspace_theorem_for_systems [NeZero n] (hn : 2 ≤ n) (S : Finset (Place K))
-    (L : Place K → Fin n → Fin n → K) (hL : ∀ v ∈ S, LinearIndependent K (L v))
+/-- **The absolute quantitative Subspace theorem for systems** (EF13, Theorem 3.1): fix for every
+place `v` of `K` an extension `w v` to `K̄` of the degree-normalized absolute value `‖·‖_v`. Let
+`n ≥ 2`, let `S` be a finite set of places and, at each `v ∈ S`, let `L v` be `n` linearly
+independent linear forms with coefficients in `K̄`, each of inhomogeneous absolute height
+`H(1, L v i) ≤ H*` and generating an extension of `K` of degree at most `D`, with at most `R`
+distinct forms in all; let the exponents `d v i ≤ 0` sum to `-n - ε` with `0 < ε ≤ 1`. Then the
+points `x ∈ K̄ⁿ` with `H(x) ≥ max((H*)^(1/(3RD)), n^(n/ε))` that satisfy
+`‖L v i (σ x)‖_v ≤ ‖σ x‖_v ‖det L v‖_v^(1/n) H(x)^(d v i)` for every `v ∈ S`, every `i` and every
+`σ ∈ Gal(K̄/K)` lie in at most `10⁹ 2^(2n) n¹⁴ ε⁻³ log(3RD/ε) log(log(3RD)/ε)` proper subspaces of
+`K̄ⁿ` defined over `K`. Here `H` is the absolute projective height
+`TauCeti.absoluteProjectiveTupleHeight` and `‖·‖_v` on vectors is the maximum of the coordinates.
+-/
+theorem subspace_theorem_for_systems [NeZero n] (hn : 2 ≤ n)
+    (w : Place K → AbsoluteValue (AlgebraicClosure K) ℝ)
+    (hw : ∀ v (a : K), w v (algebraMap K (AlgebraicClosure K) a) = normAbs v a)
+    (S : Finset (Place K)) (L : Place K → Fin n → Fin n → AlgebraicClosure K)
+    (hL : ∀ v ∈ S, LinearIndependent (AlgebraicClosure K) (L v)) (Hs : ℝ)
+    (hHs : ∀ v ∈ S, ∀ i, TauCeti.absoluteProjectiveTupleHeight
+      (Fin.cons 1 (L v i) : Fin (n + 1) → AlgebraicClosure K) ≤ Hs)
+    (D : ℕ) (hD : ∀ v ∈ S, ∀ i,
+      Module.finrank K (IntermediateField.adjoin K (Set.range (L v i))) ≤ D)
+    (R : ℕ) (hR : Nat.card (Set.range fun p : S × Fin n ↦ L p.1 p.2) ≤ R)
     (d : Place K → Fin n → ℝ) {ε : ℝ} (hε : 0 < ε) (hε1 : ε ≤ 1)
-    (hd : ∑ v ∈ S, ∑ i, d v i = -(n : ℝ) - ε) (hd0 : ∀ v ∈ S, ∀ i, d v i ≤ 0)
-    (R : ℕ) (hR : Nat.card (Set.range fun p : S × Fin n ↦ L p.1 p.2) ≤ R) (Hs : ℝ)
-    (hHs : ∀ v ∈ S, ∀ i, Height.mulHeight (Fin.cons 1 (L v i) : Fin (n + 1) → K) ^
-      ((1 : ℝ) / Module.finrank ℚ K) ≤ Hs) :
+    (hd : ∑ v ∈ S, ∑ i, d v i = -(n : ℝ) - ε) (hd0 : ∀ v ∈ S, ∀ i, d v i ≤ 0) :
     ∃ T : Finset (Submodule K (Fin n → K)), (∀ V ∈ T, V ≠ ⊤) ∧
       (T.card : ℝ) ≤ 10 ^ 9 * 2 ^ (2 * n) * (n : ℝ) ^ 14 * ε ^ (-3 : ℝ) *
-        Real.log (3 * R / ε) * Real.log (Real.log (3 * R) / ε) ∧
-      ∀ x : Fin n → K, x ≠ 0 →
-        max (Hs ^ ((1 : ℝ) / (3 * R))) ((n : ℝ) ^ ((n : ℝ) / ε)) ≤
-          Height.mulHeight x ^ ((1 : ℝ) / Module.finrank ℚ K) →
-        (∀ v ∈ S, ∀ i, normAbs v (L v i ⬝ᵥ x) ≤
-          (⨆ j, normAbs v (x j)) * normAbs v (Matrix.of fun i j ↦ L v i j).det ^ ((1 : ℝ) / n) *
-            (Height.mulHeight x ^ ((1 : ℝ) / Module.finrank ℚ K)) ^ d v i) →
-        ∃ V ∈ T, x ∈ V := by
+        Real.log (3 * R * D / ε) * Real.log (Real.log (3 * R * D) / ε) ∧
+      ∀ x : Fin n → AlgebraicClosure K, x ≠ 0 →
+        max (Hs ^ ((1 : ℝ) / (3 * R * D))) ((n : ℝ) ^ ((n : ℝ) / ε)) ≤
+          TauCeti.absoluteProjectiveTupleHeight x →
+        (∀ v ∈ S, ∀ i, ∀ σ : AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K,
+          w v (L v i ⬝ᵥ (fun j ↦ σ (x j))) ≤
+            (⨆ j, w v (σ (x j))) * w v (Matrix.of fun i j ↦ L v i j).det ^ ((1 : ℝ) / n) *
+              TauCeti.absoluteProjectiveTupleHeight x ^ d v i) →
+        ∃ V ∈ T, x ∈ Submodule.span (AlgebraicClosure K)
+          ((fun y : Fin n → K ↦ fun j ↦ algebraMap K (AlgebraicClosure K) (y j)) '' V) := by
   sorry
 
 end TwistedHeight
@@ -513,8 +559,13 @@ end Baker
 
 namespace LogarithmicForms
 
-/-- Waldschmidt's measure (DALAG Theorem 9.1 with `C(m) = 2^{m+25} m^{3m+9}`, Proposition 9.18);
-`β₀` is the constant term and `k = m - 1` indexes `λ_m`. -/
+/-- **Waldschmidt's lower bound for linear forms in logarithms** (W00, Theorem 9.1 with
+`C(m) = 2^(m+25) m^(3m+9)`, and Proposition 9.18): for `ℚ`-linearly independent logarithms
+`l₁, …, l_m` of algebraic numbers and algebraic `β₀, β₁, …, β_m`, not all zero, generating with the
+`exp l_j` a field of degree `D`, and parameters `A_j, B, E, E*` satisfying either the general
+height conditions or the integer-coefficient conditions of the theorem, the form
+`Λ = β₀ + ∑ⱼ βⱼ lⱼ` is nonzero and
+`|Λ| > exp(-C(m) D^(m+2) log B (∏ⱼ log A_j) log E* (log E)^(-m-1))`. -/
 theorem waldschmidt_measure {m : ℕ} (hm : 1 ≤ m) (l : Fin m → ℂ) (hl : ∀ j, l j ∈ TauCeti.algebraicLogs)
     (hind : LinearIndependent ℚ l) (β₀ : ℂ) (β : Fin m → ℂ) (hβ₀ : IsAlgebraic ℚ β₀)
     (hβ : ∀ j, IsAlgebraic ℚ (β j)) (hne : β₀ ≠ 0 ∨ β ≠ 0) (D : ℕ)
@@ -535,7 +586,10 @@ theorem waldschmidt_measure {m : ℕ} (hm : 1 ≤ m) (l : Fin m → ℂ) (hl : �
           (∏ j, Real.log (A j)) * Real.log Estar * Real.log E ^ (-((m : ℤ) + 1))) <
         ‖β₀ + ∑ j, β j * l j‖ := sorry
 
-/-- Baker's lower bound (Evertse Theorem 5.2), with the absolute multiplicative height. -/
+/-- **Baker's theorem on linear forms in logarithms** (E19, ch. 5, Theorem 5.2): for fixed
+logarithms `l₁, …, l_m` of algebraic numbers and a degree bound `D`, there is `C > 0` such that
+every nonzero `γ + ∑ᵢ βᵢ lᵢ` with algebraic `γ, βᵢ` of degree at most `D` and absolute heights at
+most `B ≥ 1` has modulus at least `(eB)^(-C)`. -/
 theorem baker_lower_bound {m : ℕ} (l : Fin m → ℂ) (hl : ∀ j, l j ∈ TauCeti.algebraicLogs) (D : ℕ) :
     ∃ C : ℝ, 0 < C ∧ ∀ (γ : ℂ) (β : Fin m → ℂ) (B : ℝ), IsAlgebraic ℚ γ →
       (∀ i, IsAlgebraic ℚ (β i)) → (minpoly ℚ γ).natDegree ≤ D →
@@ -544,7 +598,11 @@ theorem baker_lower_bound {m : ℕ} (l : Fin m → ℂ) (hl : ∀ j, l j ∈ Tau
       (Real.exp 1 * B) ^ (-C) ≤ ‖γ + ∑ i, β i * l i‖ := sorry
 
 open Classical in
-/-- Matveev's Corollary 2.3 (Izv. Math. 64 (2000)); `κ = 1` for a real field, `2` otherwise. -/
+/-- **Matveev's theorem** (Matveev, §2, Corollary 2.3): for a number field `K ⊆ ℂ` of degree `D`,
+nonzero logarithms `l_j` of `α_j ∈ K×`, integers `b_j` with `Λ = ∑ⱼ b_j l_j ≠ 0` and
+`A_j ≥ max(D h(α_j), |l_j|, 0.16)`, one has
+`log|Λ| > -C₁(n, κ) D² A₁⋯Aₙ log(eD) log(eB)` with `B = maxⱼ |b_j|`, `κ = 1` for a real field and
+`κ = 2` otherwise, and `C₁(n, κ) = min(κ⁻¹ (en/2)^κ 30^(n+3) n^3.5, 2^(6n+20))`. -/
 theorem matveev {n : ℕ} (hn : 1 ≤ n) {K : Type*} [Field K] [NumberField K] (ι : K →+* ℂ)
     (α : Fin n → K) (l : Fin n → ℂ) (hl : ∀ j, exp (l j) = ι (α j)) (hl0 : ∀ j, l j ≠ 0)
     (b : Fin n → ℤ) (hΛ : ∑ j, (b j : ℂ) * l j ≠ 0) (A : Fin n → ℝ)
@@ -556,7 +614,11 @@ theorem matveev {n : ℕ} (hn : 1 ≤ n) {K : Type*} [Field K] [NumberField K] (
         Real.log (Real.exp 1 * ((Finset.univ.sup fun j ↦ (b j).natAbs : ℕ) : ℝ)) <
       Real.log ‖∑ j, (b j : ℂ) * l j‖ := sorry
 
-/-- Laurent-Mignotte-Nesterenko (Evertse Exercise 5.4). -/
+/-- **The Laurent–Mignotte–Nesterenko bound for two logarithms** (E19, ch. 5, Exercise 5.4): for
+positive rationals `a₁, a₂ ≠ 1` and nonzero integers `b₁, b₂` with
+`Λ = b₁ log a₁ - b₂ log a₂ ≠ 0`,
+`log|Λ| ≥ -24.34 (max(log(|b₁|/log H(a₂) + |b₂|/log H(a₁)) + 0.14, 21))² log H(a₁) log H(a₂)`,
+with `H` the height of a rational number. -/
 theorem laurent_mignotte_nesterenko (a₁ a₂ : ℚ) (h₁ : 0 < a₁) (h₂ : 0 < a₂) (h₁' : a₁ ≠ 1)
     (h₂' : a₂ ≠ 1) (b₁ b₂ : ℤ) (hb₁ : b₁ ≠ 0) (hb₂ : b₂ ≠ 0)
     (hΛ : b₁ * Real.log a₁ - b₂ * Real.log a₂ ≠ 0) :
@@ -592,11 +654,12 @@ def SchanuelConjecture : Prop :=
     (n : Cardinal) ≤ Algebra.trdeg ℚ
       (IntermediateField.adjoin ℚ (Set.range x ∪ Set.range (fun i ↦ exp (x i))))
 
-/-- The proposition. -/
+/-- Schanuel's conjecture implies that `e` and `π` are algebraically independent over `ℚ`. -/
 theorem SchanuelConjecture.algebraicIndependent_exp_one_pi (h : SchanuelConjecture) :
     AlgebraicIndependent ℚ ![exp 1, (Real.pi : ℂ)] := sorry
 
-/-- The proposition. -/
+/-- Schanuel's conjecture implies that logarithms of algebraic numbers that are linearly
+independent over `ℚ` are algebraically independent over `ℚ`. -/
 theorem SchanuelConjecture.algebraicIndependent_of_mem_algebraicLogs (h : SchanuelConjecture)
     {n : ℕ} {l : Fin n → ℂ} (hl : ∀ i, l i ∈ TauCeti.algebraicLogs) (hind : LinearIndependent ℚ l) :
     AlgebraicIndependent ℚ l := sorry
@@ -614,7 +677,12 @@ open scoped Classical
 
 namespace DiophantineApproximation
 
-/-- Evertse, Corollary 5.5, made explicit with Matveev's constant (Theorem 5.4, `m = 2`). -/
+/-- **Exponential equations `a^m - b^n = k`** (E19, ch. 5, Corollary 5.5, made explicit): for
+integers `a, b ≥ 2` and `k ≠ 0` the equation has only finitely many solutions in positive
+integers, and each satisfies
+`max(m, n) ≤ 2(log|k| + C₁)/log 2 + 2(C₁/log 2)(log(2C₁/log 2) - 1)` with
+`C₁ = 1 + (e/2) 2^4.5 30⁵ max(1, log a) max(1, log b)`, the constant of Matveev's Corollary 2.3
+for two rational numbers (`κ = 1`, `D = 1`) through the rational bound of README §3.6. -/
 theorem pow_sub_pow_eq_finite {a b : ℕ} (ha : 2 ≤ a) (hb : 2 ≤ b) {k : ℤ} (hk : k ≠ 0) :
     {mn : ℕ × ℕ | 0 < mn.1 ∧ 0 < mn.2 ∧ (a : ℤ) ^ mn.1 - (b : ℤ) ^ mn.2 = k}.Finite ∧
       ∀ mn ∈ {mn : ℕ × ℕ | 0 < mn.1 ∧ 0 < mn.2 ∧ (a : ℤ) ^ mn.1 - (b : ℤ) ^ mn.2 = k},
@@ -623,12 +691,20 @@ theorem pow_sub_pow_eq_finite {a b : ℕ} (ha : 2 ≤ a) (hb : 2 ≤ b) {k : ℤ
         (max mn.1 mn.2 : ℝ) ≤ 2 * (Real.log |(k : ℝ)| + C₁) / Real.log 2 +
           2 * (C₁ / Real.log 2) * (Real.log (2 * C₁ / Real.log 2) - 1) := sorry
 
-/-- Evertse, Theorem 5.6 (Tijdeman). -/
+/-- **Tijdeman's gap theorem** (E19, ch. 5, Theorem 5.6): for a finite set `S` of primes there
+are `c₁, c₂ > 0` such that any two positive integers `x < y` composed of primes in `S` satisfy
+`y - x ≥ y / (c₁ (log y)^(c₂))`. -/
 theorem tijdeman_gap (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
     ∃ c₁ c₂ : ℝ, 0 < c₁ ∧ 0 < c₂ ∧ ∀ x ∈ Nat.factoredNumbers S, ∀ y ∈ Nat.factoredNumbers S,
       x < y → (y : ℝ) / (c₁ * Real.log y ^ c₂) ≤ y - x := sorry
 
-/-- Uniform bounds for logarithmic forms give an explicit exponent bound for a rank-positive unit equation. -/
+/-- **The effective unit equation** (README §4.3): let `K` have unit rank `r ≥ 1` with a system
+`u` of `r` independent units, and suppose that for every embedding `σ`, every `γ` that is a
+root-of-unity multiple of `α` or `β` and every exponent vector `k` with `σ(γ uᵏ) ≠ 1`, the
+Baker-type bound `|σ(γ uᵏ) - 1| ≥ (e·max(1, maxⱼ |kⱼ|))^(-C′)` holds. Then every solution of
+`αx + βy = 1` in units `x = ζ_x u^(k_x)`, `y = ζ_y u^(k_y)` has exponents of size at most
+`max(1, 2A + 2B(log(2B) - 1))`, where `A` and `B` are explicit in `C′`, the degree, the houses of
+`α` and `β` and the norm of the coordinate map of the logarithmic-embedding basis of `u`. -/
 theorem unitEquation_exponent_bound {K : Type*} [Field K] [NumberField K]
     {u : Fin (rank K) → (𝓞 K)ˣ} (hu : IsMaxRank u) (hr : 1 ≤ rank K)
     {α β : K} (hα : α ≠ 0) (hβ : β ≠ 0) {C' : ℝ} (hC' : 0 < C')
@@ -647,13 +723,17 @@ theorem unitEquation_exponent_bound {K : Type*} [Field K] [NumberField K]
     ((Finset.univ.sup fun j => max (ex j).natAbs (ey j).natAbs : ℕ) : ℝ) ≤
       max 1 (2 * A + 2 * B * (Real.log (2 * B) - 1)) := sorry
 
-/-- Evertse, Theorem 5.14 (Baker, 1968). -/
+/-- **Baker's theorem on superelliptic equations** (E19, ch. 5, Theorem 5.14): for `f ∈ ℤ[X]`
+separable over `ℚ`, `n ≥ 2` with `deg f ≥ 2` if `n ≥ 3` and `deg f ≥ 3` if `n = 2`, and an integer
+`b ≠ 0`, the equation `b yⁿ = f(x)` has only finitely many integer solutions. -/
 theorem baker_superelliptic {f : Polynomial ℤ} (hsep : (f.map (Int.castRingHom ℚ)).Separable)
     {n : ℕ} (hn : 2 ≤ n) (hdeg : (3 ≤ n → 2 ≤ f.natDegree) ∧ (n = 2 → 3 ≤ f.natDegree))
     {b : ℤ} (hb : b ≠ 0) :
     {p : ℤ × ℤ | b * p.2 ^ n = f.eval p.1}.Finite := sorry
 
-/-- Evertse, Theorem 5.15 (Schinzel–Tijdeman, 1976). -/
+/-- **The Schinzel–Tijdeman theorem** (E19, ch. 5, Theorem 5.15): for `f ∈ ℤ[X]` separable over
+`ℚ` of degree at least two and an integer `b ≠ 0`, the exponents `n` of the integer solutions of
+`b yⁿ = f(x)` with `y ∉ {0, 1, -1}` are bounded. -/
 theorem schinzel_tijdeman {f : Polynomial ℤ} (hsep : (f.map (Int.castRingHom ℚ)).Separable)
     (hdeg : 2 ≤ f.natDegree) {b : ℤ} (hb : b ≠ 0) :
     ∃ C : ℕ, ∀ (n : ℕ) (x y : ℤ), b * y ^ n = f.eval x → y ≠ 0 → y ≠ 1 → y ≠ -1 → n ≤ C :=
@@ -665,7 +745,10 @@ theorem tijdeman_catalan :
     ∃ C : ℕ, ∀ x y m n : ℕ, 2 ≤ x → 2 ≤ y → 2 ≤ m → 2 ≤ n →
       (x : ℤ) ^ m - (y : ℤ) ^ n = 1 → x ^ m ≤ C ∧ y ^ n ≤ C := sorry
 
-/-- Uniform prime-adic logarithmic bounds bound all valuations of solutions to the rational S-unit equation. -/
+/-- **The effective rational `S`-unit equation** (README §4.5): if every `±∏_{q ∈ S} q^(b_q) ≠ 1`
+with `b_p = 0` satisfies the `p`-adic bound `|±∏ q^(b_q) - 1|_p ≥ (e max(1, |b|))^(-C)` at every
+`p ∈ S`, then every solution of `x + y = 1` in `S`-units has
+`|v_p(x)|, |v_p(y)| ≤ max(1, (2C/log 2) log(2C/log 2))` at every prime `p`. -/
 theorem sUnitEquation_exponent_bound (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) {C : ℝ}
     (hC : 0 < C)
     (hLB : ∀ p ∈ S, ∀ (ε : ℤˣ) (b : S → ℤ), (∀ hp : p ∈ S, b ⟨p, hp⟩ = 0) →
@@ -678,7 +761,14 @@ theorem sUnitEquation_exponent_bound (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime
       (|padicValRat p (y : ℚ)| : ℝ) ≤
         max 1 (2 * C / Real.log 2 * Real.log (2 * C / Real.log 2)) := sorry
 
-/-- Archimedean and finite-place lower bounds give an explicit exponent bound for a finitely generated S-unit equation. -/
+/-- **The effective `S`-unit equation over a number field** (README §4.5): let `γ₁, …, γ_t` be
+`S`-units of `K` and `κ > 0` with `|z_j| ≤ κ h(ζ γᶻ)` for every root of unity `ζ` and every
+exponent vector `z`. Suppose that for every `c` that is a root-of-unity multiple of `a` or `b`
+and every `z` with `c γᶻ ≠ 1`, the archimedean bounds `|σ(c γᶻ) - 1| ≥ (e·max(1, maxⱼ |zⱼ|))^(-C)`
+and the `v`-adic bounds `|c γᶻ - 1|_v ≥ (e·max(1, maxⱼ |zⱼ|))^(-C)` for `v ∈ S` hold. Then every
+solution of `ax + by = 1` with `x = ζ_x γ^(z_x)` and `y = ζ_y γ^(z_y)` has exponents of size at
+most `max(1, 2A + 2B(log(2B) - 1))`, with `A` and `B` explicit in `κ`, `C`, the number of places
+in `S` and at infinity, and the sizes of `a` and `b`. -/
 theorem gyoryEquation_exponent_bound {K : Type*} [Field K] [NumberField K] {t : ℕ}
     (γ : Fin t → K) (hγ0 : ∀ j, γ j ≠ 0) (S : Finset (FinitePlace K))
     (hS : ∀ j, ∀ v : FinitePlace K, v ∉ S → v (γ j) = 1) {κ : ℝ} (hκ : 0 < κ)
@@ -763,7 +853,11 @@ theorem andre_eFunction_equation {a : ℕ → ℂ} (ha : IsEFunction a) :
         ∑ k : Fin m, (PowerSeries.X ^ (k : ℕ) * (q k : PowerSeries ℂ)) *
           (⇑(PowerSeries.derivative (R := ℂ)))^[k] (ePowerSeries a) = 0) := sorry
 
-/-- Beukers' refined Siegel–Shidlovskii theorem (Theorem 1.3). -/
+/-- **Beukers' refined Siegel–Shidlovskii theorem** (B06, Theorem 1.3): if E-functions
+`f₁, …, fₙ` satisfy `T f' = M f` with algebraic coefficients and `ξ` is algebraic with
+`ξ T(ξ) ≠ 0`, every homogeneous polynomial relation `P(f(ξ)) = 0` with algebraic coefficients is
+the specialization at `z = ξ` of a homogeneous relation of the same degree among the `fᵢ` with
+coefficients in `ℚ̄[z]`. -/
 theorem beukers_refined_siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ)
     (ha : ∀ i, IsEFunction (a i)) (T : Polynomial ℂ) (M : Matrix (Fin n) (Fin n) (Polynomial ℂ))
     (hT : ∀ j, IsAlgebraic ℚ (T.coeff j)) (hM : ∀ i k j, IsAlgebraic ℚ ((M i k).coeff j))
@@ -775,7 +869,10 @@ theorem beukers_refined_siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ)
       MvPolynomial.eval₂ Polynomial.coeToPowerSeries.ringHom (fun i => ePowerSeries (a i)) Q = 0 ∧
       MvPolynomial.map (Polynomial.evalRingHom ξ) Q = P := sorry
 
-/-- The Siegel–Shidlovskii theorem. -/
+/-- **The Siegel–Shidlovskii theorem** (B06, Theorem 1.1): if E-functions `f₁, …, fₙ` satisfy
+`T f' = M f` with algebraic coefficients and `ξ` is algebraic with `ξ T(ξ) ≠ 0`, the transcendence
+degree over `ℚ` of the values `fᵢ(ξ)` equals the transcendence degree over `ℂ(z)` of the
+functions `fᵢ`. -/
 theorem siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, IsEFunction (a i))
     (T : Polynomial ℂ) (M : Matrix (Fin n) (Fin n) (Polynomial ℂ))
     (hT : ∀ j, IsAlgebraic ℚ (T.coeff j)) (hM : ∀ i k j, IsAlgebraic ℚ ((M i k).coeff j))
@@ -785,7 +882,10 @@ theorem siegel_shidlovskii {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, Is
       Algebra.trdeg (RatFunc ℂ) (IntermediateField.adjoin (RatFunc ℂ)
         (Set.range fun i => ((ePowerSeries (a i) : PowerSeries ℂ) : ℂ⸨X⸩))) := sorry
 
-/-- Galochkin–Chudnovsky: values of G-functions at rationals very close to `0`. -/
+/-- **The Galochkin–Chudnovsky theorem** (B08, Theorem 4.4.2): for G-functions `f₁, …, fₙ` with
+rational coefficients, linearly independent over `ℂ(z)` and solving `T f' = M f` with algebraic
+coefficients, there is `C > 0` such that the values `fᵢ(p/q)` are linearly independent over `ℚ`
+whenever `p ≠ 0`, `q > 0` and `q > C|p|^(n+1)`. -/
 theorem galochkin_chudnovsky {n : ℕ} (a : Fin n → ℕ → ℂ) (ha : ∀ i, IsGFunction (a i))
     (hrat : ∀ i m, ∃ q : ℚ, a i m = q) (T : Polynomial ℂ) (M : Matrix (Fin n) (Fin n) (Polynomial ℂ))
     (hT0 : T ≠ 0) (hT : ∀ j, IsAlgebraic ℚ (T.coeff j))
@@ -831,8 +931,10 @@ theorem nesterenko (τ : UpperHalfPlane) :
 theorem algebraicIndependent_pi_exp_pi :
     AlgebraicIndependent ℚ ![Real.pi, Real.exp Real.pi] := sorry
 
-/-- Ax–Schanuel over an arbitrary common constant field, using constant-form dependence,
-integral-character extraction and algebraic-closure descent. -/
+/-- **Ax's theorem** (Kirby, §3.3, Theorem 3.8): let `F` be a field of characteristic zero with
+derivations `D₁, …, D_k` and common constant field `C`. If `y₁, …, yₙ` are nonzero with
+`D_j xᵢ = D_j yᵢ / yᵢ` and no nontrivial `ℚ`-linear combination of the `xᵢ` is constant, then
+`trdeg_C C(x, y) ≥ n + rank (D_j xᵢ)`. -/
 theorem ax_schanuel {F : Type*} [Field F] [CharZero F] {k : ℕ} (D : Fin k → Derivation ℤ F F)
     (C : Subfield F) (hC : ∀ c, c ∈ C ↔ ∀ j, D j c = 0) {n : ℕ} (x y : Fin n → F)
     (hy : ∀ i, y i ≠ 0) (hxy : ∀ j i, D j (x i) = D j (y i) / y i)
@@ -840,7 +942,8 @@ theorem ax_schanuel {F : Type*} [Field F] [CharZero F] {k : ℕ} (D : Fin k → 
     ((n + (Matrix.of fun j i => D j (x i)).rank : ℕ) : Cardinal) ≤
       Algebra.trdeg C (IntermediateField.adjoin C (Set.range x ∪ Set.range y)) := sorry
 
-/-- Ax–Schanuel for formal power series in one variable. -/
+/-- **Ax–Schanuel for formal power series**: if `f₁, …, fₙ ∈ zℂ⟦z⟧`, `n ≥ 1`, are linearly
+independent over `ℚ`, then `ℂ[f, exp f]` has transcendence degree at least `n + 1` over `ℂ`. -/
 theorem ax_schanuel_powerSeries {n : ℕ} (hn : 1 ≤ n) (f : Fin n → PowerSeries ℂ)
     (hf0 : ∀ i, constantCoeff (f i) = 0) (hlin : LinearIndependent ℚ f) :
     ((n + 1 : ℕ) : Cardinal) ≤
