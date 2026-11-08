@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Boundary.Charts
-import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
+import TauCeti.Geometry.Manifold.Orientation
 
 /-!
 # High-dimensional differential topology and homotopy spheres: target signatures
