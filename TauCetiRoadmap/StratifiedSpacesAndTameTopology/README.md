@@ -992,7 +992,8 @@ stratification in the sense of 1.1.
 - J. Mather, "Notes on topological stability", *Bulletin of the AMS* 49 (2012), 475–506 (Harvard
   notes, 1970): §8 (the tubes `T_{X,Y}`).
 - P. Albin, É. Leichtnam, R. Mazzeo and P. Piazza, "The signature package on Witt spaces",
-  *Annales scientifiques de l'École normale supérieure* 45 (2012), 241–310, §2: §2.1 (depth of a
+  *Annales scientifiques de l'École normale supérieure* 45 (2012), 241–310,
+  doi:10.24033/asens.2165; numbering of the published text and of arXiv:1112.0989: §2.1 (depth of a
   stratum), Proposition 2.3 (blowdown of a manifold with corners with iterated fibration structure)
   and Proposition 2.5 (resolution of a smoothly stratified space).
 - D. Joyce, "On manifolds with corners", in *Advances in Geometric Analysis*, Advanced Lectures in
