@@ -6017,7 +6017,7 @@ Layer4.5 (native bracket and Jones conventions); Mathlib `MvPolynomial`,
 `Ideal.Quotient`, `LaurentPolynomial` and units; native
 `TauCeti.Algebra.TemperleyLieb.Basic`, `TauCeti.KnotTheory.TemperleyLieb`,
 PD state counts, Kauffman brackets, signed kink and typeII/III APIs.
-Use [Kauffman, §2, Lemmas2.3–2.4 and Theorems2.6–2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
+Use [Kauffman, §2, Lemmas 2.3–2.4, Theorem 2.6, Proposition 2.7 and Theorem 2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
 for the state model and regular-to-ambient normalization.
 
 ### 4.5.5 Jones polynomials of 3₁, 4₁, 9₄₁ and 9₄₂ and two excluded candidates
@@ -6879,7 +6879,7 @@ skein modules are outside this prefix.
 
 **Hoste's distinct diagram construction.** Define ordered diagrams with one regular
 basepoint on every component. Pin the descending convention of
-Freyd–Yetter–Hoste–Lickorish–Millett–Ocneanu (p. 243): each crossing is first
+Freyd–Yetter–Hoste–Lickorish–Millett–Ocneanu (pp. 242–243): each crossing is first
 encountered as an overpass while traversing the components in order from those points,
 so that one never crosses over one's own earlier path; a bad crossing is one first met
 as an underpass, and the ascending convention of the Lickorish–Millett route below is the
@@ -13380,8 +13380,9 @@ theorem and Smale's disc theorem) for Layer 11.2.1; Mathlib CW complexes.
   Theorem 1.1, Proposition 1.4, Theorem 1.5 (with the Basic Fact in its proof),
   Proposition 1.7, Theorem 1.9, Lemma 1.11, Propositions 1.12–1.14, Lemmas 1.16–1.18,
   Theorem 2.3, Theorem 2.5, Chapter 3 (the numbering is that of this file, `3Mfds.pdf`;
-  the shorter `3M.pdf` on the same page numbers the same statements differently from
-  Proposition 1.12 on).
+  the shorter `3M.pdf` on the same page lacks Lemma 1.10 and Corollary 1.15, so its
+  Lemma 1.10 and Propositions 1.11–1.13 are this file's Lemma 1.11 and Propositions
+  1.12–1.14, and its Lemmas 1.14–1.16 are this file's Lemmas 1.16–1.18).
 - M. Hirsch, *Differential Topology*, Springer GTM 33 (1976): Chapter 2 §1; Chapter 4,
   Theorems 5.3, 6.1, 6.3, 6.6; Chapter 6 §1; Chapter 8, Theorems 1.3 and 3.1; Chapter 9, Theorems 3.5,
   3.6, 3.7, 3.10, 3.11 and Lemmas 3.8, 3.9. J. Lee, *Introduction to
