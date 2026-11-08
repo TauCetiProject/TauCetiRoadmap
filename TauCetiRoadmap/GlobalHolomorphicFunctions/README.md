@@ -1,10 +1,10 @@
 # Roadmap: global holomorphic functions of one complex variable
 
 **Summary.** Build global one-variable approximation, prescribed isolated singularities and
-divisors, arbitrary-genus primary products and full Weierstrass factorization from the local
-complex-analysis and contour libraries. Develop compact-open holomorphic function spaces,
-Cauchy–Green, global smooth ∂̄ solvability, Cousin I and exactness of planar two-forms on
-arbitrary open subsets of ℂ.
+divisors, and full Weierstrass factorization from the local complex-analysis and contour
+libraries and AnalyticNumberTheoryPartI's primary products. Develop compact-open holomorphic
+function spaces, Cauchy–Green, global smooth ∂̄ solvability, Cousin I and exactness of planar
+two-forms on arbitrary open subsets of ℂ.
 
 ## Scope and ownership
 
@@ -27,11 +27,14 @@ exactness. No operation on forms over a general manifold is constructed here.
 
 ZerosOfLFunctions, Layer 5.2–5.5, owns the zero-support API, the genus-one factor and its
 basic API, its canonical product under order-one growth, and the entire logarithm.
-Layer 1 here extends that mathematics to arbitrary genera, arbitrary compact-summable
-holomorphic deviations, and weighted divisors given directly with inverse-square summability,
-without an entire function or growth bound as input. Layer 5 proves full factorization without
-finite-order hypotheses. These are extensions of the stated contracts, not a reassignment
-of their genus-one special case; ZerosOfLFunctions is a supplier, not a consumer.
+AnalyticNumberTheoryPartI §§0.15–0.15a owns the primary factors of every genus, the
+compact-summability product theorem, locally uniform primary products with variable genera and
+exact orders, and equal-divisor factorization of entire functions.
+Layer 1 here extends that mathematics to weighted divisors given directly with inverse-square
+summability, without an entire function or growth bound as input. Layer 5 proves full
+factorization without finite-order hypotheses. These are extensions of the stated contracts,
+not a reassignment of their genus-one special case; ZerosOfLFunctions and
+AnalyticNumberTheoryPartI are suppliers, not consumers.
 
 The filled compact exhaustion of an open subset of a proper real normed space is Tau Ceti's
 (`IsOpen.exists_isFilledIn_compact_exhaustion`), and Layer 2 consumes its plane instance as
@@ -50,7 +53,8 @@ proof-route examples. The sharp finite-product inequality is a distinct target.
 Work with scalar functions on arbitrary open Ω⊆ℂ, including empty and disconnected Ω.
 Use `DifferentiableOn ℂ`, native analytic orders and native locally finite divisors.
 Analytic order ∞ is distinguished from order zero; the zero function's totalized native
-meromorphic divisor is zero, so equal-divisor factorization requires both functions nonzero.
+meromorphic divisor is zero, so AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization
+requires both functions nonzero.
 Smoothness means `ContDiffOn ℝ ∞`, whereas analytic manifold maps use order `ω`.
 All function-space uniformities are scoped, and all index types are universe-polymorphic.
 Unordered products use the cofinite finite-subset product filter; an explicitly paired
@@ -83,9 +87,7 @@ the empty cases here follow directly from the definitions.
   `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally compact
   open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
   exhaustions, without a Runge condition.
-- `Summable.hasProdUniformlyOn_one_add` in
-  `Mathlib/Analysis/Normed/Module/MultipliableUniformlyOn.lean` requires a summable eventual
-  majorant on the specified set. `Complex.logDeriv_tendsto` in
+- `Complex.logDeriv_tendsto` in
   `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
   eventual holomorphy and a nonzero limit at the point. `logDeriv_tprod_eq_tsum` in
   `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
@@ -167,8 +169,17 @@ the integer-weighted circulation equals the integral over `U` of the winding-wei
 
 Consume Layer 5.2's countable locally finite zero support, Layer 5.3's genus-one factor
 and basic API, Layer 5.4's growth-to-summability canonical product, and Layer 5.5's entire
-logarithm. The inverse-square-input and arbitrary-genus extensions are stated in Layer 1.
+logarithm. The inverse-square-input extension is stated in Layer 1.2.
 Use the native contour logarithm implementation for the logarithm contract.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Consume §0.15's primary factor `elementaryFactor` with its normalization, simple zero at one,
+sharp estimate `|1−E_p(w)|≤|w|^(p+1)` on the closed unit disk and identification of `E₁` with
+ZerosOfLFunctions' genus-one factor; its compact-summability product theorem with additive
+orders and unit tail; and its countable variable-genus product with exact orders,
+`exists_entire_primary_product_exact`. Consume §0.15a's equal-divisor factorization
+`exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero.
 
 ### From TauCetiRoadmap.ConformalMapping
 
@@ -179,14 +190,14 @@ No geometric mapping theorem enters the scalar Cauchy–Green or global ∂̄ so
 ## How to read the build
 
 Layer 0 develops real-plane calculus and compact-support Cauchy–Green. Layer 1 develops
-primary factors and summable products. Layer 2 (GH0) supplies hulls, compact-open spaces
-and Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2)
-realizes isolated singularities; Layer 5 (GH3) gives full factorization. Layer 6 (GH4)
-applies these results to products, approximation and contours. Layer 7 (GH5) solves global
-∂̄ and Cousin I and proves planar two-form exactness. Each route lists its own inputs;
-Layer 7's scalar solver does not use Layer 6's Green theorem. Suggested.lean states the
-headline theorems on pinned carriers; the form-level statements of Layer 7.2 are on Tau
-Ceti's smooth-form carrier.
+summable products, building on AnalyticNumberTheoryPartI's primary products. Layer 2 (GH0)
+supplies hulls, compact-open spaces and Runge; Layer 3 (GH1) realizes divisors and boundary
+noncontinuation; Layer 4 (GH2) realizes isolated singularities; Layer 5 (GH3) gives full
+factorization. Layer 6 (GH4) applies these results to products, approximation and contours.
+Layer 7 (GH5) solves global ∂̄ and Cousin I and proves planar two-form exactness. Each route
+lists its own inputs; Layer 7's scalar solver does not use Layer 6's Green theorem.
+Suggested.lean states the headline theorems on pinned carriers; the form-level statements of
+Layer 7.2 are on Tau Ceti's smooth-form carrier.
 
 ## Layer 0: real-plane calculus and compact-support Cauchy–Green
 
@@ -494,64 +505,24 @@ For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has w
 Native real/complex calculus and measure theory; Tau Ceti's Wirtinger derivatives, Cauchy
 transform and Morera. No later layer supplies an input.
 
-## Layer 1: preparatory primary factors and locally uniform products
+## Layer 1: preparatory locally uniform products
 
-### 1.1 Arbitrary genera and compact summability
+### 1.1 Primary factors and compact-summability products
 
-Define `elementaryFactor` by E₀(w)=1−w and `E_p(w)=(1-w) exp(w + … + w^p/p)` for p>0. For a finite or countable sequence of nonzero zeros `a_n` repeated according to multiplicity,
-allow the empty and finite cases (empty product `1`), and for an infinite sequence require
-`|a_n|→∞`. Prove local-uniform convergence of `∏ E_{p_n}(z/a_n)` under
-`Σ_n (R/|a_n|)^(p_n+1)<∞` for every `R>0`, and prove its exact zero divisor in `exists_entire_primary_product_exact`. State the local
-order equality `analyticOrderAt F z = Nat.card {n | a_n=z}` when the set is finite; multiplicity
-indexing, rather than distinct zero support, supplies the general repeated-zero statement. Prove the sharp estimate `|1−E_p(w)|≤|w|^(p+1)` for `|w|≤1`, the local-uniform
-primary-product theorem and its exact zero divisor. Also prove the general locally-uniform product
-lemma: for holomorphic `u_j` on open U with `Σ_j sup_K |u_j|<∞` for every compact K⊂U,
-`∏_j(1+u_j)` converges locally uniformly to a holomorphic function. At each z let
-`J_z={j : u_j(z)=−1}`. Compact summability forces `J_z` finite; require also each factor indexed
-by `J_z` to have finite germ order at z (so none vanishes identically near z). Then their orders
-sum to the product order, while the remaining tail is a holomorphic unit germ at z. In particular,
-if `J_z=∅`, the product is nonzero at z. For the convergence conclusion consume
-`Summable.hasProdUniformlyOn_one_add` (or its natural-number variant) from
-`Mathlib/Analysis/Normed/Module/MultipliableUniformlyOn.lean` on each compact K, with the
-summable majorant `sup_K |u_j|` and continuity supplied by holomorphy. Use its actual
-cofinite eventual-majorant hypothesis; the majorant may depend on K. Assemble the compact
-conclusions into `HasProdLocallyUniformlyOn` and use native holomorphic-limit closure.
-The locally uniform theorem with one global majorant does not itself supply this
-compact-dependent adapter. For the additional germ-order and unit-tail conclusions,
-discard finitely many terms so `|u_j|≤1/2`, sum the logarithmic series, and treat the finite
-factors separately. The weaker uniform-absolute-tail criterion below remains a separate target.
-
-The primary-factor and product API is:
-
-- Every primary factor is entire, normalized to one at zero and has precisely one simple zero at one.
-- The compact-summability product has the specified locally uniform limit and the sum of finite
-  zero-fiber multiplicities as its exact analytic order.
-- Reindexing by an equivalence and grouping finite multiplicity fibers preserve the normalized product.
-
-**Checks.**
-
-- E₀(0)=1 and E₀(1)=0, whereas E₀(−1)=2; dropping the linear factor fails the zero check.
-- E₁(1)=0 and E₁′(1)=−e, exactly the supplier's genus-one normalization.
-- An empty index has product 1 and order 0 everywhere; two genus-zero factors at a=1
-  give (1−z)² and order 2 at 1, not the cardinality 1 of the distinct support.
-
-The product theorem is Rainer, Theorem 14.3, pp. 35–36, and the primary factors are
-Remark 15.4, p. 38 (rainer lines 1868, 2030); unordered and repeated-index forms are
-obtained from absolute compact summability. For the sharp deviation estimate, expand 1−Eₚ as a power series: its coefficients are
-nonnegative real numbers, vanish through degree p, and sum to 1 at w=1. Thus at |w|≤1
-the absolute sum is at most |w|ᵖ⁺¹, including p=0 and w=1.
-*Needs:* ZerosOfLFunctions Layer 5.3; Mathlib uniform product majorants, holomorphic limits,
-analytic order and power series. Exact-order bookkeeping uses a unit tail and the finite product rule.
+The primary factor `elementaryFactor`, its sharp estimate, the compact-summability product
+theorem and the countable variable-genus product with exact orders,
+`exists_entire_primary_product_exact`, are AnalyticNumberTheoryPartI §0.15. The rest of this
+layer builds on them.
 
 ### 1.2 Genus-one products over weighted zero support
 
-For arbitrary p, the primary-factor API extends the genus-one contract in Scope and
-ownership. Writing Qₚ(w)=Σₖ₌₁ᵖ wᵏ/k, prove Eₚ(0)=1, Eₚ(w)=0 iff w=1,
-Eₚ′(w)=−wᵖ exp(Qₚ(w)), and Eₚ′/Eₚ=−wᵖ/(1−w) for w≠1. At p=1,
-identify this factor with the supplied genus-one factor. The sharp deviation bound gives
+For AnalyticNumberTheoryPartI §0.15's primary factor Eₚ, whose normalization, zero and
+genus-one identification are that section's, write Qₚ(w)=Σₖ₌₁ᵖ wᵏ/k and prove
+Eₚ′(w)=−wᵖ exp(Qₚ(w)), and Eₚ′/Eₚ=−wᵖ/(1−w) for w≠1. Its sharp deviation bound gives
 the stronger normalized estimate log ‖E₁(w)‖≤‖w‖² on the unit disk;
 treat w=1 separately using Real.log 0=0. These identities follow by differentiation of
-the defining formula (Rainer, Remark 15.4, p. 38); the small-disk estimate uses Layer 1.1.
+the defining formula (Rainer, Remark 15.4, p. 38); the small-disk estimate uses
+AnalyticNumberTheoryPartI §0.15.
 
 Supply the following weighted-support specialization without choosing an enumeration.
 Let `S⊂ℂ\{0}` be countable, meet each compact set in finitely many points, and carry
@@ -564,7 +535,7 @@ converges locally uniformly on ℂ, is entire, satisfies `P(0)=1`, and has analy
 `m(ρ)` at each `ρ∈S` and zero order elsewhere. Its native meromorphic divisor has these
 same values, cast to ℤ. Include empty and finite support.
 
-Apply the countable-index primary-product theorem to `ι=Σ (ρ:S), Fin (m ρ)`,
+Apply AnalyticNumberTheoryPartI's `exists_entire_primary_product_exact` to `ι=Σ (ρ:S), Fin (m ρ)`,
 `a(ρ,j)=ρ`, and constant `p=1`. Compact finiteness of S and finiteness of every `Fin (m ρ)`
 give cofinite escape for a. For each `R>0`, summing over the finite fibers gives exactly
 `Σ_(i:ι) (R/‖a i‖)² = R² Σ_(ρ:S) m(ρ)/‖ρ‖²`.
@@ -591,8 +562,8 @@ the supplier contract; neither is an input to the summability-input theorem.
 
 The weighted-product API identifies the grouped and repeated-index limits, their normalization,
 analytic orders and native divisors; restriction to compact disks and insertion of zero
-multiplicities preserve the limit. This is the inverse-square-input consequence of Layer 1.1,
-using Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
+multiplicities preserve the limit. This is the inverse-square-input consequence of
+AnalyticNumberTheoryPartI §0.15, using Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
 
 **Checks.**
 
@@ -600,8 +571,9 @@ using Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
 - S={1}, m(1)=2 gives P(z)=(1−z)² exp(2z); the analytic order and divisor at 1 are both 2.
 - S={2}, m(2)=0 contributes factor 1 and order 0; forbidding zero multiplicity would lose this input.
 - For S={1}, m=2, the repeated-index majorant is 2R²=R²·2, fixing the real multiplicity cast.
+- E₁′(1)=−e, from Eₚ′(w)=−wᵖ exp(Qₚ(w)) at p=1.
 
-*Needs:* Layer 1.1; ZerosOfLFunctions Layer 5.2's support API; finite-fiber grouping for
+*Needs:* AnalyticNumberTheoryPartI §0.15; ZerosOfLFunctions Layer 5.2's support API; finite-fiber grouping for
 locally uniform products and the native analytic-order/divisor comparison.
 
 ### 1.3 Variable exponents, genus, and logarithmic derivatives
@@ -638,9 +610,10 @@ Logarithmic derivatives are taken only on the simultaneous nonvanishing locus.
 - For aₙ=2ⁿ, Σₙ≥₁1/2ⁿ=1, giving genus 0. With variable pₙ=n−1 and ratio at most 1/2,
   the tail bound is 2⁻ⁿ, whose sum from N is 2¹⁻ᴺ.
 
-This is derived from the primary-factor expansion and Rainer, Remark 15.4, p. 38
-(rainer line 2030); logarithmic-derivative passage uses the pinned theorem in the supplier contract.
-*Needs:* Layer 1.1; native power-series estimates and `Complex.logDeriv_tendsto` with
+This is derived from the expansion of AnalyticNumberTheoryPartI §0.15's primary factor and Rainer,
+Remark 15.4, p. 38 (rainer line 2030); logarithmic-derivative passage uses the pinned theorem in
+the supplier contract.
+*Needs:* AnalyticNumberTheoryPartI §0.15; native power-series estimates and `Complex.logDeriv_tendsto` with
 nonzero limit and holomorphic approximants; the finite-product derivative rule.
 
 ### 1.4 Sharp finite-product majorant
@@ -708,7 +681,8 @@ including infinite order when a factor has zero germ. A sufficiently small unifo
 tail is a unit on a compact disk, leaving only finitely many factors carrying nonzero order.
 When no factor vanishes identically on the component, these orders are finite and the
 identity is a finite sum. Use native analytic order and its factorization characterization.
-The stronger compact-sup-summability criterion is also a useful sufficient condition.
+The stronger compact-sup-summability criterion of AnalyticNumberTheoryPartI §0.15 is also a
+useful sufficient condition.
 
 The uniform-tail product API supplies sequential and unordered convergence, nonvanishing
 exactly off the union of factor zero sets, and addition of germ orders. It is the
@@ -733,7 +707,8 @@ The double factor at 1 has order 2, and the empty product has value 1 and order 
 
 ### Dependencies
 
-ZerosOfLFunctions Layer 5.2–5.5 and native product/analytic-order APIs. No global factorization is used.
+ZerosOfLFunctions Layer 5.2–5.5, AnalyticNumberTheoryPartI §0.15 and native product/analytic-order
+APIs. No global factorization is used.
 
 ## Layer 2: plane domains, compact hulls, and Runge approximation (GH0)
 
@@ -1137,22 +1112,22 @@ approximation theorem as reusable API, rather than assuming a divisor theorem as
 Also give a direct arbitrary-Ω divisor construction independent of zero-free Runge. Work
 componentwise. For proper Ω split the marked points into E_b={a∈E: dist(a,ℂ\Ω)<1} and
 E_∞={a∈E: dist(a,ℂ\Ω)≥1}; isolate any finite exceptional points and zero. The E_∞ points
-escape every bounded set, so consume the preparatory primary-product existence/zero-divisor lemma for
+escape every bounded set, so consume AnalyticNumberTheoryPartI's `exists_entire_primary_product_exact` for
 their repeated list. For each a∈E_b choose b_a∈ℂ\Ω with
 `|a−b_a|<2 dist(a,ℂ\Ω)` and put `w_a(z)=(b_a−a)/(z−b_a)`. On every compact K⊂Ω,
 `w_a→0` along the E_b list: a bounded subsequence of E_b can accumulate only at ∂Ω, where
 its distance to ℂ\Ω tends to zero, while an unbounded subsequence has |b_a|≥|a|−2 and
 |w_a|=O_K(|a|⁻¹). For `p≥0` define `B_p(w)=(1+w) exp(Σ_{k=1}^p (−1)^k w^k/k)`; record the identity
-`B_p(w)=E_p(−w)` for the previously defined primary factor, not a second family of factors.
-It has one simple zero at w=−1. For |w|≤1, consume the sharp preparatory estimate
+`B_p(w)=E_p(−w)` for AnalyticNumberTheoryPartI §0.15's primary factor, not a second family of factors.
+It has one simple zero at w=−1. For |w|≤1, consume that section's sharp estimate
 `|B_p(w)−1|≤|w|^(p+1)`. Raise it to the prescribed multiplicity and choose p_a by a
 diagonal compact exhaustion so the deviations are summable on
 each compact. Finite exceptional factors are retained separately. These factors are holomorphic on
 Ω (their only possible singularity is at b_a∉Ω), have exactly the prescribed zeros, and the locally uniform
 product is nonzero off E; prove exact orders at E and nonvanishing of the tail product. When
-Ω=ℂ, use the preparatory product theorem for the whole sequence. Both divisor constructions
-consume only earlier preparatory results and GH0; the later full factorization theorem
-does not supply a prerequisite to this milestone.
+Ω=ℂ, use AnalyticNumberTheoryPartI's product theorem for the whole sequence. Both divisor
+constructions consume only AnalyticNumberTheoryPartI §0.15, earlier preparatory results and
+GH0; the later full factorization theorem does not supply a prerequisite to this milestone.
 
 The divisor-realization API includes exact orders, finite nonzero germs on every component,
 restriction and products/quotients corresponding to addition/subtraction of divisor data.
@@ -1170,7 +1145,7 @@ These are Rainer, Proposition 15.2 and Theorem 15.3, pp. 36–38
 - On an annulus, u=z has winding 1 and is already a global zero-free approximant;
   exponentials alone have winding 0 and cannot supply the whole approximation theorem.
 
-*Needs:* Layers 1 and 2, native divisors and analytic orders; Tau Ceti closed periods,
+*Needs:* Layers 1 and 2; AnalyticNumberTheoryPartI §0.15; native divisors and analytic orders; Tau Ceti closed periods,
 integer winding and primitive-to-logarithm. The cycle-composition and finite-grid dual cycles
 are the explicit targets in this subsection, not an assumed homology basis.
 
@@ -1336,42 +1311,31 @@ Layers 1–3, Laurent decomposition, Runge corrections and holomorphic local-uni
 
 ## Layer 5: full Weierstrass factorization (GH3)
 
-### 5.1 Equal divisors and full factorization
+### 5.1 Full factorization
 
-Consume the preparatory primary-product existence and exact-order theorem under its stated
-convergence hypotheses.
-
-Supply `exists_entire_exp_mul_of_divisor_eq`, the reusable equal-divisor quotient theorem: if f and F are entire, neither is
-identically zero, and their native divisors on ℂ agree, then `f=exp(g) F` for some entire g.
-Construct the removable extension q of f/F, prove `f=qF` everywhere and that q never
-vanishes, then apply the entire-logarithm theorem. Nontriviality of both functions is
-essential: the native divisor of the identically zero function is zero and cannot
-distinguish it from a nonvanishing entire function. This theorem applies in particular
-to the genus-one product and the original function with the same divisor.
+Consume AnalyticNumberTheoryPartI's `exists_entire_primary_product_exact` under its stated
+convergence hypotheses and its equal-divisor factorization `exists_entire_exp_mul_of_divisor_eq`
+(§0.15a).
 
 The headline `entire_weierstrass_factorization` states: for every nonzero entire f with zero order m at 0 and nonzero zeros listed with multiplicity,
-prove `f(z)=z^m exp(g(z)) ∏ E_{p_n}(z/a_n)` for an admissible sequence p_n and entire g. Prove
-that the zero-free quotient extends through its removable singularities, then consume the native
-contour primitive-to-logarithm API on ℂ to obtain its entire logarithm and exponential factor. State nonuniqueness under
-choice of p_n; for a fixed product and fixed f, two possible logarithms g differ by
-2πik with k∈ℤ, constant on ℂ. The product and factorization theorems allow a variable sequence of primary-factor
-genera and impose no finite-order hypothesis on the entire function.
+prove `f(z)=z^m exp(g(z)) ∏ E_{p_n}(z/a_n)` for an admissible sequence p_n and entire g. The
+entire function `z^m ∏ E_{p_n}(z/a_n)` has the native divisor of f, so AnalyticNumberTheoryPartI
+§0.15a supplies g. State nonuniqueness under choice of p_n; for a fixed product and fixed f,
+g is unique up to the additive constant in 2πiℤ given there. The factorization theorem, like
+AnalyticNumberTheoryPartI's product theorem, allows a variable sequence of primary-factor
+genera and imposes no finite-order hypothesis on the entire function.
 
-The factorization API includes exact multiplicities, normalization of the primary product,
-removable quotient extension and the ambiguity 2πik of the entire logarithm for a fixed product.
-The full factorization is Rainer, Remark 15.4, p. 38 (rainer lines 2030, 2050); equal-divisor
-factorization is the same removable-quotient argument with an arbitrary entire product.
+The factorization API includes exact multiplicities and normalization of the primary product.
+The full factorization is Rainer, Remark 15.4, p. 38 (rainer lines 2030, 2050).
 
 **Checks.**
 
 - For f=z, m=1, the nonzero-zero index is empty, P=1 and g=0 give z=z·1·1.
 - For f=(z−1)², choose p=0, P=(1−z)² and g=0; the power is 2, not 1.
 - For f=exp(z), m=0, P=1 and g=z; the empty zero set does not force f to be constant.
-- For f=0 and F=1, both native divisors are zero but exp(g)·1 cannot vanish;
-  this explains both nontriviality hypotheses in the equal-divisor theorem.
 
-*Needs:* Layer 1 primary products, native isolated zeros and analytic orders, removable
-singularities, and the supplier's entire logarithm (implemented by the Tau Ceti contour API).
+*Needs:* Layer 1.3's admissible genera; AnalyticNumberTheoryPartI §§0.15–0.15a; native isolated
+zeros and analytic orders.
 
 
 
@@ -1381,7 +1345,7 @@ The cases z, (z−1)² and exp(z) separate the origin order, repeated zeros and 
 
 ### Dependencies
 
-Layer 1 exact products, local order/removable singularity APIs and the entire logarithm supplier.
+Layer 1, AnalyticNumberTheoryPartI §§0.15–0.15a and local order APIs.
 
 ## Layer 6: products, approximation, and contour examples (GH4)
 
@@ -1549,7 +1513,7 @@ points in the `k`th unit annulus lie in an annulus of fixed enlarged width, so t
 
 For the square lattice use the explicit Manhattan-shell enumeration:
 `z ∏_(N≥1) ∏_(m,n∈ℤ, |m|+|n|=N) E₂(z/(n+im))`, where `E₂(w) = (1−w) exp(w + w²/2)`.
-For `Λ=ℤ+iℤ`, this has simple zero set all of `Λ`, including zero. Each shell has `4N` points and `|n+im|≥N/√2`. On `|z|≤R`, the sharp preparatory estimate `|E₂(w)−1|≤|w|³` for `|w|≤1` bounds each sufficiently large shell's total deviation by `4N(√2R/N)^3`. The shell bounds are summable, so the product converges compact-uniformly and independently of ordering. Consume the preparatory estimate `|1−E_p(w)|≤|w|^{p+1}` for `|w|≤1` and the proved
+For `Λ=ℤ+iℤ`, this has simple zero set all of `Λ`, including zero. Each shell has `4N` points and `|n+im|≥N/√2`. On `|z|≤R`, AnalyticNumberTheoryPartI §0.15's sharp estimate `|E₂(w)−1|≤|w|³` for `|w|≤1` bounds each sufficiently large shell's total deviation by `4N(√2R/N)^3`. The shell bounds are summable, so the product converges compact-uniformly and independently of ordering. Consume that sharp estimate `|1−E_p(w)|≤|w|^{p+1}` for `|w|≤1` and the proved
 admissibility of `p_n=n−1` for every escaping sequence; do not repeat that proof here. State the
 genus criterion and logarithmic-derivative theorem from the preparatory product layer,
 including nonvanishing of both factors and limit and compact avoidance of every zero.
@@ -1571,8 +1535,8 @@ point 0 by its nearby genuine poles.
 
 The example-product API supplies local-uniform convergence, exact zeros, the theta shift,
 ordering independence for absolutely convergent products and exclusion of pole accumulation points.
-All are derived from Layer 1's product theorem (Rainer, Theorem 14.3, pp. 35–36,
-rainer line 1868) and the explicit estimates above.
+All are derived from AnalyticNumberTheoryPartI §0.15's product theorem (Rainer, Theorem 14.3,
+pp. 35–36, rainer line 1868) and the explicit estimates above.
 
 **Checks.**
 
@@ -1584,7 +1548,7 @@ rainer line 1868) and the explicit estimates above.
 - In the ratio example b₁=1 and a₁=2, the factor has a genuine pole at 1; cancellation
   would require m²=2n², which has no positive integer solutions.
 
-*Needs:* Layers 1 and 5, native sine/hyperbolic identities, lattice shell counts and compact
+*Needs:* Layers 1 and 5; AnalyticNumberTheoryPartI §0.15; native sine/hyperbolic identities, lattice shell counts and compact
 separation from the pole closure; every ratio denominator is bounded away from zero on the stated compact.
 
 ### 6.4 Polynomial and rational approximation examples

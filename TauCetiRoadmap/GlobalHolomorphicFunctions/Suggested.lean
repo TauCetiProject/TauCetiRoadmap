@@ -6,10 +6,14 @@ import TauCeti.Analysis.Contour.Cycle.Basic
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, the sharp
-finite-product bound, exact primary products, holomorphic hulls and Runge, compact-open
+finite-product bound, weighted genus-one products, holomorphic hulls and Runge, compact-open
 completeness, divisor and isolated-singularity realization, boundary noncontinuation, full
 Weierstrass factorization, Cauchy–Pompeiu on a cycle, global smooth ∂̄ solvability with closed
 completion, and Cousin I.
+
+Primary factors, primary products and equal-divisor factorization are AnalyticNumberTheoryPartI
+§§0.15–0.15a. That file is not importable here, so the primary factor is written out where the
+statements below use it.
 
 The operator ∂̄ is written in real Fréchet coordinates: `2 ∂̄u(z) = u_x(z) + i u_y(z)` with
 `u_x = fderiv ℝ u z 1` and `u_y = fderiv ℝ u z I`, the convention of Tau Ceti's conjugate
@@ -44,40 +48,26 @@ theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
     DifferentiableOn ℂ f Ω := by
   sorry
 
-/-! ## Layer 1: primary factors and locally uniform products -/
+/-! ## Layer 1: locally uniform products -/
 
-/-- Weierstrass's primary factor. The empty correction sum gives `E₀(w)=1-w`. -/
-noncomputable def elementaryFactor (p : ℕ) (w : ℂ) : ℂ :=
-  (1 - w) * Complex.exp (∑ k ∈ Finset.range p, w ^ (k + 1) / (k + 1))
-
-/-- **Preparatory, arbitrary countable indexing and exact multiplicities.** The cofinite escape condition
-includes finite and empty index types and forces every zero fiber to be finite, so its cardinal is
-the exact multiplicity. -/
-theorem exists_entire_primary_product_exact (ι : Type*) [Countable ι]
-    (a : ι → ℂ) (p : ι → ℕ)
-    (ha : ∀ i, a i ≠ 0)
-    (hEscape : Tendsto (fun i => ‖a i‖) (Filter.cofinite : Filter ι) atTop)
-    (hsum : ∀ R : ℝ, 0 < R → Summable (fun i => (R / ‖a i‖) ^ (p i + 1))) :
-    ∃ F : ℂ → ℂ,
-      HasProdLocallyUniformlyOn (fun i z => elementaryFactor (p i) (z / a i)) F Set.univ ∧
-      DifferentiableOn ℂ F Set.univ ∧
-      ∀ z, analyticOrderAt F z = (Nat.card {i // a i = z} : ℕ∞) := by
-  sorry
-
+-- Supplied by AnalyticNumberTheoryPartI:
+-- §0.15 `TauCetiRoadmap.AnalyticNumberTheoryPartI.elementaryFactor` and
+-- `TauCetiRoadmap.AnalyticNumberTheoryPartI.exists_entire_primary_product_exact`.
 
 open scoped Classical in
 /-- Weighted genus-one specialization. Compact finiteness supplies cofinite escape on the
 repeated index; inverse-square summability supplies the compact majorants. Both products
-converge to the same normalized entire function, even at zeros. -/
+converge to the same normalized entire function, even at zeros. The factor
+`(1 - w) * exp w` is AnalyticNumberTheoryPartI's `elementaryFactor 1`, written out. -/
 theorem exists_entire_genusOne_product (S : Set ℂ) [Countable S] (m : S → ℕ)
     (hzero : (0 : ℂ) ∉ S)
     (hfinite : ∀ K : Set ℂ, IsCompact K → (S ∩ K).Finite)
     (hsum : Summable (fun ρ : S => (m ρ : ℝ) / ‖(ρ : ℂ)‖ ^ 2)) :
     ∃ F : ℂ → ℂ,
       HasProdLocallyUniformlyOn
-        (fun (ρ : S) z => elementaryFactor 1 (z / (ρ : ℂ)) ^ m ρ) F Set.univ ∧
+        (fun (ρ : S) z => ((1 - z / (ρ : ℂ)) * Complex.exp (z / (ρ : ℂ))) ^ m ρ) F Set.univ ∧
       HasProdLocallyUniformlyOn
-        (fun (i : Σ ρ : S, Fin (m ρ)) z => elementaryFactor 1 (z / (i.1 : ℂ)))
+        (fun (i : Σ ρ : S, Fin (m ρ)) z => (1 - z / (i.1 : ℂ)) * Complex.exp (z / (i.1 : ℂ)))
         F Set.univ ∧
       Differentiable ℂ F ∧ F 0 = 1 ∧
       ∀ z, analyticOrderAt F z = (if hz : z ∈ S then (m ⟨z, hz⟩ : ℕ∞) else 0) ∧
@@ -86,7 +76,8 @@ theorem exists_entire_genusOne_product (S : Set ℂ) [Countable S] (m : S → �
   sorry
 
 /-- Native-divisor input form of the genus-one product. Its locally finite support supplies
-the countability and compact-finiteness hypotheses of the support-indexed target. -/
+the countability and compact-finiteness hypotheses of the support-indexed target. The factor
+`(1 - w) * exp w` is AnalyticNumberTheoryPartI's `elementaryFactor 1`, written out. -/
 theorem exists_entire_genusOne_product_of_divisor
     (D : Function.locallyFinsuppWithin (Set.univ : Set ℂ) ℤ)
     (hD : ∀ z, 0 ≤ D z) (hDzero : D 0 = 0)
@@ -94,7 +85,7 @@ theorem exists_entire_genusOne_product_of_divisor
     ∃ F : ℂ → ℂ,
       HasProdLocallyUniformlyOn
         (fun (ρ : Function.support D) z =>
-          elementaryFactor 1 (z / (ρ : ℂ)) ^ (D (ρ : ℂ)).toNat) F Set.univ ∧
+          ((1 - z / (ρ : ℂ)) * Complex.exp (z / (ρ : ℂ))) ^ (D (ρ : ℂ)).toNat) F Set.univ ∧
       Differentiable ℂ F ∧ F 0 = 1 ∧ MeromorphicOn.divisor F Set.univ = D := by
   sorry
 
@@ -273,25 +264,21 @@ theorem exists_holomorphic_quotient {Ω : Set ℂ} (hΩ : IsOpen Ω) {F : ℂ �
 
 /-! ## Layer 5: full Weierstrass factorization -/
 
-/-- **GH3, reusable equal-divisor factorization.** Both functions must be nontrivial:
-the native divisor of the identically zero function is also zero. The quotient is extended
-through common zeros before its entire logarithm is taken. -/
-theorem exists_entire_exp_mul_of_divisor_eq (f F : ℂ → ℂ)
-    (hf : Differentiable ℂ f) (hF : Differentiable ℂ F)
-    (hf_ne : ∃ z, f z ≠ 0) (hF_ne : ∃ z, F z ≠ 0)
-    (hdiv : MeromorphicOn.divisor f Set.univ = MeromorphicOn.divisor F Set.univ) :
-    ∃ g : ℂ → ℂ, Differentiable ℂ g ∧ ∀ z, f z = Complex.exp (g z) * F z := by
-  sorry
+-- Supplied by AnalyticNumberTheoryPartI:
+-- §0.15a `TauCetiRoadmap.AnalyticNumberTheoryPartI.exists_entire_exp_mul_of_divisor_eq`.
 
 /-- Every nonzero entire function is an origin power times an entire exponential times
 an unordered locally uniformly convergent primary product over its nonzero zeros, with
-native analytic orders as multiplicities (Rainer, Remark 15.4, p. 38). -/
+native analytic orders as multiplicities (Rainer, Remark 15.4, p. 38). The local `E` is
+AnalyticNumberTheoryPartI's `elementaryFactor`, written out. -/
 theorem entire_weierstrass_factorization (f : ℂ → ℂ) (hf : Differentiable ℂ f)
     (hne : ∃ z, f z ≠ 0) :
+    let E := fun (p : ℕ) (w : ℂ) =>
+      (1 - w) * Complex.exp (∑ k ∈ Finset.range p, w ^ (k + 1) / (k + 1))
     ∃ (m : ℕ) (p : {a : ℂ // a ≠ 0 ∧ f a = 0} → ℕ) (P g : ℂ → ℂ),
       analyticOrderAt f 0 = (m : ℕ∞) ∧ Differentiable ℂ P ∧ Differentiable ℂ g ∧
       HasProdLocallyUniformlyOn
-        (fun a z => elementaryFactor (p a) (z / a.val) ^ (analyticOrderAt f a.val).toNat)
+        (fun a z => E (p a) (z / a.val) ^ (analyticOrderAt f a.val).toNat)
         P Set.univ ∧
       ∀ z, f z = z ^ m * Complex.exp (g z) * P z := by
   sorry
