@@ -1,7 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.Complex.Fuchsian.Compactification.Manifold
 import TauCeti.Analysis.Complex.Fuchsian.Covolume
-import TauCeti.Geometry.Manifold.Instances.OnePoint
+import TauCeti.Geometry.Manifold.Instances.OnePoint.Basic
 
 /-!
 # Conformal mapping, part II: target signatures
