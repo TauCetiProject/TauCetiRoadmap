@@ -95,13 +95,15 @@ layers need and which neither Mathlib nor Tau Ceti provides:
 | Result | Subsection |
 |---|---|
 | Pincherle's theorem: a continued fraction converges if and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value is `−f(1)/f(0)` | 4.1 |
-| The reduction-of-order criterion for minimality, and the determinant formula for the continuants | 4.1 |
+| The reduction-of-order criterion for minimality | 4.1 |
 | Explicit minimal solutions for the recurrences of 8.9.1, 8.9.2, 7.18.13 and 8.17.22 | 4.2, 14.2, 15.4 |
 | `∫₀^∞ e^{−zt} t^{s−1}/(1 + t) dt` and `∫₀^∞ e^{−zt}(1 + t)^{a−1} dt` as Laplace transforms in a sector | 3.1 |
 | The circle form of Hankel's loop integral for `γ(a, z)` | 3.2 |
 | The even contraction of a `GenContFract` | 12.3 |
-| Rouché's theorem, from the argument principle, for counting zeros near their asymptotic positions | 13.3–13.4 |
 | The uniform Gaussian estimates with a moving endpoint, for the transition region | 13.5 |
+
+It also owns DLMF 2.5.49 and 2.11.5–2.11.7, which AsymptoticExpansions states as facts about `E₁`
+and `E_p` and leaves to this roadmap (8.1, 7.1 and 7.6).
 
 **What this roadmap does not own:**
 - **The real functions Tau Ceti already has:** `TauCeti.lowerIncompleteGamma`,
@@ -126,9 +128,9 @@ layers need and which neither Mathlib nor Tau Ceti provides:
 - **The uniform asymptotic expansions of DLMF §8.12 and §8.18(ii)**, which rest on the
   coalescence of a saddle point with a pole, and exponentially improved expansions. The
   large-parameter statements that this roadmap does own are listed with their uniformity:
-  8.11.6–8.11.7 (uniform for `λ` in compact subsets, 5.3), 8.11.18 (uniform for `x ≤ 1 − δ`,
-  5.4), 8.20.6 (uniform for `λ ∈ [0, ∞)`, 7.6), 8.11.10–8.11.11 (uniform for `y` in compact
-  subsets, 13.5) and 8.18.1 (fixed `b` and `x`, 15.5).
+  8.11.6–8.11.7 (for fixed `λ`, 5.3), 8.11.18 (uniform for `x ≤ 1 − δ`, 5.4), 8.20.6 (uniform
+  for `λ ∈ [0, ∞)`, 7.6), 8.11.10–8.11.11 (uniform for `y` in compact subsets, 13.5) and 8.18.1
+  (fixed `b` and `x`, 15.5).
 - **Numerical tables and methods of computation.**
 
 **The boundary in one sentence:** this roadmap owns the complex theory of the functions of DLMF
@@ -138,12 +140,25 @@ integral and `Hh_n` from the parabolic cylinder roadmap; and it excludes formula
 functions of other chapters, the uniform expansions of §8.12 and §8.18(ii), exponentially
 improved expansions and numerical tables.
 
-**Mathlib and other roadmaps.** Mathlib has no error function, exponential integral, incomplete
-Gamma or Beta function, Fresnel, sine or cosine integral, or Faddeeva function. Mathlib pull
-request [#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (real `erf`,
-`erfc`) is prior art; Tau Ceti's `Erf.lean` follows its names, and the complex `erf` here
-restricts to it. No other roadmap defines a complex error function, an exponential, sine or
-cosine integral, or a complex incomplete Gamma function.
+**Mathlib and other roadmaps.** Mathlib has `Complex.partialGamma s X = ∫₀^X e^{−x} x^{s−1} dx`
+with `Complex.partialGamma_add_one`, the lower incomplete Gamma function with a real upper limit,
+which 1.4 identifies with `γ(s, X)`. It has no error function, exponential integral, incomplete
+Gamma function of complex argument, incomplete Beta function, Fresnel, sine or cosine integral,
+or Faddeeva function. Mathlib pull request
+[#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (real `erf`, `erfc`) is
+prior art; Tau Ceti's `Erf.lean` follows its names, and the complex `erf` here restricts to it.
+
+Two roadmaps under review define special cases of these functions for their own use:
+- QSeriesPartitionsAndMockModularForms §5.3 defines the entire kernel `E(w) = 2∫₀ʷ e^{−πt²} dt`,
+  and its §8.4 defines `H_k(w) = e^{−w} Γ(1 − k, −2w)` for real `k` and real `w ≠ 0`, on the upper
+  bank of the cut when `w > 0`.
+- AutomorphicLFunctionsAndLocalFactors defines `AL0.negativeEi r = −∫_r^∞ e^{−t}/t dt`.
+
+These stay there as those roadmaps' own adapters. This roadmap owns the general functions, and it
+proves the identifications in its own terms: `2∫₀ʷ e^{−πt²} dt = erf(√π w)` (11.1); the boundary
+values `Γ(a, −x ± i0) = upperIncompleteGammaLog a (ln x ± πi)` for `x > 0` (1.5), so that
+`H_k(w) = e^{−w} upperIncompleteGammaLog (1 − k) (ln(2w) + πi)` for `w > 0`; and
+`−∫_r^∞ e^{−t}/t dt = −E₁(r)` for `r > 0` (8.1). No layer here uses either roadmap.
 
 ## Conventions
 
@@ -194,10 +209,11 @@ cosine integral, or a complex incomplete Gamma function.
   This is `Γ(a, e^w)` continued from the positive axis along the vertical segment from `Re w` to
   `w`. The lower functions need no separate definition: `γ(a, e^w) = Γ(a) e^{aw} γ*(a, e^w)` and
   `P(a, e^w) = e^{aw} γ*(a, e^w)` are written out. `E_p` on the logarithmic plane is
-  `expIntegralELog p w = exp((p − 1)w) · upperIncompleteGammaLog (1 − p) w`. "`z → ∞` in
-  `|ph z| ≤ θ`" for `θ ≥ π` is the filter `comap re atTop ⊓ 𝓟 {w | |w.im| ≤ θ}`, as pinned by
-  AsymptoticExpansions; for `θ < π` the filter `Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| ≤ θ}` is
-  used directly.
+  `expIntegralELog p w = exp((p − 1)w) · upperIncompleteGammaLog (1 − p) w`. For every `θ > 0`,
+  "`z → ∞` in `|ph z| ≤ θ`" may be written in logarithmic coordinates as the filter
+  `comap re atTop ⊓ 𝓟 {w | |w.im| ≤ θ}`, as pinned by AsymptoticExpansions; for `θ ≥ π` it must
+  be. For `θ < π` the filter `Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| ≤ θ}` on `z` is equivalent and
+  may be used instead.
 - **Entire functions as segment integrals.** `erf`, `fresnelC`, `fresnelS`, `expIntegralEin`,
   `sinIntegral`, `cosIntegralCin` and `sinhIntegral` are defined by the integral from `0` to `z`
   along the segment, written `∫ s in 0..1, z * f(s z)` (or `f(sz)/s` for the kernels
@@ -212,14 +228,41 @@ cosine integral, or a complex incomplete Gamma function.
   def TauCeti.expIntegralE (p z : ℂ) : ℂ := z ^ (p - 1) * Complex.upperIncompleteGamma (1 - p) z
   ```
 
-  The power series are theorems. `fresnelTail z = (1 + i)/2 − (C(z) + iS(z))` (DLMF 7.5.2);
-  `cosIntegral`, `coshIntegral`, `sinIntegralTail` and the auxiliary functions are the explicit
-  combinations 6.2.10, 6.2.13, 6.2.16–6.2.18, 7.2.10–7.2.11. The full list of bodies is in
-  `Suggested.lean`.
+  The power series are theorems. The remaining functions are explicit combinations or ray
+  integrals:
+
+  ```lean
+  def TauCeti.fresnelTail (z : ℂ) : ℂ := (1 + I) / 2 - (fresnelC z + I * fresnelS z) -- DLMF 7.5.2
+  def TauCeti.fresnelAuxF (z : ℂ) : ℂ :=                                           -- DLMF 7.2.10
+    (1 / 2 - fresnelS z) * cos (π * z ^ 2 / 2) - (1 / 2 - fresnelC z) * sin (π * z ^ 2 / 2)
+  def TauCeti.fresnelAuxG (z : ℂ) : ℂ :=                                           -- DLMF 7.2.11
+    (1 / 2 - fresnelC z) * cos (π * z ^ 2 / 2) + (1 / 2 - fresnelS z) * sin (π * z ^ 2 / 2)
+  def TauCeti.goodwinStaton (z : ℂ) : ℂ :=                                         -- DLMF 7.2.12
+    ∫ t in Ioi (0 : ℝ), cexp (-(t : ℂ) ^ 2) / (t + z)
+  def TauCeti.sinIntegralTail (z : ℂ) : ℂ := sinIntegral z - π / 2                -- DLMF 6.2.10
+  def TauCeti.cosIntegralCin (z : ℂ) : ℂ := ∫ s in (0 : ℝ)..1, (1 - cos (z * s)) / s -- 6.2.12
+  def TauCeti.cosIntegral (z : ℂ) : ℂ :=                                           -- DLMF 6.2.13
+    -cosIntegralCin z + log z + Real.eulerMascheroniConstant
+  def TauCeti.sinhIntegral (z : ℂ) : ℂ := ∫ s in (0 : ℝ)..1, sinh (z * s) / s     -- DLMF 6.2.15
+  def TauCeti.coshIntegral (z : ℂ) : ℂ :=                                          -- DLMF 6.2.16
+    Real.eulerMascheroniConstant + log z + ∫ s in (0 : ℝ)..1, (cosh (z * s) - 1) / s
+  def TauCeti.sinIntegralAuxF (z : ℂ) : ℂ :=                                       -- DLMF 6.2.17
+    cosIntegral z * sin z - sinIntegralTail z * cos z
+  def TauCeti.sinIntegralAuxG (z : ℂ) : ℂ :=                                       -- DLMF 6.2.18
+    -cosIntegral z * cos z - sinIntegralTail z * sin z
+  ```
 - **Generalized sine and cosine integrals.** `Si(a, z)` and `Ci(a, z)` are the series
   8.21.14–8.21.15, with the principal power `z^a`; they take junk values at their parameter
   poles. `si(a, z)` and `ci(a, z)` are 8.21.1, solved for each function, through
-  `upperIncompleteGammaLog a (log z ∓ πi/2)`; they are entire in `a`.
+  `upperIncompleteGammaLog a (log z ∓ πi/2)`; they are entire in `a`. The cosine pair:
+
+  ```lean
+  def TauCeti.generalizedCosIntegral (a z : ℂ) : ℂ :=                              -- DLMF 8.21.15
+    z ^ a * ∑' k : ℕ, (-1 : ℂ) ^ k * z ^ (2 * k) / ((2 * k + a) * ((2 * k)! : ℂ))
+  def TauCeti.generalizedCosIntegralTail (a z : ℂ) : ℂ :=                          -- DLMF 8.21.1
+    (cexp (π * I * a / 2) * upperIncompleteGammaLog a (log z - π * I / 2) +
+      cexp (-(π * I * a / 2)) * upperIncompleteGammaLog a (log z + π * I / 2)) / 2
+  ```
 - **Real functions.**
 
   ```lean
@@ -229,7 +272,8 @@ cosine integral, or a complex incomplete Gamma function.
   ```
 
   `Ei(0)` and `li(1)` are junk values. The principal-value integrals 6.2.5 and 6.2.8 are
-  theorems. The Voigt functions are the integrals 7.19.1, 7.19.2 and 7.19.4. `B_x(a, b)` is
+  theorems. The Voigt functions are the integrals 7.19.1, 7.19.2 and 7.19.4; the last is
+  `voigtH a u = a/π · ∫ t : ℝ, Real.exp (−t²)/((u − t)² + a²)`. `B_x(a, b)` is
   `incompleteBeta a b x = ∫ t in 0..x, t^(a−1) (1 − t)^(b−1)` with real powers, for `a, b > 0`
   and `0 ≤ x ≤ 1`.
 - **Real values of complex functions.** A real-variable statement about a complex function is
@@ -326,7 +370,7 @@ themselves.
 
 Residues `TauCeti.Contour.residue` and the classical residue theorem
 (`TauCeti/Analysis/Contour/Residue/`, Layer 2 of ContourIntegration), for the Mellin–Barnes
-integrals (through AsymptoticExpansions §8.2) and for the argument principle in 13.3–13.4.
+integrals (through AsymptoticExpansions §8.2).
 
 ### From Tau Ceti
 
@@ -338,24 +382,36 @@ offset logarithmic integral by
 [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) §6.2 and
 ZerosOfLFunctions. They are implemented in Tau Ceti:
 - **`TauCeti/Analysis/SpecialFunctions/Erf.lean`:** `TauCeti.Real.erf x = 2/√π ∫₀ˣ e^{−t²} dt`
-  and `TauCeti.Real.erfc = 1 − erf`, with `erf_neg`, `hasDerivAt_erf`, `strictMono_erf`,
-  `tendsto_erf_atTop` and the bounds; `Real.erfInv`, `Real.erfOrderIso`, `Real.hasDerivAt_erfInv`
-  and `Real.tendsto_erfInv_nhdsLT_one`.
+  and `TauCeti.Real.erfc = 1 − erf`, with `TauCeti.Real.erf_neg`, `TauCeti.Real.hasDerivAt_erf`,
+  `TauCeti.Real.strictMono_erf`, `TauCeti.Real.tendsto_erf_atTop` and the bounds; `Real.erfInv`,
+  `Real.erfOrderIso`, `Real.hasDerivAt_erfInv` and `Real.tendsto_erfInv_nhdsLT_one`.
 - **`TauCeti/Analysis/SpecialFunctions/IncompleteGamma.lean`:** `TauCeti.lowerIncompleteGamma s x`
   and `TauCeti.regularizedGamma s x` for real `s`, `x`, both clamped to `0` for `s ≤ 0` or
-  `x ≤ 0`, with `lowerIncompleteGamma_eq_integral`, `hasDerivAt_lowerIncompleteGamma`,
-  `lowerIncompleteGamma_add_one` (`γ(s + 1, x) = sγ(s, x) − xˢe^{−x}`),
-  `tendsto_regularizedGamma_atTop`, `regularizedGamma_natCast` and
-  `TauCeti.Real.erf_eq_regularizedGamma_half_sq`.
+  `x ≤ 0`, with `TauCeti.lowerIncompleteGamma_eq_integral`,
+  `TauCeti.hasDerivAt_lowerIncompleteGamma`, `TauCeti.lowerIncompleteGamma_add_one`
+  (`γ(s + 1, x) = sγ(s, x) − xˢe^{−x}`), `TauCeti.tendsto_regularizedGamma_atTop`,
+  `TauCeti.regularizedGamma_natCast`, `TauCeti.ofReal_lowerIncompleteGamma_eq_partialGamma`
+  (`γ(s, x) = Complex.partialGamma s x`) and `TauCeti.Real.erf_eq_regularizedGamma_half_sq`.
 - **`TauCeti/Analysis/SpecialFunctions/IncompleteBeta.lean`:**
   `TauCeti.regularizedIncompleteBeta a b x` and its inverse
-  `TauCeti.inverseRegularizedIncompleteBeta`, with `regularizedIncompleteBeta_symm`
-  (`I_x(a, b) = 1 − I_{1−x}(b, a)`), `regularizedIncompleteBeta_add_one_left` (8.17.20),
-  `regularizedIncompleteBeta_add_one_right` and its difference form. `Beta.lean` supplies the Beta
-  integral `integral_rpow_mul_one_sub_rpow`.
+  `TauCeti.inverseRegularizedIncompleteBeta`, with
+  `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc` (8.17.2),
+  `TauCeti.regularizedIncompleteBeta_symm` (`I_x(a, b) = 1 − I_{1−x}(b, a)`),
+  `TauCeti.regularizedIncompleteBeta_add_one_left` (8.17.20),
+  `TauCeti.regularizedIncompleteBeta_add_one_right` and its difference form. `Beta.lean` supplies
+  the Beta integral `TauCeti.integral_rpow_mul_one_sub_rpow`.
+- **`TauCeti/Probability/Distributions/Binomial/Tail.lean`:**
+  `TauCeti.Probability.sum_Icc_choose_mul_pow_eq_regularizedIncompleteBeta` (8.17.5).
 - **`TauCeti/Analysis/SpecialFunctions/LogIntegral.lean`:**
-  `TauCeti.Real.logIntegral x = ∫₂ˣ dt/log t` with `logIntegral_isEquivalent_div_log`.
+  `TauCeti.Real.logIntegral x = ∫₂ˣ dt/log t` with `TauCeti.Real.logIntegral_isEquivalent_div_log`.
 - **`TauCeti/Probability/Distributions/Gamma/Quantile.lean`:** `TauCeti.inverseRegularizedGamma`.
+- **`TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`:**
+  `Complex.hasSum_regularizedHGFun`, the power series of `Complex.regularizedHGFun a b` when
+  `a.card ≤ b.card`.
+- **`TauCeti/Analysis/Complex/Conformal/Rouche.lean`:** Rouché's theorem `TauCeti.rouche` and its
+  symmetric form `TauCeti.rouche_symm`, counting zeros with multiplicity in a disc.
+- **`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`:** the Dirichlet integral
+  `TauCeti.Contour.tendsto_integral_sin_div_atTop` (`∫₀^R sin x/x dx → π/2`).
 
 ### From Mathlib
 
@@ -364,13 +420,15 @@ ZerosOfLFunctions. They are implemented in Tau Ceti:
   and `Complex.analyticOnNhd_regularizedHGFun_of_card_le` (entire when `a.card ≤ b.card`); the
   Gauss series `ordinaryHypergeometric a b c x`, with junk value `0` outside its disc of
   convergence.
-- **Gamma and related numbers.** `Complex.Gamma`, `Complex.differentiableAt_Gamma`,
+- **Gamma and related numbers.** `Complex.Gamma`, `Complex.partialGamma`,
+  `Complex.partialGamma_add_one`, `Complex.differentiableAt_Gamma`,
   `Complex.Gamma_add_one`, `Complex.tendsto_self_mul_Gamma_nhds_zero`, `Complex.digamma`,
   `Real.eulerMascheroniConstant`, `ProbabilityTheory.beta`, `ascPochhammer`, `descPochhammer`,
   `riemannZeta`, `harmonic` and `Nat.choose`.
 - **Bessel and Hermite.** `Complex.besselJ` and `Polynomial.hermite`.
 - **Continued fractions.** `GenContFract`, with `GenContFract.convs`, `GenContFract.nums`,
-  `GenContFract.dens` and the recurrences for the numerators and denominators.
+  `GenContFract.dens`, the recurrences for the numerators and denominators, and the determinant
+  formula `GenContFract.determinant`.
 - **Mellin transforms.** `mellin`, `mellinInv` and `mellinInv_mellin_eq`, through
   AsymptoticExpansions §8.1.
 - **Complex analysis and integration.** `Complex.slitPlane`, `Complex.log`, `Complex.cpow`,
@@ -402,13 +460,10 @@ conventions on explicit parameters.
 ### 1.1 Tricomi's function
 
 `γ*` (`tricomiIncompleteGamma`) is entire in `a` for fixed `z`
-(`differentiable_tricomiIncompleteGamma_left`) and in `z` for fixed `a`
-(`differentiable_tricomiIncompleteGamma_right`). Prove:
-- the series 8.7.1: `γ*(a, z) = ∑ e^{−z} z^k/Γ(a + k + 1)` for all `a`, `z`
-  (`hasSum_tricomiIncompleteGamma`), and `γ*(a, z) = Γ(a)⁻¹ ∑ (−z)^k/(k!(a + k))` for
-  `a ∉ −ℕ`;
-- the special values `γ*(a, 0) = 1/Γ(a + 1)` (8.4.2) and `γ*(−n, z) = zⁿ` (8.4.12,
-  `tricomiIncompleteGamma_neg_natCast`);
+(`differentiable_tricomiIncompleteGamma_left`) and in `z` for fixed `a`. Prove:
+- the series 8.7.1: `γ*(a, z) = ∑ e^{−z} z^k/Γ(a + k + 1)` for all `a`, `z`, and
+  `γ*(a, z) = Γ(a)⁻¹ ∑ (−z)^k/(k!(a + k))` for `a ∉ −ℕ`;
+- the special values `γ*(a, 0) = 1/Γ(a + 1)` (8.4.2) and `γ*(−n, z) = zⁿ` (8.4.12);
 - the integral 8.2.7 `γ*(a, z) = Γ(a)⁻¹ ∫₀¹ t^{a−1} e^{−zt} dt` for `Re a > 0`;
 - the differential equation 8.2.14 (`tricomiIncompleteGamma_ode`).
 
@@ -421,7 +476,8 @@ conventions on explicit parameters.
 
 *Needs:* Mathlib `Complex.regularizedHGFun`, `Complex.regularizedHGFunCoeff`,
 `Complex.analyticOnNhd_regularizedHGFun_of_card_le`, `Complex.differentiable_one_div_Gamma` for
-the entire reciprocal in the coefficients, and `Complex.Gamma_add_one`.
+the entire reciprocal in the coefficients, and `Complex.Gamma_add_one`; Tau Ceti
+`Complex.hasSum_regularizedHGFun` for the series.
 
 ### 1.2 `P` and `γ`
 
@@ -470,10 +526,13 @@ For real `s > 0` and `x ≥ 0`,
 (`lowerIncompleteGamma_ofReal`) and
 `Complex.regularizedGamma s x = (TauCeti.regularizedGamma s x : ℂ)` (`regularizedGamma_ofReal`). For
 real `a` and `x > 0`, `Γ(a, x)`, `P(a, x)` and `γ*(a, x)` are real, and `γ*(a, x)` is real for every
-real `x`.
+real `x`. For complex `s` with `Re s > 0` and real `x ≥ 0`,
+`Complex.lowerIncompleteGamma s x = Complex.partialGamma s x`, Mathlib's lower incomplete Gamma
+function with a real upper limit.
 
-*Needs:* 1.2–1.3; Tau Ceti `TauCeti.lowerIncompleteGamma_eq_integral` and
-`TauCeti.regularizedGamma_eq_div`.
+*Needs:* 1.2–1.3; Tau Ceti `TauCeti.lowerIncompleteGamma_eq_integral`,
+`TauCeti.regularizedGamma_eq_div` and `TauCeti.ofReal_lowerIncompleteGamma_eq_partialGamma`;
+Mathlib `Complex.partialGamma`.
 
 ### 1.5 Continuation
 
@@ -488,7 +547,9 @@ DLMF 8.2.8–8.2.11. Prove:
 - 8.2.10 for all `a`, with `1/Γ(1 − a)` written `(Complex.Gamma (1 − a))⁻¹`, Mathlib's entire
   reciprocal;
 - 8.2.11 for `a ∉ −ℕ` and `z ≠ 0`, both signs, with `w = log z ± πi`
-  (`upperIncompleteGammaLog_log_add_pi_mul_I` for the upper sign).
+  (`upperIncompleteGammaLog_log_add_pi_mul_I` for the upper sign);
+- the values on the two banks of the cut: for `x > 0` and every `a`,
+  `Γ(a, −x ± iy) → upperIncompleteGammaLog a (Real.log x ± πi)` as `y → 0+`.
 
 **Checks.**
 - `upperIncompleteGammaLog 1 w = e^{−e^w}` for every `w`.
@@ -516,7 +577,7 @@ integrals and the rectangle Cauchy theorem; Tau Ceti's real incomplete Gamma fun
 ### 2.1 Special values
 
 DLMF 8.4.5, 8.4.7–8.4.11. `Γ(1, z) = e^{−z}`, and for `n ∈ ℕ` the Erlang forms 8.4.7–8.4.10 with
-`e_n` written out (`upperIncompleteGamma_natCast_add_one` for 8.4.8). The upper function holds for
+`e_n` written out. The upper function holds for
 every `z`, because the integrand of `Γ(n + 1, z)` is a polynomial times `e^{−t}`.
 
 *Needs:* 1.1–1.3; Mathlib `integral_Ioi_mul_deriv_eq_deriv_mul` for the integrations by parts.
@@ -574,7 +635,7 @@ Layer 1; Mathlib's Pochhammer symbols, iterated derivatives and power-series man
 ### 3.1 Real-line integrals
 
 DLMF 8.6.1–8.6.5, 8.6.7. 8.6.1 for `a ∉ ℤ` and `z ≠ 0`. 8.6.2 for `Re a > 0`, with Mathlib's
-`Complex.besselJ`. 8.6.3 for `Re a > 0` and `Re z > 0`. 8.6.4 for `Re a < 1` and
+`Complex.besselJ`. 8.6.3 for `Re a > 0` and every `z`. 8.6.4 for `Re a < 1` and
 `z ∈ slitPlane`. 8.6.5 and 8.6.7 for `Re z > 0`. The auxiliary Laplace transforms
 `∫₀^∞ e^{−zt}(1 + t)^{a−1} dt` and `∫₀^∞ e^{−zt} t^{s−1}/(1 + t) dt` are holomorphic in `Re z > 0`
 and continue across `|ph z| < π` by rotating the ray (AsymptoticExpansions §4.3), giving 8.6.4
@@ -597,8 +658,8 @@ and with the left side `upperIncompleteGammaLog (−a) (log z ± πi)`.
 
 DLMF 8.6.10–8.6.12. Each is stated as an integral over the vertical line `Re s = c`, written as
 `(2π)⁻¹ ∫ y : ℝ, f(c + iy)`, for the parameters for which a straight line separates the poles as
-DLMF requires: 8.6.10 for `|ph z| < π/2`, `Re a > 0` and `0 < c < Re a`; 8.6.11 for
-`|ph z| < π/2` and `c > max(0, −Re a)` (`upperIncompleteGamma_eq_mellinBarnes`); 8.6.12 for
+DLMF requires: 8.6.10 for `Re z > 0`, `Re a > 0` and `0 < c < Re a`; 8.6.11 for `Re z > 0` and
+`c > max(0, −Re a)` (`upperIncompleteGamma_eq_mellinBarnes`); 8.6.12 for
 `|ph z| < 3π/2` (in logarithmic coordinates), `Re a < 1` and `max(Re a − 1, −1) < c < 0`.
 
 *Needs:* Layers 1–2; AsymptoticExpansions §8.1, §8.2, §8.6 and §8.7; ContourIntegration
@@ -644,7 +705,8 @@ every solution `u` that is not a scalar multiple of `f`, `u(n) ≠ 0` for all la
 head `0` (`contFrac`). Prove:
 - **the continuants:** with `A_n = g.nums n`, `B_n = g.dens n` and `A_{−1} = 1`, `B_{−1} = 0`,
   the sequences `n ↦ A_{n−1}` and `n ↦ B_{n−1}` are the solutions with `(y(0), y(1)) = (1, 0)`
-  and `(0, 1)`, and `A_n B_{n−1} − A_{n−1} B_n = (−1)^{n−1} a₁⋯a_n` (`nums_mul_dens_sub`);
+  and `(0, 1)`; their determinant formula is Mathlib's `GenContFract.determinant`, and it is not
+  restated;
 - **the Casoratian:** for solutions `f`, `u`, `W(n) = f(n)u(n + 1) − f(n + 1)u(n)` satisfies
   `W(n) = (−1)ⁿ a₁⋯a_n W(0)`;
 - **the reduction-of-order criterion:** a solution `f` with `f(n) ≠ 0` for `n ≥ N` is minimal if
@@ -664,9 +726,9 @@ head `0` (`contFrac`). Prove:
   convergents are `−(2ⁿ − 1)`.
 - The zero sequence solves every recurrence and is not minimal.
 
-*Needs:* Mathlib `GenContFract`, `GenContFract.convs`, `GenContFract.nums`, `GenContFract.dens`
-and the recurrences for the numerators and denominators (`GenContFract.nums_recurrence`,
-`GenContFract.dens_recurrence`).
+*Needs:* Mathlib `GenContFract`, `GenContFract.convs`, `GenContFract.nums`, `GenContFract.dens`,
+the recurrences for the numerators and denominators (`GenContFract.nums_recurrence`,
+`GenContFract.dens_recurrence`) and `GenContFract.determinant` for the Casoratian.
 
 ### 4.2 The incomplete Gamma fractions
 
@@ -706,11 +768,17 @@ of the complex functions:
   (`upperIncompleteGamma_bound` for 8.10.1);
 - 8.10.3–8.10.4: with `ϑ` defined by 8.10.3, `ϑ → 1` as `x → ∞` and `0 < ϑ ≤ 1` for `a ≤ 2`
   (`a ≠ 1`);
-- the Padé bounds 8.10.5–8.10.6 for `n = 1, 2`;
-- 8.10.7–8.10.8;
+- the Padé bounds 8.10.5–8.10.6 for `n = 1, 2` and `a < 1`;
+- 8.10.7 for `a > 0`, and 8.10.8 for `a > 0` and at `a = 0`, where the middle member
+  `a x^{−a} e^{−x} I` is replaced by its limit `e^{−x}` as `a → 0+`;
 - 8.10.9–8.10.10 for `0 < a < 1`;
 - 8.10.11–8.10.12 for `a > 0`, with equality only at `a = 1`;
 - 8.10.13 for `n ≥ 1`.
+
+**Checks.**
+- At `a = 2`, `x = 2`: `A₁ = x/(x + 1 − a) = 2`, but `x^{1−a} eˣ Γ(a, x) = (1 + x)/x = 3/2`, so
+  8.10.5 fails for `a > 1`.
+- At `a = 0` the integral `I` of 8.10.7 diverges at `t = 0`, while `a I → 1` as `a → 0+`.
 
 *Needs:* 1.3–1.4, 2.4, 4.2.
 
@@ -754,8 +822,7 @@ principal logarithms: the principal power of the quotient `z/a` differs from it 
 DLMF 8.11.6–8.11.9. With `b_k(λ)` the polynomials of 8.11.8–8.11.9 and `z = λa`:
 - 8.11.6 for `0 < λ < 1` and `|ph a| ≤ π/2 − δ`;
 - 8.11.7 for `λ > 1` and `|ph a| ≤ 3π/2 − δ`, in logarithmic coordinates for `a`;
-- each as an asymptotic expansion in the scale `|a|^{−k}`, uniformly for `λ` in compact subsets
-  of the stated intervals.
+- each as an asymptotic expansion in the scale `|a|^{−k}`, for fixed `λ`.
 
 *Needs:* 1.2, 1.5, 3.1; AsymptoticExpansions Layer 1, §§4.2–4.3 and Layer 5.
 
@@ -789,9 +856,10 @@ Layers 1–3; AsymptoticExpansions Layers 1, 4 and 5; ZerosOfLFunctions §1.2.
 ### 6.1 `x`-zeros
 
 DLMF §8.13(i). For real `a ≥ 0`, `γ*(a, x) ≠ 0` for all real `x`. For `a < 0` and `n ≥ 1`:
-- if `1 − 2n < a < 2 − 2n`, there is exactly one negative zero and no positive zero;
+- if `1 − 2n < a < 2 − 2n`, there is exactly one negative zero and no positive zero
+  (`tricomiIncompleteGamma_real_zeros_of_odd_band`);
 - if `−2n < a < 1 − 2n`, there is exactly one negative zero `x₋(a)` and exactly one positive zero
-  `x₊(a)`;
+  `x₊(a)` (`tricomiIncompleteGamma_real_zeros_of_even_band`);
 - if `a = −n`, the only real zero is `x = 0`, of multiplicity `n` (from `γ*(−n, x) = xⁿ`).
 
 On `−1 < a < 0`, `x₋` is strictly decreasing and satisfies 8.13.1.
@@ -805,7 +873,8 @@ DLMF §8.13(iii) (a)–(c). For fixed real `x` and `n ≥ 1`:
 - for `x < 0`, `γ*(·, x)` has exactly two zeros in `−2n < a < 2 − 2n`;
 - there is `x*_n > 0` such that in `−2n < a < 1 − 2n` the function `γ*(·, x)` has exactly two
   zeros, both simple, for `0 < x < x*_n`; exactly one zero, which is double (`γ*` and `∂_a γ*`
-  vanish there and `∂_a² γ*` does not), for `x = x*_n`; and no zero for `x > x*_n`;
+  vanish there and `∂_a² γ*` does not), for `x = x*_n`; and no zero for `x > x*_n`
+  (`tricomiIncompleteGamma_param_zeros`);
 - for `x = 0` its zeros are exactly `a = −n`, `n ≥ 1`.
 
 *Needs:* 1.1, 1.4, 6.1; Mathlib's real analysis of `(Real.Gamma)⁻¹`.
@@ -836,6 +905,8 @@ is `E_p(e^w)` on the logarithmic plane, and `expIntegralELog p (log z) = E_p(z)`
 - `E₂(z) = e^{−z} − z E₁(z)` on `slitPlane` (8.19.12 at `p = 1`).
 - `expIntegralE p 0 = 0` for `p ≠ 1`: the junk value that the extension of the conventions
   replaces.
+- `expIntegralELog 0 w = e^{−w} e^{−e^w}` for every `w`, `expIntegralELog p (Real.log x) = E_p(x)`
+  for `x > 0`, and `expIntegralELog 1 (w + 2πi) = expIntegralELog 1 w − 2πi`.
 
 *Needs:* 1.3, 1.5; Mathlib `Complex.cpow` and integrals over `Set.Ioi`.
 
@@ -875,7 +946,7 @@ minimal solution of 4.2 (rescaled) applies; at `p ∈ −ℕ` it terminates. 8.1
 
 ### 7.5 Integrals
 
-DLMF 8.19.23–8.19.27. 8.19.23 on `slitPlane` for `Re p > 1` along the ray. 8.19.24 for `n ≥ 1`
+DLMF 8.19.23–8.19.27. 8.19.23 on `slitPlane` for every `p`, along the ray. 8.19.24 for `n ≥ 1`
 and `Re a > −1`. 8.19.25 for `Re a > −½` and `Re(p + b) > 1`, where `a/(1 + a)` lies in the unit
 disc. 8.19.26–8.19.27 with `F(1, 1; 1 + p; ½)` as Mathlib's `ordinaryHypergeometric`.
 
@@ -914,7 +985,8 @@ DLMF 6.2.1–6.2.4, 6.4.1–6.4.3, 6.11.1, 2.5.49. `Ein` (`expIntegralEin`) is e
 (`expIntegralE_one`). In logarithmic coordinates, `E₁(e^w) = Ein(e^w) − w − γ` (6.4.1) is the
 value of `expIntegralELog 1 w`; deduce 6.4.2–6.4.3. 6.11.1 is 8.4.4. The elementary API:
 `Ein′(z) = (1 − e^{−z})/z` for `z ≠ 0` and `Ein′(0) = 1`; `E₁′ = −e^{−z}/z` on `slitPlane`;
-`Ein(z̄) = conj Ein(z)`, `Ein` real on the real line; `E₁(z̄) = conj E₁(z)` on `slitPlane`.
+`Ein(z̄) = conj Ein(z)`, `Ein` real on the real line; `E₁(z̄) = conj E₁(z)` on `slitPlane`;
+`E₁(r) = ∫_r^∞ e^{−t}/t dt` for `r > 0`.
 
 **Checks.**
 - `Ein(z) = z − z²/4 + O(z³)` as `z → 0`.
@@ -984,7 +1056,7 @@ of `li(x)` follows.
 
 DLMF 6.13.1, 6.14.1, 6.14.4. `Ei` has exactly one positive zero `x₀`
 (`existsUnique_expIntegralEi_eq_zero`). `Ei(x) < 0` for `x < 0`, and
-`x₀ ∈ (0.3725074107, 0.3725074108)` (`expIntegralEi_eq_zero_bounds`). Prove 6.14.1 for
+`x₀ ∈ (0.3725074107, 0.3725074108)`. Prove 6.14.1 for
 `Re a > −1` (with the limit at `a = 0`) and 6.14.4.
 
 *Needs:* 8.2–8.3; the intermediate value theorem and interval arithmetic on the series 6.6.2.
@@ -1008,9 +1080,10 @@ Euler–Mascheroni constant and digamma function.
 DLMF 6.2.9–6.2.16, 6.4.4–6.4.5. `Si`, `Cin` and `Shi` (`sinIntegral`, `cosIntegralCin`,
 `sinhIntegral`) are entire. `Si` and `Shi` are odd and `Cin` is even. 6.2.10–6.2.11
 (`sinIntegralTail`), with 6.2.11 on `slitPlane` along the horizontal ray as an improper integral.
-6.2.13 (`cosIntegral`) and 6.2.16 (`coshIntegral`) hold by definition. Prove the limits 6.2.14
-(`tendsto_sinIntegral_atTop` for `Si(x) → π/2`). Prove 6.4.4–6.4.5 in logarithmic coordinates,
-with `Ci(e^w) = −Cin(e^w) + w + γ`. The elementary API:
+6.2.13 (`cosIntegral`) and 6.2.16 (`coshIntegral`) hold by definition. Prove the limits 6.2.14;
+`Si(x) → π/2` along the real axis is Tau Ceti's `TauCeti.Contour.tendsto_integral_sin_div_atTop`,
+after the substitution `t = xs` in the segment integral. Prove 6.4.4–6.4.5 in logarithmic
+coordinates, with `Ci(e^w) = −Cin(e^w) + w + γ`. The elementary API:
 - `Si′(z) = sin z/z`, `Cin′(z) = (1 − cos z)/z` and `Shi′(z) = sinh z/z` for `z ≠ 0`, with the
   values `1`, `0`, `1` at `z = 0`;
 - `Ci′(z) = cos z/z` and `Chi′(z) = cosh z/z` on `slitPlane`;
@@ -1019,11 +1092,14 @@ with `Ci(e^w) = −Cin(e^w) + w + γ`. The elementary API:
 
 **Checks.**
 - `Si(z) = z − z³/18 + O(z⁵)` and `Cin(z) = z²/4 + O(z⁴)` as `z → 0`.
-- `Shi(z) = −i Si(iz)`.
 - `Ci(x) → 0` and `si(x) → 0` as `x → +∞`; the first fixes the sign of `Cin` in 6.2.13.
+- `Shi(z) = −i Si(iz)`, `Shi(x) = x + x³/18 + O(x⁵)` as `x → 0`, and `Shi(x) ∼ eˣ/(2x)` as
+  `x → +∞`.
+- `Chi(x) = Ci(ix) − πi/2` for `x > 0` (6.5.4), `Chi(x) = γ + ln x + x²/4 + O(x⁴)` as `x → 0+`,
+  and `Chi(x) ∼ eˣ/(2x)` as `x → +∞`.
 
-*Needs:* 8.1; Mathlib `intervalIntegral`, `Complex.sin`, `Complex.cos` and their hyperbolic
-counterparts.
+*Needs:* 8.1; Tau Ceti `TauCeti.Contour.tendsto_integral_sin_div_atTop`; Mathlib
+`intervalIntegral`, `Complex.sin`, `Complex.cos` and their hyperbolic counterparts.
 
 ### 9.2 Auxiliary functions
 
@@ -1067,8 +1143,9 @@ DLMF §6.13, 6.13.2. The positive zeros of `Ci` are all simple and are exactly t
 strictly increasing sequence `c : ℕ → (0, ∞)`; likewise `s : ℕ → (0, ∞)` for `si`. So `c₀` and
 `s₀` are the least positive zeros, as in DLMF. Prove 6.13.2 as `k → ∞`, with `α = kπ` for `c_k`
 and `α = (k + ½)π` for `s_k`, as an asymptotic expansion in the scale `α^{1−2j}` to the stated
-terms. Prove the alternating remainder property: the remainder after `n` terms has the sign of
-the `(n + 1)`th term and modulus at most its modulus, for `n ≤ 4`.
+terms. Prove the alternating remainder property, for `k ≥ 1` for `c_k` (at `k = 0`, `α = 0`) and
+`k ≥ 0` for `s_k`: the remainder after `n` terms has the sign of the `(n + 1)`th term and modulus
+at most its modulus, for `n ≤ 4`.
 
 *Needs:* 9.2, 9.4; AsymptoticExpansions Layer 2.
 
@@ -1082,13 +1159,17 @@ transforms and improper integrals where DLMF's are not absolutely convergent.
 ### 9.7 The Gibbs phenomenon
 
 DLMF 6.16.1–6.16.4. The Fourier series 6.16.1 converges pointwise on `(−π, π)` to the stated
-values, and the identity 6.16.2 holds. `R_n(x) = O(n⁻¹)` uniformly on `[−π, π]` (6.16.4). The
-first positive maximum of `Si` is at `π`, and `S_n(π/(2n)) → Si(π)/2` as `n → ∞`.
+values, and the identity 6.16.2 holds. For each `0 < b < π`, `R_n(x) = O(n⁻¹)` uniformly for
+`|x| ≤ b` (6.16.4, corrected): integrate 6.16.3 by parts once, with the kernel
+`1/sin t − 1/t`, whose derivative is bounded on `[−b, b]`. The first positive maximum of `Si` is
+at `π`, and `S_n(π/(2n)) → Si(π)/2` as `n → ∞` (take `b = π/2`).
+
+**Checks.**
+- `R_n(π) → −π/4`: every term of `S_n(π)` vanishes and `½ Si(2nπ) → π/4`. So the uniform bound
+  on all of `[−π, π]` printed in DLMF 6.16.4 fails, and the kernel `1/sin t − 1/t` is unbounded
+  at `t = ±π`.
 
 *Needs:* 9.1, 9.4.
-
-The Dirichlet integral 6.2.14 is proved here from 6.5.5 and the decay of `E₁` on the imaginary
-axis.
 
 ### Examples
 
@@ -1167,7 +1248,7 @@ DLMF 7.2.1–7.2.3, 7.2.6–7.2.8, 7.2.10–7.2.12. `erf`, `erfc`, `w`, `C`, `S`
 `erf (x : ℂ) = TauCeti.Real.erf x` (`erf_ofReal`). The defining integrals from `0` are
 characterized by their derivatives and their value `0` at `0`: `erf′ = 2π^{−1/2} e^{−z²}`,
 `C′ = cos(πz²/2)` and `S′ = sin(πz²/2)`. 7.2.2 holds for `erfc` as `∫_z^∞` along the horizontal
-ray for `|ph z| < π/4` and for real `z`. 7.2.6 holds for `ℱ` as an improper integral along the
+ray, for every `z`. 7.2.6 holds for `ℱ` as an improper integral along the
 real axis. The auxiliary functions `f`, `g` (`fresnelAuxF`, `fresnelAuxG`) are 7.2.10–7.2.11 by
 definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolutely for
 `z ∈ slitPlane`, and `G` is holomorphic there. Conjugation: `erf`, `erfc`, `C`, `S` commute with
@@ -1177,8 +1258,11 @@ definition. The integral defining `G` (`goodwinStaton`, 7.2.12) converges absolu
 - `erf(−z) = −erf z` and `erf(z) = 2z/√π + O(z³)` as `z → 0`.
 - `w(0) = 1` and `w(iy) = e^{y²} TauCeti.Real.erfc y` for real `y`; this fixes the sign of `−iz`
   in the definition.
-- `C(z) = z + O(z⁵)`, `S(z) = πz³/6 + O(z⁷)`, `ℱ(0) = (1 + i)/2` and `f(0) = g(0) = ½`.
-- `G(x) ∼ √π/(2x)` as `x → +∞`.
+- `C(z) = z + O(z⁵)` and `S(z) = πz³/6 + O(z⁷)`.
+- `ℱ(0) = (1 + i)/2`, `ℱ(x) + ℱ(−x) = 1 + i`, and `ℱ(x) → 0` as `x → +∞`.
+- `f(0) = g(0) = ½`, `f(x) ∼ 1/(πx)` and `g(x) ∼ 1/(π²x³)` as `x → +∞`.
+- `G(x) ∼ √π/(2x)` as `x → +∞`, `G(x) = −ln x + O(1)` as `x → 0+`, and
+  `G′(z) = √π − 1/z − 2z G(z)` on `slitPlane`.
 
 *Needs:* Tau Ceti `TauCeti.Real.erf_def` and `TauCeti.Real.hasDerivAt_erf`; Mathlib
 `intervalIntegral` with parametric differentiation, `integral_gaussian` and integrals over
@@ -1190,7 +1274,14 @@ DLMF 7.2.4, 7.2.9, 7.4.1–7.4.8. 7.2.4 in `|ph z| ≤ π/4 − δ`. 7.2.9 for t
 (`tendsto_fresnelC_atTop`). 7.4.1–7.4.8 as identities of entire functions. `C`, `S` and `erf`
 are real on the real axis (`fresnelC_ofReal_im`).
 
-*Needs:* 11.1; Tau Ceti `TauCeti.Real.tendsto_erf_atTop`; Mathlib `integral_gaussian_complex`.
+Dawson's integral `F = TauCeti.dawson`, its entirety, `F′ = 1 − 2zF` and `F(0) = 0` are consumed
+from
+[SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases).
+Prove here that `F` is odd, that `F(z̄) = conj F(z)` (`dawson_conj`), and that `F` is real on the
+real line.
+
+*Needs:* 11.1; Tau Ceti `TauCeti.Real.tendsto_erf_atTop`; Mathlib `integral_gaussian_complex`;
+SpecialFunctionsParabolicCylinder §5.1 (`differentiable_dawson`, `hasDerivAt_dawson`).
 
 ### 11.3 Interrelations
 
@@ -1198,7 +1289,7 @@ DLMF 7.5.1–7.5.13. All as identities of entire functions, with 7.5.8–7.5.10 
 choices (`dawson_eq_faddeeva` for 7.5.1, `fresnelC_add_I_mul_fresnelS` for 7.5.8 with the upper
 signs). 7.5.11–7.5.12 for real `x` with the stated signs. 7.5.13 for `x > 0`, with `Ei` of 8.2.
 
-*Needs:* 11.1–11.2, 11.6, 8.2.
+*Needs:* 11.1–11.2, 8.2.
 
 ### 11.4 Series, derivatives and hypergeometric forms
 
@@ -1209,7 +1300,7 @@ DLMF 7.6.1–7.6.7, 7.10.1–7.10.4, 7.11.1–7.11.4, 7.11.6–7.11.8. The power
 (`erf_eq_mul_tricomiIncompleteGamma`). 7.11.4 and 7.11.6 with `𝐌`
 (`M(a, b, ·) = Γ(b) 𝐌(a, b, ·)`). 7.11.7–7.11.8 with `Complex.regularizedHGFun` for `₁F₂`.
 
-*Needs:* 11.1, 11.6, 1.1–1.2, 2.2, 7.1 (for 7.11.3); Mathlib `Polynomial.hermite`,
+*Needs:* 11.1–11.2, 1.1–1.2, 2.2, 7.1 (for 7.11.3); Mathlib `Polynomial.hermite`,
 `Complex.regularizedHGFun`.
 
 ### 11.5 Incomplete Gamma special values
@@ -1219,21 +1310,12 @@ DLMF 8.4.1, 8.4.3, 8.4.6, 8.4.14. 8.4.1 and 8.4.6 for `Re z > 0`. 8.4.3 for `z �
 
 *Needs:* 11.4, 1.2–1.3, 2.4.
 
-### 11.6 Dawson's integral (consume)
-
-Dawson's integral `F = TauCeti.dawson`, its entirety, `F′ = 1 − 2zF` and `F(0) = 0` are consumed
-from
-[SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases).
-Prove here: `F` is odd (`dawson_neg`), `F(z̄) = conj F(z)` (`dawson_conj`), and `F` is real on the
-real line.
-
-*Needs:* SpecialFunctionsParabolicCylinder §5.1 (`differentiable_dawson`, `hasDerivAt_dawson`).
-
 ### Examples
 
 - `erf(iy) = i (2/√π) e^{y²} F(y)` for real `y`, with `F = TauCeti.dawson`.
 - `w(x) = e^{−x²} + (2i/√π) F(x)` for real `x`, from 7.5.1.
 - 8.4.6 at `z = 1`: `Γ(½, 1) = √π erfc 1`.
+- `2∫₀ʷ e^{−πt²} dt = erf(√π w)` for every `w`, along the segment.
 
 ### Dependencies
 
@@ -1258,7 +1340,7 @@ DLMF 7.8.1–7.8.8. With Mills' ratio written out, 7.8.2–7.8.5 on the stated r
 (`millsRatio_bounds` for 7.8.2), and 7.8.6–7.8.8. 7.8.7 includes the strict decrease of
 `F(x)/√(1 − e^{−2x²})` on `x > 0`.
 
-*Needs:* 11.1–11.2, 11.6; Tau Ceti `TauCeti.Real.erfc_pos` and `TauCeti.Real.hasDerivAt_erfc`.
+*Needs:* 11.1–11.2; Tau Ceti `TauCeti.Real.erfc_pos` and `TauCeti.Real.hasDerivAt_erfc`.
 
 ### 12.3 Continued fractions
 
@@ -1329,8 +1411,7 @@ such enumeration. Prove:
   `n → ∞`.
 
 *Needs:* 11.1–11.2, 13.1; AsymptoticExpansions Layer 1 and Layer 2; for counting zeros near their
-asymptotic positions, the argument principle through ContourIntegration residues
-(`TauCeti.Contour.residue`), and Rouché's theorem, derived from it here.
+asymptotic positions, Tau Ceti's Rouché theorem `TauCeti.rouche` and `TauCeti.rouche_symm`.
 
 ### 13.4 Zeros of the Fresnel integrals
 
@@ -1349,7 +1430,7 @@ preserves their zero sets. Prove:
   `y_n − q₀ λ^{−1} = O(λ^{−5}(1 + |α|)³)`;
 - if `z_n` is a zero of `erfc`, then `(1 + i) z_n/√π` is a zero of `ℱ`.
 
-*Needs:* 11.2–11.3, 13.2–13.3; AsymptoticExpansions Layer 2; ContourIntegration residues, as in
+*Needs:* 11.2–11.3, 13.2–13.3; AsymptoticExpansions Layer 2; Tau Ceti `TauCeti.rouche`, as in
 13.3.
 
 ### 13.5 The incomplete Gamma functions near the transition point
@@ -1376,7 +1457,7 @@ remainder that is `O(a^{−1})` uniformly on each bounded real `y`-set:
   needed intermediate target is that two-term half-line Gaussian estimate, with remainder
   `O(a^{−1})`.
 
-*Needs:* 1.2, 3.2, 5.2, 11.1, 11.6; ZerosOfLFunctions §1.2 (Stirling for `Γ(a + 1)`);
+*Needs:* 1.2, 3.2, 5.2, 11.1–11.2; ZerosOfLFunctions §1.2 (Stirling for `Γ(a + 1)`);
 AsymptoticExpansions Layer 1.
 
 ### Examples
@@ -1389,7 +1470,7 @@ AsymptoticExpansions Layer 1.
 ### Dependencies
 
 Layers 1, 3, 5, 11 and 12; AsymptoticExpansions Layers 1, 2 and 4; ZerosOfLFunctions §1.2;
-ContourIntegration residues.
+Tau Ceti's Rouché theorem.
 
 ## Layer 14: inverse error functions, repeated integrals and Voigt functions
 
@@ -1411,7 +1492,7 @@ and `c₄ = (4v³ + 27v² + 108v − 300)/384`, for `N ≤ 5`:
 
 DLMF 7.18.1–7.18.9, 7.18.12–7.18.14. `iⁿ erfc` (`iteratedErfc`) is entire for each `n`, and its
 defining integral converges absolutely for every `z`. Prove:
-- `i⁰ erfc = erfc` (`iteratedErfc_zero`), `iⁿ erfc(0) = 1/(2ⁿ Γ(n/2 + 1))` (7.18.3), and
+- `i⁰ erfc = erfc`, `iⁿ erfc(0) = 1/(2ⁿ Γ(n/2 + 1))` (7.18.3), and
   `(iⁿ⁺¹ erfc)′ = −iⁿ erfc` for `n ≥ 0` (`hasDerivAt_iteratedErfc`), with
   `(i⁰ erfc)′ = −(2/√π) e^{−z²}`;
 - 7.18.1–7.18.2, with the iterated-integral form along the horizontal ray;
@@ -1451,6 +1532,7 @@ and 7.19.10–7.19.11 for `a > 0` and real `u`.
 - `𝖴(·, t)` is even and `𝖵(·, t)` is odd.
 - `∫_ℝ 𝖴(x, t) dx = π` for every `t > 0`.
 - `𝖴(x, t) → 1/(1 + x²)` and `𝖵(x, t) → x/(1 + x²)` as `t → 0+` (7.19.5).
+- `H(a, 0) = e^{a²} erfc a`, `∫_ℝ H(a, u) du = √π`, and `H(a, u) → e^{−u²}` as `a → 0+`.
 
 *Needs:* 11.1, 12.1; Mathlib `integral_gaussian`, Fubini and dominated convergence.
 
@@ -1471,12 +1553,13 @@ and 5; Tau Ceti's inverse error function.
 
 DLMF 8.17.1–8.17.6, 8.17.24. `B_x(a, b)` is `incompleteBeta a b x`. For `a, b > 0` and
 `0 ≤ x ≤ 1`:
-- `TauCeti.regularizedIncompleteBeta a b x = B_x(a, b)/B(a, b)` (8.17.2,
-  `regularizedIncompleteBeta_eq_incompleteBeta`), with `ProbabilityTheory.beta`;
+- 8.17.2, `I_x(a, b) = B_x(a, b)/B(a, b)`, is Tau Ceti's
+  `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc`, and is not restated;
 - 8.17.3 is the definition of `ProbabilityTheory.beta`;
-- 8.17.4 is Tau Ceti's `regularizedIncompleteBeta_symm`, and is not restated;
-- 8.17.5 (`regularizedIncompleteBeta_natCast`) and 8.17.24 for positive integers `m`, `n` and
-  `0 ≤ x < 1`, 8.17.24 as a convergent series;
+- 8.17.4 is Tau Ceti's `TauCeti.regularizedIncompleteBeta_symm`, and is not restated;
+- 8.17.5 is Tau Ceti's `TauCeti.Probability.sum_Icc_choose_mul_pow_eq_regularizedIncompleteBeta`,
+  and is not restated;
+- 8.17.24 for positive integers `m`, `n` and `0 ≤ x < 1`, as a convergent series;
 - 8.17.6 for `0 ≤ x ≤ ½`.
 
 **Checks.**
@@ -1485,7 +1568,8 @@ DLMF 8.17.1–8.17.6, 8.17.24. `B_x(a, b)` is `incompleteBeta a b x`. For `a, b 
 - `I_x(1, b) = 1 − (1 − x)^b`.
 
 *Needs:* Tau Ceti `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc`,
-`TauCeti.integral_rpow_mul_one_sub_rpow` and `regularizedIncompleteBeta_symm`; Mathlib
+`TauCeti.integral_rpow_mul_one_sub_rpow`, `TauCeti.regularizedIncompleteBeta_symm` and
+`TauCeti.Probability.sum_Icc_choose_mul_pow_eq_regularizedIncompleteBeta`; Mathlib
 `ProbabilityTheory.beta`.
 
 ### 15.2 Hypergeometric and integral representations
@@ -1499,15 +1583,18 @@ DLMF 8.17.7–8.17.10. 8.17.7–8.17.8 for `0 ≤ x < 1` (`incompleteBeta_eq_hyp
 ### 15.3 Recurrences
 
 DLMF 8.17.11–8.17.21. All, for `a, b > 0` and `0 ≤ x ≤ 1`, with the parameters in each formula
-positive. 8.17.20 is Tau Ceti's `regularizedIncompleteBeta_add_one_left`, and is not restated.
+positive. 8.17.20 is Tau Ceti's `TauCeti.regularizedIncompleteBeta_add_one_left`, and is not
+restated.
 
-*Needs:* 15.1; Tau Ceti `regularizedIncompleteBeta_add_one_left` and
-`regularizedIncompleteBeta_add_one_right`.
+*Needs:* 15.1; Tau Ceti `TauCeti.regularizedIncompleteBeta_add_one_left` and
+`TauCeti.regularizedIncompleteBeta_add_one_right`.
 
 ### 15.4 Continued fraction
 
 DLMF 8.17.22–8.17.23. Convergence to the stated value for `0 ≤ x < 1`, via 4.1; at `x = 0` every
-`d_m` vanishes and the fraction is `1`. For `0 < x < 1`, with
+`d_m` vanishes and the fraction is `1`. For `b ∈ ℤ_{>0}`, `d_{2b} = 0`, and 8.17.22 is the finite
+identity given by the termination clause of 4.1, as for 8.9.2 in 4.2. For `0 < x < 1` and
+`b ∉ ℤ_{>0}`, with
 `g_n = F(a + b + ⌊n/2⌋, ⌈n/2⌉; a + n; x)` (Mathlib's `ordinaryHypergeometric`), prove the
 contiguous relations `g_{n−1} = g_n + d_n g_{n+1}` (`n ≥ 1`). Then `g₀ = 1`,
 `g₁ = F(a + b, 1; a + 1; x)` gives the value through 8.17.8, and `f(n) = (−1)ⁿ d₁⋯d_{n−1} g_n` is
@@ -1545,8 +1632,6 @@ function; Mathlib's Gauss function and Beta function.
 
 ## Downstream consumers
 
-- **[AsymptoticExpansions](../AsymptoticExpansions/README.md)** cites DLMF 2.5.49 and
-  2.11.5–2.11.7 as statements about `E₁` and `E_p`; they are proved here (8.1, 7.1 and 7.6).
 - Any roadmap that needs the complex error functions, the exponential, logarithmic, sine or
   cosine integrals, or the complex incomplete Gamma and Beta functions consumes them from here,
   with the definitions and conventions pinned above.

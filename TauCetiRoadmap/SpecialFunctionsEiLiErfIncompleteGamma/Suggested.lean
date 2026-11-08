@@ -5,17 +5,20 @@ public import TauCeti.Analysis.SpecialFunctions.Erf
 public import TauCeti.Analysis.SpecialFunctions.IncompleteGamma
 public import TauCeti.Analysis.SpecialFunctions.IncompleteBeta
 public import TauCeti.Analysis.SpecialFunctions.LogIntegral
+public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 
 /-!
 # Exponential, logarithmic, error and incomplete Gamma functions: suggested target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular subsections, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+**This file is not the roadmap.** The definitive document is `README.md`. This file states
+headline theorems of every layer against the pins of `lake-manifest.json`, so that the compiler
+checks their statements and the conventions they rely on. Every target of `README.md` can be
+stated at these pins; the file states a selection, and discharging all of it finishes neither a
+layer nor the roadmap.
 
-The definitions below are roadmap-local copies of the definitions `README.md` pins, with their
-intended bodies, so that the conventions are checked by the compiler. A name `Complex.f`,
+The definitions below are roadmap-local copies, with their intended bodies, of the definitions
+`README.md` pins that the theorems here use; the bodies of the others are in the README's
+Conventions. A name `Complex.f`,
 `Real.f` or `f` here stands for the target `TauCeti.Complex.f`, `TauCeti.Real.f` or
 `TauCeti.f`. The pinned conventions visible here are: Mathlib's regularized hypergeometric
 function `Complex.regularizedHGFun` for Tricomi's `γ*`; the ray integral for `Γ(a, z)`; the
@@ -56,10 +59,6 @@ def tricomiIncompleteGamma (a z : ℂ) : ℂ :=
 the principal power. It is entire in `a` for fixed `z ≠ 0`. -/
 def regularizedGamma (a z : ℂ) : ℂ :=
   z ^ a * tricomiIncompleteGamma a z
-
-/-- The regularized upper incomplete Gamma function `Q(a, z) = 1 − P(a, z)` (DLMF 8.2.5). -/
-def regularizedGammaQ (a z : ℂ) : ℂ :=
-  1 - regularizedGamma a z
 
 /-- The lower incomplete Gamma function `γ(a, z) = Γ(a) P(a, z)` (DLMF 8.2.4). At the poles
 `a ∈ −ℕ` it takes Mathlib's junk value of `Γ`. -/
@@ -116,25 +115,6 @@ def fresnelC (z : ℂ) : ℂ :=
 def fresnelS (z : ℂ) : ℂ :=
   ∫ s in (0 : ℝ)..1, z * Complex.sin (π * ((s : ℂ) * z) ^ 2 / 2)
 
-/-- The Fresnel tail `ℱ(z) = ∫_z^∞ e^{πit²/2} dt`, through DLMF 7.5.2. -/
-def fresnelTail (z : ℂ) : ℂ :=
-  (1 + I) / 2 - (fresnelC z + I * fresnelS z)
-
-/-- The Fresnel auxiliary function `f(z)` (DLMF 7.2.10). -/
-def fresnelAuxF (z : ℂ) : ℂ :=
-  (1 / 2 - fresnelS z) * Complex.cos (π * z ^ 2 / 2) -
-    (1 / 2 - fresnelC z) * Complex.sin (π * z ^ 2 / 2)
-
-/-- The Fresnel auxiliary function `g(z)` (DLMF 7.2.11). -/
-def fresnelAuxG (z : ℂ) : ℂ :=
-  (1 / 2 - fresnelC z) * Complex.cos (π * z ^ 2 / 2) +
-    (1 / 2 - fresnelS z) * Complex.sin (π * z ^ 2 / 2)
-
-/-- The Goodwin–Staton integral `G(z) = ∫₀^∞ e^{−t²}/(t + z) dt` (DLMF 7.2.12), meaningful on
-`slitPlane`. -/
-def goodwinStaton (z : ℂ) : ℂ :=
-  ∫ t in Ioi (0 : ℝ), cexp (-(t : ℂ) ^ 2) / (t + z)
-
 /-- The repeated integrals `iⁿ erfc(z) = (2/√π) ∫₀^∞ tⁿ/n! e^{−(z+t)²} dt` (DLMF 7.18.2), for
 `n : ℕ`; `i⁻¹ erfc(z) = (2/√π) e^{−z²}` is written out where it occurs. -/
 def iteratedErfc (n : ℕ) (z : ℂ) : ℂ :=
@@ -158,53 +138,15 @@ def expIntegralEin (z : ℂ) : ℂ :=
 def sinIntegral (z : ℂ) : ℂ :=
   ∫ s in (0 : ℝ)..1, Complex.sin (z * s) / s
 
-/-- `si(z) = Si(z) − π/2` (DLMF 6.2.10). -/
-def sinIntegralTail (z : ℂ) : ℂ :=
-  sinIntegral z - π / 2
-
-/-- The entire function `Cin(z) = ∫₀^z (1 − cos t)/t dt` (DLMF 6.2.12). -/
-def cosIntegralCin (z : ℂ) : ℂ :=
-  ∫ s in (0 : ℝ)..1, (1 - Complex.cos (z * s)) / s
-
-/-- The principal cosine integral `Ci(z) = −Cin(z) + ln z + γ` (DLMF 6.2.13). -/
-def cosIntegral (z : ℂ) : ℂ :=
-  -cosIntegralCin z + Complex.log z + Real.eulerMascheroniConstant
-
-/-- The hyperbolic sine integral `Shi(z)` (DLMF 6.2.15). -/
-def sinhIntegral (z : ℂ) : ℂ :=
-  ∫ s in (0 : ℝ)..1, Complex.sinh (z * s) / s
-
-/-- The principal hyperbolic cosine integral `Chi(z)` (DLMF 6.2.16). -/
-def coshIntegral (z : ℂ) : ℂ :=
-  Real.eulerMascheroniConstant + Complex.log z +
-    ∫ s in (0 : ℝ)..1, (Complex.cosh (z * s) - 1) / s
-
-/-- The auxiliary function `f(z) = Ci(z) sin z − si(z) cos z` (DLMF 6.2.17). -/
-def sinIntegralAuxF (z : ℂ) : ℂ :=
-  cosIntegral z * Complex.sin z - sinIntegralTail z * Complex.cos z
-
-/-- The auxiliary function `g(z) = −Ci(z) cos z − si(z) sin z` (DLMF 6.2.18). -/
-def sinIntegralAuxG (z : ℂ) : ℂ :=
-  -cosIntegral z * Complex.cos z - sinIntegralTail z * Complex.sin z
-
 /-- The generalized sine integral `Si(a, z)` by its power series (DLMF 8.21.14). -/
 def generalizedSinIntegral (a z : ℂ) : ℂ :=
   z ^ a * ∑' k : ℕ, (-1 : ℂ) ^ k * z ^ (2 * k + 1) / ((2 * k + a + 1) * ((2 * k + 1)! : ℂ))
-
-/-- The generalized cosine integral `Ci(a, z)` by its power series (DLMF 8.21.15). -/
-def generalizedCosIntegral (a z : ℂ) : ℂ :=
-  z ^ a * ∑' k : ℕ, (-1 : ℂ) ^ k * z ^ (2 * k) / ((2 * k + a) * ((2 * k)! : ℂ))
 
 /-- The generalized tail sine integral `si(a, z)` (DLMF 8.21.1), principal value. -/
 def generalizedSinIntegralTail (a z : ℂ) : ℂ :=
   (cexp (π * I * a / 2) * Complex.upperIncompleteGammaLog a (Complex.log z - π * I / 2) -
     cexp (-(π * I * a / 2)) * Complex.upperIncompleteGammaLog a (Complex.log z + π * I / 2)) /
       (2 * I)
-
-/-- The generalized tail cosine integral `ci(a, z)` (DLMF 8.21.1), principal value. -/
-def generalizedCosIntegralTail (a z : ℂ) : ℂ :=
-  (cexp (π * I * a / 2) * Complex.upperIncompleteGammaLog a (Complex.log z - π * I / 2) +
-    cexp (-(π * I * a / 2)) * Complex.upperIncompleteGammaLog a (Complex.log z + π * I / 2)) / 2
 
 namespace Real
 
@@ -226,10 +168,6 @@ def voigtU (x t : ℝ) : ℝ :=
 def voigtV (x t : ℝ) : ℝ :=
   1 / Real.sqrt (4 * π * t) * ∫ y : ℝ, y * Real.exp (-(x - y) ^ 2 / (4 * t)) / (1 + y ^ 2)
 
-/-- The line-broadening function `H(a, u)` for `a > 0` (DLMF 7.19.4). -/
-def voigtH (a u : ℝ) : ℝ :=
-  a / π * ∫ t : ℝ, Real.exp (-t ^ 2) / ((u - t) ^ 2 + a ^ 2)
-
 end Real
 
 /-- The incomplete Beta function `B_x(a, b) = ∫₀^x t^{a−1}(1−t)^{b−1} dt` (DLMF 8.17.1), for
@@ -240,25 +178,9 @@ def incompleteBeta (a b x : ℝ) : ℝ :=
 /-! ## Layer 1: incomplete Gamma, definitions and continuation -/
 
 open Complex in
-/-- **1.1** `γ*` is entire in `z`. -/
-theorem differentiable_tricomiIncompleteGamma_right (a : ℂ) :
-    Differentiable ℂ (tricomiIncompleteGamma a) := sorry
-
-open Complex in
 /-- **1.1** `γ*` is entire in `a`. -/
 theorem differentiable_tricomiIncompleteGamma_left (z : ℂ) :
     Differentiable ℂ fun a => tricomiIncompleteGamma a z := sorry
-
-open Complex in
-/-- **1.1** The first series of DLMF 8.7.1, valid for all `a`. -/
-theorem hasSum_tricomiIncompleteGamma (a z : ℂ) :
-    HasSum (fun k : ℕ => cexp (-z) * z ^ k * (Complex.Gamma (a + k + 1))⁻¹)
-      (tricomiIncompleteGamma a z) := sorry
-
-open Complex in
-/-- **1.1** `γ*(−n, z) = zⁿ` (DLMF 8.4.12). -/
-theorem tricomiIncompleteGamma_neg_natCast (n : ℕ) (z : ℂ) :
-    tricomiIncompleteGamma (-n) z = z ^ n := sorry
 
 open Complex in
 /-- **1.1** The differential equation DLMF 8.2.14. -/
@@ -339,12 +261,6 @@ theorem upperIncompleteGammaLog_log_add_pi_mul_I {a : ℂ} (ha : ∀ n : ℕ, a 
 /-! ## Layers 2–3: special values, series, recurrences and derivatives -/
 
 open Complex in
-/-- **2.1** DLMF 8.4.8, for every `z`. -/
-theorem upperIncompleteGamma_natCast_add_one (n : ℕ) (z : ℂ) :
-    upperIncompleteGamma (n + 1) z =
-      n ! * cexp (-z) * ∑ k ∈ range (n + 1), z ^ k / (k ! : ℂ) := sorry
-
-open Complex in
 /-- **2.4** DLMF 8.8.2. -/
 theorem upperIncompleteGamma_add_one {z : ℂ} (hz : z ∈ slitPlane) (a : ℂ) :
     upperIncompleteGamma (a + 1) z = a * upperIncompleteGamma a z + z ^ a * cexp (-z) := sorry
@@ -357,7 +273,7 @@ theorem hasDerivAt_upperIncompleteGamma {z : ℂ} (hz : z ∈ slitPlane) (a : �
 open Complex in
 /-- **3.3** The Mellin–Barnes integral DLMF 8.6.11 on the vertical line `Re s = c`, to the right
 of all poles of `Γ(s + a)/s`, with its absolute convergence. -/
-theorem upperIncompleteGamma_eq_mellinBarnes (a : ℂ) {z : ℂ} (hz : |arg z| < π / 2) {c : ℝ}
+theorem upperIncompleteGamma_eq_mellinBarnes (a : ℂ) {z : ℂ} (hz : 0 < z.re) {c : ℝ}
     (hc : 0 < c) (hca : -a.re < c) :
     Integrable (fun y : ℝ => Complex.Gamma ((c : ℂ) + y * I + a) * z ^ (-((c : ℂ) + y * I)) /
       ((c : ℂ) + y * I)) ∧
@@ -381,12 +297,6 @@ def IsMinimalSolution (a b f : ℕ → ℂ) : Prop :=
 /-- The continued fraction `a₁/(b₁ + a₂/(b₂ + ⋯))`, a `GenContFract` with head `0`. -/
 def contFrac (a b : ℕ → ℂ) : GenContFract ℂ :=
   ⟨0, Stream'.Seq.ofStream fun n => ⟨a (n + 1), b (n + 1)⟩⟩
-
-/-- **4.1** The determinant formula for the continuants. -/
-theorem nums_mul_dens_sub (a b : ℕ → ℂ) (n : ℕ) :
-    (contFrac a b).nums (n + 1) * (contFrac a b).dens n -
-        (contFrac a b).nums n * (contFrac a b).dens (n + 1) =
-      (-1) ^ n * ∏ j ∈ Icc 1 (n + 1), a j := sorry
 
 /-- **4.1** The reduction-of-order criterion for minimality. -/
 theorem isMinimalSolution_iff {a b f : ℕ → ℂ} (ha : ∀ n, 1 ≤ n → a n ≠ 0)
@@ -443,6 +353,44 @@ theorem regularizedGamma_isEquivalent {z : ℂ} (hz : z ≠ 0) {δ : ℝ} (hδ :
         𝓟 (Set.ofPred fun a : ℂ => |arg a| ≤ π - δ)]
       fun a => cexp (a - z + a * (Complex.log z - Complex.log a) - Complex.log a / 2) /
         (Real.sqrt (2 * π) : ℂ) := sorry
+
+/-! ## Layer 6: zeros of `γ*` -/
+
+open Complex in
+/-- **6.1** DLMF §8.13(i) for `1 − 2n < a < 2 − 2n`: exactly one negative real zero and no
+positive one. -/
+theorem tricomiIncompleteGamma_real_zeros_of_odd_band {n : ℕ} (hn : 1 ≤ n) {a : ℝ}
+    (ha₁ : 1 - 2 * (n : ℝ) < a) (ha₂ : a < 2 - 2 * (n : ℝ)) :
+    (∃! x : ℝ, x < 0 ∧ tricomiIncompleteGamma a x = 0) ∧
+      ∀ x : ℝ, 0 < x → tricomiIncompleteGamma a x ≠ 0 := sorry
+
+open Complex in
+/-- **6.1** DLMF §8.13(i) for `−2n < a < 1 − 2n`: exactly one negative and exactly one positive
+real zero. -/
+theorem tricomiIncompleteGamma_real_zeros_of_even_band {n : ℕ} (hn : 1 ≤ n) {a : ℝ}
+    (ha₁ : -2 * (n : ℝ) < a) (ha₂ : a < 1 - 2 * (n : ℝ)) :
+    (∃! x : ℝ, x < 0 ∧ tricomiIncompleteGamma a x = 0) ∧
+      ∃! x : ℝ, 0 < x ∧ tricomiIncompleteGamma a x = 0 := sorry
+
+open Complex in
+/-- **6.2** DLMF §8.13(iii)(b): for `x > 0`, the zeros of `γ*(·, x)` in `−2n < a < 1 − 2n` are
+two simple zeros for `x < x*_n`, one double zero for `x = x*_n`, and none for `x > x*_n`. The
+derivatives are those of the real function `b ↦ Re γ*(b, x)`. -/
+theorem tricomiIncompleteGamma_param_zeros {n : ℕ} (hn : 1 ≤ n) :
+    ∃ xs : ℝ, 0 < xs ∧ ∀ x : ℝ, 0 < x →
+      (x < xs → ∃ a₁ a₂ : ℝ, a₁ < a₂ ∧
+        Set.ofPred (fun a : ℝ => a ∈ Ioo (-2 * (n : ℝ)) (1 - 2 * (n : ℝ)) ∧
+          tricomiIncompleteGamma a x = 0) = {a₁, a₂} ∧
+        deriv (fun b : ℝ => (tricomiIncompleteGamma b x).re) a₁ ≠ 0 ∧
+        deriv (fun b : ℝ => (tricomiIncompleteGamma b x).re) a₂ ≠ 0) ∧
+      (x = xs → ∃ a₀ : ℝ,
+        Set.ofPred (fun a : ℝ => a ∈ Ioo (-2 * (n : ℝ)) (1 - 2 * (n : ℝ)) ∧
+          tricomiIncompleteGamma a x = 0) = {a₀} ∧
+        deriv (fun b : ℝ => (tricomiIncompleteGamma b x).re) a₀ = 0 ∧
+        deriv (deriv fun b : ℝ => (tricomiIncompleteGamma b x).re) a₀ ≠ 0) ∧
+      (xs < x →
+        Set.ofPred (fun a : ℝ => a ∈ Ioo (-2 * (n : ℝ)) (1 - 2 * (n : ℝ)) ∧
+          tricomiIncompleteGamma a x = 0) = ∅) := sorry
 
 /-! ## Layer 7: the generalized exponential integral -/
 
@@ -509,15 +457,7 @@ theorem strictMonoOn_expIntegralEi : StrictMonoOn Real.expIntegralEi (Ioi 0) := 
 theorem existsUnique_expIntegralEi_eq_zero :
     ∃! x : ℝ, 0 < x ∧ Real.expIntegralEi x = 0 := sorry
 
-/-- **8.5** The positive zero of `Ei`, to ten digits. -/
-theorem expIntegralEi_eq_zero_bounds {x : ℝ} (hx : 0 < x) (h : Real.expIntegralEi x = 0) :
-    0.3725074107 < x ∧ x < 0.3725074108 := sorry
-
 /-! ## Layer 9: sine and cosine integrals -/
-
-/-- **9.1** DLMF 6.2.14. -/
-theorem tendsto_sinIntegral_atTop :
-    Tendsto (fun x : ℝ => sinIntegral x) atTop (𝓝 (π / 2)) := sorry
 
 /-- **9.3** DLMF 6.5.5. -/
 theorem sinIntegral_eq_expIntegralE {z : ℂ} (hz : 0 < z.re) :
@@ -581,9 +521,6 @@ theorem fresnelC_ofReal_im (x : ℝ) : (fresnelC x).im = 0 := sorry
 /-- **11.2** DLMF 7.2.9. -/
 theorem tendsto_fresnelC_atTop : Tendsto (fun x : ℝ => (fresnelC x).re) atTop (𝓝 (1 / 2)) :=
   sorry
-
-/-- **11.6** Dawson's integral is odd. -/
-theorem dawson_neg (z : ℂ) : dawson (-z) = -dawson z := sorry
 
 /-- **11.6** Dawson's integral commutes with conjugation. -/
 theorem dawson_conj (z : ℂ) : dawson (conj z) = conj (dawson z) := sorry
@@ -673,9 +610,6 @@ theorem erfInv_one_sub_isBigO (u v : ℝ → ℝ)
     (fun x => Real.erfInv (1 - x) - ∑ j ∈ range N, c j (v x) * u x ^ ((j : ℝ) - 1 / 2))
       =O[𝓝[>] 0] fun x => u x ^ ((N : ℝ) - 1 / 2) * (1 + |v x|) ^ N := sorry
 
-/-- **14.2** `i⁰ erfc = erfc`. -/
-theorem iteratedErfc_zero : iteratedErfc 0 = Complex.erfc := sorry
-
 /-- **14.2** DLMF 7.18.4: `(iⁿ⁺¹ erfc)′ = −iⁿ erfc`. -/
 theorem hasDerivAt_iteratedErfc (n : ℕ) (z : ℂ) :
     HasDerivAt (iteratedErfc (n + 1)) (-iteratedErfc n z) z := sorry
@@ -706,22 +640,10 @@ theorem voigt_eq_erfc (x : ℝ) {t : ℝ} (ht : 0 < t) :
 
 /-! ## Layer 15: incomplete Beta functions -/
 
-/-- **15.1** DLMF 8.17.2 with Tau Ceti's `regularizedIncompleteBeta`. -/
-theorem regularizedIncompleteBeta_eq_incompleteBeta {a b x : ℝ} (ha : 0 < a) (hb : 0 < b)
-    (hx0 : 0 ≤ x) (hx1 : x ≤ 1) :
-    TauCeti.regularizedIncompleteBeta a b x = incompleteBeta a b x / ProbabilityTheory.beta a b :=
-  sorry
-
 /-- **15.2** DLMF 8.17.7 with Mathlib's `ordinaryHypergeometric`. -/
 theorem incompleteBeta_eq_hypergeometric {a b x : ℝ} (ha : 0 < a) (hb : 0 < b) (hx0 : 0 ≤ x)
     (hx1 : x < 1) :
     incompleteBeta a b x = x ^ a / a * ordinaryHypergeometric a (1 - b) (a + 1) x := sorry
-
-/-- **15.1** DLMF 8.17.5. -/
-theorem regularizedIncompleteBeta_natCast {m n : ℕ} (hm : 0 < m) (hmn : m ≤ n) {x : ℝ}
-    (hx0 : 0 ≤ x) (hx1 : x < 1) :
-    TauCeti.regularizedIncompleteBeta m (n - m + 1) x =
-      ∑ j ∈ Icc m n, (n.choose j : ℝ) * x ^ j * (1 - x) ^ (n - j) := sorry
 
 /-- **15.5** DLMF 8.18.1 as a normalized remainder, `a → +∞` with `b > 0` and `0 < x < 1`
 fixed; `(Real.Gamma (b - k))⁻¹` is `0` at the poles, as for the entire reciprocal. -/
@@ -733,3 +655,40 @@ theorem regularizedIncompleteBeta_large_a_isBigO {b x : ℝ} (hb : 0 < b) (hx0 :
       =O[atTop] fun _ => (1 : ℝ) := sorry
 
 end TauCetiRoadmap.SpecialFunctionsEiLiErfIncompleteGamma
+
+/-! ## Library declarations cited in `README.md`
+
+The README cites these Mathlib and Tau Ceti declarations under the names `Complex.*` and
+`Real.*`, which coincide with the roadmap-local namespaces above; they are pinned here. -/
+
+#check @_root_.Complex.Gamma
+#check @_root_.Complex.Gamma_add_one
+#check @_root_.Complex.Gamma_eq_integral
+#check @_root_.Complex.Gamma_mul_Gamma_one_sub
+#check @_root_.Complex.analyticOnNhd_regularizedHGFun_of_card_le
+#check @_root_.Complex.arg
+#check @_root_.Complex.besselJ
+#check @_root_.Complex.cos
+#check @_root_.Complex.cpow
+#check @_root_.Complex.differentiableAt_Gamma
+#check @_root_.Complex.differentiable_one_div_Gamma
+#check @_root_.Complex.digamma
+#check @_root_.Complex.hasSum_regularizedHGFun
+#check @_root_.Complex.log
+#check @_root_.Complex.partialGamma
+#check @_root_.Complex.partialGamma_add_one
+#check @_root_.Complex.regularizedHGFun
+#check @_root_.Complex.regularizedHGFunCoeff
+#check @_root_.Complex.sin
+#check @_root_.Complex.slitPlane
+#check @_root_.Complex.tendsto_self_mul_Gamma_nhds_zero
+#check @_root_.Real.Gamma
+#check @_root_.Real.erfInv
+#check @_root_.Real.erfOrderIso
+#check @_root_.Real.erf_erfInv
+#check @_root_.Real.eulerMascheroniConstant
+#check @_root_.Real.eulerMascheroniConstant_eq_neg_integral_log
+#check @_root_.Real.exp
+#check @_root_.Real.hasDerivAt_erfInv
+#check @_root_.Real.log
+#check @_root_.Real.tendsto_erfInv_nhdsLT_one
