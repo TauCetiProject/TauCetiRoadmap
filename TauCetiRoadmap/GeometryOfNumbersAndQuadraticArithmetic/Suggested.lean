@@ -3,10 +3,8 @@ module
 public import Mathlib
 public import TauCeti.Algebra.Module.ZLattice.RealModel
 public import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
-public import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
 public import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
 public import TauCeti.NumberTheory.HurwitzClassNumber
-public import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
 # Geometry of numbers and quadratic arithmetic: target signatures
@@ -18,17 +16,19 @@ finishes neither a layer nor the roadmap. Each theorem is a proof target marked 
 The statements cover the intrinsic covolume identities (Layer 0), the comparison of the real
 successive minima of the real model with the squared-norm successive minima of a positive definite
 integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite
-hermitian embedding counts (Layer 3), Henk's lattice-point bound, Davenport's multiset estimate,
-Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's three-square
-formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice existence,
+hermitian embedding counts (Layer 3), Ratner's three theorems, Oppenheim, Duke, Gauss's
+three-square formula, Siegel's three-square lower bound, critical-lattice existence,
 Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
 covering transference bound (Layer 4), the LLL short-vector approximation factor (Layer 5), and
 Arf's theorems over a finite field of characteristic two (Layer 6). The definitions below specify
-only the Euclidean unit ball as a convex body, finite counts, bounded-format multiplicities, strong
-continuity, shells, the covering radius, star bodies, lattice transforms, reducedness and the Arf
-class used in these statements. All have real bodies on native
-carriers; the real model, both kinds of successive minima, semialgebraicity, unitarity and Hurwitz
-class numbers use Tau Ceti.
+only the Euclidean unit ball as a convex body, finite counts, shells, the covering radius, star
+bodies, lattice transforms, reducedness and the Arf class used in these statements. All have real
+bodies on native carriers; the real model, both kinds of successive minima and Hurwitz class
+numbers use Tau Ceti.
+
+Henk's and Davenport's lattice-point counts (§4.1) are SieveMethodsAndPrimePatterns §0.11a, and
+Howe–Moore, Moore ergodicity (§§4.2.1–4.2.2) and Mahler's criterion (§4.5.8) are
+ProbabilisticAndMetricNumberTheory §§4.9a–4.9b; the comments in Layer 4 name them.
 
 The upper half of Minkowski's second theorem is Tau Ceti's
 `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, so it is not restated here.
@@ -165,99 +165,14 @@ end FiniteHermitianCounts
 
 /-! ## Layer 4: Lattice points, star bodies and homogeneous dynamics -/
 
-/-- **Henk's lattice-point bound** (4.1.12): for a discrete full lattice `L` in a real normed space
-of dimension `d ≥ 2` and a centrally symmetric convex body `K` with `0` in its interior,
-`|L ∩ K| < 2^(d-1) ∏ (⌊2/λ_i⌋ + 1)`, with Tau Ceti's successive minima `λ_i`. The count includes
-the origin and the boundary points. -/
-theorem lattice_count_lt_successive_minima {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hKs : ∀ x ∈ K, -x ∈ K) (hK : (0 : E) ∈ interior (K : Set E))
-    (hd : 2 ≤ finrank ℝ E) :
-    (Nat.card ↥((L : Set E) ∩ (K : Set E)) : ℝ) <
-      2 ^ (finrank ℝ E - 1) * ∏ i, ((⌊2 / ZLattice.successiveMin L K i⌋₊ : ℝ) + 1) := by
-  sorry
+-- Supplied by `TauCetiRoadmap.SieveMethodsAndPrimePatterns` §0.11a (4.1):
+-- `SieveLattice.lattice_count_lt_successive_minima` (4.1.12), and
+-- `SieveLattice.SemialgebraicMultiset`, `SieveLattice.multisetLatticeCount` and
+-- `SieveLattice.multisetVolume` with `SieveLattice.davenport_multiset_estimate` (4.1.13).
 
-/-- A bounded multiplicity function whose positive superlevels have uniformly bounded
-polynomial sign descriptions (4.1.13). The field `semialgebraic` follows from `format`; it records
-the superlevels in Tau Ceti's semialgebraic predicate for consumers of that API. -/
-structure SemialgebraicMultiset (n m k ell : ℕ) where
-  multiplicity : (Fin n → ℝ) → ℕ
-  bounded_support : Bornology.IsBounded (Function.support multiplicity)
-  multiplicity_le : ∀ x, multiplicity x ≤ m
-  semialgebraic : ∀ j, 1 ≤ j → j ≤ m →
-    TauCeti.IsSemialgebraic {x | j ≤ multiplicity x}
-  format : ∀ j, 1 ≤ j → j ≤ m →
-    ∃ p : Fin k → MvPolynomial (Fin n) ℝ, (∀ i, (p i).totalDegree ≤ ell) ∧
-      ∃ signs : Set (Fin k → SignType),
-        {x | j ≤ multiplicity x} =
-          {x | (fun i => SignType.sign (MvPolynomial.eval x (p i))) ∈ signs}
-
-/-- The lattice count of a multiplicity function (4.1.13). -/
-def multisetLatticeCount {n : ℕ} (μ : (Fin n → ℝ) → ℕ) : ℝ :=
-  ∑' z : Fin n → ℤ, (μ (fun i => (z i : ℝ)) : ℝ)
-
-/-- The volume of a multiplicity function, retaining multiplicities (4.1.13). -/
-def multisetVolume {n : ℕ} (μ : (Fin n → ℝ) → ℕ) : ℝ := ∫ x, (μ x : ℝ)
-
-/-- **Davenport's multiset estimate** (4.1.13): the error is bounded uniformly over triangular
-unipotent changes of coordinates by the proper projection volumes of the original support. -/
-theorem davenport_multiset_estimate (n m k ell : ℕ) (hn : 1 ≤ n) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ M : SemialgebraicMultiset n m k ell,
-      ∀ A : Matrix.GeneralLinearGroup (Fin n) ℝ,
-        ((A : Matrix (Fin n) (Fin n) ℝ).IsUpperTriangular ∨
-          (A : Matrix (Fin n) (Fin n) ℝ).IsLowerTriangular) →
-        (∀ i, (A : Matrix (Fin n) (Fin n) ℝ) i i = 1) →
-        |multisetLatticeCount (fun x =>
-            M.multiplicity ((A⁻¹ : Matrix.GeneralLinearGroup (Fin n) ℝ).val.mulVec x)) -
-          multisetVolume M.multiplicity| ≤ C * max 1
-            (sSup {r : ℝ | ∃ s : Finset (Fin n), s.Nonempty ∧ s.card < n ∧
-              r = volume.real ((fun x : Fin n → ℝ => fun i : s => x i) ''
-                Function.support M.multiplicity)}) := by sorry
-
-section HilbertDynamics
-variable {G H : Type*} [Group G] [TopologicalSpace G]
-  [NormedAddCommGroup H] [InnerProductSpace ℂ H]
-
-/-- Strong continuity: every orbit map `g ↦ π(g) v` is continuous (4.2). Mathlib's
-`ContRepresentation` bundles continuity of each operator, not continuity in `g`. -/
-def StronglyContinuous (π : ContRepresentation ℂ G H) : Prop :=
-  ∀ v : H, Continuous (fun g : G => π g v)
-
-end HilbertDynamics
-
-section HoweMoore
-open scoped Manifold ContDiff
-variable {E G H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [hdim : FiniteDimensional ℝ E] [CompleteSpace E] [TopologicalSpace G] [ChartedSpace E G]
-  [Group G] [LieGroup 𝓘(ℝ, E) (minSmoothness ℝ 3) G] [IsTopologicalGroup G]
-  [hmanifold : IsManifold 𝓘(ℝ, E) ∞ G]
-  [T2Space G] [SecondCountableTopology G] [hconn : ConnectedSpace G]
-  [hcenter : Finite (Subgroup.center G)]
-  [hsimple : LieAlgebra.IsSimple ℝ (GroupLieAlgebra 𝓘(ℝ, E) G)]
-  [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
-
-include hdim hmanifold hconn hcenter hsimple
-
-/-- **Howe–Moore** (4.2.1): coefficients of a strongly continuous unitary representation of
-a connected noncompact simple real Lie group with finite centre vanish at infinity when
-there are no nonzero invariant vectors. No separability hypothesis on the Hilbert space is
-needed. -/
-theorem howe_moore (hG : ¬ IsCompact (Set.univ : Set G))
-    (π : ContRepresentation ℂ G H) (hs : StronglyContinuous π)
-    (hu : ContRepresentation.IsUnitary π) (hi : π.invariants = ⊥) (v w : H) :
-    Filter.Tendsto (fun g : G => inner (𝕜 := ℂ) (π g v) w)
-      (Filter.cocompact G) (nhds 0) := by sorry
-
-/-- **Moore ergodicity** (4.2.2): every closed noncompact subgroup of a connected simple
-real Lie group with finite centre acts ergodically on each finite-volume lattice quotient. -/
-theorem moore_ergodicity (Γ : Subgroup G) [DiscreteTopology Γ]
-    [MeasurableSpace (G ⧸ Γ)] [BorelSpace (G ⧸ Γ)]
-    (μ : Measure (G ⧸ Γ)) [IsProbabilityMeasure μ]
-    (hμ : ∀ g : G, MeasurePreserving (fun x : G ⧸ Γ => g • x) μ μ)
-    (K : Subgroup G) (hK : IsClosed (K : Set G)) (hnc : ¬ IsCompact (K : Set G)) :
-    ErgodicSMul K (G ⧸ Γ) μ := by sorry
-
-end HoweMoore
+-- Supplied by `TauCetiRoadmap.ProbabilisticAndMetricNumberTheory` §4.9a (4.2.1–4.2.2):
+-- `MetricNumberTheory.howe_moore_of_cartan`, `MetricNumberTheory.howe_moore` and
+-- `MetricNumberTheory.moore_ergodicity`.
 
 section Ratner
 open scoped Manifold ContDiff
@@ -456,14 +371,8 @@ variable {n : ℕ} (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin n) ℝ))
 
 include hΓ
 
-/-- A family of unimodular lattices is relatively compact exactly when its shortest nonzero
-vectors have a common positive lower bound (4.5.8). -/
-theorem mahler_relativelyCompact_iff (hn : 2 ≤ n)
-    (A : Set (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)) :
-    IsCompact (closure A) ↔ ∃ ε : ℝ, 0 < ε ∧
-      ∀ x ∈ A, ∀ z : Fin n → ℤ, z ≠ 0 → ε ≤
-        ‖WithLp.toLp 2 (fun i => ∑ j,
-          (x.out : Matrix (Fin n) (Fin n) ℝ) i j * (z j : ℝ))‖ := by sorry
+-- Supplied by `TauCetiRoadmap.ProbabilisticAndMetricNumberTheory` §4.9b (4.5.8):
+-- `MetricNumberTheory.mahler_relativelyCompact_iff`, in the max norm on `ℝⁿ`.
 
 /-- **Dani–Margulis nondivergence** (4.2.3): every trajectory of a one-parameter unipotent
 in the space of unimodular lattices spends uniformly almost all of each initial time interval
