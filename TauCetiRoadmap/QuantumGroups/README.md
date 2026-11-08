@@ -18,13 +18,21 @@ in §1.1, and generic complex rank-one representation theory in Layer 8.
 CStarAlgebras C1.CommutativeMultiplierMorphisms owns continuous pullbacks,
 compact-cutoff nondegeneracy, properness and strict composition; §1.1 specializes
 those results to group maps. CStarAlgebras C5 owns completed minimal tensors.
-Layer 0 owns the Hilbert-module operator and tensor interfaces, elementary
-C*-categories with standard conjugates, positive Temperley–Lieb completions,
-and operator-closure and full-left-Hilbert-algebra interfaces needed by this
+Layer 0 owns the Hilbert-module operator and tensor interfaces, the
+operator-closure and full-left-Hilbert-algebra interfaces, the fiber-functor
+facts of §0.3 and the Temperley–Lieb comparison of §0.4 needed by this
 programme. These foundations are independent of quantum-group reconstruction.
+CategoricalOperatorAlgebras CA1a and CA2a own C*-categories, their Karoubi
+completion, rigid C*-tensor categories, standard solutions, intrinsic
+dimension, unitary dual functors and signed self-dualities.
 TemperleyLieb Layers 0–7 supplies the algebraic diagrams, trace, negligible
-ideal, Jones–Wenzl objects and algebraic envelopes; §0.4 adds their analytic
-positivity and C*-norms. Layer 7 identifies them with quantum-group intertwiners.
+ideal, Jones–Wenzl objects and algebraic envelopes; Subfactors 3.1–3.3
+supplies their analytic adjoint, positivity, path models and positive
+quotients; TemperleyLiebOperatorAlgebras Layers 1–3 owns the sign isomorphism
+and the unitary Temperley–Lieb category with its C*-tensor structure, duality
+and fusion. Section 0.4 compares that category with the intertwiners of a
+self-dual object, and Layer 7 applies the comparison to quantum-group
+intertwiners.
 OperatorTheory/OperatorIdeals OI-B23,OI-B29–OI-B30 owns the trace-class
 carrier; OperatorTheory/SelfAdjointSpectralTheory Parts B,C,E owns spectral
 projections and closed-operator spectral calculus. The algebraic coaction and matrix-coefficient infrastructure is supplied by Tau
@@ -69,7 +77,10 @@ the underlying vector space. These can differ.
 | Supplier | Interface consumed here |
 | --- | --- |
 | [CStarAlgebras C1–C5,C8](../CStarAlgebras/README.md) | C1.CommutativeMultiplierMorphisms: continuous pullbacks, nondegeneracy, properness and strict composition; C2 state extension, C3 matrix norms, C4 CP positivity and multiplicative domains, C5 minimal tensors and slice maps; C8's Toeplitz extension for Q7. Q5 owns the bounded universal presentations used here. |
-| [TemperleyLieb Layers 0–7](../TemperleyLieb/README.md) | Algebraic diagrams and reflections, trace, Jones–Wenzl objects, negligible ideal, algebraic path models, quotients and Karoubi envelopes. Section 0.4 constructs their analytic forms, norms and unitary category. |
+| [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md) | Finite Hilbert dagger category, C*-categories with finite sums, Karoubi completion and automatic isometry of faithful dagger functors (CA1a); unitary rigid tensor categories, chosen conjugates, signed self-duality, standard solutions and intrinsic dimension (CA2a). Section 0.3 adds fiber functors and the minimal norm product; reconstruction here supplies the quantum-group realization. |
+| [TemperleyLieb Layers 0–7](../TemperleyLieb/README.md) | Algebraic diagrams and reflections, the linear universal property `TLCat.lift` of Layer 2, trace, Jones–Wenzl objects, negligible ideal, algebraic path models, quotients and Karoubi envelopes. TemperleyLiebOperatorAlgebras builds their analytic forms, norms and unitary category. |
+| [Subfactors 3.1–3.3](../Subfactors/README.md) | Analytic adjoint on TL_n, closure trace, trace radical, Jones's positivity theorem `markovTrace_nonneg_iff` with `jonesLoopParameters` and its pullback criterion, positive path models, the quotients Q_n and their finite C*-norms. |
+| [TemperleyLiebOperatorAlgebras Layers 1–3](../TemperleyLiebOperatorAlgebras/README.md) | Trace radical as negligible ideal and Q_n as negligible-quotient endomorphism algebras (Layer 1); the sign isomorphism TL_n(δ)≅TL_n(−δ), its trace relation and negative-loop positivity (2.1); the unitary Temperley–Lieb category UTL_d with Hom norms, C*-tensor structure, balanced cup–cap duality, simple objects X_r and unitary fusion rules (Layer 3). Section 0.4 compares it with the intertwiners of a self-dual object, and §7.2 applies the comparison to O_F^+. |
 | [OperatorTheory/OperatorIdeals OI-B23,OI-B29–OI-B30](../OperatorTheory/OperatorIdeals/README.md) | Complete trace-class carrier and its nuclear norm; §0.1 adds the trace pairing and concrete von Neumann predual. |
 | [OperatorTheory/SelfAdjointSpectralTheory Parts B,C,E](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Spectral projections, closed partial operators and their adjoints, and unbounded spectral calculus. Section 0.5 adds the antilinear Tomita polar comparison. |
 | [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) | Classical Peter–Weyl, compact Haar integration and the SU(2) representation calculation used for comparisons. |
@@ -77,7 +88,7 @@ the underlying vector space. These can differ.
 | [OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md) | Full/reduced discrete-group C*-algebras, canonical quotient/expectation and the invariant-mean/Reiter P₁/P₂ comparison. |
 | [FreeProbability F1,F3,F6](../FreeProbability/README.md) | Scalar moments, the free-group adjacency norm/full–reduced counterexample and the standard semicircular law; Q7 supplies the quantum-group character realization. |
 | [AmenableGroups, Layers 1,5,7](../AmenableGroups/README.md) | Layer 1 invariant means, Layer 5 discrete Følner criterion, Layer 7 locally compact amenability; Q4 constructs the reduced-counit comparison using D2's Reiter comparison. |
-| [PivotalSpherical Layers 0–2 and 7](../PivotalSpherical/README.md) | Algebraic double-right-dual, pivotal, trace and spherical conventions consumed by Q3 and Q8.5, compared with §0.3’s unitary duality. Layer7’s FDRep is the group-algebra comparison target for Q8.5. |
+| [PivotalSpherical Layers 0–2 and 7](../PivotalSpherical/README.md) | Algebraic double-right-dual, pivotal, trace and spherical conventions consumed by Q3 and Q8.5, compared with CategoricalOperatorAlgebras CA2a’s unitary duality. Layer7’s FDRep is the group-algebra comparison target for Q8.5. |
 
 **From Mathlib.** `CStarModule` in `Analysis/CStarAlgebra/Module/Defs.lean`
 provides the module inner product and Cauchy–Schwarz; completeness is a separate
@@ -104,7 +115,7 @@ matrix coefficients. Consume its `Subcomodule`, `IsCompletelyReducible`,
 Hopf algebras. `Finite/Rigid` uses commutativity and supplies both duals
 for the classical function-algebra case. For noncommutative Pol(G),
 construct left duals using its bijective antipode and S⁻¹, and compare
-them with §0.3's chosen conjugates and pivotal structure.
+them with CategoricalOperatorAlgebras CA2a's chosen conjugates and pivotal structure.
 Use Mathlib `WithConv` for convolution notation.
 In particular consume `coefficientMatrix`, its counit,
 comultiplication and inverse-antipode equations, and `matrixComodule` with its
@@ -112,6 +123,38 @@ coefficient reconstruction. Add Hilbert/star/unitary structure to these APIs;
 do not replace the algebraic coaction with a private matrix-corepresentation
 carrier. The analytic free-module coaction is compared with that algebraic API
 on the coefficient core.
+
+**From TauCetiRoadmap.CategoricalOperatorAlgebras.** Cited as CA1a and CA2a.
+CA1a: daggers on complex linear categories; C*-categories (Banach Hom spaces,
+contractive bilinear composition, isometric dagger, ‖f†f‖=‖f‖², positivity of
+f†f); finite linking algebras, finite orthogonal sums, unitary splittings of
+self-adjoint idempotents and the additive/Karoubi completion with its universal
+property for linear dagger functors; automatic contractivity of linear dagger
+functors and isometry of faithful ones; the finite Hilbert and Hilbert-module
+C*-categories. CA2a: dagger tensor categories with unitary associators and
+unitors; solutions of the conjugate equations, standard and balanced solutions
+with their positivity, uniqueness up to unitary equivalence and sum, subobject
+and tensor compatibilities; intrinsic dimension; unitary dual functors with
+`(f∨)†=(f†)∨`, their pivotal comparison, traces and spherical balanced choice;
+signed self-dualities `bar(r) r=ε φ_X`, ε=±1, with invariance of the sign on a
+simple self-dual object. Nothing from CA1b, CA2b or CA3–CA10 is used.
+
+**From TauCetiRoadmap.TemperleyLiebOperatorAlgebras.** Cited as
+TemperleyLiebOperatorAlgebras 1.k, 2.1 and 3.k. Layer 1: the identification of
+Subfactors 3.2's trace radical with TemperleyLieb Layer 6's negligible ideal
+and of Subfactors 3.3's Q_n with the endomorphism algebras of the negligible
+quotient (1.3), and the comparison of the positive path model with the
+algebraic path and block idempotents (1.4). 2.1: the sign isomorphism
+`s:TL_n(δ)≅TL_n(−δ)` with s(e_i)=−e_i, its trace relation
+`markovTrace (−q) (s x) = (−1)^n markovTrace q x`, its *-property for real δ,
+the positivity classification `markovTrace_neg_one_pow_nonneg_iff` and the
+induced isomorphisms Q_n^(−d)≅Q_n^d. Layer 3: for admissible d>0, the unitary
+Temperley–Lieb category UTL_d with End(n)≅Q_n (3.1), its positive Hom inner
+products and C*-norms (3.2), its C*-tensor structure and balanced cup–cap
+solution with dim 1=d (3.3), and its envelope with simple objects X_r, quantum
+dimensions [r+1] and the untruncated and truncated unitary fusion rules (3.4).
+Signed quantum-group cups stay this roadmap's conjugate data; 2.1 identifies
+algebras and traces only.
 
 ## How to read the build
 
@@ -233,93 +276,99 @@ These constructions have the following API.
 
 *Needs:* Mathlib `CStarModule`, `WithCStarModule`, `CompleteSpace` and completion; CStarAlgebras C1,C4,C5 for multipliers, matrix positivity and minimal tensors; §0.1 for Hilbert-space compact operators; the closed graph theorem for automatic boundedness. Landsman §§3.2–3.3 and Construction 3.5.3, with the general tensor and multiplier derivations just specified.
 
-### 0.3 C*-categories and standard conjugates
+### 0.3 Fiber functors and conjugate solutions
 
-Add a conjugate-linear involutive dagger to a native complex-linear category
-with Banach Hom spaces, contractive composition, ‖f†f‖=‖f‖² and positivity of
-f†f in End(X). Develop finite linking algebras, orthogonal sums and projection
-splittings; construct the additive and dagger Karoubi completion and its
-universal property for linear dagger functors. Prove automatic contractivity
-of those functors and isometry when faithful. Construct the finite Hilbert
-category and Hilbert-module category with their operator norms (Longo–Roberts
-§2, pp.4–5, and Appendix, pp.48–49).
+C*-categories, the finite Hilbert category Hilb_f, finite sums, subobjects and
+the Karoubi completion are CategoricalOperatorAlgebras CA1a; rigid C*-tensor
+categories, solutions of the conjugate equations, standard solutions, intrinsic
+dimension, unitary dual functors and signed self-dualities are its CA2a. This
+section adds only the facts about conjugate solutions and fiber functors that
+the representation categories of Layers 2–7 use beyond that API.
 
-For a C*-tensor category require dagger-compatible tensor products and unitary
-associators and unitors. Use native rigid pairings for conjugates. In a rigid
-category with simple unit, finite sums and subobjects, define standard
-conjugate solutions by equality of the left and right induced traces on
-End(X). Construct them, prove uniqueness up to unitary transport and prove
-that their common dimension is the minimum of ‖R‖‖R̄‖ among conjugate
-solutions. Prove additivity, multiplicativity, and compatibility with subobjects
-and unitary tensor equivalences (Longo–Roberts §3, especially Lemma 3.3,
-Theorems 3.8 and 3.11). Transport these solutions to a dagger-compatible dual
-functor with unitary tensorator and the pivotal and spherical structures of
-PivotalSpherical. For a unitary self-duality r:X→X∨ keep the signed condition
-`bar(r) r=ε φ_X`, ε=±1, where bar(f)=(f†)∨ and φ is the pivotal comparison.
-Prove invariance of the sign on a simple self-dual object. A faithful Hilbert
-fiber functor carries conjugate solutions to solutions, but need not carry
-standard solutions to standard solutions; its Hilbert dimension is at most
-the intrinsic dimension.
+In a rigid C*-tensor category with simple unit, finite sums and subobjects,
+prove that CA2a's intrinsic dimension d(X) is the minimum of ‖R‖‖R̄‖ over all
+solutions (R,R̄) of the conjugate equations for X, and that this norm product
+is unchanged by the rescaling (λR,λ̄⁻¹R̄), λ≠0 (Longo–Roberts §3, especially
+Lemma 3.3, Theorems 3.8 and 3.11). Let τ be a unitary fiber functor in the
+sense of the Conventions, a faithful dagger tensor functor into CA1a's Hilb_f.
+Prove that τ is isometric on Hom spaces by CA1a's automatic isometry, carries
+solutions of the conjugate equations for X to solutions for τ(X), carries a cup
+R with (R*⊗1)(1⊗R)=ε1, ε=±1, to a cup of the same sign, and that the Hilbert
+dimension of τ(X) is at most d(X). A faithful Hilbert fiber functor need not
+carry standard solutions to standard solutions.
 
-The analytic-category and duality interfaces have the following API.
+The fiber-functor interfaces have the following API.
 
-- Dagger functors preserve unitary arrows, sums and projection splittings through their universal properties; faithful functors preserve Hom norms.
-- Standard solutions give positive dimensions, coherent duals and equal left/right categorical traces on endomorphisms; arbitrary conjugate solutions need not be standard.
-- Signed self-dualities transport along unitaries; negative sign is distinct from a positive loop value, and neither evaluation nor coevaluation is generally unitary.
+- Standard solutions minimize the norm product among all solutions of the conjugate equations; solutions attaining it, such as rescaled standard ones, need not be standard.
+- Unitary fiber functors are isometric, preserve conjugate solutions and zigzag signs, and bound Hilbert dimension by intrinsic dimension without preserving standardness.
 
 **Checks.**
 
-- For T=diag(2,1) in finite Hilbert spaces, ‖T†T‖=4=‖T‖². Using Hilbert–Schmidt norms instead gives √17≠5.
-- The idempotent [[1,1],[0,0]] has norm √2 and is not self-adjoint; its range projection is diag(1,0). Only the latter splits by an isometry and its adjoint. End(0) has identity of norm 0.
-- In Hilb_f, the standard cup for ℂ² has squared norm 2 and both zigzags are identities. Rescaling its two conjugate cups by 2 and 1/2 keeps the zigzags but gives squared norms 8 and 1/2, so the pair is not standard.
+- In Hilb_f, the standard cup for ℂ² has squared norm 2 and both zigzags are identities. Rescaling its two conjugate cups by 2 and 1/2 keeps the zigzags and the norm product 2 but gives squared norms 8 and 1/2, so the pair is not standard.
+- In Hilb_f, R=2e₀⊗e₀+e₁⊗e₁ and R̄=(1/2)e₀⊗e₀+e₁⊗e₁ solve the conjugate equations with norm product √5·√(5/4)=5/2>2=d(ℂ²); no rescaling makes this pair minimal.
 - At q=1/2, the fundamental quantum-group object has intrinsic dimension 5/2 and Hilbert dimension 2. Its forgotten conjugate solution has norm product 5/2>2; assuming a faithful fiber functor preserves standardness would give a false equality.
-- On ℂ², J(z₁,z₂)=(−conj z₂,conj z₁) satisfies J²=−I; ordinary conjugation squares to I. Both are antiunitary, so antiunitarity alone does not choose the sign.
+- The forgetful functor of SU(2) sends the invariant cup e₀⊗e₁−e₁⊗e₀, of zigzag sign −1, to a cup of sign −1 on ℂ². The symmetric cup e₀⊗e₀+e₁⊗e₁ of Hilb_f has sign +1 and is not SU(2)-invariant, so it cannot replace the image.
 
-*Needs:* §0.2 for the module-category example; Mathlib `CategoryTheory.Category`, `CategoryTheory.Linear`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Karoubi` and native rigid pairings; PivotalSpherical Layers 0–2,7. Longo–Roberts §§2–3 and Appendix; signed equations also follow by transporting the two conjugate equations.
+*Needs:* CategoricalOperatorAlgebras CA1a (Hilb_f, automatic isometry of faithful dagger functors) and CA2a (conjugate equations, standard solutions, intrinsic dimension, signed self-dualities); Mathlib `CategoryTheory.MonoidalCategory` and native rigid pairings. Longo–Roberts §3; sign preservation follows by applying τ to the zigzag equation.
 
-### 0.4 Positive Temperley–Lieb completions
+### 0.4 Temperley–Lieb comparison for self-dual objects
 
-On the algebraic diagram algebras at real loop parameter δ define the analytic
-adjoint by vertical reflection and complex conjugation of coefficients.
-For d>0 define the normalized Markov trace by closing diagrams and dividing
-by d^n on n strands, and its Hermitian form by τ(x†y). Prove positivity in
-all degrees exactly for d≥2 or d=2cos(π/m), m≥3. Use the algebraic path
-idempotents and Jones–Wenzl recursion to construct positive matrix-block
-models: the half-line graph for d≥2 and A_(m−1) in the discrete cases.
-Identify the Hermitian null space with the trace radical and the endomorphism
-part of the negligible ideal, and prove it is a star ideal. At the discrete
-parameters identify it with the ideal generated by the first negligible
-Jones–Wenzl idempotent. Give the faithful finite-dimensional C*-norm on the
-quotient through these matrix blocks (Penneys Chapter 4, Theorem 4.3.17,
-Facts 4.4.14 and Proposition 4.5.3).
+The analytic adjoint, the trace radical, Jones's positivity theorem and the
+positive quotients Q_n with their finite C*-norms are Subfactors 3.1–3.3. The
+sign isomorphism TL_n(δ)≅TL_n(−δ), the positivity classification at negative
+loop parameters and the unitary Temperley–Lieb category UTL_d, with its Hom
+norms, C*-tensor structure, balanced cup–cap duality, simple objects X_r and
+unitary fusion rules, are TemperleyLiebOperatorAlgebras 2.1 and Layer 3. This
+section adds only the comparison of these objects with the intertwiners of a
+self-dual object, which §7.2 applies to O_F^+.
 
-For δ=−d compare the signed and positive endomorphism algebras by
-`e_i↦−e_i`, preserving the normalized trace and analytic adjoint. Construct
-the unitary tensor category from the positive negligible quotient and its
-finite additive projection completion; prove its Hom norms, dagger, standard
-conjugates and fusion rules. For d≥2 its simples have labels k≥0 and the
-usual step-two tensor rule; for d=2cos(π/m) retain labels 0,…,m−2 and truncate
-the upper tensor index to min(k+l,2(m−2)−k−l). This analytic category uses
-the algebraic envelopes and fusion in TemperleyLieb Layers 6–7. The signed
-endomorphism-algebra isomorphism is not a claim that the signed cups become
-symmetric positive cups (Longo–Roberts §§2–3; Penneys §§4.5–4.6).
+Let C be a rigid C*-tensor category with simple unit, finite sums and
+subobjects (CategoricalOperatorAlgebras CA2a), and X a nonzero object with a
+cup R:1→X⊗X satisfying (R*⊗1)(1⊗R)=ε1_X for a sign ε=±1, as for CA2a's signed
+self-dualities; put d=R*R=‖R‖². TemperleyLieb Layer 2's `TLCat.lift`, applied
+to coevaluation R and evaluation εR*, whose loop value is εd, gives a
+ℂ-linear monoidal functor Φ_R:TL(ℂ,εd)→C with Φ_R(n)≅X^⊗n. Prove that Φ_R
+carries Subfactors 3.1's adjoint on each TL_n to the dagger of End(X^⊗n),
+whereas Φ_R(cup)†=εΦ_R(cap). Closing x∈TL_n with the nested cups R_n of X^⊗n
+gives R_n*(Φ_R(x)⊗1)R_n=ε^n T_n(x), so ε^n T_n(x†x)=‖(Φ_R(x)⊗1)R_n‖²≥0,
+with equality only when Φ_R(x)=0. Deduce that d lies in `jonesLoopParameters`
+(Subfactors 3.2's pullback criterion for ε=1, TemperleyLiebOperatorAlgebras
+2.1's signed classification for ε=−1), that the kernel of Φ_R on TL_n is the
+trace radical, and that Φ_R induces injective *-homomorphisms Q_n→End(X^⊗n),
+compatible with strand inclusions and precomposed with 2.1's isomorphism
+Q_n^d≅Q_n^(−d) when ε=−1. Both presentations send the normalized projection
+p_i=e_i/(εd) to 1^⊗(i−1)⊗RR*/d⊗1^⊗(n−i−1); the signed generator is εd·p_i and
+the positive one d·p_i.
 
-The analytic Temperley–Lieb structures have the following API.
+For ε=1 prove that Φ_R intertwines the daggers on all Hom spaces and descends
+to a faithful dagger tensor functor UTL_d→C, isometric by CA1a, whose extension
+to TemperleyLiebOperatorAlgebras 3.4's envelope through CA1a's completion
+universal property is a dagger tensor functor. If Φ_R is full, prove for
+either sign that X is simple, R is standard with d(X)=d, and the ranges of the
+projections Φ_R(f_r), for the Jones–Wenzl projections f_r outside the trace
+radical, are pairwise inequivalent simple objects exhausting the simple
+subobjects of the tensor powers of X, with intrinsic dimensions [r+1] at loop
+parameter d and the fusion rules of 3.4. For ε=−1 transport 3.4's block
+decompositions through 2.1's isomorphism, which carries Jones–Wenzl
+projections to Jones–Wenzl projections, and through the isometries
+1⊗R/√d:X^⊗r→X^⊗(r+2). The cup R and its sign remain the conjugate data of X:
+for ε=−1 no dagger tensor functor from UTL_d sends its cup to R, since 2.1
+identifies algebras and traces, not cups.
 
-- Adjoint and Hermitian trace forms respect inclusions and conditional expectations, with the normalized Markov factor specified by d.
-- Trace-null quotients have faithful positive traces and compatible finite matrix-block norms; the trace radical need not equal the Jacobson radical.
-- Generator sign change preserves normalized traces and projection towers; cup signs remain separate duality data.
-- The additive projection completion is a rigid C*-tensor category, with the algebraic Jones–Wenzl ranges as its simple objects and the stated generic and truncated fusion.
+The comparison interfaces have the following API.
+
+- A cup of zigzag sign ε gives a monoidal functor from TL(ℂ,εd) that is a *-homomorphism on endomorphism algebras with the trace radical as kernel; d is a Jones loop parameter.
+- For ε=1 the functor descends to a faithful isometric dagger tensor functor from UTL_d; for ε=−1 algebras and traces are identified through the sign isomorphism while the cup stays signed.
+- A full comparison carries the Jones–Wenzl ranges to all simple subobjects of the tensor powers, with dimensions [r+1] and the fusion rules of TemperleyLiebOperatorAlgebras 3.4.
 
 **Checks.**
 
-- On zero strands τ(1)=1; on two strands (i e)†=−i e while linear reflection gives i e. At d=5/2, p=e/d has τ(p)=1/d²=4/25 and τ(1−p)=21/25.
-- At d=1, f₂=1−e is nonzero and trace-null: τ(f₂†f₂)=0; TL₂ has dimension 2 and its positive quotient has dimension 1. At d=√2 the three-strand quotient has dimension 4 rather than 5.
-- At d=2, the first quantum dimensions are 1,2,3,4 and the trace radical vanishes. At d=1/2, τ((1−e/d)†(1−e/d))=1−d⁻²=−3, so positivity fails already on two strands.
-- At δ=−5/2, signed e=−(5/2)p and positive e=(5/2)p both give e²=δ e in their own parameter and τ(p)=4/25. Their normalized three-term projection relation has coefficient 4/25.
-- At m=3, the simple labels are 0,1 and 1⊗1=0; at d=2 the same tensor product is 0⊕2. A generic fusion rule in the discrete case gives a spurious summand.
+- In Hilb_f with X=ℂ and R=1, ε=1 and d=1. Then Φ_R(e)=1 and Φ_R(f₂)=Φ_R(1−e)=0: the kernel on TL₂ is the trace radical ℂf₂ and Q₂=ℂ. This Φ_R is not full, since TL has no morphism 1→0 while Hom(X,1)=ℂ; accordingly the ranges ℂ of f₀ and f₁ are isomorphic, and inequivalence needs fullness.
+- In Hilb_f with X=ℂ² and R=e₀⊗e₁−e₁⊗e₀, ε=−1 and d=2, the loop value δ=−2 of SU(2) at q=1. Then Φ_R(e)=−RR* satisfies e²=−2e, while p=RR*/2 is the projection onto ℂR in both presentations. The evaluation R* instead of −R* has zigzag −1, so `TLCat.lift` does not apply to it.
+- At d=3/2 the quantum integers [2]=3/2, [3]=5/4, [4]=3/8 are positive and T₄(f₄)=[5]=−11/16<0. So no object of a C*-tensor category has a cup with ‖R‖²=3/2 and zigzag sign ±1; 3/2 lies between 2cos(π/4)=√2 and 2cos(π/5)=(1+√5)/2.
+- In Rep(SU(2)) with the cup above, T_r(f_r) at δ=−2 is 1,−2,3 for r=0,1,2, while the ranges of Φ_R(f_r) have intrinsic dimensions 1,2,3=ε^r T_r(f_r). The signed closure traces are not dimensions.
 
-*Needs:* TemperleyLieb Layers 0–7, specifically the algebraic trace, path models, negligible ideal and envelopes; §0.3; CStarAlgebras C3 for finite matrix norms. Penneys Chapter 4 §§4.3–4.6; the sign comparison follows on generators and closed-diagram traces.
+*Needs:* CategoricalOperatorAlgebras CA1a (completion universal property, automatic isometry) and CA2a (rigid C*-tensor categories, standard solutions, signed self-dualities); TemperleyLieb Layer 2 (`TLCat.lift`, `TLCat.lift_unique`) and Layer 6 (Jones–Wenzl objects, negligible ideal); Subfactors 3.1–3.3; TemperleyLiebOperatorAlgebras 1.3, 2.1 and Layer 3. The closure formula and the fusion transfer are the displayed computations.
 
 ### 0.5 Full left Hilbert algebras and Tomita comparison
 
@@ -366,15 +415,18 @@ The Hilbert-algebra interfaces have the following API.
 
 ### Examples
 
-Matrix units, the noncomplemented ideal in C([0,1]), and the d=1 trace radical
-distinguish the operator, Hilbert-module and diagram positivity interfaces.
+Matrix units, the noncomplemented ideal in C([0,1]), the q=1/2 fundamental
+object and the d=1 Temperley–Lieb kernel distinguish the operator,
+Hilbert-module, fiber-functor and Temperley–Lieb comparison interfaces.
 
 ### Dependencies
 
 Section 0.1 uses the native functional-analytic carriers and the named spectral
-supplier. Section 0.2 adds CStarAlgebras C1,C4,C5; §0.3 adds native category theory
-and PivotalSpherical; §0.4 adds TemperleyLieb; §0.5 uses §0.1 and the spectral
-supplier. None consumes Layers 1–8 or quantum-group reconstruction.
+supplier. Section 0.2 adds CStarAlgebras C1,C4,C5; §0.3 adds
+CategoricalOperatorAlgebras CA1a–CA2a; §0.4 adds CA1a–CA2a, TemperleyLieb
+Layers 2 and 6, Subfactors 3.1–3.3 and TemperleyLiebOperatorAlgebras 1.3, 2.1
+and Layer 3; §0.5 uses §0.1 and the spectral supplier. None consumes Layers 1–8
+or quantum-group reconstruction.
 
 ## Layer 1: C*-bialgebras, cancellation and Haar integration
 
@@ -543,7 +595,7 @@ The defining objects have the following API.
 - For the sign representation of C₂, the nonidentity coefficient is −1 and its tensor square is 1. Using a direct-sum rule instead would give −2.
 - On the S₃ permutation representation, g=(12),h=(23) give u₁₃(gh)=1 and u₁₃(hg)=0; the column coefficient coproduct fixes the tensor order.
 
-*Needs:* Layer 1; §0.2; CStarAlgebras C5; §0.3. Timmermann Definitions 5.1.4 and §5.3.
+*Needs:* Layer 1; §0.2; CStarAlgebras C5; CategoricalOperatorAlgebras CA1a–CA2a; §0.3 for the fiber functor. Timmermann Definitions 5.1.4 and §5.3.
 
 ### 2.2 Unitarization and complete reducibility
 
@@ -602,7 +654,7 @@ The C₂ sign object and S₃ regular representation distinguish tensor and dire
 
 ### Dependencies
 
-Layer 1; §0.2; §0.3; §§2.2–2.3 use the Haar averaging and spectral-projection route.
+Layer 1; §0.2; CategoricalOperatorAlgebras CA1a–CA2a and §0.3; §§2.2–2.3 use the Haar averaging and spectral-projection route.
 
 ## Layer 3: The Hopf *-core, orthogonality and modular data
 
@@ -721,14 +773,14 @@ global instance, and use that native instance in the classical cases. For Pol(G)
 double-dual identification. Its matrix is F; prove colinearity using
 S²u=FuF⁻¹ and monoidal naturality using the character law for f_1.
 Identify the right and left pivotal traces with tr(Ff) and tr(F⁻¹f),
-respectively. Use §0.3’s balanced unitary dual functor with the stated
+respectively. Use CategoricalOperatorAlgebras CA2a’s balanced unitary dual functor with the stated
 algebraic evaluation/coevaluation. Compare its dagger-dual equations
 with these evaluations/coevaluations; their squared norms are both
 Tr F=Tr F⁻¹. Transport its Hilbert metrics and prove j is unitary,
 `j†j=id` and `jj†=id`; evaluations and coevaluations are not
 asserted unitary maps. In orthonormal coefficient bases the metric is
 F̃ on the native right dual, F̃⁻¹ on the S⁻¹ left dual and F⁻²
-on the double dual. Compare this pivotal structure with §0.3's balanced
+on the double dual. Compare this pivotal structure with CA2a's balanced
 conjugates and standard solutions. Prove the intrinsic dimension
 `d(u)=Tr F=Tr F⁻¹`, its additivity/multiplicativity, `d(u)≥dim_H(u)`
 and equality precisely when the normalized F is the identity. Prove the
@@ -750,7 +802,7 @@ The defining objects have the following API.
 - For F=diag(2,1/2), both traces are 5/2>2, but tr(F diag(1,0))=2 and tr(F⁻¹ diag(1,0))=1/2; the latter projection is not an irreducible intertwiner.
 - For the trivial object, evaluation and coevaluation are scalar identities and both triangle composites are 1; on a two-dimensional classical object the cup norm squared is 2, so it is not a unitary map.
 
-*Needs:* §§3.1–3.2; §0.3; PivotalSpherical Layers 0–2,7; native Tau Ceti Finite/RightRigid and commutative Finite/Rigid. Timmermann §3.2 and §5.4.
+*Needs:* §§3.1–3.2; CategoricalOperatorAlgebras CA2a; §0.3; PivotalSpherical Layers 0–2,7; native Tau Ceti Finite/RightRigid and commutative Finite/Rigid. Timmermann §3.2 and §5.4.
 
 ### 3.4 Tomita comparison
 
@@ -795,7 +847,7 @@ The SUq(2) fundamental coefficients at q=1/2 have weights 1/5 and 4/5, dimension
 
 ### Dependencies
 
-Layer 2; native Hopf/comodule API; PivotalSpherical Layers 0–2,7 and §0.3 for §3.3; §0.5 for §3.4.
+Layer 2; native Hopf/comodule API; PivotalSpherical Layers 0–2,7, CategoricalOperatorAlgebras CA2a and §0.3 for §3.3; §0.5 for §3.4.
 
 ## Layer 4: Algebraic compact type and the two completions
 
@@ -1000,8 +1052,8 @@ presentation comparisons under nonzero scalar rescaling of F and unitary
 basis changes, with the induced transformation of the fundamental matrix.
 Construct the cup `E(1)=Σ_ij F_ji e_i⊗e_j` and verify
 `(E*⊗1)(1⊗E)=cI`. Retain the sign of c. Normalize the two conjugate
-solutions and identify their self-duality map r with §0.3's signed
-variant: the normalized cup E/√|c| has zigzag sign ε=sign(c),
+solutions and identify their self-duality map r with
+CategoricalOperatorAlgebras CA2a's signed variant: the normalized cup E/√|c| has zigzag sign ε=sign(c),
 corresponding to r̄r=εφ and to J²=ε in the finite-Hilbert realization.
 Here `J(v)=F conjugate(v)/sqrt(|c|)` is an antilinear map. Prove it
 is antiunitary precisely when F is proportional to a unitary; compare
@@ -1027,7 +1079,7 @@ The defining objects have the following API.
 - For that F, the intrinsic dimension bound is 5/2>2, and J(e₀)=−√2 e₁ has squared norm 2, so J is not antiunitary.
 - For F=I₂, c=1, the cup squared norm is 2 and J is conjugation. For n=1,F=1, the relation gives u*=u and u²=1, the C₂ boundary case.
 
-*Needs:* §5.1; §0.3; Layer 3 duality. Banica Proposition 1 and Lemma 1; Malacarne §2, Lemma 2.1.
+*Needs:* §5.1; CategoricalOperatorAlgebras CA2a; §0.3 for the dimension bound; Layer 3 duality. Banica Proposition 1 and Lemma 1; Malacarne §2, Lemma 2.1.
 
 ### Examples
 
@@ -1035,7 +1087,7 @@ SU₁(2) is classical, SU_(1/2)(2) is non-Kac, and the one-dimensional free orth
 
 ### Dependencies
 
-Layers 1,3,4; CStarAlgebras C1–C5; §0.3 for signed conjugates.
+Layers 1,3,4; CStarAlgebras C1–C5; CategoricalOperatorAlgebras CA2a for signed conjugates and §0.3 for the dimension bound.
 
 ## Layer 6: Tannaka–Krein reconstruction
 
@@ -1065,7 +1117,7 @@ The defining objects have the following API.
 - For Rep(C₂) with its forgetful functor, the reconstructed core is C(C₂), dimension 2; collapsing the sign coefficient to 1 would reduce it to dimension 1.
 - For Rep(S₃), the irreducible block dimensions give 1²+1²+2²=6 coefficients. Taking only diagonal coefficients would give 1+1+2=4 and fail reconstruction.
 
-*Needs:* §4.1–§4.2; §5.2; §0.3. Malacarne Theorem 4.1, preprint pp.5–6.
+*Needs:* §4.1–§4.2; §5.2; CategoricalOperatorAlgebras CA1a–CA2a; §0.3. Malacarne Theorem 4.1, preprint pp.5–6.
 
 ### 6.2 Finite generators and filtered unions
 
@@ -1163,7 +1215,7 @@ Finite Hilbert spaces reconstruct ℂ; Rep(C₂) and Rep(S₃) reconstruct their
 
 ### Dependencies
 
-Layers 4–5; §0.3; §0.1 finite bicommutants; CStarAlgebras C1 Gelfand duality.
+Layers 4–5; CategoricalOperatorAlgebras CA1a–CA2a and §0.3; §0.1 finite bicommutants; CStarAlgebras C1 Gelfand duality.
 
 ## Layer 7: SUq(2), free orthogonal fusion and Haar calculations
 
@@ -1231,20 +1283,21 @@ presentation. Prove End(u)=ℂ, hence the normalized conjugate solution
 from Q5 is standard and `d(u)=‖E(1)‖²/|c|`. For cup-cap projections on adjacent tensor factors prove
 `p_i²=p_i*=p_i`, distant commutation and
 `β p_i p_(i±1) p_i=p_i`, with
-`β=c⁻²‖E(1)‖⁴=d(u)²`. Compare with the TL positive quotient while
+`β=c⁻²‖E(1)‖⁴=d(u)²`. Compare with the TL positive quotient by
+applying §0.4 to u with the normalized cup E(1)/√|c| and ε=sign(c),
 retaining the signed conjugate structure. Construct the Catalan dimension
 upper bound. Choose real q with `0<|q|≤1` by `|q|+|q|⁻¹=d(u)` and
 `sign(q)=−sign(c)`, and use the SUq(2) signed cup, Haar moment
 crosswalk. The signed algebraic loop is δ=−(q+q⁻¹)=sign(c)d(u),
-whereas §0.4 uses the positive-loop parameter d(u). Identify normalized
-projections p_i in both presentations; the signed generator is δ p_i
-and the positive generator is d(u)p_i. Prove the generator rescaling,
-normalized Markov trace and quotient comparison, keeping the signed
-cup/duality data separate from that algebra isomorphism. Use the Haar moment
+whereas TemperleyLiebOperatorAlgebras Layers 1–3 use the positive-loop
+parameter d(u). Section 0.4 identifies the normalized projections p_i in
+both presentations, the signed generator being δ p_i and the positive
+generator d(u)p_i, and gives the trace-compatible injective quotient
+comparison, keeping the signed cup/duality data separate from
+TemperleyLiebOperatorAlgebras 2.1's algebra isomorphism. Use the Haar moment
 calculation and faithful TL trace form to transfer the matching lower
-bound. Prove the positive quotient comparison and the intertwiner
-dimension equality, then build
-the irreducibles/Jones–Wenzl ranges. Prove all irreducibles are r_k,
+bound. Prove the intertwiner dimension equality, so that §0.4's comparison
+is full, and obtain the irreducibles as its Jones–Wenzl ranges. Prove all irreducibles are r_k,
 k≥0, r_0=1,r_1=u, with
 
 `r_k⊗r_l ≃ r_|k−l| ⊕ r_|k−l|+2 ⊕ … ⊕ r_(k+l)`.
@@ -1278,7 +1331,7 @@ The defining objects have the following API.
 - For n=2,d=5/2, Hilbert dimensions start 1,2,3,4; intrinsic dimensions start 1,5/2,21/4,85/8. Equality of the sequences would already fail at r₁.
 - For n=3, ε(χ)=3 lies outside [−2,2], excluding coamenability. Semicircular moments m₂=1,m₄=2 differ from the n=1 two-point law with m₂=m₄=1.
 
-*Needs:* §7.1; §§5.2,6.1–6.2; TemperleyLieb Layers 0–7; §0.4; FreeProbability F1,F6. Banica Theorem 1 and Proposition 2, pp.1–4.
+*Needs:* §7.1; §§5.2,6.1–6.2; TemperleyLieb Layers 0–7; §0.4; TemperleyLiebOperatorAlgebras 2.1 and Layer 3; Subfactors 3.2–3.3; FreeProbability F1,F6. Banica Theorem 1 and Proposition 2, pp.1–4.
 
 ### Examples
 
@@ -1286,7 +1339,7 @@ The parameters n=1,2,3 distinguish the two-point law, coamenable rank-two case a
 
 ### Dependencies
 
-Layers 3–6; TemperleyLieb Layers 0–7; §0.4; CStarAlgebras C2,C4,C8; FreeProbability F1,F6.
+Layers 3–6; TemperleyLieb Layers 0–7; §0.4 with TemperleyLiebOperatorAlgebras Layers 1–3 and Subfactors 3.1–3.3; CStarAlgebras C2,C4,C8; FreeProbability F1,F6.
 
 ## Layer 8: Generic U_q(sl₂), signed modules and integrability
 
@@ -1644,11 +1697,9 @@ Hopf-module construction in HopfologicalAlgebra §2.1 consume Layer 8.
 ## References
 
 - N. P. Landsman, [*Lecture notes on C*-algebras, Hilbert C*-modules, and quantum mechanics*](https://arxiv.org/abs/math-ph/9807030v1) (1998), Corollary 3.2.4 and Theorem 3.2.5, p.60; §3.3, pp.61–63; Construction 3.5.3, pp.66–67. Section 0.2 states the general tensor and multiplier extensions with their proof inputs explicitly.
-- R. Longo and J. E. Roberts, [*A Theory of Dimension*](https://arxiv.org/abs/funct-an/9604008v1) (1996 preprint), §2, pp.4–9; §3, pp.9–18, especially Lemma 3.3 and Theorems 3.8,3.11; Appendix, pp.48–49. Section 0.3 transports the strict-category formulas with native associators and unitors.
+- R. Longo and J. E. Roberts, [*A Theory of Dimension*](https://arxiv.org/abs/funct-an/9604008v1) (1996 preprint), §3, pp.9–18, especially Lemma 3.3 and Theorems 3.8,3.11. Section 0.3 transports the strict-category formulas with native associators and unitors.
 - F. Hiai, [*Lectures on Selected Topics in von Neumann Algebras*](https://arxiv.org/abs/2004.02383v1) (2020), §§1.2–1.3, pp.3–5; Theorems 2.2 and 2.14, pp.11,18; §7.1(A)–(E), pp.64–65. The inner product here is conjugate-linear first; the modular action is Δ^(it)(·)Δ^(−it).
 - M. Takesaki, *Theory of Operator Algebras II* (2003), Chapters VI.1 and VII.1–VII.2, especially Theorems VII.2.5–VII.2.6, for full left Hilbert algebras and their canonical weights.
-- D. Penneys, [*Unitary Quantum Symmetries Lite*, Part I, Chapter 4](https://people.math.osu.edu/penneys.2/UQSL/PartI/UQSLPartIChapter4.pdf), Theorem 4.3.17, printed p.150; Facts 4.4.14, pp.154–155; Proposition 4.5.3 and Facts 4.5.5, pp.158–159; Examples 4.6.12 and 4.6.14, pp.163–164. These locators use the chapter's printed page numbers, not PDF page indices.
-
 - Timmermann, [*An Invitation to Quantum Groups and Duality*](https://doi.org/10.4171/043) (EMS, 2008),
   Proposition 2.2.4 and Remark 2.2.2(iv)(c), pp.50–51, for algebraic
   integral faithfulness and its strict-positivity consequence;
@@ -1681,8 +1732,8 @@ Hopf-module construction in HopfologicalAlgebra §2.1 consume Layer 8.
   `Algebra/Star/Unitary` and matrix star/tensor APIs fix the algebraic
   vocabulary. Tau Ceti's `Comodule/MatrixCoefficient/{Matrix,FromMatrix}`
   fixes the matrix orientation and inverse-antipode identities.
-  Use these existing algebraic interfaces and §0.3's analytic dagger
-  structure for all required additions.
+  Use these existing algebraic interfaces and CategoricalOperatorAlgebras
+  CA1a's analytic dagger structure for all required additions.
 - Virelizier, [*Quantum groups*](https://www.math.virelizier.com/sources/cours/QuantumGroupM2.pdf),
   §§2.3–4.1, for the fixed rank-one Hopf convention, type-1 finite modules
   and fusion. The Verma/center, signed generalized-weight splitting,

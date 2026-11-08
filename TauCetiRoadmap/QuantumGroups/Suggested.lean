@@ -18,9 +18,12 @@ local finiteness versus integrability.
 
 The following headlines are not statable at the pins without heavy constructions:
 * Layer 0: the analytic foundation comparisons need the adjointable-operator,
-  interior tensor, C*-category, positive diagram completion and full left
-  Hilbert-algebra constructions. Native GNS and module carriers are used directly;
-  the modular comparison still needs the full Hilbert-algebra and weight carriers.
+  interior tensor and full left Hilbert-algebra constructions; the fiber-functor
+  and Temperley–Lieb comparisons need the C*-tensor categories of
+  CategoricalOperatorAlgebras CA1a–CA2a and the unitary Temperley–Lieb category
+  of TemperleyLiebOperatorAlgebras Layer 3.
+  Native GNS and module carriers are used directly; the modular comparison still
+  needs the full Hilbert-algebra and weight carriers.
 * Layer 1: classical multiplier/tensor comparison and compact Haar existence and
   uniqueness need the completed minimal C*-tensor functor and the analytic
   compact-quantum-group carrier.
@@ -28,7 +31,8 @@ The following headlines are not statable at the pins without heavy constructions
   need free Hilbert C*-modules, their multiplier coactions and analytic CQGs.
 * Layer 3: the dense Hopf core, Plancherel completion, modular/Kac comparison and
   unitary pivotal comparison need that analytic CQG, its Haar GNS completion,
-  and the full left Hilbert algebra and unitary tensor-category carriers.
+  and the full left Hilbert algebra and CategoricalOperatorAlgebras' unitary
+  tensor-category carriers.
 * Layer 4: universal/reduced completion and coamenability criteria need the
   constructed C*-completions and their comparison maps.
 * Layers 5–7: the SUq(2)/free orthogonal universal presentations, Tannaka–Krein and
