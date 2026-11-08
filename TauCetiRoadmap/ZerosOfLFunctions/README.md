@@ -178,6 +178,11 @@ not the roadmap.
 - `Complex.Gamma`, `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
   `Complex.differentiable_Gammaℂ_inv` (the reciprocal gamma functions are entire);
+- `Complex.Gamma_eq_integral`, `Real.Gamma_eq_integral`, `Real.convexOn_Gamma`,
+  `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`, `deriv_conj_conj`,
+  `Complex.digamma_one_sub`, `Complex.digamma_two_mul`, `completedRiemannZeta_one_sub`,
+  `logDeriv_riemannZeta_one_sub` (Euler's integral, conjugation, and the functional equation of
+  `ζ'/ζ`, for 1.3a and 1.4a);
 - `completedRiemannZeta`, `completedRiemannZeta₀`, `riemannZeta`, `riemannZeta_zero`,
   `riemannZeta_def_of_ne_zero`, `riemannZetaZeros`, `isDiscrete_riemannZetaZeros`,
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
@@ -475,6 +480,33 @@ This additive form composes over products.
 
 *Needs:* 1.2.
 
+### 1.3a Bounds on vertical lines
+
+For `0 < Re s`, `‖Γ(s)‖ ≤ Real.Gamma (Re s)`: on each vertical line in the right half-plane, `‖Γ‖`
+is largest on the real axis. In particular `‖Γ(s)‖ ≤ 1` for `1 ≤ Re s ≤ 2`. Both bounds hold at
+every height, where 1.3 is asymptotic.
+
+Route: for `0 < Re s`, `Complex.Gamma_eq_integral` writes `Γ(s)` as Euler's integral
+`∫_0^∞ x^{s−1} e^{−x} dx`, and `‖x^{s−1}‖ = x^{Re s − 1}` for `x > 0`
+(`Complex.norm_cpow_eq_rpow_re_of_pos`). So the norm of the integral is at most
+`∫_0^∞ x^{Re s − 1} e^{−x} dx`, which is `Real.Gamma (Re s)` by `Real.Gamma_eq_integral`. For the
+second clause, `Real.convexOn_Gamma` with `Real.Gamma_one` and `Real.Gamma_two` gives
+`Real.Gamma σ ≤ 1` on `[1, 2]`.
+
+*Needs:* Mathlib `Complex.Gamma_eq_integral`, `Complex.norm_cpow_eq_rpow_re_of_pos`,
+`MeasureTheory.norm_integral_le_integral_norm`, `Real.Gamma_eq_integral`, `Real.convexOn_Gamma`,
+`Real.Gamma_one`, `Real.Gamma_two`.
+
+**Checks.**
+
+- On `Re s = 1/2`, `Complex.Gamma_mul_Gamma_one_sub` and `Complex.Gamma_conj` give
+  `‖Γ(1/2 + it)‖² = π/cosh(πt) ≤ π = Γ(1/2)²`, with equality only at `t = 0`. The second clause
+  does not extend to `Re s = 1/2`, since `Γ(1/2) = √π > 1`.
+- `Γ(3/2) = √π/2 < 1`, within the second clause, while `Γ(3) = 2`, so the clause fails at
+  `Re s = 3`.
+- At `Re s = −1/2` the right side `Real.Gamma (−1/2) = −2√π` is negative, so the first clause
+  needs `0 < Re s`.
+
 ### 1.4 Digamma and the logarithmic derivatives of the gamma factors
 
 `Complex.digamma s = Complex.log s + O(1/‖s‖)` on `S_δ`; and exactly
@@ -482,6 +514,60 @@ This additive form composes over products.
 at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors).
 
 *Needs:* 1.2; Mathlib `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`.
+
+### 1.4a Conjugation, and the functional equation of ζ'/ζ
+
+**Conjugation.** `Complex.digamma (conj s) = conj (Complex.digamma s)` for every `s : ℂ`, the poles
+included; and `logDeriv Gammaℝ (conj s) = conj (logDeriv Gammaℝ s)`, and likewise for `Gammaℂ`,
+for every `s`. Route: `Complex.Gamma_conj` says `Γ = conj ∘ Γ ∘ conj`, so
+`deriv_conj_conj` gives `deriv Γ (conj s) = conj (deriv Γ s)`, and the quotient follows; the same
+argument runs on `Complex.Gammaℝ_conj` and `Complex.Gammaℂ_conj`.
+
+**The functional equation of `ζ'/ζ`.** Mathlib's `logDeriv_riemannZeta_one_sub` is the asymmetric
+form `ζ'/ζ(s) = −ζ'/ζ(1 − s) + log 2π − ψ(s) + (π/2) tan(πs/2)` for `s ∉ ℤ` with `ζ(s) ≠ 0`, and is
+consumed as it stands; applied at `1 − s` it is the classical
+`ζ'/ζ(s) = log 2π + (π/2) cot(πs/2) − ψ(1 − s) − ζ'/ζ(1 − s)`. The target is the symmetric form at
+every point off the zeros and poles, integers included: for `s ≠ 0, 1` with `ζ(s) ≠ 0` and
+`ζ(1 − s) ≠ 0`,
+
+```text
+logDeriv riemannZeta s + logDeriv riemannZeta (1 − s)
+  = −logDeriv Gammaℝ s − logDeriv Gammaℝ (1 − s),
+```
+
+whose right side is `log π − ψ(s/2)/2 − ψ((1 − s)/2)/2` by 1.4. This is
+`logDeriv_riemannZeta_add_logDeriv_one_sub`. The hypotheses keep `s` and `1 − s` off the poles of
+`Gammaℝ`, since a negative even integer is a trivial zero. Route: off those poles
+(`Complex.Gammaℝ_eq_zero_iff`), `riemannZeta_def_of_ne_zero` gives
+`completedRiemannZeta = Gammaℝ · riemannZeta` on a neighbourhood of `s` and of `1 − s`, with both
+factors analytic and nonzero there (`differentiableAt_riemannZeta`,
+`Complex.differentiable_Gammaℝ_inv`); apply `logDeriv_congr_nhds`, `logDeriv_mul` and
+`logDeriv_comp` to `completedRiemannZeta_one_sub`. On `ℂ \ ℤ` it agrees with
+`logDeriv_riemannZeta_one_sub` through `Complex.digamma_one_sub` and `Complex.digamma_two_mul`.
+
+**General records.** For a record with `HasMeromorphicContinuation` and `HasFunctionalEquation`, at
+every `s`, `logDeriv Λ =ᶠ[𝓝[≠] s] fun z ↦ −logDeriv d.dual.completed (1 − z)`: the root number is
+nonzero (`norm_rootNumber`) and cancels. The equality holds at `s` itself when `Λ` is analytic at
+`s` and `d.dual.completed` at `1 − s`. Route: `hasFunctionalEquation_eventuallyEq` and Mathlib's
+`logDeriv_congr_nhdsNE`. With `completedDedekindZeta_one_sub` it gives the reflection
+`Λ_K'/Λ_K(s) = −Λ_K'/Λ_K(1 − s)` used in 8.4.
+
+*Needs:* 1.4; Mathlib `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`,
+`deriv_conj_conj`, `logDeriv_riemannZeta_one_sub`, `completedRiemannZeta_one_sub`,
+`riemannZeta_def_of_ne_zero`, `Complex.digamma_one_sub`, `Complex.digamma_two_mul`; L-functions
+Layer 0 `hasFunctionalEquation_eventuallyEq`, `HasFunctionalEquation.norm_rootNumber`, Layer 3
+`completedDedekindZeta_one_sub`.
+
+**Checks.**
+
+- At `s = 2`, outside `logDeriv_riemannZeta_one_sub`, both sides of the symmetric form equal
+  `γ_E + log 2π − 1 ≈ 1.41509`: `ζ'/ζ(2) ≈ −0.56996`, `ζ'/ζ(−1) = 12 log A − 1 ≈ 1.98505` with `A`
+  Glaisher's constant, and `ψ(−1/2) = 2 − γ_E − 2 log 2`.
+- At `s = −2`, a trivial zero, `logDeriv riemannZeta (−2)` and `logDeriv Gammaℝ (−2)` are the junk
+  value `0`, leaving `ζ'/ζ(3) ≈ −0.1648` on the left and `−logDeriv Gammaℝ 3 ≈ 0.5541` on the right:
+  the hypothesis `ζ(s) ≠ 0` cannot be dropped.
+- `Im ψ(i) = 1/2 + (π/2) coth π ≈ 2.0767`, so `ψ(−i) = conj ψ(i) ≠ ψ(i)`: a conjugation law
+  without the outer `conj` is false.
 
 ### 1.5 The gamma factor of a record
 
@@ -1018,6 +1104,41 @@ For `Λ₀ = entireCompletion d` of one of the two families:
 
 *Needs:* 5.5, 3.1, 4.4; L-functions Layers 3 and 5.
 
+### 5.6a Ordinate summability of the zeros
+
+For `Λ₀ = entireCompletion d` of one of the two families and `m_ρ = (divisor Λ₀ univ ρ).toNat`:
+
+- every zero lies in the closed critical strip: `0 < m_ρ → 0 ≤ Re ρ ∧ Re ρ ≤ 1`;
+- the family `ρ ↦ m_ρ/(1 + (Im ρ)²)` over `ℂ` is summable, so `∑'_ρ m_ρ/(1 + (Im ρ)²)` is a
+  convergent sum over the zeros with multiplicity.
+
+The positive parts of `divisor Λ₀ univ` and `divisor Λ univ` agree (4.2, and *entireCompletion*
+does not vanish on `polarOrder.support`), so both clauses hold for the zeros of `Λ`. At `K = ℚ` and
+the trivial character this is `riemannZeta_zeros_summable_ordinate`, over the zeros of
+`completedRiemannZeta`.
+
+Route: on `Re s > 1` the Euler product does not vanish (L-functions Layers 3 and 5) and the gamma
+factor has neither zeros nor poles (1.5), so `Λ₀(s) ≠ 0`; the germ functional equation
+`hasFunctionalEquation_eventuallyEq` against the dual record, which lies in the same family, carries
+this to `Re s < 0`. Next, `s ↦ Λ₀(s + 2)` is entire with `OrderLE _ 1`, since the bound
+`exp(C(1 + ‖s‖) log(2 + ‖s‖))` of 3.1 survives the translation with a larger `C`, and it is nonzero
+at `0`; so 5.3 gives `∑_ρ m_ρ ‖ρ − 2‖^{−2} < ∞`. For `0 ≤ Re ρ ≤ 1`,
+`‖ρ − 2‖² ≤ 4 + (Im ρ)² ≤ 4(1 + (Im ρ)²)`, and comparison (`Summable.of_nonneg_of_le`) concludes.
+
+*Needs:* 5.3, 3.1, 1.5, 4.2; Layer 0 *entireCompletion*; L-functions Layers 0, 3 and 5
+(`hasFunctionalEquation_eventuallyEq`, the Euler products).
+
+**Checks.**
+
+- `s ↦ 1/Γ(s + 1/2)` has `OrderLE _ 1`, value `π^{−1/2}` at `0` and simple zeros at
+  `−1/2, −3/2, …`, so `∑ ‖ρ‖^{−2}` converges by 5.3 while every summand `1/(1 + (Im ρ)²)` is `1`:
+  confinement is what turns the `‖ρ‖` form of 5.3 into the ordinate form.
+- Summing over the zeros of `riemannZeta` instead of `completedRiemannZeta` adds the trivial zeros
+  `−2, −4, …`, each of ordinate `0` and summand `1`, and the family is not summable.
+- The first zeros of `ζ`, at ordinates `±14.1347…`, contribute `2/(1 + 14.1347²) ≈ 0.00996`. The
+  weight `1/(Im ρ)²` would also converge for `ζ`, but is undefined at a real zero, which no theorem
+  here excludes for a real character (6.3).
+
 ### Examples
 
 - `f s = exp (c s)`: `b = c`, `a = 0`, empty product.
@@ -1117,11 +1238,16 @@ assembled from six targets.
 - **(4d) Conductor dependence.** For a nontrivial primitive `χ` and `1 < σ ≤ 2`,
   `−Re (logDeriv L_χ)(σ + it) ≤ ½ log analyticConductorAt d (it) + O(1) − ∑_ρ Re (1/(σ + it − ρ))`,
   the sum over the zeros of `Λ(χ, ·)` with multiplicity, each summand positive by 5.6; and for the
-  trivial character,
-  `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + ½ log |d_K| + O(1) − ∑_ρ Re (1/(σ − ρ))`. The constants depend
-  on `n` alone. The identity behind both is the partial-fraction expansion of `Λ'/Λ`, with the
-  terms `½ log N`, the gamma logarithmic derivative, the sum over zeros, and, for the trivial
-  character only, the pole terms `1/s + 1/(s − 1)` (Kadiri §2.1.2). The first bound fails at the
+  trivial character, with `d = dedekindZetaData K` and at every height `t`,
+  `−Re (logDeriv ζ_K)(σ + it) ≤ Re (1/(σ − 1 + it)) + ½ log analyticConductorAt d (it) + O(1)
+  − ∑_ρ Re (1/(σ + it − ρ))`, which at `t = 0` reads
+  `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + ½ log |d_K| + O(1) − ∑_ρ Re (1/(σ − ρ))`, since
+  `analyticConductorAt d 0 = 3^{r₁} 12^{r₂} |d_K|`. The constants depend on `n` alone. The identity
+  behind both is the partial-fraction expansion of `Λ'/Λ`, with the terms `½ log N`, the gamma
+  logarithmic derivative, the sum over zeros, and, for the trivial character only, the pole terms
+  `1/s + 1/(s − 1)` (Kadiri §2.1.2); at height `t` the term `1/(s − 1)` is kept, `Re (1/s) < 1` is
+  absorbed, and 1.4 bounds the real part of the gamma term by
+  `½ log analyticConductorAt d (it) + O(1)`. The first bound fails at the
   trivial character: at `K = ℚ`, `t = 0`, `σ = 1 + u`, the left side is `1/u + O(1)` while the
   right side stays bounded as `u → 0⁺`. For a non-real `χ`, `Re b(χ) = −∑_ρ Re (1/ρ)` is proved
   here: the functional equation against `PrimitiveRayClassCharacter.inv χ` (`completedHeckeLFunction_one_sub`)
@@ -1130,6 +1256,21 @@ assembled from six targets.
   discriminant term in the `ζ_K` bound is needed: for `K = ℚ(√D)` with `D` a prime
   `≡ 1 (mod 8 ∏_{p ≤ B} p)` every `p ≤ B` splits, which pushes `−ζ'_K/ζ_K(σ)` above
   `2/(σ − 1) − O(1)` for `σ` near `1` and defeats any degree-two constant.
+
+  *Off the real axis.* For every `t₀ > 1` there is `C`, depending on `n` and `t₀` alone, such that
+  for `0 < δ ≤ 1` and `|t| ≥ t₀`: `−Re (logDeriv ζ_K)(1 + δ + 2it) ≤ ½ log |d_K| + C log |t|`;
+  and, at a zero `β + it` of `Λ_K` of multiplicity `m`,
+  `−Re (logDeriv ζ_K)(1 + δ + it) ≤ −m/(1 + δ − β) + ½ log |d_K| + C log |t|`. Route: in the
+  trivial-character bound drop every zero term, or every one except the `m` at `β + it`, each equal
+  to `1/(1 + δ − β)`; at height `u ∈ {t, 2t}` bound the pole term `Re (1/(δ + iu)) ≤ 1/(2|u|)` by
+  `1/(2t₀)` and `analyticConductorAt d (iu)` by `C₂ |d_K| (|u| + 3)^n` (2.2), and absorb the
+  constants into `C log |t|`, as `log |t| ≥ log t₀ > 0`. For `δ ≥ 1` both left sides are at most
+  `n (−ζ'/ζ)(2)`, comparing Dirichlet series termwise, so with `m` replaced by `1` both bounds hold
+  for every `δ > 0` after enlarging `C`. At `K = ℚ` these are the two inputs of the 3-4-1 argument
+  at height `t` (Davenport §13): `−Re (ζ'/ζ)(1 + δ + 2it) ≤ C log |t|`, and
+  `−Re (ζ'/ζ)(1 + δ + it) ≤ −1/(1 + δ − β) + C log |t|` at a zero `β + it` of `ζ`; this is
+  `neg_re_logDeriv_riemannZeta_le`. The threshold is needed: as `t → 0` with `δ = 2|t|`,
+  `−Re (ζ'/ζ)(1 + δ + 2it) = 1/(4|t|) + O(1)`, while `log |t| → −∞`.
 - **(4e) Small conductors.** For fixed `n` and any `X` there are finitely many pairs `(K, χ)` with
   `[K:ℚ] = n` and `|d_K| 𝔑𝔣 ≤ X` (Hermite–Minkowski, finitely many moduli of bounded norm, and
   `TauCeti.GlobalNumberFields.finite_rayClassGroup`); the residual cases are closed by 6.5 and
@@ -1138,7 +1279,7 @@ assembled from six targets.
   over the zeros in the region with multiplicity, using nonnegativity of `Λ_K(𝔞)(1 + χ(𝔞))`; two
   zeros and one double zero are refuted by the same inequality. This is per character.
 
-*Needs:* 6.1; 5.6; 2.2; Layer 4; L-functions Layers 5 and 7 `heckeLFunctionC_eq_primitive`,
+*Needs:* 6.1; 5.6; 1.4, 2.2; Layer 4; L-functions Layers 5 and 7 `heckeLFunctionC_eq_primitive`,
 `eulerCorrection`, `finiteEulerCorrection`, `PrimitiveRayClassCharacter.inv`,
 `completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Global Number Fields Layer 2
 `TauCeti.GlobalNumberFields.finite_rayClassGroup`.

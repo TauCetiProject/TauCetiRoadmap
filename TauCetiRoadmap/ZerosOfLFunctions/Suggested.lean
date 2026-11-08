@@ -4,18 +4,21 @@ import Mathlib
 # Zeros of L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib, each with `sorry`, together with the three
-definitions they need: the order predicate `OrderLE` of Layer 0, the zero count `zeroCount` of
-Layer 4, and the entire completion `zetaEntireCompletion` of the Riemann zeta function (the `ζ`
-instance of the entire completion of Layer 0).
+theorems, and the `ζ` instances of three lemmas behind them, against the pinned Mathlib, each with
+`sorry`, together with the three definitions they need: the order predicate `OrderLE` of Layer 0,
+the zero count `zeroCount` of Layer 4, and the entire completion `zetaEntireCompletion` of the
+Riemann zeta function (the `ζ` instance of the entire completion of Layer 0).
 
 Stated here:
 
+* Layer 1, the functional equation of `ζ'/ζ` in symmetric form, at the integers as well (1.4a);
 * Layer 3, the convexity bound on the critical line, uniform over primitive Dirichlet characters;
-* Layer 5, Hadamard's factorization of an entire function of order at most one, and its instance
-  `zetaEntireCompletion`;
-* Layer 6, the de la Vallée Poussin region for `ζ`, and the uniform region for Dirichlet
-  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`;
+* Layer 5, Hadamard's factorization of an entire function of order at most one, its instance
+  `zetaEntireCompletion`, and the summability of `m_ρ / (1 + (Im ρ)²)` over the zeros of the
+  completed zeta function (5.6a);
+* Layer 6, the de la Vallée Poussin region for `ζ`, the uniform region for Dirichlet
+  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`, and the two
+  bounds for `−Re ζ'/ζ` off the real axis on which the region rests (6.4d);
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its conductor-uniform form for
   primitive Dirichlet characters;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
@@ -68,6 +71,19 @@ poles. It is twice Riemann's `ξ`, whose normalization carries a factor `1/2`. -
 noncomputable def zetaEntireCompletion (s : ℂ) : ℂ :=
   s * (s - 1) * completedRiemannZeta₀ s + 1
 
+/-! ## Layer 1: the logarithmic derivative of ζ -/
+
+/-- **Layer 1.4a, the functional equation of `ζ'/ζ` in symmetric form.** For `s ≠ 0, 1` with
+`ζ(s) ≠ 0` and `ζ(1 − s) ≠ 0`, `ζ'/ζ(s) + ζ'/ζ(1 − s) = −(Γℝ'/Γℝ)(s) − (Γℝ'/Γℝ)(1 − s)`, whose
+right side is `log π − ψ(s/2)/2 − ψ((1 − s)/2)/2`. Mathlib's `logDeriv_riemannZeta_one_sub` is the
+asymmetric form off the integers; this form holds at integers such as `s = 2` as well. The
+hypotheses keep `s` and `1 − s` off the poles of `Γℝ`, since a negative even integer is a trivial
+zero. -/
+theorem logDeriv_riemannZeta_add_logDeriv_one_sub {s : ℂ} (hs₀ : s ≠ 0) (hs₁ : s ≠ 1)
+    (hs : riemannZeta s ≠ 0) (hs' : riemannZeta (1 - s) ≠ 0) :
+    logDeriv riemannZeta s + logDeriv riemannZeta (1 - s) =
+      -logDeriv Gammaℝ s - logDeriv Gammaℝ (1 - s) := sorry
+
 /-! ## Layer 3: convexity -/
 
 /-- **Layer 3.4, the convexity bound, uniform in the conductor.** For every `ε > 0` there is
@@ -109,6 +125,16 @@ theorem zetaEntireCompletion_hadamard :
         (MeromorphicOn.divisor zetaEntireCompletion univ ρ).toNat :=
   sorry
 
+/-- **Layer 5.6a at the `ζ` instance, ordinate summability.** With `m_ρ` the multiplicity of `ρ`
+as a zero of the completed zeta function, the family `ρ ↦ m_ρ / (1 + (Im ρ)²)` over `ℂ` is
+summable. A weight in the ordinate alone is legitimate because the zeros lie in
+`0 ≤ Re ρ ≤ 1`; over the zeros of `riemannZeta` the trivial zeros, each of ordinate `0`, would
+make the family diverge. -/
+theorem riemannZeta_zeros_summable_ordinate :
+    Summable (fun ρ : ℂ ↦
+      ((MeromorphicOn.divisor completedRiemannZeta univ ρ).toNat : ℝ) / (1 + ρ.im ^ 2)) :=
+  sorry
+
 /-! ## Layer 6: zero-free regions -/
 
 /-- **Layer 6.2 at `K = ℚ`, the de la Vallée Poussin region.** There is `c > 0` such that
@@ -134,6 +160,19 @@ theorem dirichletLFunction_zeroFreeRegion :
           1 - c / Real.log (q * (|ρ₂.im| + 3)) ≤ ρ₂.re →
           0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ₁ →
           0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ₂ → ρ₁ = ρ₂ := sorry
+
+/-- **Layer 6.4d at `K = ℚ`, off the real axis.** For every `t₀ > 1` there is `C` such that, for
+`δ > 0` and `|t| ≥ t₀`, `−Re (ζ'/ζ)(1 + δ + 2it) ≤ C log |t|`, and
+`−Re (ζ'/ζ)(1 + δ + it) ≤ −1/(1 + δ − β) + C log |t|` whenever `β + it` is a zero of `ζ`: the two
+inputs of the `3-4-1` argument at height `t` (Davenport §13). Off the real axis `ζ` is analytic,
+so vanishing there is a zero. The threshold keeps `log |t|` positive: as `t → 0` with `δ = 2|t|`,
+the first left side is `1/(4|t|) + O(1)`. -/
+theorem neg_re_logDeriv_riemannZeta_le (t₀ : ℝ) (ht₀ : 1 < t₀) :
+    ∃ C : ℝ, ∀ δ : ℝ, 0 < δ → ∀ t : ℝ, t₀ ≤ |t| →
+      -(logDeriv riemannZeta (1 + δ + 2 * t * I)).re ≤ C * Real.log |t| ∧
+        ∀ β : ℝ, riemannZeta (β + t * I) = 0 →
+          -(logDeriv riemannZeta (1 + δ + t * I)).re ≤ -1 / (1 + δ - β) + C * Real.log |t| :=
+  sorry
 
 /-! ## Layer 7: the Riemann–von Mangoldt formula -/
 
