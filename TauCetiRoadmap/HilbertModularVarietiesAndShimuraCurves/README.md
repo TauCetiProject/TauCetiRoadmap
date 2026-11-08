@@ -4426,12 +4426,12 @@ The local targets retain these hypotheses and construct the quotients, uniformis
 
 - **AutomorphicGaloisRepresentations** constructs Galois representations from the quaternionic models, cohomology and uniformisation (R18.2, R18.4, R18.5).
 - **GL2ModularityLifting** and **SerreWeightAndLevelOptimisation** use the interfaces of R18.6: definite modules, Taylor–Wiles levels, localized control, the Ihara lemma and level raising, and the graph and monodromy comparisons.
-- **PotentialModularityAndCompatibleSystems** uses the paired torsion twists with their local points (H6) for Moret–Bailly arguments, and the definite modules of R18.3. **SmallRamificationAndAbelianVarietyBaseCases** uses the interfaces of R18.6.
+- **PotentialModularityAndCompatibleSystems** uses the paired torsion twists with their local points (H6) for Moret–Bailly arguments, and the definite modules of R18.3.
 - **PadicFamilies** and **OrdinaryAutomorphicFormsAndModularityLifting** use the definite integral forms of R18.3.
 - **QuaternionArithmetic** uses the canonical curve and its complex uniformization (R18.1), the central quotient of the definite class set (§R18.3.1) and the definite class-set graph with its integral Brandt matrices (§R18.5.17a), which is built on the Eichler orders, right ideal classes and Brandt matrices of §§R18.5.16a and R18.5.16c.
 - **HodgeTateAndCanonicalSubgroups**, **OverconvergentAutomorphicForms** and **PerfectoidShimuraVarieties** use the integral Hilbert models, Hasse ideals, polarization quotients and full levels of H1–H5.
 - **HeegnerPointEulerSystems** and **GrossZagierAndArithmeticHeights** use the quaternionic curves, their integral models, Hodge line and uniformisation (R18.1–R18.5).
-- **NeronModelsAndSemistableAbelianVarieties**, **CompletedCohomologyAndLocalGlobalCompatibility** and **PerfectoidShimuraVarieties** use the arithmetic Drinfeld quotient and its graphs.
+- **CompletedCohomologyAndLocalGlobalCompatibility** uses the definite class sets, coefficient forms and definite Jacquet–Langlands realization of R18.3 (§§R18.3.1–R18.3.3, R18.3.19–R18.3.22) and the finite-level Shimura-curve cohomology with its residual Eisenstein vanishing of R18.4 (§R18.4.8).
 - The finite-level Saito specialization of §R18.4.34 gives arithmetic applications the quaternionic coefficient realization; its model, projector and geometric comparison come from WeightsInEtaleCohomology R34.3. The shared Carayol/Saito rank-two realization and source-qualified compatibility come from R34.6 through the arithmetic adapter of §R18.3.29.
 - Automorphic-bundle, compactification and height applications use the restricted Hodge-line, cusp and metric targets listed under Scope and ownership. The quaternionic transfer theory is supplied by GL2AutomorphicRepresentationsAndTransfer as recorded above.
 
