@@ -27,7 +27,8 @@ Stated here:
 * Layer 2.5, the two-sided bound for `‖Γ(σ + it)‖` on vertical lines;
 * Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions; Layer 3.2a, the
   linear bound for `ζ` on `Re z > 0` and on the discs about `3/2 + it`; Layer 3.4, `ζ` real,
-  greater than `1` and strictly decreasing on `(1, ∞)`;
+  greater than `1` and strictly decreasing on `(1, ∞)`, and the alternating Laurent expansion of
+  `−ζ′/ζ` at `1`, given Kalmynin's record;
 * Layer 4.5b, Mathlib's `hardyZ` as `e^{iϑ(t)} ζ(1/2 + it)` and the Riemann–Siegel formula with
   Gabcke's remainder; Layer 4.5c, the approximation of `ζ` by a partial sum at a half-integer with
   its secondary term; Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang) from
@@ -36,8 +37,9 @@ Stated here:
   Vinogradov mean value theorem; Layer 4.10, Ford's Richert-type bound for `ζ` and the Hurwitz
   zeta function;
 * Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for
-  `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`; Layer 5.2a, Rosser's
-  bound and the triple `(0.1038, 0.2573, 8.3675)` with `7/8` in the zero-count predicate; Layer
+  `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`, with the bound for
+  `S(T)` behind it; Layer 5.2a, Rosser's bound, the triple `(0.1038, 0.2573, 8.3675)` with `7/8`,
+  Trudgian's form with `7/8` and Chirre and Helfgott's form in the zero-count predicate; Layer
   5.3, the explicit zero count for primitive Dirichlet L-functions
   (Bennett–Martin–O'Bryant–Rechnitzer);
 * Layer 7.1, the partial-fraction expansion of `−ζ′/ζ` with its constant and multiplicities;
@@ -73,14 +75,16 @@ Not stated: the README instances that rest on unrefereed preprints (the region o
 Leong's bounds for `1/ζ` in the classical region and on `σ ≥ 3/4` of 7.10).
 The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
-they are the lemmas on the way to the theorems below. Among them are the first-derivative test and
-the partial fractions of `π/sin πz` and `π²/sin² πz` of 4.5c, the extremal approximants of the
-one-sided exponential of 6.3a, the region predicate and Kadiri's smoothed explicit formula of
-7.3a, the density predicate of 8.3a and the Kadiri–Lumley–Ng density of 8.3 at an arbitrary
-verification height, whose closed-form constants are not transcribed here; and so are the records
-of 0.4 and 0.4b that no theorem here takes (the zero-free height `14`, Leong's and Platt and Saad
-Eddin's). So are the remaining instances of Layers 3–9:
-inputs to the theorems below (3.3, the bounds of 3.4 right of the line one, 4.9, the further
+they are the lemmas on the way to the theorems below. Among them are the first-derivative test,
+the partial fractions of `π/sin πz` and `π²/sin² πz` and the expansion of `π cot πz` in the values
+`ζ(2n)` of 4.5c, the extremal approximants of the one-sided exponential of 6.3a with the lemmas of
+their route, the region predicate with its descent in height and Kadiri's smoothed explicit
+formula of 7.3a, the density predicate of 8.3a and the Kadiri–Lumley–Ng density of 8.3 at an
+arbitrary verification height, whose closed-form constants are not transcribed here; and so are
+the records of 0.4 and 0.4b that no theorem here takes (the first ordinate, the values of `ζ′/ζ`
+at real points, Leong's and Platt and Saad Eddin's). So are the remaining instances of Layers 3–9:
+inputs to the theorems below (3.3, the bounds of 3.4 right of the line one and the reflection
+identities for `ζ′/ζ`, 4.9, the further
 critical-line bounds of 4.7, 5.4, 7.2, the arithmetic sums of 8.3 and 8.5, Hoffstein's lemma of
 9.3), and other constants and ranges for the quantities bounded below (the further forms of the
 zero count of 5.2 and 5.2a, the further regions of 7.5–7.7, the real-zero gaps of 7.9, Leong's
@@ -159,6 +163,11 @@ noncomputable def zetaZeroCount (T : ℝ) : ℕ :=
 def ZetaArgumentBoundUpTo (H A : ℝ) : Prop :=
   ∀ T : ℝ, 0 ≤ T → T ≤ H → |(zetaZeroCount T : ℝ) - riemannSiegelTheta T / π - 1| ≤ A
 
+/-- **Layer 0.4, no zeros up to height `H`.** No zero `ρ` of `ζ` with `0 < Re ρ < 1` has
+`|Im ρ| ≤ H`. The record is `ZetaZeroFreeUpTo 14` (`kadiri2005`, `thornerzaman2024`). -/
+def ZetaZeroFreeUpTo (H : ℝ) : Prop :=
+  ∀ ρ : ℂ, riemannZeta ρ = 0 → 0 < ρ.re → ρ.re < 1 → H < |ρ.im|
+
 /-- **Layer 0.4b, Hiary's record.** `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3`, and
 `|ζ(1/2 + it)| ≤ 0.595 t^{1/6} log t` for `3 ≤ t ≤ 200` (`hiary2016zeta` Lemma 2.2, an interval
 computation; Hiary, Patel and Yang use its second clause below height `200`,
@@ -194,6 +203,21 @@ def YangRecord : Prop :=
 def HiaryLeongYangRecord : Prop :=
   ∀ t : ℝ, 3 ≤ t → t ≤ 500 →
     ‖riemannZeta (1 + t * I)‖⁻¹ ≤ 431.7 * Real.log t / Real.log (Real.log t)
+
+/-- **Layer 0.4b, Kalmynin's record.** With `G(s) = −ζ′(s)/ζ(s) − 1/(s − 1) + 1/(s + 2)`,
+`‖G(s)‖ ≤ 1.396` on the boundary of the rectangle `[−3, 5] × [−4, 4]`; and the Taylor coefficients
+`cₙ` at `1` of `−ζ′(s)/ζ(s) − 1/(s − 1)`, which extends holomorphically to `1`, satisfy
+`(−1)ⁿ⁺¹ cₙ > 0` for `1 ≤ n ≤ 4`, the coefficients being those of any power series that represents
+the function on a punctured neighbourhood of `1` (`chirrehelfgott2025` Lemma A.7: bisection in
+interval arithmetic for the first clause, a computation of the first coefficients for the
+second). -/
+def KalmyninRecord : Prop :=
+  (∀ s : ℂ, -3 ≤ s.re → s.re ≤ 5 → |s.im| ≤ 4 → (s.re = -3 ∨ s.re = 5 ∨ |s.im| = 4) →
+      ‖-(deriv riemannZeta s / riemannZeta s) - 1 / (s - 1) + 1 / (s + 2)‖ ≤ 1.396) ∧
+    ∀ c : ℕ → ℂ,
+      (∀ᶠ s in nhdsWithin (1 : ℂ) {1}ᶜ, HasSum (fun n ↦ c n * (s - 1) ^ n)
+        (-(deriv riemannZeta s / riemannZeta s) - 1 / (s - 1))) →
+      ∀ n ∈ Finset.Icc 1 4, 0 < (-1 : ℝ) ^ (n + 1) * (c n).re
 
 /-- **Layer 0.4b, the sum `Σ_{γ > 0} γ⁻²`.** The sum of `m_ρ/γ²` over the zeros `ρ = β + iγ` of
 `ζ` in the open critical strip with `γ > 0`, `m_ρ` the multiplicity. -/
@@ -374,6 +398,20 @@ theorem riemannZeta_strictAntiOn :
       StrictAntiOn (fun σ : ℝ ↦ (riemannZeta σ).re) (Set.Ioi 1) :=
   sorry
 
+/-- **Layer 3.4, the Laurent expansion of `−ζ′/ζ` at `1`.** Given the absence of zeros up to height
+`14` and Kalmynin's record, there are reals `aₙ > 0` with `a₀ = γ` such that
+`−ζ′(s)/ζ(s) − 1/(s − 1) = Σ_{n ≥ 0} (−1)ⁿ⁺¹ aₙ (s − 1)ⁿ` for `0 < |s − 1| < 3`, the radius being
+the distance from `1` to the trivial zero `−2` (`chirrehelfgott2025` Lemma A.7). The bound of the
+record and the maximum modulus principle give `|bₙ| ≤ 1.396 · 4⁻ⁿ` for the Taylor coefficients of
+`G(s) = −ζ′(s)/ζ(s) − 1/(s − 1) + 1/(s + 2)` at `1`, hence `aₙ ≥ 3⁻ⁿ⁻¹ − 1.396 · 4⁻ⁿ > 0` for
+`n ≥ 5`; `a₀ = γ` comes from `ζ(s) − 1/(s − 1) → γ`, and `a₁, …, a₄ > 0` is the record. -/
+theorem neg_logDeriv_riemannZeta_laurent (hZ : ZetaZeroFreeUpTo 14) (hK : KalmyninRecord) :
+    ∃ a : ℕ → ℝ, (∀ n, 0 < a n) ∧ a 0 = Real.eulerMascheroniConstant ∧
+      ∀ s : ℂ, s ≠ 1 → ‖s - 1‖ < 3 →
+        HasSum (fun n : ℕ ↦ (-1 : ℂ) ^ (n + 1) * (a n : ℂ) * (s - 1) ^ n)
+          (-(deriv riemannZeta s / riemannZeta s) - 1 / (s - 1)) :=
+  sorry
+
 /-! ## Layer 4: explicit exponential sums and the size of `ζ` on vertical lines -/
 
 /-- **Layer 4.5b, Hardy's function through the theta function.** Mathlib's `hardyZ t`, the
@@ -495,6 +533,16 @@ theorem abs_zetaZeroCount_sub_le_of_recorded (hS : ZetaArgumentBoundUpTo 3061004
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 3.77417 := sorry
 
+/-- **Layer 5.2, the argument of `ζ` on the analytic range.** Given the records of Hiary, Patel
+and Yang, for `T ≥ 30 610 046 000`,
+`|N(T) − ϑ(T)/π − 1| ≤ 0.11200 log T + 0.12567 log log T + 2.89916`, the left side being `|S(T)|`
+off the ordinates (Bellotti and Wong, Theorem 1.4 with the third row of Table 2: the argument of
+`abs_zetaZeroCount_sub_le` before its Stirling step). -/
+theorem abs_zetaZeroCount_sub_riemannSiegelTheta_le (hH : HiaryRecord) (hP : PatelRecord)
+    (hY : YangRecord) (T : ℝ) (hT : 30610046000 ≤ T) :
+    |(zetaZeroCount T : ℝ) - riemannSiegelTheta T / π - 1| ≤
+      0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 2.89916 := sorry
+
 /-- **Layer 5.2a, the zero-count predicate.** For every `T ≥ T₀`,
 `|N(T) − (T/2π) log(T/(2πe)) − κ| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`. The shift `κ = 7/8` is the
 normalization whose main term carries the mean `7/8` of `ϑ(T)/π + 1 − (T/2π) log(T/(2πe))`, and
@@ -516,6 +564,27 @@ for `log T ≤ 175.3`, and from the first Bellotti–Wong bound with `7/8` added
 `log T ≥ 172.87`. -/
 theorem zetaZeroCountBound_seven_eighths (hH : HiaryRecord) (hP : PatelRecord)
     (hY : YangRecord) : ZetaZeroCountBound (7 / 8) 0.1038 0.2573 8.3675 0 2 := sorry
+
+/-- **Layer 5.2a, Trudgian's count with `7/8`.** Given the recorded bound for `S(T)` below
+`30 610 046 000` and the records of Hiary, Patel and Yang, for every `T ≥ e`,
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.112 log T + 0.278 log log T + 2.510`: Trudgian's
+Corollary 1 without its term `0.2/T`, which the monotonicity of the predicate restores. Above
+`30 610 046 000` from `abs_zetaZeroCount_sub_riemannSiegelTheta_le`, the smaller there since
+`0.15233 log log T ≥ 0.485 > 2.89916 − 2.510`; below it from the record,
+`2.5167 < 0.112 + 2.510`; and in both ranges with
+`0 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) − 7/8 < 1/(40T)`. -/
+theorem zetaZeroCountBound_trudgian (hS : ZetaArgumentBoundUpTo 30610046000 2.5167)
+    (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord) :
+    ZetaZeroCountBound (7 / 8) 0.112 0.278 2.510 0 (Real.exp 1) := sorry
+
+/-- **Layer 5.2a, Chirre and Helfgott's count.** Given the absence of zeros up to height `14` and
+the recorded bound for `S(T)` below `30 610 046 000`, for every `t ≥ 1`,
+`|N(t) − (t/2π) log(t/(2πe)) − 7/8| ≤ (1/5) log t + 2` (Chirre and Helfgott, Lemma B.1): `N(t) = 0`
+on `[1, 14]`, the recorded bound with the expansion of `ϑ` on `[14, 30 610 046 000]`, and Rosser's
+bound from `5400` on. -/
+theorem zetaZeroCountBound_chirreHelfgott (hZ : ZetaZeroFreeUpTo 14)
+    (hS : ZetaArgumentBoundUpTo 30610046000 2.5167) :
+    ZetaZeroCountBound (7 / 8) (1 / 5) 0 2 0 1 := sorry
 
 /-- **Layer 5.3, the explicit zero count for primitive Dirichlet L-functions.** Given Bennett,
 Martin, O'Bryant and Rechnitzer's record for `ℓ ≤ 6`, for `χ` primitive modulo `q > 1` and
