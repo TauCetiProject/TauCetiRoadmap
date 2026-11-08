@@ -433,7 +433,9 @@ range, as used by Ramaré–Zuniga Alterman, (12)–(16)); the row `|ψ(x) − x
 What ExplicitPrimeCounting must provide (gap:psi-tilde-difference): with
 `r(x) = Σ_{n ≤ x} Λ(n)/n − log x + γ`, `|r(x) − (ψ(x) − x)/x| ≤ 0.05/√x + 1.75·10^{−12}` for every real `x ≥ 394 385`
 (Vanlalngaia 2017, Theorem 9, second part; §4.2 states the weaker `1/(2√x) + 1.75·10^{−12}` from
-`8950`). Needed by Layer 1.10.
+`8950`). Needed by Layer 1.10. Its finite extension below `394 385` that Layer 1.10 also uses,
+`≤ 0.052/√x` on `[144 913, 394 385]`, is not part of the contract: it is the proposition
+*PsiTildeDifferenceRangeVerified* of Layer 0.7.
 
 What ExplicitPrimeCounting must provide (gap:psi-log-power): `|ψ(x) − ⌊x⌋| < B_β x/log^β x` for every
 real `x ≥ e^{20}` and `β = 1, 2, 3, 4`, with
@@ -720,7 +722,9 @@ derivative of a uniformly convergent series (`hasDerivAt_tsum`).
 ### 0.7 Computational hypotheses
 
 Each of the following is a proposition (a definition, not a theorem), with the range and the
-constant as explicit data, stating exactly the finite computation a source performs. None is proved
+constant as explicit data, stating exactly the finite computation a source performs, or the
+bounded-range statement that a source's proof needs below the range of a supplier estimate
+(*PsiTildeDifferenceRangeVerified*). None is proved
 or discharged in this roadmap; each is a hypothesis of the theorems that use it. The six that a
 headline theorem of `Suggested.lean` needs are declared there (`MoebiusTableVerified`,
 `RamareTransferComputations`, `StieltjesGammaOneEnclosure`, `PrimorialTableVerified`,
@@ -802,6 +806,18 @@ is that roadmap's §1.7; none of them is restated here.
   `[1 798 118, 1.5·10^7)` and that of 2.6 on `[617 990, 1.5·10^7)` are instances of
   *MoebiusRangeVerified* and *MoebiusDivRangeVerified*, and the integral
   `∫_1^{1 798 118} |M(t)| dt ≤ 216 378 740` is *MoebiusAbsIntegralLE* `1 798 118 216 378 740`.
+- *PsiTildeDifferenceRangeVerified* `c a b`: with `r(y) = ψ̃(y) − log y + γ` and `R(y) = ψ(y) − y`,
+  `∀ y, a ≤ y → y ≤ b → |r(y) − R(y)/y| ≤ c/√y` (real `y`, `0 < a`). Instance used:
+  `(0.052, 144 913, 394 385)`, the arguments `y = √X` that Layer 1.10's ratio bound for `R₂*` meets
+  between the end `X = 2.1·10^{10}` of field (iv) of *RamareZunigaAltermanComputations* (`√(2.1·10^{10}) = 144 913.77`)
+  and the start `394 385` of `gap:psi-tilde-difference`. It follows from Vanlalngaia's Theorem 9,
+  second part, in its printed form
+  `|r(y) − R(y)/y| ≤ 0.047/√y + 1.884/y + 1.75·10^{−12}` for every real `y ≥ 2` (`vanlalngaia2017`
+  lines 193–195), whose right side is at most `0.052/√y` once `1.884/y + 1.75·10^{−12} ≤ 0.005/√y`, that is
+  for every `y ≥ 141 979`; the gap absorbs the `1/y` term only from `(1.884/0.003)² = 394 384` on.
+  On the bounded range the proposition is a finite computation: `ψ` and `ψ̃` are constant on each
+  `[N, N + 1)`, where `r(y) − R(y)/y = ψ̃(N) + γ + 1 − log y − ψ(N)/y` is monotone on each side of
+  `y = ψ(N)`.
 - *DavalLinearComputations*: `0 < m₁(10^8) < 1.195·10^{−6}`, `Σ_{j ≤ 10^8} μ²(j)/√j ≤ 12 158.55` and
   `Σ_{n ≤ 32} |M(n)| log(1 + 1/n) < 5`, the values `daval2023` computes (Layer 1.8).
 
@@ -968,6 +984,16 @@ theorems about the propositions).
   constant on each `[N, N + 1)` and `√D log D` increases, so the integers suffice): the largest value
   of `|R₂*(D)|/(√D log D)` is `1.3658` (at `D = 36 917 058`) on `[3, 1.1·10^8]` and `1.4519` (at
   `D = 110 102 617`) on `[1.1·10^8, 2·10^8]`, within `1.80` and `1.93`.
+- *PsiTildeDifferenceRangeVerified* `0.052 144 913 394 385` holds with room: over the range the
+  largest value of `√y |r(y) − R(y)/y|` is `0.02266`, near `y = 164 921.4`; so the instance with
+  `c = 0.02` in place of `0.052` is false there, while the gap's own constant `0.05` would also hold.
+- The difference `r(y) − R(y)/y` is the quantity, not `r(y)`: at `y = 302 831` (on
+  `[302 831, 302 832)`) `|r(y)| = 0.0012975`, so `√y |r(y)| = 0.714`, far above `0.052`; a
+  proposition bounding `r` alone by `c/√y` would be false, and `R(302 831) = −391.32` carries the
+  cancellation.
+- At `y = 144 913` Vanlalngaia's printed form is `0.047/380.674 + 1.884/144 913 + 1.75·10^{−12} = 1.36466·10^{−4}`,
+  below `0.052/380.674 = 1.36600·10^{−4}`; at `y = 141 978` the printed form exceeds `0.052/√y`, so
+  the instance cannot start much lower and still follow from the printed theorem.
 - *SquarefreeRangeVerified* `(x ↦ 0.02767 √x) 438 653 10^6` is false (as `x → 441 353⁻`,
   `R(x)/√x → −0.027772`), while *SquarefreeRangeVerifiedNat* `(n ↦ 0.02767 √n) 438 653 10^6` holds
   (the last integer `n` with `|R(n)| > 0.02767 √n` is `437 780`): the two forms differ.
@@ -1217,7 +1243,8 @@ a direct check on `[1, 12]`.
 Prove El Marraki's bounds (`elMarraki1995` Théorème 1, (4.5), p. 418: `|M(x)| < 0.002969 x/√(log x)`
 for `x ≥ 142 194`; Théorème 2, (4.6): `|M(x)| < 0.10917 x/log x` for `x ≥ 685`; its Corollaire:
 `|M(x)| ≤ 0.6437752 x/log x` for `x > 1`; the corollary of Théorème 3, p. 421:
-`|M(x)| ≤ 362.7 x/log² x` for `x > 1`; the three are also quoted at `bordelles2015` lines 64–66),
+`|M(x)| ≤ 362.7 x/log² x` for `x > 1`; the second and the fourth are also quoted at `bordelles2015`
+lines 64–66),
 under the hypotheses the proofs use: the `1/4345` bound of 1.3 for `x > 2 160 535` and an explicit
 Chebyshev bound `|ψ(x) − x| ≤ 0.00776291 x/log x` for `x > e^{22}` (`elMarraki1995` lines 233–234,
 the inputs (1.1) and (3.2) of the proof of Théorème 1), which ExplicitPrimeCounting §3.3 supplies
@@ -1605,7 +1632,7 @@ a truncated Perron formula for `M`, that is Tau Ceti's
 (in the classical zero-free region beyond the height `H`, on the line `σ = 1`, and in `σ ≥ 3/4`
 below `H`; owed by ExplicitZetaBounds, never restated). It is the
 only explicit bound of this shape, and it improves on the power-of-log rows of 1.4 once `log x`
-exceeds about `5500`.
+exceeds about `5200`.
 
 *Needs:* Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1
 (the truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
@@ -1615,6 +1642,8 @@ exceeds about `5500`.
 
 - At `log x = 4589.2`: `33.56·4589.2·exp(−28.73) = 5.1·10^{−8}`, against
   `4.88346/4589.2^{2.35} = 1.2·10^{−8}` from 1.4: the power-of-log row is still smaller at the threshold.
+  The two bounds meet where `33.56 L e^{−√(L/5.56)} = 4.88346 L^{−2.35}`, at `L = log x = 5204.2`;
+  beyond it the bound of this section is the smaller.
 - Reading check: the exponent is `−√(log x/5.56)`, not `−√(log x)/5.56`; the second reading would give
   `33.56·4589.2·e^{−12.18} = 0.79` at the threshold, barely better than the trivial `|M(x)| ≤ x`.
 
@@ -1622,33 +1651,47 @@ exceeds about `5500`.
 
 Prove Ramaré–Zuniga Alterman's Theorem 1.1 (`ramareZunigaAlterman2025`, Funct. Approx.): for every
 real `X ≥ 1 798 118`, `|M(X)| ≤ (0.006688 log X − 0.039) X/log² X`, hence `|M(X)| ≤ 0.006688 X/log X`.
-Route, the chain of 1.5 with the sharper decomposition and sharper inputs: Lemma 6.1 of 1.5 with
-`gap:psi-tilde-difference` (`|r(y) − R(y)/y| ≤ 0.05/√y + 1.75·10^{−12}` for `y ≥ 394 385`);
-`R(y)` bounded by `0.8 √y` on `(1500, 10^{10}]` (`gap:psi-initial-range`), `0.94 √y` on `(11, 10^{19}]`
-(*ButheVerified*, ExplicitPrimeCounting §1.3), the relative bounds of `gap:psi-relative-bklnw`
-beyond `10^8`, and `0.0065 y/log y` from `1 514 928` (ExplicitPrimeCounting §3.3 with field (vii) of
-`RamareTransferComputations`); `ψ(t) ≤ 1.04 t` (ExplicitPrimeCounting §3.2) in Lemma 5.1's scheme, giving
-`|R₄(X)| ≤ 0.005 X` and then `|R₂*(X)| ≤ 0.011 X` for `X ≥ 1.8·10^9`; Lemma 7.2's scheme with the
+Route, the chain of 1.5 with the sharper decomposition and sharper inputs:
+`|R₂*(X)| ≤ 0.011 X` for every real `X ≥ 1.8·10^9`, by field (iv) of
+*RamareZunigaAltermanComputations* on `[1.8·10^9, 2.1·10^{10}]` (where `1.93 log X/√X ≤ 9.7·10^{−4}`)
+and beyond `2.1·10^{10}` by Lemma 6.1 of 1.5, whose argument `y = √X` then exceeds `144 913`. Lemma
+6.1 is fed by the ψ̃-difference `|r(y) − R(y)/y| ≤ 0.052/√y` on `[144 913, 394 385]`
+(*PsiTildeDifferenceRangeVerified*, Layer 0.7) and `≤ 0.05/√y + 1.75·10^{−12}` for `y ≥ 394 385`
+(`gap:psi-tilde-difference`); by `R(y)` bounded by `0.8 √y` on `(1500, 10^{10}]`
+(`gap:psi-initial-range`), `0.94 √y` on `(11, 10^{19}]` (*ButheVerified*, ExplicitPrimeCounting
+§1.3), the relative bounds of `gap:psi-relative-bklnw` beyond `10^8`, and `0.0065 y/log y` from
+`1 514 928` (ExplicitPrimeCounting §3.3 with field (vii) of `RamareTransferComputations`); and by
+`ψ(t) ≤ 1.04 t` (ExplicitPrimeCounting §3.2) in Lemma 5.1's scheme, giving `|R₄(X)| ≤ 0.005 X`.
+Lemma 7.2's scheme with the
 `1/4345` bound of 1.3, `MoebiusTableVerified 0.571 10^{16}`, the reciprocal squarefree sum
 `Σ_{n ≤ X} μ²(n)/n = (6/π²) log X + O*(1.045)` for `X ≥ 10^6` (7.2, Corollary 3.3) and the small-values
 sums, giving `|Σ_{n ≤ X} μ(n) log² n| ≤ (0.006688 log X − 0.0504) X` for `X ≥ 4·10^7`; and the passage of
 Lemma 8.1 from `Σ μ(n) log² n` to `M` with the boundary value at `X₀ = 4·10^7` and the source's
 absorption of the boundary terms. Every finite computation of the analytic range `X ≥ 1.5·10^7` is a
-field of *RamareZunigaAltermanComputations* (Layer 0.7), and on `[1 798 118, 1.5·10^7)` the bound is
+field of *RamareZunigaAltermanComputations* or the instance of *PsiTildeDifferenceRangeVerified*
+(Layer 0.7), and on `[1 798 118, 1.5·10^7)` the bound is
 the direct verification *MoebiusRangeVerified* of Layer 0.7; the full statement is the conjunction.
 Prove Corollary 1.1 of the same source, which
 re-derives Theorem 1.1 of 1.5 for `X ≥ 1 078 853` with these inputs.
 
 *Needs:* 1.1; 1.3; 1.5 (the identities and schemes); 7.2 (Corollary 3.3); Layer 0.7
-(`MoebiusTableVerified`, *MoebiusAbsIntegralLE*, *RamareZunigaAltermanComputations*);
-ExplicitPrimeCounting §§1.3 (*ButheVerified*), 3.2 and 3.3; `gap:psi-initial-range`;
-`gap:psi-relative-bklnw`; `gap:psi-tilde-difference`.
+(`MoebiusTableVerified`, *MoebiusAbsIntegralLE*, *RamareZunigaAltermanComputations*,
+*PsiTildeDifferenceRangeVerified*); ExplicitPrimeCounting §§1.3 (*ButheVerified*), 3.2 and 3.3;
+`gap:psi-initial-range`; `gap:psi-relative-bklnw`; `gap:psi-tilde-difference`.
 
 **Checks.**
 
 - Against 1.5 at `X = 10^7`: `(0.006688·16.118 − 0.039)/259.8·10^7 = 2 648` against
-  `(0.0130/16.118 − 0.118/259.8)·10^7 = 3 524`; the new bound is smaller from its threshold on, and
+  `(0.0130/16.118 − 0.118/259.8)·10^7 = 3 523`; the new bound is smaller from its threshold on, and
   `|M(10^7)| = 1 037`.
+- The ratio bound for `R₂*` where Lemma 6.1 takes over, `X = 2.1·10^{10}`, `y = √X = 144 913.8`:
+  the ψ̃-difference term `2·0.052/√y = 2.73·10^{−4}`, `(0.8 √y/y)² = 4.4·10^{−6}`,
+  `0.94 log X/√X = 1.54·10^{−4}`, the integral term `(10 + 1.88 √X)/X = 1.3·10^{−5}` (`|R(t)| ≤ t`
+  on `[1, 11]`, *ButheVerified* beyond) and `2|R₄(X)|/X ≤ 0.010`, total `0.01045 ≤ 0.011`. With
+  ExplicitPrimeCounting §4.2's `1/(2√y) + 1.75·10^{−12}` in place of the ψ̃-difference input the
+  first term is `2.63·10^{−3}` and the total `0.0128 > 0.011`, and it stays above `0.011` up to
+  `X = 394 385² = 1.555·10^{11}` (`0.01166` there): the stretch `[144 913, 394 385]` of `y` needs the
+  sharper input.
 - Threshold: the source's earlier version stated `X ≥ 1 079 974` with `0.0384`; the stated row is the
   revised one, `X ≥ 1 798 118` with `0.039`, and the later papers that quote `1 079 974` quote the
   superseded version.
@@ -1776,11 +1819,13 @@ through Balazard's identity, Lemma 2.4 (the explicit integral
 Prove the simpler rows, each as the conjunction of Theorem 1.2 beyond `463 421` and the finite
 verification *MoebiusDivRangeVerified* on `[x₀, 463 421]`:
 `(log x)|m(x)| ≤ 1/12` for `x ≥ 687`, `1/20` for `x ≥ 3355`, `1/25` for `x ≥ 3470`, `1/40` for
-`x ≥ 24 270`, `1/65` for `x ≥ 96 018`, `1/69` for `x ≥ 96 955`, `0.0144` for `x ≥ 463 421`; and
+`x ≥ 24 270`, `1/65` for `x ≥ 96 018`, `1/69` for `x ≥ 96 955`, `0.0144` for `x ≥ 96 955` (line
+138, which allows `0.0144` in place of `1/69`; it implies the `1/69` row, `1/69 = 0.014493`); and
 `|m(x)| ≤ 1` for `x ≥ 1`, `1/10` for `x ≥ 7`, `1/20` for `x ≥ 41`, `1/100` for `x ≥ 1419`
 (`ramare2015mc` lines 120–152, Theorem 1.2 and Corollary 1.3, with three thresholds corrected: the
 printed rows `1/20` from `1426`, `1/65` from `60 298` and `1/100` from `694` are false, see the
-Checks; the printed rows `1/12`, `1/40`, `1/69` are sharp to the unit, and `1/25` holds from `3462`).
+Checks; the printed rows `1/12`, `1/40`, `1/69` and `0.0144` are sharp to the unit, and `1/25` holds
+from `3462`).
 
 Prove Ramaré's 2013 corollary `|m(D)| ≤ 0.0260/log D − 0.118/log² D` for `D ≥ 60 298`
 (`ramare2013aa` lines 56–57, Corollary 1.2) through El Marraki's route of 2.2 (lines 750–759): for
@@ -1808,7 +1853,8 @@ threshold is the one stated); `|m(x)| ≤ 362.84/log² x` for `x ≥ 2`; and for
 the `x/4345` bound of 1.3, El Marraki's `362.7 x/log² x` of 1.4, `MoebiusTableVerified 0.571 10^{16}`,
 *MoebiusRangeVerified* `(x ↦ 0.5 √x) 201 7 725 038 628`, *MoebiusDivRangeVerified*
 `(x ↦ 0.5/√x) 3 7 727 068 587` and the direct checks *MoebiusDivRangeVerified* on `[2 160 605, 5·10^6)` and
-`[97 063, 230 000)`. The row `0.0130073` improves Ramaré's `1/69` (`= 0.014493`) from `97 603` on.
+`[97 063, 230 000)`. The row `0.0130073` improves Ramaré's `0.0144` (and `1/69 = 0.014493`) from
+`97 603` on.
 
 State Johnston–Leong–Tudzi's Theorem A.2 (`johnstonLeongTudzi2024`, a preprint):
 `|m(x)| ≤ 4.591/log² x` for every real `x > 1` and `|m(x)| ≤ 7.397/(log x)^{2.35}` for every real
@@ -1829,7 +1875,9 @@ refereed rows. Ramaré's Theorem 1.2 is re-proved, with the corrected inputs, as
   (ten integers in `[1106, 1418]` violate it, the largest value `0.011657…` at `x = 1109`); the
   last `x` with `(log x)|m(x)| > 1/20` is `x = 3354` (`166` integers from `1426`, maximum
   `0.0648…` at `x = 2837`); the last with `(log x)|m(x)| > 1/65` is `x = 96 017`. The rows
-  `1/12` (last violation `686`), `1/40` (`24 269`), `1/69` (`96 954`) are exact; the row `1/25` has
+  `1/12` (last violation `686`), `1/40` (`24 269`), `1/69` (`96 954`) and `0.0144` (`96 954` as
+  well: `(log x)|m(x)| → 0.0145113` as `x → 96 955⁻`, and its largest value on `[96 955, 463 421]` is
+  `0.0143930`, as `x → 96 961⁻`) are exact; the row `1/25` has
   its last violation at `3461`, below the printed threshold `3470`, so that threshold is valid and
   not sharp.
 - `m(7) = −1/105`, `|m(7)| = 0.0095 ≤ 1/10`; `m(6) = 2/15 = 0.133 > 1/10`: the threshold `7` is
@@ -1837,8 +1885,9 @@ refereed rows. Ramaré's Theorem 1.2 is re-proved, with the corrected inputs, as
 - Theorem 1.2 at `x = 463 421`: `0.0144/13.046 − 0.1/170.2 = 0.0005162`, against the true
   `|m(463 421)| = 0.0005154`: the bound is nearly attained at its threshold.
 - The 2013 corollary is verified without exception on `[60 298, 1.2·10^6]`; at `D = 60 298` its
-  bound `0.001388` times `log D` is `0.01528 < 1/65`, but the bound increases with `D` and exceeds
-  `1/65` from `D ≈ 66 900`, which is why the printed `1/65`-row could not follow from it.
+  bound `0.001388` times `log D` is `0.01528 < 1/65`, but the bound times `log D`,
+  `0.026 − 0.118/log D`, increases with `D` and exceeds `1/65` from `log D = 0.118/(0.026 − 1/65) = 11.1159`,
+  that is `D ≈ 67 200`, which is why the printed `1/65`-row could not follow from it.
 - `x = 33`: `0.19/log 33 = 0.0543` and `|m(33)| = 0.03243`; at `x = 32`,
   `|m(32)| = 0.06273 > 0.19/log 32 = 0.0548`, so the threshold `33` is needed.
 - Daval's row against Ramaré's at `x = 10^6`: `0.0130073/13.8155 = 9.41·10^{−4}` and
@@ -3170,7 +3219,8 @@ matched with the primes `p ≤ x` (`Ideal.absNorm (span {p}) = p`). Prove the pr
 `log ∏_{p ≤ x} (1 − 1/p)^{−1} = Σ_{p ≤ x} 1/p − Σ_{p ≤ x} (log(1 − 1/p) + 1/p)`, and §0.26 says the left side is `log log x + γ + o(1)`.
 
 Prove the explicit Mertens product (`rosserSchoenfeld1962` p. 70, Theorems 7–8, (3.26)–(3.30), all
-four inequalities strict in the source): for every real `x > 1`,
+four inequalities strict in the source; the fourth, the upper bound of the second quotient, is
+quoted with `x > 1` at `ivic1977` line 52): for every real `x > 1`,
 
     1 − 1/log² x ≤ e^γ (log x) ∏_{p ≤ x} (1 − 1/p) ≤ 1 + 1/(2 log² x),
     1 − 1/(2 log² x) ≤ ∏_{p ≤ x} (1 − 1/p)^{−1}/(e^γ log x) ≤ 1 + 1/log² x,
@@ -3562,7 +3612,8 @@ roadmap's Layer 2); ExplicitPrimeCounting §5.3; *SuperchampionTableVerified*; *
 
 ### 9.4 The ratio `n/φ(n)`
 
-Prove Rosser–Schoenfeld's Theorem 15 (`rosserSchoenfeld1962` pp. 71–72, (3.40)–(3.42)): for every
+Prove Rosser–Schoenfeld's Theorem 15 (`rosserSchoenfeld1962` pp. 71–72, (3.40)–(3.42); the second
+inequality below, with `2.50637` and `n ≥ 3`, is quoted at `nicolas2008` lines 23–26): for every
 natural `n ≥ 2`, `n/φ(n) ≥ 1 + 1/(n − 1)`, and for every natural `n ≥ 3`,
 
     n/φ(n) < e^γ log log n + 2.50637/log log n,
