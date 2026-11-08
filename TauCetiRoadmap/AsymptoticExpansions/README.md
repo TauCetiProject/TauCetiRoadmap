@@ -153,7 +153,7 @@ def Asymptotics.HasAsymptoticExpansion (l : Filter α) (φ : ℕ → α → 𝕜
   factor bounded in every sector of finite opening. Bounds near `0+` are
   `O(t ^ (Re α − 1))` along `𝓝[>] 0` with real powers.
 - **Integrals.** Laplace integrals are `∫ t in Ioi 0, cexp (−(z * t)) • q t`, the shape of the
-  `laplace` of Mathlib pull request #40582 (Laplace transform; see
+  `laplace` of Mathlib's Laplace-transform pull request (cited under
   [Exact supplier contracts](#from-mathlib)). They converge absolutely, as integrability of
   `t ↦ e^{−σt} q t` on `(0, ∞)` for some real `σ`. An oscillatory integral over an infinite range
   (3.2, Layer 6) is the improper integral `lim_{T→∞} ∫_a^T`, stated with
