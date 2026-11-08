@@ -6,14 +6,15 @@ name: dependency-labels
 # `tauceti-roadmap roadmaps dependency-labels` (TauCetiRoadmapWorker, docs/OPERATORS.md, "The
 # dependency label") works it out afresh on every run, recording nothing: it fetches every open head,
 # reads every open pull request's current description and the states of the pull requests those name,
-# and counts as outstanding the supplier roadmaps a README names or a Suggested.lean imports that are
-# not on main, the open revisions whose numbering a README cites, and the dependencies a description
-# declares (its `<!-- depends-on -->` block, then its prose) that have not merged. A pull request
-# GitHub did not answer for keeps its label as it is.
+# and counts as outstanding the supplier roadmaps a README names or its Lean files import that are not
+# on main, and the open revisions whose numbering a README cites, unless main or the merge base already
+# cites them; and the dependencies a description declares (its `<!-- depends-on -->` block, then its
+# prose) that have not merged. A progress report waits for nothing. A pull request GitHub did not
+# answer for keeps its label as it is.
 #
 # It runs when a pull request merges (the moment a dependency is met), hourly (for anything a merge
 # event missed), and on demand. A run fetches the open heads (about 140 MB) and makes a few dozen
-# GraphQL queries; it takes a few minutes.
+# GraphQL queries; it takes about four minutes.
 #
 # pull_request_target rather than pull_request so the App secrets are available when a fork's pull
 # request merges. This job never checks out or runs pull request code: it installs the worker, fetches
