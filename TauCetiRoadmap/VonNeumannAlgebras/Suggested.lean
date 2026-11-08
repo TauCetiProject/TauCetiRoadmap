@@ -9,7 +9,8 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
-predicates (factor, finiteness, types II₁ and II∞, type I₂ summands, projection comparison, cyclic
+predicates (central, abelian and finite projections, normal functionals and normal semifinite
+traces, factor, finiteness, types II₁ and II∞, type I₂ summands, projection comparison, cyclic
 and separating vectors, tracial states, injectivity and hyperfiniteness) that those statements
 need. Concrete von Neumann algebras are Mathlib's `VonNeumannAlgebra H` on a complete complex
 Hilbert space `H`; the strong and weak operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and
@@ -23,20 +24,23 @@ Headline theorems of the README that are not statable at the pins, and the carri
   ultrastrong topology on `H →L[ℂ] H` (only the WOT and pointwise copies used below).
 * Layer 2: the completed spatial tensor product `M ⊗̄ N` and its commutation theorem. There is
   no completed Hilbert tensor product of von Neumann algebras.
-* Layers 3 and 6: the type decomposition and the semifinite/standard-form classification. They
-  need central decomposition, normal semifinite traces and the standard form, none of which
-  exist.
-* Layer 4: the identification of the predual with the normal (ultraweakly continuous)
-  functionals and the equivalences of normality. Neither Mathlib nor Tau Ceti at the pins has
-  normal functionals or an ultraweak topology; the same lack is why the trace theorems below omit
-  normality. The existence of a Banach predual for a concrete von Neumann algebra and Sakai's
-  theorem are statable through `WStarAlgebra`'s conjugate-linear predual and are stated below.
+* Layer 4: the identification of the predual `M_*` with the ultraweakly continuous functionals
+  and the agreement of normality with ultraweak continuity. Mathlib has no ultraweak topology on
+  `H →L[ℂ] H`. Normality itself is stated below in its monotone-net form on Mathlib's strong
+  operator topology, together with the characterization of normal positive functionals as sums
+  of vector functionals. The existence of a Banach predual for a concrete von Neumann algebra and
+  Sakai's theorem are statable through `WStarAlgebra`'s conjugate-linear predual and are stated
+  below.
   The classification of abelian von Neumann algebras by `L∞` of a measure space with
   multiplicity is not statable: `MeasureTheory.Lp` has no ring structure for `p = ∞`, only the
   heterogeneous Hölder scalar action, and there is no direct integral of Hilbert spaces.
 * Layers 5 and 7: projection modularity versus finiteness (no lattice structure on the
   projections of a von Neumann algebra), the coupling constant and the Jones index of a II₁
   subfactor (no normal Hilbert modules over a II₁ factor and no coupling dimension).
+* Layer 6: the amplification `M ≅ pMp ⊗̄ B(ℓ²)` of a separably acting II∞ factor by a finite
+  corner (no completed tensor product of von Neumann algebras). The trace of a semifinite factor,
+  the tracial standard form `J M J = M'` (in its spatial form, for a cyclic vector with tracial
+  vector state) and the type decomposition are stated below.
 * Layer 8: group von Neumann algebras, crossed products and the Bernoulli factors (no group
   von Neumann algebra or von Neumann crossed product).
 * Layer 9: formal degrees of discrete series and the covolume formula (no square-integrable
@@ -46,7 +50,8 @@ Headline theorems of the README that are not statable at the pins, and the carri
   There is no closed antilinear operator `S`, modular operator `Δ`, modular conjugation `J` or
   modular automorphism group.
 * Layer 11: weights, spatial derivatives, Connes cocycles, the continuous core, Takesaki duality,
-  the invariants `S` and `T`, and the flow of weights (no normal weights and no modular theory).
+  the invariants `S` and `T`, and the flow of weights (no modular automorphism group of a weight,
+  on which each of these depends).
 * Layer 12: the two-projection structure theorem (it identifies the general-position part with
   `B ⊗̄ M₂(ℂ)`, which needs the completed tensor product), the tracial ultraproduct and
   `R_ω′ ∩ R^ω = R` for the hyperfinite II₁ factor `R` (no tracial ultraproduct), and the
@@ -56,8 +61,10 @@ Headline theorems of the README that are not statable at the pins, and the carri
   theorem and Dye's theorem are stated below; normality of the Dye isomorphism is omitted there
   because it is automatic: a Jordan *-isomorphism is an order isomorphism, so it preserves
   suprema of bounded increasing nets.
-* Layer 13: semidiscreteness and its equivalence with injectivity (no normal completely positive
-  map and no ultraweak topology, which the definition of semidiscreteness uses), and the
+* Layer 13: semidiscreteness and its equivalence with injectivity. Semidiscreteness is defined
+  by completely positive maps through matrix algebras, and Mathlib's `CompletelyPositiveMap`
+  needs `NonUnitalCStarAlgebra` and `StarOrderedRing` instances on its source, which the carrier
+  `M.toStarSubalgebra` of a `VonNeumannAlgebra` does not have at the pin. Also not statable is the
   classification of the injective factors of types IIIλ (0 < λ < 1), III₀ and III₁ (no Connes
   invariants `S` and `T` and no flow of weights, which separate these types). Injectivity versus
   hyperfiniteness and the uniqueness of the injective II₁ and II∞ factors are stated below.
@@ -69,7 +76,9 @@ Headline theorems of the README that are not statable at the pins, and the carri
   (Anantharaman–Popa, Proposition 10.2.2, p. 161).
 -/
 
-open scoped ComplexOrder
+open scoped ComplexOrder ENNReal NNReal
+
+open Filter Topology
 
 universe u
 
@@ -135,6 +144,23 @@ theorem closure_isStarProjection_eq_positive_contractions (hH : ¬ FiniteDimensi
       {A : H →WOT[ℂ] H | 0 ≤ A.toCLM ∧ A.toCLM ≤ 1} := by
   sorry
 
+/-! ## Layer 3: Type I and finite-dimensional algebras -/
+
+/-- A central projection of `M`: a projection lying in `M` and in its commutant `M'`. -/
+def IsCentralProjection (M : VonNeumannAlgebra H) (z : H →L[ℂ] H) : Prop :=
+  IsStarProjection z ∧ z ∈ M ∧ z ∈ M.commutant
+
+/-- An abelian projection of `M`: a projection `e ∈ M` whose corner `eMe` is commutative. -/
+def IsAbelianProjection (M : VonNeumannAlgebra H) (e : H →L[ℂ] H) : Prop :=
+  IsStarProjection e ∧ e ∈ M ∧
+    ∀ x ∈ M, ∀ y ∈ M, (e * x * e) * (e * y * e) = (e * y * e) * (e * x * e)
+
+/-- A finite projection of `M`: a projection `e ∈ M` equivalent in `M` to no proper
+subprojection, that is, every `v ∈ M` with `v* v = e` and `v v* ≤ e` has `v v* = e`
+(Peterson, §3.2, pp. 44–45). -/
+def IsFiniteProjection (M : VonNeumannAlgebra H) (e : H →L[ℂ] H) : Prop :=
+  IsStarProjection e ∧ e ∈ M ∧ ∀ v ∈ M, star v * v = e → v * star v ≤ e → v * star v = e
+
 /-! ## Layer 4: Preduals, normality, and normal representations -/
 
 /-- **The predual theorem.** A concrete von Neumann algebra `N` on `H` has a Banach predual in
@@ -154,6 +180,35 @@ Peterson, Theorem 4.4.6, p. 66). -/
 theorem exists_vonNeumannAlgebra_starAlgEquiv (M : Type u) [CStarAlgebra M] [WStarAlgebra M] :
     ∃ (K : Type u) (_ : NormedAddCommGroup K) (_ : InnerProductSpace ℂ K) (_ : CompleteSpace K)
       (N : VonNeumannAlgebra K), Nonempty (M ≃⋆ₐ[ℂ] N.toStarSubalgebra) := by
+  sorry
+
+/-- A linear functional on `M` is normal: along every increasing net of `M` that converges in
+the strong operator topology to some `y ∈ M`, its values converge to its value at `y`. By
+Vigier's theorem the increasing nets converging strongly are the bounded increasing nets, with
+their suprema as limits, so for a positive functional this is preservation of suprema of bounded
+increasing nets (Anantharaman–Popa, Definition 2.5.1, p. 40). Index types in the universe of `H`
+suffice, since an increasing net may be replaced by its range, a directed subset of `M`. -/
+def IsNormalFunctional (M : VonNeumannAlgebra H) (τ : M.toStarSubalgebra →ₗ[ℂ] ℂ) : Prop :=
+  ∀ (ι : Type u) [Preorder ι] [IsDirected ι (· ≤ ·)] [Nonempty ι]
+    (x : ι → M.toStarSubalgebra) (y : M.toStarSubalgebra),
+    Monotone (fun i ↦ (x i : H →L[ℂ] H)) →
+    Tendsto (fun i ↦ ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H
+      (x i : H →L[ℂ] H)) atTop
+      (𝓝 (ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H (y : H →L[ℂ] H))) →
+    Tendsto (fun i ↦ τ (x i)) atTop (𝓝 (τ y))
+
+/-- **Normal positive functionals are sums of vector functionals.** A positive linear functional
+`τ` on a concrete von Neumann algebra `M ⊆ B(H)` is normal exactly when
+`τ(x) = Σₙ ⟪ξₙ, x ξₙ⟫` for a sequence of vectors with `Σₙ ‖ξₙ‖² < ∞`, the series converging
+absolutely since `|⟪ξ, x ξ⟫| ≤ ‖x‖ ‖ξ‖²` (README, V4.Normality; Anantharaman–Popa, Theorem 2.5.5
+and Remark 2.5.7, pp. 42–43; Peterson, Proposition 4.2.2, p. 60, in its trace-class form). No
+separability of `H` is assumed: a positive trace-class density has countably many nonzero
+eigenvalues. -/
+theorem isNormalFunctional_iff_exists_tsum_inner {M : VonNeumannAlgebra H}
+    (τ : M.toStarSubalgebra →ₗ[ℂ] ℂ) (hτ : ∀ x, 0 ≤ τ (star x * x)) :
+    IsNormalFunctional M τ ↔
+      ∃ ξ : ℕ → H, Summable (fun n ↦ ‖ξ n‖ ^ 2) ∧
+        ∀ x : M.toStarSubalgebra, τ x = ∑' n, inner ℂ (ξ n) ((x : H →L[ℂ] H) (ξ n)) := by
   sorry
 
 /-- A vector `ξ` is cyclic for `M` when the orbit `Mξ` is dense; no separability is assumed. -/
@@ -220,12 +275,13 @@ theorem tracialState_unique {M : VonNeumannAlgebra H} (hM : IsFactor M)
     (h₂ : IsTracialState M τ₂) : τ₁ = τ₂ := by
   sorry
 
-/-- **Existence of the trace on a II₁ factor.** A type II₁ factor has a faithful tracial state,
-constructed from the Dixmier centre-valued trace (README, V5.Dixmier). The README's trace is also
-normal; normality of a functional has no carrier at the pins and is omitted here. -/
+/-- **Existence of the trace on a II₁ factor.** A type II₁ factor has a faithful normal tracial
+state, constructed from the Dixmier centre-valued trace (README, V5.Dixmier; Peterson, Theorem
+4.7.10, p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 95). By `tracialState_unique` it is the only
+tracial state, so every tracial state of a II₁ factor is normal and faithful. -/
 theorem exists_faithful_tracialState {M : VonNeumannAlgebra H} (hM : IsTypeIIOne M) :
     ∃ τ : M.toStarSubalgebra →ₗ[ℂ] ℂ,
-      IsTracialState M τ ∧ ∀ x, τ (star x * x) = 0 → x = 0 := by
+      IsTracialState M τ ∧ IsNormalFunctional M τ ∧ ∀ x, τ (star x * x) = 0 → x = 0 := by
   sorry
 
 /-- **Algebraic simplicity of II₁ factors.** A type II₁ factor has no two-sided ideals other than
@@ -236,16 +292,84 @@ theorem isSimpleRing_of_isTypeIIOne {M : VonNeumannAlgebra H} (hM : IsTypeIIOne 
 
 /-! ## Layer 6: Tracial standard form and semifinite factors -/
 
+/-- A normal semifinite trace on `M` (Anantharaman–Popa, Definition 8.3.1, pp. 124–125): a map
+`τ` into `[0, ∞]`, of which only the values on the positive cone `M₊` matter, that is additive
+and positively homogeneous on `M₊` (with `0 · ∞ = 0`), satisfies `τ(x* x) = τ(x x*)` for
+`x ∈ M`, is semifinite (every nonzero `x ∈ M₊` dominates a nonzero `y ∈ M₊` with `τ(y) < ∞`) and
+is normal: along every increasing net of `M₊` converging strongly to `y`, the values converge to
+`τ(y)`, which by monotonicity of `τ` on `M₊` is `τ(sup xᵢ) = sup τ(xᵢ)`. Faithfulness is a
+separate property. -/
+def IsNormalSemifiniteTrace (M : VonNeumannAlgebra H) (τ : (H →L[ℂ] H) → ℝ≥0∞) : Prop :=
+  (∀ x ∈ M, ∀ y ∈ M, 0 ≤ x → 0 ≤ y → τ (x + y) = τ x + τ y) ∧
+  (∀ x ∈ M, 0 ≤ x → ∀ c : ℝ≥0, τ (((c : ℝ) : ℂ) • x) = c * τ x) ∧
+  (∀ x ∈ M, τ (star x * x) = τ (x * star x)) ∧
+  (∀ x ∈ M, 0 ≤ x → x ≠ 0 → ∃ y ∈ M, 0 ≤ y ∧ y ≤ x ∧ y ≠ 0 ∧ τ y < ⊤) ∧
+  ∀ (ι : Type u) [Preorder ι] [IsDirected ι (· ≤ ·)] [Nonempty ι]
+    (x : ι → H →L[ℂ] H) (y : H →L[ℂ] H), (∀ i, x i ∈ M ∧ 0 ≤ x i) → Monotone x →
+    Tendsto (fun i ↦ ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H (x i))
+      atTop (𝓝 (ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H y)) →
+    Tendsto (fun i ↦ τ (x i)) atTop (𝓝 (τ y))
+
+/-- **The trace of a semifinite factor.** A factor with a nonzero finite projection (for a
+factor, the same as being semifinite) has a faithful normal semifinite trace `τ`, unique up to a
+nonnegative scalar among all normal semifinite traces, and a projection of `M` is finite exactly
+when its trace is finite (README, Layer 6; Peterson, Theorem 4.9.4, p. 78). On `B(ℓ²)` it is the
+canonical trace, on a II₁ factor a multiple of the tracial state. -/
+theorem exists_isNormalSemifiniteTrace_of_isFactor {M : VonNeumannAlgebra H} (hM : IsFactor M)
+    (hf : ∃ p, IsFiniteProjection M p ∧ p ≠ 0) :
+    ∃ τ : (H →L[ℂ] H) → ℝ≥0∞, IsNormalSemifiniteTrace M τ ∧
+      (∀ x ∈ M, 0 ≤ x → τ x = 0 → x = 0) ∧
+      (∀ p ∈ M, IsStarProjection p → (IsFiniteProjection M p ↔ τ p < ⊤)) ∧
+      ∀ τ' : (H →L[ℂ] H) → ℝ≥0∞, IsNormalSemifiniteTrace M τ' →
+        ∃ c : ℝ≥0, ∀ x ∈ M, 0 ≤ x → τ' x = c * τ x := by
+  sorry
+
+/-- **The tracial standard form.** Let `Ω` be a cyclic vector for `M` whose vector state is
+tracial, `⟪Ω, x y Ω⟫ = ⟪Ω, y x Ω⟫` for `x, y ∈ M`. Then `Ω` is also separating, `(H, Ω)` is the
+GNS space `L²(M, τ)` of the faithful normal tracial vector state `τ`, and the conjugation
+`x Ω ↦ x* Ω`, isometric by the trace property, extends to a conjugate-linear isometric involution
+`J` of `H` with `J M J = M'` (README, Layer 6; Anantharaman–Popa, Theorem 7.1.1, p. 99; Peterson,
+Proposition 4.7.12, pp. 73–74). `M₂(ℂ)` on `ℂ²` has no such vector, its vector states being pure;
+on the zero space `Ω = 0` and `J = 0`. -/
+theorem exists_conj_commutant_eq_of_isCyclic {M : VonNeumannAlgebra H} {Ω : H}
+    (hΩ : IsCyclic M Ω)
+    (htr : ∀ x ∈ M, ∀ y ∈ M, inner ℂ Ω ((x * y) Ω) = inner ℂ Ω ((y * x) Ω)) :
+    ∃ J : H ≃ₗᵢ⋆[ℂ] H, (∀ ξ, J (J ξ) = ξ) ∧ (∀ x ∈ M, J (x Ω) = (star x) Ω) ∧
+      ∀ y : H →L[ℂ] H, y ∈ M.commutant ↔ ∃ x ∈ M, ∀ ξ, y ξ = J (x (J ξ)) := by
+  sorry
+
 /-- A type II∞ factor: an infinite factor with no minimal projection that has a nonzero finite
 projection `p`, one that is equivalent to no proper subprojection (every `v ∈ M` with `v* v = p`
 and `v v* ≤ p` has `v v* = p`). The finite projection makes `M` semifinite, which excludes type
 III; the absence of minimal projections excludes type I∞, and infiniteness excludes type II₁. -/
 def IsTypeIIInfinity (M : VonNeumannAlgebra H) : Prop :=
-  IsFactor M ∧ ¬ IsFinite M ∧
-  (∃ p ∈ M, IsStarProjection p ∧ p ≠ 0 ∧
-    ∀ v ∈ M, star v * v = p → v * star v ≤ p → v * star v = p) ∧
+  IsFactor M ∧ ¬ IsFinite M ∧ (∃ p, IsFiniteProjection M p ∧ p ≠ 0) ∧
   ∀ p ∈ M, IsStarProjection p → p ≠ 0 →
     ∃ q ∈ M, IsStarProjection q ∧ q ≠ 0 ∧ q ≠ p ∧ q ≤ p
+
+/-- **The Murray–von Neumann type decomposition.** Every von Neumann algebra `M` has unique
+pairwise orthogonal central projections `z 0, z 1, z 2, z 3` with sum `1` cutting it into its
+type I, II₁, II∞ and III parts (README, Layer 6; Peterson, Theorem 3.3.1, p. 49, with the
+projection types of §§3.2–3.3, pp. 44–49):
+* type I: every nonzero projection of `M` below `z 0` has a nonzero abelian subprojection;
+* type II₁: `z 1` is finite and has no nonzero abelian subprojection;
+* type II∞: `z 2` has no nonzero abelian subprojection and no nonzero finite central
+  subprojection, and every nonzero projection below it has a nonzero finite subprojection
+  (semifiniteness);
+* type III: `z 3` has no nonzero finite subprojection.
+No separability or σ-finiteness is assumed; for the zero space all four are `0 = 1`. -/
+theorem existsUnique_typeDecomposition (M : VonNeumannAlgebra H) :
+    ∃! z : Fin 4 → (H →L[ℂ] H),
+      (∀ i, IsCentralProjection M (z i)) ∧ (∀ i j, i ≠ j → z i * z j = 0) ∧ ∑ i, z i = 1 ∧
+      (∀ q ∈ M, IsStarProjection q → q ≠ 0 → q ≤ z 0 →
+        ∃ e, IsAbelianProjection M e ∧ e ≠ 0 ∧ e ≤ q) ∧
+      (IsFiniteProjection M (z 1) ∧ ∀ e, IsAbelianProjection M e → e ≤ z 1 → e = 0) ∧
+      ((∀ e, IsAbelianProjection M e → e ≤ z 2 → e = 0) ∧
+        (∀ w, IsCentralProjection M w → w ≠ 0 → w ≤ z 2 → ¬ IsFiniteProjection M w) ∧
+        (∀ q ∈ M, IsStarProjection q → q ≠ 0 → q ≤ z 2 →
+          ∃ e, IsFiniteProjection M e ∧ e ≠ 0 ∧ e ≤ q)) ∧
+      (∀ e, IsFiniteProjection M e → e ≤ z 3 → e = 0) := by
+  sorry
 
 /-! ## Layer 8: Group algebras, actions, and discrete crossed products -/
 
@@ -268,8 +392,7 @@ the sum of two orthogonal equivalent projections `e ∼ f` of `M` with `eMe` com
 abelian algebras and the II₁ factors do not. -/
 def HasTypeITwoSummand (M : VonNeumannAlgebra H) : Prop :=
   ∃ e f : H →L[ℂ] H, ProjectionEquivalent M e f ∧ e * f = 0 ∧ e + f ≠ 0 ∧
-    e + f ∈ M.commutant ∧
-    ∀ x ∈ M, ∀ y ∈ M, (e * x * e) * (e * y * e) = (e * y * e) * (e * x * e)
+    e + f ∈ M.commutant ∧ IsAbelianProjection M e
 
 /-- **The Mackey–Gleason–Bunce–Wright theorem.** If `M` has no nonzero central summand of type
 I₂, every bounded finitely additive complex measure `μ` on the projections of `M` (additive on
@@ -339,8 +462,9 @@ def IsHyperfinite (M : VonNeumannAlgebra H) : Prop :=
 
 /-- **Connes's theorem: injective equals hyperfinite.** A von Neumann algebra with separable
 predual, here acting on a separable Hilbert space, is injective exactly when it is hyperfinite
-(README, V13b; Connes's theorem as recalled in the Notes to Chapter 10 of Anantharaman–Popa,
-p. 171, with the classification-independent proof of Takesaki III, XVI.1.9 and XVI.1.22–1.23).
+(README, V13b; Connes's theorem as recalled in Hiai, §1.8, p. 9, and in the Notes to Chapter 11
+of Anantharaman–Popa, p. 189, with the classification-independent proof of Takesaki III, XVI.1.9
+and XVI.1.22–1.23).
 Anantharaman–Popa, Theorem 11.1.3, p. 173, is only the direction from injective to hyperfinite
 for finite algebras, in a finite-set `L²` form, and Theorem 11.2.2, p. 186, the equivalence for
 II₁ factors. Without separability the sequential form is too narrow. -/

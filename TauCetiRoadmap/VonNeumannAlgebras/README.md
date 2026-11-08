@@ -61,6 +61,11 @@ It leaves the following to the named owners and consumes them by section.
   uniformization and the finite-measure completion theorem. The Hecke-ring convolution, its
   structure constants and its commutativity criterion are consumed from Tau Ceti; Hecke operators
   on modular forms remain the scope of [ModularForms](../ModularForms/README.md).
+* [Chebotarev](../../Completed/Chebotarev/README.md) owns prime counting in arithmetic
+  progressions: the prime number theorem in an invertible residue class, implemented in Tau Ceti
+  (its Layers 13–14 specialized to the cyclotomic fields `ℚ(ζ_d)`), is consumed by V10.AffineAP,
+  which adds only the comparison of prime ideals of `𝓞 ℚ` with rational primes and the ratio-2
+  prime-pair lemma.
 * [BanachAlgebras](../BanachAlgebras/README.md) owns the group algebra `L¹(G)` of a locally
   compact group and its harmonic analysis up to Fourier uniqueness: its §7.2 the convolution and
   involution of `L¹(G)`; its §7.3 (A7.IntegratedRepresentations and A7.RegularL2) the faithful
@@ -229,6 +234,15 @@ Neumann density theorem `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_c
 (`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): for a unital star subalgebra `S` of the bounded
 operators on a complete real or complex inner product space, an element of `S''` is approximated
 by an element of `S` at finitely many vectors simultaneously.
+The prime number theorem in arithmetic progressions,
+`NumberField.Chebotarev.tendsto_primeCount_primesCongruent` and
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`
+(`TauCeti/NumberTheory/Chebotarev/PrimeCounting/PrimesCongruent.lean`): for a nonzero level m
+and a natural number a with `IsUnit (a : ZMod m)`, the number
+`TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % m = a % m} x` of primes 𝔭 of `𝓞 ℚ` with
+`absNorm 𝔭 ≤ x` in that class (`TauCeti.primeCount`,
+`TauCeti/NumberTheory/ArithmeticDirichletSeries/Counting.lean`), divided by `x / log x`, tends
+to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`.
 Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
@@ -293,9 +307,8 @@ its one-point compactification when A has no identity. Each is used as BanachAlg
 **From the other roadmaps named in the scope.** RepresentationTheory/CompactGroups (Peter–Weyl),
 RepresentationTheory/SemisimpleAlgebras (finite double centralizer),
 RepresentationTheory/LieHighestWeight (the rank-one Clebsch–Gordan decomposition for the SU(2)
-application of V8), GlobalNumberFields Layer 4 (finite adeles), OptimalTransport Layers 2 and
-8.2, and ArithmeticDirichletSeries Layer 9 (the implemented Wiener–Ikehara theorem used by
-V10.AffineAP).
+application of V8), GlobalNumberFields Layer 4 (finite adeles), and OptimalTransport Layers 2 and
+8.2.
 
 ## How to read the build
 
@@ -328,8 +341,8 @@ classification, V7 modules and index, V8–V9 group algebras, crossed products a
 In V10, ClosedOperators precedes Affiliation; TracialLp also consumes V6; ModularTheory
 constructs the Tomita–Takesaki/natural-cone theory after Affiliation, V0/V1/V6, V2's infinite
 tensor product, V4.Core/PositivePredual/Normality and V8's nonsingular crossed products; KMS
-fixes the strip convention before Hecke uses it. AffineAP applies the implemented generic
-Wiener–Ikehara, higher-prime-power and Abel-transfer APIs; AffineHecke constructs the
+fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime number theorem
+in arithmetic progressions; AffineHecke constructs the
 finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
 model, AffineAP, KMS and V2/V6's full-corner comparison. These affine constructions have no V11
 input. V11 consumes the completed V10 interfaces. In V12, V12.J.Maps precedes Dye, Enriched and
@@ -739,7 +752,7 @@ projection onto `closure span {xpξ : x∈M, ξ∈H}`. For every y∈M′, prove
 `yp=0 ↔ y c(p)=0`; this is the central-support kernel theorem.
 Construct pMp on pH and prove `(pMp)' = pM'p` on pH. If M is a
 factor and p ≠ 0, prove pMp is a factor and the restriction map `M' → B(pH)` is a faithful
-normal isomorphism onto its image. Include reducing-subspace correspondence and the
+ultraweakly continuous star isomorphism onto its image. Include reducing-subspace correspondence and the
 nonzero product theorem `ab ≠ 0` for nonzero a∈M, b∈M' when M is a factor. For a self-adjoint multiplicatively closed generating set S, prove pSp generates pMp
 for p∈M or p∈M'; give a counterexample when multiplicative closure of S is removed.
 For a factor and finite-dimensional linear subspaces V⊂M, W⊂M', prove multiplication
@@ -784,9 +797,11 @@ The finite-support inner-product space c₀₀([0,1]) is incomplete: give a Cauc
 countably many distinct points with a square-summable, infinite-support
 limit in ℓ²([0,1]). Identify its completion with ℓ²([0,1]). Define the
 spatial tensor product `M ⊗̄ N` as the algebra generated by elementary operator tensors;
-prove associativity and flip, and construct both canonical normal unital
+prove associativity and flip, and construct both canonical ultraweakly continuous unital
 star homomorphisms `ι_M(x)=x⊗1_N` and `ι_N(y)=1_M⊗y` without nonzero
-hypotheses. Prove `ι_M` injective and isometric when N≠0 or M=0, and
+hypotheses: a square-summable vector pairing on the tensor product, composed with `ι_M`, expands
+in an orthonormal basis of the second factor into a square-summable pairing on the first, and
+symmetrically for `ι_N`. Prove `ι_M` injective and isometric when N≠0 or M=0, and
 `ι_N` injective and isometric when M≠0 or N=0. In the nonzero opposite
 factor case, test on ξ⊗η for a unit vector in its acting Hilbert space
 and use the elementary tensor norm to prove the lower norm bound; the
@@ -799,8 +814,8 @@ with their norm, adjoint, elementary-tensor and separating-family lemmas. Prove 
 B(K) tensor factors here; the general commutation theorem is a V11 consequence. Prove the B(K) tensor splitting theorem for a von Neumann algebra
 containing `1 ⊗ B(K)` and the factoriality of a tensor product of factors.
 *Needs:* the completed Hilbert tensors and operator tensor maps above, Layer 1's generated algebras
-and bicommutant theorem, Layer 1's ultraweak topology for the normality claims (normality is
-the predicate defined in V4; V4 does not consume this statement).
+and bicommutant theorem, and Layer 1's characterization of ultraweakly continuous functionals as
+square-summable vector pairings for the continuity of `ι_M`, `ι_N` and of corner restrictions.
 
 For a sequence of complex Hilbert spaces `(H_n)` with specified unit vectors `ξ_n`, construct
 its incomplete Hilbert tensor product `ITP(H,ξ)`. Form the algebraic direct limit of the finite
@@ -845,7 +860,7 @@ isomorphisms of von Neumann closures. It is phase-adjusted component equivalence
 of the raw prefix vectors. Consumers must state which conclusion they use.
 Do not assert that arbitrary factorwise unitaries have an infinite product on this component.
 For a topological group G and strongly continuous unitary representations U_n:G→U(H_n) fixing each reference ξ_n, prove that the compatible product unitaries define a strongly continuous unitary representation on ITP(H,ξ). Prove continuity first on each dense finite-prefix cylinder and then on every vector by the uniform norm-one bound; include compact topological groups acting by compatible reference-fixing factor unitaries; this covers compact product-torus actions when those hypotheses hold. Prove separability when every `H_n` is separable, and the compatibility of finite-cylinder
-projections, their commuting local embeddings and their normal-state pairings. Von Neumann
+projections, their commuting local embeddings and their vector-state pairings. Von Neumann
 product-algebra and modular-theory constructions consume this Hilbert carrier; they are distinct
 from its definition. TypeAHeckeAlgebras H3 consumes it for the repeated standard-form Hilbert
 space `K⊗K̄` and its density-vector reference, and owns that application's von Neumann product
@@ -929,7 +944,11 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 
 ## Layer 3: Type I and finite-dimensional algebras
 
-Define minimal, finite, infinite, properly infinite, and abelian projections. Prove the
+Define central projections (`IsCentralProjection`: projections of M lying in M′), minimal,
+finite (`IsFiniteProjection`: a projection e of M with `v*v=e` and `vv*≤e` for v∈M only when
+`vv*=e`, so equivalent to no proper subprojection), infinite, properly infinite, and abelian
+projections (`IsAbelianProjection`: a projection e of M with eMe commutative) (Peterson, §3.2,
+pp. 44–45). Prove the
 minimal-corner criterion `pMp = ℂp` for nonzero projections p. In a factor any two nonzero projections have a nonzero
 connecting corner: for nonzero projections p,q construct a unitary u∈M with `puq≠0`; polar decomposition of this corner gives nonzero equivalent subprojections. This does not assert p∼q for arbitrary nonzero p,q.
 Construct matrix units from orthogonal equivalent projections, with their representation,
@@ -945,6 +964,15 @@ completed tensors), Mathlib `Matrix` and `IsStarProjection`.
   `B(ℓ²)` the rank-one projections are minimal, the finite-rank projections are finite, and 1 is
   properly infinite (it is equivalent to the projection onto the even coordinates and to the one
   onto the odd coordinates, which are orthogonal).
+- In `M₂(ℂ)⊕ℂ` the central projections are exactly `0`, `1⊕0`, `0⊕1` and `1`; the projection
+  `e₁₁⊕0` lies in M but is not central (`(e₁₁⊕0)(e₁₂⊕0)=e₁₂⊕0` while `(e₁₂⊕0)(e₁₁⊕0)=0`); in a
+  factor the only central projections are 0 and 1, and in an abelian algebra every projection is
+  central. A definition asking only membership in M′ would make every projection of `ℂ1`'s
+  commutant `B(H)` central for `ℂ1`.
+- In a II₁ factor every projection is finite (it inherits finiteness from 1, since a proper
+  subprojection q<p with q∼p would give `τ(q)=τ(p)` and `τ(p−q)=0`); in a type III factor only
+  0 is finite; in `B(ℓ²)` the projection onto the even coordinates is infinite, being equivalent
+  to the projection onto the multiples of four, a proper subprojection.
 - In `ℓ∞(ℕ)` every projection is abelian but only the point projections `δ_n` are minimal; in
   `L∞[0,1]` every projection is abelian and none is minimal (a set of positive measure splits into
   two of positive measure), so abelian does not imply minimal.
@@ -1098,7 +1126,11 @@ Reed–Simon I §VI.6 is the source for the canonical trace and the trace-class 
 
 Consume V0's positive-functional and state carriers, convex operations and
 norm-at-one comparison. Define normality of a bounded positive functional by
-preservation of bounded increasing positive nets. Define the analogous net
+preservation of bounded increasing positive nets. On a concrete algebra M⊆B(H) state it for an
+arbitrary linear functional as `IsNormalFunctional`: along every increasing net of M converging
+strongly to some y∈M the values converge to the value at y. By Vigier's theorem (V2) the increasing nets converging strongly are
+exactly the bounded increasing nets, with their suprema as limits, so for positive functionals
+the two forms agree (Anantharaman–Popa, Definition 2.5.1, p. 40). Define the analogous net
 predicates for positive maps and star homomorphisms. Prove that ultraweak
 continuity implies these normality predicates, and that a positive member of
 M_* is completely additive on arbitrary orthogonal projection families. Prove
@@ -1207,8 +1239,13 @@ predual functionals and their separation. Consume V4.Core's faithfulness
 predicate; own the tracial predicate, closure, support projections and normal
 restriction APIs.
 Prove a normal representation has von Neumann image, normal quotient/corner
-behavior, and that a normal positive functional on a concrete algebra is a
-countable sum of vector functionals with square-summable vectors. Derive normal
+behavior, and that a positive functional τ on a concrete algebra M⊆B(H) is normal
+exactly when it is a countable sum of vector functionals with square-summable vectors,
+`τ(x)=Σₙ⟪ξₙ,xξₙ⟫` with `Σₙ‖ξₙ‖²<∞`, with no separability of H
+(`isNormalFunctional_iff_exists_tsum_inner`; Anantharaman–Popa, Theorem 2.5.5 and Remark 2.5.7,
+pp. 42–43; Peterson, Proposition 4.2.2, p. 60, in its trace-class form). Since ultraweak
+continuity implies normality (V4.Core), the tensor embeddings `ι_M`, `ι_N` and the corner
+restriction `M′→B(pH)` of Layer 2, which are ultraweakly continuous, are normal. Derive normal
 GNS, cyclic-vector uniqueness, the concrete vector-state GNS identification
 for φ(a)=a₁₁ on M_n(ℂ) with its defining representation on ℂⁿ, faithful-state
 separating vectors (`IsCyclic`: the orbit Mξ is dense; `IsSeparating`: xξ=0 forces x=0
@@ -1220,7 +1257,8 @@ vector functional. Prove state-preserving automorphisms are canonically
 unitarily implementable in GNS. Prove every normal star homomorphism is
 represented by amplification, reducing projection and spatial identification
 of its image, with kernel a central summand.
-*Needs:* V4.Core, V4.PositivePredual, V0's GNS, Layer 1's topologies and Kaplansky theorem, Mathlib
+*Needs:* V4.Core, V4.PositivePredual, V0's GNS, Layer 1's topologies and Kaplansky theorem, Layer 2's
+tensor embeddings and corner restriction for their normality, Mathlib
 orthogonal projections for the Radon–Nikodym operator in the commutant.
 
 **Checks.**
@@ -1616,8 +1654,8 @@ pp. 91–92). Prove uniqueness in the stronger form
 `tracialState_unique`: a factor has at most one tracial state, with no normality assumed. On a
 finite factor every tracial state is constant on the Dixmier hull of x and so equals τ(D(x));
 on an infinite factor the halving lemma writes 1 as the sum of two projections equivalent to 1,
-so `τ(1)=2τ(1)` and there is no tracial state. Existence of a faithful tracial state on a II₁
-factor is `exists_faithful_tracialState`; the README's trace is moreover normal.
+so `τ(1)=2τ(1)` and there is no tracial state. Existence of a faithful normal tracial state on a II₁
+factor, normality in the sense of `IsNormalFunctional`, is `exists_faithful_tracialState`.
 With this trace, identify projection equivalence and order with
 trace equality and inequality. Prove the small-projection theorem
 before the range argument: split a nonminimal projection into two
@@ -1735,14 +1773,19 @@ V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 
 For arbitrary finite von Neumann algebras define faithful normal finite
 traces on the positive cone and their bounded linear extensions, including
-nonfactor algebras. Define normal semifinite traces by additivity, positive
-homogeneity, monotone-supremum preservation and `τ(x*x)=τ(xx*)`, with
-faithfulness a separate property. Semifiniteness means ultraweak density
-of the finite-trace ideal; prove its equivalent projection criterion that
-every nonzero projection majorizes a nonzero finite-trace projection.
+nonfactor algebras. Define normal semifinite traces (`IsNormalSemifiniteTrace`: on a concrete
+algebra M⊆B(H), a map into `[0,∞]` of which only the values on M₊ matter) by additivity, positive
+homogeneity, monotone-supremum preservation along increasing nets of M₊ converging strongly, and
+`τ(x*x)=τ(xx*)`, with faithfulness a separate property. Semifiniteness of a trace means that every
+nonzero x∈M₊ dominates a nonzero y∈M₊ of finite trace (Anantharaman–Popa, Definition 8.3.1,
+pp. 124–125); prove it equivalent to ultraweak density of the finite-trace ideal and to the
+projection criterion that every nonzero projection majorizes a nonzero finite-trace projection.
 Construct a faithful normal semifinite trace on every semifinite algebra (for factors:
 Peterson, Theorem 4.9.4, p. 78; the general definitions: Anantharaman–Popa, Definitions
-8.3.1–8.3.2, pp. 124–125).
+8.3.1–8.3.2, pp. 124–125). For a factor with a nonzero finite projection, which for a factor is
+the same as being semifinite, prove moreover that this trace is unique up to a nonnegative scalar
+among all normal semifinite traces and that a projection is finite exactly when its trace is
+finite (`exists_isNormalSemifiniteTrace_of_isFactor`; Peterson, Theorem 4.9.4, p. 78).
 Use the central finite/properly-infinite splitting of V5. On a finite
 algebra with center-valued trace T, take a maximal orthogonal family
 of supports z_i of normal traces `ω_i∘T`, prove these supports central
@@ -1763,7 +1806,11 @@ supports, the type decomposition below for the semifinite pieces, Mathlib `ℝ�
 For a faithful normal tracial state τ construct L²(M,τ) as the
 GNS completion, left and right actions, their norm bounds, the dense
 canonical map, tracial inner product, conjugation `J(xΩ)=x*Ω`, and `JMJ=M'`
-(Anantharaman–Popa, §7.1, pp. 97–100; Peterson, §4.5, pp. 66–68). Prove completeness
+(Anantharaman–Popa, §7.1, pp. 97–100, and Theorem 7.1.1, p. 99; Peterson, §4.5, pp. 66–68, and
+Proposition 4.7.12, pp. 73–74). State it spatially as `exists_conj_commutant_eq_of_isCyclic`: if
+Ω is a cyclic vector for M⊆B(H) whose vector state is tracial, then Ω is separating, `(H,Ω)` is
+`L²(M,τ)` for that state by V0's GNS uniqueness, and `xΩ↦x*Ω` extends to a conjugate-linear
+isometric involution J of H with `JMJ=M'`. Prove completeness
 of the operator unit ball for the L² metric and its strong-topology equivalence on bounded
 sets. Construct the hyperfinite tensor model from the compatible algebras `M_(2^n)(ℂ)` and
 product trace; prove its GNS closure is a II₁ factor.
@@ -1789,8 +1836,13 @@ a sum of vector-functionals with an orthogonal family, via finite-trace projecti
 exhaustion and the finite-functional density operators of V4.Normality. For a σ-finite type II∞ factor, identify projection
 equivalence classes with [0,∞] using its chosen faithful normal semifinite
 trace, and characterize finite projections by finite trace, and prove all infinite projections in a separable II∞ factor are equivalent. Develop
-the complete type decomposition by central projections and characterize type III by absence
-of nonzero finite projections (Peterson, Theorem 3.3.1 and Corollary 3.3.2, pp. 49–50, and
+the complete type decomposition by central projections, `existsUnique_typeDecomposition`: there
+are unique pairwise orthogonal central projections `z_I`, `z_II₁`, `z_II∞`, `z_III` with sum 1 such
+that every nonzero projection below `z_I` has a nonzero abelian subprojection, `z_II₁` is finite
+with no nonzero abelian subprojection, `z_II∞` has no nonzero abelian subprojection and no nonzero
+finite central subprojection while every nonzero projection below it has a nonzero finite
+subprojection, and no nonzero finite projection lies below `z_III`. Characterize type III by
+absence of nonzero finite projections (Peterson, Theorem 3.3.1 and Corollary 3.3.2, pp. 49–50, and
 Theorem 3.3.9, p. 52, for the commutant; the trace comparison of projections: Peterson,
 Proposition 4.9.5, p. 79; Anantharaman–Popa, Corollary 8.3.5 and Propositions 8.3.6 and 8.3.8,
 pp. 126–127). Type I traces, finite traces and semifinite traces must use
@@ -1815,6 +1867,21 @@ density operators, V4.0.Decomposition for the fibrewise statement, Mathlib `ℝ�
 - `M₂(ℂ)⊗̄B(ℓ²)=B(ℂ²⊗ℓ²)` has minimal projections and is of type I∞, not II∞, although its
   identity is infinite; `R` has finite identity and is II₁, not II∞: the two clauses of the II∞
   definition exclude these two cases respectively.
+- The map with value ∞ on every nonzero positive element and 0 at 0 is additive, positively
+  homogeneous (with `0·∞=0`), tracial, faithful and normal (an increasing net with nonzero strong
+  limit is eventually nonzero), but not semifinite, so semifiniteness is an independent clause;
+  on `ℓ∞(ℕ)` the free-ultrafilter limit is a finite trace that is not normal (`1_{0,…,N}↑1`
+  strongly while its values stay 0), and `x↦Σ_n x_n` is a faithful normal semifinite trace with
+  value ∞ at 1.
+- The type decomposition of `M₂(ℂ)`, `R`, `R⊗̄B(ℓ²)` and of a type III factor is
+  `(1,0,0,0)`, `(0,1,0,0)`, `(0,0,1,0)` and `(0,0,0,1)`. `M₂(ℂ)` is finite but its identity goes to
+  the type I slot, since `e₁₁` is a nonzero abelian projection; `B(ℓ²)` also goes to the type I
+  slot although its identity is infinite. On the zero space all four projections are `0=1`.
+- For the nonfactor `M₂(ℂ)⊕R` the decomposition is `(1⊕0, 0⊕1, 0, 0)`. A type I clause asking
+  only that `z_I` majorize one nonzero abelian projection would also admit `(1,0,0,0)`, so
+  uniqueness fails; with the clause for every nonzero projection below `z_I`, the corner `0⊕1`
+  has no abelian subprojection, and every product `z_i z′_j`, i≠j, of two decompositions is a
+  central projection that some clause forces to vanish.
 
 Write `R_(0,1)=R⊗̄B(ℓ²)` for the hyperfinite type II∞ model, with
 product trace normalized by a rank-one projection in the B(ℓ²) factor.
@@ -2922,37 +2989,18 @@ subring), V8's crossed products and expectation, Mathlib Haar measure on `A_f`, 
 characters (`ZMod`, `AddChar`), V0's GNS uniqueness and V1's Kaplansky theorem.
 
 **V10.AffineAP — arithmetic progression asymptotics and prime pairs.**
-For a modulus d≥1 and a reduced residue class a₀ modulo d, own the adapter
-`π_(d,a₀)(x) ~ x/(ϕ(d)log x)`, where π counts rational primes
-p≤x in that class and ϕ is Euler's totient. Consume the implemented
-`TauCeti.LSeries.wienerIkehara` from
-`TauCeti.NumberTheory.LSeries.WienerIkehara.SharpCutoff`, as recorded in
-[ArithmeticDirichletSeries Layer9](../../Completed/ArithmeticDirichletSeries/README.md).
-Use Mathlib's actual `ArithmeticFunction.vonMangoldt.residueClass`,
-`continuousOn_LFunctionResidueClassAux`,
-`eqOn_LFunctionResidueClassAux` and half-plane von-Mangoldt summability.
-For the nonnegative residue-class coefficient supply its actual
-`LSeriesHasSum` on Re s>1, a separately defined continuous boundary
-remainder on Re s≥1, and the equality with residue 1/ϕ(d).
-The native theorem gives the normalized partial-sum limit.
-Specialize the prime-ideal counts to K=ℚ and
-`S={𝔭:absNorm(𝔭)≡a₀ mod d}`. Own the rational-prime/prime-ideal
-bijection, norm/logarithmic-weight and inclusive-cutoff comparisons.
-Express the residue-class von-Mangoldt sum as this prime theta sum
-plus the terms p^k≡a₀ mod d with k≥2, and bound that latter weight by
-Tau Ceti's standard higher-prime-power weight. Consume
-`higherPrimePowerTheta_isBigO` and
-`primePowerSummatory_isLittleO_of_le_higherPrimePowerWeight`
-from `TauCeti.NumberTheory.ArithmeticDirichletSeries.HigherPrimePowers`
-to remove that contribution. On the corresponding prime set over ℚ,
-consume `primeCount_sub_mul_logIntegral_isLittleO` and
-`primeCount_asymptotic_of_primeTheta` from
-`TauCeti.NumberTheory.ArithmeticDirichletSeries.Transfer`, with the
-positive residue, and `TauCeti.Real.logIntegral_isEquivalent_div_log`.
-These are applications
-of implemented generic Tauberian/removal/Abel APIs, not new owners of
-those theorems. Mathlib's nonsummability of Σ(log p)/p in a progression
-alone proves neither the asymptotic nor divergence of Σ1/p.
+For a modulus d≥1 and a reduced residue class a₀ modulo d, the prime number theorem in that
+class, `π_(d,a₀)(x) ~ x/(ϕ(d)log x)`, where `π_(d,a₀)(x)` counts the rational primes p≤x with
+p≡a₀ mod d and ϕ is Euler's totient, is consumed from Tau Ceti and not proved here: for a₀ with
+`IsUnit (a₀ : ZMod d)`, `NumberField.Chebotarev.tendsto_primeCount_primesCongruent d a₀` says that
+`TauCeti.primeCount ℚ {𝔭 : absNorm 𝔭 % d = a₀ % d} x / (x / log x) → 1/ϕ(d)`, and
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral d a₀` gives the
+equivalent form `~ Li(x)/ϕ(d)` (Chebotarev, Layers 13–14, owns both). Own only the
+rational-prime/prime-ideal comparison that turns this prime-ideal count into `π_(d,a₀)`: the
+bijection `p ↦ pℤ` from rational primes onto `HeightOneSpectrum (𝓞 ℚ)`, with `absNorm(pℤ)=p`, so
+that the congruence condition and the inclusive cutoff `absNorm 𝔭 ≤ x` of `TauCeti.primeCount`
+become p≡a₀ mod d and p≤x. Mathlib's Dirichlet theorem (infinitely many primes in the class)
+does not give the block counts used below.
 
 Derive the precise prime-pair lemma: for every modulus d≥1 and 0<η<1/4, outside
 any finite prime set choose pairwise disjoint prime pairs (p_j,q_j),
@@ -2963,9 +3011,10 @@ pair primes in [X,(1+δ)X] with equally many primes in
 pairs in each sufficiently large block; their reciprocal contribution
 is ≥c'_(d,δ)/log X, whose block sum diverges. This explicit estimate
 is an owned prerequisite, not a claim that infinitude supplies it.
-*Needs:* Tau Ceti `TauCeti.LSeries.wienerIkehara`, Mathlib `ArithmeticFunction.vonMangoldt.residueClass`
-and the `LFunctionResidueClassAux` declarations, the Tau Ceti higher-prime-power and transfer
-declarations named above; ArithmeticDirichletSeries Layer 9.
+*Needs:* Tau Ceti `NumberField.Chebotarev.tendsto_primeCount_primesCongruent`,
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral` and
+`TauCeti.primeCount`; Mathlib `Ideal.absNorm`, `IsDedekindDomain.HeightOneSpectrum`,
+`Nat.totient` and `ZMod`.
 
 **V10.AffineType — Haar return, ergodicity and type III.** Consume
 V10.AffineAP, V10.AffineHecke, GlobalNumberFields Layer4, V8,
@@ -3051,8 +3100,8 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
 - Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`; V2.BorelCalculus,
   V4.0.Multiplication and PolarDecomposition, for V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
 - Mathlib `IsHeckeTriple` and `HeckeRing` and Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
-  ArithmeticDirichletSeries Layer 9 and the Tau Ceti Tauberian/transfer declarations named in
-  V10.AffineAP.
+  Tau Ceti's prime number theorem in arithmetic progressions
+  (`NumberField.Chebotarev.tendsto_primeCount_primesCongruent`) for V10.AffineAP.
 
 ## Layer 11: Weights, Connes invariants, and continuous cores
 
@@ -4393,9 +4442,10 @@ Now combine the general injectivity/semidiscreteness equivalence with
 the classification-independent finite and properly infinite approximation
 theorems to prove injective iff hyperfinite for all separable-predual
 algebras, stated for an algebra on a separable Hilbert space as `isInjective_iff_isHyperfinite`
-(Connes's theorem for every von Neumann algebra on a separable Hilbert space, as recalled in the
-Notes to Chapter 10 of Anantharaman–Popa, p. 171; Takesaki III, XVI.1.9 and XVI.1.22–1.23, for
-the classification-independent proof. Anantharaman–Popa, Theorem 11.1.3, p. 173, is the
+(Connes's theorem for every von Neumann algebra on a separable Hilbert space, as recalled in
+Hiai, §1.8, p. 9, whose sequential definition of AFD algebras is `IsHyperfinite`'s, and in the
+Notes to Chapter 11 of Anantharaman–Popa, p. 189, where the converse is noted as immediate;
+Takesaki III, XVI.1.9 and XVI.1.22–1.23, for the classification-independent proof. Anantharaman–Popa, Theorem 11.1.3, p. 173, is the
 direction from injective to hyperfinite for finite algebras, in the finite-set `L²` form of their
 Definition 11.1.1, and Theorem 11.2.2, p. 186, the sequential equivalence for II₁ factors).
 Prove the reverse implication by finite-dimensional expectations,
@@ -4707,10 +4757,10 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   8.4.2, 8.5.5, 8.6.1 and 8.6.2 and Definitions 8.3.1, 8.3.2 and 8.5.4 (V6–V7); §9.1 (V7.Index);
   §5.4 and §15.2 (V12); Definition 2.6.6, p. 48, for separable von Neumann algebras;
   §§10.2–10.3, 11.1–11.2 and 12.5 (V13), in particular Definition 10.2.1 and Proposition 10.2.2,
-  p. 161, the Notes to Chapter 10, p. 171, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, and
-  Remark 11.2.3 and Corollary 11.2.4, p. 188.
+  p. 161, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, Remark 11.2.3 and Corollary 11.2.4,
+  p. 188, and the Notes to Chapter 11, p. 189.
 - Fumio Hiai, [*Lectures on selected topics in von Neumann algebras*](https://arxiv.org/abs/2004.02383):
-  §1.8, p. 9 (separable predual), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
+  §1.8, p. 9 (separable predual; Connes's theorem that injective and AFD algebras coincide), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
   3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
   (Connes cocycles), §8, Theorem 9.4 (Pedersen–Takesaki), Theorem 10.7 (Takesaki duality), §12 and
   §13 (relative modular operators and spatial derivatives).
