@@ -5,6 +5,8 @@ import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
 import TauCeti.NumberTheory.NumberField.Global.RayClass.Count.Basic
 import TauCeti.NumberTheory.LFunctions.Mertens
 import TauCeti.NumberTheory.Chebotarev.FrobeniusPrimeSet
+import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
+import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 
 /-!
 # Explicit number fields: target signatures
@@ -29,36 +31,39 @@ Stated here:
   relative class number (5.5);
 * Layer 6, the explicit bound for the least prime primitive root under the generalized Riemann
   hypothesis for the characters modulo `p` (6.4);
-* Layer 7, Garcia–Lee's three explicit Mertens theorems for number fields (7.1) and Ahn–Kwon's
-  bound for the least prime ideal with a given Frobenius class (7.4).
+* Layer 7, Garcia–Lee's three explicit Mertens theorems for number fields (7.1), Ahn–Kwon's
+  bound for the least prime ideal with a given Frobenius class (7.4), and Debaene's
+  Brun–Titchmarsh inequality for the Chebotarev density theorem (7.5).
 
 Not statable at the pins:
 
 * every statement about the zeros or the values of the Dedekind zeta function `ζ_K` off the
   half-plane of convergence: Rademacher's bound (1.1), the zero-dependent and conditional residue
   bounds (3.1, 3.4, 3.5, 3.6), the zero counts, real-zero lemmas, Stark-like and zero-free regions
-  and zero repulsion (4.1–4.6, 4.8–4.10), the consequences of the uniform real-zero gap (4.9,
-  5.7), the lower bounds for relative class numbers (5.6), and the explicit Chebotarev theorems
-  and the least prime ideal under the generalized Riemann hypothesis (7.2–7.3, 7.4): Mathlib's
+  and zero repulsion (4.1–4.6, 4.8–4.10), the consequences of the uniform real-zero gap for
+  every `ζ_K` (4.9), the lower bounds for relative class numbers (5.6), and the explicit
+  Chebotarev theorems and the least prime ideal under the generalized Riemann hypothesis (7.2–7.3,
+  7.4): Mathlib's
   `NumberField.dedekindZeta` is the Dirichlet series itself, a junk value off `Re s > 1`; Tau
   Ceti continues it only to `Re s > 1 − 1/[K : ℚ]`; and neither library has its continuation to
   `ℂ`, its completion, or the L-function of a Hecke character;
 * the bounds `g(p) < p^{5/8}`, `h(p) < p^{0.99}` and `h(p) < p^{2/3}` and Grosswald's conjecture
   under the generalized Riemann hypothesis (6.3–6.5): each is conditional on finite verifications
   that either assert the conclusion itself on an initial range (*McGownSorensonTable*,
-  *SmallPrimitiveRootsModPSquare*, *GrosswaldFiniteRange*) or are case analyses of the source's
-  sieve with no statement on the pinned carriers (*McGownTrudgianOmegaChecks*,
-  *McGownSorensonGapChecks*, *GrosswaldSieveVerification*); they lack a statement of that input
-  other than the conclusion;
-* Debaene's Brun–Titchmarsh inequality for the Chebotarev density theorem (7.5): it needs the
-  conductor of an abelian extension of number fields, which neither library defines.
+  *SmallPrimitiveRootsModPSquare*, *GrosswaldFiniteRange*, *GrosswaldPrimeFiniteRange*) or are
+  case analyses of the source's sieve with no statement on the pinned carriers
+  (*McGownTrudgianOmegaChecks*, *McGownSorensonGapChecks*, *GrosswaldSieveVerification*); they
+  lack a statement of that input other than the conclusion.
 
 The other statable targets are variants of these headlines or of a supplier's, and are README
 targets: Lee's count (2.3), whose constant differs between the two printings of the source;
 Ramaré's counts for imaginary quadratic fields (2.7); Louboutin's refinements (3.2, 5.1, 5.2) of
 the residue bound of AnalyticNumberTheoryPartI §2.15; the other forms of Bordellès' bound (5.3);
-Garcia–Lee's bounds for the Mertens constant (7.1); and Kadiri–Ng–Wong's thresholded form of the
-least prime ideal (7.4). The results resting on unrefereed preprints (Fehnker 2.6, Amberger 4.2,
+and Garcia–Lee's bounds for the Mertens constant (7.1). Kadiri–Ng–Wong's bound `N𝔭 ≤ d_L^{16}`
+beyond an absolute threshold (7.4), which is not comparable with Ahn–Kwon's, is statable on the
+carriers of `leastPrimeIdeal_ahnKwon` but is not stated: its source is cited by locator only, so the
+form of its conclusion beyond the exponent (the threshold and the degree of the prime) is not
+checked against the text. The results resting on unrefereed preprints (Fehnker 2.6, Amberger 4.2,
 Das–Gaba–Lee–Savalia–Wong 4.8 and 4.10, Guo and Banks 4.9 and 5.7, Das–Kadiri–Ng 7.3) and the API
 lemmas, Checks and intermediate targets of every layer are README targets, not headlines.
 -/
@@ -267,6 +272,29 @@ theorem leastPrimeIdeal_ahnKwon (K L : Type*) [Field K] [NumberField K] [Field L
     ∃ 𝔭 ∈ NumberField.Chebotarev.frobeniusPrimeSet K L C,
       (Ideal.absNorm 𝔭.asIdeal).Prime ∧
         (Ideal.absNorm 𝔭.asIdeal : ℝ) ≤ |(discr L : ℝ)| ^ 12577 := by
+  sorry
+
+/-- **7.5, Debaene's Brun–Titchmarsh inequality for the Chebotarev density theorem**
+(`debaene2019` Theorem 1, with `log⁺` in place of the printed `log` and with `x > e`). Let `L/ℚ` be
+Galois with group `G`, `C` a conjugacy class, `H ≤ G` an abelian subgroup meeting `C`, `K = L^H` of
+degree `n`, `𝔣` the finite part of the conductor of `L/K` and
+`c_K = n^{31n³} (R_K h_K)³ (1 + log⁺(R_K h_K))^{3(n−1)²} [L : K]ⁿ N𝔣 / κ_K^{2n}`. For every real
+`x > e` with `c_K (log x)^{5n²} ≤ x`, the number of rational primes `p ≤ x` unramified in `L` with
+Frobenius class `C` is at most `(|C|/|G|)(2 + 41 n² log log x/log(x/c_K)) x/log(x/c_K)`. -/
+theorem frobeniusPrimeCount_le_debaene (L : Type) [Field L] [NumberField L] [IsGalois ℚ L]
+    (C : ConjClasses (L ≃ₐ[ℚ] L)) (H : Subgroup (L ≃ₐ[ℚ] L)) [IsMulCommutative H]
+    (hHC : ∃ σ ∈ H, ConjClasses.mk σ = C) (x : ℝ) (hx : Real.exp 1 < x) :
+    let K := IntermediateField.fixedField H
+    let n : ℕ := Module.finrank ℚ K
+    let Rh : ℝ := Units.regulator K * classNumber K
+    let c : ℝ := (n : ℝ) ^ (31 * n ^ 3) * Rh ^ 3 * (1 + Real.posLog Rh) ^ (3 * (n - 1) ^ 2) *
+      (Module.finrank K L : ℝ) ^ n *
+      (Ideal.absNorm (TauCeti.ClassFieldTheory.abelianConductor K L).finitePart : ℝ) /
+      dedekindZeta_residue K ^ (2 * n)
+    c * Real.log x ^ (5 * n ^ 2) ≤ x →
+    (NumberField.Chebotarev.frobeniusPrimeCount ℚ L C x : ℝ) ≤
+      (C.carrier.ncard : ℝ) / Nat.card (L ≃ₐ[ℚ] L) *
+        (2 + 41 * n ^ 2 * Real.log (Real.log x) / Real.log (x / c)) * (x / Real.log (x / c)) := by
   sorry
 
 end TauCetiRoadmap.ExplicitNumberFields
