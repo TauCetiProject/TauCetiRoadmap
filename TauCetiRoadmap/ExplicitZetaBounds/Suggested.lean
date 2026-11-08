@@ -11,29 +11,38 @@ the bounded-height Riemann hypotheses `RiemannHypothesisUpTo` and `DirichletGRHU
 Platt's heights `plattHeight` of Layer 0.3, the records of
 Layers 0.4 and 0.4b, the Riemann–Siegel theta function `riemannSiegelTheta` of Layer 0.4a,
 Vinogradov's count `vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and
-`dirichletZeroCount` of Layer 5, the density counts `zetaZeroCountRight` and
+`dirichletZeroCount` of Layer 5 with the zero-count predicate `ZetaZeroCountBound` of 5.2a, the
+region predicate `ClassicalZeroFreeRegion` of 7.3a, the density counts `zetaZeroCountRight` and
 `zetaZeroDensityCount` of Layer 8 (each written with the meromorphic order, in the rectangle of
-the source it serves), and the count `primitiveLZeroCount` with the largest real zero
-`largestRealZero` of the family of primitive L-functions of Layer 8.4. Every constant below is a
-literal decimal of its source.
+the source it serves) with the density predicate `ZetaZeroDensityBound` of 8.3a, and the count
+`primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of primitive
+L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
 
 Stated here:
 
 * Layer 0.3, the absence of real zeros for conductors up to `400 000`, given Platt's records;
-* Layer 0.5a, the Euler–Maclaurin formula of first order and of order `2m`, for functions with
-  values in a real Banach space;
+* Layer 0.5a, the Euler–Maclaurin formula of first order, with real and with integer endpoints,
+  and of order `2m`, for functions with values in a real Banach space; Layer 0.5b, the
+  continuation of `ζ` to `Re s > 0` by the first-order formula from any real `a > 0`, and its case
+  `a = 1`;
 * Layer 2.5, the two-sided bound for `‖Γ(σ + it)‖` on vertical lines;
-* Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions;
+* Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions; Layer 3.2a, the
+  linear bound for `ζ` on `Re z > 0` and on the discs about `3/2 + it`; Layer 3.4, `ζ` real,
+  greater than `1` and strictly decreasing on `(1, ∞)`;
 * Layer 4.5b, Mathlib's `hardyZ` as `e^{iϑ(t)} ζ(1/2 + it)` and the Riemann–Siegel formula with
-  Gabcke's remainder; Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang) from
+  Gabcke's remainder; Layer 4.5c, the approximation of `ζ` by a partial sum at a half-integer with
+  its secondary term; Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang) from
   `t = 3`, given Hiary's record;
   Layer 4.8, Patel's and Hiary–Leong–Yang's bounds for `‖ζ(1 + it)‖`; Layer 4.9a, Ford's explicit
   Vinogradov mean value theorem; Layer 4.10, Ford's Richert-type bound for `ζ` and the Hurwitz
   zeta function;
 * Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for
-  `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`; Layer 5.3, the
-  explicit zero count for primitive Dirichlet L-functions (Bennett–Martin–O'Bryant–Rechnitzer);
-* Layer 7.3, the classical region with `R₀ = 5.558691` (Mossinghoff–Trudgian–Yang); Layer 7.4,
+  `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`; Layer 5.2a, Rosser's
+  bound and the triple `(0.1038, 0.2573, 8.3675)` with `7/8` in the zero-count predicate; Layer
+  5.3, the explicit zero count for primitive Dirichlet L-functions
+  (Bennett–Martin–O'Bryant–Rechnitzer);
+* Layer 7.1, the partial-fraction expansion of `−ζ′/ζ` with its constant and multiplicities;
+  Layer 7.3, the classical region with `R₀ = 5.558691` (Mossinghoff–Trudgian–Yang); Layer 7.4,
   Yang's Littlewood-type region; Layer 7.5, McCurley's region for the product of the L-functions
   modulo `q` in Thorner–Zaman's form, and Kadiri's region for `3 ≤ q ≤ 400 000`; Layer 7.6, the
   Vinogradov–Korobov region with `c = 55.241`; Layer 7.7, Bordignon's bounds for real zeros of
@@ -65,10 +74,15 @@ Not stated: the README instances that rest on unrefereed preprints (the region o
 Leong's bounds for `1/ζ` in the classical region and on `σ ≥ 3/4` of 7.10).
 The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
-they are the lemmas on the way to the theorems below. So are the remaining instances of Layers 3–9:
-inputs to the theorems below (3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2,
-the arithmetic sums of 8.3 and 8.5, Hoffstein's lemma of 9.3), and other constants and ranges for
-the quantities bounded below (the further regions of 7.5–7.7, the real-zero gaps of 7.9, Leong's
+they are the lemmas on the way to the theorems below. Among them are the first-derivative test and
+the partial fractions of `π/sin πz` and `π²/sin² πz` of 4.5c, the extremal approximants of the
+one-sided exponential of 6.3a, Kadiri's smoothed explicit formula of 7.3a and the
+Kadiri–Lumley–Ng density of 8.3 at an arbitrary verification height, whose closed-form constants
+are not transcribed here. So are the remaining instances of Layers 3–9:
+inputs to the theorems below (3.3, the bounds of 3.4 right of the line one, 4.9, the further
+critical-line bounds of 4.7, 5.4, 7.2, the arithmetic sums of 8.3 and 8.5, Hoffstein's lemma of
+9.3), and other constants and ranges for the quantities bounded below (the further forms of the
+zero count of 5.2 and 5.2a, the further regions of 7.5–7.7, the real-zero gaps of 7.9, Leong's
 bounds for `1/ζ` of 7.10, 9.2).
 -/
 
@@ -272,10 +286,26 @@ def BennettMartinOBryantRechnitzerRecord : Prop :=
             0.22737 * Real.log (q * (T + 2) / (2 * π)) +
               2 * Real.log (1 + Real.log (q * (T + 2) / (2 * π))) - 0.5)
 
+/-- **Layer 0.5a, the Euler–Maclaurin formula of first order with real endpoints.** For real
+`u < v` and `f` continuously differentiable on `[u, v]` with values in a real Banach space,
+`Σ_{u < j ≤ v} f(j) = ∫_u^v f + B̃₁(u) f(u) − B̃₁(v) f(v) + ∫_u^v B̃₁(x) f′(x) dx`, the sum over the
+integers `j` with `u < j ≤ v`, which are those with `⌊u⌋ < j ≤ ⌊v⌋`, and `B̃₁(x) = {x} − 1/2`
+the periodic Bernoulli function of order one. At integer endpoints, where `B̃₁ = −1/2`, it is
+`sum_Icc_eq_integral_add_sawtooth`. -/
+theorem sum_Ioc_eq_integral_add_sawtooth {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [CompleteSpace E] {f : ℝ → E} {u v : ℝ} (huv : u < v)
+    (hf : ContDiffOn ℝ 1 f (Set.Icc u v)) :
+    ∑ j ∈ Finset.Ioc ⌊u⌋ ⌊v⌋, f j =
+      (∫ x in u..v, f x) + bernoulliFun 1 (Int.fract u) • f u -
+        bernoulliFun 1 (Int.fract v) • f v +
+        ∫ x in u..v, bernoulliFun 1 (Int.fract x) • derivWithin f (Set.Icc u v) x :=
+  sorry
+
 /-- **Layer 0.5a, the Euler–Maclaurin formula of first order.** For integers `a < n` and `f`
 continuously differentiable on `[a, n]` with values in a real Banach space,
 `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + ∫_a^n B̃₁(x) f′(x) dx`, where
-`B̃₁(x) = {x} − 1/2` is the periodic Bernoulli function of order one. -/
+`B̃₁(x) = {x} − 1/2` is the periodic Bernoulli function of order one: the case of integer
+endpoints of `sum_Ioc_eq_integral_add_sawtooth`, with `f(a)` added to the sum. -/
 theorem sum_Icc_eq_integral_add_sawtooth {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [CompleteSpace E] {f : ℝ → E} {a n : ℤ} (han : a < n)
     (hf : ContDiffOn ℝ 1 f (Set.Icc (a : ℝ) n)) :
@@ -299,6 +329,29 @@ theorem sum_Icc_eq_eulerMaclaurin {E : Type*} [NormedAddCommGroup E] [NormedSpac
             iteratedDerivWithin (2 * s - 1) f (Set.Icc (a : ℝ) n) a) +
         ∫ x in (a : ℝ)..n, (((bernoulli (2 * m) : ℝ) - bernoulliFun (2 * m) (Int.fract x)) /
           (2 * m).factorial) • iteratedDerivWithin (2 * m) f (Set.Icc (a : ℝ) n) x :=
+  sorry
+
+/-- **Layer 0.5b, the continuation of `ζ` by the first-order formula.** For real `a > 0` and
+`Re s > 0`, `s ≠ 1`,
+`ζ(s) = Σ_{n ≤ a} n^{−s} + a^{1−s}/(s − 1) + B̃₁(a) a^{−s} − s ∫_a^∞ B̃₁(x) x^{−s−1} dx`, with
+`B̃₁(x) = {x} − 1/2`. At an integer `a = N` the boundary term is `−N^{−s}/2`; at a half-integer
+it vanishes. From the first-order formula with real endpoints for `x ↦ x^{−s}` when `Re s > 1`, and
+the identity theorem on the connected set `Re s > 0`, `s ≠ 1`, where the integral converges
+absolutely. -/
+theorem riemannZeta_eq_sum_add_integral_sawtooth {s : ℂ} (hs : 0 < s.re) (hs₁ : s ≠ 1) {a : ℝ}
+    (ha : 0 < a) :
+    riemannZeta s =
+      ∑ n ∈ Finset.Icc 1 ⌊a⌋₊, (n : ℂ) ^ (-s) + (a : ℂ) ^ (1 - s) / (s - 1) +
+        (bernoulliFun 1 (Int.fract a) : ℂ) * (a : ℂ) ^ (-s) -
+        s * ∫ x in Set.Ioi a, (bernoulliFun 1 (Int.fract x) : ℂ) * (x : ℂ) ^ (-s - 1) :=
+  sorry
+
+/-- **Layer 0.5b, the continuation formula at `a = 1`.** For `Re s > 0`, `s ≠ 1`,
+`ζ(s) = 1 + 1/(s − 1) − s ∫₁^∞ {x} x^{−s−1} dx`: the case `a = 1` of
+`riemannZeta_eq_sum_add_integral_sawtooth`, after `s ∫₁^∞ x^{−s−1} dx/2 = 1/2`. -/
+theorem riemannZeta_eq_one_add_inv_sub_integral_fract {s : ℂ} (hs : 0 < s.re) (hs₁ : s ≠ 1) :
+    riemannZeta s =
+      1 + 1 / (s - 1) - s * ∫ x in Set.Ioi (1 : ℝ), ((Int.fract x : ℝ) : ℂ) * (x : ℂ) ^ (-s - 1) :=
   sorry
 
 /-! ## Layer 2: the Gamma function in the complex plane -/
@@ -327,6 +380,24 @@ theorem norm_LFunction_le_rademacher {q : ℕ} [NeZero q] (hq : 1 < q)
       ((q : ℝ) * ‖s + 1‖ / (2 * π)) ^ ((1 + η - s.re) / 2) * ‖riemannZeta (1 + (η : ℂ))‖ :=
   sorry
 
+/-- **Layer 3.2a, a linear bound in the right half-plane.** For `Re z > 0`, `z ≠ 1`,
+`|ζ(z)| ≤ 1 + 1/|z − 1| + |z|/Re z`; hence for real `t` with `|t| ≥ 2` and `|w| ≤ 1`,
+`|ζ(w + 3/2 + it)| ≤ 7 + 2|t|`. From `ζ(z) = 1 + 1/(z − 1) − z ∫₁^∞ {x} x^{−z−1} dx` (0.5b) and
+`0 ≤ {x} < 1`. -/
+theorem norm_riemannZeta_le_linear :
+    (∀ z : ℂ, 0 < z.re → z ≠ 1 → ‖riemannZeta z‖ ≤ 1 + 1 / ‖z - 1‖ + ‖z‖ / z.re) ∧
+      ∀ (t : ℝ) (w : ℂ), 2 ≤ |t| → ‖w‖ ≤ 1 →
+        ‖riemannZeta (w + 3 / 2 + t * I)‖ ≤ 7 + 2 * |t| :=
+  sorry
+
+/-- **Layer 3.4, `ζ` on the real half-line `(1, ∞)`.** For real `σ > 1`, `ζ(σ)` is real and
+greater than `1`, and `σ ↦ ζ(σ)` is strictly decreasing there: each term `n^{−σ}` with `n ≥ 2` of
+the Dirichlet series is positive and strictly decreasing. -/
+theorem riemannZeta_strictAntiOn :
+    (∀ σ : ℝ, 1 < σ → (riemannZeta σ).im = 0 ∧ 1 < (riemannZeta σ).re) ∧
+      StrictAntiOn (fun σ : ℝ ↦ (riemannZeta σ).re) (Set.Ioi 1) :=
+  sorry
+
 /-! ## Layer 4: explicit exponential sums and the size of `ζ` on vertical lines -/
 
 /-- **Layer 4.5b, Hardy's function through the theta function.** Mathlib's `hardyZ t`, the
@@ -343,6 +414,27 @@ theorem abs_hardyZ_sub_riemannSiegel_le (t : ℝ) (ht : 200 ≤ t) :
     |hardyZ t - 2 * ∑ n ∈ Finset.Icc 1 ⌊Real.sqrt (t / (2 * π))⌋₊,
         (n : ℝ) ^ (-(1 : ℝ) / 2) * Real.cos (riemannSiegelTheta t - t * Real.log n)| ≤
       1.48 * t ^ (-(1 : ℝ) / 4) + 0.127 * t ^ (-(3 : ℝ) / 4) := sorry
+
+/-- **Layer 4.5c, the approximation of `ζ` by a partial sum at a half-integer.** For
+`s = σ + iτ` with `σ ≥ 0`, `s ≠ 1`, and a half-integer `a = N + 1/2 > |τ|/(2π)`, with
+`ϑ = τ/(2πa)`:
+`ζ(s) = Σ_{n ≤ a} n^{−s} + a^{1−s}/(s − 1) − c_ϑ a^{−s} + O*(C_{σ,ϑ} a^{−σ−1})`, where
+`c_ϑ = (i/2)(1/sin πϑ − 1/(πϑ))` and
+`C_{σ,ϑ} = (σ/2)(1/sin² πϑ − 1/(πϑ)²) + (|ϑ|/(2π²))(1/(1 − |ϑ|)³ + 2ζ(3) − 1)` for `ϑ ≠ 0`, and
+`c₀ = 0`, `C_{σ,0} = σ/6`. From the Fourier expansion of the sawtooth between half-integers, the
+first-derivative test for the dual integrals and the partial fractions of `π/sin πz` and
+`π²/sin² πz`. -/
+theorem riemannZeta_eq_partialSum_halfInteger {s : ℂ} (hσ : 0 ≤ s.re) (hs₁ : s ≠ 1) (N : ℕ)
+    (ha : |s.im| / (2 * π) < N + 1 / 2) :
+    let a : ℝ := N + 1 / 2
+    let ϑ : ℝ := s.im / (2 * π * a)
+    let c : ℂ := if ϑ = 0 then 0 else I / 2 * ((1 / Real.sin (π * ϑ) - 1 / (π * ϑ) : ℝ) : ℂ)
+    let C : ℝ := if ϑ = 0 then s.re / 6 else
+      s.re / 2 * (1 / Real.sin (π * ϑ) ^ 2 - 1 / (π * ϑ) ^ 2) +
+        |ϑ| / (2 * π ^ 2) * (1 / (1 - |ϑ|) ^ 3 + 2 * (riemannZeta 3).re - 1)
+    ‖riemannZeta s - (∑ n ∈ Finset.Icc 1 N, (n : ℂ) ^ (-s) + (a : ℂ) ^ (1 - s) / (s - 1) -
+        c * (a : ℂ) ^ (-s))‖ ≤ C / a ^ (s.re + 1) :=
+  sorry
 
 /-- **Layer 4.7, the critical line.** Given Hiary's record, whose second clause is the bound
 `0.595 t^{1/6} log t` on `3 ≤ t ≤ 200`, `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 3`
@@ -427,6 +519,28 @@ theorem abs_zetaZeroCount_sub_le_of_recorded (hS : ZetaArgumentBoundUpTo 3061004
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 3.77417 := sorry
 
+/-- **Layer 5.2a, the zero-count predicate.** For every `T ≥ T₀`,
+`|N(T) − (T/2π) log(T/(2πe)) − κ| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`. The shift `κ = 7/8` is the
+normalization whose main term carries the mean `7/8` of `ϑ(T)/π + 1 − (T/2π) log(T/(2πe))`, and
+`κ = 0` the normalization without it. -/
+def ZetaZeroCountBound (κ a₁ a₂ a₃ a₄ T₀ : ℝ) : Prop :=
+  ∀ T : ℝ, T₀ ≤ T →
+    |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1)) - κ| ≤
+      a₁ * Real.log T + a₂ * Real.log (Real.log T) + a₃ + a₄ / T
+
+/-- **Layer 5.2a, Rosser's bound in the zero-count predicate.** For `T ≥ 2`,
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.137 log T + 0.443 log log T + 1.588` (Rosser 1941,
+Theorem 19). -/
+theorem zetaZeroCountBound_rosser : ZetaZeroCountBound (7 / 8) 0.137 0.443 1.588 0 2 := sorry
+
+/-- **Layer 5.2a, the count with `7/8` and the triple `(0.1038, 0.2573, 8.3675)`.** Given the
+records of Hiary, Patel and Yang, for `T ≥ 2`,
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 8.3675`: from Rosser's bound
+for `log T ≤ 175.3`, and from the first Bellotti–Wong bound with `7/8` added to its constant for
+`log T ≥ 172.87`. -/
+theorem zetaZeroCountBound_seven_eighths (hH : HiaryRecord) (hP : PatelRecord)
+    (hY : YangRecord) : ZetaZeroCountBound (7 / 8) 0.1038 0.2573 8.3675 0 2 := sorry
+
 /-- **Layer 5.3, the explicit zero count for primitive Dirichlet L-functions.** Given Bennett,
 Martin, O'Bryant and Rechnitzer's record for `ℓ ≤ 6`, for `χ` primitive modulo `q > 1` and
 `T ≥ 5/7`, with `ℓ = log(q(T + 2)/(2π))`: if `ℓ ≤ 1.567` then `N(T, χ) = 0`, and if `ℓ > 1.567`
@@ -446,6 +560,19 @@ theorem dirichletZeroCount_explicit (hrec : BennettMartinOBryantRechnitzerRecord
 
 /-! ## Layer 7: zero-free regions with explicit constants -/
 
+/-- **Layer 7.1, the partial-fraction expansion of `−ζ′/ζ`.** For `s ≠ 1` with `ζ(s) ≠ 0`,
+`−ζ′(s)/ζ(s) = 1/(s − 1) − B + ψ(s/2 + 1)/2 − (log π)/2 − Σ_ρ m_ρ (1/(s − ρ) + 1/ρ)`, the sum over
+the zeros `ρ` in the open critical strip with multiplicity `m_ρ` (the meromorphic order, `0` off
+the zeros), absolutely convergent, and `B = −γ/2 − 1 + (log 4π)/2` the logarithmic derivative at
+`0` of `(s − 1) π^{−s/2} Γ(s/2 + 1) ζ(s)` (Davenport §12). -/
+theorem neg_logDeriv_riemannZeta_eq (s : ℂ) (hs₁ : s ≠ 1) (hs : riemannZeta s ≠ 0) :
+    -deriv riemannZeta s / riemannZeta s =
+      1 / (s - 1) - ((-(Real.eulerMascheroniConstant / 2) - 1 + Real.log (4 * π) / 2 : ℝ) : ℂ) +
+        Complex.digamma (s / 2 + 1) / 2 - (Real.log π : ℂ) / 2 -
+        ∑' ρ : {ρ : ℂ // 0 < ρ.re ∧ ρ.re < 1},
+          (((meromorphicOrderAt riemannZeta ρ.1).untop₀).toNat : ℂ) * (1 / (s - ρ.1) + 1 / ρ.1) :=
+  sorry
+
 /-- **Layer 7.3, the classical region with `R₀ = 5.558691`.** Given the Riemann hypothesis up to
 height `3·10¹²` and the record for `Σ_{γ>0} γ⁻²`, on which the starting region `R = 5.573412` of
 Mossinghoff and Trudgian rests, `ζ(σ + it) ≠ 0` for `|t| ≥ 2` and `σ ≥ 1 − 1/(5.558691 log |t|)`
@@ -454,6 +581,12 @@ theorem riemannZeta_ne_zero_classical (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)
     (hBPT : BrentPlattTrudgianRecord) (s : ℂ) (ht : 2 ≤ |s.im|)
     (hσ : 1 - 1 / (5.558691 * Real.log |s.im|) ≤ s.re) :
     riemannZeta s ≠ 0 := sorry
+
+/-- **Layer 7.3a, the classical-region predicate.** Every zero `s` of `ζ` with `|Im s| ≥ t₀` has
+`Re s < 1 − 1/(R log |Im s|)`: `ζ` has no zero with `|t| ≥ t₀` and `σ ≥ 1 − 1/(R log |t|)`. The
+region of `riemannZeta_ne_zero_classical` is `ClassicalZeroFreeRegion 5.558691 2`. -/
+def ClassicalZeroFreeRegion (R t₀ : ℝ) : Prop :=
+  ∀ s : ℂ, riemannZeta s = 0 → t₀ ≤ |s.im| → s.re < 1 - 1 / (R * Real.log |s.im|)
 
 /-- **Layer 7.4, the Littlewood-type region.** Given the Riemann hypothesis up to height
 `30 610 046 000`, the record for `Σ_{γ>0} γ⁻²` and the records of Hiary, Patel and Yang,
@@ -589,6 +722,14 @@ theorem zetaZeroDensityCount_nine_tenths_lt (hRH : RiemannHypothesisUpTo 3061004
     (zetaZeroDensityCount (9 / 10) T : ℝ) <
       11.499 * Real.log T ^ ((16 : ℝ) / 5) * T ^ ((4 : ℝ) / 15) + 3.186 * Real.log T ^ 2 :=
   sorry
+
+/-- **Layer 8.3a, the density predicate.** For every `T ≥ T₀` and `σ ∈ S`,
+`N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) (log T)²`, with `N°` the count
+`zetaZeroDensityCount`: the shape of the Kadiri–Lumley–Ng densities, at `k = 1` with
+`p(σ) = 8(1 − σ)/3` and `q(σ) = 5 − 2σ`. -/
+def ZetaZeroDensityBound (T₀ : ℝ) (S : Set ℝ) (c₁ c₂ p q : ℝ → ℝ) : Prop :=
+  ∀ T : ℝ, T₀ ≤ T → ∀ σ ∈ S,
+    (zetaZeroDensityCount σ T : ℝ) ≤ c₁ σ * T ^ p σ * Real.log T ^ q σ + c₂ σ * Real.log T ^ 2
 
 /-- **Layer 8.4, zeros of the primitive L-functions of conductor at most `Q`.** For real `Q` and
 `S ⊆ ℂ`, the number of zeros in `S` of the product `𝓛(s, Q)` of the `L(s, χ)` over the primitive

@@ -45,8 +45,9 @@ not the roadmap.
   and `DirichletGRH`, their agreement with *AllOnCriticalLine*, the bridge from Platt's
   finite-conductor theorem, the named records that theorems here take as hypotheses, the class of
   admissible cosine polynomials, and the Euler–Maclaurin formula for functions with values in a
-  real Banach space (Layer 0; `AsymptoticExpansions` §13.1 states the same order-`2m` formula for
-  real-valued functions, the case `E = ℝ` of 0.5a, which is kept here in the Banach-valued form
+  real Banach space, with real endpoints at first order and with the continuation of `ζ` to
+  `Re s > 0` that it gives (Layer 0; `AsymptoticExpansions` §13.1 states the same order-`2m`
+  formula for real-valued functions, the case `E = ℝ` of 0.5a, which is kept here in the Banach-valued form
   that the complex-valued uses of Layers 1–4 need, so that this roadmap depends only on Mathlib,
   the roadmaps on main and the analytic-number-theory roadmaps before it);
 - Stirling's series for `log Γ` with every explicit remainder bound in a sector, in the right
@@ -55,33 +56,41 @@ not the roadmap.
   `ψ` and the polygamma functions (Layers 1–2);
 - the explicit Phragmén–Lindelöf principle with products of interpolating factors, the
   gamma-quotient bounds on vertical lines, Rademacher's convexity bound on records of finite-order
-  type and its instances for `ζ` and primitive Dirichlet characters, Backlund's strip bounds, the
-  bounds right of the line one and the Poisson–Jensen inequality on a strip (Layer 3);
+  type and its instances for `ζ` and primitive Dirichlet characters, the linear bound for `ζ` on
+  `Re s > 0`, Backlund's strip bounds, the bounds right of the line one with the monotonicity of
+  `ζ` on `(1, ∞)`, and the Poisson–Jensen inequality on a strip (Layer 3);
 - the explicit van der Corput toolkit — Kusmin–Landau in its symmetric and asymmetric forms, the
   finite van der Corput inequality for complex coefficients and its exponential-sum form (the
   A-process), the second-derivative tests, Patel's corrected third, fourth and fifth derivative
   tests, the `k`-th derivative test with recursive constants, truncated Poisson summation,
-  stationary phase and the B-process, and an explicit approximate functional equation — together
+  stationary phase and the B-process, an explicit approximate functional equation, the
+  first-derivative test, the partial fractions of `π/sin πz` and `π²/sin² πz` and the
+  approximation of `ζ` by a partial sum at a half-integer with its secondary term — together
   with Mathlib's Hardy function written through the theta function, the Riemann–Siegel formula with
   Gabcke's remainder and the explicit bounds for `|ζ(1/2 + it)|`, `|ζ(1 + it)|`, `|ζ|` on the lines
   `σ_k = 1 − k/(2^k − 2)` and `|L(1/2 + it, χ)|` that they give; the explicit Vinogradov mean value
   theorem for complete and incomplete systems, the bound for the short sums `Σ (n + u)^{−it}` that
   it gives, and the Richert-type bounds for `ζ` and the Hurwitz zeta function (Layer 4);
 - Backlund's argument lemma for analytic records of any degree, the explicit Riemann–von Mangoldt
-  formulas for `ζ` and primitive Dirichlet L-functions, and Lehman's weighted zero sum and its
+  formulas for `ζ` and primitive Dirichlet L-functions with the zero-count predicate in which the
+  forms for `ζ` are stated, with and without `7/8`, and Lehman's weighted zero sum and its
   derivative form with Trudgian's bound for the integral of `S(t)` (Layer 5);
 - the smoothed truncated Perron formulas and Landau's iterated Perron identity, the majorant
-  principle, the explicit mean values of
+  principle, the extremal majorant and minorant of the one-sided exponential, the explicit mean
+  values of
   Dirichlet polynomials and of `ζ` on vertical lines, the weighted large sieve with the
   Montgomery–Vaughan and Preissmann constants and Elliott's maximal large sieve (Layer 6);
-- the criteria behind the classical, Littlewood-type and Vinogradov–Korobov zero-free regions, the
+- the partial-fraction expansions of `ζ′/ζ` and `L′/L` with their constants, the classical-region
+  predicate, Kadiri's smoothed explicit formula, the criteria behind the classical,
+  Littlewood-type and Vinogradov–Korobov zero-free regions, the
   regions with decimal constants for `ζ` and `L(s, χ)`, the real-zero bounds for quadratic
   characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q`, with its
   instance up to `10¹⁰` given the recorded real-zero check and its instances without a cap, and the
   explicit bounds for `1/ζ(σ + it)` on the line one, on `σ ≥ 1`, in the classical region and on
   `σ ≥ 3/4` below a verified height (Layer 7);
 - the explicit zero-density estimates for `ζ` and for Dirichlet L-functions, including the log-free
-  densities, with the explicit sums of `μ²`, of the squared Selberg coefficients and of `d` and
+  densities and the Kadiri–Lumley–Ng density at any verification height, with the density
+  predicate, and with the explicit sums of `μ²`, of the squared Selberg coefficients and of `d` and
   `d²` that their routes use (Layer 8; by subject these sums belong with the explicit means of
   multiplicative functions, whose roadmap `ExplicitMultiplicativeFunctions` comes later in the
   merge order, so they are stated here);
@@ -293,7 +302,12 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   `PhragmenLindelof.vertical_strip`;
 - `Real.fourierChar`, `UnitAddCircle`, `LSeries`, `LSeriesSummable`, `ArithmeticFunction.vonMangoldt`,
   `ArithmeticFunction.sigma`, `Nat.totient`, `MeromorphicOn.divisor`, `meromorphicOrderAt`,
-  `HurwitzZeta.hurwitzZeta` (`ζ(s, u)` at the class of `u` in `UnitAddCircle`), `Fourier.fourierIntegral`.
+  `HurwitzZeta.hurwitzZeta` (`ζ(s, u)` at the class of `u` in `UnitAddCircle`), `Fourier.fourierIntegral`;
+- `zeta_eq_tsum_one_div_nat_cpow` (`ζ(s) = Σ_{n≥1} n^{−s}` for `Re s > 1`),
+  `differentiableAt_riemannZeta`, `riemannZeta_conj`, `deriv_riemannZeta_zero`
+  (`ζ′(0) = −(log 2π)/2`, `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean`), `cot_series_rep`
+  (`π cot πz = 1/z + Σ_{n≥1} (1/(z − n) + 1/(z + n))` on `Complex.integerComplement`, the
+  complement of `ℤ` in `ℂ`), `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
 
 ### From Tau Ceti
 
@@ -657,16 +671,21 @@ is read off `a`. A *polynomial certificate* is this Prop at literal rational coe
 Let `E` be a real Banach space (`ℝ` or `ℂ` in every use below), let `a < n` be integers, and let
 `B̃_k(x) = B_k({x})` be the periodic Bernoulli function (`bernoulliFun k` at `Int.fract x`). Prove:
 
-- (first order) for `f : ℝ → E` continuously differentiable on `[a, n]`,
-  `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + ∫_a^n B̃₁(x) f′(x) dx`, where
-  `B̃₁(x) = {x} − 1/2` (`sum_Icc_eq_integral_add_sawtooth`);
+- (first order) for real `u < v` and `f : ℝ → E` continuously differentiable on `[u, v]`,
+  `Σ_{u<j≤v} f(j) = ∫_u^v f + B̃₁(u) f(u) − B̃₁(v) f(v) + ∫_u^v B̃₁(x) f′(x) dx`, the sum over the
+  integers `j` in `(u, v]`, where `B̃₁(x) = {x} − 1/2` (`sum_Ioc_eq_integral_add_sawtooth`); at
+  integers `a < n`, where `B̃₁(a) = B̃₁(n) = −1/2`, adding `f(a)` to both sides gives
+  `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + ∫_a^n B̃₁(x) f′(x) dx`
+  (`sum_Icc_eq_integral_add_sawtooth`);
 - (order `2m`, DLMF 2.10.1, `dlmf`) for `m ≥ 1` and `f : ℝ → E` of class `C^{2m}` on `[a, n]`,
   with the derivatives taken within `[a, n]`,
   `Σ_{j=a}^{n} f(j) = ∫_a^n f + (f(a) + f(n))/2 + Σ_{s=1}^{m−1} (B_{2s}/(2s)!)(f^{(2s−1)}(n) − f^{(2s−1)}(a)) + ∫_a^n ((B_{2m} − B̃_{2m}(x))/(2m)!) f^{(2m)}(x) dx`
   (`sum_Icc_eq_eulerMaclaurin`).
 
 Route: on each `[j, j + 1]`, `∫_j^{j+1} (x − j − 1/2) f′(x) dx = (f(j) + f(j + 1))/2 − ∫_j^{j+1} f`
-by parts, and summing over `j` gives the first-order form. For order `2m`, integrate by parts
+by parts, and summing over `j` gives the first-order form at integer endpoints; on the end pieces
+`[u, ⌊u⌋ + 1]` and `[⌊v⌋, v]` the same integration by parts leaves the values `B̃₁(u) f(u)` and
+`−B̃₁(v) f(v)` in place of half the endpoint values. For order `2m`, integrate by parts
 against the periodic Bernoulli functions, using `B̃_{k+1}′ = (k + 1) B̃_k` off the integers
 (`hasDerivAt_bernoulliFun`), the continuity of `B̃_k` for `k ≥ 2`
 (`bernoulliFun_endpoints_eq_of_ne_one`) and `B_{2s+1} = 0` for `s ≥ 1`: one step turns the
@@ -682,6 +701,10 @@ in `E`), `iteratedDerivWithin`, `Int.fract`.
 
 - `f(x) = x` on `[0, n]`, first order: `∫₀ⁿ ({x} − 1/2) dx = 0` over whole periods, and the formula
   reads `Σ_{j=0}^{n} j = n²/2 + n/2`.
+- Real endpoints: `f = 1` on `[1/2, 3/2]` gives `1 = 1 + 0 − 0 + 0`, since
+  `B̃₁(1/2) = B̃₁(3/2) = 0`; `f = 1` on `[0, 1]` gives `Σ_{0<j≤1} 1 = 1 = 1 − 1/2 + 1/2 + 0`, the endpoint terms
+  `B̃₁(0) f(0) = −1/2` and `−B̃₁(1) f(1) = 1/2` leaving out the point `0`, which the integer form
+  `Σ_{j=0}^{1} 1 = 2` counts.
 - `f(x) = x²` on `[0, n]`, `m = 1`: `f″ = 2` and `∫₀ⁿ (B₂ − B̃₂(x)) dx = n/6`, since
   `∫₀¹ B₂(x) dx = 0` and `B₂ = 1/6`, so the formula reads `Σ_{j=0}^{n} j² = n³/3 + n²/2 + n/6`;
   without the constant `B_{2m}` in the remainder the term `n/6` would be lost.
@@ -689,6 +712,43 @@ in `E`), `iteratedDerivWithin`, `Int.fract`.
   `B̃₁(x) = {x} − 1/2` is `bernoulliFun 1` at `Int.fract x`.
 - The values must be allowed in `ℂ`: the uses of 1.1 (`u ↦ Log(z + u)`), 3.3 (`u ↦ u^{−s}`) and 4.5
   (`u ↦ e(f(u))`) are complex-valued.
+
+### 0.5b The continuation of `ζ` by the first-order formula
+
+For real `a > 0` and complex `s` with `Re s > 0` and `s ≠ 1`, prove
+`ζ(s) = Σ_{1≤n≤a} n^{−s} + a^{1−s}/(s − 1) + B̃₁(a) a^{−s} − s ∫_a^∞ B̃₁(x) x^{−s−1} dx`, the
+integral converging absolutely, with `|∫_a^∞ B̃₁(x) x^{−s−1} dx| ≤ a^{−σ}/(2σ)` for `σ = Re s`
+(`riemannZeta_eq_sum_add_integral_sawtooth`). Its cases:
+
+- at an integer `a = N ≥ 1`, where `B̃₁(N) = −1/2`:
+  `ζ(s) = Σ_{n≤N} n^{−s} + N^{1−s}/(s − 1) − N^{−s}/2 − s ∫_N^∞ ({x} − 1/2) x^{−s−1} dx`;
+- at a half-integer `a = N + 1/2`, `N ≥ 0`, where `B̃₁(a) = 0`:
+  `ζ(s) = Σ_{n≤N} n^{−s} + a^{1−s}/(s − 1) − s ∫_a^∞ ({x} − 1/2) x^{−s−1} dx`;
+- at `a = 1`, with `(s/2) ∫₁^∞ x^{−s−1} dx = 1/2`:
+  `ζ(s) = 1 + 1/(s − 1) − s ∫₁^∞ {x} x^{−s−1} dx`, which is `s/(s − 1) − s ∫₁^∞ {x} x^{−s−1} dx`
+  (`riemannZeta_eq_one_add_inv_sub_integral_fract`), the representation used in 0.3, 3.2a and 4.7.
+
+Route: for `Re s > 1`, the first-order formula of 0.5a with real endpoints for `x ↦ x^{−s}` on
+`[a, b]`, and `b → ∞` through the integers, where `b^{1−s} → 0` and `B̃₁(b) b^{−s} → 0`, with
+`ζ(s) = Σ_{n≥1} n^{−s}` there; the right side is holomorphic on the connected set `Re s > 0`,
+`s ≠ 1`, since `|B̃₁| ≤ 1/2` makes the integral converge absolutely and locally uniformly there, so
+the identity theorem extends the identity from `Re s > 1`.
+
+*Needs:* 0.5a (first order, real endpoints); Mathlib `zeta_eq_tsum_one_div_nat_cpow`,
+`differentiableAt_riemannZeta`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
+`bernoulliFun`, `Int.fract`.
+
+**Checks.**
+
+- The sign of the integral: as real `s → ∞` at `a = 1` the integral concentrates where
+  `{x} − 1/2` is near `−1/2`, so `s ∫₁^∞ ({x} − 1/2) x^{−s−1} dx → −1/2` and the right side tends to
+  `1 + 0 − 1/2 + 1/2 = 1 = lim ζ(s)`; with `+ s ∫` in place of `− s ∫` it would tend to `0`.
+- At `a = 1`, `ζ(s) − 1/(s − 1) → 1 − ∫₁^∞ {x} x^{−2} dx = 1 − (1 − γ) = γ` as `s → 1`, the
+  constant term of `ζ` at its pole.
+- The boundary term counts the endpoint: at `a = N` the sum takes `n = N` with weight `1` and
+  `−N^{−s}/2` returns half of it, while at `a = N + 1/2` no integer is an endpoint and the term is
+  `0`; at `s = 0.3 + 5i` the right sides at `a = 1, 2.5, 3` and `7.3` all agree with `ζ(s)` to
+  `10⁻¹²`.
 
 ### Examples
 
@@ -699,7 +759,8 @@ in `E`), `iteratedDerivWithin`, `Int.fract`.
 
 Mathlib normed groups, `riemannZeta`, `DirichletCharacter.LFunction`, `RiemannHypothesis`,
 `Complex.digamma` and interval integrals (for `riemannSiegelTheta`), the Bernoulli API and
-integration by parts (for 0.5a). Tau Ceti nonnegative trigonometric combinations.
+integration by parts (for 0.5a), the Dirichlet series of `ζ` and the identity theorem (for 0.5b).
+Tau Ceti nonnegative trigonometric combinations.
 `AnalyticNumberTheoryPartI` §1.6; `ZerosOfLFunctions` 6.5 and Layer 9.
 
 ## Layer 1: Stirling's series and the Gamma function on the positive axis
@@ -1133,6 +1194,29 @@ on the right edge and at most `(1 + η)/(1 − η) ≤ 3` on the left edge. Fini
 - `η > 1/2` is excluded: the left-edge factor `(1 + η)/(1 − η)` exceeds `3`, and at `η = 1` it is
   infinite.
 
+### 3.2a A linear bound in the right half-plane
+
+For `z` with `Re z > 0` and `z ≠ 1`, prove `|ζ(z)| ≤ 1 + 1/|z − 1| + |z|/Re z`. Consequently
+`|ζ(z)| ≤ 2 + 2|z|` for `1/2 ≤ Re z` and `|Im z| ≥ 1`, and, for real `t` with `|t| ≥ 2` and every
+`z` in the closed disc `|z − (3/2 + it)| ≤ 1`, `|ζ(z)| ≤ 7 + 2|t|` (`norm_riemannZeta_le_linear`):
+the bound for `ζ` on the discs about `3/2 + it` that Borel–Carathéodory and three-circle arguments
+near the line one take as input. Unlike 3.2 it uses no functional equation and holds at every
+height `|t| ≥ 2`. Route: 0.5b at `a = 1`, `ζ(z) = 1 + 1/(z − 1) − z ∫₁^∞ {x} x^{−z−1} dx`, with
+`0 ≤ {x} < 1`, so that the integral has modulus at most `∫₁^∞ x^{−Re z−1} dx = 1/Re z`; in the
+disc `1/2 ≤ Re z ≤ 5/2`, `|z − 1| ≥ |Im z| ≥ |t| − 1 ≥ 1` and `|z| ≤ 5/2 + |t|`, so the bound is
+at most `1 + 1 + 2(5/2 + |t|)`.
+
+*Needs:* 0.5b (the case `a = 1`); Mathlib `riemannZeta`.
+
+**Checks.**
+
+- The pole term is needed: at `z = 1.01` the bound is `1 + 100 + 1 = 102`, against
+  `ζ(1.01) = 100.578`.
+- At `z = 2` the bound is `3`, against `ζ(2) = 1.64493`; it deteriorates like `1/Re z` as
+  `Re z → 0⁺`, where the integral stops converging absolutely.
+- In the disc the real part reaches `1/2`, where `|z|/Re z = 2|z|`; the constant `7` is
+  `1 + 1 + 2 · 5/2`.
+
 ### 3.3 Backlund's bounds in the strip
 
 For `t ≥ 50` prove: `|ζ(σ + it)| ≤ log t − 0.048` for `σ ≥ 1`;
@@ -1161,8 +1245,12 @@ inequalities in each chain are termwise from the Dirichlet series; the second co
 Euler–Maclaurin representation `ζ(σ) = 1/(σ − 1) + 1/2 − σ ∫₁^∞ ({u} − 1/2) u^{−σ−1} du` (0.5a at
 first order, with `N → ∞`) and the convexity of `σ ↦ log((σ − 1) ζ(σ))`.
 
-*Needs:* 1.1; 0.5a; Mathlib `riemannZeta`, `Real.eulerMascheroniConstant`,
-`ArithmeticFunction.vonMangoldt`.
+And `ζ` is real, greater than `1` and strictly decreasing on `(1, ∞)`: for real `1 < σ < σ'`,
+`1 < ζ(σ') < ζ(σ)` (`riemannZeta_strictAntiOn`), termwise from `ζ(σ) = Σ_{n≥1} n^{−σ}`, every term
+being positive and the terms with `n ≥ 2` strictly decreasing in `σ`.
+
+*Needs:* 1.1; 0.5a; Mathlib `riemannZeta`, `zeta_eq_tsum_one_div_nat_cpow`,
+`Real.eulerMascheroniConstant`, `ArithmeticFunction.vonMangoldt`.
 
 **Checks.**
 
@@ -1174,6 +1262,9 @@ first order, with `N → ∞`) and the convexity of `σ ↦ log((σ − 1) ζ(σ
   `ζ(σ) − 1/(σ − 1) → 1/2 − ∫₁^∞ ({u} − 1/2) u^{−2} du = γ`, since `∫₁^∞ {u} u^{−2} du = 1 − γ`;
   with `+σ` in place of `−σ` the limit would be `1 − γ`.
 - At `σ = 2`: `−ζ'/ζ(2) = 0.56996 ≤ 1 − 1/8 = 0.875`.
+- The monotonicity: `ζ(2) = 1.64493 > ζ(3) = 1.20206 > ζ(4) = 1.08232 > 1`, with `ζ(σ) → 1` as
+  `σ → ∞` (the term `n = 1`) and `ζ(σ) → ∞` as `σ → 1⁺`; the lower bound `1` fails left of the
+  pole, where `ζ < 0` on `(0, 1)` (0.3) and `ζ(1/2) = −1.46035`.
 
 ### 3.5 The Poisson–Jensen inequality on a strip
 
@@ -1473,6 +1564,80 @@ rest explicitly, the Taylor remainder on the line and the integrand off it. Then
   with `C₀(1/4) = C₀(3/4) = 1/2`; and `C₀(p) = C₀(1 − p)`.
 - The sign of the phase factor matters in the first item:
   `e^{−iϑ(t)} ζ(1/2 + it) = e^{−2iϑ(t)} Z(t)` is not real in general.
+
+### 4.5c The first-derivative test and the approximation of `ζ` at a half-integer
+
+Prove:
+
+- (the first-derivative test) for real `a < b`, `φ` continuously differentiable on `[a, b]` with
+  `φ′(t) ≠ 0` there, and `h : [a, b] → ℝ` such that `g = h/φ′` is continuous and `|g|` is monotone
+  on `[a, b]`: `|∫_a^b h(t) e(φ(t)) dt| ≤ max(|g(a)|, |g(b)|)/π`, which is `|g(a)|/π` when `|g|` is
+  non-increasing. Route: `h e(φ) = g · (e(φ))′/(2πi)`; a continuous `g` with `|g|` monotone does not
+  change sign (by the intermediate value theorem, a zero of `g` forces `g = 0` on one side of it),
+  so `g` is monotone with total variation `||g(a)| − |g(b)||`; integration by parts against the
+  Stieltjes measure of `g` gives boundary terms of total at most `(|g(a)| + |g(b)|)/(2π)` and an
+  integral of modulus at most `||g(a)| − |g(b)||/(2π)`. It sharpens `titchmarsh1986` Lemma 4.3,
+  whose bound `4/m` under `|F′/G| ≥ m` reads `(2/π) max |g|` in this normalization.
+- (partial fractions) for `z ∈ ℂ ∖ ℤ`,
+  `π/sin πz = 1/z + Σ_{n≥1} (−1)^n (1/(z − n) + 1/(z + n))` and `π²/sin² πz = Σ_{n∈ℤ} 1/(z − n)²`,
+  both series converging absolutely (the first after pairing `±n`) and locally uniformly on
+  `ℂ ∖ ℤ`. Hence, for real `0 < |ϑ| < 1`,
+  `Σ_{n≥1} (−1)^{n+1} 2ϑ/(n² − ϑ²) = π/sin πϑ − 1/ϑ` and
+  `Σ_{n≥1} (1/(n − ϑ)² + 1/(n + ϑ)²) = π²/sin² πϑ − 1/ϑ²`; and for `|ϑ| < 1`,
+  `Σ_{n≥1} (1/(n − ϑ)³ + 1/(n + ϑ)³) ≤ 1/(1 − |ϑ|)³ + 2ζ(3) − 1`, with equality at `ϑ = 0` and in
+  the limit `|ϑ| → 1`. Route: Mathlib's `cot_series_rep` for `π cot πz` on
+  `Complex.integerComplement`; `1/sin x = cot(x/2) − cot x` turns it into the first expansion; the
+  second is `−(d/dz) π cot πz`, differentiated termwise by locally uniform convergence (Mathlib
+  differentiates the cotangent series only on the upper half-plane,
+  `iteratedDerivWithin_cot_sub_inv_eq_add_mul_tsum`); the cube sum is even in `ϑ`, and for
+  `0 ≤ ϑ < 1` it is `1/(1 − ϑ)³ + k(ϑ) + k(1 − ϑ)` with `k(x) = Σ_{m≥1} (m + x)^{−3}`, where
+  `ϑ ↦ k(ϑ) + k(1 − ϑ)` is convex on `[0, 1]` and equals `2ζ(3) − 1` at both ends.
+- (the approximation at a half-integer) for `s = σ + iτ` with `σ ≥ 0` and `s ≠ 1`, and a
+  half-integer `a = N + 1/2` with `a > |τ|/(2π)`, put `ϑ = τ/(2πa)`, so that `|ϑ| < 1`. Then
+  `ζ(s) = Σ_{n≤a} n^{−s} + a^{1−s}/(s − 1) − c_ϑ a^{−s} + O*(C_{σ,ϑ} a^{−σ−1})`
+  (`riemannZeta_eq_partialSum_halfInteger`), with `c_ϑ = (i/2)(1/sin πϑ − 1/(πϑ))` and
+  `C_{σ,ϑ} = (σ/2)(1/sin² πϑ − 1/(πϑ)²) + (|ϑ|/(2π²))(1/(1 − |ϑ|)³ + 2ζ(3) − 1)` for `ϑ ≠ 0`, and
+  `c₀ = 0`, `C_{σ,0} = σ/6`, the limits as `ϑ → 0`. The secondary term
+  `−c_ϑ a^{−s} = (a^{−s}/(2i))(1/sin πϑ − 1/(πϑ))`, of order `|ϑ| a^{−σ}`, is the main part of the
+  integral term of 0.5b at the half-integer `a`, and the remainder after it is smaller by a factor
+  `a`.
+
+Route of the third item, for `σ > 0` (the case `σ = 0` follows by continuity in `s`): for a
+half-integer `b > a` put `f(y) = 1_{[a,b]}(y) y^{−s}`. The first-order formula of 0.5a between the
+half-integers `a` and `b`, where `B̃₁` vanishes, with the Fourier expansion
+`B̃₁(y) = −Σ_{n≥1} sin(2πny)/(πn)` (boundedly convergent off the integers) gives
+`Σ_{a<n≤b} n^{−s} = (b^{1−s} − a^{1−s})/(1 − s) + lim_{M→∞} Σ_{n=1}^{M} (f̂(n) + f̂(−n))`. Each
+`f̂(±n) = ∫_a^b y^{−s} e(∓ny) dy` has the phase `±ny − (τ/2π) log y`, whose derivative
+`±n − τ/(2πy)` is at least `n − |ϑ| > 0` in modulus on `[a, b]`; one integration by parts leaves
+the boundary values at the half-integers `a`, `b`, where `e(ny) = (−1)^n`, which sum over `n` by
+the first partial fraction to `a^{−s} g(ϑ)/(2i) − b^{−s} g(ϑ_b)/(2i)` with
+`g(t) = 1/sin πt − 1/(πt)`, `g(0) = 0` and `ϑ_b = τ/(2πb)`, and two integrals that the
+first-derivative test bounds by `(a^{−σ−1}/(2π²))(σ/(n ∓ ϑ)² + |ϑ|/(n ∓ ϑ)³)` (the modulus of the
+amplitude, `y^{−σ−k}|2πn ∓ τ/y|^{−k−1}` for `k = 1, 2`, decreases on `[a, ∞)`); the second
+partial fraction and the cube sum add these to `C_{σ,ϑ} a^{−σ−1}`. Then 0.5b at `b`, with the tail
+bound there, gives `Σ_{n≤a} n^{−s} = ζ(s) + a^{1−s}/(1 − s) + c_ϑ a^{−s} + O*(C_{σ,ϑ} a^{−σ−1})`
+up to terms at `b` of size `O(|s| b^{−σ}/σ + |g(ϑ_b)| b^{−σ})`, and `b → ∞` through the
+half-integers removes them, since `b^{−σ} → 0` and `g(ϑ_b) → 0`.
+
+*Needs:* 0.5a (first order, real endpoints), 0.5b; Mathlib `cot_series_rep`,
+`Complex.integerComplement`, `Real.fourierChar`, `intervalIntegral`, `BoundedVariationOn`,
+`riemannZeta`.
+
+**Checks.**
+
+- The first-derivative test is sharp in its constant: for `φ(t) = t` on `[0, 1/2]` and `h = 1`,
+  `g = 1` and `|∫₀^{1/2} e(t) dt| = |e(1/2) − 1|/(2π) = 1/π`.
+- The partial fractions at `z = 1/2`: `π = 2 + Σ_{n≥1} (−1)^{n+1} 4/(4n² − 1)`, which is Leibniz's
+  series `π/4 = Σ_{k≥0} (−1)^k/(2k + 1)` after `4/(4n² − 1) = 2/(2n − 1) − 2/(2n + 1)`; and
+  `π² = Σ_{n∈ℤ} 4/(2n − 1)² = 8 Σ_{m odd, m>0} m^{−2}`, by Euler's `Σ_{m odd, m>0} m^{−2} = π²/8`.
+- At `τ = 0` the secondary term vanishes and the bound is `σ a^{−σ−1}/6`: at `s = 1/2`,
+  `a = 7/2`, `Σ_{n≤3} n^{−1/2} − 2√3.5 = −1.45720` against `ζ(1/2) = −1.46035`, a difference
+  `0.00315 ≤ 0.01273`.
+- The sign of the secondary term (negative control): at `s = 1/2 + 30i`, `a = 21/2`
+  (`ϑ = 0.45473`), the error is `0.00314`, within the bound `0.00903`; with `+c_ϑ` in place of
+  `−c_ϑ` it is `0.0954`, and without the term `0.0476`.
+- `c_ϑ` is purely imaginary, and at `|ϑ| = 1/(2π)`, the largest value when `a ≥ |τ|`,
+  `|c_ϑ| = 0.04291`.
 
 ### 4.6 The Riemann–Siegel formula with Gabcke's remainder
 
@@ -1822,6 +1987,66 @@ parameters of `bellottiwong2025` Table 2.
 - The two Bellotti–Wong bounds cross at `T = e^{447.981}`; below it the second, with constant
   `3.77417`, is the smaller.
 
+### 5.2a The zero-count predicate
+
+Define *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀`, for reals `κ, a₁, a₂, a₃, a₄, T₀`, as: for every
+`T ≥ T₀`, `|N(T) − (T/2π) log(T/(2πe)) − κ| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`, with `N(T)` as
+in the Conventions (`ZetaZeroCountBound`). The shift `κ = 7/8` is the normalization whose main term
+carries the mean `7/8` of `ϑ(T)/π + 1 − (T/2π) log(T/(2πe))` (2.9), `κ = 0` the normalization
+without it, and the term `a₄/T` carries an `O(1/T)` that a source keeps. Prove:
+
+- monotonicity: *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀` implies *ZetaZeroCountBound*
+  `κ a₁' a₂' a₃' a₄' T₀'` whenever `a_i ≤ a_i'` for every `i` and `T₀' ≥ max(T₀, e)` (where
+  `log T`, `log log T` and `1/T` are nonnegative);
+- the shift: *ZetaZeroCountBound* `κ a₁ a₂ a₃ a₄ T₀` implies *ZetaZeroCountBound*
+  `κ' a₁ a₂ (a₃ + |κ − κ'|) a₄ T₀`;
+- the forms of 5.2 in it: Rosser's bound is *ZetaZeroCountBound* `(7/8) 0.137 0.443 1.588 0 2`
+  (`zetaZeroCountBound_rosser`), hence `0 0.137 0.443 2.463 0 2` without `7/8`; Bellotti and Wong's
+  are `0 0.10076 0.24460 8.08344 0 T₀` and `0 0.11200 0.12567 3.77417 0 T₀` with
+  `T₀ = 30 610 046 000` given `HiaryRecord`, `PatelRecord` and `YangRecord`, and with `T₀ = e`
+  given also `ZetaArgumentBoundUpTo 30610046000 2.5167`; Trudgian's is `0 0.112 0.278 3.385 0 e`
+  and the form with `9.3675` is `(7/8) 0.1038 0.2573 9.3675 0 e`, under the hypotheses that 5.2
+  states for them;
+- given `HiaryRecord`, `PatelRecord` and `YangRecord`, *ZetaZeroCountBound*
+  `(7/8) 0.1038 0.2573 8.3675 0 2` (`zetaZeroCountBound_seven_eighths`), that is
+  `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 8.3675` for `T ≥ 2`;
+- given those records and `ZetaArgumentBoundUpTo 30610046000 2.5167`, *ZetaZeroCountBound*
+  `0 0.1038 0.2573 9.3675 0 e`, the normalization without `7/8` at the constant `9.3675` printed in
+  `hasanalizadeshenwong2022` Corollary 1.2, which `bellottiwong2025` (line 58, footnote 1)
+  corrects to `9.4925` for that paper's argument.
+
+Route of the last two items, with `L = log T`: for `2 ≤ T ≤ e^{175.3}` the fourth follows from
+Rosser's bound, since `0.137 L + 0.443 log L + 1.588 ≤ 0.1038 L + 0.2573 log L + 8.3675` exactly
+when `0.0332 L + 0.1857 log L ≤ 6.7795`, which holds for `L ≤ 175.30` (and for `L < 1`, where
+`log L < 0`); for `T ≥ e^{172.87}` it follows from the first Bellotti–Wong bound by the shift,
+since `0.10076 L + 0.24460 log L + 8.95844 ≤ 0.1038 L + 0.2573 log L + 8.3675` exactly when
+`0.00304 L + 0.0127 log L ≥ 0.59094`, which holds from `L = 172.87` on; the two ranges overlap,
+and the second lies above `30 610 046 000`, where the first item of 5.2 needs no record of 0.4.
+The fifth follows from the first Bellotti–Wong bound above `30 610 046 000`, each of whose three
+constants is the smaller, and from `|N(T) − (T/2π) log(T/(2πe))| ≤ 3.4009` below (5.2).
+
+The triples of `hasanalizadeshenwong2022` Corollary 1.4 bound `|S(T)|`, not the count; their first,
+`(0.1038, 0.2573, 8.3675)`, holds for the count with `7/8` by the fourth item. Their second,
+`(0.1095, 0.2042, 3.0305)`, is not asserted for the count: Rosser's bound implies it only for
+`log T ≤ 24.63` and the first Bellotti–Wong bound only for `log T ≥ 708.6`, while the second
+Bellotti–Wong bound with `7/8` added exceeds it at every height.
+
+*Needs:* 5.2; 2.9 (the mean `7/8`); 0.4 (`ZetaArgumentBoundUpTo 30610046000 2.5167`, for the fifth
+item); 0.4b (`HiaryRecord`, `PatelRecord`, `YangRecord`).
+
+**Checks.**
+
+- The range of the fourth item starts at `T = 2`, below the first zero: at `T = 2`, `N(2) = 0` and
+  `|0 − (2/2π) log(2/(2πe)) − 7/8| = 0.1923`, against the right side `8.3451`; Rosser's right side
+  there is `1.5206`.
+- Neither input covers the fourth item alone (negative control): at `L = 180` Rosser's right side
+  is `28.5485` against `0.1038 L + 0.2573 log L + 8.3675 = 28.3876`, and at `L = 172` the first
+  Bellotti–Wong bound with `7/8` added is `27.5482` against `27.5456`; at `L = 175` both are below
+  it.
+- The shift costs `|κ − κ'|`: from the first Bellotti–Wong bound it gives the constant `8.95844`
+  with `7/8`, above the `8.3675` of the fourth item, which is why that item takes Rosser's bound
+  below `e^{172.87}`.
+
 ### 5.3 The explicit zero count for primitive Dirichlet L-functions
 
 Given `BennettMartinOBryantRechnitzerRecord` (0.4b), for `χ` primitive of conductor `q > 1` and
@@ -2026,6 +2251,67 @@ supported in `[−1/(2T), 1/(2T)]`; for Gallagher, Plancherel against the Fejér
   `3 ∫_{−T}^{T} |2|² dt = 24T`; the frequencies are not assumed distinct.
 - Logan's bound fails for signed coefficients: `a = (1, −1)` at one frequency gives `0 < T · 2`.
 
+### 6.3a Extremal approximants of the one-sided exponential
+
+For `ν > 0` let `I_ν(x) = e^{−νx}` for real `x ≥ 0` and `I_ν(x) = 0` for `x < 0`. Put
+`B⁺(u) = u/(1 − e^{−u}) = (u/2)(coth(u/2) + 1)` and `B⁻(u) = u/(e^u − 1) = (u/2)(coth(u/2) − 1)`,
+with `B^±(0) = 1`, and, with `w = ν − 2πiz`, `Φ^{±,∘}_ν(z) = (1/2)(coth(w/2) ± 1)` and
+`Φ^{±,⋆}_ν(z) = (B^±(w) − B^±(ν))/(2πi)`. For real `t` let
+`φ^±_ν(t) = 1_{[−1,1]}(t) (Φ^{±,∘}_ν(t) + sgn(t) Φ^{±,⋆}_ν(t))`, and let
+`F^±_ν(x) = ∫_{−1}^{1} φ^±_ν(t) e(−tx) dt` (`chirrehelfgott2025` (4.4)–(4.5), Proposition 4.1, an
+unrefereed preprint, for this Fourier-side form of Graham and Vaaler's functions). Prove:
+
+- `F^±_ν` is real on `ℝ`, integrable, and the restriction of an entire function of exponential type
+  `2π`; and `F^−_ν(x) ≤ I_ν(x) ≤ F^+_ν(x)` for every real `x`;
+- `∫_ℝ (F^+_ν − I_ν) = 1/(1 − e^{−ν}) − 1/ν` and `∫_ℝ (I_ν − F^−_ν) = 1/ν − 1/(e^ν − 1)`;
+- extremality: every entire `F` of exponential type `2π` with `F ≥ I_ν` on `ℝ` has
+  `∫_ℝ (F − I_ν) ≥ 1/(1 − e^{−ν}) − 1/ν`, with equality only for `F = F^+_ν`, and every such `F`
+  with `F ≤ I_ν` has `∫_ℝ (I_ν − F) ≥ 1/ν − 1/(e^ν − 1)`, with equality only for `F = F^−_ν`
+  (Graham and Vaaler, `grahamvaaler1981` Theorem 9; the values as in `chirrehelfgott2025`
+  Proposition 4.1);
+- the closed forms: the interpolation formula
+  `F^+_ν(x) = (sin πx/π)² (Σ_{n≥1} (e^{−νn}/(x − n)² − νe^{−νn}/(x − n) + νe^{−νn}/x) + 1/x²)` and
+  `F^−_ν(x) = F^+_ν(x) − (sin πx/(πx))²` for `x ∉ ℤ` (`chirrehelfgott2025` (4.6) and (4.12)),
+  extended by continuity, with `F^+_ν(n) = I_ν(n)` for every integer `n`; and the Laplace forms
+  `F^±_ν(x) − I_ν(x) = (sin² πx/π²) ∫_0^∞ (B^±(ν + y) − B^±(ν)) e^{xy} dy` for `x < 0` and
+  `F^±_ν(x) − I_ν(x) = −(sin² πx/π²) ∫_0^∞ (B^±(ν − y) − B^±(ν)) e^{−xy} dy` for `x > 0`, in which
+  `B⁺` increasing and `B⁻` decreasing on `ℝ` display the signs of the first item;
+- the bounds for `(z coth z)′ = coth z − z/sinh² z`: `|(z coth z)′| < 1` for `|Im z| ≤ π/4` and
+  `|(z coth z)′| ≤ |z|` for `|Im z| ≤ π/2` (`chirrehelfgott2025` Lemma 4.2); hence
+  `|Φ^{±,⋆}_ν(z)| ≤ |z|` and `|(Φ^{±,∘}_ν + Φ^{±,⋆}_ν)(1 − z)| ≤ |z|` for `0 ≤ Re z ≤ 1/4`
+  (Lemma 4.3).
+
+Route: the extremality and the interpolation formula are Graham and Vaaler's: an integrable `F` of
+exponential type `2π` has `∫ F = Σ_{n∈ℤ} F(n)` (Poisson summation, `F̂` being supported in
+`[−1, 1]` and `0` at `±1`), so `F ≥ I_ν` forces `∫ F ≥ Σ_{n≥0} e^{−νn} = 1/(1 − e^{−ν})` and
+`F ≤ I_ν` forces `F(0) ≤ 0` and `∫ F ≤ 1/(e^ν − 1)`, and `F^±_ν` attain these, interpolating `I_ν`
+and its derivative at the nonzero integers; the Fourier-side form of `φ^±_ν` from Vaaler's
+interpolation series for `F̂` (`chirrehelfgott2025`, proof of Proposition 4.1, with the expansion
+of `π²/sin² πz` of 4.5c); the `L¹` values as `∫ F^±_ν = φ^±_ν(0) = (1/2)(coth(ν/2) ± 1)`, against
+`∫ I_ν = 1/ν`; the Laplace forms by a contour shift of the `t`-integral into the half-plane where
+`e(−tx)` decays (upwards for `x < 0`, downwards for `x > 0`), in which the pole of `Φ^{±,∘}_ν` at
+`t = −iν/(2π)` contributes `I_ν(x)` for `x > 0`, the residues of `Φ^{±,∘}_ν ± Φ^{±,⋆}_ν` at
+`±1 − iν/(2π)` cancel, and the identity `coth(w/2 ± πi) = coth(w/2)` (`chirrehelfgott2025` (4.9))
+combines the vertical integrals from `−1`, `0` and `1` into the factor
+`−(e(x) − 2 + e(−x))/(4π²) = sin² πx/π²`; the bounds for `(z coth z)′` by the
+Phragmén–Lindelöf principle on the strip from the lines `Im z = ±π/4` and `±π/2`, where
+`|(z coth z)′|²` is explicit.
+
+*Needs:* 4.5c (the expansion of `π²/sin² πz`); Mathlib `Fourier.fourierIntegral`,
+`Real.fourierChar`, `Complex.cosh`, `Complex.sinh`, `PhragmenLindelof.vertical_strip`.
+
+**Checks.**
+
+- At `x = 0`: `F^+_ν(0) = 1 = I_ν(0)` and `F^−_ν(0) = 0`, the left limit of `I_ν`; the minorant
+  must vanish there, since it is continuous and `I_ν = 0` on `x < 0`.
+- At `ν = 1`: `1/(1 − e^{−1}) − 1 = 0.58198` and `1 − 1/(e − 1) = 0.41802`, summing to `1`, which is
+  `∫ (sin πx/(πx))² dx`, the integral of `F^+_ν − F^−_ν`.
+- The orientation of the transform: with `e(+tx)` in place of `e(−tx)` the functions `F^±_ν(−x)`
+  would result, which approximate `I_ν(−x)` and not `I_ν`.
+- `(z coth z)′ → 0` as `z → 0` and `→ ±1` as `Re z → ±∞` within the strip, so the bound `< 1` on
+  `|Im z| ≤ π/4` cannot be improved to a constant below `1`; at `z = iπ/2`, `coth z = 0` and
+  `|(z coth z)′| = π/2 = |z|`.
+
 ### 6.4 The weighted Hilbert inequality with Preissmann's constant and the mean value theorem
 
 For distinct real `λ_r` with local spacings `δ_r = min_{s≠r} |λ_r − λ_s|` and complex `u_r`, prove
@@ -2122,18 +2408,31 @@ Ceti truncated Perron formula; Mathlib Fourier analysis and Mellin transform.
 
 ### 7.1 The partial-fraction identities
 
-For `s` not a zero or a pole, prove
+For `s` not a zero or a pole, prove the complex identities
+`−(ζ'/ζ)(s) = 1/(s − 1) − B + (1/2) ψ(s/2 + 1) − (1/2) log π − Σ_ρ m_ρ (1/(s − ρ) + 1/ρ)`, with
+`B = −γ/2 − 1 + (1/2) log 4π = −0.0230957…` (`neg_logDeriv_riemannZeta_eq`), and, for `χ` primitive
+of conductor `q > 1` with parity `a`,
+`−(L'/L)(s, χ) = (1/2) log(q/π) + (1/2) ψ((s + a)/2) − B(χ) − Σ_ρ m_ρ (1/(s − ρ) + 1/ρ)`. Here
+`B = ξ′(0)/ξ(0)` for `ξ(s) = (s − 1) π^{−s/2} Γ(s/2 + 1) ζ(s)` and `B(χ) = ξ′(0, χ)/ξ(0, χ)` for
+`ξ(s, χ) = (q/π)^{(s+a)/2} Γ((s + a)/2) L(s, χ)`, both nonzero at `0`; each sum runs over the
+distinct zeros `ρ` in the critical strip, `m_ρ` is the multiplicity (`meromorphicOrderAt`), and it
+converges absolutely, since `1/(s − ρ) + 1/ρ = s/(ρ(s − ρ))` and `Σ_ρ m_ρ |ρ|^{−2} < ∞`. Taking real
+parts, with `Re B = −Σ_ρ m_ρ Re(1/ρ)` and `Re B(χ) = −Σ_ρ m_ρ Re(1/ρ)`, gives
 `−Re (ζ'/ζ)(s) = Re 1/(s − 1) + (1/2) Re ψ(s/2 + 1) − (1/2) log π − Σ_ρ Re 1/(s − ρ)`, the sum over the
 zeros of `ζ` in the critical strip with multiplicity, taken as the limit of the sums over `|γ| ≤ T`;
-and for `χ` primitive of conductor `q > 1` with parity `a`,
-`−Re (L'/L)(s, χ) = (1/2) log(q/π) + (1/2) Re ψ((s + a)/2) − Σ_ρ Re 1/(s − ρ)`. For `Re s > 1` every
-summand is positive and the series converge absolutely. Route: the logarithmic derivative of
-Hadamard's product for the entire completion (`ZerosOfLFunctions` 5.5), with `Re B = −Σ_ρ Re(1/ρ)`
-(`ZerosOfLFunctions` 5.6 for `ζ` and real characters, 6.4d for non-real ones) and the gamma factor
-by `ZerosOfLFunctions` 1.4; the uniform convergence of the truncated sums from the local zero count
-(`ZerosOfLFunctions` 4.5) (Davenport §12, `davenport2000`).
+and `−Re (L'/L)(s, χ) = (1/2) log(q/π) + (1/2) Re ψ((s + a)/2) − Σ_ρ Re 1/(s − ρ)`. For `Re s > 1`
+every summand of the real-part sums is positive and the series converge absolutely. Route: the
+logarithmic derivative of Hadamard's product for the entire completion (`ZerosOfLFunctions` 5.5,
+`logDeriv f s = b + Σ_ρ m_ρ (1/(s − ρ) + 1/ρ)`, applied to `ξ` and `ξ(·, χ)`, which differ from the
+entire completions there by factors `C e^{cs}` that change `b` by `c` and not the zeros), with
+`Re B = −Σ_ρ Re(1/ρ)` (`ZerosOfLFunctions` 5.6 for `ζ` and real characters, 6.4d for non-real ones)
+and the gamma factor by `ZerosOfLFunctions` 1.4; `b = ξ′(0)/ξ(0)` because the product has
+logarithmic derivative `0` at `s = 0`, and at `s = 0` the value of `B` follows from
+`ζ(0) = −1/2`, `ζ′(0) = −(log 2π)/2` and `ψ(1) = −γ`; the uniform convergence of the truncated
+sums from the local zero count (`ZerosOfLFunctions` 4.5) (Davenport §12, `davenport2000`).
 
 *Needs:* `ZerosOfLFunctions` 1.4, 4.5, 5.5, 5.6, 6.4d; Mathlib `Complex.digamma`,
+`Complex.digamma_one`, `riemannZeta_zero`, `deriv_riemannZeta_zero`, `meromorphicOrderAt`,
 `DirichletCharacter.completedLFunction`.
 
 **Checks.**
@@ -2144,6 +2443,11 @@ by `ZerosOfLFunctions` 1.4; the uniform convergence of the truncated sums from t
   contradicting the positivity of each summand.
 - For `χ₄` (`q = 4`, `a = 1`) the constant is `(1/2) log(4/π) = 0.120782`; using `log q` without
   `1/2`, or `log(q/2π)`, changes it.
+- The constant `B` at `s = 0`, where the zero sum vanishes term by term:
+  `−ζ'(0)/ζ(0) = −log 2π = −1.837877`, and the right side is
+  `−1 − B − γ/2 − (1/2) log π = −1 + 0.023096 − 0.288608 − 0.572365 = −1.837877`. With
+  `B = −Σ_ρ m_ρ Re(1/ρ)` this is the classical
+  `Σ_ρ m_ρ Re(1/ρ) = 1 + γ/2 − (1/2) log 4π = 0.0230957`; a complex identity without `B`, or with `+B`, fails at `s = 0` by `0.023` or `0.046`.
 
 ### 7.2 Ford's intermediate region
 
@@ -2305,6 +2609,79 @@ sources' polynomials and parameters.
 - The shape of the threshold: Jang and Kwon's final step (lines 597–598) is
   `R₀ = (A/2)(1 − κ) h(0)/K(w₀)`, the expression `A g₁ (1 − κ)/(2 K(w₀))` of the criterion with
   `g₁ = h(0)`; a reading `A g₁/((1 − κ)² K(w₀))` would be larger by the factor `2/(1 − κ)³`.
+
+### 7.3a The classical-region predicate and Kadiri's smoothed explicit formula
+
+Define *ClassicalZeroFreeRegion* `R t₀`, for reals `R` and `t₀`, as: every `s` with
+`riemannZeta s = 0` and `|Im s| ≥ t₀` has `Re s < 1 − 1/(R log |Im s|)`; that is, `ζ` has no zero
+with `|t| ≥ t₀` and `σ ≥ 1 − 1/(R log |t|)` (`ClassicalZeroFreeRegion`). Prove:
+
+- monotonicity: for `0 < R ≤ R'` and `1 < t₀ ≤ t₀'`, *ClassicalZeroFreeRegion* `R t₀` implies
+  *ClassicalZeroFreeRegion* `R' t₀'`;
+- the zeros with `Im s ≥ t₀` suffice, by `riemannZeta_conj`;
+- the two forms of 7.3: for `t₀ > 1`, *ClassicalZeroFreeRegion* `R t₀` implies the form with `>`
+  at `R` (no zero with `|γ| ≥ t₀` and `β > 1 − 1/(R log |γ|)`), which implies
+  *ClassicalZeroFreeRegion* `R' t₀` for every `R' > R`;
+- the instances of 7.3 in it: given `RH(3·10¹²)` and `BrentPlattTrudgianRecord`,
+  *ClassicalZeroFreeRegion* `5.558691 2`, which is `riemannZeta_ne_zero_classical`, hence the
+  predicate at `5.573412`, at `5.5666305` and at every `R ≥ 5.558691`; given `RH(30 610 046 000)`,
+  the predicate at `5.69693` and at `5.68371` with `t₀ = 2`; and, under the hypotheses of the
+  `4.896` instance, the predicate at every `R > 4.896` with `t₀ = 3`.
+
+Kadiri's explicit formula is the smoothed form of the positivity that the criterion of 7.3 uses. Let
+`d > 0` and let `f : [0, d] → ℝ` be twice continuously differentiable, extended by `0` beyond `d`,
+with `f(d) = f′(0) = f′(d) = f″(d) = 0` (hypothesis (H1) of `kadiri2005` §2, the boundary conditions
+of the smoothing `h` of 7.3), and let `F(w) = ∫_0^d e^{−wt} f(t) dt` and
+`F₂(w) = ∫_0^d e^{−wt} f″(t) dt`, which are entire. Prove:
+
+- (the Laplace steps) for `w ≠ 0`, `F(w) = f(0)/w + F₂(w)/w²`, by two integrations by parts that use
+  `f(d) = f′(0) = f′(d) = 0`; `|F₂(w)| ≤ d m e^{d max(0, −Re w)}` with `m = max_{[0,d]} |f″|`, so
+  `|F(w)| ≤ |f(0)|/|w| + d m e^{d max(0, −Re w)}/|w|²` and
+  `Re F(w) = f(0) Re w/|w|² + Re(F₂(w)/w²) = O(|w|^{−2})` on every vertical strip; and for complex
+  `s` the function `φ_s(y) = (f(0) − f(y)) e^{−sy}` for `y ≥ 0`, `φ_s(y) = 0` for `y < 0`, is
+  continuously differentiable on `ℝ`, with `∫_0^∞ φ_s(y) e^{−zy} dy = f(0)/(s + z) − F(s + z)` for
+  `Re(s + z) > 0`;
+- (`kadiri2005` Proposition 2.1) for every complex `s` with `Re s > 1/2`,
+  `Re Σ_{n≥1} Λ(n) n^{−s} f(log n) = f(0)(−(1/2) log π + (1/2) Re ψ(s/2 + 1)) + Re F(s − 1)
+  − Σ_ρ m_ρ Re F(s − ρ)
+  + Re((1/2πi) ∫_{1/2−i∞}^{1/2+i∞} Re ψ(z/2) F₂(s − z)/(s − z)² dz + F₂(s)/s²)`,
+  where the left side is a finite sum (`f(log n) = 0` once `log n ≥ d`), the sum runs over the zeros
+  of `ζ` in the critical strip with multiplicity and converges absolutely, and so does the integral.
+  The source states the identity for every complex `s`; the statement here is on `Re s > 1/2`,
+  which contains the points `σ ≥ 0.99555` at which Kadiri's argument applies it;
+- (positivity) if moreover `f ≥ 0` and `a` is admissible (0.5), then for real `σ > 1/2` and `t` the
+  combination `Σ_{k≤n} a_k` of the right sides at `σ + ikt` is nonnegative, since the left sides
+  combine to `Σ_n Λ(n) n^{−σ} f(log n) Σ_k a_k cos(kt log n) ≥ 0`. This is the inequality from which
+  the criterion of 7.3 is drawn, with `h = f`.
+
+Route of the formula: for `Re s > 1`, the explicit formula for `−ζ′/ζ` against the test function
+`φ_s`, whose transform the Laplace steps give: integrate `(−ζ′/ζ)(z)` against the transform on a
+vertical line right of `1`, move the line to the left across the pole at `1` and the zeros, reflect
+the far line by the functional equation (`riemannZeta_one_sub`), which turns `−ζ′/ζ` into
+`ζ′/ζ(1 − z) − log π + (ψ(z/2) + ψ((1 − z)/2))/2`, and move the gamma term to `Re z = 1/2`
+(`kadiri2005` Théorème 3.1 at the modulus `1`); then 7.1 at `s` recombines the `f(0)` parts, the
+term `f(0)/(s − ρ)` of `F(s − ρ)` pairing with `1/ρ` into the absolutely convergent
+`Σ_ρ m_ρ (1/(s − ρ) + 1/ρ)` and `Re B = −Σ_ρ m_ρ Re(1/ρ)`. For `1/2 < Re s ≤ 1`, both sides are
+harmonic in `s` on `Re s > 1/2` (the left side is the real part of an entire function, the zero
+sum converges locally uniformly by the decay `O(|s − ρ|^{−2})`, and the integral is the real part
+of a function holomorphic there) and agree on `Re s > 1`.
+
+*Needs:* 0.5, 7.1 (the complex form); `ZerosOfLFunctions` 1.4 and 4.5; Mathlib `riemannZeta_conj`,
+`riemannZeta_one_sub`, `Complex.digamma`, `ArithmeticFunction.vonMangoldt`, `intervalIntegral`.
+
+**Checks.**
+
+- `F` is entire although `f(0)/w` is not: `F₂(0) = f′(d) − f′(0) = 0` and
+  `F₂′(0) = −∫_0^d t f″(t) dt = f(d) − f(0) = −f(0)`, so the poles of `f(0)/w` and `F₂(w)/w²` at
+  `w = 0` cancel. Without `f′(0) = 0` the first integration by parts would leave `f′(0)/w²`, and
+  `φ_s` would have a corner at `0`.
+- The zero sum enters with a minus sign, which is what excludes zeros near the line one: for a zero
+  `ρ₀ = β₀ + iγ₀` and `s = σ + iγ₀` with `σ > β₀`, `Re F(s − ρ₀) = ∫_0^d e^{−(σ−β₀)t} f(t) dt`
+  is close to `∫ f` when `σ − β₀` is small, and in the positivity of the third item it must be
+  outweighed by the other terms.
+- The predicate is vacuous for `R < 0`, where the boundary `1 − 1/(R log |t|)` lies right of `1`
+  for `|t| > 1`; and at `R = 5.558691`, `t₀ = 2` its boundary at `|t| = 2` is `σ = 0.740461`, that
+  of 7.3.
 
 ### 7.4 The Littlewood-type region
 
@@ -2713,17 +3090,25 @@ and the one-sided approximation of 4.5a, and `RH(H₀)` for the zeros below `H�
 
 ### 8.3 The Kadiri–Lumley–Ng density bound
 
-Let `H₀ = 3.0610046·10¹⁰`. Let `10⁹/H₀ ≤ k ≤ 1`, `d > 0`, `H ∈ [1002, H₀)`, `α > 0`, `δ ≥ 1`,
-`η₀ = 0.23622…`, `η ∈ (η₀, 1/2)`, `1 + η₀ ≤ μ ≤ 1 + η`, and `σ > 1/2 + d/log H₀`. Given `RH(H₀)` and
+Let `H₀` be real: the statement is made at every verification height, that is under the
+hypothesis `RH(H₀)` (0.2) below, and the range of `k` forces `H₀ ≥ 10⁹`. Let `10⁹/H₀ ≤ k ≤ 1`,
+`d > 0`, `H ∈ [1002, H₀)`, `α > 0`, `δ ≥ 1`, `η₀ = 0.23622…`, `η ∈ (η₀, 1/2)`, `1 + η₀ ≤ μ ≤ 1 + η`, and `σ > 1/2 + d/log H₀`. Given `RH(H₀)` and
 `HiaryRecord` (0.4b: the argument bounds `max_{|t|≤T} |ζ(1/2 + it)| ≤ 0.63 T^{1/6} log T + 2.851`,
 with `1.461` on `|t| ≤ 3` and the critical-line bound above, `kadirilumleyng2018` Lemma 3.2,
 lines 260–272, inside the mean square `∫₀^T |ζ M_X(1/2 + it)|² dt`, line 526), prove: for every
 `T ≥ H₀`,
 `N°(σ, T) ≤ ((T − H) log T/(2πd)) log(1 + C₁ (log kT)^{2σ} (log T)^{4(1−σ)} T^{8(1−σ)/3}/(T − H)) + (C₂/(2πd)) log² T`, hence
 `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T`, with `C₁ = C₁(α, d, δ, k, H, σ)` and `C₂ = C₂(d, η, k, H, μ, σ)` the closed forms
-(4.72)–(4.73) of `kadirilumleyng2018` (Theorem 1.1, lines 74–81). At the parameters of its
+(4.72)–(4.73) of `kadirilumleyng2018` (Theorem 1.1, lines 74–81), in which `H₀` enters through
+`U(α, k, H₀)`, `V(α, k, δ, H₀)`, `M(k, δ)` and the powers of `log H₀` and `log kH₀`. The theorem is
+stated for the verification height `H₀` of `RH(H₀)` (its (1.2), line 19), and Fiori, Kadiri and
+Swidinsky restate it, with the same proof, for an arbitrary verification height (`fks2023psi`
+Theorem 2.7); the range of `k` makes `kH₀ ≥ 10⁹`, the threshold of the sums of `λ_X` below. At
+`H₀ = 3.0610046·10¹⁰`, given `RH(30 610 046 000)`, and the parameters of its
 Table 1: `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (lines 83–87),
-which is `zetaZeroDensityCount_nine_tenths_lt`.
+which is `zetaZeroDensityCount_nine_tenths_lt`. At `k = 1` the second bound is the density
+predicate of 8.3a at `T₀ = H₀` and `S = {σ}`, with `c₁ = C₁/(2πd)`, `c₂ = C₂/(2πd)`,
+`p(σ) = 8(1 − σ)/3` and `q(σ) = 5 − 2σ`.
 Route: Ingham's argument with a general smoothing weight, the argument of a holomorphic function
 bounded by 5.1, the mean value 6.4 for the mollified sums, the critical-line bound
 `|ζ(1/2 + it)| ≤ 0.63 t^{1/6} log t` (which 4.7 implies, given `HiaryRecord` below `200`),
@@ -2775,9 +3160,48 @@ notes (their references [23] and [6], lines 358, 385–386, 1347 and 1370).
   through unchanged.
 - The statement is for `T ≥ H₀` only: a form "`T ≥ 1`" with smaller constants is not what the paper
   proves.
+- The verification height is a parameter: for `H₀ < 10⁹` no `k` is admissible (`10⁹/H₀ > 1`) and the
+  statement is empty; at `H₀ = 3·10¹²` the admissible `k` reach down to `3.3·10⁻⁴`, and the second
+  bound holds from `T = 3·10¹²` on with the closed forms evaluated at that height.
 - The count is `N°`, with `β > 9/10` and `γ < T` strict: a zero with `β = 9/10` exactly would be
   counted by `N(9/10, T)` and not by `N°(9/10, T)`, and the bound at the single value `σ = 9/10` says
   nothing about it. Given `RH(H₀)`, `N°(9/10, H₀) = 0`, consistent with the bound `1.91·10⁸`.
+
+### 8.3a The density predicate
+
+Define *ZetaZeroDensityBound* `T₀ S c₁ c₂ p q`, for a real `T₀`, a set `S ⊆ ℝ` and functions
+`c₁ c₂ p q : ℝ → ℝ`, as: for every `T ≥ T₀` and `σ ∈ S`,
+`N°(σ, T) ≤ c₁(σ) T^{p(σ)} (log T)^{q(σ)} + c₂(σ) log² T` (`ZetaZeroDensityBound`), the shape of the
+Kadiri–Lumley–Ng densities and of their recomputations at other heights, with the count `N°` of
+this layer. Prove:
+
+- monotonicity: it passes to `S' ⊆ S`, to `T₀' ≥ T₀`, and, when `T₀ ≥ 1`, to pointwise larger `c₁`
+  and `c₂`;
+- locality in `σ`: it holds on `S` if and only if it holds on `{σ}` for every `σ ∈ S`; and, since
+  `N°(σ, T)` is antitone in `σ`, if it holds on `{σ₁}` then it holds on `[σ₁, ∞)` with the
+  constant functions equal to `c₁(σ₁)`, `c₂(σ₁)`, `p(σ₁)`, `q(σ₁)`, which is how bounds proved at
+  finitely many `σ` give piecewise constant `c₁`, `c₂`;
+- the instances of 8.3: for every verification height `H₀` and the parameters of 8.3 with `k = 1`,
+  given `RH(H₀)` and `HiaryRecord`, *ZetaZeroDensityBound* `H₀ {σ} (C₁/(2πd)) (C₂/(2πd))
+  (8(1 − σ)/3) (5 − 2σ)`; in particular, given `RH(30 610 046 000)` and `HiaryRecord`,
+  *ZetaZeroDensityBound* `30610046000 {9/10} 11.499 3.186 (4/15) (16/5)` (constant functions), by
+  `zetaZeroDensityCount_nine_tenths_lt`.
+
+The densities of 8.1 count `N(σ, T)` and are linear in `T`, and that of 8.5 holds only up to
+`T = exp(6.7·10¹²)`; they bound `N°` (since `N° ≤ N`) but are not instances of the predicate, whose
+range in `T` is unbounded.
+
+*Needs:* 8.3; Mathlib `Real.rpow`, `Real.log`.
+
+**Checks.**
+
+- `σ ≥ 1` is trivial: `N°(σ, T) = 0` there, since `σ < β < 1` is empty, so the predicate holds on
+  `[1, ∞)` for every `T₀ ≥ 1` and nonnegative `c₁`, `c₂`.
+- With `c₁ = c₂ = 0` on `S = {1/2}` the predicate says that no zero has `β > 1/2` and `0 < γ < T`
+  for any `T ≥ T₀`, which with `RH(T₀)` is the Riemann hypothesis itself, beyond every `RH(H)` of
+  0.4.
+- Strictness: the bound of `zetaZeroDensityCount_nine_tenths_lt` is strict and the predicate is
+  not; the instance above uses only `≤`.
 
 ### 8.4 Log-free densities for Dirichlet L-functions
 
@@ -3051,7 +3475,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `bellotti2024`: C. Bellotti, *Explicit bounds for the Riemann zeta function and a new zero-free region*, Journal of Mathematical Analysis and Applications 536 (2024); doi:10.1016/j.jmaa.2024.128249, arXiv:2306.10680v1. Cited for: Theorem 1.1 (zeta bound); Theorem 1.2 (zero-free region); Theorems 1.4–1.5 (Vinogradov's integral and the sums S(N, t)).
 - `ralaivaosaonarazakarinoro2026`: Dimbinaina Ralaivaosaona, Faratiana Brice Razakarinoro, *An explicit upper bound for Siegel zeros of imaginary quadratic fields*, Journal of Number Theory 281 (2026); doi:10.1016/j.jnt.2025.10.014, arXiv:2001.05782v2. Cited for: Theorem 1.1 of the journal version (constant `6.035`), which is Theorem 1 of arXiv v2 (constant `6.5`, lines 69–76, the text read).
 - `kadiring2012`: Habiba Kadiri, Nathan Ng, *Explicit zero density theorems for Dedekind zeta functions*, Journal of Number Theory 132 (2012); doi:10.1016/j.jnt.2011.09.002, arXiv:1201.3932v1. Cited for: Theorem 1 (explicit N_K(T)); context only, Dedekind case belongs to ExplicitNumberFields.
-- `kadirilumleyng2018`: Habiba Kadiri, Allysa Lumley, Nathan Ng, *Explicit zero density for the Riemann zeta function*, J. Math. Anal. Appl. 465 (2018), no. 1, 22–46; doi:10.1016/j.jmaa.2018.04.071, arXiv:2101.12263v1. Cited for: Theorem 1.1 and its corollary at sigma = 9/10; Lemmas 3.2–3.5.
+- `kadirilumleyng2018`: Habiba Kadiri, Allysa Lumley, Nathan Ng, *Explicit zero density for the Riemann zeta function*, J. Math. Anal. Appl. 465 (2018), no. 1, 22–46; doi:10.1016/j.jmaa.2018.04.071, arXiv:2101.12263v1. Cited for: (1.2) (the verification height `H₀`, line 19); Theorem 1.1 and its corollary at sigma = 9/10; Lemmas 3.2–3.5.
 - `platt2016grh`: David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016); doi:10.1090/mcom/3077, arXiv:1305.3087v1. Cited for: Theorems 7.1 and 7.2.
 - `alzer1997`: H. Alzer, *On some inequalities for the gamma and psi functions* (1997). Cited for: Theorems 8 and 9.
 - `chenggraham2004`: Y. Cheng, S. W. Graham, *Explicit estimates for the Riemann zeta function*, Rocky Mountain J. Math. 34 (2004). Cited for: Lemma 2.
@@ -3067,7 +3491,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `platt2017zeros`: D. J. Platt, *Isolating some non-trivial zeros of zeta*, Mathematics of Computation 86 (2017). Cited for: Theorem 5.1 (height 30 610 046 000).
 - `trudgian2014zeta1`: Timothy Trudgian, *A new upper bound for |ζ(1+ it)|*, Bull. Aust. Math. Soc. 89 (2014), 259–264; doi:10.1017/S0004972713000415, arXiv:1210.6743v1. Cited for: Theorem 1.
 - `saadeddin2016`: Sumaia Saad Eddin, *Explicit upper bound for |L(1, χ)| when χ(2) = 1 and χ is even* (2015); doi:10.1142/S1793042116501372, arXiv:1503.08365v1. Cited for: Theorem 1.
-- `kadiri2005`: Habiba Kadiri, *Une region explicite sans zero pour la fonction Zeta de Riemann*, Acta Arith. 117 (2005), no. 4, 303–339; doi:10.4064/aa117-4-1, arXiv:math/0401238v1. Cited for: Théorème 1.1.
+- `kadiri2005`: Habiba Kadiri, *Une region explicite sans zero pour la fonction Zeta de Riemann*, Acta Arith. 117 (2005), no. 4, 303–339; doi:10.4064/aa117-4-1, arXiv:math/0401238v1. Cited for: Théorème 1.1; §2, hypothesis (H1) and Proposition 2.1 (the smoothed explicit formula); Théorème 3.1 (the explicit formula behind it).
 - `mortici2011psi`: C. Mortici, *On a sum of the psi function with a logarithm* (2011). Cited for: Theorem 1.1.
 - `jangkwon2014`: W.-J. Jang, S.-H. Kwon, *A note on Kadiri's explicit zero free region for Riemann zeta function* (2014). Cited for: §3 (Kadiri's method, conditions (1) and (4), inequality (6)); Propositions 10 and 11 (`R₀ = 5.68371`, Xylouris' smoothing).
 - `lehman1970`: R. S. Lehman, *On the distribution of zeros of the Riemann zeta-function*, Proceedings of the London Mathematical Society (3) 20 (1970); doi:10.1112/plms/s3-20.2.303. Cited for: Lemma 2.
@@ -3098,7 +3522,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `hiaryleongyang2025`: Ghaith A. Hiary, Nicol Leong, Andrew Yang, *Explicit bounds for the Riemann zeta-function on the 1-line* (2023); arXiv:2306.13289v3. Cited for: Theorems 1 and 2.
 - `leong2026`: Nicol Leong, *Explicit estimates for the logarithmic derivative and the reciprocal of the Riemann zeta function*, J. Number Theory 285 (2026), 230–261; arXiv:2405.04869v5, the text read, whose numbering is cited. Cited for: Corollaries 1–4, Table 4, (42), (49).
 - `leeLeong2022`: Ethan Simpson Lee, Nicol Leong, *New explicit bounds for Mertens function and the reciprocal of the Riemann zeta-function* (2022–2026); arXiv:2208.06141v5 (an unrefereed preprint). Cited for: Theorem 1.1 (6), Lemma 4.3, Theorem 2.1 and its remarks.
-- `bellottiwong2025`: Chiara Bellotti, Peng-Jie Wong, *Improved estimates for the argument and zero-counting function of the Riemann zeta-function* (2024); arXiv:2412.15470v2. Cited for: Theorems 1.1 and 1.2, Tables 1 and 2, the bound (1.2) for S(T).
+- `bellottiwong2025`: Chiara Bellotti, Peng-Jie Wong, *Improved estimates for the argument and zero-counting function of the Riemann zeta-function* (2024); arXiv:2412.15470v2. Cited for: Theorems 1.1 and 1.2, Tables 1 and 2, the bound (1.2) for S(T), footnote 1 (the corrected constant of `hasanalizadeshenwong2022` Corollary 1.2).
 - `brentplatttrudgian2021`: Richard P. Brent, David J. Platt, Timothy S. Trudgian, *Accurate estimation of sums over zeros of the Riemann zeta-function*, Mathematics of Computation 90 (2021), 2923–2935; doi:10.1090/mcom/3652, arXiv:2009.13791v1. Cited for: Lemmas 1 and 3, Theorem 1, Corollary 1.
 - `cullyhugilljohnston2023`: Michaela Cully-Hugill, Daniel R. Johnston, *On the error term in the explicit formula of Riemann--von Mangoldt* (2021); arXiv:2111.10001v5. Cited for: Theorem 2.1, Lemma 2.2.
 - `cullyhugilljohnston2025`: Michaela Cully-Hugill, Daniel R. Johnston, *On the error term in the explicit formula of Riemann-von Mangoldt II* (2024); arXiv:2402.04272v3. Cited for: Corollary 3.2.
@@ -3113,7 +3537,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `fiori2025`: Andrew Fiori, *A Note on the Phragmen-Lindelof Theorem* (2025); arXiv:2502.13282v3. Cited for: Theorem 1.
 - `banks2026`: William D. Banks, *On the OpenAI proof that Landau-Siegel zeros do not exist* (2026); arXiv:2610.15483v1. Cited for: Theorem 1.
 - `bellottitrudgianyang2026`: Chiara Bellotti, Tim Trudgian, Andrew Yang, *Zero-free regions inspired by work of Heath-Brown* (2026); arXiv:2603.21490v1. Cited for: Theorem 1.
-- `davenport2000`: H. Davenport (revised by H. L. Montgomery), *Multiplicative Number Theory, 3rd edition*, Graduate Texts in Mathematics 74, Springer (2000); doi:10.1007/978-1-4757-5927-3. Cited for: §12 (the partial-fraction expansions of zeta'/zeta and L'/L).
+- `davenport2000`: H. Davenport (revised by H. L. Montgomery), *Multiplicative Number Theory, 3rd edition*, Graduate Texts in Mathematics 74, Springer (2000); doi:10.1007/978-1-4757-5927-3. Cited for: §12 (the partial-fraction expansions of zeta'/zeta and L'/L, with the constants `B = −γ/2 − 1 + (1/2) log 4π` and `B(χ)`).
 - `ramaretmeemt`: O. Ramaré, *TME-EMT: explicit estimates in multiplicative number theory, Size of L(1, χ)*, author-maintained page (2026). Cited for: the two theorems dated 2001 (Ramaré's Corollary 1 with its exact constants), lines 88–100.
 - `ramare-rumely-1996`: Olivier Ramaré, Robert Rumely, *Primes in arithmetic progressions*, Mathematics of Computation 65 (1996), 397–425; doi:10.1090/s0025-5718-96-00669-2. Cited for: Theorems 3.6.2 and 3.6.3, Lemma 3.6.1, (3.4.2)–(3.4.3), (3.6.6)–(3.6.7).
 - `guo2026`: Victor Zhenyu Guo, *An explicit elementary proof of no Landau–Siegel zeros* (2026); arXiv:2610.30476v1. Cited for: Theorem 1.1 (an unrefereed preprint).
@@ -3122,4 +3546,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `trudgian2011turing`: T. S. Trudgian, *Improvements to Turing's method*, Mathematics of Computation 80 (2011), 2259–2279; doi:10.1090/S0025-5718-2011-02470-1 (publisher's open archive). Cited for: Theorem 2.2 and Lemmas 2.4–2.11.
 - `cullyhugilltrudgian2021`: M. Cully-Hugill, T. Trudgian, *Two explicit divisor sums*, The Ramanujan Journal 56 (2021); doi:10.1007/s11139-020-00333-3 (not read here; cited as `bellotti2025density` quotes it). Cited for: Theorem 2.
 - `hoffstein1981`: J. Hoffstein, *On the Siegel–Tatuzawa theorem*, Acta Arithmetica 38 (1980/81), 167–174; doi:10.4064/aa-38-2-167-174 (an image scan, not read here; cited as `luzamanzhao2026` quotes it). Cited for: Lemma 1.
-- `titchmarsh1986`: E. C. Titchmarsh (revised by D. R. Heath-Brown), *The Theory of the Riemann Zeta-Function, 2nd edition*, Oxford University Press (1986). Cited for: Theorem 4.13 (approximate functional equation); §4.16 (the Riemann–Siegel formula); §8.6; §9.4 (Backlund's argument).
+- `titchmarsh1986`: E. C. Titchmarsh (revised by D. R. Heath-Brown), *The Theory of the Riemann Zeta-Function, 2nd edition*, Oxford University Press (1986). Cited for: Lemma 4.3 (the first-derivative test); Theorem 4.13 (approximate functional equation); §4.16 (the Riemann–Siegel formula); §8.6; §9.4 (Backlund's argument).
+- `grahamvaaler1981`: S. W. Graham, J. D. Vaaler, *A class of extremal functions for the Fourier transform*, Transactions of the American Mathematical Society 265 (1981), 283–302. Cited for: Theorem 9 (the extremal majorant and minorant of the one-sided exponential and their uniqueness).
+- `chirrehelfgott2025`: Andrés Chirre, Harald Andrés Helfgott, *Optimal bounds for sums of non-negative arithmetic functions* (2025); arXiv:2512.15709v1 (an unrefereed preprint). Cited for: Proposition 4.1 with (4.4)–(4.6) and (4.12) (the Fourier-side form of Graham and Vaaler's approximants); Lemmas 4.2 and 4.3 (the bounds for `(z coth z)′`).
+- `fks2023psi`: Andrew Fiori, Habiba Kadiri, Joshua Swidinsky, *Sharper bounds for the Chebyshev function ψ(x)*, J. Math. Anal. Appl. 527 (2023), 127426; arXiv:2204.02588v3. Cited for: Theorem 2.7 (the Kadiri–Lumley–Ng density at an arbitrary verification height) and Remark 2.8.
