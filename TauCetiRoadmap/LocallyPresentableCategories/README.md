@@ -155,6 +155,9 @@ here; if it is about one particular category, about ∞-categories, or about top
   `…/Presentable/SolutionSetCondition.lean`: `SolutionSetCondition.of_isCardinalAccessible`.
 - `Mathlib/CategoryTheory/Limits/Indization/Category.lean`: `CategoryTheory.Ind`,
   `Ind.yoneda`, `HasFilteredColimits (Ind C)`.
+- `Mathlib/AlgebraicTopology/SimplexCategory/Basic.lean`: `SimplexCategory`,
+  `SimplexCategory.skeletalEquivalence`; `Mathlib/Order/Category/NonemptyFinLinOrd.lean`:
+  `NonemptyFinLinOrd`; `Mathlib/Order/Category/LinOrd.lean`: `LinOrd` (1.5, Checks).
 - `Mathlib/CategoryTheory/Limits/Sifted.lean`: `IsSifted`,
   `IsSifted.colim_preservesFiniteProducts_of_isSifted`.
 - `Mathlib/CategoryTheory/Adjunction/AdjointFunctorTheorems.lean`:
@@ -368,6 +371,19 @@ the finitely presentable objects, and Mathlib's density. Backward: in `Ind A` th
 - `A = FinSet`: `Ind FinSet ≌ Type w`, every set the filtered colimit of its finite subsets.
 - `A` the discrete category on two objects: `Ind A ≌ A`, finitely accessible and not cocomplete,
   so finitely accessible does not imply locally finitely presentable.
+- `A = SimplexCategory`: `Ind SimplexCategory` is equivalent to the category of nonempty linear
+  orders and monotone maps (the full subcategory of `LinOrd` on the nonempty orders), by the
+  criterion above. Filtered colimits of linear orders are computed on underlying sets, so a
+  monotone map out of `[n]`, an `(n+1)`-tuple `x₀ ≤ ⋯ ≤ xₙ`, factors through a stage and `[n]` is
+  finitely presentable; every nonempty linear order is the directed union of its finite nonempty
+  subsets; and `SimplexCategory.skeletalEquivalence` identifies `SimplexCategory` with
+  `NonemptyFinLinOrd`, full in it. The category is finitely accessible and not cocomplete: it has
+  no initial object (a nonempty `L` has two monotone maps to `[1]`, the two constants), and the
+  one-point order has no coproduct with itself, since a coproduct with points `x`, `y` would carry
+  monotone maps to `[1]` sending `(x, y)` to `(0, 1)` and to `(1, 0)`, while `x ≤ y` or `y ≤ x`.
+  Coequalizers exist (the quotient of the codomain by the convex equivalence relation the pair
+  generates), so the missing colimits are the empty and binary coproducts. This excludes reading
+  `Ind A` as cocomplete for every small `A`, as it is when `A` has finite colimits.
 
 ### 1.6 Modules over a ring
 
