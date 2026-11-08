@@ -198,8 +198,8 @@ Their generic theories remain in the supplying roadmaps.
 | [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
 | InductionRestriction 2.1 | Almost-conjugacy and permutation representations | M1’s finite-quotient deck models |
 | LieGroupoidsPoisson §G0.0, [OperatorAlgebraDynamics D5](../OperatorAlgebraDynamics/README.md#d5-haar-groupoids-convolution-and-disintegration) | Topological groupoid, Haar convolution, full completion and disintegration | M5’s deformation groupoid |
-| CStarAlgebras C1/C2 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology |
-| UnboundedOperators UO-B04/B05 | Strongly commuting joint PVM and multiparameter Stone theorem | M4’s joint translation spectrum |
+| CStarAlgebras C1/C2, C5.2, C6.2/C6.5 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity; C2.2's nonzero irreducibility predicate, restated on the same carrier as `IsIrreducibleRep`; C2.3 representations containing a nonzero compact operator (`K(H)⊆π(A)`, and equal kernels force unitary equivalence, with no separability hypothesis); C2.AnnHull's support formula `hull(Ann I)=closure(U_I)`; C5.2 `C₀(X)⊗min A≅C₀(X,A)` and `C(X)⊗min C(Y)≅C(X×Y)` with elementary-tensor and pullback naturality; C6.5's nuclearity of `C₀(X)`, so that C6.2 makes `C₀(X)⊗max B→C₀(X)⊗min B` an isomorphism | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology, compact-isotype supports and radial tensor comparison |
+| UnboundedOperators UO-B04/B05, UO-E03 | Strongly commuting joint PVM and multiparameter Stone theorem; Nelson's criterion that a symmetric operator, or a pairwise commuting finite family, with a dense invariant domain of analytic vectors (factorial bounds on every mixed word) is essentially self-adjoint, strongly commuting in the family case | M0’s analytic-vector and central closures; M4’s joint translation spectrum |
 | [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; Tau Ceti's `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality` supply unitarization and coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
 | MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
 | LaguerreJacobi A/B contract | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
@@ -1602,11 +1602,12 @@ Borel cocycle continuous. Prove its comparison with the locally sectioned extens
 construction whenever that additional hypothesis holds.
 
 For a continuous open surjective homomorphism q:E→G of Polish groups with
-closed central kernel𝕋, prove existence of a normalized Borel section: the
-closed fibers form a Borel closed-valued multifunction because q is open;
-prove its Borel selection using countable nested balls in a complete compatible
-metric. Supply this selection lemma here if the consumed uniformization API
-only provides a universally measurable selector. Define the section multiplier
+closed central kernel 𝕋, obtain a normalized Borel section by applying
+`TauCeti.exists_measurable_forall_mem` to `M(x)=q⁻¹{x}`: its values are
+cosets of the closed kernel 𝕋, hence closed, and nonempty since q is onto;
+M is weakly measurable because `{x : M(x)∩U≠∅}=q(U)` is open for open U, q
+being open. Normalize the resulting Borel section by `s(1)=1`; redefining a
+Borel map at the single point 1, a closed set, keeps it Borel. Define the section multiplier
 and prove its Borel cocycle and phase-change laws. If the extension has local
 continuous sections, compare its Borel cocycle with Layer P.3's locally continuous
 extension convention. A global continuous section exists exactly when this
@@ -1741,8 +1742,12 @@ one were complex-linear.
 
 When ε is nonzero, write G⁺=kerε. Prove the exhaustive two cases:
 `H∩(G∖G⁺)≠∅` iff `G=G⁺H` iff G⁺ acts transitively on X. In this
-case a Borel selector can be chosen in G⁺ and the fiber isotropy map
-has the same grade as g. If H⊆G⁺, X has exactly two G⁺-orbits; the
+case `TauCeti.exists_measurable_forall_mem`, applied to
+`M(x)=q⁻¹{x}∩G⁺` for the quotient map `q:G→X`, gives a Borel section
+with values in G⁺: the values are closed because G⁺=kerε is clopen,
+nonempty because G⁺ is transitive, and `{x : M(x)∩U≠∅}=q(U∩G⁺)` is
+open for open U because q is open. With this section the fiber
+isotropy map has the same grade as g. If H⊆G⁺, X has exactly two G⁺-orbits; the
 induced Hilbert space has the corresponding two summands and odd
 operators exchange them, with the conjugate-fiber convention just
 specified. The condition “G⁺ not transitive and H contains an odd
@@ -4875,8 +4880,9 @@ exactness for the corresponding open invariant translation sets. In each
 energy sheet or spacelike stratum the radius is an inert (0,∞) coordinate.
 Own the generator-preserving comparison
 `C₀((0,∞)×L/K)⋊L≃C₀(0,∞)⊗(C₀(L/K)⋊L)` for the actual K=SU2 or H_s:
-use the full universal property, D1’s tensor comparison, CStarAlgebras C5’s
-nuclear commutative factor and HilbertModules H5's trivial-field fibres.
+use the full universal property, D1’s tensor comparison, CStarAlgebras C5.2’s
+`C₀(X)⊗min B≅C₀(X,B)`, the nuclearity of the commutative factor `C₀(0,∞)`
+(CStarAlgebras C6.5, with C6.2's `⊗max=⊗min`) and HilbertModules H5's trivial-field fibres.
 Prove `widehat(C₀(X)⊗B)≃X×B̂` by factoring the central C₀(X) character,
 then the fiber representation, with both topology directions from elementary
 tensor norm tests. D3 Green imprimitivity and HilbertModules H3's Rieffel
@@ -6497,7 +6503,7 @@ For the DNC normalizer, B=−A=diag(1,−1,−1,−1) sends (0,0,r,r) to (0,0,�
 
 ### Dependencies
 
-P.2; M0–M4; HilbertModules H3/H5; LieGroupoidsPoisson §G0.0; OperatorAlgebraDynamics D5; CStarAlgebras C1/C2; VonNeumannAlgebras V4.0.Fields. The concrete groupoid and fixed-group topology precede DNC comparisons and all-sequence classification.
+P.2; M0–M4; HilbertModules H3/H5; LieGroupoidsPoisson §G0.0; OperatorAlgebraDynamics D5; CStarAlgebras C1/C2 (with C2.AnnHull), C5.2 and C6.2/C6.5; VonNeumannAlgebras V4.0.Fields. The concrete groupoid and fixed-group topology precede DNC comparisons and all-sequence classification.
 
 ## Layer 9: M6 — Tensor products and source acceptance cases
 
