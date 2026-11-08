@@ -15,8 +15,9 @@ field: Mathlib's discrete valuation rings with a finite group acting with invari
 (`Algebra.IsInvariant`) and Tau Ceti's lower filtration of a group acting on a local ring
 (`TauCeti.IsLocalRing.ramificationGroup`). Stated here: Hilbert's different formula over a
 separable residue extension (§3a.1) and Hasse–Arf without residue finiteness in Serre's
-lower-numbering form (§3a.3). The finite-local-field Hasse–Arf is the completed roadmap's
-`hasseArf` (Layer 3 of the completed roadmap LocalFieldsRamification), consumed and not restated.
+lower-numbering form (§3a.3). The finite-local-field Hasse–Arf is Tau Ceti's
+`TauCeti.LocalFieldsRamification.hasseArf`, owned by the completed roadmap LocalFieldsRamification
+and consumed, not restated; §3a.3 owns its generalization.
 
 Not statable at the pins, and therefore README targets only: the Herbrand function, its inverse
 and the upper numbering on the local-ring filtration with their quotient and tower theorems (for
