@@ -317,7 +317,8 @@ For the polar disks of 1.1, put `L(r) = Length(∂B_r(p)) = ∫₀^(2π) j(r,θ)
 
 where the values at zero are the continuous extensions: integrate `j_rr = −Kj` in r from
 the initial condition `j_r(0,θ) = 1` and use Fubini on `j dr dθ` (Chavel, 2nd ed., §III.1,
-geodesic spherical coordinates, p. 112; do Carmo, *Curves and Surfaces*, §4-6). Lean name: `hasDerivAt_polarLength_and_volume_ball`.
+geodesic spherical coordinates, p. 112; do Carmo, *Curves and Surfaces*, §4-6). Lean name:
+`hasDerivAt_polarLength_and_volume_ball`.
 
 **API.**
 
