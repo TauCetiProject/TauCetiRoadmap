@@ -14,23 +14,23 @@ decompositions and the statement of geometrization (Layer 8); Heegaard splitting
 resolved problems of Kirby's list that these primitives make statable: the Smale conjecture
 and its four-dimensional failure, the annulus theorem, Freedman's topological slice theorem,
 Mostow rigidity, Agol's virtual fibering and virtual Haken theorems, the JSJ theorem,
-geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the Weeks
-manifold, Property P and Manolescu's non-triangulable manifolds, together with Alexander's
-sphere theorem, the knot-group theorem and the Gordon–Luecke theorem. `Suggested.lean` states
-the fourteen of these that are statable against the pinned libraries, together with four
-classical theorems of low-dimensional topology that the layers prove and the pins make
-statable: Radó's and Moise's triangulation theorems, the sphere theorem and Waldhausen's
-theorem.
+geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the minimality
+of the Weeks manifold, Property P and Manolescu's non-triangulable manifolds, together with
+Alexander's sphere theorem, the knot-group theorem and the Gordon–Luecke theorem.
+`Suggested.lean` states all of these against the pinned libraries, together with Property R, the
+cyclic surgery theorem and the Kneser–Milnor prime decomposition, and four classical theorems of
+low-dimensional topology that the layers prove and the pins make statable: Radó's and Moise's
+triangulation theorems, the sphere theorem and Waldhausen's theorem.
 
 ## Scope and ownership
 
 This roadmap owns the following, by layer.
 
 - **Layer 1.** Smooth collars of boundaries as data, complements of embedded balls, gluing
-  along codimension-zero boundary faces, handle attachment, connected sum with explicit
-  choices and its independence, the normal bundle and variable-radius tubes, the tubular
-  neighbourhood theorem in a general Riemannian ambient manifold and metric-independence
-  of the normal bundle's smooth structure, the relative triangulation and smoothing adapter
+  along codimension-zero boundary faces, handle attachment, the cut-and-glue description of the
+  pinned connected sum with its associativity, fundamental group and Euler characteristic, the
+  uniqueness of tubular neighbourhoods up to isotopy and the retraction of a tube onto its core,
+  the relative triangulation and smoothing adapter
   of compact surfaces, the smooth classification of compact surfaces (Layer 1.7), and their
   mapping class groups with Dehn twists and Lickorish's twist theorem (Layer 1.7.2); the
   comparison of the topological, PL and smooth categories in dimension two is Layer 11.2.1's.
@@ -38,10 +38,10 @@ This roadmap owns the following, by layer.
   the pins (composition and codimension-one collaring), Brown's generalized Schoenflies
   theorem, and the statement of the annulus theorem in every dimension.
 - **Layer 3.** The comparison of the weak topology on `Diff(M)` with the Whitney and
-  compact-open topologies, the restriction fibration and isotopy extension (continuous families
-  and smooth families), the classical cases `Diff(S¹) ≃ O(2)` and `Diff(S²) ≃ O(3)`, and the
-  statements of Cerf's theorem that orientation-preserving diffeomorphisms of `S³` are isotopic
-  to the identity and of the Smale conjecture.
+  compact-open topologies, the restriction fibration, isotopy extension for continuous families
+  and relative to an open set, the disc theorem for balls with different centres, the classical
+  cases `Diff(S¹) ≃ O(2)` and `Diff(S²) ≃ O(3)`, `Γ₄ = 0` from Cerf's theorem, and the statement of
+  the Smale conjecture.
 - **Layer 4.** Knot and link theory in a general manifold and in `S³`: the geometric
   presentation and its combinatorial presentations (diagrams, braid closures, polygons), the
   equivalence relations of each and the Reidemeister, Alexander and Markov theorems comparing
@@ -63,9 +63,10 @@ This roadmap owns the following, by layer.
   and two-bridge knots, torus knots and satellites, the Garside structure of braid groups, the
   Morton–Franks–Williams bound, Kondo's realization theorem and exponential bounds on the
   number of knot types.
-- **Layer 5.** The compact exterior of a link, Dehn filling and surgery, surgery on framed
-  links, lens spaces as fillings, the Lickorish–Wallace theorem, Moser's classification of
-  the lens-space surgeries on torus knots, Mathieu's chirally cosmetic pairs, the Montesinos
+- **Layer 5.** The smooth structure and isotopy invariance of the pinned link exterior, the
+  uniqueness, smoothness and homology of Dehn fillings, surgery on framed links, the
+  Lickorish–Wallace theorem, Moser's classification of the lens-space surgeries on torus knots,
+  Mathieu's chirally cosmetic family (its first member being the pinned proposition), the Montesinos
   trick, Scharlemann's theorem that unknotting-number-one knots are prime, the statements of
   Property P, Property R and the cyclic surgery theorem, and the Kanenobu–Murakami criterion
   derived from the cyclic surgery theorem as stated.
@@ -76,19 +77,19 @@ This roadmap owns the following, by layer.
   spheres, and the statement of Freedman's theorem.
 - **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
   theorem in dimension three with their volume and isometry-group consequences, the
-  Margulis and cusp theory, the Weeks manifold as a Dehn filling of the Whitehead link
-  exterior and the statement of its minimality, and the statements of the virtual fibering
-  and virtual Haken theorems.
-- **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the Kneser–Milnor prime
-  decomposition, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
+  Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
+  its minimality, and the statements of the virtual fibering and virtual Haken theorems.
+- **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the proofs of the pinned
+  Kneser and Milnor prime-decomposition propositions, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
   Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
   fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
   geometrization and the Poincaré conjecture, the statement of the relative JSJ theorem
   for compact manifolds with torus boundary (Layer 8.5.1), and the rigidity of prime-knot
   groups (Layer 8.5.2).
-- **Layer 9.** Handlebodies, Heegaard splittings and the Heegaard genus, the inequality
-  between rank and genus, Waldhausen's theorem on splittings of `S³`, and the statement of
-  Li's theorem.
+- **Layer 9.** The existence, gluing-map description and stabilization of the pinned Heegaard
+  splittings, the Reidemeister–Singer theorem, Waldhausen's theorem on splittings of `S³`, the
+  genus-zero and genus-one classifications and the additivity of the Heegaard genus under
+  connected sum, and the statement of Li's theorem.
 - **Layer 10.** Codimension-one transversely oriented foliations of 3-manifolds, Reeb
   components, Reeb stability, the Novikov–Rosenberg theorem and the existence of foliations
   on closed orientable 3-manifolds.
@@ -106,16 +107,22 @@ This roadmap leaves the following to other roadmaps.
 - **Mathlib and Tau Ceti** already have, at the pins, the carriers listed under *Exact supplier
   contracts*: the model geometries and geometric structures, hyperbolic metrics and their
   volumes, locally flat embeddings and Brown's bicollaring theorem, the diffeomorphism group
-  with its weak Whitney topology, smooth embeddings and their normal spaces, the Euclidean
-  tubular neighbourhood with its normal vector bundle, Sard's theorem in its flat and its
+  with its weak Whitney topology, smooth embeddings and their intrinsic normal bundles, the
+  tubular neighbourhood theorem, isotopy extension on compact sets, the homogeneity lemma and
+  the disc theorem, connected sums with their independence of the balls, prime manifolds,
+  knot and link exteriors, Dehn fillings and surgery on framed spheres, the cosmetic-surgery
+  predicates, the Weeks manifold, handlebodies, Heegaard splittings and the Heegaard genus with
+  the rank bound, the topological slice genus, the Euler class of a foliation, Sard's theorem in its flat and its
   boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
   plane and on the `2`-sphere, slopes and framed boundary tori,
   Seifert fibrations, the sphere-bounds-a-ball condition, JSJ and geometric torus
   decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
   simplicial realization, combinatorial manifolds, collapse, triangulability, and the
-  propositions naming the Smale conjecture, Watanabe's theorem, the annulus conjecture,
-  Freedman's theorem, Mostow rigidity, the virtual fibering and virtual Haken conjectures,
-  the JSJ theorem, geometrization, the triangulation conjecture and Zeeman's conjecture. None
+  propositions naming the Smale conjecture, Cerf's theorem, Watanabe's theorem, the annulus
+  conjecture, Freedman's theorem, Mostow rigidity, the virtual fibering and virtual Haken
+  conjectures, the JSJ theorem, geometrization, Kneser's and Milnor's prime decomposition
+  theorems, Mathieu's first chirally cosmetic pair, the theorem of Gabai, Meyerhoff and Milley,
+  Li's theorem, the triangulation conjecture and Zeeman's conjecture. None
   of these is planned again here; each is cited by name where it is used.
 - **DifferentialGeometry** owns faces of manifolds with corners, flows, involutive
   distributions and the Frobenius theorem, integration of forms, Riemannian metrics and the
@@ -163,8 +170,9 @@ This roadmap leaves the following to other roadmaps.
   comparison and the smoothing theory beyond dimension three; the Lee deformation of Khovanov
   homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications;
   the connected-sum and descent adapter for the grid invariant of CombinatorialHeegaardFloer;
-  the Thurston seminorm beyond the integral surface minimum of Layer 5.4.1, the Euler class
-  of a foliation and the Euler-class-one counterexamples;
+  the Thurston seminorm beyond the integral surface minimum of Layer 5.4.1, and the proofs of
+  Thurston's Euler class inequality and of Yazdi's Euler-class-one counterexamples, whose
+  statements and the Euler class of a foliation are Tau Ceti's;
   the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
   construction. Those developments need AlgebraicTopology, CharacteristicClasses,
@@ -234,6 +242,14 @@ This roadmap leaves the following to other roadmaps.
 - **Combinatorial manifolds.** Dimension `0` is the case of a discrete complex with empty
   vertex links; for `n + 1` every vertex link is a combinatorial `n`-sphere or `n`-ball. This
   is Tau Ceti's `TauCeti.IsCombinatorialManifold`, by pattern matching on the dimension.
+- **Named hypotheses.** A *Hypothesis k.n* records a finite identification or computation about
+  a specific diagram, surface, braid word or presentation (that a marked diagram is a given
+  tabulated knot, that a given surface has a given Seifert matrix), or a value of a specific
+  knot invariant computed outside this roadmap's theory, cited where it is stated. It is
+  neither a target nor a Check and is never asserted: every statement that uses it says
+  "assuming Hypothesis k.n" and carries it as an explicit premise, and no hypothesis contains
+  the conclusion of a statement that assumes it. Tabulated identifications are out of scope
+  (*Scope and ownership*, knot tables), which is why they enter as premises.
 
 ## Exact supplier contracts
 
@@ -270,10 +286,9 @@ This roadmap leaves the following to other roadmaps.
 
 ### From Tau Ceti (commit 2fd255d9)
 
-The following pinned declarations supply the carriers and results used below. Layer 1.5
-constructs the smooth normal bundle and variable-radius tubes, Layer 1.6 proves the compact
-PL comparison, Layer 4.6 constructs the HOMFLY coefficient substitution, and Layer 5.1
-constructs the compact link exterior.
+The following pinned declarations supply the carriers and results used below. Layer 1.6
+proves the compact PL comparison, Layer 4.6 constructs the HOMFLY coefficient substitution, and
+Layer 5.1 adds the smooth structure of the pinned link exterior.
 
 - **Boundaries and collars** (`Geometry/Manifold/Boundary/`): `TauCeti.isManifold_boundary`
   (the boundary of a `C^k` manifold over `𝓡∂ (n+1)` is a `C^k` manifold over `𝓡 n`) and
@@ -296,7 +311,47 @@ constructs the compact link exterior.
   a `C²` injective map into a finite-dimensional real inner product space, and injective
   differential at every point. The instance
   `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
-  subspace topology only, with no trivializations or smooth structure.
+  subspace topology, the one used by the bundle structures of `VectorBundle.lean` below.
+- **Intrinsic normal bundles and tubular neighbourhoods**
+  (`Geometry/Manifold/SmoothEmbedding/NormalSpace/VectorBundle/`,
+  `Geometry/Manifold/TubularNeighborhood/`): the normal spaces of a positive-regularity embedding
+  form a vector bundle, smooth for a smooth embedding, with smooth orthogonal representatives for
+  an ambient Riemannian metric; the smooth tubular neighbourhood theorem
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (`Existence.lean`): for a smooth
+  embedding between finite-dimensional boundaryless manifolds with Hausdorff second-countable
+  target, the whole normal bundle is diffeomorphic to an open neighbourhood of the image inside
+  any prescribed open set, zero section to the embedding, with no compactness or closed-image
+  hypothesis; its Riemannian form
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`
+  (`Riemannian/Coordinates.lean`); closed normal disc and sphere bundles of a compact submanifold,
+  `TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc` (`Riemannian/DiscSphere.lean`);
+  the Euclidean normal bundle of an immersion (`VectorBundle.lean`).
+- **Isotopy extension, homogeneity and the disc theorem**: the compactly supported smooth isotopy
+  extension on a compact subset of the source,
+  `TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`, and
+  `TauCeti.smoothAmbientIsotopic_iff_smoothIsotopic` for a compact source
+  (`Geometry/Manifold/SmoothIsotopy/Extension.lean`); the homogeneity lemma for connected
+  finite-dimensional manifolds (`Geometry/Diffeomorphism/Diffeotopy/Homogeneity.lean`); the disc
+  theorem for smooth embeddings of `E` into a boundaryless manifold modelled on `E` with a common
+  centre and derivatives of the same orientation,
+  `TauCeti.SmoothEmbedding.exists_smoothIsotopy_of_det_chartAt_mul_pos` and, for a Hausdorff
+  σ-compact target, the ambient form
+  `TauCeti.SmoothEmbedding.exists_diffeotopy_eqOn_of_det_chartAt_mul_pos`
+  (`Geometry/Manifold/SmoothIsotopy/DiscTheorem.lean`).
+- **Connected sums and prime manifolds** (`Geometry/Manifold/ConnectedSum/`,
+  `LowDimTopology/PrimeDecomposition.lean`): `TauCeti.ConnectedSum e₁ e₂` along coordinate balls
+  (`Basic.lean`), a smooth manifold (`TauCeti.ConnectedSum.isManifold`, `Smooth.lean`), Hausdorff,
+  compact, and connected in dimension at least two (`Topology.lean`), commutative
+  (`TauCeti.ConnectedSum.commDiffeomorph`, `Congr.lean`), oriented when the balls induce opposite
+  orientations (`TauCeti.ConnectedSum.orientable`, `Orientation.lean`), independent of the balls
+  (`TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationPreservingAt` and
+  `TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationReversingAt`, `Independence.lean`);
+  the oriented sum `TauCeti.OrientedConnectedSum` with
+  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm` and
+  `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere` (`Oriented.lean`); the predicates
+  `TauCeti.IsConnectedSumOf`, `TauCeti.IsPrimeManifold` and `TauCeti.IsIteratedConnectedSum`
+  (`Prime.lean`); the propositions `TauCeti.KneserPrimeDecompositionTheorem` and
+  `TauCeti.MilnorPrimeDecompositionTheorem`, with `TauCeti.MilnorPrimeDecompositionTheorem.card_eq`.
 - **Immersions** (`Geometry/Manifold/Immersion/Basic.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
 - **Morse functions** (`Geometry/Manifold/Morse/`, `Analysis/Calculus/Morse/`):
   `TauCeti.IsMorseOn` and `TauCeti.IsMorse` (`Basic.lean`), `TauCeti.manifoldMorseIndex`
@@ -346,7 +401,10 @@ constructs the compact link exterior.
   `TauCeti.RelativeDiff` and `TauCeti.DiscDiff n` for `Diff(Dⁿ, ∂)` (`FixingSubgroup/`,
   `Disc.lean`); the reference inclusion `TauCeti.orthogonalToDiffSphere n m` and its continuous
   form `TauCeti.continuousOrthogonalToDiffSphere` (`Sphere.lean`); the propositions
-  `TauCeti.SmaleConjecture` (`Smale.lean`) and `TauCeti.WatanabeTheorem` (`Disc.lean`).
+  `TauCeti.SmaleConjecture` (`Smale.lean`) and `TauCeti.WatanabeTheorem` (`Disc.lean`); Cerf's
+  theorem in orientation-free form `TauCeti.CerfTheorem`, derived from the Smale conjecture by
+  `TauCeti.SmaleConjecture.cerfTheorem` and equivalent to `Diff(S³)` having two path components
+  (`TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`, `Cerf.lean`).
 - **Knots and links** (`KnotTheory/`): `TauCeti.SmoothCircleEmbedding I M` with `rotate`,
   `reverse`, `TauCeti.SmoothCircleEmbedding.greatCircle` and `TauCeti.unknot`
   (`SmoothCircle.lean`); `TauCeti.SmoothLinkEmbedding I M n` with `empty`, `singleton`,
@@ -355,7 +413,13 @@ constructs the compact link exterior.
   complement homeomorphisms (`SmoothLink/`); the knot group
   `TauCeti.SmoothCircleEmbedding.KnotGroup` and `HasPerfectCommutatorSubgroup`
   (`KnotGroup.lean`); sliceness `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice`,
-  `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus` (`Slice/`), and the proposition
+  `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus`, the topological slice genus
+  `TauCeti.topologicalSliceGenus` with `TauCeti.topologicalSliceGenus_le_sliceGenus`, the
+  topological sliceness of a knot concordant to the unknot
+  (`TauCeti.isTopologicallySlice_of_topologicallyConcordant_unknot`) and of a knot plus its
+  reverse mirror image
+  (`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`) (`Slice/`),
+  and the proposition
   `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); solid-torus neighbourhoods
   `TauCeti.IsSolidTorusNeighborhood` and its
   `TauCeti.IsSolidTorusNeighborhood.exteriorFrontierHomeomorph`, identifying the frontier
@@ -400,6 +464,41 @@ constructs the compact link exterior.
 - **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
   up to sign), `TauCeti.BoundaryTorus`, `TauCeti.FramedBoundaryTorus` with `meridian`,
   `longitude`, `value` and `TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`.
+- **Knot exteriors, Dehn filling and surgery** (`LowDimTopology/SolidTorusNeighborhood/`,
+  `LowDimTopology/DehnSurgery/`, `Topology/Surgery/Basic.lean`): solid-torus neighbourhoods of
+  `C²` knots in `ℝ³` and in `S³` and disjoint ones for links
+  (`TauCeti.exists_isSolidTorusNeighborhood`,
+  `TauCeti.exists_isSolidTorusLinkNeighborhood_of_forall_nhdsSet`); the exteriors
+  `TauCeti.knotExterior` and `TauCeti.linkExterior`, the exterior of the half-radius tori as a
+  topological `3`-manifold with torus boundary
+  (`TauCeti.IsSolidTorusLinkNeighborhood.exteriorChartedSpace`); the meridian generating
+  `H₁` of the complement (`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv`), the
+  preferred longitude (`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`) and framing
+  `TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`; the exterior of the unknot as a
+  solid torus, `TauCeti.unknotExteriorHomeomorph`; Dehn fillings `TauCeti.DehnFilling h s Y` and
+  `TauCeti.LinkDehnFilling`, recorded inside the filled space, with existence along every slope
+  (`TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`,
+  `TauCeti.IsSolidTorusLinkNeighborhood.exists_linkDehnFilling`), uniqueness for gluings isotopic to
+  matrix gluings (`TauCeti.DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`), the
+  `∞`-filling (`TauCeti.DehnFilling.nonempty_homeomorph_of_fillingSlope_meridian`), the unknot's
+  lens-space and `S¹ × S²` fillings
+  (`TauCeti.DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue`,
+  `TauCeti.DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`) and compatible
+  orientations `TauCeti.DehnFilling.IsOrientationCompatible`; surgery on a framed sphere in every
+  dimension, `TauCeti.SphereSurgery`, with `TauCeti.SphereSurgery.toDehnFilling` for integral
+  surgery on a framed knot; the cosmetic predicates
+  `TauCeti.IsSolidTorusNeighborhood.IsPurelyCosmetic` and
+  `TauCeti.IsSolidTorusNeighborhood.IsChirallyCosmetic`, the propositions
+  `TauCeti.CosmeticSurgeryConjecture` and `TauCeti.MathieuChirallyCosmeticTheorem` (the case
+  `k = 0` of Mathieu's family, `Cosmetic.lean`); the Weeks manifold `TauCeti.IsWeeksManifold` with
+  `TauCeti.exists_isWeeksManifold` (`Link/Weeks.lean`).
+- **Handlebodies and Heegaard splittings** (`LowDimTopology/Handlebody/`,
+  `LowDimTopology/Heegaard/`): `TauCeti.handlebody g` with its free fundamental group
+  (`TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`);
+  `TauCeti.HeegaardSplitting M` (`Splitting.lean`), the genus `TauCeti.heegaardGenus` with
+  `TauCeti.heegaardGenus_congr` and `TauCeti.heegaardGenus_sphere`; the rank bound
+  `TauCeti.rank_fundamentalGroup_le_heegaardGenus` (`FundamentalGroup.lean`); the propositions
+  `TauCeti.RankGenusConjecture` and `TauCeti.LiRankGenusTheorem` (`RankGenus.lean`).
 - **Lens spaces** (`Geometry/Manifold/Instances/LensSpace.lean`,
   `AlgebraicTopology/UniversalCover/LensSpace/`): `TauCeti.lensGroup m ℓ`, the quotient
   `TauCeti.LensSpace m ℓ` of the unit sphere with its analytic manifold structure, and its fundamental
@@ -446,15 +545,20 @@ constructs the compact link exterior.
   `TauCeti.HyperbolicMetric.HasFiniteVolume`, `TauCeti.IsFiniteVolumeHyperbolic`
   (`Hyperbolic/FiniteVolume.lean`); `TauCeti.IsMostowRigid`, `TauCeti.MostowRigidity`
   (`Hyperbolic/Mostow.lean`); the upper half space `TauCeti.UpperHalfSpace E`
-  (`Hyperbolic/UpperHalfSpace/Basic.lean`); `TauCeti.riemannianVolume` and
-  `TauCeti.riemannianTotalVolume` (`VolumeDensity/`).
+  (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
+  `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
+  (`UpperHalfSpace/Metric.lean`); `TauCeti.riemannianVolume` and
+  `TauCeti.riemannianTotalVolume` (`VolumeDensity/`); the theorem of Gabai, Meyerhoff and Milley
+  as the proposition `TauCeti.GabaiMeyerhoffMilleyTheorem` (`Hyperbolic/Weeks.lean`).
 - **Mapping tori and virtual properties** (`Topology/`): `TauCeti.MappingTorus φ`,
   `TauCeti.FibersOverCircle`, `TauCeti.IsFiniteCover`, `TauCeti.IsVirtuallyFibered`,
   `TauCeti.VirtualFiberingConjecture`, `TauCeti.VirtualHakenConjecture`.
 - **Foliations** (`Geometry/Manifold/Foliation/`): `TauCeti.Foliation I n M k`, the leaf
   relation `TauCeti.Foliation.SameLeaf` and `TauCeti.Foliation.leaf`,
-  `TauCeti.Foliation.IsClosedTransversal`, `TauCeti.Foliation.Taut`, and the linear
-  foliations `TauCeti.Foliation.ofSubmodule`.
+  `TauCeti.Foliation.IsClosedTransversal`, `TauCeti.Foliation.Taut`, the linear
+  foliations `TauCeti.Foliation.ofSubmodule`, and the Euler class of the tangent field
+  `TauCeti.Foliation.eulerClass` with the propositions `TauCeti.ThurstonEulerClassInequality`,
+  `TauCeti.EulerClassOneConjecture` and `TauCeti.YazdiEulerClassOneTheorem` (`EulerClass.lean`).
 - **Simplicial complexes** (`AlgebraicTopology/SimplicialComplex/`, `Topology/`):
   `AbstractSimplicialComplex.Realization K` with face inclusions and barycentric coordinates,
   the realization of maps, subcomplexes and locally finite complexes; `PreAbstractSimplicialComplex.closedStar`,
@@ -514,8 +618,9 @@ unit disc, where the gauge is the norm.
 The layers group the targets by subject; the build order is the order of the `*Needs:*` lines,
 target by target, and it is not the numerical order of the layers. Layer 1 is the spine:
 everything later that cuts a manifold open and reglues it is an instance of its constructions. Six
-groups of targets are built before the layer numbering suggests. The disc theorem of Layer 3.3,
-which needs only the tubes of Layer 1.5, precedes the connected sum of Layer 1.4. Layers 3.1, 3.3
+groups of targets are built before the layer numbering suggests. The disc theorem for arbitrary
+centres of Layer 3.3, which needs only the tubes of Layer 1.5 and the pinned disc theorem,
+precedes the cut-and-glue description of the pinned connected sum in Layer 1.4. Layers 3.1, 3.3
 and 3.4, which need among the other layers only the tubes of Layer 1.5, precede the
 two-dimensional comparison of Layer 11.2.1 and the mapping class groups of Layer 1.7.2. The
 handlebodies and Heegaard splittings of Layer 9.1, which need Layers 1.3, 1.7, 1.7.2 and 11.2,
@@ -523,8 +628,8 @@ precede the Lickorish–Wallace theorem of Layer 5.2. The realizations and smoot
 Layers 11.1 and 11.3, which need only Layer 1.6, then the surface theorems of Layer 11.2.1, which
 need in addition Layers 1.1, 3.3 and 3.4, then Moise's theorems of Layer 11.2, which need Layer
 11.2.1, precede Layer 1.7, the three-dimensional case of the annulus theorem in Layer 2.3, and
-Layers 8 and 9. The exterior of Layer 5.1, built from Layers 1.2, 1.5, 3.3 and 4.1, precedes the
-Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
+Layers 8 and 9. The smooth structure of the pinned exterior in Layer 5.1, built from Layers 1.5,
+3.3 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
 Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
 independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4; Layer 7
@@ -578,6 +683,10 @@ forgets to the topological predicate `TauCeti.IsCollar`.
 **Checks.**
 - *Interval collar.* `(0, t) ↦ t/2`, `(1, t) ↦ 1 − t/2` is a collar of `[0, 1]` with open image
   `[0, 1/2) ∪ (1/2, 1]`; without the factor `1/2` it is not injective (by evaluation).
+- *Polar collar.* The closed unit disc has the collar `(θ, t) ↦ (1 − t) e^{iθ}`, `t ∈ [0, 1)`,
+  whose image `0 < |z| ≤ 1` is open in the disc.
+- *Empty boundary.* The circle has empty boundary; its unique collar is the empty embedding,
+  and the existence theorem is vacuous rather than false.
 
 ### 1.2 Complements of embedded balls
 
@@ -600,6 +709,10 @@ the collaring theorem (Hirsch, Chapter 4, Theorem 6.1) written explicitly throug
 **Checks.**
 - *Dimension one.* For `n = 1` and `M = ℝ` the complement of `(−1, 1)` has two components, so
   the connectedness law needs `n ≥ 2` (by evaluation).
+- *Euclidean complement.* The complement of the open unit ball in `EuclideanSpace ℝ (Fin n)` is
+  diffeomorphic to `Sⁿ⁻¹ × [1, ∞)` by `x ↦ (x/|x|, |x|)`.
+- *Two balls.* Removing two disjoint open balls from `Sⁿ` gives `Sⁿ⁻¹ × [0, 1]`; removing one
+  from `S¹` gives a closed interval, whose boundary `S⁰` has two points.
 
 *Needs:* Mathlib `IsManifold`, `Manifold.IsSmoothEmbedding`; Tau Ceti `TauCeti.SmoothEmbedding`,
 `TauCeti.chartedSpaceOfIsOpenEmbedding`; Layer 1.1.
@@ -634,6 +747,9 @@ embedding `Sᵏ⁻¹ × Dⁿ⁻ᵏ → ∂M` and straightens the corner along `S
   every double is closed (by evaluation).
 - *Gluing map is data.* Two solid tori glued by the identity of `T²` give `S¹ × S²` and by the
   factor swap give `S³`, with fundamental groups `ℤ` and `1`.
+- *Handle orientation.* Attaching a `1`-handle to `D²` along two disjoint arcs of its boundary
+  gives an annulus if the attaching map preserves the boundary orientation on one arc and
+  reverses it on the other, and a Möbius band otherwise; orientability distinguishes them.
 
 *Needs:* Tau Ceti `TauCeti.chartedSpaceOfIsOpenEmbedding`, `TauCeti.SmoothEmbedding`; Layer 1.1,
 Layer 1.2; DifferentialGeometry *Boundary and corners*.
@@ -677,6 +793,10 @@ them to compact manifolds with boundary.
   critical point, of index `0`; `|x|²` is not, as it vanishes at the centre (by evaluation).
 - *Upright torus.* The height function of the upright torus in `ℝ³` has four critical points,
   of indices `0, 1, 1, 2`, each index-`λ` handle changing `χ` by `(−1)^λ` (by evaluation).
+- *Boundary partition.* On the annulus `1 ≤ |x| ≤ 2` with `V₀` the inner and `V₁` the outer
+  circle, `f(x) = |x| − 1` has no critical point. With both circles in `V₁`, every Morse function
+  on the triad is positive, equal to `1` on `∂W` and smaller inside, so it has an interior
+  minimum of index `0`: the partition of the boundary is part of the data.
 
 *Needs:* Layer 1.1 (collars, the boundaryless interior), Layer 1.3 (gluing and handle
 attachment); Tau Ceti `TauCeti.IsMorseOn`, `TauCeti.manifoldMorseIndex`,
@@ -687,81 +807,73 @@ attachment); Tau Ceti `TauCeti.IsMorseOn`, `TauCeti.manifoldMorseIndex`,
 
 ### 1.4 Connected sum
 
-Define the connected sum of two connected oriented `n`-manifolds `M`, `N` from explicit data:
-orientation-preserving embeddings `e_M` of a ball into `M` and `e_N` into `N`, the two
-complements of Layer 1.2 with their canonical collars, and the gluing of Layer 1.3 along
-`e_N ∘ r ∘ e_M⁻¹` on the boundary spheres, `r` a fixed reflection of `Sⁿ⁻¹`, so that the glued
-manifold is oriented compatibly with both summands. Prove that the result is independent of
-the ball embeddings and collars up to orientation-preserving diffeomorphism by the disc
-theorem of Layer 3.3 (Palais, *Extending diffeomorphisms*, Proc. Amer. Math. Soc. 11 (1960);
-Hirsch, Chapter 4, Theorem 6.6 for a fixed centre, with the homogeneity of a connected
-manifold).
+The connected sum is Tau Ceti's `TauCeti.ConnectedSum e₁ e₂` (*From Tau Ceti*): for coordinate
+balls `e₁ : E → M` and `e₂ : E → N`, open embeddings and smooth local diffeomorphisms, the centres
+are removed and the punctured balls are glued by the inversion in the unit sphere. At the pin it
+is a smooth manifold, Hausdorff, compact when both summands are, connected for `dim E ≥ 2`,
+orientable when the balls induce opposite orientations of `E`, commutative, independent of the
+balls up to diffeomorphism for connected, Hausdorff, σ-compact oriented summands
+(`TauCeti.ConnectedSum.nonempty_diffeomorph_of_isOrientationReversingAt`), and
+`M # Sⁿ ≃ M` (`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_sphere`). None of this is
+planned again here. This section adds what the pin lacks.
 
-- For `n ≥ 1`, `M # N` is oriented, compact when both summands are, and `M # Sⁿ` is
-  orientation-preservingly diffeomorphic to `M`; for `n ≥ 2` it is connected. For `n = 1`,
-  `ℝ # ℝ` is two lines, `ℝ # S¹` one line and `S¹ # S¹` one circle.
-- Connected sum is commutative and associative up to orientation-preserving diffeomorphism.
-- For `n ≥ 3`, `π₁(M # N) ≅ π₁(M) ∗ π₁(N)`; for compact `M` and `N` and every `n ≥ 1`,
-  `χ(M # N) = χ(M) + χ(N) − χ(Sⁿ)`, the Euler characteristic being that of the finitely
+- **Cut-and-glue description.** For orientation-preserving smooth embeddings `e_M`, `e_N` of a
+  closed ball, the pinned sum along the corresponding coordinate balls is
+  orientation-preservingly diffeomorphic to the gluing (Layer 1.3) of the complements of the
+  open balls (Layer 1.2) along `e_N ∘ r ∘ e_M⁻¹` on the boundary spheres, `r` a fixed reflection
+  of `Sⁿ⁻¹`; Layers 8.2 and 9.2 cut along the summing sphere through this description.
+- **Associativity** up to orientation-preserving diffeomorphism. For `n = 1`, `ℝ # ℝ` is two
+  lines, `ℝ # S¹` one line and `S¹ # S¹` one circle.
+- **Invariants.** For `n ≥ 3`, `π₁(M # N) ≅ π₁(M) ∗ π₁(N)`; for compact `M` and `N` and every
+  `n ≥ 1`, `χ(M # N) = χ(M) + χ(N) − χ(Sⁿ)`, the Euler characteristic being that of the finitely
   generated rational singular homology.
 - Reversing the orientation of one summand can change the diffeomorphism type.
 
 **Checks.**
 - *Orientations matter.* The cup-product forms on `H²` of `ℂP² # ℂP²` and `ℂP² # (−ℂP²)` are
   `diag(1, 1)` and `diag(1, −1)`, of signatures `2` and `0` (by evaluation).
+- *Surfaces.* `S² # S²` is diffeomorphic to `S²`, and `T² # T²` is the closed orientable
+  surface of genus `2`, of Euler characteristic `0 + 0 − 2 = −2` (by evaluation).
+- *Dimension one.* `S¹ # S¹` is a circle while `ℝ # ℝ` has two components, so connectedness
+  needs `n ≥ 2`, as the pinned `TauCeti.ConnectedSum.connectedSpace` assumes.
 
-*Needs:* Layer 1.2, Layer 1.3, Layer 3.3 (ambient isotopy of ball embeddings); Tau Ceti
-`TauCeti.Orientable`.
+*Needs:* Tau Ceti `TauCeti.ConnectedSum`, `TauCeti.OrientedConnectedSum`, `TauCeti.Orientable`;
+Layer 1.2, Layer 1.3 (cut-and-glue description); Mathlib `FundamentalGroup`, singular homology.
 
 ### 1.5 Tubular neighbourhoods
 
-Let `f : S → M` be a smooth embedding between finite-dimensional Hausdorff second-countable
-boundaryless manifolds, `M` Riemannian (`RiemannianBundle` with a smooth metric). The normal
-bundle of `f` is the orthogonal complement of the image of `mfderiv f` in `TangentSpace (f x)`,
-a smooth vector bundle over `S` with fibre `EuclideanSpace ℝ (Fin (dim M − dim S))` and its
-`FiberBundle`, `VectorBundle` and `ContMDiffVectorBundle` structures; the normal exponential is
-the Riemannian exponential (HopfRinow Layer 1) on its natural open domain in it. Prove that the
-normal bundle is canonically isomorphic, as a smooth vector bundle, to the quotient bundle with
-fibres `TauCeti.SmoothEmbedding.NormalSpace f x`, so its smooth structure does not depend on the
-metric. In Euclidean ambient space it is `TauCeti.normalSubspace` fibrewise, with trivializations
-compatible with the subspace topology, and for positive `δ : S → ℝ` the variable-radius tube is
-`{(x,v) | v ∈ TauCeti.normalSubspace f x ∧ ‖v‖ < δ(x)}` with map `(x,v) ↦ f x + v` (Lee,
-*Introduction to Smooth Manifolds*, Theorem 6.24), of underlying set `TauCeti.normalTube f ε`
-for constant `δ = ε`.
+The intrinsic normal bundle of a smooth embedding and the tubular neighbourhood theorem are Tau
+Ceti's (*From Tau Ceti*). For a smooth embedding `f : S → M` between finite-dimensional
+boundaryless manifolds, `M` Hausdorff and second countable, the normal spaces
+`TauCeti.SmoothEmbedding.NormalSpace f x` form a smooth vector bundle, and the whole bundle is
+diffeomorphic to an open neighbourhood of `f(S)` inside any prescribed open neighbourhood, the
+zero section going to `f` (`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), with
+no compactness or closed-image hypothesis. The Riemannian form through the normal exponential
+(`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_riemannian_subset`), the closed normal
+disc and sphere bundles of a compact submanifold
+(`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`) and the Euclidean normal
+bundle with its tube `TauCeti.normalTube f ε` are pinned as well. None of this is planned again
+here. This section adds:
 
-- The normal bundle has rank `dim M − dim S`; its inclusion into the pulled-back tangent bundle
-  is fibrewise linear and smooth, the orthogonal projection identifies it with the quotient
-  normal bundle, and restriction to an open subset of `S` preserves these data.
-- For continuous positive `δ` the tube is open in the normal total space and contains its zero
-  section; if `0 < δ' ≤ δ` pointwise, the smaller tube is contained in the larger.
-- **Tubular neighbourhood theorem.** There is a smooth positive `δ : S → ℝ` such that the
-  normal exponential restricted to `{v : ‖v‖ < δ(x)}` is a diffeomorphism onto an open
-  neighbourhood of `f(S)`; for compact `S` the radius may be taken constant (Lee,
-  *Introduction to Riemannian Manifolds*, Theorem 5.25). Euclidean `C²` form: for a `C²`
-  embedding of a boundaryless manifold into a finite-dimensional real inner product space
-  there is a continuous positive radius making `(x,v) ↦ f x + v` an open embedding; on a smooth
-  source the radius may be chosen smooth, below any continuous positive bound and with image in
-  any open neighbourhood of `f(S)`, and for smooth `f` the map is a diffeomorphism; there is no
-  compactness or closed-image hypothesis. Route: the normal exponential is a local
-  diffeomorphism along the zero section, `TauCeti.Manifold.edist_riemannianExp_le` bounds the
-  base distance of two normal vectors with the same image, and local normal coordinates, a
-  locally finite shrinking and a partition of unity give a positive minorant. *Needs:*
-  HopfRinow Layer 1 (exponential map), Layer 2 (normal neighbourhoods); Mathlib
-  `RiemannianBundle`, `SmoothPartitionOfUnity.exists_isSubordinate`; Tau Ceti
-  `TauCeti.SmoothEmbedding.NormalSpace`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`;
-  DifferentialGeometry Layer 12 (existence of a smooth metric).
-- Any two tubular neighbourhoods of `f` are isotopic through tubular neighbourhoods (Hirsch,
-  Chapter 4, Theorem 5.3); in particular the diffeomorphism type of the pair (`M`, tube) does
-  not depend on the metric.
-- The image of the tube deformation retracts onto `f(S)` by the straight-line homotopy in the
-  fibres; for `ε < δ` the closed `ε`-disc bundle and its boundary sphere bundle are smooth
-  submanifolds, which is the form Dehn surgery (Layer 5) uses.
+- **Uniqueness.** Any two tubular neighbourhoods of `f` are isotopic through tubular
+  neighbourhoods (Hirsch, Chapter 4, Theorem 5.3); in particular the diffeomorphism type of the
+  pair (`M`, tube) does not depend on the metric or the radius.
+- **Retraction.** The image of the tube deformation retracts onto `f(S)` by the straight-line
+  homotopy in the fibres, and for compact `S` the pinned closed disc bundle and its boundary
+  sphere bundle are smooth submanifolds, the form that Dehn surgery (Layer 5) uses.
 
 **Checks.**
 - *Unit circle.* For the unit circle in `ℝ²` the tube map is injective on `‖v‖ < ε` exactly when
   `ε ≤ 1`, with image `1 − ε < |z| < 1 + ε` (by evaluation).
 - *Shrinking circles.* For the circles of radius `1/n` centred at `(3n, 0)`, `n ≥ 1`, no constant
   radius works, while radius `1/(2n)` on the `n`-th circle does (by evaluation).
+- *Embedding needed.* The figure-eight curve `t ↦ (sin t, sin 2t)` is an immersion, with
+  velocity `(cos t, 2 cos 2t) ≠ 0`, but `t = 0` and `t = π` both go to the origin, and the tube
+  map is not injective near that double point.
+
+*Needs:* Tau Ceti `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`,
+`TauCeti.SmoothEmbedding.NormalSpace`, `TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`
+(isotopy extension, for uniqueness); Hirsch, Chapter 4, Theorem 5.3.
 
 ### 1.6 PL manifolds through charts
 
@@ -787,6 +899,9 @@ PL manifold, parallel to Layer 1.3.
   so the PL groupoid is strictly larger than the affine one (by evaluation).
 - *Compactness is needed.* The linear interpolation of `n ↦ n²` on `ℝ` is locally PL with
   infinitely many slopes `2n + 1`, so no finite affine cover represents it (by evaluation).
+- *Simplex boundary.* The boundary of the standard `n`-simplex, as the union of its facets with
+  the affine charts, is a PL `(n−1)`-manifold, PL homeomorphic to `Sⁿ⁻¹` with the
+  radial-projection charts.
 
 *Needs:* Tau Ceti `TauCeti.PLGroupoid`, `TauCeti.IsPLOn`, `TauCeti.IsPiecewiseAffineOn`,
 Mathlib `HasGroupoid`, finite-dimensional compactness.
@@ -832,6 +947,11 @@ torus summands, and prove `rank H₁(F; ℚ) = 2g` when `F` is closed and `2g + 
 **Checks.**
 - *Genus is not read off `H₁`.* The torus and the once-holed torus have genus `1`, with
   `rank H₁ = 2`; the formula `(rank H₁ − b + 1)/2` would give `3/2` for the torus (by evaluation).
+- *Euler characteristics.* `χ(S²) = 2`, `χ(T²) = 0`, `χ(ℝP²) = 1` and `χ(annulus) = 0`; the
+  annulus is the orientable surface with `g = 0`, `b = 2`, not the Möbius band, which has
+  `k = 1`, `b = 1` (by evaluation).
+- *Compactness.* The plane and the open annulus are non-compact of genus zero and not
+  diffeomorphic, so the classification needs compactness.
 
 *Needs:* Layer 11.2.1 (smoothing, isotopy comparison and Hauptvermutung in dimension two);
 Layer 1.2, Layer 1.3 (handle attachment), Layer 1.3.1 (Morse functions on the triad, regular
@@ -1033,7 +1153,8 @@ core of the annulus and the two twists generating `SL₂(ℤ)` on the torus.
 ### Dependencies
 
 Mathlib's manifold library; Tau Ceti's boundary manifold, collars, gluing of atlases, smooth
-embeddings and normal spaces, Euclidean tubes, Morse functions on boundaryless manifolds
+embeddings, intrinsic normal bundles and the tubular neighbourhood theorem, Euclidean tubes,
+connected sums, Morse functions on boundaryless manifolds
 (Layer 1.3.1) and Sard's theorem (Layer 1.7.1); DifferentialGeometry (corners, flows, metrics);
 HopfRinow (exponential map, normal neighbourhoods); Tau Ceti's Jordan curve and Schoenflies
 theorems and Layer 11.2.1 (surfaces); Layer 3.3 for the ambient isotopy of ball embeddings used
@@ -1087,6 +1208,11 @@ composition with open embeddings and products, prove:
 - *Composite of axes.* For the `90°` rotation of the axis `ℝ × {0} ⊂ ℝ²` and `ℝ² × {0} ⊂ ℝ³`, the
   construction returns rotation × identity as slice chart, needing no chart compatibility (by
   evaluation).
+- *Half-line.* `[0, ∞) ⊂ ℝ` is a locally flat embedding of a manifold with boundary only in the
+  half-space model: at `0` the punctured image has one local component, whereas a boundaryless
+  slice `ℝ × {0}` would have two.
+- *Horned sphere.* The Alexander horned sphere is a topological embedding of `S²` in `S³` that
+  is not locally flat; its exterior is not simply connected, so it is not bicollared.
 
 ### 2.2 The generalized Schoenflies theorem
 
@@ -1109,6 +1235,10 @@ theorem: a locally flat `Sⁿ⁻¹ ⊂ Sⁿ` bounds a ball on each side.
 **Checks.**
 - *Horned sphere.* The Alexander horned sphere bounds a ball on exactly one side; it is not
   bicollared, so the hypothesis excludes it.
+- *Round sphere.* A round sphere of radius `r` in `Sⁿ` bounds the two round balls, which the
+  theorem returns.
+- *Dimension two.* A locally flat `S¹ ⊂ S²` bounds two discs, the classical Schoenflies theorem;
+  the theorem asserts no smoothness of the discs' parametrizations.
 
 *Needs:* Tau Ceti `TauCeti.IsBicollar`, `TauCeti.BrownBicollaring`, `TauCeti.brownBicollaring`;
 Mathlib `Homeomorph`.
@@ -1139,6 +1269,8 @@ cases `n + 1 ≤ 3`.
   `TauCeti.coboundAnnulus_smul_coe_sphere`.
 - *Strict inclusion.* For two spheres with a common point the region between them is not a
   manifold with boundary, so the strict-inside hypothesis is needed.
+- *Local flatness.* A horned sphere inside a round sphere does not cobound an annulus with it,
+  the complementary domain on the wild side not being simply connected.
 
 *Needs:* Tau Ceti `TauCeti.AnnulusConjecture`, `TauCeti.CoboundAnnulus`, `TauCeti.IsLocallyFlat`;
 Layer 2.2; Layer 11.2 (triangulations in dimension three) for `n + 1 = 3`.
@@ -1191,6 +1323,10 @@ discrete and the forgetful map is an embedding.
 - *Convergence in C¹ only.* On `S¹` the diffeomorphisms `θ + k⁻² sin(kθ)`, `k ≥ 2`, tend to the
   identity in `C¹` but not in `Diff(S¹)`: their second derivatives have supremum `1` (by
   evaluation).
+- *Dimension zero.* For `M = S⁰`, `Diff(M)` is the discrete group of order two inside the
+  discrete space `C(S⁰, S⁰)` of four maps, so the strictness assertion needs positive dimension.
+- *Components.* The identity component of `Diff(S¹)` is the orientation-preserving subgroup and
+  the component group is `ℤ/2`.
 
 *Needs:* Tau Ceti `TauCeti.Diff`, `Diffeomorph.weakWhitneyTopology`,
 `Diffeomorph.isTopologicalGroup`, `TauCeti.Diffeotopy`; Mathlib `IsTopologicalGroup`,
@@ -1216,6 +1352,9 @@ coarser than the joint `C^∞` topology of the adjoints. The reference inclusion
   smooth in `t`, so it is not in the image of `ofSmoothFamily` (by evaluation).
 - *Inverse not continuous.* `F_k(θ, z) = exp(i sin(kθ)/k) z` on `S¹ × S¹` tends to the identity
   in `C(S¹, Diff(S¹))`, but `∂_θ F_k(0, z) = i z` for every `k` (by evaluation).
+- *Reflection.* `O(2) → Diff(S¹)` sends the reflection `(x, y) ↦ (x, −y)` to complex
+  conjugation, which is not in the identity component; the inclusion is injective on the two
+  components.
 
 *Needs:* Tau Ceti `Diffeomorph.ofSmoothFamily`, `Diffeomorph.continuousEval_weakWhitney`,
 `TauCeti.orthogonalToDiffSphere`, `TauCeti.orthogonalToDiffSphere_injective`,
@@ -1225,28 +1364,35 @@ coarser than the joint `C^∞` topology of the adjoints. The reference inclusion
 ### 3.3 Isotopy extension
 
 Let `N` be a compact manifold and `M` a boundaryless manifold, and give the space `Emb(N, M)` of
-smooth embeddings the subspace topology from the weak `C^∞` topology on `ContMDiffMap`. Prove
-the restriction fibration: for an embedding `e : N → M`, the map `Diff_c(M) → Emb(N, M)`,
-`g ↦ g ∘ e`, from the compactly supported diffeomorphisms has continuous local sections near
-`e` onto its orbit, the orbit is open, and the map is a locally trivial principal bundle with
-fibre the diffeomorphisms fixing `e(N)` pointwise (Palais, *Local triviality of the
-restriction map for embeddings*, Comment. Math. Helv. 34 (1960); Cerf, *Topologie de certains
-espaces de plongements*, Bull. Soc. Math. France 89 (1961)). Deduce:
+smooth embeddings the subspace topology from the weak `C^∞` topology on `ContMDiffMap`. The smooth
+isotopy extension theorem on compact sets is Tau Ceti's: a `C^n` isotopy of a boundaryless
+manifold through smooth embeddings into a finite-dimensional boundaryless manifold is, on any
+compact subset of the source, the restriction of a compactly supported `C^m` diffeotopy for
+`1 ≤ m`, `m + 1 ≤ n` (`TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`, Hirsch, Chapter 8,
+Theorem 1.3), and for a compact source smooth isotopy and smooth ambient isotopy agree
+(`TauCeti.smoothAmbientIsotopic_iff_smoothIsotopic`). So are the homogeneity lemma, a diffeotopy
+of a connected manifold carrying one point to another (`Diffeotopy/Homogeneity.lean`), and the
+disc theorem for balls with a common centre and derivatives of the same orientation
+(`TauCeti.SmoothEmbedding.exists_smoothIsotopy_of_det_chartAt_mul_pos` and its ambient form
+`TauCeti.SmoothEmbedding.exists_diffeotopy_eqOn_of_det_chartAt_mul_pos`). None of these is
+planned again here. Prove the restriction fibration: for an embedding `e : N → M`, the map
+`Diff_c(M) → Emb(N, M)`, `g ↦ g ∘ e`, from the compactly supported diffeomorphisms has
+continuous local sections near `e` onto its orbit, the orbit is open, and the map is a locally
+trivial principal bundle with fibre the diffeomorphisms fixing `e(N)` pointwise (Palais, *Local
+triviality of the restriction map for embeddings*, Comment. Math. Helv. 34 (1960); Cerf,
+*Topologie de certains espaces de plongements*, Bull. Soc. Math. France 89 (1961)). Deduce:
 
-- **Isotopy extension, smooth form.** For a smooth family `F_t : N → M` of embeddings, `t` in
-  an open interval containing `[0, 1]`, there is a `TauCeti.Diffeotopy` `Φ` of `M` with
-  `Φ(t, F₀(x)) = F_t(x)`, compactly supported in a prescribed neighbourhood of the trace of the
-  family (Hirsch, Chapter 8, Theorem 1.3): extend the velocity field of the family to a
-  compactly supported time-dependent vector field by the tubular neighbourhood of Layer 1.5 and
-  a partition of unity, and integrate it with the two-time flow of DifferentialGeometry
-  Layer 3. Relative version: `Φ` is the identity on an open set where the family is constant.
+- **Relative isotopy extension.** The pinned diffeotopy may be taken to be the identity on an
+  open set where the family is constant, by cutting off the extended velocity field with a
+  partition of unity.
 - **Isotopy extension, continuous form.** A continuous path in `Emb(N, M)` is covered by a
   continuous path in `Diff_c(M)`, and more generally the homotopy lifting property holds for
   finite CW pairs.
-- **The disc theorem.** Two orientation-preserving smooth embeddings of `Dⁿ` into a connected
-  oriented `n`-manifold are ambient isotopic (Palais, *Extending diffeomorphisms*; Hirsch,
-  Chapter 8, Theorem 3.1), by the local linearization of an embedding at its centre and
-  isotopy extension. Layer 1.4 uses it.
+- **The disc theorem for arbitrary centres.** Two orientation-preserving smooth embeddings of
+  `Dⁿ` into a connected oriented `n`-manifold are ambient isotopic (Palais, *Extending
+  diffeomorphisms*; Hirsch, Chapter 8, Theorem 3.1): move one centre to the other by the pinned
+  homogeneity lemma and apply the pinned disc theorem. Layer 1.4's cut-and-glue description
+  uses it.
 
 **Checks.**
 - *Orientation in the disc theorem.* The embeddings `x ↦ x` and `x ↦ −x` of `D¹` into `ℝ` are not
@@ -1254,17 +1400,25 @@ espaces de plongements*, Bull. Soc. Math. France 89 (1961)). Deduce:
 - *Shrinking trefoil.* The shrinking local trefoil of 4.2.7 is a jointly `C⁰` family of smooth
   embeddings, trefoils for positive time and the unknot at `0`; it is not `C¹`-continuous, so
   neither form applies.
+- *Rotation and dilation.* The family `F_t(z) = e^{it} z` of embeddings `S¹ → ℝ²` extends to
+  the rotation isotopy of `ℝ²`, compactly supported after cutting off outside a disc, and
+  `F_t(z) = (1 + t) z` to a radial isotopy supported in a larger disc.
 
-*Needs:* Layer 1.5; Tau Ceti `TauCeti.Diffeotopy`, `TauCeti.SmoothEmbedding`, `TauCeti.Diff`;
-DifferentialGeometry Layer 3 (two-time flows); Mathlib `ContMDiffMap`.
+*Needs:* Layer 1.5; Tau Ceti `TauCeti.Diffeotopy`, `TauCeti.SmoothEmbedding`, `TauCeti.Diff`,
+`TauCeti.SmoothIsotopy.exists_diffeotopy_apply_eq`,
+`TauCeti.SmoothEmbedding.exists_diffeotopy_eqOn_of_det_chartAt_mul_pos`; Mathlib `ContMDiffMap`.
 
 ### 3.4 Cerf's theorem and the Smale conjecture
 
-State Cerf's theorem: every orientation-preserving diffeomorphism of `S³` is isotopic to the
-identity, `π₀(Diff⁺(S³)) = 0`; hence `π₀(Diff(S³))` has two elements and `Γ₄ = 0`, every
-orientation-preserving diffeomorphism of `S³` extending over `D⁴` (Cerf, *Sur les
-difféomorphismes de la sphère de dimension trois*, Lecture Notes in Math. 53 (1968),
-Théorème 1 and Corollaire 1). State Hatcher's theorem, the Smale conjecture: the inclusion
+Cerf's theorem, `π₀(Diff⁺(S³)) = 0` (Cerf, *Sur les difféomorphismes de la sphère de dimension
+trois*, Lecture Notes in Math. 53 (1968), Théorème 1), is Tau Ceti's proposition
+`TauCeti.CerfTheorem` in orientation-free form: every diffeomorphism of `S³` is joined in the weak
+Whitney topology to one induced by an orthogonal map; `TauCeti.cerfTheorem_iff_natCard_zerothHomotopy_eq_two`
+says it holds exactly when `Diff(S³)` has two path components, and
+`TauCeti.SmaleConjecture.cerfTheorem` derives it from the Smale conjecture, so it is not stated
+again. Prove its consequence `Γ₄ = 0` (Cerf, Corollaire 1): every orientation-preserving
+diffeomorphism of `S³` extends over `D⁴`, by the radial extension of an orthogonal map along the
+isotopy. State Hatcher's theorem, the Smale conjecture: the inclusion
 `O(4) → Diff(S³)` is a homotopy equivalence (Hatcher, *A proof of the Smale conjecture*, Ann.
 of Math. 117 (1983), 553–607). The statement is the pinned `TauCeti.SmaleConjecture` and
 `Suggested.lean` states it as `smale_conjecture`. Both proofs are GeometricTopology, Part II's,
@@ -1290,8 +1444,14 @@ the parametric straightening of spheres and discs.
 **Checks.**
 - *Two isotopy classes.* The antipodal map of `S³` is `−I ∈ SO(4)`, isotopic to the identity; the
   reflection `(x₀, x₁, x₂, x₃) ↦ (x₀, x₁, x₂, −x₃)` has degree `−1` and is not (by evaluation).
+- *Not a homeomorphism.* `π₁(SO(4)) = ℤ/2`, and Hatcher's theorem gives `π₁(Diff(S³)) = ℤ/2`;
+  a homeomorphism `O(4) ≃ Diff(S³)` is excluded since `O(4)` is compact and `Diff(S³)` is not
+  (Layer 3.1).
+- *Dimension four.* The analogous statement for `S⁴` is false by Watanabe's theorem, so no
+  dimension-independent formulation is made.
 
-*Needs:* Tau Ceti `TauCeti.SmaleConjecture`, `TauCeti.WatanabeTheorem`, `TauCeti.DiscDiff`,
+*Needs:* Tau Ceti `TauCeti.SmaleConjecture`, `TauCeti.CerfTheorem`,
+`TauCeti.SmaleConjecture.cerfTheorem`, `TauCeti.WatanabeTheorem`, `TauCeti.DiscDiff`,
 `TauCeti.orthogonalToDiffSphere`; Layer 3.1, Layer 3.3; Mathlib `ContinuousMap.HomotopyEquiv`,
 `HomotopyGroup`.
 
@@ -1303,8 +1463,10 @@ the rotation of a circle in the plane to an ambient isotopy; the two components 
 
 ### Dependencies
 
-Tau Ceti's diffeomorphism group, weak Whitney topology, diffeotopies, fixing subgroups and
-sphere action; Layer 1.5 (tubes) for isotopy extension; DifferentialGeometry Layer 3 (flows).
+Tau Ceti's diffeomorphism group, weak Whitney topology, diffeotopies, fixing subgroups, sphere
+action, isotopy extension on compact sets, homogeneity, the disc theorem and Cerf's theorem as a
+proposition; Layer 1.5 (tubes) for the restriction fibration; DifferentialGeometry Layer 3
+(flows).
 
 ## Layer 4: knots and links
 
@@ -1345,6 +1507,8 @@ connected-sum decomposition has an unknotted summand.
 - *Square and granny.* The square knot `T # T̄` and the granny knot `T # T` of the right-handed
   trefoil `T` share the Alexander polynomial `(t − 1 + t⁻¹)²` and have signatures `0` and `−4`
   (Layer 6.2) (by evaluation).
+- *Unknot.* `TauCeti.unknot` and any of its rotations are ambient isotopic, and
+  `TauCeti.unknot.reverse` is ambient isotopic to `TauCeti.unknot`: the unknot is invertible.
 
 *Needs:* Tau Ceti `TauCeti.SmoothCircleEmbedding`, `TauCeti.SmoothLinkEmbedding`,
 `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`, `TauCeti.Diffeotopy`, `TauCeti.unknot`;
@@ -1379,6 +1543,9 @@ Proposition 16.10; Birman, *Braids, Links and Mapping Class Groups*, Chapter 2).
   diagram; the word `1 1 2 2` is planar and realizes the unknot (by evaluation).
 - *Two-strand closures.* The closures of `σ₁` and `σ₁²` in `B₂` are the unknot and the Hopf
   link, with `componentCount` equal to `1` and `2` (by evaluation).
+- *Realization is not constant.* The standard three-crossing diagram of the trefoil, the
+  closure of `σ₁³ ∈ B₂`, realizes a knot with Jones polynomial `t + t³ − t⁴`, so it is not the
+  unknot (by evaluation).
 
 *Needs:* Tau Ceti `TauCeti.PDCode`, `TauCeti.PDCode.IsPlanar`, `TauCeti.OrientedPDCode`,
 `TauCeti.BasedOrientedGaussCode.toOrientedPDCode`, `TauCeti.BraidWord.closure`,
@@ -1415,6 +1582,10 @@ and `ε` shows that class is nontrivial.
 **Checks.**
 - *Strict inclusion.* For `n≥3` and `b=σ₀σ₁` the permutation of `b` is a three-cycle, so
   `b²∈N_all` and `b²∉N_gen`; `B₃/N_gen≃S₃` has order 6, `B₃/N_all≃C₂` order 2 (by evaluation).
+- *Two strands.* For `B₂ ≃ ℤ` both normal subgroups are `2ℤ` and both quotients are `C₂`
+  (by evaluation).
+- *Small n.* `B₀`, `B₁`, `S₀` and `S₁` are trivial with trivial parity maps, so the `C₂`
+  comparison needs `n ≥ 2` (by evaluation).
 
 *Needs:* native `BraidGroup`, `sigma`, `permHom`, `pureSubgroup`, `ArtinGroup.exponentSum`,
 Coxeter/Artin presentations and finite permutation/sign APIs; `Subgroup.normalClosure`,
@@ -1449,6 +1620,11 @@ knot-table label is identified.
 **Checks.**
 - *Jones values.* In 4.5's normalization `V(closure γ;t) = t³+t⁶−t⁷+t⁸−t⁹+t¹⁰−t¹¹` and
   `V(closure β;t) = V(closure γ;t⁻¹)`, with different supports (by evaluation).
+- *Exponent sums.* The native Artin exponent sums of β, Mβ and γ are −8, 8 and 8 (by
+  evaluation).
+- *Exponent sums separate.* The word `b⁻² a³ b a⁻¹ b a⁻²`, of exponent sum 0, equals neither Mβ
+  nor γ; exponent sums distinguish braids without asserting that their closures differ (by
+  evaluation).
 
 #### The Perko pair and its ordinary isotopy
 
@@ -1496,6 +1672,9 @@ indexing is compared with 4.11's realized torus links, orientations and signed `
 - *Stevedore handedness.* The closure of `z=(σ₁⁻¹σ₂σ₃⁻¹)²σ₃³` in `B₄` is a knot with Jones
   polynomial `t⁻²−t⁻¹+2−2t+t²−t³+t⁴`, the reciprocal of, and unequal to, that of
   [the Knot Atlas 6₁](https://katlas.org/wiki/6_1) (by evaluation).
+- *Torus closures.* `(σ₁⋯σ_(n−1))^m` has `gcd(n, |m|)` closure components: `n = 3, m = 2`
+  gives one, the trefoil `T(3, 2)`; `n = 2, m = 2` gives two, the Hopf link; `m = 0` gives `n`
+  (by evaluation).
 
 *Needs:* native braid generators, distant/adjacent Artin relations, `BraidWord.toBraid`,
 `BraidWord.closure`, `permHom` and component counts; Layer 4.2's realized Markov/Reidemeister
@@ -1562,6 +1741,8 @@ ears off a diagonal triangulation.
 - *Tilted square.* The square with vertices `(±1, ±1, 0)` is regular; tilted so that one vertex
   lies vertically above another it is not, though all projected edge pairs stay transverse or
   disjoint (by evaluation).
+- *Convex polygon.* A planar convex `n`-gon reaches a triangle after exactly `n − 3`
+  triangle moves each removing one vertex; for `n = 3` none is needed (by evaluation).
 
 *Needs:* native affine/convex and finite geometric-simplex APIs, real `MvPolynomial`,
 `LipschitzWith`, `ContractingWith.fixedPoint` and `TauCeti.AmbientIsotopy`; the plane
@@ -1717,6 +1898,10 @@ unknot*, §§1.1–1.2, whose every simplification must first increase the cross
 - *Least peaks.* The standard trefoil diagram has least peak `⊤` to the one-component
   zero-crossing target; the one-crossing kink has least peak `1`, with extra-crossing count `0`
   (by evaluation).
+- *Move counts.* A type I move changes the crossing count by `±1`, type II by `±2` and type III
+  by `0`; a crossing switch in the standard trefoil diagram gives a three-crossing diagram of
+  the unknot and is not a Reidemeister move, the two Jones polynomials differing (by
+  evaluation).
 
 *Needs:* 4.2's finite plane/sphere realization and local ambient-move comparisons; Tau Ceti's
 Jordan curve and Schoenflies theorems and 3.3's relative isotopy extension; native PD faces,
@@ -1750,6 +1935,12 @@ for continuous knot deformations versus smooth isotopy.
 **Checks.**
 - *Endpoint types.* `f₀` has Jones polynomial `1` and every `f_t` with `t > 0` has `t + t³ − t⁴`
   in 4.5's normalization, so the family is not an isotopy (by evaluation).
+- *C⁰ estimate.* For `|s| < t` both `f_t(s)` and `e(s) = (s, 0, 0)` lie in the closed ball of
+  radius `t`, so `‖f_t(s) − e(s)‖ ≤ 2t`; outside that chart interval the difference is `0` (by
+  evaluation).
+- *No C¹ convergence.* By the chain rule `∂_s f_t(t u₀) = a′(u₀)` for every `t > 0`, so the `C¹`
+  distance to `e′ = (1, 0, 0)` at the parameter `t u₀` is the fixed positive number
+  `‖a′(u₀) − (1, 0, 0)‖` (by evaluation).
 
 *Needs:* 4.1–4.2's smooth/PL knots, marked braid closures and relative arc straightening;
 3.1–3.3's mapping-space topologies and seminorms; 1.5's tubular charts and 3.3's smooth-family
@@ -1866,8 +2057,12 @@ braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann.
 
 F is the figure-eight knot, the closure of β = (ab⁻¹)² in native `BraidGroup 3` with a = σ₀,
 b = σ₁ and Δ = aba, realized by 4.4.2's four-crossing code and signed braid/arc dictionary and
-4.2's closure construction. Its symmetries are explicit isotopies, using neither invariants nor
-the crossing number.
+4.2's closure construction. Its two classical symmetries, amphichirality and invertibility, are
+proved here from the constructions below and cite no outside proof: amphichirality by an explicit
+braid conjugation (the Conjugation Check), invertibility by a rotation of the trigonometric model of
+Hypothesis 4.2.9, a model defined by its formula and not taken from a source, whose four double
+points, heights and the rotation identity `R₁K(t) = K(−t)` are finite computations. Neither uses an
+invariant or the crossing number.
 
 **Three operations on a diagram.** In projection coordinates (x, y) with crossing height z,
 P = (−x,y,z) reflects the projection plane, carrying strands and underpass gaps, M = (x,y,−z)
@@ -1987,6 +2182,10 @@ closure isotopy and its component-label map.
 
 - *Closed braid on its axis.* For the closure of `σ_0³` with o on the braid axis every edge is
   good and the axis route returns `σ_0³` with covering degree 2 (by evaluation).
+- *Figure-eight on its axis.* The closure of `(σ₁σ₂⁻¹)²` with `o` on the braid axis has every
+  edge good, and the axis route returns it with covering degree `3` (by evaluation).
+- *Unbounded face.* With `o` in the unbounded face the total winding about `o` is `0`, so bad
+  edges exist and triangle moves are necessary.
 
 *Needs:* 4.2 and 4.2.4's finite realized diagrams, polygonal/smooth comparison, supported moves
 and smoothing; Layer 1.5's relative isotopy extension; Tau Ceti's Jordan curve and Schoenflies
@@ -2039,6 +2238,9 @@ moves).
   2; the standard Whitehead link and Borromean rings have zero linking matrices (by evaluation).
 - *Push-off sign.* The positive Hopf link bounds an annulus with Seifert form `[−1]`, the diagonal
   entry of the trefoil matrix of the Conventions (by evaluation).
+- *Seifert's algorithm.* On the standard trefoil diagram it gives `s = 2`, `n = 3`, genus `1` and
+  the Seifert matrix `[[−1, 1], [0, −1]]` in a suitable basis, with `Vᵀ − V = [[0, −1], [1, 0]]` of
+  determinant `1` (by evaluation).
 
 #### Basis, orientation and boundary sums
 
@@ -2197,6 +2399,9 @@ canonical surface need not realize either minimum.
   (r=1, k=1) at ε=1; two discs joined by one band give a disc for either sign (by evaluation).
 - *Port order.* Two untwisted bands on one disc in cyclic port order e₀,f₀,e₁,f₁ give r=1,
   g=1; in order e₀,e₁,f₀,f₁ they give r=3, g=0 (by evaluation).
+- *Tubing.* The crossing-free two-component unlink gives two raw discs, `c = 2` and `G = 0`; one
+  interior tube gives a connected annulus spanning the unlink, of Euler characteristic `0`
+  against the raw surface's `2` (by evaluation).
 
 *Needs:* Layer 1.5 (collars and tubes), Layers 1.7 and 11.2.1 (classification and smooth/PL
 comparison), Layer 3.3 (supported isotopy extension), Layer 4.2 (realized diagrams and local
@@ -2208,7 +2413,7 @@ finite-presentation, embedded-spine and relative straightening adapters are buil
 ### 4.3.3 Different spanning surfaces with the same boundary
 
 **Hypothesis 4.3.3 (Möbius strip spanning the trefoil).** For `R>ε>0` the map
-`((R+t cos(3s/2)) cos s, (R+t cos(3s/2)) sin s, t sin(3s/2))` on `[0,2π]×[−ε,ε]` descends to
+`((R+t cos(3s/2)) cos s, (R+t cos(3s/2)) sin s, −t sin(3s/2))` on `[0,2π]×[−ε,ε]` descends to
 a smooth embedding of the quotient by `(0,t)∼(2π,−t)`, one disc with one three-half-twisted
 band, whose boundary, traversed for s from 0 to 4π, is the marked `T(2,3)` model of 4.11 and
 the realized closure of `σ₁³`, with the orientation and mirror convention of that comparison.
@@ -2224,6 +2429,14 @@ ambient isotopic relative to the boundary.
 
 - *Euler counts.* The strip has χ=0, one boundary component and crosscap number `2−0−1=1`;
   the canonical surface has χ=2−3=−1, one boundary component and genus 1 (by evaluation).
+- *Handedness of the strip.* For the strip map of Hypothesis 4.3.3 the projected boundary has
+  three double points, at `s = π/3, π, 5π/3` and `s + 2π`; at `s = π/3` the over strand has
+  tangent `1.5ε e_r + R e_θ` and the under strand `−1.5ε e_r + R e_θ`, so the crossing sign is that
+  of `3εR > 0`, and all three crossings are positive: the right-handed trefoil. With third
+  coordinate `+t sin(3s/2)` all three would be negative, the left-handed trefoil (by
+  evaluation).
+- *One half-twist.* With `3s/2` replaced by `s/2` the strip is a Möbius band with one half-twist,
+  whose boundary winds once meridionally around the core, an unknot (by evaluation).
 
 *Needs:* 1.7–1.7.1, 4.2, 4.3, 4.3.2 and the marked torus-knot construction of 4.11.
 
@@ -2291,6 +2504,12 @@ knots: the existence part of 4.9, whose uniqueness needs the sphere-system argum
 - *Unlink annulus.* The annulus spanning the two-component unlink has g=0, β=1 and compresses
   along its core to two discs, so a minimum connected link surface need not be incompressible
   (by evaluation).
+- *Additivity realized.* `g(T # T) = 1 + 1 = 2` for two trefoils: the boundary connected sum of
+  two genus-one surfaces has `χ = −1 − 1 − 1 = −3`, one boundary component and genus `2` (by
+  evaluation).
+- *Compressions.* Compressing a once-punctured torus along a nonseparating curve gives a disc,
+  `χ` rising from `−1` to `1`; compressing an annulus along its core gives two discs, `χ` from `0`
+  to `2` (by evaluation).
 
 *Needs:* 1.1–1.5, 1.7–1.7.1 (compact-surface classification), 2.2–2.3, 3.3 (supported
 isotopy extension), 4.1; 4.3's Seifert and linking carriers and 4.3.2's disc-band,
@@ -2332,6 +2551,10 @@ Alexander formula applies; signature comparisons are 6.2's.
 - *Trefoil word.* The positive two-strand word of length three has matrix `[−1,0;1,−1]` in this
   cycle order; reversing the basis order gives the native trefoil matrix `[−1,1;0,−1]` (by
   evaluation).
+- *Empty word.* The empty `n`-strand word gives `n` discs and a zero-dimensional matrix (by
+  evaluation).
+- *One crossing.* A one-crossing two-strand word gives a disc and no cycles, so an empty
+  matrix (by evaluation).
 
 *Needs:* 4.2's native words, closures and realization; 4.3's linking and push-offs; 4.3.2's
 band surfaces, spines, Euler identities and integral homology; native BraidWord, Matrix,
@@ -2375,6 +2598,11 @@ Seifert presentation the comparison proves the perfect-commutator criterion belo
 - *Two-strand torus links.* The closure `T(2, n)` of `σ₁ⁿ` has unnormalized Alexander
   polynomial `Σ_{j<n} (−t)^j`, with value `n` at `t = −1`; for `n = 0` the order is `0`, the
   two-component unlink having infinite cyclic Alexander module (by evaluation).
+- *Small knots.* Right-handed trefoil: `Δ = t − 1 + t⁻¹`, determinant `3`; figure-eight:
+  `Δ = −t + 3 − t⁻¹`, determinant `5`; `T(2, 5)`: `Δ = t² − t + 1 − t⁻¹ + t⁻²`, determinant `5`;
+  unknot: `Δ = 1` (by evaluation).
+- *Odd determinant.* `Δ(−1)` is odd for every knot, since `V − Vᵀ` is unimodular and
+  `V + Vᵀ ≡ V − Vᵀ (mod 2)`.
 
 *Needs:* Layer 4.3, Layer 5.1 (the exterior); Tau Ceti `TauCeti.KnotTheory.alexanderMatrix`,
 `TauCeti.KnotTheory.alexander`, `TauCeti.MarkovBraid.burauAlexander`,
@@ -2411,6 +2639,12 @@ consume this adapter. Link Seifert matrices may have odd size or singular symmet
 - *Stabilized disc.* The empty matrix and its column enlargement `[[0,1],[0,0]]` are
   S-equivalent with Δ=1 and signature 0, but have det V equal to 1 and 0 and det S_V equal to
   1 and −1 (by evaluation).
+- *Native trefoil and figure-eight.* The native trefoil matrix has `det V = 1` and
+  `det(V + Vᵀ) = 3`, so `Δ(−1) = −3`; the native figure-eight matrix has `det V = −1` and
+  `det(V + Vᵀ) = −5`, so `Δ(−1) = 5`; both polynomials have greatest exponent `1` and span `2` (by
+  evaluation).
+- *Size is not span.* The stabilized disc matrix has size `2` but `Δ` has span `0`, so matrix
+  size alone does not force equality in the genus bound (by evaluation).
 
 *Needs:* Layer 4.3 (embedded Seifert surfaces, skew pairing and geometric stabilization),
 Layer 4.4 (native Alexander comparison); `IntegralSquareMatrix.SEquivalent`, `enlargeColumn`,
@@ -2467,7 +2701,8 @@ inverse `r↦r[x_j]`. Hence if the Fox matrix of a realized knot diagram with n�
 has a deleted cofactor `εt^k` (ε=±1), then Δ=1, the unreduced module is Λ, `H₁(X∞;ℤ)=0`, E₀=0
 and E_k=Λ for k≥1, and after every specialization t↦a∈Rˣ the colourings with values in any
 R-module M are the constant ones (ordinary Fox colourings: a=−1). Such a knot need not be
-trivial: the Conway and Kinoshita–Terasaka knots have Δ=1 (Layer 6.3).
+trivial: the positive-clasped untwisted Whitehead double of a nontrivial knot has Δ=1 (4.11.2)
+and is nontrivial by its essential companion torus (4.11).
 
 **Hypothesis 4.4.2 (figure-eight diagram).** The realized closure of `σ₁σ₂⁻¹σ₁σ₂⁻¹` on three
 strands, crossings numbered 0–3 in braid order, has cyclic Gauss word
@@ -2481,6 +2716,8 @@ strands, crossings numbered 0–3 in braid order, has cyclic Gauss word
   `t⁻²D₄=alexander figureEightSeifertMatrix=−t+3−t⁻¹` (by evaluation).
 - *Unit hypothesis.* Over ℤ, `[[2, −2], [−2, 2]]` has `A·1 = 0` and transpose cokernel
   `ℤ ⊕ ℤ/2`, so invertibility of a cofactor cannot be dropped (by evaluation).
+- *Kink.* The one-crossing kink diagram of the unknot has the `1 × 1` Fox matrix `(0)`, whose
+  empty cofactor has determinant `1`; the reduced module is `0` and `E₁ = Λ` (by evaluation).
 
 *Needs:* Layers 4.1–4.4 (realized diagrams, geometric Wirtinger presentations, Seifert
 comparison and the meridional cover); Mathlib `FreeGroup`, `MonoidAlgebra`,
@@ -2528,6 +2765,8 @@ arc to 1 descends.
   of words to the generator and all others to 1 kills that family (by evaluation).
 - *Trefoil elimination.* With relators `z=xyx⁻¹`, `x=yzy⁻¹`, `y=zxz⁻¹`, eliminating `z` through
   the first crossing rewrites both other relators to `xyx=yxy` (by evaluation).
+- *Uncountable groups.* The additive group of `ℝ`, written multiplicatively, has the
+  presentation on all its elements but no countable presentation, since it is uncountable.
 
 *Needs:* native `Group.Presentation`, `Group.Generators`, `PresentedGroup`, `FreeGroup`,
 `Subgroup.normalClosure`, `Countable`, `Group.IsFinitelyPresented` and the geometric
@@ -2553,6 +2792,8 @@ cut-surface/Alexander-cover comparison make the invariants independent of surfac
   value 1 at t=1, span 4, value 1089 at t=−1, Conway polynomial `1−16z²+64z⁴` (by evaluation).
 - *Four-band signature.* `V+Vᵀ` is rationally congruent by a unipotent triangular matrix to
   `diag(4,−41/4,180/41,−121/20)`, so its signature is 0 (by evaluation).
+- *Square factorization.* `Δ = (8t − 17 + 8t⁻¹)²`, whose expansion is the polynomial above; the
+  factorization alone does not identify a connected-sum decomposition (by evaluation).
 
 *Needs:* 4.3 linking, push-offs and geometric S-equivalence; 4.3.2 embedded band realization
 and homology; 4.4's geometric Alexander-module dictionary and 4.4.1's determinant/degree laws;
@@ -2632,6 +2873,8 @@ compare it with the branch change s↦−s by 4.5's parity theorem.
   the negative Hopf link has ∇=−z and matrix `[1]` (by evaluation).
 - *Unlink phase.* For the two-component unlink ∇=0, while `ρ_L(is⁻², i(s − s⁻¹))` is
   `s + s⁻¹` and the native Jones value is `−s − s⁻¹` (by evaluation).
+- *Small Conway polynomials.* `∇_U = 1`, `∇` of the positive Hopf link `z`, of the negative one
+  `−z`, of the right-handed trefoil `1 + z²` and of the figure-eight `1 − z²` (by evaluation).
 
 *Needs:* 4.2's realized oriented diagrams and descending moves; 4.3's connected link surfaces,
 linking and geometric S-equivalence; 4.3.4's selected-component sums; 4.4's Alexander-module
@@ -2664,14 +2907,22 @@ with n crossings and s Seifert circles, the Seifert-algorithm surface F of 4.3.2
 (n − s + 1)/2; the non-tree bands of the lexicographically first spanning tree of its
 incidence graph give an integral basis of H₁(F) whose Seifert matrix V has
 det(s⁻¹V − sVᵀ) = ∇_K(s − s⁻¹), agreeing with 4.4.2's signed Fox cofactor under the fixed
-unit; and ∇_K has degree 2g(F). Hence, by 4.4's bound span Δ ≤ 2g, g(K) = g(F): 1 for 3₁,
-4₁, 5₂, 6₁, 7₂, 7₄; 2 for 5₁, 6₂, 6₃, 7₃, 7₅, 7₆, 7₇; 3 for 7₁.
+unit; and ∇_K has degree 2g(F).
+
+Assuming Hypothesis 4.4.6, prove g(K) = g(F) for each standard model, by 4.4's bound
+span Δ ≤ 2g: 1 for 3₁, 4₁, 5₂, 6₁, 7₂, 7₄; 2 for 5₁, 6₂, 6₃, 7₃, 7₅, 7₆, 7₇; 3 for 7₁.
 
 **Checks.**
 
 - *Diagram dependence.* The six-crossing three-strand braid closure of `5₂` has
   Seifert-algorithm genus `(6 − 3 + 1)/2 = 2`, the standard model `(5 − 4 + 1)/2 = 1`
   (by evaluation).
+- *Algorithm genus.* `2g = n − s + 1` in every row: `3₁` has `n = 3, s = 2, g = 1`; `5₁` has
+  `n = 5, s = 2, g = 2`; `7₁` has `n = 7, s = 2, g = 3`; `7₂` has `n = 7, s = 6, g = 1` (by
+  evaluation).
+- *Determinants.* Each tabulated `∇` has degree `2g` and `∇(0) = 1`, and `|∇(2i)|` is the
+  determinant: `3₁` gives `|1 − 4| = 3`, `4₁` gives `|1 + 4| = 5`, `7₄` gives `|1 − 16| = 15` (by
+  evaluation).
 
 *Needs:* 4.2's realized PD codes and named-model comparison; 4.3/4.3.2's linking, embedded
 Seifert surfaces and relative tree moves; 4.4/4.4.1/4.4.2/4.4.5's Seifert/Fox/Alexander/
@@ -2724,8 +2975,9 @@ two-component unlink and L_±1 unknots. 4.8.2's braid-index classification consu
    `C_(n+2)=zC_(n+1)+C_n`, `C_(−m)=(−1)^(m−1)C_m` and `C_n(s⁻¹)=(−1)^(n−1)C_n(s)`, with
    the Conway recurrence in ℤ[z], its parity, degree and leading coefficient; for
    n = 2k + 1 this is `t⁻ᵏF_n(t)` with `Δ(−1)=(−1)^k(2k+1)`. The opposite-skein
-   `C_n⁻=(−1)^(n−1)C_n` is 4.4.5's component phase. Route: the two-disc/n-band surface has
-   Seifert matrix `−B_(n−1)` (diagonal 1, superdiagonal −1) up to basis change; L_0 is
+   `C_n⁻=(−1)^(n−1)C_n` is 4.4.5's component phase. Route: the two-disc/n-band surface has,
+   up to basis change, 4.3's Seifert matrix `V=−B_(n−1)` of rank n − 1, where `B_(n−1)` has
+   diagonal 1 and superdiagonal −1, so V has diagonal −1 and superdiagonal 1; L_0 is
    spanned by a connected untwisted annulus (matrix [0]); n < 0 uses the reflected surface,
    with matrix −Vᵀ.
 
@@ -2746,6 +2998,12 @@ two-component unlink and L_±1 unknots. 4.8.2's braid-index classification consu
   between `⟨x,y | xyxyx=yxyxy⟩` and `⟨a,b | a²=b⁵⟩` (by evaluation).
 - *One-component reversal.* The coherently oriented `L_4` has `C_4 = z³ + 2z`; reversing
   one component gives `−2z` (by evaluation).
+- *Fox polynomials.* `F_1 = 1`, `F_2 = 1 − t`, `F_3 = 1 − t + t²` and
+  `F_5 = 1 − t + t² − t³ + t⁴`, with `F_n(−1) = n` and `(1 + t)F_n = 1 − (−t)^n`; the quotient form
+  fails at `t = −1`, the identity does not (by evaluation).
+- *Small presentations.* At `n = 1` and `n = 2` the presentations give `x = y` (the group `ℤ`) and
+  `xy = yx` (the group `ℤ²` of the Hopf link); `a² = b²` presents the Klein bottle group, which is
+  why `a² = bⁿ` is used only for odd `n` (by evaluation).
 
 *Needs:* 4.2's native braid/PD realizations; 4.3's disc-band Seifert producer; 4.4's covers
 and Alexander modules; 4.4.2's Fox/PD/Fitting comparison; 4.4.5's Conway/half-Laurent
@@ -2835,6 +3093,9 @@ cover modules are the direct sums of the factors' cyclic modules, with Δ = Δ_T
 - *The order-18 quotient.* In D, `tat = ata = (−e₁, 1)`, `at = (e₁, 0)`, `bt = (e₂, 0)`;
   two translations miss the `C₂` quotient and a reflection with a translation generates
   at most `6` elements, so no pair generates D (by evaluation).
+- *Determinant rows.* Every tabulated `Δ` has `Δ(1) = 1` and `|Δ(−1)| = p`: `7₄` gives
+  `|−4 − 7 − 4| = 15`, `6₃` gives `1 + 3 + 5 + 3 + 1 = 13`, `7₇` gives `1 + 5 + 9 + 5 + 1 = 21` (by
+  evaluation).
 
 *Needs:* 4.2's realized diagrams, Wirtinger/van Kampen and group maps; 4.3's Seifert
 comparisons; 4.4.2's Fox/PD/Fitting producer; 4.4.5's normalization; 4.4.7's
@@ -2870,6 +3131,9 @@ polynomials `t+t³−t⁴`, `t⁻¹+t⁻³−t⁻⁴` (4.5). Recognition allowin
   class (by evaluation).
 - *Longitude word.* `z = (xy)³ = (xyx)²` abelianizes to `6`, so `λ₊ = zx⁻⁶ ↦ 0`, as a
   longitude must, while `zx⁻⁵ ↦ 1` (by evaluation).
+- *Values at ±1.* The Jones polynomials `t + t³ − t⁴` and `t⁻¹ + t⁻³ − t⁻⁴` both have `V(1) = 1`
+  and `V(−1) = −3`, so neither these values nor the determinant `3` separates the two trefoils;
+  the supports `{1, 3, 4}` and `{−4, −3, −1}` do (by evaluation).
 
 *Needs:* 4.2's realized braid/PD diagrams, mirror and complement maps; 4.4 and 4.4.7's
 Wirtinger identifications; 4.3's linking and boundary push-offs; 4.3.4's genus-0 criterion
@@ -2900,6 +3164,8 @@ the writhe (Lickorish, Chapter 16).
 - Unknot `1`; two-component unlink `−t¹ᐟ² − t⁻¹ᐟ²`; positive Hopf link `−t¹ᐟ² − t⁵ᐟ²`.
 - The torus knot `T(3, 4)` has `V = t³ + t⁵ − t⁸` of span `5` while its crossing number is
   `8`: the span of `V` equals the crossing number for alternating knots only (Layer 4.8).
+- *Trefoils and figure-eight.* Right-handed trefoil `t + t³ − t⁴`, left-handed trefoil
+  `t⁻¹ + t⁻³ − t⁻⁴`; figure-eight `t² − t + 1 − t⁻¹ + t⁻²`, equal to its mirror (by evaluation).
 
 *Needs:* Tau Ceti `TauCeti.PDCode.kauffmanBracket`, `TauCeti.OrientedPDCode.jonesPolynomial`,
 `TauCeti.KnotTheory.jimboWeightedTrace`; Layer 4.2.
@@ -2996,6 +3262,9 @@ signature route is Layer 6.2's and is not used here.
   reaching both endpoints `±(n − 1)` (by evaluation).
 - *Oriented Hopf link.* `σ₁²` has endpoints `1` and `7` and polynomial `−u − u⁵`; its
   oriented mirror has `−u⁻¹ − u⁻⁵` (by evaluation).
+- *Trefoil endpoints.* The three-positive-letter trefoil has lower endpoint `3 − 2 + 1 = 2` and
+  native polynomial `u² + u⁶ − u⁸`; mirroring swaps positive and negative letters and negates
+  both endpoints (by evaluation).
 
 *Needs:* Layers 4.1–4.2 for realized braid closures and mirror/orientation transport;
 Layer 4.5's native Jones state sum, mirror inversion and value at one; native `PDCode`
@@ -3235,6 +3504,8 @@ the span of G.
   F(t)=−t³+3t²−5t+8−8t⁻¹+8t⁻²−7t⁻³+5t⁻⁴−3t⁻⁵+t⁻⁶, with F(1)=1 and F(−1)=49 (by evaluation).
 - *The candidates.* E is the Jones polynomial of the closure of σ₁⁻⁹, with E(−1)=9; R_c has
   support [−5,2], R_c(1)=3+c, R_c′(1)=2+c and R_c(−1)=15−c (by evaluation).
+- *T(2, −9).* `E(−1) = 9` and `E` has span `9` with support `[−13, −4]`; no monomial unit `±t^k`
+  carries it to `F`, since `9 ≠ 49` (by evaluation).
 
 *Needs:* 4.2/4.2.5's native realized word/PD/DT/Gauss and finite move comparisons; 4.4.2's
 figure-eight and 4.5's trefoil models; 4.5.3's integral knot-variable extraction; 4.5's state
@@ -3320,6 +3591,8 @@ forms, rational functions and transcendence.
   n-component unlink's; T_n(1)=1 instead of δ^n would fail already at n=1 (by evaluation).
 - *Level three.* At k=3 (δ=1), σ₁σ₂ on three strands has quotient image 1 and unknot closure, of
   braid index 1, not 3: the certificate needs δ>1 (by evaluation).
+- *One generator.* `tr_n(g_i) = u²·(1/δ) − u = −1/δ` since `uδ = u² + 1`, and the closure of `σ₁`
+  on two strands gives `(−δ)·(−1/δ) = 1`, the unknot's value (by evaluation).
 
 ### 4.5.7 Nonexchange links and the five-strand cubic quotient
 
@@ -3362,6 +3635,9 @@ the identity, its modulus criterion only if all blocks share one scalar.
   tr ρ_u(z)=(−4+5)/9 and no criterion of 4.5.6 applies, while z² has Jones image 1 (by evaluation).
 - *A cubic knot.* `b = σ₁³σ₂³σ₃³σ₄³` has a five-cycle permutation and `ρ_u(b) = 1`, each
   generator image cubing to `−i`, so by 4.5.6 its knot closure has braid index 5 (by evaluation).
+- *Group orders.* In `C₅` each generator has order `3`, its Burau eigenvalues `1` and `−ζ`
+  satisfying `(−ζ)³ = −ζ³ = 1`; the orders `155520 = 2⁷·3⁵·5` and `25920 = 155520/6` are those of
+  `G₃₂` and `PSp₄(𝔽₃)` (by evaluation).
 
 *Needs:* 4.2's native/geometric braid and linking interfaces; 4.5.1's reduced Burau convention
 and 4.5.6's trace/minimality comparisons and positive quotient at k=6; Mathlib presented groups,
@@ -3392,8 +3668,9 @@ Kauffman's two-variable F and absolute polynomial Q are constructed in Layer 4.6
 - `P_{L̄}(x, y, z) = P_L(y, x, z)`; `P_{L # J} = P_L P_J`; `P` of a split union is `−((x + y)/z)`
   times the product, and `P` of the `n`-component unlink is `(−(x + y)/z)^{n − 1}`.
 - Component detection: `μ(L) ≥ 2 ⟹ P_L ≠ 1`, since `V_L(1) = (−2)^{μ−1} ≠ 1`.
-- Mutation preserves `P` and `F`: the Kinoshita–Terasaka and Conway knots share both, and
-  are told apart by their genera (Layer 6.3).
+- Mutation preserves `P` and `F` (Layer 6.3); so, assuming Hypothesis 6.3, the
+  Kinoshita–Terasaka and Conway knots share both, and they are told apart by smooth
+  concordance (Layer 6.3, through Piccirillo's theorem).
 
 **Checks.**
 - *Trefoil.* In the variables `v⁻¹ P(L₊) − v P(L₋) = z P(L₀)` the right-handed trefoil has
@@ -3453,20 +3730,17 @@ native unknot-normalized `TauCeti.PDCode.kauffmanBracket` and F to
 values lie in the integer Laurent subring, and `t=A⁻⁴` (`t¹ᐟ²=A⁻²`) gives the native Jones
 polynomial.
 
-**Separation computations.** Prove that neither F nor P determines the other on knots, assuming
-Hypotheses 4.6.1a and 4.6.1b; the first separation does not depend on the mirror choice, Q being
-mirror invariant.
-
-**Hypothesis 4.6.1a (equal HOMFLY, different Q).** The knots 8₈ and the mirror of 10₁₂₉, as in
-[Lickorish–Millett, Example 16](https://web.math.ucsb.edu/~millett/Papers/1987Millett9LickorishTopology.pdf),
-have equal P in 4.6's convention and different Q.
-
-**Hypothesis 4.6.1b (equal F, different HOMFLY).** The alternating 11-crossing knots numbered 255
-and 257 in Conway's enumeration, as named in
-[Ng, §8.6](https://sites.math.duke.edu/~ng/math/papers/knotI.pdf), have equal F and different P,
-Conway and normalized Alexander polynomials.
-
 **Checks.**
+
+- *F is not a function of P.* The knots 8₈ and the mirror of 10₁₂₉, as in
+  [Lickorish–Millett, Example 16](https://web.math.ucsb.edu/~millett/Papers/1987Millett9LickorishTopology.pdf),
+  have equal P in 4.6's convention and different Q; Q being mirror invariant, the mirror choice
+  does not matter. A construction of F that factored through P would identify them (by
+  evaluation).
+- *P is not a function of F.* The alternating 11-crossing knots numbered 255 and 257 in Conway's
+  enumeration, as named in [Ng, §8.6](https://sites.math.duke.edu/~ng/math/papers/knotI.pdf),
+  have equal F and different P, Conway and normalized Alexander polynomials; a construction of
+  P that factored through F would identify them (by evaluation).
 
 - *Right-handed trefoil.* `F=(a⁻²+a⁻⁴)x²+(a⁻³+a⁻⁵)x−2a⁻²−a⁻⁴` and `Q=2x²+2x−3`, and the Jones
   map sends F to the normalized bracket A⁻⁴+A⁻¹²−A⁻¹⁶ (by evaluation).
@@ -3478,7 +3752,7 @@ Layer 4.5 (native bracket/Jones), Layer 4.6 (HOMFLY and its mirror convention); 
 `LaurentPolynomial.eval₂`, `LaurentPolynomial.invert`, `RatFunc`; Tau Ceti `TauCeti.PDCode`,
 `TauCeti.OrientedPDCode` and their native bracket, writhe and normalized bracket APIs.
 
-### 4.6.2 Mirror-symmetric polynomials and the chirality of9₄₂
+### 4.6.2 Mirror-symmetric polynomials and the chirality of 9₄₂
 
 Prove that a tame knot with nonzero classical signature is not equivalent to its mirror by an
 orientation-preserving ambient isotopy, even after reversing its orientation, from 6.2's
@@ -3493,29 +3767,29 @@ induced by the conventions, to the realization of the
 [Knot Atlas 9₄₂ input](https://katlas.org/wiki/9_42) diagram with DT word
 `[4,8,10,−14,2,−16,−18,−6,−12]`.
 
-**Surface and exact signature.** Prove σ(K)=−2 and σ(mirror K)=+2, so that K, and by Hypothesis
-4.6.2a the knot 9₄₂, is chiral even as an unoriented knot, assuming Hypothesis 4.6.2b and using
-the native Hermitian signature API.
-
-**Hypothesis 4.6.2b (signature of K).** 4.3.5 applied to b gives a connected genus-three surface
-of four discs and nine bands with one boundary component, whose Seifert matrix V has
-det(V−Vᵀ)=1 and σ(V+Vᵀ)=−2.
-
-**HOMFLY and its specializations.** Assuming Hypothesis 4.6.2c, prove ρ_K(l⁻¹,m)=ρ_K(l,m), so
-ρ_K=ρ_(mirror K), and that 4.4.5's coefficient maps carry ρ_K to ∇_K, Δ_K and V_K, each equal to
-its mirror transform, in agreement with the native Seifert and Jones routes.
-
-**Hypothesis 4.6.2c (HOMFLY polynomial of K).** 4.6's skein procedure on the realized knot K
-gives, in 4.4.5's ρ convention, `ρ_K(l,m)=(−2l⁻²−3−2l²)+(l⁻²+4+l²)m²−m⁴`.
-
-**An infinite family.** For n≥1 let K_n be the n-fold connected sum of K, with marked sum balls
-and coherent orientations. Prove σ(K_n)=−2n while its HOMFLY, Alexander and Jones polynomials
-are the nth powers of K's and mirror symmetric; so every K_n is chiral and the K_n are pairwise
-distinct even up to reflection and orientation reversal, by |σ|. The signature crossing-change bound
-gives u(K_n)≥n and `d(K_n,mirror K_n)≥2n`, with no unknotting-number additivity assumed.
+**An infinite chiral family with mirror-symmetric polynomials.** Let J be a knot whose HOMFLY
+polynomial is mirror symmetric (`P_J(x, y, z) = P_J(y, x, z)` in 4.6's convention) and whose
+signature is nonzero, and for n ≥ 1 let J_n be the n-fold connected sum of J, with marked sum
+balls and coherent orientations. Prove σ(J_n) = nσ(J) while the HOMFLY, Alexander and Jones
+polynomials of J_n are the nth powers of J's and mirror symmetric; so every J_n is chiral and the
+J_n are pairwise distinct even up to reflection and orientation reversal, by |σ|. The signature
+crossing-change bound gives `u(J_n) ≥ n|σ(J)|/2` and `d(J_n, mirror J_n) ≥ n|σ(J)|`, with no
+unknotting-number additivity assumed. By the Checks, K is such a knot with σ(K) = −2, so
+`u(K_n) ≥ n` and `d(K_n, mirror K_n) ≥ 2n`; assuming Hypothesis 4.6.2a, the knot 9₄₂ is chiral
+even as an unoriented knot.
 
 **Checks.**
 
+- *Signature of K.* 4.3.5 applied to b gives a connected genus-three surface of four discs and
+  nine bands with one boundary component; its six loops (four between the first two discs, one
+  each between the second and third and the third and fourth) have self-pairings −1, −1, 0, 1, 1,
+  −1 from the band signs, and their intersection graph is a tree, so `det(V − Vᵀ) = 1` and
+  `σ(V + Vᵀ) = −2` whatever the signs of the off-diagonal entries; with the opposite
+  Hopf-annulus sign `[+1]` of 4.3's push-off Check every self-pairing changes sign and the
+  signature would be +2 (by evaluation).
+- *HOMFLY polynomial of K.* 4.6's skein procedure on the realized knot K gives, in 4.4.5's ρ
+  convention, `ρ_K(l,m)=(−2l⁻²−3−2l²)+(l⁻²+4+l²)m²−m⁴`, invariant under `l ↦ l⁻¹`, so
+  `ρ_K = ρ_(mirror K)` although σ(K) ≠ 0 (by evaluation).
 - *Specializations of ρ_K.* 4.4.5's maps send ρ_K to ∇_K=1−2z²−z⁴ and V_K=G of 4.5.5, the native
   state sum of b's closure, with `V(−1) = −7 = Δ(−1)` (by evaluation).
 
@@ -3614,6 +3888,9 @@ unit to 0. Mutation, two-tangle composition and their examples belong to 4.10 an
   components, so a rule `[ab] = [ba]` applied inside words would identify them (by evaluation).
 - *Unlink value.* S6 gives `[ι[ ]]₂ = δ[ ]₁`, so the two-component unlink has value
   `δ = −(x + y)z⁻¹`, at `x = l`, `y = l⁻¹`, `z = m` equal to `−(l + l⁻¹)/m` (by evaluation).
+- *Trefoil descent.* For the standard trefoil diagram with a suitable basepoint exactly one
+  crossing is bad in Hoste's descending convention; switching it gives an unknot diagram and
+  smoothing it the Hopf link, so `P(3₁)` is determined by `P(unknot) = 1` and `P(Hopf)`.
 
 *Needs:* 4.2's finite oriented diagrams and realized local moves, Artin/Alexander/geometric
 Markov prefix and relative isotopy extension; native `BraidWord.toBraid`, `toBraid_surjective`,
@@ -3668,6 +3945,10 @@ closed Jones formula.
   `m ↦ s⁻¹` would send `l − m` to `s − s⁻¹` and is not `d` (by evaluation).
 - *Diagonal of a mirror.* The trefoil with `ρ = −2l² − l⁴ + l²m²` has diagonal `−2s²`, and its
   mirror has `1 − 2s⁻² − s⁻⁴`, not `d(s⁻¹) = −2s⁻²` (by evaluation).
+- *Diagonal and components.* The two-component unlink has `ρ = −(l + l⁻¹)/m`, of diagonal
+  `−1 − s⁻²`; the figure-eight, `ρ = −l⁻² − 1 − l² + m²`, has the same diagonal with one component,
+  so `d` separates neither component count nor these two links, while `V(1) = (−2)^(μ−1)` does
+  (by evaluation).
 
 ### 4.6.5 Four-ended HOMFLY skein modules and mutation
 
@@ -3724,6 +4005,9 @@ modules, submodule quotients, `AdjoinRoot`, localizations; native `TemperleyLieb
   `{(a, −a)}`, so N and D do not separate tangles (by evaluation).
 - *Quarter-turn.* `(x, y, z) ↦ (−y, x, z)` exchanges the `0` and `∞` tangles, whose numerator
   closures have `ρ = −(l + l⁻¹)m⁻¹` and `1`, so it is not a mutation (by evaluation).
+- *Klein four rotations.* `h_x h_y = h_z`, and their port permutations `(03)(12)`, `(01)(23)`,
+  `(02)(13)` compose in the same way, each fixing every unoriented pairing of the four ports (by
+  evaluation).
 
 ### 4.7 Colourings, the determinant and the Arf invariant
 
@@ -3775,6 +4059,9 @@ other checkerboard choice.
   six-colourings, among them `(0, 2, 4)`, though `6 ∤ det = 3` (by evaluation).
 - *Arf invariants.* `Arf(trefoil) = Arf(figure-eight) = 1` (determinants `3`, `5`) and `Arf(6₁) = 0`
   (determinant `9 ≡ 1 (mod 8)`) (by evaluation).
+- *Colouring counts.* The trefoil has `9 = 3 · 3¹` three-colourings, `6` of them non-constant; the
+  figure-eight has `25` five-colourings; the unknot has only the `n` constant colourings for every
+  `n` (by evaluation).
 
 ### 4.7.1 Based Fox colorings, numerical bounds and independent prime ranks
 
@@ -3842,6 +4129,9 @@ marked connected sums and two-braid closure. Compare
   gives `u ≥ 2` where the signature bound gives nothing (by evaluation).
 - *P(3,3,3).* Its Goeritz matrix `[[6,−3],[−3,6]]` has Smith form `diag(3,9)`, so `r_3 = 2`, and
   its three-overpass diagram with the bridge restriction gives `b = 3` (by evaluation).
+- *Two-strand ranks.* `M = [[2, −1], [1, 0]] = I + N` with `N² = 0`, so `M^m = I + mN` and the
+  closure condition of `σ₁^m` is `m(x − y) = 0`: `T(2, 3)` has `r_3 = 1` and `r_5 = 0`, `T(2, 5)` has
+  `r_5 = 1` and `r_3 = 0`, and `r_2 = 0` for both (by evaluation).
 
 ### 4.7.2 Transposition labels and the bridge bound
 
@@ -3869,6 +4159,8 @@ generated by the labels; compare Layer 4.2's braid action with Layer 4.4's Wirti
   back; the labels generate `S₃`, so the two-bridge trefoil attains `br ≥ N − 1` (by evaluation).
 - *Three-cycles.* `(123)` and `(345)` act transitively on five letters but generate only `A₅`; their
   factors `(13), (12), (35), (34)` form a tree and generate `S₅` (by evaluation).
+- *Generation is the hypothesis.* The constant labelling by one transposition satisfies every
+  crossing equation but generates a group of order `2`, so it yields no bound.
 
 ### 4.7.3 Signed pretzel diagrams and transposition labelings
 
@@ -3920,6 +4212,9 @@ colourings and `ZMod 3` linear algebra.
   `P(3,3,5)` has none (by evaluation).
 - *Colouring census.* `P(3,3,3)` has `126` transposition colourings in `S₄`: `6` constant, `96` with
   image `S₃` and `24` with image `S₄` (by evaluation).
+- *Unlink.* `P(0,0,0)` is the three-component unlink, and every incoming swap triple closes,
+  including the Klein-four and full `S₄` images; the knot-only exclusion of the Klein-four image
+  does not apply to it (by evaluation).
 
 ### 4.7.4 Conjugation orbits of finite colourings
 
@@ -3956,6 +4251,8 @@ subgroup centralizers, finite permutation cycle types, finite matrix groups and 
   `1` (by evaluation).
 - *GL₃(𝔽₂).* In `Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)` the six classes have element orders
   `1, 2, 3, 4, 7, 7` and sizes `1, 21, 56, 42, 24, 24` (by evaluation).
+- *S₅ classes.* The seven conjugacy classes of `S₅` have sizes `1, 10, 20, 15, 30, 20, 24` for
+  the cycle types `1, 2, 3, 2+2, 4, 3+2, 5`, summing to `120` (by evaluation).
 
 ### 4.7.5 The complete `5₂` coloring calculation
 
@@ -3967,6 +4264,13 @@ and the Smith adapter of 4.7.1; its arcs `x₁,…,x₅` have over/under triples
 
 - *The `5₂` count.* The arc matrix has Smith form `diag(1,1,1,7,0)`, so the `5₂` model has
   `m·gcd(m,7)` Fox `ZMod m` colourings for every `m ≥ 1` (by evaluation).
+- *Cofactors.* With rows `2x_o − x_u − x_v` for the triples above, every row and column of `A`
+  sums to `0`; deleting row `1` and column `1` leaves
+  `[[0, 2, −1, 0], [0, 0, 2, −1], [−1, 0, −1, 2], [2, −1, 0, −1]]`, of determinant `−7` (by
+  evaluation).
+- *Kernel.* `A(c, c + a, c − a, c − 2a, c − 4a) = (0, 0, 0, −7a, 7a)`, so the kernel over `R` is cut
+  out by `7a = 0`: modulo `7` there are `49` colourings and `42` nonconstant ones, modulo `3` only
+  the `3` constant ones, and modulo `14` there are `14 · 7 = 98` (by evaluation).
 
 ### 4.7.6 The three permutation-labeling examples
 
@@ -3991,6 +4295,9 @@ comparisons; 4.7.2's signed conjugation colourings; 4.7.4's class/centralizer th
   by powers of `s` form a four-cycle of swaps, so `s, t` generate `S₄` (by evaluation).
 - *Cinquefoil in S₅.* `a = (45)(123)`, `b = (35)(124)` satisfy `(ab)²a = b(ab)²`; `ab = (13425)` and
   `a³ = (45)` generate `S₅`, while `a³, b³` generate only an order-`6` group (by evaluation).
+- *Braid relation.* `H((12),(23)) = ((13),(12))`, `H²((12),(23)) = ((23),(13))` and
+  `H³((12),(23)) = ((12),(23))`; the fixed-pair condition `H³(s, t) = (s, t)` is `sts = tst`, both
+  sides equal to `(13)` for `s = (12)`, `t = (23)` (by evaluation).
 ### 4.7.7 Pretzel surfaces, Alexander modules and integer colorings
 
 P(p,q,r), p,q,r ∈ ℤ, is 4.7.3's signed three-box construction (|p|+|q|+|r| crossings, zero and
@@ -4057,6 +4364,10 @@ the port charts for each orientation assignment.
   diag(1,−1) carries it to the native matrix [[−1,1],[0,−1]], and σ = −2 (by evaluation).
 - *Non-cyclic colouring module.* P(3,3,3) has G = [[6,−3],[−3,6]], B = 27, g = 3 and Smith form
   (3,9), so its ZMod n colouring module is Ann(3) × Ann(9), not Ann(27) (by evaluation).
+- *Unit Alexander polynomial.* `P(−3, 5, 7)` has `B = −15 + 35 − 21 = −1`, `A = 0`, `Δ = 1`,
+  `det S = −1 < 0` and `σ = 0`; `P(3, 5, −7)` has `B = −41`, `A = −10`, `Δ = −10t + 21 − 10t⁻¹`,
+  `Δ(−1) = 41` and `σ = 0`. A unit Alexander polynomial does not make `P(−3, 5, 7)` the unknot
+  (by evaluation).
 
 *Needs:* 4.2's realized diagrams, component tracing and signed local moves; 4.3's embedded bands,
 homology bases, push-offs and Seifert forms; 4.4's geometric Alexander/Fox comparison; 4.7.1's
@@ -4103,6 +4414,11 @@ mutation chains, not isotopies.
 
 - *Component count.* P(2,2,2) (e = 3) has 3 components and P(1,1) (e = 0, r = 2) has 2; a count
   by odd entries would give 0 for P(2,2,2) (by evaluation).
+- *One parameter.* `P(a₀)` is an unknot for every `a₀`, with one component whether `a₀` is even
+  (`e = 1`) or odd (`e = 0`, `r` odd); the all-zero list of length `r` gives the `r`-component
+  unlink (by evaluation).
+- *Two parameters.* `P(a₀, a₁)` is the closure of the two-strand braid with exponent `a₀ + a₁`, a
+  knot exactly when the sum is odd, which agrees with the component formula (by evaluation).
 
 *Needs:* the realized signed-box, relative local-move, component-tracing, collar/gluing and
 ambient-extension prefixes; 4.6.5's marked mutation and relative-skein producer; the
@@ -4150,6 +4466,8 @@ Cambridge Philos. Soc. 99 (1986); Franks–Williams, Trans. Amer. Math. Soc. 303
   `(t¹ᐟ² + t⁻¹ᐟ²)²`, of spans `1 = 0 + 2 − 1` and `2 = 0 + 3 − 1` (by evaluation).
 - *Morton–Franks–Williams bound.* The closure `T(3, 4)` of `(σ₁σ₂)⁴` has `span V = 5`, and the
   bound gives braid index `3`, attained by that braid (by evaluation).
+- *Small invariants.* Trefoil: `c = 3`, `u = 1`, `br = 2`, braid index `2`; figure-eight: `c = 4`,
+  `u = 1`, `br = 2`, braid index `3`; unknot: `c = 0`, `u = 0`, `br = 1`, braid index `1`.
 
 *Needs:* Layer 4.2 through 4.6.
 
@@ -4225,6 +4543,9 @@ preserves adequacy, and crossing number is additive on adequate knots.
   degrees `5`, `−7` and breadth `12 = 4n`; the one-crossing kink is not adequate (by evaluation).
 - *Kink eigenvalues.* `θ_1 = −A³`, the ordinary normalized-bracket kink factor, and `θ_2 = A⁸`
   (by evaluation).
+- *Writhe-separated minimality.* For the trefoil diagram `D` with `n = 3`, `w = 3` and any diagram
+  `E` of the same knot, `n_D − w_D = 0 ≤ n_E − w_E` and `n_D + w_D = 6 ≤ n_E + w_E`; the mirror
+  diagram has `w = −3` and the two inequalities exchange roles (by evaluation).
 
 *Needs:* earlier realized plane diagrams, Reidemeister/Markov comparison, tubular neighbourhoods
 and marked connected sums; native PD state permutations/counts, `Graph`, `Setoid` join,
@@ -4253,6 +4574,12 @@ transport under mirror and simultaneous orientation reversal, not individual com
 
 - *Orientation check.* Reversing one component of L₄ (Arf 1) gives linking −2 and Arf 0, unlike
   L_(−4) (Arf 1): oriented braid index ≥ 3, unoriented index 2 (by evaluation).
+- *Small members.* `L_0` is the two-component unlink, of braid index `2` since every one-strand
+  closure is a knot; `L_(±1)` are unknots of index `1`; `L_(±2)` are the two Hopf links, of
+  index `2`.
+- *Determinant and linking.* For odd `|m| ≥ 3` the determinant is `|m|`, so `L_3` and `L_5` are
+  not the unknot; for even `m` the linking number is `m/2`, separating `L_4` and `L_(−4)` (by
+  evaluation).
 
 *Needs:* Layers 4.1–4.4 for realized closures, component/linking data, Markov comparison and
 Alexander/determinant normalization; native B₂ normal form, `permHom` and exponent sum. The torus
@@ -4358,6 +4685,8 @@ deficit at least n−4.
   the direct zero-based encoding, which switching its first two letters preserves (by evaluation).
 - *Signature bounds.* The signature lower bound on u is `0` for `T # mirror T` and `6` for
   `T # T` (by evaluation).
+- *Lower endpoint.* At `n = 4` the intermediate construction has `T(2, 2n − 1) = T`, and
+  `T ≼ T` holds by reflexivity of the Gordian order.
 
 *Needs:* Layers 4.2–4.4, 4.7.1, 4.9–4.11 for realized diagrams, sum balls, crossing-change movies,
 Seifert matrices and torus/pretzel models; 6.2's signature bound; the Milnor conjecture and
@@ -4409,6 +4738,11 @@ it.
 
 - *Granny and square.* The granny and square knots have signatures of absolute value 4 and 0, so
   they are distinct modulo global reflection, where the trefoil equals its mirror (by evaluation).
+- *Hopf chains.* The Hopf link is prime and nonsplit and the two-component unlink is split; two
+  Hopf links summed along one selected component give the nonsplit three-component chain with
+  two prime factors, `g = 0` and `β = 2`.
+- *No inverses.* Every nontrivial knot `K` and every `J` satisfy `K # J ≠ unknot`; the empty
+  product represents the unknot and is not an extra prime factorization.
 
 *Needs:* 4.1, 4.3.4; 2.2–2.3 for Schoenflies/annulus and relative ball/cap comparisons, 3.3 for
 supported isotopy extension, 11.2 for relative PL/smooth transport; native finite multisets and
@@ -4493,6 +4827,11 @@ marked mirror/reverse diagrams; a presentation of that group needs a separate re
 
 - *Trefoil orbit.* Every flype of the standard three-crossing trefoil diagram returns it up to a
   flat chart change, so its flype orbit has one element (by evaluation).
+- *Flypes keep signs.* A flype preserves writhe, crossing count and the signs of the crossings
+  under its bijection; a half-turn of a tangle that also mirrored it would change the signs and
+  is excluded by the chart definition.
+- *Alternating sums.* The granny knot has crossing number `3 + 3 = 6` by the visible-factor
+  argument; the theorem says nothing about `c(K # J)` when `K # J` is not alternating.
 
 *Needs:* 4.2's realized spherical diagrams, ambient pair maps and supported local moves; 4.3's
 embedded band/checkerboard surfaces; 4.9's prime/split sphere, cap and uniqueness prefix;
@@ -4538,8 +4877,10 @@ reverses of these lists, compared by the same adapter; 4.4.8 owns those tables. 
 **Checks.**
 - *Projective evaluation.* cf([2,0]) = 1/2, cf([0]) = 0 and cf([0,0]) = ∞, which the field
   convention 0⁻¹ = 0 would make 0 (by evaluation).
-- *Schubert's congruences.* 3 ≢ 2^{±1} and 3 · 5 ≡ 1 (mod 7), so `5₂ = 7/2` differs from its mirror
+- *Schubert's congruences.* `3 ≢ 2^(±1)` and `3 · 5 ≡ 1 (mod 7)`, so `5₂ = 7/2` differs from its mirror
   7/(−2) ≅ 7/3; 3/4, renormalized to 3/7, passes the oriented test against 3/1 (by evaluation).
+- *Determinants.* `3/1`, `5/2` and `7/2` have determinants `3`, `5` and `7`, matching `|Δ(−1)|` in
+  Layer 4.4 (by evaluation).
 
 *Needs:* Layer 4.2, 4.10.1's independent port, twist and gluing prefix, Layer 4.4, 4.4.8's
 small-prime dictionary, Layer 4.8; native continued-fraction, integer-matrix and list APIs. The
@@ -4665,6 +5006,8 @@ any set of at most two crossings gives a nontrivial knot.
   ∈ {3,5,9,11,17,19,29}; (1,1,1) gives [3,−1,2], pair (−1,−1) (by evaluation).
 - *Switches of E.* E has pair (29,6), 5 · 6 ≡ 1 (mod 29); switching one crossing in boxes 2 and 4
   gives [4,0,−2,0,−2,2], zero boxes kept, with pair (1,2) (by evaluation).
+- *Small diagrams.* The empty-circle diagram has `u_D = 0`; the standard three-crossing trefoil
+  diagram has `u_D = u(K) = 1` (by evaluation).
 
 *Needs:* realized diagrams, Reidemeister equivalence and finite plane codes; the numerical-invariant
 minimum, movie and descending constructions; Seifert surfaces and pairings, rational-tangle
@@ -4679,7 +5022,9 @@ Let W be the numerator closure of the marked rational tangle with innermost-firs
 `[2,1,2]` (fraction 8/3, five crossings), with components W₀, W₁ marked by the closure ports. Give
 its marked comparison to 4.11's zero-twist Whitehead clasp link and, deciding the mirror branch, to
 the Whitehead PD row of 4.15, which consumes it. The diagram is connected, reduced and alternating,
-so c(W) = 5 by 4.8's bracket-span minimality.
+so c(W) = 5 by 4.8's bracket-span minimality. That the two components of the Whitehead link are
+interchangeable is classical; this section proves it from the explicit movie or isotopy formulas
+below and cites no outside proof.
 
 **The geometric exchange.** There is a native `TauCeti.AmbientIsotopy` H of S³ starting at the
 identity with H₁(Wᵢ) = W_(1−i). Construct it as a finite movie of realized marked diagrams from W to
@@ -4698,6 +5043,11 @@ the based fundamental-group comparison conjugates both peripheral generators sim
 **Checks.**
 - *The Whitehead fraction.* cf([2,1,2]) = 8/3; the closure has two components, determinant 8 and
   linking number 0, unlike the (2,4) torus link N(4/1) with linking number 2 (by evaluation).
+- *Sign product.* The product `s₀ s₁` is independent of the chosen orientations, since
+  reorienting changes `(s₀, s₁)` to `(o₀ s₀ o₁, o₁ s₁ o₀)` and `o₀² o₁² = 1` (by evaluation).
+- *Relabelling is not an exchange.* Exchanging the labels of an unchanged diagram is not a movie:
+  the component bijection of the identity movie is the identity, and the target requires
+  `H₁(W₀) = W₁`.
 
 *Needs:* 4.1–4.2's tame links, realized marked diagrams and supported movies; 3.3's ambient
 extension; 4.10–4.10.1's rational ports, twists and closures; 4.8's reduced-alternating minimum.
@@ -4734,7 +5084,7 @@ permuted by half-twists) and the four-plat closure, from 4.10.1's gluing and 4.2
 conventions, are built here.
 
 Through 4.10.1's twists and 4.10's normalization, an odd-length normalized outermost-first list c
-gives the native four-strand word B(c) = σ₂^{c₁} σ₃^{−c₂} σ₂^{c₃} ⋯ σ₂^{c_n} (σ₂, σ₃ of native index
+gives the native four-strand word `B(c) = σ₂^c₁ σ₃^(−c₂) σ₂^c₃ ⋯ σ₂^c_n` (σ₂, σ₃ of native index
 1, 2, read bottom to top, caps (1,2), (3,4) at both ends, strand 1 unused); an even-length list
 splits its last a into (a−1, 1), or (a+1, −1) if negative, and 0, ∞ are separate. Give the adapter
 from this four-plat to F(c) with its frame and global-mirror flag, deciding whether the positive [3]
@@ -4763,6 +5113,8 @@ classification obstruction. The bridge-to-rational producer uses none of this. C
   3 · 4 ≡ −1 (mod 13) (by evaluation).
 - *The inverse-denominator branch.* 13/5 is amphichiral as 5² ≡ −1 (mod 13), its mirror 13/8
   matching only through 8 ≡ 5⁻¹ (mod 13) (by evaluation).
+- *Two orders.* `F([2,2,3]) = 2 + 1/(2 + 1/3) = 17/7` while `cf([2,2,3]) = 3 + 1/(2 + 1/2) = 17/5`,
+  and `F([5,1,2]) = 17/3` against `cf([5,1,2]) = 17/6` (by evaluation).
 
 *Needs:* 4.2's realized relative diagrams, supported isotopies and ambient extension; 4.10.1's
 marked tangle operations; 4.10's projective normalization prefix; Layers 1.1, 1.7.2, 3.3 and Tau
@@ -4850,6 +5202,9 @@ inequality, and 4.11's punctured torus and clasp change give g, u ≤ 1. Compare
   their factors generate S₅, while c₀, c₁ generate only A₅ (by evaluation).
 - *The factorization cycle.* H maps ((13),(12)) ↦ ((23),(13)) ↦ ((12),(23)) ↦ ((13),(12)) (by
   evaluation).
+- *The braid β_k.* `β_k` has exponent sum `5k` and permutation `(12)(23)⋯(k k+1)`, a
+  `(k+1)`-cycle, so its closure is a knot; `k = 1` gives `T(2, 5)` with `N = 5` and `b = 2` (by
+  evaluation).
 
 *Needs:* Layer 4.7.2 (group colourings, transposition-graph criterion, bridge bound), Layer 4.2's
 realized braids, Layer 4.4's Wirtinger presentation, and Layer 4.11's marked Whitehead pattern,
@@ -4909,6 +5264,8 @@ the positive-clasp polynomial, keeping the push-off and sign adapters.
   evaluation).
 - *Signature at −1.* `H_(−1) = [[−4ε, −2], [−2, 4m]]` has determinant −4(4εm + 1) and signature 0
   for εm ≥ 0, −2ε for εm < 0 (by evaluation).
+- *Table rows.* `det(V + Vᵀ) = −4εm − 1`; `(+, −1)` gives `t − 1 + t⁻¹`, `d = 3`; `(+, 3)` gives
+  `−3t + 7 − 3t⁻¹`, `d = 13`; `(+, −3)` gives `3t − 5 + 3t⁻¹`, `d = 11` (by evaluation).
 
 *Needs:* 4.11's marked pattern, annular and clasp construction; 4.2's realized diagrams and mirror
 movies; 4.3/4.3.2's embedded bands, homology bases and push-offs; 4.4's geometric Seifert, cover and
@@ -4958,6 +5315,9 @@ r = F(1) + 1 for the last two. The independence of the prime ranks is 4.7.1's.
   A_r row predicts at r = 2 (by evaluation).
 - *Three-bridge 8₅.* In Teragaito's presentation, a, b, c ↦ (12), (34), (23) satisfies both
   relators and generates S₄, so 4.7.2 gives br(8₅) ≥ 3 (by evaluation).
+- *The square-knot row.* `B_1 = T # mirror(T)` has `Δ = (t − 1 + t⁻¹)²`, `b = 3 = 2 + 2 − 1`,
+  `g = 2`, `u = 2` (based mod-`3` rank `2`) and `σ = −2 + 2 = 0`, so `|σ| ≤ 2u` is not an equality
+  in general (by evaluation).
 
 *Needs:* 4.1–4.4 (marked sums, genus, Alexander and surface comparisons); 4.7.1–4.7.3 (overpass
 positions, Fox ranks, transposition labels, signed pretzels); 4.8 (Schubert's bridge theorem);
@@ -4981,6 +5341,9 @@ deletion, Milnor invariants and the Brunnian families are 4.12.1's, independent 
   with quotient `PSL(2, ℤ)` (by evaluation).
 - *Normal forms.* `σ₁σ₂σ₁` and `σ₂σ₁σ₂` have normal form `Δ₃`; `σ₁σ₂⁻¹` has normal form
   `Δ₃⁻¹ · σ₂ · (σ₂σ₁)` and unknotted closure (by evaluation).
+- *Pure braids only.* Strand deletion (4.12.1) is defined on pure braids, where every strand
+  returns to its position; for `σ₁ ∈ B₂` the strand starting at position `1` ends at position
+  `2`, so deleting the strand of a position is not well defined.
 
 *Needs:* Tau Ceti `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.permHom`,
 `TauCeti.BraidWord`; Layer 4.2 (closures).
@@ -5099,6 +5462,10 @@ native `alexanderMatrix`/`alexander` by transpose and even-dimensional negation,
   (3, −1) (by evaluation).
 - *First family member.* V₁ = [[1, 0], [−1, 1]] gives (1 − t)² + t and Δ₁ = t − 1 + t⁻¹ (by
   evaluation).
+- *Solver at n = 1.* For `(a₀, a₁) = (1, −1)`, the trefoil's `t − 1 + t⁻¹`, `β = α = (1)` and
+  `λ = [1]` (by evaluation).
+- *Solver at n = 3.* For `a = (1, −6, 15, −19)`, with `p(1) = 2(1 − 6 + 15) − 19 = 1`,
+  `β = (1, −4, 6)`, `α = (1, −4, 8)` and the first `λ` row is `(8, −4, 1)` (by evaluation).
 
 *Needs:* Layers 4.2–4.4 (realized diagrams, crossing changes, Seifert/Fox comparison, genus
 bound) and 4.11 (the nontrivial Whitehead double).
@@ -5158,6 +5525,8 @@ at 4, 6 or 8.
 - *Odd words.* a₀, …, a₆ = 0, 2, 2, 6, 10, 22, 42 (by evaluation).
 - *Small counts.* N₃, …, N₇ = 1, 1, 2, 3, 7 and C₄ = 1, so 3C₄ ≥ 2² − 1 is an equality and its
   strict form fails (by evaluation).
+- *Low crossing numbers.* There are no knots of crossing number `1` or `2`, and crossing number
+  `0` has only the unknot.
 
 *Needs:* 4.2 (realized diagrams, sphere maps), 4.2.5 (signed Dowker words), 4.10 (rational
 tangles, Schubert classification), 4.8 (bridge number), 4.9 (prime decomposition); Tau Ceti
@@ -5264,28 +5633,41 @@ consume this layer.
 ## Layer 5: Dehn surgery
 
 Dehn surgery removes a tubular neighbourhood of a knot and reglues a solid torus along a
-slope. On the pinned slopes and framed tori (`TauCeti.Slope`, `TauCeti.BoundaryTorus`,
-`TauCeti.FramedBoundaryTorus`, `TauCeti.FramedBoundaryTorus.slopeEquiv`) and solid-torus
-neighbourhoods (`TauCeti.IsSolidTorusNeighborhood`), this layer constructs the compact exterior
-as a set and as a manifold with boundary, the filling and its first identities, and states the
-surgery theorems of Kirby's list.
+slope. The carriers are Tau Ceti's at the pin (*From Tau Ceti*): slopes and framed tori
+(`TauCeti.Slope`, `TauCeti.FramedBoundaryTorus`, `TauCeti.FramedBoundaryTorus.slopeEquiv`),
+solid-torus neighbourhoods and their existence for `C²` knots, the knot and link exteriors
+`TauCeti.knotExterior` and `TauCeti.linkExterior`, the preferred framing, Dehn fillings
+`TauCeti.DehnFilling` and `TauCeti.LinkDehnFilling` with their existence and their uniqueness for
+isotopic gluings, surgery on framed spheres `TauCeti.SphereSurgery`, the fillings of the unknot,
+the cosmetic-surgery predicates and the Weeks manifold. This layer adds the smooth structure of the
+exterior, the homology and orientation identities of fillings, the surgery theorems of Kirby's
+list and the unknotting-number applications.
 
 ### 5.1 The exterior of a link
 
-For a link `L ⊂ S³` with `μ` components define the compact exterior `X_L` as the complement of
-the union of the pairwise disjoint open `ε`-tubes of Layer 1.5, `0 < ε` strictly below a common
-embedding radius of their closed extensions, with its subtype topology and smooth boundary
-charts: a compact `3`-manifold with boundary `μ` tori, each identified with `S¹ × S¹` by the
-Seifert framing (the longitude has linking number `0` with its component). Prove independence
-of `ε` and of the tube up to a diffeomorphism that is the identity off a neighbourhood of the
-tubes, that the interior of `X_L` is diffeomorphic to `S³ ∖ L`, and that ambient isotopic
-links have diffeomorphic exteriors matching meridians and longitudes (Layer 3.3). On each
-boundary torus the meridian `μ` (the boundary of a normal disc) and the Seifert longitude `λ`
-form a `TauCeti.FramedBoundaryTorus` with `μ · λ = 1` (Rolfsen, Chapter 2, §E; Chapter 9, §F).
+For a link `L ⊂ S³` with `μ` components the exterior is Tau Ceti's `TauCeti.linkExterior` of a
+family of solid-torus neighbourhoods with disjoint images
+(`TauCeti.exists_isSolidTorusLinkNeighborhood_of_forall_nhdsSet`), `TauCeti.knotExterior` for a
+knot, the complement of the open solid tori; the exterior of the half-radius tori is a
+topological `3`-manifold with boundary (`TauCeti.IsSolidTorusLinkNeighborhood.exteriorChartedSpace`)
+whose boundary is a disjoint union of `μ` tori, the meridian generates the first homology of the
+knot complement (`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv`), the preferred
+longitude spans the boundary classes that vanish in it
+(`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`) and gives the preferred framing
+`TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`, and the exterior of the unknot is a
+solid torus exchanging meridian and longitude (`TauCeti.unknotExteriorHomeomorph`). None of this is
+planned again here. For a smooth link, choose the neighbourhoods inside the tubes of Layer 1.5, and
+prove: the exterior carries a smooth structure with boundary, as a compact `3`-manifold with
+boundary over `𝓡∂ 3`; it is independent of the solid-torus neighbourhoods up to a diffeomorphism
+that is the identity off a neighbourhood of the link and matches meridians and preferred
+longitudes; its interior is diffeomorphic to `S³ ∖ L`; and ambient isotopic links have
+diffeomorphic exteriors matching meridians and longitudes (Layer 3.3; Rolfsen, Chapter 2, §E;
+Chapter 9, §F).
 
-- The exterior of the unknot is a solid torus whose meridian disc is bounded by `λ`; the
-  exterior of a nontrivial knot is not a solid torus (Layer 8.1, Dehn's lemma).
-- `H₁(X_K; ℤ) ≅ ℤ` generated by the meridian, and the longitude is null-homologous in `X_K`.
+- The exterior of a nontrivial knot is not a solid torus (Layer 8.1, Dehn's lemma).
+- The longitude is null-homologous in the exterior and `H₁(X_K; ℤ) ≅ ℤ` is generated by the
+  meridian, transported from the pinned complement statements through the deformation
+  retraction of the complement onto the exterior.
 - The exterior of every knot is irreducible (`TauCeti.IsSphereBoundsBall`), by Alexander's
   theorem (Layer 8.1): a sphere in the exterior bounds a ball in `S³` on the side missing the
   knot.
@@ -5295,31 +5677,43 @@ form a `TauCeti.FramedBoundaryTorus` with `μ · λ = 1` (Rolfsen, Chapter 2, §
   the complement of the closed tube would omit the boundary torus and be noncompact.
 - *Framing change.* `n` full twists change `λ` to `λ + n μ`; the Seifert framing has
   `lk(λ, K) = 0`, and the blackboard framing of a diagram differs from it by the writhe.
+- *Hopf exterior.* The Hopf link exterior is `T² × [0, 1]`, the meridian of each component being
+  the longitude of the other.
 
-*Needs:* Layers 1.2, 1.5, 3.3, 4.1; Tau Ceti `TauCeti.FramedBoundaryTorus`,
-`TauCeti.IsSolidTorusNeighborhood`.
+*Needs:* Layers 1.5, 3.3, 4.1; Tau Ceti `TauCeti.linkExterior`, `TauCeti.knotExterior`,
+`TauCeti.IsSolidTorusNeighborhood`, `TauCeti.FramedBoundaryTorus`,
+`TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`.
 
 ### 5.2 Dehn filling and surgery
 
-Define the Dehn filling `X(s)` of a compact `3`-manifold `X` with a torus boundary component
-`T` along a slope `s : TauCeti.Slope H₁(T)` as the gluing (Layer 1.3) of `S¹ × D²` to `X` by a
-diffeomorphism of the boundary tori sending `∂(pt × D²)` to a curve of slope `s`, and prove it
-independent of that diffeomorphism up to diffeomorphism rel `X`. For a knot `K ⊂ S³` and
-`p/q ∈ ℚ ∪ {∞}`, `S³_{p/q}(K)` is the filling of `X_K` along `p μ + q λ`; for a framed link,
-surgery fills along all components. Define surgery on a framed embedded `Sᵏ` in an
-`n`-manifold, in every dimension, as the removal of `Sᵏ × Dⁿ⁻ᵏ` and gluing of
-`Dᵏ⁺¹ × Sⁿ⁻ᵏ⁻¹`, and prove that integer Dehn surgery is its case `k = 1`, `n = 3`.
+Dehn filling is Tau Ceti's `TauCeti.DehnFilling h s Y` (and `TauCeti.LinkDehnFilling` for links):
+a filling of the exterior along the slope `s`, recorded inside the filled space `Y` by closed
+embeddings of the exterior and of `D² × S¹` glued along a torus homeomorphism of filling slope `s`.
+The pin has their existence along every slope (`TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`,
+`TauCeti.IsSolidTorusLinkNeighborhood.exists_linkDehnFilling`), the homeomorphism of two fillings
+whose gluings are isotopic to matrix gluings with the same slope
+(`TauCeti.DehnFilling.exists_homeomorph_of_isotopic_torusHomeomorph`), the `∞`-filling
+(`TauCeti.DehnFilling.nonempty_homeomorph_of_fillingSlope_meridian`), the unknot's fillings, lens
+spaces along `p/q` (`TauCeti.DehnFilling.nonempty_homeomorph_lensSpace_of_unknot_slopeValue`) and
+`S¹ × S²` along the longitude
+(`TauCeti.DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`), surgery on a
+framed sphere in every dimension (`TauCeti.SphereSurgery`), with integral Dehn surgery as its case
+`k = 1`, `q = 2` (`TauCeti.SphereSurgery.toDehnFilling`), and compatible orientations of a filling
+(`TauCeti.DehnFilling.IsOrientationCompatible`). None of this is planned again here. For a knot
+`K ⊂ S³` and `p/q ∈ ℚ ∪ {∞}` in the preferred framing, `S³_{p/q}(K)` is a filling along
+`p μ + q λ`. Prove:
 
-- `∞`-filling recovers `S³`; `S³_{p/q}(K)` is a closed orientable `3`-manifold with
-  `H₁ ≅ ℤ/p` (and `ℤ` for `p = 0`); `S³_{p/q}(K̄) ≅ −S³_{−p/q}(K)`.
+- uniqueness of the filling along a slope for every gluing, not only those isotopic to matrix
+  gluings, by the classification of torus homeomorphisms up to isotopy (Layer 1.7.2) and the
+  extension of meridian-preserving torus maps over the solid torus;
+- for smooth knots, the filling is a closed orientable smooth `3`-manifold, with smooth structure
+  from the smooth exterior of Layer 5.1, unique up to diffeomorphism;
+- `S³_{p/q}(K)` has `H₁ ≅ ℤ/p` (and `ℤ` for `p = 0`), and `S³_{p/q}(K̄) ≅ −S³_{−p/q}(K)`;
 - Lickorish–Wallace: every closed connected orientable `3`-manifold is integer surgery on a
   framed link in `S³` (Lickorish, Chapter 12; Rolfsen, *Knots and Links*, Chapter 9): take a
   Heegaard splitting (Layer 9.1), write its gluing map as a product of Dehn twists by
   Lickorish's twist theorem (Layer 1.7.2), and realize each twist by surgery on a parallel of
   its circle pushed into a handlebody.
-- The unknot's exterior filled along the longitude is `S¹ × S²`, and along `p μ + q λ` the
-  lens space `TauCeti.LensSpace p` with the parameter determined by `q` (Rolfsen, Chapter 9,
-  §B).
 
 **Checks.**
 - *Slope sign.* `+1`-surgery on the right-handed trefoil is the Poincaré homology sphere
@@ -5327,33 +5721,64 @@ surgery fills along all components. Define surgery on a framed embedded `Sᵏ` i
   Brieskorn sphere `Σ(2, 3, 7)`, not homeomorphic to it.
 - *General dimension.* Surgery on `S⁰ ⊂ Sⁿ` with the standard framing gives `S¹ × Sⁿ⁻¹`, and on
   an unknotted `Sⁿ⁻¹ ⊂ Sⁿ` it gives `S⁰ × Sⁿ ≅ Sⁿ ⊔ Sⁿ`.
+- *Unknot fillings.* `S³_∞(K) = S³` for every `K`; `S³_0(unknot) = S¹ × S²`;
+  `S³_{p/q}(unknot) = L(p, q)`, so `S³_{±1}(unknot) = S³` and `S³_2(unknot) = ℝP³`, with
+  `H₁ = ℤ/2` (by evaluation).
+- *Hopf link surgery.* Surgery on the Hopf link with framings `(a, b)` gives `L(ab − 1, b)`:
+  framings `(0, 0)` give `S³`, `(1, 1)` give `S¹ × S²` and `(3, 2)` give `L(5, 2)` (by
+  evaluation).
 
-*Needs:* Layers 1.3, 1.7.2, 5.1, 9.1; Tau Ceti `TauCeti.Slope`,
-`TauCeti.FramedBoundaryTorus.slopeEquiv`, `TauCeti.LensSpace`, `TauCeti.SolidTorus`.
+*Needs:* Layers 1.7.2, 5.1, 9.1; Tau Ceti `TauCeti.DehnFilling`, `TauCeti.LinkDehnFilling`,
+`TauCeti.SphereSurgery`, `TauCeti.Slope`, `TauCeti.FramedBoundaryTorus.slopeEquiv`,
+`TauCeti.LensSpace`, `TauCeti.SolidTorus`.
 
 ### 5.3 Property P, Property R and cosmetic surgery
 
-State Property P: for every nontrivial knot `K ⊂ S³` and every `p/q ≠ ∞`, the manifold
-`S³_{p/q}(K)` is not simply connected (Kronheimer–Mrowka, *Witten's conjecture and Property P*,
-Geom. Topol. 8 (2004), main theorem; Kirby's Problem 1.15). State Property R: if
-`S³_0(K) ≅ S¹ × S²` then `K` is the unknot (Gabai, *Foliations and the topology of 3-manifolds
-III*, J. Differential Geom. 26 (1987), §8; Kirby's Problem 1.16). Their proofs (gauge theory,
-foliations) are not owned here. Two distinct slopes `r ≠ r'` on the exterior of a knot `K` are
-purely cosmetic when `S³_r(K)` and `S³_{r'}(K)` are homeomorphic by an orientation-preserving
-homeomorphism, and chirally cosmetic when by an orientation-reversing one (Kirby's
-Problem 1.81); the purely cosmetic surgery conjecture, that no nontrivial knot has a purely
-cosmetic pair, is open and is stated, not asserted. State the Gordon–Luecke corollary that the
-only slope on a nontrivial knot whose filling is `S³` is `∞` (Layer 8.1; its proof is
-GeometricTopology, Part II's). Prove Mathieu's theorem: for the right-handed trefoil and every
-`k ≥ 0`, the fillings along `(18k + 9)/(3k + 1)` and `(18k + 9)/(3k + 2)` are
-orientation-reversingly homeomorphic Seifert fibred spaces (Mathieu, *Closed 3-manifolds
-unchanged by Dehn surgery*, J. Knot Theory Ramifications 1 (1992)).
+State Property P: for every nontrivial knot `K ⊂ S³`, every solid-torus neighbourhood whose
+boundary torus is locally flat (`TauCeti.IsLocallyFlat`, as for every smooth tubular
+neighbourhood) and every slope other than the meridian, every Dehn filling of the exterior is not
+simply connected (Kronheimer–Mrowka, *Witten's
+conjecture and Property P*, Geom. Topol. 8 (2004), main theorem; Kirby's Problem 1.15).
+`Suggested.lean` states it as `property_P`. State Property R: if `S³_0(K) ≅ S¹ × S²` then `K` is
+the unknot (Gabai, *Foliations and the topology of 3-manifolds III*, J. Differential Geom. 26
+(1987), §8; Kirby's Problem 1.16); since a filling along `p/q` has `H₁ ≅ ℤ/p` (Layer 5.2),
+`Suggested.lean` states the equivalent framing-free form, that no filling of a nontrivial knot's
+exterior is homeomorphic to `S¹ × S²`, as `property_R`. Their proofs (gauge theory, foliations)
+are not owned here. The cosmetic-surgery notions are Tau Ceti's: purely and chirally cosmetic
+pairs of slopes, `TauCeti.IsSolidTorusNeighborhood.IsPurelyCosmetic` and
+`TauCeti.IsSolidTorusNeighborhood.IsChirallyCosmetic`, the cosmetic surgery conjecture
+`TauCeti.CosmeticSurgeryConjecture` (open, not asserted; Kirby's Problem 1.81), and Mathieu's
+case `k = 0` below as the proposition `TauCeti.MathieuChirallyCosmeticTheorem`. State the
+Gordon–Luecke corollary that the only slope on a nontrivial knot whose filling is `S³` is `∞`
+(Layer 8.1; its proof is GeometricTopology, Part II's). Prove Mathieu's theorem: for the
+right-handed trefoil and every `k ≥ 0`, the fillings along `(18k + 9)/(3k + 1)` and
+`(18k + 9)/(3k + 2)` in the preferred framing are orientation-reversingly homeomorphic Seifert
+fibred spaces (Mathieu, *Closed 3-manifolds unchanged by Dehn surgery*, J. Knot Theory
+Ramifications 1 (1992)); its case `k = 0`, the coefficients `9` and `9/2` (or `−9` and `−9/2`
+for the mirrored framing), is the pinned proposition.
 
 **Checks.**
 - *Nontriviality.* `S³_{±1}(unknot) = S³` is simply connected, so Property P needs `K`
   nontrivial.
+- *Locally flat boundary torus.* The pinned predicate `TauCeti.IsSolidTorusNeighborhood` admits a
+  wild boundary torus: a standard solid torus about the unknot with an Alexander horned ball
+  attached along a boundary disc is still the image of an embedding of `D² × S¹` mapping the open
+  solid torus onto an open set, but its exterior is not a `3`-manifold at the wild points, so it
+  is not Seifert fibred, while its fillings are still those of the unknot (a smaller tame tube
+  cobounds a product `T² × [0, 1]` with the wild torus on the solid-torus side), the `5/2`-filling
+  being `L(5, 2)`, cyclic, along a non-integral slope. The cyclic surgery headline therefore needs
+  the boundary torus locally flat, as the tubular neighbourhoods of Layer 1.5 are; Property P and
+  Property R assume it too, in the setting of their sources.
+- *Property R at the unknot.* `S³_0(unknot) = S¹ × S²`
+  (`TauCeti.DehnFilling.nonempty_homeomorph_circle_prod_sphere_of_unknot_longitude`), so
+  Property R needs `K` nontrivial, as `property_R` assumes.
+- *Mathieu's first pair.* The fillings of the right-handed trefoil along `9/1` and `9/2` are
+  Seifert fibred with exceptional fibres of multiplicities `2, 3, 3` (Layer 5.4, the third being
+  `|p − 6q| = 3` in both cases) and have `H₁ = ℤ/9` (by evaluation).
 
-*Needs:* Layer 5.2, Layer 4.1; Mathlib `SimplyConnectedSpace`.
+*Needs:* Layer 5.2, Layer 4.1, Layer 8.4 (Seifert fibred fillings, for Mathieu); Tau Ceti
+`TauCeti.DehnFilling`, `TauCeti.IsSolidTorusNeighborhood.IsChirallyCosmetic`,
+`TauCeti.MathieuChirallyCosmeticTheorem`; Mathlib `SimplyConnectedSpace`.
 
 ### 5.4 The cyclic surgery theorem and unknotting number one
 
@@ -5361,7 +5786,12 @@ State the cyclic surgery theorem: if the exterior of a knot `K ⊂ S³` is not S
 two slopes give fillings with cyclic fundamental group, then the slopes have distance at most
 one, so two distinct such slopes have distance exactly one (Culler–Gordon–Luecke–Shalen, *Dehn
 surgery on knots*, Ann. of Math. 125 (1987), the Cyclic Surgery Theorem); its proof is
-GeometricTopology, Part II's, and every use below consumes it as stated. Prove that a Seifert
+GeometricTopology, Part II's, and every use below consumes it as stated. With one slope the
+meridian, whose filling is `S³`, it says that every cyclic filling of a knot in `S³` with
+non-Seifert-fibred exterior is along the meridian or a slope of integral value, the distance of a
+slope of value `p/q` from the meridian being `|q|` in every framing; `Suggested.lean` states this
+case against the pinned `TauCeti.DehnFilling` and `TauCeti.IsSeifertFibered`, for a solid-torus
+neighbourhood with locally flat boundary torus as in 5.3, as `cyclic_surgery_theorem`. Prove that a Seifert
 fibred exterior of a nontrivial knot is a torus-knot exterior, and Moser's criterion: for
 coprime `r, s` with `|r|, |s| ≥ 2` and coprime `p, q`, the filling of `T(r, s)` along `p/q` is a
 lens space iff `|p − q r s| = 1` (Moser, Pacific J. Math. 38 (1971)); the unknot, whose filling
@@ -5379,6 +5809,13 @@ to the lens space that is the double branched cover (both in 5.4.2).
   `|5 − 1 · 1 · 2| = 3`, so the criterion needs `|r|, |s| ≥ 2` (by evaluation).
 - *Scharlemann.* The granny knot has `u = 2` and is composite; `u(8₃) = 2` and `8₃` is prime
   (5.4.2), so the converse fails.
+- *The unknot is excluded.* The meridian `∞` and the slope `±1` on the unknot both give `S³`, at
+  distance one; the unknot's exterior is a solid torus, Seifert fibred, so the theorem does not
+  apply to it.
+- *Trefoil lens surgeries.* `T(2, 3)` has lens-space surgeries exactly for `|p − 6q| = 1`, the
+  filling being `L(p, 9q)`: `p/q = 5` and `7` give `L(5, 4)` and `L(7, 2)` up to orientation; `p/q = 6`
+  gives the reducible `L(2, 1) # L(3, 1)`, which is why `|p − 6q| = 0` is excluded (by
+  evaluation).
 
 *Needs:* Layer 5.2, Layer 8.2, Layer 8.4 (Seifert fibred spaces), Layer 4.9, Layer 4.10.
 
@@ -5452,6 +5889,10 @@ u(K#J) = 2.
   evaluation).
 - *Crossing change.* For `n = 1`, `i(m_U, m_K) = 4` and the replacement distance is `2`,
   twice the slope distance `1` (by evaluation).
+- *Tubed disc.* The surface built from a spanning disc with two punctures and a tube has
+  `χ = 1 − 2 + 0 = −1`, one boundary component and genus `1`, so a knot obtained from the unknot
+  by one generalized crossing change has `g ≤ 1`, while a composite knot has `g ≥ 2` (by
+  evaluation).
 
 *Needs:* 4.3.4 ordinary genus, 4.9 prime/decomposing spheres, 4.10 relative rational tangles,
 5.1–5.2 marked exteriors/fillings, 8.1–8.2 sphere/loop and essential-surface theory, 11.2's
@@ -5539,10 +5980,10 @@ space surgeries.
 
 ### Dependencies
 
-Layer 1.3 (gluing), Layer 1.5 (tubes), Layer 1.7.2 (Dehn twists) and Layer 9.1 (Heegaard
-splittings) for the Lickorish–Wallace theorem, Layer 3.3 (isotopy extension), Layer 4
-(links), Layer 8 (irreducibility, Seifert fibred spaces); Tau Ceti's slopes, solid tori and
-lens spaces.
+Layer 1.5 (tubes), Layer 1.7.2 (Dehn twists) and Layer 9.1 (Heegaard splittings) for the
+Lickorish–Wallace theorem, Layer 3.3 (isotopy extension), Layer 4 (links), Layer 8
+(irreducibility, Seifert fibred spaces); Tau Ceti's slopes, solid tori, exteriors, Dehn fillings,
+sphere surgery, cosmetic predicates, the Weeks manifold and lens spaces.
 
 ## Layer 6: knot concordance
 
@@ -5562,24 +6003,36 @@ it is concordant to `TauCeti.unknot`, and that `K # (−K̄)` is slice by the sp
 concordance classes form an abelian group `C` (Livingston, *A survey of classical knot
 concordance*, Theorem 2.2); `C` surjects onto the topological concordance group `C_top` with
 kernel the smooth concordance classes of topologically slice knots, whose nonzero elements are
-the classes of the smoothly non-slice ones, such as the untwisted Whitehead double of the
-trefoil (Hypothesis 6.4).
+the classes of the smoothly non-slice ones; assuming Hypothesis 6.4, the positive-clasped
+untwisted Whitehead double `W_(+,0)(T(2,3))` of 4.11.3 gives one.
 
 - Ambient isotopic knots are concordant
   (`TauCeti.SmoothEmbedding.SmoothAmbientIsotopic.concordant`); the converse fails, since the
   square knot is slice and not the unknot.
 - The slice genus `TauCeti.sliceGenus K` is a concordance invariant, `g_s(K) ≤ g(K)`, and
-  `g_s(K) = 0` iff `K` is slice.
+  `g_s(K) = 0` iff `K` is slice; likewise for the pinned topological slice genus
+  `TauCeti.topologicalSliceGenus K`, which is at most the smooth one
+  (`TauCeti.topologicalSliceGenus_le_sliceGenus`) and vanishes on topologically slice knots.
+- The pin has the topological halves of the group laws: a knot topologically concordant to the
+  unknot is topologically slice (`TauCeti.isTopologicallySlice_of_topologicallyConcordant_unknot`),
+  and a knot in connected-sum position plus its reverse mirror image is topologically slice
+  (`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`). This section
+  proves their smooth forms, the converse implications and the congruence property.
 
 **Checks.**
 - *No reflection.* The product annulus `K × [0, 1]` is a concordance from `K` to itself; a
   definition with `K̄` at the far end would deny this, since the trefoil (signature `−2`) is
   not concordant to its mirror (`+2`).
 - *Unknot.* `TauCeti.unknot` is slice (`TauCeti.isSmoothlySlice_unknot`) with slice genus `0`.
+- *Slice but not trivial.* The square knot `T # T̄` is slice, hence concordant to the unknot,
+  although its Alexander polynomial `(t − 1 + t⁻¹)²` is not `1`.
 
 *Needs:* Tau Ceti `TauCeti.SmoothEmbedding.Concordant`, `TauCeti.SmoothEmbedding.Concordance`,
 `TauCeti.TopologicallyConcordant`, `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice`,
-`TauCeti.sliceGenus`; Layer 4.1, Layer 4.3; Layer 1.3.
+`TauCeti.sliceGenus`, `TauCeti.topologicalSliceGenus`,
+`TauCeti.isTopologicallySlice_of_topologicallyConcordant_unknot`,
+`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`; Layer 4.1,
+Layer 4.3; Layer 1.3.
 
 ### 6.2 The Levine–Tristram signatures
 
@@ -5632,6 +6085,11 @@ Jones support argument of Layer 4.5 is independent of it.
 **Checks.**
 - *Trefoil.* For the right-handed trefoil `V + Vᵀ = [[−2, 1], [1, −2]]` is negative definite
   of determinant `3`, so `σ = −2` (`TauCeti.KnotTheory.signature_trefoilSeifertMatrix`).
+- *Figure-eight.* `V + Vᵀ = [[2, 1], [1, −2]]` has determinant `−5 < 0`, so `σ = 0`, consistent
+  with amphichirality; the figure-eight is still not slice, by Fox–Milnor, since `−t + 3 − t⁻¹` is
+  not of the form `f(t) f(t⁻¹)` (by evaluation).
+- *Sharpness.* `|σ(T # T)| = 4 ≤ 2 u(T # T) = 4`, so the signature bound is sharp for the granny
+  knot; for the figure-eight it gives only `0 ≤ 2` (by evaluation).
 
 *Needs:* Tau Ceti `TauCeti.KnotTheory.tristramLevineForm`,
 `TauCeti.KnotTheory.tristramLevineSignature`, `Matrix.IsHermitian.signature`,
@@ -5758,6 +6216,8 @@ knots only. H_V(ω) denotes the Levine–Tristram form.
   `σ̄ = −1`, and its singular raw value is also `−1` (by evaluation).
 - *Isotropic regression.* For `A=[[0,−1],[1,1]]` and `V=[[0₂,A],[Aᵀ−I₂,I₂]]`, at
   `ω=exp(iπ/3)` the inertia is (2, 1, 1): raw signature `+1`, both sides `0` (by evaluation).
+- *No unit roots.* The figure-eight has no unit Alexander roots, `t + t⁻¹ = 3 > 2`, and its raw
+  and averaged signature functions are identically zero (by evaluation).
 
 [Conway, §§2.1–2.4](https://arxiv.org/html/1903.04477v1#S2) records the raw/averaged
 distinction; the knot surface-exterior and zero-surgery route is [Powell,
@@ -5773,21 +6233,27 @@ Hermitian spectral theorem, polynomial roots and `Circle.exp`; 1.3, 1.5, Layer 2
 Define Conway mutation: a Conway sphere meets `K` in four points and bounds a ball; cut the
 ball out, apply one of the three half-turn rotations of the sphere preserving the four points,
 and reglue. Prove that mutation preserves the Alexander, Jones, HOMFLY and Kauffman polynomials
-and the signature, and, assuming Hypothesis 6.3, that it preserves neither the genus nor the
-concordance class: the Conway knot is not slice (Piccirillo, *The Conway knot is not slice*,
-Ann. of Math. 191 (2020), Theorem 1.1, through a knot `K'` with the same trace,
-Proposition 1.4, and the Rasmussen invariant `s(K') = 2`, Theorem 1.5). The statement that
-mutation does not preserve smooth concordance (Kirby's Problem 1.53) is a target here; its
-proof consumes the Rasmussen invariant, which is GeometricTopology, Part II's, built on
-KhovanovHomology.
+and the signature, and, assuming Hypothesis 6.3, that it does not preserve the smooth
+concordance class: the Kinoshita–Terasaka knot is slice by the hypothesis's ribbon disc, and its
+mutant the Conway knot is not slice (Piccirillo, *The Conway knot is not slice*, Ann. of Math.
+191 (2020), Theorem 1.1, through a knot `K'` with the same trace, Proposition 1.4, and the
+Rasmussen invariant `s(K') = 2`, Theorem 1.5). The statement that mutation does not preserve
+smooth concordance (Kirby's Problem 1.53) is a target here; its proof consumes the Rasmussen
+invariant, which is GeometricTopology, Part II's, built on KhovanovHomology.
 
-**Hypothesis 6.3 (the Kinoshita–Terasaka and Conway knots).** The Kinoshita–Terasaka knot and
-the Conway knot are mutants with `Δ = 1`; the Kinoshita–Terasaka knot is slice and has genus
-`2`, the Conway knot has genus `3`.
+**Hypothesis 6.3 (the Kinoshita–Terasaka and Conway knots).** The marked Kinoshita–Terasaka and
+Conway diagrams are related by one Conway mutation, both have `Δ = 1`, and the
+Kinoshita–Terasaka knot bounds an explicit ribbon disc.
 
 **Checks.**
-- *Topological concordance.* Both knots have `Δ = 1`, so both are topologically slice by
-  Freedman's theorem (Layer 6.4): only smooth concordance separates them.
+- *Topological concordance.* Assuming Hypothesis 6.3, both knots have `Δ = 1`, so both are
+  topologically slice by Freedman's theorem (Layer 6.4): only smooth concordance separates them.
+- *No genus input.* The Alexander-span bound of 4.4.1 gives only `g ≥ 0` for both knots, since
+  `Δ = 1`, so this roadmap's genus lower bounds cannot separate them; the separation above uses
+  concordance alone (by evaluation).
+- *Mutation-invariant data.* Assuming Hypothesis 6.3, the invariance theorem above gives the two
+  knots the same Alexander, Jones, HOMFLY and Kauffman polynomials and signature, so none of
+  these separates them.
 
 *Needs:* Layer 4.1, Layer 4.4, Layer 4.5, Layer 4.6, Layer 6.1, Layer 6.2.
 
@@ -5809,15 +6275,27 @@ piecewise-linear concordance*, Forum Math. Sigma 4 (2016), abstract and §1; Kir
 Problem 1.31). Concordance of knots in homology spheres is an annulus in a smooth homology
 cobordism between the ambient manifolds, specializing to Layer 6.1 for `S³ × [0, 1]`.
 
-**Hypothesis 6.4 (the Whitehead double of the trefoil).** The untwisted Whitehead double of the
-trefoil is not smoothly slice: its `τ`-invariant is `1` (Hedden, *Knot Floer homology of
-Whitehead doubles*, Geom. Topol. 11 (2007), the `τ` formula for Whitehead doubles on p. 2277, a
-Floer-theoretic fact outside this roadmap). Having `Δ = 1`, it is topologically slice by
-Freedman's theorem, so the gap between the two slice notions is exactly that theorem.
+**Hypothesis 6.4 (the Whitehead double of the trefoil).** The positive-clasped untwisted
+Whitehead double `W = W_(+,0)(T)` of 4.11.3, with `T = T(2,3)` the right-handed trefoil of 4.11,
+is not smoothly slice: its `τ`-invariant is `1` (Hedden, *Knot Floer homology of Whitehead
+doubles*, Geom. Topol. 11 (2007), the `τ` formula for Whitehead doubles on p. 2277, `τ = 1` for
+the positive-clasped `t`-twisted double of `K` exactly when `t < 2τ(K)`, with `τ(T) = 1`; a
+Floer-theoretic fact outside this roadmap). Having `Δ = 1` (4.11.2 at `m = 0`), `W` is
+topologically slice by Freedman's theorem, so assuming Hypothesis 6.4 the gap between the two
+slice notions is exactly that theorem.
+
+The clasp sign and the handedness of `T` are part of the hypothesis: by the same formula the
+negative-clasped double `W_(−,0)(T)`, the mirror of `W_(+,0)` of the left-handed trefoil, and
+`W_(+,0)` of the left-handed trefoil have `τ = 0`, which certifies nothing.
 
 **Checks.**
 - *Unknot.* The unknot has knot group `ℤ`, perfect commutator subgroup and is topologically
   slice (`TauCeti.hasPerfectCommutatorSubgroup_unknot`, `TauCeti.isTopologicallySlice_unknot`).
+- *Trefoil.* The trefoil has `Δ ≠ 1`, so the theorem says nothing about it; it is not even
+  topologically slice, its signature being `−2`.
+- *Clasp and handedness.* By Hedden's formula, `τ` of the positive-clasped `t`-twisted double of
+  `K` is `1` exactly when `t < 2τ(K)`: with `τ(T) = 1`, `W_(+,0)(T)` has `τ = 1`, while
+  `W_(+,0)(mirror T)` and `W_(−,0)(T)`, its mirror, have `τ = 0` (by evaluation).
 
 *Needs:* Tau Ceti `TauCeti.FreedmanSliceTheorem`,
 `TauCeti.SmoothCircleEmbedding.HasPerfectCommutatorSubgroup`, `TauCeti.IsTopologicallySlice`;
@@ -5826,8 +6304,10 @@ Layer 4.4, Layer 6.1, Layer 6.2; Mathlib singular homology.
 ### Examples
 
 The product concordance; the slice square knot; the trefoil signature `−2` and the averaged
-signature `−1` at its Alexander root; the Kinoshita–Terasaka and Conway mutants; the
-Whitehead double of the trefoil as topologically but not smoothly slice.
+signature `−1` at its Alexander root; the Kinoshita–Terasaka and Conway mutants, separated by
+smooth concordance assuming Hypothesis 6.3; the positive-clasped untwisted Whitehead double of
+the right-handed trefoil, topologically slice by Freedman's theorem and, assuming Hypothesis
+6.4, not smoothly slice.
 
 ### Dependencies
 
@@ -5838,16 +6318,19 @@ matrices, polynomials), Layer 1.3 (gluing concordances), Layer 2 (locally flat d
 
 Hyperbolic metrics (`TauCeti.HyperbolicMetric`, `TauCeti.IsHyperbolic`), their volumes
 (`TauCeti.hypVolumeOfMetric`, `TauCeti.hypVolume`), finite volume, the upper half space
-`TauCeti.UpperHalfSpace E`, the model geometries and the Mostow, virtual fibering and virtual
-Haken propositions are Tau Ceti's at the pin (*Exact supplier contracts*). This layer proves
+`TauCeti.UpperHalfSpace E`, the model geometries, the Weeks manifold and the Mostow,
+Gabai–Meyerhoff–Milley, virtual fibering and virtual Haken propositions are Tau Ceti's at the pin
+(*Exact supplier contracts*). This layer proves
 finite-volume Mostow–Prasad rigidity and its closed/cusped consequences, develops
 finite-volume hyperbolic `3`-manifolds and the Appendix certificates, and states the Weeks and
 Agol theorems.
 
 ### 7.1 Hyperbolic space and its isometries
 
-Prove that `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n−1)))` with the metric
-`(dx² + dy²)/y²` is a native `TauCeti.HyperbolicMetric`, identify it with
+The upper half space `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n−1)))` with the metric
+`(dx² + dy²)/y²` is Tau Ceti's complete metric of constant curvature `−1`,
+`TauCeti.UpperHalfSpace.hyperbolicMetric`, with `TauCeti.UpperHalfSpace.isHyperbolic`
+(`Hyperbolic/UpperHalfSpace/Metric.lean`); it is not planned again here. Identify it with
 `TauCeti.ModelGeometry` and its tensor isometries with the native model isometries
 `TauCeti.Isom`, acting transitively on orthonormal frames, and identify `Isom(ℍ³)` with
 `PSL₂(ℂ) ⋊ ℤ/2` acting by Möbius/anti-Möbius transformations. Prove the Cartan–Hadamard property
@@ -5865,6 +6348,12 @@ isometry is a covering; conversely every such quotient carries a hyperbolic metr
 **Checks.**
 - *Freeness.* The reflection of `ℍ³` in a point is an isometry with a fixed point, so its
   quotient is an orbifold, not a manifold: the freeness hypothesis is necessary.
+- *Surfaces.* The hyperbolic plane modulo one translation is an annulus of infinite area;
+  modulo a genus-two surface group it is a closed surface of area `4π`, by Gauss–Bonnet
+  `2π · |χ| = 2π · 2` (by evaluation).
+- *Cusps.* The quotient of `ℍ³` by a parabolic `ℤ²` is a cusp `T² × ℝ`, of infinite volume, with a
+  finite-volume end `T² × [0, ∞)` of volume `A/2` for a cross-section of area `A` (by
+  evaluation).
 
 *Needs:* Tau Ceti `TauCeti.UpperHalfSpace`, `TauCeti.HyperbolicMetric`, `TauCeti.Isom`,
 `TauCeti.ModelGeometry`, `TauCeti.HasGeometricStructure`, `TauCeti.riemannianVolume`;
@@ -5897,6 +6386,10 @@ the covolume formula.
 - *Dimension two.* A closed surface of genus `g ≥ 2` has a `(6g − 6)`-dimensional space of
   hyperbolic metrics up to isotopy, and genus-two metrics with different systoles are not
   isometric, so `n ≥ 3` is necessary.
+- *Closedness.* The figure-eight knot complement is not closed, so the closed theorem does not
+  apply to it directly; its rigidity is the finite-volume theorem of Layer 7.3.
+- *Volumes.* `TauCeti.hypVolumeOfMetric_eq_of_mostow` turns rigidity for a given `M` into the
+  equality of the volumes of any two hyperbolic metrics on `M`, the form `hypVolume` needs.
 
 *Needs:* Tau Ceti `TauCeti.MostowRigidity`, `TauCeti.IsMostowRigid`,
 `TauCeti.HyperbolicMetric.Isometry`, `TauCeti.hypVolumeOfMetric_eq_of_mostow`; Layer 7.1;
@@ -5938,6 +6431,9 @@ end `T² × [0, ∞)` shows that finite volume does not imply compactness.
   group, so not every cusp of a finite-volume manifold is a torus cusp.
 - *Empty manifold.* The empty manifold satisfies `TauCeti.IsFiniteVolumeHyperbolic` vacuously
   with volume `0`, which is why positivity of volume carries nonemptiness.
+- *Two cusped volumes.* The figure-eight complement has one cusp and volume `2 v₃`; the
+  Whitehead link complement has two cusps and volume `3.6638…`, that of the regular ideal
+  octahedron.
 
 *Needs:* Tau Ceti `TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.HyperbolicMetric.HasFiniteVolume`,
 `TauCeti.IsAtoroidal`; Layer 7.1, Layer 7.2, Layer 5.2, Layer 8.2.
@@ -6011,6 +6507,9 @@ its multi-cusp Table 2 pictures use sequential expansion, with cutoff `α=1/10`.
 - *Transported metric.* Periods `(1, 2i)` at height `1` give area `2` and coordinate-loop
   lengths `1` and `2`, so the product metric on `UnitAddTorus (Fin 2)` is not the induced one
   (by evaluation).
+- *Swapping periods.* Swapping the two periods inverts the raw ratio (`−i ↦ i`) and leaves the
+  lattice and its `PGL(2, ℤ)` orbit unchanged; conjugating the ratio changes the oriented class
+  but not the unoriented one (by evaluation).
 
 *Needs:* this layer's finite-volume cusp decomposition, native hyperbolic metric
 and Riemannian measure; SuccessiveMinima Layer 1 (1.5
@@ -6020,19 +6519,24 @@ and `UpperHalfPlane` actions.
 
 ### 7.4 The Weeks manifold, virtual fibering and virtual Haken
 
-Define the Weeks manifold as the `(5, 1), (5, 2)` Dehn filling of the Whitehead link exterior
-and prove it is a closed orientable hyperbolic `3`-manifold of volume `0.9427…`
-(Gabai–Meyerhoff–Milley, *Mom technology and hyperbolic 3-manifolds*, arXiv 0910.5043,
-Theorem 1.1 and §1). State its minimality: every closed orientable hyperbolic `3`-manifold has
-volume at least that of the Weeks manifold, with equality only for it (Gabai–Meyerhoff–Milley,
-*Minimum volume cusped hyperbolic three-manifolds*, J. Amer. Math. Soc. 22 (2009), and
-Theorem 1.1 of the Mom paper; Kirby's Problem 3.60). State Agol's theorems, the pinned
+The Weeks manifold is Tau Ceti's predicate `TauCeti.IsWeeksManifold`: a Dehn filling of the
+exterior of the Whitehead link with coefficients `5` and `5/2` in the preferred framings, for
+solid-torus neighbourhoods preserving orientation at their cores; one exists
+(`TauCeti.exists_isWeeksManifold`) and the predicate is a topological property. Prove that a
+Weeks manifold is a closed orientable `3`-manifold carrying a hyperbolic metric, of volume
+`0.9427…` (Gabai–Meyerhoff–Milley, *Mom technology and hyperbolic 3-manifolds*, arXiv
+0910.5043, Theorem 1.1 and §1), from the smooth filling of Layer 5.2 and the finite-volume theory
+of Layer 7.3. Its minimality, that every closed orientable hyperbolic `3`-manifold has volume at
+least that of a Weeks manifold with equality only for it (Gabai–Meyerhoff–Milley, *Minimum volume
+cusped hyperbolic three-manifolds*, J. Amer. Math. Soc. 22 (2009), and Theorem 1.1 of the Mom
+paper; Kirby's Problem 3.60), is the pinned proposition `TauCeti.GabaiMeyerhoffMilleyTheorem`,
+which also asserts the existence of a hyperbolic Weeks manifold; `Suggested.lean` states it as
+`gabai_meyerhoff_milley`. State Agol's theorems, the pinned
 propositions `TauCeti.VirtualFiberingConjecture` and `TauCeti.VirtualHakenConjecture`: every
 closed hyperbolic `3`-manifold has a finite cover that fibres over the circle, and a finite
 cover that is Haken (Agol, *The virtual Haken conjecture*, Doc. Math. 18 (2013), Theorems 9.1
 and 9.2; Kirby's Problem 3.51). `Suggested.lean` states them as `virtual_fibering_conjecture`
-and `virtual_haken_conjecture`. The Weeks minimality statement is not statable at the pin,
-since the Weeks manifold is not a pinned carrier.
+and `virtual_haken_conjecture`.
 
 - A manifold that fibres over the circle with fibre a closed surface of negative Euler
   characteristic is Haken; `TauCeti.FibersOverCircle` and `TauCeti.IsHakenSurfaceEmbedding`
@@ -6041,8 +6545,13 @@ since the Weeks manifold is not a pinned carrier.
 **Checks.**
 - *Weeks homology.* The `(5, 1), (5, 2)` filling of the Whitehead link exterior has
   `H₁ = ℤ/5 ⊕ ℤ/5` (by evaluation).
+- *Smallest volume.* The volume `0.9427…` of the Weeks manifold is less than `v₃ = 1.0149…`, the
+  volume of the regular ideal tetrahedron, and than `2 v₃`, that of the figure-eight complement.
+- *S³.* `S³` is not hyperbolic, its fundamental group being finite, so neither of Agol's
+  theorems applies; it is neither Haken nor fibred over the circle.
 
-*Needs:* Layer 5.2, Layer 7.3; Tau Ceti `TauCeti.VirtualFiberingConjecture`,
+*Needs:* Layer 5.2, Layer 7.3; Tau Ceti `TauCeti.IsWeeksManifold`,
+`TauCeti.GabaiMeyerhoffMilleyTheorem`, `TauCeti.VirtualFiberingConjecture`,
 `TauCeti.VirtualHakenConjecture`, `TauCeti.FibersOverCircle`, `TauCeti.IsVirtuallyFibered`,
 `TauCeti.IsVirtuallyHaken`.
 
@@ -6060,8 +6569,8 @@ DifferentialGeometry Layer 12 (metrics and densities); Layer 5.2 (Dehn filling),
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable against Tau Ceti's
-irreducibility, incompressibility, Seifert-fibration and torus-decomposition carriers (*From Tau
-Ceti*). This layer proves the classical theorems up to the JSJ theorem (Alexander's theorem,
+irreducibility, incompressibility, prime-manifold, Seifert-fibration and torus-decomposition
+carriers (*From Tau Ceti*). This layer proves the classical theorems up to the JSJ theorem (Alexander's theorem,
 Dehn's lemma, the loop and sphere theorems, the prime decomposition and Kneser's finiteness),
 develops Seifert fibred spaces, and states the Gordon–Luecke theorem, the JSJ theorem,
 geometrization and the Poincaré conjecture. Manifolds are smooth; by Layer 11.2 this loses
@@ -6117,6 +6626,14 @@ nontriviality cannot be dropped. The proof does not use 8.5.2. Reference: [Gordo
   orientable but has no oriented atlas: a chart at `0` is increasing in `t`, a chart at `1`
   decreasing, and along a chain of charts across `(0, 1)` with transitions of positive
   derivative that sign cannot change.
+- *Knot groups.* The unknot has group `ℤ`; the trefoil has group `⟨x, y | xyx = yxy⟩`, which is not
+  abelian, so the knot-group theorem does not apply, consistent with the trefoil being
+  knotted.
+- *An unoriented atlas.* The two stereographic charts of `S³` change coordinates by the
+  inversion `y ↦ y/|y|²` of `ℝ³ ∖ {0}`, whose derivative `|y|⁻²(1 − 2ŷŷᵀ)` has determinant
+  `−|y|⁻⁶ < 0`, so that atlas is not oriented; composing the chart from the south pole with
+  `y₁ ↦ −y₁` gives an oriented atlas. The hypothesis asks that some oriented atlas exist (by
+  evaluation).
 
 *Needs:* Layer 11.2 (PL structures in dimension three), Layer 5.1, Layer 4.4; Tau Ceti
 `TauCeti.IsSphereBoundsBall`, `TauCeti.IsIncompressible`, `TauCeti.IsLocallyFlat`,
@@ -6125,10 +6642,17 @@ nontriviality cannot be dropped. The proof does not use 8.5.2. Reference: [Gordo
 
 ### 8.2 Prime decomposition
 
-Define a closed connected orientable `3`-manifold to be prime when every connected-sum
-decomposition has an `S³` summand, and irreducible when every embedded `2`-sphere bounds a ball
-(`TauCeti.IsSphereBoundsBall`). Connected sum is Layer 1.4; the sphere system of a prime
-decomposition and the ball capping of its pieces are Layers 1.2 and 1.3. Prove:
+Primeness is Tau Ceti's `TauCeti.IsPrimeManifold 3 M`: `M` is not `S³` and every decomposition
+of it as a connected sum (`TauCeti.IsConnectedSumOf`) of two closed `3`-manifolds has an `S³`
+summand; `TauCeti.IsIteratedConnectedSum 3 P M` presents `M` as the sum of `P 0, …, P (k − 1)`,
+`k = 0` for `S³`. Kneser's existence and Milnor's uniqueness of prime decompositions are the
+pinned propositions `TauCeti.KneserPrimeDecompositionTheorem` and
+`TauCeti.MilnorPrimeDecompositionTheorem`, for closed connected orientable smooth `3`-manifolds,
+uniqueness meaning the same number of factors and diffeomorphic factors after a permutation;
+`Suggested.lean` states them as `kneser_prime_decomposition` and `milnor_prime_decomposition`.
+Irreducibility is `TauCeti.IsSphereBoundsBall`. The connected sum is the pinned one with Layer
+1.4's cut-and-glue description; the sphere system of a prime decomposition and the ball capping
+of its pieces are Layers 1.2 and 1.3. Prove:
 
 - the only closed orientable prime manifold that is not irreducible is `S¹ × S²` (Hatcher,
   Proposition 1.4), so the prime summands of a simply connected closed `3`-manifold, which has
@@ -6146,10 +6670,10 @@ decomposition and the ball capping of its pieces are Layers 1.2 and 1.3. Prove:
   surface other than a sphere or a disc is incompressible when the boundary of every compressing
   disc bounds a disc in the surface; for such surfaces `TauCeti.IsIncompressible` implies it, and
   the converse is the loop theorem of Layer 8.1;
-- the Kneser–Milnor theorem: every closed connected orientable `3`-manifold is a connected sum of
-  finitely many prime manifolds, unique up to order and insertion of `S³` summands (Hatcher,
+- the Kneser–Milnor theorem, the two pinned propositions: every closed connected orientable
+  `3`-manifold is a connected sum of finitely many prime manifolds, unique up to order (Hatcher,
   Theorem 1.5; Milnor, *A unique decomposition theorem for 3-manifolds*, Amer. J. Math. 84
-  (1962)).
+  (1962), Theorem 1).
 
 **Checks.**
 - *Orientability in the uniqueness clause.* For non-orientable `N`, `N # (S¹ × S²)` and
@@ -6158,9 +6682,13 @@ decomposition and the ball capping of its pieces are Layers 1.2 and 1.3. Prove:
 - *No sphere components.* In the irreducible `T³` any number of disjoint small spheres bounding
   balls are injective on `π₁`, so surface finiteness for the pinned predicate needs the
   condition that no surface is a sphere.
+- *Prime versus irreducible.* `S¹ × S²` is prime and not irreducible; `T³` is irreducible, hence
+  prime; `ℝP³ # ℝP³` is not prime, its prime factors being the two `ℝP³` summands.
 
 *Needs:* Layer 1.2, Layer 1.3, Layer 1.4, Layer 8.1, Layer 11.2; Tau Ceti
-`TauCeti.IsSphereBoundsBall`, `TauCeti.Orientable`.
+`TauCeti.IsSphereBoundsBall`, `TauCeti.Orientable`, `TauCeti.IsPrimeManifold`,
+`TauCeti.IsIteratedConnectedSum`, `TauCeti.KneserPrimeDecompositionTheorem`,
+`TauCeti.MilnorPrimeDecompositionTheorem`.
 
 ### 8.3 Incompressible surfaces and Haken manifolds
 
@@ -6188,6 +6716,8 @@ homeomorphism homotopic to the given homotopy equivalence. Its proof is a target
   infinite fundamental group, would make every irreducible `3`-manifold Haken.
 - *The Haken hypothesis.* `L(7, 1)` and `L(7, 2)` are homotopy equivalent but not homeomorphic,
   and neither is Haken, their fundamental groups being finite.
+- *Virtually Haken.* The Weeks manifold is not Haken but is virtually Haken by Agol's theorem
+  (Layer 7.4).
 
 *Needs:* Tau Ceti `TauCeti.IsIncompressible`, `TauCeti.IsHakenSurfaceEmbedding`,
 `TauCeti.IsPossiblyNonorientableHakenThreeManifold`,
@@ -6239,6 +6769,11 @@ supplier of 8.5.2; it uses neither hyperbolization nor a finite knot table.
 - *Boundary data are extra.* In `T² × I` both boundary subgroups are all of `ℤ²`; the flip
   `(x, t) ↦ (x, 1 − t)` and the identity induce the same automorphism of `π₁` but exchange the
   boundary tori, so σ and the conjugators are not determined by the group isomorphism.
+- *Solid torus.* A solid torus is not sufficiently large, its boundary being compressible, so
+  the hypotheses exclude it; the hierarchy induction needs an incompressible boundary to begin.
+- *Figure-eight exterior.* A self-homotopy equivalence of the figure-eight knot exterior that is
+  the identity on the boundary torus and induces the identity on `π₁` is homotopic relative to
+  the boundary to the identity, by item 2.
 
 *Needs:* 8.1–8.2 and 8.3's Haken and normal-surface prefix, not its closed rigidity conclusion;
 11.1–11.2 for finite relative CW and PL models; collars, gluing and supported isotopy from Layers
@@ -6283,6 +6818,9 @@ torus `TauCeti.SolidTorus` with `TauCeti.SolidTorus.fiberSetoid p q`), `TauCeti.
   and differ only in the orientation character; genus, `b` and exceptional pairs miss this.
 - *Essential surfaces.* In `T³ = S¹ × T²` a small sphere bounding a ball is injective on `π₁` but
   neither vertical nor horizontal (Euler characteristic `2`, not `0`); it is not essential.
+- *Knot exteriors.* The trefoil exterior is Seifert fibred with exceptional fibres of
+  multiplicities `2` and `3`; the figure-eight exterior is not Seifert fibred, being hyperbolic
+  (Layer 7.3).
 
 *Needs:* Tau Ceti `TauCeti.IsSeifertFibration`, `TauCeti.IsSeifertFibered`, `TauCeti.SolidTorus`,
 `TauCeti.SolidTorus.fiberSetoid`; Layer 5.1, Layer 8.3; Layer 1.7.
@@ -6309,6 +6847,11 @@ Seifert fibred).
 **Checks.**
 - *Minimality.* `T³` is Seifert fibred, so the torus decomposition `T² × {pt}` has the empty
   family as a proper subfamily that is also one, and is not a JSJ decomposition.
+- *Anosov torus bundle.* A torus bundle over the circle with Anosov monodromy has one JSJ torus,
+  the fibre: it is irreducible, not Seifert fibred and not atoroidal, and cutting along the
+  fibre leaves `T² × (0, 1)`, which is Seifert fibred.
+- *Hyperbolic.* A closed hyperbolic `3`-manifold is atoroidal (Layer 7.3), so its JSJ
+  decomposition is empty.
 
 *Needs:* Tau Ceti `TauCeti.JSJTheorem`, `TauCeti.IsJSJDecomposition`, `TauCeti.IsTorusDecomposition`,
 `TauCeti.IsAtoroidal`, `TauCeti.IsPeripheralTorus`; Layer 8.2, Layer 8.3, Layer 8.4; Layer 11.2.
@@ -6331,6 +6874,12 @@ interiors and prove their equivalence with boundary parallelism in the compact c
 - *Compact-core convention.* The Hopf link exterior `T² × [0, 1]` is Seifert fibred with two
   parallel boundary tori and empty characteristic family; the noncompact-end definition applied
   to the compact core would count a boundary-parallel torus as essential.
+- *Knot exteriors.* The exterior of a hyperbolic knot has no essential torus and an empty
+  characteristic family; the exterior of a satellite knot with hyperbolic pattern and companion
+  has the companion torus as its one characteristic torus.
+- *Closed case and solid torus.* A manifold with empty boundary is the closed case, so the
+  pinned `TauCeti.JSJTheorem` is a special case; the solid torus `S¹ × D²` lies outside the
+  hypotheses, its boundary torus compressing.
 
 *Needs:* Layers 1–5, 8.1–8.5, 11.2; Layer 1.7.2's mapping classes of the boundary tori and their
 isotopy classification. 8.5.2 consumes the statement.
@@ -6394,6 +6943,8 @@ compact-exterior formulation, with the meridian and longitude orientation laws i
 - *Primeness is needed.* The granny and square knots both have group
   `⟨a, b, c | aba = bab, aca = cac⟩` but signatures of absolute value `4` and `0`, so by
   Gordon–Luecke their exteriors are not homeomorphic.
+- *Unknot.* The unknot has group `ℤ` and a solid-torus exterior; it is covered by 8.1's unknot
+  criterion, separately from the prime rigidity.
 
 *Needs:* 4.1, 4.3.4, 4.4, 4.9, 4.11; 5.1–5.2 and 5.4; 6.2; 8.1–8.5.1 and 11.2, with 8.3.1's
 relative Haken and peripheral realization. Neither geometrization nor closed hyperbolization is a
@@ -6424,6 +6975,9 @@ hyperbolic monodromy, and the remaining pieces are hyperbolic (Scott, §4).
 - *Irreducibility.* A closed orientable `3`-manifold with `π₁ = ℤ` is `S¹ × S²`, not irreducible;
   the hypothesis `TauCeti.IsSphereBoundsBall` excludes it, and 8.2 reduces the closed case to
   irreducible manifolds.
+- *Poincaré homology sphere.* Its fundamental group has order `120`, so by elliptization it is
+  `S³/Γ` for the binary icosahedral group `Γ`; it is not simply connected, so the Poincaré
+  conjecture does not identify it with `S³`.
 
 *Needs:* Tau Ceti `TauCeti.GeometrizationConjecture`, `TauCeti.IsGeometricTorusDecomposition`,
 `TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.ModelGeometry`, `TauCeti.HasGeometricStructure`;
@@ -6445,19 +6999,24 @@ Seifert fibration, torus decomposition and geometrization carriers; Layer 1.7.
 
 ### 9.1 Handlebodies and Heegaard splittings
 
-Define the standard orientable handlebody of genus `g` as the regular neighbourhood in `ℝ³` of a
-wedge of `g` circles in a plane, a compact orientable `3`-manifold with boundary the closed surface
-of genus `g`; prove it is the boundary connected sum of `g` solid tori and is determined up to
-diffeomorphism by `g`. Define a Heegaard splitting of a closed connected orientable `3`-manifold
-`M` as a decomposition `M = H₁ ∪_φ H₂` into two handlebodies of the same genus glued by a
-diffeomorphism `φ` of their boundaries reversing the induced orientations (Layer 1.3). Prove that
-every closed connected orientable `3`-manifold has a Heegaard splitting, from a triangulation
-(Layer 11.2) as the regular neighbourhoods of the `1`-skeleton and of the dual `1`-skeleton
-(Scharlemann, *Heegaard splittings of compact 3-manifolds*, arXiv math/0007144, §2.1); that
-isotopic gluing maps give diffeomorphic manifolds (Layer 1.3) and `φ` matters only through its
+Handlebodies and Heegaard splittings are Tau Ceti's (*From Tau Ceti*): the standard handlebody
+`TauCeti.handlebody g`, the closed disc with `g` holes times `[−1, 1]`, a ball for `g = 0` and a
+solid torus for `g = 1`, with free fundamental group of rank `g` and path-connected boundary
+surface carrying its fundamental group; and `TauCeti.HeegaardSplitting M`, two closed subsets
+covering `M`, each homeomorphic to `TauCeti.handlebody g` for a common genus `g`, meeting in their
+common frontier, with exchange and transport along homeomorphisms; the genus-zero splitting of
+`S³` into hemispheres. None of this is planned again here; the pinned splitting records no
+gluing map. Prove that the frontier of a splitting of a closed `3`-manifold is a closed
+orientable surface of genus `g` and that the splitting is recovered, up to homeomorphism, from
+the gluing `φ` of the two boundary surfaces, which reverses the induced orientations (Layer 1.3);
+that every closed connected orientable `3`-manifold has a Heegaard splitting, from a
+triangulation (Layer 11.2) as the regular neighbourhoods of the `1`-skeleton and of the dual
+`1`-skeleton (Scharlemann, *Heegaard splittings of compact 3-manifolds*, arXiv math/0007144,
+§2.1); that isotopic gluing maps give homeomorphic manifolds and `φ` matters only through its
 mapping class (Layer 1.7.2); and that a splitting may be stabilized by adding a trivial handle,
 raising the genus by one. Non-orientable closed `3`-manifolds split into non-orientable
-handlebodies (boundary sums of solid Klein bottles), which are not instances of this definition.
+handlebodies (boundary sums of solid Klein bottles), which are not instances of the pinned
+carrier.
 
 - Reidemeister–Singer: any two Heegaard splittings of `M` become isotopic after finitely many
   stabilizations of each (Scharlemann, §3).
@@ -6467,31 +7026,49 @@ handlebodies (boundary sums of solid Klein bottles), which are not instances of 
 **Checks.**
 - *The gluing map matters.* `S¹ × S²` and `S³` are each two solid tori, glued by the identity and
   by the factor swap of Layer 1.3; the swap is not isotopic to the identity of the torus.
+- *Genus zero and one.* The genus-zero handlebody is a ball (`TauCeti.nonempty_homeomorph_handlebody_zero`),
+  and `S³` is two balls, its hemisphere splitting; the genus-one handlebody is the solid torus
+  (`TauCeti.nonempty_homeomorph_handlebody_one`).
+- *Lens spaces.* `L(p, q)` is two solid tori glued by a map sending the meridian to a `(p, q)`
+  curve, a genus-one splitting.
 
-*Needs:* Layer 1.3, Layer 1.7, Layer 1.7.2, Layer 11.2; Tau Ceti `TauCeti.Orientable`.
+*Needs:* Layer 1.3, Layer 1.7, Layer 1.7.2, Layer 11.2; Tau Ceti `TauCeti.handlebody`,
+`TauCeti.HeegaardSplitting`, `TauCeti.Orientable`.
 
 ### 9.2 Heegaard genus, rank and Li's theorem
 
-Define the Heegaard genus `g(M)` of a closed connected orientable `3`-manifold as the least genus
-of a Heegaard splitting, the minimum of a nonempty set of natural numbers by Layer 9.1. Prove
-`rank π₁(M) ≤ g(M)`, where the rank is `Group.rank` of the finitely generated `π₁(M)`, by van
-Kampen: `π₁(M)` is a quotient of `π₁(H₁)`, free of rank `g`. Prove `g(M) = 0` iff `M ≅ S³`,
-`g(M) = 1` iff `M` is a lens space `L(p, q)` with `p ≥ 2` or `S¹ × S²`, and
-`g(M # N) ≤ g(M) + g(N)` by summing splittings along balls meeting the splitting surfaces in discs
-(Scharlemann, §3.2), with equality by Haken's lemma, that every splitting of a reducible manifold
-admits a reducing sphere meeting the splitting surface in a single circle (Scharlemann, Theorem
-3.4), which decomposes a splitting of `M # N` as a sum of splittings of `M` and of `N`. State Li's
-theorem: for every `k` there is a closed orientable hyperbolic `3`-manifold `M` with
-`g(M) ≥ rank π₁(M) + k` (Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc. 26 (2013),
-Theorem 1.1). Li's theorem is not statable at the pin: the Heegaard genus has no carrier there.
+The Heegaard genus is Tau Ceti's `TauCeti.heegaardGenus M`, the least genus of a Heegaard
+splitting of a space with `[Nonempty (TauCeti.HeegaardSplitting M)]`, a topological invariant
+with `heegaardGenus S³ = 0`; the bound `rank π₁(M) ≤ g(M)` for a boundaryless manifold charted on
+a three-dimensional space with finitely generated `π₁` is
+`TauCeti.rank_fundamentalGroup_le_heegaardGenus`, by van Kampen through the free group of a
+handlebody. Waldhausen's rank-versus-genus conjecture is the pinned
+`TauCeti.RankGenusConjecture`, and Li's theorem, that for every `n` some closed orientable
+hyperbolic `3`-manifold has `g(M) > rank π₁(M) + n` (Li, *Rank and genus of 3-manifolds*,
+J. Amer. Math. Soc. 26 (2013), Theorem 1.1), is the pinned proposition
+`TauCeti.LiRankGenusTheorem`, which refutes it; `Suggested.lean` states Li's theorem as
+`li_rank_genus_theorem`. None of this is planned again here. With the existence theorem of
+Layer 9.1 supplying the instance on every closed connected orientable `3`-manifold, prove
+`g(M) = 0` iff `M ≅ S³`, `g(M) = 1` iff `M` is a lens space `L(p, q)` with `p ≥ 2` or `S¹ × S²`,
+and `g(M # N) ≤ g(M) + g(N)` by summing splittings along balls meeting the splitting surfaces in
+discs (Scharlemann, §3.2), with equality by Haken's lemma, that every splitting of a reducible
+manifold admits a reducing sphere meeting the splitting surface in a single circle
+(Scharlemann, Theorem 3.4), which decomposes a splitting of `M # N` as a sum of splittings of `M`
+and of `N`.
 
 **Checks.**
 - *The genus-one clause.* `L(1, q) ≅ S³` has genus `0` although it has a genus-one splitting,
   stabilized from the genus-zero one; hence `p ≥ 2`.
 - *Rank meets genus.* `g(T³) = 3 = rank ℤ³`, the rank giving the lower bound and the standard
   splitting the upper.
+- *Low genus.* `g(S³) = 0 = rank 1`, `g(S¹ × S²) = 1 = rank ℤ` and `g(L(p, q)) = 1 = rank ℤ/p` for
+  `p ≥ 2`.
+- *Not homological.* The Poincaré homology sphere has `g = 2` and rank `2`, while `S³` has `g = 0`,
+  so the Heegaard genus is not determined by the homology.
 
-*Needs:* Layer 9.1, Layer 7.3; Mathlib `Group.rank`, `FundamentalGroup`; Layer 8.2.
+*Needs:* Layer 9.1, Layer 7.3, Layer 8.2; Tau Ceti `TauCeti.heegaardGenus`,
+`TauCeti.rank_fundamentalGroup_le_heegaardGenus`, `TauCeti.LiRankGenusTheorem`; Mathlib
+`Group.rank`, `FundamentalGroup`.
 
 ### Examples
 
@@ -6500,6 +7077,7 @@ manifolds; `T³` as a genus-three manifold.
 
 ### Dependencies
 
+Tau Ceti's handlebodies, Heegaard splittings, Heegaard genus, rank bound and Li's proposition;
 Layer 1.3 (gluing), Layer 1.7 (surfaces), Layer 11.2 (triangulations), Layer 8.2 (prime
 decomposition), Layer 7.3 (hyperbolic manifolds for Li's examples); Layer 1.7.2 (mapping classes);
 Mathlib's group rank.
@@ -6519,9 +7097,12 @@ transverse to its leaves. Define the Reeb component, the foliation of the solid 
 whose boundary torus is a leaf and whose interior leaves are planes spiralling towards the
 boundary, and the Reeb foliation of `S³` as the union of two Reeb components glued along the
 torus of Layer 1.3. Prove Reeb stability: if a transversely oriented codimension-one foliation of
-a closed connected `3`-manifold has a compact leaf with finite fundamental group, then that leaf
-is a sphere, the manifold is `S² × S¹` and the foliation is the product foliation (Reeb; Calegari,
-*Foliations and the Geometry of 3-Manifolds*, Theorem 4.5). Prove the existence theorem: every
+a closed connected orientable `3`-manifold has a compact leaf with finite fundamental group, then
+that leaf is a sphere, the manifold is `S² × S¹` and the foliation is the product foliation (Reeb;
+Calegari, *Foliations and the Geometry of 3-Manifolds*, Theorem 4.5, stated for a spherical leaf
+under the book's standing convention that manifolds and foliations are oriented and co-oriented:
+in an orientable manifold a transversely oriented leaf is two-sided, hence orientable, and an
+orientable closed surface with finite fundamental group is a sphere). Prove the existence theorem: every
 closed orientable `3`-manifold has a transversely oriented codimension-one foliation (Lickorish,
 *A foliation for 3-manifolds*, Ann. of Math. 82 (1965), through the Lickorish–Wallace surgery
 description of Layer 5.2 and the insertion of Reeb components along the surgery solid tori).
@@ -6533,6 +7114,13 @@ description of Layer 5.2 and the insertion of Reeb components along the surgery 
 **Checks.**
 - *The Reeb foliation.* The Reeb foliation of `S³` is not taut; its gluing torus is its only
   compact leaf and is compressible, consistent with Layer 10.2.
+- *Sphere leaves.* The product foliation of `S² × S¹` by spheres is taut, with closed
+  transversal `{pt} × S¹`; Reeb stability says it is the only transversely oriented foliation of
+  a closed orientable `3`-manifold with a sphere leaf.
+- *Orientability.* The product foliation of `ℝP² × S¹` is transversely oriented, with leaf `ℝP²` of
+  finite fundamental group, and the sphere fibration of the nonorientable `S² ×̃ S¹` is
+  transversely oriented with sphere leaves; neither manifold is `S² × S¹`, so Reeb stability
+  needs the orientability of the manifold.
 
 *Needs:* Tau Ceti `TauCeti.Foliation`, `TauCeti.Foliation.leaf`, `TauCeti.Foliation.Taut`,
 `TauCeti.Foliation.IsClosedTransversal`, `TauCeti.Foliation.ofSubmodule`; DifferentialGeometry
@@ -6561,6 +7149,11 @@ foliation under finite covers.
 **Checks.**
 - *The excluded case.* The product foliation of `S² × S¹` is taut while `S² × S¹` is not
   irreducible, and its universal cover `S² × ℝ` is not `ℝ³` although `π₁ = ℤ` is infinite.
+- *S³.* A taut foliation of `S³` would have an essential closed transversal in the trivial group
+  `π₁(S³)`, so `S³` carries no taut foliation, although it carries the Reeb foliation.
+- *Lens spaces.* `L(p, q)`, `p ≥ 2`, has finite fundamental group and is not finitely covered by
+  `S² × S¹`, so it carries no taut foliation; it carries a Reeb foliation from its genus-one
+  splitting (Layer 9.1).
 
 *Needs:* Layer 10.1, Layer 8.1, Layer 8.2, Layer 7.4 (fibrations), Layer 9.1; Tau Ceti
 `TauCeti.FibersOverCircle`; Mathlib `FundamentalGroup`.
@@ -6602,6 +7195,11 @@ cells and the pushed-forward characteristic maps.
 - *The join law on an edge.* For one closed edge `e` with its vertices, `Lk(e) = ∅` while the
   boundary of a neighbourhood of its midpoint is two points, `∂e ∗ ∅ = S⁰`; a law using the link
   alone fails here.
+- *Simplex boundary.* The realization of the boundary of the standard `n`-simplex is
+  homeomorphic to `Sⁿ⁻¹` for `n ≥ 1`; for `n = 0` the boundary has no nonempty face and its
+  realization is empty.
+- *Two points.* The realization of the complex of two vertices is the discrete space `S⁰`, whose
+  CW structure has two `0`-cells and no other cells.
 
 *Needs:* Tau Ceti `AbstractSimplicialComplex.Realization`, `PreAbstractSimplicialComplex.link`,
 `closedStar`, stellar subdivision; Mathlib `Topology.CWComplex`, `AbstractSimplicialComplex`.
@@ -6627,6 +7225,10 @@ these theorems let Layers 5, 8 and 9 pass freely between topological, PL and smo
 **Checks.**
 - *Dimension four is excluded.* `ℝ⁴` has uncountably many smooth structures and the `E₈` manifold
   has no PL structure, so no dimension-free form of these theorems (or of 11.2.1's) is stated.
+- *S³.* `S³` has exactly one smooth structure up to diffeomorphism and its PL structures are all
+  equivalent; the theorem returns the standard one.
+- *Two triangulations of S³.* The boundary of the `4`-simplex and the join of two triangle
+  boundaries triangulate `S³` and have a common subdivision, as the Hauptvermutung asserts.
 
 *Needs:* Tau Ceti `TauCeti.IsTriangulable`, `TauCeti.IsCombinatoriallyTriangulable`,
 `TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1, Layer 11.2.1.
@@ -6690,6 +7292,9 @@ a bounded homeomorphism of `ℝ²` and apply Alexander's trick (§3).
 - *Fixing the boundary along the isotopy.* On `S¹ × [0, 1]` the twist `(θ, t) ↦ (θ + 2πφ(t), t)` is
   smoothly isotopic to the identity by isotopies rotating the boundary, but not rel boundary
   (Layer 1.7.2), so item 5 must fix `∂F` throughout.
+- *Non-compact surfaces.* The plane is triangulable by the locally finite triangulation of `ℝ²`
+  by unit squares each cut along a diagonal, but by no finite complex, whose realization is
+  compact; the closed case is the one `TauCeti.TriangulationConjecture 2` states.
 
 *Needs:* Tau Ceti `TauCeti.IsTriangulable`, `TauCeti.IsCombinatoriallyTriangulable`,
 `TauCeti.TriangulationConjecture`, `TauCeti.IsLocallyCollared.isCollared`,
@@ -6726,6 +7331,9 @@ links, is a combinatorial manifold of one dimension less.
 - *A non-combinatorial triangulation.* The double suspension of the Poincaré sphere is `S⁵`
   (Cannon–Edwards), but a vertex on its suspension circle has link `ΣP`, not a manifold
   (Manolescu, Example 2.2).
+- *Smooth faces.* The smooth triangulation of `S²` by the radially projected boundary of the
+  tetrahedron has each face a smooth embedding of the triangle, while the realization
+  homeomorphism is not smooth across edges, which the definition does not require.
 
 *Needs:* Tau Ceti `PreAbstractSimplicialComplex.IsCombinatorialManifold`, `IsCombinatorialSphere`,
 `IsCombinatorialBall`, `TauCeti.PLGroupoid`; Layer 1.6, Layer 11.1.
@@ -6749,6 +7357,8 @@ cobordism group, refuted by the `β` invariant) is not owned here.
 - *Low dimensions.* `TauCeti.TriangulationConjecture 0` holds
   (`TauCeti.triangulationConjecture_zero`); dimension `4` fails by Freedman's `E₈` manifold
   (Casson), whose carrier is FourManifolds'.
+- *PL versus triangulable.* A non-triangulable closed manifold is in particular not a PL
+  manifold; the converse direction is the Kirby–Siebenmann theory of GeometricTopology, Part II.
 
 *Needs:* Tau Ceti `TauCeti.TriangulationConjecture`, `TauCeti.IsTriangulable`; Layer 11.2.
 
@@ -6768,6 +7378,11 @@ Poincaré conjecture (Zeeman 1964).
 **Checks.**
 - *Finiteness.* An infinite locally finite triangulation of the plane is contractible but not
   finite, so it is not an instance of `Contractible2Complex` and not a counterexample.
+- *Trees and circles.* A finite tree collapses to a vertex; the boundary of a triangle has no
+  free face and is neither collapsible nor contractible.
+- *Dunce hat.* The dunce hat is contractible and not collapsible, so collapsibility is strictly
+  stronger than contractibility; its cylinder is collapsible, the first nontrivial instance of
+  the conjecture.
 
 *Needs:* Tau Ceti `PreAbstractSimplicialComplex.Collapsible`, `ElementaryCollapsesTo`,
 `AbstractSimplicialComplex.Contractible2Complex`, `AbstractSimplicialComplex.orderedCylinder`,

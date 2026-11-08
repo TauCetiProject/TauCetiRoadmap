@@ -13,6 +13,12 @@ public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualHaken
 public import TauCeti.LowDimTopology.JSJDecomposition
 public import TauCeti.LowDimTopology.Geometrization
 public import TauCeti.Topology.TriangulationConjecture
+public import TauCeti.LowDimTopology.SeifertFibration
+public import TauCeti.LowDimTopology.SolidTorusNeighborhood.Exterior
+public import TauCeti.LowDimTopology.DehnSurgery.Filling
+public import TauCeti.LowDimTopology.PrimeDecomposition
+public import TauCeti.LowDimTopology.Heegaard.RankGenus
+public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Weeks
 
 /-!
 # Geometric topology: target signatures
@@ -23,30 +29,29 @@ Kirby's list and the classical theorems of surface and three-manifold topology t
 roadmap's layers make statable. Every carrier used here exists at the pins; no definition is made.
 
 Of these, the proofs of Alexander's theorem, the sphere theorem and the knot-group theorem
-(Layer 8.1), Waldhausen's theorem (Layer 8.3), Radó's triangulation theorem (Layer 11.2.1) and
-Moise's triangulation theorem (Layer 11.2) are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
-Gordon–Luecke theorem and the JSJ theorem (Layer 8) are GeometricTopology, Part II's, which
-starts from these statements. The annulus theorem is proved here in dimension at most three;
+(Layer 8.1), the Kneser–Milnor theorem (Layer 8.2), Waldhausen's theorem (Layer 8.3), Radó's
+triangulation theorem (Layer 11.2.1) and Moise's triangulation theorem (Layer 11.2) are targets
+of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
+cyclic surgery theorem (Layer 5.4), the Gordon–Luecke theorem and the JSJ theorem (Layer 8) are
+GeometricTopology, Part II's, which starts from these statements. The annulus theorem is proved here in dimension at most three;
 its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
 is FourManifolds'. Geometrization, the Poincaré conjecture, Freedman's theorem, Watanabe's
 theorem, Agol's theorems and Manolescu's theorem are stated here as the end theorems the
 roadmap is built to state; their proofs are owned by the roadmaps named in the README's
-*Scope and ownership*.
+*Scope and ownership*. Property P, Property R, the theorem of Gabai, Meyerhoff and Milley on the
+Weeks manifold and Li's rank-versus-genus theorem are stated, not proved, by this roadmap
+(Layers 5.3, 7.4 and 9.2).
+
+Not stated here although statable: Cerf's theorem (Layer 3.4) is the pinned proposition
+`TauCeti.CerfTheorem`, every diffeomorphism of `S³` joined to an orthogonal one, which the pinned
+`TauCeti.SmaleConjecture.cerfTheorem` derives from the Smale conjecture, so it would restate a
+library lemma beside `smale_conjecture`; the tubular neighbourhood theorem of Layer 1.5 is proved
+at the pin (`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`).
 
 Not statable at the pins:
-* the general normal-bundle tubular diffeomorphism theorem (Layer 1.5): there is no
-  compatible smooth normal vector bundle on which to state that diffeomorphism;
-* Li's rank-versus-genus theorem (Layer 9.2): there is no Heegaard genus;
-* the minimality of the Weeks manifold (Layer 7.4): there is no Weeks manifold;
-* Property P, Property R and the cyclic surgery theorem (Layers 5.3, 5.4): there is no Dehn
-  filling;
-* Kondo's theorem (Layer 4.13): there is no Alexander polynomial of a geometric knot and no
-  unknotting number;
-* Cerf's theorem (Layer 3.4) in its orientation-preserving form: there is no
-  orientation-preserving predicate on diffeomorphisms of the sphere; its `π₀` form, that
-  `Diff(S³)` has exactly two path components, follows from `smale_conjecture` because `O(4)`
-  has two components, so it is not stated separately;
-* the Kneser–Milnor theorem (Layer 8.2): there is no connected sum of manifolds;
+* Kondo's theorem (Layer 4.13): the pinned unknotting number is that of grid links
+  (`TauCeti.GridLink.unknottingNumber`), and there is no Alexander polynomial of a grid link or
+  of a geometric knot to compare it with;
 * the Novikov–Rosenberg theorem (Layer 10.2): the pinned foliations are smooth of a fixed
   leaf dimension but carry no transverse orientation, and incompressibility of a leaf is not
   expressed;
@@ -83,6 +88,72 @@ four-dimensional Smale conjecture fails (Kirby's Problem 4.126). -/
 theorem watanabe_theorem : TauCeti.WatanabeTheorem := by
   sorry
 
+/-! ## Layer 5: Dehn surgery -/
+
+/-- Property P (Kronheimer–Mrowka, *Witten's conjecture and Property P*, Geom. Topol. 8 (2004);
+Kirby's Problem 1.15): a Dehn filling of the exterior of a nontrivial knot in `S³` along a slope
+other than the meridian is not simply connected. The meridian is the slope of value `∞` in the
+framing of any solid torus neighbourhood, so the hypothesis does not depend on the framing. The
+boundary torus of the neighbourhood is locally flat, as for every smooth tubular neighbourhood:
+a topological solid-torus neighbourhood may have a wild boundary torus, whose exterior is not a
+manifold. -/
+theorem property_P
+    (K : TauCeti.SmoothCircleEmbedding (𝓡 3) (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1))
+    (hK : ¬ TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic
+      (TauCeti.SmoothLinkEmbedding.singleton K)
+      (TauCeti.SmoothLinkEmbedding.singleton TauCeti.unknot))
+    (Φ : TauCeti.SolidTorus → sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)
+    (h : TauCeti.IsSolidTorusNeighborhood (⇑K) Φ)
+    (hΦ : TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ
+      (Φ ∘ TauCeti.SolidTorus.boundaryInclusion))
+    (s : TauCeti.Slope h.framedBoundaryTorus.H)
+    (hs : h.framedBoundaryTorus.slopeEquiv s ≠ OnePoint.infty)
+    (Y : Type u) [TopologicalSpace Y] (F : TauCeti.DehnFilling h s Y) :
+    ¬ SimplyConnectedSpace Y := by
+  sorry
+
+/-- Property R (Gabai, *Foliations and the topology of 3-manifolds III*, J. Differential Geom.
+26 (1987), §8; Kirby's Problem 1.16): no Dehn filling of the exterior of a nontrivial knot in
+`S³` is homeomorphic to `S¹ × S²`. Gabai's statement is about the `0`-slope; it is equivalent,
+since the filling along a slope of value `p / q` in the Seifert framing has first homology
+`ℤ / p`, so only the `0`-slope can give `S¹ × S²`, and this form needs no framing. The boundary
+torus of the neighbourhood is locally flat, as in `property_P`. -/
+theorem property_R
+    (K : TauCeti.SmoothCircleEmbedding (𝓡 3) (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1))
+    (hK : ¬ TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic
+      (TauCeti.SmoothLinkEmbedding.singleton K)
+      (TauCeti.SmoothLinkEmbedding.singleton TauCeti.unknot))
+    (Φ : TauCeti.SolidTorus → sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)
+    (h : TauCeti.IsSolidTorusNeighborhood (⇑K) Φ)
+    (hΦ : TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ
+      (Φ ∘ TauCeti.SolidTorus.boundaryInclusion))
+    (s : TauCeti.Slope h.framedBoundaryTorus.H)
+    (Y : Type u) [TopologicalSpace Y] (F : TauCeti.DehnFilling h s Y) :
+    IsEmpty (Y ≃ₜ Circle × sphere (0 : EuclideanSpace ℝ (Fin 3)) 1) := by
+  sorry
+
+/-- The cyclic surgery theorem for knots in `S³` (Culler–Gordon–Luecke–Shalen, *Dehn surgery on
+knots*, Ann. of Math. 125 (1987)): if the exterior of a knot in `S³` is not Seifert fibred, every
+Dehn filling with cyclic fundamental group is along the meridian or along a slope of integral
+value. This is the case of the theorem in which one of the two cyclic slopes is the meridian,
+whose filling is `S³`: a slope of value `p / q` has distance `|q|` from the meridian, in every
+framing. The boundary torus of the neighbourhood is locally flat, as in `property_P`, so the
+exterior is a compact `3`-manifold with torus boundary; for a wild neighbourhood of the unknot the
+exterior is not Seifert fibred while the `5 / 2`-filling is the lens space `L(5, 2)`. -/
+theorem cyclic_surgery_theorem
+    (K : TauCeti.SmoothCircleEmbedding (𝓡 3) (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1))
+    (Φ : TauCeti.SolidTorus → sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)
+    (h : TauCeti.IsSolidTorusNeighborhood (⇑K) Φ)
+    (hΦ : TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ
+      (Φ ∘ TauCeti.SolidTorus.boundaryInclusion))
+    (hΦ : ¬ TauCeti.IsSeifertFibered (TauCeti.knotExterior (Φ := Φ)))
+    (s : TauCeti.Slope h.framedBoundaryTorus.H)
+    (Y : Type u) [TopologicalSpace Y] (F : TauCeti.DehnFilling h s Y) (y : Y)
+    (hY : IsCyclic (FundamentalGroup Y y)) :
+    h.framedBoundaryTorus.slopeEquiv s = OnePoint.infty ∨
+      ∃ n : ℤ, h.framedBoundaryTorus.slopeEquiv s = ((n : ℚ) : OnePoint ℚ) := by
+  sorry
+
 /-! ## Layer 6: knot concordance -/
 
 /-- Freedman's theorem: a knot in `S³` whose knot group has perfect commutator subgroup, that
@@ -95,6 +166,14 @@ theorem freedman_slice_theorem : TauCeti.FreedmanSliceTheorem := by
 /-- Mostow rigidity: two hyperbolic metrics on a closed connected manifold of dimension at
 least three are isometric. -/
 theorem mostow_rigidity : TauCeti.MostowRigidity := by
+  sorry
+
+/-- The theorem of Gabai, Meyerhoff and Milley (*Mom technology and hyperbolic 3-manifolds*,
+arXiv 0910.5043, Theorem 1.1; Kirby's Problem 3.60), the pinned proposition: some Weeks manifold,
+the `5` and `5 / 2` surgery on the Whitehead link, is a closed hyperbolic `3`-manifold, and every
+closed orientable hyperbolic `3`-manifold has volume at least that of a Weeks manifold, with
+equality only if it is homeomorphic to it. -/
+theorem gabai_meyerhoff_milley : TauCeti.GabaiMeyerhoffMilleyTheorem.{u} := by
   sorry
 
 /-- Agol's virtual fibering theorem: every closed hyperbolic `3`-manifold has a finite cover
@@ -154,6 +233,19 @@ theorem gordon_luecke
       e '' range K = range J := by
   sorry
 
+/-- Kneser's prime decomposition theorem, the pinned proposition (Hatcher, *Notes on Basic
+3-Manifold Topology*, Theorem 1.5): every closed connected orientable smooth `3`-manifold is a
+connected sum of finitely many closed prime `3`-manifolds, `S³` being the empty sum. -/
+theorem kneser_prime_decomposition : TauCeti.KneserPrimeDecompositionTheorem.{u} := by
+  sorry
+
+/-- Milnor's uniqueness of prime decompositions, the pinned proposition (Milnor, *A unique
+decomposition theorem for 3-manifolds*, Amer. J. Math. 84 (1962), Theorem 1): two prime
+decompositions of a closed connected orientable smooth `3`-manifold have the same number of
+factors and, after a permutation, diffeomorphic factors. -/
+theorem milnor_prime_decomposition : TauCeti.MilnorPrimeDecompositionTheorem.{u} := by
+  sorry
+
 /-- Waldhausen's theorem: a homotopy equivalence between closed orientable Haken
 `3`-manifolds (irreducible, containing a closed bicollared incompressible surface of infinite
 fundamental group) is homotopic to a homeomorphism. The pinned Haken predicate carries the
@@ -191,6 +283,14 @@ theorem nonempty_homeomorph_sphere_of_simplyConnected (M : Type u) [TopologicalS
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) 0 M] [CompactSpace M]
     [T2Space M] [SecondCountableTopology M] [SimplyConnectedSpace M] :
     Nonempty (M ≃ₜ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
+  sorry
+
+/-! ## Layer 9: Heegaard splittings -/
+
+/-- Li's theorem, the pinned proposition (Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc.
+26 (2013), Theorem 1.1): for every `n` some closed orientable hyperbolic `3`-manifold has Heegaard
+genus exceeding the rank of its fundamental group by more than `n`. -/
+theorem li_rank_genus_theorem : TauCeti.LiRankGenusTheorem.{u} := by
   sorry
 
 /-! ## Layer 11: triangulations -/
