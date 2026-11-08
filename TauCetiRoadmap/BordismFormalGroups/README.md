@@ -28,7 +28,9 @@ GeneralizedCohomology G2–G5 supplies spectral models, derived smash/function
 objects, represented theories, projective/Thom orientations, MU and its
 multiplicative model, connective K spectra and generic spectral Postnikov
 covers, and G2.11's enriched, quasicategorical, straightening,
-monoidal-localization and operadic foundations. AlgebraicTopology supplies
+monoidal-localization and operadic foundations. TopologicalKTheory's
+Conventions fix the Bott class β=[O(−1)]−1 on CP¹=S² that F2 uses for
+K-theory's multiplicative law. AlgebraicTopology supplies
 ordinary (co)homology with cup products, Stage 5.5's Serre spectral
 sequences and Stage 8.8–8.10's Eilenberg–MacLane models and
 representability; CharacteristicClasses C3 supplies the Stiefel–Whitney
@@ -41,8 +43,7 @@ F1–F2's formal laws, Steenrod and Adams carriers and coefficient rings; it
 owns geometric cycles, the Pontryagin–Thom comparison and the integral
 oriented/Spin coefficient calculations, none of which is an input here.
 StringOrientation consumes F3–F5 and owns the Hovey specialization to
-MString and its geometric Cayley-plane kernel. HomotopySpheres consumes
-F4's Toda brackets and F6.2's James construction. EllipticCohomology owns
+MString and its geometric Cayley-plane kernel. EllipticCohomology owns
 elliptic realization, descent and tmf; it consumes formal-group exactness
 and deformation theory here.
 
@@ -326,8 +327,9 @@ ring π_(2*)E for the native formal group; odd coefficients remain modules
 over it. This comparison precedes the tensor-product definition. Prove that tensoring the two universal lines defines a
 commutative native formal group F_E, with the orientation normalization,
 inverse dual-line formula and base-change laws. Compare two orientations by
-their strict coordinate change. Include K-theory's multiplicative law with its Bott grading: for TopK's
-u=β=[O(−1)]−1 and the normalized coordinate on L=O(1), set
+their strict coordinate change. Include K-theory's multiplicative law with its Bott grading: for
+TopologicalKTheory's Bott class u=β=[O(−1)]−1 of its Conventions (O(−1)
+the tautological line on CP¹=S²) and the normalized coordinate on L=O(1), set
 x_K(L)=u⁻¹([L⁻¹]−1), so its restriction is +1 and
 F_K(x,y)=x+y+u xy. Compare u x with native 𝔾ₘ. Pin the Thom/orientation
 adapter if another K orientation is used. Ordinary cohomology has the
@@ -422,8 +424,7 @@ with strict inequality would lose the top square; at p=2, |ξ₂|=3 and
 (s,t)=(1,2) to (3,3), lowering t−s from 1 to 0, not raising it; the Moore
 spectrum of ℤ/2^∞ has classical 2-completion zero but derived
 2-completion with π₁=ℤ₂, so the tensor form needs finite generation.
-TangentialBordism and HomotopySpheres consume these operations, algebras
-and towers.
+TangentialBordism consumes these operations, algebras and towers.
 
 Construct the map L→MU_* from MU's orientation and prove it is an
 isomorphism. Supply the complete coefficient proof from the Adams towers
@@ -1010,7 +1011,7 @@ H_*(ΩS^(2r+1);ℤ)=ℤ[b] with |b|=2r, the James stages J_jS^(2r) with
 homology spanned by 1,b,…,b^j, and the quotients J_j/J_(j−1)=S^(2rj).
 Prove functoriality in Y and compatibility of the filtration with the
 monoid product. These are the stages of item 1 and the sources and
-targets of the James–Hopf maps of item 3; HomotopySpheres consumes them.
+targets of the James–Hopf maps of item 3.
 Checks: J₁(S²)=S², J₂(S²)/J₁(S²)=S⁴ and H₂(J₂(S²);ℤ)=ℤ on b, whereas a
 construction with J₂/J₁=S²×S² would add two classes in degree 2; for
 Y=S⁰ the James map is not an equivalence: J(S⁰) is the discrete monoid
