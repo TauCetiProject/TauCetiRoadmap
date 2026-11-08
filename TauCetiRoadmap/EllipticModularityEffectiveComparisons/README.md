@@ -199,7 +199,7 @@ Keep λ₀ distinct from the Möbius coordinate m in localTerms: λ₀(p)=−2 w
 
 ### 0.4 The five inverted dimension terms
 
-At every N>0, convolving the full-space index, cusp count, order-two elliptic count, order-three elliptic count and positive-level constant function with λ₀=μ∗μ gives respectively NS(N), V∞(N), A(N), B(N), and μ(N), where (S,V∞,A,B,μ) are the products of localTerms. Thus the inverse of the full cusp-dimension function is martinValue. (martin-2003, §2, proof of Theorem 1, equation (16) and following calculations, p.9, martin-2003 line 449.)
+At every N>0, convolving the full-space index, cusp count, order-two elliptic count, order-three elliptic count and positive-level constant function with λ₀=μ∗μ gives respectively NS(N), V∞(N), A(N), B(N), and μ(N), where (S,V∞,A,B,μ) are the products of localTerms. Thus the inverse of the full cusp-dimension function is martinValue. (martin-2003, §2, proof of Theorem 1, equation (16) and following calculations, p.9, martin-2003 lines 452–479.)
 
 Throughout this subsection, N>0; λ₀=μ*μ; full-space terms are the actual trivial-character weight-two Γ₀ dimension formula; S,V∞,A,B,M are the local-factor products.
 
@@ -247,7 +247,7 @@ N=1 must retain V∞=1; setting it to zero changes the level-one formula by 1/2.
 
 ### 0.7 The totient–prime-factor upper bound
 
-For N>0, 12 martinValue(N)≤φ(N)+7·2^ω(N)+12. (martin-2003, Corollary 18, p.15, martin-2003 line 772.)
+For N>0, 12 martinValue(N)≤φ(N)+7·2^ω(N)+12. (martin-2003, Corollary 18, p.15, martin-2003 line 773.)
 
 Throughout this subsection, N>0.
 
@@ -331,7 +331,7 @@ The cutoff is 12·129=1548.
 
 ### 0.14 The remaining small levels in the large-prime case
 
-For 1≤N<1548 with gcd(N,6)>1 and a prime divisor exceeding 41, 12 martinValue(N)≤N. (martin-2003, Lemma 22, finite calculation, p.16, martin-2003 line 824.)
+For 1≤N<1548 with gcd(N,6)>1 and a prime divisor exceeding 41, 12 martinValue(N)≤N. (martin-2003, Lemma 22 and the direct calculation closing its proof, pp.15–16, martin-2003 lines 823 and 834–835.)
 
 Throughout this subsection, 1≤N<1548, gcd(N,6)>1 and some prime divisor of N exceeds 41.
 
@@ -380,7 +380,7 @@ At a removed multiplicative prime, compare p+1 with the signed Hecke eigenvalue 
 
 ### 1.1 Nonvanishing of the removed-prime comparison integer
 
-Let K be a number field, c∈K, p≥2, s∈{1,−1}, and σ:K→ℂ an embedding with |σ(c)|≤2 sqrt(p). Then α=p+1−s c is nonzero. (bennett-siksek-2020, Lemma 2.2 proof, p.359; explicit nonvanishing step, bennett-siksek-2020 line 198.)
+Let K be a number field, c∈K, p≥2, s∈{1,−1}, and σ:K→ℂ an embedding with |σ(c)|≤2 sqrt(p). Then α=p+1−s c is nonzero. (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 198–203, where the nonvanishing of α is used to bound ℓ by the norm but is not stated; this subsection supplies it.)
 
 Throughout this subsection, p is an integer at least 2; an actual embedding σ is supplied; s=1 or s=−1.
 
@@ -404,7 +404,7 @@ The congruence ideal must lie above the same ℓ as E[ℓ]; integrality is not a
 
 ### 1.3 Archimedean bound on the comparison norm
 
-For K/ℚ of degree d, c∈K, p≥2 and s∈{1,−1}, if |σ(c)|≤2 sqrt(p) for every complex embedding σ, then |Norm_K/ℚ(p+1−s c)|≤(sqrt(p)+1)^(2d). (bennett-siksek-2020, Lemma 2.2 proof, p.359, bennett-siksek-2020 line 202.)
+For K/ℚ of degree d, c∈K, p≥2 and s∈{1,−1}, if |σ(c)|≤2 sqrt(p) for every complex embedding σ, then |Norm_K/ℚ(p+1−s c)|≤(sqrt(p)+1)^(2d). (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 202–203.)
 
 Throughout this subsection, K is a number field; every complex embedding is included; p≥2.
 
@@ -428,7 +428,7 @@ The valuation is an exponent v_p(Δ_min), never the largest prime power dividing
 
 ### 1.5 Replacing the coefficient degree by the explicit level
 
-For L>0, d≤g(L), p≥2, and 12g(L)≤L+1, one has (√p+1)^(2d)≤(√p+1)^((L+1)/6), where the right power is the real power. (bennett-siksek-2020, §2, Lemma 2.2, p.359, bennett-siksek-2020 line 204.)
+For L>0, d≤g(L), p≥2, and 12g(L)≤L+1, one has (√p+1)^(2d)≤(√p+1)^((L+1)/6), where the right power is the real power. (bennett-siksek-2020, §2, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 204–207.)
 
 Throughout this subsection, L>0; d is a natural number with d≤g(L); p≥2; 12g(L)≤L+1.
 
@@ -440,7 +440,7 @@ A rational exponent is not rounded to an integer; p≥2 supplies the correct mon
 
 ### 1.6 The removed-prime residual exponent bound
 
-Let E/ℚ have conductor M and nonzero minimal discriminant Δ. Let ℓ≥3 be prime with E[ℓ] irreducible. Define M₀ by deleting each prime q exactly once when ord_q(M)=1 and ℓ divides the integer valuation ord_q(Δ). If p≠ℓ is prime, ord_p(M)=1 and ℓ divides ord_p(Δ), then ℓ≤(sqrt(p)+1)^((M₀+1)/6). (bennett-siksek-2020, Theorem 3, Lemmas 2.1(ii) and 2.2, pp.358–359, bennett-siksek-2020 line 195.)
+Let E/ℚ have conductor M and nonzero minimal discriminant Δ. Let ℓ≥3 be prime with E[ℓ] irreducible. Define M₀ by deleting each prime q exactly once when ord_q(M)=1 and ℓ divides the integer valuation ord_q(Δ). If p≠ℓ is prime, ord_p(M)=1 and ℓ divides ord_p(Δ), then ℓ≤(sqrt(p)+1)^((M₀+1)/6). (bennett-siksek-2020, Theorem 3, Lemmas 2.1(ii) and 2.2, pp.358–359, bennett-siksek-2020 lines 184–197.)
 
 Throughout this subsection, E is an actual elliptic curve over ℚ of conductor M; ℓ≥3 is prime; E[ℓ] is irreducible; M₀ is the deletion level of SerreWeightAndLevelOptimisation §6.1; p≠ℓ is prime, p∥M, and ℓ divides the valuation exponent v_p(Δ_min(E)).
 
@@ -575,7 +575,7 @@ The witness is good for f; it need not be good for E.
 
 ### 3.3 The coefficient-recognition witness is below F
 
-If g(N)≥1 and B=I(N)/6>0, then B<(√B+1)^(2g(N))=F(N). Hence any prime q≤B is different from a prime ℓ>F(N). (kraus-1997, §3.2, proof of Théorème 3, pp.1144–1145, kraus-1997 line 239.)
+If g(N)≥1 and B=I(N)/6>0, then B<(√B+1)^(2g(N))=F(N). Hence any prime q≤B is different from a prime ℓ>F(N). (kraus-1997, §3.2, proof of Théorème 3, p.1145, kraus-1997 lines 321–337.)
 
 Throughout this subsection, N>0; g(N)≥1; B=I(N)/6>0; the final prime-distinctness conclusion additionally assumes q≤B and ℓ>F(N), with q,ℓ prime.
 
@@ -587,7 +587,7 @@ The dimension-zero threshold remains 1, but there is no normalized nonzero form 
 
 ### 3.4 The norm of a noninteger coefficient minus an elliptic trace
 
-For q∤N and a_q(f)∉ℤ, let b be either an elliptic good-reduction trace at q, or s(q+1) with s=±1. Then b−a_q(f) is a nonzero algebraic integer and |Norm_K/ℚ(b−a_q(f))|≤(√q+1)^(2[K_f:ℚ]). (kraus-1997, §3.2, proof of Théorème 3, pp.1144–1145, kraus-1997 line 301.)
+For q∤N and a_q(f)∉ℤ, let b be either an elliptic good-reduction trace at q, or s(q+1) with s=±1. Then b−a_q(f) is a nonzero algebraic integer and |Norm_K/ℚ(b−a_q(f))|≤(√q+1)^(2[K_f:ℚ]). (kraus-1997, §3.2, proof of Théorème 3, p.1145, kraus-1997 lines 342–363.)
 
 Throughout this subsection, N>0; f is a normalized weight-two trivial-character newform with its generated coefficient field K_f; q is prime, q∤N, and a_q(f)∉ℤ; b is a good-reduction trace of an elliptic curve over F_q, or b=s(q+1) with s∈{1,−1}.
 
@@ -599,7 +599,7 @@ Both good and multiplicative comparisons are needed; Hasse for b is unavailable 
 
 ### 3.5 The F-threshold forces coefficient field Q
 
-Under SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two, ℓ>F(N) implies K_f=ℚ. (kraus-1997, §3.2, Théorème 3 proof, pp.1144–1145, kraus-1997 line 301.)
+Under SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2, with gap:optimized-elliptic-weight-two, ℓ>F(N) implies K_f=ℚ. (kraus-1997, §3.2, proof of Théorème 3, p.1145, kraus-1997 lines 307–373.)
 
 Throughout this subsection, the hypotheses of SerreWeightAndLevelOptimisation §§2.8, 4.8 and 6.2 and of gap:optimized-elliptic-weight-two hold; f and λ are that lift; ℓ>F(N).
 
@@ -676,7 +676,7 @@ The form is not cuspidal: vanishing at infinity alone does not imply vanishing a
 
 ### 3.9 The filtered forms have the required coefficient congruence
 
-Let f be a normalized integral weight-two trivial-character newform at N, λ a coefficient prime, m≥1, and M=lcm(N,4). Apply the products of the first local filters to f and the second local filters to g, over p|2N with e=v_p(N). The resulting forms are weight two at M; if a_q≡q+1 mod λ^m for q≤I(M)/6, q∤2N, and (q+1)(a_q−1)∈λ^m for q≤I(M)/6, q|2N, q²∤4N, their coefficients agree mod λ^m through index I(M)/6. (kraus-1997, Appendix II, §8.1, pp.1159–1160, kraus-1997 line 1145.)
+Let f be a normalized integral weight-two trivial-character newform at N, λ a coefficient prime, m≥1, and M=lcm(N,4). Apply the products of the first local filters to f and the second local filters to g, over p|2N with e=v_p(N). The resulting forms are weight two at M; if a_q≡q+1 mod λ^m for q≤I(M)/6, q∤2N, and (q+1)(a_q−1)∈λ^m for q≤I(M)/6, q|2N, q²∤4N, their coefficients agree mod λ^m through index I(M)/6. (kraus-1997, Appendix II, §8.1, pp.1159–1160, kraus-1997 lines 1146–1173.)
 
 Throughout this subsection, N>0; f is a normalized integral weight-two trivial-character newform; λ is a prime ideal of its actual coefficient ring; m≥1; M=lcm(N,4); for primes q≤I(M)/6 with q∤2N, a_q≡q+1 mod λ^m; for primes q≤I(M)/6 with q|2N and q²∤4N, (q+1)(a_q−1)∈λ^m.
 
@@ -712,7 +712,7 @@ The finite bound is I(lcm(N,4))/6, not I(N)/6 or I(4N)/6.
 
 ### 3.12 The mod-four witness is below G
 
-For B=I(lcm(N,4))/6≥0, B<(√B+1)²=G(N). Consequently q≤B and ℓ>G(N) imply q≠ℓ. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 line 269.)
+For B=I(lcm(N,4))/6≥0, B<(√B+1)²=G(N). Consequently q≤B and ℓ>G(N) imply q≠ℓ. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 397–408.)
 
 Throughout this subsection, N>0; B=I(lcm(N,4))/6≥0; for the final distinctness assertion, q≤B and ℓ>G(N), with q,ℓ prime.
 
@@ -784,7 +784,7 @@ Neither Serre weight two nor exact residual conductor can be replaced by an unsp
 
 ### 3.18 The finite-flat adapter from deletion level to residual conductor
 
-Let ℓ≥5 be prime and E/ℚ elliptic. Assume E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min). Then the exact deletion level of SerreWeightAndLevelOptimisation §6.1 M₀ equals the full prime-to-ℓ conductor N(E[ℓ]). The Serre-weight implication for ℓ≥11 is gap:weight-two-local-reduction; at ℓ=5,7 retain the reduction alternative explicitly. (kraus-1997, §3.1 condition (c) and its p≥11 reduction consequence, p.1143, kraus-1997 line 200.)
+Let ℓ≥5 be prime and E/ℚ elliptic. Assume E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min). Then the exact deletion level of SerreWeightAndLevelOptimisation §6.1 M₀ equals the full prime-to-ℓ conductor N(E[ℓ]). The Serre-weight implication for ℓ≥11 is gap:weight-two-local-reduction; at ℓ=5,7 retain the reduction alternative explicitly. (kraus-1997, §3.1 condition (c) and its p≥11 reduction consequence, p.1143, kraus-1997 lines 200–212.)
 
 Throughout this subsection, E/ℚ is elliptic; ℓ≥5 is prime; M₀ is the exact deletion level of SerreWeightAndLevelOptimisation §6.1; N is the full prime-to-ℓ conductor of E[ℓ]; E has good reduction at ℓ, or multiplicative reduction at ℓ with ℓ|v_ℓ(Δ_min(E)).
 
@@ -1036,7 +1036,7 @@ The five levels are individually quantified; a list of database records is not a
 
 ### 4.16 Excluding composite isogeny extensions
 
-For the prime-isogeny and genus-one rational point tables, no noncuspidal point lifts to a larger cyclic-isogeny degree outside {1,…,19,21,25,27,37,43,67,163}; the additional minimal obstruction levels 26,35,50 also have no noncuspidal rational points. (banwait-najman-padurariu, §2, Mazur’s strategy, pp.5–6, banwait-najman-padurariu line 210; mazur-1978, p.131, mazur-1978 lines 97–105; kenku-1982, pp.199–201, cited by published locator.)
+For the prime-isogeny and genus-one rational point tables, no noncuspidal point lifts to a larger cyclic-isogeny degree outside {1,…,19,21,25,27,37,43,67,163}; the additional minimal obstruction levels 26,35,50 also have no noncuspidal rational points. (banwait-najman-padurariu, §2, Mazur’s strategy, pp.5–6, banwait-najman-padurariu lines 228–274; mazur-1978, p.131, mazur-1978 lines 97–105; kenku-1982, pp.199–201, cited by published locator.)
 
 Throughout this subsection, the relevant rational point lies in the prime-isogeny or genus-one point table, or on X0(d) with d∈{26,35,50}; a lift means a noncuspidal rational point for a larger cyclic-isogeny degree under the actual modular degeneracy map.
 
@@ -1060,7 +1060,7 @@ Only the necessary degree restriction is exported; existence at every allowed de
 
 ### 4.18 A rational two-point gives a cyclic twice-prime isogeny
 
-If E/ℚ has a point of exact order two and reducible E[ℓ] for an odd prime ℓ, it admits a rational cyclic isogeny of degree 2ℓ. (bennett-siksek-2020, §3, one rational two-point irreducibility use, p.363, bennett-siksek-2020 line 329.)
+If E/ℚ has a point of exact order two and reducible E[ℓ] for an odd prime ℓ, it admits a rational cyclic isogeny of degree 2ℓ. (EllipticCurves Layer 1, the quotient by a finite Galois-stable subgroup; Layer 2, the structure of E[N] over a separably closed field.)
 
 Throughout this subsection, E/ℚ has a rational point of exact order two; ℓ is an odd prime; E[ℓ] is reducible.
 
@@ -1096,7 +1096,7 @@ The 4ℓ-isogeny lies on the isogenous curve; no rational point of order four is
 
 ### 4.21 Uniform irreducibility with one rational two-point
 
-Prove `rational_two_uniform_irreducibility`. If E/ℚ has a rational point of order two, then E[ℓ] is irreducible for every prime ℓ≥11. (bennett-siksek-2020, §3, p.363, bennett-siksek-2020 line 329.)
+Prove `rational_two_uniform_irreducibility`. If E/ℚ has a rational point of order two, then E[ℓ] is irreducible for every prime ℓ≥11. (bennett-siksek-2020, proof of Lemma 3.5, p.363, bennett-siksek-2020 lines 334–335.)
 
 Throughout this subsection, E/ℚ has a rational point of exact order two; ℓ≥11 is prime.
 
@@ -1108,7 +1108,7 @@ The quantified range is uniform in E; no assertion is made for ℓ∈{3,5,7}.
 
 ### 4.22 Uniform irreducibility with full rational two-torsion
 
-Prove `full_two_uniform_irreducibility`. If E/ℚ has full rational two-torsion, then E[ℓ] is irreducible for every prime ℓ≥5. (Layer 4.19–4.20 and the degree classification of §4.17; the ℓ≥7 application is bennett-siksek-2020, Lemma 3.3, pp.361–362, bennett-siksek-2020 lines 294–296.)
+Prove `full_two_uniform_irreducibility`. If E/ℚ has full rational two-torsion, then E[ℓ] is irreducible for every prime ℓ≥5. (Layer 4.19–4.20 and the degree classification of §4.17; the ℓ≥7 application is bennett-siksek-2020, proof of Lemma 3.3, p.362, bennett-siksek-2020 lines 294–295.)
 
 Throughout this subsection, E/ℚ has full rational two-torsion; ℓ≥5 is prime.
 
@@ -1401,7 +1401,7 @@ Finite-map pullback multiplies divisor degree; degree-zero classes stay degree z
 
 ### 5.11 The winding class selects exactly nonvanishing central periods
 
-In the full-new quotient B of Jac(X₀(rp²)/w_(p²)), let e_B be the rational winding class and I_e its annihilator in the rational Hecke algebra. Every surviving eigenform in the winding quotient B/I_eB has L(f,1)≠0. The oriented differential period is −L(f,1); the unscaled f(z)dz period is iL(f,1)/(2π). (darmon-merel, Proposition 7.1 proof, author-version pp.20–21, with the orientation convention above, darmon-merel line 614.)
+In the full-new quotient B of Jac(X₀(rp²)/w_(p²)), let e_B be the rational winding class and I_e its annihilator in the rational Hecke algebra. Every surviving eigenform in the winding quotient B/I_eB has L(f,1)≠0. The oriented differential period is −L(f,1); the unscaled f(z)dz period is iL(f,1)/(2π). (darmon-merel, Proposition 7.1 proof, author-version pp.20–21, with the orientation convention above, darmon-merel lines 640–666.)
 
 Throughout this subsection, B is the full new quotient of Jac(X0(rp²)/w_(p²)); e_B is its rational winding class; I_e is its annihilator in the rational Hecke algebra.
 
@@ -1573,7 +1573,7 @@ Use monicity and t≠0. The conclusion is a signed divisor, so negative paramete
 
 ### 5.22 The finite integral j-candidate sets
 
-Define lemosIntegralJ(r) as the finite set of integers lemosNumerator(r)(t)/t for all signed nonzero divisors t of the polynomial’s constant term; use the exact integer quotient, and the empty set outside the five levels. (lemos-2017, §2, five finite sets, p.7, lemos-2017 line 249.)
+Define lemosIntegralJ(r) as the finite set of integers lemosNumerator(r)(t)/t for all signed nonzero divisors t of the polynomial’s constant term; use the exact integer quotient, and the empty set outside the five levels. (lemos-2017, §2, five finite sets, p.7, lemos-2017 lines 249–260.)
 
 Throughout this subsection, r is a natural number; use the native finite set of signed nonzero integer divisors of the absolute constant term.
 
