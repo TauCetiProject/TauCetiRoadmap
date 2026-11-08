@@ -36,8 +36,8 @@ The roadmap owns:
   product `∏ʳ μ i` of Haar measures of AnalyticNumberTheoryPartII §5.3f. This layer is written for
   countable families of second countable locally compact groups so that function-field
   applications can use it unchanged;
-- the adelic points of an affine algebraic `F`-group with their evaluation topology, integral
-  models, the restricted-product comparison, the discreteness of the rational diagonal, the
+- the adelic points of an affine algebraic `F`-group (carrying Tau Ceti's point topology),
+  integral models, the restricted-product comparison, the discreteness of the rational diagonal, the
   Lie group structure and the finiteness of the component group of the archimedean points, Weil
   restriction and the concrete groups `G_a`, `G_m`, `GL_n`, unimodularity and compact open levels
   (Layer AA.1);
@@ -97,9 +97,9 @@ comodule/tensor dictionary (layer 1), closed subgroups and quotients with affine
 reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.3.3 from layers 1
 and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
 and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
-roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the finite-type affine evaluation
-topology, compact open local subgroups and the local analytic chart/cotangent/Haar-Jacobian
-bridge specified in the supplier contracts below; in RG2.0a, coefficient-natural Weil restriction, its
+roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the congruence subgroups of integral
+models and the local analytic chart/cotangent/Haar-Jacobian bridge specified in the supplier
+contracts below; in RG2.0a, coefficient-natural Weil restriction, its
 tower maps and tensor comparison; in RG2.1, the valuation map of the maximal split central torus
 at the finite places (the torus itself is ReductiveGroups, layers 6–7); in RG2.3, reductive
 integral models, hyperspecial subgroups and Lang's theorem with Hensel lifting; in RG2.4, the
@@ -164,15 +164,27 @@ multiplicative reals are not a group, so the group-valued splitting lemma over a
 not apply to them). The extension to factor masses that are only summably close
 to one is this roadmap's deduction from these lemmas; AnalyticNumberTheoryPartII §5.3f supplies
 the normalized product of local Haar measures on boxes whose almost-all factors have mass one.
-Integral points of a model are compact open in `G(F_v)`:
-ReductiveGroupsPartII, RG2.0.3 (integral points compact open). Closed subgroups give closed
-embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`: ReductiveGroupsPartII,
-RG2.0.1 (functoriality of the point topology, for every topological ring), with Tau Ceti
-`quotientPointsSubgroup` and `TauCeti.AffineGroup.Product.pointsMulEquiv` — the closed-subgroup
-statement is [Conrad], Proposition 2.1, p. 2, with Tau Ceti
-`TauCeti.CommHopfAlgCat.quotientPointsSubgroup` and `NumberField.AdeleRing.instT2Space` over the
-RG2.0 topology, the closed-image clause being [Conrad], Example 2.3, p. 3; the product statement
-is [Conrad], Proposition 2.1, proof, p. 2, with `TauCeti.AffineGroup.Product.pointsMulEquiv`.
+The point topology on `WithConv (H →ₐ[F] R)` for every topological `F`-algebra `R`, its
+topological-group structure, its Hausdorff, second-countable and locally compact instances (the
+last two for finite-type `H`) and its functoriality are Tau Ceti's (`TauCeti.PointTopology`,
+listed in the supplier table); at `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v` they make the adelic, finite
+adelic, archimedean and local points of a finite-type group second countable, locally compact,
+Hausdorff topological groups ([Borel], §1.2, p. 7), the coefficient rings being second countable
+by Tau Ceti `TauCeti.instSecondCountableTopologyOfIsNonarchimedeanLocalField` for `F_v` and by
+AA.0.4 *adelic-borel-structure* for `𝔸_F`, `𝔸_{F,f}` and `F_∞`. Integral points of a model are
+compact open in `G(F_v)`: Tau Ceti
+`TauCeti.PointTopology.isOpenEmbedding_mapValue_integer` and
+`TauCeti.PointTopology.isCompact_range_mapValue_integer` at the local field `F_v`, whose integer
+ring is `𝒪_v` by `IsDedekindDomain.HeightOneSpectrum.integer_eq_adicCompletionIntegers`. Closed
+subgroups give closed embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`:
+Tau Ceti `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` and
+`TauCeti.PointTopology.tensorProductHomeomorph` (for every T1, respectively every topological,
+coefficient ring), with Tau Ceti `quotientPointsSubgroup` and
+`TauCeti.AffineGroup.Product.pointsMulEquiv` — the closed-subgroup statement is [Conrad],
+Proposition 2.1, p. 2, with Tau Ceti `TauCeti.CommHopfAlgCat.quotientPointsSubgroup` and
+`NumberField.AdeleRing.instT2Space`, the closed-image clause being [Conrad], Example 2.3, p. 3;
+the product statement is [Conrad], Proposition 2.1, proof, p. 2, with
+`TauCeti.AffineGroup.Product.pointsMulEquiv`.
 Volumes of commensurable compact open subgroups, `μ(U)/μ(U′) = [U : U ∩ U′]/[U′ : U ∩ U′]`
 ([Borel], §1.7, p. 8): SmoothRepresentationsOfLocalGroups, SR.1.1 (ring-valued Haar measures) and
 Mathlib `MeasureTheory.Subgroup.index_mul_measure`, applied with AA.1.5 and
@@ -185,9 +197,12 @@ GlobalNumberFields, layer 4, consumed through AA.1.4 and AA.3.4.
 
 The following Tau Ceti and roadmap statements are the local or algebraic halves of targets that
 remain here, which add only the adelic or measure clause: `restrictedProductCongr` and
-`restrictedProductCongrRight` with their continuity (AA.0.3); the point topology, its local
-compactness, functoriality, centre and the `G_a`, `G_m`, `GL_n` identifications of RG2.0 at
-`R = 𝔸_F` (AA.1); the Weil-restriction point adjunction of RG2.0a with GlobalNumberFields'
+`restrictedProductCongrRight` with their continuity (AA.0.3); Tau Ceti's point topology with its
+local compactness and functoriality, `TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`, and
+the `G_a`, `G_m`, `GL_n` homeomorphisms `TauCeti.PointTopology.polynomialHomeomorph`,
+`TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv` and
+`TauCeti.GeneralLinear.pointsContinuousMulEquiv`, at `R = 𝔸_F` (AA.1); the Weil-restriction point
+adjunction of RG2.0a with GlobalNumberFields'
 `adeleBaseChangeEquiv` (AA.1.4); local unimodularity and the local Iwasawa factorization and
 integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
 RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus` (AA.2.2); Mathlib's `QuotientGroup` instances and
@@ -208,7 +223,8 @@ and `FiniteAdeleRing.denseRange_algebraMap` are the idele norm, the fundamental 
 - **Groups and points.** `F` is a number field and `𝒪_F` its ring of integers. An affine
   algebraic `F`-group `G` is represented by a finite-type commutative Hopf `F`-algebra `H`.
   Coordinate morphisms are contravariant; `G(R)` is the existing convolution group of
-  `F`-algebra maps `H → R`. Affine points carry the evaluation topology, and every homogeneous
+  `F`-algebra maps `H → R`. Affine points carry the evaluation topology, Tau Ceti's point
+  topology `TauCeti.PointTopology.instTopologicalSpaceWithConv`, and every homogeneous
   or double quotient carries the quotient topology. Finite exceptional sets contain the infinite
   places; integral-model indices refer to their finite part. Smoothness, connectedness,
   reductivity and simple connectedness are hypotheses where stated, not assumptions on every
@@ -294,6 +310,8 @@ one, and a single weight of multiplicity two contributes the square.
 | Constant-form matrix subgroup | `TauCeti.ConstantForm.definingHopfIdeal`, `TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/ConstantForm/Basic.lean` | The twisted orthogonal group of AA.3.7 is the determinant-one restriction of this equation for its explicit rational form; it does not define another general orthogonal-group construction. |
 | Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
 | Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
+| Point topology | `TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.continuous_eval_ofConv`, `TauCeti.PointTopology.continuous_withConv_iff`, `TauCeti.PointTopology.isTopologicalGroup`, `AlgHom.continuous_mapValue`, `BialgHom.continuous_mapDomain`, `TauCeti.PointTopology.instT2SpaceWithConv`, `TauCeti.PointTopology.instSecondCountableTopologyWithConv`, `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`, `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`, `TauCeti.PointTopology.isClosedEmbedding_eval_generators`, `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`, `TauCeti.PointTopology.tensorProductHomeomorph`, `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`, `TauCeti.PointTopology.isCompact_range_mapValue_integer`; `TauCeti/Topology/Algebra/PointTopology/{Basic,Functoriality,Group,Separation,IntegralPoints}.lean` | The topology of AA.1.1 on `G(R)` for `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v`: the coarsest topology making every evaluation `x ↦ x(h)` continuous, induced from `R^H`. Coefficient maps along continuous algebra maps are continuous homomorphisms; the Hausdorff instance needs `R` Hausdorff, second countability needs `R` second countable and `H` of finite type, local compactness needs `R` locally compact and T1 and `H` of finite type. `Suggested.lean` uses this instance; AA adds the restricted-product comparison and the adelic clauses. |
+| Concrete point homeomorphisms | `TauCeti.PointTopology.polynomialHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/Basic.lean`. `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/MultiplicativeGroup/Topology.lean`. `TauCeti.GeneralLinear.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Topology.lean` | The topological identifications of `G_a(R)` with `R`, of `G_m(R)` with `Rˣ` and of `GL_n(R)` with `GL (Fin n) R`, each unit group carrying the topology induced by `g ↦ (g, g⁻¹)`, at `R = 𝔸_F` in AA.1.4; AA adds the diagonal and restricted-product clauses. |
 | Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `BialgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
 | Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
 | Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
@@ -323,7 +341,8 @@ AA's local modulus comparison has no dependency on SR.
 **Local analytic chart supplier.** (RG2.0, *smooth-group-analytic-charts*) For every
 nondiscrete locally compact field `K` of characteristic zero and smooth affine finite-type
 `K`-group `G = Spec H` of dimension `d`, construct an analytic manifold structure on `G(K)`
-inducing the evaluation topology of RG2.0. Construct charts from smooth local parameters
+inducing the point topology (Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv`).
+Construct charts from smooth local parameters
 using the local inverse function theorem; multiplication and inversion are analytic.
 Identify the tangent space at the identity with the `K`-linear dual of
 `TauCeti.Bialgebra.CotangentSpace K H`, with the derivative of a coordinate function equal
@@ -333,7 +352,7 @@ additive Haar measure. ReductiveGroupsPartII RG2.0 owns this bridge
 ([Platonov–Rapinchuk–Rapinchuk], §3.1,
 Theorem 3.2 and Proposition 3.3, pp. 128–130, and the local-parameter and measure
 constructions on pp. 192–196).
-*Needs:* ReductiveGroupsPartII, RG2.0 (point topology); Tau Ceti
+*Needs:* Tau Ceti `TauCeti.PointTopology.instTopologicalSpaceWithConv` (point topology),
 `TauCeti.Bialgebra.CotangentSpace` and `Derivation.cotangentLinearEquiv` (cotangent duality),
 `Algebra/AlgebraicGroup/Tangent/Cotangent.lean`; Mathlib additive Haar measure and
 `HasStrictFDerivAt.toOpenPartialHomeomorph`. The product additive measure is formed locally;
@@ -428,8 +447,9 @@ Double cosets, actions and quotients: `DoubleCoset.Quotient`, `DoubleCoset.eq`,
 `Subgroup.IsArithmetic.properlyDiscontinuous`, `Subgroup.IsArithmetic.discreteTopology`.
 
 Mathlib has no measure on a restricted product (AnalyticNumberTheoryPartII §5.3f builds it), no
-evaluation topology on the adelic points of a Hopf algebra, no Harish-Chandra map, no Tamagawa
-measure, no Siegel sets and no neatness; the others are built here on the carriers listed above.
+evaluation topology on the points of a Hopf algebra (Tau Ceti's `TauCeti.PointTopology` supplies
+it), no Harish-Chandra map, no Tamagawa measure, no Siegel sets and no neatness; the others are
+built here on the carriers listed above.
 
 ### From Tau Ceti
 
@@ -449,6 +469,10 @@ Hopf-algebra points and coordinates: `TauCeti.HopfAlgebra.points`,
 `TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.GeneralLinear.pointsMulEquiv_determinantPoints`,
 `TauCeti.GeneralLinear.determinantCoordinateMap`, `TauCeti.GeneralLinear.determinantGroupLike`,
 `TauCeti.MultiplicativeGroup.pointsMulEquiv`, `TauCeti.MultiplicativeGroup.pointsMulEquiv_mapValue`.
+Point topology: `TauCeti.PointTopology.instTopologicalSpaceWithConv` with the instances, maps and
+integral-point theorems of the supplier table, and the concrete homeomorphisms
+`TauCeti.PointTopology.polynomialHomeomorph`, `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`
+and `TauCeti.GeneralLinear.pointsContinuousMulEquiv`.
 Parabolics: `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.unipotent`,
 `TauCeti.Cocharacter.leviDecompositionMulEquiv`. Their modules are
 `Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` and
@@ -490,10 +514,11 @@ geometrically reduced, is a standing input of that roadmap and is assumed here w
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
-RG2.0 (the finite-type affine evaluation topology over any topological ring, its local
-compactness and functoriality, compact open local subgroups, and RG2.0.3, integral points
-compact open); RG2.0a (coefficient-natural Weil restriction with its point adjunction, tower maps
-and tensor comparison); RG2.1 (the valuation map of the maximal split central torus at the finite
+RG2.0 (the local analytic charts, *smooth-group-analytic-charts*, and the congruence subgroups
+of RG2.0.3; the point topology itself, its local compactness and functoriality and the compact
+open integral points are Tau Ceti's); RG2.0a (coefficient-natural Weil restriction with its
+point adjunction, tower maps and tensor comparison); RG2.1 (the valuation map of the maximal split
+central torus at the finite
 places); RG2.3 (reductive integral models, `reductive-model`, which is local over a discrete
 valuation ring and gives that a group with a reductive `𝒪_v`-model is unramified, hence
 quasi-split at `v`; hyperspecial subgroups, `hyperspecial-vertices`; Lang's theorem with Hensel
@@ -565,8 +590,9 @@ number-field level definitions of AA.5.2 accompanying AA.1.5's local factors; th
 quotient applications follow AA.4. AA.0 is the Borel
 structure of a restricted product, the convergent rescaling of the restricted Haar products of
 AnalyticNumberTheoryPartII §5.3f, and the Haar measures of the adeles and ideles; everything
-measure-theoretic later is an instance of it. AA.1 puts the evaluation topology on the adelic points of a Hopf algebra,
-compares them with a restricted product of local groups through an integral model, and
+measure-theoretic later is an instance of it. AA.1 takes the adelic points of a Hopf algebra
+with Tau Ceti's point topology, compares them with a restricted product of local groups through
+an integral model, and
 establishes the discrete rational diagonal, Weil restriction, the concrete groups, unimodularity
 and compact open levels. AA.2 separates the positive split centre from the norm-one subgroup
 through the character lattice, applies the right-Haar quotient integration of
@@ -807,8 +833,8 @@ handles the non-unit local volumes needed for Tamagawa measure.
   and AA.0.1; the infinite-place proof uses the finite product of real and complex completions
   ([Platonov–Rapinchuk–Rapinchuk], Lemma 3.63, pp. 188–189, countable restricted-product
   topology; Mathlib `Units.isEmbedding_embedProduct` and `Prod.borelSpace`).
-  *Needs:* AA.0.1; GlobalNumberFields, layers 4–5; RG2.0
-  *general-linear-points-homeomorphism* for the comparison with algebraic-group points.
+  *Needs:* AA.0.1; GlobalNumberFields, layers 4–5; Tau Ceti
+  `TauCeti.GeneralLinear.pointsContinuousMulEquiv` for the comparison with algebraic-group points.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -945,7 +971,7 @@ measures, and §§5.3h and 5.3j for the self-dual normalizations compared in AA.
 
 ## Layer 1: adelic points of algebraic groups
 
-Equip Hopf-algebra points with their evaluation topology and compare points over the adelic
+Take Hopf-algebra points with Tau Ceti's point topology and compare points over the adelic
 algebra with a restricted product of local groups. Finite presentation controls the choice of
 integral model. Preserve coefficient naturality, topology and the actual rational diagonal through
 every comparison.
@@ -955,20 +981,21 @@ every comparison.
 - **Adelic points of an affine algebraic group.** For a finitely generated commutative Hopf
   algebra `H` over a number field `F`, define `AdelicPoints H := WithConv (H →ₐ[F] 𝔸_F)`, the
   group `G(𝔸_F)` of `F`-algebra maps `H → 𝔸_F` under convolution
-  (`TauCeti.HopfAlgebra.points H 𝔸_F`), with the
-  affine-points topology induced from `𝔸_F^H` by evaluation (the weakest topology making every
-  evaluation `h ↦ x(h)` continuous), making it a topological group. Likewise
+  (`TauCeti.HopfAlgebra.points H 𝔸_F`), with Tau Ceti's point topology
+  `TauCeti.PointTopology.instTopologicalSpaceWithConv`, induced from `𝔸_F^H` by evaluation (the
+  weakest topology making every evaluation `x ↦ x(h)` continuous, which is
+  `TauCeti.PointTopology.continuous_eval_ofConv`), under which it is a topological group
+  (`TauCeti.PointTopology.isTopologicalGroup`). Likewise
   `G(𝔸_{F,f})`, `G(F_∞) = G(F ⊗_ℚ ℝ)` and `G(F_v)`. Define `AdelicPoints.diagonal`, the diagonal
   `ι : G(F) →* AdelicPoints H` given by the coefficient map (Tau Ceti `AlgHom.mapValue`, equivalently
   `mapPoints`) along `algebraMap F 𝔸_F`, and
-  the continuous homomorphism `p_v : AdelicPoints H →* G(F_v)` given by the coefficient map
-  along the projection `𝔸_F → F_v`; the finite and archimedean components are
+  the homomorphism `p_v : AdelicPoints H →* G(F_v)` given by the coefficient map along the
+  projection `𝔸_F → F_v`, continuous by Tau Ceti `AlgHom.continuous_mapValue`; the finite and
+  archimedean components are
   `AdelicPoints.finiteProjection` and `AdelicPoints.infiniteProjection`, and the diagonals into
   `G(𝔸_{F,f})` and `G(F_∞)` are `AdelicPoints.finiteDiagonal` and the coefficient map along
   `F → F_∞`.
-  Prove that for `h ∈ H`,
-  `x ↦ x h` is continuous `AdelicPoints H → 𝔸_F`, and that
-  `p_v (diagonal g)` is the image of `g` in `G(F_v)`. Define `finiteEmbed`, the
+  Prove that `p_v (diagonal g)` is the image of `g` in `G(F_v)`. Define `finiteEmbed`, the
   finite-supported homomorphism `G(𝔸_f) → G(𝔸)`, `x ↦ (1, x)`, under the canonical
   archimedean/finite splitting — an embedding of point groups, not a ring inclusion with
   archimedean coordinate zero — and prove that the finite projection of
@@ -976,9 +1003,10 @@ every comparison.
   `finiteEmbed x` equals `1` ([Conrad], Proposition 2.1, p. 2; [Arthur], §2, p. 11). *Needs:*
   Tau Ceti `TauCeti.HopfAlgebra.points`, `TauCeti.HopfAlgebra.mapPoints`,
   `TauCeti.HopfAlgebra.pointsFunctor`; Mathlib `NumberField.AdeleRing`,
-  `IsDedekindDomain.FiniteAdeleRing`, `RestrictedProduct.evalRingHom`; ReductiveGroupsPartII,
-  RG2.0; GlobalNumberFields, layer 4.
-  *Lean:* `AdelicPoints`, `evaluationTopology`, `characterValue`; in `AdelicPoints`,
+  `IsDedekindDomain.FiniteAdeleRing`, `RestrictedProduct.evalRingHom`; Tau Ceti
+  `TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.isTopologicalGroup`,
+  `AlgHom.continuous_mapValue`; GlobalNumberFields, layer 4.
+  *Lean:* `AdelicPoints`, `characterValue`; in `AdelicPoints`,
   `FiniteAdelicPoints`, `InfinitePoints`, `LocalPoints`, `diagonal`, `finiteDiagonal`,
   `finiteProjection`, `infiniteProjection` are the carriers and maps used by the headline statements.
 
@@ -1105,8 +1133,13 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
 - **Points over a product of rings.** For a commutative Hopf algebra `H` over `F` and
   commutative `F`-algebras `R₁`, `R₂` (and more generally a finite product), prove
   `WithConv (H →ₐ[F] R₁ × R₂) ≃* WithConv (H →ₐ[F] R₁) × WithConv (H →ₐ[F] R₂)`, naturally and as
-  topological groups for the affine-points topology ([Conrad], Proposition 2.1, proof, p. 2).
-  *Needs:* AA.1.1; Mathlib `AlgHom.prod`.
+  topological groups for the point topology. The underlying bijection is Mathlib
+  `AlgHom.prodEquiv`, and convolution is computed coordinatewise in `R₁ × R₂`; the homeomorphism
+  is this roadmap's deduction from `(R₁ × R₂)^H = R₁^H × R₂^H`, the point topology being the
+  subspace topology from `R^H` ([Conrad], Proposition 2.1, p. 2). The bijection for a product of
+  coefficient rings is the map (3.6.2) in the proof of [Conrad], Theorem 3.6, p. 7.
+  *Needs:* AA.1.1; Mathlib `AlgHom.prod`, `AlgHom.prodEquiv`; Tau Ceti
+  `TauCeti.PointTopology.continuous_withConv_iff`.
   *Lean:* none; specified in the README only.
 
   **Checks.** The projections of a pair recover its two point coordinates; the rational diagonal
@@ -1123,14 +1156,17 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   model `𝓗` over `𝒪_{F,S}` whose generic-fibre identification is a Hopf isomorphism, prove that
   the evaluation map from its `S′`-adelic points to `∏_{v∈S′} G(F_v) × ∏_{v∉S′} 𝓗(𝒪_v)`, for
   finite `S′ ⊃ S`, is a bijection. This is a set and group statement; the topology is proved
-  separately ([Conrad], Theorem 3.6, p. 6). *Needs:* AA.1.1; AA.1.2; ReductiveGroupsPartII, RG2.0.
+  separately ([Conrad], Theorem 3.6, p. 6). *Needs:* AA.1.1; AA.1.2; Tau Ceti
+  `TauCeti.PointTopology.range_integralPoints`.
   *Lean:* none; specified in the README only.
 - **Topology of the restricted-product comparison.** Prove that the bijection
   `G(𝔸_{F,f}) → ∏ʳ_v [G(F_v), B_v]` induced by coordinate projections is a homeomorphism: on each
   `S`-integral principal piece it is the product homeomorphism of affine points, and the
   principal pieces are open on both sides; the integral generic-fibre identifications are Hopf
-  isomorphisms ([Conrad], Theorem 3.6, pp. 7–8; §4, p. 9). *Needs:* AA.1.2; ReductiveGroupsPartII,
-  RG2.0; Mathlib `RestrictedProduct.topologicalSpace_eq_iSup`.
+  isomorphisms ([Conrad], Theorem 3.6, pp. 7–8; §4, p. 9). *Needs:* AA.1.2; Tau Ceti
+  `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
+  `TauCeti.PointTopology.continuous_withConv_iff`; Mathlib
+  `RestrictedProduct.topologicalSpace_eq_iSup`.
   *Lean:* none; specified in the README only.
 - **Adelic points as a restricted product.** (*restricted-product-comparison*) Let `H` be
   finitely generated and `𝓗` an integral model of `H` away from `S`. Prove that
@@ -1138,7 +1174,8 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   `G(𝔸_{F,f}) ≃ₜ* Πʳ v, [G(F_v), B_v]`, where `B_v = 𝓗(𝒪_v)` for `v ∉ S` and `B_v = G(F_v)` for
   the finitely many finite `v ∈ S`, and that `G(𝔸_F) ≃ₜ* G(F_∞) × G(𝔸_{F,f})` ([Conrad],
   Theorem 3.6, p. 6; [Borel], §1.2, p. 7). *Needs:* AA.1.1; Mathlib
-  `RestrictedProduct.topologicalSpace_eq_iSup`; AA.0.3; ReductiveGroupsPartII, RG2.0; AA.1.2.
+  `RestrictedProduct.topologicalSpace_eq_iSup`; AA.0.3; Tau Ceti
+  `TauCeti.PointTopology.instTopologicalSpaceWithConv`; AA.1.2.
   *Lean:* `IntegralModel.exists_restrictedProductEquiv` (finite adelic comparison).
 - **Independence of the model and of the exceptional set.** For finitely generated `H`, prove
   that the topological group structure on `Πʳ v, [G(F_v), 𝓗(𝒪_v)]` obtained from
@@ -1147,20 +1184,15 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   `restrictedProductCongr` of Tau Ceti, and enlarging `S` does not change it ([Conrad],
   Theorem 3.6, p. 6). *Needs:* AA.1.2; AA.1.1; AA.0.3.
   *Lean:* none; specified in the README only.
-- **Adelic groups are locally compact.** For a number field `F` and finitely generated
-  `F`-algebra `H`, prove that `G(𝔸_F)`, `G(𝔸_{F,f})` and `G(F_∞)` are second countable, locally
-  compact, Hausdorff topological groups
-  ([Borel], §1.2, p. 7). *Needs:* AA.1.2; Mathlib `RestrictedProduct.locallyCompactSpace_of_group`;
-  AA.0.1; ReductiveGroupsPartII, RG2.0 (`PointTopology.locallyCompactSpace_of_finiteType`);
-  GlobalNumberFields, layer 5.
-  *Lean:* none; specified in the README only.
 - **Archimedean points are a Lie group with finitely many components.** Let `𝐇` be an affine
   algebraic group over `ℝ` with finitely generated Hopf algebra, and give `𝐇(ℝ)` the evaluation
   topology of AA.1.1; for `G` over a number field `F` this covers `G(F_∞) = (Res_{F/ℚ} G)(ℝ)`
   through AA.1.4. Prove that a closed embedding `𝐇 ↪ GL_N` over `ℝ` (one exists for every affine
   algebraic group of finite type, ReductiveGroups, layer 1) identifies `𝐇(ℝ)` with a closed
-  subgroup of `GL_N(ℝ)`, the evaluation topology being the subspace topology from the matrix
-  entries and the inverse determinant (ReductiveGroupsPartII, RG2.0.1); that `𝐇(ℝ)` is therefore
+  subgroup of `GL_N(ℝ)`, the point topology being the subspace topology from the matrix
+  entries and the inverse determinant (Tau Ceti
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`
+  and `TauCeti.GeneralLinear.pointsContinuousMulEquiv`); that `𝐇(ℝ)` is therefore
   a real Lie group by the closed-subgroup theorem, with a smooth structure independent of the
   embedding because the identity map between the structures of two embeddings is a continuous
   homomorphism of Lie groups, hence smooth; that `𝐇(ℝ)` is second countable, locally compact and
@@ -1168,9 +1200,12 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   component `𝐇(ℝ)⁰` is an open subgroup of finite index. The finiteness is Whitney's theorem on
   the components of a real algebraic set, applied to the image of `𝐇(ℝ)` under
   `g ↦ diag(g, det(g)⁻¹)`, a Zariski closed subgroup of `SL_{N+1}(ℝ)` ([Witte Morris], Theorem
-  A4.6, p. 435). *Needs:* AA.1.1; AA.1.2 (*Adelic groups are locally compact*); AA.1.4;
-  ReductiveGroups, layer 1 (the embedding theorem); ReductiveGroupsPartII, RG2.0.1
-  (*affine-point-topology-embedding*, *affine-point-topology-functoriality*);
+  A4.6, p. 435). *Needs:* AA.1.1; AA.1.4;
+  ReductiveGroups, layer 1 (the embedding theorem); Tau Ceti
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`,
+  `TauCeti.GeneralLinear.pointsContinuousMulEquiv`,
+  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`,
+  `TauCeti.PointTopology.instSecondCountableTopologyWithConv`;
   RepresentationTheory/LieGroups, layer 2 (the closed-subgroup theorem and the automatic
   smoothness of continuous homomorphisms).
   *Lean:* none; specified in the README only.
@@ -1203,7 +1238,8 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   image is closed ([Conrad], Example 2.3, p. 3; [Borel], §1.2, p. 7). *Needs:* AA.1.1; Tau Ceti
   `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
   `TauCeti.GlobalNumberFields.isClosed_principalSubgroup`; Mathlib `Subgroup.isClosed_of_isDiscrete`;
-  Tau Ceti `NumberField.AdeleRing.instT2Space`; ReductiveGroupsPartII, RG2.0.
+  Tau Ceti `NumberField.AdeleRing.instT2Space`,
+  `TauCeti.PointTopology.isClosedEmbedding_eval_generators`.
   *Lean:* none; specified in the README only.
 - **Discreteness in the finite adeles alone.** For finitely generated `H`, prove that `G(F)` is
   discrete in `G(𝔸_{F,f})` if and only if `G(F) ∩ U` is finite for one (equivalently every)
@@ -1303,32 +1339,37 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
     unit equivalences; the inversion-twisted isomorphism sends the
     point `2` to `1/2` and fails.
 
-- **The additive group.** (*ga-adelic*) For `G = G_a` (`H = F[T]` with `T` primitive), prove
-  `G(𝔸_F) ≃ₜ+ 𝔸_F`, that the diagonal is `algebraMap F 𝔸_F`, and that
-  *restricted-product-comparison* recovers `FiniteAdeleRing` as a restricted product ([Arthur],
-  §2, p. 11). *Needs:* AA.1.1; Mathlib `NumberField.AdeleRing`, `IsDedekindDomain.FiniteAdeleRing`.
+- **The additive group.** (*ga-adelic*) For `G = G_a` (`H = F[T]` with `T` primitive), the
+  evaluation at `T` is a homeomorphism `G(𝔸_F) → 𝔸_F` by Tau Ceti
+  `TauCeti.PointTopology.polynomialHomeomorph` (transported along `WithConv.ofConv`). Prove that it
+  is additive for the convolution of the primitive Hopf structure, giving `G(𝔸_F) ≃ₜ+ 𝔸_F`, that
+  the diagonal is `algebraMap F 𝔸_F`, and that *restricted-product-comparison* recovers
+  `FiniteAdeleRing` as a restricted product ([Arthur], §2, p. 11). *Needs:* AA.1.1; Tau Ceti
+  `TauCeti.PointTopology.polynomialHomeomorph`; Mathlib `NumberField.AdeleRing`,
+  `IsDedekindDomain.FiniteAdeleRing`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
   - The convolution identity corresponds to the zero adele.
   - A rational point with value `a` corresponds to the diagonal adele of `a`.
   - The point with archimedean value zero and finite value one corresponds to `(0,1)` in the adelic product.
-- **The multiplicative group and the ideles.** For `G = G_m`, prove
-  `G(𝔸_F) ≃ₜ* NumberField.IdeleGroup (𝓞 F) F = 𝔸_F^×` with the units topology, and that under
+- **The multiplicative group and the ideles.** For `G = G_m`, the isomorphism of topological
+  groups `G(𝔸_F) ≃ₜ* NumberField.IdeleGroup (𝓞 F) F = 𝔸_F^×`, with the units topology, is Tau
+  Ceti `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv` at `A = 𝔸_F`, whose underlying group
+  isomorphism is `TauCeti.MultiplicativeGroup.pointsMulEquiv`. Prove that under
   *restricted-product-comparison* the finite part is `Πʳ v, [F_v^×, 𝒪_v^×]` via
-  `RestrictedProduct.unitsEquiv` ([Borel], §1.3, p. 7). The comparison is Tau Ceti's
-  `TauCeti.MultiplicativeGroup.pointsMulEquiv`, and the target includes that it is a
-  homeomorphism.
-  *Needs:* AA.1.1; Tau Ceti
+  `RestrictedProduct.unitsEquiv` ([Borel], §1.3, p. 7).
+  *Needs:* AA.1.1; Tau Ceti `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`,
   `TauCeti.MultiplicativeGroup.pointsMulEquiv`; Mathlib `NumberField.IdeleGroup`,
   `RestrictedProduct.unitsEquiv`; GlobalNumberFields, layer 6.
   *Lean:* none; specified in the README only.
-- **The general linear group.** For `G = GL_n` with `n ≥ 1`, prove
-  `G(𝔸_F) ≃ₜ* GL_n(𝔸_F) = (Matrix (Fin n) (Fin n) 𝔸_F)ˣ` with the units topology, and that its
-  finite part is the restricted product `Πʳ v, [GL_n(F_v), GL_n(𝒪_v)]` ([Arthur], §2, p. 11).
-  Both comparisons are the matrix of coordinates; over `𝔸_F` the comparison is ReductiveGroupsPartII's
-  `PointTopology.generalLinearPointsHomeomorph` at `R = 𝔸_F`. *Needs:* AA.1.1; Tau Ceti
-  `TauCeti.GeneralLinear.pointsMulEquiv`; AA.1.2; AA.1.4.
+- **The general linear group.** For `G = GL_n` with `n ≥ 1`, the isomorphism of topological
+  groups `G(𝔸_F) ≃ₜ* GL_n(𝔸_F) = (Matrix (Fin n) (Fin n) 𝔸_F)ˣ`, with the units topology, is Tau
+  Ceti `TauCeti.GeneralLinear.pointsContinuousMulEquiv` at `R = 𝔸_F`. Prove that its finite part
+  is the restricted product `Πʳ v, [GL_n(F_v), GL_n(𝒪_v)]` ([Arthur], §2, p. 11). Both
+  comparisons are the matrix of coordinates. *Needs:* AA.1.1; Tau Ceti
+  `TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.GeneralLinear.pointsContinuousMulEquiv`; AA.1.2;
+  AA.1.4.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -1395,7 +1436,8 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   compact open subgroup `U ⊂ G(𝔸_{F,f})` contains a product subgroup `∏_v U_v` with
   `U_v ⊂ G(F_v)` compact open and `U_v = 𝓗(𝒪_v)` for all but finitely many `v`, and is contained
   in such a product; and that any two compact open subgroups are commensurable ([Borel], §1.7,
-  p. 8). *Needs:* AA.1.2; AA.0.1; ReductiveGroupsPartII, RG2.0.
+  p. 8). *Needs:* AA.1.2; AA.0.1; Tau Ceti `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
+  `TauCeti.PointTopology.isCompact_range_mapValue_integer`.
   *Lean:* none; specified in the README only.
 - **Conjugation changes a level at finitely many places.** For finitely generated `H`,
   `g ∈ G(𝔸_{F,f})` and an integral model `𝓗`, prove that `g_v ∈ 𝓗(𝒪_v)` for all but finitely
@@ -1417,8 +1459,10 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   two levels. This is an entrywise deduction from the restricted-product comparison and
   AA.5.2's completed-ideal comparison; no choice of a place above a rational prime occurs
   ([Milne], §4, p. 42, congruence subgroups; [Borel], §1.7, p. 8, product levels).
-  *Needs:* AA.1.2; AA.5.2 *number-field-congruence-levels*; GlobalNumberFields, layer 4;
-  ReductiveGroupsPartII, RG2.0.3 integral points and congruence kernels.
+  *Needs:* AA.1.2; AA.5.2 *number-field-congruence-levels*; GlobalNumberFields, layer 4; Tau Ceti
+  `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
+  `TauCeti.PointTopology.isCompact_range_mapValue_integer` (compact open integral points);
+  ReductiveGroupsPartII, RG2.0.3 (congruence kernels).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -1439,9 +1483,9 @@ over `ℚ` has closed image of infinite index that is not open. `Res_{ℚ(i)/ℚ
 
 ### Dependencies
 
-Layer AA.0; Tau Ceti's Hopf-algebra points and concrete-group comparisons;
-ReductiveGroupsPartII, RG2.0, RG2.0a, RG2.1 and RG2.4; GlobalNumberFields, layers 4, 5, 6 and 8;
-RepresentationTheory/LieGroups, layers 2 and 9; ReductiveGroups, layers 1 and 7.
+Layer AA.0; Tau Ceti's Hopf-algebra points, point topology and concrete-group comparisons;
+ReductiveGroupsPartII, RG2.0 (congruence kernels), RG2.0a, RG2.1 and RG2.4; GlobalNumberFields,
+layers 4, 5, 6 and 8; RepresentationTheory/LieGroups, layers 2 and 9; ReductiveGroups, layers 1 and 7.
 
 ## Layer 2: characters, quotient measures and Tamagawa measures
 
@@ -1896,7 +1940,8 @@ restriction of scalars.
   `μ_∞`. These clauses determine the measures attached to `G_a` and to `G_m`; for
   a general group the constant is fixed by the chart construction or, at finite places, by
   Weil's formula below for smooth integral models, with `GL_n` as a normalization check.
-  The archimedean constant comes from the chart construction. *Needs:* AA.2.4; ReductiveGroupsPartII, RG2.0 (point topology);
+  The archimedean constant comes from the chart construction. *Needs:* AA.2.4; Tau Ceti
+  `TauCeti.PointTopology.instTopologicalSpaceWithConv` (point topology); ReductiveGroupsPartII,
   RG2.0 *smooth-group-analytic-charts*, as specified in the local analytic supplier contract.
   *Lean:* none; specified in the README only.
 
@@ -2682,10 +2727,20 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   `C″` depending only on `C`, `C′` and the change-of-basis matrix; hence `b` lies in one of the
   `m!` sets `T_{σe,C″}`. The sorting permutation is part of the conclusion ([BKT], §4.5, p. 18
   (arXiv v2); JAMS p. 933). The conclusion requires `C″>1` and
-  monotonicity of the permuted diagonal. **Check:** `diag(4,1)`
-  is 5-reduced but unsorted; swapping the two basis vectors sorts it.
+  monotonicity of the permuted diagonal.
   *Needs:* AA.3.2.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - The sorting clause is needed. For `N ≥ 2`, `b = diag(1, N)` is `(std, 2)`-reduced
+    (condition (1): `1 < 2`, `N < 2N`; (2): `1 < 2N`; (3): `N < 2N`), and in the swapped basis
+    `e = (e₂, e₁)` its Gram matrix `diag(N, 1)` satisfies the determinant hypothesis with `C = 2`
+    (`N ≤ 2N`). In `e` it is `(e, C″)`-reduced only for `C″ > N`, since condition (2) reads
+    `N < C″·1`; as the change of basis is the same swap for every `N`, no `C″` depending on `C`,
+    `C′` and the change-of-basis matrix alone works without re-sorting. Sorting the diagonal gives
+    `σe = std`, where `b` is `(std, 2)`-reduced.
+  - Rank zero: condition (3) for the empty basis reads `1 < C″·1` (empty product, determinant
+    one), so the conclusion holds exactly for `C″ > 1`.
 
 The connected real carrier `G` is the identity component of the existing infinite points over `ℚ`.
 The real unipotent subgroup `N` lies in `G`. The real groups `A` and `M` are
@@ -2739,7 +2794,7 @@ bialgebra map `r : O(GL_n) → B`; its matrix points over `R` are evaluation fol
 The real comparison identifies the infinite points `AdelicPoints.InfinitePoints ℚ B` with the
 real points by evaluation
 at the unique real place, using that place's completion equivalence. These are the
-AA.1 and RG2.0 point carriers, with their existing topologies.
+AA.1 point carriers, with Tau Ceti's point topology.
 *Lean:* none; specified in the README only.
 
 **Checks.** The trivial group's points are a singleton; the nontrivial element of order
@@ -2998,7 +3053,8 @@ in the standard integral level.
   subgroups ([Conrad], Theorem 3.4(3), p. 5; [Milne], §3, p. 33 and §4,
   pp. 42–43, Proposition 4.1; [Platonov–Rapinchuk], §4.4, pp. 205–206).
   *Needs:* AA.1.1 (global integral points and existence of a model over `𝒪_F`);
-  AA.1.2; ReductiveGroupsPartII, RG2.0.3 (compact open local integral points).
+  AA.1.2; Tau Ceti `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
+  `TauCeti.PointTopology.isCompact_range_mapValue_integer` (compact open local integral points).
   *Lean:* `Reduction.IsSArithmetic` (the definition used in the arithmetic covolume criterion).
 
   **Checks.**
@@ -3771,7 +3827,14 @@ Every `SL_n` has a triple with the standard orthogonal compact.
   every Siegel set `𝔖 ⊂ X`, `ι⁻¹(𝔖)` is contained in finitely many Siegel sets of `𝐇(ℝ)/K_H`
   associated to `K_H`. In the Gram realization, fix a rational
   ordered basis and `C>0`; the reduced-form preimage is covered by finitely many
-  `H(ℚ)`-translates of a single triple domain with this compact ([BKT], §4.5, pp. 17–18 (arXiv v2); JAMS pp. 932–933). *Needs:* AA.3.7; AA.3.2.
+  `H(ℚ)`-translates of a single triple domain with this compact ([BKT], §4.5, pp. 17–18 (arXiv v2);
+  JAMS pp. 932–933, for the reduction to the preimage statement; the preimage statement itself is
+  [BKT erratum], §1.5, p. 3, replacing the real-Siegel-domain step of [BKT], §4.5, p. 17, by
+  [BGST], §28, Proposition 28.1, pp. 14–15). The Cartan hypothesis on `x_0` gives the forward
+  containment that Proposition 28.1 assumes, through *orr-schnell-containment* and *Stability of
+  the subgroup under the Cartan involution suffices*, and
+  `K_H = K_G ∩ 𝐇(ℝ)` with `K_G = SO(b_0)` is its compact-subgroup hypothesis. *Needs:* AA.3.7
+  (*orr-schnell-containment*; *Intersecting Siegel sets with a subgroup*); AA.3.2.
   *Lean:* none; specified in the README only.
 - **Images of Siegel sets under orbit maps.** In the setting of *orbit-map-siegel-preimage*,
   prove that every Siegel set of `𝐇(ℝ)/K_H` is mapped by `ι` into finitely many Siegel sets of
@@ -4776,13 +4839,26 @@ quaternion norms and compact abelian Fourier limits.
 
 ### 4.5 Hecke correspondences, volumes and abelianization
 
-- **Degree of a Hecke correspondence.** For compact open `U` and `g ∈ G(𝔸_f)`, prove that `UgU`
-  is the disjoint union of `[U : U ∩ gUg⁻¹]` cosets of the form `x·U` (left cosets in the
-  convention of Tau Ceti `HeckeCoset.degree`), represented by `u g`; in the compact-modulo-`A_G`
-  neat scope, `p₁ : X_{U∩gUg⁻¹} → X_U` is a covering of exactly that degree, and the rational
-  central kernel is trivial ([Arthur], §2, p. 13). *Needs:* Tau Ceti `HeckeCoset.degree_eq_relIndex`;
-  AA.4.4.
+- **Degree of a Hecke correspondence.** For compact open `U` and `g ∈ G(𝔸_f)`, `UgU` is the
+  disjoint union of the `[U : U ∩ gUg⁻¹]` cosets `u g U`, `u` running over representatives of
+  `U/(U ∩ gUg⁻¹)` (left cosets in the convention of Tau Ceti `HeckeCoset.degree`): this is Tau
+  Ceti `DoubleCoset.doubleCoset_eq_iUnion_leftCosets` with the distinctness
+  `DoubleCoset.mk_out_mul_injective`, and the count is `HeckeCoset.degree_eq_relIndex`. Prove that
+  in the compact-modulo-`A_G` neat scope, `p₁ : X_{U∩gUg⁻¹} → X_U` is a covering of exactly that
+  degree, and that the rational central kernel is trivial. This is this roadmap's deduction from
+  *Covering maps between neat levels* (AA.4.4) at `U′ = U ∩ gUg⁻¹`, which is compact open because
+  conjugation by `g` is a homeomorphism of `G(𝔸_f)`. *Needs:* Tau Ceti
+  `DoubleCoset.doubleCoset_eq_iUnion_leftCosets`, `DoubleCoset.mk_out_mul_injective`,
+  `HeckeCoset.degree_eq_relIndex`; AA.4.4.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `GL₂/ℚ`, `U = GL₂(ℤ̂)` and `g = diag(p, 1)` at `p` (and `1` elsewhere),
+    `gUg⁻¹ ∩ U` is the subgroup of `GL₂(ℤ̂)` whose upper-right entry at `p` lies in `pℤ_p`, of
+    index `p + 1`: `UgU` is `p + 1` cosets, one for each index-`p` sublattice of `ℤ_p²`.
+  - For `g = 1`, or `g ∈ U`, the degree is `1`.
+  - For `g` central (a scalar idele at `p`), `gUg⁻¹ = U` and the degree is `1`, although
+    `UgU = gU ≠ U`.
 - **Hecke correspondences.** For a connected reductive group `G` over `F`, `g ∈ G(𝔸_{F,f})` and
   compact open `U`, put `U_g = U ∩ gUg⁻¹` and define the Hecke correspondence
   `T_g` as the pair of maps `X_U ←p₁ X_{U_g} →p₂ X_U`. Prove that
@@ -4790,7 +4866,11 @@ quaternion norms and compact abelian Fourier limits.
   `p₂(mk x) = mk (x * g)`, that
   `T_g` depends only on `UgU`, and that at neat level, for `K∞` as in *Covering maps between neat
   levels*, `p₁` is a covering of degree `[U : U_g]`, the degree of the double coset `UgU`
-  (`HeckeCoset.degree_eq_relIndex`) ([Arthur], §2, p. 13). *Needs:* AA.4.4; AA.4.5.
+  (`HeckeCoset.degree_eq_relIndex`). The second map is the right translation
+  `T(g) : [x, a] ↦ [x, ag]` of [Milne], §5, p. 58, from level `U_g` to level `g⁻¹U_g g ⊆ U`,
+  followed by the level map to `U`; the covering clause is *Degree of a Hecke correspondence*.
+  These correspondences realize on `X_U` the action of the Hecke algebra of [Arthur], §2, p. 13.
+  *Needs:* AA.4.4; AA.4.5.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -4828,8 +4908,10 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* none; specified in the README only.
 - **Volumes under finite-index level change.** For a connected reductive group `G` over `F` and
   compact open `U′ ⊂ U`, prove
-  `∑_j vol(Γ′_j\G(F_∞)/A_G(ℝ)^0) = [U : U′] ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)` (the index factor as in
-  the counting analogue [LT], §3.2.3, (28), p. 16).
+  `∑_j vol(Γ′_j\G(F_∞)/A_G(ℝ)^0) = [U : U′] ∑_i vol(Γ_i\G(F_∞)/A_G(ℝ)^0)`. This is this
+  roadmap's deduction from *Volume of a level quotient* at both levels and
+  `vol(U) = [U : U′] vol(U′)`; the class-count inequality on [LT], §3.2.3, p. 16, is its counting
+  analogue.
   *Needs:* AA.4.5; Mathlib `MeasureTheory.Subgroup.index_mul_measure`; AA.2.4.
   *Lean:* none; specified in the README only.
 - **Integral lifting for reductive abelianization.** (*abelianization-integral-lifts*) For
@@ -4851,7 +4933,10 @@ quaternion norms and compact abelian Fourier limits.
 - **Class sets of groups with simply connected derived group.** Let `G` be connected reductive
   over `F` with `G^der` simply connected and `G^der(F_∞)` noncompact on each `F`-simple factor,
   and `ν : G → D = G/G^der`. For compact open `U ⊂ G(𝔸_{F,f})`, prove that `ν` induces a bijection
-  `G(F)\G(𝔸_{F,f})/U ≃ ν(G(F))\D(𝔸_{F,f})/ν(U)` ([LT], §3.2.2, (21), p. 14). *Needs:* AA.4.2;
+  `G(F)\G(𝔸_{F,f})/U ≃ ν(G(F))\D(𝔸_{F,f})/ν(U)`. This is this roadmap's deduction from strong
+  approximation for `G^der` away from the infinite places (AA.4.2) and *Surjectivity of finite
+  adelic abelianization*, generalizing [LT], §3.2.2, (21), p. 14, which treats the group
+  `GL_d(D) × ∏_i Res_{K_i/ℚ} GL_{n_i}` over `ℚ` at one level. *Needs:* AA.4.2;
   AA.4.1; AA.1.3; AA.1.5; AA.4.5.
   *Lean:* none; specified in the README only.
 
@@ -5102,8 +5187,10 @@ preceding layers; each item is a target with its own locator.
   These levels extend the congruence-subgroup convention of [Milne], §4, p. 42, and
   the product-level topology of [Borel], §1.7, p. 8.
   *Needs:* GlobalNumberFields, layer 4, finite adeles; Mathlib ideal factorization and
-  `Ideal.quotientInfRingEquivPiQuotient`; AA.1.2; AA.0.3's single-place factor splitting;
-  ReductiveGroupsPartII, RG2.0.3, integral points and congruence kernels.
+  `Ideal.quotientInfRingEquivPiQuotient`; AA.1.2; AA.0.3's single-place factor splitting; Tau
+  Ceti `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
+  `TauCeti.PointTopology.isCompact_range_mapValue_integer` (integral points); ReductiveGroupsPartII,
+  RG2.0.3 (congruence kernels).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -5257,7 +5344,7 @@ preceding layers; each item is a target with its own locator.
   quaternion algebra `D` over a number field `F`, realize `GL_1(D)` as the closed subgroup of the
   left-regular `GL(D)` cut out by commuting with right multiplication by a basis of `D`, so that
   its points in every commutative `F`-algebra `A` are `(D ⊗[F] A)^×`, naturally in `A`. At
-  `A = 𝔸_{F,f}` identify the point topology of AA.1.2 with the units topology of the finite free
+  `A = 𝔸_{F,f}` identify the point topology of AA.1.1 with the units topology of the finite free
   `𝔸_{F,f}`-algebra `D ⊗[F] 𝔸_{F,f}`, and the diagonal with the inclusion of `D^×`. For every
   compact open `U ⊂ (D ⊗_F 𝔸_{F,f})^×`, deduce from *class-number-finite*
   (`Reduction.finite_classes`) for this group that `Cl(U) = D^× \ (D ⊗_F 𝔸_{F,f})^× / U` is

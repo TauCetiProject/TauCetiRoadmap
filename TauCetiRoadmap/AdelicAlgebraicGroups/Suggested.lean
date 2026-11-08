@@ -9,6 +9,8 @@ import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
+import TauCeti.Topology.Algebra.PointTopology.Group
+import TauCeti.Topology.Algebra.PointTopology.Separation
 
 /-!
 # Adelic algebraic groups and arithmetic quotients: target signatures
@@ -25,7 +27,9 @@ Fourier limits (AA.4), and GL₁ logarithmic tori and the upper-half-plane decom
 level space (AA.5). Restricted products of Haar measures and quotient measures are stated in
 AnalyticNumberTheoryPartII; the comment lines at their places below name those declarations.
 The auxiliary definitions have real bodies on Mathlib's and Tau Ceti's point, character, measure,
-matrix and quotient carriers. The norm-one subgroup is the intersection of character-norm
+matrix and quotient carriers. Adelic, local and archimedean points carry Tau Ceti's point topology
+with its topological-group, Hausdorff, second-countable and locally compact instances
+(`TauCeti.PointTopology`). The norm-one subgroup is the intersection of character-norm
 kernels, so no Harish-Chandra logarithm is needed to state it.
 
 The following headlines are not stated here, because their objects are not carried by the pins:
@@ -93,13 +97,6 @@ end RestrictedHaar
 
 variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
 
-/-- The evaluation topology on the native convolution group of points: the coarsest topology making
-every evaluation continuous. It restates the point topology of ReductiveGroupsPartII, RG2.0.1, and
-is scoped to this namespace so that the canonical instance remains RG2's. -/
-scoped instance evaluationTopology (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
-    TopologicalSpace (WithConv (H →ₐ[F] R)) :=
-  ⨅ h : H, TopologicalSpace.induced (fun x => x.ofConv h) inferInstance
-
 /-- Evaluation of a rational character as a unit-valued group homomorphism. -/
 def characterValue {R : Type} [CommRing R] [Algebra F R] (χ : GroupLike F H) :
     WithConv (H →ₐ[F] R) →* Rˣ where
@@ -119,9 +116,10 @@ variable [NumberField F]
 /-- Adelic points on the native Hopf-algebra point carrier. -/
 abbrev AdelicPoints := WithConv (H →ₐ[F] NumberField.AdeleRing (𝓞 F) F)
 
-/-- The Borel σ-algebra of the evaluation topology on adelic points, under which adelic Haar
-measures are taken; the restricted-product Borel structure it realizes belongs to AA.0.1. It is
-scoped to this namespace. -/
+/-- The Borel σ-algebra of the point topology on adelic points (Tau Ceti's
+`TauCeti.PointTopology.instTopologicalSpaceWithConv`, the coarsest topology making every
+evaluation continuous), under which adelic Haar measures are taken; the restricted-product Borel
+structure it realizes belongs to AA.0.1. It is scoped to this namespace. -/
 scoped instance adelicBorel : MeasurableSpace (AdelicPoints F H) := borel _
 
 namespace AdelicPoints
