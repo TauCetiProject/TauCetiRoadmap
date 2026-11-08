@@ -99,6 +99,69 @@ What this roadmap leaves to others, by object:
 
 Groups are discrete throughout. `K(G, n)` for `n ≥ 2`, deloopings and spectra are not in scope.
 
+**Stage and item numbers.** Other roadmaps cite this roadmap by Stage (1–4) and item (1–19),
+and by the heading of Stage 2, the cellular model. Each cited number resolves as follows;
+"pinned" names declarations listed under *From Tau Ceti* below, consumed and not planned here.
+
+- Stage 1, Milnor's model, items 1–6: pinned, *From Tau Ceti*, "Milnor's model", "Its fundamental
+  group" and "Functoriality".
+  - Item 1, the countable join: `TauCeti.indexedJoin` and `TauCeti.universalGSpace G`.
+  - Item 2, weak contractibility: `TauCeti.subsingleton_homotopyGroup_universalGSpace` and
+    `TauCeti.instSimplyConnectedSpaceUniversalGSpace`.
+  - Item 3, the action and the orbit cover: `TauCeti.instMulActionUniversalGSpace`,
+    `TauCeti.isQuotientCoveringMap_classifyingSpaceProj` and `TauCeti.classifyingSpaceDeckMulEquiv`.
+  - Item 4, the standing hypotheses: `TauCeti.instPathConnectedSpaceClassifyingSpace`,
+    `TauCeti.instLocallyPathConnectedSpaceClassifyingSpace` and
+    `TauCeti.instSemilocallySimplyConnectedSpaceClassifyingSpace`.
+  - Item 5, the `K(G, 1)` property: `TauCeti.classifyingSpaceFundamentalGroupMulEquiv`,
+    `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`,
+    `TauCeti.exists_isEilenbergMacLaneSpaceOne` and
+    `TauCeti.universalGSpaceHomeomorphUniversalCover`.
+  - Item 6, functoriality: `MonoidHom.universalGSpaceMap`, `MonoidHom.classifyingSpaceMap` and
+    `MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq`.
+- Stage 2, the cellular model, items 7–10: pinned, *From Tau Ceti*, "The presentation complex and
+  the cellular model".
+  - Item 7, the presentation complex: `TauCeti.PresentationComplex R` and
+    `TauCeti.PresentationComplex.fundamentalGroupMulEquiv`.
+  - Item 8, killing one homotopy group: `TauCeti.cellAttachment` and
+    `TauCeti.subsingleton_homotopyGroup_cellAttachment`, one stage of the killing tower.
+  - Item 9, the tower and its colimit: `TauCeti.killHomotopyGroups`,
+    `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` and
+    `TauCeti.subsingleton_homotopyGroup_killHomotopyGroups`; the CW structure of the cellular model
+    is `TauCeti.instCWComplexCellularClassifyingSpace`.
+  - Item 10, a cellular `K(G, 1)` for every group: `TauCeti.cellularClassifyingSpace` and
+    `TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`.
+- Stage 3, uniqueness and the comparison of the models, items 11–15.
+  - Item 11, maps out of a cellular `K(G, 1)`: for the cellular model, the pinned
+    `TauCeti.exists_mapOfEq_cellularClassifyingSpace` and
+    `TauCeti.homotopicRel_of_mapOfEq_eq_cellularClassifyingSpace`; for an arbitrary path-connected
+    Hausdorff CW source, Layer 1, items 1.1 and 1.2.
+  - Item 12, uniqueness: up to a change of base point, the pinned
+    `TauCeti.IsAspherical.exists_homotopyEquiv` and
+    `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`; the pointed form is Layer 1,
+    item 1.3.
+  - Item 13, CW structures and coverings: pinned. The CW structure lifted along a covering map is
+    `TauCeti.cwComplexPreimage`, and its cellular chains are free over the group ring with one
+    generator for each cell of the base (`TauCeti.cellularChainRepIsoFree`). The CW structure on
+    the orbit space of a free cellular action is `IsQuotientCoveringMap.cwComplexQuotient`, which
+    gives `TauCeti.instCWComplexClassifyingSpace` with cells `TauCeti.classifyingSpaceCellEquiv`.
+  - Item 14, the two models agree: `TauCeti.cellularHomotopyEquivClassifyingSpace`, pinned.
+  - Item 15, homotopy functoriality: `TauCeti.classifyingSpaceHomotopyFunctor`, pinned.
+- Stage 4, group homology and cohomology, items 16–19.
+  - Item 16, the chain-level comparison: `TauCeti.cellularResolutionOfIsAspherical`,
+    `TauCeti.cellularClassifyingSpaceResolution` and `TauCeti.universalGSpaceResolution`, pinned.
+  - Item 17, (co)homology: for Milnor's model, pinned, *From Tau Ceti*, "(Co)homology of Milnor's
+    model" (`TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`,
+    `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`,
+    `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` and
+    `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`); for an arbitrary Hausdorff CW
+    `K(G, 1)`, Layer 2, items 2.1 and 2.2 (trivial coefficients) and 2.3 (local coefficients).
+  - Item 18, comparison with the bar resolution: `TauCeti.universalGSpaceStandardHomotopyEquiv`
+    with forward map `TauCeti.universalGSpaceChainComplexToStandardComplex`, pinned.
+  - Item 19, the checks: pinned, *From Tau Ceti*, "Examples", and
+    `TauCeti.classifyingSpaceFirstHomologyAddEquiv`; their transport to the geometric models is
+    the *Examples* section of Layer 2.
+
 ## Conventions
 
 - **CW `K(G, 1)`.** A Hausdorff space `X` with `Topology.CWComplex (Set.univ : Set X)`, a point
@@ -208,6 +271,12 @@ Groups are discrete throughout. `K(G, n)` for `n ≥ 2`, deloopings and spectra 
   `FundamentalGroup.mapOfEq`, `FundamentalGroup.mul_def`, `ContinuousMap.HomotopyEquiv`,
   `ContinuousMap.HomotopicRel`, `Topology.CWComplex`, `Topology.RelCWComplex.skeletonLT`,
   `Topology.CWComplex.cell` and `AlgebraicTopology.singularHomologyFunctor`.
+- `Path.Homotopic.map_trans_evalAt`
+  (`Mathlib/AlgebraicTopology/FundamentalGroupoid/InducedMaps.lean`): for a homotopy `K` from
+  `g` to `g'` and a path `σ` from `a` to `b`, the paths `(g ∘ σ) · K_b` and `K_a · (g' ∘ σ)` are
+  homotopic relative to their end points, where `K_a` is the trace of `a`;
+  `ContinuousMap.Homotopy.eq_diag_path` in the same file is the same square in the fundamental
+  groupoid. Used in the route of item 1.2.
 
 ### From Tau Ceti
 
@@ -377,16 +446,35 @@ lifts through a weak homotopy equivalence up to homotopy, Hatcher, Proposition 4
 base point along a path), `ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map` and
 `ContinuousMap.Homotopy.exists_path_fundamentalGroupMulEquivOfPath_map_comp`
 (`TauCeti/AlgebraicTopology/FundamentalGroup/BasepointChange.lean`);
-`ContinuousMap.HomotopyEquiv.singularHomologyIso`
-(`TauCeti/AlgebraicTopology/Singular/Homotopy/Invariance.lean`) and
-`TopCat.isIso_singularCohomologyMap`
-(`TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`, for a map with a homotopy
-inverse, both homotopies given);
+`ContinuousMap.HomotopyEquiv.singularHomologyIso` and
+`ContinuousMap.singularHomologyMap_eq_of_homotopic` (homotopic maps induce the same map on
+singular homology) (`TauCeti/AlgebraicTopology/Singular/Homotopy/Invariance.lean`);
+`TopCat.isIso_singularCohomologyMap` (for a map with a homotopy inverse, both homotopies given)
+and `TopCat.Homotopy.congr_singularCohomologyMap` (homotopic maps induce the same map on singular
+cohomology) (`TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`);
+`TopCat.singularCohomologyBockstein_naturality` (the Bockstein of a short exact sequence of
+coefficients commutes with the map induced by a continuous map)
+(`TauCeti/AlgebraicTopology/Cohomology/Bockstein.lean`);
 `TauCeti.LocalCoefficientSystem.ofRepresentation`,
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation` and
 `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`
 (`TauCeti/AlgebraicTopology/LocalCoefficient/Representation.lean`);
-`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso` (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`);
+`TauCeti.Groupoid.natIsoOfEnd` and `TauCeti.Groupoid.eq_natIsoOfEnd` (on a connected groupoid,
+an isomorphism of the values of two functors at one object, equivariant for its endomorphisms,
+extends to a unique natural isomorphism with that component)
+(`TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean`);
+`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
+`TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation` (the monodromy of a pulled-back
+system at `x` is the monodromy at the image point composed with the induced map of fundamental
+groups) and `TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation` (a constant system
+has trivial monodromy) (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`);
+`IsQuotientCoveringMap.associatedLocalSystem_map_coinvariantsTensorMk` (transport along a path
+class sends the class of `a ⊗ e` to the class of `a ⊗ e'`, `e'` the end point of the lift
+starting at `e`) (`TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/Basic.lean`);
+`IsQuotientCoveringMap.associatedLocalSystemFiberIso` with
+`IsQuotientCoveringMap.associatedLocalSystemFiberIso_hom_coinvariantsTensorMk` (a point `e` over
+`b` identifies the fibre `(A ⊗ k[p⁻¹ b])_G` with `A`, sending the class of `a ⊗ (g • e)` to
+`g⁻¹ • a`) (`TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/Exact.lean`);
 `ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`
 (`TauCeti/AlgebraicTopology/Singular/Twisted/HomotopyInvariance/Basic.lean`),
 `TopCat.Homotopy.twistedCohomologyMap_eq_comp`
@@ -397,8 +485,7 @@ inverse, both homotopies given);
 `TauCeti/AlgebraicTopology/Cohomology/Twisted/Basic.lean`),
 `TauCeti.LocalCoefficientSystem.twistedHomology₀IsoCoinvariants`
 (`TauCeti/AlgebraicTopology/Singular/Twisted/Coinvariants.lean`, for a path-connected space and a
-commutative ring) and `IsQuotientCoveringMap.monodromy_smul`
-(`TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/Basic.lean`);
+commutative ring);
 `TauCeti.UniversalCover.smul_mk`, `TauCeti.UniversalCover.deckFundamentalGroupEquiv` and
 `TauCeti.UniversalCover.deckFundamentalGroupEquiv_symm_op`
 (`TauCeti/AlgebraicTopology/UniversalCover/`).
@@ -515,17 +602,23 @@ path-connected, so choose for every vertex `v` a path `σ_v` from `x` to `v`, wi
 (`x` is a vertex). The paths
 `(g ∘ σ_v)⁻¹ · (f ∘ σ_v)` from `g v` to `f v`, constant at `v = x`, form a homotopy on the
 discrete `0`-skeleton; extend it by the homotopy extension property of the `0`-skeleton to a
-homotopy from `g` to a map `g'` that agrees with `f` on the `0`-skeleton and is homotopic to `g`
-relative to `x`, hence induces the same map on `π₁(X, x)` as `g`. For a path `γ` from a vertex
-`a` to a vertex `b`, the loop `σ_a · γ · σ_b⁻¹` at `x` has the same image under `f` and `g'`,
-and unwinding the definition of `g'` on `σ_a` and `σ_b` this is the statement that `f ∘ γ` and
-`g' ∘ γ` are homotopic relative to the end points. The pinned criterion gives `f ≃ g'` relative
-to the `0`-skeleton, which contains `x`, and concatenating with `g' ≃ g` relative to `x` gives
-the claim. *Needs:* Tau Ceti `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`,
+homotopy `K` from `g` to a map `g'` that agrees with `f` on the `0`-skeleton, whose trace `K_v`
+at each vertex `v` is the prescribed path and whose trace at `x` is constant, so that `g'` is
+homotopic to `g` relative to `x` and induces the same map on `π₁(X, x)` as `g`. Unwind the
+definition of `g'` on the paths `σ_v` by the square of the homotopy `K` over `σ_v`
+(Mathlib's `Path.Homotopic.map_trans_evalAt`): `(g ∘ σ_v) · K_v` and `K_x · (g' ∘ σ_v)` are
+homotopic relative to their end points, and with `K_x` constant and
+`K_v = (g ∘ σ_v)⁻¹ · (f ∘ σ_v)` this says that `g' ∘ σ_v` and `f ∘ σ_v` are homotopic relative to
+their end points. For a path `γ` from a vertex `a` to a vertex `b`, the loop
+`σ_a · γ · σ_b⁻¹` at `x` has the same image under `f` and `g'`; replacing `g' ∘ σ_a` by `f ∘ σ_a`
+and `g' ∘ σ_b` by `f ∘ σ_b` and cancelling them shows that `f ∘ γ` and `g' ∘ γ` are homotopic
+relative to the end points. The pinned criterion gives `f ≃ g'` relative to the `0`-skeleton,
+which contains `x`, and concatenating with `g' ≃ g` relative to `x` gives the claim. *Needs:* Tau
+Ceti `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`,
 `TauCeti.IsAspherical.of_basepoint`,
 `TauCeti.zeroSkeletonDiscreteTopology`, `TauCeti.hasHomotopyExtensionProperty_skeletonLT`,
 `ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map`; Mathlib
-`ContinuousMap.HomotopicRel`, `FundamentalGroup.mapOfEq`.
+`Path.Homotopic.map_trans_evalAt`, `ContinuousMap.HomotopicRel`, `FundamentalGroup.mapOfEq`.
 
 **Checks.**
 - `X` with a single `0`-cell: `g' = g`, and the statement is the pinned
@@ -535,6 +628,13 @@ the claim. *Needs:* Tau Ceti `TauCeti.homotopicRel_skeletonLT_one_of_forall_homo
   edge: `g'` straightens the edge, and the criterion sees only the loop classes. A proof that
   skipped the agreement on the `0`-skeleton could not apply the pinned criterion, whose
   hypothesis requires `f ∘ γ` and `g ∘ γ` to have the same end points.
+- `X = [0, 1]` with the vertices `x = 0` and `v = 1` and `σ_v` the identity path, `Y` the circle,
+  `f` the loop of degree one read as a path and `g` constant at `y`: `f ∘ σ_v` and `g ∘ σ_v` have
+  the same end points but degrees `1` and `0`, so the pinned criterion does not apply to `f` and
+  `g` directly. The prescribed trace `K_v` is the loop of degree one, and the square gives
+  `g' ∘ σ_v ≃ (g ∘ σ_v) · K_v`, of degree `1`, as `f ∘ σ_v`; a square read without `K_v` would
+  leave `g' ∘ σ_v` of degree `0`. The conclusion `f ≃ g` relative to `{0}` holds, since `[0, 1]`
+  contracts to `0` relative to `0`.
 - Together with item 1.1, pointed maps `X → Y` up to pointed homotopy are exactly the
   homomorphisms `π₁(X, x) →* π₁(Y, y)`; for `X = C` the cellular model this is the pinned
   `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`.
@@ -615,15 +715,18 @@ homology induced by the homotopy equivalence `c_X`
 (`ContinuousMap.HomotopyEquiv.singularHomologyIso`) with the pinned
 `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology k G n`. Its API:
 
-- It depends only on `(X, x, Ψ)`: two choices of `c_X` are pointed homotopic (1.2) and
-  homotopic maps induce the same map on singular homology.
+- It depends only on `(X, x, Ψ)`: two choices of `c_X` are pointed homotopic (1.2), and
+  homotopic maps induce the same map on singular homology
+  (`ContinuousMap.singularHomologyMap_eq_of_homotopic`).
 - For `X = BG` and `Ψ` the pinned identification it is the pinned isomorphism, because `c_X` is
   then homotopic to the identity.
 - Naturality in `(X, Ψ)`: for a pointed map `f : X → X'` between CW `K(G, 1)` and `K(H, 1)`
   spaces and `φ : G →* H` with `Ψ' ∘ π₁(f) = φ ∘ Ψ`, the square formed by `f_*`, the two
   comparisons and `groupHomology.map φ` commutes. Route: `c_{X'} ∘ f` and
-  `MonoidHom.classifyingSpaceMap φ ∘ c_X` are pointed maps `X → BH` inducing `φ ∘ Ψ` under the
-  identifications, hence pointed homotopic by 1.2, and the pinned naturality
+  `MonoidHom.classifyingSpaceMap φ ∘ c_X` are pointed maps `X → BH`
+  (`MonoidHom.classifyingSpaceMap_basepoint`) inducing `φ ∘ Ψ` under the identifications (for
+  the second, `MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq`), hence pointed
+  homotopic by 1.2 and equal on singular homology, and the pinned naturality
   `MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality` finishes.
 - Changing `Ψ` by an automorphism `α` of `G` changes the comparison by
   `groupHomology.map α` on the trivial module, which is the identity of `Hₙ(G, k)` only when `α`
@@ -637,7 +740,10 @@ transport: `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` gives som
 equivalence with `BG`, and the pinned isomorphism transports along it. It is therefore not an
 acceptance test; the content of this item is the canonical choice and its naturality. *Needs:*
 (1.3); Tau Ceti `ContinuousMap.HomotopyEquiv.singularHomologyIso`,
+`ContinuousMap.singularHomologyMap_eq_of_homotopic`,
 `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`,
+`MonoidHom.classifyingSpaceMap_basepoint`,
+`MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq`,
 `MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality`,
 `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`; Mathlib
 `AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`.
@@ -646,13 +752,17 @@ acceptance test; the content of this item is the canonical choice and its natura
 - `X` the circle, `Ψ` the degree, `k = ℤ`, `n = 1`: the class of the counterclockwise loop goes
   to the class of the `1`-chain `1 ∈ ℤ` in `H₁(ℤ, ℤ)`, that is, to `1` under `H₁(ℤ, ℤ) ≅ ℤ`; a
   comparison built through `Ψ⁻¹` sends it to `−1`.
-- `G = ℤ/n`, `k = ℤ`, `n = 2`: both sides are zero (pinned
-  `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even` on the left, the
-  two-periodic resolution on the right), and in degree one both sides are `ℤ/n`; a comparison
-  that silently used the trivial group would give `0` in degree one.
+- `G = ℤ/m` with `m ≥ 2`, `k = ℤ`: in degree two both sides are zero (pinned
+  `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even` on the left; on the right
+  the two-periodic resolution, whose maps `ℤ[G] → ℤ[G]` are alternately multiplication by `t − 1`
+  and by the norm element, gives after taking coinvariants the complex
+  `ℤ --0--> ℤ --m--> ℤ --0--> ℤ` in degrees `3, 2, 1, 0`, so `H₂ = ker(m)/im(0) = 0`), and in
+  degree one both sides are `ℤ/m` (`ker(0)/im(m)` on the right,
+  `TauCeti.classifyingSpaceSingularHomologyIntLinearEquivOdd` on the left); a comparison that
+  silently used the trivial group would give `0` in degree one.
 - `G` free on `S`, `X` the wedge of circles, `n ≥ 2`: both sides vanish
-  (`TauCeti.isZero_groupHomology_freeGroup`); the `n`-torus, `n ≥ 1`: both sides are free of
-  rank `n choose i` in degree `i` (`TauCeti.finrank_groupHomology_pi_multiplicative_int`).
+  (`TauCeti.isZero_groupHomology_freeGroup`); the `r`-torus, `r ≥ 1`: both sides are free of
+  rank `r choose n` in degree `n` (`TauCeti.finrank_groupHomology_pi_multiplicative_int`).
 - `X = BG`, `Ψ` pinned: the comparison is the pinned isomorphism on the nose, not merely
   isomorphic to it.
 
@@ -662,17 +772,23 @@ Define `Hⁿ(X; M) ≅ Hⁿ(G, M)` for a `k`-module `M` as the composite of the 
 cohomology induced by `c_X` (homotopy invariance, `TopCat.isIso_singularCohomologyMap`, applied to
 `c_X`, a homotopy inverse and the two homotopies) with the pinned
 `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology k G M n`. Its API: independence of
-the choice of `c_X`; agreement with the pinned isomorphism for `X = BG`; naturality in `(X, Ψ)`
-along pointed maps as in 2.1, with `groupCohomology.map φ`, through
-`MonoidHom.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`; naturality in
-`M` through `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`; and
-compatibility with the Bockstein of a short exact sequence `0 → M₁ → M₂ → M₃ → 0` of modules,
-carried to `groupCohomology.δ` through
+the choice of `c_X`, since homotopic maps induce the same map on singular cohomology
+(`TopCat.Homotopy.congr_singularCohomologyMap`); agreement with the pinned isomorphism for
+`X = BG`; naturality in `(X, Ψ)` along pointed maps as in 2.1, with `groupCohomology.map φ`,
+through `MonoidHom.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`;
+naturality in `M` through
+`TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology_hom_naturality`; and compatibility
+with the Bockstein of a short exact sequence `0 → M₁ → M₂ → M₃ → 0` of modules, carried to
+`groupCohomology.δ` through
 `TauCeti.singularCohomologyBockstein_comp_classifyingSpaceSingularCohomologyIsoGroupCohomology_hom`
-and the naturality of the Bockstein under `c_X`. As in 2.1, the bare existence statement is a
-theorem of the pin by transport and is not an acceptance test. *Needs:* (1.3); Tau Ceti
-`TopCat.isIso_singularCohomologyMap`, `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`
-and its three naturality theorems; Mathlib `groupCohomology.map`, `groupCohomology.δ`.
+and the naturality of the Bockstein under `c_X` (`TopCat.singularCohomologyBockstein_naturality`).
+As in 2.1, the bare existence statement is a theorem of the pin by transport and is not an
+acceptance test. *Needs:* (1.3); Tau Ceti `TopCat.isIso_singularCohomologyMap`,
+`TopCat.Homotopy.congr_singularCohomologyMap`, `TopCat.singularCohomologyBockstein_naturality`,
+`MonoidHom.classifyingSpaceMap_basepoint`,
+`MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq`,
+`TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` and its three naturality theorems;
+Mathlib `groupCohomology.map`, `groupCohomology.δ`.
 
 **Checks.**
 - `X` the circle, `M = k`: `H¹(X; k) ≅ H¹(ℤ, k) = Hom(ℤ, k) = k`, the generator going to the
@@ -696,34 +812,68 @@ module of `A`, and a path class acts through `Ψ` and the action of `G` on `A`, 
 monodromy representation at `x` is `A ∘ Ψ` on the nose
 (`TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`). Prove:
 
+- **Transport along an isomorphism of representations.** For representations `ρ` on `V` and
+  `ρ'` on `V'` of `π₁(X, x)` over `k` and a `k`-linear isomorphism `u : V ≃ V'` with
+  `u ∘ ρ(γ) = ρ'(γ) ∘ u` for every `γ`, there is an isomorphism of local systems
+  `ofRepresentation x ρ ≅ ofRepresentation x ρ'` whose component at `x` is `u`, and it is the
+  only one; its component at every point is `u`. Route: the fibres of the two systems are `V`
+  and `V'` and their monodromies at `x` are `ρ` and `ρ'`
+  (`TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`), so `u` is
+  equivariant for the loops at `x`; `TauCeti.Groupoid.natIsoOfEnd` extends it to a natural
+  isomorphism with component `u` at `x`, unique by `TauCeti.Groupoid.eq_natIsoOfEnd`; the chosen
+  path classes out of `x` act on both systems by the identity, so naturality along them makes
+  every component `u`. The pin has no such transport.
 - `Hₙ(X; L_A) ≅ Hₙ(G, A)` for every `n` (the headline
   `nonempty_twistedHomology_iso_groupHomology`), and for a `k`-module `N`,
   `Hⁿ(X; L_A, N) ≅ Hⁿ(G, Homₖ(A, N))`, `N` with the trivial action (the headline
-  `nonempty_twistedCohomology_iso_groupCohomology`). Route: the pullback of the pinned local
-  system `TauCeti.classifyingSpaceLocalSystem k A` along `c_X` has monodromy at `x` given by the
-  monodromy of the pinned system at `b₀` composed with `π₁(c_X)`; the monodromy of the pinned
-  system at `b₀` is `A` read through the pinned identification, a computation from
-  `IsQuotientCoveringMap.monodromy_smul` (transport along a loop in the fibre
-  `(A ⊗ k[p_G⁻¹ b₀])_G` is the action of the group element the loop represents, with the
-  inversion of the Conventions); so the pullback has
-  monodromy `A ∘ Ψ`, and `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso` identifies
-  it with `L_A`. Then `c_X` induces an isomorphism on twisted homology
-  (`ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`), and the pinned
-  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` finishes; for cohomology, the same
-  with `TopCat.Homotopy.twistedCohomologyMap_eq_comp` and
-  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
+  `nonempty_twistedCohomology_iso_groupCohomology`). Route. Write
+  `L := TauCeti.classifyingSpaceLocalSystem k A`, the local system on `BG` associated to `A` by
+  the orbit map, whose fibre over `b` is `(A ⊗ k[p_G⁻¹ b])_G`, and
+  `e₀ := TauCeti.universalGSpaceBasepoint G`, the vertex `(0, 1)` over `b₀`.
+  1. The pullback of `L` along the pointed map `c_X` has fibre `L_{b₀}` at `x`, and its monodromy
+     at `x` is the monodromy of `L` at `b₀` composed with `π₁(c_X)`
+     (`TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation`).
+  2. The point `e₀` identifies `L_{b₀}` with `A`, sending the class of `a ⊗ (g • e₀)` to
+     `g⁻¹ • a` (`IsQuotientCoveringMap.associatedLocalSystemFiberIso` for the point `e₀`, with
+     `IsQuotientCoveringMap.associatedLocalSystemFiberIso_hom_coinvariantsTensorMk`). Transport
+     along a loop `γ` at `b₀` sends the class of `a ⊗ e₀` to the class of
+     `a ⊗ (0, m(γ)) = a ⊗ (m(γ) • e₀)`
+     (`IsQuotientCoveringMap.associatedLocalSystem_map_coinvariantsTensorMk`), which the
+     identification sends to `m(γ)⁻¹ • a`, and `m(γ)⁻¹` is the image of `γ` under
+     `classifyingSpaceFundamentalGroupMulEquiv G`
+     (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`). With step 1 and the
+     normalisation of `c_X` in 1.3, the fibre identification is an isomorphism of
+     representations of `π₁(X, x)` from the monodromy of the pullback at `x` to `A ∘ Ψ`: the
+     monodromy of the pullback is `A ∘ Ψ` up to this isomorphism, not on the nose.
+  3. The transport of the first bullet along this isomorphism, followed by
+     `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso` for the pullback, identifies
+     `L_A` with the pullback of `L` along `c_X`.
+  4. `c_X` induces an isomorphism on twisted homology
+     (`ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`), and the pinned
+     `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` finishes; for cohomology, the same
+     with `TopCat.Homotopy.twistedCohomologyMap_eq_comp` and
+     `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
 - The isomorphisms are natural in `A` and carry the connecting maps of a short exact sequence of
   representations to `groupHomology.δ` and `groupCohomology.δ`, through the pinned
   `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality` and
   `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`.
-- For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system and the
+- For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system (the
+  constant system has trivial monodromy,
+  `TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation`, so
+  `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso` identifies the two) and the
   isomorphism is that of 2.1 through `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso`;
   likewise for cohomology through `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`.
 
 *Needs:* (1.3), (2.1); Tau Ceti `TauCeti.LocalCoefficientSystem.ofRepresentation`,
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`,
-`TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`,
-`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`, `IsQuotientCoveringMap.monodromy_smul`,
+`TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`, `TauCeti.Groupoid.natIsoOfEnd`,
+`TauCeti.Groupoid.eq_natIsoOfEnd`, `TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
+`TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation`,
+`TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation`,
+`IsQuotientCoveringMap.associatedLocalSystem_map_coinvariantsTensorMk`,
+`IsQuotientCoveringMap.associatedLocalSystemFiberIso`,
+`IsQuotientCoveringMap.associatedLocalSystemFiberIso_hom_coinvariantsTensorMk`,
+`TauCeti.universalGSpaceBasepoint`, `TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
 `TauCeti.classifyingSpaceLocalSystem`, `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
 `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`,
 `ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`,
@@ -732,6 +882,22 @@ monodromy representation at `x` is `A ∘ Ψ` on the nose
 `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`.
 
 **Checks.**
+- Transport: `ρ = ρ'` and `u` the identity give the identity of `ofRepresentation x ρ`; for
+  `V = V' = k`, `ρ = ρ'` a character and `u = −1`, the transport is multiplication by `−1` at
+  every point, different from the identity when `2 ≠ 0` in `k`, so the transport depends on `u`
+  and not only on `ρ` and `ρ'`. Negative control on the intertwining hypothesis: `X` the circle,
+  `V = V' = k²` with the generator acting by exchanging the coordinates and `u = diag(1, −1)`;
+  then `u` sends `(a, b)` to `(a, −b)`, and `u` followed by the exchange sends `(a, b)` to
+  `(−b, a)`, while the exchange followed by `u` sends it to `(b, −a)`, so for `2 ≠ 0` in `k` no
+  natural isomorphism has component `u` at `x`.
+- The identification of step 3 for `G = ℤ`, written additively, `X` the circle with `Ψ` the
+  degree, and `A = k` with the generator acting by a unit `u`: `e₀ = (0, 0)`, and at `x` the
+  identification sends `1 ∈ k` to the class of `1 ⊗ (0, 0)`. Along the loop `γ` with `Ψ(γ) = 1`,
+  the lift of `c_X ∘ γ` from `(0, 0)` ends at `(0, −1)` (the `ℤ` Check of the Conventions), so
+  transport sends the class of `1 ⊗ (0, 0)` to that of `1 ⊗ (0, −1)`, which the fibre
+  identification sends to the action of `−(−1) = 1 ∈ ℤ` on `1 ∈ k`, that is to `u`, the
+  monodromy of `L_A` along `γ`. Reading the end point without the inversion of the Conventions
+  would give `u⁻¹`, which differs from `u` as soon as `u² ≠ 1`.
 - `A` trivial: recovers 2.1 and 2.2.
 - `G = ℤ`, `X` the circle, `A = k` with the generator acting by a unit `u`: `H₀(X; L_A)` is the
   coinvariants `k/(u − 1)k` (`TauCeti.LocalCoefficientSystem.twistedHomology₀IsoCoinvariants`)
