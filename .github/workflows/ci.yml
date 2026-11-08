@@ -23,6 +23,19 @@ on:
 permissions:
   contents: read
 
+# One live build per pull request. A push makes the previous head's build irrelevant, since the
+# required check is per commit, but without this it still waits for, and then occupies, one of the
+# org's 20 GitHub-hosted runner slots. On 2026-11-07 the wait for a slot passed 18 hours, longer
+# than the merge queue's 6-hour check timeout (the most GitHub allows), so every queue entry timed
+# out before its build started, the queue rebuilt behind it, and nothing merged for 33 hours.
+#
+# Only `pull_request` runs share a group. A `merge_group` ref is already unique to its candidate,
+# and a `push` to `main` keeps a build of its own as before; `run_id` gives each of those a group
+# nothing else joins.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}', github.event.pull_request.number) || format('ci-run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,12 +66,19 @@ jobs:
       # Fetch Tau Ceti's cache map from its public Lake service. Artifacts stay lazy: the build
       # downloads only the Tau Ceti modules it actually imports. This is distinct from Mathlib's
       # cache above, and avoids making every package in the workspace cache-writable.
+      #
+      # The defaults after `||` are for pull requests from forks, where the `vars` values arrive
+      # empty. Without them a fork's build compiled all of Tau Ceti (some 5,700 modules, 90 to 150
+      # minutes) where a branch in this repository took 12 to 20 with the cache, and since most
+      # roadmap pull requests come from forks that was most of the CI backlog. They are the same
+      # public, read-only endpoints the variables hold, so a fork reading them gains nothing anyone
+      # else lacks.
       - name: Fetch Tau Ceti cache map
         id: tauceti_cache
         shell: bash
         env:
-          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC }}
-          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC }}
+          PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/artifacts' }}
+          PUBLIC_REVISION_ENDPOINT: ${{ vars.LAKE_CACHE_REVISION_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/revisions' }}
         run: |
           set -euo pipefail
           if [ -z "$PUBLIC_ARTIFACT_ENDPOINT" ] || [ -z "$PUBLIC_REVISION_ENDPOINT" ]; then
