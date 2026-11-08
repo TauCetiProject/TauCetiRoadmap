@@ -10,16 +10,31 @@ systems, Matlis duality and convergent first-quadrant double-complex spectral se
 
 This roadmap owns homogeneous and multiplicative polynomial laws, the non-determinant Roby algebra
 and augmentation theory, linear-functional Koszul complexes, module K-injective and K-flat models,
-simplicial polynomial resolutions, the full cotangent complex and its integral powers, module-derived
-limits and completion, ordinary-module perfectness and finite models, perfect inverse-system
+simplicial polynomial resolutions, the full cotangent complex and its integral powers, the exactness
+of module-derived limits and derived completion, ordinary-module perfectness and finite models, perfect inverse-system
 effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
-Mathlib's carriers and the pinned Tau Ceti APIs.
+Mathlib's carriers and the pinned Tau Ceti APIs. The targets of §§0.DP.1–0.DP.3, the K-injective
+replacement functor of §0.I.1, the K-flat replacement of §0.2 apart from its termwise-flat clause,
+Lazard's theorem in §0.2.1 and the derived Hom with its cohomology in §1.1.1 are formalised at the
+pinned Tau Ceti; each such target names its declarations, and later sections consume them from Tau
+Ceti (Exact supplier contracts).
 
-The generic theory of countable module towers, from the difference map and `lim`/`lim¹` through
-the shifted-cone derived limit, has one owner, [AlgebraicTopology](../AlgebraicTopology/README.md)
-Stage 6, item 0. Section 1.1 here adds only the localization of that complex-level model on the
-derived category of strict diagrams and its exact-functor comparison. Topological tower adapters
-remain with AlgebraicTopology Stages 2–3 and Stage 6.
+The generic algebra of countable module towers `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring
+is Tau Ceti's (Exact supplier contracts): the difference map, `lim` and `lim¹`, the six-term and
+Milnor sequences, Mittag–Leffler vanishing, cofinal reindexing, the homotopy limit as the shifted
+cone of the difference map, and the derived limit functor `TauCeti.ModuleTower.derivedLimit` with
+its localization comparison, shift isomorphisms and identification with the termwise limit. The
+maps of homotopy limits induced by tower maps whose squares commute up to specified homotopies
+belong to [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (§6.0 *Restriction
+towers and homotopy-square maps*). Section 1.1 here owns the exactness of the derived limit, its
+cone comparison for chain maps of towers, and its compatibility with the Milnor, cofinal and
+homotopy-square maps. Topological tower adapters remain with AlgebraicTopology Stages 2–3 and
+Stage 6. Citations of §1.T.1 (*lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler
+towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for
+towers of complexes*) resolve to the Tau Ceti tower declarations listed in Exact supplier contracts,
+and citations of `CompactCoefficients.Tower`, `DerivedDeRham.derivedLimit` and
+`DerivedDeRham.moduleDerivedHom` resolve to `TauCeti.ModuleTower`, `TauCeti.ModuleTower.derivedLimit`
+and `TauCeti.derivedHom`.
 
 The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
 §§0.1–0.3 and E1.F3.H1/E1.8.DMA.1. The DG/module realization, dualizable comparison and traces
@@ -44,38 +59,49 @@ The section labels identify the mathematical contracts; §0.7 precedes §0.6 in 
 
 ## Exact supplier contracts
 
-The tower supplier is AlgebraicTopology Stage 6, item 0. Other targets use Mathlib,
-implemented Tau Ceti APIs and earlier sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
+The tower algebra and the derived limit are Tau Ceti's; the homotopy-square maps of towers are
+AlgebraicTopology Stage 6, item 0. Other targets use Mathlib, implemented Tau Ceti APIs and earlier
+sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
 and declarations as they become available. The README is definitive; `Suggested.lean` states only
 the headline theorems that are statable against the pinned libraries, with the few definitions they need.
 
 | Supplier | Exact input |
 | --- | --- |
-| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 | The generic countable module-tower API over any unital ring, as specified there; see the subsection below. Used directly in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
-| From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs. §§0.DP.1–0.DP.3 construct homogeneity, multiplicativity, homogeneous pieces, Roby representability and augmentation theory. |
+| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 (§6.0 *Restriction towers and homotopy-square maps*) | The maps of homotopy limits induced by maps of towers of complexes whose squares commute up to specified homotopies, with their composition law and the homotopies induced by compatible second homotopies; see the subsection below. Used in §1.1. |
+| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), its difference map `TauCeti.ModuleTower.shift`, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`). Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
+| From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
+| From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
+| From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`) and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 without its termwise-flat clause, and §0.2.1. |
+| From Tau Ceti spectral sequences | The spectral sequence `CochainComplex.spectralSequence` of a filtered cochain complex `CochainComplex.filtrationFunctor`, with its abutment `CochainComplex.filtrationAbutmentIso` and stabilization `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`TauCeti.Algebra.Homology.SpectralSequence.Filtered`); for a first-quadrant homological bicomplex in `HomologicalComplex₂ C (down ℕ) (down ℕ)`, `HomologicalComplex₂.rowFiltrationSpectralSequence` and `HomologicalComplex₂.columnFiltrationSpectralSequence`, their first pages `HomologicalComplex₂.rowFiltrationSpectralSequenceFirstPageXIso` and `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`, abutments `HomologicalComplex₂.rowFiltrationAbutmentIso` and `HomologicalComplex₂.columnFiltrationAbutmentIso`, and convergence `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`, `HomologicalComplex₂.isZero_rowFiltration_abutmentFiltration` and `HomologicalComplex₂.isIso_rowFiltration_abutmentFiltrationι` (`TauCeti.Algebra.Homology.SpectralSequence.Bicomplex`). Consumed in §S.1. |
 | From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`; §0.K.1 constructs the linear-functional Koszul complex and its tensor, homotopy and resolution contracts. |
-| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.I.1, 0.1–0.3 and 1.1.1 construct the unbounded module replacements and derived operations. |
+| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`. §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
 | From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
-| From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and abutment maps. |
+| From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and edge maps. |
 | From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
 | From Tau Ceti injective envelopes | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; §1.M.2 constructs hull existence and the completion action. |
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-[AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 is the sole owner of the
-generic theory of countable towers `ℕᵒᵖ ⥤ ModuleCat R`: the difference map and `lim`/`lim¹`, the
-six-term and Milnor sequences, Mittag–Leffler vanishing, the shifted-cone derived limit and its
-cofinal and homotopy-square comparisons. Its statements are consumed as written there and are
-not repeated here. Section 1.1 consumes its shifted-cone model and the maps that the localization
-comparison must intertwine; §§1.2–1.6 and 1.9 consume its Milnor sequences.
+[AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (§6.0 *Restriction towers and
+homotopy-square maps*) owns the maps of homotopy limits induced by a map of towers of complexes
+whose squares commute up to specified homotopies: these cone maps retain the specified square
+homotopies in their composition law, and compatible second homotopies induce homotopies between
+them. Its statements are consumed as written there and are not repeated here; §1.1 requires the
+localization comparison to intertwine them. Their pinned input is Tau Ceti's fibre map of a square
+commuting up to a specified homotopy, `CochainComplex.mappingCocone.mapOfHomotopy` with
+`CochainComplex.mappingCocone.mapOfHomotopy_comp` and
+`CochainComplex.mappingCocone.mapOfHomotopyHomotopy`
+(`TauCeti.Algebra.Homology.HomotopyCategory.MappingCocone.Homotopy`). The generic tower algebra,
+its Milnor sequences and the derived limit are consumed from Tau Ceti (table above).
 
 ## How to read the build
 
 Layers 0–5 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
 divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
-non-additive derived functors, with §S.1 supplying convergence before the diagonal comparison; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
-Sections 1.1–1.9 localize the supplied tower model and build derived Hom, derived completeness and the
-completion reflector, simplicial-algebra completion and complete flatness; §§1.E.0–1.E.1 perfect
+non-additive derived functors, with §S.1 supplying the double-complex spectral sequence before the diagonal comparison; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
+Sections 1.1–1.9 prove the exactness of the supplied derived limit and build the tensor–Hom
+adjunction, derived completeness and the completion reflector, simplicial-algebra completion and
+complete flatness; §§1.E.0–1.E.1 perfect
 complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality. Each target's *Needs* line names the earlier sections and library
 inputs that its statement and route use.
 
@@ -88,11 +114,14 @@ inputs that its statement and route use.
 `A`-algebra `S`, Mathlib's `PolynomialLaw`; `S` ranges over commutative `A`-algebras in the universe
 of `A`, as in Mathlib's `PolynomialLaw`, whose extension to all universes is Mathlib's `toFun`. Such
 a law is homogeneous of degree `n` if `f_S(s·x) = s^n·f_S(x)` for every commutative `A`-algebra `S`,
-`s ∈ S` and `x ∈ S ⊗_A M`. Define this homogeneity predicate as `PD.IsHomogeneous` and prove
-that the zero law is homogeneous of every degree, that homogeneity of a fixed degree is closed under
-addition, that composition multiplies degrees, and that a law has degree one iff it is the base
-change of a linear map ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7). *Needs:*
-Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
+`s ∈ S` and `x ∈ S ⊗_A M`. This homogeneity predicate is Tau Ceti's
+`PolynomialLaw.IsHomogeneousOfDegree`. Prove that the zero law is homogeneous of every degree, that
+homogeneity of a fixed degree is closed under addition, that composition multiplies degrees, and
+that a law has degree one iff it is the base change of a linear map
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7); Tau Ceti formalises these as
+`PolynomialLaw.isHomogeneousOfDegree_zero`, `PolynomialLaw.IsHomogeneousOfDegree.add`,
+`PolynomialLaw.IsHomogeneousOfDegree.comp` and `PolynomialLaw.isHomogeneousOfDegree_one_iff`.
+*Needs:* Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
 
 **Checks.**
 
@@ -110,7 +139,9 @@ necessarily commutative, an `A`-polynomial law `f : R → B` is multiplicative i
 `f_S(xy) = f_S(x)f_S(y)` for every commutative `A`-algebra `S` and `x, y ∈ S ⊗_A R`, where the ring
 structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define this multiplicativity predicate and prove that the identity is multiplicative, that multiplicative
 laws compose, and that the multiplicative laws of degree one to `A` are the `A`-algebra maps
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `PolynomialLaw`,
+([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). Tau Ceti formalises the predicate as
+`PolynomialLaw.IsMultiplicative`, with `PolynomialLaw.isMultiplicative_id`,
+`PolynomialLaw.IsMultiplicative.comp` and `PolynomialLaw.algHomEquiv`. *Needs:* Mathlib `PolynomialLaw`,
 `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`.
 
 **Checks.**
@@ -128,10 +159,11 @@ laws compose, and that the multiplicative laws of degree one to `A` are the `A`-
 **Homogeneous divided-power piece.** For an `A`-module `M` and `d ≥ 0`, define `Γ^d_A(M)` as the
 `A`-submodule of Mathlib's `DividedPowerAlgebra A M` spanned by the products `∏_j γ_(n_j)(m_j)` with
 `∑_j n_j = d`. It is a graded piece of the full commutative algebra, not an algebra under its
-degree-adding multiplication. Define the homogeneous submodule as `PD.homogeneousPiece`, prove that `γ_d(m)`
-belongs to `Γ^d_A(M)`, and define the map `Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear
-`f : M → N`, taking `γ_d(m)` to `γ_d(f(m))`
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). *Needs:* Mathlib `DividedPowerAlgebra`,
+degree-adding multiplication. Prove that `γ_d(m)` belongs to `Γ^d_A(M)`, and define the map
+`Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear `f : M → N`, taking `γ_d(m)` to
+`γ_d(f(m))` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). Tau Ceti formalises the
+piece as `DividedPowerAlgebra.homogeneousSubmodule`, with `DividedPowerAlgebra.dp_mem_homogeneousSubmodule`
+and the induced map `DividedPowerAlgebra.mapHomogeneousSubmodule`. *Needs:* Mathlib `DividedPowerAlgebra`,
 `DividedPowerAlgebra.dp`.
 
 **Checks.**
@@ -149,6 +181,7 @@ the sum map `⊕_(d≥0) Γ^d_A(M) → Γ_A(M)` is an `A`-linear equivalence, th
 degrees `a, b` to `a + b`, and that `γ_d(m)` has degree `d`. The proof gives the polynomial
 generators their weight `n` and proves each Roby relation homogeneous; the quotient decomposition
 must establish directness as well as generation, and the grading is multiplicative ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250).
+Tau Ceti formalises this as `DividedPowerAlgebra.isInternal_homogeneousSubmodule`.
 *Needs:* §0.DP.2 / Homogeneous divided-power piece.
 
 **Checks.**
@@ -167,7 +200,9 @@ extension is
 
 Define `γ^univ_d` as the homogeneous law with ground value `m ↦ γ_d(m)`, and prove that the
 ground evaluation of `γ^univ_d` at `m` is `γ_d(m)` and that the coefficient of `∏ T_j^{n_j}` in
-`γ^univ_d(∑ T_j m_j)` is `∏ γ_(n_j)(m_j)` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Proposition IV.1 and Theorem IV.1, pp.265–267). *Needs:*
+`γ^univ_d(∑ T_j m_j)` is `∏ γ_(n_j)(m_j)` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Proposition IV.1 and Theorem IV.1, pp.265–267).
+Tau Ceti formalises the law as `DividedPowerAlgebra.gamma`, with `DividedPowerAlgebra.ground_gamma_apply`
+and `DividedPowerAlgebra.gamma_toFun_sum_tmul`. *Needs:*
 §0.DP.2 / Direct-sum grading of divided powers; §0.DP.1 / Homogeneous polynomial laws.
 
 **Checks.**
@@ -179,15 +214,16 @@ ground evaluation of `γ^univ_d` at `m` is `γ_d(m)` and that the coefficient of
 - The coefficient of `UV` in `γ²(Ux + Vy)` is `γ₁(x)γ₁(y)`, with no factor `2` inserted: a
   construction modelled on `(Ux + Vy)²/2` would produce a spurious `2`, or fail over `𝔽_2`.
 
-**Roby representability.** The headline `PD.robyRepresentability` states the existence of the
-universal law with its ground value and full scalar-extension coefficient formula above, and
-unique linear factorization of every homogeneous law on every scalar extension. The coefficient
-ring, source, target and test algebras lie in one arbitrary universe, as for the native law carrier.
-Linearity of postcomposition makes this correspondence linear, and uniqueness makes it natural.
-For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
+**Roby representability.** For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
 `γ^univ_d` is a natural `A`-linear equivalence between `Hom_A(Γ^d_A(M), N)` and the homogeneous
 degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is assumed
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.1 and proof, pp.266–267). *Needs:* §0.DP.2 / Universal homogeneous polynomial law.
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.1 and proof, pp.266–267).
+Linearity of postcomposition makes this correspondence linear, and uniqueness of the factorization
+on every scalar extension makes it natural. Tau Ceti formalises it as
+`DividedPowerAlgebra.homogeneousLawEquiv`, natural by
+`DividedPowerAlgebra.homogeneousLawEquiv_symm_comp_mapHomogeneousSubmodule_eq_iff`, with the
+representing map computed on products of generators by
+`DividedPowerAlgebra.homogeneousLawEquiv_symm_apply_prod_dp`. *Needs:* §0.DP.2 / Universal homogeneous polynomial law.
 
 **Checks.**
 
@@ -203,7 +239,9 @@ degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is 
 **Arbitrary base change of divided powers.** For any commutative `A`-algebra `B` and `A`-module `M`,
 prove that the canonical map `B ⊗_A Γ^d_A(M) → Γ^d_B(B ⊗_A M)` is a `B`-linear equivalence for
 every `d`, taking `1 ⊗ γ_d(m)` to `γ_d(1 ⊗ m)`; flatness of `B` is unnecessary
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem III.3 and proof, pp.261–262). *Needs:* §0.DP.2 / Roby representability.
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem III.3 and proof, pp.261–262).
+Tau Ceti formalises it as `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, the restriction of the
+algebra isomorphism `DividedPowerAlgebra.baseChangeEquiv`. *Needs:* §0.DP.2 / Roby representability.
 
 **Checks.**
 
@@ -217,7 +255,10 @@ every `d`, taking `1 ⊗ γ_d(m)` to `γ_d(1 ⊗ m)`; flatness of `B` is unneces
 required; no assertion that this map is an isomorphism is made. Define this linear map
 `Γ^d(M) ⊗ Γ^d(N) → Γ^d(M ⊗ N)`, and prove that `γ_d(m) ⊗ γ_d(n)` maps to `γ_d(m ⊗ n)` and that it
 commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and the Roby algebra
-structure, p.8; [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), IV §11, Proposition IV.9 and proof, pp.284–286). *Needs:* §0.DP.2 / Arbitrary base change of divided powers.
+structure, p.8; [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), IV §11, Proposition IV.9 and proof, pp.284–286).
+Tau Ceti formalises it as `DividedPowerAlgebra.homogeneousTensorMap`, with
+`DividedPowerAlgebra.homogeneousTensorMap_dp_tmul_dp` and `DividedPowerAlgebra.homogeneousTensorMap_comp_map`.
+*Needs:* §0.DP.2 / Arbitrary base change of divided powers.
 
 **Checks.**
 
@@ -238,7 +279,8 @@ can be noncommutative and is distinct from the graded multiplication on `Γ_A(R)
 degree-`d` representing module with its internal associative `A`-algebra structure, prove
 `γ_d(x) ⋆ γ_d(y) = γ_d(xy)`, with unit `γ_d(1)`, and construct the equivalence between algebra maps
 from this internal algebra and the multiplicative degree-`d` laws ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and footnote
-13, p.8). *Needs:* §0.DP.2 / Tensor map for homogeneous divided powers; §0.DP.1 / Multiplicative polynomial laws.
+13, p.8). Tau Ceti formalises it as `DividedPowerAlgebra.RobyAlgebra`, with
+`DividedPowerAlgebra.homogeneousMul_dp_dp` and `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`. *Needs:* §0.DP.2 / Tensor map for homogeneous divided powers; §0.DP.1 / Multiplicative polynomial laws.
 
 **Checks.**
 
@@ -259,7 +301,8 @@ internal product by the tensor map followed by `LinearMap.mul'`.
 `Γ^d_A(M) → (M^(⊗d))^(S_d)`, `γ_d(m) ↦ m^(⊗d)`, is an `A`-linear equivalence. The module
 comparison is stated with permutation-fixed tensors as the intersection of the
 kernels of `reindex σ − id` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf),
-Theorem IV.2 and Proposition IV.5, p.272). *Needs:* §0.DP.2 / Roby algebra of multiplicative laws.
+Theorem IV.2 and Proposition IV.5, p.272). Tau Ceti formalises it as
+`DividedPowerAlgebra.symmetricTensorEquiv`. *Needs:* §0.DP.2 / Roby algebra of multiplicative laws.
 
 **Checks.**
 
@@ -273,14 +316,16 @@ Theorem IV.2 and Proposition IV.5, p.272). *Needs:* §0.DP.2 / Roby algebra of m
 taking dp(0,m) to 1 and every dp(n,m) with n>0 to 0. It is the existing lift into the canonical zero
 PD ideal of R along the zero linear map M→R.
 
-`Suggested.lean` declares `PD.augmentation`.
-
-The map and its values on generators and scalars are formalised in [AffineCrystalline] as
+Tau Ceti formalises the map as this zero-ideal lift, `DividedPowerAlgebra.augmentation`, with
+`DividedPowerAlgebra.augmentation_dp`, `DividedPowerAlgebra.augmentation_unique`,
+`DividedPowerAlgebra.augmentation_comp_map` and `DividedPowerAlgebra.augmentation_map`
+(`TauCeti.RingTheory.DividedPowerAlgebra.Augmentation`). The map and its values on generators and
+scalars are also formalised in [AffineCrystalline] as
 `AffineCrystalline.Envelope.FreeConstruction.augmentation`, `FreeConstruction.augmentation_apply_dp`
 and `FreeConstruction.augmentation_apply_algebraMap`
-(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), under the hypotheses
-below (there `R` and `M` share one universe) and with the map built from its generator values
-rather than as the zero-ideal lift; that code is pinned to an earlier Mathlib, so the target stays.
+(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), against an earlier
+Mathlib, with `R` and `M` in one universe and the map built from its generator values rather than
+as the zero-ideal lift.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -329,13 +374,14 @@ Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`
 the existing algebra Γ_R(M). Membership means ε(z)=0. In positive degree dp(n,m) belongs to this
 ideal, and a scalar belongs exactly when it is zero.
 
-`Suggested.lean` declares `PD.augmentationIdeal`.
-
-In [AffineCrystalline] the ideal is introduced as the span `FreeConstruction.positiveIdeal` of the
-positive-degree generators, and the generator membership above is
-`FreeConstruction.dp_mem_positiveIdeal` together with `FreeConstruction.positiveIdeal_le_augmentation_ker`
-(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`, same hypotheses); that
-code is pinned to an earlier Mathlib, so the kernel form stays the target here.
+Tau Ceti formalises the ideal in this kernel form as `DividedPowerAlgebra.augmentationIdeal`, with
+`DividedPowerAlgebra.mem_augmentationIdeal`, `DividedPowerAlgebra.dp_mem_augmentationIdeal`,
+`DividedPowerAlgebra.algebraMap_mem_augmentationIdeal_iff` and
+`DividedPowerAlgebra.map_mem_augmentationIdeal`. In [AffineCrystalline], against an earlier
+Mathlib, the ideal is introduced as the span `FreeConstruction.positiveIdeal` of the positive-degree
+generators, and the generator membership above is `FreeConstruction.dp_mem_positiveIdeal` together
+with `FreeConstruction.positiveIdeal_le_augmentation_ker`
+(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`, same hypotheses).
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -370,10 +416,10 @@ proves the arbitrary-module version from Roby's presentation
 **Positive-degree remainder.** For every z∈Γ_R(M), z−algebraMap(ε(z)) belongs to the ideal H
 generated by all dp(n,m) with n>0 and m∈M.
 
-This is `FreeConstruction.sub_augmentation_mem_positiveIdeal` in [AffineCrystalline]
+This is Tau Ceti's `DividedPowerAlgebra.sub_algebraMap_augmentation_mem_span`, and, against an
+earlier Mathlib, `FreeConstruction.sub_augmentation_mem_positiveIdeal` in [AffineCrystalline]
 (`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), with H the span
-`FreeConstruction.positiveIdeal` and the same hypotheses; that code is pinned to an earlier
-Mathlib, so the target stays.
+`FreeConstruction.positiveIdeal` and the same hypotheses.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -399,11 +445,11 @@ proves it for arbitrary modules using Roby's generators and relations
 **Positive-degree generators of the augmentation ideal.** Γ_R(M)_+ is exactly the ideal generated by
 {dp(n,m) | n>0, m∈M}. The degree-zero generators are excluded.
 
-`Suggested.lean` declares `PD.augmentationIdeal_eq_span_dp`.
-
-With the two sides in the other order this is `FreeConstruction.positiveIdeal_eq_augmentation_ker`
-in [AffineCrystalline] (`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`),
-under the same hypotheses; that code is pinned to an earlier Mathlib, so the target stays.
+This is Tau Ceti's `DividedPowerAlgebra.augmentationIdeal_eq_span`, whose generators are the
+`dp(n,m)` with `n ≠ 0`. With the two sides in the other order it is
+`FreeConstruction.positiveIdeal_eq_augmentation_ker` in [AffineCrystalline]
+(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), under the same
+hypotheses and against an earlier Mathlib.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -426,7 +472,8 @@ Mathlib `Ideal.span_le`.
 
 **Scalar and augmentation splitting.** Construct an R-linear equivalence Γ_R(M)≃R×Γ_R(M)_+ by
 z↦(ε(z),z−algebraMap(ε(z))). Its inverse is (r,u)↦algebraMap(r)+u. The second coordinate uses the
-kernel-membership proof; multiplication on the two summands has cross terms.
+kernel-membership proof; multiplication on the two summands has cross terms. This is Tau Ceti's
+`DividedPowerAlgebra.augmentationSplitting`.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -455,7 +502,8 @@ above prove the arbitrary-module splitting on Roby's algebra
 - 3+dp(2,m) maps to (3,dp(2,m)).
 
 **Remainder of an extended base ideal.** For every ideal I⊂R, put IΓ=I.map(algebraMap R Γ_R(M)). If
-z∈IΓ, then z−algebraMap(ε(z))∈IΓ·Γ_R(M)_+.
+z∈IΓ, then z−algebraMap(ε(z))∈IΓ·Γ_R(M)_+. This is Tau Ceti's
+`DividedPowerAlgebra.sub_algebraMap_augmentation_mem_map_mul`.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -482,7 +530,7 @@ arbitrary-module assertion on the general Roby algebra
 **Base ideal and augmentation intersection.** For every ideal I⊂R, IΓ∩Γ_R(M)_+=IΓ·Γ_R(M)_+. This is
 an equality of ideals in Γ_R(M), without a flatness or freeness assumption.
 
-`Suggested.lean` declares `PD.map_inf_augmentationIdeal`.
+This is Tau Ceti's `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`.
 
 *Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
 characteristic, factorial invertibility or nilpotence hypothesis is imposed.
@@ -503,7 +551,8 @@ The containment argument above extends it to arbitrary modules using Roby's alge
 
 **A degree-two detector in characteristic two.** Let B=TrivSqZeroExt(F₂,F₂) and write inr(a)=(0,a).
 There exists an F₂-algebra homomorphism f:Γ_F₂(F₂)→B with f(dp(0,a))=1, f(dp(2,a))=inr(a), and
-f(dp(n,a))=0 for every n other than 0 and 2.
+f(dp(n,a))=0 for every n other than 0 and 2. This is Tau Ceti's
+`DividedPowerAlgebra.exists_algHom_trivSqZeroExt_dp`.
 
 *Hypotheses.* The base ring and module are both F₂=ZMod 2. The target is the existing trivial
 square-zero extension TrivSqZeroExt(F₂,F₂).
@@ -531,7 +580,7 @@ uses Roby's generator presentation
 - f(dp(2,1))²=0, in agreement with dp(2,1)²=6·dp(4,1)=0 in characteristic 2.
 
 **Degree one does not generate the augmentation ideal.** In Γ_F₂(F₂), dp(2,1) is not in the ordinary
-ideal generated by {embed(a) | a∈F₂}.
+ideal generated by {embed(a) | a∈F₂}. This is Tau Ceti's `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`.
 
 *Hypotheses.* The base ring and module are both F₂=ZMod 2.
 
@@ -603,25 +652,31 @@ For R = ℤ and M = ℤ, γ₁(1)² = 2γ₂(1); over 𝔽₂ the square is zero
 
 ### Dependencies
 
-Mathlib polynomial laws, divided powers, exterior powers and regular sequences.
+Mathlib polynomial laws, divided powers, exterior powers and regular sequences; Tau Ceti polynomial
+laws and divided powers.
 
 ## Layer 1: replacements, tensor products and simplicial comparisons
 
 ### 0.I.1 K-injective and K-flat replacements — point-site K-injective clause
 
-**Module K-injective replacements.** For any ring `R`, construct
-`moduleKInjectiveReplacement`: every possibly unbounded complex of `R`-modules has a functorial
-quasi-isomorphism into a K-injective complex. A bounded-below complex of injective modules is
-K-injective. Use Mathlib's `CochainComplex.IsKInjective`, the condition that every map from an
-acyclic complex is null-homotopic. Prove independence of the replacement up to homotopy equivalence
-and compatibility of its induced derived functor with the bounded-below injective construction.
-This is the module construction used by downstream point-site comparisons.
+**Module K-injective replacements.** For any ring `R`, every possibly unbounded complex of
+`R`-modules has a quasi-isomorphism into a K-injective complex, Tau Ceti's
+`CochainComplex.exists_quasiIso_isKInjective`. For every abelian category with such replacements
+they assemble into the functor `TauCeti.kInjectiveReplacement` from the derived category to the
+homotopy category, right adjoint to `DerivedCategory.Qh` (`TauCeti.kInjectiveReplacementAdjunction`),
+and two replacements of one complex are homotopy equivalent
+(`CochainComplex.IsKInjective.exists_homotopyEquiv`). A bounded-below complex of injective modules is
+K-injective. K-injectivity is Mathlib's `CochainComplex.IsKInjective`, the condition that every map
+from an acyclic complex is null-homotopic. Prove the compatibility of the derived functors induced
+by these replacements with the bounded-below injective construction. This is the module
+construction used by downstream point-site comparisons.
 
 (Stacks, Theorem 19.12.6, Tag 079P, and Cohomology on Sites, §21.19
 *Cohomology of unbounded complexes*; for bounded-below injectives use Mathlib's existing K-injective API.)
 
-*Needs:* Mathlib's complexes, `ModuleCat`, `CochainComplex.IsKInjective`, enough injectives and
-Grothendieck abelian APIs for modules.
+*Needs:* Tau Ceti `CochainComplex.exists_quasiIso_isKInjective`, `TauCeti.kInjectiveReplacement`
+and `CochainComplex.IsKInjective.exists_homotopyEquiv`; Mathlib's complexes, `ModuleCat`,
+`CochainComplex.IsKInjective` and enough injectives for modules.
 
 **Checks.**
 
@@ -690,11 +745,13 @@ scalars along `R → R′` as `− ⊗^L_R R′`.
 
 This construction covers arbitrary, possibly unbounded complexes over arbitrary commutative rings.
 
-`DerivedDeRham.IsKFlat` means that tensoring with every acyclic cochain complex is acyclic;
-it imposes no boundedness condition. `DerivedDeRham.moduleKFlatReplacement` states that every
-complex receives a quasi-isomorphism from a termwise flat K-flat complex. The bi-infinite ℤ/4 example below excludes termwise flatness as a substitute for this predicate.
+K-flatness is Tau Ceti's `CochainComplex.IsKFlat`: tensoring with every acyclic cochain complex
+is acyclic, with no boundedness condition. Every complex receives a quasi-isomorphism from a K-flat
+complex, Tau Ceti's `CochainComplex.exists_quasiIso_isKFlat_moduleCat`; the headline
+`DerivedDeRham.moduleKFlatReplacement` adds that the K-flat complex can be chosen flat in every
+degree ([StacksMA] Lemma 15.60.10, Tag 06Y4). The bi-infinite ℤ/4 example below excludes termwise flatness as a substitute for K-flatness.
 
-*Needs:* Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes.
+*Needs:* Tau Ceti `CochainComplex.IsKFlat` and `CochainComplex.exists_quasiIso_isKFlat_moduleCat`; Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes.
 
 Prove the following laws.
 
@@ -737,18 +794,19 @@ belong to K5. This is the bounded-projective specialization of the flat-model co
 
 ### 0.2.1 Flat modules as filtered colimits of finite free modules
 
-**Flat modules as colimits of finite free modules.** For a commutative ring `R` and a module `M` with
-`Module.Flat R M`, construct `DerivedDeRham.flatModuleFilteredFree`: a small filtered category `J`,
-a diagram `P : J ⥤ ModuleCat R` of finite free modules, a cocone with maps `P_j → M`, and a proof
-that this cocone is colimiting. Equivalently, give a colimiting cocone together with its vertex
-isomorphism to `M`, identifying the structure maps. The transition maps need not be injective.
+**Flat modules as colimits of finite free modules.** For a ring `R` and a module `M` with
+`Module.Flat R M`, give a small filtered category `J`, a diagram `P : J ⥤ ModuleCat R` of finite
+free modules, a cocone with maps `P_j → M`, and a proof that this cocone is colimiting. The
+transition maps need not be injective. This is Tau Ceti's `TauCeti.flatModuleFilteredFree`, over
+any ring: `J` is the category `TauCeti.FiniteFreeOver R M` of linear maps `Rⁿ → M`, filtered when
+`M` is flat, and the tautological cocone is colimiting.
 Use `Module.Flat.exists_factorization_of_finitePresentation` to factor finite presentations through
 finite free modules and to equalize finite relations in this diagram. This presentation supplies
 the reductions to finite free modules in §§0.14–0.16 and the filtered-colimit extension in §0.3.
 
 [StacksAlg], Theorem 10.81.4 (Lazard's theorem), Tag 058G, with Lemma 10.81.2, Tag 058E.
 
-*Needs:* Mathlib `Module.Flat.exists_factorization_of_finitePresentation`, `Module.Free`,
+*Needs:* Tau Ceti `TauCeti.flatModuleFilteredFree`; Mathlib `Module.Flat.exists_factorization_of_finitePresentation`, `Module.Free`,
 `Module.Finite`, `ModuleCat`, filtered categories, cocones and colimits.
 
 **Checks.**
@@ -786,8 +844,16 @@ For an integer `n ≥ 1`, if `E₂^{pq} = 0` for every `p ≥ 0` and `0 < q < n`
 `E₂^{m,0} ≅ Eᵐ` for `m < n` and
 `0 → E₂^{n,0} → Eⁿ → E₂^{0,n} → E₂^{n+1,0} → E^{n+1}` is exact. If every row
 `A^{0q} → A^{1q} → ⋯` is exact in positive degrees, then
-`Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The abutment and its filtration are part of the statement, since
-Mathlib's spectral sequence of a spectral object records only the pages.
+`Eⁿ = Hⁿ(ker(A^{0•} → A^{1•}))`. The pinned Tau Ceti supplies the spectral sequence of a filtered
+cochain complex with its abutment and stabilization, and, for first-quadrant homological
+bicomplexes, the row- and column-filtration spectral sequences with their first pages and their
+convergence to the homology of the total complex (Exact supplier contracts). This section adds the
+identification of the second page with iterated cohomology, the stabilization bound in the classical
+numbering, the edge morphisms, the five-term and extended sequences, the exact-rows comparison and
+naturality. In the homological form the second-page identification is the headline
+`DerivedDeRham.nonempty_bicomplexSecondPageIso`: in Tau Ceti's column-filtration spectral sequence,
+whose first page carries Mathlib's number `2`, the page numbered `3` is the classical `E²`, and its
+object at `(−k − 2p, p)` is `H_p` of the complex `t ↦ H_k(C_(t,•))` of vertical homologies.
 
 **Homological form.** For a first-quadrant chain double complex `C_(p,q)`, the same
 filtered-complex construction uses the increasing column filtration
@@ -803,8 +869,8 @@ identification of a first-quadrant chain complex with a first-quadrant cochain c
 The API:
 
 - the `E₂` spectral sequence of a first-quadrant double complex,
-  from Mathlib's spectral objects.
-- `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`.
+  from Tau Ceti's spectral sequence of the column filtration.
+- `E₂^{pq} ≅ H^p_I(H^q_{II}(A))`; in the homological form, `DerivedDeRham.nonempty_bicomplexSecondPageIso`.
 - the column filtration `FᵖHⁿ(Tot A)`.
 - `E_∞^{pq} ≅ FᵖH^{p+q}/F^{p+1}H^{p+q}`.
 - `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
@@ -817,15 +883,18 @@ The API:
   `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
 - naturality in the double complex, in both homological and cohomological indexing.
 
-*Proof sketch.* Mathlib builds a spectral object from any functor into cochain complexes by mapping
-cones (`HomotopyCategory.spectralObjectMappingCone`); apply it to the column-truncation filtration
-indexed by `EInt`, and pass to an abelian spectral object with the homology functor
-(`Triangulated.SpectralObject.mapHomologicalFunctor`). The first-quadrant condition
-(`Abelian.SpectralObject.IsFirstQuadrant`) holds because `A^{pq} = 0` outside the quadrant, and
-Mathlib's `spectralSequence` for `coreE₂CohomologicalNat` gives the `E₂` pages and differentials.
-For the homological form use `coreE₂HomologicalNat` after cochain reindexing, with the
-corresponding `Abelian.SpectralObject.IsThirdQuadrant` condition and the increasing column
-filtration above.
+*Proof sketch.* Tau Ceti's spectral sequence of a filtered cochain complex,
+`CochainComplex.spectralSequence` of `CochainComplex.filtrationFunctor`, is built from Mathlib's
+mapping-cone spectral object (`HomotopyCategory.spectralObjectMappingCone`) and the homology functor
+(`Triangulated.SpectralObject.mapHomologicalFunctor`). Apply it to the column filtration of
+`Tot A`, reindexed to an increasing filtration: its abutment is `Hⁿ(Tot A)` by
+`CochainComplex.filtrationAbutmentIso`, and since the filtration is finite in each degree,
+`CochainComplex.filtrationSpectralSequencePageXIsoEInfty` identifies the stable pages with the
+graded pieces. The first-quadrant condition (`Abelian.SpectralObject.IsFirstQuadrant`) holds
+because `A^{pq} = 0` outside the quadrant. For the homological form use
+`HomologicalComplex₂.columnFiltrationSpectralSequence`, whose first page is the vertical homology
+(`HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`) and whose abutment is the
+homology of the total complex (`HomologicalComplex₂.columnFiltrationAbutmentIso`).
 Identify `E₂^{pq}` with `H^p_I(H^q_{II}(A))`: the `E₁` page is the vertical cohomology and `d₁` is
 induced by `d′` (NSW (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
 stabilise for `r > max(p, q + 1)` and `E_∞` is the associated graded of `Hⁿ(Tot A)`. The edge
@@ -837,13 +906,15 @@ pages and edge maps are transported through the same convention ([Neukirch–Sch
 *Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
 Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); [Neukirch–Schmidt–Wingberg,
 *Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Mathlib
+Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Tau Ceti
+`CochainComplex.spectralSequence`, `CochainComplex.filtrationAbutmentIso`,
+`CochainComplex.filtrationSpectralSequencePageXIsoEInfty`,
+`HomologicalComplex₂.columnFiltrationSpectralSequence` and
+`HomologicalComplex₂.columnFiltrationAbutmentIso`; Mathlib
 `HomotopyCategory.spectralObjectMappingCone`; Mathlib
 `CategoryTheory.Triangulated.SpectralObject.mapHomologicalFunctor`; Mathlib
 `CategoryTheory.Abelian.SpectralObject.IsFirstQuadrant`; Mathlib
 `CategoryTheory.Abelian.SpectralObject.coreE₂CohomologicalNat`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.coreE₂HomologicalNat`; Mathlib
-`CategoryTheory.Abelian.SpectralObject.IsThirdQuadrant`; Mathlib
 `CategoryTheory.Abelian.SpectralObject.spectralSequence`; Mathlib `HomologicalComplex₂.total`.
 
 The acyclic-assembly lemmas of [AffineCrystalline], `RawBi.augRowι_quasiIso` and
@@ -1001,7 +1072,9 @@ For a prime p, the free resolution [ℤ →p ℤ] gives ℤ/p ⊗^L ℤ/p with c
 ### Dependencies
 
 Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, tensor products, filtered colimits,
-spectral objects, homology, mapping cones and double-complex totalization.
+spectral objects, homology, mapping cones and double-complex totalization; Tau Ceti K-injective and
+K-flat replacements, Lazard's theorem, and the spectral sequences of filtered complexes and of
+first-quadrant bicomplexes.
 
 ## Layer 2: cotangent calculus, integral powers and deformations
 
@@ -1361,7 +1434,7 @@ Prove the following laws.
 - `L∧ⁿ_B(M) ⊗^L_B B′ ≃ L∧ⁿ_(B′)(M ⊗^L_B B′)` ([SAG] Proposition 25.2.3.1).
 - for flat discrete `M`, `L∧ⁿ_B(M)` is the ordinary exterior power in degree
   zero ([SAG] Corollary 25.2.3.3 and Proposition 25.2.3.4(2); Lazard's theorem [StacksAlg] Theorem
-  10.81.4, Tag 058G, implemented as `flatModuleFilteredFree`, reduces to finite free modules).
+  10.81.4, Tag 058G, implemented as `TauCeti.flatModuleFilteredFree`, reduces to finite free modules).
 
 **Checks.**
 
@@ -1391,7 +1464,7 @@ Prove the following laws.
 - `LSym¹_B(M) ≃ M`.
 - `LSymⁿ_B(M) ⊗^L_B B′ ≃ LSymⁿ_(B′)(M ⊗^L_B B′)`.
 - for flat discrete `M`, `LSymⁿ_B(M)` is the ordinary symmetric power in degree
-  zero, using `flatModuleFilteredFree` and filtered-colimit compatibility.
+  zero, using `TauCeti.flatModuleFilteredFree` and filtered-colimit compatibility.
 
 **Checks.**
 
@@ -1407,7 +1480,7 @@ For a ring `B` and connective `M`, define `LΓ^n_B(M)`,
 `n ≥ 0`, as the derived functor (0.3) of the homogeneous divided-power piece `Γ^n_B` of
 §0.DP.2 on projective modules. It is a connective `B`-module complex
 with base change and graded multiplication. For a flat discrete `M` it is the module of
-`Σ_n`-invariant tensors in `M^(⊗n)`, which is `Γ^n_B(M)` for flat `M` (§0.DP.2 for free modules, and `flatModuleFilteredFree` for the filtered-colimit reduction).
+`Σ_n`-invariant tensors in `M^(⊗n)`, which is `Γ^n_B(M)` for flat `M` (§0.DP.2 for free modules, and `TauCeti.flatModuleFilteredFree` for the filtered-colimit reduction).
 
 [SAG], Construction 25.2.2.3, Remark 25.2.2.4, Proposition 25.2.3.1 and Proposition 25.2.3.4(3) with
 proofs, pp.1700–1704; [DoldPuppe] §4, Example 4.13 and (4.14), p.230.
@@ -1422,7 +1495,7 @@ Prove the following laws.
 - `LΓ¹_B(M) ≃ M`.
 - `LΓⁿ_B(M) ⊗^L_B B′ ≃ LΓⁿ_(B′)(M ⊗^L_B B′)`.
 - for flat discrete `M`, `LΓⁿ_B(M)` is the ordinary divided power in degree
-  zero, using `flatModuleFilteredFree` and filtered-colimit compatibility.
+  zero, using `TauCeti.flatModuleFilteredFree` and filtered-colimit compatibility.
 
 **Checks.**
 
@@ -1566,23 +1639,43 @@ Layers 0–1 and Mathlib differentials, algebra extensions and derived categorie
 
 ### 1.1 Derived limits of towers
 
-For an associative unital ring `A`, descend the supplied shifted-cone model on strict towers
-of left-module complexes through quasi-isomorphisms to a functor
-`DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A) ⥤ D(A)`. The additional result is the localization comparison:
-the quotient functor followed by this derived-limit functor is naturally isomorphic to the
-supplied product-cone construction followed by localization in `D(A)`. Prove that this functor
-commutes with integer shifts and preserves distinguished triangles, with the global connecting
-morphism transported by the shift comparison. For a chain map of strict towers, compare the
-localized product cone of its fibrewise mapping cone with the mapping cone of the induced map
-on derived limits, compatibly with inclusions and projections. This supplies the exact-functor
-structure. A sequence of triangles distinguished only at each level does not suffice.
+For an associative unital ring `A`, the derived limit is Tau Ceti's
+`TauCeti.ModuleTower.derivedLimit A : DerivedCategory (ℕᵒᵖ ⥤ ModuleCat A) ⥤ D(A)`, the descent
+through quasi-isomorphisms of the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`,
+`holim K = Cone(δ)[−1]` for the difference map `δ` on the product complex of a complex of strict
+towers of left modules. The pinned library supplies its localization comparison
+`TauCeti.ModuleTower.derivedLimitFactors : Q ⋙ Rlim ≅ holim ⋙ Q`, its integer-shift isomorphisms
+(a `Functor.CommShift ℤ` instance compatible with `derivedLimitFactors`), the projections
+`TauCeti.ModuleTower.derivedLimitπ`, compatible with the transitions, and
+`TauCeti.ModuleTower.derivedLimitIsoLimComplex`, which identifies `Rlim K` with the termwise limit
+complex when every term of `K` has vanishing `lim¹`.
 
-Require the localization comparison to intertwine the projections, six-term boundaries,
-integer-graded Milnor injection and projection, cofinal reindexing and specified homotopy-square
-maps of the supplier contract. A degreewise-surjective replacement gives the ordinary-limit
-model, with the same Milnor maps. Its left term remains lim¹ of the preceding cohomology tower
-unless that tower is Mittag–Leffler; surjectivity of the transitions of complexes does not imply
-this condition on cohomology. A tower of objects in `D(A)` alone is not a strict derived diagram.
+**Exactness of the derived limit.** Prove that `TauCeti.ModuleTower.derivedLimit A`, with these
+shift isomorphisms, is a triangulated functor: it sends distinguished triangles of the derived
+category of strict towers, with their global connecting morphisms, to distinguished triangles of
+`D(A)`. This is the headline `DerivedDeRham.derivedLimit_isTriangulated`, for every associative
+unital ring and every choice of universes for the two derived categories. For a chain map of
+complexes of strict towers, compare the localized homotopy limit of its mapping cone with the
+mapping cone of the induced map on derived limits, compatibly with the inclusions and projections.
+A sequence of triangles distinguished only at each level does not suffice. One route: every
+distinguished triangle of the derived category of towers is isomorphic to the image of the
+mapping-cone triangle of a chain map `f` (Mathlib `DerivedCategory.mem_distTriang_iff`); the cone
+comparison identifies the homotopy limit of that triangle with the mapping-cone triangle of
+`holim(f)`, which is distinguished in `D(A)`. The third maps agree because the shift isomorphisms
+of `holim` are those for which the projection `holim K → ∏ K_n` commutes with the shifts without a
+sign. On complexes whose terms have vanishing `lim¹` the same shift isomorphisms are those of the
+termwise limit, since the comparison `TauCeti.ModuleTower.homotopyLimitLift : lim K → holim K` has
+the inclusion of the limit and zero as its two components.
+
+**Compatibility with the tower maps.** Prove that the localization comparison intertwines the
+projections, the six-term boundaries `TauCeti.ModuleTower.connecting`, the integer-graded Milnor
+injection and projection of `TauCeti.ComplexTower`, read through the exchange of towers of
+complexes with complexes of towers, the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`,
+`TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`, and
+the homotopy-square maps of AlgebraicTopology Stage 6, item 0. A degreewise-surjective replacement
+gives the ordinary-limit model, with the same Milnor maps. Its left term remains lim¹ of the
+preceding cohomology tower unless that tower is Mittag–Leffler; surjectivity of the transitions of
+complexes does not imply this condition on cohomology. A tower of objects in `D(A)` alone is not a strict derived diagram.
 
 The Čech computation of derived limits is formalised in [AffineCrystalline] for module-valued
 diagrams on a category carrying Čech nerve data (`CechNerveData` in
@@ -1595,22 +1688,35 @@ towers, Milnor sequences and Mittag-Leffler criteria of this section lie outside
 [StacksMA], §15.89, Lemmas 15.89.1, 15.89.3–15.89.4, Remark 15.89.10 and Lemmas 15.89.11–15.89.12;
 Tags 091D, 0CQD, 0CQE, 091J, 091K, 091L, pp.238–242.
 
-*Needs:* AlgebraicTopology Stage 6, item 0 (the module-tower contract in Exact supplier contracts);
-Mathlib `DerivedCategory`, `HomologicalComplex`, `CochainComplex`, localization and mapping cones.
+*Needs:* Tau Ceti `TauCeti.ModuleTower.derivedLimit`, `TauCeti.ModuleTower.derivedLimitFactors`,
+`TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex`, and the
+six-term, Milnor and cofinal declarations of `TauCeti.ModuleTower` and `TauCeti.ComplexTower`
+(Exact supplier contracts); AlgebraicTopology Stage 6, item 0 (the homotopy-square maps, for their
+compatibility only); Mathlib `DerivedCategory`, `DerivedCategory.mem_distTriang_iff`,
+`HomologicalComplex`, `CochainComplex`, localization, mapping cones and
+`CategoryTheory.Functor.IsTriangulated`.
 
-The API of the localized functor includes:
+The API of the derived limit added here:
 
-- Its value on a degreewise-surjective tower is naturally the ordinary inverse-limit complex.
-- Its cohomology sequence is the supplier's integer-graded Milnor sequence, with both maps retained.
-- It has coherent integer-shift isomorphisms and preserves distinguished triangles in the derived
-  category of strict towers, including their global connecting morphisms.
-- The localization comparison intertwines the supplied cofinal and specified-homotopy-square maps.
+- `DerivedDeRham.derivedLimit_isTriangulated`: with its pinned shift isomorphisms the derived limit
+  preserves distinguished triangles of the derived category of strict towers, including their
+  global connecting morphisms.
+- For a chain map of complexes of strict towers, the derived limit of its mapping cone is the
+  mapping cone of the induced map on derived limits, compatibly with inclusions and projections.
+- On a degreewise-surjective model its cohomology sequence is the integer-graded Milnor sequence of
+  Tau Ceti's towers of complexes, with both maps retained.
+- The localization comparison intertwines the six-term boundaries, the cofinal comparisons and the
+  specified homotopy-square maps.
 
 **Checks.**
 
 - for a constant system `K`, `Rlim K_n ≅ K`.
 - The mapping-cone triangle of the identity on any strict tower maps to the identity triangle
   of its derived limit, with zero third vertex; this tests the cone and shift comparisons.
+- For the constant tower `K_n = ℤ[0]` with identity transitions, `derivedLimitIsoLimComplex`
+  identifies both `Rlim(K[1])` and `(Rlim K)[1]` with `ℤ[1]`, and the shift isomorphism of the
+  derived limit becomes the identity of `ℤ[1]`. A shift structure twisted by `−1` gives `−1` here,
+  and with it the image of a distinguished triangle would carry the negated third map.
 - Let `k` be a nonzero field, `V = ⊕_(m≥0) k`, `A_n = ⊕_(m≥n) k`, `B_n = V` and
   `C_n = k^n`, with tail inclusions, identity transitions and last-coordinate projections.
   Tail inclusion and first-`n`-coordinate projection give `A → B → C`.
@@ -1639,20 +1745,20 @@ The API of the localized functor includes:
 
 ### 1.1.1 Unbounded module derived Hom
 
-**Unbounded module derived Hom.** For a commutative ring `A` and arbitrary `L, M ∈ D(A)`,
-construct the derived Hom functor, the `A`-linear object `RHom_A(L,M) ∈ D(A)`.
-Use the K-injective replacement of §0.I.1 to derive the module Hom complex, with its usual
-product totalization. Prove independence of choices and functoriality in both inputs.
-Construct the tensor–Hom adjunction, comparing its tensor with §0.2:
+**Unbounded module derived Hom.** For a commutative ring `A` and arbitrary `L, M ∈ D(A)`, the
+derived Hom functor is Tau Ceti's `TauCeti.derivedHom A (ModuleCat A) : D(A)ᵒᵖ ⥤ D(A) ⥤ D(A)`, the
+`A`-linear Hom complex, with its product totalization, between the K-injective replacements of
+§0.I.1, functorial in both inputs. For every integer `n`, `TauCeti.derivedHomHomologyLinearEquiv`
+identifies `H⁰(RHom_A(L,M)[n]) = Hⁿ(RHom_A(L,M))` with `Hom_(D(A))(L,M[n])` as `A`-modules,
+naturally in `L` and `M`. Construct the tensor–Hom adjunction, comparing its tensor with §0.2:
 `Hom_(D(A))(K, RHom_A(L,M)) ≃ Hom_(D(A))(K ⊗^L_A L, M)`, naturally in all three inputs.
-For every integer `n`, identify `H⁰(RHom_A(L,M)[n]) ≃ Hom_(D(A))(L,M[n])` as `A`-modules.
 Neither boundedness nor perfectness of `L` is required.
 
 [StacksMA], §15.75, Tag 0A5W, equations 15.75.0.1–15.75.0.2 (Tags 0A63–0A64), and Lemma 15.75.1,
 Tag 0A65; [StacksSites], §21.35, *Internal hom in the derived category*.
 
-*Needs:* §0.I.1 (module K-injective replacement); §0.2 (module derived tensor);
-§1.1 (module limits for the nonperfect Check); Mathlib `ModuleCat`, Hom complexes,
+*Needs:* Tau Ceti `TauCeti.derivedHom` and `TauCeti.derivedHomHomologyLinearEquiv`; §0.2 (module
+derived tensor); §1.1 (module limits for the nonperfect Check); Mathlib `ModuleCat`, Hom complexes,
 `DerivedCategory` and localization.
 
 **Checks.**
@@ -1676,7 +1782,7 @@ Let `I = (f₁, …, f_r) ⊂ A` be finitely generated. A complex `M ∈ D(A)` i
 
 *Needs:* Mathlib `DerivedCategory`, `Localization.Away`; §1.1.1 (Unbounded module derived Hom);
 §1.1 (Derived limits of towers);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences).
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 Lean: `DerivedDeRham.derivedCompleteness` (stated in `Suggested.lean` as vanishing of all morphisms
 from the shifted localizations).
@@ -1726,7 +1832,7 @@ pp.264, 267–268.
 
 *Needs:* §1.2 (Derived ideal completeness); §1.1.1 (Unbounded module derived Hom);
 §1.1 (Derived limits of towers);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences);
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences);
 §0.K.1 (Koszul complexes); §0.2 (Derived tensor products on module derived categories); Mathlib `PadicInt`.
 
 Every completion functor, unit and law below carries the finite-generation witness `hI : I.FG`;
@@ -1769,7 +1875,7 @@ derived Koszul quotients. Replacing them by ordinary `A/I^n` for an arbitrary ri
 
 *Needs:* §0.K.1 (Koszul complexes, cohomologically reindexed);
 §1.3 (The derived completion reflector); §1.1 (Derived limits of towers);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences).
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 **Checks.**
 
@@ -1795,7 +1901,7 @@ Tags 091X, 0923, 09AT, 0G3F, 0921, 0922, 0EET, 0A06, pp.271–277; [Prisms], §1
 
 *Needs:* §1.4 (The derived Koszul completion tower); §0.K.1; Tau
 Ceti `TauCeti.ArtinRees.exists_controlled_lift`; §1.1 (Derived limits of towers);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences).
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 **Checks.**
 
@@ -1876,7 +1982,7 @@ unit-compatible algebra isomorphism characterized by the universal property belo
 [StacksMA], Tag 0920 for the underlying module limit.
 *Needs:* the homotopical category above; §0.1; §§0.2–0.2.2; §1.1 (Derived limits of towers);
 §1.3 (The derived completion reflector); §1.4 (The derived Koszul completion tower);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences).
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 **Checks.**
 
@@ -2001,7 +2107,7 @@ change. These statements concern Čech descent; hyperdescent is not asserted.
 [BMS19], Remark 4.9 and the §3 flat-descent argument, pp.215–218, 223.
 
 *Needs:* §1.3 (The derived completion reflector); §1.7 (Complete flatness and complete faithful flatness); §1.8 (Bounded torsion and complete Tor-amplitude); §1.1 (Derived limits of towers);
-AlgebraicTopology Stage 6, item 0 (Milnor sequences).
+Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 **Checks.**
 
@@ -2015,7 +2121,9 @@ For a prime p, the multiplication-by-p tower has H⁰(Rlim) = 0 and H¹(Rlim) = 
 
 ### Dependencies
 
-Layer 1, the Koszul complex of Layer 0, AlgebraicTopology Stage 6 item 0, Mathlib localization, and Tau Ceti Artin–Rees for the Noetherian comparison.
+Layer 1, the Koszul complex of Layer 0, Tau Ceti's module towers, derived limit and derived Hom,
+AlgebraicTopology Stage 6 item 0 for the homotopy-square maps, Mathlib localization, and Tau Ceti
+Artin–Rees for the Noetherian comparison.
 
 ## Layer 4: perfect complexes, finite models and effectivity
 

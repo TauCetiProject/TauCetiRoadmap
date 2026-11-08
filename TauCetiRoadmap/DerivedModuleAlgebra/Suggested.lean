@@ -2,6 +2,9 @@ module
 
 public import Mathlib
 public import TauCeti.Algebra.Module.Injective.Envelope.Basic
+public import TauCeti.Algebra.Homology.Monoidal.KFlat.Basic
+public import TauCeti.Algebra.Homology.SpectralSequence.Bicomplex
+public import TauCeti.Algebra.Category.ModuleCat.Tower.DerivedLimit
 
 /-!
 # DerivedModuleAlgebra: target signatures
@@ -10,28 +13,46 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few real-bodied
 definitions those statements need. The README carries every target, API list and Check.
 
+Headline results that the pinned Tau Ceti already provides are not restated: Roby representability
+and the augmentation theory of §§0.DP.1–0.DP.3 (`DividedPowerAlgebra.homogeneousLawEquiv`,
+`DividedPowerAlgebra.augmentationIdeal_eq_span`,
+`DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`), the module K-injective
+replacement of §0.I.1 (`CochainComplex.exists_quasiIso_isKInjective`, `TauCeti.kInjectiveReplacement`),
+the K-flat replacement of §0.2 without its termwise-flat clause
+(`CochainComplex.exists_quasiIso_isKFlat_moduleCat`), Lazard's theorem of §0.2.1
+(`TauCeti.flatModuleFilteredFree`), the convergence of the spectral sequence of a first-quadrant
+bicomplex to the homology of its total complex in §S.1
+(`HomologicalComplex₂.columnFiltrationAbutmentIso`,
+`HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`), the derived limit of §1.1 with
+its localization comparison and shift isomorphisms (`TauCeti.ModuleTower.derivedLimit`), and the
+derived Hom of §1.1.1 with the identification of its cohomology with morphisms in `D(R)`
+(`TauCeti.derivedHom`, `TauCeti.derivedHomHomologyLinearEquiv`).
+
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
 * the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
   derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
-  the pin; the K-flat replacement of §0.2 is stated below;
+  the pin; the termwise-flat K-flat replacement of §0.2 is stated below;
+* the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
+  extended exact sequences (§S.1): the pinned spectral sequence of a bicomplex is the homological
+  one of `HomologicalComplex₂ C (down ℕ) (down ℕ)`, no column filtration of the total complex of a
+  cochain bicomplex is constructed to feed the pinned filtered-complex spectral sequence, and no
+  edge morphism from the second page to the abutment is constructed; the identification of the
+  classical second page in the homological form is stated below;
 * the bisimplicial diagonal comparison (§0.2.2): the diagonal and double alternating-face
   comparison functors are not constructed at the pin; the simplicial tensor comparison is stated below;
 * the cotangent complex, its powers and the deformation classes (§§0.1–0.25): the simplicial
   polynomial resolution and the full complex `L_(B/A)` are targets of §§0.1 and 0.4;
-* the derived limit functor `Rlim` on strict towers, its shift compatibility, exactness and
-  localization comparisons (§1.1), and the unbounded derived Hom (§1.1.1): no derived limit or
-  derived Hom functor on `DerivedCategory (ℕᵒᵖ ⥤ ModuleCat R)` or `D(R)` exists at the pin;
+* the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
+  above; the exactness of the pinned derived limit (§1.1) is stated below;
 * the completion reflector with its unit, adjunction and derived Nakayama (§1.3), the Koszul
   completion tower (§1.4) and the ordinary-quotient comparison (§1.5): all are built from the
-  derived limit and derived tensor above;
+  derived tensor above;
 * completion of simplicial commutative algebras (§1.6): built from the completion reflector;
 * complete faithful-flat descent and complete Tor-amplitude (§§1.8–1.9): built from `⊗^L`;
 * compatible finite-free models, strict-tower limits and perfect inverse-system effectivity
-  (§§1.E.0–1.E.1): their statements mention derived scalar extension and the derived limit;
-* the spectral sequence of a first-quadrant double complex with its abutment (§S.1): Mathlib's
-  spectral object records the pages, and the abutment filtration and edge maps are targets.
+  (§§1.E.0–1.E.1): their statements mention derived scalar extension.
 
 Derived categories of modules are `DerivedCategory (ModuleCat.{u} R)` with the standard instance
 `HasDerivedCategory.{u+1}`; towers are indexed by `ℕ` with transitions from `n + 1` to `n`.
@@ -46,119 +67,33 @@ open TensorProduct Polynomial
 open scoped TensorProduct BigOperators
 
 noncomputable section
-universe u uFlat v
-
-/-! ## Layer 0: polynomial laws, divided powers and Koszul complexes -/
-
-namespace PD
-
-/-- The degree-`d` submodule of the divided-power algebra, spanned by products of generators
-whose degrees sum to `d` (README 0.DP.2; Roby, III §§1–2, pp. 248–250). -/
-def homogeneousPiece (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
-    (d : ℕ) : Submodule A (DividedPowerAlgebra A M) :=
-  Submodule.span A {z | ∃ (r : ℕ) (n : Fin r → ℕ) (m : Fin r → M),
-    (∑ j, n j) = d ∧ z = ∏ j, DividedPowerAlgebra.dp A (n j) (m j)}
-
-/-- A polynomial law has degree `d` when it scales by the `d`th power on every scalar
-extension in the coefficient universe (README 0.DP.1). -/
-def IsHomogeneous (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
-    {N : Type u} [AddCommMonoid N] [Module A N] (d : ℕ) (f : M →ₚₗ[A] N) : Prop :=
-  ∀ (S : Type u) [CommRing S] [Algebra A S] (s : S) (x : S ⊗[A] M),
-    f.toFun' S (s • x) = s ^ d • f.toFun' S x
-
-/-- Homogeneous polynomial laws on arbitrary modules are represented by the homogeneous
-piece of the divided-power algebra. The universal law has the divided-power coefficient
-formula after every scalar extension, and every homogeneous law factors uniquely through it
-there (README 0.DP.2; Roby, Proposition IV.1 and Theorem IV.1, pp. 265–267). -/
-theorem robyRepresentability (A M : Type u) [CommRing A] [AddCommGroup M] [Module A M]
-    (d : ℕ) :
-    ∃ γ : M →ₚₗ[A] homogeneousPiece A M d,
-      IsHomogeneous A M d γ ∧
-      (∀ m, (γ.ground m).val = DividedPowerAlgebra.dp A d m) ∧
-      (∀ (S : Type u) [CommRing S] [Algebra A S] (r : ℕ)
-          (s : Fin r → S) (m : Fin r → M),
-        TensorProduct.map (LinearMap.id : S →ₗ[A] S) (homogeneousPiece A M d).subtype
-          (γ.toFun' S (∑ j, s j ⊗ₜ[A] m j)) =
-        ∑ n ∈ Finset.piAntidiag (Finset.univ : Finset (Fin r)) d,
-          (∏ j, s j ^ n j) ⊗ₜ[A] (∏ j, DividedPowerAlgebra.dp A (n j) (m j))) ∧
-      ∀ (N : Type u) [AddCommGroup N] [Module A N] (f : M →ₚₗ[A] N),
-        IsHomogeneous A M d f →
-        ∃! l : homogeneousPiece A M d →ₗ[A] N,
-          ∀ (S : Type u) [CommRing S] [Algebra A S] (x : S ⊗[A] M),
-            TensorProduct.map (LinearMap.id : S →ₗ[A] S) l (γ.toFun' S x) =
-              f.toFun' S x := by
-  sorry
-
-section Augmentation
-
-variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
-
-/-- The augmentation `ε : Γ_R(M) → R`, `dp₀(m) ↦ 1`, `dp_n(m) ↦ 0` for `n > 0`: the lift into the
-zero ideal of `R` along the zero map. -/
-noncomputable def augmentation : DividedPowerAlgebra R M →ₐ[R] R :=
-  DividedPowerAlgebra.lift (dividedPowersBot R) (0 : M →ₗ[R] R) (fun _ ↦ by simp)
-
-/-- The augmentation ideal `Γ_R(M)₊ = ker ε`. -/
-noncomputable def augmentationIdeal : Ideal (DividedPowerAlgebra R M) :=
-  RingHom.ker (augmentation R M)
-
-/-- **Positive-degree generators of the augmentation ideal** (README 0.DP.3): `Γ_R(M)₊` is the
-ideal generated by the `dp_n(m)` with `n > 0`, for every commutative ring `R` and `R`-module `M`
-(Stacks, Lemma 23.5.1, Tag 07H5, for free modules; Roby, III §§1–2, pp. 248–250, in general). -/
-theorem augmentationIdeal_eq_span_dp :
-    augmentationIdeal R M =
-      Ideal.span {x | ∃ (n : ℕ) (m : M), 0 < n ∧ x = DividedPowerAlgebra.dp R n m} := by
-  sorry
-
-/-- **Base ideal and augmentation intersection** (README 0.DP.3): for every ideal `I` of `R`, the
-extended ideal `IΓ_R(M)` meets `Γ_R(M)₊` in the product `IΓ_R(M) · Γ_R(M)₊`, with no flatness or
-freeness hypothesis on `M`. -/
-theorem map_inf_augmentationIdeal (I : Ideal R) :
-    I.map (algebraMap R (DividedPowerAlgebra R M)) ⊓ augmentationIdeal R M =
-      I.map (algebraMap R (DividedPowerAlgebra R M)) * augmentationIdeal R M := by
-  sorry
-
-end Augmentation
-
-end PD
+universe u v w w'
 
 /-! ## Layer 1: replacements, tensor products and simplicial comparisons -/
 
-/-- **Every unbounded complex of modules admits a K-injective replacement** (README 0.I.1;
-Stacks, Tag 070G for module categories). -/
-theorem moduleKInjectiveReplacement (R : Type u) [Ring R]
-    (K : CochainComplex (ModuleCat.{u} R) ℤ) :
-    ∃ (L : CochainComplex (ModuleCat.{u} R) ℤ) (i : K ⟶ L),
-      L.IsKInjective ∧ QuasiIso i := by
-  sorry
-
 namespace DerivedDeRham
 
-/-- A complex is K-flat if tensoring it with any acyclic complex is acyclic
-(README 0.2; Stacks, Definition 15.60.1, Tag 06XZ). -/
-def IsKFlat (R : Type u) [CommRing R]
-    (P : CochainComplex (ModuleCat.{u} R) ℤ) : Prop :=
-  ∀ N : CochainComplex (ModuleCat.{u} R) ℤ,
-    N.Acyclic → (HomologicalComplex.tensorObj N P).Acyclic
-
-/-- Every unbounded module complex has a termwise flat K-flat replacement
-(README 0.2; Stacks, Lemma 15.60.10, Tag 06Y4). -/
+/-- **Every unbounded module complex has a termwise flat K-flat replacement** (README 0.2; Stacks,
+Lemma 15.60.10, Tag 06Y4): a quasi-isomorphism `P → K` from a complex `P` that is K-flat in Tau
+Ceti's sense (tensoring with an acyclic complex is acyclic) and flat in every degree. Without the
+last clause this is `CochainComplex.exists_quasiIso_isKFlat_moduleCat`. -/
 theorem moduleKFlatReplacement (R : Type u) [CommRing R]
     (K : CochainComplex (ModuleCat.{u} R) ℤ) :
     ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (f : P ⟶ K),
-      QuasiIso f ∧ IsKFlat R P ∧ ∀ i, Module.Flat R (P.X i) := by
+      QuasiIso f ∧ P.IsKFlat ∧ ∀ i, Module.Flat R (P.X i) := by
   sorry
 
-/-- **Lazard's theorem** (README 0.2.1; Stacks, Theorem 10.81.4, Tag 058G): every flat module is
-the colimit of a small filtered diagram of finite free modules, with a colimiting cocone and an
-identification of its vertex. -/
-theorem flatModuleFilteredFree (R : Type uFlat) [CommRing R] (M : Type uFlat) [AddCommGroup M]
-    [Module R M] [Module.Flat R M] :
-    ∃ (J : Type uFlat) (inst : SmallCategory J),
-      letI := inst
-      ∃ (_ : IsFiltered J) (P : J ⥤ ModuleCat.{uFlat} R) (c : Cocone P),
-        Nonempty (IsColimit c) ∧ Nonempty (c.pt ≅ ModuleCat.of R M) ∧
-          ∀ j, Module.Free R (P.obj j) ∧ Module.Finite R (P.obj j) := by
+/-- **The second page of a first-quadrant bicomplex** (README S.1, homological form; NSW,
+Proposition 2.1.1). Let `K` be a first-quadrant bicomplex with homological differentials in an
+abelian category, `K.X p` its columns. In the spectral sequence of its column filtration, whose
+page numbered `2` is the vertical homology, with `H_k(K.X p)` at `(-k - 2p, p)`, the page numbered
+`3`, the classical `E²`, has at that position the horizontal homology `H_p(H_k^II(K))` of the
+complex `t ↦ H_k(K.X t)` of vertical homologies. -/
+theorem nonempty_bicomplexSecondPageIso {C : Type u} [Category.{v} C] [Abelian C]
+    (K : HomologicalComplex₂ C (ComplexShape.down ℕ) (ComplexShape.down ℕ)) (p k : ℕ) :
+    Nonempty ((K.columnFiltrationSpectralSequence.page 3).X (-(k : ℤ) - 2 * p, p) ≅
+      (((HomologicalComplex.homologyFunctor C (ComplexShape.down ℕ) k).mapHomologicalComplex
+        (ComplexShape.down ℕ)).obj K).homology p) := by
   sorry
 
 open CategoryTheory.MonoidalCategory in
@@ -190,6 +125,18 @@ end DerivedDeRham
 /-! ## Layer 3: derived limits, Hom and completion -/
 
 namespace DerivedDeRham
+
+/-- **The derived limit is exact** (README 1.1; Stacks, Lemma 15.89.1, Tag 091D, for `Rlim` as the
+right derived functor of `lim`, and Lemma 15.89.3, Tag 0CQD, for its homotopy-limit model). For
+every associative unital ring `R`, Tau Ceti's derived limit functor `D(ℕᵒᵖ ⥤ ModuleCat R) ⥤ D(R)`,
+induced by the homotopy limit `Cone(δ)[-1]` and equipped with the shift isomorphisms of that cone,
+is a triangulated functor: it sends distinguished triangles of the derived category of strict
+towers, with their global connecting morphisms, to distinguished triangles. -/
+theorem derivedLimit_isTriangulated (R : Type u) [Ring R]
+    [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} R)]
+    [HasDerivedCategory.{w'} (ModuleCat.{u} R)] :
+    (TauCeti.ModuleTower.derivedLimit R).IsTriangulated := by
+  sorry
 
 /-- The standard derived-category instance for modules over `R`, local to these signatures. -/
 local instance moduleDerived (R : Type u) [Ring R] :
