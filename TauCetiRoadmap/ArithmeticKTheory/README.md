@@ -45,8 +45,8 @@ HermitianKTheoryOfPoincareCategories supplies their comparison theorems.
 GeometryOfNumbersAndQuadraticArithmetic §6.10a supplies the integral ℤ L-groups; §3.5 owns the Dedekind
 Witt injection and symmetric/quadratic L-tables. The number-ring signature theorem
 belongs to GeometryOfNumbersAndQuadraticArithmetic §6.11 through the exact
-contract below; the connective homotopy-orbit spectral sequence for finite
-groups belongs to StableHomotopyKTheory Layer 7 through its exact contract.
+contract below; the connective homotopy-orbit spectral sequence for
+C₂-actions belongs to StableHomotopyKTheory Layer 7 through its exact contract.
 Section 3.5 consumes both for arithmetic finite generation.
 CyclotomicClassGroupsAndStickelberger owns the cyclotomic class action,
 projectors, Kummer congruences, reflection, finite criterion and regular-prime
@@ -72,12 +72,11 @@ roadmap. Section 7.5 owns the vanishing of π₄(S)⊗ℤ[1/2] for the sphere
 spectrum S, which it uses for K₄(ℤ), and the low Adams–Novikov E₂-term of
 the sphere that proves it; it computes them with the Adams–Novikov
 spectral sequence of BordismFormalGroups F3–F4. The 2-primary part of
-K₄(ℤ) comes from §6.4's dyadic 2-rank formula, not from the sphere. The
-stable stems as the colimit of the homotopy groups of spheres, their
-composition product and their comparison with the homotopy of the sphere
-spectrum belong to GeometryOfNumbersAndQuadraticArithmetic §6.1a, and
-no target here uses them. The 2-primary fourth stem and every other
-stable-stem calculation are outside the present scope.
+K₄(ℤ) comes from §6.4's dyadic 2-rank formula, not from the sphere. No
+target here uses the stable stems as a colimit of unstable homotopy groups
+of spheres, their composition product or their comparison with π_*S. The
+2-primary fourth stem and every other stable-stem calculation are outside
+the present scope.
 Real lattice infrastructure comes from
 Mathlib’s `IsZLattice` and
 `ZLattice.covolume`; LocalGaloisGroups and
@@ -218,7 +217,9 @@ They do not include the divided-denominator Kummer refinement.
 
 The arithmetic maps below are in
 `TauCeti/RingTheory/ClassGroup/RelNorm.lean` and
-`TauCeti/RingTheory/DedekindDomain/SInteger/` (Spectrum, ClassGroup and Unit).
+`TauCeti/RingTheory/DedekindDomain/SInteger/` (Spectrum, ClassGroup, Unit
+and Rank), with the number-field S-unit rank in
+`TauCeti/NumberTheory/NumberField/Units/SUnit/Basic.lean`.
 
 Tau Ceti's `ClassGroup.relNorm` and
 `ClassGroup.relNorm_extendedHom` supply ideal norms and their degree composite.
@@ -229,7 +230,15 @@ For S-integers use Tau Ceti's `integerHeightOneSpectrumEquiv`,
 `finite_integer_classGroup`, `Set.unit_mono`, `Set.unitValuation`,
 `Set.unitValuation_ker`, and
 `Set.unit_fg_of_units`. The last result supplies finite generation for finite
-S, not an S-unit rank formula. The existing class-group quotient and unit
+S. The S-unit rank is `TauCeti.finrank_sUnits`: for a Dedekind domain with
+finite class group and finitely generated unit group, and finite S, the
+ℤ-rank of `Additive (S.unit K)` is that of `Additive Rˣ` plus |S|. For a
+number field F, `TauCeti.finrank_sUnits_numberField` combines it with
+Mathlib's `NumberField.Units.finrank_eq` into
+`NumberField.Units.rank F + Nat.card S`; since `NumberField.Units.rank F`
+is the number of infinite places minus one, Mathlib's
+`NumberField.InfinitePlace.card_eq_nrRealPlaces_add_nrComplexPlaces`
+turns this into r₁+r₂−1+|S|. The existing class-group quotient and unit
 valuation maps are reused; their K-theoretic interpretation is what Layer 2
 adds. `Set.unitValuation` takes values in the product of `Multiplicative ℤ`,
 with uniformizer exponent −1; §2.2 negates these exponents and proves finite
@@ -273,15 +282,13 @@ products. Section 2.1 applies these to the supplied localization triangle.
 What StableHomotopyKTheory must provide (gap:connective-c2-homotopy-orbit-spectral-sequence):
 for every connective spectrum E with a coherent C₂-action, the natural strongly
 convergent spectral sequence H_p(C₂;π_q E) ⇒ π_(p+q)(E_hC₂), with its skeletal
-filtration. This Layer 7 contract includes the same construction for every
-finite group G, with p,q≥0, using the actual induced G-module π_q E.
-The required API consists of naturality in equivariant spectrum maps, the
-finite filtration in each total degree, the degree-zero coinvariant
-isomorphism π₀(E)_G→π₀(E_hG), and compatibility with subgroup induction
-and finite-cover transfer. Section 3.5 consumes this contract and proves its
-arithmetic finite-generation consequences. (Calmès et al., proof of
-Corollary 2.3.18, p. 48, for the C₂ application; the finite-group version uses
-the same skeletal bar filtration and §§7.21–7.24.)
+filtration. Here p,q≥0 and the coefficients are the actual C₂-modules π_q E
+induced by the action. The required API consists of naturality in
+C₂-equivariant spectrum maps, the finite filtration in each total degree and
+the degree-zero coinvariant isomorphism π₀(E)_(C₂)→π₀(E_hC₂). Section 3.5
+consumes this contract and proves its arithmetic finite-generation
+consequences. (Calmès et al., proof of Corollary 2.3.18, p. 48; the
+skeletal filtration is a filtered spectrum in the sense of §§7.21–7.24.)
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
@@ -678,7 +685,9 @@ Use the supplied K₀≅ℤ⊕Pic(O) and K₁≅O× identifications. For finite 
 K₁(O) is finitely generated of rank r₁+r₂+|S|−1. The inclusion into K₁(F)=F×
 is the unit inclusion, while F× is not finitely generated. The latter follows
 already from independent prime valuations, and is not a failure of the S-unit
-theorem. (K-book, VI.8.1, p. 513; the S-unit rank uses r₁+r₂+|S|−1.)
+theorem. The rank is Tau Ceti's `TauCeti.finrank_sUnits_numberField` on
+`Set.unit`, transported to O× along Mathlib's `Set.unitEquivUnitsInteger`.
+(K-book, VI.8.1, p. 513.)
 
 Identify pullback and transfer under these low-degree comparisons. For
 B=O_(E,T), O=O_(F,S), d=[E:F] and c_B=det_O(B), the formulas are
@@ -721,7 +730,8 @@ The quadratic Gaussian extension fixes the rank, norm and transfer directions.
 
 Mathlib/Tau Ceti S-integers, ideal classes, integral closure and units;
 GeneralAlgebraicKTheory §§2.1–2.6 and 7.7 for functoriality and transfer;
-KTheoryLowDegrees §§5.1–5.5, 8.1 and 11.1–11.3 for the low-degree identifications and unit rank.
+KTheoryLowDegrees §§5.1–5.5, 8.1 and 11.1–11.3 for the low-degree identifications;
+Tau Ceti's `TauCeti.finrank_sUnits_numberField` for the unit rank.
 
 ## Layer 2: localization with support and ramification
 
@@ -878,8 +888,8 @@ the formula on a single supported element, additivity, finite support,
 identity, composition in towers, compatibility with discarding inverted
 primes, and the full boundary square. Finite fibres over v guarantee finite
 support. The **ramification index**, rather than residue degree, occurs on
-restriction. (K-book, V.6.6.3, p. 410; SchemeKTheoryOperations §3.6's
-support-pullback comparison.)
+restriction. (K-book, Remark III.6.3.1, p. 234, in degree two;
+SchemeKTheoryOperations §3.6's flat-ramification law in every degree.)
 Name the single-summand and coordinate laws ramifiedResiduePullback_of
 and ramifiedResiduePullback_apply; unique is uniqueness from those
 summand values. support, zero and add give the finite-support bound
@@ -892,7 +902,7 @@ boundary at each w|v after localizing §1.2's finite projective extension;
 §3.7 supplies the Dedekind localization assembly. The support pullback has length e(w/v).
 It is not an equivalence K(B/w^e)≃K(k(w))^e. Assemble these supplied local
 squares into the arithmetic coordinate map, with finite support, tower and
-S-enlargement compatibility. (K-book, V.6.6.3–6.6.4, p. 410.)
+S-enlargement compatibility. (SchemeKTheoryOperations §§3.6–3.7.)
 
 The basic laws are:
 
@@ -1533,12 +1543,12 @@ subgroup of ℤ^r₁, hence finitely generated. Its rank is r₁ by the supplied
 image-rank theorem. (Calmès et al., Corollary 2.3.16 and proof, pp. 47–48.)
 
 Use StableHomotopyKTheory Layer 7's connective homotopy-orbit contract to
-prove that, for a finite group G and a connective spectrum E with coherent
-G-action and every π_q E finitely generated, every π_n(E_hG) is finitely
-generated. In the supplied spectral sequence H_p(G;π_q E) ⇒ π_(p+q)(E_hG),
-the finite-group bar resolution has finitely generated chains in each degree,
-so each E² term is finitely generated. Connectivity restricts each total
-degree n≥0 to 0≤p≤n; the resulting finite filtration gives the claim,
+prove that, for a connective spectrum E with coherent C₂-action and every
+π_q E finitely generated, every π_n(E_hC₂) is finitely generated. In the
+supplied spectral sequence H_p(C₂;π_q E) ⇒ π_(p+q)(E_hC₂), the bar
+resolution of the finite group C₂ has finitely generated chains in each
+degree, so each E² term is finitely generated. Connectivity restricts each
+total degree n≥0 to 0≤p≤n; the resulting finite filtration gives the claim,
 while negative abutment groups vanish. Apply this to the coherent duality
 C₂-action on K(O). (Calmès et al., proof of Corollary 2.3.18, p. 48.)
 
@@ -1546,7 +1556,7 @@ C₂-action on K(O). (Calmès et al., proof of Corollary 2.3.18, p. 48.)
 number-ring-witt-signature contract, its §6.4.2 symmetric Witt carrier
 `ExactW0` and §6.10a's integral signature normalization;
 StableHomotopyKTheory Layer 7's connective-c2-homotopy-orbit-spectral-sequence
-contract, including its finite-group form; the coherent action and orbit
+contract; the coherent action and orbit
 carriers of GeometryOfNumbersAndQuadraticArithmetic §§6.1a/6.8a; §3.3's
 finite generation of K_n(O). These contracts are specified under Exact
 supplier contracts.
@@ -1596,11 +1606,14 @@ and 30; Corollaries 2.3.18–2.3.19, p. 48; Corollary 8, p. 5.)
   π₁=ℤ/2 and π₂=0. With sign action the values are ℤ/2,0,ℤ/2:
   the differentials 1−σ and 1+σ exchange roles. Constant-coefficient
   homology would give the wrong result for the second action.
-- For the trivial group and E=Hℤ, the normalized bar complex has only its
-  degree-zero term, so the orbit groups in degrees 0,1,2 are ℤ,0,0.
-  For G=S₃ with trivial action on Hℤ, the degree-zero and degree-one
-  groups are ℤ and S₃ᵃᵇ=ℤ/2; replacing the acting group by an abelian group
-  is not a hypothesis of the finite-generation deduction.
+- For E=Hℤ∧C₂₊=Hℤ∨Hℤ with C₂ exchanging the summands, π₀E is the
+  permutation module ℤ[C₂], whose higher group homology vanishes; the
+  orbit groups in degrees 0,1,2 are ℤ,0,0, as for E_hC₂≃Hℤ. Reading the
+  coefficients as the trivial module ℤ² would give ℤ²,(ℤ/2)²,0.
+- For trivial action on Hℤ the orbit group in degree three is
+  H₃(C₂;ℤ)=ℤ/2, and every odd degree is ℤ/2. So E_hC₂ is not bounded
+  above although E is; finite generation holds degreewise, not as a finite
+  total.
 - The zero connective C₂-spectrum has zero homology and zero abutment.
   For E=ΣHℤ with trivial action, the same sequence begins π₀=0,
   π₁=ℤ and π₂=ℤ/2; no negative q-row is inserted.
@@ -1798,8 +1811,10 @@ w_i(ℚ) = 2^(2+v₂(i)) · ∏_(odd primes ℓ with ℓ−1∣i) ℓ^(1+v_ℓ(i
 The product is finite since ℓ≤i+1. In particular w₂=24, w₄=240, w₆=504
 and w₁₀=264. Also w₂(ℚ(i))=24; the dyadic case split gives 8 and the
 odd-primary contribution is 3. The value 24 will feed the two different
-K₃ computations in Layer 8. (K-book, Example VI.2.1.2, p. 470 and
-Lemma VI.2.4, p. 472.)
+K₃ computations in Layer 8. (K-book, Example VI.2.1.2, p. 470, and
+Lemma VI.2.4, p. 472. The example prints w₁₀=1320, which is a misprint:
+5−1=4 does not divide 10, and Lemma VI.2.4 gives the denominator of
+B₅/20=(5/66)/20=1/264 in Weibel's indexing B_k=|B_(2k)|.)
 
 *Needs:* §§4.2–4.3 and the rational cyclotomic-character image.
 
@@ -3404,19 +3419,35 @@ The basic laws are:
   not satisfy either naturality test.
 
 Construct bottEtaleDescent for the Bott localization of algebraic
-K-theory at every odd prime power q=p^r on regular finite-type schemes over
-ℤ[1/p] of finite p-cohomological dimension. Its spectral sequence is
+K-theory at every odd prime power q=p^r on every separated noetherian
+regular scheme X of finite Krull dimension on which p is invertible, such
+that the p-torsion étale cohomological dimensions of all residue fields of
+X, closed or not, are bounded by one constant, and every residue field
+admits a Tate–Tsen filtration: a finite chain of subfields from the field
+to its separable closure whose first step adjoins all p-power roots of
+unity and whose later steps are Galois extensions induced from separable
+closures of fields of p-cohomological dimension at most one. The filtration
+exists whenever the residue field has finite transcendence degree over ℚ,
+over ℚ_ℓ, 𝔽_ℓ or 𝔽_ℓ((t)) for some prime ℓ, or over a field that is
+separably closed or of p-cohomological dimension at most one. Every separated regular scheme of finite type over
+ℤ[1/p] satisfies these hypotheses, in particular Spec O_(F,S) whenever S
+contains all primes above p: its residue fields are F, of p-cohomological
+dimension two, and finite fields, of dimension one. Its spectral sequence is
 E₂^(s,t)=H^(−s)(X,ℤ/q(t/2))⇒K^β_(s+t)(X;ℤ/q), with even t and
-s≤0. Prove convergence, pullback and coefficient compatibility. Construct
+s≤0. Prove strong convergence, pullback and coefficient compatibility. Construct
 bottDualization as a spectrum involution induced by dualizing perfect
 complexes, commuting with localization; on the row of twist a it acts by
 (−1)^a, including at p=3. The comparison comes from étale hyperdescent of
 the Bott-localized K-sheaf; the root action fixes the Tate normalization.
-(Feng–Galatius–Venkatesh, §2.6.1, equation (2.6), p. 12.)
+(Thomason, Theorem 4.1, p. 516, and Remark 4.2, pp. 516–517, for the
+hypotheses and strong convergence; Theorem 2.43, display (2.112), p. 498,
+for the filtration, and Corollary 2.44, pp. 499–500, for the fields that
+admit one; Feng–Galatius–Venkatesh, §2.6.1, equation (2.6),
+p. 12, for the indexing and the Adams action on rows.)
 
 The basic laws are:
 
-- The Bott descent sequence converges under the stated finite cohomological-dimension hypothesis and commutes with pullback and coefficient reduction.
+- The Bott descent sequence converges strongly under the stated hypotheses on X and commutes with pullback and coefficient reduction.
 - Dualizing perfect complexes induces an involution of the spectrum and acts by (−1)^a on its twist-a row.
 - The involution commutes with localization; at odd modulus its two projectors split the even edge sequence naturally.
 
@@ -3424,6 +3455,12 @@ The basic laws are:
 
 - For cd_p(X)≤2 only cohomological rows 0,1,2 survive. At j=1,
   the positive even edge is H²(2) and the negative edge is H⁰(1).
+- Spec ℤ[1/p] satisfies the hypotheses: its closed points have finite
+  residue fields, of transcendence degree zero over 𝔽_ℓ, and its generic
+  point has residue field ℚ. A residue-field condition naming only global,
+  local and separably closed fields would exclude the closed points.
+  Spec ℤ itself is excluded, since p is not invertible on it; §6.16
+  treats it through the localization ℤ→ℤ[1/p].
 - At q=3 dualization remains a spectrum map; the construction never
   assumes an associative product on arbitrary mod-three coefficients.
 - The involution is dualization on perfect complexes. Conjugation of the
@@ -4179,8 +4216,10 @@ The finite deduction can be checked without assuming a tower
 control isomorphism. Write P=Pic(ℤ[ζ_p,1/p])/p with the direct
 action of §7.3. Extension and norm for the real subfield, whose
 degree is two, identify its p-class group with the plus part. Under
-Vandiver all even components P^(χ^(2a)) vanish. Character reflection
-from §7.2 bounds each complementary odd component by dimension one.
+Vandiver all even components P^(χ^(2a)) vanish. The cyclotomic reflection
+bound of CyclotomicClassGroupsAndStickelberger §3.3, imported in §7.2,
+gives dim P^(χ^(1−k)) ≤ dim P^(χ^k)+1 for even k, so each complementary
+odd component has dimension at most one.
 Kummer–Brauer and prime-to-p descent identify
 
 ```text
@@ -4195,8 +4234,9 @@ the degrees 4a; periodicity modulo p−1 makes finitely many such
 degrees sufficient for each p. The vanishing of the trivial and χ
 components is unconditional. This proves the Vandiver/vanishing
 equivalence and the cyclicity used in the table. It uses exactly
-cyclotomic_character_reflection, not an unproved assertion that
-irregular components have known order. The plus-part tower requested
+CyclotomicClassGroupsAndStickelberger §3.3's Kummer reflection (Sharifi,
+Corollary 4.4.4, p. 113), not an unproved assertion that irregular
+components have known order. The plus-part tower requested
 from IntegralIwasawaTheory §§7.4 and 7.7–7.8 retains its one-prime and
 cyclotomic hypotheses; no stronger norm-isomorphism statement is
 needed for this finite argument. (Sharifi, Theorem 4.4.2 and
@@ -4891,7 +4931,10 @@ K₃(ℤ[i])≃K₃(ℚ(i))≃ℤ⊕ℤ/24. Its decomposable and indecomposable
 analysis and Bloch comparison are not needed to prove them. Its 2-primary
 Adams–Novikov argument for η³ consumes §7.5's sphereAdamsNovikovLowE2 at
 p=2: the structure formulas, sparseness, the zero line and
-E₂^(1,2)=ℤ/2·α₁.
+E₂^(1,2)=ℤ/2·α₁. The integral vanishing π₄S=0 and the 2-primary
+differential d₃ onto E₃^(4,8) are not supplied here; §7.5 proves only
+π₄(S)⊗ℤ[1/2]=0, and its stem-four Check at p=2 computes E₂^(4,8)=ℤ/2
+without determining the differentials.
 Regulator constructions consume §3.4's borelInvariantFormComparison at
 finite stage, for Res_(F/ℚ)SL_m in the range 4q<m−1, with its finite-index
 and block-inclusion compatibilities. EllipticKTheory applies §3.2's
@@ -5051,6 +5094,13 @@ All formulas and finite data use the conventions fixed here.
   §§2.6–2.7, printed pp. 12–15. Locators here use that author PDF.
   The eigenspaces use dualization in all Bott degrees; ordinary comparison
   ranges are specified in §§6.15–6.16.
+- R. W. Thomason, [*Algebraic K-theory and étale
+  cohomology*](https://doi.org/10.24033/asens.1495), *Annales
+  scientifiques de l'École normale supérieure* (4) 18 (1985),
+  pp. 437–552; Theorem 4.1, p. 516, and Remark 4.2, pp. 516–517, for
+  the hypotheses and strong convergence of the Bott descent spectral
+  sequence of §6.15; Theorem 2.43, p. 498, and Corollary 2.44,
+  pp. 499–500, for its residue-field condition.
 - Frank Calegari, Stavros Garoufalidis and Don Zagier,
   [*Bloch groups, algebraic K-theory, units, and Nahm's
   conjecture*](https://arxiv.org/abs/1712.04887v3), version 3,

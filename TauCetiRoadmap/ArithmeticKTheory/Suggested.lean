@@ -34,9 +34,11 @@ Lie algebra cohomology and invariant differential forms on symmetric spaces:
 Mathlib has only low-degree Lie algebra cochains.
 Numerical rank or degree-slot
 formulas do not state those theorems. The odd-primary fourth stem of
-README §7.5, π₄(S) ⊗ ℤ[1/2] = 0 for the sphere spectrum, lacks spectra and
-their homotopy groups, and the low Adams–Novikov E₂-term lacks the
-Brown–Peterson Hopf algebroid BP_*BP and the Ext of its comodules.
+README §7.5, π₄(S) ⊗ ℤ[1/2] = 0 for the sphere spectrum, lacks stable
+homotopy groups of spectra: Tau Ceti's `TauCeti.SymmetricSpectrum` and its
+sphere `TauCeti.SymmetricSequence.sphere` have no homotopy groups at the pin. The low
+Adams–Novikov E₂-term lacks the Brown–Peterson Hopf algebroid BP_*BP and
+the Ext of its comodules.
 -/
 
 noncomputable section
