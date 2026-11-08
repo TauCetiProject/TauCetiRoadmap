@@ -14,20 +14,23 @@ only for the objects their statements use.
 The headline families are Wiener construction; stochastic integration, brackets and BDG;
 Itô and Brownian Stratonovich calculus; strong Markov, the Brownian filtration and
 martingale representation; reflection, exits, LIL, path modulus, nowhere differentiability
-and local time; DDS; Novikov and Girsanov; Cameron–Martin equivalence and singularity; SDE
-existence and uniqueness; and the scalar Feynman–Kac representation.
+and local time; Brownian potential theory through point polarity in dimension at least two;
+DDS; Novikov and Girsanov; Cameron–Martin equivalence and singularity; strong existence and
+pathwise uniqueness, and weak existence and uniqueness in law for a bounded drift with unit
+diffusion; and the scalar Feynman–Kac representation.
 
 Not statable at the pins: the general semimartingale Itô and Stratonovich formulas (no
 constructed semimartingale integral or covariation operator); Hilbert–Schmidt vector
-integration and the finite-dimensional vector SDE, maximal-solution and flow statements (no
-vector integral, maximal-solution or flow carrier); harmonic Hardy boundary representation
+integration and the finite-dimensional vector SDE, weak-solution, maximal-solution and flow
+statements (no vector integral, maximal-solution or flow carrier); harmonic Hardy boundary representation
 (no Hardy-space or boundary-trace carrier); the general diffusion generator, martingale
 problem and vector Feynman–Kac comparison (no constructed diffusion law or generator
 domain); the independent-extension branch of DDS (no enlarged stochastic basis). These
 remain README targets; no predicate stands in for those carriers. The scalar Brownian
-integral, bracket, density, Cameron–Martin shift and strong-solution predicates below are
-concrete definitions on native functions, measures and filtrations, and the scalar
-Feynman–Kac representation and the Brownian Stratonovich sums are stated on them.
+integral, bracket, density, Cameron–Martin shift, coordinate vector Brownian and
+strong-solution predicates below are concrete definitions on native functions, measures and
+filtrations, and the scalar Feynman–Kac representation and the Brownian Stratonovich sums are
+stated on them.
 -/
 noncomputable section
 open MeasureTheory ProbabilityTheory
@@ -218,9 +221,13 @@ theorem exists_isQuadraticVariation (F : Filtration ℝ≥0 mΩ)
     ∃ A, IsQuadraticVariation F P M A := by
   sorry
 
-/-- The quadratic variation is unique up to indistinguishability. -/
+/-- For an almost surely continuous local martingale on a raw filtration, the quadratic
+variation is unique up to indistinguishability: the difference of two candidates is a
+continuous local martingale of finite variation starting at zero (Revuz–Yor, Chapter IV,
+Theorem 1.8). -/
 theorem isQuadraticVariation_unique (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (M A A' : ℝ≥0 → Ω → ℝ)
+    (hM : IsLocalMartingale F P M) (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
     (hA : IsQuadraticVariation F P M A) (hA' : IsQuadraticVariation F P M A') :
     Indistinguishable P A A' := by
   sorry
@@ -424,7 +431,9 @@ theorem brownian_lil (P : Measure Ω) [IsProbabilityMeasure P]
 
 /-- On each fixed positive finite horizon, standard scalar Brownian motion has
 Lévy's exact uniform modulus, with mesh approaching zero through positive values
-(Mörters–Peres, Theorem 1.14, stated there on `[0,1]`). -/
+(Mörters–Peres, Theorem 1.14, p. 16, stated there on `[0,1]` in limsup form; Remark 1.18,
+p. 17, and Exercise 1.7, p. 31, for the limit form; Brownian scaling moves `[0,1]` to
+`[0,T]`). -/
 theorem brownian_exact_uniform_modulus (P : Measure Ω) [IsProbabilityMeasure P]
     (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P)
     (T : ℝ≥0) (hT : 0 < T) :
@@ -447,6 +456,21 @@ theorem brownian_simultaneous_nowhere_differentiable
         ¬ DifferentiableAt ℝ (fun s : ℝ => B s.toNNReal ω) t) ∧
       ¬ DifferentiableWithinAt ℝ (fun s : ℝ => B s.toNNReal ω)
         (Set.Ici 0) 0 := by
+  sorry
+
+/-- A `d`-dimensional standard Brownian motion given by its coordinates in the standard basis:
+each coordinate is a native scalar Brownian motion and the coordinate paths are independent
+as path-valued random variables. -/
+def IsBrownianVector {d : ℕ} (P : Measure Ω) (B : Fin d → ℝ≥0 → Ω → ℝ) : Prop :=
+  (∀ i, IsBrownianReal (B i) P) ∧ iIndepFun (fun i ω => (fun t => B i t ω : ℝ≥0 → ℝ)) P
+
+/-- Points are polar for Brownian motion in dimension at least two: from every deterministic
+start `x`, a `d`-dimensional Brownian motion almost surely never visits a fixed point `a` at a
+positive time, including `a = x` (Mörters–Peres, Corollary 2.26, p. 47, stated there for times
+in `(0,1]`; Brownian scaling covers every bounded horizon). -/
+theorem brownian_point_polar {d : ℕ} (hd : 2 ≤ d) (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : Fin d → ℝ≥0 → Ω → ℝ) (hB : IsBrownianVector P B) (x a : Fin d → ℝ) :
+    P {ω | ∃ t : ℝ≥0, 0 < t ∧ ∀ i, x i + B i t ω = a i} = 0 := by
   sorry
 
 /-- Brownian local time is jointly continuous, increases in time, starts at zero,
@@ -611,6 +635,35 @@ theorem strongSolution_pathwise_unique (F : Filtration ℝ≥0 mΩ)
     (X Y : ℝ≥0 → Ω → ℝ)
     (hX : IsStrongSolution F P B b σ ξ X) (hY : IsStrongSolution F P B b σ ξ Y) :
     Indistinguishable P X Y := by
+  sorry
+
+/-- Weak existence for a bounded Borel drift with unit diffusion: for every jointly Borel `b`
+bounded by a constant and every starting point `x`, some filtered probability space carries a
+filtered Brownian motion `B` and a solution `X` of `dX = b(t, X) dt + dB`, `X₀ = x`
+(Karatzas–Shreve, §5.3, by Girsanov's theorem on the canonical space). `IsStrongSolution` is
+the solution predicate on a given basis; a weak solution is a basis together with a solution
+on it, and `X` need not be adapted to the filtration generated by `B`. -/
+theorem exists_weakSolution_boundedDrift (b : ℝ≥0 → ℝ → ℝ)
+    (hb : Measurable (Function.uncurry b)) (hbb : ∃ C : ℝ, ∀ t y, |b t y| ≤ C) (x : ℝ) :
+    ∃ (Ω' : Type) (m' : MeasurableSpace Ω') (F' : Filtration ℝ≥0 m') (P' : Measure Ω')
+      (_ : IsProbabilityMeasure P') (B' X' : ℝ≥0 → Ω' → ℝ),
+      IsFilteredBrownian F' P' B' ∧
+        IsStrongSolution F' P' B' b (fun _ _ => 1) (fun _ => x) X' := by
+  sorry
+
+/-- Uniqueness in law for a bounded Borel drift with unit diffusion: two weak solutions of
+`dX = b(t, X) dt + dB` from the same starting point, on possibly different filtered
+probability spaces, have the same path law on `ℝ≥0 → ℝ` (Karatzas–Shreve, §5.3). -/
+theorem weakSolution_boundedDrift_law_unique (b : ℝ≥0 → ℝ → ℝ)
+    (hbb : ∃ C : ℝ, ∀ t y, |b t y| ≤ C) (x : ℝ)
+    {Ω₁ Ω₂ : Type*} {m₁ : MeasurableSpace Ω₁} {m₂ : MeasurableSpace Ω₂}
+    (F₁ : Filtration ℝ≥0 m₁) (F₂ : Filtration ℝ≥0 m₂)
+    (P₁ : Measure Ω₁) [IsProbabilityMeasure P₁] (P₂ : Measure Ω₂) [IsProbabilityMeasure P₂]
+    (B₁ X₁ : ℝ≥0 → Ω₁ → ℝ) (B₂ X₂ : ℝ≥0 → Ω₂ → ℝ)
+    (hB₁ : IsFilteredBrownian F₁ P₁ B₁) (hB₂ : IsFilteredBrownian F₂ P₂ B₂)
+    (hX₁ : IsStrongSolution F₁ P₁ B₁ b (fun _ _ => 1) (fun _ => x) X₁)
+    (hX₂ : IsStrongSolution F₂ P₂ B₂ b (fun _ _ => 1) (fun _ => x) X₂) :
+    P₁.map (fun ω t => X₁ t ω) = P₂.map (fun ω t => X₂ t ω) := by
   sorry
 
 /-! ## Layer 10: Diffusions, generators and probabilistic PDEs -/
