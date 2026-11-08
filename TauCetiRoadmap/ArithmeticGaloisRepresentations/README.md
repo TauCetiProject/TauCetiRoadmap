@@ -150,9 +150,13 @@ isogenies, intrinsic and polarised Weil pairings, the geometric Tate module and 
 Galois action, and endomorphism polynomials. Layer 6 packages these in `ContinuousRep` and proves
 arithmetic consequences. Lie-theoretic semisimplicity is a target of §7.6.
 Crystalline and finite-flat conditions on Tate modules and automorphic `ε`-factors belong to their owners.
-Section 2.7 owns arithmetic character constants defined by finite Gauss sums, the scalar adelic
-Fourier foundations, the standard-test-function evaluations, the finite-sum root-number product
-formula and the finite-order character globalisation. It consumes no continued L-function: the
+Section 2.7 owns arithmetic character constants defined by finite Gauss sums, the
+standard-test-function evaluations, the finite-sum root-number product formula and the
+finite-order character globalisation. Its scalar adelic inputs, the standard additive character
+with its local self-duality, the self-dual additive measures, the self-duality of `𝔸_F` with
+`F^⊥ = F`, the adelic Schwartz–Bruhat space with its Fourier transform and Poisson summation, and
+the multiplicative measures and local zeta integrals, are AnalyticNumberTheoryPartII §§5.3g, 5.3h
+and 5.3j. It consumes no continued L-function: the
 continuation and functional equations of Hecke L-functions are LFunctions Layers 0, 5–6 for
 finite-order and algebraic characters and AnalyticNumberTheoryPartI §2.3a for every continuous
 unitary character, with `W(ω)` the normalised Gauss sum of the finite part times the archimedean
@@ -163,11 +167,10 @@ equations along a Brauer expression, is AnalyticNumberTheoryPartI §2.41's, on i
 Deligne–Langlands local constants of complex Weil representations by Deligne's global transfer,
 their Weil–Deligne extension and the conductor exponent in their unramified twists are the
 downstream ArtinRepresentations §2.4's, built on §2.7's scalar constants and finite-order
-globalisation. The comparison of the global zeta integral at the standard test function with the
-completed Hecke function is the `n = 1` case of AutomorphicLFunctionsAndLocalFactors AL.2.4.1,
-the global standard L-function, whose local standard evaluations AL.1.2.1, AL.1.2.3 and AL.1.2.4
-consume §2.7's. Downstream, AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local
-zeta integral and functional equation, compares its analytic constant with *tateLocalConstant*;
+globalisation. The local standard evaluations AL.1.2.1, AL.1.2.3 and AL.1.2.4 of
+AutomorphicLFunctionsAndLocalFactors consume §2.7's. Downstream, AutomorphicLFunctionsAndLocalFactors
+AL.1.3.2, the rank-one local functional equation of AnalyticNumberTheoryPartII §5.3j's local zeta
+integrals, compares its analytic constant with *tateLocalConstant*;
 AL.1.6.1 identifies §2.7's local-constant product with the root-number factor `W(ω) A^(1/2−s)`,
 `A = |disc F| N(𝔣(ω))`, of AnalyticNumberTheoryPartI §2.3a; and AutomorphicSpectralTheory §1.15c
 derives the same equation by Eisenstein theory. With the same primitive conductor and
@@ -488,6 +491,21 @@ Section 3.2 identifies the lower sums with the conductors of representations of 
 factor through a finite Galois group, §3.5 extends integrality and induction to the conductor
 setting, and §6.6 bounds the Swan sum.
 
+### From `TauCetiRoadmap.AnalyticNumberTheoryPartII`
+
+Section 5.3g: the standard character `ψ_v = ψ_w ∘ Tr_(F_v/ℚ_w)` of each completion `F_v` of a
+number field, with `ψ_ℝ(x) = exp(2πix)` and `ψ_(ℚ_p)(x) = exp(−2πi{x}_p)`, so that
+`ψ_v(z) = exp(2πi(z+z̄))` at a complex place; the identification of `F_v` with its Pontryagin
+dual through `a ↦ ψ_v(a·)`, the annihilator `𝔇_v^(−1)` of `O_v`, the self-dual additive measures
+(`dx`, `2 dx dy`, and `N(𝔇_v)^(−1/2) dx_v` with `dx_v(O_v) = 1`), the local Schwartz–Bruhat spaces
+and the local Fourier transform with its inversion. Section 5.3h: triviality of `ψ = ∏_v ψ_v` on
+`F`, the duality of restricted products, the Pontryagin self-duality of `𝔸_F` with `F^⊥ = F`
+(`TauCetiRoadmap.AnalyticNumberTheoryPartII.adeleRing_selfDual`), the adelic Schwartz–Bruhat space
+with its self-dual Fourier transform, and Poisson summation. Section 5.3j: the multiplicative
+measures `d^×x_v` and the local zeta integrals `z(f_v,ω_v,s)`. Section 2.7 here uses these for its
+standard-test-function evaluations and its root-number product formula; their normalisations are
+the ones §2.7 uses, so no conversion factor enters.
+
 ### From `TauCetiRoadmap.ClassFieldTheory`
 
 Layer 7: `artinMap` with its normalisation (a uniformiser maps to an arithmetic Frobenius lift,
@@ -662,8 +680,8 @@ their ramified induction identity, Artin–Hecke comparison and global meromorph
 Section 2.5a compares those factors with §2.5's local polynomials over a common number field
 with specified complex and ℓ-adic embeddings: the geometric lift on the dual ℓ-adic representation
 matches the arithmetic lift on the complex representation, with `N = 0` and `v ∤ ℓ`.
-Section 2.7 constructs the adelic Schwartz–Bruhat, Fourier, Poisson and finite-order
-globalisation inputs that local constants use.
+Section 2.7 constructs the finite-order globalisation input that local constants use; their
+adelic Schwartz–Bruhat, Fourier and Poisson inputs are AnalyticNumberTheoryPartII §§5.3g–5.3h.
 
 CFSGBasicProperties
 T1–T2 supplies the finite fixed-point root calculus and simplicity on CFSGStatement's exact
@@ -678,6 +696,7 @@ is computed directly. The automorphism-group input to the verification lemmas re
 | Henselian-trait/local-field tame-character comparison | EtaleCohomologyFoundations §F.3a | Supplied comparison and transport laws; §2.1a transports them along global decomposition-group embeddings |
 | Weil group and degree | ClassFieldTheory Layer 9 | Supplier targets |
 | Finite-level Artin and Swan conductors, their integrality, induction and the conductor–discriminant formula | AnalyticNumberTheoryPartI §2.2a, `lowerArtinConductor`, `lowerSwanConductor`, `lowerConductors_integral` | Supplier targets; §3.2 identifies the lower sums with the conductors of representations factoring through a finite Galois group, §3.5 extends integrality and induction to the conductor setting, §6.6 bounds the Swan sum |
+| Standard additive character and local self-duality, restricted-product duality, self-duality of `𝔸_F` with `F^⊥ = F`, self-dual additive measures, adelic Schwartz–Bruhat space, Fourier transform and Poisson summation, multiplicative measures and local zeta integrals | AnalyticNumberTheoryPartII §§5.3g, 5.3h and 5.3j, `adeleRing_selfDual` | Supplier targets; §2.7 consumes them for its standard-test-function evaluations and root-number product formula |
 | Frobenius-semisimplified Weil–Deligne parameter and functor | SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization` | Supplier target; §2.4 adapter and §2.5 agreement |
 | Linear Weil–Deligne substrate on parameter fields | SmoothRepresentationsOfLocalGroups SR.5.2, `wd-linear-substrate`, `nilpotent-exp-log`, `wd-complete-coefficients` (Grothendieck monodromy, `grothendieck_quasiUnipotent_complete`), `wd-parameter-operations`, `full-wd-construction`, `wd-frobenius-semisimplification` | Supplier targets; §2.4 `ContinuousRep` specialization and adapter, §2.5 agreement and local factors |
 | Geometric abelian Tate module | `AbelianTate`, A4.1 | Supplier targets |
@@ -2245,13 +2264,15 @@ Prove independence of representatives and of `c`, and nonvanishing. Intended sig
 *tateLocalConstant* `(χ : Kˣ →* ℂˣ) (ψ : AddChar K ℂ) (dx : Measure K) : ℂˣ`,
 for continuous `χ`, nontrivial continuous `ψ` and nonzero Haar `dx`.
 
-For the self-dual measure `dx_ψ`, `vol(O_K) = q^(−ν/2)`, these definitions give
+For the self-dual measure `dx_ψ` of AnalyticNumberTheoryPartII §5.3g, `vol(O_K) = q^(−ν/2)`,
+these definitions give
 `ε(ω |·|^s,ψ,dx_ψ) = ω(ϖ^ν) q^((1/2−s)ν)` when `ω` is unramified, and, for `a ≥ 1`,
 `ε(ω |·|^s,ψ,dx_ψ) = ω(c) q^((1/2−s)(a+ν)) 𝔤(ω,ψ)` with
 `𝔤(ω,ψ) = q^(−a/2) Σ_y ω⁻¹(y) ψ(y/c)`.
 At a real place define the constant of `sgn^b |·|^t` to be `i^b`, `b ∈ {0,1}`;
 at a complex place that of `(z/|z|)^k |·|_ℂ^t` to be `i^|k|`. Here the trace character
-has positive archimedean sign and the self-dual measures are `dx` and `2 dx dy`.
+and the self-dual measures `dx` and `2 dx dy` are those of AnalyticNumberTheoryPartII §5.3g,
+with positive archimedean sign.
 
 Prove by finite-sum identities the unramified-twist formula
 `ε(χ |·|^t,ψ,dx) = q^(−t(a(χ)+ν)) ε(χ,ψ,dx)`, measure scaling
@@ -2267,8 +2288,9 @@ and (3.4.3)–(3.4.7), p. 15; Deligne 1973, 3.4, p. 528, and 5.4–5.7, pp. 548�
 *Needs:* ClassFieldTheory Layer 7's character conductor; local residue rings and Haar measure;
 Mathlib's Gauss-sum API and Tau Ceti's
 `DirichletCharacter.gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive` for Dirichlet checks.
-The downstream AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local zeta integral
-and functional equation, identifies its analytic constant with this finite-sum constant.
+The downstream AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local functional
+equation of AnalyticNumberTheoryPartII §5.3j's local zeta integrals, identifies its analytic
+constant with this finite-sum constant.
 
 **Checks.**
 - Unramified `ω` and `ν = 0` give `ε(ω |·|^s) = 1`; for `ν = 1` the value is
@@ -2280,56 +2302,30 @@ and functional equation, identifies its analytic constant with this finite-sum c
   Omitting the character factor breaks the dual identity for an odd character.
 - Real `sgn` and complex angular frequencies `k = ±1` all give `i`; frequency zero gives one.
 
-**Global inputs.** For a number field `F` and a continuous complex idele-class quasi-character
-`χ`, construct the scalar character foundations before the zeta-integral comparison.
-Define the standard trace character `ψ = ψ_ℚ ∘ Tr_{F/ℚ}` on `𝔸_F`, with real component
-`ψ_ℚ,∞(x) = exp(2πix)` and finite components `ψ_ℚ,p(x) = exp(−2πi{x}_p)`, where `{x}_p`
-is the `p`-adic fractional part. Prove continuity, nontriviality and triviality on diagonal `F`:
-for rational `x`, `x − Σ_p{x}_p ∈ ℤ`, and the adelic trace of a diagonal field element is its
-rational field trace. The local components are obtained by the corresponding local traces.
-For every place `v`, prove that `a ↦ (x ↦ ψ_v(ax))` identifies the additive group of `F_v`
-topologically with Mathlib's `PontryaginDual (Multiplicative F_v)`. At a finite place over `p`,
-the annihilator of `O_v` is the inverse different `𝔡_{F_v/ℚ_p}⁻¹`. Prove the restricted-product
-duality comparison: continuous adelic characters are products of local characters trivial on
-`O_v` at almost all finite places, and the local identifications give a topological
-identification of `𝔸_F` with `PontryaginDual (Multiplicative 𝔸_F)` through `ψ(ax)`.
-The inverse different equals `O_v` at almost all finite places, so these local identifications
-respect the restricted products.
-
-Prove the diagonal self-annihilator formula
-`F⊥ = {a ∈ 𝔸_F : ∀ ξ ∈ F, ψ(aξ) = 1} = F`. Diagonal triviality gives one inclusion.
-For the reverse, identify `F⊥` with the dual of the compact quotient `𝔸_F/F`, using
-GlobalNumberFields Layers 4–6's discrete diagonal and compact quotient. Thus `F⊥` is discrete;
-`F⊥/F` is closed and discrete in the compact quotient and hence finite. It is also an
-`F`-vector space, so it vanishes. These scalar foundations use local fields, traces, adeles
-and harmonic analysis, without automorphic hypotheses. AutomorphicFormsOnReductiveGroups §4.3
-consumes them for its compact-quotient character adapter and Fourier expansion.
-(Definitions and conventions: Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128,
-for the standard additive characters, self-dual measures and Fourier transforms, with positive
-archimedean sign.)
-
-Construct the Schwartz–Bruhat space on the adeles, its restricted-product and tensor-product
-API, the self-dual Fourier transform and Poisson summation for a nontrivial additive character
-of `𝔸_F/F`. Use the positive Fourier kernel `ψ(xy)`. For the standard trace character the
-self-dual additive measures are `dx` at real places, `2 dx dy` at complex places and
-`vol(O_v) = q_v^(−ν_v/2)` at finite places, where `ν_v` is the different exponent.
-Fix Tate's multiplicative measures: `d^×x = (1−q_v⁻¹)⁻¹ dx_ψ/|x|_v` at finite places and
-`d^×x = dx_ψ/|x|_v` at infinity. Thus `vol^×(O_v^×) = q_v^(−ν_v/2)`.
-Use `dt/t` for the norm variable in the disintegration of the idele-class measure.
-For residue comparisons, write `κ := NumberField.dedekindZeta_residue F`.
+**Global inputs.** For a number field `F`, the standard trace character `ψ = ∏_v ψ_v` with its
+local self-duality, the duality of restricted products, the self-duality of `𝔸_F` with
+`F^⊥ = F` (`adeleRing_selfDual`), the self-dual additive measures, the adelic Schwartz–Bruhat space
+with its self-dual Fourier transform for the positive kernel `ψ(xy)` and Poisson summation, and the
+multiplicative measures, which give `O_v^×` mass `q_v^(−ν_v/2)` with `ν_v` the different exponent,
+are AnalyticNumberTheoryPartII §§5.3g, 5.3h and 5.3j. The evaluations and the product formula below
+use exactly these normalisations.
 
 #### Standard-test-function evaluations
 
 **Standard-test-function evaluations.** For the following prescribed local functions and their
-positive-kernel Fourier transforms, evaluate
+positive-kernel Fourier transforms (AnalyticNumberTheoryPartII §5.3g), evaluate
 `z_v(g,ω,s) = ∫_{F_v^×} g(x) ω(x) |x|_v^s d^×x` in its convergence half-plane and
-continue the resulting expressions meromorphically. Use
+continue the resulting expressions meromorphically. For a quasi-character `ω = ω₀ |·|_v^t` with
+`ω₀` unitary and the standard character `ψ_v`, `z_v(g,ω,s)` is AnalyticNumberTheoryPartII §5.3j's
+local zeta integral `z(g,ω₀,s+t)`, convergent on `Re(s+t) > 0`; for `ψ_v(b·)` the self-dual
+measure, and with it `z_v`, is multiplied by `|b|_v^(1/2)`. Use
 `Γ_ℝ(u) = π^(−u/2) Γ(u/2)` and `Γ_ℂ(u) = 2(2π)^(−u) Γ(u)`, Mathlib's
 `Complex.Gammaℝ` and `Complex.Gammaℂ`.
 
 For *finiteStandardEvaluation*, let `F_v/ℚ_p` be finite, `ω : F_v^× → ℂ^×` a continuous
 quasi-character, `ψ_v` a nontrivial continuous additive character, `ν = n(ψ_v)`, `c = a(ω)` and
-`d^×x = (1−q⁻¹)⁻¹ dx_ψ/|x|_v`.
+`d^×x = (1−q⁻¹)⁻¹ dx_ψ/|x|_v`, which for the standard `ψ_v` is AnalyticNumberTheoryPartII §5.3j's
+multiplicative measure.
 If `c = 0`, put `f_ω = q^(ν/2) 1_{O_v}`; if `c ≥ 1`, put
 `f_ω(x) = q^(ν/2) ω(x)⁻¹` on `O_v^×` and zero elsewhere.
 Then `z_v(f_ω,ω,s) = L_v(s,ω)`, where the factor is
@@ -2337,13 +2333,13 @@ Then `z_v(f_ω,ω,s) = L_v(s,ω)`, where the factor is
 `z_v(f̂_ω,ω⁻¹,1−s) = ε_v(s,ω) L_v(1−s,ω⁻¹)`, with
 `ε_v(s,ω) =` *tateLocalConstant*`(ω |·|_v^s, ψ_v, dx_ψ)` given by [Arithmetic character constants](#local-constant-gauss-sum).
 For `c = 0`, `f̂_ω = 1_{ϖ^(−ν)O_v}`; for `c ≥ 1`, its support is exactly
-`ϖ^(−ν−c)O_v^×`. The factor `q^(ν/2)` normalizes Tate's multiplicative unit volume;
+`ϖ^(−ν−c)O_v^×`. The factor `q^(ν/2)` normalizes the multiplicative unit volume `q^(−ν/2)`;
 with unit-volume-one multiplicative measure the unscaled functions have integral `L_v`.
 
 For *archimedeanStandardEvaluation_real*, let
 `ω(x) = sgn(x)^a |x|^t`, `a ∈ {0,1}`, `t ∈ ℂ`,
 `ψ(x) = exp(2πix)` and `f_a(x) = x^a exp(−πx²)`.
-With `d^×x = dx/|x|`, prove `f̂_a = i^a f_a`,
+With AnalyticNumberTheoryPartII §5.3j's `d^×x = dx/|x|`, prove `f̂_a = i^a f_a`,
 `z_v(f_a,ω,s) = Γ_ℝ(s+t+a)` and
 `z_v(f̂_a,ω⁻¹,1−s) = i^a Γ_ℝ(1−s−t+a)`.
 
@@ -2352,15 +2348,16 @@ For *archimedeanStandardEvaluation_complex*, let
 the ordinary absolute value and `|z|_ℂ = z z̄`.
 Take `a,b ∈ ℕ` with `min(a,b) = 0` and `a−b = −k`, and put
 `f_{a,b}(z) = π⁻¹ z^a z̄^b exp(−2πz z̄)`.
-For `ψ(z) = exp(2πi(z+z̄))`, self-dual additive measure `2 dx dy` and
-`d^×z = 2 dx dy/|z|_ℂ`, prove `f̂_{a,b} = i^(a+b) f_{b,a}`,
+For `ψ(z) = exp(2πi(z+z̄))`, AnalyticNumberTheoryPartII §5.3g's self-dual additive measure
+`2 dx dy` and §5.3j's `d^×z = 2 dx dy/|z|_ℂ`, prove `f̂_{a,b} = i^(a+b) f_{b,a}`,
 `z_v(f_{a,b},ω,s) = Γ_ℂ(s+t+|k|/2)` and
 `z_v(f̂_{a,b},ω⁻¹,1−s) = i^|k| Γ_ℂ(1−s−t+|k|/2)`.
 These are evaluations of the specified functions by geometric series, Gauss sums and Gaussian
 Mellin integrals. (Source: Deligne 1973, 3.2–3.4, pp. 526–528, and 5.5–5.7, pp. 548–550,
 for factors and constants; Mathlib `fourier_gaussian_pi` and `Complex.Gamma_eq_integral`
 for the Gaussian Fourier and Mellin calculations.)
-*Needs:* the local Fourier and measure foundations above; [Arithmetic character constants](#local-constant-gauss-sum);
+*Needs:* AnalyticNumberTheoryPartII §§5.3g and 5.3j (local Fourier transforms, self-dual and
+multiplicative measures, local zeta integrals); [Arithmetic character constants](#local-constant-gauss-sum);
 ClassFieldTheory layer 7; Mathlib Haar integration, Fourier transform and gamma integrals.
 
 **Checks.**
@@ -2401,22 +2398,23 @@ For every continuous idele-class quasi-character `χ = ω |·|_𝔸^t`, `t ∈ �
 `∏_v ε_v(s,χ_v,ψ_v) = W_H(ω) A^(1/2−s−t)`
 (*rootNumber_eq_prod_tateLocalConstant*). Here
 `ε_v(s,χ_v,ψ_v) =` *tateLocalConstant*`(χ_v |·|_v^s,ψ_v,dx_ψ)`;
-use the standard trace character and self-dual measures above. All but finitely many factors are
-one. Factor the single residue-class sum by the Chinese remainder theorem and compare each term
-with the local Gauss sum, including the different and the uniformiser values. Scaling the trace
-character by `b ∈ F^×` leaves the product unchanged by the product formula and `χ(b) = 1`.
+use AnalyticNumberTheoryPartII §5.3g's standard trace character and self-dual measures. All but
+finitely many factors are one. Factor the single residue-class sum by the Chinese remainder theorem
+and compare each term with the local Gauss sum, including the different and the uniformiser values.
+Scaling the trace character by `b ∈ F^×` leaves the product unchanged by the product formula and
+`χ(b) = 1`.
 
 For checks on completions, write `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` initially in
 `Re u > 1`, with factors `Γ_ℝ(u+i r_v+b_v)` and `Γ_ℂ(u+i r_v+|k_v|/2)`.
 The downstream AutomorphicLFunctionsAndLocalFactors AL.1.6.1 identifies `W_H(ω)` with the root
-number of AnalyticNumberTheoryPartI §2.3a's functional equation for every continuous unitary `ω`,
-and AL.2.4.1 at `n = 1` recovers that completion as a global zeta integral.
+number of AnalyticNumberTheoryPartI §2.3a's functional equation for every continuous unitary `ω`.
 AutomorphicSpectralTheory §1.15c constructs the same conductor-balanced completion from
 Eisenstein theory: equality on `Re(u) > 1` identifies their meromorphic germs and root numbers.
 (Source: Neukirch VII (7.4)–(7.7), pp. 488–490, and (8.5)–(8.6), pp. 502–503;
 Tate, *Number theoretic background*, (3.2.6), pp. 13–14; Deligne 1973, 3.11–3.12 and 5.5.)
 *Needs:* [Arithmetic character constants](#local-constant-gauss-sum);
-GlobalNumberFields Layers 4–6 and 9–10's unitary decomposition; the standard trace character above.
+GlobalNumberFields Layers 4–6 and 9–10's unitary decomposition; AnalyticNumberTheoryPartII
+§5.3g's standard trace character, trivial on `F` by §5.3h.
 
 **Checks.**
 - For the trivial character, `W = 1` and
@@ -2469,15 +2467,6 @@ VIII, Theorem 2.4, p. 232, for finite-order character extension; Tate, *Local co
 GlobalNumberFields Layers 9–10 (idele-class characters); Mathlib's Galois theory of number fields.
 
 **Checks.**
-- At diagonal `1/3 ∈ ℚ`, the real and `3`-adic factors are `exp(2πi/3)` and
-  `exp(−2πi/3)`, so their product is one. A positive finite-place sign instead gives
-  `exp(4πi/3) ≠ 1` and fails diagonal triviality.
-- Over `ℚ`, the adele with real component `1/2` and all finite components zero pairs with
-  diagonal `1` to give `−1`, so it is outside `ℚ⊥`; every diagonal rational is inside.
-- Over `ℚ_p`, `ℤ_p⊥ = ℤ_p`; for a ramified completion, `O_v⊥ = 𝔡_{F_v/ℚ_p}⁻¹`
-  is strictly larger than `O_v`, retaining the different in the restricted-product comparison.
-- For `b ∈ 𝔸_F^×`, the pairing `ψ(bxy)` has diagonal annihilator `b⁻¹F`.
-  The equality with `F` uses the specified trace pairing.
 - In the local-extension globalization the completion of `F'` may strictly contain `K'`;
   the contract supplies a subextension, rather than equality with the chosen local extension.
 - With `S` empty the trivial finite-order character suffices. For nonempty `S`, the conductor
@@ -2512,8 +2501,9 @@ For §§2.4–2.5: SmoothRepresentationsOfLocalGroups SR.5.2 `wd-linear-substrat
 `nilpotent-exp-log`, `wd-complete-coefficients`, `wd-parameter-operations`,
 `full-wd-construction`, `wd-frobenius-semisimplification` and `classical-llc-normalization`.
 For §2.5a: AdelicAlgebraicGroups AA.2.4's finite-image factors, induction and assembly.
-For §2.7: GlobalNumberFields Layers 4–6 and 9–10; ClassFieldTheory Layers 11–12 for
-reciprocity; finite-order character globalisation is owned in §2.7.
+For §2.7: AnalyticNumberTheoryPartII §§5.3g, 5.3h and 5.3j; GlobalNumberFields Layers 4–6 and
+9–10; ClassFieldTheory Layers 11–12 for reciprocity; finite-order character globalisation is owned
+in §2.7.
 
 ## Layer 3: Artin and Swan conductors
 
@@ -5554,8 +5544,9 @@ and §1.2's coefficient comparisons for the frame-to-module comparison.
 ClassicalSerreModularity consumes §6.1's matrix realization over `F̄_p` with invariant trace
 and determinant. These are consumer interfaces, not prerequisites of their construction.
 
-AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local zeta integral and functional
-equation, identifies its constant with §2.7's [`local-constant-gauss-sum`](#local-constant-gauss-sum);
+AutomorphicLFunctionsAndLocalFactors AL.1.3.2, the rank-one local functional equation of
+AnalyticNumberTheoryPartII §5.3j's local zeta integrals, identifies its constant with §2.7's
+[`local-constant-gauss-sum`](#local-constant-gauss-sum);
 the local standard evaluations AL.1.2.1, AL.1.2.3 and AL.1.2.4 of that roadmap consume
 [`standard-test-function-evaluations`](#standard-test-function-evaluations), and AL.1.6.1 consumes
 the finite-sum [`root-number-product-formula`](#root-number-product-formula) and identifies that
@@ -5570,8 +5561,7 @@ These downstream analytic targets consume the arithmetic constants. The finite-i
 functional equation is AnalyticNumberTheoryPartI §2.41's, on its §§2.2a and 2.18a, and does not
 use §2.7. The higher-rank Deligne–Langlands local constants and their Weil–Deligne extension are
 ArtinRepresentations §2.4's, which consumes §2.7's scalar constants and finite-order
-globalisation. The comparison of the global zeta integral at the standard test function with the
-completed Hecke function is the `n = 1` case of AutomorphicLFunctionsAndLocalFactors AL.2.4.1.
+globalisation.
 
 ## References
 
@@ -5659,8 +5649,6 @@ completed Hecke function is the `n = 1` case of AutomorphicLFunctionsAndLocalFac
   (KW (II); cited by lemma number).
 - M. Kisin, R. Zhou, *Independence of ℓ for Frobenius conjugacy classes attached to abelian varieties*,
   arXiv:2103.09945v2.
-- S. S. Kudla, *Tate's thesis*, in J. Bernstein, S. Gelbart (eds.), An Introduction to the Langlands
-  Program, Birkhäuser, 2003, 109–131.
 - M. Larsen, *Maximality of Galois actions for compatible systems*, Duke Math. J. 80 (1995), 601–630.
 - Q. Liu, *Conducteur et discriminant minimal de courbes de genre 2*, Compositio Math. 94 (1994), 51–79.
 - J. Marzec, M. Neururer, *L-functions and their applications*, 25 February 2020, Chapter 5,
