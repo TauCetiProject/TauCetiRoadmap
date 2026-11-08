@@ -31,10 +31,9 @@ The harmonic analysis under the binary-cubic theory is stated where its carriers
 exist: restricted products of Haar measures, Weil's quotient measure and the class
 number of `GL₂` over a number field (§§5.3f–5.3m). The K-Bessel kernel and Hecke
 continuation on Tau Ceti's idele-class characters are AnalyticNumberTheoryPartI
-§§2.1a and 2.3a. The adelic Schwartz–Bruhat space, Tate's zeta integrals for
-arbitrary test functions, Siegel sets and the `GL₂` Eisenstein series need an adelic
-Schwartz–Bruhat carrier and adelic `GL₂` quotients with their Haar measures, absent
-at the pins, and have no signatures here.
+§§2.1a and 2.3a. The adelic Schwartz–Bruhat space, Siegel sets and the `GL₂`
+Eisenstein series need an adelic Schwartz–Bruhat carrier and adelic `GL₂` quotients
+with their Haar measures, absent at the pins, and have no signatures here.
 
 Layer 6 states generation of the native rational torsion group algebra by first
 Eisenstein functions, existence and uniqueness of critical scaling measures on
