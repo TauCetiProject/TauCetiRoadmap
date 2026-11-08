@@ -147,13 +147,13 @@ theorem upperBound_le_of_starfish {C R F K : Type*} [CommRing C] [CommRing R] [I
 def cartanCompanion {K : Type*} [DecidableEq K] (B : Matrix K K ℤ) : Matrix K K ℤ :=
   fun i j ↦ if i = j then 2 else -|B i j|
 
-/-- **Finite type** (§4.1, conditions 1 ⟺ 2, coefficient-free): finitely many cluster variables
-exactly when some matrix in the mutation class has a Cartan companion of finite type. -/
-theorem finite_clusterVariables_iff {K F : Type*} [Fintype K] [DecidableEq K] [Field F]
-    (B : ExchangeMatrix (Function.Embedding.refl K)) (c : LaurentChart ℤ K F) :
-    (clusterVariables (Function.Embedding.refl K) B.matrix c).Finite ↔
+/-- **Finite type** (§4.1, conditions 1 ⟺ 2, geometric type): finitely many cluster variables
+exactly when some mutated principal block has a Cartan companion of finite type. -/
+theorem finite_clusterVariables_iff {I K F : Type*} [Fintype I] [DecidableEq I] [DecidableEq K]
+    [Field F] {row : K ↪ I} (B : ExchangeMatrix row) (c : LaurentChart ℤ I F) :
+    (clusterVariables row B.matrix c).Finite ↔
       ∃ w, TauCeti.IsFiniteType
-        (cartanCompanion (matrixMutationWord (Function.Embedding.refl K) B.matrix w)) := by
+        (cartanCompanion fun i j ↦ matrixMutationWord row B.matrix w (row i) j) := by
   sorry
 
 /-- **2-finiteness** (§4.1, conditions 2 ⟺ 3). -/

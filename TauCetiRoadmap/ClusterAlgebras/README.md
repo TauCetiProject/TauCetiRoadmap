@@ -83,8 +83,8 @@ and min/max tropicalization maps and prove their mutation laws.
 Brackets of derivations are the ordinary commutators `[D,E]=D∘E−E∘D`; for a
 Poisson bracket `[−,−]_P`, use left Hamiltonians `H_f=[f,−]_P`.
 
-Use `OreLocalization` and the existing twisted monoid algebra for the noncommutative
-foundations. One-exchange, patching and replacement statements concern subrings of a
+Use `OreLocalization` for the skew fields of fractions of the based tori.
+One-exchange, patching and replacement statements concern subrings of a
 fixed division ring, not an abstract skew-polynomial carrier. `FractionRing` and
 `IsFractionRing` apply only to the commutative specialization.
 The common scalar ring acts centrally; the ambient division ring need not be
@@ -106,23 +106,22 @@ and `RootPairing`, `RootPairing.Base` and its integer Cartan matrix for root sys
 
 ### From Tau Ceti
 
-`TauCeti.twistedMonoidAlgebra` supplies the based-torus carrier and its
-normalized monomials (§0.4). The `laurentEval` and `laurentEvalEquiv` declarations
+The `laurentEval` and `laurentEvalEquiv` declarations
 in `TauCeti.Algebra.Polynomial.Laurent.Basic` supply one-variable evaluation at a unit
 for §§0.2 and 0.5. Use `TauCeti.DynkinType`, `DynkinType.Valid` and
 `TauCeti.IsFiniteType` for Cartan type in Layer 4.
 
 ### From TauCetiRoadmap.ScatteringDiagrams
 
-[ScatteringDiagrams](../ScatteringDiagrams/README.md) owns completed
-wall groups, consistent completion, broken lines, theta transport and wall positivity.
+[ScatteringDiagrams](../ScatteringDiagrams/README.md) §4.3 supplies the full
+`QuantumMonoidAlgebra`, including its monomial basis, coefficient maps, lattice maps
+and untwisted comparison. It also supplies completed wall groups, consistent completion,
+broken lines, theta transport and wall positivity.
 Consume §0.8's finite expansion and recursion, §§3.3–3.4's ordinary and
 relative abelian completions, §§4.2–4.4, 5.1–5.6 and 7.1–7.7 at their
 stated hypotheses. This roadmap owns seed mutation invariance, the cluster chambers,
 and the theta/cluster comparison.
-Cluster positivity consumes these scattering theorems; their construction must not
-assume cluster Laurentness or positivity. The seed-free twisted algebra in §4.3 is
-shared infrastructure described below, not a dependency on wall completion.
+Cluster positivity consumes the scattering theorems with their seed-free hypotheses.
 
 ### From TauCetiRoadmap.RootSystems
 
@@ -147,11 +146,6 @@ Layer 6 here constructs double cells, generalized minors and their cluster chart
 supplies scheme gluing, dimension theory and §0.6's `coherent_hartogs` for
 restriction away from a closed subset under the depth hypothesis.
 
-### From TauCetiRoadmap.SchubertGeometry
-
-[SchubertGeometry](../SchubertGeometry/README.md) owns flag/Schubert section theory;
-use its existing comparisons when expressing minors as sections, without duplicating it.
-
 ### From TauCetiRoadmap.AnalyticToricGeometry
 
 [AnalyticToricGeometry](../../Completed/AnalyticToricGeometry/README.md), Layer 0, owns the
@@ -160,19 +154,11 @@ Section 3.3 extends the regular-cone chart and face-localization API to the
 commutative ground ring used here; §5.3 consumes its rational instance.
 The complex scheme construction is not a general scalar-ring supplier.
 
-### From TauCetiRoadmap.InductionRestriction
-
-[InductionRestriction](../RepresentationTheory/InductionRestriction/README.md),
-Layer 7's twisted group algebra, owns the normalized-cocycle carrier and its
-universal property. Instantiate `TauCeti.twistedMonoidAlgebra` for the lattice
-cocycle in §0.4. Use this same instance for ScatteringDiagrams §4.3's
-`QuantumMonoidAlgebra`, with its monomial basis, coefficient maps and lattice maps.
-
 ## How to read the build
 
 | Layer | Delivers | Depends on |
 |---|---|---|
-| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib; shared twisted algebra |
+| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib; ScatteringDiagrams §4.3 |
 | 1 | Exchange frames, polynomial mutation, classical and quantum seeds and algebras | 0 |
 | 2 | Common polynomial upper bounds; quantum and classical Laurentness; separation; Starfish | 0–1; SchemeAndStackFoundations §0.6 |
 | 3 | Lattice formalism, cluster varieties, matrix and tropical realizations | 0–2; toric carriers and scheme gluing |
@@ -182,7 +168,7 @@ cocycle in §0.4. Use this same instance for ScatteringDiagrams §4.3's
 
 | Shared material | Single home | Consumers |
 |---|---|---|
-| Twisted algebra, basis and coefficient/lattice maps | Existing twisted monoid algebra; §0.4 instances | Based tori, quantum charts, scattering coefficients |
+| Twisted lattice algebra, monomial basis and functorial maps | ScatteringDiagrams §4.3 | Based tori and quantum charts |
 | Embedded skew Laurent normal forms, chart change and denominator patching | Seed-free algebra, §§0.4–0.5 | Polynomial mutation and Q1; commutative one-exchange statements |
 | Support, separated scalar factors and flat simultaneous divisibility | Seed-free algebra, §0.6 | Commuting Q2 and classical divisibility statements |
 | Finite ordered polynomial replacement | Seed-free algebra, §0.7 | Interacting Q2, binary and commutative replacement |
@@ -313,15 +299,16 @@ maps.
 
 ### 0.4 Based quantum tori and Ore realizations
 
-For a commutative ring `R`, a unit
-`u∈Rˣ`, a finite free lattice `L` and an integral alternating form `Λ`, let `T(R,u,Λ)` be
-the existing twisted monoid algebra of `Multiplicative L` for the cocycle `u^{Λ(a,b)}`, so
-`X^a X^b=u^{Λ(a,b)}X^{a+b}`. Prove inverse monomials, coefficient extraction, finite
-support, lattice reindexing, coefficient change along ring maps preserving the unit with
-identity and composition laws, and the identification with the lattice group algebra when
-`u=1` or `Λ=0`, including evaluation and coefficient extraction. ScatteringDiagrams §4.3's
-parameter `q_sc` is `u`; quantum cluster notation takes `u=v` and `q_cl=v²`, so
-`X_i X_j=v^{2Λ_ij}X_j X_i` in the same based quantum torus.
+For a commutative ring `R`, a unit `u∈Rˣ`, a finite free lattice `L` and an
+integral alternating form `Λ`, let `T(R,u,Λ)` be the full
+`QuantumMonoidAlgebra` of ScatteringDiagrams §4.3 with `q=u` and `β=Λ`.
+The positive degree datum can be `(L,{0},0)` for this use of the full algebra.
+Use the supplied basis and its coefficient and lattice maps. Write `X^a` for the
+basis monomial at `a∈L`. The multiplication rule
+`X^a X^b=u^{Λ(a,b)}X^{a+b}` gives inverse monomial `X^{-a}` and the untwisted
+product at `u=1`. Use §4.3's untwisted comparison for `Λ=0`.
+Quantum cluster notation takes `u=v` and `q_cl=v²`, so
+`X_i X_j=v^{2Λ_ij}X_j X_i`.
 
 For a basis of `L`, construct the quantum polynomial and mixed Laurent subalgebras by
 support, with monomial bases and localization at selected monomials. Universal
@@ -340,8 +327,8 @@ instances) rather than assuming them as instance arguments.
 Construct its skew field of fractions with `OreLocalization`, using
 `OreLocalization.oreDiv_eq_iff`, `OreLocalization.numeratorHom_inj`, the existing
 division-ring instance and `OreLocalization.universalHom` with its uniqueness
-theorem. Prove the quantum-torus Ore hypotheses and the coefficient, lattice and
-chart comparisons needed below; for a domain `R`, coefficient change embeds `T(R,u,Λ)` in
+theorem. Prove the coefficient, lattice and chart comparisons for these fraction
+constructions. For a domain `R`, coefficient change embeds `T(R,u,Λ)` in
 the skew field of fractions of `T(FractionRing R,u,Λ)`. A quantum chart is an injective
 `R`-algebra map of `T(R,u,Λ)` into a division ring; it is generating when its image
 generates that ring. Generating charts determine their ambient division ring up to
@@ -349,13 +336,15 @@ unique isomorphism. The Laurent theorems of Layers 1–2 use only injectivity of
 
 **Checks.**
 
-- For `Λ(e₁,e₂)=1`, verify `X₁X₂=uX^{e₁+e₂}` and `X₂X₁=u⁻¹X^{e₁+e₂}`.
-- For `Λ≠0` and `u=1`, the same monomial basis gives the commutative Laurent algebra.
+- For `Λ(e₁,e₂)=1` and `S={1}`, the mixed algebra contains `X₁⁻¹` and `X₂`
+  while `X₂⁻¹` fails the support condition. Its normalized monomial at
+  `−e₁+2e₂` is `u²X₁⁻¹X₂²`.
+- At `u=1` the same mixed algebra is `R[X₁^{±1},X₂]`, even for `Λ≠0`.
 - In the skew field of fractions of the rank-two torus, verify that the nonzero element `1+X₁`
   becomes a unit while `X₂(1+X₁)=(1+u⁻²X₁)X₂`.
 
-*Needs:* Mathlib lattice, monomial support and Ore localization APIs; the native twisted algebra
-from InductionRestriction Layer 7, shared with ScatteringDiagrams §4.3.
+*Needs:* Mathlib lattice, monomial support and Ore localization APIs, and ScatteringDiagrams §4.3
+for the full twisted lattice algebra, its monomial basis and its coefficient and lattice maps.
 
 ### 0.5 One-exchange algebra
 
@@ -368,8 +357,10 @@ normalizing `C`, with `σ(c)=xcx⁻¹`, `P_0=1` and `P_{r+1}=P_rσ^{-r}(E)`, the
 - `y` normalizes `C`, its powers are left independent over `C`, and `y^r=P_r x^{-r}`;
 - `Σ_m c_m x^m∈C[y^{±1}]` if and only if `c_{-r}∈C P_r` for all `r>0`;
 - `C[x^{±1}]∩C[y^{±1}]=C⟨x,y⟩`, with unique normal forms `c_0+Σ_{r>0}(c_r x^r+c'_r y^r)`.
-These criteria and normal forms are proved; membership in the intersection is not
-assumed. In the commutative case this is `D[x^{±1}]∩D[(E/x)^{±1}]=D[x,E/x]`; the classical and quantum cases of Q1 are instances. Also prove, for `z` normalizing `C`:
+The classical and quantum cases of Q1 are instances of the coefficient criterion and
+normal forms. See BFZ III, Lemmas 4.1–4.2, for the commutative case
+`C[x^{±1}]∩C[(E/x)^{±1}]=C[x,E/x]` and BZ, Lemmas 5.5–5.6, for quantum exchange.
+Also prove, for `z` normalizing `C`:
 - *patching*: for a subring H of any ring, finite `a_l,u_l∈H` with
   `Σ_l a_lu_l=1` and `f a_l∈H` give `f∈H`. Give the left-sided form through
   the opposite ring. The two-denominator form with `a_1=a^r`, `a_2=b^s` and
@@ -432,6 +423,8 @@ is the span of `X^a` for `a∈L_u`, with the restricted twisted multiplication.
 A chosen basis of L_u gives an equivalence with an ordinary lattice Laurent
 algebra; it need not preserve normalized monomials. If no nonzero power of
 `u²` is 1, then `L_u=rad Λ` and the canonical center is `R[rad Λ]`.
+See BZ, Proposition 11.2, for the center and the intersection of principal central
+ideals at the generic quantum parameter.
 Neither a Bézout hypothesis nor a noncommutative UFD is used.
 
 Prove the shared scalar-divisibility statement for a flat module M over a
@@ -475,7 +468,8 @@ z** ∈ C⟨x*,z*,z⟩.
 
 Give reindexing and zero-term insertion/removal laws. Prove the scalar, singleton
 and finite-sum cases from this same identity. The singleton case with `n_a=N=r`,
-`φ=m₁n₁⁻¹`, `n₀=n₁`, `m₀=m₁` gives binary replacement for the classical and quantum instances of Q2.
+`φ=m₁n₁⁻¹`, `n₀=n₁`, `m₀=m₁` gives binary replacement for the classical and
+quantum instances of Q2, as in BFZ III, Lemma 4.6, and BZ, Lemma 5.8.
 
 For a commutative coefficient ring R, construct
 `D_{P,n}(T)=(P(T)^n-P(0)^n)/T` by shifting coefficients, proving
@@ -529,8 +523,8 @@ Use the rank-two determinant lattice to compare the ordinary Laurent chart, the 
 
 ### Dependencies
 
-Mathlib supplies the algebraic carriers. The twisted algebra is the native Tau Ceti construction
-from InductionRestriction Layer 7 and is shared with ScatteringDiagrams §4.3.
+Mathlib supplies the algebraic carriers. ScatteringDiagrams §4.3 supplies the full twisted
+lattice algebra for the quantum torus.
 
 ## Layer 1: classical and quantum seeds and mutation
 
@@ -696,13 +690,12 @@ Reduce the finite-rank constructions to `K⊔J₀`; adjoining the remaining
 frozen coordinates is a free mixed Laurent extension with coefficientwise
 expansion maps. No unrestricted base-change/intersection interchange is used.
 
-**Checks.** For `K` and `J` empty, `A=U=⊥`. For `K=Unit`, `B=0`: the one-element `P` gives
-`xx'=2`; `P=Trop(Unit)`, `y=z` gives `xx'=1+z`. For `K=Unit`, `J=Fin 2`, `B̃` the column
-`(0,1,1)`: `xx'=1+z_0z_1`.
-
 **Checks.**
 
+- For `K` and `J` empty, `A=U=⊥`.
+- For `K=Unit`, `B=0` and the trivial coefficient semifield over ℤ, `xx'=2`.
 - For a rank-one extended column `(0,1)ᵀ`, the coefficient is `z` and `xx'=1+z`.
+- For `K=Unit`, `J=Fin 2` and extended column `(0,1,1)ᵀ`, `xx'=1+z_0z_1`.
 - In characteristic two, the extended column `(0,2)ᵀ` gives `xx'=1+z²≠0`, whereas a zero extended column gives zero.
 - An initially zero frozen row stays zero and contributes an independent polynomial or Laurent
   variable according to whether it is inverted.
@@ -727,8 +720,8 @@ based exchange frame by B̃, Λ, w, column
 compatibility and an injective `R`-algebra chart `T(R,u,Λ)→D`. Its normalized
 monomials M and coordinate units come from this chart. Prove extensionality,
 reindexing along equivalences commuting with row, and transport along injective
-ambient R-algebra maps. Construct coefficient and lattice maps on the tori;
-transport a frame when a compatible faithful target realization is supplied.
+ambient R-algebra maps. Use §0.4's supplied coefficient and lattice maps on the tori
+to transport a frame when a compatible faithful target realization is supplied.
 Chart generation of the entire ambient division ring is not required.
 
 **P1 — polynomial mutation.** Add central scalar polynomials
@@ -1021,42 +1014,47 @@ these conditions. For geometric patterns with active frozen variables inverted,
 identify the full-column-rank corollary with the `u=1`, `Λ=0`, `w=0` instance of
 Q1–Q3. Sources: BFZ III, §1 and its upper-bound proofs.
 
-**Checks.** At `u=1`, zero Λ and w, verify the classical exchange formula
-and all-word statement over ℤ using independent initial coordinates. In rank
-two use `B=((0,3),(−3,0))`, matrix symmetrizer `(1,1)`, degrees `(3,3)` and
-`H_1=H_2=1+2T+T³`. This zero-form case must not require degrees to divide
-the matrix symmetrizer; prove that the same matrix with this symmetrizer has
-no integral positive compatible form. For the ordinary quantum rank-one pair `Λ=((0,−1),(1,0))`, `B̃=(0,1)ᵀ`, check
-`X_1X'_1=1+v⁻¹X_2`, `X'_1X_1=1+vX_2` and
-`(X'_1)²=(1+vX_2)(1+v³X_2)X_1⁻²` by degree one of the displayed products.
-For the principal pair of the zero matrix on `Fin 2` with symmetrizer `(1,1)`,
-check commuting Q2: `H_12` contains `X'_1X'_2` and excludes
-`X_1⁻¹X_2⁻¹(1+v⁻¹X_3)`. For the principal pairs of `B=±((0,b),(−c,0))`,
-`(b,c)=(1,1),(1,2),(2,1),(1,3),(3,1)`, check the constructed replacement
-premises. For empty K and `J=Fin 1`, compute `A_{v,∅}=Z_v[X_1]` and
-`A_{v,J}=U_v=Z_v[X_1^{±1}]`.
-For `B=0` in rank two over ℤ, `H_1=H_2=1+T`, the rank-free Laurent
-corollary applies, but `2/(xy)` lies in the initial UB and not in the chart
-`ℤ[(2/x)^{±1},(2/y)^{±1}]`; hence `UB≠U`. Over `𝔽₂` the same zero-column
-data fail P1, whereas a principal frozen block makes both exchanges nonzero.
-For `H=1−2T+T²`, a zero column is excluded even in characteristic zero.
-The matrix `((0,1,−1),(−1,0,1),(1,−1,0))` has pairwise independent columns,
-but after mutation at 1 its commuting columns 2 and 3 are opposite.
-Thus initial pairwise independence cannot replace the full-rank sufficient
-condition for upper-bound invariance without an orbitwise argument.
-For the classical ideal criterion, use `D=ℤ[u,w]`, `E=1+u`, `F=1+w`:
-for independent x,y put `x*=E/x`, `y*=F/y`. Then
-`(1+u)(1+w)x⁻¹y⁻¹=x*y*` lies in `D[x,x*,y,y*]`, but `(1+u)x⁻¹y⁻¹` does not.
-Over `D=ℤ[√−5]`, `E=2` and `F=1+√−5` have no common nonunit divisor,
-but `6∈(E)∩(F)` and `6∉(EF)`.
-For noninverted active frozen variables, over `ℤ[z]` with extended matrix
-`((0,1),(−1,0),(1,−1))`, put `x'=(y+z)/x`, `y'=(x+z)/y` and
-`h=(x+y+z)/(xy)`. Check `h=(1+x')/y=(1+y')/x` and `zh=x'y'−1`.
-Thus h belongs to the initial and adjacent Laurent charts, but not to
-`ℤ[z,x,x',y,y']`: setting z to zero gives `x⁻¹+y⁻¹`, whereas its four
-coordinate generators have nonnegative total x,y-degree. The local intersection
-criterion therefore requires its stated unit hypotheses even though L8's
-polynomial-frozen Laurent theorem applies.
+For the rank-two comparison with `B=((0,3),(−3,0))` and `d=(1,1)`, distinguish
+the unit-parameter zero-form frame from the ordinary-compatible sector of §1.5.
+For `Λ=((0,λ),(−λ,0))`, one has `BᵀΛ=3λ·Id`, so the ordinary condition
+`w=d` would require `λ=1/3`. The choice `λ=1` instead gives positive weights
+`w=(3,3)`.
+
+**Checks.**
+
+- For the rank-two matrix above with `u=1`, `Λ=0`, `w=0`, and
+  `H_1=H_2=1+2T+T³`, the degree-three data satisfy P1, and the exchange at 1 is
+  `x'_1=(x_2³+2x_2²+1)/x_1`.
+- For the ordinary quantum rank-one pair `Λ=((0,−1),(1,0))`, `B̃=(0,1)ᵀ`,
+  `X_1X'_1=1+v⁻¹X_2`, `X'_1X_1=1+vX_2` and
+  `(X'_1)²=(1+vX_2)(1+v³X_2)X_1⁻²`.
+- For the principal pair of the zero matrix on `Fin 2` with symmetrizer `(1,1)`,
+  the commuting intersection `H_12` contains `X'_1X'_2` and excludes
+  `X_1⁻¹X_2⁻¹(1+v⁻¹X_3)`.
+- For the principal pairs of `B=±((0,b),(−c,0))` with
+  `(b,c)=(1,1),(1,2),(2,1),(1,3),(3,1)`, the interacting replacement
+  premises of Q2 hold.
+- For empty `K` and `J=Fin 1`, `A_{v,∅}=Z_v[X_1]` and
+  `A_{v,J}=U_v=Z_v[X_1^{±1}]`.
+- For `B=0` in rank two over ℤ and `H_1=H_2=1+T`, the element `2/(xy)`
+  belongs to the initial upper bound and fails membership in
+  `ℤ[(2/x)^{±1},(2/y)^{±1}]`.
+- Over `𝔽₂`, the same zero-column data fail P1 because `H_k(1)=0`.
+  A principal frozen block makes both exchanges nonzero.
+- For `H=1−2T+T²`, `H(1)=0` excludes a zero column even in characteristic zero.
+- The columns of `((0,1,−1),(−1,0,1),(1,−1,0))` are pairwise independent.
+  After mutation at 1, the commuting columns 2 and 3 are opposite.
+- Over `D=ℤ[u,w]` with `x*=(1+u)/x` and `y*=(1+w)/y`, the element
+  `(1+u)(1+w)x⁻¹y⁻¹=x*y*` lies in `D[x,x*,y,y*]` and
+  `(1+u)x⁻¹y⁻¹` fails membership.
+- Over `D=ℤ[√−5]`, `E=2` and `F=1+√−5` have no common nonunit divisor,
+  while `6∈(E)∩(F)` and `6∉(EF)`.
+- Over `ℤ[z]` with extended matrix `((0,1),(−1,0),(1,−1))`, put
+  `x'=(y+z)/x`, `y'=(x+z)/y` and `h=(x+y+z)/(xy)`. Then
+  `h=(1+x')/y=(1+y')/x` and `zh=x'y'−1`. The element `h` lies in the
+  initial and adjacent Laurent charts and fails membership in `ℤ[z,x,x',y,y']`.
+  At `z=0` its total `x,y` degree is `−1`, whereas the specialized generators
+  have nonnegative total degree.
 
 Sources for the ordinary quantum sector: BZ §5, Lemmas 5.4–5.6,
 Proposition 5.7, Lemma 5.8 and Corollary 5.2. Section 2.6 states the precise
@@ -1256,25 +1254,30 @@ independent of the chosen finite enlargement and compatible with re-rooting.
 The same reduction transports §5.2's integral positivity. Finite-type
 classification, finite lattice geometry and the quantum core retain finite rank.
 
-**Acceptance checks.** For L8 use the rank-two zero matrix, whose coefficient-free
-exchange polynomials are both `2`, and `P=Multiplicative ℚ` (elements `w^a`, `a∈ℚ`, with
-`w^a⊕w^b=w^{min(a,b)}`), a divisible, non-free group distinct from `Trop(J)`: for
-`y=(w^{1/2},w^{-1/3})` the four clusters are `{x_1,x_2}`, `{x'_1,x_2}`, `{x_1,x'_2}`,
-`{x'_1,x'_2}` with `x'_1=(1+w^{1/2})x_1⁻¹` and `x'_2=(1+w^{1/3})x_2⁻¹`. Rank zero
-gives `A=U=ℤ[P]`; rank one gives `xx'=2` coefficient-free and `xx'=1+u` with
-principal coefficients. For coefficient-free `A₂`, recover exactly
-`x₁,x₂,(1+x₂)/x₁,(1+x₁+x₂)/(x₁x₂),(1+x₁)/x₂`. Normalization and separation: FZ IV, §3, §6.
-Over `𝔽₂`, zero mutable B with principal frozen block Id has nonzero exchanges
-`xx'=1+z`; removing that frozen block gives the forbidden `xx'=0`.
-For `P=Trop(Unit)`, `φ(z)=−1` over ℚ and zero B, the coefficient-realization
-condition fails. For an infinite frozen set with only one nonzero frozen row,
-every variable depends on that row alone. For the locally finite `A_∞` path,
-a finite mutation word reduces to its finite active vertices and their boundary.
+See FZ IV, §§3 and 6, for normalization and separation.
 
 **Checks.**
 
-- In the principal rank-one seed with `B₀=0`, the normalized exchange at a coefficient `y` gives `(1+y)/((1⊕y)x)`.
+- For the rank-two zero matrix, take the divisible coefficient semifield
+  `P=Multiplicative ℚ` with elements `w^a` and `w^a⊕w^b=w^{min(a,b)}`.
+  With `y=(w^{1/2},w^{-1/3})`, the four clusters choose independently
+  `x_i` or `x'_i` for each direction, with `x'_1=(1+w^{1/2})x_1⁻¹` and
+  `x'_2=(1+w^{1/3})x_2⁻¹`.
+- In rank zero, `A=U=ℤ[P]`.
+- In rank one with `B₀=0`, the normalized exchange gives
+  `x'=(1+y)/((1⊕y)x)`. This gives `xx'=2` with trivial coefficients and
+  `xx'=1+u` with principal coefficients.
 - For `y=z⁻¹∈Trop({z})`, the previous expression is `(1+z)/x`, with no negative frozen exponent.
+- Coefficient-free `A₂` has the variables
+  `x₁,x₂,(1+x₂)/x₁,(1+x₁+x₂)/(x₁x₂),(1+x₁)/x₂`.
+- Over `𝔽₂`, the rank-one zero matrix with a principal frozen row gives the
+  nonzero exchange numerator `1+z`. Removing the row gives zero.
+- For `P=Trop(Unit)`, `φ(z)=−1` over ℚ and zero `B`, the numerator
+  `1+φ(z)` vanishes, so the realization condition fails.
+- With an infinite frozen set and a single initially nonzero frozen row,
+  every mutable coordinate has an expansion using only that frozen variable.
+- For the locally finite `A_∞` path on ℤ, the word `[0,1]` uses only the
+  initial coordinates at `−1,0,1,2` for its updated mutable coordinates.
 - The rational Laurent representative `(u₁²+u₁u₂)/(u₁+u₂)` specializes to `1` at `u₁=u₂=1`.
 
 *Needs:* §§0.1–0.3 for positive evaluation and Laurent rings; §§1.2–1.4 for seed identities and
@@ -1306,8 +1309,8 @@ is the image of the L8 expansion under `L(ℤ,Fin 4)→ℤ`, `x_i↦1`; deduce `
 `0<a_n`. In `somos4_exists_pos_nat`, prove that every `b:ℕ→ℚ` with `b₀=b₁=b₂=b₃=1` and
 `b_{n+4}b_n=b_{n+1}b_{n+3}+b_{n+2}²` equals `a`, so each `b_n` is a positive integer.
 
-Check `a₀,…,a₈=1,1,1,1,2,3,7,23,59`. Verify that the transitive proof dependencies of
-the integrality theorem include L8, L5 and, through L5, Q3's upper-bound invariance.
+See Fomin–Zelevinsky, *The Laurent phenomenon*, Theorem 1.8 and Example 3.3,
+for the recurrence and its Laurent phenomenon.
 
 **Checks.**
 
@@ -1352,19 +1355,16 @@ of normalized monomials and coefficient extraction on the image of `ι`; prove t
 graded when `A` is `H`-graded with each `ι(X_i)` of degree `deg(e_i)`, and intertwines bar
 with any σ-semilinear anti-involution of A fixing each `ι(X_i)`.
 
-**Checks.** For `K` empty and `J=Fin 1`, `Y_1=t` is a polynomial seed
-realization in `A=Z_v[t]` inducing `A_{v,∅}≃A`, and `t` is not a unit of `A`.
-Over `𝔽₇` with `u=2` and `Λ(e_1,e_2)=1`, the parameter has order 3 and the Q1 product
-`(1+2T)(1+T)(1+4T)=1+T³` is nonzero. Mutation and Laurentness apply, but
-there is no field automorphism sending 2 to its inverse 4, so the bar premise fails.
-Sources: BZ §§3–6.
+See BZ, §§3–6, for the ordinary quantum case.
 
 **Checks.**
 
 - For the rank-one principal pair, the degree assignment `deg(e₁)=1`, `deg(e₂)=0` gives degree `−1` to `X₁'`.
-- With no mutable coordinates and one frozen generator `t`, adjoining its inverse takes `Z_v[t]` to `Z_v[t^{±1}]`.
-- Over `𝔽₇` the order-three scalar `u=2` permits the exchange and Laurent constructions. A scalar
-  involution sending `2` to `4` cannot exist.
+- With no mutable coordinates, the realization `Y_1=t` in `Z_v[t]` identifies
+  `A_{v,∅}` with `Z_v[t]`. Inverting `t` gives `Z_v[t^{±1}]`.
+- Over `𝔽₇` with `u=2` and `Λ(e_1,e_2)=1`, the parameter has order three and
+  the Q1 product is `(1+2T)(1+T)(1+4T)=1+T³`. The bar premise fails because
+  no field automorphism sends `2` to `4`.
 
 *Needs:* §§0.4 and 1.5–1.6 for quantum charts, polynomial mutation and realizations; §2.1 (Q1–Q3)
 for chart overlaps and Laurentness.
@@ -1435,31 +1435,33 @@ is a theorem for independent initial coordinates. Construct the surjection
 comparison between the two instances of the common proof; it does not supply
 a second proof of their Laurent property.
 
-**Checks.** In the faithful generic torus `M(a,b)M(c,d)=v^{ad-bc}M(a+c,b+d)`,
-take `B=((0,2),(-2,0))`, `r=(2,2)`, `s=(2,2)` and `H_1=H_2=1+T+T²`.
-Put `x=M(1,0)`, `y=M(0,1)`,
-`x*=M(-1,0)+M(-1,1)+M(-1,2)`,
-`y*=M(0,-1)+M(1,-1)+M(2,-1)`, and
-`y**=(1+v⁻¹x*+v⁻²(x*)²)y⁻¹`. Verify the seed formula for all three,
-`xy≠yx`, the finite replacement premises and `y**∈Z_v⟨x*,y*,y⟩`.
-Use the common frame over `Z_v[a,b]` for the symbolic-coefficient variants
-`1+aT+T²`, `1+bT+T²`, with a,b independent central scalars. Check both signs
-of B and the degree-one instance of Q2. Check rank zero and one
-separately. Add a nonreciprocal cubic, for example `1+2T+T³`, and check that
-mutation reverses its coefficients and mutation twice restores the seed. Its
-all-word Laurent and classical specialization statements must use the public
-theorems. A fixed nonreciprocal polynomial rule must fail the corresponding
-negative control. Explicitly, at `u=1`, `B=((0,3),(−3,0))` and
-`H=1+2T+T³`, mutation at the first coordinate gives
-`x'=(y³+2y²+1)/x`. Reusing H unchanged after flipping the column gives
-`x''=x(y³+2y+1)/(y³+2y²+1)`, which is not Laurent; reversal gives `x''=x`.
-Compare every central coefficient and monomial under `v=1`.
+**Checks.**
 
-Endpoint normalization is essential for this mutation rule. Over ℚ with
-`B=((0,1),(−1,0))`, zero form, `H_1=1+T`, `H_2=1+2T`, the word `1,2,1`
-gives `x'''=1/y+x(y+2)/(y(y+1))`, which is not Laurent. Thus even unit
-endpoints cannot replace the two endpoints equal to 1 while merely reversing
-the selected polynomial and leaving the others unchanged.
+- In the generic torus `M(a,b)M(c,d)=v^{ad-bc}M(a+c,b+d)`, take
+  `B=((0,2),(−2,0))`, `r=(2,2)`, `w=d=(2,2)` and `H_1=H_2=1+T+T²`.
+  With `x=M(1,0)` and `y=M(0,1)`, one has `xy=v²yx`. The initial exchanges
+  are `x*=M(−1,0)+M(−1,1)+M(−1,2)` and
+  `y*=M(0,−1)+M(1,−1)+M(2,−1)`. The exchange at 2 after mutating at 1 is
+  `y**=(1+v⁻¹x*+v⁻²(x*)²)y⁻¹` and belongs to `Z_v⟨x*,y*,y⟩` by finite
+  replacement.
+- For the two signs of the same matrix, with the corresponding compatible forms
+  and `H_1=1+aT+T²`, `H_2=1+bT+T²` over `Z_v[a,b]`, the interacting
+  replacement premises hold with independent central `a,b`. At `v=1`, the
+  coefficient map keeps `a,b` and sends `M(i,j)` to `x^i y^j`.
+- For degree one with `H_k=1+T`, the powers and local intersections of Q2
+  agree with those for binary exchange.
+- With both index sets empty, the generated algebra and upper algebra are both
+  `Z_v`.
+- In rank one with `B̃=(0,2)ᵀ`, `Λ=((0,−1),(1,0))` and `H=1+T+T²` of
+  degree two, the new coordinate is
+  `M(−e₁)+M(−e₁+e₂)+M(−e₁+2e₂)`.
+- At `u=1` with `B=((0,3),(−3,0))` and `H=1+2T+T³` in direction 1,
+  `x'=(y³+2y²+1)/x` and the reversed polynomial is `1+2T²+T³`.
+  A second mutation with that reversal gives `x''=x`. Keeping `H` fixed gives
+  `x''=x(y³+2y+1)/(y³+2y²+1)`, which is not Laurent.
+- Over ℚ with `B=((0,1),(−1,0))`, zero form, `H_1=1+T` and `H_2=1+2T`,
+  the second polynomial has a leading unit different from one. The word
+  `[1,2,1]` gives `x'''=1/y+x(y+2)/(y(y+1))`, which is not Laurent.
 
 Sources: Bai–Chen–Ding–Xu, *Generalized quantum cluster algebras: the Laurent
 phenomenon and upper bounds*, §2, Lemma 4.1, Propositions 4.2, 4.6–4.7 and
@@ -1487,7 +1489,8 @@ by `t`, with nonzero entries `x_{t,i}∈R`. Put `a_t=∏_i x_{t,i}` and
 `X_{a_t}` for the open where `a_t` is a unit and `W=⋃_t X_{a_t}`.
 Each `x_{t,i}` is a unit on `X_{a_t}`, so `L_t` lies in the image of its section
 ring. If `depth O_{X,p}≥2` for every `p∈X∖W`, apply SchemeAndStackFoundations
-§0.6's `coherent_hartogs` to the structure sheaf. Compare sections inside `F` to obtain
+§0.6's `coherent_hartogs` to the structure sheaf (Stacks, Lemma 31.5.11 (0E9I)).
+Compare sections inside `F` to obtain
 `⋂_t L_t ⊆ ⋂_t Γ(X_{a_t},O_X) = R`. If each `L_t` is the image of
 `Γ(X_{a_t},O_X)` in `F`, this gives `⋂_t L_t=R`. For `X=Spec R`, use the
 principal-open localization comparison to identify each `Γ(X_{a_t},O_X)`
@@ -1511,6 +1514,8 @@ prime contains both members of any of those pairs. In an `S₂` domain this
 condition puts the complement in codimension at least two and implies the depth
 bound. Obtain the normal Noetherian case by Serre's criterion. The signature
 `upperBound_le_of_starfish` states the `S₂` case on the realized coordinates.
+FWZ, Proposition 6.4.1 and Remark 6.4.4, give the classical Starfish inclusions
+for the cluster and upper cluster algebras over a normal Noetherian ℂ-algebra.
 
 Under the depth hypothesis for this star of charts, obtain `UB_C(s)⊆R` by the
 finite-family theorem and `U_C⊆R` since every chart in the star is reachable.
@@ -1850,7 +1855,7 @@ realization of this pattern, prove the equivalence of:
 2. Some `B'∈[B]` has `IsFiniteType (A(B'))`.
 3. Every `B'∈[B]` satisfies `|b'_ij b'_ji|≤3` for all `i≠j`.
 
-The coefficient-free signature `finite_clusterVariables_iff` states 1 ⇔ 2.
+The geometric-type signature `finite_clusterVariables_iff` states 1 ⇔ 2.
 The matrix signature `exists_isFiniteType_iff_forall_le_three` states 2 ⇔ 3.
 
 For connected `B` (the graph of `b_ij≠0` is connected) of finite type prove that a unique
@@ -2244,8 +2249,7 @@ fibers; it is not obtained by reducing the complex coordinate-ring isomorphism.
 - For the defining representation of `SL₂`, the highest-weight minor on the big cell is the top-left entry `a`.
 
 *Needs:* ReductiveGroups Layers 7, 7C, 8 and 10 for opposite Borels, root coordinates, split root
-data and highest-weight representations; SchubertGeometry for comparisons with flag and Schubert
-sections.
+data and highest-weight representations.
 
 ### 6.2 The BFZ seed
 
@@ -2290,7 +2294,7 @@ torus is obtained by adjoining its character Laurent algebra as frozen
 coordinates, with the corresponding tensor-product comparison.
 
 Sources: FZ, *Double Bruhat cells and total positivity*; BFZ III, §2, especially
-Theorem 2.10, Lemmas 2.12–2.13 and Corollary 2.17.
+Theorem 2.10 and Lemmas 2.12–2.13.
 
 **Checks.**
 
@@ -2314,13 +2318,12 @@ four mutable positions and four adjacent exchanges in Example 2.11.
 
 ### Dependencies
 
-ReductiveGroups Layers 7, 7C, 8 and 10 and SchubertGeometry supply the group and section theory.
+ReductiveGroups Layers 7, 7C, 8 and 10 supply the group theory and highest-weight representations.
 Layers 1–2 supply the geometric pattern, finite chart intersection and full-rank upper-bound theorem.
 
 ## Downstream consumers
 
-- ScatteringDiagrams §4.3 and §4.4 share the seed-free twisted algebra of §0.4.
-  The cluster scattering comparison in §5.1 supplies the chamber and mutation
+- The cluster scattering comparison in §5.1 supplies the chamber and mutation
   identifications used for theta transport to cluster charts in §5.2.
 - The degree-one and unit-parameter comparison of §2.6 lets ordinary quantum
   and classical patterns share the polynomial exchange and Laurent API.
@@ -2338,7 +2341,9 @@ Layers 1–2 supply the geometric pattern, finite chart intersection and full-ra
   §§7–10 and Proposition 11.2 for polynomial frozen coefficients.
 - **FZ IV:** Fomin–Zelevinsky, [*Cluster algebras IV: Coefficients*](https://arxiv.org/abs/math/0602259),
   Definitions 2.1–2.4, Theorems 3.5 and 3.7, and Corollary 6.3.
-- Fomin–Williams–Zelevinsky, [*Introduction to Cluster Algebras*, Chapter 6](https://people.math.harvard.edu/~williams/papers/chapter6.pdf),
+- Fomin–Zelevinsky, [*The Laurent phenomenon*](https://arxiv.org/abs/math/0104241),
+  Theorem 1.8 and Example 3.3 for the Somos-4 recurrence.
+- **FWZ:** Fomin–Williams–Zelevinsky, [*Introduction to Cluster Algebras*, Chapter 6](https://people.math.harvard.edu/~williams/papers/chapter6.pdf),
   §6.4, especially Proposition 6.4.1 and Remarks 6.4.4–6.4.5 for Starfish and the coefficient conventions.
 - **NZ:** Nakanishi–Zelevinsky, [*On tropical dualities in cluster algebras*](https://arxiv.org/abs/1101.3736),
   version 3, Theorem 1.2, Proposition 1.3 and (2.7); the sign-coherence premise
