@@ -8,7 +8,7 @@ This roadmap owns the sieve inequalities and their quantitative distribution int
 
 The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed remainders, upper-Möbius condition, squared Selberg weights and diagonalization are Mathlib inputs. Their constructions and existing upper inequalities are supplier contracts. Native `IsApproximateSubgroup`, its subgroup specialization and small-tripling construction are also consumed; §5.4 adds the quantitative measure theorem and squarefree product growth. Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` also supply the coefficient parametrization and cardinality qʲ of degree-j monic polynomials; §0.10 retains only the irreducible-count and harmonic consequences. The finite-family and arbitrary-residue constructions below add preservation of indexed multiplicities and nonzero bad residue classes; they do not replace these carriers. An existing Selberg truncation level supplies no estimate on the remainders.
 
-IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. ErdosProgressionPowers §3.1 owns the uniform Gram-row, maximum-row and diagonal/off-diagonal inequalities; the weighted denominator inequality here is stronger and remains a target.
+IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
 
 AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a), the uniform and fixed-model Lang–Weil estimates (§5.4), and adelic points with strong approximation for simply connected semisimple groups (§5.3a). The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
@@ -105,10 +105,6 @@ Chebotarev Layer 13 supplies the principal-class natural prime count ∼li(X)/h_
 ### From TauCetiRoadmap.ThetaSeries
 
 ThetaSeries §2H supplies `kroneckerSym` and `kroneckerChar`; use only their natural-argument real adapter in §0.6.
-
-### From TauCetiRoadmap.ErdosProgressionPowers
-
-ErdosProgressionPowers §3.1 supplies the uniform-row, maximum-row and diagonal/off-diagonal finite Gram inequalities, including empty families. For x=1,y=(1,2) the unweighted left side is 5 and maximal row is 6; two repeated unit vectors give 2=2, while an empty family gives 0≤B for B≥0. §0.4 here supplies the weighted denominator theorem.
 
 ### From TauCetiRoadmap.Isoperimetry
 
@@ -480,6 +476,42 @@ x is any vector of E; zero rows contribute zero.
 An empty or all-zero family has weighted sum zero. For a single nonzero vector this is Cauchy–Schwarz after dividing by its squared norm. For x=1 and real y=(1,2), the two terms are 1/3 and 4/6, summing to 1; replacing the denominators by their squares fails already at y=1/2. For an orthonormal family all rows equal one, so the result agrees with the existing finite Bessel inequality; it does not rebuild the orthonormal theory.
 
 *Needs:* Layer 0 §0.4 selberg's normalized projection defect bound.
+
+**Uniform Gram-row inequality.** Prove `SieveGram.sum_norm_inner_sq_le_of_row_le`. If C≥0 and rᵢ≤C for every i∈I, then Σᵢ|⟨x,yᵢ⟩|² ≤ C‖x‖².
+
+x is any vector of E. The family may be empty; the hypothesis C≥0 is needed only then.
+
+([BENNETT-SIKSEK-2020](#references), Theorem 7, p.379, with the maximum replaced by any common row bound.)
+
+*Proof sketch.* Compare term by term with Selberg's weighted inequality. If rᵢ=0, the vanishing-row lemma gives yᵢ=0, and the i-th term is zero on both sides of |⟨x,yᵢ⟩|²≤C|⟨x,yᵢ⟩|²/rᵢ. If rᵢ>0, then |⟨x,yᵢ⟩|²=rᵢ·|⟨x,yᵢ⟩|²/rᵢ≤C|⟨x,yᵢ⟩|²/rᵢ. Sum over i, then multiply the weighted inequality by C≥0.
+
+For x=1 and real y=(1,2) the rows are 3 and 6, and C=6 bounds the left side 5 by 6, while the weighted inequality holds with equality, 1/3+4/6=1; the weighted form is the stronger one. Two equal unit vectors, with x one of them, give 2≤2, so the off-diagonal entries cannot be dropped from the rows. An empty family gives 0≤C‖x‖².
+
+*Needs:* Layer 0 §0.4 vanishing gram row detects the zero vector; Layer 0 §0.4 selberg's weighted inner-product inequality.
+
+**Maximum-row Gram inequality.** Prove `SieveGram.sum_norm_inner_sq_le_max_row`. If I is nonempty, Σᵢ|⟨x,yᵢ⟩|² ≤ ‖x‖²·maxᵢ rᵢ.
+
+x is any vector of E.
+
+([BENNETT-SIKSEK-2020](#references), Theorem 7, p.379.)
+
+*Proof sketch.* The maximum exists because I is finite and nonempty, and it is nonnegative because every rᵢ is a sum of norms. Every row is at most the maximum, so the uniform Gram-row inequality applies with C=maxᵢrᵢ.
+
+An empty index has no maximum; the uniform form covers that case.
+
+*Needs:* Layer 0 §0.4 uniform gram-row inequality; Mathlib `Finset.le_sup'`.
+
+**Diagonal/off-diagonal Gram inequality.** Prove `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`. Let D and O be real numbers with D+O≥0. If ‖yᵢ‖²≤D and Σ_(j≠i)|⟨yᵢ,yⱼ⟩|≤O for every i∈I, then Σᵢ|⟨x,yᵢ⟩|² ≤ (D+O)‖x‖².
+
+x is any vector of E; the family may be empty.
+
+([BENNETT-SIKSEK-2020](#references), Theorem 7, p.379, with each row split into its diagonal and off-diagonal terms.)
+
+*Proof sketch.* The additive erase identity writes rᵢ=|⟨yᵢ,yᵢ⟩|+Σ_(j≠i)|⟨yᵢ,yⱼ⟩|. The diagonal inner product is ‖yᵢ‖² cast to 𝕜, so its absolute value is ‖yᵢ‖². Hence rᵢ≤D+O for every i, and the uniform Gram-row inequality applies with C=D+O.
+
+For a nonempty family D and O are automatically nonnegative; the hypothesis D+O≥0 matters only for the empty family.
+
+*Needs:* Layer 0 §0.4 uniform gram-row inequality; Mathlib `Finset.add_sum_erase`; Mathlib `inner_self_eq_norm_sq_to_K`.
 
 ### 0.5 dimension, remainder mass and Rankin bounds
 
@@ -1296,7 +1328,7 @@ This general finite-character estimate is an owned prerequisite to the binary si
 
 `2CₗR^θ w^(2−θ) Σ_(n≤w)n^(4−θ) ≤ 2CₗR^θ w^(7−2θ)`.
 
-The supplied finite Gram-row inequality gives the result, including an empty population. The number of character labels is bounded by n² uniformly; the smaller factor n in the source is not needed for this proof.
+Every character vector has squared norm N, so the diagonal/off-diagonal Gram inequality of §0.4 with D=N and O this row error gives the result, including an empty population. The number of character labels is bounded by n² uniformly; the smaller factor n in the source is not needed for this proof.
 
 **Checks.**
 
@@ -1304,7 +1336,7 @@ The supplied finite Gram-row inequality gives the result, including an empty pop
 - At moduli one and two, the two sample points (0,0),(1,0) with coefficients 1,−1 give character sums 0,2,0,2 over the four primitive character labels. The squared sum is 8 and the coefficient energy is 2.
 - At θ=1/4, the proved error exponent is 7−2θ=13/2. The binary proof uses w=z^(10/13), so w^(13/2)=z⁵ exactly. The Euler-product comparison costs a fixed power (13/10)^degree, rather than changing the theorem's θ range.
 
-*Needs:* ErdosProgressionPowers §3.1 finite Gram inequality; Layer 0 §0.11 translated lattice discrepancies; Mathlib `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one`; primitive-frequency uniqueness as proved in this target; Mathlib finite Euclidean spaces and `Real.fourierChar`.
+*Needs:* Layer 0 §0.4 diagonal/off-diagonal gram inequality; Layer 0 §0.11 translated lattice discrepancies; Mathlib `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one`; primitive-frequency uniqueness as proved in this target; Mathlib finite Euclidean spaces and `Real.fourierChar`.
 
 **Binary sieve cutoff comparison.** For a polynomial of degree d≥1, z≥2 and s≥1, with content primes omitted on both sides, `∏_{d<p<z^(1/s)}(1−ρ_Q(p)/p²)≤C_d` s^d `∏_{d<p<z}(1−ρ_Q(p)/p²).` Constants depend only on d. Requiring s≥1 removes the false vanishing right side as s tends to zero.
 
@@ -1330,7 +1362,7 @@ Q mod p nonzero for every p<z; the stated convex C² geometry; L-domain input; �
 
 *Proof sketch.* Set b=max(5,7−2θ), so 5≤b<7, and w=z^(5/b)≤z. The curvature-to-area comparison gives w²≤√A, and R^θw^b=R^θz⁵≤A. The finite-character Gram bound is at most (1+3Cₗ)A, since N≤A+CₗR^θ and w≥1. For coefficients masked to the survivors, finite Parseval and Cauchy–Schwarz at a prime p give nontrivial-character energy at least ρ_Q(p)/(p²−ρ_Q(p)) times the squared survivor count. Iterate this inequality over squarefree moduli by CRT; this tensor calculation is part of this proof. A full local bad set makes the survivor count zero and is handled first. Otherwise the resulting denominator H includes d=1, hence H≥1; the character bound gives S(w)²H≤(1+3Cₗ)A S(w). Handle S(w)=0 separately and cancel only a positive count, then use the Euler denominator at w, retaining only primes p<w. The rough-point count at z is at most that at w. The Euler cutoff comparison with s=b/5≤7/5 bounds the latter product by C_degree·s^degree times the product at z. For 1<w<2 the only modulus is one and H=1, so exactly the same Euler-product comparison applies. Thus the full result has constants depending only on degree and Cₗ, for every 0<θ≤2.
 
-*Needs:* Layer 1 §1.4 finite-character Gram bound from lattice discrepancies; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.7 binary polynomial local densities; Layer 0 §0.7 binary schwartz–zippel specialization; Layer 1 §1.4 binary sieve euler denominator; ErdosProgressionPowers §3.1 uniform Gram-row inequality; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
+*Needs:* Layer 1 §1.4 finite-character Gram bound from lattice discrepancies; Layer 1 §1.4 binary sieve cutoff comparison; Layer 0 §0.7 binary polynomial local densities; Layer 0 §0.7 binary schwartz–zippel specialization; Layer 1 §1.4 binary sieve euler denominator; Layer 0 §0.4 uniform gram-row inequality; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies.
 
 **Binary polynomial sieve at power level.** If A≥1, R^θ≤A^(1−η), 0<η<1/2, θ∈(0,2], and 1≤z≤A^ς for fixed ς>0, the positive-value rough-point count is ≤C `A∏_{deg Q<p<z}(1−ρ_Q(p)/p²),` with C depending only on degree,C_l,η,ς. Content primes below z give an empty sifted set.
 
@@ -1757,11 +1789,11 @@ The indexing type may be empty. N,L∈ℕ, L>0, and f_k=0 whenever |n_k|>N. The 
 
 ([BOMBIERI-1971](#references), pp.403–404, reduction to (5) and its diagonal/off-diagonal decomposition.)
 
-*Proof sketch.* For each i split the Gram row into its diagonal and its erased off-diagonal sum using the native additive erase identity. Use tapered-diagonal on the diagonal and tapered-offdiagonal term by term elsewhere. Factor 1/L out of the finite sum and use the assumed row bound C. The resulting bound B=2N+L+C/L is nonnegative even for an empty family. Apply ErdosProgressionPowers §3.1’s uniform Gram-row inequality to the family of tapered vectors and f. Use norm symmetry of the inner product and tapered-fourier-pairing to identify every summand. No maximum or nonempty-family hypothesis is needed. Do not replace the row hypothesis by the paper's final separation constant here: corrected bin packing, the cosecant sum, the integer taper choice, and interval translation/parity remain separate proof requirements.
+*Proof sketch.* Apply the diagonal/off-diagonal Gram inequality of §0.4 to the tapered vectors φ_{N,L}(x_i) and f. Tapered-diagonal gives each diagonal term 2N+L. Tapered-offdiagonal, term by term, bounds each off-diagonal row sum by (1/L)Σ_(j≠i)1/sin²(π(x_i−x_j))≤C/L. The resulting bound B=2N+L+C/L is nonnegative, so the empty family is covered. Use norm symmetry of the inner product and tapered-fourier-pairing to identify every summand. No maximum or nonempty-family hypothesis is needed. Do not replace the row hypothesis by the paper's final separation constant here: corrected bin packing, the cosecant sum, the integer taper choice, and interval translation/parity remain separate proof requirements.
 
 The empty family gives 0≤‖f‖²B; a singleton has C=0. This conditional theorem is not the full additive large-sieve theorem with constant length+2/δ.
 
-*Needs:* Layer 2 §2.1 squared norm of the tapered fourier vector; Layer 2 §2.1 off-diagonal tapered gram bound; Layer 2 §2.1 tapered pairing recovers a core fourier sum; ErdosProgressionPowers §3.1 uniform Gram-row inequality; Mathlib `Finset.mul_prod_erase`; Mathlib `norm_inner_symm`.
+*Needs:* Layer 2 §2.1 squared norm of the tapered fourier vector; Layer 2 §2.1 off-diagonal tapered gram bound; Layer 2 §2.1 tapered pairing recovers a core fourier sum; Layer 0 §0.4 diagonal/off-diagonal gram inequality; Mathlib `norm_inner_symm`.
 
 ### 2.2 separated points, interval padding and Bombieri's additive large sieve
 
@@ -2470,7 +2502,7 @@ The denominator-two symbol gives symbol₂(3,2)=1, whereas χ₅(2)=−1 and χ�
 
 ### Dependencies
 
-Layer 0. External inputs: AnalyticNumberTheoryPartI §§3.22, 3.24, 3.34–3.35; AnalyticNumberTheoryPartII §5.29; ThetaSeries §2H; ErdosProgressionPowers §3.1; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`.
+Layer 0. External inputs: AnalyticNumberTheoryPartI §§3.22, 3.24, 3.34–3.35; AnalyticNumberTheoryPartII §5.29; ThetaSeries §2H; Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv`.
 
 ## Layer 3: maximal prime distribution
 

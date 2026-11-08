@@ -10,7 +10,8 @@ import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 README.md is the roadmap; this file is not the roadmap. It states its headline
 theorems against the pinned Mathlib and Tau Ceti APIs, with only their simple definitions.
-The headlines are the Selberg weighted Gram, Brun fundamental and upper-sieve inequalities; interval,
+The headlines are the Selberg weighted and the uniform, maximum-row and diagonal/off-diagonal
+Gram inequalities; the Brun fundamental and upper-sieve inequalities; interval,
 progression and twin/Goldbach upper bounds; Brun convergence; additive, primitive and
 polynomial Farey large sieves; the prime quadratic-symbol bilinear bound;
 Jutila’s unweighted and weighted real-character means; Linnik's exceptional-prime bound; Smith's bilinear bound and the
@@ -57,6 +58,25 @@ variable {𝕜 E ι : Type*} [RCLike 𝕜] [NormedAddCommGroup E]
 
 theorem selberg_weighted_inner (y : ι → E) (x : E) :
     (∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 / (∑ j, ‖⟪y i, y j⟫_𝕜‖)) ≤ ‖x‖ ^ 2 := by sorry
+
+/-- The uniform Gram-row inequality: a nonnegative common bound on the Gram row sums bounds the
+unweighted sum, for every finite family, including the empty one. -/
+theorem sum_norm_inner_sq_le_of_row_le (y : ι → E) (x : E) {C : ℝ} (hC : 0 ≤ C)
+    (hrow : ∀ i, ∑ j, ‖⟪y i, y j⟫_𝕜‖ ≤ C) :
+    ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤ C * ‖x‖ ^ 2 := by sorry
+
+/-- The maximum-row Gram inequality for a nonempty finite family. -/
+theorem sum_norm_inner_sq_le_max_row [Nonempty ι] (y : ι → E) (x : E) :
+    ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤
+      ‖x‖ ^ 2 * Finset.univ.sup' Finset.univ_nonempty (fun i => ∑ j, ‖⟪y i, y j⟫_𝕜‖) := by
+  sorry
+
+/-- The Gram-row inequality with the squared norms and the off-diagonal row sums bounded
+separately; only `D + O` need be nonnegative. -/
+theorem sum_norm_inner_sq_le_of_diag_offdiag (y : ι → E) (x : E) {D O : ℝ} (hDO : 0 ≤ D + O)
+    (hdiag : ∀ i, ‖y i‖ ^ 2 ≤ D)
+    (hoff : ∀ i, ∑ j ∈ Finset.univ.erase i, ‖⟪y i, y j⟫_𝕜‖ ≤ O) :
+    ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤ (D + O) * ‖x‖ ^ 2 := by sorry
 
 end SieveGram
 
