@@ -75,13 +75,13 @@ namespace TauCetiRoadmap.EnhancedDerivedSheaves
 open CategoryTheory CategoryTheory.Limits Opposite
 open scoped ZeroObject
 
-universe u v w z
+universe u u' v w
 
 /-! ## Layer 0: Ringed-site enhancement and derived functors -/
 
 section GrothendieckAbelian
 
-variable (C : Type u) [Category.{v} C] [Abelian C] [IsGrothendieckAbelian.{w} C]
+variable (A : Type u') [Category.{v} A] [Abelian A] [IsGrothendieckAbelian.{w} A]
 
 /-- **K-injective resolutions in a Grothendieck abelian category** (Stacks, Injectives, Theorem
 19.12.6, tag 079P; Section 0.2): every cochain complex in a Grothendieck abelian category admits a
@@ -89,36 +89,37 @@ quasi-isomorphism into a K-injective complex, the hypothesis `TauCeti.HasKInject
 under which Tau Ceti builds the K-injective replacement functor and identifies the dg nerve of
 K-injective complexes with the derived category. -/
 theorem IsGrothendieckAbelian.hasKInjectiveResolutions :
-    TauCeti.HasKInjectiveResolutions C := by
+    TauCeti.HasKInjectiveResolutions A := by
   sorry
 
 /-- **K-injective resolutions as a global instance**
 (`IsGrothendieckAbelian.instHasKInjectiveResolutions`, Section 0.2): the instance of
 `TauCeti.HasKInjectiveResolutions` on every Grothendieck abelian category, under which Tau Ceti's
 `TauCeti.kInjectiveReplacement` and `TauCeti.KInjectiveDGCategory.dgNerveHomotopyCategoryEquiv`
-apply to sheaves of modules `SheafOfModules.{u} O` on every small ringed site (`SmallCategory C`,
-`O : Sheaf J RingCat.{u}`), which Mathlib makes Grothendieck abelian. -/
+apply to sheaves of modules `SheafOfModules.{u} O` on every small ringed site (`C : Type u` with
+`SmallCategory C`, `J : GrothendieckTopology C`, `O : Sheaf J RingCat.{u}`), which Mathlib makes
+Grothendieck abelian. -/
 instance IsGrothendieckAbelian.instHasKInjectiveResolutions :
-    TauCeti.HasKInjectiveResolutions C :=
-  IsGrothendieckAbelian.hasKInjectiveResolutions C
+    TauCeti.HasKInjectiveResolutions A :=
+  IsGrothendieckAbelian.hasKInjectiveResolutions A
 
 /-- **Small Hom types in the derived category**
 (`IsGrothendieckAbelian.locallySmall_localization_quasiIso`, Section 0.1; Stacks 079P): in a
 Grothendieck abelian category every complex has a K-injective replacement, so the localization of
 cochain complexes at quasi-isomorphisms has `w`-small Hom types, where Mathlib's
-`HasDerivedCategory.standard` only gives Hom types in `Type (max u v)`. -/
+`HasDerivedCategory.standard` only gives Hom types in `Type (max u' v)`. -/
 theorem IsGrothendieckAbelian.locallySmall_localization_quasiIso :
-    LocallySmall.{w} (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)).Localization := by
+    LocallySmall.{w} (HomologicalComplex.quasiIso A (ComplexShape.up ℤ)).Localization := by
   sorry
 
 /-- **The derived category of a Grothendieck abelian category**
 (`IsGrothendieckAbelian.hasDerivedCategory`, Section 0.1): the global instance, with Hom types in
 the universe `w` of the Grothendieck abelian structure. For étale module sheaves over
 `X : Scheme.{u}` with coefficients in `Λ : Type u` these are `Type u`. -/
-noncomputable instance IsGrothendieckAbelian.hasDerivedCategory : HasDerivedCategory.{w} C :=
-  haveI := IsGrothendieckAbelian.locallySmall_localization_quasiIso C
-  MorphismProperty.hasLocalizationOfLocallySmall (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
-    (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)).Q
+noncomputable instance IsGrothendieckAbelian.hasDerivedCategory : HasDerivedCategory.{w} A :=
+  haveI := IsGrothendieckAbelian.locallySmall_localization_quasiIso A
+  MorphismProperty.hasLocalizationOfLocallySmall (HomologicalComplex.quasiIso A (ComplexShape.up ℤ))
+    (HomologicalComplex.quasiIso A (ComplexShape.up ℤ)).Q
 
 end GrothendieckAbelian
 
