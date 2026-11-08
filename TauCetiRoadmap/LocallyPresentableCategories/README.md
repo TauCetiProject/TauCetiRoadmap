@@ -61,8 +61,8 @@ filtered colimits. No second carrier is built.
 
 - *Orthogonality of classes of morphisms*: unique lifting, the operators `leftOrthogonal` and
   `rightOrthogonal`, orthogonal factorization systems and local objects for an arbitrary class are
-  OrthogonalFactorization's (Milestones B–J). This roadmap uses only Mathlib's
-  `MorphismProperty.isLocal`, objects orthogonal to a class.
+  not built here; this roadmap uses only Mathlib's `MorphismProperty.isLocal`, objects orthogonal
+  to a class.
 - *Lurie's form of presentability, the small object argument in a presentable category, weakly
   saturated classes, accessible subcategories and combinatorial model categories* are
   HigherToposTheory's Layer F1 (§§F1.1, F1.3, F1.6).
@@ -145,14 +145,15 @@ here; if it is about one particular category, about ∞-categories, or about top
 - `Mathlib/CategoryTheory/Adjunction/AdjointFunctorTheorems.lean`:
   `isRightAdjoint_of_preservesLimits_of_solutionSetCondition`,
   `isLeftAdjoint_of_preservesColimits_of_isSeparating`; `Mathlib/CategoryTheory/Monad/Limits.lean`:
-  `hasLimits_of_reflective`; `…/Presentable/Uniformization.lean`:
+  `hasLimits_of_reflective`, `hasColimits_of_reflective`; `…/Presentable/Uniformization.lean`:
   `IsCardinalAccessibleCategory.uniformization`; `…/Presentable/Limits.lean`:
   `isClosedUnderColimitsOfShape_isCardinalPresentable`; `…/Presentable/StrongGenerator.lean`:
   `IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable`.
 - `Mathlib/CategoryTheory/ObjectProperty/LimitsClosure.lean`: `ObjectProperty.limitsClosure`,
-  `ObjectProperty.le_limitsClosure`; `ObjectProperty.ofObj`, `ObjectProperty.lift`,
-  `ObjectProperty.ι`, `ObjectProperty.FullSubcategory`, `ObjectProperty.colimitsOfShape`,
-  `ObjectProperty.Small`; `MorphismProperty.IsSmall`, `MorphismProperty.IsInvertedBy`.
+  `ObjectProperty.le_limitsClosure`, `ObjectProperty.isEssentiallySmall_limitsClosure`;
+  `ObjectProperty.ofObj`, `ObjectProperty.lift`, `ObjectProperty.ι`,
+  `ObjectProperty.FullSubcategory`, `ObjectProperty.colimitsOfShape`, `ObjectProperty.Small`;
+  `MorphismProperty.IsSmall`, `MorphismProperty.IsInvertedBy`.
 - Limits: `HasLimitsOfSize`, `HasLimitsOfShape`, `PreservesLimitsOfShape`,
   `PreservesLimitsOfSize`, `PreservesColimitsOfSize`, `PreservesFiniteProducts`,
   `HasFiniteProducts`, `comp_preservesLimitsOfShape`; `HasCardinalLT`; `Functor.IsRightAdjoint`,
@@ -265,11 +266,23 @@ extension of the inclusion as left adjoint since `C` is cocomplete. Backward: Ma
 
 Prove `isLocallyPresentable_iff_isAccessibleCategory_and_hasLimits`: `C` is locally presentable iff
 it is accessible and has all `w`-small limits (Adámek–Rosický, Corollary 2.47). Forward: 1.1 and
-Mathlib's instance. Backward: in an accessible category with limits, colimits exist (the
-solution-set condition of Mathlib's `SolutionSetCondition.of_isCardinalAccessible` applied to the
-diagonal functors, Adámek–Rosický, Corollary 2.45), and a cocomplete `κ`-accessible category is
-locally `κ`-presentable by definition. *Needs:* 1.1; Mathlib `IsAccessibleCategory`,
-`SolutionSetCondition.of_isCardinalAccessible`, `IsLocallyPresentable`.
+Mathlib's instance. Backward: let `C` be `κ`-accessible with all `w`-small limits, `A` a small
+model of its `κ`-presentable objects (Mathlib: they are essentially small) and
+`G : C ⥤ (Aᵒᵖ ⥤ Type w)` the restricted Yoneda functor `X ↦ C(−, X)`, with values in `Type w`
+since `C` is locally `w`-small. `G` is fully faithful by Mathlib's density of the `κ`-presentable
+objects of a `κ`-accessible category, preserves limits (each `C(a, −)` does), and is
+`κ`-accessible (each `a` is `κ`-presentable and colimits of presheaves are computed pointwise);
+the presheaf category is locally presentable (the presheaf instance), hence accessible. So `G`
+satisfies the solution-set condition (Mathlib `SolutionSetCondition.of_isCardinalAccessible`,
+Adámek–Rosický, Corollary 2.45), and the general adjoint functor theorem
+(`isRightAdjoint_of_preservesLimits_of_solutionSetCondition`, `C` being complete and locally
+small) makes it a right adjoint. Thus `C` is reflective in a cocomplete category, hence cocomplete
+(Mathlib `hasColimits_of_reflective`), and a cocomplete `κ`-accessible category is locally
+`κ`-presentable by definition. *Needs:* 1.1; Mathlib `IsAccessibleCategory`,
+`isCardinalPresentable`, the density of `(isCardinalPresentable C κ).ι`, the presheaf instance,
+`Functor.IsCardinalAccessible`, `SolutionSetCondition.of_isCardinalAccessible`,
+`isRightAdjoint_of_preservesLimits_of_solutionSetCondition`, `hasColimits_of_reflective`,
+`IsLocallyPresentable`.
 
 **Checks.**
 
@@ -386,10 +399,11 @@ Define the property `cardinalContinuous T κ` of functors `T ⥤ Type w` satisfy
 `PreservesCardinalSmallLimits` (0.1), and `Models T κ`, the full subcategory, written `Mod_κ T`.
 Prove `exists_isLocal_eq_cardinalContinuous`: for small `T` there is a small class `W` of maps of
 `T ⥤ Type w` between `κ`-presentable functors with `W.isLocal = cardinalContinuous T κ`; and
-`isCardinalLocallyPresentable_models`: `Mod_κ T` is locally `κ`-presentable (Lack–Rosický, Theorem
-5.4, for `V = Set` and `Φ` the `κ`-small limits; Kelly, Theorem 6.11, p. 119, and the closing
-paragraph of §6.4 at `κ = ℵ₀`). Route: for each `κ`-small `J` (up to equivalence, a small set of
-skeleta), each diagram `d : J ⥤ T` and a chosen limit cone with apex `t`, the map
+`isCardinalLocallyPresentable_models`: `Mod_κ T` is locally `κ`-presentable (for any small `T`:
+Kelly, §6.3, Theorem 6.11, p. 119, the models of a sketch form a reflective orthogonality class, and
+the closing paragraph of §6.4 at `κ = ℵ₀`; for `T` with `κ`-small limits: Lack–Rosický, Theorem 5.4,
+for `V = Set` and `Φ` the `κ`-small limits). Route: for each `κ`-small `J` (up to equivalence, a
+small set of skeleta), each diagram `d : J ⥤ T` and a chosen limit cone with apex `t`, the map
 `colim_j T(d j, −) ⟶ T(t, −)` has `κ`-presentable source (a `κ`-small colimit of corepresentables)
 and target; by Yoneda a functor is local for it exactly when it preserves that limit. Then Mathlib's
 `isLocallyPresentable_isLocal` applies. `T` need not have any limits. *Needs:* 0.1; Mathlib
@@ -457,9 +471,10 @@ proof of Lack–Rosický, Lemma 4.19, for `D` the `κ`-small categories. *Needs:
 
 Define `restrict G hG : Mod_κ T' ⥤ Mod_κ T` for `G : T ⥤ T'` preserving `κ`-small limits, by
 `M ↦ G ⋙ M`, with the proof that `G ⋙ M` preserves `κ`-small limits. Prove
-`restrict_isRightAdjoint`: `restrict G hG` is a right adjoint and `κ`-accessible (Lack–Rosický,
-§5.2: the left adjoint is left Kan extension along `G`, followed by the reflection of 3.1 when `T`
-lacks limits; preservation of `κ`-filtered colimits is pointwise); and `exists_iso_restrict`: when
+`restrict_isRightAdjoint`: `restrict G hG` is a right adjoint and `κ`-accessible (the left adjoint
+is left Kan extension along `G` followed by the reflection of 3.1, Kelly, §6.3, Theorem 6.11; for
+`T` and `T'` with `κ`-small limits, Lack–Rosický, §5.2, where the Kan extension is already a
+model; preservation of `κ`-filtered colimits is pointwise); and `exists_iso_restrict`: when
 `T` and `T'` have `κ`-small limits, every `κ`-accessible right adjoint
 `U : Mod_κ T' ⥤ Mod_κ T` is isomorphic to `restrict G hG` for some `G` preserving `κ`-small limits
 (Gabriel–Ulmer 1971). Route: the left adjoint `L` of `U` preserves `κ`-presentable objects (Mathlib
@@ -583,12 +598,12 @@ Mathlib: `CategoryTheory.Limits.Sifted`, `CategoryTheory.Limits.Preserves.Finite
 
 Define `HasDLimits D X`, `PreservesDLimits D F` and `dContinuous D X Y`, the property of
 `D`-functors `X ⥤ Y`, for a small family `D` (Conventions). The categories with `D`-limits, the
-`D`-functors and all natural transformations form a 2-category; the theory of `R` in a category
-`C` with `D`-limits is the category of `D`-functors `R ⥤ C`. Prove `isRightAdjoint_ι_dModels`: for
-small `R`, the inclusion of the `D`-functors `R ⥤ Type w` into `R ⥤ Type w` is a right adjoint,
-and their category is locally presentable (Kelly, §6.3, Theorem 6.11, p. 119; Lack–Rosický,
-Theorem 5.2). Route: as in 3.1, with the cones of shapes `D a`; the class `W` is small because `α`
-is. *Needs:* 3.1; Mathlib `MorphismProperty.isRightAdjoint_ι_isLocal`,
+`D`-functors and all natural transformations form a 2-category; the theory of `R` in a category `C`
+with `D`-limits is the category of `D`-functors `R ⥤ C`. Prove `isRightAdjoint_ι_dModels`: for small
+`R`, the inclusion of the `D`-functors `R ⥤ Type w` into `R ⥤ Type w` is a right adjoint, and their
+category is locally presentable (Kelly, §6.3, Theorem 6.11, p. 119; for `R` with `D`-limits,
+Lack–Rosický, Theorem 5.2). Route: as in 3.1, with the cones of shapes `D a`; the class `W` is small
+because `α` is. *Needs:* 3.1; Mathlib `MorphismProperty.isRightAdjoint_ι_isLocal`,
 `MorphismProperty.isLocallyPresentable_isLocal`.
 
 **Checks.**
@@ -606,12 +621,15 @@ Define `envelopeProp D I`, the closure under `D`-limits (`ObjectProperty.limitsC
 corepresentables `I(i, −)` in `(I ⥤ Type w)ᵒᵖ`; `Envelope D I`, written `Ĩ`; `Envelope.of D I :
 I ⥤ Ĩ`; and `Envelope.restriction D I C`, restriction along it from the `D`-functors `Ĩ ⥤ C` to
 `I ⥤ C`. Prove `envelope_universal`: `Ĩ` is essentially small, has `D`-limits, and for every `C`
-with `D`-limits and `w`-small hom-sets the restriction is an equivalence (Kelly, §5.7,
+with `D`-limits and `w`-small hom-sets the restriction is an equivalence. Essential smallness is
+Mathlib's `ObjectProperty.isEssentiallySmall_limitsClosure` applied once: the corepresentables of
+the small `I` are essentially small in the locally `w`-small `(I ⥤ Type w)ᵒᵖ`, `α` and the `D a`
+are small, and a regular `κ` exceeds the sizes of all `D a`. The universal property is Kelly, §5.7,
 Theorem 5.35, p. 99, applied to `Iᵒᵖ` and dualised: the free completion of `A` under a small set of
-colimits is the closure of `A` in `[Aᵒᵖ, V]`, small when `A` and the set are, and left Kan extension
-gives `[A, B] ≃ F-Cocts[Ā, B]` for `F`-cocomplete `B`). *Needs:* 5.1 (the predicates); Mathlib
-`ObjectProperty.limitsClosure`, `ObjectProperty.le_limitsClosure`, `ObjectProperty.ofObj`,
-`coyoneda`, `Functor.IsEquivalence`, `EssentiallySmall`.
+colimits is the closure of `A` in `[Aᵒᵖ, V]`, and left Kan extension gives `[A, B] ≃ F-Cocts[Ā, B]`
+for `F`-cocomplete `B`. *Needs:* 5.1 (the predicates); Mathlib `ObjectProperty.limitsClosure`,
+`ObjectProperty.le_limitsClosure`, `ObjectProperty.isEssentiallySmall_limitsClosure`,
+`ObjectProperty.ofObj`, `coyoneda`, `Functor.IsEquivalence`, `EssentiallySmall`.
 
 **Checks.**
 
@@ -632,13 +650,14 @@ Define `dContinuousInverting D S C`, the `D`-functors `R ⥤ C` inverting every 
 Prove `exists_localization`: for small `R` and any `S`, there are a small `R[S⁻¹]` with `D`-limits
 and such a `q` that restriction along `q` is an equivalence, for every `C` with `D`-limits and
 `w`-small hom-sets, from the `D`-functors `R[S⁻¹] ⥤ C` to the `D`-functors `R ⥤ C` inverting `S`
-(Kelly, §6.4, Proposition 6.21, Corollary 6.22 and Theorem 6.23, p. 123, dualised, for the sketch
-made of the `D`-limit cones of `R` and, for each `f : a ⟶ b` in `S`, the cone with vertex `a` and
-leg `f` over the one-object diagram `b`, which is a limit cone exactly where `f` is inverted). `R`
-need not have `D`-limits; when it has them and `S` is empty, `q` can be taken to be an equivalence
-(Kelly, Proposition 6.13). Equalizing a pair of arrows and adjoining an arrow are localisations of
-the same kind: invert the equalizer inclusion, and localise a free extension. *Needs:* 5.1, 5.2;
-Mathlib `MorphismProperty.IsInvertedBy`, `Functor.IsEquivalence`, `comp_preservesLimitsOfShape`.
+(Kelly, §6.4, Proposition 6.21, Corollary 6.22 and Theorem 6.23, pp. 122–123, dualised, for the
+sketch made of the `D`-limit cones of `R` and, for each `f : a ⟶ b` in `S`, the cone with vertex `a`
+and leg `f` over the one-object diagram `b`, which is a limit cone exactly where `f` is inverted).
+`R` need not have `D`-limits; when it has them and `S` is empty, `q` can be taken to be an
+equivalence (Kelly, Proposition 6.13). Equalizing a pair of arrows and adjoining an arrow are
+localisations of the same kind: invert the equalizer inclusion, and localise a free extension.
+*Needs:* 5.1, 5.2; Mathlib `MorphismProperty.IsInvertedBy`, `Functor.IsEquivalence`,
+`comp_preservesLimitsOfShape`.
 
 **Checks.**
 
@@ -654,15 +673,16 @@ Mathlib `MorphismProperty.IsInvertedBy`, `Functor.IsEquivalence`, `comp_preserve
 ### 5.4 Sound doctrines
 
 For a small family `D`, a small category `C` is `D`-filtered when colimits of shape `C` commute in
-`Type w` with limits of every shape `D a`; `D` is sound when `C` is `D`-filtered as soon as, for
-each `a` and each `S : D a ⥤ C`, the category of cocones of `S` is connected (Adámek–Borceux–Lack–
-Rosický 2002, as recalled in Lack–Rosický, §4.4). A category is locally `D`-presentable when it is
+`Type w` with limits of every shape `D a`; then for each `a` and each `S : (D a)ᵒᵖ ⥤ C` the
+category of cocones of `S` is connected, and `D` is sound when, conversely, this connectedness for
+every `a` and every `S : (D a)ᵒᵖ ⥤ C` implies that `C` is `D`-filtered (Adámek–Borceux–Lack–Rosický
+2002, as recalled in Lack–Rosický, §4.4). A category is locally `D`-presentable when it is
 equivalent to the `D`-functors `A ⥤ Type w` for a small `A` with `D`-limits. Prove, for sound `D`:
 for small `A` and `F : A ⥤ Type w`, the left Kan extension of `F` along Yoneda preserves
 `D`-limits iff `F` is a `D`-filtered colimit of corepresentables, and, when `A` has `D`-limits,
 iff `F` is a `D`-functor (Lack–Rosický, Theorem 4.18, quoting Adámek–Borceux–Lack–Rosický 2002,
 Theorem 2.4); and a locally `D`-presentable category is locally `κ`-presentable for every regular
-`κ` exceeding the cardinalities of the `D a` (ibid., Theorem 5.5, as used in the proof of
+`κ` exceeding the numbers of morphisms of the `D a` (ibid., Theorem 5.5, as used in the proof of
 Lack–Rosický, Proposition 4.20). *Needs:* 3.1, 5.1; Mathlib `IsSifted`, `IsFiltered`.
 
 **Checks.**
@@ -673,6 +693,13 @@ Lack–Rosický, Proposition 4.20). *Needs:* 3.1, 5.1; Mathlib `IsSifted`, `IsFi
   sifted), and the locally `D`-presentable categories are those of 4.3.
 - `D` empty: every small category is `D`-filtered and `D` is sound; the locally `D`-presentable
   categories are the presheaf categories `A ⥤ Type w`.
+- The variance is forced: for `S : E ⥤ C` put `F(e, c) = C(S e, c)`, a functor `Eᵒᵖ × C ⥤ Type w`.
+  The colimit over `C` of each `F(e, −)` is a point, so the limit over `Eᵒᵖ` of these colimits is a
+  point, while the colimit over `C` of the limits over `Eᵒᵖ` is the set of connected components of
+  the category of cocones of `S`. Commutation with limits of shape `D a` therefore gives connected
+  cocone categories for diagrams of shape `(D a)ᵒᵖ`. For `D` the single shape `WalkingCospan`
+  (pullbacks), the condition is on spans `(WalkingCospan)ᵒᵖ ≌ WalkingSpan`, not on cospans; the
+  three families above are closed under opposites and do not separate the two readings.
 
 ### Examples
 
@@ -686,9 +713,9 @@ Mathlib: `CategoryTheory.ObjectProperty.LimitsClosure`, `CategoryTheory.Morphism
 
 ## Downstream consumers
 
-No roadmap on main or in an open pull request cites this one by name. HigherToposTheory (Layer F1)
-and OrthogonalFactorization consume Mathlib's `CategoryTheory.Presentable` directly; their
-statements about locally presentable categories use the carriers named here.
+No roadmap cites this one. HigherToposTheory (Layer F1) consumes Mathlib's
+`CategoryTheory.Presentable` directly; its statements about locally presentable categories use the
+carriers named here.
 
 ## Research context
 

@@ -157,8 +157,8 @@ theorem exists_isLocal_eq_cardinalContinuous (T : Type w) [SmallCategory T]
         IsCardinalPresentable X κ ∧ IsCardinalPresentable Y κ) ∧
       W.isLocal = cardinalContinuous T κ := sorry
 
-/-- README 3.1. The models of a small `T` form a locally `κ`-presentable category
-(Lack–Rosický, Theorem 5.4). -/
+/-- README 3.1. The models of a small `T` form a locally `κ`-presentable category (Kelly,
+Theorem 6.11, for any small `T`; Lack–Rosický, Theorem 5.4, for `T` with `κ`-small limits). -/
 theorem isCardinalLocallyPresentable_models (T : Type w) [SmallCategory T]
     (κ : Cardinal.{w}) [Fact κ.IsRegular] :
     IsCardinalLocallyPresentable (Models T κ) κ := sorry
@@ -189,7 +189,9 @@ def restrict {T T' : Type w} [SmallCategory T] [SmallCategory T'] {κ : Cardinal
       have := M.property J hJ
       exact comp_preservesLimitsOfShape G M.obj)
 
-/-- README 3.4. An algebraic functor is a `κ`-accessible right adjoint (Lack–Rosický, §5.2). -/
+/-- README 3.4. An algebraic functor is a `κ`-accessible right adjoint: its left adjoint is left
+Kan extension followed by the reflection of Kelly, Theorem 6.11 (Lack–Rosický, §5.2, for `T` and
+`T'` with `κ`-small limits). -/
 theorem restrict_isRightAdjoint {T T' : Type w} [SmallCategory T] [SmallCategory T']
     {κ : Cardinal.{w}} [Fact κ.IsRegular] (G : T ⥤ T') (hG : PreservesCardinalSmallLimits G κ) :
     (restrict G hG).IsRightAdjoint ∧ (restrict G hG).IsCardinalAccessible κ := sorry
@@ -288,7 +290,9 @@ def Envelope.restriction (I : Type w) [SmallCategory I] (C : Type u) [Category.{
 
 /-- README 5.2. The `D`-envelope is essentially small, has `D`-limits, and restriction along
 `j` is an equivalence from `D`-functors `Ĩ ⥤ C` to functors `I ⥤ C` for every `C` with
-`D`-limits and `w`-small hom-sets (Kelly, Theorem 5.35, dualised). -/
+`D`-limits and `w`-small hom-sets (essential smallness by Mathlib's
+`ObjectProperty.isEssentiallySmall_limitsClosure`; the universal property is Kelly, Theorem 5.35,
+dualised). -/
 theorem envelope_universal (I : Type w) [SmallCategory I] :
     EssentiallySmall.{w} (Envelope D I) ∧ HasDLimits D (Envelope D I) ∧
       ∀ (C : Type u) [Category.{w} C], HasDLimits D C →
