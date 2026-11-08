@@ -3,13 +3,15 @@
 **Summary.** This roadmap builds the numerically explicit layer of multiplicative number theory on
 Mathlib's `ArithmeticFunction` carrier: inequalities with stated constants and thresholds for the
 summatory functions of the Möbius function `M(x) = Σ_{n ≤ x} μ(n)`, `m(x) = Σ_{n ≤ x} μ(n)/n` and
-`m̌(x) = Σ_{n ≤ x} μ(n) log(x/n)/n`, with and without coprimality restrictions and character twists;
-the general conversion theorems behind those numbers (Meissel's and MacLeod's identities, Balazard's
+`m̌(x) = Σ_{n ≤ x} μ(n) log(x/n)/n`, with and without coprimality restrictions and character twists,
+and of the Liouville function through `M`; the general conversion theorems behind those numbers
+(Meissel's and MacLeod's identities, Balazard's
 passage from `M` to `m` and `m̌`, Ramaré's transfer from explicit prime estimates to explicit Möbius
 estimates, the comparison theorem of the convolution method, the explicit Levin–Fainleib theorem);
 explicit upper bounds for averages of nonnegative multiplicative functions; the explicit averages of
 `μ²`, `μ²/φ`, `τ`, `τ_k`, `τ²`, `2^ω`, `φ` and the Piltz remainders `Δ_k`; explicit finite Euler
-products over primes; and pointwise bounds for `ω(n)`, `τ_k(n)`, `σ(n)`, `σ*(n)` and `n/φ(n)`. Every
+products over primes; and pointwise bounds for `ω(n)`, `τ_k(n)`, `σ(n)`, `σ*(n)` and `n/φ(n)`, with
+highly abundant numbers and the least common multiple of `1, …, n`. Every
 result is proved once in a general form whose analytic inputs (a Chebyshev bound of a given shape, a
 Möbius table, a finite verification, a computed sum over the zeros of `ζ` up to a height) are
 explicit parameters or named propositions, and the published constants are then instances. The end
@@ -57,7 +59,8 @@ not the roadmap.
   bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
   `3 000 175 332 800` and the records `BrentPlattTrudgianRecord` and `LeongRecord` of
   ExplicitZetaBounds §0.4b, with the two bounds of Leong near that height that the join of its
-  contour uses (Layer 1);
+  contour uses, and the Liouville summatory function with its identities with `M` and the transfer
+  of bounds between the two (Layer 1);
 - Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
   Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
   the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
@@ -76,29 +79,33 @@ not the roadmap.
 - the explicit averages of `μ²`, `μ²/n`, `μ²/φ`, the Riesel–Vaughan sum, `τ_k`, `τ_4`, `τ²`,
   `2^ω`, `φ/n` and `nφ`, Ramaré's logarithmic tail estimates for `Σ μ(d)/d²`, the square-root
   bounds for the Dirichlet-divisor remainder with the constants `0.961`, `0.482` and `0.397` and its
-  smoothed form, the squarefree remainder from finitely many zeros with squarefree integers in short
-  intervals, and the explicit Piltz remainders `Δ_k` (Layer 7);
+  smoothed form, the squarefree count and remainder written through `M`, the squarefree remainder
+  from finitely many zeros with squarefree integers in short intervals, and the explicit Piltz
+  remainders `Δ_k` (Layer 7);
 - the identification of the Meissel–Mertens constant with Tau Ceti's `mertensConstant ℚ`, the
-  explicit Mertens product with Axler's cubic refinement and its form under the Riemann
-  hypothesis, the tilted products and Bordellès'
+  explicit Mertens product with Axler's cubic refinement, Dusart's two-sided cubic form and its
+  form under the Riemann hypothesis, the tilted products and Bordellès'
   products over a progression with Languasco–Zaccagnini's constants as an enclosure (Layer 8);
-- the pointwise bounds for `ω(n)`, `τ_k(n)`, `σ(n)`, `σ*(n)` and `n/φ(n)` with the
-  superior-highly-composite and primorial tables as hypotheses (Layer 9).
+- the pointwise bounds for `ω(n)`, `τ_k(n)` (among them `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`), `σ(n)`,
+  `σ*(n)` and `n/φ(n)` with the superior-highly-composite and primorial tables as hypotheses, and
+  highly abundant numbers with the theorem that `lcm(1, …, n)` is not highly abundant for
+  `n ≥ 89 693²` (Layer 9).
 
 ### Consumed, not redefined
 
-- the arithmetic functions `μ`, `σ_k`, `ω`, `Λ`, `ζ`, `IsMultiplicative`, Dirichlet convolution,
-  `Chebyshev.psi`, `Chebyshev.theta`, Abel summation, the harmonic bounds, Euler's constant with its
+- the arithmetic functions `μ`, `σ_k`, `ω`, `Ω`, `Λ`, `ζ`, the Liouville function,
+  `IsMultiplicative`, Dirichlet convolution, `Chebyshev.psi`, `Chebyshev.theta`, the least common
+  multiple `Nat.lcmUpto`, Abel summation, the harmonic bounds, Euler's constant with its
   bounds `1/2 < γ < 2/3`, `ζ(2) = π²/6`, Dirichlet characters with `L(1, χ) ≠ 0`, the primorial, and
   the decimal bounds for `π`, `e` and `log 2`: Mathlib, as listed in the supplier contracts;
 - the summatory Abel formulas of Tau Ceti and its Mertens constant `mertensConstant K`;
 - the explicit prime estimates with constants (for `ψ`, `θ`, `π`, the `k`-th prime,
-  `Σ_{n ≤ x} Λ(n)/n`, `Σ_{p ≤ x} 1/p` and `θ` in progressions), the verified range of Büthe, the
-  decimal enclosures of `γ` and of the Meissel–Mertens constant, the hypothesis `RH(H)` and the
-  real-zero gap with its named instances, and Büthe's asymptotic for the diagonal sum
-  `Σ_{n ≤ z} μ²(n)/φ(n)`: ExplicitPrimeCounting §§0.1, 1.1, 1.3, 1.6, 1.7, 3.1–3.3, 3.5,
-  4.2, 4.3, 4.7, 5.3, 6.1 and 6.3, as listed in its contract; the estimates it does not state in the
-  shape a proof here needs are supplier gaps of that contract. No prime estimate is restated: every
+  `Σ_{n ≤ x} Λ(n)/n`, `Σ_{p ≤ x} 1/p`, `θ` in progressions and primes in short intervals), the
+  verified range of Büthe, the decimal enclosures of `γ` and of the Meissel–Mertens constant, the
+  hypothesis `RH(H)` and the real-zero gap with its named instances, and Büthe's asymptotic for the
+  diagonal sum `Σ_{n ≤ z} μ²(n)/φ(n)`: ExplicitPrimeCounting §§0.1, 1.1, 1.3, 1.6, 1.7, 3.1–3.3,
+  3.5, 4.2, 4.3, 4.7, 5.3, 6.1, 6.3 and 7.4, as listed in its contract; the estimates it does not
+  state in the shape a proof here needs are supplier gaps of that contract. No prime estimate is restated: every
   theorem that uses one takes it as a hypothesis of the stated shape;
 - the Rosser–Schoenfeld reciprocal-prime estimate `|Σ_{p ≤ x} 1/p − log log x − B| < 1/(2 log² x)`
   for `x ≥ 286`, Mertens' theorems with qualitative remainders, the qualitative exclusion of
@@ -106,8 +113,9 @@ not the roadmap.
   `0 < H_N − log N − γ < log(1 + 1/N)` at integers, the divisor hyperbola identity, the
   Dirichlet-divisor remainder `divisorError` (`Δ`) with its square-root and cubic bounds and their
   finite input `BBRFiniteInput`, the divisor subpower bound, the asymptotic maximal order of `τ`,
-  Rankin's smooth-number bound and the asymptotic coprime Möbius sums: AnalyticNumberTheoryPartI
-  §§0.11, 0.19, 0.21, 0.26, 0.34, 3.1, 3.7, 3.9, 3.12, 3.22, 3.22a, 3.22b, 3.23a, 3.35, 3.35a,
+  Rankin's smooth-number bound, the asymptotic coprime Möbius sums and Davenport's
+  `M(y) = O_A(y (log y)^{−A})`: AnalyticNumberTheoryPartI
+  §§0.11, 0.19, 0.21, 0.26, 0.34, 1.2, 3.1, 3.7, 3.9, 3.12, 3.22, 3.22a, 3.22b, 3.23a, 3.35, 3.35a,
   never restated; Layer 0.3 extends §3.22a to real arguments with the sharper `6/(11X)`, and Layer
   7.4 sharpens the constant of §3.23a's square-root bound from `1` to `0.961`;
 - the asymptotic Levin–Fainleib mean value and its uniform dimension-one form, and the logarithmic
@@ -209,8 +217,9 @@ for `x > 0`.
 `ArithmeticFunction.zeta`, `τ = σ 0` (`ArithmeticFunction.sigma 0`), `τ_k = ζ^{⋆ k}` (the `k`-fold
 Dirichlet convolution of `ζ`, so `τ_1 = ζ`, `τ_2 = τ`), `ω` is `cardDistinctFactors`, `φ` is
 `Nat.totient`, `σ = σ 1`, and `σ*(n) = Σ_{d ∣ n, (d, n/d) = 1} d` is the unitary divisor sum, defined
-here. `ψ` and `θ` are `Chebyshev.psi` and `Chebyshev.theta` (inclusive cutoffs). `γ` is
-`Real.eulerMascheroniConstant`. `ψ̃(x) = Σ_{n ≤ x} Λ(n)/n`. `p_k` is the `k`-th prime,
+here. `Ω` is `ArithmeticFunction.cardFactors`. `ψ` and `θ` are `Chebyshev.psi` and
+`Chebyshev.theta` (inclusive cutoffs). `γ` is `Real.eulerMascheroniConstant`.
+`ψ̃(x) = Σ_{n ≤ x} Λ(n)/n`. `p_k` is the `k`-th prime,
 `Nat.nth Nat.Prime (k − 1)`, so that `p₁ = 2`, and `N_k = p₁ ⋯ p_k = primorial p_k`.
 
 Semigroup restriction. For a set `S` of primes, `⟨S⟩` is the set of positive integers all of whose
@@ -306,7 +315,15 @@ quoted by another source, that quotation is cited beside it.
   items (a) and (b) of Layer 1.9;
 - `Polynomial.bernoulli` (the Bernoulli polynomials with `B₁ = −1/2`), `Nat.Coprime`,
   `Nat.primeFactors`, `Squarefree`, `Nat.factorization`, `Real.log_le_sub_one_of_pos`,
-  `Real.add_one_le_exp`.
+  `Real.add_one_le_exp`;
+- `ArithmeticFunction.liouville` (`λ(n) = (−1)^{Ω(n)}` for `n ≥ 1`,
+  `Mathlib/NumberTheory/ArithmeticFunction/Liouville.lean`) with
+  `ArithmeticFunction.isMultiplicative_liouville`, `ArithmeticFunction.cardFactors` (`Ω`),
+  `ArithmeticFunction.isMultiplicative_zeta` and `ArithmeticFunction.IsMultiplicative.pow`, used in
+  Layers 1.6a and 9.2;
+- `Nat.lcmUpto` (`lcm(1, …, n)` as `(Icc 1 n).lcm id`, `Mathlib/NumberTheory/Chebyshev.lean`),
+  `Nat.factorization_lcmUpto` (`v_p(lcm(1, …, n)) = Nat.log p n` for prime `p`) and
+  `Chebyshev.psi_eq_log_lcmUpto` (`ψ(n) = log lcm(1, …, n)`), used in Layer 9.3a.
 
 What these do not include: no real-argument summatory function of `μ`, no bound on `M(x)` or
 `m(x)` of any shape, no explicit remainder for `Σ_{n ≤ x} τ(n)`, no Stieltjes constant, no explicit
@@ -360,6 +377,9 @@ What these do not include: no explicit constant in any prime estimate, no explic
   `B = γ + Σ_p (log(1 − 1/p) + 1/p)` used in Layer 8.1;
 - §0.34: the uniform exclusion of Landau–Siegel zeros (`landau_siegel_exclusion`), the qualitative
   statement whose explicit forms are ExplicitPrimeCounting §1.7's; cited only;
+- §1.2: Davenport's bound `davenport_moebius`, for every `A > 0` a constant `C_A` with
+  `sup_{α ∈ ℝ} |Σ_{1 ≤ r ≤ y} μ(r) e^{irα}| ≤ C_A y (log y)^{−A}` for every real `y ≥ 2`; used at
+  `α = 0`, where the sum is `M(y)`, for the unconditional `o(x)` of Layer 1.6a;
 - §3.22: `Σ_{n ≤ x} τ(n) = x log x + (2γ − 1) x + O(√x)`; §3.22a:
   `0 < H_N − log N − γ < log(1 + 1/N) ≤ 1/N` for every integer `N ≥ 1`, which Layer 0.3 extends to real arguments;
   §3.22b: the hyperbola identity `Σ_{n ≤ x} τ(n) + M² = 2 Σ_{a ≤ M} ⌊x/a⌋` with `M = ⌊√x⌋` for real
@@ -431,7 +451,9 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
 - §4.3: `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 1/log³ x` for every real `x ≥ 24 284`, with
   `B = mertensConstant ℚ` (Vanlalngaia's Corollary 1), used in Layers 8.1, 8.2 and 9.4; and Axler's
   `|Σ_{p ≤ x} 1/p − log log x − B| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for every real
-  `x ≥ 1 757 126 630 797`, used in Layers 8.1 and 8.2.
+  `x ≥ 1 757 126 630 797`, used in Layers 8.1 and 8.2; and the row `(0.19992, 2 278 383)` of
+  Broadbent–Fiori–Kadiri–Ng–Wilk (a preprint), `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 0.19992/log³ x`
+  for every real `x ≥ 2 278 383`, whose upper half is used in Layer 8.1a.
 - §4.7: under `RiemannHypothesis`, `|Σ_{p ≤ x} 1/p − log log x − B| ≤ 3 log x/(8π√x)` for every real
   `x ≥ 24.4`; that section leaves the two product forms of its source to this roadmap, and Layer
   8.1 proves them from it.
@@ -443,6 +465,8 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
 - §6.3: for every natural `q ≥ 3` and every `a` coprime to `q`, `|θ(x; q, a) − x/φ(q)| < c_θ(q) x/log x`
   for every real `x ≥ x_θ(q)`, with `c_θ(q) ≤ 1/840` for `3 ≤ q ≤ 10^4` and `x_θ(q) ≤ 8·10^9` for
   `3 ≤ q ≤ 10^5` (Bennett–Martin–O'Bryant–Rechnitzer), used in Layer 8.3.
+- §7.4: Dusart's interval, a prime in `(y, y(1 + 1/log³ y)]` for every real `y ≥ 89 693`
+  (`dusart2018` Proposition 5.4 in print), used in Layer 9.3a.
 
 What ExplicitPrimeCounting must provide (gap:psi-initial-range): `|ψ(x) − x| ≤ √x` for every real
 `x` with `8 ≤ x ≤ 10^{10}`, and `|ψ(x) − x| ≤ 0.8 √x` for every real `x` with `1500 ≤ x ≤ 10^{10}`
@@ -961,6 +985,10 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
   real `x ∈ (1, 392 687)`, and `e^γ log x ∏_{p ≤ x}(1 − 1/p) > 1 − 1/(20 log³ x) − 3/(16 log⁴ x)`
   for every real `x ∈ [46 909 038, 46 909 074)` (8.1; within the computations closing `axler2018`
   Proposition 6.1).
+- *MertensProductDusartRangeVerified* `a b`: `e^γ log x ∏_{p ≤ x}(1 − 1/p) > 1 − 0.2/log³ x` and
+  `∏_{p ≤ x}(1 − 1/p)^{−1}/(e^γ log x) < 1 + 0.2/log³ x` for every real `x ∈ [a, b)`; instances
+  `(2 278 382, 2 278 383)` and `(2 278 382, 46 909 074)` (8.1a; within the range of `dusart2018`
+  Theorem 5.9).
 - *ProgressionProductTableVerified* `q a C X₀ X₁`:
   `∏_{p ≤ x, p ≡ a (mod q)} (1 − 1/p)^{−1} ≤ C (log x)^{1/φ(q)}` for every real `x ∈ [X₀, X₁]` (8.3;
   `bordelles2005` Theorem 1).
@@ -1572,6 +1600,86 @@ with those constants under its own direct-verification proposition.
   carries the hypothesis that finitely many primes are excluded; `S = ` all primes: `w_S = 1`,
   `q = 1`.
 
+### 1.6a The Liouville summatory function
+
+In this subsection `λ` is Mathlib's `ArithmeticFunction.liouville`, so `λ(n) = (−1)^{Ω(n)}` for
+`n ≥ 1`. Define `liouvilleSum x = Σ_{n ≤ x} λ(n)` (written `L_λ(x)`), a function `ℝ → ℝ` summed
+over `Finset.Icc 1 ⌊x⌋₊`, so that `L_λ(x) = 0` for `x < 1` and `L_λ` is constant on each
+`[N, N + 1)`. Write `1_□` for the indicator of the perfect squares `d²`, `d ≥ 1`, and `μ_□` for the
+function with `μ_□(d²) = μ(d)` and `μ_□ = 0` off the squares. Prove:
+
+- the convolution identities `λ ⋆ ζ = 1_□`, `λ = μ ⋆ 1_□` and `μ = λ ⋆ μ_□`, that is
+  `Σ_{d ∣ n} λ(d) = 1_□(n)`, `λ(n) = Σ_{d² ∣ n} μ(n/d²)` and `μ(n) = Σ_{d² ∣ n} μ(d) λ(n/d²)` for
+  every `n ≥ 1`: every function involved is multiplicative
+  (`ArithmeticFunction.isMultiplicative_liouville`, `ArithmeticFunction.isMultiplicative_moebius`),
+  and at `p^a` the first reads `Σ_{j ≤ a} (−1)^j = [a even]`; the other two follow from it, from
+  `μ ⋆ ζ = δ` and from its image `1_□ ⋆ μ_□ = δ` under `n ↦ n²`;
+- the summatory identities: for every real `x`,
+  `L_λ(x) = Σ_{w ≤ √x} M(x/w²)` (`liouvilleSum_eq_sum_moebiusSum`) and
+  `M(x) = Σ_{w ≤ √x} μ(w) L_λ(x/w²)` (`moebiusSum_eq_sum_liouvilleSum`), over the naturals
+  `1 ≤ w ≤ √x` (both sides vanish for `x < 1`), by summing the second and third convolution
+  identities over `n ≤ x` and grouping the terms by `w = d`; hence
+  `|L_λ(x)| ≤ Σ_{w ≤ √x} |M(x/w²)|` and `|M(x)| ≤ Σ_{w ≤ √x} μ²(w) |L_λ(x/w²)|`;
+- the transfer of bounds: for reals `ε` and `Y ≥ 1`, if `|M(y)| ≤ ε y` for every real `y ≥ Y`,
+  then `|L_λ(x)| ≤ (π²/6) ε x + 2 x^{3/4}` for every real `x ≥ Y²`
+  (`abs_liouvilleSum_le_of_abs_moebiusSum_le`), and the same holds with `M` and `L_λ` exchanged.
+  Route: in the first summatory identity the terms with `w ≤ x^{1/4}` have `x/w² ≥ √x ≥ Y` and
+  contribute at most `ε x Σ_{w ≥ 1} w^{−2} = (π²/6) ε x` (`hasSum_zeta_two`); the others satisfy
+  `|M(x/w²)| ≤ x/w²`, and `Σ_{w > W} w^{−2} ≤ 1/⌊W⌋ ≤ 2/W` for `W = x^{1/4} ≥ 1`. For the exchanged
+  form use the second identity, `μ² ≤ 1` and `|L_λ(y)| ≤ y`;
+- the qualitative consequences: `L_λ(x) = o(x)` if and only if `M(x) = o(x)`, by the transfer in
+  both directions with `ε → 0`; and, unconditionally, for every `A > 0` a constant `C'_A` with
+  `|L_λ(x)| ≤ C'_A x (log x)^{−A}` for every real `x ≥ 2`, in particular `L_λ(x) = o(x)`
+  (`liouvilleSum_isLittleO`). Route: AnalyticNumberTheoryPartI §1.2 (`davenport_moebius`) at the
+  frequency `α = 0` gives `|M(y)| ≤ C_A y (log y)^{−A}` for every real `y ≥ 2`; for `x ≥ 4` apply
+  the transfer with `Y = √x` and `ε = 2^A C_A (log x)^{−A}`, since `log y ≥ (log x)/2` for
+  `y ≥ √x`, and absorb `2 x^{3/4}` into the constant, `x^{−1/4} (log x)^A` being bounded; on
+  `[2, 4)` use `|L_λ(x)| ≤ x`. The explicit bounds of 1.4 give the same `o(x)` under the hypotheses
+  of 1.4;
+- the explicit instances: under the hypotheses of 1.6, the bounds
+  `Σ_{w ≤ √y} |M(y/w²)| ≤ c y/log y` for every real `y ≥ a`, with
+  `(c, a) = (0.429, 490), (0.199, 4536), (0.0918, 48 513)` and `c = 0.997` for every real `y > 1`,
+  and `Σ_{w ≤ √y} |M(y/w²)| ≤ c y/(1 + log y)` for every real `y ≥ a`, with
+  `(c, a) = (1.566, 1), (0.498, 490), (0.198, 7100), (0.0975, 48 645)`, which the route of 1.6
+  proves (`ramare2015mc` Lemmas 16.4 and 16.6: *MoebiusStarRangeVerified* up to `8·10^7`, the
+  analytic argument through 1.5 beyond), bound `|L_λ(y)|` with the same constants and thresholds,
+  by the first summatory identity: for instance `|L_λ(x)| ≤ 0.997 x/log x` for every real `x > 1`
+  and `|L_λ(x)| ≤ 0.0918 x/log x` for every real `x ≥ 48 513`. With the corollary
+  `|M(D)| ≤ 0.013 D/log D` for `D ≥ 1 100 000` of 1.5, the transfer at `Y = √x`
+  (`ε = 0.026/log x`) gives `|L_λ(x)| ≤ 0.0428 x/log x + 2 x^{3/4}` for every real
+  `x ≥ 1.21·10^{12}` (`(π²/6)·0.026 = 0.042768…`), which is below the row `0.0918 x/log x` from
+  `x ≥ 1.75·10^{12}` on.
+
+*Needs:* Layer 0.1; 1.1 (`μ ⋆ ζ = δ`); 1.4; 1.5 (the corollary `0.013 D/log D`); 1.6 (the bounds on
+`Σ_{w ≤ √y} |M(y/w²)|`, with *MoebiusStarRangeVerified* of Layer 0.7); Mathlib
+`ArithmeticFunction.liouville`, `ArithmeticFunction.isMultiplicative_liouville`,
+`ArithmeticFunction.cardFactors`, `hasSum_zeta_two`; AnalyticNumberTheoryPartI §1.2
+(`davenport_moebius`, for the unconditional `o(x)`).
+
+**Checks.**
+
+- `L_λ(n)` for `n = 1, …, 12`: `1, 0, −1, 0, −1, 0, −1, −2, −1, 0, −1, −2`; `L_λ(0.5) = 0`;
+  `L_λ(10^k) = 0, −2, −14, −94, −288, −530` for `k = 1, …, 6`, and `L_λ(n) ≤ 0` for every
+  `2 ≤ n ≤ 10^6`.
+- `λ ⋆ ζ = 1_□`: at `n = 12` the divisors `1, 2, 3, 4, 6, 12` carry `λ = 1, −1, −1, 1, 1, −1`, sum
+  `0`; at `n = 36` the nine divisors give `1 − 1 − 1 + 1 + 1 + 1 − 1 − 1 + 1 = 1`.
+- The summatory identities at `x = 31`:
+  `M(31) + M(7.75) + M(3.44…) + M(1.9375) + M(1.24) = −4 − 2 − 1 + 1 + 1 = −5 = L_λ(31)`, and
+  `L_λ(31) − L_λ(7.75) − L_λ(3.44…) + 0·L_λ(1.9375) − L_λ(1.24) = −5 + 1 + 1 − 1 = −4 = M(31)`;
+  at `x = 10^6`, `Σ_{w ≤ 1000} M(10^6/w²) = −530 = L_λ(10^6)`.
+- Non-example: the sum over `w ≤ x` of `M(x/w)` (first powers) is `1` for every `x ≥ 1` (Meissel's
+  identity, 1.1), not `L_λ(x)`; the squares `w²` are essential.
+- The rows against the values: the largest value of `|L_λ(x)| log x/x` over the reals of
+  `(1, 10^6]` is `6 log 32/32 = 0.64983`, at `x = 32` (`L_λ(32) = −6`), below `0.997`; the largest
+  value of `|L_λ(x)| (1 + log x)/x` over `[1, 10^6]` is `1`, at `x = 1`, below `1.566`; at
+  `x = 10^6` the sum `Σ_{w ≤ 1000} |M(10^6/w²)| = 1838` bounds `|L_λ(10^6)| = 530`.
+- A sum over `Finset.range ⌊x⌋₊` would give `L_λ(1) = λ(0) = 0`; the sum over `Finset.Icc 1 ⌊x⌋₊`
+  gives `L_λ(1) = 1`.
+- The transfer at `Y = 1`, `ε = 1` (the trivial `|M(y)| ≤ y`) reads
+  `|L_λ(x)| ≤ 1.645 x + 2 x^{3/4}`, weaker than the trivial `|L_λ(x)| ≤ x`: the transfer is meant
+  for small `ε`, and its term `2 x^{3/4}` bounds the arguments `x/w² < √x` by `|M(y)| ≤ y` alone,
+  whatever `Y` is.
+
 ### 1.7 Linear bounds from finitely many zeros of `ζ`
 
 Prove Chirre–Helfgott's explicit formula with a smoothed kernel (`chirreHelfgott2025` Corollary 1.2,
@@ -1825,8 +1933,9 @@ is the conjunction. Prove Corollary 1.1 of the same source, which re-derives The
 
 ### Dependencies
 
-Layer 0; AnalyticNumberTheoryPartI §3.22a (harmonic remainder, qualitative) and §0.19 (for
-Schoenfeld's inequality in 1.4); Layer 7.1 (the
+Layer 0; AnalyticNumberTheoryPartI §3.22a (harmonic remainder, qualitative), §0.19 (for
+Schoenfeld's inequality in 1.4) and §1.2 (Davenport's bound, for the unconditional `o(x)` of 1.6a);
+Layer 7.1 (the
 squarefree remainder and the elementary bounds for `Σ μ²(d)/d`, which depend only on Layers 0, 1.2,
 1.4, 2.5 and 5.1, none of which uses Layer 1.5); Layer 7.2 for 1.10 (Corollary 3.3, which depends on
 Layers 1.4, 1.5, 1.7, 2.3 and 3.2 but on none of 1.8–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
@@ -2956,6 +3065,52 @@ are *SquarefreeReciprocalRangeVerified* (Layer 0.7).
   the difference `Σ_{n ≤ N} μ²(n)/n − (6/π²) log N` ranges over `[0.57862, 1.16546]`, and over
   `[1.04049, 1.04708]` for `N ≥ 1000`.
 
+### 7.1a The squarefree count through the Mertens function
+
+With `Q(x) = Σ_{n ≤ x} μ²(n)` and `R(x) = Q(x) − 6x/π²` of Layer 0.5 (`6/π² = 1/ζ(2)`,
+`hasSum_zeta_two`), prove:
+
+- for every real `x`, `Q(x) = Σ_{k ≤ x} M(√(x/k))` over the naturals `1 ≤ k ≤ x`
+  (`squarefreeCount_eq_sum_moebiusSum`; both sides vanish for `x < 1`). Route: the identity
+  `μ²(n) = Σ_{d² ∣ n} μ(d)` behind 7.1's `Q(x) = Σ_{d ≤ √x} μ(d) ⌊x/d²⌋`, summed over `n ≤ x` with
+  the pairs `(k, d)`, `k d² ≤ x`, grouped by `k` instead of by `d`;
+- for every real `x ≥ 0`, `∫_0^x M(√(x/u)) du = 6x/π²` (`integral_moebiusSum_sqrt_div`). Route: for
+  `u > 0`, `M(√(x/u)) = Σ_{d ≥ 1} μ(d) [u ≤ x/d²]`; the integrals of the absolute values of the
+  terms sum to `Σ_d x/d² < ∞`, so sum and integral commute, and the integral is
+  `x Σ_d μ(d)/d² = 6x/π²` (`μ ⋆ ζ = δ` with absolute convergence and `hasSum_zeta_two`). The
+  integrand is bounded by `√(x/u)` (`|M(t)| ≤ t`), which is integrable at `0`;
+- hence, for every real `x > 0`, `R(x) = Σ_{k ≤ x} M(√(x/k)) − ∫_0^x M(√(x/u)) du`;
+- the midpoint form: for every real `x > 0` and every natural `K ≥ 0`,
+
+      R(x) = Σ_{1 ≤ k ≤ K} M(√(x/k)) − ∫_0^{K+1/2} M(√(x/u)) du − Σ_{K < k ≤ x+1} ∫_{k−1/2}^{k+1/2} (M(√(x/u)) − M(√(x/k))) du,
+
+  the last sum over the naturals `k` with `K < k ≤ ⌊x⌋ + 1` (`squarefreeRemainder_eq_midpoint`).
+  Route: for `K > ⌊x⌋` the last sum is empty, and the form is the previous one, since
+  `M(√(x/u)) = 0` for `u > x` and `M(√(x/k)) = 0` for `k > x`; for `K ≤ ⌊x⌋` write each term
+  `M(√(x/k))` with `K < k ≤ ⌊x⌋ + 1` as the integral of that constant over `[k − 1/2, k + 1/2]`
+  (the term `k = ⌊x⌋ + 1` is `0`), and note that these intervals tile `[K + 1/2, ⌊x⌋ + 3/2]`, on
+  whose part beyond `x` the integrand vanishes. Each integral in the last sum vanishes unless
+  `[k − 1/2, k + 1/2]` contains a point `x/d²`, where `M(√(x/·))` jumps, so the form isolates the
+  jumps; it expresses `R` through `M` alone.
+
+*Needs:* Layer 0.1 (`M`); Layer 0.5 (`Q`, `R`); 1.1 (`μ ⋆ ζ = δ`); `hasSum_zeta_two`;
+`ArithmeticFunction.moebius_mul_coe_zeta`; Mathlib interval integrals.
+
+**Checks.**
+
+- `x = 10`: `Q(10) = 7` (the squarefree `1, 2, 3, 5, 6, 7, 10`), and
+  `Σ_{k ≤ 10} M(√(10/k)) = M(3.16…) + M(2.23…) + 8·M(1) = −1 + 0 + 8 = 7`, since `√(10/k) ∈ [1, 2)`
+  for `3 ≤ k ≤ 10`; also `Q(100) = 61` and `Q(1000) = 608` both ways.
+- Non-example: `Σ_{k ≤ x} M(x/k) = 1` for every `x ≥ 1` (Meissel's identity, 1.1), not `Q(x)`; the
+  square root is essential.
+- `x = 1`: `∫_0^1 M(u^{−1/2}) du = Σ_d μ(d)/d² = 6/π² = 0.60793`: the integrand is `M(1) = 1` on
+  `(1/4, 1]`, `M(2) = 0` on `(1/9, 1/4]`, `M(3) = M(4) = −1` on `(1/25, 1/9]`, and so on.
+- The midpoint form at `x = 10.7`: `R(10.7) = 7 − 6.50482 = 0.49518`, and the right side gives
+  `0.49518` at `K = 2` and at `K = 11` (where the last sum is empty). At `K = 2` the term
+  `k = 11 = ⌊x⌋ + 1` is `∫_{10.5}^{11.5} M(√(10.7/u)) du − 0 = 0.2` (the integrand is `1` on
+  `[10.5, 10.7]` and `0` beyond), so a last sum stopping at `k ≤ x` would give `0.69518`: the upper
+  limit `x + 1` is needed.
+
 ### 7.2 The reciprocal squarefree sums `Σ μ²(n)/n` and `Σ μ²(n)/φ(n)`
 
 Prove Ramaré's tail estimates (`ramare2019bcp` lines 769–779, Theorem 8.1): for every real
@@ -3421,8 +3576,8 @@ tail estimates of 7.2); Layer 5 (5.1, 5.2, 5.4); AnalyticNumberTheoryPartI §3.2
 ExplicitCharacterSumsAndSieves §5.1 (the carrier of `G₁` in 7.2); ExplicitPrimeCounting §0.1 (the
 asymptotic of `G₁` against which 7.2 is compared, cited only); ExplicitZetaBounds §4.1 (the
 Kusmin–Landau inequality, for the smoothed remainder of 7.4). Within the layer, 7.1 uses no
-other subsection of Layer 7, so Layer 1.5, which consumes 7.1, is not downstream of
-anything that consumes it. Layer 1.7 for 7.8 (the zero data; 1.7 uses nothing from Layer 7); 7.9 uses
+other subsection of Layer 7 (nor does 7.1a, which uses only Layers 0.1, 0.5 and 1.1), so Layer
+1.5, which consumes 7.1, is not downstream of anything that consumes it. Layer 1.7 for 7.8 (the zero data; 1.7 uses nothing from Layer 7); 7.9 uses
 7.4, 7.5 and 5.2.
 
 ## Layer 8: explicit Euler products over primes
@@ -3498,10 +3653,10 @@ at `x = 46 909 074`); it is at least `−η_A(x)` for `x ≥ 46 909 074`, and `e
 second quotient is the reciprocal, with logarithm in `[−η_A(x) − 1/(x − 1), η_A(x)]`, and
 `e^{η} − 1 ≤ η e^{η}` closes the `0.07` window since `η_A(x) log³ x ≤ 0.0607`. The ranges
 `1 < x < 392 687` (upper bound) and `46 909 038 ≤ x < 46 909 074` (lower bound) are
-*MertensProductCubicRangeVerified* (Layer 0.7). This supersedes Dusart's `1 ± 1/(5 log³ x)` for
-`x > 2 278 382` (`dusart2018` Theorem 5.9, uncertified) wherever both apply, and Dusart's form is
-not stated. For very large `x`, `axler2022` Proposition 6.1 sharpens the constant further: under
-ExplicitPrimeCounting §4.3 (`|E(x)| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for
+*MertensProductCubicRangeVerified* (Layer 0.7). This supersedes Dusart's `1 ± 1/(5 log³ x)`
+(`dusart2018` Theorem 5.9, uncertified) wherever both apply; Dusart's two-sided form, which holds
+from `2 278 382`, below the two-sided range of Axler's, is 8.1a. For very large `x`, `axler2022`
+Proposition 6.1 sharpens the constant further: under ExplicitPrimeCounting §4.3 (`|E(x)| ≤ f(x) = (0.024334/(3 log³ x))(1 + 15/(4 log x))` for
 `x ≥ 1 757 126 630 797`), the same transfer gives
 `e^{−f(x)} < e^γ (log x) ∏_{p ≤ x}(1 − 1/p) < e^{f(x) + 1/(x − 1)}` there (`axler2022` Proposition
 6.1, a preprint, with the sharper tail `1.02/((x − 1) log x)`).
@@ -3537,6 +3692,65 @@ and *MertensProductCubicRangeVerified* (for Axler's refinement); ExplicitPrimeCo
   `e^γ log x ∏_{p ≤ x}(1 − 1/p) < e^{ε_RH(x)}`, which the sign of the tail does not give.
 - `B = 0.2614972128…`: `γ + Σ_p (log(1 − 1/p) + 1/p) = 0.5772 − 0.3157 = 0.2615` (the sum to
   `p ≤ 2·10^5` gives `−0.31572`).
+
+### 8.1a Dusart's two-sided cubic form
+
+Prove Dusart's form of the explicit Mertens product (`dusart2018` Theorem 5.9, uncertified, cited by
+its locator): for every real `x ≥ 2 278 382`,
+
+    1 − 0.2/log³ x < e^γ (log x) ∏_{p ≤ x} (1 − 1/p) < 1 + 0.2/log³ x,
+    1 − 0.2/log³ x < ∏_{p ≤ x} (1 − 1/p)^{−1}/(e^γ log x) < 1 + 0.2/log³ x,
+
+with the upper bound of the first line and the lower bound of the second for every real `x > 1`.
+Both quotients of 8.1 are covered, the product `∏_{p ≤ x} p/(p − 1)` being the second, and
+`∏_{p ≤ x}(1 − 1/p) = (e^{−γ}/log x)(1 + O*(0.2/log³ x))` is the first.
+
+Route, with `E(x) = Σ_{p ≤ x} 1/p − log log x − B` and the transfer of 8.1 (the logarithm of the
+first quotient is `−E(x)` plus a tail in `(0, 1/(x − 1))`, that of the second its negative):
+
+- the upper bound of the first quotient for every real `x > 1` is Axler's `< 1 + 0.07/log³ x` of
+  8.1 (the conjunction stated there), and the lower bound of the second follows from it by
+  `1/(1 + u) > 1 − u`;
+- for every real `x ≥ 2 278 383`, the other two follow from the one-sided input
+  `E(x) ≤ 0.19992/log³ x`, the upper half of the row `(0.19992, 2 278 383)` of
+  ExplicitPrimeCounting §4.3 (Broadbent–Fiori–Kadiri–Ng–Wilk, a preprint): the first quotient
+  exceeds `e^{−0.19992/log³ x} ≥ 1 − 0.19992/log³ x`, and the second is below `e^u ≤ 1 + u e^u` with
+  `u = 0.19992/log³ x ≤ 6.38·10^{−5}`, so below `1 + 0.19994/log³ x`. The four inequalities for
+  every real `x ≥ 2 278 383`, under that input and the lower inequality `E(x) ≥ −η_A(x)` for every
+  real `x > 1` of `gap:mertens-reciprocal-axler`, are the headline statement
+  `mertens_product_dusart`;
+- on `[2 278 382, 2 278 383)` the lower bound of the first quotient and the upper bound of the
+  second are *MertensProductDusartRangeVerified* `2 278 382 2 278 383` (Layer 0.7): across that unit
+  interval `log log x` changes by `3.0·10^{−8}`, more than the room `2.6·10^{−8}` that the constant
+  `0.19992` leaves below `0.2/log³ x`, so the input at `2 278 383` does not reach it. The statement
+  for every real `x ≥ 2 278 382` is the conjunction.
+
+A route that uses no preprint: Axler's window `[1 − 0.07/log³ x, 1 + 0.07/log³ x]` of 8.1 for both
+quotients for every real `x ≥ 46 909 074`, and *MertensProductDusartRangeVerified*
+`2 278 382 46 909 074` below.
+
+*Needs:* 8.1 (the transfer and Axler's refinement); ExplicitPrimeCounting §4.3 (the row
+`(0.19992, 2 278 383)`); `gap:mertens-reciprocal-axler`; *MertensProductDusartRangeVerified*
+(Layer 0.7); `Real.add_one_le_exp`.
+
+**Checks.**
+
+- At `x = 2 278 382` the first quotient is `1 − 0.199960/log³ x` and the second
+  `1 + 0.199973/log³ x`. The primes `2 278 379` and `2 278 421` are consecutive, so the product is
+  constant on `[2 278 379, 2 278 421)`, the first quotient increases there and the second decreases;
+  the lower bound of the first fails on `[2 278 379, 2 278 381.5755…)` and the upper bound of the
+  second on `[2 278 379, 2 278 381.7111…)` (at `x = 2 278 381` the quotients are
+  `1 − 0.200054/log³ x` and `1 + 0.200067/log³ x`), so `2 278 382` is the least integer threshold,
+  and the instance `2 278 381 2 278 383` of *MertensProductDusartRangeVerified* is false.
+- At both ends of every interval between consecutive primes in `[2 278 382, 46 909 074]` both
+  inequalities hold; the smallest margin is at the prime `3 445 943`, where the first quotient is
+  `1 − 0.198397/log³ x` and the second `1 + 0.198409/log³ x`, so the upper bound of the second
+  fails there with `0.1984` in place of `0.2`.
+- At `x = 2 278 383`, `log³ x = 3137.13` and `0.19992 e^{0.19992/3137.13} = 0.199933 < 0.2`: the
+  margin of the second item of the route; for `x ≥ 46 909 074` Axler's window gives `0.07`.
+- The upper bound of the first quotient for `x > 1` at `x = 2`: `0.6173 < 1 + 0.2/log³ 2 = 1.60`.
+- As in 8.1, the two lines are not inversions of each other: the first line's lower bound gives only
+  `∏_{p ≤ x}(1 − 1/p)^{−1}/(e^γ log x) < 1/(1 − 0.2/log³ x)`, which exceeds `1 + 0.2/log³ x`.
 
 ### 8.2 Tilted products
 
@@ -3701,9 +3915,23 @@ natural `n ≥ 1` (`teo2026` lines 113–116), with `τ_k = ζ^k` the `k`-fold D
   `C(a + k − 1, k − 1)/C(a + k − 2, k − 1) ≥ p^ε` (`teo2026` §2).
 - `ε ↦ N_{k,ε}` is non-increasing, so for `ε` in a compact interval `[ε₁, ε₂] ⊂ (0, ∞)` only finitely
   many numbers occur.
-- `τ_k(N) ≥ k^{ω(N)}`; `N` is divisible by every prime `p` with `p^ε < k`, and the largest maximiser
-  `N_{k,ε}` by every prime `p` with `p^ε ≤ k` (at a tie `p^ε = k` with `p ∤ N`, the integers `N` and
-  `pN` give the same ratio, since `τ_k(p) = k`).
+- `N` is divisible by every prime `p` with `p^ε < k`, and the largest maximiser `N_{k,ε}` by every
+  prime `p` with `p^ε ≤ k` (at a tie `p^ε = k` with `p ∤ N`, the integers `N` and `pN` give the same
+  ratio, since `τ_k(p) = k`).
+
+Prove, for every natural `k` and every natural `n ≥ 1`, `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`
+(`pow_cardDistinctFactors_le_zeta_pow_apply` and `zeta_pow_apply_le_pow_cardFactors`), with equality
+on either side exactly when `k ≤ 1` or `n` is squarefree; at `k = 2` the first is
+`τ(n) ≥ 2^{ω(n)}`, and at a superior `k`-highly composite `n = N` it is `τ_k(N) ≥ k^{ω(N)}`. Route:
+for `k ≥ 1`, `τ_k = ζ^k` is multiplicative (`ArithmeticFunction.IsMultiplicative.pow` of
+`ArithmeticFunction.isMultiplicative_zeta`) with `τ_k(p^a) = C(a + k − 1, k − 1)`, the number of
+`k`-tuples of exponents with sum `a`, by induction on `k` from `τ_k = τ_{k−1} ⋆ ζ`; for `a ≥ 1`,
+`k = C(k, k − 1) ≤ C(a + k − 1, k − 1)`, the binomial coefficient increasing in `a`, and
+`C(a + k − 1, k − 1) ≤ k^a`, since sending each of the `a` factors `p` of `p^a` to one of the `k`
+coordinates reaches every tuple; both are strict when `a ≥ 2` and `k ≥ 2`, and the product over
+`p^a ∥ n` gives the claim. For `k = 0`, `τ_0 = ζ⁰` is the identity of convolution and all three
+terms are `1` at `n = 1` and `0` beyond. The hypothesis `n ≥ 1` is needed:
+`τ_k(0) = 0 < 1 = k^{ω(0)}`.
 
 Prove the Nicolas–Robin theorem: for every natural `n ≥ 3`, `τ(n) ≤ n^{1.538 log 2/log log n}`
 (`nicolasRobin1983` lines 10–15 and 159–170, Théorème 1 and Lemme 5; `teo2026` lines 1792–1823, §6.1
@@ -3740,6 +3968,8 @@ contribute a factor. Record the two-term bounds the same source quotes (pp. 745�
 
 *Needs:* `Nat.card_divisors`; `ArithmeticFunction.sigma_zero_apply`; Tau Ceti
 `TauCeti.sigma_le_rpow_mul_tsum`; `Real.summable_nat_rpow_inv`; `SuperiorTableVerified`;
+`ArithmeticFunction.cardFactors`, `ArithmeticFunction.isMultiplicative_zeta` and
+`ArithmeticFunction.IsMultiplicative.pow` (for `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`);
 AnalyticNumberTheoryPartI §3.7 (cited as the asymptotic form).
 
 **Checks.**
@@ -3771,6 +4001,12 @@ AnalyticNumberTheoryPartI §3.7 (cited as the asymptotic form).
   (`τ(2)/2 = 1 = τ(1)/1`), and `2^1 = k`; `N = 1` is not divisible by `2`, so the property with
   `p^ε ≤ k` fails for it, while the largest maximiser is `N_{2,1} = 2` (`a_2 = 1`, since
   `C(2, 1)/C(1, 1) = 2 ≥ 2^1` and `C(3, 1)/C(2, 1) = 3/2 < 2`).
+- `k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}` at `n = 12 = 2²·3`: `4 ≤ τ(12) = 6 ≤ 8`, and
+  `9 ≤ τ₃(12) = C(4, 2)·C(3, 2) = 18 ≤ 27`; at the squarefree `n = 30`, `τ₃(30) = 27 = 3³` on both
+  sides; at `k = 0`, `τ_0(6) = 0 = 0^{ω(6)}`. There is no violation for `0 ≤ k ≤ 6` and
+  `1 ≤ n ≤ 2·10^4`, and equality on the left holds there exactly for `k ≤ 1` or squarefree `n`.
+- Non-example: `k^{Ω(n)}` is not a lower bound, `τ(4) = 3 < 2^{Ω(4)} = 4`, nor `k^{ω(n)}` an upper
+  bound, `τ(4) = 3 > 2^{ω(4)} = 2`.
 
 ### 9.3 Sums of divisors
 
@@ -3829,6 +4065,79 @@ roadmap's Layer 2); ExplicitPrimeCounting §5.3; *SuperchampionTableVerified*; *
   fails are exactly `3, 5, 7, 9, 15, 21`.
 - Non-example: Eum–Koo for even `n`: `n = 12`: `28 ≤ (3/4)·1.781·12·0.910 = 14.6` fails, so the
   oddness hypothesis is necessary.
+
+### 9.3a Highly abundant numbers and the least common multiple
+
+Define: a natural `n` is highly abundant (`IsHighlyAbundant n`) when `n ≥ 1` and `σ(m) < σ(n)` for
+every natural `m < n` (Pillai's notion; `σ(0) = 0`, so `m = 0` imposes nothing). Write
+`ℓ_n = lcm(1, …, n)`, Mathlib's `Nat.lcmUpto n`: a prime `p` divides `ℓ_n` to the power
+`Nat.log p n` (`Nat.factorization_lcmUpto`), and `log ℓ_n = ψ(n)`
+(`Chebyshev.psi_eq_log_lcmUpto`). Prove:
+
+- for every `N ≥ 1`, the least `m ≤ N` at which `σ` attains its maximum over `[1, N]` is highly
+  abundant, since an earlier `j` with `σ(j) ≥ σ(m)` would attain it first; as `σ(N) ≥ N`, these
+  maxima are unbounded, so there are infinitely many highly abundant numbers
+  (`setOf_isHighlyAbundant_infinite`);
+- the six-prime criterion (`not_isHighlyAbundant_lcmUpto_of_criterion`): let `n` be natural and
+  `p₁ < p₂ < p₃ < q₁ < q₂ < q₃` primes with `√n < p₁` and `q₃ < n` such that
+
+      ∏_{i ≤ 3} (1 + 1/q_i) ≤ ∏_{i ≤ 3} (1 + 1/(p_i (p_i + 1))) · (1 + 3/(8n)) · (1 − 4 p₁p₂p₃/(q₁q₂q₃));
+
+  then `ℓ_n` is not highly abundant;
+- that `ℓ_n` is not highly abundant for every natural `n ≥ 89 693²`
+  (`not_isHighlyAbundant_lcmUpto`), under Dusart's interval of ExplicitPrimeCounting §7.4: for
+  every real `y ≥ 89 693` there is a prime in `(y, y(1 + 1/log³ y)]`.
+
+Route for the criterion. Put `P = p₁p₂p₃` and `Q = q₁q₂q₃`. Since `p_i² > n` and `q_i² > n`,
+every `p_i` and every `q_i` divides `ℓ_n` exactly once; write `ℓ_n = Q ℓ'` with no `q_i` dividing
+`ℓ'`. The right side of the criterion is positive, so `Q > 4P`; divide `Q = 4P m + r` with `m ≥ 1`
+and `0 < r < 4P` (`Q` is odd), and compare `ℓ_n` with the competitor `M = 4P m ℓ' < Q ℓ' = ℓ_n`.
+By the multiplicativity of `σ` (`ArithmeticFunction.isMultiplicative_sigma`),
+`σ(ℓ_n)/ℓ_n = (σ(ℓ')/ℓ') ∏(1 + 1/q_i)`. In `M` each `p_i` occurs at least squared where `ℓ'` has
+it once, which multiplies `σ(·)/·` by at least
+`(1 + 1/p_i + 1/p_i²)/(1 + 1/p_i) = 1 + 1/(p_i(p_i + 1))`; the power of `2` rises from `2^j`, where
+`2^j ≤ n < 2^{j+1}`, to at least `2^{j+2}`, a factor at least
+`(2^{j+3} − 1)/(2^{j+3} − 4) = 1 + 3/(2^{j+3} − 4) > 1 + 3/(8n)`; and every other prime gives a
+factor at least `1`, `σ(p^a)/p^a` increasing in `a`. With the criterion this gives
+`σ(M)/M ≥ (σ(ℓ_n)/ℓ_n)(1 − 4P/Q)^{−1}`, while
+`ℓ_n/M = Q/(Q − r) < Q/(Q − 4P) = (1 − 4P/Q)^{−1}`; so `σ(M) > σ(ℓ_n)` with `M < ℓ_n`.
+
+Route for the theorem. Put `x = √n ≥ 89 693` and `ε = 1/log³ x ≤ 1/11.4³`
+(`log 89 693 = 11.404…`); for `y ≥ x` the interval of the input lies in `(y, y(1 + ε)]`, strictly
+inside it when `y > x`. At `y = x, x(1 + ε), x(1 + ε)²` it gives primes `p₁ < p₂ < p₃` with
+`√n < p₁` and `p_i ≤ x(1 + ε)^i`; at `y = n(1 + ε)^{−j}` for `j = 3, 2, 1` it gives primes
+`q₁ < q₂ < q₃ < n` with `q_i > n(1 + ε)^{i−4}`; and `p₃ < q₁`, since `x(1 + ε)^6 < x²`. Then
+`∏(1 + 1/q_i) ≤ ∏_{j ≤ 3}(1 + (1 + ε)^j/n)`,
+`∏(1 + 1/(p_i(p_i + 1))) ≥ ∏_{i ≤ 3}(1 + 1/((1 + ε)^{2i}(n + √n)))` and
+`1 − 4P/Q ≥ 1 − 4(1 + ε)^{12}/n^{3/2}`; with `ε ≤ 6.75·10^{−4}` and `n^{−1/2} ≤ 1.115·10^{−5}`
+the left side of the criterion is at most `1 + 3.0041/n` and the right side at least
+`1 + 3.3668/n`, so the criterion holds.
+
+*Needs:* `ArithmeticFunction.sigma`, `ArithmeticFunction.isMultiplicative_sigma`; Mathlib
+`Nat.lcmUpto`, `Nat.factorization_lcmUpto`, `Chebyshev.psi_eq_log_lcmUpto`;
+ExplicitPrimeCounting §7.4 (Dusart's interval, for the theorem).
+
+**Checks.**
+
+- The highly abundant numbers up to `30` are `1, 2, 3, 4, 6, 8, 10, 12, 16, 18, 20, 24, 30`; `5` is
+  not (`σ(5) = 6 < σ(4) = 7`), nor `7` (`σ(7) = 8 < σ(6) = 12`) or `9` (`σ(9) = 13 < σ(8) = 15`).
+- `ℓ_n` is highly abundant for every `n ≤ 18`: its values `1, 2, 6, 12, 60, 420, 840, 2520, 27 720,
+  360 360, 720 720, 12 252 240` are highly abundant (checked against every smaller `m`).
+- The criterion at `n = 10^4` with `(p₁, p₂, p₃) = (101, 103, 107)` and
+  `(q₁, q₂, q₃) = (9949, 9967, 9973)`: left side `1 + 3.0114·10^{−4}`, right side
+  `1 + 3.0999·10^{−4}`, so `ℓ_{10^4}` is not highly abundant, far below the range of the theorem; at
+  `n = 10^6` with `(1009, 1013, 1019)` and `(999 961, 999 979, 999 983)`: `1 + 3.0001·10^{−6}`
+  against `1 + 3.2878·10^{−6}`.
+- At `n = 70`, with the three least primes above `√70` and the three largest below `70`,
+  `(11, 13, 17)` and `(59, 61, 67)`, the criterion fails (left side `1.0490`, right side `0.9807`);
+  at `n = 18` there are not even six primes in `(√18, 18)`.
+- The threshold `89 693² = 8 044 834 249` is that of the input at `y = √n`; the criterion closes
+  there with room (`3.3668` against `3.0041`).
+- The factor `4` of the competitor is needed: without it (`M = Pmℓ'` with `m = ⌊Q/P⌋`) the power of
+  `2` is unchanged, and the analogue of the criterion,
+  `∏(1 + 1/q_i) ≤ ∏(1 + 1/(p_i(p_i + 1)))·(1 − P/Q)`, fails at `n = 10^6` with the primes above
+  (right side `1 + 2.9159·10^{−6}`, left side `1 + 3.0001·10^{−6}`); the `2`-adic factor
+  `1 + 3/(8n)` is what closes it.
 
 ### 9.4 The ratio `n/φ(n)`
 
@@ -3890,9 +4199,10 @@ ExplicitPrimeCounting §§3.2, 4.3; Layer 0.7 (`PrimorialTotientTableVerified`).
 
 ### Dependencies
 
-Layer 8.1; Mathlib `Nat.nth`, `Chebyshev.theta`, `Nat.card_divisors`, `Nat.totient`, `primorial`;
+Layer 8.1; Mathlib `Nat.nth`, `Chebyshev.theta`, `Nat.card_divisors`, `Nat.totient`, `primorial`,
+`ArithmeticFunction.cardFactors` (9.2), `Nat.lcmUpto` (9.3a);
 Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.7 (cited); ExplicitPrimeCounting
-§§5.3 (9.1, 9.3), 3.5 (9.3), 4.3 and 3.2 (9.4).
+§§5.3 (9.1, 9.3), 3.5 (9.3), 7.4 (9.3a), 4.3 and 3.2 (9.4).
 
 ## Downstream consumers
 
@@ -3981,7 +4291,7 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
   `d_k`, in Number Theory in Progress 2 (1999), 743–770. Théorème 1.1(i)–(iii), p. 744; pp. 745–746
   (uncertified).
 - `dusart2018`: P. Dusart, Explicit estimates of some functions over primes, Ramanujan J. 45
-  (2018) (uncertified).
+  (2018), Proposition 5.4 and Theorem 5.9 (uncertified).
 - `elMarraki1995`: M. El Marraki, Fonction sommatoire de la fonction de Möbius 3. Majorations
   asymptotiques effectives fortes, J. Théor. Nombres Bordeaux 7 (1995). Théorèmes 1–3, (3.1), and the
   corollaries of Théorèmes 2 and 3.

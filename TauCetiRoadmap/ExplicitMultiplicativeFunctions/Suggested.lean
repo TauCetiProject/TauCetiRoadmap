@@ -8,10 +8,10 @@ import TauCeti.NumberTheory.LFunctions.Mertens
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
-definitions they need: the real-argument summatory functions of the Möbius function, the Selberg
-remainder, the first Stieltjes constant, superior highly composite numbers, and the finite
-verifications of README Layer 0.7 that the headline proofs rest on, each a proposition with a real
-body stating exactly the inequality a source checks.
+definitions they need: the real-argument summatory functions of the Möbius and Liouville functions,
+the Selberg remainder, the first Stieltjes constant, superior highly composite and highly abundant
+numbers, and the finite verifications of README Layer 0.7 that the headline proofs rest on, each a
+proposition with a real body stating exactly the inequality a source checks.
 
 Two conventions govern the hypotheses. The explicit prime estimates that the README imports from
 ExplicitPrimeCounting enter as hypotheses of the exact shape the proofs use, so that no statement
@@ -21,12 +21,16 @@ checking its own inequality on an initial interval, the theorem is stated here b
 interval, and the README records the interval and the proposition that covers it.
 
 Headline theorems stated here, in README order: Ramaré's transfer theorem in its 2013 instance
-`|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` (Layer 1.5); Tao's bound `|m_S(x)| ≤ 1` and
-Balazard's inequality (Layers 2.1–2.2); Ramaré's bound for `m̌(x) − 1` (Layer 3.1); the comparison
-theorem of the convolution method for a general exponent and the Dirichlet-divisor model with the
-constant term `γ² − 2γ₁` (Layers 5.1–5.2); the Hall–Tenenbaum inequality (Layer 6.3); the explicit
-Mertens product of Rosser–Schoenfeld and Axler's cubic refinement (Layer 8.1); Robin's bound for
-`ω(n)`, the Nicolas–Robin bound for `τ(n)` and Rosser–Schoenfeld's bound for `n/φ(n)` (Layer 9).
+`|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` (Layer 1.5); the identities between the Liouville
+summatory function and `M`, the transfer of bounds from `M` to it and its `o(x)` (Layer 1.6a); Tao's
+bound `|m_S(x)| ≤ 1` and Balazard's inequality (Layers 2.1–2.2); Ramaré's bound for `m̌(x) − 1`
+(Layer 3.1); the comparison theorem of the convolution method for a general exponent and the
+Dirichlet-divisor model with the constant term `γ² − 2γ₁` (Layers 5.1–5.2); the Hall–Tenenbaum
+inequality (Layer 6.3); the squarefree count and remainder written through `M` (Layer 7.1a); the
+explicit Mertens product of Rosser–Schoenfeld, Axler's cubic refinement and Dusart's two-sided cubic
+form (Layers 8.1–8.1a); Robin's bound for `ω(n)`, the Nicolas–Robin bound for `τ(n)`, the bounds
+`k^{ω(n)} ≤ τ_k(n) ≤ k^{Ω(n)}`, the six-prime criterion and the theorem that `lcm(1, …, n)` is not
+highly abundant for `n ≥ 89 693²`, and Rosser–Schoenfeld's bound for `n/φ(n)` (Layer 9).
 
 Every headline theorem is statable at the pins. Three groups of README targets are deliberately
 not stated here. Ramaré–Zuniga Alterman's sharper instance of the transfer (README 1.10): its
@@ -188,6 +192,39 @@ theorem abs_moebiusSum_le_ramare
     |moebiusSum D| ≤ (0.0130 / Real.log D - 0.118 / Real.log D ^ 2) * D := by
   sorry
 
+/-- The Liouville summatory function `L_λ(x) = Σ_{n ≤ x} λ(n)` at a real argument, with `λ`
+Mathlib's `ArithmeticFunction.liouville`; the sum runs over `Finset.Icc 1 ⌊x⌋₊`, so `L_λ(x) = 0` for
+`x < 1` (README 1.6a). -/
+def liouvilleSum (x : ℝ) : ℝ :=
+  ∑ n ∈ Icc 1 ⌊x⌋₊, (ArithmeticFunction.liouville n : ℝ)
+
+/-- **The Liouville summatory function through `M`** (README 1.6a). For every real `x`,
+`L_λ(x) = Σ_{1 ≤ w ≤ √x} M(x/w²)`, from `λ(n) = Σ_{d² ∣ n} μ(n/d²)`. -/
+theorem liouvilleSum_eq_sum_moebiusSum (x : ℝ) :
+    liouvilleSum x = ∑ w ∈ Icc 1 ⌊Real.sqrt x⌋₊, moebiusSum (x / (w : ℝ) ^ 2) := by
+  sorry
+
+/-- **`M` through the Liouville summatory function** (README 1.6a). For every real `x`,
+`M(x) = Σ_{1 ≤ w ≤ √x} μ(w) L_λ(x/w²)`, from `μ(n) = Σ_{d² ∣ n} μ(d) λ(n/d²)`. -/
+theorem moebiusSum_eq_sum_liouvilleSum (x : ℝ) :
+    moebiusSum x = ∑ w ∈ Icc 1 ⌊Real.sqrt x⌋₊,
+      (ArithmeticFunction.moebius w : ℝ) * liouvilleSum (x / (w : ℝ) ^ 2) := by
+  sorry
+
+/-- **The transfer of bounds from `M` to the Liouville summatory function** (README 1.6a). If
+`|M(y)| ≤ ε y` for every real `y ≥ Y`, with `Y ≥ 1`, then `|L_λ(x)| ≤ (π²/6) ε x + 2 x^{3/4}` for
+every real `x ≥ Y²`. -/
+theorem abs_liouvilleSum_le_of_abs_moebiusSum_le (ε Y : ℝ) (hY : 1 ≤ Y)
+    (hM : ∀ y : ℝ, Y ≤ y → |moebiusSum y| ≤ ε * y) (x : ℝ) (hx : Y ^ 2 ≤ x) :
+    |liouvilleSum x| ≤ π ^ 2 / 6 * ε * x + 2 * x ^ (3 / 4 : ℝ) := by
+  sorry
+
+/-- **The Liouville summatory function is `o(x)`** (README 1.6a), unconditionally: Davenport's
+bound `M(y) = O_A(y (log y)^{−A})` (AnalyticNumberTheoryPartI §1.2, at the frequency `0`) and the
+transfer. -/
+theorem liouvilleSum_isLittleO : Asymptotics.IsLittleO atTop liouvilleSum fun x : ℝ => x := by
+  sorry
+
 /-! ## Layer 2: the logarithmic sum `m(x)` -/
 
 /-- **Tao's theorem** (README 2.1; Tao 2010, Theorem 1.1). For every set `S` of primes and every
@@ -278,6 +315,34 @@ theorem sum_le_hall_tenenbaum (f : ArithmeticFunction ℝ) (hf : f.IsMultiplicat
     ∑ n ∈ Icc 1 ⌊x⌋₊, f n ≤ (A + B + 1) * (x / Real.log x) * ∑ n ∈ Icc 1 ⌊x⌋₊, f n / n := by
   sorry
 
+/-! ## Layer 7: explicit averages of the classical functions -/
+
+/-- **The squarefree count through `M`** (README 7.1a). For every real `x`,
+`Q(x) = Σ_{n ≤ x} μ²(n) = Σ_{1 ≤ k ≤ x} M(√(x/k))`. -/
+theorem squarefreeCount_eq_sum_moebiusSum (x : ℝ) :
+    ∑ n ∈ Icc 1 ⌊x⌋₊, (ArithmeticFunction.moebius n : ℝ) ^ 2 =
+      ∑ k ∈ Icc 1 ⌊x⌋₊, moebiusSum (Real.sqrt (x / k)) := by
+  sorry
+
+/-- **The integral of `M(√(x/u))`** (README 7.1a). For every real `x ≥ 0`,
+`∫_0^x M(√(x/u)) du = 6x/π²`, that is `x/ζ(2)`. -/
+theorem integral_moebiusSum_sqrt_div (x : ℝ) (hx : 0 ≤ x) :
+    ∫ u in (0 : ℝ)..x, moebiusSum (Real.sqrt (x / u)) = 6 / π ^ 2 * x := by
+  sorry
+
+/-- **The midpoint form of the squarefree remainder** (README 7.1a). For every real `x > 0` and
+every natural `K`, `R(x) = Q(x) − 6x/π²` equals `Σ_{1 ≤ k ≤ K} M(√(x/k)) − ∫_0^{K+1/2} M(√(x/u)) du`
+minus the sum over the naturals `K < k ≤ ⌊x⌋ + 1` of
+`∫_{k−1/2}^{k+1/2} (M(√(x/u)) − M(√(x/k))) du`. -/
+theorem squarefreeRemainder_eq_midpoint (x : ℝ) (hx : 0 < x) (K : ℕ) :
+    ∑ n ∈ Icc 1 ⌊x⌋₊, (ArithmeticFunction.moebius n : ℝ) ^ 2 - 6 / π ^ 2 * x =
+      ∑ k ∈ Icc 1 K, moebiusSum (Real.sqrt (x / k)) -
+        (∫ u in (0 : ℝ)..((K : ℝ) + 1 / 2), moebiusSum (Real.sqrt (x / u))) -
+        ∑ k ∈ Ioc K (⌊x⌋₊ + 1),
+          ∫ u in ((k : ℝ) - 1 / 2)..((k : ℝ) + 1 / 2),
+            (moebiusSum (Real.sqrt (x / u)) - moebiusSum (Real.sqrt (x / k))) := by
+  sorry
+
 /-! ## Layer 8: explicit Euler products over primes -/
 
 /-- **The explicit Mertens product** (README 8.1; Rosser–Schoenfeld 1962, Theorems 7–8). Under the
@@ -319,6 +384,35 @@ theorem mertens_product_axler
       1 + 0.07 / Real.log x ^ 3 := by
   sorry
 
+/-- **Dusart's two-sided cubic form of the Mertens product** (README 8.1a; Dusart 2018,
+Theorem 5.9). Under Axler's one-sided estimate
+`Σ_{p ≤ x} 1/p − log log x − B ≥ −1/(20 log³ x) − 3/(16 log⁴ x)` for every real `x > 1` and the
+one-sided estimate `Σ_{p ≤ x} 1/p − log log x − B ≤ 0.19992/log³ x` for every real `x ≥ 2 278 383`
+(ExplicitPrimeCounting §4.3), with `B = mertensConstant ℚ`, for every real `x ≥ 2 278 383` both
+quotients `e^γ log x ∏_{p ≤ x}(1 − 1/p)` and `∏_{p ≤ x}(1 − 1/p)⁻¹/(e^γ log x)` lie strictly between
+`1 − 0.2/log³ x` and `1 + 0.2/log³ x`. On `[2 278 382, 2 278 383)` the statement is Axler's bound
+together with a direct verification (README 8.1a). -/
+theorem mertens_product_dusart
+    (hA : ∀ x : ℝ, 1 < x →
+      -(1 / (20 * Real.log x ^ 3) + 3 / (16 * Real.log x ^ 4)) ≤
+        ∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p - Real.log (Real.log x) -
+          TauCeti.LFunctions.mertensConstant ℚ)
+    (hD : ∀ x : ℝ, 2278383 ≤ x →
+      ∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p - Real.log (Real.log x) -
+          TauCeti.LFunctions.mertensConstant ℚ ≤ 0.19992 / Real.log x ^ 3)
+    (x : ℝ) (hx : 2278383 ≤ x) :
+    (1 - 0.2 / Real.log x ^ 3 <
+        exp eulerMascheroniConstant * Real.log x *
+          ∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 - 1 / (p : ℝ)) ∧
+      exp eulerMascheroniConstant * Real.log x * ∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 - 1 / (p : ℝ)) <
+        1 + 0.2 / Real.log x ^ 3) ∧
+    (1 - 0.2 / Real.log x ^ 3 <
+        (∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 - 1 / (p : ℝ)))⁻¹ /
+          (exp eulerMascheroniConstant * Real.log x) ∧
+      (∏ p ∈ Nat.primesLE ⌊x⌋₊, (1 - 1 / (p : ℝ)))⁻¹ /
+          (exp eulerMascheroniConstant * Real.log x) < 1 + 0.2 / Real.log x ^ 3) := by
+  sorry
+
 /-! ## Layer 9: pointwise bounds -/
 
 /-- **Robin's bound for `ω(n)`** (README 9.1; Robin 1983, Théorème 11). For every natural `n ≥ 3`,
@@ -339,6 +433,52 @@ theorem sigma_zero_le_nicolasRobin (htab : SuperiorTableVerified 2 0.1950 0.3466
     (n : ℕ) (hn : 3 ≤ n) :
     (ArithmeticFunction.sigma 0 n : ℝ) ≤
       (n : ℝ) ^ (1.538 * Real.log 2 / Real.log (Real.log n)) := by
+  sorry
+
+/-- **`τ_k(n)` against `k^{ω(n)}`** (README 9.2). For every natural `k` and every natural `n ≥ 1`,
+`k^{ω(n)} ≤ τ_k(n)`, with `τ_k = ζ^k` the `k`-fold Dirichlet convolution of `ζ`; equality holds
+exactly when `k ≤ 1` or `n` is squarefree. -/
+theorem pow_cardDistinctFactors_le_zeta_pow_apply (k : ℕ) {n : ℕ} (hn : n ≠ 0) :
+    k ^ ArithmeticFunction.cardDistinctFactors n ≤
+      (ArithmeticFunction.zeta ^ k : ArithmeticFunction ℕ) n := by
+  sorry
+
+/-- **`τ_k(n)` against `k^{Ω(n)}`** (README 9.2). For every natural `k` and every natural `n ≥ 1`,
+`τ_k(n) ≤ k^{Ω(n)}`, with `Ω` the number of prime factors counted with multiplicity. -/
+theorem zeta_pow_apply_le_pow_cardFactors (k : ℕ) {n : ℕ} (hn : n ≠ 0) :
+    (ArithmeticFunction.zeta ^ k : ArithmeticFunction ℕ) n ≤
+      k ^ ArithmeticFunction.cardFactors n := by
+  sorry
+
+/-- A natural number `n` is **highly abundant** (README 9.3a) when `n ≥ 1` and `σ(m) < σ(n)` for
+every natural `m < n`, with `σ = σ 1`. -/
+def IsHighlyAbundant (n : ℕ) : Prop :=
+  0 < n ∧ ∀ m : ℕ, m < n → ArithmeticFunction.sigma 1 m < ArithmeticFunction.sigma 1 n
+
+/-- There are infinitely many highly abundant numbers (README 9.3a). -/
+theorem setOf_isHighlyAbundant_infinite : {n : ℕ | IsHighlyAbundant n}.Infinite := by
+  sorry
+
+/-- **The six-prime criterion** (README 9.3a). Let `p 0 < p 1 < p 2 < q 0 < q 1 < q 2` be primes
+with `√n < p 0` and `q 2 < n` such that
+`∏ (1 + 1/q i) ≤ ∏ (1 + 1/(p i (p i + 1))) · (1 + 3/(8n)) · (1 − 4 ∏ p i/∏ q i)`. Then
+`lcm(1, …, n)` is not highly abundant. -/
+theorem not_isHighlyAbundant_lcmUpto_of_criterion (n : ℕ) (p q : Fin 3 → ℕ)
+    (hp : ∀ i, (p i).Prime) (hq : ∀ i, (q i).Prime) (hp_mono : StrictMono p)
+    (hq_mono : StrictMono q) (hpn : Real.sqrt n < (p 0 : ℝ)) (hpq : p 2 < q 0) (hqn : q 2 < n)
+    (hcrit : ∏ i, (1 + 1 / (q i : ℝ)) ≤
+      (∏ i, (1 + 1 / ((p i : ℝ) * ((p i : ℝ) + 1)))) * (1 + 3 / (8 * (n : ℝ))) *
+        (1 - 4 * (∏ i, (p i : ℝ)) / ∏ i, (q i : ℝ))) :
+    ¬ IsHighlyAbundant (Nat.lcmUpto n) := by
+  sorry
+
+/-- **`lcm(1, …, n)` is not highly abundant for large `n`** (README 9.3a). Under Dusart's interval,
+a prime in `(y, y(1 + 1/log³ y)]` for every real `y ≥ 89 693` (ExplicitPrimeCounting §7.4), for
+every natural `n ≥ 89 693²` the least common multiple `lcm(1, …, n)` is not highly abundant. -/
+theorem not_isHighlyAbundant_lcmUpto
+    (hD : ∀ y : ℝ, 89693 ≤ y →
+      ∃ p : ℕ, p.Prime ∧ y < p ∧ (p : ℝ) ≤ y * (1 + 1 / Real.log y ^ 3))
+    (n : ℕ) (hn : 89693 ^ 2 ≤ n) : ¬ IsHighlyAbundant (Nat.lcmUpto n) := by
   sorry
 
 /-- **Rosser–Schoenfeld's bound for `n/φ(n)`** (README 9.4; Rosser–Schoenfeld 1962, Theorem 15).
