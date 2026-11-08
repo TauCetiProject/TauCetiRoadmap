@@ -456,9 +456,9 @@ the Jacobi equation only before the cut time; the zero extension need not satisf
   `135°`. For `R ≤ 1` the points of the domain with `x < 0` within distance R of σ have their
   nearest point at the endpoint `(0,0)` and form a sector of angle `π/4`, of area `πR²/8`,
   which the normal parametrization misses.
-- Negative control for the cut time: on the disk of radius ρ with `R > ρ`, extending the
-  Jacobi equation past `t = ρ` would give `a = 1 − t/ρ < 0`, while the zero extension gives
-  the correct area.
+- Negative control for the cut time: on the disk of radius ρ with `ℓ > R > ρ`, extending
+  the Jacobi equation past `t = ρ` would give `a = 1 − t/ρ < 0`, while the zero extension
+  gives the correct area.
 
 ### Dependencies
 
