@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Topology.WedgeSum
 public import TauCeti.AlgebraicTopology.Cohomology.Basic
 public import TauCeti.GroupTheory.Perm.Partition
+public import TauCeti.Geometry.Manifold.RegularValue
 
 /-!
 # Algebraic topology, Part II: target signatures
@@ -33,8 +34,7 @@ Not statable at the pins:
 * The real-empty quartic rank lacks the real-variety equivariant Betti carrier.
 * The ramified double-cover triangle, corrected trace-quotient lift, circle obstruction and
   common-lift chase lack the equivariant sheaf cokernel, trace and derived comparison maps.
-* Equivariant Ehresmann lacks the suppliers' regular-level smooth-fibre carrier and its smooth
-  local trivialization data; the finite-index image lacks the equivariant topological cohomology
+* The finite-index equivariant lattice image lacks the equivariant topological cohomology
   comparison map.
 
 Finite coefficient products in the diagonal and Betti theorems are the exact coefficients of
@@ -235,10 +235,38 @@ theorem fermatDoubleLoopSimplyConnected (n : ℕ) (hn : 5 ≤ n) (k : Fin n → 
 
 /-! ## Layer 16: equivariant transport and derived chases -/
 
-section Stratified
-
 open Filter
 open scoped Topology Manifold ContDiff
+
+/-- **Equivariant Ehresmann transport** (§16.1). Let `f : M → B` be a proper smooth map of
+Hausdorff second-countable boundaryless manifolds, let `σM` and `σB` be smooth involutions with
+`f ∘ σM = σB ∘ f`, and let `b` be a regular value of `f` fixed by `σB`, whose fibre carries a
+smooth structure of dimension `n - k` for which its inclusion into `M` is a smooth embedding (for
+instance the regular-fibre atlas `TauCeti.regularFiberChartedSpace`). Then `f` has a local
+trivialization over a `σB`-invariant open neighbourhood of `b` with that fibre. The
+trivialization is a diffeomorphism onto its image and intertwines `σM` with `σB` on the base and
+with `σM` on the fibre. The fibre may be empty (B19 Proposition 6.6 proof; DIMCA Lemma 4). -/
+theorem equivariantEhresmannTransport {n k : ℕ}
+    {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+    [IsManifold (𝓡 n) ∞ M] [T2Space M] [SecondCountableTopology M]
+    {B : Type*} [TopologicalSpace B] [ChartedSpace (EuclideanSpace ℝ (Fin k)) B]
+    [IsManifold (𝓡 k) ∞ B] [T2Space B] [SecondCountableTopology B]
+    {f : M → B} (hf : ContMDiff (𝓡 n) (𝓡 k) ∞ f) (hp : IsProperMap f)
+    {σM : M → M} {σB : B → B} (hσM : ContMDiff (𝓡 n) (𝓡 n) ∞ σM)
+    (hσB : ContMDiff (𝓡 k) (𝓡 k) ∞ σB) (hσM2 : ∀ x, σM (σM x) = x)
+    (hσB2 : ∀ c, σB (σB c) = c) (hfσ : ∀ x, f (σM x) = σB (f x))
+    (b : B) (hb : σB b = b) (hreg : TauCeti.IsRegularValue (𝓡 n) (𝓡 k) f b)
+    [ChartedSpace (EuclideanSpace ℝ (Fin (n - k))) {x : M // f x = b}]
+    [IsManifold (𝓡 (n - k)) ∞ {x : M // f x = b}]
+    (hF : Manifold.IsSmoothEmbedding (𝓡 (n - k)) (𝓡 n) ∞ (Subtype.val : {x : M // f x = b} → M)) :
+    ∃ e : Bundle.Trivialization {x : M // f x = b} f, b ∈ e.baseSet ∧
+      σB ⁻¹' e.baseSet = e.baseSet ∧
+      ContMDiffOn (𝓡 n) ((𝓡 k).prod (𝓡 (n - k))) ∞ e e.source ∧
+      ContMDiffOn ((𝓡 k).prod (𝓡 (n - k))) (𝓡 n) ∞ e.toOpenPartialHomeomorph.symm e.target ∧
+      ∀ x ∈ e.source, ((e (σM x)).2 : M) = σM (e x).2 := by
+  sorry
+
+section Stratified
 
 variable {X : Type*} [TopologicalSpace X] {ι : Type*} {d : ι → ℕ} {S : ι → Type*}
 
@@ -249,12 +277,14 @@ def StratumLT (incl : ∀ i, S i → X) (i j : ι) : Prop :=
 
 variable [∀ i, TopologicalSpace (S i)] [∀ i, ChartedSpace (EuclideanSpace ℝ (Fin (d i))) (S i)]
 
+variable (d) in
 /-- A smooth stratification of `X` (§16.1a; MATHER §8, axioms (A2)–(A5)): each stratum is the
-image of a topological embedding `incl i` of a nonempty manifold `S i` modelled on
+image of a topological embedding `incl i` of a nonempty smooth manifold `S i` modelled on
 `EuclideanSpace ℝ (Fin (d i))`; the strata are locally closed and pairwise disjoint, cover `X`,
 form a locally finite family and satisfy the frontier condition. The index type may be
 infinite. -/
-structure IsSmoothStratification (incl : ∀ i, S i → X) : Prop where
+structure IsSmoothStratification [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)] (incl : ∀ i, S i → X) :
+    Prop where
   nonempty : ∀ i, Nonempty (S i)
   isEmbedding : ∀ i, Topology.IsEmbedding (incl i)
   isLocallyClosed : ∀ i, IsLocallyClosed (Set.range (incl i))
@@ -263,21 +293,6 @@ structure IsSmoothStratification (incl : ∀ i, S i → X) : Prop where
   locallyFinite : LocallyFinite fun i => Set.range (incl i)
   frontier_condition : ∀ i j, (Set.range (incl i) ∩ closure (Set.range (incl j))).Nonempty →
     Set.range (incl i) ⊆ closure (Set.range (incl j))
-
-/-- **The incidence order is a strict order** (§16.1a). For a smooth stratification the
-incidence relation `StratumLT` is irreflexive and transitive. -/
-theorem IsSmoothStratification.isStrictOrder_stratumLT {incl : ∀ i, S i → X}
-    (hS : IsSmoothStratification incl) : IsStrictOrder ι (StratumLT incl) := by
-  sorry
-
-/-- **Strata over upward-closed index sets** (§16.1a). For a smooth stratification, the union of
-the strata indexed by a set of indices closed upwards under the incidence order is open: the
-strata stratify `X` over their indices, ordered by incidence. -/
-theorem IsSmoothStratification.isOpen_biUnion_range {incl : ∀ i, S i → X}
-    (hS : IsSmoothStratification incl) {U : Set ι}
-    (hU : ∀ i j, i ∈ U → StratumLT incl i j → j ∈ U) :
-    IsOpen (⋃ i ∈ U, Set.range (incl i)) := by
-  sorry
 
 variable (d) in
 /-- Thom–Mather control data for the strata `incl` (§16.1b; MATHER §7): for each stratum an open
@@ -320,25 +335,17 @@ def ControlData.IsInvariant {incl : ∀ i, S i → X} (C : ControlData d incl) (
   ∀ i, ∀ x ∈ C.tube i, σ x ∈ C.tube i ∧ incl i (C.proj i (σ x)) = σ (incl i (C.proj i x)) ∧
     C.tubularFun i (σ x) = C.tubularFun i x
 
-/-- Normalised control data (§16.1b; MATHER §8, conditions (A10)–(A11)): a tube meets only its
-own stratum and strata above it, the tubes of two incomparable strata are disjoint, and each tube
-is proper over its stratum below some positive continuous radius `ε`. -/
+/-- Normalised control data (§16.1b): a tube meets only its own stratum and strata above it, and
+the tubes of two incomparable strata are disjoint (MATHER §8, conditions (A10)–(A11), PDF p.25);
+moreover each tube is proper over its stratum below some positive continuous radius `ε`. The
+properness clause is not one of Mather's axioms; it is the abstract form of the properness of an
+admissible tubular retraction (MATHER §7, PDF p.20). -/
 def ControlData.IsNormalized {incl : ∀ i, S i → X} (C : ControlData d incl) : Prop :=
   (∀ i j, (C.tube i ∩ Set.range (incl j)).Nonempty → i = j ∨ StratumLT incl i j) ∧
     (∀ i j, (C.tube i ∩ C.tube j).Nonempty →
       i = j ∨ StratumLT incl i j ∨ StratumLT incl j i) ∧
     ∀ i, ∃ ε : S i → ℝ, Continuous ε ∧ (∀ y, 0 < ε y) ∧ ∀ K : Set (S i), IsCompact K →
       IsCompact {x | x ∈ C.tube i ∧ C.tubularFun i x ≤ ε (C.proj i x) ∧ C.proj i x ∈ K}
-
-/-- **Normalisation** (§16.1b; MATHER §8, PDF p.25). On a smooth stratified space, the tubes of
-any control data can be shrunk, keeping the retractions and tubular functions, to normalised
-control data. -/
-theorem ControlData.exists_isNormalized [T2Space X] [LocallyCompactSpace X]
-    [SecondCountableTopology X] {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl)
-    (C : ControlData d incl) :
-    ∃ C' : ControlData d incl, C'.IsNormalized ∧ (∀ i, C'.tube i ⊆ C.tube i) ∧
-      C'.proj = C.proj ∧ C'.tubularFun = C.tubularFun := by
-  sorry
 
 /-- A controlled vector field (§16.1d; MATHER §9): a smooth vector field on every stratum such
 that, near each stratum `i` and on every stratum `j` with `i < j`, the derivative of the
@@ -363,7 +370,7 @@ time interval, and moves each point of a stratum along an integral curve of the 
 stratum. -/
 theorem ControlData.exists_flow [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)] [T2Space X]
     [LocallyCompactSpace X] [SecondCountableTopology X]
-    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification d incl) (C : ControlData d incl)
     {ξ : ∀ i, (y : S i) → TangentSpace (𝓡 (d i)) y} (hξ : C.IsControlledVectorField ξ) :
     ∃ (D : Set (ℝ × X)) (φ : ℝ × X → X), IsOpen D ∧ (∀ x, (0, x) ∈ D) ∧
       (∀ x, Set.OrdConnected {t | (t, x) ∈ D}) ∧ ContinuousOn φ D ∧ (∀ x, φ (0, x) = x) ∧
@@ -393,7 +400,7 @@ vector field on the base lifts along a controlled submersion to a controlled vec
 theorem ControlData.exists_isControlledVectorField_lift [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
     [T2Space X] [LocallyCompactSpace X]
     [SecondCountableTopology X] [IsManifold (𝓡 m) ∞ N]
-    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification d incl) (C : ControlData d incl)
     {f : X → N} (hf : C.IsControlledSubmersion m f) {η : (b : N) → TangentSpace (𝓡 m) b}
     (hη : ContMDiff (𝓡 m) (𝓡 m).tangent ∞ (fun b => (⟨b, η b⟩ : TangentBundle (𝓡 m) N))) :
     ∃ ξ : ∀ i, (y : S i) → TangentSpace (𝓡 (d i)) y, C.IsControlledVectorField ξ ∧
@@ -408,7 +415,7 @@ identity on the fibre over its base point. -/
 theorem ControlData.exists_trivialization [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)] [T2Space X]
     [LocallyCompactSpace X] [SecondCountableTopology X] [T2Space N] [SecondCountableTopology N]
     [IsManifold (𝓡 m) ∞ N]
-    {incl : ∀ i, S i → X} (hS : IsSmoothStratification incl) (C : ControlData d incl)
+    {incl : ∀ i, S i → X} (hS : IsSmoothStratification d incl) (C : ControlData d incl)
     {f : X → N} (hf : C.IsControlledSubmersion m f) (hp : IsProperMap f) (b : N) :
     ∃ e : Bundle.Trivialization (f ⁻¹' {b}) f, b ∈ e.baseSet ∧
       (∀ x (hx : f x = b), e x = (b, ⟨x, hx⟩)) ∧
@@ -452,21 +459,6 @@ structure IsWhitneyStratification (A : Set M) (incl : ∀ i, S i → A) : Prop w
   frontier_condition : ∀ i j, (Set.range (incl i) ∩ closure (Set.range (incl j))).Nonempty →
     Set.range (incl i) ⊆ closure (Set.range (incl j))
   whitneyB : ∀ i j, StratumLT incl i j → ∀ y, WhitneyB d n incl i j y
-
-/-- **Whitney stratified sets are smooth stratified spaces** (§16.1a). The strata of a Whitney
-stratification of a closed subset `A` of `M` form a smooth stratification of `A`. -/
-theorem IsWhitneyStratification.isSmoothStratification [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
-    [IsManifold (𝓡 n) ∞ M] {A : Set M} {incl : ∀ i, S i → A}
-    (hA : IsWhitneyStratification d n A incl) : IsSmoothStratification incl := by
-  sorry
-
-/-- **Dimension drops along the incidence order** (§16.1a). In a Whitney stratification, a
-stratum in the closure of another has strictly smaller dimension. -/
-theorem IsWhitneyStratification.dim_lt_dim [∀ i, IsManifold (𝓡 (d i)) ∞ (S i)]
-    [IsManifold (𝓡 n) ∞ M] {A : Set M} {incl : ∀ i, S i → A}
-    (hA : IsWhitneyStratification d n A incl) {i j : ι} (hij : StratumLT incl i j) :
-    d i < d j := by
-  sorry
 
 /-- **Existence of control data** (§16.1c; MATHER Proposition 7.1). The strata of a Whitney
 stratified closed subset `A` of a Hausdorff second-countable boundaryless manifold carry
