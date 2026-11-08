@@ -12,11 +12,10 @@ rests on is a hypothesis with its data in the statement, exactly as in Layer 6 o
 
 Headline theorems stated here:
 
-* Layer 1: the Kusmin–Landau lemma in Landau's sharp form (`kusmin_landau`); the second
-  derivative test of Arias de Reyna (`second_derivative_test`) and van der Corput's form of it
-  (`second_derivative_test_sqrt`); Patel's corrected third, fourth and fifth derivative tests
-  (`third_derivative_test`, `fourth_derivative_test`, `fifth_derivative_test`); Arias de Reyna's
-  iterated van der Corput inequality (`iterated_vanDerCorput`).
+* Layer 1: Patel's corrected third, fourth and fifth derivative tests (`third_derivative_test`,
+  `fourth_derivative_test`, `fifth_derivative_test`); Arias de Reyna's iterated van der Corput
+  inequality (`iterated_vanDerCorput`). The Kusmin–Landau lemma and the second derivative tests
+  they rest on belong to the roadmap ExplicitZetaBounds and are not stated here.
 * Layer 2: the first and second derivative tests for integer points near a curve
   (`first_derivative_test_points`, `second_derivative_test_points`).
 * Layer 3: the classical explicit Pólya–Vinogradov inequality (`polya_vinogradov_classical`),
@@ -24,22 +23,17 @@ Headline theorems stated here:
   Frolenkov–Soundararajan's bound for nonprincipal characters
   (`polya_vinogradov_frolenkov_soundararajan`).
 * Layer 4: Burgess's moment bound (`burgess_moment_bound`), McGown's parametric Burgess
-  inequality (`burgess_mcgown_parametric`) and his table of constants (`burgess_mcgown_table`).
+  inequality (`burgess_mcgown_parametric`) and his table of constants (`burgess_mcgown_table`);
+  Treviño's tabulated Burgess inequalities (`burgess_trevino_table1`, `burgess_trevino_table3`),
+  his uniform constant `2.74` (`burgess_trevino_uniform`) and the extension of the second table
+  to every interval length (`burgess_trevino_table3_unrestricted`).
 * Layer 5: Greaves's lower bound for Selberg's density sum (`greaves_density_sum`), Büthe's
   weighted Brun–Titchmarsh inequalities (`buthe_weighted_brun_titchmarsh`,
   `buthe_weighted_prime_sum`), Ramaré–Viswanadham's prime-power sum in a progression
   (`ramare_viswanadham_prime_powers`) and Fan's bounds for integers free of small prime factors
   (`fan_rough_count`).
 
-Headline theorems that are not statable at the pins, and what each lacks:
-
-* Treviño's uniform and tabulated Burgess inequalities (README §4.5: his Theorems 1 and 2 with
-  Tables 1 and 3, and Corollaries 1 and 2). Each rests on the propositions *TrevinoTable1Certificate*
-  and *TrevinoTable3Certificate* of README Layer 6, numerical inequalities on the closing displays
-  (46)–(47) and (58)–(59) of Treviño's induction, evaluated with the parameters of his Tables 5
-  and 7 for every `p ≥ p₀`. Those displays are explicit but long functions of eight quantities and
-  a parameter `s` defined by a minimum; they are not simple definitions, and stating the theorems
-  without the propositions would assert more than the roadmap proves.
+Every headline theorem of the roadmap is statable at the pins and is stated here.
 -/
 
 noncomputable section
@@ -91,42 +85,6 @@ def butheRho (f : ℝ → ℝ) (x y : ℝ) : ℝ :=
     (sSup ((fun t => |f t|) '' Set.Icc x (x + y)) + ∫ t in x..x + y, |deriv f t|)
 
 /-! ## Layer 1: exponential sums under derivative conditions -/
-
-/-- **Kusmin–Landau lemma** (Landau's sharp constant; Arias de Reyna 2024, Lemma 1 and
-Remark 2). If `f` is continuously differentiable on `[a, b]` with monotone derivative and
-`θ ≤ f′(x) − k ≤ 1 − θ` there for an integer `k` and `0 < θ ≤ 1/2`, then
-`|∑_{a ≤ n ≤ b} e(f(n))| ≤ cot(πθ/2)`. -/
-theorem kusmin_landau (f : ℝ → ℝ) (a b θ : ℝ) (k : ℤ) (hab : a ≤ b)
-    (hf : ContDiffOn ℝ 1 f (Set.Icc a b))
-    (hmono : MonotoneOn (derivWithin f (Set.Icc a b)) (Set.Icc a b) ∨
-      AntitoneOn (derivWithin f (Set.Icc a b)) (Set.Icc a b))
-    (hθ : 0 < θ) (hθ' : θ ≤ 1 / 2)
-    (hderiv : ∀ x ∈ Set.Icc a b,
-      θ ≤ derivWithin f (Set.Icc a b) x - k ∧ derivWithin f (Set.Icc a b) x - k ≤ 1 - θ) :
-    ‖intervalExpSum f a b‖ ≤ cot (π * θ / 2) := by
-  sorry
-
-/-- **Second derivative test** (Arias de Reyna 2024, Lemma 4). If `f` is twice continuously
-differentiable on `[a, b]` with `0 < λ ≤ |f″| ≤ Λ` there, then
-`|∑_{a ≤ n ≤ b} e(f(n))| ≤ (Λ(b − a) + 2)(1 + 4/√(πλ)) + 1`. -/
-theorem second_derivative_test (f : ℝ → ℝ) (a b lam Lam : ℝ) (hab : a ≤ b)
-    (hf : ContDiffOn ℝ 2 f (Set.Icc a b)) (hlam : 0 < lam)
-    (hderiv : ∀ x ∈ Set.Icc a b, lam ≤ |iteratedDerivWithin 2 f (Set.Icc a b) x| ∧
-      |iteratedDerivWithin 2 f (Set.Icc a b) x| ≤ Lam) :
-    ‖intervalExpSum f a b‖ ≤ (Lam * (b - a) + 2) * (1 + 4 / √(π * lam)) + 1 := by
-  sorry
-
-/-- **Second derivative test, van der Corput's form** (Arias de Reyna 2024, Lemma 5). Under the
-hypotheses of `second_derivative_test` and `b − a ≥ 1`,
-`|∑_{a ≤ n ≤ b} e(f(n))| ≤ A λ^{−1/2} (Λ(b − a) + 2)` with
-`A = (2/√π)(1 + √(1 + 3π/8)) = 2.79368…`. -/
-theorem second_derivative_test_sqrt (f : ℝ → ℝ) (a b lam Lam : ℝ) (hab : 1 ≤ b - a)
-    (hf : ContDiffOn ℝ 2 f (Set.Icc a b)) (hlam : 0 < lam)
-    (hderiv : ∀ x ∈ Set.Icc a b, lam ≤ |iteratedDerivWithin 2 f (Set.Icc a b) x| ∧
-      |iteratedDerivWithin 2 f (Set.Icc a b) x| ≤ Lam) :
-    ‖intervalExpSum f a b‖ ≤
-      (2 / √π) * (1 + √(1 + 3 * π / 8)) / √lam * (Lam * (b - a) + 2) := by
-  sorry
 
 /-- **Third derivative test** (Patel 2022, Lemma 2.5, correcting Hiary 2016, Lemma 1.2). Let
 `N` be an integer, `L ≥ 1`, and let `f` have three continuous derivatives on `[N + 1, N + L]` with
@@ -375,6 +333,163 @@ theorem burgess_mcgown_table (hRS : RosserSchoenfeldFiniteRangeInput)
         log p ^ (1 / (2 * r) : ℝ) := by
   sorry
 
+/-- Treviño's Table 1: the constant `c₁(r, p₀)` of his Burgess inequality with `(log p)^{1/r}`,
+at `p₀ = 10^e` for `e ∈ {7, 10, 20}` and `2 ≤ r ≤ 10` (Treviño 2015, Table 1); `0` elsewhere. -/
+def trevinoTable1 : ℕ → ℕ → ℝ
+  | 7, 2 => 2.7381 | 7, 3 => 2.0197 | 7, 4 => 1.7308 | 7, 5 => 1.6107 | 7, 6 => 1.5482
+  | 7, 7 => 1.5052 | 7, 8 => 1.4703 | 7, 9 => 1.4411 | 7, 10 => 1.4160
+  | 10, 2 => 2.5173 | 10, 3 => 1.7385 | 10, 4 => 1.5151 | 10, 5 => 1.4572 | 10, 6 => 1.4274
+  | 10, 7 => 1.4042 | 10, 8 => 1.3846 | 10, 9 => 1.3662 | 10, 10 => 1.3495
+  | 20, 2 => 2.3549 | 20, 3 => 1.3695 | 20, 4 => 1.3104 | 20, 5 => 1.2987 | 20, 6 => 1.2901
+  | 20, 7 => 1.2813 | 20, 8 => 1.2729 | 20, 9 => 1.2641 | 20, 10 => 1.2562
+  | _, _ => 0
+
+/-- Treviño's Table 5: the parameters `(k, c₁′(r))` with which his closing inequality produces
+`trevinoTable1 e r`, at `p₀ = 10^e` for `e ∈ {7, 10, 20}` and `2 ≤ r ≤ 10` (Treviño 2015,
+Table 5); `(0, 0)` elsewhere. -/
+def trevinoTable5 : ℕ → ℕ → ℝ × ℝ
+  | 7, 2 => (2 / 45, 2.738) | 7, 3 => (1 / 16, 2.019) | 7, 4 => (1 / 12, 1.729)
+  | 7, 5 => (1 / 12, 1.610) | 7, 6 => (1 / 12, 1.548) | 7, 7 => (11 / 150, 1.504)
+  | 7, 8 => (19 / 300, 1.470) | 7, 9 => (19 / 300, 1.441) | 7, 10 => (4 / 75, 1.415)
+  | 10, 2 => (1 / 30, 2.517) | 10, 3 => (11 / 150, 1.737) | 10, 4 => (31 / 300, 1.515)
+  | 10, 5 => (7 / 75, 1.456) | 10, 6 => (1 / 12, 1.426) | 10, 7 => (11 / 150, 1.404)
+  | 10, 8 => (19 / 300, 1.383) | 10, 9 => (19 / 300, 1.366) | 10, 10 => (4 / 75, 1.349)
+  | 20, 2 => (1 / 30, 2.354) | 20, 3 => (2 / 15, 1.369) | 20, 4 => (37 / 300, 1.310)
+  | 20, 5 => (31 / 300, 1.298) | 20, 6 => (7 / 75, 1.289) | 20, 7 => (1 / 12, 1.281)
+  | 20, 8 => (1 / 12, 1.272) | 20, 9 => (11 / 150, 1.264) | 20, 10 => (11 / 150, 1.256)
+  | _, _ => (0, 0)
+
+/-- **Layer 6.7, Treviño's Table 1**: for every row `(e, r)` of Table 1 and every real
+`p ≥ 10^e`, with `(k, c′) = trevinoTable5 e r`, `D = ((2r − 3)!!(r − 1))^{1/r}`,
+`B = D p^{1/(2r)}`, `A = k c′^r p^{1/4 − 1/(4r)} log p / D`, and `s = (c₁(r − 1)/c′)^{r(r−1)}`
+for `r ≥ 3` (`s = 1` for `r = 2`), one has `A ≥ 29`, `c′ < c₁(r)`, and the right side
+`num/den` of Treviño's closing display (47), which at `r = 2` is display (46), has a positive
+denominator and is at most `c₁(r)` (Treviño 2015, proof of Theorem 1). -/
+def TrevinoTable1Certificate : Prop :=
+  ∀ e ∈ ({7, 10, 20} : Finset ℕ), ∀ r : ℕ, 2 ≤ r → r ≤ 10 → ∀ p : ℝ, (10 : ℝ) ^ e ≤ p →
+    let c := trevinoTable1 e r
+    let k := (trevinoTable5 e r).1
+    let c' := (trevinoTable5 e r).2
+    let D : ℝ := (((2 * r - 3).doubleFactorial * (r - 1) : ℕ) : ℝ) ^ (1 / (r : ℝ))
+    let B := D * p ^ (1 / (2 * (r : ℝ)))
+    let A := k * c' ^ r * p ^ (1 / 4 - 1 / (4 * (r : ℝ))) * log p / D
+    let s : ℝ := if r = 2 then 1 else (trevinoTable1 e (r - 1) / c') ^ (r * (r - 1))
+    let g := A * B / ((A - 1) * (B - 1))
+    let h := (A + 1) * (B + 1) / (A * B)
+    let bracket := s ^ 2 / (D * p ^ (((r : ℝ) - 2) / (2 * ((r : ℝ) - 1)))) +
+      1 / (4 * k * log p) + 1 / (4 * (r : ℝ) * ((r : ℝ) - 1) * k * log p) +
+      log (1.85 * s * k * log p / D) / (k * log p ^ 2)
+    let num := g * (2 * (r : ℝ) * (2 * (r : ℝ) - 1) * D / ((r : ℝ) - 1)) ^ (1 / (2 * (r : ℝ))) *
+      bracket ^ (1 / (2 * (r : ℝ)))
+    let den := 1 - 2 * (r : ℝ) ^ 2 / (2 * (r : ℝ) - 1) ^ 2 * k ^ (1 - 1 / (r : ℝ)) *
+      h ^ (2 - 1 / (r : ℝ)) * g
+    29 ≤ A ∧ c' < c ∧ 0 < den ∧ num ≤ c * den
+
+/-- **Treviño's Burgess inequality** (Treviño 2015, Theorem 1 and Table 1). Under
+`TrevinoTable1Certificate`, for `e ∈ {7, 10, 20}`, `2 ≤ r ≤ 10`, a prime `p ≥ 10^e`, a
+nonprincipal character `χ` modulo `p`, every integer `M` and `N ≥ 1`,
+`|∑_{M < n ≤ M + N} χ(n)| ≤ c₁(r, 10^e) N^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/r}`. -/
+theorem burgess_trevino_table1 (hT : TrevinoTable1Certificate) {p : ℕ} [Fact p.Prime]
+    (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (e : ℕ) (he : e ∈ ({7, 10, 20} : Finset ℕ))
+    (hp : (10 : ℝ) ^ e ≤ p) (r : ℕ) (hr : 2 ≤ r) (hr' : r ≤ 10) (M : ℤ) (N : ℕ) (hN : 1 ≤ N) :
+    ‖charIntervalSum χ M N‖ ≤
+      trevinoTable1 e r * (N : ℝ) ^ (1 - 1 / r : ℝ) * (p : ℝ) ^ ((r + 1) / (4 * r ^ 2) : ℝ) *
+        log p ^ (1 / r : ℝ) := by
+  sorry
+
+/-- **Treviño's uniform Burgess inequality** (Treviño 2015, Corollary 1). Under
+`TrevinoTable1Certificate`, for a prime `p ≥ 10⁷`, a nonprincipal character `χ` modulo `p`, every
+`r ≥ 1`, every integer `M` and `N ≥ 1`,
+`|∑_{M < n ≤ M + N} χ(n)| ≤ 2.74 N^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/r}`. -/
+theorem burgess_trevino_uniform (hT : TrevinoTable1Certificate) {p : ℕ} [Fact p.Prime]
+    (hp : 10 ^ 7 ≤ p) (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (r : ℕ) (hr : 1 ≤ r) (M : ℤ)
+    (N : ℕ) (hN : 1 ≤ N) :
+    ‖charIntervalSum χ M N‖ ≤
+      2.74 * (N : ℝ) ^ (1 - 1 / r : ℝ) * (p : ℝ) ^ ((r + 1) / (4 * r ^ 2) : ℝ) *
+        log p ^ (1 / r : ℝ) := by
+  sorry
+
+/-- Treviño's Table 3: the constant `c₂(r, p₀)` of his Burgess inequality with
+`(log p)^{1/(2r)}`, at `p₀ = 10^e` for `e ∈ {10, 15, 20}` and `2 ≤ r ≤ 10` (Treviño 2015,
+Table 3); `0` elsewhere. -/
+def trevinoTable3 : ℕ → ℕ → ℝ
+  | 10, 2 => 3.6529 | 10, 3 => 2.5888 | 10, 4 => 2.1914 | 10, 5 => 1.9841 | 10, 6 => 1.8508
+  | 10, 7 => 1.7586 | 10, 8 => 1.6869 | 10, 9 => 1.6283 | 10, 10 => 1.5794
+  | 15, 2 => 3.5851 | 15, 3 => 2.5144 | 15, 4 => 2.1258 | 15, 5 => 1.9231 | 15, 6 => 1.7959
+  | 15, 7 => 1.7066 | 15, 8 => 1.6384 | 15, 9 => 1.5857 | 15, 10 => 1.5410
+  | 20, 2 => 3.5751 | 20, 3 => 2.4945 | 20, 4 => 2.1078 | 20, 5 => 1.9043 | 20, 6 => 1.7757
+  | 20, 7 => 1.6854 | 20, 8 => 1.6187 | 20, 9 => 1.5654 | 20, 10 => 1.5216
+  | _, _ => 0
+
+/-- Treviño's Table 7: the parameters `(k, c₂′(r))` with which his closing inequality produces
+`trevinoTable3 e r`, at `p₀ = 10^e` for `e ∈ {10, 15, 20}` and `2 ≤ r ≤ 10` (Treviño 2015,
+Table 7); `(0, 0)` elsewhere. -/
+def trevinoTable7 : ℕ → ℕ → ℝ × ℝ
+  | 10, 2 => (0.124, 3.65) | 10, 3 => (0.126, 2.58) | 10, 4 => (0.106, 2.19)
+  | 10, 5 => (0.091, 1.98) | 10, 6 => (0.080, 1.85) | 10, 7 => (0.072, 1.75)
+  | 10, 8 => (0.064, 1.68) | 10, 9 => (0.058, 1.625) | 10, 10 => (0.054, 1.579)
+  | 15, 2 => (0.124, 3.58) | 15, 3 => (0.131, 2.51) | 15, 4 => (0.116, 2.12)
+  | 15, 5 => (0.101, 1.92) | 15, 6 => (0.090, 1.79) | 15, 7 => (0.079, 1.70)
+  | 15, 8 => (0.071, 1.635) | 15, 9 => (0.065, 1.58) | 15, 10 => (0.060, 1.54)
+  | 20, 2 => (0.124, 3.57) | 20, 3 => (0.135, 2.49) | 20, 4 => (0.120, 2.10)
+  | 20, 5 => (0.107, 1.90) | 20, 6 => (0.095, 1.77) | 20, 7 => (0.084, 1.68)
+  | 20, 8 => (0.077, 1.61) | 20, 9 => (0.070, 1.56) | 20, 10 => (0.064, 1.52)
+  | _, _ => (0, 0)
+
+/-- **Layer 6.8, Treviño's Table 3**: for every row `(e, r)` of Table 3 and every real
+`p ≥ 10^e`, with `(k, c′) = trevinoTable7 e r`, `D` and `B` as in `TrevinoTable1Certificate`,
+`A = k c′^r p^{1/4 − 1/(4r)} √(log p) / D` and `s = (c₂(r − 1)/c′)^{r(r−1)}` for `r ≥ 3`, one has
+`A ≥ 31`, `8k < D`, `c′ < c₂(r)`, and the right side `num/den` of Treviño's closing display (58)
+(`r = 2`) or (59) (`r ≥ 3`) has a positive denominator and is less than `c₂(r)` (Treviño 2015,
+proof of Theorem 2). -/
+def TrevinoTable3Certificate : Prop :=
+  ∀ e ∈ ({10, 15, 20} : Finset ℕ), ∀ r : ℕ, 2 ≤ r → r ≤ 10 → ∀ p : ℝ, (10 : ℝ) ^ e ≤ p →
+    let c := trevinoTable3 e r
+    let k := (trevinoTable7 e r).1
+    let c' := (trevinoTable7 e r).2
+    let D : ℝ := (((2 * r - 3).doubleFactorial * (r - 1) : ℕ) : ℝ) ^ (1 / (r : ℝ))
+    let B := D * p ^ (1 / (2 * (r : ℝ)))
+    let A := k * c' ^ r * p ^ (1 / 4 - 1 / (4 * (r : ℝ))) * √(log p) / D
+    let s : ℝ := (trevinoTable3 e (r - 1) / c') ^ (r * (r - 1))
+    let g := A * B / ((A - 1) * (B - 1))
+    let h := (A + 1) * (B + 1) / (A * B)
+    let bracket : ℝ := if r = 2 then 3 / (8 * k) else
+      log (1.85 * s * k * √(log p) / D) / (k * log p) + 1 / (4 * k) +
+        1 / (4 * (r : ℝ) * ((r : ℝ) - 1) * k)
+    let num := g * (2 * (r : ℝ) * (2 * (r : ℝ) - 1) * D / ((r : ℝ) - 1)) ^ (1 / (2 * (r : ℝ))) *
+      bracket ^ (1 / (2 * (r : ℝ)))
+    let den := 1 - 2 * (r : ℝ) ^ 2 / (2 * (r : ℝ) - 1) ^ 2 * k ^ (1 - 1 / (r : ℝ)) *
+      h ^ (2 - 1 / (r : ℝ)) * g
+    31 ≤ A ∧ 8 * k < D ∧ c' < c ∧ 0 < den ∧ num < c * den
+
+/-- **Treviño's Burgess inequality with `(log p)^{1/(2r)}`** (Treviño 2015, Theorem 2 and
+Table 3). Under `TrevinoTable3Certificate`, for `e ∈ {10, 15, 20}`, `2 ≤ r ≤ 10`, a prime
+`p ≥ 10^e`, a nonprincipal character `χ` modulo `p`, every integer `M` and
+`1 ≤ N ≤ 2p^{1/2 + 1/(4r)}`,
+`|∑_{M < n ≤ M + N} χ(n)| < c₂(r, 10^e) N^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}`. -/
+theorem burgess_trevino_table3 (hT : TrevinoTable3Certificate) {p : ℕ} [Fact p.Prime]
+    (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (e : ℕ) (he : e ∈ ({10, 15, 20} : Finset ℕ))
+    (hp : (10 : ℝ) ^ e ≤ p) (r : ℕ) (hr : 2 ≤ r) (hr' : r ≤ 10) (M : ℤ) (N : ℕ) (hN : 1 ≤ N)
+    (hNp : (N : ℝ) ≤ 2 * (p : ℝ) ^ (1 / 2 + 1 / (4 * r) : ℝ)) :
+    ‖charIntervalSum χ M N‖ <
+      trevinoTable3 e r * (N : ℝ) ^ (1 - 1 / r : ℝ) * (p : ℝ) ^ ((r + 1) / (4 * r ^ 2) : ℝ) *
+        log p ^ (1 / (2 * r) : ℝ) := by
+  sorry
+
+/-- **Treviño's Burgess inequality with `(log p)^{1/(2r)}` for every length** (Treviño 2015,
+Corollary 2). Under `TrevinoTable1Certificate` and `TrevinoTable3Certificate`, for
+`e ∈ {10, 15, 20}`, `3 ≤ r ≤ 10`, a prime `p ≥ 10^e`, a nonprincipal character `χ` modulo `p`,
+every integer `M` and every `N ≥ 1`,
+`|∑_{M < n ≤ M + N} χ(n)| < c₂(r, 10^e) N^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}`. -/
+theorem burgess_trevino_table3_unrestricted (hT₁ : TrevinoTable1Certificate)
+    (hT₃ : TrevinoTable3Certificate) {p : ℕ} [Fact p.Prime] (χ : DirichletCharacter ℂ p)
+    (hχ : χ ≠ 1) (e : ℕ) (he : e ∈ ({10, 15, 20} : Finset ℕ)) (hp : (10 : ℝ) ^ e ≤ p) (r : ℕ)
+    (hr : 3 ≤ r) (hr' : r ≤ 10) (M : ℤ) (N : ℕ) (hN : 1 ≤ N) :
+    ‖charIntervalSum χ M N‖ <
+      trevinoTable3 e r * (N : ℝ) ^ (1 - 1 / r : ℝ) * (p : ℝ) ^ ((r + 1) / (4 * r ^ 2) : ℝ) *
+        log p ^ (1 / (2 * r) : ℝ) := by
+  sorry
+
 /-! ## Layer 5: explicit sieve upper bounds -/
 
 /-- **Greaves's lower bound for Selberg's density sum** (Greaves 2001, Theorem 1, p. 52; TME-EMT,
@@ -450,8 +565,9 @@ theorem ramare_viswanadham_prime_powers (hMV : MVDiagonalFiniteRange) (d a : ℕ
   sorry
 
 /-- **Layer 6.5, Fan's finite range**: the three inequalities of `fan_rough_count` for every real
-`x < 2·10⁶` and every `z` in their respective ranges, the middle one for `x ≥ 8` (Fan 2022, the
-direct verifications in the proof of the Theorem). -/
+`x < 2·10⁶` and every `z` in their respective ranges, the middle one for `x ≥ 8`. It extends the
+three direct verifications in Fan 2022's proof of the Theorem to the whole range; there the
+Theorem is proved analytically apart from those verifications and from `3 ≤ z ≤ x < 9`. -/
 def FanFiniteRange : Prop :=
   ∀ x z : ℝ, x < 2 * 10 ^ 6 → 1 < z → z ≤ x →
     (roughCount x z : ℝ) < x / log z ∧
@@ -463,7 +579,7 @@ inequalities (4)–(6)). Under `RosserSchoenfeldFiniteRangeInput`, `MVDiagonalFi
 `FanFiniteRange`, for reals `1 < z ≤ x`: `Φ(x, z) < x/log z`; if moreover `x ≥ 8` and
 `z ≥ max(3, √x)`, `Φ(x, z) < x/log z − x/(2 log² z)`; and if `max(2, x^{2/5}) ≤ z ≤ √x`,
 `Φ(x, z) < 2x/(3 log z)`. The middle inequality is false as printed at `x = 7` for
-`4.9910 < z < 5`, where `Φ(7, z) = 3` and the right side lies strictly between `2.9982` and `3`;
+`4.9910 < z < 5`, where `Φ(7, z) = 3` and the right side lies strictly between `2.9981` and `3`;
 it holds for every real `x ≥ 8`. -/
 theorem fan_rough_count (hRS : RosserSchoenfeldFiniteRangeInput) (hMV : MVDiagonalFiniteRange)
     (hF : FanFiniteRange) (x z : ℝ) (hz : 1 < z) (hzx : z ≤ x) :
