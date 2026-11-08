@@ -65,24 +65,15 @@ instance (N : NormalSubgroup G) : (N.1).Normal := N.2
 Mathlib's `JordanHolderLattice` instance on a modular lattice (README 0.2). -/
 abbrev ChiefSeries : Type u := CompositionSeries (NormalSubgroup G)
 
-/-- A finite group in `Type`, the carrier of isomorphism classes of chief and composition factors
-(README, Conventions). -/
-structure FinGrp where
-  carrier : Type
-  [grp : Group carrier]
-  [fin : Finite carrier]
-
-attribute [instance] FinGrp.grp FinGrp.fin
-
-/-- Isomorphism classes of finite groups (README, Conventions). -/
+/-- Isomorphism classes of finite groups in `Type`: the objects of Mathlib's category `FiniteGrp`
+up to isomorphism, the carrier of chief and composition factors (README, Conventions). -/
 def IsoClass : Type 1 :=
-  Quotient (⟨fun A B : FinGrp => Nonempty (A.carrier ≃* B.carrier),
-    ⟨fun _ => ⟨MulEquiv.refl _⟩, fun ⟨e⟩ => ⟨e.symm⟩, fun ⟨e⟩ ⟨f⟩ => ⟨e.trans f⟩⟩⟩ : Setoid FinGrp)
+  Quotient (CategoryTheory.isIsomorphicSetoid FiniteGrp.{0})
 
 /-- The isomorphism class of a finite group in any universe, through a copy on
 `Fin (Nat.card H)` (README, Conventions). -/
 noncomputable def IsoClass.mk (H : Type*) [Group H] [Finite H] : IsoClass :=
-  Quotient.mk _ (@FinGrp.mk (Fin (Nat.card H)) (Finite.equivFin H).symm.group _)
+  Quotient.mk _ (@FiniteGrp.of (Fin (Nat.card H)) (Finite.equivFin H).symm.group _)
 
 variable {G} in
 /-- The multiset of chief factors of a chief series: the isomorphism classes of its successive
@@ -166,7 +157,7 @@ class IsSupersolvable : Prop where
     ∀ i : Fin k, IsCyclic (N i.succ ⧸ (N i.castSucc).subgroupOf (N i.succ))
 
 /-- Huppert's criterion: a finite group is supersolvable exactly when every maximal subgroup has
-prime index (README 1.1; Huppert 1954). -/
+prime index (README 1.1; Huppert 1954, Satz 9, p. 416). -/
 theorem isSupersolvable_iff_forall_isCoatom_index_prime [Finite G] :
     IsSupersolvable G ↔ ∀ H : Subgroup G, IsCoatom H → H.index.Prime := sorry
 
@@ -325,7 +316,8 @@ def Isoclinic (H : Type*) [Group H] : Prop := Nonempty (Isoclinism G H)
 /-- A stem group: the centre lies in the commutator subgroup (README 4.4). -/
 def IsStemGroup : Prop := center G ≤ commutator G
 
-/-- P. Hall: every finite group is isoclinic to a finite stem group (README 4.4; Hall 1940). -/
+/-- P. Hall: every finite group is isoclinic to a finite stem group (README 4.4; Hall 1940,
+p. 135). -/
 theorem exists_isoclinic_isStemGroup [Finite G] :
     ∃ (H : Type u) (_ : Group H) (_ : Finite H), IsStemGroup H ∧ Isoclinic G H := sorry
 

@@ -27,16 +27,32 @@ counts, and Jordan's theorem over every field of characteristic zero with the op
 This roadmap owns the invariants named in the summary, in Layers 0–10 below. It consumes, by name
 and section, and does not plan again:
 
-- **InverseGaloisAndArithmeticFundamentalGroups** IG.4.3, target *The Fitting subgroup* (`fitting`,
-  the join of the nilpotent normal subgroups; Fitting's theorem `isNilpotent_sup_of_normal`;
-  `fitting_characteristic`, `le_fitting`, and `fitting_nilpotent` for finite groups). The Fitting
-  subgroup displayed by a database is `fitting G`.
+- **InverseGaloisAndArithmeticFundamentalGroups** IG.4.3, target *The Fitting subgroup* (the
+  Fitting subgroup `F(G)`, the join of the nilpotent normal subgroups; Fitting's theorem that the
+  join of two nilpotent normal subgroups is nilpotent; `F(G)` is characteristic; every nilpotent
+  normal subgroup lies in `F(G)`; `F(G)` is nilpotent for finite `G`). The Fitting subgroup
+  displayed by a database is this `F(G)`.
 - **RepresentationTheory/CharacterTheory** §4.4 (the Galois action of `Gal(ℚ(ζ_e)/ℚ)` on
   irreducible characters, its value law `(σ · χ)(g) = χ(g^j)`, preservation of irreducibility,
-  and the field-of-values theorem `fieldOfValues_eq_map_fixedField_stabilizer`) and Layer 7 (the
-  Frobenius–Schur indicator and realizability over `ℝ`). This roadmap adds the orbit count, the
-  rational characters, Schur indices over arbitrary subfields of `ℂ` and the rational-group
-  criterion.
+  and the field-of-values theorem `fieldOfValues_eq_map_fixedField_stabilizer`), §4.5 (every
+  irreducible representation over an algebraically closed field of characteristic zero is realized
+  over the cyclotomic subfield `ℚ(ζ_e)`) and Layer 7 (the Frobenius–Schur indicator and
+  realizability over `ℝ`). This roadmap adds the orbit count, the rational characters, the
+  character form of the Schur index over arbitrary subfields of `ℂ` with Brauer–Speiser, and the
+  rational-group criterion.
+- **ArithmeticGaloisRepresentations** §5.5 *Image algebra and Brauer class* (for an absolutely
+  irreducible `ρ : Γ → GL_n(k̄)`, the trace field `k(ρ)` and the image algebra `B(ρ)`, central
+  simple of dimension `n²` over `k(ρ)`; the Schur index `s(ρ)`, Tau Ceti's `TauCeti.Algebra.index`
+  of `B(ρ)`, with `s(ρ) ∣ n`; realizability of `ρ` over a field `k(ρ) ⊆ k' ⊆ k̄` exactly when `k'`
+  splits `B(ρ)`) and §5.6 *The descent obstruction* (over a perfect field `k`, a finite-dimensional
+  simple `k[Γ]`-module `W` with image algebra `M_a(Δ)`, `Z` the centre of `Δ`, has
+  `W ⊗ k̄ ≅ ⊕_τ ρ_τ^{⊕ s}` over the embeddings `τ : Z → k̄`, the `ρ_τ` pairwise non-isomorphic,
+  absolutely irreducible, of trace field `τ(Z)` and Schur index `s`; simple `k[Γ]`-modules
+  correspond to the `Gal(k̄/k)`-orbits of absolutely irreducible representations whose trace field
+  is finite over `k`). The Schur index and the classification of irreducible rational
+  representations are these sections' theorems at `Γ = G` finite; 6.4 and 6.5 translate them into
+  irreducible complex characters (`TauCeti.irreducibleCharacters ℂ G`), their Galois orbits and
+  `rationalCharacter`.
 - **RepresentationTheory/InductionRestriction** §2.1 (almost-conjugacy of subgroups of a finite
   group, the fixed-coset criterion, `Gassmann.almostConjugate_iff_permutation_equiv`), §2.2 (the
   almost-conjugate, non-conjugate pair in `S₁₆` built from `C₄ × C₄` and `Q₈ × C₂`,
@@ -63,15 +79,17 @@ and section, and does not plan again:
 
 This roadmap is the owner of: series and factor multisets of finite groups (no roadmap on main or
 among the open roadmaps defines chief or composition factors of a group, the socle or the solvable
-radical); the group classes of Layer 1 with Huppert's criterion, including quasisimple groups
-(InverseGaloisAndArithmeticFundamentalGroups states its Grunwald theorem with its own
-supersolvability hypothesis and proves nothing about the class); Hall subgroups, Hall's theorem
-and Hall's converse; divisions; commutator length, isoclinism and stem groups; the Möbius
-functions, Eulerian functions and permutation degrees; rational characters and Schur indices;
-Gassmann equivalence of finite-index subgroups of an arbitrary group, Bauer's theorem and both
-directions of Perlis' theorem; elusive groups; the integral representation theory of Layer 9,
-including Jordan–Zassenhaus for `ℤ`-orders in semisimple `ℚ`-algebras (no roadmap on main states
-it; ClassicalArithmeticCompletion Layer 7 supplies orders and maximal orders but no finiteness of
+radical); the group classes of Layer 1, including the supersolvable groups with Huppert's criterion
+(InverseGaloisAndArithmeticFundamentalGroups IG.4.4, target *Supersolvable Grunwald prescriptions*,
+states its Grunwald theorem with its own predicate `IsSupersolvable`, which 1.1 shows equivalent to
+this one, and proves nothing about the class) and the quasisimple groups; Hall subgroups, Hall's
+theorem and Hall's converse; divisions; commutator length, isoclinism and stem groups; the Möbius
+functions, Eulerian functions and permutation degrees; rational characters, the character form of
+Schur indices with Brauer–Speiser, and faithful character degrees; Gassmann equivalence of
+finite-index subgroups of an arbitrary group, Bauer's theorem and both directions of Perlis'
+theorem; elusive groups; the integral representation theory of Layer 9, including Jordan–Zassenhaus
+for `ℤ`-orders in semisimple `ℚ`-algebras (no roadmap on main states it;
+ClassicalArithmeticCompletion Layer 7 supplies orders and maximal orders but no finiteness of
 lattice classes); and the finite subgroups of general linear groups of Layer 10.
 
 Not owned: identifiers, orderings and stored lists of a database (labels beyond the intrinsic
@@ -97,9 +115,12 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
   but at the pin it carries only a `Lattice` instance, with no `⊥` and no complete lattice
   structure (for infinite `G` the trivial subgroup has infinite index); chief series need `⊥` and
   `⊤`, and `mobiusQuo` needs the bottom element, so `NormalSubgroup G` is used.
-- **Factor multisets** are multisets of `IsoClass`, the isomorphism classes of finite groups in
-  `Type` (`FinGrp`); `IsoClass.mk` sends a finite group in any universe to its class through a
-  copy on `Fin (Nat.card H)`.
+- **Factor multisets** are multisets of `IsoClass`, the isomorphism classes of objects of
+  Mathlib's category `FiniteGrp` of finite groups in `Type`
+  (`Mathlib/Algebra/Category/Grp/FiniteGrp.lean`) under `CategoryTheory.isIsomorphicSetoid`; an
+  isomorphism in `FiniteGrp` is the same as a `MulEquiv` of the underlying groups. `IsoClass.mk`
+  sends a finite group in any universe to its class through a copy on `Fin (Nat.card H)`
+  (`FiniteGrp.of`).
 - **Junk values.** Invariants defined as `sInf` on `ℕ` take the value `0` on the empty set: the
   derived length of a non-solvable group is `0`, and the theorems that use derived length carry a
   solvability hypothesis. Faithful character degrees are `ℕ∞`-valued with `⊤` for "none".
@@ -128,7 +149,8 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 
 | Use here | Declarations |
 |---|---|
-| subgroups and series | `Subgroup.Normal`, `Subgroup.normalCore`, `Subgroup.centralizer`, `Subgroup.normalClosure`, `Subgroup.IsSubnormal`, `Subgroup.mul_normal`, `Subgroup.mul_inf_assoc`, `derivedSeries`, `Group.IsSolvable`, `Group.IsNilpotent`, `Group.nilpotencyClass`, `Group.IsPerfect`, `IsSimpleGroup`, `frattini`, `commutator`, `commutatorSet`, `CompositionSeries`, `JordanHolderLattice`, `CompositionSeries.jordan_holder`, `IsModularLattice`, `IsCoatom` |
+| subgroups and series | `Subgroup.Normal`, `Subgroup.normalCore`, `Subgroup.centralizer`, `Subgroup.normalClosure`, `Subgroup.IsSubnormal`, `Subgroup.mul_normal`, `Subgroup.mul_inf_assoc`, `derivedSeries`, `Group.IsSolvable`, `Group.IsNilpotent`, `Group.nilpotencyClass`, `Group.IsPerfect`, `IsSimpleGroup`, `frattini`, `commutator`, `commutatorSet`, `CompositionSeries`, `JordanHolderLattice`, `CompositionSeries.jordan_holder`, `IsModularLattice`, `IsCoatom`, `Subgroup.lowerCentralSeries` |
+| isomorphism classes of finite groups | `FiniteGrp`, `FiniteGrp.of`, `CategoryTheory.isIsomorphicSetoid` |
 | Sylow and Hall | `Sylow`, `IsPGroup`, `IsZGroup`, `IsZGroup.isCyclic_commutator`, `IsZGroup.isCyclic_abelianization`, `Subgroup.exists_right_complement'_of_coprime` |
 | automorphisms and classes | `MulAut`, `MulAut.conj`, `ConjClasses`, `IsConj`, `MulAction.orbitRel.Quotient`, `MulAction.fixedBy`, `IsCyclic.card_mulAut`, `commProb_def'` |
 | finite abelian groups | `AddCommGroup.equiv_directSum_zmod_of_finite`, `ZMod` |
@@ -136,7 +158,7 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | representations | `Representation`, `Representation.character`, `Representation.IsIrreducible`, `IntermediateField.adjoin`, `IntermediateField.relfinrank`, `IsCyclotomicExtension.autEquivPow`, `MonoidAlgebra` |
 | orders and lattices | `Subalgebra`, `Submodule.span`, `IsSemisimpleRing`, Maschke's theorem (`MonoidAlgebra.Submodule.exists_isCompl`, with the `IsSemisimpleRing` instance on `MonoidAlgebra k G` when `#G` is invertible in `k`), `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure` |
 | number fields | `NumberField.dedekindZeta`, `LSeries_eq_iff_of_abscissaOfAbsConv_lt_top`, `NumberField.discr`, `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.classNumber`, `NumberField.Units.regulator`, `NumberField.Units.unitLattice_rank`, `NumberField.IsTotallyReal`, `NumberField.RingOfIntegers`, `NumberField.RingOfIntegers.mapAlgEquiv`, the action of `Gal(L/K)` on `NumberField.InfinitePlace L` (`NumberField.InfinitePlace.smul_eq_comap`: `σ • w = w.comap σ⁻¹`), `CyclotomicField`, `IntermediateField.fixedField`, `IntermediateField.normalClosure`, `AlgebraicClosure` |
-| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank`, `Subgroup.FiniteIndex` |
+| matrices | `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup.mk`, `Matrix.SpecialLinearGroup`, `Matrix.unitaryGroup`, `RingHom.mapMatrix`, `Units.map`, `Module.Free`, `Module.Finite`, `Module.finrank`, `Subgroup.FiniteIndex`, `IsAlgClosed`, `IsAlgClosed.exists_pow_nat_eq`, `card_rootsOfUnity`, `Module.End.exists_eigenvalue`, `IsCyclotomicExtension.algEquiv`, `Real.sqrt` |
 | permutations | `Equiv.Perm`, `Equiv.Perm.isConj_iff_cycleType_eq`, `MulAction.IsPretransitive`, `alternatingGroup` |
 
 ### From Tau Ceti
@@ -151,6 +173,8 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 | indecomposable modules | `TauCeti.IsIndecomposableModule` |
 | simple groups | `TauCeti.ClassificationStatement` (a proposition; used only as a hypothesis) |
 | characters determine representations | `Representation.nonempty_equiv_of_character_eq` (`TauCeti/RepresentationTheory/CharacterTable/Determined.lean`: over a field of characteristic zero, finite-dimensional representations of a finite group with equal characters are equivalent) |
+| cyclotomic realization | `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension` (`TauCeti/RepresentationTheory/Induction/Cyclotomic/SplittingField.lean`: an irreducible representation over an algebraically closed field is the scalar extension of an absolutely irreducible one over a cyclotomic field of the exponent; CharacterTheory §4.5) |
+| index of a central simple algebra | `TauCeti.Algebra.index`, `TauCeti.Algebra.exists_isSplittingField_finrank_eq_index` (`TauCeti/Algebra/CentralSimple/Index.lean`: a central simple algebra has a finite splitting field whose degree is its index) |
 | primes of a non-Galois subfield | `Ideal.doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure`, `Ideal.ramificationIdx_mul_inertiaDeg_under_smul_eq_relIndex_of_isIntegralClosure`, `Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure` (`TauCeti/NumberTheory/RamificationInertia/DoubleCoset/IntegralClosure.lean`: the primes of `M ^ H` above `p` are indexed by `H \ G / D`, with `e · f` and `e` as relative indices of the conjugated decomposition and inertia groups) |
 | Frobenius splitting types | `NumberField.Chebotarev.frobeniusPrimeSet`, `NumberField.Chebotarev.map_inertiaDeg_eq_fullCycleType_of_mem_frobeniusPrimeSet` (`TauCeti/NumberTheory/Chebotarev/Density/SplittingType.lean`: at an unramified prime with Frobenius class `[σ]` the residue degrees of the primes of `L ^ H` are the cycle lengths of `σ` on `Gal(L/K) ⧸ H`) |
 | complete splitting | `Ideal.ncard_primesOver_normalClosure_eq_finrank_iff`, `Ideal.ncard_primesOver_sup_eq_finrank_iff` (`TauCeti/NumberTheory/NumberField/SplitsCompletely/GaloisClosure.lean`: a prime splits completely in `E` iff in its normal closure, and in `E₁ ⊔ E₂` iff in both) |
@@ -158,15 +182,30 @@ of integers; continuous automorphisms of profinite groups (Completed/ProfiniteAr
 
 ### From InverseGaloisAndArithmeticFundamentalGroups
 
-IG.4.3, target *The Fitting subgroup*: `fitting G`, the join of the nilpotent normal subgroups of
-`G`; Fitting's theorem `isNilpotent_sup_of_normal` (the join of two nilpotent normal subgroups is
-nilpotent); `fitting_characteristic`; `le_fitting` (every nilpotent normal subgroup lies in
-`fitting G`); `fitting_nilpotent` (`fitting G` is nilpotent for finite `G`). Used in 0.8.
+IG.4.3, target *The Fitting subgroup*: the Fitting subgroup `F(G)` of a group `G`, the join of its
+nilpotent normal subgroups, with Fitting's theorem (the join of two nilpotent normal subgroups is
+nilpotent), `F(G)` characteristic, every nilpotent normal subgroup contained in `F(G)`, and `F(G)`
+nilpotent for finite `G`. Used in 0.8. IG.4.4, target *Supersolvable Grunwald prescriptions*: its
+predicate `IsSupersolvable` (a chain of normal subgroups of `G` from `⊥` to `⊤`, each the join of
+the previous one with one cyclic subgroup), compared with 1.1's.
 
 ### From RepresentationTheory/CharacterTheory
 
-§4.4: the Galois action and `fieldOfValues_eq_map_fixedField_stabilizer`; Layer 7: the
-Frobenius–Schur trichotomy.
+§4.4: the Galois action and `fieldOfValues_eq_map_fixedField_stabilizer`; §4.5: realization over
+`ℚ(ζ_e)` inside any algebraically closed field of characteristic zero; Layer 7: the Frobenius–Schur
+trichotomy.
+
+### From ArithmeticGaloisRepresentations
+
+§5.5 *Image algebra and Brauer class*: for `ρ : Γ → GL_n(k̄)` absolutely irreducible, the trace field
+`k(ρ)` (`GaloisRep.traceField`), the image algebra `B(ρ)` (`GaloisRep.imageAlgebra`), central simple
+of dimension `n²` over `k(ρ)`, the Schur index `s(ρ)` as `TauCeti.Algebra.index` of `B(ρ)`,
+`s(ρ) ∣ n`, and realizability over `k(ρ) ⊆ k' ⊆ k̄` exactly when `k'` splits `B(ρ)`
+(`GaloisRep.realizable_iff_imageAlgebra_split`). §5.6 *The descent obstruction*, simple modules over
+a perfect field: the decomposition `W ⊗ k̄ ≅ ⊕_τ ρ_τ^{⊕ s}`, `dim_k W = m s [Z : k]`, and the
+correspondence between simple `k[Γ]`-modules and `Gal(k̄/k)`-orbits of absolutely irreducible
+representations with trace field finite over `k`. Used in 6.4 and 6.5, at `Γ = G` finite and
+`k = F ⊆ ℂ`, with `k̄` the algebraic closure of `F` in `ℂ`.
 
 ### From RepresentationTheory/InductionRestriction and InductionRestrictionPartII
 
@@ -226,8 +265,9 @@ modular lattice: for normal `A ≤ C` and normal `B`, `A ⊔ (B ⊓ C) = (A ⊔ 
 ### 0.2 Jordan–Hölder for chief series
 
 Define `ChiefSeries G` as `CompositionSeries (NormalSubgroup G)` for Mathlib's
-`JordanHolderLattice` instance on the modular lattice of 0.1, `FinGrp` and `IsoClass` as in the
-conventions, and `chiefFactors s` as the multiset of the classes of the successive quotients
+`JordanHolderLattice` instance on the modular lattice of 0.1, `IsoClass` as in the conventions (a
+quotient of Mathlib's `FiniteGrp`), and `chiefFactors s` as the multiset of the classes of the
+successive quotients
 `s (i+1) ⧸ s i`. Prove `chiefFactors_eq`: two chief series of a finite group from `⊥` to `⊤` have
 the same factor multiset, from `CompositionSeries.jordan_holder` and the second isomorphism
 theorem, which identifies isomorphic intervals of normal subgroups with isomorphic quotients
@@ -315,9 +355,10 @@ Define the derived length `d(G)` as the least `n` with `derivedSeries G n = ⊥`
   iff `G` is metabelian and nonabelian.
 - For solvable `G`: `derivedSeries G (d(G)) = ⊥`; `d(G) ≤ n ↔ derivedSeries G n = ⊥`; for `H ≤ G`,
   `d(H) ≤ d(G)`; for normal `N`, `d(G ⧸ N) ≤ d(G)`; `d(G) ≤ ℓ(G)`.
-- For nilpotent `G` of class `c`, `d(G) ≤ ⌊log₂ c⌋ + 1`, because `G^(k) ≤ γ_{2^k}(G)`.
+- For nilpotent `G` of class `c`, `d(G) ≤ ⌊log₂ c⌋ + 1`, because `G^(k) ≤ γ_{2^k}(G)`, where
+  `γ_{j+1}(G)` is Mathlib's `(⊤ : Subgroup G).lowerCentralSeries j`.
 
-*Needs:* Mathlib `derivedSeries`, `Group.nilpotencyClass`, `lowerCentralSeries`.
+*Needs:* Mathlib `derivedSeries`, `Group.nilpotencyClass`, `Subgroup.lowerCentralSeries`.
 
 **Checks.**
 - `d(1) = 0`, `d(C₂) = 1`, `d(S₃) = 2`, `d(S₄) = 3`, and the junk value `d(A₅) = 0`.
@@ -330,7 +371,10 @@ Define the derived length `d(G)` as the least `n` with `derivedSeries G n = ⊥`
 ### 0.7 The socle
 
 Define `socle G` as the join of the minimal normal subgroups. Prove `isMulCommutative_socle`: the
-socle of a finite solvable group is abelian. *Needs:* 0.3.
+socle of a finite solvable group is abelian. Route: in a solvable group every minimal normal
+subgroup is abelian (0.3); two distinct minimal normal subgroups meet trivially, so they commute
+elementwise, their commutator subgroup lying in both; a join of pairwise commuting abelian
+subgroups is abelian. The route is the proof. *Needs:* 0.3.
 
 - `socle G` is characteristic and is the internal direct product of a subfamily of the minimal
   normal subgroups; `socle G = ⊥` iff `G` is trivial; `socle G = ⊤` for simple `G`.
@@ -345,18 +389,24 @@ socle of a finite solvable group is abelian. *Needs:* 0.3.
 
 Define the solvable radical `R(G)` as the join of the normal solvable subgroups. Prove that `R(G)`
 is solvable and characteristic, `R(G) = ⊤` iff `G` is solvable, `R(G) = ⊥` iff no minimal normal
-subgroup is abelian, and `R(G ⧸ R(G)) = ⊥`. The Fitting subgroup is
-InverseGaloisAndArithmeticFundamentalGroups IG.4.3's `fitting G`; prove `fitting G ≤ R(G)` for
-finite `G`: `fitting G` is normal (`fitting_characteristic`) and nilpotent (`fitting_nilpotent`),
-hence solvable. *Needs:* 0.3; Mathlib `Group.IsSolvable` closure under extensions;
+subgroup is abelian, and `R(G ⧸ R(G)) = ⊥`. The Fitting subgroup `F(G)` is
+InverseGaloisAndArithmeticFundamentalGroups IG.4.3's (target *The Fitting subgroup*); prove
+`F(G) ≤ R(G)` for finite `G`: `F(G)` is characteristic, hence normal, and nilpotent for finite `G`,
+hence solvable, so it is one of the subgroups whose join is `R(G)`. Route: the product `MN` of two
+normal solvable subgroups is solvable, as an extension of `MN ⧸ N ≅ M ⧸ (M ⊓ N)` by `N`, so `R(G)`
+is a finite join of them and solvable; an automorphism permutes the normal solvable subgroups, so
+`R(G)` is characteristic; a minimal normal subgroup inside `R(G) ≠ ⊥` is solvable and
+characteristically simple, hence abelian (0.3), and an abelian minimal normal subgroup lies in
+`R(G)`; the preimage of `R(G ⧸ R(G))` is an extension of solvable groups, hence `R(G)`. The route is
+the proof. *Needs:* 0.3; Mathlib `Group.IsSolvable` closure under extensions;
 InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*).
 
 **Checks.**
 - `R(S₄) = S₄`, `R(A₅) = ⊥`, `R(A₅ × C₂) = C₂`.
 - `R(SL(2,5)) = Z ≅ C₂`, since the quotient by the centre is `A₅`.
 - `R(G ⧸ R(G)) = ⊥` at `G = A₅ × C₂`: the quotient `A₅` has trivial radical.
-- `fitting S₄ = V₄ < R(S₄) = S₄` (`A₄` is not nilpotent), `fitting S₃ = A₃ < S₃ = R(S₃)`, and
-  `fitting A₅ = ⊥ = R(A₅)`: the inclusion is strict for the first two and an equality for `A₅`.
+- `F(S₄) = V₄ < R(S₄) = S₄` (`A₄` is not nilpotent), `F(S₃) = A₃ < S₃ = R(S₃)`, and
+  `F(A₅) = ⊥ = R(A₅)`: the inclusion is strict for the first two and an equality for `A₅`.
 
 ### 0.9 Invariant factors of a finite abelian group
 
@@ -399,13 +449,19 @@ non-closure with a named witness.
 ### 1.1 Supersolvable groups
 
 Define `IsSupersolvable G`: a chain of subgroups normal in `G` from `⊥` to `⊤` with cyclic
-successive quotients. Prove Huppert's criterion `isSupersolvable_iff_forall_isCoatom_index_prime`:
-a finite group is supersolvable iff every maximal subgroup has prime index (huppert-1954;
-huppert-eg1, Kapitel VI, Hauptsatz 9.5; robinson, §5.4). *Needs:* 0.3, 0.6; Mathlib `IsCoatom`,
-`Subgroup.index`.
+successive quotients. Prove Huppert's criterion `isSupersolvable_iff_forall_isCoatom_index_prime`: a
+finite group is supersolvable iff every maximal subgroup has prime index (huppert-1954, Satz 9,
+p. 416; huppert-eg1, Kapitel VI, Hauptsatz 9.5; robinson, §5.4). *Needs:* 0.3, 0.6; Mathlib
+`IsCoatom`, `Subgroup.index`.
 
 - Supersolvable groups are solvable; finite nilpotent groups are supersolvable; every chief factor
   of a supersolvable group has prime order.
+- InverseGaloisAndArithmeticFundamentalGroups IG.4.4 (target *Supersolvable Grunwald
+  prescriptions*) states its Grunwald theorem with a predicate `IsSupersolvable` asking for a chain
+  of subgroups normal in `G` from `⊥` to `⊤` in which each term is the join of the previous one with
+  one cyclic subgroup `⟨g⟩`. It is equivalent to this definition for every group: over a term `N`
+  normal in `G`, the quotient `(N ⊔ ⟨g⟩) ⧸ N` is generated by the image of `g`, and conversely a
+  cyclic quotient `N' ⧸ N` generated by the image of `g ∈ N'` gives `N' = N ⊔ ⟨g⟩`.
 - Closed under subgroups, quotients and finite products; not under extensions.
 - A finite supersolvable group has a normal Sylow subgroup for its largest prime divisor, and its
   commutator subgroup is nilpotent.
@@ -416,6 +472,10 @@ huppert-eg1, Kapitel VI, Hauptsatz 9.5; robinson, §5.4). *Needs:* 0.3, 0.6; Mat
   index `4`; since `V₄` and `A₄ ⧸ V₄ ≅ C₃` are supersolvable, the class is not extension-closed.
 - The trivial group is supersolvable and has no maximal subgroup, so both sides of Huppert's
   criterion hold.
+- The two definitions agree on `S₃`, through `⊥ < A₃ = ⊥ ⊔ ⟨(123)⟩ < S₃ = A₃ ⊔ ⟨(12)⟩`, and on `A₄`,
+  which satisfies neither: its only normal subgroups are `⊥`, `V₄` and `A₄`, neither `V₄` nor `A₄`
+  is cyclic, so the first proper step `⊥ < N` of a chain neither has cyclic quotient nor is
+  `⊥ ⊔ ⟨g⟩`.
 
 ### 1.2 Metacyclic groups
 
@@ -439,8 +499,11 @@ quotient. *Needs:* Mathlib `IsZGroup`, `IsZGroup.isCyclic_commutator`,
 ### 1.3 A-groups
 
 Define `IsAGroup G`: every Sylow subgroup is abelian. A Z-group is an A-group; abelian groups are
-A-groups; the class is closed under subgroups, quotients and finite products. *Needs:* Mathlib
-`Sylow`, `IsZGroup`.
+A-groups; the class is closed under subgroups, quotients and finite products. Route: a Sylow
+`p`-subgroup of a subgroup `H` lies in a Sylow `p`-subgroup of `G`; the image of a Sylow subgroup in
+a quotient is a Sylow subgroup of the quotient, and every Sylow subgroup of the quotient is such an
+image; a Sylow `p`-subgroup of `G × H` is the product of Sylow `p`-subgroups of the factors. The
+route is the proof. *Needs:* Mathlib `Sylow`, `IsZGroup`.
 
 **Checks.**
 - `S₃` and `A₄` are A-groups (Sylow subgroups `C₂, C₃` and `V₄, C₃`).
@@ -451,7 +514,11 @@ A-groups; the class is closed under subgroups, quotients and finite products. *N
 
 Define `IsRationalGroup G`: every element is conjugate to each of its powers of exponent prime to
 its order. Closed under quotients and finite products, not under subgroups; the character
-criterion is 6.6. *Needs:* Mathlib `IsConj`, `orderOf`.
+criterion is 6.6. Route: for a quotient, an exponent prime to the order of `gN` is congruent,
+modulo that order, to one prime to the order of `g` (Chinese remainder theorem), and conjugacy
+passes to the quotient; in `G × H`, an exponent prime to `orderOf (g, h) = lcm` of the two orders is
+prime to each, and conjugacy is coordinatewise. The route is the proof. *Needs:* Mathlib `IsConj`,
+`orderOf`.
 
 **Checks.**
 - `Equiv.Perm α` is rational (powers coprime to the order preserve the cycle type,
@@ -539,7 +606,9 @@ rational no.
 
 ### Dependencies
 
-Layer 0; Mathlib; Tau Ceti `TauCeti.GroupTheory.Elementary`.
+Layer 0; Mathlib; Tau Ceti `TauCeti.GroupTheory.Elementary`;
+InverseGaloisAndArithmeticFundamentalGroups IG.4.4 (the comparison of supersolvability predicates
+in 1.1 only).
 
 ## Layer 2: Hall's theorem and its converse
 
@@ -635,7 +704,9 @@ subgroups (orbits of `MulAut.conj` acting on `Subgroup G`), `n(G)` of normal sub
 (`Nat.card (NormalSubgroup G)`) and `ch(G)` of characteristic subgroups. Prove
 `ch(G) ≤ n(G) ≤ c(G) ≤ s(G)`: a characteristic subgroup is normal, a normal subgroup is a class
 by itself, and the classes partition the subgroups. Prove that `n(G) = c(G)` iff `c(G) = s(G)` iff
-every subgroup of `G` is normal, and that the four counts are invariant under `≃*`.
+every subgroup of `G` is normal: each equality says that every class is a single normal subgroup.
+The four counts are invariant under `≃*`, which carries subgroups, classes, normal and
+characteristic subgroups to the same of the other group. The route is the proof.
 *Needs:* Mathlib `Subgroup.Normal`, `Subgroup.Characteristic`, `MulAut.conj`,
 `MulAction.orbitRel.Quotient`.
 
@@ -670,7 +741,11 @@ the power maps are invariant under `≃*`. *Needs:* Mathlib `orderOf`, `Monoid.e
 Define `divisionSetoid` and `Division G`. Prove that element order and class size are constant on
 a division, that `ConjClasses G` maps onto `Division G`, that `x` and `y` lie in one division iff
 `⟨y⟩` is conjugate to `⟨x⟩`, and that `|Division G| ≤ |ConjClasses G|` with equality iff
-`IsRationalGroup G` (1.4). *Needs:* Mathlib `IsConj`, `orderOf`.
+`IsRationalGroup G` (1.4). Route: a power `x^n` with `n` prime to `orderOf x` generates `⟨x⟩`, so it
+has the order of `x` and the same centralizer, hence a class of the same size; the generators of
+`⟨x⟩` are exactly these powers, so `⟨y⟩` is conjugate to `⟨x⟩` iff `y` is conjugate to one of them;
+the divisions are unions of classes, with equality of counts iff each division is one class, which
+is 1.4's condition. The route is the proof. *Needs:* Mathlib `IsConj`, `orderOf`.
 
 - A maximal division is one whose representatives generate maximal cyclic subgroups.
 
@@ -688,8 +763,9 @@ lie in one division iff some unit `u` carries the class of `x` to the class of `
 divisions are the orbits of the action and correspond to them class by class. Route: a unit
 modulo the exponent `e` is prime to `orderOf x`, which divides `e`; conversely an exponent `n`
 prime to `orderOf x` lifts, by the Chinese remainder theorem, to a unit modulo `e` with the same
-residue modulo `orderOf x`. Hence the number of divisions is the number of orbits. Through
-`IsCyclotomicExtension.autEquivPow`, this is the action of `Gal(ℚ(ζ_e)/ℚ)` on classes.
+residue modulo `orderOf x`. Hence the number of divisions is the number of orbits. The route is
+the proof. Through `IsCyclotomicExtension.autEquivPow`, this is the action of `Gal(ℚ(ζ_e)/ℚ)` on
+classes.
 *Needs:* 3.6; Mathlib `ZMod`, `Monoid.exponent`.
 
 **Checks.**
@@ -740,7 +816,9 @@ each order below `96` would need that classification, which is not built here. *
 ### 4.2 The commutator map
 
 Define `commutatorMap G : G ⧸ Z(G) → G ⧸ Z(G) → commutator G`, well defined because central factors
-do not change a commutator. Its image generates `commutator G`; it is natural along `≃*`.
+do not change a commutator. Its image is `commutatorSet G`, which generates `commutator G`; it is
+natural along `≃*`, which carries centres, commutators and commutator subgroups to the same. The
+route is the proof.
 *Needs:* Mathlib `QuotientGroup`, `commutatorElement_def`.
 
 **Checks.**
@@ -754,7 +832,9 @@ Define `Isoclinism G H` (isomorphisms of central quotients and commutator subgro
 the commutator maps) and `Isoclinic G H`. Prove it is an equivalence relation, `G` is isoclinic to
 `G × A` for abelian `A`, isoclinic groups have isomorphic central quotients and commutator
 subgroups, and for nonabelian isoclinic `G, H` equal nilpotency classes and equal derived lengths
-(Hall 1940). *Needs:* 4.2.
+(hall-1940: the definition pp. 132–133, the equivalence relation p. 133, the terms of the lower
+central and derived series from the second on as invariants of the class p. 134, `G` isoclinic to
+`G × A` for abelian `A` p. 135). *Needs:* 4.2.
 
 **Checks.**
 - `C₂` and `C₄` are isoclinic (trivial central quotients and commutators), so the order is not an
@@ -768,8 +848,9 @@ subgroups, and for nonabelian isoclinic `G, H` equal nilpotency classes and equa
 
 Define `IsStemGroup G`: the centre lies in the commutator subgroup. Prove
 `exists_isoclinic_isStemGroup`: every finite group is isoclinic to a finite stem group, and the
-stem groups of an isoclinism class are exactly its groups of least order (hall-1940, isoclinism and
-stem groups). The kernel of a stem extension of `G` is a quotient of the Schur multiplier by
+stem groups of an isoclinism class are exactly its groups of least order (hall-1940, p. 135:
+existence of stem groups in every class, and for finite groups their characterisation by least
+order). The kernel of a stem extension of `G` is a quotient of the Schur multiplier by
 InductionRestrictionPartII §RS.0.1. *Needs:* 4.3; InductionRestrictionPartII §RS.0.1 for the
 multiplier statement only.
 
@@ -796,8 +877,11 @@ Define `mobiusSub H = μ(H, G)` on `Subgroup G` and `mobiusQuo N = μ(1, N)` on 
 Prove the recursions `μ(G, G) = 1`, `μ(H, G) = −∑_{H < K ≤ G} μ(K, G)`, invariance under
 automorphisms, `μ(1, C_n) = μ(n)` (the arithmetic Möbius function), and Hall's vanishing theorem:
 `μ(H, G) = 0` unless `H` is an intersection of maximal subgroups, so `μ(H, G) = 0` when `H` does not
-contain `frattini G` (hall-1936, Eulerian formula). *Needs:* Mathlib `IncidenceAlgebra.mu`,
-`frattini`.
+contain `frattini G` (hall-1936, Eulerian formula). Route for the vanishing: the coatoms of the
+interval `[H, G]` of `Subgroup G` are the maximal subgroups containing `H`, and by the crosscut
+theorem `μ(H, G) = ∑_k (−1)^k N_k`, with `N_k` the number of `k`-element sets of these coatoms whose
+intersection is `H`; every `N_k` is `0` when `H` is no such intersection. *Needs:* Mathlib
+`IncidenceAlgebra.mu`, `frattini`.
 
 **Checks.**
 - `A₄`: `μ(C₃) = μ(V₄) = −1`, `μ(C₂) = −(1 − 1) = 0`, `μ(1) = −(1 − 1 − 4 + 0) = 4`.
@@ -807,8 +891,9 @@ contain `frattini G` (hall-1936, Eulerian formula). *Needs:* Mathlib `IncidenceA
 ### 5.2 Eulerian functions
 
 Define `eulerian G k`, the number of `k`-tuples generating `G`. Prove Hall's formula
-`eulerian_eq_sum_mobiusSub`: `φ_k(G) = ∑_H μ(H, G) |H|^k`, by Möbius inversion of
-`|G|^k = ∑_H φ_k(H)` (hall-1936, Eulerian formula). Also: `φ_k(G) ≠ 0` iff `G` is generated by at
+`eulerian_eq_sum_mobiusSub`: `φ_k(G) = ∑_H μ(H, G) |H|^k`, by Möbius inversion on `Subgroup G` of
+`|G|^k = ∑_H φ_k(H)`, which holds because every `k`-tuple generates exactly one subgroup
+(hall-1936, Eulerian formula; the route is the proof). Also: `φ_k(G) ≠ 0` iff `G` is generated by at
 most `k` elements, equivalently by the entries of some `k`-tuple (a tuple may repeat entries);
 `MulAut G` acts freely on generating tuples, so `|MulAut G|` divides `φ_k(G)`. *Needs:* 5.1.
 
@@ -836,9 +921,14 @@ is `∑_N μ(1, N) k(G ⧸ N)`, `k` the class number, by Möbius inversion of
 
 Define `permutationDegree G`, the least `n` with an injective `G →* Equiv.Perm (Fin n)`. Prove
 Johnson's formula `permutationDegree_eq_sInf_sum_index`: it is the least total index of a finite
-family of subgroups whose cores intersect trivially (johnson-1971, main theorem). The transitive
-degree is the least index of a core-free subgroup; it is at least the permutation degree, with
-equality when `G` has a unique minimal normal subgroup. *Needs:* Mathlib `Subgroup.normalCore`,
+family of subgroups whose cores intersect trivially (johnson-1971, main theorem). Route: an action
+of `G` on `Fin n` is the disjoint union of its orbits `G ⧸ H_i`, `H_i` a point stabilizer, its
+kernel is `⨅ core(H_i)` and `n = ∑ [G : H_i]`; dropping repeated stabilizers keeps the kernel and
+does not increase the sum, and conversely the disjoint union of the `G ⧸ H`, `H` in a family with
+trivially intersecting cores, is a faithful action on `∑ [G : H]` points. The route is the proof.
+The transitive degree is the least index of a core-free subgroup; it is at least the permutation
+degree, with equality when `G` has a unique minimal normal subgroup `N`, since a family of subgroups
+none of which is core-free has all cores containing `N`. *Needs:* Mathlib `Subgroup.normalCore`,
 `Subgroup.index`.
 
 **Checks.**
@@ -889,14 +979,19 @@ invertible, so each element fixes as many characters as classes; count orbits by
 
 ### 6.3 Rational characters
 
-Define `rationalCharacter G o` as the sum of the characters in the orbit `o`. It is integer-valued
-and constant on divisions. Prove `existsUnique_eq_sum_rationalCharacter`: every `ℚ`-valued
+Define `rationalCharacter G o` as the sum of the characters in the orbit `o`. It is integer-valued,
+its values being algebraic integers fixed by `Gal(ℚ(ζ_e)/ℚ)`, and constant on divisions, since
+`χ(x^n)` is the value at `x` of the Galois conjugate of `χ` by `ζ_e ↦ ζ_e^n` (CharacterTheory §4.4)
+and the orbit sum is unchanged. Prove `existsUnique_eq_sum_rationalCharacter`: every `ℚ`-valued
 function on `G` constant on divisions is a unique `ℚ`-combination of the rational characters, so
 the rational characters are a `ℚ`-basis of that space and the rational character table (orbits by
 divisions) is square and invertible over `ℚ`. The space is of `ℚ`-valued functions: the constant
 complex function `i` on the trivial group is constant on its one division and is not a rational
-multiple of the trivial character. Route: linear independence from the orthogonality of distinct
-irreducible characters; spanning from 6.2's count. *Needs:* 6.2, 3.6.
+multiple of the trivial character. Route: the rational characters of distinct orbits are sums over
+disjoint sets of irreducible characters, hence pairwise orthogonal and nonzero, hence linearly
+independent; they lie in the space of `ℚ`-valued functions constant on divisions, whose dimension
+is the number of divisions, which 6.2 equates with their number. The route is the proof.
+*Needs:* 6.2, 3.6; CharacterTheory §4.4.
 
 **Checks.**
 - `C₃`: rational characters `(1, 1, 1)` and `(2, −1, −1)` on `1, g, g²`; the table on the divisions
@@ -909,16 +1004,30 @@ irreducible characters; spanning from 6.2's count. *Needs:* 6.2, 3.6.
 
 Define `schurIndex F χ` for `F : IntermediateField ℚ ℂ`: the least `[E : F(χ)]` over finite
 extensions `F(χ) ⊆ E ⊆ ℂ` carrying a representation with character `χ` (finite, since `ℚ(ζ_e)`
-realizes every `χ`, Tau Ceti's Brauer splitting field through CharacterTheory §4.5). Prove
-`schurIndex_dvd_degree` (the Schur index divides `χ(1)`; isaacs, Corollary 10.2; curtis-reiner-1962,
-§70) and Brauer–Speiser `schurIndex_le_two_of_real`: a real-valued `χ` has Schur index at most `2`
+realizes every `χ`, Tau Ceti's Brauer splitting field through CharacterTheory §4.5). It is
+ArithmeticGaloisRepresentations §5.5's Schur index written with characters:
+
+- `schurIndex F χ` is the index `s(ρ)` (`TauCeti.Algebra.index`) of the image algebra `B(ρ)` over
+  `F(χ)` of a realization `ρ` of `χ` over the algebraic closure `F̄` of `F` in `ℂ` (one exists by
+  CharacterTheory §4.5, and it is absolutely irreducible); the trace field of `ρ` over `F` is `F(χ)`.
+  Route: a finite extension of `F(χ)` inside `ℂ` lies in `F̄`, and such a field realizes `χ` exactly
+  when it splits `B(ρ)` (§5.5); some splitting field has degree the index
+  (`TauCeti.Algebra.exists_isSplittingField_finrank_eq_index`; it embeds in `F̄` over `F(χ)`), and
+  every finite splitting field `E` has degree divisible by the index `s`: for the division algebra
+  `Δ` with `B(ρ) ≅ M_a(Δ)`, `Δ ⊗ E ≅ M_s(E)`, so the simple module `E^s` is a `Δ`-vector space of
+  `F(χ)`-dimension `s [E : F(χ)]`, a multiple of `dim Δ = s²`.
+
+Prove `schurIndex_dvd_degree`: the Schur index divides `χ(1)`; through the identification above it
+is §5.5's `s(ρ) ∣ n` (isaacs, Corollary 10.2; curtis-reiner-1962, §70). Prove Brauer–Speiser
+`schurIndex_le_two_of_real`: a real-valued `χ` has Schur index at most `2`
 over `ℚ` (isaacs, Chapter 10, p. 171). Also: the Schur index over `ℂ` is `1`; over `ℝ` it is `1` iff
 the Frobenius–Schur indicator is not `−1` (CharacterTheory Layer 7,
 `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`); it divides `[E : F(χ)]`
 for every realization field `E` (isaacs, Corollary 10.2); and Galois-conjugate characters have the
 same Schur index over `ℚ`, since applying an embedding `τ : E → ℂ` extending
 `σ ∈ Gal(ℚ(ζ_e)/ℚ)` to the matrices of a realization of `χ` over `E` realizes `σ · χ` over `τ(E)`,
-with `[τ(E) : ℚ(σ · χ)] = [E : ℚ(χ)]`. *Needs:* 6.1;
+with `[τ(E) : ℚ(σ · χ)] = [E : ℚ(χ)]`. *Needs:* 6.1; ArithmeticGaloisRepresentations §5.5; Tau Ceti
+`TauCeti.Algebra.index`, `TauCeti.Algebra.exists_isSplittingField_finrank_eq_index`;
 CharacterTheory §4.4, §4.5 and Layer 7.
 
 **Checks.**
@@ -927,6 +1036,11 @@ CharacterTheory §4.4, §4.5 and Layer 7.
 - The degree-two character of `D₄` has Schur index `1` (indicator `+1`), although its table agrees
   with `Q₈`'s.
 - Linear characters and all characters of `S_n` have Schur index `1` over `ℚ`.
+- Agreement with §5.5: for `Q₈` over `ℚ` the image algebra of the degree-two realization is the
+  rational quaternion algebra `(−1, −1)_ℚ`, a division algebra of index `2`, the value above; for
+  `C₃` and `χ(g) = ω` over `ℚ`, `F(χ) = ℚ(√−3)` and the image algebra is `ℚ(√−3)` itself, of
+  dimension `1` and index `1`. A model taking the index of the `ℚ`-span of the image, rather than of
+  the algebra over `F(χ)`, fails on `C₃`: that span is `ℚ(√−3)`, which is not central over `ℚ`.
 
 ### 6.5 Irreducible rational representations
 
@@ -938,12 +1052,20 @@ every irreducible `χ` there is an irreducible rational representation with char
 same orbit then have the same character and are equivalent (Tau Ceti
 `Representation.nonempty_equiv_of_character_eq`), so irreducible rational representations
 correspond to Galois orbits, with `dim V = m_ℚ(χ) · |o| · χ(1)` (curtis-reiner-1962, §70,
-(70.15)). Route: decompose `V ⊗ ℂ`; its constituents form a Galois-stable set, hence full orbits,
-each with the same multiplicity, which is the Schur index. For the converse, `χ` is a constituent
-of `ℂ[G] = ℚ[G] ⊗ ℂ`, hence of `V ⊗ ℂ` for a simple summand `V` of the semisimple `ℚ[G]` (Maschke),
-whose orbit is then that of `χ`; the Schur index over `ℚ` is constant on the orbit (6.4).
-*Needs:* 6.3, 6.4; Mathlib Maschke's theorem; Tau Ceti
-`Representation.nonempty_equiv_of_character_eq`.
+(70.15)).
+
+Both theorems are ArithmeticGaloisRepresentations §5.6 at the perfect field `k = ℚ`, `Γ = G`, with
+`ℚ̄` the algebraic closure of `ℚ` in `ℂ`; what this roadmap owns is their translation into
+irreducible complex characters, their Galois orbits and `rationalCharacter`. Route: for a simple
+`ℚ[G]`-module `V`, §5.6 gives `V ⊗ ℚ̄ ≅ ⊕_τ ρ_τ^{⊕ s}` with pairwise non-isomorphic absolutely
+irreducible `ρ_τ`, all of Schur index `s`, forming one `Gal(ℚ̄/ℚ)`-orbit; every irreducible complex
+character is the character of a representation over `ℚ(ζ_e) ⊆ ℚ̄` (CharacterTheory §4.5), and
+`Gal(ℚ̄/ℚ)` acts on characters through `Gal(ℚ(ζ_e)/ℚ)`, whose orbits are those of 6.2
+(CharacterTheory §4.4); so the characters of the `ρ_τ` are the orbit `o` of one `χ`, each once, and
+`s = schurIndex ⊥ χ` by 6.4. For the converse, §5.6 puts a realization of `χ` over `ℚ̄`, whose trace
+field `ℚ(χ) ⊆ ℚ(ζ_e)` is finite over `ℚ`, in the scalar extension of a simple `ℚ[G]`-module, and the
+first part computes its character. *Needs:* 6.2, 6.3, 6.4; ArithmeticGaloisRepresentations §5.6;
+CharacterTheory §4.4, §4.5; Tau Ceti `Representation.nonempty_equiv_of_character_eq`.
 
 **Checks.**
 - `Q₈`: the irreducible rational representation on the quaternions has dimension `4` and character
@@ -1008,8 +1130,9 @@ degree `6`, not monomial. `SL(2,3)`: `5` orbits, not monomial.
 
 ### Dependencies
 
-Layers 0, 1, 3, 5; CharacterTheory §§4.4–4.5 and Layer 7; InductionRestriction Layer 5; Tau Ceti
-character table.
+Layers 0, 1, 3, 5; CharacterTheory §§4.4–4.5 and Layer 7; ArithmeticGaloisRepresentations
+§§5.5–5.6 (6.4–6.5); InductionRestriction Layer 5; Tau Ceti character table and
+`TauCeti.Algebra.index`.
 
 ## Layer 7: Gassmann equivalence and arithmetic equivalence
 
@@ -1057,9 +1180,9 @@ give the equality. *Needs:* 7.1; Mathlib `Matrix.GeneralLinearGroup`, `Matrix.ra
 Define `AlmostConjugateOfFiniteIndex H K` for subgroups of an arbitrary group `Γ` by fixed-coset
 counts. Prove `almostConjugateOfFiniteIndex_iff_map`: for a normal subgroup `N` of finite index
 contained in `H` and `K`, the relation holds iff it holds for the images in `Γ ⧸ N`, because
-`Γ ⧸ H ≃ (Γ ⧸ N) ⧸ (H ⧸ N)` equivariantly. Hence for a profinite `Γ` and open `H, K` any open normal
-`N ≤ H ⊓ K` tests the relation, for instance a principal congruence subgroup of `GL₂(ẑ)`.
-*Needs:* Mathlib `QuotientGroup`, `MulAction.fixedBy`.
+`Γ ⧸ H ≃ (Γ ⧸ N) ⧸ (H ⧸ N)` equivariantly; the route is the proof. Hence for a profinite `Γ` and
+open `H, K` any open normal `N ≤ H ⊓ K` tests the relation, for instance a principal congruence
+subgroup of `GL₂(ẑ)`. *Needs:* Mathlib `QuotientGroup`, `MulAction.fixedBy`.
 
 **Checks.**
 - `Γ = ℤ` (written multiplicatively), `H = K = 2ℤ`, `N = 4ℤ`: both sides hold.
@@ -1439,24 +1562,43 @@ has finitely many `ℤ`-classes. *Needs:* 10.1; Mathlib `Matrix.GeneralLinearGro
 Define `IsConjSubgroup`, `FiniteSubgroupClasses Γ`, `ZClasses n` and `QClasses n`. Prove
 `card_zClasses_two_qClasses_two` (`13` and `10`) and `card_zClasses_three_qClasses_three` (`73` and
 `32`), the arithmetic and geometric crystal classes (bbnwz, class counts). Route: 10.2 bounds the
-orders; the `ℚ`-classes
-are the faithful rational representations of dimension `n` of groups of those orders, up to
-automorphisms (6.5); inside a `ℚ`-class the `ℤ`-classes are the `G`-stable lattices `L` with
-`|G| · L₀ ⊆ L ⊆ L₀` up to the normalizer. *Needs:* 6.5, 10.1, 10.2.
+orders; the `ℚ`-classes are the faithful rational representations of dimension `n` of groups of
+those orders, up to automorphisms (6.5). Inside the `ℚ`-class of a finite `G` acting faithfully on
+`V = ℚⁿ`, two `G`-stable full lattices give the same `ℤ`-class exactly when an element of the
+normalizer of `G` in `GL(V)` carries one to the other. Fix a maximal order `Λ'` of `ℚ[G]` containing
+`ℤ[G]` and representatives `N₁, …, N_r` of the isomorphism classes of `Λ'`-lattices spanning `V`
+(finitely many by `jordan_zassenhaus_order`, 9.1). The `ℤ`-classes in the `ℚ`-class are the
+`G`-stable lattices `L` with `|G| · N_j ⊆ L ⊆ N_j` for some `j`, modulo the normalizer: for a
+`G`-stable `L`, `|G| · Λ' ⊆ ℤ[G]` (9.1) gives `|G| · Λ'L ⊆ L ⊆ Λ'L`, and a `Λ'`-isomorphism
+`Λ'L ≅ N_j` extends to a `G`-equivariant automorphism `φ` of `V`, which commutes with `G`, so `φ(L)`
+lies between `|G| · N_j` and `N_j` and has the same `ℤ`-class as `L`. One lattice `N_j` does not
+suffice when the `Λ'`-lattices in `V` form several classes (Check below). *Needs:* 6.5, 9.1
+(`jordan_zassenhaus_order` and the bound `|G| · Λ' ⊆ ℤ[G]`), 10.1, 10.2.
 
 **Checks.**
 - `n = 1`: two `ℤ`-classes and two `ℚ`-classes, `{1}` and `{±1}`.
 - `n = 2`: `C₁, C₂, C₃, C₄, C₆, D₄, D₆` once each and `D₁, D₂, D₃` twice each give `7 + 6 = 13`
   `ℤ`-classes in `10` `ℚ`-classes.
 - `ℤ`-classes map onto `ℚ`-classes (10.1): `13 ≥ 10`, `73 ≥ 32`.
+- A single sandwich `|G| · L₀ ⊆ L ⊆ L₀` misses `ℤ`-classes: `G = C₂₃` acting on
+  `ℤ[ζ₂₃] ≅ ℤ²²` through multiplication by `ζ₂₃`. The `G`-stable lattices of `V = ℚ(ζ₂₃)` are the
+  fractional ideals; those between `23 · ℤ[ζ₂₃]` and `ℤ[ζ₂₃]` are the powers `(1 − ζ₂₃)^k`,
+  `0 ≤ k ≤ 22`, all principal; the normalizer acts by `x ↦ a σ(x)`, `a ∈ ℚ(ζ₂₃)ˣ`, `σ` a Galois
+  automorphism, which preserves principality; and `h(ℚ(ζ₂₃)) = 3`, so the two non-principal ideal
+  classes give `ℤ`-classes that the single sandwich misses. Here `Λ' = ℤ × ℤ[ζ₂₃]` in
+  `ℚ[C₂₃] ≅ ℚ × ℚ(ζ₂₃)` acts on `V` through `ℤ[ζ₂₃]`, the `Λ'`-lattices spanning `V` are the
+  fractional ideals, the `N_j` are `ℤ[ζ₂₃]`, `𝔞`, `𝔞²` for a non-principal ideal `𝔞`, and every
+  class appears.
 
 ### 10.4 Dimension four
 
 Prove `card_zClasses_four_qClasses_four`: `710` `ℤ`-classes and `227` `ℚ`-classes in dimension four
 (bbnwz, class counts). Route: as in 10.3, with orders dividing `minkowskiBound 4 = 5760`; the
 rational representations of dimension `4` of groups of such order are determined by their
-characters (6.5), and the `ℤ`-classes inside each `ℚ`-class by the `G`-stable lattices between
-`|G| · L₀` and `L₀`. *Needs:* 6.5, 10.1, 10.2.
+characters (6.5), and the `ℤ`-classes inside each `ℚ`-class are the `G`-stable lattices between
+`|G| · N_j` and `N_j`, `N_j` running over representatives of the isomorphism classes of
+`Λ'`-lattices spanning the representation space, modulo the normalizer of `G` (10.3). *Needs:* 6.5,
+9.1, 10.1, 10.2, 10.3.
 
 **Checks.**
 - Every `ℚ`-class contains a `ℤ`-class, so `710 ≥ 227`.
@@ -1466,35 +1608,51 @@ characters (6.5), and the `ℤ`-classes inside each `ℚ`-class by the `G`-stabl
 ### 10.5 Finite subgroups of `GL_n(ℂ)` and Jordan's theorem
 
 Conjugacy classes of finite subgroups of `GL (Fin n) ℂ` correspond to faithful characters of degree
-`n` of finite groups up to automorphisms; `irrDegreeC G` is the least `n` with an irreducible
+`n` of finite groups up to automorphisms; `irrDegreeC G` (6.8) is the least `n` with an irreducible
 embedding. Define `jordanBound n`, the least `J` such that every finite subgroup of `GL (Fin n) ℂ`
 has an abelian normal subgroup of index at most `J`. Prove:
 
-- `jordan_exists_abelian_normal_index_le`: over every field of characteristic zero, every finite
-  subgroup of `GL (Fin n) F` has an abelian normal subgroup of index at most `jordanBound n`. Route:
-  the entries generate a finitely generated subfield, which embeds in `ℂ`; over `ℂ`, averaging a
-  Hermitian form conjugates into `U(n)`, elements near `1` generate an abelian normal subgroup
-  because commutators shrink (`‖⁅g, h⁆ − 1‖ ≤ 2 ‖g − 1‖ ‖h − 1‖`), and a packing count bounds the
-  index (curtis-reiner-1962, §36).
+- `jordan_exists_abelian_normal_index_le`: over every field `F` of characteristic zero, every finite
+  subgroup `H` of `GL (Fin n) F` has an abelian normal subgroup of index at most `jordanBound n`.
+  Route: over `ℂ`, averaging a Hermitian form conjugates `H` into the unitary group, elements near
+  `1` generate an abelian normal subgroup because commutators shrink
+  (`‖⁅g, h⁆ − 1‖ ≤ 2 ‖g − 1‖ ‖h − 1‖`), and a packing count bounds the index (curtis-reiner-1962,
+  §36); so the set whose least element is `jordanBound n` is nonempty and its least element bounds
+  every finite subgroup of `GL (Fin n) ℂ`. For general `F`, let `F̄` be an algebraic closure and `e`
+  the exponent of `H`: `F̄ⁿ` is a direct sum of irreducible representations of `H` (Maschke), each the
+  scalar extension of one over the cyclotomic subfield `ℚ(ζ_e) ⊆ F̄` (CharacterTheory §4.5), so
+  `F̄ⁿ ≅ W ⊗ F̄` for an `n`-dimensional `ℚ(ζ_e)`-representation `W`, faithful because `F̄ⁿ` is.
+  Extending scalars along an embedding `ℚ(ζ_e) → ℂ` (any two cyclotomic fields of level `e` are
+  isomorphic) gives a faithful complex representation of degree `n`, so `H` is isomorphic to a
+  finite subgroup of `GL (Fin n) ℂ`; no embedding of `F` into `ℂ` is used. *Needs:* CharacterTheory
+  §4.5 (Tau Ceti `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension`); Mathlib
+  `AlgebraicClosure`, Maschke's theorem, `IsCyclotomicExtension.algEquiv`, `Matrix.unitaryGroup`;
+  curtis-reiner-1962, §36, for the case `F = ℂ`.
 - `jordan_exists_abelian_normal_index_le_of_finite_map`: a subgroup `B ≤ GL (Fin n) F` with finite
   image under `Matrix.ProjGenLinGroup.mk` has an abelian normal subgroup of finite index at most
   `jordanBound n`. `B` itself may be infinite, and `Subgroup.index` is `0` on subgroups of infinite
   index, so the finiteness of the index is part of the conclusion. Route: over an algebraic
   closure, `Γ₁ = F̄ˣ B ∩ SL_n` is finite (its image in `PGL_n` is finite and its scalars are `n`-th
-  roots of unity) and `F̄ˣ B = F̄ˣ Γ₁`; for `A₁ ⊴ Γ₁` abelian of index at most `jordanBound n`,
-  `F̄ˣ A₁` is abelian and normal in `F̄ˣ B` of index at most `[Γ₁ : A₁]`, so `B ∩ F̄ˣ A₁` works.
+  roots of unity) and `F̄ˣ B = F̄ˣ Γ₁`, since `b = λ (λ⁻¹ b)` with `λⁿ = det b`; for `A₁ ⊴ Γ₁` abelian
+  of index at most `jordanBound n`, `F̄ˣ A₁` is abelian and normal in `F̄ˣ B` of index at most
+  `[Γ₁ : A₁]`, so `B ∩ F̄ˣ A₁` works. *Needs:* `jordan_exists_abelian_normal_index_le` (over `F̄`);
+  Mathlib `Matrix.ProjGenLinGroup.mk`, `Matrix.SpecialLinearGroup`, `AlgebraicClosure`,
+  `IsAlgClosed.exists_pow_nat_eq`, `card_rootsOfUnity`.
 - `finrank_le_jordanBound`: over an algebraically closed field of characteristic zero, an
-  irreducible representation of such `B` has dimension at most `jordanBound n`: a common
-  eigenvector of the abelian normal subgroup and its translates by coset representatives span a
-  `B`-stable subspace.
+  irreducible representation of such `B` has dimension at most `jordanBound n`: the operators of the
+  abelian normal subgroup commute, so they have a common eigenvector (induction on a finite family
+  spanning them in `End W`, each step by `Module.End.exists_eigenvalue`), and its translates by
+  coset representatives span a `B`-stable subspace, because the subgroup is normal. *Needs:*
+  `jordan_exists_abelian_normal_index_le_of_finite_map`; Mathlib `IsAlgClosed`,
+  `Module.End.exists_eigenvalue`.
 - `jordanBound_le_schur`: `jordanBound n ≤ (√(8n) + 1)^(2n²) − (√(8n) − 1)^(2n²)` for `n ≥ 1`
-  (curtis-reiner-1962, §36).
+  (curtis-reiner-1962, §36): the packing count of the first route made explicit. *Needs:*
+  curtis-reiner-1962, §36; Mathlib `Matrix.unitaryGroup`, `Real.sqrt`.
 - `jordanBound_eq_factorial_of_classification`: assuming `TauCeti.ClassificationStatement`,
   `jordanBound n = (n + 1)!` for `n ≥ 71`, attained by `S_{n+1}` on its standard representation
-  (collins, Theorem).
-
-*Needs:* 6.8; Mathlib `Matrix.ProjGenLinGroup.mk`, `IsAlgClosed`; Tau Ceti
-`TauCeti.ClassificationStatement`.
+  (collins, Theorem); the lower bound holds because the only abelian normal subgroup of `S_{n+1}` is
+  trivial for `n + 1 ≥ 5`. *Needs:* Tau Ceti `TauCeti.ClassificationStatement`; collins, Theorem;
+  Mathlib `Equiv.Perm`, `alternatingGroup`.
 
 **Checks.**
 - `jordanBound 0 = 1` (the trivial group, abelian subgroup `⊤` of index `1`) and `jordanBound 1 = 1`
