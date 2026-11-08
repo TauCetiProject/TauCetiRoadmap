@@ -8,7 +8,7 @@ import TauCeti.LinearAlgebra.RootSystem.FiniteType.Diagram
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Componentwise.Grading
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
-import TauCeti.RingTheory.Idempotents.Corner
+import TauCeti.RingTheory.Idempotents.Corner.Basic
 
 /-!
 # Zigzag, preprojective, and Ginzburg algebras: target signatures
@@ -108,8 +108,8 @@ the doubled paths of length `d` from `i` to `j`. -/
 noncomputable def preprojectiveGradedCorner (k : Type*) [Field k] (Q : Type*) [Quiver Q]
     [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)] (d : ℕ) (j i : Q) : Submodule k (TauCeti.preprojectiveAlgebra k Q) :=
   (TauCeti.preprojectiveGrade k Q d).map
-    (TauCeti.cornerMap k (TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k j))
-      (TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k i)))
+    (LinearMap.mulLeftRight k (TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k j),
+      TauCeti.preprojectiveMk k Q (TauCeti.doubledVertexIdempotent k i)))
 
 /-- The degree-`d` **Hilbert matrix** of the preprojective algebra `Π_k(Q_o)` of an orientation
 `o` of a finite simple graph `G`: the matrix whose `(j, i)` entry is `dim_k e_j Π_d e_i`, the
