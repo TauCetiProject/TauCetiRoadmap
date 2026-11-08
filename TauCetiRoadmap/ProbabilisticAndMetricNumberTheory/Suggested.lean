@@ -5,6 +5,7 @@ Authors: The Tau Ceti Atlas contributors, Codex
 -/
 import Mathlib
 import TauCeti.Probability.Process.EmpiricalMeasure
+import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
 
 /-!
 # Probabilistic and metric number theory: target signatures
@@ -15,7 +16,9 @@ is not statable on a native pinned carrier: weighted GCD graphs with prime
 valuation metadata and their quality are absent. Its construction and theorem
 are README targets. The signatures below cover the additive limit laws,
 polynomial Haar-mixture limits, discrepancy, normality, metric and Hausdorff
-approximation, pointwise and Gauss dynamics, and multiplicative correlations.
+approximation, pointwise and Gauss dynamics, lattice quotients with Howe–Moore,
+Moore ergodicity and Mahler's criterion, finite-label entropy, and multiplicative
+correlations.
 Simple definitions specify only the objects occurring in these signatures.
 Finite exact-period corollaries, native probability transports and continued-
 fraction recurrence comparisons are targets in README.md, not acceptance declarations.
@@ -575,6 +578,86 @@ theorem density_uniform_error (n : ℕ) {x : ℝ} (hx : x ∈ I) :
     |(gaussDensityTransfer^[n]) (fun _ => 1) x - 1 / ((1 + x) * Real.log 2)| ≤
       (9 / 10 : ℝ) ^ n := sorry
 
+-- Quotients by discrete subgroups, Howe–Moore and Moore ergodicity.
+section LatticeDynamics
+open scoped InnerProductSpace
+
+variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [LocallyCompactSpace G] [SecondCountableTopology G] [T2Space G]
+
+/-- Any two Borel probabilities on a discrete-subgroup quotient preserved by every left
+translation coincide. -/
+theorem lattice_invariant_probability_unique (Γ : Subgroup G) [DiscreteTopology Γ]
+    [MeasurableSpace (G ⧸ Γ)] [BorelSpace (G ⧸ Γ)]
+    (μ ν : Measure (G ⧸ Γ)) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (hμ : ∀ g : G, MeasurePreserving (fun x : G ⧸ Γ => g • x) μ μ)
+    (hν : ∀ g : G, MeasurePreserving (fun x : G ⧸ Γ => g • x) ν ν) : μ = ν := by sorry
+
+/-- Left translations act ergodically on a lattice quotient with its invariant probability. -/
+theorem lattice_quotient_ergodic (Γ : Subgroup G) [DiscreteTopology Γ]
+    [MeasurableSpace (G ⧸ Γ)] [BorelSpace (G ⧸ Γ)]
+    (μ : Measure (G ⧸ Γ)) [IsProbabilityMeasure μ]
+    (hμ : ∀ g : G, MeasurePreserving (fun x : G ⧸ Γ => g • x) μ μ) :
+    ErgodicSMul G (G ⧸ Γ) μ := by sorry
+
+/-- A compact–commuting–compact decomposition whose escaping sequences have contraction groups
+generating a dense subgroup makes every coefficient vanish at infinity, absent invariant vectors. -/
+theorem howe_moore_of_cartan {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    [CompleteSpace H] (K : Subgroup G) (hK : IsCompact (K : Set G)) (Aplus : Set G)
+    (hcomm : ∀ a ∈ Aplus, ∀ b ∈ Aplus, Commute a b)
+    (hKAK : ∀ g : G, ∃ k₁ ∈ K, ∃ a ∈ Aplus, ∃ k₂ ∈ K, g = k₁ * a * k₂)
+    (hgen : ∀ a : ℕ → G, (∀ j, a j ∈ Aplus) → Tendsto a atTop (cocompact G) →
+      ∃ φ : ℕ → ℕ, StrictMono φ ∧ Dense (Subgroup.closure
+        ({u : G | Tendsto (fun j => (a (φ j))⁻¹ * u * a (φ j)) atTop (𝓝 1)} ∪
+          {u : G | Tendsto (fun j => a (φ j) * u * (a (φ j))⁻¹) atTop (𝓝 1)}) : Set G))
+    (π : ContRepresentation ℂ G H) (hs : ∀ v : H, Continuous fun g : G => π g v)
+    (hu : π.IsUnitary) (hi : π.invariants = ⊥) (v w : H) :
+    Tendsto (fun g : G => ⟪π g v, w⟫_ℂ) (cocompact G) (𝓝 0) := by sorry
+
+end LatticeDynamics
+
+section SimpleLieGroups
+open scoped Manifold ContDiff InnerProductSpace
+variable {E M L : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [TopologicalSpace M] {J : ModelWithCorners ℝ E M}
+  [TopologicalSpace L] [ChartedSpace M L] [Group L] [LieGroup J ∞ L]
+  [IsTopologicalGroup L] [T2Space L] [SecondCountableTopology L] [ConnectedSpace L]
+  [Finite (Subgroup.center L)] [LieAlgebra.IsSimple ℝ (LeftInvariantDerivation J L)]
+
+include J in
+/-- **Howe–Moore**: coefficients of a strongly continuous unitary representation of a connected
+simple real Lie group with finite centre vanish at infinity when no nonzero vector is invariant. -/
+theorem howe_moore {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (π : ContRepresentation ℂ L H) (hs : ∀ v : H, Continuous fun g : L => π g v)
+    (hu : π.IsUnitary) (hi : π.invariants = ⊥) (v w : H) :
+    Tendsto (fun g : L => ⟪π g v, w⟫_ℂ) (cocompact L) (𝓝 0) := by sorry
+
+include J in
+/-- **Moore ergodicity**: every closed noncompact subgroup acts ergodically on a lattice quotient
+of a connected simple real Lie group with finite centre. -/
+theorem moore_ergodicity (Γ : Subgroup L) [DiscreteTopology Γ]
+    [MeasurableSpace (L ⧸ Γ)] [BorelSpace (L ⧸ Γ)]
+    (μ : Measure (L ⧸ Γ)) [IsProbabilityMeasure μ]
+    (hμ : ∀ g : L, MeasurePreserving (fun x : L ⧸ Γ => g • x) μ μ)
+    (S : Subgroup L) (hS : IsClosed (S : Set L)) (hnc : ¬ IsCompact (S : Set L)) :
+    ErgodicSMul S (L ⧸ Γ) μ := by sorry
+
+end SimpleLieGroups
+
+section Mahler
+variable {n : ℕ} (Γn : Subgroup (Matrix.SpecialLinearGroup (Fin n) ℝ))
+  (hΓn : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
+    g ∈ Γn ↔ ∀ i j, ∃ z : ℤ, (z : ℝ) = (g : Matrix (Fin n) (Fin n) ℝ) i j)
+include hΓn
+
+/-- **Mahler's criterion**: a set of unimodular column lattices has compact closure exactly when
+their max-norm first minima are bounded below by a positive constant. -/
+theorem mahler_relativelyCompact_iff (A : Set (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γn)) :
+    IsCompact (closure A) ↔ ∃ ε : ℝ, 0 < ε ∧ ∀ x ∈ A, ∀ z : Fin n → ℤ, z ≠ 0 →
+      ε ≤ ‖fun i => ∑ j, (x.out : Matrix (Fin n) (Fin n) ℝ) i j * (z j : ℝ)‖ := by sorry
+
+end Mahler
+
 section HomogeneousConsumers
 local notation "G" => Matrix.SpecialLinearGroup (Fin 2) ℝ
 local notation "Γ" => MonoidHom.range (Matrix.SpecialLinearGroup.map (Int.castRingHom ℝ) :
@@ -586,12 +669,26 @@ local notation "X" => G ⧸ Γ
 /-- The homogeneous quotient uses its Borel measurable structure. -/
 local instance homogeneousQuotientMeasurableSpace : MeasurableSpace X := borel X
 
+/-- The integral special linear group is discrete in the real one. -/
+theorem modularLattice_discrete : DiscreteTopology Γ := sorry
+
+/-- The modular quotient carries exactly one Borel probability preserved by every left
+translation. -/
+theorem modularQuotient_existsUnique_invariant :
+    ∃! μ : ProbabilityMeasure X, ∀ g : G, MeasurePreserving (fun z : X => g • z)
+      (μ : Measure X) (μ : Measure X) := sorry
+
 variable (a u : ℝ → G)
 variable (ha : ∀ t : ℝ, (a t : Matrix (Fin 2) (Fin 2) ℝ) =
   !![Real.exp t, 0; 0, Real.exp (-t)])
 variable (hu : ∀ x : ℝ, (u x : Matrix (Fin 2) (Fin 2) ℝ) = !![1, x; 0, 1])
 
 include ha
+
+/-- The diagonal time-one map is strongly mixing for the invariant modular probability. -/
+theorem modular_timeOne_mixing (μ : ProbabilityMeasure X)
+    (hHaar : ∀ g : G, MeasurePreserving (fun z : X => g • z) (μ : Measure X) (μ : Measure X)) :
+    IsStrongMixing (fun z : X => a 1 • z) μ := sorry
 
 /-- Diagonal time-one averages on the Haar modular quotient converge almost everywhere to the space integral. -/
 theorem homogeneous_birkhoff (μ : Measure X) [IsProbabilityMeasure μ]
@@ -613,6 +710,38 @@ theorem typical_unbounded_semiorbit : ∀ᵐ x ∂m,
 end HomogeneousConsumers
 
 /-! ## Layer 5: Short intervals, logarithmic correlations and random models -/
+section FiniteLabelEntropy
+
+/-- Shannon entropy, in natural logarithms, of a label with finitely many values. -/
+def labelEntropy {Ω A : Type*} [MeasurableSpace Ω] [Fintype A] (μ : Measure Ω) (X : Ω → A) :
+    ℝ :=
+  ∑ a, Real.negMulLog (μ.real (X ⁻¹' {a}))
+
+/-- Conditional entropy of one finite label given another; cells of mass zero contribute zero. -/
+def condLabelEntropy {Ω A B : Type*} [MeasurableSpace Ω] [Fintype A] [Fintype B]
+    (μ : Measure Ω) (X : Ω → A) (Y : Ω → B) : ℝ :=
+  ∑ a, ∑ b, μ.real (X ⁻¹' {a} ∩ Y ⁻¹' {b}) *
+    Real.log (μ.real (Y ⁻¹' {b}) / μ.real (X ⁻¹' {a} ∩ Y ⁻¹' {b}))
+
+variable {Ω A B : Type*} [MeasurableSpace Ω] [Fintype A] [Fintype B]
+  [MeasurableSpace A] [DiscreteMeasurableSpace A] [MeasurableSpace B] [DiscreteMeasurableSpace B]
+  (μ : Measure Ω) [IsProbabilityMeasure μ] {X : Ω → A} {Y : Ω → B}
+
+/-- The chain rule for the joint label. -/
+theorem labelEntropy_pair_eq_add (hX : Measurable X) (hY : Measurable Y) :
+    labelEntropy μ (fun ω => (X ω, Y ω)) = labelEntropy μ Y + condLabelEntropy μ X Y := by sorry
+
+/-- Entropy lies between zero and the logarithm of the alphabet size. -/
+theorem labelEntropy_nonneg_le_log_card [Nonempty A] (hX : Measurable X) :
+    0 ≤ labelEntropy μ X ∧ labelEntropy μ X ≤ Real.log (Fintype.card A) := by sorry
+
+/-- Independent labels have additive joint entropy. -/
+theorem labelEntropy_pair_of_indepFun (hX : Measurable X) (hY : Measurable Y)
+    (hXY : ProbabilityTheory.IndepFun X Y μ) :
+    labelEntropy μ (fun ω => (X ω, Y ω)) = labelEntropy μ X + labelEntropy μ Y := by sorry
+
+end FiniteLabelEntropy
+
 /-- Inclusive short intervals contain h+1 terms but are normalized by h. -/
 def shortMean (f : ArithmeticFunction ℝ) (x h : ℕ) : ℝ :=
   (∑ n ∈ Finset.Icc x (x+h), f n)/(h:ℝ)

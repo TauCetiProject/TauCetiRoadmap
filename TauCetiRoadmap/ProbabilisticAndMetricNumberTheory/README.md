@@ -4,15 +4,15 @@
 
 ## Scope and ownership
 
-This roadmap owns additive arithmetic predicates and their prime-power representations, arithmetic specializations of empirical laws, growing-prime probabilistic comparisons, asymptotic equidistribution and its Fourier criteria, reduced-rational approximation and the GCD-graph method, mass transference, pointwise ergodic convergence, the Gauss system, and the specified multiplicative statistics. It also owns the concrete number-theoretic applications of modular homogeneous dynamics described in Layer 4.
+This roadmap owns additive arithmetic predicates and their prime-power representations, arithmetic specializations of empirical laws, growing-prime probabilistic comparisons, asymptotic equidistribution and its Fourier criteria, reduced-rational approximation and the GCD-graph method, mass transference, pointwise ergodic convergence, the Gauss system, and the specified multiplicative statistics. It also owns the homogeneous-dynamics inputs of Layer 4 (invariant probabilities on quotients by discrete subgroups, Howe–Moore vanishing of matrix coefficients, Moore ergodicity, the finite covolume of SL₂(ℤ) and Mahler's compactness criterion, §§4.9a–4.9b), their concrete number-theoretic applications, and finite-label Shannon entropy (§5.1a).
 
 Mathlib supplies `ArithmeticFunction`, `cardDistinctFactors` (ω), `cardFactors` (Ω), native continued fractions and positional digits, Haar measure on circles and tori, Gaussian measures and weak convergence. Tau Ceti supplies `Probability.empiricalMeasure`, Gaussian centered moments, conditional-expectation and martingale tools, and mean ergodic convergence. These are prerequisites. The pointwise theorem in §4.1 applies to every integrable observable; the existing L2 mean theorem and its L1 consequence under an L2 hypothesis supply a different statement. Moment convergence to a determinate law, including the Gaussian specialization used in §1.5, belongs to RandomMatrices §3.2, with its reusable tightness and uniform-integrability machinery (the shared-foundations contract of FreeProbability).
 
-Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. AdelicAlgebraicGroups AA.2–AA.3 owns homogeneous quotients and finite invariant volume; GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 owns Howe–Moore, Moore ergodicity and Mahler compactness. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
+Generic arithmetic functions, summation and Dirichlet series remain with Mathlib, Tau Ceti and [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) (Export contract). AnalyticNumberTheoryPartI §§0.19, 0.21 owns reciprocal-prime estimates, §1.5 Dirichlet-polynomial mean squares, and §§3.18, 3.33 pretentious distance and Halász estimates; §§3.12a, 3.32, 3.41 supply analytic counts for the restricted squarefree family. The stronger analytic inputs are mathematical targets in §§0.13, 3.7, 5.1 and 5.2. The finite van der Corput estimate and the entropy-decrement argument belong here. DiophantineApproximationAndTranscendence §0.6 owns BadlyApproximable; this roadmap owns its characterization by bounded native partial denominators. Quotients by discrete subgroups, their invariant probabilities, Howe–Moore, Moore ergodicity and Mahler's criterion are the targets of §§4.9a–4.9b; the Cartan, Iwasawa and KAK decompositions and restricted roots they use come from RepresentationTheory/LieGroups. IntegralLattices concerns integral quadratic and bilinear lattices. Möbius orthogonality to nilsequences is outside this roadmap. General Chowla and Sarnak are conjectures, not conclusions of Layer 5.
 
 The finite weighted sums and exact remainder formulas specialize native counting, CRT and empirical-measure declarations; their generic counting and probability theorems are consumed under the pinned names below. The stronger summed rough-number, restricted Dirichlet, long-mean, high-twist Liouville, modulated short-sum, prime fourth-moment and divisor-bounded-mean statements are owned in §§0.13, 3.7, 5.1–5.2. These strengthen the generic mean-square and Halász inputs rather than treating those inputs as the desired conclusions. The sieve targets concern the full smooth/rough decomposition and arbitrary bounded prime phases; no smaller prime family is selected.
 
-The arithmetic Lévy criterion is a specialization of Mathlib’s `MeasureTheory.tendstoInDistribution_iff_tendsto_charFun`; its finite empirical formula is recorded as a comparison, with no additional theorem required. Pointwise Birkhoff is owned here (§§4.1–4.3). GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, owns finite-label Shannon entropy, conditional entropy, the chain rule and the alphabet bound. Section 5.2 here defines mutual information through that API and proves its comparisons and entropy-decrement application. ArithmeticDynamics §§2.6–2.7 develops finite measurable partitions and their joins, dynamical entropy, Shannon–McMillan–Breiman and ergodic decomposition using the shared entropy API; the pointwise interface offered to that development is specified under Downstream consumers.
+The arithmetic Lévy criterion is a specialization of Mathlib’s `MeasureTheory.tendstoInDistribution_iff_tendsto_charFun`; its finite empirical formula is recorded as a comparison, with no additional theorem required. Pointwise Birkhoff is owned here (§§4.1–4.3). Section 5.1a owns finite-label Shannon entropy, conditional entropy, the chain rule, additivity for independent labels and the alphabet bound. Section 5.2 defines mutual information through them and proves its comparisons and entropy-decrement application. ArithmeticDynamics §§2.6–2.7 develops finite measurable partitions and their joins, dynamical entropy, Shannon–McMillan–Breiman and ergodic decomposition; the pointwise interface offered to that development is specified under Downstream consumers.
 
 The constant-tail conditional-expectation and reverse-L¹ statements are supplied by the two Tau Ceti declarations below rather than separate targets. The explicit constant-four cylinder bound in §4.6 supplies the Rényi comparison used here. The summability and Gauss logarithmic-integral statements each have one owning target in §4.7; their uses in integrability and growth consume those targets.
 
@@ -50,6 +50,8 @@ For tori consume native continuous Fourier characters, density of trigonometric 
 
 For metric approximation consume Borel–Cantelli, the native additive well-approximable circle sets and their zero–one theorem, native Hausdorff measure/dimension and bounded variation. For dynamics consume `MeasurableSpace.invariants`, `MeasureTheory.condExp`, change of variables under measure preservation, measurable representatives and native conditional-expectation convergence along filtrations and decreasing sigma-algebras. The existing Tau Ceti mean theorem identifies the invariant L2 projection; Layer 4 extends the pointwise and L1 conclusions to arbitrary integrable real functions. Native `GenContFract.IntFractPair.stream`, `GenContFract.of`, `nums`, `dens` and their recurrence/nontermination bounds supply the continued-fraction carrier; no second carrier is constructed.
 
+For homogeneous dynamics consume the quotient topology, left action and open quotient map of `Mathlib/Topology/Algebra/Group/Quotient.lean`, properly discontinuous quotients (`Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite`, `t2Space_of_properlyDiscontinuousSMul_of_t2Space`), the fundamental-domain quotient measures and unfolding of `Mathlib/MeasureTheory/Measure/Haar/Quotient.lean`, uniqueness of Haar measure, the modular fundamental domain `ModularGroup.fd` with `ModularGroup.exists_smul_mem_fd`, `ContRepresentation` with its `invariants`, and the composition isometries of L^p spaces with their continuity in `Mathlib/MeasureTheory/Function/LpSpace/ContinuousCompMeasurePreserving.lean`.
+
 ### From Tau Ceti
 
 `TauCeti.Probability.empiricalMeasure`, `TauCeti.Probability.empiricalMeasure_apply_toReal` and `TauCeti.Probability.integral_empiricalMeasure` in `TauCeti/Probability/Process/EmpiricalMeasure.lean` provide the successor-sized probability, its measurable-event evaluation and its strongly measurable integral evaluation. They retain multiplicities and do not supply arithmetic independence.
@@ -57,6 +59,8 @@ For metric approximation consume Borel–Cantelli, the native additive well-appr
 `TauCeti.Probability.centralMoment_id_two_mul_gaussianReal` and `TauCeti.Probability.centralMoment_id_two_mul_add_one_gaussianReal`, in `TauCeti/Probability/Distributions/Gaussian/Moments.lean`, evaluate Gaussian centered moments, including zero variance. `TauCeti.Probability.birkhoffAverage_tendsto_metProjection`, in `TauCeti/Probability/Ergodic/MeanErgodic.lean`, supplies L² mean convergence. The native conditional-expectation and martingale convergence interfaces used in Layer 4 are specified at their use sites; none is substituted for almost-everywhere Birkhoff convergence for arbitrary L¹ observables.
 
 `TauCeti.MeasureTheory.condExp_ae_eq_integral_of_forall_zero_or_one`, in `TauCeti/MeasureTheory/Function/ConditionalExpectation.lean`, identifies conditional expectation on a trivial sub-σ-algebra for an integrable observable in a complete normed real vector space. `MeasureTheory.tendsto_eLpNorm_condExp_iInf`, in `TauCeti/Probability/Martingale/Convergence.lean`, gives L¹ convergence along decreasing sub-σ-algebras below the ambient one, for a finite measure. In Layer 4 the measure is a probability and the functions are real indicators; these declarations give the constant-tail and reverse-L¹ inputs directly.
+
+`ContRepresentation.IsUnitary` and `ContRepresentation.IsUnitary.norm_inner_map_le`, in `TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`, and `ContRepresentation.IsUnitary.continuous_apply_prod`, in `TauCeti/RepresentationTheory/Continuous/Unitary/StronglyContinuous.lean`, supply unitarity, coefficient bounds and joint continuity for §4.9a. `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, in `TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`, `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`, in `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, and `ZLattice.exists_basis_gauge_le_max_one_mul`, in `TauCeti/Algebra/Module/ZLattice/GaugeBasis.lean`, supply Minkowski's second theorem and reduced bases for Mahler's criterion in §4.9b.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -76,15 +80,13 @@ Consume moment-to-weak convergence for Borel probability measures on ℝ: if eve
 
 Consume the §0.5 native convergent-error inequalities and §0.6 BadlyApproximable, defined by irrationality and a positive lower bound for q·dist(qx,ℤ) for every integer q≥1, and its quadratic-irrational examples. The bounded-native-partial-denominator characterization is the target bounded_partial_denominators_iff_badlyApproximable in §4.10 here.
 
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and TauCetiRoadmap.AdelicAlgebraicGroups AA.2–AA.3
+### From TauCetiRoadmap.RepresentationTheory (LieGroups)
 
-Consume GeometryOfNumbersAndQuadraticArithmetic §4.2.1 howe_moore on the mean-zero quotient L² representation and §4.2.2 moore_ergodicity for a closed noncompact subgroup, applied to the subgroup generated by a₁. Howe–Moore along a₁ⁿ gives strong mixing of the time-one map. Consume §4.5 Mahler compactness in the max norm. Consume AdelicAlgebraicGroups AA.2 quotient-Haar integration and AA.3 Reduction.arithmetic_finite_volume_iff for SL₂(ℤ), the quotient topology and Borel structure, the normalized invariant probability and the continuous left action. Transpose Γ\G→G/Γ is the local comparison in §4.10, not an additional supplier theorem.
-
-Consume GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, `finitePartitionEntropy` and the finite-label restriction of `conditionalPartitionEntropy`. For measurable labels X and Y into finite nonempty alphabets with discrete σ-algebras on a probability space, use natural logarithms, zero contribution from zero-mass atoms, the joint-label chain rule, addition for independent labels and 0≤H(X)≤log(card alphabet). These contracts require no standard-Borel assumption on the underlying probability space. Section 5.2 uses these entropies to compare mutual information with the entropy lost on conditioning.
+Consume RepresentationTheory/LieGroups in the setting of a model `I` with `LieGroup I ∞ L` and Lie algebra `LeftInvariantDerivation I L`: Layers 1–4 for `lieExp`, `Ad`, the correspondence between Lie subalgebras and connected subgroups and Lie's theorems; Layer 7 for compact real forms; and Layer 9 for `CartanInvolution`, `IwasawaData`, `kakDecomposition` and the restricted root system. Section 4.9a uses them only for the general simple-group statements `howe_moore` and `moore_ergodicity`; the SL₂(ℝ) applications in §4.9b verify the same hypotheses by matrix computations.
 
 ## How to read the build
 
-Layer 0 supplies exact finite laws and arithmetic probability interfaces. Layer 1 separates Gaussian pairing estimates, deterministic prime cutoffs and analytic normalization before proving additive limit laws. Layer 2 develops weak equidistribution, Fourier criteria, rational subtorus decompositions and discrepancy; its normality theorem consumes the pointwise result in Layer 4. Layer 3 builds reduced approximation and the GCD-graph argument, then transfers Lebesgue conclusions to Hausdorff conclusions. Layer 4 first proves pointwise convergence and its native conditional-expectation identification, then constructs the Gauss system, proves its statistics and quantitative transfer estimates, and applies the specified homogeneous-space inputs. Layer 5 uses the supplied mean-value foundations and the local analytic targets for multiplicative statistics, keeping random-model expectation identities separate from deterministic cancellation. The dependency from digit normality to Layer 4 is acyclic: the pointwise proof uses neither equidistribution nor normality.
+Layer 0 supplies exact finite laws and arithmetic probability interfaces. Layer 1 separates Gaussian pairing estimates, deterministic prime cutoffs and analytic normalization before proving additive limit laws. Layer 2 develops weak equidistribution, Fourier criteria, rational subtorus decompositions and discrepancy; its normality theorem consumes the pointwise result in Layer 4. Layer 3 builds reduced approximation and the GCD-graph argument, then transfers Lebesgue conclusions to Hausdorff conclusions. Layer 4 first proves pointwise convergence and its native conditional-expectation identification, then constructs the Gauss system, proves its statistics and quantitative transfer estimates, proves the lattice-quotient, Howe–Moore and Mahler inputs of §§4.9a–4.9b, and applies them to the modular quotient. Layer 5 uses the supplied mean-value foundations and the local analytic targets for multiplicative statistics, keeping random-model expectation identities separate from deterministic cancellation. The dependency from digit normality to Layer 4 is acyclic: the pointwise proof uses neither equidistribution nor normality.
 
 ## Layer 0: Arithmetic probability
 
@@ -5376,7 +5378,7 @@ Its basic API consists of these facts.
 - It implies native ergodicity.
 
 Define the precise mixing limit using native iterates, preimages and real measure. General consumers include
-Gauss mixing here and homogeneous dynamics at GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and AdelicAlgebraicGroups AA.2–AA.3. Ergodicity is imported as the native notion, not
+Gauss mixing here and the diagonal time-one map on the modular quotient (`modular_timeOne_mixing`, §4.9b). Ergodicity is imported as the native notion, not
 redefined.
 
 **Checks.**
@@ -6173,6 +6175,133 @@ prerequisite of this target.
 §4.5 (words, matrices and native convergents); §4.9 (an explicit derivative contraction and gauss–kuzmin
 rate).
 
+### 4.9a Lattice quotients, Howe–Moore and Moore ergodicity
+
+In this subsection G is a second countable, locally compact, Hausdorff topological group with its Borel σ-algebra, and Γ≤G is a discrete subgroup. The coset space X=G/Γ carries Mathlib's quotient topology, its Borel σ-algebra and the left action g·xΓ=gxΓ, which is continuous by Mathlib `QuotientGroup.instContinuousSMul`. Call Γ a lattice when X carries a Borel probability preserved by every left translation. Representations are Mathlib `ContRepresentation ℂ G H` on complex Hilbert spaces H, unitary in the sense of Tau Ceti `ContRepresentation.IsUnitary`. Strong continuity is the explicit hypothesis that g↦π(g)v is continuous for every v, not a new predicate; Tau Ceti `ContRepresentation.IsUnitary.continuous_apply_prod` upgrades it to joint continuity. The coefficient of v,w is g↦⟪π(g)v,w⟫, conjugate-linear in v. It vanishes at infinity when it tends to 0 along Mathlib `Filter.cocompact`, which is the bottom filter on a compact group, so these statements hold vacuously there.
+
+**Topology of the quotient.** Prove that Γ is closed, that right translation by Γ is properly discontinuous, and that X is Hausdorff, locally compact and second countable with open quotient map. Every compact subset of X is the image of a compact subset of G.
+
+A discrete subgroup meets each compact set in a finite set. Apply Mathlib `Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite` and `t2Space_of_properlyDiscontinuousSMul_of_t2Space`. Openness is Mathlib `QuotientGroup.isOpenMap_coe`. Cover a compact subset of X by finitely many images of relatively compact open sets to obtain local compactness and the compact lift.
+
+**Checks.**
+
+- For G=ℝ, the subgroup ℤ gives the circle, while {0} gives ℝ itself, which is not compact.
+
+*Needs:* Mathlib `Subgroup.properlyDiscontinuousSMul_opposite_of_tendsto_cofinite`; Mathlib `t2Space_of_properlyDiscontinuousSMul_of_t2Space`; Mathlib `QuotientGroup.isOpenMap_coe`.
+
+Prove `lattice_invariant_probability_unique`. Any two Borel probabilities on X preserved by every left translation are equal. If μ is one of them and λ is a left Haar measure of G, then a Borel subset of X is μ-null exactly when its preimage in G is λ-null. Moreover, every Borel fundamental domain F of the right Γ-action has 0<λ(F)<∞, and μ is the image of λ restricted to F, divided by λ(F). ([BHV2007](#references) Appendix B.1.)
+
+One route is Weil's argument. For such a probability ν, the functional F↦∫_X Σ_{γ∈Γ}F(xγ) dν(xΓ) on compactly supported continuous F on G is positive and left invariant. By the Riesz representation (Mathlib `RealRMK.integral_rieszMeasure`) and uniqueness of Haar measure (Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) it is c·λ for some c≥0. Every compactly supported continuous function on X is such a periodization, and Mathlib `QuotientGroup.integral_eq_integral_automorphize` evaluates c as 1/λ(F). Finite Borel measures on the second countable locally compact space X are regular, so agreement on compactly supported continuous functions gives equality. Countably many right Γ-translates of F cover G, which gives λ(F)>0; fundamental domains have equal measure (Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`).
+
+**Checks.**
+
+- The trivial subgroup of a noncompact G is discrete but not a lattice: an invariant probability on G would be a finite Haar measure.
+
+*Needs:* §4.9a (topology of the quotient); Mathlib `RealRMK.integral_rieszMeasure`; Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`; Mathlib `QuotientGroup.integral_eq_integral_automorphize`; Mathlib `MeasureTheory.IsFundamentalDomain.measure_eq`.
+
+Prove `lattice_quotient_ergodic`. For a lattice with its invariant probability μ, the left action of G on (X,μ) is ergodic in the sense of Mathlib `ErgodicSMul`: a Borel set that is μ-almost invariant under every left translation is null or conull. ([Morris2015](#references) §§11.1–11.2, pp.213–220.)
+
+Pull the set back to a right-Γ-invariant Borel set S⊆G. By the null-set comparison, λ(gS △ S)=0 for every g. Fubini on G×G shows that 1_S(g⁻¹h)=1_S(h) for λ×λ-almost every (g,h). For a good h₀, the function g↦1_S(g⁻¹h₀) is then almost everywhere constant. That function is the indicator of h₀S⁻¹, and inversion preserves Haar-null sets (Mathlib `MeasureTheory.inv_absolutelyContinuous` and `MeasureTheory.absolutelyContinuous_inv`), so S is null or conull.
+
+*Needs:* `lattice_invariant_probability_unique`; Mathlib `ErgodicSMul`; Mathlib `MeasureTheory.inv_absolutelyContinuous`; Mathlib `MeasureTheory.absolutelyContinuous_inv`.
+
+**Koopman representations.** For a lattice with invariant probability μ, define the Koopman representation of G on L²(X,μ;ℂ) by π(g)f=f∘(g⁻¹·), through Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`. Prove that it is a unitary `ContRepresentation` with π(gh)=π(g)π(h), and that it is strongly continuous. Its constants are fixed, and their orthogonal complement L²₀, the kernel of f↦∫f dμ, is invariant. Prove that L²₀ has no nonzero G-fixed vector. ([Morris2015](#references) Example 11.1.3, p.214, and §§11.1–11.2, pp.213–220; [Ciobotaru2014](#references) Definition 2.2, p.3.)
+
+Strong continuity is Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous` for the continuous family x↦g⁻¹·x, since a finite Borel measure on X is inner regular and locally finite. A G-fixed vector f satisfies f∘(g·)=f μ-almost everywhere for each g. The superlevel sets of its real and imaginary parts are then almost invariant, and `lattice_quotient_ergodic` makes f almost everywhere constant, hence zero in L²₀.
+
+**Checks.**
+
+- On a probability space the constant 1 has norm one and is not in L²₀. On a one-point quotient L²₀ is zero.
+
+*Needs:* `lattice_quotient_ergodic`; Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`; Mathlib `MeasureTheory.Lp.compMeasurePreserving_continuous`.
+
+Prove `howe_moore_of_cartan`. Let K≤G be a compact subgroup and A⁺⊆G a set of pairwise commuting elements with G=KA⁺K. For a sequence a=(a_j), its contraction group is U⁺(a)={u: a_j⁻¹ua_j→1} and its opposite contraction group is U⁻(a)={u: a_jua_j⁻¹→1}. Assume that every sequence in A⁺ leaving every compact set has a subsequence a for which U⁺(a)∪U⁻(a) generates a dense subgroup of G. Then every coefficient of every strongly continuous unitary representation of G without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) Theorems 1.1 and 3.2, pp.2, 9; Definition 2.11, Lemmas 2.12–2.13 and 3.1, pp.6–8.)
+
+One route follows Ciobotaru's proof.
+
+1. The closed span of π(G)v∪π(G)w is invariant and, since G is second countable, separable. Restricting to it keeps every hypothesis.
+2. In a separable Hilbert space, a diagonal argument over a countable dense set gives every sequence of commuting unitary operators a subsequence converging in the weak operator topology. The coefficients are bounded by Tau Ceti `ContRepresentation.IsUnitary.norm_inner_map_le`. The limit E is a normal contraction ([Ciobotaru2014](#references) Lemma 3.1).
+3. Mautner's argument: if a_j⁻¹ua_j→1, then π(a_j)(π(a_j⁻¹ua_j)x−x)→0 in norm, so π(u)E=E. Symmetrically Eπ(u)=E for u in U⁻(a). Hence the range of E is U⁺(a)-fixed and the range of E* is U⁻(a)-fixed. Normality identifies the ranges of EE* and E*E, so their vectors are fixed by a dense subgroup and, by strong continuity, by G. Therefore E=0.
+4. For g_n leaving compact sets write g_n=k_na_nk′_n. Since K is compact, a_n leaves compact sets. Pass to a subsequence with k_n→k and k′_n→k′ along which step 3 applies. Then π(k′_n)v→π(k′)v in norm, and the coefficient tends to ⟪Eπ(k′)v,π(k)⁻¹w⟫=0.
+5. Every subsequence has a further subsequence along which the coefficient tends to 0, and `cocompact G` has a countable basis, so the coefficient vanishes at infinity.
+
+**Checks.**
+
+- For G=ℝ, K={0} and A⁺=ℝ, the character t↦exp(it) on ℂ has no nonzero invariant vector, yet its coefficient has modulus one. Every contraction group is trivial there, so the generation hypothesis fails.
+- The constant 1 in L²(X,μ) has coefficient 1 at every g. The theorem is applied to L²₀.
+- On the zero Hilbert space every coefficient is zero.
+
+*Needs:* §4.9a (Koopman representations); Tau Ceti `ContRepresentation.IsUnitary.continuous_apply_prod`; Tau Ceti `ContRepresentation.IsUnitary.norm_inner_map_le`; Mathlib `ContRepresentation.invariants`.
+
+**Cartan involutions of semisimple groups with finite centre.** Let L be a connected real Lie group in the setting of RepresentationTheory/LieGroups (model I, `LieGroup I ∞ L`) whose Lie algebra `LeftInvariantDerivation I L` is semisimple and whose centre is finite. Construct a Cartan involution datum for L in the sense of RepresentationTheory/LieGroups Layer 9 (`CartanInvolution`), so that L is real reductive there. ([Knapp2002](#references) Chapter VI, §§1–3.)
+
+A compact real form of the complexified Lie algebra, chosen stable under complex conjugation, gives a Cartan involution θ of the Lie algebra. Take the compact real form from RepresentationTheory/LieGroups Layer 7, applied to the adjoint group. Write 𝔨 and 𝔭 for the +1 and −1 eigenspaces of θ, and K for the connected subgroup with Lie algebra 𝔨. Polar decomposition in the linear group Ad(L) gives L=K·lieExp(𝔭), with (k,X)↦k·lieExp X a diffeomorphism from K×𝔭. The map k·lieExp X↦k·lieExp(−X) is then a smooth involutive automorphism with fixed group K. K contains the centre and has compact image in Ad(L), so K is compact because the centre is finite.
+
+*Needs:* RepresentationTheory/LieGroups Layers 3–4, 7 and 9.
+
+Prove `howe_moore`. Let L be a connected real Lie group in the setting of RepresentationTheory/LieGroups, Hausdorff and second countable, with finite centre and simple Lie algebra `LeftInvariantDerivation I L`. Every coefficient of every strongly continuous unitary representation of L on a complex Hilbert space without nonzero invariant vector vanishes at infinity. ([Ciobotaru2014](#references) §4.1, Lemma 4.2, pp.9–10.)
+
+Verify the hypotheses of `howe_moore_of_cartan`. The preceding target and `kakDecomposition` of RepresentationTheory/LieGroups Layer 9 give L=K·A⁺·K, with K compact and A⁺ the image under `lieExp` of the closed positive chamber in the abelian subspace 𝔞. Let a_j=lieExp(H_j) leave compact sets with H_j in the closed chamber. Restricted roots span the dual of 𝔞, so after passing to a subsequence the set Φ_∞ of positive restricted roots α with α(H_j)→∞ is nonempty, and every other positive root stays bounded. Since Ad(a_j⁻¹) multiplies 𝔤_α by exp(−α(H_j)), lieExp(𝔤_α)⊆U⁺(a) and lieExp(𝔤_{−α})⊆U⁻(a) for α∈Φ_∞. The bounded roots and 𝔤₀ span a subalgebra 𝔩 normalizing 𝔫_∞=⊕_{α∈Φ_∞}𝔤_α and its opposite 𝔫_∞⁻. Since 𝔤=𝔫_∞⁻⊕𝔩⊕𝔫_∞, the subalgebra generated by 𝔫_∞ and 𝔫_∞⁻ is a nonzero ideal, hence all of 𝔤. The subgroup generated by lieExp(𝔫_∞)∪lieExp(𝔫_∞⁻) therefore contains a neighbourhood of 1. It is open, hence L.
+
+*Needs:* `howe_moore_of_cartan`; §4.9a (Cartan involutions of semisimple groups with finite centre); RepresentationTheory/LieGroups Layers 1–4 and 9 (`lieExp`, `Ad`, the subgroup–subalgebra correspondence, `kakDecomposition` and the restricted root system).
+
+Prove `moore_ergodicity`. For L as in `howe_moore`, a lattice Γ≤L with invariant probability μ on L/Γ, and a closed noncompact subgroup S≤L, the restricted action of S on (L/Γ,μ) is ergodic. ([Morris2015](#references) §14.2, pp.289–292.)
+
+Let E be S-almost invariant. Then 1_E−μ(E) is an S-fixed vector of the Koopman representation in L²₀. Since S is closed and noncompact in the second countable locally compact L, some sequence s_j in S leaves every compact subset of L. The coefficient of f=1_E−μ(E) with itself equals ‖f‖² at every s_j, while `howe_moore` on L²₀ makes it tend to 0. So f=0 and μ(E)∈{0,1}.
+
+**Checks.**
+
+- A compact subgroup does not satisfy the hypothesis. In SL₂(ℝ)/SL₂(ℤ) the orbits of SO(2) are the fibres over the modular surface, so nonconstant SO(2)-invariant functions exist.
+
+*Needs:* `howe_moore`; §4.9a (Koopman representations); `lattice_quotient_ergodic`.
+
+### 4.9b The modular lattice and Mahler's criterion
+
+Here G=SL₂(ℝ) with its matrix topology (the native alias `homogeneousGroupTopology`), Γ=SL₂(ℤ) embedded entrywise, and X=G/Γ with the Borel σ-algebra of the quotient topology (`homogeneousQuotientMeasurableSpace`). Write n_x=[[1,x],[0,1]], d_y=diag(√y,1/√y) for y>0, k_θ for rotation by θ, and a_t=diag(exp t,exp(−t)). G acts on Mathlib's upper half-plane by Möbius transformations.
+
+Prove `modularLattice_discrete`. Γ is a discrete subgroup of G.
+
+The entrywise embedding is continuous. Distinct integer matrices lie at entrywise distance at least one, so Γ is discrete, and therefore closed.
+
+*Needs:* Mathlib `Matrix.SpecialLinearGroup.map`.
+
+**Iwasawa coordinates and Haar measure.** The map (x,y,θ)↦n_xd_yk_θ from ℝ×(0,∞)×[0,2π) to G is a Borel bijection with (n_xd_yk_θ)·i=x+iy. The image of y⁻²dx dy dθ is a Haar measure of G, both left and right invariant. ([Knapp2002](#references) Chapter VIII, §3.)
+
+For g∈G put g·i=x+iy. Then (n_xd_y)⁻¹g fixes i and is a rotation. Left translation by n_b shifts x, left translation by d_c scales (x,y) by c, preserving y⁻²dx dy, and right translation by k_φ shifts θ. G equals its commutator subgroup, so its modular character, a continuous homomorphism to the positive reals, is trivial. Hence a Haar measure and the image measure are both invariant under the simply transitive action of the group of upper triangular matrices with positive diagonal (by left translation) times SO(2) (by right translation). By uniqueness of Haar measure on that product group they are proportional.
+
+*Needs:* Mathlib `UpperHalfPlane`; Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`.
+
+Prove `modularQuotient_existsUnique_invariant`. X carries exactly one Borel probability preserved by every left translation. In particular Γ is a lattice in G. ([Milne2017](#references) Theorem 3.3(a), pp.33–34, for SL₂ over ℚ.)
+
+Every point of the upper half-plane has a Γ-translate in the standard domain `ModularGroup.fd` (Mathlib `ModularGroup.exists_smul_mem_fd`). On that domain |Re z|≤1/2 and |z|≥1, so Im z≥√3/2. Thus the Siegel set Σ={n_xd_yk_θ: |x|≤1/2, y≥√3/2} satisfies ΓΣ=G, and its Haar mass in Iwasawa coordinates is finite. Inversion preserves the bi-invariant Haar measure and gives Σ⁻¹Γ=G. Take a Borel fundamental domain F of the right Γ-action (Tau Ceti `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`). Split F along the cover by the translates Σ⁻¹γ and move each piece back into Σ⁻¹ by right translation; the moved pieces are disjoint, so λ(F)≤λ(Σ⁻¹)<∞. Normalizing the image of Haar measure restricted to F gives an invariant probability (Mathlib `MeasureTheory.QuotientMeasureEqMeasurePreimage.smulInvariantMeasure_quotient`). Uniqueness is `lattice_invariant_probability_unique`.
+
+**Checks.**
+
+- G is noncompact, so its Haar measure is infinite and the trivial subgroup is not a lattice. The finiteness comes from the cusp integral ∫_{y≥√3/2}y⁻²dy.
+
+*Needs:* `modularLattice_discrete`; §4.9b (Iwasawa coordinates and Haar measure); `lattice_invariant_probability_unique`; Tau Ceti `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; Mathlib `ModularGroup.fd`; Mathlib `ModularGroup.exists_smul_mem_fd`; Mathlib `MeasureTheory.QuotientMeasureEqMeasurePreimage.smulInvariantMeasure_quotient`.
+
+Prove `modular_timeOne_mixing`. For the invariant probability μ on X, the time-one map S(z)=a_1·z satisfies `IsStrongMixing`. ([Ciobotaru2014](#references) Theorem 1.1, p.2; [Morris2015](#references) §§11.1–11.2, pp.213–220.)
+
+Apply `howe_moore_of_cartan` with K=SO(2) and A⁺={a_t: t≥0}. The decomposition G=KA⁺K is the singular value decomposition of a determinant-one matrix. If t_j→∞, then a_{t_j}⁻¹n_xa_{t_j}=n_{exp(−2t_j)x}→1, and similarly for lower unipotent matrices, so U⁺ and U⁻ contain the upper and lower unipotent groups. These generate G: a matrix [[a,b],[c,d]] with c≠0 equals n_{(a−1)/c}·[[1,0],[c,1]]·n_{(d−1)/c}, and the case c=0 reduces to this one after one lower unipotent factor. By the Koopman target, L²₀(μ) has no nonzero G-fixed vector, so its coefficients along a_n=a_1ⁿ, which leave compact sets, tend to 0. For Borel A,B, the defect μ(A∩S⁻ⁿB)−μ(A)μ(B) is such a coefficient of the mean-zero parts of 1_A and 1_B.
+
+**Checks.**
+
+- The identity transformation is excluded: a_1 has diagonal entries e and e⁻¹. Mixing of the time-one map follows from the theorem, rather than being a hypothesis.
+
+*Needs:* `howe_moore_of_cartan`; §4.9a (Koopman representations); `modularQuotient_existsUnique_invariant`; §4.6 (`IsStrongMixing`).
+
+Prove `mahler_relativelyCompact_iff`. For every n, let Γ_n=SL_n(ℤ) be the integral subgroup of G_n=SL_n(ℝ), and identify gΓ_n with the unimodular column lattice gℤⁿ. Its first minimum m(gΓ_n)=min_{z∈ℤⁿ∖0}‖gz‖ uses the max norm on ℝⁿ (Mathlib's norm on `Fin n → ℝ`) and does not depend on the representative. A subset A of G_n/Γ_n has compact closure exactly when some ε>0 bounds m from below on A. In particular, for each ε>0 the set of classes with m≥ε is compact. ([Benoist2019](#references) Fact 1.5, physical p.7; [Mahler1946](#references) §7, Theorem 8, printed p.159.)
+
+On a compact neighbourhood C of g, ‖hz‖≥‖z‖/sup_C‖h⁻¹‖ for h∈C. So the minimum runs over finitely many z and is continuous; it is positive and right-Γ_n-invariant, and so descends to X_n. Compact closure therefore gives a positive lower bound. Conversely, let L=gℤⁿ have covolume one and first minimum at least ε. Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`, for the cube [−1,1]ⁿ of volume 2ⁿ, gives λ₁⋯λ_n≤1, so λ_n≤ε^{1−n}. Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin` and `ZLattice.exists_basis_gauge_le_max_one_mul` give a ℤ-basis of L with max norms at most nε^{1−n}. After negating one vector if necessary, its matrix h lies in G_n and hℤⁿ=L, so h⁻¹g∈Γ_n and hΓ_n=gΓ_n. These h form a closed bounded, hence compact, subset of G_n, whose image is compact. It contains A, and X_n is Hausdorff because Γ_n is discrete by the entrywise argument of `modularLattice_discrete`.
+
+**Checks.**
+
+- For n=2 the classes of a_t have first minimum exp(−t)→0, so they leave every compact set. The identity class has first minimum one, so every sublevel with 0<ε≤1 is nonempty.
+- A nonclosed set with a uniform bound has compact closure but need not be compact.
+
+*Needs:* §4.9a (topology of the quotient); `modularLattice_discrete`; Tau Ceti `ZLattice.prod_successiveMin_le_covolume_of_two_pow_finrank_le`; Tau Ceti `ZLattice.exists_linearIndependent_gauge_eq_successiveMin`; Tau Ceti `ZLattice.exists_basis_gauge_le_max_one_mul`.
+
 ### 4.10 Modular homogeneous-space consumers
 
 Prove bounded_partial_denominators_iff_badlyApproximable. For irrational 0<x<1, the native partial denominators of GenContFract.of x are bounded if and only if BadlyApproximable x from DiophantineApproximationAndTranscendence §0.6. Use the native upper convergent error and the lower bound 1/(q_n(q_n+q_(n+1))), with q_(n+1)=a_(n+1)q_n+q_(n−1); Legendre’s criterion reduces sufficiently close rationals to convergents. The characterization is Smyth2020, Lesson 10, §2.5, Exercise 2.20, physical p.55 (printed Lesson 10, p.52); Theorems 25, 27 and 29 provide the convergent-error and Legendre inputs. The supplier’s §0.5 supplies the stated convergent-error inequalities on the native carrier.
@@ -6187,7 +6316,7 @@ Prove bounded_partial_denominators_iff_badlyApproximable. For irrational 0<x<1, 
 
 *Needs:* DiophantineApproximationAndTranscendence §§0.5–0.6; §4.5 native-stream comparison and native denominators.
 
-Translate the row-lattice source convention to column lattices and positive time. The Diophantine/short-vector comparison combines with DiophantineApproximationAndTranscendence §0.6 and GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and AdelicAlgebraicGroups AA.2–AA.3; Haar-typical pointwise averages on the quotient are a distinct assertion from Lebesgue-typical behavior on one horocycle.
+Translate the row-lattice source convention to column lattices and positive time. The Diophantine/short-vector comparison combines with DiophantineApproximationAndTranscendence §0.6 and §§4.9a–4.9b; Haar-typical pointwise averages on the quotient are a distinct assertion from Lebesgue-typical behavior on one horocycle.
 
 **Row/column and diagonal-time comparison**. Transpose identifies the source’s row-lattice class Γg in
 Γ\SL(2,real) with gᵀΓ in SL(2,real)/Γ. The row lattice {(p+xq,q)} uses g=u_xᵀ, and right multiplication by
@@ -6199,7 +6328,7 @@ Transpose reverses multiplication and sends the integer subgroup to itself, so i
 conventions. Check the row basis and the two diagonal entries explicitly. The induced homeomorphism preserves
 relative compactness.
 
-*Needs:* AdelicAlgebraicGroups AA.2–AA.3; GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5; Mathlib `Matrix.SpecialLinearGroup`; Mathlib
+*Needs:* §4.9b (the modular lattice and Mahler's criterion); Mathlib `Matrix.SpecialLinearGroup`; Mathlib
 `Matrix.SpecialLinearGroup.map`; Mathlib `QuotientGroup.mk`; Mathlib `QuotientGroup.instTopologicalSpace`;
 Mathlib `borel`.
 
@@ -6220,14 +6349,13 @@ Choose p=−round(qx) and t=log(2q/δ)≥0. The second coordinate has absolute v
 absolute value at least δ. Use exp t=2q/δ and rearrange.
 
 Prove `homogeneous_birkhoff`. Let G=SL(2, real), Γ=SL(2, integer) embedded entrywise, X=G/Γ with its quotient
-Borel structure (the native aliases `homogeneousGroupTopology` and `homogeneousQuotientMeasurableSpace`), μ the normalized G-invariant Haar probability, a_t=diag(exp t, exp(-t)), and S(gΓ)=a_1 gΓ.
+Borel structure (the native aliases `homogeneousGroupTopology` and `homogeneousQuotientMeasurableSpace`), μ the G-invariant probability of `modularQuotient_existsUnique_invariant`, a_t=diag(exp t, exp(-t)), and S(gΓ)=a_1 gΓ.
 For every μ-integrable real f, native Birkhoff averages of S converge μ-almost everywhere to ∫f dμ.
-([Sarig2023](#references) Theorem 2.2, printed p.37, physical p.45; §4.1 here and GeometryOfNumbersAndQuadraticArithmetic §4.2.1 give the pointwise and time-one ergodicity inputs.)
+([Sarig2023](#references) Theorem 2.2, printed p.37, physical p.45; §4.1 and `modular_timeOne_mixing` give the pointwise and time-one ergodicity inputs.)
 
-Consume AdelicAlgebraicGroups AA.2–AA.3 for the quotient, lattice, normalized measure and left action. The
-subgroup {a_t:t∈real} is closed and noncompact; to conclude time-one ergodicity use the stronger GeometryOfNumbersAndQuadraticArithmetic §4.2.1
-Howe–Moore mixing restriction, since continuous-flow ergodicity alone does not imply time-one ergodicity.
-Apply the pointwise ergodic theorem to S and f.
+The quotient, its invariant probability and the left action are those of §4.9b. Ergodicity of the continuous
+flow {a_t:t∈real} alone does not give ergodicity of its time-one map, so use `modular_timeOne_mixing`; mixing
+implies ergodicity (§4.6). Apply `birkhoff_pointwise_ergodic` to S and f.
 
 **Checks.**
 
@@ -6235,12 +6363,12 @@ Apply the pointwise ergodic theorem to S and f.
 
 - For f=1, every nonempty time-one average and the Haar integral equal 1. At N=0 the totalized average is 0, which does not affect the limit.
 
-- The identity transformation is excluded by a₁=diag(e,e⁻¹): its first diagonal entry 1 differs from e. Time-one mixing follows from Howe–Moore, rather than being an extra hypothesis.
+- The identity transformation is excluded by a₁=diag(e,e⁻¹): its first diagonal entry 1 differs from e. Time-one mixing follows from `modular_timeOne_mixing`, rather than being an extra hypothesis.
 
 - This is Haar-almost-everywhere on X. It makes no assertion about every point u_xΓ or Lebesgue-almost-everywhere on a single horocycle.
 
-*Needs:* AdelicAlgebraicGroups AA.2–AA.3; §4.1 (pointwise averages, truncated limsups and first hits);
-GeometryOfNumbersAndQuadraticArithmetic §4.2.1 howe_moore along a₁ⁿ; Mathlib `Matrix.SpecialLinearGroup`; Mathlib
+*Needs:* §4.9b (`modularQuotient_existsUnique_invariant`, `modular_timeOne_mixing`); §4.6 (mixing implies ergodicity);
+§4.1 (pointwise averages, truncated limsups and first hits); Mathlib `Matrix.SpecialLinearGroup`; Mathlib
 `Matrix.SpecialLinearGroup.map`; Mathlib `QuotientGroup.mk`; Mathlib `QuotientGroup.instTopologicalSpace`;
 Mathlib `borel`.
 
@@ -6249,7 +6377,7 @@ t,exp(-t)). There exists B∈natural with every Gauss digit a_n(x)≤B if and on
 SL(2,real)/SL(2,integer) of {a_t u_x Γ:t≥0} is compact. ([Gorodnik2010](#references) Lecture 1, physical
 pp.3–8, bounded geodesics and lattices.)
 
-Apply bounded_partial_denominators_iff_badlyApproximable and the native-stream comparison, retaining irrationality. Use the two explicit short-vector estimates and GeometryOfNumbersAndQuadraticArithmetic §4.5 Mahler compactness
+Apply bounded_partial_denominators_iff_badlyApproximable and the native-stream comparison, retaining irrationality. Use the two explicit short-vector estimates and `mahler_relativelyCompact_iff` for n=2 (§4.9b)
 to obtain the diagonal-semiorbit criterion. Translate the source’s row-vector Γ\G convention by transpose and
 use source time s=2t.
 
@@ -6257,8 +6385,7 @@ use source time s=2t.
 
 - The rational x=0 has the short vector (0,exp(-t)) and an unbounded orbit; irrationality is essential.
 
-*Needs:* DiophantineApproximationAndTranscendence §0.6; GeometryOfNumbersAndQuadraticArithmetic /
-§4.5 Mahler compactness; §4.10 (modular homogeneous-space consumers); Mathlib `Matrix.SpecialLinearGroup`;
+*Needs:* DiophantineApproximationAndTranscendence §0.6; §4.9b (Mahler's criterion); §4.10 (modular homogeneous-space consumers); Mathlib `Matrix.SpecialLinearGroup`;
 Mathlib `Matrix.SpecialLinearGroup.map`; Mathlib `QuotientGroup.mk`; Mathlib
 `QuotientGroup.instTopologicalSpace`; Mathlib `borel`.
 
@@ -6325,7 +6452,8 @@ and forward/reverse martingale convergence. Gauss words use native continued fra
 finite matrices; logarithmic integrals use native power series and reciprocal-square sums.
 The quantitative transfer proof uses C1 functions on the closed unit interval and explicit
 uniform majorants, without a spectral-gap hypothesis. Homogeneous applications consume DiophantineApproximationAndTranscendence §0.6
-and GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and AdelicAlgebraicGroups AA.2–AA.3 exactly as specified above. The generic pointwise proof uses no digit normality.
+and the lattice-quotient, Howe–Moore and Mahler targets of §§4.9a–4.9b, which rest on Mathlib quotient measures, Tau Ceti's
+Minkowski second theorem and reduced bases, and, for general simple Lie groups, RepresentationTheory/LieGroups. The generic pointwise proof uses no digit normality.
 
 ## Layer 5: Short intervals, logarithmic correlations and random models
 
@@ -6446,6 +6574,29 @@ One route uses restricted dirichlet-polynomial mean square, the Parseval short-i
 
 *Needs:* §5.1 (inclusive short intervals and prime-block restrictions); AnalyticNumberTheoryPartI §§3.18, 3.33;
 AnalyticNumberTheoryPartI §1.5; restricted dirichlet-polynomial mean square; stability of real multiplicative long means.
+
+### 5.1a Finite-label entropy
+
+For a probability space (Ω,μ) and a measurable label X:Ω→A into a finite type with its discrete σ-algebra, define `labelEntropy` μ X=Σ_a negMulLog(μ(X=a)), with Mathlib `Real.negMulLog`, natural logarithms and zero contribution from values of mass zero. For a second such label Y:Ω→B define `condLabelEntropy` μ X Y=Σ_{a,b}p_{ab}log(p_b/p_{ab}), where p_{ab}=μ(X=a,Y=b) and p_b=μ(Y=b). Cells of mass zero contribute zero under Mathlib's conventions for log 0 and division by zero. No standard-Borel or countable-generation hypothesis is placed on Ω. ([TaoLogChowla](#references) §3, (3.1)–(3.5), p.19.)
+
+Prove `labelEntropy_pair_eq_add`, the chain rule H((X,Y))=H(Y)+H(X|Y) for the joint label ω↦(X ω,Y ω).
+
+On cells of positive mass write −log p_{ab}=−log p_b+log(p_b/p_{ab}). Sum over a, using Σ_a p_{ab}=p_b from finite additivity over the measurable partition by values of X.
+
+Prove `labelEntropy_nonneg_le_log_card`. For nonempty A, 0≤H(X)≤log|A|.
+
+Each summand is nonnegative on [0,1] (Mathlib `Real.negMulLog_nonneg`). The upper bound is Jensen's inequality for the concave `Real.negMulLog` (Mathlib `Real.concaveOn_negMulLog`) at the uniform average, using Σ_a μ(X=a)=1.
+
+Prove `labelEntropy_pair_of_indepFun`. If X and Y are independent (Mathlib `ProbabilityTheory.IndepFun`), then H((X,Y))=H(X)+H(Y).
+
+Independence gives p_{ab}=p_ap_b. Apply Mathlib `Real.negMulLog_mul` and sum, using Σ_a p_a=Σ_b p_b=1.
+
+**Checks.**
+
+- A constant label has entropy 0. A fair bit has entropy log 2, not the base-two value 1. Enlarging A by an unused value leaves the entropy unchanged.
+- A label conditioned on itself has conditional entropy 0, and the chain rule then reads H((X,X))=H(X).
+
+*Needs:* Mathlib `Real.negMulLog`; Mathlib `Real.negMulLog_nonneg`; Mathlib `Real.negMulLog_mul`; Mathlib `Real.concaveOn_negMulLog`; Mathlib `ProbabilityTheory.IndepFun`; native finite sums.
 
 ### 5.2 Harmonic two-point averages
 
@@ -6576,11 +6727,11 @@ After the affine-invariance transport this gives sup_α `E|Σ_{j=1}^H` f(an+j)e(
 
 *Needs:* AnalyticNumberTheoryPartI §1.5 mean squares and §3.33 Halász; the finite character/height hypothesis and scale hierarchy in this section.
 
-For a probability space (Ω,μ) and measurable labels X:Ω→A and Y:Ω→B into finite nonempty alphabets with discrete σ-algebras, write H(X)=`finitePartitionEntropy` μ X, and H(X|Y) for the finite value of `conditionalPartitionEntropy` μ X Y from GeometryOfNumbersAndQuadraticArithmetic §4.2. Define finiteMutualInformation μ X Y as H(X)+H(Y)−H((X,Y)), a real number. This construction uses the same label maps and joint-label entropy as the supplier. ([TaoLogChowla](#references), §3, (3.1)–(3.5) and Remark 3.1, p.19.)
+For a probability space (Ω,μ) and measurable labels X:Ω→A and Y:Ω→B into finite nonempty alphabets with discrete σ-algebras, write H(X)=`labelEntropy` μ X and H(X|Y)=`condLabelEntropy` μ X Y from §5.1a. Define finiteMutualInformation μ X Y as H(X)+H(Y)−H((X,Y)), a real number, where (X,Y) is the joint label ω↦(X ω,Y ω). ([TaoLogChowla](#references), §3, (3.1)–(3.5) and Remark 3.1, p.19.)
 
 Its basic API has the following statements for those probability and measurability hypotheses.
 
-- Mutual information is symmetric and equals H(X)−H(X|Y), by the supplied joint-label chain rule.
+- Mutual information is symmetric and equals H(X)−H(X|Y), by the chain rule `labelEntropy_pair_eq_add`.
 - Mutual information is nonnegative: applying `Real.concaveOn_negMulLog` to the mixture of conditional laws gives H(X|Y)≤H(X).
 - Independent labels have mutual information zero; a label paired with itself has mutual information H(X).
 
@@ -6591,11 +6742,11 @@ Its basic API has the following statements for those probability and measurabili
 - A fair bit paired with itself has H((X,X))=log 2 and H(X|X)=0, so I(X,X)=log 2; replacing mutual information by joint entropy would fail the independent-bit check.
 - Adding an unused third label contributes 0 log 0=0 and keeps H(X)=log 2. Natural logarithms give log 2, not the base-two value 1.
 
-*Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.2, “Entropy and Haar measure on leaves”, finite and conditional label entropies; native finite sums and Mathlib `Real.concaveOn_negMulLog` in `Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`, line 227.
+*Needs:* §5.1a (finite-label entropy); native finite sums and Mathlib `Real.concaveOn_negMulLog` in `Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`, line 227.
 
 Prove entropy_decrement_scale. Let f,g be the unit-circle completely multiplicative functions in the reduction. For p in P_H={p prime:ε²H/2≤p≤ε²H}, put `M_H=∏_{p∈P_H}p`. Let Y_H=n mod M_H and X_H be the pair of length-H blocks (f(an+j),g(an+j)), quantized on the ε² square mesh by fixed nearest-point choices. Then some integer H∈[H₋,H₊] divisible by a satisfies
 `I(X_H,Y_H) ≤ H/(log H·log log log H)`.
-All logarithms in this denominator are positive by choosing H₋>exp(exp(exp 1)). Use GeometryOfNumbersAndQuadraticArithmetic §4.2’s finite chain rule and alphabet bound, giving H(X_H)=O_ε(H), and approximate affine invariance to prove entropy-rate subadditivity with the mutual-information decrement; iterate that inequality over the finite scale interval. (TaoLogChowla, Lemma 3.2, (3.12), pp.21–22.)
+All logarithms in this denominator are positive by choosing H₋>exp(exp(exp 1)). Use the chain rule and alphabet bound of §5.1a, giving H(X_H)=O_ε(H), and approximate affine invariance to prove entropy-rate subadditivity with the mutual-information decrement; iterate that inequality over the finite scale interval. (TaoLogChowla, Lemma 3.2, (3.12), pp.21–22.)
 
 Prove entropy_decoupling. Define F_H(X,y) as `Σ_{p∈P_H}c_p` `Σ_{1≤j,j+ph≤H}1_{ay+j≡pb (ap)}X_(1,j)X_(2,j+ph)`, where c_p=conj(f(p)g(p)); thus c_p f(pn)g(p(n+h))=f(n)g(n+h) for positive n,n+h. At the selected scale,
 `|E F_H(X_H,Y_H)−E_X [M_H⁻¹Σ_{y mod M_H}F_H(X,y)]| ≤ C_(a,h) ε²H/log H`.
@@ -6622,7 +6773,7 @@ The nonzero initial correlation gives the all-scale lower bound of Proposition 2
 
 - Independent blocks would give I=0 but are not assumed to model the actual arithmetic blocks.
 
-*Needs:* native finite probability, CRT and Fourier inversion; AnalyticNumberTheoryPartI §§0.19, 0.21, 1.5, 3.18, 3.33; modulated multiplicative short sums; prime fourier fourth moment; GeometryOfNumbersAndQuadraticArithmetic §4.2 finite entropy chain rule and alphabet bound; the mutual-information comparisons above.
+*Needs:* native finite probability, CRT and Fourier inversion; AnalyticNumberTheoryPartI §§0.19, 0.21, 1.5, 3.18, 3.33; modulated multiplicative short sums; prime fourier fourth moment; §5.1a chain rule and alphabet bound; the mutual-information comparisons above.
 
 Prove `logarithmic_elliott` (corrected logarithmic Elliott). For native complex multiplicative f,g bounded by 1, fixed positive
 slopes and distinct nonproportional linear forms, assume: for every fixed Dirichlet character χ and A≥1,
@@ -6797,13 +6948,13 @@ random-model identities and assert no deterministic Möbius or Liouville cancell
 
 AnalyticNumberTheoryPartI §§0.19, 0.21 supplies prime-block counts and products, §1.5 the unrestricted Dirichlet-polynomial mean square, and §§3.18, 3.33 pretentious distance and Halász estimates. The restricted-prime mean values, long-mean stability, uniform Liouville twists, modulated short sums and prime restriction fourth moment are the local targets of §§5.1–5.2; the growing-valuation comparison and divisor-bounded mean are §§0.13 and 3.7. The random-model
 construction uses native product probabilities and finite prime-factorization, with Layer 0
-as the finite-law interface. GeometryOfNumbersAndQuadraticArithmetic §4.2 supplies the finite entropy chain rule and alphabet bound for §5.2. No general Chowla or Sarnak conjecture is assumed as a theorem.
+as the finite-law interface. Section 5.1a supplies the finite entropy chain rule and alphabet bound for §5.2. No general Chowla or Sarnak conjecture is assumed as a theorem.
 
 ## Downstream consumers
 
-The foundational interface for ArithmeticDynamics §§2.6–2.7 consists of `birkhoff_pointwise` from §4.1, with its invariant conditional-expectation limit, and `birkhoff_pointwise_ergodic` from §4.1. The mutual-information comparisons in §5.2 apply to its finite partition labels through the shared entropy API. These comparisons depend only on finite probability and the entropy supplier, independently of entropy decrement and logarithmic Chowla.
+The foundational interface for ArithmeticDynamics §§2.6–2.7 consists of `birkhoff_pointwise` from §4.1, with its invariant conditional-expectation limit, and `birkhoff_pointwise_ergodic` from §4.1. The mutual-information comparisons in §5.2 apply to its finite partition labels through the finite-label entropies of §5.1a. These comparisons depend only on finite probability and §5.1a, independently of entropy decrement and logarithmic Chowla.
 
-Arithmetic applications may consume Hardy–Ramanujan and Erdős–Kac as probability-law statements, with the exact normalization and the ω/Ω transfer. Koymans–Pagano's restricted squarefree family consumes the separate conditional window estimate. Equidistribution applications use the native torus, character and subtorus interfaces; normal digits consume the pointwise theorem through the expanding-circle bridge. Metric approximation applications consume both the unrestricted and reduced limsup conventions and the precise power or general-gauge Hausdorff conclusion. Continued-fraction applications use the native denominators, the single digit indexing convention, the logarithmic constants and the explicit Gauss–Kuzmin rate. GeometryOfNumbersAndQuadraticArithmetic §§4.2, 4.5 and AdelicAlgebraicGroups AA.2–AA.3 supplies the generic homogeneous structures, and the local bounded_partial_denominators_iff_badlyApproximable supplies the bounded-digits characterization using the predicate from DiophantineApproximationAndTranscendence §0.6; the number-theoretic consumers remain in Layer 4. Multiplicative applications may use the proved short-interval and logarithmic estimates. Nilsequence orthogonality is outside this roadmap; neither ordinary Chowla cancellation nor general Sarnak orthogonality follows from the random-model identities.
+Arithmetic applications may consume Hardy–Ramanujan and Erdős–Kac as probability-law statements, with the exact normalization and the ω/Ω transfer. Koymans–Pagano's restricted squarefree family consumes the separate conditional window estimate. Equidistribution applications use the native torus, character and subtorus interfaces; normal digits consume the pointwise theorem through the expanding-circle bridge. Metric approximation applications consume both the unrestricted and reduced limsup conventions and the precise power or general-gauge Hausdorff conclusion. Continued-fraction applications use the native denominators, the single digit indexing convention, the logarithmic constants and the explicit Gauss–Kuzmin rate. Homogeneous applications use the lattice-quotient, Howe–Moore, Moore-ergodicity and Mahler targets of §§4.9a–4.9b, and the local bounded_partial_denominators_iff_badlyApproximable supplies the bounded-digits characterization using the predicate from DiophantineApproximationAndTranscendence §0.6; the number-theoretic consumers remain in Layer 4. Multiplicative applications may use the proved short-interval and logarithmic estimates. Nilsequence orthogonality is outside this roadmap; neither ordinary Chowla cancellation nor general Sarnak orthogonality follows from the random-model identities.
 
 ## References
 
@@ -6877,6 +7028,18 @@ The locators above use the linked author, preprint or published version. Page nu
 
 - **Sun2017** — Peng Sun, [A Generalization of Gauss-Kuzmin-Lévy Theorem](https://arxiv.org/pdf/1705.02921v2). arXiv:1705.02921v2, 9 November 2017; version of record Acta Mathematica Scientia 38(3) (2018), 965–972
 
+- **Ciobotaru2014** — Corina Ciobotaru, [A unified proof of the Howe–Moore property](https://arxiv.org/pdf/1403.0223v2). arXiv:1403.0223v2
+
+- **Morris2015** — Dave Witte Morris, [Introduction to Arithmetic Groups](https://arxiv.org/pdf/math/0106063v6). arXiv:math/0106063v6 (2015)
+
+- **Benoist2019** — Yves Benoist, [Arithmeticity of discrete subgroups](https://www.imo.universite-paris-saclay.fr/~yves.benoist/prepubli/19ArithmeticityLectures.pdf). Author lecture notes (2019)
+
+- **Mahler1946** — Kurt Mahler, [On lattice points in n-dimensional star bodies I. Existence theorems](https://carmamaths.org/resources/mahler/docs/090.pdf). Proc. Royal Society A 187 (1946), 151–187
+
+- **Milne2017** — J. S. Milne, [Introduction to Shimura varieties](https://www.jmilne.org/math/xnotes/svi.pdf). Author's 2017 revision of the Clay Mathematics Proceedings 4 article
+
+- **BHV2007** — Bachir Bekka, Pierre de la Harpe and Alain Valette, *Kazhdan's Property (T)*. Author manuscript (2007); locators use its pagination
+
 - **Gorodnik2010** — Alexander Gorodnik, [TIFR lectures on homogeneous dynamics, Lecture 1](https://www.math.uzh.ch/gorodnik/tifr/lecture1.pdf). Author course notes, Mumbai 2010, scanned lecture1.pdf
 
 - **Koukoulopoulos2019** — Dimitris Koukoulopoulos, *The Distribution of Prime Numbers*, 2019, Theorems 13.2 and 14.2 (p.145); cited by locator.
@@ -6885,4 +7048,5 @@ The locators above use the linked author, preprint or published version. Page nu
 - **Falconer1990** — Kenneth Falconer, *Fractal Geometry: Mathematical Foundations and Applications*, 1990, Proposition 1.7; cited by locator.
 - **PollingtonVaughan1990** — A. D. Pollington and R. C. Vaughan, *The k-dimensional Duffin and Schaeffer conjecture*, Mathematika 37 (1990), 190–200, DOI 10.1112/S0025579300012900, divergence theorem and proof; cited by locator.
 - **Rogozin1961a** — B. A. Rogozin, *An estimate of the concentration functions*, 1961, concentration inequality; cited by locator.
+- **Knapp2002** — Anthony W. Knapp, *Lie Groups Beyond an Introduction*, second edition, Birkhäuser, 2002; cited by chapter and section.
 - **Rogozin1961b** — B. A. Rogozin, *On the increase of dispersion of sums of independent random variables*, 1961, concentration inequality; cited by locator.
