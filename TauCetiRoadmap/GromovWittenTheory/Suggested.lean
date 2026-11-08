@@ -49,9 +49,10 @@ The Novikov grading `deg q^A = 2c₁(A)` is Tau Ceti's `TauCeti.NovikovSeries.gr
 degree map `2c₁`, whose first Chern class `c₁(TX, J)` is a CharacteristicClasses C3 carrier
 missing at the pin, as in the last item. The completed state module is Tau Ceti's
 `TauCeti.NovikovModule` in the coordinates of a homogeneous basis; its basis-free description, the
-independence and closedness of its homogeneous pieces and their convergent decomposition are
-README targets of Layer 0 with their Checks, and nothing is stated here as a stand-in for the
-headlines above.
+independence and closedness of the pieces `TauCeti.NovikovModule.gradeBy` over every ring for
+every potential and degree function, and the convergent decomposition of each element of the state
+module into homogeneous components are README targets of Layer 0 with their Checks, and nothing is
+stated here as a stand-in for the headlines above.
 -/
 
 namespace TauCetiRoadmap.GromovWittenTheory
