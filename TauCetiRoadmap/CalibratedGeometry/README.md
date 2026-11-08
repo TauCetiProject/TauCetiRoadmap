@@ -10,10 +10,11 @@ integration and variation APIs are built independently of the special Lagrangian
 
 The roadmap builds on Mathlib's continuous alternating maps, exterior powers with their Gram inner
 product, orthonormal families and `LinearMap.normDet`; on Tau Ceti's comass and mass of
-k-vectors, linear symplectic and almost complex structures, differential forms with their exterior
-derivative, pullback, integration and Hodge star, smooth singular simplices, pullback metrics,
-Riemannian volume forms, normal exponential maps, complex manifolds, Sobolev spaces and Campanato
-estimates; and on the Kähler and elliptic carriers of the roadmaps named in the supplier contracts.
+k-vectors, Stiefel manifolds and finite oriented Grassmannians, linear symplectic and almost
+complex structures, differential forms with their exterior derivative, pullback, integration and
+Hodge star, smooth singular simplices, pullback metrics, Riemannian volume forms, normal
+exponential maps, complex manifolds, Sobolev spaces and Campanato estimates; and on the
+second-variation, Kähler and elliptic carriers of the roadmaps named in the supplier contracts.
 Its end theorems are:
 
 - comass as a supremum over orthonormal frames equals the native operator norm, Tau Ceti's
@@ -46,8 +47,9 @@ with the Hodge Laplacian (Layer 6).
 - The orthonormal-frame form of comass on finite-dimensional real inner-product spaces and its
   identification with the native operator norm, the norm-determinant form of the frame volume,
   the upper bound in the comparison of comass with the exterior-power Hilbert norm, the oriented
-  Grassmannian and the smooth Stiefel manifold of a general inner-product space, equality planes,
-  and external products (Layer 1).
+  Grassmannian of a general finite-dimensional inner-product space as the SO(k) quotient of Tau
+  Ceti's Stiefel manifold, with its comparisons to the coordinate carriers, equality planes, and
+  external products (Layer 1).
 - Smooth calibrations, calibrated immersions and their volume; Stokes' theorem for smooth simplices
   and chains, the relative smoothing of singular simplices and the integral and real
   smooth-to-singular quasi-isomorphisms on Tau Ceti's smooth singular subcomplex; chain integration
@@ -66,8 +68,9 @@ with the Hodge Laplacian (Layer 6).
   class, the mean-curvature/phase identity in a Kähler ambient, and gradient graphs (Layer 5).
 - McLean's deformation theorem, the Hölder Hodge-projection bounds it needs, the C¹-to-Hölder
   regularity of nearby minimal graphs with its Legendre-system comparison, full-tensor energy and
-  excess decay and system Caccioppoli inequality, and the special Lagrangian second variation and
-  Jacobi operator (Layer 6).
+  excess decay and system Caccioppoli inequality, the special Lagrangian second-variation identity
+  for immersions, and the identification of RiemannianGeometry R5b's normal Jacobi operator of a
+  special Lagrangian with the Hodge Laplacian on one-forms (Layer 6).
 
 ### Owned elsewhere
 
@@ -98,8 +101,11 @@ with the Hodge Laplacian (Layer 6).
 - The Levi-Civita connection of a Riemannian manifold: Mathlib `leviCivitaConnection`. Curvature
   calculus and induced tensor connections: RiemannianGeometry R1. The normal bundle of an
   immersion, the second fundamental form, the normal connection, the C² relative-volume functional
-  and first variation: RiemannianGeometry R5a, R5a.1 and R5a.2. No general second-variation formula
-  is consumed.
+  and first variation: RiemannianGeometry R5a, R5a.1 and R5a.2. The polarized normal second
+  variation Q of a minimal immersion with its acceleration independence, stability (`Q(V,V) ≥ 0`
+  for every compactly supported normal field V), and the normal Jacobi operator with its
+  ellipticity and formal self-adjointness: RiemannianGeometry R5b. 3.2 consumes R5b's stability,
+  and 6.5 identifies R5b's Jacobi operator of a special Lagrangian with the Hodge Laplacian.
 - The normal exponential of a smooth embedding into a Riemannian manifold and the tubular
   neighbourhood theorem, as a smooth inverse of the normal exponential on a neighbourhood of the
   zero section inside any prescribed neighbourhood of the image, and as a diffeomorphism of the
@@ -118,9 +124,18 @@ with the Hodge Laplacian (Layer 6).
   local Campanato estimate, Morrey's Dirichlet growth theorem and the iteration lemma for decay
   estimates: Tau Ceti, by the names listed in the supplier contracts. Sobolev embeddings and
   interior non-divergence Schauder estimates: PDE 1.4 (A4) and 5.6 (E25).
-- The finite orientation double cover of the coordinate Grassmannian: CharacteristicClasses C1.1a,
-  on TopologicalKTheory T1.5's finite Grassmannians; the stable classifier comparisons belong to
-  TopologicalKTheory T1.6a.
+- The smooth Stiefel manifold of orthonormal k-frames of a finite-dimensional real inner-product
+  space E, a compact regular level set of the Gram map of dimension `k·dim E − (k+1)k/2`: Tau Ceti
+  `TauCeti.stiefel`. The finite coordinate Grassmannians with their frame-quotient topology, the
+  coordinate orthonormal frames and, in positive rank, the finite oriented Grassmannians with their
+  proper two-sheeted orientation-forgetting cover: Tau Ceti `TauCeti.finiteGrassmannian`,
+  `TauCeti.finiteOrthonormalFrame` and `TauCeti.finiteOrientedGrassmannian`, the carriers of
+  TopologicalKTheory T1.5 and CharacteristicClasses C1.1a. C1.1a's comparison of the oriented
+  cover with the SO(k) quotient of orthonormal frames and its rank-zero sign datum,
+  GeneralizedCohomology G4.0b's graph-chart smooth structure, and TopologicalKTheory T1.6a's
+  stable classifier comparisons belong to those roadmaps. 1.4 keeps the coordinate-free oriented
+  Grassmannian of a general E, its smooth quotient structure and its comparisons with these
+  carriers.
 - The Robbin–Salamon Maslov index of Lagrangian paths, and its comparison with the native loop
   invariant `TauCeti.TotallyRealLoop.maslovIndex` (the degree of the `det²` phase loop):
   HeegaardFloer F1.4. The phase class here is a different invariant (the cohomology class of the
@@ -239,6 +254,25 @@ with the Hodge Laplacian (Layer 6).
   (`ξ` pairs with the form of `η` to `⟪η, ξ⟫`), `exteriorPower.norm_formDualEquiv_ιMulti` (the
   mass of a wedge is its Gram norm), `exteriorPower.norm_le_norm_formDualEquiv` and
   `exteriorPower.norm_formDualEquiv_le` (`‖ξ‖ ≤ mass(ξ) ≤ sqrt(binomial(dim E, k))·‖ξ‖`).
+- Stiefel manifolds and finite Grassmannians: for a finite-dimensional real inner-product space
+  E, `TauCeti.stiefel E k` (`TauCeti/Geometry/Manifold/Instances/Stiefel.lean`), the level set of
+  the Gram map whose points are the orthonormal k-frames (`TauCeti.mem_stiefel_iff`), regular by
+  `TauCeti.gramSym2Deriv_surjective` (at an orthonormal frame v the derivative of the Gram map
+  sends the variation `vA/2` to the symmetric matrix A), of dimension `k·dim E − (k+1)k/2`
+  (`TauCeti.index_gramSym2Deriv`), compact (`TauCeti.isCompact_stiefel`), nonempty exactly when
+  `k ≤ dim E` (`TauCeti.nonempty_stiefel`), with the smooth manifold instance
+  `TauCeti.stiefel.instIsManifold`; `TauCeti.finiteGrassmannian ℝ k N`
+  (`TauCeti/Topology/Grassmannian/Basic.lean`), the k-dimensional subspaces of `Fin N → ℝ` with
+  the quotient topology of the frame-span map; `TauCeti.finiteOrthonormalFrame`
+  (`…/Grassmannian/Orthonormal.lean`), with the orthogonal-orbit description
+  `TauCeti.finiteGrassmannian.unitaryOrbitHomeomorph`; and, for positive rank only,
+  `TauCeti.finiteOrientedGrassmannian` (`…/Grassmannian/Oriented.lean`), the orientation double
+  cover of the tautological bundle, compact, whose orientation-forgetting map
+  `TauCeti.finiteOrientedGrassmannian.forget` is a covering
+  (`TauCeti.VectorBundleOrientationCover.isCoveringMap_proj`) and proper
+  (`TauCeti.VectorBundleOrientationCover.isProperMap_proj`), with deck involution
+  `TauCeti.VectorBundleOrientationCover.deck`. No smooth structure on the finite Grassmannians is
+  pinned.
 - Differential forms (`TauCeti/Geometry/Manifold/DifferentialForm/`): `TauCeti.RoughForm` (a
   pointwise continuous alternating map on each tangent space, no regularity assumed),
   `TauCeti.IsSmoothForm`, `TauCeti.mextDeriv` (computed in charts), `TauCeti.mpullback`,
@@ -314,10 +348,14 @@ comparison).
 ### From TauCetiRoadmap.RiemannianGeometry
 
 R1 (curvature calculus and the induced connections on tensor bundles), R5a (the normal bundle of
-an immersion, the second fundamental form B and the normal connection), R5a.1
-`volumeVariation_isContDiff` (C² dependence of the relative volume of a variation, on
-orientation-free densities, with one fixed compact variation support on noncompact sources), and
-R5a.2 (first variation and averaged mean curvature).
+an immersion, the second fundamental form B and the normal connection), R5a.1 (C² dependence of
+the relative volume of a variation, on orientation-free densities, with one fixed compact
+variation support on noncompact sources), R5a.2 (first variation and averaged mean curvature),
+and R5b (for a minimal immersion and compactly supported normal fields V and W, fixed near the
+boundary when there is one: the normal variation of V through the ambient exponential,
+acceleration independence at minimality, the polarized second-volume-variation formula Q, the
+normal Jacobi operator L with `Q(V,W) = ∫⟨LV, W⟩`, its ellipticity and formal self-adjointness,
+and stability, `Q(V,V) ≥ 0` for every such V).
 
 ### From TauCetiRoadmap.GeometricTopology
 
@@ -365,10 +403,11 @@ reductions) and B5 (holonomy); LieGroups Layer 2 (the closed-subgroup theorem).
 
 ### From TauCetiRoadmap.CharacteristicClasses, TopologicalKTheory and GeneralizedCohomology
 
-CharacteristicClasses C1.1a (the finite oriented cover of TopologicalKTheory T1.5's coordinate
-Grassmannian, with the rank-zero sign datum kept separate), TopologicalKTheory T1.5 (finite real
-Grassmannians and Stiefel quotients), GeneralizedCohomology G4.0b (the graph-chart smooth
-structure on those Grassmannians).
+CharacteristicClasses C1.1a (the finite oriented cover of the coordinate Grassmannian, which is
+Tau Ceti's `TauCeti.finiteOrientedGrassmannian`, and its comparison with the SO(k) quotient of
+orthonormal frames, with the rank-zero sign datum kept separate), TopologicalKTheory T1.5 (finite
+real Grassmannians, on Tau Ceti's `TauCeti.finiteGrassmannian`, and Stiefel quotients),
+GeneralizedCohomology G4.0b (the graph-chart smooth structure on those Grassmannians).
 
 ## How to read the build
 
@@ -379,7 +418,8 @@ core (the Wirtinger inequality) and Layers 2–3 for its manifold consequences. 
 for the special Lagrangian calibration and adds the phase and mean-curvature theory. Layer 6 uses
 Layer 5, ComplexKahlerGeometry K5a's compact Hodge theory, PseudodifferentialOperators' Hölder
 estimates, Tau Ceti's Sobolev and Campanato estimates and PDE's scalar Schauder estimates to prove
-McLean's theorem and the second-variation identity.
+McLean's theorem and the second-variation identity, and RiemannianGeometry R5b's normal Jacobi
+operator for its identification with the Hodge Laplacian.
 
 ## Layer 1: Comass and equality planes (C1)
 
@@ -489,33 +529,42 @@ an orthonormal frame, hence at most comass(φ) in absolute value
 - The unit decomposable form `dx₁∧⋯∧dx_k` has comass 1 and Hilbert norm 1: the lower bound is
   attained.
 
-### 1.4 The oriented Grassmannian and the Stiefel manifold
+### 1.4 The oriented Grassmannian
 
-Define the oriented Grassmannian of a general E as the sigma type of rank-k subspaces P with an
-`Orientation ℝ P (Fin k)`, topologized for k ≥ 1 as the quotient of the positive orthonormal-frame
-space. Define the smooth Stiefel manifold of orthonormal k-frames as the level set `Gram = I`,
-proving it regular by showing the differential of the Gram map is onto symmetric matrices through the
-frame variation `vA/2`. Construct the free proper SO(k) action and use SmoothBundlesConnections B1.4
-for the quotient atlas. For k = 0 the carrier is the two orientation rays of `⋀⁰`; for `k = dim E`
-it is the two orientations of E.
+Let E be finite-dimensional. Define the oriented Grassmannian of a general E as the sigma type of
+rank-k subspaces P with an `Orientation ℝ P (Fin k)`, topologized for k ≥ 1 as the quotient of the
+space of orthonormal k-frames, each frame giving its span with the orientation it determines, by
+the right action of SO(k) (Hatcher2017VBKT, Section 1.2, p. 31, lines 1219–1221). The frame space
+is Tau Ceti's Stiefel manifold `TauCeti.stiefel E k`, a compact smooth manifold of dimension
+`k·dim E − (k+1)k/2`, regular through the frame variation `vA/2`
+(`TauCeti.gramSym2Deriv_surjective`). Construct the free proper smooth SO(k) action on it and use
+SmoothBundlesConnections B1.4 for the quotient atlas. For k = 0 the carrier is the two orientation
+rays of `⋀⁰`; for `k = dim E` it is the two orientations of E.
 
 Compare with the coordinate carriers through a linear isometry ι to `EuclideanSpace` followed by the
-`WithLp` linear equivalence to TopologicalKTheory T1.5's coordinate module. The comparison depends on
+`WithLp` linear equivalence to the coordinate module `Fin N → ℝ`, `N = dim E`, of Tau Ceti's
+`TauCeti.finiteGrassmannian ℝ k N`, TopologicalKTheory T1.5's carrier. The comparison depends on
 ι: the target action is `g ↦ ιgι⁻¹`, and replacing ι by ι′ composes the comparison with `ι′ι⁻¹`.
-Prove that forgetting orientation is a smooth two-sheeted cover of the T1.5 real Grassmannian
-transported along ι, with GeneralizedCohomology G4.0b's graph-chart smooth structure, and compare the
-quotient and pulled-back graph atlases. For k ≥ 1 identify this oriented carrier, transported along
-ι, with CharacteristicClasses C1.1a's finite oriented cover of the T1.5 Grassmannian, as covers of
-that Grassmannian preserving both orientations of each plane. For k = 0 compare with C1.1a's
+Prove that forgetting orientation is a smooth two-sheeted cover of that Grassmannian transported
+along ι, with GeneralizedCohomology G4.0b's graph-chart smooth structure (Hatcher2017VBKT,
+Section 1.2, p. 31, lines 1228–1231, for the two-to-one covering), and compare the quotient and
+pulled-back graph atlases. For k ≥ 1 identify this oriented carrier, transported along ι, with
+Tau Ceti's `TauCeti.finiteOrientedGrassmannian`, CharacteristicClasses C1.1a's finite oriented
+cover, as covers of that Grassmannian preserving both orientations of each plane, compatibly with
+C1.1a's comparison with the SO(k) quotient of orthonormal frames. For k = 0 compare with C1.1a's
 two-point sign datum: the canonically oriented zero plane is one of the two rays, and no bijection
-with a single point is asserted. The 0-form `c` evaluates to `±c` on the two rays; the empty frame
-selects only the canonical ray.
-*Needs:* Mathlib `Orientation`, `Matrix.gram`; SmoothBundlesConnections B1.4; TopologicalKTheory
-T1.5; GeneralizedCohomology G4.0b; CharacteristicClasses C1.1a.
+with a single point is asserted (the pinned oriented carrier is defined in positive rank only). The
+0-form `c` evaluates to `±c` on the two rays; the empty frame selects only the canonical ray.
+*Needs:* Mathlib `Orientation`; Tau Ceti `TauCeti.stiefel`, `TauCeti.mem_stiefel_iff`,
+`TauCeti.isCompact_stiefel`, `TauCeti.index_gramSym2Deriv`, `TauCeti.finiteGrassmannian`,
+`TauCeti.finiteOrientedGrassmannian`; SmoothBundlesConnections B1.4; TopologicalKTheory T1.5;
+GeneralizedCohomology G4.0b; CharacteristicClasses C1.1a.
 
-- The oriented Grassmannian is compact for finite-dimensional E, and the orientation-forgetting map
-  is a two-sheeted covering for `1 ≤ k`; orientation reversal is its deck involution.
-- The Stiefel manifold has dimension `k·dim E − k(k+1)/2`.
+- The oriented Grassmannian is compact, and the orientation-forgetting map is a two-sheeted
+  covering for `1 ≤ k`; orientation reversal is its deck involution.
+- For `1 ≤ k ≤ dim E` it is a smooth manifold of dimension `k(dim E − k)`, the Stiefel dimension
+  `k·dim E − (k+1)k/2` less `dim SO(k) = k(k−1)/2`, the action being free, and the quotient map
+  from `TauCeti.stiefel E k` is a smooth submersion.
 - The comparison with C1.1a commutes with orientation reversal and with the isometry action.
 
 **Checks.**
@@ -523,8 +572,9 @@ T1.5; GeneralizedCohomology G4.0b; CharacteristicClasses C1.1a.
 - k = 1 in ℝ: the oriented Grassmannian has two points (the two orientations of ℝ), and C1.1a's
   finite cover of the one-point Grassmannian has two points; the fixed-rank stable classifier
   `BSO(1)` is a point, so it is not the comparison target.
-- k = 2 in ℝ³: the oriented Grassmannian is a 2-sphere (via the oriented unit normal) and the
-  Stiefel manifold has dimension `6 − 3 = 3`.
+- k = 2 in ℝ³: the oriented Grassmannian is a 2-sphere (via the oriented unit normal), of
+  dimension `2·(3 − 2) = 2`, the Stiefel dimension `6 − 3 = 3` less `dim SO(2) = 1`. The quotient
+  by O(2) instead of SO(2) is the unoriented `ℝP²`, with one point over each plane instead of two.
 - k = 0: two orientation rays, not one point; `k = dim E = 2`: two points.
 
 ### 1.5 Equality planes and calibrated frames
@@ -579,7 +629,7 @@ The frame `((1,0,0),(1,1,0))` in ℝ³ has Gram determinant 1, hence volume `‖
 ### Dependencies
 
 Mathlib and Tau Ceti's comass, Riesz identification and Hadamard inequality for 1.1–1.3 and
-1.5–1.6; SmoothBundlesConnections B1.4,
+1.5–1.6; Tau Ceti's Stiefel manifold and finite Grassmannians, SmoothBundlesConnections B1.4,
 TopologicalKTheory T1.5, GeneralizedCohomology G4.0b and CharacteristicClasses C1.1a for 1.4 only.
 
 ## Layer 2: Calibrated immersions and integral smooth chains (C2)
@@ -799,19 +849,25 @@ smooth-to-singular comparison), 2.4.
 For a compactly supported variation `f_t` with fixed boundary, prove that `∫ f_t*φ` is constant
 through DifferentialGeometry 5.4's homotopy operator, its pullback naturality and Stokes. Consume
 RiemannianGeometry R5a.1's C² dependence of `Vol(f_t)` and compare its relative-density functional and
-its derivatives with 2.2's oriented integration. Define a minimal immersion to be stable when the
-second derivative of volume at zero is nonnegative for every compactly supported variation fixing the
-boundary; a volume minimum is stable by elementary calculus. Use R5a.2's first variation for
-compactly supported interior variations to obtain `H = 0` for calibrated immersions, and
-DifferentialGeometry 12.5's divergence theorem for fixed-boundary variations, whose variation field
-vanishes on the boundary. Every application states its fixed-boundary or compact-support hypothesis:
-arbitrary variations contribute boundary terms.
-*Needs:* DifferentialGeometry 5.4, 12.5; RiemannianGeometry R5a.1, R5a.2; 3.1.
+its derivatives with 2.2's oriented integration. Stability of a minimal immersion is
+RiemannianGeometry R5b's: `Q(V,V) ≥ 0` for every compactly supported normal field V, fixed near the
+boundary when there is one, where Q is the second derivative of volume along R5b's normal variation
+of V. Prove that a minimal immersion whose volume is least at `t = 0` along each such normal
+variation is stable, by elementary calculus. Use R5a.2's first variation for compactly supported
+interior variations to obtain `H = 0` for calibrated immersions, and DifferentialGeometry 12.5's
+divergence theorem for fixed-boundary variations, whose variation field vanishes on the boundary.
+With the constancy above and 2.2's pointwise inequality, a calibrated immersion f satisfies
+`Vol(f_t) ≥ ∫ f_t*φ = ∫ f*φ = Vol(f)` (relative volumes on noncompact sources), so it is stable:
+calibrated immersions are stable minimal immersions (McLean1998, lines 32–33; Joyce2001SLLectures,
+line 64, for minimality, citing Harvey–Lawson 1982, Theorem II.4.2, p. 59, uncertified). Every
+application states its fixed-boundary or compact-support hypothesis: arbitrary variations
+contribute boundary terms.
+*Needs:* DifferentialGeometry 5.4, 12.5; RiemannianGeometry R5a.1, R5a.2, R5b; 2.2, 3.1.
 
 **Checks.**
 
-- The flat disk in ℝ³ has `H = 0` and second variation `∫|∇u|² ≥ 0` for normal variations `u e₃`
-  vanishing on the boundary.
+- The flat disk in ℝ³ has `H = 0` and second variation `Q(u e₃, u e₃) = ∫|∇u|² ≥ 0` (flat ambient,
+  `B = 0`) for normal fields `u e₃` with u compactly supported in the open disk.
 - A variation moving the boundary of the disk outward changes its area at first order: the
   fixed-boundary hypothesis is needed.
 - For m ≥ 1 the round equator `Sᵐ ⊂ S^(m+1)` is minimal, but its constant unit normal variation has
@@ -821,8 +877,12 @@ arbitrary variations contribute boundary terms.
 ### 3.3 Products and the distinction from minimality
 
 Derive the Riemannian product calibration theorem under 1.6's decomposable-factor or explicit
-product-comass hypotheses, and record that a stationary minimal submanifold need not be calibrated
-(the round equator of 3.2).
+product-comass hypotheses: for calibrations φ₁ on M₁ and φ₂ on M₂ whose pointwise external product
+has comass at most one (automatic when one factor is pointwise a unit decomposable form), the form
+`π₁*φ₁ ∧ π₂*φ₂` is a calibration on the Riemannian product `M₁ × M₂`, and the product of immersions
+calibrated by φ₁ and φ₂, with the product orientation, is calibrated by it (pointwise this is
+Harvey–Lawson 1982, Proposition II.7.10, p. 76, uncertified, as in 1.6). Record that a stationary
+minimal submanifold need not be calibrated (the round equator of 3.2).
 *Needs:* 1.6, 3.1, 3.2.
 
 **Checks.**
@@ -839,7 +899,8 @@ in its homology class, by `dx₁∧dx₂`.
 
 ### Dependencies
 
-3.1 needs 2.2–2.4; 3.2 needs 3.1 and RiemannianGeometry R5a; 3.3 needs 1.6 and 3.2.
+3.1 needs 2.2–2.4; 3.2 needs 2.2, 3.1 and RiemannianGeometry R5a and R5b; 3.3 needs 1.6 and
+3.2.
 
 ## Layer 4: Hermitian linear algebra and Kähler calibrations (C4)
 
@@ -865,9 +926,11 @@ complex atlas, integrability or closedness.
 
 Define `kahlerBivector n`, the 2-vector `ω̂ = Σ_j e_j ∧ i e_j` in `⋀[ℝ]^2 ℂⁿ`, the metric dual of
 ω: `⟪ω̂, v∧w⟫ = Im⟪v,w⟫_ℂ`. Define `kahlerPowerForm n r`, the normalized Kähler power `ωʳ/r!`, as
-the real continuous alternating 2r-form `v ↦ ⟪ω̂ʳ, v₀∧⋯∧v_(2r−1)⟫ / r!`, with `ω̂ʳ` the r-th power
-in the exterior algebra and the Gram inner product on `⋀[ℝ]^(2r)`. Define `complexRealFrame u`, for
-`u : Fin r → ℂⁿ`, as the real frame `(u₀, iu₀, u₁, iu₁, …)`.
+`(r!)⁻¹` times the form of the 2r-vector `ω̂ʳ` under Tau Ceti's Riesz identification
+`TauCeti.alternatingFormEquiv`, that is the real continuous alternating 2r-form
+`v ↦ ⟪ω̂ʳ, v₀∧⋯∧v_(2r−1)⟫ / r!`, with `ω̂ʳ` the r-th power in the exterior algebra and the Gram
+inner product on `⋀[ℝ]^(2r)`. Define `complexRealFrame u`, for `u : Fin r → ℂⁿ`, as the real frame
+`(u₀, iu₀, u₁, iu₁, …)`.
 
 Prove `norm_kahlerPowerForm`: for `r ≤ n`, `ωʳ/r!` has comass one. Prove
 `isCalibratedFrame_kahlerPowerForm_iff`: a frame v of 2r vectors is calibrated by `ωʳ/r!` exactly when
@@ -883,11 +946,14 @@ finite-dimensional adjoint, spectral and determinant APIs. Transport to every fi
 Hermitian vector space by a unitary isomorphism with ℂⁿ, and prove naturality under Hermitian
 isometries; the transported form is `ωʳ/r!` for the associated form `ω(v,w) = g(Jv,w)`.
 *Needs:* Mathlib `exteriorPower.inner_ιMulti_ιMulti`, `Submodule.pow_mem_pow`, spectral theorem;
-1.1, 1.5, 4.1.
+Tau Ceti `TauCeti.alternatingFormEquiv`, `TauCeti.norm_alternatingFormEquiv_le`; 1.1, 1.5, 4.1.
 
 - `kahlerPowerForm n 1` agrees with `standardKahlerForm n` under `Fin (2·1) = Fin 2`.
 - `kahlerPowerForm n r` vanishes for `r > n` (its degree exceeds `2n`).
 - `kahlerPowerForm n r` is invariant under the unitary group acting on ℂⁿ.
+- `TauCeti.norm_alternatingFormEquiv_le` bounds its comass by `‖ω̂ʳ‖/r! = sqrt(binomial(n, r))`,
+  since `ω̂ʳ = r!·Σ_(|J|=r) ∧_(j∈J)(e_j∧ie_j)` with orthonormal summands; this bound is the comass
+  1 only for `r = 0` and `r = n`, and for `n = 2, r = 1` it is `√2`.
 
 **Checks.**
 
@@ -1147,8 +1213,9 @@ it is special Lagrangian of phase 0, and each compact piece minimizes area among
 
 ## Layer 6: Compact special Lagrangian deformations (C6)
 
-Throughout, N is a compact embedded phase-θ special Lagrangian without boundary in the ambient
-manifold of 5.3, and k ≥ 2, 0 < α < 1.
+Throughout 6.1–6.4, N is a compact embedded phase-θ special Lagrangian without boundary in the
+ambient manifold of 5.3, and k ≥ 2, 0 < α < 1. 6.5 is stated for phase-θ special Lagrangian
+immersions of closed manifolds, the inclusion of N being one.
 
 ### 6.1 Normal parametrization and the deformation map
 
@@ -1358,11 +1425,11 @@ geometries or for submanifolds with boundary.
 
 ### 6.5 Second variation and the Jacobi operator
 
-For a smooth family of immersions `F_t` of closed N with `F_0` the inclusion and velocity V at
-`t = 0` normal to N, prove that the second derivative of `Vol(F_t)` at `t = 0` depends only on V,
-independently of the acceleration and of the tangential motion of the family, since N is minimal
-and closed. Own the special Lagrangian identity `secondVariation_volume_eq_hodgeEnergy`: that
-second derivative is `∫_N (|dβ|² + |δβ|²) dvol` for `β = ι_V ω|_N`, the one-form
+Let f be a phase-θ special Lagrangian immersion of a closed oriented manifold N (the inclusion of
+the embedded N of 6.1–6.4 is one), and `F_t` a smooth family of immersions of N with `F_0 = f` and
+velocity V at `t = 0` normal to `df(TN)`. Own the special Lagrangian identity
+`secondVariation_volume_eq_hodgeEnergy`: the second derivative of `Vol(F_t)` at `t = 0` is
+`∫_N (|dβ|² + |δβ|²) dvol` for `β = ι_V ω|_N`, the one-form
 `contractionPullback ω f V` with `β_x(w) = ω(V(x), df_x w)` (contraction in the first slot), where
 the density `hodgeEnergyDensity o β` is the Gram norm squared of `dβ` for
 `TauCeti.alternatingFormInner` (K5a's Gram exterior norm) plus the square of the function
@@ -1372,8 +1439,11 @@ instance tied to g by the hypothesis `⟪v, w⟫ = g(df v, df w)` (McLean1998, T
 line 598). The statement takes ω as the real 2-form `ω_x(v, w) = g_x(iv, w)` of `IsKahlerMetric`,
 N oriented and of dimension the degree of Ω, and a family that consists of immersions for every
 t, so that its volume is defined along the whole family; the sign convention of the codifferential
-does not enter, the square of `⋆d⋆β` being independent of it. Own the pointwise second-jet calibration
-identity in an
+does not enter, the square of `⋆d⋆β` being independent of it. In particular the second derivative
+depends only on V, not on the acceleration or the tangential motion of the family; for general
+minimal immersions this acceleration independence is RiemannianGeometry R5b's, and the identity
+does not use it, the second-jet argument below giving it directly. Own the pointwise second-jet
+calibration identity in an
 `Ω_θ`-adapted unitary frame: for a plane graph with infinitesimal matrix A, the second derivative of
 `vol − Re Ω_θ` is `(tr A)² + Σ_(i<j)(A_ij − A_ji)²`, by expanding `sqrt(det(I + t²AᵀA))` and
 `Re det(I + itA)`, with its coordinate-invariant form on the plane locus. For a curve of frames
@@ -1381,15 +1451,28 @@ identity in an
 `det(S + iW) = |Ω_θ(u)|²` and `(vol − Re Ω_θ)″(0) = |W′(0)|²_Gram + (Im Ω_θ(u)′(0))²` at a positive
 orthonormal special Lagrangian frame; the gap and its first derivative vanish there, so this second
 jet depends only on the first plane variation. Integrate, use 3.2's constancy of closed-form
-integrals, and identify the first variations of ω and `Im Ω_θ` by 6.1's derivative.
+integrals, and identify the first variations of `F_t*ω` and `F_t*Im Ω_θ` at `t = 0` with `dβ` and
+`−d(★β)`, by DifferentialGeometry 5.4's homotopy formula differentiated along the family and the
+pointwise identities `ι_V ω|_N = β` and `ι_V Im Ω_θ|_N = −★β` at special Lagrangian planes (6.1's
+linear identification, which is pointwise and holds along immersions); for the inclusion of the
+embedded N these first variations are 6.1's derivative.
 
-Define the normal Jacobi operator `𝒥 = (V ↦ ι_V ω)⁻¹ ∘ (dδ + δd) ∘ (V ↦ ι_V ω)`. Prove its
-ellipticity, formal self-adjointness and the Hessian identity by polarization of the second
-variation, and identify its kernel with the harmonic one-forms and 6.4's tangent space (McLean1998,
-Corollary 3.14, line 603). This construction supplies no second-variation formula for arbitrary
-minimal submanifolds.
-*Needs:* Tau Ceti `TauCeti.RoughForm.hodgeStar`, `TauCeti.alternatingFormInner`;
-ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.4.
+Prove that RiemannianGeometry R5b's normal Jacobi operator L of f, with `Q(V,W) = ∫⟨LV, W⟩`,
+corresponds to the Hodge Laplacian under the bundle isometry `V ↦ ι_V ω|_N` of the normal bundle
+onto T*N: `L = (V ↦ ι_V ω)⁻¹ ∘ (dδ + δd) ∘ (V ↦ ι_V ω)` (McLean1998, Corollary 3.14, line 603). The
+map is an isometry because i carries the normal space of a Lagrangian plane isometrically onto its
+tangent space. The route: L is formally self-adjoint by R5b and the Hodge Laplacian by
+ComplexKahlerGeometry K5a; R5b's `Q(V,V)` is the second derivative of volume along R5b's normal
+variation of V (composed with a bounded reparametrization of t equal to the identity near 0, so
+that every member is an immersion), which `secondVariation_volume_eq_hodgeEnergy` evaluates as
+`∫⟨(dδ + δd)β, β⟩`; two formally self-adjoint operators with the same quadratic form agree, by
+polarization. Hence the kernel of L, the Jacobi fields, corresponds to the harmonic one-forms, of
+dimension `b₁(N)`, which for the embedded N is 6.4's tangent space. Ellipticity and formal
+self-adjointness are R5b's for L and K5a's for the Hodge Laplacian; this identification supplies
+no second-variation formula for arbitrary minimal submanifolds.
+*Needs:* for the identity, Tau Ceti `TauCeti.RoughForm.hodgeStar`, `TauCeti.alternatingFormInner`,
+DifferentialGeometry 5.4, 3.2 and 6.1's linear identification; for the Jacobi operator,
+RiemannianGeometry R5b, ComplexKahlerGeometry K5a, PseudodifferentialOperators P1.0 and 6.4.
 
 - `contractionPullback ω f V` is linear in V and in ω, and is `f*(ι_V ω)` when V extends to a
   vector field on M; for a tangential V along a Lagrangian immersion it vanishes.
@@ -1418,7 +1501,17 @@ ComplexKahlerGeometry K5a; PseudodifferentialOperators P1.0; 3.2, 6.1, 6.4.
   `(tr A)² = 0` and zero antisymmetric part (the graph of a harmonic quadratic is special Lagrangian).
 - n = 2, `A = [[0,1],[−1,0]]`: `vol = 1 + t²`, `Re det(I + itA) = 1 − t²`, second derivative 4, equal
   to `(A₁₂ − A₂₁)² = 4`; on the frame side `W₁₂(t) = 2t`, `|W′(0)|² = 4` and `Im Ω = 0`.
-- On the flat torus, 𝒥 is the Hodge Laplacian on one-forms with kernel the n constant forms.
+- Immersions: the double cover `f(x) = 2x` of the circle `{y = 0}` in `ℂ/(ℤ + iℤ)`, with
+  `N = ℝ/ℤ`, is a special Lagrangian immersion of phase 0 and not an embedding. For
+  `F_t(x) = 2x + itε sin(2πx)` the length `∫₀¹ sqrt(4 + 4π²t²ε² cos²(2πx)) dx` has second
+  derivative `∫₀¹ 2π²ε² cos²(2πx) dx = π²ε²` at `t = 0`; on the other side `f*g = 4dx²`,
+  `β = −2ε sin(2πx) dx`, `⋆d⋆β = −πε cos(2πx)` and `∫₀¹ π²ε² cos²(2πx)·2dx = π²ε²`. Computing the
+  energy with the metric `dx²` instead of `f*g` gives `8π²ε²`.
+- Jacobi operator on the flat torus `T² ⊂ ℂ²/(ℤ² + iℤ²)` with `V = a(x₁)∂_(y₂)`: R5b's
+  `Q(V,V) = ∫|∇⊥V|² = ∫a′²` (flat ambient, `B = 0`), so `LV = −a″∂_(y₂)`; `β = −a dx₂` and
+  `(dδ + δd)β = a″ dx₂ = ι_(LV)ω`. For `a = ε sin(2πx₁)` both quadratic forms are `2π²ε²`, the second
+  derivative of the area `∫ sqrt(1 + t²a′²)`. Matching L with `−(dδ + δd)` would send V to
+  `+a″∂_(y₂)`. The kernel of L is the constant normal fields, `n = b₁(Tⁿ)` of them in general.
 
 ### Examples
 
@@ -1429,7 +1522,10 @@ the second variation along `V = Σ a_j ∂_(y_j)` is 0.
 ### Dependencies
 
 6.1 needs 5.3 and Tau Ceti's normal exponential; 6.2 needs PseudodifferentialOperators P5–P6 and
-ComplexKahlerGeometry K5a; 6.3 needs Tau Ceti's Sobolev and Campanato estimates, PDE and 5.1; 6.4 needs 6.1, 6.2 and 6.3; 6.5 needs 6.1 and 6.4.
+ComplexKahlerGeometry K5a; 6.3 needs Tau Ceti's Sobolev and Campanato estimates, PDE and 5.1; 6.4
+needs 6.1, 6.2 and 6.3; 6.5 needs 3.2, DifferentialGeometry 5.4 and 6.1's linear identification for
+the second-variation identity, and RiemannianGeometry R5b, ComplexKahlerGeometry K5a and 6.4 for the
+Jacobi operator.
 
 ## Downstream consumers
 
@@ -1445,8 +1541,8 @@ ComplexKahlerGeometry K5a; 6.3 needs Tau Ceti's Sobolev and Campanato estimates,
   the agreement of integration with coefficient change), 2.4 (finite oriented relative fundamental
   chains) and 3.1–3.2 (the calibration minimum, its stability consequence and the oriented-chain
   comparison).
-- RiemannianGeometry R5a.1's relative-volume functional is consumed by C3; RiemannianGeometry consumes
-  nothing from this roadmap.
+- RiemannianGeometry R5a.1's relative-volume functional and R5b's stability are consumed by C3, and
+  R5b's normal Jacobi operator by C6; RiemannianGeometry consumes nothing from this roadmap.
 
 ## References
 
@@ -1466,6 +1562,9 @@ ComplexKahlerGeometry K5a; 6.3 needs Tau Ceti's Sobolev and Campanato estimates,
   (Campanato1963).
 - Munkres, *Elementary Differential Topology*, Annals of Math. Studies 54 (Munkres1966EDT, cited by
   section).
+- Hatcher, *Vector Bundles and K-Theory*, version 2.2 (2017),
+  [author's page](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf) (Hatcher2017VBKT; line numbers
+  refer to version 2.2).
 - Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics 218 (2012),
   [doi:10.1007/978-1-4419-9982-5](https://doi.org/10.1007/978-1-4419-9982-5) (Lee2012ISM,
   uncertified: cited by locator only).

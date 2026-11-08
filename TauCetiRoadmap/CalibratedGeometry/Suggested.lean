@@ -37,12 +37,13 @@ Headline theorems of the roadmap that are not statable at the pins:
   form a smooth manifold of dimension `b₁(N)` with tangent space the harmonic one-forms (Layer 6):
   the pins have no space of embedded submanifolds near `N` modulo reparametrization with its `C¹`
   quotient topology, which is the carrier of the statement;
-* the identification of the Jacobi operator of a compact special Lagrangian with the Hodge
-  Laplacian on one-forms (Layer 6): the pins have no Jacobi operator of a minimal immersion into
-  a Riemannian manifold (its normal connection, normal Laplacian, ambient curvature term and
-  second-fundamental-form term are RiemannianGeometry's). The second-variation identity that it
-  polarizes is stated below (`secondVariation_volume_eq_hodgeEnergy`), on the pinned rough Hodge
-  star `TauCeti.RoughForm.hodgeStar` and inner product of forms `TauCeti.alternatingFormInner`.
+* the identification of the normal Jacobi operator of a compact special Lagrangian immersion,
+  which is RiemannianGeometry R5b's, with the Hodge Laplacian on one-forms (Layer 6): the pins
+  have no Jacobi operator of a minimal immersion into a Riemannian manifold, nor its normal
+  connection, normal Laplacian, ambient curvature term and second-fundamental-form term. The
+  second-variation identity that gives the two operators the same quadratic form is stated below
+  (`secondVariation_volume_eq_hodgeEnergy`), on the pinned rough Hodge star
+  `TauCeti.RoughForm.hodgeStar` and inner product of forms `TauCeti.alternatingFormInner`.
 -/
 
 @[expose] public section
@@ -176,33 +177,14 @@ def kahlerBivector (n : ℕ) : ⋀[ℝ]^2 (EuclideanSpace ℂ (Fin n)) :=
     ![EuclideanSpace.single j 1, Complex.I • EuclideanSpace.single j 1]
 
 /-- The normalized Kähler power `ωʳ/r!` on `ℂⁿ` as a real continuous alternating `2r`-form:
-`v ↦ ⟪ω̂ʳ, v₀ ∧ ⋯ ∧ v_(2r−1)⟫ / r!`, where `ω̂ʳ` is the `r`-th power of `kahlerBivector n` in the
-exterior algebra and the pairing is the Gram inner product on `⋀[ℝ]^(2r)`. -/
+`(r!)⁻¹` times the form of the `2r`-vector `ω̂ʳ` under Tau Ceti's Riesz identification
+`TauCeti.alternatingFormEquiv`, that is `v ↦ ⟪ω̂ʳ, v₀ ∧ ⋯ ∧ v_(2r−1)⟫ / r!`, where `ω̂ʳ` is the
+`r`-th power of `kahlerBivector n` in the exterior algebra and the pairing is the Gram inner
+product on `⋀[ℝ]^(2r)`. -/
 def kahlerPowerForm (n r : ℕ) : EuclideanSpace ℂ (Fin n) [⋀^Fin (2 * r)]→L[ℝ] ℝ :=
-  let ωr : ⋀[ℝ]^(2 * r) (EuclideanSpace ℂ (Fin n)) :=
+  (r.factorial : ℝ)⁻¹ • alternatingFormEquiv (EuclideanSpace ℂ (Fin n)) (2 * r)
     ⟨(kahlerBivector n : ExteriorAlgebra ℝ (EuclideanSpace ℂ (Fin n))) ^ r, by
       simpa [pow_mul] using Submodule.pow_mem_pow _ (kahlerBivector n).2 r⟩
-  let A : EuclideanSpace ℂ (Fin n) [⋀^Fin (2 * r)]→ₗ[ℝ] ℝ :=
-    ((r.factorial : ℝ)⁻¹ • innerₛₗ ℝ ωr).compAlternatingMap (exteriorPower.ιMulti ℝ (2 * r))
-  { toAlternatingMap := A
-    cont := by
-      -- expand each argument in a basis: `A` is a finite sum of products of coordinates
-      let b := Module.finBasis ℝ (EuclideanSpace ℂ (Fin n))
-      let f := A.toMultilinearMap
-      have h : ∀ m, f m = ∑ s : Fin (2 * r) → Fin (Module.finrank ℝ (EuclideanSpace ℂ (Fin n))),
-          (∏ i, b.repr (m i) (s i)) • f (fun i => b (s i)) := by
-        intro m
-        conv_lhs => rw [show m = fun i => ∑ j, b.repr (m i) j • b j from
-          funext fun i => (b.sum_repr (m i)).symm]
-        rw [MultilinearMap.map_sum]
-        simp [MultilinearMap.map_smul_univ]
-      change Continuous (f : (Fin (2 * r) → EuclideanSpace ℂ (Fin n)) → ℝ)
-      rw [show (f : (Fin (2 * r) → EuclideanSpace ℂ (Fin n)) → ℝ) = fun m => ∑ s : Fin (2 * r) →
-          Fin (Module.finrank ℝ (EuclideanSpace ℂ (Fin n))),
-          (∏ i, b.repr (m i) (s i)) • f (fun i => b (s i)) from funext h]
-      have hc : ∀ j, Continuous fun x : EuclideanSpace ℂ (Fin n) => b.repr x j :=
-        fun j => (b.coord j).continuous_of_finiteDimensional
-      fun_prop }
 
 /-- The real frame `(u₀, i u₀, u₁, i u₁, …)` of the complex span of `u`, ordered so that it carries
 the complex orientation. -/
@@ -386,9 +368,9 @@ into a Kähler manifold with Kähler form `ψ` and normalized holomorphic volume
 `F` be a smooth family of immersions with `F 0 = f` whose velocity `V` at `t = 0` is normal to
 `f`. Give `N` the Riemannian metric that is pointwise the pullback `f*g` (the instance, tied to
 `g` by `hmet`). The second derivative at `t = 0` of the volume of `F t` is the Hodge energy
-`∫_N (|dβ|² + |δβ|²) dvol` of the one-form `β = ι_V ψ|_N` for that metric. Since `f` is minimal
-and `N` closed, neither the acceleration of the family nor its tangential motion contributes, so
-no normality away from `t = 0` is assumed. -/
+`∫_N (|dβ|² + |δβ|²) dvol` of the one-form `β = ι_V ψ|_N` for that metric. In particular it
+depends only on `V`: neither the acceleration of the family nor its tangential motion contributes,
+so no normality away from `t = 0` is assumed. The immersion need not be an embedding. -/
 theorem secondVariation_volume_eq_hodgeEnergy {m : ℕ} [I'.Boundaryless] [CompactSpace N]
     [T2Space N] [RiemannianBundle (fun x : N ↦ TangentSpace I' x)]
     (g : ContMDiffRiemannianMetric 𝓘(ℝ, E) ∞ E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x))
