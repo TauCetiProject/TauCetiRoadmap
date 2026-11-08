@@ -94,10 +94,10 @@ elsewhere. In particular it owns:
 - the DG Floer toolset and the DG Viterbo isomorphism (Layers 8–9);
 - the criteria for almost existence and finiteness of `c°_HZ` and their cotangent applications
   (Layer 10);
-- the invariant inner product, the semisimplicity of the derived ideal and the negative Killing
-  form of the Lie algebra of a compact Lie group, the rank-one `SU(2)`
-  homomorphisms of its roots, the finite cover `T × K → G` of a compact connected Lie group and
-  the torus criterion (Layer 11).
+- the negative semidefinite Killing form of the Lie algebra of a compact connected Lie group
+  with its kernel, the Cartan 3-form argument that `π₃` of a nontrivial compact simply connected
+  semisimple Lie group is nonzero, the finite cover `T × K → G` of a compact connected Lie group
+  and the torus criterion (Layer 11).
 
 **Already in the library.** The pinned Tau Ceti has much of the algebraic topology, DG algebra
 and Hamiltonian dynamics that this package rests on, and this roadmap consumes it by name and
@@ -177,13 +177,12 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The general smooth symplectic suspension `Y_φ = (ℝ × M)/((t, x) ∼ (t + 1, φ⁻¹x))`, its seam-compatible block structure, periodic-orbit images and the compact horizontal-image theorem | SymplecticGeometry S0–S2 | S0's mapping torus is instantiated by Layer 7.T.1 at monodromy `f⁻¹`; S1–S2 are not consumed |
 | The surface suspension, its vertical form, primitive orbit images and the point-count, product and zeta applications | TaubesGromov | not consumed here; TaubesGromov consumes SymplecticGeometry S0–S2, not this roadmap |
 | Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
-| The `Ad`-invariant orthogonal splitting `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` of the Lie algebra of a compact Lie group | HamiltonianReduction R5 | consumed by Layer 11 item 1; the rest of R5's gauge theory is not consumed |
 | The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
 | Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8 | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1 and 5 |
-| The restriction bundle of embeddings, collars and tubular neighbourhoods | GeometricTopology Layers 1, 3 and 7 | consumed by Layer 1 items 5–6; the group `Diff(M)` with its `C^∞` topology is the pinned `TauCeti.Diff` |
+| Collars and tubular neighbourhoods, `Diff(M)` with its `C^∞` topology and the smooth-families map, Riemannian structures | GeometricTopology Layers 1, 3 and 7 | consumed by Layer 1 items 5–6 and Layer 11 item 2; the group `Diff(M)` with its `C^∞` topology is the pinned `TauCeti.Diff`, and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
 | Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
-| Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, maximal tori, the Haar probability measure and averaging | LieGroups Layers 4–6, CompactGroups Layer 0 | consumed by Layer 11; the invariant inner product, the semisimplicity of the derived ideal, the negative Killing form and the rank-one `SU(2)` homomorphisms are Layer 11 items 1–2 |
+| Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
 | The Lagrangian and polygon operations of the Fukaya category | FukayaTheory | not consumed; the graph and diagonal strip folding of Layer 7.G is the only Lagrangian construction here |
 
@@ -785,14 +784,23 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   generic form carrier, which this roadmap uses. Layer 3: flows of vector fields.
 - **GeometricTopology.** Layer 1: manifolds with boundary, collars, tubular neighbourhoods,
   connected sum. Layer 3: `Diff(M)` as a topological group with the `C^∞` topology, the
-  smooth-families map, the inclusion `O(n+1) → Diff(Sⁿ)` and the compact-embedding restriction
-  bundle. Layer 7: Riemannian structures.
+  smooth-families map and the inclusion `O(n+1) → Diff(Sⁿ)`; the local triviality of evaluation
+  `Diff(M) → O` onto an orbit is Layer 1 item 6, not a Layer 3 input. Layer 7: Riemannian
+  structures.
 - **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
 - **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
   homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
-  universal cover of a connected Lie group with its discrete central kernel `≅ π₁(G)`; Layer 6's
-  maximal tori with their maximal abelian Lie algebras. **CompactGroups** Layer 0: the Haar
-  probability measure of a compact group and averaging against it. Consumed by Layer 11 only.
+  universal cover of a connected Lie group with its discrete central kernel `≅ π₁(G)`; Layer
+  5A's `Ad`-invariant inner product on the Lie algebra of a compact connected Lie group,
+  obtained by Haar averaging, with the skew-adjointness of every `ad X`, the orthogonal
+  splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of the centreless ideal `[𝔤, 𝔤]` and the
+  negative definiteness of its Killing form; Layer 6's maximal tori with their maximal abelian
+  Lie algebras and the exhaustion of a compact connected group by its maximal tori, its compact
+  real roots spanning `𝔱_ss^*`, and its rank-one representatives: for each root `α` the compact
+  subalgebra `𝔰𝔲(2)_α` built from the real root plane and the coroot, and the homomorphism
+  `SU(2) → G` integrating it, normalized by `dφ(diag(i, −i)) = α^∨`. **CompactGroups** Layer 0:
+  the Haar probability measure of a compact group and averaging against it. Consumed by Layer
+  11 only.
 - **MorseNovikov.** N1: period-controlled completed group rings and modules, the support
   condition, finite-below convolution, geometric-series inverses. N4: based chain torsion,
   total quotient rings, determinant comparisons, finite-cyclic norms. N6's finite-dimensional
@@ -809,10 +817,8 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
 - **HamiltonianReduction** R1a.2: the identity component `Symp₀(M, ω)` of the symplectomorphism
   group in its compact-open `C^∞` topology, with its characterization as the endpoints of smooth
   symplectic paths from the identity, for the transport of `f` and of the component `C` under
-  symplectic isotopy in Layer 7.T item 9. R5: the `Ad`-invariant orthogonal splitting
-  `𝔨 = 𝔷 ⊕ [𝔨, 𝔨]` of the Lie algebra of a compact Lie group with a positive definite
-  `Ad`-invariant inner product, for Layer 11 item 1. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4
-  (flux, the Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) or of R5's gauge theory is consumed.
+  symplectic isotopy in Layer 7.T item 9. Nothing of R1a.0–R1a.1 and R1a.3–R1a.4 (flux, the
+  Hamiltonian kernel, the quotient `H¹_dR/Γ_ω`) or of R2–R5 is consumed.
 
 ### What AnalyticStableMaps must provide
 
@@ -1036,7 +1042,9 @@ Paracompactness is retained where Layer 2 asks for the stronger Hurewicz-fibrati
 
 **The homological Serre spectral sequence over a CW base.** Own, for every path-connected CW
 base, the spectral sequence consumed by AlgebraicTopology Stage 5.5 under the name
-arbitraryCWSerreSpectralSequence, using AlgebraicTopology Stages 1–4 and the filtration
+arbitraryCWSerreSpectralSequence (Serre, *Homologie singulière des espaces fibrés*, Chapter II;
+Hatcher, *Spectral Sequences*, Theorem 1.3 with its local-coefficient form, `hatcher-ssat`
+lines 433–438 and 985–994), using AlgebraicTopology Stages 1–4 and the filtration
 `E_p = p⁻¹(B^{(p)})`, with `E_{−1}` empty. Prove that singular chains are exhausted by this
 filtration using compact simplex images and the cellular filtration comparison. Apply Tau
 Ceti's spectral sequence of a filtered space, `TauCeti.filteredSpaceSpectralSequence` of the
@@ -1054,7 +1062,8 @@ Prove naturality under maps of fibrations and coefficient maps, and the componen
 
 **The arbitrary-base sequence.** For a Serre fibration over an arbitrary path-connected space
 `B`, pull back along a CW approximation `B' → B`. Prove the induced total-space map is a weak
-equivalence by the fibration homotopy sequence, including components, and identify its
+equivalence by the fibration homotopy sequence, including components (the reduction closing
+Hatcher's proof of Theorem 1.3, `hatcher-ssat` lines 806–814), and identify its
 local-coefficient homology maps and the base local-coefficient homology comparison. Transport
 the preceding spectral sequence, its `E²` page, convergence and abutment filtration to the
 original fibration (the sequence consumed by AlgebraicTopology under the name
@@ -1069,7 +1078,8 @@ sequences over CW and arbitrary bases on the same skeletal filtration, using the
 cochain complex and its relative quotients, including the cellular and singular filtration
 comparison; cohomology pages are not identified by naive duality of homology pages. The
 cohomological sequence has `E₂^{p,q} = H^p(B; H^q(F; M))`, with path-transport local
-coefficients, and converges to `H^{p+q}(E; M)`. Prove first-quadrant strong convergence: the
+coefficients, and converges to `H^{p+q}(E; M)` (Hatcher Theorem 1.14, `hatcher-ssat` lines
+1414–1419). Prove first-quadrant strong convergence: the
 induced abutment filtration in each total degree is finite, exhaustive and separated, with
 `E_∞` its graded module. Prove completeness of the cochain inverse filtration and vanishing of
 the relevant inverse-limit obstruction; retain the absence of finite-type or dimension
@@ -1101,8 +1111,9 @@ homotopy, using AlgebraicTopology Stage 2's transport of local systems along pat
 that identification in cups. Own comparison prisms raising the base filtration by at most one,
 giving independence and naturality of the resulting pairings from `E₂` onward and preserving
 the abutment cup product. For fixed choices construct all `E_r` pairings; the `E₂` pairing is
-`(−1)^{q p'}` times the local-coefficient cup pairing in every bidegree. In trivial-monodromy
-tensor coordinates the product has Koszul sign `(a ⊗ x)(b ⊗ y) = (−1)^{q p'} (ab ⊗ xy)`, with `x`
+`(−1)^{q p'}` times the local-coefficient cup pairing in every bidegree (Hatcher's multiplicative
+structure (a)–(c) after Theorem 1.14, `hatcher-ssat` lines 1508–1524, for trivial monodromy). In
+trivial-monodromy tensor coordinates the product has Koszul sign `(a ⊗ x)(b ⊗ y) = (−1)^{q p'} (ab ⊗ xy)`, with `x`
 in fibre degree `q` and `b` in base degree `p'`. State `d_r : E_r^{p,q} → E_r^{p+r,q−r+1}` and
 `d_r(uv) = d_r(u) v + (−1)^{p+q} u d_r(v)`, and prove multiplicative abutment and extension
 compatibility. For a field `k`, a simply connected base and degreewise finite-dimensional
@@ -1419,14 +1430,16 @@ AlgebraicTopology Stage 6 (fundamental classes, cap products, Poincaré duality)
 
 For a closed smooth manifold `M` with a chosen point `x₀` consume Tau Ceti's `TauCeti.Diff` with
 the weak Whitney (`C^∞`) topology `Diffeomorph.weakWhitneyTopology`, a topological group with
-continuous evaluation and a smooth-families map, and GeometricTopology Layer 3's orthogonal
-sphere action and compact-embedding restriction bundle onto the `Diff` orbit.
-Specialize that restriction construction to a point, identify its `C^∞` embedding space with
-`M` through the evaluation and inverse maps, and let `O` be the orbit of `x₀` and
-`H = {g | g(x₀) = x₀}`. Compare the resulting supported local sections with coordinate-ball
-motions from compactly supported smooth vector fields. If `g(x₀) = y`, compose a local motion
-taking `y` to `z` with `g` to obtain a continuous local section `s : U → Diff(M)` over an open
-neighbourhood `U` of `y` in `O`. Export evaluation `Diff(M) → O` as a locally trivial principal
+continuous evaluation, and GeometricTopology Layer 3's smooth-families map, which turns a
+smooth family of diffeomorphisms into a continuous map into `Diff(M)`. Own the local triviality
+of evaluation at `x₀`, the point case of Palais's local triviality of the restriction map of
+embeddings (Palais 1960): let `O` be the orbit of `x₀` and `H = {g | g(x₀) = x₀}`. Construct
+local sections from coordinate-ball motions: the time-one flows of compactly supported smooth
+vector fields in a chart around a point `y` of `O` carry `y` to every point `z` of a
+neighbourhood of `y`, continuously in `z` by the smooth-families map. If `g(x₀) = y`, compose
+the local motion taking `y` to `z` with `g` to obtain a continuous local section
+`s : U → Diff(M)` over an open neighbourhood `U` of `y` in `O`. Export evaluation
+`Diff(M) → O` as a locally trivial principal
 right-`H` bundle, with the mutually inverse maps `g ↦ (g(x₀), s(g(x₀))⁻¹ g)` and
 `(z, h) ↦ s(z) h` (Palais 1960). For connected `M`, `O = M` by Tau Ceti's compactly supported
 diffeotopies `TauCeti.exists_diffeotopy_final_apply_eq`; this gives the bundle over `M` without
@@ -1437,8 +1450,8 @@ with the component-swap extensions constructed). It is an open-and-closed subman
 bundle over all `M` only with explicit transitivity data; otherwise fibres outside `O` are
 empty. Retain the zero-dimensional and finite-component cases. A merely continuous family into
 `Diff` is not identified with a jointly smooth family. *Needs:* Tau Ceti `TauCeti.Diff` and
-`TauCeti.exists_diffeotopy_final_apply_eq`, GeometricTopology Layers 1 and 3, DifferentialGeometry
-Layer 3 (flows of compactly supported fields).
+`TauCeti.exists_diffeotopy_final_apply_eq`, GeometricTopology Layer 3 (the smooth-families
+map), DifferentialGeometry Layer 3 (flows of compactly supported fields).
 
 **Checks.**
 - `M = S¹`: evaluation `Diff(S¹) → S¹` is the bundle with fibre `Diff(S¹, 1)`, and the section
@@ -1465,7 +1478,8 @@ predicates with their lifting API, the mapping-path carriers, the filtered-compl
 filtered-space spectral sequences, the Pontryagin–Thom collapse, `TauCeti.Diff`, and the
 cubical–simplicial comparison. AlgebraicTopology Stages 1–6 and 8.1–8.8; GeometricTopology
 Layers 1 and 3; DifferentialGeometry Layer 3. Source: Hatcher, *Algebraic Topology*, §§2.A,
-3.3, 4.1–4.3, 4.D, 4.J; BDHO §§9.2 and 11.3 (item 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local triviality of
+3.3, 4.1–4.3, 4.D, 4.J; Hatcher, *Spectral Sequences*, Chapter 1 and Serre, *Homologie singulière
+des espaces fibrés*, Chapter II (item 2); BDHO §§9.2 and 11.3 (item 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local triviality of
 the restriction map for embeddings*.
 ## Layer 2: path spaces, mapping spaces, and their fibrations
 
@@ -1631,6 +1645,9 @@ Own the change of basepoint and the pullback along maps that do not preserve cho
   `C_*(P_{b'→b} B)` induces the inverse, so it is an equivalence of derived categories. The
   composite of two changes is the change along the composite, through a specified
   quasi-isomorphism. Conjugation by a Moore path is not a strict monoid map, so it is not used.
+  BDHO §6.4 (`bdho-morse-dg` lines 2867–2890) poses the problem and settles it only for systems
+  pulled back from one DG module along a map to a third space (its hypothesis (6.16)); the
+  derived tensor product with the path bimodule is the construction for every DG local system.
 - **Disconnected spaces.** For families `(𝓕_c)` over chosen basepoints (Tau Ceti's
   `TauCeti.DGLocalSystemFamily`), pullback along an arbitrary `f : B' → B` sends the component
   `c'` to `f(c')`, restricts scalars at `f(b_{c'})`, and changes basepoint to `b_{f(c')}`; for
@@ -2411,10 +2428,16 @@ Layer 8.
 Define Floer cylinders `u : ℝ × S¹ → X` solving `u_s + J_t(u_t − X_H) = 0` with `ι_{X_H} ω = dH`,
 negative-end input and positive-end output, and prove the energy identity: for the
 reference-cylinder action `𝒜_H = ∫ γ̄^*ω − ∫ H dt`, the energy `E(u) = ∫ |u_s|² ds dt` of a
-cylinder from `x₋` to `x₊` is `𝒜_H(x₋) − 𝒜_H(x₊)`, so `𝒜_H` decreases along `s`. Take
-HeegaardFloer F1.4's Conley–Zehnder index `CZ = −μ_RS` in the trivializations fixed by the
-conventions; for `ι_{X_H} ω = dH` and a `C²`-small autonomous Morse `H`, the constant orbit at a
-critical point `x` with the constant cap has `CZ = n − ind_Morse(H, x) = ind_Morse(−H, x) − n`,
+cylinder from `x₋` to `x₊` is `𝒜_H(x₋) − 𝒜_H(x₊)`, so `𝒜_H` decreases along `s` (Salamon,
+*Lectures on Floer homology*, §1.4 and Exercise 1.23, `salamon-lectures` lines 342–346 and
+463–468, where the monotone case has a circle-valued action; under asphericity it is
+real-valued). Take HeegaardFloer F1.4's Conley–Zehnder index `CZ = −μ_RS` in the
+trivializations fixed by the conventions (Salamon §2.4, `salamon-lectures` lines 734–739,
+defines the index of a path in `Sp(2n)` with `det(1 − Ψ(1)) ≠ 0`; his `μ_CZ`, which his
+Exercise 2.8 and (36), lines 879–884 and 1477, normalize to `ind_H − n` at a `C²`-small
+autonomous `H`, is 7.C.0's `μ`, the opposite sign of `CZ`); for `ι_{X_H} ω = dH` and a
+`C²`-small autonomous Morse `H`, the constant orbit at a critical point `x` with the constant
+cap has `CZ = n − ind_Morse(H, x) = ind_Morse(−H, x) − n`,
 as F1.4 writes it, and 7.C.0's `μ = −CZ` is the opposite sign of the same index. With this
 grading and the differential that decreases `𝒜_H` along `s`, the complex of such an `H` is the
 Morse complex of `−H` in degree `ind_Morse(−H) − n`, which is what the normalization
@@ -2485,8 +2508,13 @@ operators (HeegaardFloer F1); prove the gluing sign `(−1)^{dim V₂ · ind D�
 
 ### 7.4 The Floer complex
 
-Define the complex, continuation maps and homotopies; prove that the action filtration is
-preserved by monotone homotopies and shifted by at most the Hofer-norm bound by general ones.
+Define the complex, continuation maps and homotopies (Salamon §3.2, Theorem 3.5 for `∂² = 0`
+and Theorem 3.6 for the continuation isomorphisms, and §3.4, Lemmas 3.10–3.11 for the
+continuation chain maps and their composition rule, `salamon-lectures` lines 1162, 1202–1205
+and 1343–1395); prove that the action filtration is preserved by monotone homotopies and
+shifted by at most the one-sided bound `∫₀¹ max_x (H₊ − H₋) dt + ε`, for every `ε > 0`, by
+general ones (the source's Proposition 3.22 and Corollaries 3.24–3.25, `bdho-cotangent` lines
+2131–2191, the classical estimate read with classical coefficients).
 For closed aspherical `X` in the contractible sector, construct `FH_*(X) ≅ H_{*+n}(X)` by the
 common module-comparison construction specified in 7.C.5b on `Γ = 0`: its inputs are the
 independent Morse complex, raw capped and reflected cylinder and PSS carriers, conditional
@@ -2506,8 +2534,10 @@ module comparison does not replace it. *Needs:* items 1–3, 7.C.5b, Layer 6 ite
 - The action filtration shift: for `H_s = H + ε(s)` with `ε` nondecreasing from `0` at
   `s = −∞` to `δ` at `s = +∞`, the ends are `H_− = H` and `H_+ = H + δ`, so
   `𝒜_{H_+} = 𝒜_H − δ` on the same orbits and the continuation map, the identity on generators,
-  shifts the filtration by exactly `δ`. A bump `ε` with `ε(±∞) = 0` has equal ends and shifts it
-  by `0`, whatever its integral: the shift is `ε(+∞) − ε(−∞)`, not `∫ ε`.
+  shifts the filtration by exactly `δ`, which is `∫₀¹ max (H₊ − H₋) dt`, while the Hofer norm
+  of the constant `H₊ − H₋ = δ` is `0`: the general bound is one-sided, not a Hofer-norm bound.
+  A bump `ε` with `ε(±∞) = 0` has equal ends and shifts it by `0`, whatever its integral: the
+  shift is `ε(+∞) − ε(−∞)`, not `∫ ε`.
 
 ### 7.5 Symplectic homology
 
@@ -3583,7 +3613,8 @@ PseudoholomorphicCurveAnalysis PH1–PH7; HeegaardFloer Lanes F0–F2 and Lane M
 compactness of pseudoholomorphic curves; MorseNovikov N1 and N4;
 MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
 C3.2; Layer 6; Tau Ceti's Moore loops; Layer 0 item 1 (for the fundamental chains consumed by Layer 8).
-Source: Salamon, *Lectures on Floer homology*; Audin–Damian, Chapters 6–11; Seidel, *A biased
+Source: Salamon, *Lectures on Floer homology*, §§1.4–1.5, 2.4, 3.2–3.4 and 4.2; Audin–Damian,
+Chapters 6–11; Seidel, *A biased
 view of symplectic cohomology*, §3; Abouzaid, Chapter 1; Hofer–Salamon; Piunikhin–Salamon–Schwarz;
 Floer–Hofer–Salamon; Hutchings §§7.5–7.6 and 8.2; Lee I–II.
 ## Layer 8: the DG Floer toolset
@@ -4115,20 +4146,17 @@ the Floer theory above.
 
 ### 11.1 The finite cover `T × K → G`
 
-Consume LieGroups Layer 5 for the universal cover and its discrete central kernel, and Layer 4
-for Lie's third theorem and the integration of Lie-algebra homomorphisms out of simply connected
-groups. For the Lie algebra `𝔤` of a compact Lie group:
-- own the existence of an `Ad`-invariant inner product, the average of any inner product
-  against CompactGroups Layer 0's Haar probability measure (Meinrenken Corollary 8.16,
-  `meinrenken-lie` lines 1892–1903);
-- consume HamiltonianReduction R5's `Ad`-invariant orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]` for
-  such an inner product, with `𝔷` the centre; own that `[𝔤, 𝔤]` is a direct sum of simple
-  ideals, hence semisimple, by the same argument (the orthogonal complement of an ideal is an
-  ideal; Meinrenken Theorem 8.22, lines 1946–1959);
-- own the sign of the Killing form: the Killing form `B` of `𝔤` (Mathlib `killingForm`) is negative semidefinite with kernel `𝔷`:
-  each `ad X` is skew for the invariant inner product, so `B(X, X) = tr((ad X)²) ≤ 0`, with
-  equality exactly when `ad X = 0` (Meinrenken Proposition 8.33, lines 2131–2140). On a
-  semisimple `𝔨 = [𝔨, 𝔨]`, whose centre is `0`, it is negative definite.
+Consume LieGroups Layer 5 for the universal cover and its discrete central kernel, Layer 4 for
+Lie's third theorem and the integration of Lie-algebra homomorphisms out of simply connected
+groups, and Layer 5A for the Lie algebra `𝔤` of the compact connected group `G`: an
+`Ad`-invariant inner product (the average of any inner product against CompactGroups Layer 0's
+Haar probability measure), the skew-adjointness of every `ad X` for it, the orthogonal
+splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]` with `𝔷` the centre, and the fact that `[𝔤, 𝔤]` is a centreless
+semisimple ideal whose Killing form is negative definite. Own the one corollary that Layer 5A
+does not state: the Killing form `B` of `𝔤` itself (Mathlib `killingForm`) is negative
+semidefinite with kernel `𝔷`, since `B(X, X) = tr((ad X)²) ≤ 0` for the skew `ad X`, with
+equality exactly when `ad X = 0` (Meinrenken Proposition 8.33, `meinrenken-lie` lines
+2131–2140).
 
 Integrate the abelian factor `𝔷 ≅ ℝʳ` and the semisimple factor `[𝔤, 𝔤]` to simply connected
 groups (LieGroups Layer 4), identifying the universal cover with `ℝʳ × K`, where `K` is compact,
@@ -4137,8 +4165,8 @@ connected, simply connected and semisimple (Bröcker–tom Dieck Chapter V for t
 `(ℝʳ × K)/Γ` makes `Λ = Γ ∩ (ℝʳ × {1})` a full lattice in `ℝʳ`, and projection embeds `Γ/Λ` into
 the finite group `Z(K)`, so `Λ` has finite index in `Γ`. Since `Λ` is central, the quotient map
 `(ℝʳ/Λ) × K → (ℝʳ × K)/Γ ≅ G` is a finite covering `T × K → G` with `T = ℝʳ/Λ` a torus
-(Bröcker–tom Dieck Chapter V). *Needs:* LieGroups Layers 4–5, CompactGroups Layer 0,
-HamiltonianReduction R5 (the orthogonal splitting), Mathlib `killingForm`.
+(Bröcker–tom Dieck Chapter V). *Needs:* LieGroups Layers 4, 5 and 5A, CompactGroups Layer 0,
+Mathlib `killingForm`.
 
 **Checks.**
 - `G = U(n)`: the cover is `S¹ × SU(n) → U(n)`, `(z, A) ↦ zA`, of degree `n`, with kernel the
@@ -4162,25 +4190,25 @@ one (Bott, *An application of the Morse theory to the topology of Lie-groups*, �
 corollary of its Theorems A and B, `bott-lie-groups` lines 92–93). The route here detects a root
 subgroup by the Cartan 3-form, with no Morse theory of loop spaces.
 - Let `B` be the Killing form of the Lie algebra `𝔨` (Mathlib `killingForm`), negative definite
-  since `K` is compact semisimple (item 1), and `ω(X, Y, Z) = B(X, [Y, Z])` the
+  by LieGroups Layer 5A because `𝔨 = [𝔨, 𝔨]` for the semisimple `K` of item 1, and
+  `ω(X, Y, Z) = B(X, [Y, Z])` the
   corresponding left-invariant 3-form. It is
   bi-invariant, and closed by the `ad`-invariance of `B` and the Jacobi identity.
-- *Root homomorphisms*, owned here. Choose a maximal torus `T ⊆ K` with Lie algebra `𝔱`
-  (LieGroups Layer 6). The weights of `T` on `𝔨_ℂ` give `𝔨_ℂ = 𝔱_ℂ ⊕ ⨁_{α ∈ R} 𝔨_α`, the
-  weight-zero space being `𝔱_ℂ` (Meinrenken Definition 11.11, `meinrenken-lie` lines
-  3189–3205), and the set `R` of roots is nonempty, since `𝔨 = [𝔨, 𝔨] ≠ 0` is not abelian. For a
-  root `α` the spaces `𝔨_α`, `𝔨_{−α}` and `[𝔨_α, 𝔨_{−α}]` are lines, spanned by `e_α`, `f_α`,
-  `h_α` with `[h_α, e_α] = 2e_α`, `[h_α, f_α] = −2f_α` and `[e_α, f_α] = h_α`; these can be
-  chosen with `ē_α = −f_α` and `h̄_α = −h_α` for the conjugation of `𝔨_ℂ` fixing `𝔨`, so that
-  `𝔰𝔲(2)_α = span_ℝ(e_α − f_α, i(e_α + f_α), i h_α)` lies in `𝔨` (Meinrenken Theorem 12.4 and
-  Proposition 12.5, lines 3466–3534; the complex triple is also Mathlib's
-  `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero` for `𝔨_ℂ` and its splitting
-  Cartan subalgebra `𝔱_ℂ`). The injective Lie-algebra map `𝔰𝔲(2) → 𝔨` onto `𝔰𝔲(2)_α`
-  integrates to `f : SU(2) → K` because `SU(2)` is simply connected (LieGroups Layer 4;
-  Meinrenken Theorem 7.8 and Remark 12.6, lines 1592–1594 and 3537–3543), and the
-  differential of `f` is injective. On a basis `e₁, e₂, e₃` of `𝔰𝔲(2)` with `[e₂, e₃] = e₁` and its
-  cyclic permutations, `f^*ω(e₁, e₂, e₃) = B(df e₁, df e₁) < 0`. So `f^*ω` is a left-invariant,
-  nowhere-vanishing top form on `SU(2) ≅ S³`, and `∫_{S³} f^*ω ≠ 0`.
+- *Root homomorphisms*, consumed from LieGroups Layer 6. Choose a maximal torus `T ⊆ K` with
+  Lie algebra `𝔱`. Since `K` is nontrivial and connected it has positive dimension, and since
+  every element of `K` lies in a maximal torus (Layer 6's exhaustion), `𝔱 ≠ 0`; the compact
+  real roots of `(K, T)` span `𝔱^*` because `𝔨 = [𝔨, 𝔨]` (Layer 6), so the root set `R` is
+  nonempty. For a root `α` take Layer 6's rank-one representative: the compact subalgebra
+  `𝔰𝔲(2)_α ⊆ 𝔨` built from the real root plane of `α` and its coroot `α^∨`, and the
+  homomorphism `f : SU(2) → K` integrating the Lie-algebra isomorphism `𝔰𝔲(2) ≅ 𝔰𝔲(2)_α`
+  (LieGroups Layer 4), normalized by `df(diag(i, −i)) = α^∨`. Its differential is injective:
+  `𝔰𝔲(2)` is simple and `df ≠ 0`. (Meinrenken Theorem 12.4, Proposition 12.5 and Remark 12.6,
+  `meinrenken-lie` lines 3466–3543, obtain the same subalgebras from the `𝔰𝔩₂`-triples of
+  `𝔨_ℂ`, which are also Mathlib's `LieAlgebra.IsKilling.exists_isSl2Triple_of_weight_isNonZero`
+  for `𝔨_ℂ` and its splitting Cartan subalgebra `𝔱_ℂ`.) On a basis `e₁, e₂, e₃` of `𝔰𝔲(2)` with
+  `[e₂, e₃] = e₁` and its cyclic permutations,
+  `f^*ω(e₁, e₂, e₃) = B(df e₁, [df e₂, df e₃]) = B(df e₁, df e₁) < 0`. So `f^*ω` is a
+  left-invariant, nowhere-vanishing top form on `SU(2) ≅ S³`, and `∫_{S³} f^*ω ≠ 0`.
 - If `f : S³ → K` were null-homotopic, smooth the null-homotopy: embed `K` in a Euclidean space
   (Mathlib `exists_embedding_euclidean_of_compact`), approximate by a smooth map
   (`exists_contMDiffMap_forall_mem_convex_of_local`) and project back by GeometricTopology
@@ -4189,19 +4217,22 @@ subgroup by the Cartan 3-form, with no Morse theory of loop spaces.
   a constant lands in a chart ball, where `ω` is exact. This contradicts the previous step, so
   `f` represents a nonzero element of `π₃(K)`.
 
-*Needs:* UniversalCovers, item 1 (the invariant inner product and the Killing form), LieGroups
-Layer 6 (maximal tori) and Layer 4 (integration out of `SU(2)`), DifferentialGeometry Layers 0–1
-and 5 (integration, Stokes and the homotopy operator), GeometricTopology Layer 1 (tubular neighbourhoods), Mathlib `killingForm`,
+*Needs:* UniversalCovers, item 1 (the semisimple factor `K`), LieGroups Layer 5A (the
+negative-definite Killing form of `𝔨`), Layer 6 (maximal tori, their exhaustion of `K`, the
+compact real roots and the rank-one representatives `SU(2) → K`) and Layer 4 (integration out
+of `SU(2)`), DifferentialGeometry Layers 0–1 and 5 (integration, Stokes and the homotopy
+operator), GeometricTopology Layer 1 (tubular neighbourhoods), Mathlib `killingForm`,
 `exists_embedding_euclidean_of_compact` and `exists_contMDiffMap_forall_mem_convex_of_local`.
 
 **Checks.**
 - `π₃(SU(2)) = π₃(S³) = ℤ`, and the root `SU(2)` of `SU(2)` is the identity.
-- The normalization of the rank-one subalgebra on `K = SU(3)` with its diagonal torus and the
-  root `α = ε₁ − ε₂`: the conjugation fixing `𝔰𝔲(3)` is `X ↦ −X*`, so `e_α = E₁₂` gives
-  `f_α = −ē_α = E₂₁` and `h_α = [E₁₂, E₂₁] = E₁₁ − E₂₂`, with `α(h_α) = 2` and
-  `h̄_α = −h_α`; `𝔰𝔲(2)_α` is the upper-left `2 × 2` block and `f` is the block inclusion
-  `SU(2) → SU(3)`. With the sign `f_α = +ē_α = −E₂₁` instead, `e_α − f_α = E₁₂ + E₂₁` is
-  Hermitian, not in `𝔰𝔲(3)`, so the real-form condition excludes that choice.
+- `K = SU(3)` with its diagonal torus and the root `α = ε₁ − ε₂`: the rank-one representative
+  is the block inclusion `f : SU(2) → SU(3)` onto the upper-left `2 × 2` block, with
+  `df(diag(i, −i)) = diag(i, −i, 0) = α^∨` and `α(α^∨) = 2`. With `B(X, Y) = 6 tr(XY)` on
+  `𝔰𝔲(3)` and `e₁ = ½ diag(i, −i)`, `f^*ω(e₁, e₂, e₃) = B(df e₁, df e₁) = 6 tr(¼ diag(−1, −1, 0))
+  = −3`, while the Killing form of `𝔰𝔲(2)` itself gives `4 tr(e₁²) = −2`: the value depends on
+  the ambient group, the sign does not. A representative with `df(diag(i, −i)) = −α^∨` is `f`
+  precomposed with conjugation by `[[0, 1], [−1, 0]]` and gives the same `−3`.
 - `π₃(SO(3)) = π₃(SU(2)) = ℤ` through the double cover; `π₂(SO(3)) = 0`.
 - `π₃(T^r) = 0`: the criterion of item 3 separates `T^r` from every other compact connected
   Lie group. On a torus the Killing form is `0`, so `ω = 0` and the Cartan 3-form detects
@@ -4236,10 +4267,10 @@ CompactGroups. *Needs:* items 1–2, Tau Ceti `IsAspherical`, Mathlib `LieGroup`
 
 ### Dependencies
 
-LieGroups Layers 4–6, CompactGroups Layer 0, UniversalCovers (completed), DifferentialGeometry
-Layers 0–1 and 5, GeometricTopology Layer 1; Mathlib `LieGroup`, `Circle`, `ContinuousMulEquiv`,
-`killingForm`, `exists_embedding_euclidean_of_compact`,
-`exists_contMDiffMap_forall_mem_convex_of_local`; HamiltonianReduction R5; Tau Ceti
+LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0, UniversalCovers (completed),
+DifferentialGeometry Layers 0–1 and 5, GeometricTopology Layer 1; Mathlib `LieGroup`, `Circle`,
+`ContinuousMulEquiv`, `killingForm`, `exists_embedding_euclidean_of_compact`,
+`exists_contMDiffMap_forall_mem_convex_of_local`; Tau Ceti
 `IsAspherical`. Source: the source
 paper §6.4 (Example 6.30 and the proof of Proposition 6.31); Bröcker–tom Dieck, *Representations
 of Compact Lie Groups*, Chapter V; Meinrenken, *Lie groups and Lie algebras*, §§7–8 and 11–12;
@@ -4434,7 +4465,8 @@ Tau Ceti's Mathlib and conventions.
   Applications to cotangent bundles*, arXiv:2404.07953 (version 3): the source paper.
 - J.-F. Barraud, M. Damian, V. Humilière, A. Oancea, *Morse homology with differential graded
   coefficients*, arXiv:2308.06104 (version 3); Progress in Mathematics 360, Birkhäuser, 2025
-  (BDHO): Layers 0 and 3–5, and Remarks 9.2.4–9.2.5 and Proposition 11.3.2 for Layer 1 item 5.
+  (BDHO): Layers 0 and 3–5 (§6.4 for the basepoint change of Layer 3 item 1), and Remarks
+  9.2.4–9.2.5 and Proposition 11.3.2 for Layer 1 item 5.
   Statement numbers follow the arXiv version.
 - J.-F. Barraud, O. Cornea, *Lagrangian intersections and the Serre spectral sequence*, Ann. of
   Math. 166 (2007), arXiv:math/0401094, Appendix A on corner structures: Layer 0 item 1.
@@ -4442,12 +4474,15 @@ Tau Ceti's Mathlib and conventions.
   cubical singular chains.
 - J.-P. Serre, *Homologie singulière des espaces fibrés. Applications*, Ann. of Math. 54 (1951),
   Chapter II; *Groupes d'homotopie et classes de groupes abéliens*, Ann. of Math. 58 (1953),
-  Theorem 1: Layer 0 and Layer 1 item 4.
+  Theorem 1: Layer 0, Layer 1 item 2 (the homological spectral sequence) and item 4.
 - A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002 (the author's online
   edition): Theorem 2A.1, §3.3 (the cap product and Example 3.31), §4.1 (Propositions 4.13,
   4.21, 4.30, Lemma 4.31), §4.2 (Theorem 4.41, Proposition 4.48), §4.3 (pullbacks of
   fibrations), §4.D (Corollary 4D.9, Theorem 4D.10 and Exercises 7–8: Thom classes, Layer 1
   item 5 and Layer 10 item 3), §4.J.
+- A. Hatcher, *Spectral Sequences*, Chapter 1 (the author's online text): Theorem 1.3 with its
+  local-coefficient form and its reduction to CW bases, Theorem 1.14 and the multiplicative
+  structure following it: Layer 1 item 2.
 - C. Weibel, *An Introduction to Homological Algebra*, Cambridge University Press, 1994,
   Theorems 5.5.1 and 5.5.10: Layer 1 item 3.
 - G. W. Whitehead, *Elements of Homotopy Theory*, GTM 61, Springer, 1978, Chapter I: Layer 2.
@@ -4455,8 +4490,8 @@ Tau Ceti's Mathlib and conventions.
   (1960): Layer 1 item 6.
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, Universitext, Springer, 2014 (the
   authors' online edition), Chapters 6–11: Layer 7 items 1–4.
-- D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999), §§1.4, 2.4–2.7,
-  3.1–3.7 and 4.1–4.2: Layer 7.C.
+- D. Salamon, *Lectures on Floer homology*, IAS/Park City Math. Ser. 7 (1999), §§1.4–1.5, 2.4–2.7,
+  3.1–3.7 and 4.1–4.2: Layer 7 items 1 and 4 and Layer 7.C.
 - S. Ivashkovich, V. Shevchishin, *Gromov compactness theorem for stable curves*,
   arXiv:math/9903047 (version 1), Theorem 1.1 and Remark 2: the compactness of genus-zero stable
   maps over a family of structures, the contract gap:genus-zero-stable-map-compactness.
@@ -4501,11 +4536,10 @@ Tau Ceti's Mathlib and conventions.
 - T. Bröcker, T. tom Dieck, *Representations of Compact Lie Groups*, GTM 98, Springer, 1985,
   Chapter V: the structure of compact connected Lie groups behind the finite cover of Layer 11.
 - E. Meinrenken, *Lie groups and Lie algebras*, lecture notes, University of Toronto (the
-  author's online notes, version of Winter 2026): Theorem 7.8 (integration of Lie-algebra
-  homomorphisms), Corollary 8.16 (invariant inner products), Theorem 8.22 (centre and simple
-  ideals), Proposition 8.33 (the Killing form), Definition 11.11 (roots), Theorem 12.4,
-  Proposition 12.5 and Remark 12.6 (the rank-one subalgebras `𝔰𝔲(2)_α` and their
-  homomorphisms `SU(2) → G`): Layer 11 items 1–2.
+  author's online notes, version of Winter 2026): Proposition 8.33 (the Killing form of a
+  compact Lie algebra), Theorem 12.4, Proposition 12.5 and Remark 12.6 (the rank-one
+  subalgebras `𝔰𝔲(2)_α` and their homomorphisms `SU(2) → G`, as background to the LieGroups
+  representatives consumed): Layer 11 items 1–2.
 - R. Bott, *An application of the Morse theory to the topology of Lie-groups*, Bull. Soc. Math.
   France 84 (1956), 251–281, §1 (the corollary to Theorems A and B: `π₃` of a compact simply
   connected Lie group is free, and `ℤ` for a simple one): Layer 11 item 2.
