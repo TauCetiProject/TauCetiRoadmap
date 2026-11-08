@@ -107,7 +107,7 @@ Galois-cohomology modules of `TauCeti/FieldTheory/GaloisCohomology/` (`Coefficie
 `FixedPoints.addSubgroup H M` in `TauCeti/GroupTheory/GroupAction/FixedPoints.lean`,
 `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.exists_openNormalSubgroup_smul_eq_self`,
 `TauCeti.exists_continuous_section`, `TauCeti.leastENatBound`, `TauCeti.IsPPrimaryTorsion`,
-`TauCeti.quotientOpenSubgroup`, `TauCeti.maximalProPQuotient` and the conjugation action on
+`Subgroup.quotientOpenSubgroup`, `TauCeti.maximalProPQuotient` and the conjugation action on
 `TopologicalAbelianization`.
 
 ### Supplied to other roadmaps
@@ -1792,9 +1792,12 @@ Layer 10.
   `TauCeti.StrictCohomologicalDimensionLE`, `TauCeti.cohomologicalDimensionAt` and
   `TauCeti.strictCohomologicalDimensionAt`, with `TauCeti.leastENatBound` and
   `TauCeti.cohomologicalDimension` for `cd`. Tau Ceti lets the coefficients range over
-  `Type (max u v)` for an extra universe `v`; this roadmap reads its invariants at `v = 0`, which is
-  §3's convention that the coefficients live in the universe of the group, and `Suggested.lean`
-  carries its names as abbreviations of the Tau Ceti declarations at that universe. So
+  `Type (max u v)` for an extra universe `v`; this roadmap reads its invariants at `v = u`, so
+  coefficients live in `Type u`, as in §3. This also fixes Mathlib's auxiliary cochain universe
+  to the convention used by Tau Ceti's pro-`p`, Sylow and Demushkin dimension theorems; sharing
+  only the coefficient universe would not make two cohomology constructions definitionally equal.
+  `Suggested.lean` carries its names as abbreviations of the Tau Ceti declarations at this
+  convention. So
   `cd_p G ≤ n ↔ CohomologicalDimensionLE p G n` (`cd_p_le_iff`, which is
   `TauCeti.cohomologicalDimensionAt_le_iff`), and `cd_p G = ⊤` exactly when no bound holds; likewise
   for `scd_p` (`scd_p_le_iff`). Finally `cd G = ⨆ p, cd_p G` in `ℕ∞`, over primes `p`. The
@@ -2169,7 +2172,7 @@ with their evaluation rules, the multiplication rule `evensB1_mul_of_mem`, `even
 `evensGraphCochain_sub_evensGraphCochain`), the graph class `TauCeti.ContCohomology.graphClass` with
 `graphClass_eq_cochainClass` (`Evens/Class.lean`), the trivial coefficients `TauCeti.trivialF2` with
 `TauCeti.trivialF2ResMap`, `TauCeti.isSmoothDiscrete_trivialF2` and
-`TauCeti.ofDiscreteModule_trivialF2`, `TauCeti.quotientOpenSubgroup`, and the connecting-map cup
+`TauCeti.ofDiscreteModule_trivialF2`, `Subgroup.quotientOpenSubgroup`, and the connecting-map cup
 identities of `Cup/ConnectingMap.lean`. This roadmap: Layers 5, 6, 7 and 8 for the cochains of the
 explicit index-2 form, with Layer 3's comparisons, Layer 10's corestriction and Layer 12's `(1,1)`
 cup for its statements on the canonical carrier; Layers 10 and 12 for the general construction.
@@ -2597,7 +2600,7 @@ Item numbers are verified against the editions cited.
   Layer 2): Thm. 3.9 (Shapiro), Thm. 3.10 (`cor ∘ res = (G : H)`), Thm. 3.14
   (inflation-restriction-transgression in degree `n`), Thm. 3.16 (inductive limits), §3.9 (cup
   products); Ch. 5 (cd of pro-`p` groups through `Hⁿ(G, 𝔽_p)`, Def. 5.1) and Ch. 6 (generator and
-  relation ranks through `H¹` and `H²`), which is the `../ProfiniteProPGroups/` interface.
+  relation ranks through `H¹` and `H²`), which is the `../../Completed/ProfiniteProPGroups/` interface.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed. (2006), Ch. I §0: the continuous-cochain
   conventions (p. 2), cup-product properties (0.1.1)-(0.1.6), Remark 0.11 (Shapiro for `M_*`),
   Remark 0.10 (`Ext` colimits), Prop. 0.15 (conjugation acts trivially), the reference point for
