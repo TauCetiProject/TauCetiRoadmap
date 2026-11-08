@@ -5,6 +5,7 @@ import TauCeti.RingTheory.LocalRing.RamificationGroup
 import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
 import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
 import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
+import TauCeti.NumberTheory.Multiquadratic.FundamentalDiscriminant.Realization
 
 /-!
 # Analytic number theory, Part I: target signatures
@@ -12,15 +13,19 @@ import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; these statements suggest Lean forms for its headline results.
 
-Layer 0 states the uniform exclusion of Landau–Siegel zeros with its Kronecker-character,
-Landau-deduction and inert-prime targets (§0.34), the lower bound `L(1, χ) ≥ c / log q` (§0.9),
-which strengthens ImaginaryQuadraticClassNumber's `quadratic_LFunction_siegel`, finite-order
+Layer 0 states the uniform exclusion of Landau–Siegel zeros with its classification of real
+primitive characters, Landau-deduction and inert-prime targets (§0.34), and its effective
+consequences: the lower bound `L(1, χ) ≥ c / log q` (§0.9), which strengthens
+ImaginaryQuadraticClassNumber's `quadratic_LFunction_siegel`, the exception-free bounded-height
+Landau–Page theorem (§0.6), the character prime-number estimate without an exceptional term
+(§0.18) and its quadratic prime-interval form (§0.28). It also states finite-order
 Hadamard factorization, Siegel–Walfisz, Chebyshev's factorial identity and factorial bounds,
 Mertens's von Mangoldt sum with its constant `γ`, and the local expansion of `ζ′/ζ` with its
 half-plane bounds. Layer 1 states Davenport cancellation, the half-interval explicit formula,
 Dirichlet-polynomial means, Selberg density, Mestre's general Weil formula, the `C¹` explicit
 formula for `ζ` with Gauss's digamma integral, and the conditional RH/GRH prime estimates. Layer 2
-states Louboutin's residue bound and bounded-degree Brauer–Siegel. Layer 3 states the
+states Louboutin's residue bound, the effective real quadratic bound for `h R` (§2.13) and
+bounded-degree Brauer–Siegel. Layer 3 states the
 Landau–Ramanujan and restricted Sathe–Selberg counts, Shiu's bound, both Halász mean theorems, the
 Dickman limit, Atkinson's formula, the second and fourth zeta moments with the divisor-square Euler
 identity and the Beurling prime/integer remainder equivalence.
@@ -32,7 +37,7 @@ that rests on them as explicit hypotheses; nothing below proves or performs such
 
 The entire-function layer states Weierstrass primary products, equal-divisor factorization and the
 paired Hadamard theorem. Layer 2 states the K-Bessel kernel, the level-one nonholomorphic
-Eisenstein series, the lower Artin and Swan conductors with their integrality, and Hecke's
+Eisenstein series with its Fourier expansion and completed continuation, the lower Artin and Swan conductors with their integrality, and Hecke's
 continuation and functional equation for every unitary idele-class character on Tau Ceti's
 `HeckeCharacter`. The finite-image Artin `L`-functions of §2.18a, the real quadratic Nielsen
 surfaces of §2.1c and the period identities built on them are specified in the README; their
@@ -58,7 +63,20 @@ A real character is a Mathlib Dirichlet character with `MulChar.IsQuadratic`; pr
 constant below to be effective; effectivity is part of the specification and is not expressed by
 these signatures. -/
 
-/-- A primitive nonprincipal real character is a Kronecker character at odd primes (§0.34a). -/
+/-- The classification of real primitive characters (§0.34a): a primitive nonprincipal real
+character of conductor `q` is the complex realization of the Kronecker character of the
+fundamental discriminant `D = χ(-1) q`. -/
+theorem quadratic_character_eq_fundamentalDiscriminantChar :
+    ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
+      χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
+        let D : ℤ := if χ (-1) = 1 then (q : ℤ) else -(q : ℤ)
+        ∃ hD : Int.IsFundamentalDiscr D, ∀ n : ℤ,
+          χ (n : ZMod q) =
+            TauCeti.Multiquadratic.fundamentalDiscriminantCharCast ℂ D hD (n : ZMod D.natAbs) := by
+  sorry
+
+/-- The radicand form of §0.34a: a primitive nonprincipal real character agrees with the Jacobi
+symbol of a squarefree `d ≠ 1` with `|d| ≤ q` at every odd prime not dividing `q`. -/
 theorem quadratic_character_kronecker :
     ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
       χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
@@ -103,6 +121,40 @@ theorem quadratic_LFunction_one_lower_bound :
     ∃ c : ℝ, 0 < c ∧ ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
       3 ≤ q → χ.IsPrimitive → χ.IsQuadratic → χ ≠ 1 →
         c / Real.log q ≤ (DirichletCharacter.LFunction χ 1).re := by
+  sorry
+
+/-- The exception-free bounded-height Landau–Page theorem (§0.6): for `T ≥ 2` no primitive
+character of modulus `q ≤ T` has a zero `ρ` with `|im ρ| ≤ T` and `re ρ > 1 - c / log T`. The
+README requires `c` to be effective. -/
+theorem landau_page_bounded_height :
+    ∃ c : ℝ, 0 < c ∧ ∀ T : ℝ, 2 ≤ T → ∀ (q : ℕ) [NeZero q], (q : ℝ) ≤ T →
+      ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive → ∀ ρ : ℂ,
+        DirichletCharacter.LFunction χ ρ = 0 → |ρ.im| ≤ T → ρ.re ≤ 1 - c / Real.log T := by
+  sorry
+
+/-- The character prime-number estimate without an exceptional term (§0.18): for a primitive
+nonprincipal character of conductor `N` and `X ≥ X₀`,
+`|Σ_{m ≤ X} χ(m) Λ(m)| ≤ C X exp(-c log X / (√(log X) + log N)) (log N)^4`. The README requires
+`c`, `C` and `X₀` to be absolute and effective. -/
+theorem character_psi_le :
+    ∃ c C X₀ : ℝ, 0 < c ∧ 0 < C ∧ ∀ (N : ℕ) [NeZero N] (χ : DirichletCharacter ℂ N),
+      χ.IsPrimitive → χ ≠ 1 → ∀ X : ℝ, X₀ ≤ X →
+        ‖∑ m ∈ Finset.Icc 1 ⌊X⌋₊, χ m * (ArithmeticFunction.vonMangoldt m : ℂ)‖ ≤
+          C * X * Real.exp (-c * Real.log X / (Real.sqrt (Real.log X) + Real.log N)) *
+            Real.log N ^ 4 := by
+  sorry
+
+/-- The quadratic prime-character interval estimate (§0.28): for a fundamental discriminant
+`D ≠ 1` and `2 ≤ u < v`, the sum of the Kronecker character `(D / p)` over the primes
+`u < p < v` is at most `C v exp(-c log v / (√(log v) + log |D|)) (log (v |D|))^4`. The README
+requires `c` and `C` to be absolute and effective. -/
+theorem quadratic_prime_character_interval_le :
+    ∃ c C : ℝ, 0 < c ∧ 0 < C ∧ ∀ (D : ℤ) (hD : Int.IsFundamentalDiscr D), D ≠ 1 →
+      ∀ u v : ℝ, 2 ≤ u → u < v →
+        |∑ p ∈ (Finset.range ⌈v⌉₊).filter (fun p : ℕ => p.Prime ∧ u < p ∧ (p : ℝ) < v),
+            (TauCeti.Multiquadratic.fundamentalDiscriminantChar D hD (p : ZMod D.natAbs) : ℝ)| ≤
+          C * v * Real.exp (-c * Real.log v / (Real.sqrt (Real.log v) + Real.log D.natAbs)) *
+            Real.log (v * D.natAbs) ^ 4 := by
   sorry
 
 end LandauSiegel
@@ -538,21 +590,27 @@ def besselK (ν : ℂ) (c : ℝ) : ℂ :=
     Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹) / 2) *
       Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)
 
-/-- The kernel is even in the order (§2.1a). -/
-theorem besselK_neg (ν : ℂ) {c : ℝ} (hc : 0 < c) : besselK (-ν) c = besselK ν c := by
-  sorry
-
-/-- The half-order value `K_{1/2}(c) = √(π/(2c)) e^{−c}` (§2.1a). -/
-theorem besselK_one_half {c : ℝ} (hc : 0 < c) :
-    besselK (1 / 2) c = (Real.sqrt (Real.pi / (2 * c)) * Real.exp (-c) : ℝ) := by
-  sorry
-
 /-- The primitive-pair Eisenstein series for `PSL₂(ℤ)`, initially for `1 < re s`; the factor
 `1 / 2` counts each pair of opposite primitive vectors once (§2.1b). -/
 def nonholomorphic_eisenstein (z : UpperHalfPlane) (s : ℂ) : ℂ :=
   1 / 2 * (z.im : ℂ) ^ s *
     ∑' p : {p : ℤ × ℤ // p.1.gcd p.2 = 1},
       (‖(p.val.1 : ℂ) * (z : ℂ) + p.val.2‖ : ℂ) ^ (-2 * s)
+
+/-- The Fourier expansion of the completed Eisenstein series (§2.1b): for `1 < re s`,
+`E*(z, s) = Λ(2s) y^s + Λ(2 - 2s) y^(1-s) + 2 √y Σ_{n ≠ 0} |n|^(s-1/2) σ_{1-2s}(|n|)
+K_{s-1/2}(2π|n|y) e(nx)` with `z = x + iy`, `Λ = completedRiemannZeta` and the series absolutely
+convergent. -/
+theorem completed_eisenstein_fourier (z : UpperHalfPlane) {s : ℂ} (hs : 1 < s.re) :
+    HasSum (fun n : ℤ => if n = 0 then (0 : ℂ) else
+        2 * (Real.sqrt z.im : ℂ) * (n.natAbs : ℂ) ^ (s - 1 / 2) *
+          (∑ d ∈ n.natAbs.divisors, (d : ℂ) ^ (1 - 2 * s)) *
+          besselK (s - 1 / 2) (2 * Real.pi * n.natAbs * z.im) *
+          Complex.exp (2 * Real.pi * Complex.I * n * z.re))
+      (completedRiemannZeta (2 * s) * nonholomorphic_eisenstein z s -
+        completedRiemannZeta (2 * s) * (z.im : ℂ) ^ s -
+        completedRiemannZeta (2 - 2 * s) * (z.im : ℂ) ^ (1 - s)) := by
+  sorry
 
 /-- The completed Eisenstein series `E* = Λ(2s) E` continues meromorphically with simple poles at
 `0, 1`, residues `−1/2, 1/2`, and `E*(z, 1 − s) = E*(z, s)` (§2.1b). -/
@@ -715,6 +773,16 @@ theorem dedekindZeta_residue_le (K : Type*) [Field K] [NumberField K]
     dedekindZeta_residue K ≤
       (Real.exp 1 * Real.log |(discr K : ℝ)| / (2 * (Module.finrank ℚ K - 1))) ^
         (Module.finrank ℚ K - 1) := by
+  sorry
+
+/-- The effective Siegel bound for real quadratic fields (§2.13): `h R ≥ c √D / log D` for the
+discriminant `D`; since `h⁺(D) log ε_D = 2 h R`, this is `h⁺(D) log ε_D ≥ 2c √D / log D`. The
+README requires `c` to be effective. -/
+theorem real_quadratic_classNumber_mul_regulator_ge :
+    ∃ c : ℝ, 0 < c ∧ ∀ (K : Type) [Field K] [NumberField K] [IsTotallyReal K],
+      Module.finrank ℚ K = 2 →
+        c * Real.sqrt |(discr K : ℝ)| / Real.log |(discr K : ℝ)| ≤
+          classNumber K * Units.regulator K := by
   sorry
 
 /-- In bounded degree, hR has discriminant exponent one half, with any positive power loss. -/
