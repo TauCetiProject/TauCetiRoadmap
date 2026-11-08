@@ -5,8 +5,11 @@ arrangements of pseudolines, and the cartographic group acting on flags. The car
 sign vectors `E → SignType`; the structure `Chirotope r E` with the three-term Grassmann–Plücker
 relations and a matroid of bases; `OrientedMatroid E` in covector form; x-monotone arrangements
 `MonotoneArrangement n` with the line at infinity as `none : Option (Fin n)`; wiring diagrams as
-words of adjacent swaps; Mathlib's `CoxeterMatrix` and `CoxeterSystem`; and SurfaceTopology's flag
-carrier `GMap n D`. The end theorems are: the covectors of a chirotope form an oriented matroid;
+words of adjacent swaps; Mathlib's `CoxeterMatrix` and `CoxeterSystem`; and the flag carrier
+`GMap n D` on an arbitrary dart type (0.3). The end theorems are: the orientation double cover of
+a flag system with no fixed dart is orientable, connected iff the system is connected and not
+orientable, and doubles every cell count of a closed-surface map; the covectors of a chirotope
+form an oriented matroid;
 in a simple rank-3 chirotope every tope has at least three walls; Sylvester–Gallai for every
 simple rank-3 chirotope on a finite type (a rank-2 flat with exactly two elements); the cell
 decomposition of a monotone arrangement with `n ≥ 2`, whose point sign vectors are the covectors
@@ -22,14 +25,16 @@ by subgroups of the cartographic group and of regular ones by normal subgroups; 
 maps of the hemi-icosahedron and of the torus `(ZMod n)²`, `n ≥ 3`, whose group has `12 n²`
 elements.
 
-Suggested homes: `TauCeti/Combinatorics/SignVector/` (Layer 0),
+Suggested homes: `TauCeti/Combinatorics/SignVector/` and `TauCeti/Combinatorics/GMap/` (Layer 0),
 `TauCeti/Combinatorics/OrientedMatroid/` (Layers 1, 2, 5), `TauCeti/Combinatorics/Pseudoline/`
 (Layers 3, 4, 6) and `TauCeti/Combinatorics/GMap/Cartographic/` (Layers 7–10).
 
 ## Scope and ownership
 
-**Owned here.** Sign vectors; chirotopes and covector oriented matroids of every finite rank, with
-minors, duality, realizability, the face lattice and the projective face poset (Layers 0–2);
+**Owned here.** Sign vectors, and the flag carrier `GMap n D` on arbitrary dart types with its
+cells, components, isomorphisms, Euler characteristic, closed-surface predicate, orientability and
+orientation double cover (Layer 0); chirotopes and covector oriented matroids of every finite rank,
+with minors, duality, realizability, the face lattice and the projective face poset (Layers 1–2);
 rank-2 oriented matroids as cyclic orders (2.7); rank-3 oriented matroids as x-monotone
 pseudoline arrangements, Sylvester–Gallai and the arrangements with no bigonal element, and the
 map of a projective arrangement with its skeleton (Layer 3); allowable sequences, wiring diagrams,
@@ -40,19 +45,13 @@ group on flags, residues, coset and regular flag systems, string C-groups and ab
 polytopes, the Platonic, hemi-icosahedral and toroidal maps (Layers 7–9); the string and
 cartographic applications of the geometric representation (Layer 10). A search of main and of the
 open roadmap pull requests for oriented matroids, chirotopes, pseudolines and signotopes finds no
-other owner; the flag carrier and the cartographic group are discussed below.
+other owner, and no roadmap on main owns flag systems, generalized maps or their orientation double
+covers (Orbifolds' "generalized maps" are morphisms of orbifolds, a different object).
 
 **Left to other roadmaps.**
 
-- SurfaceTopology Layer 1 owns the flag carrier `GMap n D` (finite, decidable darts), its cells
-  `GMap.Cell`, components `GMap.Components`, `GMap2.Iso`, `GMap2.eulerChar`, `IsSurfaceGMap`,
-  `IsClosedSurfaceGMap` and `GMap2.IsOrientable`; its Layer 2 the conversion between oriented maps
-  and BelyiMaps' bipartite ribbon graphs; its Layer 4 the orientation double cover; its Layer 8 the
-  classification of compact surfaces. This roadmap builds no second carrier and no second
-  conversion. SurfaceTopology excludes higher-dimensional map theory beyond its carrier, so the
-  rank-polymorphic cartographic material of Layers 7 and 9 is owned here, on that carrier.
 - BelyiMaps owns `TauCeti.BipartiteRibbonGraph`, `TauCeti.PermutationTriple`, dessins and
-  triangle groups.
+  triangle groups; maps are not compared with ribbon graphs here.
 - GraphConnectivityAndFlows Target 1.1 owns connectivity, components and isomorphisms of
   Mathlib's `Graph α β` and its bridges to `SimpleGraph`; skeletons (8.3) are such graphs.
 - RootSystems owns the general Coxeter geometric sign and faithfulness theorems (its Layer 1) and
@@ -131,18 +130,19 @@ rank-3 chirotopes with no bigonal element is not a target.
 9. **Signotopes.** A rank-3 signotope on `Fin m` assigns a nonzero sign to each triple `i < j < k`
    and, for each `i < j < k < l`, the values on `ijk, ijl, ikl, jkl` change sign at most once
    (Felsner–Weil). Witness: in 4.4.
-10. **Flag systems.** The carrier is SurfaceTopology's `GMap n D`:
-    `adj : Fin (n + 1) → Equiv.Perm D` with every `adj i` involutive and `adj i`, `adj j` commuting
-    when `i + 2 ≤ j`. Grothendieck's `n`-cartes are exactly these objects. Products of permutations
-    are Mathlib's (`(σ * τ) x = σ (τ x)`). A flag system is *connected* when the group generated by
-    the `adj i` acts transitively on `D`; the empty flag system is connected in this sense, and
-    every statement that needs a flag says `Nonempty D`. Witness: in 7.3.
+10. **Flag systems.** The carrier is `GMap n D` (0.3), on an arbitrary type `D` with no `Fintype`
+    and no `DecidableEq`: `adj : Fin (n + 1) → Equiv.Perm D` with every `adj i` involutive and `adj
+    i`, `adj j` commuting when `i + 2 ≤ j`; `GMap2 D` is `GMap 2 D`. Grothendieck's `n`-cartes are
+    exactly these objects. Products of permutations are Mathlib's (`(σ * τ) x = σ (τ x)`). A flag
+    system is *connected* when the group generated by the `adj i` acts transitively on `D`; the
+    empty flag system is connected in this sense, and every statement that needs a flag says
+    `Nonempty D`. Witness: in 0.3 and 7.3.
 11. **String Coxeter matrices.** `stringCoxeterMatrix n p hp` on `Fin (n + 1)` has `1` on the
     diagonal, `p i` at `(i, i + 1)` and `2` elsewhere; following Mathlib, the entry `0` means `∞`.
     The *cartographic group* `cartographicGroup n` is `(stringCoxeterMatrix n 0 _).Group`.
     Witness: in 7.1.
 12. **Cells, actions and automorphisms.** For `J ⊆ Fin (n + 1)` a `J`-residue is an orbit of the
-    subgroup generated by the `adj j`, `j ∈ J`; the `i`-cells are SurfaceTopology's `GMap.Cell`,
+    subgroup generated by the `adj j`, `j ∈ J` (`GMap.residueRel`); the `i`-cells `GMap.Cell` are
     the residues of `{j | j ≠ i}`. The cartographic group acts on the left; the regular flag system
     of a group `G` with generating involutions `ρ` has flags `G` and `adj i g = ρ i * g`, its
     automorphisms are right multiplications, and its automorphism group is identified with `Gᵐᵒᵖ`,
@@ -155,7 +155,8 @@ rank-3 chirotopes with no bigonal element is not a target.
 
 - Signs and determinants: `SignType`, `SignType.sign`, `Equiv.Perm.sign`, `Matrix.of`,
   `Matrix.det`, `crossProduct`, `Submodule.span`, `Function.update`, `Fin.revPerm`,
-  `Equiv.swap`, `Equiv.optionCongr`, `WithTop`, `List.prod`, `Relation.ReflTransGen`.
+  `Equiv.swap`, `Equiv.optionCongr`, `Equiv.prodCongr`, `Equiv.mulLeft`, `WithTop`, `List.prod`,
+  `Relation.ReflTransGen`.
 - Matroids and orders: `Matroid`, `Matroid.ofIsBaseOfFinite`, `Matroid.ExchangeProperty`,
   `Matroid.IsBase`, `Matroid.IsFlat`, `Matroid.eRk`, `Matroid.dual`, `CircularOrder`, `sbtw`.
 - Topology: `IsPathConnected`.
@@ -164,35 +165,18 @@ rank-3 chirotopes with no bigonal element is not a target.
   `CoxeterMatrix.B`, `CoxeterMatrix.H₃`, `CoxeterMatrix.reindex`, `CoxeterSystem`,
   `CoxeterSystem.lift`, `CoxeterSystem.lengthParity`, `Subgroup.closure`, `Subgroup.center`,
   `Subgroup.zpowers`, `Subgroup.centralizer`, `alternatingGroup`, `MulAction.IsPretransitive`,
-  `MulAction.orbitRel`, `Function.Involutive.toPerm`, `ZMod`.
+  `MulAction.orbitRel`, `MulAction.toPermHom`, `MulAut.conj`, `QuotientGroup.mk`, `Commute`,
+  `Function.Involutive.toPerm`, `ZMod`.
 - Linear algebra: `Representation`, `Finsupp.linearEquivFunOnFinite`, `LinearEquiv.conjAlgEquiv`,
   `MonoidHom.ofClass`.
-- Graphs: `Graph`, `Graph.IsLink`, `Graph.Simple`, `Graph.toSimpleGraph`, `SimpleGraph`.
+- Graphs: `Graph`, `Graph.IsLink`, `Graph.Simple`, `Graph.toSimpleGraph`, `SimpleGraph`,
+  `SimpleGraph.Colorable`, `SimpleGraph.Preconnected`.
 
 **From Tau Ceti** (at the pins). `TauCeti/GroupTheory/Coxeter/Geometric.lean`:
 `CoxeterMatrix.geometricForm`, `CoxeterMatrix.geometricReflection`,
 `CoxeterMatrix.isLiftable_geometricReflection`, `CoxeterSystem.geometricRepresentation`,
 `CoxeterSystem.geometricRepresentation_simple`, `CoxeterSystem.orderOf_simple_mul_simple`,
-`CoxeterSystem.orderOf_simple`, for Layer 10. `TauCeti/Combinatorics/RibbonGraph/`:
-`TauCeti.BipartiteRibbonGraph.even_eulerChar`,
-`TauCeti.BipartiteRibbonGraph.IsConnected.eulerChar_le_two` and
-`TauCeti.BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus`, which reach orientable maps
-through SurfaceTopology Layer 2 (Layer 8).
-
-**From SurfaceTopology.** Layer 1 as it stands:
-`structure GMap (n : ℕ) (D : Type*) [Fintype D] [DecidableEq D]` with `adj`, `involutive`,
-`commute_of_far`; `abbrev GMap2 (D) [Fintype D] [DecidableEq D]`; `GMap.Cell`, `GMap.Components`,
-`GMap2.Iso`, `GMap2.eulerChar`, `IsSurfaceGMap`, `IsClosedSurfaceGMap` (`IsSurfaceGMap` and no dart
-fixed by `adj 2`) and `GMap2.IsOrientable`, for 3.7 and Layer 8. Layer 2:
-`CombinatorialMap.toBipartiteRibbonGraph`, `BipartiteRibbonGraph.toCombinatorialMap` and
-`BipartiteRibbonGraph.eulerChar_toCombinatorialMap`, for Layer 8. Layer 4:
-`GMap2.orientationDoubleCover` and `GMap2.orientationDoubleCover_eulerChar`, for 8.2 and 9.5.
-Layer 8: the classification of compact surfaces, for Layer 8.
-
-What SurfaceTopology must provide (gap:gmap-arbitrary-darts): `GMap n D` and its cells without
-the `Fintype D` and `DecidableEq D` arguments, finiteness a hypothesis of the counting results.
-Layers 7 and 9 need it: coset flag systems live on `cartographicGroup n ⧸ H`, which is infinite
-for subgroups of infinite index, and regular flag systems on arbitrary groups.
+`CoxeterSystem.orderOf_simple`, for Layer 10.
 
 **From GraphConnectivityAndFlows.** Target 1.1: the graph-isomorphism interface of `Graph α β`
 (equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition)
@@ -204,23 +188,25 @@ injective for every Coxeter system `cs : CoxeterSystem M W` on an arbitrary inde
 `Finsupp.linearEquivFunOnFinite`, for 10.1 and 10.2. Its Layer 2 is named in Scope and not used.
 
 Neither pin has orientations of matroids, chirotopes, sign vectors, arrangements of curves,
-wiring diagrams, signotopes or abstract polytopes.
+wiring diagrams, signotopes, flag systems or abstract polytopes.
 
 ## How to read the build
 
-Layer 0 builds sign vectors. Layer 1 builds chirotopes on Layer 0 and Mathlib's matroids, with
-realizations, minors and duality. Layer 2 builds covectors on Layers 0–1 and proves that the
-covectors of a chirotope are an oriented matroid, with walls, the face lattice and rank 2. Layer 3
-is the topological model in rank 3 (monotone arrangements, cells, the Folkman–Lawrence theorem,
-Sylvester–Gallai) on Layers 1–2; its map target 3.7 consumes SurfaceTopology. Layer 4 adds wiring
-diagrams, signotopes and flips on Layers 1–3. Layer 5 builds single-element extensions on Layers 1–2
-and closes the unmarked representation with 3.6. Layer 6 uses Layers 1, 3 and 5 for stretchability
-and the non-Pappus arrangement. Layer 7 builds the cartographic group on Mathlib's Coxeter systems
-and its action on SurfaceTopology's flag carrier; Layer 8 compares SurfaceTopology's maps with Layer
-7 and with Layer 3; Layer 9 builds regular flag systems and the examples on Layers 7–8. Layer 10
-specializes Tau Ceti's geometric representation to the string Coxeter groups of Layer 7.
+Layer 0 builds sign vectors and, on Mathlib's permutations alone, flag systems with their cells,
+Euler characteristic, orientability and orientation double cover. Layer 1 builds chirotopes on Layer
+0 and Mathlib's matroids, with realizations, minors and duality. Layer 2 builds covectors on Layers
+0–1 and proves that the covectors of a chirotope are an oriented matroid, with walls, the face
+lattice and rank 2. Layer 3 is the topological model in rank 3 (monotone arrangements, cells, the
+Folkman–Lawrence theorem, Sylvester–Gallai) on Layers 1–2; its map target 3.7 uses the flag systems
+of Layer 0. Layer 4 adds wiring diagrams, signotopes and flips on Layers 1–3. Layer 5 builds
+single-element extensions on Layers 1–2 and closes the unmarked representation with 3.6. Layer 6
+uses Layers 1, 3 and 5 for stretchability and the non-Pappus arrangement. Layer 7 builds the
+cartographic group on Mathlib's Coxeter systems and its action on the flag systems of Layer 0; Layer
+8 compares the maps of Layer 0 with Layer 7 and with Layer 3; Layer 9 builds regular flag systems
+and the examples on Layers 7–8. Layer 10 specializes Tau Ceti's geometric representation to the
+string Coxeter groups of Layer 7.
 
-## Layer 0: sign vectors
+## Layer 0: sign vectors and flag systems
 
 ### 0.1 Composition, separation, conformal order
 
@@ -260,13 +246,73 @@ restriction after extension is the identity.
 - Extension by `+` instead of `0` does not commute with negation: it sends `-(+) = (-)` to
   `(-, +)`, while the negative of the extension `(+, +)` is `(-, -)`.
 
+### 0.3 Flag systems
+
+Define `GMap n D` (Convention 10) on an arbitrary type `D`, with no `Fintype` and no
+`DecidableEq`, and `GMap2 D := GMap 2 D`; the monodromy group `GMap.monodromy`, the subgroup of
+`Equiv.Perm D` generated by the `adj i`, and connectedness `GMap.IsConnected` (it acts
+transitively); the residues `GMap.residueRel J` (Convention 12), the `i`-cells `GMap.Cell i` and
+the components `GMap.Components` (the residues of `Set.univ`); isomorphisms `GMap.Iso`, an
+equivalence of darts commuting with every `adj i`; in rank 2, `GMap.cellNumbers` (vertices,
+edges, faces) and, for finite `D`, the Euler characteristic `GMap.eulerChar`, the number of
+0-cells minus the number of 1-cells plus the number of 2-cells; the closed-surface predicate
+`GMap.IsClosedSurface` (no dart fixed by `adj 0`, `adj 1` or `adj 2`, and `adj 2 d ≠ adj 0 d`);
+the flag graph `GMap.flagGraph`, the `SimpleGraph D` in which two distinct flags are adjacent when
+some `adj i` exchanges them; and orientability `GMap.IsOrientable`: the flag graph is bipartite
+(`SimpleGraph.Colorable 2`). Prove: isomorphisms have identities, inverses and composites, and
+carry cells to cells, components to components, connectedness, the closed-surface predicate and
+orientability; a flag system is connected iff it has at most one component.
+*Needs:* Mathlib `Equiv.Perm`, `Subgroup.closure`, `MulAction.orbitRel`,
+`MulAction.IsPretransitive`, `SimpleGraph.Colorable`.
+
+**Checks.**
+
+- On four darts with `adj 0 = (01)(23)`, `adj 1 = (03)(12)`, `adj 2 = (02)(13)` (the projective
+  plane): the axioms hold (`adj 0 * adj 2 = (03)(12)`, of square `1`); `cellNumbers = (1, 1, 1)`
+  and `eulerChar = 1`; it is connected and a closed surface; the flags `0, 1, 3` form a triangle of
+  the flag graph (through `adj 0`, `adj 2`, `adj 1`), so it is not orientable.
+- With `adj 1 := adj 0` instead (the sphere with a loop): `cellNumbers = (1, 1, 2)`,
+  `eulerChar = 2`, a closed surface, orientable (the flag graph is the 4-cycle `0, 1, 3, 2`).
+  Counting the residues of `{i}` instead of `{j | j ≠ i}` would give `(2, 2, 2)` and `χ = 2`
+  for the projective plane above.
+- `adj 0 = adj 2 = (01)(23)`, `adj 1 = (03)(12)` satisfies the axioms but fails the closed-surface
+  predicate (`adj 2 d = adj 0 d`).
+- On one dart with every `adj i` the identity, the flag system is connected and orientable (its
+  flag graph has no edge) but not a closed surface; on the empty type it is connected and
+  orientable with `cellNumbers = (0, 0, 0)`.
+
+### 0.4 The orientation double cover
+
+Define `GMap.orientationDoubleCover`: darts `D × Bool`, with `adj i (d, b) = (adj i d, !b)`.
+Prove `GMap.isOrientable_orientationDoubleCover` (it is orientable, coloured by the second
+coordinate); `GMap.isConnected_orientationDoubleCover_iff`: for nonempty `D` with no dart fixed by
+any `adj i`, it is connected iff `G` is connected and not orientable; and
+`GMap.natCard_cell_orientationDoubleCover`: for a finite closed-surface `G` it doubles every cell
+count, and so the Euler characteristic. Route: every residue of a closed-surface map is an even
+cycle of the flag graph (a polygon for `{0, 1}` and `{1, 2}`, a 4-cycle for `{0, 2}`), so it lifts
+to two residues.
+*Needs:* 0.3.
+
+**Checks.**
+
+- The projective plane of 0.3: `(1, 1, 1)`, `χ = 1`, is covered by `(2, 2, 2)`, `χ = 2`,
+  connected.
+- The sphere with a loop of 0.3: `(1, 1, 2)` is covered by `(2, 2, 4)`, with two components.
+- The hemi-octahedron `(3, 6, 4)` is covered by `(6, 12, 8)`, and the hemi-icosahedron
+  `(6, 15, 10)` by `(12, 30, 20)`.
+- The hypotheses of the connectedness criterion are needed: on one dart with every `adj i` the
+  identity, the flag system is connected and orientable while its cover (two darts exchanged by
+  every `adj i`) is connected; on the empty type the flag system is connected and orientable and
+  its cover is connected.
+
 ### Examples
 
 - The nine sign vectors on two elements, with `(+, 0) ≤ᶜ (+, -)` and `(+, 0) ≤ᶜ (+, +)`.
+- The projective plane on four darts and its orientation double cover, the sphere on eight darts.
 
 ### Dependencies
 
-Mathlib only. 0.2 uses 0.1.
+Mathlib only. 0.2 uses 0.1; 0.4 uses 0.3.
 
 ## Layer 1: chirotopes
 
@@ -678,16 +724,15 @@ chirotopes through 3.3. No target of Layers 4 or 5 is used.
 ### 3.7 The projective arrangement as a map
 
 For a simple rank-3 chirotope `χ` on a finite `E`, the maximal chains of the projective face poset
-(vertex < edge < cell), with the involutions changing one member, form a `GMap2` of
-SurfaceTopology, with a labelling of its flags by the element vanishing on their edge. Prove that
-it is connected, `IsClosedSurfaceGMap`, not `GMap2.IsOrientable`, with `GMap2.eulerChar` equal to
+(vertex < edge < cell), with the involutions changing one member, form a `GMap2` (0.3), with a
+labelling of its flags by the element vanishing on their edge. Prove that it is connected,
+`GMap.IsClosedSurface`, not `GMap.IsOrientable`, with `GMap.eulerChar` equal to
 `1`; that its vertices, edges and faces correspond to the classes of cocircuits, of rank-2
 covectors and of topes (2.5), and its vertices to the rank-2 flats of `χ.matroid`; that the
 labelling is constant on `adj 0`- and `adj 2`-orbits; and that relabelling and reorientation of `χ`
-induce isomorphisms (`GMap2.Iso`) commuting with the labels, functorially, from the groupoid of
+induce isomorphisms (`GMap.Iso`) commuting with the labels, functorially, from the groupoid of
 chirotopes up to reorientation to the groupoid of labelled maps.
-*Needs:* 2.5, 2.6; SurfaceTopology Layer 1 `GMap2`, `GMap.Cell`, `GMap2.Iso`, `GMap2.eulerChar`,
-`IsClosedSurfaceGMap`, `GMap2.IsOrientable`.
+*Needs:* 0.3, 2.5, 2.6.
 
 **Checks.**
 
@@ -740,8 +785,8 @@ of the six vertices of `{a, b, c, d}` it passes through (none, one, or an opposi
 
 ### Dependencies
 
-Layers 1–2, SurfaceTopology Layer 1 and Mathlib. 3.2 and 3.3 use 3.1; 3.4 uses 3.3; 3.5
-uses 3.2–3.3; 3.6 uses 1.7, 2.7 and 3.3; 3.7 uses Layer 2; 3.8 uses Layers 1–2.
+Layers 0–2 and Mathlib. 3.2 and 3.3 use 3.1; 3.4 uses 3.3; 3.5 uses 3.2–3.3; 3.6 uses 1.7, 2.7
+and 3.3; 3.7 uses 0.3 and Layer 2; 3.8 uses Layers 1–2.
 
 ## Layer 4: wiring diagrams, allowable sequences, signotopes, flips
 
@@ -1056,13 +1101,15 @@ Layers 1, 3, 4 and 5 and Mathlib. 6.1 uses 3.4; 6.3 uses 5.5 and 6.2; 6.4 uses 4
 
 ## Layer 7: the cartographic group acting on flags
 
-The carrier is SurfaceTopology's `GMap n D` on an arbitrary dart type
-(gap:gmap-arbitrary-darts); nothing in this layer assumes finiteness except where stated.
+The carrier is the `GMap n D` of 0.3, on an arbitrary dart type; nothing in this layer assumes
+finiteness except where stated.
 
 ### 7.1 String Coxeter matrices
 
 Define `stringCoxeterMatrix n p hp` (hypothesis `∀ i, p i ≠ 1`) and `cartographicGroup n`
-(Convention 11), proving the three conditions of `CoxeterMatrix`.
+(Convention 11), proving the three conditions of `CoxeterMatrix`, that non-adjacent entries are
+`2` (`stringCoxeterMatrix_of_far`), and that two simple reflections with entry `2` commute
+(`commute_simple_of_eq_two`).
 *Needs:* Mathlib `CoxeterMatrix`, `CoxeterMatrix.Group`.
 
 **Checks.**
@@ -1074,14 +1121,14 @@ Define `stringCoxeterMatrix n p hp` (hypothesis `∀ i, p i ≠ 1`) and `cartogr
 ### 7.2 Two presentations of the axioms
 
 Prove that the involutions of a `GMap n D` satisfy the relations of `stringCoxeterMatrix n 0`
-(`CoxeterMatrix.IsLiftable`), and that a family satisfying them is a `GMap n D`. Hence the
-monodromy homomorphism `cartographicGroup n →* Equiv.Perm D` through `CoxeterSystem.lift`, and
-conversely the flag system of a homomorphism `cartographicGroup n →* Equiv.Perm D`; these are
-inverse. The monodromy homomorphism factors through `(stringCoxeterMatrix n p hp).Group` iff
-`(adj i * adj (i + 1)) ^ p i = 1` for every `i`; the *type* of a finite flag system is the tuple of
-orders of the `adj i * adj (i + 1)`.
-*Needs:* 7.1; SurfaceTopology Layer 1 `GMap` (gap:gmap-arbitrary-darts); Mathlib
-`CoxeterSystem.lift`.
+(`GMap.isLiftable_adj`, in the sense of `CoxeterMatrix.IsLiftable`), and that a family satisfying
+them is a `GMap n D`. Hence the monodromy homomorphism `GMap.monodromyHom :
+cartographicGroup n →* Equiv.Perm D` through `CoxeterSystem.lift`, and conversely the flag system
+`GMap.ofMonodromyHom φ` of a homomorphism `φ : cartographicGroup n →* Equiv.Perm D`; these are
+inverse. `GMap.exists_monoidHom_stringCoxeterMatrix_iff`: the monodromy homomorphism factors
+through `(stringCoxeterMatrix n p hp).Group` iff `(adj i * adj (i + 1)) ^ p i = 1` for every `i`;
+the *type* of a finite flag system is the tuple of orders of the `adj i * adj (i + 1)`.
+*Needs:* 0.3, 7.1; Mathlib `CoxeterSystem.lift`.
 
 **Checks.**
 
@@ -1094,11 +1141,12 @@ orders of the `adj i * adj (i + 1)`.
 
 ### 7.3 Monodromy
 
-Define the monodromy group (the subgroup generated by the `adj i`, the range of the monodromy
-homomorphism), morphisms (equivariant maps) and automorphisms (`Subgroup.centralizer` of the
-`adj i`). Prove: a morphism from a nonempty flag system to a connected one is surjective; the
-automorphism group of a connected flag system acts freely on flags; a finite connected flag
-system with `Nonempty D` has at most `Nat.card D` automorphisms.
+Prove that the monodromy group of 0.3 is the range of the monodromy homomorphism. Define morphisms
+(equivariant maps) and the automorphism group `GMap.aut` (`Subgroup.centralizer` of the `adj i`).
+Prove `GMap.surjective_of_map_adj`: a morphism from a nonempty flag system to a connected one is
+surjective; `GMap.eq_of_mem_aut_of_apply_eq`: the automorphism group of a connected flag system
+acts freely on flags; `GMap.natCard_aut_le`: a finite connected flag system with `Nonempty D` has
+at most `Nat.card D` automorphisms.
 *Needs:* 7.2; Mathlib `Subgroup.closure`, `Subgroup.centralizer`, `MulAction.IsPretransitive`.
 
 **Checks.**
@@ -1112,11 +1160,11 @@ system with `Nonempty D` has at most `Nat.card D` automorphisms.
 
 ### 7.4 Residues
 
-Define `J`-residues for every `J ⊆ Fin (n + 1)`, of which SurfaceTopology's cells are the case
-`J = {j | j ≠ i}`; incidence of residues (sharing a flag); and the flag graph (`SimpleGraph D`,
-adjacency by some `adj i` with `adj i φ ≠ φ`). Prove that a flag system is connected iff its flag
-graph is.
-*Needs:* 7.2; Mathlib `MulAction.orbitRel`, `SimpleGraph`.
+For the `J`-residues of 0.3 (`J ⊆ Fin (n + 1)`, the cells being the case `J = {j | j ≠ i}`),
+define incidence (sharing a flag), and prove that residues of `J ⊆ K` are unions of residues of
+`J`. Prove `GMap.isConnected_iff_preconnected_flagGraph`: a flag system is connected iff its flag
+graph (0.3; adjacency by some `adj i` with `adj i φ ≠ φ`) is preconnected.
+*Needs:* 0.3, 7.2; Mathlib `MulAction.orbitRel`, `SimpleGraph.Preconnected`.
 
 **Checks.**
 
@@ -1127,10 +1175,12 @@ graph is.
 
 ### 7.5 Coset flag systems and classification
 
-Define the coset flag system of `H ≤ cartographicGroup n` on `cartographicGroup n ⧸ H`. Prove:
-pointed connected flag systems up to pointed isomorphism correspond to subgroups (the stabilizer of
-the base flag); nonempty connected ones up to isomorphism to conjugacy classes of subgroups; finite
-ones to subgroups of finite index.
+Define the coset flag system `GMap.cosetGMap H` of `H ≤ cartographicGroup n` on
+`cartographicGroup n ⧸ H`, the flag system of `MulAction.toPermHom`. Prove: pointed connected flag
+systems up to pointed isomorphism correspond to subgroups (the stabilizer of the base flag);
+nonempty connected ones up to isomorphism to conjugacy classes of subgroups
+(`GMap.exists_iso_cosetGMap`, `GMap.nonempty_iso_cosetGMap_iff`); finite ones to subgroups of
+finite index.
 *Needs:* 7.2, 7.3; Mathlib `MulAction.orbitRel`.
 
 **Checks.**
@@ -1147,41 +1197,38 @@ ones to subgroups of finite index.
 
 ### Dependencies
 
-Mathlib and SurfaceTopology Layer 1 (gap:gmap-arbitrary-darts). 7.2 uses 7.1; 7.3 and 7.4 use 7.2;
-7.5 uses 7.2 and 7.3.
+Layer 0 and Mathlib. 7.2 uses 0.3 and 7.1; 7.3 and 7.4 use 7.2; 7.5 uses 7.2 and 7.3.
 
-## Layer 8: maps, consumed from SurfaceTopology and compared here
+## Layer 8: maps, compared with the cartographic group and with arrangements
 
-A *map* is a connected `GMap2 D` with `IsClosedSurfaceGMap` (SurfaceTopology Layer 1: no dart
-fixed by `adj 0`, `adj 1` or `adj 2`, and `adj 2 d ≠ adj 0 d`). Its cells, `GMap2.eulerChar`,
-`GMap2.IsOrientable`, the orientation double cover with doubled Euler characteristic
-(SurfaceTopology Layer 4) and the classification of closed surfaces (SurfaceTopology Layer 8) are
-consumed. The conversion between orientable maps and bipartite ribbon graphs whose white vertices
-have degree two is SurfaceTopology Layer 2's, and Tau Ceti's bounds
-`TauCeti.BipartiteRibbonGraph.IsConnected.eulerChar_le_two` and
-`TauCeti.BipartiteRibbonGraph.even_eulerChar` reach maps through it.
+A *map* is a connected `GMap2 D` with `GMap.IsClosedSurface` (0.3: no dart fixed by `adj 0`,
+`adj 1` or `adj 2`, and `adj 2 d ≠ adj 0 d`). Its cells, `GMap.eulerChar`, `GMap.IsOrientable`
+and the orientation double cover with doubled cell counts are those of 0.3–0.4.
 
 ### 8.1 Orientability in the cartographic group
 
-The even part of the monodromy group is the image of the kernel of `CoxeterSystem.lengthParity`.
-Prove: a map with `Nonempty D` is `GMap2.IsOrientable` iff the even part is not transitive on
-flags, and it then has exactly two orbits.
-*Needs:* 7.2; SurfaceTopology Layer 1 `GMap2.IsOrientable`; Mathlib `CoxeterSystem.lengthParity`.
+The even part `GMap.evenMonodromy` of the monodromy group is the image of the kernel of
+`CoxeterSystem.lengthParity` under the monodromy homomorphism. Prove
+`GMap.isOrientable_iff_not_isPretransitive_evenMonodromy`: a map with `Nonempty D` is
+`GMap.IsOrientable` iff the even part is not transitive on flags, and it then has exactly two
+orbits.
+*Needs:* 0.3, 7.2; Mathlib `CoxeterSystem.lengthParity`.
 
 **Checks.**
 
 - The empty map is orientable (any `S` works) and its even part is transitive (vacuously):
   without `Nonempty D` the iff fails.
 - The tetrahedron (24 flags) is orientable, and the even part has two orbits of 12 flags.
-- The projective plane `aa` of SurfaceTopology Layer 1 (four darts) is not orientable, and the
-  even part is transitive.
+- The projective plane on four darts (0.3) is not orientable, and the even part is transitive.
+- The closed-surface hypothesis is needed: on one dart with every `adj i` the identity, the flag
+  system is orientable and its even part is transitive.
 
 ### 8.2 The projective plane of an arrangement
 
 Prove that the map of 3.7 is a map in this sense, not orientable, with Euler characteristic `1`,
 and that its orientation double cover is the map of the covectors on the sphere (vertices the
 cocircuits, faces the topes), with Euler characteristic `2`.
-*Needs:* 2.6, 3.7; SurfaceTopology Layer 4 `GMap2.orientationDoubleCover`.
+*Needs:* 0.4, 2.6, 3.7.
 
 **Checks.**
 
@@ -1197,15 +1244,15 @@ Define the skeleton of a `GMap2`: the vertex-edge incidence multigraph as a Math
 `Graph (G.Cell 0) (G.Cell 1)`, with loops and parallel edges kept; when it is `Graph.Simple`, the
 `SimpleGraph` on vertices is `Graph.toSimpleGraph` of it. Its connectivity and isomorphisms are
 GraphConnectivityAndFlows Target 1.1's.
-*Needs:* SurfaceTopology Layer 1 `GMap.Cell`; GraphConnectivityAndFlows Target 1.1; Mathlib `Graph`,
-`Graph.IsLink`.
+*Needs:* 0.3; GraphConnectivityAndFlows Target 1.1; Mathlib `Graph`, `Graph.IsLink`.
 
 **Checks.**
 
 - Three elements in general position: 3 vertices and 6 edges in three parallel pairs, not
   `Graph.Simple`.
 - Four elements in general position: the octahedral graph, simple, 4-regular.
-- The projective plane `aa`: one vertex and one edge, a loop, which the multigraph keeps.
+- The projective plane on four darts (0.3): one vertex and one edge, a loop, which the multigraph
+  keeps.
 
 ### 8.4 Skeletons: faithfulness and the uniform case
 
@@ -1227,7 +1274,7 @@ Theorem 10.28) its embedding in the sphere is unique, and the pseudolines are th
 each vertex through the edge opposite to the one they entered by (Eppstein 2014, Lemma 1 and its
 proof). The last step is that the projective face poset determines a simple oriented matroid up to
 reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
-*Needs:* 1.6, 3.7, 8.3; SurfaceTopology Layer 1 `GMap2.Iso`; GraphConnectivityAndFlows Target 1.1.
+*Needs:* 0.3, 1.6, 3.7, 8.3; GraphConnectivityAndFlows Target 1.1.
 
 **Checks.**
 
@@ -1247,19 +1294,21 @@ reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
 
 ### Dependencies
 
-Layers 1, 2, 3 and 7, SurfaceTopology Layers 1, 2, 4 and 8, GraphConnectivityAndFlows Target
-1.1. 8.1 uses 7.2; 8.2 uses 3.7; 8.4 uses 1.6, 3.7 and 8.3.
+Layers 0, 1, 2, 3 and 7, GraphConnectivityAndFlows Target 1.1. 8.1 uses 0.3 and 7.2; 8.2 uses 0.4
+and 3.7; 8.3 uses 0.3; 8.4 uses 1.6, 3.7 and 8.3.
 
 ## Layer 9: regular flag systems, string C-groups and regular polytopes
 
 ### 9.1 Regular flag systems
 
-A connected flag system is *regular* when its monodromy group acts freely. Prove: for finite
-connected ones with `Nonempty D`, regular ↔ the automorphism group acts transitively ↔ it has
-`Nat.card D` elements; nonempty regular connected flag systems up to isomorphism correspond to
-normal subgroups `N` of `cartographicGroup n`, and the automorphism group of the coset flag system
-of `N` is `≃* (cartographicGroup n ⧸ N)ᵐᵒᵖ`.
-*Needs:* 7.3, 7.5 (gap:gmap-arbitrary-darts).
+A connected flag system is *regular* (`GMap.IsRegular`) when its monodromy group acts freely.
+Prove: for finite connected ones with `Nonempty D`, regular ↔ the automorphism group acts
+transitively ↔ it has `Nat.card D` elements (`GMap.isRegular_iff_isPretransitive_aut`,
+`GMap.isRegular_iff_natCard_aut`); nonempty regular connected flag systems up to isomorphism
+correspond to normal subgroups `N` of `cartographicGroup n` (`GMap.exists_normal_iso_cosetGMap`),
+and the automorphism group of the coset flag system of `N` is `≃* (cartographicGroup n ⧸ N)ᵐᵒᵖ`
+(`GMap.nonempty_mulEquiv_aut_cosetGMap`).
+*Needs:* 7.3, 7.5.
 
 **Checks.**
 
@@ -1270,9 +1319,12 @@ of `N` is `≃* (cartographicGroup n ⧸ N)ᵐᵒᵖ`.
 
 ### 9.2 Regular flag system of a group
 
-Define the regular flag system of `ρ : Fin (n + 1) → G` satisfying the relations of
-`stringCoxeterMatrix n 0` (Convention 12). Prove that it is connected iff the `ρ i` generate `G`,
-and then regular with automorphism group `Gᵐᵒᵖ`; and that every nonempty regular connected flag
+Define the regular flag system `GMap.ofGroup ρ hρ hfar` of `ρ : Fin (n + 1) → G` satisfying the
+relations of `stringCoxeterMatrix n 0` (Convention 12), and the regular flag system
+`GMap.ofMonodromy` of the monodromy group on its generators `GMap.monodromyGen i`
+(`GMap.monodromyGen_mul_self`, `GMap.commute_monodromyGen`). Prove `GMap.isConnected_ofGroup_iff`:
+it is connected iff the `ρ i` generate `G`; `GMap.isRegular_ofGroup`: it is then regular with
+automorphism group `Gᵐᵒᵖ`; and `GMap.nonempty_iso_ofMonodromy`: every nonempty regular flag
 system is isomorphic to the regular flag system of its monodromy group.
 *Needs:* 7.2, 9.1.
 
@@ -1307,12 +1359,16 @@ system is; regular polytopes of rank `n + 1` up to isomorphism correspond to str
 
 ### 9.4 Platonic maps
 
-Prove that `Nat.card` of `(CoxeterMatrix.A 3).Group`, `(CoxeterMatrix.B 3).Group` and
-`CoxeterMatrix.H₃.Group` are `24`, `48`, `120`, each a string C-group; that their regular flag
-systems are maps of types `{3,3}`, `{3,4}`, `{3,5}`, and reversing the generators
-(`CoxeterMatrix.reindex Fin.revPerm`) gives `{4,3}` and `{5,3}`; with vertices, edges and faces
-`(4,6,4)`, `(6,12,8)`, `(8,12,6)`, `(12,30,20)`, `(20,30,12)`, all orientable with Euler
-characteristic 2; and that the icosahedral skeleton is a 5-regular simple graph on 12 vertices.
+Define `coxeterGMap cs hM`, the regular flag system of a Coxeter system whose non-adjacent
+entries are `2`, and the maps `tetrahedronGMap`, `octahedronGMap`, `icosahedronGMap` of
+`CoxeterMatrix.A 3`, `CoxeterMatrix.B 3`, `CoxeterMatrix.H₃`, and `cubeGMap`, `dodecahedronGMap`
+of the last two with their generators reversed (`CoxeterMatrix.reindex Fin.revPerm`). Prove
+`natCard_platonicGroups`: `Nat.card` of the three groups are `24`, `48`, `120`; that each is a
+string C-group; that the regular flag systems are maps of types `{3,3}`, `{3,4}`, `{3,5}`, `{4,3}`
+and `{5,3}`, with vertices, edges and faces `(4,6,4)`, `(6,12,8)`, `(8,12,6)`, `(12,30,20)`,
+`(20,30,12)` (`cellNumbers_platonic`), all closed-surface and orientable with Euler
+characteristic 2 (`isClosedSurface_isOrientable_platonic`); and that the icosahedral skeleton is a
+5-regular simple graph on 12 vertices.
 *Needs:* 8.3, 9.2, 9.3.
 
 **Checks.**
@@ -1329,11 +1385,14 @@ characteristic 2; and that the icosahedral skeleton is a 5-regular simple graph 
 Define `hemiW₀ = (s 0 * s 1 * s 2) ^ 5` in `CoxeterMatrix.H₃.Group` and prove
 `center_eq_zpowers_hemiW₀` (it generates the centre, of order 2) and
 `nonempty_mulEquiv_alternatingGroup` (the quotient by the centre is `alternatingGroup (Fin 5)`).
-The regular flag system of the quotient is the hemi-icosahedron: 60 flags, 6 vertices, 15 edges,
-10 faces, non-orientable, Euler characteristic 1, type `{3,5}`, skeleton the complete graph on six
-vertices; the quotient is a string C-group, so the hemi-icosahedron is a regular polytope; the
-icosahedral map is its orientation double cover (SurfaceTopology Layer 4).
-*Needs:* 8.1, 9.2–9.4; Mathlib `Subgroup.center`, `Subgroup.zpowers`, `alternatingGroup`.
+The regular flag system `hemiIcosahedronGMap` of the quotient is the hemi-icosahedron: 60 flags,
+6 vertices, 15 edges, 10 faces, a closed surface, non-orientable
+(`cellNumbers_hemiIcosahedronGMap`), Euler characteristic 1, type `{3,5}`, skeleton the complete
+graph on six vertices; the quotient is a string C-group, so the hemi-icosahedron is a regular
+polytope; the icosahedral map is its orientation double cover (0.4,
+`nonempty_iso_orientationDoubleCover_hemiIcosahedronGMap`).
+*Needs:* 0.4, 8.1, 9.2–9.4; Mathlib `Subgroup.center`, `Subgroup.zpowers`, `alternatingGroup`,
+`QuotientGroup.mk`.
 
 **Checks.**
 
@@ -1345,13 +1404,14 @@ icosahedral map is its orientation double cover (SurfaceTopology Layer 4).
 
 ### 9.6 Regular triangulations of the torus
 
-Define `torusInvolution n`, `ρ 0 (x, y) = (1 - x + y, y)`, `ρ 1 (x, y) = (x, x - y)`,
-`ρ 2 (x, y) = (x - y, -y)` on `ZMod n × ZMod n`, and `torusGroup n`, the subgroup they generate.
-Prove `card_torusGroup`: for `n ≥ 3` it has `12 n²` elements. Prove that its regular flag system
-is an orientable map of type `{3,6}` with `n²` vertices, `3 n²` edges, `2 n²` faces and Euler
-characteristic 0; that its vertices correspond to the points of `ZMod n × ZMod n` and its skeleton
-is the 6-regular simple graph joining `v` to `v ± (1,0)`, `v ± (0,1)`, `v ± (1,1)`; and that
-reversing the generators gives the hexagonal map of type `{6,3}` (Coxeter–Moser 1980, §8.4).
+Define `torusInvolution n`, `ρ 0 (x, y) = (1 - x + y, y)`, `ρ 1 (x, y) = (x, x - y)`, `ρ 2 (x, y) =
+(x - y, -y)` on `ZMod n × ZMod n`, and `torusGroup n`, the subgroup they generate. Prove
+`card_torusGroup`: for `n ≥ 3` it has `12 n²` elements. Prove that its regular flag system
+`torusGMap n` (the involutions being `torusInvolution_involutive`) is an orientable closed-surface
+map of type `{3,6}` with `n²` vertices, `3 n²` edges, `2 n²` faces (`cellNumbers_torusGMap`) and
+Euler characteristic 0; that its vertices correspond to the points of `ZMod n × ZMod n` and its
+skeleton is the 6-regular simple graph joining `v` to `v ± (1,0)`, `v ± (0,1)`, `v ± (1,1)`; and
+that reversing the generators gives the hexagonal map of type `{6,3}` (Coxeter–Moser 1980, §8.4).
 *Needs:* 8.3, 9.2; Mathlib `ZMod`, `Function.Involutive.toPerm`, `Subgroup.closure`.
 
 **Checks.**
@@ -1375,7 +1435,7 @@ multiple edges (the hosohedron `{2, n}`).
 
 ### Dependencies
 
-Layers 7–8, SurfaceTopology Layers 1 and 4 (gap:gmap-arbitrary-darts) and Mathlib. 9.2 uses 9.1;
+Layers 0, 7 and 8 and Mathlib. 9.2 uses 9.1;
 9.3 uses 9.2; 9.4 uses 9.2–9.3; 9.5 uses 9.2–9.4; 9.6 uses 9.2.
 
 ## Layer 10: applications of the geometric representation
