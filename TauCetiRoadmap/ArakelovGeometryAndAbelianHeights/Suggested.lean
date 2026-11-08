@@ -6,16 +6,17 @@ import Mathlib
 # Arakelov geometry and heights of abelian varieties: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It is meant to state the roadmap's
-headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, but no headline
-theorem can be stated against the pinned interfaces:
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, but none of the
+headline theorems is statable against the pinned interfaces:
 
 * Layer 1's arithmetic divisor–hermitian Picard comparison, arithmetic cycle pairing and ample
   Northcott theorem require arithmetic hermitian bundles, Green functions and metrized
   line-bundle heights. Ordinary invertible sheaves and relative tuple heights exist, but do not
   supply these objects.
 * Layers 2–3's integral Hodge-line duality, base-change correction and geometric stable height
-  require the invariant-differential determinant, Néron models and the Faltings integration
-  metric. Tau Ceti has abelian varieties and isogenies, but lacks these arithmetic objects and
+  require Néron models, the determinant of their invariant differentials and the Faltings
+  integration metric. Tau Ceti has abelian varieties and isogenies over fields and the
+  determinant of a finite locally free sheaf, but lacks Néron models, the Faltings metric and
   the semi-abelian families used in the extension theorem of §2.0.
 * Layer 4's isogeny formula, half-log-degree bounds, dual-different identity and squared
   Hodge-line isometry require the metrized Néron Hodge lattice and its determinant different.
