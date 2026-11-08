@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.InfinitaryLogic.Suggested
+import Completed.InfinitaryLogic.Suggested
 
 /-!
 # Counting countable models: Morley's theorem and the Vaught toolkit: suggested signatures
