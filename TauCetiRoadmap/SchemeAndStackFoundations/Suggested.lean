@@ -5,6 +5,7 @@ import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
+import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
 
@@ -181,9 +182,10 @@ theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
     (J : Ideal S) [HenselianRing S J] (f : R →+* S) (hf : I ≤ J.comap f) :
     ∃! g : algebra I →+* S, g.comp (algebraMap R (algebra I)) = f := by sorry
 
-/-- A henselian pair is its own henselization. -/
+/-- A henselian pair is its own henselization: the canonical map `R → R^h` is bijective.
+Stacks, Lemma 15.12.1 (universal property). -/
 theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
-    Nonempty (algebra I ≃ₐ[R] R) := by sorry
+    Function.Bijective (algebraMap R (algebra I)) := by sorry
 
 end Henselization
 
@@ -656,7 +658,7 @@ universe v w
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
 open scoped _root_.TensorProduct
 
-/-! ### §2.5–§2.7 Vanishing theorems and local cohomology -/
+/-! ### §2.5–§2.6 Vanishing theorems -/
 
 namespace SiteCohomology
 
@@ -689,27 +691,6 @@ theorem isAffine_of_H1_vanishing (X : Scheme.{u}) [CompactSpace X]
   sorry
 
 end QCoh
-
-namespace Supports
-
-/-- Degree zero of the colimit-of-Ext local cohomology is the `I`-power torsion, for any
-commutative ring. Stacks, Lemma 47.8.2 (0954). -/
-theorem localCohomology_degreeZero (A : Type u) [CommRing A] (I : Ideal A)
-    (M : ModuleCat.{u} A) :
-    Nonempty ((localCohomology I 0).obj M ≃
-      {m : M // ∃ n : ℕ, ∀ a ∈ I ^ n, a • m = 0}) := by
-  sorry
-
-/-- Flat base change of local cohomology over Noetherian rings. Stacks, Lemmas 47.10.3 and
-47.9.7. -/
-theorem localCohomology_flat_baseChange (A B : Type u) [CommRing A] [CommRing B]
-    [Algebra A B] [IsNoetherianRing A] [IsNoetherianRing B] [Module.Flat A B]
-    (I : Ideal A) (M : ModuleCat.{u} A) (q : ℕ) :
-    Nonempty ((B ⊗[A] (localCohomology I q).obj M) ≃ₗ[B]
-      (localCohomology (I.map (algebraMap A B)) q).obj (ModuleCat.of B (B ⊗[A] M))) := by
-  sorry
-
-end Supports
 
 /-! ### §2.11 and §2.16 Artin–Schreier and Tsen -/
 
@@ -826,10 +807,18 @@ def DQCoh (X : Scheme.{u}) : Type (u + 1) :=
 instance (X : Scheme.{u}) : Category.{u + 1} (DQCoh X) := by
   unfold DQCoh; infer_instance
 
-/-- For `X = Spec A`, `D(A) ≌ D_QCoh(O_X)`. Stacks, Lemma 36.3.5 (06Z0). -/
+/-- The standard derived category of `A`-modules, the source of the derived `M ↦ M~`. -/
+instance instHasDerivedCategoryModuleCat (A : CommRingCat.{u}) :
+    HasDerivedCategory (ModuleCat.{u} A) :=
+  HasDerivedCategory.standard _
+
+/-- For `X = Spec A`, the derived functor of the exact functor `M ↦ M~` is fully faithful on
+`D(A)` with essential image `D_QCoh(O_X)`, so it gives `D(A) ≌ D_QCoh(O_X)`.
+Stacks, Lemma 36.3.5 (06Z0). -/
 theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
-    letI := HasDerivedCategory.standard (ModuleCat.{u} A)
-    Nonempty (DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A)) := by
+    (tilde.functor A).mapDerivedCategory.Full ∧ (tilde.functor A).mapDerivedCategory.Faithful ∧
+      ∀ K : DerivedCategory (Spec A).Modules, (tilde.functor A).mapDerivedCategory.essImage K ↔
+        ∀ n : ℤ, ((DerivedCategory.homologyFunctor (Spec A).Modules n).obj K).IsQuasicoherent := by
   sorry
 
 end Coherent
@@ -948,19 +937,17 @@ theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of
   sorry
 
 /-- Pullback multiplies degree by the function-field degree for nonconstant maps of
-proper integral curves. Stacks, Lemma 33.44.11 (0AYZ). -/
+proper integral curves; `K(Y) → K(X)` is the algebra map compatible with `f` at the generic
+points. Stacks, Lemma 33.44.11 (0AYZ). -/
 theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
     [IsProper (X ↘ Spec (.of k))] [IsProper (Y ↘ Spec (.of k))]
     (hX : topologicalKrullDim X = 1) (hY : topologicalKrullDim Y = 1)
     (f : X ⟶ Y) [IsDominant f] (hf : f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)))
+    [Algebra Y.functionField X.functionField]
+    (hφ : Spec.map (CommRingCat.ofHom (algebraMap Y.functionField X.functionField)) ≫
+      Y.fromSpecStalk (genericPoint Y) = X.fromSpecStalk (genericPoint X) ≫ f)
     (E : Y.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
-    let φ := Y.presheaf.stalkSpecializes
-      (show f (genericPoint X) ⤳ genericPoint Y by
-        have h := (genericPoint_spec X).image f.continuous
-        rw [Set.image_univ, (Scheme.Hom.denseRange f).closure_range] at h
-        exact h.specializes (Set.mem_univ _)) ≫ f.stalkMap (genericPoint X)
-    letI := φ.hom.toAlgebra
     vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) r =
       Module.finrank Y.functionField X.functionField * vectorBundleDegree k Y E r := by sorry
 
@@ -1001,9 +988,13 @@ end Curve
 
 namespace Picard
 
-/-- On an affine scheme, line-bundle classes are Mathlib's `CommRing.Pic`. -/
+/-- On an affine scheme, line-bundle classes are Mathlib's `CommRing.Pic`: the group isomorphism
+sends the class of `L` to the class of the invertible module `P` exactly when `L ≅ P~`. -/
 theorem lineBundleClass_spec_equiv_pic (R : Type u) [CommRing R] :
-    Nonempty (TauCeti.AlgebraicGeometry.LineBundleClass (Spec (.of R)) ≃ CommRing.Pic R) := by
+    ∃ e : TauCeti.AlgebraicGeometry.LineBundleClass (Spec (.of R)) ≃* CommRing.Pic R,
+      ∀ (L : TauCeti.AlgebraicGeometry.InvertibleSheaf (Spec (.of R))) (P : CommRing.Pic R),
+        e (TauCeti.AlgebraicGeometry.LineBundleClass.mk L) = P ↔
+          Nonempty (L.obj ≅ tilde (R := .of R) (ModuleCat.of R P)) := by
   sorry
 
 end Picard
@@ -1439,14 +1430,31 @@ instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ S
     (k : ℤ) : AddCommGroup (ChowGroup κ X k) :=
   inferInstanceAs (AddCommGroup (cyclesOfDimension κ X k ⧸ RatEquiv κ X k))
 
-/-- Chow groups of a coproduct are the product of the Chow groups, for any small family.
+/-- A coproduct of schemes over `κ` lies over `κ` through the induced map. -/
+instance coprodOver (I : Type u) (X : I → Scheme.{u}) [∀ i, (X i).Over (Spec (.of κ))] :
+    (∐ X).Over (Spec (.of κ)) :=
+  ⟨Sigma.desc fun i => X i ↘ Spec (.of κ)⟩
+
+/-- A coproduct of schemes locally of finite type over `κ` is locally of finite type over `κ`,
+since the property is local on the source. -/
+instance coprod_locallyOfFiniteType (I : Type u) (X : I → Scheme.{u})
+    [∀ i, (X i).Over (Spec (.of κ))] [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] :
+    LocallyOfFiniteType ((∐ X) ↘ Spec (.of κ)) :=
+  haveI : IsZariskiLocalAtSource @LocallyOfFiniteType.{u} :=
+    HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.FiniteType)
+  show LocallyOfFiniteType (Sigma.desc fun i => X i ↘ Spec (.of κ)) from
+    IsZariskiLocalAtSource.sigmaDesc fun _ => inferInstance
+
+/-- Chow groups of a coproduct, for any small family: a `k`-cycle on `∐ X i` is rationally
+equivalent to zero iff its restriction to every `X i` is. As the `k`-cycles on `∐ X i` are the
+families of `k`-cycles on the `X i`, restriction identifies `CH_k(∐ X i)` with `∏ CH_k(X i)`.
 Stacks, Definition 42.19.1 (02RW). -/
 theorem CH_coprod (I : Type u) (X : I → Scheme.{u})
     [∀ i, (X i).Over (Spec (.of κ))]
-    [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] (k : ℤ) :
-    letI : (∐ X).Over (Spec (.of κ)) := ⟨Sigma.desc (fun i => X i ↘ Spec (.of κ))⟩
-    letI : LocallyOfFiniteType ((∐ X) ↘ Spec (.of κ)) := by sorry
-    Nonempty (ChowGroup κ (∐ X) k ≃+ ∀ i, ChowGroup κ (X i) k) := by
+    [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] (k : ℤ)
+    (α : cyclesOfDimension κ (∐ X) k) :
+    α ∈ RatEquiv κ (∐ X) k ↔
+      ∀ i, ∃ β ∈ RatEquiv κ (X i) k, ∀ x : X i, β.val x = α.val (Sigma.ι X i x) := by
   sorry
 
 end Chow
@@ -1455,14 +1463,14 @@ end Chow
 
 /-- The Weil bound for a smooth proper geometrically integral curve over a finite field:
 `|#X(𝔽_q) − (q + 1)| ≤ 2g√q`. Milne 2024, Chapter 11, Theorem 11.53 and Example 11.55. -/
-theorem weil_bound (k : Type u) [Field k] [Fintype k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
+theorem weil_bound (k : Type u) [Field k] [Finite k] (X : Scheme.{u}) [X.Over (Spec (.of k))]
     [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
     [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
     [FiniteDimensional k (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
       (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial X).obj 1)] :
     |(Nat.card {x : Spec (.of k) ⟶ X // x ≫ X ↘ Spec (.of k) = 𝟙 _} : ℝ) -
-        (Fintype.card k + 1)| ≤
-      2 * X.genus k * Real.sqrt (Fintype.card k) := by
+        (Nat.card k + 1)| ≤
+      2 * X.genus k * Real.sqrt (Nat.card k) := by
   sorry
 
 end Layer5
