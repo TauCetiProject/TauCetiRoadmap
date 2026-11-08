@@ -248,7 +248,7 @@ These conventions apply throughout the layers.
   actual derivative of `f`; the dimension equation is explicit. Smoothness is imposed on the
   forward and inverse maps of the canonical total bundles, not on a family of matrices between
   fixed model spaces: the latter would incorrectly trivialize `TM`. The outward normal of
-  `S² -> R³` is a example, without assuming that `TS²` is trivial. General embeddings do not
+  `S² -> R³` is an example, without assuming that `TS²` is trivial. General embeddings do not
   supply a trivial normal line. Boundary restrictions use the collar's outward normal.
   The outward-normal-first ordering and its permutation into the fixed stabilization
   convention are part of the construction. Incoming comparisons reverse that normal line.
@@ -581,7 +581,7 @@ critical points of adjacent indices requires a single transverse intersection of
 its reverse gives pair creation. For a connected total N-dimensional Morse block whose critical points all have
 index λ and lie at one level, the basis change by handle slides, 2≤λ≤N−2,
 uses Theorem 7.6 and
-its elementary basis-change construction, pp.92–96. These are separate inputs from
+its elementary basis-change construction, pp.92–97. These are separate inputs from
 the attachment and ordering theorems. The translation to the shared handle and collar
 data is an adapter here.
 
@@ -614,7 +614,7 @@ oriented. For two opposite-sign intersections, require specified embedded arcs b
 them in P and Q whose interiors avoid all other intersections. Their union is the Whitney
 loop; use simple connectivity to contract it and construct a framed Whitney disc with
 interior disjoint from P∪Q (Milnor, Theorem 6.6 and its remark, pp.71–72). Prove
-the complement and relative general-position steps (Lemmas 6.10–6.12, pp.78–79).
+the complement and relative general-position steps (Lemmas 6.10–6.12, pp.79–80).
 When both submanifolds are connected, derive the required arcs by deleting the other
 intersection points. Ambient simple connectivity alone does not supply arcs in disconnected P or Q.
 
@@ -627,7 +627,7 @@ cancellation the level V is five-dimensional and (dim P,dim Q)=(2,3). Require th
 opposite-sign pair and the arcs avoiding other intersections as above, and require the
 inclusion π₁(V∖Q)→π₁(V) to be injective. For simply connected V this means
 π₁(V∖Q)=0. Use this condition for the contraction off Q and the piping argument
-(Milnor, Theorem 6.6, p.71, and its proof, pp.73–89).
+(Milnor, Theorem 6.6, p.71, and its proof, pp.73–84).
 For the attaching/belt-sphere instance, prove the gradient-flow identification of
 V∖Q with the incoming level minus the attaching circle; removing that circle in a
 simply connected five-manifold preserves π₁ by codimension four. This proves the
@@ -675,7 +675,8 @@ The h-cobordism predicate has the following API on the shared oriented collared 
 - For M×I, each boundary retraction has composite id_M, so both inclusions are equivalences.
 - A disc viewed from the empty incoming boundary has π₀(∅)=∅ and π₀(Dⁿ)={*}; it is a bordism but not an h-cobordism.
 - The empty cylinder has zero boundary components; the cylinder on M⊔N has two incoming and two outgoing components. Requiring connected traces would reject the latter.
-- In the product theorem take W=Sⁿ×[0,1], n≥5, and M₀=Sⁿ×{0}: both inclusions induce the identity ℤ→ℤ on H_n, and f=id satisfies f(x,0)=x. Taking M₀ to be the whole boundary of W=D^(n+1) leaves M₁=∅, whose inclusion into W is not a homotopy equivalence; without that hypothesis the theorem would assert D^(n+1)≅Sⁿ×[0,1], whose boundaries have one and two components.
+- In the product theorem take W=Sⁿ×[0,1], n≥5, and M₀=Sⁿ×{0}: both inclusions induce the identity ℤ→ℤ on H_n, and f=id satisfies f(x,0)=x. Taking M₀ to be the whole boundary of W=D^(n+1) leaves M₁=∅, and both inclusion hypotheses fail: M₀=Sⁿ→D^(n+1) induces ℤ→0 on H_n, and ∅ misses the one path component of D^(n+1). So this instance does not separate the hypothesis on M₁.
+- Given the hypothesis on M₀ and simple connectivity of W, duality gives H_*(W,M₁;ℤ)=0 (Milnor, remark after Theorem 9.1, p.107), so M₁→W is an integral homology isomorphism and the hypothesis on M₁ holds exactly when π₁(M₁)=0. It excludes a far end with the integral homology of M₀ and a nontrivial fundamental group: the conclusion would carry M₀×{1} diffeomorphically onto that end, and M₀×{1} is simply connected because π₁(M₀)≅π₁(W)=0.
 - For W=(Sⁿ×[0,1]) minus an open interior ball, with M₀=Sⁿ×{0}, the inclusion of M₀ induces ℤ→ℤ² on H_n, since W≃Sⁿ∨Sⁿ; the hypothesis fails, as it must for a manifold with three boundary spheres.
 
 For the handle and Whitney constructions, a cancelling pair with intersection matrix [1]
@@ -3090,10 +3091,12 @@ to a diffeomorphism in 10.3 uses Milnor, Theorem 9.1, p.107.
 *Needs:* Layer 1 product theorem in total dimension 7; 10.2; native coordinate reflection.
 
 Apply Stage 1's six-dimensional-boundary case of the h-cobordism theorem to obtain a
-diffeomorphism `e : M ~=_m S^6`.  Package orientation preservation as the equation saying that
-`e.deriv` sends the chosen `Manifold.Orientation` on `M` to the standard orientation on `S^6`.
-If the equation has the opposite sign, compose with a fixed coordinate reflection and prove
-the derivative equation for the composite.
+diffeomorphism `e : M ~=_m S^6`.  Package orientation preservation as the condition that at
+every point the manifold derivative of `e` carries the chosen `TauCeti.Manifold.Orientation` of
+`M` to the standard orientation of `S⁶` (`TauCeti.Manifold.Orientation.IsOrientationPreservingAt`).
+If the condition fails, then, `M` being connected, the derivative of `e` reverses the two
+orientations at every point; compose with a fixed coordinate reflection of `S⁶` and prove the
+condition for the composite.
 
 ### 10.4 Direct recognition signatures
 
@@ -3137,16 +3140,6 @@ compares its classifier tower with the R₀ model of 4B.1, and T7 uses 4B.1–4B
 applications. The following roadmaps consume named sections here; each is later than this one
 in the merge order or already on main.
 
-- GeneralAlgebraicKTheoryPartII §4.32 consumes 3B.1–3B.2 and 3B.4: the word filtration, the
-  connectivity of its stages and the connected James equivalence J(S²) ≃ ΩS³. Its §4.33 and
-  §7.7 consume the reduced and unreduced stable James splittings of 3B.6 and the CW
-  approximation of Section 3B.
-- DGFloerPartII consumes 3A.2 and the convenient category it is built on, 3B.1 and 3B.3–3B.4
-  (the reduced product, the James map, the Bott–Samelson ring and the connected James
-  equivalence), and 4A.1 and 4B.1–4B.8 (stable O and SO and the stable homotopy groups of O).
-- GeometryOfNumbersAndQuadraticArithmetic consumes 3A.3 (the suspension homomorphisms and the
-  stable stems), 7B.2–7B.4 (Wall's forms and formations and L_n(ℤ)) and 7C.1–7C.3 (their
-  simply connected calculation).
 - FourManifolds consumes 3C, 4B, the E₈ plumbing of 6B in its dimension-four branch, 6C,
   7A–7C and Layer 9.
 - PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions, cancellation and
@@ -3169,12 +3162,12 @@ Layer 5 separated from the stable Bott comparison.
 | --- | --- | --- |
 | 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10; PositiveScalarCurvature |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10; PositiveScalarCurvature |
-| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; GeneralAlgebraicKTheoryPartII, DGFloerPartII, GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature, GeneralizedCohomology, BordismFormalGroups, DGFloer |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; FourManifolds, PositiveScalarCurvature, GeneralizedCohomology, BordismFormalGroups, DGFloer |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
-| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T1.6d and T7, DGFloerPartII, FourManifolds, GeneralizedCohomology, DGFloer, CharacteristicClasses, MorseTheory, GeometricCurrents |
+| 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T1.6d and T7, FourManifolds, GeneralizedCohomology, DGFloer, CharacteristicClasses, MorseTheory, GeometricCurrents |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
 | 6 `A_n`, `P_n`, exactness | 1--2, 4--5 | 7--9; FourManifolds, PositiveScalarCurvature |
-| 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9; GeometryOfNumbersAndQuadraticArithmetic, FourManifolds, PositiveScalarCurvature |
+| 7 Wall surgery | algebraic topology, geometric surgery, TangentialBordism B3.2 pure algebra, 4--6 | 8--9; FourManifolds, PositiveScalarCurvature |
 | 8 stable comparison | 3--7 | 9; PositiveScalarCurvature |
 | 9 sixth-stem calculation | 3--8 | 10; FourManifolds |
 | 9A seventh stem, Θ₇ and E₈ | 3–8; TangentialBordism B4; DGFloer 1.4; GeneralizedCohomology G5.6; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2/I7.5 | seven-sphere classification and exotic E₈ boundaries; PositiveScalarCurvature |
