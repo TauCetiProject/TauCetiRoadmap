@@ -20,7 +20,8 @@ hermitian embedding counts (Layer 3), Ratner's three theorems, Oppenheim, Duke, 
 three-square formula, Siegel's three-square lower bound, critical-lattice existence,
 Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
 covering transference bound (Layer 4), the LLL short-vector approximation factor (Layer 5), and
-Arf's theorems over a finite field of characteristic two (Layer 6). The definitions below specify
+Arf's theorems over a finite field of characteristic two (Layer 6), whose `𝔽₂` instances are
+GeometricTopology Layer 4.3.1's finite quadratic Arf algebra. The definitions below specify
 only the Euclidean unit ball as a convex body, finite counts, shells, the covering radius, star
 bodies, lattice transforms, reducedness and the Arf class used in these statements. All have real
 bodies on native carriers; the real model, both kinds of successive minima and Hurwitz class
@@ -460,7 +461,8 @@ variable {K V W : Type*} [Field K] [Finite K] [CharP K 2]
 
 /-- (6.8) Over a finite field of characteristic two, a nonsingular quadratic form has a
 Lagrangian, a subspace of half the dimension on which it vanishes, exactly when its Arf class is
-zero. -/
+zero. At `K = 𝔽₂` this is GeometricTopology Layer 4.3.1's Lagrangian criterion; this roadmap adds
+the extension to every finite field of characteristic two. -/
 theorem finiteArfInvariant_eq_zero_iff_exists_lagrangian (q : QuadraticMap K V K)
     (hq : (QuadraticMap.polarBilin q).Nondegenerate) :
     finiteArfInvariant q = 0 ↔ ∃ L : Submodule K V,
@@ -468,7 +470,9 @@ theorem finiteArfInvariant_eq_zero_iff_exists_lagrangian (q : QuadraticMap K V K
   sorry
 
 /-- **Arf's classification over a finite field of characteristic two** (6.8): nonsingular
-quadratic forms of equal dimension are isometric exactly when their Arf classes agree. -/
+quadratic forms of equal dimension are isometric exactly when their Arf classes agree. At
+`K = 𝔽₂` this is GeometricTopology Layer 4.3.1's classification by dimension and Arf invariant;
+this roadmap adds the extension to every finite field of characteristic two. -/
 theorem quadraticMap_equivalent_iff_finiteArfInvariant (q : QuadraticMap K V K)
     (q' : QuadraticMap K W K) (hq : (QuadraticMap.polarBilin q).Nondegenerate)
     (hq' : (QuadraticMap.polarBilin q').Nondegenerate)
