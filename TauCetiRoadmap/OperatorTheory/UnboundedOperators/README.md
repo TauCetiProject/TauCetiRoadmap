@@ -10,7 +10,7 @@ Consume [HilbertModules H6](../../HilbertModules/README.md#h6-closed-module-oper
 
 The boundary with physical quantum models is explicit: this roadmap owns generic operator and spectral theorems and the reusable examples listed below. Measurement and outcome laws and their domains, quantum logic, a Fock-operator domain API, and the physical position/momentum, oscillator, angular-momentum, hydrogen and state-probability models are outside this roadmap; a roadmap for them consumes the generic domain and spectral results below. OperatorAlgebraDynamics D8 owns the CCR/CAR/Weyl algebras, regular representations, basic field operators, and Fock carriers. SAST remains the owner of bounded Borel calculus, the self-adjoint spectral PVM construction, resolvents, and the unitary-group/Stone correspondence. The [PDE roadmap](../../PDE/README.md) owns weak-derivative Sobolev spaces and trace theory; its concrete derivative examples may consume the generic extension theory here.
 
-BanachSpaceTheory B5 owns Hilbert dimension (the cardinality of a Hilbert basis, independent of the basis) and the unitary classification of complete inner-product spaces by it; §4.1 consumes both for the deficiency cardinals and does not prove them again. The surface topology in which §2.4's geometric acceptance target is stated is MordellLawrenceVenkatesh Layer LV.5's: its surfaces (§5.1), the classification of compact surfaces (§5.4) and the Euler characteristic of a surface of type `(g, b, n)` (§5.6). This roadmap owns only the translation surface of Nelson's example, its completion, orientation and cell structure, and the computation of its invariants.
+BanachSpaceTheory B5 owns Hilbert dimension (the cardinality of a Hilbert basis, independent of the basis) and the unitary classification of complete inner-product spaces by it; §4.1 consumes both for the deficiency cardinals and does not prove them again. §2.4's geometric acceptance target reads the Euler characteristic, integral homology and genus of the completed surface of Nelson's example off its cell structure, through Tau Ceti's cellular homology and its comparison with singular homology. This roadmap owns only that translation surface, its completion, orientation and cell structure, and the computation of its invariants; it neither owns nor uses general surface topology (the manifold boundary, triangulations, the classification of compact surfaces).
 
 ## Conventions
 
@@ -45,9 +45,16 @@ inverse, specified only on the resolvent set. §4.2 and §5.3 state their resolv
 conclusions through these declarations; Layer 5 obtains membership from
 self-adjointness and nonreal parameters. Analyticity of the resolvent in the spectral
 parameter on the resolvent set is `TauCeti.LinearPMap.analyticAt_resolvent` from `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean`.
-The geometric example uses `TauCeti.riemannianVolume` and the finite-CW
-Euler–Poincaré theorem `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`
-named in §2.4, with their manifold and finite-CW hypotheses.
+The geometric example uses `TauCeti.riemannianVolume` in §2.3, with its manifold
+hypotheses, and in §2.4 the finite-CW Euler–Poincaré theorem
+`TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`, the cellular–singular
+comparison `TauCeti.cellularSingularHomologyIsoUniv`
+(`TauCeti/AlgebraicTopology/Cellular/Comparison.lean`: for a CW structure on the whole of a
+Hausdorff space, cellular homology is singular homology once the inclusion of the
+`(n + 1)`-skeleton induces an isomorphism on `Hₙ`, an instance for finite-dimensional
+complexes), and the incidence numbers `TauCeti.cellularIncidence_zero` (a `1`-cell has
+boundary the difference of its endpoints) and `TauCeti.cellularIncidence_eq_inv_cellLocalClass`
+(a `2`-cell's incidence numbers are the local degrees of its attaching map).
 
 **From TauCetiRoadmap.SelfAdjointSpectralTheory.** Parts A–E supply the
 bounded normalized PVM and bounded integral (SA-B49–B57), cyclic models (SA-B85),
@@ -89,13 +96,6 @@ bounded maps with composition and adjoints. The coercive solution map over `[RCL
 unbounded self-adjoint complexification and the real spectral restriction are §4.7 targets;
 VariationalMethods 5.1 consumes them and supplies nothing here.
 LieGroups Layers 2 and 5 supply the matrix groups and SU(2) covering example.
-MordellLawrenceVenkatesh Layer LV.5 supplies, for §2.4 only, its surfaces (§5.1: a compact
-connected oriented Hausdorff second-countable topological 2-manifold with boundary, with
-finitely many interior punctures, orientation and boundary charts as data), the
-classification of compact surfaces (§5.4: a closed connected orientable surface is a
-connected sum of `g` tori for a unique `g`) and the invariants of a surface of type
-`(g, b, n)` (§5.6: `χ = 2 − 2g − b − n` computed from singular homology, and
-`H₁ ≅ ℤ^(2g)` when `b + n = 0`).
 
 ## How to read the build
 
@@ -301,19 +301,23 @@ For the B03 operator example, prove the regular quotient is a Hausdorff, second-
 
 ### 2.4 Completion and genus acceptance for Nelson’s model (UO-B03a)
 
-This is a separate geometric acceptance target, not a prerequisite for the operator-theoretic B03 result. Prove the metric completion adds exactly one point: the twelve removed vertices form one equivalence class, while the four outer corners give a regular point. Show the added point has cone angle `14π`, with a topological disk chart given in polar coordinates about it by `(r, θ) ↦ (r, θ/7)`, and that the orientation extends across it. Prove the completed surface M is compact, Hausdorff, connected and second-countable, and give it the boundaryless topological atlas on `EuclideanSpace ℝ (Fin 2)` formed by the translation charts away from the added point and this disk chart. Translation charts change by translations, so the translation-chart orientation, extended across the added point, makes M a closed connected oriented surface in the sense of MordellLawrenceVenkatesh §5.1, with no boundary circles and no punctures.
+This is a separate geometric acceptance target, not a prerequisite for the operator-theoretic B03 result. Prove the metric completion adds exactly one point: the twelve removed vertices form one equivalence class, while the four outer corners give a regular point. Show the added point has cone angle `14π`, with a topological disk chart given in polar coordinates about it by `(r, θ) ↦ (r, θ/7)`, and that the orientation extends across it. Prove the completed surface M is compact, Hausdorff, connected and second-countable, and give it the boundaryless topological atlas on `EuclideanSpace ℝ (Fin 2)` formed by the translation charts away from the added point and this disk chart. Translation charts change by translations, so the translation-chart orientation, extended across the added point, makes M a compact connected oriented topological surface without boundary.
 
-Construct its finite CW structure with eight faces, sixteen edges and two vertices: the 2-cells are the open unit squares of `M₁`, the 1-cells are its eight interior unit edges and the eight classes of glued boundary edges, and the 0-cells are the added point and the class of the outer corners. Its cellular Euler characteristic is `2−16+8=−6`. Consume native `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex` (`TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/Singular.lean`), constructing the required finite CW instance on M, to identify `−6` with the alternating sum of the dimensions of the singular homology of M with rational coefficients; since ℚ is flat over ℤ these are the ranks of the integral singular homology, so `−6` is the Euler characteristic of MordellLawrenceVenkatesh §5.6. By §5.4 M has a unique genus g, and §5.6 with `b = n = 0` gives `χ = 2 − 2g`, hence `g = 4` and `H₁(M; ℤ) ≅ ℤ⁸`. No triangulation of M is needed: the cell structure computes `χ`, and the orientation is the extended translation-chart orientation.
+Construct its finite CW structure with eight faces, sixteen edges and two vertices: the 2-cells are the open unit squares of `M₁`, the 1-cells are its eight interior unit edges and the eight classes of glued boundary edges, and the 0-cells are the added point and the class of the outer corners. Its cellular Euler characteristic is `2−16+8=−6`. Consume native `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex` (`TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/Singular.lean`), constructing the required finite CW instance on M, to identify `−6` with the alternating sum of the dimensions of the singular homology of M with rational coefficients.
+
+Compute the integral cellular chain complex `ℤ⁸ → ℤ¹⁶ → ℤ²` of this structure. Orient each square by the translation charts and each edge in its coordinate direction; let p be the added point and q the regular point. Twelve of the sixteen edges are loops at p and the other four join p and q, so by `TauCeti.cellularIncidence_zero` the boundary map `∂₁` has image `ℤ·(q − p)`, of rank one with invariant factor `1`. By `TauCeti.cellularIncidence_eq_inv_cellLocalClass`, `∂₂` sends each square to the signed sum of its four edges. Because the identifications are translations, every edge class occurs exactly twice among these boundaries, with opposite signs; for the four squares adjacent to the hole the two occurrences lie in the same square, whose boundary is then the difference of its two remaining sides. So the kernel of `∂₂` is spanned by the sum of the eight squares, which are connected across edges. Ordering the squares around the ring, the interior edge shared by the k-th and (k+1)-th square occurs only in their two boundaries; for k = 1, …, 7 these rows and the first seven squares give a bidiagonal minor of `∂₂` with diagonal entries `±1`. Hence `∂₂` has rank seven with all invariant factors `1`, and the cellular homology is `ℤ`, `ℤ⁸`, `ℤ` in degrees 0, 1, 2. Native `TauCeti.cellularSingularHomologyIsoUniv` (`TauCeti/AlgebraicTopology/Cellular/Comparison.lean`), for this finite-dimensional complex with integer coefficients, identifies it with the integral singular homology: `H₁(M; ℤ) ≅ ℤ⁸` and `H₂(M; ℤ) ≅ ℤ`. Define the genus of M as half the rank of `H₁(M; ℤ)`; it is `4`, and `χ(M) = 2 − 2·4` agrees with the cell count. The cell structure computes every invariant, and the orientation is the extended translation-chart orientation: no triangulation of M and no classification of surfaces is used.
 
 **Checks.**
 
 - Before the boundary identifications, `M₁` is a closed annulus with sixteen vertices, twenty-four unit edges and eight squares, so `χ = 16 − 24 + 8 = 0`; a cell count that forgets the gluing gets `0` instead of `−6`, which read as a closed surface would give genus 1.
 - Flat Gauss–Bonnet confirms the count: the regular point has angle `4·π/2 = 2π`, the added point `8·4·π/2 − 2π = 14π`, and `Σ(2π − θ) = 0 + (2π − 14π) = −12π = 2π·(−6)`.
-- The regular quotient before completion is M minus the added point, of type `(4, 0, 1)` in the sense of MordellLawrenceVenkatesh §5.1, with `χ = 2 − 8 − 0 − 1 = −7 = −6 − 1`; the alternating ranks of M itself are `1 − 8 + 1 = −6`.
+- The regular quotient before completion is M minus the added point: it is not compact, its integral homology has ranks `1, 8, 0`, and its Euler characteristic is `−7 = −6 − 1`. Applying `χ = 2 − 2g` to it instead of to M gives `g = 9/2`, so the completion is what makes the genus formula apply; the ranks of M itself are `1, 8, 1`, with `1 − 8 + 1 = −6`.
+- The square `[1,2]×[0,1]` has its bottom and top edges identified by `(x,0)~(x,1)`, so its cellular boundary is the difference of its two vertical sides; a boundary map that keeps the glued pair as two distinct edges, or counts the identified class with the same sign twice, makes the sum of the eight squares fail to be a cycle and gives `H₂ = 0`.
+- With `𝔽₂` coefficients the cellular homology has dimensions `1, 8, 1`, equal to the integral ranks; a `2`-torsion class in `H₁(M; ℤ)`, which an orientation-reversing identification would produce, would raise the `𝔽₂` dimensions of `H₁` and `H₂` by one each.
 
 **Separate dense-domain contrast.** On `H=L²(S¹×(0,1),dβ/(2π)dy)`, represent the circle coordinate by its Borel angle `β∈[0,2π)`. Let `A=−i∂_β` with periodic `H¹(S¹)` domain and let B be the fiber operator `−i∂ᵧ` with `u(β,1)=e^{iβ}u(β,0)`. The unitary gauge `u(β,y)=e^{iβy}v(β,y)` identifies each fiber with periodic v; Fourier series in y identify B with the self-adjoint real multiplier `2πn+β` on `L²(S¹×ℤ)`, using UO-A07. This avoids assuming a theory of measurable fields of unbounded operators. The dense subspace `D₀=C∞(S¹)⊗C_c∞(0,1)` is invariant under both and `AB=BA` there. For `|s|<1`, extend a fiber function by `u(β,y+m)=e^{imβ}u(β,y)` for integer m; then `(e^{isB}u)(β,y)=e^{imβ}u(β,y+s−m)`, where for almost every y, m is the unique integer with `y+s−m∈(0,1)` (the boundary values form a null set). The x-translation group is `(e^{itA}u)(β,y)=u(β+t mod 2π,y)`. On the open set where `m≠0`, the two orders differ by `e^{imt}`; a nonzero smooth test function supported there proves failure of strong commutation. `D₀` is not a graph core for B and remains a contrast to Nelson's common-core example.
 
-*Needs:* The explicit gluing in §2.3; MordellLawrenceVenkatesh §§5.1, 5.4 and 5.6; Tau Ceti's `finsum_finrank_singularHomology_of_finite_cwComplex`.
+*Needs:* The explicit gluing in §2.3; Tau Ceti's `finsum_finrank_singularHomology_of_finite_cwComplex`, `cellularSingularHomologyIsoUniv`, `cellularIncidence_zero` and `cellularIncidence_eq_inv_cellLocalClass`.
 
 ### 2.5 Joint PVM and joint calculus (UO-B04)
 
@@ -345,7 +349,7 @@ The diagonal normal matrix and Pauli pair distinguish normality from commutation
 
 ### Dependencies
 
-Layer 1; SelfAdjointSpectralTheory Stone/resolvent contracts; VonNeumannAlgebras bounded projections; Tau Ceti's finite-CW Euler–Poincaré theorem and MordellLawrenceVenkatesh §§5.1, 5.4 and 5.6 only for §2.4.
+Layer 1; SelfAdjointSpectralTheory Stone/resolvent contracts; VonNeumannAlgebras bounded projections; Tau Ceti's finite-CW Euler–Poincaré theorem, cellular incidence numbers and cellular–singular comparison only for §2.4.
 
 ## Layer 3: spectrum, spectral types, and pure-point approximation
 
