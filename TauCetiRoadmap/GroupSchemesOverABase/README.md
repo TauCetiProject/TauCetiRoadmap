@@ -15,15 +15,21 @@ is étale-locally diagonalizable, and isotrivial over a connected, locally noeth
 while a torus of rank two over the nodal curve is not; homomorphisms between groups of
 multiplicative type lift uniquely along thickenings and are determined by one fibre over a connected
 base and by their restrictions to torsion; Chevalley's theorem over a perfect field and the
-affinization over any field; for `G` locally of finite type over a field `k`, that `G` is separated,
-that `G_red` is a smooth closed subgroup scheme when `k` is perfect, that the identity component
+affinization over any field; for a quasi-compact homomorphism of group schemes locally of finite
+type over a field, that a monomorphism is a closed immersion; for `G` locally of finite type over a
+field `k`, that `G` is separated, that `G_red` is a smooth closed subgroup scheme when `k` is
+perfect, that `G` is smooth when `k` has characteristic `0` (Cartier), that the identity component
 `G⁰` is an open subgroup scheme, quasi-compact and geometrically irreducible, and that `G → π₀(G/k)`
 is the faithfully flat homomorphism with kernel `G⁰` onto an étale group, universal for
 homomorphisms to étale groups, with the finite étale scheme `π₀(X/k)` of connected components of a
-scheme `X` of finite type over `k`; for `G` smooth with connected fibres, the specialization
-inequality of the abelian rank (lower), and, for `G` moreover affine, of the reductive rank
-(lower), the nilpotent and unipotent ranks (upper) and the semisimple dimension (lower); for `G`
-split reductive over a locally noetherian, normal, connected base,
+scheme `X` of finite type over `k`; for `G` quasi-compact over a field `k`, not necessarily of
+finite type, that `G` is the limit in `k`-schemes of a cofiltered system of `k`-groups of finite
+type, each a faithfully flat quotient of `G`, with affine transition maps and affine projections
+from some index on (Perrin), and that every quasi-compact homomorphism out of a group scheme over
+`k` factors as a faithfully flat homomorphism followed by a closed immersion; for `G` smooth with
+connected fibres, the specialization inequality of the abelian rank (lower), and, for `G` moreover
+affine, of the reductive rank (lower), the nilpotent and unipotent ranks (upper) and the semisimple
+dimension (lower); for `G` split reductive over a locally noetherian, normal, connected base,
 `Pic(S) ⊕ ℤ^Δ ≅ Pic(G/B⁻)`; for `G` split reductive with simply connected derived group, the
 Steinberg map `G → T/W`, smooth exactly on the regular locus, with a section when `G` is moreover
 semisimple; and, over a regular noetherian connected base and for positive semisimple rank, the
@@ -40,14 +46,16 @@ type, centralizers and normalizers of such subgroups in smooth affine groups, an
 such subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by
 closed subgroups, Chevalley's theorem for every smooth connected group over a perfect field together
 with its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
-affinization, the rank invariants, and, for groups locally of finite type and not necessarily
-affine, separatedness, the reduced subgroup over a perfect field, the identity component and the
-étale group of connected components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type
-(Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of smooth
-group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over
-a base and the Picard groups of `G/B⁻` and `G` (Layer 6); the Steinberg map, the regular locus, the
-Steinberg cross-section, the universal centralizer, the Grothendieck–Springer space and the Picard
-groups of `G̃`, `G` and `G^reg` (Layer 7).
+affinization, the rank invariants, monomorphisms, and, for groups locally of finite type and not
+necessarily affine, separatedness, the reduced subgroup over a perfect field, Cartier's theorem in
+characteristic `0`, the identity component and the étale group of connected components `π₀(G/k)`,
+with the scheme `π₀(X/k)` of a scheme of finite type, and, for quasi-compact groups not necessarily
+of finite type, Perrin's approximation by groups of finite type and its corollaries (Layer 4); the
+rank functions of a smooth group scheme over a base, maximal tori of smooth group schemes and the
+specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over a base and the Picard
+groups of `G/B⁻` and `G` (Layer 6); the Steinberg map, the regular locus, the Steinberg
+cross-section, the universal centralizer, the Grothendieck–Springer space and the Picard groups of
+`G̃`, `G` and `G^reg` (Layer 7).
 
 **Left to other roadmaps.**
 
@@ -165,9 +173,11 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
 - Over a field: the instance `IsClosedImmersion η[G].left` for a group object `G` over
   `Spec K` (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`), the closed unit section (4.5).
 - Topology: `connectedComponent`, `IsIrreducible`, `ConnectedSpace`.
+- Limits and monomorphisms: `Mono`, `Cone`, `Functor.mapCone`, `Functor.const`, `homOfLE`,
+  `IsDirected` (4.1, 4.9).
 - Algebra: `AddGroup.FG`, `AddCommGroup.torsion`, `Module.Free`, `QuotientAddGroup.mk'`,
   `AddMonoidHom.toMultiplicative`, `AlgHom.equalizer`, `Polynomial.aeval`, `RingHom.FiniteType`,
-  `IsIntegrallyClosed`, `PerfectField`, `RootPairing`.
+  `IsIntegrallyClosed`, `PerfectField`, `CharZero`, `RootPairing`.
 
 **From Tau Ceti** (at the pinned revision).
 
@@ -194,6 +204,9 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `TauCeti.torusCommHopfAlgProperty` (2.1, 2.4), `TauCeti.HopfIdeal.IsMaximalTorus` (4.4).
 - `TauCeti/Algebra/AlgebraicGroup/Smooth/GeometricallyReduced.lean`:
   `TauCeti.smoothCommHopfAlgProperty_of_geometricallyReduced` (4.5, affine case).
+- `TauCeti/AlgebraicGeometry/Group/Cartier.lean`:
+  `TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`, Cartier's theorem for an affine group
+  scheme of finite type over a field of characteristic `0` (4.5, affine case).
 - `TauCeti/Algebra/AlgebraicGroup/Connected/Irreducible.lean`:
   `TauCeti.geometricallyConnectedCommHopfAlgProperty.irreducibleSpace` (4.6, affine case).
 - `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`:
@@ -227,7 +240,7 @@ affine Noetherian base*: the reductive predicate, the scheme of Borel subgroups 
 functor of points, central isogenies and the simply connected cover (Layers 6–7). 9B: the models
 `𝒢_R`, their base change, pinnings and root subgroups `x_α` (Layers 6–7).
 
-**From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (5.3), §1.17 (4.1), §2.3 `NonabelianH1`
+**From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (4.9, 5.3), §1.17 (4.1), §2.3 `NonabelianH1`
 (1.6), §2.9 (1.4, 2.3), §2.11 (1.6), §3.4 (6.3, 7.7).
 
 **From ModularCurves.** 0B (1.1, 1.5), 0C (7.1), 0E (2.3, 6.1).
@@ -257,8 +270,10 @@ and tori and proves quasi-isotriviality and isotriviality, Layer 3 proves rigidi
 torsion and the representability of Hom schemes and centralizers. Layer 4 works over a field with
 Tau Ceti's field theory and abelian varieties, in parallel with Layers 1–3, and delivers quotients,
 Chevalley's theorem, the affinization and the rank invariants, then, in 4.5–4.8, the separatedness,
-the reduced subgroup, the identity component and the component group `π₀(G/k)` of a group locally of
-finite type, through Tau Ceti's Galois theory of finite étale algebras over a field. Layer 5 needs
+the reduced subgroup, Cartier's theorem, the identity component and the component group `π₀(G/k)` of
+a group locally of finite type, through Tau Ceti's Galois theory of finite étale algebras over a
+field, and in 4.9 Perrin's approximation of a quasi-compact group by groups of finite type, which
+extends 4.1 and 4.5 beyond finite type. Layer 5 needs
 Layers 3 and 4 and delivers the rank functions on the base and their specialization. Layers 6 and 7
 need, beyond these, ReductiveGroups Layer 8 and 9B: Layer 6 delivers the line bundles on `G/B⁻` over
 a base and the Picard groups, Layer 7 the Steinberg map and its consequences, using Layer 6's Picard
@@ -693,10 +708,11 @@ Layers 1–2; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 for the compar
 
 ## Layer 4: groups over a field and their ranks
 
-Here `k` is a field; in 4.1–4.4, `G` is a group scheme of finite type over `k`, and in 4.5–4.8 a
-group scheme over `k`, locally of finite type where stated.
+Here `k` is a field; in 4.1–4.4, `G` is a group scheme of finite type over `k`, in 4.5–4.8 a group
+scheme over `k`, locally of finite type where stated, and in 4.9 a quasi-compact group scheme over
+`k`.
 
-### 4.1 Quotients
+### 4.1 Quotients and monomorphisms
 
 For a closed subgroup scheme `H ⊆ G`, the fppf quotient sheaf `G/H` is represented by a scheme of
 finite type over `k`, `G → G/H` is faithfully flat, and `G/H` is quasi-projective; for `H` normal
@@ -711,6 +727,25 @@ Layer 3.
 - `GL_n/B` is the flag variety, projective of dimension `n(n − 1)/2`.
 - `𝔾_m/μ_n ≅ 𝔾_m` by `t ↦ tⁿ`, also in characteristic dividing `n`, where the map is not étale.
 - `G/G = Spec k` and `G/{e} = G`.
+
+For a quasi-compact homomorphism `u : H → G` of group schemes locally of finite type over `k`, prove
+`isClosedImmersion_of_mono`: if `u` is a monomorphism of `k`-schemes, it is a closed immersion
+(SGA 3, Exp. VI_B, 1.4.2, over an Artin local ring; for `H` and `G` of finite type, Milne, Theorem
+5.34). Route: a monomorphism has trivial kernel, so its fibre over the unit is proper and nonempty,
+`u` is proper (SGA 3, Exp. VI_B, 1.4), of finite presentation since `G` is locally noetherian, and a
+proper monomorphism of finite presentation is a closed immersion (EGA IV₃, 8.11.5). 4.9 removes the
+finiteness hypotheses. *Needs:* Mathlib `Mono`, `QuasiCompact`, `IsClosedImmersion`,
+`LocallyOfFiniteType`.
+
+**Checks.**
+
+- Quasi-compactness is needed: in characteristic `0`, `n ↦ n` from the constant group `ℤ_k` to
+  `𝔾_a` is a monomorphism and not a closed immersion, its image being infinite and discrete (SGA 3,
+  Exp. VI_B, 1.4.3).
+- Injectivity on points is not enough: in characteristic `p`, the Frobenius `x ↦ x^p` of `𝔾_a` is
+  a homeomorphism with kernel `α_p ≠ 1`, so it is not a monomorphism, and not a closed immersion.
+- The open immersion `𝔾_m → 𝔾_m ⋊ ℤ/2` is a quasi-compact monomorphism, and a closed immersion as
+  the target asserts: an open subgroup is also closed.
 
 ### 4.2 Chevalley's theorem
 
@@ -762,7 +797,7 @@ invariants of SGA 3, Exp. XII, 1.5. *Needs:* 4.2; ReductiveGroups Layers 6 and 7
 - `𝔾_m` has `ρ_r = ρ_n = 1`, `ρ_u = 0`; `𝔾_a` has `ρ_r = 0`, `ρ_n = ρ_u = 1`.
 - `GL_n` has `ρ_r = ρ_n = n`, `ρ_u = 0` and `d_s = n² − 1`.
 
-### 4.5 Separatedness, the reduced subgroup and smoothness
+### 4.5 Separatedness, the reduced subgroup, smoothness and Cartier's theorem
 
 Prove `isSeparated_of_field`: every group scheme `G` over `k` is separated, since the diagonal is
 the pullback of the unit section along `(g, h) ↦ gh⁻¹` (SGA 3, Exp. VI_A, 0.3; Milne, Proposition
@@ -795,6 +830,28 @@ law of `G` restricts to `G_red`. For `G` affine of finite type, the smoothness i
 - `G_red` need not be normal: over `𝔽₃`, in `μ₃ ⋊ (ℤ/2)` with `ℤ/2` acting by inversion,
   `G_red = ℤ/2`, which is not normal (SGA 3, Exp. VI_A, 0.2); and for `μ_p` over `𝔽_p`, `G_red` is
   the trivial group, smooth, while `μ_p` is not.
+
+For `k` of characteristic `0` and `G` locally of finite type over `k`, prove `smooth_of_charZero`:
+`G` is smooth over `k` (Cartier; SGA 3, Exp. VI_B, 1.6.1; Demazure–Gabriel, II, §6, 1.1; Milne,
+Theorem 3.23 for `G` affine and Corollary 8.39 for `G` of finite type). Route (SGA 3, Exp. VI_B,
+1.6): over a field the conormal module `ω_{G/k}` at the unit section is a vector space, hence free,
+so `Ω¹_{G/k}` is locally free; in characteristic `0` the Jacobian criterion (EGA IV₄, 16.12.2) makes
+`G` differentially smooth, hence smooth at `e` (EGA IV₄, 17.12.5), and translations spread
+smoothness over `G` (SGA 3, Exp. VI_A, 1.3.1). For `G` affine of finite type this is Tau Ceti's
+`TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`; the target is the extension to groups
+locally of finite type. *Needs:* Mathlib `Smooth`, `LocallyOfFiniteType`, `CharZero`; Tau Ceti
+`TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`.
+
+**Checks.**
+
+- Characteristic `0` is needed: `μ_p` over `𝔽_p` is not smooth (1.3, Checks), while `μ_n` over `ℚ`
+  is étale for every `n`.
+- The group structure is needed: in characteristic `0`, `Spec k[T]/(T²)` with unit the closed
+  point and the multiplication that factors through it is a monoid scheme of finite type that is
+  not reduced, hence not smooth (Milne, Remark 3.28).
+- Local finiteness is needed for smoothness, not for reducedness: over `ℚ`, `∏_ℕ 𝔾_a`, the
+  spectrum of a polynomial ring in countably many variables, is geometrically reduced and not
+  smooth, being not locally of finite presentation (4.9 extends the reducedness).
 
 ### 4.6 The identity component over a field
 
@@ -903,6 +960,54 @@ spectrum of a finite separable extension of `k`, and the group law comes from th
 - For `G = 𝔾_m ⋊ ℤ/2` with `ℤ/2` acting by inversion, `π₀(G/k) = ℤ/2` and `q` is the projection;
   every homomorphism from the connected `𝔾_m` to an étale group is trivial.
 
+### 4.9 Quasi-compact group schemes over a field
+
+For `G` quasi-compact over `k`, not necessarily of finite type, prove
+`exists_isLimit_of_quasiCompact` (Perrin 1976, 0.0 with property (L), proved in 4.1.4; SGA 3, Exp.
+VI_A, 6.5 (i)): there are a directed set `I`, a system `(G_i, u_ij : G_j → G_i)` of `k`-groups of
+finite type indexed by `Iᵒᵖ` and faithfully flat homomorphisms `p_i : G → G_i` compatible with the
+`u_ij`, such that `G` with the `p_i` is the limit of the system in `k`-schemes, and an `i₀ ∈ I` such
+that `p_i` and `u_ij` are affine for `i₀ ≤ i ≤ j`. For `i ≥ i₀` the kernel `N_i` of `p_i` is then an
+affine normal subgroup and `G_i = G/N_i` (4.1). Route (Perrin 1976, 3.1.1, 3.3.1, 4.1.1–4.1.3): the
+identity component `G⁰` of a `k`-group, a closed subgroup scheme in general and the `G⁰` of 4.6 for
+`G` locally of finite type, is quasi-compact, and `G/G⁰` is an affine group whose local rings are
+fields, which reduces the statement to `G` connected; there, normal closed subgroups `H_α` defined
+by ideals of finite type, affine for `α` large and with trivial intersection, are built as
+stabilizers of rational functions, and the fpqc quotients `G/H_α` are shown to be schemes of finite
+type, on `G_red` over a perfect field by a generic quotient, and on `G` by passing to the quotient
+modulo a nilpotent ideal of finite type; descent along a radicial extension removes perfectness.
+Perrin's introduction records that the statement was conjectured in EGA IV₃, 8.13.6, and that the
+affine case is Demazure–Gabriel, III, §3, 7.5.
+
+The corollaries extend 4.1 and 4.5 beyond finite type. For `H ⊆ G` closed, the fpqc quotient `G/H`
+is a scheme when `H → G` is of finite presentation, and then of finite type, or when `H` is normal
+(Perrin 1976, 0.2 and 4.2.1; SGA 3, Exp. VI_A, 6.5 (ii)). Prove
+`exists_flat_closedImmersion_factorization`: for every quasi-compact homomorphism `u : G → H` of
+`k`-groups, with no hypothesis of finiteness or quasi-compactness on `G` and `H`, `u` factors as
+a faithfully flat homomorphism `G → G/Ker u` followed by a closed immersion `G/Ker u → H` (Perrin
+1976, 4.2.3; SGA 3, Exp. VI_A, 6.7 (i)), so a quasi-compact monomorphism of `k`-groups is a closed
+immersion (Perrin 1976, 4.2.4; SGA 3, Exp. VI_A, 6.7 (ii)), which is `isClosedImmersion_of_mono` of
+4.1 without finiteness, and `u` is faithfully flat iff it is schematically dominant (Perrin 1976,
+4.2.5; SGA 3, Exp. VI_A, 6.6). In characteristic `0` every `k`-group is geometrically reduced
+(Perrin 1976, 4.2.8; SGA 3, Exp. VI_A, 6.9, from 4.5 and the approximation). *Needs:* 4.1, 4.5,
+4.6; SchemeAndStackFoundations §0.9; Mathlib `Cone`, `Functor.mapCone`, `Functor.const`,
+`homOfLE`, `IsDirected`, `IsAffineHom`, `Flat`, `Surjective`, `IsClosedImmersion`.
+
+**Checks.**
+
+- For `G` of finite type, the one-point system `G_i = G` works, with `p_i` the identity.
+- For `G = ∏_ℕ 𝔾_m`, affine and quasi-compact and not of finite type, `G_n = 𝔾_m^n` with the
+  projections: each `p_n` is faithfully flat and affine with kernel `∏_{m > n} 𝔾_m`, and `G` is the
+  limit in schemes, not the union of the `G_n`.
+- Quasi-compactness is needed: a limit of quasi-compact schemes along transition maps that are
+  affine from `i₀` on is affine over `G_{i₀}`, hence quasi-compact, so the constant group `ℤ_k` is
+  no such limit; the limit of its finite quotients `ℤ/n` is the affine group of the profinite `ℤ̂`.
+- The hypotheses on `H` are needed in the quotient theorem: for `G = ∏_ℕ GL₂` over `ℂ` and
+  `H = ∏_ℕ B` with `B` a Borel subgroup, `H` is neither normal nor of finite presentation in `G`,
+  and the fpqc sheaf `G/H = ∏_ℕ ℙ¹` is not a scheme (Perrin 1976, 4.2.2).
+- The identity component `G⁰` of every `k`-group is quasi-compact (Perrin 1976, 4.1.1), so the
+  target applies to `G⁰` of the constant group `ℤ_k` (the unit) and of `∏_ℕ 𝔾_a × ℤ_k`.
+
 ### Examples
 
 - `A × GL_n` has `ρ_ab = dim A`, `ρ_r = n`, `ρ_n = dim A + n` and `d_s = n² − 1`.
@@ -913,7 +1018,8 @@ spectrum of a finite separable extension of `k`, and the group law comes from th
 
 ### Dependencies
 
-Tau Ceti's field theory and abelian varieties; SchemeAndStackFoundations §1.17;
+Tau Ceti's field theory and abelian varieties, and its Cartier theorem for affine groups (4.5);
+SchemeAndStackFoundations §1.17 and, for 4.9, §0.9;
 NeronModelsAndSemistableAbelianVarieties 2.3 for the comparison of 4.2; Tau Ceti's Galois theory of
 finite étale algebras over a field (4.7, 4.8); ReductiveGroups Layer 3 for the comparisons of 4.6
 and 4.8; Layer 0 for 4.6.
@@ -1206,7 +1312,7 @@ torsor under the scheme-theoretic centralizer `Z_{G_x}(x)`, of dimension `r`, an
 smooth; the scheme-theoretic centralizer of every regular geometric point of every fibre is
 smooth (flatness of `a` from miracle flatness on fibres and the fibrewise flatness criterion,
 EGA IV₃, 11.3.10). *Theorem:* if `S` is a `ℚ`-scheme these hold, every group scheme of finite
-type over a field of characteristic `0` being smooth (Cartier). *Needs:* 7.4.
+type over a field of characteristic `0` being smooth (Cartier, 4.5). *Needs:* 7.4, 4.5.
 
 **Checks.**
 
@@ -1283,7 +1389,8 @@ identity section (7.3). *Needs:* 7.3, 7.7.
 
 ### Dependencies
 
-Layer 6; ReductiveGroups Layer 8 and 9B; ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
+Layer 6; Cartier's theorem of 4.5 (7.5); ReductiveGroups Layer 8 and 9B; ModularCurves 0C;
+SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
@@ -1333,7 +1440,8 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
   by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011), with the revised exposés on
   P. Polo's page, https://webusers.imj-prg.fr/~patrick.polo/SGA3/: Exp. VI_A 0.2, 0.3, 0.5.1,
-  1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1; Exp. VI_B 3.9, 3.10, 5.2, 5.6.4, 12.10.1;
+  1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1, 6.5–6.7, 6.9; Exp. VI_B 1.4, 1.4.2, 1.4.3,
+  1.6, 1.6.1, 3.9, 3.10, 5.2, 5.6.4, 12.10.1;
   Exp. VII_A 6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 2.7,
   2.11, 3.3, 3.6, 4.7, 4.8, 5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3,
   8.7; Exp. XI 2.4, 4.2, 5.3, 5.3 bis, 5.9, 6.1, 6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
@@ -1344,16 +1452,20 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
   the numbering of the author's version.
 - J. S. Milne, *Algebraic groups: the theory of group schemes of finite type over a field*,
   Cambridge Stud. Adv. Math. 170, Cambridge University Press (2017), doi:10.1017/9781316711736:
-  Propositions 1.22, 1.26, 1.29–1.31, 1.34 and 2.37, Example 1.27, Remark 1.33, Corollaries 1.35
-  and 1.39, Summary 1.36. The author's 2017 version, https://www.jmilne.org/math/Books/iAG2017.pdf,
-  has this numbering.
-- M. Demazure, P. Gabriel, *Groupes algébriques* I, Masson (1970), III, §3, 5.4 and 8.2.
+  Propositions 1.22, 1.26, 1.29–1.31, 1.34 and 2.37, Example 1.27, Remarks 1.33 and 3.28,
+  Corollaries 1.35, 1.39 and 8.39, Summary 1.36, Theorems 3.23 and 5.34. The author's 2017
+  version, https://www.jmilne.org/math/Books/iAG2017.pdf, has this numbering.
+- D. Perrin, « Approximation des schémas en groupes, quasi compacts sur un corps », *Bull. Soc.
+  Math. France* 104 (1976), 323–335, 0.0–0.2, 3.1.1, 3.3.1, 4.1.1–4.1.4, 4.2.1–4.2.5, 4.2.8.
+  doi:10.24033/bsmf.1830, Numdam BSMF_1976__104__323_0, zbMATH 0341.14018.
+- M. Demazure, P. Gabriel, *Groupes algébriques* I, Masson (1970), II, §6, 1.1; III, §3, 5.4, 7.5
+  and 8.2.
 - A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie
   algébrique III : préschémas quotients », Séminaire Bourbaki 6 (1960/61), exp. 212, 99–118,
   Théorème 7.2. Numdam SB_1960-1961__6__99_0.
 - A. Grothendieck, J. Dieudonné, *Éléments de géométrie algébrique* II and IV, Publ. Math. IHÉS 8,
-  24, 28, 32 (1961–1967): II 7.1.9; IV 2.8.5, 11.3.10, 13.1.3, 17.9.5. Numdam
-  PMIHES_1961__8__5_0 (II).
+  24, 28, 32 (1961–1967): II 7.1.9; IV 2.8.5, 8.11.5, 8.13.6, 11.3.10, 13.1.3, 16.12.2, 17.9.5,
+  17.12.5. Numdam PMIHES_1961__8__5_0 (II).
 - R. Steinberg, « Regular elements of semisimple algebraic groups », *Publ. Math. IHÉS* 25
   (1965), 49–80, Theorems 1.1, 1.3, 1.4, 6.1, 7.1, 7.9 and 8.1. Numdam PMIHES_1965__25__49_0.
 - P. Slodowy, *Simple singularities and simple algebraic groups*, LNM 815, Springer (1980),

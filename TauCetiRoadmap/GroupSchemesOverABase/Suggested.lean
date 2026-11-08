@@ -21,14 +21,16 @@ Headline theorems stated here (README target, Lean name):
   `etale_diagonalizable_iff`; 1.4, `flat_surjective_diagonalizableMap` and
   `isKernel_diagonalizableMap`; on `diagonalizable` and `diagonalizableMap` (1.1).
 * 2.2, `IsMultiplicativeType.exists_etale_cover`; 2.5, `IsMultiplicativeType.isotrivial`; 2.6,
-  `exists_torus_not_isotrivial`; on `IsDiagonalizable`, `IsMultiplicativeType`, `IsTorus` (2.1), `IsIsotrivial` (2.5) and
-  `nodalCurve` (2.6).
+  `exists_torus_not_isotrivial`; on `IsDiagonalizable`, `IsMultiplicativeType`, `IsTorus` (2.1),
+  `IsIsotrivial` (2.5) and `nodalCurve` (2.6).
 * 3.1, `bijective_baseChange_map_of_thickening`; 3.2, `hom_eq_of_eq_fibre`; 3.3,
   `eq_of_eq_on_torsion`.
-* 4.2, `chevalley`; 4.3, `affinization`; 4.5, `isSeparated_of_field`, `smooth_of_isReduced` and
-  `exists_reduced_subgroup`; 4.6, `exists_identityComponent_of_field` and
+* 4.1, `isClosedImmersion_of_mono`; 4.2, `chevalley`; 4.3, `affinization`; 4.5,
+  `isSeparated_of_field`, `smooth_of_isReduced`, `exists_reduced_subgroup` and
+  `smooth_of_charZero`; 4.6, `exists_identityComponent_of_field` and
   `isIrreducible_connectedComponent`; 4.7, `exists_connectedComponentScheme`; 4.8,
-  `exists_componentGroup`.
+  `exists_componentGroup`; 4.9, `exists_isLimit_of_quasiCompact` and
+  `exists_flat_closedImmersion_factorization`.
 
 Not statable at the pins, with the carrier each lacks:
 
@@ -42,7 +44,7 @@ Not statable at the pins, with the carrier each lacks:
 * 3.1 for a smooth affine target (étale-local lifting, conjugacy), 3.4 (Hom schemes) and 3.5
   (centralizers, normalizers): the functors `T ↦ Hom_{T-gr}(H_T, G_T)` and `Z_G(H)`, which need
   the monoidal coherence isomorphisms `baseChange (g ≫ f) ≅ baseChange f ⋙ baseChange g` of 0.1.
-* 4.1 (quotients over a field): the fppf quotient sheaf and the quotient predicates of
+* 4.1 and 4.9 (quotients over a field): the fppf quotient sheaf and the quotient predicates of
   SchemeAndStackFoundations §1.17.
 * 4.4 and Layer 5 (rank invariants, maximal tori over a base, specialization): maximal tori,
   radicals and centralizers of tori on `Grp (Over (Spec k))`; Tau Ceti has maximal tori on Hopf
@@ -254,6 +256,14 @@ section Layer4
 
 variable (k : Type u) [Field k]
 
+/-- **4.1.** A quasi-compact homomorphism of group schemes locally of finite type over a field that
+is a monomorphism of schemes is a closed immersion (SGA 3, Exp. VI_B, 1.4.2). -/
+theorem isClosedImmersion_of_mono {H G : Grp (Over (Spec (CommRingCat.of k)))} (u : H ⟶ G)
+    [LocallyOfFiniteType H.X.hom] [LocallyOfFiniteType G.X.hom]
+    [QuasiCompact ((Grp.forget _).map u).left] [Mono ((Grp.forget _).map u).left] :
+    IsClosedImmersion ((Grp.forget _).map u).left := by
+  sorry
+
 /-- **4.2.** Chevalley's theorem, existence: a smooth connected group scheme of finite type over a
 perfect field is an extension of an abelian variety by a smooth connected affine closed normal
 subgroup (Conrad, *A modern proof of Chevalley's theorem*, Thm. 1.1). -/
@@ -293,6 +303,12 @@ theorem exists_reduced_subgroup [PerfectField k] (G : Grp (Over (Spec (CommRingC
     ∃ (H : Grp (Over (Spec (CommRingCat.of k)))) (ι : H ⟶ G),
       IsClosedImmersion ((Grp.forget _).map ι).left ∧ Surjective ((Grp.forget _).map ι).left ∧
         IsReduced H.X.left ∧ Smooth H.X.hom := by
+  sorry
+
+/-- **4.5.** Cartier's theorem: a group scheme locally of finite type over a field of
+characteristic zero is smooth (SGA 3, Exp. VI_B, 1.6.1). -/
+theorem smooth_of_charZero [CharZero k] (G : Grp (Over (Spec (CommRingCat.of k))))
+    [LocallyOfFiniteType G.X.hom] : Smooth G.X.hom := by
   sorry
 
 /-- **4.6.** The identity component over a field: a group scheme locally of finite type has an
@@ -336,6 +352,33 @@ theorem exists_componentGroup (G : Grp (Over (Spec (CommRingCat.of k))))
         ∃ (H : Grp (Over (Spec (CommRingCat.of k)))) (ι : H ⟶ G) (h : ι ≫ q = 0),
           Nonempty (IsLimit (KernelFork.ofι ι h)) ∧
             IsOpenImmersion ((Grp.forget _).map ι).left ∧ ConnectedSpace H.X.left := by
+  sorry
+
+/-- **4.9.** Perrin's theorem: a quasi-compact group scheme over a field is the limit in
+`k`-schemes of a system of group schemes of finite type indexed by the opposite of a directed set,
+with faithfully flat projections, and with affine projections and transition maps from some index
+on (Perrin, Bull. SMF 104 (1976), 0.0; SGA 3, Exp. VI_A, 6.5 (i)). -/
+theorem exists_isLimit_of_quasiCompact (G : Grp (Over (Spec (CommRingCat.of k))))
+    [QuasiCompact G.X.hom] :
+    ∃ (I : Type u) (_ : Preorder I) (_ : IsDirected I (· ≤ ·)) (_ : Nonempty I)
+      (D : Iᵒᵖ ⥤ Grp (Over (Spec (CommRingCat.of k)))) (π : (Functor.const Iᵒᵖ).obj G ⟶ D),
+      (∀ i, LocallyOfFiniteType (D.obj i).X.hom ∧ QuasiCompact (D.obj i).X.hom ∧
+        Flat ((Grp.forget _).map (π.app i)).left ∧
+          Surjective ((Grp.forget _).map (π.app i)).left) ∧
+      Nonempty (IsLimit ((Grp.forget _).mapCone (Cone.mk G π))) ∧
+      ∃ i₀ : I, (∀ i, i₀ ≤ i → IsAffineHom ((Grp.forget _).map (π.app (Opposite.op i))).left) ∧
+        ∀ i j (h : i ≤ j), i₀ ≤ i →
+          IsAffineHom ((Grp.forget _).map (D.map (homOfLE h).op)).left := by
+  sorry
+
+/-- **4.9.** A quasi-compact homomorphism of group schemes over a field, with no finiteness
+hypothesis, factors as a faithfully flat homomorphism followed by a closed immersion (Perrin,
+Bull. SMF 104 (1976), 4.2.3; SGA 3, Exp. VI_A, 6.7 (i)). -/
+theorem exists_flat_closedImmersion_factorization {G H : Grp (Over (Spec (CommRingCat.of k)))}
+    (u : G ⟶ H) [QuasiCompact ((Grp.forget _).map u).left] :
+    ∃ (Q : Grp (Over (Spec (CommRingCat.of k)))) (p : G ⟶ Q) (i : Q ⟶ H), p ≫ i = u ∧
+      Flat ((Grp.forget _).map p).left ∧ Surjective ((Grp.forget _).map p).left ∧
+        IsClosedImmersion ((Grp.forget _).map i).left := by
   sorry
 
 end Layer4
