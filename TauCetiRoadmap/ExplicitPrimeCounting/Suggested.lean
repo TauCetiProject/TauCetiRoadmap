@@ -207,6 +207,18 @@ def ZetaZeroReciprocalSum : Prop :=
   ∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ 10 ^ 7},
       (analyticOrderNatAt riemannZeta ρ.1 : ℝ) / ρ.1.im ≤ 16.2106480369
 
+/-- **The zero count at low height**: for `2π ≤ T ≤ 10⁹`, the number `N(T)` of zeros `ρ` of
+`riemannZeta` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T`, each counted with its multiplicity, satisfies
+`|N(T) − M(T)| ≤ 0.28 log T` with `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`. It is the part below
+height `10⁹` of the first branch of the zero count quoted by Lee–Nosal (display (8)); from `10⁹` on
+Rosser's bound `0.137 log T + 0.443 log log T + 1.588` (*Explicit bounds for some functions of prime
+numbers*, 1941, Theorem 19) is smaller than `0.28 log T`. -/
+def ZetaZeroCountLowRange : Prop :=
+  ∀ T : ℝ, 2 * π ≤ T → T ≤ 10 ^ 9 →
+    |(∑' ρ : {s : ℂ // riemannZeta s = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ 0 < s.im ∧ s.im ≤ T},
+        (analyticOrderNatAt riemannZeta ρ.1 : ℝ)) -
+      (T / (2 * π) * log (T / (2 * π)) - T / (2 * π) + 7 / 8)| ≤ 0.28 * log T
+
 /-- **The verified prime gaps** (Oliveira e Silva–Herzog–Pardi, Math. Comp. 83 (2014), §2.2, as
 quoted by Carneiro–Milinovich–Soundararajan, (1.15)): consecutive primes `p < p⁺` with
 `11 ≤ p ≤ 4·10¹⁸` satisfy `p⁺ − p < log² p`. -/
@@ -250,9 +262,11 @@ theorem schoenfeld_of_riemannHypothesis (hRH : RiemannHypothesis) (hB : ButheVer
 
 /-- **Lee–Nosal's bound for `ψ` under the Riemann hypothesis** (Lee–Nosal, J. Number Theory 283
 (2026), arXiv 2312.05628v4, Theorem 1.2, (2)): `|ψ(x) − x| ≤ √x log x (log x − log log x)/(8π)` for
-`x ≥ 101`. -/
+`x ≥ 101`. The zero count enters through `ZetaZeroCountLowRange` below height `10⁹` and through
+Rosser's and Bellotti–Wong's explicit zero counts above it. -/
 theorem leeNosal_of_riemannHypothesis (hRH : RiemannHypothesis) (hB : ButheVerified)
-    (hL : LeeNosalRange) (hZ : ZetaZeroReciprocalSum) (x : ℝ) (hx : 101 ≤ x) :
+    (hL : LeeNosalRange) (hZ : ZetaZeroReciprocalSum) (hN : ZetaZeroCountLowRange) (x : ℝ)
+    (hx : 101 ≤ x) :
     |Chebyshev.psi x - x| ≤ √x * log x * (log x - log (log x)) / (8 * π) := by
   sorry
 
@@ -261,7 +275,7 @@ theorem leeNosal_of_riemannHypothesis (hRH : RiemannHypothesis) (hB : ButheVerif
 and the bound `ψ(x) − θ(x) < (1 + 1.93378·10⁻⁸) √x + 1.04320 x^{1/3}` for `x ≥ e⁴⁰` of
 Broadbent–Kadiri–Lumley–Ng–Wilk (the paper's (24)). -/
 theorem leeNosal_theta_of_riemannHypothesis (hRH : RiemannHypothesis) (hB : ButheVerified)
-    (hL : LeeNosalRange) (hZ : ZetaZeroReciprocalSum)
+    (hL : LeeNosalRange) (hZ : ZetaZeroReciprocalSum) (hN : ZetaZeroCountLowRange)
     (hψθ : ∀ t : ℝ, exp 40 ≤ t →
       Chebyshev.psi t - Chebyshev.theta t < (1 + 1.93378e-8) * √t + 1.04320 * t ^ ((1 : ℝ) / 3))
     (x : ℝ) (hx : 2657 ≤ x) :

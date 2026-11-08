@@ -72,10 +72,21 @@ docstring with what they lack.
   two inputs of its proof that no earlier roadmap states: Montgomery–Vaughan's lower bound
   `∑_{q ≤ u} μ²(q)/φ(q) ≥ log u + 1.07` for `u ≥ 6`, with Büthe's explicit asymptotic for that sum
   and the finite-range proposition `MVDiagonalFiniteRange`, and the finite-range proposition
-  `BrunTitchmarshFiniteRange` (§0.1). They are stated here because ExplicitCharacterSumsAndSieves,
-  which plans the explicit sieve bounds, is later in the order of supply and consumes the
-  inequality and the diagonal bound from here; the proof uses Montgomery–Vaughan's weighted large
-  sieve, ExplicitZetaBounds §6.5.
+  `BrunTitchmarshFiniteRange` (§0.1). This roadmap is their owner: ExplicitCharacterSumsAndSieves,
+  which plans the explicit sieve bounds and uses both the inequality and the diagonal bound, is
+  later in the order of supply, so the statements of §0.1 are the ones of record and a statement
+  of either object there cites §0.1. The proof uses
+  Montgomery–Vaughan's weighted large sieve, ExplicitZetaBounds §6.5.
+- The inputs about zeros with numerical constants that particular sources use and that
+  ExplicitZetaBounds, the owner of the explicit regions, zero counts and densities, leaves to the
+  theorem that needs them: the low-height zero count `ZetaZeroCountLowRange` (§1.1, for the zero
+  counts of §§2.2 and 2.6), the zero-count triples measured against `M(T)` with `7/8` other than Rosser's
+  (*ZeroCountBound*, §3.1), Johnston–Yang's recomputed density constants
+  (*JohnstonYangDensityTable*, §3.4), Ramaré–Rumely's region with the constant `C₁(χ, H)`
+  (*RamareRumelyRegion*, §6.1), Liu–Wang's bound of four zeros near `σ = 1`
+  (*LiuWangFourZeros*, §6.6) and Ramaré's revised density for `ζ` (*RamareRevisedDensity*, §7.5).
+  Each is a named hypothesis, never discharged here, of the instances that use it; no general
+  theorem depends on one (Conventions).
 - The carriers this roadmap adds: the logarithmic progression sum
   `ψ̃(x; q, a) = ∑_{n ≤ x, n ≡ a (q)} Λ(n)/n` and the Mertens constants `C(q, a)` of a residue
   class (Layer 0).
@@ -128,7 +139,8 @@ docstring with what they lack.
   the certificate semantics `AllOnCriticalLine` and `GRH` (Layer 9). The decimal constants of the
   zero-free regions, the explicit zero-counting errors, the zero-density bounds, the weighted sum
   over ordinates and the explicit Perron formula are the business of ExplicitZetaBounds and are
-  listed as gaps in the supplier contracts.
+  listed as gaps in the supplier contracts, except the source-specific inputs that it leaves to
+  this roadmap (Owned here).
 - The bounded-height propositions `RH(H)` (`RiemannHypothesisUpTo`) and `GRH(f, H)` (primitive
   characters modulo `f`), their antitonicity in `H`, their limits `RiemannHypothesis` and
   `DirichletGRH`, the passage from primitive to all characters of a modulus, the bridge from
@@ -227,8 +239,12 @@ docstring with what they lack.
   (§1.2); `GRH*(1, H)` is `RH(H)`.
 - `N(T)` counts the zeros of `ζ` with `0 < Im ρ ≤ T` in the critical strip with multiplicity, as
   ZerosOfLFunctions §4.5; `N(σ, T)` counts those with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T`, the
-  one-sided count of `kadiri-2013-density` lines 42–43 (a count over `|Im ρ| ≤ T` is `2N(σ, T)`).
-  `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`.
+  one-sided count of `kadiri-2013-density` lines 42–43 (a count over `|Im ρ| ≤ T` is `2N(σ, T)`);
+  `N°(σ, T)` counts those with `σ < Re ρ < 1` and `0 < Im ρ < T`, the count of Kadiri–Lumley–Ng's
+  density (ExplicitZetaBounds §8.3), so `N°(σ, T) ≤ N(σ, T)`.
+  `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`; a zero-counting error is measured against `M(T)`, that is
+  with the `7/8` included, and a bound stated against `(T/2π) log(T/2πe)` moves to this
+  normalisation by adding `7/8` to its constant.
 - Euler's constant is Mathlib's `Real.eulerMascheroniConstant`; the Meissel–Mertens constant `B` is
   `TauCeti.LFunctions.mertensConstant ℚ`; their decimal values are propositions of §1.6, never
   asserted.
@@ -244,6 +260,12 @@ inputs of the Brun–Titchmarsh inequality, which Layer 0 uses and §0.1 states.
   only one consequence of a finite-range proposition (a gap bound drawn from the record table, the
   bounded-range clause of its own statement), that consequence is the hypothesis, and the section
   of the proposition says how it follows.
+- A *zero input* is a statement about the zeros of `ζ` or of the `L(s, χ)` with numerical constants
+  (a region, a bound for the number of zeros near `σ = 1`, a zero-counting error, a density) that
+  a source uses and that no supplier states. It is a `Prop` with its constants in the statement,
+  stated beside the theorem that uses it (or, for a computation on the low zeros, in §1.1), and
+  it is a hypothesis of every instance that uses it. The general theorems of Layers 3, 6 and 7
+  take the corresponding object as a parameter and depend on no zero input.
 - Refereed and unrefereed sources. A statement whose only source is a preprint is a target like any
   other (its proof is planned here from the stated inputs), but it is marked *(preprint)* where it
   is stated, it is never the headline of its section, and the refereed statement it would sharpen
@@ -376,8 +398,12 @@ inputs of the Brun–Titchmarsh inequality, which Layer 0 uses and §0.1 states.
 
 ExplicitZetaBounds precedes this roadmap in the order of supply and owns the decimal constants of
 the zero-free regions, the explicit zero counts, the zero densities, the weighted sums over the
-ordinates and the verified heights. The following sections are consumed exactly as that roadmap
-states them:
+ordinates and the verified heights. The zero inputs that particular sources use and that its
+Not owned here leaves to the theorems needing them (Ramaré–Rumely's region with `C₁(χ, H)`,
+Liu–Wang's four-zero bound, Ramaré's revised density for `ζ`, Johnston–Yang's recomputed density
+constants, the low-height zero count `0.28 log T` and the zero-count triples against `M(T)` other
+than Rosser's) are this roadmap's (Owned here). The following sections are consumed exactly as
+that roadmap states them:
 
 - §6.5, the weighted large sieve of Montgomery–Vaughan: for a finite set `X ⊂ ℝ/ℤ` with at least
   two points, `δ(x)` the distance from `x` to the rest of `X`, an integer `M`, `N ≥ 1` and complex
@@ -408,19 +434,17 @@ What ExplicitZetaBounds must provide (gap:grh-up-to-height): For each modulus `f
 
 What ExplicitZetaBounds must provide (gap:classical-zero-free-constants): For `ζ`, that no zero has `|t| ≥ 2` and `σ ≥ 1 − 1/(R log |t|)` for each of `R = 5.69693`, `5.573412` and `5.5666305`, and that no zero has `|t| ≥ 21` and `σ ≥ 1 − 1/(9.645908801 log(|t|/17))`. Required location: target 16.
 
-What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): For `q ≥ 3`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ ≥ 1 − 1/(6.4355 log(q max(1, |t|)))`, that zero being real, simple and of a real nonprincipal character; for `χ` of conductor `k` and `H ≥ 1000`, that every zero `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(9.645908801 log(k|γ|/C₁(χ, H)))` with the constant `C₁(χ, H)` of `ramare-rumely-1996` Theorem 3.6.3; for `3 ≤ q ≤ 10¹⁰`, that the same product has no zero with `σ ≥ 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2); and, for `q₁ > 400 000`, that a possible exceptional zero `β₁` of a real character modulo `q₁` satisfies `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6). Required location: target 16.
+What ExplicitZetaBounds must provide (gap:dirichlet-zero-free-constants): Given `RH(3·10¹²)`, for `q ≥ 2`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most one zero with `σ > 1 − 1/(6.4355 log max(q, q|t|, 1.7367))`, that zero being real, simple and of a real nonprincipal character (Kadiri); given `RH(545 439 823)`, for `q ≥ 3`, that the same product has at most one zero with `σ ≥ 1 − 1/(9.645908801 log max(q, q|t|))` (McCurley), and Thorner–Zaman's form over the primitive characters of conductor at most `Q`, whose possible exceptional zero `β₁`, a zero of `L(s, χ₁)` for one primitive `χ₁` of conductor `q₁ ∈ (400 000, Q]`, satisfies `β₁ ≤ 1 − 100/(√q₁ log² q₁)` (`thorner-zaman-2024` Theorem 2.6); and, given `RH(545 439 823)`, for `q ≤ 10¹⁰`, that the product has no zero with `σ > 1 − 1/(10 log max(q, q|t|, 10))` (`lu-zaman-zhao-2026` Corollary 1.2). Required location: its §7.5.
 
 What ExplicitZetaBounds must provide (gap:real-zero-gap): For real `c` and a conductor cap `Q ∈ ℕ ∪ {∞}`, the proposition *HasLandauSiegelGap* `c Q` that every real zero `β ∈ (0, 1)` of `L(s, χ)`, for every primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q`, satisfies `(1 − β) log q ≥ c`, with the named instances `(c, Q) = (1/5, 10¹⁰)` (the computation of `lu-zaman-zhao-2026`, Theorem 1.1) and `(c, Q) = (3.0·10⁻³, ∞)` (`banks-2026`, Theorem 1.1, with the first instance). Required location: target 18 and target 20 (its §7.9).
 
-What ExplicitZetaBounds must provide (gap:dirichlet-four-zero-region): For real `x ≥ 8·10⁹` and `1 ≤ q ≤ x`, that the product of the `L(s, χ)` over the characters `χ` modulo `q` has at most four zeros with `|Im s| ≤ x/q` and `σ ≥ 1 − 1/(3.82 log x)`. Required location: target 16, Dirichlet regions.
-
 What ExplicitZetaBounds must provide (gap:vinogradov-korobov-constants): For `|t| ≥ 3`, that `ζ` has no zero with `σ ≥ 1 − 1/(57.54 (log |t|)^(2/3) (log log |t|)^(1/3))`. Required location: target 17.
 
-What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, the bounds `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, `|N(T) − M(T)| ≤ 0.112 log T + 0.278 log log T + 2.510 + 1/(5T)` for `T ≥ e`, and `|N(T) − M(T)| ≤ min(0.28 log T, 0.1038 log T + 0.2573 log log T + 9.3675)` for `T ≥ 2π` (the form of `lee-nosal-2026`, display (8)). Required location: target 8.
+What ExplicitZetaBounds must provide (gap:explicit-zero-count-error): With `N(T)` the number of zeros of `ζ` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity and `M(T) = (T/2π) log(T/2π) − T/2π + 7/8`, Rosser's bound `|N(T) − M(T)| ≤ 0.137 log T + 0.443 log log T + 1.588` for `T ≥ 2`, and Bellotti–Wong's bounds `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` for `T ≥ 30 610 046 000` (and for every `T ≥ e` given its recorded bound for `S(T)`), which against `M(T)` hold with `7/8` added to the constants. Required location: its §5.2.
 
 What ExplicitZetaBounds must provide (gap:dirichlet-zero-count-error): For a primitive character `χ` of conductor `q > 1` and `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) > 1.567`, that the number of zeros of `L(s, χ)` with `0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity, is `(T/π) log(qT/(2π)) − T/π − χ(−1)/4 + O*(0.22737 ℓ + 2 log(1 + ℓ) − 0.5)`. Required location: target 9.
 
-What ExplicitZetaBounds must provide (gap:explicit-zero-density): With `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, the bounds `N(17/20, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `T ≥ 3.061·10¹⁰`, `N(σ, T) ≤ A (3T)^(8(1−σ)/3) (log T)^(5−2σ) + 103 log² T` for `T ≥ 2000` and `σ ≥ 0.52` with an explicit `A` (and Kadiri–Lumley–Ng's corrected form `N(σ, T) ≤ 965 (3T)^(8(1−σ)/3) (log T)^(5−2σ) + 51.5 log² T`), `N(0.90, T) < 11.499 (log T)^(16/5) T^(4/15) + 3.186 log² T` for `T ≥ 3.0610046·10¹⁰`, and, for `3/4 ≤ σ < 1` and `T ≥ 1`, `N(σ, T) ≤ C₁(σ) T^(8(1−σ)/3) (log T)^(5−2σ) + C₂(σ) log² T` with the tabulated `C₁(σ)`, `C₂(σ)`, including the recomputed constants of `johnston-yang-2023` Table 3. Required location: target 19.
+What ExplicitZetaBounds must provide (gap:explicit-zero-density): Given `RH(30 610 046 000)`, Kadiri's bound `N(σ, T) ≤ 0.5561 T + 0.7586 log T − 268 658` for `σ ≥ 17/20` and `T ≥ 3.061·10¹⁰`, with `N(σ, T)` the number of zeros of `ζ` with `σ ≤ Re ρ < 1` and `0 < Im ρ ≤ T` counted with multiplicity, and the general form `b₁(T − H) + b₂ log(T/H) + b₃` of her Theorem 1.1 (its §8.1); and, given `RH(H₀)` with `H₀ = 3.0610046·10¹⁰`, Kadiri–Lumley–Ng's bound for the count `N°(σ, T)` of the zeros with `σ < Re ρ < 1` and `0 < Im ρ < T`, `N°(σ, T) ≤ (C₁/(2πd)) (log kT)^{2σ} (log T)^{5−4σ} T^{8(1−σ)/3} + (C₂/(2πd)) log² T` for `T ≥ H₀`, with `C₁`, `C₂` their closed forms (4.72)–(4.73) in the parameters of their Theorem 1.1 (`kadiri-lumley-ng-2018` lines 74–81), and its instance `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T` for `T ≥ H₀` (its §8.3). Required location: its §§8.1 and 8.3.
 
 What ExplicitZetaBounds must provide (gap:lehman-weighted-zero-sum): The weighted sum over ordinates in Brent–Platt–Trudgian's form (`brent-platt-trudgian-2021`, Lemma 3): for `φ` with a continuous derivative, nonnegative and non-increasing on `[T₁, T₂]` with `T₁ ≥ 2π`, the sum of `φ(γ)` over the ordinates `T₁ < γ ≤ T₂` of the zeros of `ζ`, with multiplicity, is `(1/2π) ∫ φ(t) log(t/2π) dt` over `[T₁, T₂]` plus `φ(T₂) Q(T₂) − φ(T₁) Q(T₁)` plus an error of absolute value at most `2(2.067 + 0.059 log T₁) |φ′(T₁)| + (0.059 + 1/150) φ(T₁)/T₁`, with `Q(T) = N(T) − M(T)`, together with its corollary in Lehman's form, for `φ` continuous, positive and decreasing on `[T₁, T₂]` with `T₁ ≥ 2πe`, that the sum is `(1/2π) ∫ φ(t) log(t/2π) dt + O*(4 φ(T₁) log T₁ + 2 ∫ φ(t) dt/t)`, both integrals over `[T₁, T₂]`. Required location: target 10.
 
@@ -755,8 +779,8 @@ Schoenfeld's Theorem 11 (`schoenfeld-1976` lines 201–206), stated for an arbit
 **Checks.**
 
 - Schoenfeld's `ε₀(x) = √(8/(17π)) X^{1/2} e^{−X}`, `X = √(log x/R)`, `R = 9.645908801`: at
-  `x = e¹⁰⁰`, `X = 3.2197`, `√(8/(17π)) = 0.38703`, `X^{1/2} = 1.7944`, `e^{−X} = 0.03999`, so
-  `ε₀(e¹⁰⁰) = 0.02777`; `ε₀` is decreasing in `x` for `X > 1/2`, that is `x > e^{R/4} = 11.2`.
+  `x = e¹⁰⁰`, `X = 3.2198`, `√(8/(17π)) = 0.38703`, `X^{1/2} = 1.7944`, `e^{−X} = 0.03996`, so
+  `ε₀(e¹⁰⁰) = 0.02775`; `ε₀` is decreasing in `x` for `X > 1/2`, that is `x > e^{R/4} = 11.2`.
 - With `ε ≡ 0` (the hypothetical `ψ = x` on `[y₀, ∞)`) the `θ`-error is `(log 4) x^{−1/2}` plus the
   cube-root term, not `0`: the prime powers are a genuine correction.
 - The `π` transfer at `x₀ = x` reduces to `|π(x) − Li x| ≤ |π(x) − Li x| + 2 x ε₁(x)/log x`, a
@@ -866,6 +890,25 @@ the zeros below height `10⁷`, used only in the route of §2.2.
   Rosser's bound of `gap:explicit-zero-count-error`, so the sum has about `2.1·10⁷` terms and the
   proposition has content.
 
+Define `ZetaZeroCountLowRange` (a zero input, Conventions) as: for every real `T` with
+`2π ≤ T ≤ 10⁹`, the number `N(T)` of zeros of `riemannZeta` with `0 < Re ρ < 1` and `0 < Im ρ ≤ T`,
+each counted with its multiplicity `analyticOrderNatAt riemannZeta ρ`, satisfies
+`|N(T) − M(T)| ≤ 0.28 log T`. It is the part below height `10⁹` of the first branch of the zero count
+that `lee-nosal-2026` display (8) quotes for every `T ≥ 2π`, and a finite computation on the zeros
+below that height; ExplicitZetaBounds states no bound of this form (its Not owned here), so it is
+stated here, for §§2.2 and 2.6.
+
+- Above the range the branch is a theorem: Rosser's bound of ExplicitZetaBounds §5.2,
+  `0.137 log T + 0.443 log log T + 1.588`, is at most `0.28 log T` exactly when `log T ≥ 20.455`
+  (`T ≥ 7.65·10⁸`), the difference `0.143 L − 0.443 log L − 1.588` being increasing in `L = log T`
+  for `L > 3.1`; so `ZetaZeroCountLowRange` and that bound give `|N(T) − M(T)| ≤ 0.28 log T` for
+  every `T ≥ 2π`.
+- `N(T) − M(T) = S(T) + (ϑ(T)/π + 1 − M(T))` for `T` not an ordinate (ZerosOfLFunctions §§7.3–7.4,
+  with `S(T)` of §7.3 there), the second term being of size `1/(48πT)`: on `8100 ≤ T ≤ 10⁹` the
+  proposition follows from the recorded bound
+  `|S(T)| ≤ 2.5167` of ExplicitZetaBounds §0.4 (`0.28 log 8100 = 2.520`), and its content beyond
+  that recorded bound is on `[2π, 8100]`.
+
 *Needs:* ExplicitZetaBounds §§0.2, 0.4 (`gap:rh-up-to-height`); Mathlib `riemannZeta`,
 `analyticOrderNatAt`; ZerosOfLFunctions §4.1.
 
@@ -884,6 +927,13 @@ the zeros below height `10⁷`, used only in the route of §2.2.
   is `(1/4π) log²(T/2π)`, which at `T = 10⁷` is `14.280²/12.566 = 16.23`, matching `16.21`; a sum
   over both signs of `γ` would be about twice as large. The paper's display writes the range as
   `0 < |γ| ≤ 10⁷`, and the value fixes the reading.
+- `ZetaZeroCountLowRange` at its left end: `N(2π) = 0` and `M(2π) = −1/8`, against
+  `0.28 log 2π = 0.515`. Its tightest point on `[2π, 1.2·10⁴]` (zeros located by the sign changes of
+  Hardy's `Z` with Riemann–Siegel's formula, `N(100) = 29` and `N(1000) = 649` recovered) is the
+  first zero: at `T = 14.1347`, `N = 1` and `M = 0.4493`, so `|N − M| = 0.551` against `0.742`, a
+  ratio `0.743`; just before it, `0.449` against `0.742`.
+- The `7/8` is part of the statement (negative control): measured against `(T/2π) log(T/2πe)`, the
+  same inequality fails at the first zero, where `|1 + 0.4257| = 1.426 > 0.742`.
 
 ### 1.2 The generalised Riemann hypothesis to a height
 
@@ -1020,8 +1070,10 @@ proved from other inputs, as its section says.
 - `VanlalngaiaRange` (`vanlalngaia-2017` lines 26–51, with the small values computed as the paper
   says at line 56): `|∑_{p ≤ x} 1/p − log log x − B| ≤ 4/log³ x` for `2 ≤ x ≤ 89 967 803`,
   `≤ 2.3/log³ x` for `1000 ≤ x ≤ 89 967 803` and `≤ 1/log³ x` for `24 284 ≤ x ≤ 89 967 803`.
-- *DelegliseNicolasRange* (`deleglise-nicolas-2019-landau` lines 724–750, 758–762, 785–787): with
-  `x₁ = 89 967 803`, the inequalities (2.21) of §4.6 for `60 173 ≤ x ≤ x₁`, (2.22) for
+- *DelegliseNicolasRange* (`deleglise-nicolas-2019-landau` lines 706–710, 724–750, 758–762,
+  785–787): the inequality (2.19) of §4.6 for `110 117 910 ≤ x ≤ 110 118 925`, below the threshold of
+  Axler's Theorem 1.1 there; with `x₁ = 89 967 803`, the inequalities (2.21) of §4.6 for
+  `60 173 ≤ x ≤ x₁`, (2.22) for
   `60 297 ≤ x ≤ 315 011`, (2.23) for `1 091 239 ≤ x ≤ x₁`, (2.24) for `32 321 < x ≤ 1 091 239`, and
   (2.25)–(2.27) for `664 ≤ x ≤ x₁`, `200 ≤ x ≤ x₁`, `44 ≤ x ≤ x₁`; and the values `θ(x₁)` and
   `π_r(x₁)`, `r ∈ {2, 3, 4, 5}`, that enter the constants `C₀` (lines 724–727, 771).
@@ -1167,8 +1219,11 @@ enumeration, `p = Nat.nth Nat.Prime n` and `p⁺ = Nat.nth Nat.Prime (n + 1)`.
 - *Ramare2002Tabulation* (`ramare-2002` lines 161–169, Théorème 2, and lines 1229–1232): for every
   `q` in Rumely's list,
   `max_{1 ≤ L ≤ 10⁵} max_{a unit} √L |logPsiAP q a L − log L/φ(q) − C(q, a)| ≤ v♯(q) ≤ 1`, and
-  `max_{182 ≤ L ≤ 10⁵} max_{a unit} |logPsiAP q a L − log L/φ(q) − C(q, a)| ≤ ε♯(q)`, with `v♯(q)`
-  and `ε♯(q) ≤ 2/9` the values of the paper's final tables.
+  `max_{182 ≤ L ≤ 261} max_{a unit} |logPsiAP q a L − log L/φ(q) − C(q, a)| ≤ ε♯(q)`, with `v♯(q)`
+  and `ε♯(q) ≤ 2/9` the values of the paper's final tables, which satisfy
+  `v♯(q) ≤ √261 · ε♯(q)` (line 1231). On `[261, 10⁵]` the bound `ε♯(q)` is then a consequence of the
+  first clause, `v♯(q)/√L ≤ v♯(q)/√261 ≤ ε♯(q)`, and the second clause is the remaining computation
+  on `[182, 261]` (lines 1229–1232).
 
 *Needs:* AnalyticNumberTheoryPartI §0.2; §0.2.
 
@@ -1269,8 +1324,9 @@ true for every `c` when `Q ≤ 400 000`, by ComputationalNumberTheory §4.24; tr
 Mathlib `riemannZeta`, `analyticOrderNatAt`, `DirichletCharacter.LFunction`,
 `DirichletCharacter.IsPrimitive`, `Real.eulerMascheroniConstant`, `Nat.nth`; Tau Ceti
 `TauCeti.LFunctions.mertensConstant`; ExplicitZetaBounds §§0.2–0.4, 7.9 (the gaps `rh-up-to-height`,
-`grh-up-to-height`, `real-zero-gap`); ZerosOfLFunctions §4.1; AnalyticNumberTheoryPartI §§0.2,
-0.34, 1.6; ComputationalNumberTheory §4.24; Layer 0. No later layer is used.
+`grh-up-to-height`, `real-zero-gap`), and its §5.2 for the remark on the range of
+`ZetaZeroCountLowRange`; ZerosOfLFunctions §§4.1, 7.3–7.4; AnalyticNumberTheoryPartI §§0.2, 0.34,
+1.6; ComputationalNumberTheory §4.24; Layer 0. No later layer is used.
 
 ## Layer 2: bounds under the Riemann hypothesis and under the Riemann hypothesis to a height
 
@@ -1344,7 +1400,8 @@ that is not infinitely differentiable, and from explicit bounds for sums over th
 ### 2.2 Bounds under the Riemann hypothesis: Lee–Nosal and Schoenfeld
 
 Prove `leeNosal_of_riemannHypothesis`, the headline: under `RiemannHypothesis`, `ButheVerified`,
-`LeeNosalRange` and `ZetaZeroReciprocalSum`, `|ψ(x) − x| ≤ √x log x (log x − log log x)/(8π)` for
+`LeeNosalRange`, `ZetaZeroReciprocalSum` and `ZetaZeroCountLowRange`,
+`|ψ(x) − x| ≤ √x log x (log x − log log x)/(8π)` for
 every `x ≥ 101` (`lee-nosal-2026` Theorem 1.2, (2); J. Number Theory 283, arXiv 2312.05628, whose
 v4 numbering is used here). Under the same hypotheses:
 
@@ -1372,14 +1429,25 @@ ranges below the thresholds `101` and `2657` (`schoenfeld-1976` lines 20–28, T
 
 Route for Lee–Nosal (`lee-nosal-2026` §§3.1–3.2): for `x > 10¹⁹`, the bound of Theorem 1.1 by an
 explicit form of Goldston's truncated explicit formula at height `√x/log x`, and the headline by
-§2.1 with Rosser–Schoenfeld's kernel; the inputs are `Re ρ = 1/2`, the zero count of
-`gap:explicit-zero-count-error` in its `min(0.28 log T, …)` form, `ZetaZeroReciprocalSum` (§1.1) for
-the zeros up to `10⁷`, the tail `∑_{γ ≥ T} 1/γ² < log T/(πT)` (`T ≥ 2π`, a consequence of the same
+§2.1 with Rosser–Schoenfeld's kernel; the inputs are `Re ρ = 1/2`, the zero count in the form
+`|N(T) − M(T)| ≤ min(0.28 log T, 0.10076 log T + 0.24460 log log T + 8.95844)` for `T ≥ 2π`,
+`ZetaZeroReciprocalSum` (§1.1) for the zeros up to `10⁷`, the tail `∑_{γ ≥ T} 1/γ² < log T/(πT)`
+(`T ≥ 2π`, a consequence of the same
 zero count: Stieltjes integration against `dN` gives at most
 `(log(T/2π) + 1)/(2πT) + (0.56 log T + 0.14)/T²`, below `log T/(πT)` for every `T ≥ 2π`; at `T = 1`
 the right side is `0` while the left side is the full sum `∑_{γ > 0} 1/γ² = 0.0231`, and the
 inequality fails up to `T ≈ 1.08`), and the weighted zero sums of §2.1; the `θ` bound adds
 *PsiThetaUpper* through §0.3.
+The zero count: its first branch is `ZetaZeroCountLowRange` for `2π ≤ T ≤ 10⁹` and Rosser's bound
+of ExplicitZetaBounds §5.2 above (§1.1); its second branch is Bellotti–Wong's first bound of
+ExplicitZetaBounds §5.2 with `7/8` added (`8.08344 + 0.875 = 8.95844`), unconditional for
+`T ≥ 30 610 046 000`, and it is the smaller branch only for `log T ≥ 55.46`, inside that range. The
+paper's display (8) prints the second branch as `0.1038 log T + 0.2573 log log T + 9.3675`, which is
+Hasanalizade–Shen–Wong's bound, stated by them against `(T/2π) log(T/2πe)` without the `7/8` and
+printed with `9.3675` for `9.4925` (the correction recorded in ExplicitZetaBounds §5.2); the
+branch used here is below that printed one at every
+`T ≥ e` (their difference is `0.00304 log T + 0.0127 log log T + 0.409 > 0`), so every step of the
+paper that uses the printed form goes through with it.
 For `x ≤ 10¹⁹`, `ButheVerified` gives the `ψ` bounds from `x ≥ 337.09` and the `θ` bound from
 `x ≥ 3381.6`, and `LeeNosalRange` covers `[101, 338]` and `[2657, 3382]`; the second `ψ` bound
 follows from `ButheVerified` on all of `[11, 10¹⁹]`, its factor `log x (log x/(8π) − ⋯ + 1.2325)`
@@ -1396,9 +1464,10 @@ gives (6.2) on `73.2 < x ≤ 1427`, (6.3) on `599 < x ≤ 1427`, (6.4) on `59 < 
 on `2657 < x ≤ 5·10⁷`; for `3/2 < x < 2`, `π(x) = 0 < li x`, since `li` is positive to the right of
 Soldner's constant `1.4513…` (§0.4 Checks).
 
-*Needs:* §2.1, §0.3, §0.4; §1.1 (`ZetaZeroReciprocalSum`); Mathlib `RiemannHypothesis`;
-`gap:explicit-zero-count-error`; `gap:lehman-weighted-zero-sum`; `ButheVerified`,
-`Schoenfeld1976Range`, `LeeNosalRange`.
+*Needs:* §2.1, §0.3, §0.4; §1.1 (`ZetaZeroReciprocalSum`, `ZetaZeroCountLowRange`); Mathlib
+`RiemannHypothesis`; ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`: Rosser's and
+Bellotti–Wong's bounds); `gap:lehman-weighted-zero-sum`; `ButheVerified`, `Schoenfeld1976Range`,
+`LeeNosalRange`.
 
 **Checks.**
 
@@ -1408,6 +1477,10 @@ Soldner's constant `1.4513…` (§0.4 Checks).
 - Lee–Nosal's first bound fails just below its threshold: as `x → 101⁻`, `|ψ(x) − x| = 6.955`
   against `5.695` (§1.3 Checks); so `101` cannot be lowered, while Schoenfeld's weaker bound holds
   there (`8.52`).
+- The two branches of the zero count cross at `log T = 55.46` (`0.28 · 55.46 = 15.53`); with the
+  printed branch they would cross at `log T = 59.12`, and with Hasanalizade–Shen–Wong's corrected
+  `9.4925` plus `7/8` at `log T = 64.93`. Below `log T = 55.46` the first branch is the bound in
+  use, and the misprint does not touch it.
 - The second `ψ` bound at `x = 11`: `√11 · log 11 · 0.654 = 5.20 ≥ 0.77`. It beats the first exactly
   when `(3/(8π) + 1.465/log x) log log x > 1.2325`; at `log x = 30 369.58` the left side is
   `1.23250`.
@@ -1547,12 +1620,17 @@ Under `ButheVerified` (§1.3):
   1178–1199, 1367–1371): the Mellin-kernel explicit formula of their Lemma 7, the test function
   `H(x) = cos(2πx)/(1 − 16x²)` (line 167), the Brun–Titchmarsh inequality of §0.1 (with `B ≤ 4`, as
   the source uses it, lines 1367–1371) to control the prime powers and the edges of the smoothed
-  interval, and `PrimeGapLogSquareVerified` for `4 ≤ x ≤ 4·10¹⁸` (lines 269–273), where
-  `log² x ≤ (22/25) √x log x` because `log x/√x ≤ 2/e < 0.88`, the range `[4, 11)` being checked
-  directly.
+  interval, the zero count `|N(x) − M(x)| ≤ 0.15 log x + 3` for `x ≥ e` of their Lemma 9 (lines
+  1309–1319) for the sum over the zeros, and `PrimeGapLogSquareVerified` for `4 ≤ x ≤ 4·10¹⁸`
+  (lines 269–273), where `log² x ≤ (22/25) √x log x` because `log x/√x ≤ 2/e < 0.88`, the range
+  `[4, 11)` being checked directly. The paper derives Lemma 9 from Trudgian's bound against `M(T)`
+  with the `7/8`, which no supplier states (§3.1); it follows as well from Rosser's bound of
+  ExplicitZetaBounds §5.2, valid for `T ≥ 2`, since `0.137 ≤ 0.15` and
+  `0.443 log log x ≤ 0.013 log x + 1.412` for every `x ≥ e` (the left side less the right is at most
+  `1.120 − 1.412 = −0.292`, at `log x = 34.08`).
 
 *Needs:* §0.1 (`brun_titchmarsh`); §2.1, §2.2, §1.4 (`PrimeGapLogSquareVerified`); Mathlib
-`RiemannHypothesis`; `gap:explicit-zero-count-error`.
+`RiemannHypothesis`; ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`, Rosser's bound).
 
 **Checks.**
 
@@ -1596,12 +1674,16 @@ by two weighted sums whose weights have Fourier transforms supported in `[−T, 
 Graham–Vaaler extremal majorant and minorant of a one-sided exponential; contour shifting turns
 each weighted sum into a sum over the poles in `|Im s| ≤ T`. At `aₙ = Λ(n)`, `A = −ζ'/ζ`, the poles
 are `1`, the trivial zeros and the zeros with `|γ| ≤ T`, on the line by `RH(T)`; their contribution
-is at most `C_T √x` by the zero count of `gap:explicit-zero-count-error` (the bound
-`N(T) ≤ (T/2π) log(T/2π)` for `T ≥ 2π`), and the bound on the ladder uses the zero count in
-windows `[T − 3/4, T]`.
+is at most `C_T √x` by the bound `N(T) ≤ (T/2π) log(T/2π)` for `T ≥ 2π`, and the bound on the
+ladder uses the zero count in windows `[T − 3/4, T]`. That bound comes from Rosser's bound of
+ExplicitZetaBounds §5.2 for `T ≥ 22` (where `T/2π ≥ 0.137 log T + 0.443 log log T + 2.463`) and from
+`ZetaZeroCountLowRange` below `10⁹`, which gives `N(T) = 0` for `T < 10` (there
+`M(T) + 0.28 log T < 0.67`) and `N(T) ≤ M(T) + 0.28 log T ≤ (T/2π) log(T/2π)` for `T ≥ 10` (the second
+inequality is `T/2π ≥ 7/8 + 0.28 log T`, true from `T = 9.6`).
 
-*Needs:* §1.1; §2.1 (the zero sums); Mathlib `riemannZeta`, `mellin`, the Fourier transform on `ℝ`;
-`gap:explicit-zero-count-error`; `gap:rh-up-to-height`.
+*Needs:* §1.1 (`ZetaZeroCountLowRange`); §2.1 (the zero sums); Mathlib `riemannZeta`, `mellin`, the
+Fourier transform on `ℝ`; ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`);
+`gap:rh-up-to-height`.
 
 **Checks.**
 
@@ -1694,7 +1776,12 @@ have closed forms that the older instances evaluate. The `θ` and `π` forms fol
   `N(σ, T) ≤ C₁(σ) T^{8(1−σ)/3} log^{5−2σ} T + C₂(σ) log² T` for every `σ` of a range near `1`
   (`gap:explicit-zero-density`), the conclusion takes the form
   `|ψ(x) − x| ≤ A (log x/R)^B exp(−C √(log x/R)) · x` for `log x ≥ X`, with `(X, A, B, C)` a function
-  of the same parameters. The density is what moves the exponent constant: the density-free shapes
+  of the same parameters. The Kadiri–Lumley–Ng shape is ExplicitZetaBounds §8.3's bound for
+  `N°(σ, T)`, `T ≥ H₀`, whose `C₁(σ)`, `C₂(σ)` are its closed forms at the source's parameters; an
+  instance that quotes tabulated values of them asserts, through its table proposition, the error
+  function they produce. Johnston–Yang's recomputed constants change an input of that argument and
+  are the zero input *JohnstonYangDensityTable* of §3.4. The density is what moves the exponent
+  constant: the density-free shapes
   (a), (b) give `C = 1`, the Platt–Trudgian and Johnston–Yang rows `C = 1.89`–`1.95`, and
   Fiori–Kadiri–Swidinsky's form of Pintz's argument, which uses the density to treat the zeros
   close to the `1`-line separately, `C = 2`. Each printed row is a *table proposition* asserting
@@ -1728,9 +1815,22 @@ parameters of every row of the table is at most the row's value; the rows are da
   in particular `ε(20) = 4.26760·10⁻⁵`, `ε(30) = 2.87549·10⁻⁷`, `ε(40) = 1.93378·10⁻⁸`,
   `ε(45) = 1.09073·10⁻⁸`, `ε(50) = 1.11990·10⁻⁹`, `ε(100) = 2.45299·10⁻¹²`, `ε(200) = 2.18154·10⁻¹²`.
 
-*Needs:* §2.1; §1.1; `gap:classical-zero-free-constants`; `gap:explicit-zero-count-error`;
-`gap:explicit-zero-density`; `gap:lehman-weighted-zero-sum`; Mathlib `Real.exp`, `Real.sqrt`,
-`Real.log`.
+The zero-counting triple of (b) and (c), and of the instances of Layer 7 built on the same
+formula, is the source's. Define *ZeroCountBound* `a₁ a₂ a₃ a₄ T₀` (a zero input) as: for every
+`T ≥ T₀`, `|N(T) − M(T)| ≤ a₁ log T + a₂ log log T + a₃ + a₄/T`, with `M(T)` including the `7/8`.
+At Rosser's `(0.137, 0.443, 1.588, 0, 2)` it is ExplicitZetaBounds §5.2, and so is it at
+Bellotti–Wong's triples with `7/8` added to `a₃` from `T₀ = 30 610 046 000`; at those an instance
+takes it from the supplier. The triples of Trudgian `(0.112, 0.278, 2.510, 0.2, e)` and of
+Platt–Trudgian `(0.110, 0.290, 2.290, 0, e)` (as quoted at `cully-hugill-lee-2022` lines 150–156 and
+`carneiro-milinovich-soundararajan-2019` line 1313) are stated by no supplier: ExplicitZetaBounds
+§5.2 re-establishes Trudgian's bound only against `(T/2π) log(T/2πe)`, with the constant `3.385`.
+An instance whose source evaluates its error function at one of these two triples carries
+*ZeroCountBound* at that triple as a hypothesis (§7.3); one whose source uses such a triple only
+for a consequence that Rosser's bound also gives takes Rosser's (§§2.5, 7.5).
+
+*Needs:* §2.1; §1.1; `gap:classical-zero-free-constants`; ExplicitZetaBounds §5.2
+(`gap:explicit-zero-count-error`); ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`);
+`gap:lehman-weighted-zero-sum`; Mathlib `Real.exp`, `Real.sqrt`, `Real.log`.
 
 **Checks.**
 
@@ -1751,6 +1851,11 @@ parameters of every row of the table is at most the row's value; the rows are da
   `41.90` to `42.36`, a factor `e^{0.46} = 1.59` in the bound: the constant is a genuine parameter.
 - The Faber–Kadiri row `b₀ = 20`: `e²⁰ = 485 165 195.4`, so the threshold `x ≥ 485 165 196` quoted
   for this row is the integer form of `x ≥ e²⁰`.
+- *ZeroCountBound* separates the triples (negative control for reading one as another): at
+  `T = 10⁶`, Rosser's right side is `0.137 · 13.82 + 0.443 · 2.626 + 1.588 = 4.644`,
+  Platt–Trudgian's `0.110 · 13.82 + 0.290 · 2.626 + 2.290 = 4.571`, and Trudgian's re-established
+  form moved to `M(T)`, `0.112 · 13.82 + 0.278 · 2.626 + 3.385 + 0.875 = 6.537`; a table evaluated at
+  Platt–Trudgian's triple is not justified by Rosser's, nor by the re-established form.
 - (a)'s region hypothesis is weaker than the classical shape: it asks nothing for `2 ≤ |t| < 2π`,
   where in any case `ζ` has no zero (the first ordinate is `14.13`).
 - (a) is vacuous for small `R`: the first zero `1/2 + 14.1347…i` lies in the region exactly when
@@ -1783,8 +1888,23 @@ Each of the following holds under `RH(545 439 823)`, the Rosser–Schoenfeld-sha
   (its Corollary).
 - `θ(x) < 1.001093 x` for `x > 0`; `0.998697 x < θ(x)` for `x > 1 155 901`;
   `ψ(x) − θ(x) < 1.001093 √x + 3 x^{1/3}` for `x > 0`; `0.998697 √x < ψ(x) − θ(x)` for `x > 121`
-  (`schoenfeld-1976` lines 729–733, Theorem 6*). The last two follow from the first two by §0.3
-  for `x ≥ 1 155 901²` and from `Schoenfeld1976Range` below.
+  (`schoenfeld-1976` lines 729–733, Theorem 6*). The last two follow from the first two, from
+  `ButheVerified` and from the Corollary of Theorem 4 above, through the decomposition
+  `ψ(x) − θ(x) = θ(√x) + ∑_{k ≥ 3} θ(x^{1/k})` of §0.3 (the terms with `x^{1/k} < 2` vanishing),
+  not through its transfer theorem, whose cube-root term `c (log x/log 2 − 2) x^{1/3}` is already
+  `38.3 x^{1/3}` at `x = 1 155 901²`; the source derives the upper one from Rosser–Schoenfeld's
+  `ψ(x) − θ(x) < θ(√x) + 3 x^{1/3}` (`rosser-schoenfeld-1962` lines 349–357, Theorem 14, (3.38);
+  `rosser-schoenfeld-1975` lines 770–771). On `0 < x ≤ 10⁸` both are `Schoenfeld1976Range`. For
+  `x > 10⁸`, the upper one: the first item termwise gives
+  `ψ(x) − θ(x) < 1.001093 (√x + ∑_{k ≥ 3, x^{1/k} ≥ 2} x^{1/k})`, and
+  `∑_{k ≥ 3, x^{1/k} ≥ 2} x^{1/k} ≤ 1.534 x^{1/3}` for every `x ≥ 10⁸` (the ratio is `1.53390` at
+  `x = 10⁸`, its maximum; for `x ≥ 10⁶⁰` it is at most `1 + (log x/log 2 − 3) x^{−1/12} ≤ 1.002`),
+  so `ψ(x) − θ(x) < 1.001093 √x + 1.536 x^{1/3}`. The lower one on `10⁸ < x ≤ 1 155 901²`:
+  `ψ(x) − θ(x) ≥ θ(√x) + θ(x^{1/3})`, with `θ(y) ≥ y − 1.95 √y` for `1427 ≤ y ≤ 10¹⁹`
+  (`ButheVerified`, at `y = √x ∈ (10⁴, 1 155 901]`, and at `y = x^{1/3}` once `x^{1/3} ≥ 1427`) and
+  `θ(y) > y(1 − 1/log y)` for `y ≥ 41` (at `y = x^{1/3} ∈ (464, 1427)`); the sum of these lower
+  bounds is at least `1.0088 · 0.998697 √x` on that range, the least ratio being at its right end.
+  For `x > 1 155 901²`, `θ(√x) > 0.998697 √x` is the second item at `√x > 1 155 901`.
 - The input *SchoenfeldFiniteRangeInput* of AnalyticNumberTheoryPartI §0.3 (`θ(x) < 1.000081 x` for
   `0 < x < exp 10000`): for `0 < x < 1`, `θ(x) = 0`; for `1 ≤ x ≤ 10¹⁹`, `θ(x) < x` by
   `ButheVerified`; for `x > e³⁰` (and `e³⁰ < 10¹⁹`), `θ(x) ≤ ψ(x) ≤ (1 + 0.978·10⁻⁵) x` by the row
@@ -1805,9 +1925,10 @@ Each of the following holds under `RH(545 439 823)`, the Rosser–Schoenfeld-sha
 - Rosser–Schoenfeld's `ε(x)` of their Theorem 11 (lines 334–342) with `R = 17.51631` is the
   older instance of the same scheme and is superseded; it is not restated.
 
-*Needs:* §3.1(b); §0.3; §0.5; §1.1; §1.3; AnalyticNumberTheoryPartI §0.3 (the statement of
+*Needs:* §3.1(b); §0.3; §0.5; §1.1; §1.3 (`ButheVerified`, `Schoenfeld1976Range`,
+*RosserSchoenfeld1962Range*); AnalyticNumberTheoryPartI §0.3 (the statement of
 *SchoenfeldFiniteRangeInput*); `gap:rh-up-to-height`; `gap:classical-zero-free-constants`;
-`gap:explicit-zero-count-error`.
+ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`, Rosser's bound).
 
 **Checks.**
 
@@ -1817,10 +1938,18 @@ Each of the following holds under `RH(545 439 823)`, the Rosser–Schoenfeld-sha
 - The bridge to *SchoenfeldFiniteRangeInput* has room on both pieces: `θ(x)/x < 1` on `[1, 10¹⁹]`,
   and `1 + 0.978·10⁻⁵ = 1.0000098 < 1.000081` beyond `e³⁰ = 1.07·10¹³`; the row `b = 22`
   (`2.78652·10⁻⁴`) would not suffice, `1.000279 > 1.000081`.
-- `ε₀(e¹⁰⁰) = 0.02777` (§0.5). At `x = 17`: `X = √(2.833/9.646) = 0.542`,
+- `ε₀(e¹⁰⁰) = 0.02775` (§0.5). At `x = 17`: `X = √(2.833/9.646) = 0.542`,
   `ε₀ = 0.38703 · 0.736 · 0.582 = 0.166`, so the `ψ` bound reads `|ψ(17) − 17| < 2.82`;
   `ψ(17) = θ(17) + 3 log 2 + log 3 = 13.143 + 2.079 + 1.099 = 16.32` and `|16.32 − 17| = 0.68`.
 - The `ψ − θ` lower bound at `x = 120.9` versus `121` (§0.3 Checks) explains the threshold `121`.
+- The `ψ − θ` route at its joins: at `x = 10⁸`, `x^{1/3} = 464.16` and the terms `k = 4, …, 26`
+  (those with `x^{1/k} ≥ 2`) add `247.78`, ratio `711.94/464.16 = 1.5339`, so the upper bound there
+  is `1.001093 · 10⁴ + 1.536 · 464.16 = 10 724` against Schoenfeld's `11 403`; at
+  `x = 1 155 901²` (`x^{1/3} = 11 014.05`) the lower route gives
+  `(1 155 901 − 2096.5) + (11 014.05 − 204.65) = 1 164 614` against
+  `0.998697 · 1 155 901 = 1 154 395`, a ratio `1.0088`. The transfer of §0.3 with
+  `(c, ε) = (1.001093, 0.001303)` would give only `1.001303 √x + 38.3 x^{1/3}` there (negative
+  control: its coefficients are not Schoenfeld's).
 
 ### 3.3 Dusart's bounds
 
@@ -1928,17 +2057,20 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   *BKLNWPsiTable*).
 - Platt–Trudgian (`platt-trudgian-2021-error` lines 58–69, Theorem 1 and Corollary 1; lines 76–77,
   Corollary 2): under `RH(3 000 175 332 800)`, the classical-shape region with `R = 5.573412`, the
-  zero-count error, the density bounds `N(σ, T) ≤ C₁(σ) T^{8(1−σ)/3} log^{5−2σ} T + C₂(σ) log² T` of
-  `gap:explicit-zero-density` and *PlattTrudgianTable*: for each row `(X, A, B, C, ε₀)`,
+  zero-count error, the density bounds `N°(σ, T) ≤ C₁(σ) T^{8(1−σ)/3} log^{5−2σ} T + C₂(σ) log² T`
+  for `T ≥ H₀` of `gap:explicit-zero-density` (ExplicitZetaBounds §8.3 at the paper's parameters)
+  and *PlattTrudgianTable*: for each row `(X, A, B, C, ε₀)`,
   `|ψ(x) − x| ≤ A (log x/R)^B exp(−C √(log x/R)) x` and `|ψ(x) − x| ≤ ε₀ x` for `log x ≥ X`;
   `|θ(x) − x| ≤ (A + 0.1)(log x/R)^B exp(−C √(log x/R)) x` on the same range, using
-  `ψ(x) − θ(x) < (1 + 1.47·10⁻⁷) √x + 1.78 x^{1/3}` (line 69, an instance of §0.3 with Dusart's
-  constants); and `|π(x) − li x| ≤ 235 x (log x)^{0.52} exp(−0.8 √log x)` for `log x ≥ 2000`. Every
+  `ψ(x) − θ(x) < (1 + 1.47·10⁻⁷) √x + 1.78 x^{1/3}` (line 69, taken from Dusart; for
+  `log x ≥ 1000` it is the termwise route of §3.3, with `θ(√x) ≤ (1 + 1.93378·10⁻⁸) √x` from §3.7
+  and `∑_{k ≥ 3} θ(x^{1/k}) < 1.777745 x^{1/3}`, not the transfer of §0.3); and
+  `|π(x) − li x| ≤ 235 x (log x)^{0.52} exp(−0.8 √log x)` for `log x ≥ 2000`. Every
   statement is for `log x ≥ 1000`, so no finite range is asserted.
 - Johnston–Yang (`johnston-yang-2023` lines 57–72, Theorem 1.1, Corollaries 1.2–1.3): under
-  `RH(3 000 175 332 800)`, the classical-shape region with `R = 5.573412`, the zero-count error, the
-  density bounds of `gap:explicit-zero-density` with the constants of the paper's Table 3,
-  *JohnstonYangTable*, *BroadbentRow*, `ButheVerified` and *JohnstonYangRange*:
+  `RH(3 000 175 332 800)`, the classical-shape region with `R = 5.573412`, the zero-count error,
+  the zero input *JohnstonYangDensityTable* below, *JohnstonYangTable*, *BroadbentRow*,
+  `ButheVerified` and *JohnstonYangRange*:
   `|ψ(x) − x| ≤ 9.39 x (log x)^{1.515} exp(−0.8274 √log x)` for `x ≥ 2`; the rows
   `|ψ(x) − x| ≤ A x (log x)^B exp(−C √log x)` and `≤ ε₀ x` for `log x ≥ X`;
   `|θ(x) − x| ≤ (A + 0.01) x (log x)^B exp(−C √log x)` on the row's range; and
@@ -1977,9 +2109,21 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   bound of the classical-region shape; Johnston–Yang's `9.59 x (log x)^{0.515} exp(−0.8274 √log x)`
   is kept as the older instance.
 
+Zero input of this section: *JohnstonYangDensityTable* (`johnston-yang-2023` lines 204–217, Lemma
+2.6, and lines 1049–1073, Table 3): for every row `(σ, C₁, C₂)` of the table, `σ` from `0.980` to
+`0.999` in steps of `0.001` and the limiting row `σ = 1`, and every `T ≥ 3 000 175 332 800`,
+`N°(σ, T) ≤ C₁ T^{8(1−σ)/3} (log T)^{5−2σ} + C₂ log² T`; in particular `(0.980, 16.281, 2.231)`,
+`(0.990, 16.848, 2.150)` and `(1, 17.418, 2.069)`. The rows are Kadiri–Lumley–Ng's bound at
+`H₀ = 3 000 175 332 800`, `k = 1`, `μ = 1.23623`, recomputed with two inputs changed (their bound
+(3.13) replaced by a later theorem, and Hiary's bound for `|ζ(1/2 + it)|` by the paper's (1.11),
+lines 208–213), so they are not ExplicitZetaBounds §8.3's closed forms at any parameters, and
+that roadmap leaves them to the theorem using them.
+
 *Needs:* §3.1(b), (c) and its table propositions; §3.2 (the argument of Schoenfeld's Theorem 11);
-§0.3; §0.4; §0.5; §1.1; §1.3; `gap:rh-up-to-height`; `gap:classical-zero-free-constants`;
-`gap:explicit-zero-count-error`; `gap:explicit-zero-density`.
+§§3.3, 3.7 (the `ψ − θ` bound of Platt–Trudgian's `θ` form); §0.3; §0.4; §0.5; §1.1; §1.3;
+`gap:rh-up-to-height`; `gap:classical-zero-free-constants`; ExplicitZetaBounds §5.2
+(`gap:explicit-zero-count-error`); ExplicitZetaBounds §§8.1, 8.3
+(`gap:explicit-zero-density`); *JohnstonYangDensityTable*.
 
 **Checks.**
 
@@ -2020,6 +2164,11 @@ zero-count triple, *DusartThesisTable*, *Dusart1999Row*, *DusartThesisRange* and
   `e^{−66.5}` (§3.1 Checks). The `π` bound against Johnston–Yang's: at `x = 2` the two right sides
   are `7.58` and `9.59 · 2 · 0.8280 · 0.5022 = 7.98`, and the ratio
   `(9.2211/9.59) (log x)^{−0.015} exp(−0.0203 √log x)` stays below `1` for every `x ≥ 2`.
+- *JohnstonYangDensityTable* is monotone as the paper uses it (lines 441–445): `C₁` increases and
+  `C₂` decreases with `σ` (`16.281 < 16.848 < 17.418`, `2.231 > 2.150 > 2.069`), so a `σ` between two
+  rows may take `C₁` of the upper row and `C₂` of the lower. At `σ = 0.990`, `T = 3.1·10¹²`
+  (`log T = 28.76`): `16.848 · T^{0.02667} · 28.76^{3.02} + 2.150 · 28.76² = 9.2·10⁵`, against
+  `N(T) ≈ 1.3·10¹³` zeros in all, and `N°(0.99, T) = 0` below the verified height.
 - The `4.47·10⁻¹⁵` row at `log x = 3000` against Platt–Trudgian's `ε₀ = 4.51·10⁻¹³` at the same
   `X` (*PlattTrudgianTable*): a factor `100`.
 
@@ -2302,7 +2451,7 @@ refereed bounds of the same shape are §3.3's rows and §3.7's `57.184 x/log⁴ 
   points.
 - `|ψ(10¹⁰) − 10¹⁰| = 42 119.8` against Büthe's `94 000`, Dusart's `2.78·10⁶` and Faber–Kadiri's
   `5.4·10⁶`.
-- `ε₀(e¹⁰⁰) = 0.02777` (Schoenfeld), the Platt–Trudgian row `1.20·10⁻⁵` at `log x = 1000`.
+- `ε₀(e¹⁰⁰) = 0.02775` (Schoenfeld), the Platt–Trudgian row `1.20·10⁻⁵` at `log x = 1000`.
 - `θ(x) ≤ (1 + 1.93378·10⁻⁸) x` for all `x > 0`; `|θ(x) − x| < 0.024334 x/log³ x` from
   `1 757 126 630 797`.
 - `π(10¹³) = 346 065 536 839` between Axler's `346 065 306 272` and `346 065 951 617`.
@@ -2312,8 +2461,8 @@ refereed bounds of the same shape are §3.3's rows and §3.7's `57.184 x/log⁴ 
 Layers 0–2; ZerosOfLFunctions §§4.5, 8.4, 8.5, 8.9; AnalyticNumberTheoryPartI §§0.3, 0.5 (the
 statements of the inputs proved in §§3.2, 3.5); the gaps
 `rh-up-to-height`, `classical-zero-free-constants`, `explicit-zero-count-error`,
-`explicit-zero-density`, `lehman-weighted-zero-sum`, `vinogradov-korobov-constants`. No later
-layer is used.
+`explicit-zero-density`, `lehman-weighted-zero-sum`, `vinogradov-korobov-constants`; the zero
+inputs *ZeroCountBound* (§3.1) and *JohnstonYangDensityTable* (§3.4). No later layer is used.
 
 ## Layer 4: sums over primes
 
@@ -2607,16 +2756,17 @@ Write `π_r(x) = ∑_{p ≤ x} p^r` for real `r ≥ 0`.
   positive root of `3r⁴ + 8r³ + 6r² − 24/α − 1 = 0` (`r₀(1) = 1.1445`, `r₀(0.5) = 1.4377`,
   `r₀(0.15) = 2.1086`) and `C₀` is display (2.18). Route: Abel summation of `θ` against `t^r/log t`
   and the expansion of `li(x^{r+1})`.
-- Instances (Corollaries 2.6–2.8, lines 706–767), under the Dusart 2018 row of §3.3 (`α = 1`,
-  `x₁ = 89 967 803`), under the `θ`-bound `|θ(x) − x| < 0.15 x/log³ x` for `x ≥ 19 035 709 163`
-  taken as a hypothesis for the `π₁` bounds (`α = 0.15`, as quoted at
-  `deleglise-nicolas-2019-landau` line 389; it follows from Corollary 11.1 of
-  `broadbent-kadiri-lumley-ng-wilk-2021`, lines 927–940, whose lower constant is `0.15` from
-  `19 035 709 163` and whose upper constant is `0.024334` for `x > 1`), and under the finite-range
-  proposition
-  *DelegliseNicolasRange* (§1.3):
+- Instances (Corollaries 2.6–2.8, lines 706–767). The `π₁` bounds, (2.19) and (2.20):
   `π₁(x) ≤ x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 107 x²/(160 log⁴ x)` for `x ≥ 110 117 910`;
-  `π₁(x) ≥ x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 3 x²/(20 log⁴ x)` for `x ≥ 905 238 547`;
+  `π₁(x) ≥ x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 3 x²/(20 log⁴ x)` for `x ≥ 905 238 547`.
+  Route: (2.20) is Axler's Theorem 1.2 below, the same inequality (`1.2/8 = 3/20`) from the same
+  threshold; (2.19) is Axler's Theorem 1.1 below for `x ≥ 110 118 925` (`5.3/8 < 107/160`) and the
+  clause of *DelegliseNicolasRange* (§1.3) on `[110 117 910, 110 118 925]`. The general bound gives
+  them only from the point where its hypothesis holds: at `α = 0.15` that is
+  `x₁ = 19 035 709 163` (line 389; the source proves the corollary by reference to an earlier
+  computation, line 710), and at the Dusart 2018 row `α = 1` the coefficients are not those of
+  (2.19)–(2.20) (Checks). The other instances, under the Dusart 2018 row of §3.3 (`α = 1`,
+  `x₁ = 89 967 803`) and *DelegliseNicolasRange*:
   `π₂(x) ≤ x³/(3 log x) + x³/(9 log² x) + 2x³/(27 log³ x) + 1181 x³/(648 log⁴ x)` for `x ≥ 60 173`;
   `π₂(x) ≤ (x³/(3 log x))(1 + 0.385/log x)` for `x ≥ 60 297`;
   `π₂(x) ≥ x³/(3 log x) + x³/(9 log² x) + 2x³/(27 log³ x) − 1069 x³/(648 log⁴ x)` for `x ≥ 1 091 239`;
@@ -2626,10 +2776,10 @@ Write `π_r(x) = ∑_{p ≤ x} p^r` for real `r ≥ 0`.
   `x > 1` and `r ≥ 5`.
 - Axler's `π₁` bounds (`axler-2019`, J. Théor. Nombres Bordeaux 31, Theorems 1.1–1.3), under the
   `θ`-bounds of §3.7 and *Axler2019Range*:
-  `π₁(x) < x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 5.3 x²/(8 log⁴ x)` for `x ≥ 110 118 925`,
-  sharper than Deléglise–Nicolas's `107/160 = 0.66875` (`5.3/8 = 0.6625`);
-  `π₁(x) > x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 1.2 x²/(8 log⁴ x)` for `x ≥ 905 238 547`,
-  which is Deléglise–Nicolas's lower bound (`1.2/8 = 3/20`, same threshold); and
+  `π₁(x) < x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 5.3 x²/(8 log⁴ x)` for `x ≥ 110 118 925`
+  (`axler-2019` lines 46–48), sharper than Deléglise–Nicolas's `107/160 = 0.66875` (`5.3/8 = 0.6625`);
+  `π₁(x) > x²/(2 log x) + x²/(4 log² x) + x²/(4 log³ x) + 1.2 x²/(8 log⁴ x)` for `x ≥ 905 238 547`
+  (lines 51–53), which is Deléglise–Nicolas's lower bound (`1.2/8 = 3/20`, same threshold); and
   `−0.25 x²/log⁴ x < π₁(x) − li(x²) < 0.25 x²/log⁴ x`, the left inequality for `x ≥ 906 484 877`
   and the right one for `x ≥ 110 117 797`. Route: Abel summation of `θ` against `t`, as in the
   general bound above, with the `θ`-bounds of §3.7, the expansion of `li(x²)`
@@ -2643,7 +2793,15 @@ summation.
 
 - `r = 1`, `α = 0.15`: the fourth coefficient is `(0.15 · 592 + 168)/384 = 0.66875 = 107/160`, and the
   lower one `−(0.15 · 24 − 6)/16 = 3/20`: the displayed corollary for `π₁` is the general bound at
-  these parameters.
+  these parameters, which holds from `x₁ = 19 035 709 163` only.
+- The Dusart 2018 row cannot give the `π₁` corollary (negative control): at `r = 1`, `α = 1` the
+  upper coefficient is `(592 + 168)/384 = 1.979`, not `0.669`, and since `r = 1 < r₀(1) = 1.1445` the
+  lower one is `−(24 − 6)/16 = −1.125`, not `+3/20`.
+- The two `π₁` thresholds are sharp and the finite clause closes the gap between them: `110 117 899`
+  and `110 117 929` are consecutive primes and (2.19) fails for `110 117 899 ≤ x < 110 117 909.22`;
+  Axler's Theorem 1.1 fails for `110 118 881 ≤ x < 110 118 924.89` (`110 118 881` and `110 119 007`
+  being consecutive primes, `axler-2019` line 183). On `[110 117 910, 110 118 925]` (2.19) holds,
+  the least margin, `4.6·10⁶`, being at `x = 110 117 910` (computed with a sieve).
 - `r = 2`, `α = 1`: `r₀(1) = 1.1445 < 2`, so the second lower form applies:
   `(51·16 + 176·8 + 222·4 + 120·2 + 23 − 168)/(24 · 81) = 3207/1944 = 1069/648`, and the upper
   coefficient `(3375 + 168)/1944 = 1181/648`.
@@ -2964,13 +3122,8 @@ AnalyticNumberTheoryPartI §0.2; `φ` is `Nat.totient`.
 
 - *Shape of Ramaré–Rumely and Dusart* (`ramare-rumely-1996` lines 58–65, Theorem 1, and its
   Theorem 4.3.2; `dusart-2002` lines 989–1012, Theorem 5). Let `q > 1`, `H > 1000` with
-  `GRH*(q, H)`, and suppose Ramaré–Rumely's region (`ramare-rumely-1996` lines 822–826, Theorem 3.6.3,
-  in `gap:dirichlet-zero-free-constants`): for every character `χ` modulo `q`, every zero
-  `β + iγ` of `L(s, χ)` with `|γ| ≥ H` satisfies `1 − β ≥ 1/(R log(q|γ|/C₁(χ, H)))` with
-  `R = 9.645908801` and the constant `C₁(χ, H)` of that theorem. Put
-  `C₁(q) = min(min_{χ mod q} C₁(χ, H), 32π)` (Dusart's (3), `dusart-2002` lines 105–112; the region
-  holds with `C₁(q)` in place of `C₁(χ, H)`, a smaller constant giving a weaker region), so that
-  `9.14 ≤ C₁(q) ≤ 32π`. With `X = √(log x/R)` and
+  `GRH*(q, H)`, and `9.14 ≤ C₁(q) ≤ 32π` with *RamareRumelyRegion* `q H C₁(q)` (below), with
+  `R = 9.645908801`. With `X = √(log x/R)` and
   `ε(X) = 3 √(q/(φ(q) C₁(q))) X^{1/2} e^{−X}` (the display of lines 999–1002, the radical spanning
   the quotient as in Theorem 4's display at lines 702–707), for every `x` with `X > X₄(q, H)`, the
   explicit threshold `max(10, X₀, X₁, X₂, X₃)` of lines 989–998,
@@ -2982,11 +3135,24 @@ AnalyticNumberTheoryPartI §0.2; `φ` is `Nat.totient`.
   real zero `β` with `β > 1 − 1/(R log q)`. The region of McCurley's Theorem 1.1 (at most one zero
   of `∏_{χ mod q} L(s, χ)` with `σ > 1 − 1/(R log max(q, q|t|, 10))`, real and simple and of a real
   nonprincipal character) follows for `q ≥ 3` from the region with `R = 6.4355` of
-  `gap:dirichlet-zero-free-constants`, since `6.4355 < 9.645908801` and
-  `max(q, q|t|, 10) ≥ q max(1, |t|)`. For `q` not exceptional with `q > 10^b`, `a` a unit, and
+  `gap:dirichlet-zero-free-constants` (given `RH(3·10¹²)`), since `6.4355 < 9.645908801` and
+  `max(q, q|t|, 10) ≥ max(q, q|t|, 1.7367)`; it is also the McCurley item of that gap, given
+  `RH(545 439 823)`. For `q` not exceptional with `q > 10^b`, `a` a unit, and
   `(ε, b)` an entry of McCurley's Table 1 with its `c`, `|ψ(x; q, a) − x/φ(q)| < ε x/φ(q)` and
   `|θ(x; q, a) − x/φ(q)| < ε x/φ(q)` for `x ≥ exp(c log² q)`, under the table proposition
   *McCurleyTable*.
+- The zero input of the first shape: define *RamareRumelyRegion* `q H C`, for an integer `q ≥ 1`
+  and reals `H, C > 0`, as: for every Dirichlet character `χ` modulo `q` and every zero `β + iγ` of
+  `L(s, χ)` with `0 < β < 1` and `|γ| ≥ H`, `1 − β ≥ 1/(9.645908801 log(q|γ|/C))`. Ramaré–Rumely's
+  Theorem 3.6.3 (`ramare-rumely-1996` lines 822–838) gives it for `H ≥ 1000` with `C = C₁(χ, H)` of
+  that theorem in place of `C`, an explicit function of the conductor `k` of `χ` and of `H` through
+  `D*(k, σ)` of their (3.4.3), with `k|γ|` in place of `q|γ|`; the zeros of `L(s, χ)` in the strip are
+  those of the primitive character inducing it, and `k ≤ q`. Dusart's
+  `C₁(q) = min(min_{χ mod q} C₁(χ, H), 32π)` (his (3), `dusart-2002` lines 105–112) is a constant
+  for which the proposition then holds, a smaller constant giving a weaker region, and
+  `C₁(q) ≥ 9.14` for `q > 1` and `H > 1000` (line 107). ExplicitZetaBounds leaves this region, which
+  the source proves inside its own argument, to the theorem using it, and every instance of the
+  first shape below carries *RamareRumelyRegion* at the `C₁(q)` its table uses.
 - Route for both: orthogonality `φ(q) ψ(x; q, a) = ∑_χ conj χ(a) ψ(x, χ)`, the smoothed explicit
   formula of §2.1 for each `ψ(x, χ)` (ZerosOfLFunctions §8.6 at `K = ℚ` through
   AnalyticNumberTheoryPartI §0.30, extended to the kernel class), `GRH*(q, H)` for the low zeros,
@@ -2997,21 +3163,25 @@ Table propositions of this section, each asserting that the error function of th
 at the parameters of every entry of the table, is at most the entry's value:
 
 - *RamareRumelyTable1* (`ramare-rumely-1996` lines 58–74 and line 1385, Table 1), for the first
-  shape, each row under `GRH*(k, H)` at the height Rumely verified for `k`: the rows `(k, ε, x₀)`, in
+  shape, each row under `GRH*(k, H)` at the height Rumely verified for `k` and
+  *RamareRumelyRegion* `k H C₁(k)`: the rows `(k, ε, x₀)`, in
   particular `(1, 0.000213, 10¹⁰)`, `(8, 0.002811, 10¹⁰)`, and the uniform rows
   `k ≤ 13: (0.004560, 10¹⁰)`, `k ≤ 72: (0.023269, 10¹⁰)`.
-- *Dusart2002Table* (`dusart-2002` lines 989–1012, Theorem 5 and its table), for the first shape:
-  the rows `(k, ε, x₀)`.
+- *Dusart2002Table* (`dusart-2002` lines 989–1012, Theorem 5 and its table), for the first shape,
+  each row under the same two hypotheses: the rows `(k, ε, x₀)`.
 - *McCurleyTable* (`mccurley-1984` lines 63–118, Table 1), for the second shape: the entries
   `(ε, b) ↦ c` for `ε ∈ {0.1, 0.05, 0.01, 0.005, 0.001, 0.0001, 0.00001}`.
 
 The theta clause of *ModEightFiniteInput* of AnalyticNumberTheoryPartI §0.16
 (`|θ(x; 8, a) − x/4| ≤ 0.002811 x/4` for `a ∈ {3, 5}` and `10¹⁰ ≤ x < exp 10000`) follows from the
-first shape at the row `(8, 0.002811, 10¹⁰)` of *RamareRumelyTable1*, under `GRH*(8, 10 000)`.
+first shape at the row `(8, 0.002811, 10¹⁰)` of *RamareRumelyTable1*, under `GRH*(8, 10 000)` and
+*RamareRumelyRegion* `8 10 000 C₁(8)`.
 
 *Needs:* §2.1; §0.3; §1.2; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30; ZerosOfLFunctions §8.6;
-`gap:grh-up-to-height`; `gap:dirichlet-zero-free-constants`; `gap:dirichlet-zero-count-error`;
-`gap:lehman-weighted-zero-sum`; Mathlib `Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`.
+`gap:grh-up-to-height`; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`), with
+`gap:rh-up-to-height` for its hypotheses `RH(545 439 823)` and `RH(3·10¹²)`;
+*RamareRumelyRegion*; `gap:dirichlet-zero-count-error`; `gap:lehman-weighted-zero-sum`; Mathlib
+`Nat.totient`, `DirichletCharacter.sum_char_inv_mul_char_eq`.
 
 **Checks.**
 
@@ -3021,6 +3191,10 @@ first shape at the row `(8, 0.002811, 10¹⁰)` of *RamareRumelyTable1*, under `
   `2.5·10⁹` of the mass.
 - `q = 1` (Ramaré–Rumely's rows with `k = 1`) is the `ψ` statement of Layer 3 with
   `GRH*(1, H) = RH(H)`; Dusart's Theorem 5 itself asks `q > 1`.
+- *RamareRumelyRegion* at `q = 1`, `H = 1000`, `C = 38.31`: at `|γ| = 1000` it asks
+  `1 − β ≥ 1/(9.645908801 log(1000/38.31)) = 0.0318`, that is `β ≤ 0.968`, which every zero below
+  `3·10¹²` satisfies with `β = 1/2`; with `C ≥ qH` the logarithm would be `≤ 0` and the statement
+  void or false, which `C ≤ 32π < 1000 < qH` excludes.
 - `C₁` at the examples of `dusart-2002` lines 102–105: `C₁(χ, H) = 38.31` for `k = 1`,
   `H = 545 000 000`, and `20.92` for `k = 3`, `H = 10 000`; always `C₁ ≥ 9.14` for `k > 1` and
   `H > 1000` (line 107). The reading of `ε(X)`: at `q = 1` with `C₁ = 38.31` the radical form gives
@@ -3130,7 +3304,8 @@ including its finite computations below `x₀(q)`.
     Corollaire 4).
 
   Route (lines 1228–1235): for `x ≥ 10⁵`, the general theorem with `L₂ = 10⁵` and
-  *Ramare2002Tables*; for `182 ≤ x ≤ 10⁵` the second clause of *Ramare2002Tabulation*; for
+  *Ramare2002Tables*; for `261 ≤ x ≤ 10⁵` the first clause of *Ramare2002Tabulation*, since
+  `v♯(q)/√x ≤ v♯(q)/√261 ≤ ε♯(q)` (line 1231); for `182 ≤ x ≤ 261` its second clause; for
   `1 ≤ x ≤ 10⁵` its first clause gives `|…| ≤ v♯(q)/√x ≤ 1`.
 
 Table proposition of this section: *Ramare2002Tables* (`ramare-2002` lines 980–1004 and the final
@@ -3149,9 +3324,11 @@ AnalyticNumberTheoryPartI §0.2; `gap:grh-up-to-height`.
 - `x = 10⁵`, `q = 6`: the tabulation gives at most `v♯(6)/√(10⁵) ≤ 0.0032`. The route by the exact
   transfer of §0.7 is not available: with the constant `ε` of a Table 1 row the tail
   `∫ₓ^∞ ε dt/t` diverges (§0.7 Checks), which is the obstruction the source names.
-- At `x = 182` the first tabulation clause with `v♯(q) ≤ 1` gives only `1/√182 = 0.074`, more than
-  `ε♯(q)` whenever `ε♯(q) < 0.074`; so the second clause of *Ramare2002Tabulation* on
-  `[182, 10⁵]` is a computation of its own, not a consequence of the first.
+- The first tabulation clause read with the tabulated `v♯(q)`, not with the bound `v♯(q) ≤ 1`, is
+  what carries Corollaire 4 on `[261, 10⁵]`: with `v♯(q) ≤ 1` alone it gives at `x = 261` only
+  `1/√261 = 0.0619`, more than `ε♯(q)` whenever `ε♯(q) < 0.0619`, while the tabulated values give
+  `v♯(q)/√261 ≤ ε♯(q)` for every `q` of the list (line 1231). Below `261` that comparison is not
+  asserted, and the second clause on `[182, 261]` is a computation of its own.
 - `q = 1` is not in Rumely's list and not asserted; its analogue is §4.2.
 
 ### 6.5 The least prime in a progression under the generalised Riemann hypothesis
@@ -3213,12 +3390,18 @@ AnalyticNumberTheoryPartI §0.2; `gap:grh-up-to-height`.
 
 - Kadiri's exceptional moduli (`kadiri-2008` lines 327–334): call `q ≥ 3` *exceptional in Kadiri's
   sense* if `∏_{χ mod q} L(s, χ)` has a zero with `σ ≥ 1 − 1/(6.50 log(q max(1, |t|)))`; by the region
-  of `gap:dirichlet-zero-free-constants` (with `6.4355 < 6.50`) there is at most one such zero, real
-  and simple, of a real nonprincipal character.
+  of `gap:dirichlet-zero-free-constants` (with `6.4355 < 6.50`, given `RH(3·10¹²)`) there is at most
+  one such zero, real and simple, of a real nonprincipal character.
+- The zero input of this section: define *LiuWangFourZeros* as: for every real `x ≥ 8·10⁹` and every
+  integer `1 ≤ q ≤ x`, the product `∏_{χ mod q} L(s, χ)`, the principal character included, has at
+  most four zeros, counted with multiplicity, with `|Im s| ≤ x/q` and `Re s ≥ 1 − 1/(3.82 log x)`
+  (Liu–Wang's Theorem 1, as quoted at `kadiri-2008` lines 337–341, her Theorem 2.2, and applied
+  there at `x = q` and `x = qH`). ExplicitZetaBounds leaves it to the theorem using it; the source
+  of the statement is the quotation, and the instances below carry it as a hypothesis.
 - Existence (`kadiri-2008` lines 128–131, Theorem 1.1, with `α` uniform in the modulus as its Table 1
-  gives it): under the region of `gap:dirichlet-zero-free-constants`, the four-zero region of
-  `gap:dirichlet-four-zero-region` and the Dirichlet zero count of
-  `gap:dirichlet-zero-count-error`, for every `ε > 0` there is `α > 0` such that for every `q ≥ 3`
+  gives it): under `RH(3·10¹²)`, the region of `gap:dirichlet-zero-free-constants`,
+  *LiuWangFourZeros* and the Dirichlet zero count of `gap:dirichlet-zero-count-error`, for every
+  `ε > 0` there is `α > 0` such that for every `q ≥ 3`
   not exceptional in Kadiri's sense, every unit `a` modulo `q` and every `x ≥ α log² q`, the
   interval `[eˣ, e^{x+ε}]` contains a prime `p ≡ a (mod q)`. Route: for `q ≥ 5·10⁴`, Kadiri's
   smoothed lower bound (lines 102–125) for the weighted sum of `Λ(n)/n` over the class of `a` in
@@ -3236,9 +3419,9 @@ AnalyticNumberTheoryPartI §0.2; `gap:grh-up-to-height`.
   alone, for every `q ≥ 1`, so its content is the uniformity. McCurley's shape of §6.1 is not a
   route to it: §6.1 states that shape only at the entries of McCurley's Table 1, the smallest
   being `ε′ = 10⁻⁵`, and the argument through it needs `ε′ < (1 − e^{−ε})/(2e^ε)`.
-- The quantitative instances (Table 1, lines 140–162): under the region of
-  `gap:dirichlet-zero-free-constants`, the four-zero region of `gap:dirichlet-four-zero-region`
-  (lines 337–341), the Dirichlet zero count (`gap:dirichlet-zero-count-error`) and *Kadiri2008Table*:
+- The quantitative instances (Table 1, lines 140–162): under `RH(3·10¹²)`, the region of
+  `gap:dirichlet-zero-free-constants`, *LiuWangFourZeros*, the Dirichlet zero count
+  (`gap:dirichlet-zero-count-error`) and *Kadiri2008Table*:
   for every entry `(q₀, ε) ↦ α(q₀, ε)`, every `q ≥ q₀` not exceptional in Kadiri's sense, every
   unit `a` and every `x ≥ α(q₀, ε) log² q`, the interval `[eˣ, e^{x+ε}]` contains a prime
   `p ≡ a (mod q)`. Route: the smoothed lower bound of lines 102–125 for the weighted sum over the
@@ -3252,8 +3435,9 @@ Table proposition of this section: *Kadiri2008Table* (`kadiri-2008` lines 140–
 every entry, the explicit lower bound of the paper's §§3–4 for the weighted sum of `Λ(n)/n` over
 `eˣ < n ≤ e^{x+ε}`, `n ≡ a (mod q)`, is positive for every `q ≥ q₀` and `x ≥ α(q₀, ε) log² q`.
 
-*Needs:* §0.3; `gap:dirichlet-zero-free-constants`; `gap:dirichlet-four-zero-region`;
-`gap:dirichlet-zero-count-error`; for the existence clause also Tau Ceti
+*Needs:* §0.3; ExplicitZetaBounds §7.5 (`gap:dirichlet-zero-free-constants`) with `RH(3·10¹²)`
+(`gap:rh-up-to-height`); *LiuWangFourZeros*; `gap:dirichlet-zero-count-error`; for the existence
+clause also Tau Ceti
 `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`.
 
 **Checks.**
@@ -3273,6 +3457,10 @@ every entry, the explicit lower bound of the paper's §§3–4 for the weighted 
   `σ ≥ 1 − 1/(6.4355 log q)`, so a modulus that is not exceptional for the constant `6.4355` is not
   exceptional for `6.50`, while the converse fails for a zero between the two bounds (at `q = 10⁵`,
   between `1 − 0.013363 = 0.986637` and `1 − 0.013497 = 0.986503`).
+- *LiuWangFourZeros* at its smallest admissible `x = 8·10⁹` and `q = 1`: the region is
+  `|Im s| ≤ 8·10⁹`, `Re s ≥ 1 − 1/(3.82 · 22.80) = 0.98852`, and the factor is `ζ`, which has no zero
+  there given `RH(3·10¹²)`; the content is in the nonprincipal factors for `q ≥ 3`. Read without the
+  principal character, the statement at `q = 1` would be empty.
 - Without the four-zero region the table values are not reached: Kadiri reports `α = 7.281` from the
   region alone and `α = 4.401` with it, at `q ≥ 10³⁰` and `ε = log 3` (lines 133–137).
 
@@ -3286,8 +3474,8 @@ What a numerical gap for real zeros (§1.7) removes from the exceptional clauses
   `β < 1 − 1/(R log q)`. In particular, under *LuZamanZhaoSweep* (`c = 1/5`), every `3 ≤ q ≤ 10¹⁰`
   is exceptional neither in McCurley's sense of §6.1 (`R = 9.645908801`) nor in Kadiri's sense of
   §6.6 (`R = 6.50`): in Kadiri's case a zero in the region `σ ≥ 1 − 1/(6.50 log(q max(1, |t|)))` lies
-  in the region of constant `6.4355` of `gap:dirichlet-zero-free-constants` (`6.4355 < 6.50`), so it
-  is the at most one real zero of a real character there, and none exists.
+  in the region of constant `6.4355` of `gap:dirichlet-zero-free-constants` (`6.4355 < 6.50`, given
+  `RH(3·10¹²)`), so it is the at most one real zero of a real character there, and none exists.
 - (b) Under *RealZeroGap* `c ∞` with `0 < c ≤ 1/R`, the exceptional zero of a modulus `q` is not
   excluded, but its contribution `x^{β−1}/β` to `ψ(x; q, a)/(x/φ(q))` is at most
   `exp(−c log x/log q)/β`, which is below any `ε > 0` once `log x ≥ (log q/c) log(1/(βε))`. With
@@ -3330,9 +3518,10 @@ AnalyticNumberTheoryPartI §0.34; Mathlib `DirichletCharacter.LFunction`.
 ### Dependencies
 
 Layers 0–3; AnalyticNumberTheoryPartI §§0.2, 0.16, 0.30, 0.34, 1.6; ZerosOfLFunctions §8.6;
-LFunctions Layer 4; ComputationalNumberTheory §4.24; the gaps `grh-up-to-height`,
-`dirichlet-zero-free-constants`, `dirichlet-four-zero-region`, `dirichlet-zero-count-error`,
-`lehman-weighted-zero-sum`, `real-zero-gap`. No later layer is used.
+LFunctions Layer 4; ComputationalNumberTheory §4.24; the gaps `rh-up-to-height`,
+`grh-up-to-height`, `dirichlet-zero-free-constants`, `dirichlet-zero-count-error`,
+`lehman-weighted-zero-sum`, `real-zero-gap`; the zero inputs *RamareRumelyRegion* (§6.1) and
+*LiuWangFourZeros* (§6.6). No later layer is used.
 
 ## Layer 7: short intervals containing a prime, unconditionally
 
@@ -3422,15 +3611,19 @@ positive for every `x ≥ x₀`.
   `‖f‖₁ = 2^{2m} (m!)²/(2m + 1)!` (line 508).
 - Kadiri–Lumley's rows (lines 28–29, Theorem 1.1; Table 2), under `RH(30 610 046 000)`, the
   classical-shape region with `R₀ = 5.69693`, the density `N(17/20, T)` bound of
-  `kadiri-2013-density` (`gap:explicit-zero-density`), the zero-count error and
-  *KadiriLumleyTable*: for every `x₀ ≥ 4·10¹⁸` of the table and every `x > x₀`,
+  `kadiri-2013-density` (`gap:explicit-zero-density`), the zero-count error with Rosser's triple
+  (`kadiri-lumley-2014` line 590) and *KadiriLumleyTable*: for every `x₀ ≥ 4·10¹⁸` of the table and
+  every `x > x₀`,
   `((1 − Δ(x₀)⁻¹) x, x)` contains a prime; in particular `Δ = 1 946 282 821` at `x₀ = e⁵⁹` and
   `Δ = 1 966 196 911` at `x₀ = 4·10¹⁸`.
 - Cully-Hugill–Lee (`cully-hugill-lee-2022` lines 75–76, Theorem 1; the corrected Table 2 is that of
   the corrigendum `cully-hugill-lee-2024`, Math. Comp. 93, reproduced in the arXiv v3 text
   2103.05986v3, which is the authority for the rows), under `RH(3·10¹²)`, the region with
-  `R = 5.573412`, the density bounds `N(σ, T) ≤ C₁(σ) T^{8(1−σ)/3} log^{5−2σ} T + C₂(σ) log² T` of
-  `gap:explicit-zero-density`, the zero-count error and *CullyHugillLeeTable*: for each pair
+  `R = 5.573412`, the density bounds of Kadiri–Lumley–Ng's shape for `N°(σ, T)` with the closed forms
+  recomputed at the height `3·10¹²` (`cully-hugill-lee-2022` lines 157–166; ExplicitZetaBounds §8.3,
+  `gap:explicit-zero-density`), the zero count *ZeroCountBound* `0.110 0.290 2.290 0 e` (§3.1, the
+  Platt–Trudgian triple the paper uses, lines 150–156 and 177–179) and *CullyHugillLeeTable*: for
+  each pair
   `(Δ, x₀)` of the table, `(x(1 − Δ⁻¹), x]` contains a prime for all `x ≥ x₀`; in particular
   `Δ = 7.69184·10¹⁰` at `log x₀ = 60`, `Δ = 2.07053·10¹¹` at `log x₀ = 150` and
   `Δ = 2.51949·10¹¹` at `log x₀ = 600`.
@@ -3445,8 +3638,10 @@ at the parameters of every row, is positive for every `x ≥ x₀`:
   `(60, 7.69184·10¹⁰)`, `(150, 2.07053·10¹¹)`, `(600, 2.51949·10¹¹)`, for the generalised weight of
   that paper in place of `(4t(1 − t))^m`.
 
-*Needs:* §2.1; §1.1; `gap:rh-up-to-height`; `gap:classical-zero-free-constants`;
-`gap:explicit-zero-count-error`; `gap:explicit-zero-density`; `gap:lehman-weighted-zero-sum`.
+*Needs:* §2.1; §1.1; §3.1 (*ZeroCountBound*); `gap:rh-up-to-height`;
+`gap:classical-zero-free-constants`; ExplicitZetaBounds §5.2 (`gap:explicit-zero-count-error`,
+Rosser's triple, for Kadiri–Lumley's rows: `kadiri-lumley-2014` line 590); ExplicitZetaBounds
+§§8.1, 8.3 (`gap:explicit-zero-density`); `gap:lehman-weighted-zero-sum`.
 
 **Checks.**
 
@@ -3580,24 +3775,31 @@ and `axler_interval`, only their inputs and Mathlib `Chebyshev.theta`, `Nat.nth 
 
 ### 7.5 Primes between consecutive powers
 
-Under the region of `gap:vinogradov-korobov-constants`, `RH(3·10¹²)`, a density bound of
-`gap:explicit-zero-density` and the zero-count error:
+Under the region of `gap:vinogradov-korobov-constants`, `RH(3·10¹²)`, a density bound and the
+zero-count error:
 
 - Dudek (`dudek-2016` line 63, Theorem 1.1, arXiv text; the journal version prints `33.3`; the
-  argument at lines 700–806): if `N(σ, T) ≤ A (3T)^{8(1−σ)/3} log^{5−2σ} T + 103 log² T` for
+  argument at lines 700–806): if `N°(σ, T) ≤ A (3T)^{8(1−σ)/3} log^{5−2σ} T + 103 log² T` for
   `T ≥ 2000` and `σ ≥ 0.52`, then there is a prime between `n³` and `(n + 1)³` for every
   `n ≥ exp(exp(c_A))`, with `c_A` the explicit solution of the paper's inequality (24) (line 802),
   increasing in `A`, and `c_{9.7} = 33.217`. The paper takes `A = 9.7` from `ramare-2016`
   Theorem 1.1, whose leading constant `broadbent-kadiri-lumley-ng-wilk-2021` lines 950–952 and
   1128–1130 report to be off by a factor over 100; the threshold `exp(exp(33.217))` is therefore
   stated only under the hypothesis with `A = 9.7`, and the unconditional cube statement is
-  Cully-Hugill's below. With Kadiri–Lumley–Ng's corrected form (`A = 965` and `51.5 ≤ 103`, in
-  `gap:explicit-zero-density`) the hypothesis holds, and the theorem gives the threshold
-  `exp(exp(c_{965}))`, larger than `exp(exp(c_{9.7}))` since `c_A` increases with `A`; its value is
-  not computed here.
+  Cully-Hugill's below. Under the zero input *RamareRevisedDensity* (below; `A = 965` and
+  `51.5 ≤ 103`) the hypothesis holds, and the theorem gives the threshold `exp(exp(c_{965}))`,
+  larger than `exp(exp(c_{9.7}))` since `c_A` increases with `A`; its value is not computed here.
+  The zero counts the paper takes from Trudgian's bound against `M(T)` with the `7/8`
+  (`N(T) < (T/2π) log T` for `T > 15`, line 690) follow from Rosser's bound of ExplicitZetaBounds
+  §5.2, since `(T/2π) log 2π + T/2π − 7/8` exceeds Rosser's right side from `T = 15` on.
 - Cully-Hugill (`cully-hugill-2021`, published as J. Number Theory 247 (2023); line 28, Theorem 1;
-  line 662), with the density bounds `N(σ, T) ≤ C₁(σ) T^{8(1−σ)/3} log^{5−2σ} T + C₂(σ) log² T` of
-  `gap:explicit-zero-density` (its lines 114–118): there is a prime in `(n¹⁵⁵, (n + 1)¹⁵⁵)` for every
+  line 662), with the density bounds of Kadiri–Lumley–Ng's shape for `N°(σ, T)` at the paper's
+  parameters (its lines 113–118; ExplicitZetaBounds §8.3, `gap:explicit-zero-density`) and the
+  zero count of ExplicitZetaBounds §5.2: the paper quotes Hasanalizade–Shen–Wong's triple
+  `(0.1038, 0.2573, 9.3675)` against `M(T)` with the `7/8` (lines 104–111), and Bellotti–Wong's
+  first bound with `7/8` added, `(0.10076, 0.24460, 8.95844)`, is below it at every `T ≥ e` (§2.2),
+  for `T ≥ 30 610 046 000` unconditionally and below that height given the recorded bound for `S(T)`
+  of ExplicitZetaBounds §0.4: there is a prime in `(n¹⁵⁵, (n + 1)¹⁵⁵)` for every
   `n ≥ 1`; for every real `x ≥ exp(exp(33.990))` the interval `(x, x + 3x^{2/3}]` contains a prime;
   and consequently there is a prime between `n³` and `(n + 1)³` for every `n ≥ exp(exp(32.892))`,
   since `n³ + 3n² < (n + 1)³` and `exp(exp(33.990))^{1/3} = exp(exp(32.892))`. The `x`-form implies
@@ -3614,11 +3816,24 @@ Under the region of `gap:vinogradov-korobov-constants`, `RH(3·10¹²)`, a densi
   which gives a prime between consecutive `n`-th powers for every `n ≥ 106` with the interval
   starting at `m^n`. Both are stated beside the refereed `90` and `155`, not in their place.
 
+Zero input of this section: *RamareRevisedDensity* (`kadiri-lumley-ng-2018` lines 61–66, display
+(1.5), and footnote 1, lines 93–95): for every real `σ ≥ 0.52` and `T ≥ 2000`,
+`N°(σ, T) ≤ 965 (3T)^{8(1−σ)/3} (log T)^{5−2σ} + 51.5 log² T`. It is Ramaré's density for `ζ` in the
+revised form that Kadiri–Lumley–Ng quote: the printed form, with `4.9` (`ramare-2016` (1.1)), is
+in error, and the proof of the revised one was communicated to them and is not published.
+ExplicitZetaBounds states neither form (its §8.2), so the revised form is a hypothesis of the
+instance that uses it.
+
 *Needs:* §2.1; §3.6; §1.1; `gap:rh-up-to-height`; `gap:vinogradov-korobov-constants`;
-`gap:explicit-zero-density`; `gap:explicit-zero-count-error`.
+ExplicitZetaBounds §§8.1, 8.3 (`gap:explicit-zero-density`); ExplicitZetaBounds §5.2
+(`gap:explicit-zero-count-error`) with its §0.4; *RamareRevisedDensity*.
 
 **Checks.**
 
+- *RamareRevisedDensity* at `σ = 0.9`, `T = H₀ = 3.0610046·10¹⁰`: it gives
+  `N°(0.9, H₀) < 2.15·10¹⁰` (`kadiri-lumley-ng-2018` line 72), against `130.07` from Kadiri–Lumley–Ng's
+  own bound (line 88) and `0` given `RH(H₀)`; at `σ = 1` its first term is `965 log³ T`, positive, so it
+  does not exclude a zero near `1` by itself.
 - `exp(exp(33.217)) = exp(2.67·10¹⁴)`, so the cube statement is about integers with more than
   `10¹⁴` digits; the 155-th power statement, in contrast, holds for every `n ≥ 1` (at `n = 1`:
   `(1, 2¹⁵⁵)` contains `2`).
@@ -3652,14 +3867,16 @@ Under the region of `gap:vinogradov-korobov-constants`, `RH(3·10¹²)`, a densi
 
 Layers 0–3; the gaps `rh-up-to-height`, `classical-zero-free-constants`,
 `explicit-zero-count-error`, `explicit-zero-density`, `lehman-weighted-zero-sum`,
-`vinogradov-korobov-constants`.
+`vinogradov-korobov-constants`; the zero inputs *ZeroCountBound* (§3.1, for §7.3) and
+*RamareRevisedDensity* (§7.5).
 
 ## Downstream consumers
 
-- ExplicitCharacterSumsAndSieves: the Brun–Titchmarsh inequality of §0.1, the base case of its
-  explicit sieve upper bounds and of its weighted forms, and Montgomery–Vaughan's diagonal bound
-  `S(u) ≥ log u + 1.07` for `u ≥ 6` with Büthe's asymptotic and `MVDiagonalFiniteRange` (§0.1),
-  which its Selberg diagonal sums use; the roadmap is later in the order of supply.
+- ExplicitCharacterSumsAndSieves, later in the order of supply: the Brun–Titchmarsh inequality of
+  §0.1 (`brun_titchmarsh`), the prime-count case of its sifted Brun–Titchmarsh inequality and the
+  base of its explicit sieve upper bounds; and Montgomery–Vaughan's diagonal bound
+  `S(u) ≥ log u + 1.07` for `u ≥ 6` with Büthe's asymptotic and `MVDiagonalFiniteRange`, which its
+  Selberg diagonal sums use and whose owner is §0.1, the earlier of the two roadmaps.
 - ExplicitMultiplicativeFunctions: Layers 3–4 (explicit `ψ`, `∑ Λ(n)/n`, `∑ 1/p`) for its explicit
   Mertens products and Möbius bounds, the bounds under the Riemann hypothesis of §§2.2 and 4.7 for
   the product forms of Lee–Nosal's corollary, and the enclosures of §1.6. Among its requests, these
@@ -3829,4 +4046,6 @@ theorem named, through the quotation named where there is one.
 - `van-de-lune-te-riele-winter-1986`, `platt-2017`, `rumely-1993`: the verified-zero computations;
   `deleglise-rivat-1998`: the values of `ψ`; `nicely-1999`, `oliveira-e-silva-herzog-pardi-2014`:
   prime gaps;
-  `kadiri-2013-density`: the zero density used by Faber–Kadiri.
+  `kadiri-2013-density`: the zero density used by Faber–Kadiri; `kadiri-lumley-ng-2018` H. Kadiri,
+  A. Lumley, N. Ng, Explicit zero density for the Riemann zeta function, J. Math. Anal. Appl. 465
+  (2018), arXiv 2101.12263 (its display (1.5) and footnote 1, Ramaré's revised density).
