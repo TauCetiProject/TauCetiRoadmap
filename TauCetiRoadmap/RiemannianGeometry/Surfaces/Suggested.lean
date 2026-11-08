@@ -1,0 +1,178 @@
+import Mathlib
+import TauCeti.Analysis.Contour.Winding.Number.Basic
+import TauCeti.Geometry.Manifold.Riemannian.Conformal
+import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Exponential
+import TauCeti.Geometry.Manifold.Riemannian.Pullback.Basic
+import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Conformal
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Sectional
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
+
+/-!
+# Local geometry of Riemannian surfaces: selected target interfaces
+
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. These signatures illustrate the headlines that are statable against the pinned
+libraries, on the actual exponential map, curvature, winding number and `WithMetric`
+carriers. They do not replace the complete layers. Unimplemented statements have honest
+`sorry` bodies; no free proposition field stands in for a Jacobian, an angle or a cut time.
+
+Headlines that cannot yet be stated, and the carrier each one lacks:
+
+* Layer 1.2, the normal-strip Jacobian `a` with `a_t(s,0) = −k_g`: the signed geodesic
+  curvature of an embedded arc with respect to a chosen unit normal.
+* Layer 2.2, the integration formula up to the normal cut time: the cut time of the normal
+  exponential of a boundary arc of a surface domain.
+* Layer 3.2, Gauss–Bonnet for a disk with corners: the geodesic curvature of a boundary arc
+  and the exterior angle at a corner of a piecewise smooth domain in a surface.
+
+The rescaling identity of Layer 5.1 is proved here, since it follows from the two pinned
+conformal lemmas; the remaining statements are targets.
+-/
+
+noncomputable section
+
+namespace TauCetiRoadmap.RiemannianGeometry.Surfaces
+
+open Set Bundle MeasureTheory
+open scoped Manifold ContDiff
+
+section Planar
+
+/-- S3: the signed turning theorem for a positively oriented piecewise `C²` unit-speed planar
+Jordan curve with corners at the finite set `T` of parameters in `[0, L)`, exterior angles in
+`(-π, π)` (no cusps). -/
+theorem integral_signedCurvature_add_sum_exteriorAngle_eq_two_pi (γ : ℝ → ℂ) {L : ℝ}
+    (hL : 0 < L) (hper : Function.Periodic γ L) (hcont : Continuous γ)
+    (hinj : InjOn γ (Ico 0 L)) (T : Finset ℝ) (hT : (T : Set ℝ) ⊆ Ico 0 L)
+    (hγ : ContDiffOn ℝ 2 γ {t | ∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L})
+    (hunit : ∀ t, (∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L) → ‖deriv γ t‖ = 1)
+    (hleft : ∀ s ∈ T, DifferentiableWithinAt ℝ γ (Iic s) s ∧ ‖derivWithin γ (Iic s) s‖ = 1)
+    (hright : ∀ s ∈ T, DifferentiableWithinAt ℝ γ (Ici s) s ∧ ‖derivWithin γ (Ici s) s‖ = 1)
+    (hcusp : ∀ s ∈ T, derivWithin γ (Ici s) s ≠ -derivWithin γ (Iic s) s)
+    {z : ℂ} (hz : TauCeti.Contour.windingNumber γ 0 L z = 1) :
+    ∫ t in (0)..L, (deriv (deriv γ) t * (starRingEnd ℂ) (deriv γ t)).im +
+      ∑ s ∈ T, Complex.arg (derivWithin γ (Ici s) s / derivWithin γ (Iic s) s) =
+        2 * Real.pi := by
+  sorry
+
+end Planar
+
+section Surface
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+  [IsRiemannianManifold I M]
+
+open TauCeti TauCeti.Manifold CovariantDerivative
+
+/-- S1: the polar Jacobian `j(r) = |d(exp_p)_{r e}(r n)|` along the radial geodesic in direction
+`e`, with `n ⊥ e`, on a metric normal ball of radius `R`, satisfies the Jacobi equation
+`j'' + K j = 0` with `j(0) = 0` and right derivative `1`. -/
+theorem polar_jacobian_ode (hE : Module.finrank ℝ E = 2) (p : M) {R : ℝ} (hR : 0 < R)
+    (hdom : Metric.ball (0 : TangentSpace I p) R ⊆ expDomain I M p)
+    (hbij : BijOn (riemannianExp I M p) (Metric.ball 0 R) (Metric.ball p R))
+    (hdist : ∀ v ∈ Metric.ball (0 : TangentSpace I p) R, dist p (riemannianExp I M p v) = ‖v‖)
+    (hcpt : IsCompact (Metric.closedBall p R)) (hint : Metric.closedBall p R ⊆ I.interior M)
+    (K : M → ℝ)
+    (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      (leviCivitaConnection I M).sectionalCurvature
+        (isMetricCompatible_leviCivitaConnection I) x u v = K x)
+    (e n : TangentSpace I p) (he : ‖e‖ = 1) (hn : ‖n‖ = 1) (hen : inner ℝ e n = 0) :
+    let j : ℝ → ℝ := fun r ↦
+      ‖mfderiv 𝓘(ℝ, TangentSpace I p) I (riemannianExp I M p) (r • e) (r • n)‖
+    ContDiffOn ℝ ∞ j (Ioo 0 R) ∧ (∀ r ∈ Ioo 0 R, 0 < j r) ∧
+      (∀ r ∈ Ioo 0 R, deriv (deriv j) r + K (riemannianExp I M p (r • e)) * j r = 0) ∧
+      j 0 = 0 ∧ derivWithin j (Ici 0) 0 = 1 := by
+  sorry
+
+variable [MeasurableSpace M] [BorelSpace M] [LindelofSpace M]
+  [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+
+/-- S1: the polar length `L(r) = ∫₀^{2π} j(r,θ) dθ` and area `V(r) = Area(B_r(p))` satisfy
+`L′(r) = 2π − ∫_{B_r(p)} K` and `V′(r) = L(r)` on a metric normal ball, with `e, n` an
+orthonormal pair spanning `T_pM`. -/
+theorem hasDerivAt_polarLength_and_volume_ball (hE : Module.finrank ℝ E = 2) (p : M)
+    {R : ℝ} (hR : 0 < R)
+    (hdom : Metric.ball (0 : TangentSpace I p) R ⊆ expDomain I M p)
+    (hbij : BijOn (riemannianExp I M p) (Metric.ball 0 R) (Metric.ball p R))
+    (hdist : ∀ v ∈ Metric.ball (0 : TangentSpace I p) R, dist p (riemannianExp I M p v) = ‖v‖)
+    (hcpt : IsCompact (Metric.closedBall p R)) (hint : Metric.closedBall p R ⊆ I.interior M)
+    (K : M → ℝ)
+    (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      (leviCivitaConnection I M).sectionalCurvature
+        (isMetricCompatible_leviCivitaConnection I) x u v = K x)
+    (e n : TangentSpace I p) (he : ‖e‖ = 1) (hn : ‖n‖ = 1) (hen : inner ℝ e n = 0) :
+    let L : ℝ → ℝ := fun r ↦ ∫ θ in (0)..(2 * Real.pi),
+      ‖mfderiv 𝓘(ℝ, TangentSpace I p) I (riemannianExp I M p)
+        (r • (Real.cos θ • e + Real.sin θ • n)) (r • (-Real.sin θ • e + Real.cos θ • n))‖
+    ∀ r ∈ Ioo 0 R,
+      HasDerivAt L (2 * Real.pi - ∫ x in Metric.ball p r, K x ∂riemannianVolume I M) r ∧
+      HasDerivAt (fun ρ ↦ (riemannianVolume I M (Metric.ball p ρ)).toReal) (L r) r := by
+  sorry
+
+/-- S4: on a simply connected open `R`-ball lying in one chart, with compact closed ball in the
+interior and `K ≤ 0` on the open ball, `exp_p` is a diffeomorphism from the tangent `R`-ball
+onto the open ball, with radial length equal to distance. -/
+theorem riemannianExp_bijOn_ball_of_curvature_nonpos (hE : Module.finrank ℝ E = 2)
+    (p : M) {R : ℝ} (hR : 0 < R) (hcpt : IsCompact (Metric.closedBall p R))
+    (hint : Metric.closedBall p R ⊆ I.interior M)
+    (hK : ∀ x ∈ Metric.ball p R, ∀ u v : TangentSpace I x, LinearIndependent ℝ ![u, v] →
+      (leviCivitaConnection I M).sectionalCurvature
+        (isMetricCompatible_leviCivitaConnection I) x u v ≤ 0)
+    (hsc : SimplyConnectedSpace (Metric.ball p R))
+    (hchart : ∃ e ∈ atlas H M, Metric.ball p R ⊆ e.source) :
+    Metric.ball (0 : TangentSpace I p) R ⊆ expDomain I M p ∧
+      BijOn (riemannianExp I M p) (Metric.ball 0 R) (Metric.ball p R) ∧
+      (∀ v ∈ Metric.ball (0 : TangentSpace I p) R,
+        Function.Injective (mfderiv 𝓘(ℝ, TangentSpace I p) I (riemannianExp I M p) v)) ∧
+      ∀ v ∈ Metric.ball (0 : TangentSpace I p) R, dist p (riemannianExp I M p v) = ‖v‖ := by
+  sorry
+
+end Surface
+
+section Conformal
+
+open TauCeti TauCeti.WithMetric TauCeti.Manifold
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {n : ℕ∞ω}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [LindelofSpace M]
+  {g : ContMDiffRiemannianMetric I n E (fun x : M ↦ TangentSpace I x)}
+
+/-- S5: the surface Dirichlet energy is unchanged by a conformal rescaling, for every `φ`. -/
+theorem integral_norm_mgradient_sq_rescale (hE : Module.finrank ℝ E = 2)
+    (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) n f) (hf_pos : ∀ x, 0 < f x) (φ : M → ℝ) :
+    ∫ x, ‖mgradient I (φ ∘ ofWithMetric) x‖ ^ 2
+        ∂riemannianVolume I (WithMetric (g.rescale f hf hf_pos)) =
+      ∫ x, ‖mgradient I (φ ∘ ofWithMetric) x‖ ^ 2 ∂riemannianVolume I (WithMetric g) := by
+  refine (integral_riemannianVolume_rescale (g := g) (hf := hf) (hf_pos := hf_pos)
+    (fun y ↦ ‖mgradient I (φ ∘ ofWithMetric) (toWithMetric (g.rescale f hf hf_pos) y)‖ ^ 2)).trans
+    ?_
+  congr 1
+  funext x
+  rw [← real_inner_self_eq_norm_sq, ← real_inner_self_eq_norm_sq, hE, inner_mgradient_rescale]
+  simp [smul_eq_mul, (hf_pos _).ne']
+
+variable {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  {H' : Type*} [TopologicalSpace H'] {J : ModelWithCorners ℝ E' H'}
+  {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J ∞ N] [LindelofSpace N]
+  {gN : ContMDiffRiemannianMetric J n E' (fun y : N ↦ TangentSpace J y)}
+
+/-- S5: a conformal diffeomorphism `Φ : (M, g) → (N, g_N)`, `Φ^* g_N = f g`, preserves the
+surface Dirichlet energy, `E_g(φ ∘ Φ) = E_{g_N}(φ)`. -/
+theorem integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale
+    (hE : Module.finrank ℝ E = 2) (hE' : Module.finrank ℝ E' = 2)
+    (Φ : M ≃ₘ^∞⟮I, J⟯ N) (hΦ : ContMDiff I J (n + 1) Φ)
+    (hinj : ∀ x, Function.Injective (mfderiv I J Φ x))
+    (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) n f) (hf_pos : ∀ x, 0 < f x)
+    (hconf : gN.pullback Φ hΦ hinj = g.rescale f hf hf_pos) (φ : N → ℝ) :
+    ∫ x, ‖mgradient I (φ ∘ Φ ∘ ofWithMetric) x‖ ^ 2 ∂riemannianVolume I (WithMetric g) =
+      ∫ y, ‖mgradient J (φ ∘ ofWithMetric) y‖ ^ 2 ∂riemannianVolume J (WithMetric gN) := by
+  sorry
+
+end Conformal
+
+end TauCetiRoadmap.RiemannianGeometry.Surfaces
