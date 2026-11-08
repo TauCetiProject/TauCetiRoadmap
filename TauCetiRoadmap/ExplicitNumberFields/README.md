@@ -3597,8 +3597,6 @@ through Tau Ceti; AnalyticNumberTheoryPartI §§2.39, 2.42; ExplicitPrimeCountin
   of 4.7 and the input of 5.7.
 - J. S. Sunley, Class numbers of totally imaginary quadratic extensions of totally real fields,
   Trans. Amer. Math. Soc. 175 (1973) (`sunley1973`).
-- T. Tao et al., *IEANTN*, https://github.com/teorth/IEANTN (`ieantn`, cited for no section of
-  this roadmap).
 - J. Thorner, A. Zaman, An explicit bound for the least prime ideal in the Chebotarev density
   theorem, Algebra Number Theory 11 (2017), arXiv:1604.01750 (`thornerzaman2017`).
 - E. Treviño, The Burgess inequality and the least `k`-th power non-residue, Funct. Approx.
