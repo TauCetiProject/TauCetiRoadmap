@@ -142,10 +142,15 @@ the fixed ring of a normal subgroup `H` and its invariants `A` (both instances i
 hypothesis bundles `FaithfulSMul G B`, `SMulCommClass G A B` and `Algebra.IsInvariant A B G`),
 `Polynomial.IsEisensteinAt` with its irreducibility criterion, adic completion of a Noetherian
 local ring, `intervalIntegral`, `IsGalois.normalAutEquivQuotient`, `Field.absoluteGaloisGroup`
-with its Krull topology and `Subgroup.topologicalClosure`, `ValuationSubring.comap`,
+with its Krull topology and `Subgroup.topologicalClosure`,
+`Field.absoluteGaloisGroup.mapOfAlgebra` (the continuous map `G_L → G_K` given by restriction
+along an embedding of algebraic closures over `K`, supplied as an `Algebra` instance with
+`IsScalarTower`; it assumes nothing more of that embedding),
+`IsAlgClosed.algebraMap_bijective_of_isIntegral`, `ValuationSubring.comap`,
 `ValuationSubring.decompositionSubgroup` and `ValuationSubring.inertiaSubgroup` (the stabilizer
 of a valuation subring and the kernel of its action on the residue field, over an arbitrary
 field), `PerfectField`, `FiniteGaloisIntermediateField`, `IntermediateField.fixingSubgroup`,
+`IntermediateField.restrict` (an intermediate field `F ≤ E` read inside `E`),
 `AlgEquiv.restrictNormalHom` with `AlgEquiv.restrictNormalHom_surjective`,
 `InfiniteGalois.restrictNormalHom_continuous`, `UniformSpace.Completion` and
 `IsKrasner.of_completeSpace_of_normal` (Krasner's lemma for a complete ultrametric base and a
@@ -174,6 +179,9 @@ a normal extension is the fixing subgroup of its fixed field);
 separable closure `separableClosure K (AlgebraicClosure K)`, with
 `TauCeti.absoluteGaloisGroupRestrictEquiv_apply` (its forward map is restriction,
 `AlgEquiv.restrictNormalHom`); and the instance `CompactSpace (Field.absoluteGaloisGroup K)`.
+From `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Map.lean` it uses
+`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes`: the embedding of algebraic closures carries
+`Field.absoluteGaloisGroup.mapOfAlgebra K L g` applied to `x` to `g` applied to the image of `x`.
 For the agreements of §4a.1 and §4a.3 on a local field, use Tau Ceti's local-field declarations
 listed below, among them `TauCeti.inertiaSubgroup`, `TauCeti.maximalUnramifiedExtension` and
 `IntermediateField.le_maximalUnramifiedExtension_iff`; these assume `IsNonarchimedeanLocalField`.
@@ -257,11 +265,11 @@ valuation subring `O` of `AlgebraicClosure K`, computed at each finite level on 
 subring `O ∩ M` of `M`, which Mathlib makes a local ring, with its decomposition group; its term
 at `0` as Mathlib's inertia; its finite projections; and its term at `0+` as the inverse limit of
 the finite `G_1`. It states §4a.2's finite-level subgroup identity, which holds for every subgroup
-of a finite group acting on a local ring. The open-subgroup identity of §4a.2 compares `G_K` with
-the subgroup fixing `L`, which is not Mathlib's `Field.absoluteGaloisGroup L`, and §4a.3 needs a
-maximal unramified extension, which the pinned libraries provide only for nonarchimedean local
-fields; they are README targets, and the module docstring of `Suggested.lean` says what each
-lacks.
+of a finite group acting on a local ring, and its open-subgroup identity, with `G_L` Mathlib's
+`Field.absoluteGaloisGroup L` mapped into `G_K` by `Field.absoluteGaloisGroup.mapOfAlgebra K L`
+along an embedding of algebraic closures over `L`. §4a.3 needs a maximal unramified extension,
+which the pinned libraries provide only for nonarchimedean local fields; it is a README target,
+and the module docstring of `Suggested.lean` says what it lacks.
 
 ## Layer 3a: ramification over complete discretely valued fields
 
@@ -617,9 +625,15 @@ corollaries, printed pp. 132–135, and n° 3.5, Proposition 8(i)–(iii), print
 - For a tame cyclic extension of degree `e`, the depth-zero norm has kernel `μ_e`, while every
   positive-depth graded norm is bijective; `π₀(V_0) ≅ C_e` and `π₀(V_s) = 1` for `s ≥ 1`.
 - In characteristic `p`, for `y^p − y = t⁻¹`, the depth-one graded norm has kernel `C_p`;
-  `π₀(V_1) ≅ C_p` and `π₀(V_2) = 1`. Its additive norm polynomial is surjective over `κ = F̄_p`,
-  whereas over `F_p` an additive polynomial with kernel of order `p` is not surjective on residue
-  points.
+  `π₀(V_1) ≅ C_p` and `π₀(V_2) = 1`. With the uniformizers `y⁻¹` of `E` and `t` of `F`, the
+  conjugates `y + i`, `i ∈ F_p`, give `N(y + λ) = t⁻¹ + λ^p − λ`, so `N(1 + λy⁻¹) = 1 + (λ^p − λ)t`
+  for `λ ∈ κ`, and the graded norm is `λ ↦ λ^p − λ`. Its kernel `F_p` is the image of `G_1/G_2`
+  under the graded character of §3a.1, which sends the generator to `−1`. It is surjective for
+  `κ = F̄_p`; for `κ = F_p` that kernel is all of `κ`, so the graded norm is zero there and misses
+  the `p − 1` nonzero classes. The failure comes from where the kernel lies, not from its order:
+  an additive polynomial over `F_p` acts on `F_p` as multiplication by the sum of its
+  coefficients, so over `F_3` the polynomial `λ³ − 2λ`, whose kernel `{0, ±√2}` in `F̄_3` has
+  order `3`, acts on `F_3` as `λ ↦ −λ`, a bijection.
 
 *Proof.* Completeness of `A` may be assumed: `B` is finite over `A` (§3a.1) and local, so
 `B ⊗_A Â` is the completion `B̂`, again a discrete valuation ring; `G` acts on it with invariants
@@ -834,9 +848,15 @@ the instance `CompactSpace (Field.absoluteGaloisGroup K)`, and
 
 ### 4a.2 Finite separable extensions: ψ_(L/K) and the open-subgroup identity
 
-For a finite separable `L/K` inside `AlgebraicClosure K`, with `G_L ≤ G_K` the open subgroup
-fixing `L`, and a finite Galois `M/K` containing `L`, define `ψ_(L/K) = φ_(M/L) ∘ ψ_(M/K)` on
-`[−1, ∞)` and `φ_(L/K)` its inverse. Prove:
+For a finite separable `L/K` inside `AlgebraicClosure K` and a finite Galois `M/K` containing
+`L`, define `ψ_(L/K) = φ_(M/L) ∘ ψ_(M/K)` on `[−1, ∞)` and `φ_(L/K)` its inverse. The absolute
+Galois group `G_L` is Mathlib's `Field.absoluteGaloisGroup L`, acting on `AlgebraicClosure L`, and
+is read inside `G_K` through `Field.absoluteGaloisGroup.mapOfAlgebra K L`, restriction along an
+embedding `ι` of `AlgebraicClosure K` in `AlgebraicClosure L` over `L`; since its target is
+algebraic over its algebraically closed source, `ι` is onto, so this map is injective with image
+the open subgroup of `G_K` fixing `L`. The valuation subring `O′` of `AlgebraicClosure L` lying
+over `O` is `ι(O)`, and `G_L^v` is the absolute filtration of 4a.1 for `L` relative to `O′`.
+Prove:
 
 - `ψ_(L/K)` does not depend on `M`, agrees with 3a.2 when `L/K` is Galois (so that, on
   nonarchimedean local fields, it is then `TauCeti.LocalFieldsRamification.inverseHerbrand K L` by
@@ -848,7 +868,13 @@ fixing `L`, and a finite Galois `M/K` containing `L`, define `ψ_(L/K) = φ_(M/L
   ring, normal or not and with no hypothesis on the residue extension: it is
   `subgroupOf_upperRamificationGroup` in `Suggested.lean`, for `G = Gal(M/K)` and `H = Gal(M/L)`
   acting on the integer ring of `M`;
-- the open-subgroup identity `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` for every `u ≥ −1`;
+- the open-subgroup identity `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` for every `u ≥ −1`: when `O ∩ K`
+  is a complete discrete valuation ring with perfect residue field, for every `L` contained in a
+  finite Galois `M/K`, every embedding `ι` over `L` and every valuation subring `O′` of
+  `AlgebraicClosure L` with `ι⁻¹(O′) = O`, the preimage of `G_K^u` under
+  `Field.absoluteGaloisGroup.mapOfAlgebra K L` is `G_L^(ψ_(L/K)(u))`, with `ψ_(L/K)` computed at
+  `M` and `Gal(M/L)` the fixing subgroup of `L` in `Gal(M/K)`
+  (`comap_mapOfAlgebra_absoluteUpperRamificationGroup`);
 - the integral formula at every such finite level,
   `ψ_(L/K)(u) = (1/f) ∫_0^u [Gal(M/K) : Gal(M/K)^t Gal(M/L)] dt` for `u ≥ 0`, with `f = f(L/K)`,
   and its absolute form `ψ_(L/K)(u) = (1/f) ∫_0^u [G_K : G_K^t G_L] dt`.
@@ -865,8 +891,17 @@ any two choices of `M` lie in a common one; the other properties follow from tho
 Galois functions. At a finite level `M`, the subgroup formula of 3a.1 (Tau Ceti's
 `TauCeti.IsLocalRing.subgroupOf_ramificationGroupReal`) gives
 `Gal(M/K)^u ∩ Gal(M/L) = Gal(M/L)_(ψ_(M/K)(u))`, which is `Gal(M/L)^(ψ_(L/K)(u))` because
-`ψ_(M/L) ∘ φ_(M/L)` is the identity; the open-subgroup identity is its limit over `M`, the
-fields `M ⊇ L` Galois over `K` being cofinal among the finite Galois extensions of `L`. For the
+`ψ_(M/L) ∘ φ_(M/L)` is the identity. For the open-subgroup identity, Tau Ceti's
+`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes` says that `ι` intertwines `g ∈ G_L` with its
+image in `G_K`; `ι` is onto by Mathlib's `IsAlgClosed.algebraMap_bijective_of_isIntegral`, so the
+map is injective, and its image is the subgroup fixing `L` because `ι` is `L`-linear. The field
+`ι(M′)`, for `M′ ⊇ L` finite Galois over `K`, is finite Galois over `L`, these fields are cofinal
+among the finite Galois extensions of `L` inside `AlgebraicClosure L`, and `ι` carries `O ∩ M′`
+onto `O′ ∩ ι(M′)`. The ring `O′ ∩ L = O ∩ L` is the integer ring of `L`, a complete discrete
+valuation ring (3a.1) whose residue field is finite over `k`, hence perfect, so the finite
+projections of 4a.1 hold over `L` as over `K`; with Herbrand's theorem (3a.2) between finite
+levels, membership in `G_L^v` and in `G_K^u` is decided at the levels `M′ ⊇ L`. There the finite
+identity, with `φ_(M′/L) ∘ ψ_(M′/K) = ψ_(L/K)`, matches the two conditions. For the
 integral formula, write `G = Gal(M/K)` and `H = Gal(M/L)`: by the identity
 `G^t ∩ H = H^(ψ_(L/K)(t))`, away from the finitely many jumps the derivative of
 `φ_(M/L) ∘ ψ_(M/K)` at `t` is `[G^0 : G^t] · #H^(ψ_(L/K)(t)) / #H^0`, which equals
@@ -874,8 +909,12 @@ integral formula, write `G = Gal(M/K)` and `H = Gal(M/L)`: by the identity
 the kernel `G_M` of restriction to `M` lies in `G_L`, the preimage of `G^t H` in `G_K` is
 `G_K^t G_L`, so the two indices agree and the absolute form follows.
 
-*Needs:* 4a.1; 3a.1; 3a.2, with its agreement of filtrations for the local-field reading; Mathlib
-`IntermediateField.fixingSubgroup`; Tau Ceti `TauCeti.fixingSubgroup_fixedField` and
+*Needs:* 4a.1 (the absolute filtration and its finite projections, over `K` and over `L`); 3a.1;
+3a.2 (Herbrand's theorem and tower transitivity), with its agreement of filtrations for the
+local-field reading; Mathlib `IntermediateField.fixingSubgroup`, `IntermediateField.restrict`,
+`Field.absoluteGaloisGroup.mapOfAlgebra`, `IsAlgClosed.algebraMap_bijective_of_isIntegral` and
+`ValuationSubring.comap`; Tau Ceti `TauCeti.fixingSubgroup_fixedField`,
+`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes` and
 `TauCeti.IsLocalRing.subgroupOf_ramificationGroupReal`; the completed roadmap's
 `TauCeti.LocalFieldsRamification.inverseHerbrand`, for the local-field reading.
 
@@ -897,6 +936,13 @@ the kernel `G_M` of restriction to `M` lies in `G_L`, the preimage of `G^t H` in
   `H_0 = H` and `H_1 = 1`. Then `ψ_(L/K)(u) = u` on `[0, 3/2]` and `3u − 3` after: its slope
   `[G : G^t H]/f` is `1` while `G^t = C_3`, since `C_3 H = G`, and `3 = e(L/K)` once `G^t = 1`.
   At `u = 1`, `G^1 ∩ H = C_3 ∩ H = 1` and `H^1 = H_2 = 1`.
+- The filtration of `L` must be taken relative to the valuation subring `ι(O)` over `O`. For
+  `K = Frac W(F̄_p)` and any finite `L` in a finite Galois `M`, inertia is everything, so
+  `G_K^0 = G_K` and the preimage of `G_K^0` is all of `G_L`, while `ψ_(L/K)(0) = 0`. Relative to
+  `ι(O)`, `G_L^0` is the inertia of `L`, again all of `G_L`, since the residue field of `L` is
+  `F̄_p`. Relative to the trivial valuation subring `AlgebraicClosure L`, which does not lie over
+  `O`, each finite level is a field on which its Galois group acts faithfully, every `G_0` is
+  trivial, and the filtration of `L` is trivial at `0`: the identity fails.
 
 ### 4a.3 Completed maximal unramified base change
 
@@ -1003,10 +1049,11 @@ and `ψ_(L/K)` must return the completed roadmap's finite-level values; `Frac W(
 Layer 3a; the completed roadmap, through the Tau Ceti declarations for the local-field structure
 of finite extensions, `TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup` and
 `TauCeti.wildInertiaSubgroup`; Tau Ceti's restriction isomorphism
-`TauCeti.absoluteGaloisGroupRestrictEquiv` and the compactness of `Field.absoluteGaloisGroup K`;
-ReductiveGroupsPartII §RG2.0.4 for `Breve E`; Mathlib's absolute Galois group, valuation subrings
-with their decomposition and inertia subgroups, finite Galois intermediate fields, uniform
-completion and Krasner's lemma.
+`TauCeti.absoluteGaloisGroupRestrictEquiv`, the compactness of `Field.absoluteGaloisGroup K` and
+`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes`; ReductiveGroupsPartII §RG2.0.4 for
+`Breve E`; Mathlib's absolute Galois group with `Field.absoluteGaloisGroup.mapOfAlgebra`,
+valuation subrings with their decomposition and inertia subgroups, finite Galois intermediate
+fields, uniform completion and Krasner's lemma.
 
 ## Dependency order
 

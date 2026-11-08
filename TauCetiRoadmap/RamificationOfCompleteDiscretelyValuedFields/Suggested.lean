@@ -25,8 +25,12 @@ relative to a valuation subring `O` of `AlgebraicClosure K`, computed at every f
 `M` on the valuation subring `O ∩ M` of `M` with its decomposition group, with its term at `0` as
 Mathlib's inertia for every valuation subring, and, when `O ∩ K` is a complete discrete valuation
 ring with perfect residue field, its finite projections and its term at `0+` as the inverse limit
-of the finite groups `G_1` (§4a.1); and the finite-level subgroup identity of §4a.2, which needs
-neither a discrete valuation nor a normal subgroup. The finite-local-field Hasse–Arf is Tau Ceti's
+of the finite groups `G_1` (§4a.1); and, for §4a.2, the finite-level subgroup identity, which
+needs neither a discrete valuation nor a normal subgroup, and the open-subgroup identity
+`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))`, with `G_L` Mathlib's `Field.absoluteGaloisGroup L` mapped into
+`G_K` by `Field.absoluteGaloisGroup.mapOfAlgebra K L` along an embedding of `AlgebraicClosure K`
+in `AlgebraicClosure L` over `L`, and `ψ_(L/K) = φ_(M/L) ∘ ψ_(M/K)` computed at any finite Galois
+`M ⊇ L`. The finite-local-field Hasse–Arf is Tau Ceti's
 `TauCeti.LocalFieldsRamification.hasseArf`, owned by the completed roadmap LocalFieldsRamification
 and consumed, not restated; §3a.3 owns its generalization.
 
@@ -34,18 +38,10 @@ The residue-enlargement, proalgebraic-unit and graded-norm targets of §3a.3 are
 Hasse–Arf, not headlines; the quasialgebraic and proalgebraic statements among them lack perfect
 quasialgebraic groups and their pro-category at the pins.
 
-Not statable at the pins, and therefore README targets only:
-- the open-subgroup identity `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` of §4a.2, with `ψ_(L/K)` a function
-  of `L` alone: `G_L` is the open subgroup `AlgebraicClosure K ≃ₐ[L] AlgebraicClosure K` of `G_K`
-  fixing `L`, whereas the absolute filtration over `L` is built on Mathlib's
-  `Field.absoluteGaloisGroup L`, which acts on `AlgebraicClosure L` and is related to that
-  subgroup only through a noncanonical isomorphism of algebraic closures; and `ψ_(L/K)` of a
-  non-Galois `L` is defined through a Galois closure, its independence of that choice being a
-  theorem of §4a.2. At a single finite level `M` it is `φ_(M/L) ∘ ψ_(M/K)`, and its subgroup
-  identity is stated below;
-- the completed maximal unramified base change (§4a.3): the maximal unramified extension exists at
-  the pins only for nonarchimedean local fields (`TauCeti.maximalUnramifiedExtension`), and its
-  completion for the extended valuation is a construction of §4a.3.
+Not statable at the pins, and therefore a README target only: the completed maximal unramified
+base change (§4a.3). The maximal unramified extension exists at the pins only for nonarchimedean
+local fields (`TauCeti.maximalUnramifiedExtension`), and its completion for the extended
+valuation is a construction of §4a.3.
 -/
 
 public section
@@ -255,7 +251,6 @@ theorem topologicalClosure_iSup_absoluteUpperRamificationGroup (K : Type*) [Fiel
           (AlgEquiv.restrictNormalHom (F := K) (K₁ := AlgebraicClosure K) M.toIntermediateField) :=
   sorry
 
-
 /-- **§4a.2, the finite-level subgroup identity.** Let a finite group `G` act on a local ring `S`
 and let `H` be any subgroup, acting by restriction. With the finite-level transition function
 `ψ = φ_H ∘ ψ_G`, the trace on `H` of the upper group `G^u` is `H^(ψ(u))`. For `G = Gal(M/K)` and
@@ -269,6 +264,52 @@ theorem subgroupOf_upperRamificationGroup (G : Type*) [Group G] [Finite G] (S : 
     [CommRing S] [IsLocalRing S] [MulSemiringAction G S] (H : Subgroup G) (u : ℝ) :
     (upperRamificationGroup G S u).subgroupOf H =
       upperRamificationGroup H S (herbrandFun H S (inverseHerbrandFun G S u)) :=
+  sorry
+
+/-- **§4a.2, the open-subgroup identity.** Let `O` be a valuation subring of `AlgebraicClosure K`
+whose trace `A = O ∩ K` is a complete discrete valuation ring with perfect residue field, and let
+`L ⊆ AlgebraicClosure K` lie in a finite Galois `M/K` inside `AlgebraicClosure K`, so that `L/K`
+is finite separable. The absolute Galois group `G_L = Field.absoluteGaloisGroup L` acts on
+`AlgebraicClosure L`. An embedding of `AlgebraicClosure K` in `AlgebraicClosure L` over `L` (the
+algebra and the two scalar-tower instances) is onto, since its target is algebraic over its
+algebraically closed source; so Mathlib's `Field.absoluteGaloisGroup.mapOfAlgebra K L`, restriction
+along it, is injective with image the open subgroup of `G_K` fixing `L`. Let `O'` be the valuation
+subring of `AlgebraicClosure L` lying over `O`, its image. Then for `u ≥ -1` the preimage of `G_K^u`
+in `G_L` is `G_L^v`, the absolute filtration of `L` relative to `O'`, at
+`v = ψ_(L/K)(u) = φ_(M/L)(ψ_(M/K)(u))`, where `Gal(M/L)` is the fixing subgroup of `L` in
+`Gal(M/K)`; that is, `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))`. The route is the finite-level identity
+`subgroupOf_upperRamificationGroup` at every finite Galois `M′ ⊇ M`, tower transitivity (§3a.2),
+which makes `φ_(M′/L) ∘ ψ_(M′/K)` independent of `M′`, and the finite projections of §4a.1 over `K`
+and over `L`, the images of the fields `M′` being cofinal among the finite Galois extensions of `L`
+(Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, n° 3.1, Proposition 4 and the
+Remarque after it, printed p. 128, for totally ramified extensions; Serre, *Local Fields*, IV §1,
+Proposition 2). The hypothesis `hO'` cannot be dropped: for the trivial valuation subring
+`O' = AlgebraicClosure L` every `G_L^v` with `v > -1` is trivial, while for `K = Frac W(F̄_p)` the
+preimage of `G_K^0 = G_K` is all of `G_L`. -/
+theorem comap_mapOfAlgebra_absoluteUpperRamificationGroup (K : Type*) [Field K]
+    (O : ValuationSubring (AlgebraicClosure K))
+    [IsDiscreteValuationRing (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [IsAdicComplete (IsLocalRing.maximalIdeal (O.comap (algebraMap K (AlgebraicClosure K))))
+      (O.comap (algebraMap K (AlgebraicClosure K)))]
+    [PerfectField (IsLocalRing.ResidueField (O.comap (algebraMap K (AlgebraicClosure K))))]
+    (L : IntermediateField K (AlgebraicClosure K))
+    [Algebra (AlgebraicClosure K) (AlgebraicClosure L)]
+    [IsScalarTower K (AlgebraicClosure K) (AlgebraicClosure L)]
+    [IsScalarTower L (AlgebraicClosure K) (AlgebraicClosure L)]
+    (O' : ValuationSubring (AlgebraicClosure L))
+    (hO' : O'.comap (algebraMap (AlgebraicClosure K) (AlgebraicClosure L)) = O)
+    (M : FiniteGaloisIntermediateField K (AlgebraicClosure K)) (hLM : L ≤ M.toIntermediateField)
+    (u : ℝ) (hu : -1 ≤ u) :
+    (absoluteUpperRamificationGroup K O u).comap
+        (Field.absoluteGaloisGroup.mapOfAlgebra K L).toMonoidHom =
+      absoluteUpperRamificationGroup L O'
+        (herbrandFun
+          ((IntermediateField.fixingSubgroup (IntermediateField.restrict hLM)).subgroupOf
+            ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K))
+          (O.comap (algebraMap M (AlgebraicClosure K)))
+          (inverseHerbrandFun
+            ((O.comap (algebraMap M (AlgebraicClosure K))).decompositionSubgroup K)
+            (O.comap (algebraMap M (AlgebraicClosure K))) u)) :=
   sorry
 
 end TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
