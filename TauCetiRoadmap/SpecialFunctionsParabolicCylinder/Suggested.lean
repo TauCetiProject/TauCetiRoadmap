@@ -285,10 +285,6 @@ theorem repeatedGaussianIntegral_ofReal_pos (n : ℕ) (x : ℝ) :
 theorem parabolicCylinderU_nat_add_one_half (n : ℕ) (z : ℂ) :
     parabolicCylinderU (n + 1 / 2) z = exp (z ^ 2 / 4) * repeatedGaussianIntegral n z := sorry
 
-/-- **5.1, 5.3** The `n = -1` case of DLMF 12.7.7. -/
-theorem parabolicCylinderU_neg_one_half (z : ℂ) :
-    parabolicCylinderU (-1 / 2) z = exp (-z ^ 2 / 4) := sorry
-
 /-- **5.4** `U(½, x) = √(π/2) e^{x²/4} erfc(x/√2)` on the real line (DLMF 12.7.5). -/
 theorem parabolicCylinderU_one_half_ofReal (x : ℝ) :
     parabolicCylinderU (1 / 2) x =

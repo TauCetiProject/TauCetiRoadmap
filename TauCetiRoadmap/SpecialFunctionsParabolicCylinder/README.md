@@ -27,8 +27,8 @@ The general asymptotic and contour tools are consumed from
 lemma in sectors and along rotated rays, the vertical-line shift with simple poles, the
 pole-separated bound for `Γ` on vertical strips and the exponential Mellin inversion. This
 roadmap builds the derivative, differential equation and parameter theory of the regularized
-Kummer function, and the Gamma product identities, Gamma residues and Barnes kernel bounds that
-the Mellin–Barnes representations need.
+Kummer function, the Gamma residues and Barnes kernel bounds that the Mellin–Barnes
+representations need, and the Gamma product formula DLMF 5.8.3.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/ParabolicCylinder/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/Erf.lean` and `TauCeti/Analysis/SpecialFunctions/Hermite/`.
@@ -57,8 +57,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    Ceti's `hermiteFunction` and `Real.erfc`.
 
 6. **Integral representations** (DLMF 12.5.1–12.5.9) and the positivity of `U(a, x)` on the real
-   line for `a > −½`. This includes the Gamma product identities, Gamma residues and Barnes
-   kernel bounds that support the Barnes representations.
+   line for `a > −½`. This includes the Gamma residues and Barnes kernel bounds that support the
+   Barnes representations, and the Gamma product identities of 6.6(a).
 
 7. **Large-argument asymptotics** (DLMF 12.9.1–12.9.4), and the characterization of `U(a, ·)`
    as the recessive solution on the positive real axis.
@@ -93,10 +93,14 @@ Tau Ceti nor a consumed roadmap provides:
 |---|---|
 | Kummer's derivative formula, differential equation, transformation and parameter theory for `𝐌` | Layer 1 |
 | Complex Dawson's integral `F` (DLMF 7.2.5) and the repeated Gaussian integrals `Hh_n` (related by scaling to DLMF §7.18) | 5.1, 5.3 |
-| The product `∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/\|Γ(x + iy)\|²` (DLMF 5.8.3) and `\|Γ(1 + iy)\|² = πy/sinh(πy)` | 6.6(a) |
 | The residues of `Γ(z)` at `−n` and of `Γ(A − 2t)` at `(A + n)/2` | 6.6(b) |
 | Bounds, integrability and connector decay for the Barnes kernels of `U` and `V` | 6.6(c) |
 | The application of the rotated Laplace integrals of AsymptoticExpansions §4.3 to `U` | 7.1 |
+
+It also owns, as library material on `Γ` that no layer here uses and that AsymptoticExpansions
+leaves to the special-function roadmaps, the product
+`∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²` (DLMF 5.8.3), its comparison in `x`, and
+`|Γ(1 + iy)|² = πy/sinh(πy)` (6.6(a)).
 
 **What it does not own:**
 - The general asymptotic and contour tools: asymptotic expansions, Watson's lemma, the rotation
@@ -119,7 +123,7 @@ Tau Ceti nor a consumed roadmap provides:
   `O`-remainders required in Layer 7.
 - The generalized equation of DLMF §12.15.
 
-See the last section for these.
+See [Excluded material](#excluded-material) for these.
 
 **The boundary in one sentence:** this roadmap owns the specified fixed-parameter Weber theory,
 Kummer extensions, Gamma product identities and residues, and Barnes kernel bounds; it consumes
@@ -253,13 +257,6 @@ the residues of Gamma and of the Barnes kernels with this API; it defines no new
   complex error function is not built here: DLMF 12.7.5 is proved for real argument, and the
   complex form is stated through the repeated integral `Hh_n` of 5.3, which needs no error
   function.
-- **Laplace transforms.**
-  [`TauCeti/Analysis/Complex/LaplaceTransform.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/Complex/LaplaceTransform.lean)
-  provides `TauCeti.differentiable_intervalIntegral_mul_cexp_neg_mul` and
-  `TauCeti.differentiableOn_integral_mul_cexp_neg_mul`, with integrability and tail estimates. The
-  latter assumes a measurable, bounded kernel on `[0, ∞)`; consume it in 6.1 where those hypotheses
-  hold. The Laplace integrals with an integrable singularity at zero in Layer 7 are covered by
-  AsymptoticExpansions §§4.2–4.3.
 
 ### From Mathlib
 
@@ -487,6 +484,10 @@ totalized Gamma function.
 - `U(−½, z) = e^{−z²/4}` and `U(−3/2, z) = z e^{−z²/4}`: the coefficient of `u₂`, respectively of
   `u₁`, vanishes because `Γ(0)⁻¹ = 0`.
 - `V(½, z) = √(2/π) e^{z²/4}`, since the coefficient of `u₂` contains `Γ(0)⁻² = 0`.
+- `V(−½, 0) = 0` and `V′(−½, 0) = √(2/π)`: the coefficient of `u₁` contains `Γ(0)⁻¹ = 0`. A sign
+  error in the `u₂` term gives `−√(2/π)`.
+- `V(3/2, z) = √(2/π) z e^{z²/4}`: the coefficient of `u₁` contains `Γ(0)⁻² = 0`. With
+  `Γ(¼ − a/2)⁻¹` in place of `Γ(¼ − a/2)⁻²` the value is `−2√2 z e^{z²/4}`.
 - `D₂(z) = (z² − 1) e^{−z²/4}`; the physicists' Hermite convention would give
   `(4z² − 2) e^{−z²/4}`.
 
@@ -637,7 +638,7 @@ Layers 1–3; Gamma recurrence and Mathlib `iteratedDeriv`.
 ### 5.1 Hermite cases
 
 DLMF 12.7.1–12.7.4. For `n : ℕ`:
-- `U(−½, z) = e^{−z²/4}` (`parabolicCylinderU_neg_one_half`);
+- `U(−½, z) = e^{−z²/4}`;
 - `D_n(z) = U(−n − ½, z) = e^{−z²/4} He_n(z)` (`parabolicCylinderD_natCast`);
 - `V(n + ½, z) = √(2/π) e^{z²/4} (−i)ⁿ He_n(iz)`;
 - `V(−½, z) = 2/√π · e^{z²/4} F(z/√2)` (`parabolicCylinderV_neg_one_half`).
@@ -726,8 +727,13 @@ DLMF 12.5.1. For `Re a > −½` and all `z`:
 
 with the integral over `Set.Ioi 0` and absolutely convergent (`parabolicCylinderU_eq_integral`).
 
-*Needs:* 2.4 and 3.2; Tau Ceti `TauCeti.differentiableOn_integral_mul_cexp_neg_mul`; Mathlib
-`Complex.Gamma_eq_integral`.
+The proof route: the right side is entire in `z`, by differentiation under the integral sign
+with the dominating function `t^{Re a−½} e^{−t²/2 + Rt}` for `|z| < R`; it solves Weber's equation,
+by two integrations by parts in `t`; and its value and derivative at `z = 0` are Gamma integrals
+equal to those of 3.2, so 2.4 identifies it with `U(a, ·)`.
+
+*Needs:* 2.4 and 3.2; Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
+`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul` and `Complex.Gamma_eq_integral`.
 
 ### 6.2 Positivity
 
@@ -885,7 +891,7 @@ In `R_n(A₊, z, 1)`, `1` denotes the constant function. Both residue sums are f
 Each right-hand side is independent of its admissible line and obeys the corresponding
 sector restriction above. The symbols `A₊`, `A₋` and `R_n` are notation within this subsection.
 
-*Needs:* 3.5, 6.1 and 6.6; AsymptoticExpansions §§8.2 and 8.7; Mathlib
+*Needs:* 3.5, 6.1, 6.6(b) and 6.6(c); AsymptoticExpansions §§8.2 and 8.7; Mathlib
 `MeasureTheory.integral_integral_swap` and the identity theorem.
 
 ### Examples
@@ -898,11 +904,12 @@ sector restriction above. The symbols `A₊`, `A₋` and `R_n` are notation with
 
 ### Dependencies
 
-Layers 2–5 and the integration APIs of the supplier contracts for 6.1–6.5. 6.6(a) uses Mathlib's
+Layers 2–5 and the integration APIs of the supplier contracts for 6.1–6.5; 6.1 uses Mathlib's
+differentiation under the integral sign and integration by parts on `(0, ∞)`. 6.6(a) uses Mathlib's
 Gamma API; 6.6(b) consumes
 [ContourIntegration Layer 2](../../Completed/ContourIntegration/README.md#layer-2-residues-the-cauchy-primitive-and-the-classical-residue-theorem);
-6.6(c) uses AsymptoticExpansions §8.6. 6.7 uses 6.1 and 6.6, AsymptoticExpansions §§8.2 and 8.7, and
-the connections of Layer 3.
+6.6(c) uses AsymptoticExpansions §8.6. 6.7 uses 6.1, 6.6(b) and 6.6(c), AsymptoticExpansions §§8.2
+and 8.7, and the connections of Layer 3.
 
 ## Layer 7: large-argument asymptotics
 
@@ -1064,7 +1071,15 @@ It receives no separate definition. The square root in the integral is the posit
 square root for `t > 0`. All four integrals are absolutely convergent over `Set.Ioi 0`;
 convergence at `∞` uses Layer 7.
 
-*Needs:* 6.1 and 7.4; Mathlib `MeasureTheory.integral_integral_swap` and the Gamma integral.
+The proof route: 12.12.1, 12.12.3 and 12.12.4 by inserting 6.1 and Fubini for `Re a > −½`, then
+the identity theorem in `a`, both sides being holomorphic in `a` on the stated half-planes. The
+integrand of 12.12.2 behaves like `U(a, 0) t^{−a−3/2}` at `0`, so its half-plane `Re a < −½` does
+not meet that of 6.1. For `−3/2 < Re a < −½`, write
+`U(a, t) = t U(a + 1, t) + (a + 3/2) U(a + 2, t)` (12.8.1, from 4.1), insert 6.1 for `a + 1` and
+`a + 2`, and apply Fubini; the identity theorem in `a` extends the result to `Re a < −½`.
+
+*Needs:* 4.1, 6.1 and 7.4; Mathlib `MeasureTheory.integral_integral_swap`, the Gamma integral and
+the identity theorem.
 
 ### 8.2 Addition theorems
 
@@ -1191,11 +1206,20 @@ For every real `a, x`, prove absolute convergence and the `HasSum` identities
 
 ### 9.5 Kummer form
 
-DLMF 12.14.15, 12.14.16. The even and odd solutions are
-`Re(e^{−ix²/4} Γ(½) 𝐌(¼ − ia/2, ½, ix²/2))` and
-`Re(x e^{−ix²/4} Γ(3/2) 𝐌(¾ − ia/2, 3/2, ix²/2))`.
+DLMF 12.14.15, 12.14.16. For real `a` and `x`, as identities in `ℂ`:
 
-*Needs:* 2.1 and 9.1.
+```text
+w₁(a, x) = e^{−ix²/4} Γ(½) 𝐌(¼ − ia/2, ½, ix²/2)
+         = e^{ix²/4} Γ(½) 𝐌(¼ + ia/2, ½, −ix²/2),
+w₂(a, x) = x e^{−ix²/4} Γ(3/2) 𝐌(¾ − ia/2, 3/2, ix²/2)
+         = x e^{ix²/4} Γ(3/2) 𝐌(¾ + ia/2, 3/2, −ix²/2).
+```
+
+The first form in each line is the definition of 9.4 without the real part, and the second
+follows from it by Kummer's transformation 1.4. The two forms are complex conjugates of each
+other, so each is real; this is the reality statement of 9.1.
+
+*Needs:* 1.4, 2.1 and 9.1.
 
 ### 9.6 The case `a = 0`
 
@@ -1237,7 +1261,8 @@ DLMF 12.14.17–12.14.23. For `x > 0` let
 
 ### Dependencies
 
-Layers 2–4 and 7; Mathlib `Complex.besselJ`, Gamma, digamma and real integration.
+Layers 2–4 and 7, and Kummer's transformation 1.4 for 9.5; Mathlib `Complex.besselJ`, Gamma,
+digamma and real integration.
 9.1–9.2 use rotated initial-value solutions; 9.3 uses their Gamma initial values and the
 continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated `U` expansion.
 
@@ -1249,10 +1274,10 @@ continuous phase; 9.4 uses the ODE coefficient recurrence; 9.7 uses the rotated 
   `TauCeti.repeatedGaussianIntegral` with their API from 5.3. It proves the Chapter 7 formulas
   that use them, among them 7.5.1 and 7.18.12.
 
-## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+## Excluded material
 
-The following material is the natural continuation. It is recorded only to fix the boundary.
-Contributors should not attempt it under this roadmap.
+The following material is not part of this roadmap; the scope is stated in
+[Scope and ownership](#scope-and-ownership).
 - **Uniform expansions for large parameter** (DLMF §12.10, §12.14(ix)): Olver's expansions in
   elementary functions and in Airy functions, Temme's expansions, and their error bounds. They
   need the Airy functions (DLMF Chapter 9) and Olver's turning-point theory.
