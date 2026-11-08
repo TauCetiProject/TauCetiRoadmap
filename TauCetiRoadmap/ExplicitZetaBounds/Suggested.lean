@@ -26,8 +26,8 @@ Stated here:
   `a = 1`;
 * Layer 2.5, the two-sided bound for `‖Γ(σ + it)‖` on vertical lines;
 * Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions; Layer 3.2a, the
-  linear bound for `ζ` on `Re z > 0` and on the discs about `3/2 + it`; Layer 3.4, `ζ` real,
-  greater than `1` and strictly decreasing on `(1, ∞)`, and the alternating Laurent expansion of
+  linear bound for `ζ` on `Re z > 0` and on the discs about `3/2 + it`; Layer 3.4, `ζ` greater
+  than `1` and strictly decreasing on `(1, ∞)`, and the alternating Laurent expansion of
   `−ζ′/ζ` at `1`, given Kalmynin's record;
 * Layer 4.5b, Mathlib's `hardyZ` as `e^{iϑ(t)} ζ(1/2 + it)` and the Riemann–Siegel formula with
   Gabcke's remainder; Layer 4.5c, the approximation of `ζ` by a partial sum at a half-integer with
@@ -38,7 +38,8 @@ Stated here:
   zeta function;
 * Layer 5.2, the Bellotti–Wong form of the Riemann–von Mangoldt formula for
   `T ≥ 30 610 046 000`, and for `T ≥ e` given the recorded bound for `S(T)`, with the bound for
-  `S(T)` behind it; Layer 5.2a, Rosser's bound, the triple `(0.1038, 0.2573, 8.3675)` with `7/8`,
+  `S(T)` behind it; Layer 5.2a, Rosser's bound from `T = 1467`, and from `T = 2` given the
+  records below that height, the triple `(0.1038, 0.2573, 8.3675)` with `7/8`,
   Trudgian's form with `7/8` and Chirre and Helfgott's form in the zero-count predicate; Layer
   5.3, the explicit zero count for primitive Dirichlet L-functions
   (Bennett–Martin–O'Bryant–Rechnitzer);
@@ -159,7 +160,8 @@ noncomputable def zetaZeroCount (T : ℝ) : ℕ :=
     ((meromorphicOrderAt riemannZeta ρ).untop₀).toNat
 
 /-- **Layer 0.4, the bound for `S(T)` up to height `H`.** `|N(T) − ϑ(T)/π − 1| ≤ A` for
-`0 ≤ T ≤ H`. The record is `ZetaArgumentBoundUpTo 30610046000 2.5167` (`bellottiwong2025` (1.2)). -/
+`0 ≤ T ≤ H`. The records are `ZetaArgumentBoundUpTo 30610046000 2.5167` (`bellottiwong2025` (1.2))
+and `ZetaArgumentBoundUpTo 6800000 2` (`trudgian2014argument` (1.2)). -/
 def ZetaArgumentBoundUpTo (H A : ℝ) : Prop :=
   ∀ T : ℝ, 0 ≤ T → T ≤ H → |(zetaZeroCount T : ℝ) - riemannSiegelTheta T / π - 1| ≤ A
 
@@ -390,11 +392,12 @@ theorem norm_riemannZeta_le_linear :
         ‖riemannZeta (w + 3 / 2 + t * I)‖ ≤ 7 + 2 * |t| :=
   sorry
 
-/-- **Layer 3.4, `ζ` on the real half-line `(1, ∞)`.** For real `σ > 1`, `ζ(σ)` is real and
-greater than `1`, and `σ ↦ ζ(σ)` is strictly decreasing there: each term `n^{−σ}` with `n ≥ 2` of
-the Dirichlet series is positive and strictly decreasing. -/
+/-- **Layer 3.4, `ζ` on the real half-line `(1, ∞)`.** For real `σ > 1`, `ζ(σ)` is greater than
+`1`, and `σ ↦ ζ(σ)` is strictly decreasing there: each term `n^{−σ}` with `n ≥ 2` of the Dirichlet
+series is positive and strictly decreasing. That `ζ(σ)` is real there is Mathlib's
+`riemannZeta_im_eq_zero_of_one_lt`, so the real parts below are the values. -/
 theorem riemannZeta_strictAntiOn :
-    (∀ σ : ℝ, 1 < σ → (riemannZeta σ).im = 0 ∧ 1 < (riemannZeta σ).re) ∧
+    (∀ σ : ℝ, 1 < σ → 1 < (riemannZeta σ).re) ∧
       StrictAntiOn (fun σ : ℝ ↦ (riemannZeta σ).re) (Set.Ioi 1) :=
   sorry
 
@@ -552,17 +555,35 @@ def ZetaZeroCountBound (κ a₁ a₂ a₃ a₄ T₀ : ℝ) : Prop :=
     |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1)) - κ| ≤
       a₁ * Real.log T + a₂ * Real.log (Real.log T) + a₃ + a₄ / T
 
-/-- **Layer 5.2a, Rosser's bound in the zero-count predicate.** For `T ≥ 2`,
+/-- **Layer 5.2a, Rosser's bound in the zero-count predicate.** For `T ≥ 1467`,
 `|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.137 log T + 0.443 log log T + 1.588` (Rosser 1941,
-Theorem 19). -/
-theorem zetaZeroCountBound_rosser : ZetaZeroCountBound (7 / 8) 0.137 0.443 1.588 0 2 := sorry
+Theorem 19, on the range from which its argument is analytic: `trudgian2014argument` Table 1 lists
+it with `T₀ = 1467`). Below that height Rosser's statement rests on a computation of the zeros; its
+range `T ≥ 2` is `zetaZeroCountBound_rosser_of_recorded`. -/
+theorem zetaZeroCountBound_rosser : ZetaZeroCountBound (7 / 8) 0.137 0.443 1.588 0 1467 := sorry
+
+/-- **Layer 5.2a, Rosser's bound from `T = 2`.** Given the absence of zeros up to height `14` and
+the recorded bound `|N(T) − ϑ(T)/π − 1| ≤ 2` for `0 ≤ T ≤ 6 800 000`, for every `T ≥ 2`,
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.137 log T + 0.443 log log T + 1.588`, the range of Rosser's
+Theorem 19 as stated. On `[2, 14]`, `N(T) = 0` and `|(T/2π) log(T/(2πe)) + 7/8| ≤ 0.432`, below the
+right side `1.5206` at `T = 2`, which increases with `T`; on `[14, 1467]` the record with
+`0 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) − 7/8 < 1/(40T)` gives at most `2 + 1/560`, below the right
+side `2.3794` at `T = 14`; from `1467` on, `zetaZeroCountBound_rosser`. -/
+theorem zetaZeroCountBound_rosser_of_recorded (hZ : ZetaZeroFreeUpTo 14)
+    (hS : ZetaArgumentBoundUpTo 6800000 2) :
+    ZetaZeroCountBound (7 / 8) 0.137 0.443 1.588 0 2 := sorry
 
 /-- **Layer 5.2a, the count with `7/8` and the triple `(0.1038, 0.2573, 8.3675)`.** Given the
+absence of zeros up to height `14`, the recorded bound for `S(T)` below `30 610 046 000` and the
 records of Hiary, Patel and Yang, for `T ≥ 2`,
-`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 8.3675`: from Rosser's bound
-for `log T ≤ 175.3`, and from the first Bellotti–Wong bound with `7/8` added to its constant for
+`|N(T) − (T/2π) log(T/(2πe)) − 7/8| ≤ 0.1038 log T + 0.2573 log log T + 8.3675`, whose right side
+is `8.3451` at `T = 2` and increases with `T`: `N(T) = 0` on `[2, 14]`, where
+`|(T/2π) log(T/(2πe)) + 7/8| ≤ 0.432`; the recorded bound with the expansion of `ϑ` on
+`[14, 30 610 046 000]`, where the left side is below `2.5185`; Rosser's bound for
+`1467 ≤ T ≤ e^{175.3}`; and the first Bellotti–Wong bound with `7/8` added to its constant for
 `log T ≥ 172.87`. -/
-theorem zetaZeroCountBound_seven_eighths (hH : HiaryRecord) (hP : PatelRecord)
+theorem zetaZeroCountBound_seven_eighths (hZ : ZetaZeroFreeUpTo 14)
+    (hS : ZetaArgumentBoundUpTo 30610046000 2.5167) (hH : HiaryRecord) (hP : PatelRecord)
     (hY : YangRecord) : ZetaZeroCountBound (7 / 8) 0.1038 0.2573 8.3675 0 2 := sorry
 
 /-- **Layer 5.2a, Trudgian's count with `7/8`.** Given the recorded bound for `S(T)` below
@@ -674,11 +695,12 @@ non-principal), `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|
 Theorem 1.1). The proof sums over the powers `χᵏ`, the principal one included, and places their
 zeros with McCurley's region, whose principal part concerns the zeros of `ζ`; it bounds the sums
 over the zeros of each `L(s, χᵏ)` from height `100` on through a zero count, which here is that of
-5.3 (with the record for `ℓ ≤ 6`) and, for the zeros of `ζ`, that of 5.2 (Rosser's bound below
-`30 610 046 000` and Bellotti and Wong's above, with the records of Hiary, Patel and Yang). -/
+5.3 (with the record for `ℓ ≤ 6`) and, for the zeros of `ζ`, that of 5.2 (the second Bellotti–Wong
+bound in its range `T ≥ e`, `abs_zetaZeroCount_sub_le_of_recorded`, with the records of Hiary,
+Patel and Yang and the recorded bound for `S(T)` below `30 610 046 000`). -/
 theorem LFunction_ne_zero_kadiri (hRH : RiemannHypothesisUpTo 545439823) (hP : PlattRecord)
     (hBMOR : BennettMartinOBryantRechnitzerRecord) (hH : HiaryRecord) (hPat : PatelRecord)
-    (hY : YangRecord) {q : ℕ} [NeZero q] (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
+    (hY : YangRecord) (hS : ZetaArgumentBoundUpTo 30610046000 2.5167) {q : ℕ} [NeZero q] (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
     (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (s : ℂ)
     (hσ : 1 - 1 / (5.60 * Real.log (q * max 1 |s.im|)) ≤ s.re) :
     DirichletCharacter.LFunction χ s ≠ 0 := sorry
