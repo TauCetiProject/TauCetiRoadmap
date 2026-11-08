@@ -82,7 +82,9 @@ theorem tendsto_truncated_mellinInv {f : ℝ → ℂ} {σ : ℝ} (hf : MellinCon
 `h : ℝ → ℂ` of bounded variation on `ℝ`, of total variation `V`, every `u₀`, `δ > 0` and `T > 0`,
 the Dirichlet-kernel integral `∫ h(u₀ − v) sin(Tv)/(πv) dv` differs from the mean of the one-sided
 limits of `h` at `u₀` by at most `C (V⁺_δ + V⁻_δ + V/(Tδ))`, where `V⁺_δ` and `V⁻_δ` are the
-variations of `h` on `(u₀, u₀ + δ]` and `[u₀ − δ, u₀)`. -/
+variations of `h` on `(u₀, u₀ + δ]` and `[u₀ − δ, u₀)`. The bound with an explicit window is
+stated in the roadmap; its inputs are the bounds for `∫_0^x sin t/t dt` of 7.2 (DLMF §6.16 and
+6.2.19 with 6.12.5–6.12.8) and the bound `sup |h| ≤ V` of 7.1. -/
 theorem norm_dirichletKernel_integral_sub_mean_le :
     ∃ C : ℝ, ∀ h : ℝ → ℂ, Integrable h → BoundedVariationOn h univ →
       ∀ u₀ δ T : ℝ, 0 < δ → 0 < T →
@@ -305,14 +307,18 @@ theorem LSeries_sigmaC {ν s : ℂ} (hs : 1 < s.re) (hsν : 1 + ν.re < s.re) :
   sorry
 
 /-- **11.2, the abscissa of `σ_ν`.** The abscissa of absolute convergence of `L(σ_ν, s)` is
-`max(1, 1 + Re ν)`; at `Re ν = 0`, `ν ≠ 0`, its lower bound uses `ζ(1 + i Im ν) ≠ 0`. -/
+`max(1, 1 + Re ν)`. The upper bound is the half-plane of Kontorovich–Tao, Theorems 9.1.31–9.1.32
+(the abscissa of `n ↦ n^ν` is at most `Re ν + 1`, and `σ_ν = ζ ⋆ (n ↦ n^ν)`); the lower bound
+comes from the terms at the primes and `Σ_p 1/p = ∞`, and at `Re ν = 0`, `ν ≠ 0`, it uses
+`ζ(1 + i Im ν) ≠ 0`. -/
 theorem abscissaOfAbsConv_sigmaC (ν : ℂ) :
     LSeries.abscissaOfAbsConv (sigmaC ν) = ((max 1 (1 + ν.re) : ℝ) : EReal) :=
   sorry
 
 /-- **11.2, the series of `d_z`.** For `z ∈ ℂ` and `Re s > 1` the series of `d_z` converges
 absolutely and equals `exp(z · log ζ(s))`, where `log ζ(s) = Σ Λ(n)/log n · n^{−s}` is the
-Euler-product logarithm, whose exponential is `ζ(s)` (`riemannZeta_eq_exp_LSeries`). Its instance
+Euler-product logarithm, whose exponential is `ζ(s)` (`riemannZeta_eq_exp_LSeries`)
+(Kontorovich–Tao, Theorems 9.1.11–9.1.12, for `z ∈ ℕ`; Tenenbaum, Chapter II.5). Its instance
 `z = k : ℕ`, the series `ζ(s)^k` of `d_k = ζ^k`, is ArithmeticDirichletSeriesPartII §5.1; the
 statement here is the complex-exponent form. -/
 theorem LSeries_generalizedDivisor (z : ℂ) {s : ℂ} (hs : 1 < s.re) :
@@ -321,8 +327,10 @@ theorem LSeries_generalizedDivisor (z : ℂ) {s : ℂ} (hs : 1 < s.re) :
   sorry
 
 /-- **11.2, the abscissa of `d_z`.** For `z ≠ 0` the abscissa of absolute convergence of
-`L(d_z, s)` is `1`. (At `z = 0`, `d_0` is the unit of Dirichlet convolution and the abscissa is
-`⊥`.) -/
+`L(d_z, s)` is `1`: the series converges absolutely on `Re s > 1` (Kontorovich–Tao, Theorem
+9.1.11, for `z ∈ ℕ`; Tenenbaum, Chapter II.5), and at `s = 1` its terms at the primes have modulus
+`|z|/p`, since `d_z(p) = z`, with `Σ_p 1/p = ∞`. (At `z = 0`, `d_0` is the unit of Dirichlet
+convolution and the abscissa is `⊥`.) -/
 theorem abscissaOfAbsConv_generalizedDivisor {z : ℂ} (hz : z ≠ 0) :
     LSeries.abscissaOfAbsConv (generalizedDivisor z) = 1 :=
   sorry
@@ -358,7 +366,9 @@ theorem LSeries_totient {s : ℂ} (hs : 2 < s.re) :
   sorry
 
 /-- **11.4, the abscissas.** The abscissas of absolute convergence of the series of `2^ω`, `μ²`,
-`λ` and `φ` are `1`, `1`, `1` and `2`. -/
+`λ` and `φ` are `1`, `1`, `1` and `2`. The upper bounds are the half-planes of Kontorovich–Tao,
+Theorems 9.1.38–9.1.39 (`2^{ω(n)} ≤ τ(n)`), 9.1.51 and 9.1.70 (`φ(n) ≤ n`), and `|λ| ≤ 1`; the
+lower bounds come from the terms at the primes and `Σ_p 1/p = ∞`. -/
 theorem abscissaOfAbsConv_two_pow_omega_moebius_sq_liouville_totient :
     LSeries.abscissaOfAbsConv (fun n ↦ (2 : ℂ) ^ ArithmeticFunction.cardDistinctFactors n) = 1 ∧
       LSeries.abscissaOfAbsConv (fun n ↦ ((ArithmeticFunction.moebius n : ℤ) : ℂ) ^ 2) = 1 ∧

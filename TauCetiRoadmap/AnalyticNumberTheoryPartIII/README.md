@@ -267,8 +267,19 @@ objects.
   `LSeries.abscissaOfAbsConv` (an `EReal`), `ArithmeticFunction.LSeries_zeta_eq_riemannZeta`,
   `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `LSeries_convolution'`,
   `ArithmeticFunction.LSeries_mul`, `ArithmeticFunction.LSeries_zeta_mul_Lseries_moebius`,
-  `riemannZeta_ne_zero_of_one_le_re`, `riemannZeta_eq_exp_LSeries`
-  (`Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`).
+  `riemannZeta_ne_zero_of_one_le_re`, `differentiableAt_riemannZeta`, `riemannZeta_eq_exp_LSeries`
+  and `DirichletCharacter.eulerProduct_log_eq_LSeries`
+  (`Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`: for `Re s > 1`,
+  `Σ_p −log(1 − χ(p) p^{−s}) = LSeries (n ↦ χ(n) Λ(n)/log n) s`; at the trivial character of
+  level `1` this is the identity through which Mathlib proves `riemannZeta_eq_exp_LSeries`).
+- `ArithmeticFunction.LSeriesSummable_zeta_iff` (`LSeriesSummable ζ s ↔ 1 < Re s`),
+  `ArithmeticFunction.LSeriesSummable_mul` (`Mathlib/NumberTheory/LSeries/Convolution.lean`: the
+  Dirichlet convolution of two absolutely convergent series converges absolutely),
+  `LSeriesSummable.of_re_le_re`, `LSeriesSummable_of_le_const_mul_rpow` (absolute convergence on
+  `Re s > x` when `|f(n)| ≤ C n^{x−1}`), `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`,
+  `LSeries.abscissaOfAbsConv_le_of_le_const` and `LSeries.abscissaOfAbsConv_le_of_le_const_mul_rpow`
+  (`Mathlib/NumberTheory/LSeries/Convergence.lean`); `Nat.Primes.not_summable_one_div`
+  (`Mathlib/NumberTheory/SumPrimeReciprocals.lean`: `Σ_p 1/p` diverges).
 - `ArithmeticFunction` with Dirichlet convolution, `ArithmeticFunction.IsMultiplicative`,
   `ArithmeticFunction.zeta`, `ArithmeticFunction.sigma` (`k : ℕ`), `ArithmeticFunction.pow`,
   `ArithmeticFunction.moebius`, `ArithmeticFunction.liouville` with
@@ -276,8 +287,14 @@ objects.
   `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.pmul`, `Nat.totient`,
   `Nat.factorization`; the completely multiplicative Euler product
   `EulerProduct.eulerProduct_completely_multiplicative_tprod` for `ℕ →*₀ F`, `F` a complete normed
-  field, and `EulerProduct.eulerProduct_tprod` (`Mathlib/NumberTheory/EulerProduct/Basic.lean`);
-  `Ring.multichoose` and its `BinomialRing` instance for `ℚ≥0`-modules, which covers `ℂ`
+  field, and `EulerProduct.eulerProduct_tprod` (`Mathlib/NumberTheory/EulerProduct/Basic.lean`: for
+  `f` with values in a complete normed commutative ring, `f 1 = 1`, `f` multiplicative on coprime
+  arguments, `f 0 = 0` and `Σ ‖f(n)‖ < ∞`, `∏'_p Σ'_e f(p^e) = Σ' f(n)`); `Summable.clog_one_sub`
+  (`Mathlib/NumberTheory/EulerProduct/ExpLog.lean`), `HasSum.cexp`
+  (`Mathlib/Analysis/SpecialFunctions/Exp.lean`: a sum `a` exponentiates to a product `exp a`) and
+  `Complex.cpow_def_of_ne_zero`; `Ring.multichoose` and its `BinomialRing` instance for
+  `ℚ≥0`-modules, which covers `ℂ`, the Chu–Vandermonde identity `Ring.add_choose_eq` and
+  `Ring.choose_neg'` (`Ring.choose (−r) n = (−1)^n Ring.multichoose r n`)
   (`Mathlib/RingTheory/Binomial.lean`).
 - `Filter.Tendsto.cesaro`, `Filter.Tendsto.cesaro_smul`
   (`Mathlib/Analysis/Asymptotics/SpecificAsymptotics.lean`).
@@ -311,6 +328,9 @@ objects.
   `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (as punctured germs at every point);
   `TauCeti.GlobalNumberFields.finite_rayClassGroup`
   (`TauCeti/NumberTheory/NumberField/Global/RayClass/Finite.lean`).
+- `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
+  (`TauCeti/Analysis/Analytic/Binomial.lean`): for complex `r` and `‖x‖ < 1`, the series
+  `Σ_n Ring.multichoose r n · xⁿ` has sum `1/(1 − x)^r`, with the principal power.
 
 ### From TauCetiRoadmap.ContourIntegration
 
@@ -514,7 +534,10 @@ bounded variation on `ℝ`, of total variation `V`, and all `u₀ ∈ ℝ`, `δ 
 `|∫ h(u₀ − v) D_T(v) dv − (h(u₀⁻) + h(u₀⁺))/2| ≤ C (V⁺_δ + V⁻_δ + V/(Tδ))`, where
 `V⁺_δ = (eVariationOn h (Ioc u₀ (u₀ + δ))).toReal` and
 `V⁻_δ = (eVariationOn h (Ico (u₀ − δ) u₀)).toReal`; this is
-`norm_dirichletKernel_integral_sub_mean_le`. The integral is a Lebesgue integral, since
+`norm_dirichletKernel_integral_sub_mean_le` (the bound with an explicit window is stated here;
+its inputs are the Dirichlet-integral bounds of 7.2, dlmf-ch6 §6.16 and 6.2.19 with 6.12.5–6.12.8
+at `n = 0`, and the bound `sup|h| ≤ V` of 7.1 for integrable functions of bounded variation). The
+integral is a Lebesgue integral, since
 `|D_T| ≤ T/π`. Route: with the one-sided limits in place of `h`, the window contributes
 `π⁻¹ I(Tδ)(h(u₀⁻) + h(u₀⁺))`, whose distance from the mean is at most
 `2(|h(u₀⁻)| + |h(u₀⁺)|)/(πTδ)` by 7.2, plus Stieltjes integrals of `h(u₀ ± v) − h(u₀^±)` against
@@ -1159,11 +1182,23 @@ API:
   `σ_ν(p^a) = Σ_{j≤a} p^{jν}`; and `σ_ν(n) = n^ν σ_{−ν}(n)` for `n ≥ 1`;
 - `LSeries (sigmaC ν) s = ζ(s) ζ(s − ν)` for `Re s > max(1, 1 + Re ν)`; this is `LSeries_sigmaC`
   (lines 3316–3323, Theorem 9.1.32);
-- `LSeries.abscissaOfAbsConv (sigmaC ν) = max(1, 1 + Re ν)`; this is `abscissaOfAbsConv_sigmaC`.
-  Route: the upper bound from `|σ_ν| ≤ σ_{Re ν}` and the product formula at real `s`; divergence at
-  the abscissa from the primes, `|1 + p^ν| ≥ p^{Re ν} − 1` if `Re ν > 0`, `≥ 1 − 2^{Re ν}` if
-  `Re ν < 0`, and, if `Re ν = 0`, `ν = it ≠ 0`, `|1 + p^{it}| ≥ 1 + cos(t log p)` with
-  `Σ_p cos(t log p) p^{−σ}` bounded as `σ → 1⁺` because `ζ(1 + it) ≠ 0`.
+- `LSeries.abscissaOfAbsConv (sigmaC ν) = max(1, 1 + Re ν)`; this is `abscissaOfAbsConv_sigmaC`
+  (the upper bound: lines 3309–3323, Theorem 9.1.31, the abscissa of `n ↦ n^ν` is at most
+  `Re ν + 1`, and Theorem 9.1.32, the series of `σ_ν` on `Re s > 1`, `Re(s − ν) > 1`; the
+  divergence at the abscissa is proved here by the route below). Route: `σ_ν = ζ ⋆ (n ↦ n^ν)`, the
+  series of `ζ` converges absolutely on `Re s > 1` (`ArithmeticFunction.LSeriesSummable_zeta_iff`)
+  and that of `n ↦ n^ν`, of modulus `n^{Re ν}`, on `Re s > 1 + Re ν`
+  (`LSeriesSummable_of_le_const_mul_rpow`), so `ArithmeticFunction.LSeriesSummable_mul` and
+  `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable` give the upper bound. For the lower
+  bound it suffices, by `LSeriesSummable.of_re_le_re`, that the series diverges absolutely at the
+  real point `σ₀ = max(1, 1 + Re ν)`; its terms at the primes are `|1 + p^ν| p^{−σ₀}`, and
+  `|1 + p^ν| ≥ p^{Re ν} − 1` if `Re ν > 0`, `≥ 1 − 2^{Re ν}` if `Re ν < 0`, `= 2` if `ν = 0`, and,
+  if `ν = it` with `t ≠ 0`, `|1 + p^{it}| ≥ 1 + cos(t log p)` with `Σ_p cos(t log p) p^{−σ}` bounded
+  as `σ → 1⁺`: by `riemannZeta_eq_exp_LSeries`, `log|ζ(σ + it)|` is the real part of
+  `LSeries (Λ/log) (σ + it)`, which differs from `Σ_p cos(t log p) p^{−σ}` by the bounded
+  contribution of the `p^k`, `k ≥ 2`, and tends to the finite `log|ζ(1 + it)|` by
+  `differentiableAt_riemannZeta` and `riemannZeta_ne_zero_of_one_le_re`. In each case the
+  comparison is with `Nat.Primes.not_summable_one_div`.
 
 *`d_z`.* Define `generalizedDivisor z : ArithmeticFunction ℂ` for `z ∈ ℂ` as the multiplicative
 function with `generalizedDivisor z (p^a) = Ring.multichoose z a`, that is
@@ -1173,15 +1208,36 @@ tenenbaum2015, Chapter II.5). API:
 
 - it is multiplicative; `d_0` is the unit `δ₁` of Dirichlet convolution, `d_1 = ζ`, `d_{−1} = μ`,
   and at `z = k : ℕ` it is the cast of `ζ ^ k`, the ordered `k`-fold factorization count;
-- `d_z ⋆ d_w = d_{z+w}` (Vandermonde for `Ring.multichoose`);
+- `d_z ⋆ d_w = d_{z+w}`: both sides are multiplicative (`ArithmeticFunction.IsMultiplicative.mul`),
+  and at `p^a` the identity is
+  `Σ_{i+j=a} Ring.multichoose z i · Ring.multichoose w j = Ring.multichoose (z + w) a`, the
+  Chu–Vandermonde identity `Ring.add_choose_eq` at `−z, −w` multiplied by `(−1)^a` through
+  `Ring.choose_neg'`;
 - `|d_z(n)| ≤ d_{|z|}(n) ≤ (ζ ^ ⌈|z|⌉)(n)`;
 - for `Re s > 1`, the series of `d_z` converges absolutely and
   `LSeries (generalizedDivisor z) s = exp(z · LSeries (Λ/log) s)`, the Euler-product power
-  `ζ(s)^z`; this is `LSeries_generalizedDivisor`. Route: the local factor
-  `Σ_a Ring.multichoose z a X^a = exp(z Σ_{j≥1} X^j/j)` at `X = p^{−s}`, multiplied over the primes
-  under absolute convergence, the majorant coming from `|d_z| ≤ d_{|z|}`;
+  `ζ(s)^z`; this is `LSeries_generalizedDivisor` (kontorovichtao-pntplus lines 3173–3184,
+  Theorems 9.1.11–9.1.12, for `z ∈ ℕ`; tenenbaum2015, Chapter II.5, for complex `z`). Route:
+  absolute convergence from the majorant `|d_z| ≤ ζ ^ ⌈|z|⌉` of the previous item, whose series
+  converges absolutely on `Re s > 1` by `ArithmeticFunction.LSeriesSummable_zeta_iff` and
+  `ArithmeticFunction.LSeriesSummable_mul`; then `EulerProduct.eulerProduct_tprod` for the
+  multiplicative `n ↦ d_z(n) n^{−s}` writes the series as the product over the primes of the local
+  factors `Σ_a Ring.multichoose z a p^{−as}`. Since `‖p^{−s}‖ = p^{−Re s} < 1`, the local factor is
+  `(1 − p^{−s})^{−z} = exp(−z log(1 − p^{−s}))` by
+  `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one` and
+  `Complex.cpow_def_of_ne_zero`. The product of these exponentials is
+  `exp(z Σ_p −log(1 − p^{−s}))` by `HasSum.cexp`, the sum converging by `Summable.clog_one_sub`, and
+  `Σ_p −log(1 − p^{−s}) = LSeries (Λ/log) s` is `DirichletCharacter.eulerProduct_log_eq_LSeries`
+  at the trivial character of level `1`;
 - `LSeries.abscissaOfAbsConv (generalizedDivisor z) = 1` for `z ≠ 0`; this is
-  `abscissaOfAbsConv_generalizedDivisor`; at `z = 0` the abscissa is `⊥`.
+  `abscissaOfAbsConv_generalizedDivisor` (absolute convergence on `Re s > 1`: kontorovichtao-pntplus
+  line 3173, Theorem 9.1.11, for `z ∈ ℕ`, and tenenbaum2015, Chapter II.5, for complex `z`; the
+  divergence at `s = 1` is proved here by the route below); at `z = 0` the abscissa is `⊥`. Route:
+  the upper bound from the previous item by
+  `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`; for the lower bound,
+  `d_z(p) = Ring.multichoose z 1 = z`, so at `s = 1` the terms at the primes have modulus `|z|/p`
+  and the series diverges absolutely by `Nat.Primes.not_summable_one_div`, hence at every real
+  `s ≤ 1` by `LSeriesSummable.of_re_le_re`.
 
 **Checks.**
 
@@ -1211,9 +1267,17 @@ tenenbaum2015, Chapter II.5). API:
   statement is needed.
 
 *Needs:* 11.1; Mathlib `ArithmeticFunction.sigma`, `ArithmeticFunction.zeta`, `Ring.multichoose`,
+`Ring.add_choose_eq`, `Ring.choose_neg'`, `ArithmeticFunction.IsMultiplicative.mul`,
 `Nat.factorization`, `LSeries_convolution'`, `ArithmeticFunction.LSeries_zeta_eq_riemannZeta`,
-`riemannZeta_eq_exp_LSeries`, `riemannZeta_ne_zero_of_one_le_re`, `LSeries.abscissaOfAbsConv`;
-AnalyticNumberTheoryPartI §3.3 and ArithmeticDirichletSeriesPartII §5.1 for the Checks.
+`ArithmeticFunction.LSeriesSummable_zeta_iff`, `ArithmeticFunction.LSeriesSummable_mul`,
+`LSeriesSummable_of_le_const_mul_rpow`, `LSeriesSummable.of_re_le_re`,
+`EulerProduct.eulerProduct_tprod`, `Complex.cpow_def_of_ne_zero`, `HasSum.cexp`,
+`Summable.clog_one_sub`, `DirichletCharacter.eulerProduct_log_eq_LSeries`,
+`riemannZeta_eq_exp_LSeries`, `riemannZeta_ne_zero_of_one_le_re`, `differentiableAt_riemannZeta`,
+`LSeries.abscissaOfAbsConv`, `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`,
+`Nat.Primes.not_summable_one_div`; Tau Ceti
+`TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`; AnalyticNumberTheoryPartI §3.3
+and ArithmeticDirichletSeriesPartII §5.1 for the Checks.
 
 ### 11.3 Ramanujan's four-shift identity
 
@@ -1252,7 +1316,19 @@ For `Re s > 1`: `Σ 2^{ω(n)} n^{−s} = ζ(s)²/ζ(2s)`, `Σ μ(n)² n^{−s} =
 `Σ φ(n) n^{−s} = ζ(s − 1)/ζ(s)`; this is `LSeries_totient` (kontorovichtao-pntplus lines 3454–3545
 and 3605–3640, Theorems 9.1.49, 9.1.57, 9.1.68 and 9.1.70; iwanieckowalski2004, (1.31)–(1.33) and
 (1.35); apostol1976, Chapter 11). The abscissas of absolute convergence are `1, 1, 1, 2`; this is
-`abscissaOfAbsConv_two_pow_omega_moebius_sq_liouville_totient`. The coefficient functions are
+`abscissaOfAbsConv_two_pow_omega_moebius_sq_liouville_totient` (absolute convergence on the
+half-planes: kontorovichtao-pntplus lines 3379–3393, Theorems 9.1.38–9.1.39, for `2^ω` through
+`2^{ω(n)} ≤ τ(n)`; lines 3498–3500, Theorem 9.1.51, for `μ²`; lines 3626–3631, Theorem 9.1.70, for
+`φ` through `φ(n) ≤ n`; for `λ` it is `|λ| ≤ 1`; the divergence at each abscissa is proved here by
+the route below). Route: the upper bounds from `2^{ω(n)} ≤ τ(n) = (ζ ⋆ ζ)(n)`, whose series
+converges absolutely on `Re s > 1` by `ArithmeticFunction.LSeriesSummable_zeta_iff` and
+`ArithmeticFunction.LSeriesSummable_mul`, with
+`LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`; from `|μ²|, |λ| ≤ 1` by
+`LSeries.abscissaOfAbsConv_le_of_le_const`; and from `φ(n) ≤ n` by
+`LSeries.abscissaOfAbsConv_le_of_le_const_mul_rpow`. The lower bounds from the primes: at `s = 1`
+the terms at `p` of the first three series have modulus `2/p`, `1/p` and `1/p`, and at `s = 2` that
+of `φ` is `(p − 1)/p² ≥ 1/(2p)`, so `Nat.Primes.not_summable_one_div` and
+`LSeriesSummable.of_re_le_re` exclude every smaller real abscissa. The coefficient functions are
 Mathlib's `ArithmeticFunction.cardDistinctFactors` (in `n ↦ 2^{ω(n)}`),
 `ArithmeticFunction.moebius`, `ArithmeticFunction.liouville` and `Nat.totient`, cast to `ℂ`; no new
 carrier is introduced for `2^ω`.
@@ -1269,8 +1345,12 @@ carrier is introduced for `2^ω`.
 - `μ²(n) = Σ_{d²|n} μ(d)` at `n = 12`: `μ(1) + μ(2) = 0 = μ²(12)`.
 
 *Needs:* 11.1, 11.2; Mathlib `ArithmeticFunction.cardDistinctFactors`, `ArithmeticFunction.moebius`,
-`ArithmeticFunction.liouville`, `Nat.totient`, Euler products, `LSeries.abscissaOfAbsConv`;
-ProbabilisticAndMetricNumberTheory §0.1a (the multiplicativity of `2^ω`).
+`ArithmeticFunction.liouville`, `Nat.totient`, Euler products, `LSeries.abscissaOfAbsConv`,
+`ArithmeticFunction.LSeriesSummable_zeta_iff`, `ArithmeticFunction.LSeriesSummable_mul`,
+`LSeriesSummable.of_re_le_re`, `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`,
+`LSeries.abscissaOfAbsConv_le_of_le_const`, `LSeries.abscissaOfAbsConv_le_of_le_const_mul_rpow`,
+`Nat.Primes.not_summable_one_div`; ProbabilisticAndMetricNumberTheory §0.1a (the multiplicativity
+of `2^ω`).
 
 ### Examples
 
