@@ -55,7 +55,8 @@ not the roadmap.
   Ramaré–Zuniga Alterman's instance, the coprime variants, the linear bounds from finitely many zeros
   of `ζ` under a named residue-sum hypothesis, Daval's linear-to-linear conversion, and Lee–Leong's
   bound of de la Vallée Poussin shape given the Riemann hypothesis verified to the height
-  `3 000 175 332 800` (Layer 1);
+  `3 000 175 332 800`, with the two bounds of Leong near that height that the join of its contour
+  uses (Layer 1);
 - Gram's and Tao's bound `|m_S(x)| ≤ 1`, Ramaré's mollified bound, Balazard's conversion theorem and
   Daval's weighted form of it, the thresholded and decaying bounds for `m(x)`, the coprime variants,
   the explicit tails of `Σ μ(d)/d²`, and the `m`-bound of Ramaré–Zuniga Alterman (Layer 2);
@@ -131,9 +132,12 @@ not the roadmap.
   explicit bounds for `1/ζ` and for the moments of `ζ` (ZerosOfLFunctions, ExplicitPrimeCounting,
   ExplicitZetaBounds); the explicit formula for `M` with a smoothed kernel (1.7) is proved here from
   the zero data named in *ZetaResidueSumVerified*; the bounds for `1/ζ` that the route of
-  Lee–Leong's bound of 1.9 uses are ExplicitZetaBounds §7.10's, each given
-  `RH(3 000 175 332 800)`, and the three further bounds near that height which the supplier
-  contract of ExplicitZetaBounds (below) lists as a supplier gap of that roadmap;
+  Lee–Leong's bound of 1.9 takes from a supplier are ExplicitZetaBounds §7.10's, each given
+  `RH(3 000 175 332 800)`. Two further bounds of Leong that only the join of that contour uses, at
+  heights just below the verified one, are stated in 1.9: a row of the corollary whose
+  classical-region row §7.10 states, and the bound for `ζ'/ζ` that §7.10's route uses without
+  stating it. The bound for `1/ζ` on `σ = 3/4`, `|t| ≤ 14`, a computation on a compact segment, is
+  the proposition *ZetaReciprocalSegmentVerified* of Layer 0.7;
 - the explicit Pólya–Vinogradov and Burgess inequalities and the explicit sieve bounds
   (ExplicitCharacterSumsAndSieves): Layer 4 takes a Pólya–Vinogradov bound as a parameter, and what
   this roadmap consumes from that roadmap is its §5.1 (above);
@@ -290,6 +294,10 @@ quoted by another source, that quotation is cited beside it.
 - `ArithmeticFunction.LSeriesSummable_moebius_iff` (the `L`-series of `μ` converges absolutely
   exactly on `Re s > 1`), `LSeries_one_mul_Lseries_moebius` and `LSeries_one_eq_riemannZeta`
   (together: the `L`-series of `μ` is `1/ζ` on `Re s > 1`), used in the route of Layer 1.9;
+- `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
+  differentiable on the open ball of radius `R` about `0` with `Re f ≤ M` there and `M > 0`,
+  `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)` for `‖z‖ < R`), used in the route of the
+  items (a) and (b) of Layer 1.9;
 - `Polynomial.bernoulli` (the Bernoulli polynomials with `B₁ = −1/2`), `Nat.Coprime`,
   `Nat.primeFactors`, `Squarefree`, `Nat.factorization`, `Real.log_le_sub_one_of_pos`,
   `Real.add_one_le_exp`.
@@ -492,29 +500,20 @@ Below, `H₀ = 3 000 175 332 800`.
   real `t` with `14 ≤ t ≤ H₀ − 1/2`; and Leong's `1/|ζ(1 + it)| ≤ 29.388 log t` for every real
   `t ≥ 2`. The other items of §7.10 do not serve the route: none bounds `1/ζ` to the left of
   `σ = 1` between the heights `H₀ − 1/2` and `H₀` at a size the contour absorbs (1.9, Checks).
+- §§4.8 and 4.10: the bounds for `|ζ(1 + it)|` and the Richert-type bounds for `|ζ(σ + it)|` on
+  `1/2 ≤ σ ≤ 1`, used only in the route of the items (a) and (b) of Layer 1.9 (the
+  Borel–Carathéodory step above the verified height).
 - §4.1: the Kusmin–Landau inequality (`|Σ_{X<n≤X+Y} e(f(n))| ≤ cot(πθ/2)` for monotone `f'` with
   `θ ≤ f' − k ≤ 1 − θ`), used in the route of Bordellès–Daval's smoothed divisor remainder (Layer 7.4).
 
-Supplier gap of this contract (`gap:zeta-reciprocal-bounds`): three further bounds for `1/ζ` and
-`ζ'/ζ`, each given `RH(H₀)`, that the route of Layer 1.9 needs where it joins the contour below `H₀`
-to the contour above it and near the real axis, and that §7.10 does not state ((a) is an input of
-the route of its bound on `σ ≥ 3/4`, (b) a row of the corollary whose classical-region row it
-states, (c) an input of Lee and Leong's contour).
-
-- (a) `|ζ'/ζ(σ + it)| ≤ 10.175 log t` for every real `σ ≥ 0.95` and every real `t` with
-  `13 ≤ t ≤ H₀ − 1/2` (Leong, Corollary 3 in the row `σ₀ = 0.95` of his Table 2, `leong2026`
-  lines 121–136 and 1031–1044; his height `H` is `H₀ − 1/2`, line 78; it is the last of the five rows
-  from which Lee and Leong's Lemma 4.3 is built). With the line bound of §7.10 and the identity
-  `1/|ζ(σ + it)| = exp(−Re log ζ(1 + it) + ∫_σ^1 Re (ζ'/ζ)(y + it) dy)` it gives
-  `1/|ζ(σ + it)| ≤ 29.388 t^{10.175(1 − σ)} log t` for `0.95 ≤ σ ≤ 1` at those heights.
-- (b) `1/|ζ(σ + it)| ≤ 1719 log t` for every real `t ≥ 13` and every real `σ ≥ 1 − 1/(13 log t)`
-  (Leong, Corollary 4 in its row `(W, Y) = (13, 1719)`, `leong2026` lines 140–154 and 1546–1557).
-  Every row of his Table 4 with `W ≥ 6` serves the route as well; the row `W = 5.56`, which §7.10
-  states, does not.
-- (c) a bound for `1/|ζ(3/4 + it)|` for real `|t| ≤ 14`. Lee and Leong use
-  `1/|ζ(σ + it)| ≤ 4/(σ − 1/2)` for `1/2 < σ ≤ 3/2` and `|t| ≤ 2 exp(e²)`, which they quote from
-  Simonič (`leeLeong2022` (43)); since this part of the contour carries the factor `x^{3/4}`, any
-  explicit bound below `e^{1000}` serves for `x ≥ e^{4589.20}`.
+§7.10 meets the supplier gap `gap:zeta-reciprocal-bounds` of Layer 1.9: it states the bound
+`1237 (log t)^{11/12}` above `H₀`, the bound `30.812 log t` on `σ ≥ 1` for `t ≥ 13`, and the bound
+`e^{146} log t` on `σ ≥ 3/4`, the last for `14 ≤ t ≤ H₀ − 1/2`, the range its proof reaches (a zero
+just above `H₀` is not excluded). The Littlewood and Korobov–Vinogradov companions of the first
+serve only the members (10) and (11) of Lee and Leong's theorem, which belong to Part II (Scope).
+The join of the contour of 1.9 needs two further bounds of Leong that §7.10 does not state; they
+are targets of 1.9, items (a) and (b). The bound on `σ = 3/4` for `|t| ≤ 14` is the proposition
+*ZetaReciprocalSegmentVerified* of Layer 0.7.
 
 ### Zero-free inputs: exceptional zeros and half-planes
 
@@ -802,7 +801,7 @@ is that roadmap's §1.7; none of them is restated here.
   closing the source's Theorem 1.1, `ramare2013aa` line 725); `(D ↦ 0.0130 D/log D, 97 067, 1 078 853)`,
   `(D ↦ 0.0950 D/log D, 688, 97 067)` and `(D ↦ 0.644 D/log D, (1, 688])` (Layer 1.6, the
   extensions (16.2)–(16.4) of `ramare2015mc`, lines 1455–1471, of Ramaré 2013's bound below its range
-  by computation); the initial ranges of Layer 1.4 as named there.
+  by computation; the first also in Layer 3.2); the initial ranges of Layer 1.4 as named there.
 - A range written `(a, b]` in an instance means the variant with `a < x` in place of `a ≤ x`; it is
   used when `ε` has `log x` in a denominator and `a = 1`, where the junk value `ε(1) = 0` would make
   the inclusive form false.
@@ -812,7 +811,8 @@ is that roadmap's §1.7; none of them is restated here.
   `619 000 ≤ x ≤ 3·10^7`); *MoebiusLogRangeVerified* `ε a b`: the same for `|m̌(x) − 1|` (the
   computations of `ramare2015mc` Lemma 10.2, lines 1157–1164: `|m̌(x) − 1| √x ≤ 0.0192` on
   `[340 000, 1.2·10^7]`, `≤ 0.0218` on `[11, 1.2·10^7]` and `≤ 1` on `[1, 1.2·10^7]` for real `x`; and
-  the check of the corrected Theorem 1.5 of 3.2 on `[9550, 18 100]`, `ramare2015corr` lines 237–239).
+  the check of the corrected Theorem 1.5 of 3.2 on `[9550, 18 100]`, `ramare2015corr` lines 237–239,
+  and the same check on `[18 100, 24 832]`, where the row `0.0218` is too weak, Layer 3.2).
 - *MoebiusStarRangeVerified* `ε a b`: `∀ y, a ≤ y → y ≤ b → Σ_{1 ≤ w ≤ √y} |M(y/w²)| ≤ ε(y)` (real
   `y`, natural `w`), and *MoebiusDivStarRangeVerified* `ε a b`: the same for
   `Σ_{1 ≤ w ≤ √y} |m(y/w²)|/w²`. These sums bound the coprime sums through Ramaré's decompositions
@@ -977,6 +977,11 @@ is that roadmap's §1.7; none of them is restated here.
   `(10^9, 4.879368, 0.669257)`, `(10^7 + 1, 3.369047, 0.551088)` (`chirreHelfgott2025` Lemmas 6.5–6.6:
   (b) is Platt's interval-arithmetic computation, (c) the authors', and (a) the verification of the
   zeros to height `3·10^{12}` that they quote).
+- *ZetaReciprocalSegmentVerified* `σ T Z`: `Z |ζ(σ + it)| ≥ 1` for every real `t` with `|t| ≤ T`
+  (the bound `1/|ζ| ≤ Z` on a vertical segment, written so that a zero on the segment falsifies it,
+  which the form `1/|ζ| ≤ Z` with the junk value `1/0 = 0` would not). Instance used: `(3/4, 14, 16)`
+  (Layer 1.9), Simonič's `1/|ζ(σ + it)| ≤ 4/(σ − 1/2)` for `1/2 < σ ≤ 3/2` and `|t| ≤ 2 exp(e²)` at
+  `σ = 3/4`, as Lee and Leong quote it (`leeLeong2022` (43)).
 
 **Tables for the pointwise bounds.**
 
@@ -1041,8 +1046,13 @@ theorems about the propositions).
   `|M(31)|/√31 = 0.7184 > 0.571`, `|M(32)|/√32 = 0.7071`, while `|M(33)| = 3 ≤ 0.571 √33 = 3.280` and the largest value of
   `|M(n)|/√n` on `[33, 2000]` is `0.5671`.
 - *MoebiusAbsIntegralLE* `1 0` is true (empty integral); *MoebiusAbsIntegralLE* `2 0` is false since
-  `|M(t)| = 1` on `[1, 2)`. *MoebiusLogIntegralLE* `1 078 853 302` holds (`301.904…`) and
-  *MoebiusLogIntegralLE* `1 078 853 301.9` fails.
+  `|M(t)| = 1` on `[1, 2)`. At `D₀ = 1 078 853` the integral of `|M|` is
+  `58 909 451 + 54 647 031 = 113 556 482 ≤ 113 556 832`. The source's positive part `58 909 800` is
+  `58 909 451` plus the unit interval `[D₀, D₀ + 1)`, where `M = 349`. At `D₀ = 464 402` it is
+  `15 511 881 + 14 504 263 = 30 016 144 ≤ 30 016 365`, with `M(464 402) = 220`. The positive part
+  alone, which Ramaré's chains use, does not bound the integral of `|M|` (Layers 2.3, 3.2).
+- *MoebiusLogIntegralLE* `1 078 853 302` holds (`301.904…`) and *MoebiusLogIntegralLE*
+  `1 078 853 301.9` fails.
 - *MoebiusStarRangeVerified* with the source's row `(y ↦ y/(1 + log y), 1, 8·10^7)` (Lemma 16.6,
   `x > 1`) is false: at `y = 5` the sum is `|M(5)| + |M(5/4)| = 2 + 1 = 3`, against
   `5/(1 + log 5) = 1.9161`; the sum times `(1 + log y)/y` is `1.56566` there, its largest value over
@@ -1086,6 +1096,11 @@ theorems about the propositions).
 - At `y = 144 913` Vanlalngaia's printed form is `0.047/380.674 + 1.884/144 913 + 1.75·10^{−12} = 1.36466·10^{−4}`,
   below `0.052/380.674 = 1.36600·10^{−4}`; at `y = 141 978` the printed form exceeds `0.052/√y`, so
   the instance cannot start much lower and still follow from the printed theorem.
+- *ZetaReciprocalSegmentVerified* `(3/4) 14 16` holds with room: since `ζ(s̄)` is the conjugate of
+  `ζ(s)`, the range `0 ≤ t ≤ 14` suffices, and there `1/|ζ(3/4 + it)|` is largest at `t = 14`, with
+  the value `4.9554`; at `t = 0` it is `1/|ζ(3/4)| = 1/3.4413 = 0.2906`. The instance with `Z = 4.9`
+  is false (at `t = 14`); with `σ = 1/2` and any `T ≥ 14.1347…` the proposition is false for every
+  `Z`, at the zero `1/2 + 14.1347…i`.
 - *SquarefreeRangeVerified* `(x ↦ 0.02767 √x) 438 653 10^6` is false (as `x → 441 353⁻`,
   `R(x)/√x → −0.027772`), while *SquarefreeRangeVerifiedNat* `(n ↦ 0.02767 √n) 438 653 10^6` holds
   (the last integer `n` with `|R(n)| > 0.02767 √n` is `437 780`): the two forms differ.
@@ -1733,11 +1748,36 @@ ExplicitPrimeCounting §4.2.
 State Lee–Leong's bound of de la Vallée Poussin shape (`leeLeong2022` (9), the row `W = 5.56` of
 their Theorem 2.2 (17) and Table 1, a preprint, by its locator; the Littlewood and
 Korobov–Vinogradov members (10) and (11) belong to Part II, Scope): with `H₀ = 3 000 175 332 800`,
-given `RH(H₀)`, `|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. The
-source states it without a hypothesis, reading Platt and Trudgian's verification as a theorem; here
-the verification is the hypothesis (Conventions), the proposition `RH(H)` of ExplicitPrimeCounting
-§1.1 at the height recorded in ExplicitZetaBounds §0.4. The threshold is `exp(5.56 log² H₀)`, where
-the truncation height `T = exp(√(log x/5.56))` of the route reaches `H₀`.
+given `RH(H₀)` and *ZetaReciprocalSegmentVerified* `(3/4) 14 16` (Layer 0.7),
+`|M(x)| < 33.56 x (log x) exp(−√(log x/5.56))` for every real `x ≥ e^{4589.20}`. The source states it
+without a hypothesis, reading Platt and Trudgian's verification and the bound it quotes for `1/ζ`
+near the real axis as theorems; here both are hypotheses (Conventions), the first the proposition
+`RH(H)` of ExplicitPrimeCounting §1.1 at the height recorded in ExplicitZetaBounds §0.4. The
+threshold is `exp(5.56 log² H₀)`, where the truncation height `T = exp(√(log x/5.56))` of the route
+reaches `H₀`.
+
+State with it, given `RH(H₀)`, the two bounds of Leong (`leong2026`, arXiv v5, a preprint, by its
+locator) that the join of its contour below the verified height uses:
+
+- (a) `|ζ'/ζ(σ + it)| ≤ 10.175 log t` for every real `σ ≥ 0.95` and every real `t` with
+  `13 ≤ t ≤ H₀ − 1/2` (Corollary 3 in the row `σ₀ = 0.95` of his Table 2, `leong2026` lines 121–136
+  and 1031–1044; his height `H` is `H₀ − 1/2`, line 78; it is the last of the five rows from which
+  Lee and Leong's Lemma 4.3 is built). With the line bound `1/|ζ(1 + it)| ≤ 29.388 log t` of
+  ExplicitZetaBounds §7.10 and the identity
+  `log(1/|ζ(σ + it)|) = log(1/|ζ(1 + it)|) + ∫_σ^1 Re (ζ'/ζ)(y + it) dy` it gives
+  `1/|ζ(σ + it)| ≤ 29.388 t^{10.175(1 − σ)} log t` for `0.95 ≤ σ ≤ 1` at those heights.
+- (b) `1/|ζ(σ + it)| ≤ 1719 log t` for every real `t ≥ 13` and every real `σ ≥ 1 − 1/(13 log t)`
+  (Corollary 4 in its row `(W, Y) = (13, 1719)`, `leong2026` lines 140–154 and 1546–1557). Every row
+  of his Table 4 with `W ≥ 6` serves the route as well; the row `W = 5.56` does not (Checks).
+
+They are this roadmap's targets because no supplier states them: ExplicitZetaBounds §7.10 states the
+row `W = 5.56` of the corollary of (b), which differs in its wider region and its constant
+`7.59·10³¹`, and its route uses the rows of (a) inside its proof of the bound on `σ ≥ 3/4` without
+stating them. Route (Leong's, which ExplicitZetaBounds §7.10 follows for its own items): bounds for
+`ζ'/ζ` inside zero-free regions, below `H₀ − 1/2` from `RH(H₀)` in discs of radius `1/2` that stay
+below the verified height, and above it by Borel–Carathéodory (Mathlib `Complex.borelCaratheodory`)
+from the bounds for `|ζ|` near the line one of ExplicitZetaBounds §§4.8 and 4.10 in the region of
+its §7.3; then, for (b), the identity above from the line one, with §7.10's line bound.
 
 Route (a route; the constants are the source's): a truncated Perron formula for `M`, that is Tau
 Ceti's `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` at `f = μ`, whose `L`-series is `1/ζ` on
@@ -1749,7 +1789,7 @@ with `c = 1 + 1/log x` and `T` as above; then the line of integration is moved t
 along `σ = 1 − 1/(5.56 log|t|)` for `H₀ ≤ |t| ≤ T`, where ExplicitZetaBounds §7.10 bounds `1/ζ` by
 `1237 (log|t|)^{11/12}` and §7.3 keeps the zeros out. Below it the contour runs along `σ = 3/4`, where
 `RH(H₀)` keeps the zeros out and §7.10 bounds `1/ζ` by `e^{146} log|t|` for `14 ≤ |t| ≤ H₀ − 1/2`,
-and item (c) of the supplier gap of the ExplicitZetaBounds contract bounds it for `|t| ≤ 14`. The two
+and *ZetaReciprocalSegmentVerified* `(3/4) 14 16` bounds it by `16` for `|t| ≤ 14`. The two
 parts are joined, symmetrically about the real axis, by crossing from `σ = 3/4` to
 `σ = 1 − 1/(13 log t)` at the height `H₀ − 1/2`, with `e^{146} log t` on `σ ≤ 0.95` and
 `29.388 t^{10.175(1 − σ)} log t` beyond it (item (a)); rising along `σ = 1 − 1/(13 log t)` to the
@@ -1767,8 +1807,9 @@ improves on the power-of-log rows of 1.4 once `log x` exceeds about `5200`.
 Tau Ceti `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1 (the
 truncated Perron formula); Mathlib `ArithmeticFunction.LSeriesSummable_moebius_iff`,
 `LSeries_one_mul_Lseries_moebius`, `LSeries_one_eq_riemannZeta`, `riemannZeta`; ExplicitZetaBounds
-§7.10 (the bounds for `1/ζ`) and §7.3 (no zero inside the contour above `H₀`); items (a)–(c) of the
-supplier gap of the ExplicitZetaBounds contract.
+§7.10 (the bounds for `1/ζ`) and §7.3 (no zero inside the contour above `H₀`); items (a) and (b);
+*ZetaReciprocalSegmentVerified* (Layer 0.7). For (a) and (b): `RH(H₀)`; ExplicitZetaBounds §§4.8,
+4.10, 7.3 and 7.10 (the line bound); Mathlib `Complex.borelCaratheodory`.
 
 **Checks.**
 
@@ -1785,6 +1826,17 @@ supplier gap of the ExplicitZetaBounds contract.
   `log x > 7281`. With items (a) and (b) the whole join costs at most `2.61·10^{−7}` of the bound,
   largest near `log x = 5490`; with the row `W = 6` of Leong's Table 4 (`2.46·10⁹ log t`) in place of
   item (b) it costs `2.0·10^{−7}` of the bound at the threshold.
+- Items (a) and (b) at low height, where they are far from sharp: over `σ ∈ {0.95, 0.97, 1, 1.1,
+  1.5, 2}` and `13 ≤ t ≤ 60` the largest value of `|ζ'/ζ(σ + it)|/log t` is `0.6965` (at
+  `σ = 0.95`, `t = 14.15`, beside the zero `1/2 + 14.1347…i`), against `10.175`; along
+  `σ = 1 − 1/(13 log t)` on the same heights the largest value of `1/(|ζ(σ + it)| log t)` is `1.2166`
+  (at `t = 14.11`), against `1719`. The lower limit `σ ≥ 0.95` of (a) is needed in kind: on
+  `σ = 1/2` the left side is unbounded near that zero.
+- The two items at the corner `σ = 1 − 1/(13 log t)`, `t = H₀ − 1/2` (`log t = 28.729692`): the
+  consequence of (a) gives `29.388 e^{10.175/13} log t = 1846.8`, (b) gives `1719 log t = 49 386`;
+  (a) is the smaller there, and (b) is used only above `H₀ − 1/2`, where (a) says nothing.
+- The segment `σ = 3/4`, `|t| ≤ 14`, with the bound `16` of *ZetaReciprocalSegmentVerified* costs at
+  most `(16/π) asinh(56/3) x^{3/4} = 18.4 x^{3/4}`, a fraction `e^{−1144}` of `x` at the threshold.
 - At `log x = 4589.2`: `33.56·4589.2·exp(−28.73) = 5.1·10^{−8}`, against
   `4.88346/4589.2^{2.35} = 1.2·10^{−8}` from 1.4: the power-of-log row is still smaller at the threshold.
   The two bounds meet where `33.56 L e^{−√(L/5.56)} = 4.88346 L^{−2.35}`, at `L = log x = 5204.2`;
@@ -1857,14 +1909,15 @@ Layer 0; AnalyticNumberTheoryPartI §3.22a (harmonic remainder, qualitative) and
 Schoenfeld's inequality in 1.4); Layer 7.1 (the
 squarefree remainder and the elementary bounds for `Σ μ²(d)/d`, which depend only on Layers 0, 1.2,
 1.4, 2.5 and 5.1, none of which uses Layer 1.5); Layer 7.2 for 1.10 (Corollary 3.3, which depends on
-Layers 1.5, 2.3 and 3.2 but on none of 1.7–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
+Layers 1.4, 1.5, 1.7, 2.3 and 3.2 but on none of 1.8–1.10); Layer 2.3 for 1.8 (Daval's `m₁`-bounds, which do
 not use 1.8); ExplicitPrimeCounting §§1.1, 1.3, 3.2, 3.3, 4.2 and 6.1; the supplier gaps
 `gap:psi-initial-range`, `gap:psi-log-power`, `gap:psi-relative-bklnw` and `gap:psi-tilde-difference`
 of ExplicitPrimeCounting; for 1.9 the hypothesis `RH(3 000 175 332 800)` (ExplicitPrimeCounting
 §1.1 at the height recorded in ExplicitZetaBounds §0.4), the truncated Perron formula (Tau Ceti
 `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`, or ExplicitZetaBounds §6.1), the bounds for `1/ζ`
-of ExplicitZetaBounds §7.10 with the zero-free region of its §7.3, and the supplier gap of the
-ExplicitZetaBounds contract; and the zero data *ZetaResidueSumVerified* of Layer 0.7.
+of ExplicitZetaBounds §7.10 with the zero-free region of its §7.3, and, for its items (a) and (b),
+ExplicitZetaBounds §§4.8 and 4.10 with Mathlib `Complex.borelCaratheodory`; and the zero data
+*ZetaResidueSumVerified* and *ZetaReciprocalSegmentVerified* of Layer 0.7.
 
 ## Layer 2: the logarithmic sum `m(x)`
 
@@ -1953,15 +2006,31 @@ transform of `ε₁'` computed from its definition.
 
 ### 2.3 Thresholded and decaying bounds for `m(x)`
 
-Prove, under *MoebiusAbsIntegralLE* `1 078 853 113 556 832`, the bound of 1.5
-(`|M(D)| ≤ (0.0130/log D − 0.118/log² D) D` for `D ≥ 1 078 853`) and the proposition
-*MoebiusDivRangeVerified* `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 3·10^7` (the source checks
-`619 000 ≤ x ≤ 3·10^7`, line 554, and the range down to `463 421` by the same computation),
-Ramaré's Theorem 1.2:
-`|m(x)| ≤ 0.0144/log x − 0.1/log² x` for every real `x ≥ 463 421` (`ramare2015mc` lines 116–119),
-through Balazard's identity, Lemma 2.4 (the explicit integral
-`(log x/3) ∫ (0.0130/log u − 0.118/log² u) u du/(x − u)² + 58 909 800 log x/x²` is increasing to `0.0130(1 − log 2)/3`, lines
-479–528) and the chain of lines 529–553.
+Prove Ramaré's Theorem 1.2: `|m(x)| ≤ 0.0144/log x − 0.1/log² x` for every real `x ≥ 463 421`
+(`ramare2015mc` lines 116–119), as the conjunction of three ranges, under the hypotheses each names.
+
+- `463 421 ≤ x ≤ 3·10^7`: the proposition *MoebiusDivRangeVerified*
+  `(x ↦ 0.0144/log x − 0.1/log² x) 463 421 3·10^7` (the source checks `619 000 ≤ x ≤ 3·10^7`,
+  line 554, and the range down to `463 421` by the same computation).
+- `D₀ = 1 078 853 ≤ x ≤ 10^{19}`: Ramaré's route, under *MoebiusAbsIntegralLE* `1 078 853 113 556 832`
+  and the bound `|M(D)| ≤ b(D) = (0.0130/log D − 0.118/log² D) D` of 1.5 for `D ≥ D₀`. Split the
+  integral term of Balazard's identity (1.1) at `t = x/D₀`. The part `t ≥ x/D₀` is at most
+  `113 556 832/x²` by `ε₁' ≤ 1/t²`. The part `t ≤ x/D₀` is at most
+  `(1/x) ∫_1^{x/D₀} b(x/t) ε₁'(t) dt`, with `ε₁'` itself as the weight. With `|M(x)|/x ≤ b(x)/x` and
+  `8/(3x)` for the polynomial terms, the sum stays below the bound for `log x ≤ 44.6` (Checks).
+- `x ≥ 10^{19}`: Chirre–Helfgott's `|m(x)| ≤ 3/(π·10^{10}) + 11.39/√x` of 1.7, under its hypotheses,
+  while `log x ≤ 10^8`; and Bordellès' `|m(x)| < 546/log² x` (below) once `log x ≥ 37 924`. The
+  first rests on a preprint; Ramaré's route does not reach this range.
+
+The source's own chain (Lemma 2.4, lines 479–528, and lines 529–553) does not prove the bound, for
+two reasons. First, it bounds the part `t ≥ x/D₀` by `58 909 800/x²`. That number is the integral of
+`M` over `{M ≥ 0}` only (Lemma 2.2, lines 461–468), while `ε₁' ≤ 1/t²` needs the integral of `|M|`,
+`113 556 832`. Second, at line 546 it replaces the part `t ≤ x/D₀` by an integral of the bound
+taken at `x/(t + 1)`. That integral is smaller than the term itself, which no argument from the
+bound of 1.5 alone can avoid, since `|M|` may come close to `b` throughout. As `x → ∞` the term
+times `log x` tends to `0.0130 I(1) = 0.0130 (3/4 − γ) = 0.002246` (2.2, Checks), against Lemma 2.4's
+limit `0.0130(1 − log 2)/3 = 0.001330`. So no route through the bound of 1.5 alone reaches every
+`x`: `0.0130 + 0.002246 = 0.01525 > 0.0144`.
 
 Prove the simpler rows, each as the conjunction of Theorem 1.2 beyond `463 421` and the finite
 verification *MoebiusDivRangeVerified* on `[x₀, 463 421]`:
@@ -2012,8 +2081,10 @@ stay the
 refereed rows. Ramaré's Theorem 1.2 is re-proved, with the corrected inputs, as
 `ramareZunigaAlterman2025` Corollary 1.3, and it is superseded from `617 990` on by 2.6.
 
-*Needs:* 1.5; 1.4; 2.2; 1.3; Layer 0.7 (*MoebiusAbsIntegralLE*, *MoebiusDivRangeVerified*,
-*MoebiusRangeVerified*, *MoebiusLogIntegralLE*, `MoebiusTableVerified`).
+*Needs:* 1.1 (Balazard's identity and `ε₁'`); 1.5; 1.4; 2.2; 1.3; 1.7 (Chirre–Helfgott's bound
+for `m`, for Theorem 1.2 beyond `10^{19}`, with its hypothesis *ZetaResidueSumVerified*); Layer 0.7
+(*MoebiusAbsIntegralLE*, *MoebiusDivRangeVerified*, *MoebiusRangeVerified*, *MoebiusLogIntegralLE*,
+`MoebiusTableVerified`).
 
 **Checks.**
 
@@ -2031,6 +2102,21 @@ refereed rows. Ramaré's Theorem 1.2 is re-proved, with the corrected inputs, as
   exact. `m(41) = 0.02609 ≤ 1/20`; `m(40) = 0.0505 > 1/20`: exact.
 - Theorem 1.2 at `x = 463 421`: `0.0144/13.046 − 0.1/170.2 = 0.0005162`, against the true
   `|m(463 421)| = 0.0005154`: the bound is nearly attained at its threshold.
+- Ramaré's route over its range, with `L = log x`: the bound minus the sum of the four terms is
+  `9.4·10^{−5}` at `x = D₀`, `5.3·10^{−5}` at `L = 20`, `4.0·10^{−7}` at `x = 10^{19}` and
+  `−1.5·10^{−7}` at `L = 45`; it changes sign at `L = 44.65`.
+- The part `t ≤ x/D₀` against Lemma 2.4: at `L = 20`, `L·(1/x) ∫_1^{x/D₀} b(x/t) ε₁'(t) dt = 0.001230`,
+  while Lemma 2.4's integral is `0.000731`; at `L = 44` they are `0.001796` and `0.001074`.
+  Lemma 2.4's function is `0.000703` at `x = D₀` with the source's `58 909 800`, and `0.001355` with
+  `113 556 832`. In the second form it falls to `0.000570` near `L = 16` and then rises to
+  `0.001330`, so the printed claim that it increases fails as well.
+- The part `t ≥ x/D₀` at `x = D₀`: the exact `∫_1^{D₀} |M(D₀/t)| ε₁'(t) dt = 39.08`, below both
+  `58 909 800/D₀ = 54.60` and `113 556 832/D₀ = 105.26`. The source's number is not refuted there;
+  no stated lemma gives it.
+- The two other ranges: at `x = 10^{19}`, Chirre–Helfgott's bound is
+  `9.55·10^{−11} + 11.39·10^{−9.5} = 3.70·10^{−9}`, against `0.0144/L − 0.1/L² = 2.77·10^{−4}`; it
+  stays below that bound while `0.0144/L − 0.1/L² > 3/(π·10^{10}) = 9.55·10^{−11}`, that is up to
+  `L = 1.5·10^8`. Bordellès' `546/L²` is below it from `L = 546.1/0.0144 = 37 924`.
 - The 2013 corollary is verified without exception on `[60 298, 1.2·10^6]`; at `D = 60 298` its
   bound `0.001388` times `log D` is `0.01528 < 1/65`, but the bound times `log D`,
   `0.026 − 0.118/log D`, increases with `D` and exceeds `1/65` from `log D = 0.118/(0.026 − 1/65) = 11.1159`,
@@ -2169,8 +2255,10 @@ the conjunction. It is the strongest refereed `m`-bound of `1/log x` type from `
 
 ### Dependencies
 
-Layer 0; Layer 1 (1.1, 1.2, 1.3, 1.4, 1.5, and 1.10 for 2.6); AnalyticNumberTheoryPartI §3.12
-(qualitative coprime sums, cited only). Within the layer, 2.6 uses 2.2, and 2.3 uses neither.
+Layer 0; Layer 1 (1.1, 1.2, 1.3, 1.4, 1.5, 1.7 for the range of Theorem 1.2 beyond `10^{19}` in
+2.3, and 1.10 for 2.6); AnalyticNumberTheoryPartI §3.12
+(qualitative coprime sums, cited only). Within the layer, 2.3 and 2.6 use 2.2, and 2.3 uses
+neither 2.6 nor 1.10, which rests on 2.3 through 7.2.
 
 ## Layer 3: the logarithmically weighted sum `m̌(x)`
 
@@ -2223,8 +2311,7 @@ Prove the derived theorem: if `|M(t)| ≤ ε(t) t` on `[t₀, x]` with `ε` noni
 
 ### 3.2 Thresholded bounds for `m̌(x)`
 
-Under *MoebiusAbsIntegralLE* `464 402 30 016 365` (Lemma 2.3 of the source) and the bound of 1.5,
-prove the corrected Theorem 1.5: `|m̌(x) − 1| ≤ 0.00140/log x` for `x ≥ 9950`, and
+Prove the corrected Theorem 1.5: `|m̌(x) − 1| ≤ 0.00140/log x` for `x ≥ 9950`, and
 `|m̌(x) − 1| log x ≤ 0.213` for `x ≥ 2`, `≤ 0.0203` for `x ≥ 16`, `≤ 1/396` for `x ≥ 3162`,
 `≤ 1/714` for `x ≥ 9549` (`ramare2015corr` lines 20–31; the superseded `0.00257/log x` from `3846`
 and `1/389` from `3155` of `ramare2015mc` lines 169–178 are not stated), with the first row's range
@@ -2233,10 +2320,43 @@ corrected from the printed `x ≥ 1` (line 28) to `x ≥ 2`: on `[1, 2)` the sum
 `1/4` at `x = √e`; so `|m̌(x) − 1| log x ≤ 1/4` for every `x ≥ 1`, with equality at `√e`. And
 Corollary 1.6:
 `|m̌(x) − 1| ≤ 1` for `x ≥ 1`, `1/125` for `x ≥ 7`, `1/500` for `x ≥ 44`, `1/1250` for `x ≥ 222`
-(`ramare2015mc` lines 179–190, unchanged by the corrigendum, line 32). Each row is the conjunction
-of the analytic bound beyond the source's `D₀` and *MoebiusLogRangeVerified* on the initial range.
+(`ramare2015mc` lines 179–190, unchanged by the corrigendum, line 32).
 
-*Needs:* 3.1; 1.5; Layer 0.7.
+The first bound is the conjunction of three ranges, under the hypotheses each names.
+
+- `9950 ≤ x ≤ 1.2·10^7`: *MoebiusLogRangeVerified*, made of four pieces. The source checks
+  `[9550, 18 100]` (`ramare2015corr` lines 237–239). The same check covers `[18 100, 24 832]`.
+  Lemma 10.2's row `0.0218` covers `[24 832, 340 000]` and its row `0.0192` covers
+  `[340 000, 1.2·10^7]` (`ramare2015mc` lines 1157–1164). The source takes the range from `18 100` on
+  from Lemma 10.2, but `0.0218/√x` is below `0.00140/log x` only from `x = 24 832` (Checks).
+- `1.2·10^7 ≤ x ≤ 4·10^{11}`: Ramaré's route, under *MoebiusAbsIntegralLE* `464 402 30 016 365`
+  (Lemma 2.3 of the source). It also uses the bound of 1.5 for `D ≥ 1 078 853` and, on
+  `[464 402, 1 078 853]`, the instance `(D ↦ 0.0130 D/log D, 97 067, 1 078 853)` of
+  *MoebiusRangeVerified* (Layer 0.7); call the resulting bound for `|M(D)|` on `D ≥ 464 402` `b(D)`.
+  Split the integral term of the identity of 3.1 at `t = x/464 402`. The part beyond is at most
+  `(7/4 − γ)·30 016 365/x²`. The part below is at most `(1/x) ∫_1^{x/464 402} b(x/t) |h'(t)| dt`,
+  with `|h'|` itself as the weight. With `1.0712/x` for the polynomial part, the sum stays below
+  `0.00140/log x` for `16.3 ≤ log x ≤ 26.8` (Checks).
+- `x ≥ 4·10^{11}`: the derived theorem of 3.1. While `log x ≤ 2.5·10^7` it takes Chirre–Helfgott's
+  `|M(t)| ≤ 3t/(π·10^{10}) + 11.39 √t` of 1.7, under its hypotheses, with `t₀ = 1` and `I = 0`. Once
+  `log x ≥ 153 452` it takes El Marraki's `|M(t)| ≤ 362.7 t/log² t` of 1.4, with `t₀ = e^{100}` and
+  `I = e^{200}/2` from `|M(t)| ≤ t`. The first rests on a preprint; Ramaré's route does not reach
+  this range.
+
+The source's chain for the analytic range (`ramare2015corr` lines 207–236, through `ramare2015mc`
+Lemma 4.2, lines 734–744) has the two defects of the chain of 2.3. First, it bounds the part
+beyond by `(7/4 − γ)·15 512 101/x²`, where `15 512 101` is the integral of `M` over `{M ≥ 0}`
+only. Second, it replaces the sum over unit intervals that its Lemma 4.1 controls
+(`∫_n^{n+1} |h'| ≤ 0.310 ∫_n^{n+1} dt/t²`, `ramare2015corr` lines 122–206) by an integral of the
+bound taken at `x/(t + 1)`. That integral is smaller than the term. As `x → ∞` the term times
+`log x` tends to `0.0130 J = 0.002098`, with `J = ∫_1^∞ |h'(t)| dt/t = 0.16137`, against the source's
+`0.310·0.0146(1 − log 2) = 0.001389`. Since `0.002098 > 0.00140`, the route through the bound of 1.5
+alone does not reach every `x`. Each other row is the conjunction of the first bound beyond `9950`
+and *MoebiusLogRangeVerified* on its initial range.
+
+*Needs:* 3.1; 1.5; 1.4 (El Marraki's `362.7 x/log² x`); 1.7 (Chirre–Helfgott's bound for `M`, with
+its hypothesis *ZetaResidueSumVerified*); Layer 0.7 (*MoebiusAbsIntegralLE*,
+*MoebiusRangeVerified*, *MoebiusLogRangeVerified*).
 
 **Checks.**
 
@@ -2256,6 +2376,26 @@ of the analytic bound beyond the source's `D₀` and *MoebiusLogRangeVerified* o
 - Non-example: the superseded `0.00257/log x` for `x ≥ 3846` is weaker than the corrected
   `0.00140/log x` for `x ≥ 9950` beyond `9950`, but the corrected text does not assert the old
   range; stating the old row would claim a bound the author withdrew.
+- The kernel, computed from the corrigendum's formula for `t² h'(t)` (lines 96–113):
+  `∫_n^{n+1} |h'|` divided by `∫_n^{n+1} dt/t²` is `0.30928` at `n = 1` (the source's `0.30922…`),
+  `0.30853` at `n = 2` and `0.30806` at `n = 10`. The weighted mass `J = ∫_1^∞ |h'(t)| dt/t` is
+  `0.16137`.
+- Ramaré's route over its range: the bound `0.00140/log x` minus the sum of the terms is
+  `2.9·10^{−5}` at `x = 1.2·10^7` and `1.5·10^{−7}` at `x = 4·10^{11}`. It vanishes at
+  `log x = 26.86` and is `−6.5·10^{−6}` at `log x = 60`. At `log x = 20` the part below, times
+  `log x`, is `0.001149`, against `0.000884` for the corrigendum's form of Lemma 4.2.
+- Near the source's `D₀ = 464 402` the route fails with the integral of `|M|`:
+  `(7/4 − γ)·30 016 365/D₀² = 1.63·10^{−4}` exceeds `0.00140/log D₀ = 1.07·10^{−4}`. This is why the
+  verification runs to `1.2·10^7`.
+- Lemma 10.2's row at `x = 18 100`: `0.0218/√x = 1.620·10^{−4}` exceeds
+  `0.00140/log x = 1.428·10^{−4}`, and the row gives the bound only from `x = 24 832`. Over
+  `[9950, 25 000]` the largest value of `(log x)|m̌(x) − 1|` is `0.0013219`, on `[11 189, 11 190)`,
+  so the bound itself holds there.
+- The other two ranges: at `x = 4·10^{11}` the form from 1.7 is
+  `(7/4 − γ)(3/(2π·10^{10}) + (2/3)·11.39/√x) + 2/x = 1.41·10^{−5}`, against `5.24·10^{−5}`. Its
+  constant part `5.60·10^{−11}` stays below `0.00140/log x` up to `log x = 2.5·10^7`. El Marraki's
+  form is at most `(7/4 − γ)·362.7/(1.98 log² x) = 214.8/log² x`, below `0.00140/log x` from
+  `log x = 153 452`.
 
 ### 3.3 Coprime positivity and the mollified logarithmic sum
 
@@ -2312,7 +2452,8 @@ Prove the extremal value: `sup_{x ≥ 1} (log² x)|m̌(x) − 1| = 2(2 − log 2
 
 ### Dependencies
 
-Layer 0; Layer 1 (1.1, 1.5); Layer 2 (2.1, 2.2, 2.3).
+Layer 0; Layer 1 (1.1, 1.5, and 1.4 and 1.7 for the range of Theorem 1.5 beyond `4·10^{11}` in
+3.2); Layer 2 (2.1, 2.2, 2.3).
 
 ## Layer 4: character twists
 
