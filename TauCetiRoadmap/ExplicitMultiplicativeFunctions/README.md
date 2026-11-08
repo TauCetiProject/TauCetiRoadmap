@@ -988,9 +988,10 @@ theorems about the propositions).
   largest value of `√y |r(y) − R(y)/y|` is `0.02266`, near `y = 164 921.4`; so the instance with
   `c = 0.02` in place of `0.052` is false there, while the gap's own constant `0.05` would also hold.
 - The difference `r(y) − R(y)/y` is the quantity, not `r(y)`: at `y = 302 831` (on
-  `[302 831, 302 832)`) `|r(y)| = 0.0012975`, so `√y |r(y)| = 0.714`, far above `0.052`; a
-  proposition bounding `r` alone by `c/√y` would be false, and `R(302 831) = −391.32` carries the
-  cancellation.
+  `[302 831, 302 832)`, `302 831` being prime) `|r(y)| = 0.0012558`, so `√y |r(y)| = 0.691`, far
+  above `0.052`; a proposition bounding `r` alone by `c/√y` would be false, and
+  `R(302 831) = −378.70` carries the cancellation (`√y (r(y) − R(y)/y) = −0.00290`). As
+  `y → 302 831⁻` the same quantities tend to `0.0012975`, `0.714` and `R → −391.32`.
 - At `y = 144 913` Vanlalngaia's printed form is `0.047/380.674 + 1.884/144 913 + 1.75·10^{−12} = 1.36466·10^{−4}`,
   below `0.052/380.674 = 1.36600·10^{−4}`; at `y = 141 978` the printed form exceeds `0.052/√y`, so
   the instance cannot start much lower and still follow from the printed theorem.
