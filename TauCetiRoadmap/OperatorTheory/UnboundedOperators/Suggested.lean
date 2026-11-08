@@ -4,40 +4,74 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import TauCeti.Topology.Algebra.Module.LinearPMap.Resolvent.Basic
+import TauCeti.Analysis.InnerProductSpace.ProjValMeasure.MatrixElement
 
 /-!
 # Unbounded operators: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states headline theorems
-against the pinned APIs: maximal multiplication operators, the spectrum alternatives
-of a closed symmetric operator through Tau Ceti's `LinearPMap.resolventSet`, the
-closed-form representation, the existence of the Friedrichs extension, Nelson
-essential self-adjointness and commutation of the closures' resolvents, and the
-nonclosable integration counterexample on `L²(ℝ)` with its zero adjoint domain. The
-Hilbert-basis cardinal classification used by the deficiency theory is BanachSpaceTheory
-B5's `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and is not restated here.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned APIs. Projection-valued measures are Tau Ceti's
+`TauCeti.ProjValMeasure`, with diagonal measures `diag` and polarized complex measures
+`polarizedComplexMeasure`; resolvents are Tau Ceti's `LinearPMap.resolventSet` and
+`LinearPMap.resolvent`; completed Hilbert tensor products are completions of Mathlib's
+inner-product tensor product. Stated here: the unbounded spectral integral of a measurable
+symbol against a normalized projection-valued measure on any measurable space, with its
+adjoint; the maximal multiplication operator; the spectral theorem for a normal partial
+operator; the joint projection-valued measure of finitely many strongly commuting
+self-adjoint operators; the multiparameter Stone theorem; the spectral-type decomposition of
+a real projection-valued measure; the spectrum alternatives of a closed symmetric operator;
+the closed-form representation; the Friedrichs extension with its extremal property in
+resolvent order; the nonclosable integration counterexample on `L²(ℝ)`; Nelson's essential
+self-adjointness and commutation theorem; and the self-adjoint closures of tensor sums and
+tensor products with their spectra. The Hilbert-basis cardinal classification used by the
+deficiency theory is BanachSpaceTheory B5's `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and
+is not restated here.
 
-The unbounded spectral-integral, normal spectral, joint-PVM, spectral-type,
-staircase-approximation and tensor spectral-calculus headlines cannot yet be stated
-on their intended carriers: the pins have no normalized projection-valued-measure
-carrier or unbounded spectral integral. The square-root form-domain identity and
-real spectral restriction likewise require that integral and the supplier's Hilbert
-complexification. Of the Friedrichs theorem only the existence of a self-adjoint
-extension with the same lower bound is stated: its form-order extremality and the
-form-domain identities need the form completion, which is not at the pins. The
-singular-endpoint headlines need the minimal/maximal differential-operator
-constructions. The analytic-perturbation spectral-branch headlines need the
-spectral subspaces of a holomorphic family of type (A), and the geometric
+Not statable at the pins: every headline about the spectral measure `P_A` of a given
+self-adjoint partial operator, which is SelfAdjointSpectralTheory SA-E01 and not at the pins.
+This covers the Borel calculus `f(A)` and its representation of `A` (README §§1.2–1.8), the
+equivalent forms of strong commutation (§2.3), the spectral-projection form of the essential
+spectrum (§3.2), the staircase approximation (§3.4), the diagonal spectrum realization (§3.5),
+the square-root form-domain identity (§4.7), the identification of the tensor closures with
+joint spectral integrals and their unitary groups (§§6.2–6.3); the real spectral restriction
+(§4.7) needs in addition GeneralizedCohomology's Hilbert complexification
+`RealHilbertComplexification`. The singular-endpoint headlines need the minimal and maximal
+Sturm–Liouville operators (§4.8). The analytic-perturbation spectral-branch headlines need the
+spectral subspaces of a holomorphic family of type (A) (§5.5), and the geometric
 Nelson-counterexample headlines (the completed translation surface, its genus and the
-noncommuting Stone groups) need the translation-surface construction described in the
-README; none of these is at the pins.
+noncommuting Stone groups, §§2.3–2.4) need the translation-surface construction described in
+the README; none of these is at the pins.
 -/
 
 open MeasureTheory
+open scoped InnerProductSpace ENNReal Pointwise TensorProduct
 
 namespace TauCetiRoadmap.UnboundedOperators
 
 /-! ## Layer 1: unbounded Borel calculus and spectral correspondences -/
+
+/-- The unbounded spectral integral (README §1.1–§1.2, UO-A01–UO-A02). For a normalized
+projection-valued measure `P` on a measurable space and a measurable symbol `f`, there is
+exactly one partial operator whose domain is the second-moment subspace
+`{x | ∫ |f|² d(P.diag x) < ∞}` and whose matrix elements are the integrals of `f` against the
+polarized measures. It is densely defined and closed, its norm square is the second moment,
+and its Hilbert adjoint has the same domain and the matrix elements of `conj f` (Teschl,
+Theorem 3.2 and (3.25)–(3.29)). -/
+theorem existsUnique_spectralIntegral {X H : Type*} [MeasurableSpace X]
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : TauCeti.ProjValMeasure X H) (f : X → ℂ) (hf : Measurable f) :
+    ∃! T : H →ₗ.[ℂ] H,
+      (∀ x : H, x ∈ T.domain ↔ ∫⁻ t, ‖f t‖ₑ ^ 2 ∂(P.diag x) < ∞) ∧
+      (∀ (x : T.domain) (y : H),
+        ⟪y, T x⟫_ℂ = ∫ᵛ t, f t ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x]) ∧
+      Dense (T.domain : Set H) ∧ T.IsClosed ∧
+      (∀ x : T.domain, ‖T x‖ ^ 2 = ∫ t, ‖f t‖ ^ 2 ∂(P.diag x)) ∧
+      T.adjoint.domain = T.domain ∧
+      (∀ (x : T.adjoint.domain) (y : H),
+        ⟪y, T.adjoint x⟫_ℂ =
+          ∫ᵛ t, star (f t) ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x]) := by
+  sorry
+
 
 /-- Every measurable scalar multiplier on an arbitrary measure space has a unique
 maximal L² realization, with its pointwise action interpreted almost everywhere.
@@ -49,6 +83,72 @@ theorem existsUnique_maximal_multiplier {X : Type*} [MeasurableSpace X]
       (∀ x : T.domain, ∀ᵐ t ∂μ, (T x) t = f t * (x : Lp ℂ 2 μ) t) ∧
       Dense (T.domain : Set (Lp ℂ 2 μ)) ∧ T.IsClosed ∧
       ((∀ᵐ t ∂μ, star (f t) = f t) → IsSelfAdjoint T) := by
+  sorry
+
+/-! ## Layer 2: normal operators and joint spectral theory -/
+
+/-- Spectral theorem for a normal partial operator (README §2.2, UO-B02): a closed densely
+defined `N` with `dom N* = dom N` and `‖N x‖ = ‖N* x‖` there is the spectral integral of the
+coordinate `z` against exactly one normalized projection-valued measure on `ℂ`, with domain the
+second-moment subspace. -/
+theorem existsUnique_projValMeasure_of_normal {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (N : H →ₗ.[ℂ] H) (hdense : Dense (N.domain : Set H)) (hclosed : N.IsClosed)
+    (hdom : N.adjoint.domain = N.domain)
+    (hnorm : ∀ x : N.domain, ‖N x‖ = ‖N.adjoint ⟨(x : H), by rw [hdom]; exact x.2⟩‖) :
+    ∃! P : TauCeti.ProjValMeasure ℂ H,
+      (∀ x : H, x ∈ N.domain ↔ ∫⁻ z, ‖z‖ₑ ^ 2 ∂(P.diag x) < ∞) ∧
+      ∀ (x : N.domain) (y : H),
+        ⟪y, N x⟫_ℂ = ∫ᵛ z, z ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x] := by
+  sorry
+
+/-- Joint projection-valued measure (README §2.5, UO-B04): finitely many self-adjoint
+partial operators whose resolvents at `i` commute pairwise are the coordinate spectral
+integrals of exactly one normalized projection-valued measure on `ℝⁿ`. Commuting resolvents
+at `i` is strong commutation (Teschl, (4.24)), using Fuglede's theorem for the conjugate
+parameter. -/
+theorem existsUnique_jointProjValMeasure {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {n : ℕ}
+    (A : Fin n → H →ₗ.[ℂ] H) (hA : ∀ j, IsSelfAdjoint (A j))
+    (hcomm : ∀ j k, Commute ((A j).resolvent Complex.I) ((A k).resolvent Complex.I)) :
+    ∃! P : TauCeti.ProjValMeasure (Fin n → ℝ) H, ∀ j,
+      (∀ x : H, x ∈ (A j).domain ↔ ∫⁻ t, ‖((t j : ℝ) : ℂ)‖ₑ ^ 2 ∂(P.diag x) < ∞) ∧
+      ∀ (x : (A j).domain) (y : H),
+        ⟪y, A j x⟫_ℂ =
+          ∫ᵛ t, ((t j : ℝ) : ℂ) ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x] := by
+  sorry
+
+/-- Multiparameter Stone theorem (README §2.6, UO-B05): a strongly continuous unitary
+representation `U` of `ℝⁿ` is `U(t) = ∫ exp(i Σ tⱼ sⱼ) dP(s)` for exactly one normalized
+projection-valued measure `P` on `ℝⁿ`, in the convention `U(t) = exp(i Σ tⱼ Aⱼ)`. -/
+theorem existsUnique_projValMeasure_of_unitary_representation {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] {n : ℕ}
+    (U : (Fin n → ℝ) → H →L[ℂ] H) (hunit : ∀ t, U t ∈ unitary (H →L[ℂ] H))
+    (hadd : ∀ s t, U (s + t) = U s * U t) (hcont : ∀ x : H, Continuous fun t => U t x) :
+    ∃! P : TauCeti.ProjValMeasure (Fin n → ℝ) H, ∀ (t : Fin n → ℝ) (x y : H),
+      ⟪y, U t x⟫_ℂ = ∫ᵛ s, Complex.exp (Complex.I * ∑ j, ((t j * s j : ℝ) : ℂ))
+        ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x] := by
+  sorry
+
+/-! ## Layer 3: spectrum, spectral types, and pure-point approximation -/
+
+/-- Spectral-type decomposition (README §3.3, UO-C03): for a normalized projection-valued
+measure on `ℝ`, the vectors whose diagonal measure is pure point, absolutely continuous, or
+singular continuous form three closed, mutually orthogonal subspaces, invariant under every
+spectral projection, whose sum is the whole space (Teschl, (3.83) and Lemma 3.19). No
+separability and no finite control measure is assumed. -/
+theorem exists_spectralType_decomposition {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (P : TauCeti.ProjValMeasure ℝ H) :
+    ∃ Hpp Hac Hsc : Submodule ℂ H,
+      (∀ x, x ∈ Hpp ↔ ∃ S : Set ℝ, S.Countable ∧ P.diag x Sᶜ = 0) ∧
+      (∀ x, x ∈ Hac ↔ P.diag x ≪ volume) ∧
+      (∀ x, x ∈ Hsc ↔ P.diag x ⟂ₘ volume ∧ ∀ t : ℝ, P.diag x {t} = 0) ∧
+      IsClosed (Hpp : Set H) ∧ IsClosed (Hac : Set H) ∧ IsClosed (Hsc : Set H) ∧
+      Hpp ⟂ Hac ∧ Hpp ⟂ Hsc ∧ Hac ⟂ Hsc ∧ Hpp ⊔ Hac ⊔ Hsc = ⊤ ∧
+      ∀ (B : Set ℝ) (hB : MeasurableSet B) (x : H),
+        (x ∈ Hpp → P.proj B hB x ∈ Hpp) ∧ (x ∈ Hac → P.proj B hB x ∈ Hac) ∧
+          (x ∈ Hsc → P.proj B hB x ∈ Hsc) := by
   sorry
 
 /-! ## Layer 4: symmetric operators, deficiency and boundary data -/
@@ -68,16 +168,22 @@ theorem resolventSet_alternatives_of_isClosed_symmetric
     (IsSelfAdjoint S ↔ {z : ℂ | z.im ≠ 0} ⊆ S.resolventSet) := by
   sorry
 
-/-- Friedrichs extension, existence part: a densely defined symmetric partial operator
-bounded below by `γ` has a self-adjoint extension with the same lower bound
-(Teschl, Theorem 2.12). The order is graph inclusion of partial operators. -/
-theorem friedrichs_exists_selfAdjoint_extension
+/-- Friedrichs extension with its extremal property (README §4.7, UO-D06): a densely defined
+symmetric partial operator bounded below by `γ` has a self-adjoint extension `SF` with the same
+lower bound (Teschl, Theorem 2.12) that is largest among all such extensions in form order,
+stated in resolvent order: for every self-adjoint extension `T` bounded below by `γ` and every
+real `t < γ`, `R_T(t) ≤ R_SF(t)` for the resolvents `R(t) = (t I − ·)⁻¹`. The order on
+partial operators is graph inclusion. -/
+theorem friedrichs_extension_extremal
     {𝕜 H : Type*} [RCLike 𝕜] [NormedAddCommGroup H] [InnerProductSpace 𝕜 H]
     [CompleteSpace H] (S : H →ₗ.[𝕜] H) (hdense : Dense (S.domain : Set H))
     (hsym : S.IsFormalAdjoint S) (γ : ℝ)
     (hγ : ∀ x : S.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (S x) (x : H))) :
-    ∃ T : H →ₗ.[𝕜] H, IsSelfAdjoint T ∧ S ≤ T ∧
-      ∀ x : T.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (T x) (x : H)) := by
+    ∃ SF : H →ₗ.[𝕜] H, IsSelfAdjoint SF ∧ S ≤ SF ∧
+      (∀ x : SF.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (SF x) (x : H))) ∧
+      ∀ T : H →ₗ.[𝕜] H, IsSelfAdjoint T → S ≤ T →
+        (∀ x : T.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (T x) (x : H))) →
+        ∀ t : ℝ, t < γ → T.resolvent (t : 𝕜) ≤ SF.resolvent (t : 𝕜) := by
   sorry
 
 /-- A bounded Hermitian form on a complete Hilbert form domain, with a continuous
@@ -131,6 +237,8 @@ theorem integralOperator_counterexample
   sorry
 
 end IntegralCounterexample
+
+section Nelson
 
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
 
@@ -201,6 +309,49 @@ theorem nelson_resolvent_commute [CompleteSpace H] {k : ℕ}
     (i j : Fin k) (z w : ℂ) (hz : z.im ≠ 0) (hw : w.im ≠ 0) :
     ∃ R S : H →L[ℂ] H, LinearPMap.IsResolventAt (D.restricted i).closure z R ∧
       LinearPMap.IsResolventAt (D.restricted j).closure w S ∧ Commute R S := by
+  sorry
+
+end Nelson
+
+/-! ## Layer 6: closed tensor operators and self-adjoint sums -/
+
+/-- Closed tensor sum (README §6.2–§6.3, UO-F02–UO-F03): for self-adjoint `A` and `B`, the
+algebraic tensor sum `A ⊙ I + I ⊙ B` on the span of `dom A ⊗ dom B` has exactly one
+self-adjoint closure in the completed Hilbert tensor product, and its spectrum is the closure
+of `σ(A) + σ(B)` (Teschl, Theorem 4.14 and (4.44)). -/
+theorem existsUnique_tensorSum {H K : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    (A : H →ₗ.[ℂ] H) (B : K →ₗ.[ℂ] K) (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B) :
+    ∃! S : UniformSpace.Completion (H ⊗[ℂ] K) →ₗ.[ℂ] UniformSpace.Completion (H ⊗[ℂ] K),
+      (∀ (a : A.domain) (b : B.domain),
+        ∃ h : (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K)) ∈
+            S.domain,
+          S ⟨_, h⟩ = ((A a ⊗ₜ[ℂ] (b : K) + (a : H) ⊗ₜ[ℂ] B b : H ⊗[ℂ] K) :
+            UniformSpace.Completion (H ⊗[ℂ] K))) ∧
+      S = (S.domRestrict (Submodule.span ℂ {x | ∃ (a : A.domain) (b : B.domain),
+        x = (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K))})).closure ∧
+      IsSelfAdjoint S ∧
+      S.resolventSetᶜ = closure (A.resolventSetᶜ + B.resolventSetᶜ) := by
+  sorry
+
+/-- Closed tensor product (README §6.2–§6.3, UO-F02–UO-F03): for self-adjoint `A` and `B`, the
+algebraic tensor product `A ⊙ B` on the span of `dom A ⊗ dom B` has exactly one self-adjoint
+closure in the completed Hilbert tensor product, and its spectrum is the closure of
+`σ(A) σ(B)` (Teschl, Theorem 4.14 and (4.43)). -/
+theorem existsUnique_tensorProd {H K : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    (A : H →ₗ.[ℂ] H) (B : K →ₗ.[ℂ] K) (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B) :
+    ∃! P : UniformSpace.Completion (H ⊗[ℂ] K) →ₗ.[ℂ] UniformSpace.Completion (H ⊗[ℂ] K),
+      (∀ (a : A.domain) (b : B.domain),
+        ∃ h : (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K)) ∈
+            P.domain,
+          P ⟨_, h⟩ = ((A a ⊗ₜ[ℂ] B b : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K))) ∧
+      P = (P.domRestrict (Submodule.span ℂ {x | ∃ (a : A.domain) (b : B.domain),
+        x = (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K))})).closure ∧
+      IsSelfAdjoint P ∧
+      P.resolventSetᶜ = closure (A.resolventSetᶜ * B.resolventSetᶜ) := by
   sorry
 
 end TauCetiRoadmap.UnboundedOperators
