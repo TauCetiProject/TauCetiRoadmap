@@ -31,7 +31,7 @@ belong to [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (*
 inverse-system algebra*, its homotopy-commuting product squares). Section 1.1 here owns the
 exactness of the derived limit, its cone comparison for chain maps of towers, and its compatibility
 with the Milnor, cofinal and homotopy-square maps. Topological tower adapters remain with AlgebraicTopology Stages 2–3 and
-Stage 6. Citations of §1.T.1 (*lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler
+Stage 6. Citations of §1.T.1 (*Towers, `lim` and `lim¹`*, with its targets *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler
 towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for
 towers of complexes*) resolve to the Tau Ceti tower declarations listed in Exact supplier contracts.
 
@@ -42,7 +42,7 @@ the section, or the pinned declaration, in the right column.
 | --- | --- |
 | `PD.augmentation`, `PD.augmentationIdeal` | §0.DP.3: Tau Ceti `DividedPowerAlgebra.augmentation` and `DividedPowerAlgebra.augmentationIdeal` |
 | `moduleKInjectiveReplacement` | §0.I.1: Tau Ceti `CochainComplex.exists_quasiIso_isKInjective` and `TauCeti.kInjectiveReplacement` |
-| `Algebra.CotangentComplex.PolynomialResolution` with its `comparison` and `toQuasiIso` | §0.1 |
+| `Algebra.CotangentComplex.PolynomialResolution`, `Algebra.CotangentComplex.PolynomialResolution.comparison`, `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso` | §0.1 |
 | `DerivedDeRham.derivedTensor`, `derivedTensor_flatModel`, `derivedTensor_triangulated`, `derivedTensor_kFlatColimit`, `derivedTensor_kFlatRealization` | §0.2: the bifunctor, its bounded-above flat model, its exactness, and K-flatness of filtered colimits and of totalizations |
 | `DerivedDeRham.leftDerivedNonadditive` | §0.3 |
 | `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, its arrow-category model and its Checks |
@@ -59,7 +59,7 @@ the section, or the pinned declaration, in the right column.
 | `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.liftMorphism`, `Algebra.CotangentComplex.kernelExtensionClass`, `Algebra.CotangentComplex.kernelExtensionClass_zero`, `Algebra.CotangentComplex.deformationObstruction`, `Algebra.CotangentComplex.deformationObstruction_zero`, `Algebra.CotangentComplex.derivationEvaluation`, `Algebra.CotangentComplex.derivationEvaluation_differential`, `Algebra.CotangentComplex.derivationEvaluation_zero`, `Algebra.CotangentComplex.transitivityConnecting`, `Algebra.CotangentComplex.transitivityConnecting_triangle`, `Algebra.CotangentComplex.transitivityConnecting_identity_source`, `Algebra.CotangentComplex.transitivityTriangle_cone_sign`, `Algebra.CotangentComplex.polynomialLift_sign`, `Algebra.CotangentComplex.polynomialLift_positive` | §0.25 |
 | `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | §S.1: the exact-rows comparison, the edge morphisms and naturality |
 | `CompactCoefficients.Tower`, `CompactCoefficients.Tower.toModuleFunctor`, `CompactCoefficients.Tower.limComparison`, `CompactCoefficients.Tower.limOneComparison` | Tau Ceti `TauCeti.ModuleTower` over `ℤ`, with `TauCeti.ModuleTower.lim` and `TauCeti.ModuleTower.limOne` |
-| `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne` and the difference map `TauCeti.ModuleTower.shift`, over `ℤ` for the `CompactCoefficients` names |
+| `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.Product`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift`, `ModuleTower.productMap`, `ModuleTower.limMap`, `ModuleTower.limOneMap` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, the product `TauCeti.ModuleTower.Product` of the terms, the difference map `TauCeti.ModuleTower.shift` on it, and the maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap` induced by a map of towers; over `ℤ` for the `CompactCoefficients` names |
 | `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
 | `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
 | `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p` | §1.1: the degreewise-surjective model with its Milnor maps, and the multiplication-by-`p` Check |
@@ -108,7 +108,7 @@ the headline theorems that are statable against the pinned libraries, with the f
 | Supplier | Exact input |
 | --- | --- |
 | From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 (*Countable inverse-system algebra*) | The maps of homotopy limits induced by maps of towers of complexes whose squares commute up to specified homotopies, with their composition law and the homotopies induced by compatible second homotopies; see the subsection below. Used in §1.1. |
-| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), its difference map `TauCeti.ModuleTower.shift`, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`). Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
+| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`). Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
 | From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
 | From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
 | From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`) and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. |
@@ -355,9 +355,12 @@ Theorem IV.2 and Proposition IV.5, p.272). Tau Ceti formalises it as
 
 ### 0.DP.3 The divided power algebra and its augmentation ideal
 
-**Augmentation of the divided power algebra.** Construct the R-algebra homomorphism ε:Γ_R(M)→R
-taking dp(0,m) to 1 and every dp(n,m) with n>0 to 0. It is the existing lift into the canonical zero
-PD ideal of R along the zero linear map M→R.
+**Augmentation of the divided power algebra.** For a commutative ring `R` and an `R`-module `M`,
+with no freeness, finite-generation, characteristic, factorial-invertibility or nilpotence
+hypothesis, construct the `R`-algebra homomorphism `ε : Γ_R(M) → R` taking `dp(0, m)` to `1` and
+every `dp(n, m)` with `n > 0` to `0`. It is the existing lift `DividedPowerAlgebra.lift` into the
+zero ideal of `R`, with its canonical divided powers `dividedPowersBot R`, along the zero linear map
+`M → R`.
 
 Tau Ceti formalises the map as this zero-ideal lift, `DividedPowerAlgebra.augmentation`, with
 `DividedPowerAlgebra.augmentation_dp`, `DividedPowerAlgebra.augmentation_unique`,
@@ -370,31 +373,28 @@ and `FreeConstruction.augmentation_apply_algebraMap`
 Mathlib, with `R` and `M` in one universe and the map built from its generator values rather than
 as the zero-ideal lift.
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
+**API.**
 
-The API:
+- `ε` equals `DividedPowerAlgebra.lift` of `dividedPowersBot R` along the zero linear map `M → R`.
+- `ε(dp(n, m))` is `1` when `n = 0` and `0` otherwise.
+- `ε(algebraMap(r)) = r` for every `r ∈ R`.
+- For every `R`-linear `f : M → N`, `ε_N ∘ Γ(f) = ε_M`.
+- An `R`-algebra homomorphism `Γ_R(M) → R` killing every `dp(n, m)` with `n > 0` equals `ε`.
+- For an `R`-algebra `S`, an `S`-module `N` whose `R`-module structure is the restriction of its
+  `S`-module structure, and an `R`-linear map `f : M → N`,
+  `ε_S(DividedPowerAlgebra.map S f z) = algebraMap R S (ε_R(z))` for every `z ∈ Γ_R(M)`, where
+  `ε_R` and `ε_S` are the augmentations of `Γ_R(M)` and `Γ_S(N)`. For `S = R` this is the
+  naturality `ε_N ∘ Γ(f) = ε_M` above.
 
-- ε equals DividedPowerAlgebra.lift of
-  dividedPowersBot R along the zero linear map M→R.
-- ε(dp(n,m)) is 1 when n=0 and 0 otherwise.
-- ε(algebraMap(r))=r for all r∈R.
-- For every R-linear f:M→N, ε_N∘Γ(f)=ε_M.
-- An R-algebra homomorphism Γ_R(M)→R killing every
-  dp(n,m) with n>0 equals ε.
-- For an R-algebra S, an S-module N whose R-module
-  structure is the restriction of its S-module structure, and an R-linear map f:M→N:
-  ε_S(DividedPowerAlgebra.map S f (z))=algebraMap R S (ε_R(z)) for all z∈Γ_R(M), where ε_R and ε_S
-  are the augmentations of Γ_R(M) and Γ_S(N). For S=R this is augmentation_natural.
-
-*Proof sketch.* Use dividedPowersBot R, the zero R-linear map M→R and its range containment in the
-zero ideal as the inputs of DividedPowerAlgebra.lift. Use lift_apply_dp, the degree-zero PD axiom
-and dpow_eval_zero in positive degree to calculate ε on every generator. The algebra-homomorphism
-structure gives ε(algebraMap(r))=r. For naturality and uniqueness use algHom_ext on all dp(n,m),
-splitting n=0 from n>0. The free-module augmentation is described in [Stacks §23.5, Tag
-07H4](https://stacks.math.columbia.edu/tag/07H4). For arbitrary modules the lift argument above
-uses the general Roby algebra ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf),
-III §§1–2, pp.248–250). *Needs:* Mathlib
+*Proof sketch.* Use `dividedPowersBot R`, the zero `R`-linear map `M → R` and its range
+containment in the zero ideal as the inputs of `DividedPowerAlgebra.lift`. Use
+`DividedPowerAlgebra.lift_apply_dp`, the degree-zero divided-power axiom and
+`DividedPowers.dpow_eval_zero` in positive degree to compute `ε` on every generator. The
+algebra-homomorphism structure gives `ε(algebraMap(r)) = r`. For naturality and uniqueness use
+`DividedPowerAlgebra.algHom_ext` on all `dp(n, m)`, splitting `n = 0` from `n > 0`. The free-module
+augmentation is described in [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4).
+For arbitrary modules the lift argument above uses the general Roby algebra
+([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* Mathlib
 `dividedPowersBot`; Mathlib `DividedPowerAlgebra.lift`; Mathlib `DividedPowerAlgebra.lift_apply_dp`;
 Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`; Mathlib
 `DividedPowerAlgebra.dp_zero`; Mathlib `DividedPowerAlgebra.map_apply_dp`; Mathlib
@@ -403,19 +403,20 @@ Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`
 
 **Checks.**
 
-- For every m, ε(3+dp(2,m))=3, including characteristic
-  two and torsion modules.
-- For every m∈M: ε(dp(1,m))=0; that is, ε∘embed=0, where
-  embed:M→Γ_R(M) is m↦dp(1,m).
-- For R=M=ℚ: the R-algebra map DividedPowerAlgebra.lift of
-  DividedPowers.RatAlgebra.dividedPowers on the unit ideal of ℚ along the identity ℚ→ℚ sends dp(2,1)
-  to 1/2, whereas ε(dp(2,1))=0; so ε is not this map.
-- ε(dp(0,m))=1 for every m, including m=0, and ε(dp(n,m))=0 for every n>0.
-- ε(algebraMap(r))=r for every r∈R, so ε is surjective.
+- For every `m`, `ε(3 + dp(2, m)) = 3`, including in characteristic two and for torsion modules.
+- For every `m ∈ M`, `ε(dp(1, m)) = 0`; that is, `ε ∘ embed = 0`, where `embed : M → Γ_R(M)` is
+  `m ↦ dp(1, m)`.
+- For `R = M = ℚ`, the lift of the canonical divided powers `x ↦ xⁿ/n!` on the unit ideal of `ℚ`
+  along the identity `ℚ → ℚ` sends `dp(2, 1)` to `1/2`, whereas `ε(dp(2, 1)) = 0`; so `ε` is not
+  this lift.
+- `ε(dp(0, m)) = 1` for every `m`, including `m = 0`, and `ε(dp(n, m)) = 0` for every `n > 0`.
+- `ε(algebraMap(r)) = r` for every `r ∈ R`, so `ε` is surjective.
 
-**Augmentation ideal.** Define Γ_R(M)_+ as the existing ring-homomorphism kernel ker(ε), an ideal of
-the existing algebra Γ_R(M). Membership means ε(z)=0. In positive degree dp(n,m) belongs to this
-ideal, and a scalar belongs exactly when it is zero.
+**Augmentation ideal.** For a commutative ring `R` and an `R`-module `M`, with no freeness,
+finite-generation, characteristic, factorial-invertibility or nilpotence hypothesis, define
+`Γ_R(M)₊` as the kernel `RingHom.ker ε` of the augmentation, an ideal of `Γ_R(M)`. Membership means
+`ε(z) = 0`. In positive degree `dp(n, m)` belongs to this ideal, and a scalar belongs exactly when
+it is zero.
 
 Tau Ceti formalises the ideal in this kernel form as `DividedPowerAlgebra.augmentationIdeal`, with
 `DividedPowerAlgebra.mem_augmentationIdeal`, `DividedPowerAlgebra.dp_mem_augmentationIdeal`,
@@ -426,52 +427,49 @@ generators, and the generator membership above is `FreeConstruction.dp_mem_posit
 with `FreeConstruction.positiveIdeal_le_augmentation_ker`
 (`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`, same hypotheses).
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
+**API.**
 
-The API:
+- `Γ_R(M)₊ = RingHom.ker ε`.
+- `z ∈ Γ_R(M)₊` if and only if `ε(z) = 0`.
+- For `n ≠ 0`, `dp(n, m) ∈ Γ_R(M)₊`.
+- `algebraMap(r) ∈ Γ_R(M)₊` if and only if `r = 0`.
+- For an `R`-algebra `S`, an `S`-module `N` whose `R`-module structure is the restriction of its
+  `S`-module structure, and an `R`-linear map `f : M → N`, `DividedPowerAlgebra.map S f` carries
+  `Γ_R(M)₊` into `Γ_S(N)₊`. In particular `Γ(f)(Γ_R(M)₊) ⊂ Γ_R(N)₊` for every `R`-linear
+  `f : M → N`.
 
-- Γ_R(M)_+=RingHom.ker(ε).
-- z∈Γ_R(M)_+ if and only if ε(z)=0.
-- For n≠0, dp(n,m)∈Γ_R(M)_+.
-- algebraMap(r)∈Γ_R(M)_+ if and only if
-  r=0.
-- For an R-algebra S, an S-module N whose
-  R-module structure is the restriction of its S-module structure, and an R-linear map f:M→N:
-  DividedPowerAlgebra.map S f carries Γ_R(M)₊ into Γ_S(N)₊. In particular Γ(f)(Γ_R(M)₊)⊂Γ_R(N)₊ for
-  every R-linear f:M→N.
-
-*Proof sketch.* Apply RingHom.ker to ε; use RingHom.mem_ker for membership. The generator and scalar
-assertions follow by the computed values of ε. Properness over a nonzero ring follows because
-ε(1)=1. The free-module kernel is described in
+*Proof sketch.* Apply `RingHom.ker` to `ε` and use `RingHom.mem_ker` for membership. The generator
+and scalar assertions follow from the computed values of `ε`. Properness over a nonzero ring follows
+because `ε(1) = 1`. The free-module kernel is described in
 [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The preceding kernel argument
 proves the arbitrary-module version from Roby's presentation
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib `RingHom.ker`; Mathlib `RingHom.mem_ker`; Mathlib `DividedPowerAlgebra.map`.
 
 **Checks.**
 
-- dp(2,m) belongs to Γ_R(M)_+ for every m.
-- 1 does not belong to Γ_Z(Z)_+.
-- For R=M=F₂: dp(2,1) belongs to Γ_R(M)₊, and
-  dp(2,1) does not belong to the ideal generated by the elements dp(1,m), m∈M.
-- For R=M=Z, neither 1 nor any dp(0,m) belongs. Every positive divided-power generator does belong.
+- `dp(2, m)` belongs to `Γ_R(M)₊` for every `m`.
+- `1` does not belong to `Γ_ℤ(ℤ)₊`.
+- For `R = M = F₂`, `dp(2, 1)` belongs to `Γ_R(M)₊` but not to the ideal generated by the elements
+  `dp(1, m)`, `m ∈ M`.
+- For `R = M = ℤ`, neither `1` nor any `dp(0, m)` belongs, and every positive divided-power
+  generator does.
 
-**Positive-degree remainder.** For every z∈Γ_R(M), z−algebraMap(ε(z)) belongs to the ideal H
-generated by all dp(n,m) with n>0 and m∈M.
+**Positive-degree remainder.** For a commutative ring `R` and an `R`-module `M`, with no freeness,
+finite-generation, characteristic, factorial-invertibility or nilpotence hypothesis, prove that for
+every `z ∈ Γ_R(M)` the remainder `z − algebraMap(ε(z))` belongs to the ideal `H` generated by all
+`dp(n, m)` with `n > 0` and `m ∈ M`.
 
 This is Tau Ceti's `DividedPowerAlgebra.sub_algebraMap_augmentation_mem_span`, and, against an
 earlier Mathlib, `FreeConstruction.sub_augmentation_mem_positiveIdeal` in [AffineCrystalline]
-(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), with H the span
+(`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), with `H` the span
 `FreeConstruction.positiveIdeal` and the same hypotheses.
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
-
-*Proof sketch.* Apply DividedPowerAlgebra.induction_on to the predicate 'z−algebraMap(ε(z)) lies in
-H'. For a scalar the remainder is zero. For a sum it is the sum of the two remainders. For
-z·dp(0,m), dp_zero reduces to the induction hypothesis. For z·dp(n,m) with n>0, the augmentation is
-zero and dp(n,m) is one of H’s generators, so ideal closure under multiplication proves membership.
-The free-module calculation appears in the proof of
+*Proof sketch.* Apply `DividedPowerAlgebra.induction_on` to the predicate that
+`z − algebraMap(ε(z))` lies in `H`. For a scalar the remainder is zero. For a sum it is the sum of
+the two remainders. For `z · dp(0, m)`, `DividedPowerAlgebra.dp_zero` reduces to the induction
+hypothesis. For `z · dp(n, m)` with `n > 0`, the augmentation is zero and `dp(n, m)` is one of the
+generators of `H`, so closure of the ideal under multiplication proves membership. The free-module
+calculation appears in the proof of
 [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The induction above
 proves it for arbitrary modules using Roby's generators and relations
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib
@@ -480,26 +478,25 @@ proves it for arbitrary modules using Roby's generators and relations
 
 **Checks.**
 
-- For `M = 0`, every element is scalar and its remainder vanishes.
+- For `M = 0`, every element is a scalar and its remainder vanishes.
+- For `z = 3 + dp(2, m) · dp(1, m′)`, `ε(z) = 3` and `z − 3 = dp(2, m) · dp(1, m′)` is a multiple of
+  the generator `dp(2, m)`.
+- For a scalar `z = algebraMap(r)` the remainder is `0`.
 
-- For z=3+dp(2,m)·dp(1,m′): ε(z)=3 and z−3=dp(2,m)·dp(1,m′) is a multiple of the generator dp(2,m).
-- For a scalar z=algebraMap(r) the remainder is 0.
-
-**Positive-degree generators of the augmentation ideal.** Γ_R(M)_+ is exactly the ideal generated by
-{dp(n,m) | n>0, m∈M}. The degree-zero generators are excluded.
+**Positive-degree generators of the augmentation ideal.** For a commutative ring `R` and an
+`R`-module `M`, with no freeness, finite-generation, characteristic, factorial-invertibility or
+nilpotence hypothesis, prove that `Γ_R(M)₊` is exactly the ideal generated by
+`{dp(n, m) | n > 0, m ∈ M}`; the degree-zero generators are excluded.
 
 This is Tau Ceti's `DividedPowerAlgebra.augmentationIdeal_eq_span`, whose generators are the
-`dp(n,m)` with `n ≠ 0`. With the two sides in the other order it is
+`dp(n, m)` with `n ≠ 0`. With the two sides in the other order it is
 `FreeConstruction.positiveIdeal_eq_augmentation_ker` in [AffineCrystalline]
 (`AffineCrystalline/Envelope/FreeConstruction/DPAlgebraAugmentation.lean`), under the same
 hypotheses and against an earlier Mathlib.
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
-
-*Proof sketch.* Every listed generator has augmentation zero; Ideal.span_le gives H⊆ker(ε). If
-ε(z)=0, the positive-degree remainder lemma gives z−algebraMap(0)=z∈H, proving the reverse
-inclusion. The free-module generators occur in the proof of
+*Proof sketch.* Every listed generator has augmentation zero, so `Ideal.span_le` gives
+`H ⊆ RingHom.ker ε`. If `ε(z) = 0`, the positive-degree remainder gives `z − algebraMap(0) = z ∈ H`,
+proving the reverse inclusion. The free-module generators occur in the proof of
 [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). For arbitrary modules,
 the two inclusions above use the general Roby algebra
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Positive-degree remainder*;
@@ -508,107 +505,100 @@ Mathlib `Ideal.span_le`.
 **Checks.**
 
 - For `M = 0`, every positive generator is zero, and the augmentation ideal is zero.
+- For `R = M = ℤ` the ideal is proper: the element `1 = dp(0, m)` is not in it.
+- The degree-one elements `dp(1, m)` do not suffice as generators: in `Γ_{F₂}(F₂)`, `dp(2, 1)` is
+  not in the ideal they generate.
 
-- For R=M=ℤ the ideal is proper: the element 1=dp(0,m) is not in it.
-- The degree-one elements dp(1,m) do not suffice as generators: in `Γ_{F₂}(F₂)`, `dp(2,1)` is not in the
-  ideal they generate (gamma-degree-one-insufficient).
-
-**Scalar and augmentation splitting.** Construct an R-linear equivalence Γ_R(M)≃R×Γ_R(M)_+ by
-z↦(ε(z),z−algebraMap(ε(z))). Its inverse is (r,u)↦algebraMap(r)+u. The second coordinate uses the
-kernel-membership proof; multiplication on the two summands has cross terms. This is Tau Ceti's
+**Scalar and augmentation splitting.** For a commutative ring `R` and an `R`-module `M`, with no
+freeness, finite-generation, characteristic, factorial-invertibility or nilpotence hypothesis,
+construct the `R`-linear equivalence `Γ_R(M) ≃ R × Γ_R(M)₊` given by
+`z ↦ (ε(z), z − algebraMap(ε(z)))`, with inverse `(r, u) ↦ algebraMap(r) + u`. The second
+coordinate uses the kernel-membership proof. It is an equivalence of `R`-modules only:
+multiplication on the two summands has cross terms. This is Tau Ceti's
 `DividedPowerAlgebra.augmentationSplitting`.
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
+**API.**
 
-The API:
+- The first coordinate of the image of `z` is `ε(z)`.
+- The underlying algebra element of the second coordinate is `z − algebraMap(ε(z))`.
+- The inverse sends `(r, u)` to `algebraMap(r) + u`.
 
-- The first coordinate of the image of z is
-  ε(z).
-- The underlying algebra element of the second
-  coordinate is z−algebraMap(ε(z)).
-- The inverse sends (r,u) to algebraMap(r)+u.
-
-*Proof sketch.* Augment the remainder: ε(z)−ε(algebraMap(ε(z)))=0; this gives the subtype membership
-proof. Both coordinate functions and the proposed inverse are R-linear by the algebra maps and
-submodule structure. Substitute each composite. Cancellation gives z in one direction; ε(u)=0 gives
-(r,u) in the other. Package the linear maps with LinearEquiv.ofLinearMap. The free-module scalar splitting is given by the degree-zero
-summand in [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The inverse formulas
-above prove the arbitrary-module splitting on Roby's algebra
+*Proof sketch.* Augment the remainder: `ε(z) − ε(algebraMap(ε(z))) = 0`; this gives the subtype
+membership proof. Both coordinate functions and the proposed inverse are `R`-linear by the algebra
+maps and the submodule structure. Substitute each composite: cancellation gives `z` in one
+direction, and `ε(u) = 0` gives `(r, u)` in the other. Package the linear maps with
+`LinearEquiv.ofLinearMap`. The free-module scalar splitting is given by the degree-zero summand in
+[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The inverse formulas above
+prove the arbitrary-module splitting on Roby's algebra
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `LinearEquiv.ofLinearMap`.
 
 **Checks.**
 
-- Every scalar r maps to (r,0).
-- Every u∈Γ_R(M)_+ maps to (0,u).
-- For r∈R and u∈Γ_R(M)₊: algebraMap(r)+u maps to (r,u).
-- 3+dp(2,m) maps to (3,dp(2,m)).
+- Every scalar `r` maps to `(r, 0)`.
+- Every `u ∈ Γ_R(M)₊` maps to `(0, u)`.
+- For `r ∈ R` and `u ∈ Γ_R(M)₊`, `algebraMap(r) + u` maps to `(r, u)`.
+- `3 + dp(2, m)` maps to `(3, dp(2, m))`.
 
-**Remainder of an extended base ideal.** For every ideal I⊂R, put IΓ=I.map(algebraMap R Γ_R(M)). If
-z∈IΓ, then z−algebraMap(ε(z))∈IΓ·Γ_R(M)_+. This is Tau Ceti's
+**Remainder of an extended base ideal.** For a commutative ring `R`, an `R`-module `M` and an ideal
+`I ⊂ R`, with no freeness, finite-generation, characteristic, factorial-invertibility or
+nilpotence hypothesis, put `IΓ = I.map (algebraMap R Γ_R(M))`. Prove that for every `z ∈ IΓ` the
+remainder `z − algebraMap(ε(z))` lies in `IΓ · Γ_R(M)₊`. This is Tau Ceti's
 `DividedPowerAlgebra.sub_algebraMap_augmentation_mem_map_mul`.
 
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
-
-*Proof sketch.* The definition of Ideal.map and the finite-span criterion express z as a finite sum
-Σ_j b_j·algebraMap(a_j), where a_j∈I and b_j∈Γ_R(M). No injectivity, flatness or basis is used. The
-augmentation is Σ_j ε(b_j)a_j. Subtract its scalar image and distribute to obtain Σ_j
-(b_j−algebraMap(ε(b_j)))·algebraMap(a_j). Each first factor lies in Γ_R(M)_+ by the augmentation
-calculation, and each second factor lies in IΓ. Ideal product membership and finite-sum closure give
-the result. For free modules, compare the ideal
-calculation in the proof of [Stacks Lemma 23.5.1, Tag
-07H5](https://stacks.math.columbia.edu/tag/07H5). The finite-sum argument above proves the
-arbitrary-module assertion on the general Roby algebra
+*Proof sketch.* The definition of `Ideal.map` and the finite-span criterion express `z` as a finite
+sum `Σ_j b_j · algebraMap(a_j)` with `a_j ∈ I` and `b_j ∈ Γ_R(M)`; no injectivity, flatness or basis
+is used. The augmentation is `Σ_j ε(b_j) a_j`. Subtract its scalar image and distribute to obtain
+`Σ_j (b_j − algebraMap(ε(b_j))) · algebraMap(a_j)`. Each first factor lies in `Γ_R(M)₊` by the
+augmentation calculation, and each second factor lies in `IΓ`. Membership in an ideal product and
+closure under finite sums give the result. For free modules, compare the ideal calculation in the
+proof of [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The finite-sum
+argument above proves the arbitrary-module assertion on the general Roby algebra
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `Ideal.map`; Mathlib `Ideal.mem_map_of_mem`; Mathlib
 `Finsupp.mem_ideal_span_range_iff_exists_finsupp`; Mathlib `Ideal.mul_mem_mul`.
 
 **Checks.**
 
-- For `I = R`, the assertion gives membership of every remainder in the augmentation ideal, including over torsion rings.
+- For `I = R`, the assertion gives membership of every remainder in the augmentation ideal,
+  including over torsion rings.
+- For `I = 0`, `z = 0` and the remainder `0` lies in the zero ideal.
+- For `R = M = ℤ`, `I = (2)` and `z = 2 · (1 + dp(1, 1))`, `ε(z) = 2` and `z − 2 = 2 · dp(1, 1)` lies
+  in `IΓ · Γ_R(M)₊`.
 
-- For I=0: z=0 and the remainder 0 lies in the zero ideal.
-- For R=M=ℤ, I=(2) and z=2·(1+dp(1,1)): ε(z)=2 and z−2=2·dp(1,1) lies in IΓ·Γ_R(M)₊.
+**Base ideal and augmentation intersection.** For a commutative ring `R`, an `R`-module `M` and
+every ideal `I ⊂ R`, with no flatness, freeness or other hypothesis, prove the equality of ideals
+`IΓ ∩ Γ_R(M)₊ = IΓ · Γ_R(M)₊` in `Γ_R(M)`. This is Tau Ceti's
+`DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`.
 
-**Base ideal and augmentation intersection.** For every ideal I⊂R, IΓ∩Γ_R(M)_+=IΓ·Γ_R(M)_+. This is
-an equality of ideals in Γ_R(M), without a flatness or freeness assumption.
-
-This is Tau Ceti's `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`.
-
-*Hypotheses.* R is a commutative ring; M is an R-module. No freeness, finite generation,
-characteristic, factorial invertibility or nilpotence hypothesis is imposed.
-
-*Proof sketch.* The ideal product is contained in the intersection by Ideal.mul_le_inf. For z in the
-intersection, ε(z)=0. The preceding base-ideal remainder statement reduces to z∈IΓ·Γ_R(M)_+, proving
-the reverse inclusion. The free-module equality occurs
-in the proof of [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5).
-The containment argument above extends it to arbitrary modules using Roby's algebra
+*Proof sketch.* The ideal product is contained in the intersection by `Ideal.mul_le_inf`. For `z` in
+the intersection, `ε(z) = 0`, and the preceding base-ideal remainder statement gives
+`z ∈ IΓ · Γ_R(M)₊`, proving the reverse inclusion. The free-module equality occurs in the proof of
+[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The containment argument
+above extends it to arbitrary modules using Roby's algebra
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Remainder of an extended base ideal*; Mathlib `Ideal.mul_le_inf`.
 
 **Checks.**
 
-- For `R = M = ℤ` and `I = (2)`, the scalar `2` belongs to the extended base ideal but not to the augmentation ideal; it is excluded from both sides of the equality.
+- For `R = M = ℤ` and `I = (2)`, the scalar `2` belongs to the extended base ideal but not to the
+  augmentation ideal; it is excluded from both sides of the equality.
+- For `I = 0` both sides are `0`; for `I = R` both sides are `Γ_R(M)₊`.
+- For `R = M = ℤ` and `I = (2)`, the element `2 · dp(1, 1)` lies in both sides.
 
-- For I=0 both sides are 0; for I=R both sides are Γ_R(M)₊.
-- For R=M=ℤ and I=(2), the element 2·dp(1,1) lies in both sides.
+**A degree-two detector in characteristic two.** Let `F₂ = ZMod 2`, let
+`B = TrivSqZeroExt(F₂, F₂)` be the trivial square-zero extension of `F₂` by itself, and write
+`inr(a) = (0, a)`. Prove that there is an `F₂`-algebra homomorphism `f : Γ_{F₂}(F₂) → B` with
+`f(dp(0, a)) = 1`, `f(dp(2, a)) = inr(a)` and `f(dp(n, a)) = 0` for every `n` other than `0` and `2`.
+This is Tau Ceti's `DividedPowerAlgebra.exists_algHom_trivSqZeroExt_dp`.
 
-**A degree-two detector in characteristic two.** Let B=TrivSqZeroExt(F₂,F₂) and write inr(a)=(0,a).
-There exists an F₂-algebra homomorphism f:Γ_F₂(F₂)→B with f(dp(0,a))=1, f(dp(2,a))=inr(a), and
-f(dp(n,a))=0 for every n other than 0 and 2. This is Tau Ceti's
-`DividedPowerAlgebra.exists_algHom_trivSqZeroExt_dp`.
-
-*Hypotheses.* The base ring and module are both F₂=ZMod 2. The target is the existing trivial
-square-zero extension TrivSqZeroExt(F₂,F₂).
-
-*Proof sketch.* Use DividedPowerAlgebra.lift′ for the displayed total generator family; this is an
-ordinary algebra homomorphism, not a PD morphism. The degree-zero relation is immediate. Scalar
-homogeneity in degree two uses r²=r for r∈F₂; all other positive degrees are zero. For the product
-relation, an index zero is immediate. When both indices are positive, the only nonzero possible left
-side is inr(a)²=0; the only possibly nonzero target degree is 1+1=2, whose coefficient choose(2,1)=2
-vanishes in F₂. For the additive relation, degree zero gives one and degree two gives
-inr(a+b)=inr(a)+inr(b). The only other possible convolution term is degree four, inr(a)·inr(b)=0.
-All remaining terms vanish. Apply lift′_apply_dp for the stated formula. For the free-module divided-power relations see
-[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
+*Proof sketch.* Use `DividedPowerAlgebra.lift'` for the displayed generator family; this is an
+ordinary algebra homomorphism, not a divided-power morphism. The degree-zero relation is immediate.
+Scalar homogeneity in degree two uses `r² = r` for `r ∈ F₂`; all other positive degrees are zero.
+For the product relation, an index zero is immediate. When both indices are positive, the only
+possibly nonzero left side is `inr(a)² = 0`, and the only possibly nonzero target degree is
+`1 + 1 = 2`, whose coefficient `choose(2, 1) = 2` vanishes in `F₂`. For the additive relation,
+degree zero gives `1` and degree two gives `inr(a + b) = inr(a) + inr(b)`; the only other possible
+convolution term is in degree four, `inr(a) · inr(b) = 0`. All remaining terms vanish. Apply
+`DividedPowerAlgebra.lift'_apply_dp` for the stated formula. For the free-module divided-power
+relations see [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
 [Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
 uses Roby's generator presentation
 ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* Mathlib `DividedPowerAlgebra.lift'`; Mathlib
@@ -617,20 +607,21 @@ uses Roby's generator presentation
 
 **Checks.**
 
-- The degree-zero generator maps to the unit, and the degree-four generator maps to zero; the map is an algebra homomorphism without preserving the canonical divided powers.
+- The degree-zero generator maps to the unit and the degree-four generator maps to zero; the map is
+  an algebra homomorphism that does not preserve the canonical divided powers.
+- `f(dp(1, a)) = 0` for every `a ∈ F₂`, and `f(dp(2, 1)) = inr(1) ≠ 0`.
+- `f(dp(2, 1))² = 0`, in agreement with `dp(2, 1)² = 6 · dp(4, 1) = 0` in characteristic two.
 
-- f(dp(1,a))=0 for every a∈F₂, and f(dp(2,1))=inr(1)≠0.
-- f(dp(2,1))²=0, in agreement with dp(2,1)²=6·dp(4,1)=0 in characteristic 2.
+**Degree one does not generate the augmentation ideal.** With `F₂ = ZMod 2` and
+`embed(a) = dp(1, a)`, prove that in `Γ_{F₂}(F₂)` the element `dp(2, 1)` is not in the ordinary ideal
+generated by `{embed(a) | a ∈ F₂}`. This is Tau Ceti's
+`DividedPowerAlgebra.dp_two_not_mem_span_dp_one`.
 
-**Degree one does not generate the augmentation ideal.** In Γ_F₂(F₂), dp(2,1) is not in the ordinary
-ideal generated by {embed(a) | a∈F₂}. This is Tau Ceti's `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`.
-
-*Hypotheses.* The base ring and module are both F₂=ZMod 2.
-
-*Proof sketch.* Take the preceding ordinary algebra homomorphism to the square-zero extension. Every
-embed(a)=dp(1,a) maps to zero, so the ordinary ideal they generate lies in its ring kernel by
-Ideal.span_le. The image of dp(2,1) is inr(1), which is nonzero by inr_injective and 1≠0 in F₂.
-Kernel membership therefore rules out membership in the degree-one ideal. For the free-module divided-power relations see
+*Proof sketch.* Take the preceding algebra homomorphism `f` to the square-zero extension. Every
+`embed(a) = dp(1, a)` maps to zero, so the ideal they generate lies in the kernel of `f` by
+`Ideal.span_le`. The image of `dp(2, 1)` is `inr(1)`, which is nonzero by
+`TrivSqZeroExt.inr_injective` and `1 ≠ 0` in `F₂`, so kernel membership rules out membership in the
+degree-one ideal. For the free-module divided-power relations see
 [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
 [Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
 uses Roby's generator presentation
@@ -640,11 +631,11 @@ uses Roby's generator presentation
 
 **Checks.**
 
-- For the zero module the augmentation ideal is zero, so the failure requires the nonzero characteristic-two generator.
-
-- In F₂⟨x⟩ one has x·x^[n]=(n+1)·x^[n+1], so the ideal (x) is spanned by the x^[m] with m odd and
-  does not contain x^[2].
-- Over ℚ the degree-one elements do generate: dp(2,m)=½·dp(1,m)² in Γ_ℚ(M).
+- For the zero module the augmentation ideal is zero, so the failure needs the nonzero
+  characteristic-two generator.
+- In `F₂⟨x⟩` one has `x · x^[n] = (n + 1) · x^[n+1]`, so the ideal `(x)` is spanned by the `x^[m]`
+  with `m` odd and does not contain `x^[2]`.
+- Over `ℚ` the degree-one elements do generate: `dp(2, m) = ½ · dp(1, m)²` in `Γ_ℚ(M)`.
 
 ### 0.K.1 Koszul complex of a finite sequence
 
@@ -705,12 +696,14 @@ finite-sequence complex of this section.
 
 ### Examples
 
-For R = ℤ and M = ℤ, γ₁(1)² = 2γ₂(1); over 𝔽₂ the square is zero while γ₂(1) is nonzero. For a prime p, the Koszul complex of (p) is [ℤ →p ℤ], with H⁰ = ℤ/p and H⁻¹ = 0.
+For `R = ℤ` and `M = ℤ`, `γ₁(1)² = 2γ₂(1)`; over `𝔽₂` the square is zero while `γ₂(1)` is
+nonzero. For a prime `p`, the Koszul complex of `(p)` is `[ℤ →p ℤ]`, with `H⁰ = ℤ/p` and `H⁻¹ = 0`.
 
 ### Dependencies
 
-Mathlib polynomial laws, divided powers, exterior powers and regular sequences; Tau Ceti polynomial
-laws, divided powers and Koszul complexes.
+Mathlib polynomial laws, divided powers, ideal spans and kernels, trivial square-zero extensions,
+exterior powers, mapping cones and regular sequences; Tau Ceti polynomial laws, divided powers and
+Koszul complexes.
 
 ## Layer 1: replacements, tensor products and simplicial comparisons
 
@@ -927,7 +920,7 @@ reindexing total degree `n` to cohomological degree `−n` retains this differen
 increasing filtration. This is the homological form used in §§0.2.2 and 0.9, rather than an
 identification of a first-quadrant chain complex with a first-quadrant cochain complex.
 
-The API:
+**API.**
 
 - the `E₂` spectral sequence of a first-quadrant double complex,
   from Tau Ceti's spectral sequence of the column filtration.
@@ -1169,14 +1162,18 @@ Prove the following laws.
 
 ### Examples
 
-For a prime p, the free resolution [ℤ →p ℤ] gives ℤ/p ⊗^L ℤ/p with cohomology ℤ/p in degrees 0 and −1. The two degree-one shuffle generators have coefficients +1 and −1.
+For a prime `p`, the free resolution `[ℤ →p ℤ]` gives `ℤ/p ⊗^L ℤ/p` with cohomology `ℤ/p` in
+degrees `0` and `−1`. The two degree-one shuffle generators have coefficients `+1` and `−1`.
 
 ### Dependencies
 
-Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, tensor products, filtered colimits,
-spectral objects, homology, mapping cones and double-complex totalization; Tau Ceti K-injective and
-K-flat replacements, Lazard's theorem, the Alexander–Whitney maps of simplicial and bisimplicial
-objects, and the spectral sequences of filtered complexes and of first-quadrant bicomplexes.
+Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, augmented simplicial objects with extra
+degeneracies, polynomial rings, combinatorial simplicial homotopies and their chain homotopies,
+tensor products, filtered colimits, spectral objects, homology, mapping cones and double-complex
+totalization; Tau Ceti K-injective and K-flat replacements, Lazard's theorem, the Alexander–Whitney
+maps of simplicial and bisimplicial objects, the shuffle map and the Eilenberg–Zilber homotopy
+equivalence for simplicial sets, and the spectral sequences of filtered complexes and of
+first-quadrant bicomplexes.
 
 ## Layer 2: cotangent calculus, integral powers and deformations
 
@@ -1228,11 +1225,11 @@ Prove the following laws.
 
 For the arrow-category model, take the underlying simplicial rings of each standard
 resolution. A commutative square induces a map of these rings respecting augmentation and base
-scalars, hence a semilinear chain map between the differential models. For base map a and target
-map b, this map takes `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where a_P is the induced map of resolution
+scalars, hence a semilinear chain map between the differential models. For base map `a` and target
+map `b`, this map takes `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where `a_P` is the induced map of resolution
 rings. These comparisons retain the full complex, with no truncation.
 
-[StacksCt], Lemma 3.4, Tag 08S9, p.3; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH;
+[StacksCt], Lemma 3.4, Tag 08S9, p.3; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH.
 The downstream consumer PerfectoidSpaces §P0.19 uses this precise model contract.
 
 **Checks.**
@@ -1240,7 +1237,8 @@ The downstream consumer PerfectoidSpaces §P0.19 uses this precise model contrac
 - Identity and composite squares induce the identity and composite resolution maps; the square
   with zero target induces the augmentation to the zero ring.
 - The identity ring map has zero cotangent complex; a polynomial ring has its free module of
-  differentials in degree zero; ℤ → ℤ/2 has H⁻¹ = ℤ/2. All arrow-model comparisons retain these values.
+  differentials in degree zero; `ℤ → ℤ/2` has `H⁻¹ = ℤ/2`. All arrow-model comparisons retain
+  these values.
 - the first alternating differential is `d₀ − d₁`,
   so on `x + y` it is `d₀x − d₁x + d₀y − d₁y`.
 
@@ -1420,7 +1418,7 @@ simplicial ring, and, when `S• → S` is a weak equivalence onto a discrete ri
 levelwise base change `L^Δ ⊗_(S•) S`. The statements of this subsection assert only levelwise
 module structure over a nondiscrete simplicial ring. Downstream consumers use separate simplicial-module adapters for deformation theory.
 
-[GR], Proposition 8.1.7 and its proof, pp.220–221; [IllusieCC], Chapter II, 1.2.6.2 (as used in
+[GR], Proposition 8.1.7 and its proof, pp.219–220; [IllusieCC], Chapter II, 1.2.6.2 (as used in
 [GR] loc. cit.); [BMS19], §2, pp.212–216.
 
 *Needs:* §0.4 (The full cotangent complex); §0.1 (Simplicial polynomial resolutions);
@@ -1757,11 +1755,16 @@ The downstream consumer PerfectoidSpaces §P0.22 uses these normalized ordinary 
 
 ### Examples
 
-For A → A[x], the cotangent complex is A[x] dx in degree zero. For a prime p and ℤ → ℤ/p, it is (ℤ/p)[1]. These put smooth differentials and the conormal class in different degrees.
+For `A → A[x]`, the cotangent complex is `A[x] dx` in degree zero. For a prime `p` and `ℤ → ℤ/p`, it
+is `(ℤ/p)[1]`. These put smooth differentials and the conormal class in different degrees.
 
 ### Dependencies
 
-Layers 0–1 and Mathlib differentials, algebra extensions and derived categories.
+Layers 0–1 and Mathlib differentials, algebra extensions, derivations, `Ext`, flat modules, derived
+categories, simplicial objects, Dold–Kan, exterior powers and divided-power algebras; Tau Ceti
+symmetric powers
+(`ModuleCat.symmetricPower.functor`) and homogeneous divided powers
+(`DividedPowerAlgebra.homogeneousSubmodule`).
 
 ## Layer 3: derived limits, Hom and completion
 
@@ -2268,14 +2271,15 @@ Tau Ceti `TauCeti.ComplexTower` (Milnor sequences).
 
 ### Examples
 
-For a prime p, the multiplication-by-p tower has H⁰(Rlim) = 0 and H¹(Rlim) = ℤ_p/ℤ. For I = 0 every complex is complete; for I = (1) only the zero derived object is complete.
+For a prime `p`, the multiplication-by-`p` tower has `H⁰(Rlim) = 0` and `H¹(Rlim) = ℤ_p/ℤ`. For
+`I = 0` every complex is complete; for `I = (1)` only the zero derived object is complete.
 
 ### Dependencies
 
 Layer 1, the Koszul complex of Layer 0, Tau Ceti's module towers, derived limit, derived Hom and
-`Tor` of flat modules,
-AlgebraicTopology Stage 6 item 0 for the homotopy-square maps, Mathlib localization, and Tau Ceti
-Artin–Rees for the Noetherian comparison.
+`Tor` of flat modules, AlgebraicTopology Stage 6 item 0 for the homotopy-square maps, Mathlib
+derived categories, localization, `Tor`, flat base change, adic completeness, `p`-adic integers and
+commutative algebras, and Tau Ceti Artin–Rees for the Noetherian comparison.
 
 ## Layer 4: perfect complexes, finite models and effectivity
 
@@ -2293,8 +2297,8 @@ finite-projective complements. For a module `M` in degree zero, `IsPseudoCoheren
 exactly when `M` has an infinite resolution by finite free modules, which is Tau Ceti's
 `TauCeti.Huber.IsPseudoCoherentOver A M ⊤`; in one direction
 `TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` supplies the representing complex,
-reindexed to nonpositive cohomological degrees ([StacksMA], Lemma 15.66.4(4), Tag 064T, p.162). Define Tor amplitude [a,b] for K over commutative A by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
-and `i ∉ [a,b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
+reindexed to nonpositive cohomological degrees ([StacksMA], Lemma 15.66.4(4), Tag 064T, p.162). Define Tor amplitude `[a, b]` for `K` over commutative `A` by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
+and `i ∉ [a, b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
 and the third vertex of distinguished triangles, and closure under retracts, for unital rings.
 For commutative rings provide arbitrary derived scalar change and a finite Tor interval for
 every perfect complex. A perfect complex is pseudo-coherent; it need not have
@@ -2456,21 +2460,27 @@ model; its comparisons are natural for morphisms in the derived-diagram category
 **Checks.**
 
 - a constant ring and perfect complex with identity transitions are recovered by their derived limit.
-- for A_n=k[t]/(t^n) and M_n=A_n in degree zero, the limit is k[[t]] in degree zero and its derived reductions recover M_n.
+- for `A_n = k[t]/(t^n)` and `M_n = A_n` in degree zero, the limit is `k[[t]]` in degree zero and
+  its derived reductions recover `M_n`.
 - for a field `k`, `n ≥ 1`, `A_n = k[t]/(t^n)` and
   `M_n = [A_n --t→ A_n]` in `[−1,0]`, the limit is `[k[[t]] --t→ k[[t]]]` and its derived
   reductions are `M_n`. Here `H^−1(M_n) = (t^(n−1)) ≅ k`, with zero transition maps, whereas
   `H^−1(M) = 0`. In particular `H^−1(M) ⊗ A_n = 0` does not recover `H^−1(M_n)`;
   derived reduction of the whole complex does.
-- let B=k[x₁,x₂,…]/(x_i² : i≥1) and I=(x₁,x₂,…). I is locally nilpotent but I^r≠0 for every r. The tower A₁=B/I=k, A_n=B for n≥2, with M_n=A_n, satisfies the hypotheses and has limit B; globally nilpotent kernels would exclude it.
+- let `B = k[x₁, x₂, …]/(x_i² : i ≥ 1)` and `I = (x₁, x₂, …)`. `I` is locally nilpotent but
+  `I^r ≠ 0` for every `r`. The tower `A₁ = B/I = k`, `A_n = B` for `n ≥ 2`, with `M_n = A_n`,
+  satisfies the hypotheses and has limit `B`; globally nilpotent kernels would exclude it.
 
 ### Examples
 
-For a prime p, the compatible rank-one models over ℤ/pⁿ give ℤ_p[0]. The resolution [ℤ →p ℤ] is perfect with residue Tor in degrees −1 and 0.
+For a prime `p`, the compatible rank-one models over `ℤ/pⁿ` give `ℤ_p[0]`. The resolution
+`[ℤ →p ℤ]` is perfect with residue `Tor` in degrees `−1` and `0`.
 
 ### Dependencies
 
-Layers 1 and 3; Mathlib finite free and projective modules, Jacobson radicals and derived categories.
+Layers 1 and 3; Mathlib finite free and projective modules, Nakayama's lemma, scalar extension,
+Jacobson radicals, nilpotent elements, ring inverse limits and derived categories; Tau Ceti
+pseudo-coherent modules and their resolving complexes.
 
 ## Layer 5: Matlis duality
 
@@ -2577,13 +2587,16 @@ Tau Ceti `TauCeti.Algebra.Module.Injective.Envelope.Basic`, `TauCeti.exists_isIn
 
 ### Examples
 
-For a field k, the hull is k and finite-dimensional double duality is evaluation. For a nonfield complete DVR O with fraction field K, the hull is K/O and its dual is O.
+For a field `k`, the hull is `k` and finite-dimensional double duality is evaluation. For a complete
+discrete valuation ring `O` that is not a field, with fraction field `K`, the hull is `K/O` and its
+dual is `O`.
 
 ### Dependencies
 
-Mathlib module Hom, Noetherian and Artinian modules, adic completion; Tau Ceti essential injective
-envelopes, their existence, the completion action on torsion modules, finite-length biduality and
-the Artinian criterion.
+Mathlib module Hom, Noetherian and Artinian modules, adic completion, enough injectives and derived
+categories; Tau Ceti essential injective envelopes, their existence, the completion action on
+torsion modules, residue-field duality, injectivity of evaluation into the double dual,
+preservation of length, finite-length biduality and the Artinian criterion.
 
 ## Downstream consumers
 
