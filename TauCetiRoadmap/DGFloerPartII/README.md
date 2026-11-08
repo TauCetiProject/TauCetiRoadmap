@@ -69,8 +69,9 @@ elsewhere. In particular it owns:
 - the multiple-realization application and Theorem B (Layer 3);
 - the stable orthogonal and special orthogonal groups with the finite-to-stable range (4.2a),
   Milnor's Clifford chain of iterated minimal centrioles with its minimal geodesics (4.2b), and
-  the index bounds of its non-minimal geodesics, the Bott maps, real Bott periodicity and the
-  stable homotopy groups of `O` and `SO` (4.2c);
+  the index bounds of its non-minimal geodesics, the Bott maps, real Bott periodicity, the
+  comparison of the Grassmannian member of the chain with `ℤ × BO`, the stable quaternionic
+  Grassmannian `BSp`, and the stable homotopy groups of `O` and `SO` (4.2c);
 - abundance, fibered families of 2-spheres, covering by diffeomorphisms, the torsion group
   `π_(n−1)(SO(n))` of Lemma 6.35 with its low-rank values, Proposition 6.31 for compact
   connected Lie groups other than tori, homogeneous spaces, the projective applications,
@@ -97,6 +98,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The round Hopf metrics, normal-homogeneous metrics, Jacobi fields, the index form, finite broken geodesics and the based-loop sphere calculation | RiemannianGeometry R1–R3 | consumed by Layer 2 and 4.2c |
 | Morse–Bott normal bundles, compact-band attachments and the orientation-system Thom comparison | MorseTheory M5 | consumed by Layer 2 and 4.2c |
 | Tubular neighbourhoods, collars, `Diff(M)` as a topological group with the `C^∞` topology | GeometricTopology Layers 1 and 3 | consumed by Layers 1 and 4 |
+| The stable real Grassmannian `BO`, and the homogeneous tower `⊔_k O(2n)/(O(k) × O(2n − k))` with its homotopy equivalence to `BO × ℤ` | TopologicalKTheory T1.6a, T1.6d | compared with the Clifford-chain member `Ω₇` in 4.2c |
 | Local coefficient systems, fundamental classes, the orientation local system, the reduced-suspension sphere models, closed-cofibration towers with their mapping telescopes and finite-stage factorization, the Hurewicz map, Whitehead's theorem for spaces of CW type, the CW type of compact manifolds and of mapping spaces, the homological characterization of the mapping degree | AlgebraicTopology Stages 2, 4, 6, 8 | consumed by Layers 1 and 4 |
 | The octonionic projective plane as a Riemannian manifold | none | the Cayley plane half of Proposition 6.39 is out of scope |
 
@@ -152,12 +154,13 @@ target of this roadmap or of the named supplier, never a "native" API.
 - Cubical homotopy groups `HomotopyGroup.Pi`, written `π_ n X x`, with their group structure
   (`Mathlib/Topology/Homotopy/HomotopyGroup.lean`), `IsOfFinOrder`
   (`Mathlib/GroupTheory/OrderOfElement.lean`) and `IsMulTorsion`
-  (`Mathlib/GroupTheory/Torsion.lean`): the carriers of the statements of 3.2 and 4.3 in
+  (`Mathlib/GroupTheory/Torsion.lean`): the carriers of the statements of 3.2, 4.3 and 4.6 in
   `Suggested.lean`.
 - Singular homology `AlgebraicTopology.singularHomologyFunctor`
   (`Mathlib/AlgebraicTopology/SingularHomology/Basic.lean`), with integral coefficients
   `ModuleCat.of ℤ (ULift ℤ)` as in Tau Ceti's fundamental class: the map
-  `H_n(U; ℤ) → H_n(Q; ℤ)` in the hypothesis of Theorem B (3.2).
+  `H_n(U; ℤ) → H_n(Q; ℤ)` in the hypothesis of Theorem B (3.2) and the degree `g_*[S] = d[Y]` in
+  that of Theorem G (4.6).
 - `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup` and `Matrix.unitaryGroup`
   (`Mathlib/LinearAlgebra/UnitaryGroup.lean`), with the subtype topology of the matrix space;
   `LieGroup`; `Quaternion`; the block matrices `Matrix.fromBlocks`, reindexed along
@@ -168,6 +171,11 @@ target of this roadmap or of the named supplier, never a "native" API.
   currying `ContinuousMap.curry` and Whitehead's lemma
   `Topology.IsQuotientMap.continuous_lift_prod_left`, that the product of a quotient map with the
   identity of a locally compact space is again a quotient map (`Mathlib/Topology/CompactOpen.lean`).
+- `Bundle.Trivialization` (`Mathlib/Topology/FiberBundle/Trivialization.lean`) with the mixin
+  `Bundle.Trivialization.IsLinear` (`Mathlib/Topology/VectorBundle/Basic.lean`): a linear
+  trivialization whose base set is the whole base is a homeomorphism of the total space with the
+  product, linear on fibres; the triviality of the normal bundle of `Y` in the statement of
+  Theorem G (4.6) in `Suggested.lean`.
 - Generated spaces (`Mathlib/Topology/Convenient/`): for a family `X` of topological spaces, the
   predicate `Topology.IsGeneratedBy` (the topology is coinduced by all continuous maps from
   members of `X`), with the closure of `X`-generated spaces under quotients, sums and sigma types
@@ -227,11 +235,12 @@ target of this roadmap or of the named supplier, never a "native" API.
   capacity `c°_HZ`, in which only orbits contractible in the domain are excluded; and
   `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` with `TauCeti.IsRegularValue`
   (`TauCeti/Geometry/Symplectic/Hamiltonian/AlmostExistence.lean`,
-  `TauCeti/Geometry/Manifold/RegularValue.lean`). These are the carriers of the statements of 3.2
-  and 4.5 in `Suggested.lean`, as they are of the base roadmap's Theorem A.
+  `TauCeti/Geometry/Manifold/RegularValue.lean`). These are the carriers of the statements of 3.2,
+  4.5 and 4.6 in `Suggested.lean`, as they are of the base roadmap's Theorem A.
 - `TauCeti.HomologicalOrientation` with `mapFundamentalClass`
   (`TauCeti/AlgebraicTopology/Singular/LocalHomology/FundamentalClass.lean`): the integral
-  fundamental class `[M]` and its images, for the covering condition `ev_*A = ℓ[M]` of 4.3 and 4.5.
+  fundamental class `[M]` and its images, for the covering condition `ev_*A = ℓ[M]` of 4.3 and 4.5
+  and the degree condition `g_*[S] = d[Y]` of Theorem G (4.6).
 - `Diffeomorph.weakWhitneyTopology` and `Diffeomorph.continuous_eval_const`
   (`TauCeti/Geometry/Diffeomorphism/Topology.lean`): the `C^∞` topology on the diffeomorphisms of
   a compact manifold, the weak and strong Whitney topologies agreeing there, with continuous
@@ -244,6 +253,16 @@ target of this roadmap or of the named supplier, never a "native" API.
   (`TauCeti/Geometry/Manifold/IsManifold/RestrictScalars.lean`), which makes the first a real
   manifold: the carriers of the projective statements of 4.5. 1.3 compares them with the
   designated projective carriers of ComplexKahlerGeometry K7.1 and GeneralizedCohomology G4.0b.
+- `TauCeti.SmoothEmbedding` (`TauCeti/Geometry/Manifold/SmoothEmbedding/Basic.lean`), with
+  `TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace`
+  (`TauCeti/Geometry/Manifold/SmoothEmbedding/NormalSpace/Basic.lean`): the range of the
+  differential of an embedding at a point, and the intrinsic normal space, the ambient tangent
+  space modulo that range, with no metric or complement; and
+  `TauCeti.SmoothEmbedding.instTopologicalSpaceNormalBundle`
+  (`TauCeti/Geometry/Manifold/SmoothEmbedding/NormalSpace/Topology.lean`), the quotient topology on
+  the normal total space from the pulled-back ambient tangent bundle. These are the carriers of
+  the transversality and normal-triviality hypotheses of Theorem G (4.6) in `Suggested.lean`; they
+  give no tubular neighbourhood, which is GeometricTopology Layer 1's.
 - `TauCeti.stiefel` (`TauCeti/Geometry/Manifold/Instances/Stiefel.lean`): the Stiefel manifold of
   orthonormal `k`-frames, the real frame carrier `V_(n,2)(ℝ)` on which 1.3 builds its quotient
   identification.
@@ -388,6 +407,13 @@ comparison with the base roadmap's carrier.
   neighbourhoods (1.0, 1.5) and the hypersurface and collar vocabulary (4.6); Layer 3 `Diff(M)` as
   a topological group with the `C^∞` topology and the smooth-families map (4.3). The inclusion
   `O(n+1) → Diff(Sⁿ)` is consumed from Tau Ceti.
+- **TopologicalKTheory** [T1.6a and T1.6d](../TopologicalKTheory/README.md). T1.6a: the stable
+  real Grassmannian `BO`, the rank-colimit in `CompactlyGenerated` of the fixed-rank real
+  Grassmannians, based at the canonical rank-zero point. T1.6d: the homogeneous tower
+  `⊔_k O(2n)/(O(k) × O(2n − k))`, mapped to T1.5's Grassmannian carrier by the span of the first
+  `k` columns, with stage labels `k − n` and the stabilization that adds a first line and appends
+  the ambient coordinates last, and its based homotopy equivalence with `BO × ℤ` over `ℤ`. Both
+  are consumed only by 4.2c's comparison of the Clifford-chain member `Ω₇` with `ℤ × BO`.
 - **AlgebraicTopology** [Stages 2, 4, 6 and 8](../AlgebraicTopology/README.md): Stage 4.4 the
   based circle and sphere models, `reducedSuspensionSphereHomeomorph` and the compact
   reduced-suspension carrier comparison (1.2); Stage 4 item 5, for a sequence of Hausdorff spaces
@@ -419,7 +445,8 @@ on those carriers, and consumes RiemannianGeometry R1–R3 and MorseTheory M5 wi
 Floer theory. Layer 3 consumes GeneralizedCohomology G5 and TangentialBordism B5 and B6.3
 together with the base roadmap's Theorem 5.10. Layer 4 first proves real Bott periodicity for
 the stable orthogonal group, formed in 1.0's convenient category, by the Morse theory of the
-Clifford chain on the same RiemannianGeometry and MorseTheory inputs (4.2a–4.2c); it then
+Clifford chain on the same RiemannianGeometry and MorseTheory inputs, comparing the chain's
+Grassmannian member with TopologicalKTheory's `ℤ × BO` (4.2a–4.2c); it then
 consumes the base roadmap's DG Morse homology, fibration theorem, shriek maps and Theorem M,
 the carriers of Layers 1–2 and the named supplier inputs, and needs no Floer counts of its own.
 Each layer ends with its examples and its dependencies; a `*Needs:*` line lists what a target's
@@ -749,10 +776,23 @@ K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Tau Ceti `TauCe
 
 ### 1.4 Degrees of explicit maps
 
-Construct and orient the Stiefel-domain map `T¹S^(n−1) × S¹ → S^(n−1) × S^(n−1)` of the proof of
-Proposition 6.17 using 1.3's frame and sphere-bundle comparison, and count its regular preimages
-with the product orientations. Separately, for a fixed pole `p ∈ Sⁿ`, construct the rotation
-family of the second proof of Proposition 6.34 as the map
+Construct and orient the Stiefel-domain map of the proof of Proposition 6.17,
+
+    τ : T¹S^(n−1) × S¹ → S^(n−1) × S^(n−1),   τ((u, v), θ) = (u, cos θ·u + sin θ·v),
+
+with `S^(n−1)` the unit sphere of `p^⊥` for a pole `p ∈ Sⁿ`, using 1.3's frame and sphere-bundle
+comparison, and compute its degree by counting regular preimages with the product orientations.
+It is a map of sphere bundles over the identity of `S^(n−1)`; over `u` it is the fibre map
+`τ_u : T¹_uS^(n−1) × S¹ → S^(n−1)`, `(v, θ) ↦ cos θ·u + sin θ·v`, which is the composite
+`ev_u ∘ f` of the rotation family below for the sphere `S^(n−1)` with pole `u`. Every
+`w ∉ {±u}` has the two regular preimages `(v, θ)` and `(−v, 2π − θ)`, exchanged by an
+involution of `S^(n−2) × S¹` of degree `(−1)ⁿ`, so `deg τ_u = 1 + (−1)ⁿ` and
+`deg τ = ±(1 + (−1)ⁿ)`, the sign depending only on the order in which the base and fibre
+orientations of `T¹S^(n−1)` are taken: `±2` for even `n` and `0` for odd `n` (the source paper,
+proof of Proposition 6.17 and its footnote 16). For `n = 2`, `T¹S¹` is two circles, one for each
+orientation of the frame `(u, v)`, and the restriction of `τ` to one of them has degree `±1`
+(Remark 6.19). Separately, for a fixed pole `p ∈ Sⁿ`, construct the rotation family of the
+second proof of Proposition 6.34 as the map
 
     f : T¹_pSⁿ × S¹ → SO(n+1),   f(u, θ) = R(p, u; θ),
 
@@ -780,6 +820,13 @@ interface the base roadmap takes from AlgebraicTopology Stage 6 item 5, Mathlib
 - `n = 3`: the degree is `2`, `H₃(SO(4); ℤ) ≅ ℤ²` and `(ev_p)_*A = 2[S³]`; the first proof's
   class with `ℓ = 1` also exists here because `S³ → SO(4) → S³` (left multiplication by unit
   quaternions) splits the evaluation, so `S³` is `1`-covered and `2`-covered at once.
+- The Stiefel-domain map for `n = 2` and `n = 3`. For `n = 2`, `T¹_uS¹ = {±Iu}` with signs `±1`;
+  `τ_u(Iu, ·)` winds once positively and `τ_u(−Iu, ·)` once negatively, so
+  `deg τ_u = (+1)(+1) + (−1)(−1) = 2`, and on the circle of frames `(u, Iu)` alone `τ` is the
+  shear `(u, θ) ↦ (u, R_θu)` of degree `1`. For `n = 3`, `τ_u : S¹ × S¹ → S²`: the antipodal map
+  of `S¹` preserves orientation and `θ ↦ 2π − θ` reverses it, so the two preimages carry opposite
+  signs and `deg τ_u = 0`; a count that ignored the signs would give `2` for odd `n` as well, and
+  Proposition 6.17 would wrongly extend to odd spheres.
 - The matrix: `R(p, u; θ)` is orthogonal with determinant `1`, `R(p, u; θ)p = cos θ·p + sin θ·u`,
   `R(p, u; 0) = I` and `R(p, u; θ + 2π) = R(p, u; θ)`, so `f` descends to `S¹`; with the sign
   of the `sin θ` term reversed the family would rotate the wrong way and the `n = 1` degree
@@ -985,26 +1032,45 @@ Layer 1 item 2.
 
 ### 2.6 The geometric sphere family of Propositions 6.38 and 6.39
 
-Construct the map from the geometric sphere family to the completing manifold of `C₁`, its
-fibrewise degree `±2` and its compatibility with `β` under sphere-loop adjunction: for `CPᵈ`,
-`Σ_p = T¹_pCPᵈ` and `σ_p(u)` is the complex line through `p` tangent to `u`, parametrized by the
-frame `(u, Iu)`; for `HPᵈ`, `Σ_p` is the fibre of the partial Stiefel manifold of pairs `(u, v)`
-with `v` tangent to the quaternionic line `L_(p,u)`, and `σ_p(u, v)` is the round 2-sphere of
-`L_(p,u)` tangent to `u` and `v`. With `g` the calibrated generator, prove
-`β_*(σ_p)_*[Σ_p] = ±2g` in degree `2d` for `CPᵈ` and `4d + 2` for `HPᵈ`, fixing the sign by the
-stated orientations; the class is twice the generator `g`. *Needs:* 2.1–2.5, 1.3, DGFloer
-Layer 2 (the adjunction `β`).
+For `B = CPᵈ` or `HPᵈ` and `u ∈ T¹_pB`, let `L_(p,u)` be the projective line through `p` tangent
+to `u`, a totally geodesic round sphere (`S²` for `CPᵈ`, `S⁴` for `HPᵈ`), `E_(p,u)` its great
+sphere through `p` orthogonal to `u` (a circle, respectively a `3`-sphere), and `γ_w` the great
+circle of `L_(p,u)` leaving `p` in the direction `w`. The completing manifold of `C₁` is the
+bundle `Z_p → T¹_pB` with fibre `E_(p,u)` over `u`, with the map `ζ_p : Z_p → Ω_pB` sending
+`(u, q)` to the circle of `L_(p,u)` based at `p`, tangent to `u` and through `q` (the constant
+loop for `q = p`); by the completing-cycle comparison of 2.2–2.3, `(ζ_p)_*[Z_p] = ±g` with `g`
+the calibrated generator (the source paper, proof of Proposition 6.39). The geometric sphere
+families are: for `CPᵈ`, `Σ_p = T¹_pCPᵈ` and `σ_p(u)` is the complex line through `p` tangent
+to `u`, parametrized by the frame `(u, Iu)`; for `HPᵈ`, `Σ_p` is the fibre of the partial
+Stiefel manifold of pairs `(u, v)` with `v` a unit vector tangent to `L_(p,u)` and orthogonal to
+`u`, and `σ_p(u, v)` is the round 2-sphere of `L_(p,u)` tangent to `u` and `v`. Construct the map
+of bundles `φ : Σ_p × S¹ → Z_p` over `T¹_pB`, `φ(u, θ) = (u, γ_(Iu)(θ))` for `CPᵈ` and
+`φ(u, v, θ) = (u, γ_v(θ))` for `HPᵈ`, and the homotopy `β ∘ (σ_p × id) ≃ ζ_p ∘ φ` under the
+sphere–loop adjunction. Compute the fibrewise degree of `φ` with 1.4's rotation family: for
+`CPᵈ` the fibre map `S¹ → E_(p,u)` traverses a great circle once, the `n = 1` family at the
+single point `Iu` of `T¹_pE_(p,u)`, and has degree `±1`; for `HPᵈ` the fibre map
+`S² × S¹ → E_(p,u) ≅ S³` is the composite `ev_p ∘ f` of the `n = 3` family, with the two
+preimages `(v, θ)` and `(−v, 2π − θ)` of the same sign, and has degree `±2`. Prove
+`β_*(σ_p)_*[Σ_p] = ±g` in degree `2d` for `CPᵈ` and `β_*(σ_p)_*[Σ_p] = ±2g` in degree `4d + 2`
+for `HPᵈ`, fixing the signs by the stated orientations. The source's proof of Proposition 6.38
+states twice a generator for `CPᵈ` as well; its Remark 6.19 and Example 6.37, the case `d = 1`
+to which it says the construction reduces on each complex line, give a generator, as does the
+fibre count. *Needs:* 2.1–2.5, 1.3, 1.4, DGFloer Layer 2 (the adjunction `β`).
 
 **Checks.**
 - Degrees: `dim Σ_p = 2d − 1` for `CPᵈ`, so `(σ_p)_*[Σ_p] ∈ H_(2d−1)(Ω²CPᵈ)` and `β_*` lands in
   `H_(2d)(ΩCPᵈ) = ℤ·g`; for `HPᵈ`, `dim Σ_p = (4d − 1) + 2 = 4d + 1` and `β_*` lands in
-  `H_(4d+2)(ΩHPᵈ) = ℤ·g`.
-- `CP¹ = S²`: the family is the sweep of Remark 6.19 restricted to one orientation component,
-  and `β_*(σ_p)_*[Σ_p] = ±2x²` with `x²` the generator; the single-component class `[Σ′_p]` of
-  Remark 6.19 gives `±x²` instead, so the factor `2` is the two orientations of the frame.
-- Were the class `±g` rather than `±2g`, the `2`-torsion statements of 4.5 would change: the
-  target is stated with the factor `2` and the Check is that the evaluation on the completing
-  manifold has degree `±2`, not `±1`.
+  `H_(4d+2)(ΩHPᵈ) = ℤ·g`; `dim Z_p = 2d`, respectively `4d + 2`, the degrees of `g`.
+- `CP¹ = S²`: `T¹_pS²` carries one frame `(u, Iu)` per direction, so the family is the sweep of
+  Remark 6.19 restricted to one orientation component, and `β_*(σ_p)_*[Σ_p] = ±x²`, a generator,
+  as in 4.4 (Remark 6.19, Example 6.37); the full `n = 2` Stiefel family of 4.2, with both
+  components, gives `±2x²`. A value `±2x²` for `CP¹` would contradict 4.4's identification of
+  the one-component class with `x²`.
+- `HP¹ = S⁴`: `L_(p,u)` is all of `S⁴` and the fibre of `Σ_p` over `u` is the whole `S²` of unit
+  vectors orthogonal to `u` in `T_pS⁴`, so the family is the full `n = 4` Stiefel family of 4.2,
+  with class `±2g = ±2x²`, `x ∈ H₃(ΩS⁴)`. The two preimages have the same sign because the
+  antipodal map of `S²` and `θ ↦ 2π − θ` both reverse orientation; for the `n = 3` Stiefel family
+  of `S³`, fibre `S¹ × S¹ → S²`, the same two preimages have opposite signs and the degree is `0`.
 
 ### Examples
 
@@ -1178,7 +1244,11 @@ Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class and has degre
   1.2's `ℤ[x]`; what is proved here, through DGFloer Layer 5, is that the class of the DG Morse
   cocycle of the height function is the generator `x` (Proposition 6.18), and that the Stiefel
   class `(σ_p)_*[Σ_p] ∈ H_(2n−3)(Ω²Sⁿ)` is nonzero for even `n` (Proposition 6.17) because its
-  image under `β_*` is `x·x̄ = −x² ≠ 0`, using 1.4's Stiefel-domain degree computation.
+  image under `β_*` is `deg(τ)·x·x̄ = ∓2x² ≠ 0`, twice a generator, with `τ` the Stiefel-domain
+  map of 1.4 (of degree `±2` for even `n`) and `x̄ = −x` the image of `x` under loop reversal.
+  For `n = 2`, `Σ_p = O(2)` has two components, one for each orientation of `S²`; the restriction
+  of `σ_p` to one of them, `Σ′_p` (Remark 6.19), has `β_*(σ_p)_*[Σ′_p] = ±x²`, a generator,
+  because `τ` has degree `±1` there. 2.6 (for `CP¹`) and 4.4 use this one-component cycle.
 - **Spheres `S^(4k−1)`** (Example 6.20, Proposition 6.21). With the two orthonormal tangent
   fields `u, v` of 1.3, `Σ_p` is the equator `S^(n−2)` of `Sⁿ ∩ u(p)^⊥` orthogonal to `v(p)`,
   and `σ_p` is the double planar-circle sweep; its class in `H_(n−2)(Ω²Sⁿ) ≅ ℤ` is a generator,
@@ -1425,11 +1495,25 @@ a product and there are two.
   (AlgebraicTopology Stage 8 item 5), for `k = 0, …, 7`.
 - **The stable members.** Read the colimits off 4.2b's identifications and stabilizations:
   `Ω₁ ≅ O/U` (two components), `Ω₂ ≅ U/Sp`, `Ω₄ ≅ Sp`, `Ω₅ ≅ Sp/U` and `Ω₆ ≅ U/O` (connected),
-  `Ω₈ ≅ O`, and `Ω₃ ≅ ℤ × BSp`, `Ω₇ ≅ ℤ × BO`, where `ℤ` records the index `d` of 4.2b and `BSp`
-  and `BO` are the Grassmannian models, the colimits of `G_(2m)(ℍ^(4m))` and `G_m(ℝ^(2m))`, which
-  contain `J₃` and `J₇`. So the eight stable Bott maps are homotopy equivalences
-  `O/U ≃ ΩO`, `U/Sp ≃ Ω(O/U)`, `ℤ × BSp ≃ Ω(U/Sp)`, `Sp ≃ Ω(ℤ × BSp)`, `Sp/U ≃ ΩSp`,
-  `U/O ≃ Ω(Sp/U)`, `ℤ × BO ≃ Ω(U/O)` and `O ≃ Ω(ℤ × BO)`, each loop space taken at `J_k`.
+  `Ω₈ ≅ O`, `Ω₃ ≅ ℤ × BSp` and `Ω₇ ≅ colim_m ⊔_(0≤p≤2m) G_p(ℝ^(2m))`, where `ℤ` records the index
+  `d` of 4.2b, `BSp` is the colimit of the middle Grassmannians `G_(2m)(ℍ^(4m))`, which contain
+  `J₃`, and the component `d = 0` of `Ω₇`, the colimit of the `G_m(ℝ^(2m))`, contains `J₇`.
+- **The Grassmannian member and `ℤ × BO`.** Prove that `Ω₇` is homotopy equivalent to `ℤ × BO`,
+  with `BO` TopologicalKTheory T1.6a's stable real Grassmannian, by an equivalence that carries the
+  component of index `d` to `{d} × BO`. Under 4.2b's identification the stage
+  `⊔_p G_p(ℝ^(2m))`, with index `d = p − m`, is the stage `⊔_k O(2m)/(O(k) × O(2m − k))`, with
+  label `k − m`, of TopologicalKTheory T1.6d's homogeneous tower, whose colimit T1.6d proves based
+  homotopy equivalent to `BO × ℤ` over `ℤ`. The two stabilizations differ: 4.2b's appends the
+  `+1`-eigenline of the new block last, T1.6d's adds a first line and appends the ambient
+  coordinates last. They differ by composition with an orthogonal map of `ℝ^(2m+2)`, which can be
+  taken in `SO(2m + 2)` because the last coordinate is free in T1.6d's image, so a path from the
+  identity to it is a specified homotopy between them; AlgebraicTopology Stage 4 item 5's
+  `cofibrationTowerHomotopyEquivalence` then compares the two telescopes, and so the two colimits.
+  `BSp` has no counterpart in TopologicalKTheory and is this roadmap's.
+- **The eight equivalences.** Through these identifications, `ℤ × BO` read through the comparison
+  above, the eight stable Bott maps are homotopy equivalences `O/U ≃ ΩO`, `U/Sp ≃ Ω(O/U)`,
+  `ℤ × BSp ≃ Ω(U/Sp)`, `Sp ≃ Ω(ℤ × BSp)`, `Sp/U ≃ ΩSp`, `U/O ≃ Ω(Sp/U)`, `ℤ × BO ≃ Ω(U/O)` and
+  `O ≃ Ω(ℤ × BO)`, each loop space taken at `J_k`.
 - **Real Bott periodicity.** Composing them, `O ≃ Ω⁸O`, `Sp ≃ Ω⁴O` and `O ≃ Ω⁴Sp`, the iterated
   loop spaces taken at the base points `J_k`, and `π_(i+8)(O) ≅ π_i(O)` for every `i ≥ 0`, as
   groups (for `i = 0` both sides have two elements).
@@ -1448,9 +1532,9 @@ a product and there are two.
 *Needs:* 1.0 (convenient colimits, path spaces and compact families), 2.1 (the locally symmetric
 conjugate-point computation), 4.2a, 4.2b, RiemannianGeometry R1–R3, MorseTheory M5,
 AlgebraicTopology Stage 4 item 5 (`cofibrationTowerHomotopyEquivalence`, cellular approximation)
-and Stage 8 items 5, 7 and 11a, DGFloer Layer 1 item 2, Tau Ceti
-`HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.realClifford_classification`, Mathlib
-`HomotopyGroup.Pi`. Sources: Milnor, *Morse
+and Stage 8 items 5, 7 and 11a, TopologicalKTheory T1.6a and T1.6d (the comparison with `ℤ × BO`),
+DGFloer Layer 1 item 2, Tau Ceti `HomotopyGroup.pathLoopSpaceMulEquiv`,
+`TauCeti.realClifford_classification`, Mathlib `HomotopyGroup.Pi`. Sources: Milnor, *Morse
 Theory*, §§22–24, in particular Theorems 22.3 and 24.5 and the proof of 24.5 for the index
 bounds; Bott, *The stable homotopy of the classical groups*; Eschenburg and Hanke, *Bott
 periodicity, submanifolds, and vector bundles*, §4.
@@ -1471,6 +1555,12 @@ periodicity, submanifolds, and vector bundles*, §4.
   `dim O(n)/U(n/2) = n²/4 − n/2`.
 - For odd `n ≥ 17`, `n − 1` is even and `π_(n−1)(O)` is `ℤ/2` when `n ≡ 1 (mod 8)` and `0` when
   `n ≡ 3, 5, 7 (mod 8)`: the stable terms of 4.3.
+- The index of the Grassmannian member: for `m = 1` the stage of `Ω₇` is
+  `G₀(ℝ²) ⊔ G₁(ℝ²) ⊔ G₂(ℝ²)`, a point, a circle and a point with `d = −1, 0, 1`, which is
+  TopologicalKTheory T1.6d's stage `n = 1` with the same labels, and `J₇` lies in `d = 0`, sent to
+  the base-point component `{0} × BO`. Labelling the components by the rank `p` instead would not
+  be preserved by the stabilization `p ↦ p + 1`, and no component of the colimit would have a
+  rank label.
 - `π₁(U/Sp)`: the exact sequence of `Sp → U → U/Sp` gives `π₁(U/Sp) ≅ π₁(U) = ℤ` because
   `π₁(Sp) = π₀(Sp) = 0`; reading `π₃(O)` only as the set `π₀(Ω₃) ≅ ℤ` would not fix the group.
 
@@ -1636,7 +1726,7 @@ Layer 2.
 
 Prove Proposition 6.38 (`CPᵈ`, `d ≥ 1`) and the quaternionic half of Proposition 6.39 (`HPᵈ`,
 `d ≥ 1`) from Layer 2: the sphere families of 2.6 are fibered families of 2-spheres, because
-`β_*(σ_p)_*[Σ_p] = ±2g ≠ 0` in the torsion-free group `H_(2d)(ΩCPᵈ)`, respectively
+`β_*(σ_p)_*[Σ_p]` is `±g ≠ 0` in `H_(2d)(ΩCPᵈ)`, respectively `±2g ≠ 0` in the torsion-free group
 `H_(4d+2)(ΩHPᵈ)`, so `(σ_p)_*[Σ_p] ≠ 0` and Proposition 6.15 applies. Together with 4.1–4.3 this
 is **Theorem I** within the scope boundary: spheres, sphere bundles over highly connected bases,
 compact connected Lie groups other than tori, manifolds that are not aspherical and are covered
@@ -1677,8 +1767,9 @@ manifold through `instIsManifoldRealComplexProjectiveSpace`, the restriction of 
 `TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_smul`.
 
 **Checks.**
-- `CP¹ = S²` and `HP¹ = S⁴`: the projective families are the even-sphere families of 4.2 for
-  `n = 2` and `n = 4`, and the classes agree up to the factor `2` of 2.6's second Check.
+- `CP¹ = S²` and `HP¹ = S⁴`: the `CP¹` family is one orientation component of the `n = 2`
+  family of 4.2, with class `±x²` against `±2x²` for both components; the `HP¹` family is the
+  whole `n = 4` family, and the two classes are equal, `±2g`.
 - The asphericity clause is not redundant: `T^r` is covered by diffeomorphisms through left
   translation (4.3) but is aspherical and not abundant (4.1), so a list that admitted every
   manifold covered by diffeomorphisms would contain a manifold with `c°_HZ(D*T^r) = ∞`;
@@ -1711,9 +1802,27 @@ torsion in `H_*(Ω²Q)`, by injectivity of `H_*(Ω²S^k) → H_*(Ω²Q)` from th
 collapse `Q → (Y × D^k)/(Y × ∂D^k)` of DGFloer Layer 1 item 5) and Lemma 7.7 (for `d ≥ 2` and `Y`
 `(d+1)`-connected, non-torsion of `j_!β` in `H_d(Ω²Q)` transfers to `j_(Y!)s̃_*β`), then the
 cotangent criterion (DGFloer Layer 10 item 3) and the kernel bound
-`ker π_(U!) ⊆ ker(d·j_(Y!))` with `d = deg(π ∘ φ)`. *Needs:* 1.5, DGFloer Layer 1 items 2 and 5,
-Layer 3, Layer 5 items 4–5, Layer 10 items 3–4, GeometricTopology Layer 1 (hypersurfaces,
-collars), AlgebraicTopology Stage 6.
+`ker π_(U!) ⊆ ker(d·j_(Y!))` with `d = deg(π ∘ φ)`.
+
+In `Suggested.lean` this is `hasContractibleAlmostExistence_of_knottedSphere`, on the carriers of
+Theorem B (3.2): `Q` a compact Hausdorff smooth manifold modelled on `E`, `n = dim E`, with a
+`TauCeti.HomologicalOrientation` and not assumed connected; `s` and `y` Tau Ceti
+`TauCeti.SmoothEmbedding`s of the unit sphere `S^k ⊂ ℝ^(k+1)` and of a compact Hausdorff smooth
+manifold `Y` modelled on a space `F′` of dimension `n − k`, oriented, with
+`s(S^k) ∩ y(Y) = {s a} = {y b}`; transversality the equality of the sum of the tangent ranges
+`TauCeti.SmoothEmbedding.tangentRange` at `a` and at `b` with the whole tangent space of `Q`;
+`ℓ`-connectivity of `Y` path connectedness with `π_j(Y, b)` trivial for `1 ≤ j ≤ ℓ`; triviality of
+the normal bundle a linear Mathlib `Bundle.Trivialization` with base set all of `Y` and fibre
+`ℝ^k` of Tau Ceti's intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace`, with its
+quotient topology; `S` a compact Hausdorff smooth manifold modelled on `F′`, oriented, and
+`φ : S → T*Q` continuous with `π ∘ φ = y ∘ g` for a continuous `g : S → Y` with
+`g_*[S] = d[Y]`, `d ≠ 0`, in Mathlib's singular homology; and the hypersurface the regular level
+`F⁻¹(c)` of a smooth `F : T*Q → ℝ` with compact sublevel sets, with `F ∘ φ < c`. *Needs:* 1.5,
+DGFloer Layer 1 items 2 and 5, Layer 3, Layer 5 items 4–5, Layer 10 items 3–4, GeometricTopology
+Layer 1 (hypersurfaces, collars), AlgebraicTopology Stage 6, Tau Ceti
+`TauCeti.SmoothEmbedding.tangentRange`, `TauCeti.SmoothEmbedding.NormalSpace`,
+`TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, Mathlib `Bundle.Trivialization`,
+`AlgebraicTopology.singularHomologyFunctor`.
 
 **Checks.**
 - Example 7.4: `Q = Q′ # (S^k × Y)` with `Y` closed orientable and `(2k−2)`-connected,
@@ -1725,9 +1834,28 @@ collars), AlgebraicTopology Stage 6.
   whole component of `Q`, a copy of `Sⁿ`, and `Y` is a point, which is `ℓ`-connected for every
   `ℓ`; the hypotheses hold and the bound fails, so the bound is not a consequence of the
   hypotheses there (the source states it without excluding `k = n`, §7 before Theorem 7.1).
-  `k = 1` is excluded by `k ≥ 2`.
-- `Q′ = Tⁿ`, `k ≥ 3`: `π₂(Q) = 0` and `Q` is rationally essential, so neither Theorem B nor
-  Theorem H applies, while Theorem G does: the three theorems have different ranges.
+  The conclusion still holds for `k = n`: the component `Sⁿ` is abundant (4.2–4.3), so Theorem H,
+  monotonicity and the dilation argument of 4.5 make the capacity of every relatively compact
+  domain of `T*Sⁿ` finite, which gives almost existence on the levels `F⁻¹(c′) ∩ T*Sⁿ` (DGFloer
+  Layer 6 item 5), nonempty because `φ(S)` lies over the point `Y`. `k = 1` is excluded by `k ≥ 2`.
+- `Q` need not be connected: `φ(S)`, `X` and the path-connected `Y` lie over one component `Q₁`,
+  and a closed characteristic of `F⁻¹(c′) ∩ T*Q₁` contractible in `T*Q₁` is one of `F⁻¹(c′)`
+  contractible in `T*Q`, so the statement for `Q` follows from that for `Q₁`. In Theorem B's last
+  Check, by contrast, the base point carrying `π₂ ≠ 0` and the domain lie over different
+  components, and the statement fails without connectedness.
+- `d ≠ 0` is needed: on `Q = T⁶ ⊔ (S² × S⁴)` (`k = 2`, `Y = {p} × S⁴`, which is `2`-connected),
+  `S = ∅` has `g_*[∅] = 0 = 0·[Y]`, and `F = |ξ|²` on `T*T⁶` for the flat metric, `F = |ξ|² + 2`
+  over `S² × S⁴`, with `c = 1`, satisfies every other hypothesis; the levels near `1` are flat
+  cosphere bundles of `T⁶`, whose closed characteristics are closed geodesics, none contractible.
+- `Q = Tⁿ # (S^k × Y)` as in Example 7.4, `k ≥ 3`, for instance `T⁸ # (S³ × S⁵)`: `π₁(Q) = ℤⁿ`,
+  and the universal cover, `ℝⁿ` with a copy of `(S^k × Y) − ball` attached at each point of
+  `ℤⁿ`, is `(k−1)`-connected with `H_k` free on the lifts of `S^k × {q}`; so `π₂(Q) = 0`, and by
+  Hurewicz `π_k(Q)` has elements of infinite order, so Theorem B's hypothesis on `Q` holds, while
+  its hypothesis that `H_n(U) → H_n(Q)` be nonzero is what Theorem G drops: it needs only
+  `φ(S) ⊂ U`. `Q` is rationally essential (the collapse `Q → Tⁿ` has degree `1`), and the source
+  knows no technique, its own included, that gives `c°_HZ(D*Q) < ∞` (Example 7.4), so Theorem H
+  is not available. The three theorems have different ranges; a Check claiming that Theorem B's
+  hypothesis on `Q` fails here would be false.
 
 ### Examples
 
@@ -1742,22 +1870,23 @@ Layers 1–3; DGFloer Layer 1 items 1–2, 5–6, Layers 2–3, Layer 5 items 2�
 Layer 11; GeometricTopology Layers 1 and 3; GeneralAlgebraicKTheoryPartII §4.30b (through 1.2);
 AlgebraicTopology Stages 2, 6, 8.1–8.7, Stage 4 item 5 and Stage 8 items 7 and 11a;
 GeneralizedCohomology G4.0b;
-RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c); SmoothBundlesConnections B1.4, B2.2 and
-B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`, `HomotopyGroup.map`,
+RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c); TopologicalKTheory T1.6a and T1.6d (4.2c);
+SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`, `HomotopyGroup.map`,
 `HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`,
 `TauCeti.homotopyGroupSphereAddEquiv`, `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
 `TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
 `TauCeti.realClifford_classification`, `TauCeti.continuousOrthogonalToDiffSphere`,
-`IsCoveringMap.homotopyGroupPiMulEquiv`, the fibre dilation and capacity statements of 4.5; Mathlib
+`IsCoveringMap.homotopyGroupPiMulEquiv`, the fibre dilation and capacity statements of 4.5,
+`TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace` (4.6); Mathlib
 `HomotopyGroup.Pi`, `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
-`Matrix.unitaryGroup`, `Bundle.RiemannianBundle`. Sources: the source paper §§6.3–6.4 and §7;
+`Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.6). Sources: the source paper §§6.3–6.4 and §7;
 Milnor, *Morse Theory*, §§22–24; Bott, *The stable homotopy of the classical groups*;
 Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4.2.
 
 ## Downstream consumers
 
-None at present. The base roadmap consumes nothing from this one.
+None. The base roadmap consumes nothing from this one.
 
 ## Worked examples
 
@@ -1774,7 +1903,7 @@ None at present. The base roadmap consumes nothing from this one.
    is literally what happens.
 4. **Projective generators.** For `CP¹`, Layer 2's cell degrees are `a_k = 2k − 1` and
    `b_k = 2k`, `H_*(ΩCP¹) ≅ H_*(ΩS²)` in every degree, the calibrated generator of `H₂(ΩCP¹)` is
-   `x²`, and `β_*(σ_p)_*[Σ_p] = ±2x²`.
+   `x²`, and `β_*(σ_p)_*[Σ_p] = ±x²`, while the full `n = 2` Stiefel family of 4.2 gives `±2x²`.
 
 ## Source coverage
 

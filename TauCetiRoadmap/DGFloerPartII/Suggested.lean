@@ -7,6 +7,7 @@ public import TauCeti.Geometry.Diffeomorphism.Topology
 public import TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace
 public import TauCeti.Geometry.Manifold.Instances.QuaternionicProjectiveSpace
 public import TauCeti.Geometry.Manifold.IsManifold.RestrictScalars
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Topology
 public import TauCeti.Geometry.Symplectic.Capacity.HoferZehnder
 public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Codisc
 public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Liouville
@@ -45,7 +46,12 @@ Stated here:
   `HomotopyGroup.map`; real Bott periodicity and the stable homotopy groups of `SO` (README 4.2c),
   in the finite ranks where `π_i(SO(n))` is already stable; and the torsion group
   `π_(n−1)(SO(n))` of Lemma 6.35 (README 4.3), with its seven low-rank values and the torsion
-  statement for every odd `n ≥ 3`.
+  statement for every odd `n ≥ 3`;
+* Theorem G, Theorem 7.1 of the source (README 4.6), on the carriers of Theorem B, with the
+  embedded sphere and the transverse submanifold given by Tau Ceti's `TauCeti.SmoothEmbedding`,
+  transversality by their tangent ranges `TauCeti.SmoothEmbedding.tangentRange`, and the
+  triviality of the normal bundle by a linear Mathlib `Bundle.Trivialization` over the whole
+  submanifold of Tau Ceti's intrinsic normal bundle `TauCeti.SmoothEmbedding.NormalSpace`.
 
 Not statable at the pins, and stated in the README only:
 
@@ -58,10 +64,6 @@ Not statable at the pins, and stated in the README only:
   bundles into the evaluation fibration `Map(S², Q) → Q` with a nonzero fibre class, or abundance
   itself, and neither library has that fibration. The homogeneous spaces of Proposition 6.36
   (README 4.4) need the smooth structure of `G/H` for a closed subgroup `H`, absent at the pins.
-* Theorem G (README 4.6): its hypotheses need the transverse intersection of two embedded
-  submanifolds and the triviality of a normal bundle. Tau Ceti has smooth embeddings and their
-  intrinsic normal bundles (`TauCeti.SmoothEmbedding.NormalSpace`) but no transversality
-  predicate for a pair of embeddings and no triviality predicate for a vector bundle.
 * The stable orthogonal group `O` of README 4.2a, a colimit of the `O(r)` in compactly generated
   spaces, has no named carrier at the pins, so neither its Bott equivalences (README 4.2c) nor the
   stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind
@@ -320,5 +322,56 @@ The stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(
 there (README 4.3). -/
 theorem isOfFinOrder_pi_SO (k : ℕ) (hk : Odd (k + 3))
     (x : π_ (k + 2) (SO (k + 3)) 1) : IsOfFinOrder x := sorry
+
+/-! ## Layer 4: knotted hypersurfaces -/
+
+/-- **Theorem G of the source, Theorem 7.1** (README 4.6). Let `Q` be a closed orientable
+`n`-manifold, `n = dim E`, containing an embedded sphere `X = s(Sᵏ)`, `k ≥ 2`, and a closed
+orientable `(n − k)`-submanifold `Y = y(Y)` that meets `X` in the single point `s a = y b`,
+transversely: the tangent spaces of `X` and `Y` there span the tangent space of `Q`. Assume that
+`Y` is `ℓ`-connected, with `ℓ = 2k − 2` for even `k` and `ℓ = k − 1` for odd `k`, and that its
+normal bundle is trivial. Let `S` be a closed oriented `(n − k)`-manifold and `φ : S → T*Q` a
+continuous map into `π⁻¹(Y)`, with `π ∘ φ = y ∘ g` and `g : S → Y` of degree `d ≠ 0`. Then every
+regular level `F⁻¹(c)` of a smooth `F : T*Q → ℝ` with compact sublevel sets whose domain
+`U = {F < c}` contains `φ(S)` has the contractible almost existence property for the canonical
+symplectic form. The proof produces a class `α` with `i_(Q*)α = 0` and `j_(Y!)α` not torsion from
+the Pontryagin–Thom collapse onto the trivial normal disc bundle of `Y` (Proposition 7.5,
+Lemmas 7.6 and 7.7) and applies the base roadmap's cotangent criterion. -/
+theorem hasContractibleAlmostExistence_of_knottedSphere {E Q F' Y S : Type}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace Q] [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q]
+    (oQ : HomologicalOrientation Q E (Module.finrank ℝ E)) (k : ℕ) (hk : 2 ≤ k)
+    (s : SmoothEmbedding (𝓡 k) 𝓘(ℝ, E) ∞
+      (Metric.sphere (0 : EuclideanSpace ℝ (Fin (k + 1))) 1) Q)
+    [NormedAddCommGroup F'] [NormedSpace ℝ F'] [FiniteDimensional ℝ F']
+    [TopologicalSpace Y] [T2Space Y] [ChartedSpace F' Y] [IsManifold 𝓘(ℝ, F') ∞ Y]
+    [CompactSpace Y] (hdim : Module.finrank ℝ F' + k = Module.finrank ℝ E)
+    (oY : HomologicalOrientation Y F' (Module.finrank ℝ F'))
+    (y : SmoothEmbedding 𝓘(ℝ, F') 𝓘(ℝ, E) ∞ Y Q)
+    (a : Metric.sphere (0 : EuclideanSpace ℝ (Fin (k + 1))) 1) (b : Y)
+    (hab : Set.range s ∩ Set.range y = {y b}) (has : s a = y b)
+    (htr : (s.tangentRange a (WithTop.coe_ne_zero.2 ENat.top_ne_zero) : Submodule ℝ E) ⊔
+      (y.tangentRange b (WithTop.coe_ne_zero.2 ENat.top_ne_zero) : Submodule ℝ E) = ⊤)
+    (hY : PathConnectedSpace Y ∧
+      ∀ i : ℕ, i + 1 ≤ (if Even k then 2 * k - 2 else k - 1) → Subsingleton (π_ (i + 1) Y b))
+    (htriv : ∃ e : Trivialization (EuclideanSpace ℝ (Fin k))
+          (TotalSpace.proj : TotalSpace (EuclideanSpace ℝ (Fin k))
+            (fun x ↦ y.NormalSpace x (WithTop.coe_ne_zero.2 ENat.top_ne_zero)) → Y),
+        e.IsLinear ℝ ∧ e.baseSet = Set.univ)
+    [TopologicalSpace S] [T2Space S] [ChartedSpace F' S] [IsManifold 𝓘(ℝ, F') ∞ S]
+    [CompactSpace S] (oS : HomologicalOrientation S F' (Module.finrank ℝ F'))
+    (φ : C(S, CotangentBundle 𝓘(ℝ, E) Q)) (g : C(S, Y)) (hφ : ∀ x, (φ x).proj = y (g x))
+    {d : ℤ} (hd : d ≠ 0)
+    (hdeg : (((singularHomologyFunctor (ModuleCat.{0} ℤ) (Module.finrank ℝ F')).obj
+        (ModuleCat.of ℤ (ULift.{0} ℤ))).map (TopCat.ofHom g)).hom
+          (oS.mapFundamentalClass rfl (ContinuousMap.id S)) =
+        d • oY.mapFundamentalClass rfl (ContinuousMap.id Y))
+    (F : CotangentBundle 𝓘(ℝ, E) Q → ℝ)
+    (hF : ContMDiff (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) ∞ F)
+    (hFc : ∀ r : ℝ, IsCompact (F ⁻¹' Set.Iic r)) {c : ℝ}
+    (hc : IsRegularValue (𝓘(ℝ, E).prod 𝓘(ℝ, E →L[ℝ] ℝ)) 𝓘(ℝ) F c)
+    (hφU : ∀ x, F (φ x) < c) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).HasContractibleAlmostExistence Set.univ F c :=
+  sorry
 
 end TauCetiRoadmap.DGFloerPartII
