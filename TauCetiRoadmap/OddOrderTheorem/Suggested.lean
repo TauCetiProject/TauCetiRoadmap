@@ -20,7 +20,8 @@ the Appendix C comparison `appendixC_prime_le` (Layer 5).
 Not statable at the pins, so not stated: the five-type theorem and the supporting-pair alternative
 (Peterfalvi (8.8)) and the type-I Frobenius theorem (12.7), which need the carriers `H(M)`, the
 Fitting subgroup, `σ(M)` and its Hall core (no Hall subgroups, `π`-cores or Fitting subgroup exist
-at the pins; LocalFiniteGroupTheory L1–L2 supply them); the exclusion of the all-type-I case
+at the pins; README Layer 1 states the first two and imports the third); the exclusion of the
+all-type-I case
 (12.17), for the same reason; the coherence theorems (5.6), (6.3) and (6.8), whose hypotheses are
 an induced family `S(H₁)` of irreducibles with kernel conditions and a subcoherence datum (5.2),
 both Layer 2 constructions; Thompson transitivity (Bender–Glauberman 7.6), which needs `SCN₃(P)`
