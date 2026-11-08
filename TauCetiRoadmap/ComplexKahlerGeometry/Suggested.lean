@@ -13,13 +13,24 @@ Weierstrass preparation and division use native analytic germs at the origin of
 `ℂⁿ × ℂ`. Noetherianity and unique factorization use the native holomorphic stalk. Its
 small-manifold universe matches the native sheaf with scalar ring ℂ.
 
-The other headline theorems require the following constructions, which are not
-available at the pins with the geometric comparisons required by the README:
+The other headline theorems are not stated here, and nothing is stated in their
+place. Three of them are statable on carriers that the README's Tau Ceti contract
+names and that the Tau Ceti revision this file is built against does not have:
 
-* Layer 1: Newlander–Nirenberg needs the Nijenhuis tensor and the comparison between
-  a complex atlas and its induced smooth almost-complex structure.
-* Layer 2: Dolbeault–Grothendieck exactness and the Dolbeault/sheaf comparison need
-  the manifold type-form bundles, their differential, and the holomorphic-form sheaf.
+* Layer 1: the Newlander–Nirenberg theorem in local form lacks the Nijenhuis tensor
+  `TauCeti.SmoothAlmostComplexStructure.nijenhuis` and the induced structure
+  `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`.
+* Layer 2: the local Dolbeault–Grothendieck lemma lacks the type predicate
+  `TauCeti.SmoothForm.IsOfType` and the operator
+  `TauCeti.SmoothAlmostComplexStructure.delBar`.
+* Layer 5: the de Rham Hodge decomposition on a compact oriented Riemannian manifold
+  lacks `TauCeti.SmoothForm.hodgeStar`, `TauCeti.SmoothForm.codifferential` and
+  `TauCeti.deRhamCohomology`.
+
+The remaining headline theorems need constructions that no pinned library has:
+
+* Layer 2: the Dolbeault theorem and the Dolbeault/sheaf comparison need the
+  holomorphic-form sheaf and the Dolbeault cohomology quotients.
 * Layer 3: the analytic Nullstellensatz and Hartogs extension across an analytic subset
   of dimension at most `n − 2` on a manifold need reduced analytic subsets, their dimension
   and their zero-locus carrier. Oka coherence of the stalks and Cartan coherence of ideal
@@ -32,10 +43,10 @@ available at the pins with the geometric comparisons required by the README:
   and componentwise locally finite-rank assembly.
 * Layer 5: geometric Sobolev completeness, smooth Laplace-type regularity and the H²
   realization need the density bundle, LF bundle tests, bundle distributions, and
-  actual atlas localization/reconstruction maps. The de Rham and Dolbeault Hodge
-  theorems and Serre duality additionally need manifold form complexes, Hodge star,
-  geometric adjoints and their cohomology comparisons. The finite-regularity planar
-  comparisons require this same rough-form star and codifferential; coefficient
+  actual atlas localization/reconstruction maps. The Dolbeault Hodge theorem and
+  Serre duality additionally need the Dolbeault cohomology quotients and their
+  comparison with the Hodge star. The finite-regularity planar comparisons need a
+  codifferential on finite-regularity forms, not only on smooth ones; coefficient
   formulas alone do not state those comparisons.
 * Layer 6: Kähler identities, the ∂∂̄ lemma, Hodge decomposition, Hard Lefschetz and
   Hodge–Riemann need the Kähler metric, type-form and cohomological Lefschetz operators.

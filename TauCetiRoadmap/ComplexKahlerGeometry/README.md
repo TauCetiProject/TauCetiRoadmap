@@ -313,7 +313,8 @@ derivative, the pullback along smooth maps and the paired wedge for a pairing co
 an argument are complex-linear (`TauCeti.SmoothForm.mextDerivₗ_smul`,
 `TauCeti.SmoothForm.mpullback_smul`, `TauCeti.SmoothForm.wedgeWith_smul_left_of_map_smul` and
 `TauCeti.SmoothForm.wedgeWith_smul_right_of_map_smul`); coefficient conjugation is
-conjugate-linear, `conj(c • ω) = conj(c) • conj(ω)` (`TauCeti.SmoothForm.mapCoeff_conj_smul`),
+conjugate-linear on complex-valued forms, `conj(c • ω) = conj(c) • conj(ω)`
+(`TauCeti.SmoothForm.mapCoeff_conj_smul`),
 and multiplicative for the wedge of complex-valued forms
 (`TauCeti.SmoothForm.mapCoeff_conj_wedgeWith_mul`). K1 consumes these for the complex type
 forms and cochain complexes below and constructs no second form carrier and no second scalar
@@ -1179,7 +1180,7 @@ This generic distribution theorem supplies both the Hyperfunctions and RQFT
 source examples and uses no hyperfunction or renormalization theorem.
 
 Own the literal delta-series failure at distribution level. With a compact
-smooth test equal near0 to `1/(1+2x)` and supported inside `(-1/4,1/4)`,
+smooth test equal near 0 to `1/(1+2x)` and supported inside `(-1/4,1/4)`,
 prove `⟨δ^(n)/n!,φ⟩=2^n`; its partial sums do not converge in D′.
 The point-supported analytic-functional interpretation and convergent
 factorial-square comparison belong to Hyperfunctions HF5.
@@ -1512,7 +1513,7 @@ complex-linear quotient comparison.
 
 As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
 form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
-and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use the pinned
+and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use
 the pinned Tau Ceti homotopy operator `TauCeti.homotopyOperator` on the cylinder `D × [0,1]`, the operator DifferentialGeometry §5.4 describes, for
 the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
 closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
