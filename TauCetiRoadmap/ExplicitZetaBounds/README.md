@@ -2759,7 +2759,8 @@ first puts the zeros of `ζ` on `Re s = 1/2`, left of the boundary (at least
 `6.4355 log max(q, q|t|, 1.7367) ≥ 6.4355 log(2|t|) ≥ 5.558691 log|t|` for `q ≥ 2` put both
 regions inside the `5.558691` region of 7.3.
 
-- (Kadiri, Théorème 11.1, `kadiri2002thesis` lines 1976–1980, English form (115) at lines 2063–2068)
+- (Kadiri, Théorème 11.1, `kadiri2002thesis` lines 1976–1980, English form (115) at lines
+  2063–2068; the clause on the zero in the chapter's introduction, line 1964, English line 2054)
   given `RH(3·10¹²)`, `BrentPlattTrudgianRecord` and `PlattRecord`, for `q ≥ 3`, the product
   `L_q(s) = ∏_{χ mod q} L(s, χ)` has at most one zero in the region
   `σ ≥ 1 − 1/(6.4355 log(max(q, q|t|)/1.7367))`, and such a zero is real, simple and belongs to a
@@ -2773,7 +2774,7 @@ regions inside the `5.558691` region of 7.3.
   `max(q, q|t|, 1.7367) ≥ max(q, q|t|)/1.7367`: for `q ≥ 3` by the source's statement, and for
   `q = 2`, where `L_2(s) = (1 − 2^{−s}) ζ(s)`, from `RH(3·10¹²)` and the `5.558691` region of 7.3
   alone (the paragraph above), with no zero at all. The source states its theorem for `q ≥ 2`
-  (line 1960), but at `q = 2` its region contains `s = 0` (its boundary there is
+  (line 1960, English line 2049), but at `q = 2` its region contains `s = 0` (its boundary there is
   `1 − 1/(6.4355 log(2/1.7367)) = −0.101`), where `(1 − 2^{−s}) ζ(s)` vanishes, a zero of the
   principal character; so at `q = 2` only the narrower form, whose boundary at `t = 0` is
   `0.7758`, is stated here.
@@ -3493,7 +3494,7 @@ refer to the text of the version listed, the arXiv version where one is given.
 - `platt2016grh`: David Platt, *Numerical computations concerning the GRH*, Mathematics of Computation 85 (2016); doi:10.1090/mcom/3077, arXiv:1305.3087v1. Cited for: Theorems 7.1 and 7.2.
 - `alzer1997`: H. Alzer, *On some inequalities for the gamma and psi functions* (1997). Cited for: Theorems 8 and 9.
 - `chenggraham2004`: Y. Cheng, S. W. Graham, *Explicit estimates for the Riemann zeta function*, Rocky Mountain J. Math. 34 (2004). Cited for: Lemma 2.
-- `kadiri2002thesis`: H. Kadiri, *Une région explicite sans zéros pour les fonctions L de Dirichlet*, thèse de doctorat (2002). Cited for: Théorème 11.1 and its English form (115) (`R₁ = 6.4355`, `c = 1.7367` dividing the argument of the logarithm).
+- `kadiri2002thesis`: H. Kadiri, *Une région explicite sans zéros pour les fonctions L de Dirichlet*, thèse de doctorat (2002). Cited for: Théorème 11.1 and its English form (115) (`R₁ = 6.4355`, `c = 1.7367` dividing the argument of the logarithm), and the introduction's description of the possible zero as real, simple and of a real non-principal character (lines 1964 and 2054).
 - `kadiri2018`: Habiba Kadiri, *An explicit zero-free region for the Dirichlet L-functions*, Mathematika 64 (2018), no. 2, 445–474; arXiv:math/0510570v2. Cited for: Theorem 1.1 (R = 5.60 for 3 <= q <= 400000); §2 (Theorems 2.1–2.2, its inputs).
 - `logan1988`: B. F. Logan, *An interference problem for exponentials* (1988). Cited for: Theorem 1.
 - `hiary2016hybrid`: Ghaith A. Hiary, *An explicit hybrid estimate for L(1/2+it,χ)* (2015); arXiv:1510.00950v2. Cited for: Theorem 1.2; Corollary 1.1.
