@@ -1,6 +1,11 @@
 import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
+import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
+import TauCeti.Algebra.AlgebraicGroup.Torus.Maximal
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
+import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
 import TauCeti.Algebra.Lie.UniversalEnveloping.Kostant.Form
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
@@ -12,7 +17,15 @@ against the pinned APIs: local closedness of algebraic orbits, strict dimension 
 at the boundary, closed orbits in orbit closures, the character kernel of central-cover lifts, and integral PBW for the full
 reductive Chevalley frame (including its central torus), compactness of proper complex
 scheme points, characteristic-zero equivalence of reductivity and complete reducibility,
+Nagata's characteristic-`p` criterion that a smooth connected affine group is linearly
+reductive exactly when it is a torus, the characteristic-zero Levi complement of §6A in
+Hopf coordinates, conjugacy of maximal tori by rational points over an algebraically closed
+field, Lang surjectivity over finite fields,
 and nonsplitting of the braid permutation extension for at least two strands.
+
+Conjugacy of Borel subgroups over an algebraically closed field (§7.1) is proved in the
+pinned Tau Ceti, `TauCeti.HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` in
+`TauCeti/Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`, and is consumed, not restated.
 
 The signed ADE integral Lie construction and its full-lattice comparison lack the
 constructed signed root-space Lie algebra and its Chevalley-frame identification.
@@ -30,11 +43,11 @@ highest-weight classification lacks the rational highest-weight modules and thei
 identification with the prescribed integral model. The spectral monodromy theorem
 lacks the constructed regular-semisimple quotient and its analytic comparison on
 the native group-point carrier. The full smooth-chart comparison lacks the compatible manifold atlas on native
-scheme points; this is a construction of README §3A.5. Lang surjectivity lacks the general scheme Frobenius
-and geometric-connectedness comparison on that carrier. The characteristic-zero
-Levi-complement theorem of §6A lacks the constructed scheme quotient by the unipotent
-radical and its scheme semidirect-product comparison; the native dynamic Levi of
-a cocharacter is a different construction. The Harish–Chandra biadjunctions, Mackey
+scheme points; this is a construction of README §3A.5. The scheme semidirect-product
+form `U ⋊ L ≃ G` of the Levi decomposition of §6A lacks the constructed semidirect-product
+group scheme; its Hopf-coordinate form, that the quotient by a Hopf ideal restricts to an
+isomorphism from the coinvariants of the unipotent radical's defining ideal, is stated below.
+The Harish–Chandra biadjunctions, Mackey
 decomposition and common-Levi independence of §§7c–7e, including their Steinberg
 endomorphism extensions in §7g, lack the constructed
 Frobenius-fixed parabolic and Levi groups with their Harish–Chandra functors.
@@ -170,6 +183,95 @@ theorem reductive_iff_linearlyReductive (k : Type u) [Field k] [CharZero k]
     TauCeti.reductiveCommHopfAlgProperty k H ↔
       TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj := by
   sorry
+
+/-- Nagata's theorem. Over a field of characteristic `p > 0`, a smooth geometrically
+connected affine group of finite type is linearly reductive if and only if it is a torus,
+where a torus means a group that becomes a split torus over an algebraic closure
+(Milne 2017, Remark 12.56, p. 249, with the footnote to Proposition 12.54, p. 248: linear
+reductivity is insensitive to extension of the base field). Smoothness is needed: `μ_p` is
+connected and linearly reductive but not a torus. Geometric connectedness is needed: the
+constant group `ℤ/ℓ` for a prime `ℓ ≠ p` is linearly reductive and not a torus. -/
+theorem linearlyReductive_iff_torus (k : Type u) [Field k]
+    (p : ℕ) [Fact p.Prime] [CharP k p]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hsmooth : Algebra.Smooth k H)
+    (hconnected : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
+    TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj ↔
+      TauCeti.torusCommHopfAlgProperty k H := by
+  sorry
+
+/-! ## Layer 6A: characteristic-zero Levi complements -/
+
+namespace LeviComplements
+
+/-- Mostow's theorem in Hopf coordinates. Over a field `k` of characteristic zero, a smooth
+geometrically connected affine group `G` of finite type has a Levi complement: a closed
+subgroup `L` on which the quotient map `q : G → Q = G/R_u(G)` restricts to an isomorphism.
+With `I_u` the defining Hopf ideal of the `k`-unipotent radical (the geometric unipotent
+radical, since `k` is perfect), `O(Q)` is the subalgebra of right `I_u`-coinvariants of `O(G)`,
+and `L` is cut out by a Hopf ideal `J` for which the composite `O(Q) → O(G) → O(G)/J = O(L)`
+is bijective (McNinch, Levi decompositions of a linear algebraic group, §3.1, p. 6). For
+reductive `G` the ideal `J = 0` works; for unipotent `G` the augmentation ideal works. The
+characteristic hypothesis is needed: in characteristic `p` the group of length-two Witt
+vector points of `SL₂` has reductive quotient `SL₂` and no Levi complement (McNinch, (3.2.1),
+p. 7). -/
+theorem exists_levi_complement (k : Type u) [Field k] [CharZero k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hsmooth : Algebra.Smooth k H)
+    (hconnected : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
+    ∃ J : TauCeti.HopfIdeal k H,
+      Function.Bijective
+        ((Ideal.Quotient.mkₐ k J.toIdeal).comp
+          (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
+  sorry
+
+end LeviComplements
+
+/-! ## Layer 7: maximal tori -/
+
+namespace BorelTori
+
+/-- Over an algebraically closed field `k`, any two maximal tori of a finite-type affine group
+`G` are conjugate by a rational point: if the Hopf ideals `I` and `J` cut out maximal tori `T`
+and `T'`, then `g T g⁻¹ = T'` for some `g ∈ G(k)`, that is `I.conjugate g = J` (Milne 2017,
+Theorem 17.10, p. 354, for smooth connected `G`; the tori of `G` are the tori of the smooth
+connected subgroup `(G_red)°`, whose rational points are rational points of `G`). The pinned
+`TauCeti.HopfIdeal.exists_conjugate_eq_of_isMaximalTorus` assumes in addition that both tori
+can be conjugated into a fixed maximal torus. Algebraic closedness is needed: over `ℝ` the
+diagonal torus and `SO₂` are maximal tori of `SL₂` that no real point conjugates into each
+other. -/
+theorem exists_conjugate_eq_of_isMaximalTorus (k : Type u) [Field k] [IsAlgClosed k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k) {I J : TauCeti.HopfIdeal k H.obj}
+    (hI : TauCeti.HopfIdeal.IsMaximalTorus k H.obj I)
+    (hJ : TauCeti.HopfIdeal.IsMaximalTorus k H.obj J) :
+    ∃ g : WithConv (H.obj →ₐ[k] k), I.conjugate g = J := by
+  sorry
+
+end BorelTori
+
+/-! ## Layer 7a: Lang surjectivity over finite fields -/
+
+namespace FiniteFieldPoints
+
+/-- Lang's theorem. For a smooth geometrically connected affine group `G` of finite type over
+a finite field `k` with `q` elements, and an algebraically closed extension `K` of `k`, every
+`K`-point of `G` is `g⁻¹ F(g)` for some `K`-point `g`, where `F(g)` is `g` followed by the
+`q`-power Frobenius of `K` (Milne 2017, Theorem 17.96 and Corollary 17.97, p. 383; the source
+writes the map as `g ↦ g F(g)⁻¹`, and inverting the input converts one convention into the
+other). Geometric connectedness is needed: on the constant group `ℤ/2` the map is constant
+with value `1`. Algebraic closedness of `K` is needed: on `𝔾_a` over `K = k` the map
+`x ↦ x^q − x` is zero. -/
+theorem lang_surjective (k : Type u) [Field k] [Finite k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hsmooth : Algebra.Smooth k H)
+    (hconnected : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj)
+    (K : Type u) [Field K] [Algebra k K] [IsAlgClosed K]
+    (F : K →ₐ[k] K) (hF : ∀ a : K, F a = a ^ Nat.card k) :
+    Function.Surjective (fun g : WithConv (H →ₐ[k] K) =>
+      g⁻¹ * WithConv.toConv (F.comp g.ofConv)) := by
+  sorry
+
+end FiniteFieldPoints
 
 /-! ## Layer 9A: the full reductive integral enveloping form -/
 
