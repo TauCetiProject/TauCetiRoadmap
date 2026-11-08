@@ -12,9 +12,12 @@ The statable headlines are the analytic q-binomial and Euler identities, Ramanuj
 bilateral summation, Bailey's transformation, both Rogers–Ramanujan counting and
 analytic identities, the quintuple product, rank/crank equidistribution, prime-power
 partition congruences, the completed Lerch elliptic and full modular laws, the
-identification of the third-order f with the rank specialization, and the T and S
+identification of the third-order f with the rank specialization, the T and S
 transformation laws of the completed third-order vector H₃ = F₃ − G₃, whose
-correction is a period integral of three unary theta series along a vertical ray.
+correction is a period integral of three unary theta series along a vertical ray, the
+weight-1/2 law of the root-of-unity rank completions F_(j/t) on a principal congruence
+subgroup with one multiplier for all j, and the resulting mock modularity of the
+rank-residue deviations Σ (N(r,t;n) − p(n)/t) q^(n−1/24).
 
 The following full headlines are not statable at the pins:
 * Layer 7's general signature-(r−1,1) theta transformations need the negative-cone
@@ -25,7 +28,8 @@ The following full headlines are not statable at the pins:
   mixed Laurent–Taylor residues and the completed polar-kernel construction.
 * The shadow, harmonicity and all-cusp growth assertions of Layers 6, 10 and 11
   (the torsion Lerch completions, the xi-images and cusp bounds of the third-, fifth-
-  and seventh-order vectors, and the root-of-unity rank completions) need the
+  and seventh-order vectors, and the shadows and cusp growth of the root-of-unity rank
+  completions and of the rank-residue deviations) need the
   half-integral-weight harmonic spaces, the xi operator and the cusp coordinates of
   Layer 8.
 The fifth- and seventh-order T and S laws of §§10.6 and 10.8 use the same
@@ -342,6 +346,63 @@ theorem thirdOrderCompletion_S (τ : ℂ) (hτ : 0 < τ.im) :
       ![Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 1,
         Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 0,
         -(Complex.sqrt (-Complex.I * τ) * thirdOrderCompletion τ 2)] := by
+  sorry
+
+/-! ## Layer 11: rank specializations at every root of unity -/
+
+/-- Dyson's rank generating function as the complex Durfee-square series
+`R(w;q) = Σ_(n≥0) q^(n²)/((wq;q)ₙ (w⁻¹q;q)ₙ)`; Zagier, p. 986–17. -/
+noncomputable def rankGenFun (w q : ℂ) : ℂ :=
+  ∑' n : ℕ, q ^ (n * n) / (P[(w * q), q, n] * P[(w⁻¹ * q), q, n])
+
+/-- The completed rank specialization at `ξ = e(α)`:
+`F_α = q^(−1/24) R(ξ;q) − (D/2) q^(−1/6) (ξ⁻¹ R(τ+3α;3τ) − ξ R(−τ+3α;3τ))` with
+`D = e^(−πiα) − e^(πiα)` and Zwegers' correction `R`; at `α = 1/2` it is the first component
+of the completed third-order vector. -/
+noncomputable def rankCompletion (α : ℚ) (τ : ℂ) : ℂ :=
+  let ξ : ℂ := Complex.exp (2 * Real.pi * Complex.I * (α : ℂ))
+  let D : ℂ := Complex.exp (-(Real.pi * Complex.I * (α : ℂ))) -
+    Complex.exp (Real.pi * Complex.I * (α : ℂ))
+  Complex.exp (-(2 * Real.pi * Complex.I * τ) / 24) *
+      rankGenFun ξ (Complex.exp (2 * Real.pi * Complex.I * τ)) -
+    D / 2 * Complex.exp (-(2 * Real.pi * Complex.I * τ) / 6) *
+      (ξ⁻¹ * zwegersR (τ + 3 * (α : ℂ)) (3 * τ) - ξ * zwegersR (-τ + 3 * (α : ℂ)) (3 * τ))
+
+/-- For every `t > 1` the completions `F_(j/t)`, `0 < j < t`, transform with weight 1/2 and one
+common multiplier on a principal congruence subgroup, `F(γτ) = χ(γ) √(cτ+d) F(τ)` with the
+principal root; Zagier, Theorem 7.1 (Bringmann–Ono). -/
+theorem rankCompletion_modular (t : ℕ) (ht : 1 < t) :
+    ∃ N : ℕ, 0 < N ∧ ∃ χ : Matrix.SpecialLinearGroup (Fin 2) ℤ → ℂ,
+      ∀ γ ∈ CongruenceSubgroup.Gamma N, ∀ j : ℕ, 0 < j → j < t → ∀ τ : ℂ, 0 < τ.im →
+        rankCompletion ((j : ℚ) / t)
+            (((γ 0 0 : ℂ) * τ + (γ 0 1 : ℂ)) / ((γ 1 0 : ℂ) * τ + (γ 1 1 : ℂ))) =
+          χ γ * Complex.sqrt ((γ 1 0 : ℂ) * τ + (γ 1 1 : ℂ)) *
+            rankCompletion ((j : ℚ) / t) τ := by
+  sorry
+
+/-- Rank-residue deviations are mock modular: for `t > 0` and `r : ZMod t`, the series
+`Σ_(n≥0) (N(r,t;n) − p(n)/t) q^(n−1/24)`, with `N(r,t;n)` the number of partitions of `n` of
+rank `≡ r`, is the holomorphic part `(1/t) Σ_(0<j<t) ζ_t^(−rj) q^(−1/24) R(ζ_t^j;q)` of
+`Φ = (1/t) Σ_(0<j<t) ζ_t^(−rj) F_(j/t)`, and `Φ` transforms with weight 1/2 and a scalar
+multiplier on a principal congruence subgroup; Zagier, corollary of Theorem 7.1. -/
+theorem rankResidueDeviation_mock (t : ℕ) (ht : 0 < t) (r : ZMod t) :
+    let ζ : ℕ → ℂ := fun j =>
+      Complex.exp (-(2 * Real.pi * Complex.I * ((r.val * j : ℕ) : ℂ) / t))
+    let Φ : ℂ → ℂ := fun τ =>
+      (1 / t : ℂ) * ∑ j ∈ Finset.Ioo 0 t, ζ j * rankCompletion ((j : ℚ) / t) τ
+    (∀ τ : ℂ, 0 < τ.im →
+      HasSum (fun n : ℕ =>
+          ((partitionResidueCount (fun _ p => partitionRank p) t r n : ℂ) -
+            (Fintype.card (Nat.Partition n) : ℂ) / t) *
+            Complex.exp (2 * Real.pi * Complex.I * ((n : ℂ) - 1 / 24) * τ))
+        ((1 / t : ℂ) * ∑ j ∈ Finset.Ioo 0 t, ζ j *
+          (Complex.exp (-(2 * Real.pi * Complex.I * τ) / 24) *
+            rankGenFun (Complex.exp (2 * Real.pi * Complex.I * (((j : ℚ) / t : ℚ) : ℂ)))
+              (Complex.exp (2 * Real.pi * Complex.I * τ))))) ∧
+    ∃ N : ℕ, 0 < N ∧ ∃ χ : Matrix.SpecialLinearGroup (Fin 2) ℤ → ℂ,
+      ∀ γ ∈ CongruenceSubgroup.Gamma N, ∀ τ : ℂ, 0 < τ.im →
+        Φ (((γ 0 0 : ℂ) * τ + (γ 0 1 : ℂ)) / ((γ 1 0 : ℂ) * τ + (γ 1 1 : ℂ))) =
+          χ γ * Complex.sqrt ((γ 1 0 : ℂ) * τ + (γ 1 1 : ℂ)) * Φ τ := by
   sorry
 
 end
