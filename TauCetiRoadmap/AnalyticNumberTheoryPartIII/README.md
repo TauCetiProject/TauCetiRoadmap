@@ -117,7 +117,8 @@ objects.
   and the residue theorem for null-homologous curves; the truncated Perron kernel and its
   arithmetic formula; integration by parts against the derivative measure of a function of bounded
   variation; the presented Hecke `L`-function `TauCeti.LFunctions.heckeLFunctionC` and the finiteness
-  of ray class groups.
+  of ray class groups; the binomial series of `Ring.multichoose` on the complex open unit disc
+  (`TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`), the local factor of 11.2.
 - The residue calculus itself: ContourIntegration (completed, realized in Tau Ceti).
 - Zero-free regions, Jensen's bound, wide-strip growth and the rectangle curve: ZerosOfLFunctions
   §§3.4, 4.3, 6.2–6.5 and 7.1.
@@ -632,8 +633,9 @@ equality.
 ### Dependencies
 
 Mathlib Fourier analysis, bounded variation and vector-measure integrals, Mellin transform,
-`Real.sinc`; Tau Ceti one-dimensional bounded variation and the Dirichlet integral;
-ArithmeticDirichletSeries §6.3 for the Perron Check.
+`Real.sinc`; Tau Ceti one-dimensional bounded variation, the Dirichlet integral and the truncated
+Perron kernel `TauCeti.truncatedPerronKernel_one` (ArithmeticDirichletSeries §6.3, for the Perron
+instance and its Check).
 
 ## Layer 8: contours and discs
 
@@ -837,8 +839,8 @@ bound its real part above by `M + O(M)`, and apply 8.2 with `k = 1`.
 ### Dependencies
 
 Mathlib complex analysis (Cauchy, power series, Borel–Carathéodory, Jensen, circle integrals on
-annuli, improper integrals on half-lines); Tau Ceti residue theorem; ZerosOfLFunctions §§4.3 and
-7.1; ContourIntegration Layers 2–4.
+annuli, improper integrals on half-lines); Tau Ceti residues and the residue theorem for
+null-homologous curves; ZerosOfLFunctions §§4.3 and 7.1; ContourIntegration Layers 2–4.
 
 ## Layer 9: Mellin smoothing
 
@@ -1130,7 +1132,8 @@ so `|1/(s − ρ) − 1/(s₁ − ρ)| ≪ Re 1/(s₁ − ρ)`, and `Σ_ρ Re 1/
 ### Dependencies
 
 Layers 8 and 9; ZerosOfLFunctions §§3.4, 4.3, 6.2–6.5, 8.5; LFunctions Layers 3, 5, 7; Tau Ceti
-Hecke `L`-functions; Mathlib Mellin inversion; AnalyticNumberTheoryPartI §0.33a for a Check.
+Hecke `L`-functions and the finiteness of ray class groups; Mathlib Mellin inversion;
+AnalyticNumberTheoryPartI §0.33a for a Check.
 
 ## Layer 11: Dirichlet series of the classical arithmetic functions
 
@@ -1359,7 +1362,8 @@ of `2^ω`).
 
 ### Dependencies
 
-Mathlib arithmetic functions, `LSeries`, Euler products, `Ring.multichoose`;
+Mathlib arithmetic functions, `LSeries`, Euler products, `Ring.multichoose`; Tau Ceti's binomial
+series `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one` (for 11.2);
 ProbabilisticAndMetricNumberTheory §0.1a; AnalyticNumberTheoryPartI §§3.3 and 3.24a and
 ArithmeticDirichletSeriesPartII §5.1 for Checks.
 
