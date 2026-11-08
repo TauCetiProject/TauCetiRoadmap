@@ -761,8 +761,12 @@ the limit exists (Abel summation against `log t/t` and the convergence of
 
 - `R(1) = 1 − 6/π² = 0.3920…`, `R(4) = 3 − 24/π² = 0.5682…`; a count over `Finset.range ⌊x⌋₊` would
   drop `n = ⌊x⌋` and give `R(1) = −6/π²`.
-- `R(176) = 106 − 1056/π² = −0.9952…` (`Q(176) = 106 = (53/88)·176`: Rogers' `Q(x) ≥ (53/88) x` with
-  equality only at `x = 176`, `moserMacLeod1966` line 9).
+- `R(176) = 106 − 1056/π² = −0.9952…` (`Q(176) = 106 = (53/88)·176`: Rogers' `Q(N) ≥ (53/88) N`
+  for every natural `N ≥ 1`, with equality only at `N = 176`, `moserMacLeod1966` line 9, where it
+  is printed for all `x`). At real arguments it fails: `Q(1.9) = 1 < (53/88)·1.9 = 1.144`, and it
+  fails just below `N + 1` on `17` unit intervals `[N, N + 1)` with `1 ≤ N ≤ 388`, since `Q` is
+  constant on each while `(53/88) x` grows; for `x ≥ 7820` the bound `|R(x)| < √x/2` of 7.1
+  excludes any failure, as `(6/π² − 53/88) x ≥ √x/2` there.
 - `R(0.5) = −3/π²`: the count is empty below `1`, and `R(x) = −6x/π²` on `(0, 1)`.
 - `Δ(1) = 1 − (2γ − 1) = 2 − 2γ = 0.8456…`, `Δ(4) = 8 − 4(log 4 + 2γ − 1) = 1.8371…` (values of
   AnalyticNumberTheoryPartI's `divisorError`); `Δ(1980) = 22.339 > 0.5 √1980 = 22.249` and
@@ -2970,8 +2974,10 @@ assume `S > 0`, and put `K(t) = log t − 1 + 1/t` for `t ≥ 1` (line 308). The
     Σ_{n > y} v_z(n) μ²(n) f(n) ≤ (∏_{p ≤ z} (1 + f(p))) exp(−(log y/log z) K(log y/S)),
     Σ_{n ≤ y} v_z(n) μ²(n) f(n) ≥ (∏_{p ≤ z} (1 + f(p))) (1 − exp(−(log y/log z) K(log y/S))),
 
-and for `log y ≥ 7S` the simplified forms with `K` replaced by `K(7) = log 7 − 1 + 1/7` (lines
-336–360). Route: Rankin's trick with the weight `(n/y)^α`,
+and for `log y ≥ 7S` the simplified forms with `K` replaced by `K(7) = log 7 − 1 + 1/7 = 1.0888…`,
+which follow from the general forms since `K` increases on `[1, ∞)` (`K'(t) = (t − 1)/t²`). The
+source prints the simplified forms at lines 336–360 with `K` replaced by `1`, deriving them from
+`K(t) ≥ K(7) ≥ 1` for `t ≥ 7` (lines 361–362). Route: Rankin's trick with the weight `(n/y)^α`,
 `Σ_n v_z(n) μ²(n) f(n) n^α = ∏_{p ≤ z} (1 + f(p) p^α)`, the convexity bound
 `log(1 + f(p) p^α) − log(1 + f(p)) ≤ α log p · f(p) p^α/(1 + f(p) p^α)`, and the optimisation in `α = (1/log z) log(log y/S)` that produces `K`.
 
@@ -2985,6 +2991,10 @@ and for `log y ≥ 7S` the simplified forms with `K` replaced by `K(7) = log 7 �
   (the `2`-smooth squarefree integers are `1, 2`): `0 ≤ 1.65`; the lower bound gives
   `Σ_{n ≤ 2} = 2 ≥ 2(1 − 0.825) = 0.35`.
 - `K(1) = 0`: at `log y = S` the bound is `∏ (1 + f(p))`, the trivial bound.
+- The simplified forms: at `log y/log z = 10` with `log y ≥ 7S`, the factor with `K(7)` is
+  `exp(−10.888) = 1.87·10^{−5}` and the source's printed factor `exp(−10) = 4.54·10^{−5}`, so the
+  `K(7)` form is the sharper of the two; both follow from the general form because
+  `K(log y/S) ≥ K(7)` once `log y/S ≥ 7`.
 - Non-example: `K(t) = log t − 1 − 1/t` would be negative on `[1, 3.6]` and make the "bound" exceed
   the trivial one; `K(t) = log t − 1 + 1/t ≥ 0` for `t ≥ 1` with `K(1) = 0` is the correct kernel.
 
@@ -4240,7 +4250,7 @@ condition `n ≥ 1` and so the same at every `n ≥ 1`). Write
   `ℓ_n` is not highly abundant for every natural `n ≥ X₀²` (`ieantn` `Lcm/v2`,
   `lcmUpto_not_highlyAbundant_of_primeGap`, with the interval written `(y, y + y/log³ y]`);
 - its instance `X₀ = 89 693` (`log 89 693 = 11.404…`): `ℓ_n` is not highly abundant for every
-  natural `n ≥ 89 693²` (`not_isHighlyAbundant_lcmUpto`), under Dusart's interval of
+  natural `n ≥ 89 693²`, under Dusart's interval of
   ExplicitPrimeCounting §7.4: for every real `y ≥ 89 693` there is a prime in
   `(y, y(1 + 1/log³ y)]` (`tao2025mo` lines 265–297, where the same input is applied at `y = √n` and
   the range `n ≥ 89 693²` is reached; `ieantn` `Lcm/v1`, `lcmUpto_not_highlyAbundant`;
@@ -4285,16 +4295,19 @@ interval of the hypothesis lies in `(y, y(1 + ε)]`, strictly inside it when `y 
 point `y` used below is at least `x`. At `y = x, x(1 + ε), x(1 + ε)²` it gives primes
 `p₁ < p₂ < p₃` with `√n < p₁` and `p_i ≤ x(1 + ε)^i`; at `y = n(1 + ε)^{−j}` for `j = 3, 2, 1` it
 gives primes `q₁ < q₂ < q₃ < n` with `q_i > n(1 + ε)^{i−4}`; and `p₃ < q₁`, since
-`(1 + ε)^6 < 1.05 < x` (`primeNumberTheoremAnd` `lem:choose-pi`, `lem:choose-qi`). Then
+`(1 + ε)^6 < 1.05 < x`. Then
 `∏(1 + 1/q_i) ≤ ∏_{j ≤ 3}(1 + (1 + ε)^j/n)`,
 `∏(1 + 1/(p_i(p_i + 1))) ≥ ∏_{i ≤ 3}(1 + 1/((1 + ε)^{2i}(n + √n)))` and
-`1 − 4P/Q ≥ 1 − 4(1 + ε)^{12}/n^{3/2}` (`primeNumberTheoremAnd` `lem:qi-product`,
-`lem:pi-product`, `lem:pq-ratio`); with `ε ≤ 1/125` and `n^{−1/2} ≤ e^{−5}`
-(`primeNumberTheoremAnd` `lem:eps-bounds`) the left side of the criterion is at most
-`1 + 3.0484/n` and the right side at least `1 + 3.2322/n`, the extreme case being `ε = 1/125` and
-`n = e^{10}` (`primeNumberTheoremAnd` `lem:poly-ineq`, `lem:final-comparison`,
-`prop:ineq-holds-large-n`), so the criterion holds. At `X₀ = 89 693`, where `ε ≤ 6.75·10^{−4}`
-and `n^{−1/2} ≤ 1.115·10^{−5}`, the two are `1 + 3.0041/n` and `1 + 3.3668/n`.
+`1 − 4P/Q ≥ 1 − 4(1 + ε)^{12}/n^{3/2}`. With `ε ≤ 1/125` and `n^{−1/2} ≤ e^{−5}` the left side of
+the criterion is at most `1 + 3.0484/n` and the right side at least `1 + 3.2322/n`, so the
+criterion holds. The extreme case is `ε = 1/125` and `n = e^{10}`, where the two coefficients are
+`3.048397…` and `3.232200…`. (The same steps for `n ≥ 89 693²`, with Dusart's interval as the
+input: `primeNumberTheoremAnd` `lem:choose-pi`, `lem:choose-qi`, `lem:qi-product`,
+`lem:pi-product`, `lem:pq-ratio`.) At `X₀ = 89 693`, where `ε ≤ 6.75·10^{−4}` and
+`n^{−1/2} ≤ 1.115·10^{−5}`, the two are `1 + 3.0041/n` and `1 + 3.3668/n`;
+`primeNumberTheoremAnd` `lem:eps-bounds`, `lem:poly-ineq`, `lem:final-comparison` and
+`prop:ineq-holds-large-n` state this case, with `ε ≤ 0.000675` and the coefficients `3.01` and
+`3.36683` of polynomials in `1/n`.
 
 *Needs:* `ArithmeticFunction.sigma`, `ArithmeticFunction.isMultiplicative_sigma`; Mathlib
 `Nat.lcmUpto`, `Nat.factorization_lcmUpto`, `Chebyshev.psi_eq_log_lcmUpto`;
@@ -4499,9 +4512,12 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - `hurst2018`: G. Hurst, Computations of the Mertens function and improved bounds on the Mertens
   conjecture, Math. Comp. 87 (2018). §6.1.
 - `ieantn`: T. Tao and contributors, IEANTN, the Integrated Explicit Analytic Number Theory
-  Network, <https://github.com/teorth/IEANTN>. Nodes `Lcm/v1` (`HighlyAbundant`,
+  Network, <https://github.com/teorth/IEANTN>, at revision
+  `466b41b28ecc224398cf53a99c5fe9618131398b`. Nodes `Lcm/v1` (`HighlyAbundant`,
   `lcmUpto_not_highlyAbundant`) and `Lcm/v2` (`HighlyAbundant`,
-  `lcmUpto_not_highlyAbundant_of_primeGap`). Cited in 9.3a.
+  `lcmUpto_not_highlyAbundant_of_primeGap`), in `IEANTN/Nodes/Lcm/v1/Conclusions.lean` and
+  `IEANTN/Nodes/Lcm/v2/Conclusions.lean`, with the interval of `Lcm/v2` defined in
+  `IEANTN/Vocabulary/PrimeGaps.lean` (`HasPrimeInInterval.logPower`). Cited in 9.3a.
 - `ivic1977`: A. Ivić, Two inequalities for the sum of divisors functions, Zb. Rad. Prirod.-Mat.
   Fak. Univ. Novi Sad 7 (1977). Theorems 1–2.
 - `johnstonLeongTudzi2024`: D. R. Johnston, N. Leong, S. Tudzi, New bounds and progress towards a
@@ -4544,8 +4560,9 @@ Tau Ceti `TauCeti.sigma_le_rpow_mul_tsum`; AnalyticNumberTheoryPartI §§3.1, 3.
 - `plattTrudgian2018`: D. Platt, T. Trudgian, Improved bounds on Brun's constant, arXiv:1803.01925.
   Lemmas 1 and 4, §2.1.
 - `primeNumberTheoremAnd`: A. Kontorovich, T. Tao and contributors, PrimeNumberTheoremAnd,
-  <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>. Statements cited by their labels, in
-  the files under `PrimeNumberTheoremAnd/`: `Consequences.lean` (`mun`, `mu-pnt`, `mu-pnt-alt`),
+  <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>, at revision
+  `127b50e33f6033e2147921167a117af96d9ba4ea`. Statements cited by their labels, in the files under
+  `PrimeNumberTheoremAnd/`: `Consequences.lean` (`mun`, `mu-pnt`, `mu-pnt-alt`),
   `IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`, `two_pow_omega_le_sigma_zero`),
   `IEANTN/MobiusLemma.lean` (`M-def`, `Q-def`, `mobius-lemma-1-sub`, `mobius-lemma-1`,
   `mobius-lemma-2`, `mobius-lemma-2-sub-1`, `mobius-lemma-2-sub-2`), `IEANTN/Mertens.lean`
