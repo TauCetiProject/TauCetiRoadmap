@@ -8,7 +8,7 @@ Consume, without duplicating their core constructions:
 
 - CompactGroups (`gap:banach-gfinite-density`, the gap that AutomorphicFormsOnReductiveGroups records against CompactGroups in its supplier contracts and consumes in §2.1) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or analytic prerequisite from this roadmap; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
 
-- [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for covariant pairs, integrated forms, group C*-algebras and continuous actions; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
+- Tau Ceti's C*-dynamical carriers named under "From Tau Ceti" for continuous actions, covariant pairs, their integrated forms with the L¹ bound, the full crossed product, the full group C*-algebra (the full crossed product of the trivial action on ℂ) and its canonical multipliers; [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for the theory it builds on these carriers that Tau Ceti lacks (restriction to closed subgroups, invariant-ideal exactness, the regular covariant representation and the recovery of a covariant pair from a nondegenerate crossed-product representation), with D1.BorelPrefix and D1.TwistedBorel below; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
 - OperatorAlgebraDynamics D3 supplies the equivalence between module and Hilbert-space induction for closed subgroups. HilbertModules H3 supplies interior tensor products, correspondence induction and the Rieffel correspondence; H5 supplies C₀(X)-algebras, their fibres and continuous Hilbert fields. H5 also supplies the small unitary dual as pure states modulo equivalence of their cyclic GNS representations; M0a retains the separable GCR/factor-type-I comparison.
 - Tau Ceti already proves both Whitehead lemmas over every field of characteristic zero, for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module: `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero`, `LieModule.Cohomology.exists_d₁₂_eq` and `LieModule.Cohomology.twoCocycle_eq_range_d₁₂` (`TauCeti/Algebra/Lie/Whitehead.lean`). P.4 consumes these for the real semisimple Lie algebras used here and does not restate them; AffineLieAlgebras A1 keeps its complex current-algebra application.
 - CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
@@ -57,8 +57,12 @@ representation-specific effective supports, normalized pair kernels and subtree 
 
 ### From Tau Ceti
 
-Use `ContRepresentation.IsUnitary` for inner-product preservation, keeping
-strong orbit continuity separate. P.3 consumes `TauCeti.FactorSet` and
+Use `ContRepresentation.IsUnitary`
+(`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`) for inner-product
+preservation, keeping strong orbit continuity separate;
+`ContRepresentation.isUnitary_iff_isometry` identifies it with isometric action
+operators. `InducedModelData`, `InducedModelData.exists_inducedRepresentation` and
+`SystemOfImprimitivity` use it. P.3 consumes `TauCeti.FactorSet` and
 `TauCeti.isProjectiveRepEquivExtensionHom`. P.4 consumes Whitehead's lemmas from
 `TauCeti/Algebra/Lie/Whitehead.lean`, each for a field K of characteristic zero, a
 finite-dimensional Lie algebra L over K with `LieAlgebra.IsKilling K L` and a
@@ -81,6 +85,46 @@ pushes it forward along a measurable map f by `B ↦ proj (f⁻¹' B)`, with
 `TauCeti.ProjValMeasure.map_proj` (that formula), `TauCeti.ProjValMeasure.map_id` and
 `TauCeti.ProjValMeasure.map_map` (identity and composition). The structure carries no
 regularity and no separability hypothesis.
+
+M1 takes measurable sections of quotient maps from the Kuratowski–Ryll-Nardzewski
+theorem `TauCeti.exists_measurable_forall_mem`
+(`TauCeti/MeasureTheory/MeasurableSpace/Selection.lean`): for a measurable space Z, a
+Polish space Y with its Borel σ-algebra and a map M from Z to the nonempty closed subsets
+of Y such that `{z : M z ∩ U ≠ ∅}` is measurable for every open U, there is a measurable
+f with `f z ∈ M z` for every z. The selection is measurable for the given σ-algebra, not
+only for the σ-algebra generated by analytic sets.
+
+M0a takes from `TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean` the
+nondegeneracy predicate `NonUnitalStarAlgHom.IsNondegenerate` of a representation
+`π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a possibly nonunital C*-algebra (the span of the vectors
+`π a ξ` is dense) and its unique extension `NonUnitalStarAlgHom.multiplierExtension` to
+the multiplier algebra, and from `TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean` the von
+Neumann algebra `VonNeumannAlgebra.adjoin s` generated by a set s of operators: the double
+commutant of `s ∪ star s` (`VonNeumannAlgebra.coe_adjoin`), whose commutant is that of
+`s ∪ star s` (`VonNeumannAlgebra.coe_commutant_adjoin`). For the range of a representation
+it is `π(A)″`.
+
+Layer 0, M2 and M4.SpatialLocalization take their C*-dynamical carriers from
+`TauCeti/Analysis/CStarAlgebra/Action/`: a point-norm continuous action
+`TauCeti.CStarAction G A` and the trivial action `TauCeti.CStarAction.trivial`; covariant
+pairs `TauCeti.CStarAction.CovariantRepresentation`, a possibly degenerate coefficient
+representation with a strongly continuous representation satisfying
+`ContRepresentation.IsUnitary` and `U_g π(a) = π(α_g a) U_g`; the integrated form
+`TauCeti.CStarAction.CovariantRepresentation.integratedOperator` on `C_c(G, A)`, bounded by
+the L¹ norm (`TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le`) and
+nondegenerate exactly when the coefficient representation is
+(`TauCeti.CStarAction.CovariantRepresentation.dense_span_integratedOperator_iff`); the full
+crossed product `TauCeti.CStarAction.FullCrossedProduct α μ` for a left Haar measure μ, a
+nonunital C*-algebra, with the dense-range map `TauCeti.CStarAction.FullCrossedProduct.of`
+(`TauCeti.CStarAction.FullCrossedProduct.denseRange_of`), the norm characterization
+`TauCeti.CStarAction.FullCrossedProduct.norm_le_iff` and the extended integrated forms
+`TauCeti.CStarAction.CovariantRepresentation.integratedFull`; and its canonical multipliers
+`TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier` and the unitary group map
+`TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, covariant and strictly
+continuous. The full group C*-algebra `C*(G)` is the full crossed product of
+`TauCeti.CStarAction.trivial` on ℂ; no unit, separability or nondegeneracy is assumed by
+these carriers, and separability of `C*(G)` for second-countable G is proved where it is
+used (M2.MeasuredRefinement, M4.SpatialLocalization).
 
 The compact-group inputs are the following pinned declarations, each for a
 compact topological group G with Borel σ-algebra, its Haar probability
@@ -176,11 +220,14 @@ are retained at its statement; changing the route does not change the target.
 Before the applications, define `σ≺ρ` by `kerρ⊆kerσ` for integrated
 representations of the full group C*-algebra, and
 `Supp(ρ)={σ irreducible:σ≺ρ}`. Compare this with coefficient weak
-containment and the hull-kernel topology through D1's universal integrated
-representations. Own the following comparisons here.
+containment and the hull-kernel topology through the extended integrated
+forms `TauCeti.CStarAction.CovariantRepresentation.integratedFull`, whose norms
+determine the full norm (`TauCeti.CStarAction.FullCrossedProduct.norm_le_iff`). Own the
+following comparisons here.
 
 For a closed subgroup H≤G construct the nondegenerate strictly continuous
-map `C*(H)→M(C*(G))` from its canonical multiplier unitaries. Prove
+map `C*(H)→M(C*(G))` from its canonical multiplier unitaries, the restriction to H
+of `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier` for the trivial action on ℂ. Prove
 weak containment passes to restriction: if the extension of ρ annihilates
 a multiplier y, then yx lies in kerρ for every x∈C*(G); kernel inclusion
 and nondegeneracy imply the extension of σ also annihilates y. Prove
@@ -190,12 +237,13 @@ C*-map. If `ρ_t=U_t⁻¹ρU_t` converges pointwise strongly to π, prove
 L¹ functions and their C*-norm density extends this to every algebra element.
 
 For a continuous action of H on locally compact abelian N construct
-`C*(N⋊H)≃C*(N)⋊H≃C₀(N̂)⋊H` from D1's universal covariant pairs,
+`C*(N⋊H)≃C*(N)⋊H≃C₀(N̂)⋊H` from the universal property of
+`TauCeti.CStarAction.FullCrossedProduct` and D1's recovery of covariant pairs,
 comparing both integrated forms. Consume OperatorAlgebraDynamics
 D4.Harmonic for the abelian Fourier isomorphism of every locally compact
 abelian N: the transform `f̂(χ)=∫f(n)χ(n)dn`, in V11's positive-character
-convention, extends from L¹(N) to a *-isomorphism `C*(N)≅C₀(N̂)` of D1's
-full group C*-algebra, so the universal norm of f is `sup_χ|f̂(χ)|`, and
+convention, extends from L¹(N) to a *-isomorphism `C*(N)≅C₀(N̂)` of the
+full group C*-algebra (the full crossed product of `TauCeti.CStarAction.trivial` on ℂ), so the universal norm of f is `sup_χ|f̂(χ)|`, and
 the regular quotient `C*(N)→C*_r(N)` is an isomorphism. Compare it here
 with V11: V11 gives `‖λ(f)‖=sup|f̂|` and identifies the character space of
 `C*_r(N)` with N̂, and the two identifications of `C*_r(N)` with `C₀(N̂)`
@@ -217,7 +265,7 @@ For the trivial group, C*(G)=ℂ and the nonzero trivial representation has supp
 
 ### Dependencies
 
-OperatorAlgebraDynamics D1/D3 and D4.Harmonic; CStarAlgebras C1/C2; VonNeumannAlgebras V11. The kernel-inclusion and Fourier comparisons of this layer are inputs to M1–M6.
+Tau Ceti `TauCeti.CStarAction.CovariantRepresentation`, `TauCeti.CStarAction.CovariantRepresentation.integratedFull`, `TauCeti.CStarAction.FullCrossedProduct` with `TauCeti.CStarAction.FullCrossedProduct.norm_le_iff` and `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, and `NonUnitalStarAlgHom.multiplierExtension`; OperatorAlgebraDynamics D1 (restriction to closed subgroups, recovery of covariant pairs), D3 and D4.Harmonic; CStarAlgebras C1/C2; VonNeumannAlgebras V11. The kernel-inclusion and Fourier comparisons of this layer are inputs to M1–M6.
 
 ## Layer 1: P — Rays, operator groups and locally continuous multipliers
 
@@ -665,8 +713,11 @@ its separable C*-algebra form; Comments (1), (8) and (9), p.258, say which
 implications are Kaplansky's (GCR⇒type I), Dixmier's (GCR⇔the class-to-kernel
 map being a homeomorphism, equivalently injective, the dual carrying the
 pulled-back hull-kernel topology) and Glimm's (type I⇒GCR)). Prove the
-GCR same-kernel lemma and the class/kernel Fell–hull-kernel homeomorphism
-here. For GCR⇒factor-type-I, a factor representation ρ has prime kernel J;
+class/kernel Fell–hull-kernel homeomorphism here. The same-kernel lemma is
+consumed from CStarAlgebras §2.3 (C2.3): if an irreducible π has one nonzero
+compact operator in π(A), then `K(H_π)⊆π(A)` and every irreducible ρ with
+`kerρ=kerπ` is unitarily equivalent to π; under GCR this is kernel
+injectivity, with no separability used. For GCR⇒factor-type-I, a factor representation ρ has prime kernel J;
 C2's separable prime⇒primitive theorem supplies an irreducible π with this
 kernel. GCR gives `K(H_π)⊆π(A)`. Define `I=π⁻¹(K(H_π))`; this
 containment makes `I/J≃K(H_π)` onto. It acts nondegenerately under ρ,
@@ -682,13 +733,101 @@ unit for I/J and ρ(I) is nondegenerate. It intertwines I/J, and its
 nondegenerate extension to A/J intertwines ρ with π⊗1. The matrix-unit,
 corner and tensor APIs are those already owned by V3. This direction
 uses no hard converse.
-Own the same-kernel and composition-series implications separately, and
-the hard Glimm implications factor-type-I⇒GCR, kernel injectivity⇒GCR
-and GCR⇒liminal composition series (BekkaDeLaHarpe2019 Theorem 8.F.3 and
+Own the composition-series implications separately, and the hard Glimm
+implications factor-type-I⇒GCR, kernel injectivity⇒GCR and GCR⇒liminal
+composition series (BekkaDeLaHarpe2019 Theorem 8.F.3 and
 Comments (8)–(9), pp.257–258). M0's CCR application, M2's
 semidirect-product type-I comparison, M2.TypeIDisintegration's GCR/factor
 and Borel-dual comparisons, M2.RectangularField's kernel topology, and
 M5's GCR fiber comparison consume this one M0a owner. This algebraic bridge uses C1, C2 and V3; it has no M0, induction, irreducible-disintegration or semidirect-product prerequisite.
+
+A representation of a C*-algebra A on a complex Hilbert space H is a
+possibly degenerate `π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)`, as in CStarAlgebras and
+Tau Ceti. Define `IsIrreducibleRep π` as CStarAlgebras §2.2's irreducibility,
+restated on the same carrier so that the headline below is statable: some
+`π a` is nonzero, and the only closed subspaces invariant under every `π a`
+are 0 and H. Define `IsFactorRep π`: π is nondegenerate in Tau Ceti's sense
+`NonUnitalStarAlgHom.IsNondegenerate`, the identity of H is nonzero, and the
+von Neumann algebra `VonNeumannAlgebra.adjoin (Set.range π)`, which is
+`π(A)″`, has scalar centre (VonNeumannAlgebras V5's factor condition on that
+algebra). For a von Neumann algebra M on H define `HasMinimalProjection M`:
+some nonzero self-adjoint idempotent p∈M has `pxp∈ℂp` for every x∈M, which is
+V3's minimal-corner criterion `pMp=ℂp`. The theorem `separable_typeI_tfae`
+states, for a separable A and Hilbert spaces in the lowest universe, the
+equivalence of three of the four conditions above: every `IsFactorRep π`
+has `HasMinimalProjection (VonNeumannAlgebra.adjoin (Set.range π))`; every
+`IsIrreducibleRep π` has every compact operator in the range of π (GCR); and
+two irreducible representations with the same kernel are unitarily
+equivalent. Every irreducible representation of a separable A acts on a
+separable space, so the universe restriction loses no irreducible class, and
+the factor condition is stated on every space, Kaplansky's GCR⇒type I
+holding without separability of the space. The composition-series condition
+and the Fell–hull-kernel homeomorphism remain targets of this section in the
+prose above.
+
+- An irreducible representation is nondegenerate, and a nonzero
+  nondegenerate representation is irreducible exactly when its commutant is
+  `ℂ·1` (CStarAlgebras §2.2). Hence an irreducible representation is a
+  factor representation: the centre of `π(A)″` lies in the scalar commutant.
+- Unitary equivalence preserves both predicates, and the amplification
+  `π⊗1_K` of a factor representation by a nonzero Hilbert space K is a factor
+  representation with `(π⊗1_K)(A)″=π(A)″⊗1_K` (V3's tensor API).
+- A factor representation whose von Neumann algebra has a minimal
+  projection is unitarily equivalent to `σ⊗1_K` with σ irreducible: V3's
+  spatial theorem writes `π(A)″` as `B(L)⊗1_K`, so `π(a)=σ(a)⊗1_K` for a
+  representation σ on L whose von Neumann algebra is `B(L)` (BekkaDeLaHarpe2019
+  Comment (4) on Theorem 8.F.3, p.258, for groups).
+- In a factor, a nonzero projection is minimal exactly when it is abelian,
+  since its corner is an abelian factor; outside factors the two notions
+  differ.
+- The kernel of a factor representation is a prime closed ideal; this is
+  the input to C2's separable prime⇒primitive theorem in the GCR⇒type I
+  route above.
+
+**Checks.**
+
+- For A=M₂(ℂ), the identity representation on ℂ² is irreducible, while
+  `a↦a⊗1` on `ℂ²⊗ℂ³` has the invariant subspace `ℂ²⊗e₁` and commutant
+  `1⊗M₃(ℂ)`, so it is not irreducible. It is a factor representation, with
+  `π(A)″=M₂(ℂ)⊗1` and minimal projection `e₁₁⊗1`, whose corner is
+  `x₁₁(e₁₁⊗1)` for `x⊗1`.
+- The zero representation on ℂ has only the closed subspaces 0 and ℂ. A
+  definition of irreducibility without the nonzero clause would count it,
+  and then the GCR condition would fail for every A, since the compact
+  operator 1 on ℂ is not in its range {0}; for A=ℂ the factor condition
+  holds (`π(A)″=ℂ1`, p=1), so the theorem would become false. The nonzero
+  clause excludes it.
+- For A=ℂ⊕ℂ acting diagonally on ℂ², the representation is nondegenerate
+  with commutant and von Neumann algebra both equal to the diagonal algebra,
+  whose centre is not `ℂ·1`: it is neither irreducible nor a factor
+  representation. Its two coordinate characters are irreducible on ℂ with
+  distinct kernels `0⊕ℂ` and `ℂ⊕0`.
+- The zero representation of any A on ℂ² generates `{0}″=ℂ1`, which has
+  scalar centre; nondegeneracy fails, since the span of the vectors `π a ξ`
+  is {0}, and this is the only clause excluding it. The degenerate
+  representation `c↦diag(c,0)` of ℂ on ℂ² generates the diagonal algebra
+  and fails both nondegeneracy and the factor condition.
+- Minimal projections: in `M₂(ℂ)⊕ℂ` on ℂ³ the projections `e₁₁⊕0` and
+  `0⊕1` are minimal, while `(1⊕0)(e₂₂⊕0)(1⊕0)=e₂₂⊕0` is not a multiple of
+  `1⊕0`. In the multiplication algebra `L∞[0,1]` on `L²[0,1]` no projection
+  is minimal: for `p=1_B` with B of positive measure and B′⊂B of half its
+  measure, `p1_(B′)p=1_(B′)` is not a multiple of p. Dropping the corner
+  clause would let p=1 witness every nonzero von Neumann algebra, making the
+  factor condition of the theorem true for every A.
+- The theorem at A=0: nondegeneracy forces H=0, where the identity is zero,
+  and no representation is nonzero, so all three conditions hold vacuously.
+  At A=ℂ: a nondegenerate π has π(1)=1 and `π(A)″=ℂ1` with p=1 minimal; an
+  irreducible π is one-dimensional with `π(ℂ)=ℂ=K(ℂ)`, and two of them
+  share the kernel 0 and are equivalent. All three conditions hold.
+- At A=K(ℓ²): every nondegenerate representation is an amplification of
+  the identity representation, so factor representations generate
+  `B(ℓ²)⊗1` with minimal projection `e₀₀⊗1`, the only irreducible class is
+  the identity representation, and its image is `K(ℓ²)`. At the CAR algebra
+  all three fail: it is simple, unital and infinite-dimensional, so no
+  irreducible image contains a nonzero compact operator and it has
+  inequivalent irreducible representations with kernel 0 (CStarAlgebras
+  §2.3 Checks), and its tracial representation generates a factor with no
+  minimal projection.
 
 ### Examples
 
@@ -696,7 +835,7 @@ For A=ℂ⊕ℂ, the two irreducible kernels are distinct and each image is ℂ=
 
 ### Dependencies
 
-CStarAlgebras C1/C2; VonNeumannAlgebras V3/V4; HilbertModules H3. HilbertModules H5 supplies the small dual; TypeIComparison precedes M2 disintegration.
+CStarAlgebras C1/C2, including C2.2 (irreducibility, scalar commutant) and C2.3 (the same-kernel lemma); VonNeumannAlgebras V3/V4 and V5's factor condition; HilbertModules H3; Tau Ceti `NonUnitalStarAlgHom.IsNondegenerate` and `VonNeumannAlgebra.adjoin`. HilbertModules H5 supplies the small dual; TypeIComparison precedes M2 disintegration.
 
 ## Layer 3: M0 — Smooth vectors, compact types and semisimple representation bridges
 
@@ -1142,7 +1281,7 @@ P.1–P.4; RepresentationTheory/CompactGroups (its gap `banach-gfinite-density`)
 
 **M1.Core — induction and measurable transport.** This layer extends from this heading through the finite-index graded Clifford theorem immediately before M2. It contains the quotient/induced-model constructions, M1.BorelRealization and the finite-index graded theorem, and consumes VonNeumannAlgebras V3’s minimal-projection, spatial type-I factor and commutant APIs. The induced decompositions themselves require no type-I hypothesis; the finite-index graded Clifford theorem separately assumes that its normal subgroup L is type I. This layer precedes M2.TypeIDisintegration. Irreducible refinement of induced decompositions is the separate M2.InducedRefinement clause.
 
-Consume Layer P.1 for projective Hilbert-space/ray carriers, Wigner's theorem and the unitary/antiunitary alternative, and Layer P.3 for the locally continuous lift/cocycle comparison. M1 owns the standard-Borel quotient selector and induced-model transport. Consume OperatorAlgebraDynamics D1.BorelPrefix's Polish `U(H)_s` with its coefficient Borel structure and Pettis's theorem, and Layer P.2's Polish UA/PU/PUA groups with their graded and quotient Borel structures, before any Borel-to-continuous bridge below.
+Consume Layer P.1 for projective Hilbert-space/ray carriers, Wigner's theorem and the unitary/antiunitary alternative, and Layer P.3 for the locally continuous lift/cocycle comparison. M1 derives the Borel section of each quotient map `G→G/H` by a closed subgroup from Tau Ceti's Kuratowski–Ryll-Nardzewski theorem `TauCeti.exists_measurable_forall_mem`, and owns induced-model transport. Consume OperatorAlgebraDynamics D1.BorelPrefix's Polish `U(H)_s` with its coefficient Borel structure and Pettis's theorem, and Layer P.2's Polish UA/PU/PUA groups with their graded and quotient Borel structures, before any Borel-to-continuous bridge below.
 
 Here a type-I lcsc group means that every factor representation generates
 a spatial type-I von Neumann algebra, in VonNeumannAlgebras V3's factor carrier. Compare
@@ -1151,7 +1290,7 @@ an abelian factor corner, hence corner ℂp and is minimal; V3 then gives
 the spatial `B(K)⊗1_M` model and its commutant. M2 and the finite-index
 theorem below use this same definition. The elementary Borel multiplier change-of-section identity follows from the defined cocycle and is not duplicated as a second Layer P theorem.
 
-Define `SystemOfImprimitivity G X 𝓗` for a topological group `G` with a measurable structure, a measurable space `X` with a `G`-action whose translations `x ↦ g • x` are measurable (native `MeasurableSMul G X`) and a complex Hilbert space `𝓗`: a `ContRepresentation ℂ G 𝓗` written U, whose operators are isometries and whose orbit maps `g ↦ U_g v` are continuous, a `TauCeti.ProjValMeasure X 𝓗` written E, and the covariance law `U_g ∘ E(B) = E(g • B) ∘ U_g` for every g and measurable B, that is `U_g E(B) U_g⁻¹ = E(gB)`. Isometries forming a group representation are onto, so U is unitary. No topology on X and no separability of 𝓗 enters the definition; the Mackey theory below specializes to a second-countable locally compact `G` acting continuously on a Polish `X` with its Borel sigma algebra and to separable 𝓗. Prove direct sums, reducing subspaces, intertwiners, unitary equivalence, and covariance under Borel equivariant maps. State the exact topology/measurability assumptions for each construction.
+Define `SystemOfImprimitivity G X 𝓗` for a topological group `G` with a measurable structure, a measurable space `X` with a `G`-action whose translations `x ↦ g • x` are measurable (native `MeasurableSMul G X`) and a complex Hilbert space `𝓗`: a `ContRepresentation ℂ G 𝓗` written U, satisfying `ContRepresentation.IsUnitary` (each operator preserves the inner product) and whose orbit maps `g ↦ U_g v` are continuous, a `TauCeti.ProjValMeasure X 𝓗` written E, and the covariance law `U_g ∘ E(B) = E(g • B) ∘ U_g` for every g and measurable B, that is `U_g E(B) U_g⁻¹ = E(gB)`. Inner-product-preserving operators forming a group representation are onto, so U is unitary. No topology on X and no separability of 𝓗 enters the definition; the Mackey theory below specializes to a second-countable locally compact `G` acting continuously on a Polish `X` with its Borel sigma algebra and to separable 𝓗. Prove direct sums, reducing subspaces, intertwiners, unitary equivalence, and covariance under Borel equivariant maps. State the exact topology/measurability assumptions for each construction.
 
 **Checks.**
 
@@ -1164,7 +1303,7 @@ Define `SystemOfImprimitivity G X 𝓗` for a topological group `G` with a measu
 - The direction is fixed by the formula: for B=[0,1] and t=1, `U_1E(B)U_1⁻¹` is
   multiplication by `1_[1,2]`, which is `E(1·B)`, not `E((−1)·B)=1_[−1,0]`.
 
-For a transitive space `X=G/H`, with H closed and a quasi-invariant measure class, prove Mackey's imprimitivity equivalence (Mackey1958 §6; in C*-algebraic form, Green's theorem Echterhoff2010 Theorem 6.4, p.25, for the trivial action of H on ℂ in Example 6.6(1), p.26, which identifies the representations of H with the covariant representations of `(C₀(G/H),G)`; these are the systems of imprimitivity, through the projection-valued measure of a nondegenerate representation of `C₀(G/H)`). The theorem `SystemOfImprimitivity.exists_induced` states the direction that every system of imprimitivity on a separable Hilbert space 𝓗, based on a Polish `G`-space X identified with `G/H` by an equivariant homeomorphism e, is unitarily equivalent to an induced one: there are a separable Hilbert space K and `InducedModelData` d with `d.quotientEquiv = e`, and a unitary `W:𝓗≃L²(X,μ;K)` carrying `U_g` to `d.sectionAction g` almost everywhere and `E(B)` to multiplication by the indicator of B. Conversely, the induced representation of `InducedModelData.exists_inducedRepresentation` together with multiplication by indicators is a system of imprimitivity, and the representation of H is determined by the system up to unitary equivalence. Construct the quotient bundle and measurable sections and prove independence from their choice. For a locally sectioned central extension consume Layer P.3’s countable local-section patching construction of a Borel section. Distinguish that local continuous section from the general Borel selector for a standard-Borel quotient; prove the selector by countable nested balls if the consumed API supplies only a universally measurable selection.
+For a transitive space `X=G/H`, with H closed and a quasi-invariant measure class, prove Mackey's imprimitivity equivalence (Mackey1958 §6; in C*-algebraic form, Green's theorem Echterhoff2010 Theorem 6.4, p.25, for the trivial action of H on ℂ in Example 6.6(1), p.26, which identifies the representations of H with the covariant representations of `(C₀(G/H),G)`; these are the systems of imprimitivity, through the projection-valued measure of a nondegenerate representation of `C₀(G/H)`). The theorem `SystemOfImprimitivity.exists_induced` states the direction that every system of imprimitivity on a separable Hilbert space 𝓗, based on a Polish `G`-space X identified with `G/H` by an equivariant homeomorphism e, is unitarily equivalent to an induced one: there are a separable Hilbert space K and `InducedModelData` d with `d.quotientEquiv = e`, and a unitary `W:𝓗≃L²(X,μ;K)` carrying `U_g` to `d.sectionAction g` almost everywhere and `E(B)` to multiplication by the indicator of B. Conversely, the induced representation of `InducedModelData.exists_inducedRepresentation` together with multiplication by indicators is a system of imprimitivity, and the representation of H is determined by the system up to unitary equivalence. Construct the quotient bundle and measurable sections and prove independence from their choice. For a locally sectioned central extension consume Layer P.3’s countable local-section patching construction of a Borel section. Distinguish that local continuous section from the general Borel section of the quotient map `q:G→G/H` for closed H: apply `TauCeti.exists_measurable_forall_mem` to `M(x)=q⁻¹{x}`, whose values are cosets of the closed subgroup H, hence closed, and nonempty since q is onto; M is weakly measurable because `{x : M(x)∩U≠∅}=q(U)` is open for open U, q being an open map; G is Polish as a second-countable locally compact Hausdorff group (D1.BorelPrefix). Through the equivariant homeomorphism `e:G/H≃X` the same computation, with `M(x)=(e∘q)⁻¹{x}`, gives the measurable right inverse that `InducedModelData` records.
 
 **Checks (the imprimitivity theorem).**
 
@@ -1181,8 +1320,9 @@ For a transitive space `X=G/H`, with H closed and a quasi-invariant measure clas
   unitary equivalence.
 - Separability of 𝓗 is needed in this form: for G=H={1}, X a point and the
   non-separable `𝓗=ℓ²(ℝ)`, every `L²(X,μ;K)` with K separable is separable, so no
-  unitary W exists. The extension to arbitrary Hilbert spaces is the separate
-  M4.SpatialLocalization theorem.
+  unitary W exists. For `G_sp=ℝ³⋊SU(2)` acting on ℝ³ the arbitrary-Hilbert
+  extension is M4.SpatialLocalization; the general transitive theorem is stated
+  for separable 𝓗 only.
 
 Fix left cosets and `g_*μ(B)=μ(g⁻¹B)`. For a Borel section `s:X→G`, put `k_s(g,x)=s(x)⁻¹ g s(g⁻¹x)∈H`. On `L²(X,μ;K)` define `(U_gF)(x)=r_g(x)^(1/2)π(k_s(g,x))F(g⁻¹x)`, where `r_g=d(g_*μ)/dμ`. Prove `r_{gh}(x)=r_g(x)r_h(g⁻¹x)` and `k_s(gh,x)=k_s(g,x)k_s(h,g⁻¹x)`, which give representation law, unitarity and covariance. Equivalently use a rho-function `ρ:G→(0,∞)` satisfying `ρ(gh)=Δ_H(h)Δ_G(h)⁻¹ρ(g)` for `g∈G`, `h∈H`, with its quotient measure; the resulting Radon–Nikodym derivative is the single square-root factor above, not an additional modular multiplier. Prove that every nonzero σ-finite quasi-invariant Borel measure on this transitive lcsc quotient belongs to the quotient Haar class. Construct a version `(g,x)↦r_g(x)` that is jointly Borel and equals the actual RN derivative almost everywhere for each fixed g, with `0<r_g(x)<∞` almost everywhere. A continuous positive rho-function and the quotient formula give such a version; transport it to any equivalent σ-finite measure by the stated density change. Separate Borel representatives for individual g do not supply this joint measurability. Use the jointly Borel version for the strong-continuity proof, and prove the L² operator is unchanged by replacing each fixed-g version on a null set. Replacing `μ` by an equivalent measure `μ′=wμ`, with Borel `w` and `0<w<∞` almost everywhere, gives `r_g^{μ′}(x)=r_g^μ(x)w(g⁻¹x)/w(x)`, and `J:L²(μ′)→L²(μ)`, `JF=w^(1/2)F`, is a unitary intertwiner. Replacing the Borel section by `s′=s b`, for a Borel map `b:X→H`, is intertwined by `F(x)↦π(b(x)⁻¹)F(x)`. Pin the projective convention `U_gU_h=ω(g,h)U_{gh}` to match Layer P.3. Prove strong continuity from the chosen lcsc data and representation. Show how this model agrees with D3 Green induction after the H3 correspondence-to-Hilbert-space comparison, including both modular functions. Include the one-point space, `H=G`, `X=G`, and compact quotient as normalization cases. Every quotient integration identity is stated for `f∈L¹(G)` or nonnegative measurable `f` (using monotone convergence); no unrestricted signed function is presumed integrable.
 
@@ -1279,13 +1419,15 @@ Work with Hausdorff second-countable locally compact groups, closed subgroups an
 
 For the acceptance test, `InducedModelData` bundles the equivariant quotient
 homeomorphism, nonzero sigma-finite quasi-invariant measure, measurable section
-and strongly continuous isometric fibre representation. Its
+and strongly continuous fibre representation satisfying
+`ContRepresentation.IsUnitary`. Its
 `InducedModelData.isotropy` is k_s, `InducedModelData.rnDerivative` is the native
 RN derivative r, and `InducedModelData.sectionAction` is the displayed formula.
 The induced carrier is native `MeasureTheory.Lp K 2 μ`.
-The theorem `InducedModelData.exists_inducedRepresentation` constructs the isometric strongly
-continuous group action on this L² space with the displayed almost-everywhere
-formula. Group inverses make these isometries onto, hence unitary.
+The theorem `InducedModelData.exists_inducedRepresentation` constructs a strongly
+continuous representation satisfying `ContRepresentation.IsUnitary` on this L² space,
+with the displayed almost-everywhere formula. Group inverses make these
+inner-product-preserving operators onto, hence unitary.
 
 - The quotient homeomorphism in the datum fixes the topology and the actual
   left cosets. The section is a measurable right inverse, and isotropy takes
@@ -1321,7 +1463,7 @@ Res_L^G Ind_H^G σ ≃ ∫_Q^⊕ Ind_(L_q)^L σ_q dν(q).
 ```
 Prove the conditional orbit measures lie in the quotient Haar class on `L/L_q` for ν-almost every q. A concrete proof first disintegrates the equivalent probability, then averages each conditional measure with one strictly positive L¹ Haar density on L. The averaged conditional is in the orbit Haar class; the averaged total is equivalent to the original measure with the same Q marginal. Equivalence/uniqueness of disintegrations gives the required class comparison. Do not infer an all-group common null set from separate fixed-g assertions, or push an infinite Haar measure to Q and assume the pushforward σ-finite.
 
-For a continuous lcsc action on a Polish space with all orbits locally closed, supply the regular quotient above: closures of distinct orbits differ; saturations of a countable open basis give countably many invariant Borel sets separating classes. Prove the following selector lemma in this M1 interface: for a continuous Polish-group action and an invariant Borel subspace with countably separated orbit relation, there is a Borel transversal (Burgess); use its separating family, shrinking basis/tree construction and Borel membership induction. The unique-transversal-point relation then has a Borel selector, and Lusin–Souslin identifies its class code with a standard Borel quotient. When applying this to closed-coset/pair actions, lift representatives by the Borel selectors of the closed subgroup quotients. M1.BorelRealization supplies the continuous Polish model when the original action is only jointly Borel; it supplies no smooth orbit quotient by itself.
+For a continuous lcsc action on a Polish space with all orbits locally closed, supply the regular quotient above: closures of distinct orbits differ; saturations of a countable open basis give countably many invariant Borel sets separating classes. Prove the following selector lemma in this M1 interface: for a continuous Polish-group action and an invariant Borel subspace with countably separated orbit relation, there is a Borel transversal (Burgess); use its separating family, shrinking basis/tree construction and Borel membership induction. The unique-transversal-point relation then has a Borel selector, and Lusin–Souslin identifies its class code with a standard Borel quotient. When applying this to closed-coset/pair actions, lift representatives by the Borel sections of the closed subgroup quotients, each obtained from `TauCeti.exists_measurable_forall_mem` by the coset computation of M1.Core. Burgess's transversal is not a closed-valued selection and stays a target here. M1.BorelRealization supplies the continuous Polish model when the original action is only jointly Borel; it supplies no smooth orbit quotient by itself.
 
 For closed H₁,H₂≤G and separable strongly continuous unitary σᵢ, assume the diagonal action on `(G/H₁)×(G/H₂)` has that regular measured quotient. Identify it with the measured double-coset parameter Q for `H₁\G/H₂`, with representatives `(H₁,g_qH₂)`. Push an equivalent probability in the product quotient Haar class to ν. Set `J_q=H₁∩g_qH₂g_q⁻¹` and `θ_q(j)=σ₁(j)⊗σ₂(g_q⁻¹jg_q)`. Prove
 ```
@@ -1329,7 +1471,7 @@ For closed H₁,H₂≤G and separable strongly continuous unitary σᵢ, assume
 ```
 for the diagonal G-action. Construct the exterior-tensor/induction unitary for G×G, and apply the preceding restriction theorem to its closed diagonal. On L² models the exterior unitary sends `F⊗G` to `(x,y)↦F(x)⊗G(y)`; prove isometry by scalar Fubini and dense range by rectangle/simple-section density on the σ-finite product spaces. It is a completed Hilbert tensor, not merely an algebraic tensor and not an irreducibility assertion. Construct the transported systems of imprimitivity, associativity and naturality on bounded intertwiners. Atomic quotient classes give actual direct sums with the atom weights/densities; general classes give Hilbert direct integrals. These subgroup/tensor decompositions need no type-I hypothesis.
 
-For the closed-subgroup fields occurring here, construct the parameterized Haar/quotient data rather than make independent choices at each q. Reuse native `ClosedSubgroup G`; construct its standard Borel closed-set coding for lcsc G and the required countable Borel dense subgroup sections and normalize each Haar measure by its integral against one fixed nonnegative compactly supported function positive at the identity. Prove this Haar field Borel by countable compact-support integral tests, the Borel graph of invariance and uniqueness of the normalization; dense subgroup sections promote the countable invariance tests to the full subgroup. Supply Borel coset selectors, modular ratios and rho-functions on the resulting subgroup bundles. Restricted countable compact-support vector sections give measurable Gram matrices and dense induced fundamental sections. Prove the induction-in-stages unitaries below jointly measurable by their coefficient/norm tests on these sections, including when the closed subgroups vary as J_q and K_q. The variable-subgroup field construction is owned here; the fixed-subgroup theorem alone does not imply it.
+For the closed-subgroup fields occurring here, construct the parameterized Haar/quotient data rather than make independent choices at each q. Reuse native `ClosedSubgroup G`; construct its standard Borel closed-set coding for lcsc G and the required countable Borel dense subgroup sections and normalize each Haar measure by its integral against one fixed nonnegative compactly supported function positive at the identity. Prove this Haar field Borel by countable compact-support integral tests, the Borel graph of invariance and uniqueness of the normalization; dense subgroup sections promote the countable invariance tests to the full subgroup. Supply Borel coset sections, modular ratios and rho-functions on the resulting subgroup bundles; the coset sections come from `TauCeti.exists_measurable_forall_mem` applied to the map sending (q,x) to the closed coset of J_q lying over x, once its weak measurability is proved from the Borel closed-set coding. Restricted countable compact-support vector sections give measurable Gram matrices and dense induced fundamental sections. Prove the induction-in-stages unitaries below jointly measurable by their coefficient/norm tests on these sections, including when the closed subgroups vary as J_q and K_q. The variable-subgroup field construction is owned here; the fixed-subgroup theorem alone does not imply it.
 
 For closed J≤K≤G prove induction in stages `Ind_K^G(Ind_J^Kσ)≃Ind_J^Gσ`, with the unitary quotient/bundle identifications and this same single-RN normalization, consuming OperatorAlgebraDynamics D3's induction in stages and HilbertModules H3's induction in steps through interior tensor products. For fixed closed H≤G and a measurable field of separable H-representations `σ_t` over a standard Borel σ-finite base, construct the induced field and `Ind_H^G(∫⊕σ_t)≃∫⊕Ind_H^Gσ_t`. Supply the jointly measurable coefficient fields and the field-Fubini unitary on fundamental sections, norm identity, onto property and naturality; this is not an assumption that independent pointwise choices form a measurable field. VonNeumannAlgebras V4's actual measurable-field/decomposable-map clauses supply their generic carriers, and native finite-measure `Measure.condKernel` supplies scalar disintegration after equivalent-probability replacement. The measurable orbit/induction comparisons remain M1-owned. Generic finite/algebraic Mackey subgroup APIs supply subgroup/intersection identities only, not these lcsc Hilbert direct-integral theorems.
 
@@ -1732,7 +1874,7 @@ For H=G the quotient is a point, k_s(g,*)=g for s(*)=1 and r_g=1, so induction r
 
 ### Dependencies
 
-P.1–P.3; Layer 0; OperatorAlgebraDynamics D1 (with D1.BorelPrefix) and D3; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields. M1.MeasuredTensor precedes M2.InducedRefinement; no type-I hypothesis is added to the intermediate induced decomposition.
+P.1–P.3; Layer 0; OperatorAlgebraDynamics D1 (with D1.BorelPrefix) and D3; HilbertModules H3; VonNeumannAlgebras V3 and V4.0.Fields; InductionRestriction Layer 2.1 (almost-conjugacy for the finite-quotient deck models); Tau Ceti `TauCeti.ProjValMeasure`, `TauCeti.ProjValMeasure.map`, `TauCeti.exists_measurable_forall_mem` and `ContRepresentation.IsUnitary`. M1.MeasuredTensor precedes M2.InducedRefinement; no type-I hypothesis is added to the intermediate induced decomposition.
 
 ## Layer 5: M2 — Regular Mackey machine
 
@@ -1913,8 +2055,10 @@ Use V4.0.Decomposition’s uniqueness of central reduction and V3’s spatial ty
 uniqueness theorem.
 
 For each Hausdorff second-countable locally compact type-I group G, consume
-OperatorAlgebraDynamics D1's full group C*-algebra, separability and
-nondegenerate integrated-representation correspondence to apply this theorem
+the full group C*-algebra (Tau Ceti's `TauCeti.CStarAction.FullCrossedProduct` of
+`TauCeti.CStarAction.trivial` on ℂ), its separability as proved in
+M2.MeasuredRefinement, and OperatorAlgebraDynamics D1's nondegenerate
+integrated-representation correspondence to apply this theorem
 to `A=C*(G)`. Prove the factor definitions agree and recover measurable fields
 of strongly continuous native `ContRepresentation`s with native unitarity;
 strong continuity of the recovered fiber representations is part of the
@@ -1997,7 +2141,7 @@ For the unlabelled total representation, put `barμ=(pr_c)_*λ`. If λ≠0 disin
 ```
 ∫_Q^⊕ π_q dν(q) ≃ ∫_Â^⊕ (π_c ⊗ 1_(N_c)) dμ̄(c).
 ```
-Its final multiplicity is `dim N_c`, not a naive scalar sum over q; diffuse q-fibers contribute their L² multiplicity. If λ=0 use the zero representation and zero measure directly. State final uniqueness only in measure class and almost-everywhere multiplicity dimension. For a fixed lcsc type-I group G take `A=C*(G)` using D1’s integrated correspondence. Derive C*(G) separable from D1’s L¹ norm bound and dense integrated C_c span, with a countable compact exhaustion and rational compact-support approximants on the lcsc G; do not claim the arbitrary-group D1 scope already states separability. Recover strongly continuous unitary group representations from the algebra fields. Apply this fixed-G measured-family theorem to M1's q-indexed induced G-representations. It requires type I only at this irreducible-refinement step, not at M1's intermediate induced decomposition; it asserts no general selection theorem for varying little groups.
+Its final multiplicity is `dim N_c`, not a naive scalar sum over q; diffuse q-fibers contribute their L² multiplicity. If λ=0 use the zero representation and zero measure directly. State final uniqueness only in measure class and almost-everywhere multiplicity dimension. For a fixed lcsc type-I group G take `A=C*(G)` using D1’s integrated correspondence. Derive C*(G) separable from the L¹ bound `TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le` and the dense range `TauCeti.CStarAction.FullCrossedProduct.denseRange_of`, with a countable compact exhaustion and rational compact-support approximants on the lcsc G; neither Tau Ceti nor D1 states separability. Recover strongly continuous unitary group representations from the algebra fields. Apply this fixed-G measured-family theorem to M1's q-indexed induced G-representations. It requires type I only at this irreducible-refinement step, not at M1's intermediate induced decomposition; it asserts no general selection theorem for varying little groups.
 
 The general fixed-algebra interface above and the following group specialization share M2.TypeIDisintegration and M2.RectangularField as their single decomposition owners. Prove that the C(K,A) construction and the full-centre group construction below give equivalent labelled spectral data by the stated uniqueness; neither creates a second measurable-field carrier.
 
@@ -2033,7 +2177,7 @@ already has a minimal-tensor extension. Its restrictions recover the
 p_n calculus and ι(C(K)). Since the two coordinate families generate
 Z(A₀)∨D, prove `j(C(K′×K))″=Z(𝓜)`; j need not be injective.
 Apply SelfAdjointSpectralTheory SA-B85's general compact model to this joint representation, which this roadmap owns.
-SA supplies its single-representation spectral/multiplicity comparison;
+SelfAdjointSpectralTheory SA-B85 supplies the single-representation spectral/multiplicity comparison;
 the joint measurability, labelled kernels and conull-set comparisons below
 remain owned here. Prove that, after removal of a null set, these countable coordinates give a Borel injection of the full-centre base into the canonical dual × Q_eff, with Borel inverse on its image by Lusin–Souslin. The resulting 𝓜-fibres are factors almost everywhere. Keep the canonical c-label through the central inclusion Z(A₀)⊂Z(𝓜) and the countable dual-label projections of M2.RectangularField. Keep the q-label through ι(C(K)); prove that its spectral measure is supported on the coded Q_eff. The displayed algebra identity and V3’s spatial type-I representation theorem show that the restricted L-representation on each joint fibre is exactly `π_c⊗1_(M_(q,c))`, with measurable multiplicity obtained by V4.0.Fields. Prove this isotypic-fibre lemma, the labelled (q,c) comparison and the onto intertwiner as part of this theorem; merely decomposing over D would recover the original π_q and would not refine it. No simultaneous pointwise normal representation of all L∞(Q,ν) is required: diffuse diagonal functions may become point evaluations after central disintegration.
 
@@ -2670,7 +2814,7 @@ Define parity and time reversal as automorphisms of the covered group and define
 
 Prove the exact criterion, with no Hilbert-cardinality restriction: such a pair (ρ,P) exists iff `ρ≃Ind_(SU(2))^(G_sp)σ` for a strongly continuous unitary SU(2)-representation σ. On `L²(ℝ³,dx;K_σ)` give its canonical pair explicitly by `T_σ(a,u)f(x)=σ(u)f(R(u)⁻¹(x−a))` and `P_σ(E)f=1_E f`. Prove unitarity, strong continuity, normalization, strong countable additivity and covariance, and construct the inducing unitary as a unitary of both group and PVM data. Lebesgue measure is invariant, so this formula has no additional RN/modular factor; changes to an equivalent quotient measure consume M1's single square-root density transport. The zero Hilbert space is the σ=0 case; nonzero selected particle models below have nonzero H.
 
-M1's general imprimitivity theorem is stated for separable Hilbert spaces. Own the following bounded spatial extension of that theorem, rather than silently applying it to arbitrary H. Consume OperatorAlgebraDynamics D1 for the integrated covariant representation, its L¹ norm bound, full crossed product, recovery of the pair and nondegenerate multiplier extensions. For this action prove `A_sp=C₀(ℝ³)⋊G_sp` separable: construct countably many dense coefficient functions and a countable precompact Borel ring covering G_sp; rational finite-range compactly supported coefficient-valued simple functions are L¹-dense by finite-Haar compact truncation and regularity, and D1's norm bound and compact-support density give a countable dense image in A_sp. Use CStarAlgebras' existing representation/approximate-unit vocabulary; no new crossed-product or PVM carrier is introduced.
+M1's general imprimitivity theorem is stated for separable Hilbert spaces. Own the following bounded spatial extension of that theorem, rather than silently applying it to arbitrary H. Consume Tau Ceti's integrated covariant representation `TauCeti.CStarAction.CovariantRepresentation.integratedOperator` with its L¹ bound `TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le`, the full crossed product `TauCeti.CStarAction.FullCrossedProduct` with `TauCeti.CStarAction.CovariantRepresentation.integratedFull`, its canonical multipliers `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier` and `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, and the nondegenerate multiplier extension `NonUnitalStarAlgHom.multiplierExtension`; consume OperatorAlgebraDynamics D1 for the recovery of the covariant pair from a nondegenerate representation of the crossed product. For this action prove `A_sp=C₀(ℝ³)⋊G_sp` separable: construct countably many dense coefficient functions and a countable precompact Borel ring covering G_sp; rational finite-range compactly supported coefficient-valued simple functions are L¹-dense by finite-Haar compact truncation and regularity, and `TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le` with `TauCeti.CStarAction.FullCrossedProduct.denseRange_of` give a countable dense image in A_sp. Use CStarAlgebras' existing representation/approximate-unit vocabulary; no new crossed-product or PVM carrier is introduced.
 
 Integrating a normalized PVM gives a nondegenerate C₀(X)-representation. Decompose its nondegenerate A_sp-representation into an arbitrary orthogonal Hilbert sum of cyclic reducing summands. Each is separable by the countable dense algebra. Prove the reducing projections commute with the recovered coefficient and group multiplier actions by the nondegenerate multiplier extension; use spectral uniqueness/bounded Borel approximation to show they also reduce P. Apply separable M1 on each summand. Assemble their inducing representations and pair intertwiners by the actual unitary `⊕_i L²(X;K_i)≃L²(X;⊕_i K_i)`: first on finite-component functions, then by density of Bochner L² simple functions and finite-coordinate approximations to their finitely many values. Do not interchange an uncountable sum and an integral without this argument. Conversely, construct the displayed canonical pair for arbitrary σ using finite simple-tensor density and the unitary norm-one bound for continuity. This retains the all-H criterion without claiming that M1's separable statement already supplies it.
 
@@ -2682,7 +2826,7 @@ For every admitted selected particle model above, export a specified unitary `W:
 
 Export unitary transport of the full covariant pair `(ρ,P)↦(VρV⁻¹,VPV⁻¹)`, and the induction section/measure-change and spin-fiber intertwiners as intertwiners of both data. Preserve the freedom in the supplied inducing unitary/localization choice: arbitrary intertwiners of the spatial group representation need not preserve an independently chosen position PVM. In particular the earlier translation-PVM uniqueness argument concerns momentum. The supplied pair transport is the exported interface; normal states on the generated abelian von Neumann algebra, their event laws, real-Borel marginal pushforwards and simultaneous state transport are not part of this roadmap and are not prerequisites for constructing this system. Keep M4's existing full-spacetime normalized sharp-PVM/positive-energy obstruction separate and unchanged; no field-locality or local-net theorem follows from spatial localization.
 
-*Needs:* M1 (`SystemOfImprimitivity`, the imprimitivity theorem `SystemOfImprimitivity.exists_induced` on separable spaces, induced carriers and the Mackey restriction/fibre equivalence); M3 (the rotation-carrier comparison); OperatorAlgebraDynamics D1 (integrated covariant representations and full crossed products); Tau Ceti `TauCeti.ProjValMeasure` (projection-valued measures); VonNeumannAlgebras V4.0.Fields (measurable fields); CStarAlgebras C2 (separability of `C₀(ℝ³)⋊G_sp`); native `ContRepresentation.restrict` and `IsUnitary.restrict`.
+*Needs:* M1 (`SystemOfImprimitivity`, the imprimitivity theorem `SystemOfImprimitivity.exists_induced` on separable spaces, induced carriers and the Mackey restriction/fibre equivalence); M3 (the rotation-carrier comparison); Tau Ceti `TauCeti.CStarAction.CovariantRepresentation.integratedOperator`, `TauCeti.CStarAction.FullCrossedProduct` with its canonical multipliers and `NonUnitalStarAlgHom.multiplierExtension`; OperatorAlgebraDynamics D1 (recovery of the covariant pair); Tau Ceti `TauCeti.ProjValMeasure` (projection-valued measures); VonNeumannAlgebras V4.0.Fields (measurable fields); CStarAlgebras C2 (separability of `C₀(ℝ³)⋊G_sp`); native `ContRepresentation.restrict` and `IsUnitary.restrict`.
 
 ### Full four-component Poincaré multiplier representations
 
@@ -4903,7 +5047,7 @@ and smooth domains. Include half-integral p by the actual Spin lift, and prove
 the induced intertwiners descend to every admitted invariant subspace/quotient
 and extend unitarily for its specified positive Hilbert form. The integer-spin
 formulas are compared with
-[Arends–Bang-Jensen–Frahm, §§2.1–2.2](https://arxiv.org/html/2406.11349);
+[ABF24, §§2.1–2.2](https://arxiv.org/abs/2406.11349v1);
 the half-spin extension and the normalizations above are targets here.
 
 Prove the actual induced-action and central operator dictionary
@@ -4915,8 +5059,8 @@ member and resolve the half-integer reducibility point. The strict Dixmier
 ranges above remain unchanged; a reducible induced module is not a new label.
 
 Own the compact ladder adapter, including its Spin lift. For integer p use the
-normalized eigenform comparison in [Arends–Bang-Jensen–Frahm,
-§1.2, (1.4)–(1.5), observations A–C](https://arxiv.org/html/2406.11349).
+normalized eigenform comparison in [ABF24, §1.2, (1.4), and §1.3,
+Proposition 1.3, (1.5) and observations (A)–(C), pp.7–8](https://arxiv.org/abs/2406.11349v1).
 For `α=(N,M)` the two forward-edge parameters are `c_N=N+3/2` and
 `c_M=M+1/2`. Derive the edge operators from the compact induced action,
 prove their parameter-independent compact Clebsch–Gordan factors are nonzero
@@ -5293,8 +5437,8 @@ the trivial input. Center parity is part of H(d), not an extra omitted sector.
 These conditions cover unbounded p, q, |λ|, arbitrary endpoint approaches and
 mixed sequences with exactly the displayed membership tests.
 
-Own the following F-picture/Spin adapter. Starting with Arends–Bang-Jensen–Frahm
-§§2.1–2.2 and §3.3, derive the actual half-spin version on the finite Spin(3)
+Own the following F-picture/Spin adapter. Starting with ABF24
+§§2.1–2.2 and §3.3 (Theorem 3.8, p.22), derive the actual half-spin version on the finite Spin(3)
 fiber; use its positive eigenform and actual Hilbert completion. Translate the
 source signed labels by the native W₄ eigenvalue: a Fourier fiber weight f is
 physical helicity −f, and equals −M in the high-frequency compact comparison.
@@ -9333,6 +9477,8 @@ Primary representation-theory references for the noncompact assertions are G. W.
 Layers P.3 and P.4 cite Neeb2004 = K.-H. Neeb, [“Abelian extensions of infinite-dimensional Lie groups,” *Travaux Mathématiques* 15 (2004), 69–194](https://arxiv.org/abs/math/0402303) (arXiv:math/0402303); WagemannWockel2015 = F. Wagemann and C. Wockel, [“A cocycle model for topological and Lie group cohomology,” *Trans. Amer. Math. Soc.* 367 (2015), 1871–1909](https://arxiv.org/abs/1110.3304) (arXiv:1110.3304); and Weibel1994 = C. A. Weibel, *An Introduction to Homological Algebra*, Cambridge Studies in Advanced Mathematics 38, Cambridge University Press, 1994, §7.8 (cited by section, for Whitehead's lemmas).
 
 The HilbertModules H3/H5 contracts, and the C*-algebraic form of M1's imprimitivity theorem, use Echterhoff2010 = S. Echterhoff, [“Crossed products and the Mackey–Rieffel–Green machine”](https://arxiv.org/abs/1006.4975) (arXiv:1006.4975v4; numbering and pages refer to this version), and DixmierDouady1963 = J. Dixmier and A. Douady, [“Champs continus d’espaces hilbertiens et de C*-algèbres,” *Bull. Soc. Math. France* 91 (1963), 227–284](https://doi.org/10.24033/bsmf.1596).
+
+M5's rank-one de Sitter models cite ABF24 = C. Arends, F. Bang-Jensen and J. Frahm, [“Explicit Hilbert spaces for the unitary dual of rank one orthogonal groups and applications”](https://arxiv.org/abs/2406.11349v1) (arXiv:2406.11349v1, 2024; numbering and pages refer to this version): §1.2, (1.4), p.7, and §1.3, Proposition 1.3, (1.5) and observations (A)–(C), pp.7–8, for the compact-picture eigenvalues and K-type ladder; §§2.1–2.2, including Lemma 2.2, p.13, for the non-compact and F-pictures; and §3.3, Theorem 3.8, p.22, for the explicit invariant inner products.
 
 M0a and M2.TypeIDisintegration cite BekkaDeLaHarpe2019 = B. Bekka and P. de la Harpe, [*Unitary representations of groups, duals, and characters*](https://arxiv.org/abs/1912.07262) (arXiv:1912.07262v1; numbering and pages refer to this version), Theorems 6.D.7 and 8.F.3, Remarks 6.D.6 and 8.F.2(3) and Comments (1), (8), (9) on Theorem 8.F.3, for Glimm's theorem and the canonical decomposition of representations of type-I groups, and p.47, which locates the transitive imprimitivity theorem in Mackey1958 §6.
 
