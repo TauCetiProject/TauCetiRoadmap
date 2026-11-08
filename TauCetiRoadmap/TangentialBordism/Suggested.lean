@@ -1,15 +1,22 @@
 module
 
 public import Mathlib
+public import TauCeti.Geometry.Manifold.Boundary.Charts
+public import TauCeti.Geometry.Manifold.Boundary.InducedOrientation
 public import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
+public import TauCeti.Geometry.Manifold.Orientation.Preserving
 
 /-!
 # Tangential bordism: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, relative smoothing of continuous maps from manifolds with corners into
-compact boundaryless manifolds (Layer 2, B1.6) and smooth oriented three-manifold
-parallelization (Layer 8, B3.1). For boundaryless sources the smoothing statement is
+compact boundaryless manifolds (Layer 2, B1.6), smooth oriented three-manifold
+parallelization (Layer 8, B3.1) and the zero entries of the low unoriented and oriented
+coefficient tables (Layer 8, B3.1): `ΩO_n = 0` for `n = 1, 3` and `ΩSO_n = 0` for
+`1 ≤ n ≤ 3`, each stated as "every closed (oriented) smooth `n`-manifold is the (oriented)
+boundary of a compact smooth `(n+1)`-manifold" on the pinned boundary charts and outward-first
+boundary orientation. For boundaryless sources the smoothing statement is
 AlgebraicTopology 8.13's theorem, which this roadmap consumes; the statement here is over an
 arbitrary model with corners, and the corner-source case is what this roadmap proves.
 The finite quadratic Arf algebra consumed by Layer 1 is a declared supplier gap of
@@ -19,9 +26,13 @@ Parallelization uses native tangent bundles and a chosen native oriented atlas.
 The other headline theorems are not statable at the pins:
 - parametric and relative transversality (B1.6): Mathlib has no transversality predicate for
   smooth maps between manifolds;
-- the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)` and their low
-  tables (B2, B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's presentation of
-  `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or quotient group;
+- the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)`, the nonzero
+  entries of their low tables (B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's
+  presentation of `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or
+  quotient group, and a nonzero entry is a group isomorphism (generators and their
+  independence) that only that quotient expresses;
+- every Spin entry of the low tables (B3.1–B3.4), `ΩSpin_3 = 0` included: the pins have no
+  Spin structure on a manifold;
 - the Pontryagin–Thom isomorphism `Ω^ξ_n(X,A) ≃ π_n(Mξ ∧ Σ∞(X/A))` (B5.4c) and the stable
   framed isomorphism (B5.5): there are no Thom spectra or stable homotopy groups of spectra;
 - `H*(MO;F2)`, the Steenrod algebras and Adams convergence (B4.1–B4.8): there are no Steenrod
@@ -41,7 +52,9 @@ namespace TauCetiRoadmap.TangentialBordism
 
 open scoped Manifold ContDiff
 
-/-! ## Layer 2: relative smoothing into compact targets -/
+universe u
+
+/-! ## Layer 2: cycles, structures and collared geometry -/
 
 /-- Relative smoothing (B1.6): a continuous map from a Hausdorff sigma-compact manifold with
 corners to a compact boundaryless Hausdorff manifold, smooth on an open neighbourhood of a
@@ -62,7 +75,7 @@ theorem exists_contMDiff_homotopicRel
     ∃ g : C(M, P), ContMDiff I J ∞ g ∧ f.HomotopicRel g C := by
   sorry
 
-/-! ## Layer 8: smooth oriented three-manifold parallelization -/
+/-! ## Layer 8: low geometric classifications and fillings -/
 
 /-- Every Hausdorff second-countable smooth oriented three-manifold, allowing boundary,
 has a positive tangent frame whose associated bundle map and inverse are smooth.
@@ -89,6 +102,40 @@ theorem orientedThreeManifold_parallelization
         ((modelWithCornersEuclideanHalfSpace 3).prod 𝓘(ℝ, Fin 3 → ℝ)) ∞
         (fun v : TangentBundle (modelWithCornersEuclideanHalfSpace 3) M ↦
           (v.proj, (b v.proj).equivFun v.2)) := by
+  sorry
+
+/-- `ΩSO_n = 0` for `1 ≤ n ≤ 3` (B3.1; for `n = 3` Rokhlin's theorem, Thom, Théorème IV.13,
+p.81): every closed oriented smooth `n`-manifold is, by an orientation-preserving
+diffeomorphism, the outward-first oriented boundary of a compact oriented smooth
+`(n+1)`-manifold. The boundary carries Tau Ceti's boundary charts; its smooth-manifold
+structure, which `TauCeti.isManifold_boundary` provides, is part of the conclusion. The
+positive point (`n = 0`) and `CP²` (`n = 4`) do not bound. -/
+theorem closedOrientedManifold_isOrientedBoundary (n : ℕ) (hn₁ : 1 ≤ n) (hn₃ : n ≤ 3)
+    (M : Type u) [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+    [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M]
+    (o : TauCeti.Manifold.Orientation 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) M (Fin n)) :
+    ∃ (W : Type u) (_ : TopologicalSpace W) (_ : T2Space W) (_ : CompactSpace W)
+      (_ : ChartedSpace (EuclideanHalfSpace (n + 1)) W) (_ : IsManifold (𝓡∂ (n + 1)) ∞ W)
+      (_ : IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ ↥((𝓡∂ (n + 1)).boundary W))
+      (oW : TauCeti.Manifold.Orientation (𝓡∂ (n + 1)) W (Fin (n + 1)))
+      (φ : ↥((𝓡∂ (n + 1)).boundary W) ≃ₘ^∞⟮𝓘(ℝ, EuclideanSpace ℝ (Fin n)),
+          𝓘(ℝ, EuclideanSpace ℝ (Fin n))⟯ M),
+      ∀ x, TauCeti.Manifold.Orientation.IsOrientationPreservingAt
+        (TauCeti.boundaryOrientation oW) o φ x := by
+  sorry
+
+/-- `ΩO_n = 0` for `n = 1` and `n = 3` (B3.1; Thom, after Théorème IV.12, p.79): every
+closed smooth `n`-manifold is diffeomorphic to the boundary of a compact smooth
+`(n+1)`-manifold. A point (`n = 0`) and `RP²` (`n = 2`) do not bound. -/
+theorem closedManifold_isBoundary (n : ℕ) (hn : n = 1 ∨ n = 3)
+    (M : Type u) [TopologicalSpace M] [T2Space M] [CompactSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+    [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M] :
+    ∃ (W : Type u) (_ : TopologicalSpace W) (_ : T2Space W) (_ : CompactSpace W)
+      (_ : ChartedSpace (EuclideanHalfSpace (n + 1)) W) (_ : IsManifold (𝓡∂ (n + 1)) ∞ W),
+      Nonempty (↥((𝓡∂ (n + 1)).boundary W) ≃ₘ^∞⟮𝓘(ℝ, EuclideanSpace ℝ (Fin n)),
+          𝓘(ℝ, EuclideanSpace ℝ (Fin n))⟯ M) := by
   sorry
 
 end TauCetiRoadmap.TangentialBordism

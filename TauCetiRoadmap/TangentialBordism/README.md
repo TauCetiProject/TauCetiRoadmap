@@ -9,8 +9,9 @@ and projective-bundle transfers. A group at a point does not supply the theory
 over a space, and a spectral isomorphism does not supply an explicit filling.
 
 `README.md` is definitive. `Suggested.lean` states the smooth oriented
-three-manifold parallelization headline and B1.6's relative smoothing into
-compact targets against the pinned
+three-manifold parallelization headline, the zero entries ΩO_1=ΩO_3=0 and
+ΩSO_1=ΩSO_2=ΩSO_3=0 of the B3.1 tables as nullbordism theorems, and B1.6's
+relative smoothing into compact targets against the pinned
 APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
 include `TauCeti/Geometry/Manifold/Bordism/` and
 `TauCeti/AlgebraicTopology/Bordism/`.
@@ -30,7 +31,11 @@ value p(HP²)=1+2u+7u²; S2.2 owns the structured Pontryagin–Thom isomorphism
 Ω^fr_n≅π_nS and the stem π₃S≅ℤ/24 with generator ν, and S5.3 the equivalence
 MSpin[1/2]≃MSO[1/2]. StringOrientation S4–S5 and EllipticCohomology own the
 Witten genus and the Cayley-plane kernel theorem; neither consumes anything
-from here. Layer 9 below adds to S1.5 only the identification of its Jordan
+from here. StringOrientation S2.3's stem (through EllipticCohomology E4.S)
+and S5.3's Hovey splitting use BordismFormalGroups F3–F5, which consume
+B4.2, B4.7 and B4.8 below; of S5.3 only the equivalence is consumed, by
+B3.4, and S2.3 is consumed by B3.3 and B5.5. These three items lie
+downstream of B4.2, B4.7, B4.8 and B5.4, and none of those uses them. Layer 9 below adds to S1.5 only the identification of its Jordan
 algebra with LieHighestWeight's compact Albert carrier, the explicit idempotent
 charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
 comparison, the smooth quotient through SmoothBundlesConnections B1.4, the Bott
@@ -201,7 +206,18 @@ every n≥0, the zero-dimensional boundary included:
 `TauCeti.boundaryOrientation_spec` says that an outward vector followed by
 an oriented basis of the boundary tangent space is oriented for the
 ambient orientation, and `TauCeti.boundaryOrientation_neg` that reversal
-commutes with passage to the boundary. The increasing orientation of
+commutes with passage to the boundary. The boundary of a manifold modelled on the half-space of dimension n+1
+is the set `(𝓡∂ (n+1)).boundary W` of Mathlib's boundary points with
+`TauCeti.boundaryChartedSpace` from
+`TauCeti/Geometry/Manifold/Boundary/Charts.lean`, whose charts delete the
+vanishing normal coordinate of the ambient preferred charts; by
+`TauCeti.isManifold_boundary` it is a boundaryless C^k manifold on
+`EuclideanSpace ℝ (Fin n)` for every k≠0 whenever W is one on the half-space.
+The nullbordism headlines `closedManifold_isBoundary` and
+`closedOrientedManifold_isOrientedBoundary` are stated on this carrier,
+with `TauCeti.boundaryOrientation` and the pointwise
+`TauCeti.Manifold.Orientation.IsOrientationPreservingAt`.
+The increasing orientation of
 [a,b] for a<b is `TauCeti.Manifold.Orientation.interval` from
 `TauCeti/Geometry/Manifold/Orientation/Interval.lean`; its boundary
 orientation is the negative ray at a and the positive ray at b
@@ -250,6 +266,36 @@ restriction to every closed simplex is, in barycentric coordinates, the
 restriction of a map that is Cⁿ within the simplex with derivative
 injective on the directions of the simplex. The pin proves no existence
 theorem for it; existence is GeometricTopology Layer11.3.
+Use the pinned tubular neighbourhood theorem
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` from
+`TauCeti/Geometry/Manifold/TubularNeighborhood/Existence.lean`: for a smooth
+embedding `TauCeti.SmoothEmbedding` between finite-dimensional manifolds on
+boundaryless models (`I.Boundaryless`), the target Hausdorff and second
+countable, and an open set containing the image, the whole intrinsic quotient
+normal bundle (fibre a model space of the codimension) is diffeomorphic to an
+open subset of that set, the zero section going to the embedding; neither
+compactness nor closedness of the image is assumed. Use
+`TauCeti.exists_contMDiffMap_isProperMap_nonneg` from
+`TauCeti/Geometry/Manifold/Exhaustion.lean`: a sigma-compact Hausdorff smooth
+manifold over any finite-dimensional real model with corners, the empty
+manifold included, has a nonnegative smooth proper function to ℝ. Use the
+framed Pontryagin–Thom collapse of
+`TauCeti/Geometry/Manifold/PontryaginThom/Basic.lean`: for a framed tube
+`τ:S×V→M` (`TauCeti.IsFramedTube`, an open embedding extending the core along
+the zero section) of a compact S in a Hausdorff space M, the collapse
+`TauCeti.pontryaginThomCollapseMap` to `OnePoint V` and, for V=ℝᵏ, its
+sphere form `TauCeti.pontryaginThomSphereMap` to the unit sphere of
+`EuclideanSpace ℝ (Fin (k+1))`, sending the complement of the tube to a chosen
+basepoint; isotopic tubes give homotopic collapses
+(`TauCeti.pontryaginThomCollapseMap_homotopic`), and so do framings changed
+by homotopic families of linear automorphisms
+(`TauCeti.pontryaginThomCollapseMap_comp_prodUnitsHomeomorph_homotopic`).
+Framed tubes exist inside any open neighbourhood of the image of a smooth
+embedding of manifolds on boundaryless models into a Hausdorff second-countable
+target whose quotient normal bundle carries a global linear trivialization
+(`TauCeti.SmoothEmbedding.exists_isFramedTube` in
+`TauCeti/Geometry/Manifold/PontryaginThom/Existence.lean`). The pin has no
+bordism invariance, inverse, bijection or group law for this collapse.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -259,9 +305,9 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the extension of 8.13's three theorems to sources with corners, facewise |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and the isotopy uniqueness of tubular neighbourhoods (Layer1; their existence for boundaryless models is the pinned `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
-| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
+| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6, C1.3, C1.4, C7.3, C7.3a | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions; C1.3's finite faithful unitary representations of compact Lie groups and their smooth Stiefel approximations of BG; C1.4's smooth representatives of continuous principal bundles with compact structure group over smooth bases, with their relative homotopy versions; `TSⁿ⊕ε¹≅ε^(n+1)`, `w(T RP^m)=(1+a)^(m+1)` and the immersion normal bundle | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
@@ -270,7 +316,7 @@ retain their native hypotheses and chosen smooth structures.
 | [ClassifyingSpaces](../ClassifyingSpaces/README.md), Stage4 | `H_*(BG;ℤ)` identified with Mathlib's `groupHomology` of the trivial module | B6.3 applies it to finite cyclic groups |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2(a) imports the finite-F₂ Arf invariant of gap:finite-quadratic-arf for the Spin-surface refinements |
 | [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
-| IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's `spinFour_signature_eq_neg_sixteen_mul_quaternionicIndex` and `rokhlin_signature_dvd_sixteen` | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
+| IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's integral equality σ(M)=−16α for the quaternionic index α of a closed Spin four-manifold and its Rokhlin theorem that σ(M) is divisible by 16 | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 | AffineMorseLefschetz A0, A5, A6; ComplexKahlerGeometry K7.1 | polynomial projective zero-locus carrier, smooth projective atlas, weak Lefschetz and Veronese comparison | B1.7 specializes them to the Fermat quartic and constructs its characteristic numbers |
 
 What GeometricTopology must provide (gap:finite-quadratic-arf): for a
@@ -354,8 +400,12 @@ and its chart signs, the oriented-atlas
 criterion and face-indexed corners are DifferentialGeometry 2.1, 2.2 and
 5.5b; manifold Sard in equal dimensions is Tau Ceti's
 `TauCeti.dense_isRegularValue`, and its unequal-dimension form is a target
-of this item; collars, gluing along a piece of the boundary, handle attachment and
-tubular neighbourhoods are GeometricTopology Layer1; the CW structure on
+of this item; collars, gluing along a piece of the boundary and handle attachment
+are GeometricTopology Layer1; tubular neighbourhoods of embeddings between
+manifolds on boundaryless models are Tau Ceti's
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and smooth
+proper exhaustion functions are `TauCeti.exists_contMDiffMap_isProperMap_nonneg`;
+the CW structure on
 `|K|` is Tau Ceti's `AbstractSimplicialComplex.realizationCWComplex` and the
 existence of Whitehead's smooth triangulation is GeometricTopology Layer11.3.
 This item owns the following.
@@ -429,9 +479,17 @@ This item owns the following.
   with boundary; for boundaryless M this is AlgebraicTopology 8.13's
   smoothing theorem, and the statement here differs from it only in
   admitting corners and dropping second countability). Route: embed P in a Euclidean space V by
-  `exists_embedding_euclidean_of_compact`; GeometricTopology Layer1's
-  tubular neighbourhood of the image gives an open W⊇P and a smooth
-  submersive retraction r:W→P, its bundle projection; choose a continuous
+  `exists_embedding_euclidean_of_compact`, a smooth embedding e:P→V in the
+  sense of `TauCeti.SmoothEmbedding`; the pinned
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` gives an
+  open W⊇e(P) and a diffeomorphism Φ from the normal bundle of e onto W
+  sending the zero section to e, and r=π∘Φ⁻¹, π the bundle projection, is a
+  smooth submersive retraction r:W→P. That theorem asks for boundaryless
+  models; when J has corners, first re-chart P on E': every point of P is
+  an interior point, so by chart independence of interior points each
+  extended chart of P lands in the interior of the range of J, an open
+  subset of E', and these extended charts make P a smooth manifold on
+  𝓘(ℝ,E') whose identity map to P is a diffeomorphism. Choose a continuous
   ε>0 on M with the ε(x)-ball about f(x) inside W (ε=1 when W=V);
   Mathlib's `Continuous.exists_contMDiff_approx_and_eqOn`, valid over any
   model with corners, gives a smooth g̃:M→V within ε of f and equal to f
@@ -472,8 +530,10 @@ This item owns the following.
 - **Neighbourhoods and doubles.** For a compact subset K of a
   Hausdorff second-countable smooth manifold M without boundary,
   construct a compact smooth codimension-zero submanifold with boundary
-  containing K in its interior: take a regular value c of a smooth
-  proper exhaustion function f:M→ℝ, dense by this item's Sard theorem
+  containing K in its interior: M is sigma-compact, being second countable
+  and locally compact, so the pinned
+  `TauCeti.exists_contMDiffMap_isProperMap_nonneg` gives a smooth proper
+  exhaustion function f:M→ℝ; take a regular value c of f, dense by this item's Sard theorem
   (source dimension dim M, target dimension 1), with c above the maximum
   of f on K, and use f⁻¹((−∞,c]). For a
   compact M with collared boundary construct its double as
@@ -500,7 +560,7 @@ Its API includes:
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
 
-*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, `TauCeti.IsNullSet` and `TauCeti.IsRegularPoint`; DifferentialGeometry §5.5b; GeometricTopology Layer 1 collars, gluing and tubes; AlgebraicTopology 8.13 for boundaryless sources.
+*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and `TauCeti.exists_contMDiffMap_isProperMap_nonneg`; DifferentialGeometry §5.5b; GeometricTopology Layer 1 collars and gluing; AlgebraicTopology 8.13 for boundaryless sources.
 
 ### 2.2 Model transport and structures (B1.1)
 
@@ -818,7 +878,7 @@ Signed points, collared intervals, the Hopf quotient, the Fermat quartic and the
 
 ### Dependencies
 
-DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation, the CW structure `AbstractSimplicialComplex.realizationCWComplex` and the carrier `TauCeti.IsSmoothTriangulation`; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
+DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation, the CW structure `AbstractSimplicialComplex.realizationCWComplex`, the carrier `TauCeti.IsSmoothTriangulation`, the tube theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and the exhaustion function `TauCeti.exists_contMDiffMap_isProperMap_nonneg`; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
 
 ## Layer 3: geometric bordism as a homology theory
 
@@ -1199,8 +1259,10 @@ Gauss/classifier lift ℓ:M→B_k and pullback isomorphism ν_M≃ℓ*ξ_k, wher
 A classifier record consists of a continuous map ℓ, continuous linear fibre
 isomorphisms and the induced homeomorphism of total spaces over M; require
 the total-space map to send (x,v) to (x,ℓ_x(v)). Supplement it by
-GeometricTopology Layer1's quotient normal bundle and tubular
-neighbourhood of the specified embedding, the map
+the pinned quotient normal bundle `TauCeti.SmoothEmbedding.NormalSpace`
+of the specified embedding of a closed cycle and its tubular
+neighbourhood `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
+(any two tubes being isotopic by GeometricTopology Layer1), the map
 B_k→BO(k), its designated universal γ_k, and a specified homotopy
 between the projected lift and the embedding's Gauss map, transporting
 the bundle isomorphism along that homotopy.
@@ -1243,7 +1305,7 @@ Its API includes:
 - Changing the normal framing sign gives degree −1; an unmarked bundle isomorphism cannot identify those framed cycles.
 - The empty embedded cycle collapses to the basepoint and requires no nonempty tubular-domain hypothesis.
 
-*Needs:* B1.1–B1.6; CharacteristicClasses C1–C2; GeneralizedCohomology G5.2 unframed collapse and G5.3 normal diagrams.
+*Needs:* B1.1–B1.6; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace` and `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`; GeometricTopology Layer 1 tube uniqueness; CharacteristicClasses C1–C2; GeneralizedCohomology G5.2 unframed collapse and G5.3 normal diagrams.
 
 ### 5.2 Finite embedded comparison (B5.2)
 
@@ -1279,7 +1341,20 @@ naturality, pinch addition and the domain-reflection inverse, with frames
 transported by its derivative. It has no stable Bott, stable J or
 Freudenthal premise; r=0 remains a separate finite based-set carrier.
 It is proved from the general ξ construction of items2–3 with B_r a
-point, not derived from the stable PT theorem.
+point, not derived from the stable PT theorem. Its forward map is the
+pinned framed collapse: an ordered normal frame of a closed
+d-submanifold S of S^(d+r) missing the marked point is a global linear
+trivialization of its quotient normal bundle, so
+`TauCeti.SmoothEmbedding.exists_isFramedTube` gives a framed tube
+S×ℝ^r→S^(d+r) and `TauCeti.pontryaginThomSphereMap` its collapse onto
+S^r, the complement of the tube going to the basepoint. Prove that
+this map is the item-1 collapse with B_r a point under the dictionary
+below. Independence of the tube is
+`TauCeti.pontryaginThomCollapseMap_homotopic` applied to the isotopy of
+tubes of GeometricTopology Layer1, and invariance under homotopy of
+frames is `TauCeti.pontryaginThomCollapseMap_comp_prodUnitsHomeomorph_homotopic`;
+invariance under framed bordism, the inverse, the bijection and pinch
+addition are the targets of this item.
 
 In the specialization ξ_r equal to the trivial rank-r bundle over a
 point, use that honest-rank unstable framed Pontryagin–Thom
@@ -1317,7 +1392,7 @@ Its API includes:
 
 The classical stable coefficient theorem is Thom IV.8, p.75, and its form for every bundle diagram is StringOrientation S2.2; neither states a bijection at a fixed finite rank k. The finite embedded ξ statement here is a target extending that setting, with the embedding dependence of the labelled four-point example; its proof requires the actual two inverse constructions in B5.1–3, with compact sources and CW classifiers.
 
-*Needs:* B5.1 and B5.3 inverse; B1.6 transversality; GeneralizedCohomology G5.2 Thom quotients. Construction of the forward map uses B5.1 alone.
+*Needs:* B5.1 and B5.3 inverse; B1.6 transversality; Tau Ceti `TauCeti.SmoothEmbedding.exists_isFramedTube`, `TauCeti.pontryaginThomSphereMap`, `TauCeti.pontryaginThomCollapseMap_homotopic` and `TauCeti.pontryaginThomCollapseMap_comp_prodUnitsHomeomorph_homotopic`; GeneralizedCohomology G5.2 Thom quotients. Construction of the forward map uses B5.1 and these pinned declarations alone.
 
 ### 5.3 Inverse for CW classifiers (B5.3)
 
@@ -1645,7 +1720,7 @@ The labelled four-point commutator distinguishes finite embeddings; its stable l
 
 ### Dependencies
 
-Layers 2–3; StringOrientation S2.2–S2.3; GeneralizedCohomology G1.1, G2.10, G3.3 and G5.2–G5.4; CharacteristicClasses C1–C2.
+Layers 2–3; StringOrientation S2.2–S2.3; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`, `TauCeti.SmoothEmbedding.exists_isFramedTube` and the framed collapse `TauCeti.pontryaginThomSphereMap` with its homotopy invariance; GeometricTopology Layer 1; GeneralizedCohomology G1.1, G2.10, G3.3 and G5.2–G5.4; CharacteristicClasses C1–C2.
 
 ## Layer 6: unoriented and oriented coefficient rings
 
@@ -1742,7 +1817,7 @@ Its API includes:
 
 *Needs:* B4.4–B4.5 and B5.4; B1.6; CharacteristicClasses C7.3a; AlgebraicTopology real projective carriers.
 
-### 6.4 Odd-primary SO and Spin comparison (B4.8)
+### 6.4 Odd-primary oriented coefficients (B4.8)
 
 Using item7's HF_p Adams tower, consume CharacteristicClasses C3.6's finite
 and stable BSO cohomology over Z[1/2]/F_p and its actual plane-torus
@@ -1772,14 +1847,13 @@ p-local comparison via degreewise finite generation and separated complete
 filtrations, and lift the algebra generators to obtain the p-local polynomial
 coefficient ring. B4.8 owns this spectral multiplicative proof; B6.1 owns
 explicit geometric generator representatives and the integral Newton lattice.
-Consume StringOrientation S5.3's equivalence MSpin[1/2]≃MSO[1/2], proved
-there through the K(ℤ/2,1) fibre of BSpin→BSO and the Thom isomorphism;
-its localization MSpin_(p)≃MSO_(p) at each odd p transports the
-comodule-algebra splitting, the Adams E₂ algebra and the p-local
-polynomial ring above to MSpin, which is the refinement owned here.
+The transport of these results to MSpin along StringOrientation S5.3's
+equivalence is B3.4's: BordismFormalGroups F2 consumes this item's
+exterior change-of-rings and B4.7's tower, and BordismFormalGroups F3–F5
+are inputs of S5.3's Hovey splitting, so nothing here consumes S5.3.
 These targets depend only on AT ordinary cochains/EM, G spectral/Thom
-foundations (MSO and MSpin are GeneralizedCohomology G5.4's Thom spectra),
-CC's early rings, S5.3 and item7; they use no Pontryagin–Thom
+foundations (MSO is GeneralizedCohomology G5.4's Thom spectrum),
+CC's early rings and item7; they use no Pontryagin–Thom
 construction, and no MU or formal-group universality is presumed.
 
 The classical odd-primary calculation is Milnor, §4, Theorems 4–5, p.519; the multiplicative Adams and parameter compatibility assertions here are additional proof targets.
@@ -1793,9 +1867,9 @@ The odd-primary comodule and Adams API includes:
 
 - At p=3, v₀ has bidegree (1,1) and stem 0, while v₁ has (1,5) and stem 4; the degree-four C generator is absent because 2·1+1=3.
 - At p=5, v₁ has stem 8 and C retains its degree-four generator; 2·1+1=3 is not a power of 5.
-- For every odd p, positive cohomology of B(C₂) over F_p vanishes, whereas at p=2 its degree-one class is nonzero. Thus the odd comparison does not identify Spin and SO at 2.
+- At p=3 the series ∏(1−t^(4k))⁻¹ of C over 2k+1≠3^j begins 1+t⁸+t¹²+⋯, with no t⁴ term, while H₄(MSO;F₃) is one-dimensional: its class is ξ₁∈P_* of degree 2(3−1)=4. A series over every k≥1 would count degree four twice.
 
-*Needs:* B4.7; StringOrientation S5.3; CharacteristicClasses C3.3 and C3.6; GeneralizedCohomology G3.9 and G5.4. No geometric PT input is used.
+*Needs:* B4.7; CharacteristicClasses C3.3 and C3.6; GeneralizedCohomology G3.9 and G5.4. No geometric PT input is used.
 
 ### 6.5 Rational and odd-local oriented generators (B6.1)
 
@@ -1934,7 +2008,7 @@ H_R(2,4) has Newton number 1 modulo two; H_C(2,3) has Pontryagin Newton number �
 
 ### Dependencies
 
-Layers 2–5; StringOrientation S5.3; CharacteristicClasses C3.6 and C7.3a; GeneralizedCohomology G3.9 and G5.4; IndexTheory I7.2.
+Layers 2–5; CharacteristicClasses C3.6 and C7.3a; GeneralizedCohomology G3.9 and G5.4; IndexTheory I7.2.
 
 ## Layer 7: ABS and the low Spin comparison
 
@@ -2027,10 +2101,16 @@ ordinary-cohomology/covers comparison and the operation action. Compute
 D*:H*ko→H*MSpin on the Thom class and its degree counts below9.
 B6.6 consumes these calculations. Consume
 B4.2's mod2 Adams convergence and G3.9's finite-generation completion
-comparison. Own the odd-primary KO comparison here: consume StringOrientation
-S5.3's MSpin[1/2]≃MSO[1/2] localized at p, B4.8's odd-primary Spin
-coefficient ring and the independent oriented coefficient ring
-from B6.1–2. First use B1.7's quartic K3 carrier,
+comparison. Own the odd-primary Spin coefficient ring and KO comparison
+here. Consume StringOrientation S5.3's equivalence MSpin[1/2]≃MSO[1/2],
+proved there from the K(ℤ/2,1) fibre of BSpin→BSO, DGFloer Layer 1
+items 2 and 4 and CharacteristicClasses C2's Thom isomorphism, with no
+BordismFormalGroups input; S5.3's Hovey splitting, which uses
+BordismFormalGroups F3–F5, is not consumed. Its localization
+MSpin_(p)≃MSO_(p) at each odd p transports B4.8's comodule-algebra
+splitting, Adams E₂ algebra and p-local polynomial ring to MSpin: the
+forgetful map π_*MSpin_(p)→π_*MSO_(p) is a ring isomorphism. Use it
+with the independent oriented coefficient ring from B6.1–2. First use B1.7's quartic K3 carrier,
 c1=0,c2=24,p1=−48 and signature−16; B3.0 computes its complex index2.
 Use B3.0's spinABSComplexificationGenus: p1=−48 gives Â(K3)=2,
 hence c(α(K3))=2u². TopK's c(a)=2u² and injectivity of
@@ -2049,11 +2129,9 @@ displayed positive ΩSpin_4 generator for σ/16; its ABS value is −a.
 For a closed Spin four-manifold M, B3.0's spinABSDiracIndexComparison
 identifies α(M) with SpinGeometry's `realSpinDiracIndexClass`,
 SpinGeometry G6.7 gives `realSpinDiracIndexClass = α_ℍ·a` for the
-quaternionic index α_ℍ, and IndexTheory I7.5's
-`spinFour_signature_eq_neg_sixteen_mul_quaternionicIndex` gives
+quaternionic index α_ℍ, and IndexTheory I7.5's integral equality gives
 σ(M)=−16α_ℍ. Hence α(M)=−(σ(M)/16)a. Rokhlin's divisibility of σ(M) by
-16 is I7.5's `rokhlin_signature_dvd_sixteen`, consumed rather than
-proved again. As a consistency check of the sign conventions, B3.0's
+16 is I7.5's Rokhlin theorem, consumed rather than proved again. As a consistency check of the sign conventions, B3.0's
 complexification genus with c(a)=2u², Â₄=−p1/24 and IndexTheory
 I7.2's σ=⟨p1,[M]⟩/3 give `2k=⟨Â(TM),[M]⟩=−σ(M)/8` for α(M)=k·a, the
 same value; on complex K3, σ=−16 gives k=1, matching α(K3)=a above.
@@ -2065,8 +2143,9 @@ both directions of the degree-four classification.
 - At degree 0 the comparison sends the positive point to 1 in ko₀=ℤ.
 - At degree 4 the complex-oriented K3 gives α=a and signature/16=−1; reversing its orientation gives −a and +1.
 - In degree 8, K3×K3 maps to 4b, which generates after localization at every odd prime but not at 2. The separate 2-primary argument is necessary.
+- For every odd p, positive cohomology of B(C₂) over F_p vanishes, whereas at p=2 its degree-one class is nonzero. Thus the odd comparison does not identify Spin and SO at 2: π₁MSpin=ℤ/2 while π₁MSO=0.
 
-*Needs:* B3.0 and B1.7; B4.2, B4.7–B4.8; B6.1–B6.2; CharacteristicClasses C3; GeneralizedCohomology G3.9 and G5.4; TopologicalKTheory T5–T7; SpinGeometry G6.7; IndexTheory I7.2 and I7.5.
+*Needs:* B3.0 and B1.7; B4.2, B4.7–B4.8; B6.1–B6.2; StringOrientation S5.3 (its equivalence MSpin[1/2]≃MSO[1/2]); CharacteristicClasses C3; GeneralizedCohomology G3.9 and G5.4; TopologicalKTheory T5–T7; SpinGeometry G6.7; IndexTheory I7.2 and I7.5.
 
 ### Examples
 
@@ -2074,7 +2153,7 @@ The complex-oriented K3 has Â=2 and α=a; reversing orientation gives α=−a.
 
 ### Dependencies
 
-Layers 4–6 and B1.7; GeneralizedCohomology G3.8–G3.9 and G5.5; SpinGeometry G5.0, G6.0, G6.7; TopologicalKTheory T5–T7; CharacteristicClasses C6; IndexTheory I2.5, I5.4, I7.2, I7.5; PseudodifferentialOperators.
+Layers 4–6 and B1.7; StringOrientation S5.3; GeneralizedCohomology G3.8–G3.9 and G5.5; SpinGeometry G5.0, G6.0, G6.7; TopologicalKTheory T5–T7; CharacteristicClasses C6; IndexTheory I2.5, I5.4, I7.2, I7.5; PseudodifferentialOperators.
 
 ## Layer 8: low geometric classifications and fillings
 
@@ -2091,6 +2170,12 @@ product torus. Prove the circle-framing rule, the polarization
 q(x+y)=q(x)+q(y)+x·y with the mod2 intersection pairing, nonsingularity
 of that pairing by mod2 Poincaré duality, naturality under Spin
 diffeomorphisms and boundary compatibility for collared surfaces.
+For a closed Spin surface this is the dimension-two case of Atiyah,
+Theorem 5 and its proof, pp.59–60: with a Spin structure fixed, the
+quadratic function takes the class dual to an embedded circle to the
+Spin-bordism class of that circle with its induced Spin structure, and
+its bilinear form is the intersection pairing; Atiyah, Theorem 2, p.48,
+is the same function on square roots of the canonical bundle.
 
 Its API includes:
 
@@ -2134,14 +2219,27 @@ classification alone is not cited as a proof of this filling theorem.
 
 ### 8.3 Spin three-manifolds (B3.3)
 
-Prove ΩSpin_3=0 from item4's below8 ABS comparison, TopK's ko3=0
-and B5's geometric PT inverse. Construct the specified Lie-spin T3 filling
+Prove ΩSpin_3=0 from item4's below8 ABS comparison, π₃ko=0
+and B5's geometric PT inverse: GeneralizedCohomology G5.4 identifies ko
+with G3.8's connective cover τ_(≥0)KO, so π₃ko=π₃KO, and TopologicalKTheory
+T7's KO coefficient in degree −3 is 0. Construct the specified Lie-spin T3 filling
 as the E(1) fibre complement in B1.7; use its boundary Spin identification
 and complex-oriented signature −8. Distinguish its induced framing
-from the Lie framing: under the framed isomorphism of StringOrientation
-S2.3, which supplies π₃S≅ℤ/24 with generator ν, the product Lie framing
-is η³ by B5.4c's external products, and η³=12ν≠0, although its Spin
-image is zero. A signature-zero Borromean
+from the Lie framing. Let η∈π₁S be the class of the circle with its Lie
+(left-invariant) framing under B5.5's comparison with StringOrientation
+S2.3's Ω^fr_n≅π_nS; it is the generator of π₁S (Freed, *Bordism: old and
+new*, Lecture 5, (5.57), p.45). Prove that η³=12ν≠0 in π₃S≅ℤ/24, with
+StringOrientation S2.3's generator ν (Hatcher, *Algebraic Topology*,
+§4.2, p.385). Route: B4.2's mod2 Adams spectral sequence of the sphere
+has E₂ spanned in stems at most five by h₀ⁱ (stem0), h₁, h₁², and h₂,
+h₀h₂, h₀²h₂=h₁³ (stem3), stems4 and5 being zero, so no differential
+leaves or enters stems1–3 (a differential from h₁ would hit the
+h₀-tower, which detects π₀S=ℤ); η≠0 because forgetting the framing sends
+the Lie-framed circle to the nonbounding Spin circle, nonzero in
+ΩSpin_1≅ko₁=ℤ/2 by item4, so h₁ detects η and h₁³≠0 detects η³; and
+2η=0 gives 2η³=0, so η³ is the element 12ν of order two. By B5.4c's
+external products the product Lie framing of T³ represents η³, although
+its Spin image is zero. A signature-zero Borromean
 trace does not identify the specified Lie Spin structure.
 
 **Checks.**
@@ -2149,8 +2247,9 @@ trace does not identify the specified Lie Spin structure.
 - S³ with its unique Spin lift bounds the Spin D⁴ and has class 0.
 - The specified Lie-spin T³ bounds the signature −8 complement, so its Spin bordism class is 0 despite its nonzero product stable framing.
 - In framed coefficients the product represents η³=12ν, of order 2 in ℤ/24, while its KO image lies in KO₃=0. Forgetting a frame is not an injective invariant.
+- The 2-primary relation η³=4ν, read in ℤ/24, would give an element of order 6, not 2: 4ν generates the subgroup of order 6. Only 12ν has order two, and its image in the 2-component ℤ/8 is four times the generator, matching h₀²h₂.
 
-*Needs:* B3.4, B5.4 and B1.7; StringOrientation S2.3 for π₃S≅ℤ/24 and ν; TopologicalKTheory T5 connective KO coefficients.
+*Needs:* B3.4, B4.2, B5.4–B5.5 and B1.7; StringOrientation S2.3 for Ω^fr_n≅π_nS, π₃S≅ℤ/24 and ν; TopologicalKTheory T7 KO coefficients; GeneralizedCohomology G3.8 and G5.4 connective cover.
 
 ### 8.4 Low coefficient tables and three-dimensional parallelization (B3.1)
 
@@ -2166,7 +2265,19 @@ on the displayed generators:
 | 4 | F2², RP4 and RP2×RP2 | Z, CP2 | Z, a Spin K3 with reversed complex orientation |
 
 Give nullbordism witnesses for the zero entries and bordism-invariant
-detection plus spanning for the nonzero entries. In ΩO_4 prove
+detection plus spanning for the nonzero entries. The zero entries of the
+O and SO columns are the headlines `closedManifold_isBoundary`: for n=1
+and n=3 every closed smooth n-manifold is diffeomorphic to the boundary
+of a compact smooth (n+1)-manifold; and
+`closedOrientedManifold_isOrientedBoundary`: for 1≤n≤3 every closed
+oriented smooth n-manifold is, by an orientation-preserving
+diffeomorphism, the outward-first oriented boundary of a compact oriented
+smooth (n+1)-manifold. Both are stated on Tau Ceti's boundary charts
+`TauCeti.boundaryChartedSpace`; the second also asserts the smooth-manifold
+structure of the boundary, which `TauCeti.isManifold_boundary` provides,
+and uses `TauCeti.boundaryOrientation`. ΩO_3=0 is Thom, after
+Théorème IV.12, p.79, and ΩSO_n=0 for 1≤n≤3 is his Théorème IV.13,
+p.81, which attributes n=3 to Rokhlin. In ΩO_4 prove
 [CP2]=[RP2×RP2] using the full Stiefel–Whitney number comparison.
 The O column consumes B4/B5's MO calculation and geometric PT. For
 the SO column, degrees0,1 use points and oriented circle disks. In
@@ -2241,11 +2352,13 @@ early lift criterion does not depend on this bordism application.
 - In dimension 0 the O count is 1 modulo two and the SO/Spin signed point count is 1; opposite signs cancel in the latter groups.
 - RP⁴ has (w₄,w₂²) evaluations (1,0), while RP²×RP² has (1,1), so the two degree-four O generators are independent.
 - CP² has signature 1 and SW-number vector (1,1), matching RP²×RP² after forgetting orientation; complex K3 has signature/16=−1 in Spin degree four.
+- The empty manifold bounds the empty W in every degree. A point does not bound: a compact 1-manifold has an even number of boundary points, with signed count 0, so both nullbordism headlines exclude n=0. RP² has odd Euler characteristic and does not bound, so n=2 is excluded from `closedManifold_isBoundary`; CP² has signature 1 and is not an oriented boundary, so n=4 is excluded from `closedOrientedManifold_isOrientedBoundary`.
+- S³ with either orientation is the oriented boundary of D⁴ with the matching orientation, by `TauCeti.boundaryOrientation_neg`; T³ bounds T²×D², and the nonorientable RP²×S¹ bounds RP²×D².
 - The coordinate frame on ℝ³ and on the closed half-space has determinant 1, with coordinate maps inverse to each other; negating its first vector gives determinant −1 and fails positivity for the same orientation.
 - A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
 - The closed half-space ℍ³ has boundary and is not compact, so it has neither a finite triangulation nor B1.5's compact relative one; the obstruction route runs on its interior ℝ²×(0,∞)≅ℝ³, whose smooth triangulation is infinite and locally finite, and the inclusion of the interior is a homotopy equivalence of contractible spaces. For the solid torus S¹×D², and for S¹×[0,1)×ℝ, the interior and the manifold are both homotopy equivalent to S¹; the closed unit ball D³ is compact, yet its interior's triangulation is infinite.
 
-*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 1.1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
+*Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; GeometricTopology Layers 1.1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`, and for the nullbordism headlines `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary`, `TauCeti.boundaryOrientation` and `TauCeti.Manifold.Orientation.IsOrientationPreservingAt`; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Layer 8; CharacteristicClasses C1.
 
 ### 8.5 Projective boundary constructions (B3.5)
 
@@ -2296,7 +2409,7 @@ The odd Spin torus has Arf 1; the Lie Spin T³ bounds the specified signature �
 
 ### Dependencies
 
-Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layers 1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex` and `TauCeti.IsSmoothTriangulation`; SpinRepresentations Layer 7; GeneralizedCohomology G4.
+Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 6 and 8; GeometricTopology Layers 1 and 11.3; Tau Ceti `AbstractSimplicialComplex.realizationCWComplex`, `TauCeti.IsSmoothTriangulation`, `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary` and `TauCeti.boundaryOrientation`; SpinRepresentations Layer 7; TopologicalKTheory T7; GeneralizedCohomology G3.8, G4 and G5.4.
 
 ## Layer 9: exceptional projective geometry
 
@@ -2563,9 +2676,14 @@ range and counterexample use distinct parts of this same operation API.
 - For m=3 the positive even cyclic-group homology is ker(3:ℤ→ℤ)=0, whereas odd homology is ℤ/3; reversing these parities would not kill the asserted d₅ target test.
 - In the degree-seven example the product coefficient is −1=2 modulo three, not zero, so the obstruction genuinely evaluates nontrivially.
 
-For the rational coefficient result compare Thom IV.17, p.84; the stated
-integral range and lens-space example are proved by the explicit AHSS and
-operation calculations above, including their pair extension.
+The realization theorems for finite polyhedra are Thom, Théorèmes III.2
+(mod2, every degree), III.3 (integral, degree at most five) and III.4 (a
+nonzero multiple of every integral class, hence the rational surjection),
+p.59; the non-realizable integral classes in every degree at least seven
+are his Théorème III.9, and the L⁷×L⁷ example at p=3, pp.62–63. Degree
+six, the pairs and arbitrary CW targets, and the operation identities of
+the lens-space example are proved by the explicit AHSS and operation
+calculations above.
 
 *Needs:* B4.4, B4.7, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; AlgebraicTopology Layers 4 and 6.
 
@@ -2832,7 +2950,7 @@ finite-generation theorem. These are construction/proof prerequisites
 for spinHpTwoTransfer_pointKernelAtTwo, not consequences of the
 desired kernel equality.
 
-At odd primes use B4.8's actual ΩSpin_(p)=ΩSO_(p) ring, together
+At odd primes use B3.4's ΩSpin_(p)=ΩSO_(p) ring, B4.8's oriented ring transported along StringOrientation S5.3, together
 with concrete Kreck–Stolz bundles. For n≥2 and0≤r≤n−2 construct
 E_r=γ1⊕γ2⊕H over HP^r×HP^(n−r−2) and its right-quaternionic
 projectivization P(E_r) with fibre HP2, Spin lift and classifying map
@@ -2910,14 +3028,22 @@ owns the boundaryless-source smoothing and transversality that its
 classifying maps into Circle, RP^N and CP^N use, and B1.6 consumes 8.13
 for that case. These consumers provide no prerequisite of the targets
 above, except that AlgebraicTopology supplies B1.6's boundaryless case
-and B2–B6.
+and B2–B6, and that BordismFormalGroups F3–F5, which consume B4.2, B4.7,
+B4.8, B4.4–B4.6 and B5.4, are inputs of StringOrientation S2.3's stem
+(through EllipticCohomology E4.S) and S5.3's Hovey splitting. The
+supply is layered: B3.3, B3.4 and B5.5, the only consumers of S2.3 and
+S5.3, are used by none of the items BordismFormalGroups consumes, and
+B3.4 takes from S5.3 only its equivalence MSpin[1/2]≃MSO[1/2], whose proof
+there uses no BordismFormalGroups item.
 
 ## References
 
 - R. Thom, *Quelques propriétés globales des variétés différentiables*,
   Commentarii Math. Helv.28(1954),17–86,
   [primary paper](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Thom1954.pdf),
-  especially geometric realization and its degree6/degree7 distinction.
+  Théorèmes III.2–III.4, p.59, and III.9 with the L⁷×L⁷ example, pp.62–63,
+  for geometric realization; Théorème IV.12 and the low unoriented groups
+  after it, pp.79–80, and Théorème IV.13, p.81, for the low oriented groups.
 - C. T. C. Wall, *Determination of the Cobordism Ring*, Annals of Math.
   72(1960),292–311, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/cobord.pdf).
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Springer GTM218,
@@ -2970,10 +3096,6 @@ and B2–B6.
   §4, Proposition 4.2 and Lemma 4.3, pp.244–245, for the concrete
   quaternionic bundles and Newton gcd; §6 for the
   homology-ko comparison and transfer splitting distinctions.
-- J. F. Adams and M. F. Atiyah, *K-theory and the Hopf invariant*,
-  Quart. J. Math.17(1966),31–38,
-  [primary paper](https://www.maths.ed.ac.uk/~v1ranick/papers/adamatiy.pdf),
-  §1 for the integral K0/Adams-operation dimension restriction.
 - S. Stolz, *Simply connected manifolds of positive scalar curvature*,
   Annals of Math.136(1992),511–540,
   [publisher record](https://doi.org/10.2307/2946598), for the2-local
@@ -2993,8 +3115,18 @@ and B2–B6.
 - M. F. Atiyah, *Riemann surfaces and spin structures*, Ann. Sci. École Norm.
   Sup. (4) 4 (1971), 47–62,
   [open archive](https://www.numdam.org/item/ASENS_1971_4_4_1_47_0/),
-  §4, Proposition 4.1 and Theorem 3′, p.58, for the mod2 Spin-index
-  boundary criterion and the count of bounding surface Spin structures.
+  Theorem 2, p.48, and Theorem 5 with its proof, pp.59–60, for the
+  quadratic function of a Spin surface, its values on embedded circles and
+  its intersection-pairing polarization; §4, Proposition 4.1 and
+  Theorem 3′, p.58, for the mod2 Spin-index boundary criterion and the
+  count of bounding surface Spin structures.
+- A. Hatcher, *Algebraic Topology*, Cambridge, 2002,
+  [author's page](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), §4.2,
+  p.385, for η³=12ν in π₃S≅ℤ/24 and its 2-primary form η³=4ν.
+- D. S. Freed, *Bordism: Old and New*, lecture notes, 2013,
+  [author's page](https://web.ma.utexas.edu/users/dafr/bordism.pdf),
+  Lecture 5, Proposition 5.55 and (5.57), p.45, for the stable framing of a
+  compact Lie group and the Lie-framed circle as the generator of π₁S.
 - R. Benedetti and P. Lisca, *Framing 3-manifolds with bare hands*, 2018,
   [arXiv:1806.04991v2](https://arxiv.org/abs/1806.04991v2), Theorem 1, p.1,
   and §2.1, pp.2–3, for closed three-manifold parallelization and its Wu/Spin route.
