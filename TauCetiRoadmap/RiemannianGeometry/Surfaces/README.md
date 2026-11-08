@@ -19,10 +19,15 @@ boundaries with the parent are:
   [R6](../README.md#r6-focal-geometry-and-squared-distance-morse-functions) owns focal points
   of submanifolds, the measure-zero focal set and the shortening variation past an interior
   focal point; R4.2 owns first variation with a moving endpoint.
-- S3 owns Gauss–Bonnet for disks and annuli in an arbitrary oriented surface and the signed
-  planar turning theorem.
-  [R4.9.6a](../README.md#r496a-length-controlled-parametric-regularization) consumes both
-  for domains in the round sphere.
+- S3 owns Gauss–Bonnet for disks and annuli in an arbitrary oriented surface, the signed
+  planar turning theorem, and their local boundary, corner and gluing interfaces: boundary
+  terms against local connection forms, exterior corner angles, and cancellation along common
+  boundary arcs. [R4.9.6a](../README.md#r496a-length-controlled-parametric-regularization)
+  consumes both for domains in the round sphere. The general Gauss–Bonnet theorem for compact
+  surfaces with boundary, with the triangulation and Euler-characteristic identification and
+  the exhaustion applications, is not owned here: PositiveMass §3.1, proposed in
+  [#956](https://github.com/TauCetiProject/TauCetiRoadmap/pull/956), owns it and consumes
+  S3's local interfaces rather than rebuilding them.
 - S4 is local and assumes no completeness. R4.4 owns Cartan–Hadamard on complete manifolds.
 - S5 is the integrated two-dimensional energy identity.
   [R1](../README.md#r1-intrinsic-curvature-calculus-and-normal-coordinate-jets) owns the
@@ -36,6 +41,12 @@ positive-definite metrics, expressed through Mathlib's `ModelWithCorners`, `Char
 Unlike the parent, surface domains may have boundary and corners, modelled on the half-plane
 and the quadrant. Interior statements use boundaryless neighbourhoods; one-sided statements at
 the boundary are stated where they occur. Impose orientation and compactness where stated.
+S3's domains are instead compact subsets of the interior of an ambient surface with piecewise
+smooth boundary, and they may have reflex corners. A reflex corner, such as the reentrant
+corner of a planar L-shaped domain, is not a smoothly embedded quadrant with the inherited
+metric. Treat it by subdividing into pieces with convex corners, using S3's cancellation along
+common arcs and of endpoint angles, or through DifferentialGeometry 5.6.3's Green identity for
+piecewise `C¹` cycles in charts, which needs no corner charts.
 
 Curvature follows the parent: `R(X,Y)Z = ∇_X∇_Y Z − ∇_Y∇_X Z − ∇_[X,Y]Z`, and the Gaussian
 curvature K of a surface is its sectional curvature, `+1` on the unit sphere. The scalar
@@ -58,12 +69,14 @@ Consume:
   normal exponential `SmoothEmbedding.normalExp` of an embedding, with its tubular
   neighbourhood.
 - [DifferentialGeometry](../../DifferentialGeometry/README.md), Layers 5, 10 and 12:
-  integration and Stokes, including manifolds with boundary and corners, manifold Sard,
-  gradient, Hessian, `laplaceBeltrami`, and the canonical density/measure comparison.
+  integration and Stokes, including manifolds with boundary and corners and 5.6.3's
+  winding-weighted Green identity with filled-hull containment for piecewise `C¹` cycles,
+  manifold Sard, gradient, Hessian, `laplaceBeltrami`, and the canonical density/measure
+  comparison.
   [GeometricMeasureTheory](../../GeometricMeasureTheory/README.md), G1–G2: arclength,
   area and coarea, and almost-everywhere differentiability of Lipschitz functions in charts.
 - [ConformalMapping](../../../Completed/ConformalMapping/README.md), L3/L5: the planar Jordan
-  curve theorem and the closed-disc correspondence used by S3.
+  curve theorem and the closed-disc correspondence used by S3 and S4.
 - R1's conformal rescaling of the gradient and of the Riemannian volume on the native
   `WithMetric` carriers, `TauCeti.WithMetric.inner_mgradient_rescale` and
   `integral_riemannianVolume_rescale`, used by S5.
@@ -155,22 +168,42 @@ the inward conormal. Prove
 with `χ(D) = 1` for a disk and `χ(D) = 0` for an annulus. Include the smooth-boundary and
 geodesic-polygon cases. Prove the comparison of the boundary integral with the local
 connection form, cancellation along a common boundary arc with the corresponding endpoint-angle
-terms, and the signed turning theorem: a positively oriented smooth or piecewise smooth planar
-Jordan curve has tangent map of degree one, and the degree agrees with the turning integral
-plus the exterior angles. Construct the tangent-angle lift on intervals for the turning
-theorem; unsigned Fenchel is a different theorem. Use Stokes and local connection forms to
-obtain the intrinsic formula. Give the restriction, orientation-reversal and disk-difference
-laws for these domains.
+terms, and the signed turning theorem for a positively oriented smooth or piecewise smooth
+planar Jordan curve. At each corner, insert into the unit tangent the arc of the unit circle
+through the signed exterior angle αᵢ. The resulting completed tangent loop `T̂` is continuous,
+and with k the signed curvature
+
+`2π deg(T̂) = ∫ k ds + Σᵢ αᵢ`, `deg(T̂) = 1`.
+
+Construct the tangent-angle lift on the smooth arcs and across the inserted arcs; unsigned
+Fenchel is a different theorem. Use Stokes and local connection forms to obtain the intrinsic
+formula. Give the restriction, orientation-reversal and disk-difference laws for these domains.
 
 ### S4 — Normal balls in nonpositive curvature
 
 Let `R > 0`, and let the closed intrinsic R-ball about p be compact and contained in the surface
-interior, with `K ≤ 0` on the open R-ball. Assume that open ball is simply connected. Prove that
-`exp_p` maps the tangent R-ball diffeomorphically onto it, with radial length equal to distance.
-Use compact continuation for existence of minimizing segments, the Jacobi equation to exclude
-conjugate points, and S3's disk formula to exclude geodesic bigons. In particular every `r < R`
-satisfies S1's normal-ball hypotheses with a larger-radius margin. No complete interior is
-assumed.
+interior, with `K ≤ 0` on the open R-ball. Assume that open ball is simply connected and lies in
+the domain of a single chart into ℝ², as it does when the surface is a planar domain or a disk
+parametrized by one chart. Prove that `exp_p` maps the tangent R-ball diffeomorphically onto
+the open ball, with radial length equal to distance. Use compact continuation for existence of
+minimizing segments and the Jacobi equation to exclude conjugate points. In particular every
+`r < R` satisfies S1's normal-ball hypotheses with a larger-radius margin. No complete interior
+is assumed.
+
+Exclude a failure of injectivity through an explicit disk. From two distinct tangent vectors
+with the same image, or from a self-intersecting radial geodesic, extract a simple geodesic
+bigon or a simple geodesic loop with one corner, made of radial geodesic arcs of length less
+than R, so contained in the open ball. Uniqueness of geodesics puts its interior angles in
+`(0, 2π)`. Its chart image is a planar piecewise `C¹` Jordan curve. It is null-homotopic in the
+image Ω of the ball, because the ball is simply connected, so its winding number vanishes
+outside Ω. DifferentialGeometry 5.6.3 then gives `filledHull ⊆ Ω`, with winding number one on
+the inside, and ConformalMapping L5 identifies the filled hull with a closed disk whose
+frontier is the curve. Pulling back by the chart gives an embedded compact disk D in the open
+ball, bounded by the bigon or loop, with the corner regularity of S3. S3 gives
+`∫_D K dμ = β₁ + β₂` for a bigon with interior angles β₁, β₂ and `∫_D K dμ = π + β` for a loop
+with interior angle β. Both are positive, contradicting `K ≤ 0`. Without the chart hypothesis,
+a disk-filling theorem for simple null-homotopic loops on surfaces would replace this step;
+that theorem is not part of S4.
 
 For the polar disks of S1, put `L(r) = Length(∂B_r(p))` and `V(r) = Area(B_r(p))`. Prove
 
@@ -205,7 +238,9 @@ comparison of pulled-back metrics.
 
 S1's polar formulas precede S4's length and area formulas; S1's strips and distance to an arc
 precede S2. S3 uses Stokes and local connection forms independently of S1, and its disk formula
-precedes S4's exclusion of geodesic bigons. S5 is independent of S1–S4. R4.9.6a consumes S3.
+precedes S4's exclusion of geodesic bigons and loops, whose disks come from
+DifferentialGeometry 5.6.3 and ConformalMapping L5. S5 is independent of S1–S4. R4.9.6a
+consumes S3.
 
 Validate the conventions on the Euclidean plane: `j(r,θ) = r`, `k_g = 0` and `a = 1` for strips
 about a straight line, and equality of the two energies. For a plane circle of radius ρ with
