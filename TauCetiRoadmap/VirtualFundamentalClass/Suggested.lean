@@ -8,15 +8,15 @@ import Mathlib
 contributors and reviewers converge on names, grading conventions, and hypotheses; discharging
 all of them finishes neither a layer nor the roadmap.
 
-At this roadmap repository's pinned Mathlib commit
-`9caeba1000ef8f302920981f4a08651d325abc81`, the vocabulary needed to state the first intrinsic
-target faithfully does not exist: there are no algebraic spaces or algebraic stacks, Chow groups,
-geometric cotangent complexes, cone stacks, perfect complexes on stacks, or Gysin maps. Defining
-placeholder `Prop`s for these conditions would make the summit vacuous, so compiled signatures
-will be added only as the corresponding foundations land in Tau Ceti.
+The shared algebraic-stack, scheme intersection, vector-bundle, and derived foundations are
+specified by `SchemeAndStackFoundations`, `AlgebraicVectorBundles`, `DerivedModuleAlgebra`, and
+`EnhancedDerivedSheaves`. The remaining DM-stack Chow, geometric cotangent, cone-stack,
+obstruction-theory, and virtual-class types do not yet exist at the repository pins. Defining
+placeholder `Prop`s for their conditions would make the summit vacuous, so this file records the
+mathematical signatures in comments until the owning layers provide their types.
 
-The eventual API should have the following mathematical shape; the exact spelling is deferred to
-the layers which introduce the types.
+The public API has the following mathematical shape. Each owning layer introduces the exact names
+and types.
 
 ```lean
 -- def intrinsicNormalSheaf (X : DeligneMumfordStack k) : AbelianConeStack X

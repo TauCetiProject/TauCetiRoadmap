@@ -11,7 +11,7 @@ that the resulting class is independent of every local embedding and global reso
 construct it.
 
 The first summit follows the hypotheses of the original paper rather than silently importing a
-later generalization. Thus `X` is a separated Deligne–Mumford stack, locally of finite type over
+broader generalization. Thus `X` is a separated Deligne–Mumford stack, locally of finite type over
 a field; the perfect obstruction theory has amplitude `[-1, 0]`, constant virtual rank, and a
 global two-term resolution by finite-rank vector bundles; and the answer lies in the
 dimension-graded rational Chow group of `X`. Properness is not needed to construct the class.
@@ -20,10 +20,10 @@ over a smooth pure-dimensional algebraic stack is a second summit.
 
 Suggested homes:
 
-- `TauCeti/AlgebraicGeometry/Spaces/` and `TauCeti/AlgebraicGeometry/Stacks/` for algebraic
-  spaces, algebraic stacks, quotient stacks, sites, and morphism properties;
-- `TauCeti/AlgebraicGeometry/IntersectionTheory/` for cycles, Chow groups, Chern classes,
-  deformation to the normal cone, and Gysin maps;
+- `TauCeti/AlgebraicGeometry/Stacks/` for stack dimension, the lisse-étale and small étale sites,
+  relative spectra over stacks, and the stack extensions of vector bundles and cones;
+- `TauCeti/AlgebraicGeometry/IntersectionTheory/` for rational Chow groups, bivariant classes,
+  and Gysin maps on Deligne–Mumford stacks;
 - `TauCeti/AlgebraicGeometry/CotangentComplex/` and
   `TauCeti/AlgebraicGeometry/Cones/` for the reusable derived and cone geometry;
 - `TauCeti/AlgebraicGeometry/ObstructionTheory/` and
@@ -98,13 +98,13 @@ with the independence theorem making the left-hand side intrinsic.
   `HasGlobalTwoTermResolution E` are different predicates. A perfect complex is only locally a
   bounded complex of vector bundles; that does not supply the global presentation used by the
   original Chow-theoretic construction.
-- **The virtual class does not require properness.** Properness is a hypothesis on a later
+- **The virtual class does not require properness.** Properness is a hypothesis on the
   degree or pushforward operation, never a field of an obstruction theory and never a premise of
   `virtualFundamentalClass` itself.
-- **Stacks are groupoid-valued fppf stacks.** Build on Mathlib's pseudofunctor descent API.
-  An algebraic stack has diagonal representable by algebraic spaces and a smooth surjective
-  scheme atlas; a Deligne–Mumford stack has an étale surjective scheme atlas. Do not identify a
-  stack with a chosen presentation groupoid.
+- **Stacks are groupoid-valued fppf stacks.** Use the carriers from
+  `SchemeAndStackFoundations` Layer 1. An algebraic stack has diagonal representable by algebraic
+  spaces and a smooth surjective scheme atlas; a Deligne–Mumford stack has an étale surjective
+  scheme atlas. Do not identify a stack with a chosen presentation groupoid.
 - **Use genuine 2-categorical pullbacks.** Quotient stacks, diagonals, atlases, base change, and
   local embeddings carry specified 2-cells. Any strict model must be accompanied by comparison
   equivalences proving that the exported object is independent of strictification choices.
@@ -132,10 +132,10 @@ with the independence theorem making the left-hand side intrinsic.
 
 ## Inventory: what Mathlib and Tau Ceti already give us
 
-This inventory was checked on 2026-08-03. The roadmap repository builds against Mathlib commit
-`9caeba1000ef8f302920981f4a08651d325abc81`. Tau Ceti `main` was at commit
-`25bd2193d5a83678b159ca7f0f91f864dd94b133`, pinned to the newer Mathlib commit
-`30696563acb0596ab44d272bc5dfee96b2e72263`.
+The dependency manifests pin Mathlib and Tau Ceti. This roadmap uses the APIs at those pins and
+adopts compatible replacements when either dependency changes. The shared Tau Ceti roadmaps below
+own the foundational carriers; this roadmap imports their results and does not define competing
+scheme-level versions.
 
 ### Consume from Mathlib
 
@@ -153,13 +153,13 @@ This inventory was checked on 2026-08-03. The roadmap repository builds against 
   descent/base-change APIs are available under `Mathlib/AlgebraicGeometry/`.
 - **Sheaves of modules.** `Scheme.Modules` is an abelian category with pullback and pushforward.
   Mathlib defines quasi-coherent and finite-presentation sheaves locally by presentations and
-  proves substantial affine-cover and pushforward results. It does not yet provide the full
-  finite-locally-free, symmetric-algebra, or stack-level package needed for cones.
+  proves substantial affine-cover and pushforward results. The Tau Ceti roadmaps below extend this
+  input to the finite-locally-free, relative-spectrum, and stack-level packages used here.
 - **Homological algebra.** Mathlib has homological and homotopy categories, the triangulated
   derived category of an abelian category, bounded variants, Ext, derived functors, shifts,
-  truncations, and distinguished triangles. The derived tensor product, derived internal Hom,
-  perfect-complex/Tor-amplitude package for scheme or stack modules, and geometric cotangent
-  complex remain to be built.
+  truncations, and distinguished triangles. Tau Ceti supplies derived tensor, derived internal
+  Hom, perfect complexes on schemes, and the affine cotangent complex; this roadmap globalizes the
+  required geometry to algebraic spaces and Deligne–Mumford stacks.
 - **Kähler and presentation-level cotangent theory.** `RingTheory/Kaehler/*` and
   `RingTheory/Extension/Cotangent/*` contain Kähler differentials and the naive complex
   `I/I² → S ⊗ Ω`, together with functoriality and flat-base-change results. This is an affine
@@ -167,59 +167,42 @@ This inventory was checked on 2026-08-03. The roadmap repository builds against 
 - **Ideals, graded algebra, and `Proj`.** Ideal sheaves and closed subschemes, graded algebras,
   projective spectra, and `RingTheory.ReesAlgebra.reesAlgebra` are present. They do not yet form
   the conormal algebra, relative normal cone, blowup, or deformation-to-the-normal-cone API.
-- **Raw scheme cycles on Tau Ceti's pin.** Mathlib PR
-  [#37901](https://github.com/leanprover-community/mathlib4/pull/37901) introduced
-  `AlgebraicGeometry.AlgebraicCycle`, locally finite functions on scheme points with a
-  quasi-compact pushforward. It is available at Tau Ceti's pin, though not at this roadmap
-  repository's older build pin. It supplies cycle data, not dimension-graded cycle groups,
-  rational equivalence, Chow groups, pullback, or Gysin maps.
+- **Raw scheme cycles.** `AlgebraicGeometry.AlgebraicCycle` gives locally finite functions on
+  scheme points with quasi-compact pushforward. It supplies cycle data; the scheme Chow and Gysin
+  theory built from it is owned by `SchemeAndStackFoundations` Layer 5.
 
-### Consume and coordinate with Tau Ceti
+### Exact supplier contracts from Tau Ceti roadmaps
 
-- The [Jacobian challenge](../JacobianChallenge/README.md) owns the existing line-bundle and
-  divisor lane. Tau Ceti already has site-level and scheme-level invertible sheaves and a
-  substantial scheme Weil-divisor API under `TauCeti/AlgebraicGeometry/{LineBundle,WeilDivisor}`.
-  The intersection-theory layer extends these objects to Cartier divisors, Chern classes, and
-  rational equivalence; it must not create parallel notions of line bundle or codimension-one
-  cycle.
-- Tau Ceti's `SchemeWeilDivisor.toAlgebraicCycle` already embeds finite codimension-one divisors
-  into Mathlib's raw algebraic cycles. General cycle groups should make this the codimension-one
-  comparison theorem and retain its coefficient/support API.
-- The reductive-groups and Jacobian work both use fppf descent. General stack-level descent,
-  torsors, and quotient stacks belong in neutral files and should be coordinated across those
-  developments.
-
-### Work already in motion
-
-The audit found no open Tau Ceti issue, pull request, or public intention for algebraic stacks,
-Chow groups, intrinsic normal cones, perfect obstruction theories, or virtual classes. It also
-found no open Mathlib pull request directly implementing those objects.
-
-Three narrower Mathlib pull requests should be followed:
-
-- [#41556](https://github.com/leanprover-community/mathlib4/pull/41556) extends the Rees-algebra
-  API used by normal cones and deformation to the normal cone;
-- [#33369](https://github.com/leanprover-community/mathlib4/pull/33369) proves flat base change
-  for Ext of finite modules over Noetherian rings, an affine input to the relative obstruction
-  theory;
-- [#33247](https://github.com/leanprover-community/mathlib4/pull/33247) relates cotangent-space
-  dimension to the maximal ideal of a local ring; it is useful for local examples but is not a
-  replacement for the cotangent complex.
-
-Recheck Mathlib pull requests, Tau Ceti intentions, and the Lean Zulip before starting each of
-the stack, intersection-theory, and cotangent-complex lanes. Follow landed APIs and coordinate
-with their authors rather than vendoring snapshots of review branches.
+- [`SchemeAndStackFoundations`](../SchemeAndStackFoundations/README.md) Layer 1 owns descent,
+  algebraic spaces, stacks in groupoids, algebraic and Deligne–Mumford stacks, representable
+  morphisms, 2-fibre products, quotient stacks, and quasi-coherent modules on stacks. Its Layer 5
+  owns dimension-graded cycle groups, rational equivalence, Chow groups, Chern classes, normal
+  cones, deformation to the normal cone, and refined Gysin maps for schemes locally of finite
+  type over a field.
+- [`AlgebraicVectorBundles`](../AlgebraicVectorBundles/README.md) owns finite locally free sheaves,
+  their tensor, dual, symmetric and exterior operations, relative spectra of quasi-coherent
+  algebras, and geometric vector bundles on schemes. The scheme instances in this roadmap use
+  those carriers and comparison theorems.
+- [`DerivedModuleAlgebra`](../DerivedModuleAlgebra/README.md) §§0.1–0.17 and 0.25 own module
+  derived tensor, the full cotangent complex of rings, transitivity, base change, localization,
+  smooth and regular-quotient computations, and square-zero obstruction classes.
+- [`EnhancedDerivedSheaves`](../EnhancedDerivedSheaves/README.md) Layers 0 and E1 own derived
+  tensor and internal Hom on ringed sites, enhanced quasicoherent derived sheaves, and perfect
+  complexes on schemes. This roadmap uses those constructions on the stack sites supplied below.
+- The [Jacobian challenge](../JacobianChallenge/README.md) owns the line-bundle and divisor lane.
+  Tau Ceti's `SchemeWeilDivisor.toAlgebraicCycle` is the codimension-one comparison used by
+  `SchemeAndStackFoundations`; this roadmap does not introduce another divisor or line-bundle
+  carrier.
 
 ## Inventory: what is missing
 
-There is currently no Lean definition of an algebraic space or algebraic stack; no representable
-morphism or quotient stack; no lisse-étale site or quasi-coherent sheaf theory on a stack; no
-relative spectrum of a quasi-coherent algebra on a stack; no normal cone, deformation to the
-normal cone, rational equivalence, Chow group, Chern class, or Gysin map; no geometric cotangent
-complex; no perfect complex or global two-term resolution interface; no Picard/vector-bundle
-stack `h¹/h⁰`; and no intrinsic normal cone, obstruction theory, or virtual fundamental class.
-The summit therefore cannot be reached by stating one final `sorry`: every layer below is a
-dependency of the displayed formula.
+The supplier roadmaps do not specify stack dimension, the lisse-étale and small étale ringed
+sites of a Deligne–Mumford stack and their comparison with the big fppf site, relative spectra and
+cones over stacks, or Vistoli's rational Chow and bivariant theory for separated
+Deligne–Mumford stacks. They also do not globalize the cotangent complex to schemes and stacks,
+construct Picard and vector-bundle stacks `h¹/h⁰`, or construct the intrinsic normal cone,
+obstruction theories, and the virtual fundamental class. The layers below supply exactly these
+extensions and then assemble the displayed formula.
 
 ---
 
@@ -228,142 +211,116 @@ dependency of the displayed formula.
 The main dependency lanes are:
 
 ```text
-algebraic spaces and stacks
-        ├── sheaves, vector bundles, and representable cones ── cone stacks ──┐
-        ├── rational Chow and Gysin theory ───────────────────────────────────┤
-        └── derived modules and the cotangent complex ── h¹/h⁰ ──────────────┤
-                                                                              v
+shared stack, vector-bundle, scheme Chow, and derived foundations
+        ├── stack sites and representable cones ───────────── cone stacks ───┐
+        ├── rational Chow and Gysin theory for DM stacks ────────────────────┤
+        └── geometric cotangent complexes on stacks ──────── h¹/h⁰ ─────────┤
+                                                                             v
                       intrinsic normal cone → obstruction theories → VFC → relative VFC
 ```
 
 Within a layer, prove the ordinary functorial and descent API before the named milestone. The
-scheme cases are acceptance tests for the same definitions, not temporary substitutes which will
-later be discarded.
+scheme cases are compatibility tests against the supplier roadmaps, not replacement definitions.
 
-### Layer 0: algebraic spaces, algebraic stacks, and quotient stacks
+### Layer 0: shared stack foundations and stack dimension
 
-- Specialize Mathlib's category-valued pseudofunctor stack condition to pseudofunctors with
-  groupoid fibres. Provide morphisms, invertible 2-morphisms, equivalences, strictification
-  comparisons, and 2-fibre products. Relate this model to Mathlib's fibred categories through the
-  Grothendieck construction.
-- Build algebraic spaces as fppf sheaves of types with representable diagonal and a surjective
-  étale scheme atlas. Develop their Yoneda embedding, fibre products, open/closed subspaces, and
-  the scheme comparison. A scheme viewed as a space must recover Mathlib's morphisms and
-  pullbacks without a second scheme API.
-- Define representable morphisms of groupoid-valued stacks by all scheme base changes. Transfer
-  properties of schemes and algebraic spaces—smooth, étale, unramified, flat, proper, separated,
-  finite type/presentation, quasi-compact, local immersion, and regular immersion—to
-  representable stack morphisms. Prove invariance under equivalence, composition, base change,
-  and the relevant smooth/fppf descent statements.
-- Define algebraic stacks by a representable diagonal and a smooth surjective scheme atlas, and
-  Deligne–Mumford stacks by an étale surjective scheme atlas. Prove that an algebraic stack is
-  Deligne–Mumford exactly when its diagonal is unramified. Develop diagonals, inertia,
-  atlases, refinements, presentations by groupoids in algebraic spaces, and the underlying
-  topological space.
-- Define dimension and pure dimension of an algebraic stack by a smooth atlas with the relative
-  dimension correction. Prove independence of atlas, compatibility with products and smooth
-  maps, and `dim [U/G] = dim U - dim G` in the smooth-group case.
-- Construct quotient stacks `[U/G]`, classifying stacks `BG`, torsor descriptions of their
-  objects, and the quotient of an equivariant morphism. If `G` is a flat group algebraic space
-  locally of finite presentation acting on an algebraic space `U`, prove `[U/G]` is algebraic.
-  For finite étale `G`, prove `[U/G]` is Deligne–Mumford and separated when the action map is
-  proper.
+- Import stacks in groupoids, 2-fibre products, representable morphisms, algebraic and
+  Deligne–Mumford stacks, atlases, quotient stacks, and quasi-coherent modules from
+  `SchemeAndStackFoundations` Layer 1. Every object and morphism in this roadmap uses those
+  carriers, including their specified 2-cells and equivalences.
+- Define dimension and pure dimension of a locally finite-type algebraic stack over a field by a
+  smooth scheme atlas with the relative-dimension correction. Prove independence of the atlas,
+  invariance under stack equivalence, and compatibility with open substacks, products, smooth
+  maps, and base-field extension.
+- Prove `dim [U/G] = dim U - dim G` when `G` is smooth of pure dimension and acts on `U`.
+  Include the negative-dimensional classifying-stack case.
 
-**Gate.** The 2-category contains schemes fully faithfully, has 2-pullbacks, and can state that a
-cone or vector bundle over a Deligne–Mumford stack is acted on by another vector bundle and form
-its quotient stack.
+**Gate.** Stack dimension is independent of every atlas and gives the expected dimensions for
+schemes, quotient stacks, and smooth morphisms.
 
-### Layer 1: modules, vector bundles, cones, and normal cones
+### Layer 1: stack sites, representable cones, and normal cones
 
-- Construct the big fppf, lisse-étale, and—on a Deligne–Mumford stack—small étale sites, their
-  structure sheaves, and the comparison morphisms of ringed topoi. Prove atlas descent for
-  modules and identify the small-étale and lisse-étale quasi-coherent theories in the
-  Deligne–Mumford case.
-- Extend Mathlib's module-sheaf predicates to algebraic spaces and stacks: quasi-coherent,
-  coherent, finite presentation, finite locally free of constant rank, and invertible. Build
-  pullback, tensor product, dual, symmetric algebra, exterior powers, rank, and descent. Reuse
-  Tau Ceti's invertible sheaves on schemes through comparison equivalences.
-- Construct `Spec_X 𝒜` for a quasi-coherent `𝒪_X`-algebra, with its universal property and
-  compatibility with arbitrary base change. Treat graded algebras, relative `Proj`, and the
-  affine morphism represented by a symmetric algebra.
-- Define graded cones, their vertices and contraction actions; cone morphisms; closed subcones;
-  products; and abelian hulls. For a coherent sheaf `ℱ`, construct
-  `C(ℱ) = Spec_X Sym(ℱ)` and prove its functor of points. Prove that `C(ℱ)` is a vector bundle
-  exactly when `ℱ` is finite locally free, with the expected rank and smoothness.
-- For a closed immersion `i : X ↪ Y` with ideal sheaf `I`, construct the conormal algebra
-  `⊕_{m≥0} I^m/I^{m+1}`, normal cone `C_{X/Y}`, and normal sheaf
-  `N_{X/Y} = C(I/I²)`. Prove base change under flat maps, products, the abelian-hull map
-  `C_{X/Y} ↪ N_{X/Y}`, and equality for regular immersions.
+- Construct the lisse-étale site and, for a Deligne–Mumford stack, the small étale site, their
+  structure sheaves, and the morphisms to the big fppf ringed site used by
+  `SchemeAndStackFoundations` §1.22. Prove that quasi-coherent modules agree under these
+  comparisons and that the equivalences commute with pullback and atlas restriction.
+- Extend the finite-presentation, finite-locally-free, dual, symmetric-algebra, and exterior-power
+  API from `AlgebraicVectorBundles` and `SchemeAndStackFoundations` to quasi-coherent modules on
+  algebraic spaces and stacks by descent. Prove that the restriction to a scheme is the supplied
+  scheme API.
+- Construct `Spec_X 𝒜` for a quasi-coherent algebra on an algebraic space or stack, with its
+  universal property and arbitrary base change. For a scheme, identify it with
+  `AlgebraicVectorBundles` L1A. Treat graded algebras and the affine morphism represented by a
+  symmetric algebra; relative `Proj` is not needed for this roadmap.
+- Define graded cones, vertices, contraction actions, cone morphisms, closed subcones, products,
+  and abelian hulls over algebraic spaces and stacks. For coherent `ℱ`, construct
+  `C(ℱ) = Spec_X Sym(ℱ)`. Identify the finite-locally-free case with the supplier's geometric
+  vector bundle on schemes and its descended stack version.
+- Import scheme normal cones and deformation to the normal cone from
+  `SchemeAndStackFoundations` §5.5. Extend their formation to representable closed immersions of
+  algebraic spaces and stacks by smooth descent. Prove flat base change, products, the closed map
+  `C_{X/Y} ↪ N_{X/Y}`, equality for regular immersions, and agreement with the scheme definition.
 - Develop exact sequences of cones under a smooth ambient morphism and the action of
-  `T_M|_X` on `C_{X/M}`. Construct the Rees-algebra deformation to the normal cone, its generic
-  fibre and special fibre, and compatibility with smooth base change.
+  `T_M|_X` on `C_{X/M}`. Prove that these actions and sequences commute with smooth refinement of
+  the ambient presentation.
 
-**Gate.** For an affine presentation `X = Spec(B/I) ↪ Spec B`, the geometric definitions reduce
-to the associated graded ring `⊕ I^m/I^{m+1}` and the conormal module `I/I²`; regular sequences
-give the expected normal bundle.
+**Gate.** The stack definitions descend uniquely from smooth presentations and reduce on
+`Spec(B/I) ↪ Spec B` to `⊕ I^m/I^{m+1}` and `I/I²`.
 
-### Layer 2: rational Chow theory and Gysin maps
+### Layer 2: rational Chow theory and Gysin maps for Deligne–Mumford stacks
 
-This lane can proceed alongside Layers 1, 3, and 4, but the virtual class cannot begin until its
-zero-section Gysin map is complete.
+This lane consumes every scheme-level cycle, Chow, Chern, normal-cone, and Gysin carrier from
+`SchemeAndStackFoundations` Layer 5. It adds the stack theory required by Behrend–Fantechi.
 
-- Extend Mathlib's `AlgebraicCycle` into dimension-graded cycle groups on locally Noetherian
-  schemes and algebraic spaces. Define integral closed subspaces, fundamental cycles,
-  coefficients, locally finite sums, proper pushforward with residue degrees, flat pullback with
-  multiplicities, and exterior products. Prove functoriality, localization, and compatibility
-  with Tau Ceti's Weil divisors in codimension one.
-- Define rational equivalence from principal divisors on integral substacks and form
-  `A_i(-)_ℚ`. Prove proper pushforward, flat pullback, exterior products, and localization descend
-  to Chow groups. Keep track of hypotheses—representability, relative dimension, and properness—
-  in the morphism, not in ad hoc versions of the operations.
-- Build Vistoli's rational Chow groups for separated Deligne–Mumford stacks, with cycles on
-  integral closed substacks and the stabilizer/residue-degree factors required for pushforward.
-  Prove independence of an atlas and agreement with the scheme and algebraic-space definitions.
-  For `[U/G]` with finite `G`, compare with equivariant cycles and verify the expected
-  `1/|G|` degree of `BG` when `G` is constant.
-- Prove vector-bundle homotopy invariance, define the zero-section Gysin inverse, and develop
-  Chern classes via the projective-bundle formula. Include Whitney sum, pullback, top Chern
-  classes, and `0_E^! 0_{E*}[X] = c_top(E) ∩ [X]`.
-- Construct refined Gysin pullback for a regular immersion through deformation to the normal
-  cone. Prove base change, excess intersection, composition, compatibility with flat pullback
-  and proper pushforward, and the self-intersection formula.
-- Build the bivariant groups and orientations needed by Behrend–Fantechi. Formalize Vistoli's
-  canonical rational equivalence comparing normal cones after a regular-immersion base change,
-  prove smooth-base-change compatibility, and prove its invariance under the tangent-bundle
-  actions used to descend it from presentations.
+- Build Vistoli's dimension-graded rational Chow groups for separated Deligne–Mumford stacks,
+  with cycles on integral closed substacks and the stabilizer and residue-degree factors required
+  for pushforward. Prove atlas independence and agreement with the supplied scheme Chow groups.
+  For `[U/G]` with finite constant `G`, verify the `1/|G|` degree of `BG`.
+- Extend proper pushforward, flat pullback, localization, and exterior products to these rational
+  stack Chow groups. State representability, relative-dimension, separation, and properness
+  hypotheses on the morphisms, and prove agreement with the scheme operations.
+- Prove homotopy invariance for vector bundles on Deligne–Mumford stacks and define the zero-
+  section Gysin inverse. Descend the supplier's Chern classes and projective-bundle formula and
+  prove Whitney sum, pullback, the top-Chern formula, and
+  `0_E^! 0_{E*}[X] = c_top(E) ∩ [X]`.
+- Extend refined Gysin pullback to representable regular local immersions of
+  Deligne–Mumford stacks using Layer 1 and the supplied scheme deformation. Prove base change,
+  excess intersection, composition, proper-pushforward and flat-pullback compatibility, and the
+  self-intersection formula.
+- Build the rational bivariant groups and orientations used by Behrend–Fantechi. Construct
+  Vistoli's canonical rational equivalence comparing normal cones after regular-immersion base
+  change, prove smooth-base-change compatibility, and prove invariance under the tangent-bundle
+  actions needed for descent from presentations.
 
-**Gate.** For every vector bundle `E → X` on a separated Deligne–Mumford stack there is a
-grading-correct map `0_E^! : A_{i+rank E}(E)_ℚ → A_i(X)_ℚ`, and the map is invariant under
-isomorphism of vector bundles and compatible with the cartesian squares used later.
+**Gate.** For every rank-`r` vector bundle `E → X` on a separated Deligne–Mumford stack, there is
+a grading-correct map `0_E^! : A_{i+r}(E)_ℚ → A_i(X)_ℚ`, invariant under bundle isomorphism and
+compatible with the cartesian squares in Layers 7–9.
 
-### Layer 3: derived modules, perfect complexes, and the cotangent complex
+### Layer 3: geometric cotangent complexes and perfect complexes on stacks
 
-- Equip derived categories of module sheaves with derived pullback, derived tensor product,
-  derived internal Hom, duality against `𝒪_X`, cohomology objects, truncations, and Ext. Prove
-  their pseudofunctoriality under stack morphisms and comparison across the small étale and big
-  fppf sites.
-- Define perfect complexes and perfect/Tor amplitude in `[a,b]` locally on an atlas. Develop
-  finite locally free resolutions, duals, ranks as locally constant integers, direct sums,
-  pullback, shifts, cones, and the two-out-of-three results used in distinguished triangles.
-  Define a global two-term resolution as an isomorphism
+- Instantiate the ringed-site tensor, internal Hom, pullback, duality, cohomology, truncation, and
+  Ext constructions from `EnhancedDerivedSheaves` on the sites of Layer 1. Prove
+  pseudofunctoriality under stack morphisms and comparison across the small étale, lisse-étale,
+  and big fppf sites.
+- Define perfect complexes and Tor amplitude `[a,b]` locally on an atlas. Descend finite locally
+  free resolutions, duals, ranks, direct sums, pullback, shifts, cones, and the two-out-of-three
+  properties from the scheme theory. Define a global two-term resolution as an isomorphism
   `[F⁻¹ → F⁰] ≅ E` in the derived category, not as equality of chosen complexes.
-- Construct the full cotangent complex `L_{B/A}` of rings, compare its `[-1,0]` truncation with
-  Mathlib's presentation complex, and prove Jacobi–Zariski/transitivity, derived base change,
-  localization, and the smooth, étale, unramified, and local-complete-intersection criteria.
-- Globalize to schemes and algebraic spaces on the small étale site, then descend along an étale
-  atlas to a Deligne–Mumford stack. Prove functoriality, the transitivity triangle
-  `f*L_Y → L_X → L_{X/Y} →`, flat base change, and compatibility with atlases.
+- Starting from the ring cotangent complex and its theorems in `DerivedModuleAlgebra`, globalize
+  `L_{X/Y}` to schemes and algebraic spaces on the small étale site, then to
+  Deligne–Mumford stacks by atlas descent. Prove functoriality, the transitivity triangle
+  `f*L_Y → L_X → L_{X/Y} →`, flat base change, and compatibility with atlas refinement.
 - For a local embedding `U ↪ M` with `M` smooth, construct the canonical comparison
   `L_X|_U → [I/I² → Ω_M|_U]` and prove that it is an isomorphism on `H⁰` and `H⁻¹`. Prove
   `L_X` satisfies Behrend–Fantechi's coherence condition and has amplitude `[-1,0]` exactly in
   the local-complete-intersection case.
-- Prove the deformation theorem for square-zero extensions: the obstruction to lifting a map is
-  in `Ext¹(g*L_X,J)`; its vanishing is equivalent to existence; lifts and automorphisms are
-  governed by the adjacent Ext groups. State it for the lifting groupoid so stack
-  automorphisms are not erased.
+- Globalize `DerivedModuleAlgebra` §0.25 to square-zero extensions of schemes and stacks. For
+  `g : T → X`, put the obstruction in `Ext¹(g*L_X,J)`, characterize its vanishing, and describe
+  lifts and automorphisms by the adjacent Ext groups. State the result for the lifting groupoid.
 
-**Gate.** The local embedding complex agrees with the affine Kähler/presentation API, and all
-comparison morphisms commute with refinement of étale charts in the derived category.
+**Gate.** The geometric complex agrees on affines with `DerivedModuleAlgebra`, its local embedding
+model agrees with the Kähler presentation complex, and all comparisons commute with refinement of
+étale charts.
 
 ### Layer 4: cone stacks and the `h¹/h⁰` construction
 
@@ -373,7 +330,8 @@ comparison morphisms commute with refinement of étale charts in the derived cat
   stacks.
 - Define cone stacks, abelian cone stacks, vector-bundle stacks, abelian hulls, actions of a
   vector-bundle stack, and short exact sequences. Prove that fibre products and quotients remain
-  cone stacks and that exactness is local on the base.
+  cone stacks and that exactness is local on the base. Define their dimension from local quotient
+  presentations and prove the expected rank formula for vector-bundle stacks.
 - For a two-term complex of abelian sheaves `E⁰ → E¹`, construct the Picard stack
   `h¹/h⁰(E) = [E¹/E⁰]`. Show that a chain homotopy induces a specified 2-isomorphism and a
   quasi-isomorphism induces an equivalence. Extend the construction to derived objects by
@@ -494,9 +452,20 @@ existing noncanonically.
 - State and prove relative compatibility through a morphism of transitivity triangles and the
   corresponding functoriality theorem. Recover the absolute theory by taking
   `Y = Spec k`, with a theorem identifying the two classes.
-- In a cartesian diagram `X = Y ×_W V` with `V,W` smooth and the horizontal maps local
-  immersions, prove that `j*L_{V/W} → L_{X/Y}` is a relative perfect obstruction theory and
-  that its virtual class agrees with the classical normal-cone/zero-section intersection.
+- In a cartesian diagram
+
+  ```text
+  X --j--> V
+  |g       |h
+  v        v
+  Y --i--> W
+  ```
+
+  with `V` and `W` smooth, assume that `h` has unramified diagonal. Prove that
+  `j^*L_{V/W} → L_{X/Y}` is a relative perfect obstruction theory. If `i` is also a regular
+  local immersion, so `j` is its base change, prove that the resulting virtual class is the
+  zero-section intersection of `C_{X/V}` in `g^*N_{Y/W}`. These are the separate hypotheses and
+  conclusions of Behrend–Fantechi Example 7.6.
 
 ## Acceptance criteria and worked examples
 
@@ -529,7 +498,7 @@ the distinction between actual and virtual dimension.
   divisor. The two routes—base-changing the obstruction theory first or applying the bivariant
   class to the virtual cycle—must agree.
 - **A fibre of a smooth-ambient morphism.** For a fibre product of smooth stacks as in the final
-  Layer 9 item, compute the relative virtual class both from `j*L_{V/W}` and from the ordinary
+  Layer 9 item, compute the relative virtual class both from `j^*L_{V/W}` and from the ordinary
   normal cone; prove equality.
 - **Proper virtual dimension zero.** On a proper zero-dimensional scheme which is a local
   complete intersection, the degree of the virtual class agrees with the ordinary
@@ -537,11 +506,12 @@ the distinction between actual and virtual dimension.
 
 ## Ordering and work packages
 
-- Layer 0 is the common prerequisite. Its algebraic-space portion and groupoid-valued stack
-  portion can be developed by separate contributors once their shared representability interface
-  is fixed.
-- Layers 1, 2, and 3 are the three long independent lanes. Layer 4 consumes Layers 0–3 only
-  through the sheaf, quotient-stack, and derived-duality interfaces named above.
+- Layer 0 consumes `SchemeAndStackFoundations` Layer 1 and adds stack dimension. It introduces no
+  second algebraic-stack carrier.
+- Layers 1, 2, and 3 are the three long independent extension lanes. They consume, respectively,
+  the stack/vector-bundle foundations, scheme intersection theory, and ringed-site/affine-derived
+  foundations named in the supplier contracts. Layer 4 consumes Layers 0, 1, and 3 through their
+  exported stack-site, quotient, and derived-duality interfaces; it is independent of Layer 2.
 - Layer 5 consumes normal cones from Layer 1, `h¹/h⁰` from Layer 4, and stack dimension from
   Layer 0. It does not depend on Chow theory.
 - Layer 6 consumes the intrinsic cone and cotangent deformation theory. Layer 7 is the first point
@@ -549,10 +519,9 @@ the distinction between actual and virtual dimension.
 - Layers 8 and 9 consume all three lanes and should begin only after the absolute class and its
   resolution-independence theorem pass the worked examples.
 
-Register separate intentions for narrow foundations—for example, algebraic spaces, stack sites,
-scheme Chow groups, zero-section Gysin, the geometric cotangent complex, cone stacks, or the
-intrinsic-cone gluing—rather than claiming the whole roadmap. Before implementing a general
-foundation, recheck whether Mathlib or another Tau Ceti roadmap has acquired it.
+Register separate intentions for the work owned here—for example, stack dimension, stack-site
+comparisons, DM-stack Chow groups, the geometric cotangent complex, cone stacks, or intrinsic-cone
+gluing—rather than claiming the whole roadmap. Use the supplier-roadmap carriers throughout.
 
 ## Boundary of this roadmap
 
@@ -565,9 +534,9 @@ theory.
 It also does not remove the global-resolution hypothesis by developing Chow groups for arbitrary
 Artin vector-bundle stacks; construct virtual structure sheaves in `K`-theory; introduce derived
 algebraic stacks; or build cosection-localized, reduced, logarithmic, equivariant, or symmetric
-virtual cycles. These are later extensions. The interfaces here should not obstruct them: the
-intrinsic cone, obstruction theory, and classical class remain separate objects, and the global
-resolution appears as a premise only at the Chow-valued construction step.
+virtual cycles. Those constructions are outside this roadmap. The intrinsic cone, obstruction
+theory, and classical class remain separate objects, and the global resolution appears as a
+premise only at the Chow-valued construction step.
 
 ## References
 
