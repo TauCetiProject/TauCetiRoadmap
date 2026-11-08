@@ -17,17 +17,14 @@ polynomial Farey large sieves; the prime quadratic-symbol bilinear bound;
 Jutila’s unweighted and weighted real-character means; Linnik's exceptional-prime bound; Smith's bilinear bound and the
 Koymans–Pagano row mean; Vaughan's identity; the uniform small-conductor estimate;
 logarithm-square convolution, variance and congruence-correlation estimates;
-Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters and
-variational growth; Chen's two theorems; Henk's and Davenport's lattice-point counts; and
-strong approximation for simply connected semisimple groups. The unconditional
+Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters,
+variational growth, the Gram-form evaluation of the variational functionals and the bounds
+M₅ ≥ 1417255/708216 and M₁₀₅ > 4 with the gap theorems they give; Chen's two theorems; Henk's and
+Davenport's lattice-point counts; strong approximation for simply connected semisimple groups; and
+the uniform Lang–Weil estimates. The unconditional
 prime-distribution statements have effective constants, through the exclusion of Landau–Siegel
 zeros in AnalyticNumberTheoryPartI §0.34; a Lean statement records the shape, not the
 effectivity.
-
-Finite verifications and numerical records are named propositions, never proved here:
-Maynard's Gram-form values at k = 5 and certificate at k = 105, the admissible tuples of
-diameters 12 and 600, and the two logarithmic evaluations behind Chen's constants. Every theorem
-resting on one of them takes it as an explicit hypothesis.
 
 The finite-character
 Gram bound from lattice discrepancies and binary convex sieve lack the L-domain
@@ -628,55 +625,22 @@ theorem sum_maynardJ_maynardPolynomial (k : ℕ) (S : Finset (ℕ × ℕ)) (a : 
     ∑ m, maynardJ k m (maynardPolynomial k S a) = (gramForm (maynardGramJ k) S a : ℝ) := by
   sorry
 
-/-- The coefficients of Maynard's witness (8.16) at `k = 5`:
-`(1-P₁)P₂ + (7/10)(1-P₁)² + (1/14)P₂ - (3/14)(1-P₁)`. -/
-def maynardFiveCoefficients (u : ℕ × ℕ) : ℚ :=
-  if u = (1, 1) then 1 else if u = (2, 0) then 7 / 10 else if u = (0, 1) then 1 / 14
-  else if u = (1, 0) then -3 / 14 else 0
-
-/-- Numerical record, assumed: Maynard (8.17), the values of the two Gram forms of the witness
-(8.16) at `k = 5`. -/
-def MaynardFiveRecord : Prop :=
-  gramForm (maynardGramI 5) (maynardMonomials 3) maynardFiveCoefficients = 29509 / 1222452000 ∧
-    gramForm (maynardGramJ 5) (maynardMonomials 3) maynardFiveCoefficients =
-      1417255 / 708216 * (29509 / 1222452000)
-
-/-- Numerical record, assumed: Maynard (8.15), a rational witness on the 42 monomials with
-`b + 2c ≤ 11` whose ratio exceeds four at `k = 105`. -/
-def MaynardCertificate105 : Prop :=
-  ∃ a : ℕ × ℕ → ℚ, 0 < gramForm (maynardGramI 105) (maynardMonomials 11) a ∧
-    4 * gramForm (maynardGramI 105) (maynardMonomials 11) a <
-      gramForm (maynardGramJ 105) (maynardMonomials 11) a
-
-/-- Numerical record, assumed: an admissible set of 105 natural numbers in `[0, 600]`
-(Maynard, footnote 2). -/
-def Admissible105Diam600 : Prop :=
-  ∃ H : Finset ℕ, H.card = 105 ∧ IsAdmissible H ∧ ∀ h ∈ H, h ≤ 600
-
-/-- Numerical record, assumed: an admissible set of 5 natural numbers in `[0, 12]`
-(Maynard, proof of Theorem 1.4). -/
-def Admissible5Diam12 : Prop :=
-  ∃ H : Finset ℕ, H.card = 5 ∧ IsAdmissible H ∧ ∀ h ∈ H, h ≤ 12
-
-/-- Under the record (8.17), the witness (8.16) gives M₅ ≥ 1417255/708216 > 2. -/
-theorem maynardM_five_ge (h : MaynardFiveRecord) : (1417255 / 708216 : ℝ) ≤ maynardM 5 := by
+/-- Maynard's Proposition 4.3(1): the witness (8.16) gives M₅ ≥ 1417255/708216 > 2. -/
+theorem maynardM_five_ge : (1417255 / 708216 : ℝ) ≤ maynardM 5 := by
   sorry
 
-/-- Under the certificate (8.15), M₁₀₅ > 4. -/
-theorem four_lt_maynardM_105 (h : MaynardCertificate105) : 4 < maynardM 105 := by
+/-- Maynard's Proposition 4.3(2): M₁₀₅ > 4. -/
+theorem four_lt_maynardM_105 : 4 < maynardM 105 := by
   sorry
 
-/-- Infinitely many consecutive prime gaps are at most six hundred, from the certificate at
-`k = 105` and an admissible 105-tuple of diameter at most 600. -/
-theorem frequently_nth_prime_succ_sub_le_600 (hM : MaynardCertificate105)
-    (hH : Admissible105Diam600) :
+/-- Maynard's Theorem 1.3: infinitely many consecutive prime gaps are at most six hundred. -/
+theorem frequently_nth_prime_succ_sub_le_600 :
     ∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 1) - Nat.nth Nat.Prime n ≤ 600 := by
   sorry
 
-/-- Assuming Elliott–Halberstam and the four numerical records, the consecutive and three-prime
-diameters are bounded. -/
-theorem elliottHalberstam_gaps (hEH : ElliottHalberstam) (hM5 : MaynardFiveRecord)
-    (hM : MaynardCertificate105) (hH5 : Admissible5Diam12) (hH : Admissible105Diam600) :
+/-- Maynard's Theorem 1.4: assuming Elliott–Halberstam, infinitely many consecutive prime gaps
+are at most 12 and infinitely many three-prime diameters are at most 600. -/
+theorem elliottHalberstam_gaps (hEH : ElliottHalberstam) :
     (∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 1) - Nat.nth Nat.Prime n ≤ 12) ∧
       ∃ᶠ n in atTop, Nat.nth Nat.Prime (n + 2) - Nat.nth Nat.Prime n ≤ 600 := by
   sorry
@@ -700,38 +664,6 @@ theorem positive_proportion_prime_tuples (m : ℕ) (hm : 1 ≤ m) :
 end SieveMaynard
 
 /-! ## Layer 5: weighted almost primes, joint spins and affine saturation -/
-
-namespace SieveWeighted
-attribute [local instance] Classical.propDecidable
-
-/-- Numerical record, assumed: Chen (24), the logarithmic envelope of the switched-triple
-integral on the subintervals with endpoints `(16 - i)/10` is below `0.49255`. -/
-def ChenUpperEnvelope : Prop :=
-  (∑ i ∈ Finset.range 7,
-    ((Real.log ((16 - i : ℝ) / 10) + (4 + i : ℝ) / (16 - i)) *
-        Real.log ((108 + 23 * i - (i : ℝ) ^ 2) / (78 + 23 * i - (i : ℝ) ^ 2)) -
-      3 / ((16 - i : ℝ) / 10) * Real.log ((27 - i : ℝ) / (26 - i)))) < 0.49255
-
-/-- Numerical record, assumed: Chen (26)–(27), the lower constant exceeds `2.6408`. -/
-def ChenLowerConstant : Prop :=
-  2.6408 < 8 * (Real.log 4 - Real.log 8 / 2 +
-    (1 / 2 + 3 / 4 * Real.log (9 / 8) - 3 / 2 * Real.log (4 / 3) - 1 / 4 * Real.log 2))
-
-/-- Under the two numerical records, every sufficiently large even integer has quantitatively many
-prime-plus-P₂ representations; the P₂ factor is not a unit. -/
-theorem chen_goldbach (hU : ChenUpperEnvelope) (hL : ChenLowerConstant) :
-    ∃ c : ℝ, 0 < c ∧ ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Even N →
-    c*N/(Real.log N)^2 ≤ (((Finset.Icc 2 (N-2)).filter
-      (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (N-p) ∧ ArithmeticFunction.cardFactors (N-p) ≤ 2)).card : ℝ) := by sorry
-
-/-- Under the two numerical records, for a fixed positive even shift, quantitatively many primes
-have a nonunit P₂ translate. -/
-theorem chen_prime_shift (hU : ChenUpperEnvelope) (hL : ChenLowerConstant)
-    (h : ℕ) (hh : 0 < h) (hh2 : Even h) : ∃ c : ℝ, 0 < c ∧ ∃ x₀ : ℕ,
-    ∀ x : ℕ, x₀ ≤ x → c*x/(Real.log x)^2 ≤ (((Finset.Icc 1 x).filter
-      (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (p+h) ∧ ArithmeticFunction.cardFactors (p+h) ≤ 2)).card : ℝ) := by sorry
-
-end SieveWeighted
 
 namespace SieveStrongApproximation
 open IsDedekindDomain NumberField
@@ -787,5 +719,50 @@ theorem hasStrongApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHop
   sorry
 
 end SieveStrongApproximation
+
+namespace SieveLangWeil
+
+/-- The uniform Lang–Weil estimates for affine varieties of bounded presentation. For fixed `n`,
+`r` and `d` one constant `C` serves every finite field `k` of cardinality `q` and every set `S` of
+at most `r` polynomials of total degree at most `d` in `n` variables over `k`. Let `I` be the ideal
+that `S` generates over an algebraic closure of `k`, and `N` the number of common zeros of `S` in
+`kⁿ`. If the quotient by `I` has Krull dimension at most `e`, then `N ≤ C q^e`. If the radical of
+`I` is prime (the zero set is geometrically irreducible) and the quotient has dimension exactly `e`,
+then `|N - q^e| ≤ C q^(e - 1/2)`. -/
+theorem lang_weil_uniform (n r d : ℕ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ (k : Type) [Field k] [Finite k]
+      (S : Finset (MvPolynomial (Fin n) k)) (e : ℕ),
+      S.card ≤ r → (∀ f ∈ S, f.totalDegree ≤ d) →
+      let I : Ideal (MvPolynomial (Fin n) (AlgebraicClosure k)) :=
+        Ideal.span ((S : Set (MvPolynomial (Fin n) k)).image
+          (MvPolynomial.map (algebraMap k (AlgebraicClosure k))))
+      let N : ℝ := Nat.card {x : Fin n → k // ∀ f ∈ S, MvPolynomial.eval x f = 0}
+      let q : ℝ := Nat.card k
+      (ringKrullDim (MvPolynomial (Fin n) (AlgebraicClosure k) ⧸ I) ≤ (e : WithBot ℕ∞) →
+          N ≤ C * q ^ e) ∧
+        (I.radical.IsPrime →
+          ringKrullDim (MvPolynomial (Fin n) (AlgebraicClosure k) ⧸ I) = (e : WithBot ℕ∞) →
+          |N - q ^ e| ≤ C * q ^ ((e : ℝ) - 1 / 2)) := by
+  sorry
+
+end SieveLangWeil
+
+namespace SieveWeighted
+attribute [local instance] Classical.propDecidable
+
+/-- Chen's Goldbach theorem: every sufficiently large even integer has quantitatively many
+prime-plus-P₂ representations; the P₂ factor is not a unit. -/
+theorem chen_goldbach :
+    ∃ c : ℝ, 0 < c ∧ ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Even N →
+    c*N/(Real.log N)^2 ≤ (((Finset.Icc 2 (N-2)).filter
+      (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (N-p) ∧ ArithmeticFunction.cardFactors (N-p) ≤ 2)).card : ℝ) := by sorry
+
+/-- Chen's shifted theorem: for a fixed positive even shift, quantitatively many primes have a
+nonunit P₂ translate. -/
+theorem chen_prime_shift (h : ℕ) (hh : 0 < h) (hh2 : Even h) : ∃ c : ℝ, 0 < c ∧ ∃ x₀ : ℕ,
+    ∀ x : ℕ, x₀ ≤ x → c*x/(Real.log x)^2 ≤ (((Finset.Icc 1 x).filter
+      (fun p => p.Prime ∧ 1 ≤ ArithmeticFunction.cardFactors (p+h) ∧ ArithmeticFunction.cardFactors (p+h) ≤ 2)).card : ℝ) := by sorry
+
+end SieveWeighted
 
 end TauCetiRoadmap.SieveMethodsAndPrimePatterns

@@ -10,7 +10,7 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.32, 0.34, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a), the uniform and fixed-model Lang–Weil estimates (§5.4), and adelic points with strong approximation for simply connected semisimple groups (§5.3a). The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a), the uniform and fixed-model Lang–Weil estimates (§5.4), and adelic points with strong approximation for simply connected semisimple groups (§5.3a). The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
 AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
 
@@ -18,7 +18,7 @@ The tuple W-trick here is a construction for Maynard weights. Layer 5 states the
 
 The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4, and rational-point strong approximation to §5.3a. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
 
-Finite verifications and numerical records are never computed here. Each one a theorem rests on — Maynard's variational witnesses, the admissible tuples of diameters 12 and 600, and the two logarithmic evaluations behind Chen's constants — is a named proposition (§§4.6 and 5.5) and an explicit hypothesis of every theorem that uses it.
+The finite evaluations behind Maynard's and Chen's constants are owned here as targets: the Gram-form values of Maynard's witnesses at k=5 and k=105 (§4.6), the admissible tuples of diameters 12 and 600 (§4.7), and the two logarithmic evaluations behind Chen's constants (§5.5). Each is stated as a proposition about explicit numbers, no certificate is printed, and none is a hypothesis of the theorems that use it.
 
 ## Conventions
 
@@ -66,7 +66,7 @@ The pinned comparison is `TauCeti.Multiquadratic.fundamentalDiscriminantChar D h
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
+Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. Use §3.3 for the norm-fibre divisor majorant: for a number field K of degree n≥1 and every m≥1, the number a_K(m) of nonzero integral ideals of norm m is at most d_n(m), the number of ordered n-tuples of positive integers with product m; and §3.4 for the fixed-order divisor bound: for each n≥1 and ε>0 there is C_(n,ε) with d_n(m)≤C_(n,ε)m^ε for every m≥1. For example, over ℚ(i) the norm 5 carries two ideals and d₂(5)=2, while the inert norm 9 carries one ideal against d₂(9)=3. §5.6 consumes both. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
 
 Use §0.34, `landau_siegel_exclusion`: there is an absolute, effectively computable c_LS>0 with (1−β)log q≥c_LS for every real zero β∈(0,1) of L(s,χ), for every primitive nonprincipal real Dirichlet character χ of conductor q≥3, with no finite range of conductors set aside. It is consumed through §0.18, the character prime number theorem without an exceptional-zero term: for a primitive nonprincipal χ of conductor N>1 and X above an absolute threshold, |Σ_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴, with c,C and the threshold absolute and effective; the term −X^β/β of an exceptional zero is absent. Through §0.18 it also makes §0.32 effective. Layer 3 consumes §§0.18 and 0.34 in §3.0 and inherits their effectivity in §§3.2–3.4; no statement here carries an exceptional-zero alternative.
 
@@ -146,7 +146,7 @@ This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conject
 
 ## How to read the build
 
-Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, the variational quantity and admissible tuples; its numerical inputs are named hypotheses. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
+Layer 0 establishes finite weighted identities, local-density adapters, dimension predicates and finite Gram inequalities. Layer 1 builds Brun and Selberg bounds and their polynomial and binary applications; the convex-domain Gram estimate precedes those applications. Layer 2 develops Fourier and character large sieves, Vaughan's identity, quadratic estimates and the sharp variants. Layer 3 obtains maximal distribution and its first- and second-moment transfers. Layer 4 combines that distribution with Maynard's multidimensional weights, the variational quantity and admissible tuples; its numerical inputs are finite evaluations stated as targets in §§4.6–4.7. Layer 5 follows three branches: weighted almost primes and Chen, conditional ideal spins, and affine saturation. Read each claim with its local hypotheses and its *Needs* sentence. Construction and analytic proof requirements remain part of the mathematics; an imported near miss does not supply a stronger contract. `Suggested.lean` states the headline theorems statable on the pinned carriers and only the simple definitions they require. This README specifies the entire build.
 
 
 
@@ -1789,7 +1789,7 @@ The indexing type may be empty. N,L∈ℕ, L>0, and f_k=0 whenever |n_k|>N. The 
 
 ([BOMBIERI-1971](#references), pp.403–404, reduction to (5) and its diagonal/off-diagonal decomposition.)
 
-*Proof sketch.* Apply the diagonal/off-diagonal Gram inequality of §0.4 to the tapered vectors φ_{N,L}(x_i) and f. Tapered-diagonal gives each diagonal term 2N+L. Tapered-offdiagonal, term by term, bounds each off-diagonal row sum by (1/L)Σ_(j≠i)1/sin²(π(x_i−x_j))≤C/L. The resulting bound B=2N+L+C/L is nonnegative, so the empty family is covered. Use norm symmetry of the inner product and tapered-fourier-pairing to identify every summand. No maximum or nonempty-family hypothesis is needed. Do not replace the row hypothesis by the paper's final separation constant here: corrected bin packing, the cosecant sum, the integer taper choice, and interval translation/parity remain separate proof requirements.
+*Proof sketch.* Apply the diagonal/off-diagonal Gram inequality of §0.4 to the tapered vectors `φ_{N,L}(x_i)` and f. Tapered-diagonal gives each diagonal term 2N+L. Tapered-offdiagonal, term by term, bounds each off-diagonal row sum by (1/L)Σ_(j≠i)1/sin²(π(x_i−x_j))≤C/L. The resulting bound B=2N+L+C/L is nonnegative, so the empty family is covered. Use norm symmetry of the inner product and tapered-fourier-pairing to identify every summand. No maximum or nonempty-family hypothesis is needed. Do not replace the row hypothesis by the paper's final separation constant here: corrected bin packing, the cosecant sum, the integer taper choice, and interval translation/parity remain separate proof requirements.
 
 The empty family gives 0≤‖f‖²B; a singleton has C=0. This conditional theorem is not the full additive large-sieve theorem with constant length+2/δ.
 
@@ -2851,6 +2851,7 @@ The definition exposes the following operations and laws:
 
 - {0,2} is admissible: it misses 1 mod 2.
 - {0,2,4} is not admissible: it meets all three classes mod 3. A definition that checked only p=2, or only p>#H, would accept it.
+- {0,2,6,8,12} is admissible: it misses 1 mod 2, 1 mod 3 and 4 mod 5, and five elements cannot cover a residue system modulo a prime p≥7.
 - ∅ is admissible.
 - {0,1} is not admissible: it covers ℤ/2.
 
@@ -3170,32 +3171,42 @@ F is symmetric, so `J_k^{(m)}` does not depend on m and Σ_m `J_k^{(m)}` = `kJ_k
 
 *Needs:* Layer 4 §4.6 moments on the simplex (maynard lemma 8.1, corrected); Layer 4 `SieveMaynard.maynardM`.
 
-**Numerical hypotheses for Maynard's constants.** These propositions are assumed, never proved here; each is an explicit hypothesis of the theorems below that use it. The Gram forms are those of Lemma 8.2 above.
+**Gram-form values of Maynard's witnesses.** Prove the two finite evaluations of the Gram forms of Lemma 8.2 that Proposition 4.3 rests on. Both are statements about explicit rational numbers.
 
-- `SieveMaynard.MaynardFiveRecord`: for a=`SieveMaynard.maynardFiveCoefficients`, the coefficient vector of P=(1−P₁)P₂+(7/10)(1−P₁)²+(1/14)P₂−(3/14)(1−P₁) on the monomials (1−P₁)^bP₂^c with b+2c≤3, the k=5 Gram forms take the values I=29509/1222452000 and ΣJ=(1417255/708216)·I. ([MAYNARD-2015](#references), §8, (8.16)–(8.17), p.412.)
-- `SieveMaynard.MaynardCertificate105`: some rational coefficient vector on the 42 monomials (1−P₁)^bP₂^c with b+2c≤11 has, at k=105, positive I-form and J-form strictly greater than four times its I-form. ([MAYNARD-2015](#references), §8, (8.15), p.412.)
-- `SieveMaynard.Admissible105Diam600`: some admissible set of 105 natural numbers lies in [0,600]. ([MAYNARD-2015](#references), §4, footnote 2, p.390.)
-- `SieveMaynard.Admissible5Diam12`: some admissible set of 5 natural numbers lies in [0,12]. ([MAYNARD-2015](#references), §4, proof of Theorem 1.4, p.390.)
+- At k=5, let a be the coefficient vector of P=(1−P₁)P₂+(7/10)(1−P₁)²+(1/14)P₂−(3/14)(1−P₁) on the monomials (1−P₁)^bP₂^c with b+2c≤3: a=1 at (1,1), 7/10 at (2,0), 1/14 at (0,1), −3/14 at (1,0) and 0 elsewhere. Then `SieveMaynard.gramForm (SieveMaynard.maynardGramI 5) (SieveMaynard.maynardMonomials 3) a` = 29509/1222452000, and the J-form `SieveMaynard.gramForm (SieveMaynard.maynardGramJ 5) (SieveMaynard.maynardMonomials 3) a` is 1417255/708216 times it.
+- At k=105 some rational coefficient vector a on the 42 monomials of `SieveMaynard.maynardMonomials 11` has positive I-form and a J-form strictly greater than four times its I-form.
 
-**M₅ > 2 (Maynard Proposition 4.3(1)).** Prove `SieveMaynard.maynardM_five_ge`: under `SieveMaynard.MaynardFiveRecord`, M₅ ≥ 1417255/708216 > 2.
+([MAYNARD-2015](#references), §8, (8.15)–(8.17), p.412. The source prints the polynomial (8.16) and the ratio 1417255/708216 in (8.17); the value of the I-form follows from Lemma 8.2. For k=105 it reports the largest eigenvalue ≈4.0020697 of A₁⁻¹A₂ in (8.15) and notes that a rational approximation to its eigenvector verifies the bound in exact arithmetic.)
 
-F = `P·1_{ℛ₅}` with P = (1−P₁)P₂ + (7/10)(1−P₁)² + (1/14)P₂ − (3/14)(1−P₁) (8.16), that is, maynardPolynomial 5 (maynardMonomials 3) maynardFiveCoefficients.
+*Proof sketch.* Each entry of maynardGramI and maynardGramJ is an explicit rational number built from factorials and the finite composition sums of simplexMoment, so each form is a finite sum of rational numbers. At k=105 choose a rational vector close to the leading eigenvector of A₁⁻¹A₂ and compare the two forms by cross-multiplication; such a vector gives a ratio a little above 4, for example 4.00054…, without identifying the optimal eigenvalue.
 
-([MAYNARD-2015](#references), §8, (8.16), p. 412.)
+**Checks.**
 
-*Proof sketch.* F is bounded and supported on ℛ₅, hence square integrable. Lemma 8.2 identifies I₅(F) and Σ_m `J₅^{(m)}(F)` with the two Gram forms, whose values the hypothesis supplies: I₅(F) > 0 and ratio 1417255/708216. By symmetry each `J₅^{(m)}(F)` is one fifth of the sum, hence nonzero, so F is admissible, and its ratio is at most M₅. θM₅/2 > 1 then needs θ > 2·708216/1417255, which is why Theorem 1.4 needs Elliott–Halberstam.
+- At k=5 the J-form is 40493/838252800, which is (1417255/708216)·(29509/1222452000); the ratio is about 2.00116.
+- With the sum in G starting at r=1, as printed on p.409, the k=5 I-form would be 17753/977961600; the empty composition at r=0 is needed for the value above.
+- The constant witness (only the monomial (0,0), coefficient 1) has I-form 1/k! and ratio 2k/(k+1), which is 4/3 at k=2 (the triangle example) and 105/53<4 at k=105. The k=105 bound needs the higher monomials.
 
-*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 `SieveMaynard.MaynardFiveRecord`; Layer 4 `SieveMaynard.maynardM`.
+*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 moments on the simplex (maynard lemma 8.1, corrected); rational arithmetic.
 
-**M₁₀₅ > 4 (Maynard Proposition 4.3(2)).** Prove `SieveMaynard.four_lt_maynardM_105`: under `SieveMaynard.MaynardCertificate105`, M₁₀₅ > 4.
+**M₅ > 2 (Maynard Proposition 4.3(1)).** Prove `SieveMaynard.maynardM_five_ge`: M₅ ≥ 1417255/708216 > 2.
+
+F = `P·1_{ℛ₅}` with P = (1−P₁)P₂ + (7/10)(1−P₁)² + (1/14)P₂ − (3/14)(1−P₁) (8.16), that is, maynardPolynomial 5 (maynardMonomials 3) a with the k=5 coefficient vector a above.
+
+([MAYNARD-2015](#references), §8, (8.16)–(8.17), p. 412.)
+
+*Proof sketch.* F is bounded and supported on ℛ₅, hence square integrable. Lemma 8.2 identifies I₅(F) and Σ_m `J₅^{(m)}(F)` with the two Gram forms, and the k=5 evaluation gives I₅(F) > 0 and ratio 1417255/708216. By symmetry each `J₅^{(m)}(F)` is one fifth of the sum, hence nonzero, so F is admissible, and its ratio is at most M₅. θM₅/2 > 1 then needs θ > 2·708216/1417255, which is why Theorem 1.4 needs Elliott–Halberstam.
+
+*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 Gram-form values of Maynard's witnesses; Layer 4 `SieveMaynard.maynardM`.
+
+**M₁₀₅ > 4 (Maynard Proposition 4.3(2)).** Prove `SieveMaynard.four_lt_maynardM_105`: M₁₀₅ > 4.
 
 The witness is a linear combination of the 42 monomials (1−P₁)^bP₂^c with b + 2c ≤ 11, and k = 105.
 
 ([MAYNARD-2015](#references), §8, (8.15) and the following sentence, p. 412.)
 
-*Proof sketch.* Take the coefficient vector a of the hypothesis and F = maynardPolynomial 105 (maynardMonomials 11) a. Lemma 8.2 gives I₁₀₅(F) > 0 and Σ_m `J₁₀₅^{(m)}(F)` > 4I₁₀₅(F). By symmetry every `J^{(m)}` is positive, so F is admissible with ratio greater than 4, and its ratio is at most M₁₀₅. Then (1/2 − ε)M₁₀₅/2 > 1 for small ε: this is the input of Theorem 1.3.
+*Proof sketch.* Take the k=105 coefficient vector a of the Gram-form evaluation and F = maynardPolynomial 105 (maynardMonomials 11) a. Lemma 8.2 gives I₁₀₅(F) > 0 and Σ_m `J₁₀₅^{(m)}(F)` > 4I₁₀₅(F). By symmetry every `J^{(m)}` is positive, so F is admissible with ratio greater than 4, and its ratio is at most M₁₀₅. Then (1/2 − ε)M₁₀₅/2 > 1 for small ε: this is the input of Theorem 1.3.
 
-*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 `SieveMaynard.MaynardCertificate105`; Layer 4 `SieveMaynard.maynardM`.
+*Needs:* Layer 4 §4.6 i_k and j_k as quadratic forms (maynard lemma 8.2); Layer 4 §4.6 Gram-form values of Maynard's witnesses; Layer 4 `SieveMaynard.maynardM`.
 
 ### 4.7 admissible sets and bounded gaps between primes
 
@@ -3211,29 +3222,43 @@ k = 5: {7, 11, 13, 17, 19}. It misses 0 mod 5 because no element is divisible by
 
 *Needs:* Layer 4 `SieveMaynard.IsAdmissible`; Mathlib `Nat.nth`; Mathlib `Nat.prime_nth_prime`; Mathlib `Chebyshev.pi_ge'`.
 
-**Bounded gaps between primes (Maynard Theorem 1.3).** Prove `SieveMaynard.frequently_nth_prime_succ_sub_le_600`: under `SieveMaynard.MaynardCertificate105` and `SieveMaynard.Admissible105Diam600`, liminf_n `(p_{n+1}` − p_n) ≤ 600.
+**Admissible tuples of diameters 12 and 600.** Prove that {0,2,6,8,12} is admissible, and that some admissible set of 105 natural numbers lies in [0,600].
 
-No distribution hypothesis: it uses Bombieri–Vinogradov and none of Zhang's technology. The two numerical hypotheses of §4.6 remain explicit.
+([MAYNARD-2015](#references), §4, proof of Theorem 1.4, p.390, for the 5-tuple; footnote 2, p.390, for an explicit 105-element set containing 0 and 600, credited there to Engelsma and taken from Sutherland's tables.)
+
+*Proof sketch.* A set of k elements cannot cover all residues modulo a prime p>k, so admissibility of a given k-set is a finite check at the primes p≤k. For {0,2,6,8,12} exhibit the missed classes 1 mod 2, 1 mod 3 and 4 mod 5. For the 105-element set of the footnote exhibit one missed class at each of the 27 primes up to 103.
+
+**Checks.**
+
+- The footnote set misses 1 mod 2, 2 mod 3, 1 mod 5, 4 mod 7, 7 mod 11 and 6 mod 13.
+- No admissible 5-element set has diameter below 12; the admissible 5-subsets of [0,12] containing 0 and 12 are {0,2,6,8,12} and {0,4,6,10,12}. The k=5 argument cannot reach a smaller bound by another tuple.
+- {0,2,4,6,8} has diameter 8 but meets every class modulo 5 and modulo 3, so it is not admissible.
+
+*Needs:* Layer 4 `SieveMaynard.IsAdmissible`.
+
+**Bounded gaps between primes (Maynard Theorem 1.3).** Prove `SieveMaynard.frequently_nth_prime_succ_sub_le_600`: liminf_n `(p_{n+1}` − p_n) ≤ 600.
+
+Unconditional. It uses Bombieri–Vinogradov and none of Zhang's technology.
 
 ([MAYNARD-2015](#references), §1, Theorem 1.3, p. 385; proof, p. 390.)
 
-*Proof sketch.* Bombieri–Vinogradov gives level θ = 1/2 − ε. By `SieveMaynard.four_lt_maynardM_105`, M₁₀₅ > 4, so θM₁₀₅/2 > 1 for small ε and r₁₀₅ = ⌈θM₁₀₅/2⌉ ≥ 2. Apply Proposition 4.2 to an admissible 105-element H ⊆ [0,600] supplied by `SieveMaynard.Admissible105Diam600`: infinitely many n have two primes among the n + H, and max H − min H ≤ 600. Hence `liminf(p_{n+1}` − p_n) ≤ 600.
+*Proof sketch.* Bombieri–Vinogradov gives level θ = 1/2 − ε. By `SieveMaynard.four_lt_maynardM_105`, M₁₀₅ > 4, so θM₁₀₅/2 > 1 for small ε and r₁₀₅ = ⌈θM₁₀₅/2⌉ ≥ 2. Apply Proposition 4.2 to an admissible 105-element H ⊆ [0,600] (§4.7, admissible tuples of diameters 12 and 600): infinitely many n have two primes among the n + H, and max H − min H ≤ 600. Hence `liminf(p_{n+1}` − p_n) ≤ 600.
 
 This is not the twin prime conjecture, and 600 is not optimal (Maynard, p. 385).
 
-*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.6 `SieveMaynard.Admissible105Diam600`; Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`; Layer 4 §4.5 from prime clusters to prime gaps.
+*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.7 admissible tuples of diameters 12 and 600; Layer 3 `SieveDistribution.primesHaveLevel_of_lt_half`; Layer 4 §4.5 from prime clusters to prime gaps.
 
-**Gaps under Elliott–Halberstam (Maynard Theorem 1.4).** Prove `SieveMaynard.elliottHalberstam_gaps`. Assume the four hypotheses of §4.6. If the primes have level of distribution θ for every θ < 1 (the Elliott–Halberstam conjecture), then `liminf(p_{n+1}` − p_n) ≤ 12 and `liminf(p_{n+2}` − p_n) ≤ 600.
+**Gaps under Elliott–Halberstam (Maynard Theorem 1.4).** Prove `SieveMaynard.elliottHalberstam_gaps`. If the primes have level of distribution θ for every θ < 1 (the Elliott–Halberstam conjecture), then `liminf(p_{n+1}` − p_n) ≤ 12 and `liminf(p_{n+2}` − p_n) ≤ 600.
 
 Conditional on the named hypothesis ElliottHalberstam of Layer 3 `SieveDistribution.PrimesHaveLevel`.
 
 ([MAYNARD-2015](#references), §1, Theorem 1.4, p. 385; proof, p. 390.)
 
-*Proof sketch.* Take k = 105, θ = 1 − ε and the admissible H ⊆ [0,600] of `SieveMaynard.Admissible105Diam600`: θM₁₀₅/2 > 2, so three primes occur among n + H infinitely often, and `liminf(p_{n+2}` − p_n) ≤ 600. Take k = 5, θ = 1 − ε and the admissible H ⊆ [0,12] of `SieveMaynard.Admissible5Diam12`: θM₅/2 > 1 by `SieveMaynard.maynardM_five_ge`, so `liminf(p_{n+1}` − p_n) ≤ 12.
+*Proof sketch.* Take k = 105, θ = 1 − ε and the admissible 105-element H ⊆ [0,600] of §4.7: θM₁₀₅/2 > 2, so three primes occur among n + H infinitely often, and `liminf(p_{n+2}` − p_n) ≤ 600. Take k = 5, θ = 1 − ε and H = {0,2,6,8,12}, admissible by §4.7: θM₅/2 > 1 by `SieveMaynard.maynardM_five_ge`, so `liminf(p_{n+1}` − p_n) ≤ 12.
 
 12 appears to be optimal for the method in this form (Maynard, p. 385).
 
-*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.maynardM_five_ge`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.6 `SieveMaynard.Admissible105Diam600` and `SieveMaynard.Admissible5Diam12`; Layer 4 `SieveMaynard.IsAdmissible`; Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 4 §4.5 from prime clusters to prime gaps.
+*Needs:* Layer 4 `SieveMaynard.infinite_many_primes_of_level`; Layer 4 `SieveMaynard.maynardM_five_ge`; Layer 4 `SieveMaynard.four_lt_maynardM_105`; Layer 4 §4.7 admissible tuples of diameters 12 and 600; Layer 4 `SieveMaynard.IsAdmissible`; Layer 3 `SieveDistribution.PrimesHaveLevel`; Layer 4 §4.5 from prime clusters to prime gaps.
 
 **m + 1 primes in bounded intervals (Maynard Theorem 1.1).** Prove `SieveMaynard.exists_frequently_nth_prime_sub_le`. There is an absolute constant C such that liminf_n `(p_{n+m}` − p_n) ≤ C m³ `e^{4m}` for every m ≥ 1.
 
@@ -3292,7 +3317,7 @@ The definition exposes the following operations and laws:
 
 ### Analytic requirements
 
-Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32, Layer 1 §1.1 ordered-divisor harmonic majorant, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. The numerical hypotheses of §4.6 supply no distribution input, and the distribution input supplies none of them.
+Prove L²-to-smooth simplex approximation with the same supremum, diagonal estimates and uniform errors using the stated Layer 1 diagonal estimates, AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.32, Layer 1 §1.1 ordered-divisor harmonic majorant, and Layer 3 §3.0 divisor moments over reciprocal totients. The six growing cutoffs require 0<δ<θ/2. Separate k=1 direct counting from k≥2 diagonalization; the empty tuple gives trivial counting only. The finite evaluations of §§4.6–4.7 supply no distribution input, and the distribution input supplies none of them.
 
 ### Examples
 
@@ -3539,7 +3564,7 @@ The carriers expose the following laws:
 - The rational diagonal is injective with discrete image, and G(𝔸_(F,f)) is the restricted product of the G(F_v) with respect to the G(O_v), as topological groups.
 - Changing the integral model changes G(O_v) at finitely many v and Γ(M,S) only up to commensurability.
 
-([CONRAD-12](#references), Theorems 3.4 and 3.6 and Remark 3.5, pp.5–6.)
+([CONRAD-12](#references), Proposition 2.1 and the discussion after it, p.2, and Examples 2.2–2.3, p.3, for the evaluation topology, the topological-group structure, continuity of post-composition and the discrete diagonal; Theorems 3.4 and 3.6 and Remark 3.5, pp.5–6, for the restricted product and the change of integral model.)
 
 **Checks.**
 
@@ -3619,7 +3644,9 @@ Noncompactness is required of every F-simple factor, not only of G_S. In the Lea
 
 *Needs:* Layer 5 §5.3a integral models and S-integral points; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
 
-**Uniform algebraic point counts.** For fixed ambient dimension n, number of equations r and degree bound d, prove a constant C_(n,r,d) such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2). Prove also #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible ones. Apply the latter to proper hypersurface intersections.
+**Uniform algebraic point counts.** Prove `SieveLangWeil.lang_weil_uniform`: for fixed ambient dimension n, number of equations r and degree bound d there is a constant C_(n,r,d)≥0 such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2), and #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible and empty ones. Apply the latter to proper hypersurface intersections.
+
+A presentation is a finite set S of at most r polynomials of total degree≤d in 𝔽_q[x₁,…,xₙ], and the variety is its common zero set; #V(𝔽_q) counts the common zeros in 𝔽_qⁿ. Geometric irreducibility means that the radical of the ideal generated by S over an algebraic closure of 𝔽_q is prime, and the dimension is the Krull dimension of the quotient by that ideal.
 
 ([LANG-WEIL-54](#references), Theorem 1 and Lemma 1; BGS-10, (3.34)–(3.40), pp.580–581; (3.52)–(3.53), p.582, Lang–Weil applications.)
 
@@ -3628,6 +3655,8 @@ Noncompactness is required of every F-simple factor, not only of G_S. In the Lea
 **Checks.**
 
 - An affine line over 𝔽₂ has 2 points, matching p^e=2 exactly.
+- x²−2y² over 𝔽_p with p≡±3 mod 8 is irreducible over 𝔽_p, but over its algebraic closure it is the union of two lines, so the radical is not prime. It has only the point (0,0) over 𝔽_p against p^1=p, so the irreducible estimate needs geometric irreducibility; the upper bound 1≤Cp still holds.
+- With S={1} the ideal is the unit ideal, the quotient is the zero ring of dimension −∞, and there are no points; the upper bound holds for every e and the irreducible estimate makes no claim.
 - The union xy=0 in 𝔽₃² has 5 points and dimension one. It needs the reducible upper bound, rather than an irreducible leading coefficient 1.
 - Two distinct affine lines meet in one point; coincident lines meet in a line with 3 points over 𝔽₃. The local-factor application must retain distinct geometric factors.
 
@@ -3922,42 +3951,52 @@ The definition exposes the following operations and laws:
 
 *Needs:* Mathlib `Nat.primeFactors`; Mathlib `Real.summable_one_div_nat_pow`; Mathlib `Summable.of_nonneg_of_le`; Mathlib `Real.multipliable_one_add_of_summable`; Mathlib `Real.summable_log_one_add_of_summable`.
 
-**Numerical hypotheses for Chen's constants.** These propositions are assumed, never proved here; each is an explicit hypothesis of the estimates below that use it.
+**Chen's numerical constants.** Prove the two inequalities between explicit logarithmic expressions behind Chen's constants.
 
-- `SieveWeighted.ChenUpperEnvelope`: with aᵢ=(16−i)/10, Σ_(i=0)^6 [(log aᵢ+(4+i)/(16−i))·log((108+23i−i²)/(78+23i−i²)) − (3/aᵢ)·log((27−i)/(26−i))] < 0.49255. ([CHEN-73-CN](#references), equation (24), pp.124–125.)
-- `SieveWeighted.ChenLowerConstant`: with V=1/2+(3/4)log(9/8)−(3/2)log(4/3)−(1/4)log 2, 8(log 4−(1/2)log 8+V) > 2.6408. ([CHEN-73-CN](#references), equations (26)–(27), p.127.)
+- Upper envelope: with aᵢ=(16−i)/10, Σ_(i=0)^6 [(log aᵢ+(4+i)/(16−i))·log((108+23i−i²)/(78+23i−i²)) − (3/aᵢ)·log((27−i)/(26−i))] < 0.49255. ([CHEN-73-CN](#references), equation (24), pp.124–125.)
+- Lower constant: with V=1/2+(3/4)log(9/8)−(3/2)log(4/3)−(1/4)log 2, 8(log 4−(1/2)log 8+V) > 2.6408. ([CHEN-73-CN](#references), equations (26)–(27), p.127.)
 
-**Chen switched triple upper bound.** Assume `SieveWeighted.ChenUpperEnvelope`. For even N sufficiently large, set Q_N=∏_(2≤q<N^(1/4),q prime)q. Count ordered prime triples satisfying N^(1/10)<p₁≤N^(1/3)<p₂≤sqrt(N/p₁), p₂≤p₃≤N/(p₁p₂), and gcd(N−p₁p₂p₃,Q_N)=1. Their count T_N is≤3.9404 C_N N/log²N, with C_N the Goldbach local factor. Each triple has its ordering and multiplicity; this is an upper bound for the switched correction, not ordinary BV.
+*Proof sketch.* Every logarithm in the two expressions is a rational combination of log p for p∈{2,3,5,7,11,13,23}. Enclose each log p between rationals using the series for log(1+1/a), and evaluate both sides in rational arithmetic. The lower constant simplifies to 4+24 log 3−40 log 2.
+
+**Checks.**
+
+- The upper envelope is 0.492463…, while the integral ∫_(1/10)^(1/3) log(2−3α)/(α(1−α))dα it majorizes is 0.490995…; 8·0.49255=3.9404.
+- V=−0.0164726… and the lower constant is 4+24 log 3−40 log 2=2.6408077…, a margin of 7.7·10⁻⁶ over 2.6408. With log 2 and log 3 rounded to four decimals the expression evaluates to 2.6424, so enclosures of log 2 and log 3 to within about 10⁻⁷ are needed to decide the inequality.
+- 2.6408−3.9404/2=0.6706>0.67, the margin used in Chen's Goldbach theorem below.
+
+*Needs:* Mathlib `Real.log_two_near_10` and `Real.hasSum_log_one_add_inv`; rational arithmetic.
+
+**Chen switched triple upper bound.** For even N sufficiently large, set Q_N=∏_(2≤q<N^(1/4),q prime)q. Count ordered prime triples satisfying N^(1/10)<p₁≤N^(1/3)<p₂≤sqrt(N/p₁), p₂≤p₃≤N/(p₁p₂), and gcd(N−p₁p₂p₃,Q_N)=1. Their count T_N is≤3.9404 C_N N/log²N, with C_N the Goldbach local factor. Each triple has its ordering and multiplicity; this is an upper bound for the switched correction, not ordinary BV.
 
 Even N above an absolute threshold; strict/inclusive cutoffs as displayed; all three entries prime; all primes dividing N retained in the local factor.
 
 ([CHEN-73-CN](#references), Definition of Ω, p.116; Lemmas 5–7, pp.117–124; Lemma 8 and equations (23)–(24), pp.124–125.)
 
-*Proof sketch.* Use the explicit Selberg coefficients supported on d≤N^(1/4−ε/2), replace the p₃ sum by a smoothed von Mangoldt sum, and separate principal and primitive character contributions (original equations (5)–(11)). Lemma 6 bounds the nonprincipal M₂ by O(N/(log N)^2.01), not O(N/(log N)^20). Its contour/zero-free and fourth-moment arguments remain the analytic proof target; this o(N/log²N) bound is sufficient for the final constant. Partial summation reduces the principal sum to ∫_(1/10)^(1/3) log(2−3α)/(α(1−α))dα. Bound this integral by the rational/logarithmic envelope of equation (24), pp.124–125, on the seven subintervals with endpoints (16−i)/10; the hypothesis bounds the envelope by 0.49255, and multiplying by 8 gives the stated 3.9404.
+*Proof sketch.* Use the explicit Selberg coefficients supported on d≤N^(1/4−ε/2), replace the p₃ sum by a smoothed von Mangoldt sum, and separate principal and primitive character contributions (original equations (5)–(11)). Lemma 6 bounds the nonprincipal M₂ by O(N/(log N)^2.01), not O(N/(log N)^20). Its contour/zero-free and fourth-moment arguments remain the analytic proof target; this o(N/log²N) bound is sufficient for the final constant. Partial summation reduces the principal sum to ∫_(1/10)^(1/3) log(2−3α)/(α(1−α))dα. Bound this integral by the rational/logarithmic envelope of equation (24), pp.124–125, on the seven subintervals with endpoints (16−i)/10; Chen's upper envelope bounds it by 0.49255, and multiplying by 8 gives the stated 3.9404.
 
-*Needs:* Layer 5 §5.5 goldbach local factor; `SieveWeighted.ChenUpperEnvelope`; Layer 1 §1.3 selberg optimal weights; Layer 2 `SieveCharacters.primitive_largeSieve`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates.
+*Needs:* Layer 5 §5.5 goldbach local factor; Layer 5 §5.5 Chen's numerical constants; Layer 1 §1.3 selberg optimal weights; Layer 2 `SieveCharacters.primitive_largeSieve`; AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates.
 
-**Chen primes with an almost-prime shift.** Prove `SieveWeighted.chen_prime_shift` under `SieveWeighted.ChenUpperEnvelope` and `SieveWeighted.ChenLowerConstant`. For each fixed positive even h there are c_h>0,x_h such that for x≥x_h, #{p≤x:p prime,1≤Ω(p+h)≤2}≥c_hx/log²x. Thus there are infinitely many such primes.
+**Chen primes with an almost-prime shift.** Prove `SieveWeighted.chen_prime_shift`. For each fixed positive even h there are c_h>0,x_h such that for x≥x_h, #{p≤x:p prime,1≤Ω(p+h)≤2}≥c_hx/log²x. Thus there are infinitely many such primes.
 
 Fixed h>0 even; threshold and constant may depend on h.
 
 ([CHEN-73-CN](#references), Theorem 2, p.112.)
 
-*Proof sketch.* Repeat the original switched argument for p+h with its h-dependent local factors: the shifted switched-triple and original-family estimates have the same integrals, so the two numerical hypotheses give the same constants. Do not infer the shifted theorem merely from Goldbach.
+*Proof sketch.* Repeat the original switched argument for p+h with its h-dependent local factors: the shifted switched-triple and original-family estimates have the same integrals, so Chen's two numerical constants serve unchanged. Do not infer the shifted theorem merely from Goldbach.
 
 *Needs:* Layer 5 §5.5 chen switched triple upper bound and chen original-family lower estimate, in their shifted forms; Layer 5 §5.5 chen switching weight; Layer 3 §3.4 weighted prime-distribution transfer.
 
-**Chen original-family lower estimate.** Assume `SieveWeighted.ChenLowerConstant`. Let P_N(z) count primes p≤N for which q∤N−p for every prime 3≤q<z. Let P_N(q,z) count those same primes additionally satisfying q|N−p. For even N sufficiently large, at z=N^(1/10), P_N(z)−(1/2)Σ_(z<q≤N^(1/3),q prime)P_N(q,z)≥2.6408 C_N N/log²N. The finite exceptional primes dividing N and endpoint equalities are estimated separately in the final conversion.
+**Chen original-family lower estimate.** Let P_N(z) count primes p≤N for which q∤N−p for every prime 3≤q<z. Let P_N(q,z) count those same primes additionally satisfying q|N−p. For even N sufficiently large, at z=N^(1/10), P_N(z)−(1/2)Σ_(z<q≤N^(1/3),q prime)P_N(q,z)≥2.6408 C_N N/log²N. The finite exceptional primes dividing N and endpoint equalities are estimated separately in the final conversion.
 
 N even and above an absolute threshold; cutoffs exactly as stated; q=2 omitted from the original-family sieve.
 
 ([CHEN-73-CN](#references), Lemma 9, pp.125–127, equations (25)–(27).)
 
-*Proof sketch.* Apply Richert 1969 TheoremA and its uniform progression estimates at the displayed levels N^(1/2−ε) and N^(1/2−ε)/q. Theorem A and its proof are a proof requirement at that locator. Use the delay functions through f(5) and the exact integral in equations (26)–(27): the lower constant is 8(log 4−(1/2)log 8+V), with V the expression (27), and the hypothesis bounds it below by 2.6408.
+*Proof sketch.* Apply Richert 1969 TheoremA and its uniform progression estimates at the displayed levels N^(1/2−ε) and N^(1/2−ε)/q. Theorem A and its proof are a proof requirement at that locator. Use the delay functions through f(5) and the exact integral in equations (26)–(27): the lower constant is 8(log 4−(1/2)log 8+V), with V the expression (27), and Chen's lower constant bounds it below by 2.6408.
 
-*Needs:* Layer 5 §5.5 goldbach local factor; `SieveWeighted.ChenLowerConstant`; Layer 5 §5.2 rosser–iwaniec linear sieve; Layer 3 §3.4 weighted prime-distribution transfer.
+*Needs:* Layer 5 §5.5 goldbach local factor; Layer 5 §5.5 Chen's numerical constants; Layer 5 §5.2 rosser–iwaniec linear sieve; Layer 3 §3.4 weighted prime-distribution transfer.
 
-**Chen’s Goldbach theorem.** Prove `SieveWeighted.chen_goldbach` under `SieveWeighted.ChenUpperEnvelope` and `SieveWeighted.ChenLowerConstant`. There are absolute c>0,N₀ such that every even N≥N₀ has at least cN/log²N representations N=p+m with p prime and 1≤Ω(m)≤2. A singular-factor refinement multiplies the bound by ∏_(odd p|N)(p−1)/(p−2); the absolute-c headline does not prescribe the numerical constant 0.67 in Chen’s normalization.
+**Chen’s Goldbach theorem.** Prove `SieveWeighted.chen_goldbach`. There are absolute c>0,N₀ such that every even N≥N₀ has at least cN/log²N representations N=p+m with p prime and 1≤Ω(m)≤2. A singular-factor refinement multiplies the bound by ∏_(odd p|N)(p−1)/(p−2); the absolute-c headline does not prescribe the numerical constant 0.67 in Chen’s normalization.
 
 Even sufficiently large N; Ω counts multiplicity, so prime squares are allowed.
 
@@ -4076,6 +4115,7 @@ A shared odd prime divisor of α and σ^(±1)(β) makes both kernels zero. On to
 
 - With α=β=3 both kernels vanish; cancelling a kernel without its nonvanishing hypothesis is invalid.
 - For S={σ} in a cyclic cubic field, Φ(α,1)=Φ(1,α)=1 for every α.
+- In the cyclic cubic field M=ℚ(t), t³+t²−2t−1=0, with σ(t)=t²−2 and S={σ}, take α=1+8t and β=1+16σ(t), of norms 377=13·29 and 3569=43·83, both totally split, and any F coprime to both norms. Then Φ(α,β)=1 and Φ(β,α)=−1. The dyadic factor of ε(α,β) is 1, since 2 is inert and α≡1 mod 8 is a dyadic square; the infinite factor is −1, since α is negative at two of the three real places and σ(β),σ⁻¹(β) have the signs (−,−), (+,−) and (−,+) there. So Φ(α,β)=ε(α,β)Φ(β,α) reads 1=(−1)(−1). Both α and β are 1 modulo 8, so a rule that keeps only the dyadic factors, or reads ε from residues modulo 8 without the signs at the real places, predicts Φ(α,β)=Φ(β,α) and fails here.
 
 *Needs:* Layer 5 §5.6 ideal-symbol reciprocity adapter; QuadraticFormInvariants §6C local Hilbert symbols; ClassFieldTheory Layer 14.
 
@@ -4134,7 +4174,7 @@ Real field; principal prime denominator; no inverse pairs; short-character hypot
 
 Construct Iwaniec's normalized general-κ functions and constants, proving existence, uniqueness, delay equations and normalization at infinity. For Richert prove integral positivity and optimization with α=γ/4, β=γ/(1+3^(−r)), a strict margin and a square-divisor exceptional mass before concluding a bound on Ω.
 
-For Chen prove the original-family lower bound 2.6408 C_N N/log²N under `SieveWeighted.ChenLowerConstant` and the ordered switched-triple upper bound 3.9404 C_N N/log²N under `SieveWeighted.ChenUpperEnvelope`. Retain Lemma 3's fourth moment (statement p.114, proof p.115), switched discrepancies, the reductions of the integrals to the two hypotheses, and Lemma 6 error N/log^(2.01)N. Lemma 9 uses RICHERT-1969, Theorem A, cited by its theorem locator. Keep 0.6706−0.67 when absorbing the N^0.91 exception; a switched complement need not be prime. For each even h>0 reconstruct the shifted family, local factors and switching estimates with h-dependent constants.
+For Chen prove the original-family lower bound 2.6408 C_N N/log²N and the ordered switched-triple upper bound 3.9404 C_N N/log²N, with Chen's numerical constants of §5.5. Retain Lemma 3's fourth moment (statement p.114, proof p.115), switched discrepancies, the reductions of the integrals to the two numerical constants, and Lemma 6 error N/log^(2.01)N. Lemma 9 uses RICHERT-1969, Theorem A, cited by its theorem locator. Keep 0.6706−0.67 when absorbing the N^0.91 exception; a switched complement need not be prime. For each even h>0 reconstruct the shifted family, local factors and switching estimates with h-dependent constants.
 
 The ideal-symbol comparison and the generic ideal coefficient/prime-extraction interfaces have their stated hypotheses. Spin-sign moments use the conditional joint-spin prime bound of §5.6 for each nonempty subset T, which retains C_(|T|n) through §5.3. The Type I estimate keeps its sliced-lattice and codimension-two exceptional estimates and uniformity in all nonzero ideals; kernel reciprocity keeps the dyadic and infinite-place factors.
 
@@ -4302,7 +4342,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **BGS-10, Published Invent. Math. 179 (2010), p.581, (3.47), compared with Theorem 3.1 and (3.33)** Choose δ<(1−τ)/dim G and s>9t, then z=X^(δ/s); state the resulting factor bound with a strict margin. The earlier estimates need a smaller distribution power and a strict Brun parameter. Simultaneous equality cannot be inferred from them. The stated strict factor bound is retained.
 
-**CHEN-73-CN, Chinese original, p.127, (27)** The printed lower endpoint −0.0164725 is not a lower bound for the expression (27). `SieveWeighted.ChenLowerConstant` states the lower constant through that expression itself and uses no endpoint.
+**CHEN-73-CN, Chinese original, p.127, (27)** The printed lower endpoint −0.0164725 is not a lower bound for the expression (27). Chen's lower constant in §5.5 is stated through that expression itself and uses no endpoint.
 
 ## References
 
