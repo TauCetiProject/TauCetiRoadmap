@@ -562,10 +562,13 @@ as explained in C5.1); the two names denote the same target.
   (`d = ∂ + ∂̄` on a complex manifold, `…Dolbeault.ComplexManifold`); none of these assumes a
   finite-dimensional model. Also `TauCeti.mextDeriv_ofFunction_eq_zero_iff` (a differentiable
   function has `d f = 0` exactly when it is locally constant, `…DifferentialForm.ExtDeriv`) and
-  the real radial homotopy `StarConvex.exists_contDiffOn_forall_extDeriv_eq` (for `r ≥ 1`, a
-  closed `C^r` form of positive degree on an open star-convex subset of a real normed space,
-  with values in a Banach space, has a `C^r` primitive,
-  `TauCeti.Analysis.Calculus.DifferentialForm.Poincare`). There is no sheaf of holomorphic
+  the real Poincaré homotopy operator of `TauCeti.Analysis.Calculus.DifferentialForm.Poincare`:
+  for a `(k+1)`-form `ω` on a real normed space with values in a real normed space,
+  `TauCeti.poincareHomotopy x₀ ω` is the `k`-form given by `TauCeti.poincareHomotopy_apply` as
+  `x ↦ ∫₀¹ tᵏ ω(x₀ + t(x − x₀))(x − x₀, ·) dt`; `StarConvex.contDiffOn_poincareHomotopy` (if `ω`
+  is `C^r` on an open set `s` star-convex about `x₀`, so is the operator) and
+  `StarConvex.extDeriv_poincareHomotopy` (with complete coefficients, the operator is a
+  primitive on `s` of a closed `C¹` form `ω`). There is no sheaf of holomorphic
   `p`-forms at the pin; `HolomorphicDeRham` builds it.
 - `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` in
   `TauCeti.CategoryTheory.Sites.ExtensionByZero`: on a preorder site, the left adjoint of
@@ -2747,10 +2750,13 @@ such a form, by evaluation on tangent vectors). *Needs:* `holomorphicBundleDicti
 - On `ℂ`, the closed form `dz̄ = d(z̄)` has type `(0,1)`, not `(1,0)`: it is `d` of the smooth
   function `z̄`, but of no holomorphic function, since `df = ∂f` has type `(1,0)` for holomorphic
   `f`. It is closed with `∂̄(dz̄) = 0`, so the holomorphic Poincaré lemma needs its hypothesis that
-  the closed form has type `(k+1,0)`.
-- On `ℂ²`, the primitive `(z₁dz₂ − z₂dz₁)/2` of `dz₁∧dz₂` has type `(1,0)`; adding `d|z₁|²`
-  gives another smooth primitive with the `(0,1)`-component `z₁dz̄₁`, so the type `(k,0)` of the
-  primitive is a real requirement, not implied by `dη = α`.
+  the closed form has type `(k+1,0)`; the radial homotopy centred at `0` sends it to the
+  primitive `∫₀¹ z̄ dt = z̄`, which is not holomorphic.
+- On `ℂ²`, the radial homotopy centred at `0` sends `dz₁∧dz₂` to
+  `∫₀¹ t(z₁dz₂ − z₂dz₁) dt = (z₁dz₂ − z₂dz₁)/2`, a primitive of type `(1,0)`; adding `d|z₁|²`
+  gives another smooth primitive, also vanishing at `0`, with the `(0,1)`-component `z₁dz̄₁`, so
+  the type `(k,0)` of the primitive is a real requirement, implied neither by `dη = α` nor by
+  vanishing at the centre.
 
 Prove `holomorphicPoincare`: on a complex manifold `T`, the inclusion of the constant sheaf `ℂ` into
 `Ω^•_T` is a quasi-isomorphism. On a coordinate ball every closed holomorphic `p`-form with `p ≥ 1` is
@@ -2764,17 +2770,30 @@ complex manifold modelled on a complex normed space `E`; a holomorphic `(k+1)`-f
 smooth `ℂ`-valued form `α` of type `(k+1,0)` for the complex structure of `M` with `∂̄α = 0`. If
 moreover `dα = 0`, then every `x ∈ M` has an open neighbourhood `U` with a smooth form `η` on `U`
 of type `(k,0)`, `∂̄η = 0` and `dη = α|_U`. This local statement needs none of the standing
-manifold hypotheses (finite dimension, Hausdorff, second countable): in a chart, a ball is
-star-convex, the real radial homotopy of a form that is complex-linear in each argument is again
-complex-linear in each argument, so `η` has type `(k,0)`, and `∂̄η` is the `(k,1)`-component of
-`dη = α`, which vanishes. The degree-zero statement, that a function with zero differential is
+manifold hypotheses (finite dimension, Hausdorff, second countable). In a chart at `x`, where the
+complex structure of `M` is multiplication by `i` because coordinate changes are holomorphic, `α`
+becomes a smooth form on an open subset of `E` whose value at each point is complex-linear in
+each argument. Take a ball `B` in the chart's target about the image `c` of `x`, which is open and
+star-convex about `c`, let `U` be its inverse image, and let `η` be `TauCeti.poincareHomotopy c`
+of that form: it is smooth on `B` by `StarConvex.contDiffOn_poincareHomotopy`, and `dη = α` on
+`B` by `StarConvex.extDeriv_poincareHomotopy` (the coefficients `ℂ` are complete; `E` need not
+be). By `TauCeti.poincareHomotopy_apply`, `η(y)` is the integral over `t ∈ [0,1]` of `tᵏ` times
+the value of `α` at `c + t(y − c)` with `y − c` inserted in its first slot. Inserting a vector
+keeps complex-linearity in the remaining arguments, and complex-linearity in each argument is the
+vanishing of continuous real-linear functionals of the form, which commute with the integral, so
+every `η(y)` is complex-linear in each argument and `η` has type `(k,0)`. The bare existence of a
+primitive (`StarConvex.exists_contDiffOn_forall_extDeriv_eq`) does not give this: its primitive
+is only required to vanish at the centre, which the second `ℂ²` primitive of the Checks above
+does without having type `(1,0)`. Finally `∂̄η` is the `(k,1)`-component of `dη = α`, which
+vanishes. The degree-zero statement, that a function with zero differential is
 locally constant, is Tau Ceti's `TauCeti.mextDeriv_ofFunction_eq_zero_iff`. Through the section
 description in the API of `HolomorphicDeRham`, the two local statements are exactness of
 `ℂ_T → Ω^•_T` on stalks. *Needs:* `HolomorphicDeRham`; Tau Ceti `TauCeti.SmoothForm`,
 `TauCeti.SmoothForm.IsOfType`, `TauCeti.SmoothAlmostComplexStructure.ofComplexManifold`,
 `TauCeti.SmoothAlmostComplexStructure.delBar`, `TauCeti.mextDerivₗ`,
-`TauCeti.SmoothForm.mpullback`, `TauCeti.mextDeriv_ofFunction_eq_zero_iff` and the real radial
-homotopy `StarConvex.exists_contDiffOn_forall_extDeriv_eq`.
+`TauCeti.SmoothForm.mpullback`, `TauCeti.mextDeriv_ofFunction_eq_zero_iff` and the real Poincaré
+homotopy operator `TauCeti.poincareHomotopy` with `TauCeti.poincareHomotopy_apply`,
+`StarConvex.contDiffOn_poincareHomotopy` and `StarConvex.extDeriv_poincareHomotopy`.
 
 **Shared algebraic operators and principal parts — `IsDifferentialOperator`.**
 This is the ordinary algebraic foundation, and C5.1 is its single owner. FormalConnectionsOpers
@@ -4350,7 +4369,9 @@ CharacteristicClasses C1.5, C3, C4.1–C4.2; TauCetiRoadmap.JacobianChallenge (L
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,
 `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`, `TauCeti.deRhamCohomology`, the smooth-form,
 type and `∂̄` API of *Exact supplier contracts* (`TauCeti.SmoothForm`, `TauCeti.SmoothForm.IsOfType`,
-`TauCeti.SmoothAlmostComplexStructure.delBar`) and `StarConvex.exists_contDiffOn_forall_extDeriv_eq`; Mathlib Kähler differentials, exterior powers,
+`TauCeti.SmoothAlmostComplexStructure.delBar`) and the Poincaré homotopy operator
+`TauCeti.poincareHomotopy` (`TauCeti.poincareHomotopy_apply`, `StarConvex.contDiffOn_poincareHomotopy`,
+`StarConvex.extDeriv_poincareHomotopy`); Mathlib Kähler differentials, exterior powers,
 derivations, monoids and group completions, `circleIntegral`.
 
 ## Layer C6: Stratified topology, Riemann existence and Artin comparison
