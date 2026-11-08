@@ -86,15 +86,24 @@ jobs:
           fetch-depth: 2
 
       # A pull request that changes only progress reports (`STATUS.md` and `PROGRESS.md` in a roadmap
-      # directory) changes nothing `lake build` reads, so its build stops after the topic check. The
-      # progress gate validates those files itself, and building them cost a runner 12 to 150
-      # minutes for nothing. Only `pull_request` is narrowed: a merge-queue candidate and `main` are
-      # always built in full, so whatever reaches `main` through the queue has been built.
+      # directory, active or `Completed/`) changes nothing `lake build` reads, so its build stops
+      # after the topic check. The progress gate validates those files itself, and building them
+      # cost a runner 12 to 150 minutes for nothing. Only `pull_request` is narrowed: a merge-queue
+      # candidate and `main` are always built in full, so whatever reaches `main` through the queue
+      # has been built.
       #
       # The checkout is GitHub's merge of the pull request into its base, whose first parent is the
       # base, so this diff is exactly what the pull request changes. `--no-renames` lists both sides
       # of a rename, so a Lean file moved onto a report's path still counts. Anything unexpected,
       # including no diff at all, builds in full.
+      #
+      # The Lean steps below test `github.event_name` before this step's output, and the output is
+      # a word, not a number. The first version of this step wrote `0`/`1` and the steps tested
+      # `steps.scope.outputs.lean != '0'`. On every other event this step is skipped, its output is
+      # null, and GitHub's loose comparison turns both null and '0' into the number 0, so the test
+      # failed and every merge-queue candidate and push to `main` skipped the build. From 2026-11-08
+      # 02:11 to the fix, the queue merged #1051 and #1653 unbuilt and broke `main`, while `main`'s
+      # own CI stayed green.
       - name: Decide whether the Lean build is needed
         id: scope
         if: github.event_name == 'pull_request'
@@ -102,15 +111,15 @@ jobs:
         run: |
           set -uo pipefail
           if ! files="$(git diff --name-only --no-renames HEAD^1 HEAD)" || [ -z "$files" ]; then
-            echo "lean=1" >> "$GITHUB_OUTPUT"
+            echo "lean=build" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          if grep -qvE '^TauCetiRoadmap/[^/]+/(STATUS|PROGRESS)\.md$' <<< "$files"; then
-            echo "lean=1" >> "$GITHUB_OUTPUT"
+          if grep -qvE '^(TauCetiRoadmap|Completed)/[^/]+/(STATUS|PROGRESS)\.md$' <<< "$files"; then
+            echo "lean=build" >> "$GITHUB_OUTPUT"
           else
             echo "::notice::Only progress reports changed; skipping the Lean build"
             printf '%s\n' "$files"
-            echo "lean=0" >> "$GITHUB_OUTPUT"
+            echo "lean=skip" >> "$GITHUB_OUTPUT"
           fi
 
       # Every roadmap names its arXiv topic in a `metadata.toml` (README.md, "Filing a roadmap").
@@ -126,7 +135,7 @@ jobs:
       # Install Lean and materialize the dependency workspace. This restores Mathlib through its
       # own cache (`lake exe cache get`) but deliberately leaves the project build to the final step.
       - name: Set up Lean and restore Mathlib
-        if: steps.scope.outputs.lean != '0'
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         uses: leanprover/lean-action@v1
         with:
           build: false
@@ -147,7 +156,7 @@ jobs:
       # else lacks.
       - name: Fetch Tau Ceti cache map
         id: tauceti_cache
-        if: steps.scope.outputs.lean != '0'
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         shell: bash
         env:
           PUBLIC_ARTIFACT_ENDPOINT: ${{ vars.LAKE_CACHE_ARTIFACT_ENDPOINT_PUBLIC || 'https://cache.taucetiproject.org/artifacts' }}
@@ -221,7 +230,7 @@ jobs:
       # Build only. The roadmap's Lean targets carry `sorry` on purpose (they are goals),
       # so there is no axiom audit or warning-as-error here.
       - name: Build
-        if: steps.scope.outputs.lean != '0'
+        if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
         run: lake build
 
       # Keep degradation visible without turning a cache-service outage into a correctness failure.
