@@ -8,11 +8,11 @@ This roadmap owns the sieve inequalities and their quantitative distribution int
 
 The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed remainders, upper-Möbius condition, squared Selberg weights and diagonalization are Mathlib inputs. Their constructions and existing upper inequalities are supplier contracts. Native `IsApproximateSubgroup`, its subgroup specialization and small-tripling construction are also consumed; §5.4 adds the quantitative measure theorem and squarefree product growth. Mathlib `Polynomial.monicEquivDegreeLT` and `Polynomial.degreeLTEquiv` also supply the coefficient parametrization and cardinality qʲ of degree-j monic polynomials; §0.10 retains only the irreducible-count and harmonic consequences. The finite-family and arbitrary-residue constructions below add preservation of indexed multiplicities and nonzero bad residue classes; they do not replace these carriers. An existing Selberg truncation level supplies no estimate on the remainders.
 
-IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
+IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassicalArithmeticCompletion §§1.57 and 1.66 owns quadratic reciprocity in a number field with its dyadic and archimedean factors; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
 
 AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a) and the uniform and fixed-model Lang–Weil estimates (§5.4). AdelicAlgebraicGroups owns the adelic points of affine groups, their integral models and S-integral points (§1.1), and strong approximation with its proof chain (§4.2); §5.4 consumes them and restates neither. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
-AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
+AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the spin of a generator, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The quadratic ideal residue symbol itself is Tau Ceti's `Ideal.powerResidueSymbolIdeal` at exponent 2, and total positivity is Tau Ceti's `NumberField.IsTotallyPositive`; §5.6 consumes both and restates neither. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
 
 The tuple W-trick here is a construction for Maynard weights. Layer 5 states the conjectural short-character input Cₘ and its reduced-conductor progression consequence; every spin conclusion retains Cₘ as a hypothesis. Elliott–Halberstam, the prime-tuple conjecture, Bouniakowsky and Schinzel H remain named conjectures. The general affine endpoint uses lazy walks on the same group whose squarefree congruence expansion is assumed. The explicit free-tree bound separately requires mixing for its chosen free subgroup.
 
@@ -64,6 +64,10 @@ For ideal coefficients consume `TauCeti.IdealArithmeticFunction.vonMangoldt` and
 
 The pinned comparison is `TauCeti.Multiquadratic.fundamentalDiscriminantChar D hD` in `TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/Character.lean`, with the explicit proof hD.
 
+For §5.6 consume `Ideal.powerResidueSymbolIdeal` from `TauCeti/NumberTheory/NumberField/PowerResidueSymbol/Ideal.lean` (line 94): for a number field K whose ring of integers has enough n-th roots of unity and an ideal a of O_K, a multiplicative character of O_K/a with values in O_K, equal at a coprime class to the product, over the prime factors p of a with multiplicity, of the prime symbols `Ideal.powerResidueSymbol p n` of `PowerResidueSymbol/Basic.lean` (line 66), and zero at the other classes. At a prime p of norm prime to n the prime symbol is the n-th root of unity congruent to x^((Np−1)/n) modulo p (`Ideal.mk_powerResidueSymbol`); at a prime of norm not prime to n it is the trivial character by convention, and the symbol at the zero ideal is the trivial character. Here n=2, with −1 as primitive square root of unity (Mathlib `IsPrimitiveRoot.neg_one` in characteristic zero). The same file supplies `Ideal.powerResidueSymbolIdeal_top`, `Ideal.powerResidueSymbolIdeal_mul_right`, `Ideal.powerResidueSymbolIdeal_pow_right`, `Ideal.powerResidueSymbolIdeal_mk_eq_zero_iff`, `Ideal.powerResidueSymbolIdeal_pow_eq_one` and the Galois equivariance `Ideal.map_powerResidueSymbolIdeal`. Total positivity is `NumberField.IsTotallyPositive` from `TauCeti/NumberTheory/NumberField/TotallyPositive.lean` (line 71): strict positivity at every real place, vacuous for a totally complex field.
+
+For Henk's count in §0.11a consume, from `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`, the zero-based minima `ZLattice.successiveMin` (line 111) with `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin` (lines 424 and 416); `ZLattice.finite_setOf_gauge_le` (line 300): for a discrete ℤ-submodule L of a finite-dimensional real normed space and a convex body K with 0 in its interior, the vectors of L of gauge at most r form a finite set for every real r, without symmetry of K; and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin` (line 552): for L discrete and spanning, some ℤ-basis b of L puts every vector of L of gauge less than the i-th minimum in the real span of b₀,…,b_(i−1). No bound on the gauges of the basis vectors is claimed or used.
+
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
 Use §0.32 at q=1 for the prime number theorem with every fixed logarithmic saving; §0.10 for primes in a fixed multiplicative interval; §0.11 for Σ_(p≤x)(log p)/p=log x+O(1); §0.21 for reciprocal-prime Mertens and uniform intervals; §§0.26 and 0.31 for positive prime Euler products; §0.32 for Siegel–Walfisz in its stated range, with effective constants and threshold; and §§3.1, 3.26 for divisor subpower bounds. Use §3.3 for the norm-fibre divisor majorant: for a number field K of degree n≥1 and every m≥1, the number a_K(m) of nonzero integral ideals of norm m is at most d_n(m), the number of ordered n-tuples of positive integers with product m; and §3.4 for the fixed-order divisor bound: for each n≥1 and ε>0 there is C_(n,ε) with d_n(m)≤C_(n,ε)m^ε for every m≥1. For example, over ℚ(i) the norm 5 carries two ideals and d₂(5)=2, while the inert norm 9 carries one ideal against d₂(9)=3. §5.6 consumes both. The additional uniform analytic statements are targets below. In particular, no small-conductor estimate is inferred from Bombieri–Vinogradov itself.
@@ -72,7 +76,7 @@ Use §0.34, `landau_siegel_exclusion`: there is an absolute, effectively computa
 
 Use §3.34, `smoothCount_dickman`, for the fixed-parameter positive-density count and §3.35, “Rankin smooth-number upper bound”, for the Rankin estimate with x≥1,y≥2,σ>0. The native count is positive integers only: #Nat.smoothNumbersUpTo(N,z+1)≤N^δ∏_(p≤z)(1−p^(−δ))⁻¹ for δ>0. Treat N=0, z=0,1 and N<1 directly. Distinct integers are counted once. The extremely-smooth tail is proved in §1.4 from the Rankin estimate.
 
-Use §3.22 for the summatory divisor bound and §3.24, `zetaFourthMoment.divisorDiagonal`, for Σ_(n≤Y)τ(n)²≪Y log³(2Y): its asymptotic Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for X≥2 implies the bound there, and the range 1≤Y<2 is the single term τ(1)²=1. These are the divisor inputs to Jutila’s argument.
+Use §3.22 for the summatory divisor bound and §3.24, the divisor-square estimate among its auxiliary targets, for Σ_(n≤Y)τ(n)²≪Y log³(2Y): that estimate, Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for X≥2, implies the bound there, and the range 1≤Y<2 is the single term τ(1)²=1. These are the divisor inputs to Jutila’s argument.
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartII
 
@@ -90,13 +94,13 @@ GlobalNumberFields §§3, 3C supplies generator domains, units and class represe
 
 [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) Layers 1–2 supply maximal-order ideal norm fibres and convolution, and Layer 5 supplies prime-power and higher-residue-degree removal. The ideal divisor and logarithmic coefficient estimates are owned in §5.6 here.
 
-### From TauCetiRoadmap.ClassFieldTheory
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
 
-ClassFieldTheory Layer 14 supplies cohomological Hilbert reciprocity.
+§1.66 supplies quadratic reciprocity in a number field K: for nonzero, odd, coprime α,β∈O_K, (α/β)=μ₂(α,β)μ_∞(α,β)(β/α), where the symbols are the quadratic residue symbols at the ideals (β) and (α), on odd ideals the symbol of §5.6, and μ₂, μ_∞ are the products of the quadratic Hilbert symbols (α,β)_v over the dyadic and the infinite places. §1.57 supplies that μ₂(α,β) depends only on α and β modulo 8O_K. Over ℚ, α=3,β=7 gives (3/7)(7/3)=−1, with dyadic symbol −1 and real symbol 1; α=β=−1 gives 1 on the left, with dyadic and real symbols both −1; α=β=3 is excluded, since the left side would be 0. §5.6 consumes both in kernel reciprocity for joint spins.
 
 ### From TauCetiRoadmap.QuadraticFormInvariants
 
-QuadraticFormInvariants §6C supplies `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` and the odd, dyadic and infinite local symbols. The ideal-symbol reciprocity adapter in §5.6 compares them.
+QuadraticFormInvariants §6C supplies the dyadic and infinite local Hilbert symbols in which the factor ε(α,β) of kernel reciprocity (§5.6) is written.
 
 ### From TauCetiRoadmap.Chebotarev
 
@@ -113,10 +117,6 @@ Isoperimetry I2 supplies convex-body isoperimetry.
 ### From TauCetiRoadmap.RiemannianGeometry
 
 RiemannianGeometry R4.9.6a supplies signed planar turning and the tangent-angle comparison for smooth Jordan curves. Their specialization and C² approximation give the curvature-to-area comparison of §1.4.
-
-### From TauCetiRoadmap.SuccessiveMinima
-
-SuccessiveMinima 1.2 `finite_gauge_sublevel` and 1.11 `exists_integral_minimum_flag` supply finiteness of gauge sublevels and an integral basis whose flag contains the strict sublevels of the successive minima. Tau Ceti supplies `ZLattice.successiveMin` (zero-based), `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin` in `TauCeti/Algebra/Module/ZLattice/SuccessiveMinima.lean`. §0.11a uses them for Henk's count.
 
 ### From TauCetiRoadmap.RealAlgebraicGeometry
 
@@ -136,7 +136,11 @@ AlgebraicCurves supplies function fields of curves over a field, their places, g
 
 ### From TauCetiRoadmap.ReductiveGroups
 
-ReductiveGroups Layers 6–7a supply connected semisimple and simply connected groups, their almost simple factors and their rational points over finite fields. §5.4 states its subgroup-reduction, local-density and saturation targets for connected simply connected absolutely almost simple groups over ℚ in this sense.
+ReductiveGroups supplies connected semisimple and simply connected groups (Layer 6) and their rational points over finite fields (Layer 7a).
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.4.4 supplies absolute almost simplicity, `Decomposition.IsAbsolutelyAlmostSimple`: a nontrivial semisimple group with no smooth connected normal subgroup over the algebraic closure other than itself and the trivial group. §5.4 states its subgroup-reduction, local-density and saturation targets for connected simply connected absolutely almost simple groups over ℚ in the sense of ReductiveGroups Layer 6 and this predicate.
 
 ### Short-character conjecture owned in Layer 5
 
@@ -144,7 +148,7 @@ For each integer m≥3, Cₘ asserts that some δ(m)>0 has this property: for ev
 
 `|Σ_(M<n≤M+N)χ(n)| ≤ C(m,ε) Q^((1−δ(m))/m+ε)`.
 
-This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conjecture Cₙ (KM-21 lines 340–345), also used in FIMR-13 §9. It includes imprimitive characters. Taking ε=δ(m)/(2m) gives an ε-free exponent after replacing the saving by δ(m)/2; δ in the spin endpoints denotes that smaller saving. The reduced-conductor progression corollary and subset transfer are §5.3 targets here: for odd squarefree q>1 and q∤k, retain q/gcd(q,k)>1. Passing from C_(tn) to C_(|T|n) partitions intervals and replaces δ by δ|T|/t. Every dependent conclusion retains this input.
+This is the explicitly conjectural uniform-modulus input of KM-21 §2.5, Conjecture Cₙ (KM-21 lines 340–345), also used in FIMR-13 §9. It includes imprimitive characters. `SieveSpin.ShortCharacterConjecture m` states it, with χ ranging over Mathlib's `DirichletCharacter ℂ q` and real nonprincipal meaning χ≠1 and χ²=1; the definition accepts every natural m and is used only at m≥3. Taking ε=δ(m)/(2m) gives an ε-free exponent after replacing the saving by δ(m)/2; δ in the spin endpoints denotes that smaller saving. The reduced-conductor progression corollary and subset transfer are §5.3 targets here: for odd squarefree q>1 and q∤k, retain q/gcd(q,k)>1. Passing from C_(tn) to C_(|T|n) partitions intervals and replaces δ by δ|T|/t. Every dependent conclusion retains this input.
 
 
 
@@ -1010,7 +1014,7 @@ Throughout this subsection E is a real normed space of finite dimension d, L⊆E
 
 ([HENK-02](#references), Theorem 1.5, inequality (1.3), Lemma 2.1 and (2.1)–(2.5), pp.2–5.)
 
-*Proof sketch.* The index count injects S into the finite set (G/N)×T after fixing one representative per coset. For the sublattice count, two points of L∩K in one coset of M differ by a point of M∩2K, by symmetry and convexity. The congruence-free count is the index count with N=qG, of index qⁿ. For the first-minimum bound take q=⌊2/λ₀⌋+1, so 2/q<λ₀ and qL∩2K={0}; apply the sublattice count to M=qL. For the successive-minima bound take the integral basis b of SuccessiveMinima 1.11, put q_i=⌊2/λ_i⌋+1 (antitone because the minima increase), round to n_i as above and let M be spanned by the n_ib_i. Its index is ∏n_i, and M∩2K={0}: at the largest index with a nonzero coordinate, that coordinate is a nonzero multiple of n_i, and the flag property with 2/n_i<λ_i forbids the point from 2K. The sublattice count and the rounding product give the strict bound.
+*Proof sketch.* The index count injects S into the finite set (G/N)×T after fixing one representative per coset. For the sublattice count, two points of L∩K in one coset of M differ by a point of M∩2K, by symmetry and convexity. The congruence-free count is the index count with N=qG, of index qⁿ. For the first-minimum bound take q=⌊2/λ₀⌋+1, so 2/q<λ₀ and qL∩2K={0}; apply the sublattice count to M=qL. For the successive-minima bound take the integral basis b of Tau Ceti `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin`, put q_i=⌊2/λ_i⌋+1 (antitone because the minima increase), round to n_i as above and let M be spanned by the n_ib_i. Its index is ∏n_i, and M∩2K={0}: at the largest index with a nonzero coordinate, that coordinate is a nonzero multiple of n_i, and the flag property with 2/n_i<λ_i forbids the point from 2K. The sublattice count and the rounding product give the strict bound.
 
 **Checks.**
 
@@ -1018,7 +1022,7 @@ Throughout this subsection E is a real normed space of finite dimension d, L⊆E
 - In dimension one, L=ℤ and K=[−1,1] have 3 points and 2⁰·(⌊2/1⌋+1)=3, so the strict bound fails: d≥2 is needed.
 - For N={0} in ℤ the natural index is 0 although |{0}|=1; the index count needs finite index.
 
-*Needs:* Tau Ceti `ZLattice.successiveMin`, `ZLattice.successiveMin_pos` and `ZLattice.monotone_successiveMin`; SuccessiveMinima 1.2 `finite_gauge_sublevel` and 1.11 `exists_integral_minimum_flag`; Mathlib `Subgroup.relIndex`, `ZLattice.covolume_div_covolume_eq_relIndex'`, `index_range_nsmul`, `Module.Basis.flag`, `Module.Basis.mem_flag_iff_repr_eq_zero`, `midpoint_mem_segment`.
+*Needs:* Tau Ceti `ZLattice.successiveMin`, `ZLattice.successiveMin_pos`, `ZLattice.monotone_successiveMin`, `ZLattice.finite_setOf_gauge_le` and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin`; Mathlib `Subgroup.relIndex`, `ZLattice.covolume_div_covolume_eq_relIndex'`, `AddSubgroup.index_range_nsmul`, `Module.Basis.flag`, `Module.Basis.mem_flag_iff_repr_eq_zero`, `midpoint_mem_segment`.
 
 **Davenport's lattice-point estimate.** For n≥1 and H≥1, let E⊆ℝⁿ be closed and bounded such that E, and each of its orthogonal projections onto a coordinate subspace, meets every line parallel to a coordinate axis in at most H intervals or points. Prove
 
@@ -1064,7 +1068,7 @@ Q=x₀² modulo 9 has three x₀ values and nine x₁ values, giving ρ_Q(9)=27.
 
 ### Dependencies
 
-External inputs: AnalyticNumberTheoryPartI §3.26; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; GlobalNumberFields Layer 11 orders and Picard groups; IntegralLattices Layers 0 and 3 half-norms and integral local classification; SuccessiveMinima Layer 1 and Tau Ceti `ZLattice.successiveMin` for §0.11a; RealAlgebraicGeometry Layers 5–6 for §0.11a.
+External inputs: AnalyticNumberTheoryPartI §3.26; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; GlobalNumberFields Layer 11 orders and Picard groups; IntegralLattices Layers 0 and 3 half-norms and integral local classification; Tau Ceti `ZLattice.successiveMin`, `ZLattice.finite_setOf_gauge_le` and `ZLattice.exists_basis_mem_flag_of_gauge_lt_successiveMin` for §0.11a; RealAlgebraicGeometry Layers 5–6 for §0.11a.
 
 ## Layer 1: Brun and Selberg sieves and polynomial values
 
@@ -1372,7 +1376,7 @@ Q mod p nonzero for every p<z; the stated convex C² geometry; L-domain input; �
 
 L(C_l,θ) domain; polynomial nonzero; η∈(0,1/2); ς>0; positive Q-values.
 
-([KHAYUTIN-19](#references), Lemma 9.12, pp.225–226.)
+([KHAYUTIN-19](#references), Lemma 9.12, p.226.)
 
 *Proof sketch.* Apply the safe-cutoff large sieve at z₀=min(z,A^(η/5)); since η<1/2 this also satisfies z₀≤A^(1/4). The rough-point set decreases as the cutoff increases. Compare Euler products with s=max(1,5ς/η), retaining all constant dependence. Handle bounded area directly.
 
@@ -2301,7 +2305,7 @@ Here χ_D is precisely §0.6's numerical adapter, including nonfundamental discr
 - Adding square D=1 would contribute Y², rather than a uniformly linear Y term. At Y=2 that extra contribution is 4.
 - At X=12,Y=1 the nine nonsquare discriminants contribute 9; restricting to fundamental discriminants would lose D=−12 and give 8. Its value at 2 is 0, whereas the inducing character of D=−3 has value −1.
 
-*Needs:* Layer 0 §0.6 real discriminant character adapter; ThetaSeries §2H reciprocity and characters; AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` divisor moments; JUTILA-ORIGINAL Lemma 2, p.194.
+*Needs:* Layer 0 §0.6 real discriminant character adapter; ThetaSeries §2H reciprocity and characters; AnalyticNumberTheoryPartI §3.22 and the §3.24 divisor-square estimate Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²); JUTILA-ORIGINAL Lemma 2, p.194.
 
 **Jutila mean value lemma.** Prove `SieveQuadratic.jutila_mean_value`. There is an absolute C>0 such that X≥3,N≥2 and complex a_1,…,a_N satisfy `Σ_{|D|≤X, D≡0,1 mod 4, D not a square}|Σ_{n=1}^N` a_n χ_D(n)|²≤C[X `Σ_{m,n≤N,mn a square}|a_m` a_n|+√X `N^(7/4)(Σ_{n≤N}|a_n|⁸)^(1/4)(log` N)^6]. The discriminants are not restricted to fundamental discriminants.
 
@@ -2309,7 +2313,7 @@ Integer X≥3,N≥2; all non-square discriminants in the indicated interval.
 
 ([JUTILA-ORIGINAL](#references), Lemma 3, equation (12), and proof (13)–(17), pp.194–195.)
 
-*Proof sketch.* Expand the square and retain the exact square-product diagonal. For the off-diagonal apply Jutila’s earlier mean-square estimate to the reciprocity-transformed discriminant sum. Cauchy–Schwarz and divisor-function fourth-moment estimates give the displayed eighth moment. Use Layer 2 §2.7 Jutila unweighted mean square for Lemma 2 and AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` for the divisor and squared-divisor sums in (17). The scanned display (12) has (log N)⁶; the proof uses (log N)⁸ in (16).
+*Proof sketch.* Expand the square and retain the exact square-product diagonal. For the off-diagonal apply Jutila’s earlier mean-square estimate to the reciprocity-transformed discriminant sum. Cauchy–Schwarz and divisor-function fourth-moment estimates give the displayed eighth moment. Use Layer 2 §2.7 Jutila unweighted mean square for Lemma 2 and AnalyticNumberTheoryPartI §3.22 and the §3.24 divisor-square estimate Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for the divisor and squared-divisor sums in (17). The scanned display (12) has (log N)⁶; the proof uses (log N)⁸ in (16).
 
 **Checks.**
 
@@ -2317,7 +2321,7 @@ Integer X≥3,N≥2; all non-square discriminants in the indicated interval.
 - For X=8,N=2 and the same coefficients, D=−8,−7,−4,−3,5,8 give squares 0,1,0,1,1,0, totaling 3. The first main term is 8C and the moment term is nonnegative.
 - For the Lemma 2 input, X=3,Y=1 gives 1≤3C(log 3)⁸. At Y=2 the divisor and squared-divisor sums are 3 and 5. Square discriminants must stay excluded as Y grows.
 
-*Needs:* Layer 0 §0.6 real discriminant character adapter; Layer 2 §2.7 Jutila unweighted mean square; AnalyticNumberTheoryPartII §5.29; AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal`; Mathlib `jacobiSym.quadratic_reciprocity`.
+*Needs:* Layer 0 §0.6 real discriminant character adapter; Layer 2 §2.7 Jutila unweighted mean square; AnalyticNumberTheoryPartII §5.29; AnalyticNumberTheoryPartI §3.22 and the §3.24 divisor-square estimate Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²); Mathlib `jacobiSym.quadratic_reciprocity`.
 
 **Smith prime Legendre-symbol estimate.** Prove `SieveQuadratic.smith_prime_legendre_bilinear`. For ε>0 there is Cε>0 such that disjoint finite sets X₁,X₂ of odd primes bounded by t₁,t₂≥2 satisfy `Σ_{p∈X₁}|Σ_{q∈X₂}` jacobiSym(p,q)|≤Cε[t₁ t₂^(3/4+ε)+t₂ t₁^(3/4+ε)].
 
@@ -2488,7 +2492,7 @@ The definition exposes the following operations and laws:
 
 Establish π/δ in the separated Hilbert inequality and its periodic adapter before using H−1+δ⁻¹, including arbitrary origins, H≥1 and singleton frequencies. Squared duality does not give the sharp constant.
 
-Use AnalyticNumberTheoryPartII §5.29 for Heath-Brown’s odd-squarefree and real-character estimates, retaining reciprocity signs and (MN)^ε loss in the bilinear consequence. Jutila (1975), Lemmas 2–3 use Layer 2 §2.7 Jutila unweighted mean square and AnalyticNumberTheoryPartI §3.22 and §3.24 `zetaFourthMoment.divisorDiagonal` for the separate Jutila, Smith and Koymans–Pagano route, including (log N)⁶ in Lemma 3.
+Use AnalyticNumberTheoryPartII §5.29 for Heath-Brown’s odd-squarefree and real-character estimates, retaining reciprocity signs and (MN)^ε loss in the bilinear consequence. Jutila (1975), Lemmas 2–3 use Layer 2 §2.7 Jutila unweighted mean square and AnalyticNumberTheoryPartI §3.22 and the §3.24 divisor-square estimate Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²) for the separate Jutila, Smith and Koymans–Pagano route, including (log N)⁶ in Lemma 3.
 
 Linnik uses a multiplicity-safe positive-proportion smooth count up to H=N² with cutoff N^ε, so the fixed Dickman parameter is 2/ε and H+Q²=2N² at Q=N. For p>N^ε all such smooth integers are coprime to p; forbid only symbol−1 classes. Treat ε≥1 directly by q(p)<p, and absorb bounded N into the constant. Ordered prime tuples overcount the population.
 
@@ -2526,7 +2530,7 @@ Prove the cofactor versions by retaining the actual coprimality mask, with all c
 - At Q=2,j=1 and 2 the sums are 3 and 5.
 - At Q=3,j=1 the sum is 1+2+1=4; restricting to (q,2)=1 gives 2, so cofactor deletion is a subsum, not a new multiplicativity law at q=2.
 
-*Needs:* AnalyticNumberTheoryPartI §§3.22, 3.24 `zetaFourthMoment.divisorDiagonal` and 3.26; native totient Euler factors and nonnegative Euler-product comparison.
+*Needs:* AnalyticNumberTheoryPartI §3.22, the §3.24 divisor-square estimate Σ_(n≤X)τ(n)²=X(log X)³/π²+O(X(log X)²), and §3.26; native totient Euler factors and nonnegative Euler-product comparison.
 
 **Maximal small-conductor estimates.** Prove `SieveArithmeticDistribution.small_conductor_maximal`. There are absolute, effectively computable c>0 and C>0 such that every real x≥2, every nonprincipal primitive χ of conductor r and every positive integer s satisfy
 
@@ -3566,7 +3570,7 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 - The subgroup congruent to 1 modulo 2 has image of size 1 at 2, so the theorem must allow 2|q₀.
 - At d=1 the squarefree product is the one-element group, leaving only the image modulo q₀.
 
-*Needs:* AdelicAlgebraicGroups §1.1 integral models and S-integral points; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
+*Needs:* AdelicAlgebraicGroups §1.1 integral models and S-integral points; ReductiveGroups Layers 6–7a simply connected groups and their points over finite fields; ReductiveGroupsPartII RG2.4.4 `Decomposition.IsAbsolutelyAlmostSimple`; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
 
 **Uniform algebraic point counts.** Prove `SieveLangWeil.lang_weil_uniform`: for fixed ambient dimension n, number of equations r and degree bound d there is a constant C_(n,r,d)≥0 such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2), and #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible and empty ones. Apply the latter to proper hypersurface intersections.
 
@@ -3932,53 +3936,24 @@ Even sufficiently large N; Ω counts multiplicity, so prime squares are allowed.
 
 ### 5.6 ideal residue symbols, joint spins and their oscillation
 
-**Quadratic ideal residue symbol adapter.** For a number field K, an element α∈O_K and nonzero ideal a of odd absolute norm, define (α/a) as the product over prime-ideal factors p^e of quadraticChar(O_K/p)(α modp)^e. At the unit ideal the empty product is 1. Extend by 0 at the zero ideal and at even-norm ideals. This is an adapter of native finite-field characters and ideal factorization, not a competing finite-field character or Hilbert symbol. For a nonzero odd element β write (α/β)=(α/(β)).
+**Quadratic ideal residue symbol.** For a number field K, α∈O_K and an ideal a of O_K, (α/a) denotes Tau Ceti `Ideal.powerResidueSymbolIdeal` a 2 evaluated at α mod a, an element of {−1,0,1}⊆O_K, as described under Exact supplier contracts. At a maximal ideal p of odd norm it is 0 when α∈p and otherwise the sign congruent to α^((Np−1)/2) modulo p; at a general ideal it is the product over the prime factors with multiplicity. For a nonzero element β write (α/β)=(α/(β)). On odd ideals, those of odd absolute norm, this is the symbol of FIMR-13 and KM-21. Outside that domain the supplier's conventions apply: a prime factor of even norm contributes the trivial character, and the zero ideal carries the trivial character of O_K. No statement of this roadmap uses those values.
 
-Odd means coprime to 2, equivalently odd positive absolute norm; ideal factors include multiplicity.
+([FIMR-13](#references), §2, pp.5–6, ideal quadratic symbol definition; Lemma 2.1, p.6; [KM-21](#references), §2.1, p.4.)
 
-([FIMR-13](#references), §2, pp.5–6, ideal quadratic symbol definition; Lemma 2.1, p.6.)
+The supplier gives: the value 1 at the unit ideal for every numerator, including 0; (α/ab)=(α/a)(α/b) for nonzero ideals a,b without a coprimality requirement, and (α/a^k)=(α/a)^k; (αβ/a)=(α/a)(β/a), and dependence on α only modulo a, since the symbol is a multiplicative character of O_K/a; vanishing exactly when (α)+a is a proper ideal; square equal to 1 at classes coprime to a; and σ((α/a))=(σ(α)/σ(a)) for a ring isomorphism σ of rings of integers. Prove here the two comparisons the sieve adds:
 
-*Construction.* Use unique factorization of nonzero ideals and native finite prime-ideal quotient fields. Multiply the native quadratic characters with their ideal valuations. The zero/even extension is outside the source’s odd-denominator domain.
-
-The definition exposes the following operations and laws:
-
-- The unit-ideal denominator gives 1 for every numerator, including 0.
-- The zero ideal has value 0 by the explicit out-of-domain convention.
-- For positive odd-norm ideals a,b, (α/ab)=(α/a)(α/b), without a coprimality requirement on a,b.
-- For an odd nonzero ideal a, (αβ/a)=(α/a)(β/a).
-- If α−β∈a then (α/a)=(β/a), for a nonzero odd ideal.
-- For nonzero odd a, the symbol vanishes exactly when (α)+a is a proper ideal.
-- Multiplying α by a square unit preserves the symbol.
-- Over Q, the symbol for the ideal(n), n positive odd, agrees with jacobiSym(α,n) for integer α.
+- If u is a unit of O_K, then (u²α/a)=(α/a) for every ideal a.
+- Over ℚ, for a positive odd integer n and an integer α, the symbol at the ideal (n) equals Mathlib `jacobiSym` α n.
 
 **Checks.**
 
-- For K=Q, (0/O_K)=1; the empty denominator product is not 0.
-- For K=Q, (2/(5))=−1.
-- For K=Q, (4/(5))=1.
-- For K=Q, (15/(5))=0.
-- For K=Q, every symbol with denominator ideal (2) is 0 by the explicit even-norm extension; the odd-denominator reciprocity theorem makes no assertion about it.
-- For any degree-two number field K/Q, (2/(5O_K))=1, although the rational Legendre symbol (2/5)=−1. A rational ideal denominator is not a rational-prime denominator.
+- For K=ℚ, (0/ℤ)=1: at the unit ideal the value is 1 even at the numerator 0.
+- For K=ℚ, (2/(5))=−1 and (4/(5))=1, since 2²=4≡−1 and 4²≡1 modulo 5; (15/(5))=0.
+- For K=ℚ and the even ideal (2), (3/(2))=1 and (2/(2))=0, by the trivial-character convention at a prime of even norm; the odd-denominator reciprocity theorem below makes no assertion about these values.
+- For any degree-two number field K/ℚ, (2/(5O_K))=1, although the rational Legendre symbol (2/5)=−1: if 5 splits the two factors each give −1, if it is inert 2 is a square in the field of 25 elements, and if it ramifies the factor is squared. A rational ideal denominator is not a rational-prime denominator.
+- For K=ℚ, (2/(9))=(2/(3))²=1 while (2/(3))=−1: a repeated prime-ideal factor squares its character, and taking only the radical would change the value. This agrees with `jacobiSym` 2 9 = 1.
 
-A repeated prime-ideal factor squares its character; taking only the radical would change values.
-
-*Needs:* Mathlib `quadraticChar`; Mathlib `Ideal.absNorm`; Mathlib `Ideal.uniqueFactorizationMonoid`; Mathlib `Ideal.Quotient.field`.
-
-**Ideal-symbol reciprocity adapter.** For any number field K and nonzero coprime odd integral elements α,β, prove
-
-`(α/(β)) (β/(α)) = ∏_(v|2∞) (α,β)_v`.
-
-The ideal symbols on the left are the adapter above; the symbols on the right are the classical Hilbert symbols of QuadraticFormInvariants §6C. Identify an odd finite-place symbol with `(β/p)^v_p(α)` when p divides (α), with `(α/p)^v_p(β)` when p divides (β), and with 1 when both are local units. There are finitely many nontrivial local factors. Coprimality makes these the only odd-prime cases. The cohomological product formula and the classical comparison then give the displayed exchange identity; dyadic and real-place factors are retained.
-
-([FIMR-13](#references), §2, Lemma 2.1; QuadraticFormInvariants §6C; ClassFieldTheory Layer 14.)
-
-**Checks.**
-
-- Over ℚ, α=3,β=7 gives (3/7)(7/3)=−1; the dyadic Hilbert symbol is −1 and the real one is 1.
-- Over ℚ, α=−1,β=−1 gives left side 1; the dyadic and real symbols are both −1, whose product is 1.
-- Over ℚ, α=3,β=3 is excluded by coprimality: the ideal-symbol product is 0, while every Hilbert-symbol product is ±1.
-
-*Needs:* The quadratic ideal-symbol adapter; QuadraticFormInvariants §6C classical/cohomological comparison, finite support and local computations; ClassFieldTheory Layer 14 cohomological product formula.
+*Needs:* Tau Ceti `Ideal.powerResidueSymbolIdeal`; Mathlib `IsPrimitiveRoot.neg_one`; Mathlib `jacobiSym`.
 
 **Ideal divisor and logarithmic coefficient bounds.** For each fixed number field K, write τ_K(a) for the native ideal divisor count described in Exact supplier contracts, evaluated on a nonzero integral ideal a and use the native ideal von Mangoldt coefficient Λ_K with its logarithmic bound from the supplier contract. Prove that for every ε>0 there is C_(K,ε)>0 with τ_K(a)≤C_(K,ε)(Na)^ε. For fixed nonnegative integers j,k and ε>0, prove
 
@@ -4008,11 +3983,32 @@ Uniform TypeI; divisor/logarithmic coefficient norms; the owned ideal divisor an
 
 *Needs:* Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; the stated uniform Type I and coefficient-weighted Type II hypotheses. This generic conversion uses no property of the joint-spin sequence beyond these two estimates.
 
+**Spin of a generator.** For a number field K Galois over ℚ, σ∈Gal(K/ℚ) and π∈O_K, define `SieveSpin.spin` σ π as the quadratic residue symbol (π/σ(π)) of this subsection: Tau Ceti `Ideal.powerResidueSymbolIdeal` at exponent 2 for the ideal σ(π)O_K, evaluated at π modulo that ideal, with σ(π) formed by Mathlib `NumberField.RingOfIntegers.mapRingEquiv`. Its values lie in {−1,0,1}⊆O_K. For a principal prime ideal p=(π) with π totally positive this is spin(σ,p) of KM-21 and FIMR-13.
+
+([KM-21](#references), §2.3, p.5, the definition of spin(σ,α), and p.6, its invariance under unit squares.)
+
+The definition exposes the following operations and laws:
+
+- spin(σ,π)=0 exactly when πO_K+σ(π)O_K is a proper ideal. For σ=1 and π a nonunit it is 0; for a prime ideal p=(π) it is 0 exactly when σ(p)=p.
+- For a unit u, spin(σ,u²π)=spin(σ,π): the ideal σ(u²π)O_K equals σ(π)O_K, and the numerator changes by the square of a unit.
+- If K is totally real and every totally positive unit is a square, two totally positive generators of one principal ideal differ by a unit square, so they have the same spin.
+- For a prime ideal p=(π) of odd norm with σ(p)≠p, spin(σ,π) is 1 when π is a square modulo σ(p) and −1 otherwise.
+
+**Checks.**
+
+- Let K=ℚ(t) with t³+t²−2t−1=0, the cyclic cubic field of conductor 7, with O_K=ℤ[t] and σ(t)=t²−2. The element π=3−t is totally positive of norm 29, σ(π)=5−t², and t≡18 modulo the prime σ(π)O_K, so spin(σ,π)=(−15/29)=(14/29)=(2/29)(7/29)=−1. For the same π, spin(σ²,π)=1, so the spins at σ and at σ⁻¹=σ² are different functions. The reversed symbol (σ(π)/π) is 1 as well: t≡3 modulo (3−t) and σ(π)≡5−9≡25, a square modulo 29; by Galois equivariance it equals spin(σ⁻¹,π). A definition with numerator and denominator exchanged would give 1 instead of −1 here.
+- In the same field π=4−t is totally positive of norm 71≡3 mod 4, t≡52 modulo σ(π)O_K=(6−t²), and spin(σ,4−t)=(−48/71)=(23/71)=−1. Its negative −(4−t), negative at all three real places, has spin(σ,−(4−t))=(−1/71)(23/71)=1. The generator must be totally positive.
+- In the same field t is a unit of norm 1, and spin(σ,t²(3−t))=−1=spin(σ,3−t); multiplying by the unit t itself is not allowed, since t is not totally positive.
+- spin(1,π)=0 for every nonunit π, so the identity cannot lie in an admissible S.
+- In the same field −1, t and σ(t) have signs (−,−,−), (+,−,−) and (−,−,+) at the real places 2cos(2π/7), 2cos(4π/7), 2cos(6π/7). These vectors span 𝔽₂³, so the sign map from O_K^×/(O_K^×)², a group of order 2³, is onto and hence injective: every totally positive unit is a square, and the field satisfies the unit hypothesis of the equidistribution theorem below.
+
+*Needs:* Tau Ceti `Ideal.powerResidueSymbolIdeal`; Tau Ceti `NumberField.IsTotallyPositive`; Mathlib `NumberField.RingOfIntegers.mapRingEquiv`; Mathlib `IsPrimitiveRoot.neg_one`.
+
 **Joint-spin coefficient sequence.** Fix a finite Galois extension M/ℚ of degree n and a nonempty S⊆Gal(M/ℚ) with S∩S⁻¹=∅. If M is totally real assume that every totally positive unit is a square; impose no unit hypothesis when M is totally complex. Fix ideal-class representatives and a modulus F as in KM-21 §2.2, a function ψ:(O_M/F)^×→ℂ invariant under multiplication by squares of units and extended by 0 off the unit classes, and a decomposition O_M^×=T_M×V_M into torsion and a free part. For an odd principal ideal a=(α) coprime to F define
 
 `s_a = Σ_(t∈T_M) Σ_(v∈V_M/V_M²) 1_(tvα totally positive) ψ(tvα mod F) ∏_(σ∈S) (tvα/σ(tvα))_(M,2)`,
 
-with the quadratic ideal residue symbol adapter of this subsection, and set s_a=0 for every other nonzero ideal. Prove generator independence: s_a does not depend on the generator α nor on the coset representatives v. Prove |s_a|≤|T_M|·|V_M/V_M²|·max|ψ|.
+with the quadratic ideal residue symbol of this subsection, and set s_a=0 for every other nonzero ideal. Prove generator independence: s_a does not depend on the generator α nor on the coset representatives v. Prove |s_a|≤|T_M|·|V_M/V_M²|·max|ψ|.
 
 ([KM-21](#references), §2.2 and §2.3, (2.4), pp.5–6.)
 
@@ -4023,7 +4019,7 @@ with the quadratic ideal residue symbol adapter of this subsection, and set s_a=
 - In a totally complex field the positivity indicator is identically one.
 - ψ=0 gives the zero sequence; an involution σ=σ⁻¹ cannot lie in S, and the empty S is excluded, so n≥3 for every admissible S.
 
-*Needs:* Layer 5 §5.6 quadratic ideal residue symbol adapter; GlobalNumberFields Layers 3 and 3C generators, units and class representatives; Mathlib `NumberField.Units`.
+*Needs:* Tau Ceti `Ideal.powerResidueSymbolIdeal`, the quadratic ideal residue symbol of this subsection; Tau Ceti `NumberField.IsTotallyPositive`; GlobalNumberFields Layers 3 and 3C generators, units and class representatives; Mathlib `NumberField.Units`.
 
 **Kernel reciprocity for joint spins.** For nonzero odd α,β∈O_M coprime to F put Φ(α,β)=∏_(σ∈S)(α/[σ(β)σ⁻¹(β)])_(M,2). When the exchanged kernels Φ(α,β) and Φ(β,α) are nonzero, prove Φ(α,β)=ε(α,β)Φ(β,α) with
 
@@ -4031,9 +4027,9 @@ with the quadratic ideal residue symbol adapter of this subsection, and set s_a=
 
 A shared odd prime divisor of α and σ^(±1)(β) makes both kernels zero. On totally positive generators the infinite-place factors are 1, and a totally complex field has no real factors, so ε then depends only on the dyadic completions and is determined by α,β modulo a fixed power of 2.
 
-([KM-21](#references), §4, (4.3) and properties (P1)–(P3), p.20; [FIMR-13](#references), Lemma 2.1, p.6.)
+([KM-21](#references), §4, (4.3), p.18, and properties (P1)–(P3) of Lemma 4.1, p.20; [FIMR-13](#references), Lemma 2.1, p.6.)
 
-*Proof sketch.* Apply the ideal-symbol reciprocity adapter of this subsection to α and each of σ(β), σ⁻¹(β), and use Galois equivariance of the symbol, (σ(α)/σ(β))=(α/β), to match the factors of Φ(β,α).
+*Proof sketch.* Apply ClassicalArithmeticCompletion §1.66 to α and each of σ(β), σ⁻¹(β), and use Galois equivariance of the symbol, (σ(α)/σ(β))=(α/β) (Tau Ceti `Ideal.map_powerResidueSymbolIdeal`), to match the factors of Φ(β,α). The dependence of the dyadic factor on residues modulo 8 is ClassicalArithmeticCompletion §1.57.
 
 **Checks.**
 
@@ -4041,7 +4037,7 @@ A shared odd prime divisor of α and σ^(±1)(β) makes both kernels zero. On to
 - For S={σ} in a cyclic cubic field, Φ(α,1)=Φ(1,α)=1 for every α.
 - In the cyclic cubic field M=ℚ(t), t³+t²−2t−1=0, with σ(t)=t²−2 and S={σ}, take α=1+8t and β=1+16σ(t), of norms 377=13·29 and 3569=43·83, both totally split, and any F coprime to both norms. Then Φ(α,β)=1 and Φ(β,α)=−1. The dyadic factor of ε(α,β) is 1, since 2 is inert and α≡1 mod 8 is a dyadic square; the infinite factor is −1, since α is negative at two of the three real places and σ(β),σ⁻¹(β) have the signs (−,−), (+,−) and (−,+) there. So Φ(α,β)=ε(α,β)Φ(β,α) reads 1=(−1)(−1). Both α and β are 1 modulo 8, so a rule that keeps only the dyadic factors, or reads ε from residues modulo 8 without the signs at the real places, predicts Φ(α,β)=Φ(β,α) and fails here.
 
-*Needs:* Layer 5 §5.6 ideal-symbol reciprocity adapter; QuadraticFormInvariants §6C local Hilbert symbols; ClassFieldTheory Layer 14.
+*Needs:* ClassicalArithmeticCompletion §§1.57 and 1.66; Tau Ceti `Ideal.map_powerResidueSymbolIdeal`; QuadraticFormInvariants §6C local Hilbert symbols.
 
 **Type I estimate for joint spins.** Assume C_(|S|n), with saving δ>0 as in the short-character conjecture. For every ε>0 there is C(M,ψ,S,ε) such that for all X≥2 and every nonzero ideal m,
 
@@ -4061,7 +4057,7 @@ The bound is uniform in m.
 
 No short-character hypothesis is used.
 
-([KM-21](#references), §2.6, (2.6), p.7; proof in §4.)
+([KM-21](#references), §2.6, (2.6), p.7; proof in §4, through Lemma 4.1 and properties (P1)–(P3), p.20.)
 
 *Proof sketch.* For principal a=(α), b=(β), multiplicativity of the symbol and kernel reciprocity write the spin of αβ as the spins of α and β times Φ(α,β), up to dyadic and infinite Hilbert symbols that depend only on signs and on α,β modulo a fixed modulus. Split into those classes, apply Cauchy–Schwarz to remove v, and expand the square in b. For a pair (β,β′) the sum over α runs over a function periodic modulo |N(ββ′)|, by property (P3), which is a nontrivial character unless ββ′ is a square up to units; bound the nontrivial sums over boxes in a fundamental domain by completing them, and count the square pairs with the ideal divisor bounds of this subsection.
 
@@ -4084,15 +4080,15 @@ All auxiliary choices are fixed, and the constant may depend on them and on ψ.
 
 *Needs:* Layer 5 §5.6 Type I and Type II estimates for joint spins; Layer 5 §5.6 FIMR sieve conversion to prime ideals; Layer 5 §5.6 ideal divisor and logarithmic coefficient bounds.
 
-**Equidistribution of joint spin signs.** For totally real Galois K/Q with the positive-unit square property, admissible nonempty S={σ₁,…,σ_t}, and C_tn, each sign vector e∈{±1}^t has asymptotic proportion 2^(−t) among principal prime ideals of norm≤X as X→∞.
+**Equidistribution of joint spin signs.** Prove `SieveSpin.joint_spin_sign_equidistribution`. Let K be a totally real number field, Galois over ℚ, in which every unit that is totally positive in the sense of Tau Ceti `NumberField.IsTotallyPositive` is a square. Let S⊆Gal(K/ℚ) contain no σ together with σ⁻¹, put t=|S|, and assume C_m for m=t[K:ℚ], that is, `SieveSpin.ShortCharacterConjecture` (t[K:ℚ]). For every sign vector e:S→{±1}, let A_e(X) be the number of nonzero prime ideals p of norm at most X that have a totally positive generator π with `SieveSpin.spin` σ π=e(σ) for every σ∈S, and let B(X) be the number of nonzero principal prime ideals of norm at most X. Then A_e(X)/B(X)→2^(−t) as X→∞. For nonempty S this is KM-21 Theorem 2. For empty S the unit hypothesis gives every principal ideal a totally positive generator, so A_e=B and the limit is 1.
 
-Real field; principal prime denominator; no inverse pairs; short-character hypothesis.
+Real field; principal prime denominator; no inverse pairs; short-character hypothesis. The primes above 2, where the symbol takes the supplier's trivial-character convention, and the primes p with σ(p)=p for some σ∈S, where the spin is 0, number O(X^(1/2)) and do not affect the limit.
 
 ([KM-21](#references), Theorem 2, p.2; proof in §2.6, pp.7–8.)
 
-*Proof sketch.* Expand the sign indicator into the finite Fourier sum over subsets of S. Apply the conditional joint-spin prime bound of this subsection to each nonempty subset, using the explicit transferred short-character bound. Remove the finitely many ramified/bad primes and the O(sqrt X) higher-residue-degree primes where spin vanishes. Import the prime ideal theorem in the principal class to normalize.
+*Proof sketch.* Under the unit hypothesis the spin of a principal prime does not depend on its totally positive generator (spin of a generator, this subsection). Expand the sign indicator into the finite Fourier sum over subsets of S. Apply the conditional joint-spin prime bound of this subsection with ψ=1 to each nonempty subset, using the explicit transferred short-character bound. Remove the finitely many ramified primes and primes dividing F, and the O(X^(1/2)) primes of residue degree at least two, which contain every unramified p with σ(p)=p for some σ≠1. Import the prime ideal theorem in the principal class to normalize.
 
-*Needs:* Layer 5 §5.6 conditional joint-spin prime bound; Layer 5 §5.3 short character input for joint spins; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c.
+*Needs:* Layer 5 §5.6 spin of a generator; Layer 5 §5.6 conditional joint-spin prime bound; Layer 5 §5.3 short character input for joint spins; Tau Ceti `NumberField.IsTotallyPositive`; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c.
 
 ### Analytic and native-interface requirements
 
@@ -4100,7 +4096,7 @@ Construct Iwaniec's normalized general-κ functions and constants, proving exist
 
 For Chen prove the original-family lower bound 2.6408 C_N N/log²N and the ordered switched-triple upper bound 3.9404 C_N N/log²N, with Chen's numerical constants of §5.5. Retain Lemma 3's fourth moment (statement p.114, proof p.115), switched discrepancies, the reductions of the integrals to the two numerical constants, and Lemma 6 error N/log^(2.01)N. Lemma 9 uses RICHERT-1969, Theorem A, cited by its theorem locator. Keep 0.6706−0.67 when absorbing the N^0.91 exception; a switched complement need not be prime. For each even h>0 reconstruct the shifted family, local factors and switching estimates with h-dependent constants.
 
-The ideal-symbol comparison and the generic ideal coefficient/prime-extraction interfaces have their stated hypotheses. Spin-sign moments use the conditional joint-spin prime bound of §5.6 for each nonempty subset T, which retains C_(|T|n) through §5.3. The Type I estimate keeps its sliced-lattice and codimension-two exceptional estimates and uniformity in all nonzero ideals; kernel reciprocity keeps the dyadic and infinite-place factors.
+The generic ideal coefficient/prime-extraction interfaces have their stated hypotheses. Spin-sign moments use the conditional joint-spin prime bound of §5.6 for each nonempty subset T, which retains C_(|T|n) through §5.3. The Type I estimate keeps its sliced-lattice and codimension-two exceptional estimates and uniformity in all nonzero ideals; kernel reciprocity keeps the dyadic and infinite-place factors.
 
 For affine sieves supply native subgroup, reduction-image, labelled-walk orbit and CRT density comparisons, identifying relative polynomial density with rational Zariski closure. The general endpoint uses original-group lazy walks, the fixed squarefree modulus b, a simultaneously primitive class c, main scale X_L/|H_b| and its signed remainder at one. Reconstruct SL₂ squarefree expansion from sum-product/flattening and convert its ordinary gap to lazy mixing. Prove conditioned remainders and effective power-saving escape for that same population. The separate free-tree bound retains its chosen subgroup’s independent mixing and escape inputs, primitive-coset reduction, heights, growth r=2k−1 and strict saturation margin.
 
@@ -4116,7 +4112,7 @@ Affine values {2,3} have gcd one but fail simultaneous avoidance at modulus six.
 
 ### Dependencies
 
-Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassFieldTheory Layer 14; QuadraticFormInvariants §6C; GlobalNumberFields Layers 3, 3C and 11; SchemeAndStackFoundations §§0.8, 5.11 and 5.12; AlgebraicCurves function fields and genus; ReductiveGroups Layers 6–7a; AdelicAlgebraicGroups §§1.1 and 4.2.
+Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassicalArithmeticCompletion §§1.57 and 1.66; QuadraticFormInvariants §6C; Tau Ceti `Ideal.powerResidueSymbolIdeal` and `NumberField.IsTotallyPositive`; GlobalNumberFields Layers 3, 3C and 11; SchemeAndStackFoundations §§0.8, 5.11 and 5.12; AlgebraicCurves function fields and genus; ReductiveGroups Layers 6–7a; ReductiveGroupsPartII RG2.4.4; AdelicAlgebraicGroups §§1.1 and 4.2.
 
 ## Downstream consumers
 
@@ -4190,7 +4186,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **MAYNARD-2015, §7, sentence before (7.10), p. 407 (arXiv v3 p. 19)** The dropped constraint is `Σ_{i=2}^{k}` u_i > k − T: the error integral E_k of (7.7) is over u₂,…,u_k, and there is no variable u₁ in (7.7)–(7.10).
 
-**MAYNARD-2015, Lemma 8.1, definition of `G_{b,j},` p. 409 (arXiv v3 p. 21); also (8.6)** The sum must start at r = 0, so that `G_{0,j}` = 1 (the empty composition of 0). Equivalently use the multinomial form (8.5), which is correct for every b. For b = 0 the printed `G_{0,j}` is an empty sum, 0, so Lemma 8.1 gives `∫_{ℛ_k}(1` − P₁)^a = 0 instead of a!/(k+a)!; for k = 5, a = 2 the true value is 1/2520. Lemma 8.2 uses `G_{c_i+c_j,2}` and `G_{c′₁+c′₂,2}` with index 0 whenever a monomial has no P₂ factor. The numerical records (8.15) and (8.17) are the hypotheses of §4.6, stated for the Gram forms with `G_{0,j}` = 1.
+**MAYNARD-2015, Lemma 8.1, definition of `G_{b,j},` p. 409 (arXiv v3 p. 21); also (8.6)** The sum must start at r = 0, so that `G_{0,j}` = 1 (the empty composition of 0). Equivalently use the multinomial form (8.5), which is correct for every b. For b = 0 the printed `G_{0,j}` is an empty sum, 0, so Lemma 8.1 gives `∫_{ℛ_k}(1` − P₁)^a = 0 instead of a!/(k+a)!; for k = 5, a = 2 the true value is 1/2520. Lemma 8.2 uses `G_{c_i+c_j,2}` and `G_{c′₁+c′₂,2}` with index 0 whenever a monomial has no P₂ factor. The numerical records (8.15) and (8.17) correspond to the Gram-form evaluations stated as targets in §4.6, computed with `G_{0,j}` = 1.
 
 **MAYNARD-2015, Proof of Lemma 8.2, display (8.10), p. 411 (arXiv v3 p. 23)** The right side of (8.10) is b!/(k + b + 2c′ − 1)! · `G_{c′,2}(k` − 1): Lemma 8.1 with k − 1 variables, j = 2 and exponent c′ gives a!/((k−1) + 2c′ + a)! · `G_{c′,2}(k−1).` The printed right-hand side uses c instead of c′, and the coefficient 1 instead of 2. The statement of Lemma 8.2 is consistent with the corrected display: with B = b_i+b_j+2c_i+2c_j−2c′₁−2c′₂+2, (k − 1) + B + 2(c′₁+c′₂) = k + b_i + b_j + 2c_i + 2c_j + 1.
 
@@ -4202,7 +4198,7 @@ The following conventions fix the mathematical statements at the cited versions.
 
 **KHAYUTIN-19, Published Lemma 9.9, pp.224–225, lcm discrepancy step** Use the maximal-curvature-radius geometry before estimating the lcm discrepancy. For z≥2, θ≤2 and z⁵R^θ≤A, the area bound A≤πR² forces R>1 and z≤A^(1/5)≤A^(1/4). Hence lcm(m,n)≤z²≤√A throughout the full source range; the rescaled area is at least 1. The source's separate coarse Gram-row power estimate requires θ≥1/2. The owned character bound instead counts at most n² labels and uses exponent 7−2θ; a bounded-power cutoff followed by the Euler-product comparison proves the binary theorem for every 0<θ≤2.
 
-**KHAYUTIN-19, Published Lemma 9.11, pp.225–226** Use s≥1, as needed by the power-level application, or change the factor/range for s<1. Fix z=1 and a positive-degree polynomial. Both products are 1 but the proposed uniform right side tends to 0 as s tends to 0.
+**KHAYUTIN-19, Published Lemma 9.11, p.225** Use s≥1, as needed by the power-level application, or change the factor/range for s<1. Fix z=1 and a positive-degree polynomial. Both products are 1 but the proposed uniform right side tends to 0 as s tends to 0.
 
 **KHAYUTIN-19, Published Theorem 9.7 proof, equation (47), p.233** Supply an additional ordinary-density input or repair this contribution using the stated corrected-density power bound. Q=x₀² has ρ_Q(p²)=p³, whereas corrected prime-power densities satisfy a power saving with r=1/2. The needed ordinary bound does not follow.
 
@@ -4334,5 +4330,4 @@ Two inputs have secondary cross-references: Halberstam–Richert, Lemmas 5.3–5
 
 - **HR-SIEVE.** H. Halberstam and H.-E. Richert, Sieve Methods (1974), Lemmas 5.3–5.4, as used in GGPY Lemmas 3–4.
 - **RICHERT-1969.** H.-E. Richert, Selberg's sieve with weights (1969), Theorem A, as used in Chen Lemma 9.
-- **KM-16RANK-published.** Peter Koymans and Djordjo Milovic, On the 16-Rank of Class Groups of ℚ(√−2p) for Primes p≡1 mod 4 (2018), Proposition 3.6; the published numbering is cited.
 - **DFI-1997.** W. Duke, J. Friedlander and H. Iwaniec, Bilinear forms with Kloosterman fractions (1997), Lemma 9, the hyperbola-separation input used in FIMR-13 Proposition 5.1.
