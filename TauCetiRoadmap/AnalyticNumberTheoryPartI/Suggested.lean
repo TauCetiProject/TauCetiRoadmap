@@ -1,6 +1,10 @@
 module
 
 import Mathlib
+import TauCeti.RingTheory.LocalRing.RamificationGroup
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.InfinityType
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Shift
 
 /-!
 # Analytic number theory, Part I: target signatures
@@ -26,25 +30,14 @@ Published finite computations are named propositions here (`SchoenfeldFiniteRang
 `BMORFiniteInput`, `ZamanDigammaInput`, `BBRFiniteInput` and the others) and enter every theorem
 that rests on them as explicit hypotheses; nothing below proves or performs such a computation.
 
-The entire-function layer states this roadmap's own Weierstrass primary products and
-equal-divisor factorization (§§0.15–0.15a, consumed by GlobalHolomorphicFunctions) and
-finite-order Hadamard factorization (§0.23); the paired Hadamard theorem is
-AutomorphicLFunctionsAndLocalFactors AL.2.5's and is not restated. The canonical globally
-continued Hecke and finite-image Artin functions, their completed normalizations and general
-Artin conductors are supplied by other roadmaps (AutomorphicLFunctionsAndLocalFactors,
-AdelicAlgebraicGroups, ArithmeticGaloisRepresentations) and are absent at the pins, as is the
-K-Bessel kernel of AutomorphicFormsOnReductiveGroups §4.5 and AutomorphicLFunctionsAndLocalFactors
-AL.0.5.1. Layer 2 states this roadmap's level-one nonholomorphic Eisenstein series and its
-completed continuation (§2.1b, consumed by AutomorphicSpectralTheory); the real quadratic Nielsen
-surfaces of §2.1c have no carrier at the pins and are not stated. Thus the arithmetic
-comparisons of §§2.3,2.18, the CM endpoint estimates of §§2.33–2.51, the ray-character density
-theorem and the number-field effective Chebotarev theorem are deferred as Lean statements, and so
-are the quadratic period identities and Weyl bounds of §§2.23–2.47, which need the quadratic
-geodesics and oriented Nielsen surfaces. The Hecke
-character carrier and qualitative prime counts alone do not supply these analytic objects. The
-generic Weil formula below uses actual meromorphic functions; its automorphic specialization needs
-the suppliers' completed Rankin–Selberg functions. None of these missing objects is replaced by a
-free predicate or a choice of unrelated analytic functions.
+The entire-function layer states Weierstrass primary products, equal-divisor factorization and the
+paired Hadamard theorem. Layer 2 states the K-Bessel kernel, the level-one nonholomorphic
+Eisenstein series, the lower Artin and Swan conductors with their integrality, and Hecke's
+continuation and functional equation for every unitary idele-class character on Tau Ceti's
+`HeckeCharacter`. The finite-image Artin `L`-functions of §2.18a, the real quadratic Nielsen
+surfaces of §2.1c and the period identities built on them are specified in the README; their
+carriers are not stated here, and no missing object is replaced by a free predicate or a choice of
+unrelated analytic functions.
 -/
 
 noncomputable section
@@ -335,6 +328,54 @@ theorem finite_order_hadamard (f : ℂ → ℂ) (hf : Differentiable ℂ f)
       ∀ z : ℂ, f z = z ^ (analyticOrderAt f 0).toNat * Complex.exp (P.eval z) * g z := by
   sorry
 
+/-- Entire growth of order at most one in the centered form `|f z| ≤ exp(C_ε (1 + |z|^(1+ε)))`,
+equivalent to entirety with `OrderLE f 1` (§0.29). -/
+def IsCenteredOrderOne (f : ℂ → ℂ) : Prop :=
+  Differentiable ℂ f ∧ ∀ ε : ℝ, 0 < ε → ∃ C : ℝ, 0 < C ∧
+    ∀ z : ℂ, ‖f z‖ ≤ Real.exp (C * (1 + ‖z‖ ^ (1 + ε)))
+
+/-- The paired Hadamard theorem (§0.29a). Zero entries of `γ` encode unused indices when the
+zero multiset is finite. -/
+theorem pairedHadamard_factorization (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re) :
+    ∃ (m : ℕ) (c : ℝ) (γ : ℕ → ℝ), 0 < c ∧
+      (∀ n, 0 ≤ γ n) ∧ Summable (fun n => (γ n)⁻¹ ^ 2) ∧
+      δ = (-1 : ℂ) ^ m ∧
+      (∀ z : ℂ, Multipliable (fun n =>
+        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)) ∧
+      (∀ z : ℂ, f z = (c : ℂ) * z ^ m * ∏' n,
+        if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2) ∧
+      (∀ K : Set ℂ, IsCompact K → TendstoUniformlyOn
+        (fun s : Finset ℕ => fun z : ℂ => (c : ℂ) * z ^ m *
+          ∏ n ∈ s, if γ n = 0 then (1 : ℂ) else 1 + z ^ 2 / (γ n : ℂ) ^ 2)
+        f Filter.atTop K) := by
+  sorry
+
+/-- The paired product has real nonnegative derivatives on the nonnegative real axis (§0.29b). -/
+theorem pairedHadamard_derivatives_nonnegative (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
+    (k : ℕ) (x : ℝ) (hx : 0 ≤ x) :
+    (iteratedDeriv k f (x : ℂ)).im = 0 ∧ 0 ≤ (iteratedDeriv k f (x : ℂ)).re := by
+  sorry
+
+/-- A nonpolynomial paired product has strictly positive derivatives at positive real
+points (§0.29). -/
+theorem pairedHadamard_derivatives_positive (f : ℂ → ℂ) (δ : ℂ)
+    (hf : IsCenteredOrderOne f) (hδ : δ = 1 ∨ δ = -1)
+    (hparity : ∀ z, f (-z) = δ * f z)
+    (hzeros : ∀ z, f z = 0 → z.re = 0)
+    (hpositive : ∃ R : ℝ, ∀ x : ℝ, R ≤ x → (f (x : ℂ)).im = 0 ∧ 0 < (f (x : ℂ)).re)
+    (hnonpoly : ¬ ∃ P : Polynomial ℂ, ∀ z, f z = P.eval z)
+    (k : ℕ) (x : ℝ) (hx : 0 < x) :
+    0 < (iteratedDeriv k f (x : ℂ)).re := by
+  sorry
+
 /-! ## Layer 1: Explicit formulas and mean values -/
 
 /-- The subtracted explicit formula counts zeros with analytic multiplicity and inclusive height. -/
@@ -488,7 +529,23 @@ theorem zeta_weil_explicit_formula (F : ℝ → ℂ) (hF : WeilC1TestFunction F)
 
 open _root_.NumberField
 
-/-! ### The level-one Eisenstein series (§2.1b) -/
+/-! ### The K-Bessel kernel and the level-one Eisenstein series (§§2.1a–2.1b) -/
+
+/-- The K-Bessel kernel `K_ν(c) = (1/2) ∫₀^∞ exp(−c(u + u⁻¹)/2) u^ν du/u` for complex order and
+positive real argument (§2.1a). -/
+def besselK (ν : ℂ) (c : ℝ) : ℂ :=
+  (1 / 2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
+    Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹) / 2) *
+      Complex.exp (ν * (Real.log u : ℂ)) / (u : ℂ)
+
+/-- The kernel is even in the order (§2.1a). -/
+theorem besselK_neg (ν : ℂ) {c : ℝ} (hc : 0 < c) : besselK (-ν) c = besselK ν c := by
+  sorry
+
+/-- The half-order value `K_{1/2}(c) = √(π/(2c)) e^{−c}` (§2.1a). -/
+theorem besselK_one_half {c : ℝ} (hc : 0 < c) :
+    besselK (1 / 2) c = (Real.sqrt (Real.pi / (2 * c)) * Real.exp (-c) : ℝ) := by
+  sorry
 
 /-- The primitive-pair Eisenstein series for `PSL₂(ℤ)`, initially for `1 < re s`; the factor
 `1 / 2` counts each pair of opposite primitive vectors once (§2.1b). -/
@@ -509,6 +566,105 @@ theorem completed_eisenstein_continuation :
       (∀ z, Tendsto (fun s => s * E z s) (𝓝[≠] 0) (𝓝 (-1 / 2))) ∧
       (∀ z, Tendsto (fun s => (s - 1) * E z s) (𝓝[≠] 1) (𝓝 (1 / 2))) := by
   sorry
+
+/-! ### Lower Artin and Swan conductors (§2.2a) -/
+
+section Conductor
+
+open TauCeti.IsLocalRing
+
+/-- The Artin conductor `Σ_{i ≥ 0} (|G_i| / |G_0|) · codim W^{G_i}` of a representation of a group
+acting on a local ring, over the lower ramification groups `G_i` (§2.2a). -/
+def lowerArtinConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B i) : ℚ) / Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B i).subtype))
+
+/-- The Swan conductor `Σ_{i ≥ 1} (|G_i| / |G_0|) · codim W^{G_i}` (§2.2a). -/
+def lowerSwanConductor (G B : Type*) [Group G] [CommRing B] [IsLocalRing B]
+    [MulSemiringAction G B] {C W : Type*} [Field C] [AddCommGroup W] [Module C W]
+    (ρ : Representation C G W) : ℚ :=
+  ∑ᶠ i : ℕ, ((Nat.card (ramificationGroup G B (i + 1 : ℕ)) : ℚ) /
+      Nat.card (ramificationGroup G B 0)) *
+    Module.finrank C
+      (W ⧸ Representation.invariants (ρ.comp (ramificationGroup G B (i + 1 : ℕ)).subtype))
+
+/-- Artin's integrality theorem (§2.2a): for a finite group acting faithfully on a complete
+discrete valuation ring with perfect residue field, both conductors of a finite-dimensional
+representation over a field of characteristic zero, or of characteristic different from the
+residue characteristic, are natural numbers. -/
+theorem lowerConductors_integral {G B : Type*} [Group G] [Finite G] [CommRing B] [IsDomain B]
+    [IsDiscreteValuationRing B] [IsAdicComplete (IsLocalRing.maximalIdeal B) B]
+    [PerfectField (IsLocalRing.ResidueField B)] [MulSemiringAction G B] [FaithfulSMul G B]
+    {C W : Type*} [Field C] [AddCommGroup W] [Module C W] [FiniteDimensional C W]
+    (hC : ringChar C = 0 ∨ ringChar C ≠ ringChar (IsLocalRing.ResidueField B))
+    (ρ : Representation C G W) :
+    (∃ n : ℕ, lowerArtinConductor G B ρ = n) ∧ ∃ n : ℕ, lowerSwanConductor G B ρ = n := by
+  sorry
+
+end Conductor
+
+/-! ### Hecke continuation for unitary idele-class characters (§2.3a) -/
+
+section Hecke
+
+open IsDedekindDomain TauCeti.GlobalNumberFields
+
+variable {K : Type*} [Field K] [NumberField K]
+
+/-- The finite local factor at `v`, read through a uniformizer of the completion (§2.3a). -/
+def heckeFiniteFactor (χ : HeckeCharacter K)
+    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
+    (v : HeightOneSpectrum (𝓞 K)) (s : ℂ) : ℂ :=
+  if χ.conductorExponent v = 0 then
+    (1 - (χ.finiteComponent v (ϖ v) : ℂ) * (Ideal.absNorm v.asIdeal : ℂ) ^ (-s))⁻¹
+  else 1
+
+/-- The archimedean factors in the continuous infinity coordinates; the complex exponent uses
+the Euclidean absolute value, hence the division by two (§2.3a). -/
+def heckeArchFactor (χ : HeckeCharacter K) (s : ℂ) : ℂ := by
+  classical
+  letI := Fintype.ofFinite (NumberField.InfinitePlace K)
+  exact (∏ w : {w : NumberField.InfinitePlace K // w.IsReal},
+    Complex.Gammaℝ (s + χ.infinityType.realExponent w +
+      ((χ.infinityType.realParity w).val : ℂ))) *
+  ∏ w : {w : NumberField.InfinitePlace K // w.IsComplex},
+    Complex.Gammaℂ (s + χ.infinityType.complexExponent w / 2 +
+      ((χ.infinityType.complexAngularFrequency w).natAbs : ℂ) / 2)
+
+/-- The conductor scale `|D_K| N𝔣(χ)` of the balanced completion (§2.3a). -/
+def heckeConductorScale (χ : HeckeCharacter K) : ℝ :=
+  (NumberField.discr K).natAbs * Ideal.absNorm χ.finiteConductor
+
+/-- Hecke continuation and functional equation for every unitary idele-class character, with the
+translated poles of the unitary norm characters and complex norm twists (§2.3a). -/
+theorem heckeContinuation
+    (ϖ : (v : HeightOneSpectrum (𝓞 K)) → (v.adicCompletion K)ˣ)
+    (hϖ : ∀ v, Valued.v (ϖ v : v.adicCompletion K) = WithZero.exp (-1 : ℤ)) :
+    ∃ Λ : HeckeCharacter K → ℂ → ℂ,
+      ∀ χ : HeckeCharacter K, (∀ x, ‖(χ x : ℂ)‖ = 1) →
+        MeromorphicOn (Λ χ) Set.univ ∧
+        (∀ s : ℂ, 1 < s.re →
+          Summable (fun v => ‖heckeFiniteFactor χ ϖ v s - 1‖) ∧
+          HasProd (fun v => heckeFiniteFactor χ ϖ v s)
+            (∏' v, heckeFiniteFactor χ ϖ v s) ∧
+          Λ χ s = (heckeConductorScale χ : ℂ) ^ (s / 2) * heckeArchFactor χ s *
+            ∏' v, heckeFiniteFactor χ ϖ v s) ∧
+        (∃ W : ℂ, ‖W‖ = 1 ∧ ∀ s₀ : ℂ,
+          Λ χ =ᶠ[𝓝[≠] s₀] fun s => W * Λ χ⁻¹ (1 - s)) ∧
+        ((¬ ∃ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ))) →
+          Differentiable ℂ (Λ χ)) ∧
+        (∀ t : ℝ, χ = HeckeCharacter.normPow K (Complex.I * (t : ℂ)) →
+          meromorphicOrderAt (Λ χ) (-Complex.I * (t : ℂ)) = -1 ∧
+          meromorphicOrderAt (Λ χ) (1 - Complex.I * (t : ℂ)) = -1 ∧
+          ∀ s : ℂ, s ≠ -Complex.I * (t : ℂ) → s ≠ 1 - Complex.I * (t : ℂ) →
+            AnalyticAt ℂ (Λ χ) s) ∧
+        (∀ t s₀ : ℂ, (Λ (χ * HeckeCharacter.normPow K t)) =ᶠ[𝓝[≠] s₀]
+          fun s => (heckeConductorScale χ : ℂ) ^ (-t / 2) * Λ χ (s + t)) := by
+  sorry
+
+end Hecke
 
 /-! ### Zaman's digamma input and the 35/19 prime-ideal count (§§2.9–2.9a) -/
 
