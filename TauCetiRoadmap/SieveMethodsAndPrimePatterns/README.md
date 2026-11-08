@@ -10,13 +10,13 @@ The native `BoundingSieve` and `SelbergSieve` carriers, weighted sums, signed re
 
 IntegralLattices Layers 0 and 3 own even-bilinear half-norms and integral local quadratic classification. Only the count-preserving rank-two conic comparison belongs here. GlobalNumberFields Layers 3/3C and 11 own generators, units, class representatives, orders and invertible ideals. ArithmeticDirichletSeries owns ideal norm fibres and ideal arithmetic functions; ClassFieldTheory Layer 14 owns Hilbert reciprocity; Chebotarev Layer 13 owns the principal-class natural prime count. None of these arithmetic theories is reconstructed as sieve data. Tau Ceti at the pins has `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, the quadratic Dirichlet character of a fundamental discriminant; ThetaSeries §2H owns the Kronecker symbol and the character for every nonzero discriminant D≡0,1 mod 4. Layer 0 owns only its numerical natural-argument, real-valued sieve adapter, with zero value at zero and comparison for |D|>1. §0.4 owns the finite Gram inequalities: Selberg's weighted inequality and the uniform-row, maximum-row and diagonal/off-diagonal inequalities deduced from it.
 
-AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a), the uniform and fixed-model Lang–Weil estimates (§5.4), and adelic points with strong approximation for simply connected semisimple groups (§5.3a). The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
+AnalyticNumberTheoryPartI §§0.10–0.11, 0.18, 0.21, 0.26, 0.31, 0.32, 0.34, 3.1, 3.3–3.4, 3.22, 3.24, 3.26, 3.34–3.35 supplies the quantitative prime, small-conductor, divisor-moment, divisor-subpower, ideal-count and smooth-number inputs at their stated strengths. Its uniform exclusion of Landau–Siegel zeros (§0.34) leaves no exceptional zero or exceptional conductor to treat here, and every small-conductor constant in this roadmap is effective. AnalyticNumberTheoryPartI §1.5a owns the weighted finite Hilbert inequality, with constant 3π/2 and local spacings; the uniform-spacing constant π/δ of §2.9 is owned here, because the sharp additive large-sieve constant N−1+δ⁻¹ needs exactly π. This roadmap also owns lattice-point counting by successive minima and Davenport's volume estimate (§0.11a) and the uniform and fixed-model Lang–Weil estimates (§5.4). AdelicAlgebraicGroups owns the adelic points of affine groups, their integral models and S-integral points (§1.1), and strong approximation with its proof chain (§4.2); §5.4 consumes them and restates neither. The additional subgroup, analytic and curvature estimates are owned in §§0.11, 1.1, 2.7, 3.0 and 5.4.
 
 AnalyticNumberTheoryPartII §5.29 owns the odd-squarefree quadratic large sieve, its primitive-real form and square-pair correction, uniformly in both cutoffs and arbitrary complex coefficients. Layer 2 retains the unrestricted bilinear consequence and prime-denominator applications. Layer 5 owns the joint-spin chain of a Galois number field (§5.6): the unit-averaged coefficient sequence and its generator independence, kernel reciprocity, the Type I and Type II estimates and the conditional prime-ideal cancellation. It also owns the short-character progression/subset transfer, the ideal-symbol comparison, the generic coefficient and prime-extraction interfaces, and the spin-sign equidistribution consequence. The generic prime-extraction theorem allows any bounded ideal sequence satisfying its two estimates; the joint-spin sequence is one instance.
 
 The tuple W-trick here is a construction for Maynard weights. Layer 5 states the conjectural short-character input Cₘ and its reduced-conductor progression consequence; every spin conclusion retains Cₘ as a hypothesis. Elliott–Halberstam, the prime-tuple conjecture, Bouniakowsky and Schinzel H remain named conjectures. The general affine endpoint uses lazy walks on the same group whose squarefree congruence expansion is assumed. The explicit free-tree bound separately requires mixing for its chosen free subgroup.
 
-The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4, and rational-point strong approximation to §5.3a. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
+The general subgroup reduction, squarefree-ring sum-product and noncommutative flattening inputs belong to §5.4; rational-point strong approximation is AdelicAlgebraicGroups §4.2. Curvature discrepancies (§0.11), uniform multiplicative means (§1.1), Jutila's unweighted mean (§2.7), reciprocal-totient moments and maximal small-conductor estimates (§3.0), and conductor-prime norm counts (§0.9) are owned here. The sliced-lattice, exceptional-tail and spin-kernel arguments belong to the joint-spin Type I and Type II estimates of §5.6.
 
 The finite evaluations behind Maynard's and Chen's constants are owned here as targets: the Gram-form values of Maynard's witnesses at k=5 and k=105 (§4.6), the admissible tuples of diameters 12 and 600 (§4.7), and the two logarithmic evaluations behind Chen's constants (§5.5). Each is stated as a proposition about explicit numbers, no certificate is printed, and none is a hypothesis of the theorems that use it.
 
@@ -40,7 +40,7 @@ All asymptotic constants are chosen after the fixed parameters listed in the sta
 
 ## Exact supplier contracts
 
-These are the precise inputs required from each owner. Only the stated exports are consumed. Subgroup strong approximation, maximal character estimates and curvature-uniform lattice errors are owned below. The analytic requirement subsections identify where each input is consumed. Additional analytic and geometric statements are targets of the layers below.
+These are the precise inputs required from each owner. Only the stated exports are consumed. Reduction images of Zariski-dense subgroups (§5.4), maximal character estimates and curvature-uniform lattice errors are owned below. The analytic requirement subsections identify where each input is consumed. Additional analytic and geometric statements are targets of the layers below.
 
 ### From Mathlib
 
@@ -84,7 +84,7 @@ IntegralLattices Layers 0 and 3 supply even-bilinear half-norms and integral loc
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
-GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. Layer 1 supplies weak approximation for the field, and Layer 6 the adele ring with additive strong approximation, used in §5.3a. The conductor-prime norm counts are constructed in §0.9.
+GlobalNumberFields §§3, 3C supplies generator domains, units and class representatives away from fixed moduli; Layer 11 supplies quadratic orders and invertible ideals, with extension/contraction only away from the conductor. The conductor-prime norm counts are constructed in §0.9.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -130,9 +130,13 @@ SuccessiveMinima 1.2 `finite_gauge_sublevel` and 1.11 `exists_integral_minimum_f
 
 AlgebraicCurves supplies function fields of curves over a field, their places, genus and Riemann–Roch; §5.4 counts points of a geometrically irreducible curve through its smooth projective model.
 
-### From TauCetiRoadmap.ReductiveGroups and TauCetiRoadmap.ReductiveGroupsPartII
+### From TauCetiRoadmap.AdelicAlgebraicGroups
 
-ReductiveGroups Layers 6–7a supply semisimple and simply connected groups, their almost simple factors and Lang's theorem over finite fields. ReductiveGroupsPartII RG2.0 supplies the topology on points over a local field and RG2.3 reductive models; RG2.4 supplies `Decomposition.kneserTits_local` and `eq_top_of_finiteIndex`: an isotropic simply connected absolutely almost simple group over a nonarchimedean local field is generated by its unipotent radicals and has no proper subgroup of finite index. Tau Ceti supplies `TauCeti.SemisimpleCommHopfAlgCat`, `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` and `AlgHom.mapValue` for points of Hopf algebras. §5.3a uses them for strong approximation.
+§1.1 supplies, for a finitely generated commutative Hopf algebra H over a number field F, the adelic points G(𝔸_F) with their evaluation topology and rational diagonal, integral models M of H away from a finite set S₀ of places with their local points G(O_v)⊆G(F_v) for v∉S₀, and the subgroup Γ(M,S)⊆G(F) of rational points integral at every finite place outside a finite S⊇S₀∪∞. It constructs a model over the ring of integers as the schematic closure of a faithful matrix representation; for G⊆GL_n over ℚ every Γ⊆G(ℚ)∩GL_n(ℤ) consists of ℤ-points of the closure in GL_n over ℤ, so reduction modulo each prime p sends Γ into the 𝔽_p-points of that model. §4.2 supplies the strong approximation predicate with respect to S=∞∪S_f (G(F)·G(F_S) is dense in G(𝔸_F)) and strong approximation for a connected semisimple simply connected group whose F-simple factors are all noncompact over S. For S=∞ it gives that G(F)\G(𝔸_(F,f))/U is a point for every compact open U; for SL_n over ℚ, that SL_n(ℤ)→SL_n(ℤ/Nℤ) is onto for every N≥1. For the norm-one group of a definite quaternion algebra over ℚ, compact at ∞, the hypothesis fails at S=∞ and so does the conclusion. §5.4 consumes the integral models and S-integral points in its subgroup reduction images and local densities, and strong approximation in its primitive-pair local-obstruction reduction, local densities and squarefree expansion. Strong approximation for rational points does not give the reduction images of a thin subgroup Γ, which §5.4 states separately.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+ReductiveGroups Layers 6–7a supply connected semisimple and simply connected groups, their almost simple factors and their rational points over finite fields. §5.4 states its subgroup-reduction, local-density and saturation targets for connected simply connected absolutely almost simple groups over ℚ in this sense.
 
 ### Short-character conjecture owned in Layer 5
 
@@ -2828,7 +2832,7 @@ Layer 2. External inputs: AnalyticNumberTheoryPartI §§0.18, 0.32 and 0.34; Lay
 
 ## Layer 4: prime tuples and Maynard clusters
 
-A common local residue class makes the multidimensional weights nonnegative. Simplex integrals of polynomial witnesses reduce the variational lower bounds to rational quadratic forms, whose numerical values are the named hypotheses of §4.6; the prime-distribution input then gives infinitely many prime clusters.
+A common local residue class makes the multidimensional weights nonnegative. Simplex integrals of polynomial witnesses reduce the variational lower bounds to rational quadratic forms, whose values are the finite evaluations stated as targets in §4.6; the prime-distribution input then gives infinitely many prime clusters.
 
 ### 4.1 admissible tuples and the prime-tuple conjecture
 
@@ -3131,7 +3135,7 @@ The hᵢ are distinct. M_k is the quantity of Layer 4 `SieveMaynard.maynardM`. F
 
 *Proof sketch.* For k=0 the prime count in the statement is zero and every n works. For k=1, Cauchy–Schwarz and smooth approximation give M₁=1; infinitely many translated primes supply the one prime in the statement. For k≥2 use the variational argument below with 0<δ<θ/2. Choose F₀∈𝒮_k with ratio > M_k − δ, and then a smooth F₁ with ratio > M_k − 2δ (Layer 4 exists smooth maynard ratio gt). Proposition 4.1 gives S=S₂−ρS₁=(φ(W)^k N(log `R)^k/W^{k+1})·((log` R/log N)Σ_m `J^{(m)}(F₁)−ρI_k(F₁)+o(1)).` Factoring out I_k(F₁)>0 then gives a lower bound with bracket (θ/2−δ)(M_k−2δ)−ρ+o(1). This is (4.4), whose printed sum index j should be m. Take ρ = θM_k/2 − ε, with δ small in terms of ε. Then S > 0 for all large N. The weights are nonnegative, so the positivity criterion gives, for each large N, some n∈[N,2N) with at least ⌊ρ+1⌋ = ⌈θM_k/2⌉ of the n+hᵢ prime (ε small). Since this holds for every large N, there are infinitely many such n. The gap statement is Layer 4 from prime clusters to prime gaps.
 
-Under the hypotheses of §4.6, k = 105 and θ = 1/2 − ε give r₁₀₅ ≥ 2 (Theorem 1.3), and k = 5 and θ = 1 − ε give r₅ ≥ 2 under Elliott–Halberstam (Theorem 1.4).
+With the bounds M₁₀₅ > 4 and M₅ ≥ 1417255/708216 of §4.6, k = 105 and θ = 1/2 − ε give r₁₀₅ ≥ 2 (Theorem 1.3), and k = 5 and θ = 1 − ε give r₅ ≥ 2 under Elliott–Halberstam (Theorem 1.4).
 
 *Needs:* Layer 4 §4.4 maynard's asymptotics for s₁ and s₂ (proposition 4.1); Layer 4 §4.3 smooth approximation within the simplex; Layer 4 §4.5 the gpy positivity criterion; Layer 4 `SieveMaynard.maynardM`; Layer 4 `SieveMaynard.IsAdmissible`; Layer 4 §4.5 from prime clusters to prime gaps; Mathlib `Nat.infinite_setOfPred_prime`.
 
@@ -3552,86 +3556,6 @@ C_|S|n; arbitrary interval origin; the source progression coprimality/reduction 
 
 *Needs:* The explicit Cₘ hypothesis in Exact supplier contracts; Mathlib `DirichletCharacter` and its conductor.
 
-### 5.3a adelic points and strong approximation
-
-Throughout this subsection F is a number field and G=Spec H for a commutative Hopf F-algebra H, finitely generated as an algebra in the topological statements. A finite set S of places contains every archimedean place, S=∞∪S_f, and G_S=∏_(v∈S)G(F_v).
-
-**Adelic and local points.** For an F-algebra R the points G(R) form the native convolution group of F-algebra maps H→R; for a topological ring R give G(R) the coarsest topology making every evaluation continuous. Define `SieveStrongApproximation.AdelicPoints`, `SieveStrongApproximation.FiniteAdelicPoints`, `SieveStrongApproximation.InfinitePoints` and `SieveStrongApproximation.LocalPoints` with values in the adele ring, the finite adele ring, the infinite adele ring and the completion F_v; `SieveStrongApproximation.diagonal` is the rational diagonal and `SieveStrongApproximation.finiteProjection` the projection to finite adelic points, both by post-composition. An integral model away from a finite set S₀ of finite places is a finitely presented commutative Hopf algebra over the S₀-integers with a Hopf isomorphism of its generic fibre with H; it defines the local integral points G(O_v)⊆G(F_v) for v∉S₀ and the S-integral points Γ(M,S)⊆G(F) for S⊇S₀. For G⊆GL_n over ℚ the schematic closure in GL_n over ℤ[1/q₀] is an integral model, and reduction modulo p∤q₀ sends Γ⊆G(ℚ)∩GL_n(ℤ) into the 𝔽_p-points of that model.
-
-The carriers expose the following laws:
-
-- The point groups are topological groups, and post-composition with continuous algebra maps is continuous.
-- The rational diagonal is injective with discrete image, and G(𝔸_(F,f)) is the restricted product of the G(F_v) with respect to the G(O_v), as topological groups.
-- Changing the integral model changes G(O_v) at finitely many v and Γ(M,S) only up to commensurability.
-
-([CONRAD-12](#references), Proposition 2.1 and the discussion after it, p.2, and Examples 2.2–2.3, p.3, for the evaluation topology, the topological-group structure, continuity of post-composition and the discrete diagonal; Theorems 3.4 and 3.6 and Remark 3.5, pp.5–6, for the restricted product and the change of integral model.)
-
-**Checks.**
-
-- For G=G_a the adelic points are the adele ring and the diagonal is the usual embedding of F.
-- For G=G_m over ℚ with the standard model, Γ(M,{∞})={±1} and G(ℤ_p)=ℤ_p^×.
-
-*Needs:* Mathlib `NumberField.AdeleRing`, `IsDedekindDomain.FiniteAdeleRing`, `NumberField.InfiniteAdeleRing`, `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and `RestrictedProduct`; Tau Ceti `AlgHom.mapValue`; GlobalNumberFields Layer 6 adeles; ReductiveGroupsPartII RG2.0 topology on local points.
-
-**The strong approximation predicate.** Define `SieveStrongApproximation.HasStrongApproximation F H S_f`: G(F)·G(F_S) is dense in G(𝔸_F), where G(F_S) is the subgroup of adelic points trivial at every finite place outside S_f. Prove that this is equivalent to density of G(F) in the adelic points away from S; that it gives G(𝔸^S)=G(F)U for every open subgroup U⊆G(𝔸^S); that it passes from S to every S′⊇S; and that for S_f=∅ the double coset space G(F)\G(𝔸_(F,f))/U is a point for every compact open U.
-
-([RAPINCHUK-14](#references), §2.1, Definition, p.7, and Theorem 2.3, p.12.)
-
-**Checks.**
-
-- G_a has strong approximation with S_f=∅: this is GlobalNumberFields Layer 6.
-- G_m over ℚ fails for S_f=∅: ℚ^×∩∏_pℤ_p^×={±1}, so ℚ^× is discrete in the finite ideles.
-
-*Needs:* §5.3a adelic and local points.
-
-**S-arithmetic subgroups.** Let G be connected semisimple over F, M an integral model away from S₀, and S⊇S₀∪∞ finite. Prove that the diagonal image of Γ(M,S) is a lattice in G_S. If moreover G is absolutely almost simple and G_S is noncompact, prove that Γ(M,S) and every subgroup commensurable with it are infinite and Zariski dense in G.
-
-([RAPINCHUK-14](#references), §2.6, p.16, and the remark after Theorem 2.3, p.12; [BOREL-63](#references), Introduction, p.6, and §8, pp.26–30.)
-
-*Proof sketch.* Reduction theory: Siegel sets attached to a minimal F-parabolic subgroup and a maximal compact subgroup cover G(F)\G(𝔸_F), only finitely many rational translates of one Siegel set meet it, and Siegel sets of a group without rational characters have finite Haar volume. Intersecting with G_S×∏_(v∉S)G(O_v) gives a lattice in G_S, and a lattice in a noncompact group is infinite. For Zariski density, let J be the identity component of the Zariski closure of Γ(M,S). Every rational point commensurates Γ(M,S), since conjugation changes only finitely many local integrality conditions, so J is normalized by G(F). Rational points of a connected group in characteristic zero are Zariski dense, so J is normal in G, hence J=G for absolutely almost simple G and infinite Γ(M,S).
-
-*Needs:* §5.3a adelic and local points; ReductiveGroups Layers 6–7 parabolic subgroups and rational points; Mathlib `MeasureTheory.Measure.IsHaarMeasure` and `MeasureTheory.IsFiniteMeasure`.
-
-**Closed subgroups of p-adic analytic groups.** For a finite place v over p, every closed subgroup C of G(F_v) is a ℚ_p-analytic subgroup with a ℚ_p-Lie subalgebra Lie(C) of the Lie algebra of G(F_v) regarded over ℚ_p. If Lie(C) is everything then C is open; if Lie(C)=0 then C is discrete.
-
-([SCHNEIDER-11](#references), Theorem 27.1, pp.192–194; Corollary 29.6, p.205; Theorem 29.8, pp.206–208.)
-
-*Proof sketch.* Construct a compact open subgroup with a saturated integral p-valuation, on which the exponential and logarithm are inverse analytic bijections. A closed subgroup of finite rank acquires a unique analytic structure from these charts, its Lie algebra is the set of tangent directions of its one-parameter subgroups, and the dimension of that Lie algebra is the local dimension of C.
-
-*Needs:* ReductiveGroupsPartII RG2.0 topology on local points; Mathlib `Padic`, `PadicInt` and analytic functions over complete normed fields.
-
-**Weak approximation for simply connected groups.** For G connected semisimple and simply connected over F and every finite set T of places, G(F) is dense in ∏_(v∈T)G(F_v).
-
-([PR-94](#references), §7.3, Theorem 7.8, p.415, and its proof.)
-
-*Proof sketch.* G is unirational over F; with weak approximation for F and the local implicit function theorem, the closure W of G(F) in G_T contains a nonempty open set, so W is an open subgroup. For each v∈T, the G(F_v)-conjugates of the regular parts of finitely many maximal F_v-tori cover G(F_v) up to a closed nowhere dense set. Choose maximal F-tori locally conjugate to each of them and having weak approximation with respect to T; their existence is where simple connectedness is used. Then W contains a dense open subset of G_T, so W=G_T.
-
-*Needs:* ReductiveGroups Layers 6–7a maximal tori, unirationality and rational points; GlobalNumberFields Layer 1 weak approximation for F; Mathlib inverse function theorem over complete normed fields.
-
-**Arithmetic closure at an isotropic place.** Let G be connected, simply connected and absolutely almost simple over F, S finite with G_S noncompact, and v∉S a finite place at which G is F_v-isotropic. Prove that the closure of G(F)·G_S in G(𝔸_F) contains G(F_v), placed at v.
-
-([RAPINCHUK-14](#references), Lemma 2.7, p.16, and §2.6, pp.16–17; [PLATONOV-69](#references), §3.4, p.1145.)
-
-*Proof sketch.* Let Δ be the closure in G(F_v) of the image of Γ=Γ(M,S∪{v}). Its subgroup Γ(M,S) is infinite and maps injectively into the compact G(O_v), so Δ is not discrete and Lie(Δ)≠0. Lie(Δ) is invariant under the Zariski-dense Γ, hence an ideal of the Lie algebra of G(F_v) over ℚ_p; that Lie algebra splits over the algebraic closure into simple factors permuted transitively by Galois, so Lie(Δ) is everything and Δ is open. Pushing the finite invariant measure of the lattice quotient of G_S×G(F_v) forward gives a finite invariant measure on G(F_v)/Δ, which is discrete, so Δ has finite index and equals G(F_v) by `eq_top_of_finiteIndex`. Approximating g∈G(F_v) by elements of Γ gives the containment.
-
-*Needs:* §5.3a S-arithmetic subgroups and closed subgroups of p-adic analytic groups; ReductiveGroupsPartII RG2.4 `Decomposition.kneserTits_local` and `eq_top_of_finiteIndex`.
-
-**Strong approximation for simply connected groups.** Prove `SieveStrongApproximation.hasStrongApproximation_of_simplyConnected`: let G be connected semisimple and simply connected over F, and S_f a finite set of finite places such that every nontrivial semisimple quotient of G has noncompact points over S (equivalently, G′_S is noncompact for every F-simple factor G′). Then G has strong approximation with respect to S. In particular, for S_f=∅ and every compact open U, G(F)\G(𝔸_(F,f))/U is a point.
-
-Noncompactness is required of every F-simple factor, not only of G_S. In the Lean signature the quotients are injective Hopf maps from the coordinate ring of Q whose scalar map is not surjective.
-
-([PR-94](#references), §7.4, Theorem 7.12, p.427; [RAPINCHUK-14](#references), Theorem 2.3 and Remark 1 after it, p.12; [PLATONOV-69](#references), §3, pp.1144–1145.)
-
-*Proof sketch.* G is the product of its F-simple factors, each the restriction of scalars of an absolutely almost simple simply connected group over a finite extension; strong approximation passes to products and to restrictions of scalars, so assume G absolutely almost simple with G_S noncompact. G has a reductive model away from finitely many places and is quasi-split, hence isotropic, at the remaining ones by Lang's theorem over the residue field; let T be the finite set of anisotropic finite places outside S. The closure C of G(F)·G_S contains G(F_v) at every isotropic v∉S, hence, being a closed subgroup, the restricted product over all places outside S∪T. Weak approximation makes the projection of C to ∏_(v∈T)G(F_v) dense. A closed subgroup of A×B that contains A×{1} and projects densely to B is A×B, so C=G(𝔸_F).
-
-**Checks.**
-
-- For SL_n over ℚ with S_f=∅, SL_n(ℚ) is dense in SL_n(𝔸_(ℚ,f)), so SL_n(ℤ)→SL_n(ℤ/Nℤ) is onto for every N≥1.
-- The norm-one group of a definite quaternion algebra over ℚ is compact at ∞; with S_f=∅ the hypothesis fails, and so does the conclusion. Adding a split prime to S_f satisfies it.
-- For the product of SL₂ with that norm-one group, G_S is noncompact while one simple factor is compact at S; the factorwise hypothesis is needed.
-
-*Needs:* §5.3a strong approximation predicate, weak approximation for simply connected groups and arithmetic closure at an isotropic place; ReductiveGroups Layers 6–7a simple factors, restriction of scalars and Lang's theorem; ReductiveGroupsPartII RG2.3 reductive models; Tau Ceti `TauCeti.SemisimpleCommHopfAlgCat` and `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`.
-
 ### 5.4 affine sieve data and saturation
 
 **Subgroup reduction images.** For a fixed finitely generated Zariski-dense integral subgroup Γ of a connected simply connected absolutely almost simple ℚ-group G, and every M≥1, prove the existence of q₀ divisible by M and the bad-reduction primes such that Γ surjects onto G(𝔽_p) for p∤q₀, and onto Γ mod q₀ times ∏_(p|d)G(𝔽_p) for every squarefree d coprime to q₀ (BGS-10, Theorem 2.1, p.571). Include the finite-index congruence-subgroup and primitive-coset comparisons of Proposition 2.1, p.572; no prime is discarded from the final primitivity condition.
@@ -3642,7 +3566,7 @@ Noncompactness is required of every F-simple factor, not only of G_S. In the Lea
 - The subgroup congruent to 1 modulo 2 has image of size 1 at 2, so the theorem must allow 2|q₀.
 - At d=1 the squarefree product is the one-element group, leaving only the image modulo q₀.
 
-*Needs:* Layer 5 §5.3a integral models and S-integral points; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
+*Needs:* AdelicAlgebraicGroups §1.1 integral models and S-integral points; native subgroup reductions and CRT; the finitely generated subgroup theorem at the displayed source locator.
 
 **Uniform algebraic point counts.** Prove `SieveLangWeil.lang_weil_uniform`: for fixed ambient dimension n, number of equations r and degree bound d there is a constant C_(n,r,d)≥0 such that over every finite field 𝔽_q each geometrically irreducible affine variety V of dimension e≥0 presented by at most r equations of degree≤d satisfies |#V(𝔽_q)−q^e|≤C_(n,r,d)q^(e−1/2), and #W(𝔽_q)≤C_(n,r,d)q^e for arbitrary varieties W of dimension≤e in that presentation class, including reducible and empty ones. Apply the latter to proper hypersurface intersections.
 
@@ -3702,7 +3626,7 @@ O nonempty follows from primitivity; integer-valued polynomial; nonzero/nonunit 
 
 ([BGS-10](#references), Definition of primitive pair §1, pp.560–561; local obstruction discussion §2.4, pp.571–573.)
 
-*Construction.* Use native integer evaluation and simultaneous congruence avoidance. Strong approximation (§5.3a) and the subgroup reduction images supply the finite local-obstruction reduction for the algebraic-group applications.
+*Construction.* Use native integer evaluation and simultaneous congruence avoidance. Strong approximation (AdelicAlgebraicGroups §4.2) and the subgroup reduction images supply the finite local-obstruction reduction for the algebraic-group applications.
 
 The definition exposes the following operations and laws:
 
@@ -3787,7 +3711,7 @@ Consequently V(z)=∏_(p<z,p∤q₀)(1−β(p))≥c(log z)^(−t) for z≥2 and 
 
 ([BGS-10](#references), §3.2, (3.6), pp.574–575, for the rational absolutely irreducible factor case; (3.34)–(3.40), pp.580–581, for the point-count inputs. The component-wise upper bound follows by the intersection argument below.)
 
-*Proof sketch.* Apply the uniform algebraic point counts of this subsection to each Frobenius-fixed geometric component and to G. Each fixed component contributes p^(dim G−1)+O(p^(dim G−3/2)). A rational point on a non-fixed component lies also on its distinct Frobenius conjugate, whose intersection has dimension at most dim G−2; sum the corresponding O(p^(dim G−2)) counts. The uniform presentation bound applies to the union of these intersections, which descends to the finite field. Divide by #G(𝔽_p)=p^dim G+O(p^(dim G−1/2)), enlarging q₀ to make the denominator positive and at least a fixed multiple of p^dim G. Use the subgroup reduction-image theorem; rational-point strong approximation (§5.3a) alone is insufficient, since Γ need not be arithmetic. The upper bound β(p)≤t/p+O(p^(−3/2)) and AnalyticNumberTheoryPartI §§0.21, 0.26 give the displayed product inequality: the reciprocal-prime error is O(1/log w) and the summable local error tail is O(w^(−1/2)). Enlarge K for the bounded prime range. Repeated factors do not change the zero locus, but their multiplicities remain in deg f for the height bound.
+*Proof sketch.* Apply the uniform algebraic point counts of this subsection to each Frobenius-fixed geometric component and to G. Each fixed component contributes p^(dim G−1)+O(p^(dim G−3/2)). A rational point on a non-fixed component lies also on its distinct Frobenius conjugate, whose intersection has dimension at most dim G−2; sum the corresponding O(p^(dim G−2)) counts. The uniform presentation bound applies to the union of these intersections, which descends to the finite field. Divide by #G(𝔽_p)=p^dim G+O(p^(dim G−1/2)), enlarging q₀ to make the denominator positive and at least a fixed multiple of p^dim G. Use the subgroup reduction-image theorem; rational-point strong approximation (AdelicAlgebraicGroups §4.2) alone is insufficient, since Γ need not be arithmetic. The upper bound β(p)≤t/p+O(p^(−3/2)) and AnalyticNumberTheoryPartI §§0.21, 0.26 give the displayed product inequality: the reciprocal-prime error is O(1/log w) and the summable local error tail is O(w^(−1/2)). Enlarge K for the bounded prime range. Repeated factors do not change the zero locus, but their multiplicities remain in deg f for the height bound.
 
 **Checks.**
 
@@ -3796,7 +3720,7 @@ Consequently V(z)=∏_(p<z,p∤q₀)(1−β(p))≥c(log z)^(−t) for z≥2 and 
 - For f=a²+b² the product over p=3,5 is V=(1−0)(1−1/3)=2/3; the inverse product is 3/2. A zero local density contributes factor one and is allowed by the upper dimension condition.
 - The constant f=2 has β(2)=1 and fails primitivity; it cannot be repaired by omitting the prime 2. A unit f=1 has empty zero locus and t=0, outside the nonunit endpoint hypotheses.
 
-*Needs:* Layer 5 §5.4 primitive affine sieve pair; Layer 5 §5.3a integral models and strong approximation; Layer 5 §5.4 subgroup reduction images; Layer 0 §0.10 finite-field polynomial counts; Layer 5 §5.4 uniform algebraic point counts and Lang–Weil estimate for a fixed model; AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
+*Needs:* Layer 5 §5.4 primitive affine sieve pair; AdelicAlgebraicGroups §1.1 integral models and §4.2 strong approximation; Layer 5 §5.4 subgroup reduction images; Layer 0 §0.10 finite-field polynomial counts; Layer 5 §5.4 uniform algebraic point counts and Lang–Weil estimate for a fixed model; AnalyticNumberTheoryPartI §§0.21, 0.26 for the dimension product and lower bound for V.
 
 **Fixed-modulus conditioning and walk remainders.** Under the algebraic hypotheses of local densities above, suppose the normalized symmetric operators P_(S,q) have every nonconstant eigenvalue at most 1−ε, uniformly over all squarefree q≥1 on their actual images H_q, for some 0<ε≤1. This includes squarefree q containing exceptional primes. The lazy operators then have nonconstant spectrum in [0,ρ], with ρ=1−ε/2∈[1/2,1). For any h∈H_q prove
 
@@ -3897,7 +3821,7 @@ Squarefree q; actual image quotient Γ/Γ(q); no claim for arbitrary prime power
 
 *Proof sketch.* Use the squarefree-ring sum-product and noncommutative flattening targets of this subsection. Prove the flattening, representation-multiplicity and product-growth argument of BGS §4 with those inputs. Do not present the conditional finite mixing inequality as a proof of expansion.
 
-*Needs:* Layer 5 §5.4 subgroup reduction images, squarefree-ring sum-product and noncommutative flattening; Layer 5 §5.3a strong approximation for simply connected groups.
+*Needs:* Layer 5 §5.4 subgroup reduction images, squarefree-ring sum-product and noncommutative flattening; AdelicAlgebraicGroups §4.2 strong approximation for simply connected groups.
 
 ### 5.5 Chen's weight, the Goldbach local factor and Chen's theorems
 
@@ -4192,7 +4116,7 @@ Affine values {2,3} have gcd one but fail simultaneous avoidance at modulus six.
 
 ### Dependencies
 
-Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassFieldTheory Layer 14; QuadraticFormInvariants §6C; GlobalNumberFields Layers 1, 3, 3C, 6 and 11; SchemeAndStackFoundations §§0.8, 5.11 and 5.12; AlgebraicCurves function fields and genus; ReductiveGroups Layers 6–7a; ReductiveGroupsPartII RG2.0, RG2.3 and RG2.4.
+Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3 §3.0 maximal small-conductor estimates; Layer 5 §5.3 conjecture Cₘ; Layer 0 §0.10 finite-field polynomial counts; Layer 0 §0.11a lattice-point counts; Layer 0 §0.11 translated lattice discrepancies; ArithmeticDirichletSeries Layer 1 norm fibres and Mathlib `LSeries`; Chebotarev Layer 13 ϑ_c and π_c; ClassFieldTheory Layer 14; QuadraticFormInvariants §6C; GlobalNumberFields Layers 3, 3C and 11; SchemeAndStackFoundations §§0.8, 5.11 and 5.12; AlgebraicCurves function fields and genus; ReductiveGroups Layers 6–7a; AdelicAlgebraicGroups §§1.1 and 4.2.
 
 ## Downstream consumers
 
@@ -4405,18 +4329,6 @@ The following conventions fix the mathematical statements at the cited versions.
 - **DAVENPORT-51.** Harold Davenport. [On a principle of Lipschitz](https://doi.org/10.1112/jlms/s1-26.3.179). Journal of the London Mathematical Society 26 (1951), 179–183; correction, ibid. 39 (1964), 580.
 
 - **LANG-WEIL-54.** Serge Lang and André Weil. Number of points of varieties in finite fields. American Journal of Mathematics 76 (1954), 819–827.
-
-- **CONRAD-12.** Brian Conrad. [Weil and Grothendieck approaches to adelic points](https://math.stanford.edu/~conrad/papers/adelictop.pdf). L'Enseignement Mathématique 58 (2012), 61–97; locators use the author's preprint pagination.
-
-- **RAPINCHUK-14.** Andrei S. Rapinchuk. [On strong approximation for algebraic groups](https://arxiv.org/abs/1207.4425). In Thin Groups and Superstrong Approximation, MSRI Publications 61 (2014), 269–298; locators use arXiv:1207.4425.
-
-- **PR-94.** Vladimir Platonov and Andrei Rapinchuk. Algebraic Groups and Number Theory. Pure and Applied Mathematics 139, Academic Press, 1994; locators use printed pages.
-
-- **PLATONOV-69.** V. P. Platonov. [The problem of strong approximation and the Kneser–Tits conjecture for algebraic groups](https://www.mathnet.ru/eng/im2220). Mathematics of the USSR-Izvestiya 3 (1969), 1139–1147.
-
-- **BOREL-63.** Armand Borel. [Some finiteness properties of adele groups over number fields](http://www.numdam.org/item/PMIHES_1963__16__5_0.pdf). Publications mathématiques de l'IHÉS 16 (1963), 5–30.
-
-- **SCHNEIDER-11.** Peter Schneider. p-Adic Lie Groups. Grundlehren der mathematischen Wissenschaften 344, Springer, 2011; locators use printed pages.
 
 Two inputs have secondary cross-references: Halberstam–Richert, Lemmas 5.3–5.4, as cited by GGPY §2, and Richert (1969), Theorem A, as cited by Chen, Lemma 9. The statements used here are the versions reproduced at those exact secondary locators. The Heath-Brown sieve citations use arXiv:math/0209360v1, the Koymans–Milovic citations arXiv:1809.09597v1 and the GGPY citations arXiv:math/0609615v1. The published 2015 erratum of Friedlander–Iwaniec–Mazur–Rubin is applied in addition to its preprint.
 

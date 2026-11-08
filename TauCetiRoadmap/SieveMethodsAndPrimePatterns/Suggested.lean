@@ -1,9 +1,6 @@
 module
 import Mathlib
 import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
-import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
-import TauCeti.Algebra.AlgebraicGroup.Semisimple.Basic
-import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 
 /-!
 # Sieve methods and prime patterns: target signatures
@@ -20,8 +17,7 @@ logarithm-square convolution, variance and congruence-correlation estimates;
 Bombieri–Vinogradov and its maximal and second-moment forms; Maynard clusters,
 variational growth, the Gram-form evaluation of the variational functionals and the bounds
 M₅ ≥ 1417255/708216 and M₁₀₅ > 4 with the gap theorems they give; Chen's two theorems; Henk's and
-Davenport's lattice-point counts; strong approximation for simply connected semisimple groups; and
-the uniform Lang–Weil estimates. The unconditional
+Davenport's lattice-point counts; and the uniform Lang–Weil estimates. The unconditional
 prime-distribution statements have effective constants, through the exclusion of Landau–Siegel
 zeros in AnalyticNumberTheoryPartI §0.34; a Lean statement records the shape, not the
 effectivity.
@@ -664,61 +660,6 @@ theorem positive_proportion_prime_tuples (m : ℕ) (hm : 1 ≤ m) :
 end SieveMaynard
 
 /-! ## Layer 5: weighted almost primes, joint spins and affine saturation -/
-
-namespace SieveStrongApproximation
-open IsDedekindDomain NumberField
-
-variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
-
-/-- The coarsest topology on points with values in a topological algebra making every
-evaluation continuous; scoped, so that it does not compete with other point topologies. -/
-scoped instance evaluationTopology (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
-    TopologicalSpace (WithConv (H →ₐ[F] R)) :=
-  ⨅ h : H, TopologicalSpace.induced (fun x => x.ofConv h) inferInstance
-
-variable [NumberField F]
-
-/-- Adelic points of `Spec H`. -/
-abbrev AdelicPoints := WithConv (H →ₐ[F] NumberField.AdeleRing (𝓞 F) F)
-
-/-- Finite adelic points of `Spec H`. -/
-abbrev FiniteAdelicPoints := WithConv (H →ₐ[F] FiniteAdeleRing (𝓞 F) F)
-
-/-- Archimedean points of `Spec H`. -/
-abbrev InfinitePoints := WithConv (H →ₐ[F] NumberField.InfiniteAdeleRing F)
-
-/-- Points of `Spec H` over the completion at a finite place. -/
-abbrev LocalPoints (v : HeightOneSpectrum (𝓞 F)) := WithConv (H →ₐ[F] v.adicCompletion F)
-
-/-- The rational diagonal in the adelic points. -/
-def diagonal : WithConv (H →ₐ[F] F) →* AdelicPoints F H :=
-  AlgHom.mapValue (Algebra.ofId F _)
-
-/-- Projection of adelic points to finite adelic points. -/
-def finiteProjection : AdelicPoints F H →* FiniteAdelicPoints F H :=
-  AlgHom.mapValue (AlgHom.snd F _ _)
-
-/-- Strong approximation with respect to `∞ ∪ S_f`: rational points times the adelic points
-trivial at every finite place outside `S_f` are dense in the adelic points. -/
-def HasStrongApproximation (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
-  Dense {x : AdelicPoints F H | ∃ g : WithConv (H →ₐ[F] F), ∃ y : AdelicPoints F H,
-    (∀ v ∉ Sf, ∀ h : H,
-      (finiteProjection F H y).ofConv h v = (1 : FiniteAdelicPoints F H).ofConv h v) ∧
-    x = diagonal F H g * y}
-
-/-- A connected semisimple simply connected group has strong approximation with respect to
-`∞ ∪ S_f` when every nontrivial semisimple quotient, given by an injective Hopf map whose scalar
-map is not surjective, has noncompact points over `∞ ∪ S_f`. -/
-theorem hasStrongApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHopfAlgCat F)
-    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
-    (Sf : Finset (HeightOneSpectrum (𝓞 F)))
-    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
-      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
-        ¬ IsCompact (Set.univ : Set (InfinitePoints F Q.obj × ∀ v : Sf, LocalPoints F Q.obj v))) :
-    HasStrongApproximation F (G.obj : Type) Sf := by
-  sorry
-
-end SieveStrongApproximation
 
 namespace SieveLangWeil
 
