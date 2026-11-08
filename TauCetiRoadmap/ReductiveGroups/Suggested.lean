@@ -7,6 +7,8 @@ import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
 import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Connected.GroupScheme
 import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
+import TauCeti.Algebra.AlgebraicGroup.Torus.Maximal
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
 import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
@@ -21,10 +23,11 @@ that an affine group is linearly reductive exactly when its identity component i
 Nagata's characteristic-`p` criterion that a smooth connected group is linearly reductive exactly
 when it is a torus; Layer 6A's characteristic-zero Levi complement, as a Hopf ideal whose quotient
 restricts to an isomorphism from the right coinvariants of the unipotent radical's defining
-ideal; Layer 7a's Lang surjectivity for smooth geometrically connected groups over finite fields;
-the SL coordinate presentation of the worked examples; Layer 11A's plane-configuration
-fundamental-group/braid-group equivalence, sending half-twist loops to the standard generators,
-and permutation-map nonsplitting.
+ideal; Layer 7's conjugacy of maximal tori by rational points over an algebraically closed field,
+for every finite-type affine group; Layer 7a's Lang surjectivity for smooth geometrically
+connected groups over finite fields; the SL coordinate presentation of the worked examples;
+Layer 11A's plane-configuration fundamental-group/braid-group equivalence, sending half-twist
+loops to the standard generators, and permutation-map nonsplitting.
 
 Proved in the pinned Tau Ceti, hence consumed and not restated: Layer 3's representability of
 the quotient by a normal closed subgroup of a geometrically reduced group,
@@ -46,10 +49,10 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`) and the Tannakian
   reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
 * Layers 4, 7 and 9D: the nonsplit torus/Galois-lattice comparison, the represented quotient
-  `G/P` by a parabolic subgroup and the Levi subgroup functors, and the root datum extracted
-  from a group lack the required comparison carriers. The parabolic predicate itself is pinned
-  (`TauCeti.HopfIdeal.IsParabolic`, `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`), so Layer 7's
-  completeness characterization of parabolics lacks only the represented quotient.
+  `G/P` by a parabolic subgroup, and the root datum extracted from a group lack the required
+  comparison carriers. The parabolic predicate itself is pinned (`TauCeti.HopfIdeal.IsParabolic`,
+  `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`), so Layer 7's completeness characterization of
+  parabolics lacks only the represented quotient.
   Diagonalizable group schemes and their equivalence with finitely generated
   commutative groups exist in `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
   `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here. The
@@ -145,6 +148,25 @@ theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
       Function.Bijective
         ((Ideal.Quotient.mkₐ k J.toIdeal).comp
           (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
+  sorry
+
+/-! ## Layer 7: Borel subgroups and maximal tori -/
+
+/-- Over an algebraically closed field `k`, any two maximal tori of a finite-type affine group
+`G` are conjugate by a rational point: if the Hopf ideals `I` and `J` cut out maximal tori `T`
+and `T'`, then `g T g⁻¹ = T'` for some `g ∈ G(k)`, that is `I.conjugate g = J` (Milne, Algebraic
+Groups, Theorem 17.10, p. 354, for smooth connected `G`). No smoothness or connectedness is
+assumed: a torus is smooth and connected, so the tori of `G` are those of the smooth connected
+subgroup `(G_red)°` (Milne, Corollary 1.39, p. 18), whose rational points are rational points
+of `G`. The pinned `TauCeti.HopfIdeal.exists_conjugate_eq_of_isMaximalTorus` assumes in addition
+that both tori can be conjugated into a fixed maximal torus. The field must be algebraically
+closed: over `ℝ` the diagonal torus and `SO₂` are maximal tori of `SL₂` that no real point
+conjugates into each other. -/
+theorem exists_conjugate_eq_of_isMaximalTorus {k : Type v} [Field k] [IsAlgClosed k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k) {I J : TauCeti.HopfIdeal k H.obj}
+    (hI : TauCeti.HopfIdeal.IsMaximalTorus k H.obj I)
+    (hJ : TauCeti.HopfIdeal.IsMaximalTorus k H.obj J) :
+    ∃ g : WithConv (H.obj →ₐ[k] k), I.conjugate g = J := by
   sorry
 
 /-! ## Layer 7a: finite-field Lang surjectivity -/

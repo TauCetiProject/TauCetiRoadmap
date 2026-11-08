@@ -14,18 +14,26 @@ and spectral constructions in Layers 0–11. The SL polynomial presentation conc
 the existing determinant-kernel coordinate algebra; it introduces no second SL group.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
 group over a finite field and the abstract fixed-coset lifting lemma; Layer 9E owns their
-Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology and cotensor
-induction over flat commutative Hopf algebras, together with their rational
-group-scheme adapters. The classical topology on the complex points of a scheme is a pinned
-Tau Ceti carrier, the chart topology `TauCeti.SchemePointTopology.topology` built on the
-affine evaluation topology `TauCeti.PointTopology.topology`, with the topological group of
-points of an affine group; it is consumed in Layer 3A.5, and it is the underlying space of the
-scheme analytification of ComplexComparisonPartII C-1.1, the two agreeing by the identity on
-`X(ℂ)`. Layer 3A.5 owns what that library does not state: the scheme-level functoriality,
-open-cover gluing, immersion, fibre-product, reduction, separated and proper comparisons of
-that topology, the smooth charts, the complex Lie-group structure on `G(ℂ)` with its tangent
-dictionary, and the holomorphic orbit-map and stabilizer comparisons. Layer 11 consumes these
-comparisons.
+Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology over flat commutative
+Hopf algebras, the action-to-coaction direction of the points dictionary, and the exactness,
+transitivity and points description of cotensor induction, whose construction and
+reciprocity are pinned, together with their rational group-scheme adapters. The topology on
+the points of a scheme with values in a topological algebra is a pinned Tau Ceti carrier, the
+chart topology `TauCeti.SchemePointTopology.topology` built on the affine evaluation topology
+`TauCeti.PointTopology.topology`, with the topological group of points of an affine group;
+with values in `ℂ` it is the classical topology on complex points. It is consumed in Layer 3A.5, which owns what that library does not state. For every
+local topological algebra `R` whose units are open with continuous inversion, Layer 3A.5 proves
+that affine open charts are open embeddings of point spaces, that scheme morphisms act
+continuously, that open and closed immersions give open and closed embeddings, and that
+separated and locally finite-type schemes have Hausdorff and locally compact points under the
+corresponding hypotheses on `R`. For `R = ℂ` it proves the fibre-product, reduction and proper
+comparisons, constructs the smooth charts and the complex Lie-group structure on `G(ℂ)` with its
+tangent dictionary, and proves the holomorphic orbit-map and stabilizer comparisons. Layer 11
+consumes these comparisons. ReductiveGroupsPartII RG2.0.1 states the general-`R` comparisons
+again under its own names; it is a consumer of Layer 3A.5, not a second supplier of them.
+ComplexComparisonPartII C-1.1 builds its scheme analytification on the complex points and owns
+the identification of the analytification's underlying space with this topology; for the
+topological comparisons and the smooth charts it is a consumer of Layer 3A.5.
 FormalConnectionsOpers §4.3 consumes the
 complex Lie-group dictionary on `G(ℂ)` and transports it to the Hopf-point carrier; no target
 of FormalConnectionsOpers is an input here. Layer 11A owns the based comparison between the fundamental
@@ -288,8 +296,25 @@ prove them equivalent** rather than committing.
   `TauCeti.Comodule.Hom.cofreeEquiv` and `TauCeti.ComoduleCat.cofree` over a
   commutative ring. `Comodule/Abelian.lean` supplies the abelian category and exact
   forgetful functor when the coalgebra is flat; `Comodule/Corestrict.lean` supplies
-  corestriction along a coalgebra map. Layer 1.1 constructs derived invariants
-  and cotensor induction on these carriers and their rational group-scheme adapters.
+  corestriction along a coalgebra map. Layer 1.1 constructs derived invariants on these
+  carriers and their rational group-scheme adapters.
+- **Points action and cotensor induction.** `TauCeti/Algebra/Coalgebra/Comodule/PointsAction.lean`
+  supplies `TauCeti.Comodule.endOfPoint`, the action of a point `g : H →ₐ[R] A` on `A ⊗[R] V`
+  for any comodule `V` over a coalgebra `H` over a commutative semiring `R`, its naturality in
+  `A` (`TauCeti.Comodule.rTensor_comp_endOfPoint`) and the representation
+  `TauCeti.Comodule.pointsRepresentation` of the convolution monoid of points over a
+  bialgebra; `TauCeti/Algebra/AlgebraicGroup/Representation/PointsAction/Basic.lean` supplies
+  `TauCeti.Comodule.pointsAction`, the action by automorphisms over a Hopf algebra.
+  `TauCeti/Algebra/Coalgebra/Comodule/Induced.lean` supplies, for a coalgebra map
+  `f : C →ₗc[R] D` over a commutative ring with `C` flat, the induced comodule
+  `TauCeti.Comodule.induced`, Frobenius reciprocity `TauCeti.Comodule.inducedEquiv`, natural
+  in both variables (`TauCeti.Comodule.inducedEquiv_comp`,
+  `TauCeti.Comodule.inducedEquiv_inducedMap_comp`), and functoriality
+  `TauCeti.Comodule.inducedMap`, `TauCeti.Comodule.inducedMap_id`,
+  `TauCeti.Comodule.inducedMap_comp`. `TauCeti/Algebra/Coalgebra/Comodule/Fixed.lean` supplies
+  the invariant subcomodule `TauCeti.Comodule.fixedSubcomodule`, the vectors `v` with
+  `coact v = v ⊗ 1` for a coalgebra with a distinguished element `1`, and the induced maps
+  `TauCeti.Comodule.Hom.fixedMap`. Layer 1.1 consumes these and does not restate them.
 - **Analytic local inversion.** `TauCeti/Analysis/Analytic/Inverse.lean` supplies
   `AnalyticAt.exists_openPartialHomeomorph` for an analytic map between Banach
   spaces over a complete nontrivially normed field whose strict derivative at the
@@ -405,8 +430,10 @@ of scalars. These are consumed by Layer 6, not restated.
 ### Native complex-point topology
 
 `TauCeti/Topology/Algebra/PointTopology/` puts a topology on the points of a scheme over `k`
-with values in a topological `k`-algebra `R`; Layer 3A.5 takes `k = R = ℂ` with its usual
-topology. For an affine scheme `Spec A`, `TauCeti.PointTopology.topology` (`Basic.lean`) is the
+with values in a topological `k`-algebra `R`; Layer 3A.5 uses it for every local `R` whose units
+are open with continuous inversion, and takes `k = R = ℂ` with its usual topology for the
+complex comparisons. For an affine scheme `Spec A`, `TauCeti.PointTopology.topology`
+(`Basic.lean`) is the
 coarsest topology on `A →ₐ[k] R` making every evaluation `x ↦ x a` continuous, with no finiteness
 or separation hypothesis; `TauCeti.PointTopology.isEmbedding_eval_generators` embeds the points
 in `ι → R` by any generating family `a : ι → A`, as a closed subspace when `R` is T1
@@ -438,9 +465,9 @@ local `R` every point lies in some affine open chart
 (`TauCeti.SchemePointTopology.exists_mem_range_chartPoint`), and on an affine scheme the two
 topologies agree (`TauCeti.SchemePointTopology.affineHomeomorph`). The library does not state
 that an affine open chart is an open embedding of point spaces, nor the continuity of a scheme
-morphism on points, nor a scheme-level fibre-product, immersion, reduction, separatedness or
-properness comparison; these are the targets of Layer 3A.5. The topology and the topological
-group are consumed, not restated.
+morphism on points, nor a scheme-level fibre-product, immersion, reduction, separatedness,
+local-compactness or properness comparison; these are the targets of Layer 3A.5. The topology
+and the topological group are consumed, not restated.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -519,6 +546,19 @@ its module docstring identifies the missing carriers for the other endpoints.
 The fppf topology, sheafification, torsors and generic descent are consumed from
 the exact supplier contracts above. Quotient representability is proved separately
 with the hypotheses stated at each group-specific application.
+
+Citations of this roadmap in its earlier layer numbering map as follows (old → new):
+- Layer 8, *classification and existence* (the isomorphism, isogeny and existence theorems,
+  relative reductive groups with the schemes of maximal tori and of Borel subgroups, central
+  isogenies and the simply connected and adjoint forms, and pseudo-reductive groups) → Layer 9D.
+- Layer 8's bullet *Relative reductive groups over an affine Noetherian base* → Layer 9D's
+  bullet *Relative reductive groups over an arbitrary affine base*, which drops the
+  Noetherian hypothesis.
+- Layer 7g, *Steinberg endomorphisms and extension of Layers 7a–7f* → Layer 9E.
+- Layer 9B's bullets *Split reductive group schemes over a base* and *Pinnings* → §§8.1–8.2,
+  the present Layer 8, *split groups and pinnings*.
+- All other layer and section numbers, including 3A.1–3A.7, 5P, 6A, 6B, 7C, 7a–7f, 9A–9C
+  and 10–11, are unchanged.
 
 ## Layer 0: the functor of points and the three-way dictionary
 
@@ -636,14 +676,21 @@ adapters.
 ### 1.1 Rational cohomology and algebraic induction
 
 For an affine group scheme G over R with flat coordinate Hopf algebra, extend
-Layer 1's action/comodule dictionary to arbitrary R-modules. Evaluate a coaction
-M → M⊗O(G) at each g∈G(S) to obtain an S-linear action on M⊗S, naturally in
-the R-algebra S; evaluation at the universal O(G)-point recovers the coaction.
-Prove these operations inverse, preserving invariant submodules and morphisms.
-Transport the constructions below through this equivalence; no flatness or
-finiteness assumption on M is imposed (Jantzen, Part I, 1985 preprint,
-§2.8, pp. 36–39).
-*Needs:* Layer 0's group-scheme/points dictionary and Layer 1's comodule dictionary.
+Layer 1's action/comodule dictionary to arbitrary R-modules. The comodule-to-action
+direction is pinned: `TauCeti.Comodule.endOfPoint` (`Coalgebra/Comodule/PointsAction.lean`)
+lets a point g∈G(S) act S-linearly on S⊗M by pushing the coaction coefficients through g,
+with no hypothesis on M; `TauCeti.Comodule.pointsRepresentation` is the resulting
+representation of the convolution monoid of points, `TauCeti.Comodule.pointsAction`
+(`AlgebraicGroup/Representation/PointsAction/Basic.lean`) its upgrade to automorphisms over a
+Hopf algebra, and `TauCeti.Comodule.rTensor_comp_endOfPoint` its naturality in the R-algebra
+S. Construct the inverse: a family of S-linear actions on S⊗M, natural in S and satisfying the
+action laws, determines a coaction by evaluation at the universal point id : O(G) → O(G).
+Prove that this recovers the coaction of a comodule and that the two operations are inverse,
+preserving invariant submodules and morphisms. Transport the constructions below through
+this equivalence; no flatness or finiteness assumption on M is imposed (Jantzen, Part I,
+1985 preprint, §2.8, pp. 36–39).
+*Needs:* the pinned points action above; Layer 0's group-scheme/points dictionary and
+Layer 1's comodule dictionary.
 
 **Checks.**
 - For the weight-one line of 𝔾_m over ℤ, 1↦1⊗t evaluates at 2∈ℚˣ to
@@ -662,7 +709,9 @@ right adjoint makes I ⊗ H injective. No finiteness or flatness condition is pl
 on M (Jantzen, Part I, 1985 preprint, §3.9, p. 60).
 
 Define rational cohomology as the right derived functors of the invariant submodule
-Mᴴ = ker(ρ_M − (m ↦ m ⊗ 1)). Construct the augmented cofree resolution and prove
+Mᴴ = ker(ρ_M − (m ↦ m ⊗ 1)), which is the pinned `TauCeti.Comodule.fixedSubcomodule`
+(`Coalgebra/Comodule/Fixed.lean`), functorial through `TauCeti.Comodule.Hom.fixedMap`.
+Construct the augmented cofree resolution and prove
 that its invariant complex computes these functors. In degree n this complex is
 Cⁿ(H,M)=M ⊗ H^⊗n: cofaces apply ρ_M at the beginning, Δ in each Hopf position,
 and append 1 at the end; the differential is the alternating sum in that order.
@@ -670,8 +719,8 @@ Prove the cosimplicial identities and d²=0. The resolution is split exact on
 underlying modules by the counit, and its terms are acyclic for invariants;
 cofree does not mean injective for arbitrary coefficient modules
 (Jantzen, Part I, 1985 preprint, §§4.2, 4.7(a), 4.14–4.16, pp. 69–70, 72–73, 77–79a).
-*Needs:* native abelian/comodule/cofree interfaces in the supplier contract;
-Mathlib's module injectives, right derived functors and cochain-complex homology.
+*Needs:* native abelian/comodule/cofree and invariant-subcomodule interfaces in the supplier
+contract; Mathlib's module injectives, right derived functors and cochain-complex homology.
 
 The cohomology and cofree-resolution API includes:
 - H⁰(H,M)=Mᴴ, naturally in M; for every R-module N, the cofree comodule N ⊗ H
@@ -696,22 +745,23 @@ The cohomology and cofree-resolution API includes:
   H⁰=R and H¹=0. For the trivial group the coefficient map ℤ → ℤ/2 sends 3 to 1
   in H⁰ and commutes with the differential id in degree one.
 
-For flat commutative Hopf R-algebras H,K, a Hopf map q:H → K and a right
-K-comodule M, define induction as the equalizer in M ⊗ H of ρ_M ⊗ id and
-id ⊗ ((q ⊗ id)Δ_H), with common codomain M ⊗ K ⊗ H and associators understood.
-Flatness of H makes id ⊗ Δ_H restrict to a right H-coaction on this equalizer.
-Prove reciprocity
-Hom_H(N,Ind_q M) ≃ Hom_K(Corestrict_q N,M): the forward map composes with
-id ⊗ ε_H, and its inverse takes u to (u ⊗ id)ρ_N. This applies to arbitrary
-Hopf maps; the closed-subgroup case is the surjective coordinate-map specialization.
-The equalizer proof uses only the Hopf-map identities, so needs no surjectivity
-(Jantzen, Part I, 1985 preprint, §§3.3–3.7, pp. 52–58, for the subgroup formulation).
-*Needs:* native corestriction and cofree comodules; tensor equalizers and flatness;
-Layer 0's Hopf/points dictionary for the function interpretation.
+Induction is pinned. For a coalgebra map f : C → D over R with C flat and a right
+D-comodule M, `TauCeti.Comodule.induced` (`Coalgebra/Comodule/Induced.lean`) is the cotensor
+product M □_D C, the equalizer in M ⊗ C of ρ_M ⊗ id and id ⊗ ((f ⊗ id)Δ_C), as a
+subcomodule of the cofree comodule M ⊗ C. `TauCeti.Comodule.inducedEquiv` is reciprocity
+Hom_C(N,Ind_f M) ≃ Hom_D(N,M), with N a D-comodule by corestriction: the forward map composes
+with counit evaluation, and the inverse takes u to (u ⊗ id)ρ_N. It is natural in N
+(`TauCeti.Comodule.inducedEquiv_comp`) and in M
+(`TauCeti.Comodule.inducedEquiv_inducedMap_comp`), and `TauCeti.Comodule.inducedMap`, with
+`TauCeti.Comodule.inducedMap_id` and `TauCeti.Comodule.inducedMap_comp`, is functoriality in M.
+A Hopf map q : H → K of flat commutative Hopf R-algebras is the case f = q, with no
+surjectivity; the closed-subgroup case is the surjective coordinate-map specialization
+(Jantzen, Part I, 1985 preprint, §§3.3–3.7, pp. 52–58, for the subgroup formulation). These
+are consumed, not restated. *Needs:* the pinned induction above; Layer 0's Hopf/points
+dictionary for the function interpretation.
 
-The induction API includes:
-- Reciprocity is natural in N and M, with the two displayed maps inverse; induction
-  is right adjoint to corestriction and is left exact. Identity and composite Hopf
+The induction API, beyond the pinned construction and reciprocity, includes:
+- Induction, the right adjoint of corestriction, is left exact. Identity and composite Hopf
   maps give identity and transitivity isomorphisms compatible with counit evaluation.
 - On points of every R-algebra, the equalizer describes functions F with
   F(hg)=hF(g), acted on by (a·F)(g)=F(ga). The antipode sends F to
@@ -757,7 +807,8 @@ The induction API includes:
 ### Dependencies
 
 Layer 0; Tau Ceti's comodule categories, finite-subcoalgebra theorems, embedding and
-faithfulness theorems, Tannakian reconstruction and cofree/corestriction interfaces;
+faithfulness theorems, Tannakian reconstruction, cofree/corestriction interfaces, points
+action and cotensor induction;
 Mathlib's module injectives, right derived functors and cochain-complex homology.
 
 ## Layer 2: Lie algebra and the adjoint representation
@@ -936,42 +987,71 @@ and the projective-morphism properness theorem: consume native `IsProper (Proj.t
 its `Algebra.FiniteType (𝒜 0) A` hypothesis and transport through the actual
 projective-space/closed-immersion maps.
 
+**Points with values in a local topological algebra.** Let `k` be a commutative ring and `R`
+a local topological `k`-algebra whose units are open, with `Units.val : Rˣ → R` an embedding,
+that is, with inversion continuous on the units. For a `k`-scheme `X`, give `X(R)`, the
+morphisms `Spec R → X` over `Spec k`, the pinned chart topology
+`TauCeti.SchemePointTopology.topology` (supplier contract *Native complex-point topology*).
+Prove what the library leaves open. Each affine open chart `Spec A → X` is an open embedding of
+`A(R)` into `X(R)`, so the topology is glued from any affine open cover, including infinite
+covers, and it is the unique topology in which each chart is an open subspace carrying its
+affine topology. A morphism of `k`-schemes acts continuously on `R`-points by composition,
+giving a functor to topological spaces. An open immersion induces an open embedding; a closed
+immersion induces a closed embedding when `R` is Hausdorff. If `X` is separated over `k` and
+`R` is Hausdorff, then `X(R)` is Hausdorff; if `X` is locally of finite type over `k` and `R`
+is Hausdorff and locally compact, then `X(R)` is locally compact (Conrad, *Weil and
+Grothendieck approaches to adelic points*, Proposition 3.1 and its proof, p. 4, for `X` locally
+of finite type over `R` itself; `X(R)` over `k` is `(X ×_k Spec R)(R)` over `R`). The
+open-embedding step reduces to the principal opens of a chart, which are the pinned
+`TauCeti.PointTopology.isOpenEmbedding_localization`, and uses no finiteness; the covering of
+`X(R)` by charts is `TauCeti.SchemePointTopology.exists_mem_range_chartPoint`, which needs `R`
+local. The affine cases are the pinned `TauCeti.PointTopology.continuous_comap`,
+`TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`,
+`TauCeti.PointTopology.instT2Space` and
+`TauCeti.PointTopology.locallyCompactSpace_of_finiteType`, with the chart continuity
+`TauCeti.SchemePointTopology.continuous_chartPoint`; Hausdorffness for separated `X` follows
+from the closed diagonal and the fibre-product comparison of the affine charts,
+`TauCeti.PointTopology.relativeTensorProductHomeomorph`. *Needs:* the pinned point topology of
+the supplier contract; Mathlib's affine opens, open and closed immersions and separated
+morphisms.
+
+**Checks.**
+- For a field `R` with the indiscrete topology, inversion is continuous but the units
+  `R ∖ {0}` are not open, and the chart `D(t)(R) = R ∖ {0} → 𝔸¹(R) = R` of the principal open
+  `D(t)` is not an open embedding: the hypothesis that the units are open is needed.
+- For `R = ℤ_p`, the units `ℤ_p ∖ pℤ_p` are open and inversion is continuous. The chart
+  `D(t)(ℤ_p) = ℤ_pˣ` is open in `𝔸¹(ℤ_p) = ℤ_p`, and the point `t ↦ p` of `𝔸¹(ℤ_p)` lies
+  outside it.
+- For a discrete field `R`, both hypotheses on units hold, and `X(R)` is discrete for `X`
+  locally of finite type, since each affine `U(R)` is a subspace of a discrete `Rⁿ`. For
+  `X = Spec k[t₁, t₂, …]`, which is not of finite type, `X(R) = R^ℕ` with the product topology
+  is not discrete.
+
 **Classical complex points.** For a locally finite-type ℂ-scheme `X`, the classical topology
-on `X(ℂ)`, the set of ℂ-morphisms `Spec ℂ → X` over ℂ, is the pinned chart topology
-`TauCeti.SchemePointTopology.topology` on `TauCeti.SchemePointTopology.Points` with `R = ℂ` in
-its usual topology (supplier contract *Native complex-point topology*): on an affine
-`X = Spec A` it is the evaluation topology on `A →ₐ[ℂ] ℂ`
+on `X(ℂ)`, the set of ℂ-morphisms `Spec ℂ → X` over ℂ, is the case `k = R = ℂ` of the topology
+above, with ℂ in its usual topology: the units of ℂ are open
+(`Units.isOpenEmbedding_val`), inversion is continuous on them, and ℂ is Hausdorff and locally
+compact. On an affine `X = Spec A` it is the evaluation topology on `A →ₐ[ℂ] ℂ`
 (`TauCeti.SchemePointTopology.affineHomeomorph`), which every finite presentation embeds as
 the closed zero locus in `ℂⁿ` (`TauCeti.PointTopology.isClosedEmbedding_eval_generators`), so
 it is independent of the presentation; the points of a principal open `D(f)` form the open
-subspace where `f` is a unit (`TauCeti.PointTopology.isOpenEmbedding_localization`, as the
-units of ℂ are open and inversion is continuous on them); and on a general `X` a set is open
-exactly when its preimage in every affine open chart is
-(`TauCeti.SchemePointTopology.isOpen_iff`), every complex point lying in some chart
-(`TauCeti.SchemePointTopology.exists_mem_range_chartPoint`). The carrier admits singular,
-nonreduced and nonseparated schemes and assigns a manifold structure to none of them. Prove
-what the library leaves open: each affine open chart `Spec A → X` is an open embedding of
-`A(ℂ)` into `X(ℂ)`, so the topology is glued from any affine open cover, including infinite
-covers; and a morphism of locally finite-type ℂ-schemes acts continuously on complex points by
-composition, giving a functor to topological spaces (SGA 1, Exposé XII, §§1.1–1.2, revised
-edition, pp. 239–241, on underlying spaces). The affine cases are the pinned
-`TauCeti.PointTopology.continuous_comap` and the chart continuity
-`TauCeti.SchemePointTopology.continuous_chartPoint`; the open-embedding step reduces to the
-principal opens of the chart.
+subspace where `f` is a unit; and on a general `X` a set is open exactly when its preimage in
+every affine open chart is (`TauCeti.SchemePointTopology.isOpen_iff`). The carrier admits
+singular, nonreduced and nonseparated schemes and assigns a manifold structure to none of them.
+Over ℂ the general statements above give the open-embedding charts, the functor to topological
+spaces, the embeddings induced by open and closed immersions, Hausdorff points for separated
+`X` and locally compact points (SGA 1, Exposé XII, §§1.1–1.2, revised edition, pp. 239–241, on
+underlying spaces).
 
 Its API includes:
-- Open and closed immersions induce the corresponding topological embeddings,
-  and the point functor preserves fibre products, via the actual projection maps; the affine
-  cases are the pinned `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` and
-  `TauCeti.PointTopology.relativeTensorProductHomeomorph`.
+- The point functor preserves fibre products, via the actual projection maps; the affine
+  case is the pinned `TauCeti.PointTopology.relativeTensorProductHomeomorph`.
   Reduction induces a homeomorphism on complex points (SGA 1, XII.1.1–1.2 and
   Proposition 2.1, pp. 239–242).
-- Separated schemes have Hausdorff complex points; the affine case is the pinned
-  `TauCeti.PointTopology.instT2Space`. A proper morphism gives a
-  relatively separated topological map whose restriction over every Hausdorff
-  open subset of the target has compact inverse images of compact subsets;
-  in particular a proper ℂ-scheme has compact complex points
-  (SGA 1, XII, Propositions 3.1(viii) and 3.2(v), pp. 244–247).
+- A proper morphism gives a relatively separated topological map whose restriction over every
+  Hausdorff open subset of the target has compact inverse images of compact subsets; in
+  particular a proper ℂ-scheme has compact complex points (SGA 1, XII, Propositions 3.1(viii)
+  and 3.2(v), pp. 244–247).
 - For a smooth ℂ-scheme, construct complex charts locally in its dimension,
   using étale coordinates and the analytic inverse theorem. Transition functions
   and scheme maps between smooth schemes are holomorphic; étale maps become local
@@ -980,10 +1060,11 @@ Its API includes:
   otherwise use the open-and-closed loci of each dimension
   (SGA 1, XII, Proposition 3.1(iii)–(iv), pp. 244–245).
 
-*Needs:* the pinned complex-point topology of the supplier contract; Mathlib's affine scheme
-charts, the open embedding `Units.isOpenEmbedding_val` of the units of ℂ, topological
-gluing and manifold charts; SchemeAndStackFoundations §0.8's étale coordinates;
-the native analytic inverse theorem in the supplier contract. A route for the
+*Needs:* the pinned complex-point topology of the supplier contract; the general-`R`
+comparisons above; Mathlib's affine scheme charts, the open embedding
+`Units.isOpenEmbedding_val` of the units of ℂ, topological gluing and manifold charts;
+SchemeAndStackFoundations §0.8's étale coordinates; the native analytic inverse theorem in the
+supplier contract. A route for the
 proper comparison uses Chow's lemma and projective-space compactness; its algebraic
 inputs are SchemeAndStackFoundations §4.12's Chow lemma, applied over affine
 finite-type complex opens of the base, and §0.3's projective geometry.
@@ -1194,7 +1275,8 @@ elements; Mathlib's `RootPairing` vocabulary for the pairing.
   representation and embeds in the upper-triangular `Bₙ` (Milne, Theorem 16.30, p. 334).
   For a smooth connected solvable `G` over a perfect field, use its native
   unipotent radical `G_u`; prove `G/G_u` a torus and, over `k̄`, the
-  decomposition `G = G_u ⋊ T` for a maximal torus `T` (Milne, Theorem 16.33, p. 335).
+  decomposition `G = G_u ⋊ T` for a maximal torus `T`, with every subgroup of multiplicative
+  type conjugate into `T` by a point of `G_u(k̄)` (Milne, Theorem 16.33, pp. 335–336).
   *Needs:* the unipotent theory above; Layer 4's tori; Layer 3's quotients.
 - **Radical descent and quotient comparison.** For a smooth connected G over
   a perfect field k, compare the native k-unipotent radical with the geometric
@@ -1554,16 +1636,32 @@ the supplier contracts.
   finite-type affine group, smooth or not, are conjugate by a rational point: this is the
   pinned `TauCeti.HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (Milne, Theorem 17.9(b),
   p. 354), consumed and not restated. Prove that `G/B` is complete (Milne, Theorem 17.9,
-  p. 354), that any two maximal tori are conjugate (Milne, Theorem 17.10, p. 354) and that any two Borel
-  subgroups of a connected reductive group contain a common maximal torus. Prove the Bruhat
+  p. 354) and that any two Borel subgroups of a connected reductive group contain a common
+  maximal torus. Prove `StructureAcceptance.exists_conjugate_eq_of_isMaximalTorus`: over an
+  algebraically closed field `k`, any two maximal tori of a finite-type affine group `G`, in the
+  sense of the pinned `TauCeti.HopfIdeal.IsMaximalTorus` (`Torus/Maximal.lean`, a torus closed
+  subgroup contained in no larger one), are conjugate by a rational point, `I.conjugate g = J`
+  (Milne, Theorem 17.10, p. 354, for smooth connected `G`). No smoothness or connectedness is
+  assumed: a torus is smooth and connected, so the tori of `G` are those of the smooth connected
+  subgroup `(G_red)°`, an algebraic subgroup because `k` is perfect (Milne, Corollary 1.39,
+  p. 18), whose rational points are rational points of `G`. The pinned
+  `TauCeti.HopfIdeal.exists_conjugate_eq_of_isMaximalTorus` (`Torus/Conjugation.lean`) has the
+  same conclusion under the additional hypotheses that each of the two tori can be conjugated
+  into one fixed maximal torus, which its `GLₙ`, `SLₙ` and symplectic instances discharge for
+  those groups; the target removes these hypotheses. A route: every maximal torus
+  lies in a Borel subgroup (`TauCeti.HopfIdeal.IsMaximalTorus.exists_isBorelOverAlgClosed_le`,
+  `Borel/Torus.lean`), any two Borel subgroups are conjugate (the pinned theorem above), and two
+  maximal tori of one Borel subgroup are conjugate by a rational point of it (Layer 5's
+  solvable decomposition, Milne, Theorem 16.33(d), pp. 335–336). Prove the Bruhat
   decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` and the double-coset identification `B\G/B ≃ W`
   here (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits systems). These algebraic
   prerequisites are consumed by Layer 7b. The route to completeness of `G/B` and to the
   conjugacy of maximal tori is the Borel fixed-point theorem for a Borel subgroup acting on a
   complete homogeneous space, built on the pinned closed orbits of Layer 3A and Layer 5's
   Lie–Kolchin theorem. *Needs:* Layer 5's Lie–Kolchin and solvable groups; the pinned orbit
-  theorems and Borel conjugacy; Layer 3's quotients; Layer 4's tori; the native Borel predicate
-  and conjugation of Hopf ideals.
+  theorems and Borel conjugacy; Layer 3's quotients; Layer 4's tori; the native Borel and
+  maximal-torus predicates, the pinned containment of maximal tori in Borel subgroups, and
+  conjugation of Hopf ideals.
 - **Parabolic subgroup schemes and Levi decompositions.** For a connected smooth
   affine reductive group of finite type over a field `k`, its parabolic `k`-subgroups `P` are
   the pinned `TauCeti.HopfIdeal.IsParabolic` (`Parabolic/Basic.lean`): the smooth closed
@@ -1620,6 +1718,15 @@ the supplier contracts.
   by any element of `SL₂(ℝ)` (one has unbounded, the other compact real points), although
   they become conjugate over `ℂ`: conjugacy of maximal tori needs the algebraically closed
   field.
+- In `PGL₂` over `k̄` of characteristic `≠ 2`, the image `V₄` of `diag(±1, ±1)` and
+  `[[0, ±1], [±1, 0]]` is a commutative subgroup of semisimple elements, hence diagonalizable,
+  and is its own centralizer, as the diagonal torus `T` is: both are maximal among
+  diagonalizable subgroups, of dimensions `0` and `1`, so they are not conjugate. Conjugacy holds
+  for maximal tori, not for maximal diagonalizable subgroups, and `V₄` lies in no torus.
+- For `G = GL₂ × μ_p` over `k̄` of characteristic `p`, which is not smooth, every torus lies in
+  `G_red = GL₂ × {1}`, so the maximal tori are the `T × {1}` with `T` a maximal torus of `GL₂`,
+  and any two are conjugate by a point of `GL₂(k̄)`. For the constant group `S₃`, which is not
+  connected, the only torus is trivial. Neither smoothness nor connectedness is needed.
 - `SL₂` has the two Bruhat cells `B` and `BwB = {c ≠ 0}`, matching `|W| = 2`; `GL₃` has
   six cells and exactly four parabolic subgroups containing `B⁺` (`B⁺`, the two
   block-triangular groups and `GL₃`), one for each subset of the two simple roots.
@@ -2108,28 +2215,24 @@ For the trivial `L^F`-module, inflation is trivial and Harish–Chandra inductio
 permutation representation on left cosets `G^F/P^F`. Layer 7e therefore gives isomorphic
 complex permutation representations for common-Levi parabolics. Build the comparison as a
 `Representation.Equiv` between the two permutation representations, using the Layer 7c
-`Ind∘Inf` adapter and Tau Ceti's `indTrivialEquiv`. The latter has a companion `Rep`-category
-isomorphism `indTrivialIso`; provide the explicit conversion between that `Rep`-isomorphism and
-the `Representation.Equiv` interface consumed by InductionRestriction Layer 2.1. Under
-`[Finite G^F]`, `[Field ℂ]`, and `[CharZero ℂ]`, consume
-`Gassmann.almostConjugate_iff_permutation_equiv` to obtain
-`Gassmann.AlmostConjugate (P^F) (Q^F)` in `G^F`. See the
-[InductionRestriction roadmap, Layer 2.1](../RepresentationTheory/InductionRestriction/README.md#layer-21-almost-conjugacy-and-permutation-representations)
-for its owner contract. The arithmetic identity below is an independent target of that layer;
-this roadmap does not treat it as already proved. The generic induction-restriction layer owns
-its finite-group criterion; this layer owns the Harish–Chandra-to-permutation adapter and the
-finite-reductive application.
-
-For finite `G`, subgroup `H≤G`, and `g∈G`, use `Nat.card` for natural cardinality,
-`C_G(g)` for the centralizer, and `g^G` for the conjugacy class. The target identity is
-
-    Nat.card (MulAction.fixedBy (G ⧸ H) g) * Nat.card H
-      = Nat.card (MulAction.stabilizer (ConjAct G) g)
-          * Nat.card {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H}.
-
-It counts representatives of fixed cosets mapping to each element of the class intersection.
-*Needs:* Layers 7c and 7e; Tau Ceti's `indTrivialEquiv` and `indTrivialIso`;
-InductionRestriction Layer 2.1.
+`Ind∘Inf` adapter and the pinned `TauCeti.indTrivialEquiv`
+(`RepresentationTheory/Induction/Permutation.lean`), which identifies the induced trivial
+representation with the permutation representation on left cosets; its `Rep`-category form
+`TauCeti.indTrivialIso` is Mathlib's `Rep.mkIso` of it. Under `[Finite G^F]` and a field `k` with
+`[CharZero k]`, consume the pinned `TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`
+(`RepresentationTheory/CharacterTable/FixedPointCount.lean`) to obtain
+`(P^F).AlmostConjugate (Q^F)` in `G^F`, for the pinned predicate `Subgroup.AlmostConjugate`
+(`GroupTheory/AlmostConjugate.lean`): the two subgroups meet every conjugacy class in the same
+number of elements. The criterion rests on the pinned fixed-coset identity
+`Subgroup.natCard_fixedBy_mul_natCard` (`GroupTheory/QuotientGroup/Basic.lean`): for a subgroup
+`H` of a group `G` and `g ∈ G`, the number of cosets in `G ⧸ H` fixed by `g`, times `|H|`, is
+`|C_G(g)|` times the number of elements of `H` conjugate to `g`, with no finiteness hypothesis
+under the convention that `Nat.card` of an infinite type is zero. The subgroup form with induced
+trivial representations is the pinned
+`TauCeti.nonempty_equiv_ind_trivial_iff_forall_natCard_fixedBy_eq`. This layer owns only the
+Harish–Chandra-to-permutation adapter and the finite-reductive application.
+*Needs:* Layers 7c and 7e; Tau Ceti's `TauCeti.indTrivialEquiv`,
+`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction` and `Subgroup.AlmostConjugate`.
 
 ### Examples
 
@@ -2144,7 +2247,11 @@ InductionRestriction Layer 2.1.
 
 ### Dependencies
 
-Layers 7c and 7e; InductionRestriction Layer 2.1.
+Layers 7c and 7e; Tau Ceti's permutation-representation and almost-conjugacy declarations
+(`RepresentationTheory/Induction/Permutation.lean`,
+`RepresentationTheory/CharacterTable/FixedPointCount.lean`, `GroupTheory/AlmostConjugate.lean`)
+and the line and hyperplane stabilizers of
+`LinearAlgebra/Matrix/GeneralLinearGroup/LineHyperplane.lean`.
 
 #### Worked example: GL3 over every finite field
 
@@ -2153,8 +2260,13 @@ For every `q`, let `P` stabilize the line `⟨e₁⟩`, `Q` stabilize the plane 
 isomorphic complex permutation modules. They are not conjugate as finite subgroups:
 every conjugate of `P` preserves a line, whereas `Q` has no common invariant line. A line
 inside `⟨e₂,e₃⟩` is moved by `GL₂(F_q)`, including `q=2`; a line outside that plane is
-moved by a lower-block unipotent. This example tests the general theorem and does not
-replace it.
+moved by a lower-block unipotent. Both facts about the finite groups are pinned at `n = Fin 3`
+and coordinate index `0`: `TauCeti.almostConjugate_lineStabilizer_hyperplaneStabilizer` (over a
+finite field) and `TauCeti.conj_smul_lineStabilizer_ne_hyperplaneStabilizer` (for at least
+three coordinates), for `TauCeti.lineStabilizer` and `TauCeti.hyperplaneStabilizer` in
+`LinearAlgebra/Matrix/GeneralLinearGroup/LineHyperplane.lean`. What this example tests is that
+the Layer 7e isomorphism, through this layer's adapter, reproduces the pinned almost-conjugacy;
+it does not replace the general theorem.
 
 #### References for Layers 7a–7f and 9E
 
@@ -3526,7 +3638,7 @@ only as a consumer.
 This lane constructs the Lie-algebra spectral quotient and its based topology for every
 connected reductive algebraic group over `ℂ`, with a specified maximal algebraic torus.
 Construct it after Layers 9 and 9D have supplied the group/root-datum and pinned root maps.
-Layer 3A.5 supplies the pinned classical topology on complex points, the complex-manifold
+Layer 3A.5 supplies, on the pinned classical topology on complex points, the complex-manifold
 charts and complex Lie-group structure on G(ℂ),
 holomorphic action maps and orbit comparisons on that carrier; the
 analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localInverse` at
@@ -3895,8 +4007,11 @@ those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pin
 the special isogenies and the three explicit carriers of 9B, which its carrier plan
 designates; its milestone L5 needs constructions rather than existence theorems.
 ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
-Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0–9, Layer
-3A.5's complex Lie-group dictionary on `G(ℂ)` (in its §4.3) and 6B's coset affineness
+Lang theorem and fixed-coset lifting, and Layer 3A.5's point-topology comparisons for local
+topological algebras (in its RG2.0.1). ComplexComparisonPartII consumes Layer 3A.5's
+topological comparisons and smooth charts on complex points (in its C-1.1).
+FormalConnectionsOpers consumes Layers 0–9, Layer 3A.5's complex Lie-group dictionary on
+`G(ℂ)` (in its §4.3) and 6B's coset affineness
 (in its §3A.5); Layer 11 consumes no target of FormalConnectionsOpers; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
 NilpotentOrbits and SchubertGeometry consume the orbit theorems of Layer 3A, which are pinned
 Tau Ceti declarations, and Layer 7's structure theory.
@@ -3949,6 +4064,9 @@ for IntegralHeckeAndGaloisDeterminants §0.7.
 - A. Grothendieck and M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*,
   [revised edition, arXiv:math/0206203v2](https://arxiv.org/abs/math/0206203v2),
   Exposé XII, §§1.1–1.2 and Propositions 2.1, 3.1–3.2, pp. 239–247.
+- B. Conrad, [*Weil and Grothendieck approaches to adelic points*](https://math.stanford.edu/~conrad/papers/adelictop.pdf),
+  Enseign. Math. 58 (2012), 61–97, Proposition 3.1 and its proof, p. 4 (page numbers of the
+  author's version).
 - B. Conrad, [*Reductive Group Schemes*](https://math.stanford.edu/~conrad/papers/luminysga3.pdf),
   Theorems 5.1.13 and 6.1.16–6.1.17, pp. 143–145 and 196–197;
   **SGA3**, Exposé XIX.
