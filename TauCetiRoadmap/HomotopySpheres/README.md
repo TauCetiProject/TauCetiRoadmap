@@ -72,8 +72,8 @@ The division of ownership is as follows.
   recognition arguments.  Its exact supplier contract consists of relative Hurewicz for
   based cofibration pairs (Stage 8 item 4), Poincaré–Lefschetz duality by cap product with
   the fundamental class (Stage 6 item 4), the homological Whitehead theorem
-  `homologicalWhitehead` (Stage 8 item 5) and the finite CW type of compact smooth
-  manifolds `compactManifoldFiniteCWType` (Stage 8 item 7).  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
+  for simply connected CW complexes and spaces of CW type (Stage 8 item 5) and the finite CW
+  type of compact smooth manifolds (Stage 8 item 7).  This roadmap owns the sphere-specific stable comparisons and low stable-stem calculations.
 - [CharacteristicClasses C1.2b](../CharacteristicClasses/README.md) owns the actual
   singular-realization counit and its weak-equivalence theorem; AlgebraicTopology Stage 4
   item 7 owns its realization CW structure. Section 3B adds the pointed compact-generation
@@ -113,7 +113,8 @@ The division of ownership is as follows.
   [TangentialBordism B1.6](../TangentialBordism/README.md) owns Sard's theorem in unequal
   dimensions on manifolds with corners, and B1.1 owns the point sign σ of an oriented
   zero-manifold. The homotopy-invariant degree of a map of n-spheres is its action on
-  `H_n(S^n;ℤ)` against AlgebraicTopology Stage 4 item 4's `basedSphereReferenceGenerator`.
+  top integral homology, read against AlgebraicTopology Stage 4 item 4's based reference
+  generator of `H_n(Sⁿ,{p};ℤ)`.
 - The [completed universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns basepoint change, covering
   maps, and induced maps on homotopy groups.  The simple-connectivity and homotopy-equivalence
   arguments here consume those interfaces.
@@ -130,17 +131,17 @@ The division of ownership is as follows.
 - The spin-representation section of the
   [representation-theory roadmap](../RepresentationTheory/README.md) owns the algebraic
   eightfold periodicity of real Clifford algebras and supplies the Clifford-module comparison
-  input used in Stage 4B.  This roadmap owns the topological loop-space equivalences, stable
+  input used in Section 4B.  This roadmap owns the topological loop-space equivalences, stable
   `SO` table, and its framing/classifier comparisons on the shared TopologicalKTheory
   carriers; algebraic Clifford periodicity alone does not discharge them.
 - [RiemannianGeometry R1–R3](../RiemannianGeometry/README.md)
   owns the normalized sphere Freudenthal theorem (R3 item 4), invariant and
   normal-homogeneous metrics, Jacobi fields, finite broken-geodesic
-  manifolds, energy-band compactness, and their path-space comparisons. Stage 4B consumes
+  manifolds, energy-band compactness, and their path-space comparisons. Section 4B consumes
   these constructions for its selected metrics and owns the Bott-specific calculations.
 - [MorseTheory M5](../MorseTheory/README.md)
   owns finite-dimensional Morse–Bott normal-Hessian and negative-bundle attachment.
-  Stage 4B verifies its hypotheses and computes the actual negative bundles in the Bott chain.
+  Section 4B verifies its hypotheses and computes the actual negative bundles in the Bott chain.
 - Mathlib supplies the carrier `CompactlyGenerated.{u,w}` and its fully faithful inclusion
   `i : CompactlyGenerated ⥤ TopCat`.  AlgebraicTopology Stage 4 item 8, *Compact generation
   and the pointed adjunction*, owns `TopologicalSpace.compactlyGenerated` packaged as the
@@ -429,8 +430,9 @@ and transversality inputs for handle cancellation, in their relative compact set
 CW comparison, duality, Hurewicz and Whitehead: relative Hurewicz for based
 cofibration pairs (Stage 8 item 4), Poincaré–Lefschetz duality by cap product with the
 fundamental class of a compact manifold with boundary, with coefficients twisted by the
-orientation system (Stage 6 item 4), `homologicalWhitehead`
-(Stage 8 item 5) and `compactManifoldFiniteCWType` (Stage 8 item 7).
+orientation system (Stage 6 item 4), the homological Whitehead theorem for simply connected
+CW complexes and spaces of CW type (Stage 8 item 5) and the finite CW type of compact smooth
+manifolds, with or without boundary (Stage 8 item 7).
 Stage 4 item 8, *Compact generation and the pointed adjunction*, supplies the coreflection
 `i ⊣ k` with its counit, the convenient products and exponentials with the exponential
 law for compactly generated weak Hausdorff exponents, their comparisons with ordinary
@@ -441,7 +443,7 @@ the suspension–loop adjunction on based maps and on based homotopy classes, na
 both variables and carrying the pinch of ΣX to loop concatenation. Stage 4 item 4
 supplies the sphere smash homeomorphisms Sᵐ∧Sⁿ ≅ S^(m+n) with factor-interchange
 degree (−1)^(mn), the reduced suspension homeomorphism ΣSⁿ ≅ S^(n+1), and the
-reference class `basedSphereReferenceGenerator` of H_n(Sⁿ,{p};ℤ), against which the degree
+based reference generator of H_n(Sⁿ,{p};ℤ), against which the degree
 of a map of n-spheres is read on top integral homology.
 Stage 4 item 7 supplies the realization CW structure on `SSet.toTop.obj K`, with
 one cell for each nondegenerate simplex, and realizes sub-simplicial inclusions as CW
@@ -530,7 +532,9 @@ constructs the group/loop Bott and J comparisons. Layer 5 transports the supplie
 Spin results through actual smooth framings. Layers 6–8 construct the almost-framed and
 filling groups, surgery and the exact comparisons. Layer 9 computes Θ₆ and Layer 10 proves
 smooth recognition; the separate Layer 9A computes Θ₇ and the E₈ applications. Section
-identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sublayers.
+identifiers 3A–3C, 4A–4C, 5.0, 5.0b, 6A–6C and 7A–7C name these same sublayers. Other
+roadmaps cite this one as "HomotopySpheres Stage k" or "Stage kX": Stage k is Layer k and
+Stage kX is Section kX, so Stage 4B is Section 4B and Stage 3C is Section 3C.
 
 `Suggested.lean` states `exists_diffeomorph_prod_Icc_of_hCobordism`,
 `sphere_parallelizable_iff`, `nonempty_orthogonalGroup_bottPeriodicity`,
@@ -553,7 +557,7 @@ carriers for the other headlines; their full statements remain below.
 
 ## Layer 1: h-cobordisms and the high-dimensional theorem
 
-This stage consumes geometric topology, DifferentialGeometry orientations, the Sard theorems
+This layer consumes geometric topology, DifferentialGeometry orientations, the Sard theorems
 named in the supplier contracts, and the Heegaard-Floer trajectory and Morse–Smale foundations.
 
 ### 1.1 H-cobordism witnesses
@@ -714,7 +718,7 @@ connectivity for `n>=2`, integral homology, and finite CW type from the cited de
 
 *Needs:* Tau Ceti `TauCeti.OrientedConnectedSum`,
 `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum` and
-`TauCeti.ConnectedSum.orientation`; GeometricTopology Layer 1 and §1.4; 2.1; AlgebraicTopology `homologicalWhitehead` and Mayer–Vietoris; Kervaire–Milnor Lemmas 2.1–2.2,
+`TauCeti.ConnectedSum.orientation`; GeometricTopology Layer 1 and §1.4; 2.1; AlgebraicTopology Stage 8 item 5 (homological Whitehead) and Mayer–Vietoris; Kervaire–Milnor Lemmas 2.1–2.2,
 pp.505–506. In dimensions one and two: MorseTheory M3; 1.2's handle cancellation and its
 Morse-number-zero product case (Milnor, Theorem 3.4, p.21, whose topological form is Tau
 Ceti's `TauCeti.exists_bandHomeomorph`); AlgebraicTopology Stage 4 item 4's Euler–Poincaré
@@ -745,7 +749,7 @@ level. The result W is a compact oriented cobordism from Σ₁ # Σ₂ to Σ₁�
 inclusions are homotopy equivalences: Σ₁ − p and W₁ − A are simply connected because n ≥ 3,
 the map of pair sequences from (Σ₁, Σ₁ − p) to (W₁, W₁ − A) with excision makes
 Σ₁ − p → W₁ − A an integral homology isomorphism, hence a homotopy equivalence by
-`homologicalWhitehead`, and a Mayer–Vietoris sequence carries this to Σ₁ # Σ₂ → W, and
+the homological Whitehead theorem, and a Mayer–Vietoris sequence carries this to Σ₁ # Σ₂ → W, and
 likewise at the other end (Kervaire–Milnor, Lemma 2.2 and its proof, pp.505–506). At n = 2 the
 arc has codimension two in W₁ and the argument gives no control of π₁(W₁ − A); at n = 1 the
 summands are not simply connected. Neither dimension uses this descent.
@@ -770,7 +774,7 @@ makes the diffeomorphism orientation-preserving.
 ### 2.3 The inverse h-cobordism
 
 *Needs:* 2.1–2.2; GeometricTopology Layer 1 gluing and interior disc removal; AlgebraicTopology
-Stage 6 item 4 duality and `homologicalWhitehead`; Tau Ceti sphere simple connectivity;
+Stage 6 item 4 duality and Stage 8 item 5 (homological Whitehead); Tau Ceti sphere simple connectivity;
 Kervaire–Milnor Lemmas 2.3–2.4, pp.506–507.
 
 Let Σ be an oriented homotopy n-sphere with n ≥ 2 and i : Dⁿ → Σ an orientation-preserving
@@ -785,7 +789,7 @@ W_Σ from Sⁿ to Σ # (−Σ), and prove that it is an h-cobordism. The map of 
 (D^(n+1), Sⁿ) to (V_Σ, W_Σ) with excision makes Sⁿ → W_Σ an integral homology isomorphism;
 Poincaré–Lefschetz duality gives H_q(W_Σ, Σ # (−Σ)) ≅ H^(n+1−q)(W_Σ, Sⁿ) = 0, so
 Σ # (−Σ) → W_Σ is one as well; W_Σ, Sⁿ and Σ # (−Σ) are simply connected for n ≥ 2, so
-`homologicalWhitehead` makes both inclusions homotopy equivalences (Kervaire–Milnor, Lemma 2.3
+the homological Whitehead theorem makes both inclusions homotopy equivalences (Kervaire–Milnor, Lemma 2.3
 and its proof, pp.506–507). Hence [Σ] + [−Σ] = 0 for n ≥ 2; for n = 1 the equation is
 0 + 0 = 0 by 2.2. Orientation reversal alone is not the inverse proof, and neither is the
 cylinder Σ × [0,1] with an interior ball removed and a one-handle joining its two ends: its
@@ -847,7 +851,7 @@ bundle; the empty frame at n=0 does not satisfy the positive-dimensional framing
 *Needs:* Tau Ceti `TauCeti.OrientedConnectedSum` and `TauCeti.ConnectedSum.orientation`;
 GeometricTopology Layer 1, the connected-sum laws of §1.4 and the smoothing-and-triangulation
 comparison, item 1; AlgebraicTopology finite CW comparison,
-sphere homology, Euler–Poincaré formula, Stage 6 item 4 duality and `homologicalWhitehead`;
+sphere homology, Euler–Poincaré formula, Stage 6 item 4 duality and Stage 8 item 5 (homological Whitehead);
 MorseTheory M3; Layer 1 for the h-cobordism relation and 1.2's cancellation, and, only in n≥5,
 its product theorem; Tau Ceti sphere simple connectivity for n≥2. Kervaire–Milnor Theorem 1.1
 and Lemmas 2.1–2.4, pp.504–507, give the group law: descent for n≥3, inverse for n≥2, and
@@ -1065,7 +1069,7 @@ for the EHP range.
 
 *Needs:* 3A.2 reduced cones; AlgebraicTopology Stage 4 item 8 convenient products, smash
 product and reduced suspension; 3B.1–3B.2 word filtration and its smash-power quotients;
-3B.4 for the loop-space form; AlgebraicTopology cellular homology and `homologicalWhitehead`;
+3B.4 for the loop-space form; AlgebraicTopology cellular homology and Stage 8 item 5 (homological Whitehead);
 GeneralizedCohomology G2 items 4–5 for the stable form.
 
 Let X and Y be pointed CW complexes whose basepoints are 0-cells, with X×Y the convenient
@@ -1377,7 +1381,9 @@ cited as uncertified and distinguished from the integral group table in 9.2–9.
 Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
 Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
 exclusion. Hatcher, [*Vector Bundles and K-Theory*, §2.3](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
-gives the sphere-framing/H-space and K-theory route. The positive Adams-operation
+gives the sphere-framing/H-space and K-theory route: Theorem 2.16(b), p.59, restricts the
+parallelizable spheres S^(m−1) to m = 1, 2, 4, 8, and §1.1, p.9, frames S¹, S³ and S⁷ by
+complex, quaternionic and octonionic multiplication. The positive Adams-operation
 and complex Bott constructions precede this application; they use neither its
 Hopf exclusion nor its tangent classification.
 
@@ -1785,12 +1791,12 @@ Its application API preserves:
 
 *Needs:* TangentialBordism B5.2 and B1 relative transversality; Layer 3A's pointed sphere models;
 TangentialBordism B1.1's point sign σ for the signed count of a framed zero-cycle, and
-AlgebraicTopology Stage 4 item 4's `basedSphereReferenceGenerator` for the degree of a map of
+AlgebraicTopology Stage 4 item 4's based reference generator of H_n(Sⁿ,{p};ℤ) for the degree of a map of
 spheres. No Bott or stable-stem calculation is used.
 
 ### 5.0b. Early framed curves, surfaces and the first two offsets
 
-Construct these earlier finite-rank computations independently of Stage 9,
+Construct these earlier finite-rank computations independently of Layer 9,
 Bott periodicity, stable J, surgery classification or a table of stems.
 Use TopologicalKTheory T1.5a and the 4A matrix-model comparison for the
 finite SO sphere-bundle LES, π₁SO(c)=ℤ/2 for c≥3 and its low-degree
@@ -2202,7 +2208,7 @@ restriction recovers the given framing. Give the closed exterior its inherited o
 induces it. In dimension at least two, prove the exterior connected, and identify its
 boundary with the defect sphere with the reversed boundary orientation. Package these
 specific data as a stably framed filling cycle, then prove witness compatibility and the
-required Stage 6B normalization comparison before descending the map. Transport endpoint
+required Section 6B normalization comparison before descending the map. Transport endpoint
 framings along its recorded boundary path when composing the deletion witness with a
 historical filling or gluing witness. No component is discarded.
 
@@ -2376,8 +2382,8 @@ relative duality. The exact segment in 6C has n≥6, independently of the n≥1 
 
 ## Layer 7: Wall surgery and the obstruction calculation
 
-This stage consumes geometric topology's surgery operation, AlgebraicTopology's relative
-homology and duality, and Stages 4--6's framings and `P_n` cycles.
+This layer consumes geometric topology's surgery operation, AlgebraicTopology's relative
+homology and duality, and Layers 4–6's framings and `P_n` cycles.
 
 ### 7A. Normal maps and surgery below the middle dimension
 
@@ -2499,7 +2505,7 @@ Prove additivity and identify the trace decomposition with the relevant sum.
 
 *Needs:* 6B; 7B.4–7; the actual zero-obstruction bordisms and realization maps.
 
-Compare the resulting obstruction on a geometric `P_n` cycle with Stage 6B's standard
+Compare the resulting obstruction on a geometric `P_n` cycle with Section 6B's standard
 Kervaire--Milnor group.  Prove injectivity by completing a zero-obstruction filling to a framed
 cobordism and surjectivity by realization.
 
@@ -2622,7 +2628,7 @@ isomorphism `coker J_n ≅ ker(A_n → π_(n-1)(SO))`.
 *Needs:* 8.2; the hypothesis πₙ₋₁SO=0; 6C exactness.
 
 If `π_(n-1)(SO)=0`, identify all of `A_n` with that kernel and hence with `coker J_n`.
-Transport Stage 6's exact segment through this isomorphism and identify both boundary
+Transport Layer 6's exact segment through this isomorphism and identify both boundary
 images with the corresponding `bP` subgroups. The sixth-dimensional application uses
 the independently proved `π_5(SO)=0`; no arbitrary almost-framed cycle receives a
 preferred element of `π_n^S`.
@@ -2689,7 +2695,7 @@ pp.162, 166–168, give the indicated classical inputs; exactness is asserted in
 
 ## Layer 9: explicit computation through the sixth stem and `Theta_6`
 
-This stage is an explicit theorem chain.  None of the displayed groups may enter as an axiom or
+This layer is an explicit theorem chain.  None of the displayed groups may enter as an axiom or
 as a field of a low-stem data record.
 
 ### 9.1 First three Hopf stems
@@ -2792,25 +2798,47 @@ that some group isomorphism `π_(n+6)(S^n, x) ≅ ℤ/2` exists for `n ≥ 8` an
 
 ### 9.4 Compatible stem table
 
-*Needs:* 9.1–3 and their suspension comparisons.
+*Needs:* 9.1–3 and their suspension comparisons; 3A.3–3A.4; StringOrientation S2.3 for the
+third stem; AlgebraicTopology Stage 8 item 3 (absolute Hurewicz) and Stage 4 item 4's based
+reference generator of `H_n(Sⁿ,{p};ℤ)` for the zeroth stem.
 
-Record the chain as one compatible table of groups, generators, and suspension maps for stems
-zero through six.  Each table entry links to the theorem calculating it; the table itself is
-generated documentation, not proof input.
+Write ι_n for the class of the identity of Sⁿ, η_n = E^(n−2)η₂ and ν_n = E^(n−4)ν₄ with the
+signs fixed in 9.1, η_n² = η_n∘η_(n+1) and ν_n² = ν_n∘ν_(n+3), the last being the
+(n−4)-fold suspension of the representative ν₄∘Σ³ν₄ of 9.3. Prove that for 0 ≤ k ≤ 6 and
+n ≥ k+2 the group `π_(n+k)(Sⁿ)` is, for k = 0, 1, …, 6 respectively,
+
+    ℤ{ι_n},  ℤ/2{η_n},  ℤ/2{η_n²},  ℤ/24{ν_n},  0,  0,  ℤ/2{ν_n²},
+
+and that the suspension `E : π_(n+k)(Sⁿ) → π_(n+k+1)(S^(n+1))` is an isomorphism carrying
+each named generator to the generator of the same name one dimension up. The entries are the
+theorems of 9.1 (k = 1, 2, and the sign of ν), StringOrientation S2.3 (the order 24),
+9.2 (k = 4, 5) and 9.3 (k = 6); the range n ≥ k+2 is the Freudenthal range of 3A.4
+(n+k ≤ 2n−2). Kervaire–Milnor, p.512, table, records the orders for 1 ≤ k ≤ 6; Toda,
+Chapter XIV, pp.186–191, records the generators (uncertified).
+
+**Checks.**
+
+- At n = k+1 the statement is false: π₃(S²) ≅ ℤ for k = 1, and π₇(S⁴) ≅ ℤ ⊕ ℤ/12 for k = 3,
+  where the Hopf invariant detects the free summand. The bound n ≥ k+2 cannot be lowered.
+- E sends ι_n to ι_(n+1), the class of degree 1. A zero-map model of the suspension sends it to
+  the constant class of degree 0 and contradicts the isomorphism at k = 0.
+- Composing ν₄ with a reflection of S⁷ gives −ν₄, so −ν_n is the other candidate generator.
+  It differs from ν_n because 2ν_n ≠ 0 in ℤ/24; the comparison of 9.1 with the quaternionic
+  Hopf generator of StringOrientation S2.3 selects ν_n.
 
 ### 9.5 The framed product and Arf
 
 *Needs:* 9.1 and 9.3; 5.1 PT product; 7B–7C quadratic refinement; 3C Hopf normalization.
 
 Construct a chosen stable framing `φ_ν` of the actual `S³` whose Pontryagin–Thom
-class is the normalization of `ν` fixed in Steps 1 and 3. Produce it from a regular
+class is the normalization of `ν` fixed in 9.1 and 9.3. Produce it from a regular
 fibre of the quaternionic Hopf map, with an explicit normal-to-tangent framing comparison.
-On the closed product `S³ × S³`, use `φ_ν × φ_ν` and Stage 5's PT product theorem to
+On the closed product `S³ × S³`, use `φ_ν × φ_ν` and Layer 5's PT product theorem to
 identify its stable class with the selected composition `ν²`, including the summand
 permutations. Identify the factor generators `a,b` in middle homology, prove their
 symplectic intersection matrix, and calculate the geometric framed refinement
 `q(a)=q(b)=1` from the factor normal framings and the Hopf-invariant-one calculation
-of Stage 3. Prove this framing/refinement comparison before using its Arf value. Use the shared
+of Section 3C.5. Prove this framing/refinement comparison before using its Arf value. Use the shared
 algebraic Arf theorem to conclude Kervaire invariant one. Compare this class with the regular-value representative
 of `ν_4 ∘ Σ³ν_4` by the PT inverse bordism, and prove that
 `coker(J_6) → P_6` sends it to the nonzero Wall class. Thus
@@ -2826,7 +2854,7 @@ factor spheres and their Hopf-invariant-one normal data.
 
 *Needs:* 4B degree-five/six entries; 8.3; 9.3 and 9.5.
 
-Bott periodicity gives `pi_5(SO)=0` and `pi_6(SO)=0`.  Use Stage 8 to prove
+Bott periodicity gives `pi_5(SO)=0` and `pi_6(SO)=0`.  Use Layer 8 to prove
 `A_6 ~= coker(J_6) ~= pi_6^S ~= Z/2`, with the comparison sending the framed `nu^2`
 representative to the nonzero class.
 
@@ -2834,7 +2862,7 @@ representative to the nonzero class.
 
 *Needs:* 6C exact segment; 7C P₇=0 and P₆=ℤ/2; 9.5–6.
 
-Stage 7 gives `P_7=0` and `P_6~=Z/2`; Stage 8 identifies the map
+Layer 7 gives `P_7=0` and `P_6~=Z/2`; Layer 8 identifies the map
 `coker(J_6) -> P_6` with the Kervaire invariant, hence with an isomorphism.  In the exact
 segment
 `P_7 -> Theta_6 -> coker(J_6) -> P_6`, the left image `bP_7` is zero and the right kernel is
@@ -3078,7 +3106,7 @@ orientation theorem attributed to Milnor.
 
 *Needs:* Layer 2 essential surjectivity and quotient induction; 9.7 Θ₆=0.
 
-Apply the essential-surjectivity theorem of Stage 2 to choose a Type-0 finite-atlas code for
+Apply the essential-surjectivity theorem of Layer 2 to choose a Type-0 finite-atlas code for
 `M`.  Map it into the literal quotient by taking its class, prove independence of the
 code, and regard the result as the oriented class of `M` in `Theta_6`.  From `Theta_6=0`,
 construct an oriented h-cobordism from `M` to the standard sphere.
@@ -3090,7 +3118,7 @@ to a diffeomorphism in 10.3 uses Milnor, Theorem 9.1, p.107.
 
 *Needs:* Layer 1 product theorem in total dimension 7; 10.2; native coordinate reflection.
 
-Apply Stage 1's six-dimensional-boundary case of the h-cobordism theorem to obtain a
+Apply Layer 1's six-dimensional-boundary case of the h-cobordism theorem to obtain a
 diffeomorphism `e : M ~=_m S^6`.  Package orientation preservation as the condition that at
 every point the manifold derivative of `e` carries the chosen `TauCeti.Manifold.Orientation` of
 `M` to the standard orientation of `S⁶` (`TauCeti.Manifold.Orientation.IsOrientationPreservingAt`).
@@ -3104,7 +3132,10 @@ condition for the composite.
 
 State the direct reusable theorem with every topology, manifold, and orientation hypothesis
 visible and prove that a diffeomorphism satisfying that derivative equation exists
-(`smoothPoincareSix_oriented`).  State the un-oriented `Nonempty Diffeomorph` result
+(`smoothPoincareSix_oriented`). The classical statement is Milnor, *Lectures on the
+h-Cobordism Theorem*, §9, Proposition B, p.109, whose proof on p.110 combines Proposition A
+with the Kervaire–Milnor–Wall theorem that a closed simply connected homology six-sphere
+bounds a contractible manifold; Kervaire–Milnor, p.504, lists the order of Θ₆ as one.  State the un-oriented `Nonempty Diffeomorph` result
 (`nonempty_diffeomorph_sphere_six`) only as a separate corollary obtained by forgetting the equation.
 
 The atlas-preservation predicate has the following API: transport by identity preserves
@@ -3147,7 +3178,8 @@ in the merge order or already on main.
   complex e-invariant with the seventh-stem value.
 - On main, GeneralizedCohomology consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the
   stable stems and the Freudenthal comparison) and 4B, for the low homotopy groups of stable
-  BSpin; BordismFormalGroups consumes the James stages of 3B and the Toda brackets of 3C.3;
+  BSpin; BordismFormalGroups consumes the James stages of 3B in F6.2 and the Toda brackets
+  of 3C.3 in F4;
   DGFloer consumes 3B.3–3B.4 (the James map and the homology of ΩΣX) and 4A–4B, and the
   framed collapse it cites from Layer 5 is TangentialBordism B5.2's; CharacteristicClasses
   consumes the quaternion-conjugation homeomorphism SO(3) ≅ S³/{±1} of 4A; MorseTheory and
@@ -3173,10 +3205,10 @@ Layer 5 separated from the stable Bott comparison.
 | 9A seventh stem, Θ₇ and E₈ | 3–8; TangentialBordism B4; DGFloer 1.4; GeneralizedCohomology G5.6; TopologicalKTheory T7; CharacteristicClasses C6–C7; IndexTheory I7.2/I7.5 | seven-sphere classification and exotic E₈ boundaries; PositiveScalarCurvature |
 | 10 smooth recognition | 1--2, 9 | endpoint |
 
-Stages 1, 3, and 4 can begin independently against their cited foundations.  Stage 5 joins the
+Layers 1, 3, and 4 can begin independently against their cited foundations.  Layer 5 joins the
 stable-homotopy and vector-bundle tracks.  The geometric `A_n`/`P_n` definitions and their
-comparison with the historical Kervaire--Milnor models begin in Stage 6; the Wall comparison
-occurs in Stage 7 after the obstruction groups and surgery theorem have been constructed.
+comparison with the historical Kervaire--Milnor models begin in Layer 6; the Wall comparison
+occurs in Layer 7 after the obstruction groups and surgery theorem have been constructed.
 
 ## Worked examples
 
@@ -3206,10 +3238,12 @@ compact smooth recognition theorem of Layer 10.
   Four*](https://doi.org/10.2307/1970239), Annals of Mathematics 74 (1961), 391--406.
 - John Milnor, [*Lectures on the h-Cobordism Theorem*](https://webhomes.maths.ed.ac.uk/~v1ranick/surgery/hcobord.pdf),
   Princeton University Press, 1965: Theorem 3.4, p.21; Theorem 8.1, p.100; Theorem 9.1,
-  Definition 9.2 and the remark after it, pp.107–108; the proof of Proposition B of §9, p.110.
+  Definition 9.2 and the remark after it, pp.107–108; Proposition B of §9, p.109, and its proof,
+  p.110.
 - Michel Kervaire and John Milnor,
   [*Groups of Homotopy Spheres: I*](https://doi.org/10.2307/1970128), Annals of Mathematics
-  77 (1963), 504--537: Theorem 1.1, p.504; Lemmas 2.1–2.4, pp.505–507.
+  77 (1963), 504--537: Theorem 1.1 and the orders of Θₙ for n ≤ 18, p.504; Lemmas 2.1–2.4,
+  pp.505–507; the table of the stable groups Πₙ for n ≤ 8, p.512.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
@@ -3245,7 +3279,19 @@ compact smooth recognition theorem of Layer 10.
 - C. T. C. Wall, *Surgery on Compact Manifolds*, 2nd ed., AMS, 1999, Theorems 5.6, 5.8, 6.4, 6.5 and 13A.1, pp.50, 54, 68–69, 172.
 - William Browder, [*The Kervaire Invariant of Framed Manifolds and its
   Generalization*](https://doi.org/10.2307/1970686), Annals of Mathematics 90 (1969), 157--186.
+- J. F. Adams and M. F. Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qmath/17.1.31),
+  Quarterly Journal of Mathematics 17 (1966), 31–38: the integral Adams-operation exclusion of
+  odd Hopf invariant used in 3C.5.
+- Allen Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+  version 2.2, 2017: Introduction, pp.1–2, and Proposition 1.14, p.25 (clutching and the
+  stable orthogonal table); §1.1, p.9 (frames on S¹, S³, S⁷); §2.3, Theorem 2.16(b), p.59
+  (parallelizable spheres).
+- John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
+  1963: the path-space Morse theory and Bott periodicity argument cited in 4B.9.
+- Andrew Ranicki, [*Foundations of algebraic surgery*](https://arxiv.org/abs/math/0111315),
+  lectures at the Trieste summer school on high-dimensional manifold topology, 2001, §2, p.5
+  (forms, formations and their stable equivalence), cited in 7B.3 and 7B.8.
 
 - Victor Snaith, [*The Arf–Kervaire invariant of framed manifolds*](https://arxiv.org/abs/1001.4751),
   Definition 3.1 and §3.1 for compact-source collapse, and Example 8.3 for the Arf-one product.
-  Stage 9 additionally proves that its chosen product framing represents the normalized `ν²`.
+  Section 9.5 additionally proves that its chosen product framing represents the normalized `ν²`.

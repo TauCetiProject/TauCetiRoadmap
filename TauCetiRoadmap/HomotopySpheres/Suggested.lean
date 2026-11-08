@@ -12,18 +12,18 @@ through `TauCeti.Geometry.Diffeomorphism.Disc`, whose public imports re-export t
 
 Stated here:
 
-* the simply connected smooth h-cobordism theorem in total dimension at least six (Stage 1),
+* the simply connected smooth h-cobordism theorem in total dimension at least six (Layer 1),
   on the native manifold with boundary and Tau Ceti's boundary manifold structure;
-* real Bott periodicity for the orthogonal groups in the stable range (Stage 4B);
+* real Bott periodicity for the orthogonal groups in the stable range (Section 4B);
 * the independently owned Bott base entries in degrees two through eight, in their stable
-  ranges (Stage 4B); TopologicalKTheory T1.5a supplies components and degree one;
-* the seventh stable stem, `π_{n+7}(S^n) ≅ ℤ/240` for `n ≥ 9` (Stage 9A);
+  ranges (Section 4B); TopologicalKTheory T1.5a supplies components and degree one;
+* the seventh stable stem, `π_{n+7}(S^n) ≅ ℤ/240` for `n ≥ 9` (Layer 9A);
 * vanishing of the fourth and fifth stable stems for `n ≥ 6` and `n ≥ 7` respectively
-  (Stage 9);
-* the sixth stable stem, in its unstable form `π_{n+6}(S^n) ≅ ℤ/2` for `n ≥ 8` (Stage 9);
+  (Layer 9);
+* the sixth stable stem, in its unstable form `π_{n+6}(S^n) ≅ ℤ/2` for `n ≥ 8` (Layer 9);
 * the standard sphere `S^n`, `n ≥ 1`, is smoothly parallelizable exactly for `n ∈ {1, 3, 7}`
   (Section 3C.5);
-* smooth recognition in dimension six, oriented (Stage 10) and unoriented.
+* smooth recognition in dimension six, oriented (Layer 10) and unoriented.
 
 The group isomorphisms among these are stated as existence (`nonempty_*`): the canonical maps
 that the README makes isomorphisms (the Bott periodicity map, the generators `ν²` and `σ` of the
@@ -33,14 +33,15 @@ oriented one.
 
 Not statable at the pins:
 
-* `Theta_n` as a group and `Theta_6 = 0` (Stages 2 and 9): `Theta_n` is the quotient of oriented
+* `Theta_n` as a group and `Theta_6 = 0` (Layers 2 and 9): `Theta_n` is the quotient of oriented
   smooth homotopy `n`-spheres by oriented h-cobordism, with the addition induced by Tau Ceti's
   `TauCeti.OrientedConnectedSum`. The pins have that connected sum but neither the oriented
   h-cobordism relation nor the quotient, which is a construction of the roadmap (the
   h-cobordism class content of `Theta_6 = 0` is implied by the six-dimensional recognition
   theorem below);
-* the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Stages 3, 4C
-  and 5): there is no suspension homomorphism on `HomotopyGroup` and no framed bordism group;
+* the stable stems as colimits, stable `J` and the Pontryagin--Thom isomorphism (Layer 3,
+  Section 4C and Layer 5): there is no suspension homomorphism on `HomotopyGroup` and no
+  framed bordism group;
 * the connected James equivalence, the James splitting after one suspension and the EHP exact
   sequence (Sections 3B–3C): the pins lack the reduced word space, reduced pointed suspension
   and James–Hopf map, and the stable form of the splitting also needs a stable category of
@@ -49,11 +50,11 @@ Not statable at the pins:
   cone and its integral cup-product Hopf invariant. The sphere-framing consequence is stated
   below on the native smooth tangent bundle;
 * the almost-framed groups, `P_n`, the Wall groups `L_n` and the Kervaire--Milnor exact sequence
-  (Stages 6 to 8): these need framed and almost-framed bordism and Wall forms and formations,
+  (Layers 6 to 8): these need framed and almost-framed bordism and Wall forms and formations,
   none of which exists at the pins;
 * `Theta_7 ≅ ℤ/28`, the Eells–Kuiper comparison of the negative E8 boundary with the
   quaternionic sphere-bundle model, and nonstandardness of every E8 boundary in dimension
-  `4k-1`, `k > 1` (Stage 9A): these need the homotopy-sphere bordism quotient, plumbing
+  `4k-1`, `k > 1` (Layer 9A): these need the homotopy-sphere bordism quotient, plumbing
   and collared Spin fillings with their relative characteristic-number pairings. The pins
   do not supply those carriers; the seventh-stem statement below does not replace them.
 -/
@@ -110,8 +111,9 @@ theorem exists_diffeomorph_prod_Icc_of_hCobordism (n : ℕ) (hn : 5 ≤ n)
 /-! ## Layer 3: parallelizable spheres -/
 
 /-- The standard sphere `S^n` with `n ≥ 1` admits `n` smooth tangent vector fields that are
-linearly independent at every point exactly when `n ∈ {1, 3, 7}` (Adams, *On the non-existence of
-elements of Hopf invariant one*, 1960; Bott--Milnor and Kervaire, 1958; README Section 3C.5). -/
+linearly independent at every point exactly when `n ∈ {1, 3, 7}` (Hatcher, *Vector Bundles and
+K-Theory*, §1.1, p.9, for the frames on `S^1`, `S^3` and `S^7`, and Theorem 2.16(b), p.59, for
+the converse, applied to `S^(m-1)` with `m = n + 1`; README Section 3C.5). -/
 theorem sphere_parallelizable_iff (n : ℕ) (hn : 0 < n) :
     (∃ v : Fin n → (x : Sphere n) → TangentSpace (𝓡 n) x,
         (∀ i, ContMDiff (𝓡 n) ((𝓡 n).prod 𝓘(ℝ, EuclideanSpace ℝ (Fin n))) ∞
@@ -124,7 +126,9 @@ theorem sphere_parallelizable_iff (n : ℕ) (hn : 0 < n) :
 
 /-- Real Bott periodicity in the stable range: for `n ≥ k + 11` the homotopy groups of `O(n)` at
 the identity satisfy `π_{k+9}(O(n)) ≅ π_{k+1}(O(n))` (Bott, *The stable homotopy of the classical
-groups*, 1959; README Stage 4B). -/
+groups*, 1959, pp.314–315; the table of reduced `KO` of spheres in Hatcher, *Vector Bundles and
+K-Theory*, Introduction, p.1, read through clutching, Proposition 1.14, p.25; README
+Section 4B.7). -/
 theorem nonempty_orthogonalGroup_bottPeriodicity (k n : ℕ) (hn : k + 11 ≤ n) :
     Nonempty (HomotopyGroup.Pi (k + 9) (OrthogonalGroup n) 1 ≃*
       HomotopyGroup.Pi (k + 1) (OrthogonalGroup n) 1) := by
@@ -149,13 +153,15 @@ theorem orthogonalGroup_fourthHomotopyGroup (n : ℕ) (hn : 6 ≤ n) :
   sorry
 
 /-- The fifth homotopy group of `O(n)` at the identity vanishes for `n ≥ 7`, the
-stable range of the degree-five zero entry in Bott's table (README Stage 4B). -/
+stable range of the degree-five zero entry in Bott's table (Bott, 1959, p.315; Hatcher, *Vector
+Bundles and K-Theory*, Introduction, p.1; README Section 4B.8). -/
 theorem orthogonalGroup_fifthHomotopyGroup (n : ℕ) (hn : 7 ≤ n) :
     Subsingleton (HomotopyGroup.Pi 5 (OrthogonalGroup n) 1) := by
   sorry
 
 /-- The sixth homotopy group of `O(n)` at the identity vanishes for `n ≥ 8`, the
-stable range of the degree-six zero entry in Bott's table (README Stage 4B). -/
+stable range of the degree-six zero entry in Bott's table (Bott, 1959, p.315; Hatcher, *Vector
+Bundles and K-Theory*, Introduction, p.1; README Section 4B.8). -/
 theorem orthogonalGroup_sixthHomotopyGroup (n : ℕ) (hn : 8 ≤ n) :
     Subsingleton (HomotopyGroup.Pi 6 (OrthogonalGroup n) 1) := by
   sorry
@@ -189,7 +195,7 @@ theorem sphere_homotopyGroup_fifthStem (n : ℕ) (hn : 7 ≤ n) (x : Sphere n) :
 /-- The sixth stem is cyclic of order two: for `n ≥ 8`, in the Freudenthal stable range,
 `π_{n+6}(S^n) ≅ ℤ/2`, generated by the suspension of `ν²` (Toda, *Composition methods in homotopy
 groups of spheres*, Proposition 5.11, p.46, for the 2-primary generator, cited as
-uncertified; Kervaire--Milnor, p.512, for the integral order; README Stage 9). -/
+uncertified; Kervaire--Milnor, p.512, for the integral order; README Section 9.3). -/
 theorem nonempty_sphere_homotopyGroup_sixthStem (n : ℕ) (hn : 8 ≤ n) (x : Sphere n) :
     Nonempty (HomotopyGroup.Pi (n + 6) (Sphere n) x ≃* Multiplicative (ZMod 2)) := by
   sorry
@@ -197,7 +203,8 @@ theorem nonempty_sphere_homotopyGroup_sixthStem (n : ℕ) (hn : 8 ≤ n) (x : Sp
 /-! ## Layer 9A: the seventh stable stem -/
 
 /-- The seventh stem is cyclic of order 240: for `n ≥ 9`, in the Freudenthal stable range,
-`π_{n+7}(S^n) ≅ ℤ/240` (Toda, Chapter XIV, stable-stem table; README Stage 9A). -/
+`π_{n+7}(S^n) ≅ ℤ/240` (Toda, Chapter XIV, stable-stem table, pp.186–191, cited as uncertified;
+README Section 9A.1). -/
 theorem nonempty_sphere_homotopyGroup_seventhStem (n : ℕ) (hn : 9 ≤ n) (x : Sphere n) :
     Nonempty (HomotopyGroup.Pi (n + 7) (Sphere n) x ≃* Multiplicative (ZMod 240)) := by
   sorry
@@ -206,8 +213,10 @@ theorem nonempty_sphere_homotopyGroup_seventhStem (n : ℕ) (hn : 9 ≤ n) (x : 
 
 /-- Smooth recognition of `S⁶`, oriented: a compact Hausdorff second-countable boundaryless smooth
 six-manifold `M` homotopy equivalent to `S⁶`, with an oriented atlas `A`, admits a diffeomorphism
-onto `S⁶` carrying `A` into the orientation of any oriented atlas `B` of `S⁶` (Kervaire--Milnor,
-*Groups of homotopy spheres I*, 1963, `Θ₆ = 0`, with Smale's h-cobordism theorem; README Stage 10). -/
+onto `S⁶` carrying `A` into the orientation of any oriented atlas `B` of `S⁶` (Milnor, *Lectures on
+the h-cobordism theorem*, §9, Proposition B, p.109, whose proof on p.110 combines Proposition A
+with the Kervaire--Milnor--Wall bounding theorem; Kervaire--Milnor, *Groups of homotopy
+spheres I*, 1963, p.504, where `Θ₆` has order one; README Section 10.4). -/
 theorem smoothPoincareSix_oriented
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] [CompactSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 6)) M] [IsManifold (𝓡 6) ∞ M]
@@ -220,7 +229,8 @@ theorem smoothPoincareSix_oriented
   sorry
 
 /-- Smooth recognition of `S⁶`, unoriented: a compact Hausdorff second-countable boundaryless
-smooth six-manifold homotopy equivalent to `S⁶` is diffeomorphic to `S⁶` (README Stage 10). -/
+smooth six-manifold homotopy equivalent to `S⁶` is diffeomorphic to `S⁶` (Milnor, *Lectures on the
+h-cobordism theorem*, §9, Proposition B, p.109; README Section 10.4). -/
 theorem nonempty_diffeomorph_sphere_six
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] [CompactSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 6)) M] [IsManifold (𝓡 6) ∞ M]
