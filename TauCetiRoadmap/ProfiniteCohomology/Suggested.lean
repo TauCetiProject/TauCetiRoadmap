@@ -75,10 +75,15 @@ names declared below besides the headline theorems; `README.md`, "Downstream con
 them. Each is the pinned Tau Ceti declaration under this roadmap's name and argument order (an
 abbreviation, or a theorem proved by the Tau Ceti theorem), except for three short definitions on
 the same carriers (`degreeCast`, `cup` read as a function, `galoisConj`), the coordinate table
-`WreathC2.sectionTable` with the section `wreathSection` it defines, and two theorems the pinned
-Tau Ceti does not prove in this form, stated with `sorry`: NSW (3.6.4) as
-`abelianizationProPClass_generates`, and the restriction formula `galoisEvens_galoisRes` for the
-Evens norm of a quadratic extension.
+`WreathC2.sectionTable` with the section `wreathSection` it defines, and two theorems stated with
+`sorry` that restate Tau Ceti theorems: NSW (3.6.4) as `abelianizationProPClass_generates`, Tau
+Ceti's `TauCeti.abelianizationProPClass_generates`
+(`CohomologicalDimension/ClassModule/Sylow.lean`), and the restriction formula
+`galoisEvens_galoisRes` for the Evens norm of a quadratic extension, Tau Ceti's
+`TauCeti.galoisEvens_galoisRes` (`FieldTheory/GaloisCohomology/EvensNorm.lean`). Those two Tau
+Ceti theorems postdate the Tau Ceti revision this file is built against, which has neither
+`ClassModule/Sylow.lean` nor the quadratic-extension identities of `EvensNorm.lean`; each `sorry`
+is discharged by its Tau Ceti theorem once the build's Tau Ceti contains it.
 -/
 
 @[expose] public section
@@ -297,7 +302,8 @@ noncomputable abbrev abelianizationProPClass (p : ℕ) (G : Type u) [Group G] [T
 /-- **NSW (3.6.4), degree two.** For a prime `p`, a profinite group `G` with `scd_p G ≤ 2` and an
 open normal subgroup `V`, the class `u_{G/V}(p)` generates `H²(G ⧸ V, V^ab(p))`, and that group
 has order `p ^ v_p(#(G ⧸ V))`, the `p`-part of the index. When `p` does not divide the index both
-sides are trivial. -/
+sides are trivial. Tau Ceti's `TauCeti.abelianizationProPClass_generates`, whose primality
+hypothesis is `Fact.out` here. -/
 theorem abelianizationProPClass_generates (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
     (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
@@ -556,7 +562,7 @@ noncomputable abbrev galoisCharacter (K : Type u) [Field K] (L : Type u) [Field 
 
 /-- **The Evens norm of a restricted class** (Evens's identity 5 at a quadratic extension): for
 `[L : K] = 2` and `y ∈ H¹(G_K, 𝔽₂)`, `N(res y) = y ⌣ y + χ_{L/K} ⌣ y`, where `χ_{L/K}` is
-`galoisCharacter`. -/
+`galoisCharacter`. Tau Ceti's `TauCeti.galoisEvens_galoisRes`. -/
 theorem galoisEvens_galoisRes (K : Type u) [Field K] (L : Type u) [Field L] [Algebra K L]
     [FiniteDimensional K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
     (y : continuousCohomology 1 (trivialF2 (AbsoluteGaloisGroup K))) :

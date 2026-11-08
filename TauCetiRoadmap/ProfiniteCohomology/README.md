@@ -612,8 +612,9 @@ Layers 4–7 give colimits, exact sequences and change of groups; Layers 8–10 
 and Galois coefficients to the all-degree theory; Layer 11 gives dimension and class modules;
 Layers 12–13 supply the graded product interface and multiplicative transfer. Qualified library
 names denote the supplier contracts above and below; their mathematical descriptions specify the
-inputs being used, not another construction. Unqualified prose targets and the five named Lean
-headlines are the remaining work. Each subsection lists the inputs for its statement and route,
+inputs being used, not another construction. Unqualified prose targets and the two
+universe-independence theorems of Layer 11 that `Suggested.lean` states are the remaining work.
+Each subsection lists the inputs for its statement and route,
 and each layer closes with examples and dependencies. The library implementations are reused
 with their hypotheses and normalizations.
 
@@ -3631,7 +3632,8 @@ The cup product, `degreeCast` and `coeffMap` take values in
   `WreathC2`, `WreathC2.coordA`, `WreathC2.coordB`, `WreathC2.coordC`, `dihedralToWreath`,
   `wreathD16Cocycle`, `wreathD16Cocycle_isCocycle`, `galoisF2Iso`, `galoisRes`, `galoisCor`,
   `galoisEvens`, `galoisCharacter` and `galoisRes_eq_zero_iff`; and `f2Pairing`, which is
-  `TauCeti.trivialF2TopPairing`. Four further names are definitions or a theorem of their own:
+  `TauCeti.trivialF2TopPairing`. Three further names are definitions of their own and one restates
+  a Tau Ceti theorem:
   `galoisConj` is the function `y ↦ res (cor y) − y` on `Hⁿ(G_L, 𝔽₂)`, the value of
   `TauCeti.galoisConj` at `y`;
   `WreathC2.sectionTable` is the section `(us)^i s^j ↦ r^i f^j` of `D₁₆ → C₂ ≀ C₂` on the
