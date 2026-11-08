@@ -1,7 +1,4 @@
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.FundamentalGroup
-import Mathlib.Topology.Homotopy.Product
-import Mathlib.Topology.Algebra.Group.Basic
-import Mathlib.GroupTheory.EckmannHilton
+import Mathlib
 
 /-! Suggested forms accompany the definitive roadmap prose; they are not an
 exhaustive checklist. The constructions below use the native path quotient and

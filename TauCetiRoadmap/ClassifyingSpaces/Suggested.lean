@@ -1,232 +1,144 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.EilenbergMacLane.HomotopyEquiv
-import TauCeti.AlgebraicTopology.SimplicialComplex.Realization.Basic
-import TauCeti.AlgebraicTopology.UniversalCover.Classification.EilenbergMacLane
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Twisted.Basic
+public import TauCeti.AlgebraicTopology.LocalCoefficient.Representation
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Basic
 
 /-!
 # Classifying spaces of discrete groups: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a stage nor the roadmap. `sorry` is permitted in this human-owned repository:
-these are targets, not implementations.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, so that the finished roadmap
+is tested against them: the realization of homomorphisms by pointed maps out of a path-connected
+Hausdorff CW complex into an aspherical space, unique up to homotopy relative to the base point;
+the pointed uniqueness of aspherical Hausdorff CW complexes; and the identification of the
+homology and cohomology of a Hausdorff CW `K(G, 1)` with coefficients in the local system of a
+representation of `G` with Mathlib's `groupHomology` and `groupCohomology`.
 
-Both models of the roadmap appear: the simplicial one of Stage 1, built from the countable join,
-and the cellular one of Stage 2, built from a presentation. Their names are separate, because
-Stage 3's comparison is a theorem about two different spaces and not a definitional identity.
-Mathlib's `classifyingSpaceUniversalCover` is the simplicial `G`-set of the bar resolution, a
-different object again, so everything here is named in the `TauCeti` namespace.
+Headline theorems that are theorems of the pinned Tau Ceti, and therefore not stated here:
 
-The base point is part of the data everywhere: the fundamental group is taken at it, and the
-classification theorems of the universal-covers roadmap are pointed.
+* the existence of a Hausdorff CW `K(G, 1)` for every group, and of a path-connected Hausdorff
+  CW complex with no cells above dimension two whose fundamental group is `G`:
+  `TauCeti.classifyingSpace G` with `TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace`,
+  `TauCeti.instCWComplexClassifyingSpace` and `TauCeti.instT2SpaceClassifyingSpace`, the
+  existence theorems `TauCeti.exists_isEilenbergMacLaneSpaceOne` and
+  `TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`, and the presentation
+  complex `TauCeti.PresentationComplex` of the tautological presentation
+  `Group.Presentation.ofFreeGroupHom`, with `TauCeti.PresentationComplex.fundamentalGroupMulEquiv`
+  and `TauCeti.PresentationComplex.isEmpty_cell`;
+* the agreement of the Milnor and cellular models, the uniqueness of `K(G, 1)` spaces of CW type
+  up to a change of base point, the functoriality, the two resolutions and the comparison with
+  Mathlib's standard resolution, and the (co)homology comparisons for the Milnor model:
+  `TauCeti.cellularHomotopyEquivClassifyingSpace`, `TauCeti.IsAspherical.exists_homotopyEquiv`,
+  `TauCeti.classifyingSpaceHomotopyFunctor`, `TauCeti.universalGSpaceResolution`,
+  `TauCeti.cellularClassifyingSpaceResolution`, `TauCeti.universalGSpaceStandardHomotopyEquiv`,
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`,
+  `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`,
+  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`;
+* the existence of an isomorphism between the singular homology, or cohomology, of an arbitrary
+  Hausdorff CW `K(G, 1)` with trivial coefficients and group (co)homology: it is the transport
+  of the two pinned isomorphisms for the Milnor model along the pinned homotopy equivalence
+  `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`, by the homotopy invariance of
+  singular (co)homology. The roadmap's Layer 2 items 2.1 and 2.2 fix the transported isomorphism
+  through the chosen identification of the fundamental group and state its naturality; those are
+  constructions and prose targets of `README.md` only.
+
+The nerve model of the algebraic-topology roadmap and its comparison with the pinned models
+belong to that roadmap and are not stated here.
+
+The base point of a CW complex is a vertex throughout, a point of the `0`-skeleton
+`Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1`, as in Hatcher's proof; the base point
+of an aspherical target is arbitrary. The two Layer 1 headlines keep the source and the target
+in one universe, the universe in which the pinned `TauCeti.exists_mapOfEq_cellularClassifyingSpace`
+keeps a presentation and the target of its map. The local-coefficient headlines are stated with
+coefficients in a commutative ring `k` in the universe of `G` and `X`, because Mathlib's
+`Rep k G` keeps `k` and `G` in one universe; the integral statement is the case `k = ℤ`,
+`G : Type`.
 -/
+
+public section
 
 namespace TauCetiRoadmap.ClassifyingSpaces
 
 open TauCeti
 
-universe u v
+universe u
 
-/-! ## Stage 1: the simplicial model -/
+/-! ## Layer 1: maps into aspherical spaces and pointed uniqueness -/
 
-section Simplicial
+/-- **Maps out of a CW complex into an aspherical space** (Layer 1 items 1.1 and 1.2; Hatcher,
+Proposition 1B.9, p. 90): for a path-connected Hausdorff CW complex `X` with base point a vertex
+`x` and an aspherical space `Y` with base point `y`, in one universe, every homomorphism
+`π₁(X, x) →* π₁(Y, y)` is induced by a pointed map, and two pointed maps inducing the same
+homomorphism are homotopic relative to the base point. The pinned library proves the existence
+clause for the source `TauCeti.cellularClassifyingSpace R`
+(`TauCeti.exists_mapOfEq_cellularClassifyingSpace`) and the uniqueness clause for a CW complex
+with a single `0`-cell (`TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex`); the
+headline is the general source. -/
+theorem exists_continuousMap_mapOfEq_eq_of_isAspherical
+    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] (x : X) (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1)
+    {Y : Type u} [TopologicalSpace Y] {y : Y} (_hY : IsAspherical Y y)
+    (φ : FundamentalGroup X x →* FundamentalGroup Y y) :
+    ∃ (f : C(X, Y)) (hf : f x = y),
+      (∀ γ, FundamentalGroup.mapOfEq f hf γ = φ γ) ∧
+        ∀ (g : C(X, Y)) (hg : g x = y), (∀ γ, FundamentalGroup.mapOfEq g hg γ = φ γ) →
+          ContinuousMap.HomotopicRel f g {x} := sorry
 
-variable (A : ℕ → Type u) (G : Type u) [Group G]
-
-/-- **Milestone 1: the countable join.** The faces are the nonempty finite sets of indexed
-vertices meeting each index at most once. -/
-def countableJoin : AbstractSimplicialComplex (Σ i : ℕ, A i) := sorry
-
-/-- The realization of the countable join of copies of `G`, the total space of the construction. -/
-noncomputable def universalGSpace : Type u :=
-  AbstractSimplicialComplex.Realization (countableJoin fun _ : ℕ => G)
-
-noncomputable instance : TopologicalSpace (universalGSpace G) :=
-  inferInstanceAs (TopologicalSpace (AbstractSimplicialComplex.Realization _))
-
-/-- Its distinguished point, the vertex at index `0` labelled by `1`. -/
-noncomputable def universalGSpaceBasepoint : universalGSpace G := sorry
-
-/-- **Milestone 2: weak contractibility.** With nonempty factors at infinitely many indices the
-realization is path-connected with vanishing homotopy groups; for a group this is the total space
-above. -/
-instance : PathConnectedSpace (universalGSpace G) := sorry
-
-instance : SimplyConnectedSpace (universalGSpace G) := sorry
-
-theorem subsingleton_homotopyGroup_universalGSpace {N : Type u} [Fintype N] [Nontrivial N]
-    [DecidableEq N] (x : universalGSpace G) :
-    Subsingleton (HomotopyGroup N (universalGSpace G) x) := sorry
-
-/-- **Milestone 3: the action and the orbit cover.** -/
-noncomputable instance : MulAction G (universalGSpace G) := sorry
-
-instance : ContinuousConstSMul G (universalGSpace G) := sorry
-
-/-- The classifying space is the orbit space of that action. -/
-def classifyingSpace : Type u :=
-  Quotient (MulAction.orbitRel G (universalGSpace G))
-
-noncomputable instance : TopologicalSpace (classifyingSpace G) :=
-  inferInstanceAs (TopologicalSpace (Quotient _))
-
-noncomputable def classifyingSpaceProj : universalGSpace G → classifyingSpace G := sorry
-
-noncomputable def classifyingSpaceBasepoint : classifyingSpace G := sorry
-
-/-- The orbit map is the quotient covering map of the action: this is the statement the
-universal-covers roadmap's classification consumes. -/
-theorem isQuotientCoveringMap_classifyingSpaceProj :
-    IsQuotientCoveringMap (classifyingSpaceProj G) G := sorry
-
-/-- Two points of the total space have the same image exactly when a group element carries one to
-the other, and that element is unique. -/
-theorem classifyingSpaceProj_eq_iff (x y : universalGSpace G) :
-    classifyingSpaceProj G x = classifyingSpaceProj G y ↔ ∃! g : G, g • x = y := sorry
-
-/-- **Milestone 4: the standing hypotheses.** Both spaces satisfy the hypotheses under which the
-covering-space classification applies. -/
-instance : LocallyPathConnectedSpace (universalGSpace G) := sorry
-
-instance : PathConnectedSpace (classifyingSpace G) := sorry
-
-instance : LocallyPathConnectedSpace (classifyingSpace G) := sorry
-
-instance : SemilocallySimplyConnectedSpace (classifyingSpace G) := sorry
-
-/-- **Milestone 5: it is a `K(G, 1)`.** The fundamental group is `G`, in the direction fixed
-against the opposite-group convention of the universal-covers roadmap. -/
-noncomputable def fundamentalGroupClassifyingSpace :
-    FundamentalGroup (classifyingSpace G) (classifyingSpaceBasepoint G) ≃* G := sorry
-
-theorem isEilenbergMacLaneSpaceOne_classifyingSpace :
-    IsEilenbergMacLaneSpaceOne G (classifyingSpace G) (classifyingSpaceBasepoint G) := sorry
-
-/-- The unconditional existence theorem: every group is the fundamental group of an aspherical
-space, with no hypothesis on the group. -/
-theorem exists_isEilenbergMacLaneSpaceOne :
-    ∃ (X : Type u) (_ : TopologicalSpace X) (x : X), IsEilenbergMacLaneSpaceOne G X x := sorry
-
-/-- **Milestone 6: functoriality**, strictly and not only up to homotopy. -/
-noncomputable def classifyingSpaceMap {H : Type u} [Group H] (φ : G →* H) :
-    C(classifyingSpace G, classifyingSpace H) := sorry
-
-theorem classifyingSpaceMap_id : classifyingSpaceMap G (MonoidHom.id G) = ContinuousMap.id _ :=
-  sorry
-
-theorem fundamentalGroup_classifyingSpaceMap {H : Type u} [Group H] (φ : G →* H) :
-    ∀ γ, fundamentalGroupClassifyingSpace H
-        (FundamentalGroup.mapOfEq (classifyingSpaceMap G φ) sorry γ) =
-      φ (fundamentalGroupClassifyingSpace G γ) := sorry
-
-end Simplicial
-
-/-! ## Stage 2: the cellular model -/
-
-section Cellular
-
-variable {α : Type u}
-
-/-- **Milestone 7: the presentation complex** of a presentation: one vertex, a one-cell for each
-generator, a two-cell for each relator. -/
-def presentationComplex (rels : Set (FreeGroup α)) : Type u := sorry
-
-noncomputable instance (rels : Set (FreeGroup α)) :
-    TopologicalSpace (presentationComplex rels) := sorry
-
-noncomputable def presentationComplexBasepoint (rels : Set (FreeGroup α)) :
-    presentationComplex rels := sorry
-
-/-- Its fundamental group is the presented group, by van Kampen. -/
-noncomputable def fundamentalGroupPresentationComplex (rels : Set (FreeGroup α)) :
-    FundamentalGroup (presentationComplex rels) (presentationComplexBasepoint rels) ≃*
-      PresentedGroup rels := sorry
-
-/-- **Milestone 10: the cellular model.** Attaching cells above dimension two to the
-presentation complex of the tautological presentation gives a `K(G, 1)` of CW type. -/
-def cellularClassifyingSpace (G : Type u) [Group G] : Type u := sorry
-
-noncomputable instance (G : Type u) [Group G] :
-    TopologicalSpace (cellularClassifyingSpace G) := sorry
-
-noncomputable def cellularClassifyingSpaceBasepoint (G : Type u) [Group G] :
-    cellularClassifyingSpace G := sorry
-
-theorem isEilenbergMacLaneSpaceOne_cellularClassifyingSpace (G : Type u) [Group G] :
-    IsEilenbergMacLaneSpaceOne G (cellularClassifyingSpace G)
-      (cellularClassifyingSpaceBasepoint G) := sorry
-
-noncomputable instance (G : Type u) [Group G] :
-    Topology.CWComplex (Set.univ : Set (cellularClassifyingSpace G)) := sorry
-
-instance (G : Type u) [Group G] : T2Space (cellularClassifyingSpace G) := sorry
-
-end Cellular
-
-/-! ## Stage 3: uniqueness and the comparison of the models -/
-
-section Uniqueness
-
-variable {G : Type u} [Group G]
-
-/-- **Milestone 12: uniqueness.** Two aspherical CW complexes are homotopy equivalent by an
-equivalence that preserves the base points and induces a prescribed isomorphism of fundamental
-groups; for two `K(G, 1)` CW complexes any isomorphism through `G` is such a prescription. The
-roadmap asks for the version for spaces of CW type, which follows by transport. Both CW
+/-- **Pointed uniqueness** (Layer 1 item 1.3; Hatcher, Theorem 1B.8, p. 90): two aspherical
+Hausdorff CW complexes in one universe, the first based at a vertex, are homotopy equivalent by
+an equivalence whose forward map preserves the base points and induces a prescribed isomorphism
+of fundamental groups; for two `K(G, 1)` CW complexes any isomorphism through `G` is such a
+prescription. The pinned `TauCeti.IsAspherical.exists_homotopyEquiv` realizes the isomorphism
+only after a change of base point along a path; the headline is the pointed form. Both CW
 hypotheses are needed: a point and the Warsaw circle are both `K(1, 1)` spaces. -/
 theorem exists_homotopyEquiv_of_isAspherical
     {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
     [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
-    {x : X} {y : Y} (_hX : IsAspherical X x) (_hY : IsAspherical Y y)
+    {x : X} (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1) {y : Y}
+    (_hX : IsAspherical X x) (_hY : IsAspherical Y y)
     (e : FundamentalGroup X x ≃* FundamentalGroup Y y) :
     ∃ (F : ContinuousMap.HomotopyEquiv X Y) (hF : F.toFun x = y),
       ∀ γ, FundamentalGroup.mapOfEq F.toFun hF γ = e γ := sorry
 
-/-- **Milestone 13: CW structures along coverings**, the case consumed by the simplicial model:
-the orbit space of the countable join is a CW complex, its cells the orbits of simplices. -/
-noncomputable instance : Topology.CWComplex (Set.univ : Set (classifyingSpace G)) := sorry
+/-! ## Layer 2: group homology and cohomology of a CW `K(G, 1)` -/
 
-instance : T2Space (classifyingSpace G) := sorry
+/-- **Homology with local coefficients** (Layer 2 item 2.3): for an aspherical Hausdorff CW
+complex `X` whose fundamental group at a vertex `x` is identified with `G` by `Ψ`, and a representation
+`A` of `G` over `k`, the homology of `X` with coefficients in the local system of the
+representation `A ∘ Ψ` of `π₁(X, x)` is Mathlib's group homology of `A`. For the Milnor model and
+the local system of the orbit map this is the pinned
+`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`; the headline is stated for the local
+system `TauCeti.LocalCoefficientSystem.ofRepresentation` of the monodromy representation, on any
+such space. Asphericity cannot be dropped: for `X = S² ∨ S¹`, `G = ℤ` and `A` trivial the two
+sides differ in degree two. -/
+theorem nonempty_twistedHomology_iso_groupHomology
+    (k : Type u) [CommRing k] (G : Type u) [Group G]
+    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] {x : X} (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1)
+    (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
+    (A : Rep k G) (n : ℕ) :
+    Nonempty (groupHomology A n ≅
+      LocalCoefficientSystem.twistedHomology
+        (LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
+          (A.ρ.comp Ψ.toMonoidHom)) n) := sorry
 
-/-- **Milestone 14: the two models agree.** -/
-theorem nonempty_homotopyEquiv_classifyingSpace :
-    Nonempty (ContinuousMap.HomotopyEquiv (classifyingSpace G) (cellularClassifyingSpace G)) :=
-  sorry
-
-end Uniqueness
-
-/-! ## Stage 4: group homology and cohomology -/
-
-section Homology
-
-/-- **Milestone 16: the chain-level comparison**, for the simplicial model: the augmented cellular
-chains of `universalGSpace G`, its cells the simplices of the countable join, as a free
-resolution of the trivial module. -/
-noncomputable def universalGSpaceResolution (G : Type) [Group G] :
-    CategoryTheory.ProjectiveResolution (Rep.trivial ℤ G ℤ) := sorry
-
-/-- **Milestone 18: comparison with the bar resolution.** The explicit equivariant chain map
-sending the simplex `{(i₀, g₀), …, (iₙ, gₙ)}`, `i₀ < ⋯ < iₙ`, to `(g₀, …, gₙ)`. It is a chain
-homotopy equivalence, not an isomorphism: the two complexes already differ in degree zero. -/
-noncomputable def universalGSpaceResolutionToStandard (G : Type) [Group G] :
-    (universalGSpaceResolution G).complex ⟶ (Rep.standardResolution ℤ G).complex := sorry
-
-open CategoryTheory in
-/-- The explicit map lifts the identity of `ℤ`, so it represents the comparison that Mathlib's
-`ProjectiveResolution.homotopyEquiv` gives between any two projective resolutions. -/
-theorem universalGSpaceResolutionToStandard_comp_π (G : Type) [Group G] :
-    universalGSpaceResolutionToStandard G ≫ (Rep.standardResolution ℤ G).π =
-      (universalGSpaceResolution G).π := sorry
-
-/-- **Milestone 17: the comparison with algebra.** The singular homology of the classifying
-space is the group homology of the trivial module. Stated over `ℤ` and in the bottom universe for
-readability; the roadmap asks for it over any commutative ring and any group. -/
-theorem singularHomology_classifyingSpace_iso_groupHomology (G : Type) [Group G] (n : ℕ) :
-    Nonempty (groupHomology (Rep.trivial ℤ G ℤ) n ≅
-      ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
-        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (classifyingSpace G))) := sorry
-
-end Homology
+/-- **Cohomology with local coefficients** (Layer 2 item 2.3): with `X`, `Ψ` and `A` as in
+`nonempty_twistedHomology_iso_groupHomology` and a `k`-module `N`, the cohomology of `X` with
+coefficients in the local system of `A ∘ Ψ` and values in `N` is Mathlib's group cohomology of
+the internal hom `Homₖ(A, N)`, `N` carrying the trivial action. For the Milnor model this is the
+pinned `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`. -/
+theorem nonempty_twistedCohomology_iso_groupCohomology
+    (k : Type u) [CommRing k] (G : Type u) [Group G]
+    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] {x : X} (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1)
+    (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
+    (A : Rep k G) (N : Type u) [AddCommGroup N] [Module k N] (n : ℕ) :
+    Nonempty (groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n ≅
+      (LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
+        (A.ρ.comp Ψ.toMonoidHom)).twistedCohomology k (ModuleCat.of k N) n) := sorry
 
 end TauCetiRoadmap.ClassifyingSpaces
