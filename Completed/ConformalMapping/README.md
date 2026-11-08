@@ -1373,8 +1373,9 @@ Layers 2, 3, 5; Tau Ceti `SchwarzChristoffel.*`, `Geometry.Polygon.Simple`; Math
   I6, consumes §5.3 for the two-component theorem.
 - GlobalHolomorphicFunctions restates §1.1 on its carrier `H(U)` in GH0 and consumes §5.3 in GH4
   for single-Jordan separation.
-- ConformalMappingPartII consumes Layer 2 (the Schwarz lemma and Cayley coordinate) for its
-  conformal radius and covering theory.
+- ConformalMappingPartII consumes Layers 1–4 (normal families; the Schwarz equality case, disc
+  automorphisms and Poincaré metric; normalized Riemann maps; monodromy and reflection) for its
+  analytic covering maps of punctured domains.
 - ModularForms is the natural consumer of Layers 4–5 for modular and elliptic uniformization;
   HeegaardFloer can consume §4.2 for Cauchy–Riemann boundary conditions; PDE and the several
   complex variables and special-function roadmaps consume the conformal mapping and boundary
