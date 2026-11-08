@@ -6017,8 +6017,9 @@ Layer4.5 (native bracket and Jones conventions); Mathlib `MvPolynomial`,
 `Ideal.Quotient`, `LaurentPolynomial` and units; native
 `TauCeti.Algebra.TemperleyLieb.Basic`, `TauCeti.KnotTheory.TemperleyLieb`,
 PD state counts, Kauffman brackets, signed kink and typeII/III APIs.
-Use [Kauffman, §2, Lemmas 2.3–2.4, Theorem 2.6, Proposition 2.7 and Theorem 2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
-for the state model and regular-to-ambient normalization.
+Use [Kauffman, *State models and the Jones polynomial*, §2, Lemmas 2.3–2.4, Propositions 2.5 and 2.7, Theorems 2.6 and 2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
+for the state model, the curl factor `−a³` (Proposition 2.5) and the regular-to-ambient
+normalization.
 
 ### 4.5.5 Jones polynomials of 3₁, 4₁, 9₄₁ and 9₄₂ and two excluded candidates
 
@@ -13427,8 +13428,15 @@ theorem and Smale's disc theorem) for Layer 11.2.1; Mathlib CW complexes.
   and B with the refinements stated after them and after the proof of Theorem B, §2 (the
   Handle Smoothing Theorem), §3 (the torus trick for `0`-handles).
 - P. Freyd, D. Yetter, J. Hoste, W. B. R. Lickorish, K. Millett, A. Ocneanu, *A new polynomial
-  invariant of knots and links*, Bull. Amer. Math. Soc. 12 (1985), 239–246, p. 244
-  (mutation, pretzel permutations and the two-tangle composition formula).
+  invariant of knots and links*, Bull. Amer. Math. Soc. 12 (1985), 239–246, pp. 241–244
+  (the Freyd–Yetter, Hoste and Lickorish–Millett existence proofs, with the descending
+  diagrams of pp. 242–243) and p. 244 (mutation, pretzel permutations and the two-tangle
+  composition formula). L. Kauffman, *State models and the Jones polynomial*, Topology 26
+  (1987), 395–407, §2: Lemmas 2.3–2.4, Propositions 2.5 and 2.7, Theorems 2.6 and 2.8 (copy
+  on A. Ranicki's page at the University of Edinburgh). L. Kauffman, *An invariant of regular
+  isotopy*, Trans. Amer. Math. Soc. 318 (1990), 417–471 (author's page), the skein and curl
+  conventions of the regular-isotopy polynomial. L. Ng, *Knot and braid invariants from
+  contact homology I*, Geom. Topol. 9 (2005), 247–297, §8.6 (author's page).
   V. Jones, *A polynomial invariant for knots via von Neumann algebras*, Bull. Amer. Math.
   Soc. 12 (1985), 103–111, Theorems 5, 7–11 and 14–24 (Corollary 24 is in error: the
   bound `6.5` must be `8`). V. Jones, *Hecke algebra representations of braid groups and
@@ -13461,7 +13469,11 @@ theorem and Smale's disc theorem) for Layer 11.2.1; Mathlib CW complexes.
   decompositions*, Algebr. Geom. Topol. 17 (2017), arXiv 1507.02771, §2. H. Morton, *Seifert
   circles and knot polynomials*, Math. Proc. Cambridge Philos. Soc. 99 (1986), 107–109.
   J. Franks, R. Williams, *Braids and the Jones polynomial*, Trans. Amer. Math. Soc. 303
-  (1987), 97–108.
+  (1987), 97–108. E. Kalfagianni, *A Jones slopes characterization of adequate knots*,
+  arXiv 1601.03307 (v3; Indiana Univ. Math. J. 67 (2018), 205–219), §2 and Theorem 3.2.
+  S. Kolay, *Knot colorings: coloring and Goeritz matrices*, arXiv 1910.08044 (2019), §4,
+  Proposition 4. B. Bode, *Knotted fields and real algebraic links*, PhD thesis, University
+  of Bristol (2018), §2.1, Definitions 2.2–2.4.
 - H. Schubert, *Über eine numerische Knoteninvariante*, Math. Z. 61 (1954), 245–288; *Knoten
   mit zwei Brücken*, Math. Z. 65 (1956), 133–170. L. Kauffman, S. Lambropoulou, *On the
   classification of rational knots*, L'Enseignement Math. 49 (2003), arXiv math/0212011,
