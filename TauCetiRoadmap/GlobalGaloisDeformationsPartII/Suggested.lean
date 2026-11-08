@@ -14,14 +14,14 @@ arithmetic selection hypothesis of README §3.2; the irreducible number-field
 theorem in §6.6 uses its independent FKP19 route, and the ordinary symplectic
 lifts of §§10.1–10.3 rest on §6.6 without that hypothesis.
 
-Statable at the pins: the degree-one uniform torsion theorem of README §4.4
-(FKP19 Lemma B.1), for a compact `ℚ_p`-analytic group whose Mathlib
-`GroupLieAlgebra` is semisimple, with coefficients in the reductions `V/ϖʳV` of
-a finite free lattice over a discrete valuation ring finite over `ℤ_p`. The
-reductions, with their discrete topology and induced action, are the only
-definitions this file makes. The all-degree form of §4.4 needs the
-differentiated action of the Lie algebra on `V ⊗ ℚ_p` for its no-invariants
-hypothesis, which the pins do not provide, and stays in prose.
+Statable at the pins: both uniform torsion theorems of README §4.4 (FKP19
+Lemma B.1), for a compact `ℚ_p`-analytic group whose Mathlib `GroupLieAlgebra`
+is semisimple, with coefficients in the reductions `V/ϖʳV` of a finite free
+lattice over a discrete valuation ring finite over `ℤ_p`: the degree-one form,
+with no hypothesis on invariants, and the all-degree form, whose hypothesis that
+`V ⊗ ℚ_p` has no Lie-algebra invariants is stated in its equivalent group form,
+that no open subgroup fixes a nonzero vector of `V`. The reductions, with their
+discrete topology and induced action, are the only definitions this file makes.
 
 The following headline theorems are not statable at the pins:
 * Controlled G-valued finite-level towers: the fixed-quotient arithmetic lifting
@@ -52,6 +52,8 @@ The following headline theorems are not statable at the pins:
 -/
 
 open scoped Manifold ContDiff
+
+universe u
 
 namespace TauCetiRoadmap.GlobalGaloisDeformationsPartII
 
@@ -99,6 +101,16 @@ noncomputable instance (ρ : Representation O G V) (ϖ : O) (r : ℕ) :
     DistribMulAction G (ModPow ρ ϖ r) :=
   DistribMulAction.compHom (ModPow ρ ϖ r) (modPowRep ρ ϖ r)
 
+/-- The reduction `V/ϖʳV` as a continuous representation of `G` over `ℤ`, the coefficient ring
+of Mathlib's `continuousCohomology`: each element of `G` acts through `modPowRep ρ ϖ r` by a
+`ℤ`-linear map, continuous for the discrete topology. -/
+noncomputable def modPowCont (ρ : Representation O G V) (ϖ : O) (r : ℕ) :
+    ContRepresentation ℤ G (ModPow ρ ϖ r) :=
+  .ofMonoidHom
+    { toFun g := ⟨((modPowRep ρ ϖ r) g).restrictScalars ℤ, continuous_of_discreteTopology⟩
+      map_one' := by ext x; simp
+      map_mul' g h := by ext x; simp }
+
 end ModPow
 
 /-- README §4.4, degree one (FKP19 Lemma B.1, p.64; Lazard65 V (2.2.2.3), (2.2.3.1) and
@@ -119,6 +131,26 @@ theorem uniformTorsion_H1 {p : ℕ} [Fact p.Prime] {d : ℕ} {G : Type*} [Topolo
     {V : Type*} [AddCommGroup V] [Module O V] [Module.Finite O V] [Module.Free O V]
     (ρ : Representation O G V) [∀ r : ℕ, ContinuousSMul G (ModPow ρ ϖ r)] :
     ∃ a : ℕ, ∀ r : ℕ, ∀ x : TauCeti.ContCohomology.H1 G (ModPow ρ ϖ r), p ^ a • x = 0 := by
+  sorry
+
+/-- README §4.4, all degrees (FKP19 Lemma B.1, p.64, with degree zero added as in README §4.4).
+Let `G`, `O`, `ϖ`, `V` and `ρ` be as in `uniformTorsion_H1`, with `G` and `V` in one universe,
+and assume that no open subgroup of `G` fixes a nonzero vector of `V`. For a free lattice this
+is equivalent to the absence of invariants of the Lie algebra of `G` in `V ⊗ ℚ_p`, because the
+rational invariants of every sufficiently small open subgroup are exactly the Lie-algebra
+invariants (Lazard65 V Theorem (2.4.10)). Then one power of `p`, independent of the degree `n`
+and of `r`, kills the continuous cohomology `Hⁿ(G, V/ϖʳV)` for every `n` and every `r`. -/
+theorem uniformTorsion {p : ℕ} [Fact p.Prime] {d : ℕ} {G : Type u} [TopologicalSpace G]
+    [ChartedSpace (Fin d → ℚ_[p]) G] [Group G] [IsTopologicalGroup G] [CompactSpace G]
+    [LieGroup 𝓘(ℚ_[p], Fin d → ℚ_[p]) ω G]
+    [LieAlgebra.IsSemisimple ℚ_[p] (GroupLieAlgebra 𝓘(ℚ_[p], Fin d → ℚ_[p]) G)]
+    {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra ℤ_[p] O]
+    [Module.Finite ℤ_[p] O] {ϖ : O} (hϖ : Irreducible ϖ)
+    {V : Type u} [AddCommGroup V] [Module O V] [Module.Finite O V] [Module.Free O V]
+    (ρ : Representation O G V) [∀ r : ℕ, ContinuousSMul G (ModPow ρ ϖ r)]
+    (hfix : ∀ (U : OpenSubgroup G) (v : V), (∀ g ∈ U, ρ g v = v) → v = 0) :
+    ∃ a : ℕ, ∀ n r : ℕ, ∀ x : continuousCohomology n (TopRep.of (modPowCont ρ ϖ r)),
+      (p ^ a : ℤ) • x = 0 := by
   sorry
 
 end
