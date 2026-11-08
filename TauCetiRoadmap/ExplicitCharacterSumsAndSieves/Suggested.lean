@@ -1,18 +1,22 @@
 module
 
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
 
 /-!
 # Explicit exponential sums, character sums and sieve bounds: target signatures
 
 This file is not the roadmap. The roadmap is `README.md`; this file states, against the pinned
-Mathlib, the headline theorems of the roadmap that are statable at the pins, each with `sorry`,
-together with the few definitions their statements need. Every finite verification a theorem
-rests on is a hypothesis with its data in the statement, as in Layer 6 of the README or as the
-named input of the supplier section it comes from.
+Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable at the pins, each
+with `sorry`, together with the few definitions their statements need. Every finite verification
+a theorem rests on is a named proposition, listed in Layer 6 of the README, and an explicit
+hypothesis of each theorem that uses it.
 
 Headline theorems stated here:
 
+* Layer 0: the quadratic-character point count of a Weierstrass equation with `a₁ = a₃ = 0` over a
+  finite field of odd characteristic (`pointCount_eq_card_add_sum_quadraticChar`,
+  `frobeniusTrace_eq_neg_sum_quadraticChar`), consumed by Burgess's moment bound.
 * Layer 1: Arias de Reyna's iterated van der Corput inequality (`iterated_vanDerCorput`). The
   finite van der Corput inequality, the Kusmin–Landau lemma and the derivative tests for
   exponential sums, Patel's corrected third, fourth and fifth derivative tests among them, belong
@@ -84,6 +88,27 @@ def roughCount (x z : ℝ) : ℕ :=
 def butheRho (f : ℝ → ℝ) (x y : ℝ) : ℝ :=
   (∫ t in x..x + y, |f t|) /
     (sSup ((fun t => |f t|) '' Set.Icc x (x + y)) + ∫ t in x..x + y, |deriv f t|)
+
+/-! ## Layer 0: the quadratic-character point count -/
+
+/-- **The quadratic-character point count** (Silverman, §V.1). Over a finite field `F` of odd
+characteristic, a Weierstrass equation `y² = x³ + a₂x² + a₄x + a₆` (that is, `a₁ = a₃ = 0`) has
+projective point count `q + 1 + ∑_x η(x³ + a₂x² + a₄x + a₆)`, `η` the quadratic character of `F`
+and `q = |F|`. The count is Tau Ceti's `WeierstrassCurve.pointCount`, which includes every singular
+solution, so no ellipticity is assumed. -/
+theorem pointCount_eq_card_add_sum_quadraticChar {F : Type*} [Field F] [Fintype F]
+    [DecidableEq F] (hF : ringChar F ≠ 2) (W : WeierstrassCurve F) [W.IsCharNeTwoNF] :
+    (W.pointCount : ℤ) = Fintype.card F + 1 +
+      ∑ x : F, quadraticChar F (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) := by
+  sorry
+
+/-- **The Frobenius trace as a quadratic-character sum.** Under the hypotheses of
+`pointCount_eq_card_add_sum_quadraticChar`, the trace `q + 1 − #W(F)` is
+`−∑_x η(x³ + a₂x² + a₄x + a₆)`, singular equations included. -/
+theorem frobeniusTrace_eq_neg_sum_quadraticChar {F : Type*} [Field F] [Fintype F]
+    [DecidableEq F] (hF : ringChar F ≠ 2) (W : WeierstrassCurve F) [W.IsCharNeTwoNF] :
+    W.frobeniusTrace = -∑ x : F, quadraticChar F (x ^ 3 + W.a₂ * x ^ 2 + W.a₄ * x + W.a₆) := by
+  sorry
 
 /-! ## Layer 1: the iterated van der Corput inequality -/
 
@@ -210,14 +235,24 @@ def RosserSchoenfeldFiniteRangeInput : Prop :=
     x / log x * (1 + 1 / (2 * log x)) < (Nat.primeCounting ⌊x⌋₊ : ℝ) ∧
       (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / log x * (1 + 3 / (2 * log x))
 
+/-- **Layer 6.8, McGown's small range**: `∑_{a prime ≤ X} (π(a) − 1)/a < π(X)/3` for every integer
+`2 ≤ X ≤ 100` (McGown 2012, Lemma A.8), and `π(A) ≥ A/(1 + log A)` for every integer
+`3 ≤ A ≤ 58` (McGown 2012, proof of Theorem A.9). -/
+def McGownSmallRange : Prop :=
+  (∀ X : ℕ, 2 ≤ X → X ≤ 100 →
+    ∑ a ∈ (Icc 1 X).filter Nat.Prime, ((Nat.primeCounting a : ℝ) - 1) / a <
+      (Nat.primeCounting X : ℝ) / 3) ∧
+  ∀ A : ℕ, 3 ≤ A → A ≤ 58 → (A : ℝ) / (1 + log A) ≤ Nat.primeCounting A
+
 /-- **McGown's parametric Burgess inequality** (McGown 2012, Theorem A.9). Let `χ` be a
 nonprincipal character modulo an odd prime `p`, `r ≥ 2`, and let `d > 4`, `C ≥ 1`, `p₀ ≥ 2` satisfy
 `(A.1) C^r p₀^{1/4 − 1/(4r)} (log p₀)^{1/2} ≥ 4d(d + 1)r` and
 `(A.2) C ≥ ((d + 1)(2r − 1)(4r − 1))^{1/(2r)}/(1 − 2 d^{−(1 − 1/r)})`. Under
-`RosserSchoenfeldFiniteRangeInput`, for `p ≥ p₀`, every integer `N₀` and every integer
-`1 ≤ H ≤ √(rd) p^{1/2 + 1/(4r)}`,
+`RosserSchoenfeldFiniteRangeInput` and `McGownSmallRange`, for `p ≥ p₀`, every integer `N₀` and
+every integer `1 ≤ H ≤ √(rd) p^{1/2 + 1/(4r)}`,
 `|∑_{N₀ < n ≤ N₀ + H} χ(n)| ≤ C H^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}`. -/
-theorem burgess_mcgown_parametric (hRS : RosserSchoenfeldFiniteRangeInput) {p : ℕ}
+theorem burgess_mcgown_parametric (hRS : RosserSchoenfeldFiniteRangeInput)
+    (hsmall : McGownSmallRange) {p : ℕ}
     [Fact p.Prime] (hp : p ≠ 2) (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (r : ℕ) (hr : 2 ≤ r)
     (d C p₀ : ℝ) (hd : 4 < d) (hC : 1 ≤ C) (hp₀ : 2 ≤ p₀)
     (hA1 : 4 * d * (d + 1) * r ≤
@@ -250,14 +285,14 @@ def McGownTableCertificate : Prop :=
         log (2 * 10 ^ 4) ^ (1 / 2 : ℝ)
 
 /-- **McGown's Burgess constants** (McGown 2012, Theorem A.1 and Table A.1). Under
-`RosserSchoenfeldFiniteRangeInput` and `McGownTableCertificate`, for a nonprincipal character
-`χ` modulo a prime `p ≥ 2·10⁴`, `2 ≤ r ≤ 15`, every integer `N₀` and every integer
-`1 ≤ H ≤ 4p^{1/2 + 1/(4r)}`,
+`RosserSchoenfeldFiniteRangeInput`, `McGownSmallRange` and `McGownTableCertificate`, for a
+nonprincipal character `χ` modulo a prime `p ≥ 2·10⁴`, `2 ≤ r ≤ 15`, every integer `N₀` and every
+integer `1 ≤ H ≤ 4p^{1/2 + 1/(4r)}`,
 `|∑_{N₀ < n ≤ N₀ + H} χ(n)| < C(r) H^{1 − 1/r} p^{(r+1)/(4r²)} (log p)^{1/(2r)}`. -/
 theorem burgess_mcgown_table (hRS : RosserSchoenfeldFiniteRangeInput)
-    (hM : McGownTableCertificate) {p : ℕ} [Fact p.Prime] (hp : 20000 ≤ p)
-    (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (r : ℕ) (hr : 2 ≤ r) (hr' : r ≤ 15) (N₀ : ℤ)
-    (H : ℕ) (hH : 1 ≤ H) (hHp : (H : ℝ) ≤ 4 * (p : ℝ) ^ (1 / 2 + 1 / (4 * r) : ℝ)) :
+    (hsmall : McGownSmallRange) (hM : McGownTableCertificate) {p : ℕ} [Fact p.Prime]
+    (hp : 20000 ≤ p) (χ : DirichletCharacter ℂ p) (hχ : χ ≠ 1) (r : ℕ) (hr : 2 ≤ r) (hr' : r ≤ 15)
+    (N₀ : ℤ) (H : ℕ) (hH : 1 ≤ H) (hHp : (H : ℝ) ≤ 4 * (p : ℝ) ^ (1 / 2 + 1 / (4 * r) : ℝ)) :
     ‖charIntervalSum χ N₀ H‖ <
       mcgownConstant r * (H : ℝ) ^ (1 - 1 / r : ℝ) * (p : ℝ) ^ ((r + 1) / (4 * r ^ 2) : ℝ) *
         log p ^ (1 / (2 * r) : ℝ) := by
@@ -497,9 +532,8 @@ theorem ramare_viswanadham_prime_powers (hMV : MVDiagonalFiniteRange) (d a : ℕ
   sorry
 
 /-- **Layer 6.4, Fan's finite range**: the three inequalities of `fan_rough_count` for every real
-`x < 2·10⁶` and every `z` in their respective ranges, the middle one for `x ≥ 8`. It extends the
-three direct verifications in Fan 2022's proof of the Theorem to the whole range; there the
-Theorem is proved analytically apart from those verifications and from `3 ≤ z ≤ x < 9`. -/
+`x < 2·10⁶` and every `z` in their respective ranges, the middle one for `x ≥ 8` (Fan 2022, proof
+of the Theorem). -/
 def FanFiniteRange : Prop :=
   ∀ x z : ℝ, x < 2 * 10 ^ 6 → 1 < z → z ≤ x →
     (roughCount x z : ℝ) < x / log z ∧
