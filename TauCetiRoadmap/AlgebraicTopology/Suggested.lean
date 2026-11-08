@@ -56,6 +56,12 @@ cells have dimension at least `λ` (Stage 8.1; `TauCeti.injective_homotopyGroupM
 (Stage 8.3; `HomotopyGroup.bijective_hurewicz`); Whitehead's theorem for spaces of CW type
 (Stage 8.5; `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`).
 
+Relative Hurewicz in the generality of Stage 8.4 (`X` path connected, `A` simply connected,
+`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 3`; Hatcher, Theorem 4.37, p. 371) is not
+stated: its carriers, Tau Ceti's relative homotopy sets `TauCeti.RelHomotopyGroup` and
+relative Hurewicz map `TauCeti.RelHomotopyGroup.hurewicz`, are absent from the Tau Ceti this
+file is elaborated against.
+
 Not statable at the pins, and therefore stated nowhere in this file:
 the Cartan–Leray spectral sequence (its `E²` term is group homology of the deck
 representation, which needs the double complex of the deck action, a Stage 5.3 construction
@@ -251,17 +257,15 @@ structure LocallyRepresentedTopSection (R : Type u) [CommRing R]
         ∀ y : X, ∀ hy : y ∈ B,
           twistedSupportLocalMap R X L n B y hy c = localValue y (hBV hy)
 
-open scoped ContDiff in
 /-- **Compact-support classes** (Stage 6.3; Hatcher, Lemma 3.27(a), p. 236, with local
-coefficients). On a smooth `m`-manifold `M` (Hausdorff, second countable, boundaryless
-Euclidean model), a locally represented section of local top homology over an open `V`
+coefficients). On a Hausdorff topological `m`-manifold `M` (charted on
+`EuclideanSpace ℝ (Fin m)`; no smooth structure and no second countability, so the long line
+is included), a locally represented section of local top homology over an open `V`
 containing a compact `K` is induced by exactly one class in `H_m(M, M ∖ K; L)`. For constant
 coefficients this is Tau Ceti's `TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`;
 the content here is the local coefficient system. -/
 theorem compactSupportTopClass_existsUnique (R : Type) [CommRing R] (m : ℕ) (M : Type)
-    [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin m))) ∞ M]
+    [TopologicalSpace M] [T2Space M] [ChartedSpace (EuclideanSpace ℝ (Fin m)) M]
     (L : LocalCoefficientSystem R (TopCat.of M)) (K V : Set (TopCat.of M))
     (_hK : IsCompact K) (_hV : IsOpen V) (hKV : K ⊆ V)
     (s : LocallyRepresentedTopSection R (TopCat.of M) L m V) :
@@ -375,8 +379,9 @@ open scoped ContDiff in
 /-- **Finite CW type of compact manifolds** (Stage 8.7). A compact Hausdorff second-countable
 smooth boundaryless manifold with Euclidean model has finite CW type in the sense of Tau
 Ceti's predicate `TauCeti.FiniteCWType`: it is homotopy equivalent to a finite CW complex in
-a Hausdorff space. The smooth triangulation of GeometricTopology is finite by compactness,
-and its realization homeomorphism is the model equivalence. -/
+a Hausdorff space. The route needs only the triangulation: GeometricTopology's smooth
+triangulation makes `M` triangulable, and Tau Ceti's `TauCeti.IsTriangulable.finiteCWType`
+gives finite CW type for every compact triangulable space. -/
 theorem compactManifoldFiniteCWType (n : ℕ)
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]

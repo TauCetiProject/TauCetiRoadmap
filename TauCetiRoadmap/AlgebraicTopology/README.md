@@ -120,10 +120,17 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   obstruction theory; its Layer 1 item 2 owns the fibration homotopy LES and the
   ordinary Serre spectral sequences consumed in 5.5, both built on Tau Ceti's
   Serre-fibration predicate `TauCeti.TopCat.serreFibrations`, which 5.5 also consumes
-  directly from the library; its CW approximation is used in 8.11b.
+  directly from the library; its CW approximation of arbitrary spaces is used in 8.11b
+  for the loop space `ΩK(A,1)`, whose path components are indexed by `A`. Path-connected
+  spaces use Tau Ceti's CW approximation `TauCeti.cwApproximationMap` instead.
   The standing Moore-loop comparison and Layer 2 item 3 supply loop carriers;
   Stage 4 item 8 owns the pointed compactly generated suspension–loop adjunction
   on maps and on based homotopy classes.
+- MorseTheory consumes Stage 6's categorical-cover carriers under the names
+  LSCategoricalCover, lsCategoryCount, normalizedLSCategory and `lsCupLength`. The first
+  two are Tau Ceti's `TauCeti.LSCategoricalCover` and `TauCeti.lsCategoryCount`;
+  normalizedLSCategory X is the normalized category that Stage 6 defines on a nonempty
+  space as `TauCeti.lsCategoryCount X univ − 1`; `lsCupLength` is owned here.
 - Stage 4 item 8 owns the compact-generation coreflection, its kified products
   and exponentials, and their CW and locally compact comparisons, consumed by
   4.4's kified raw quotients, 4.5's kified CW product, 8.10 and 8.11a/b.
@@ -453,7 +460,27 @@ The development starts from these current APIs.
   Hurewicz map in degree `n + 2` is bijective) and
   `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`
   (`Hurewicz.Relative`: the relative Hurewicz map in degree `n + 2` is bijective when `π_k(A)`
-  and `π_k(X)` are trivial for `k < n + 2`). Stage 8 items 1, 3, 4 and 5 consume these.
+  and `π_k(X)` are trivial for `k < n + 2`), with the other natives of the relative
+  Hurewicz theorem: `TauCeti.RelHomotopyGroup.hurewicz` (`Relative.Hurewicz`: the relative
+  Hurewicz map from `TauCeti.RelHomotopyGroup (Fin n)` to `H_(n+1)` of the pair),
+  `TauCeti.RelHomotopyGroup.surjective_hurewicz` (`Hurewicz.Relative`: surjective in degree
+  `n + 2` when `A` is path connected, every point of `X` is joined to `A` and
+  `π_(k+1)(X, A)` is trivial for `k + 1 < n + 2`, with no hypothesis on `π_1(A)`),
+  `TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`
+  (`Singular.Cubical.Compression.Relative`: `H_m(X, A; R) = 0` below the connectivity of
+  the pair) and `TauCeti.RelHomotopyGroup.mul_comm_of_subsingleton` (`Relative.Group`).
+  Also `TauCeti.isZero_singularHomologyFunctor_of_subsingleton_homotopyGroup`
+  (`Singular.Cubical.Based.Retraction`: if `π_k(X, x)` is trivial for `k < n`, then
+  `H_m(X; R) = 0` for `0 < m < n`, any ring, any universe) and the CW approximation
+  `TauCeti.cwApproximation` with `TauCeti.cwApproximationMap`, `TauCeti.cwType_cwApproximation`
+  and `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`
+  (`AlgebraicTopology.Homotopy.CWApproximation.Basic`: a weak homotopy equivalence from a
+  Hausdorff CW complex onto any path-connected space). Stage 8 items 1, 3, 4, 5, 11 and 15
+  consume these.
+- Tau Ceti's triangulable spaces `TauCeti.IsTriangulable` (`Topology.Triangulable.Basic`: a
+  homeomorphism from the realization of an abstract simplicial complex) and
+  `TauCeti.IsTriangulable.finiteCWType` (`Topology.Triangulable.FiniteCWType`: a compact
+  triangulable space has finite CW type). Stage 8 item 7 consumes these.
 - `HomotopyGroup`, based cubes, `ContinuousMap.HomotopyEquiv`, mapping cones and pointed cones,
   category-theoretic colimits, chain homotopies, homology functors, and exact couples.
 
@@ -1373,9 +1400,10 @@ homology with one copy of the coefficient ring also assumes connectedness.
    whole-space count over finite coproducts, including empty components and ⊤ (Inventory).
    This supplement states nothing further about them.
 
-   On a nonempty space define the normalized category as the unnormalized count
-   of the whole space minus 1, and prove that the unnormalized count is the
-   normalized category plus 1. In the connected
+   On a nonempty space X define the normalized category, normalizedLSCategory X,
+   as `TauCeti.lsCategoryCount X univ − 1` in ℕ∞, and prove that
+   `TauCeti.lsCategoryCount X univ` is the normalized category plus 1 (truncated
+   subtraction loses nothing, since the count of a nonempty space is at least 1). In the connected
    case this is the convention cat(point)=0. Empty spaces use the unnormalized
    count0; do not give an empty space a chosen point or apply the +1 formula
    there. Disconnected manifold theorems use the unnormalized sum, rather than
@@ -1522,7 +1550,9 @@ homology with one copy of the coefficient ring also assumes connectedness.
    For L=or_U the canonical section is the preimage of 1 under the composite
    `T_or≃or_U⊗or_U≃ℤ`; it makes no choice of orientation.
    Before duality, prove the local-coefficient compact-support local-homology
-   lemma: for boundaryless m-manifold U, compact K⊂U and every module-valued
+   lemma: for every Hausdorff topological m-manifold U (charted on
+   `EuclideanSpace ℝ (Fin m)`, with no smooth structure and no second countability,
+   so that the long line is included), compact K⊂U and every module-valued
    local system L, `H_i(U,U\K;L)=0` for i>m, and the degree-m group injects
    into its local images at points of K. Prove existence as well: every
    section satisfying this ball-local condition over a neighborhood of K
@@ -2057,24 +2087,43 @@ items 1–7 are independent of those later constructions.
    `π_(n+2)(X, x) → H_(n+2)(X; ℤ)` is bijective. This item states nothing further about
    them. Own the comparison of that map with the sphere normalization: a native generalized
    cubical loop g descends through the Stage 4.4 quotient q to a pointed sphere map ḡ, and
-   the Hurewicz class is ḡ_*[S^n] on the outward-first normalized generator. Own the
-   vanishing of reduced integral homology below `n` for an `(n-1)`-connected pointed space
-   and the passage of the absolute theorem to spaces in every universe. In degree
+   the Hurewicz class is ḡ_*[S^n] on the outward-first normalized generator. Consume the
+   vanishing below the connectivity, Tau Ceti's
+   `TauCeti.isZero_singularHomologyFunctor_of_subsingleton_homotopyGroup` (if `π_k(X, x)` is
+   trivial for every `k < n`, then `H_m(X; R) = 0` for `0 < m < n`, for every ring `R` and in
+   every universe); with `H_0` of a path-connected space it is the vanishing of reduced
+   homology below `n`. Own the passage of the absolute Hurewicz theorem to spaces in every
+   universe. In degree
    one the map factors through abelianization; DGFloer Layer 1 item 1 owns the
    theorem that this exact map is an isomorphism, through its chain comparison.
    For arbitrary spaces consume DGFloer 1.2's direct Eilenberg-subcomplex
    connected-map comparison; it uses face-compatible compression and prisms,
    not this Hurewicz theorem.
-4. Prove relative Hurewicz for a based pair.  If `A` and `X` are simply connected
-   and `pi_i(X,A)=0` for `i<n`, prove `H_i(X,A;Z)=0` below `n` and that relative Hurewicz is an
-   isomorphism in degree `n` (Hatcher, Theorem 4.37, p. 371, with `A` simply connected).
-   Tau Ceti proves the case in which `π_k(A)` and `π_k(X)` themselves vanish for `k < n`
-   (`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`); the general
-   case assumes only simple connectivity of `A` and `X`.  Derive the exact isomorphism and
-   surjectivity range for
-   `H_i(A)->H_i(X)` from the pair sequence.  In degree two, first derive commutativity of
-   `pi_2(X,A)` from these connectivity hypotheses, prove that the map to its abelianization is an
-   isomorphism, and only then identify it with relative homology.
+4. Prove relative Hurewicz for a based pair in Hatcher's generality. Let `X` be a
+   path-connected space, `A ⊆ X` a simply connected subspace, `a₀ ∈ A` and `n ≥ 2`. If the
+   relative homotopy sets `π_i(X, A, a₀)` are trivial for `1 ≤ i < n`, then the relative
+   Hurewicz map `π_n(X, A, a₀) → H_n(X, A; ℤ)`, `[p] ↦ p_*[Iⁿ]`, is bijective (Hatcher,
+   Theorem 4.37, p. 371; `π_1(A)` acts trivially because `A` is simply connected). In Tau
+   Ceti's terms the source is `TauCeti.RelHomotopyGroup (Fin (n − 1))` of the based pair
+   `(X, A, a₀)` and the map is `TauCeti.RelHomotopyGroup.hurewicz` evaluated at `1`. Tau Ceti
+   proves the rest of Hatcher's statement and the special cases (Inventory): the vanishing
+   `H_i(X, A; R) = 0` for `i < n` and every ring `R`
+   (`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`), surjectivity of the
+   relative Hurewicz map with no hypothesis on `π_1(A)`
+   (`TauCeti.RelHomotopyGroup.surjective_hurewicz`), and bijectivity when `π_k(A)` and
+   `π_k(X)` themselves vanish for `k < n`
+   (`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`). In degree
+   two that last case is the whole theorem, and `π_2(X, A, a₀)` is then commutative
+   (`TauCeti.RelHomotopyGroup.mul_comm_of_subsingleton`). What remains is injectivity in
+   degrees `n ≥ 3` when `π_2(A), …, π_(n−1)(A)` need not vanish. Derive the exact
+   isomorphism and surjectivity range for `H_i(A) → H_i(X)` from the pair sequence.
+   **Checks.** The pair `(D³, S²)` in degree 3 satisfies the hypotheses, and
+   `π_3(D³, S²) ≅ π_2(S²) ≅ ℤ ≅ H_3(D³, S²; ℤ)`; the native bijectivity theorem does not
+   apply to it, because `π_2(S²) ≠ 0`. Simple connectivity of `A` cannot be dropped: for the
+   cone `X` on `A = S¹ ∨ S¹`, in degree two, `π_2(X, A) ≅ π_1(A)` is free on two generators
+   while `H_2(X, A; ℤ) ≅ H_1(A; ℤ) ≅ ℤ²`, and the Hurewicz map is abelianization.
+   Path-connectedness of `X` cannot be dropped: for `X = A ⊔ S²` every `π_i(X, A, a₀)` is
+   trivial while `H_2(X, A; ℤ) ≅ ℤ`.
 5. Consume Tau Ceti's Whitehead theorem for spaces of CW type,
    `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` with
    `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun` (a map surjective on path
@@ -2253,7 +2302,12 @@ items 1–7 are independent of those later constructions.
    triangulation; export this dimension-m structure as such, since item 13
    consumes the dimension bound and not only the CW type.
    The compact case has finite CW type (`compactManifoldFiniteCWType`, concluding the
-   native predicate `TauCeti.FiniteCWType`); include the boundary-pair forms and
+   native predicate `TauCeti.FiniteCWType`). Its route needs only the triangulation: the
+   smooth triangulation of GeometricTopology's smoothing-and-triangulation comparison item 1
+   makes M triangulable in the sense of `TauCeti.IsTriangulable` (a homeomorphism from the
+   realization of an abstract simplicial complex), and Tau Ceti's
+   `TauCeti.IsTriangulable.finiteCWType` gives finite CW type for every compact triangulable
+   space, with no local finiteness of the triangulation assumed. Include the boundary-pair forms and
    finitely many prescribed interior marked points outside the relative boundary locus. As a reusable corollary, prove that a simply connected integral homology
    `n`-sphere, `n>=2`, is homotopy equivalent to the standard `S^n`.
 
@@ -2501,9 +2555,14 @@ items 1–7 are independent of those later constructions.
     induces identity under the native last-coordinate shift. Consume
     Stage 4 item 8's pointed compactly generated suspension–loop adjunction
     and G2.1's foundation-only realization-product comparison for addition.
-    Only after 8.11a's independent CW-type proof, consume
-    DGFloer 1.2's CW approximation and 8.5 to upgrade the EM loop weak
-    equivalences to pointed homotopy equivalences. Own the bijection induced
+    Only after 8.11a's independent CW-type proof, consume a CW approximation and
+    8.5 to upgrade the EM loop weak
+    equivalences to pointed homotopy equivalences: for path-connected spaces,
+    Tau Ceti's `TauCeti.cwApproximationMap`, a weak homotopy equivalence from a
+    Hausdorff CW complex of CW type (`TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`;
+    Hatcher, Proposition 4.13, p. 353); for the loop space `ΩK(A,1)`, whose path
+    components are indexed by `A`, DGFloer Layer 1 item 2's CW approximation of
+    arbitrary spaces. Own the bijection induced
     by these weak equivalences on maps from arbitrary CW sources via cellular
     lifting, independently of that upgrade. Prove coefficient/addition/adjunction
     naturality and the relative/basepoint versions.
@@ -2783,8 +2842,9 @@ items 1–7 are independent of those later constructions.
     identification H^k(M;𝔽_p)≅Hom(H_k(M;𝔽_p),𝔽_p) over the field 𝔽_p from
     Stage 6's cochain/chain duality. For n>1 attach one (n+1)-cell to a CW
     approximation of M along S^n→M, a generator of π_nM, then higher cells to
-    form its K(C_p×C_p,1); carry this out through the actual CW approximation
-    and normalized comparison. The relative cohomology sequence of the single
+    form its K(C_p×C_p,1); carry this out through Tau Ceti's CW approximation
+    `TauCeti.cwApproximationMap` of the path-connected quotient M and the
+    normalized comparison. The relative cohomology sequence of the single
     cell, injectivity of restriction from the cells of dimension at least n+2,
     and the bound above imply dim H^(n+1)(B(C_p×C_p);𝔽_p) ≤ 1, contradicting
     n+2. Handle S¹ by the cyclic deck group of a connected finite circle cover
