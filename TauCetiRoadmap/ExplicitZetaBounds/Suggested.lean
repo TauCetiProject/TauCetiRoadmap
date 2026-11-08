@@ -11,11 +11,11 @@ the bounded-height Riemann hypotheses `RiemannHypothesisUpTo` and `DirichletGRHU
 Platt's heights `plattHeight` of Layer 0.3, the records of
 Layers 0.4 and 0.4b, the Riemann–Siegel theta function `riemannSiegelTheta` of Layer 0.4a,
 Vinogradov's count `vinogradovCount` of Layer 4.9a, the zero counts `zetaZeroCount` and
-`dirichletZeroCount` of Layer 5, the real-zero gap `HasLandauSiegelGap` of Layer 7.9, the density
-counts `zetaZeroCountRight` and `zetaZeroDensityCount` of Layer 8 (each written with the
-meromorphic order, in the rectangle of the source it serves), and the count
-`primitiveLZeroCount` with the largest real zero `largestRealZero` of the family of primitive
-L-functions of Layer 8.4. Every constant below is a literal decimal of its source.
+`dirichletZeroCount` of Layer 5, the density counts `zetaZeroCountRight` and
+`zetaZeroDensityCount` of Layer 8 (each written with the meromorphic order, in the rectangle of
+the source it serves), and the count `primitiveLZeroCount` with the largest real zero
+`largestRealZero` of the family of primitive L-functions of Layer 8.4. Every constant below is a
+literal decimal of its source.
 
 Stated here:
 
@@ -25,7 +25,8 @@ Stated here:
 * Layer 2.5, the two-sided bound for `‖Γ(σ + it)‖` on vertical lines;
 * Layer 3.2, Rademacher's convexity bound for primitive Dirichlet L-functions;
 * Layer 4.5b, Mathlib's `hardyZ` as `e^{iϑ(t)} ζ(1/2 + it)` and the Riemann–Siegel formula with
-  Gabcke's remainder; Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang);
+  Gabcke's remainder; Layer 4.7, `‖ζ(1/2 + it)‖ ≤ 0.618 t^{1/6} log t` (Hiary–Patel–Yang) from
+  `t = 3`, given Hiary's record;
   Layer 4.8, Patel's and Hiary–Leong–Yang's bounds for `‖ζ(1 + it)‖`; Layer 4.9a, Ford's explicit
   Vinogradov mean value theorem; Layer 4.10, Ford's Richert-type bound for `ζ` and the Hurwitz
   zeta function;
@@ -36,8 +37,8 @@ Stated here:
   Yang's Littlewood-type region; Layer 7.5, McCurley's region for the product of the L-functions
   modulo `q` in Thorner–Zaman's form, and Kadiri's region for `3 ≤ q ≤ 400 000`; Layer 7.6, the
   Vinogradov–Korobov region with `c = 55.241`; Layer 7.7, Bordignon's bounds for real zeros of
-  quadratic L-functions of conductor above `400 000`; Layer 7.9, the real-zero gap `1/5` up to
-  conductor `10¹⁰`; Layer 7.10, the Hiary–Leong–Yang bound for `1/‖ζ(1 + it)‖`;
+  quadratic L-functions of conductor above `400 000`; Layer 7.10, the Hiary–Leong–Yang bound for
+  `1/‖ζ(1 + it)‖`;
 * Layer 8.1, Kadiri's density bounds at `σ = 17/20` and `σ = 9/10`; Layer 8.3, the
   Kadiri–Lumley–Ng density bound at `σ = 9/10`; Layer 8.4, Thorner and Zaman's explicit log-free
   densities for the primitive L-functions of conductor at most `Q`; Layer 8.5, Bellotti's log-free
@@ -47,8 +48,9 @@ Stated here:
   lower bound for quadratic characters of conductor up to `10¹⁰`.
 
 Every computation that a theorem rests on is a record (README 0.4 and 0.4b): a named proposition
-below and an explicit hypothesis of each theorem that uses it, directly or through another
-theorem here; nothing here proves one. The other numerical steps of the sources, their choice of
+below and an explicit hypothesis of each theorem that uses it, directly or through another of
+the theorems here, also when the use is an edge bound of a Phragmén–Lindelöf interpolation at
+small heights; nothing here proves one. The other numerical steps of the sources, their choice of
 parameters and the evaluation of their closed-form constants there, are inequalities between
 explicit real numbers inside the proofs.
 
@@ -64,9 +66,10 @@ Leong's bounds for `1/ζ` in the classical region and on `σ ≥ 3/4` of 7.10).
 The Stirling, polygamma, convexity, exponential-sum, Perron, mean-value, large-sieve and
 weighted-zero-sum statements of Layers 1–6 and the general criteria of Layer 7 are README targets:
 they are the lemmas on the way to the theorems below. So are the remaining instances of Layers 3–9:
-inputs to the theorems below (3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2),
-and other constants and ranges for the quantities bounded below (the further regions of 7.5–7.7,
-Leong's bounds for `1/ζ` of 7.10, 9.2).
+inputs to the theorems below (3.3, 3.4, 4.9, the further critical-line bounds of 4.7, 5.4, 7.2,
+the arithmetic sums of 8.3 and 8.5, Hoffstein's lemma of 9.3), and other constants and ranges for
+the quantities bounded below (the further regions of 7.5–7.7, the real-zero gaps of 7.9, Leong's
+bounds for `1/ζ` of 7.10, 9.2).
 -/
 
 namespace TauCetiRoadmap.ExplicitZetaBounds
@@ -146,21 +149,35 @@ noncomputable def zetaZeroCount (T : ℝ) : ℕ :=
 def ZetaArgumentBoundUpTo (H A : ℝ) : Prop :=
   ∀ T : ℝ, 0 ≤ T → T ≤ H → |(zetaZeroCount T : ℝ) - riemannSiegelTheta T / π - 1| ≤ A
 
-/-- **Layer 0.4b, Hiary, Patel and Yang's record.** `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for
-`3 ≤ t < 5.5·10⁷` (`hiarypatelyang2024` §3). -/
-def HiaryPatelYangRecord : Prop :=
-  ∀ t : ℝ, 3 ≤ t → t < 5.5 * 10 ^ 7 →
-    ‖riemannZeta (1 / 2 + t * I)‖ ≤ 0.618 * t ^ ((1 : ℝ) / 6) * Real.log t
-
-/-- **Layer 0.4b, Hiary's record.** `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3` (`hiary2016zeta`
-Lemma 2.2). -/
+/-- **Layer 0.4b, Hiary's record.** `|ζ(1/2 + it)| ≤ 1.461` for `0 ≤ t ≤ 3`, and
+`|ζ(1/2 + it)| ≤ 0.595 t^{1/6} log t` for `3 ≤ t ≤ 200` (`hiary2016zeta` Lemma 2.2, an interval
+computation; Hiary, Patel and Yang use its second clause below height `200`,
+`hiarypatelyang2024` §3.1). -/
 def HiaryRecord : Prop :=
-  ∀ t : ℝ, 0 ≤ t → t ≤ 3 → ‖riemannZeta (1 / 2 + t * I)‖ ≤ 1.461
+  (∀ t : ℝ, 0 ≤ t → t ≤ 3 → ‖riemannZeta (1 / 2 + t * I)‖ ≤ 1.461) ∧
+    ∀ t : ℝ, 3 ≤ t → t ≤ 200 →
+      ‖riemannZeta (1 / 2 + t * I)‖ ≤ 0.595 * t ^ ((1 : ℝ) / 6) * Real.log t
 
 /-- **Layer 0.4b, Patel's record.** `|ζ(1 + it)| ≤ log t` for `3 ≤ t ≤ 50` (`patel2022`, the
 first branch of Theorem 1.1 on that range). -/
 def PatelRecord : Prop :=
   ∀ t : ℝ, 3 ≤ t → t ≤ 50 → ‖riemannZeta (1 + t * I)‖ ≤ Real.log t
+
+/-- **Layer 0.4b, Yang's record.** For real `t` with `|t| ≤ 3` and `s = σ + it`, with
+`Q = 1.31`: `|(s − 1) ζ(s)| ≤ 0.618 |Q + s|^{7/6} log |Q + s|` on `σ = 1/2`,
+`|(s − 1) ζ(s)| ≤ 1.546 |Q + s|^{15/14} log |Q + s|` on `σ = 5/7`, and
+`|(s − 1) ζ(s)| ≤ |Q + s| log |Q + s|` on `σ = 1` (`yang2024` (3.7)–(3.8) and the proof of
+Lemma 4.3, numerical checks of the edges of his Phragmén–Lindelöf interpolations). -/
+def YangRecord : Prop :=
+  ∀ t : ℝ, |t| ≤ 3 →
+    ‖(1 / 2 + t * I - 1) * riemannZeta (1 / 2 + t * I)‖ ≤
+        0.618 * ‖(1.31 : ℂ) + (1 / 2 + t * I)‖ ^ ((7 : ℝ) / 6) *
+          Real.log ‖(1.31 : ℂ) + (1 / 2 + t * I)‖ ∧
+      ‖(5 / 7 + t * I - 1) * riemannZeta (5 / 7 + t * I)‖ ≤
+        1.546 * ‖(1.31 : ℂ) + (5 / 7 + t * I)‖ ^ ((15 : ℝ) / 14) *
+          Real.log ‖(1.31 : ℂ) + (5 / 7 + t * I)‖ ∧
+      ‖(1 + t * I - 1) * riemannZeta (1 + t * I)‖ ≤
+        ‖(1.31 : ℂ) + (1 + t * I)‖ * Real.log ‖(1.31 : ℂ) + (1 + t * I)‖
 
 /-- **Layer 0.4b, Hiary, Leong and Yang's record.** `1/|ζ(1 + it)| ≤ 431.7 log t/log log t` for
 `3 ≤ t ≤ 500` (`hiaryleongyang2025`). -/
@@ -222,12 +239,38 @@ def PlattSaadEddinRecord : Prop :=
       (3 ∣ q → χ.Odd → ‖DirichletCharacter.LFunction χ 1‖ ≤ Real.log q / 3 + 0.838374) ∧
       (χ.Even → χ 2 = 1 → ‖DirichletCharacter.LFunction χ 1‖ ≤ Real.log q / 2 - 0.02012)
 
-/-- **Layer 0.4b, the class-number record of Bordignon's bounds.** `L(1, χ) ≥ 12.52/√q` for
-every real primitive `χ` of conductor `q > 4·10⁵` (the class-number data of Watkins and of
-Bennett et al., as `bordignon2019` uses them). -/
+/-- **Layer 0.4b, the class-number record of Bordignon's bounds.** For every real primitive `χ`
+of conductor `q > 4·10⁵`: `L(1, χ) ≥ 46π/√q` if `χ` is odd (Watkins' class numbers,
+`bordignon2019` (10)); `L(1, χ) ≥ 79.2177/√q` if `χ` is even and `q ≤ 10⁷` (Bennett et al.,
+`bordignon2019` (12)); and `L(1, χ) ≥ 12.52/√q` if `χ` is even and `q > 10⁷` (`bordignon2020`
+Theorem 1.2, from Bennett et al.'s and Bordignon's computations of `h(√d) log η_d`). -/
 def BordignonRecord : Prop :=
   ∀ (q : ℕ) [NeZero q], 400000 < q → ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive →
-    MulChar.IsQuadratic χ → 12.52 / Real.sqrt q ≤ (DirichletCharacter.LFunction χ 1).re
+    MulChar.IsQuadratic χ →
+      (χ.Odd → 46 * π / Real.sqrt q ≤ (DirichletCharacter.LFunction χ 1).re) ∧
+      (χ.Even → q ≤ 10 ^ 7 → 79.2177 / Real.sqrt q ≤ (DirichletCharacter.LFunction χ 1).re) ∧
+      (χ.Even → 10 ^ 7 < q → 12.52 / Real.sqrt q ≤ (DirichletCharacter.LFunction χ 1).re)
+
+/-- **Layers 0.4b and 5.3, the count `N(T, χ)`.** The number of zeros `ρ` of `L(s, χ)` with
+`0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity. -/
+noncomputable def dirichletZeroCount {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (T : ℝ) :
+    ℕ :=
+  ∑ᶠ ρ ∈ {ρ : ℂ | 0 < ρ.re ∧ ρ.re < 1 ∧ |ρ.im| ≤ T},
+    ((meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ).untop₀).toNat
+
+/-- **Layer 0.4b, Bennett, Martin, O'Bryant and Rechnitzer's record.** For every primitive `χ` of
+conductor `1 < q < 935` and every `T ≥ 5/7` with `ℓ = log(q(T + 2)/(2π)) ≤ 6`: `N(T, χ) = 0` if
+`ℓ ≤ 1.567`, and `|N(T, χ) − ((T/π) log(qT/(2πe)) − χ(−1)/4)| ≤ 0.22737 ℓ + 2 log(1 + ℓ) − 0.5`
+if `ℓ > 1.567` (`bmor2021` §6.3 and Lemma 6.1, their computation of every zero with `ℓ ≤ 6`). -/
+def BennettMartinOBryantRechnitzerRecord : Prop :=
+  ∀ (q : ℕ) [NeZero q], 1 < q → q < 935 → ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive →
+    ∀ T : ℝ, 5 / 7 ≤ T → Real.log (q * (T + 2) / (2 * π)) ≤ 6 →
+      (Real.log (q * (T + 2) / (2 * π)) ≤ 1.567 → dirichletZeroCount χ T = 0) ∧
+        (1.567 < Real.log (q * (T + 2) / (2 * π)) →
+          ‖(dirichletZeroCount χ T : ℂ) -
+              ((T / π * Real.log (q * T / (2 * π * Real.exp 1)) : ℝ) - χ (-1) / 4)‖ ≤
+            0.22737 * Real.log (q * (T + 2) / (2 * π)) +
+              2 * Real.log (1 + Real.log (q * (T + 2) / (2 * π))) - 0.5)
 
 /-- **Layer 0.5a, the Euler–Maclaurin formula of first order.** For integers `a < n` and `f`
 continuously differentiable on `[a, n]` with values in a real Banach space,
@@ -301,10 +344,12 @@ theorem abs_hardyZ_sub_riemannSiegel_le (t : ℝ) (ht : 200 ≤ t) :
         (n : ℝ) ^ (-(1 : ℝ) / 2) * Real.cos (riemannSiegelTheta t - t * Real.log n)| ≤
       1.48 * t ^ (-(1 : ℝ) / 4) + 0.127 * t ^ (-(3 : ℝ) / 4) := sorry
 
-/-- **Layer 4.7, the critical line.** Given Hiary, Patel and Yang's record for
-`3 ≤ t < 5.5·10⁷`, `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 3` (Hiary, Patel and Yang,
-Theorem 1.1; for `t ≥ 5.5·10⁷` the bound needs no record). -/
-theorem norm_riemannZeta_criticalLine_le (hrec : HiaryPatelYangRecord) (t : ℝ) (ht : 3 ≤ t) :
+/-- **Layer 4.7, the critical line.** Given Hiary's record, whose second clause is the bound
+`0.595 t^{1/6} log t` on `3 ≤ t ≤ 200`, `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 3`
+(Hiary, Patel and Yang, Theorem 1.1). From `t = 200` on the bound needs no record: the
+Riemann–Siegel–Lehman bound below `10⁷`, the Riemann–Siegel formula with an integral comparison
+up to `5.5·10⁷`, and the van der Corput argument above (their §§3.2–3.4). -/
+theorem norm_riemannZeta_criticalLine_le (hrec : HiaryRecord) (t : ℝ) (ht : 3 ≤ t) :
     ‖riemannZeta (1 / 2 + t * I)‖ ≤ 0.618 * t ^ ((1 : ℝ) / 6) * Real.log t := sorry
 
 /-- **Layer 4.8, the line one.** Given Patel's record for `3 ≤ t ≤ 50`, for `t ≥ 3`,
@@ -352,45 +397,46 @@ theorem norm_riemannZeta_le_richert (s : ℂ) (ht : 3 ≤ |s.im|) (hσ₀ : 1 / 
 
 /-! ## Layer 5: zero counting with explicit errors -/
 
-/-- **Layer 5.3, the count `N(T, χ)`.** The number of zeros `ρ` of `L(s, χ)` with
-`0 < Re ρ < 1` and `|Im ρ| ≤ T`, counted with multiplicity. -/
-noncomputable def dirichletZeroCount {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (T : ℝ) :
-    ℕ :=
-  ∑ᶠ ρ ∈ {ρ : ℂ | 0 < ρ.re ∧ ρ.re < 1 ∧ |ρ.im| ≤ T},
-    ((meromorphicOrderAt (DirichletCharacter.LFunction χ) ρ).untop₀).toNat
-
-/-- **Layer 5.2, the explicit Riemann–von Mangoldt formula on its analytic range.** For
-`T ≥ 30 610 046 000`, `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344`
+/-- **Layer 5.2, the explicit Riemann–von Mangoldt formula on its analytic range.** Given the
+records of Hiary, Patel and Yang, for `T ≥ 30 610 046 000`,
+`|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344`
 and `≤ 0.11200 log T + 0.12567 log log T + 3.77417` (Bellotti and Wong, Theorem 1.1, proved there
 on this range by their Theorem 1.2 with the first and third rows of Table 2, from bounds for `ζ`
-on vertical lines and no input about the location of the zeros). Their range `T ≥ e` is
+on vertical lines and no input about the location of the zeros). Those bounds are interpolated by
+Phragmén–Lindelöf on the lines `σ = 1/2`, `σ_k` and `1` at every height, and rest at small heights
+on the three records: Hiary's on the critical line, Patel's on the line one, and Yang's through
+the bounds on the lines `σ_k` (README 4.9). Their range `T ≥ e` is
 `abs_zetaZeroCount_sub_le_of_recorded`. -/
-theorem abs_zetaZeroCount_sub_le (T : ℝ) (hT : 30610046000 ≤ T) :
+theorem abs_zetaZeroCount_sub_le (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord)
+    (T : ℝ) (hT : 30610046000 ≤ T) :
     |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.10076 * Real.log T + 0.24460 * Real.log (Real.log T) + 8.08344 ∧
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 3.77417 := sorry
 
 /-- **Layer 5.2, the explicit Riemann–von Mangoldt formula from `T = e`.** Given the record
-`ZetaArgumentBoundUpTo 30610046000 2.5167` (README 0.4), the two bounds of
-`abs_zetaZeroCount_sub_le` hold for every `T ≥ e` (Bellotti and Wong, Theorem 1.1 as stated).
-Below `30 610 046 000` they follow from the record and
-`7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`, since `2.5167 + 7/8 + 1/(40e) = 3.4009`
-is below both right sides at `T = e`. -/
+`ZetaArgumentBoundUpTo 30610046000 2.5167` (README 0.4) and the records of
+`abs_zetaZeroCount_sub_le`, the two bounds of `abs_zetaZeroCount_sub_le` hold for every `T ≥ e`
+(Bellotti and Wong, Theorem 1.1 as stated). Below `30 610 046 000` they follow from the record for
+`S(T)` and `7/8 < ϑ(T)/π + 1 − (T/2π) log(T/(2πe)) < 7/8 + 1/(40T)`, since
+`2.5167 + 7/8 + 1/(40e) = 3.4009` is below both right sides at `T = e`. -/
 theorem abs_zetaZeroCount_sub_le_of_recorded (hS : ZetaArgumentBoundUpTo 30610046000 2.5167)
-    (T : ℝ) (hT : Real.exp 1 ≤ T) :
+    (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord) (T : ℝ) (hT : Real.exp 1 ≤ T) :
     |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.10076 * Real.log T + 0.24460 * Real.log (Real.log T) + 8.08344 ∧
       |(zetaZeroCount T : ℝ) - T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤
         0.11200 * Real.log T + 0.12567 * Real.log (Real.log T) + 3.77417 := sorry
 
-/-- **Layer 5.3, the explicit zero count for primitive Dirichlet L-functions.** For `χ` primitive
-modulo `q > 1` and `T ≥ 5/7`, with `ℓ = log(q(T + 2)/(2π))`: if `ℓ ≤ 1.567` then `N(T, χ) = 0`,
-and if `ℓ > 1.567` then
-`|N(T, χ) − ((T/π) log(qT/(2πe)) − χ(−1)/4)| ≤ 0.22737 ℓ + 2 log(1 + ℓ) − 0.5`
-(Bennett, Martin, O'Bryant and Rechnitzer, Theorem 1.1). -/
-theorem dirichletZeroCount_explicit {q : ℕ} [NeZero q] (hq : 1 < q)
-    (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (T : ℝ) (hT : 5 / 7 ≤ T) :
+/-- **Layer 5.3, the explicit zero count for primitive Dirichlet L-functions.** Given Bennett,
+Martin, O'Bryant and Rechnitzer's record for `ℓ ≤ 6`, for `χ` primitive modulo `q > 1` and
+`T ≥ 5/7`, with `ℓ = log(q(T + 2)/(2π))`: if `ℓ ≤ 1.567` then `N(T, χ) = 0`, and if `ℓ > 1.567`
+then `|N(T, χ) − ((T/π) log(qT/(2πe)) − χ(−1)/4)| ≤ 0.22737 ℓ + 2 log(1 + ℓ) − 0.5`
+(Bennett, Martin, O'Bryant and Rechnitzer, Theorem 1.1: the analytic argument for `ℓ ≥ 5.98` and
+the record below, which covers every case with `ℓ ≤ 6`, since then `q(T + 2) ≤ 2πe⁶` forces
+`q ≤ 933`). -/
+theorem dirichletZeroCount_explicit (hrec : BennettMartinOBryantRechnitzerRecord) {q : ℕ}
+    [NeZero q] (hq : 1 < q) (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (T : ℝ)
+    (hT : 5 / 7 ≤ T) :
     (Real.log (q * (T + 2) / (2 * π)) ≤ 1.567 → dirichletZeroCount χ T = 0) ∧
       (1.567 < Real.log (q * (T + 2) / (2 * π)) →
         ‖(dirichletZeroCount χ T : ℂ) -
@@ -410,14 +456,17 @@ theorem riemannZeta_ne_zero_classical (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)
     riemannZeta s ≠ 0 := sorry
 
 /-- **Layer 7.4, the Littlewood-type region.** Given the Riemann hypothesis up to height
-`30 610 046 000` and the record for `Σ_{γ>0} γ⁻²`, `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
-`σ > 1 − log log |t|/(21.233 log |t|)` (Yang, Corollary 1.2). Yang's proof takes the verification
-only up to `5.45·10⁸` and Ford's region in a simplified form from there, which contains this
-region only for `log |t| ≥ 50.13`; the verification up to `30 610 046 000`, the classical region
-with `R₀ = 5.573412` up to `|t| = e^{41}` and Ford's region in its exact form from there to
-`e^{170.2}` cover the range (README 7.4). -/
+`30 610 046 000`, the record for `Σ_{γ>0} γ⁻²` and the records of Hiary, Patel and Yang,
+`ζ(σ + it) ≠ 0` for `|t| ≥ 3` and `σ > 1 − log log |t|/(21.233 log |t|)` (Yang, Corollary 1.2).
+Yang's proof takes the verification only up to `5.45·10⁸` and Ford's region in a simplified form
+from there, which contains this region only for `log |t| ≥ 50.13`; the verification up to
+`30 610 046 000`, the classical region with `R₀ = 5.573412` up to `|t| = e^{41}` and Ford's region
+in its exact form from there to `e^{170.2}` cover the range (README 7.4). Above `e^{170.2}` his
+argument interpolates bounds for `(s − 1) ζ(s)` on `σ = 1/2` and `σ = 5/7` (his Lemma 4.3), whose
+edges rest at small heights on the three records. -/
 theorem riemannZeta_ne_zero_littlewood (hRH : RiemannHypothesisUpTo 30610046000)
-    (hBPT : BrentPlattTrudgianRecord) (s : ℂ) (ht : 3 ≤ |s.im|)
+    (hBPT : BrentPlattTrudgianRecord) (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord)
+    (s : ℂ) (ht : 3 ≤ |s.im|)
     (hσ : 1 - Real.log (Real.log |s.im|) / (21.233 * Real.log |s.im|) < s.re) :
     riemannZeta s ≠ 0 := sorry
 
@@ -447,33 +496,42 @@ theorem LFunction_zeroFree_mcCurley (hRH : RiemannHypothesisUpTo 545439823)
   sorry
 
 /-- **Layer 7.5, Kadiri's region for conductors up to `400 000`.** Given the Riemann hypothesis up
-to height `545 439 823` and Platt's record `GRH(q, H(q))`, for `3 ≤ q ≤ 400 000` and `χ` primitive
-modulo `q` (hence non-principal), `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))`
-(Kadiri, Theorem 1.1). The proof sums over the powers `χᵏ`, the principal one included, and places
-their zeros with McCurley's region, whose principal part concerns the zeros of `ζ`. -/
+to height `545 439 823`, Platt's record `GRH(q, H(q))`, and the records that the zero counts of
+README 5.2 and 5.3 carry, for `3 ≤ q ≤ 400 000` and `χ` primitive modulo `q` (hence
+non-principal), `L(s, χ) ≠ 0` for `Re s ≥ 1 − 1/(5.60 log(q max(1, |Im s|)))` (Kadiri,
+Theorem 1.1). The proof sums over the powers `χᵏ`, the principal one included, and places their
+zeros with McCurley's region, whose principal part concerns the zeros of `ζ`; it bounds the sums
+over the zeros of each `L(s, χᵏ)` from height `100` on through a zero count, which here is that of
+5.3 (with the record for `ℓ ≤ 6`) and, for the zeros of `ζ`, that of 5.2 (Rosser's bound below
+`30 610 046 000` and Bellotti and Wong's above, with the records of Hiary, Patel and Yang). -/
 theorem LFunction_ne_zero_kadiri (hRH : RiemannHypothesisUpTo 545439823) (hP : PlattRecord)
-    {q : ℕ} [NeZero q] (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
+    (hBMOR : BennettMartinOBryantRechnitzerRecord) (hH : HiaryRecord) (hPat : PatelRecord)
+    (hY : YangRecord) {q : ℕ} [NeZero q] (hq₀ : 3 ≤ q) (hq₁ : q ≤ 400000)
     (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive) (s : ℂ)
     (hσ : 1 - 1 / (5.60 * Real.log (q * max 1 |s.im|)) ≤ s.re) :
     DirichletCharacter.LFunction χ s ≠ 0 := sorry
 
 /-- **Layer 7.6, the Vinogradov–Korobov region with `c = 55.241`.** Given the Riemann hypothesis
-up to height `3·10¹²` and the record for `Σ_{γ>0} γ⁻²` (through the regions of 7.3 and 7.4 below
-the threshold), `ζ(σ + it) ≠ 0` for `|t| ≥ 3` and
-`σ ≥ 1 − 1/(55.241 (log |t|)^{2/3} (log log |t|)^{1/3})` (Mossinghoff, Trudgian and Yang,
-Theorem 1.1). -/
+up to height `3·10¹²`, the record for `Σ_{γ>0} γ⁻²` (through the region of 7.3 below the
+threshold) and the records of Hiary, Patel and Yang (through the count of zeros of README 5.2,
+which Mossinghoff, Trudgian and Yang use in Hasanalizade, Shen and Wong's form above `3·10¹²`),
+`ζ(σ + it) ≠ 0` for `|t| ≥ 3` and `σ ≥ 1 − 1/(55.241 (log |t|)^{2/3} (log log |t|)^{1/3})`
+(Mossinghoff, Trudgian and Yang, Theorem 1.1). -/
 theorem riemannZeta_ne_zero_vinogradovKorobov (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12))
-    (hBPT : BrentPlattTrudgianRecord) (s : ℂ) (ht : 3 ≤ |s.im|)
+    (hBPT : BrentPlattTrudgianRecord) (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord)
+    (s : ℂ) (ht : 3 ≤ |s.im|)
     (hσ : 1 - 1 / (55.241 * Real.log |s.im| ^ ((2 : ℝ) / 3) *
       Real.log (Real.log |s.im|) ^ ((1 : ℝ) / 3)) ≤ s.re) :
     riemannZeta s ≠ 0 := sorry
 
-/-- **Layer 7.7, real zeros of quadratic L-functions of large conductor.** Given the record
-`L(1, χ) ≥ 12.52/√q` for `q > 4·10⁵`, for `χ` primitive and quadratic modulo `q > 400 000`, every
-real zero `β` of `L(s, χ)` satisfies `β ≤ 1 − 800/(√q log² q)` if `χ` is odd,
-`β ≤ 1 − 515/(√q log² q)` if `χ` is even and `q ≤ 10⁷`, and `β ≤ 1 − 80/(√q log² q)` if `χ` is
-even and `q > 10⁷` (Bordignon, Theorem 1.3). The trivial zeros `β ≤ 0` satisfy the bounds
-trivially. -/
+/-- **Layer 7.7, real zeros of quadratic L-functions of large conductor.** Given the record of
+the lower bounds `46π/√q`, `79.2177/√q` and `12.52/√q` for `L(1, χ)`, for `χ` primitive and
+quadratic modulo `q > 400 000`, every real zero `β` of `L(s, χ)` satisfies
+`β ≤ 1 − 800/(√q log² q)` if `χ` is odd, `β ≤ 1 − 515/(√q log² q)` if `χ` is even and `q ≤ 10⁷`,
+and `β ≤ 1 − 80/(√q log² q)` if `χ` is even and `q > 10⁷` (Bordignon, Theorem 1.3: the
+mean-value theorem with his bounds `0.18 log² q`, `0.1536 log² q` and `0.15 log² q` for
+`|L′(σ, χ)|`, and `46π/0.18 = 802.9`, `79.2177/0.1536 = 515.7`, `12.52/0.15 = 83.5`). The trivial
+zeros `β ≤ 0` satisfy the bounds trivially. -/
 theorem LFunction_real_zero_le_bordignon (hrec : BordignonRecord) {q : ℕ} [NeZero q]
     (hq : 400000 < q) (χ : DirichletCharacter ℂ q) (hχ : χ.IsPrimitive)
     (hχq : MulChar.IsQuadratic χ) (β : ℝ) (hβ : DirichletCharacter.LFunction χ β = 0) :
@@ -481,27 +539,14 @@ theorem LFunction_real_zero_le_bordignon (hrec : BordignonRecord) {q : ℕ} [NeZ
       (χ.Even → q ≤ 10 ^ 7 → β ≤ 1 - 515 / (Real.sqrt q * Real.log q ^ 2)) ∧
       (χ.Even → 10 ^ 7 < q → β ≤ 1 - 80 / (Real.sqrt q * Real.log q ^ 2)) := sorry
 
-/-- **Layer 7.9, the real-zero gap up to a conductor cap.** `HasLandauSiegelGap c Q`: for every
-primitive real nonprincipal character `χ` of conductor `q` with `3 ≤ q ≤ Q` and every real zero
-`β ∈ (0, 1)` of `L(s, χ)`, `(1 − β) log q ≥ c`; the cap `Q = ⊤` is no cap. -/
-def HasLandauSiegelGap (c : ℝ) (Q : ℕ∞) : Prop :=
-  ∀ (q : ℕ) [NeZero q], 3 ≤ q → (q : ℕ∞) ≤ Q → ∀ χ : DirichletCharacter ℂ q, χ.IsPrimitive →
-    MulChar.IsQuadratic χ → χ ≠ 1 → ∀ β : ℝ, 0 < β → β < 1 →
-      DirichletCharacter.LFunction χ β = 0 → c ≤ (1 - β) * Real.log q
-
-/-- **Layer 7.9, the gap `1/5` up to conductor `10¹⁰`.** Given Lu, Zaman and Zhao's real-zero
-record (README 0.4b and 7.8), every real zero `β ∈ (0, 1)` of a primitive real character of
-conductor `3 ≤ q ≤ 10¹⁰` has `(1 − β) log q ≥ 1/5`. -/
-theorem hasLandauSiegelGap_one_fifth (hrec : LuZamanZhaoRecord) :
-    HasLandauSiegelGap (1 / 5) (10 ^ 10) := sorry
-
-/-- **Layer 7.10, the reciprocal of `ζ` on the line one.** Given the Riemann hypothesis up to
-height `30 610 046 000` and the record for `Σ_{γ>0} γ⁻²`, the hypotheses of the region of 7.4,
-and Hiary, Leong and Yang's record for `3 ≤ t ≤ 500`, `1/|ζ(1 + it)| ≤ 431.7 log t / log log t`
-for `t ≥ 3` (Hiary, Leong and Yang, Theorem 2, whose proof uses the region of 7.4 at every height
-from `500` on). -/
+/-- **Layer 7.10, the reciprocal of `ζ` on the line one.** Given the hypotheses of the region of
+7.4 (the Riemann hypothesis up to height `30 610 046 000`, the record for `Σ_{γ>0} γ⁻²` and the
+records of Hiary, Patel and Yang) and Hiary, Leong and Yang's record for `3 ≤ t ≤ 500`,
+`1/|ζ(1 + it)| ≤ 431.7 log t / log log t` for `t ≥ 3` (Hiary, Leong and Yang, Theorem 2, whose
+proof uses the region of 7.4 at every height from `500` on). -/
 theorem inv_norm_riemannZeta_one_add_le (hRH : RiemannHypothesisUpTo 30610046000)
-    (hBPT : BrentPlattTrudgianRecord) (hrec : HiaryLeongYangRecord) (t : ℝ) (ht : 3 ≤ t) :
+    (hBPT : BrentPlattTrudgianRecord) (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord)
+    (hrec : HiaryLeongYangRecord) (t : ℝ) (ht : 3 ≤ t) :
     ‖riemannZeta (1 + t * I)‖⁻¹ ≤ 431.7 * Real.log t / Real.log (Real.log t) := sorry
 
 /-! ## Layer 8: zero-density estimates -/
@@ -534,12 +579,13 @@ noncomputable def zetaZeroDensityCount (σ T : ℝ) : ℕ :=
     ((meromorphicOrderAt riemannZeta ρ).untop₀).toNat
 
 /-- **Layer 8.3, the Kadiri–Lumley–Ng density bound at `σ = 9/10`.** Given the Riemann hypothesis
-up to height `H₀ = 30 610 046 000` and Hiary, Patel and Yang's record (the critical-line bound
-that the argument uses from height `1002` on), for every `T ≥ H₀`,
+up to height `H₀ = 30 610 046 000` and Hiary's record (the argument bounds the maximum of
+`|ζ(1/2 + it)|` over `|t| ≤ T`, with `1.461` on `|t| ≤ 3` and the critical-line bound above, inside
+the mean square `∫₀^T |ζ M_X(1/2 + it)|² dt`), for every `T ≥ H₀`,
 `N°(9/10, T) < 11.499 (log T)^{16/5} T^{4/15} + 3.186 log² T`, the count being that of
 `zetaZeroDensityCount` (Kadiri, Lumley and Ng, Theorem 1.1 with the parameters of their §5). -/
 theorem zetaZeroDensityCount_nine_tenths_lt (hRH : RiemannHypothesisUpTo 30610046000)
-    (hrec : HiaryPatelYangRecord) (T : ℝ) (hT : 30610046000 ≤ T) :
+    (hrec : HiaryRecord) (T : ℝ) (hT : 30610046000 ≤ T) :
     (zetaZeroDensityCount (9 / 10) T : ℝ) <
       11.499 * Real.log T ^ ((16 : ℝ) / 5) * T ^ ((4 : ℝ) / 15) + 3.186 * Real.log T ^ 2 :=
   sorry
@@ -564,12 +610,18 @@ noncomputable def largestRealZero (Q : ℝ) : ℝ :=
     0 < meromorphicOrderAt (DirichletCharacter.LFunction χ) β}
 
 /-- **Layer 8.4, Thorner and Zaman's explicit log-free densities.** Given the Riemann hypothesis
-up to height `3·10¹²`, for real `Q ≥ 3` and `σ ≥ 39/40`, with `N(σ, Q)` the number of zeros of
-`𝓛(s, Q)` with `Re ρ > σ` and `|Im ρ| ≤ Q` and `N*(σ, Q)` the same count without `β₁(Q)`:
+up to height `3·10¹²`, the record for `Σ_{γ>0} γ⁻²`, Platt's record and Hiary's record, for real
+`Q ≥ 3` and `σ ≥ 39/40`, with `N(σ, Q)` the number of zeros of `𝓛(s, Q)` with `Re ρ > σ` and
+`|Im ρ| ≤ Q` and `N*(σ, Q)` the same count without `β₁(Q)`:
 `N(σ, Q) ≤ 10⁸⁸ (10⁴²¹ Q⁹⁹)^{1−σ}` and
-`N*(σ, Q) ≤ 10⁹³ min(1, (1 − β₁(Q)) log Q) (10⁴⁶⁶ Q¹⁷⁰)^{1−σ}` (Thorner and Zaman, Theorem 1.2,
-whose proof uses the verification up to `3·10¹²` through their Lemma 2.1). -/
-theorem primitiveLZeroCount_le_thornerZaman (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12)) (Q : ℝ)
+`N*(σ, Q) ≤ 10⁹³ min(1, (1 − β₁(Q)) log Q) (10⁴⁶⁶ Q¹⁷⁰)^{1−σ}` (Thorner and Zaman, Theorem 1.2).
+Their proof uses the verification up to `3·10¹²` and the region `R₀ = 5.573412` above it (their
+Lemma 2.1, the latter resting on the record for `Σ_{γ>0} γ⁻²`), Platt's verification (their
+Lemma 2.2, which settles `Q ≤ 10⁴` and the exceptional zero for `Q ≤ 400 000`), and Hiary's bounds
+on the critical line (their Proposition 2.10 at the trivial character, an edge bound of the zero
+counts of their Corollary 2.12). -/
+theorem primitiveLZeroCount_le_thornerZaman (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12))
+    (hBPT : BrentPlattTrudgianRecord) (hP : PlattRecord) (hH : HiaryRecord) (Q : ℝ)
     (hQ : 3 ≤ Q) (σ : ℝ) (hσ : 39 / 40 ≤ σ) :
     (primitiveLZeroCount Q {ρ | σ < ρ.re ∧ |ρ.im| ≤ Q} : ℝ) ≤
         10 ^ 88 * (10 ^ 421 * Q ^ 99) ^ (1 - σ) ∧
@@ -578,12 +630,12 @@ theorem primitiveLZeroCount_le_thornerZaman (hRH : RiemannHypothesisUpTo (3 * 10
           (10 ^ 466 * Q ^ 170) ^ (1 - σ) := sorry
 
 /-- **Layer 8.5, a log-free density near `σ = 1`.** Given the Riemann hypothesis up to height
-`3·10¹²`, the record for `Σ_{γ>0} γ⁻²` (through the regions of 7.3, 7.4 and 7.6) and the
-critical-line records of Hiary and of Hiary, Patel and Yang, for `3·10¹² < T ≤ exp(6.7·10¹²)` and
-`0.9927 ≤ σ ≤ 1`, `N°(σ, T) ≤ 1.62·10¹¹ T^{1.448 (1 − σ)}` (Bellotti, Theorem 1.1, the uniform
-constants). -/
+`3·10¹²`, the record for `Σ_{γ>0} γ⁻²` (through the regions of 7.3, 7.4 and 7.6), Hiary's record
+(for the critical-line bounds) and the records of Patel and Yang (through the region of 7.4), for
+`3·10¹² < T ≤ exp(6.7·10¹²)` and `0.9927 ≤ σ ≤ 1`, `N°(σ, T) ≤ 1.62·10¹¹ T^{1.448 (1 − σ)}`
+(Bellotti, Theorem 1.1, the uniform constants). -/
 theorem zetaZeroDensityCount_le_bellotti (hRH : RiemannHypothesisUpTo (3 * 10 ^ 12))
-    (hBPT : BrentPlattTrudgianRecord) (hHPY : HiaryPatelYangRecord) (hH : HiaryRecord)
+    (hBPT : BrentPlattTrudgianRecord) (hH : HiaryRecord) (hP : PatelRecord) (hY : YangRecord)
     (σ T : ℝ) (hσ₀ : 0.9927 ≤ σ) (hσ₁ : σ ≤ 1) (hT₀ : 3 * 10 ^ 12 < T)
     (hT₁ : T ≤ Real.exp (6.7 * 10 ^ 12)) :
     (zetaZeroDensityCount σ T : ℝ) ≤ 1.62 * 10 ^ 11 * T ^ (1.448 * (1 - σ)) := sorry
@@ -613,7 +665,8 @@ theorem norm_LFunction_one_ge (hrec : MossinghoffStarichkovaTrudgianRecord) {q :
     1 / (9.690292 * Real.log (q / π)) ≤ ‖DirichletCharacter.LFunction χ 1‖ := sorry
 
 /-- **Layer 9.3, the lower bound for quadratic characters up to `10¹⁰`.** Given Lu, Zaman and
-Zhao's records (the values for `q ≤ 10⁶` and the real-zero check up to `10¹⁰`), for `q ≤ 10¹⁰`
+Zhao's records (the values for `q ≤ 10⁶`, and the real-zero check up to `10¹⁰`, which feeds
+Hoffstein's lemma above `10⁶`), for `q ≤ 10¹⁰`
 and `χ` primitive, quadratic and non-trivial modulo `q`, `L(1, χ) ≥ 1/(8 log q)`, the value
 `L(1, χ)` being real (Lu, Zaman and Zhao, Corollary 1.3). Such `χ` exist only for `q ≥ 3`, where
 `log q > 0`. -/
