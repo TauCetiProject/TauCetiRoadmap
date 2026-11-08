@@ -24,8 +24,9 @@ transfer of bounds from `M` to `L_λ`; Tao's bound
 `|m(x)| ≤ |M(x)|/x + x^{−2} ∫_1^x |M(t)| dt + 8/(3x)` and Ramaré's companion
 `|m̌(x) − 1| ≤ ((7/4 − γ)/x²) ∫_1^x |M(t)| dt + 2/x`; the comparison theorem of the convolution
 method for a general exponent, with the Dirichlet-divisor model
-`Σ_{n ≤ t} τ(n)/n = ½ log² t + 2γ log t + γ² − 2γ₁ + O*(1.16 t^{−1/3})` for `t ≥ 1` (with `1.641` in
-place of `1.16` for every `t > 0`, the form the comparison theorem consumes); the Hall–Tenenbaum
+`Σ_{n ≤ t} τ(n)/n = ½ log² t + 2γ log t + γ² − 2γ₁ + O*(1.16 t^{−1/3})` for `t ≥ 1` (analytic from
+`236`, a direct verification below; with `1.641` in place of `1.16` for every `t > 0`, the form the
+comparison theorem consumes); the Hall–Tenenbaum
 inequality; the explicit Mertens product
 `e^γ log x ∏_{p ≤ x}(1 − 1/p) ∈ [1 − 1/log² x, 1 + 1/(2 log² x)]` with Axler's refinement
 `e^γ log x ∏_{p ≤ x}(1 − 1/p) < 1 + 0.07/log³ x` and Dusart's two-sided cubic form, in which both
@@ -258,7 +259,11 @@ computation is the theorem's own inequality on an initial interval, the theorem 
 inequality beyond that interval, and the statement over the full range is its conjunction with the
 proposition; wherever a statement below is said to hold "under" or "with" such a proposition on its
 initial range, this conjunction is meant, and the proposition is never a hypothesis of the theorem
-whose conclusion it restricts. Every explicit prime estimate is likewise a hypothesis of the exact
+whose conclusion it restricts. A check, interval by interval, of a step function against a smooth
+model with the decimal enclosures of `γ` and `γ₁` is such a computation (5.2 on `[1, 236]`, 7.4 on
+`[1, 7)`). Finitely many rational inequalities that the pinned library's own enclosures settle (2.5,
+through `Real.pi_gt_d6` and `Real.pi_lt_d6`) are steps of a proof, not propositions. Every explicit
+prime estimate is likewise a hypothesis of the exact
 shape the proof uses, with the section of ExplicitPrimeCounting that proves it, so that no
 statement here depends on that roadmap's final constants.
 
@@ -440,7 +445,7 @@ it (under that roadmap's own hypotheses), and the theorems here do not depend on
 - §1.6: the decimal enclosures *EulerGammaEnclosure* (`|γ − 0.5772156649| < 10^{−9}`) and
   *MeisselMertensEnclosure* (`|B − 0.2614972128| < 10^{−9}` for `B = mertensConstant ℚ`), stated
   there once for both roadmaps. Used wherever a proof here evaluates `γ` or `B` numerically
-  (Layers 5.2, 7.4, 8.1).
+  (Layers 5.2, 7.6, 8.1).
 - §1.7: the proposition *RealZeroGap* `c Q` with its two instances *RealZeroGap* `(1/5) 10^{10}`
   given `LuZamanZhaoRecord` (the record of ExplicitZetaBounds §0.4b) and *RealZeroGap*
   `(3.0·10^{−3}) ∞` given `LuZamanZhaoRecord` (Banks's instance, a preprint), which a statement
@@ -819,7 +824,7 @@ Each item below is a proposition (a definition, not a theorem) with its range an
 data; it records a finite computation, table or numerical value that a source supplies, or the
 bounded range that a source's proof needs below a supplier estimate or below its own analytic
 argument. None is proved, discharged or recomputed here; each is a hypothesis of the theorems that
-use it. The six that a headline theorem of `Suggested.lean` needs are declared there; the others
+use it. The five that a headline theorem of `Suggested.lean` needs are declared there; the others
 are named here. The decimal enclosures of `γ` and of the Meissel–Mertens constant are
 ExplicitPrimeCounting §1.6's *EulerGammaEnclosure* and *MeisselMertensEnclosure*, and the real-zero
 gap with its instances is its §1.7. A range `[a, b]` is closed; `(a, b]` and `[a, b)` drop the
@@ -942,6 +947,13 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
   `4.48 x^{3/4} log x` and `9.73 x^{3/4} log x + 0.73 √x` for every real `x ∈ [2, X)`; instance
   `(7560², 6·10^5)` (5.2, 7.5; `cullyHugillTrudgian2021` lines 197–199 and 240–242, there with
   `X = 5560²`).
+- *DivisorHarmonicRangeVerified* `c a b`: `|Σ_{n ≤ t} τ(n)/n − P(t)| ≤ c t^{−1/3}` for every real
+  `t ∈ [a, b]`, with `P` of 5.2; instance `(1.16, 1, 236)` (5.2). This is the routine that completes
+  `berkaneBordellesRamare2012` Corollary 2.2 (lines 1146–1147). The source's printed table (line
+  1150, `0.60` on `[1, 2]`) was computed with the misprinted constant term `γ² − γ₁`.
+- *DivisorSmoothedRangeVerified* `c a b`: `|Δ(x) − x δ(x) − 1/4| < c` for every real `x ∈ [a, b)`,
+  with `δ(x) = Σ_{n ≤ x} τ(n)/n − P(x)` and `P` of 5.2; instance `(0.247, 1, 7)` (7.4; the range of
+  `bordellesDaval2026` Corollary 1 below the reach of its Theorem 1).
 - *PiltzRangeVerified* `k`: `Σ_{m ≤ x} τ_k(m) ≤ 2x (log x)^{k−1}` for every real `x ∈ [6, x_k)`,
   with `x_k = exp((k − 1)(γ + 1/6)/log 2)` (7.5; `bordelles2002` Theorem 4.2).
 - *PiltzRemainderRangeVerified* `3 2 (1.1·10^{10})`: `|Δ₃(x)| < 2.968 x^{2/3} (log x)^{1/3}` for
@@ -952,7 +964,7 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
 - *TotientRangeVerified*: `Σ_{n ≤ N} φ(n)/n ≤ (6/π²) N + log N + 1` for every natural `N ∈ [1, 40]`
   (7.7; `trevino2015ijnt` lines 229–236, there with `N − 1` in place of `N` on the right for
   `2 ≤ N ≤ 41`).
-- `StieltjesGammaOneEnclosure`: `|γ₁ + 0.0728158454836767248605863758749013191377| ≤ 10^{−40}`, with
+- *StieltjesGammaOneEnclosure*: `|γ₁ + 0.0728158454836767248605863758749013191377| ≤ 10^{−40}`, with
   `γ₁ = stieltjesGammaOne` (`berkaneBordellesRamare2012` line 189, (2.2), citing `kreminski2003`).
 - *ArithmeticalConstantsEnclosure*: `c₀ = γ + Σ_p log p/(p(p − 1)) = 1.332 582 275 733… ± 10^{−12}`
   and `C₂ = γ + 2 Σ_p log p/(p² − 1) = 1.717 137 651 090 62… ± 10^{−14}` (`ramare2019bcp` lines
@@ -1061,11 +1073,22 @@ implies the instances with `H = 10^{12}` and `H = 10^{14}`.
 - *SquarefreeRangeVerified* `(x ↦ 0.02767 √x) 438 653 10^6` is false (as `x → 441 353⁻`,
   `R(x)/√x → −0.027772`), while *SquarefreeRangeVerifiedNat* `(n ↦ 0.02767 √n) 438 653 10^6` holds
   (the last integer `n` with `|R(n)| > 0.02767 √n` is `437 780`): the two forms differ.
-- `StieltjesGammaOneEnclosure` with the opposite sign (`γ₁ = +0.0728…`) is excluded by the
+- *DivisorHarmonicRangeVerified* `1.16 1 236` holds. The largest value of
+  `|Σ_{n ≤ t} τ(n)/n − P(t)| t^{1/3}` over `[1, 236]` is `0.65418`, as `t → 2⁻`, so
+  *DivisorHarmonicRangeVerified* `0.65 1 236` fails on `[1, 2)`. With the misprinted `γ² − γ₁` in
+  `P`, the largest value on `[1, 2)` would be `0.594`, at `t = 1`: the source's `0.60`.
+- The range of *DivisorHarmonicRangeVerified* `1.16 1 236` reaches the analytic range, since
+  `3·0.961 t^{−1/6} ≤ 1.16` exactly for `t ≥ 235.68` (5.2). Its lower end cannot go below `1`: on
+  `(0, 1)` the sum is empty and `|P(t)| t^{1/3}` reaches `1.64082`.
+- *DivisorSmoothedRangeVerified* `0.247 1 7` holds with room. The largest value of
+  `|Δ(x) − x δ(x) − 1/4|` over `[1, 7)` is `0.09330`, at `x = 2`, where `Δ(2) = 1.30484` and
+  `δ(2) = 0.48077`. From `7` on, Bordellès–Daval's `1/8 + 0.316/√x + 1/(64x)` is at most
+  `0.24667 < 0.247`. At `x = 1` it is `0.4566`, so their Theorem 1 alone does not cover `[1, 7)`.
+- *StieltjesGammaOneEnclosure* with the opposite sign (`γ₁ = +0.0728…`) is excluded by the
   Dirichlet-divisor witness of Layer 0.5.
-- `StieltjesGammaOneEnclosure` agrees with the Euler–Maclaurin value at `N = 10` of Layer 0.5
+- *StieltjesGammaOneEnclosure* agrees with the Euler–Maclaurin value at `N = 10` of Layer 0.5
   (`0.04123` against `γ₁ + (log 10)/20 = 0.04231`).
-- With ExplicitPrimeCounting §1.6's enclosure of `γ`, `StieltjesGammaOneEnclosure` gives
+- With ExplicitPrimeCounting §1.6's enclosure of `γ`, *StieltjesGammaOneEnclosure* gives
   `γ² − 2γ₁ = 0.478810 ± 10^{−8}`, matched by the sum at `10^6` to `10^{−4}` (Layer 5.2).
 - `PrimorialTableVerified 26` holds: `k log θ(p_k)/θ(p_k)` is `1.0797` at `k = 3`, rises to
   `9 log 19.2231/19.2231 = 1.384013` at `k = 9` (`N₉ = 223 092 870`) and then decreases
@@ -2592,13 +2615,14 @@ the one the computation gives (`trudgian2015` Lemma 15 states it so).
 Prove the harmonic model: `Σ_{n ≤ t} 1/n = log t + γ + O*(0.9105 t^{−1/3})` for every `t > 0`
 (Layer 0.3; the model `k = 1/n` with `A = 0`, `B = 1`, `C = γ`, `D = 0.9105`).
 
-Prove the Dirichlet-divisor model in three forms, with `P(t) = ½ log² t + 2γ log t + γ² − 2γ₁`:
-for every real `t ≥ 1`,
+Prove the Dirichlet-divisor model in four forms, with `P(t) = ½ log² t + 2γ log t + γ² − 2γ₁`:
+for every real `t ≥ 236`,
 
-    Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.16 t^{−1/3});
+    Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.16 t^{−1/3}),
 
-for every real `t > 0`, `Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.641 t^{−1/3})`, the form the comparison
-theorem 5.1 consumes at `α = 1/3`; for every real `t ≥ 2`,
+and for every real `t ≥ 1` with *DivisorHarmonicRangeVerified* `1.16 1 236` (Layer 0.7) on
+`[1, 236]`; for every real `t > 0`, `Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.641 t^{−1/3})`, the form the
+comparison theorem 5.1 consumes at `α = 1/3`; for every real `t ≥ 2`,
 `Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.001 t^{−1/2})`, the form Layer 7.5 consumes; and for every real
 `t > 0`, `Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.0503 t^{−2/5})` (`plattTrudgian2018` Lemma 1), the form 5.1
 consumes at `α = 2/5`. The fourth is proved from the third on `[2, ∞)` (where
@@ -2618,29 +2642,31 @@ second part, cites the same lemma). The third is `cullyHugillTrudgian2021` (14),
 Riesel–Vaughan's method (`rieselVaughan1983` pp. 48–50, uncertified) for `t ≥ 6·10^5` and
 *DivisorPowerRangeVerified* (Layer 0.7) on `[2, 6·10^5)`.
 
-The first two forms are the headline statement `sum_tau_div_model`: under the bound
-`|Δ(x)| ≤ 0.961 √x` for every real `x ≥ 1` of Layer 7.4, ExplicitPrimeCounting §1.6's
-*EulerGammaEnclosure* and `StieltjesGammaOneEnclosure`, the first form holds for every real `t ≥ 1`
-and the second for every real `t > 0`. Route (`berkaneBordellesRamare2012` lines 1125–1159, the
-proof of Corollary 2.2): integration by parts of `Σ_{n ≤ t} τ(n) = t log t + (2γ − 1) t + Δ(t)`
-against `1/n` gives the exact identity `Σ_{n ≤ t} τ(n)/n = P(t) + Δ(t)/t − ∫_t^∞ Δ(u) du/u²` for
-`t ≥ 1`, the constant term being the limit `lim (Σ_{n ≤ t} τ(n)/n − ½ log² t − 2γ log t)`, computed
-from `Σ_{n ≤ t} τ(n)/n = Σ_{d ≤ t} (1/d) Σ_{m ≤ t/d} 1/m`, the harmonic remainder twice and the
-definition of `γ₁` in Layer 0.5; with `|Δ(u)| ≤ 0.961 √u` the remainder is at most
-`3·0.961 t^{−1/2}`, and `3·0.961 t^{−1/6} ≤ 1.16` exactly for `t ≥ 235.7`; on `[1, 236]` the step
-function `Σ_{n ≤ N} τ(n)/n` is compared with `P(t)` on each `[N, N + 1)`, at both ends and at the
-interior extremum of `|Σ_{n ≤ N} τ(n)/n − P(t)| t^{1/3}`, with the two enclosures; the second form
-then follows on `(0, 1)` from `sup_{0 < t < 1} |P(t)| t^{1/3} = 1.64082…`, again with the
-enclosures.
+The first form from `236` on is the headline statement `sum_tau_div_model`: under the bound
+`|Δ(x)| ≤ 0.961 √x` for every real `x ≥ 1` of Layer 7.4, it holds for every real `t ≥ 236`. On
+`[1, 236]` the first form is *DivisorHarmonicRangeVerified* `1.16 1 236` (Layer 0.7), so the first
+form for every real `t ≥ 1` is the conjunction of the two. The second form is the first on
+`[1, ∞)` (or the fourth, which dominates it there) together with the bound on `(0, 1)`, where the
+sum is empty. Route (`berkaneBordellesRamare2012` lines 1125–1159, the proof of Corollary 2.2):
+integration by parts of `Σ_{n ≤ t} τ(n) = t log t + (2γ − 1) t + Δ(t)` against `1/n` gives the
+exact identity `Σ_{n ≤ t} τ(n)/n = P(t) + Δ(t)/t − ∫_t^∞ Δ(u) du/u²` for `t ≥ 1`. Its constant
+term is the limit `lim (Σ_{n ≤ t} τ(n)/n − ½ log² t − 2γ log t)`, computed from
+`Σ_{n ≤ t} τ(n)/n = Σ_{d ≤ t} (1/d) Σ_{m ≤ t/d} 1/m`, the harmonic remainder twice and the
+definition of `γ₁` in Layer 0.5. With `|Δ(u)| ≤ 0.961 √u` the remainder is at most
+`3·0.961 t^{−1/2}`, and `3·0.961 t^{−1/6} ≤ 1.16` exactly for `t ≥ 235.68`. The identity is exact,
+so no decimal value of `γ` or `γ₁` enters the headline. The bound on `(0, 1)` is
+`sup_{0 < t < 1} |P(t)| t^{1/3} = 1.64082…`, evaluated with *EulerGammaEnclosure* and
+*StieltjesGammaOneEnclosure*.
 
-Wherever `γ₁` is used numerically, `StieltjesGammaOneEnclosure` is the hypothesis
+Wherever `γ₁` is used numerically, *StieltjesGammaOneEnclosure* is the hypothesis
 (`γ₁ = −0.0728158454836767248605863758749013191377 + O*(10^{−40})`, line 189, (2.2), citing
 `kreminski2003`).
 
 *Needs:* Layer 0.3; Layer 0.5 (`γ₁`); AnalyticNumberTheoryPartI §3.23a (`divisorError`); Layer 7.4
 (`|Δ(t)| ≤ 0.961 √t`, which depends only on Layer 0 and that section); ExplicitPrimeCounting §1.6
-(*EulerGammaEnclosure*); `sum_mul_eq_sub_sub_integral_mul`; Layer 0.7
-(`StieltjesGammaOneEnclosure`; *DivisorPowerRangeVerified*, for the third and fourth forms).
+(*EulerGammaEnclosure*, for the bounds on `(0, 1)` and `[1, 2)`); `sum_mul_eq_sub_sub_integral_mul`;
+Layer 0.7 (*StieltjesGammaOneEnclosure*, for the same bounds; *DivisorHarmonicRangeVerified*, for
+the first form on `[1, 236]`; *DivisorPowerRangeVerified*, for the third and fourth forms).
 
 **Checks.**
 
@@ -2735,19 +2761,42 @@ suppose there are `κ ≥ 0`, `L ≥ 0`, `A ≥ 0` with
 Then for every real `D ≥ exp(2(L + A))`,
 
     Σ_{d ≤ D} g(d) = C (log D)^κ (1 + O*(B/log D)),
-    B = 2(L + A)(1 + 2(κ + 1) e^{κ + 1}),  C = Γ(κ + 1)^{−1} ∏_p (Σ_{ν ≥ 0} g(p^ν)) (1 − 1/p)^κ,
+    B = 2(L + A)(1 + 2(κ + 1) e^{κ + 1}),
+    C = Γ(κ + 1)^{−1} lim_{X → ∞} ∏_{p ≤ X} (Σ_{ν ≥ 0, p^ν ≤ X} g(p^ν)) (1 − 1/p)^κ,
 
-the product converging absolutely under the two hypotheses. Route: the Levin–Fainleib differential
-inequality `Σ_{d ≤ D} g(d) log d = Σ_{m ≤ D} g(m) Σ_{p^ν ≤ D/m, p ∤ m} g(p^ν) log p^ν`, the two
-hypotheses bounding the inner sum by `κ log(D/m) + O*(L + A)`, and the resulting integral inequality
-for `G(D) = Σ_{d ≤ D} g(d)` solved explicitly (the source's proof); the identification of `C`
-through the Dirichlet series `Σ g(d) d^{−s} = ζ(s)^κ · (holomorphic at 1)` and `Γ(κ + 1)` as the
-residue normalisation. This refines SieveMethodsAndPrimePatterns §1.1 (the asymptotic
-`∼ (log z)^κ/(Γ(κ + 1) H_g)`) with explicit constants; the hypothesis on the prime sums is the
-two-sided form of *HasLogSieveDimension* `(P, g, κ, L)` of its §0.5 extended to prime powers.
+each local factor truncated at `p^ν ≤ X`. The limit exists and is positive under the two
+hypotheses. With `S_p(X) = Σ_{ν ≥ 1, p^ν ≤ X} g(p^ν)`, the logarithm of the partial product is
+`Σ_{p^ν ≤ X} g(p^ν) − κ Σ_{p ≤ X} 1/p` plus `Σ_{p ≤ X} (log(1 + S_p(X)) − S_p(X))` plus
+`κ Σ_{p ≤ X} (log(1 − 1/p) + 1/p)`. The first term converges by partial summation from the first
+hypothesis and Mertens' `Σ_{p ≤ X} 1/p = log log X + M + o(1)`. The second converges by dominated
+convergence, since `|log(1 + y) − y| ≤ y²/2` for `y ≥ 0` and the second hypothesis gives
+`Σ_p (Σ_{ν ≥ 1} g(p^ν))² ≤ A/log 2`. The third converges absolutely. The product need not converge
+absolutely, and in general the truncation cannot be dropped. It can be dropped when
+`Σ_p Σ_{ν ≥ 2} g(p^ν) < ∞`, in particular when `g` is supported on the squarefree integers; `C` is
+then the limit of the partial products `∏_{p ≤ X} (Σ_{ν ≥ 0} g(p^ν)) (1 − 1/p)^κ` (Checks).
 
-*Needs:* Layer 0.6 (the Euler product of `C`); Abel summation; `Real.Gamma`; the uncertified source
-by locator.
+Route: the Levin–Fainleib differential inequality
+`Σ_{d ≤ D} g(d) log d = Σ_{m ≤ D} g(m) Σ_{p^ν ≤ D/m, p ∤ m} g(p^ν) log p^ν`, the two hypotheses
+bounding the inner sum by `κ log(D/m) + O*(L + A)`, and the resulting integral inequality for
+`G(D) = Σ_{d ≤ D} g(d)`, solved explicitly (the source's proof). The constant is then identified
+through the Dirichlet series. For real `s > 0` the series `Σ g(d) d^{−s}` converges (partial
+summation from the first hypothesis) and equals `ζ(1 + s)^κ Φ(s)`, with
+`Φ(s) = ∏_p (Σ_{ν ≥ 0} g(p^ν) p^{−νs})(1 − p^{−1−s})^κ` absolutely convergent. If
+`Σ_{d ≤ D} g(d) ∼ C (log D)^κ`, then `Σ g(d) d^{−s} = s ∫_1^∞ (Σ_{d ≤ t} g(d)) t^{−s−1} dt` is
+`∼ C Γ(κ + 1) s^{−κ}` as `s → 0⁺`; since `ζ(1 + s) ∼ 1/s`, this gives
+`Γ(κ + 1) C = lim_{s → 0⁺} Φ(s)`.
+Abel's theorem, applied to the convergent `Σ_{p^ν ≤ X} g(p^ν) − κ Σ_{p ≤ X} 1/p`, shows that this
+limit equals the truncated limit above. This refines SieveMethodsAndPrimePatterns §1.1 (the
+asymptotic `∼ (log z)^κ/(Γ(κ + 1) H_g)`) with explicit constants; the hypothesis on the prime sums
+is the two-sided form of *HasLogSieveDimension* `(P, g, κ, L)` of its §0.5 extended to prime
+powers.
+
+*Needs:* Abel summation (for the existence of `C` and the convergence of `Σ g(d) d^{−s}` for
+`s > 0`); Mertens' `Σ_{p ≤ X} 1/p − log log X → M`
+(`TauCeti.LFunctions.tendsto_primeSummatory_inv_absNorm_sub_log_log` at `K = ℚ`);
+`EulerProduct.eulerProduct_hasProd` and `EulerProduct.eulerProduct_completely_multiplicative` (the
+products `Σ g(d) d^{−s} = ∏_p Σ_{ν ≥ 0} g(p^ν) p^{−νs}` and `ζ(1 + s) = ∏_p (1 − p^{−1−s})^{−1}` for
+`s > 0`); `Real.Gamma`; the uncertified source by locator.
 
 **Checks.**
 
@@ -2756,7 +2805,30 @@ by locator.
   `|Σ_{p ≤ Q} (log p)/p − log Q − E| < 1/(2 log Q)` for `Q ≥ 319` (`rosserSchoenfeld1962` Theorem 6,
   one `E`) with the values below `319`, `A ≤ Σ_p (log p)/p² = 0.49309`; the conclusion is
   `Σ_{d ≤ D} μ²(d)/d = C log D (1 + O*(B/log D))` with `C = ∏_p (1 + 1/p)(1 − 1/p) = 6/π²`, consistent with Layer 7.1's
-  `(6/π²) log D + O*(1.166)`.
+  `(6/π²) log D + O*(1.166)`. The support is squarefree, so the local factors need no truncation,
+  and here the product converges absolutely.
+- The product converges only conditionally. Take `κ = 1` and `g` supported on the squarefree
+  integers, with `g(p_k) = 2/p_k` for odd `k` and `0` for even `k`. The first hypothesis holds,
+  since `Σ_{p ≤ Q} g(p) log p − log Q` is Mertens' remainder plus an alternating sum of
+  `log p_k/p_k`, which decreases from `p₂ = 3` on. Its largest deviation for `Q ≤ 5·10^6` is
+  `1.2002`, and `A = 1.1584`.
+  Every local factor differs from `1` by about `1/p`, and `Σ_{p ≤ 4.26·10^6} |factor − 1| = 2.372`,
+  growing like `log log X`. The logarithms of the partial products are `−0.449220`, `−0.448895` and
+  `−0.448891` at `X = 10^3`, `10^5` and `10^6`, so `C = e^{−0.448891} = 0.63834`. A `C` read as an
+  unconditional product (Mathlib's `tprod`, which is `1` when the family is not multipliable) would
+  make the theorem false here.
+- The truncation is needed. Take `κ = 1` and `g(m²) = μ²(m)/m`, with `g = 0` off the squares, so
+  that `g(p²) = 1/p` and `g(p^ν) = 0` for `ν ≠ 0, 2`. The first hypothesis holds by Mertens, with
+  `Σ_{p^ν ≤ Q} g(p^ν) log p^ν = 2 Σ_{p ≤ √Q} (log p)/p` and deviation at most `2.645` for
+  `Q ≤ 9·10^6`. The second holds with `A = Σ_p 2 log p/p² = 0.98618`. Here
+  `Σ_{d ≤ D} g(d) = Σ_{m ≤ √D} μ²(m)/m = (3/π²) log D + 1.0439 + o(1)` (7.2 at `√D`); the difference
+  is `1.04298`, `1.04420` and `1.04389` at `D = 10^6`, `10^8` and `10^{12}`. So `C = 3/π²`, and
+  indeed
+  `Σ g(d) d^{−s} = ζ(1 + 2s)/ζ(2 + 4s)` gives `Φ(s) = ζ(1 + 2s)/(ζ(1 + s) ζ(2 + 4s)) → 1/(2ζ(2))`.
+  The truncated partial product `∏_{p ≤ √X} (1 + 1/p) ∏_{p ≤ X} (1 − 1/p)` is `0.30426` at
+  `X = 10^7`. The untruncated product `∏_p (1 + 1/p)(1 − 1/p) = 6/π²` converges absolutely and is
+  twice too large: with it the ratio `Σ_{d ≤ D} g(d)/(C log D)` tends to `1/2`, and the conclusion
+  fails for every large `D`.
 - `κ = 0`, `g = δ`: `L = 0`, `A = 0`, `D ≥ 1`, `B = 0`, `C = 1`: `Σ_{d ≤ D} δ(d) = 1 = 1·(log D)⁰`.
 - `g = μ²` (weights `1` on primes) is outside the hypotheses: `Σ_{p ≤ Q} log p − log Q = θ(Q) − log Q`
   is unbounded; the theorem is about `g(p)` of size `κ/p`.
@@ -2815,7 +2887,8 @@ built into the perturbation `h`. The first line is a coprime form of ExplicitCha
 
 Layer 0 (0.3–0.6); Layer 7.4 (for 5.2, with no circularity: 7.4 depends on Layer 0 only); Layer 7.2
 for the constants `c₀`, `C₂` of 5.6; AnalyticNumberTheoryPartI §3.23a (`divisorError`); Layer 0.7
-(*DivisorPowerRangeVerified*, for the third form of 5.2); SieveMethodsAndPrimePatterns §§0.5, 1.1
+(*DivisorHarmonicRangeVerified*, for the first and second forms of 5.2 on `[1, 236]`;
+*DivisorPowerRangeVerified*, for the third form of 5.2); SieveMethodsAndPrimePatterns §§0.5, 1.1
 (cited).
 
 ## Layer 6: upper bounds for nonnegative multiplicative functions
@@ -3237,7 +3310,8 @@ inside the prefactor `u`, so the constant in the display is `D H̄(−1/3)/u`: w
 *ArithmeticalConstantsEnclosure* rounds to `1088`, the source's constant. With the `t ≥ 1` constant
 `1.16`, which the comparison theorem cannot use, it would be `768.9`.
 
-*Needs:* 5.1; 5.2 (the form for `t > 0`); Layer 0.6; *ArithmeticalConstantsEnclosure*.
+*Needs:* 5.1; 5.2 (the form for `t > 0`, with *DivisorHarmonicRangeVerified* `1.16 1 236`); Layer
+0.6; *ArithmeticalConstantsEnclosure*.
 
 **Checks.**
 
@@ -3288,19 +3362,22 @@ Prove Bordellès–Daval's smoothed form (`bordellesDaval2026` Theorem 1 and Cor
 with `δ(x) = Σ_{n ≤ x} τ(n)/n − P(x)` (`P` as in 5.2), for every real `x ≥ 1`,
 `Δ(x) − x δ(x) = 1/4 + r(x)` with `|r(x)| ≤ 1/8 + 0.316/√x + 1/(64x)`, and
 `|r(x)| ≤ 9 log x/x^{1/4} + 0.239/√x + 1/(64x)` for `x ≥ 170`; consequently
-`∫_x^∞ Δ(u) u^{−2} du ≥ 0` for every real `x ≥ 1`. Route: the hyperbola form above, the harmonic
-remainder to second order, the second-derivative test in the form
+`∫_x^∞ Δ(u) u^{−2} du ≥ 0` for every real `x ≥ 7`, and for every real `x ≥ 1` with
+*DivisorSmoothedRangeVerified* `0.247 1 7` (Layer 0.7) on `[1, 7)`. Route: the hyperbola form
+above, the harmonic remainder to second order, the second-derivative test in the form
 `|Σ_{N < n ≤ N₁} e(±f(n))| ≤ (4/√π)(c₂ N λ₂^{1/2} + 2λ₂^{−1/2})` for integers `N < N₁ ≤ 2N` and `λ₂ ≤ f'' ≤ c₂ λ₂` (their Lemma 8;
 stated and proved here as part of this target, it differs from the second-derivative tests of
 ExplicitZetaBounds §4.3 in its constant and in the dyadic range `N₁ ≤ 2N`), with the Kusmin–Landau
-inequality of ExplicitZetaBounds §4.1 for `x ≥ 170`, and for the corollary `|r| < 0.247` from `x ≥ 7` and a check of each `[m, m + 1)` with `1 ≤ m < 7`
-under *EulerGammaEnclosure* (ExplicitPrimeCounting §1.6) and `StieltjesGammaOneEnclosure`. The
+inequality of ExplicitZetaBounds §4.1 for `x ≥ 170`. For the corollary, the first bound gives
+`|r(x)| ≤ 0.24667 < 1/4` for `x ≥ 7`, and the identity `Δ(x) − x δ(x) = x ∫_x^∞ Δ(u) u^{−2} du`
+(integration by parts of `Σ_{n ≤ x} τ(n)` against `1/n`) turns `1/4 + r(x) > 0` into the sign of
+the integral. The
 consequence the source draws from
 the `0.397` row, `|δ(x)| ≤ 0.397/√x + 0.38/x`, holds for real `x ≥ 7560` (it is printed from `5560`).
 
 *Needs:* AnalyticNumberTheoryPartI §§3.22b and 3.23a; Layer 0.3; Layer 0.7 (*DivisorRangeVerified*,
-*DivisorRangeVerifiedNat*, *DivisorCubicRangeVerified*, `StieltjesGammaOneEnclosure`; §3.23a's
-`BBRFiniteInput`); ExplicitPrimeCounting §1.6 (*EulerGammaEnclosure*); ExplicitZetaBounds §4.1 (the
+*DivisorRangeVerifiedNat*, *DivisorCubicRangeVerified*, *DivisorSmoothedRangeVerified*; §3.23a's
+`BBRFiniteInput`); ExplicitZetaBounds §4.1 (the
 Kusmin–Landau inequality, for the smoothed form); `Nat.card_divisors`;
 `Int.fract` lemmas; the source's exponential-sum
 lemma (its Lemma 4.1), stated and proved here as part of this target.
@@ -3445,9 +3522,11 @@ real-argument bounds `−0.15264 √y ≤ R(y) ≤ 0.679091 √y` (`y ≥ 1`) of
 derivation uses the lower constant `−0.103229` of his Lemma 4.2(a) at the real arguments `x/m`,
 where it does not hold (7.1); the route here uses the real constant.
 
-*Needs:* 5.1 (at `α = 1/3` and `α = 2/5`); 5.2 (the second and fourth forms); 7.1; Layer 0.3;
+*Needs:* 5.1 (at `α = 1/3` and `α = 2/5`); 5.2 (the second and fourth forms, with
+*DivisorHarmonicRangeVerified* `1.16 1 236`); 7.1; Layer 0.3;
 Layer 0.6; `hasSum_zeta_two`;
-`log_add_one_le_harmonic`; `StieltjesGammaOneEnclosure` (for the constant `0.4107`).
+`log_add_one_le_harmonic`; ExplicitPrimeCounting §1.6 (*EulerGammaEnclosure*) and
+*StieltjesGammaOneEnclosure* (for the constants `1.3949`, `0.4107` and `0.787`).
 
 **Checks.**
 

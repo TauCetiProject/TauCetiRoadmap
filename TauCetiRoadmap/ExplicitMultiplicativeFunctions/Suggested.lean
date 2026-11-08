@@ -118,12 +118,6 @@ def RamareTransferComputations : Prop :=
   (∀ x : ℝ, 1514928 ≤ x → x ≤ 3430190 →
     |Chebyshev.psi x - x| ≤ 0.0065 * x / Real.log x)
 
-/-- The decimal enclosure of the first Stieltjes constant,
-`γ₁ = −0.0728158454836767248605863758749013191377 + O*(10⁻⁴⁰)` (Berkane–Bordellès–Ramaré 2012,
-(2.2), citing Kreminski 2003; README 0.7). -/
-def StieltjesGammaOneEnclosure : Prop :=
-  |stieltjesGammaOne + 0.0728158454836767248605863758749013191377| ≤ 1e-40
-
 /-- Robin's primorial table (README 0.7): with `p_k = Nat.nth Nat.Prime (k - 1)` the `k`-th prime
 and `θ(p_k) = log(p₁ ⋯ p_k)`, the inequality `k log θ(p_k) ≤ 1.3841 θ(p_k)` for `3 ≤ k ≤ K`. -/
 def PrimorialTableVerified (K : ℕ) : Prop :=
@@ -253,28 +247,20 @@ theorem norm_sum_mul_sub_le_comparison (h k : ArithmeticFunction ℂ) (α : ℝ)
   sorry
 
 /-- **The Dirichlet-divisor model** (README 5.2; Berkane–Bordellès–Ramaré 2012, Corollary 2.2,
-with its constant term corrected to `γ² − 2γ₁` and its range to `t ≥ 1`; the constant `1.641` on
-all of `t > 0` is Riesel–Vaughan's). With `P(t) = ½ log² t + 2γ log t + γ² − 2γ₁`,
-`Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.16 t^{−1/3})` for every real `t ≥ 1` and
-`Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.641 t^{−1/3})` for every real `t > 0`, under the bound
-`|Δ(x)| ≤ 0.961 √x` for every real `x ≥ 1` of README 7.4 and the decimal enclosures of `γ`
-(ExplicitPrimeCounting §1.6) and of `γ₁`. -/
+with its constant term corrected to `γ² − 2γ₁`). With `P(t) = ½ log² t + 2γ log t + γ² − 2γ₁`, for
+every real `t ≥ 236`, `Σ_{n ≤ t} τ(n)/n = P(t) + O*(1.16 t^{−1/3})`, under the bound
+`|Δ(x)| ≤ 0.961 √x` for every real `x ≥ 1` of README 7.4. On `[1, 236]` the same bound is a direct
+verification, and with Riesel–Vaughan's `1.641` in place of `1.16` the model holds for every real
+`t > 0` (README 5.2). -/
 theorem sum_tau_div_model
     (hΔ : ∀ x : ℝ, 1 ≤ x →
       |∑ n ∈ Icc 1 ⌊x⌋₊, (ArithmeticFunction.sigma 0 n : ℝ) -
           x * (Real.log x + 2 * eulerMascheroniConstant - 1)| ≤ 0.961 * Real.sqrt x)
-    (hγ : |eulerMascheroniConstant - 0.5772156649| < 1e-9)
-    (hγ₁ : StieltjesGammaOneEnclosure) :
-    (∀ t : ℝ, 1 ≤ t →
-      |∑ n ∈ Icc 1 ⌊t⌋₊, (ArithmeticFunction.sigma 0 n : ℝ) / n -
-          (Real.log t ^ 2 / 2 + 2 * eulerMascheroniConstant * Real.log t +
-            eulerMascheroniConstant ^ 2 - 2 * stieltjesGammaOne)| ≤
-        1.16 * t ^ (-(1 / 3 : ℝ))) ∧
-    (∀ t : ℝ, 0 < t →
-      |∑ n ∈ Icc 1 ⌊t⌋₊, (ArithmeticFunction.sigma 0 n : ℝ) / n -
-          (Real.log t ^ 2 / 2 + 2 * eulerMascheroniConstant * Real.log t +
-            eulerMascheroniConstant ^ 2 - 2 * stieltjesGammaOne)| ≤
-        1.641 * t ^ (-(1 / 3 : ℝ))) := by
+    (t : ℝ) (ht : 236 ≤ t) :
+    |∑ n ∈ Icc 1 ⌊t⌋₊, (ArithmeticFunction.sigma 0 n : ℝ) / n -
+        (Real.log t ^ 2 / 2 + 2 * eulerMascheroniConstant * Real.log t +
+          eulerMascheroniConstant ^ 2 - 2 * stieltjesGammaOne)| ≤
+      1.16 * t ^ (-(1 / 3 : ℝ)) := by
   sorry
 
 /-! ## Layer 6: upper bounds for nonnegative multiplicative functions -/
