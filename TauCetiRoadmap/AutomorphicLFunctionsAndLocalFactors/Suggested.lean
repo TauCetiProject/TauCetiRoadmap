@@ -17,13 +17,8 @@ fixed-space dimension theorem. AL.3 states local Whittaker uniqueness in every r
 a space of rank at most one. The local-field statements allow both characteristics. All
 definitions below have bodies on native carriers.
 
-AnalyticNumberTheoryPartI states, in the namespace `TauCetiRoadmap.AnalyticNumberTheoryPartI`,
-the K-Bessel kernel `besselK` (§2.1a), centered growth and the paired Hadamard theorem
-(`IsCenteredOrderOne`, `pairedHadamard_*`, §§0.29–0.29b) and Hecke continuation for every unitary
-idele-class character (`heckeContinuation`, §2.3a); AnalyticNumberTheoryPartII §§5.3g–5.3h
-specifies the local and adelic Fourier analysis and vector-space Poisson summation. The
-AnalyticNumberTheoryPartI file is not imported here, so the two Bessel statements take the kernel
-as an argument together with its defining integral.
+The two Bessel statements take AnalyticNumberTheoryPartI §2.1a's K-Bessel kernel as an argument
+together with its defining integral; that roadmap's `besselK` satisfies the hypothesis by `rfl`.
 
 The all-place Godement–Jacquet and Rankin–Selberg theorems, multiplicity one, converse theorems
 and rational-period twisting need smooth automorphic cuspidal representations, restricted tensor
@@ -61,9 +56,6 @@ def negativeEi (r : ℝ) : ℝ := -(∫ t : ℝ in Set.Ioi r, Real.exp (-t)/t)
 
 section Bessel
 
--- The K-Bessel kernel is AnalyticNumberTheoryPartI §2.1a's, not importable here:
--- open TauCetiRoadmap.AnalyticNumberTheoryPartI (besselK)
--- It enters the two statements below as an argument with its defining integral.
 variable (besselK : ℂ → ℝ → ℂ)
   (hbesselK : ∀ ν c, besselK ν c = (1/2 : ℂ) * ∫ u : ℝ in Set.Ioi 0,
     Complex.exp (-(c : ℂ) * ((u : ℂ) + (u : ℂ)⁻¹)/2) *
@@ -223,21 +215,11 @@ theorem finiteEigenSpace_finrank {F : Type*} [Field F] [ValuativeRel F]
     Module.finrank ℂ (finiteEigenSpace χ) = 1 := by
   sorry
 
--- Hecke continuation for unitary idele-class characters, with its local factors and conductor
--- scale, is AnalyticNumberTheoryPartI §2.3a, not importable here:
--- open TauCetiRoadmap.AnalyticNumberTheoryPartI
---   (heckeContinuation heckeFiniteFactor heckeArchFactor heckeConductorScale)
-
 end TateZeta
 
 /-! ## Layer AL.2: Godement–Jacquet standard functions and newforms -/
 
 namespace AL2
-
--- Centered growth and the paired Hadamard theorem are AnalyticNumberTheoryPartI §§0.29–0.29b,
--- not importable here:
--- open TauCetiRoadmap.AnalyticNumberTheoryPartI (IsCenteredOrderOne pairedHadamard_factorization
---   pairedHadamard_derivatives_nonnegative pairedHadamard_derivatives_positive)
 
 open Matrix
 open scoped ValuativeRel
@@ -308,7 +290,7 @@ def tracePairing (F : Type*) [Field F] (n : ℕ) :
 /-- AL.2.1.2: the Godement–Jacquet zeta integral `Z(s, β, Φ)` of a coefficient function `β` on
 `GL_{n+1}(F)` and a test function `Φ` on `(n+1) × (n+1)` matrices, against a Haar measure `ν`,
 with the modulus `a` of `F` and the determinant exponent `s + n/2` of rank `n + 1`. -/
-def gjZetaIntegral {F : Type*} [Field F] [TopologicalSpace F] [MeasurableSpace F] (n : ℕ)
+def gjZetaIntegral {F : Type*} [Field F] [MeasurableSpace F] (n : ℕ)
     (ν : Measure (GeneralLinearGroup (Fin (n+1)) F)) (a : F → ℝ)
     (β : GeneralLinearGroup (Fin (n+1)) F → ℂ)
     (Φ : Matrix (Fin (n+1)) (Fin (n+1)) F → ℂ) (s : ℂ) : ℂ :=
