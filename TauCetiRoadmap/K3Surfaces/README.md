@@ -35,6 +35,10 @@ Hodge theory belongs to ComplexKahlerGeometry K5–K6. Generic discriminant form
 overlattices belong to IntegralLattices §§1B–1F; their native constructions are used
 below. The gluing theorem is the extension/restriction criterion for a
 specified pair of actions on the two summands, not a second overlattice construction.
+IntegralLattices supplies no surjectivity of an integral orthogonal group onto the
+orthogonal group of its discriminant form; §7.1 owns the one case used here, for the
+invariant lattice U(2)⊕E₈(−2) and its complement, together with the generation of
+orthogonal groups in characteristic two by orthogonal transvections that its proof uses.
 
 EnriquesSurfaces E1 and E6.U0–U4 own the converse canonical-cover comparison,
 primitive numerical pullback, and lift/descent of automorphisms, including
@@ -44,7 +48,7 @@ extension, including its all-characteristic, Picard-lattice and symplectic-bound
 
 ## Conventions
 
-An algebraic K3 surface over an algebraically closed field k is a smooth proper geometrically integral surface X/k with an invertible-sheaf isomorphism ω_X≃O_X and H¹(X,O_X)=0. Keep a choice of this isomorphism, or equivalently a nonzero two-form σ, as input to constructions that use it. Changing σ by a unit must produce the stated comparison maps. Smooth proper surfaces over a field are projective (Huybrechts draft §1.1, Definition 1.1 and Remark 1.2, p.7). The differential-vanishing theorem here has algebraically closed k of characteristic p>2; the complex lane supplies the characteristic-zero counterpart. The restricted structure on vector fields and the unirationality reduction of §0.2 hold in every positive characteristic, and its rank-22 theorem over every algebraically closed field.
+An algebraic K3 surface over an algebraically closed field k is a smooth proper geometrically integral surface X/k with an invertible-sheaf isomorphism ω_X≃O_X and H¹(X,O_X)=0. Keep a choice of this isomorphism, or equivalently a nonzero two-form σ, as input to constructions that use it. Changing σ by a unit must produce the stated comparison maps. Smooth proper surfaces over a field are projective (Huybrechts draft §1.1, Definition 1.1 and Remark 1.2, p.7). The differential-vanishing theorem here has algebraically closed k of characteristic p>2; the complex lane supplies the characteristic-zero counterpart. The restricted structure on vector fields and the unirationality reduction of §0.2 hold in every positive characteristic, and its rank-22 theorem over every algebraically closed field. A surface X/k is unirational when there is a dominant rational k-map 𝔸²_k⇢X, equivalently ℙ²_k⇢X, since 𝔸² is a dense open subscheme of ℙ². The Picard number ρ(X) is the rank of NS(X); on a K3 surface Pic(X)=NS(X)=Num(X) (Huybrechts draft Proposition 1.2.4, p.12), so ρ(X) is the ℤ-rank of the group of line-bundle classes.
 
 Analytic manifolds and local base charts are finite-dimensional, Hausdorff and second-countable. The complex analytic lane includes compact connected complex surfaces with trivial canonical bundle and H¹(O)=0. K1 constructs their Kähler structure theorem, rather than building Kählerness into an unexplained comparison with the algebraic definition. Analytic surfaces need not be projective. Algebraic surfaces over ℂ and analytic surfaces admitting a positive-square integral (1,1)-class are related by the actual analytification/algebraization equivalence below. Every H² integral object is the actual singular cohomology of the underlying space, with its cup pairing and complex scalar-extension maps.
 
@@ -67,6 +71,14 @@ Use `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Scheme.Over`,
 and `AlgebraicGeometry.GeometricallyIntegral` for the algebraic carrier.
 Use `Projectivization` and `Matrix.toBilin'` for projective lines and matrix
 bilinear evaluation; nondegeneracy and symmetry are separate hypotheses.
+Use `AlgebraicGeometry.Scheme.RationalMap` (notation `X ⤏ Y`, rational maps as
+classes of partial maps defined on dense opens), `AlgebraicGeometry.Scheme.RationalMap.IsOver`
+(some representative is a morphism over the base), `AlgebraicGeometry.Scheme.RationalMap.IsDominant`
+(some, equivalently every, representative has dense image) and `AlgebraicGeometry.AffineSpace`
+(notation `𝔸(n; S)`, with its canonical structure over S) for unirationality. Mathlib has
+`AlgebraicGeometry.Scheme.IsRationalOver` (birational to an affine space) but no unirationality
+predicate, so unirationality is stated as the existence of a dominant rational k-map from the
+affine plane.
 Use `AlgebraicGeometry.exists_isFinite_morphismRestrict_of_finite_preimage_singleton`
 (Stacks, §37.44, Lemma 37.44.2, Tag 02UP): for a proper morphism of schemes and a
 point of its target whose fibre is a finite set, the point has an open
@@ -87,6 +99,24 @@ from relative differentials to `SheafOfModules.unit`;
 Differentials/Basic.lean, identifies them with
 `AlgebraicGeometry.Scheme.Modules.Derivation` of the structure sheaf, the
 compatible families of k-derivations of the rings of sections over all opens.
+Use `TauCeti.AlgebraicGeometry.LineBundleClass` in
+TauCeti/AlgebraicGeometry/LineBundle/Class.lean, the commutative group of isomorphism
+classes of invertible sheaves under tensor product, as Pic(X).
+
+Use `TauCeti.QuadraticMap.orthogonalGroup` and `TauCeti.QuadraticMap.reflectionOrthogonal`
+in TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean: the second sends a
+vector v with Q(v) invertible to y↦y−Q(v)⁻¹·b(v,y)·v, b the polar form, which in
+characteristic two is the orthogonal transvection in v. Tau Ceti's Cartan–Dieudonné
+generation `TauCeti.QuadraticMap.subgroup_eq_top_of_reflection_mem`
+(TauCeti/LinearAlgebra/QuadraticForm/CartanDieudonne/Basic.lean) assumes 2 invertible and
+does not apply over 𝔽₂. For an even nondegenerate lattice L, the action of O(L) on
+the discriminant form is `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`,
+O(L)→O(q_L), in TauCeti/LinearAlgebra/IntegralLattice/Discriminant/OrthogonalGroup.lean,
+with kernel `TauCeti.IntegralLattice.Isometry.discriminantKernel`
+(`TauCeti.IntegralLattice.Isometry.ker_discriminantOrthogonalHom`); the rescaled lattice
+L(n) is `TauCeti.IntegralLattice.scale`, whose dual carrier is n⁻¹ times that of L
+(`TauCeti.IntegralLattice.dualCarrier_smul`). Tau Ceti supplies the homomorphism and
+its kernel, not its surjectivity, which §7.1 proves for the one lattice used here.
 
 Use `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.Isometry`,
 `TauCeti.IntegralLattice.IsNondegenerate`,
@@ -117,7 +147,7 @@ Each row specifies the sections consumed and their exact output.
 | CKG K1–K4, K5a/K5b, K6.0–K6.1, K7 and the holomorphic Picard comparison contract below | type/Dolbeault calculus, analytic sets and coherent gluing, holomorphic bundles, elliptic estimates, compact Hodge/Serre and projective Kähler examples; the comparison Pic_hol(M)≃H¹(M,O_Mˣ) with its gluing inverse and laws | K3 Kählerness, nonlinear Monge–Ampère existence, K3 periods or Torelli |
 | IndexTheory I6, I7.1–I7.3 and I8; CharacteristicClasses C1–C7 | actual Dolbeault index/Todd, Euler/signature and holomorphic fixed-map traces for isolated nondegenerate fixed points (including the empty fixed set), with symbol, orientation and Chern normalizations | the K3-specific numerical specialization, simple connectivity or surface isomorphism |
 | SmoothBundlesConnections B1.5; DifferentialGeometry Layers 0–2, 5, 8–9 and AlgebraicTopology Stage 6 | smooth bundles and the componentwise local trivialization of a proper surjective smooth submersion from B1.5; differential forms, singular cup product, Poincaré duality and coefficient comparison from the other named owners | a K3-specific integral marking, monodromy image or period realization |
-| IntegralLattices 0G, 1B–1F, 5E–5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms, actual overlattice graph gluing, primitive embeddings and even unimodular normal form, with isometries and inverses | a Hodge structure, a free geometric involution or a surface isomorphism |
+| IntegralLattices 0G, 1B–1F, 5F, 5G, 5J, 6A | Λ=U³⊕E₈(−1)², dual/discriminant forms and actual overlattice graph gluing (0G, 1B–1F); primitive embeddings into even unimodular lattices (5F–5G); the invariants (r,a,δ) of 2-elementary lattices with their existence and genus theorem (5J); the normal form of indefinite even unimodular lattices (6A); with isometries and inverses | a Hodge structure, a free geometric involution, a surface isomorphism, the isometry class of a 2-elementary lattice in its genus, or the surjectivity O(S)→O(q_S) (constructed in §7.1) |
 | MorseNovikov N5–N7; GeometricTopology Layer 1 | continuous local index, topological trace/local-index equality, vector-field Poincaré–Hopf, and tubular neighbourhoods | the finite-order clean fixed-locus specialization constructed in §7.2 |
 | FourManifolds F7 | the independently constructed quartic K3 example and its topological calculation | a theorem about every K3, a period family or a Torelli proof |
 | EtaleCohomologyFoundations §0.9, F.0.4, F.2.5, F.5–F.7 | ℓ-adic cycle classes with pullback and proper pushforward, Poincaré duality, the projection and self-intersection formulas, the étale Gauss–Bonnet identity and the blow-up decomposition, for smooth proper varieties over an algebraically closed field with ℓ invertible; invariance of étale cohomology under universal homeomorphisms; compact-support cohomology with its open–closed localization sequence | the unirationality reduction, the Picard number of a K3 or its genus-one pencil |
@@ -159,12 +189,15 @@ of it.
 
 ## How to read the build
 
-Layer 0 supplies the independent algebraic vanishing theorem. Layers 1–4 construct
+Layer 0 supplies the independent algebraic vanishing theorem, together with the
+unirationality reduction and the rank-22 theorem for unirational K3 surfaces, whose
+characteristic binders are wider. Layers 1–4 construct
 complex geometry, the cup lattice, actual families and their local periods.
 Layer 5 realizes local chains of twistor lines; Layer 6 proves global periods,
 Torelli and the full cone theorem. Layer 7 combines this geometry with integral
 gluing to realize and classify free involutions. The acceptance statements are
-`algebraicK3_differential_vanishing` and `gluing_isometry_extension_iff`;
+`algebraicK3_differential_vanishing`, `unirational_of_nontrivial_vectorField`,
+`finrank_lineBundleClass_eq_twentyTwo_of_unirational` and `gluing_isometry_extension_iff`;
 Suggested.lean lists the geometric headlines whose carriers are not yet available.
 
 ## Layer 0: Algebraic surfaces and the early differential theorem
@@ -273,7 +306,10 @@ owned here.
 
 **The unirationality reduction (U).** For every algebraically closed field k of
 characteristic p>0, p=2 included, and every algebraic K3 surface X/k with a nonzero
-global vector field, X is unirational: there is a dominant rational map ℙ²_k⇢X
+global vector field, X is unirational: there is a dominant rational k-map 𝔸²_k⇢X,
+equivalently ℙ²_k⇢X (`unirational_of_nontrivial_vectorField`, whose hypothesis is a
+nonzero morphism Ω¹_X→O_X and whose conclusion is a rational map from
+`𝔸(ULift (Fin 2); Spec k)` that is over Spec k and dominant)
 (Huybrechts draft Proposition 9.4.6, pp.180–181, for every p>0; Rudakov–Šafarevič
 1976, §2, Theorem 5 and Corollary 1, pp.1216–1217). Step 1 proves (U) through its
 cases (a) and (b) and uses p>2 nowhere: the canonical-divisor exponent p−1 is
@@ -282,7 +318,7 @@ Euler-number and Noether inputs carry no characteristic hypothesis. The vanishin
 theorem applies (U) at p>2; at p=2, outside that theorem's binder, the Part II
 roadmap applies it.
 
-1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, take the nonzero global field D of additive or multiplicative type given by the restricted structure above. Its saturated rank-one distribution is p-closed: Hochschild's formula keeps the p-th power of every local multiple of D in O_X·D, and sending a local section of the saturation to its p-th power modulo the saturation is p-linear with values in the torsion-free quotient of T_X by the saturation, hence zero because it vanishes where the saturation is O_X·D. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry the additive and multiplicative cases separately, with the p-th power of vector fields defined above. Write L=O_X(Δ) for the saturation of the line spanned by the derivation in T_X, with Δ≥0 the divisorial part of its zero locus, π:X→Y for the quotient, which is normal and projective because the Frobenius of X factors through it, and f:Ỹ→Y for the minimal resolution, obtained from the adapter by contracting the (−1)-curves of the exceptional locus (Liedtke, Theorem 4.2, p.20). The quotient is smooth exactly where T_X/L is locally free, and the canonical-divisor formula gives π^*ω_Y≃L^(−(p−1)) over the smooth locus of Y (Huybrechts draft Proposition 9.4.6, p.180). Prove (U): Y is rational in two cases, so that X, purely inseparable over a rational surface through the Frobenius factorization X→Y→X^(1), is unirational (Huybrechts draft Proposition 9.4.6, pp.180–181; Rudakov–Šafarevič 1976, Theorem 5 and Corollary 1, pp.1216–1217). (a) Divisorial case Δ≠0: a section of ω_Ỹ^n with n>0 restricts to the smooth locus of Y, pulls back to a section of O_X(−n(p−1)Δ) over the complement of finitely many points of X, extends by normality and vanishes because Δ is a nonzero effective divisor; so every plurigenus of Ỹ is zero and Ỹ is birationally ruled over a smooth curve C with h¹(Ỹ,O_Ỹ)=g(C)=b₁(Ỹ)/2, by Enriques' ruledness theorem of the SchemeAndStackFoundations contract (gap:enriques-ruledness) stated under the supplier contracts. Blow up X at the finitely many indeterminacy points of X⇢Ỹ to a morphism ρ:X″→Ỹ (Liedtke, §4.3, p.20); ρ_*ρ^*=deg(ρ)·id on H¹_ét(Ỹ,ℚ_ℓ) by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6, so b₁(Ỹ)≤b₁(X″)=b₁(X)=0, the equality by the blow-up decomposition F.7 and the vanishing by the Kummer computation in (i) below, which uses no unirationality. Hence h¹(Ỹ,O_Ỹ)=0 and h⁰(ω_Ỹ²)=0, and Ỹ is rational by the Castelnuovo–Zariski criterion of NeronModelsAndSemistableAbelianVarietiesPartII §6.1. (b) Isolated case Δ=0, so L=O_X and T_X/L≃I_Z for the finite zero scheme Z of the derivation: π^*ω_Y is trivial over the smooth locus of Y, so ω_Y^p is trivial there: over that locus π is finite locally free of degree p, and the norm functor of ModularCurves §2B along π sends π^*ω_Y to ω_Y^p, since on local trivializations the norm of a unit pulled back from Y is its p-th power; and ω_Ỹ^p≃O_Ỹ(Σb_iE_i) with integers b_i and E_i the exceptional curves of f. The exceptional intersection form is negative definite by the Hodge index theorem of SchemeAndStackFoundations §5.10, since the pullback of an ample class of Y has positive square and is orthogonal to every E_i; minimality gives K_Ỹ·E_j≥0 for every j; hence every b_i≤0. If some plurigenus of Ỹ were nonzero, the anti-effective divisor nΣb_iE_i would be linearly equivalent to an effective one, so every b_i=0 and K_Ỹ is numerically trivial; then each E_i is a smooth rational curve of square −2 by the adjunction formula of SchemeAndStackFoundations §5.10, negative definiteness makes each connected component of the exceptional curve a tree of such curves meeting transversally (two of them meet at most once, and a cycle of m of them has square 0), so a component of n curves has ℓ-adic Euler number n+1. These components, of n_1,…,n_s curves, are the fibres of f over the s points of Y to which f contracts a curve: each such fibre is connected by Zariski's connectedness theorem of SchemeAndStackFoundations §4.9, which applies because the finite part of the Stein factorization of f (same section) is birational onto the normal Y, hence an isomorphism, so f_*O_Ỹ=O_Y; and every singular point of Y is among the s points, because a point y of Y with finite fibre has an open neighbourhood V over which f, proper since Ỹ is proper and Y separated over k, is finite (Mathlib `AlgebraicGeometry.exists_isFinite_morphismRestrict_of_finite_preimage_singleton`, Stacks Tag 02UP), and birational, hence an isomorphism onto the normal V. The localization sequence of compact-support cohomology (EtaleCohomologyFoundations F.2.5) therefore gives e(Ỹ)=e(Y)−s+Σ_r(n_r+1)=e(Y)+Σ_r n_r, where e(Y)=e(X)=24 because π is a universal homeomorphism (EtaleCohomologyFoundations F.0.4) and e(X)=24 by the étale Gauss–Bonnet count in (i) below. Noether's formula on Ỹ with K_Ỹ²=0 and h⁰(ω_Ỹ)≤1 gives e(Ỹ)=12χ(O_Ỹ)≤24, so Σ_r n_r=0, f contracts no curve, Y is smooth, T_X/L≃I_Z is locally free, Z=∅ and the derivation is nowhere zero, making T_X an extension of O_X by O_X with c₂(T_X)=0, against c₂=24 from §0.1. Hence every plurigenus of Ỹ vanishes and Ỹ is rational by the argument of (a). Then produce the pencil in four named sub-targets of K0.A. (i) For every algebraically closed field k, of any characteristic, a unirational K3 surface X/k has Picard number ρ(X)=22; no step of this sub-target uses the characteristic: resolve the indeterminacy of a dominant rational map ℙ²⇢X to a morphism π:Y→X from a blow-up of ℙ², whose H²_ét is spanned by cycle classes by the blow-up decomposition of EtaleCohomologyFoundations F.7; π^* is injective on H²_ét(X,ℚ_ℓ(1)) because π_*π^*=deg(π)·id by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6; π^* and π_* carry the cycle classes of EtaleCohomologyFoundations §0.9 to cycle classes, and the cycle-class map is injective on NS(X)⊗ℚ_ℓ because it respects intersection numbers and Pic(X)=Num(X) on a K3; hence H²_ét(X,ℚ_ℓ(1)) is spanned by cycle classes and ρ(X)=b₂(X) (Huybrechts draft Proposition 17.2.7, pp.367–368). Compute b₂(X)=22: the étale Gauss–Bonnet identity of EtaleCohomologyFoundations F.6 gives Σ(−1)ⁱbᵢ=deg c₂(T_X)=24 with §0.1’s Noether computation; b₀=b₄=1; and b₁=b₃=0 because H¹_ét(X,μ_ℓⁿ)≃Pic(X)[ℓⁿ] by the Kummer sequence and Hilbert 90 of SchemeAndStackFoundations §2.11 (the global units of X are kˣ, which is ℓ-divisible), Pic(X) is torsion-free by Riemann–Roch (a torsion line bundle has χ=2, so it or its dual is effective, and an effective torsion bundle is trivial; Huybrechts draft Remark 1.2.5, p.12), and b₃=b₁ by Poincaré duality. (ii) NS(X), of signature (1,21) by the Hodge index theorem of SchemeAndStackFoundations §5.10, is an indefinite rational quadratic space of rank at least five, hence isotropic over ℚ by the Hasse–Minkowski theorem of GlobalQuadraticForms §5.5, whose local isotropy in rank at least five comes from its own prerequisites (Huybrechts draft Proposition 11.1.3, p.208); clear denominators to a primitive isotropic class. (iii) By Riemann–Roch that class or its negative is effective; carry it into the nef cone by finitely many reflections in smooth rational curves, each step lowering the degree against a fixed ample class (Huybrechts draft Remark 8.2.13, p.151), to a primitive nef D₀ with D₀²=0, and prove that D₀ is base point free and moves in a pencil whose Stein factorization is the relatively minimal genus-one fibration (Huybrechts draft Proposition 2.3.10, p.32). (iv) Prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic at least five the generic member of (iii) is a smooth genus-one curve; in characteristic three, establish the smooth-generic-fibre pencil construction, selecting the class of (ii) inside the rank-22 Néron–Severi lattice of (i), rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it proves ρ(X)=22 from unirationality rather than assuming Picard rank at least five, and it does not assume the desired differential vanishing.
+1. First build the surface-resolution adapter needed for these quotients: take a separating projective pencil on the normal excellent projective quotient whose base locus is smooth and whose generic member avoids its finite singular set, resolve its base points, and use StableReduction Layer 4's normalized-blowup resolution of models with smooth generic curve over each relevant local base DVR. Prove the covers glue to a projective resolution and retain canonical discrepancies. Curve normalization in SchemeAndStackFoundations §4.13 is not this surface theorem, and a characteristic-zero Hironaka input is not permitted. From a nonzero global vector field, take the nonzero global field D of additive or multiplicative type given by the restricted structure above. Its saturated rank-one distribution is p-closed: Hochschild's formula keeps the p-th power of every local multiple of D in O_X·D, and sending a local section of the saturation to its p-th power modulo the saturation is p-linear with values in the torsion-free quotient of T_X by the saturation, hence zero because it vanishes where the saturation is O_X·D. Construct its height-one purely inseparable quotient from the invariant subalgebras, the normalization, local zero/divisorial data, the canonical-divisor formula and its minimal-resolution comparison. Carry the additive and multiplicative cases separately, with the p-th power of vector fields defined above. Write L=O_X(Δ) for the saturation of the line spanned by the derivation in T_X, with Δ≥0 the divisorial part of its zero locus, π:X→Y for the quotient, which is normal and projective because the Frobenius of X factors through it, and f:Ỹ→Y for the minimal resolution, obtained from the adapter by contracting the (−1)-curves of the exceptional locus (Liedtke, Theorem 4.2, p.20). The quotient is smooth exactly where T_X/L is locally free, and the canonical-divisor formula gives π^*ω_Y≃L^(−(p−1)) over the smooth locus of Y (Huybrechts draft Proposition 9.4.6, p.180). Prove (U): Y is rational in two cases, so that X, purely inseparable over a rational surface through the Frobenius factorization X→Y→X^(1), is unirational (Huybrechts draft Proposition 9.4.6, pp.180–181; Rudakov–Šafarevič 1976, Theorem 5 and Corollary 1, pp.1216–1217). (a) Divisorial case Δ≠0: a section of ω_Ỹ^n with n>0 restricts to the smooth locus of Y, pulls back to a section of O_X(−n(p−1)Δ) over the complement of finitely many points of X, extends by normality and vanishes because Δ is a nonzero effective divisor; so every plurigenus of Ỹ is zero and Ỹ is birationally ruled over a smooth curve C with h¹(Ỹ,O_Ỹ)=g(C)=b₁(Ỹ)/2, by Enriques' ruledness theorem of the SchemeAndStackFoundations contract (gap:enriques-ruledness) stated under the supplier contracts. Blow up X at the finitely many indeterminacy points of X⇢Ỹ to a morphism ρ:X″→Ỹ (Liedtke, §4.3, p.20); ρ_*ρ^*=deg(ρ)·id on H¹_ét(Ỹ,ℚ_ℓ) by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6, so b₁(Ỹ)≤b₁(X″)=b₁(X)=0, the equality by the blow-up decomposition F.7 and the vanishing by the Kummer computation in (i) below, which uses no unirationality. Hence h¹(Ỹ,O_Ỹ)=0 and h⁰(ω_Ỹ²)=0, and Ỹ is rational by the Castelnuovo–Zariski criterion of NeronModelsAndSemistableAbelianVarietiesPartII §6.1. (b) Isolated case Δ=0, so L=O_X and T_X/L≃I_Z for the finite zero scheme Z of the derivation: π^*ω_Y is trivial over the smooth locus of Y, so ω_Y^p is trivial there: over that locus π is finite locally free of degree p, and the norm functor of ModularCurves §2B along π sends π^*ω_Y to ω_Y^p, since on local trivializations the norm of a unit pulled back from Y is its p-th power; and ω_Ỹ^p≃O_Ỹ(Σb_iE_i) with integers b_i and E_i the exceptional curves of f. The exceptional intersection form is negative definite by the Hodge index theorem of SchemeAndStackFoundations §5.10, since the pullback of an ample class of Y has positive square and is orthogonal to every E_i; minimality gives K_Ỹ·E_j≥0 for every j; hence every b_i≤0. If some plurigenus of Ỹ were nonzero, the anti-effective divisor nΣb_iE_i would be linearly equivalent to an effective one, so every b_i=0 and K_Ỹ is numerically trivial; then each E_i is a smooth rational curve of square −2 by the adjunction formula of SchemeAndStackFoundations §5.10, negative definiteness makes each connected component of the exceptional curve a tree of such curves meeting transversally (two of them meet at most once, and a cycle of m of them has square 0), so a component of n curves has ℓ-adic Euler number n+1. These components, of n_1,…,n_s curves, are the fibres of f over the s points of Y to which f contracts a curve: each such fibre is connected by Zariski's connectedness theorem of SchemeAndStackFoundations §4.9, which applies because the finite part of the Stein factorization of f (same section) is birational onto the normal Y, hence an isomorphism, so f_*O_Ỹ=O_Y; and every singular point of Y is among the s points, because a point y of Y with finite fibre has an open neighbourhood V over which f, proper since Ỹ is proper and Y separated over k, is finite (Mathlib `AlgebraicGeometry.exists_isFinite_morphismRestrict_of_finite_preimage_singleton`, Stacks Tag 02UP), and birational, hence an isomorphism onto the normal V. The localization sequence of compact-support cohomology (EtaleCohomologyFoundations F.2.5) therefore gives e(Ỹ)=e(Y)−s+Σ_r(n_r+1)=e(Y)+Σ_r n_r, where e(Y)=e(X)=24 because π is a universal homeomorphism (EtaleCohomologyFoundations F.0.4) and e(X)=24 by the étale Gauss–Bonnet count in (i) below. Noether's formula on Ỹ with K_Ỹ²=0 and h⁰(ω_Ỹ)≤1 gives e(Ỹ)=12χ(O_Ỹ)≤24, so Σ_r n_r=0, f contracts no curve, Y is smooth, T_X/L≃I_Z is locally free, Z=∅ and the derivation is nowhere zero, making T_X an extension of O_X by O_X with c₂(T_X)=0, against c₂=24 from §0.1. Hence every plurigenus of Ỹ vanishes and Ỹ is rational by the argument of (a). Then produce the pencil in four named sub-targets of K0.A. (i) For every algebraically closed field k, of any characteristic, a unirational K3 surface X/k has Picard number ρ(X)=22; no step of this sub-target uses the characteristic: resolve the indeterminacy of a dominant rational map ℙ²⇢X to a morphism π:Y→X from a blow-up of ℙ², whose H²_ét is spanned by cycle classes by the blow-up decomposition of EtaleCohomologyFoundations F.7; π^* is injective on H²_ét(X,ℚ_ℓ(1)) because π_*π^*=deg(π)·id by the projection formula and Poincaré duality of EtaleCohomologyFoundations F.5–F.6; π^* and π_* carry the cycle classes of EtaleCohomologyFoundations §0.9 to cycle classes, and the cycle-class map is injective on NS(X)⊗ℚ_ℓ because it respects intersection numbers and Pic(X)=Num(X) on a K3; hence H²_ét(X,ℚ_ℓ(1)) is spanned by cycle classes and ρ(X)=b₂(X) (Huybrechts draft Proposition 17.2.7, pp.367–368). The same injectivity bounds the rank of Num(X) by b₂(X); an integral nondegenerate pairing on a torsion-free group of finite rank r embeds it, by coordinates in a ℚ-basis taken inside the group, in (1/D)ℤ^r for D≠0 the Gram determinant of that basis, so Pic(X)=Num(X) is finitely generated and free, and `finrank_lineBundleClass_eq_twentyTwo_of_unirational` states (i) as the equation that the ℤ-rank of the group of line-bundle classes is 22, for every algebraic K3 surface admitting a dominant rational k-map from 𝔸²_k. Compute b₂(X)=22: the étale Gauss–Bonnet identity of EtaleCohomologyFoundations F.6 gives Σ(−1)ⁱbᵢ=deg c₂(T_X)=24 with §0.1’s Noether computation; b₀=b₄=1; and b₁=b₃=0 because H¹_ét(X,μ_ℓⁿ)≃Pic(X)[ℓⁿ] by the Kummer sequence and Hilbert 90 of SchemeAndStackFoundations §2.11 (the global units of X are kˣ, which is ℓ-divisible), Pic(X) is torsion-free by Riemann–Roch (a torsion line bundle has χ=2, so it or its dual is effective, and an effective torsion bundle is trivial; Huybrechts draft Remark 1.2.5, p.12), and b₃=b₁ by Poincaré duality. (ii) NS(X), of signature (1,21) by the Hodge index theorem of SchemeAndStackFoundations §5.10, is an indefinite rational quadratic space of rank at least five, hence isotropic over ℚ by the Hasse–Minkowski theorem of GlobalQuadraticForms §5.5, whose local isotropy in rank at least five comes from its own prerequisites (Huybrechts draft Proposition 11.1.3, p.208); clear denominators to a primitive isotropic class. (iii) By Riemann–Roch that class or its negative is effective; carry it into the nef cone by finitely many reflections in smooth rational curves, each step lowering the degree against a fixed ample class (Huybrechts draft Remark 8.2.13, p.151), to a primitive nef D₀ with D₀²=0, and prove that D₀ is base point free and moves in a pencil whose Stein factorization is the relatively minimal genus-one fibration (Huybrechts draft Proposition 2.3.10, p.32). (iv) Prove the generic fibre is smooth, that there are no multiple fibres, and that there are at least two singular fibres. In characteristic at least five the generic member of (iii) is a smooth genus-one curve; in characteristic three, establish the smooth-generic-fibre pencil construction, selecting the class of (ii) inside the rank-22 Néron–Severi lattice of (i), rather than silently substituting a quasi-elliptic fibration. This vector-field-to-pencil lemma is part of K0.A, with its invariant-function, divisor, Riemann–Roch and resolution proof, not an assumption that every K3 is elliptic. In particular it proves ρ(X)=22 from unirationality rather than assuming Picard rank at least five, and it does not assume the desired differential vanishing.
 2. For that actual pencil f:X→ℙ¹, construct the map of connected automorphism group schemes to Aut(ℙ¹), its vertical kernel and horizontal image, and their tangent maps. Use the Jacobian/torsor model to determine the vertical component when there are no multiple fibres. Determine which α_p or μ_p horizontal actions extend across every minimal regular fibre by local Weierstrass coordinates, including wild conductor contributions. The corrected fibre analysis, not an unrestricted linearization assertion about a non-linearly-reductive group, is the producer.
 3. Prove the resulting exhaustive alternatives with nonzero vector field: c₂=0; a rational Jacobian isotrivial surface with two singular fibres; the characteristic-three exceptional two-fibre configurations; or a single-singular-fibre isotrivial case in the small characteristics. Compute the local discriminant/conductor and component contributions using the minimal equations and Ogg's formula in every residue characteristic, 3 included (NeronModelsAndSemistableAbelianVarieties §5.3e, applied to the completed local rings of ℙ¹, whose residue field k is perfect). Show none of the alternatives with at least two singular fibres has c₂=24. The characteristic-three wild alternatives must be explicitly eliminated, not discarded with the characteristic-two branch.
 4. Conclude that D could not exist, transport through contraction, and export zero-section and functorial global-section statements. Supply the algebraic Serre-dual consequence H²(T_X)=0 separately, with its actual duality map; this consequence is not an input to steps 1–3.
@@ -349,6 +385,10 @@ blow-up of ℙ², would give b₁(A)=0 whereas b₁(A)=4. Sub-target (i) is vacu
 characteristic 0: a dominant rational map from ℙ² is separable there, and composed with the resolution of its indeterminacy
 it would pull the nowhere-zero two-form σ back to a nonzero two-form on a blow-up of
 ℙ², which has none; so (i) does not contradict the complex bound ρ≤20.
+The K3 hypothesis of (i) is needed: ℙ² is unirational through the inclusion of 𝔸²,
+and ℙ¹×ℙ¹ through the birational map 𝔸²⇢ℙ¹×ℙ¹, and their Picard groups have
+ranks 1 and 2, equal to their b₂ as the argument ρ=b₂ predicts; the value 22 in (i)
+is b₂ of a K3 surface, from c₂=24 and b₁=b₃=0.
 
 ### Dependencies
 
@@ -597,15 +637,15 @@ The period-domain and Hodge-locus API is:
   conditions descend. A period has a nonzero representative.
 - For z=x+iy, the equations say B(x,x)=B(y,y)>0 and B(x,y)=0; the
   oriented plane is spanned by (x,y). Ω_Λ has dimension 20 and is connected;
-  Ω_h has dimension 19 and two components (Huybrechts draft §6.1.1–§6.1.5,
-  pp.99–101).
+  Ω_h has dimension 19 and two components (Huybrechts draft §§6.1.1–6.1.2,
+  Proposition 6.1.5 and Remark 6.1.6, pp.99–101).
 - The period map is holomorphic and natural under base change and marking
   change. Its derivative is the contraction/Kodaira–Spencer isomorphism
   (Huybrechts draft Proposition 6.2.8, p.107).
 - Hodge hyperplanes for nonzero rational classes are proper unless forced by
   the polarization; their countable union has a dense complement in any
   nonempty period ball not contained in one of them (Huybrechts draft §6.2.5,
-  pp.108–109, and §7.3.8–§7.3.9, p.133). The complement is a very-general set, not necessarily Zariski open.
+  pp.108–109, and Remark 7.3.8 and Proposition 7.3.9, p.133). The complement is a very-general set, not necessarily Zariski open.
 
 **Checks.**
 
@@ -778,7 +818,8 @@ hyperplanes and their rational-double-point contractions.
   Kähler cone is all C_X. The statement refers to H¹,¹(X,ℝ), not just NS_ℝ.
 
 *Needs:* §6.1; Layer 1's integral (1,1), Riemann–Roch and positivity comparisons;
-IntegralLattices §§0G, 1B–1F for the integral pairing and primitive embeddings.
+IntegralLattices §§0G and 1B–1F for the integral pairing and §§5F–5G for primitive
+embeddings.
 
 ### Examples
 
@@ -858,10 +899,77 @@ The graph API is:
   unique action extends to the unique action. A positive-rank zero form fails
   nondegeneracy, whereas a nondegenerate indefinite form is permitted.
 
+**Discriminant surjectivity for the invariant lattice.** Write M=U⊕E₈(−1), with
+e,f the standard basis of U, so that S=M(2) and T≃U⊕S. Prove that O(S)→O(q_S),
+that is `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` for S, is
+surjective: every isometry of the discriminant quadratic form of S is induced by an
+integral isometry of S. Deduce, through g↦id_U⊕g, that O(T)→O(q_T) is surjective,
+and that its restriction to O⁺(T) is too, because −id_U⊕id_S acts trivially on
+A_T=A_S and reverses the orientation of positive two-planes, so exchanges the two
+components of the period domain of T. Both surjections are stated in
+Gritsenko–Hulek v2, §2, p.3, as consequences of Nikulin's Theorem 3.6.3, whose
+general form is not an input here. The route: the dual of S is ½M
+(`TauCeti.IntegralLattice.dualCarrier_smul`), and x/2↦x mod 2M
+identifies A_S with the ten-dimensional 𝔽₂-space M/2M, carrying q_S to Q/2 for the
+form Q(x̄)=B(x,x)/2 mod 2, whose polar form B mod 2 is nondegenerate because M is
+unimodular. Every class with Q=1 contains a vector r∈M with r²=−2: e−f; e+f+y for
+y∈E₈(−1) with y²=−4; and y, e+y, f+y for y a root of E₈(−1). The reflection
+x↦x+(x,r)r is an integral isometry of M, hence of S, and acts on M/2M as the
+orthogonal transvection x̄↦x̄+b(x̄,r̄)r̄, which is
+`TauCeti.QuadraticMap.reflectionOrthogonal` in r̄. Prove that orthogonal transvections
+generate the orthogonal group of every nonsingular finite-dimensional quadratic space
+over a field of characteristic two other than the sum of two hyperbolic planes over 𝔽₂
+(Hunnell–Hutchens–Schwartz v3, §3, p.6). As M/2M has dimension 10, the reflections in
+roots of M induce all of O(q_S).
+
+The discriminant-surjectivity API is:
+
+- An integral isometry g of M is an integral isometry of S, and acts on
+  A_S≃M/2M as its reduction modulo 2; identities, composites and inverses
+  reduce to identities, composites and inverses.
+- The reflection in a root r of M acts on A_S as the orthogonal transvection in
+  r̄, and every class with Q=1 is the class of a root.
+- O(S)→O(q_S), O(T)→O(q_T) and O⁺(T)→O(q_T) are surjective, so O(q_S) is the
+  quotient of O(S) by its discriminant kernel; O(q_S) is the orthogonal
+  group of a ten-dimensional 𝔽₂-quadratic space of plus type (a sum of five
+  hyperbolic planes), of order
+  2²¹·3⁵·5²·7·17·31 (Gritsenko–Hulek v2, §2, p.3).
+
+**Checks.**
+
+- U/2U has one class with Q=1 and three with Q=0, and E₈/2E₈ has 120 root
+  classes with Q=1 and 1+135 with Q=0, so M/2M has 1·136+3·120=496=2⁹−2⁴
+  classes with Q=1, the count for plus type in dimension 10. The listed
+  representatives have squares (e−f)²=−2, (e+f+y)²=2−4=−2, y²=−2 and
+  (e+y)²=(f+y)²=0−2=−2. Reflections in roots of E₈(−1) alone induce
+  transvections only in the 120 classes with zero U-component, and the group
+  they generate fixes U/2U pointwise, so it is not all of O(q_S).
+- For U(2), A=U/2U with Q(ē)=Q(f̄)=0 and Q(ē+f̄)=1, so O(q) is {id, ē↔f̄}.
+  The reflection in e−f sends e to f and f to e, and the transvection in ē+f̄
+  sends ē to ē+(ē+f̄)=f̄; the root reflection reaches the nontrivial element,
+  whereas ±id reduce to the identity.
+- The map x̄↦x̄+b(x̄,ē)ē preserves the polar form but sends f̄, with Q=0, to
+  ē+f̄, with Q=1. It lies in the symplectic group of b and not in O(q_S): the
+  target is the orthogonal group of q_S, and only classes with Q=1 define
+  transvections.
+- The exception in the generation theorem is real and the dimension matters: on
+  the sum of two hyperbolic planes over 𝔽₂ the 2³−2=6 transvections generate a
+  subgroup of order 36 in an orthogonal group of order 2·2²·3·3=72, while on the
+  sum of three the 2⁵−2²=28 transvections generate all 2·2⁶·7·3·15=40320
+  elements. A route through U(2)⊕U(2) would therefore need another argument.
+- Surjectivity is not automatic: for ⟨12⟩, A=ℤ/12 with q(x/12)=x²/24 mod ℤ,
+  and 1, 5, 7, 11 all square to 1 modulo 24, so O(q) has four elements, while
+  O(⟨12⟩)={±1} reaches only 1 and 11.
+
 *Needs:* native IntegralLattice and discriminant/overlattice APIs;
-IntegralLattices §§1E–1F and 5J for the K3 graph identification and its
-2-elementary invariants. No geometric surface or Enriques numerical theorem
-is an input to the abstract extension criterion.
+IntegralLattices §§0G, 1E–1F and 5J for U, E₈(−1), the K3 graph identification and its
+2-elementary invariants; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup` and
+`TauCeti.QuadraticMap.reflectionOrthogonal` for the 𝔽₂-quadratic space M/2M and its
+transvections, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` and its kernel
+for O(S)→O(q_S), and `TauCeti.IntegralLattice.scale` with
+`TauCeti.IntegralLattice.dualCarrier_smul` for S=M(2) and its dual. The characteristic-two generation by transvections and the discriminant
+surjectivity are targets of this subsection. No geometric surface or Enriques numerical
+theorem is an input to the abstract extension criterion.
 
 ### 7.2 Geometric involutions (K7.B)
 
@@ -921,7 +1029,7 @@ cohomology comparison and metrics;
 HopfRinow Layer 1 for the Riemannian exponential. Equivariant linearization,
 the normal-index comparison and the finite-order specialization are targets here.
 
-On a K3 with such a marked primitive S in NS and a Kähler chamber compatible with the involution, the lattice involution is Hodge and preserves that chamber. Apply K6 to construct the involution of the surface, prove its square is identity and that its action on the holomorphic two-form is −1. Own the geometric fixed-locus criterion: compute invariant/anti-invariant line bundles and local involution action, use the clean topological Lefschetz formula just constructed and the adjunction identity and the integral two-elementary data to classify the possible fixed curves, and prove that invariant lattice U(2)⊕E₈(−2) is precisely the fixed-point-free Enriques case. For any non-symplectic involution on a complex K3, let r be the rank, a the discriminant length and δ the discriminant parity of its invariant lattice. Its fixed locus is empty for (r,a,δ)=(10,10,0), two elliptic curves for (10,8,0), and otherwise a genus (22−r−a)/2 curve and (r−a)/2 rational curves (Artebani–Sarti–Taki v2, Theorem 3.1, p.10). This includes the exceptional empty-fixed-locus case; the usual genus/component formula cannot be applied to it mechanically. IntegralLattices §5J supplies lattice classification, not this geometric fixed-locus theorem.
+On a K3 with such a marked primitive S in NS and a Kähler chamber compatible with the involution, the lattice involution is Hodge and preserves that chamber. Apply K6 to construct the involution of the surface, prove its square is identity and that its action on the holomorphic two-form is −1. Own the geometric fixed-locus criterion: compute invariant/anti-invariant line bundles and local involution action, use the clean topological Lefschetz formula just constructed and the adjunction identity and the integral two-elementary data to classify the possible fixed curves, and prove that invariant lattice U(2)⊕E₈(−2) is precisely the fixed-point-free Enriques case. For any non-symplectic involution on a complex K3, let r be the rank, a the discriminant length and δ the discriminant parity of its invariant lattice. Its fixed locus is empty for (r,a,δ)=(10,10,0), two elliptic curves for (10,8,0), and otherwise a genus (22−r−a)/2 curve and (r−a)/2 rational curves (Artebani–Sarti–Taki v2, Theorem 3.1, p.10). This includes the exceptional empty-fixed-locus case; the usual genus/component formula cannot be applied to it mechanically. The invariants (10,10,0) determine the invariant lattice S up to isometry: a=r forces S=2S*, so the form of S divided by 2 is integral and unimodular on S, even because δ=0, and of signature (1,9) because the invariant part lies in H¹,¹ and contains an invariant Kähler class; by IntegralLattices §6A it is U⊕E₈(−1), so S≃U(2)⊕E₈(−2). IntegralLattices §5J supplies the invariants (r,a,δ) and the existence and genus theorem for 2-elementary lattices, not their isometry classes in general and not this geometric fixed-locus theorem.
 
 Construct the free finite quotient by the actual order-two action, its projectivity in the algebraic case, finite étaleness, canonical character, H¹(O)=0 and nontrivial order-two canonical bundle. (Huybrechts draft §15.4.3(ii), p.330; Artebani–Sarti–Taki v2, Theorem 3.1, p.10.)
 
@@ -945,8 +1053,12 @@ identity/composition maps on quotient isomorphisms.
 - A free quotient has χ(O_X)=2=2·χ(O_Y), hence χ(O_Y)=1. The canonical
   character is −1 of order two; in characteristic 2 that character would be 1,
   so this complex finite-étale argument is not a characteristic-two assertion.
+- For (10,10,0), U(2)⊕E₈(−2) has form divided by 2 equal to U⊕E₈(−1), even
+  unimodular of determinant −1. The lattice ⟨2⟩⊕⟨−2⟩⁹ has the same r=a=10 but
+  q(e/2)=2·(1/4)/2=1/4, so δ=1, and its form divided by 2 is the odd
+  ⟨1⟩⊕⟨−1⟩⁹; the parity δ, not r and a alone, selects U⊕E₈(−1) in §6A.
 
-*Needs:* Layers 1–2, §§6.1–6.2, §7.1, IntegralLattices §5J,
+*Needs:* Layers 1–2, §§6.1–6.2, §7.1, IntegralLattices §§5J and 6A,
 the clean fixed-locus formula above and SchemeAndStackFoundations §1.17. The fixed-locus classification
 is geometric and is not supplied by classification of 2-elementary lattices.
 
@@ -962,9 +1074,9 @@ where div_T(δ) is the positive generator of the ideal B(δ,T)⊂ℤ.
 A point belongs to Ω_free if and only if it is the period of a complex K3
 with a fixed-point-free involution and an integral marking intertwining its action
 with ι. Markings may change by integral isometries of Λ commuting with ι and
-preserving Ω⁺_T. Their restrictions to T form O⁺(T), by the gluing criterion
-and surjectivity O(S)→O(q_S); fixing the S-marking instead gives the kernel
-of O⁺(T)→O(q_T). Prove that O⁺(T)\Ω_free classifies isomorphism classes
+preserving Ω⁺_T. Their restrictions to T form O⁺(T), by `gluing_isometry_extension_iff`
+and the surjectivity O(S)→O(q_S) of §7.1; fixing the S-marking instead gives the kernel
+of O⁺(T)→O(q_T), a map that §7.1 proves surjective. Prove that O⁺(T)\Ω_free classifies isomorphism classes
 of free pairs, with isomorphisms conjugating the involutions. This is a bijection
 on isomorphism classes; it does not assert a fine universal family on the quotient
 (Gritsenko–Hulek v2, §2, pp.3–5, Theorem 2.1 and Remark 2.2).
@@ -979,8 +1091,8 @@ Hodge class is not asserted to be an irreducible curve difference without the
 chamber/effectivity argument (Gritsenko–Hulek v2, §3, p.8, equation (8)
 and the paragraph citing Namikawa Proposition 6.2; Dolgachev v2, §5, pp.15–17).
 
-*Needs:* §7.1–§7.2; §6.1–§6.2; IntegralLattices §5J for the discriminant
-surjectivity; SchemeAndStackFoundations §1.17 for the finite quotient.
+*Needs:* §7.1–§7.2, including §7.1's discriminant surjectivity; §6.1–§6.2;
+SchemeAndStackFoundations §1.17 for the finite quotient.
 
 The period-locus API is:
 
@@ -1011,8 +1123,9 @@ Thus vanishing of the Lefschetz number alone does not prove freeness.
 
 ### Dependencies
 
-§7.1 needs the native lattice/discriminant API and IntegralLattices §§1E–1F.
-§7.2 needs Layers 1, 2 and 6, IntegralLattices §5J and its clean fixed-locus
+§7.1 needs the native lattice/discriminant API, IntegralLattices §§0G, 1E–1F and 5J, and
+Tau Ceti's orthogonal group of a quadratic form for its discriminant surjectivity.
+§7.2 needs Layers 1, 2 and 6, IntegralLattices §§5J and 6A and its clean fixed-locus
 formula from MorseNovikov N5–N7 and the geometric inputs on its Needs line.
 IndexTheory I8 is used in §2.1 for a fixed-point-free deck action; it is not a
 fixed-curve formula.
@@ -1024,10 +1137,11 @@ EnriquesSurfaces E1 uses §0.2 and Layers 1–2. Its E6.U0–U4 uses Layer 7
 and strong Torelli for primitive canonical-cover pullback and automorphism
 descent with the actual ample cone and discriminant compatibility retained.
 K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations: its
-§2.1a consumes §0.2's vanishing theorem and its unirationality reduction (U) at
-p=2, the one positive characteristic outside the vanishing theorem's binder,
-without restating the reduction, and its §§2.1a and 6.0c consume step 1's rank
-theorem (i).
+§2.1a consumes §0.2's vanishing theorem and its unirationality reduction (U),
+`unirational_of_nontrivial_vectorField`, at p=2, the one positive characteristic
+outside the vanishing theorem's binder, without restating the reduction, and its
+§§2.1a and 6.0c consume step 1's rank theorem (i),
+`finrank_lineBundleClass_eq_twentyTwo_of_unirational`.
 
 ## References
 
@@ -1049,6 +1163,10 @@ theorem (i).
   in its bibliography.
 - Gritsenko–Hulek, *Moduli of polarized Enriques surfaces*,
   [arXiv:1502.02723v2](https://arxiv.org/abs/1502.02723v2), §§2–3, pp.3–8.
+- Hunnell–Hutchens–Schwartz, *On involutions of type O(q,k) over a field of
+  characteristic two*, [arXiv:1903.09904v3](https://arxiv.org/abs/1903.09904v3),
+  §3, p.6, for generation of the orthogonal group of a nonsingular quadratic space
+  in characteristic two by orthogonal transvections, with its one exception over 𝔽₂.
 - Dolgachev, *A brief introduction to Enriques surfaces*,
   [arXiv:1412.7744v2](https://arxiv.org/abs/1412.7744v2), §5, pp.15–17.
 - Nikulin, *Factor groups of groups of automorphisms of hyperbolic forms with

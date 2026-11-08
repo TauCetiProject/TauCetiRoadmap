@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Basic
+import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Operations
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Basic
 
@@ -10,7 +11,9 @@ import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Basic
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: algebraic differential/vector-field
-vanishing and integral extension through the discriminant gluing graph.
+vanishing, the unirationality of a K3 surface with a nonzero vector field in every
+positive characteristic, Picard number 22 for unirational K3 surfaces in every
+characteristic, and integral extension through the discriminant gluing graph.
 
 The remaining headlines cannot yet be stated on their geometric carriers:
 * Kählerness, the Hodge diamond, integral (1,1) and projectivity comparisons need
@@ -33,6 +36,8 @@ namespace TauCetiRoadmap.K3Surfaces
 
 open CategoryTheory AlgebraicGeometry
 
+universe u
+
 /-! ## Layer 0: Algebraic surfaces and differential vanishing -/
 
 /-- An algebraic K3 over an algebraically closed field: a smooth proper geometrically
@@ -53,6 +58,28 @@ theorem algebraicK3_differential_vanishing
     (X : Scheme) [X.Over (Spec (.of k))] (hX : IsAlgebraicK3 k X) :
     Subsingleton (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology (X.relativeDifferentials k) 0) ∧
     Subsingleton (X.relativeDifferentials k ⟶ SheafOfModules.unit X.ringCatSheaf) := by
+  sorry
+
+/-- The unirationality reduction (U): over an algebraically closed field of characteristic
+p > 0, p = 2 included, a K3 surface with a nonzero global vector field admits a dominant
+rational k-map from the affine plane, equivalently from the projective plane
+(Rudakov–Šafarevič 1976, §2, Theorem 5 and Corollary 1; Huybrechts, Proposition 9.4.6). -/
+theorem unirational_of_nontrivial_vectorField
+    (k : Type u) [Field k] [IsAlgClosed k] (p : ℕ) (hp : p.Prime) [CharP k p]
+    (X : Scheme.{u}) [X.Over (Spec (.of k))] (hX : IsAlgebraicK3 k X)
+    (hD : Nontrivial (X.relativeDifferentials k ⟶ SheafOfModules.unit X.ringCatSheaf)) :
+    ∃ f : 𝔸(ULift.{u} (Fin 2); Spec (.of k)) ⤏ X, f.IsOver (Spec (.of k)) ∧ f.IsDominant := by
+  sorry
+
+/-- A unirational K3 surface over an algebraically closed field of any characteristic has
+Picard number 22. For a K3 surface Pic = NS = Num, so the Picard number is the ℤ-rank of the
+group of line-bundle classes (Huybrechts, Propositions 17.2.7 and 1.2.4). -/
+theorem finrank_lineBundleClass_eq_twentyTwo_of_unirational
+    (k : Type u) [Field k] [IsAlgClosed k]
+    (X : Scheme.{u}) [X.Over (Spec (.of k))] (hX : IsAlgebraicK3 k X)
+    (hU : ∃ f : 𝔸(ULift.{u} (Fin 2); Spec (.of k)) ⤏ X,
+      f.IsOver (Spec (.of k)) ∧ f.IsDominant) :
+    Module.finrank ℤ (Additive (TauCeti.AlgebraicGeometry.LineBundleClass X)) = 22 := by
   sorry
 
 /-! ## Layer 7: Integral involutions and gluing -/
