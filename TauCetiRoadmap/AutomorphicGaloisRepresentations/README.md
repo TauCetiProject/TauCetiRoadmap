@@ -229,16 +229,30 @@ Over a complete ultrametric normed commutative ring, as every coefficient algebr
 `f↦g·f(h)` between series restricted at positive polyradii, for substituted series `h_i`
 of Gauss norm at most the radius of `X_i`; by
 `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`, the map of `(g′,h′)` followed by
-the map of `(g,h)` is the map of `(g·g′(h),h′(h))`. Each slash operator of §0.2a is such a
-map, with `g=j_κ(γ)` and `h=w_γ`, so its action law reduces to the cocycle of the
-automorphy factors and the composition of the `w_γ`. `ContinuousLinearMap.charPowerSeries`
-in `TauCeti.Analysis.Normed.Operator.Nonarchimedean.PrModule.Basic` is the Fredholm series
+the map of `(g,h)` is the map of `(g·g′(h),h′(h))`, and
+`TauCeti.MvPowerSeries.norm_restrictedWeightedSubstCLM_apply_le` bounds `‖g·f(h)‖` by
+`‖g‖‖f‖`. Each slash operator on the unit-radius module `R⟨z_σ⟩` of §0.2a is such a map,
+with `g=j_κ(γ)` and `h=w_γ`, so its action law reduces to the cocycle of the automorphy
+factors and the composition of the `w_γ`, and its norm is at most `‖j_κ(γ)‖`. On a stage
+of §0.2b, a finite product of Tate algebras, a slash operator is a finite matrix of such
+maps, indexed by the discs and by a basis of the algebraic factors: the component of `f|γ`
+on a disc `B` is the rescaled substitution applied to the component of `f` on the disc
+containing `w_γ(B)`, tensored with the matrix of `γ` on the algebraic factors.
+`ContinuousLinearMap.charPowerSeries` in
+`TauCeti.Analysis.Normed.Operator.Nonarchimedean.PrModule.Basic` is the Fredholm series
 `det(1−Tu)` of an endomorphism `u` of a module with property (Pr) (`TauCeti.HasPr`). If
 moreover the scalars have `‖1‖=1` and a multiplicative pseudo-uniformizer
 (`TauCeti.NormedRing.IsTate`), as the Banach–Tate algebras of §0.2a do, and `u` is row
 compact (`ContinuousLinearMap.IsPrCompact`), it is the principal-minor series of `i∘u∘r`
 for every retract presentation `r∘i=id` through a model space
 (`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`). It is the series `H_κ` of §0.2e.
+Over the same scalars, `ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm` gives
+`det(1−T(u∘v))=det(1−T(v∘u))` for a row-compact map `u` between two modules with property
+(Pr) and any continuous linear map `v` back, and
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_conj` gives invariance of the series of a
+row-compact endomorphism under conjugation by a continuous linear equivalence; these are
+the cyclicity and conjugation invariance of CompactOperators §1.4, and they carry the
+radius and splitting independence of §0.2e.
 
 The analytic eigenform and newform carriers are
 `HeckeRing.GL2.EigenformAwayFromLevel` and `HeckeRing.GL2.Newform` in
@@ -761,7 +775,8 @@ determinant valuation `e` by the inverse of its value at `ϖ_v^e`. For `γ∈Σ�
 `f|γ=j_κ(γ)·f(w_γ)` is a bounded operator on `R⟨z_σ:σ∈Σ_v⟩`, independent of the
 expansion chosen, with `f|1=f` and `(f|γ)|δ=f|(γδ)`. The restricted algebra is thereby a
 right `Σ₀(ϖ_v^t)`-module in the convention of §R17.3.8b. If `‖j_κ(γ)‖≤1` and `‖w_γ‖≤1`
-the operator has norm at most one, as on an integral norm model. Smaller radii are the
+the operator has norm at most one, as on an integral norm model, by Tau Ceti's
+`TauCeti.MvPowerSeries.norm_restrictedWeightedSubstCLM_apply_le`. Smaller radii are the
 stages of §0.2b.
 
 - The pair `(n,ν₀)` is the same datum as the continuous character `χ(x,y)=n(x)ν₀(y)` of
@@ -842,7 +857,8 @@ follows from the expansion `w_γ=b/d+(det γ/d²)z∑_k(−cz/d)^k`.)
 *Needs:* GL2AutomorphicRepresentationsAndTransfer §§R17.3.8a, R17.3.8b, R17.3.8d;
 RestrictedPowerSeries §§0.1, 1.1–1.3, 2.2, 2.4; PadicFunctionalAnalysis §§0.4, 1.1, 4.6,
 5.2–5.5; CompactOperators §0.3; Tau Ceti `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`,
-`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`.
+`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM_comp`,
+`TauCeti.MvPowerSeries.norm_restrictedWeightedSubstCLM_apply_le`.
 
 ### 0.2b Several places and analytic stages
 
@@ -856,11 +872,13 @@ union of the closed polydiscs of radius `r` centred at the images of the points 
 `B_{v,r}`, with the slash action of §0.2a; at `r=1` this is §0.2a's module. Since
 `|σ(x)|=|x|_v` for every `σ`, at `r=|ϖ_v|^s` the polydiscs at `v` are indexed by
 `𝒪_v/ϖ_v^s`; when `F_v=ℚ_p` the disc of `a` has the coordinate `w` with `z=a+p^sw`.
-Write `A_{κ,r}` as a finite product of Tate algebras, with the permutation of discs and
-the rescaled substitution by which each element of `Σ₀(ϖ_v^t)` acts, and prove *the
-stage compatibility*: the actions commute with change of radius, refinement of the disc
-cover and restriction. An element of `Σ₀(ϖ_v^t)` maps each disc of radius `r` into a
-disc of radius `r`, by the difference formula for `w_γ` in §0.2a.
+Write `A_{κ,r}` as a finite product of Tate algebras, with the map of discs and the
+rescaled substitutions by which each element of `Σ₀(ϖ_v^t)` acts, and prove *the stage
+compatibility*: the actions commute with change of radius, refinement of the disc cover
+and restriction. An element `γ` of `Σ₀(ϖ_v^t)` maps each disc of radius `r` into a disc
+of radius `r`, by the difference formula for `w_γ` in §0.2a. When `det γ` is a unit,
+`w_γ` is an isometry of `𝒪_v` with inverse `w_{γ⁻¹}` and permutes the discs; when
+`|det γ|<1`, several discs can map into one.
 
 - For `r′≤r` restriction `A_{κ,r}→A_{κ,r′}` is injective, bounded and equivariant;
   injectivity follows by recentring and rescaling each disc (RestrictedPowerSeries
@@ -881,6 +899,13 @@ Eigenvarieties](https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/eig
   but not in `A_{κ,1}`: it is analytic on each small disc, not on the unit disc.
 - Changing radius twice is changing it once: `z=a+p^sw` followed by `w=b+pw′` is
   `z=(a+p^sb)+p^{s+1}w′`.
+- At `p=3` and `s=1`, with trivial weight and the coordinate `z=a+3w` on the disc of `a`,
+  `((1,1),(0,1))` permutes the discs cyclically and sends `(f₀,f₁,f₂)` to
+  `(f₁,f₂,f₀(1+w))`, while `diag(3,1)` maps all three discs into the disc of 0 and sends
+  `(f₀,f₁,f₂)` to `(f₀(3w),f₀(1+3w),f₀(2+3w))`. A model in which every element permutes
+  the discs gets the second operator wrong. Over a field the stage is not a single Tate
+  algebra, which has no idempotent other than 0 and 1, since the function of the second
+  Check is one; so neither operator is a single substitution.
 
 *Needs:* §0.2a; AdicSpacesPartII R0.5; PadicFunctionalAnalysis §§4.1–4.3;
 RestrictedPowerSeries §§1.2, 2.2, 2.4; GL2AutomorphicRepresentationsAndTransfer §R17.3.8a.
@@ -1061,15 +1086,24 @@ coordinates, whose extension of `U_P` is `BE`; so
 `ContinuousLinearMap.IsPrCompact.charPowerSeries_eq` makes `H_κ` the block-model
 determinant of `BE`, independent of the certificate and the representatives. Prove that
 it does not depend on the splitting or, on overlapping admissible stages, the radius. The
-radius independence uses the links of §0.2d and CompactOperators §1.4; density of one
-stage in another proves nothing here. Over a complete field the nonzero eigenvalues of
-`U_P`, with algebraic multiplicity, are the reciprocals of the zeros of `H_κ`, and
-CompactOperators Layers 3–4 give finite-dimensional slope summands. Over a Noetherian
-affinoid `R`, a slope factorization of `H_κ` gives a finite projective summand, and the
-image of `𝕋` in its endomorphisms is finite over `R` (LocallyAnalyticDistributions
-§4.2). If the field is complete and algebraically closed, `𝕋` has a common eigenvector in
-each nonzero slope summand and only finitely many eigensystems there. The ordinary part is
-the slope-zero summand.
+splitting independence applies the conjugation invariance of CompactOperators §1.4 (Tau
+Ceti's `ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`) to the slash by the
+conjugating element of GL2AutomorphicRepresentationsAndTransfer §R17.3.8c, a bounded
+isomorphism of form spaces intertwining the two controlling operators. The radius
+independence uses the links of §0.2d and the cyclicity of CompactOperators §1.4 (Tau
+Ceti's `ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`), which applies to a
+link whose restriction `α` or return map `c` is row compact, as `α` is when `r′<r` at
+every `v∈P`; density of one stage in another proves nothing here.
+Over a complete field the nonzero eigenvalues of `U_P`, with algebraic multiplicity, are
+the reciprocals of the zeros of `H_κ`, and CompactOperators Layers 3–4 give
+finite-dimensional slope summands. Over a Noetherian affinoid `R`, a slope factorization
+of `H_κ` gives a finite projective summand, which every operator of `𝕋` preserves since
+it commutes with `U_P` (CompactOperators §§3.4–3.5 and 4.3); the image of `𝕋` in its
+endomorphisms is finite over `R`, because the endomorphisms of a finite projective module
+over the Noetherian ring `R` form a finite `R`-module. If the field is complete and
+algebraically closed, `𝕋` has a common eigenvector in each nonzero slope summand and only
+finitely many eigensystems there (CompactOperators §3.5). The ordinary part is the
+slope-zero summand.
 
 - The operators of `𝕋` preserve every slope summand.
 - The eigenvalue zero is invisible to `H_κ`, and no global eigenbasis is asserted.
@@ -1123,8 +1157,9 @@ domains.
   Fredholm series along it goes through the links of §0.2d.
 - No single analytic stage serves the whole region `p⁻¹<|T|<1`.
 
-(Source: the determinant, slope and base-change theory is that of CompactOperators and
-LocallyAnalyticDistributions §4.2 applied to §0.2d's operator; the counting bound
+(Source: the determinant and slope theory is that of CompactOperators Layers 1, 3 and 4,
+and the base change that of CompactOperators §1.7 and LocallyAnalyticDistributions §4.2,
+applied to §0.2d's operator; the counting bound
 follows from `∑_{j<n}⌊j/h_U⌋=h_Um(m−1)/2+ρm` for `n=h_Um+ρ`, `0≤ρ<h_U`.)
 
 **Checks.**
@@ -1155,7 +1190,9 @@ LocallyAnalyticDistributions §4.2; NewtonPolygons Layer 2; AdicSpacesPartII R0.
 PadicFunctionalAnalysis §§2.2, 5.3–5.5; Mathlib `Matrix.charpolyRev`,
 `Matrix.reverse_charpoly`; Tau Ceti `Matrix.charpolyRev_eq_reflect`,
 `Matrix.natDegree_charpolyRev_le`, `ContinuousLinearMap.charPowerSeries`,
-`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`.
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_eq`,
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`,
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`.
 
 ### 0.2f Bol's identity, partial theta maps and small-slope classicality
 

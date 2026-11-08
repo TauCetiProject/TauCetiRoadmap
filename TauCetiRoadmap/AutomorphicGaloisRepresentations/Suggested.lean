@@ -34,16 +34,18 @@ the weight character, and the Banach form spaces with U_P as a row-compact
 endomorphism (README §§0.2c–0.2d); both constructions carry proof obligations
 that are theorems of those sections. Their ingredients are at the pins: level
 forms for any coefficient action are a submodule of the functions on the units
-of the finite adele ring tensored with D, each slash operator
-f ↦ j_κ(γ)·f(w_γ) is a Tau Ceti weighted substitution
-`TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`, and
-`ContinuousLinearMap.charPowerSeries` is the Fredholm series of an endomorphism
-of a module with property (Pr). Layer 0's geometric realization theorems need
-Shimura cohomology. Layer 1's DFG comparison needs parabolic premotives and their
-Kuga–Sato projector realizations. Layer 2's comparison of the weight-one
-Artin representation of AlgebraicModularFormsAndSerreWeights §6.4 with the
-normalization of Layer 1 needs that Galois representation, which is absent at
-the pins.
+of the finite adele ring tensored with D; on the unit-radius module R⟨z_σ⟩ of
+README §0.2a each slash operator f ↦ j_κ(γ)·f(w_γ) is a Tau Ceti weighted
+substitution `TauCeti.MvPowerSeries.restrictedWeightedSubstCLM`, and on the
+stages of README §0.2b, finite products of Tate algebras, it is a finite matrix
+of such substitutions, indexed by the discs and by a basis of the algebraic
+factors; and `ContinuousLinearMap.charPowerSeries` is the Fredholm series of an
+endomorphism of a module with property (Pr). Layer 0's geometric realization
+theorems need Shimura cohomology. Layer 1's DFG comparison needs parabolic
+premotives and their Kuga–Sato projector realizations. Layer 2's comparison of
+the weight-one Artin representation of AlgebraicModularFormsAndSerreWeights §6.4
+with the normalization of Layer 1 needs that Galois representation, which is
+absent at the pins.
 The unrestricted Hilbert attachment, character converse and irreducibility of
 Layer 3 need Hilbert automorphic representations, algebraic Hecke-character
 avatars and labelled period functors. Layer 4's Ramanujan and full local
