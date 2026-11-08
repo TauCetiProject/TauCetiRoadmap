@@ -96,12 +96,12 @@ cover automorphism groups beyond `GL_n` and are not needed for the theorems here
    and the new coordinate is the last one; on column vectors the matching inclusion
    `Rⁿ → Rⁿ⁺¹` puts `0` in the last coordinate, and `diag(g, 1)(v; 0) = (g v; 0)`. Witness: over
    `ℚ`, `(2) ↦ diag(2, 1)`, with inverse `diag(1/2, 1)`, determinant `2`.
-3. **Stable range.** Bass's condition `SR_N` says that every unimodular row of length `N` can be
-   shortened; it is AlgebraicKTheory's `HasStableRangeLE R (N − 1)`. Following van der Kallen
-   (1980, 2.2), `sdim ≥ 0` is an integer with `SR_(sdim+2)(R)` and `e = max(1, sdim)`. Witnesses
-   (AlgebraicKTheory 4.1–4.2): a field has `SR₂` (`sdim = 0`, `e = 1`); `ℤ` fails `SR₂` (the
-   row `(2, 5)`) and has `SR₃` (`sdim = 1`, `e = 1`); `ℤ[x]`, of Krull dimension `2`, has `SR₄`
-   (`sdim = 2`, `e = 2`).
+3. **Stable range.** Bass's condition `SR_N` (Bass 1964) says that every unimodular row of
+   length `N` can be shortened; it is AlgebraicKTheory's `HasStableRangeLE R (N − 1)`. Following
+   van der Kallen (1980, 2.2), `sdim ≥ 0` is an integer with `SR_(sdim+2)(R)` and
+   `e = max(1, sdim)`. Witnesses (AlgebraicKTheory 4.1–4.2): a field has `SR₂` (`sdim = 0`,
+   `e = 1`); `ℤ` fails `SR₂` (the row `(2, 5)`) and has `SR₃` (`sdim = 1`, `e = 1`); `ℤ[x]`, of
+   Krull dimension `2`, has `SR₄` (`sdim = 2`, `e = 2`).
 4. **Degrees and acyclicity.** The frames of length `j + 1` span the chains of degree `j`, the
    augmentation is in degree `−1`, and the boundary is the alternating sum of the faces, the face
    `i` deleting column `i` with sign `(−1)ⁱ`. A complex is `k`-acyclic when its reduced homology
@@ -379,10 +379,10 @@ identity of `ℤ` is onto for `n ≥ 2m + e − 1` and bijective for `n ≥ 2m +
 Prove `homology_stabilization_of_infinite_residueField`: for a local ring `R` whose residue field is
 infinite, the stabilization is onto on `H_m(−; ℤ)` for `m ≤ n` and injective for `m < n`. Its
 content is the vanishing of the relative groups `H_m(GL_(n+1)(R), GL_n(R); ℤ)` for `m ≤ n`
-(Nesterenko–Suslin 1989, Theorems 2.7 and 3.25; restated as Galatius–Kupers–Randal-Williams, Theorem
-9.4), with the exact sequence of Convention 5. Route: Nesterenko and Suslin's argument, which
-extends to local rings with infinite residue field Suslin's proof for infinite fields (K3BlochGroups
-4.2–4.8), through the spectral sequence of 2.2 for frames in general position.
+(Nesterenko–Suslin 1989, Theorems 2.7 and 3.25; restated as Galatius–Kupers–Randal-Williams 2025,
+Theorem 9.4), with the exact sequence of Convention 5. Route: Nesterenko and Suslin's argument,
+which extends to local rings with infinite residue field Suslin's proof for infinite fields
+(K3BlochGroups 4.2–4.8), through the spectral sequence of 2.2 for frames in general position.
 *Needs:* 2.2; K3BlochGroups 4.1; Mathlib `IsLocalRing`, `IsLocalRing.ResidueField`.
 
 **Checks.**
@@ -423,13 +423,13 @@ the colimits of the `π_m(BGL_n(R)⁺)`, and `K_m(R) ≅ π_m(BGL(R)⁺)`.
 ### Examples
 
 - Infinite fields: Suslin's range `H_i(GL_n(F)) ≅ H_i(GL_(n+1)(F))` for `i ≤ n`
-  (K3BlochGroups 4.8, `generalLinear_homology_stable`) improves on 2.3, which gives
+  (Suslin 1984; K3BlochGroups 4.8, `generalLinear_homology_stable`) improves on 2.3, which gives
   bijectivity for `n ≥ 2i + 1`; 2.5 recovers its surjective half and its injectivity for `i < n`.
-- Symmetric groups: Nakaoka's range, `H_i(Σ_n) ≅ H_i(Σ_(n+1))` for `n ≥ 2i` (K3BlochGroups 4.15,
-  `symmetricGroup_homology_stable`), is the range of 2.3 for `e = 0`, the "field with one
-  element": its proof is that of 2.2–2.3 for the complex of injective words, whose stabilisers are
-  again symmetric groups. The inclusion of permutation matrices `Σ_n → GL_n(R)` commutes with the
-  stabilizations.
+- Symmetric groups: Nakaoka's range, `H_i(Σ_n) ≅ H_i(Σ_(n+1))` for `n ≥ 2i` (Nakaoka 1960;
+  Kerz 2005, Theorem 2; K3BlochGroups 4.15, `symmetricGroup_homology_stable`), is the range of
+  2.3 for `e = 0`, the "field with one element": its proof is that of 2.2–2.3 for the complex of
+  injective words, whose stabilisers are again symmetric groups. The inclusion of permutation
+  matrices `Σ_n → GL_n(R)` commutes with the stabilizations.
 
 ### Dependencies
 
@@ -534,14 +534,20 @@ infinite-field and symmetric-group ranges it needs and is a supplier here, not a
 Quillen showed, in unpublished work, that `H_m(GL_n(F)) → H_m(GL_(n+1)(F))` is bijective for
 `n ≥ m + 1` over fields `F ≠ 𝔽₂`, by the spectral sequence of the action on a highly connected
 complex of unimodular sequences; he proved the connectivity for local rings and conjectured it for
-finite-dimensional noetherian rings. Maazen proved stability for subrings of `ℚ` and for the
-symmetric groups in Nakaoka's range by the same method, Charney for Dedekind domains with split
-buildings, and van der Kallen the conjecture, with the ranges of Layer 2 (van der Kallen 1980,
-§§1.5–1.7, pp. 271–272). The optimal ranges remain open in general: for infinite fields the
-injectivity of `H_n(GL_(n−1)(F)) → H_n(GL_n(F))` is a question of Suslin, and the `E∞`-cellular
+finite-dimensional noetherian rings. Maazen (announced in Maazen 1979) proved stability for subrings
+of `ℚ` and for the symmetric groups in Nakaoka's range by the same method, Charney for Dedekind
+domains with split buildings, and van der Kallen the conjecture, with the ranges of Layer 2 (van der
+Kallen 1980, §§1.5–1.7, pp. 271–272). The optimal ranges remain open in general: for infinite fields
+the injectivity of `H_n(GL_(n−1)(F)) → H_n(GL_n(F))` is a question of Suslin, and the `E∞`-cellular
 methods of Galatius, Kupers and Randal-Williams describe the relative groups beyond the line of 2.5.
-Quillen's notebooks 1971-11 (pp. 58–62), 1972-2 (pp. 16–26 and 38–43) and 1973-3 (pp. 5–10) (Clay
-Mathematics Institute) work on these questions.
+At the characteristic the ranges change: for `𝔽_q`, `q = p^r ≠ 2`, the relative groups
+`H_d(GL_n(𝔽_q), GL_(n−1)(𝔽_q); 𝔽_p)` vanish for `d < n + r(p − 1) − 2`, and for `𝔽₂` in a range of
+slope `2/3` (Galatius–Kupers–Randal-Williams 2024, Theorems A and B). Randal-Williams and Wahl
+recast the spectral-sequence argument for families of groups with a homogeneous category, with
+constant and twisted coefficients, and deduce a stability range for `GL_n(R)` in terms of its stable
+rank (Randal-Williams–Wahl 2017, Theorem 5.11 in the numbering of arXiv:1409.3541). Quillen's
+notebooks 1971-11 (pp. 58–62), 1972-2 (pp. 16–26 and 38–43) and 1973-3 (pp. 5–10) (Clay Mathematics
+Institute) work on these questions.
 
 ## References
 
@@ -551,16 +557,26 @@ Mathematics Institute) work on these questions.
   Milnor's K-theory », *Izv. Akad. Nauk SSSR Ser. Mat.* 53 (1989), no. 1, 121–146; English
   translation *Math. USSR-Izv.* 34 (1990), no. 1, 121–145. doi:10.1070/IM1990v034n01ABEH000610.
 - S. Galatius, A. Kupers, O. Randal-Williams, « E∞-cells and general linear groups of infinite
-  fields », to appear in *Duke Math. J.*; arXiv:2005.05620 (version 3), Theorem 9.4.
+  fields », *Duke Math. J.* 174 (2025), no. 14, 2927–3046. doi:10.1215/00127094-2025-0005.
+  arXiv:2005.05620; Theorem 9.4 in the numbering of arXiv version 3.
+- S. Galatius, A. Kupers, O. Randal-Williams, « E∞-cells and general linear groups of finite
+  fields », *Ann. Sci. Éc. Norm. Supér.* (4) 57 (2024), no. 6, 1845–1882.
+  doi:10.24033/asens.2599. arXiv:1810.11931.
+- M. C. Kerz, « The complex of words and Nakaoka stability », *Homology Homotopy Appl.* 7 (2005),
+  no. 1, 77–85. doi:10.4310/HHA.2005.v7.n1.a5. arXiv:math/0410261.
+- H. Maazen, « Stabilité de l'homologie de GL_n », *C. R. Acad. Sci. Paris Sér. A* 288 (1979),
+  707–708. Zbl 0411.20028.
 - W. G. Dwyer, « Twisted homological stability for general linear groups », *Ann. of Math.* (2)
   111 (1980), no. 2, 239–251. doi:10.2307/1971200.
 - A. A. Suslin, « Homology of GL_n, characteristic classes and Milnor K-theory », in *Algebraic
   K-theory, number theory, geometry and analysis* (Bielefeld, 1982), Lecture Notes in Math. 1046,
-  Springer, 1984, 357–375. doi:10.1007/BFb0072031.
+  Springer, 1984, 357–375. Zbl 0528.18007.
 - R. Charney, « Homology stability for GL_n of a Dedekind domain », *Invent. Math.* 56 (1980),
   no. 1, 1–17. doi:10.1007/BF01403153.
 - M. Nakaoka, « Decomposition theorem for homology groups of symmetric groups », *Ann. of Math.*
   (2) 71 (1960), 16–42. doi:10.2307/1969878.
+- H. Bass, « K-theory and stable algebra », *Publ. Math. IHÉS* 22 (1964), 5–60.
+  doi:10.1007/BF02684689.
 - H. Bass, *Algebraic K-Theory*, W. A. Benjamin, New York, 1968, Chapter V. Zbl 0174.30302.
 - A. Hatcher, N. Wahl, « Stabilization for mapping class groups of 3-manifolds », *Duke Math. J.*
   155 (2010), no. 2, 205–269. doi:10.1215/00127094-2010-055. arXiv:0709.2173.
