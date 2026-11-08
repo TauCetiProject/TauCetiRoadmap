@@ -157,7 +157,7 @@ here; if it is about one particular category, about ∞-categories, or about top
   `Ind.yoneda`, `HasFilteredColimits (Ind C)`.
 - `Mathlib/AlgebraicTopology/SimplexCategory/Basic.lean`: `SimplexCategory`,
   `SimplexCategory.skeletalEquivalence`; `Mathlib/Order/Category/NonemptyFinLinOrd.lean`:
-  `NonemptyFinLinOrd`; `Mathlib/Order/Category/LinOrd.lean`: `LinOrd` (1.5, Checks).
+  `NonemptyFinLinOrd`; `Mathlib/Order/Defs/LinearOrder.lean`: `LinOrd` (1.5, Checks).
 - `Mathlib/CategoryTheory/Limits/Sifted.lean`: `IsSifted`,
   `IsSifted.colim_preservesFiniteProducts_of_isSifted`.
 - `Mathlib/CategoryTheory/Adjunction/AdjointFunctorTheorems.lean`:
