@@ -34,13 +34,15 @@ Headline theorems of the README that are not statable at the pins, and the carri
   of semisplit extensions, the Manuilov–Thomsen sequence and the index pairing. There are no
   ℤ/2-graded Hilbert modules, no interior tensor product of Hilbert modules and no Kasparov cycles.
 * K7: the Green–Julg and Connes–Thom theorems, the Pimsner–Voiculescu sequences, the K-groups of
-  free-group, rotation and Cuntz algebras, and the simplicity criterion for twisted group
-  algebras. Tau Ceti has the full crossed product `TauCeti.CStarAction.FullCrossedProduct` and the
-  algebraic twisted group algebra `TauCeti.twistedMonoidAlgebra`. The K-theoretic statements need
-  K₀, K₁ and KK of crossed products, missing as recorded under K1–K2 and K5–K6. Neither library
-  has the reduced crossed product, the C*-completion of a twisted group algebra in its regular
-  representation on `ℓ²`, which the simplicity criterion is about, or universal C*-algebras on
-  generators and relations such as the Cuntz algebras.
+  free-group, rotation and Cuntz algebras, and the centre and simplicity criterion for twisted
+  group C*-algebras `C*(L,c)` of discrete abelian groups. Tau Ceti has the full crossed product
+  `TauCeti.CStarAction.FullCrossedProduct` and the algebraic twisted group algebra
+  `TauCeti.twistedMonoidAlgebra`. The K-theoretic statements need K₀, K₁ and KK of crossed
+  products, missing as recorded under K1–K2 and K5–K6. Neither library has the reduced crossed
+  product or universal C*-algebras on generators and relations such as the Cuntz algebras. The
+  simplicity criterion is about the C*-completion `C*(L,c)` of the twisted group algebra, which
+  neither library has either; it is a carrier of the OperatorAlgebraDynamics roadmap
+  (D1.CentralTwists, D2.CentralTwists), which this roadmap consumes rather than builds.
 * K8: the UCT and Künneth sequences and the bootstrap class, which need KK-groups and
   KK-equivalence.
 * K9: the asymptotic homotopy category, E-theory and its universal property, and the comparison

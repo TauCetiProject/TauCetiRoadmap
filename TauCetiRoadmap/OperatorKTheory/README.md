@@ -19,11 +19,9 @@ library whose geometric comparison, grading and boundary signs are explicit.
 This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not;
 Atkinson's theorem and the Hilbert-module index; extension semigroups; graded KK-theory and the
 Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra
-and Cuntz-algebra calculations of K7; the twisted group C*-algebra `C*(L,c)` of a discrete abelian
-group L with a circle-valued 2-cocycle c, built in 7.5 on Tau Ceti's algebraic twisted group
-algebra in its twisted regular representation on ℓ²(L), with its trace, gauge action, universal
-property, centre and simplicity criterion, the noncommutative tori and the twisted algebras of
-lattices in phase space being instances; the bootstrap class with the UCT and Künneth theorems;
+and Cuntz-algebra calculations of K7; the centre and the simplicity criterion of the twisted group
+C*-algebras `C*(L,c)` of discrete abelian groups L with circle-valued 2-cocycles c (7.5); the
+bootstrap class with the UCT and Künneth theorems;
 the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The layers are K1–K9
 below. Subsection k.n of layer Kk is cited as `Kk.n`; subsections 2.4 and 7.3
 also keep their names K2.LocalNormed and K7.FreeGroups.
@@ -47,6 +45,10 @@ The following stay with their owners and are not targets here.
   reduced crossed products and reduced group C*-algebras, the comparison `ℂ⋊G≃C*(G)`, the duality
   theorems and the finite universal Cuntz algebras O_n; their K-theory and KK consequences belong
   here.
+- OperatorAlgebraDynamics owns the scalar twisted group C*-algebras `C*(L,c)`, with their
+  projective unitaries in the twisted regular representation, canonical trace, gauge action,
+  universal property and full=reduced theorem (D1.CentralTwists, D2.CentralTwists); 7.5 proves
+  their centre and simplicity criterion and identifies the rotation algebras among them.
 - NoncommutativeGeometry owns smooth algebras' cyclic cohomology, spectral triples and their
   geometric index theorems.
 - CStarClassification owns dimension-group classification of AF algebras, the absorption and
@@ -166,19 +168,17 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   (`TauCeti/Data/Matrix/Block.lean`): for rectangular matrices a, b over a ring with `ab=e`,
   `ba=f` and `be=b`, the block matrix `[[1−e, a], [b, 1−f]]` conjugates `e⊕0` to `0⊕f`, and it
   is an involution when also `ea=a`. K1.1 applies them with a=v*, b=v.
-- `TauCeti.IsFactorSet`, `TauCeti.twistedTranslation`, `TauCeti.twistedMonoidAlgebra`,
-  `TauCeti.TwistedMonoidAlgebra.lift` and `TauCeti.TwistedMonoidAlgebra.algHom_ext`
-  (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): a normalized factor set `α : G → G → kˣ`
-  on a monoid, with `α(gh,j)α(g,h)=α(h,j)α(g,hj)` and `α(1,g)=α(g,1)=1`; the twisted translation
-  on `G →₀ k` sending the basis vector at h to `α(g,h)` times the basis vector at gh; the
-  algebraic twisted monoid algebra, the span of these translations; and its universal property
-  for families u with `u(1)=1` and `u(g)u(h)=α(g,h)u(gh)`, with uniqueness. K7.5 uses them over
-  ℂ on `Multiplicative L` for a discrete abelian group L; the C*-completion is constructed there.
+- `TauCeti.IsFactorSet` (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): a normalized
+  factor set `α : G → G → kˣ` on a monoid, with `α(gh,j)α(g,h)=α(h,j)α(g,hj)` and
+  `α(1,g)=α(g,1)=1`. K7.5 states its circle-valued 2-cocycles on `Multiplicative L`, for a
+  discrete abelian group L, with it over ℂ; the twisted group C*-algebra of such a cocycle is
+  OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists'.
 - `TauCeti.Amenable.of_commGroup` (`TauCeti/GroupTheory/Amenable/Abelian.lean`): every commutative
   topological group is amenable, `TauCeti.Amenable` meaning a left-invariant mean on the left
   uniformly continuous bounded real functions, which for a discrete group are all bounded
   functions. No rank, torsion or countability hypothesis is made. K7.5 applies it to
-  `Multiplicative L` with the discrete topology.
+  `Multiplicative L` with the discrete topology, to meet the amenability hypothesis of
+  OperatorAlgebraDynamics D2.CentralTwists' full=reduced theorem.
 - `TauCeti.CStarAction.FullCrossedProduct`, with `TauCeti.CStarAction.FullCrossedProduct.of`,
   `TauCeti.CStarAction.FullCrossedProduct.lift` and
   `TauCeti.CStarAction.CovariantRepresentation.integratedFull`
@@ -233,6 +233,19 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
   module, full and reduced group C*-algebras with `ℂ⋊G≃C*(G)`, the regular quotient, the faithful
   conditional expectation of a discrete reduced crossed product, Fell absorption and the weak
   containment of the trivial representation in the regular representation of an amenable group.
+- *OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists.* Taken at coefficient algebra ℂ,
+  trivial action, a scalar normalized cocycle ω with values in the circle and counting Haar
+  measure on a discrete group G, with no countability hypothesis on G: the full and reduced
+  twisted group C*-algebras `C*(G,ω)` and `C*_r(G,ω)`, generated by unitaries u_s with
+  `u_su_t=ω(s,t)u_(st)` and `u_s*=conjugate(ω(s⁻¹,s))u_(s⁻¹)`; the identification of their
+  finitely supported dense algebra with Tau Ceti's `TauCeti.twistedMonoidAlgebra ℂ G ω`; the
+  twisted regular representation `V_sξ(r)=ω(s,s⁻¹r)ξ(s⁻¹r)` on ℓ²(G); the universal property for
+  families of unitaries U_s in a unital C*-algebra with `U_e=1` and `U_sU_t=ω(s,t)U_(st)`; the
+  canonical trace `τ=E`, `E(Σa_su_s)=a_e`, a faithful tracial state, with recovery and uniqueness
+  of coefficients; the isomorphism of the full and reduced algebras for amenable G; and, for
+  abelian G, the gauge action `α̂_γ(u_s)=γ(s)u_s` of `PontryaginDual G`, implemented on ℓ²(G) by
+  multiplication by γ, point-norm continuous, with `∫α̂_γ(x)dγ=E(x)1` for the normalized Haar
+  measure.
 - *OperatorAlgebraDynamics D3–D4.* Green imprimitivity and Takai duality with its character
   conventions.
 - *OperatorAlgebraDynamics D6.* The finite universal Cuntz algebras O_n.
@@ -272,9 +285,8 @@ their chosen orientation; no unnamed isomorphism with ℤ determines a generator
 
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
-- *[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V0.* The faithful Gelfand–Naimark
-  representation of a C*-algebra.
-- *VonNeumannAlgebras V11.* Pontryagin duality for locally compact abelian groups.
+- *[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V11.* Pontryagin duality for locally
+  compact abelian groups.
 
 ## How to read the build
 
@@ -1815,27 +1827,27 @@ canonical trace `τ=HaarIntegral∘E` using D2's expectation.
 
 ### 7.5 Twisted abelian centers and simplicity
 
-*Needs:* 7.4 for the rotation algebra; OperatorAlgebraDynamics D2 Fell absorption and weak
-containment for amenable groups; VonNeumannAlgebras V0 and V11; Tau Ceti `TauCeti.IsFactorSet`,
-`TauCeti.twistedTranslation`, `TauCeti.twistedMonoidAlgebra`,
-`TauCeti.TwistedMonoidAlgebra.lift`, `TauCeti.TwistedMonoidAlgebra.algHom_ext` and
-`TauCeti.Amenable.of_commGroup`; Mathlib `lp`, `lp.single`, `lp.hasSum_single`, `PontryaginDual`
-and `MeasureTheory.Measure.haar`.
+*Needs:* 7.4 for the rotation algebra; OperatorAlgebraDynamics D1.CentralTwists and
+D2.CentralTwists for the twisted group C*-algebra, its projective unitaries, trace, gauge action,
+universal property and full=reduced theorem; VonNeumannAlgebras V11; Tau Ceti `TauCeti.IsFactorSet`
+and `TauCeti.Amenable.of_commGroup`; Mathlib `PontryaginDual` and `MeasureTheory.Measure.haar`.
 
 Let L be a discrete abelian group, written additively; no countability, finite generation or
 torsion-freeness is assumed. Let c be a circle-valued factor set on L: a function
 `c : Multiplicative L → Multiplicative L → ℂˣ` with Tau Ceti's `TauCeti.IsFactorSet c`, which in
 additive notation says `c(x,y)c(x+y,z)=c(x,y+z)c(y,z)` and `c(0,x)=c(x,0)=1`, and with `|c(x,y)|=1`
-for all x, y. Tau Ceti's `TauCeti.twistedTranslation ℂ c x` sends `δ_z` to `c(x,z)δ_(x+z)` on
-finitely supported vectors; since `|c|=1` it preserves the ℓ²-norm and maps the finitely supported
-vectors onto themselves, so it extends uniquely, along this dense subspace (Mathlib `lp.single`
-and `lp.hasSum_single`), to a unitary W_x of `lp (fun _ : L => ℂ) 2`. These are the twisted shifts
-`W_xδ_z=c(x,z)δ_(x+z)`. By the first bullet below, `TauCeti.TwistedMonoidAlgebra.lift` turns
-x↦W_x into an algebra map λ_c from the algebraic twisted group algebra
-`TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c` to the bounded operators on ℓ²(L); define
-C*(L,c) as the norm closure of its range, the span of the W_x. Define the trace
-`τ(a)=⟨δ_0,aδ_0⟩`. For χ in the Pontryagin dual L̂ let M_χ be multiplication by χ on ℓ²(L) and
-define the gauge action `α_χ=Ad(M_χ)`. Define the continuous alternating commutator
+for all x, y. Consume the twisted group C*-algebra C*(L,c) from OperatorAlgebraDynamics
+D1.CentralTwists and D2.CentralTwists at coefficient algebra ℂ, trivial action, scalar cocycle ω=c
+and counting Haar measure. L is amenable by Tau Ceti's `TauCeti.Amenable.of_commGroup`, so the full
+and reduced algebras agree and C*(L,c) denotes either. In this section's notation the consumed
+objects are: the projective unitaries W_x, D2.CentralTwists' `V_xξ(z)=c(x,z−x)ξ(z−x)` on ℓ²(L), so
+that `W_xδ_z=c(x,z)δ_(x+z)`, `W_xW_y=c(x,y)W_(x+y)`, `W_0=1` and `W_x*=conjugate(c(−x,x))W_(−x)`;
+the faithful tracial state `τ=E`, which on ℓ²(L) is `τ(a)=⟨δ_0,aδ_0⟩`, with `τ(W_x)` equal to 1 at
+x=0 and 0 otherwise, and whose Fourier coefficients `a↦τ(W_y*a)` determine a; for χ in the
+Pontryagin dual L̂, the gauge automorphism `α_χ=Ad(M_χ)`, M_χ being multiplication by χ on ℓ²(L),
+with `α_χ(W_y)=χ(y)W_y`, point-norm continuous in χ; and the universal property, by which unitaries
+U_x in a unital C*-algebra B with `U_0=1` and `U_xU_y=c(x,y)U_(x+y)` give a unique *-homomorphism
+C*(L,c)→B sending W_x to U_x. Define the continuous alternating commutator
 bicharacter `ρ(x,y)=c(x,y)conjugate(c(y,x))`, its radical `C_ρ={x:∀y,ρ(x,y)=1}`, the characters
 κ_x(y)=ρ(x,y), `H_ρ=closure{κ_x:x∈L}⊆L̂`, and the conditional expectation
 `Q(a)=∫_(H_ρ) α_s(a) ds`, with probability Haar on the compact group H_ρ, a closed subgroup of
@@ -1843,20 +1855,6 @@ the compact dual of the discrete group L. Phillips (2006), Theorem 1.9, states t
 criterion for noncommutative tori, the case L=ℤ^d, and attributes the simplicity direction to
 Slawny (1972), Theorem 3.7; the route below uses neither finite generation nor torsion-freeness.
 
-- The twisted shifts are unitary and satisfy `W_xW_y=c(x,y)W_(x+y)`, `W_0=1` and
-  `W_x*=conjugate(c(x,−x))W_(−x)`.
-- `τ(W_x)` is 1 at x=0 and 0 otherwise; τ is tracial and faithful, using the commuting right
-  twisted shifts for which δ_0 is cyclic, and the Fourier coefficients `a↦τ(W_y*a)` determine a.
-- `α_χ(W_y)=χ(y)W_y`, and the gauge action is norm continuous in χ at each element.
-- λ_c is injective: by the first two bullets, `τ(W_y*λ_c(a))` is the coefficient of a at y.
-- Universal property: unitaries U_x in a unital C*-algebra B with `U_xU_y=c(x,y)U_(x+y)`, so that
-  U_0=1, give by `TauCeti.TwistedMonoidAlgebra.lift` an algebra map from the algebraic twisted
-  group algebra to B, unique by `TauCeti.TwistedMonoidAlgebra.algHom_ext`. Prove that it is
-  bounded for the norm transported along λ_c, so that it extends uniquely to a *-homomorphism
-  C*(L,c)→B sending W_x to U_x: represent B faithfully (V0), tensor with the untwisted regular
-  representation, and use D2's Fell absorption and the weak containment of the trivial
-  representation in the regular representation of L, which is amenable by Tau Ceti's
-  `TauCeti.Amenable.of_commGroup`.
 - `Ad(W_x)=α_(κ_x)`, and H_ρ is the annihilator of C_ρ: consume VonNeumannAlgebras V11's Pontryagin
   duality and prove this discrete-abelian annihilator comparison here by character separation and
   Fourier coefficient uniqueness.
@@ -1870,8 +1868,8 @@ Slawny (1972), Theorem 3.7; the route below uses neither finite generation nor t
 - For the rotation algebra use W_(m,n)=v^m u^n and `c((m,n),(m′,n′))=exp(2πiθ n m′)`; A_θ is
   identified with C*(ℤ²,c) through the universal properties of both. This is the phase of Tau
   Ceti's `TauCeti.SmoothNoncommutativeTorus.twist θ`, with its generators U₁, U₂ in the roles of
-  v, u. This roadmap exports this cocycle and the gauge action `α_χ(W_y)=χ(y)W_y` in these
-  coordinates for every real θ.
+  v, u. This roadmap exports this identification and the cocycle in these coordinates for every
+  real θ; in them the consumed gauge action reads `α_χ(v^m u^n)=χ(m,n)v^m u^n`.
 - If θ is irrational, C_ρ=0 and A_θ is simple. If θ=p/q in lowest terms, q≥1, then C_ρ=qℤ² and
   the center is C(𝕋²), with its coordinate unitaries sent to v^q,u^q, injectively by the gauge
   action and Fourier coefficient uniqueness. Thus every rational rotation algebra is nonsimple,
@@ -1886,6 +1884,11 @@ Slawny (1972), Theorem 3.7; the route below uses neither finite generation nor t
   cocycle and L≠0, `C_ρ=L` and the Fourier transform gives C*(L,1)≅C(L̂), which is not simple
   because the characters separate the points of L, so L̂ has more than one point; for L=ℤ^d this
   is C(𝕋^d).
+- On L=ℤ/2 with `c(1,1)=−1` and all other values 1, the consumed relations give `W_1²=−1` and
+  `W_1*=conjugate(c(1,1))W_1=−W_1`, while `ρ(1,1)=c(1,1)conjugate(c(1,1))=1`. So `C_ρ=L`, the
+  algebra is commutative, isomorphic to ℂ⊕ℂ by `W_1↦(i,−i)`, and not simple although c is not
+  identically 1; this is OperatorAlgebraDynamics D2.CentralTwists' ℤ/2 example in this section's
+  notation.
 - Torsion: on L=(ℤ/2)² put `c(x,y)=(−1)^(x₂y₁)`, a bicharacter and hence a normalized factor set.
   Then `W_(1,0)²=c((1,0),(1,0))W_0=1` and `W_(0,1)²=1`, while `c((1,0),(0,1))=1` and
   `c((0,1),(1,0))=−1` give `ρ((1,0),(0,1))=−1`, so these two self-adjoint unitaries anticommute;
@@ -1982,10 +1985,10 @@ at −∞ and +1 at +∞.
 
 ### Dependencies
 
-K1–K6; OperatorAlgebraDynamics D1–D4 and D6; HilbertModules H1–H3; CStarAlgebras C5;
-TopologicalKTheory T6; VonNeumannAlgebras V0 and V11; Tau Ceti's full crossed product
-(`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`), factor sets and twisted monoid
-algebra (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`) and amenability of commutative groups
+K1–K6; OperatorAlgebraDynamics D1–D4 (with D1.CentralTwists and D2.CentralTwists) and D6;
+HilbertModules H1–H3; CStarAlgebras C5; TopologicalKTheory T6; VonNeumannAlgebras V11; Tau Ceti's
+full crossed product (`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`), factor sets
+(`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`) and amenability of commutative groups
 (`TauCeti/GroupTheory/Amenable/Abelian.lean`); Mathlib free-group, Cayley-graph, `lp`,
 Pontryagin-dual and Haar-measure APIs.
 
@@ -2179,15 +2182,17 @@ K3–K7; CStarAlgebras C5 and C8; Mathlib homological-algebra, Nöbeling and Fre
 
 *Needs:* CStarAlgebras C5 path algebras.
 
-For separable C*-algebras A,B define an asymptotic morphism (Blackadar, Definition 25.1.1) as maps
+For C*-algebras A,B define an asymptotic morphism (Blackadar, Definition 25.1.1) as maps
 `φ_t:A→B`, t≥1, continuous in t at each a, with addition, complex scalar multiplication,
 multiplication and star defects tending to zero in norm. No exact linearity or multiplicativity at
-finite t is required. Two asymptotic morphisms are equivalent when their pointwise norm difference
-tends to zero, and homotopic when joined by an asymptotic morphism into `C([0,1],B)` with the
-defects uniform in the homotopy parameter.
+finite t, and no separability of A or B, is required; separability enters with composition (9.3).
+Two asymptotic morphisms are equivalent when their pointwise norm difference tends to zero, and
+homotopic when joined by an asymptotic morphism into `C([0,1],B)` with the defects uniform in the
+homotopy parameter.
 
 - Asymptotic contractivity holds at each a, so the induced map into
-  `B_∞=C_b([1,∞),B)/C₀([1,∞),B)` is a *-homomorphism.
+  `B_∞=C_b([1,∞),B)/C₀([1,∞),B)` is a *-homomorphism (Blackadar, Proposition 25.1.3 and
+  25.1.4(a), for arbitrary A and B).
 - Equivalence and homotopy are equivalence relations, and equivalent asymptotic morphisms are
   homotopic.
 - Genuine *-homomorphisms give asymptotic morphisms functorially, and homotopy classes are
@@ -2195,7 +2200,9 @@ defects uniform in the homotopy parameter.
 
 **Checks.**
 - A *-homomorphism φ gives the constant asymptotic morphism, and `φ_t=(1+1/t)φ` is equivalent to
-  it: its multiplicativity defect is `−(1/t)(1+1/t)φ(ab)`, which tends to 0.
+  it: its multiplicativity defect is `−(1/t)(1+1/t)φ(ab)`, which tends to 0. This includes the
+  identity of the nonseparable algebra B(H) of an infinite-dimensional Hilbert space, which a
+  definition restricted to separable algebras would exclude.
 - On A=B=ℂ the maps `φ_t(a)=2a` are not an asymptotic morphism: the multiplicativity defect at
   a=b=1 is `2−4=−2` for every t.
 - Asymptotic contractivity, `limsup‖φ_t(a)‖≤‖a‖`, holds although no bound is imposed at finite t;
@@ -2240,14 +2247,16 @@ its asymptotic defects and contractivity estimates are uniform on compact input 
 
 *Needs:* 9.1–9.2.
 
-For uniform representatives φ:A→B and ψ:B→C of 9.2 define their composite as `ψ_(r(t))∘φ_t` for
-a sufficiently fast continuous increasing `r(t)→∞` (Blackadar, Theorem 25.3.1).
+For separable C*-algebras A, B and C and uniform representatives φ:A→B and ψ:B→C of 9.2 define
+their composite as `ψ_(r(t))∘φ_t` for a sufficiently fast continuous increasing `r(t)→∞`
+(Blackadar, Theorem 25.3.1).
 
 - Such r exist, constructed from countable dense sets and compact-uniform estimates, and every
   faster reparameterization gives an equivalent composite.
 - The homotopy class of the composite does not depend on the representatives or on r, and
-  composition is associative on homotopy classes. This gives the asymptotic homotopy category
-  (Blackadar, 25.3.2), with genuine homomorphisms as its specified comparison functor.
+  composition is associative on homotopy classes of asymptotic morphisms between separable
+  C*-algebras. This gives the asymptotic homotopy category of separable C*-algebras (Blackadar,
+  25.3.2), with genuine homomorphisms as its specified comparison functor.
 
 **Checks.**
 - For *-homomorphisms φ, ψ the composite of `(1+1/t)φ` and `(1+1/t)ψ` is
@@ -2324,10 +2333,6 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
   conventions and its swapped parity reduction.
 - CStarClassification consumes K1's projection and trace invariants, K5's countable additivity,
   K8's UCT condition and K9's asymptotic morphisms.
-- The twisted algebras `C*(D,β)` of lattices D in phase space in HeisenbergImprimitivity Layer 3
-  and the quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0 are 7.5's `C*(L,c)` at L=D
-  and at L=ℤ^d, with the same twisted regular representation `W_xδ_z=c(x,z)δ_(x+z)`, trace
-  `⟨δ_0,aδ_0⟩`, gauge action `α_χ(W_y)=χ(y)W_y` and universal property.
 
 ## References
 
