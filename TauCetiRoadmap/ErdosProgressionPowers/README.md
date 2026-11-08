@@ -81,8 +81,9 @@ Martin's bound, the removed-prime inequality, the Kraus thresholds and
 realization, uniform irreducibility and rational-isogeny surjectivity are
 owned by EllipticCurveModularityPartII Layers 1–6; the contract EC.0–EC.6
 below records the sections consumed, and the progression applications remain here.
-ComputationalNumberTheory §4.22 owns the bounded-height zero-line verification
-for primitive characters of small modulus.
+ExplicitZetaBounds §§0.2–0.4 own the bounded-height Riemann hypotheses RH(H)
+and GRH(q, H), Platt's finite-conductor theorem in that form and the recorded
+verifications for the Riemann zeta function.
 HeightsRationalPointsAndObstructions §§5.12 and 6.4 own the shared native Mordell
 finiteness theorem; WeightsInEtaleCohomology R34.5–R34.6 own eigenform purity and
 the bound at every complex embedding. Section 7.1 owns the consecutive-product
@@ -619,13 +620,13 @@ application until the indicated supplier gaps are discharged.
 | §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.18 in Layer 3 and through §0.6 in Layer 5; no gap is declared. |
 | §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
 | §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
-| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ComputationalNumberTheory §4.22. |
+| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
 | §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Declared as gap:prime-product-finite-range. |
 
 `ModEightFiniteInput` is the conjunction of its theta clause and its zero-line
-clause; the zero-line clause is ComputationalNumberTheory §4.22 at the
-primitive conductors 1, 4 and 8 (consumed below) and only the theta clause is
-a gap. No GRH assumption or omitted numerical hypothesis is substituted for
+clause; the zero-line clause is ExplicitZetaBounds §§0.2–0.4 at the
+divisors 1, 2, 4 and 8 of the modulus (consumed below) and only the theta
+clause is a gap. No GRH assumption or omitted numerical hypothesis is substituted for
 these inputs. The real-zero separation of §0.7, with its inputs
 `BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
 bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
@@ -670,17 +671,25 @@ level bounds remain here (BS20, §2, Lemma 2.2 and Theorem 4, pp. 359–360;
 Lemmas 3.3, 3.5, pp. 362–363; Kraus1997, §3.1, Théorème 4, p. 1144;
 Lemos2017v2, Theorem 1.1, p. 2).
 
-### From TauCetiRoadmap.ComputationalNumberTheory
+### From TauCetiRoadmap.ExplicitZetaBounds
 
-Consume §4.22 at the primitive conductors 1, 4 and 8: every zero of the native
-continued LFunction of a primitive character of modulus q≤400000 with
-0<Re s<1 and |Im s|≤H(q) lies on Re s=1/2, where H(q) is at least 10⁸/q, so
-H(1)≥10⁸, H(4)≥2.5·10⁷ and H(8)≥1.25·10⁷ all exceed the height 10000. An
-imprimitive character modulo 8 is induced from one of these three conductors
-and its L-function differs by Euler factors at 2 whose zeros lie on Re s=0;
-for modulus 1 the native LFunction is the Riemann zeta function. This is the
-zero-line clause of AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`,
-used in §0.9 (Platt2013v1, Theorems 7.1–7.2, pp. 14–15).
+Consume §0.2's bounded-height Riemann hypotheses RH(H) (`RiemannHypothesisUpTo`)
+and GRH(q, H) (`DirichletGRHUpTo`): RH(H) says that every zero of `riemannZeta`
+with 0<Re s<1 and |Im s|≤H has Re s=1/2, and GRH(q, H) says the same for the
+native `DirichletCharacter.LFunction` of every primitive character modulo q.
+Consume with them their antitonicity in H, the identity of RH(H) with
+GRH(1, H), and §0.2's passage to imprimitive characters: every character
+modulo q, primitive or not, has all its zeros with 0<Re s<1 and |Im s|≤H on
+Re s=1/2 as soon as GRH(f, H) holds for every divisor f of q, because its
+L-function is that of its primitive character times Euler factors at the
+primes dividing q whose zeros lie on Re s=0. Consume §0.3's corollaries
+GRH(8, 10000) and GRH(4, 10000) of the record `PlattRecord`, which is
+GRH(q, H(q)) for 2≤q≤400000 with H(q)≥10⁸/q (Platt2013v1, Theorem 7.1,
+p. 14); GRH(2, H) holds for every H because no character modulo 2 is
+primitive. The modulus 1 is not part of that record: consume §0.4's record
+RH(10⁹), hence RH(10000) by antitonicity. At the divisors 1, 2, 4 and 8 of
+the modulus 8 with H=10000 these give the zero-line clause of
+AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`, used in §0.9.
 
 ### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
 
@@ -895,7 +904,7 @@ Apply AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25
 on the domains in the supplier contracts. The theta constant retains
 SchoenfeldFiniteRangeInput; the prime-count pair retains
 RosserSchoenfeldFiniteRangeInput; the mod-eight errors retain the full
-ModEightFiniteInput, whose zero-line clause is ComputationalNumberTheory §4.22;
+ModEightFiniteInput, whose zero-line clause is ExplicitZetaBounds §§0.2–0.4;
 and the Euler-product bound retains PrimeProductFiniteInput.
 Unconditional applications require gap:schoenfeld-theta-finite-range,
 gap:rosser-schoenfeld-prime-count-finite-range, gap:mod-eight-theta-finite-range
@@ -925,7 +934,7 @@ n≥C_ε^(2/ε) gives τ(n)≤n^ε. This applies to nonsquarefree n as well
 - For k=2·10¹⁰, the mod-eight lower endpoint k/2=10¹⁰ is included; taking both errors at k would change their combined coefficient from 3ε/8 to 4ε/8.
 
 *Needs:* AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1;
-ComputationalNumberTheory §4.22 for the zero-line clause of ModEightFiniteInput;
+ExplicitZetaBounds §§0.2–0.4 for the zero-line clause of ModEightFiniteInput;
 gap:schoenfeld-theta-finite-range, gap:rosser-schoenfeld-prime-count-finite-range,
 gap:mod-eight-theta-finite-range and gap:prime-product-finite-range for
 unconditional applications; Mathlib finite prime sums,
@@ -2373,6 +2382,6 @@ The general modular and analytic inputs above retain the hypotheses and numerica
 - **Tenenbaum1995.** Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory* (1995), Theorems 5, 9 and following remark, as located in BS20, pp. 365, 384.
 - **RahmanRoth.** Mustazee Rahman, *Roth’s theorem on 3-term arithmetic progressions*, as quoted in BS20, §9, equation (36), p. 381.
 - **Bombieri1987.** Enrico Bombieri, *Le grand crible dans la théorie analytique des nombres*, Astérisque 18 (1987 reprint), discussion after Théorème 14.
-- **Platt2013v1.** David J. Platt, *Numerical computations concerning the GRH*, arXiv:1305.3087v1, Theorems 7.1–7.2, pp. 14–15; published in Math. Comp. 85 (2016). Its consequence is consumed from ComputationalNumberTheory §4.22; no computation is specified here.
+- **Platt2013v1.** David J. Platt, *Numerical computations concerning the GRH*, arXiv:1305.3087v1, Theorem 7.1, p. 14; published in Math. Comp. 85 (2016). Its consequence is consumed from ExplicitZetaBounds §0.3 as the record `PlattRecord`; no computation is specified here.
 - **OpenAI2026.** OpenAI, *Uniform exclusion of Landau–Siegel zeros*, preprint (2026), open repository, Theorem 1: the exclusion with an absolute constant, proved by contradiction along a sequence of conductors. Consumed through AnalyticNumberTheoryPartI §0.34, which supplies the effective constant by its own derivation.
 - **Green2026.** Ben Green, *On Landau–Siegel zeros*, Hexagon 2610.00311 (2026), Theorem 1.1: the inert-prime estimate of AnalyticNumberTheoryPartI §0.34c. Consumed through AnalyticNumberTheoryPartI §0.34.
