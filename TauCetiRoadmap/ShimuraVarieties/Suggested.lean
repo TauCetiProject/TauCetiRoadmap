@@ -14,8 +14,10 @@ Sections 3.4b–3.4e develop o-minimal structures on a linearly ordered type `R`
 with definable subsets of `Fin n → R`, coordinate `0` as the fibre coordinate of
 a cylinder (`Fin.cons`, `Fin.tail`) and graphs, products and fibres read through
 `Fin.append`. The statements cover the passage from sets definable with
-parameters in a first-order language, the semialgebraic structure on `ℝ` and the
-semialgebraic sets of every o-minimal expansion of an ordered ring, monotonicity
+parameters in a first-order language, the semialgebraic structure on `ℝ`, the
+definability of every semialgebraic set in an o-minimal structure on a commutative
+ring with any linear order, compatible or not with the ring operations, in which
+the graphs of addition and multiplication are definable, monotonicity
 on a definable domain, the definable connectedness and projection charts of
 cells, cell decomposition, uniform finiteness and the comparison with
 cylindrical algebraic decompositions, definable dimension with its
