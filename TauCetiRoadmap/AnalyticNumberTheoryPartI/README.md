@@ -1649,7 +1649,7 @@ Derived from Mathlib `NumberField.dedekindZeta_residue_def` and `NumberField.ten
 
 Multiply the continued quadratic factorization by `s−1` and take the limit at 1. Cancel the positive `κ_F` and use holomorphy of the nonprincipal Hecke factor.
 
-See [64][R64], Quadratic Euler-factor calculation; Thorner-Zaman 2017 equations (2-1)-(2-7); main Corollary 3.3 adapter.
+See [64][R64], proof of Corollary 3.3, p.384 (it bounds `L(1,ρ)` through Brauer's induction theorem and Brauer–Siegel; for a quadratic `η` the residue quotient above is that step); [73][R73], equations (2-1)–(2-7).
 
 ### 2.18 Norm-regrouped Artin coefficient comparison
 
@@ -1742,7 +1742,7 @@ Use §2.22a's CM completion and gamma correction. After endpoint nonvanishing di
 
 For `E=ℚ(i), F=ℚ, Q=4: L_f(0,η)=1/2` and `L_f(1,η)=π/4`; the claimed sum becomes `γ+log(π/2)`. Exclude `E=ℚ(√2), F=ℚ`: its even primitive character `χ_8` has `L_f(0,χ_8)=0`, so the displayed logarithmic quotient at 0 is undefined.
 
-See [64][R64], Derived from Thorner-Zaman (2-3)-(2-6), odd gamma factors; [73][R73], (2-3)–(2-7), pp.1140–1141; specialized using CM sign characters.
+See [64][R64], proof of Corollary 3.3, p.384, where differentiating the logarithm of the Artin functional equation bounds `L′/L(1,ρ)+L′/L(0,ρ)` by `O_g(log f_ρ)`; this section makes that step exact for `η`. The odd gamma factors are from [73][R73], (2-3)–(2-7), pp.1140–1141, specialized to the CM sign characters.
 
 *Needs:* `B4`; §2.11; §2.22a; [ClassFieldTheory 13][R28]; [GlobalNumberFields 10][R20].
 
@@ -2129,7 +2129,7 @@ For each `n≥1` and `ε>0` there are `c,C>0` depending only on `n,ε` such that
 
 Use bounded-degree Brauer–Siegel and the explicit positive residue formula. Uniformly bound roots of unity by degree and absorb the finite small-discriminant range.
 
-See [64][R64], Tsimerman §§2–3, pp.380–384, uses the Brauer–Siegel input; the §2.31e above supplies the uniform result without normality.
+See [64][R64], §2.2, p.382, and proof of Corollary 3.3, p.384, for the Brauer–Siegel input; the §2.31e above supplies the uniform result without normality.
 
 *Needs:* §2.32; §2.5; §2.31e.
 
@@ -2259,7 +2259,7 @@ See [47][R47], Lemma 7.3, p. 375.
 
 For a degree-`n` number field `K, n≥1`, let `a_K(m)` count nonzero integral ideals of `norm m`. For each `m≥1, a_K(m)≤d_n(m)`, where `d_n` counts ordered `n`-tuples of positive integers with product `m`. At each rational prime the Euler factor product over `p`-adic prime ideals `(1−T^(f_i))^(−1)` is coefficientwise bounded by `(1−T)^(−n)`, since `f_i≥1` and the number of factors is `≤n`; multiply over primes.
 
-See [64][R64], Elementary Euler-factor adapter for Tsimerman §2.2, pp.380–381; count split prime-power exponents and compare with `d_n`.
+See [64][R64], §2.2, p.382, where the count `n^(o_g(1))` of ideals of norm `n` in a CM field of degree `2g` is used just before Proposition 2.2; this section is the elementary Euler-factor bound behind that count. Count split prime-power exponents and compare with `d_n`.
 
 *Needs:* `Ideal.absNorm`; `Nat.factorization`.
 
@@ -2267,7 +2267,7 @@ See [64][R64], Elementary Euler-factor adapter for Tsimerman §2.2, pp.380–381
 
 For each integer `n≥1` and `ε>0` there is `C_(n,ε)` with `d_n(m)≤C_(n,ε)m^ε` for every `m≥1`. Use `d_n(p^a)=binomial(a+n−1,n−1)`. For large `p` this is `≤n^a≤p^(εa)`; for the finitely many smaller primes the supremum of the polynomial in a divided by `p^(εa)` is finite. The product of those finitely many constants is independent of `m`.
 
-See [64][R64], Elementary fixed-degree adapter for Tsimerman §2.2, pp.380–381, using the small/large-prime split of the divisor bound; [116][R116], `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`), for `d_n(p^a)`.
+See [64][R64], Elementary fixed-degree adapter for Tsimerman §2.2, p.382, using the small/large-prime split of the divisor bound; [116][R116], `PrimeNumberTheoremAnd/IwaniecKowalskiCh1.lean` (`d_apply_prime_pow`, `d_apply`), for `d_n(p^a)`.
 
 *Needs:* `Nat.factorization`.
 
