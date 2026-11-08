@@ -1027,7 +1027,7 @@ although their block matrices on `⊕_iA` may differ when stabilisers act nontri
 with the projector `E` of §0.2c, `BE` is an ambient extension with image in the
 invariant part. Neither the operator nor its determinant depends on the certificate or
 the class representatives, nor, under the hypotheses of §R17.3.8c on the conjugating
-element at the places of `P`, on the splitting.
+element at the places of `P`, on the splitting, up to the right translation of §0.2e.
 
 **Compactness.** Prove *the compactness of the controlling operator*. The coset
 representatives at `v` contract the `v`-coordinates by `|ϖ_v|`, so `U_P` factors through
@@ -1085,13 +1085,31 @@ Tau Ceti's `ContinuousLinearMap.charPowerSeries` (CompactOperators §1.5) on the
 coordinates, whose extension of `U_P` is `BE`; so
 `ContinuousLinearMap.IsPrCompact.charPowerSeries_eq` makes `H_κ` the block-model
 determinant of `BE`, independent of the certificate and the representatives. Prove that
-it does not depend on the splitting or, on overlapping admissible stages, the radius. The
-splitting independence applies the conjugation invariance of CompactOperators §1.4 (Tau
-Ceti's `ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`) to the slash by the
-conjugating element of GL2AutomorphicRepresentationsAndTransfer §R17.3.8c, a bounded
-isomorphism of form spaces intertwining the two controlling operators. The radius
-independence uses the links of §0.2d and the cyclicity of CompactOperators §1.4 (Tau
-Ceti's `ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`), which applies to a
+it does not depend on the splitting or, on overlapping admissible stages, the radius. For
+the splitting, let `j′_v=h_vj_vh_v⁻¹` at a place `v∈P`, with `h_v∈GL₂(F_v)` meeting the
+two assumptions of GL2AutomorphicRepresentationsAndTransfer §R17.3.8c, put
+`w_v=j_v⁻¹(h_v)`, so that `j′_v(x)=j_v(w_vxw_v⁻¹)` on `D⊗_FF_v`, and let `w∈D_f^×` have
+component `w_v` at `v` and 1 elsewhere. Those assumptions make `w` normalize the level
+`U`: through `j_v` its component at `v` is `U′=K₀(𝔭_v^{t_v})` or `K₁(𝔭_v^{t_v})`
+(§0.2d), the conjugate `h_vU′h_v⁻¹` is a group inside `Σ₀(ϖ_v^{t_v})`, hence inside the
+unit group `K₀(𝔭_v^{t_v})`, the congruence on `d` keeps it inside `K₁(𝔭_v^{t_v})` when
+`U′` is, and conjugation preserves Haar volume, so `h_vU′h_v⁻¹=U′`. Right translation
+`R:φ↦φ(·w⁻¹)` then carries forms for `j_v` to forms for `j′_v` at the same level and
+stage, since `φ(guw⁻¹)=φ(gw⁻¹)|j_v(wuw⁻¹)=φ(gw⁻¹)|j′_v(u)` for `u∈U`. It sends
+evaluation at the class representatives `c_i` to evaluation at the representatives
+`c_iw`, so it is an isometry for these and a bounded isomorphism for any others
+(§R17.3.8b), and it commutes with restriction between stages. It carries the operator
+of `UηU` for `j_v` to that of `Uw⁻¹ηwU` for `j′_v`, where `j′_v(w⁻¹ηw)=j_v(η)`, and
+fixes the operators at the other places, so it intertwines the two operators `U_P`.
+The conjugation invariance of CompactOperators §1.4 (Tau Ceti's
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_conj`, for a continuous linear
+equivalence that need not be isometric) applied to `R` gives the splitting independence.
+When the level at `v` is `K₀(𝔭_v^{t_v})` and `h_v∈K₀(𝔭_v^{t_v})`, `w` lies in `U` and
+`R` is §R17.3.8c's coefficient map, the slash by `h_v⁻¹`; for other conjugating elements
+a slash by `h_v^{±1}` need not act on the analytic coefficients, on which only
+`Σ₀(ϖ_v^{t_v})` acts (Checks). The radius independence uses the links of §0.2d and the
+cyclicity of CompactOperators §1.4 (Tau Ceti's
+`ContinuousLinearMap.IsPrCompact.charPowerSeries_comp_comm`), which applies to a
 link whose restriction `α` or return map `c` is row compact, as `α` is when `r′<r` at
 every `v∈P`; density of one stage in another proves nothing here.
 Over a complete field the nonzero eigenvalues of `U_P`, with algebraic multiplicity, are
@@ -1184,8 +1202,23 @@ follows from `∑_{j<n}⌊j/h_U⌋=h_Um(m−1)/2+ρm` for `n=h_Um+ρ`, `0≤ρ<h
 - For `F_v=ℚ₃(√−3)`, with `e_v=2`, the bound `N>e_v/(p−1)=1` is needed: `ζ₃` lies in
   `1+ϖ_v𝒪_v` for `ϖ_v=1−ζ₃` and `log ζ₃=0`, so `1+ϖ_v𝒪_v` has torsion and no
   `ℤ₃`-basis, while `1+ϖ_v²𝒪_v` is free of rank two.
+- At `F_v=ℚ₂` and `t_v=1`, `h_v=((0,1),(2,0))` meets both assumptions of §R17.3.8c:
+  `h_vγh_v⁻¹=((d,c/2),(2b,a))`, and every unit of `ℤ₂` is 1 modulo 2. Every scalar
+  multiple of `h_v` or `h_v⁻¹` has lower-right entry 0 and so lies outside `Σ₀(2)`; its
+  Möbius map `z↦1/(2z)` sends `1` to `1/2∉ℤ₂`, so no slash by it acts on `A_{κ,r}`.
+  Right translation applies, since `h_v` normalizes `K₀(2)`, and it carries `U_2` for
+  `j_v`, with `j_v(η)=diag(2,1)`, to the operator of `Uw⁻¹ηwU` for `j′_v`, where
+  `j_v(w⁻¹ηw)=diag(1,2)` and `j′_v(w⁻¹ηw)=diag(2,1)`.
+- At `F_v=ℚ₃` and `t_v=1`, `((0,1),(3,0))` also normalizes `K₀(3)` but fails the second
+  assumption of §R17.3.8c: it conjugates `diag(2,1)` to `diag(1,2)`, and `2≢1` modulo 3.
+  It does not normalize `K₁(3)`, which contains `diag(2,1)`.
+- At level `K₀(𝔭_v^{t_v})` with `h_v∈K₀(𝔭_v^{t_v})`, `w` lies in `U`, so
+  `φ(gw⁻¹)=φ(g)|h_v⁻¹` and right translation is §R17.3.8c's coefficient map. The slash by
+  `h_v` instead satisfies `φ(gu)|h_v=(φ(g)|h_v)|(h_v⁻¹j_v(u)h_v)`, so it produces forms
+  for `h_v⁻¹j_vh_v`, not for `j′_v`.
 
-*Needs:* §§0.2c–0.2d; CompactOperators §§1.2, 1.4–1.7, Layers 3–4;
+*Needs:* §§0.2c–0.2d; GL2AutomorphicRepresentationsAndTransfer §§R17.3.8b–R17.3.8d;
+CompactOperators §§1.2, 1.4–1.7, Layers 3–4;
 LocallyAnalyticDistributions §4.2; NewtonPolygons Layer 2; AdicSpacesPartII R0.5;
 PadicFunctionalAnalysis §§2.2, 5.3–5.5; Mathlib `Matrix.charpolyRev`,
 `Matrix.reverse_charpoly`; Tau Ceti `Matrix.charpolyRev_eq_reflect`,
