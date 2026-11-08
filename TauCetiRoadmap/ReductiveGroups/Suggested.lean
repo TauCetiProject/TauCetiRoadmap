@@ -50,9 +50,18 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
 * Layers 4, 7 and 9D: the nonsplit torus/Galois-lattice comparison, the represented quotient
   `G/P` by a parabolic subgroup, and the root datum extracted from a group lack the required
-  comparison carriers. The parabolic predicate itself is pinned (`TauCeti.HopfIdeal.IsParabolic`,
-  `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`), so Layer 7's completeness characterization of
-  parabolics lacks only the represented quotient.
+  comparison carriers. The parabolic predicate is a Tau Ceti declaration
+  (`TauCeti.HopfIdeal.IsParabolic`, `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`, in the module
+  `TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic`), so Layer 7's completeness characterization
+  of parabolics lacks only the represented quotient.
+* Layer 7's Levi decomposition of a parabolic subgroup over an arbitrary field: for a parabolic
+  `P` of a connected reductive `G`, a Hopf ideal of `O(P)` whose quotient restricts to a bijection
+  from the right coinvariants of the `k`-unipotent radical's defining ideal of `P`, in the form
+  of Layer 6A's complement. Its only carriers are the parabolic predicate above and the
+  `k`-unipotent radical. The Tau Ceti revision this file's manifest pins does not contain the
+  module `TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic` (the pinned revision the README cites
+  does), so the parabolic predicate is the missing carrier here and the decomposition is not
+  stated.
   Diagonalizable group schemes and their equivalence with finitely generated
   commutative groups exist in `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
   `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here. The
@@ -62,7 +71,8 @@ Not statable at the pins, hence not stated, with the missing carrier named:
 * Layers 7c–7f: the Harish–Chandra biadjunction, the permutation-bimodule Mackey
   decomposition, common-Levi independence and the Gassmann application. The parabolic
   predicate (`TauCeti.HopfIdeal.IsParabolic`) and the `q`-Frobenius on the points of a
-  finite-field form (`TauCeti.FiniteField.frobeniusPoints`) are pinned; the missing carrier is
+  finite-field form (`TauCeti.FiniteField.frobeniusPoints`) are Tau Ceti declarations; the
+  missing carrier is
   an `F`-stable Levi complement of an `F`-stable parabolic subgroup, as a closed subgroup
   scheme. The pinned dynamic decomposition `TauCeti.Cocharacter.leviDecompositionMulEquiv` is
   a statement about the point subgroups of one cocharacter over one value algebra and carries

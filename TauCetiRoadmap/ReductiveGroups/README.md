@@ -1677,7 +1677,13 @@ the supplier contracts.
   affine `G` (Milne, Theorem 7.18, p. 143), as for `G/B` above; define the Levi complements of
   `P` (Conrad–Feng, Definition H.1.1, p. 238). Prove that the geometric unipotent
   radical of `P` descends to a smooth connected `k`-split normal subgroup `U`,
-  and that a reductive `k`-subgroup `L` exists with `P=L⋉U`. Prove that conjugation
+  and that a reductive `k`-subgroup `L` exists with `P=L⋉U` (Conrad–Feng, §H.1, p. 238). In
+  the form of Layer 6A's complement, this headline reads: `U` is the `k`-unipotent radical of
+  `P`, and there is a Hopf ideal `J` of `O(P)` such that the composite
+  `O(P)^U → O(P) → O(P)/J = O(L)` of the inclusion of the right coinvariants of its defining
+  ideal with the quotient map is bijective, that is, `L = V(J)` maps isomorphically onto
+  `P/U`; for `P = G` the radical is trivial and `J = 0`, and for the Borel `B = T ⋉ U` of
+  `GL₂` over any field `O(B)^U = k[a^{±1}, d^{±1}]` and `J` cuts out `T`. Prove that conjugation
   by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`, and that
   every maximal `k`-torus of `P` lies in exactly one of them (Conrad–Feng,
   Proposition 12.3.1, p. 127).
