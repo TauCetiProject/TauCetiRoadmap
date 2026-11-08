@@ -1,8 +1,11 @@
 module
 
 public import Mathlib
+public import TauCeti.NumberTheory.HeckeRing.Associativity
 public import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 public import TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus
+public import TauCeti.RepresentationTheory.CharacterTwist
+public import TauCeti.RepresentationTheory.ClassicalGroups.SymmetricPower
 
 /-!
 # GL₂ automorphic representations and transfer: target signatures
@@ -22,7 +25,19 @@ isomorphism criterion (R17.1.5), finite-image arithmetic projective lifting
 arithmetic Frobenius traces and determinants of actual weight-one newforms.
 Finite Galois quotients express finite-image Galois representations; the residual
 statement supplies an integral coefficient field and a residue map above two.
-No auxiliary definitions are needed for these statements.
+
+The classical quaternionic forms of R17.3.8a–R17.3.8d are stated with six
+definitions: the weight-`(n, s)` slash `algWeightSlash` on polynomials of bounded
+degree and its right action `algWeightAction` of `∏ GL₂(K)`, the diagonal embedding
+`quaternionDiagonal` of `Dˣ` in the finite adelic units, the level-form module
+`quaternionLevelForms`, and `GL₂` of a local valuation ring inside the invertible
+integral matrices (`gl2Integral`, `gl2IntegralMonoid`). The statements give the action
+law, the rank and the symmetric-power comparison of the coefficient modules, finiteness
+of level forms at open levels for every quaternion algebra over every number field, the
+dimension of classical forms with trivial stabilizer action, and, in the local Hecke ring
+of `GL₂(𝒪)` inside any monoid containing it, the good-place relation
+`T_v² = T_{v²} + (q_v + 1) S_v` and the inversion formulas `[K η⁻¹ K] = S_v⁻¹ T_v` and
+`[K ϖ⁻¹ K] = S_v⁻¹`.
 
 The pinned libraries have algebraic representations, matrix groups, number-field
 completions, idele classes and classical newforms. They do not have the local
@@ -35,7 +50,7 @@ Cuspidal adelic classes, their central-character L² and restricted tensor
 realizations, local Whittaker models and quaternionic automorphic spectra are
 absent at the pins. Thus the global dictionary and analytic recognition results
 (R16.4–R16.6), local/global Jacquet–Langlands and trace comparisons
-(R17.1–R17.3), all-place cyclic, solvable and cubic base change, automorphic
+(R17.1–R17.3, apart from R17.3.8a–R17.3.8d), all-place cyclic, solvable and cubic base change, automorphic
 induction and the Gelbart–Jacquet lift (R17.4), and the all-place Langlands–Tunnell theorem over arbitrary number fields (R17.5)
 have no statements here. The classical Frobenius statement does not express
 exact Artin conductor or ramified local-factor equality.
@@ -179,6 +194,221 @@ theorem nonempty_quaternionAlgEquiv_of_localSplitting (a b c d : Kˣ)
       QuaternionAlgebra K (c : K) 0 (d : K)) := by sorry
 
 end QuaternionRamification
+
+/-! ## Layer R17.3: Global Jacquet–Langlands -/
+
+section AlgebraicCoefficients
+
+open MvPolynomial
+
+variable {K : Type*} [CommRing K] {ι : Type*} [Fintype ι]
+
+/-- R17.3.8a: the right slash of `γ = (γ_i)_i ∈ ∏_i GL₂(K)` in weight `(n, s)`, polynomial
+convention: on monomials,
+`z^m ↦ ∏_i det(γ_i)^{s_i} (a_i z_i + b_i)^{m_i} (c_i z_i + d_i)^{n_i - m_i}`, which on the
+polynomials of degree at most `n_i` in `z_i` is
+`P ↦ ∏_i det(γ_i)^{s_i} (c_i z_i + d_i)^{n_i} · P((a_i z_i + b_i)/(c_i z_i + d_i))`. -/
+noncomputable def algWeightSlash (n : ι → ℕ) (s : ι → ℤ) (γ : ι → GL (Fin 2) K) :
+    MvPolynomial ι K →ₗ[K] MvPolynomial ι K :=
+  (basisMonomials ι K).constr K fun m =>
+    C (∏ i, ((GeneralLinearGroup.det (γ i) ^ s i : Kˣ) : K)) *
+      ∏ i, (C ((γ i : Matrix (Fin 2) (Fin 2) K) 0 0) * X i +
+          C ((γ i : Matrix (Fin 2) (Fin 2) K) 0 1)) ^ m i *
+        (C ((γ i : Matrix (Fin 2) (Fin 2) K) 1 0) * X i +
+          C ((γ i : Matrix (Fin 2) (Fin 2) K) 1 1)) ^ (n i - m i)
+
+/-- R17.3.8a: the weight-`(n, s)` slash preserves the polynomials of degree at most `n_i` in
+each variable `z_i`. -/
+theorem algWeightSlash_mem (n : ι → ℕ) (s : ι → ℤ) (γ : ι → GL (Fin 2) K)
+    {P : MvPolynomial ι K} (hP : P ∈ restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) :
+    algWeightSlash n s γ P ∈ restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i} := by sorry
+
+/-- R17.3.8a: on polynomials of bounded degree the slash is a right action,
+`P|(γδ) = (P|γ)|δ`. -/
+theorem algWeightSlash_mul (n : ι → ℕ) (s : ι → ℤ) (γ δ : ι → GL (Fin 2) K)
+    {P : MvPolynomial ι K} (hP : P ∈ restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) :
+    algWeightSlash n s (γ * δ) P = algWeightSlash n s δ (algWeightSlash n s γ P) := by sorry
+
+/-- R17.3.8a: the identity acts trivially on polynomials of bounded degree. -/
+theorem algWeightSlash_one (n : ι → ℕ) (s : ι → ℤ)
+    {P : MvPolynomial ι K} (hP : P ∈ restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) :
+    algWeightSlash n s 1 P = P := by sorry
+
+/-- R17.3.8a: the algebraic coefficient module `L_{n,s}(K)` of polynomials of degree at most
+`n_i` in `z_i`, with the right action of `∏_i GL₂(K)` by the weight-`(n, s)` slash. -/
+noncomputable def algWeightAction (n : ι → ℕ) (s : ι → ℤ) :
+    (ι → GL (Fin 2) K)ᵐᵒᵖ →*
+      Module.End K (restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) where
+  toFun γ := (algWeightSlash n s γ.unop).restrict fun _ hP => algWeightSlash_mem n s γ.unop hP
+  map_one' := LinearMap.ext fun P => Subtype.ext (algWeightSlash_one n s P.2)
+  map_mul' γ δ := LinearMap.ext fun P => Subtype.ext (algWeightSlash_mul n s δ.unop γ.unop P.2)
+
+/-- R17.3.8a: over a nonzero commutative ring, `L_{n,s}(K)`, free on the monomials by Mathlib's
+`MvPolynomial.basisRestrictSupport`, has rank `∏_i (n_i + 1)`. -/
+theorem finrank_algWeight [Nontrivial K] (n : ι → ℕ) :
+    Module.finrank K (restrictSupport K {m : ι →₀ ℕ | ∀ i, m i ≤ n i}) = ∏ i, (n i + 1) := by
+  sorry
+
+end AlgebraicCoefficients
+
+section SymmetricPowerComparison
+
+open MvPolynomial
+open scoped TensorProduct
+
+/-- R17.3.8a: in one variable, over every commutative ring, `L_{n,s}(K)` with the left action
+`g ↦ (·)|g⁻¹` is the `n`th symmetric power of the standard representation twisted by
+`det^{-n-s}`. -/
+theorem algWeight_equiv_symPowerRep (K : Type) [CommRing K] (n : ℕ) (s : ℤ) :
+    ∃ e : restrictSupport K {m : Unit →₀ ℕ | ∀ i, m i ≤ n} ≃ₗ[K] Sym[K]^n (Fin 2 → K),
+      ∀ (g : GL (Fin 2) K) (P : restrictSupport K {m : Unit →₀ ℕ | ∀ i, m i ≤ n}),
+        e (algWeightAction (fun _ => n) (fun _ => s) (MulOpposite.op fun _ => g⁻¹) P) =
+          Representation.charTwist
+            ((zpowGroupHom (-(n : ℤ) - s)).comp GeneralLinearGroup.det)
+            (TauCeti.symPowerRep K 2 n) g (e P) := by sorry
+
+end SymmetricPowerComparison
+
+section QuaternionicForms
+
+open IsDedekindDomain NumberField
+open scoped NumberField TensorProduct
+
+variable {F : Type*} [Field F] [NumberField F] {D : Type*} [Ring D] [Algebra F D]
+
+/-- R17.3.8b: the diagonal embedding of `Dˣ` in the finite adelic units
+`(𝔸_{F,f} ⊗_F D)ˣ`. -/
+noncomputable def quaternionDiagonal :
+    Dˣ →* (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ :=
+  Units.map (Algebra.TensorProduct.includeRight : D →ₐ[F] FiniteAdeleRing (𝓞 F) F ⊗[F] D)
+
+/-- R17.3.8b: quaternionic level forms of level `U` with values in a right `Δ`-module `A`:
+functions `φ` on the finite adelic units with `φ(γ g u) = φ(g)|u` for `γ ∈ Dˣ`, `u ∈ U`. -/
+def quaternionLevelForms {R A : Type*} [CommRing R] [AddCommGroup A] [Module R A]
+    (Δ : Submonoid (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ) (ρ : Δᵐᵒᵖ →* Module.End R A)
+    (U : Subgroup (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ) (hU : U.toSubmonoid ≤ Δ) :
+    Submodule R ((FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ → A) where
+  carrier := {φ | ∀ (γ : Dˣ) (g : (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ) (u : U),
+    φ (quaternionDiagonal γ * g * (u : (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ)) =
+      ρ (MulOpposite.op ⟨u, hU u.2⟩) (φ g)}
+  add_mem' {φ ψ} hφ hψ γ g u := by
+    simp only [Pi.add_apply, map_add, hφ γ g u, hψ γ g u]
+  zero_mem' γ g u := by simp
+  smul_mem' c φ hφ γ g u := by
+    simp only [Pi.smul_apply, map_smul, hφ γ g u]
+
+/-- R17.3.8b: at an open level, compact or not, quaternionic level forms with finite
+coefficients over a Noetherian ring form a finite module, for every quaternion algebra over
+every number field and every right coefficient action. -/
+theorem quaternionLevelForms_finite [Algebra.IsCentral F D] [IsSimpleRing D]
+    (hD : Module.finrank F D = 4)
+    [TopologicalSpace (FiniteAdeleRing (𝓞 F) F ⊗[F] D)]
+    [IsModuleTopology (FiniteAdeleRing (𝓞 F) F) (FiniteAdeleRing (𝓞 F) F ⊗[F] D)]
+    {R A : Type*} [CommRing R] [IsNoetherianRing R] [AddCommGroup A] [Module R A]
+    [Module.Finite R A]
+    (Δ : Submonoid (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ) (ρ : Δᵐᵒᵖ →* Module.End R A)
+    (U : Subgroup (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ) (hU : U.toSubmonoid ≤ Δ)
+    (hUo : IsOpen (U : Set (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ)) :
+    Module.Finite R (quaternionLevelForms Δ ρ U hU) := by sorry
+
+/-- R17.3.8c: classical quaternionic forms with coefficients `L_{n,s}(K)`, acted on through
+any homomorphism `τ` of the finite adelic units to `∏_i GL₂(K)`, at an open level whose
+arithmetic stabilizers act trivially, are finite-dimensional of dimension
+`#Cl(U) · ∏_i (n_i + 1)`. -/
+theorem classicalForms_finrank [Algebra.IsCentral F D] [IsSimpleRing D]
+    (hD : Module.finrank F D = 4)
+    [TopologicalSpace (FiniteAdeleRing (𝓞 F) F ⊗[F] D)]
+    [IsModuleTopology (FiniteAdeleRing (𝓞 F) F) (FiniteAdeleRing (𝓞 F) F ⊗[F] D)]
+    {K ι : Type*} [Field K] [Fintype ι] (n : ι → ℕ) (s : ι → ℤ)
+    (τ : (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ →* (ι → GL (Fin 2) K))
+    (U : Subgroup (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ)
+    (hUo : IsOpen (U : Set (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ))
+    (htriv : ∀ x u : (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ, u ∈ U →
+      x * u * x⁻¹ ∈ (quaternionDiagonal (F := F) (D := D)).range →
+      algWeightAction n s (MulOpposite.op (τ u)) = 1) :
+    Module.Finite K (quaternionLevelForms ⊤
+        ((algWeightAction n s).comp ((MonoidHom.op τ).comp
+          (MonoidHom.op (⊤ : Submonoid (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ).subtype)))
+        U le_top) ∧
+      Module.finrank K (quaternionLevelForms ⊤
+        ((algWeightAction n s).comp ((MonoidHom.op τ).comp
+          (MonoidHom.op (⊤ : Submonoid (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ).subtype)))
+        U le_top) =
+        Nat.card (DoubleCoset.Quotient
+          ((quaternionDiagonal (F := F) (D := D)).range :
+            Set (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ)
+          (U : Set (FiniteAdeleRing (𝓞 F) F ⊗[F] D)ˣ)) * ∏ i, (n i + 1) := by sorry
+
+end QuaternionicForms
+
+section LocalHecke
+
+open ValuativeRel
+open scoped HeckeCosetModule
+
+variable (L : Type*) [Field L] [ValuativeRel L] [TopologicalSpace L]
+  [IsNonarchimedeanLocalField L]
+
+/-- R17.3.8d: `GL₂` of the valuation ring, as a subgroup of `GL₂(L)`. -/
+noncomputable def gl2Integral : Subgroup (GL (Fin 2) L) :=
+  (GeneralLinearGroup.map (𝒪[L]).subtype).range
+
+/-- R17.3.8d: the invertible matrices with entries in the valuation ring. -/
+noncomputable def gl2IntegralMonoid : Submonoid (GL (Fin 2) L) where
+  carrier := {g | ∀ i j, (g : Matrix (Fin 2) (Fin 2) L) i j ∈ 𝒪[L]}
+  mul_mem' {a b} ha hb i j := by
+    simp only [Units.val_mul, Matrix.mul_apply, Fin.sum_univ_two]
+    exact add_mem (mul_mem (ha _ _) (hb _ _)) (mul_mem (ha _ _) (hb _ _))
+  one_mem' i j := by
+    simp only [Units.val_one, Matrix.one_apply]
+    split_ifs
+    · exact one_mem _
+    · exact zero_mem _
+
+/-- R17.3.8d: every element of `GL₂(L)` commensurates `GL₂(𝒪)`, so any submonoid containing
+`GL₂(𝒪)`, such as `gl2IntegralMonoid L` or all of `GL₂(L)`, forms a Hecke pair with it. -/
+theorem gl2Integral_isHeckeTriple {Δ : Submonoid (GL (Fin 2) L)}
+    (hΔ : (gl2Integral L).toSubmonoid ≤ Δ) :
+    IsHeckeTriple Δ (gl2Integral L) (gl2Integral L) := by sorry
+
+/-- R17.3.8d: the good-place relation `T_v² = T_{v²} + (q_v + 1) S_v` in the Hecke ring of
+`GL₂(𝒪)` inside any submonoid containing the three double cosets, for a uniformizer `ϖ` and
+residue field of cardinality `q_v`. -/
+theorem gl2_hecke_T_sq (Δ : Submonoid (GL (Fin 2) L))
+    [IsHeckeTriple Δ (gl2Integral L) (gl2Integral L)]
+    (ϖ : Lˣ) (hϖ : ∃ h : (ϖ : L) ∈ 𝒪[L], Irreducible (⟨ϖ, h⟩ : 𝒪[L]))
+    (t t₂ z : Δ)
+    (ht : ((t : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![(ϖ : L), 0; 0, 1])
+    (ht₂ : ((t₂ : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![(ϖ : L) ^ 2, 0; 0, 1])
+    (hz : ((z : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![(ϖ : L), 0; 0, (ϖ : L)]) :
+    HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) t) 1 *
+        HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) t) 1 =
+      HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) t₂) 1 +
+        ((Nat.card 𝓀[L] + 1 : ℕ) : ℤ) •
+          HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) z) 1 := by
+  sorry
+
+/-- R17.3.8d: the inversion formulas `[K η⁻¹ K] = S_v⁻¹ T_v` and `[K ϖ⁻¹ K] = S_v⁻¹`, with
+`η = diag(ϖ, 1)` and `S_v = [K ϖ K]`, in the Hecke ring of `K = GL₂(𝒪)` inside any submonoid
+containing these double cosets, for instance all of `GL₂(L)`. -/
+theorem gl2_hecke_inv (Δ : Submonoid (GL (Fin 2) L))
+    [IsHeckeTriple Δ (gl2Integral L) (gl2Integral L)]
+    (ϖ : Lˣ) (hϖ : ∃ h : (ϖ : L) ∈ 𝒪[L], Irreducible (⟨ϖ, h⟩ : 𝒪[L]))
+    (t t' z z' : Δ)
+    (ht : ((t : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![(ϖ : L), 0; 0, 1])
+    (ht' : ((t' : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![((ϖ⁻¹ : Lˣ) : L), 0; 0, 1])
+    (hz : ((z : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) = !![(ϖ : L), 0; 0, (ϖ : L)])
+    (hz' : ((z' : GL (Fin 2) L) : Matrix (Fin 2) (Fin 2) L) =
+      !![((ϖ⁻¹ : Lˣ) : L), 0; 0, ((ϖ⁻¹ : Lˣ) : L)]) :
+    HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) t') 1 =
+        HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) z') 1 *
+          HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) t) 1 ∧
+      HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) z') 1 *
+          HeckeCosetModule.single ℤ (HeckeCoset.mk (gl2Integral L) (gl2Integral L) z) 1 =
+        1 := by
+  sorry
+
+end LocalHecke
 
 /-! ## Layer R17.5: Automorphic induction and solvable Artin representations -/
 
