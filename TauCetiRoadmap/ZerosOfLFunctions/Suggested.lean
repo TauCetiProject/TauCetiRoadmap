@@ -38,11 +38,15 @@ Not statable at the pins:
   ray class group, no Artin symbol and no Frobenius-class prime count, and the Tau Ceti revision
   this file is built against supplies none of them.
 
-The direct primitive Dirichlet subsection imports the native `dirichletData` record and
-continued L-function. It adds the completion comparisons, a fixed gamma bound, the
-retained-zero inequalities, and the finite-family radius. General record growth,
-gamma-factor, conductor, counting, rectangle-contour and certificate statements not
-prototyped here remain definitive README targets.
+Stated here as well, from the direct primitive Dirichlet subsection 6.4a, on the native
+`dirichletData` record and Mathlib's continued `DirichletCharacter.LFunction`: the order bound
+of the record's completion, the gamma constant `gammaLogDerivBound`, the one-zero and
+finite-sum retained-zero inequalities, and the finite-family radius. The completion
+comparisons of 6.4a, its gamma bound on `[1, 3]` and its logarithmic-derivative comparison are
+README targets, as are the growth, gamma-factor, conductor, counting, rectangle-contour and
+certificate statements of Layers 0–2, 4, 7.1–7.3 and 9: they are about the L-functions
+roadmap's analytic records, which are not at the pins, or are lemmas on the way to the
+headlines.
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
@@ -224,11 +228,7 @@ theorem primeCounting_progression_effective :
 
 end TauCetiRoadmap.ZerosOfLFunctions
 
-/-! ## Direct primitive Dirichlet interfaces, README §6.4d–e
-
-These signatures use the native pole-free completed record. The README also requires
-its identification with the canonical entire completion and continued function.
--/
+/-! ## Layer 6, §6.4a: direct primitive Dirichlet interfaces -/
 
 noncomputable section
 
@@ -239,43 +239,30 @@ open scoped BigOperators
 
 variable {q : ℕ} [NeZero q]
 
-theorem completed_entire (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
-    (hne : χ ≠ 1) : Differentiable ℂ (dirichletData χ hprim).completed := by
-  sorry
-
+/-- **6.4a, order of the completion.** For a primitive `χ ≠ 1` modulo `q`, the completed
+function `q^{s/2} Λ(s, χ)` of the native record is entire of order at most one, from the
+vertical-strip bounds of Layer 1 and the functional equation; it is the order-one input of the
+Hadamard product of Montgomery–Vaughan, Theorem 10.16, p. 351. -/
 theorem completed_orderLE_one (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
     (hne : χ ≠ 1) : OrderLE (dirichletData χ hprim).completed 1 := by
   sorry
 
-theorem analyticOrderAt_completed_eq (χ : DirichletCharacter ℂ q)
-    (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (s : ℂ) (hs0 : 0 < s.re) :
-    analyticOrderAt (dirichletData χ hprim).completed s = analyticOrderAt χ.LFunction s := by
-  sorry
-
-/-- The conductor normalization contributes `log q / 2` to the logarithmic derivative. -/
-theorem logDeriv_completed (χ : DirichletCharacter ℂ q) (hprim : χ.IsPrimitive)
-    (s : ℂ) (hs : 1 < s.re) :
-    logDeriv (dirichletData χ hprim).completed s =
-      (Real.log q : ℂ) / 2 + logDeriv χ.gammaFactor s + logDeriv χ.LFunction s := by
-  sorry
-
-theorem LFunction_real (χ : DirichletCharacter ℂ q) (hreal : χ.IsQuadratic)
-    (hne : χ ≠ 1) (σ : ℝ) : (χ.LFunction σ).im = 0 := by
-  sorry
-
-/-- A fixed computable majorant for both real Dirichlet parity shifts. -/
+/-- **6.4a, the gamma constant** `C_Γ = ½ (|ψ(1/2)| + |ψ(3/2)| + |log π|)`, written in Euler's
+constant and elementary logarithms (`ψ(1/2) = −γ_E − 2 log 2`, `ψ(3/2) = 2 − γ_E − 2 log 2`,
+DLMF 5.4.13 and 5.5.2). Its value is `1 + (log π)/2`, and it bounds `‖logDeriv Gammaℝ s‖` for
+real `1 ≤ s ≤ 3`, the interval covering both parity shifts `σ + κ` with `1 < σ ≤ 2` and
+`κ ∈ {0, 1}`. -/
 def gammaLogDerivBound : ℝ :=
   (|-Real.eulerMascheroniConstant - 2 * Real.log 2| +
     |2 - Real.eulerMascheroniConstant - 2 * Real.log 2| + |Real.log Real.pi|) / 2
 
-theorem gammaLogDerivBound_nonneg : 0 ≤ gammaLogDerivBound := by
-  sorry
-
-theorem norm_logDeriv_GammaR_le (s : ℝ) (hs : s ∈ Set.Icc (1 : ℝ) 3) :
-    ‖logDeriv Complex.Gammaℝ (s : ℂ)‖ ≤ gammaLogDerivBound := by
-  sorry
-
-/-- The constant is fixed explicitly before every member of the family. -/
+/-- **6.4a, the one-zero inequality.** For a primitive real `χ ≠ 1` of conductor `q ≥ 3`, a
+real zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`,
+`1/(σ − β) ≤ Re (L'/L)(σ, χ) + ½ log q + C_Γ`, with the constant `C_Γ` fixed before `q`, `χ`,
+`β` and `σ`. The route is the partial-fraction expansion of `L'/L` with the real-part
+cancellation `Re B(χ) = −∑_ρ Re (1/ρ)` (Montgomery–Vaughan, Corollary 10.18, (10.37)–(10.38),
+pp. 352–353): every zero of the completion contributes `Re (1/(σ − ρ)) ≥ 0`, all but one copy of
+`β` are discarded, and the gamma term is at most `C_Γ`. -/
 theorem one_zero_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ q)
     (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (hreal : χ.IsQuadratic)
     (β σ : ℝ) (hβ0 : 0 < β) (hβ1 : β < 1) (hzero : χ.LFunction β = 0)
@@ -284,6 +271,10 @@ theorem one_zero_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ q)
       Real.log q / 2 + gammaLogDerivBound := by
   sorry
 
+/-- **6.4a, the finite-sum inequality.** The same bound with any finite set `S` of zeros of
+`L(·, χ)` in the critical strip retained, each weighted by its analytic multiplicity
+`analyticOrderNatAt`; the constant `C_Γ` does not depend on `S` (Montgomery–Vaughan,
+Corollary 10.18, (10.37)–(10.38), pp. 352–353). -/
 theorem finite_zero_sum_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ q)
     (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (hreal : χ.IsQuadratic)
     (S : Finset ℂ) (hS : ∀ ρ ∈ S, 0 < ρ.re ∧ ρ.re < 1 ∧ χ.LFunction ρ = 0)
@@ -293,7 +284,11 @@ theorem finite_zero_sum_le_logDeriv (χ : DirichletCharacter ℂ q) (hq : 3 ≤ 
       (logDeriv χ.LFunction (σ : ℂ)).re + Real.log q / 2 + gammaLogDerivBound := by
   sorry
 
-/-- A finite-family disk, with no unbounded-conductor or effective claim. -/
+/-- **6.4a, the finite-family radius.** For every bound `Q` there is one radius `δ_Q > 0` such
+that every nonprincipal character `χ` modulo `q ≤ Q` has `L(s, χ) ≠ 0` on `‖s − 1‖ < δ_Q`: the
+family is finite, each `L(·, χ)` is continuous at `1` with
+`DirichletCharacter.LFunction_apply_one_ne_zero`, and `δ_Q` is the least of the individual
+radii. No effectiveness and no uniformity over unbounded conductors is claimed. -/
 theorem bounded_level_zero_free (Q : ℕ) :
     ∃ δ : ℝ, 0 < δ ∧ ∀ (q : ℕ) [NeZero q], q ≤ Q →
       ∀ (χ : DirichletCharacter ℂ q), χ ≠ 1 →

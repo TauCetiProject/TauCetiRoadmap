@@ -61,7 +61,7 @@ not the roadmap.
 - ideal arithmetic functions, the ideal von Mangoldt function, Abel and truncated Perron
   summation, the offset logarithmic integral and the prime-number-theorem transfer, from the
   [Arithmetic Dirichlet Series roadmap](../../Completed/ArithmeticDirichletSeries/README.md),
-  Layers 0–2, 6 and 10; these are roadmap contracts, including when absent from the library pin;
+  Layers 0–3, 5, 6 and 9–10; these are roadmap contracts, including when absent from the library pin;
 - moduli, ray class groups, ray-class characters and the class of an ideal prime to a modulus, from the
   [Global Number Fields roadmap](../../Completed/GlobalNumberFields/README.md), Layers 2 and 9;
 - the Artin symbol, from the
@@ -167,23 +167,29 @@ not the roadmap.
 - `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`,
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
-- `Complex.PhragmenLindelof.vertical_strip` (convexity on a strip);
+- `PhragmenLindelof.vertical_strip` (convexity on a strip);
 - `Complex.exists_continuousOn_eqOn_exp_comp` (a continuous logarithm on a simply connected open
   set);
 - `Complex.differentiableOn_update_limUnder_of_bddAbove` (removable singularities);
-- `multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
-  `logDeriv_tprod_eq_tsum` (infinite products), with `Complex.multipliable_sineTerm` and
-  `Complex.cot_series_rep` as the genus-`0` model;
+- `Summable.multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
+  `logDeriv_tprod_eq_tsum` (infinite products), with `multipliable_sineTerm` and
+  `cot_series_rep` as the genus-`0` model;
 - `Complex.borelCaratheodory`;
 - `Complex.Gamma`, `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
   `Complex.differentiable_Gammaℂ_inv` (the reciprocal gamma functions are entire);
+  `Complex.digamma_one_half`, `Complex.digamma_apply_add_one` (the half-integer values of
+  digamma) and `Real.eulerMascheroniConstant`;
 - `completedRiemannZeta`, `completedRiemannZeta₀`, `riemannZeta`, `riemannZeta_zero`,
   `riemannZeta_def_of_ne_zero`, `riemannZetaZeros`, `isDiscrete_riemannZetaZeros`,
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
 - `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`,
+  `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
+  `DirichletCharacter.differentiable_completedLFunction`,
   `riemannZeta_ne_zero_of_one_le_re`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
-  `DirichletCharacter.norm_LFunction_product_ge_one`;
+  `DirichletCharacter.LFunction_apply_one_ne_zero`,
+  `DirichletCharacter.norm_LFunction_product_ge_one`; `analyticOrderNatAt` (the multiplicity
+  of a zero of an analytic function, `0` at a non-zero and for the zero function);
 - `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin transform and inversion);
 - `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `NumberField.dedekindZeta`,
   `NumberField.dedekindZeta_residue`, `Ideal.absNorm`.
@@ -192,9 +198,11 @@ not the roadmap.
 
 Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
 
-- contour integration (`Analysis/Contour/`): `TauCeti.Contour.IsPiecewiseC1On`,
-  `TauCeti.Contour.windingNumber`, `TauCeti.Contour.IsNullHomologous` with
-  `TauCeti.Contour.isNullHomologous_iff`; `TauCeti.Contour.argumentPrinciple_nullHomologous`
+- piecewise-`C¹` curves (`Analysis/Calculus/ContDiff/PiecewiseC1On.lean`):
+  `TauCeti.IsPiecewiseC1On`;
+- contour integration (`Analysis/Contour/`): `TauCeti.Contour.windingNumber` and
+  `TauCeti.Contour.IsNullHomologous` with `TauCeti.Contour.isNullHomologous_iff`
+  (`Winding/Number/Basic.lean`); `TauCeti.Contour.argumentPrinciple_nullHomologous`
   (`Argument/Cycle.lean`), which for `f` analytic and nonvanishing on `U` off a finite set `S`,
   meromorphic at the points of `S` with integer orders `ord`, and a closed piecewise-`C¹`
   null-homologous curve in `U` avoiding `S`, evaluates `∫ γ' · (f'/f)(γ)` as
@@ -202,7 +210,15 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` (`LogDerivFTC.lean`), the winding
   number of the image curve `f ∘ γ` about `0`; and
   `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition` (`Argument/Lift.lean`), the
-  continuous argument lift of a curve avoiding a point.
+  continuous argument lift of a curve avoiding a point;
+- Dirichlet L-functions (`NumberTheory/LFunctions/Dirichlet/Basic.lean`):
+  `TauCeti.LFunctions.dirichletData χ hχ`, the analytic record of a primitive character `χ`
+  modulo `q` (the implementation of L-functions Layer 4), with `dirichletData_conductor`
+  (conductor `q`), `dirichletData_gammaR` (one real gamma shift, `0` for even and `1` for odd
+  `χ`), `dirichletData_completed` (the completed function is
+  `q^(s/2) · χ.completedLFunction s`), `dirichletData_polarOrder` (zero for `q ≠ 1`),
+  `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
+  `dirichletData_hasFunctionalEquation`.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -218,7 +234,7 @@ and its discharged target signatures, rather than declarations of the Tau Ceti p
 - §§6.3–6.4: `truncatedPerronKernel_one`, `truncatedPerron_LSeries`,
   `norm_truncatedPerron_LSeries_sub_sum_le` and `perronFormula`; absolute convergence on the
   integration line is required, and the finite-height endpoint is `π⁻¹ arctan(T/c)`, not `1/2`;
-- Layers 9–10: `LSeries.wienerIkehara` and `primeNumberTheoremTransfer`, with the exact
+- Layers 9–10: `wienerIkehara` and `primeNumberTheoremTransfer`, with the exact
   nonnegative von Mangoldt coefficient and boundary remainder specified there.
 
 ### From TauCetiRoadmap.GlobalNumberFields
@@ -481,19 +497,16 @@ This additive form composes over products.
 `logDeriv Gammaℝ s = digamma (s/2)/2 − (log π)/2` and `logDeriv Gammaℂ s = digamma s − log (2π)`
 at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors).
 
-For real `x > 0`, give `(Complex.digamma x).im = 0` and monotonicity of
-`x ↦ (Complex.digamma (x : ℂ)).re` on `Ioi 0`, and the explicit
-values `digamma(1/2) = −γ_E − 2 log 2` and
-`digamma(3/2) = 2 − γ_E − 2 log 2`. Consume the existing digamma recurrence,
-duplication, and special-value API. Prove any missing monotonicity comparison from
-the positive derivative series `ψ′(x) = Σ_{k≥0}(k+x)⁻²`, including its convergence
-and differentiation justification. These real-variable inputs supply a computable
-bound on the gamma term in the direct Dirichlet exports of 6.4d.
-Sources: [DLMF 5.4.13 and 5.4.15](https://dlmf.nist.gov/5.4#E13),
-[5.5.2](https://dlmf.nist.gov/5.5#E2), and
-[5.15.1](https://dlmf.nist.gov/5.15#E1).
+For real `x > 0`, `(Complex.digamma x).im = 0`, and `x ↦ (Complex.digamma (x : ℂ)).re` is
+strictly increasing on `Ioi 0`, since its derivative is the positive convergent series
+`ψ′(x) = ∑_{k ≥ 0} (k + x)⁻²` (DLMF 5.15.1; the convergence and the termwise differentiation
+are part of the target). The values `ψ(1/2) = −γ_E − 2 log 2` and `ψ(3/2) = 2 − γ_E − 2 log 2`
+are `Complex.digamma_one_half` and the recurrence `Complex.digamma_apply_add_one`
+(DLMF 5.4.13, 5.4.15 and 5.5.2). These real-variable inputs give the bound on the gamma term
+of the direct Dirichlet exports of 6.4a.
 
-*Needs:* 1.2; Mathlib `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`.
+*Needs:* 1.2; Mathlib `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
+`Complex.digamma_one_half`, `Complex.digamma_apply_add_one`.
 
 ### 1.5 The gamma factor of a record
 
@@ -591,9 +604,9 @@ Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_z
 
 ### Dependencies
 
-Mathlib: `Complex.exists_continuousOn_eqOn_exp_comp`, the Gamma and digamma API, the entire
-reciprocal gamma functions, `riemannZeta`. L-functions Layers 0, 3, 5. Layer 0 for the record's
-predicates.
+Mathlib: `Complex.exists_continuousOn_eqOn_exp_comp`, the Gamma and digamma API with its
+half-integer values, the entire reciprocal gamma functions, `riemannZeta`. L-functions
+Layers 0, 3, 5. Layer 0 for the record's predicates.
 
 ## Layer 2: the analytic conductor
 
@@ -1151,106 +1164,118 @@ assembled from six targets.
 `completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Global Number Fields Layer 2
 `TauCeti.GlobalNumberFields.finite_rayClassGroup`.
 
-#### Direct primitive Dirichlet exports of 6.4d–e
+### 6.4a Direct primitive Dirichlet exports of 6.4d–e
 
-Expose the rational statements directly on Mathlib's continued `DirichletCharacter.LFunction`
-and the implemented `TauCeti.LFunctions.dirichletData χ hχ`, imported from
-`TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.lean`. This record has conductor `q`,
-gamma shift `κ = 0` or `1` according to parity, and completed function
-`q^(s/2) * χ.completedLFunction s`. Mathlib's `completedLFunction` alone omits the
-conductor power. Consume the record's proved `HasDirichletAgreement`,
-`HasMeromorphicContinuation`, and `HasFunctionalEquation` instances.
+State the rational cases of 6.4d and 6.4e directly on Mathlib's continued
+`DirichletCharacter.LFunction` and on the Tau Ceti record `TauCeti.LFunctions.dirichletData χ hχ`
+of a primitive character `χ` modulo `q`: its conductor is `q`, its gamma shift is `κ = 0` for even
+and `κ = 1` for odd `χ`, and its completed function is `q^(s/2) · χ.completedLFunction s`
+(Mathlib's `completedLFunction` alone omits the conductor power). The record's proved
+`HasDirichletAgreement`, `HasMeromorphicContinuation` and `HasFunctionalEquation` instances are
+consumed, not reproved. No general Hecke construction is a prerequisite of this route; the
+Dirichlet-to-ray-class dictionary of Analytic Number Theory Part I §0.30 consumes these results
+and supplies nothing to them.
 
-For primitive `χ ≠ 1`, prove `polarOrder = 0` and identify Layer 0's
-`entireCompletion (dirichletData χ hχ)` with this canonical completed function,
-including at zero and one. Identify Layer 1.6's continued function with the native
-continued Dirichlet function. On `0 < Re s`, prove equality of ordinary and
-completed zero multiplicities, since the gamma and conductor factors are regular
-and nonzero there. Give the logarithmic-derivative comparison for `Re s > 1`,
-conjugation symmetry, and reality at real arguments for real characters.
+**Completion comparisons.** For primitive `χ ≠ 1`: `polarOrder = 0`, so Layer 0's
+`entireCompletion (dirichletData χ hχ)` is the record's completed function at every `s`, `0` and
+`1` included; the continued function of 1.6 is the native `χ.LFunction`; on `0 < Re s` the
+ordinary and completed zero multiplicities agree, since the conductor and gamma factors are
+regular and nonzero there; for `Re s > 1`,
+`logDeriv completed s = (log q)/2 + logDeriv χ.gammaFactor s + logDeriv χ.LFunction s`;
+`Λ(conj s, χ) = conj Λ(s, χ⁻¹)`; and for real `χ ≠ 1` the value `χ.LFunction σ` is real at every
+real `σ`. The multiplicity comparison needs `0 < Re s`: for even `χ` at `s = 0`, `L(0, χ) = 0`
+while the completion is nonzero, because `Gammaℝ` has a pole there.
 
-Construct the direct Dirichlet growth and strip inputs to Layers 2–5 from the
-Dirichlet continuation and functional equation: polynomial vertical-strip bounds,
-order at most one of the completion, location of completed zeros in the critical
-strip, and the edge nonvanishing comparisons. Apply the generic entire-completion,
-Jensen, canonical-product, entire-logarithm, and order-one factorization targets.
-These are applications with their hypotheses proved, rather than a record assuming
-the required zero estimate. No general Hecke-family construction is a prerequisite
-for this direct route. The Dirichlet-to-ray-class dictionary in Analytic Number
-Theory Part I §0.30 consumes these results and supplies no prerequisites back to them.
+**Growth, strip and order inputs.** From the native continuation and functional equation derive
+the polynomial vertical-strip bounds, the order bound `completed_orderLE_one` (the record's
+completed function is entire of order at most one), the location of the completed zeros in
+`0 < Re s < 1`, and the edge nonvanishing of 6.5 for this family, so that the entire-completion,
+Jensen, canonical-product, entire-logarithm and order-one factorization targets of Layers 0–5
+apply to the record with their hypotheses proved rather than assumed.
 
-Export one absolute, effectively computable `C ≥ 0`, fixed before `q`, `χ`, `β`, and `σ`, such that for
-primitive nonprincipal real characters of conductor `q ≥ 3`, a real zero
-`0 < β < 1`, and `1 < σ ≤ 2`,
+**The gamma constant.** Define `gammaLogDerivBound`, written `C_Γ`, as
+`½ (|−γ_E − 2 log 2| + |2 − γ_E − 2 log 2| + |log π|)`: Euler's constant and elementary
+logarithms only, so that the bound is effective without a numerical computation. Its API:
 
-\[
-\frac{1}{\sigma-\beta}
-\le \operatorname{Re}(\logDeriv L_\chi)(\sigma)+\frac12\log q+C.
-\]
+- `C_Γ = 1 + (log π)/2`: the first two absolute values are `−ψ(1/2)` and `ψ(3/2)`, which sum to
+  `2` by the recurrence `ψ(3/2) = ψ(1/2) + 2` (1.4), and `log π > 0`.
+- `0 ≤ C_Γ`.
+- `‖logDeriv Gammaℝ s‖ ≤ C_Γ` for real `1 ≤ s ≤ 3`: by 1.4,
+  `logDeriv Gammaℝ s = ψ(s/2)/2 − (log π)/2` with `ψ` increasing on `(0, ∞)`, so `ψ(s/2)` lies
+  between `ψ(1/2)` and `ψ(3/2)`, and the triangle inequality gives the bound. The interval
+  `[1, 3]` covers both parity shifts `σ + κ` with `1 < σ ≤ 2` and `κ ∈ {0, 1}`.
+- On `[1, 3]` the gamma term itself is negative, between `−1.5542` and `−0.5542`, so `C_Γ` is a
+  two-sided bound and not the sharp one-sided one; the two-sided form is what the
+  complex-argument inequality of 6.4d needs.
 
-Also retain any finite set `S` of nontrivial complex zeros, with their analytic
-multiplicities `mρ`:
+**Checks.**
 
-\[
-\sum_{\rho\in S}m_\rho\operatorname{Re}\frac1{\sigma-\rho}
-\le \operatorname{Re}(\logDeriv L_\chi)(\sigma)+\frac12\log q+C.
-\]
+- `C_Γ = 1 + (log π)/2 ≈ 1.57236`, since `|ψ(1/2)| + |ψ(3/2)| = 1.96351 + 0.03649 = 2` exactly;
+  a definition that dropped the `|log π|` term would give `1`.
+- The tight end: `‖logDeriv Gammaℝ 1‖ = |ψ(1/2)/2 − (log π)/2| ≈ 1.55412 ≤ 1.57236`; the
+  definition without `|log π|` fails here, since `1 < 1.55412`.
+- The other end: `‖logDeriv Gammaℝ 3‖ = |ψ(3/2)/2 − (log π)/2| ≈ 0.55412`; the function is
+  increasing on `[1, 3]`, so the norm is largest at `s = 1`.
+- A definition that used `ψ(1) = −γ_E` in place of `ψ(1/2)` would give
+  `½ (0.57722 + 0.03649 + 1.14473) ≈ 0.87922 < 1.55412`, and fails at `s = 1`.
 
-Use the same constant independently of `S`. Derive the sum from the convergent
-real-part partial-fraction expansion; justify cancellation of `Re b` by the functional
-equation and reality, and use the nonnegative contributions of all discarded zeros.
-Prove uniform boundedness of the gamma logarithmic derivative on `1 < σ ≤ 2` for
-both parities. A selected real zero can have any positive multiplicity; the first
-inequality discards all but one copy. The principal character has pole terms and
-does not satisfy this displayed nonprincipal formula.
+**The retained-zero inequalities.** For a primitive nonprincipal real `χ` of conductor `q ≥ 3`,
+a real zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`, prove `one_zero_le_logDeriv`:
 
-Supply an explicit admissible bound, rather than only a constant selected by compactness.
-One fixed choice is
+    1/(σ − β) ≤ Re (logDeriv L_χ)(σ) + ½ log q + C_Γ,
 
-\[
-C_\Gamma=\tfrac12\bigl(|-\gamma_E-2\log2|
-  +|2-\gamma_E-2\log2|+|\log\pi|\bigr).
-\]
+and, for any finite set `S` of zeros `ρ` of `L(·, χ)` with `0 < Re ρ < 1`, each with its analytic
+multiplicity `m_ρ = analyticOrderNatAt L_χ ρ`, prove `finite_zero_sum_le_logDeriv`:
 
-Section 1.4's real digamma comparisons give `‖logDeriv Gammaℝ(s)‖ ≤ C_Γ` for
-real `1 ≤ s ≤ 3`, covering both parity shifts. Use `C = C_Γ` in the displayed
-selected-zero inequalities after the exact real-part cancellation. Its expression
-in Euler's constant and elementary logarithms makes the bound effective without
-a finite numerical computation.
+    ∑_{ρ ∈ S} m_ρ · Re (1/(σ − ρ)) ≤ Re (logDeriv L_χ)(σ) + ½ log q + C_Γ,
 
-For every fixed bound `Q : ℕ`, expose 6.4e directly as a single `δ_Q > 0` such that
-every nonprincipal complex Dirichlet character at positive level `q ≤ Q` has
-`L(s,χ) ≠ 0` on `‖s-1‖ < δ_Q`. Primitivity and reality are not needed for this
-finite-family statement. Prove finiteness of the character family, continuity at one,
-and native `DirichletCharacter.LFunction_apply_one_ne_zero`; take the minimum of the
-individual positive radii, with an explicit positive radius for an empty family.
-Export its real-interval consequence. No effectiveness or uniformity over unbounded
-conductors is claimed.
+with the same constant `C_Γ`, fixed before `S`, `q`, `χ`, `β` and `σ`. The route is the
+partial-fraction expansion of `L'/L` and the real-part cancellation `Re B(χ) = −∑_ρ Re (1/ρ)`
+(Montgomery–Vaughan, Theorem 10.16, p. 351, and Corollary 10.18, (10.37)–(10.38), pp. 352–353),
+which give `∑_ρ Re (1/(σ − ρ)) = Re (logDeriv L_χ)(σ) + ½ log q + logDeriv Gammaℝ (σ + κ)` with
+the sum over all zeros of the completion with multiplicity; every summand is nonnegative since
+`Re ρ < 1 < σ`, so the zeros outside `S`, and all copies of `β` but one, are discarded, and the
+gamma term is at most `C_Γ` by the bound above. A selected real zero may have any positive
+multiplicity. The principal character is excluded: its expansion carries the pole terms
+`1/s + 1/(s − 1)`.
 
-[Analytic Number Theory Part I §0.34b](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1126)
-consumes the direct retained-zero inequality together with its own §0.11b Euler
-and regularized-zeta identities. That section owns the prime-bias deduction and
-the subsequent use of an inert-prime estimate. Its effective small-conductor step
-uses its §0.12 quantitative gap; the qualitative finite-family radius here does
-not by itself discharge that effectiveness requirement. The exclusion theorem and
-its effective corollaries supply no prerequisites for these analytic exports.
+**The finite-family radius.** For every `Q : ℕ`, prove `bounded_level_zero_free`: one `δ_Q > 0`
+such that every nonprincipal character `χ` modulo `q` with `1 ≤ q ≤ Q` has `L(s, χ) ≠ 0` on
+`‖s − 1‖ < δ_Q`. Primitivity and reality are not needed. The route is
+`DirichletCharacter.LFunction_apply_one_ne_zero`, continuity at `1` of each `L(·, χ)` with
+`χ ≠ 1`, finiteness of the family of pairs `(q, χ)` with `q ≤ Q`, and the least of the
+individual radii, with radius `1` for an empty family. The real-interval consequence
+`L(σ, χ) ≠ 0` for `|σ − 1| < δ_Q` follows. No effectiveness and no uniformity over unbounded
+conductors is claimed. Analytic Number Theory Part I §0.34b consumes the retained-zero
+inequalities together with its own §0.11b identities and owns the prime-bias deduction; its
+effective small-conductor step uses its own §0.12 quantitative gap, which the qualitative radius
+here does not supply, and neither the exclusion theorem there nor its corollaries is an input
+here.
 
-**Sources and dependencies.** Montgomery–Vaughan, *Multiplicative Number Theory I*
-(2006), [Chapter 10, §10.2](https://personal.science.psu.edu/rcv4/personal/Publications/MNTI/14.0_pp_326_357_Analytic_properties_of_the_zeta_function_and_L-functions.pdf),
-Theorem 10.16 and Corollary 10.18, pp. 351–353, especially (10.37)–(10.38),
-give the classical product and constant cancellation. The selected-zero inequalities
-follow by dropping nonnegative terms and bounding the two parity-dependent gamma
-terms. The finite-family radius follows directly from continuity and nonvanishing.
-The generic analytic prerequisites are Layers 0–5 and §1.4; the direct arithmetic
-inputs are the native primitive Dirichlet record and continuation. General Hecke
-functions, Siegel lower bounds, Siegel–Walfisz, and exclusion of exceptional zeros
-are not inputs to this specialization.
+**Checks.**
 
-**Checks.** The conductor derivative is `½ log q`; at `q=1` the principal function
-requires its pole terms. Retained zeros carry analytic multiplicity, not a simplicity
-hypothesis. The finite-family radius is chosen before each character, and says nothing
-about letting `Q` grow. `Suggested.lean` prototypes the direct interfaces, including
-the explicit gamma constant and its bound.
+- The conductor term is `½ log q`, from `logDeriv (q^(s/2)) = (log q)/2`; at `q = 1` the only
+  character is principal, and its expansion has the pole terms, so neither inequality applies.
+- Sign of a discarded term: for `ρ = 1/2 + 14i` and `σ = 2`,
+  `Re (1/(σ − ρ)) = (σ − Re ρ)/‖σ − ρ‖² = 1.5/(2.25 + 196) ≈ 0.00757 > 0`; discarding it only
+  lowers the left side. A model with `Re (1/(ρ − σ))` would have the wrong sign.
+- Multiplicity: a double real zero `β` contributes `2/(σ − β)` to the finite sum; a model that
+  weighted every zero by `1`, or assumed simplicity, would halve it. The one-zero inequality
+  keeps one copy of `β` whatever its multiplicity.
+- The hypothesis `0 < Re ρ` on `S`: for even `χ` the trivial zero `ρ = 0` of `L(·, χ)` is not a
+  zero of the completion; admitting it would add `1/σ` to the left side, and admitting all
+  trivial zeros `−2n` would make the sum `∑_n 1/(σ + 2n)` diverge.
+- `bounded_level_zero_free` at `Q = 0` and `Q = 1`: the family is empty (`q = 1` carries only
+  the principal character) and `δ = 1` serves; at `Q = 4` the family is `χ_{−3}` and `χ_{−4}`,
+  with `L(1, χ_{−3}) = π/(3√3) ≈ 0.6046` and `L(1, χ_{−4}) = π/4 ≈ 0.7854`. A model that chose
+  the radius after `χ` would not be a single `δ_Q`.
+
+*Needs:* 1.4; 1.6; 5.5; 5.6; 6.4d; 6.5; L-functions Layer 4 `dirichletData`; Mathlib
+`DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`,
+`DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
+`DirichletCharacter.differentiable_completedLFunction`,
+`DirichletCharacter.LFunction_apply_one_ne_zero`, `analyticOrderNatAt`,
+`Complex.digamma_one_half`, `Complex.digamma_apply_add_one`, `Real.eulerMascheroniConstant`.
 
 ### 6.5 The edges
 
@@ -1280,10 +1305,14 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 - `dirichletLFunction_zeroFreeRegion`, with the exceptional zero allowed for real characters and
   the cap `c ≤ log 3/2`.
 - For a real character neither branch of the disjunction follows from the other targets.
+- `one_zero_le_logDeriv` for `χ_{−4}` at `σ = 2`, with `κ = 1`: the gamma term is
+  `logDeriv Gammaℝ 3 ≈ −0.554`, inside `[−C_Γ, C_Γ]`, and the conductor term is `½ log 4`.
 
 ### Dependencies
 
-L-functions Layers 3, 5, 7, 8. Layers 2, 4, 5.6. Global Number Fields Layer 2 ray-class finiteness.
+L-functions Layers 3, 4, 5, 7, 8. Layers 1.4, 2, 4, 5.6. Global Number Fields Layer 2 ray-class
+finiteness. Tau Ceti `TauCeti.LFunctions.dirichletData` and Mathlib's continued Dirichlet
+L-function with its half-integer digamma values, for 6.4a.
 
 ## Layer 7: the Riemann–von Mangoldt formula
 
@@ -1648,8 +1677,9 @@ the dictionary, since two dictionaries induce the same primitive characters; wit
 term would be opaque and the estimate unfalsifiable. *exceptionalChebotarevPrimeCountTerm* is the
 same with `Li(x^β)`. Then `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` and
 `NumberField.Chebotarev.hasNaturalDensity_frobeniusPrimeSet` are recovered by discarding the error
-through `Li x ∼ x/log x`, as consistency theorems. Lagarias–Odlyzko prove the estimate for every
-Galois `L/K` through Artin L-functions; the nonabelian case is not owned here.
+through `Li x ∼ x/log x`, as consistency theorems. The effective Chebotarev estimate for a
+general Galois `L/K`, through Artin L-functions, is due to Lagarias–Odlyzko and is cited as
+attribution only; the nonabelian case is not owned here.
 
 *Needs:* 8.7; Number Field Arithmetic §2.3 `NumberField.artinSymbol`;
 Chebotarev Layers 11, 13–14 `NumberField.Chebotarev.frobeniusPsi`,
@@ -1776,6 +1806,8 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   conventions of Layer 4 rather than a preimage of `{0}`.
 - The Stirling and reciprocal-gamma statements of Layer 1 and Hadamard's theorem of Layer 5 are
   general complex analysis for any consumer.
+- Analytic Number Theory Part I §0.34b takes the retained-zero inequalities of 6.4a with the
+  gamma constant `gammaLogDerivBound`, and §0.30 there takes the completion comparisons.
 
 ## References
 
@@ -1799,8 +1831,14 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   explicit formula and `Λ'/Λ` as a limit over zeros); XVII §§1–2; XV §§4–5. Cited by locator.
 - H. Iwaniec, E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 — §5.1 (the
   analytic conductor (5.7)) and §5.2 (convexity). Cited by locator.
+- H. L. Montgomery, R. C. Vaughan, *Multiplicative Number Theory I. Classical Theory*, Cambridge
+  Studies in Advanced Mathematics 97 (2006) — Theorem 10.16 (the Hadamard product of `ξ(s, χ)`,
+  p. 351) and Corollary 10.18, (10.37)–(10.38) (the partial-fraction expansion of `L'/L` and
+  `Re B(χ) = −∑_ρ Re (1/ρ)`, pp. 352–353).
 - J. C. Lagarias, A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in
-  *Algebraic Number Fields* (1977) — effective counting in a fixed Galois extension.
-- NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.11.1 (Stirling
-  for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on bounded real-part intervals), and §5.11(ii)
-  (remainder bounds).
+  A. Fröhlich (ed.), *Algebraic Number Fields*, Academic Press (1977), 409–464 — effective
+  counting in a fixed Galois extension, cited as attribution for 8.8 without a theorem number.
+- NIST Digital Library of Mathematical Functions, equations 5.4.13 and 5.4.15 (`ψ(1/2)` and
+  `ψ(n + 1/2)`), 5.5.2 (the digamma recurrence), 5.5.3 (reflection), 5.11.1 (Stirling for
+  `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on bounded real-part intervals), §5.11(ii)
+  (remainder bounds), and 5.15.1 (`ψ′(z) = ∑_k (k + z)⁻²`).
