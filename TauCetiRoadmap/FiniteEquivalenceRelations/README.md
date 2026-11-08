@@ -342,9 +342,11 @@ equivalence ideal. *Needs:* 0.3, 1.1, 1.2, Mathlib `IsEffectiveEquivalenceRelati
 
 - The quotient of `k × k` by its total relation is `Spec k`.
 - The kernel pair of a subalgebra `C ⊆ A`: `A^R ⊇ C`, and the relation is effective, with
-  `Y = Spec A^R`. The inclusion can be strict: for `C = k[x³, x⁵] ⊆ A = k[x]`,
-  `x⁷ ⊗ 1 = x² ⊗ x⁵ = x⁵ ⊗ x² = 1 ⊗ x⁷` in `A ⊗[C] A`, so `x⁷ ∈ A^R` and `x⁷ ∉ C`; the finite
-  epimorphism `Spec A → Spec C` is not strict (FGA I, §A, n° 2, b).
+  `Y = Spec A^R`. The inclusion can be strict: for `C = k[x³, x⁵] ⊆ A = k[x]`, put
+  `u = x ⊗ 1` and `v = 1 ⊗ x` in `A ⊗[C] A`, where `u³ = v³` and `u⁵ = v⁵`; the identity
+  `u⁷ − v⁷ = (u⁴ + u³v + uv³ + v⁴)(u³ − v³) − uv(u⁵ − v⁵)` gives `x⁷ ⊗ 1 = 1 ⊗ x⁷`, so
+  `x⁷ ∈ A^R` and `x⁷ ∉ C`; the finite epimorphism `Spec A → Spec C` is not strict (FGA I, §A,
+  n° 2, b).
 
 ### Dependencies
 
