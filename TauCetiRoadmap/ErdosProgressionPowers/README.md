@@ -105,6 +105,7 @@ is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §�
 zeros with its exception-free bounded-height and character-PNT corollaries,
 explicit formula, zero density and divisor estimates.
 Their numerical input hypotheses are retained in the supplier contracts below.
+SieveMethodsAndPrimePatterns §0.4 owns the finite Gram inequalities that Layer 3 applies.
 
 ## Conventions
 
@@ -680,6 +681,19 @@ and its L-function differs by Euler factors at 2 whose zeros lie on Re s=0;
 for modulus 1 the native LFunction is the Riemann zeta function. This is the
 zero-line clause of AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`,
 used in §0.9 (Platt2013v1, Theorems 7.1–7.2, pp. 14–15).
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+Consume §0.4's finite Gram inequalities over a real or complex inner-product
+space, for a vector x and a finite, possibly empty family y_a with Gram row sums
+r_a=∑_b|⟨y_a,y_b⟩|: the uniform form `SieveGram.sum_norm_inner_sq_le_of_row_le`,
+∑_a|⟨x,y_a⟩|²≤C‖x‖² for every C≥0 with r_a≤C for all a; the maximum-row form
+`SieveGram.sum_norm_inner_sq_le_max_row` for a nonempty family; and the
+diagonal/off-diagonal form `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`,
+∑_a|⟨x,y_a⟩|²≤(D+O)‖x‖² when D+O≥0, ‖y_a‖²≤D and ∑_(b≠a)|⟨y_a,y_b⟩|≤O for
+every a. The names lie in the namespace
+`TauCetiRoadmap.SieveMethodsAndPrimePatterns`. §3.3 applies the
+diagonal/off-diagonal form (BS20, Theorem 7, p. 379).
 
 ## How to read the build
 
@@ -1415,7 +1429,7 @@ Layers 0–1; ModularCurves §4C; EllipticLegendreCharacterInterfaces Layers 0�
 
 ## Layer 3: The original analytic contradiction criteria
 
-Prove the progression-specific harmonic criterion in the single-character form that the exclusion of Landau–Siegel zeros gives: one triple with P(N_a)<(log k)^(1-c1) already bounds k, retaining effective dependence on 0<c1<1 and decay exponent min(c1,1/2); this contains Proposition 7.2's form for pairwise distinct largest conductor primes with reciprocal mass at least 0.166. Prove the distinct-character criterion of Proposition 8.1 for more than 17 log k characters, P(N_a)≤k^(7/16) and N_a<k^c2 with c2>10. Consume the exception-free effective character PNT, pairwise smooth-modulus cancellation and the Bombieri-Selberg inequality; no exceptional-zero repulsion or small-conductor zero computation enters. Apply the exact diagonal/off-diagonal bounds and the margin 1/68<0.1239^2.
+Prove the progression-specific harmonic criterion in the single-character form that the exclusion of Landau–Siegel zeros gives: one triple with P(N_a)<(log k)^(1-c1) already bounds k, retaining effective dependence on 0<c1<1 and decay exponent min(c1,1/2); this contains Proposition 7.2's form for pairwise distinct largest conductor primes with reciprocal mass at least 0.166. Prove the distinct-character criterion of Proposition 8.1 for more than 17 log k characters, P(N_a)≤k^(7/16) and N_a<k^c2 with c2>10. Consume the exception-free effective character PNT, pairwise smooth-modulus cancellation and the diagonal/off-diagonal Gram inequality of SieveMethodsAndPrimePatterns §0.4; no exceptional-zero repulsion or small-conductor zero computation enters. Apply the exact diagonal/off-diagonal bounds and the margin 1/68<0.1239^2.
 
 ### 3.1 General effective analytic inputs
 
@@ -1455,12 +1469,7 @@ IwaniecKowalski2004, Theorem 12.13.) Distinctness in
 the smooth-character correlation bound means inequality of the pulled-back functions
 ℤ→ℝ, so it is meaningful at different conductors.
 
-Prove the finite Gram inequality over any real or complex inner-product
-space and every finite vector family (BS20, Theorem 7, p. 379): for vectors y_a and x, ∑_a |⟨x,y_a⟩|²≤‖x‖²·max_a∑_b|⟨y_a,y_b⟩|,
-with the empty family giving 0 and a nonempty family for the displayed maximum.
-Equivalently, for every nonnegative real C bounding every Gram row sum, the left
-side is at most C‖x‖², including an empty family. Separate its diagonal and
-off-diagonal terms. Prove the smooth-character correlation bound:
+Prove the smooth-character correlation bound:
 for fixed c₂>0 there are effective c₃>0 and K such that for k≥K,
 distinct primitive quadratic characters with positive conductors N₁,N₂≤k^c₂ and
 largest prime factors at most k^(7/16) satisfy
@@ -1487,11 +1496,10 @@ which AnalyticNumberTheoryPartI §0.34 rules out.
 - N=1 is excluded from the conductor estimate, independently of the total library convention for P(1); it cannot supply a positive logarithmic denominator.
 - N=16 is not a primitive quadratic conductor; it would violate the bound, since 16>4·exp(θ(2))=8, so its dyadic part cannot be admitted merely because its odd part is squarefree.
 - The half-interval PNT bound needs k≥2X₀, so that both endpoints k and k/2 lie in the range of AnalyticNumberTheoryPartI §0.18.
-- Two orthogonal unit vectors give Gram row sum 1 and Bessel's inequality; two equal unit vectors give row sum 2, so omitting off-diagonal terms is false.
 - The principal character has a main term of order k and is excluded from a nonprincipal PNT error estimate.
 - Equal characters have diagonal correlation of order k and are excluded from the strict off-diagonal power saving.
 
-*Needs:* AnalyticNumberTheoryPartI §0.34 through its corollary §0.18, the exception-free character PNT; the smooth-modulus character-sum bound for the correlation specialization; ClassicalArithmeticCompletion §1.51 for quadratic-conductor support; Mathlib `Chebyshev.theta_le_log4_mul_x`, continued L-functions, finite inner-product spaces and prime arithmetic; §0.9's prime estimates and divisor-subpower bound; Layer 2 only for the progression-specific criteria that follow.
+*Needs:* AnalyticNumberTheoryPartI §0.34 through its corollary §0.18, the exception-free character PNT; the smooth-modulus character-sum bound for the correlation specialization; ClassicalArithmeticCompletion §1.51 for quadratic-conductor support; Mathlib `Chebyshev.theta_le_log4_mul_x`, continued L-functions and prime arithmetic; §0.9's prime estimates and divisor-subpower bound; Layer 2 only for the progression-specific criteria that follow.
 
 ### 3.2 Harmonic smooth-conductor criterion
 
@@ -1511,9 +1519,9 @@ Prove the many-character criterion with the hypotheses and conclusions below.
 
 For each c2>10 there is an effective k2(c2) such that under H⁺ any B subset A(k) with |B|>17*log k, pairwise distinct selected characters, P(N_a)≤k^(7/16) and N_a<k^c2 forces k≤k2(c2). Quantitative proof: the mean squared absolute weighted sum is at most (k*log k/2+O(k))*((k+1)/(34*log k)+k^(1-c3))=(1/68+o(1))*k^2, where c3(c2)>0 is effective.
 
-Apply the Layer 3 finite Gram inequality to x_m=Lambda(m), y_a,m=chi_a(m) on the integer half interval. The diagonal is at most(k+1)/2, the input norm is k log k/2+O(k), and the generic smooth-modulus cancellation bound controls off-diagonal pairs by k^(1-c3). Its proof must use the product ambient modulus separately from the primitive conductor and eventual divisor subpower bounds. Compare1/68<0.1239^2; no fourth power of0.1239 enters.
+Apply the diagonal/off-diagonal Gram inequality of SieveMethodsAndPrimePatterns §0.4 to x_m=Lambda(m), y_a,m=chi_a(m) on the integer half interval. The diagonal is at most(k+1)/2, the input norm is k log k/2+O(k), and the generic smooth-modulus cancellation bound controls off-diagonal pairs by k^(1-c3). Its proof must use the product ambient modulus separately from the primitive conductor and eventual divisor subpower bounds. Compare1/68<0.1239^2; no fourth power of0.1239 enters.
 
-*Needs:* Layer 2 — simultaneous quadratic character family; §3.1's finite Gram inequality with its diagonal and off-diagonal terms; §3.1's smooth-character correlation bound; §0.9's prime estimates; §0.9's eventual divisor subpower bound.
+*Needs:* Layer 2 — simultaneous quadratic character family; SieveMethodsAndPrimePatterns §0.4's diagonal/off-diagonal Gram inequality; §3.1's smooth-character correlation bound; §0.9's prime estimates; §0.9's eventual divisor subpower bound.
 
 ([BS20], Proposition 8.1, p. 376; Equations (32)–(35), pp. 379–380.)
 
@@ -1523,7 +1531,7 @@ The lower coefficient is 0.1239²=0.01535121, greater than 1/68. A repeated char
 
 ### Dependencies
 
-Mathlib analytic and finite-dimensional carriers; AnalyticNumberTheoryPartI §0.34 through §0.18; Layer 2 for the two progression criteria. General prime and character estimates have no progression input.
+Mathlib analytic and finite-dimensional carriers; AnalyticNumberTheoryPartI §0.34 through §0.18; SieveMethodsAndPrimePatterns §0.4's Gram inequality; Layer 2 for the two progression criteria. General prime and character estimates have no progression input.
 
 ## Layer 4: Thin-prime sieves and the original proof assembly
 
@@ -2277,12 +2285,12 @@ an asymptotic theorem with an unspecified ineffective constant cannot discharge
 these requirements.
 
 The short-character estimate separates an ambient product modulus from the
-conductor of the induced primitive product character. The Gram inequality is
-applied to squared absolute sums. With the hypotheses of the many-character
-criterion, its main coefficient is `1/68`, while the character-family lower
-coefficient is `0.1239^2`. The strict inequality between them must survive
-all quantified error terms. Eventual divisor-subpower bounds are applied only
-after fixing their positive exponent.
+conductor of the induced primitive product character. The Gram inequality of
+SieveMethodsAndPrimePatterns §0.4 is applied to squared absolute sums. With
+the hypotheses of the many-character criterion, its main coefficient is `1/68`,
+while the character-family lower coefficient is `0.1239^2`. The strict
+inequality between them must survive all quantified error terms. Eventual
+divisor-subpower bounds are applied only after fixing their positive exponent.
 
 For the original route use the certified range
 `k >= exp(exp(10^7))`. The required Roth substitution is
