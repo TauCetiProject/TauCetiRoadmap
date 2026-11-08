@@ -497,7 +497,7 @@ For x=1 and real y=(1,2) the rows are 3 and 6, and C=6 bounds the left side 5 by
 
 *Needs:* Layer 0 §0.4 vanishing gram row detects the zero vector; Layer 0 §0.4 selberg's weighted inner-product inequality.
 
-**Maximum-row Gram inequality.** Prove `SieveGram.sum_norm_inner_sq_le_max_row`. If I is nonempty, Σᵢ|⟨x,yᵢ⟩|² ≤ ‖x‖²·maxᵢ rᵢ.
+**Maximum-row Gram inequality.** If I is nonempty, Σᵢ|⟨x,yᵢ⟩|² ≤ ‖x‖²·maxᵢ rᵢ.
 
 x is any vector of E.
 
@@ -509,7 +509,7 @@ An empty index has no maximum; the uniform form covers that case.
 
 *Needs:* Layer 0 §0.4 uniform gram-row inequality; Mathlib `Finset.le_sup'`.
 
-**Diagonal/off-diagonal Gram inequality.** Prove `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`. Let D and O be real numbers with D+O≥0. If ‖yᵢ‖²≤D and Σ_(j≠i)|⟨yᵢ,yⱼ⟩|≤O for every i∈I, then Σᵢ|⟨x,yᵢ⟩|² ≤ (D+O)‖x‖².
+**Diagonal/off-diagonal Gram inequality.** Let D and O be real numbers with D+O≥0. If ‖yᵢ‖²≤D and Σ_(j≠i)|⟨yᵢ,yⱼ⟩|≤O for every i∈I, then Σᵢ|⟨x,yᵢ⟩|² ≤ (D+O)‖x‖².
 
 x is any vector of E; the family may be empty.
 
@@ -1078,17 +1078,18 @@ Brun brackets supply a relative fundamental estimate; Selberg optimization suppl
 
 Throughout this subsection, unless a statement says otherwise: γ is multiplicative, A₁>1, A₂≥0 and L≥1. (Ω₁): 0 ≤ γ(p)/p ≤ 1 − 1/A₁ for every prime p. (Ω₂(1,L)): −L ≤ `Σ_{w≤p<z}` γ(p)log p/p − log(z/w) ≤ A₂ for 2≤w≤z. g(d) = `∏_{p|d}` γ(p)/(p − γ(p)) on squarefree d. GGPY formulate (2.3) as γ(p)/p ≤ 1 − 1/A₁; Maynard's Lemma 6.1 writes 1 − A₁, an equivalent reparametrization.
 
-**Uniform multiplicative mean values.** Establish the squarefree mean below with its positive Euler/Gamma constant. Its dimension-one uniform form is the following: under (Ω₁) and (Ω₂(1,L)) of this subsection, the diagonal error is O(c_γ L), uniformly in γ and L with only A₁,A₂ fixed. The smoothly weighted error is O(c_γ L G_max). Prove these uniform forms in the next two targets, including prime deletion γ(p)=0 for p dividing a varying W. Also prove that there is an absolute c>0 such that for every integer k≥1 and real z≥2,
+**Uniform multiplicative mean values.** Establish the squarefree mean below with its positive Euler/Gamma constant. Its dimension-one uniform form is the following: under (Ω₁) and (Ω₂(1,L)) of this subsection, the diagonal error is O(c_γ L), uniformly in γ and L with only A₁,A₂ fixed. The smoothly weighted error is O(c_γ L G_max). Prove these uniform forms in the next two targets, including prime deletion γ(p)=0 for p dividing a varying W. Also prove that for every integer k≥1 and real z≥2,
 
-`Σ_(1≤d<z,(d,k)=1) μ(d)²/φ(d) ≥ c (φ(k)/k) log z`.
+`Σ_(1≤d<z,(d,k)=1) μ(d)²/φ(d) ≥ (φ(k)/k) log z`.
 
-This last lower estimate is uniform in k, unlike a fixed-k asymptotic (HB-SIEVES, (3.5)–(3.6), pp.17–18; [PNT-PLUS](#references), `PrimeNumberTheoremAnd/Mathlib/NumberTheory/Sieve/SelbergBounds.lean`, `selbergBoundingSum_ge_sum_div`). Prove also the degree-uniform squarefree Euler lower bound of §1.4 directly by its complementary prime-value convolution; it does not require a claim that a general analytic supplier proves it.
+This last lower estimate holds with constant one and is uniform in k, unlike a fixed-k asymptotic (HB-SIEVES, proof of Corollary 3.1, (3.2), p.13). At k=1 the sum equals the sum of 1/n over the n whose squarefree kernel is below z, hence is at least `Σ_(n<z) 1/n ≥ log z`; for squarefree k, splitting the sum at k=1 by the common divisor l of d and k gives the k=1 sum at most (k/φ(k)) times the sum with (d,k)=1; a general k has the same sum and the same ratio φ(k)/k as its squarefree kernel. This uniformity is what the progression bound of §1.6 uses (HB-SIEVES, (3.5)–(3.6), pp.17–18). The case k=1 with the cutoff d²≤level is [PNT-PLUS](#references), `PrimeNumberTheoremAnd/Mathlib/NumberTheory/Sieve/SelbergBounds.lean`, `selbergBoundingSum_ge_sum_div`; its hypotheses that every prime up to the level divides the sieve product and that ν is positive on those primes exclude the condition (d,k)=1 whenever k has a prime factor below z. Prove also the degree-uniform squarefree Euler lower bound of §1.4 directly by its complementary prime-value convolution; it does not require a claim that a general analytic supplier proves it.
 
 **Checks.**
 
-- At k=1,z=2 the sum is 1, so the bound requires c log 2≤1.
-- At k=2,z=3 the sum is 1, so the right side is c log 3/2.
-- At k=6,z=4 the sum is again 1, with right side c log 4/3. Deleting modulus primes changes the totient factor as well as the allowed divisors.
+- At k=1,z=2 the sum is 1 and the right side log 2≈0.693.
+- At k=2,z=3 the sum is 1 and the right side (log 3)/2≈0.549.
+- At k=6,z=4 the sum is again 1, with right side (log 4)/3≈0.462. Deleting modulus primes changes the totient factor as well as the allowed divisors.
+- At k=1,z=3 the sum is 1+1=2 against log 3≈1.099; at k=4,z=4 only d=1,3 are coprime to 4, the sum is 1+1/2=3/2 and the right side (1/2)log 4≈0.693, the same as at k=2, since 4 and 2 have the same squarefree kernel.
 
 *Needs:* AnalyticNumberTheoryPartI §§0.11, 0.21 and 0.26; Möbius convolution and Abel summation; the full uniform argument of HR-SIEVE Lemmas 5.3–5.4 as reproduced in GGPY-2009 Lemmas 3–4, pp.9–10.
 
@@ -2411,13 +2412,19 @@ Positive δ; separation on all distinct indices; empty and singleton families ar
 
 *Needs:* Mathlib `Complex.normSq`. AnalyticNumberTheoryPartI §1.5a is not consumed: it owns the weighted form with constant 3π/2 and local spacings, while the uniform-spacing constant π/δ is owned here because the sharp constant N−1+δ⁻¹ of the next theorem needs exactly π.
 
-**Sharp separated additive large sieve.** Prove `SieveTaper.sharp_additive_largeSieve`. For N≥1, δ>0 with δ≤1/2, distinct frequencies x_i separated modulo 1 by at least δ, and a_j on an interval of N consecutive integers, Σ_i `|Σ_{j=1}^N` a_j exp(2πi(M+j)x_i)|²≤(N−1+δ⁻¹)Σ_j|a_j|². The empty coefficient interval is handled separately by zero, not by extending a negative constant.
+**Sharp separated additive large sieve.** Prove `SieveTaper.sharp_additive_largeSieve`. For N≥1, δ>0 with δ≤1, distinct frequencies x_i separated modulo 1 by at least δ, and a_j on an interval of N consecutive integers, Σ_i `|Σ_{j=1}^N` a_j exp(2πi(M+j)x_i)|²≤(N−1+δ⁻¹)Σ_j|a_j|². The empty coefficient interval is handled separately by zero, not by extending a negative constant.
 
-N≥1; 0<δ≤1/2; finite frequency family; circular separation.
+N≥1; 0<δ≤1; finite frequency family; circular separation. Since d(t)≤1/2 for every t, a family with two or more labels forces δ≤1/2; for 1/2<δ≤1 the family has at most one frequency.
 
-([KED-chap-largesieve](#references), §15.3, Theorem 15.5; Exercises 15.4.2 and 15.4.4.)
+([KED-chap-largesieve](#references), §15.3, Theorem 15.5, stated there for 0<δ≤1/2; Exercises 15.4.2 and 15.4.4. The range 1/2<δ≤1 is the single-frequency case of the proof sketch.)
 
-*Proof sketch.* Use the Hilbert inequality to control the off-diagonal geometric kernel, retaining both endpoints of the interval. The author proof yields N+δ⁻¹; the sharp endpoint improvement is its Exercise 15.4.4. This improvement and the Hilbert input remain explicit proof requirements, rather than inferred from the weaker taper constant.
+*Proof sketch.* For 1/2<δ≤1 there is at most one frequency, and Cauchy–Schwarz gives |Σ_j a_j e((M+j)x)|²≤NΣ_j|a_j|²≤(N−1+δ⁻¹)Σ_j|a_j|², because δ⁻¹≥1. For 0<δ≤1/2 use the Hilbert inequality to control the off-diagonal geometric kernel, retaining both endpoints of the interval. The author proof yields N+δ⁻¹; the sharp endpoint improvement is its Exercise 15.4.4. This improvement and the Hilbert input remain explicit proof requirements, rather than inferred from the weaker taper constant.
+
+**Checks.**
+
+- One frequency x=0, N=2, a=(1,1) and δ=1: the left side is |1+1|²=4 and the right side (2−1+1)·2=4, so the endpoint δ=1 is attained. At δ=2 the right side is (1+1/2)·2=3<4: the range cannot be extended beyond δ≤1.
+- Frequencies 0 and 1/2 with δ=1/2, N=1, a=(1): each phase has absolute value one, the left side is 2 and the right side (1−1+2)·1=2. Moving the second frequency to 1/3 with δ=1/2 violates the separation, since d(1/3)=1/3<1/2.
+- The empty frequency family gives 0≤(N−1+δ⁻¹)Σ_j|a_j|², whose right side is nonnegative because N≥1 and δ>0.
 
 *Needs:* Layer 2 §2.6 squared finite large-sieve duality; Layer 2 `SieveTaper.additive_largeSieve`; Layer 2 §2.9 separated hilbert inequality.
 
@@ -2427,12 +2434,12 @@ H,Q≥1; primitive characters; integer interval.
 
 ([KED-ANT-16](#references), Theorem 16.2, §16.2.)
 
-*Proof sketch.* For Q=1 the only primitive character is the modulus-one character, of value one, and q/φ(q)=1. Cauchy–Schwarz gives |Σ_j a_j|²≤HΣ_j|a_j|², exactly the constant H−1+Q². For Q≥2 reduced rational phases up to Q are Q⁻²-separated with 0<Q⁻²≤1/4≤1/2. Use the sharp additive theorem, the native Gauss expansion and character Parseval.
+*Proof sketch.* For every Q≥1 the reduced fractions a/q with q≤Q are Q⁻²-separated modulo 1, since |a/q−a′/q′|≥1/(qq′), and 0<Q⁻²≤1. For Q=1 the only fraction is 0 and the only primitive character is the modulus-one character, of value one, with q/φ(q)=1; the additive theorem at δ=1 is then Cauchy–Schwarz, |Σ_j a_j|²≤HΣ_j|a_j|², exactly the constant H−1+Q². Use the sharp additive theorem, the native Gauss expansion and character Parseval.
 
 **Checks.**
 
 - At Q=H=1,a₁=2+i both sides are 5.
-- At Q=1,H=2,a=(1,1), the bound is 4≤2·2=4; δ=Q⁻²=1 would violate the additive theorem's δ≤1/2 hypothesis.
+- At Q=1,H=2,a=(1,1), the bound is 4≤2·2=4, with equality; it is the additive theorem at its endpoint δ=Q⁻²=1 with the single frequency 0.
 - At Q=2 the additive parameter is δ=1/4, and the sharp constant is H+3. Modulus two has no primitive character, but modulus one remains in the sum.
 
 *Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Layer 2 §2.3 squared norm of a primitive dirichlet gauss sum; Layer 2 §2.3 parseval identity over dirichlet characters.
@@ -2443,7 +2450,7 @@ Support actually avoids forbidden residues; squarefree moduli; Q,H≥1.
 
 ([KED-ANT-16](#references), Theorem 16.4 and Lemma 16.5, §16.3.)
 
-*Proof sketch.* For Q=1 only d=1 occurs, J(1)=1, and Cauchy–Schwarz gives the stated constant H. For Q≥2 use δ=Q⁻²≤1/2 in the sharp additive theorem. For one prime, sum over allowed residue totals and apply Cauchy; finite additive orthogonality gives the missing nontrivial-phase energy. For coprime primes use the additive CRT phases a₁/q₁+a₂/q₂, preserving all other avoidance conditions under twisting. Sum the positive squarefree moduli and apply the sharp additive inequality.
+*Proof sketch.* For Q=1 only d=1 occurs, J(1)=1, and Cauchy–Schwarz gives the stated constant H. For Q≥2 use δ=Q⁻²≤1/4 in the sharp additive theorem. For one prime, sum over allowed residue totals and apply Cauchy; finite additive orthogonality gives the missing nontrivial-phase energy. For coprime primes use the additive CRT phases a₁/q₁+a₂/q₂, preserving all other avoidance conditions under twisting. Sum the positive squarefree moduli and apply the sharp additive inequality.
 
 *Needs:* Layer 2 `SieveTaper.sharp_additive_largeSieve`; Mathlib `ZMod`; Mathlib `Finset`.
 
@@ -2502,7 +2509,7 @@ Polynomial Farey uses the reversed-denominator power-series coefficients and inj
 
 The taper vector at N=L=1,x=1/4 has coordinate i at frequency −1. At N=0,L=2 the squared modulus at frequency −1 is 1/2, because the coordinate uses a square root. L=0 gives the zero vector. Padding (a,b) at H=2,L=1 gives (0,0,a,b,0); H=3 gives (0,a,b,c,0).
 
-An empty coefficient interval has zero energy. One unit coefficient and one frequency give left side one; the sharp theorem uses H≥1 and 0<δ≤1/2. Modulus one has one primitive character and contributes its full coefficient sum.
+An empty coefficient interval has zero energy. One unit coefficient and one frequency give left side one; the sharp theorem uses H≥1 and 0<δ≤1, and for δ>1/2 it admits at most one frequency. Modulus one has one primitive character and contributes its full coefficient sum.
 
 The blocks (R,2R] and (2R,4R] count 2R only once. At J=0 the sum is empty. An arbitrary Q is covered by R2^J≤2Q with its factor-two allowance.
 
@@ -2783,7 +2790,7 @@ The constant is independent of f,x,Q,Δ; the norm is explicitly squared ([KED-AN
 
 Unconditional theorem; all constants quantified and effective; prime powers included. The source's constants are ineffective through the Siegel–Walfisz input; here the small-conductor input is §3.0, with no exceptional-zero term (AnalyticNumberTheoryPartI §0.34), and the variance estimates above have absolute constants.
 
-([KED-chap-bombieri](#references), Theorem 17.4; KED-18 Theorem 18.5 and Exercise 18.4.4.)
+([KED-chap-bombieri](#references), Theorem 17.4; [KED-ANT-18](#references), Theorem 18.5 and Exercise 18.4.4.)
 
 *Proof sketch.* Apply the variance route to a Vaughan decomposition, importing the logarithmic-range small-conductor estimate of §3.0 and bounding all cofactor sums. Use the PNT error to replace the reduced-residue mean by x/φ(q). Prove the course’s exercise with the retained logarithmic losses; no implication from BV alone at Q≈x is asserted.
 
@@ -4116,7 +4123,15 @@ Layers 0, 1, 2 and 3. External inputs: AnalyticNumberTheoryPartI §0.32; Layer 3
 
 ## Downstream consumers
 
+The following roadmaps take their statements from this one, by section:
 
+- ArithmeticStatisticsPartVII, in its multiplicative large sieve: the separated Hilbert inequality with constant π/δ, `SieveTaper.sharp_additive_largeSieve` for 0<δ≤1 and `SieveApplications.sharp_primitive_largeSieve` (§2.9). ExplicitZetaBounds and ExplicitPrimeCounting take the same §2.9 statements, and ExplicitPrimeCounting also the prime count in a residue class, `SieveDistribution.primeCountAP` (§3.1).
+- ArithmeticStatisticsPartIII, in its degree-uniform hypersurface smooth points (§2.23): `SieveLangWeil.lang_weil_uniform` (§5.4), for the affine cone of the hypersurface and for its singular cone, leaving only the removal of the singular locus. InverseGaloisAndArithmeticFundamentalGroups, in IG.2.5 and IG.2.7: the Lang–Weil estimate for a fixed model (§5.4).
+- GeometryOfNumbersAndQuadraticArithmetic (§4.1): Henk's and Davenport's lattice-point counts (§0.11a).
+- ErdosProgressionPowers (Layer 3): `SieveGram.sum_norm_inner_sq_le_of_row_le` and the diagonal/off-diagonal Gram inequality (§0.4).
+- CircleMethodThreePrimes: `SieveVaughan.vaughan_identity` and the incomplete logarithm of §2.4.
+- ArithmeticStatisticsPartV: the quadratic ideal residue symbol, the short-character conjecture Cₘ and the conditional joint-spin prime bound (§5.6).
+- ArithmeticDirichletSeriesPartII and ExplicitMultiplicativeFunctions: the elementary upper bounds for τ_k (§1.1), and for ExplicitMultiplicativeFunctions the sieve-dimension predicate (§0.5).
 
 Maynard clusters feed quantitative prime-pattern applications. The binary and conic branches supply the sieve estimates used in Khayutin's CM-point analysis. Polynomial-vector and Farey bounds support the random-polynomial arguments of Bary-Soroker–Koukoulopoulos–Kozma. Prime quadratic-symbol estimates support Bennett–Siksek, Skorobogatov–Sofos, Smith and Koymans–Pagano. The ideal-spin branch supplies Koymans–Milovic joint-spin distributions under the stated short-character input; it leaves subsequent arithmetic or equidistribution arguments to their respective roadmaps. The affine branch supplies saturation after the subgroup, local-density, absolute-mixing and escape inputs have been established.
 
@@ -4324,11 +4339,9 @@ The following conventions fix the mathematical statements at the cited versions.
 
 - **DAVENPORT-51.** Harold Davenport. [On a principle of Lipschitz](https://doi.org/10.1112/jlms/s1-26.3.179). Journal of the London Mathematical Society 26 (1951), 179–183; correction, ibid. 39 (1964), 580.
 
-- **LANG-WEIL-54.** Serge Lang and André Weil. Number of points of varieties in finite fields. American Journal of Mathematics 76 (1954), 819–827.
+- **LANG-WEIL-54.** Serge Lang and André Weil. Number of points of varieties in finite fields. American Journal of Mathematics 76 (1954), 819–827, DOI 10.2307/2372655.
 
-- **PNT-PLUS.** Alex Kontorovich, Terence Tao and contributors. [PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd). GitHub repository; locators are file paths and declaration names in it. Cited in §1.1 and §1.3.
-
-- **IEANTN.** Terence Tao and contributors. [IEANTN: the Integrated Explicit Analytic Number Theory Network](https://github.com/teorth/IEANTN). GitHub repository; locators are node paths in it. Cited in no section of this roadmap.
+- **PNT-PLUS.** Alex Kontorovich, Terence Tao and contributors. [PrimeNumberTheoremAnd](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/tree/127b50e33f6033e2147921167a117af96d9ba4ea). GitHub repository (Apache-2.0), read at commit 127b50e33f6033e2147921167a117af96d9ba4ea; locators are file paths and declaration names at that commit.
 
 Two inputs have secondary cross-references: Halberstam–Richert, Lemmas 5.3–5.4, as cited by GGPY §2, and Richert (1969), Theorem A, as cited by Chen, Lemma 9. The statements used here are the versions reproduced at those exact secondary locators. The Heath-Brown sieve citations use arXiv:math/0209360v1, the Koymans–Milovic citations arXiv:1809.09597v1 and the GGPY citations arXiv:math/0609615v1. The published 2015 erratum of Friedlander–Iwaniec–Mazur–Rubin is applied in addition to its preprint.
 

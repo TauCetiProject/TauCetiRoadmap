@@ -9,9 +9,9 @@ import TauCeti.NumberTheory.NumberField.TotallyPositive
 
 README.md is the roadmap; this file is not the roadmap. It states its headline
 theorems against the pinned Mathlib and Tau Ceti APIs, with only their simple definitions.
-The headlines are the Selberg weighted and the uniform, maximum-row and diagonal/off-diagonal
-Gram inequalities; the Brun fundamental and upper-sieve inequalities; interval,
-progression and twin/Goldbach upper bounds; Brun convergence; additive, primitive and
+The headlines are Selberg's weighted Gram inequality and the uniform Gram-row inequality;
+the Brun fundamental and upper-sieve inequalities; interval, progression and twin/Goldbach
+upper bounds; Brun convergence; additive, primitive and
 polynomial Farey large sieves; the prime quadratic-symbol bilinear bound;
 Jutila’s unweighted and weighted real-character means; Linnik's exceptional-prime bound; Smith's bilinear bound and the
 Koymans–Pagano row mean; Vaughan's identity; the uniform small-conductor estimate;
@@ -61,19 +61,6 @@ unweighted sum, for every finite family, including the empty one. -/
 theorem sum_norm_inner_sq_le_of_row_le (y : ι → E) (x : E) {C : ℝ} (hC : 0 ≤ C)
     (hrow : ∀ i, ∑ j, ‖⟪y i, y j⟫_𝕜‖ ≤ C) :
     ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤ C * ‖x‖ ^ 2 := by sorry
-
-/-- The maximum-row Gram inequality for a nonempty finite family. -/
-theorem sum_norm_inner_sq_le_max_row [Nonempty ι] (y : ι → E) (x : E) :
-    ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤
-      ‖x‖ ^ 2 * Finset.univ.sup' Finset.univ_nonempty (fun i => ∑ j, ‖⟪y i, y j⟫_𝕜‖) := by
-  sorry
-
-/-- The Gram-row inequality with the squared norms and the off-diagonal row sums bounded
-separately; only `D + O` need be nonnegative. -/
-theorem sum_norm_inner_sq_le_of_diag_offdiag (y : ι → E) (x : E) {D O : ℝ} (hDO : 0 ≤ D + O)
-    (hdiag : ∀ i, ‖y i‖ ^ 2 ≤ D)
-    (hoff : ∀ i, ∑ j ∈ Finset.univ.erase i, ‖⟪y i, y j⟫_𝕜‖ ≤ O) :
-    ∑ i, ‖⟪x, y i⟫_𝕜‖ ^ 2 ≤ (D + O) * ‖x‖ ^ 2 := by sorry
 
 end SieveGram
 
@@ -231,11 +218,13 @@ theorem additive_largeSieve {ι : Type*} [Fintype ι] [DecidableEq ι]
     (∑ i, ‖∑ j, a j * phase (((M : ℝ)+(j.val : ℝ)+1)*x i)‖^2) ≤
       ((H : ℝ)+2/δ) * ∑ j, ‖a j‖^2 := by sorry
 
-/-- The sharp additive bound for H≥1 and 0<δ≤1/2. -/
+/-- The sharp additive bound `H - 1 + δ⁻¹` for `H ≥ 1` and `0 < δ ≤ 1`; for `δ > 1/2` the
+separation admits at most one frequency, and the bound is Cauchy–Schwarz. Kedlaya, Notes on
+analytic number theory, Theorem 15.5 and Exercise 15.4.4 (stated there for `δ ≤ 1/2`). -/
 
 theorem sharp_additive_largeSieve {ι : Type*} [Fintype ι] [DecidableEq ι]
     (M : ℤ) (H : ℕ) (hH : 1 ≤ H) (a : Fin H → ℂ) (x : ι → ℝ)
-    (δ : ℝ) (hδ : 0 < δ) (hδ' : δ ≤ 1/2)
+    (δ : ℝ) (hδ : 0 < δ) (hδ' : δ ≤ 1)
     (hsep : ∀ i j, i ≠ j → δ ≤ dist₁ (x i - x j)) :
     (∑ i, ‖∑ j, a j * phase (((M : ℝ) + (j.val : ℝ) + 1) * x i)‖ ^ 2) ≤
       ((H : ℝ) - 1 + 1/δ) * ∑ j, ‖a j‖ ^ 2 := by sorry
