@@ -11,14 +11,19 @@ arbitrary open subsets of ℂ.
 This roadmap owns the global plane-domain results and their analytic comparison interfaces.
 The local holomorphic, analytic-order, meromorphic and compact-convergence carriers are in
 Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti.
-DifferentialGeometry, Layers 0–1 and 6.1–6.2, owns generic manifold forms, their exterior
-derivative and the real de Rham quotient; its §5.6.3 owns finite-cycle Green.
+Tau Ceti owns the Wirtinger operators, the compact-support Cauchy transform with its ∂̄
+identity and reconstruction, the filled-in predicate with the filled compact exhaustion of an
+open set, generic manifold forms with their exterior derivative, paired wedge and Leibniz rule,
+the coordinate forms dz and dz̄ on the plane, and the winding-weighted Green theorem for
+contour cycles; none of these is a target here, and DifferentialGeometry is not a supplier.
+No supplier owns a de Rham quotient: the real degree-two de Rham vanishing of a plane domain
+is a consumer's conclusion from Layer 7.2's exactness.
 ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here owns
 only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
-dx, dy, dz, dz̄ as exterior derivatives of coordinate functions, products of smooth
-coefficients with forms through the supplied paired wedge, coefficient extraction for
-two-forms, and real and complex two-form exactness. No operation on forms over a general
-manifold is constructed here.
+dx, dy as exterior derivatives of coordinate functions, dz, dz̄ as pullbacks of the native
+plane forms along the inclusion, products of smooth coefficients with forms through the
+native paired wedge, coefficient extraction for two-forms, and real and complex two-form
+exactness. No operation on forms over a general manifold is constructed here.
 
 ZerosOfLFunctions, Layer 5.2–5.5, owns the zero-support API, the genus-one factor and its
 basic API, its canonical product under order-one growth, and the entire logarithm.
@@ -28,13 +33,11 @@ without an entire function or growth bound as input. Layer 5 proves full factori
 finite-order hypotheses. These are extensions of the stated contracts, not a reassignment
 of their genus-one special case; ZerosOfLFunctions is a supplier, not a consumer.
 
-Hyperfunctions HF2.AnalyticPreparation owns the generic topological filled-compact
-exhaustion of an open subset of ℝ^(2n), in every even dimension, by a route that uses no
-holomorphic function; that construction is not a target here. Layer 2 owns the holomorphic
-hull of a compact subset of a plane domain and the plane Runge exhaustion obtained by
-applying that hull to native compact exhaustions. Hyperfunctions consumes this roadmap's
-one-variable results and is downstream, so nothing of it is an input here; on a plane
-domain the two exhaustions deliver the same filledness property.
+The filled compact exhaustion of an open subset of a proper real normed space is Tau Ceti's
+(`IsOpen.exists_isFilledIn_compact_exhaustion`), and Layer 2 consumes its plane instance as
+the Runge exhaustion. Layer 2 owns the holomorphic hull of a compact subset of a plane domain,
+its equality with the filled set, and the Runge equivalences on it. Hyperfunctions consumes
+this roadmap's one-variable results and is downstream, so nothing of it is an input here.
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
 de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
 
@@ -55,6 +58,9 @@ series has only the stated pairing. Empty products equal one.
 
 The positive real basis of ℂ is (1,i), dA=dx dy is native Lebesgue area, and
 ∂̄=(∂x+i∂y)/2, ∂z=(∂x−i∂y)/2. Thus dz∧dz̄ evaluated on (1,i) is −2i.
+For `u : ℂ → ℂ`, ∂̄u(z) is Tau Ceti's `conjWirtingerDeriv u z 1` and ∂z u(z) is
+`wirtingerDeriv u z 1`; Suggested.lean writes equations in these operators without the
+factor 1/2, as `u_x+i u_y=2f` with `u_x=fderiv ℝ u z 1` and `u_y=fderiv ℝ u z i`.
 An outer boundary is counterclockwise and holes are clockwise. For the unit disk,
 ∮ dz/z=2πi and ∫dA=π. For the annulus 1<|z|<2, the outer-minus-inner index at
 0 is 1−1=0 and its oriented area is 4π−π=3π. These normalizations are used in every layer.
@@ -120,17 +126,42 @@ from `TauCeti/Analysis/Contour/Primitive.lean`: retain openness, continuity or h
 all closed-path periods, and nowhere-zero hypotheses. `TauCeti.morera` supplies the
 rectangle-conservative criterion. No alias of these statements is an acceptance target here.
 
-### From TauCetiRoadmap.DifferentialGeometry
-
-Consume §0.1's determinant-normalized paired wedge, §§0.3–0.4's rough and smooth forms
-with `RoughForm.ofFunction` and `RoughForm.wedgeWith`, §1.1's chartwise exterior derivative
-with `mextDeriv_ofFunction`, §1.2's pullback naturality, §1.3's `mextDeriv_mextDeriv` and
-regularity, §1.4's fixed-bilinear-pairing Leibniz law `mextDeriv_wedgeWith`, §5.6.3's local
-finite-cycle Green theorem, and §§6.1–6.2's real de Rham complex and quotient. Products of
-smooth coefficient functions with forms are the paired wedge with the fixed real-bilinear
-multiplication pairing of ℝ or of ℂ, and complex coordinate differentials are exterior
-derivatives of complex-valued coordinate functions; no coefficient-postcomposition
-operation on forms is consumed, and none is constructed here.
+Use `TauCeti.wirtingerDeriv` and `TauCeti.conjWirtingerDeriv` from
+`TauCeti/Analysis/Complex/Wirtinger/Basic.lean`, with `wirtingerDeriv_apply`,
+`conjWirtingerDeriv_apply`, `wirtingerDeriv_add_conjWirtingerDeriv` and
+`fderiv_apply_eq_smul_wirtingerDeriv_add_smul_conjWirtingerDeriv`, and
+`TauCeti.differentiableAt_iff_conjWirtingerDeriv_apply_one_eq_zero` from
+`TauCeti/Analysis/Complex/Wirtinger/Holomorphic.lean`, which assumes `DifferentiableAt ℝ`.
+Use the compact-support Cauchy transform `w ↦ ∫ z, (w − z)⁻¹ • f z` of
+`TauCeti/Analysis/Complex/Pompeiu/Basic.lean`:
+`HasCompactSupport.two_pi_inv_smul_integral_sub_inv_smul_fderiv_apply_one_add_I_smul_apply_I`
+reconstructs a compactly supported `C¹` map `u` as `(2π)⁻¹ ∫ (w − z)⁻¹ • (u_x + i u_y)`,
+`HasCompactSupport.conjWirtingerDeriv_integral_sub_inv_smul_apply_one` gives `∂̄` of the
+transform of a compactly supported `C¹` map as `π` times the map, and
+`TauCeti.differentiableOn_integral_sub_inv_smul_compl` gives holomorphy off a compact set
+outside which the datum vanishes; all three assume `C¹`, not smoothness. Use
+`TauCeti.exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` from
+`TauCeti/Analysis/Complex/Wirtinger/Potential.lean`, a `Cⁿ` `∂̄`-primitive of a compactly
+supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
+`TauCeti/Analysis/Complex/CauchyKernel.lean`.
+Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
+`Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
+`TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
+normed space, compact stages `K n ⊆ interior (K (n + 1))` with union `Ω`, each filled in `Ω`;
+the stages it constructs are `closedBall 0 (n + 1) \ thickening (n + 1)⁻¹ Ωᶜ`.
+Use the smooth-form carrier of `TauCeti/Geometry/Manifold/DifferentialForm/`: `RoughForm` and
+`RoughForm.ofFunction` (`Basic.lean`), `IsSmoothForm` and `SmoothForm` (`Smooth.lean`),
+`mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `mextDeriv_mextDeriv` for a `C²`
+bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
+`wedgeWith_apply_one_one` and `wedgeWith_flip` (`Wedge/Basic.lean`), the Leibniz rule
+`mextDeriv_wedgeWith` at a point where both forms are differentiable (`Wedge/Leibniz.lean`),
+`mpullback` along a smooth map with `mpullback_apply` (`Pullback/Basic.lean`,
+`Pullback/Smooth.lean`), `mpullback_inclusion_apply`, `RoughForm.extendByZero` and
+`IsSmoothForm.extendByZero` for open subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
+`SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1` (`Plane/Complex.lean`).
+Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
+cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
+the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -154,25 +185,31 @@ realizes isolated singularities; Layer 5 (GH3) gives full factorization. Layer 6
 applies these results to products, approximation and contours. Layer 7 (GH5) solves global
 ∂̄ and Cousin I and proves planar two-form exactness. Each route lists its own inputs;
 Layer 7's scalar solver does not use Layer 6's Green theorem. Suggested.lean states the
-headline theorems on pinned carriers; generic form and de Rham endpoints remain prose
-because their intended carriers are supplied by DifferentialGeometry.
+headline theorems on pinned carriers; the form-level statements of Layer 7.2 are on Tau
+Ceti's smooth-form carrier.
 
 ## Layer 0: real-plane calculus and compact-support Cauchy–Green
 
 ### 0.1 Wirtinger operators
 
-Define `barDerivative` and `zDerivative`, the Wirtinger operators, by the native real Fréchet derivative:
-`∂̄u(z)=(fderiv ℝ u z 1+i*fderiv ℝ u z i)/2` and
-`∂_z u(z)=(fderiv ℝ u z 1−i*fderiv ℝ u z i)/2`.
-Under `DifferentiableAt ℝ u z`, prove `∂̄u(z)=0` iff `DifferentiableAt ℂ u z`;
-derive the open-set versions under real differentiability at each point. Smoothness uses
+The Wirtinger operators are Tau Ceti's `wirtingerDeriv` and `conjWirtingerDeriv`, evaluated
+on the direction `1`: for `u : ℂ → ℂ`,
+`∂̄u(z)=conjWirtingerDeriv u z 1=(fderiv ℝ u z 1+i*fderiv ℝ u z i)/2` and
+`∂_z u(z)=wirtingerDeriv u z 1=(fderiv ℝ u z 1−i*fderiv ℝ u z i)/2`, by
+`conjWirtingerDeriv_apply` and `wirtingerDeriv_apply`.
+Under `DifferentiableAt ℝ u z`, `∂̄u(z)=0` iff `DifferentiableAt ℂ u z` is
+`differentiableAt_iff_conjWirtingerDeriv_apply_one_eq_zero`; derive the open-set version
+under real differentiability at each point: for `u` real-differentiable at every point of an
+open `Ω`, `DifferentiableOn ℂ u Ω` iff `∂̄u=0` on `Ω`. Smoothness uses
 `ContDiffOn ℝ ∞`, with `open scoped ContDiff`; native `⊤` in this order type is analytic
 order `ω`, and does not express the smooth compact-support inputs.
 
-The operator API is:
+The operator API, proved from the native defining formulas, is:
 
 - Both operators are complex-linear in smooth coefficient functions and satisfy the product rule.
-- For real-differentiable u, du=∂z u dz+∂̄u dz̄; vanishing ∂̄ is equivalent to complex differentiability.
+- For real-differentiable u, du=∂z u dz+∂̄u dz̄, which is
+  `fderiv_apply_eq_smul_wirtingerDeriv_add_smul_conjWirtingerDeriv`; vanishing ∂̄ is
+  equivalent to complex differentiability.
 - Restriction to an open neighborhood preserves both operators; iterated operators commute on smooth functions.
 
 **Checks.**
@@ -183,7 +220,8 @@ The operator API is:
 
 These are direct real-coordinate differentiations; the differential convention agrees with
 Rainer, §10, equation (10.1), p. 23 (rainer line 1189).
-*Needs:* Mathlib `fderiv`, real/complex differentiability and the chain and product rules.
+*Needs:* Tau Ceti's Wirtinger derivatives; Mathlib `fderiv`, real/complex differentiability
+and the chain and product rules.
 
 ### 0.2 Low-regularity Cauchy–Riemann criterion (Looman–Menchoff)
 
@@ -381,22 +419,33 @@ content and comparison steps are the targets specified above, independent of all
 ### 0.3 Compact-support Cauchy–Green
 
 Let `dA` be native Lebesgue `volume` on ℂ, normalized by
-`Complex.volume_preserving_equiv_real_prod`. Prove local integrability of `1/z` in two real
-dimensions. Pin the fundamental-solution identity by the following complex bilinear weak
-identity for every smooth compactly supported test function φ:
-`∫ ζ, (1/(π*ζ))*∂̄φ(ζ) dA(ζ) = −φ(0)`.
-This defines `∂̄(1/(πz))=δ₀` through integration by parts; it is not a pointwise derivative
-claim or a sesquilinear test pairing. Bochner integrals use the native complex Banach carrier.
-For bounded measurable compactly supported input, prove integrability of the translated
-kernel for each z. For smooth compactly supported input, prove transfer of derivatives under
-the convolution and all smoothness conclusions used below. These scalar analytic results
-use native real-plane measure and calculus, independently of a manifold-form implementation.
+`Complex.volume_preserving_equiv_real_prod`. The compact-support Cauchy–Green operator is
+Tau Ceti's Cauchy transform: for compactly supported `C¹` φ,
+`Tφ(z)=(1/π)∫φ(ζ)/(z−ζ) dA(ζ)`, the integral `π⁻¹ ∫ (z − ζ)⁻¹ • φ(ζ)` of
+`TauCeti/Analysis/Complex/Pompeiu/Basic.lean`, whose kernel is locally integrable by
+`Complex.locallyIntegrable_inv`. The identities `∂̄Tφ=φ`
+(`HasCompactSupport.conjWirtingerDeriv_integral_sub_inv_smul_apply_one`, which gives
+`∂̄∫(z−ζ)⁻¹φ(ζ)=πφ`), `T(∂̄φ)=φ`
+(`HasCompactSupport.two_pi_inv_smul_integral_sub_inv_smul_fderiv_apply_one_add_I_smul_apply_I`,
+which reads `(2π)⁻¹∫(z−ζ)⁻¹(φ_x+iφ_y)(ζ)=φ(z)`) and holomorphy of `Tφ` off the support of
+φ (`differentiableOn_integral_sub_inv_smul_compl`) are native for compactly supported `C¹`
+data; the normalization and sign are fixed by that displayed kernel, `z−ζ` and not `ζ−z`.
+The fundamental-solution identity
+`∫ ζ, (1/(π*ζ))*∂̄φ(ζ) dA(ζ) = −φ(0)`
+for every smooth compactly supported test function φ is the reconstruction identity at
+`z=0`; it defines `∂̄(1/(πz))=δ₀` through integration by parts and is not a pointwise
+derivative claim or a sesquilinear test pairing. Bochner integrals use the native complex
+Banach carrier. A smooth compactly supported datum has a smooth `∂̄`-primitive on the plane
+(`exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` with `n=∞`).
 
-Define `cauchyGreen` by the integral below. Establish `cauchyGreen_barDerivative` and
-`cauchyGreen_barDerivative_reconstruct`, the compact-support Cauchy–Green identities used in its
-Cauchy/Pompeiu route: for `φ∈C_c^∞(ℂ)`, `Tφ(z)=(1/π)∫φ(ζ)/(z−ζ) dA(ζ)` is smooth and
-`∂̄Tφ=φ`; moreover `T(∂̄φ)=φ`. Fix the normalization/sign by this displayed kernel. For a
-cutoff `α` equal to one near `K`, apply the compact-support formula to `αf`; the remaining
+Prove here what the native transform does not state. For bounded measurable compactly
+supported input, prove integrability of the translated kernel for each z, complex-linearity
+and commutation with translations. For smooth compactly supported input, prove that `Tφ`
+itself is smooth with every derivative transferred to the datum, `∂^α(Tφ)=T(∂^α φ)`, by
+differentiating the convolution with the locally integrable kernel. These scalar analytic
+results use native real-plane measure and calculus, independently of a manifold-form
+implementation. For a
+cutoff `α` equal to one near `K`, apply the reconstruction identity to `αf`; the remaining
 cutoff-derivative term has support separated from `K`. Its integral kernel is smooth on the product
 of that support with `K`, so Riemann sums approximate the integral uniformly on `K`. Prove the uniform Riemann-sum lemma: for compact `K₁,K₂` and continuous `G:K₁×K₂→ℂ`,
 partition a bounded box containing `K₁` into half-open squares of mesh δ, retain the finitely
@@ -414,8 +463,8 @@ The transform API is:
 - For bounded measurable compactly supported data the defining integral is integrable at every point.
 - It is complex-linear on such data and commutes with translations; smooth compactly supported
   data give smooth outputs, with derivatives transferred to the datum.
-- On smooth compactly supported data it is a right inverse to ∂̄, and its application to ∂̄φ
-  reconstructs φ. No compact support of the output is claimed.
+- On compactly supported `C¹` data it is a right inverse to ∂̄, and its application to ∂̄φ
+  reconstructs φ; both are native. No compact support of the output is claimed.
 
 **Checks.**
 
@@ -431,8 +480,8 @@ The transform API is:
 The inverse and reconstruction are Rainer, Theorem 10.2 and proof, pp. 23–24;
 the cutoff identity is Theorem 10.3, p. 24 (rainer lines 1255, 1295).
 The quadrature estimate is derived from uniform continuity and area additivity as above.
-*Needs:* Layer 0.1; real-plane Lebesgue integration, polar change of variables, smooth cutoffs,
-differentiation under integrals and the scalar circle Cauchy formula. No manifold Stokes theorem is an input.
+*Needs:* Layer 0.1; the native Cauchy transform identities; real-plane Lebesgue integration,
+smooth cutoffs and differentiation under integrals. No manifold Stokes theorem is an input.
 
 
 
@@ -442,7 +491,8 @@ For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has w
 
 ### Dependencies
 
-Native real/complex calculus and measure theory; Tau Ceti Morera. No later layer supplies an input.
+Native real/complex calculus and measure theory; Tau Ceti's Wirtinger derivatives, Cauchy
+transform and Morera. No later layer supplies an input.
 
 ## Layer 1: preparatory primary factors and locally uniform products
 
@@ -600,7 +650,8 @@ For every finite set `s` and `u : ι → ℂ`, put `P_s=∏_(i∈s)(1+u_i)` and
 
 `‖P_s−1‖ ≤ A_s−1` and `A_s ≤ exp(Σ_(i∈s) ‖u_i‖)`.
 
-The first is a separate sharp finite-induction target: the native
+The first is `norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one`, a separate sharp
+finite-induction target: the native
 `Finset.norm_prod_one_add_sub_one_le` supplies the exponential consequence but does not
 state this intermediate bound. For insertion of a fresh index, use
 `P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle inequality,
@@ -705,20 +756,21 @@ Empty infima are ∞, covering K=∅ and Ω=ℂ. For nonempty K and nonempty com
 deduce the ordinary distance equality to ∂Ω. Prove also `K̂_Ω⊆conv(K)`, using
 `sup_{w∈K} ℓ(w)` for each continuous real-linear functional ℓ to separate points from the
 ordinary convex hull; exponential holomorphic functions realize these real support bounds.
-Construct the Runge exhaustion from holomorphic hulls: start with a native compact
-exhaustion of Ω, choose each next compact stage with the preceding hull in its interior,
-and take its Ω-holomorphic hull. Compactness of each hull and compact cofinality make
-these choices possible. The result has nested interiors, union Ω, compact cofinality and
-no relatively compact complementary component: a component of Ω∖K̂ with compact closure
-in Ω would lie in the hull of K̂, which is K̂ itself, by the maximum-principle inclusion
-and idempotence (Rainer, Lemma 11.3, items (1), (2) and (4), pp. 27–28, and the
-construction in the proof of Theorem 12.1, p. 31). The ordinary distance exhaustion used
-for the comparison metric below does not require this hull operation.
+The Runge exhaustion is the native filled compact exhaustion
+`IsOpen.exists_isFilledIn_compact_exhaustion` applied to Ω: compact stages
+`K_n=closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ` with `K_n⊆int K_(n+1)`, union Ω, and each
+`K_n` filled in Ω (`IsFilledIn (K n) Ω`: no component of Ω∖K_n is relatively compact in Ω).
+Prove its compact cofinality: a compact subset of Ω is covered by the open interiors and so
+lies in one stage. Prove also that the hull of any compact K is filled in Ω: a component of
+Ω∖K̂ with compact closure in Ω would lie in the hull of K̂, which is K̂ itself, by the
+maximum-principle inclusion and idempotence (Rainer, Lemma 11.3, items (1), (2) and (4),
+pp. 27–28, and the construction in the proof of Theorem 12.1, p. 31). The comparison metric
+of 2.2 uses the same native stages.
 
 The hull API includes compactness, extensivity, monotonicity, idempotence, the
 maximum-principle inclusion of relatively compact complementary components, and the
-distance and convex-hull comparisons. The exhaustion API
-has nested interiors and compact cofinality, and each stage equals its holomorphic hull.
+distance and convex-hull comparisons. The exhaustion API has nested interiors, compact
+cofinality and filledness of every stage.
 These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437), apart from its item (3), which
 is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal consequence.
 
@@ -729,11 +781,12 @@ is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal con
 - For K={2≤|z|≤3} in Ω={|z|<4}, the hull is {|z|≤3}; the common distance to Ωᶜ is 1.
 - For the same K in Ω={1<|z|<4}, the hull is K. The function 1/z excludes |z|<2;
   filling this ambient hole would be wrong.
-- In Ω=ℂ, the radius-n closed ball is its own hull and a valid exhaustion stage,
-  agreeing with the plane instance of the topological exhaustion owner.
+- In Ω=ℂ the complement is empty and its thickening is empty, so the native stage K_n is
+  the closed ball of radius n+1, which is its own hull.
 
-*Needs:* Mathlib compact exhaustions and connected components; the maximum principle and
-the elementary separating functions z, 1/(z−ζ) and exp(az). No later subsection is used.
+*Needs:* Tau Ceti's filled compact exhaustion; Mathlib connected components; the maximum
+principle and the elementary separating functions z, 1/(z−ζ) and exp(az). No later
+subsection is used.
 
 ### 2.2 Holomorphic functions with compact-open convergence
 
@@ -765,12 +818,13 @@ Construct the following explicit complete comparison metric for that same unifor
 retaining it definitionally with `MetricSpace.replaceUniformity`. Scope the resulting
 metric instance in the same `HolomorphicMapTopology` namespace as the induced uniformity;
 keep the comparison distance on `C(U,ℂ)` as an explicit definition, without installing
-a competing global metric instance on that native carrier. Use the elementary exhaustion,
-for integers n≥1 and Ω the underlying set of U,
+a competing global metric instance on that native carrier. Use the native filled exhaustion
+of 2.1, for integers n≥1 and Ω the underlying set of U,
 
-`K_n = {z : ℂ | ‖z‖ ≤ n ∧ Metric.infEDist z Ωᶜ ≥ ENNReal.ofReal (1/n)}`.
+`K_n = closedBall 0 n \ thickening (1/n) Ωᶜ = {z : ℂ | ‖z‖ ≤ n ∧ Metric.infEDist z Ωᶜ ≥ ENNReal.ofReal (1/n)}`.
 
-Prove compactness, `K_n ⊆ int K_(n+1)`, and cofinality among compact subsets of Ω.
+Its compactness and `K_n ⊆ int K_(n+1)` are native; use the cofinality among compact subsets
+of Ω proved in 2.1.
 For Ω=ℂ the extended distance to its empty complement is ∞; only the radius cutoff remains.
 For Ω=∅ every K_n is empty and H(U) has one element. The metric construction uses no Runge
 theorem and no normal-family theorem. Any cofinal nested compact exhaustion gives the same
@@ -814,7 +868,8 @@ holomorphic APIs. Open-set restriction uses composition with the native smooth i
 their codomain structure matches. Give the derivative map
 and prove its compact-open continuity by the native locally uniform derivative theorem and
 Cauchy estimates on compact neighborhoods. These are function-space results independent of
-Montel; ConformalMapping L1 consumes this topology for its compactness criterion.
+Montel; ConformalMapping's compactness criterion is stated on ambient families and does not
+consume this space.
 
 The function-space API is:
 
@@ -899,8 +954,8 @@ and `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn`.
 
 ### 2.5 Runge equivalences, pole pushing, and interpolation
 
-Define `IsRungeCompactPair` by openness, compact containment and absence of relatively
-compact complementary components. Prove `isRungeCompactPair_iff_approximation`, the universal Runge equivalence: for compact K⊆Ω, the property that every
+Define `IsRungeCompactPair` by openness, compact containment and `IsFilledIn K Ω`, the
+native absence of relatively compact complementary components. Prove `isRungeCompactPair_iff_approximation`, the universal Runge equivalence: for compact K⊆Ω, the property that every
 function holomorphic on every open neighborhood U of K can be uniformly approximated
 on K by functions holomorphic on Ω holds if and only if no component of Ω\K is
 relatively compact in Ω. Quantify over U and f in this equivalence. For any individual
@@ -916,7 +971,8 @@ contains one of finitely many disks disjoint from K that cover ∂W. Prove that 
 relatively compact component, so (Ω,K̃) is a Runge pair, and apply the point-separation
 direction of the scalar equivalence to K̃: every a∈Ω∖K̃ has an f∈H(Ω) with
 |f(a)|>sup_K̃|f|≥sup_K|f|, so a∉K̂_Ω. Hence K̂_Ω=K holds exactly when Ω∖K has no
-relatively compact component. Specialize to polynomial
+relatively compact component; in particular every stage of 2.1's native exhaustion, being
+filled in Ω, is its own hull. Specialize to polynomial
 approximation on compact `K ⊂ ℂ` iff `ℂ \ K` is connected. Include the rational approximation
 variant with a specified pole set meeting every component of the complement in the sphere.
 Develop pole-pushing on nested compacta, rather than treating a picture or a single pole move as
@@ -1551,7 +1607,7 @@ boundary-pole witness on this same crescent, take `f(z)=1/(z+1)` and `z_t=-1+t` 
 `|f(z_t)|=1/t→∞`. Every polynomial remains bounded on the unit disk, hence its uniform
 error against this second witness is infinite as well.
 
-Apply GH0’s compact-support Cauchy/Pompeiu identity, uniform Riemann-sum lemma,
+Apply the native compact-support Cauchy–Pompeiu identity, Layer 0.3's uniform Riemann-sum lemma,
 finite-chain pole-pushing and rational pole-set theorem to these approximation examples.
 Use their stated compact separation, error bounds and sphere-complement pole-set hypotheses.
 
@@ -1603,7 +1659,7 @@ trace in `U_ε` and its total winding number vanishes on `ℂ\U_ε`: outside `Ω
 indices vanish; on `B̄_{ε/2}(ξ)`, the domain-boundary and circle indices are both `1` and cancel.
 On `U_ε` off the traces, its index equals `1` on `Δ\B̄_ε(ξ)` and `0` elsewhere. On `U_ε`,
 `∂̄F=(∂̄f)/(z−ξ)` by the real `C¹` product rule and `∂̄((z−ξ)⁻¹)=0`. Apply
-DifferentialGeometry 5.6.3's finite integer-weighted-cycle Green identity to the two real forms
+Tau Ceti's winding-weighted cycle Green identity `Cycle.green_winding` to the two real forms
 associated to `F dz`: for `F=u+iv`, use `u dx−v dy` and `v dx+u dy`. Add the explicit local
 coordinate comparison target: on each native cycle generator,
 `(F∘γ)·γ′=(u∘γ)x′−(v∘γ)y′+i((v∘γ)x′+(u∘γ)y′)`; extend by finite integer additivity. This
@@ -1621,20 +1677,22 @@ As a real/imaginary Stokes cross-check for the GH5 disk monomial moment, let `F=
 on a neighborhood of the closed unit disk. Interpret `∮_{|z|=1}F dz̄` as the pair of
 existing real curve integrals associated to the one-forms `u dx+v dy` and `v dx−u dy`; do not
 introduce a second complex contour carrier. Their curls are `vₓ−uᵧ` and `−uₓ−vᵧ`, which combine
-to `−2i∂_zF`. Specialize DG5.6.3 to the positive unit-circle cycle (index one on the open disk)
+to `−2i∂_zF`. Specialize `Cycle.green_winding` to the positive unit-circle cycle (index one on the open disk)
 to obtain
 `∮_{|z|=1}F dz̄=−2i∫_{|z|<1}∂_zF dA`. For `m,n∈ℕ` and
 `F=z^(m+1)z̄^n/(m+1)`, this recovers the GH5 disk moment identity. This cross-check belongs
-to GH4 because it consumes DG5.6.3; the GH5 target itself uses polar area integration only.
+to GH4 because it consumes the native Green theorem; the GH5 target itself uses polar area
+integration only.
 
 The region-boundary adapter must prove the Jordan separation/orientation-to-winding facts and hole
 cancellation, then identify the geometric boundary with `trace(C_Δ)`; it must not assume a graph-cell
-decomposition. Consume DG 5.6.3 for local fields on an open set and finite integer-weighted AC
-cycles; its full target specializes to native `TauCeti.Contour.Cycle` and imposes no nonzero-speed or
-finite-cell-division hypothesis. Use the local `Cycle.integral` real/imaginary-coordinate comparison above with that AC-cycle theorem. GH0 and GH5’s scalar solver remain independent of the DG Green theorem and
-ConformalMapping; GH5’s form consequences consume DG0–DG1 and DG6 as stated below. GH4 consumes
-DG 5.6.3 and ConformalMapping L5 for Jordan separation. DG has no reverse dependency on GH,
-and there is no CKG edge for this boundary formula.
+decomposition. Consume `Cycle.green_winding` for real `C¹` fields on an open set and a native
+`TauCeti.Contour.Cycle` with trace in that set and null-homologous in it; it imposes no
+nonzero-speed or finite-cell-division hypothesis. Use the local `Cycle.integral`
+real/imaginary-coordinate comparison above with that cycle theorem. GH0 and GH5’s scalar
+solver remain independent of the Green theorem and ConformalMapping; GH5’s form consequences
+consume the native form carrier as stated below. GH4 consumes the native Green theorem and
+ConformalMapping L5 for Jordan separation, and there is no CKG edge for this boundary formula.
 
 For the upper/lower/real-axis example, let
 `K_{1,n}={|z|≤n, Im z≥1/n}`, `K_{2,n}={|z|≤n, Im z≤-1/n}`,
@@ -1682,7 +1740,7 @@ conditions, not by complex polynomials without extra hypotheses.
 The oriented boundary-cycle API includes trace equality, indices inside the region and holes,
 integer additivity and the real/imaginary circulation comparison, with the source and target
 cycle and integral carriers specified above. The scalar formula is Rainer, Proposition 10.1,
-p. 23 (rainer line 1216); the finite-cycle generalization uses DifferentialGeometry §5.6.3.
+p. 23 (rainer line 1216); the finite-cycle generalization uses Tau Ceti's `Cycle.green_winding`.
 
 **Checks.**
 
@@ -1694,7 +1752,7 @@ p. 23 (rainer line 1216); the finite-cycle generalization uses DifferentialGeome
 - For the point-normalized polynomials with n=1, the bound is (1/2)/(1−1/2)=1;
   the denominator is bounded below by 1/2, not merely assumed nonzero.
 
-*Needs:* DifferentialGeometry §5.6.3; ConformalMapping L5 for Jordan separation only;
+*Needs:* Tau Ceti's `Cycle.green_winding`; ConformalMapping L5 for Jordan separation only;
 Tau Ceti cycles, winding, circle integrals and Layer 0.1 derivatives. The boundary adapter,
 coordinate comparison and small-circle/error estimates are the local targets above.
 
@@ -1731,20 +1789,20 @@ On the unit disk the |z|² Cauchy–Pompeiu identity at zero is 0=1−1; clockwi
 
 ### Dependencies
 
-Layers 0–5 as used by each example; DifferentialGeometry §5.6.3 and ConformalMapping L5 only for the boundary formula.
+Layers 0–5 as used by each example; Tau Ceti's cycle Green theorem and ConformalMapping L5 only for the boundary formula.
 
 ## Layer 7: global smooth ∂̄ solvability and Cousin I (GH5)
 
 ### 7.1 Global smooth solvability and closed completion
 
-Prove the global one-variable inhomogeneous Cauchy–Riemann theorem. In `exists_smooth_barDerivative_eq`, for every open `Ω⊆ℂ` and every `f∈C^∞(Ω)`,
-construct `g∈C^∞(Ω)` with `∂̄g=f`; no simple connectivity is assumed. Use `ContDiffOn ℝ ∞` for smoothness, with `open scoped ContDiff`; native `⊤`
+Prove the global one-variable inhomogeneous Cauchy–Riemann theorem. In `exists_smooth_conjWirtingerDeriv_eq`, for every open `Ω⊆ℂ` and every `f∈C^∞(Ω)`,
+construct `g∈C^∞(Ω)` with `∂̄g=f`, stated as `g_x+i g_y=2f`; no simple connectivity is assumed. Use `ContDiffOn ℝ ∞` for smoothness, with `open scoped ContDiff`; native `⊤`
 in this order type denotes analytic order `ω`, so it does not express the smooth
-compact-support input. Consume the preparatory Wirtinger operators, real-differentiability
-criterion and normalized compact-support operator. The proof route is a global one-variable
+compact-support input. Consume the native Wirtinger operators, real-differentiability
+criterion and compact-support Cauchy transform of Layer 0. The proof route is a global one-variable
 shell construction:
 
-1. Consume the GH0 compact-support Cauchy–Green formula and its uniform Riemann-sum estimate.
+1. Consume the native compact-support Cauchy transform of Layer 0.3 and its uniform Riemann-sum estimate.
    GH5 supplies the exhaustion-shell cover and support/extension adapters, correction estimates,
    and convergence of the resulting solution.
 2. Choose a compact Runge exhaustion from GH0 and construct a countable locally finite open
@@ -1780,7 +1838,7 @@ For `f(z)=z`, the particular solution `u₀(z)=|z|²`; all solutions are
 
 In `exists_smooth_closed_completion`, for every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
 `ω=g dz+f dz̄` is closed. Apply global solvability to the smooth datum `∂_z f`,
-obtaining `∂̄g=∂_z f`, and prove
+obtaining `∂̄g=∂_z f`, stated as `g_x+i g_y=f_x−i f_y`, and prove
 `dω=(∂_z f−∂̄g) dz∧dz̄=0` on the differential-form carrier below.
 For a fixed f, all such coefficients are `g=g₀+h`, with h holomorphic on Ω.
 The conclusion is closedness; a global primitive additionally requires vanishing periods.
@@ -1815,16 +1873,19 @@ for the inverse identification. For every ambient `u : ℂ → ℂ`, prove the r
 `ContDiffOn ℝ ∞ u (U : Set ℂ) ↔ ContMDiff I I ∞ (fun z : M => u z)`, using the native
 open-subtype smoothness API, and the same comparison for real-valued functions with the
 target model `𝓘(ℝ, ℝ)`. Throughout, `d v` for a smooth coefficient function `v` with values
-in ℝ or in ℂ means `mextDeriv (RoughForm.ofFunction I v)` on DG0.3's carrier. Prove that the
-degree-zero form of a smooth function on `M` is a smooth form in DG0.3's sense, by its
-chartwise definition; DG1.3 then supplies the smoothness of `d v`, and DG1.1's
-`mextDeriv_ofFunction` evaluates `d v` as `mfderiv`.
+in ℝ or in ℂ means `mextDeriv (RoughForm.ofFunction I v)` on Tau Ceti's carrier. Prove that the
+degree-zero form of a smooth function on `M` is a smooth form, `IsSmoothForm`, by its
+chartwise definition, and that `d v` is smooth; `mextDeriv_ofFunction` evaluates `d v` as
+`mfderiv`.
 
 Define the real coordinate differentials `dx = d(Re ∘ ι)` and `dy = d(Im ∘ ι)`, real-valued
-one-forms, and the complex coordinate differentials `dz = d ι` and `dz̄ = d(conj ∘ ι)`,
-complex-valued one-forms, where `conj` is `starRingEnd ℂ`. These are exterior derivatives
-of smooth coordinate functions, so `d(dx)=d(dy)=d(dz)=d(dz̄)=0` by DG1.3's
-`mextDeriv_mextDeriv`. A product of a smooth coefficient function with a form means the
+one-forms, and the complex coordinate differentials `dz` and `dz̄` as the pullbacks
+`mpullback` of the native plane forms `SmoothForm.complexDz` and `SmoothForm.complexDzBar`
+along the smooth inclusion `ι`; prove `dz = d ι` and `dz̄ = d(conj ∘ ι)`, where `conj` is
+`starRingEnd ℂ`, by `mpullback_apply` and `mextDeriv_ofFunction`. All four are
+exterior derivatives of smooth coordinate functions, so `d(dx)=d(dy)=d(dz)=d(dz̄)=0` by
+`mextDeriv_mextDeriv`, whose `C²` bundle-form hypothesis the degree-zero form of a smooth
+function satisfies. A product of a smooth coefficient function with a form means the
 paired wedge `RoughForm.wedgeWith` of its degree-zero form with that form, with pairing the
 continuous real-bilinear multiplication of ℝ for real coefficients and of ℂ for complex
 coefficients; `dx∧dy` and `dz∧dz̄` are the paired wedges with the same pairings. No
@@ -1836,7 +1897,8 @@ on `e_z 1` and `e_z i`. Put `∂z u=(∂x u−i*∂y u)/2` and `∂barz u=(∂x 
 `du=(∂z u) dz+(∂barz u) dbarz` as an identity of complex-valued one-forms: both sides are
 the real-linear map `v ↦ ∂x u·Re v+∂y u·Im v` at every tangent vector. For ambient
 smooth-on-`U` functions, prove these derivatives of the restriction agree with the ambient
-derivatives used by GH5, including `barDerivative`. By DG0.1's determinant wedge evaluation,
+derivatives used by GH5, `conjWirtingerDeriv u z 1` and `wirtingerDeriv u z 1`. By the
+determinant wedge evaluation `wedgeWith_apply_one_one`,
 `dz∧dz̄` takes the value `1·(−i)−i·1=−2i` on `(e_z 1,e_z i)`, and `dx∧dy` takes the value
 `1·1−0·0=1` there. A real-alternating two-form on the two-dimensional real space ℂ is
 determined by its value on the pair `(1,i)`, so every smooth complex-valued two-form `η`
@@ -1846,13 +1908,13 @@ real-valued two-form `η` has the unique form `η=h dx∧dy` with `h(z)=η_z(e_z
 ambient function smooth on `U`.
 
 For the complex case, apply GH5 to `h`, obtaining `u` with `∂barz u=h`, restrict to `M`, and
-use DG1.4's `mextDeriv_wedgeWith` Leibniz rule with `d(dz)=0` to obtain
+use the `mextDeriv_wedgeWith` Leibniz rule with `d(dz)=0` to obtain
 `d(−u dz)=−du∧dz=(∂barz u) dz∧dbarz=η`, since `dz∧dz=0`. For the real case, apply GH5 to
 the datum `h/2`, obtaining `u` with `∂barz u=h/2`, and set `β=(Im u) dx+(Re u) dy`, a
 real-valued one-form with the real smooth coefficients `Re ∘ u` and `Im ∘ u`. The real
 Leibniz rule with `d(dx)=d(dy)=0` gives `dβ=((Re u)_x−(Im u)_y) dx∧dy=2 Re(∂barz u) dx∧dy=η`.
-Thus every smooth real-valued two-form on `M` is exact and the real degree-two de Rham
-quotient vanishes. CKG K5a consumes the complex exactness on this same open-subtype carrier
+Thus every smooth real-valued two-form on `M` is exact; the vanishing of a real degree-two
+de Rham quotient of `M` is a consumer's conclusion from this exactness. CKG K5a consumes the complex exactness on this same open-subtype carrier
 and owns its complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
 The coordinate-form API includes the tangent trivialization, the ambient/restricted
@@ -1860,7 +1922,7 @@ smoothness comparison for real and complex values, smoothness of degree-zero for
 dz and dz̄ as exterior derivatives of coordinate functions with their evaluations and
 vanishing exterior derivatives, the decomposition of du, unique coefficient extraction for
 real and complex two-forms, and real and complex exactness. These are direct consequences
-of the supplied exterior derivative, Leibniz rule and determinant wedge convention together
+of the native exterior derivative, Leibniz rule and determinant wedge convention together
 with Layer 7.1, not an additional generic form carrier or a generic operation on forms.
 
 **Checks.**
@@ -1875,14 +1937,16 @@ with Layer 7.1, not an additional generic form carrier or a generic operation on
   β=(x dy−y dx)/2, whose derivative is dx∧dy; its value on (e_z 1, e_z i) is 1. Taking
   β=(Re u) dx+(Im u) dy instead would give dβ=((Im u)_x−(Re u)_y) dx∧dy=0.
 
-*Needs:* Layers 7.1 and 0.1; DifferentialGeometry §§0.1, 0.3–0.4, 1.1, 1.3–1.4 and
-6.1–6.2; native open-subtype tangent and smoothness comparisons, `Complex.reCLM`,
-`Complex.imCLM` and `starRingEnd ℂ`.
+*Needs:* Layers 7.1 and 0.1; Tau Ceti's `RoughForm`, `RoughForm.ofFunction`, `IsSmoothForm`,
+`SmoothForm`, `mextDeriv`, `mextDeriv_ofFunction`, `mextDeriv_mextDeriv`, `RoughForm.wedgeWith`,
+`wedgeWith_apply_one_one`, `mextDeriv_wedgeWith`, `mpullback`, `mpullback_apply`,
+`SmoothForm.complexDz` and `SmoothForm.complexDzBar`; native open-subtype tangent and
+smoothness comparisons, `Complex.reCLM`, `Complex.imCLM` and `starRingEnd ℂ`.
 
 ### 7.3 Coordinate worked examples
 
  Keep these scalar computations in GH5; the disk moment is
-proved by polar area integration and has no DG or CKG dependency. On all of `ℂ`, prove
+proved by polar area integration and has no form-carrier or CKG dependency. On all of `ℂ`, prove
 `d(i z²)=2iz dz` and `d(i|z|²)=i(z̄ dz+z dz̄)`, as identities of
 complex-valued real one-forms with the coefficient pairing specified above. Also prove
 `d(|z|²)=2(x dx+y dy)` and `d(|z|⁴)=4(x²+y²)(x dx+y dy)`. On `ℂ\{0}`, prove
@@ -1931,9 +1995,8 @@ partition ρₖ with locally finite supports subordinate to the cover and set `b
 Verify `b_i-b_j=c_ij`, so `∂̄b_i` is one global smooth datum; solve `∂̄u=∂̄b_i` by GH5,
 and check `b_i-u` are holomorphic and glue with the required differences. For the Mittag–Leffler application,
 use `Ω₀=Ω\E` and small disjoint disks around the marked points, and verify this is an open
-cover. For the de Rham consequence consume DG Layer 6.1–6.2's real smooth de Rham complex and quotient
-carrier. Layer 7.2 gives exactness for every complex-valued and every real-valued smooth
-two-form on the open subtype. CKG K5a consumes the complex exactness
+cover. Layer 7.2 gives exactness for every complex-valued and every real-valued smooth
+two-form on the open subtype; no de Rham quotient is constructed here. CKG K5a consumes the complex exactness
 statement and proves its own complex de Rham comparison on the generic form carrier. The open plane
 domain is Hausdorff and paracompact. This uses no singular/de Rham comparison or fundamental class.
 
@@ -1941,7 +2004,6 @@ The Cousin API permits arbitrary index types and open covers, with the conventio
 cᵢⱼ=bᵢ−bⱼ; only the subordinate partition's supports need be locally finite. A refinement
 restricts the solution, and the difference of two solutions glues to a global holomorphic function.
 This is Rainer, Proposition 12.3 and Theorem 12.4, p. 32 (rainer lines 1658, 1689).
-The degree-two de Rham vanishing is the quotient consequence of Layer 7.2's exactness.
 
 **Checks.**
 
@@ -1952,8 +2014,8 @@ The degree-two de Rham vanishing is the quotient consequence of Layer 7.2's exac
   still has bᵢ=0; local finiteness of the cover is not a necessary hypothesis.
 
 *Needs:* Layer 7.1, native subordinate smooth partitions with locally finite supports,
-restriction/gluing of smooth functions and the homogeneous CR criterion. The de Rham
-conclusion additionally uses Layer 7.2 and DifferentialGeometry §6.1's quotient.
+restriction/gluing of smooth functions and the homogeneous CR criterion. The exactness
+statements are Layer 7.2's.
 
 ### Examples
 
@@ -1961,16 +2023,19 @@ The constant two-set cocycle has coboundary (1,0), and d((x dy−y dx)/2)=dx∧d
 
 ### Dependencies
 
-Layers 0 and 2 for the scalar solver; DifferentialGeometry Layers 0–1 and 6.1–6.2 for form consequences. ComplexKahlerGeometry is a consumer only.
+Layers 0 and 2 for the scalar solver; Tau Ceti's smooth-form carrier for the form consequences. ComplexKahlerGeometry is a consumer only.
 
 ## Downstream consumers
 
-ComplexKahlerGeometry K2 consumes GH0's compact-support transform, finite-rank Runge
-operators and planar exhaustion for its parameter solver; K5a consumes GH5.1's complex
-two-form exactness for its complex de Rham comparison. Hyperfunctions HF2 uses the
-one-variable input through those analytic layers. ConformalMapping's compact-open
-applications can use Layer 2's holomorphic function space; its L5 boundary topology is
-an independent input only to Layer 6. ZerosOfLFunctions remains an earlier supplier.
+ComplexKahlerGeometry K2 consumes Layer 0.3's derivative transfer and Riemann-sum estimate
+for the native Cauchy transform, GH0's finite-rank Runge operators and the planar exhaustion
+for its parameter solver; K5a consumes GH5.1's complex
+two-form exactness for its complex de Rham comparison, and DeRhamCohomologyAndDuality draws
+`H²_dR(U;ℝ)=0` for an open `U⊆ℂ` from Layer 7.2's real exactness on its own de Rham
+quotient. Hyperfunctions HF2 uses the one-variable input through those analytic layers.
+ConformalMapping's compactness criterion is stated on ambient families and consumes nothing
+here; its L5 boundary topology is an independent input only to Layer 6. ZerosOfLFunctions
+remains an earlier supplier.
 
 ## References
 

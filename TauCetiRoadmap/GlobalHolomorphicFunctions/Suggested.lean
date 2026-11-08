@@ -5,38 +5,36 @@ import TauCeti.Analysis.Contour.Cycle.Basic
 # Global holomorphic functions of one complex variable: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, compact-support
-Cauchy–Green and reconstruction, exact primary products, holomorphic hulls and Runge,
-compact-open completeness, divisor and isolated-singularity realization, boundary
-noncontinuation, full Weierstrass factorization, Cauchy–Pompeiu, global smooth ∂̄ and Cousin I.
+theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, the sharp
+finite-product bound, exact primary products, holomorphic hulls and Runge, compact-open
+completeness, divisor and isolated-singularity realization, boundary noncontinuation, full
+Weierstrass factorization, Cauchy–Pompeiu on a cycle, global smooth ∂̄ solvability with closed
+completion, and Cousin I.
 
-The smooth-form versions of closed completion and exactness of every planar two-form are
-not statable on their intended carriers at the pins: DifferentialGeometry's generic
-`SmoothForm` and `mextDeriv` are missing. Real degree-two de Rham vanishing additionally
-needs that roadmap's `deRhamCohomology` quotient. The scalar closed-completion equation
-below is itself a headline of README.md. The complex de Rham quotient comparison belongs
-to ComplexKahlerGeometry, K5a.
+The operator ∂̄ is written in real Fréchet coordinates: `2 ∂̄u(z) = u_x(z) + i u_y(z)` with
+`u_x = fderiv ℝ u z 1` and `u_y = fderiv ℝ u z I`, the convention of Tau Ceti's conjugate
+Wirtinger derivative `conjWirtingerDeriv u z 1` (`TauCeti/Analysis/Complex/Wirtinger/Basic.lean`)
+and of its Cauchy–Pompeiu formula (`TauCeti/Analysis/Complex/Pompeiu/Basic.lean`); the statements
+below carry the factor 2 on the data side. The compact-support Cauchy transform, its ∂̄ identity
+and reconstruction are that library's and are not restated.
+
+Not statable at the pins: the form-level closed completion `d(g dz + f dz̄) = 0` and the exactness
+of every smooth complex-valued and real-valued two-form on an open subset of ℂ (README Layer 7.2)
+are stated on Tau Ceti's smooth-form carrier (`TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
+`TauCeti.SmoothForm.complexDz` and `complexDzBar` of `TauCeti/Geometry/Manifold/DifferentialForm/`),
+which the pinned Tau Ceti does not contain; nothing is stated in their place. The scalar
+closed-completion equation below is their coefficient form.
 -/
-
 namespace TauCetiRoadmap.GlobalHolomorphicFunctions
 
 open Filter Set Topology MeasureTheory
 open scoped ContDiff Manifold
 
-/-! ## Layer 0: real-plane calculus and compact-support Cauchy–Green -/
-
-/-- The real-coordinate Cauchy–Riemann operator `∂̄`, expressed through the native real
-Fréchet derivative. The vectors `1` and `I` are the x and y coordinate directions. -/
-noncomputable def barDerivative (u : ℂ → ℂ) (z : ℂ) : ℂ :=
-  (fderiv ℝ u z 1 + Complex.I * fderiv ℝ u z Complex.I) / 2
-
-/-- The Wirtinger `∂_z` operator, in the same real Fréchet coordinates. -/
-noncomputable def zDerivative (u : ℂ → ℂ) (z : ℂ) : ℂ :=
-  (fderiv ℝ u z 1 - Complex.I * fderiv ℝ u z Complex.I) / 2
+/-! ## Layer 0: real-plane calculus -/
 
 /-- **Preparatory Looman–Menchoff.** Continuity and the two everywhere real-direction
 complex derivatives satisfying CR imply holomorphicity. No real Fréchet derivative or
-continuity/integrability of the coordinate partials is assumed. -/
+continuity/integrability of the coordinate partials is assumed (Gray–Morris, Theorem 3, p. 247). -/
 theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
     {Ω : Set ℂ} (hΩ : IsOpen Ω) (f : ℂ → ℂ) (hcont : ContinuousOn f Ω)
     (hline : ∀ z ∈ Ω, ∃ fx fy : ℂ,
@@ -44,25 +42,6 @@ theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
       HasLineDerivAt ℝ f fy z Complex.I ∧
       fy = Complex.I * fx) :
     DifferentiableOn ℂ f Ω := by
-  sorry
-
-/-- The ordinary complex-valued Bochner integral defining the compact-support
-Cauchy–Green transform. `volume` is Lebesgue area measure on the real plane underlying ℂ. -/
-noncomputable def cauchyGreen (φ : ℂ → ℂ) (z : ℂ) : ℂ :=
-  ((Real.pi : ℂ)⁻¹) * ∫ ζ, φ ζ / (z - ζ) ∂MeasureTheory.volume
-
-/-- For every smooth compactly supported datum, the normalized Cauchy–Green transform is
-smooth and solves ∂̄u = φ on the whole plane (Rainer, Theorem 10.2, pp. 23–24). -/
-theorem cauchyGreen_barDerivative (φ : ℂ → ℂ)
-    (hφ : HasCompactSupport φ) (hφsmooth : ContDiff ℝ ∞ φ) :
-    ContDiff ℝ ∞ (cauchyGreen φ) ∧ ∀ z, barDerivative (cauchyGreen φ) z = φ z := by
-  sorry
-
-/-- **Compact-support reconstruction.** Applying the Cauchy–Green transform to `∂̄φ`
-recovers a compactly supported smooth function. -/
-theorem cauchyGreen_barDerivative_reconstruct (φ : ℂ → ℂ)
-    (hφ : HasCompactSupport φ) (hφsmooth : ContDiff ℝ ∞ φ) :
-    ∀ z, cauchyGreen (barDerivative φ) z = φ z := by
   sorry
 
 /-! ## Layer 1: primary factors and locally uniform products -/
@@ -119,10 +98,20 @@ theorem exists_entire_genusOne_product_of_divisor
       Differentiable ℂ F ∧ F 0 = 1 ∧ MeromorphicOn.divisor F Set.univ = D := by
   sorry
 
+/-- **Sharp finite-product majorant.** For every finite family of complex numbers,
+`‖∏ (1 + uᵢ) − 1‖ ≤ ∏ (1 + ‖uᵢ‖) − 1`, by induction on the index set with no factor divided
+out. Mathlib's `Finset.norm_prod_one_add_sub_one_le` bounds the left side by
+`exp (∑ ‖uᵢ‖) − 1`, which follows from this bound and is strictly weaker: for `u = (1, 1)` both
+sides here equal 3 (Rainer, proof of Proposition 14.2, p. 35). -/
+theorem norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one {ι : Type*} (s : Finset ι)
+    (u : ι → ℂ) : ‖∏ i ∈ s, (1 + u i) - 1‖ ≤ ∏ i ∈ s, (1 + ‖u i‖) - 1 := by
+  sorry
+
 /-! ## Layer 2: plane domains, compact hulls, and Runge approximation -/
 
-/-- A compact subset has no complementary component relatively compact in the domain.
-Use Mathlib's actual connected components; all closures are in the ambient plane. -/
+/-- A Runge pair: an open `Ω`, a compact `K ⊆ Ω`, and `K` filled in `Ω` (no connected
+component of `Ω \ K` is relatively compact in `Ω`, Tau Ceti's `IsFilledIn K Ω`, written out).
+Mathlib's connected components are used; all closures are in the ambient plane. -/
 def IsRungeCompactPair (Ω K : Set ℂ) : Prop :=
   IsOpen Ω ∧ IsCompact K ∧ K ⊆ Ω ∧
     ∀ z ∈ Ω \ K,
@@ -311,8 +300,9 @@ theorem entire_weierstrass_factorization (f : ℂ → ℂ) (hf : Differentiable 
 
 open scoped Classical in
 /-- Cauchy–Pompeiu for a bounded open region with a native cycle whose trace is its
-boundary and whose index is one inside and zero outside. The Jordan-boundary construction
-in README.md supplies these hypotheses (Rainer, Proposition 10.1, p. 23). -/
+boundary and whose index is one inside and zero outside. The area term is
+`π⁻¹ ∫_Δ ∂̄f(z)/(z − ξ) dA`, written with `2 ∂̄f = f_x + i f_y`. The Jordan-boundary
+construction in README.md supplies these hypotheses (Rainer, Proposition 10.1, p. 23). -/
 theorem cauchyPompeiu {Ω Δ : Set ℂ} (hΩ : IsOpen Ω) (hΔ : IsOpen Δ)
     (hbounded : Bornology.IsBounded Δ) (hclosure : closure Δ ⊆ Ω)
     (C : TauCeti.Contour.Cycle) (htrace : C.trace = frontier Δ)
@@ -321,25 +311,29 @@ theorem cauchyPompeiu {Ω Δ : Set ℂ} (hΩ : IsOpen Ω) (hΔ : IsOpen Δ)
     (f : ℂ → ℂ) (hf : ContDiffOn ℝ 1 f Ω) {ξ : ℂ} (hξ : ξ ∈ Δ) :
     f ξ = (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
         TauCeti.Contour.Cycle.integral (fun z => f z / (z - ξ)) C -
-      (Real.pi : ℂ)⁻¹ * ∫ z in Δ, barDerivative f z / (z - ξ) := by
+      (2 * (Real.pi : ℂ))⁻¹ *
+        ∫ z in Δ, (fderiv ℝ f z 1 + Complex.I * fderiv ℝ f z Complex.I) / (z - ξ) := by
   sorry
 
 /-! ## Layer 7: global smooth ∂̄ solvability and Cousin I -/
 
-/-- **GH5, global smooth `∂̄` solvability.** Every smooth datum on an arbitrary open plane
-set has a smooth global solution; the construction is the exhaustion/Runge correction in GH5. -/
-theorem exists_smooth_barDerivative_eq {Ω : Set ℂ} (hΩ : IsOpen Ω)
+/-- **GH5, global smooth `∂̄` solvability.** Every smooth datum `f` on an arbitrary open plane
+set has a smooth global solution `u` of `∂̄u = f`, written `u_x + i u_y = 2f`; the construction
+is the exhaustion/Runge correction in GH5 (Rainer, Theorem 12.2, p. 31). -/
+theorem exists_smooth_conjWirtingerDeriv_eq {Ω : Set ℂ} (hΩ : IsOpen Ω)
     (f : ℂ → ℂ) (hf : ContDiffOn ℝ ∞ f Ω) :
     ∃ u : ℂ → ℂ, ContDiffOn ℝ ∞ u Ω ∧
-      ∀ z ∈ Ω, barDerivative u z = f z := by
+      ∀ z ∈ Ω, fderiv ℝ u z 1 + Complex.I * fderiv ℝ u z Complex.I = 2 * f z := by
   sorry
 
-/-- **GH5, closed completion.** This coefficient equation is equivalent to closedness of
-`g dz + f dbarz` on GH5's differential-form carrier. -/
+/-- **GH5, closed completion.** For every smooth `f` there is a smooth `g` with `∂̄g = ∂_z f`,
+written `g_x + i g_y = f_x − i f_y`; this coefficient equation is equivalent to closedness of
+`g dz + f dz̄` on the smooth-form carrier of README Layer 7.2. -/
 theorem exists_smooth_closed_completion {Ω : Set ℂ} (hΩ : IsOpen Ω)
     (f : ℂ → ℂ) (hf : ContDiffOn ℝ ∞ f Ω) :
     ∃ g : ℂ → ℂ, ContDiffOn ℝ ∞ g Ω ∧
-      ∀ z ∈ Ω, barDerivative g z = zDerivative f z := by
+      ∀ z ∈ Ω, fderiv ℝ g z 1 + Complex.I * fderiv ℝ g z Complex.I =
+        fderiv ℝ f z 1 - Complex.I * fderiv ℝ f z Complex.I := by
   sorry
 
 /-- Every holomorphic additive cocycle on an arbitrary open cover of an open plane set
@@ -354,125 +348,5 @@ theorem additive_cousin_I {ι : Type*} {Ω : Set ℂ} (hΩ : IsOpen Ω)
     ∃ b : ι → ℂ → ℂ, (∀ i, DifferentiableOn ℂ (b i) (U i)) ∧
       ∀ i j z, z ∈ U i ∩ U j → b i z - b j z = c i j z := by
   sorry
-
-/-! ## Product estimates and the paired cotangent route
-
-README.md is the definitive specification. These illustrative, nonexhaustive signatures
-cover the sharp finite estimate and the independent paired cotangent route (README.md, §6.2).
-All functions below have actual defining formulas; theorems marked sorry remain unimplemented
-proof targets. The alternative route does not consume cot_series_rep as a premise, even though
-the Mathlib import contains that identity. -/
-
-section ProductCotangentTargets
-
-namespace ProductCotangentTargets
-
-noncomputable def finiteProduct {ι : Type*} (s : Finset ι) (u : ι → ℂ) : ℂ :=
-  ∏ i ∈ s, (1 + u i)
-
-noncomputable def finiteMajorant {ι : Type*} (s : Finset ι) (u : ι → ℂ) : ℝ :=
-  ∏ i ∈ s, (1 + ‖u i‖)
-
-theorem sharp_finite {ι : Type*} (s : Finset ι) (u : ι → ℂ) :
-    ‖finiteProduct s u - 1‖ ≤ finiteMajorant s u - 1 := by
-  sorry
-
-theorem majorant_exp {ι : Type*} (s : Finset ι) (u : ι → ℂ) :
-    finiteMajorant s u ≤ Real.exp (∑ i ∈ s, ‖u i‖) := by
-  sorry
-
-def regular : Set ℂ := {z | ∀ k : ℤ, z ≠ (k : ℂ)}
-
-noncomputable def pairedTerm (n : ℕ) (z : ℂ) : ℂ :=
-  (z - ((n + 1 : ℕ) : ℂ))⁻¹ + (z + ((n + 1 : ℕ) : ℂ))⁻¹
-
-noncomputable def pairedCot (z : ℂ) : ℂ := z⁻¹ + ∑' n : ℕ, pairedTerm n z
-
-noncomputable def symmetricPartial (N : ℕ) (z : ℂ) : ℂ :=
-  ∑ k ∈ Finset.Icc (-(N : ℤ)) (N : ℤ), (z - (k : ℂ))⁻¹
-
-noncomputable def modelCot (z : ℂ) : ℂ :=
-  (Real.pi : ℂ) * Complex.cos ((Real.pi : ℂ) * z) /
-    Complex.sin ((Real.pi : ℂ) * z)
-
-noncomputable def riemannSum (y : ℝ) : ℝ :=
-  (1 / y) * ∑' n : ℕ, (1 + (((n + 1 : ℕ) : ℝ) / y) ^ 2)⁻¹
-
-theorem paired_summable (z : ℂ) (hz : z ∈ regular) :
-    Summable (fun n : ℕ => pairedTerm n z) := by
-  sorry
-
-theorem locally_uniform_paired :
-    TendstoLocallyUniformlyOn symmetricPartial pairedCot atTop regular := by
-  sorry
-
-theorem finite_shift (N : ℕ) (z : ℂ) :
-    symmetricPartial N (z + 1) - symmetricPartial N z =
-      (z + (N : ℂ) + 1)⁻¹ - (z - (N : ℂ))⁻¹ := by
-  sorry
-
-theorem paired_periodic (z : ℂ) (hz : z ∈ regular) :
-    pairedCot (z + 1) = pairedCot z := by
-  sorry
-
-theorem entire_difference : ∃ F : ℂ → ℂ, Differentiable ℂ F ∧
-    EqOn F (fun z => modelCot z - pairedCot z) regular := by
-  sorry
-
-theorem paired_strip_bound (z : ℂ) (hx : |z.re| ≤ 1 / 2)
-    (hy : 1 ≤ |z.im|) : ‖pairedCot z‖ ≤ 4 + 3 * Real.pi / 2 := by
-  sorry
-
-theorem model_strip_bound (z : ℂ) (hx : |z.re| ≤ 1 / 2)
-    (hy : 1 ≤ |z.im|) :
-    ‖modelCot z‖ ≤ Real.pi * (1 + Real.exp (-2 * Real.pi)) /
-      (1 - Real.exp (-2 * Real.pi)) := by
-  sorry
-
-theorem extension_periodic (F : ℂ → ℂ) (hF : Differentiable ℂ F)
-    (heq : EqOn F (fun z => modelCot z - pairedCot z) regular) :
-    Function.Periodic F 1 := by
-  sorry
-
-theorem extension_bounded (F : ℂ → ℂ) (hF : Differentiable ℂ F)
-    (heq : EqOn F (fun z => modelCot z - pairedCot z) regular) :
-    Bornology.IsBounded (Set.range F) := by
-  sorry
-
-theorem improper_integral :
-    Tendsto (fun R : ℝ => ∫ t in (0 : ℝ)..R, (1 + t ^ 2)⁻¹)
-      atTop (𝓝 (Real.pi / 2)) := by
-  sorry
-
-theorem riemann_error (y : ℝ) (hy : 0 < y) :
-    0 ≤ Real.pi / 2 - riemannSum y ∧
-      Real.pi / 2 - riemannSum y ≤ 1 / y := by
-  sorry
-
-theorem imaginary_axis (y : ℝ) (hy : 0 < y) :
-    pairedCot ((y : ℂ) * Complex.I) =
-      -Complex.I * ((1 / y + 2 * riemannSum y : ℝ) : ℂ) := by
-  sorry
-
-theorem paired_vertical : Tendsto (fun y : ℝ => pairedCot ((y : ℂ) * Complex.I))
-    atTop (𝓝 (-(Real.pi : ℂ) * Complex.I)) := by
-  sorry
-
-theorem model_vertical : Tendsto (fun y : ℝ => modelCot ((y : ℂ) * Complex.I))
-    atTop (𝓝 (-(Real.pi : ℂ) * Complex.I)) := by
-  sorry
-
-theorem extension_zero (F : ℂ → ℂ) (hF : Differentiable ℂ F)
-    (heq : EqOn F (fun z => modelCot z - pairedCot z) regular) :
-    F = 0 := by
-  sorry
-
-theorem cotangent_identity (z : ℂ) (hz : z ∈ regular) :
-    modelCot z = pairedCot z := by
-  sorry
-
-end ProductCotangentTargets
-
-end ProductCotangentTargets
 
 end TauCetiRoadmap.GlobalHolomorphicFunctions
