@@ -124,9 +124,10 @@ Mathlib manifolds; the de Rham comparison uses its precise σ-compact hypotheses
   [CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns Haar
   averaging and Peter–Weyl. C1 builds finite faithful representations as the
   universal-approximation connector. C5 builds invariant-polynomial restriction;
-  it uses [LieHighestWeight L1,L7 and L9](../RepresentationTheory/LieHighestWeight/README.md)
-  for Cartan/root decomposition, generic Lie-algebra Chevalley restriction
-  with its homogeneous compatibility, and the reductive decomposition.
+  it uses [LieHighestWeight L1 and L9](../RepresentationTheory/LieHighestWeight/README.md)
+  for the Cartan/root decomposition and the reductive decomposition, and the
+  pinned Tau Ceti Chevalley restriction isomorphism with its homogeneous
+  compatibility (C5.1) for the generic Lie-algebra restriction.
 - LieGroupoidsPoisson G1.3a
   owns the all-degree real Lie-algebra CE complex, its coefficient modules
   and low-degree native comparison. C5a constructs the compact-group
@@ -247,7 +248,12 @@ interfaces; and the proved identity homeomorphism between the pinned
 operator-norm topology on `unitary (V →L[𝕜] V)` and the default
 finite-dimensional matrix topology.
 These constructions precede universal joins, BSO classification, characteristic
-rings and the w₂ obstruction.
+rings and the w₂ obstruction. In the smooth setting the source is Dupont,
+*Fibre Bundles and Chern–Weil Theory*, Proposition2.20 (local orthonormal
+trivializations by Gram–Schmidt), Proposition2.21 (the orthogonal frame
+bundle with its free right O(n)-action and equivariant charts) and
+Example4.3 (a metric is a reduction of the frame bundle to O(n), an
+orientation a reduction to the positive-determinant subgroup).
 
 For metrics h₀,h₁, construct the positive h₀-self-adjoint H defined by
 h₁(u,v)=h₀(Hu,v). Its inverse square root carries an h₀-orthonormal frame
@@ -279,9 +285,19 @@ and C3.5 owns the separate universal Spin obstruction.
 
 1. **C1.1a. Finite oriented-cover precursor.** Before TopK T1.6,
    consume C1.0's single determinant-sign orientation double cover and its
-   metric independence. Construct its direct-sum and cover-section comparisons
-   and path-transport sign local system using TopK T1's vector-bundle atlases
-   and T1.5's finite Stiefel quotients. The finite oriented Grassmannian of
+   metric independence, together with its pinned comparisons: the direct-sum
+   orientation `TauCeti.VectorBundleOrientation.prod`, which orders the first
+   factor first and retains both signs in rank0, and the open quotient map
+   `TauCeti.VectorBundleOrientationCover.prodMap` from the fibre product of the
+   two covers to the cover of the sum, whose fibres identify exactly the
+   simultaneous reversal of both orientations (`Orientation/Prod.lean`); the
+   cover-section comparison
+   `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`
+   (`Orientation/Cover.lean`); and the path-transport sign local system
+   `TauCeti.VectorBundleOrientationCover.signLocalSystem`
+   (`Orientation/LocalSystem.lean`). Consume these by name; what this item
+   constructs, on TopK T1's vector-bundle atlases, is the comparison with
+   T1.5's finite Stiefel quotients below. The finite oriented Grassmannian of
    positive rank is the pinned `TauCeti.finiteOrientedGrassmannian r N`
    (`Topology/Grassmannian/Oriented.lean`): the orientation double cover of
    the pinned tautological bundle `TauCeti.finiteGrassmannian.Tautological`,
@@ -803,18 +819,22 @@ D(E)={v:‖v‖≤1} and S(E)={v:‖v‖=1} of the native bundle total space.
 Use the subtype D(E) as ambient type, with its inherited topology; construct
 native RelCWComplex on Set.univ in that subtype relative to the subset
 S(E)∪D(E)|A, with one
-(q+r)-cell for each relative base q-cell. Pull back E along its characteristic
+(q+r)-cell for each relative base q-cell (Milnor–Stasheff §18, the cell
+structure of the Thom space of a bundle over a CW complex: one cell of
+dimension q+r for each q-cell of the base besides the base point). Pull back E along its characteristic
 map D^q→X, trivialize that compact-disk bundle and make the frame orthonormal.
-Prove the native bundle total space is Hausdorff from the Hausdorff base,
-finite-dimensional Hausdorff fibers and local trivialization charts: projection
-separates different base points, and one bundle chart separates points in the
-same fiber. D(E) inherits that Hausdorff topology. Use the native sup-norm cell cubes. Identify their product with the
+The native bundle total space is Hausdorff by the pinned instance
+`TauCeti.FiberBundle.t2Space_totalSpace` (`Topology/FiberBundle/Separation.lean`;
+it needs a Hausdorff base and a Hausdorff model fibre, here a finite-dimensional
+normed space), and D(E) inherits that Hausdorff topology. Use the native sup-norm cell cubes. Identify their product with the
 (q+r)-cube by Fin.append, base coordinates first and fiber coordinates last.
 On the fiber cube use AT2.5's single `supBallEuclideanDiskHomeomorph`,
 whose fixed formula is v↦(‖v‖∞/‖v‖₂)·v for v≠0 and 0↦0, with inverse
 w↦(‖w‖₂/‖w‖∞)·w; then apply the orthonormal frame. Include its rank0
 point case.
-Its boundary is (∂D^q×D^r)∪(D^q×∂D^r). Compare the radial map's relative
+Its boundary is (∂D^q×D^r)∪(D^q×∂D^r), the disk/sphere decomposition of a
+product disk bundle (Cohen, *The Topology of Fiber Bundles*, Chapter3 §2,
+the Thom space (2.4) and Proposition3.7, p.87). Compare the radial map's relative
 homology generator through AT2.5's existing coefficient +1 normalization before using
 it to normalize Thom cells. Prove the
 attaching-map, closure-finiteness, weak-topology and compact-generation
@@ -880,11 +900,16 @@ AT8.1's relative-cell connectivity and transport theorem.
    with any commutative coefficient ring, and the compact-base mod2 existence
    `TauCeti.exists_isThomClass_of_compactSpace` without an orientation for a
    coefficient ring with a single unit (`Orientation/ThomClass.lean`,
-   `MayerVietoris/Basic.lean`). Prove, over an arbitrary base,
-   that an orientation determines exactly one class of `H^n(E,E∖0;R,M)`
-   restricting on every fibre to the generator read off from the orientation
-   (`existsUnique_singularCohomology_thomPair_fiber`, prescribed fibrewise
-   through the pinned `Bundle.Trivialization.mapOrientation`), and that every
+   `MayerVietoris/Basic.lean`). Prove, over an arbitrary base and
+   with coefficients `Hom(C(−;R),M)` for R a projective K-module, that an
+   orientation o of E and an orientation ω of the model fibre F determine, for
+   every class g of `H^n(F,F∖0;R,M)`, exactly one class of `H^n(E,E∖0;R,M)`
+   whose restriction to each fibre pair is the pull-back of g along every
+   linear trivialization carrying o to ω, and the negative of that pull-back
+   along every linear trivialization carrying o to −ω
+   (`existsUnique_singularCohomology_thomPair_fiber`, read through the pinned
+   `Bundle.Trivialization.mapOrientation`); a generator g gives the Thom class
+   of the orientation. Prove that every
    oriented bundle has a Thom class with any commutative coefficient ring
    (`exists_isThomClass_of_orientation`), by the directed-union gluing of the
    local classes of the compact-base proof (Milnor–Stasheff Thm 10.4,
@@ -948,9 +973,28 @@ AT8.1's relative-cell connectivity and transport theorem.
    Identify Euler with the primary section obstruction: orient the boundary
    of each positive base n-cell outward, normalize the radial fibre sphere
    to degree+1, and use the attaching section's degree in the sign local
-   system. Compare that obstruction cocycle with the zero-section Thom class; for rank n≥2 over a
-   CW base of dimension≤n prove e=0 iff a nowhere-zero section exists, and
-   retain higher obstructions outside that dimension range.
+   system. Compare that obstruction cocycle with the zero-section Thom class. For an
+   integral Thom class u of a real bundle of rank n≥2 over a Hausdorff CW
+   complex with no cells of dimension above n, prove that e(u)=0 exactly when
+   the bundle has a nowhere-zero continuous section
+   (`eulerClass_eq_zero_iff_exists_ne_zero`, with integral coefficients lifted
+   to the universe of the base; the direction from a section to e(u)=0 is the
+   pinned `TauCeti.eulerClass_eq_zero_of_forall_ne_zero`), and prove the same
+   criterion for the twisted Euler class in `H^n(X;o(E))` of a bundle without
+   orientation. Retain higher obstructions outside that dimension range
+   (Milnor–Stasheff §12, the Euler class as the primary obstruction).
+
+   **Checks.**
+   - On S² with one 0-cell and one 2-cell, TS² has rank 2 and Euler number 2,
+     so e≠0 and there is no nowhere-zero section; the trivial bundle S²×ℝ²
+     has e=0 and a constant section.
+   - The realification of O(1) over CP¹=S² has Euler number 1 and no
+     nowhere-zero section, since such a section would trivialize the complex
+     line; over S¹, a complex of dimension 1<2, every oriented rank-2 bundle
+     is trivial and H²(S¹)=0, so both sides hold.
+   - The bundle su(F) on HP¹ of C7.AdjointHopfObstruction has rank 3 over a
+     4-dimensional complex, e=0 and no nowhere-zero section: dropping the
+     dimension bound makes the criterion false.
 3. For a transverse smooth section prove its zero locus has the specified
    orientation and represents Euler via Thom/Gysin. On a closed oriented
    manifold prove the sum-of-local-indices formula and e(TM)[M]=χ(M), with
@@ -958,11 +1002,15 @@ AT8.1's relative-cell connectivity and transport theorem.
    `TauCeti.eulerChar` of a space of finite CW type, the pairing is the pinned
    `TauCeti.HomologicalOrientation.evalFundamentalClass`, and e(TM) is the
    Euler class of the Thom class that C2.1 attaches to the tangent-bundle
-   orientation `Orientation.toVectorBundleOrientation` of the oriented
-   manifold; construct first the identification of that tangent-bundle
-   orientation with the homological orientation fixing [M], pointwise through
-   the pinned chart generator `TauCeti.localOrientation`, which is what fixes
-   the sign of the identity. Prove the χ identity by
+   orientation `TauCeti.Manifold.Orientation.toVectorBundleOrientation` of the
+   oriented manifold (`Geometry/Manifold/Orientation/Basic.lean`); construct
+   first the identification of that tangent-bundle orientation with the
+   homological orientation fixing [M], pointwise through the pinned generator
+   `Orientation.localOrientation` of `H_(n+1)(F,F∖0;ℤ)` selected by an
+   orientation of a real space F of dimension n+1
+   (`Singular/LocalHomology/Orientation/Linear.lean`; positive dimension only,
+   the dimension-zero sign being separate), which is what fixes the sign of the
+   identity. Prove the χ identity by
    identifying Euler with diagonal self-intersection, then evaluating the
    Poincaré-duality/Künneth trace; finite good covers give the finite-generation
    and cohomological-dimension bounds. This does not assume a Morse triangulation. Compare the rank2 class with
@@ -1470,7 +1518,8 @@ AT8.1's relative-cell connectivity and transport theorem.
 
 ## C5. Compact-Lie restriction and universal rational rings
 
-1. Prove Chevalley restriction `I(G)≃Sym(t*)^W` for compact connected G. The
+1. Prove Chevalley restriction `I(G)≃Sym(t*)^W` for compact connected G
+   (Dupont, *Curvature and Characteristic Classes*, Proposition8.3). The
    injective direction uses conjugacy into a maximal torus. Identify group
    invariance with infinitesimal invariance using connected generation by
    exponential neighbourhoods before applying the Lie-algebra theorem. Consume
@@ -1479,38 +1528,57 @@ AT8.1's relative-cell connectivity and transport theorem.
    Weyl group N(T)/T and its identification with the root-system Weyl group,
    and [CompactGroups Layer0–1](../RepresentationTheory/CompactGroups/README.md)
    for the Haar average of a Hermitian form under a continuous representation.
+   The Ad-invariant positive definite form on 𝔤 is the pinned Weyl
+   unitarian trick `ContRepresentation.isUnitarizable`
+   (`RepresentationTheory/Compact/Unitarizable.lean`) over 𝕜=ℝ, applied to
+   LieGroups Layer1's Ad on a compact G: a positive definite self-adjoint S
+   with `Ad(g)†∘S∘Ad(g)=S` for every g, so that `(x,y)↦⟪Sx,y⟫` is the form.
    State as this item's own input, with hypotheses G compact and connected:
-   the Ad-invariant positive definite form on 𝔤 obtained by Haar averaging any
-   inner product under Ad; the orthogonal splitting `𝔤 = 𝔷(𝔤) ⊕ [𝔤,𝔤]` of the
+   the orthogonal splitting `𝔤 = 𝔷(𝔤) ⊕ [𝔤,𝔤]` of the
    center and the derived algebra, with `[𝔤,𝔤]` an ideal (the orthogonal
    complement of a Lie ideal for an invariant form is a Lie ideal, Mathlib
    `LieAlgebra.InvariantForm.orthogonal`), so that 𝔤 has central radical in the sense
    of LieHighestWeight L9's `LieAlgebra.HasCentralRadical`; the negative
    semidefiniteness of the Killing form, negative definite exactly on `[𝔤,𝔤]`,
-   so that `[𝔤,𝔤]` is semisimple (Mathlib
-   `LieAlgebra.InvariantForm.isSemisimple_of_nondegenerate`), with the
+   so that `[𝔤,𝔤]`, whose Killing form is the restriction of that of 𝔤 and
+   hence nondegenerate, is semisimple by Mathlib's instance
+   `LieAlgebra.IsKilling.instSemisimple` (`Mathlib/Algebra/Lie/Killing.lean`;
+   it rules out abelian ideals itself, whereas the criterion
+   `LieAlgebra.InvariantForm.isSemisimple_of_nondegenerate` for an arbitrary
+   invariant form needs the extra hypothesis that no atom ideal is abelian), with the
    comparison of the Haar-invariant form and the Killing form by an
    equivariant positive scalar on each simple factor; the identification of
    t_ss,C as a Cartan subalgebra; and the actual root-pairing isomorphism with
    LieHighestWeight's rootSystem, preserving geometric Weyl action and center.
    This item owns transport of those maps through invariant polynomial
    functions and their restriction square, and a second construction of
-   the Cartan/root dictionary is not made here. For surjectivity
-   consume [LieHighestWeight L7](../RepresentationTheory/LieHighestWeight/README.md)'s generic Lie-algebra Chevalley supplier.
-   Its `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`,
-   `lieChevalleyRestrictionIso` and `lieChevalleyRestrictionIso_coe`
-   give the actual restriction isomorphism for the semisimple complex
-   summand. Consume `lieChevalleyRestrictionIso_mem_homogeneous_iff`
-   for its degreewise compatibility; transport that supplied restricted
-   map through the invariant-form and geometric/root-data identifications
-   above. Consume `killingSymmetricEquiv_cartan_restriction` to pass from
-   L7's Sym(g) model to invariant polynomial functions Sym(g*), consuming
-   `killingSymmetricEquiv_lie` for the corresponding infinitesimal invariants. Compare the
+   the Cartan/root dictionary is not made here. For surjectivity consume
+   the pinned Chevalley restriction theorem of Tau Ceti, stated for a
+   finite-dimensional Lie algebra L over an algebraically closed field of
+   characteristic zero with nondegenerate Killing form (`LieAlgebra.IsKilling`)
+   and a Cartan subalgebra H, conditions the complexified semisimple summand
+   meets: the restriction `TauCeti.lieCartanRestriction H : S(L) →ₐ S(H)`, the
+   symmetric-algebra map of the Killing-orthogonal projection L→H
+   (`Algebra/Lie/Killing/CartanRestriction.lean`), and the isomorphism
+   `LieSubalgebra.lieChevalleyRestrictionIso H` from the invariants
+   `TauCeti.SymmetricAlgebra.lieInvariants` onto the Weyl invariants
+   `TauCeti.linearInvariants H`, with `LieSubalgebra.coe_lieChevalleyRestrictionIso_apply`
+   (it is restriction) and
+   `LieSubalgebra.lieChevalleyRestrictionIso_mem_homogeneousSubmodule_iff`
+   (degrees are preserved in both directions)
+   (`Algebra/Lie/HighestWeight/ChevalleyRestriction.lean`). Transport that
+   restricted map through the invariant-form and geometric/root-data
+   identifications above. Pass from the Sym(g) model to invariant polynomial
+   functions Sym(g*) by `TauCeti.killingSymmetricEquiv`, its restriction square
+   `TauCeti.map_dualMap_killingSymmetricEquiv`, and, for the infinitesimal
+   invariants, `TauCeti.killingSymmetricEquiv_lieModuleDerivation` and
+   `TauCeti.map_killingSymmetricEquiv_lieInvariants`
+   (`Algebra/Lie/Killing/SymmetricAlgebra.lean`,
+   `Algebra/Lie/Killing/CartanRestriction.lean`). Compare the
    Haar-invariant positive form with the semisimple Killing identification
    by the actual equivariant scalar on each simple factor, retaining that
    commuting Cartan-restriction square; treat the reductive central tensor
-   factor separately. L7 constructs these generic Lie-algebra targets independently
-   of C5. This item owns the compact-group versus infinitesimal invariants
+   factor separately. This item owns the compact-group versus infinitesimal invariants
    comparison, transport of the supplied geometric Cartan/root-data maps, tensor factor for
    the reductive centre, and finite-degree real descent.
 2. Prove the torus Chern–Weil map is an isomorphism with H*(BT;R), with each
@@ -1582,7 +1650,9 @@ evaluation at the identity; prove the linear, wedge, unit, differential and
 Lie-homomorphism pullback identities. The trivial-coefficient CE convention is
 `(da)(X_0,…,X_q)=Σ_(i<j)(−1)^(i+j)a([X_i,X_j],X_0,…,omit X_i,…,omit X_j,…,X_q)`,
 where the remaining arguments retain their order. In degree1 this is
-`da(X,Y)=−a([X,Y])`. Compare with native
+`da(X,Y)=−a([X,Y])`. This is the differential of Dupont, *Fibre Bundles and
+Chern–Weil Theory*, Proposition A2, which identifies the G-invariant forms on
+G/H with `Alt(g/h)^H`; here H is trivial. Compare with native
 `LieModule.Cohomology.d₁₂_apply_apply_ofTrivial` and LGP's all-degree maps;
 do not construct a second generic CE complex here.
 
@@ -1611,7 +1681,10 @@ L_g*, with all g derivatives on U_i. Choose a smooth partition ρ_i in the
 group parameter, supported inside U_i, and integrate the zero-extended
 ρ_i(g)H_(i,g). Prove the extension, integral and cochain identities. No global
 continuous path choice1→g is assumed. Thus j induces a natural de Rham
-cohomology **ring** isomorphism and, through DG's de Rham map with its proved
+cohomology **ring** isomorphism (Dupont, *Fibre Bundles and Chern–Weil
+Theory*, Proposition A7 for the invariant inner product by Haar averaging and
+Theorem A8 for the de Rham isomorphism of a compact connected group with its
+invariant cochains) and, through DG's de Rham map with its proved
 cohomology product comparison, an actual singular-cohomology comparison over R.
 A_CE is a linear cochain inverse to j up to homotopy. Neither A_forms nor A_CE
 is asserted multiplicative on arbitrary forms. Retain compatibility with
@@ -1651,7 +1724,11 @@ restriction isomorphism. Construct their products, homogeneous components,
 augmentation ideal I_+ and indecomposables `QI=I_+/(I_+)²`, and prove the
 basis/change-of-generators and coefficient-change maps. If the basic
 generators have polynomial degrees d_i≥1, give them cohomological weights
-2d_i. The number of generators is rankK. Carry the fixed central directions
+2d_i. The number of generators is rankK. The restriction isomorphism
+`I(G)≅I(T)^W` for compact connected G is Dupont, *Curvature and
+Characteristic Classes*, Proposition8.3; the degrees d_i of the simple types
+are tabulated in Hatcher, *Algebraic Topology*, §3.G (2,…,n for SU(n) and
+2,8,12,14,18,20,24,30 for E8). Carry the fixed central directions
 as degree1 generators, and assemble the semisimple factors componentwise.
 
 For rational coefficients use the actual character lattice
@@ -1704,7 +1781,13 @@ positive-degree product changes this cocycle by an explicit coboundary.
 Do not insert an additional d!,2π or i factor: those normalizations are
 already in B_P and in P. Prove the rank-one formula
 `τ(−a/(2π))=−θ/(2π)` for the positive real Maurer–Cartan coordinate of the
-circle.
+circle. The Weil algebra `Sg*⊗Λg*` with its curvature generators, its
+Koszul acyclicity and the identification of its basic subcomplex with the
+invariant polynomials, on which the differential vanishes, are
+Alekseev–Meinrenken, *Lie theory and the Chern–Weil homomorphism*, §3.1
+(equation (10)); CS_P is the affine-path homotopy form from the zero
+connection to θ, as in the connection-independence proof of Dupont, *Fibre
+Bundles and Chern–Weil Theory*, Theorem9.5 and Lemma9.6.
 
 For an actual connection a on a finite principal approximation E_m→B_m,
 construct the evaluation `θ↦a, Ω↦F_a` as a map of differential graded
@@ -1743,7 +1826,13 @@ no separation-of-variables or harmonic-decomposition assertion is imported
 without constructing the precise tensor splitting used by this lemma.
 
 Deduce `Λ(τ(P_i))≃H^*(CE(g;R))` with actual product and graded-generator
-maps. Prove the transgression map `QI→H^*(CE)` is injective and identifies its
+maps. That `H^*(CE(g;R))`, which is `H^*(K;R)` by C5a.1, is an exterior
+algebra on odd-degree generators is Hopf's theorem in the form of Hatcher,
+*Algebraic Topology*, Theorem3C.4 (a graded-commutative connected Hopf
+algebra of finite type over a field of characteristic zero is an exterior
+algebra on odd generators tensor a polynomial algebra on even ones; finite
+dimensionality excludes the polynomial factor); what this item adds is the
+identification of the generators with the transgressions τ(P_i). Prove the transgression map `QI→H^*(CE)` is injective and identifies its
 image as the primitive subspace under the cohomology Hopf structure in the
 next item, and that exterior products of these images give all cohomology.
 The primitive assertion is established by that item's actual multiplication
@@ -1799,7 +1888,10 @@ page comparison. Prove that `QI_Q→Prim H^*(K;Q)` realifies to the map just
 constructed; this supplies rational periods and the rational exterior Hopf
 isomorphism. Do not posit a rational Lie-algebra form or take a
 Q-valued differential-form integral. The general formula is
-`H^*(K;Q)=Λ_Q(z_1,…,z_r)`, `|z_i|=2d_i−1`, and its real scalar extension.
+`H^*(K;Q)=Λ_Q(z_1,…,z_r)`, `|z_i|=2d_i−1`, and its real scalar extension
+(Hatcher, *Algebraic Topology*, Theorem3C.4, applied to the Hopf algebra
+`H^*(K;Q)`; the polynomial target `H^*(BK;R)≅I(K)` of the transgression is
+Dupont, *Curvature and Characteristic Classes*, Theorem8.1).
 It does not imply that integral cohomology is torsion free.
 
 **C5a.6. Same-model topology and scope comparisons.** Using C1's subgroup
@@ -1809,7 +1901,8 @@ associated fibrations on the same EK, construct
 BT and BN, not a new classifier. Consume SchubertGeometry S9.6's rational
 acyclicity of K/N(T) and finite-cover transfer, and use the DGF cohomological
 Serre comparison constructed by the earlier C5a.5 target to recover the BN proof of
-`H^*(BK;Q)≃H^*(BT;Q)^W`. Compare its **maps** with the already independent
+`H^*(BK;Q)≃H^*(BT;Q)^W` (Borel's theorem; with real coefficients it is
+Dupont, *Curvature and Characteristic Classes*, Corollary8.35). Compare its **maps** with the already independent
 C5.2–3 Borel theorem. This application does not enter the proof of C5.2 or
 SchubertGeometry's acyclicity. Distinguish the finite W cover BT→BN from
 the homotopy fibration BT→BN→BW arising from T→N→W.
@@ -1845,7 +1938,9 @@ U(1)=S1 and SU(2)=S3, the U(2) degrees1,3, the U(1), U(2), U(3)
 calculations and the first three odd generators1,3,5 for U(n) when n≥3. For these unitary groups additionally construct the integral
 exterior generators by the actual last-column sphere fibrations and the
 integral multiplicative Serre/Gysin comparisons, proving torsion freeness
-and matching the integral Chern transgressions. Do not infer this integral
+and matching the integral Chern transgressions (Hatcher, *Algebraic
+Topology*, Corollary4D.3: `H^*(U(n);Z)=Λ_Z(x_1,x_3,…,x_(2n−1))` and
+`H^*(SU(n);Z)=Λ_Z(x_3,…,x_(2n−1))`, by the fibrations U(n−1)→U(n)→S^(2n−1)). Do not infer this integral
 result from the general rational theorem or identify a homotopy-sphere
 generator with a homology generator without its Hurewicz degree.
 
@@ -1857,7 +1952,8 @@ odd degrees2e_i+1; central directions have d=1 and e=0. Keep the single
 Coxeter number only for an irreducible semisimple factor, and use
 componentwise formulas on reducible groups. Verify the E8 eight-entry
 exponent list `1,7,11,13,17,19,23,29` gives odd degrees
-`3,15,23,27,35,39,47,59`; no seven-entry list is used.
+`3,15,23,27,35,39,47,59`; no seven-entry list is used (the E8 degrees
+2,8,12,14,18,20,24,30 are those of Hatcher, *Algebraic Topology*, §3.G).
 
 Retain the separate integral SU(2) normalizer comparison
 `SU(2)/N(T)=RP²`, with H^0=Z and H^2=Z/2, from SchubertGeometry S9.6;
@@ -2157,7 +2253,16 @@ For the adjoint-bundle formula see Zentner,
    `(1+a)^(m+1)(1+a)^(m−1)=(1+a)^(2m)=1` and
    `(1+a)^(m−1)=Σ_(j=0)^(m−1) a^j` by characteristic2 Frobenius.
    Thus w̄_(m−1)(RP^m)=a^(m−1)≠0, and RP^m admits no smooth immersion
-   into ℝ^(2m−2), whose required normal rank would be m−2.
+   into ℝ^(2m−2), whose required normal rank would be m−2
+   (`not_exists_isImmersion_realProjectiveSpace`, with Mathlib's
+   `Manifold.IsImmersion`). That statement takes RP^m to be the orbit space of
+   the antipodal action of ℤˣ on the unit sphere S^m⊂ℝ^(m+1), the model of the
+   pinned `TauCeti.RealProjectiveSpace`, with Mathlib's quotient charts
+   `MulAction.instChartedSpaceQuotient`; the antipodal map is analytic
+   (Mathlib's `contMDiff_neg_sphere`), so the pinned
+   `TauCeti.instIsManifoldQuotient` makes these charts an analytic, hence
+   smooth, atlas. AT4.6 compares it with
+   the projective-coordinate carrier.
    Include the cases RP²→ℝ², RP⁴→ℝ⁶ and RP⁸→ℝ¹⁴. This calculation
    consumes C1–C3, AT4.6, TopK T1.1–T1.3/T1.5–T1.6,
    GeneralizedCohomology G4.0b's real carrier/chart comparison, SBC B2 and
@@ -2205,10 +2310,12 @@ topological adapters consume these results and are not premises for them.
 No KKS moment-Morse application,
 analytic index or Floer count enters these compact constructions.
 
-- Milnor–Stasheff, *Characteristic Classes*, Annals of Mathematics Studies 76, Princeton 1974, §§9–15, 18–19 and AppendixC, for Thom, Euler, universal classes, the L-genus coefficients and curvature; Theorem15.3 records the integral Pontryagin correction.
+- Milnor–Stasheff, *Characteristic Classes*, Annals of Mathematics Studies 76, Princeton 1974, §4, §§9–15, 18–19 and AppendixC, for Thom, Euler, universal classes, the L-genus coefficients and curvature; Theorem15.3 records the integral Pontryagin correction.
 - Milnor, *Topology from the Differentiable Viewpoint*, §6, for the index of a vector field and the Poincaré–Hopf sum used in C2.3's worked example.
 - Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 and Chapter3 §4.2, for projective tangent bundles and the normal characteristic-class obstruction to immersions.
-- Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §§9–10, for invariant curvature forms, transgression and classical polynomials.
+- Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §2 and Example4.3 for orthonormal frame bundles, §§9–10 for invariant curvature forms, transgression and classical polynomials, and AppendixA for invariant forms on compact groups.
+- Alekseev–Meinrenken, [*Lie theory and the Chern–Weil homomorphism*](https://arxiv.org/abs/math/0308135), §3.1, for the Weil algebra and its basic subcomplex.
+- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n).
 - Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups.
 - Bott–Tu, *Differential Forms in Algebraic Topology*, §§6,11–14,20–23, for fibre integration, Thom and projective splitting.
 
