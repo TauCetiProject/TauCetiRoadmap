@@ -199,8 +199,13 @@ chart in that real maximal atlas; and `TauCeti.contMDiff_iff_mdifferentiable`,
 cohomology `TauCeti.deRhamCohomology`, closed and exact forms and the class map
 `TauCeti.deRhamCohomology.mk` (`TauCeti/Geometry/Manifold/DeRham/Basic.lean`), for real
 coefficients on `C²` manifolds; the flat Poincaré lemma is
-`StarConvex.exists_contDiffOn_forall_extDeriv_eq` (`TauCeti/Analysis/Calculus/DifferentialForm/Poincare.lean`) and the cylinder homotopy operator
-`TauCeti.homotopyOperator`, both for complete coefficient spaces.
+`StarConvex.exists_contDiffOn_forall_extDeriv_eq` (`TauCeti/Analysis/Calculus/DifferentialForm/Poincare.lean`) and the homotopy operator on a
+cylinder `M × [0,1]` is `TauCeti.homotopyOperator`
+(`TauCeti/Geometry/Manifold/DifferentialForm/HomotopyOperator.lean`), both for complete
+coefficient spaces. Coefficient maps of forms and the scalar action of the coefficient field are
+`TauCeti.SmoothForm.mapCoeff` and `TauCeti.SmoothForm.instModule`
+(`TauCeti/Geometry/Manifold/DifferentialForm/MapCoeff.lean`), with the complex-linearity and
+conjugation facts K1 names.
 The smooth implicit-function theorem is Mathlib's
 `ImplicitFunctionData.contDiffAt_implicitFunction`, in
 `Mathlib/Analysis/Calculus/ImplicitContDiff.lean`.
@@ -297,20 +302,22 @@ another type-form carrier. Consume
 `ContDiffAt.to_localInverse` and `ContDiffAt.implicitFunction` over ℂ, with
 RealAlgebraicGeometry Layer 7's analytic inverse/complexification comparison, and prove their
 complex-manifold transport, composition and inverse APIs, with the relevant derivative invertible.
-K1 also equips the generic DG carrier `SmoothForm I M F k` with its natural
-`Module ℂ` action whenever `F` is a normed complex vector space, regarded as a real
-normed coefficient space by scalar restriction. For `c : ℂ`, define `c • ω` through
-DG's fixed-coefficient map `SmoothForm.mapCoeff (L_c) ω`, where
-`L_c : F →L[ℝ] F` is multiplication by `c`. Prove this agrees pointwise with
-complex scalar multiplication, restricts along `ℝ → ℂ` to DG's existing real action,
-and satisfies `IsScalarTower ℝ ℂ (SmoothForm I M F k)`. Prove complex-linearity of
-`mextDeriv` from DG1.2 coefficient naturality, and of `mpullback` pointwise from its
-definition. For every continuous complex-bilinear pairing `μ : F × G → H`, prove
-complex-linearity of `wedgeWith μ` in each form argument using DG0.1's permutation
-formula, complex bilinearity of `μ`, and DG0.3's coefficient-map/paired-wedge compatibility.
-Coefficient conjugation is semilinear:
-`conj(c • ω) = conj(c) • conj(ω)` for complex coefficients. Use these structures for
-the complex type forms and cochain complexes below; do not construct a second form carrier.
+The complex scalars on the generic form carrier `SmoothForm I M F k`, for `F` a normed
+complex vector space regarded as a real coefficient space by scalar restriction, are the pinned
+Tau Ceti's (`TauCeti/Geometry/Manifold/DifferentialForm/MapCoeff.lean`): `c • ω` is the
+coefficient map `TauCeti.SmoothForm.mapCoeff L_c ω` for `L_c : F →L[ℝ] F` multiplication by
+`c` (`TauCeti.SmoothForm.smul_eq_mapCoeff`), it acts pointwise on the underlying rough form
+(`TauCeti.SmoothForm.smul_toRoughForm`), the instance `TauCeti.SmoothForm.instModule` makes the
+carrier a complex vector space with `IsScalarTower ℝ ℂ (SmoothForm I M F k)`, and the exterior
+derivative, the pullback along smooth maps and the paired wedge for a pairing complex-linear in
+an argument are complex-linear (`TauCeti.SmoothForm.mextDerivₗ_smul`,
+`TauCeti.SmoothForm.mpullback_smul`, `TauCeti.SmoothForm.wedgeWith_smul_left_of_map_smul` and
+`TauCeti.SmoothForm.wedgeWith_smul_right_of_map_smul`); coefficient conjugation is
+conjugate-linear, `conj(c • ω) = conj(c) • conj(ω)` (`TauCeti.SmoothForm.mapCoeff_conj_smul`),
+and multiplicative for the wedge of complex-valued forms
+(`TauCeti.SmoothForm.mapCoeff_conj_wedgeWith_mul`). K1 consumes these for the complex type
+forms and cochain complexes below and constructs no second form carrier and no second scalar
+action.
 
 For holomorphic `G(z,v)` with invertible v-derivative at `(z₀,v₀)`, construct
 the joint holomorphic implicit map `F(z,w)` near `(z₀,G(z₀,v₀))`, with
@@ -778,9 +785,9 @@ local parametrization and the Weierstrass-polynomial description on the
 branched cover, and applying the preceding Oka relations theorem. Recombine
 local irreducible components using `I_A=⋂I_(A_k)`; generate each finite
 intersection from Oka relations of concatenated generating tuples `(f,−g)`.
-Follow Demailly chapter II §4.4, Theorem4.29. Give also the local-generator statement for ideals
+Follow Demailly chapter II §4.4, Theorem 4.29. Give also the local-generator statement for ideals
 locally specified by a finite holomorphic tuple.
-RealAnalyticGeometry R3.2 item0 owns the native coherent `SheafOfModules`
+RealAnalyticGeometry R3.2 item 0 owns the native coherent `SheafOfModules`
 predicate and the translation of these primitive statements to that predicate;
 these local proofs consume only the preceding convergent local algebra.
 Prove that the singular locus of every reduced analytic subset is a closed analytic
@@ -987,7 +994,7 @@ ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B5; Layers 1–3 and
 
 ### 5.1 Real and complex analysis on real manifolds (K5a)
  This shared
-layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE Lane A.3,
+layer uses DifferentialGeometry, SmoothBundlesConnections B2–B4, PDE §1.3 (A3),
 [VariationalMethods §§2–5](../VariationalMethods/README.md),
 [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md),
 AlgebraicTopology and Mathlib, and Mathlib's `CovariantDerivative.leviCivitaConnection`
@@ -1055,7 +1062,7 @@ equivalence, proving basis independence and continuity of the |det| action.
 Construct the smooth real density line bundle on M with local
 transition |det D(chart change)|, its dual/tensor and pullback maps, and construct
 its `ContMDiffVectorBundle ∞` structure. Identify its smooth sections with
-chart-smooth values of DifferentialGeometry §5.5a's `RoughDensity` carrier; scalar-extend it
+chart-smooth values of DifferentialGeometry §5.5's `RoughDensity` carrier; scalar-extend it
 to 𝕜 for complex coefficient bundles. Define
 the density-valued dual-bundle test space as the compactly supported smooth sections,
 using native `ContMDiffSection` with `ContMDiffVectorBundle ∞`, and fixed-compact
@@ -1099,7 +1106,7 @@ The star, density line, tests and distribution carriers have the following API:
   and d(u dz)=dx∧dy; using −1/(2i) would give −dx∧dy. The denominator 2i is nonzero.
 - For P=x∂ₓ on the line with density dx, Pᵗ=−x∂ₓ−1, so the action on the constant distribution 1 is ⟨P1,ψ⟩=−∫(xψ)′dx=0, matching x∂ₓ1=0; with −x∂ₓ in place of Pᵗ it would be ∫ψ dx, which is 1 for a bump ψ of integral 1.
 
-*Needs:* DifferentialGeometry §§0.1–0.4, 5.5a; SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; PseudodifferentialOperators P1.0's density transpose for the operator action.
+*Needs:* DifferentialGeometry §§0.1–0.4 and 5.5; SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; PseudodifferentialOperators P1.0's density transpose for the operator action.
 
 #### Differential operators, consumed
 
@@ -1119,9 +1126,9 @@ Laplacians below are instances of them.
  Own the continuous-primitive and supported
 finite-jet structure on these distribution carriers, before their consumers.
 
-For an interval I and J relatively compact in I, choose χ∈C_c∞(I), equal1
-near closure J, and χ̃∈C_c∞(I), equal1 near supp χ. Put w=χu, extended
-by0 to ℝ. Choose compact support stages around both cutoffs and prove a
+For an interval I and J relatively compact in I, choose χ∈C_c∞(I), equal 1
+near closure J, and χ̃∈C_c∞(I), equal 1 near supp χ. Put w=χu, extended
+by 0 to ℝ. Choose compact support stages around both cutoffs and prove a
 finite order k for w there. Prove the density/extension theorem from smooth
 tests to C^k compact tests on a slightly larger stage, using mollification
 with support control and the C^k bound; express the result on the native
@@ -1151,7 +1158,7 @@ supported in S has a locally finite-order expression
 `u=Σ_(|α|≤N)u_α(y)⊗∂_z^αδ(z)` on compact chart stages, with unique
 tangential distribution coefficients. N may depend on the compact stage.
 Construct coefficients by proper normal projection of z^β times u with a
-cutoff equal1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
+cutoff equal 1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
 remainder argument that the remaining distribution vanishes. Prove restriction,
 chart/density/bundle transport and compatibility of finite stages; coordinate
 normal jets transform by their actual normal-jet law. For S a point, deduce
@@ -1164,10 +1171,10 @@ For every real n≥1 own the distribution nonextension example
 `exp(1/‖x‖²)` on the punctured Euclidean space. Choose a nonzero nonnegative
 smooth bump φ supported in the unit ball and `0<c<1/4`, and put
 `φ_ε(x)=φ((x−εe₁)/(cε))`. All small supports lie in one fixed compact ball
-and avoid0. A finite-order extension would bound its value by `Cε^(−N)`,
+and avoid 0. A finite-order extension would bound its value by `Cε^(−N)`,
 while its positive punctured-domain integral is at least
 `C'ε^n exp((1+c)^(−2)ε^(−2))`. Prove this contradicts every finite N.
-Transport by the native Euclidean/chart comparison. Dimension0 is separate.
+Transport by the native Euclidean/chart comparison. Dimension 0 is separate.
 This generic distribution theorem supplies both the Hyperfunctions and RQFT
 source examples and uses no hyperfunction or renormalization theorem.
 
@@ -1313,7 +1320,7 @@ constants; it does not preserve C automatically.
 For matrix multiplication identify the B_F transpose as multiplication
 by `A(−x)ᵀ`, rather than a Hermitian adjoint. These comparisons include
 the real-fiber complexification convention already specified above.
-Consume PDE Lane A.3's Euclidean H^(k,2)=W^(k,2) comparison with equivalent
+Consume PDE §1.3 (A3)'s Euclidean H^(k,2)=W^(k,2) comparison with equivalent
 norms for every nonnegative integer k, componentwise in each finite-dimensional
 fiber model. Construct pullback of distributions
 by smooth diffeomorphisms using the dual density pushforward and its Jacobian;
@@ -1325,7 +1332,7 @@ and density duality. Build the p=2 Hilbert interpolation theorem from weighted
 Fourier L², `verticalClosedStrip`, `DiffContOnCl`,
 `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip'`
 and the bounded-operator interpolation argument for this weighted Hilbert scale.
-This argument is built here; PDE Lane B.9 supplies the distinct Lp
+This argument is built here; PDE §2.2 (B9) supplies the distinct Lp
 Riesz–Thorin theorem. Construct complex-order multipliers
 Λ^z from `fourierMultiplierCLM` with symbol
 `exp((z/2) log(1+|ζ|²))`. Prove temperate growth at each z, analytic
@@ -1335,7 +1342,7 @@ boundedness and density in every real-order space, then extend
 these estimates to every real s. Prove choice-independent equivalent norms,
 smooth density, connection W^(k,2) comparison and localization naturality.
 Own global matrix multiplication by every smooth A:ℝⁿ→Hom(F,G)
-with all derivatives, including order0, uniformly bounded: prove bounded
+with all derivatives, including order 0, uniformly bounded: prove bounded
 H^s→H^s for each real s by the integer Leibniz estimates, density transpose
 and this Hilbert interpolation. This includes the bounded Jacobian factors
 in the global diffeomorphism theorem and precedes its negative-order proof.
@@ -1427,14 +1434,14 @@ DifferentialGeometry §8.4's chain integrals and Stokes. Use that
 agreement for the complex-linear de Rham integration map and its naturality. On an
 oriented real Riemannian manifold, extend compactly supported smooth top-form
 integration to integrable `f dvol_g` through the L¹ density completion;
-prove independence of the approximants. Combine DifferentialGeometry §5.5a's agreement of
+prove independence of the approximants. Combine DifferentialGeometry §5.5's agreement of
 the density integral with the top-form integral and §12.4's agreement of
 `TauCeti.riemannianVolume` with the density integral to prove
 `∫_M f dvol_g=∫ f d(riemannianVolume I M)` for integrable complex f,
 first on compactly supported smooth functions and then by L¹ density. Use
 this comparison in every L² formal-adjoint and Hodge pairing identity.
 Construct the ℂ-valued de Rham complex on DG's same generic form carrier as a cochain
-complex in `ModuleCat ℂ`, using K1's complex scalar action and complex-linear `mextDeriv`.
+complex in `ModuleCat ℂ`, using the pinned complex scalar action and complex-linear `mextDeriv` that K1 cites.
 Equip its de Rham cohomology quotients with the induced `Module ℂ` structure, prove the quotient
 maps are complex-linear, and prove the complex-linear isomorphism
 `H_dR(M;ℂ) ≃ ℂ ⊗_ℝ H_dR(M;ℝ)` by scalar extension of the complex. Include the
@@ -1506,7 +1513,7 @@ complex-linear quotient comparison.
 As a disk regression, let `D={z:|z|<1}` with its open-subtype smooth structure and DG's existing
 form carrier with coefficients in `ℂ`. Compute `H⁰_dR(D;ℂ)≃ℂ` by a complex-linear equivalence,
 and `H¹_dR(D;ℂ)=H²_dR(D;ℂ)=0`. For degrees one and two use the pinned
-`TauCeti.homotopyOperator` of DifferentialGeometry §5.4 for
+the pinned Tau Ceti homotopy operator `TauCeti.homotopyOperator` on the cylinder `D × [0,1]`, the operator DifferentialGeometry §5.4 describes, for
 the radial contraction `H(z,t)=tz` with complete complex coefficients; degree-two forms are
 closed by dimension. Pass from primitives to the K5a complex quotient. As a consistency check,
 compare the degree-two result with the specialization to `Ω=D` of this layer’s planar exactness consequence of K2’s scalar solver. Keep it on DG's existing form carrier.
@@ -1643,7 +1650,7 @@ The geometric Sobolev space and realization API includes:
 - For a(u,v)=2 conj(u)v with j=id on ℂ, the graph gives Au=2u and (A+1)⁻¹u=u/3; the dual-forcing map sends ℓ(v)=cv to conj(c)/3 after shift 1.
 - For D=2 id, the energy form is 4 conj(u)v and D₀†D₀=4 id; using D alone would give the wrong factor 2.
 
-*Needs:* §§5.1–5.3; PseudodifferentialOperators P1.0's differential operators, symbols, formal adjoints and Laplace-type predicate; PDE Lane A.3; SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
+*Needs:* §§5.1–5.3; PseudodifferentialOperators P1.0's differential operators, symbols, formal adjoints and Laplace-type predicate; PDE §1.3 (A3); SmoothBundlesConnections B2; VariationalMethods §§2.2–2.4, 3.1, 4.3, 5.1–5.3; UnboundedOperators UO-D06.
 
 ### 5.5 Planar Hodge and Laplacian conventions
  On an arbitrary open subset
@@ -1661,12 +1668,12 @@ carrier agrees with the smooth formal L² adjoint on compactly supported tests:
 `dα=(∂ₓQ−∂ᵧP) dx∧dy` and `δ α=−(∂ₓP+∂ᵧQ)`.
 For a top form with a `C¹` coefficient h,
 `δ(h dx∧dy)=(∂ᵧh) dx−(∂ₓh) dy`; δ is zero on functions.
-These are the actual coefficients of `δ=d*=−*d*` in real dimension2.
+These are the actual coefficients of `δ=d*=−*d*` in real dimension 2.
 The formal-adjoint comparison uses compactly supported tests in the open set,
 so it introduces no boundary condition on the pointwise formulas.
 
 For forms with `C²` coefficients on the open set, prove `Δ_H=dδ+δd` acts
-coefficientwise as the negative Euclidean Laplacian in every degree0,1,2.
+coefficientwise as the negative Euclidean Laplacian in each of the degrees 0, 1 and 2.
 For a `C²` complex-valued function u, use
 `∂z=(∂ₓ−i∂ᵧ)/2`, `∂barz=(∂ₓ+i∂ᵧ)/2` to prove
 `Δ_H u=−(∂ₓ²u+∂ᵧ²u)=−4∂z∂barz u`;
@@ -1932,7 +1939,7 @@ The C² function |x|³ tests the distinction between pointwise and smooth form c
 
 ### Dependencies
 
-DifferentialGeometry; SmoothBundlesConnections B2–B4; PDE Lane A.3;
+DifferentialGeometry; SmoothBundlesConnections B2–B4; PDE §1.3 (A3);
 PseudodifferentialOperators P1.0's differential-operator core; VariationalMethods §§2–5; UnboundedOperators UO-D06;
 Layers 1, 2 and 4 for the complex applications.
 
@@ -2180,17 +2187,17 @@ realization map on each open simplex to be an analytic isomorphism onto
 its analytic-submanifold image inside a single stratum. Its differential is
 injective, so simplex dimension is at most the stratum's dimension. Derive
 that V has no simplices above dimension 2k and S none above dimension 2k−2.
-Use GT Layer11's carrier `|K|` and a homeomorphism `|K|≃ₜ M`, with the two
+Use GT Layer 11's carrier `|K|` and a homeomorphism `|K|≃ₜ M`, with the two
 subcomplex images exactly V and S. Semialgebraic triangulation alone does not
-supply this theorem. Transport the native CW structures using GT Layer11
-and AT4.7's `simplicialRealizationCW`; AT Stage4's cellular/singular comparison
+supply this theorem. Transport the native CW structures using GT Layer 11
+and AlgebraicTopology §4.7's `simplicialRealizationCW`; AT Stage 4's cellular/singular comparison
 then gives homology vanishing for S in degrees 2k and 2k−1. Prove that
 the oriented top simplices define the relative class in
 `H_(2k)(V,S;ℤ)`. Prove that each (2k−1)-simplex outside S has exactly two
 top-dimensional cofaces, by the local homology of the smooth 2k-manifold
 V_reg and the simplicial star/link description. Own the comparison
 `H_j(|L|,|L|∖{x};ℤ) ≃ H̃_(j−d−1)(Lk_L τ;ℤ)` for x in the interior
-of a d-simplex τ, using GT Layer11's star/link API, excision and the suspension
+of a d-simplex τ, using GT Layer 11's star/link API, excision and the suspension
 homology comparison, including the empty-link/augmented degree convention.
 In codimension one the link is a finite set of c points, whose reduced H₀ is
 `ℤ^(c−1)`; the local orientation group is ℤ, forcing c=2.
@@ -2203,7 +2210,7 @@ For k=0, S is empty and `[V]` is the sum of the positively oriented points.
 Own the integration comparison for this class through forms supported away
 from S; do not integrate a smooth form over nonsmooth triangulation simplices.
 Construct an open neighborhood N of S in M which deformation retracts onto
-S, using AT Stage4's `cwSubcomplexNeighborhoods` and transport through the
+S, using AT Stage 4's `cwSubcomplexNeighborhoods` and transport through the
 ambient triangulation. For k>0, cellular dimension
 vanishing, AT's real universal-coefficient comparison and DifferentialGeometry §8.5's de Rham
 isomorphism give `H^(2k)_dR(N)=0`. Thus every closed smooth 2k-form α on M
@@ -2418,31 +2425,23 @@ Prove its flat Kähler structure, invariant holomorphic forms, and
 genus/Betti dictionary. For every compact connected Riemann surface define
 its geometric genus g=h^(1,0) and prove `h^(0,0)=h^(1,1)=1`,
 `h^(0,1)=g` and `b₁=2g` by Hodge comparison. Prove the topological dictionary:
-use K1's realification of the complex curve and its complex tangent
-orientation to construct the native topological surface required by
-[PlanarTopology's surface convention](../PlanarTopology/README.md).
-Own the adapter from its real two-dimensional atlas to the half-space-charted
-carrier, with empty boundary, T2, compactness and connectedness, and compare
-the complex orientation with
-[PlanarTopology Layer 6's `Surface.Orientation`](../PlanarTopology/README.md).
-Consume [SurfaceTopology Layers 2–3](../SurfaceTopology/README.md)'s
-presentation/realization comparisons,
-[Layer 6](../SurfaceTopology/README.md)'s polygon normal forms and
-[Layer 8](../SurfaceTopology/README.md)'s compact-surface classification
-to obtain the unique orientable closed model of genus j and a homeomorphism.
-Transport the chosen complex orientation to that model, comparing it with
-the polygon orientation (and an orientation-reversing model reflection when
-needed). K7 owns this orientation adapter; a classification homeomorphism
-does not assert compatibility with a preassigned smooth triangulation.
-Construct the comparison of that realization with AlgebraicTopology's
-standard CW model (one vertex, 2j edges, one face attached by the product of
-commutators), treating j=0 by the sphere comparison rather than identifying
-an empty polygon word with SurfaceTopology's schema. Use AT's singular/cellular
-comparison to compute b₁=2j, hence g=j. SurfaceTopology supplies presentations
-and their topological uniqueness; K7 with AT owns cohomology, the
-real/smooth de Rham comparison and the genus calculation. On this oriented CW model compute
+K1's realification of the complex curve, with its complex tangent orientation, is a compact
+connected oriented smooth surface without boundary. Consume
+[GeometricTopology Layer 1.7](../GeometricTopology/README.md)'s smooth classification of
+compact surfaces to obtain a diffeomorphism to the standard orientable closed model of genus
+j, the connected sum of j tori, with its genus `(2 − χ)/2` and `rank H₁(·;ℚ) = 2j`, and
+[GeometricTopology Layer 1.7.1](../GeometricTopology/README.md)'s polygon/CW model of that
+surface with one vertex, 2j edges and one face attached along the word
+`[a₁,b₁]⋯[a_j,b_j]`, with its comparison to the standard surface (the sphere, j=0, is its
+own separate case there). Transport the complex orientation to that model, comparing it with
+the polygon orientation (and an orientation-reversing model reflection when needed). K7 owns
+this orientation adapter; a classification diffeomorphism does not assert compatibility with
+a preassigned smooth triangulation. Use AT's singular/cellular comparison on that CW model to
+compute b₁=2j, hence g=j. GeometricTopology supplies the classification, the polygon model and
+its realization; K7 with AT owns cohomology, the real/smooth de Rham comparison and the genus
+calculation. On this oriented CW model compute
 `H²(Σ;ℤ)≃ℤ`, identify its generator by evaluation on AlgebraicTopology
-Stage6.3's fundamental class, and prove that evaluation is an isomorphism.
+Stage 6.3's fundamental class, and prove that evaluation is an isomorphism.
 Compute the integral degree-one cup pairing on the 2g polygon generators
 as the standard unimodular symplectic matrix, preserving the complex
 orientation and the cohomology comparison with the smooth surface.
@@ -2504,7 +2503,7 @@ positive curvature, flat Kähler geometry and failure of Hodge symmetry.
 ### Dependencies
 
 ComplexManifolds; ComplexTori; Layers 2–6; AlgebraicTopology Stages 4 and 6;
-SurfaceTopology Layers 2, 3, 6, 8 and PlanarTopology for the genus comparison.
+GeometricTopology Layers 1.7 and 1.7.1 for the genus comparison.
 
 ## Layer 8: the Frölicher spectral sequence and non-Kähler comparison
 
@@ -2610,7 +2609,7 @@ charts/local holomorphic sections for G/A and prove the torus bundle above
 is holomorphic, with complex-nilpotent simply connected base group of
 strictly smaller complex dimension. Prove freeness, proper discontinuity
 and compactness for each discrete lattice action before consuming
-[ComplexManifolds ComplexManifolds Milestone 4](../ComplexManifolds/README.md)'s
+[ComplexManifolds Milestone 4](../ComplexManifolds/README.md)'s
 quotient/descent API. That supplier handles those discrete quotients; the
 continuous central quotient, rationality, lattice existence and
 smooth/holomorphic principal-torus comparison are K8's targets.
@@ -2682,7 +2681,7 @@ independently of K1–K4. PseudodifferentialOperators P1.0's operators, density 
 formal adjoints use that density line, and K5a's distributional action uses them.
 Its bundle tests, distributions and Fréchet sections use chart/frame analysis;
 the Hilbert scale, Laplace regularity and de Rham Hodge theory then use these
-constructions, SBC B2–B4, PDE Lane A.3 componentwise on finite-dimensional fibers,
+constructions, SBC B2–B4, PDE §1.3 (A3) componentwise on finite-dimensional fibers,
 [VariationalMethods §§2–5](../VariationalMethods/README.md),
 [UO-D06](../OperatorTheory/UnboundedOperators/README.md) and AT.
 UO-D06 supplies form representation to VariationalMethods §§2.3 and 5.1;
@@ -2696,18 +2695,17 @@ global compact Hodge/Serre conclusions for locally finite varying ranks.
 PDO P1.1 and P2 onward consume this analysis. K5b uses K1, K2, K4
 and K5a. K6.0 uses K1/K2/K4 and K5a local identities, and precedes
 RealAnalyticGeometry R3/R4/R5. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
-atlas, RealAnalyticGeometry R1/R5, DG8.3–8.5/12.1, AT4.5/4.7/6.1/6.3
-and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
-ComplexManifolds Milestones 1–3 and AT Stage4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
+atlas, RealAnalyticGeometry R1/R5, DifferentialGeometry §§8.3–8.5 and 12.1, AlgebraicTopology §§4.5, 4.7, 6.1 and 6.3
+and GT Layer 11. K7.1 uses K3.0, K1's complex orientation and
+ComplexManifolds Milestones 1–3 and AT Stage 4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
 construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
 and the generic spectral-sequence machinery. K7.2's torus computations follow
 ComplexTori Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
 computations follow K1's realification/complex orientation, the K7 adapter to
-[PlanarTopology](../PlanarTopology/README.md) and
-[SurfaceTopology Layers 2/3/6/8](../SurfaceTopology/README.md),
-AT Stage4's CW theory, Stage6's cellular/cohomology-product comparisons
-including Stage6.3, and K6.1. Its Hopf computations
+[GeometricTopology Layers 1.7 and 1.7.1](../GeometricTopology/README.md),
+AT Stage 4's CW theory, Stage 6's cellular/cohomology-product comparisons
+including Stage 6.3, and K6.1. Its Hopf computations
 follow ComplexManifolds Milestone 4, K2's Leray-cover comparison, K3's Hartogs theorem,
 K5b's Serre duality and DG's Mayer–Vietoris theorem. The Iwasawa quotient
 consumes ComplexManifolds Milestone 4; the general invariant-cohomology comparisons
