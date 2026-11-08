@@ -18,7 +18,7 @@ import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infinite.Mixt
 import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infinite.Sampling
 import TauCeti.Combinatorics.DenseGraphLimits.Graphon.Complete
 import TauCeti.Combinatorics.DenseGraphLimits.Graphon.CutNormLimit
-import TauCeti.Combinatorics.DenseGraphLimits.Graphon.StandardBorelModel
+import TauCeti.Combinatorics.DenseGraphLimits.Graphon.StandardBorelModel.Basic
 import TauCeti.Combinatorics.DenseGraphLimits.GraphonSpace.Compact
 import TauCeti.Combinatorics.DenseGraphLimits.GraphonSpace.Convergence
 import TauCeti.Combinatorics.DenseGraphLimits.GraphonSpace.Density
@@ -68,11 +68,9 @@ open. Those objects now live in Tau Ceti under `TauCeti.DenseGraphLimits`, in th
 pins, so the statements below are made about the Tau Ceti objects directly. Statements keep the
 README's names, closed by the Tau Ceti declaration even where its name differs. The differences:
 
-* **Names.** `graphonSpace_ext_homDensity` is Tau Ceti's `graphonSpace_ext_iff_homDensity`,
-  stated there for every `GraphonSpace Ω μ`. `cutDist_eq_zero_of_forall_homDensity_eq_cross` and
-  `cutDist_eq_zero_iff_forall_homDensity_eq_cross` are Tau Ceti's unsuffixed
-  `cutDist_eq_zero_of_forall_homDensity_eq` and `cutDist_eq_zero_iff_forall_homDensity_eq`, which
-  are already cross-carrier and hypothesis-free. `isProbabilityMeasure_of_isCoupling` is
+* **Names.** `graphonSpace_ext_homDensity`, `cutDist_eq_zero_of_forall_homDensity_eq_cross` and
+  `cutDist_eq_zero_iff_forall_homDensity_eq_cross` carry Tau Ceti's names, stated there for every
+  `GraphonSpace Ω μ` and cross-carrier and hypothesis-free. `isProbabilityMeasure_of_isCoupling` is
   `IsCoupling.isProbabilityMeasure`, `injHomDensity_integral_sampleGraph` is
   `integral_injHomDensity_sampleGraph`, and `paramGraphLaw_isProbabilityMeasure` is
   `isProbabilityMeasure_paramGraphLaw`.
@@ -386,18 +384,18 @@ theorem cutNormSigned_le_four_mul_cutNorm (K : SymmKernel Ω μ) :
 omit [IsProbabilityMeasure μ₁] [IsProbabilityMeasure μ₂] in
 /-- **`IsCoupling` is a named `Prop`**: a measure on the product with the two given marginals. -/
 theorem isCoupling_iff {π : Measure (Ω₁ × Ω₂)} :
-    TauCeti.MeasureTheory.IsCoupling μ₁ μ₂ π ↔ π.fst = μ₁ ∧ π.snd = μ₂ :=
-  TauCeti.MeasureTheory.isCoupling_iff
+    TauCeti.IsCoupling π μ₁ μ₂ ↔ π.fst = μ₁ ∧ π.snd = μ₂ :=
+  ⟨fun h => ⟨h.fst_eq, h.snd_eq⟩, fun h => ⟨h.1, h.2⟩⟩
 
 /-- The product coupling, so the couplings over which `cutDist` minimizes are never empty. -/
-theorem isCoupling_prod : TauCeti.MeasureTheory.IsCoupling μ₁ μ₂ (μ₁.prod μ₂) :=
-  TauCeti.MeasureTheory.isCoupling_prod μ₁ μ₂
+theorem isCoupling_prod : TauCeti.IsCoupling (μ₁.prod μ₂) μ₁ μ₂ :=
+  TauCeti.isCoupling_prod μ₁ μ₂
 
 omit [IsProbabilityMeasure μ₂] in
 /-- A coupling of probability measures is a probability measure. Tau Ceti:
 `IsCoupling.isProbabilityMeasure`. -/
 theorem isProbabilityMeasure_of_isCoupling {π : Measure (Ω₁ × Ω₂)}
-    (hπ : TauCeti.MeasureTheory.IsCoupling μ₁ μ₂ π) : IsProbabilityMeasure π :=
+    (hπ : TauCeti.IsCoupling π μ₁ μ₂) : IsProbabilityMeasure π :=
   hπ.isProbabilityMeasure
 
 /-- **The overlaid difference**: `U` read through the first coordinate of the coupled space minus
@@ -410,7 +408,7 @@ theorem overlayDiff_apply (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) (�
 the two carriers, of the cut norm of the overlaid difference. -/
 theorem le_cutDist_iff (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) {c : ℝ} :
     c ≤ cutDist U W ↔
-      ∀ (π : Measure (Ω₁ × Ω₂)) (hπ : TauCeti.MeasureTheory.IsCoupling μ₁ μ₂ π),
+      ∀ (π : Measure (Ω₁ × Ω₂)) (hπ : TauCeti.IsCoupling π μ₁ μ₂),
         c ≤ @cutNorm _ _ π hπ.isFiniteMeasure (overlayDiff U W π) :=
   ⟨fun h _ hπ => h.trans (TauCeti.DenseGraphLimits.cutDist_le U W hπ),
     TauCeti.DenseGraphLimits.le_cutDist U W⟩
@@ -495,7 +493,7 @@ theorem counting_lemma {V : Type*} [Fintype V] (F : SimpleGraph V) [DecidableRel
 /-- **The coupling counting lemma**, the cross-carrier engine of forward separation. -/
 theorem counting_lemma_coupling {V : Type*} [Fintype V] (F : SimpleGraph V) [DecidableRel F.Adj]
     (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) {π : Measure (Ω₁ × Ω₂)}
-    (hπ : TauCeti.MeasureTheory.IsCoupling μ₁ μ₂ π) :
+    (hπ : TauCeti.IsCoupling π μ₁ μ₂) :
     |homDensity F U - homDensity F W|
       ≤ (F.edgeFinset.card : ℝ) * @cutNorm _ _ π hπ.isFiniteMeasure (overlayDiff U W π) :=
   TauCeti.DenseGraphLimits.counting_lemma_coupling F U W hπ
@@ -816,12 +814,12 @@ theorem Graphon.exists_comap_natBool (W : Graphon Ω μ) :
   TauCeti.DenseGraphLimits.Graphon.exists_comap_natBool W
 
 /-- **Inverse counting, cross-carrier and hypothesis-free** (Janson, Thm 8.10). Tau Ceti:
-`cutDist_eq_zero_of_forall_homDensity_eq`. -/
+`cutDist_eq_zero_of_forall_homDensity_eq_cross`. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq_cross (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂)
     (h : ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensity F U = homDensity F W) :
     cutDist U W = 0 :=
-  TauCeti.DenseGraphLimits.cutDist_eq_zero_of_forall_homDensity_eq U W h
+  TauCeti.DenseGraphLimits.cutDist_eq_zero_of_forall_homDensity_eq_cross U W h
 
 /-- **Same-carrier inverse counting**, the specialization of the cross-carrier converse. -/
 theorem cutDist_eq_zero_of_forall_homDensity_eq (U W : Graphon Ω μ)
@@ -831,19 +829,19 @@ theorem cutDist_eq_zero_of_forall_homDensity_eq (U W : Graphon Ω μ)
   TauCeti.DenseGraphLimits.cutDist_eq_zero_of_forall_homDensity_eq U W h
 
 /-- **The separation iff**, cross-carrier and hypothesis-free. Tau Ceti:
-`cutDist_eq_zero_iff_forall_homDensity_eq`. -/
+`cutDist_eq_zero_iff_forall_homDensity_eq_cross`. -/
 theorem cutDist_eq_zero_iff_forall_homDensity_eq_cross (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) :
     cutDist U W = 0 ↔
       ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
         homDensity F U = homDensity F W :=
-  TauCeti.DenseGraphLimits.cutDist_eq_zero_iff_forall_homDensity_eq U W
+  TauCeti.DenseGraphLimits.cutDist_eq_zero_iff_forall_homDensity_eq_cross U W
 
 /-- **The quotient-level separation** on `GraphonSpaceI`. Tau Ceti:
-`graphonSpace_ext_iff_homDensity`, for every `GraphonSpace Ω μ`. -/
+`graphonSpace_ext_homDensity`, for every `GraphonSpace Ω μ`. -/
 theorem graphonSpace_ext_homDensity (U W : GraphonSpaceI) :
     U = W ↔ ∀ (n : ℕ) (F : SimpleGraph (Fin n)) [DecidableRel F.Adj],
       homDensityOnSpace F U = homDensityOnSpace F W :=
-  TauCeti.DenseGraphLimits.graphonSpace_ext_iff_homDensity U W
+  TauCeti.DenseGraphLimits.graphonSpace_ext_homDensity U W
 
 /-! ## Layer 6b: the convergence equivalence -/
 
@@ -1145,7 +1143,7 @@ theorem infiniteSampleLaw_map_restrictFin (W : Graphon Ω μ) (n : ℕ) :
 
 theorem measure_ext_of_map_restrictFin {ν ν' : Measure (SimpleGraph ℕ)} [IsFiniteMeasure ν]
     (h : ∀ n, ν.map (·.restrictFin n) = ν'.map (·.restrictFin n)) : ν = ν' :=
-  TauCeti.DenseGraphLimits.measure_ext_of_map_restrictFin h
+  SimpleGraph.measure_ext_of_map_restrictFin h
 
 /-! ## Layer 9b: exchangeable graph laws and graphon mixtures -/
 
