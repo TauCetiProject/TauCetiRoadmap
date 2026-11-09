@@ -83,8 +83,9 @@ The shared Haar-character, congruence-level and S-arithmetic interfaces draw on 
 organization of the Imperial College London FLT project.
 
 Mathlib supplies restricted-product carriers and topologies, finite and probability product
-measures, Haar uniqueness, the modular character, fundamental-domain integration, double cosets,
-and action groupoids. Tau Ceti supplies convolution groups of Hopf-algebra points,
+measures, Haar uniqueness, the modular character, fundamental-domain integration, the
+Hausdorff, locally compact, second countable and open quotient of a group by a closed subgroup,
+double cosets, and action groupoids. Tau Ceti supplies convolution groups of Hopf-algebra points,
 their coefficient maps, concrete `GL_n` and `G_m` comparisons, algebraic centres, geometric
 characters, cotangent/adjoint constructions, principal congruence subgroups of points, the Weil
 restriction of affine group schemes with its point isomorphism and point homeomorphism, and the
@@ -304,6 +305,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Restricted products of Haar measures | AnalyticNumberTheoryPartII §5.3f: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_restrictedAddHaar`; `AnalyticNumberTheoryPartII/Suggested.lean` | The measure `∏ʳ μ i` of AA.0.2 with its box formula, its restriction to the level subgroups `U_S` and its Haar property, in the multiplicative and the additive form (the Lean statement there is additive). AA.0 adds the Borel structure, right invariance, the convergent rescaling and the adelic and idelic normalizations. |
 | Quotient measures | AnalyticNumberTheoryPartII §5.3k: `TauCetiRoadmap.AnalyticNumberTheoryPartII.exists_unique_quotientMeasure`; `AnalyticNumberTheoryPartII/Suggested.lean` | Weil's quotient measure on `H\G` for right Haar measures with matching modular characters, its extension to nonnegative Borel and to integrable functions, its scaling and composition in stages, and the inversion between the left and right conventions for countable discrete subgroups of unimodular groups. AA.2.2 adds uniqueness among all invariant Radon measures; AA.2.3 applies the measure to rational and central quotients. |
+| Homogeneous quotient topology | `t2Space_quotient_mulAction_of_properSMul`, `Mathlib/Topology/Algebra/ProperAction/Basic.lean`, the left multiplication action of a closed subgroup being proper by instance inference from the same file; `IsOpenQuotientMap.locallyCompactSpace`, `Mathlib/Topology/Compactness/LocallyCompact.lean`; `MulAction.isOpenQuotientMap_quotientMk`, `isOpenMap_quotient_mk'_mul`, `ContinuousConstSMul.secondCountableTopology`, `Mathlib/Topology/Algebra/ConstMulAction.lean` | For a closed subgroup `H` of a second countable locally compact Hausdorff group `G`, the orbit space `MulAction.orbitRel.Quotient H G` of left multiplication is Hausdorff, locally compact and second countable, and the projection is an open quotient map. AA.2.2 adds the lifting of compact sets and the quotient measures. |
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 | Scheme centralizers, normalizers and character evaluation | RG2.1 targets `BruhatTits.GeometricRoots.characterValue`, `BruhatTits.GeometricRoots.characterValue_coe`, `centralizer`, `normalizer`, `centralizerIdeal`, `centralizerIdeal_points_iff`; `TauCetiRoadmap/ReductiveGroupsPartII/README.md` | AA.3.1 spells the same contracts on the unbundled coordinate algebra `H` and the pinned `quotientPointsSubgroup`. The root-ray helper additionally accepts non-root characters and uses the pinned dynamic contraction subgroups. |
 | Arithmetic level carrier | `TauCetiRoadmap.AdelicAlgebraicGroups.Reduction.levelArithmetic`; `TauCetiRoadmap/AdelicAlgebraicGroups/Suggested.lean` | `Neat.IsNeatLevel` is stated through it; the arithmetic discreteness, neatness and component results consume the same subgroup. |
@@ -886,7 +888,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
   `MeasureTheory.Measure.prod`; AA.0.1; GlobalNumberFields, layer 6, additive strong
   approximation; Mathlib `ZSpan.isAddFundamentalDomain` and
   `NumberField.mixedEmbedding.volume_fundamentalDomain_latticeBasis`
-  (`NumberTheory/NumberField/Discriminant/Basic.lean`, line 89).
+  (`NumberTheory/NumberField/Discriminant/Basic.lean`, line 91).
   The adelic fundamental-domain assertion is an owned deduction: additive strong approximation
   moves the finite component into `∏_v 𝒪_v`, and translation by `𝓞_K` then moves the infinite
   component into its integral-basis parallelotope. Two rational translates intersect only when
@@ -1817,14 +1819,26 @@ restriction of scalars.
     measure, as `(a, x) ↦ (2a, x)` does for `da dx/a²` in the coordinates `n(x) diag(a, 1)`.
   - For `P = G`, the unipotent radical is trivial and both adjoint determinants are `1`;
     the adelic modular character is trivial.
-- **Topology of a closed homogeneous quotient.** For a second countable locally compact
+- **Compact sets lift to a closed homogeneous quotient.** For a second countable locally compact
   Hausdorff topological group `G` and a closed subgroup `H ≤ G` acting by left multiplication,
-  with `H\G` the orbit space with the quotient topology and `q : G → H\G` the projection, prove
-  that `H\G` is locally compact, Hausdorff and second countable, that `q` is open, and that over
-  each compact subset of `H\G` there is a compact subset of `G` whose image contains it
-  ([Arthur], §1, pp. 7–9; [BHV], Appendix B.1, Lemma B.1.1, pp. 343–344). *Needs:* Mathlib
-  locally compact groups and quotient topology.
+  let `H\G` be the orbit space `MulAction.orbitRel.Quotient H G` with the quotient topology and
+  `q : G → H\G` the projection. That `H\G` is Hausdorff, locally compact and second countable
+  and that `q` is open is the supplier contract *Homogeneous quotient topology*. Prove that over
+  each compact subset `C ⊆ H\G` there is a compact `D ⊆ G` with `C ⊆ q(D)`. This is this
+  roadmap's deduction: every `g ∈ G` has a compact neighbourhood `N_g`, and `q(interior N_g)` is
+  an open neighbourhood of `q(g)` because `q` is open; as `q` is surjective these sets cover `C`,
+  finitely many of them suffice, and `D` is the union of the corresponding `N_g`.
+  *Needs:* Mathlib `isOpenMap_quotient_mk'_mul`,
+  `WeaklyLocallyCompactSpace.exists_compact_mem_nhds`, `IsCompact.elim_finite_subcover`.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `H = {1}`, `q` is the identity and `D = C` works.
+  - For `G = ℝ` and `H = ℤ`, `H\G` is the circle and `D = [0, 1]` lies over all of it; for
+    `H = G` the quotient is a point and any nonempty compact `D` works.
+  - Openness of `q` is used: the map `ℝ_d → ℝ` from the reals with the discrete topology is a
+    continuous surjection of locally compact groups, but its compact sets are finite and their
+    images never contain `[0, 1]`.
 - **Invariant measure on a coset space.** (*quotient-measure*) For `G` a second countable
   locally compact Hausdorff group, `H ≤ G` a closed subgroup with `Δ_G` restricted to `H` equal
   to `Δ_H`, and right Haar measures `dg`, `dh` on the Borel sigma algebras, let `dġ` be the
@@ -3065,8 +3079,10 @@ in the standard integral level.
 - **Siegel property.** For a connected reductive group `G` over `F`, admissible `K` and a Siegel
   set `𝔖 = 𝔖(T_1, ω)`, prove that `{γ ∈ G(F) : γ𝔖 ∩ 𝔖 ≠ ∅}` is finite (the finiteness condition
   of a fundamental set, [Borel], Definition 4.1, p. 17, which the Siegel-set fundamental sets of
-  [Borel], Theorem 4.6, p. 18 satisfy; the real-group form is [BKT], Proposition 2.7(2), p. 9,
-  stated in AA.3.6, which depends on this subsection and is not an input to it). *Needs:*
+  [Borel], Theorem 4.6, p. 18 satisfy; the real-group forms are [BKT], Proposition 2.7(2), p. 9,
+  for connected semisimple `G` over `ℚ`, stated in AA.3.6, and [Orr], Theorem 2.3, p. 8, for the
+  Siegel triples of connected reductive `G` over `ℚ`, stated in AA.3.7 as
+  *triple-fundamental-set*; both depend on this subsection and are not inputs to it). *Needs:*
   AA.3.4; AA.3.3; AA.1.4.
   *Lean:* none; specified in the README only.
 - **Finiteness of class numbers.** (*class-number-finite*) For every linear algebraic group `G`
@@ -3562,9 +3578,10 @@ cannot replace the reduced norm in the defining equation.
 - **Finitely many fixed-`K` Siegel sets cover.** The statement
   supplies a complete irredundant list of arithmetic conjugacy classes of rational
   parabolics, their fixed-`K` data, relatively compact open windows and positive thresholds,
-  covering the connected real group modulo its level arithmetic group. The theorem applies
-  to connected reductive `G`; the window enlargement of AA.3.2 supplies semialgebraic
-  windows without changing this list or losing coverage. For `G` connected semisimple over `ℚ`, `Γ`
+  covering the connected real group modulo its level arithmetic group. The window enlargement
+  of AA.3.2 supplies semialgebraic windows without changing this list or losing coverage; the
+  covering of a connected reductive group by the domains of one Siegel triple is
+  *triple-fundamental-set* (AA.3.7). For `G` connected semisimple over `ℚ`, `Γ`
   arithmetic, `K` fixed and `M ⊂ K` compact, let `𝐏_1, …, 𝐏_k` represent the `Γ`-conjugacy
   classes of `ℚ`-parabolics. Prove that there are Siegel sets `𝔖_i = U_i × A_{𝐏_i,t_i} × W_i`
   associated to `𝐏_i` and the same `K` whose images cover `Γ\G/M` ([BKT], Proposition 2.7(1),
@@ -3777,6 +3794,36 @@ Every `SL_n` has a triple with the standard orthogonal compact.
 - It excludes the transpose of that matrix.
 - `(ηᵀη)₁₃=−3/2`, the off-diagonal obstruction.
 
+- **Triple domains are fundamental sets.** (*triple-fundamental-set*) Let `𝐆` be connected
+  reductive over `ℚ`, `(P, S, K)` a Siegel triple for `𝐆` and `Γ ≤ 𝐆(ℚ)` an arithmetic subgroup
+  (`Reduction.IsSArithmetic ∅ Γ`), and write `𝔖(Ω, t) = Ω·cone(t)·K` for the domain of a window
+  `(Ω, t)`. Prove that there are a window `(Ω, t)` and a finite `C ⊂ 𝐆(ℚ)` with
+  `𝐆(ℝ) = Γ·C·𝔖(Ω, t)`, and that for every window `(Ω, t)`, every finite `C ⊂ 𝐆(ℚ)` and every
+  `δ ∈ 𝐆(ℚ)` the set `{γ ∈ Γ : γC𝔖(Ω, t) ∩ δC𝔖(Ω, t) ≠ ∅}` is finite ([Orr], §2.D,
+  Theorems 2.2 and 2.3, p. 8, which restate Borel's covering and Siegel-property theorems with
+  the Cartan-stability condition on `S` that the second needs). For connected semisimple `𝐆`,
+  the fixed-`K` Siegel sets of AA.3.6 give the covering parabolic by parabolic. Route:
+  conjugation by the point `u ∈ N(ℝ)` of the triple moves `S` to the rational split torus and
+  keeps windows inside `N M⁰`; intersect the adelic covering and Siegel property of AA.3.4, at an
+  admissible level, with `𝐆(ℝ)` times that level, the finitely many rational points that return
+  a point to the level forming `C`, and pass to `Γ` by commensurability. *Needs:* AA.3.4
+  (*Siegel sets cover `G(F)\G(𝔸)`*, *Siegel property*, *S-arithmetic subgroups and independence
+  of the model*); AA.3.1; AA.3.7 (Siegel triples, windows and domains).
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `G_m/ℚ`, `Γ = {±1}` and its triple (`S = G_m(ℝ)`, `K = {±1}`, no roots), the window
+    `({1}, 1)` has domain `ℝ_{>0}·{±1} = ℝ^×`, so `C = {1}` covers; the finiteness clause holds
+    because `Γ` is finite.
+  - For `SL₂/ℚ`, `Γ = SL₂(ℤ)`, the standard triple, `Ω = {[[1,x],[0,1]] : |x| ≤ 1/2}` and
+    `C = {1}`, the domain consists of the `g` with `g·i = x + iy`, `|x| ≤ 1/2` and `y ≥ t`. It
+    covers for `t = 3/4`, since every orbit meets `|x| ≤ 1/2`, `y ≥ √3/2`. It does not cover for
+    `t = 1`: `0.45 + 0.9i` lies in the standard fundamental domain (`|x| ≤ 1/2` and
+    `|z|² = 1.0125 ≥ 1`), so its imaginary part `0.9` is the largest in its orbit.
+  - Arithmeticity is used: for the `S`-arithmetic `Γ = SL₂(ℤ[1/2])` and the `SL₂` window above
+    with `t = 3/4`, the identity and `diag(2^k, 2^{−k})` both lie in the domain for every
+    `k ≥ 0`, so infinitely many `γ ∈ Γ` satisfy `γ𝔖 ∩ 𝔖 ≠ ∅`.
+
 - **Compatible parabolic and torus for a subgroup.** (*containment-parabolic-torus*) For
   `H ⊂ G` reductive `ℚ`-groups, a Siegel triple `(P_H, S_H, K_H)` for `H` with `S_H` `ℚ`-split
   (the general case reduces to this by conjugating with an element of `R_u(P_H)(ℝ)`, [Orr], §4.A,
@@ -3867,7 +3914,9 @@ Every `SL_n` has a triple with the standard orthogonal compact.
   `𝐆(ℚ)`-translates of a `K_G`-Siegel set (the conclusion of *orr-schnell-containment*, taken as
   the forward-containment hypothesis). Prove that for every `K_G`-Siegel set `𝔖_G` there are a
   `K_H`-Siegel set `𝔖_H` and a finite `F ⊂ 𝐇(ℚ)` with `𝔖_G ∩ 𝐇(ℝ) ⊂ F 𝔖_H` ([BGST], §28,
-  Proposition 28.1, pp. 14–15; [BKT erratum], §1.5, p. 3). *Needs:* AA.3.7; AA.3.6; AA.3.2.
+  Proposition 28.1, pp. 14–15; [BKT erratum], §1.5, p. 3). *Needs:* AA.3.7
+  (*triple-fundamental-set*, for the covering of `𝐇(ℝ)` and the Siegel property in `𝐆(ℝ)`);
+  AA.3.6; AA.3.2.
   *Lean:* none; specified in the README only.
 - **Compact inclusion alone does not give Siegel containment.** Prove that there are
   inclusions of reductive (even semisimple) `ℚ`-groups `𝐇 ⊂ 𝐆` with `K_H ⊂ K_G` for which some
@@ -3955,7 +4004,9 @@ from stability of the whole subgroup.
 Layers AA.1 and AA.2; Mathlib's modular-group fundamental domain; Tau Ceti's Cholesky lemmas and
 dynamic parabolics; ReductiveGroups, layers 3, 6 and 7; ReductiveGroupsPartII, RG2.1, RG2.3 and
 RG2.4; RepresentationTheory/LieGroups, layer 9; GlobalNumberFields, layer 6; the cusp theory of
-AA.3.6 uses the adelic Siegel property of AA.3.4 and feeds the containment theorems of AA.3.7.
+AA.3.6 uses the adelic Siegel property of AA.3.4 and feeds the containment theorems of AA.3.7;
+the reductive fundamental sets of AA.3.7 (*triple-fundamental-set*) use the adelic covering and
+Siegel property of AA.3.4.
 
 ## Layer 4: approximation, neat levels and Hecke maps
 
@@ -4671,9 +4722,9 @@ quaternion norms and compact abelian Fourier limits.
   that the maps for `K″ ≤ K′ ≤ K` compose; no normality is assumed
   (Tau Ceti `DoubleCoset.quotientMapOfLELeft_apply_mk`,
   `DoubleCoset.quotientMapOfLELeft_refl`, `DoubleCoset.quotientMapOfLELeft_trans`,
-  `DoubleCoset.quotientMapOfLELeft_surjective`, `GroupTheory/DoubleCoset/Map.lean`, lines 38–67;
+  `DoubleCoset.quotientMapOfLELeft_surjective`, `GroupTheory/DoubleCoset/Map.lean`, lines 34–76;
   `TauCeti.cosetToOrbitRelMapFiber_surjective`,
-  `GroupTheory/DoubleCoset/Fiber.lean`, lines 57–77). Transport the left-level maps through
+  `GroupTheory/DoubleCoset/Fiber.lean`, lines 57–78). Transport the left-level maps through
   inversion to change the right level; choose the inverse coset representative so the fibre
   formula is `[gk]`. *Needs:* Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`;
   Tau Ceti `DoubleCoset.quotientMapOfLELeft`.
@@ -4759,9 +4810,22 @@ quaternion norms and compact abelian Fourier limits.
 
 - **Compact kernel of height on an archimedean level.** (*compact-kernel-split-centre*) For
   connected reductive `G/F`, let `K∞ ⊂ G(F_∞)` be closed, contain `A_G(ℝ)^0`, and be compact
-  modulo it. Prove that `K∞ ∩ ker H_{G,∞}` is compact, and that multiplication gives
-  `K∞ ≃ A_G(ℝ)^0 × (K∞ ∩ ker H_{G,∞})` ([Arthur], §2, pp. 13–15). *Needs:* AA.2.1.
+  modulo it, with `G(F_∞)` inside `G(𝔸_F)` as the adeles with finite component `1`. Prove that
+  `K∞ ∩ ker H_G` is compact, and that multiplication gives an isomorphism of topological groups
+  `A_G(ℝ)^0 × (K∞ ∩ ker H_G) ≃ K∞`. This is this roadmap's deduction from
+  *split-centre-decomposition*, the product `G(𝔸_F) = G(𝔸_F)^1 × A_G(ℝ)^0` ([Arthur], §3,
+  pp. 15–16): for `k ∈ K∞` with components `k = k¹a`, `a ∈ A_G(ℝ)^0 ⊆ K∞` gives
+  `k¹ = ka⁻¹ ∈ K∞ ∩ ker H_G`, so the product restricts to `K∞`; then
+  `k ↦ k¹` is a continuous bijection from the compact group `K∞/A_G(ℝ)^0` onto
+  `K∞ ∩ ker H_G`. *Needs:* AA.2.1 (*split-centre-decomposition*).
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `G_m/ℚ` and `K∞ = ℝ_{>0} = A_G(ℝ)^0`, the kernel `K∞ ∩ ker H_G` is `{1}`; for
+    `K∞ = ℝ^×` it is `{±1}`, and `ℝ^× = ℝ_{>0} × {±1}`.
+  - For `SL₂/ℚ`, `A_G(ℝ)^0` is trivial, so `K∞` is compact and equals its own kernel part.
+  - Containing `A_G(ℝ)^0` is used: for `G_m/ℚ` and the compact `K∞ = {±1}`, which does not
+    contain `ℝ_{>0}`, the product `A_G(ℝ)^0 · (K∞ ∩ ker H_G)` is `ℝ^×`, not `K∞`.
 - **Finite full rational stabilizers.** (*rational-stabilizer-finite*) For `F` a number field,
   `G` connected reductive over `F` (more generally `G` of finite type), `K∞ ⊂ G(F_∞)` a subgroup
   such that `K∞ ∩ ker H_G` is compact — that is, the adelic points with archimedean component in
@@ -4769,16 +4833,18 @@ quaternion norms and compact abelian Fourier limits.
   closed, contains `A_G(ℝ)^0` and is compact modulo it (*compact-kernel-split-centre*) —
   `U ⊂ G(𝔸_{F,f})` compact open and `g ∈ G(𝔸_F)`, prove that
   `A_x = G(F) ∩ gK∞Ug⁻¹` is finite. Here `A_x` is the full stabilizer, before division by any
-  rational central subgroup ([Arthur], §1, pp. 7–8; §2, pp. 13–15). *Needs:* AA.4.4; AA.1.3;
-  AA.2.1; AA.1.2.
+  rational central subgroup. Route: as `G(F) ⊆ G(𝔸)^1` and `H_G` vanishes on `U`, `A_x` is the
+  intersection of the discrete subgroup `G(F)` with the compact set `g(K∞ ∩ ker H_G)Ug⁻¹`
+  ([Arthur], §1, p. 8, for the finiteness of such an intersection; §2, p. 13, for the discrete
+  arithmetic subgroups cut out by a compact open level). *Needs:* AA.4.4; AA.1.3; AA.2.1; AA.1.2.
   *Lean:* none; specified in the README only.
 - **Proper arithmetic action on the level space.** For `F` a number field, `G` connected
   reductive over `F`, `K∞ ⊂ G(F_∞)` closed, containing `A_G(ℝ)^0` and compact modulo it,
   `U ⊂ G(𝔸_{F,f})` compact open, and `G(F)` acting on `G(𝔸)/K∞U` by left multiplication, prove
   under *rational-stabilizer-finite* that the discrete group `G(F)` acts properly
   discontinuously on `G(𝔸)/K∞U` with its canonical quotient topology: for compact `C, D` only
-  finitely many `γ` satisfy `γC ∩ D ≠ ∅` ([Arthur], §1, pp. 7–8). *Needs:* AA.4.4; AA.2.2; AA.2.1;
-  AA.1.3.
+  finitely many `γ` satisfy `γC ∩ D ≠ ∅` ([Arthur], §1, p. 8, for the finiteness of a discrete
+  group meeting a compact set). *Needs:* AA.4.4; AA.2.2; AA.2.1; AA.1.3.
   *Lean:* none; specified in the README only.
 - **Level quotients are Hausdorff.** For compact open `U` and `K_∞` containing `A_G(ℝ)^0` and
   compact modulo it, prove that the level quotient `X_U` is Hausdorff and locally compact, and
@@ -4841,9 +4907,28 @@ quaternion norms and compact abelian Fourier limits.
 - **Fibre mass for full stabilizers.** For `F` a number field, `G` connected reductive over
   `F`, `K∞ ⊂ G(F_∞)` closed, `U′ ⊂ U ⊂ G(𝔸_{F,f})` compact open, and `x = [g] ∈ X_U` with
   `A_x = G(F) ∩ gK∞Ug⁻¹` finite (for example by *rational-stabilizer-finite*), prove for the
-  full stabilizers `A_y` at the points above `x` that `∑_{y↦x} 1/|A_y| = [U : U′]/|A_x|`
-  ([Arthur], §1, pp. 7–8). *Needs:* AA.4.4.
+  full stabilizers `A_y = G(F) ∩ hK∞U′h⁻¹` at the points `y = [h]` above `x` that
+  `∑_{y↦x} 1/|A_y| = [U : U′]/|A_x|`. This is this roadmap's deduction by orbit–stabilizer, for
+  the action of `K∞U` on `G(F)\G(𝔸)` by inverse right translation, whose stabilizer at `G(F)g`
+  is `g⁻¹A_x g`. The fibre over `x` is the orbit set of `A_x`, acting through conjugation by `g`
+  on the `[U : U′]` cosets `U/U′`, the coset `uU′` giving the point `[gu]` (Tau Ceti
+  `TauCeti.stabilizerOrbitRelQuotientEquivOrbitRelMapFiber`,
+  `GroupTheory/DoubleCoset/Fiber.lean`, lines 92–107). The number of cosets giving `[gu]`, times
+  `|A_{[gu]}|`, is `|A_x|` (Tau Ceti
+  `TauCeti.card_fiber_orbitOfCosetTranslate_mul_card_stabilizer_inv_smul`,
+  `GroupTheory/DoubleCoset/Orbits.lean`, line 351). So `1/|A_y|` is the number of cosets giving
+  `y` divided by `|A_x|`, and these numbers add up to `[U : U′]` over the fibre. *Needs:*
+  AA.4.4; the two Tau Ceti declarations above.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `GL_1/ℚ`, `K∞ = ℝ_{>0}`, `U = U(3)` and `U′ = U(9)`, every rational stabilizer is
+    `ℚ^× ∩ ℝ_{>0}U(3) = {1}`, and the three points of each fibre give `3 = [U : U′]/1`.
+  - For `SL_2/ℚ`, `K∞ = SO(2)`, `U = SL_2(ℤ̂)`, `U′` the kernel of reduction modulo `2` and
+    `x` the class of `i`, `A_x = ⟨(0 −1; 1 0)⟩` has order `4` and acts on the six cosets
+    `SL_2(𝔽₂)` through its image of order `2`, freely. The fibre has three points with
+    stabilizers `{±1}`, and `3 · 1/2 = 6/4`; counting points instead of weighting them gives
+    `3 ≠ 6/4`.
 - **Fibre mass of a level map with stabilizers.** For a connected reductive group `G` over `F`,
   `U′ ⊂ U` compact open, and `K∞ ⊂ G(F_∞)` closed, containing `A_G(ℝ)^0` and compact modulo it (so
   that `A_x`, `Z(F) ∩ K∞U` and `Z(F) ∩ K∞U′` are finite by *rational-stabilizer-finite*), without
@@ -5289,7 +5374,7 @@ preceding layers; each item is a target with its own locator.
   This is an owned matrix deduction from Mathlib `UpperHalfPlane.denom_ne_zero_of_im`,
   `UpperHalfPlane.moebius_im`, `UpperHalfPlane.coe_smul` and
   `UpperHalfPlane.coe_smul_of_det_pos`
-  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–83 and 188–193).
+  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–88 and 188–194).
   *Needs:* these four declarations; Mathlib `UpperHalfPlane.glAction`,
   `Matrix.GeneralLinearGroup.det`.
   *Lean:* none; specified in the README only.
@@ -5303,7 +5388,7 @@ preceding layers; each item is a target with its own locator.
   through `g ↦ g·i`, equivariantly for the Möbius action, and that `GL_2(ℝ)^+` acts transitively
   on `ℍ` with stabilizer `ℝ^× SO(2)` at `i`. This is an owned matrix deduction from the
   raw action and Mathlib `UpperHalfPlane.denom_ne_zero_of_im` and `UpperHalfPlane.moebius_im`
-  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–83): the stabilizer equation
+  (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`, lines 58–88): the stabilizer equation
   is `g·i = i` iff `g = [[a,b],[−b,a]]` with `a²+b² > 0`, giving `ℝ^× SO(2)`.
   The continuous section `x+iy ↦ [[y,x],[0,1]]` for `y ≠ 0` gives the orbit-quotient
   homeomorphism; `y > 0` gives positive-determinant transitivity. *Needs:* AA.5.2,
@@ -5476,9 +5561,11 @@ preceding layers; each item is a target with its own locator.
 
   `∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|`
 
-  ([Arthur], §2, p. 12, with the central quotient and its index factor obtained from
-  AA.4.5). *Needs:* *quaternion-class-sets*; *definite-quaternion-stabilizers*, specialized to
-  `F = ℚ`; AA.4.5; AA.4.4.
+  This is this roadmap's deduction: take `K∞ = (D ⊗ ℝ)^×`, which contains `A_G(ℝ)^0 = ℝ_{>0}` and
+  is compact modulo it, so that `X_U = Cl(U)`, `Z(ℚ) ∩ K∞U = ℚ^× ∩ U` and the stabilizers of
+  *Fibre mass of a level map with stabilizers* (AA.4.4) are the `Γ_x` above, and sum its fibre
+  formula over `x ∈ Cl(U)`. *Needs:* *quaternion-class-sets*; *definite-quaternion-stabilizers*,
+  specialized to `F = ℚ`; AA.4.4.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -5671,9 +5758,6 @@ number-field sources named there.
   <https://arxiv.org/abs/0901.2279v3>
 - **Voight**: John Voight, *Quaternion Algebras*, Graduate Texts in Mathematics 288,
   Springer, 2021, Chapter 11, §§11.2–11.3. Locators use printed numbering.
-- **BHV**: Bachir Bekka, Pierre de la Harpe and Alain Valette, *Kazhdan's Property (T)*. Author
-  manuscript of 23 February 2007; locators use its pagination rather than that of the Cambridge
-  2008 book.
 
 - **Casselman**: W. Casselman, *Introduction to the theory of admissible representations of
   p-adic reductive groups*. Draft of 1 May 1995; locators use its printed pages.
