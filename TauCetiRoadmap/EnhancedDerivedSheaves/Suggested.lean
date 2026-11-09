@@ -255,20 +255,32 @@ theorem isDerivedComplete_iff_derivedCompleteness (R : Type u) [CommRing R]
   sorry
 
 /-- **Classical and derived completeness** (`isAdicComplete_iff_derivedComplete_separated`,
-BS-proet Proposition 3.4.2, point case): for a finitely generated ideal, a module is classically
-`I`-adically complete exactly when it is derived `I`-complete and `I`-adically separated. -/
+Section E4.3, the case of modules over a commutative ring; Stacks, More on Algebra, Proposition
+15.93.5, tag 091T; BS-proet Proposition 3.4.2): for a finitely generated ideal, a module is
+classically `I`-adically complete exactly when it is derived `I`-complete and `I`-adically
+separated. -/
 theorem isAdicComplete_iff_derivedComplete_separated {R : Type u} [CommRing R]
     (I : Ideal R) (hI : I.FG) (M : Type v) [AddCommGroup M] [Module R M] :
     IsAdicComplete I M ↔ IsDerivedComplete I M ∧ IsHausdorff I M := by
   sorry
 
-/-- **Weak Serre closure** (`derivedCompleteModules_weakSerre`, point case): derived complete
-modules are closed under kernels and cokernels of maps between derived complete modules. They
-are not closed under submodules: `ℤ ⊆ ℤ_[p]`. -/
-theorem derivedCompleteModules_weakSerre {R : Type u} [CommRing R] (I : Ideal R)
-    {M N : Type v} [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
-    (hM : IsDerivedComplete I M) (hN : IsDerivedComplete I N) (g : M →ₗ[R] N) :
-    IsDerivedComplete I (LinearMap.ker g) ∧ IsDerivedComplete I (N ⧸ LinearMap.range g) := by
+/-- The derived `I`-complete modules, as a property of objects of `ModuleCat R`
+(`derivedCompleteModules`, Section E4.3). -/
+def derivedCompleteModules {R : Type u} [CommRing R] (I : Ideal R) :
+    ObjectProperty (ModuleCat.{v} R) :=
+  fun M => IsDerivedComplete I M
+
+/-- **Derived complete modules form a weak Serre subcategory**
+(`derivedCompleteModules_weakSerre`, Section E4.3, the case of modules over a commutative ring;
+Stacks, More on Algebra, Lemma 15.93.6(1), tag 091U): for any ideal `I`, the derived
+`I`-complete modules contain zero and are closed under kernels and cokernels of maps between
+them and under extensions. They are not closed under submodules (`ℤ ⊆ ℤ_[p]`), so they are not
+an `ObjectProperty.IsSerreClass`. -/
+theorem derivedCompleteModules_weakSerre {R : Type u} [CommRing R] (I : Ideal R) :
+    (derivedCompleteModules I : ObjectProperty (ModuleCat.{v} R)).ContainsZero ∧
+      (derivedCompleteModules I : ObjectProperty (ModuleCat.{v} R)).IsClosedUnderKernels ∧
+      (derivedCompleteModules I : ObjectProperty (ModuleCat.{v} R)).IsClosedUnderCokernels ∧
+      (derivedCompleteModules I : ObjectProperty (ModuleCat.{v} R)).IsClosedUnderExtensions := by
   sorry
 
 end DerivedComplete
