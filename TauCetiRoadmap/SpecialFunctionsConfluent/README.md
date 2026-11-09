@@ -33,15 +33,13 @@ The roadmap covers:
 definitions, the equations and the classical theory, the large-argument expansions, the real
 zeros, the integrals and the series; the formula ranges are in the table under
 [Scope and ownership](#scope-and-ownership). The rest of the chapter is listed in
-[Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement), in two
-groups:
-- material planned for follow-up roadmaps: chiefly the large-parameter and uniform expansions of
-  §§13.8, 13.20 and 13.21 and what rests on them, and the formulas through the Gauss function off
-  its disk of convergence, the Charlier polynomials and the Coulomb functions, which belong with
-  roadmaps for DLMF Chapters 15, 18 and 33;
-- material deferred without a planned roadmap: the error bounds and exponentially improved
-  expansions of §13.7(ii)–(iii), the asymptotics of the complex zeros, the Whittaker transform and
-  the applications and computation sections.
+[Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement): chiefly the
+large-parameter and uniform expansions of §§13.8, 13.20 and 13.21 and what rests on them, the
+formulas through the Gauss function off its disk of convergence, the Charlier polynomials, the error
+bounds and exponentially improved expansions of §13.7(ii)–(iii), the asymptotics of the complex
+zeros, the Whittaker transform and the applications and computation sections. The relations to the
+Coulomb functions are owned by
+[QuantumFoundations §9.5](../QuantumFoundations/README.md#95-coulomb-wave-functions-and-the-hydrogen-atom).
 
 The notation section §13.1 has nothing to formalize.
 
@@ -54,6 +52,11 @@ irregular singularities. Other functions are consumed as follows:
   with its Laplace integral, its recurrence in `a`, its Wronskian with `𝐌`, the connection formula
   with `𝐌`, its integer-`b` forms and its leading behaviour at infinity; 4.1 identifies this
   roadmap's `U` with it;
+- the Whittaker functions `M_{κ,μ}(y)` and `W_{κ,μ}(y)` for `y > 0`, with their Euler integrals,
+  Whittaker's equation, the symmetry in `μ`, the Bessel comparisons and the leading behaviour at
+  `0` and `∞`, from [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+  §§0.26–0.28;
+  4.4 identifies this roadmap's Whittaker functions with them;
 - the Laguerre polynomials and their orthogonality from
   [LaguerreJacobi](../LaguerreJacobi/README.md);
 - Mathlib's `𝐌`, with Kummer's equation, its derivative, Kummer's transformation and its
@@ -66,8 +69,10 @@ irregular singularities. Other functions are consumed as follows:
 - the Bessel functions `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` and Sturm comparison from
   [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md).
 
-This roadmap builds the bracket form 13.2.42 of `U`, with the removable singularity in `b` at
-integer `b`, and its agreement with the `U` of QuantumFoundations; the logarithmic coordinate on
+This roadmap builds the joint holomorphy of `𝐌` in `(a, b, z)`, the bracket form 13.2.42 of `U`,
+with the removable singularity in `b` at integer `b`, and its agreement with the `U` of
+QuantumFoundations; the agreement of its Whittaker functions with those of
+AutomorphicSpectralTheory; the logarithmic coordinate on
 which `U` and `W_{κ,μ}` are entire; the loop contours of §13.4(ii); the coefficients of the
 Bessel-series expansions 13.11.3 and 13.24.2; and the zero-counting tools of Layer 7: continuity of
 zeros in the parameters and the positive zeros of the polynomials `M(−n, b, ·)`.
@@ -102,7 +107,7 @@ specified in the layers:
 
 | Formulas | Targets |
 |---|---|
-| 13.2.1 (for `U` and its branches), 13.2.5, 13.2.7–13.2.8, 13.2.12, 13.2.42 | `U`: the bracket form, equation, special cases, continuation (1.1–1.4). |
+| 13.2.1 (for `U` and its branches), 13.2.5, 13.2.7–13.2.8, 13.2.12, 13.2.42 | `U`: the bracket form, equation, special cases, continuation (1.1–1.4); 13.2.5 in 1.1. |
 | 13.14.1–13.14.13 | Whittaker functions: definitions, equation, series, special cases, continuation (1.5). |
 | 13.2.13–13.2.22, 13.2.24–13.2.33, 13.2.35–13.2.38, 13.2.40–13.2.41, 13.2.43–13.2.44 | Kummer: limiting forms at `0`, solution pairs, Wronskians, connection formulas (2.1–2.3). |
 | 13.14.14–13.14.19, 13.14.22–13.14.35 | Whittaker: the same (2.4). |
@@ -128,7 +133,8 @@ not targets; the targets are the remaining cases. The inputs are:
   `Complex.regularizedHGFun_zero`);
 - 13.2.1 for `𝐌`, Kummer's transformation 13.2.39 and 13.3.15 divided by `Γ(b)`
   (SpecialFunctionsParabolicCylinder §§1.2–1.4);
-- `𝐌(a, b, z)` entire in `a` and in `b` (SpecialFunctionsParabolicCylinder §1.5);
+- `𝐌(a, b, z)` entire in `a` and in `b` separately (SpecialFunctionsParabolicCylinder §1.5); joint
+  holomorphy in `(a, b, z)` is a target (1.1);
 - `₀F₀ = exp` (Mathlib `Complex.regularizedHGFun_zero_zero`, in which both parameter multisets are
   empty), with its consequences `𝐌(a, a, z) = Γ(a)⁻¹ e^z` for every `a` and `𝐌(0, b, z) = Γ(b)⁻¹`
   (the examples of [SpecialFunctionsParabolicCylinder Layer 1](../SpecialFunctionsParabolicCylinder/README.md#layer-1-the-regularized-kummer-function)):
@@ -148,7 +154,15 @@ not targets; the targets are the remaining cases. The inputs are:
   uniqueness statement. They hold for `kummerULog` through the agreement of 4.1;
 - 13.6.19, `L_n^{(α)}(z) = ((α + 1)_n/n!) M(−n, α + 1, z)` for `α + 1 ∉ {0, −1, …}`
   (QuantumFoundations §9.4, with LaguerreJacobi's `Polynomial.laguerre`); its first equality is
-  13.2.7.
+  13.2.7;
+- from AutomorphicSpectralTheory
+  [§§0.26–0.28](../AutomorphicSpectralTheory/README.md#026-whittaker-m-and-w-functions), for
+  `y > 0`: `M_{κ,μ}(y)` by 13.14.2; `W_{κ,μ}(y)`, defined there by the Euler integral 13.16.5 for
+  `Re(½ + μ − κ) > 0` and continued in the parameters; the Euler integrals 13.16.1 and 13.16.5;
+  Whittaker's equation 13.14.1; the symmetry 13.14.31; the Bessel comparisons 13.18.8–13.18.9; and
+  the leading behaviour 13.14.14 at `0` and 13.14.20–13.14.21 at `∞`, in the ranges stated there.
+  AutomorphicSpectralTheory writes `(μ, ν)` for DLMF's `(κ, μ)`. They hold for `whittakerM` and
+  `whittakerW` at `y > 0` through the agreement of 4.4.
 
 13.6.9 and 13.6.10 are DLMF 10.39.5 and 10.39.6 rearranged; 10.39.5 is a target of
 SpecialFunctionsBessel (its 4.3) and is consumed for 13.6.9, and 10.39.6 is a target here (10.2).
@@ -158,9 +172,11 @@ Ceti nor a consumed roadmap provides:
 
 | Result | Target |
 |---|---|
+| `(a, b, z) ↦ 𝐌(a, b, z)` is holomorphic on `ℂ × ℂ × ℂ`: each term `(a)ₙ zⁿ/(n! Γ(b + n))` is jointly entire, and the series converges locally uniformly in `(a, b, z)` (the route SpecialFunctionsParabolicCylinder §1.5 names for separate holomorphy) | 1.1 |
 | The bracket `F(a, b, z) = 𝐌(a, b, z)/Γ(a − b + 1) − z^{1−b} 𝐌(a − b + 1, 2 − b, z)/Γ(a)` vanishes at integer `b`, so that `π F / sin(πb)` has removable singularities there with value `(−1)ⁿ ∂_b F` | 1.1 |
 | Uniqueness for Kummer's equation on the slit plane given value and derivative at one point | 1.2 |
 | Agreement with QuantumFoundations §9.4: for `Re a > 0` and `Re z > 0`, `kummerU a b z` is the integral 13.4.4 (`kummerU_eq_integral`), which defines §9.4's `U(a, b, z)` there; hence `kummerULog a b w` is §9.4's `U(a, b, e^w)` for all `a`, `b`, `w`, by the identity theorem in `w` and then in `a` | 4.1 |
+| Agreement with AutomorphicSpectralTheory §0.26: for `y > 0`, `whittakerM κ μ y` is its `M_{κ,μ}(y)`, the same series term for term; for `Re(½ + μ − κ) > 0` and `Re z > 0`, `whittakerW κ μ z` is the integral 13.16.5 (`whittakerW_eq_integral`), which defines its `W_{κ,μ}(y)` at `z = y > 0`; hence the two `W` agree at every parameter to which §0.26 continues its `W`, by the identity theorem in `(κ, μ)` | 4.4 |
 | The loop contours of §13.4(ii) as explicit concatenations of segments, rays and circles, with the branch of each power fixed on each piece, and the deformation lemma that moves them | 4.2 |
 | Continuity of zeros in the parameters: for real solutions `w(λ, x)` jointly `C¹` in `(λ, x)`, with simple zeros, the number of zeros in `(0, X)` is locally constant in `λ` as long as no zero reaches `0` or `X`; and the counting form used for 13.9.1–13.9.7, in which the number of zeros in `(0, ∞)` changes only through a zero leaving at `0` or arriving from `∞` | 7.1 |
 | For `b > 0` and `n ≥ 1`, `M(−n, b, ·)` (and `U(−n, b, ·) = (−1)ⁿ (b)ₙ M(−n, b, ·)`) has exactly `n` positive zeros, all simple: by 13.6.19 it is a nonzero multiple of `L_n^{(b−1)}`, which is orthogonal to every polynomial of lower degree for the weight `x^{b−1} e^{−x}` on `(0, ∞)` (LaguerreJacobi B3), so it changes sign at `n` points of `(0, ∞)` | 7.1 |
@@ -173,6 +189,9 @@ Ceti nor a consumed roadmap provides:
 - The regularized Kummer function `𝐌` and the facts listed above as inputs.
 - Tricomi's `U` as QuantumFoundations §9.4 constructs it, with the results of §9.4 listed above
   as inputs. This roadmap's `kummerULog` is identified with it in 4.1.
+- The Whittaker functions on the positive axis as AutomorphicSpectralTheory §§0.26–0.28 construct
+  them, with the results of §§0.26–0.28 listed above as inputs. This roadmap's `whittakerM` and
+  `whittakerW` are identified with them in 4.4.
 - The Laguerre polynomials `L_n^{(α)}` and their orthogonality, consumed from LaguerreJacobi, and
   13.6.19, consumed from QuantumFoundations §9.4.
 - Sturm comparison, consumed from SpecialFunctionsBessel.
@@ -185,8 +204,9 @@ Ceti nor a consumed roadmap provides:
   consumed from SpecialFunctionsBessel.
 - The formulas through the Gauss function `₂F₁` at arguments outside its disk of convergence
   (DLMF 13.4.8, 13.4.12, 13.4.15, 13.10.3, 13.10.7, 13.16.9, 13.23.4), through the Charlier
-  polynomials (13.6.20), through the Coulomb functions (§13.6(vii), §13.18(vi)), and the
-  non-terminating meaning of `₂F₀` in 13.6.21.
+  polynomials (13.6.20), and the non-terminating meaning of `₂F₀` in 13.6.21.
+- The Coulomb functions and their relations to `M` and `U` (§13.6(vii), §13.18(vi), which consist
+  of pointers to DLMF 33.2.3–33.2.8 and 33.14.4–33.14.7), owned by QuantumFoundations §9.5.
 - The large-parameter and uniform expansions (DLMF 13.8.2–13.8.18, §13.20 beyond 13.20.1, §13.21)
   and what rests on them (13.9.8, 13.9.10, 13.9.16, 13.22.1).
 - The error bounds and exponentially improved expansions (DLMF 13.7.4–13.7.13), the asymptotics of
@@ -198,17 +218,25 @@ See the last section for these.
 **Ownership of `U`.** QuantumFoundations §9.4 owns Tricomi's `U` and the results listed above as
 inputs. This roadmap owns the bracket form 13.2.42 of `U`, its agreement with §9.4's `U` (4.1),
 and the rest of DLMF Chapter 13 stated through `U`, among them 13.2.41 on the rest of `z ≠ 0` and
-the expansion 13.7.3 to every order. The Whittaker models of the automorphic roadmaps are the
-representation-theoretic notion, not the functions of §13.14. The roadmaps of DLMF Chapters 2,
+the expansion 13.7.3 to every order.
+
+**Ownership of the Whittaker functions.** AutomorphicSpectralTheory §§0.26–0.28 own `M_{κ,μ}(y)`
+and `W_{κ,μ}(y)` for `y > 0` and the results listed above as inputs. This roadmap owns their
+extension to the slit plane and the logarithmic plane, their agreement with
+AutomorphicSpectralTheory (4.4), and the rest of DLMF §§13.14–13.26.
+
+The roadmaps of DLMF Chapters 2,
 6–10 and 12 leave the formulas listed in Layer 10 to this roadmap, and this roadmap consumes their
 functions without restating them.
 
 **The boundary in one sentence:** this roadmap owns the bracket form of `U` and its agreement with
-the `U` of QuantumFoundations, `M_{κ,μ}`, `W_{κ,μ}` and everything in DLMF Chapter 13 stated through
+the `U` of QuantumFoundations, `M_{κ,μ}` and `W_{κ,μ}` off the positive axis and their agreement
+with those of AutomorphicSpectralTheory, and everything in DLMF Chapter 13 stated through
 them, `𝐌` and functions that Mathlib, Tau Ceti or a consumed roadmap defines, on the principal
 sheet and on the logarithmic plane, together with the formulas that the roadmaps of Chapters 6–10
 and 12 leave to it; it consumes the general methods of AsymptoticExpansions, the basic `𝐌` theory
-of SpecialFunctionsParabolicCylinder and the basic `U` theory of QuantumFoundations, and excludes
+of SpecialFunctionsParabolicCylinder, the basic `U` theory of QuantumFoundations and the
+positive-axis Whittaker theory of AutomorphicSpectralTheory, and excludes
 the large-parameter and uniform asymptotics, the Gauss function off its disk, the Charlier and
 Coulomb functions, error bounds, transforms and numerics.
 
@@ -348,6 +376,20 @@ The following are consumed with the hypotheses and conventions stated there.
   `U` no Lean name, so the agreement is stated through 13.4.4, its defining formula.
 - The Laguerre comparison 13.6.19 for `α + 1 ∉ {0, −1, …}`, for 5.3 and 7.1.
 
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+
+- `M_{μ,ν}(y)` and `W_{μ,ν}(y)` for `y > 0`, in its notation `(μ, ν)` for DLMF's `(κ, μ)`
+  ([its §0.26](../AutomorphicSpectralTheory/README.md#026-whittaker-m-and-w-functions)): `M` by
+  the series 13.14.2 and its Euler integral 13.16.1, `W` defined by the Euler integral 13.16.5 for
+  `Re(½ + μ − κ) > 0` and continued, Whittaker's equation 13.14.1 and the symmetry 13.14.31; the
+  Bessel comparisons 13.18.8–13.18.9
+  ([its §0.27](../AutomorphicSpectralTheory/README.md#027-whittakerbessel-comparison)); and the
+  leading behaviour 13.14.14 at `0` and 13.14.20–13.14.21 at `∞`
+  ([its §0.28](../AutomorphicSpectralTheory/README.md#028-whittaker-differential-and-asymptotic-api)),
+  for 4.4 (the agreement) and, through it, the positive-axis cases of 1.5, 2.4, 5.3 and 6.1–6.2.
+  §0.26 gives the functions no Lean name, so the agreement for `W` is stated through 13.16.5, its
+  defining formula.
+
 ### From [LaguerreJacobi](../LaguerreJacobi/README.md)
 
 - `Polynomial.laguerre` (A1) and the orthogonality
@@ -427,12 +469,13 @@ The following are consumed with the hypotheses and conventions stated there.
 
 ## How to read the build
 
-Layer 1 rests on two facts: `𝐌` is entire in all three variables (consumed), and the bracket `F`
-vanishes at integer `b` by 13.2.5, so that `U` is entire in `a`, `b` and in the logarithmic
+Layer 1 rests on two facts: `𝐌` is entire in all three variables jointly (1.1), and the bracket
+`F` vanishes at integer `b` by 13.2.5, so that `U` is entire in `a`, `b` and in the logarithmic
 coordinate `w`. Kummer's equation for `U` follows from that of `𝐌` and of
 `z^{1−b} 𝐌(a − b + 1, 2 − b, z)`, which is the change of variables 13.2.40 applied to 13.2.1, and
 from continuity in `b` at the integers. 4.1 identifies this `U` with that of QuantumFoundations §9.4
-through 13.4.4, so that §9.4's results hold for it. Every identity between solutions in Layers 1–5
+through 13.4.4, so that §9.4's results hold for it, and 4.4 identifies the Whittaker functions with
+those of AutomorphicSpectralTheory through 13.16.5. Every identity between solutions in Layers 1–5
 is then checked on series coefficients at `0`, by comparing Wronskians, or for non-integer `b` and
 extended to integer `b` by continuity in `b`. Layer 4 proves each integral representation by showing
 that the integral solves Kummer's equation with the right behaviour at `0` or `∞`, or by termwise
@@ -448,6 +491,12 @@ test the conventions on explicit values.
 ### 1.1 Kummer's `U`
 
 `kummerULog` and `kummerU` as pinned. The targets:
+- `(a, b, z) ↦ 𝐌(a, b, z)` is holomorphic on `ℂ × ℂ × ℂ` (`differentiable_regularizedHGFun_prod`):
+  each term `(a)ₙ zⁿ/(n! Γ(b + n))` of the series is jointly entire, by Mathlib's
+  `Complex.differentiable_one_div_Gamma`, and the series converges locally uniformly in
+  `(a, b, z)`;
+- DLMF 13.2.5: `𝐌(a, −n, z) = ((a)_{n+1}/(n + 1)!) z^{n+1} M(a + n + 1, n + 2, z)` for every `a`
+  (`regularizedHGFun_neg_nat`); the limit form on the left is the continuity of `𝐌` in `b`;
 - the bracket `F(a, b, w)` (`kummerUBracket`) vanishes at `b = n ∈ ℤ` for all `a`, `w`
   (`kummerUBracket_intCast`): for `n ≥ 2` by 13.2.5 for
   `𝐌(a − n + 1, 2 − n, ·)`, with `e^{(1−n)w} e^{(n−1)w} = 1`; for `n ≤ 0` by 13.2.5 for
@@ -463,17 +512,28 @@ test the conventions on explicit values.
 
 The proof of the equation for non-integer `b` is the equation for the two terms of `F`; at integer
 `b` it follows by continuity in `b`, since the `z`-derivatives of a function holomorphic in
-`(b, z)` are continuous in `b`. The agreement with the `U` of QuantumFoundations §9.4 is in 4.1.
+`(b, z)` are continuous in `b`; the joint holomorphy of `𝐌` above is what makes `F` holomorphic in
+`(b, z)`. The agreement with the `U` of QuantumFoundations §9.4 is in 4.1.
 
-**Checks.**
+**Checks of the bracket.**
+- `F(a, 1, w) = 𝐌(a, 1, e^w)/Γ(a) − 𝐌(a, 1, e^w)/Γ(a) = 0`.
+- `F(a, 3, w) = 0`: by 13.2.5 at `n = 1`, `𝐌(a − 2, −1, z) = (a − 2)(a − 1) z² 𝐌(a, 3, z)`, and
+  `(a − 2)(a − 1)/Γ(a) = 1/Γ(a − 2)`.
+- `(π/sin πb) F(0, b, w) = 1` for `b ∉ ℤ`, which is `U(0, b, z) = 1` (13.6.3): the second term of
+  `F` has the factor `1/Γ(0) = 0`, and `𝐌(0, b, z) = 1/Γ(b)`. At `b = 0.37`, `w = 0.4 + 1.1i` and
+  at `b = 1.6 − 0.3i`, `w = −0.7 + 3i` the value is `1.00000 00000`. Swapping the factors
+  `1/Γ(a − b + 1)` and `1/Γ(a)` breaks it.
+
+**Checks of `U`.**
 - `U(1, 1, 1) = e E₁(1) = 0.59634 73623…` (13.6.6 at `a = 1`).
 - `U(½, ½, 1) = √π e erfc(1) = 0.75787 21561…` (13.6.8).
 - `U(0.3, 2, 1.7) = 0.94985 30204…`, `U(1.2, 0, 0.8) = 0.35740 93372…` and
   `U(0.7, −1, 2.5) = 0.33229 69198…` from the derivative form; without the factor `(−1)ⁿ` the
   values at `b = −1` would have the opposite sign, which is not the limit of 13.2.42.
 
-*Needs:* SpecialFunctionsParabolicCylinder §§1.3, 1.5; Mathlib `Complex.Gamma_neg_nat_eq_zero`
-and `Complex.differentiableOn_update_limUnder_of_bddAbove`.
+*Needs:* SpecialFunctionsParabolicCylinder §§1.3, 1.5; Mathlib `Complex.Gamma_neg_nat_eq_zero`,
+`Complex.differentiable_one_div_Gamma`, `Complex.regularizedHGFunCoeff_eq_zero_right` and
+`Complex.differentiableOn_update_limUnder_of_bddAbove`.
 
 ### 1.2 The solution space
 
@@ -486,9 +546,7 @@ Wronskians 13.2.33–13.2.34 (2.2) do not vanish.
 
 ### 1.3 Special cases
 
-DLMF 13.2.5 and 13.2.7–13.2.8, with DLMF's hypotheses:
-- 13.2.5: `𝐌(a, −n, z) = ((a)_{n+1}/(n + 1)!) z^{n+1} M(a + n + 1, n + 2, z)` for every `a`
-  (`regularizedHGFun_neg_nat`); the limit form on the left is the continuity of `𝐌` in `b`;
+DLMF 13.2.7–13.2.8, with DLMF's hypotheses (13.2.5 is in 1.1):
 - 13.2.7: `U(−m, b, z) = (−1)^m (b)_m M(−m, b, z) = (−1)^m ∑_{s≤m} C(m, s) (b + s)_{m−s} (−z)^s`,
   the middle form for `b ∉ {0, −1, …}` and the sum for every `b` (`kummerU_neg_nat`);
 - 13.2.8 for `a − b + 1 = −n`: the sum `z^{−a} ∑_{s≤n} C(n, s) (a)_s z^{−s}` for every `a`, and
@@ -498,7 +556,7 @@ The integer-`b` forms 13.2.9–13.2.11 (the logarithmic series for `b = n + 1`, 
 `a = −m`, and `U(a, −n, z) = z^{n+1} U(a + n + 1, n + 2, z)`) are inputs from QuantumFoundations
 §9.4, through 4.1.
 
-*Needs:* 1.1; Mathlib `Complex.regularizedHGFunCoeff_eq_zero_right`.
+*Needs:* 1.1.
 
 ### 1.4 Analytic continuation
 
@@ -549,17 +607,18 @@ DLMF 13.14.1–13.14.13:
   `M_{0,1/2}(z e^{πi}) = i e^{πi/2} M_{0,1/2}(z) = −M_{0,1/2}(z)`, consistent with
   `M_{0,1/2}(2z) = 2 sinh z` (13.18.1) and `sinh(−z) = −sinh z`.
 
-*Needs:* 1.1–1.4; SpecialFunctionsParabolicCylinder §1.4.
+*Needs:* 1.1–1.4; SpecialFunctionsParabolicCylinder §1.4; AutomorphicSpectralTheory §0.26 (13.14.1
+at `y > 0`).
 
 ### Examples
 
 - `U(a, a + 1, z) = z^{−a}` is 13.2.8 at `n = 0` (13.6.4).
 - 13.2.11 at `n = 0`: `U(a, 0, z) = z U(a + 1, 2, z)`.
-- `F(a, 1, w) = 0`: `𝐌(a, 1, e^w)/Γ(a) − 𝐌(a, 1, e^w)/Γ(a)`.
 
 ### Dependencies
 
-SpecialFunctionsParabolicCylinder Layer 1; AsymptoticExpansions §10.2.
+SpecialFunctionsParabolicCylinder Layer 1; AsymptoticExpansions §10.2;
+AutomorphicSpectralTheory §0.26.
 
 ## Layer 2: limiting forms at `0`, Wronskians and connection formulas
 
@@ -626,7 +685,7 @@ DLMF 13.14.14–13.14.19 and 13.14.22–13.14.35, translated from 2.1–2.3 by 1
 - the symmetry `W_{κ,μ} = W_{κ,−μ}` (13.14.31; `whittakerW_neg`) and the connection formulas
   13.14.32–13.14.35 (13.14.33 for `2μ ∉ ℤ`: `whittakerW_eq_whittakerM_add`).
 
-*Needs:* 1.5, 2.1–2.3.
+*Needs:* 1.5, 2.1–2.3; AutomorphicSpectralTheory §§0.26, 0.28 (13.14.14 and 13.14.31 at `y > 0`).
 
 ### Examples
 
@@ -637,7 +696,7 @@ DLMF 13.14.14–13.14.19 and 13.14.22–13.14.35, translated from 2.1–2.3 by 1
 
 ### Dependencies
 
-Layer 1, 4.1; QuantumFoundations §9.4.
+Layer 1, 4.1; QuantumFoundations §9.4; AutomorphicSpectralTheory §§0.26, 0.28.
 
 ## Layer 3: recurrences and derivatives
 
@@ -748,9 +807,30 @@ DLMF 13.16.1–13.16.8 and 13.16.10–13.16.12 with DLMF's hypotheses: the real-
 13.16.1–13.16.8, including the Bessel kernels `J_{2μ}`, `I_{2μ}`, `K_{2μ}` of 13.16.3–13.16.4 and
 13.16.8 and the Stieltjes forms 13.16.6–13.16.7, and the Mellin–Barnes integrals
 13.16.10–13.16.12, 13.16.11 for `|ph z| < 3π/2` in logarithmic coordinates. They follow from 4.1
-and 4.3 by 13.14.2–13.14.3.
+and 4.3 by 13.14.2–13.14.3. Their cases at `z = y > 0` that AutomorphicSpectralTheory §0.26
+proves are inputs.
 
-*Needs:* 1.5, 4.1–4.3.
+The agreement with AutomorphicSpectralTheory (auxiliary): for `Re(½ + μ − κ) > 0` and `Re z > 0`,
+
+```text
+W_{κ,μ}(z) = e^{−z/2} z^{½+μ} Γ(½ + μ − κ)⁻¹ ∫₀^∞ e^{−zt} t^{μ−κ−½} (1 + t)^{μ+κ−½} dt   (13.16.5)
+```
+
+(`whittakerW_eq_integral`), which is 13.4.4 (`kummerU_eq_integral`) at `a = ½ + μ − κ`,
+`b = 1 + 2μ`. At `z = y > 0`, after `t ↦ t − 1`, the right side is the integral by which
+§0.26 defines its `W_{κ,μ}(y)`, so `whittakerW κ μ y` is §0.26's `W_{κ,μ}(y)` there, and at every
+parameter to which §0.26 continues it, by the identity theorem in `(κ, μ)`. §0.26's `M_{κ,μ}(y)`
+is `whittakerM κ μ y` term for term.
+
+**Checks.**
+- 13.16.5 at `κ = 0`, `μ = ½`: `W_{0,1/2}(z) = e^{−z/2} z Γ(1)⁻¹ ∫₀^∞ e^{−zt} dt = e^{−z/2}`, and
+  §0.26's Check `W_{0,1/2}(y) = e^{−y/2}`.
+- At `κ = 0`, `μ = ½`, `z = 2`: `W_{0,1/2}(2) = e^{−1} = 0.36787 94412…`, the Check of 1.5.
+- AutomorphicSpectralTheory's `M_{μ,ν}` with `(μ, ν) = (0, ½)` is `M_{0,1/2}(y) = 2 sinh(y/2)`,
+  which is 13.18.1 for `whittakerM 0 (1/2)`; reading its `(μ, ν)` as DLMF's `(μ, κ)` instead gives
+  `M_{1/2,0}`, which is not `2 sinh(y/2)`.
+
+*Needs:* 1.5, 4.1–4.3; AutomorphicSpectralTheory §0.26.
 
 ### Examples
 
@@ -762,7 +842,8 @@ and 4.3 by 13.14.2–13.14.3.
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsBessel; AsymptoticExpansions Layers 4 and 8; QuantumFoundations §9.4.
+Layers 1–3; SpecialFunctionsBessel; AsymptoticExpansions Layers 4 and 8; QuantumFoundations §9.4;
+AutomorphicSpectralTheory §0.26.
 
 ## Layer 5: continued fractions and relations to other functions
 
@@ -805,13 +886,25 @@ DLMF 13.6.1–13.6.18 with 13.6.11_1–13.6.11_2, and 13.6.21 in the terminating
   extensions as in 9.1
   (so `ν = 0`, respectively `ν = n`, is covered), and Airy's
   function 13.6.11 for `z ≠ 0`, `|ph z| < 2π/3` (`kummerU_airyAi`);
-- Weber's function 13.6.12–13.6.15 for `Re z > 0` (`kummerU_parabolicCylinderU`);
-- Hermite polynomials 13.6.16–13.6.18, with `H_n(x) = 2^{n/2} He_n(√2 x)`;
+- Weber's function: 13.6.12–13.6.13 for `Re z > 0` (`kummerU_parabolicCylinderU`), and
+  13.6.14 for every `z` and 13.6.15 for `z ≠ 0`, whose two sides are entire in `z`, respectively
+  holomorphic on `z ≠ 0`;
+- Hermite polynomials, with `H_n(x) = 2^{n/2} He_n(√2 x)`: 13.6.16 for every `z` and 13.6.17 for
+  `z ≠ 0`; 13.6.18 for `z ≠ 0` when `n` is odd, where both sides are polynomials in `z²` (13.2.7),
+  and for `z ≠ 0` with `−π/2 < ph z ≤ π/2` when `n` is even. The principal `U(½ − ½n, 3/2, z²)` is
+  even in `z`, while `z^{−1} H_n(z)` is odd for even `n`;
 - 13.6.21 when `a` or `a − b + 1` is a nonpositive integer, with `₂F₀` the finite sum
   `∑_k (a)_k (a − b + 1)_k (−z)^{−k}/k!`.
 
 DLMF notes that its source tables contain errors in the equations corresponding to 13.6.7 and
 13.6.8; the forms here are DLMF's.
+
+**Checks.**
+- 13.6.18 at `n = 2`, `z = 1`: both sides equal `½`. At `z = −1` the left side is
+  `U(−½, 3/2, 1) = ½` and the right side `2^{−2} z^{−1} H₂(z) = −½`, so 13.6.18 fails for even `n`
+  and `Re z < 0`.
+- 13.6.18 at `n = 3`, `z = −1`: both sides equal `−½`.
+- 13.6.14 at `a = 0.7`, `z = −1.1 + 0.3i`: both sides equal `1.79461 52197… − 0.70269 20297… i`.
 
 *Needs:* Layers 1–4; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsBessel;
 SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder.
@@ -822,7 +915,9 @@ DLMF 13.18.1–13.18.17: elementary functions 13.18.1–13.18.3, incomplete Gamm
 13.18.4–13.18.7, modified Bessel and Airy functions 13.18.8–13.18.10
 (`whittakerW_zero_eq_besselK` for 13.18.9), Weber's function 13.18.11–13.18.13, Hermite
 polynomials 13.18.14–13.18.16 and Laguerre polynomials 13.18.17, with the domains of 5.2
-transported by 13.14.2–13.14.3; 13.18.17 is for `z ∈ slitPlane` and `α + 1 ∉ {0, −1, …}`, with
+transported by 13.14.2–13.14.3. 13.18.11–13.18.16 compare the principal `√z` with a principal
+power of `z²`, which agree exactly when `−π/2 < ph z ≤ π/2`, so they are stated for `z ≠ 0` in
+that range. 13.18.17 is for `z ∈ slitPlane` and `α + 1 ∉ {0, −1, …}`, with
 LaguerreJacobi's `Polynomial.laguerre`. 13.18.4 and 13.18.6 come from the inputs 13.6.5 and 13.6.7
 by 13.14.2, 13.18.5 and 13.18.7 from 13.6.6 and 13.6.8 by 13.14.3, and 13.18.17 from 13.2.7 and
 the input 13.6.19; they are targets here because the Whittaker functions are.
@@ -830,8 +925,12 @@ the input 13.6.19; they are targets here because the Whittaker functions are.
 **Checks.**
 - 13.18.17 at `α = 0.4`, `n = 2`, `z = 0.7 + 0.2i`: all three members equal
   `0.28910 98319… − 0.35794 75478… i`.
+- 13.18.16 at `n = 2`, `z = 0.8 + 0.3i`: both sides equal `0.05545 57467… + 0.33426 30921… i`. At
+  `z = −0.8 + 0.3i` the left side is `0.05545 57467… − 0.33426 30921… i` and the right side
+  `0.33426 30921… + 0.05545 57467… i`.
 
-*Needs:* 1.5, 5.2; QuantumFoundations §9.4; LaguerreJacobi A1.
+*Needs:* 1.5, 5.2; QuantumFoundations §9.4; LaguerreJacobi A1; AutomorphicSpectralTheory §0.27
+(13.18.8–13.18.9 at `y > 0`).
 
 ### Examples
 
@@ -842,7 +941,8 @@ the input 13.6.19; they are targets here because the Whittaker functions are.
 ### Dependencies
 
 Layers 1–4, 6; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsBessel;
-SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder; QuantumFoundations §9.4; LaguerreJacobi.
+SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder; QuantumFoundations §9.4; LaguerreJacobi;
+AutomorphicSpectralTheory §0.27.
 
 ## Layer 6: large argument
 
@@ -864,7 +964,8 @@ and the second solution dominates on the positive axis. 13.14.21 and 13.19.3 fol
 The proof: Watson's lemma applied to 13.4.4 for `Re a > 0` in `|ph z| ≤ π/2 − δ`, rotation of the
 ray through `|ph t| < π`, and 13.3.7 (the recurrence lowering `a`) for the remaining `a`.
 
-*Needs:* 4.1, 3.1, 2.2; AsymptoticExpansions §§4.2–4.3, §10.4; QuantumFoundations §9.4.
+*Needs:* 4.1, 3.1, 2.2; AsymptoticExpansions §§4.2–4.3, §10.4; QuantumFoundations §9.4;
+AutomorphicSpectralTheory §0.28 (13.14.21 at `y > 0`).
 
 ### 6.2 `M` and `M_{κ,μ}`
 
@@ -873,7 +974,7 @@ for `a ∉ {0, −1, …}`; 13.7.2 in logarithmic coordinates for `−π/2 + δ 
 two-sum expansion, unless `a` and `b − a` are both nonpositive integers; 13.2.23 and 13.14.20 for
 `|ph z| ≤ π/2 − δ`. 13.7.2 is 13.2.41 with 6.1 applied to both terms.
 
-*Needs:* 2.3, 6.1.
+*Needs:* 2.3, 6.1; AutomorphicSpectralTheory §0.28 (13.14.20 at `y > 0`).
 
 ### 6.3 Large `b` and large `μ`
 
@@ -895,7 +996,8 @@ Both are tail estimates of the series: under `|b + n| ≥ δ` for all `n`, the t
 
 ### Dependencies
 
-Layers 1–4; AsymptoticExpansions Layers 1, 4 and 10; QuantumFoundations §9.4.
+Layers 1–4; AsymptoticExpansions Layers 1, 4 and 10; QuantumFoundations §9.4;
+AutomorphicSpectralTheory §0.28.
 
 ## Layer 7: zeros
 
@@ -925,10 +1027,11 @@ to `0`. 13.9.4–13.9.6 have `b < 0` and are stated for `b ∉ ℤ`.
 
 DLMF (Release 1.2.8) prints 13.9.3 and 13.9.4 for `a ≥ 0` and 13.9.6 for every `a` with
 `⌈−b⌉ > ⌈−a⌉ > 0`. Each fails on part of that region, so the targets are:
-- 13.9.3 and 13.9.4 for `a > 0`. At `a = 0`, `M(0, b, x) = 1` has no zeros, while 13.9.3 at
-  `b = −1/2` and 13.9.4 at `b = −5/2` give `1`;
-- 13.9.6 for `a ∉ {−1, −2, …}`. At `a = −1`, `b = −3/2` it gives `1`, but
-  `M(−1, −3/2, x) = 1 + 2x/3` has no positive zero;
+- 13.9.3 and 13.9.4 for `a > 0` (`ncard_pos_zeros_regularizedHGFun_of_pos_of_neg` for 13.9.3,
+  `ncard_pos_zeros_regularizedHGFun_of_pos_of_lt_neg_one` for 13.9.4). At `a = 0`,
+  `M(0, b, x) = 1` has no zeros, while 13.9.3 at `b = −1/2` and 13.9.4 at `b = −5/2` give `1`;
+- 13.9.6 for `a ∉ {−1, −2, …}` (`ncard_pos_zeros_regularizedHGFun_of_ceil_lt`). At `a = −1`,
+  `b = −3/2` it gives `1`, but `M(−1, −3/2, x) = 1 + 2x/3` has no positive zero;
 - 13.9.7 with the same exclusions on the pair `(b − a, b)`. At `a = b = −1/2` and at `a = −1/2`,
   `b = −3/2` the printed value is `1`, and there are no negative zeros.
 
@@ -940,6 +1043,9 @@ polynomial cases are auxiliary targets of this layer (see the table of auxiliary
 **Checks.**
 - `M(−0.5, 0.01, ·)` has one positive zero, at `x = 0.01990 14758…`, and `𝐌(−0.5, 0, ·)` has
   none.
+- Sign changes of `𝐌(a, b, ·)` on `(0, 60]`: one at `(a, b) = (0.5, −0.5)` and none at `(0, −0.5)`
+  (13.9.3 corrected and printed); one at `(−1.5, −2.5)` and none at `(−1.5, −3.5)` and
+  `(−2, −4.5)` (13.9.6 corrected; the printed form gives `1` at `(−2, −4.5)`).
 - On the grid `a ∈ {−5.5, −5.25, …, 3}`, `b < 0` non-integer with `b ≥ −5.5`, the corrected counts
   13.9.3–13.9.6 agree with a sign-change count of `M(a, b, ·)` on `(0, 80]`; the printed ones
   fail only at `a = 0` (13.9.3, 13.9.4) and at negative integer `a` (13.9.6).
@@ -1040,8 +1146,15 @@ DLMF 13.11.1–13.11.4:
   side `2.83359 66305… − 3.38992 70140… i`;
 - the coefficients `A_n` of 13.11.4: `A₀ = 1`, `A₁ = 0`, `A₂ = b/2`, and
   `(n + 1) A_{n+1} = (n + b − 1) A_{n−1} + (2a − b) A_{n−2}` for `n ≥ 2` (`buchholzCoeff`).
-  Checks: `A₃ = (2a − b)/3` and `A₄ = b(b + 2)/8`; at `a = 0.3 + 0.1i`, `b = 1.7` these are
+
+**Checks of `A_n`.**
+- `A₃ = (2a − b)/3` and `A₄ = b(b + 2)/8`; at `a = 0.3 + 0.1i`, `b = 1.7` these are
   `−0.36666 66667… + 0.06666 66667… i` and `0.78625`.
+- At `b = 2a`, `𝐅(b + s)(0) = 1/Γ(2a + s)`, so 13.11.3 reads
+  `𝐌(a, 2a, z) = e^{z/2} ∑_s A_s (z/2)^s/Γ(2a + s)`; at `a = 0.65 + 0.2i`, `z = 1.3 − 0.4i`
+  both sides equal `2.44794 44299… − 0.52494 27441… i`.
+- With the coefficients of `A_{n−1}` and `A_{n−2}` swapped in the recursion, `A₃ = (b + 1)/3`,
+  which is not `0` at `b = 2a`.
 
 *Needs:* Layers 1–3; SpecialFunctionsBessel.
 
@@ -1063,12 +1176,37 @@ the slit plane for the `U` expansions. The multiplication theorems of §13.13(ii
 
 ### 9.4 Whittaker functions
 
-DLMF 13.24.1–13.24.3, 13.25.1 and 13.26.1–13.26.12. In 13.24.1 the product
-`Γ(κ + μ)(2κ + 2μ)_s (κ + μ + s)` is read as its holomorphic extension, as in 9.1, so that
-`κ + μ = 0` is covered. The polynomials `p_s^{(μ)}(z)` of 13.24.2
-are `(−z)^s` times the `s`-th Taylor coefficient at `t = 0` of the function 13.24.3, holomorphic
-near `0` after filling its removable singularity. DLMF notes errors in its sources for 13.26.3 and
-13.26.6; the forms here are DLMF's.
+DLMF 13.24.1–13.24.3, 13.25.1 and 13.26.1–13.26.12, with these hypotheses:
+- 13.24.1 for `z ∈ slitPlane` with the principal `z^{½−κ}`, and `2μ, κ + μ ∉ {−1, −2, …}`. The
+  product `Γ(κ + μ)(2κ + 2μ)_s (κ + μ + s)` is read as its holomorphic extension, as in 9.1, so
+  that `κ + μ = 0` is covered.
+- 13.24.2 for `z ∈ slitPlane`, with `(2√(κz))^{−2μ−s} J_{2μ+s}(2√(κz))` read as the entire
+  function `2^{−2μ−s} 𝐅(2μ + s + 1)(−κz)` of `κz`, and with `𝐌_{κ,μ}` for `M_{κ,μ}/Γ(1 + 2μ)` on
+  the left, so that every `μ` is covered. The polynomials `p_s^{(μ)}(z)` are `(−z)^s` times the
+  `s`-th Taylor coefficient at `t = 0` of the function 13.24.3, holomorphic near `0` after filling
+  its removable singularity.
+- 13.25.1 for `z ∈ slitPlane` and `2μ ∉ ℤ`, so that the four Whittaker `M` are defined and the
+  denominator `4μ(1 + μ)(1 + 2μ)²` is nonzero.
+- 13.26.1–13.26.12 for real `x > 0` and `y` with `x + y > 0` (DLMF takes `x`, `y` real), and the
+  convergence conditions DLMF attaches: `|y| < |x|` for 13.26.1, 13.26.4, 13.26.7, 13.26.8,
+  13.26.10 and 13.26.11; `Re(y/x) > −½` for 13.26.3, 13.26.9 and 13.26.12;
+  `Re((x + y)/x) > ½` for 13.26.6; none for 13.26.2 and 13.26.5. The expansions of `M_{κ,μ}` also
+  need every `M` in them defined: `2μ ∉ ℤ` for 13.26.1 and 13.26.4, whose terms contain
+  `M_{·,μ−n/2}`, and `2μ ∉ {−1, −2, …}` for the others. The multiplication theorems of §13.26(iii)
+  are these with `y` replaced by `(y − 1)x` and are not separate targets.
+
+DLMF notes errors in its sources for 13.26.3 and 13.26.6; the forms here are DLMF's.
+
+**Checks of `p_s^{(μ)}`.**
+- `p₀^{(μ)}(z) = 1` and `p₁^{(μ)}(z) = z²/6` for every `μ`, as DLMF states after 13.24.2. Reading
+  the factor `(−t/z)^s` of 13.24.3 as `(t/z)^s` gives `p₁ = −z²/6`.
+- `p₂^{(μ)}(z) = z⁴/72 − (1 − 2μ) z²/6`, the first that depends on `μ`.
+- `p₃^{(μ)}(z) = z⁶/1296 + (μ − 7/10) z⁴/18`.
+
+**Checks.**
+- 13.26.1 at `κ = 0.3`, `μ = 0.35`, `x = 1`, `y = 0.6`: both sides equal `1.25806 69306…`. At
+  `y = 1.5` the terms of the series grow (moduli about `2.9`, `3.0×10³` and `5.0×10⁶` at `n = 20`,
+  `40`, `60`), so the condition `|y| < |x|` cannot be dropped.
 
 *Needs:* 1.5, 9.1–9.3.
 
@@ -1123,32 +1261,33 @@ SpecialFunctionsParabolicCylinder.
 
 - A roadmap for the large-parameter and uniform expansions of DLMF §§13.8, 13.20–13.21 consumes
   Layers 1–6 with the Bessel, Airy and parabolic cylinder roadmaps.
-- Roadmaps for the Gauss function (DLMF Chapter 15), the Charlier polynomials (Chapter 18) and the
-  Coulomb functions (Chapter 33) consume Layers 1–5 for the formulas listed below.
+- The formulas through the Gauss function off its disk of convergence (DLMF 13.4.8, 13.4.12,
+  13.4.15, 13.10.3, 13.10.7, 13.16.9 and 13.23.4) belong to a roadmap that consumes both this
+  roadmap and [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md), as
+  that roadmap also says.
+- A roadmap for the Charlier polynomials (DLMF Chapter 18) consumes Layers 1–5 for 13.6.20.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
-The following material completes DLMF Chapter 13. It is recorded only to fix the boundary.
-Contributors should not attempt it under this roadmap.
-
-**Planned for follow-up roadmaps.**
+The following material completes DLMF Chapter 13 and is outside this roadmap. It is recorded only
+to fix the boundary. Contributors should not attempt it under this roadmap.
 - **Large-parameter and uniform asymptotics**: DLMF 13.8.2–13.8.18, §13.20 beyond 13.20.1 and
   §13.21, and what rests on them: the zeros for large parameters 13.9.8, 13.9.10, 13.9.16 and
   13.22.1. They need Watson's lemma for loop integrals, the uniform approximations through
   parabolic cylinder, Bessel and Airy functions (DLMF §§2.4(v)–(vi) and 2.8(iii)–(vi)) and
   Temme's expansions in Bessel functions, which AsymptoticExpansions excludes.
 - **Formulas through the Gauss function off its disk of convergence**: DLMF 13.4.8, 13.4.12,
-  13.4.15, 13.10.3, 13.10.7, 13.16.9 and 13.23.4. They need `₂F₁` continued to `ℂ \ [1, ∞)` and
-  belong to a roadmap for DLMF Chapter 15.
+  13.4.15, 13.10.3, 13.10.7, 13.16.9 and 13.23.4. They need `₂F₁` continued to `ℂ \ [1, ∞)`,
+  which SpecialFunctionsHypergeometric provides, and belong to a roadmap that consumes both.
 - **Charlier polynomials**: DLMF 13.6.20, which belongs to an orthogonal-polynomial roadmap (DLMF
-  Chapter 18). The Laguerre relation 13.6.19 is not deferred: QuantumFoundations §9.4 owns it,
-  with the polynomials of LaguerreJacobi, and 13.18.17 is a target here (5.3).
-- **Coulomb functions**: DLMF §13.6(vii) and §13.18(vi), which belong to a roadmap for DLMF
-  Chapter 33.
+  Chapter 18). The Laguerre relation 13.6.19 is an input from QuantumFoundations §9.4, with the
+  polynomials of LaguerreJacobi, and 13.18.17 is a target here (5.3).
+- **Coulomb functions**: DLMF §13.6(vii) and §13.18(vi) contain no formulas, only pointers to
+  DLMF 33.2.3–33.2.8 and 33.14.4–33.14.7.
+  [QuantumFoundations §9.5](../QuantumFoundations/README.md#95-coulomb-wave-functions-and-the-hydrogen-atom)
+  defines `F_ℓ` and `H_ℓ^±` through `M` and `U` (DLMF 33.2.4 and 33.2.7) and owns these relations.
 - **The generalized hypergeometric `₂F₀`** in 13.6.21 when neither `a` nor `a − b + 1` is a
   nonpositive integer (DLMF §16.5), which belongs to a roadmap for DLMF Chapter 16.
-
-**Deferred, with no planned roadmap.**
 - **Error bounds and exponentially improved expansions**: DLMF 13.7.4–13.7.13 and their Whittaker
   analogues mentioned in §13.19. The error bounds use the regions of DLMF Figure 13.7.1 from Olver
   (1991b), and the exponentially improved expansions rest on the remainder theory of DLMF §2.11.

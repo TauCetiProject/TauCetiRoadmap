@@ -22,6 +22,9 @@ cylinder relations are stated with roadmap-local copies of the pinned `Ai` of Sp
 QuantumFoundations §9.4 owns Tricomi's `U` but gives it no Lean name; `kummerU_eq_integral` states
 the agreement of `kummerU` with it through 13.4.4, its defining formula, and the results of §9.4
 (13.2.9–13.2.11, 13.2.34, 13.3.7 and `U ∼ z^{−a}` of 13.2.6) are inputs, not restated here.
+Likewise AutomorphicSpectralTheory §§0.26–0.28 own the Whittaker functions on the positive axis
+without Lean names; `whittakerW_eq_integral` states the agreement through 13.16.5, the formula by
+which §0.26 defines `W`.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 they live in `Complex`, beside Mathlib's `Complex.regularizedHGFun`; here they live in this file's
@@ -141,6 +144,14 @@ open Complex
 
 /-! ### Layer 1: definitions, the equations and analytic continuation -/
 
+/-- **1.1** `𝐌(a, b, z)` is holomorphic in `(a, b, z)` jointly. -/
+theorem differentiable_regularizedHGFun_prod :
+    Differentiable ℂ fun p : ℂ × ℂ × ℂ => 𝐌(p.1, p.2.1) p.2.2 := sorry
+
+/-- **1.1** `𝐌` at a nonpositive integer denominator parameter (DLMF 13.2.5). -/
+theorem regularizedHGFun_neg_nat (a : ℂ) (n : ℕ) (z : ℂ) :
+    𝐌(a, -(n : ℂ)) z = poch(a, n + 1) * z ^ (n + 1) * 𝐌(a + n + 1, (n : ℂ) + 2) z := sorry
+
 /-- **1.1** The bracket of DLMF 13.2.42 vanishes at integer `b`. -/
 theorem kummerUBracket_intCast (a w : ℂ) (n : ℤ) : kummerUBracket a n w = 0 := sorry
 
@@ -160,10 +171,6 @@ theorem analyticOnNhd_kummerU (a b : ℂ) : AnalyticOnNhd ℂ (kummerU a b) slit
 theorem kummerU_kummer_equation (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     z * deriv (deriv (kummerU a b)) z + (b - z) * deriv (kummerU a b) z - a * kummerU a b z =
       0 := sorry
-
-/-- **1.3** `𝐌` at a nonpositive integer denominator parameter (DLMF 13.2.5). -/
-theorem regularizedHGFun_neg_nat (a : ℂ) (n : ℕ) (z : ℂ) :
-    𝐌(a, -(n : ℂ)) z = poch(a, n + 1) * z ^ (n + 1) * 𝐌(a + n + 1, (n : ℂ) + 2) z := sorry
 
 /-- **1.3** The polynomial case `U(−m, b, z)` (DLMF 13.2.7), for every `b`. -/
 theorem kummerU_neg_nat (m : ℕ) (b : ℂ) {z : ℂ} (hz : z ≠ 0) :
@@ -247,6 +254,15 @@ theorem kummerU_eq_integral {a : ℂ} (ha : 0 < a.re) (b : ℂ) {z : ℂ} (hz : 
         ∫ t in Ioi (0 : ℝ), cexp (-(z * t)) * (t : ℂ) ^ (a - 1) * (1 + (t : ℂ)) ^ (b - a - 1) :=
   sorry
 
+/-- **4.4** The Euler integral of `W_{κ,μ}` (DLMF 13.16.5). At `z = y > 0` it is, after
+`t ↦ t − 1`, the formula by which AutomorphicSpectralTheory §0.26 defines `W_{κ,μ}(y)`, so this is
+the agreement of `whittakerW` with that function. -/
+theorem whittakerW_eq_integral (κ μ : ℂ) (h : 0 < (1 / 2 + μ - κ).re) {z : ℂ} (hz : 0 < z.re) :
+    whittakerW κ μ z =
+      cexp (-z / 2) * z ^ (1 / 2 + μ) * (Gamma (1 / 2 + μ - κ))⁻¹ *
+        ∫ t in Ioi (0 : ℝ),
+          cexp (-(z * t)) * (t : ℂ) ^ (μ - κ - 1 / 2) * (1 + (t : ℂ)) ^ (μ + κ - 1 / 2) := sorry
+
 /-- **4.3** The Mellin–Barnes integral DLMF 13.4.16 on a separating vertical line
 `Re t = c`, `−Re a < c < 0`, with `dt = i dy`. -/
 theorem regularizedHGFun_neg_eq_barnes_integral {a : ℂ} (b : ℂ) {z : ℂ} (hz0 : z ≠ 0)
@@ -320,6 +336,26 @@ theorem ncard_pos_zeros_regularizedHGFun_of_neg {a b : ℝ} (ha : a < 0) (hb : 0
 theorem regularizedHGFun_ne_zero_of_nonneg {a b : ℝ} (ha : 0 ≤ a) (hb : 0 < b) {x : ℝ}
     (hx : 0 < x) : 𝐌((a : ℂ), (b : ℂ)) (x : ℂ) ≠ 0 := sorry
 
+/-- **7.1** Corrected DLMF 13.9.3: for `a > 0` and `−1 < b < 0`, `M(a, b, ·)` has one positive
+zero. DLMF prints `a ≥ 0`, but `M(0, b, x) = 1`. -/
+theorem ncard_pos_zeros_regularizedHGFun_of_pos_of_neg {a b : ℝ} (ha : 0 < a) (hb : -1 < b)
+    (hb0 : b < 0) : {x : ℝ | 0 < x ∧ 𝐌((a : ℂ), (b : ℂ)) (x : ℂ) = 0}.ncard = 1 := sorry
+
+/-- **7.1** Corrected DLMF 13.9.4: for `a > 0` and non-integer `b < −1`, `M(a, b, ·)` has
+`⌊−b/2⌋ − ⌊−(b + 1)/2⌋` positive zeros. DLMF prints `a ≥ 0`. -/
+theorem ncard_pos_zeros_regularizedHGFun_of_pos_of_lt_neg_one {a b : ℝ} (ha : 0 < a)
+    (hb : b < -1) (hbZ : ∀ n : ℤ, b ≠ n) :
+    ({x : ℝ | 0 < x ∧ 𝐌((a : ℂ), (b : ℂ)) (x : ℂ) = 0}.ncard : ℤ) = ⌊-b / 2⌋ - ⌊-(b + 1) / 2⌋ :=
+  sorry
+
+/-- **7.1** Corrected DLMF 13.9.6, for `a ∉ {0, −1, −2, …}` and `b ∉ ℤ` with
+`⌈−b⌉ > ⌈−a⌉ > 0`: with `d = ⌈−b⌉ − ⌈−a⌉ ≥ 1`, the count is `⌊(d + 1)/2⌋ − ⌊d/2⌋`. DLMF does not
+exclude the negative integers `a`, where the formula fails. -/
+theorem ncard_pos_zeros_regularizedHGFun_of_ceil_lt {a b : ℝ} (ha : ∀ n : ℕ, a ≠ -n)
+    (hb : ∀ n : ℤ, b ≠ n) (h0 : 0 < ⌈-a⌉) (h : ⌈-a⌉ < ⌈-b⌉) :
+    ({x : ℝ | 0 < x ∧ 𝐌((a : ℂ), (b : ℂ)) (x : ℂ) = 0}.ncard : ℤ) =
+      (⌈-b⌉ - ⌈-a⌉ + 1) / 2 - (⌈-b⌉ - ⌈-a⌉) / 2 := sorry
+
 /-- **7.2** Wimp's theorem: for real `a`, `b` with `2a − b > −1`, `U(a, b, z) ≠ 0` for
 `|ph z| ≤ π/2`. -/
 theorem kummerU_ne_zero {a b : ℝ} (hab : -1 < 2 * a - b) {z : ℂ} (hz : z ≠ 0)
@@ -379,6 +415,7 @@ theorem parabolicCylinderU_eq_whittakerW (a : ℂ) {z : ℂ} (hz : 0 < z.re) :
 #check @_root_.Complex.besselJ
 #check @_root_.Complex.besselJ_def
 #check @_root_.Complex.differentiableOn_update_limUnder_of_bddAbove
+#check @_root_.Complex.differentiable_one_div_Gamma
 #check @_root_.Complex.digamma
 #check @_root_.Complex.hasSum_regularizedHGFun
 #check @_root_.Complex.integral_boundary_rect_eq_zero_of_differentiableOn
