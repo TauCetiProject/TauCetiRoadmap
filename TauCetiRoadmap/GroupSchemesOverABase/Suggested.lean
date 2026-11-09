@@ -25,11 +25,10 @@ Headline theorems stated here (README target, Lean name):
   `IsIsotrivial` (2.5) and `nodalCurve` (2.6).
 * 3.1, `bijective_baseChange_map_of_thickening`; 3.2, `hom_eq_of_eq_fibre`; 3.3,
   `eq_of_eq_on_torsion`.
-* 4.1, `isClosedImmersion_of_mono`; 4.2, `chevalley`; 4.3, `affinization`; 4.5,
-  `isSeparated_of_field`, `smooth_of_isReduced`, `exists_reduced_subgroup` and
-  `smooth_of_charZero`; 4.6, `exists_identityComponent_of_field` and
-  `isIrreducible_connectedComponent`; 4.7, `exists_connectedComponentScheme`; 4.8,
-  `exists_componentGroup`; 4.9, `exists_isLimit_of_quasiCompact` and
+* 4.2, `chevalley`; 4.3, `affinization`; 4.5, `isSeparated_of_field`, `smooth_of_isReduced`,
+  `exists_reduced_subgroup`, `smooth_of_charZero` and `isClosedImmersion_of_mono`; 4.6,
+  `exists_identityComponent_of_field` and `isIrreducible_connectedComponent`; 4.7,
+  `exists_connectedComponentScheme`; 4.8, `exists_componentGroup`; 4.9, `exists_isLimit_of_quasiCompact` and
   `exists_flat_closedImmersion_factorization`.
 
 Not statable at the pins, with the carrier each lacks:
@@ -52,7 +51,7 @@ Not statable at the pins, with the carrier each lacks:
 * Layer 6 (line bundles `𝓛(λ)` and Picard groups of `G/B⁻`) and Layer 7 (Steinberg map,
   cross-section, universal centralizer, Grothendieck–Springer, Picard groups of `G` and `G^reg`):
   the pinned split models `𝒢_R` of ReductiveGroups 9B and the scheme of Borel subgroups of
-  ReductiveGroups Layer 8.
+  ReductiveGroups Layer 9D.
 -/
 
 @[expose] public section
@@ -256,14 +255,6 @@ section Layer4
 
 variable (k : Type u) [Field k]
 
-/-- **4.1.** A quasi-compact homomorphism of group schemes locally of finite type over a field that
-is a monomorphism of schemes is a closed immersion (SGA 3, Exp. VI_B, 1.4.2). -/
-theorem isClosedImmersion_of_mono {H G : Grp (Over (Spec (CommRingCat.of k)))} (u : H ⟶ G)
-    [LocallyOfFiniteType H.X.hom] [LocallyOfFiniteType G.X.hom]
-    [QuasiCompact ((Grp.forget _).map u).left] [Mono ((Grp.forget _).map u).left] :
-    IsClosedImmersion ((Grp.forget _).map u).left := by
-  sorry
-
 /-- **4.2.** Chevalley's theorem, existence: a smooth connected group scheme of finite type over a
 perfect field is an extension of an abelian variety by a smooth connected affine closed normal
 subgroup (Conrad, *A modern proof of Chevalley's theorem*, Thm. 1.1). -/
@@ -309,6 +300,15 @@ theorem exists_reduced_subgroup [PerfectField k] (G : Grp (Over (Spec (CommRingC
 characteristic zero is smooth (SGA 3, Exp. VI_B, 1.6.1). -/
 theorem smooth_of_charZero [CharZero k] (G : Grp (Over (Spec (CommRingCat.of k))))
     [LocallyOfFiniteType G.X.hom] : Smooth G.X.hom := by
+  sorry
+
+/-- **4.5.** A quasi-compact homomorphism of group schemes locally of finite type over a field that
+is a monomorphism of schemes is a closed immersion (SGA 3, Exp. VI_B, 1.4.2); the properness step
+uses the separatedness of `isSeparated_of_field`. -/
+theorem isClosedImmersion_of_mono {H G : Grp (Over (Spec (CommRingCat.of k)))} (u : H ⟶ G)
+    [LocallyOfFiniteType H.X.hom] [LocallyOfFiniteType G.X.hom]
+    [QuasiCompact ((Grp.forget _).map u).left] [Mono ((Grp.forget _).map u).left] :
+    IsClosedImmersion ((Grp.forget _).map u).left := by
   sorry
 
 /-- **4.6.** The identity component over a field: a group scheme locally of finite type has an

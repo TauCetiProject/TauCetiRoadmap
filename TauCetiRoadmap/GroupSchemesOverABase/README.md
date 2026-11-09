@@ -4,15 +4,15 @@
 theory: diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme,
 their rigidity and density of torsion, Hom schemes and centralizers; the structure of a group of
 finite type over a field and the ranks it defines along the fibres of a smooth group scheme; and, on
-the relative reductive groups of ReductiveGroups Layer 8, the line bundles of the flag scheme `G/B⁻`
-with its Picard group, the Steinberg map and the Grothendieck–Springer space. The carriers are
-Mathlib's group objects `Grp (Over S)` with base change `(Over.pullback f).mapGrp`, and Tau Ceti's
-`TauCeti.DiagonalizableGroup.groupScheme`. The end theorems are: for a smooth group scheme over any
-base, the identity component is an open subgroup scheme, smooth and quasi-compact with connected
-fibres; over a connected base, `Hom(D_S(M), D_S(N)) = Hom(N, M)`, and `D_S(M)` is smooth iff the
-order of the torsion of `M` is invertible on `S`; every group of multiplicative type of finite type
-is étale-locally diagonalizable, and isotrivial over a connected, locally noetherian, normal base,
-while a torus of rank two over the nodal curve is not; homomorphisms between groups of
+the relative reductive groups of ReductiveGroups Layer 9D, the line bundles of the flag scheme
+`G/B⁻` with its Picard group, the Steinberg map and the Grothendieck–Springer space. The carriers
+are Mathlib's group objects `Grp (Over S)` with base change `(Over.pullback f).mapGrp`, and Tau
+Ceti's `TauCeti.DiagonalizableGroup.groupScheme`. The end theorems are: for a smooth group scheme
+over any base, the identity component is an open subgroup scheme, smooth and quasi-compact with
+connected fibres; over a connected base, `Hom(D_S(M), D_S(N)) = Hom(N, M)`, and `D_S(M)` is smooth
+iff the order of the torsion of `M` is invertible on `S`; every group of multiplicative type of
+finite type is étale-locally diagonalizable, and isotrivial over a connected, locally noetherian,
+normal base, while a torus of rank two over the nodal curve is not; homomorphisms between groups of
 multiplicative type lift uniquely along thickenings and are determined by one fibre over a connected
 base and by their restrictions to torsion; Chevalley's theorem over a perfect field and the
 affinization over any field; for a quasi-compact homomorphism of group schemes locally of finite
@@ -59,18 +59,18 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
 
 **Left to other roadmaps.**
 
-- ReductiveGroups Layer 8, bullet *Relative reductive groups over an affine Noetherian base*,
+- ReductiveGroups Layer 9D, bullet *Relative reductive groups over an arbitrary affine base*,
   owns the relative reductive theory: the reductive and semisimple predicates on scheme group
   objects and their invariance, the relative centre and derived subgroup, central isogenies and
   the simply connected and adjoint forms, the smooth scheme of maximal tori and the smooth
   projective scheme of Borel subgroups `Bor(G)`, the root-space decomposition and the root datum
   as étale locally constant sheaves, étale-local splitting, the classification of pinned split
   models over connected bases, the automorphism sheaf, the `Isom(G₀, G)` torsor and the
-  classification of étale forms in nonabelian `H¹`. Its first bullet owns the field
-  classification. This roadmap states none of these and builds Layers 6–7 on them. Layer 8
-  extends the multiplicative-type comparisons of its Layers 3–4 to affine Noetherian bases as far
-  as its constructions need; Layers 1–3 here state that theory over an arbitrary base and agree
-  with it there.
+  classification of étale forms in nonabelian `H¹`. Its first bullet owns the isomorphism and
+  existence theorems for split reductive groups. This roadmap states none of these and builds
+  Layers 6–7 on them. Layer 9D extends the multiplicative-type comparisons of ReductiveGroups
+  Layers 3–4 to affine bases as far as its constructions need; Layers 1–3 here state that theory
+  over an arbitrary base and agree with it there.
 - ReductiveGroups Layer 3 owns, for affine group schemes of finite type over a field, the fppf
   quotient `G/H` and its representability (bullet *Normality and quotients*), which 4.1 extends to
   groups of finite type, and the identity component `G°` and component group `π₀(G)` (bullet
@@ -79,8 +79,9 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
   adjoint representation, Layer 6 the radical, and Layer 7 the conjugacy of maximal tori and the
   root datum with its Weyl group, which 4.4 and 5.3 use. Restricted Lie algebras are PCurvature
   Layer 0's.
-- ReductiveGroups 9B owns the pinned split reductive groups `𝒢_R` over `ℤ` for every reduced root
-  datum, their base change, the root subgroup maps `x_α` and the pinned isomorphism theorem.
+- ReductiveGroups §8.1 owns split reductive data over a base and §8.2 their pinnings; 9B owns the
+  pinned split reductive groups `𝒢_R` over `ℤ` for every reduced root datum, their base change,
+  the root subgroup maps `x_α` and the pinned isomorphism theorem.
 - SchemeAndStackFoundations owns reflexive sheaves and Hartogs extension (§0.6), Noetherian
   approximation (§0.9), quotient predicates (§1.17), the carrier `NonabelianH1` of torsor
   classes (§2.3), the big-site sheaves `𝔾_m` and `μ_n` (§2.9), Hilbert 90 (§2.11) and Picard
@@ -91,6 +92,9 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
   descent.
 - AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a
   quasi-separated group algebraic space over a locally Noetherian base; 0.2 compares with it.
+- ReductiveGroupsPartII RG2.3.1 (*smooth-affine-model*) owns *SmoothModel.identityComponent*, the
+  identity component of a smooth affine model over a discrete valuation ring with connected
+  generic fibre; 0.2 is the general case and agrees with it there.
 - FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 owns finite locally free groups of
   multiplicative type and their rigidity; 2.1 and 3.1 compare with it.
 - InverseGaloisAndArithmeticFundamentalGroups IG.0.3 owns the finite monodromy of locally constant
@@ -102,11 +106,6 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
   normalized extremal section;
   EquivariantIntersectionTheory 1.1 owns `G`-linearised invertible sheaves and `Pic^G`, and 1.3
   the exact sequence `0 → X*(G) → Pic^G(X) → Pic(X)`. Layer 6 is the extension over a base.
-
-**Overlap.** PurityForFlatCohomology §§7.12a–7.12e restate diagonalizable groups, groups of
-multiplicative type, tori, the character sheaf and the largest subtorus over a base for its purity
-results. This roadmap owns them (1.1–1.4, 2.1–2.3, 2.7), and the two agree on `D_S(M)`, `X*(H)`
-and `Hᵗᵒʳ`.
 
 **Out of scope.** Groups of multiplicative type that are not of finite type (pro-objects such as
 `D(ℚ)`), pseudo-reductive groups, abelian schemes, Néron models, parahoric group schemes, and
@@ -152,9 +151,9 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
    (7.4, Checks).
 7. **Generality.** The base is an arbitrary scheme unless a target names a hypothesis. Groups of
    multiplicative type are of finite type over the base. In Layers 6–7, `G` is split reductive in
-   the sense of ReductiveGroups Layer 8, the base change to `S` of a 9B model `𝒢_R`, and `Bor(G)`
-   is the base change of Layer 8's scheme of Borel subgroups of `𝒢_R` over `Spec ℤ`. Witness: for
-   a split torus `G = T`, `Bor(G) = S` (6.1, Checks).
+   the sense of ReductiveGroups §8.1, the base change to `S` of a 9B model `𝒢_R`, and `Bor(G)` is
+   the base change of Layer 9D's scheme of Borel subgroups of `𝒢_R` over `Spec ℤ`. Witness: for a
+   split torus `G = T`, `Bor(G) = S` (6.1, Checks).
 
 ## Exact supplier contracts
 
@@ -174,7 +173,7 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `Spec K` (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`), the closed unit section (4.5).
 - Topology: `connectedComponent`, `IsIrreducible`, `ConnectedSpace`.
 - Limits and monomorphisms: `Mono`, `Cone`, `Functor.mapCone`, `Functor.const`, `homOfLE`,
-  `IsDirected` (4.1, 4.9).
+  `IsDirected` (4.5, 4.9).
 - Algebra: `AddGroup.FG`, `AddCommGroup.torsion`, `Module.Free`, `QuotientAddGroup.mk'`,
   `AddMonoidHom.toMultiplicative`, `AlgHom.equalizer`, `Polynomial.aeval`, `RingHom.FiniteType`,
   `IsIntegrallyClosed`, `PerfectField`, `CharZero`, `RootPairing`.
@@ -235,10 +234,10 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
 **From ReductiveGroups.** Layer 3, bullets *Normality and quotients* (4.1) and *Identity component
 `G°` and component group `π₀(G)`* (4.6, 4.8), for the comparisons on affine groups. Layer 6, the
 radical (4.4). Layer 7, the conjugacy of maximal tori and the root datum with its Weyl group (4.4,
-5.3). Layer 8, bullet *Relative reductive groups over an
-affine Noetherian base*: the reductive predicate, the scheme of Borel subgroups `Bor(G)` with its
-functor of points, central isogenies and the simply connected cover (Layers 6–7). 9B: the models
-`𝒢_R`, their base change, pinnings and root subgroups `x_α` (Layers 6–7).
+5.3). §8.1, split reductive data, and §8.2, pinnings (Layers 6–7). 9B: the models `𝒢_R`, their
+base change and root subgroups `x_α` (Layers 6–7). Layer 9D, bullet *Relative reductive groups
+over an arbitrary affine base*: the reductive predicate, the scheme of Borel subgroups `Bor(G)`
+with its functor of points, central isogenies and the simply connected cover (Layers 6–7).
 
 **From SchemeAndStackFoundations.** §0.6 (7.7), §0.9 (4.9, 5.3), §1.17 (4.1), §2.3 `NonabelianH1`
 (1.6), §2.9 (1.4, 2.3), §2.11 (1.6), §3.4 (6.3, 7.7).
@@ -246,6 +245,9 @@ functor of points, central isogenies and the simply connected cover (Layers 6–
 **From ModularCurves.** 0B (1.1, 1.5), 0C (7.1), 0E (2.3, 6.1).
 
 **From AlgebraicModuliForArithmeticGeometry.** §7.9, the identity-component subfunctor (0.2).
+
+**From ReductiveGroupsPartII.** RG2.3.1 (*smooth-affine-model*), *SmoothModel.identityComponent*
+over a discrete valuation ring (0.2).
 
 **From FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.4 (2.1, 3.1).
 
@@ -273,11 +275,11 @@ Chevalley's theorem, the affinization and the rank invariants, then, in 4.5–4.
 the reduced subgroup, Cartier's theorem, the identity component and the component group `π₀(G/k)` of
 a group locally of finite type, through Tau Ceti's Galois theory of finite étale algebras over a
 field, and in 4.9 Perrin's approximation of a quasi-compact group by groups of finite type, which
-extends 4.1 and 4.5 beyond finite type. Layer 5 needs
-Layers 3 and 4 and delivers the rank functions on the base and their specialization. Layers 6 and 7
-need, beyond these, ReductiveGroups Layer 8 and 9B: Layer 6 delivers the line bundles on `G/B⁻` over
-a base and the Picard groups, Layer 7 the Steinberg map and its consequences, using Layer 6's Picard
-groups in 7.7–7.8. The hardest targets are 5.3, 6.3, 7.4 and 7.6.
+extends 4.1 and 4.5 beyond finite type. Layer 5 needs Layers 3 and 4 and delivers the rank
+functions on the base and their specialization. Layers 6 and 7 need, beyond these, ReductiveGroups
+§§8.1–8.2, 9B and Layer 9D: Layer 6 delivers the line bundles on `G/B⁻` over a base and the Picard
+groups, Layer 7 the Steinberg map and its consequences, using Layer 6's Picard groups in 7.7–7.8.
+The hardest targets are 5.3, 6.3, 7.4 and 7.6.
 
 ## Layer 0: carriers over a base
 
@@ -307,8 +309,11 @@ For `G` smooth over `S`, prove `exists_identityComponent`: there is an open subg
 is an open connected subgroup of the fibre of `G` at `s`, and its formation commutes with base
 change. Over a locally Noetherian base and for `G` quasi-separated, `G⁰` represents the
 identity-component subfunctor of AlgebraicModuliForArithmeticGeometry §7.9 applied to `G` as a
-group algebraic space. *Needs:* 0.1; AlgebraicModuliForArithmeticGeometry §7.9; Mathlib
-`Scheme.Hom.fiber`, `IsOpenImmersion`, `Smooth`.
+group algebraic space. For `S` the spectrum of a discrete valuation ring and `G` affine with
+connected generic fibre, `G⁰` is the model *SmoothModel.identityComponent* of ReductiveGroupsPartII
+RG2.3.1 (*smooth-affine-model*), the open subgroup with special fibre `(G_κ)⁰`. *Needs:* 0.1;
+AlgebraicModuliForArithmeticGeometry §7.9; ReductiveGroupsPartII RG2.3.1 (*smooth-affine-model*);
+Mathlib `Scheme.Hom.fiber`, `IsOpenImmersion`, `Smooth`.
 
 **Checks.**
 
@@ -325,7 +330,7 @@ group algebraic space. *Needs:* 0.1; AlgebraicModuliForArithmeticGeometry §7.9;
 ### Dependencies
 
 Mathlib's group objects, pullbacks and morphism classes; AlgebraicModuliForArithmeticGeometry
-§7.9 for the comparison of 0.2.
+§7.9 and ReductiveGroupsPartII RG2.3.1 for the comparisons of 0.2.
 
 ## Layer 1: diagonalizable groups over a base
 
@@ -454,8 +459,21 @@ being étale-local by 2.2. Over a field these are Tau Ceti's
 `TauCeti.multiplicativeTypeCommHopfAlgProperty` and `TauCeti.torusCommHopfAlgProperty`
 (comparison lemmas through `hopfSpec`). A finite locally free group of multiplicative type in the
 sense of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4 is of multiplicative type here, and
-conversely a finite group of multiplicative type is of that kind. *Needs:* 1.1;
-FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4; Tau Ceti
+conversely a finite group of multiplicative type is of that kind. Prove, for the three predicates:
+
+- They are invariant under isomorphism and stable under base change along every `S′ → S` (SGA 3,
+  Exp. IX, 1.5 a)) and under fibre products over `S`, with `D_S(M) ×_S D_S(N) ≅ D_S(M ⊕ N)`.
+- `IsMultiplicativeType` and `IsTorus` may be checked on any fppf cover of `S` (SGA 3, Exp. IX,
+  1.5 b), there for fpqc covers). `IsDiagonalizable` cannot: over `Spec(k × k)`, the group that is
+  `𝔾_m` over one point and `μ₂` over the other is diagonalizable over each point and is not
+  `D_S(M)` for any `M`.
+- A group of multiplicative type is commutative, being so fppf-locally, and its structure morphism
+  is affine and faithfully flat (SGA 3, Exp. IX, 2.1 a)) and of finite presentation (2.1 b)).
+- It is smooth over `S` iff, on one, equivalently every, fppf cover splitting it as
+  `G_{S_i} ≅ D_{S_i}(M_i)`, the order of the torsion of `M_i` is invertible on `S_i` (SGA 3,
+  Exp. IX, 2.1 e), from VIII, 2.1 e)); in particular a torus is smooth.
+
+*Needs:* 1.1, 1.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4; Tau Ceti
 `TauCeti.multiplicativeTypeCommHopfAlgProperty`, `TauCeti.torusCommHopfAlgProperty`.
 
 **Checks.**
@@ -465,6 +483,8 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4; Tau Ceti
 - The norm-one torus `Spec ℝ[x, y]/(x² + y² − 1)` is a torus over `ℝ`, split by `ℂ`, and is not
   diagonalizable: its only character over `ℝ` is trivial.
 - `IsTorus` with `M = 0` is the trivial group, so the trivial group is a torus of rank `0`.
+- `𝔾_m × μ₄` over `ℤ` is of multiplicative type and smooth exactly over `ℤ[1/2]`, the torsion of
+  `ℤ × ℤ/4` having order `4`; `μ_p` over `𝔽_p`, with torsion order `p = 0` in `𝔽_p`, is not smooth.
 
 ### 2.2 Quasi-isotriviality
 
@@ -600,7 +620,9 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.4.
 - Over `S = Spec k[ε]/(ε²)`, `End(𝔾_m) = ℤ = End(𝔾_{m,k})`: no infinitesimal deformations.
 - `𝔾_a` is not rigid: over `k[ε]/(ε²)`, `t ↦ (1 + ε)t` is an endomorphism reducing to the
   identity and different from it, so the hypothesis of multiplicative type is needed.
-- The bijection fails for a closed immersion that is not surjective: `Spec k → 𝔸¹_k` at `0`.
+- The bijection fails for a closed immersion that is not surjective: over `S = Spec(k × k)`, with
+  `S₀` one of its two points, restriction `End(𝔾_m) = ℤ² → ℤ`, `(a, b) ↦ a`, is surjective and
+  not injective.
 
 ### 3.2 Rigidity along a connected base
 
@@ -712,7 +734,7 @@ Here `k` is a field; in 4.1–4.4, `G` is a group scheme of finite type over `k`
 scheme over `k`, locally of finite type where stated, and in 4.9 a quasi-compact group scheme over
 `k`.
 
-### 4.1 Quotients and monomorphisms
+### 4.1 Quotients
 
 For a closed subgroup scheme `H ⊆ G`, the fppf quotient sheaf `G/H` is represented by a scheme of
 finite type over `k`, `G → G/H` is faithfully flat, and `G/H` is quasi-projective; for `H` normal
@@ -727,25 +749,6 @@ Layer 3.
 - `GL_n/B` is the flag variety, projective of dimension `n(n − 1)/2`.
 - `𝔾_m/μ_n ≅ 𝔾_m` by `t ↦ tⁿ`, also in characteristic dividing `n`, where the map is not étale.
 - `G/G = Spec k` and `G/{e} = G`.
-
-For a quasi-compact homomorphism `u : H → G` of group schemes locally of finite type over `k`, prove
-`isClosedImmersion_of_mono`: if `u` is a monomorphism of `k`-schemes, it is a closed immersion
-(SGA 3, Exp. VI_B, 1.4.2, over an Artin local ring; for `H` and `G` of finite type, Milne, Theorem
-5.34). Route: a monomorphism has trivial kernel, so its fibre over the unit is proper and nonempty,
-`u` is proper (SGA 3, Exp. VI_B, 1.4), of finite presentation since `G` is locally noetherian, and a
-proper monomorphism of finite presentation is a closed immersion (EGA IV₃, 8.11.5). 4.9 removes the
-finiteness hypotheses. *Needs:* Mathlib `Mono`, `QuasiCompact`, `IsClosedImmersion`,
-`LocallyOfFiniteType`.
-
-**Checks.**
-
-- Quasi-compactness is needed: in characteristic `0`, `n ↦ n` from the constant group `ℤ_k` to
-  `𝔾_a` is a monomorphism and not a closed immersion, its image being infinite and discrete (SGA 3,
-  Exp. VI_B, 1.4.3).
-- Injectivity on points is not enough: in characteristic `p`, the Frobenius `x ↦ x^p` of `𝔾_a` is
-  a homeomorphism with kernel `α_p ≠ 1`, so it is not a monomorphism, and not a closed immersion.
-- The open immersion `𝔾_m → 𝔾_m ⋊ ℤ/2` is a quasi-compact monomorphism, and a closed immersion as
-  the target asserts: an open subgroup is also closed.
 
 ### 4.2 Chevalley's theorem
 
@@ -797,7 +800,7 @@ invariants of SGA 3, Exp. XII, 1.5. *Needs:* 4.2; ReductiveGroups Layers 6 and 7
 - `𝔾_m` has `ρ_r = ρ_n = 1`, `ρ_u = 0`; `𝔾_a` has `ρ_r = 0`, `ρ_n = ρ_u = 1`.
 - `GL_n` has `ρ_r = ρ_n = n`, `ρ_u = 0` and `d_s = n² − 1`.
 
-### 4.5 Separatedness, the reduced subgroup, smoothness and Cartier's theorem
+### 4.5 Separatedness, the reduced subgroup, smoothness, Cartier's theorem and monomorphisms
 
 Prove `isSeparated_of_field`: every group scheme `G` over `k` is separated, since the diagonal is
 the pullback of the unit section along `(g, h) ↦ gh⁻¹` (SGA 3, Exp. VI_A, 0.3; Milne, Proposition
@@ -852,6 +855,26 @@ locally of finite type. *Needs:* Mathlib `Smooth`, `LocallyOfFiniteType`, `CharZ
 - Local finiteness is needed for smoothness, not for reducedness: over `ℚ`, `∏_ℕ 𝔾_a`, the
   spectrum of a polynomial ring in countably many variables, is geometrically reduced and not
   smooth, being not locally of finite presentation (4.9 extends the reducedness).
+
+For a quasi-compact homomorphism `u : H → G` of group schemes locally of finite type over `k`, prove
+`isClosedImmersion_of_mono`: if `u` is a monomorphism of `k`-schemes, it is a closed immersion
+(SGA 3, Exp. VI_B, 1.4.2, over an Artin local ring; for `H` and `G` of finite type, Milne, Theorem
+5.34). Route: a monomorphism has trivial kernel, so its fibre over the unit is proper and nonempty;
+`u` is of finite type, and separated since `H` is (`isSeparated_of_field` above), hence proper
+(SGA 3, Exp. VI_B, 1.4); it is of finite presentation since `G` is locally noetherian, and a proper
+monomorphism of finite presentation is a closed immersion (EGA IV₃, 8.11.5). 4.9 removes the
+finiteness hypotheses. *Needs:* `isSeparated_of_field` (4.5); Mathlib `Mono`, `QuasiCompact`,
+`IsClosedImmersion`, `LocallyOfFiniteType`.
+
+**Checks.**
+
+- Quasi-compactness is needed: in characteristic `0`, `n ↦ n` from the constant group `ℤ_k` to
+  `𝔾_a` is a monomorphism and not a closed immersion: its image, an infinite set of closed points,
+  is dense in `𝔾_a` and not closed (SGA 3, Exp. VI_B, 1.2.2 and 1.4.3).
+- Injectivity on points is not enough: in characteristic `p`, the Frobenius `x ↦ x^p` of `𝔾_a` is
+  a homeomorphism with kernel `α_p ≠ 1`, so it is not a monomorphism, and not a closed immersion.
+- The open immersion `𝔾_m → 𝔾_m ⋊ ℤ/2` is a quasi-compact monomorphism, and a closed immersion as
+  the target asserts: an open subgroup is also closed.
 
 ### 4.6 The identity component over a field
 
@@ -987,7 +1010,7 @@ is a scheme when `H → G` is of finite presentation, and then of finite type, o
 a faithfully flat homomorphism `G → G/Ker u` followed by a closed immersion `G/Ker u → H` (Perrin
 1976, 4.2.3; SGA 3, Exp. VI_A, 6.7 (i)), so a quasi-compact monomorphism of `k`-groups is a closed
 immersion (Perrin 1976, 4.2.4; SGA 3, Exp. VI_A, 6.7 (ii)), which is `isClosedImmersion_of_mono` of
-4.1 without finiteness, and `u` is faithfully flat iff it is schematically dominant (Perrin 1976,
+4.5 without finiteness, and `u` is faithfully flat iff it is schematically dominant (Perrin 1976,
 4.2.5; SGA 3, Exp. VI_A, 6.6). In characteristic `0` every `k`-group is geometrically reduced
 (Perrin 1976, 4.2.8; SGA 3, Exp. VI_A, 6.9, from 4.5 and the approximation). *Needs:* 4.1, 4.5,
 4.6; SchemeAndStackFoundations §0.9; Mathlib `Cone`, `Functor.mapCone`, `Functor.const`,
@@ -1021,8 +1044,8 @@ immersion (Perrin 1976, 4.2.4; SGA 3, Exp. VI_A, 6.7 (ii)), which is `isClosedIm
 Tau Ceti's field theory and abelian varieties, and its Cartier theorem for affine groups (4.5);
 SchemeAndStackFoundations §1.17 and, for 4.9, §0.9;
 NeronModelsAndSemistableAbelianVarieties 2.3 for the comparison of 4.2; Tau Ceti's Galois theory of
-finite étale algebras over a field (4.7, 4.8); ReductiveGroups Layer 3 for the comparisons of 4.6
-and 4.8; Layer 0 for 4.6.
+finite étale algebras over a field (4.7, 4.8); ReductiveGroups Layer 3 for 4.1, 4.6 and 4.8, and
+Layers 6 and 7 for 4.4; Layer 0 for 4.6.
 
 ## Layer 5: smooth group schemes over a base
 
@@ -1167,7 +1190,7 @@ laws there are consumed, not reproved. Over `S`, `𝓛(λ)` is relatively ample 
 fibre, that is iff `⟨λ, α^∨⟩ > 0` for every `α ∈ Δ` (SchubertGeometry S3, first item; Jantzen,
 II.4.4). Translation by a representative `n₀` of `w₀` gives `G/B⁺ ≅ G/B⁻`, `gB⁺ ↦ g n₀⁻¹ B⁻`, which
 pulls `𝓛(μ)` back to the `B⁺`-line of character `w₀μ`: the comparison with sources whose flags are
-`G/B⁺`. *Needs:* ReductiveGroups Layer 8 (`Bor(G)`), 9B; ModularCurves 0E;
+`G/B⁺`. *Needs:* ReductiveGroups Layer 9D (`Bor(G)`), §8.1, 9B; ModularCurves 0E;
 EquivariantIntersectionTheory 1.1; SchubertGeometry S3.
 
 **Checks.**
@@ -1189,7 +1212,7 @@ and the divisor of the normalized extremal section of `L(λ)`, `λ` dominant, is
 the fundamental weight `ϖ_α`, read on the simply connected cover of the derived group, whose flag
 variety is `G/B⁻`. Hence `Pic(G/B⁻) ≅ ℤ^Δ ≅ P`, `𝓛(λ) ↦ (⟨λ, α^∨⟩)_α`, and `Pic(G) ≅ P/X*(T_der)` is
 finite, zero iff the derived group is simply connected. *Needs:* 6.1; EquivariantIntersectionTheory
-1.3; SchubertGeometry S7; ReductiveGroups Layer 8 (simply connected cover).
+1.3; SchubertGeometry S7; ReductiveGroups Layer 9D (simply connected cover).
 
 **Checks.**
 
@@ -1200,7 +1223,8 @@ finite, zero iff the derived group is simply connected. *Needs:* 6.1; Equivarian
 ### 6.3 The Picard group of `G/B⁻` over a base
 
 For `S` locally noetherian, normal and connected, `Pic(S) ⊕ ℤ^Δ → Pic(G/B⁻)`,
-`(M, (n_α)) ↦ π*M ⊗ O(Σ n_α D_α)`, is an isomorphism. Route: the big cell `U⁺ ≅ U⁺B⁻/B⁻` is an
+`(M, (n_α)) ↦ π*M ⊗ O(Σ n_α D_α)`, is an isomorphism. For `S = Spec k` this is 6.2; over a base
+it is this roadmap's own statement, with the following route: the big cell `U⁺ ≅ U⁺B⁻/B⁻` is an
 affine space over `S`, whose Picard group is `Pic(S)` for `S` normal; its complement is `⋃ D_α`,
 with the `D_α` relative effective Cartier divisors with irreducible fibres. With 6.1,
 `λ ↦ 𝓛(λ)` induces `X*(T)/X*(G) ≅ X*(T_der) ↪ P ≅ ℤ^Δ`. *Needs:* 6.1, 6.2;
@@ -1220,7 +1244,7 @@ SchemeAndStackFoundations §3.4.
 
 ### Dependencies
 
-ReductiveGroups Layer 8 and 9B; ModularCurves 0E; SchubertGeometry S3 and S7;
+ReductiveGroups §8.1, 9B and Layer 9D; ModularCurves 0E; SchubertGeometry S3 and S7;
 EquivariantIntersectionTheory 1.1 and 1.3; SchemeAndStackFoundations §3.4.
 
 ## Layer 7: the Steinberg map and the Grothendieck–Springer space
@@ -1243,18 +1267,19 @@ and its formation commutes with base change. *Needs:* ModularCurves 0C; Reductiv
 
 ### 7.2 The Steinberg map
 
-Restriction `O(G)^G → O(T)^W` is an isomorphism over `ℤ`. Over an algebraically closed field this
-is Steinberg 1965, Theorem 6.1 (b), for `G` semisimple simply connected; for `G` reductive with
-simply connected derived group, reduce through the central isogeny `G_der × Z⁰ → G`, whose kernel
-`μ = G_der ∩ Z⁰` is finite diagonalizable, taking `μ`-invariants, which is exact. Over `ℤ`,
-injectivity holds since the conjugates of `T` are dense in `G_ℚ` and `ℤ[G]` is torsion free;
-surjectivity: an `f ∈ ℤ[T]^W` is the restriction of some `F ∈ ℚ[G]^G`, and `F` is regular on the
-regular semisimple locus over `ℤ`, open and fibrewise dense, hence regular in codimension one
-on the smooth `G_ℤ`, hence in `ℤ[G]`. Define the Steinberg map `G → T/W` over `S` as the base
-change of this map over `ℤ` (Convention 7). Prove that it is the unique `G`-invariant morphism
-restricting to the quotient map on `T`: the conjugates of the regular semisimple locus of `T`
-form an open subscheme dense in every fibre, hence schematically dense in the flat `G`. *Needs:*
-7.1; ReductiveGroups 9B, Layer 8 (central isogenies).
+Restriction `O(G)^G → O(T)^W` is an isomorphism over `ℤ`. Over an algebraically closed field this is
+Steinberg 1965, Lemma 6.2 and Corollary 6.4, pp. 62–63, for every semisimple `G`; Theorem 6.1 (b)
+and Lemma 6.3, pp. 62–63, add that for `G` simply connected both sides are polynomial algebras on
+the fundamental characters. For `G` reductive with simply connected derived group, reduce through
+the central isogeny `G_der × Z⁰ → G`, whose kernel `μ = G_der ∩ Z⁰` is finite diagonalizable, taking
+`μ`-invariants, which is exact. Over `ℤ`, injectivity holds since the conjugates of `T` are dense in
+`G_ℚ` and `ℤ[G]` is torsion free; surjectivity: an `f ∈ ℤ[T]^W` is the restriction of some `F ∈
+ℚ[G]^G`, and `F` is regular on the regular semisimple locus over `ℤ`, open and fibrewise dense,
+hence regular in codimension one on the smooth `G_ℤ`, hence in `ℤ[G]`. Define the Steinberg map `G →
+T/W` over `S` as the base change of this map over `ℤ` (Convention 7). Prove that it is the unique
+`G`-invariant morphism restricting to the quotient map on `T`: the conjugates of the regular
+semisimple locus of `T` form an open subscheme dense in every fibre, hence schematically dense in
+the flat `G`. *Needs:* 7.1; ReductiveGroups 9B, Layer 9D (central isogenies).
 
 **Checks.**
 
@@ -1279,8 +1304,8 @@ exactly on `G^reg` (Steinberg 1965, Theorem 8.1; Slodowy 1980, ch. 3). *Needs:* 
 
 ### 7.4 Steinberg cross-section
 
-Let `G` be moreover semisimple, hence simply connected, of rank `r`. With the pinning of
-ReductiveGroups 9B, an ordering `α₁, …, α_r` of the simple roots and
+Let `G` be moreover semisimple, hence simply connected, of rank `r`. With the pinning
+(ReductiveGroups §8.2) of the 9B model, an ordering `α₁, …, α_r` of the simple roots and
 `nᵢ = x_{αᵢ}(1) x_{−αᵢ}(−1) x_{αᵢ}(1) ∈ N_G(T)` lifting the simple reflections, let
 `κ : 𝔸^r_S → G`, `(c₁, …, c_r) ↦ ∏ᵢ x_{αᵢ}(cᵢ) nᵢ`, with image `C = U_{α₁} n₁ ⋯ U_{α_r} n_r`.
 `T/W ≅ 𝔸^r_S` by the fundamental characters (7.1), and the Steinberg map composed with `κ` is an
@@ -1290,7 +1315,7 @@ separated), `C ⊆ G^reg`, and `κ` composed with the inverse of that isomorphis
 this is Steinberg 1965, Theorems 1.4, 7.1 and 7.9, and a geometric point of `G` is regular iff it
 is conjugate to a point of `C` (Theorem 8.1). Over `S` both sides are flat and of finite
 presentation, so the fibrewise isomorphism criterion (EGA IV₄, 17.9.5; Conrad, Lemma B.3.1)
-gives the isomorphism. *Needs:* 7.1, 7.2, 7.3; ReductiveGroups 9B.
+gives the isomorphism. *Needs:* 7.1, 7.2, 7.3; ReductiveGroups §8.2, 9B.
 
 **Checks.**
 
@@ -1338,7 +1363,7 @@ isomorphism over `G^reg`; `π` itself is of degree `|W|` over the regular semisi
 changed: there the map to `G^reg ×_{T/W} T` is proper and quasi-finite (a regular element lies in
 finitely many Borel subgroups, Steinberg 1965, Theorem 1.1), birational, and its target is smooth
 over `T` by 7.3, hence normal, so Zariski's main theorem applies. *Needs:* 7.3; ReductiveGroups
-Layer 8 (`Bor(G)`).
+Layer 9D (`Bor(G)`).
 
 **Checks.**
 
@@ -1350,7 +1375,8 @@ Layer 8 (`Bor(G)`).
 
 ### 7.7 Picard groups of `G̃`, `G` and `G^reg`
 
-For `S` regular noetherian and connected: `Pic(G) → Pic(G^reg)` is an isomorphism (Hartogs
+The following is this roadmap's own statement, with its route given in it. For `S` regular
+noetherian and connected: `Pic(G) → Pic(G^reg)` is an isomorphism (Hartogs
 extension, SchemeAndStackFoundations §0.6, codimension `≥ 2`), and
 `0 → Pic(S) → Pic(G) → Pic(G_η) → 0` is exact with `G_η` the generic fibre, so
 `Pic(G)/Pic(S) ≅ P/X*(T_der)` is finite by 6.2. Pullback along `G̃ → Bor(G)` is an isomorphism
@@ -1369,10 +1395,10 @@ is `π`-ample. *Needs:* 6.2, 6.3, 7.3, 7.6; SchemeAndStackFoundations §0.6, §3
 For `S` regular noetherian and connected and `G` of positive semisimple rank, there is no regular
 scheme `X̃` with a projective morphism `p : X̃ → G` that is an isomorphism over `G^reg`, whose
 exceptional locus has codimension `≥ 2` in every fibre over `S`, and whose composite with the
-Steinberg map is smooth. Proof: by 7.7, `Pic(X̃) = Pic(G^reg)` is finite modulo `Pic(S)`, so a
-power of a `p`-ample bundle is pulled back from `S`, `p` is quasi-finite, hence finite and
-birational onto the normal `G`, hence an isomorphism; but the Steinberg map is not smooth at the
-identity section (7.3). *Needs:* 7.3, 7.7.
+Steinberg map is smooth. This is this roadmap's own statement, with the following route: by 7.7,
+`Pic(X̃) = Pic(G^reg)` is finite modulo `Pic(S)`, so a power of a `p`-ample bundle is pulled back
+from `S`, `p` is quasi-finite, hence finite and birational onto the normal `G`, hence an
+isomorphism; but the Steinberg map is not smooth at the identity section (7.3). *Needs:* 7.3, 7.7.
 
 **Checks.**
 
@@ -1389,13 +1415,13 @@ identity section (7.3). *Needs:* 7.3, 7.7.
 
 ### Dependencies
 
-Layer 6; Cartier's theorem of 4.5 (7.5); ReductiveGroups Layer 8 and 9B; ModularCurves 0C;
-SchemeAndStackFoundations §0.6, §3.4.
+Layer 6; Cartier's theorem of 4.5 (7.5); ReductiveGroups §§8.1–8.2, 9B and Layer 9D;
+ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
 - FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
-  is ReductiveGroups Layer 8's, and this roadmap's share is the line bundles on it and its Picard
+  is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
 - NeronModelsAndSemistableAbelianVarieties names 4.2, as GS4.2, as the owner of Chevalley's
   theorem for noncommutative groups and of its comparison with its own 2.3, and consumes nothing
@@ -1403,11 +1429,9 @@ SchemeAndStackFoundations §0.6, §3.4.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as GS8.5 or §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
-- EquivariantIntersectionTheory names this roadmap's line bundles `𝓛(λ)` on `G/B⁻` (6.1) as
-  linearised invertible sheaves in the sense of its 1.1.
 
 The identifiers used in those roadmaps resolve here as follows: GS4.2 is 4.2; GS7 is, for
-`Bor(G)`, ReductiveGroups Layer 8 and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
+`Bor(G)`, ReductiveGroups Layer 9D and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
 
 ## Research context
 
@@ -1439,12 +1463,12 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
   by P. Gille and P. Polo, Documents Mathématiques 7 and 8, SMF (2011), with the revised exposés on
-  P. Polo's page, https://webusers.imj-prg.fr/~patrick.polo/SGA3/: Exp. VI_A 0.2, 0.3, 0.5.1,
-  1.3.1, 1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1, 6.5–6.7, 6.9; Exp. VI_B 1.4, 1.4.2, 1.4.3,
-  1.6, 1.6.1, 3.9, 3.10, 5.2, 5.6.4, 12.10.1;
-  Exp. VII_A 6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6, 2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 2.7,
-  2.11, 3.3, 3.6, 4.7, 4.8, 5.1, 5.3, 6.8; Exp. X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3,
-  8.7; Exp. XI 2.4, 4.2, 5.3, 5.3 bis, 5.9, 6.1, 6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
+  P. Polo's page, https://webusers.imj-prg.fr/~patrick.polo/SGA3/: Exp. VI_A 0.2, 0.3, 0.5.1, 1.3.1,
+  1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1, 6.5–6.7, 6.9; Exp. VI_B 1.2.2, 1.4, 1.4.2, 1.4.3,
+  1.6, 1.6.1, 3.9, 3.10, 5.2, 5.6.4, 12.10.1; Exp. VII_A 6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6,
+  2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 1.5, 2.1, 2.7, 2.11, 3.3, 3.6, 4.7, 4.8, 5.1, 5.3, 6.8; Exp.
+  X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 2.4, 4.2, 5.3, 5.3 bis, 5.9, 6.1,
+  6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes* I, Panoramas et
@@ -1466,8 +1490,9 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 - A. Grothendieck, J. Dieudonné, *Éléments de géométrie algébrique* II and IV, Publ. Math. IHÉS 8,
   24, 28, 32 (1961–1967): II 7.1.9; IV 2.8.5, 8.11.5, 8.13.6, 11.3.10, 13.1.3, 16.12.2, 17.9.5,
   17.12.5. Numdam PMIHES_1961__8__5_0 (II).
-- R. Steinberg, « Regular elements of semisimple algebraic groups », *Publ. Math. IHÉS* 25
-  (1965), 49–80, Theorems 1.1, 1.3, 1.4, 6.1, 7.1, 7.9 and 8.1. Numdam PMIHES_1965__25__49_0.
+- R. Steinberg, « Regular elements of semisimple algebraic groups », *Publ. Math. IHÉS* 25 (1965),
+  49–80, Theorems 1.1, 1.3, 1.4, 6.1, 7.1, 7.9 and 8.1, Lemmas 6.2 and 6.3, Corollary 6.4. Numdam
+  PMIHES_1965__25__49_0.
 - P. Slodowy, *Simple singularities and simple algebraic groups*, LNM 815, Springer (1980),
   ch. 3–4.
 - J. E. Humphreys, *Reflection groups and Coxeter groups*, Cambridge Stud. Adv. Math. 29,
