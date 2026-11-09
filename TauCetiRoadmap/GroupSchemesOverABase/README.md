@@ -74,8 +74,8 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
 - ReductiveGroups Layer 3 owns, for affine group schemes of finite type over a field, the fppf
   quotient `G/H` and its representability (bullet *Normality and quotients*), which 4.1 extends to
   groups of finite type, and the identity component `G°` and component group `π₀(G)` (bullet
-  *Identity component `G°` and component group `π₀(G)`*), which 4.6 and 4.8 extend to groups
-  locally of finite type, agreeing with it on affine groups. Its Layer 2 owns `Lie(G)` with the
+  *Identity component `G°` and component group `π₀(G)`*), which 4.6 extends to groups locally of
+  finite type, agreeing with it on affine groups. Its Layer 2 owns `Lie(G)` with the
   adjoint representation, Layer 6 the radical, and Layer 7 the conjugacy of maximal tori and the
   root datum with its Weyl group, which 4.4 and 5.3 use. Restricted Lie algebras are PCurvature
   Layer 0's.
@@ -90,6 +90,8 @@ cross-section, the universal centralizer, the Grothendieck–Springer space and 
   constructs the diagonalizable group `D_S(M) = Spec_S O_S[M]` and `μ_N` for finite `M`, which
   1.1 compares with this roadmap's `D_S(M)`; 0C owns finite quotients and torsors, 0E effective
   descent.
+- NeronModelsAndSemistableAbelianVarieties 2.2 owns `π₀(G/k)` for groups of finite type over a
+  field, and 4.8 extends it to groups locally of finite type.
 - AlgebraicModuliForArithmeticGeometry §7.9 owns the identity-component subfunctor of a
   quasi-separated group algebraic space over a locally Noetherian base; 0.2 compares with it.
 - ReductiveGroupsPartII RG2.3.1 (*smooth-affine-model*) owns *SmoothModel.identityComponent*, the
@@ -213,26 +215,17 @@ height one and restricted Lie algebras that are locally free of finite rank (SGA
   `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpecι` and
   `TauCeti.FiniteTypeCommHopfAlgCat.geometricallyConnected_identityComponentSpec` (4.6, affine
   case over an algebraically closed field).
-- `TauCeti/Algebra/AlgebraicGroup/Connected/ComponentGroup/FiniteEtale.lean`:
-  `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
-  `TauCeti.FiniteTypeCommHopfAlgCat.isFinite_componentGroupScheme` and
-  `TauCeti.FiniteTypeCommHopfAlgCat.etale_componentGroupScheme`; `Representable.lean` there:
-  `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`; `UniversalProperty.lean`
-  there: `TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv` (4.8, affine case over an
-  algebraically closed field).
 - `TauCeti/RingTheory/Etale/Galois.lean`: `TauCeti.galoisFiber` and
   `TauCeti.isEquivalence_galoisFiber`, Grothendieck's Galois theory for a field `K` with
   separable closure `Ω`, `(FiniteEtale K)ᵒᵖ ≌ ContAction FintypeCat Gal(Ω/K)` (4.7).
 - `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`:
-  `TauCeti.FiniteEtaleScheme.galoisEquivalence` and
-  `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`, its scheme form and its restriction to group
-  objects (4.7, 4.8).
+  `TauCeti.FiniteEtaleScheme.galoisEquivalence`, its scheme form (4.7).
 - `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean`:
   `TauCeti.stabilizer_eq_closure_wallReflections`; `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`:
   `RootPairing.exists_mem_dominantChamber` (5.3).
 
 **From ReductiveGroups.** Layer 3, bullets *Normality and quotients* (4.1) and *Identity component
-`G°` and component group `π₀(G)`* (4.6, 4.8), for the comparisons on affine groups. Layer 6, the
+`G°` and component group `π₀(G)`* (4.6), for the comparisons on affine groups. Layer 6, the
 radical (4.4). Layer 7, the conjugacy of maximal tori and the root datum with its Weyl group (4.4,
 5.3). §8.1, split reductive data, and §8.2, pinnings (Layers 6–7). 9B: the models `𝒢_R`, their
 base change and root subgroups `x_α` (Layers 6–7). Layer 9D, bullet *Relative reductive groups
@@ -253,8 +246,9 @@ over a discrete valuation ring (0.2).
 
 **From InverseGaloisAndArithmeticFundamentalGroups.** IG.0.3 (2.5) and IG.0.4 (2.6).
 
-**From NeronModelsAndSemistableAbelianVarieties.** 2.3, the Chevalley decomposition of a smooth
-connected commutative group over a perfect field (4.2).
+**From NeronModelsAndSemistableAbelianVarieties.** 2.2, the component group `π₀(G/k)` of a group
+of finite type over a field (4.8); 2.3, the Chevalley decomposition of a smooth connected
+commutative group over a perfect field (4.2).
 
 **From AbelianSchemesAndArithmeticModuli.** A0.1, abelian schemes (5.5).
 
@@ -960,32 +954,21 @@ with `TauCeti.isEquivalence_galoisFiber`, consumed here and not restated. *Needs
 
 ### 4.8 The group of connected components
 
-For `G` locally of finite type over `k`, prove `exists_componentGroup`: there are an étale `k`-group
+For `G` of finite type over `k`, the finite étale `k`-group `π₀(G/k)`, the faithfully flat
+projection `G → π₀(G/k)` with kernel `G⁰`, its points over `k_s`, its compatibility with extensions
+of `k` and its comparisons on affine groups are NeronModelsAndSemistableAbelianVarieties 2.2's. For
+`G` locally of finite type over `k`, prove `exists_componentGroup`: there are an étale `k`-group
 `π₀(G/k)` and a faithfully flat homomorphism `q : G → π₀(G/k)` with kernel `G⁰` (4.6), so that
 `π₀(G/k) = G/G⁰` (SGA 3, Exp. VI_A, 5.5.1 (i)), universal among homomorphisms from `G` to étale
-`k`-groups (Milne, Proposition 2.37 (a), for `G` of finite type). Its points over `k_s` are the
-connected components of `G_{k_s}`, with the group structure for which `G(k_s) → π₀(G_{k_s})` is a
-homomorphism; for `k` algebraically closed, `π₀(G/k)` is the constant group on the connected
-components of `G` (SGA 3, Exp. VI_A, 5.5.1 (ii)). For `G` of finite type, the scheme `π₀(G/k)` is
-the `π₀` of 4.7 of the scheme `G`, finite of order the number of connected components of `G_{k_s}`,
-its formation commutes with extension of the base field and with products (Milne, Proposition 2.37
-(c)–(e)), and under Tau Ceti's `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp` it corresponds to
-the finite group of connected components of `G_{k_s}` with its action of `Gal(k_s/k)`. For `G`
-affine of finite type, `π₀(G/k)` is the component group `π₀(G)` of ReductiveGroups Layer 3; over an
-algebraically closed field it is Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
-finite and étale (`TauCeti.FiniteTypeCommHopfAlgCat.isFinite_componentGroupScheme`,
-`TauCeti.FiniteTypeCommHopfAlgCat.etale_componentGroupScheme`), representing the fppf quotient by
-`G⁰` (`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`), with the universal
-property `TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv`. The target is the extension to
-every field and to groups locally of finite type. Route: every connected component `C` of `G` is
-open and of finite type (4.6), so `π₀(G/k)` is the disjoint union of the `π₀(C/k)` of 4.7, each the
-spectrum of a finite separable extension of `k`, and the group law comes from the compatibility of
-4.7 with products of components. *Needs:* 4.6, 4.7; ReductiveGroups Layer 3; Tau Ceti
-`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`,
-`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`,
-`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupFppfGroupObjectIso`,
-`TauCeti.FiniteTypeCommHopfAlgCat.componentEtaleHomEquiv`; Mathlib `Etale`, `Flat`, `Surjective`,
-`KernelFork`, `IsLimit`.
+`k`-groups (Milne, Proposition 2.37 (a), for `G` of finite type). For `G` of finite type, `π₀(G/k)`
+is the `π₀` of 4.7 of the scheme `G`, so it agrees with NeronModelsAndSemistableAbelianVarieties
+2.2's, and for `G` and `G′` of finite type `π₀(G ×_k G′/k) = π₀(G/k) ×_k π₀(G′/k)` (Milne,
+Proposition 2.37 (c)–(e)). The target is the extension to groups locally of finite type. Route:
+every connected component `C` of `G` is open and of finite type (4.6), so `π₀(G/k)` is the disjoint
+union of the `π₀(C/k)` of 4.7, each the spectrum of a finite separable extension of `k`, and the
+group law comes from the compatibility of 4.7 with products of components. *Needs:* 4.6, 4.7;
+NeronModelsAndSemistableAbelianVarieties 2.2; Mathlib `Etale`, `Flat`, `Surjective`, `KernelFork`,
+`IsLimit`.
 
 **Checks.**
 
@@ -1057,9 +1040,9 @@ immersion (Perrin 1976, 4.2.4; SGA 3, Exp. VI_A, 6.7 (ii)), which is `isClosedIm
 
 Tau Ceti's field theory and abelian varieties, and its Cartier theorem for affine groups (4.5);
 SchemeAndStackFoundations §1.17 and, for 4.9, §0.9;
-NeronModelsAndSemistableAbelianVarieties 2.3 for the comparison of 4.2; Tau Ceti's Galois theory of
-finite étale algebras over a field (4.7, 4.8); ReductiveGroups Layer 3 for 4.1, 4.6 and 4.8, and
-Layers 6 and 7 for 4.4; Layer 0 for 4.6.
+NeronModelsAndSemistableAbelianVarieties 2.3 for the comparison of 4.2 and 2.2 for 4.8; Tau Ceti's
+Galois theory of finite étale algebras over a field (4.7); ReductiveGroups Layer 3 for 4.1 and 4.6,
+and Layers 6 and 7 for 4.4; Layer 0 for 4.6.
 
 ## Layer 5: smooth group schemes over a base
 
@@ -1434,32 +1417,19 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
-- EllipticCurveModularityPartII (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
-  consumes 4.5, Cartier's theorem `smooth_of_charZero`, for the intersection of two abelian
-  subvarieties.
 - FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
   is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
-- HeightsRationalPointsAndObstructions (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
-  consumes 6.2, as GSOB §6.2, the Picard groups of a connected split reductive group and of its
-  flag variety over a field.
-- NeronModelsAndSemistableAbelianVarieties consumes 0.2, 4.6 and 4.8 (the identity component over
-  a base and over a field, and `π₀(G/k)`) for the identity component and the component group of a
-  Néron model, and names 4.2, as GS4.2, as the owner of Chevalley's theorem for noncommutative
-  groups and of its comparison with its own 2.3.
-- PurityForFlatCohomology §§7.12a–7.12e treat, for its purity results, the material of 0.1,
-  1.1–1.5, 2.1–2.3 and 2.7 here, at the same generality: `D_S(M)` over an arbitrary base with its
-  homomorphisms and, for finite `M`, its Cartier duality; smoothness, étaleness, kernels and
-  exactness; groups of multiplicative type and tori, with fppf covers on which `M_i` may vary and
-  torsion-free `M_i` for tori; `X*(H)` and the anti-equivalence; subgroups, quotients,
-  cocharacters and `Hᵗᵒʳ`.
-- SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as GS8.5 or §7.6, for the
+- PurityForFlatCohomology (its contract *From TauCetiRoadmap.GroupSchemesOverABase*) consumes
+  0.1, 1.1–1.5, 2.1–2.3 and 2.7 for its purity results. Its §§7.12a–7.12e prove only that the
+  points of `D_S(ℤ)` and `D_S(ℤ/n)` and the Kummer sequence match Tau Ceti's sheaves `𝔾_m` and
+  `μ_n`, and that finite groups of multiplicative type are finite locally free.
+- SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
 
-The identifiers used in those roadmaps resolve here as follows: GSOB §6.2 is 6.2; GS4.2 is 4.2;
-GS7 is, for `Bor(G)`, ReductiveGroups Layer 9D and, for the line bundles on it, Layer 6; GS8.5 is
-7.6.
+The identifier GS7 used in FlagVarieties resolves here, for `Bor(G)`, to ReductiveGroups Layer 9D
+and, for the line bundles on it, to Layer 6.
 
 ## Research context
 
