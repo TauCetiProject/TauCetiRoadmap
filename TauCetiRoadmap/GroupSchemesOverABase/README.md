@@ -38,24 +38,30 @@ codimension `≥ 2` in every fibre and smooth composite to `T/W`.
 
 ## Scope and ownership
 
-**Owned here.** Over an arbitrary base `S`: base change of group schemes and the identity component
-of a smooth group scheme (Layer 0); diagonalizable groups `D_S(M)` for finitely generated `M` (Layer
-1); groups of multiplicative type of finite type, tori, character and cocharacter sheaves and
-isotriviality (Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative
-type, centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of
-such subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by
-closed subgroups, Chevalley's theorem for every smooth connected group over a perfect field together
-with its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
-affinization, the rank invariants, monomorphisms, and, for groups locally of finite type and not
-necessarily affine, separatedness, the reduced subgroup over a perfect field, Cartier's theorem in
-characteristic `0`, the identity component and the étale group of connected components `π₀(G/k)`,
-with the scheme `π₀(X/k)` of a scheme of finite type, and, for quasi-compact groups not necessarily
-of finite type, Perrin's approximation by groups of finite type and its corollaries (Layer 4); the
-rank functions of a smooth group scheme over a base, maximal tori of smooth group schemes and the
-specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on `G/B⁻` over a base and the Picard
-groups of `G/B⁻` and `G` (Layer 6); the Steinberg map, the regular locus, the Steinberg
-cross-section, the universal centralizer, the Grothendieck–Springer space and the Picard groups of
-`G̃`, `G` and `G^reg` (Layer 7).
+**Owned here.** Over an arbitrary base `S`: base change of group schemes (0.1) and the identity
+component of a smooth group scheme (0.2) (Layer 0); diagonalizable groups `D_S(M)` for finitely
+generated `M`, their homomorphisms, smoothness, exactness and, for finite `M`, Cartier duality
+(1.1–1.5), and their torsors (1.6) (Layer 1); groups of multiplicative type of finite type and tori
+(2.1), their quasi-isotriviality (2.2), the character sheaf `X*(H)` and the anti-equivalence
+`H ↦ X*(H)` between groups of multiplicative type and étale-locally constant finitely generated
+sheaves (2.3), the Galois description over a field and isotriviality (2.4–2.6), and cocharacter
+sheaves, subgroups of multiplicative type, quotients and the largest subtorus `Hᵗᵒʳ` (2.7)
+(Layer 2); rigidity, density of torsion, Hom schemes out of groups of multiplicative type,
+centralizers and normalizers of such subgroups in smooth affine groups, and centralizers of such
+subgroups of finite type in smooth separated groups (Layer 3); over a field, quotients by closed
+subgroups, Chevalley's theorem for every smooth connected group over a perfect field together with
+its comparison with the commutative case of NeronModelsAndSemistableAbelianVarieties 2.3, the
+affinization, the rank invariants, and, for groups locally of finite type and not necessarily
+affine, separatedness, the reduced subgroup over a perfect field, Cartier's theorem in
+characteristic `0` and monomorphisms (4.5), the identity component and the étale group of connected
+components `π₀(G/k)`, with the scheme `π₀(X/k)` of a scheme of finite type, and, for quasi-compact
+groups not necessarily of finite type, Perrin's approximation by groups of finite type and its
+corollaries (Layer 4); the rank functions of a smooth group scheme over a base, maximal tori of
+smooth group schemes and the specialization inequalities (Layer 5); the line bundles `𝓛(λ)` on
+`G/B⁻` over a base, the Picard groups of `G/B⁻` and of `G` for `G` connected split reductive over a
+field (6.2), and the Picard group of `G/B⁻` over a base (6.3) (Layer 6); the Steinberg map, the
+regular locus, the Steinberg cross-section, the universal centralizer, the Grothendieck–Springer
+space and the Picard groups of `G̃`, `G` and `G^reg` (Layer 7).
 
 **Left to other roadmaps.**
 
@@ -1417,13 +1423,19 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
+- EllipticCurveModularityPartII (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
+  consumes 4.5, Cartier's theorem `smooth_of_charZero`, in §6.0f: the intersection of two abelian
+  subvarieties is smooth, which gives the minimal period subvariety.
 - FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
   is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
+- HeightsRationalPointsAndObstructions (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
+  consumes 6.2 in §3.8e: the Picard groups of a connected split reductive group and of its flag
+  variety over a field, applied to the reductive quotient of `Ḡ`.
 - PurityForFlatCohomology (its contract *From TauCetiRoadmap.GroupSchemesOverABase*) consumes
-  0.1, 1.1–1.5, 2.1–2.3 and 2.7 for its purity results. Its §§7.12a–7.12e prove only that the
-  points of `D_S(ℤ)` and `D_S(ℤ/n)` and the Kummer sequence match Tau Ceti's sheaves `𝔾_m` and
-  `μ_n`, and that finite groups of multiplicative type are finite locally free.
+  0.1, 1.1–1.5, 2.1–2.3 and 2.7 in §§7.12a–7.12e for its purity results. Those sections prove
+  only that the points of `D_S(ℤ)` and `D_S(ℤ/n)` and the Kummer sequence match Tau Ceti's sheaves
+  `𝔾_m` and `μ_n`, and that finite groups of multiplicative type are finite locally free.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
