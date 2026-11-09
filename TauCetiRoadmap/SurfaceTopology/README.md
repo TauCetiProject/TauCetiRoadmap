@@ -796,17 +796,18 @@ theorem orientedCellularDrawings_equiv_rotationSystems (hΓ : Γ.Connected) :
 theorem cellularDrawings_equiv_signedRotationSystems (hΓ : Γ.Connected) :
     CellularDrawings Γ / Drawing.Equiv ≃ SignedRotationSystem Γ / EquivalenceOfSignedRotations
 
-/-- Euler's formula for a cellular drawing in a closed surface. With boundary it fails unless the
-    support contains the boundary: `C₃` in a disc with one side along the boundary circle is
-    cellular with two faces, `3 - 3 + 2 ≠ 1`. -/
-theorem eulerFormula_cellular (hb : (𝓡∂ 2).boundary M = ∅) (D : Drawing Γ M) (hD : D.IsNoncrossing)
-    (hc : D.IsCellular) :
+/-- Cellularity forces the entire surface boundary into the drawing's support. -/
+theorem Drawing.boundary_subset_support_of_isCellular (D : Drawing Γ M) (hc : D.IsCellular) :
+    (𝓡∂ 2).boundary M ⊆ D.support
+
+/-- Euler's formula for a finite noncrossing cellular drawing in a compact surface,
+    including surfaces with boundary. -/
+theorem eulerFormula_cellular (D : Drawing Γ M) (hD : D.IsNoncrossing) (hc : D.IsCellular) :
     (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + D.faceCount = Surface.eulerChar M
 
-/-- Euler's formula also applies with boundary when the drawing contains it. -/
-theorem eulerFormula_cellular_of_boundary_subset_support (D : Drawing Γ M)
-    (hD : D.IsNoncrossing) (hc : D.IsCellular)
-    (hb : (𝓡∂ 2).boundary M ⊆ D.support) :
+/-- The closed-surface formula is a specialization of the general statement. -/
+theorem eulerFormula_cellular_closed (hb : (𝓡∂ 2).boundary M = ∅)
+    (D : Drawing Γ M) (hD : D.IsNoncrossing) (hc : D.IsCellular) :
     (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + D.faceCount = Surface.eulerChar M
 
 variable {X Y : Type*} [TopologicalSpace X] [ChartedSpace (EuclideanHalfSpace 2) X]
@@ -874,6 +875,16 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
 - ⚠ The correspondence is only for **cellular** drawings. A graph drawn in a torus with a non-disc face is the counter-witness and is given in the examples and mathematical checks. ⚠ And only for drawings in **closed** surfaces: the disc and the sphere both carry `C₃` cellularly with the same rotation at every vertex. With boundary, `GMap2.toDrawing` still produces a cellular drawing whose support contains the boundary, and that is the only direction stated.
 - The correspondence is proved on PL drawings, where a cellular drawing is a cell structure and the rotation at a vertex is read off the triangulation, and transported to all noncrossing drawings by `Drawing.exists_isotopic_isPL`. The orientable form is the general form read through layer 2's `toCombinatorialMap` with `PlanarTopology`'s `Surface.Orientation`.
 - The drawing structure follows the draft Mathlib `Drawing` of an incidence graph in a topological space ([Mathlib graph drawings](https://github.com/leanprover-community/mathlib4/pull/43687)), so that the eventual swap is a deletion; the PL subclass and cellularity are this roadmap's.
+- **Cellularity, boundary, and Euler's formula.** A finite drawing has compact edge
+  images and a finite vertex set, so its support is closed. Complementary components are
+  open in the surface. If a boundary point were outside the support, its complementary
+  component would have a surface-boundary point; PlanarTopology layer 2's boundary
+  invariance excludes a homeomorphism from that component to an open disc. This proves
+  `Drawing.boundary_subset_support_of_isCellular`. Apply the direct finite cell-count
+  proof for boundary-supported drawings to obtain `eulerFormula_cellular`, including
+  the boundary case, and derive the closed formula as a corollary. The proof uses the
+  finite triangulation and cellulation comparisons, independently of capping,
+  classification and homology.
 - **Local degrees and global degree.** The charts in `HasPowerMapModelAt` are
   topological charts, with no analytic compatibility condition. Their sources lie in
   the interiors, their targets are unit discs, and the map takes the source chart into
@@ -894,9 +905,9 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
   models, and the boundary links using the unramified half-disc neighbourhoods, to
   obtain the pulled-back finite cell structure. Its vertices number `d V` minus
   `∑(e-1)` over the finite branch preimage; its edges and faces number `d E` and
-  `d F`. The boundary version uses `eulerFormula_cellular_of_boundary_subset_support`,
-  whose proof builds the boundary-supported cellulation directly. Capping,
-  classification and homology are not inputs to this argument.
+  `d F`. Apply `eulerFormula_cellular` to these boundary-supported cellulations,
+  including when the surfaces have boundary. Capping, classification and homology
+  are not inputs to this argument.
 - **Marked-sphere comparison.** [BelyiMaps §7.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/BelyiMaps/README.md#77-topological-branched-covers-as-a-carrier)
   owns the specialized `TopBranchedCover n` of the sphere with marked values
   `{0,1,∞}`. Provide the specialization adapter with the same map, local power
@@ -908,6 +919,15 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
 
 **Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
 
+For the cellularity and Euler checks, draw `C₃` around the entire boundary of a
+closed disc: `(V,E,F) = (3,3,1)` and `3-3+1=1`. Its equatorial drawing in the sphere
+has `(V,E,F) = (3,3,2)` and `3-3+2=2`. Both are cellular. A triangle with only one
+side along the disc boundary also has two complementary components, but the outer
+component contains uncovered surface-boundary points and is not an open disc.
+It fails `IsCellular`; its raw count `3-3+2=2` therefore does not instantiate the
+Euler theorem for the disc. The first two examples continue to distinguish the
+closed-surface rotation-system correspondence from the general Euler formula.
+
 For branched covers, check the identity with all exponents one, giving degree one
 and zero correction; assigning exponent two at a marked point fails the local model
 because the identity is locally injective. For `z ↦ zⁿ` on the sphere, `n ≥ 1`, the
@@ -918,7 +938,7 @@ is unbranched of degree two and gives `2 = 2·1`. The constant power `n = 0` is
 excluded by positivity and the finite-cover conditions. These checks distinguish
 weighted fibre count from raw fibre cardinality at a branch value.
 
-**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula, including boundary-supported drawings; (viii) local power models, the branched-cover API, the positive global degree, the marked-sphere adapter and Riemann–Hurwitz; (ix) genus, after layer 8.
+**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, its boundary-support theorem, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula for compact surfaces with boundary and its closed-surface corollary; (viii) local power models, the branched-cover API, the positive global degree, the marked-sphere adapter and Riemann–Hurwitz; (ix) genus, after layer 8.
 
 **Consequences.** Layer 10. `BelyiMaps` layers 7 and 8. A future Four Colour roadmap.
 

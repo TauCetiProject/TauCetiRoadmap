@@ -243,6 +243,17 @@ def support (D : Drawing Γ M) : Set M :=
 def IsCellular (D : Drawing Γ M) : Prop :=
   ∀ x ∉ D.support, Nonempty (connectedComponentIn D.supportᶜ x ≃ₜ Metric.ball (0 : ℂ) 1)
 
+open scoped Manifold
+
+/-- Cellularity of a finite drawing on a compact surface forces every surface-boundary
+point into the support. An uncovered boundary point would belong to an open complementary
+component with boundary, whereas a cellular face is an open disc. -/
+theorem boundary_subset_support_of_isCellular
+    [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M]
+    [Finite Γ.vertexSet] [Finite Γ.edgeSet] (D : Drawing Γ M) (hD : D.IsCellular) :
+    (𝓡∂ 2).boundary M ⊆ D.support := by
+  sorry
+
 end Drawing
 
 /-- Five Colour Theorem in the drawing formulation of planarity. Connectivity and
