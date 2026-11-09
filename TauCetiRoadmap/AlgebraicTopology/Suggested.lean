@@ -74,7 +74,8 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
 * the bijection `π_{n+1}(E, F, e) → π_{n+1}(B, {b}, b)` induced by a Serre fibration, Hatcher's
   relative form of the fibration homotopy sequence (Stage 5.5);
 * the compact-support theorem for locally represented top sections with local coefficients
-  (Stage 6.3) and Poincaré duality with `ℤ/2` coefficients (Stage 6.4);
+  (Stage 6.3), and Poincaré duality with `ℤ/2` coefficients and, for a closed manifold with a
+  homological orientation, with integral coefficients (Stage 6.4);
 * the cup-length lower bound for the Lusternik–Schnirelmann category (the categorical
   supplement after Stage 6.2);
 * relative Hurewicz in degrees at least two with only the subspace simply connected
@@ -91,8 +92,14 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
 * CW type of mapping spaces out of finite CW complexes and of based loop spaces (Stage 8.11a).
 
 Several results the roadmap states as targets are proved by the pinned Tau Ceti and are not
-restated: the no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
+restated: the commutativity of the fundamental group of a topological monoid at its unit, the
+no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
 convex, closed-ball and finite-span forms, Strøm's cylinder theorem for closed cofibrations,
+the closed embedding of the base into a pushout along a closed embedding, the spectral sequence
+of a filtered complex with its convergence for exhaustive filtrations and the filtered-space
+spectral sequence of singular chains, Hurewicz fibrations being Serre fibrations, the
+restriction fibrations of mapping spaces along closed cofibrations, fibre transport and the
+fibre-homology local system of a Hurewicz fibration, the action of `π₁` on `π_n`,
 homotopy inverses relative to subspaces and to points with the extension property, the
 degree-one and absolute Hurewicz theorems, relative Hurewicz for highly connected pairs,
 Whitehead's theorem, the homology invariance of weak equivalences, CW approximation of
@@ -108,13 +115,16 @@ the determinant-sign action on local orientations and their chart, open-embeddin
 comparisons, the relative cylinder CW structure, cellular approximation, the cohomology of a
 contractible free quotient cover and of Milnor's classifying space, the torsion `K(A, 1)` axioms
 for finite groups, the uniqueness of `K(G, 1)` spaces of CW type and the circle comparison. The
-`#check` lines below pin them, and the README cites each by file.
+`#check` lines below pin the ones the stages consume most directly, and the README cites each by
+file.
 
 Headline theorems not statable at the pins, and what each lacks:
 
 * the homological and cohomological Serre spectral sequences with their monodromy local systems
-  (Stage 5.5): the pinned libraries have no spectral sequence of a Serre fibration and no
-  fibre-transport local system on its base;
+  (Stage 5.5): the pinned filtered-space spectral sequence `TauCeti.filteredSpaceSpectralSequence`
+  carries the skeletal filtration, but the fibre-homology local system the `E²` page needs exists
+  at the pins only for a Hurewicz fibration with a lifting function (`TauCeti.fiberLocalSystem`);
+  the transport local system of a Serre fibration is a construction of the roadmap;
 * the boundary map `π_{n+1}(B, b) → π_n(F, e)` of the fibration homotopy sequence (Stage 5.5):
   the pinned libraries have no such map; the roadmap constructs it by relative lifting and
   endpoint restriction, and its exactness is stated here only through the relative form above;
@@ -124,14 +134,15 @@ Headline theorems not statable at the pins, and what each lacks:
 * the cellular–singular chain comparison with local coefficients and chosen chain
   representatives (Stage 4.3): the chain map is data built on the roadmap's cellular
   representatives;
-* integral and twisted Poincaré–Lefschetz duality and the twisted relative fundamental class
-  (Stages 6.3–6.4): the homological orientation local system with coefficients in a local system
-  is a construction of the roadmap;
+* Poincaré duality with local coefficients, Poincaré–Lefschetz duality for compact manifolds with
+  boundary and the twisted relative fundamental class (Stages 6.3–6.4): the homological
+  orientation local system with coefficients in a local system and the relative fundamental class
+  of a manifold with boundary are constructions of the roadmap;
 * the proper Whitehead theorem (Stage 8.5): the pinned libraries have no compactly supported
   cohomology, so its hypothesis cannot be written;
-* the relative obstruction class with local coefficients (Stage 8.9): the pinned libraries have
-  no action of `π₁` on `π_n`, so the coefficient system of the obstruction cochain cannot be
-  written;
+* the relative obstruction class with local coefficients (Stage 8.9): the obstruction cochain,
+  assembled from the characteristic-map boundary classes of the cells transported along chosen
+  paths, is data the roadmap constructs; the action of `π₁` on `π_n` it uses is native;
 * the functorial abelian family `K(A, n)` with its normalized identifications (Stage 8.8c) and
   the ordinary EM loop comparison and cohomology suspension (Stage 8.11b): they are data.
 -/
@@ -279,7 +290,8 @@ def ordinaryPairQuotientPairMap (X : Type u) [TopologicalSpace X] (B : Set X) :
     change Quotient.mk (ordinaryCofiberSetoid B) (Sum.inl x) = Quotient.mk (ordinaryCofiberSetoid B) (Sum.inr PUnit.unit)
     exact Quotient.sound (Or.inr ⟨hx, trivial⟩))
 
-/-- Stage 4.5, the CW-pair case of the closed-cofibration quotient comparison: for a Hausdorff
+/-- Stage 4.5, the CW-pair case of the closed-cofibration quotient comparison (Hatcher,
+Proposition 2.22, p. 124, for good pairs; CW pairs are good by Proposition A.5): for a Hausdorff
 relative CW pair `(X, B)` the collapse induces `H_n(X, B; M) ≅ H̃_n(X/B; M)` for every `n` and
 every constant coefficient module `M`. -/
 theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
@@ -288,8 +300,8 @@ theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.
     IsIso (TopPair.singularHomologyMap (ordinaryPairQuotientPairMap X B) M n) := by
   sorry
 
-/-- Stage 4.5, the cohomological form: the collapse induces `H^n(X, B; M) ≅ H̃^n(X/B; M)` through
-the native contravariant pair map. -/
+/-- Stage 4.5, the cohomological form (Hatcher, §3.1, Exercise 8(b), p. 205): the collapse induces
+`H^n(X, B; M) ≅ H̃^n(X/B; M)` through the native contravariant pair map. -/
 theorem ordinaryPairQuotientCohomologyComparison (R : Type u) [CommRing R]
     (M : ModuleCat.{u} R) (X : Type u) [TopologicalSpace X] [T2Space X] (B : Set X)
     [RelCWComplex (Set.univ : Set X) B] (n : ℕ) :
@@ -312,23 +324,22 @@ abbrev relativeCWPushoutCarrier (a : C(B, Z)) : TopCat.{u} :=
   pushout (relativeCWPushoutInclusion B) (TopCat.ofHom a)
 
 /-- Stage 4.5: for a Hausdorff relative CW pair `(Y, B)` and a Hausdorff `Z`, the pushout
-`Z ∪_a Y` is Hausdorff. -/
+`Z ∪_a Y` is Hausdorff. Route: the pushout is a relative CW complex relative to `Z`, and the
+target of a categorical relative CW complex with Hausdorff source is Hausdorff by the native
+`TopCat.RelativeCWComplex.t2Space`, which separates points cell by cell; for an empty base this
+is the Hausdorff part of Hatcher, Proposition A.3 (p. 522). -/
 theorem relativeCWPushout_t2Space [RelCWComplex (Set.univ : Set Y) B]
     (a : C(B, Z)) :
     T2Space (relativeCWPushoutCarrier B a) := by
   sorry
 
-/-- Stage 4.5: `Z` embeds as a closed subspace of the pushout `Z ∪_a Y`. -/
-theorem relativeCWPushout_base_isClosedEmbedding
-    [RelCWComplex (Set.univ : Set Y) B] (a : C(B, Z)) :
-    IsClosedEmbedding
-      (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) := by
-  sorry
-
 /-- Stage 4.5: for closed cofibered pairs `(X, A)` and `(X', A')` and a homotopy equivalence `e`
 carrying `A` into `A'` by a homotopy equivalence `e₀`, prescribed one-sided inverse data `g₀`
 and `H₀ : g₀ ∘ e₀ ≃ id_A` extend to a left inverse `g` of `e` with `g ∘ e ≃ id_X` restricting to
-`g₀` and `H₀`, and `g` is also a right inverse up to homotopy. -/
+`g₀` and `H₀`, and `g` is also a right inverse up to homotopy (Brown, *Topology and Groupoids*,
+7.4.2 and its Addendum, pp. 285–286, which extend `H₀` only up to a track sum; Vogt 1972,
+Proposition, p. 627, makes that sum homotopic to `H₀` rel ends, and Strøm's Theorem 6 for the
+cylinder pair makes the restriction exactly `H₀`). -/
 theorem homotopyInversePairExtension_left
     {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
     (A : Set X) (A' : Set X')
@@ -495,17 +506,33 @@ theorem compactSupportTopClass_unique (R : Type) [CommRing R] (m : ℕ) (M : Typ
     c = c' := by
   sorry
 
-/-- Stage 6.4 with `ℤ/2` coefficients, where every manifold is orientable: a closed
-topological `n`-manifold has a class `c ∈ H_n(M; ℤ/2)` such that capping with `c` is an
-isomorphism `H^p(M; ℤ/2) ≅ H_(n-p)(M; ℤ/2)` for every `p ≤ n`. The class is the fundamental
-class of Stage 6.3; the integral and twisted forms need the orientation local system, which is
-data and is not stated here. -/
+/-- Stage 6.4 with `ℤ/2` coefficients, where every manifold is orientable (Hatcher, Theorem 3.30,
+p. 241, with `R = ℤ/2`): a closed topological `n`-manifold has a class `c ∈ H_n(M; ℤ/2)` such that
+capping with `c` is an isomorphism `H^p(M; ℤ/2) ≅ H_(n-p)(M; ℤ/2)` for every `p ≤ n`. The class is
+the `ℤ/2` fundamental class of Stage 6.3; the integral form is `poincareDuality_int`, and the form
+with local coefficients needs the orientation local system, which is data and is not stated
+here. -/
 theorem poincareDuality_zmodTwo (n : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
     [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] :
     ∃ c : SingularHomology (ZMod 2) (ModuleCat.of (ZMod 2) (ZMod 2)) (TopCat.of M) n,
       ∀ (p : ℕ) (hp : p ≤ n),
         Function.Bijective (fun a : singularCohomology (ZMod 2) (TopCat.of M) p =>
           (capProduct (ZMod 2) (TopCat.of M) p n hp).hom a c) := by
+  sorry
+
+/-- Stage 6.4, integral Poincaré duality (Hatcher, Theorem 3.30, p. 241, with `R = ℤ`): for a
+closed topological `n`-manifold `M` with a homological orientation `o`, capping with the
+fundamental class of `o` is an isomorphism `H^p(M; ℤ) ≅ H_(n-p)(M; ℤ)` for every `p ≤ n`. The
+native class `TauCeti.HomologicalOrientation.fundamentalClass` lies in homology with coefficients
+`ULift ℤ`; it is carried to coefficients `ℤ` by the coefficient isomorphism `ULift ℤ ≅ ℤ`. -/
+theorem poincareDuality_int (n : ℕ) (M : Type) [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+    (o : TauCeti.HomologicalOrientation M (EuclideanSpace ℝ (Fin n)) n) (p : ℕ) (hp : p ≤ n) :
+    Function.Bijective (fun a : singularCohomology ℤ (TopCat.of M) p =>
+      (capProduct ℤ (TopCat.of M) p n hp).hom a
+        ((((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).map
+            (ULift.moduleEquiv (R := ℤ) (M := ℤ)).toModuleIso.hom).app (TopCat.of M)).hom
+          (o.fundamentalClass finrank_euclideanSpace_fin))) := by
   sorry
 
 /-! ## The categorical supplement after Stage 6.2: cup length -/
@@ -529,7 +556,8 @@ def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ∞ :=
 
 /-- The cup-length lower bound for the unnormalized Lusternik–Schnirelmann category: on a
 nonempty space, `cupLength + 1 ≤ lsCategoryCount X X`, the count being Tau Ceti's native
-`TauCeti.lsCategoryCount`. -/
+`TauCeti.lsCategoryCount` (Hatcher, §3.2, Exercise 2, p. 229, for covers by contractible opens;
+the relative cup product argument needs only that each open is contractible in `X`). -/
 theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
     (R : Type u) [CommRing R] :
     lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ := by
@@ -554,9 +582,10 @@ theorem relHurewicz_bijective_of_simplyConnected_subspace {Y : TopCat.{0}} (B : 
 
 /-! ## Stage 8.5: homological Whitehead and proper homotopy rectification -/
 
-/-- Stage 8.5: a map between simply connected spaces of CW type inducing isomorphisms on
-integral singular homology is the forward map of a homotopy equivalence. Whitehead's theorem
-itself is native, `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`. -/
+/-- Stage 8.5 (Hatcher, Corollary 4.33, p. 367): a map between simply connected spaces of CW
+type inducing isomorphisms on integral singular homology is the forward map of a homotopy
+equivalence. Whitehead's theorem itself is native,
+`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`. -/
 theorem homologicalWhitehead
     {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
     [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
@@ -570,7 +599,8 @@ theorem homologicalWhitehead
 
 /-- The proper homotopy extension property of a subspace: a proper map on `X` and a proper
 homotopy of its restriction to `A` extend to a jointly proper homotopy on the whole cylinder.
-Stage 8.5 proves it for strongly locally finite CW pairs and their product pairs. -/
+Stage 8.5 proves it for strongly locally finite CW pairs (Farrell–Taylor–Wagoner 1973,
+Theorem 1.6, p. 3) and their product pairs. -/
 def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
     (A : Set X) : Prop :=
   ∀ (Y : Type u) [TopologicalSpace Y],
@@ -582,7 +612,11 @@ def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
         (∀ (t : unitInterval) (a : A), K (t, (a : X)) = H (t, a))
 
 /-- Stage 8.5: proper extension for a closed pair `(X, A)` gives proper extension for the
-cylinder-boundary pair `(I × X, (∂I × X) ∪ (I × A))`, in the native `I × X` order. -/
+cylinder-boundary pair `(I × X, (∂I × X) ∪ (I × A))`, in the native `I × X` order. This is the
+proper form of Strøm's product theorem (*Note on cofibrations II*, Theorem 6, p. 135): proper
+extension for `(X, A)` gives a proper retraction of `I × X` onto `({0} × X) ∪ (I × A)`, the
+retraction criterion in the proof of Farrell–Taylor–Wagoner 1973, Theorem 1.6, and the retraction
+of the square onto three sides keeps it proper because the square is compact. -/
 theorem HasProperHomotopyExtensionProperty.cylinderBoundary
     {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
     {A : Set X} (hA : HasProperHomotopyExtensionProperty A) (hAc : IsClosed A) :
@@ -595,7 +629,8 @@ theorem HasProperHomotopyExtensionProperty.cylinderBoundary
 homotopy extension property is a proper homotopy equivalence in the native sense
 `ContinuousMap.HasProperHomotopyInverse`, then `A` is a proper strong deformation retract of
 `X`: there is a proper retraction and a jointly proper homotopy from the identity to it, fixed on
-`A`. -/
+`A`. This is the proper form of Hatcher, Proposition 0.19 and Corollary 0.20 (p. 16), with each
+extension step made proper by `HasProperHomotopyExtensionProperty.cylinderBoundary`. -/
 theorem properStrongDeformationRetract_of_inverse
     {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
     (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
@@ -612,8 +647,9 @@ theorem properStrongDeformationRetract_of_inverse
 open scoped Manifold ContDiff in
 /-- Stage 8.7: a compact Hausdorff second-countable smooth manifold has finite CW type, in the
 native sense `TauCeti.FiniteCWType`, through GeometricTopology's smooth triangulation and the
-native `TauCeti.IsTriangulable.finiteCWType`. Its Euler characteristic is then the native
-`TauCeti.eulerChar`. -/
+native `TauCeti.IsTriangulable.finiteCWType` (alternatively Milnor, *Morse Theory*, Theorem 3.5,
+applied to a Morse function, which has finitely many critical points on a compact manifold). Its
+Euler characteristic is then the native `TauCeti.eulerChar`. -/
 theorem compactManifoldFiniteCWType (n : ℕ)
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
@@ -638,7 +674,9 @@ def groupClassifyingSpaceBasepoint (G : Type u) [Group G] :
         (default : SimplexCategory.toTop.obj ⦋0⦌))
 
 /-- Stage 8.8a: the bar model is a `K(G, 1)` in the native sense: aspherical with fundamental
-group `G`, through the contractible free `G`-space `|E G|` covering it. -/
+group `G`, through the contractible free `G`-space `|E G|` covering it (Hatcher, Example 1B.7,
+p. 89, for the Δ-complex with the same simplices; the contraction of `E G` and the free deck
+action are the same on the realized nerve). -/
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
@@ -692,14 +730,13 @@ structure SatisfiesSerreAxioms (C : ObjectProperty AddCommGrpCat.{0}) : Prop whe
     C (AddCommGrpCat.of (((TauCeti.singularChains ℤ).obj
       (TopCat.of (TauCeti.classifyingSpace (Multiplicative A)))).homology (n + 1)))
 
-/-- Stage 8.8d, Hurewicz modulo a Serre class (Serre 1953, Chapter III, Theorem 1; Hatcher,
-*Spectral Sequences in Algebraic Topology*, Theorem 1.8, for the finitely generated, torsion and
-finite classes): for a Serre
-class `C` satisfying Serre's axioms and a simply connected `X` whose homotopy groups
-`π_i(X)` for `2 ≤ i < n + 2` lie in `C`, the integral homology `H_i(X; ℤ)` lies in `C` for
-`0 < i < n + 2`, the native Hurewicz homomorphism in degree `n + 2` is a `C`-isomorphism, and
-the one in degree `n + 3` is a `C`-epimorphism. For `C = 0` this is the absolute Hurewicz
-theorem. -/
+/-- Stage 8.8d, Hurewicz modulo a Serre class: for a Serre class `C` satisfying Serre's axioms
+and a simply connected `X` whose homotopy groups `π_i(X)` for `2 ≤ i < n + 2` lie in `C`, the
+integral homology `H_i(X; ℤ)` lies in `C` for `0 < i < n + 2`, the native Hurewicz homomorphism in
+degree `n + 2` is a `C`-isomorphism, and the one in degree `n + 3` is a `C`-epimorphism (Serre
+1953, Chapter III, Theorem 1, for all three clauses; Hatcher, *Spectral Sequences in Algebraic
+Topology*, Theorem 1.8, p. 14, proves the `C`-isomorphism clause for the finitely generated,
+torsion and finite classes). For `C = 0` this is the absolute Hurewicz theorem. -/
 theorem hurewicz_isCIso (C : ObjectProperty AddCommGrpCat.{0}) [C.IsSerreClass]
     (hC : SatisfiesSerreAxioms C) (X : Type) [TopologicalSpace X] [SimplyConnectedSpace X]
     (x : X) (n : ℕ)
@@ -756,7 +793,8 @@ def ordinaryEMPullback (A : Type u) [AddCommGroup A] (n : ℕ) (K : TopCat.{u})
         (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n
       exact congrArg (fun q => q.hom ι) heq)
 
-/-- Stage 8.10: every `K(A, n)` model represents `H^n(-; A)` on arbitrary Hausdorff CW
+/-- Stage 8.10 (Hatcher, Theorem 4.57, p. 393, with free and based classes compared by
+Proposition 4A.2): every `K(A, n)` model represents `H^n(-; A)` on arbitrary Hausdorff CW
 complexes, of any dimension and with any number of components. The README's universal class is
 normalized through the Hurewicz map; the existence of a representing class is the statable
 content. -/
@@ -769,8 +807,9 @@ theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A] (n : ℕ) [NeZe
 
 /-! ## Stage 8.11a: CW type of mapping spaces -/
 
-/-- Stage 8.11a (Milnor 1959, Theorems 3–4): for a finite Hausdorff CW complex `K` and a space
-`X` of CW type, the mapping space `C(K, X)` with the compact-open topology has CW type. -/
+/-- Stage 8.11a (Milnor 1959, Theorem 3, p. 276, the case of `1`-ads): for a finite Hausdorff CW
+complex `K` and a space `X` of CW type, the mapping space `C(K, X)` with the compact-open topology
+has CW type. -/
 theorem finiteSourceMappingCWType (K X : Type u) [TopologicalSpace K] [TopologicalSpace X]
     [T2Space K] [CWComplex (Set.univ : Set K)] [CWComplex.Finite (Set.univ : Set K)]
     [TauCeti.CWType X] :
@@ -778,8 +817,8 @@ theorem finiteSourceMappingCWType (K X : Type u) [TopologicalSpace K] [Topologic
   sorry
 
 open scoped Topology.Homotopy in
-/-- Stage 8.11a (Milnor 1959, Corollary 3): the based loop space of a Hausdorff CW complex at a
-0-cell, Mathlib's generalized loops `Ω^ (Fin 1) X x`, has CW type. -/
+/-- Stage 8.11a (Milnor 1959, Corollary 3, p. 276): the based loop space of a Hausdorff CW
+complex at a 0-cell, Mathlib's generalized loops `Ω^ (Fin 1) X x`, has CW type. -/
 theorem basedLoopCWType (X : Type u) [TopologicalSpace X] [T2Space X]
     [CWComplex (Set.univ : Set X)] (x : X)
     (hx : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set X) 0,
