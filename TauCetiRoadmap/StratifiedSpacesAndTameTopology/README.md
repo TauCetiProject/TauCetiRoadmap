@@ -4,7 +4,7 @@
 charts and exit paths; the face structure of manifolds with corners; the unfolding of a Thom–Mather
 space into manifolds with corners joined by fibrations, through its tubes, retractions and control
 functions; and, on the tame side, the triangulation and conical structure of definable sets, their
-`C¹` cells and their Whitney stratifications. The carriers are `Stratification X P` (a map to a
+`C^p` cells and their Whitney stratifications. The carriers are `Stratification X P` (a map to a
 partial order `P`, continuous for the upper-set topology), the open cone `OpenCone L` with the
 uniform-collar topology, the exit-path category `ExitPathCategory s` (a quotient of Mathlib's free
 category `CategoryTheory.Paths` on the quiver of exit paths), Mathlib's
@@ -33,7 +33,7 @@ triangulation theorem for o-minimal expansions of ordered fields, the conical st
 definable sets and the semialgebraic triangulation (Layer 4); the face structure of manifolds with
 corners built on the abstract boundary (depth, the immersion `j`, products), embedded corners,
 intersections of boundary hypersurfaces and collars of boundary hypersurfaces (Layer 5); unfolding
-data, gluing, the unfolding of a Thom–Mather space and reconstruction (Layer 6); `C¹` cells and
+data, gluing, the unfolding of a Thom–Mather space and reconstruction (Layer 6); `C^p` cells and
 Whitney stratifications of definable sets (Layer 7). DifferentialGeometry 5.5 owns the abstract
 boundary `∂̃M` of a manifold with corners, which it uses for Stokes' theorem; Layer 5 consumes it
 and builds the face structure on top of it, defining no second boundary carrier.
@@ -916,12 +916,13 @@ Layer 5, 1.1, 2.2 and AlgebraicTopologyPartII §§16.1a–16.1e. Within the laye
 Work with an o-minimal expansion of the real field (graphs of `+` and `·` on `ℝ` definable), in
 the sense of ShimuraVarieties §3.4b.
 
-### 7.1 `C¹` cells
+### 7.1 `C^p` cells
 
 Every definable `f : U → ℝ` on a definable open `U ⊆ Fin n → ℝ` is `C¹` outside a definable
 subset, closed in `U`, of dimension `< n`. Finitely many definable subsets of `Fin n → ℝ` are
 partitioned by one decomposition into `C¹` cells, each a connected `C¹` submanifold (van den
-Dries and Miller, 4.2(1)–(2) with `p = 1`).
+Dries and Miller, 4.2(1)–(2) with `p = 1`). Both statements hold with `C^p` in place of `C¹` for
+every finite `p ≥ 1` (van den Dries and Miller, 4.2(1)–(2)); 7.2 uses them with `p = k`.
 *Needs:* ShimuraVarieties §§3.4c, 3.4d.
 
 **Checks.**
@@ -929,6 +930,8 @@ Dries and Miller, 4.2(1)–(2) with `p = 1`).
 - `x ↦ |x|` is `C¹` off `{0}`, a set of dimension `0 < 1`.
 - `x ↦ x^{1/3}` (semialgebraic) is `C¹` off `{0}`, where its derivative is unbounded.
 - The cusp `{y² = x³}` is partitioned into three `C¹` cells: the origin and the two open branches.
+- The graph of `x ↦ |x|^{3/2}` is one `C¹` cell over `ℝ`; a `C²` decomposition compatible with it
+  cuts the base at `0`, leaving the origin and two branches.
 
 ### 7.2 Whitney stratification
 
@@ -938,7 +941,7 @@ connected `C^k` submanifolds satisfying the frontier condition and Whitney's con
 with finitely many definable subsets (van den Dries and Miller, *Geometric categories and
 o-minimal structures*, 4.8(1)). When the structure has `C^∞` cell decomposition (their 4.2 with
 `p = ∞`), the strata can be taken `C^∞` (van den Dries and Miller, 4.8, Remark (1)).
-*Needs:* 7.1; AlgebraicTopologyPartII §16.1a.
+*Needs:* 7.1 (with `p = k`); AlgebraicTopologyPartII §16.1a.
 
 **Checks.**
 
@@ -978,7 +981,7 @@ Compact semialgebraic sets; the cone; the cusp.
 ### Dependencies
 
 ShimuraVarieties §§3.4b–3.4d, AlgebraicTopologyPartII §§16.1a and 16.1c, and 6.3–6.4 for 7.3.
-Within the layer, 7.2 uses 7.1 and 7.3 uses 7.2.
+Within the layer, 7.2 uses 7.1 with `p = k` and 7.3 uses 7.2.
 
 ## Downstream consumers
 
