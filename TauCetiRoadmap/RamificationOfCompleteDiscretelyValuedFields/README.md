@@ -88,8 +88,16 @@ triviality (`TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot`) and `H
 ClassFieldTheory owns local reciprocity, local duality, finite-group Tate cohomology and the
 reciprocity–filtration compatibilities. LocalGaloisGroups owns the maximal pro-`p` quotient of the
 absolute Galois group and its presentation. ProfiniteProPGroups owns pro-`p` groups, whose
-predicate is Tau Ceti's `TauCeti.IsProP`. ReductiveGroups Layer 3 owns finite-type algebraic
-groups, their closed subgroups, normal quotients and identity components;
+predicate is Tau Ceti's `TauCeti.IsProP`. EtaleCohomologyFoundations §F.3a owns, for every
+henselian discrete valuation ring with residue characteristic `p ≥ 0`, the inertia group `I` in
+the absolute Galois group of its fraction field, the wild inertia `P` as the inverse limit of the
+finite wild inertia groups, the tame character `t_ℓ : I → ℤ_ℓ(1)` for primes `ℓ ≠ p` and the tame
+quotient `I/P ≅ ∏_(ℓ ≠ p) ℤ_ℓ(1)`. This roadmap consumes nothing from that section and states
+neither the tame character nor the tame quotient: §3a.1 stays at the finite-level embedding of
+`G_0/G_1` in the residue units, and of inertia and wild inertia §4a.1 states their identification
+with the filtration terms `G_K^0` and `G_K^(0+)`, for `I_K` and `P_K` as in the Conventions, and
+that `P_K` is pro-`p`, or trivial in residue characteristic zero. ReductiveGroups Layer 3 owns
+finite-type algebraic groups, their closed subgroups, normal quotients and identity components;
 SchemeAndStackFoundations §0.24 owns perfection in characteristic `p`; AdicSpacesPartII §R0.19.9
 owns the generic pro-category with its limit–colimit Hom formula. PadicPeriodRings owns the
 geometric reciprocity construction on the proalgebraic unit groups built in §3a.3, with its
