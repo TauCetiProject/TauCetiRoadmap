@@ -605,6 +605,19 @@ clopen sets. With 3.5, neither hypothesis of 4.1 can be dropped.
 - `Sh ℝ` satisfies (B) (3.2) and is not a presheaf topos (3.3), so by 4.1 it does not have enough
   projectives.
 
+Not a target: other spaces. Call a basis `𝔅` of open sets of `X` disjointly refinable when every
+open cover of a member of `𝔅` has a refinement by pairwise disjoint open sets. Then `Sh(X)` has
+enough projectives (own argument). For `U ∈ 𝔅` the open set `U` is projective: given an
+epimorphism `F ⟶ G` and a section `t` of `G` over `U`, lift `t` on an open cover of `U`, refine
+that cover to a disjoint one and glue the restricted lifts, which are compatible since the overlaps
+are empty; the coproduct of the members of `𝔅` over the sections of a sheaf on them covers it.
+A Lindelöf space with a basis of clopen sets qualifies: a clopen set `B` is Lindelöf, so an open
+cover of `B` is refined by countably many clopen sets `Bₖ`, and the `Bₖ ∖ ⋃_{j<k} Bⱼ` are clopen,
+pairwise disjoint and cover `B`. So do `ℚ`, the Baire space `ℕ → ℕ`, the Sorgenfrey line, every
+second-countable zero-dimensional space and every compact zero-dimensional space, and every
+Alexandrov space, with the basis of smallest open neighbourhoods `Uₓ`: a member of a cover of `Uₓ`
+that contains `x` contains `Uₓ`. The Cantor space of 4.2 is one case.
+
 ### Examples
 
 - Presheaf topoi are exactly the (B) topoi with enough projectives, and among them all satisfy
