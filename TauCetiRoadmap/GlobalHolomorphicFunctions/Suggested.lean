@@ -99,13 +99,16 @@ theorem exists_entire_genusOne_product_of_divisor
       Differentiable ℂ F ∧ F 0 = 1 ∧ MeromorphicOn.divisor F Set.univ = D := by
   sorry
 
-/-- **Sharp finite-product majorant.** For every finite family of complex numbers,
-`‖∏ (1 + uᵢ) − 1‖ ≤ ∏ (1 + ‖uᵢ‖) − 1`, by induction on the index set with no factor divided
-out. Mathlib's `Finset.norm_prod_one_add_sub_one_le` bounds the left side by
-`exp (∑ ‖uᵢ‖) − 1`, which follows from this bound and is strictly weaker: for `u = (1, 1)` both
-sides here equal 3 (Rainer, proof of Proposition 14.2, p. 35). -/
-theorem norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one {ι : Type*} (s : Finset ι)
-    (u : ι → ℂ) : ‖∏ i ∈ s, (1 + u i) - 1‖ ≤ ∏ i ∈ s, (1 + ‖u i‖) - 1 := by
+/-- **Sharp finite-product majorant.** For every finite family in a seminormed commutative
+ring, `‖∏ (1 + uᵢ) − 1‖ ≤ ∏ (1 + ‖uᵢ‖) − 1`, by induction on the index set with no factor
+divided out, using only the triangle inequality and `‖xy‖ ≤ ‖x‖ ‖y‖`; no condition on `‖1‖` is
+needed. Mathlib's `Finset.norm_prod_one_add_sub_one_le` bounds the left side by
+`exp (∑ ‖uᵢ‖) − 1` when `‖1‖ = 1`, which follows from this bound and is strictly weaker: for
+`u = (1, 1)` in ℂ both sides here equal 3 (Rainer, proof of Proposition 14.2, p. 35, for complex
+numbers). -/
+theorem norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one {ι R : Type*}
+    [SeminormedCommRing R] (s : Finset ι) (u : ι → R) :
+    ‖∏ i ∈ s, (1 + u i) - 1‖ ≤ ∏ i ∈ s, (1 + ‖u i‖) - 1 := by
   sorry
 
 /-! ## Layer 2: plane domains, compact hulls, and Runge approximation -/

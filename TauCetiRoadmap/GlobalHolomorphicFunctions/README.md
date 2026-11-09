@@ -26,7 +26,10 @@ winding-weighted Green theorem for contour cycles; none of these is a target her
 DifferentialGeometry is not a supplier.
 Layer 7.2 proves the vanishing `H²_dR(U;ℝ)=0` of a plane domain on Tau Ceti's
 `deRhamCohomology`, from its real two-form exactness.
-ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here owns
+ConformalMapping owns Jordan separation and filled-hull topology (§5.3, proved in Tau Ceti) and
+the Jordan index theorem for closed piecewise-`C¹` Jordan loops (§5.6); Layer 6.4 here owns only
+the assembly of finitely many hole indices and the identification of the boundary cycle's trace
+with the region boundary. Layer 7.2 here owns
 only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
 dx, dy as exterior derivatives of coordinate functions, dz, dz̄ as pullbacks of the native
 plane forms along the inclusion, products of smooth coefficients with forms through the
@@ -110,7 +113,10 @@ the empty cases here follow directly from the definitions.
   holomorphic functions on an open set to their derivatives.
 - `Complex.logDeriv_tendsto` in
   `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
-  eventual holomorphy and a nonzero limit at the point. `logDeriv_tprod_eq_tsum` in
+  eventual holomorphy and a nonzero limit at the point, and concludes convergence of the
+  logarithmic derivatives at that point only. `logDeriv_prod` in
+  `Mathlib/Analysis/Calculus/LogDeriv.lean` is the finite-product rule at a point where every
+  factor is nonzero and differentiable. `logDeriv_tprod_eq_tsum` in
   `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
   derivatives and factor nonvanishing.
 - `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` gives
@@ -280,6 +286,21 @@ from `holomorphicFunctions U` to `holomorphicGerms s` for `s ⊆ U` (`Holomorphi
 Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
 cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
 the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
+From the same cycle file use `TauCeti.Contour.Cycle.windingNumber`, additive on cycles, with
+`TauCeti.Contour.Cycle.windingNumber_of_raw` (a one-generator cycle has the raw winding number
+`TauCeti.Contour.windingNumber γ a b` of its curve) and `TauCeti.Contour.Cycle.trace`, the union
+of the images of the generators with nonzero coefficient.
+Use the Jordan curve theorem of `TauCeti/Analysis/Complex/PlaneSeparation/Inside.lean`, the
+pinned form of ConformalMapping §5.3: for a Jordan curve `C ⊆ ℂ`, the bounded complementary
+component is `filledHull C \ C`, connected, with frontier `C`
+(`TauCeti.IsJordanCurve.filledHull_sdiff_eq_connectedComponentIn`,
+`TauCeti.IsJordanCurve.isConnected_filledHull_sdiff`,
+`TauCeti.IsJordanCurve.frontier_filledHull_sdiff`); `C` is also the frontier of
+`filledHull C` (`TauCeti.IsJordanCurve.frontier_filledHull`); the closure of `filledHull C \ C`
+is `filledHull C` (`TauCeti.IsJordanCurve.closure_filledHull_sdiff`); and every component of
+`ℂ \ C` is
+`filledHull C \ C` or the complement of `filledHull C`
+(`TauCeti.IsJordanCurve.connectedComponentIn_eq_filledHull_sdiff_or_compl`).
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -318,9 +339,15 @@ are not unique.
 
 ### From TauCetiRoadmap.ConformalMapping
 
-Consume L5's Jordan separation and filled-hull topology for Layer 6's boundary construction.
-Its orientation-to-winding comparison and finite-hole assembly are targets of Layer 6.
-No geometric mapping theorem enters the scalar Cauchy–Green or global ∂̄ solver.
+Consume §5.3, the Jordan curve theorem, in the pinned Tau Ceti form listed above, and §5.6's
+`jordan_index_of_isPiecewiseC1On`: a curve `γ` that is piecewise `C¹` on `[a, b]`, `a < b`,
+closed and injective on `[a, b)` has a Jordan curve `C = γ '' [a, b]` as trace, and
+`TauCeti.Contour.windingNumber γ a b` equals one sign `σ ∈ {1, −1}` at every point of
+`filledHull C \ C` and `0` at every point off `filledHull C`. The sign `σ = +1` is the positive
+orientation, and reversing `γ` negates `σ`. Both are inputs only to Layer 6.4's boundary adapter;
+the assembly of finitely many hole indices and the identification of the boundary cycle's trace
+with the region boundary are targets of Layer 6.4. No geometric mapping theorem enters the scalar
+Cauchy–Green or global ∂̄ solver.
 
 ## How to read the build
 
@@ -766,10 +793,16 @@ to F, and an open V⊆U on which every factor and F are nonzero, prove locally u
 on compact subsets of V of
 `logDeriv P_s = Σ_{i∈s} f'_i/f_i` to `F'/F`.
 Use the unordered finite-subset filter when convergence is unordered, or the specified
-partial-product sequence when an order is part of the data. Consume
-`Complex.logDeriv_tendsto` from `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` and
-the finite-product rule with their exact derivative and nonvanishing hypotheses. An unpaired
-series of principal parts receives no value from a paired-product identity.
+partial-product sequence when an order is part of the data. On `V` the finite-product rule
+`logDeriv_prod` (factors nonzero and differentiable at the point) gives
+`logDeriv P_s = Σ_{i∈s} f'_i/f_i`. For the uniform limit on a compact `K⊆V`:
+`TendstoLocallyUniformlyOn.deriv` gives `P_s′→F′` uniformly on `K`; `F` is continuous and
+nonzero on `K`, so `m=min_K|F|>0`, and uniform convergence gives `|P_s|≥m/2` on `K` eventually;
+then
+`|P_s′/P_s−F′/F| ≤ (2/m)|P_s′−F′| + (2 sup_K|F′|/m²)|P_s−F|`
+on `K`, which tends to zero uniformly. `Complex.logDeriv_tendsto` is the pointwise case of this
+estimate and does not by itself give the uniform statement. An unpaired series of principal
+parts receives no value from a paired-product identity.
 
 The genus API assigns the least admissible constant genus, is invariant under permutation
 and finite insertion, and distinguishes absolute convergence from prescribed pairing.
@@ -784,24 +817,31 @@ Logarithmic derivatives are taken only on the simultaneous nonvanishing locus.
   the tail bound is 2⁻ⁿ, whose sum from N is 2¹⁻ᴺ.
 
 This is derived from the expansion of AnalyticNumberTheoryPartI §0.15's primary factor and Rainer,
-Remark 15.4, p. 38 (rainer line 2030); logarithmic-derivative passage uses the pinned theorem in
-the supplier contract.
-*Needs:* AnalyticNumberTheoryPartI §0.15; native power-series estimates and `Complex.logDeriv_tendsto` with
-nonzero limit and holomorphic approximants; the finite-product derivative rule.
+Remark 15.4, p. 38 (rainer line 2030); the logarithmic-derivative passage is the quotient estimate
+above, from the pinned derivative theorem in the supplier contract.
+*Needs:* AnalyticNumberTheoryPartI §0.15; native power-series estimates;
+`TendstoLocallyUniformlyOn.deriv` for holomorphic approximants on an open set; the finite-product
+rule `logDeriv_prod`; continuity of the nonzero limit on compact sets.
 
 ### 1.4 Sharp finite-product majorant
 
-For every finite set `s` and `u : ι → ℂ`, put `P_s=∏_(i∈s)(1+u_i)` and
+Let `R` be a seminormed commutative ring: its seminorm satisfies `‖xy‖≤‖x‖‖y‖`, and no
+condition is put on `‖1‖`, so ℂ, the `p`-adic integers and the zero ring are all instances. For
+every finite set `s` and `u : ι → R`, put `P_s=∏_(i∈s)(1+u_i)` and
 `A_s=∏_(i∈s)(1+‖u_i‖) : ℝ`. Prove
 
 `‖P_s−1‖ ≤ A_s−1`,
 
 `norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one`, a sharp finite-induction target.
-For insertion of a fresh index, use `P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle
-inequality, `‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. The comparison `A_s ≤ exp(Σ_(i∈s) ‖u_i‖)` is
+For insertion of a fresh index, use `P_(insert i s)−1=(P_s−1)+u_i(P_s−1)+u_i`, the triangle
+inequality and `‖u_i(P_s−1)‖≤‖u_i‖‖P_s−1‖`, which give
+`‖P_(insert i s)−1‖≤(A_s−1)(1+‖u_i‖)+‖u_i‖=A_(insert i s)−1`; no bound on `‖1‖` enters, and
+the step does not pass through `‖1+u_i‖≤1+‖u_i‖`, which fails when `‖1‖>1`. The comparison
+`A_s ≤ exp(Σ_(i∈s) ‖u_i‖)` is
 Mathlib's `Real.prod_one_add_le_exp_sum` applied to the nonnegative family `t_i=‖u_i‖`, and
 the combined exponential bound `‖P_s−1‖≤exp(Σ_(i∈s)‖u_i‖)−1` is Mathlib's
-`Finset.norm_prod_one_add_sub_one_le`; neither is a target here. The sharp bound is
+`Finset.norm_prod_one_add_sub_one_le`, stated for normed commutative rings with `‖1‖=1`;
+neither is a target here. The sharp bound is
 strictly stronger than the exponential one and is not stated at the pins.
 No factor is divided out: zero factors, `u_i=0`, and an empty index set are allowed;
 for the empty set `P_s=A_s=1` and the sharp error is zero. These finite estimates precede
@@ -818,6 +858,11 @@ in Rainer, proof of Proposition 14.2, p. 35 (rainer lines 1843–1853).
 - The empty product gives ‖1−1‖=0 and 1−1=0.
 - With two terms u₁=u₂=1, both sharp sides are 3, while the exponential comparison is 4≤e².
 - With u₁=−1 and u₂=0, the product is 0 and both sharp sides are 1; division by a factor is invalid.
+- In the 3-adic integers with u₁=u₂=3, the left side is ‖15‖₃=1/3 and the right side
+  (4/3)²−1=7/9; the ℂ-only form of the bound does not reach this case.
+- In ℂ with the submultiplicative norm 2|z|, for which ‖1‖=2, take u₁=u₂=1: the left side is
+  2·|4−1|=6 and the right side (1+2)²−1=8, while ‖1+u₁‖=4 exceeds 1+‖u₁‖=3, so an insertion
+  step through that inequality would not cover this ring.
 
 *Needs:* Mathlib finite products with `Finset.prod_insert` and the triangle inequality; the
 sharp step uses only finite induction, independently of all infinite-product conclusions.
@@ -1570,10 +1615,11 @@ The following formulas and examples are explicit targets with the stated converg
 ### 6.1 Sine, cosine, cotangent, and shifted sine
 
 Starting with the supplied sine product, derive the cosine product
-`cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)`.
+`cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)` (DLMF, §4.22, eq. (4.22.2), at the argument `πz`).
 The respective simple zero sets are `ℤ` and `ℤ+1/2`. The paired cotangent series
-`π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)` on `ℂ\ℤ`, where `n` and `-n` terms are paired, is
-Mathlib's `cot_series_rep` rewritten by `cotTerm_identity`, and is not proved again here.
+`π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)` on `ℂ\ℤ`, where `n` and `-n` terms are paired
+(DLMF, §4.22, eq. (4.22.3), at the argument `πz`), is Mathlib's `cot_series_rep` rewritten by
+`cotTerm_identity`, and is not proved again here.
 Prove that the paired series converges locally uniformly on `ℂ\ℤ`, from compact-dependent
 `O(n⁻²)` bounds on `2z/(z² − n²)` (Mathlib's local uniform summability of the paired terms,
 `summableLocallyUniformlyOn_iteratedDerivWithin_cotTerm`, concerns derivatives of order at
@@ -1583,7 +1629,7 @@ symmetric pairing and local-uniform domain.
 Also prove the one-sided genus-one product
 `∏_{n≥1}(1+z/n)e^{-z/n}`: it converges locally uniformly and its zeros are exactly the negative
 integers. Also prove the all-z identity
-`(Complex.Gamma z)⁻¹ = z exp(γz)∏_{n≥1}(1+z/n)e^{-z/n}`, where γ is
+`(Complex.Gamma z)⁻¹ = z exp(γz)∏_{n≥1}(1+z/n)e^{-z/n}` (DLMF, §5.8, eq. (5.8.2)), where γ is
 `Real.eulerMascheroniConstant`, using the totalized native reciprocal at poles. The product is
 entire with simple zeros exactly at the nonpositive integers and agrees with native reciprocal
 Gamma on its regular locus. State pole exclusions when using native Gamma or digamma.
@@ -1638,8 +1684,11 @@ proof or global product API.
 - Near z=1/2, −π tan(πz) behaves like 1/(z−1/2), residue 1; a sign error in the shift
   (π tan(πz)) would give residue −1.
 
-These are derived product comparisons from Layer 1 and the native sine, cotangent, Gamma
-sequence and Euler-constant limits in the supplier contracts; the shift uses absolute summability.
+The cosine product, the paired cotangent series and the reciprocal-Gamma product are DLMF
+(4.22.2), (4.22.3) and (5.8.2); the one-sided product, the half-integer shift and the
+shifted-sine formula are derived here, with the proofs above, from Layer 1 and the native sine,
+cotangent, Gamma sequence and Euler-constant limits in the supplier contracts; the shift uses
+absolute summability.
 *Needs:* Layer 1, AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization and
 ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, the cotangent
 series `cot_series_rep` with `cotTerm_identity`, Gamma sequence and harmonic-logarithmic limit,
@@ -1657,6 +1706,10 @@ formula for arbitrary complex `r`. Include the finite-product proof without canc
 possible zero. The hyperbolic sine identity is
 `sinh(πz) = πz ∏_(n≥1) (1 + z²/n²)`,
 proved by `sin(iw)=i sinh(w)` from the sine product.
+Since `e^z−1=2e^{z/2}sinh(z/2)`, the hyperbolic sine product at `z/(2π)` gives
+`e^z−1 = z e^{z/2} ∏_{n≥1}(1+z²/(4π²n²))`,
+with the exponential prefactor computed explicitly and locally uniform convergence inherited from
+the hyperbolic sine product. This identity and the reciprocal-Gamma formula are separate targets.
 
 Product instances must include their actual reciprocal-power checks. For the integer lattice
 minus zero use genus one and `Σ_{n≠0}|n|^{-2}<∞`; for half-integers use genus one and pair
@@ -1700,6 +1753,9 @@ pp. 35–36, rainer line 1868) and the explicit estimates above.
 
 - For r=1/2, the theta shift factor at z=0 is 2; the finite reindexing ratio tends to 2,
   fixing the inverse power r⁻¹ and the sign of z.
+- At z=2πi both sides of the `e^z−1` identity vanish, through the factor n=1,
+  1+(2πi)²/(4π²)=0; with π² in place of 4π² the product would vanish at z=πi, where
+  e^z−1=−2.
 - The Manhattan shell N=1 has 4 points of norm 1; its four reciprocal cubes sum to 4,
   below the displayed bound 8√2. The shell N=2 has 8 points.
 - For aₙ=2ⁿ the deviation tail from N is R·2¹⁻ᴺ; at R=1,N=2 it is 1/2.
@@ -1733,33 +1789,95 @@ Apply the native compact-support Cauchy–Pompeiu identity, Layer 0.3's uniform 
 finite-chain pole-pushing and rational pole-set theorem to these approximation examples.
 Use their stated compact separation, error bounds and sphere-complement pole-set hypotheses.
 
+For the upper/lower/real-axis example, let
+`K_{1,n}={|z|≤n, Im z≥1/n}`, `K_{2,n}={|z|≤n, Im z≤-1/n}`,
+`K_{3,n}={|Re z|≤n, Im z=0}`. Use neighborhoods
+`U_{1,n}={|z|<n+1, Im z>1/(n+1)}`, `U_{2,n}={|z|<n+1, Im z<−1/(n+1)}` and
+`U_{3,n}={|Re z|<n+1, |Im z|<1/(2n)}`; these are disjoint and contain their respective compact
+pieces. Prescribe values `1,-1,0` there.
+Prove `ℂ\K_n` is connected and choose polynomial `P_n` with each piece's error at most `1/n`.
+For each fixed point, membership eventually lies in the appropriate piece, giving pointwise limit
+`1` above the real axis, `-1` below, and `0` on it; this is not uniform convergence on `ℂ`.
+This is Rainer, Exercise 22, p. 30 (rainer line 1592), after the substitution `z↦−iz`, which
+carries the right and left half-planes and the imaginary axis to the upper and lower half-planes
+and the real axis.
+
+For the point-value constrained example, for each integer n≥1 define five compact pieces and
+pairwise disjoint open neighborhoods by
+`K₁ⁿ={|z|≤n, Im z≥1/n}`, `K₂ⁿ={|z|≤n, Im z≤−1/n}`,
+`K₃ⁿ={Im z=0, 1/n≤Re z≤n}`, `K₄ⁿ={Im z=0, −n≤Re z≤−1/n}`,
+and `K₅ⁿ={0}`, with `Kⁿ=⋃₁⁵Kᵢⁿ`. Set
+`U₁ⁿ=int K₁ⁿ⁺¹`, `U₂ⁿ=int K₂ⁿ⁺¹`,
+`U₃ⁿ={|Im z|<1/(2n), 1/(2n)<Re z<2n}`,
+`U₄ⁿ={|Im z|<1/(2n), −2n<Re z<−1/(2n)}`, and
+`U₅ⁿ={|z|<1/(3n)}`, with `Uⁿ=⋃₁⁵Uᵢⁿ`. Prove `Kᵢⁿ⊆Uᵢⁿ` and pairwise disjointness of these open sets. Define the target to be `1` on `K₅ⁿ` and `0` on the other four pieces, and the corresponding locally constant function on the disjoint neighborhoods. Verify directly that `ℂ\Kⁿ` is connected, then apply polynomial Runge to obtain `Q_n^m` with error `1/m`. Since `|Q_n^m(0)-1|≤1/m`, normalize
+`P_n=Q_n^{n+1}/Q_n^{n+1}(0)`. Then `P_n(0)=1` and
+`sup_{Kⁿ\{0}}|P_n|≤(1/(n+1))/(1-1/(n+1))=1/n`; prove pointwise convergence to zero at every fixed nonzero point. This is constrained approximation via a finite interpolation/normalization argument, not ordinary Runge density alone; it is derived from Layer 2.5's polynomial Runge.
+
+Include the annulus-hull comparison with `K = closure(D_3(0)) \ D_2(0)`, `Ω₁=D_4(0)`, and
+`Ω₂ = D_4(0) \ closure(D_1(0))`. Compute `K̂_{Ω₁} = closure(D_3(0))` and
+`K̂_{Ω₂}=K`. For the transfer theorem, let
+Ω₁ and Ω₂ be open, K⊆Ω₁∩Ω₂ compact, and suppose the compact hull H=`K̂_{Ω₂}` is contained in Ω₁, prove:
+for every f holomorphic on Ω₁ and ε>0 there is g holomorphic on Ω₂ with
+`sup_{z∈H}|f(z)−g(z)|<ε`. The hull H is Runge in Ω₂ and Ω₁ is its holomorphic
+neighborhood, so GH0 applies on H; in particular the same error bound holds on K. This is
+Rainer, Theorem 11.1, p. 25 (rainer line 1338), applied to `H`, which is filled in `Ω₂` by
+Lemma 11.3 (3)–(4), pp. 27–28 (rainer line 1437).
+
+The Stone–Weierstrass comparison, density in `C(K,ℂ)` for compact `K⊆ℂ` of the polynomial
+functions in `z` and `z̄` (the complex polynomials in `x,y`), is Mathlib's
+`polynomialFunctions.starClosure_topologicalClosure` and is a comparison here, not a target.
+The two-domain annulus hull example and the approximation implication when `K̂_{Ω₂}⊆Ω₁` use the
+actual holomorphic-neighborhood and compact hypotheses. This differs
+from holomorphic polynomial approximation, which requires connected complement. For arbitrary
+open `Ω`, approximate by `H(Ω)` or rational functions under GH0's actual complement and pole-set
+conditions, not by complex polynomials without extra hypotheses.
+
 **Checks.**
 
 - At z=−1/2, |z|=1/2 and |2z−1|=2, so the point lies in the crescent.
 - At z=−t with t↓0, |1/z|=1/t→∞, whereas every polynomial is bounded on the unit disk.
 - At z=−1+t with t↓0, |1/(z+1)|=1/t→∞, giving the second distinct boundary obstruction.
+- For the point-normalized polynomials with n=1, the bound is (1/2)/(1−1/2)=1;
+  the denominator is bounded below by 1/2, not merely assumed nonzero.
 
-These are direct applications of rational Runge (Rainer, Theorem 11.7, p. 29) and the
-computed complement geometry, not global-uniform approximation theorems.
-*Needs:* Layer 2.5, the holomorphic hull construction, compact exhaustion and polynomial boundedness on a closed disk.
+The crescent examples are direct applications of rational Runge (Rainer, Theorem 11.7, p. 29)
+and the computed complement geometry, not global-uniform approximation theorems; the half-plane
+example, the transfer theorem and the point-normalized example carry their locators above.
+*Needs:* Layer 2.5's polynomial and rational Runge, Layer 2.1's holomorphic hull, compact
+exhaustion and polynomial boundedness on a closed disk.
 
 ### 6.4 Full-boundary Cauchy–Pompeiu formula
 
-Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`, and write `Dⱼ` for the
-bounded Jordan component enclosed by the image of `γⱼ`. Require the closed hole interiors
+Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`: each `γⱼ` is closed on its
+parameter interval `[aⱼ,bⱼ]`, `aⱼ<bⱼ`, and injective on `[aⱼ,bⱼ)`. Write `Cⱼ` for its image and
+`Dⱼ := filledHull Cⱼ \ Cⱼ` for the bounded component of `ℂ\Cⱼ`, whose closure is `filledHull Cⱼ`.
+Require the closed hole interiors
 `closure(Dⱼ)` (`1≤j≤m`) to be pairwise disjoint and contained in `D₀`; define
 `Δ := D₀ \ ⋃_{j=1}^m closure(Dⱼ)`. Thus `Δ` is the bounded finitely connected region with outer
-boundary `γ₀` and hole boundaries `γ₁,…,γₘ`. Parameterize every `γⱼ` counterclockwise around its
-own bounded component. Define the oriented boundary cycle by
+boundary `γ₀` and hole boundaries `γ₁,…,γₘ`. Call `γⱼ` counterclockwise when its sign in
+ConformalMapping §5.6 is `σ=+1`, so that its winding number is `1` on `Dⱼ` and `0` off
+`filledHull Cⱼ`; parameterize every `γⱼ` counterclockwise, reversing it if its sign is `−1`.
+Define the oriented boundary cycle by
 `C_Δ := [γ₀] − Σ_{j=1}^m [γⱼ]` in the existing free-abelian `TauCeti.Contour.Cycle`; this is the
 same orientation as the outer curve counterclockwise and each hole curve clockwise. Here `[γ]`
 denotes the native cycle generator bundled from its closed piecewise-`C¹` parameterization.
 
-Prove the region-boundary adapter: `trace(C_Δ)=∂Δ`, `n_{C_Δ}=1` on `Δ`, and
-`n_{C_Δ}=0` on `ℂ\closure(Δ)`. Use ConformalMapping L5 for the single-Jordan separation and
-filled-hull topology. GH4 must also prove the orientation-to-winding statement for the chosen
-counterclockwise parameterizations and assemble the finitely many disjoint hole indices; L5 alone
-does not state that winding conclusion. Suppose `Ω` is open, `closure(Δ)⊆Ω`, `f : ℂ → ℂ` is
+Prove the region-boundary adapter: `trace(C_Δ)=∂Δ`, and at every point off that trace
+`n_{C_Δ}=1` on `Δ` and `n_{C_Δ}=0` elsewhere. The single-curve facts are consumed: separation,
+frontiers and `closure(Dⱼ)=filledHull Cⱼ` from the pinned Jordan curve theorem, and the
+single-curve indices from ConformalMapping §5.6. The targets here are the hole-index assembly
+and the trace identification. For `z` off the traces, additivity of the cycle winding number and
+`Cycle.windingNumber_of_raw` give `n_{C_Δ}(z)=n(γ₀,z)−Σ_{j=1}^m n(γⱼ,z)`. On `Δ` this is `1−0`,
+since `z∈D₀` and `z∉filledHull Cⱼ` for `j≥1`. In a hole `Dⱼ` it is `1−1`, the hole being unique
+because the closed holes are pairwise disjoint. Off `filledHull C₀` every term is `0`, since
+`filledHull Cⱼ=closure(Dⱼ)⊆D₀` for `j≥1`. For the trace, `Cⱼ⊆closure(Dⱼ)⊆D₀` misses `C₀` and
+the closed holes are disjoint, so the curves `Cⱼ` are pairwise disjoint, every generator keeps
+coefficient `±1`, and `trace(C_Δ)=⋃ⱼCⱼ`. This union is `∂Δ`. Each `Cⱼ` misses `Δ` and lies in
+its closure: the closed holes are compact subsets of the open set `D₀`, at positive distance from
+one another and from `C₀`, and `Cⱼ` is the frontier of `Dⱼ` and of `filledHull Cⱼ`. Conversely a
+point of `∂Δ` off `C₀` lies in `D₀`, hence in some `closure(Dⱼ)`, and not in the open set `Dⱼ`.
+Suppose `Ω` is open, `closure(Δ)⊆Ω`, `f : ℂ → ℂ` is
 `C¹` on `Ω` as a real map, and `ξ∈Δ`. The formal theorem target is the area-integral identity
 
 `f(ξ) = (2πi)⁻¹ ∫_(C_Δ) f(z)/(z−ξ) dz − π⁻¹ ∫_Δ ∂̄f(z)/(z−ξ) dA(z)`.
@@ -1806,60 +1924,16 @@ to obtain
 to GH4 because it consumes the native Green theorem; the GH5 target itself uses polar area
 integration only.
 
-The region-boundary adapter must prove the Jordan separation/orientation-to-winding facts and hole
-cancellation, then identify the geometric boundary with `trace(C_Δ)`; it must not assume a graph-cell
-decomposition. Consume `Cycle.green_winding` for real `C¹` fields on an open set and a native
+The region-boundary adapter consumes the Jordan curve theorem and ConformalMapping §5.6, proves
+the hole cancellation, then identifies the geometric boundary with `trace(C_Δ)`; it does not
+assume a graph-cell decomposition. Consume `Cycle.green_winding` for real `C¹` fields on an open set and a native
 `TauCeti.Contour.Cycle` with trace in that set and null-homologous in it; it imposes no
 nonzero-speed or finite-cell-division hypothesis. Use the local `Cycle.integral`
 real/imaginary-coordinate comparison above with that cycle theorem. GH0 and GH5’s scalar
 solver remain independent of the Green theorem and ConformalMapping; GH5’s form consequences
-consume the native form carrier as stated below. GH4 consumes the native Green theorem and
-ConformalMapping L5 for Jordan separation, and there is no CKG edge for this boundary formula.
-
-For the upper/lower/real-axis example, let
-`K_{1,n}={|z|≤n, Im z≥1/n}`, `K_{2,n}={|z|≤n, Im z≤-1/n}`,
-`K_{3,n}={|Re z|≤n, Im z=0}`. Use neighborhoods
-`U_{1,n}={|z|<n+1, Im z>1/(n+1)}`, `U_{2,n}={|z|<n+1, Im z<−1/(n+1)}` and
-`U_{3,n}={|Re z|<n+1, |Im z|<1/(2n)}`; these are disjoint and contain their respective compact
-pieces. Prescribe values `1,-1,0` there.
-Prove `ℂ\K_n` is connected and choose polynomial `P_n` with each piece's error at most `1/n`.
-For each fixed point, membership eventually lies in the appropriate piece, giving pointwise limit
-`1` above the real axis, `-1` below, and `0` on it; this is not uniform convergence on `ℂ`.
-
-For the point-value constrained example, for each integer n≥1 define five compact pieces and
-pairwise disjoint open neighborhoods by
-`K₁ⁿ={|z|≤n, Im z≥1/n}`, `K₂ⁿ={|z|≤n, Im z≤−1/n}`,
-`K₃ⁿ={Im z=0, 1/n≤Re z≤n}`, `K₄ⁿ={Im z=0, −n≤Re z≤−1/n}`,
-and `K₅ⁿ={0}`, with `Kⁿ=⋃₁⁵Kᵢⁿ`. Set
-`U₁ⁿ=int K₁ⁿ⁺¹`, `U₂ⁿ=int K₂ⁿ⁺¹`,
-`U₃ⁿ={|Im z|<1/(2n), 1/(2n)<Re z<2n}`,
-`U₄ⁿ={|Im z|<1/(2n), −2n<Re z<−1/(2n)}`, and
-`U₅ⁿ={|z|<1/(3n)}`, with `Uⁿ=⋃₁⁵Uᵢⁿ`. Prove `Kᵢⁿ⊆Uᵢⁿ` and pairwise disjointness of these open sets. Define the target to be `1` on `K₅ⁿ` and `0` on the other four pieces, and the corresponding locally constant function on the disjoint neighborhoods. Verify directly that `ℂ\Kⁿ` is connected, then apply polynomial Runge to obtain `Q_n^m` with error `1/m`. Since `|Q_n^m(0)-1|≤1/m`, normalize
-`P_n=Q_n^{n+1}/Q_n^{n+1}(0)`. Then `P_n(0)=1` and
-`sup_{Kⁿ\{0}}|P_n|≤(1/(n+1))/(1-1/(n+1))=1/n`; prove pointwise convergence to zero at every fixed nonzero point. This is constrained approximation via a finite interpolation/normalization argument, not ordinary Runge density alone.
-
-Include the annulus-hull comparison with `K = closure(D_3(0)) \ D_2(0)`, `Ω₁=D_4(0)`, and
-`Ω₂ = D_4(0) \ closure(D_1(0))`. Compute `K̂_{Ω₁} = closure(D_3(0))` and
-`K̂_{Ω₂}=K`. For the transfer theorem, let
-Ω₁ and Ω₂ be open, K⊆Ω₁∩Ω₂ compact, and suppose the compact hull H=`K̂_{Ω₂}` is contained in Ω₁, prove:
-for every f holomorphic on Ω₁ and ε>0 there is g holomorphic on Ω₂ with
-`sup_{z∈H}|f(z)−g(z)|<ε`. The hull H is Runge in Ω₂ and Ω₁ is its holomorphic
-neighborhood, so GH0 applies on H; in particular the same error bound holds on K.
-
-Include the explicit example
-`e^z−1 = z e^{z/2} ∏_{n≥1}(1+z²/(4π²n²))`. Prove the identity by relating the sine product
-at `z/(2πi)` to `e^z−1`, with the exponential prefactor computed explicitly and local-uniform
-convergence proved. This identity and the reciprocal-Gamma formula are separate targets.
-
-The Stone–Weierstrass comparison, density in `C(K,ℂ)` for compact `K⊆ℂ` of the polynomial
-functions in `z` and `z̄` (the complex polynomials in `x,y`), is Mathlib's
-`polynomialFunctions.starClosure_topologicalClosure` and is a comparison here, not a target.
-The Euler example is included above with its independent convergence/identity proof obligation. The two-domain
-annulus hull example and the approximation implication when `K̂_{Ω₂}⊆Ω₁` use the actual
-holomorphic-neighborhood and compact hypotheses. This differs
-from holomorphic polynomial approximation, which requires connected complement. For arbitrary
-open `Ω`, approximate by `H(Ω)` or rational functions under GH0's actual complement and pole-set
-conditions, not by complex polynomials without extra hypotheses.
+consume the native form carrier as stated below. GH4 consumes the native Green theorem, the
+pinned Jordan curve theorem and ConformalMapping §5.6 for this boundary formula, and there is no
+CKG edge for it.
 
 The oriented boundary-cycle API includes trace equality, indices inside the region and holes,
 integer additivity and the real/imaginary circulation comparison, with the source and target
@@ -1873,12 +1947,12 @@ p. 23 (rainer line 1216); the finite-cycle generalization uses Tau Ceti's `Cycle
 - With f(z)=|z|² and ξ=0, the boundary term is 1 and π⁻¹∫1 dA=1, giving 0=1−1;
   reversing the area sign would give 2.
 - On 1<|z|<2 the index at the hole center is 1−1=0, while the index at 3/2 is 1−0=1.
-- For the point-normalized polynomials with n=1, the bound is (1/2)/(1−1/2)=1;
-  the denominator is bounded below by 1/2, not merely assumed nonzero.
 
-*Needs:* Tau Ceti's `Cycle.green_winding`; ConformalMapping L5 for Jordan separation only;
-Tau Ceti cycles, winding, circle integrals and Layer 0.1 derivatives. The boundary adapter,
-coordinate comparison and small-circle/error estimates are the local targets above.
+*Needs:* Tau Ceti's `Cycle.green_winding`; for the boundary adapter only, the pinned Jordan
+curve theorem (ConformalMapping §5.3) and ConformalMapping §5.6 (Jordan index); Tau Ceti cycles,
+winding, circle integrals and Layer 0.1 derivatives. The hole-index assembly, trace
+identification, coordinate comparison and small-circle/error estimates are the local targets
+above.
 
 ### 6.5 Product logarithmic derivatives and boundary examples
 
@@ -1914,7 +1988,7 @@ On the unit disk the |z|² Cauchy–Pompeiu identity at zero is 0=1−1; clockwi
 
 ### Dependencies
 
-Layers 0–4 and AnalyticNumberTheoryPartI §§0.15–0.15a as used by each example; Tau Ceti's cycle Green theorem and ConformalMapping L5 only for the boundary formula.
+Layers 0–4 and AnalyticNumberTheoryPartI §§0.15–0.15a as used by each example; Tau Ceti's cycle Green theorem, the pinned Jordan curve theorem and ConformalMapping §5.6 only for the boundary formula.
 
 ## Layer 7: global smooth ∂̄ solvability and Cousin I (GH5)
 
@@ -2205,7 +2279,8 @@ two-form exactness for its complex de Rham comparison. Layer 7.2 proves `H²_dR(
 an open `U⊆ℂ` on Tau Ceti's `deRhamCohomology`, available to every consumer.
 Hyperfunctions HF2 uses the one-variable input through those analytic layers.
 ConformalMapping's compactness criterion is stated on ambient families and consumes nothing
-here; its L5 boundary topology is an independent input only to Layer 6. ZerosOfLFunctions
+here; its Jordan curve and Jordan index theorems (§§5.3, 5.6) are inputs only to Layer 6.4's
+boundary adapter. ZerosOfLFunctions
 remains an earlier supplier.
 
 ## References
@@ -2217,6 +2292,12 @@ remains an earlier supplier.
   pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
   Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
   Locators use printed pages, not PDF page numbers; rainer lines 1211–2136.
+- F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier, B. I. Schneider, R. F. Boisvert,
+  C. W. Clark, B. R. Miller, B. V. Saunders, H. S. Cohl and M. A. McClain (eds.), *NIST Digital
+  Library of Mathematical Functions*, release of 2026-09-15. Open text:
+  [§4.22](https://dlmf.nist.gov/4.22), equations (4.22.2) and (4.22.3), the cosine product and
+  the cotangent partial fractions; [§5.8](https://dlmf.nist.gov/5.8), equation (5.8.2), the
+  Weierstrass product of `1/Γ`. Cited in Layer 6.1 as dlmf-4-22 and dlmf-5-8.
 - J. D. Gray and S. A. Morris, *When Is a Function That Satisfies the Cauchy–Riemann
   Equations Analytic?*, American Mathematical Monthly 85 (1978), 246–256.
   [Legal author copy](https://www.sidneymorris.net/Morris51.pdf).
