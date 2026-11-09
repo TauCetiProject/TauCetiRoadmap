@@ -69,6 +69,12 @@ The roadmap is complete when Tau Ceti proves the following.
 9. Every cofinite Fuchsian group has covolume at least `π/21`, with equality exactly for signature
    `(0;2,3,7)`, and every cofinite group with a cusp has covolume at least `π/3`, with equality
    exactly for signature `(0;2,3;1)`.
+10. `PSL(2,ℝ)` is second countable (Layer 0 item 1). Every element of `GL(2,ℝ)` acts on `ℍ` by an
+    isometry of `dist` (Layer 0 item 2) and by a Riemannian isometry of the Poincaré metric; the
+    Riemannian distance of the Poincaré metric is Mathlib's `dist`
+    (`isRiemannianManifold_upperHalfPlane`); and `x + iy ↦ (x, y)` is a Riemannian isometry onto
+    `TauCeti.UpperHalfSpace ℝ` and an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ`, which carries
+    curvature `−1` to the Poincaré metric, whose distance is complete (Layer 2 item 1).
 
 ## Ownership and dependencies
 
@@ -391,7 +397,7 @@ The development starts from the following material.
    local order formula `ord_z(F ∘ π) = m · ord_[z](F)` at a point of stabilizer order `m` is
    `Subgroup.meromorphicOrderAt_comp_quotientMk`.
 
-**Source spine:** Farkas--Kra, Chapter I §§4--5; Miranda, Chapter III §§3--4; Katok, §2.4.
+**Source spine:** Farkas--Kra, §IV.9; Miranda, Chapter III §§3--4; Katok, §2.4.
 
 ## Layer 2: hyperbolic polygons and cofinite groups
 
@@ -399,55 +405,67 @@ The development starts from the following material.
    `TauCeti.UpperHalfPlane.poincareRiemannianMetric` is the Riemannian metric
    `(Re v Re w + Im v Im w)/y²` on `UpperHalfPlane` (`UpperHalfPlane.poincareRiemannianMetric_inner`),
    and `UpperHalfPlane.riemannianVolume_eq_volume` identifies its Riemannian volume with Mathlib's
-   `volume`. Prove that every element of `GL(2,ℝ)` acts on `ℍ` by a Riemannian isometry of this
-   metric, an element of Tau Ceti's isometry group `TauCeti.Isom 𝓘(ℝ, ℂ) ℍ`
-   (`Riemannian/Isometry/Group.lean`): an element `g = [[a, b], [c, d]]` of positive determinant
-   acts holomorphically with derivative `det g/(cz + d)²`, whose modulus `det g/|cz + d|²` is the
-   ratio `Im(g • z)/Im z` by Mathlib's `UpperHalfPlane.im_smul_eq_div_normSq`, so the tensor is
-   preserved; Mathlib's `UpperHalfPlane.J` acts by `z ↦ −conj z` (`UpperHalfPlane.coe_J_smul`),
-   whose differential `v ↦ −conj v` preserves `|v|` while the map preserves `Im z`; and an element
-   of negative determinant is `J` composed with one of positive determinant, as in Layer 0 item 2
-   (this roadmap's own derivation from the metric formula). Prove that the Riemannian distance of
-   this metric is Mathlib's `dist`, that is, that Mathlib's metric space `ℍ` satisfies Mathlib's
-   `IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ` for this metric: a vertical segment from `iy₁` to `iy₂` has
-   length `|log(y₂/y₁)|`, every curve joining them is at least as long because `|d log y| ≤ ds`,
-   the `PSL(2,ℝ)` action, by Riemannian isometries and by isometries of `dist`
-   (`IsIsometricSMul PSL(2, ℝ) ℍ`), moves an arbitrary pair to a vertical pair, and the resulting
-   `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with `UpperHalfPlane.dist_eq`, including the
-   coincident-point case (Katok, §1.2). Prove that `x + iy ↦ (x, y)` is a Riemannian isometry
-   `TauCeti.RiemannianIsometry 𝓘(ℝ, ℂ) 𝓘(ℝ, WithLp 2 (ℝ × ℝ)) ℍ (TauCeti.UpperHalfSpace ℝ)` onto
-   Tau Ceti's half-space model with its metric `TauCeti.UpperHalfSpace.riemannianMetric`, the plane
-   case `E = ℝ` of `(‖dx‖² + dt²)/t²` (`TauCeti.UpperHalfSpace.inner_def`): both tensors are the
-   Euclidean one divided by the squared height (this roadmap's own derivation from the two metric
-   formulas). Give the half-space its Riemannian distance, Tau Ceti's
-   `TauCeti.MetricSpace.ofRiemannianMetric` (`Riemannian/Distance.lean`). With the distance
-   comparison above, Tau Ceti's `TauCeti.RiemannianIsometry.riemannianEDist_eq`
-   (`Riemannian/Isometry/Distance.lean`, whose `IsometryClass` instance turns a Riemannian isometry
-   between spaces whose distances are their Riemannian distances into a metric isometry) makes the
-   map an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ` from Mathlib's `dist` to the Riemannian distance
-   of the half-space; this is the comparison isometry that TeichmullerGeometry consumes, and
-   conjugation by it carries the `GL(2,ℝ)` action to Riemannian isometries of the half-space. Tau
-   Ceti's `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`
-   (`Riemannian/Isometry/Curvature.lean`) carries the constant sectional curvature `−1` of the
-   half-space, `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
-   (`Hyperbolic/UpperHalfSpace/Curvature.lean`), to the Poincaré metric, and the Riemannian distance
-   of the Poincaré metric is complete because, by the distance comparison, it is Mathlib's `dist`,
-   which is complete by Mathlib's `ProperSpace ℍ` instance (`UpperHalfPlane/Metric.lean`). Covolume
-   through measurable fundamental domains, independent of the domain, is Mathlib's
+   `volume`. Covolume through measurable fundamental domains, independent of the domain, is Mathlib's
    `MeasureTheory.covolume` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean`); the existence of a
    fundamental domain and cofiniteness are Tau Ceti's `Subgroup.exists_isFundamentalDomain` and
    `Subgroup.IsCofinite` (`Fuchsian/Covolume.lean`), and the Gauss–Bonnet formula for finite
    hyperbolic polygons is `TauCeti.UpperHalfPlane.volume_triangle`
    (`Analysis/Complex/UpperHalfPlane/Triangle.lean`) and
    `TauCeti.UpperHalfPlane.CompactConvexPolygon.volume_carrier` (`UpperHalfPlane/Polygon/GaussBonnet.lean`).
-   *Needs:* Tau Ceti `TauCeti.UpperHalfPlane.poincareRiemannianMetric`,
-   `UpperHalfPlane.poincareRiemannianMetric_inner`, `UpperHalfPlane.riemannianVolume_eq_volume`,
-   `TauCeti.Isom`, `TauCeti.UpperHalfSpace.riemannianMetric`, `TauCeti.UpperHalfSpace.inner_def`,
-   `TauCeti.MetricSpace.ofRiemannianMetric`, `TauCeti.RiemannianIsometry.riemannianEDist_eq`,
-   `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`,
-   `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`, `IsIsometricSMul PSL(2, ℝ) ℍ`; Mathlib
-   `UpperHalfPlane.dist_eq`, `UpperHalfPlane.im_smul_eq_div_normSq`, `UpperHalfPlane.J`,
-   `UpperHalfPlane.coe_J_smul`, `IsRiemannianManifold`, `ProperSpace ℍ`; Layer 0 item 2.
+   The targets of this item are the following six, each with its own inputs.
+
+   - **(a) Riemannian isometries.** Prove that every element of `GL(2,ℝ)` acts on `ℍ` by a
+     Riemannian isometry of the Poincaré metric, an element of Tau Ceti's isometry group
+     `TauCeti.Isom 𝓘(ℝ, ℂ) ℍ` (`Riemannian/Isometry/Group.lean`): an element `g = [[a, b], [c, d]]`
+     of positive determinant acts holomorphically with derivative `det g/(cz + d)²`, whose modulus
+     `det g/|cz + d|²` is the ratio `Im(g • z)/Im z` by Mathlib's `UpperHalfPlane.im_smul_eq_div_normSq`,
+     so the tensor is preserved; Mathlib's `UpperHalfPlane.J` acts by `z ↦ −conj z`
+     (`UpperHalfPlane.coe_J_smul`), whose differential `v ↦ −conj v` preserves `|v|` while the map
+     preserves `Im z`; and an element of negative determinant is `J` composed with one of positive
+     determinant, as in Layer 0 item 2 (this roadmap's own derivation from the metric formula).
+     *Needs:* Tau Ceti `UpperHalfPlane.poincareRiemannianMetric_inner`, `TauCeti.Isom`; Mathlib
+     `UpperHalfPlane.glAction`, `UpperHalfPlane.im_smul_eq_div_normSq`, `UpperHalfPlane.J`,
+     `UpperHalfPlane.coe_J_smul`; Layer 0 item 2.
+   - **(b) The distance comparison.** Prove `isRiemannianManifold_upperHalfPlane`: Mathlib's metric
+     space `ℍ` satisfies Mathlib's `IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ` for the Poincaré metric, that is,
+     the Riemannian distance of the Poincaré metric is Mathlib's `dist`. Route: a vertical segment
+     from `iy₁` to `iy₂` has length `|log(y₂/y₁)|`, every curve joining them is at least as long
+     because `|d log y| ≤ ds`, the `PSL(2,ℝ)` action, by Riemannian isometries (a) and by isometries
+     of `dist` (`IsIsometricSMul PSL(2, ℝ) ℍ`), moves an arbitrary pair to a vertical pair, and the
+     resulting `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with `UpperHalfPlane.dist_eq`,
+     including the coincident-point case (Katok, §1.2).
+     *Needs:* (a); Tau Ceti `IsIsometricSMul PSL(2, ℝ) ℍ`; Mathlib `UpperHalfPlane.dist_eq`,
+     `IsRiemannianManifold`.
+   - **(c) The half-space model.** Prove that `x + iy ↦ (x, y)` is a Riemannian isometry
+     `TauCeti.RiemannianIsometry 𝓘(ℝ, ℂ) 𝓘(ℝ, WithLp 2 (ℝ × ℝ)) ℍ (TauCeti.UpperHalfSpace ℝ)` onto
+     Tau Ceti's half-space model with its metric `TauCeti.UpperHalfSpace.riemannianMetric`, the plane
+     case `E = ℝ` of `(‖dx‖² + dt²)/t²` (`TauCeti.UpperHalfSpace.inner_def`): both tensors are the
+     Euclidean one divided by the squared height (this roadmap's own derivation from the two metric
+     formulas). Conjugation by it carries the `GL(2,ℝ)` action of (a) to Riemannian isometries of the
+     half-space.
+     *Needs:* Tau Ceti `UpperHalfPlane.poincareRiemannianMetric_inner`, `TauCeti.RiemannianIsometry`,
+     `TauCeti.UpperHalfSpace.riemannianMetric`, `TauCeti.UpperHalfSpace.inner_def`; (a), for the
+     conjugated action only.
+   - **(d) The comparison isometry.** Give the half-space its Riemannian distance, Tau Ceti's
+     `TauCeti.MetricSpace.ofRiemannianMetric` (`Riemannian/Distance.lean`). With (b), Tau Ceti's
+     `TauCeti.RiemannianIsometry.riemannianEDist_eq` (`Riemannian/Isometry/Distance.lean`, whose
+     `IsometryClass` instance turns a Riemannian isometry between spaces whose distances are their
+     Riemannian distances into a metric isometry) makes the map of (c) an isometry
+     `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ` from Mathlib's `dist` to the Riemannian distance of the
+     half-space; this is the comparison isometry that TeichmullerGeometry consumes.
+     *Needs:* (b), (c); Tau Ceti `TauCeti.MetricSpace.ofRiemannianMetric`,
+     `TauCeti.RiemannianIsometry.riemannianEDist_eq`.
+   - **(e) Curvature.** Tau Ceti's `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`
+     (`Riemannian/Isometry/Curvature.lean`), applied to the map of (c), carries the constant
+     sectional curvature `−1` of the half-space, `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
+     (`Hyperbolic/UpperHalfSpace/Curvature.lean`), to the Poincaré metric.
+     *Needs:* (c); Tau Ceti `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`,
+     `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`.
+   - **(f) Completeness.** The Riemannian distance of the Poincaré metric is complete because, by
+     (b), it is Mathlib's `dist`, which is complete by Mathlib's `ProperSpace ℍ` instance
+     (`UpperHalfPlane/Metric.lean`).
+     *Needs:* (b); Mathlib `ProperSpace ℍ`.
+
    **Checks.**
    - `diag(2, 1)` sends `i` to `2i` with derivative `2`: the tangent vector `1` at `i` has squared
      Poincaré length `1/1² = 1` and its image `2` at `2i` has `2²/2² = 1`, while the Euclidean
@@ -463,6 +481,13 @@ The development starts from the following material.
      `ℍ` as `2|dz|/y` would give `2 log 2`. The comparison isometry sends `i` and `2i` to `(0, 1)`
      and `(0, 2)`, whose half-space Riemannian distance is the length `∫₁² dt/t = log 2` of the
      vertical segment, the same value.
+   - `dist(i, 1 + i) = arcosh(3/2) = 2 log((1 + √5)/2) ≈ 0.9624`, the Poincaré length
+     `∫ dθ/sin θ` of the arc of the circle of centre `1/2` and radius `√5/2` between the two points;
+     the horizontal segment has Poincaré length `∫₀¹ dx/1 = 1 > 0.9624`, so a model in which the
+     Riemannian distance is the length of the Euclidean segment is wrong off vertical pairs.
+   - The points `i/n` form a Cauchy sequence for the Euclidean distance, with limit `0 ∉ ℍ`, but
+     `dist(i/n, i/m) = |log(m/n)|`, so they are not Cauchy for `dist`: completeness in (f) is a
+     property of the Poincaré distance, false for the Euclidean distance on `ℍ`.
    - The ideal triangle with vertices `0`, `1`, `∞` has area `π`, the angular defect `π − 0`, while
      the region `{|x| ≤ 1/2, |z| ≥ 1}` has area `π/3`, the covolume of `PSL(2,ℤ)`.
    - `z ↦ −conj z` fixes the imaginary axis pointwise, so it is a reflection: an isometry that
@@ -497,8 +522,9 @@ The development starts from the following material.
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.natCard_ellipticOrbits`
    (`Fuchsian/Elliptic/Polygon.lean`), the cusp orbits by
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.finite_cuspOrbit`
-   (`Fuchsian/Compactification/Polygon.lean`), and the presentation by item 3; the genus read off
-   the polygon is identified with the genus of the compactified quotient in Layer 5 item 7. The
+   (`Fuchsian/Compactification/Polygon.lean`), and the presentation by item 3; the Euler
+   characteristic of the compactified quotient `X(Γ)` is computed from the polygon in Layer 5
+   item 7. The
    orientation of the boundary word agrees with that of the cusp meridians fixed under Pinned
    conventions, in Tau Ceti's `Fuchsian/Cusp/Polygon.lean`, for a side pairing whose maps lie in
    `Γ` and whose nontrivial `Γ`-translates of the open polygon are disjoint from it: at an ideal
@@ -566,7 +592,7 @@ The development starts from the following material.
    (`TauCeti.Subgroup.CuspDatum.natCast_le_meromorphicOrderAt_cuspExtension`,
    `Fuchsian/Cusp/Growth.lean`).
 
-**Source spine:** Diamond--Shurman, §§2.3--2.4; Katok, §§3.4 and 4.2; Forster, §19.
+**Source spine:** Diamond--Shurman, §2.4.
 
 ## Layer 4: compactified quotient Riemann surfaces
 
@@ -619,7 +645,7 @@ namespace, such as `isOpenEmbedding_ofQuotient`, are in Tau Ceti's namespace
 
 No step identifies the carrier with `P^1`, a torus, or another classified surface by definition.
 
-**Source spine:** Katok, Chapter 4; Diamond--Shurman, §§2.4--2.5; Forster, §§18--19.
+**Source spine:** Katok, Chapter 4; Diamond--Shurman, §2.4.
 
 ## Layer 5: compact-surface degree theory and Fuchsian applications
 
@@ -659,15 +685,28 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `χ(X) = deg f · χ(Y) − R(f)` for a finite holomorphic map `f : X → Y` of compact connected
    Riemann surfaces is Tau Ceti's
    `TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`,
-   given finite CW type of `X`, `Y` and of `Y` minus the finitely many branch values, which
-   AlgebraicTopology Stage 8 item 7 supplies with marked points. Prove `riemannHurwitz`, for `X`
+   given finite CW type of `X`, `Y` and of `Y` minus the branch values, which are finitely many
+   (`TauCeti.RiemannSurface.FiniteHolomorphicMap.finite_branchValues`). The finite CW type of the
+   punctured target is this roadmap's own step: triangulate `Y` by a finite simplicial complex `K`
+   with the branch values among its vertices (AlgebraicTopology Stage 8 item 7, in its form with
+   finitely many marked interior points); Tau Ceti's
+   `AbstractSimplicialComplex.instFiniteCWTypeComplVertexImage` gives the realization of `K` minus
+   those vertices finite CW type, and `Homeomorph.finiteCWType` carries it to `Y` minus the branch
+   values along the triangulation, restricted to the complements. Prove `riemannHurwitz`, for `X`
    and `Y` in one universe as in the pinned formula:
    `2 genus X − 2 = deg f · (2 genus Y − 2) + R(f)`, by rewriting both Euler characteristics with
    item 1 (Forster, §17; Miranda, Chapter II §4). No canonical divisor and no Riemann–Roch enters.
    *Needs:* item 1; Tau Ceti
-   `TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`;
-   AlgebraicTopology Stage 8 item 7.
+   `TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`,
+   `TauCeti.RiemannSurface.FiniteHolomorphicMap.finite_branchValues`,
+   `AbstractSimplicialComplex.instFiniteCWTypeComplVertexImage`, `Homeomorph.finiteCWType`;
+   AlgebraicTopology Stage 8 item 7, with marked points.
    **Checks.**
+   - The punctured step on `z ↦ z²`: triangulate `P¹` as the boundary of a tetrahedron with `0`
+     and `∞` among its four vertices; the complement of those two vertices is a cylinder, of Euler
+     characteristic `2 − 2 = 0`, each puncture of a surface lowering `χ` by one. Its preimage is the
+     same cylinder, and `0 = 2 · 0` is the punctured formula `χ(X ∖ f⁻¹S) = deg f · χ(Y ∖ S)`; a
+     model in which a puncture left `χ` unchanged would turn it into the false `2 = 2 · 2`.
    - `z ↦ z²` on `P¹`: degree `2`, ramified at `0` and `∞`, `R = 2`, and `−2 = 2 · (−2) + 2`; the
      sign error `2g − 2 = d(2g′ − 2) − R` would give `−2 = −6`.
    - The Weierstrass function of a lattice, `ℂ/Λ → P¹`: degree `2`, four ramification points,
@@ -702,36 +741,61 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
      width `2`: over the cusp `R` gains `3`, over `i` three points of index `2` give `3`, over `ρ`
      two points of index `3` give `4`, and `−2 = 6 · (−2) + 10`.
    - `χ_orb(PSL(2,ℤ)) = 2 − (1/2 + 2/3) − 1 = −1/6` and `χ_orb(Γ(2)) = 2 − 3 = −1 = 6 · (−1/6)`.
-7. **The genus bridge and the orbifold area formula.** For a cofinite `Γ`, prove that the genus
-   read off a side-paired fundamental polygon (Layer 2 item 5) equals `genus Γ.CompactifiedQuotient`
-   of item 1: subdivide the compactified polygon so that every elliptic cycle and every cusp orbit
-   is a vertex, extending the incident sectors at cusps through the filled-disc charts; this is a
-   finite cell decomposition of `X(Γ)` whose cell count is `2 − 2h` for the polygon genus `h`, and
-   that count is `TauCeti.eulerChar X(Γ)` by Tau Ceti's `TauCeti.eulerChar_eq_cwEulerChar`
-   (`Cellular/EulerCharacteristic/FiniteCWType.lean`), so item 1 gives `h = genus X(Γ)`.
-   Combined with the polygon area formula of Layer 4 item 5 this proves
+7. **The genus bridge and the orbifold area formula.** Let `Γ` be cofinite and let `σ` pair the
+   sides of a convex `n`-gon `P` whose pairing maps lie in `Γ`, whose `Γ`-translates form a locally
+   finite family and whose nontrivial `Γ`-translates have interiors disjoint from that of `P` (a
+   Dirichlet polygon of Layer 2 item 4 is one). Write `k` for the number of self-paired sides, so
+   that `n − k` is even, `V = Nat.card σ.FiniteVertexCycle` for the number of finite vertex cycles,
+   those with trivial cycle transformation included, and `c = Nat.card σ.IdealVertexCycle` for the
+   number of ideal vertex cycles, which is `Nat.card Γ.CuspOrbit` by Tau Ceti's
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.natCard_cuspOrbit`
+   (`Fuchsian/Cusp/VertexCycle.lean`). Prove the cell count
+   `TauCeti.eulerChar X(Γ) = V + c + 1 − (n − k)/2`: the image of `P` in `X(Γ)`, with each cusp
+   adjoined through its filled-disc chart, is a finite cell decomposition whose vertices are the `V`
+   finite cycles, the `c` cusps and the midpoints of the `k` self-paired sides, whose edges are the
+   `(n − k)/2` pairs of distinct paired sides and the `k` halves of the self-paired sides, and whose
+   one face is the interior of `P`; its alternating cell count is `TauCeti.eulerChar X(Γ)` by Tau
+   Ceti's `TauCeti.eulerChar_eq_cwEulerChar` (`Cellular/EulerCharacteristic/FiniteCWType.lean`). With
+   item 1 this is the genus bridge, `(n − k)/2 − 1 − V = 2 genus X(Γ) − 2 + c`: the genus `h` read
+   off the polygon, defined by `2 − 2h = V + c + 1 − (n − k)/2`, is `genus X(Γ)`. Substituting it
+   into the polygon area formula of Layer 4 item 5,
+   `covolume Γ = 2π ((n − k)/2 − 1 − V + Σₑ (1 − 1/mₑ))`, proves
    `covolume_eq_two_pi_mul_signature`:
    `covolume Γ = 2π (2g − 2 + Σₑ (1 − 1/mₑ) + c)`, where `g = genus Γ.CompactifiedQuotient`, `e`
    runs over the elliptic orbits `Subgroup.ellipticOrbits` with stabilizer orders
    `mₑ = TauCeti.cardStabilizerOnOrbit e`, and `c = Nat.card Γ.CuspOrbit` (Martin, Theorem 2.2;
-   Beardon, §10.4; Katok, §4.3). Keep the cell count `χ(X(Γ)) = 2 − 2g` distinct from the orbifold Euler characteristic
-   `χ_orb = 2 − 2g − Σₑ (1 − 1/mₑ) − c = −covolume Γ / 2π`.
+   Beardon, §10.4; Katok, §4.3). Keep the cell count `χ(X(Γ)) = 2 − 2g` distinct from the orbifold
+   Euler characteristic `χ_orb = 2 − 2g − Σₑ (1 − 1/mₑ) − c = −covolume Γ / 2π`.
    *Needs:* item 1; Layer 2 items 4 and 5; Layer 4; Tau Ceti
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`,
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.natCard_cuspOrbit`,
    `TauCeti.eulerChar_eq_cwEulerChar`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
    `Subgroup.IsCofinite.finite_cuspOrbit`.
    **Checks.**
+   - The cell count `(n, k, V, c) ↦ V + c + 1 − (n − k)/2` on `PSL(2,ℤ)`: the standard triangle
+     with vertices `ρ`, `ρ + 1`, `∞`, its arc self-paired by `z ↦ −1/z`, is `(3, 1, 1, 1)` and gives
+     `2`; the same region with the arc split at `i` into two paired sides is `(4, 0, 2, 1)` and gives
+     `2` again, genus `0`. Leaving the midpoints of the self-paired sides out of the vertices, the
+     count `V + c + 1 − (n + k)/2`, gives `1` on the first polygon and `2` on the second, so it is
+     not an invariant of `X(Γ)`.
+   - The image of `Γ(2)`, on the ideal quadrilateral with vertices `−1`, `0`, `1`, `∞`: `(4, 0, 0, 3)`
+     gives `2`, genus `0`; leaving the cusps out of the vertices gives `0 + 1 − 2 = −1`, an odd
+     value that no closed orientable surface has.
+   - The commutator subgroup of `PSL(2,ℤ)`, on an ideal quadrilateral whose four vertices form one
+     cycle: `(4, 0, 0, 1)` gives `0`, genus `1`; the regular octagon with angles `π/4` and the
+     surface-word pairing of a torsion-free group of genus `2`: `(8, 0, 1, 0)` gives `−2`, genus `2`.
    - `PSL(2,ℤ)`: genus `0`, elliptic orders `2` and `3`, one cusp, and `2π(−2 + 1/2 + 2/3 + 1) = π/3`,
-     the pinned `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`; dropping the cusp term gives the
-     negative bracket `−5/6`.
+     the pinned `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`, equal to the polygon form
+     `2π(1 − 1 − 1 + 1/2 + 2/3)` on `(3, 1, 1, 1)`; dropping the cusp term gives the negative bracket
+     `−5/6`.
    - A torsion-free cocompact group of genus `2` has covolume `4π = −2π χ`.
    - The `(2, 3, 7)` triangle group has covolume `π/21`; the formula with `χ_orb` in place of
      `−χ_orb` would give a negative area.
 
 **Source spine:** Forster, §§10, 17, and 19; Miranda, Chapter II §4 and Chapter III §§3--4;
-Farkas--Kra, Chapter II §4; Beardon, §10.4; Katok, §4.3.
+Farkas--Kra, §§I.2 and III.1; Beardon, §10.4; Katok, §4.3.
 
-## Layer 4a: minimum area of compact orientable hyperbolic orbifolds
+## Layer 4a: minimal areas of cofinite Fuchsian groups
 
 A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; c)`, with elliptic orders `mᵢ ≥ 2`
 and `c` cusps, has covolume `2π δ` for the deficit `δ = 2g − 2 + Σᵢ (1 − 1/mᵢ) + c` (Layer 5
@@ -850,7 +914,7 @@ implemented in Tau Ceti, in the construction order below.
 5. No atlas is transferred backward by fiat: every statement about `P^1` is obtained through this
    proved biholomorphism after the compact quotient already exists.
 
-**Source spine:** Diamond--Shurman, §§2.3--2.5; Serre, Chapter VII; Tau Ceti's
+**Source spine:** Diamond--Shurman, §§2.3--2.4; Serre, Chapter VII; Tau Ceti's
 `TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`.
 
 ## Dependency order and parallel work
@@ -915,13 +979,13 @@ replace local declarations when available, but no layer waits for them.
 - Alan Beardon, *The Geometry of Discrete Groups*, Graduate Texts in Mathematics 91,
   Springer, 1983, especially Chapters 7--11.
 - Svetlana Katok, *Fuchsian Groups*, Chicago Lectures in Mathematics, University of Chicago
-  Press, 1992, especially Chapters 2--4.
+  Press, 1992, especially §1.2 and Chapters 2--4.
 - Fred Diamond and Jerry Shurman, *A First Course in Modular Forms*, Graduate Texts in
-  Mathematics 228, Springer, 2005, §§2.3--2.5.
+  Mathematics 228, Springer, 2005, §§2.3--2.4.
 - Otto Forster, *Lectures on Riemann Surfaces*, Graduate Texts in Mathematics 81,
-  Springer, 1981, especially §§10 and 17--19.
+  Springer, 1981, especially §§10, 17 and 19.
 - Hershel Farkas and Irwin Kra, *Riemann Surfaces*, Graduate Texts in Mathematics 71,
-  Springer, second edition, 1992.
+  Springer, second edition, 1992, §§I.2, III.1 and IV.9.
 - Rick Miranda, *Algebraic Curves and Riemann Surfaces*, Graduate Studies in Mathematics 5,
   American Mathematical Society, 1995, Chapter II §4 and Chapter III.
 - Jean-Pierre Serre, *A Course in Arithmetic*, Graduate Texts in Mathematics 7,

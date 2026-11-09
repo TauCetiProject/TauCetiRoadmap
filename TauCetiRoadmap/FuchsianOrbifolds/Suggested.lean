@@ -6,6 +6,7 @@ import TauCeti.Analysis.Complex.Fuchsian.Elliptic.Finite
 import TauCeti.Analysis.Complex.RiemannSurface.Degree
 import TauCeti.Analysis.Complex.RiemannSurface.Divisor.Basic
 import TauCeti.Analysis.Complex.RiemannSurface.Ramification
+import TauCeti.Analysis.Complex.UpperHalfPlane.PoincareMetric
 import TauCeti.GroupTheory.GroupAction.Stabilizer.Basic
 
 /-!
@@ -30,10 +31,14 @@ analytic atlas of the cusp compactification (`Subgroup.IsCofinite.compactSpace_c
 (`TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`);
 and the biholomorphism `X(1) ≃ P¹` given by `j` (`TauCeti.ModularGroup.jBiholomorph`).
 
-Stated here: `χ = 2 − 2g` for compact connected Riemann surfaces, Riemann–Hurwitz in genus form,
-the orbifold area formula of a cofinite group in terms of the genus of its compactified quotient,
-and the minimal areas `π / 21` and `π / 3` with their equality cases. The Fuchsian Riemann–Hurwitz
-formula of Layer 5 item 6 is `riemannHurwitz` applied to Tau Ceti's
+Stated here: the comparison of the Riemannian distance of the Poincaré metric with Mathlib's
+distance on `ℍ`, `χ = 2 − 2g` for compact connected Riemann surfaces, Riemann–Hurwitz in genus
+form, the orbifold area formula of a cofinite group in terms of the genus of its compactified
+quotient, and the minimal areas `π / 21` and `π / 3` with their equality cases. Second
+countability of `PSL(2, ℝ)`, the isometric `GL(2, ℝ)` action and the half-space comparison of
+the README's Layer 0 items 1–2 and Layer 2 item 1 are targets there, derived from the pinned APIs
+and the distance comparison, not headlines. The Fuchsian Riemann–Hurwitz formula of Layer 5
+item 6 is `riemannHurwitz` applied to Tau Ceti's
 `TauCeti.Fuchsian.compactifiedQuotientFiniteHolomorphicMap`, and is not restated. Every headline
 of the roadmap is statable at the pins; none is omitted for want of a carrier.
 -/
@@ -44,6 +49,16 @@ namespace TauCetiRoadmap.FuchsianOrbifolds
 
 open MeasureTheory MulAction TauCeti
 open scoped MatrixGroups UpperHalfPlane Manifold Real
+
+/-! ## Layer 2: hyperbolic polygons and cofinite groups -/
+
+/-- **The distance comparison.** Mathlib's hyperbolic distance on `ℍ` is the Riemannian distance
+of Tau Ceti's Poincaré metric `TauCeti.UpperHalfPlane.poincareRiemannianMetric`, the Euclidean
+tensor divided by `(Im z)²`: for all `z w : ℍ`, `edist z w` is the infimum of the Poincaré lengths
+of the `C¹` paths from `z` to `w`. The vertical segment realises it on a vertical pair, and the
+isometric `PSL(2, ℝ)` action moves every pair to a vertical one (Katok, §1.2). -/
+theorem isRiemannianManifold_upperHalfPlane : IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ := by
+  sorry
 
 /-! ## Layer 4: compactified quotient Riemann surfaces -/
 
