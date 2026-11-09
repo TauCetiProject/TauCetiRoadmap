@@ -137,14 +137,16 @@ use CharacteristicClasses C6's periodic-degree fold.
 - `Ring.inverse`, `NormedRing.inverse_continuousAt`; `CStarRing.norm_one`
   (`Analysis/CStarAlgebra/Basic.lean`): the unit of a nontrivial C*-ring has norm one.
 - `selfAdjoint.expUnitary` (`Analysis/CStarAlgebra/Exponential.lean`): `exp(iA)` as a unitary of
-  a unital C*-algebra for self-adjoint A, through `NormedSpace.exp_mem_unitary_of_mem_skewAdjoint`
-  (`Analysis/Normed/Algebra/Exponential.lean`). `Unitary.argSelfAdjoint`,
-  `selfAdjoint.expUnitaryPathToOne`, `selfAdjoint.joined_one_expUnitary`, `Unitary.joined` and
-  `Unitary.mem_pathComponentOne_iff` (`Analysis/CStarAlgebra/Unitary/Connected.lean`): the
-  principal argument of a unitary through the continuous functional calculus (it is `0` on a
-  unitary whose spectrum meets the negative real axis), the path `t ↦ expUnitary (t • A)` from `1`
-  to `expUnitary A`, a path between unitaries at distance less than 2, and the path component of
-  `1` as the finite products of exponentials of self-adjoint elements.
+  a unital C*-algebra for self-adjoint A, through `NormedSpace.exp` and
+  `NormedSpace.exp_mem_unitary_of_mem_skewAdjoint` (`Analysis/Normed/Algebra/Exponential.lean`).
+  `Unitary.argSelfAdjoint`, `selfAdjoint.expUnitaryPathToOne`, `selfAdjoint.joined_one_expUnitary`,
+  `Unitary.joined` and `Unitary.mem_pathComponentOne_iff`
+  (`Analysis/CStarAlgebra/Unitary/Connected.lean`): the
+  principal argument of a unitary through the continuous functional calculus (it is `0` when the
+  principal argument is not continuous on the spectrum, as for the bilateral shift, and `π` on
+  `U = −1`), the path `t ↦ expUnitary (t • A)` from `1` to `expUnitary A`, a path between
+  unitaries at distance less than 2, and the path component of `1` as the finite products of
+  exponentials of self-adjoint elements.
 - `CategoryTheory.ShortComplex.SnakeInput` and `SnakeInput.snake_lemma`, on `ModuleCat ℂ`.
 - `HilbertBasis`, `Path`, `IsCompactOperator`, `FiberBundle`, `VectorBundle`,
   `ContMDiffVectorBundle`, `TangentSpace`.
@@ -229,7 +231,8 @@ continuous-representation SplitK0 ring, equivariant descent, the strongly contin
 continuous-section and L²-section actions and the finite equivariant embedding of a G-bundle
 over a compact base, associated products and associated Koszul/folding naturality (T6, including
 T6.1, T6.2, T6.8 and T6.9), and the sphere Koszul reflection homotopy (T7.5). The G-finite density
-theorem that T6.1 applies is CompactGroups Layer 5's, consumed here under the same contract.
+theorem that T6.1 applies is consumed here from CompactGroups under the same contract,
+`gap:banach-gfinite-density`.
 
 ### From TauCetiRoadmap.CharacteristicClasses, AlgebraicTopology and DifferentialGeometry
 
@@ -260,9 +263,9 @@ Layer 6](../RepresentationTheory/LieGroups/README.md) and
 [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): Haar averaging, continuous
 finite-dimensional representations, Peter–Weyl and character detection, and connected compact
 torus theory. What CompactGroups must provide (gap:banach-gfinite-density): for a compact
-Hausdorff group acting on a complex Banach space by a representation whose orbit maps are
-continuous, the G-finite vectors (those with finite-dimensional orbit span) are dense; this is
-the Layer 5 contract that TopologicalKTheory T6.1 consumes for its section actions.
+Hausdorff group acting on a complex Banach space by continuous linear automorphisms whose orbit
+maps are continuous, the G-finite vectors (those with finite-dimensional orbit span) are dense;
+this is the contract that TopologicalKTheory T6.1 consumes for its section actions.
 
 ### From TauCetiRoadmap.SpinGeometry
 
@@ -452,8 +455,8 @@ comparison. Layer 2.6 normalizes its essential-norm identity by these facts.
 
 For a complex Hilbert space H construct, for every unitary U, a bounded self-adjoint A with
 `U = exp(iA)` by applying the bounded Borel argument function, with values in `(−π, π]`, to the
-spectrum of U (SelfAdjointSpectralTheory Part B); a continuous principal logarithm need not exist
-on the spectrum, and Mathlib's `Unitary.argSelfAdjoint` is `0` there. Prove the identity
+spectrum of U (SelfAdjointSpectralTheory Part B); the principal argument need not be continuous
+on the spectrum, and where it is not, Mathlib's `Unitary.argSelfAdjoint` is `0`. Prove the identity
 `selfAdjoint.expUnitary A = U` by Borel-calculus multiplicativity against Mathlib's
 `NormedSpace.exp` (uniform polynomial and series approximation and norm control). The path from
 `1` to U is Mathlib's `selfAdjoint.expUnitaryPathToOne A`, so every unitary of H lies in the path
@@ -478,7 +481,8 @@ that `GL(H)` is norm-path-connected.
 - Over ℝ the statement is false: `Id` and `−Id` on ℝ lie in different components of `GL(ℝ)`
   (determinant sign), so the complex scalars are used.
 
-*Needs:* OperatorTheory SelfAdjointSpectralTheory Part B and PolarDecomposition.
+*Needs:* OperatorTheory SelfAdjointSpectralTheory Part B and PolarDecomposition; Mathlib
+`selfAdjoint.expUnitary`, `NormedSpace.exp` and `selfAdjoint.expUnitaryPathToOne`.
 
 ### 1.6 Norm-path classification of Fredholm maps (I1.6)
 
@@ -541,7 +545,8 @@ The finite matrices `0 : ℂ² → ℂ` and the 2×2 nilpotent, the forward and 
 
 ### Dependencies
 
-Mathlib's Fredholm and snake-lemma APIs; Tau Ceti's Fredholm index, adjoint, closed-range,
+Mathlib's Fredholm and snake-lemma APIs, its normed-ring inverse and C*-norm of the unit, and its
+unitary exponential and path API; Tau Ceti's Fredholm index, adjoint, closed-range,
 compact- and finite-rank-perturbation and path APIs; OperatorKTheory K4.1; CStarAlgebras C1.6;
 BanachSpaceTheory B5; OperatorTheory OperatorIdeals, PolarDecomposition and
 SelfAdjointSpectralTheory.
@@ -838,10 +843,11 @@ on compact M, and prove derivative convergence by differentiation under Haar int
 smooth coefficient estimates. Assemble the finite matrix coefficients into an equivariant
 vector-valued map and preserve injectivity and immersion by compact `C¹` stability: extract the
 immersion and separation estimates from CharacteristicClasses C2.5's compact-stage general
-position, then prove stability for the finite Peter–Weyl approximants. Apply CompactGroups
-Layer 5's G-finite density theorem for Banach representations of compact groups (the contract
-`gap:banach-gfinite-density`) to the `C¹`-section norm after building the strongly continuous
-action and the differentiation bounds, as TopologicalKTheory T6.1 does for the sup and L² norms. Average the representation metric.
+position, then prove stability for the finite Peter–Weyl approximants. Apply CompactGroups'
+G-finite density theorem for Banach representations of compact groups, under the contract
+`gap:banach-gfinite-density`, to the `C¹`-section norm after building the strongly continuous
+action and the differentiation bounds, as TopologicalKTheory T6.1 does for the sup and L² norms.
+Average the representation metric.
 Prove equivariant tubular and normal comparisons by averaging connections and invariant metrics,
 then define `ind_t^G : K_(G,c)(T*M) → R(G)` through equivariant wedge Thom and Bott classes on
 `V ⊗ ℂ`. Prove choice independence by the same direct-sum embedding homotopy, restriction to
@@ -855,8 +861,9 @@ disconnected G.
 - O(1) acting on `S¹ ⊂ ℝ²` by `(x, y) ↦ (x, −y)` embeds equivariantly in `ℝ ⊕ ℝ_sgn`.
 - Restricting `ind_t^G` along `{1} → G` gives the dimension of `ind_t^G(a)`.
 
-*Needs:* Layer 3.3; RepresentationTheory CompactGroups Layer 5 (`gap:banach-gfinite-density`) and
-LieGroups Layer 6; TopologicalKTheory T6 and T6.1; CharacteristicClasses C2.5.
+*Needs:* Layer 3.3; RepresentationTheory CompactGroups (Peter–Weyl, and the G-finite density of
+`gap:banach-gfinite-density`) and LieGroups Layer 6; TopologicalKTheory T6 and T6.1;
+CharacteristicClasses C2.5.
 
 ### 3.5 Uniqueness of index assignments (I3.5)
 
