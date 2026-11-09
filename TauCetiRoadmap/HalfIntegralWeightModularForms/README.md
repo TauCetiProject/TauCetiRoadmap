@@ -347,7 +347,7 @@ some of them differently from the sources.
   target). `IntegralLattice.*` through the theta-series roadmap's bridge: `typeARootLattice`,
   `typeE₈RootLattice`, `checkerboardLattice` for `A₁`, `A₃`, `D₅`, `E₇`.
 - From Tau Ceti main, cited by module path and not declared here: the landed part of the
-  theta-series roadmap that Layers 0–3 consume, under its Tau Ceti names.
+  theta-series roadmap that this roadmap consumes, under its Tau Ceti names.
   `ZLattice.thetaSeries`, `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem`
   (`TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.lean`) are that roadmap's `thetaSeries`,
   `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass`
