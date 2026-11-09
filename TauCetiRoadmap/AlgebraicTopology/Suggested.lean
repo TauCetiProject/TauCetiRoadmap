@@ -57,10 +57,14 @@ cells have dimension at least `λ` (Stage 8.1; `TauCeti.injective_homotopyGroupM
 (Stage 8.5; `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`).
 
 Relative Hurewicz in the generality of Stage 8.4 (`X` path connected, `A` simply connected,
-`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 2`; Hatcher, Theorem 4.37, p. 371) is not
-stated in any degree: its carriers, Tau Ceti's relative homotopy sets `TauCeti.RelHomotopyGroup` and
-relative Hurewicz map `TauCeti.RelHomotopyGroup.hurewicz`, are absent from the Tau Ceti this
-file is elaborated against.
+`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 2`; Hatcher, Theorem 4.37, p. 371) is the one
+headline statable on the pinned Tau Ceti that this file does not state. Its statement is Stage
+8.4's: bijectivity of `TauCeti.RelHomotopyGroup.hurewicz` out of
+`TauCeti.RelHomotopyGroup (Fin (n − 1))` of the based pair, under `PathConnectedSpace X`,
+`SimplyConnectedSpace A` and the vanishing of `TauCeti.RelHomotopyGroup (Fin k)` for `k ≤ n − 2`.
+Its module, `TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz`, is absent from the Tau Ceti
+revision this file is elaborated against; the README's supplier contracts name the later
+revision that carries it, and the headline is stated once this file elaborates there.
 
 Not statable at the pins, and therefore stated nowhere in this file:
 the Cartan–Leray spectral sequence (its `E²` term is group homology of the deck

@@ -222,7 +222,10 @@ These choices are part of the specification.
 
 ## Inventory: consume Mathlib and follow its interface direction
 
-The development starts from these current APIs.
+The development starts from these pinned APIs, read at the revisions the content
+repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and
+Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file
+named in this section is cited as it is at those revisions.
 
 - `TopCat`, `TopCat.toSSet`, `SSet.chainComplex`, `singularChainComplexFunctor`, and
   `singularHomologyFunctor`.
@@ -2105,7 +2108,9 @@ items 1–7 are independent of those later constructions.
    Hurewicz map `π_n(X, A, a₀) → H_n(X, A; ℤ)`, `[p] ↦ p_*[Iⁿ]`, is bijective (Hatcher,
    Theorem 4.37, p. 371; `π_1(A)` acts trivially because `A` is simply connected). In Tau
    Ceti's terms the source is `TauCeti.RelHomotopyGroup (Fin (n − 1))` of the based pair
-   `(X, A, a₀)` and the map is `TauCeti.RelHomotopyGroup.hurewicz` evaluated at `1`. Tau Ceti
+   `(X, A, a₀)` and the map is `TauCeti.RelHomotopyGroup.hurewicz` evaluated at `1`; the
+   hypotheses are `PathConnectedSpace X`, `SimplyConnectedSpace A` and
+   `Subsingleton (TauCeti.RelHomotopyGroup (Fin k) (X, A, a₀))` for every `k ≤ n − 2`. Tau Ceti
    proves the rest of Hatcher's statement and the special cases (Inventory): the vanishing
    `H_i(X, A; R) = 0` for `i < n` and every ring `R`
    (`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`), surjectivity of the
