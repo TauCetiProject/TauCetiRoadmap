@@ -39,39 +39,44 @@ graded Jacobi and interior-product identities of the paired wedge (0.1), the smo
 bundle (0.2), the wedge of smooth forms (0.4), naturality, `d ∘ d = 0`, regularity, the Leibniz
 rule and the invariant formula of the exterior derivative (1.2–1.4), the two-orientation theorem,
 the pullback orientation, the orientation of a nowhere-vanishing top form and the π₁ criterion
-(2.1–2.4), compactly supported completeness and conjugate flows (3.3–3.4), the outward field
-(5.1), Green's theorem for absolutely continuous cycles (5.6.3), and the existence of metrics,
-the symmetry of the Hessian and the boundaryless divergence theorem with Green's identities
-(12.1, 12.3, 12.5); the README's *From Tau Ceti* contract names each with its module. Four
-statements that Tau Ceti also proves are kept because declarations of this file or of its
-consumers use them: `mextDeriv_add`, `mextDeriv_smul` and `isSmoothForm_mextDeriv_infty` build
-the linear map `mextDerivₗ` behind `closedForms`, and `Manifold.Orientation.ext` is imported by
-the orientation modules of AlgebraicTopology, ComplexKahlerGeometry and MorseNovikov.
+(2.1–2.4), compactly supported completeness and conjugate flows (3.3–3.4), the outward field, the
+outward-first boundary orientation, the integral of top forms with its chart formula, linearity,
+orientation sign, positivity and change of variables, and Stokes' theorem for the half-space with
+its boundaryless and interval cases (5.1–5.3), Green's theorem for absolutely continuous cycles
+(5.6.3), and the existence of metrics, the gradient calculus, the symmetry of the Hessian and the
+boundaryless divergence theorem with Green's identities (12.1–12.3, 12.5); the README's *From Tau
+Ceti* contract names each with its module. The paired and bracket wedges (0.1), the pointwise
+wedge of rough forms (0.3), the planar curl, circulation integrand and area weight (5.6) and the
+gradient, Hessian and Laplace–Beltrami operator (12.2–12.3) are likewise Tau Ceti's definitions
+and are not redeclared. Five statements that Tau Ceti also proves are kept because declarations of
+this file or of its consumers use them: `mextDeriv_add`, `mextDeriv_smul` and
+`isSmoothForm_mextDeriv_infty` build the linear map `mextDerivₗ` behind `closedForms`, and
+`isCompleteVectorField_of_compactSpace` and `toFlow_apply` are the completeness input and the
+rewriting rule of MorseNovikov's flow of the negative dual field. The definitions `flowDomain`,
+`IsCompleteVectorField`, `IsOutwardPointing` and `divergence`, which Tau Ceti also has with the
+same bodies, are kept because `toFlow` and the divergence theorem of 12.5 are stated on them.
 
-Headline theorems not statable at the pins, and what each lacks: Stokes' theorem for the
-half-space (5.3) and for smooth faces and corners (5.5b) lack the integral of a top form over a
-manifold and the outward-first boundary orientation, constructions whose bodies are themselves
-theorems (5.1–5.2), and the corner version also lacks the smooth face structure with its abstract
-boundary (5.5b); the face-structured divergence theorem (12.5) lacks the same face structure; the
-triviality of the orientation double cover and the commutation of `d` with the averaging
-operators (2.4) lack, among this file's imports, Tau Ceti's `TauCeti.Manifold.OrientationCover`
-and `TauCeti.invariantPart`, and the antipodal sign on `Sⁿ` lacks the outward orientation of the
-sphere, a construction; the homotopy-operator identity (5.4) lacks the homotopy operator;
-agreement of
-densities with the integral of top forms (5.5a) and of the Riemannian volume form with the
-Riemannian density (12.4) lack those integrals and the volume form; Cartan's formula (1.4) lacks
-the Lie derivative of forms; the finite type-I/type-II division theorems (5.6.2) lack the oriented
-boundary chain of finite integer-weighted sums of parametrized arcs with its Henstock–Kurzweil
-integrals; the migration equivalence of 0.4 lacks the generic carrier in Tau Ceti; the de Rham
-theorem (8.5) and the multiplicativity of the de Rham homomorphism lack the de Rham complex (whose
-differential needs `d ∘ d = 0`, a theorem) and the complex of smooth singular chains with its
-integration map (singular cohomology with real coefficients is
-`TauCeti.singularCohomologyFunctor` over `ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`);
-Poincaré duality (9.3) and the top-cohomology theorems (9.2) lack the de Rham complex and the
-integral of top forms; the degree
-formula `∫_M f^*ω = deg f · ∫_N ω` and the homotopy invariance of the degree (10.3–10.5) lack the
-integral of top forms and the signed count of a fibre, a definition whose well-definedness is the
-theorem.
+Headline theorems not statable at the pins, and what each lacks: Stokes' theorem for smooth faces
+and corners (5.5b) lacks the smooth face structure with its abstract boundary; the face-structured
+divergence theorem (12.5) lacks the same face structure; the triviality of the orientation double
+cover and the commutation of `d` with the averaging operators (2.4) lack, among this file's
+imports, Tau Ceti's `TauCeti.Manifold.OrientationCover` and `TauCeti.invariantPart`, and the
+antipodal sign on `Sⁿ` lacks the outward orientation of the sphere, a construction; the
+homotopy-operator identity (5.4) lacks, among this file's imports, Tau Ceti's homotopy operator;
+agreement of densities with the integral of top forms (5.5a) and of the Riemannian volume form
+with the Riemannian density (12.4) lack the integral of densities and the volume form; Cartan's
+formula (1.4) lacks the Lie derivative of forms; the finite type-I/type-II division theorems
+(5.6.2) lack the oriented boundary chain of finite integer-weighted sums of parametrized arcs with
+its Henstock–Kurzweil integrals; the migration equivalence of 0.4 lacks the generic carrier in Tau
+Ceti; the de Rham theorem (8.5) and the multiplicativity of the de Rham homomorphism lack the de
+Rham homomorphism on smooth singular chains, a cochain map whose well-definedness is Stokes for
+chains (8.4), and, among this file's imports, Tau Ceti's de Rham complex and smooth singular chains
+(singular cohomology with real coefficients is `TauCeti.singularCohomologyFunctor` over
+`ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`); Poincaré duality (9.3) and the top-cohomology
+theorems (9.2) lack, among this file's imports, Tau Ceti's de Rham complex, Poincaré pairing and
+integral of top forms; the degree formula `∫_M f^*ω = deg f · ∫_N ω` and the homotopy invariance
+of the degree (10.3–10.5) lack, among this file's imports, Tau Ceti's integral of top forms and
+signed fibre count.
 
 The definitions `closedForms`, `toFlow`, `fullSimplex`, `fullSimplexEquivStdSimplex`, `Density`,
 `RoughDensity`, `CurvatureForm`, `circleAngularForm` and `Manifold.Orientation.pullback` are the
@@ -79,8 +84,8 @@ carriers that other roadmaps import or cite by name; each has a real body. Hypot
 unbundled and stated at their point of use; finite dimension, Hausdorffness and σ-compactness are
 written wherever they are used; measure statements carry `[MeasurableSpace M] [BorelSpace M]`.
 The de Rham complex and cohomology, Mayer–Vietoris, smooth chains and the de Rham theorem,
-Poincaré duality, Sard's theorem, the degree and the hairy ball theorem (layers 6–11) are this
-roadmap's; DeRhamCohomologyAndDuality consumes them for its relative theory.
+Poincaré duality, Sard's theorem on manifolds, the degree and the hairy ball theorem (layers 6–11)
+are this roadmap's; DeRhamCohomologyAndDuality consumes them for its relative theory.
 -/
 
 public section
@@ -90,64 +95,7 @@ open scoped Manifold Bundle Topology ContDiff InnerProductSpace
 
 namespace TauCetiRoadmap.DifferentialGeometry
 
-/-! ## Layer 0: alternating bundles, differential forms, and the wedge -/
-
-section Wedge
-
-variable {E F₁ F₂ F₃ F₁₂ F₂₃ G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [NormedAddCommGroup F₁] [NormedSpace ℝ F₁] [NormedAddCommGroup F₂] [NormedSpace ℝ F₂]
-  [NormedAddCommGroup F₃] [NormedSpace ℝ F₃] [NormedAddCommGroup F₁₂] [NormedSpace ℝ F₁₂]
-  [NormedAddCommGroup F₂₃] [NormedSpace ℝ F₂₃] [NormedAddCommGroup G] [NormedSpace ℝ G]
-
-/-- **Layer 0.1.** The paired wedge product of continuous alternating maps, in the
-determinant convention, combining values through an explicit continuous bilinear map —
-the `wedge_product` shape of Kudryashov's `DeRhamCohomology`. The normalization is the
-sign-weighted sum over all permutations divided by `k! * l!` (the alternatization below sums
-over all permutations); equivalently it is the sum over `(k, l)`-shuffles with no factorial,
-matching `AlternatingMap.domCoprod`, so that on two covectors it is the `2 × 2` determinant with
-no factor `1/2`. It is the signature of Tau Ceti's `ContinuousAlternatingMap.pairedWedge`, whose
-flip identity `ContinuousAlternatingMap.pairedWedge_flip` holds for every pairing; associativity
-and graded commutativity are **not** theorems at this generality (degree zero reduces them to
-associativity and commutativity of `μ`) and hold only under explicit hypotheses on the pairings
-(`ContinuousAlternatingMap.pairedWedge_assoc`). -/
-noncomputable def wedgeWith {k l : ℕ} (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃)
-    (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₂) :
-    E [⋀^Fin (k + l)]→L[ℝ] F₃ :=
-  ((k.factorial : ℝ) * (l.factorial : ℝ))⁻¹ •
-    ContinuousMultilinearMap.alternatization
-      { toMultilinearMap :=
-          (MultilinearMap.uncurrySum (N := fun _ : Fin k ⊕ Fin l ↦ E)
-            (({ toFun := fun a ↦ (μ a).toLinearMap.compMultilinearMap
-                    ψ.toContinuousMultilinearMap.toMultilinearMap
-                map_add' := fun a b ↦ by ext; simp
-                map_smul' := fun c a ↦ by ext; simp } :
-                F₁ →ₗ[ℝ] MultilinearMap ℝ (fun _ : Fin l ↦ E) F₃).compMultilinearMap
-              φ.toContinuousMultilinearMap.toMultilinearMap)).domDomCongr finSumFinEquiv
-        cont := by
-          change Continuous fun v : Fin (k + l) → E ↦
-            μ (φ (fun i ↦ v (finSumFinEquiv (Sum.inl i))))
-              (ψ (fun j ↦ v (finSumFinEquiv (Sum.inr j))))
-          exact μ.continuous₂.comp
-            ((φ.toContinuousMultilinearMap.cont.comp
-                (continuous_pi fun i ↦ continuous_apply _)).prodMk
-              (ψ.toContinuousMultilinearMap.cont.comp
-                (continuous_pi fun j ↦ continuous_apply _))) }
-
-variable {k l m : ℕ} {μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃}
-
-/-- **Layer 0.1.** The bracket wedge `[φ ∧ ψ]` of forms with values in a space carrying a
-continuous bilinear bracket `β` (a finite-dimensional Lie algebra's bracket, say): `wedgeWith`
-along `β`, the signature of Tau Ceti's `TauCeti.bracketWedge`. It is neither associative nor
-graded commutative; graded skew-symmetry for a skew-symmetric bracket is the flip identity with
-`β.flip = -β` (`TauCeti.bracketWedge_skew`), and the graded Jacobi identity
-`TauCeti.bracketWedge_jacobi` holds for a bracket satisfying the Jacobi identity. -/
-noncomputable def bracketWedge (β : F₁ →L[ℝ] F₁ →L[ℝ] F₁) (φ : E [⋀^Fin k]→L[ℝ] F₁)
-    (ψ : E [⋀^Fin l]→L[ℝ] F₁) : E [⋀^Fin (k + l)]→L[ℝ] F₁ :=
-  wedgeWith β φ ψ
-
-end Wedge
-
-/-! ## Layer 0.3–0.4: rough and smooth forms on manifolds, pullback -/
+/-! ## Layer 0: rough and smooth forms on manifolds, pullback -/
 
 section BundleForms
 
@@ -297,15 +245,6 @@ noncomputable def mpullback (I : ModelWithCorners ℝ E H) (I' : ModelWithCorner
     (f : M → M') (φ : RoughForm I' M' F k) : RoughForm I M F k :=
   bundleMpullback I I' f φ
 
-/-- **Layer 0.3.** The pointwise paired wedge of fixed-coefficient rough forms. The pairing
-is constant on the base; a varying bundle pairing belongs to the bundle-valued API. -/
-noncomputable def RoughForm.wedgeWith
-    {F₁ F₂ F₃ : Type*} [NormedAddCommGroup F₁] [NormedSpace ℝ F₁]
-    [NormedAddCommGroup F₂] [NormedSpace ℝ F₂] [NormedAddCommGroup F₃] [NormedSpace ℝ F₃]
-    (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃) (φ : RoughForm I M F₁ k) (η : RoughForm I M F₂ l) :
-    RoughForm I M F₃ (k + l) :=
-  fun x ↦ TauCetiRoadmap.DifferentialGeometry.wedgeWith (E := E) μ (φ x) (η x)
-
 /-- **Layer 0.3.** The `0`-form of a function. -/
 noncomputable def RoughForm.ofFunction (I : ModelWithCorners ℝ E H) (f : M → F) :
     RoughForm I M F 0 :=
@@ -435,7 +374,7 @@ variable [FiniteDimensional ℝ E]
 
 /-- **Layer 2.1.** Two lifts define the same orientation exactly when they are equal or both
 flipped: the diagonal `ℤˣ`-action. Since the signs are indexed by chart sources, two lifts with
-the same tangent orientations are related (`Manifold.Orientation.ext`). -/
+the same tangent orientations are related (Tau Ceti's `TauCeti.Manifold.Orientation.ext`). -/
 def OrientationLift.setoid : Setoid (OrientationLift I M ι) where
   r l l' := l' = l ∨
     (l'.modelOrientation = -l.modelOrientation ∧ l'.sign = fun x y ↦ -l.sign x y)
@@ -490,11 +429,6 @@ noncomputable def orientationAt (o : Manifold.Orientation I M ι) (x : M) :
         · simp [h]
           rfl)
     o
-
-/-- **Layer 2.1, extensionality.** An orientation is determined by its tangent orientations. -/
-theorem Manifold.Orientation.ext {o o' : Manifold.Orientation I M ι}
-    (h : ∀ x, orientationAt o x = orientationAt o' x) : o = o' :=
-  sorry
 
 variable (I M) in
 /-- **Layer 2.1.** Orientability, with the canonical index type `Fin (finrank ℝ E)`. -/
@@ -1119,9 +1053,10 @@ end StandardSimplex
 /-! ### Layer 5.6: Green's theorem for planar regions and curves
 
 The plane is `ℂ` with positive basis `(1, I)` and `volume` as area; `TauCeti.Contour.windingNumber`
-is the index. The one-cell identities of 5.6.2 and the absolutely continuous theorems of 5.6.3
-are stated; the finite type-I/type-II division theorems of 5.6.2 lack the oriented boundary
-chain carrier (module docstring).
+is the index. The one-cell identities of 5.6.2 are stated on the cells below; the absolutely
+continuous theorems of 5.6.3 are Tau Ceti's (`TauCeti.Green.green_ac_winding` on its curl,
+circulation integrand and area weight), and the finite type-I/type-II division theorems of 5.6.2
+lack the oriented boundary chain carrier (module docstring).
 -/
 
 namespace Green
@@ -1130,20 +1065,6 @@ noncomputable section
 
 open MeasureTheory Set
 open scoped Classical
-
-/-- **Layer 5.6.** Curl of `P dx + Q dy`, `∂ₓQ − ∂ᵧP`, using real derivatives and the positive
-basis `(1, I)`. -/
-def curl (P Q : ℂ → ℝ) (z : ℂ) : ℝ :=
-  fderiv ℝ Q z (1 : ℂ) - fderiv ℝ P z Complex.I
-
-/-- **Layer 5.6.** The circulation integrand `P(γ t) x'(t) + Q(γ t) y'(t)`. -/
-def circulationFun (P Q : ℂ → ℝ) (γ : ℝ → ℂ) (t : ℝ) : ℝ :=
-  P (γ t) * (deriv γ t).re + Q (γ t) * (deriv γ t).im
-
-/-- **Layer 5.6.1.** The area weight of a closed curve: the real part of the winding number off
-the trace, and zero on the trace, independently of the principal-value index there. -/
-def windingWeight (γ : ℝ → ℂ) (a b : ℝ) (z : ℂ) : ℝ :=
-  if z ∈ γ '' uIcc a b then 0 else (TauCeti.Contour.windingNumber γ a b z).re
 
 /-- **Layer 5.6.2.** The vertical (type-I) cell `{x + iy : a ≤ x ≤ b, ℓ x ≤ y ≤ u x}`. -/
 def verticalCell (a b : ℝ) (ℓ u : ℝ → ℝ) : Set ℂ :=
@@ -1229,13 +1150,6 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensi
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
   [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
 
-/-- **Layer 12.2, the Riemannian gradient**: the fibrewise Riesz dual of `mfderiv I 𝓘(ℝ) f x`,
-through Tau Ceti's `Riemannian.Tensor.rieszDual`. -/
-noncomputable def mgradient (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
-    [ChartedSpace H M] [IsManifold I 1 M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
-    (f : M → ℝ) (x : M) : TangentSpace I x :=
-  Riemannian.Tensor.rieszDual (I := I) x (mfderiv I 𝓘(ℝ) f x)
-
 variable [IsManifold I 2 M] [IsContMDiffRiemannianBundle I 1 E (fun x : M ↦ TangentSpace I x)]
 
 /-- **Layer 12.3.** Divergence as the pointwise trace of the covariant derivative — for Mathlib's
@@ -1249,19 +1163,6 @@ noncomputable def divergence (I : ModelWithCorners ℝ E H) {M : Type*} [Topolog
     (X : (x : M) → TangentSpace I x) (x : M) : ℝ :=
   LinearMap.trace ℝ (TangentSpace I x)
     (CovariantDerivative.leviCivitaConnection I M X x).toLinearMap
-
-/-- **Layer 12.3.** The Hessian `Hess f (v, w) = ⟪∇_v grad f, w⟫`. -/
-noncomputable def hessian (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
-    [ChartedSpace H M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] [IsManifold I 2 M]
-    [IsContMDiffRiemannianBundle I 1 E (fun x : M ↦ TangentSpace I x)]
-    (f : M → ℝ) (x : M) (v w : TangentSpace I x) : ℝ :=
-  ⟪CovariantDerivative.leviCivitaConnection I M (mgradient I f) x v, w⟫_ℝ
-
-/-- **Layer 12.3.** The Laplace–Beltrami operator, `Δ f = div (grad f)` — this repository's sign. -/
-noncomputable def laplaceBeltrami (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
-    [ChartedSpace H M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] [IsManifold I 2 M]
-    [IsContMDiffRiemannianBundle I 1 E (fun x : M ↦ TangentSpace I x)] (f : M → ℝ) (x : M) : ℝ :=
-  divergence I (mgradient I f) x
 
 end Riemannian
 
