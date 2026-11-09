@@ -7,6 +7,7 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Kernel
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.BaseChange.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.Add
 import TauCeti.RepresentationTheory.BaseChange
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateAlgorithm.Reduction.Conductor
 
 /-!
 # EllipticCurveModularityPartII: target signatures
@@ -15,7 +16,8 @@ The roadmap is README.md; this file is not the roadmap. It states its headline
 theorems against the pinned Mathlib and Tau Ceti APIs.
 
 Headlines: Martin's dimension formula and sharp equality criterion; the integral
-norm bound; sharp Kraus rational and full-two-torsion realization; uniform
+norm bound and the removed-prime exponent bound; sharp Kraus rational and
+full-two-torsion realization; uniform
 irreducibility and absolute irreducibility with rational two-torsion; the prime,
 non-CM prime and composite rational cyclic-isogeny degree classifications; the rational
 j-tables at levels 11, 17 and 37; finite-prime
@@ -25,8 +27,11 @@ unconditional modular abelian rank zero and the weight-two modular class
 cup/Chern sign and Tate-module duality comparisons;
 the quantitative elliptic isogeny-degree bound.
 
-The removed-prime bound and Kraus realization are not statable at the pins: the elliptic arithmetic conductor,
-residual Artin conductor and Serre weight interfaces are missing. The Cartan
+The removed-prime exponent bound reads the conductor as the norm of Tau Ceti's
+`WeierstrassCurve.algorithmicConductor`, the conductor by Ogg's formula, and the minimal
+discriminant as the norm of `WeierstrassCurve.minimalDiscriminantIdeal`. Kraus's rational
+and full-two-torsion realization theorems are not statable at the pins: the prime-to-ell
+Artin conductor of the residual representation and its Serre weight are missing. The Cartan
 correspondence, winding quotient and formal immersion headlines
 lack the modular curves with their moduli/j maps, modular Jacobians with integral
 Hecke quotients, and their canonical integral models. They remain README targets;
@@ -102,6 +107,33 @@ theorem martin_bound (N : ℕ) [NeZero N] :
 
 /-! ## Layer 2: removed-prime exponent bounds -/
 
+/-- Geometric n-torsion of an elliptic Weierstrass curve over the fixed
+algebraic closure of the rationals. -/
+abbrev GeometricTorsion (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :=
+  AddSubgroup.torsionBy (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point (n : ℤ)
+
+/-- The natural ZMod n module on geometric n-torsion. -/
+instance torsionModule (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :
+    Module (ZMod n) (GeometricTorsion E n) := AddSubgroup.torsionBy.zmodModule
+
+/-- The pinned additive torsion action, read as a linear representation via
+AddMonoidHom.toZModLinearMap; the action on points is unchanged. -/
+def torsionRepresentation (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :
+    Representation (ZMod n) ((AlgebraicClosure ℚ) ≃ₐ[ℚ] (AlgebraicClosure ℚ))
+      (GeometricTorsion E n) where
+  toFun σ := (Multiplicative.toAdd
+    (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ) σ)).toAddMonoidHom.toZModLinearMap n
+  map_one' := by
+    apply LinearMap.ext
+    intro P
+    exact congrArg (fun f : Multiplicative (AddAut (GeometricTorsion E n)) => Multiplicative.toAdd f P)
+      (map_one (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ)))
+  map_mul' σ τ := by
+    apply LinearMap.ext
+    intro P
+    exact congrArg (fun f : Multiplicative (AddAut (GeometricTorsion E n)) => Multiplicative.toAdd f P)
+      (map_mul (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ)) σ τ)
+
 /-- A nonzero algebraic integer in a prime above ell has norm at least ell;
 a uniform bound on all complex embeddings bounds that norm from above. -/
 theorem norm_bound {K : Type*} [Field K] [NumberField K]
@@ -112,6 +144,28 @@ theorem norm_bound {K : Type*} [Field K] [NumberField K]
     (hB : ∀ σ : K →ₐ[ℚ] ℂ, ‖σ (x : K)‖ ≤ B) :
     (ell : ℝ) ≤ |(Algebra.norm ℚ (x : K) : ℝ)| ∧
       |(Algebra.norm ℚ (x : K) : ℝ)| ≤ B ^ Module.finrank ℚ K := by sorry
+
+/-- The deletion level `M₀` of an elliptic curve over ℚ at `ell` (Bennett–Siksek, §2,
+equation (3)): the conductor `M`, read as the norm of Tau Ceti's algorithmic conductor ideal
+of ℤ (the conductor by Ogg's formula), divided by the product of the primes `q` with
+`ord_q M = 1` such that `ell` divides `ord_q Δ`, the exponent of `q` in the norm of the minimal
+discriminant ideal. The prime `q = ell` is not excluded. -/
+def deletionLevel (E : WeierstrassCurve ℚ) [E.IsElliptic] (ell : ℕ) : ℕ :=
+  let M := Ideal.absNorm (WeierstrassCurve.algorithmicConductor ℤ E)
+  let D := Ideal.absNorm (WeierstrassCurve.minimalDiscriminantIdeal ℤ E)
+  M / ∏ q ∈ M.primeFactors.filter (fun q => M.factorization q = 1 ∧ ell ∣ D.factorization q), q
+
+/-- The removed-prime exponent bound (Bennett–Siksek, Lemma 2.2, p. 359): if `E[ell]` is
+irreducible for a prime `ell ≥ 3` and `p ≠ ell` divides the conductor exactly once with `ell`
+dividing `ord_p Δ`, then `ell ≤ (√p + 1) ^ ((M₀ + 1) / 6)` for the deletion level `M₀`.
+The hypothesis `ord_p M = 1` forces `p` to be prime. -/
+theorem removed_prime_bound (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (ell : ℕ) [Fact ell.Prime] (hell : 3 ≤ ell)
+    (hirr : (torsionRepresentation E ell).IsIrreducible)
+    (p : ℕ) (hpl : p ≠ ell)
+    (hpM : (Ideal.absNorm (WeierstrassCurve.algorithmicConductor ℤ E)).factorization p = 1)
+    (hpΔ : ell ∣ (Ideal.absNorm (WeierstrassCurve.minimalDiscriminantIdeal ℤ E)).factorization p) :
+    (ell : ℝ) ≤ (Real.sqrt p + 1) ^ (((deletionLevel E ell : ℝ) + 1) / 6) := by sorry
 
 /-! ## Layer 3: rationality and exact-conductor realization -/
 
@@ -171,33 +225,6 @@ degree, including composite degrees and CM curves. -/
 theorem cyclic_isogeny_degrees (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (n : ℕ) (h : HasCyclicIsogeny E n) :
     n ∈ Finset.Icc 1 19 ∪ ({21, 25, 27, 37, 43, 67, 163} : Finset ℕ) := by sorry
-
-/-- Geometric n-torsion of an elliptic Weierstrass curve over the fixed
-algebraic closure of the rationals. -/
-abbrev GeometricTorsion (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :=
-  AddSubgroup.torsionBy (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point (n : ℤ)
-
-/-- The natural ZMod n module on geometric n-torsion. -/
-instance torsionModule (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :
-    Module (ZMod n) (GeometricTorsion E n) := AddSubgroup.torsionBy.zmodModule
-
-/-- The pinned additive torsion action, read as a linear representation via
-AddMonoidHom.toZModLinearMap; the action on points is unchanged. -/
-def torsionRepresentation (E : WeierstrassCurve ℚ) [E.IsElliptic] (n : ℕ) :
-    Representation (ZMod n) ((AlgebraicClosure ℚ) ≃ₐ[ℚ] (AlgebraicClosure ℚ))
-      (GeometricTorsion E n) where
-  toFun σ := (Multiplicative.toAdd
-    (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ) σ)).toAddMonoidHom.toZModLinearMap n
-  map_one' := by
-    apply LinearMap.ext
-    intro P
-    exact congrArg (fun f : Multiplicative (AddAut (GeometricTorsion E n)) => Multiplicative.toAdd f P)
-      (map_one (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ)))
-  map_mul' σ τ := by
-    apply LinearMap.ext
-    intro P
-    exact congrArg (fun f : Multiplicative (AddAut (GeometricTorsion E n)) => Multiplicative.toAdd f P)
-      (map_mul (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (n : ℤ)) σ τ)
 
 /-- All four points killed by two are rational. -/
 def FullRationalTwo (E : WeierstrassCurve ℚ) [E.IsElliptic] : Prop :=
