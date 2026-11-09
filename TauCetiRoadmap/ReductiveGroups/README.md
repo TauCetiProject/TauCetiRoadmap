@@ -430,6 +430,10 @@ split construction of Layer 9. The headline acceptance statements are in
 
 Items that consumers cite under an earlier name (old → new):
 
+- Layer 3's bullets → §§3.1–3.2 as follows. *Normality and quotients* → §3.1 *Subgroup and
+  quotient comparisons* (the fppf quotient by a normal closed subgroup, its representability
+  and the exact sequences); *Identity component `G°` and component group `π₀(G)`* → §3.2
+  *Identity component and finite étale component group*.
 - Layer 8's bullet *Relative reductive groups over an affine Noetherian base* → §8.2
   *Relative reductive groups*, over an arbitrary base scheme, with the affine Noetherian
   case as its specialization.
@@ -792,13 +796,17 @@ ModularCurves §§0E–0F and SchemeAndStackFoundations §§1.14–1.18.
 
 Build this phase on Layers 0–1 and the early scheme/group-object vocabulary of
 Layer 3. It precedes Borel subgroups, reductive classification and Borel–Weil.
-For its geometric statements take an algebraically closed field k, a smooth
-affine finite-type k-group G, and a separated finite-type k-scheme X with an
-actual algebraic G-action. G need not be connected, and X need not be
-irreducible or reduced. Empty X has no orbit-existence assertion. Over a
-nonclosed field apply the geometric statements after the specified algebraic
-closure; do not turn a geometric orbit or closed point into a k-rational one
-without a descent argument. Retain the standing distinction between smooth
+Local closedness of orbits (§3A.2) holds over an arbitrary field k, for any
+group scheme G of finite type over k (neither smooth nor affine) acting
+algebraically on any scheme X of finite type over k (not necessarily
+separated). For the dimension and closed-orbit statements (§§3A.3–3A.4) take
+an algebraically closed field k, a smooth finite-type k-group G, and a
+separated finite-type k-scheme X with an actual algebraic G-action. G need not
+be connected or affine, and X need not be irreducible or reduced. Empty X has
+no orbit-existence assertion. Over a nonclosed field apply the dimension and
+closed-orbit statements after the specified algebraic closure; do not turn a
+geometric orbit or closed point into a k-rational one without a descent
+argument. Retain the standing distinction between smooth
 groups and arbitrary finite-type group schemes. In characteristic zero use
 the separately proved Cartier smoothness comparison when starting from the
 latter. No reductivity hypothesis belongs in the orbit-existence theorem.
@@ -819,9 +827,15 @@ actual subgroup structure and fibre translation isomorphisms. A set-theoretic
 stabilizer does not supply the scheme-theoretic kernel or a smoothness proof.
 
 **3A.2 Constructible image and local closedness.** Derive that μ_x is
-quasi-compact and locally of finite presentation from finite type over k,
-the Noetherian target and separatedness/quasi-separatedness; do not add
-these conclusions as unexplained action data. Consume native
+quasi-compact and locally of finite presentation from finite type over k
+and the Noetherian, hence quasi-separated, target; separatedness of X is not
+used. Do not add these conclusions as unexplained action data. First reduce
+to an algebraically closed field: after base change to k̄ the image of the
+orbit map is the preimage of O_x, and |X_k̄|→|X| is an open surjection
+(every scheme over a field is universally open over it), so local closedness
+descends (Milne 2017, proof of Proposition 1.65(b), p. 27). Over k̄ the orbit
+map of G and of its reduced subgroup G_red, which is smooth, have the same
+image, since |G_red|=|G|. Consume native
 `Scheme.Hom.isLocallyConstructible_image` / `isConstructible_image`
 (Chevalley) at their exact hypotheses. Supply the finite-type-over-k
 Jacobson adapter: closed points have residue field k; a nonempty
@@ -876,16 +890,23 @@ nonproper X, but supplies compactness only with properness.
 
 ### 3A.4a Native acceptance statements
 
-`AlgebraicOrbits.orbit_locallyClosed`, `AlgebraicOrbits.boundary_dimension_lt`,
-`AlgebraicOrbits.exists_closed_orbit_in_closure` and
-`AlgebraicOrbits.exists_closed_orbit` state §§3A.2–3A.4 for an algebraically closed
-field k, a smooth affine finite-type group G and a separated finite-type k-scheme X
-with an algebraic action. Neither connectedness of G nor reducedness of X is
-assumed. The first three take a point x; the last explicitly assumes nonempty X(k).
-These are Milne 2017, Proposition 1.65 and Proposition 1.66 and its proof,
-pp. 26–28; for a nonreduced X, the smooth group's orbit map factors through the
-reduction, which has the same underlying topological space. For disconnected G,
-use the equal-dimensional component argument of §3A.3.
+`AlgebraicOrbits.orbit_locallyClosed` states §3A.2 over an arbitrary field k, for a
+group scheme G of finite type over k acting algebraically on a scheme X of finite
+type over k, at a point x∈X(k). Smoothness and affineness of G, separatedness of X
+and algebraic closedness of k are not assumed: Milne 2017, Proposition 1.65(b),
+pp. 26–27, applied to the orbit map, which is equivariant for left translation,
+gives local closedness at this generality (the definition of orbits after it, p. 27).
+Quasi-compactness of G is assumed. `AlgebraicOrbits.boundary_dimension_lt` and
+`AlgebraicOrbits.exists_closed_orbit_in_closure` state §§3A.3–3A.4 for an
+algebraically closed field k, a smooth finite-type group G and a separated
+finite-type k-scheme X, the group-variety setting of Milne 2017, Proposition 1.66
+and its proof, pp. 27–28; affineness of G is not assumed. Neither connectedness of
+G nor reducedness of X is assumed; for a nonreduced X, the smooth group's orbit map
+factors through the reduction, which has the same underlying topological space. For
+disconnected G, use the equal-dimensional component argument of §3A.3. Both take a
+point x. Existence of a closed orbit on every such X with X(k) nonempty is
+`AlgebraicOrbits.exists_closed_orbit_in_closure` at any rational point, forgetting
+the containment.
 
 Define `AlgebraicOrbits.Points` by morphisms from the terminal object, and
 `AlgebraicOrbits.orbitMorphism` by pairing the identity on G with the constant
@@ -917,6 +938,18 @@ and `AlgebraicOrbits.orbitClosure` as its Zariski closure.
 - For the same action and x=0, both image and closure are {0}.
 - Constant C₂ interchanging two points has a closed two-point orbit; it is not
   irreducible, so connectedness cannot be inferred from the word orbit.
+- Local closedness without smoothness, separatedness or algebraic closedness:
+  αₚ acting trivially on Spec k has the one-point orbit; Gₘ scaling the line with
+  doubled origin has the open orbit Gₘ at x=1; over ℝ, μ₃ acting on A¹=Spec ℝ[t]
+  by multiplication has at x=1 the orbit consisting of the closed points (t−1) and
+  (t²+t+1), a closed two-point set, although μ₃ has only one real point.
+- Quasi-compactness of G is needed: the constant group ℤ, locally of finite type
+  but not quasi-compact, translating A¹ over ℚ, has at x=0 the orbit consisting of
+  the integers. It is dense in A¹ but not open in it, since every nonempty open
+  set contains the generic point.
+- An elliptic curve acting on itself by translation has the single closed orbit E
+  with empty boundary, of dimension −∞<1: the closed-orbit and boundary statements
+  need no affineness of G.
 
 Define `AlgebraicOrbits.orbitBoundary` as closure minus orbit, and
 `AlgebraicOrbits.orbitDimension` as native topological Krull dimension of the orbit.
@@ -1054,9 +1087,9 @@ need not be closed or compact.
 finite-dimensional rational G-module V retain the original G and its
 homomorphism ρ:G→GL(V). Construct the dual action
 (g·ℓ)(v)=ℓ(ρ(g⁻¹)v) on V*, its regular action on P(V*) and the O(1)
-linearization. Consume the generic relative-Proj/tautological line and
-projective-space H⁰ calculation from SchemeAndStackFoundations §§0.3 and 2.6
-and AlgebraicVectorBundles. Prove the actual natural identification
+linearization. Consume the relative Proj with its twisting sheaf O(1) from
+SchemeAndStackFoundations §0.3 and the computation `H⁰(ℙⁿ_A, O(d)) = Sym^d` of
+SchemeAndStackFoundations §2.6. Prove the actual natural identification
 H⁰(P(V*),O(1))≃V (using finite-dimensional double duality) and its
 equivariance. Choose a closed orbit X in P(V*) by 3A.4; construct the
 G-equivariant restriction r:V→H⁰(X,O(1)|X), including multiplication,
@@ -1066,17 +1099,20 @@ for irreducible V it is zero. When using point-group representations,
 first prove the rational-submodule versus G(k)-stable-subspace adapter
 by the density of k-points of the smooth group. Do not replace G by
 GL(V), assume H⁰(X,O(1)) irreducible, or assume restriction surjective.
-H⁰ finiteness uses the existing proper/coherent theorem, separately
-from this kernel argument. Any comparison with holomorphic sections
-uses the specified proper coherent comparison later; no Borel–Weil or
-cohomological vanishing premise enters the injection. For connected
+H⁰ finiteness is the finiteness of the cohomology of a coherent sheaf on a
+scheme proper over a Noetherian ring, SchemeAndStackFoundations §2.6,
+used separately from this kernel argument. No comparison with holomorphic
+sections, Borel–Weil or cohomological vanishing premise enters the
+injection. For connected
 reductive G, identifying H with a parabolic and the line with a
 dominant-weight associated bundle is the later Layer 7/SchubertGeometry
 application, not an input to generic orbit existence.
-For the compact U(n) source specialization, first consume the actual
-compact-to-rational GL_n(ℂ) representation dictionary from the existing
-classical/compact representation suppliers. Do not apply an algebraic
-action theorem directly to a bare continuous compact-group action.
+The input is a rational `G`-module; a bare continuous action of a compact group such as `U(n)`
+is not one, and no algebraic action theorem is applied to it here. Converting a continuous
+representation of a compact group into a rational representation of its complexification is
+LieGroups Layer 7's (bullets *Representations and holomorphic descent* and *Compact-real-form
+pairs and algebraic morphisms*), and applying this section to the result is its consumers'.
+That conversion uses Layers 0–4, 6 and 7C of this roadmap, so this section does not consume it.
 
 **3A.7 Regularity, tests and conventions.** Compare a rational/comodule
 representation with its actual scheme morphism, all action equations,
@@ -1097,10 +1133,12 @@ local-closedness/boundary theorem, but do not infer smooth orbit maps,
 tangent-image equality, or a separable homogeneous quotient from it
 without the actual stabilizer/separability hypotheses.
 
-The generic algebraic construction belongs here. SchemeAndStackFoundations
-retains generic constructibility/dimension/projective/coherent geometry,
+The generic algebraic construction belongs here. Mathlib supplies the
+constructibility of images (Chevalley); SchemeAndStackFoundations §0.7 the
+dimension theory, §0.3 the relative Proj and §2.6 coherent cohomology.
 Section 3A.5 supplies the classical topology and smooth charts, while
-LieGroups supplies finite-dimensional analytic quotient/manifold theory.
+SmoothBundlesConnections B1.0, B1.1 and B1.4 supply the finite-dimensional
+smooth fibre, principal-bundle and closed-subgroup quotient theory it applies.
 NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
 comparison consume or compare with this earlier phase without becoming
 its prerequisites. The orbit headline statements are in
@@ -1113,7 +1151,7 @@ Scaling on P¹ has one one-dimensional orbit and two closed zero-dimensional orb
 
 ### Dependencies
 
-*Needs:* Layers 0–1; Layer 3 subgroup language; SchemeAndStackFoundations §0.7; the complex comparisons named in §3A.5.
+*Needs:* Layers 0–1; Layer 3 subgroup language; SchemeAndStackFoundations §0.7 for dimension, §0.3 and §2.6 for the relative Proj and the coherent cohomology of §3A.6; the complex comparisons named in §3A.5.
 
 ## Layer 4: Jordan decomposition, diagonalizable groups, tori
 
@@ -4315,6 +4353,30 @@ topology on `Conf_n(ℂ)=PConf_n(ℂ)/S_n`. Transport that quotient topology whe
 the finite-subset carrier; no discrete topology on `Finset ℂ` is intended. Permutations act
 on tuples by `(σ·z)_i=z_(σ⁻¹ i)`.
 
+Define `BraidMonodromy.orderedConfiguration n` as `PConf_n(ℂ)`, and
+`BraidMonodromy.unorderedConfiguration n` as its image in the quotient of `ℂⁿ` by this action
+(Mathlib's `arrowAction`), with the subspace topology of the quotient topology. Since
+`PConf_n(ℂ)` is open and stable under permutations, the quotient map of `ℂⁿ` restricts to an
+open quotient map onto this image, which is therefore homeomorphic to `PConf_n(ℂ)/S_n`.
+The headline `BraidMonodromy.nonempty_mulEquiv_braidGroup` is Artin's theorem: for every `n`
+and every `z ∈ PConf_n(ℂ)`, the fundamental group of `Conf_n(ℂ)` at the class of `z` is
+isomorphic to native `TauCeti.BraidGroup n`, the Artin group of type `A_(n−1)` (Fox–Neuwirth,
+*The braid groups*, Math. Scand. 10 (1962), §§6–7, pp. 122–126, where the presentation is
+derived from a cell decomposition of the configuration space). The based comparison
+constructed below, which sends the class of the `i`-th half-twist loop to the `i`-th
+generator, is its generator-characterized refinement.
+
+**Checks for the configuration spaces.**
+
+- For `n=0` the space is one point and for `n=1` it is `ℂ`; both fundamental groups
+  are trivial, as is the Artin group of the empty Coxeter matrix `A_0`.
+- For `n=2`, `(z₁,z₂)↦(z₁+z₂,(z₁−z₂)²)` identifies `Conf_2(ℂ)` with `ℂ×ℂˣ`, of
+  fundamental group `ℤ=B₂`; the ordered space is `ℂ×ℂˣ` through `(z₁+z₂,z₁−z₂)`, and
+  the double cover induces `1↦2` on `ℤ`, the inclusion of the pure braids `P₂=2ℤ`.
+- The ordered space is not a substitute: for `n=3` its fundamental group `P₃` has
+  abelianization `ℤ³`, one generator for each pair of points, whereas `B₃` has
+  abelianization `ℤ`, since `σ₁σ₂σ₁=σ₂σ₁σ₂` identifies the images of `σ₁` and `σ₂`.
+
 Choose an actual ordered base configuration, for example `z_i=i`, and its unordered image.
 The homeomorphism `z↦z/sqrt(1+|z|²)` to the open unit disc, with inverse
 `w↦w/sqrt(1−|w|²)`, induces equivariant ordered/unordered homeomorphisms. Prove their inverse,
@@ -4405,6 +4467,26 @@ relations are targets (Ernst, Theorem 6.10, p. 46). This gives a generator-chara
 `π₁(B_W,[b]) ≃ TauCeti.ArtinGroup (coxeterMatrixOfBase P base)` at a specified chamber point,
 with explicit basepoint-change transport for any other basepoint.
 
+The headline is stated for a finite reduced crystallographic root pairing `P` over `ℂ` on a
+finite-dimensional root space `M` with its module topology, which covers the complexification
+of a real one by native `rootPairingBaseChange`. Define `WeylArrangement.weylRegularLocus P`
+as the set of `v ∈ M` on which no coroot vanishes, the complement of the reflecting
+hyperplanes of the Weyl group on `M`, and `WeylArrangement.weylRegularOrbitSpace P` as its
+image in the orbit space of `M` under Mathlib's `P.weylGroup` with its native action on the
+root space (the action underlying `weylGroupRootRep`), with the subspace topology of the
+quotient topology. Applied to `P.flip`, these are `V_reg` and `B_W` above, in the coroot space,
+where the roots are the functionals. The headline
+`WeylArrangement.nonempty_mulEquiv_artinGroup` is Brieskorn's theorem: for every base `b` and
+every regular `v`, the fundamental group of the regular orbit space at the class of `v` is
+isomorphic to `TauCeti.ArtinGroup (TauCeti.coxeterMatrixOfBase P b)` (Brieskorn, *Sur les
+groupes de tresses*, Séminaire Bourbaki 1971/72, exposé 401, Proposition 1, p. 25, for a
+finite irreducible real reflection group on the complexification of its reflection
+representation, proved in Brieskorn, Invent. Math. 12 (1971); Ernst, Theorem 6.10, p. 46).
+The generator-characterized isomorphism above refines it. On the span of the roots `P` is the
+complexification of its rational form (native `RootPairing.restrictScalarsRat`), and `M` is
+the direct sum of that span and the `W`-fixed subspace on which every coroot vanishes, which
+contributes a contractible factor.
+
 - Changing the chosen chamber point transports each fundamental group by a
   specified path and commutes with the covering homomorphism; changing that
   path changes the identification by the corresponding inner automorphism.
@@ -4481,9 +4563,11 @@ the Killing form of all `𝔤` need not be nondegenerate. Prove the infinitesima
 invariant comparison in each finite homogeneous rational subrepresentation: connectedness,
 root-subgroup exponentials and torus weights in characteristic zero show Lie-fixed equals
 `G`-fixed. Prove central invariants factor because the group action on `𝔷(𝔤)` is trivial.
-Consume the finite-W invariant-algebra and quotient construction of
-[ReflectionInvariantTheory](../ReflectionInvariantTheory/README.md), retaining degree-one
-central coordinates, to obtain the actual affine quotient and its discriminant complement.
+Consume the finite-group invariant algebra of
+[ReflectionInvariantTheory §1](../ReflectionInvariantTheory/README.md) and its real reflection
+invariant package of §3 (polynomial invariants, the finite quotient map, the Jacobian and
+discriminant, and one degree-one invariant for each central fixed direction), complexified,
+to obtain the actual affine quotient and its discriminant complement.
 No canonical choice of polynomial invariant generators is asserted.
 
 The base is the image of `𝔱_reg` in `𝔱/W`, the **discriminant complement**. It is not the
@@ -4625,7 +4709,7 @@ independent Layers 8–9 and §§3A.5/11.0 → 11C invariant/spectral maps; Laye
 LieGroups Layer 8 flag cells → homogeneous-fiber connectedness and simple connectedness;
 the based DGFloer Layer 1.2 fiber sequence → the `χ_rs`-induced π₁ isomorphism; finite
 cover → actual root-datum monodromy. LieHighestWeight Layer 7 Lie invariants and
-ReflectionInvariantTheory finite invariants enter 11C with the explicit comparisons
+ReflectionInvariantTheory §§1 and 3 finite invariants enter 11C with the explicit comparisons
 stated there. No edge
 returns to those lower targets. This constructs Lie-algebra regular-semisimple topology
 over `ℂ`; it does not assert the corresponding statements for group-element toric
@@ -4723,6 +4807,12 @@ its Layer 1.1 need constructions rather than existence theorems.
   finite-reflection-complement presentation that Ernst's Theorem 6.10 states
   without proof (Ernst cites Brieskorn's survey *Sur les groupes de tresses*,
   Séminaire Bourbaki 1971/72, exposé 401, LNM 317 (1973)).
+- E. Brieskorn, *Sur les groupes de tresses*, Séminaire Bourbaki 1971/72, exposé 401,
+  LNM 317 (1973), Proposition 1, p. 25 (Numdam): the presentation of the fundamental
+  group of the regular orbit space of a finite irreducible real reflection group (§11B).
+- R. Fox, L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126, §§6–7,
+  pp. 122–126: the braid group as the fundamental group of the unordered configuration
+  space of the plane, and its presentation (§11A).
 
 - A. Grothendieck et al., *Revêtements étales et groupe fondamental* (SGA 1),
   retyped edition, arXiv:math/0206203v2, Exposé XII by M. Raynaud, §§1–3,

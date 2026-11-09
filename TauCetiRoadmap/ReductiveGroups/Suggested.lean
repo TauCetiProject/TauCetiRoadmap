@@ -9,20 +9,26 @@ import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
 import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
 import TauCeti.Algebra.Lie.UniversalEnveloping.Kostant.Form
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
+import TauCeti.GroupTheory.Coxeter.Artin
+import TauCeti.LinearAlgebra.RootSystem.Coxeter.Matrix
 
 /-!
 # Reductive algebraic groups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states headline theorems
-against the pinned APIs: local closedness of algebraic orbits, strict dimension drop
-at the boundary, closed orbits in orbit closures, compactness of proper complex
-scheme points (Layer 3A); characteristic-zero equivalence of reductivity and complete
+against the pinned APIs: local closedness of the orbits of a finite-type group over any field,
+strict dimension drop at the boundary and closed orbits in orbit closures for smooth groups over
+an algebraically closed field, compactness of proper complex scheme points (Layer 3A);
+characteristic-zero equivalence of reductivity and complete
 reducibility, and Nagata's characteristic-`p` criterion that a smooth connected affine group is
 linearly reductive exactly when it is a torus (Layer 6); the characteristic-zero Levi complement
 of §6A in Hopf coordinates; conjugacy of Borel subgroups and of maximal tori by rational points
 over an algebraically closed field (Layer 7); Lang surjectivity over finite fields (Layer 7a);
 integral PBW for the full reductive Chevalley frame, including its central torus (Layer 9A);
-and nonsplitting of the braid permutation extension for at least two strands (Layer 11).
+Artin's identification of the fundamental group of the unordered configuration space of the
+plane with the braid group, and nonsplitting of the braid permutation extension for at least two
+strands (§11A); and Brieskorn's identification of the fundamental group of the regular orbit
+space of a finite Weyl arrangement with the Artin group of its Coxeter matrix (§11B).
 
 The pinned Tau Ceti proves conjugacy of Borel subgroups only under a hypothesis:
 `TauCeti.HopfIdeal.exists_conjugate_eq_of_isBorelOverAlgClosed`
@@ -74,6 +80,10 @@ lack the algebra of identity-supported distributions of the constructed integral
 group, its relative Frobenius map and the rational contracted-module construction.
 The Weyl/simple-module and Steinberg-module endpoints of §10 lack their
 rational highest-weight module constructions as well.
+The generator-characterized forms of the Artin and Brieskorn isomorphisms of §§11A–11B, which
+send the half-twist loops and the wall-crossing loops to the standard generators, lack those
+loops: they are the based constructions of §§11A–11B, and only the isomorphism type is
+stated here.
 These endpoints remain in
 the README; no surrogate constructor or arbitrary maps are assumed here.
 -/
@@ -118,42 +128,41 @@ def orbitBoundary (x : Points X) : Set X.left :=
 noncomputable def orbitDimension (x : Points X) : WithBot ℕ∞ :=
   topologicalKrullDim (geometricOrbit G X x)
 
-/-- Orbits of smooth affine finite-type groups are locally closed (Milne 2017, Proposition 1.65). -/
+/-- Over any field `k`, the orbit of a rational point under an algebraic action of a group scheme
+of finite type over `k` on a scheme of finite type over `k` is locally closed. Neither
+smoothness nor affineness of the group, separatedness of the scheme nor algebraic closedness of
+`k` is needed (Milne 2017, Proposition 1.65(b), pp. 26–27, applied to the orbit map, which is
+equivariant for left translation, as in the definition of orbits that follows it on p. 27).
+Quasi-compactness of the group is needed: the constant group `ℤ` translating the affine line
+over `ℚ` has the integers as the orbit of `0`, which is dense and not open in the line. -/
 theorem orbit_locallyClosed
-    [hAlgClosed : IsAlgClosed k]
-    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
-    [hGroupQC : QuasiCompact G.hom]
-    [hXFiniteType : LocallyOfFiniteType X.hom]
-    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
+    [hGroupFiniteType : LocallyOfFiniteType G.hom] [hGroupQC : QuasiCompact G.hom]
+    [hXFiniteType : LocallyOfFiniteType X.hom] [hXQC : QuasiCompact X.hom] (x : Points X) :
     IsLocallyClosed (geometricOrbit G X x) := by sorry
 
-/-- The boundary has strictly smaller dimension, also for disconnected groups (Milne 2017, proof of Proposition 1.66, componentwise). -/
+/-- For a smooth group of finite type over an algebraically closed field acting on a separated
+scheme of finite type, the boundary of an orbit has strictly smaller dimension than the orbit,
+also for disconnected groups and nonaffine groups (Milne 2017, proof of Proposition 1.66,
+pp. 27–28, applied componentwise). -/
 theorem boundary_dimension_lt
     [hAlgClosed : IsAlgClosed k]
-    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
-    [hGroupQC : QuasiCompact G.hom]
+    [hSmooth : Smooth G.hom] [hGroupQC : QuasiCompact G.hom]
     [hXFiniteType : LocallyOfFiniteType X.hom]
     [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
     topologicalKrullDim (orbitBoundary G X x) < orbitDimension G X x := by sorry
 
-/-- Each orbit closure contains a closed orbit (Milne 2017, Proposition 1.66). -/
+/-- For a smooth group of finite type over an algebraically closed field acting on a separated
+scheme of finite type, each orbit closure contains a closed orbit (Milne 2017, Proposition 1.66
+and its proof, pp. 27–28: the boundary is a union of orbits of smaller dimension, so an orbit of
+least dimension in the closure is closed). Applied at any rational point, it gives a closed orbit
+on every such scheme with a rational point. -/
 theorem exists_closed_orbit_in_closure
     [hAlgClosed : IsAlgClosed k]
-    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
-    [hGroupQC : QuasiCompact G.hom]
+    [hSmooth : Smooth G.hom] [hGroupQC : QuasiCompact G.hom]
     [hXFiniteType : LocallyOfFiniteType X.hom]
     [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (x : Points X) :
     ∃ y : Points X, IsClosed (geometricOrbit G X y) ∧
       geometricOrbit G X y ⊆ orbitClosure G X x := by sorry
-
-/-- A nonempty finite-type action scheme has a closed orbit (Milne 2017, Proposition 1.66). -/
-theorem exists_closed_orbit
-    [hAlgClosed : IsAlgClosed k]
-    [hAffine : IsAffine G.left] [hSmooth : Smooth G.hom]
-    [hGroupQC : QuasiCompact G.hom]
-    [hXFiniteType : LocallyOfFiniteType X.hom]
-    [hXQC : QuasiCompact X.hom] [hSeparated : IsSeparated X.hom] (hx : Nonempty (Points X)) :
-    ∃ y : Points X, IsClosed (geometricOrbit G X y) := by sorry
 
 end
 end AlgebraicOrbits
@@ -400,9 +409,33 @@ theorem integral_pbw (base : P.Base)
 
 end
 end IntegralPBW
-/-! ## Layer 11: braid permutation monodromy -/
+/-! ## Layer 11: plane configurations and braid permutation monodromy -/
 
 namespace BraidMonodromy
+
+/-- Ordered configurations of `n` distinct points of the complex plane: the injective tuples
+`PConf_n(ℂ)` of §11A, with the subspace topology of `ℂⁿ`. -/
+def orderedConfiguration (n : ℕ) : Set (Fin n → ℂ) := {z | Function.Injective z}
+
+/-- Unordered configurations `Conf_n(ℂ)` of §11A: the image of `orderedConfiguration n` in the
+quotient of `ℂⁿ` by the permutation action `(σ • z) i = z (σ⁻¹ i)` (Mathlib's `arrowAction`),
+with the subspace topology of the quotient topology. Since `orderedConfiguration n` is open and
+stable under permutations, this space is homeomorphic to `PConf_n(ℂ)/S_n` with its quotient
+topology. -/
+def unorderedConfiguration (n : ℕ) :
+    Set (Quotient (@MulAction.orbitRel (Equiv.Perm (Fin n)) (Fin n → ℂ) _ arrowAction)) :=
+  Quotient.mk _ '' orderedConfiguration n
+
+/-- Artin's theorem in the form of Fox and Neuwirth: at any configuration, the fundamental group
+of the unordered configuration space of `n` points of the plane is the braid group on `n`
+strands, Tau Ceti's Artin group of type `A_(n-1)` (Fox–Neuwirth, *The braid groups*, Math.
+Scand. 10 (1962), §§6–7, pp. 122–126). For `n = 0` and `n = 1` the space is a point and a copy of
+`ℂ` and both groups are trivial; for `n = 2` the space is homotopy equivalent to `ℂˣ` and both
+groups are `ℤ`. -/
+theorem nonempty_mulEquiv_braidGroup (n : ℕ) (z : Fin n → ℂ) (hz : z ∈ orderedConfiguration n) :
+    Nonempty (FundamentalGroup (unorderedConfiguration n) ⟨Quotient.mk _ z, z, hz, rfl⟩ ≃*
+      TauCeti.BraidGroup n) := by
+  sorry
 
 /-- The permutation map from braids on at least two strands admits no group-homomorphic
 section; the exponent sum of an involution is zero, whereas a transposition has odd parity. -/
@@ -412,4 +445,44 @@ theorem permutation_extension_nonsplit (n : ℕ) (hn : 2 ≤ n) :
   sorry
 
 end BraidMonodromy
+
+/-! ## Layer 11: the finite Weyl-arrangement theorem -/
+
+namespace WeylArrangement
+noncomputable section
+
+variable {Λ M N : Type*} [AddCommGroup M] [Module ℂ M] [AddCommGroup N] [Module ℂ N]
+
+/-- The complement in the root space `M` of the reflecting hyperplanes of the Weyl group: the
+vectors on which no coroot vanishes, `V_reg` of §11B. -/
+def weylRegularLocus (P : RootPairing Λ ℂ M N) : Set M := {v | ∀ i, P.coroot' i v ≠ 0}
+
+/-- The regular orbit space `B_W = V_reg/W` of §11B: the image of `weylRegularLocus P` in the
+orbit space of `M` under Mathlib's Weyl group `P.weylGroup` with its native action on the root
+space, with the subspace topology of the quotient topology. -/
+def weylRegularOrbitSpace (P : RootPairing Λ ℂ M N) :
+    Set (Quotient (MulAction.orbitRel P.weylGroup M)) :=
+  Quotient.mk _ '' weylRegularLocus P
+
+/-- Brieskorn's theorem for finite Weyl arrangements. For a finite reduced crystallographic root
+pairing `P` over `ℂ` on a finite-dimensional root space and a base `b`, the fundamental group of
+the regular orbit space, at the class of any regular vector, is the Artin group of the Coxeter
+matrix of `b` (Brieskorn, *Sur les groupes de tresses*, Séminaire Bourbaki 1971/72, exposé 401,
+Proposition 1, p. 25, for a finite irreducible real reflection group acting on the
+complexification of its real representation, proved in Brieskorn, Invent. Math. 12 (1971); Ernst,
+*Cell Complexes for Arrangements with Group Actions*, Theorem 6.10, p. 46). On the span of the
+roots `P` is the complexification of its real form, a product of root pairings gives a product
+of orbit spaces, and the subspace on which every coroot vanishes is a contractible factor fixed
+by the Weyl group. For `A₁` the regular orbit space is `ℂˣ/{±1} ≅ ℂˣ` and both groups are `ℤ`;
+with no roots both groups are trivial. Applied to `P.flip` it gives the same statement for the
+complement of the root hyperplanes in the coroot space. -/
+theorem nonempty_mulEquiv_artinGroup [Finite Λ] [TopologicalSpace M] [IsModuleTopology ℂ M]
+    [FiniteDimensional ℂ M] (P : RootPairing Λ ℂ M N) [P.IsCrystallographic] [P.IsReduced]
+    (b : P.Base) (v : M) (hv : v ∈ weylRegularLocus P) :
+    Nonempty (FundamentalGroup (weylRegularOrbitSpace P) ⟨Quotient.mk _ v, v, hv, rfl⟩ ≃*
+      TauCeti.ArtinGroup (TauCeti.coxeterMatrixOfBase P b)) := by
+  sorry
+
+end
+end WeylArrangement
 end TauCetiRoadmap.ReductiveGroups
