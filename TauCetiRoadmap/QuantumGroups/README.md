@@ -457,7 +457,7 @@ C(C₂) and C*(ℤ) give the finite and infinite classical cases; §1.1 also tre
 
 ### Dependencies
 
-§1.1 uses only its commutative pullback and tensor suppliers. §1.2 adds CStarAlgebras C2, VonNeumannAlgebras Layer 0 and OperatorAlgebraDynamics D1–D2.
+§1.1 uses CStarAlgebras C1.CommutativeMultiplierMorphisms and C5.2. §1.2 adds CStarAlgebras C2, VonNeumannAlgebras Layer 0, OperatorAlgebraDynamics D1–D2 and RepresentationTheory/CompactGroups for the Haar measure of a compact group.
 
 ## Layer 2: Unitary corepresentations and Peter–Weyl theory
 
@@ -559,7 +559,7 @@ The C₂ sign object and S₃ regular representation distinguish tensor and dire
 
 ### Dependencies
 
-Layer 1; HilbertModules H1–H3; §0.1; §§2.2–2.3 use the Haar averaging and spectral-projection route.
+Layer 1; HilbertModules H1–H3; CStarAlgebras C5; §0.1; §§2.2–2.3 use the Haar averaging and spectral-projection route, with OperatorTheory/SelfAdjointSpectralTheory Part B for §2.2 and VonNeumannAlgebras Layer 0 GNS for §2.3.
 
 ## Layer 3: The Hopf *-core, orthogonality and modular data
 
@@ -921,7 +921,7 @@ The defining objects have the following API.
 
 ### Dependencies
 
-§4.1 is algebraic; §4.2 uses CStarAlgebras C1–C5 and HilbertModules H2; §4.3 uses OperatorAlgebraDynamics D2, AmenableGroups Layers 1,5,7 and FreeProbability F3. Only the comparison for an arbitrary commutative CQG uses §6.3; its classical C(G) case does not.
+§4.1 is algebraic and uses §§3.1–3.3: the algebraic orthogonality route of §3.1, and §§3.2–3.3 for the modular automorphism and the Kac equivalence; §4.2 uses CStarAlgebras C1–C5 and HilbertModules H2; §4.3 uses OperatorAlgebraDynamics D2, AmenableGroups Layers 1,5,7 and FreeProbability F3. Only the comparison for an arbitrary commutative CQG uses §6.3; its classical C(G) case does not.
 
 ## Layer 5: Compact matrix presentations
 
@@ -1137,7 +1137,7 @@ Finite Hilbert spaces reconstruct ℂ; Rep(C₂) and Rep(S₃) reconstruct their
 
 ### Dependencies
 
-Layers 4–5; §0.1; VonNeumannAlgebras Layers 1 and 3 for finite bicommutants; CStarAlgebras C1 Gelfand duality.
+Layers 4–5; §0.1; VonNeumannAlgebras Layers 1 and 3 for finite bicommutants; §6.3 also uses the cancellation of Layer 1 and CStarAlgebras C1 Gelfand duality.
 
 ## Layer 7: SUq(2), free orthogonal fusion and Haar calculations
 
@@ -1260,7 +1260,7 @@ The parameters n=1,2,3 distinguish the two-point law, coamenable rank-two case a
 
 ### Dependencies
 
-Layers 3–6; TemperleyLieb Layers 0–7; §0.2 with Subfactors 3.1–3.3; CStarAlgebras C2,C4,C8; FreeProbability F1,F6.
+Layers 3–6; TemperleyLieb Layers 0–7; §0.2 with Subfactors 3.1–3.3; CStarAlgebras C2,C4,C8; RepresentationTheory/CompactGroups for SU(2) in §7.1; FreeProbability F1,F6.
 
 ## Layer 8: Generic U_q(sl₂), signed modules and integrability
 
