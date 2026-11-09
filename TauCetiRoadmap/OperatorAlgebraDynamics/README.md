@@ -160,7 +160,7 @@ It leaves to named roadmaps:
   standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
   with a measurable field in that sense.
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the permutation unitaries `U_σ` of the completed tensor powers `h^(⊗̂n)` of VonNeumannAlgebras V2 with the symmetrizing and antisymmetrizing projections `P_s` and `P_a` and their ranges `Symⁿ(h)` and `Λⁿ(h)`, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators, its vacuum characteristic function and the cyclicity of its vacuum. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the permutation unitaries `U_σ` of the completed tensor powers `h^(⊗̂n)` of VonNeumannAlgebras V2 (the extensions of Tau Ceti's permutation action `PiTensorProduct.reindexRepresentation` on algebraic tensor powers) with the symmetrizing and antisymmetrizing projections `P_s` and `P_a` and their ranges `Symⁿ(h)` and `Λⁿ(h)`, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators, its vacuum characteristic function and the cyclicity of its vacuum. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
 interacting continuum gases are outside this roadmap. So are the dual Haar
@@ -242,6 +242,12 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   `VonNeumannAlgebra` with `VonNeumannAlgebra.commutant` (the
   double-commutant definition on a Hilbert space) and
   `ContinuousLinearMapWOT` (the weak operator topology), used by D7 and D8;
+  `PiTensorProduct.tmulEquiv` (the binary tensor product of two tensor
+  powers as the tensor power over the sum of the index types),
+  `PiTensorProduct.reindex` with `finSumFinEquiv`,
+  `PiTensorProduct.subsingletonEquiv` and `PiTensorProduct.isEmptyEquiv`,
+  which identify the iterated binary algebraic tensor power with
+  `⨂[ℂ] _ : Fin n, h`, used by D8;
   `PontryaginDual` with its compact-open topology, its locally compact
   abelian group structure and `Circle`, `Measure.IsHaarMeasure` with
   `Measure.Regular`, `Lp` and `lp`, used by D4; the C*-algebra instances on
@@ -429,6 +435,14 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
     `m×n`) and `Matrix.partialTraceLeft` (over the first); and the
     compatibility `Matrix.cfc_one_kronecker` of the functional calculus with
     `1⊗·`. Used by D9; strong subadditivity is not at the pin.
+  - Permutations of tensor factors
+    (`TauCeti/RepresentationTheory/Symmetric/TensorAction/Basic.lean`):
+    `PiTensorProduct.reindexRepresentation`, the representation of the
+    permutation group of ι on the algebraic tensor power
+    `⨂[R] _ : ι, M` by Mathlib's `PiTensorProduct.reindex`, so that σ
+    sends `⨂_i m_i` to `⨂_i m_(σ⁻¹(i))` and the group law is that of a
+    left action. Used by D8 for the permutation unitaries `U_σ` on
+    algebraic tensors; their extension to the completed powers is D8's.
   - Amenability (`TauCeti/GroupTheory/Amenable/`): `TauCeti.Amenable`, a
     left-invariant mean on the bounded uniformly continuous functions
     `TauCeti.UCB G`, the primary definition of AmenableGroups, with the instance
@@ -3314,9 +3328,20 @@ n-th Hilbert tensor powers `h^(⊗̂n)`, with vacuum Ω=1∈Λ⁰(h)=ℂ. Here
 Hilbert tensor product of
 [VonNeumannAlgebras V2](../VonNeumannAlgebras/README.md), whose
 `assocIsometry` identifies the other bracketings and whose `commIsometry`
-gives, for each permutation σ of n letters, the permutation unitary `U_σ`
-of `h^(⊗̂n)`, `U_σ(ξ_1⊗…⊗ξ_n)=ξ_(σ⁻¹(1))⊗…⊗ξ_(σ⁻¹(n))`, so that
-`U_σU_τ=U_(στ)` and each `U_σ` is unitary with `U_σ*=U_(σ⁻¹)`; `Λⁿ(h)`
+is the flip of `h⊗̂h`. For each permutation σ of n letters the
+permutation unitary `U_σ` of `h^(⊗̂n)` is the unique bounded extension of
+`ξ_1⊗…⊗ξ_n↦ξ_(σ⁻¹(1))⊗…⊗ξ_(σ⁻¹(n))` from the dense algebraic tensor
+power. Identify that subspace with the algebraic tensor power
+`⨂[ℂ] _ : Fin n, h` by Mathlib's `PiTensorProduct.tmulEquiv`,
+`PiTensorProduct.reindex` along `finSumFinEquiv`,
+`PiTensorProduct.subsingletonEquiv` and `PiTensorProduct.isEmptyEquiv`;
+there the map is Tau Ceti's `PiTensorProduct.reindexRepresentation` at σ,
+which has this left convention and supplies the group law
+`U_σU_τ=U_(στ)` on algebraic tensors. The map preserves the inner
+products `Π_i⟨ξ_i,η_i⟩` of elementary tensors and is onto the algebraic
+tensor power, so `U_σ` is unitary with `U_σ*=U_(σ⁻¹)` and the group law
+passes to the completion by continuity; for n=2, `U_(1 2)` is V2's
+`commIsometry`. `Λⁿ(h)`
 is the range of the antisymmetrizing projection
 `P_a=(1/n!)Σ_σ sgn(σ)U_σ`, which is an orthogonal projection because
 `U_σ*=U_(σ⁻¹)` and `sgn` is a character. Define the creation
@@ -3655,8 +3680,13 @@ CStarAlgebras C2.1–C2.2 (states) and C5.1–C5.2 and C5.4
 RepresentationTheory/SpinRepresentations (finite-dimensional Clifford and
 exterior algebras); VonNeumannAlgebras V2 (the completed Hilbert tensor
 product with `commIsometry` and `assocIsometry` on the completions, iterated
-to the powers `h^(⊗̂n)`); OneParameterSemigroups and SelfAdjointSpectralTheory
-SA-A21 (Stone's theorem, cores); Mathlib `VonNeumannAlgebra`,
+to the powers `h^(⊗̂n)`); Tau Ceti `PiTensorProduct.reindexRepresentation`
+(the permutation action on algebraic tensor powers);
+OneParameterSemigroups and SelfAdjointSpectralTheory
+SA-A21 (Stone's theorem, cores); Mathlib `PiTensorProduct.tmulEquiv`,
+`PiTensorProduct.reindex`, `finSumFinEquiv`,
+`PiTensorProduct.subsingletonEquiv`, `PiTensorProduct.isEmptyEquiv`,
+`VonNeumannAlgebra`,
 `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`,
 `MeasureTheory.Measure.ext_of_charFun`, `ProbabilityTheory.charFun_gaussianReal`
 and the matrix exponential `NormedSpace.exp`; the hyperbolic cotangent is
@@ -3673,8 +3703,11 @@ degenerate Weyl algebra.
 
 D7; CStarAlgebras C2.1–C2.2, C5.1–C5.2 and C5.4;
 RepresentationTheory/SpinRepresentations; VonNeumannAlgebras V2
-(completed Hilbert tensor products); OneParameterSemigroups;
-SelfAdjointSpectralTheory SA-A21; Mathlib
+(completed Hilbert tensor products); Tau Ceti
+`PiTensorProduct.reindexRepresentation`; OneParameterSemigroups;
+SelfAdjointSpectralTheory SA-A21; Mathlib `PiTensorProduct.tmulEquiv`,
+`PiTensorProduct.reindex`, `finSumFinEquiv`,
+`PiTensorProduct.subsingletonEquiv`, `PiTensorProduct.isEmptyEquiv`,
 `VonNeumannAlgebra`, `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`,
 `MeasureTheory.Measure.ext_of_charFun`, `ProbabilityTheory.charFun_gaussianReal`
 and the matrix exponential `NormedSpace.exp`.
