@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
 public import TauCeti.Geometry.Manifold.Boundary.Charts
 public import TauCeti.Geometry.Manifold.Boundary.InducedOrientation
 public import TauCeti.Geometry.Manifold.Measure
@@ -26,6 +27,11 @@ target, which 8.13 does not state.
 The finite quadratic Arf algebra consumed by Layer 1 is GeometricTopology Layer 4.3.1's and is
 not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
+For the absolute integral case of B6.3 (Layer 10) it states Thom's realization theorems on
+the pinned fundamental class `f_*[M]` of a closed homologically oriented smooth manifold: every
+class of `Hₙ(X; ℤ)` with `n ≤ 6` is some `f_*[M]`, in each degree `n` one positive multiple
+`N • z` of every class of every space is, and some class of degree seven of a compact space is
+not.
 
 The other headline theorems are not statable at the pins:
 - Sard's theorem in unequal dimensions for sources with corners carrying DifferentialGeometry
@@ -48,9 +54,15 @@ The other headline theorems are not statable at the pins:
 - the ABS genus and its Dirac comparison (B3.0), Rokhlin-type consequences (B3.4) and the
   transfer kernel `ker(ΩSpin_n → KO_n) = im(ΩSpin_(n−8)(BPSp3) → ΩSpin_n)` (B6.6): there is
   no `KO` spectrum;
-- the integral realization range and its degree-seven counterexample (B6.3), and the
-  unoriented/oriented projective-transfer image theorems (B6.5): there are no geometric
-  bordism groups, bordism orientation maps or associated-family transfer maps;
+- the realization theorems of B6.3 on pairs `(X, A)`: the pins have no relative fundamental
+  class `[M, ∂M]` of a compact manifold with boundary
+  (`TauCeti.HomologicalOrientation.fundamentalClassOn` is the class along a compact subset of a
+  boundaryless manifold);
+- the mod-2 realization theorem of B6.3, `ΩO_n(X) → H_n(X; F2)` onto in every degree: the
+  pinned fundamental class is integral and needs an orientation, and there is no mod-2
+  fundamental class of a non-orientable closed manifold;
+- the unoriented/oriented projective-transfer image theorems (B6.5): there are no geometric
+  bordism groups or associated-family transfer maps;
 - the Cayley-plane theorems (B3.6–B3.9): the compact Albert algebra is not at the pins.
 -/
 
@@ -182,6 +194,56 @@ theorem closedManifold_isBoundary (n : ℕ) (hn : n = 1 ∨ n = 3)
       (_ : ChartedSpace (EuclideanHalfSpace (n + 1)) W) (_ : IsManifold (𝓡∂ (n + 1)) ∞ W),
       Nonempty (↥((𝓡∂ (n + 1)).boundary W) ≃ₘ^∞⟮𝓘(ℝ, EuclideanSpace ℝ (Fin n)),
           𝓘(ℝ, EuclideanSpace ℝ (Fin n))⟯ M) := by
+  sorry
+
+/-! ## Layer 10: realization and projective transfers -/
+
+/-- Thom's integral realization in degrees at most six (B6.3 for `A = ∅`; Thom,
+Théorème III.3, p.59, and Corollaire III.7, p.62, for finite polyhedra): for every topological
+space `X` and every `n ≤ 6`, every class `z ∈ Hₙ(X; ℤ)` is the image `f_*[M]` of the fundamental
+class of a closed smooth `n`-manifold `M` with a homological orientation under a continuous map
+`f : M → X`. The manifold may be empty or disconnected: `0` is realized by the empty manifold and
+`2 • [x] ∈ H₀(X; ℤ)` by two positive points. -/
+theorem exists_mapFundamentalClass_eq (n : ℕ) (hn : n ≤ 6) (X : Type) [TopologicalSpace X]
+    (z : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
+      (ModuleCat.of ℤ (ULift.{0} ℤ))).obj (TopCat.of X)) :
+    ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin n)) M)
+      (_ : IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M)
+      (o : TauCeti.HomologicalOrientation M (EuclideanSpace ℝ (Fin n)) n) (f : C(M, X)),
+      o.mapFundamentalClass finrank_euclideanSpace_fin f = z := by
+  sorry
+
+/-- Thom's multiplicative realization theorem (B6.3; Thom, Théorème III.4, p.59, for finite
+polyhedra): in each degree `n` there is one positive integer `N`, independent of the space and of
+the class, such that for every topological space `X` and every `z ∈ Hₙ(X; ℤ)` the multiple
+`N • z` is `f_*[M]` for a closed smooth `n`-manifold `M` with a homological orientation and a
+continuous `f : M → X`. In particular the orientation map is onto after tensoring with `ℚ`. -/
+theorem exists_pos_forall_mapFundamentalClass_eq_nsmul (n : ℕ) :
+    ∃ N : ℕ, 0 < N ∧ ∀ (X : Type) [TopologicalSpace X]
+      (z : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
+        (ModuleCat.of ℤ (ULift.{0} ℤ))).obj (TopCat.of X)),
+      ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+        (_ : ChartedSpace (EuclideanSpace ℝ (Fin n)) M)
+        (_ : IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M)
+        (o : TauCeti.HomologicalOrientation M (EuclideanSpace ℝ (Fin n)) n) (f : C(M, X)),
+        o.mapFundamentalClass finrank_euclideanSpace_fin f = N • z := by
+  sorry
+
+/-- The realization range is sharp (B6.3; Thom, Théorème III.9 and the example after it,
+pp.62–63): some compact space `X` has a class `z ∈ H₇(X; ℤ)` that is `f_*[M]` for no closed
+smooth `7`-manifold `M`, no homological orientation of `M` and no continuous `f : M → X`. Thom's
+witness is a class of `H₇(L × L; ℤ)` for the lens space `L = S⁷/C₃`, detected by the mod-3
+operation `P¹β`. -/
+theorem exists_not_mapFundamentalClass_eq_seven :
+    ∃ (X : Type) (_ : TopologicalSpace X) (_ : CompactSpace X)
+      (z : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) 7).obj
+        (ModuleCat.of ℤ (ULift.{0} ℤ))).obj (TopCat.of X)),
+      ∀ (M : Type) [TopologicalSpace M] [T2Space M] [CompactSpace M]
+        [ChartedSpace (EuclideanSpace ℝ (Fin 7)) M]
+        [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin 7)) ∞ M]
+        (o : TauCeti.HomologicalOrientation M (EuclideanSpace ℝ (Fin 7)) 7) (f : C(M, X)),
+        o.mapFundamentalClass finrank_euclideanSpace_fin f ≠ z := by
   sorry
 
 end TauCetiRoadmap.TangentialBordism

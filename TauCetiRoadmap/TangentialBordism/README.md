@@ -12,8 +12,13 @@ over a space, and a spectral isomorphism does not supply an explicit filling.
 three-manifold parallelization headline, the zero entries ΩO_1=ΩO_3=0 and
 ΩSO_1=ΩSO_2=ΩSO_3=0 of the B3.1 tables as nullbordism theorems, and B1.6's
 relative smoothing into compact targets and its Sard theorem in unequal
-dimensions for boundaryless and half-space sources against the pinned
-APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
+dimensions for boundaryless and half-space sources, and B6.3's absolute
+integral realization theorems on the pinned fundamental class: every
+class of degree at most six is realized (`exists_mapFundamentalClass_eq`),
+one positive multiple of every class of a given degree is
+(`exists_pos_forall_mapFundamentalClass_eq_nsmul`), and some class of
+degree seven is not (`exists_not_mapFundamentalClass_eq_seven`), against
+the pinned APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
 include `TauCeti/Geometry/Manifold/Bordism/` and
 `TauCeti/AlgebraicTopology/Bordism/`.
 
@@ -74,8 +79,9 @@ theorem (B3.2(c)) are owned here; the stable coefficient isomorphisms
 and B5.5 consume and compare with the finite constructions. B3.3 owns the
 stable-stem relations η≠0 in π₁S and η³=12ν≠0 in π₃S≅ℤ/24, for η the
 Lie-framed circle and ν StringOrientation S2.3's generator; no earlier
-roadmap states them, and later roadmaps that use the relation,
-K3BlochGroups (its §4.9) and FourManifolds among them, cite B3.3 for it.
+roadmap states them, and later roadmaps that use the relation consume
+B3.3; FourManifolds, which lists B3.3 among its suppliers, uses it for
+the Lie framing of T³.
 
 SmoothBundlesConnections B1.4 owns free proper smooth quotients and their
 principal/submersion comparison; B1.5 imports them and adds only cycle-structure
@@ -172,6 +178,11 @@ The signature of a real intersection form is t₊−t₋ for Mathlib's `sigPos`
 and `sigNeg` in `Mathlib/LinearAlgebra/QuadraticForm/Signature.lean`, the
 largest dimensions of positive- and negative-definite subspaces of the
 associated quadratic form on a finite-dimensional real vector space.
+Singular homology with integral coefficients is Mathlib's
+`AlgebraicTopology.singularHomologyFunctor` from
+`Mathlib/AlgebraicTopology/SingularHomology/Basic.lean`, evaluated at
+`ModuleCat.of ℤ (ULift ℤ)` and at a space in `Type`, the carrier of the
+realization targets of 10.1.
 
 ### From Tau Ceti
 
@@ -295,6 +306,20 @@ but no declaration relating them to `TauCeti.Manifold.Orientation`: it does
 not prove that the generators of
 `TauCeti.localOrientationOfManifoldOrientation` form a
 `TauCeti.HomologicalOrientation`.
+For a compact Hausdorff space M in `Type` with a chart model E of finite
+dimension n and an `o : TauCeti.HomologicalOrientation M E n`,
+`TauCeti.HomologicalOrientation.fundamentalClass` from
+`TauCeti/AlgebraicTopology/Singular/LocalHomology/FundamentalClass.lean`
+is the unique class of H_n(M;ℤ) restricting to o at every point, and
+`TauCeti.HomologicalOrientation.mapFundamentalClass` (same file) is its
+image f_*[M] in H_n(X;ℤ) under a continuous f:M→X, for X in `Type`;
+reversing o negates it
+(`TauCeti.HomologicalOrientation.mapFundamentalClass_neg`). The absolute
+realization targets of 10.1 are stated on these. The pin has no relative
+fundamental class of a compact manifold with boundary
+(`TauCeti.HomologicalOrientation.fundamentalClassOn` is the class along a
+compact subset of a boundaryless manifold) and no mod-2 fundamental
+class of a non-orientable closed manifold.
 Use `AbstractSimplicialComplex.realizationCWComplex` from
 `TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean`
 as the CW structure on the realization |K| of a simplicial complex. It is
@@ -1159,15 +1184,17 @@ Construct the fundamental-class orientation maps ΩSO_n(X,A)→H_n(X,A;Z)
 and ΩO_n(X,A)→H_n(X,A;F2) by f_*[M,∂M]. Prove witness invariance from
 AlgebraicTopology's relative fundamental class: for a compact oriented
 witness W the boundary map sends [W,∂W] to [∂W], whose image in H_(n−1)
-of W vanishes by exactness. Prove naturality, products and exact
+of W vanishes by exactness (Miller, Chapter 1, §1, pp.1–2, for the
+witness argument and both orientation maps). Prove naturality, products and exact
 sequences; the comparison with G5's spectral Thom-orientation maps is
 B5.5. Spin maps factor through SO. In degree0 at a point these maps are
 the signed count ΩSO_0→Z and the mod2 count ΩO_0→F2: witness invariance
 at n=1 says the signed boundary count of every compact oriented
 1-manifold is zero (and its unoriented boundary count even), which is
 the relative fundamental class statement above, so no classification of
-compact 1-manifolds is used. Prove them isomorphisms: k·(+pt) is a
-right inverse, and a zero-manifold of signed count zero bounds disjoint
+compact 1-manifolds is used. Prove them isomorphisms (Milnor–Stasheff,
+§17.2, p.209 of the TeXromancers edition, for ΩSO_0≅Z by the signed
+count): k·(+pt) is a right inverse, and a zero-manifold of signed count zero bounds disjoint
 arcs pairing its positive and negative points (in O, pairing any two
 points). Then +pt is the unit, ΩSpin_0→ΩSO_0 is an isomorphism through
 B1.1's point signs, and forgetting to O sends the signed count to its
@@ -2895,9 +2922,25 @@ Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; 
 ### 10.1 Homology realization and its sharp range (B6.3)
 
 Prove orientation-map surjectivity ΩSO_n(X,A)→H_n(X,A;Z)
-for0≤n≤6, ΩO_n(X,A)→H_n(X,A;F2) in every degree, and the
-rational SO surjection in every degree. Construct geometric preimages,
+for0≤n≤6, ΩO_n(X,A)→H_n(X,A;F2) in every degree, and Thom's
+multiplicative theorem in every degree: for each n one integer N_n≥1,
+independent of (X,A) and of the class, with N_n·z in the image of
+ΩSO_n(X,A)→H_n(X,A;Z) for every z, hence the rational SO surjection.
+Construct geometric preimages,
 using B4/B5 for mod2 and B5.7's connective bordism AHSS for Z.
+For the multiplicative theorem let F be the fibre of the Thom class
+MSO→HZ, so π_qF=ΩSO_q for q≥1 and π_qF=0 for q≤0 by B5.4c. The
+obstruction to lifting z∈H_n(X,A;Z) along MSO∧(X/A)→HZ∧(X/A) is the
+image of z under the connecting map δ:HZ→ΣF smashed with X/A. The
+G3.8 connective cover τ_(≥n)F smashed with the connective X/A has no
+homotopy below degree n, so the obstruction vanishes once its image
+under the cofibre map F→F/τ_(≥n)F does. Maps HZ→Σ(F/τ_(≥n)F) form a
+finite group: F/τ_(≥n)F has the finitely generated homotopy groups
+ΩSO_q, 1≤q≤n−1, and no others, and H^j(HZ;B) is finite for j≥1 and
+every finitely generated abelian group B, because HZ has finite type
+and H^*(HZ;Q) is Q in degree 0. With N_n the exponent of that group the
+obstruction of N_n·z is N_n times that of z and vanishes, so N_n·z lifts
+to ΩSO_n(X,A) for every class z in degree n of every pair.
 For the integral range use the actual connective AHSS and rational
 surjectivity: the first possible differential from H_n(−;Z) is d5 to
 H_(n−5)(−;ΩSO_4=Z), hence has torsion image. In degree5 its H0
@@ -2926,15 +2969,46 @@ dual first MSO obstruction in the same ordinary/spectral sign convention
 and prove nonrepresentability, so the range has its correct limit. The positive
 range and counterexample use distinct parts of this same operation API.
 
+For A=∅ the integral statements need no bordism group. A class z of
+H_n(X;Z) lies in the image of the orientation map exactly when z=f_*[M]
+for a closed oriented smooth n-manifold M and a continuous f:M→X, and
+B2.4's f_*[M] is the pinned
+`TauCeti.HomologicalOrientation.mapFundamentalClass` of the homological
+orientation that AlgebraicTopology 6.3's bijection attaches to the
+orientation of M. So the absolute integral statements are three targets,
+for every topological space X in `Type`, CW or not, and closed smooth M in
+`Type` with a homological orientation, empty and disconnected M allowed:
+
+- for n≤6 every z∈H_n(X;Z) is f_*[M] for some such M and continuous f
+  (`exists_mapFundamentalClass_eq`);
+- for each n there is N≥1 such that for every X and every z∈H_n(X;Z) the
+  class N·z is f_*[M] for some such M and f
+  (`exists_pos_forall_mapFundamentalClass_eq_nsmul`);
+- some compact X has a class z∈H_7(X;Z) that is f_*[M] for no closed
+  smooth 7-manifold M, no homological orientation of M and no continuous
+  f (`exists_not_mapFundamentalClass_eq_seven`); V=L×L with the class z
+  above is the witness.
+
+Pass from pairs to these statements at A=∅ and from CW targets to every
+space through singular CW approximation, which induces isomorphisms on
+singular homology. In the third statement the quantifier over
+homological orientations ranges over the orientations of M and no more:
+by AlgebraicTopology 6.3 every homological orientation of a smooth M
+comes from exactly one smooth orientation.
+
 **Checks.**
 
 - A positive point realizes 1 in H₀(pt;ℤ), and the empty cycle realizes 0.
+- A negative point realizes −1 in H₀(pt;ℤ): reversing the homological orientation negates f_*[M] (the pinned `TauCeti.HomologicalOrientation.mapFundamentalClass_neg`), so the realized classes form a subgroup, sums coming from disjoint unions.
+- Two positive points over one point realize 2 in H₀(pt;ℤ); a version requiring M connected would realize only ±1 there, so the absolute statements must allow disconnected M.
 - For m=3 the positive even cyclic-group homology is ker(3:ℤ→ℤ)=0, whereas odd homology is ℤ/3; reversing these parities would not kill the asserted d₅ target test.
 - In the degree-seven example the product coefficient is −1=2 modulo three, not zero, so the obstruction genuinely evaluates nontrivially.
+- In degree seven the multiplicative integer is divisible by 3. The class z of V is the Poincaré dual of an integral Bockstein, so 3z=0; N≡1 or 2 modulo 3 would give N·z=z or −z, neither of which is realized, whereas 3z=0 is realized by the empty manifold. In degrees at most six N=1 is allowed.
 
 The realization theorems for finite polyhedra are Thom, Théorèmes III.2
 (mod2, every degree), III.3 (integral, degree at most five) and III.4 (a
-nonzero multiple of every integral class, hence the rational surjection),
+nonzero multiple N·z of every integral class z of dimension n, with N
+depending only on n, hence the rational surjection),
 p.59, and Corollaire III.7 (integral, degree six), p.62; the
 non-realizable integral classes in every degree at least seven are his
 Théorème III.9, and the L⁷×L⁷ example at p=3, pp.62–63. The AHSS
@@ -2943,7 +3017,7 @@ finite polyhedra, for pairs and arbitrary CW targets, and the operation
 identities of the lens-space example are proved by the explicit
 operation calculations above.
 
-*Needs:* B4.4, B4.7, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; AlgebraicTopology Layers 4 and 6.
+*Needs:* B2.4, B4.4, B4.7, B5.4, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass` and `TauCeti.HomologicalOrientation.mapFundamentalClass_neg`; AlgebraicTopology Layers 4 and 6 (6.3's bijection between smooth and homological orientations); GeneralizedCohomology G3.8 connective covers.
 
 ### 10.2 Associated-family transfers (B6.4)
 
@@ -3267,7 +3341,7 @@ The CP² conjugation mapping torus detects the degree-five torsion branch; the H
 
 ### Dependencies
 
-Layers 2–8; CharacteristicClasses C1.3–C1.4; ClassifyingSpaces Stage 4; GeneralizedCohomology G3.8 and G4–G5; RiemannianGeometry R1; IndexTheory I2–I5; TopologicalKTheory T5–T7.
+Layers 2–8; AlgebraicTopology Layers 4 and 6; CharacteristicClasses C1.3–C1.4; ClassifyingSpaces Stage 4; GeneralizedCohomology G3.8 and G4–G5; RiemannianGeometry R1; IndexTheory I2–I5; TopologicalKTheory T5–T7; Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`.
 
 ## Downstream consumers
 
@@ -3277,8 +3351,7 @@ comparison. FourManifolds consumes B1.7's concrete
 examples, B3.2's quadratic/filling results with the Spin-surface quadratic
 refinement, B4's ordinary Wu package, B5.2's finite embedded
 Pontryagin–Thom comparison and B3.3's relation η³=12ν for the Lie framing
-of T³. K3BlochGroups consumes B3.3's η³=12ν≠0 for its quotient of π₃S by
-η³. StringOrientation and EllipticCohomology precede this roadmap and consume
+of T³. StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
 metric and surgery results. CalibratedGeometry 2.4 consumes B1.5's relative
