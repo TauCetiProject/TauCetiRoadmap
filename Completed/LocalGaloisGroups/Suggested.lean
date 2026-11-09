@@ -321,8 +321,8 @@ noncomputable example (n : ℕ) (hn : n ≠ 0) :
       ClassFieldTheory.H n F 1 (ClassFieldTheory.muNRep n F) :=
   ClassFieldTheory.kummerEquiv_mixed p F n hn
 
-example (n : ℕ) (hn : n ≠ 0) :
-    Nonempty (ClassFieldTheory.H n F 2 (ClassFieldTheory.muNRep n F) ≃+ ZMod n) :=
+noncomputable example (n : ℕ) (hn : n ≠ 0) :
+    ClassFieldTheory.H n F 2 (ClassFieldTheory.muNRep n F) ≃+ ZMod n :=
   ClassFieldTheory.h2MuEquivZMod_mixed p F n hn
 
 /-- **The cyclotomic/reciprocity comparison, as a closed proof.** For a unit `u` and any
@@ -482,7 +482,7 @@ trivial module, through the chosen-root dictionary `muNRepIsoTrivialFp`. A close
 supplier's coefficient hypothesis is checked against `ProfiniteProPGroups.trivialFp`. -/
 theorem nonempty_cohomFp_two_addEquiv_of_mu (ζ : F) (hζ : IsPrimitiveRoot ζ p) :
     Nonempty (ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 2 ≃+ ZMod p) :=
-  ClassFieldTheory.h2FpEquivZMod_of_mu p F ζ hζ _ ⟨muNRepIsoTrivialFp p F ζ hζ⟩
+  ⟨ClassFieldTheory.h2FpEquivZMod_of_mu p F _ (muNRepIsoTrivialFp p F ζ hζ)⟩
 
 /-- **Layer 1, `dim H¹(G_F, 𝔽_p) = N + 2` when `μ_p ⊆ F`, by Kummer theory alone.** The dictionary
 `muNRepIsoTrivialFp` identifies `H¹(G_F, 𝔽_p)` with `H¹(G_F, μ_p)`, which

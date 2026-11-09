@@ -1218,7 +1218,7 @@ and CFT exports at the shapes B1 to B5 use.
 
 section LayerBContract
 
-open GlobalNumberFields
+open TauCetiRoadmap.GlobalNumberFields
 open scoped NumberField nonZeroDivisors
 
 -- ⚠ `K : Type` and not `Type u`: `ClassFieldTheory.ringClassField` is stated at `Type`, and
@@ -1278,7 +1278,7 @@ noncomputable def binaryRingClassField (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
     (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
     IntermediateField K (SeparableClosure K) :=
   ClassFieldTheory.ringClassField K
-    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic)
 
 /-- **B3, the composite this roadmap proves**, at the level of the two consumed theorems: the
 Galois group of the binary ring class field is the supplier's `Pic` of B1's order, which B2
@@ -1291,7 +1291,7 @@ theorem gal_binaryRingClassField_equiv_pic (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
           ≃ₐ[K] binaryRingClassField Δ hΔ sqrtΔ hsqrtΔ hquadratic)
         ≃* Pic (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic)) :=
   ClassFieldTheory.gal_ringClassField_equiv_pic K
-    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic)
 
 end LayerBContract
 

@@ -700,8 +700,9 @@ roadmap's `cup`: at Class Field Theory's `kummerCupPairing ζ` on `ClassFieldThe
 over the coefficient ring `ZMod 2` and `Field.absoluteGaloisGroup F`, and at `f2Pairing` on
 `trivialF2`, over `ℤ` and `ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's
 `TauCeti.AbsoluteGaloisGroup F`. Both coefficient modules are Tau Ceti's `KummerCoeff F 2`:
-`ClassFieldTheory.muNRepCoeffDictionary` is its identity, with `muNRepCoeffDictionary_continuous`
-and `muNRepCoeffDictionary_equivariant`, and Layer 7A's `kummerCoeffIsoTrivialF2` starts from it.
+`ClassFieldTheory.muNRepCoeffDictionary`, Tau Ceti's `kummerCoeffEquivMuNRep`, carries it onto
+`muNRep 2 F`, with `muNRepCoeffDictionary_continuous` and `muNRepCoeffDictionary_equivariant`, and
+Layer 7A's `kummerCoeffIsoTrivialF2` starts from it.
 Both Kummer classes are Tau Ceti's `kummerMap` transported, Class Field Theory's by
 `kummerClass_eq_kummerCocycleClass` and Layer 7A's through `kummerMapCanonical`. So the content
 of the bridge is the naturality of `cup` along the group comparison

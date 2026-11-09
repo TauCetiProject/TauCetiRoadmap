@@ -2522,7 +2522,7 @@ Class Field Theory's `kummerCupPairing ζ`, which is `(x, y) ↦ log_ζ(x) · y`
 `Field.absoluteGaloisGroup F`; and the supplier's `f2Pairing` on `trivialF2`, over `ℤ` and
 `ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's `TauCeti.AbsoluteGaloisGroup F`.
 Both coefficient modules are Tau Ceti's `KummerCoeff F 2`: `ClassFieldTheory.muNRepCoeffDictionary`
-is its identity, and this file's `kummerCoeffIsoTrivialF2` starts from it. Both Kummer classes are
+carries it onto `muNRep 2 F`, and this file's `kummerCoeffIsoTrivialF2` starts from it. Both Kummer classes are
 Tau Ceti's `kummerMap` transported: Class Field Theory's by
 `ClassFieldTheory.kummerClass_eq_kummerCocycleClass`, and Layer 7A's through `kummerMapCanonical`.
 So the content of the bridge is the naturality of `cup` along three changes: the group comparison
