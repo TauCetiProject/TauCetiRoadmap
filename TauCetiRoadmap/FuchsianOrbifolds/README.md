@@ -163,9 +163,12 @@ pins lack:
 
 `Suggested.lean` exports `genus` and `riemannHurwitz` as `RiemannSurface.genus` and
 `RiemannSurface.riemannHurwitz`; `RiemannSurface.genus` is the name under which
-PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite Layer 5 item 1's genus. The
-carrier written `CompactifiedQuotient Γ` in other roadmaps is Tau Ceti's `Γ.CompactifiedQuotient`,
-with its atlas `Subgroup.CompactifiedQuotient.instChartedSpace`. All other names in this README that
+PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite Layer 5 item 1's genus. It also
+declares `CompactifiedQuotient`, an abbreviation of Tau Ceti's `Subgroup.CompactifiedQuotient`,
+with its atlas `compactifiedChartedSpace`, Tau Ceti's
+`Subgroup.CompactifiedQuotient.instChartedSpace`, and exports the Tau Ceti degree API of Layer 5
+item 2 under the same short names `RiemannSurface.*`. The carrier written `CompactifiedQuotient Γ`
+in other roadmaps is Tau Ceti's `Γ.CompactifiedQuotient`. All other names in this README that
 begin with `TauCeti`, `Subgroup`, `UpperHalfPlane`, `Matrix`, `QuotientGroup`, `OnePoint` or
 `MeasureTheory` are pinned library declarations.
 
