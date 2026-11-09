@@ -434,7 +434,7 @@ Items that consumers cite under an earlier name (old → new):
   *Relative reductive groups*, over an arbitrary base scheme, with the affine Noetherian
   case as its specialization.
 - Layer 9B's named items → §9B as follows. *The Chevalley–Demazure construction* → the
-  *One constructor* paragraph (`pinnedModel`); *Split reductive group schemes over a base*
+  *One constructor* paragraph (the pinned model); *Split reductive group schemes over a base*
   and *Pinnings* → §9B.0; *Root subgroup maps* → §9B.0 (root maps) and §9B.1 (collection
   polynomials); *Base change* → §9B.1 (naturality of the charts under base change) and
   §9B.3 (base-change laws of pinned isomorphisms); *Points over an algebraically closed
@@ -2172,8 +2172,9 @@ algebra. Mathlib's finite-index adjunction declarations additionally require
 field / complex specialization; they do not supply the general coefficient-ring adapter.
 For the complex specialization, use
 `indFDRep (FDRep.of (M.ρ.comp π))`, where `π:P^F→L^F` is the projection. The dimension
-theorem is `finrank ℂ (indFromProjectedLevi P π M) = P.index * finrank ℂ M`, by Tau
-Ceti's `finrank_indFDRep`. For nontrivial `M`, a coset-function presentation of induction must use the section
+theorem says the induced module has complex dimension the index of `P^F` in `G^F`
+times the dimension of `M`, by Tau Ceti's `finrank_indFDRep`. For nontrivial `M`, a
+coset-function presentation of induction must use the section
 cocycle; the coset permutation action itself carries only the trivial module.
 
 ### Examples
@@ -3502,8 +3503,8 @@ Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.kostantForm`.
 construction for every finite reduced **based reductive root datum**
 `𝓡=(X,Φ,Y,Φ∨)` with finite free perfectly paired X,Y. It includes arbitrary
 central tori and isogeny types. RootSystems owns the datum, numbering, reflection
-and diagram APIs;9A owns its full-Y integral Lie/Kostant construction. Here
-`pinnedModel 𝓡` is constructed from the finite faithful weight family and
+and diagram APIs; §9A owns its full-Y integral Lie/Kostant construction. Here
+the pinned model of 𝓡 is constructed from the finite faithful weight family and
 admissible lattices of §9A.5 using the native Kostant toral closure. It is not a
 choice from the later existence theorem, and is not a second group selected
 from an arbitrary concrete realization. Fix finite presentations, weight bases
@@ -3704,7 +3705,7 @@ zero-weight basis. Construct the polynomial action on that quotient, its
 multiplicativity and generator equations over `𝔽_p[t]`, not just `𝔽_p`.
 Use the **prime-field generated subgroup's** defining ideal to prove restriction,
 then §9B.1/2 specialization and realization isomorphisms to transfer the map to
-`pinnedModel`. Verify its square is Frobenius and its scheme kernel is
+the pinned model. Verify its square is Frobenius and its scheme kernel is
 infinitesimal, noncentral; prove `CommHopfAlgCat.IsIsogeny` with its full
 hypotheses. This scheme producer uses chart/ideal relations, not ChevalleyGroups
 C5's point-map classification or C7 as an assumed theorem. C5 independently
