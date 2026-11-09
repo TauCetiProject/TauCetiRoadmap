@@ -3,38 +3,41 @@ module
 public import Mathlib
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Basic
+public import TauCeti.AlgebraicTopology.LocalCoefficient.Representation
+public import TauCeti.AlgebraicTopology.Singular.Twisted.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Twisted.Basic
 
 /-!
 # Classifying spaces of discrete groups: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, so that the finished roadmap
-is tested against them: the existence of a Hausdorff CW `K(G, 1)` for every group, the
-two-dimensional complex with fundamental group `G`, the realization of homomorphisms by pointed
-maps out of a CW complex into an aspherical space, the uniqueness of CW `K(G, 1)` spaces, and the
-identification of the singular homology and cohomology of a CW `K(G, 1)` with Mathlib's
-`groupHomology` and `groupCohomology`.
+is tested against them: the pointed uniqueness of aspherical Hausdorff CW complexes (Layer 1), and
+the identification of the singular homology and cohomology of every Hausdorff CW `K(G, 1)`, with
+constant coefficients and with local coefficients given by a `G`-representation, with Mathlib's
+`groupHomology` and `groupCohomology` (Layer 1).
+
+The pinned Tau Ceti already proves the existence of a Hausdorff CW `K(G, 1)` for every group
+(`TauCeti.isEilenbergMacLaneSpaceOne_classifyingSpace` with `TauCeti.instCWComplexClassifyingSpace`),
+the two-dimensional complex with fundamental group a given presented group
+(`TauCeti.PresentationComplex.fundamentalGroupMulEquiv`, `TauCeti.PresentationComplex.isEmpty_cell`),
+the uniqueness of `K(G, 1)` spaces of CW type up to a change of base point
+(`TauCeti.IsAspherical.exists_homotopyEquiv`), and the (co)homology comparisons for Milnor's model
+(`TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` and its companions); these are not
+restated. The classification of pointed maps from a connected CW complex into an aspherical space
+(Hatcher, Proposition 1B.9) is a headline of the algebraic-topology roadmap, Stage 8 item 8b, and is
+not restated either.
 
 Headline theorems not statable at the pins, and what each lacks:
 
-* the Milnor model (Stage 1), the presentation complex and the cellular tower (Stage 2), and the
-  agreement of the two models with each other and with the nerve model (Stage 3 item 14): the
-  countable join, its realization, its orbit space and the attached cells are constructions
-  whose formalisation is the library's work, so no declaration names them here;
-* the direction of `π₁(BG) ≅ G` and the strict functoriality of the Milnor model (Stage 1 items 5
-  and 6): they are statements about those constructions;
-* the lifted and quotient CW structures along a free quotient covering (Stage 3 item 13): the
-  pinned `Topology.CWComplex` has no notion of a cellular group action, so the cell-level
-  statement cannot be written without the lifted cells themselves;
-* the cellular chains of the universal cover as a projective resolution and its comparison with
-  `Rep.standardResolution` (Stage 4 items 16 and 18): they need the models;
-* the comparison with local coefficients (Stage 4 item 17): the pinned local coefficient
-  systems are functors on the fundamental groupoid, and the system attached to a `G`-module
-  through a chosen `π₁(X, x) ≃* G` is itself a construction of the roadmap.
+* the normalised comparisons of the nerve model with Milnor's model and with the cellular model,
+  the agreement of their (co)homology comparisons, and the agreement of their resolution
+  comparisons (Layer 2): the nerve model's identification of its fundamental group with `G` is a
+  construction of the algebraic-topology roadmap (Stage 8 item 8a), not a pinned declaration.
 
-The homology and cohomology comparisons are stated with coefficients in a commutative ring `k`
-in the universe of `G`, because Mathlib's `Rep k G` keeps `k` and `G` in one universe; the
-integral statement is the case `k = ℤ`, `G : Type`.
+The comparisons are stated with coefficients in a commutative ring `k` in the universe of `G`,
+because Mathlib's `Rep k G` keeps `k` and `G` in one universe; the integral statements are the case
+`k = ℤ`, `G : Type`.
 -/
 
 public section
@@ -43,79 +46,72 @@ namespace TauCetiRoadmap.ClassifyingSpaces
 
 open TauCeti
 
-universe u v w
+universe u v
 
-/-! ## Stages 1 and 2: existence of models -/
+/-! ## Layer 1: pointed uniqueness and the comparison for every `K(G, 1)` -/
 
-/-- **Existence of a CW `K(G, 1)` for every group** (Stage 1 item 5 and Stage 2 item 10): there
-is a Hausdorff space with a CW structure and a point at which it is an Eilenberg–MacLane space
-of type `K(G, 1)`, with no hypothesis on `G`. Either model of the roadmap, with the CW structure
-of Stage 3 item 13 for the simplicial one, proves it. -/
-theorem exists_cwComplex_isEilenbergMacLaneSpaceOne (G : Type u) [Group G] :
-    ∃ (X : Type u) (_ : TopologicalSpace X) (_ : T2Space X)
-      (_ : Topology.CWComplex (Set.univ : Set X)) (x : X),
-      IsEilenbergMacLaneSpaceOne G X x := sorry
-
-/-- **Every group is the fundamental group of a two-dimensional CW complex** (Stage 2 item 7
-applied to the tautological presentation; Hatcher, Corollary 1.28, p. 52): a path-connected
-Hausdorff CW complex with no cells of dimension above two whose fundamental group is `G`. -/
-theorem exists_cwComplex_dim_le_two_fundamentalGroup_mulEquiv (G : Type u) [Group G] :
-    ∃ (X : Type u) (_ : TopologicalSpace X) (_ : T2Space X)
-      (_ : Topology.CWComplex (Set.univ : Set X)) (x : X),
-      PathConnectedSpace X ∧
-        (∀ n : ℕ, 2 < n → IsEmpty (Topology.CWComplex.cell (Set.univ : Set X) n)) ∧
-        Nonempty (FundamentalGroup X x ≃* G) := sorry
-
-/-! ## Stage 3: maps into aspherical spaces and uniqueness -/
-
-/-- **Maps out of a CW complex into an aspherical space** (Stage 3 item 11; Hatcher,
-Proposition 1B.9, p. 90): for a path-connected Hausdorff CW complex `X` with base point `x` and
-an aspherical space `Y` with base point `y`, every homomorphism `π₁(X, x) →* π₁(Y, y)` is induced
-by a pointed map, and two pointed maps inducing the same homomorphism are homotopic relative to
-the base point. -/
-theorem exists_continuousMap_mapOfEq_eq_of_isAspherical
-    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
-    [PathConnectedSpace X] (x : X)
-    {Y : Type v} [TopologicalSpace Y] {y : Y} (_hY : IsAspherical Y y)
-    (φ : FundamentalGroup X x →* FundamentalGroup Y y) :
-    ∃ (f : C(X, Y)) (hf : f x = y),
-      (∀ γ, FundamentalGroup.mapOfEq f hf γ = φ γ) ∧
-        ∀ (g : C(X, Y)) (hg : g x = y), (∀ γ, FundamentalGroup.mapOfEq g hg γ = φ γ) →
-          ContinuousMap.HomotopicRel f g {x} := sorry
-
-/-- **Uniqueness** (Stage 3 item 12; Hatcher, Theorem 1B.8, p. 90): two aspherical Hausdorff CW
-complexes are homotopy equivalent by an equivalence that preserves the base points and induces a
-prescribed isomorphism of fundamental groups; for two `K(G, 1)` CW complexes any isomorphism
-through `G` is such a prescription. The version for spaces of CW type follows by transport. Both
-CW hypotheses are needed: a point and the Warsaw circle are both `K(1, 1)` spaces. -/
+/-- **Pointed uniqueness of aspherical CW complexes** (Layer 1, 1.1; Hatcher, Theorem 1B.8,
+p. 90): two aspherical Hausdorff CW complexes are homotopy equivalent by an equivalence whose
+forward map sends the base point `x` to the base point `y` and induces the prescribed isomorphism
+`e` of fundamental groups exactly, with no change of base point. The base points are arbitrary
+points, not necessarily `0`-cells. Both CW hypotheses are needed: a point and the Warsaw circle
+are both aspherical with trivial fundamental group. -/
 theorem exists_homotopyEquiv_of_isAspherical
-    {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
+    {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] [T2Space X] [T2Space Y]
     [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
     {x : X} {y : Y} (_hX : IsAspherical X x) (_hY : IsAspherical Y y)
     (e : FundamentalGroup X x ≃* FundamentalGroup Y y) :
     ∃ (F : ContinuousMap.HomotopyEquiv X Y) (hF : F.toFun x = y),
       ∀ γ, FundamentalGroup.mapOfEq F.toFun hF γ = e γ := sorry
 
-/-! ## Stage 4: group homology and cohomology -/
-
-/-- **Homology** (Stage 4 item 17): the singular homology of a Hausdorff CW `K(G, 1)` with
-coefficients in a commutative ring `k` is Mathlib's group homology of the trivial module `k`.
-Stated for any such space, not only the models, by Stage 3 item 12. -/
+/-- **Homology of a `K(G, 1)`** (Layer 1, 1.2; Hatcher, Section 2.2, p. 148): the singular
+homology of any Hausdorff CW `K(G, 1)` with coefficients in a commutative ring `k` is Mathlib's
+group homology of the trivial representation `k`, in every degree. -/
 theorem nonempty_singularHomology_iso_groupHomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
     {x : X} (_hX : IsEilenbergMacLaneSpaceOne G X x) (n : ℕ) :
-    Nonempty (groupHomology (Rep.trivial k G k) n ≅
-      ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} k) n).obj
-        (ModuleCat.of k k)).obj (TopCat.of X)) := sorry
+    Nonempty (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} k) n).obj
+        (ModuleCat.of k k)).obj (TopCat.of X) ≅ groupHomology (Rep.trivial k G k) n) := sorry
 
-/-- **Cohomology** (Stage 4 item 17): the singular cohomology of a Hausdorff CW `K(G, 1)` with
-coefficients in a commutative ring `k` is Mathlib's group cohomology of the trivial module `k`. -/
+/-- **Cohomology of a `K(G, 1)`** (Layer 1, 1.2): the singular cohomology of any Hausdorff CW
+`K(G, 1)` with coefficients in a commutative ring `k` is Mathlib's group cohomology of the trivial
+representation `k`, in every degree. -/
 theorem nonempty_singularCohomology_iso_groupCohomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
     {x : X} (_hX : IsEilenbergMacLaneSpaceOne G X x) (n : ℕ) :
-    Nonempty (groupCohomology (Rep.trivial k G k) n ≅
-      (TopCat.of X).singularCohomology (ModuleCat.of k k) k (ModuleCat.of k k) n) := sorry
+    Nonempty ((TopCat.of X).singularCohomology (ModuleCat.of k k) k (ModuleCat.of k k) n ≅
+      groupCohomology (Rep.trivial k G k) n) := sorry
+
+/-- **Homology with local coefficients of an aspherical CW complex** (Layer 1, 1.3; Hatcher,
+Proposition 3H.4, p. 331): for an aspherical Hausdorff CW complex `X` with an identification
+`Ψ : π₁(X, x) ≃* G` and a representation `A` of `G` over a commutative ring `k`, the homology of
+`X` with coefficients in the local system whose monodromy at `x` is `A` pulled back along `Ψ` is
+Mathlib's group homology of `A`, in every degree. Asphericity is needed: for `S² ∨ S¹` and the
+trivial representation `ℤ` of `ℤ`, the degree-two groups are `ℤ` and `0`. -/
+theorem nonempty_twistedHomology_iso_groupHomology
+    (k : Type u) [CommRing k] (G : Type u) [Group G]
+    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] {x : X} (_hX : IsAspherical X x)
+    (Ψ : FundamentalGroup X x ≃* G) (A : Rep.{u} k G) (n : ℕ) :
+    Nonempty (LocalCoefficientSystem.twistedHomology
+        (LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
+          (A.ρ.comp Ψ.toMonoidHom)) n ≅
+      groupHomology A n) := sorry
+
+/-- **Cohomology with local coefficients of an aspherical CW complex** (Layer 1, 1.3): in the
+setting of `nonempty_twistedHomology_iso_groupHomology`, the cohomology of `X` with coefficients in
+the same local system and values in a `k`-module `N` is Mathlib's group cohomology of the internal
+hom `Homₖ(A, N)` into the trivial representation `N`, in every degree. -/
+theorem nonempty_twistedCohomology_iso_groupCohomology
+    (k : Type u) [CommRing k] (G : Type u) [Group G]
+    {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    [PathConnectedSpace X] {x : X} (_hX : IsAspherical X x)
+    (Ψ : FundamentalGroup X x ≃* G) (A : Rep.{u} k G)
+    (N : Type u) [AddCommGroup N] [Module k N] (n : ℕ) :
+    Nonempty ((LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
+        (A.ρ.comp Ψ.toMonoidHom)).twistedCohomology k (ModuleCat.of k N) n ≅
+      groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n) := sorry
 
 end TauCetiRoadmap.ClassifyingSpaces
