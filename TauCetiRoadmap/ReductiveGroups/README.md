@@ -13,11 +13,12 @@ structure and classification targets, and the integral, representation-theoretic
 and spectral constructions in Layers 0–11. The SL polynomial presentation concerns
 the existing determinant-kernel coordinate algebra; it introduces no second SL group.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
-group over a finite field and the abstract fixed-coset lifting lemma; Layer 9E owns their
-Steinberg-endomorphism extension. Layer 1.1 owns rational cohomology over flat commutative
-Hopf algebras, the action-to-coaction direction of the points dictionary, and the exactness,
-transitivity and points description of cotensor induction, whose construction and
-reciprocity are pinned, together with their rational group-scheme adapters. The topology on
+group over a finite field and the fixed-coset bijection `H^σ/J^σ ≃ (H/J)^σ`, built on the pinned
+fixed-lift lemma; Layer 9E owns their Steinberg-endomorphism extension. Layer 1.1 owns rational
+cohomology over flat commutative Hopf algebras, the comparison of comodule invariants with
+point-fixed vectors, and the exactness, transitivity and points description of cotensor
+induction, whose construction and reciprocity are pinned, together with their rational
+group-scheme adapters; the point-representation/comodule equivalence itself is pinned. The topology on
 the points of a scheme with values in a topological algebra is a pinned Tau Ceti carrier, the
 chart topology `TauCeti.SchemePointTopology.topology` built on the affine evaluation topology
 `TauCeti.PointTopology.topology`, with the topological group of points of an affine group;
@@ -41,9 +42,10 @@ the identification of the analytification's underlying space with this topology;
 consumes 3A.5e and transports it to the Hopf-point carrier; no target of FormalConnectionsOpers
 is an input here. SchubertGeometry S9 consumes 3A.5c–3A.5d and 3A.5f for its flag varieties.
 Layer 11A owns the based comparison between the fundamental
-group of the plane configuration space and the native braid group. Layer 9B owns the
-special isogenies in characteristics two and three and the three explicit toral-closure
-carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
+group of the plane configuration space and the native braid group. The special isogenies of the
+short-root `G₂` and `F₄` carriers and the tripled `D₄` carrier with its triality are pinned Tau
+Ceti declarations (supplier contracts); Layer 9B owns their identification with the pinned
+simply connected group schemes and the kernels of the special isogenies. ReductiveGroupsPartII extends this roadmap and consumes it;
 nothing here is imported from it. ReductiveGroupsPartII RG2.3.7 states Lang's theorem
 again under its own name; it is a consumer of Layer 7a, not a second supplier of it.
 IntegralHeckeAndGaloisDeterminants §0.7 states the rational cohomology and induction of
@@ -78,8 +80,19 @@ bound, closed orbits in every orbit closure, proper and smooth orbit schemes, sc
 and the smoothness of orbit projections in characteristic zero), the structure of the radical
 and derived group of a reductive group, the characteristic-zero implication from reductivity to
 linear reductivity, the affine direction of Matsushima's criterion with its universal property
-and base change, and the conjugacy of Borel subgroups over an algebraically closed field. These
-are consumed in the supplier contracts; Layers 3A, 6, 6B and 7 retain only what they do not
+and base change, and the conjugacy of Borel subgroups over an algebraically closed field. It
+further proves the affine Hopf-algebra/group-scheme anti-equivalence with its points,
+finite-type and smoothness comparisons and the Yoneda description of the points functor
+(Layer 0), the point-representation/comodule equivalence (Layer 1.1), the classification of
+closed subgroup schemes by Hopf ideals and the scheme kernel of a homomorphism (Layer 3), the
+Jordan decomposition of points over a perfect extension and the anti-equivalence of tori over a
+perfect field with Galois lattices (Layer 4), the centre, derived group, central isogenies and
+simply connected and adjoint predicates (Layer 6), the dynamic Levi quotient and the free action
+of the dynamic unipotent subgroup on dynamic Levis (Layer 7), the fixed-lift lemma and the
+geometric-Frobenius description of rational points (Layer 7a), the signed ADE shell Lie
+algebras with their cover lifts, fixed bases and folded Serre frames (9A.1a–9A.1b), and the
+explicit `G₂`, `F₄` and tripled `D₄` carriers (9B). These are consumed in the supplier
+contracts; Layers 0, 1.1, 3, 3A, 4, 6, 6B, 7, 7a, 9A and 9B retain only what they do not
 prove.
 The finite root combinatorics, chambers, the Weyl Coxeter presentation, simple transitivity
 of the Weyl group on bases and on open chambers, the Cartan–Killing classification and the
@@ -145,7 +158,7 @@ prove them equivalent** rather than committing.
   both hypotheses concern the structural morphism to that field) and `…/Group/Smooth.lean`.
 - **Affine group schemes and Hopf algebras:** `Mathlib/AlgebraicGeometry/Group/Affine.lean`
   provides `hopfSpec.fullyFaithful` and `essImage_hopfSpec` for affine group schemes over
-  `Spec R`; use this dictionary for the corresponding Layer 0 targets.
+  `Spec R`, which Tau Ceti's pinned anti-equivalence packages (supplier contracts).
 - **Smoothness ingredient:** `Mathlib/RingTheory/Nilpotent/GeometricallyReduced.lean`.
 - **Combinatorial prerequisites** (not ready-made algebraic-group infrastructure; they
   supply abstract root systems/Weyl groups; extracting a *root datum from a group* still
@@ -529,6 +542,165 @@ semisimple. `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent`
 algebraically closed field, and `TauCeti.FiniteTypeCommHopfAlgCat.baseChangeFunctor` is extension
 of scalars. These are consumed by Layer 6, not restated.
 
+### Native group-scheme dictionaries, Jordan decomposition and tori
+
+- **The affine dictionary (Layer 0).** Over every commutative ring `S`,
+  `TauCeti.commHopfAlgCatOpEquivAffineGroupSchemeCat S : (CommHopfAlgCat S)ᵒᵖ ≌ AffineGroupSchemeCat S`
+  (`AlgebraicGeometry/AffineGroupScheme/Equivalence.lean`) is the anti-equivalence by `Spec`, with
+  `TauCeti.commHopfAlgCatOpEquivAffineGroupSchemeCat.functorCompιIso` identifying its forward functor
+  with Mathlib's `hopfSpec`; `TauCeti.AffineGroupSchemeCat.hopfSpecCoordinateHopfAlgebraIso`
+  identifies an affine group scheme with the Hopf spectrum of its coordinate Hopf algebra, and
+  `CommRingCat.globalSectionsHopfSpecIso` (`GlobalSections.lean`) the global sections of a Hopf
+  spectrum with the original Hopf algebra. `TauCeti.AffineGroupSchemeCat.algebraPointsFunctorIsoCoordinatePointsFunctor`
+  (`Points.lean`) is a natural isomorphism of group-valued functors from the scheme points of an
+  affine group scheme to the convolution points of its coordinate Hopf algebra, with no
+  finite-type or smoothness hypothesis. `TauCeti.algebraFiniteType_iff_locallyOfFiniteType_hopfSpec`
+  and `TauCeti.finiteTypeCommHopfAlgCatOpEquivFiniteTypeAffineGroupSchemeCat` (`FiniteType.lean`),
+  and `TauCeti.algebraSmooth_iff_smooth_hopfSpec` (`Smooth.lean`), transport finite type and
+  smoothness. `TauCeti.CommHopfAlgCat.pointsFunctor_faithful`,
+  `TauCeti.CommHopfAlgCat.pointsFunctor_full` and `TauCeti.CommHopfAlgCat.essImage_pointsFunctor`
+  (`Algebra/AlgebraicGroup/CommHopfAlgCat/Yoneda.lean`) make the points functor fully faithful,
+  with essential image the group-valued functors whose underlying functor is corepresentable;
+  fullness and the essential image are stated with the Hopf algebra and the value algebras in
+  the universe of the base ring.
+- **Point representations (Layer 1.1).** For a commutative Hopf algebra `H` over a commutative
+  ring `R` and an `R`-module `V`, in independent universes,
+  `TauCeti.HopfAlgebra.pointRepresentationEquivComodule`
+  (`Algebra/AlgebraicGroup/Representation/Comodule/Basic.lean`) is a bijection between natural
+  actions of the point groups on the scalar extensions `A ⊗ V` and right `H`-comodule structures
+  on `V`, recovering the coaction at the universal point, with no finiteness, freeness, flatness
+  or nontriviality hypothesis; `TauCeti.pointRepresentationCategoryEquivalence`
+  (`Comodule/Equivalence.lean`) upgrades it to an equivalence of categories.
+- **Closed subgroups and kernels (Layer 3).** Over every commutative ring `R`,
+  `TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup`
+  (`Algebra/AlgebraicGroup/HopfIdeal/Scheme/Classification.lean`) is an order isomorphism from
+  the Hopf ideals of `H`, ordered by reverse inclusion, to the closed subgroup schemes of
+  `Spec H`. `TauCeti.CommHopfAlgCat.kernelSpec` and `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`
+  (`HopfIdeal/Scheme/Kernel.lean`) give the kernel of a homomorphism as the closed subgroup cut out
+  by the kernel Hopf ideal and as the fibre over the identity section, a pullback of group schemes.
+- **Jordan decomposition (Layer 4).** For a commutative Hopf algebra `H` over a field `k` and a
+  perfect extension field `K`, with `k`, `H` and `K` in one universe,
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition`, `TauCeti.HopfAlgebra.Point.jordanDecomposition_spec`
+  and `TauCeti.HopfAlgebra.Point.isSemisimple_isUnipotent_unique`
+  (`Algebra/AlgebraicGroup/Representation/JordanDecomposition/Basic.lean`) give the unique
+  commuting factorization `g = g_s g_u` of a `K`-point whose factors act semisimply and
+  unipotently in every finite-dimensional comodule, and
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition_mapDomain` (`Naturality.lean`) its compatibility
+  with homomorphisms. No finite type is assumed of `H`.
+- **Tori (Layer 4).** For a torus over a field `k`,
+  `TauCeti.TorusCommHopfAlgCat.instCharacterCocharacterPairingIsPerfPair` and
+  `TauCeti.TorusCommHopfAlgCat.finrank_cocharacterLattice_eq_characterLattice`
+  (`Algebra/AlgebraicGroup/Torus/Cocharacter/Basic.lean`) make the character–cocharacter pairing
+  perfect and the two lattices free of the same rank. `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor`
+  (`Torus/CharacterLattice/Functoriality.lean`), from coordinate Hopf algebras of tori to
+  continuous integral Galois lattices, is faithful and essentially surjective over every field and,
+  by `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor_isEquivalence`
+  (`Torus/CharacterLattice/Equivalence.lean`), an equivalence over a perfect field (Milne,
+  Theorem 12.23, p. 240, for tori).
+- **Centre, derived group and isogenies (Layer 6).** `TauCeti.CommHopfAlgCat.centerDefiningIdeal`
+  (`Algebra/AlgebraicGroup/Center/Basic.lean`, over a field) cuts out the centre, representing the
+  universally central points; `TauCeti.CommHopfAlgCat.derivedDefiningIdeal`
+  (`Derived/Basic.lean`, over a commutative semiring) the derived subgroup, the smallest closed
+  subgroup containing the image of the commutator morphism;
+  `TauCeti.CommHopfAlgCat.IsCentralIsogeny` (`Isogeny/Basic.lean`, over a commutative ring) is a
+  finite faithfully flat coordinate morphism with central kernel; and
+  `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` (`SimplyConnected/Basic.lean`) and
+  `TauCeti.adjointSemisimpleCommHopfAlgProperty` (`Adjoint/Basic.lean`) are the simply connected
+  and adjoint semisimple predicates over a field.
+- **Dynamic Levi quotient (Layer 7).** For a cocharacter `λ` of an affine group over any
+  commutative ring, `BialgHom.parabolicLeviFppfQuotientIso`
+  (`Algebra/AlgebraicGroup/Dynamic/Levi/Quotient.lean`) identifies the fppf quotient
+  `P(λ)/U(λ)` with `Z(λ)`, and `BialgHom.injOn_conjugate_leviDefiningHopfIdeal`
+  (`Dynamic/Conjugation.lean`) shows that distinct rational points of `U(λ)` conjugate `Z(λ)` to
+  distinct Levi subgroups of `P(λ)`; no field, smoothness or reductivity hypothesis is used.
+
+### Native Tits systems, normalizers and fixed lifts
+
+- **Tits systems.** `TauCeti.TitsSystem` (`GroupTheory/TitsSystem/Basic.lean`) is a Tits system
+  `(G, B, N, S)` in an abstract group, with `S` a generating set of involutions in
+  `N/(B ∩ N)` satisfying the multiplication axiom `sBw ⊆ BwB ∪ BswB` and `sBs ⊄ B`;
+  `TauCeti.TitsSystem.existsUnique_mem_bruhatCell` (`Bruhat/Uniqueness.lean`) is the Bruhat
+  decomposition of `G` into the double cosets indexed by the Weyl quotient. `TauCeti.glTitsSystem`
+  and `TauCeti.slTitsSystem` (`LinearAlgebra/Matrix/{GeneralLinearGroup,SpecialLinearGroup}/Diagonal/TitsSystem.lean`)
+  are the standard Tits systems of `GLₙ₊₁(k)` and `SLₙ₊₁(k)` with `N` the normalizer of the
+  diagonal torus's rational points, over a field whose unit group is nontrivial.
+- **Normalizers of split tori.** For a surjective bialgebra map `π : O(G) → R[X]` presenting a
+  closed diagonalizable subgroup over a commutative ring `R`,
+  `BialgHom.normalizerPoints` (`Algebra/AlgebraicGroup/DiagonalizableGroup/Normalizer/Character.lean`)
+  is the subgroup of rational points whose conjugation preserves its defining Hopf ideal, the
+  rational points of the scheme normalizer; `BialgHom.normalizerHopfIdeal` (`Normalizer/Scheme.lean`)
+  is that normalizer as a closed subgroup scheme, over any commutative ring.
+- **Fixed lifts (Layer 7a).** `MonoidHom.exists_fixed_inv_mul_of_surjective_commutatorMap` and
+  `MonoidHom.exists_fixed_lift_of_surjective_commutatorMap` (`GroupTheory/FixedSubgroup/Lang.lean`)
+  correct an element `n` with `n F(n)⁻¹` in the image of an `F`-equivariant `ι : T → G`, whose
+  Lang map `t ↦ t f(t)⁻¹` is surjective, to an `F`-fixed element of the same coset `ι(T) n`, and
+  lift fixed points through an equivariant surjection with such a kernel. This is the right-coset
+  form, with Mathlib's Lang map `t ↦ t / F t`; Layer 7a states its coset bijection in the
+  left-coset form `x ↦ x⁻¹σ(x)`, and the two Lang maps have the same image up to inversion.
+  `TauCeti.FiniteField.rationalPointsMulEquivFixedSubgroupGeometricFrobenius`
+  (`Algebra/AlgebraicGroup/Frobenius/FiniteField.lean`) identifies `G₀(F_q)` with the points of
+  the base change over a domain fixed by the geometric Frobenius.
+
+### Native signed ADE Lie algebras and explicit carriers
+
+- **The ordered sign cover and the shell Lie algebra (9A.1a).** For a Gram matrix `B` on a
+  linearly ordered finite set, `Matrix.SignCover` (`LinearAlgebra/Matrix/OrderedSignCover.lean`) is
+  the central extension of the lattice by `ℤˣ` with the ordered sign cocycle, with central sign
+  `Matrix.SignCover.tau` and commutator formula `Matrix.commutatorElement_signCover` for symmetric
+  `B` with even diagonal. `Matrix.ShellLieAlgebra` (`Algebra/Lie/NormTwoShell/Basic.lean`) is the
+  carrier `Q × (Φ →₀ ℤ)` on the norm-two shell `Φ`, with the signed bracket, alternation and
+  antisymmetry for symmetric `B` with even diagonal and the Jacobi identity
+  `Matrix.ShellLieAlgebra.lie_jacobi` and Lie ring `Matrix.ShellLieAlgebra.lieRing` for positive
+  definite `B` with even diagonal. `Matrix.ShellLieAlgebra.isSerreSystem` and
+  `Matrix.ShellLieAlgebra.serreLift_surjective` (`Serre.lean`) give the Serre relations and a
+  surjection from the Serre presentation over `ℤ` for a simply laced Cartan matrix;
+  `Matrix.ShellLieAlgebra.normalizedBasis` (`ChevalleyBasis.lean`) the inverse-lift-normalized
+  Chevalley basis; `Matrix.FullShellLieAlgebra` (`FullCartan/Basic.lean`) the same algebra with
+  Cartan part a full cocharacter group `Y`; `Matrix.ShellLieAlgebra.coverLieEquiv` and
+  `Matrix.ShellLieAlgebra.coverEquiv_eq_refl_iff` (`CoverLift.lean`) the Lie isomorphism of a
+  kernel-fixing cover homomorphism over a lattice isometry and its faithfulness;
+  `Matrix.ShellLieAlgebra.reindexLieEquiv` (`Reindex.lean`) the relabelling by a reordering or a
+  diagram automorphism; and `TauCeti.typeAShellLieEquiv` (`TypeA.lean`) the isomorphism with
+  `sl (Fin (r + 1)) ℤ` in type `A_r`.
+- **Fixed lattices and folding (9A.1b).** For a diagram automorphism `σ`,
+  `Matrix.ShellLieAlgebra.fixedBasis` (`FixedBasis.lean`) is the integral basis of the fixed
+  submodule of the pinned action, by orbit sums of vertices and signed sums over root cycles of
+  monodromy `1`; `TauCeti.WeightedCycle.fixedEquivTorsion` (`LinearAlgebra/WeightedCycle/Basic.lean`)
+  identifies the fixed coefficients of one cycle, which are `A` for monodromy `1` and `A[2]` for
+  monodromy `−1`; `Module.Basis.fixedSubmoduleBaseChange_surjective_iff`
+  (`WeightedCycle/Family/BaseChange.lean`) and
+  `Matrix.ShellLieAlgebra.fixedSubmoduleBaseChange_surjective_iff` (`NormTwoShell/BaseChange.lean`)
+  make scalar extension of the fixed lattice surjective exactly when there is no negative cycle or
+  the coefficient ring has no `2`-torsion. `SimpleGraph.IsAcyclic.exists_graphCartanMatrix_sum_orbit`
+  (`Combinatorics/SimpleGraph/OrbitCartan.lean`) gives the orbit column sum `d_O ∈ {1, 2}`;
+  `Matrix.foldedCartanMatrix` (`LinearAlgebra/Matrix/Cartan/Folding/Basic.lean`) is the folded
+  Cartan matrix with `H` rows and `E` columns; `Matrix.ShellLieAlgebra.isSerreSystem_folded`
+  (`NormTwoShell/Folding.lean`) makes the folded frame a fixed Serre system for it; and
+  `TauCeti.D4Triality.invariantRoot` (`NormTwoShell/TrialityD4.lean`) lists the twelve signed
+  invariant root vectors of `D₄` triality.
+- **Explicit carriers (9B).** `TauCeti.G2ShortRoot.PrimeField.specialIsogenyHom`, with the
+  Frobenius square `TauCeti.G2ShortRoot.PrimeField.specialIsogenyHom_comp_self` and the pinning
+  equations `TauCeti.G2ShortRoot.PrimeField.specialIsogeny_rootSubgroupPoints`
+  (`Algebra/Lie/G2/ShortRoot/PrimeField/SpecialIsogeny.lean`), is the special isogeny of the
+  short-root `G₂` carrier in `GL₇` over `𝔽₃`, which is reductive by
+  `TauCeti.G2ShortRoot.PrimeField.reductiveCommHopfAlgProperty_finiteTypeCarrierAlgebra`
+  (`Reductive.lean`); `TauCeti.F4ShortRoot.PrimeField.specialIsogenyHom`, with
+  `TauCeti.F4ShortRoot.PrimeField.specialIsogenyHom_comp_self` and
+  `TauCeti.F4ShortRoot.PrimeField.specialIsogeny_rootSubgroupPoints`
+  (`Algebra/Lie/F4/ShortRoot/PrimeField/QuotientSpecialIsogeny.lean`), is that of the short-root
+  `F₄` carrier in `GL₂₆` over `𝔽₂`, reductive by
+  `TauCeti.F4ShortRoot.PrimeField.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`.
+  `TauCeti.D4Tripled.groupScheme` (`Algebra/Lie/D4/Tripled/GroupScheme.lean`) is the tripled
+  twenty-four-dimensional `D₄` toral closure in `GL₂₄` over `ℤ`, with
+  `TauCeti.D4Tripled.trialityAutomorphism` and `TauCeti.D4Tripled.trialityAutomorphism_pow_three`
+  (`Triality/Basic.lean`). `TauCeti.UniversalEnvelopingAlgebra.kostantElementarySubgroup`
+  (`Kostant/RootSubgroup/Elementary/Basic.lean`) is the elementary group `E(A)` generated by the
+  Kostant root subgroups on an admissible lattice, functorial in `A`, and
+  `TauCeti.UniversalEnvelopingAlgebra.kostantToralGroupScheme`
+  (`Kostant/RootSubgroup/Scheme/ToralClosure/Basic.lean`) the closed subgroup scheme of `GLₙ`
+  over `ℤ` generated by those root subgroups and a weight torus. None of these carriers is
+  identified in the library with the pinned simply connected group of its type.
+
 ### Native complex-point topology
 
 `TauCeti/Topology/Algebra/PointTopology/` puts a topology on the points of a scheme over `k`
@@ -683,22 +855,16 @@ Citations of this roadmap in its earlier layer numbering map as follows (old →
   whereas `GLₙ(R)` can be noncommutative (Milne, Algebraic Groups (2017), §1.a and
   Proposition 1.21, pp. 11–12). *Needs:* Tau Ceti's `WithConv` points and points functors;
   Mathlib's convolution product.
-- **The three model interfaces.** For affine group schemes over `Spec R`, package Mathlib's
-  `hopfSpec.fullyFaithful` and `essImage_hopfSpec` as the anti-equivalence between
-  commutative Hopf `R`-algebras and affine group objects over `Spec R`. Keep finite-type and
-  smoothness as transported predicates, not objects built into either category. Prove the
-  counit and unit identifications explicitly: `Γ(Spec A) ≃ A` as Hopf algebras and
-  `Spec Γ(G) ≃ G` as group objects for affine `G`, compatible with Mathlib's instances and
-  structural maps. Prove the third equivalence with representable group-valued functors
-  using Yoneda and Tau Ceti's `CommHopfAlgCat.pointsFunctor`; identify the points of `Spec A`
-  with algebra homomorphisms by existing `Spec.mapMulEquiv`, and prove compatibility of the
-  group laws and naturality in the test algebra. Pin the scheme, Hopf carrier, and test-algebra
-  universes to a common `u` (`w=v=u` in `pointsFunctor` / `GrpCat.{max v w}` and
-  `R S T : Type u` for `Spec.mapMulEquiv`); no heterogeneous-universe convention is intended.
-  Complete the finite-type and points comparisons and the
-  unit/counit compatibility on these native instances. `Scheme.Over` carries
-  the structural morphism. *Needs:* Mathlib's affine group/Hopf dictionary;
-  Tau Ceti's points functors; Yoneda.
+- **The three model interfaces.** The anti-equivalence between commutative Hopf `R`-algebras and
+  affine group schemes over `Spec R` (`TauCeti.AffineGroupSchemeCat`, the full subcategory of
+  group objects over `Spec R` with affine underlying scheme), its unit and counit
+  identifications, the natural isomorphism between scheme points and convolution points, the
+  transport of finite type and smoothness, and the Yoneda description of the points functor are
+  pinned (supplier contracts, *Native group-scheme dictionaries*) and consumed; Layer 0 restates
+  none of them and states no further target here. Finite type and smoothness stay transported
+  predicates, not objects built into either category, and the later layers use the pinned forms
+  with scheme, Hopf carrier and test algebras in one universe, as the pinned fullness and
+  essential-image theorems require. *Needs:* the pinned affine dictionary.
 - **Base change and descent.** Consume Tau Ceti's finite-type Hopf-category and base-change
   functors, including compatibility of points under base change. Keep geometric notions
   after extension to `k̄`. Consume SchemeAndStackFoundations §1.1 and §§1.13–1.15, ModularCurves §0E,
@@ -725,8 +891,8 @@ Citations of this roadmap in its earlier layer numbering map as follows (old →
 
 ### Dependencies
 
-Mathlib's affine group/Hopf dictionary and Yoneda; Tau Ceti's points functors and base
-change; SchemeAndStackFoundations §1.1, §§1.13–1.15 and ModularCurves §0E for the descent
+Tau Ceti's affine group-scheme dictionary, points functors and base change (supplier
+contracts); SchemeAndStackFoundations §1.1, §§1.13–1.15 and ModularCurves §0E for the descent
 adapters.
 
 ## Layer 1: representations = comodules
@@ -794,14 +960,18 @@ with no hypothesis on M; `TauCeti.Comodule.pointsRepresentation` is the resultin
 representation of the convolution monoid of points, `TauCeti.Comodule.pointsAction`
 (`AlgebraicGroup/Representation/PointsAction/Basic.lean`) its upgrade to automorphisms over a
 Hopf algebra, and `TauCeti.Comodule.rTensor_comp_endOfPoint` its naturality in the R-algebra
-S. Construct the inverse: a family of S-linear actions on S⊗M, natural in S and satisfying the
-action laws, determines a coaction by evaluation at the universal point id : O(G) → O(G).
-Prove that this recovers the coaction of a comodule and that the two operations are inverse,
-preserving invariant submodules and morphisms. Transport the constructions below through
-this equivalence; no flatness or finiteness assumption on M is imposed (Jantzen, Part I,
-1985 preprint, §2.8, pp. 36–39).
-*Needs:* the pinned points action above; Layer 0's group-scheme/points dictionary and
-Layer 1's comodule dictionary.
+S. The inverse direction is pinned as well: `TauCeti.HopfAlgebra.pointRepresentationEquivComodule`
+recovers the coaction from a natural family of actions by evaluation at the universal point
+id : O(G) → O(G), the two constructions are inverse, and
+`TauCeti.pointRepresentationCategoryEquivalence` makes this an equivalence of categories, with
+no finiteness, freeness or flatness hypothesis (supplier contracts). The target here is the
+comparison of invariants: a vector m ∈ M lies in the comodule invariants Mᴴ exactly when, for
+every R-algebra S and every g ∈ G(S), the point g fixes 1 ⊗ m in S ⊗ M, and it suffices to test
+the universal point; transport the constructions below through this equivalence, with no
+flatness or finiteness assumption on M (Jantzen, Part I, 1985 preprint, §2.8, pp. 36–39, and
+§2.10(1)–(2), p. 41, for invariants).
+*Needs:* the pinned points action and point-representation equivalence above; Layer 0's
+group-scheme/points dictionary and Layer 1's comodule dictionary.
 
 **Checks.**
 - For the weight-one line of 𝔾_m over ℤ, 1↦1⊗t evaluates at 2∈ℚˣ to
@@ -810,6 +980,9 @@ Layer 1's comodule dictionary.
   product; 1 acts by 1, excluding the zero action.
 - For the trivial group, the coaction on ℤ/2 is m↦m⊗1 and every point acts
   by the identity. The zero module has the unique coaction and action.
+- For μ_p over 𝔽_p and its weight-one line, 1↦1⊗t, every 𝔽̄_p-point acts trivially because
+  μ_p(𝔽̄_p)=1, yet the invariants are 0 because t≠1 in 𝔽_p[t]/(t^p−1); the universal point t
+  detects this, so the invariants comparison cannot test field-valued points only.
 
 For a commutative ring R and a flat commutative Hopf R-algebra H, prove that the
 native category of all right H-comodules has enough injectives. Given a comodule M,
@@ -956,10 +1129,12 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 
 ## Layer 3: subgroups, quotients, components
 - **Hopf ideals ↔ closed subgroup schemes:** an ideal `I` with `Δ(I) ⊆ I⊗A + A⊗I`,
-  `ε(I)=0`, `S(I) ⊆ I`; the quotient Hopf algebra `A/I`; the anti-equivalence between
-  closed subgroup schemes of `Spec A` and Hopf ideals of `A`, with the kernel of a Hopf
-  homomorphism a Hopf ideal (Milne, Definition 3.10, Propositions 3.11 and 3.15,
-  pp. 67–68); kernels of group homomorphisms as fibres over the identity. Prove that a
+  `ε(I)=0`, `S(I) ⊆ I`, and the quotient Hopf algebra `A/I` (Milne, Definition 3.10,
+  Propositions 3.11 and 3.15, pp. 67–68). The order-reversing bijection between Hopf ideals of
+  `A` and closed subgroup schemes of `Spec A`, over every commutative ring, and the kernel of a
+  homomorphism as the closed subgroup cut out by the kernel Hopf ideal and as the fibre over the
+  identity section are pinned (`TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup`,
+  `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`, supplier contracts) and consumed. Prove that a
   homomorphism of affine group schemes of finite type over a field is a monomorphism exactly
   when it is a closed immersion (Milne, Theorem 5.34, p. 107).
   Transport the native kernel–differential Lie equivalence through Layer 0's
@@ -984,7 +1159,16 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   subgroup of an affine group scheme of finite type over a field, nonreduced groups included,
   is the kernel of a quotient map to an affine group scheme, that the quotient sheaf is then
   represented by it, and the short exact sequences and isomorphism theorems this gives (Milne,
-  Theorem 5.14 and Proposition 5.18, pp. 102–103). *Needs:* the native fppf quotient sheaves
+  Theorem 5.14 and Proposition 5.18, pp. 102–103). The headline
+  `StructureAcceptance.isIso_coinvariantsQuotient_of_isNormal` states the representation in
+  coinvariant form: for a normal Hopf ideal `I` of a finite-type commutative Hopf algebra `O(G)`
+  over a field, the map from the fppf homogeneous quotient `G/N` to the fppf sheaf of points of
+  `Spec O(G)^N`, with `O(G)^N` the right `I`-coinvariants, is an isomorphism, and `O(G)` is
+  faithfully flat over `O(G)^N` (Milne, Propositions 5.21 and 5.25, pp. 104–105, for the
+  universal property and faithful flatness of the quotient map). For `μ_p ⊂ μ_{p²}` in
+  characteristic `p`, with `O(μ_{p²}) = k[t]/(t^{p²} − 1)`, the coinvariants are `k[t^p]`, the
+  quotient is `μ_p` and `O(μ_{p²})` is free of rank `p` over it; for `N = G` the coinvariants are
+  `k`, and for `N = 1` they are all of `O(G)`. *Needs:* the native fppf quotient sheaves
   and the pinned geometrically reduced case; Layer 1's faithful representations (the quotient
   is constructed inside a representation); SchemeAndStackFoundations §§1.13–1.15 for torsors.
 - **Identity component `G°` and component group `π₀(G)`:** `G°` is the connected
@@ -1023,7 +1207,8 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 
 ### Dependencies
 
-Layers 0–2; the native fppf quotient sheaves; SchemeAndStackFoundations §§1.13–1.15.
+Layers 0–2; the native fppf quotient sheaves, closed-subgroup classification and scheme kernels
+(supplier contracts); SchemeAndStackFoundations §§1.13–1.15.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -1285,17 +1470,13 @@ cohomological vanishing premise enters the injection. For connected
 reductive G, identifying H with a parabolic and the line with a
 dominant-weight associated bundle is the later Layer 7/SchubertGeometry
 application, not an input to generic orbit existence.
-For the compact `U(n)` specialization, first convert the continuous representation of `U(n)`
-into a rational representation of `U(n)_ℂ = GLₙ(ℂ)`: unitarize it (CompactGroups Layer 1), so
-that it is a continuous homomorphism `U(n) → U(m)`; its holomorphic extension to `GLₙ(ℂ)` is
-LieGroups Layer 7, *Representations and holomorphic descent*, and that extension is regular
-algebraic by LieGroups Layer 7, *Compact-real-form pairs and algebraic morphisms*, applied to the
-pairs `(GLₙ, U(n))` and `(GL_m, U(m))`. Do not apply an algebraic action theorem directly to a
-bare continuous compact-group action. For `n = 1` the character `z ↦ z^m` of `U(1)` extends to
-the rational character `t ↦ t^m` of `𝔾_m`.
+The input is a rational `G`-module; a bare continuous action of a compact group such as `U(n)`
+is not one, and no algebraic action theorem is applied to it here. Converting a continuous
+representation of a compact group into a rational representation of its complexification is
+LieGroups Layer 7's, and applying this section to the result is its consumers'.
 *Needs:* Layer 1's rational representations and comodules; the pinned closed orbits of 3A.4;
 SchemeAndStackFoundations §§0.3 and 2.6 and AlgebraicVectorBundles for the relative Proj and
-its `H⁰`; for the `U(n)` specialization only, CompactGroups Layer 1 and LieGroups Layer 7.
+its `H⁰`.
 
 **3A.7 Regularity, tests and conventions.** Compare a rational/comodule
 representation with its actual scheme morphism, all action equations,
@@ -1346,15 +1527,20 @@ topological gluing, submersion normal form and the native analytic inverse funct
 
 
 ## Layer 4: Jordan decomposition, diagonalizable groups, tori
-- **Jordan decomposition.** For a locally finite automorphism `α` of a vector space over
-  a perfect field, construct the unique commuting factorization `α = α_s α_u` with `α_s`
-  semisimple and `α_u` locally unipotent (Milne, Theorem 9.17, p. 170). For an affine
-  group scheme `G` of finite type over a perfect field `k` and `g ∈ G(k)`, construct the
-  unique `g_s, g_u ∈ G(k)` with `g = g_s g_u = g_u g_s` such that `ρ(g_s) = ρ(g)_s` and
-  `ρ(g_u) = ρ(g)_u` for every finite-dimensional representation `ρ` (Milne, Theorem 9.18,
-  p. 170); prove functoriality under homomorphisms. Over an imperfect field state only the
-  geometric decomposition over `k̄`. *Needs:* Layer 1's comodule dictionary and the regular
-  representation; Mathlib's Jordan–Chevalley decomposition of a single endomorphism.
+- **Jordan decomposition.** For an affine group `G` over a field `k` and a perfect extension
+  field `K`, the unique commuting factorization `g = g_s g_u` of `g ∈ G(K)` with `ρ(g_s) = ρ(g)_s`
+  and `ρ(g_u) = ρ(g)_u` for every finite-dimensional representation `ρ`, and its compatibility
+  with homomorphisms, are pinned (`TauCeti.HopfAlgebra.Point.jordanDecomposition`,
+  `TauCeti.HopfAlgebra.Point.isSemisimple_isUnipotent_unique`,
+  `TauCeti.HopfAlgebra.Point.jordanDecomposition_mapDomain`, supplier contracts; Milne,
+  Theorem 9.18, p. 170, which takes `K = k` perfect) and consumed; over an imperfect field `k`
+  it applies with `K` the perfect closure or `k̄`, and the parts of a `k`-point need not be
+  `k`-points (Checks). The remaining target is the unique commuting factorization of a locally
+  finite automorphism of a possibly infinite-dimensional vector space over a perfect field,
+  compatible with every finite-dimensional stable subspace (Milne, Theorem 9.17, p. 170), applied
+  to the regular representation of `G`. *Needs:* the pinned point Jordan decomposition; Layer 1's
+  comodule dictionary and the regular representation; Mathlib's Jordan–Chevalley decomposition of
+  a single endomorphism.
 - **Diagonalizable groups and groups of multiplicative type:** consume the native
   scheme anti-equivalence specified in the supplier contract. Develop its character-group
   comparison and exactness in both directions and stability of diagonalizability under quotient groups (Milne,
@@ -1373,10 +1559,17 @@ topological gluing, submersion normal form and the native analytic inverse funct
   stability does not require reducedness.
 - **Tori:** split and non-split; the **character lattice** `X*(T)` and **cocharacter
   lattice** `X_*(T)` with their perfect pairing `⟨χ, λ⟩`, defined by `χ ∘ λ : 𝔾_m → 𝔾_m`,
-  `t ↦ t^⟨χ,λ⟩`: the input to root data. Prove that a torus is split exactly when its
-  Galois action on `X*` is trivial, and that `X*` and `X_*` are free of the same rank with
-  the pairing perfect. *Needs:* the diagonalizable-group dictionary above; Mathlib's
-  `RootPairing` vocabulary for the pairing.
+  `t ↦ t^⟨χ,λ⟩`: the input to root data. That `X*` and `X_*` are free of the same rank with the
+  pairing perfect, and that the character-lattice functor is an anti-equivalence of tori over a
+  perfect field with continuous Galois lattices, are pinned
+  (`TauCeti.TorusCommHopfAlgCat.instCharacterCocharacterPairingIsPerfPair`,
+  `TauCeti.TorusCommHopfAlgCat.finrank_cocharacterLattice_eq_characterLattice`,
+  `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor_isEquivalence`, supplier contracts) and
+  consumed. Prove that a torus is split exactly when its Galois action on `X*` is trivial, over
+  every field, and extend the anti-equivalence to groups of multiplicative type, torsion
+  included, over every field (Milne, Theorem 12.23, p. 240). *Needs:* the pinned torus
+  lattices and character-lattice equivalence; the diagonalizable-group dictionary above;
+  Mathlib's `RootPairing` vocabulary for the pairing.
 
 ### Examples
 
@@ -1399,8 +1592,9 @@ topological gluing, submersion normal form and the native analytic inverse funct
 
 ### Dependencies
 
-Layers 0–1; Mathlib's Jordan–Chevalley decomposition, group algebras and group-like
-elements; Mathlib's `RootPairing` vocabulary for the pairing.
+Layers 0–1; Tau Ceti's point Jordan decomposition, torus lattices and character-lattice
+equivalence (supplier contracts); Mathlib's Jordan–Chevalley decomposition, group algebras and
+group-like elements; Mathlib's `RootPairing` vocabulary for the pairing.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
 - **Unipotent groups** (correct, comodule definition): `G` is unipotent iff every nonzero
@@ -1550,9 +1744,13 @@ exponential of a nilpotent element; Tau Ceti's finite logarithm, exponential coo
 - **Reductive:** smooth, connected, with `R_u(G_{k̄})` trivial; the native predicate is
   `TauCeti.reductiveCommHopfAlgProperty`. **Semisimple:** radical `R(G)` (maximal connected
   normal solvable smooth, geometric) trivial (Milne, 6.44 and 6.46, p. 135); the native
-  predicate is `TauCeti.semisimpleCommHopfAlgProperty`. Develop the
-  radical, the centre `Z(G)`, the derived group `G_der`, **central isogenies**, and the
-  simply connected and adjoint forms: these are not optional for the classification. The
+  predicate is `TauCeti.semisimpleCommHopfAlgProperty`. The radical, the centre `Z(G)`
+  (`TauCeti.CommHopfAlgCat.centerDefiningIdeal`), the derived group `G_der`
+  (`TauCeti.CommHopfAlgCat.derivedDefiningIdeal`), **central isogenies**
+  (`TauCeti.CommHopfAlgCat.IsCentralIsogeny`) and the simply connected and adjoint predicates
+  (`TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`,
+  `TauCeti.adjointSemisimpleCommHopfAlgProperty`) are pinned definitions (supplier contracts);
+  this layer owns their structure theorems, which the classification needs. The
   pinned reductive-structure theorems of the supplier contracts make the radical of a reductive
   group a central torus over every field, identify it with the identity component of the
   centre over an algebraically closed field of characteristic zero, make `G_der` semisimple,
@@ -1593,8 +1791,7 @@ exponential of a nilpotent element; Tau Ceti's finite logarithm, exponential coo
   (`TauCeti.torusCommHopfAlgProperty.linearlyReductive`) and the solvable case, a reduced
   connected group with solvable rational points over an algebraically closed field, is
   `TauCeti.linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable`, both pinned; the target
-  is the general smooth connected case. Provide both definitions and the char-0
-  equivalence so downstream work can pick either.
+  is the general smooth connected case.
   *Needs:* Layer 1's comodules; Layer 3's identity component and quotients; Layer 4's tori;
   Layer 5's unipotent groups; the pinned implications above.
 
@@ -1628,7 +1825,8 @@ exponential of a nilpotent element; Tau Ceti's finite logarithm, exponential coo
 
 ### Dependencies
 
-Layers 1, 3, 4, 5; the pinned reductive-structure and linear-reductivity theorems of the
+Layers 1, 3, 4, 5; the pinned reductive-structure and linear-reductivity theorems and the
+pinned centre, derived group, central isogeny and simply connected and adjoint predicates of the
 supplier contracts.
 
 ## Layer 6A: characteristic-zero Levi complements for general affine groups
@@ -1864,10 +2062,9 @@ the supplier contracts.
   lies in a Borel subgroup (`TauCeti.HopfIdeal.IsMaximalTorus.exists_isBorelOverAlgClosed_le`,
   `Borel/Torus.lean`), any two Borel subgroups are conjugate (the pinned theorem above), and two
   maximal tori of one Borel subgroup are conjugate by a rational point of it (Layer 5's
-  solvable decomposition, Milne, Theorem 16.33(d), pp. 335–336). Prove the Bruhat
-  decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` and the double-coset identification `B\G/B ≃ W`
-  here (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits systems). These algebraic
-  prerequisites are consumed by Layer 7b. The route to completeness of `G/B` and to the
+  solvable decomposition, Milne, Theorem 16.33(d), pp. 335–336). The Bruhat decomposition is
+  the bullet *Bruhat decomposition* below. These algebraic prerequisites are consumed by
+  Layer 7b. The route to completeness of `G/B` and to the
   conjugacy of maximal tori is the Borel fixed-point theorem for a Borel subgroup acting on a
   complete homogeneous space, built on the pinned closed orbits of Layer 3A and the pinned
   Lie–Kolchin theorem. *Needs:* the pinned Lie–Kolchin theorem
@@ -1900,7 +2097,12 @@ the supplier contracts.
   `GL₂` over any field `O(B)^U = k[a^{±1}, d^{±1}]` and `J` cuts out `T`. Prove that conjugation
   by `U(k)` acts simply transitively on the Levi `k`-subgroups of this fixed `P`, and that
   every maximal `k`-torus of `P` lies in exactly one of them (Conrad–Feng,
-  Proposition 12.3.1, p. 127).
+  Proposition 12.3.1, p. 127). For the dynamic Levi subgroups of a fixed cocharacter, freeness of
+  the conjugation action of the rational points of `U_G(λ)` is the pinned
+  `BialgHom.injOn_conjugate_leviDefiningHopfIdeal`, and the identification of the fppf quotient
+  `P_G(λ)/U_G(λ)` with `Z_G(λ)` is the pinned `BialgHom.parabolicLeviFppfQuotientIso` (supplier
+  contracts); the target is transitivity on all Levi `k`-subgroups and the comparison of the
+  dynamic subgroups with `TauCeti.HopfIdeal.IsParabolic` below.
   These targets hold over every field; they include the algebraically closed case.
   Representability, smoothness and the multiplication isomorphism `U_G(λ) × Z_G(λ) → P_G(λ)` of
   the dynamic subgroups of a cocharacter `λ` (Conrad, Reductive Group Schemes, Theorem 4.1.7,
@@ -1929,11 +2131,47 @@ the supplier contracts.
   datum with Galois action** and the **relative root system** for non-split groups.
   *Needs:* Layer 2's adjoint representation and Layer 4's torus weights;
   Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's `RootPairing`.
-- **Bruhat decomposition** and **BN-pairs / Tits systems** (Milne, Theorem 21.45,
-  p. 438). Keep the **dynamic** approach
-  to parabolics/Levi/unipotent radical as a route that avoids full root data,
-  useful for consumers that require only a BN-pair. *Needs:* the Borel and root-datum
-  targets above; Layer 7C's ordered root coordinates for the cells.
+- **Bruhat decomposition.** Let `G` be a connected reductive group over a field `k`, `T` a split
+  maximal torus and `B ⊇ T` a Borel subgroup, with `N = N_G(T)` the scheme normalizer and
+  `S` the reflections in the simple roots of the base determined by `B`. Prove that
+  `(G(k), B(k), N(k), S)` is a Tits system (Milne, Example 21.47, p. 439, and
+  Proposition 21.75, p. 448), in the native `TauCeti.TitsSystem`. The headline
+  `StructureAcceptance.exists_titsSystem_of_isBorel` states this with `T` presented by a
+  surjective bialgebra map `π : O(G) → k[X]` whose kernel is a maximal torus, `B` given by
+  `TauCeti.HopfIdeal.IsBorel` with `I ≤ ker π`, `subgroupB` the rational points of `B`
+  (`TauCeti.CommHopfAlgCat.quotientPointsSubgroup`) and `subgroupN` the rational points of the
+  scheme normalizer (`BialgHom.normalizerPoints`). The Bruhat decomposition
+  `G(k) = ⨆_{w∈W} B(k) w B(k)` and the double-coset identification `B(k)\G(k)/B(k) ≃ W` follow
+  from the pinned `TauCeti.TitsSystem.existsUnique_mem_bruhatCell` (Milne, Theorem 21.45, p. 438)
+  and are not restated; prove that the Weyl quotient `N(k)/T(k)` is the Weyl group of the root
+  datum of `(G, T)`, and that over an algebraically closed field `N(k)` is the normalizer of
+  `T(k)` in `G(k)`, since `T(k)` is dense in `T`. The pinned `TauCeti.glTitsSystem`, with `N` the
+  normalizer of the rational diagonal torus, and `TauCeti.slTitsSystem`, with `N` the
+  determinant-one monomial matrices, are its `GLₙ₊₁` and `SLₙ₊₁` cases over a field with
+  nontrivial unit group; in both `N` is the group of rational points of the scheme normalizer.
+  The scheme-theoretic cells `B w B` and the cellular decomposition of `G/B` are Layer 7C's
+  (Milne, §21.h, p. 446, and Theorem 21.73, p. 447). Keep the **dynamic** approach to parabolics/Levi/unipotent radical as a
+  route that avoids full root data, useful for consumers that require only a BN-pair.
+  *Needs:* the Borel and root-datum targets above; Layer 7C's ordered root coordinates for the
+  cells; the pinned Tits systems, normalizer points and Borel predicate (supplier contracts).
+
+  **Checks.**
+  - Over `𝔽₂`, the diagonal torus `T` of `GL₂` has `T(𝔽₂) = 1`, so the normalizer of `T(𝔽₂)` in
+    `GL₂(𝔽₂) ≅ S₃` is the whole group and `B(𝔽₂) = {[[1,b],[0,1]]}`, of order two, is not normal
+    in it: the abstract normalizer fails axiom (T1). The scheme normalizer has `N(𝔽₂)` the two
+    monomial matrices, `B(𝔽₂) ∩ N(𝔽₂) = 1`, `W` of order two, and `6 = |B| + |BsB| = 2 + 4`.
+  - For `G = T = B = 𝔾_m`, `N = G`, the Weyl quotient is trivial and `S` is empty: the Tits system
+    has one cell.
+  - Over `𝔽₃` the rational diagonal torus of `SL₂` is the centre `{±1}`, whose normalizer is all of
+    `SL₂(𝔽₃)`, of order 24, while `N(𝔽₃)` is the four determinant-one monomial matrices
+    `diag(a, a⁻¹)` and `[[0, b], [−b⁻¹, 0]]`; with `B(𝔽₃)` of order 6, `B ∩ N = T(𝔽₃)` of order 2
+    and `24 = |B| + |BsB| = 6 + 18`.
+  - Over an algebraically closed field, with `B` upper triangular in `GL₂` and `T` the
+    conjugate of the diagonal torus by `g = [[1,0],[1,1]]`, so `T ⊄ B`, the intersection
+    `B(k) ∩ N_G(T)(k)` is the scalars times `⟨[[−1,1],[0,1]]⟩`, which conjugation by
+    `g·diag(a,d)·g⁻¹` with `a ≠ ±d` does not preserve: containment `T ⊆ B` is needed.
+  - For the constant group `ℤ/3`, which is not connected, `B = T = 1` and the Weyl quotient
+    `ℤ/3` is not generated by involutions: connectedness, part of reductivity, is needed.
 
 ### Examples
 
@@ -1967,8 +2205,8 @@ the supplier contracts.
 
 ### Dependencies
 
-Layers 2–5 and 3A; Layer 7C for the ordered coordinates of the cells;
-Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Tau Ceti's Lie–Kolchin theorem and its Borel, reductive and dynamic interfaces; Mathlib's root pairings
+Layers 2–5 and §§3A.1–3A.5 (the pinned orbit theorems and the complex charts); Layer 7C for the
+ordered coordinates of the cells; Tau Ceti's Tits systems, normalizer points and finite root-system API and Weyl Coxeter presentation (supplier contracts); Tau Ceti's Lie–Kolchin theorem and its Borel, reductive and dynamic interfaces; Mathlib's root pairings
 and Coxeter groups.
 
 ## Layer 7C: ordered unipotent factors and the contraction proof of Bruhat coordinates
@@ -2031,14 +2269,14 @@ Borel theory; Tau Ceti's finite root-system API and Weyl Coxeter presentation (s
 
 ### Dependencies
 
-Layers 2–5, 5P, 3A and 7; Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's covering-map lifting and
+Layers 2–5, 5P, §§3A.1–3A.5 (the pinned orbit theorems and the complex charts) and 7; Tau Ceti's finite root-system API and Weyl Coxeter presentation (supplier contracts); Mathlib's covering-map lifting and
 uniqueness lemmas.
 
 ## Layer 7a: finite fields, Frobenius and rational points
 
 This layer owns Lang's theorem for the `q`-Frobenius, its quotient and `H¹` consequences,
-and the abstract fixed-coset lifting lemma; Layer 9E owns their extension to Steinberg
-endomorphisms. Nothing in this layer is imported from a roadmap that consumes this one.
+and the fixed-coset bijection built on the pinned fixed-lift lemma; Layer 9E owns their
+extension to Steinberg endomorphisms. Nothing in this layer is imported from a roadmap that consumes this one.
 
 Let `q=p^f`, `k=F̄_q`, and let `G₀` be a connected reductive group scheme of finite type over
 `F_q`, with base change `G=G₀×_{F_q}k`. Define the q-power Frobenius `F` on `G` from the
@@ -2052,7 +2290,9 @@ restricted to the split form. The canonical group equivalence `G^F ≃ G₀(F_q)
 compatibility with morphisms and the description of the fixed points of an `F`-stable closed
 subgroup scheme are the pinned `TauCeti.FiniteField.rationalPointsMulEquiv`,
 `TauCeti.FiniteField.coe_rationalPointsMulEquiv_mapDomain` and
-`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`, and finiteness of `G^F`, of the
+`BialgHom.map_fixedSubgroup_frobeniusPoints_of_surjective`, with
+`TauCeti.FiniteField.rationalPointsMulEquivFixedSubgroupGeometricFrobenius` the same equivalence
+for the geometric Frobenius on the coordinate algebra, and finiteness of `G^F`, of the
 fixed points of every positive iterate `F^n`, and of the rational points of `F`-stable closed
 subgroup schemes is the pinned `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`
 (`O(G₀)` of finite type, values in a domain). These are consumed, not restated. Reserve
@@ -2097,13 +2337,17 @@ theorem; the pinned finiteness of Frobenius-fixed points
 `TauCeti.FiniteField.finite_fixedSubgroup_frobeniusPoints`; Layer 0's points comparison.
 
 **Fixed-coset lifting.** Let `H` be a group, `σ` an automorphism of `H` and `J ≤ H` a
-`σ`-stable subgroup, not necessarily normal, on which `x ↦ x⁻¹σ(x)` is surjective. Prove
-that every `σ`-stable left coset `hJ` (one with `σ(h) ∈ hJ`) contains a `σ`-fixed element,
-and that `H^σ/J^σ → (H/J)^σ` is a bijection: if `σ(h) = hj`, choose `x ∈ J` with
-`j = xσ(x)⁻¹`, so that `σ(hx) = hx`; and if `h, h' ∈ H^σ` with `h' = hj` then `σ(j) = j`.
-This abstract argument proves the stated group-level generalization of Dudas–Michel,
-Lemma 7.6(i), p. 25; its separate H¹ comparison in (ii) requires normality, whereas
-this coset bijection does not. Apply this with `H = G(k)`, `σ = F` and `J = P(k)` for every `F`-stable closed subgroup
+`σ`-stable subgroup, not necessarily normal, on which `x ↦ x⁻¹σ(x)` is surjective. That every
+`σ`-stable coset contains a `σ`-fixed element is the pinned
+`MonoidHom.exists_fixed_inv_mul_of_surjective_commutatorMap` (supplier contracts), stated for
+right cosets `Jn` with `n σ(n)⁻¹ ∈ J` and Mathlib's Lang map `t ↦ t σ(t)⁻¹`; the two Lang maps
+have the same image, `x⁻¹σ(x)` being `y σ(y)⁻¹` for `y = x⁻¹`, and inversion carries the left
+coset `hJ` to the right coset `Jh⁻¹`. Prove, in the left-coset convention used by Layers 7b–7f,
+that every `σ`-stable left coset `hJ` (one with `σ(h) ∈ hJ`) contains a `σ`-fixed element, by
+transport along inversion, and that `H^σ/J^σ → (H/J)^σ` is a bijection: if `h, h' ∈ H^σ` with
+`h' = hj` then `σ(j) = j`. This abstract argument proves the stated group-level generalization
+of Dudas–Michel, Lemma 7.6(i), p. 25; its separate H¹ comparison in (ii) requires normality,
+whereas this coset bijection does not. Apply this with `H = G(k)`, `σ = F` and `J = P(k)` for every `F`-stable closed subgroup
 `P` to which Lang's theorem applies. For every
 F-stable closed subgroup used by this layer, prove the application adapter: finite type,
 smoothness, geometric connectedness, and compatibility of its restricted Frobenius with the
@@ -2582,7 +2826,8 @@ behind pseudo-reductive groups.
 Finite groups of Lie type are the fixed points of a Steinberg endomorphism on the
 `𝔽̄_p`-points of a pinned simply connected group, or on an explicit carrier identified with
 those points; Chevalley existence alone specifies no carrier, so this layer constructs the
-pinned group schemes and, in 9B, the explicit carriers and special isogenies.
+pinned group schemes and, in 9B, identifies with them the explicit carriers and special
+isogenies that Tau Ceti pins (supplier contracts).
 The root data start from the native `TauCeti.DynkinType.simplyConnectedRootDatum` of the
 supplier contracts. Layer 9E supplies the Steinberg
 fixed-point and representation-theory interfaces that consume them.
@@ -2605,162 +2850,92 @@ algebra by its Killing-semisimple part.
    constructed in 9B. The root-free datum gives the full toral Lie algebra.
    These algebraic constructions precede that group comparison.
    **9A.1a. Signed ADE lattice presentation and its integral comparison.**
-   For a finite, possibly disconnected ADE diagram with a specified order on its
-   vertices, use its free simple-root coordinate lattice `Q=⊕_i ℤ α_i` and Gram
-   pairing `B` with diagonal 2 and off-diagonal minus the number of bonds. Specify
-   the simply-laced isometry `Q→Q∨`, `α_i↦h_i`; this identifies the presentation's
-   Cartan lattice with the coroot lattice, not with X or the full Y. Include the
-   empty diagram. Consume the native finite realizations
-   `TauCeti.DynkinType.simplyConnectedRootDatum` and `TauCeti.DynkinType.rationalRootSystem` and the
-   native `IntegralLattice.integralForm`, `ofIntegralForm`, `carrierIsometry` and
-   `rationalizationIsometry` dictionary from
-   [IntegralLattices](../IntegralLattices/README.md). Prove that the norm 2 shell
-   `Φ={a∈Q:B(a,a)=2}` is exactly the root set of that realization, with explicit
-   root/coroot index maps. A positive norm 2 vector has a simple reflection that
-   lowers height unless it is simple: its coefficients have one sign, since two
-   nonzero disjoint sign parts would have norm at least 4. This gives the
-   height-induction proof, finiteness, root enumeration, reflection and component
-   APIs. In particular `a+b∈Φ` iff `B(a,b)=−1`, and `B(a,b)=±2` iff `a=±b`.
+   For a finite, possibly disconnected or empty, ADE diagram with a specified order on its
+   vertices, with simple-root lattice `Q=⊕_i ℤ α_i` and Gram pairing `B` (diagonal 2,
+   off-diagonal minus the number of bonds), the signed construction is pinned and consumed
+   (supplier contracts, *Native signed ADE Lie algebras and explicit carriers*): the norm-two
+   shell `Φ={a∈Q:B(a,a)=2}` with its height induction
+   (`Matrix.PosDef.normTwoShell_nonneg_induction`) and its identification with the roots of the
+   numbered realization `TauCeti.DynkinType.simplyConnectedRootDatum`
+   (`TauCeti.DynkinType.norm_rootLattice_eq_two_iff`); the ordered sign cover `Matrix.SignCover`
+   of `Q` by `ℤˣ`, with the cocycle `ε(a,b)=(−1)^(Σ_(i>j) bond(i,j)a_i b_j)`, the central sign
+   `Matrix.SignCover.tau`, the commutator formula `Matrix.commutatorElement_signCover` and its
+   `GroupExtension` packaging; the signed Lie ring `Matrix.ShellLieAlgebra` on `Q⊕(Φ→₀ℤ)` with
+   `[x_a,x_b]=ε(a,b)x_(a+b)` when `a+b∈Φ` and `[x_a,x_(−a)]=ε(a,−a)H_a`, its Jacobi identity over
+   ℤ (`Matrix.ShellLieAlgebra.lie_jacobi`), its Serre relations and the surjection
+   `Matrix.ShellLieAlgebra.serreLift_surjective` from the Serre presentation over ℤ; the
+   inverse-lift normalization `Matrix.ShellLieAlgebra.normalizedBasis`, a Chevalley basis with
+   structure constants ±1 and `[e_a,e_(−a)]=H_a`; the Cartan subalgebra
+   `Matrix.ShellLieAlgebra.cartanSubalgebra` over a ring in which 2 is regular; the relabelling
+   `Matrix.ShellLieAlgebra.reindexLieEquiv` for a change of order or a diagram automorphism; the
+   lift `Matrix.SignCover.map` of every lattice isometry to the sign cover by its quadratic
+   coboundary, and the Lie isomorphism `Matrix.ShellLieAlgebra.coverLieEquiv` of a compatible
+   lift; the full-Cartan algebra `Matrix.FullShellLieAlgebra` with Cartan part a cocharacter
+   group `Y`; and the type-A comparison `TauCeti.typeAShellLieEquiv` with
+   `sl (Fin (r + 1)) ℤ`. None of these is restated here.
 
-   Construct the group on `Q×ℤˣ`, where `ℤˣ={±1}`, by
-   `ε(a,b)=(−1)^(Σ_(i>j) bond(i,j)a_i b_j)` and
-   `(a,s)(b,t)=(a+b,stε(a,b))`. Prove normalization and the cocycle identity,
-   identity `(0,1)`, inverse `(a,s)⁻¹=(−a,sε(a,−a))`, and the commutator formula
-   `[ê, f̂]=(−1)^B(a,b)`. Define `τ=(0,−1)`, its order 2 and centrality, the actual
-   injection of `ℤˣ`, projection to `Multiplicative Q`, exact kernel/image and
-   surjectivity, packaged as native `GroupExtension`. Prove centrality separately
-   from those exact-sequence fields. Supply the presentation by the ordered
-   simple lifts and central τ with their bond commutators, via unique normal
-   words; there is no square relation on a simple lift. Give the specified set
-   section `u_a=(a,1)` and its inverse and cocycle-defect equation
-   `u_a u_b=ι(ε(a,b))u_(a+b)`, with ι the actual kernel inclusion. Prove that
-   this section is a homomorphic splitting exactly when the diagram has no
-   bonds, including the empty diagram. `τu_a` lies over a, whereas `u_a⁻¹`
-   lies over −a.
-
-   Let `Φ̂` be the inverse image of Φ. Construct the quotient of the free
-   ℤ-module on Φ̂ by `[τe]+[e]=0`, with its explicit section-basis equivalence to
-   `Φ→₀ℤ`, and use `Q⊕(Φ→₀ℤ)` for the integral Lie carrier. With section vectors
-   `x_a`, define the bilinear bracket by
-   `[H_h,H_k]=0`, `[H_h,x_a]=B(h,a)x_a`,
-   `[x_a,x_b]=ε(a,b)x_(a+b)` when `a+b∈Φ`,
-   `[x_a,x_(−a)]=ε(a,−a)H_a`, and zero in all other root/root cases.
-   On lifted generators the root-sum bracket is the vector indexed by the
-   **group product** ef; the opposite bracket is `H_(πe)` if `ef=1` and its
-   negative if `ef=τ`. Prove quotient well-definedness, additivity/scalar laws,
-   evaluation on all generators, alternation, antisymmetry and Jacobi over ℤ.
-   In particular an arbitrary negative-root section is not an inverse lift.
-   For A2 ordered `α₁<α₂`, `ε(α₁+α₂,−α₁−α₂)=−1`: the matrix example has
-   `x_(α₁+α₂)=E₁₃` but `x_(−α₁−α₂)=−E₃₁`. Include this rejection test,
-   rank 1, reducible components and rank 0.
-
-   Prove Jacobi before using any Serre or Chevalley comparison. Trilinearity
-   reduces it to Cartan and root vectors. The Cartan cases use weight additivity.
-   Dispose of repeated underlying root lines by alternation and antisymmetry
-   without division by 2. For three remaining roots a,b,c, total degree outside
-   `Φ∪{0}` forces every term to vanish. At degree 0 their cyclic lifted products
-   agree with the same central sign, and the sum is that sign times
-   `H_a+H_b+H_c=0`. At a root degree with no opposite pair the three pairings
-   have pattern `(-1,-1,0)`; precisely two products occur and differ by τ. With
-   b=−a, rescale the lift to `f=e⁻¹` and put `d=B(a,c)∈{0,±1}`. For d=0 all
-   terms vanish; for d=1 the terms are `g,0,−g`; for d=−1 they are `0,−g,g`.
-   These cases supply the complete integral proof, including disconnected types.
-   Compare with Frenkel–Kac, §2.3, equations (2.3)–(2.6) and Proposition 2.2,
-   pp. 40–41, which constructs the simple complex ADE Lie algebra from a
-   normalized cocycle. To match its root-bracket argument order, use the
-   transpose of ε and then a normalized sign function c with
-   `c(a)c(−a)=ε(a,−a)`; the basis comparison sends `x_a` to `c(a)E_a`.
-   For a simple root choose both signs 1; in the displayed A2 example choose
-   `c(α₁+α₂)=1` and `c(−α₁−α₂)=−1`, so the opposite bracket stays `−H_(α₁+α₂)`.
-   The integral, disconnected, empty and full-Y statements here require the
-   integral proof and comparisons below, beyond that source's complex simple case.
-
-   Supply explicit changes of section and order. For orders o,o′ let `E_rev`
-   consist **only of unordered bond edges whose relative order changes**. Then
-   `σ(a)=(−1)^(Σ_{{i,j}∈E_rev}a_i a_j)` satisfies
-   `ε′/ε=σ(a)σ(b)/σ(a+b)`; give the induced cover and Lie equivalences and
-   their composition/value equations. For general specified lattice isometries,
-   construct the corresponding quadratic coboundary, including diagonal
-   `binom(a_i,2)` terms when needed. For homomorphic cover-isomorphism lifts
-   of a fixed lattice isometry that fix the central sign kernel, classify
-   differences by characters `Q→{±1}`; this character group is trivial at
-   rank 0. Normalized set sections instead differ by arbitrary normalized sign
-   functions, which need not be characters. Track the diagonal quadratic factor when
-   comparing the zero-diagonal ordered cocycle with a lattice-VOA asymmetry
-   convention; transport root signs and inverse lifts rather than identify
-   formulas belonging to different sections. The integral construction and
-   elementary Jacobi argument require no VOA premise.
-
-   Normalize the negative root vectors by inverse lifts so opposite brackets
-   become `H_(a∨)` while retaining the simple positive pinning. Over ℚ construct
-   the split root decomposition, Cartan and generation. Compute the Cartan
-   Killing pairing as `Σ_(a∈Φ)B(h,a)B(k,a)` and its nondegeneracy, and use
-   invariance to prove the nonzero opposite root-space pairings; assemble
-   components. The simple generators satisfy the actual Serre relations, giving
-   native `TauCeti.serreLift` with its H/E/F values and surjectivity. Consume
-   [LieHighestWeight Layer 7](../RepresentationTheory/LieHighestWeight/README.md)
-   for the split-field presentation/injectivity comparison; the native pinned
-   Serre map alone supplies no injectivity theorem. Preserve its Cartan-matrix
-   orientation even where ADE symmetry hides the transpose.
+   The targets are the comparisons the library does not state. Over a field `K` of
+   characteristic zero, prove that `TauCeti.serreLift` onto `K ⊗ Matrix.ShellLieAlgebra B` is an
+   isomorphism, by the split-field presentation/injectivity comparison of
+   [LieHighestWeight Layer 7](../RepresentationTheory/LieHighestWeight/README.md), preserving its
+   Cartan-matrix orientation; compute the Killing form on the Cartan as
+   `Σ_(a∈Φ)B(h,a)B(k,a)` and prove it nondegenerate, assembling components. Compare with
+   Frenkel–Kac, §2.3, equations (2.3)–(2.6) and Proposition 2.2, pp. 40–41: with the transpose of
+   ε and a normalized sign function c with `c(a)c(−a)=ε(a,−a)`, the basis map sends `x_a` to
+   `c(a)E_a`; the integral, disconnected and empty statements go beyond that source's complex
+   simple case.
 
    Compare **integrally** with 9A.1's pinned Chevalley lattice by explicit unit-sign
-   root-basis maps and inverse maps. For each positive nonsimple root, subtract
-   a suitable simple root and track the resulting bracket word, whose ADE
-   root-string coefficient is a unit ±1. Prove word/choice consistency and
-   identify the Cartan and all root basis images. A rational equivalence alone
-   does not establish an integral equivalence. With the actual root/coroot maps
-   into a general reductive datum, extend the Cartan to its full Y, use
-   `[H_y,x_a]=⟨a,y⟩x_a`, and send the signed opposite bracket to `H_(a∨)`.
-   Prove the same integral laws, comparison with the actual full-Y frame, unit
-   basis inverse and all diagrams. Do not assume an integral center/derived
-   splitting. Base change these identities and the basis to every commutative
-   ring, with root-free data giving the full abelian toral algebra; simplicity
-   in bad characteristic is a separate assertion. The 9B group and 9C distribution
-   comparisons consume this construction and are not premises for its Lie laws.
+   root-basis maps and inverse maps. For each positive nonsimple root, subtract a suitable simple
+   root and track the resulting bracket word, whose ADE root-string coefficient is a unit ±1.
+   Prove word/choice consistency and identify the Cartan and all root basis images. A rational
+   equivalence alone does not establish an integral equivalence. With the actual root/coroot maps
+   into a general reductive datum, use `Matrix.FullShellLieAlgebra` on the full Y, with
+   `[H_y,x_a]=⟨a,y⟩x_a` and the normalized opposite bracket `H_(a∨)`, and prove the comparison
+   with the actual full-Y frame and its unit basis inverse for all diagrams. Do not assume an
+   integral center/derived splitting. Base change these identities and the basis to every
+   commutative ring, with root-free data giving the full abelian toral algebra; simplicity in bad
+   characteristic is a separate assertion. The 9B group and 9C distribution comparisons consume
+   this construction and are not premises for its Lie laws.
+   *Needs:* the pinned signed shell construction (supplier contracts); LieHighestWeight Layer 7;
+   9A.1's Chevalley lattice.
+
+   **Checks.**
+   - For A2 ordered `α₁<α₂`, `ε(α₁+α₂,−α₁−α₂)=−1`, so under the type-A comparison
+     `x_(α₁+α₂)↦E₁₃` but `x_(−α₁−α₂)↦−E₃₁`; a comparison that sent every section vector
+     `x_(−a)` to `E_(q,p)` without sign would fail to preserve `[x_a,x_(−a)]`.
+   - For A₁, `Φ={±α}`, the Cartan Killing pairing is `Σ_(a∈Φ)B(α,a)²=8` on `H_α`, nonzero, and the
+     integral comparison is the identity on the frame `H_α, x_α, x_(−α)`.
+   - For the empty diagram the shell algebra is zero; with a root-free datum of rank `r` the
+     full-Y algebra is the abelian algebra `Y`, not zero, and the comparison sends it to the toral
+     algebra of 9A.1.
 
    **9A.1a-L. The group of all kernel-fixing ADE cover lifts.**
-   On the actual ordered cover of 9A.1a, let A be
-   `TauCeti.BilinForm.isometryGroup` of the integral lattice form. Its members
-   preserve the norm-2 shell, hence act on the roots by the norm-shell theorem.
-   For A₁, the maps n↦n and n↦−n both preserve B(1,1)=2, whereas n↦2n
-   gives B(2,2)=8 and is not an isometry. For the empty lattice A is trivial. Construct the subgroup of
-   `MulAut(Cover) × A` consisting of pairs `(φ,g)` with
-   `φ∘ι=ι` and `π∘φ=g∘π`, where `ι:ℤˣ→Cover` and π are the actual extension
-   maps. Use native `GroupExtension.Equiv` for extension transport and its
-   existing section-ratio/quotient APIs for the corresponding comparison laws.
-   Prove closure, inverse and identity by these equations and use the
-   native subgroup group structure. Export its cover action, projection to A,
-   conjugation/change-of-order maps, and the literal action on simple lifts,
-   section values, τ, products, inverses and root fibers. This is the group of
-   **all** compatible lifts, not one silently selected lift per root isometry.
+   On the ordered cover of 9A.1a, let A be `TauCeti.BilinForm.isometryGroup` of the integral
+   lattice form. Pinned and consumed (supplier contracts): the faithful permutation action of the
+   isometries on the norm-two shell (`Matrix.normTwoShellPermHom_injective`) and finiteness of the
+   isometry group for positive definite B with diagonal 2
+   (`Matrix.PosDef.finite_orthogonalGroup_of_diagonal_eq_two`); the lift of every isometry g to a
+   kernel-fixing cover homomorphism over g by its quadratic coboundary (`Matrix.SignCover.map`);
+   the section signs `s_φ(a)`, defined by `φ(u_a)=ι(s_φ(a))u_(ga)` for the section `u_a=(a,1)`,
+   their coboundary identity and functoriality, and the character property over the identity
+   (`Matrix.SignCover.sectionSign_add_of_right_eq`); and the Lie isomorphism
+   `H_h↦H_(gh)`, `x_a↦s_φ(a)x_(ga)` of a compatible pair (`Matrix.ShellLieAlgebra.coverLieEquiv`),
+   functorial and faithful over ℤ (`Matrix.ShellLieAlgebra.coverEquiv_eq_refl_iff`).
 
-   The quadratic-coboundary construction above supplies a lift of every g,
-   hence surjectivity onto A. Prove that the kernel is the character group
-   `Hom(Q,{±1})`: χ acts by `(a,s)↦(a,sχ(a))`; for any kernel lift, the ratio
-   of its value on a lift over a to that lift lies in ι({±1}), is independent
-   of the lift, and is multiplicative in a. Give both inverse maps and all
-   evaluation equations, injectivity/exactness and a native
-   `GroupExtension` (`Mathlib/GroupTheory/GroupExtension/Defs.lean`).
-   For a general central extension first project onto the actual subgroup of
-   liftable automorphisms; only the proved ADE coboundary theorem makes that
-   subgroup all of A. Choosing normalized set sections gives arbitrary
-   normalized sign functions, whereas the difference of two homomorphic
-   cover lifts of the same g is a character. Do not conflate these categories.
-
-   For `(φ,g)` and the fixed section `u_a`, define the actual sign
-   `s_φ(a)` by `φ(u_a)=ι(s_φ(a))u_(ga)`. On the signed integral Lie carrier
-   construct `H_h↦H_(gh)` and `x_a↦s_φ(a)x_(ga)`, extending through the
-   sign quotient. Prove root indexing, additivity/scalars, bracket and
-   inverse/composition equations on the actual Cartan/root basis. In particular
-   `[x_a,x_(-a)]` and the inverse-lift normalization must be transported,
-   not guessed from negative-section labels. Kernel characters fix Cartan and
-   multiply each root line by χ(a). Prove this action faithful over ℤ, using
-   the simple root basis and cover normal words. Construct scalar-extension
-   actions and their comparison diagrams; characteristic 2 can collapse sign
-   characters, so faithfulness is not asserted after every base change.
-   State composition through native Lie-equivalence composition or actual
-   action equations, without assuming an undeclared `Group` instance on
-   endomorphism `LieEquiv`s.
+   The target is the group of **all** compatible lifts, not one selected lift per isometry:
+   construct the subgroup of `MulAut(Cover) × A` of pairs `(φ,g)` with `φ∘ι=ι` and `π∘φ=g∘π`,
+   with closure, inverse and identity by these equations, its projection to A, surjective by the
+   pinned lift, and its kernel, the character group `Hom(Q,{±1})` acting by `(a,s)↦(a,sχ(a))`,
+   packaged as a native `GroupExtension` (`Mathlib/GroupTheory/GroupExtension/Defs.lean`) with
+   both inverse maps and all evaluation equations. For a general central extension first project
+   onto the subgroup of liftable automorphisms; only the pinned ADE coboundary lift makes that
+   subgroup all of A. Normalized set sections differ by arbitrary normalized sign functions,
+   whereas two homomorphic cover lifts of the same g differ by a character; do not conflate these.
+   Kernel characters fix the Cartan and multiply each root line by χ(a); characteristic 2 can
+   collapse sign characters, so faithfulness is not asserted after every base change. State
+   composition through native Lie-equivalence composition or explicit action equations, without
+   assuming a `Group` instance on endomorphism `LieEquiv`s.
 
    After 9A.1b, compare its pinned **based** diagram lift with this full lift group
    and its simple-generator equations. The Weyl/based factorization g=w∘d of a root
@@ -2787,35 +2962,24 @@ algebra by its Killing-semisimple part.
    different bases/kernels. None is identified with another by a “double
    cover” label, and no VOA or compact normalizer section is a premise here.
 
-   Prove finiteness of the positive-definite lattice isometry group by its faithful permutation
-   action on the finite norm-two root set, which spans the lattice, and finiteness of the lift
-   group from this image and its finite character kernel. The kernel has order `2^rank(Q)`;
-   this counts characters of the actual free root lattice, not arbitrary sign functions.
+   Finiteness of the isometry group is pinned; prove finiteness of the lift group from that
+   image and its finite character kernel. The kernel has order `2^rank(Q)`; this counts
+   characters of the actual free root lattice, not arbitrary sign functions.
 
    **9A.1b. Pinned fixed Lie algebras and signed ADE folding.**
    Starting from 9A.1a, construct the fixed Lie algebra of each finite ADE diagram
-   automorphism, its actual integral fixed lattice, its split characteristic-zero
-   root system and its normalized folded presentation. Include disconnected and
-   empty diagrams and a compatible action on the full reductive datum. Keep the
-   integral fixed lattice, its scalar extension, and a normalized folded
-   Chevalley lattice distinct. This construction is algebraic and precedes 9B's
-   group comparison. The definitions, maps, inverses and basic laws below are the
-   specification.
+   automorphism, its split characteristic-zero root system and its normalized folded
+   presentation. Include disconnected and empty diagrams and a compatible action on the full
+   reductive datum. Keep the integral fixed lattice, its scalar extension, and a normalized folded
+   Chevalley lattice distinct. This construction is algebraic and precedes 9B's group comparison.
 
-   **Pinned action and actual fixed carrier.** For the ordered diagram `(Q,B,o)`
-   of 9A.1a let γ permute the simple vertices and preserve B. Put
-   `q_γ(a)=Σ_{{i,j} a bond, i<j, γi>γj} a_i a_j` and
-   `s_γ(a)=(-1)^q_γ(a)`. Prove
-   `ε(a,b)s_γ(a+b)=s_γ(a)s_γ(b)ε(γa,γb)`. Define the cover map
-   `(a,t)↦(γa,t s_γ(a))`, fixing τ and sending each pinned simple lift to the
-   specified lift over its image. Construct its inverse, identity and
-   composition equations, including order/section-change conjugacy with 9A.1a's
-   specified transports. On the integral Lie carrier it gives
-   `H_h↦H_(γh)` and `x_a↦s_γ(a)x_(γa)`. Prove the sign-quotient, bracket,
-   root-index and pinning equations. The lift's kth iterate is identity when
-   `γ^k=1`: it fixes all simple lifts and τ, hence every normal word. Projection
-   proves its exact order equals that of γ. The identity/rank 0 order is 1.
-   An arbitrary kernel-fixing lift need not have this order.
+   **Pinned action and actual fixed carrier.** For the ordered diagram `(Q,B,o)` of 9A.1a and a
+   permutation γ of the simple vertices preserving B, the pinned action is the relabelling
+   `Matrix.ShellLieAlgebra.reindexLieEquiv`, `H_h↦H_(γh)` and `x_a↦s_γ(a)x_(γa)` with the
+   inversion sign `s_γ(a)=(−1)^(Σ_{{i,j} a bond, i<j, γi>γj} a_i a_j)`, which fixes the simple
+   pinning; its exact order equals that of γ (`Matrix.ShellLieAlgebra.orderOf_reindex`), whereas
+   an arbitrary kernel-fixing lift need not have this order. These are pinned and consumed
+   (supplier contracts).
 
    For any actual Lie equivalence φ, use native
    `LinearMap.fixedSubmodule φ.toLinearMap` as the underlying module and extend
@@ -2840,19 +3004,16 @@ algebra by its Killing-semisimple part.
    and group pinning providers are comparison inputs with their actual lattice
    and carrier hypotheses; their existence does not compute a fixed Lie algebra.
 
-   **Signed orbit modules and brackets.** On each orbit
-   `a,γa,...,γ^(l-1)a` define `c_0=1`,
-   `c_(r+1)=c_r s_γ(γ^r a)` and monodromy `μ=c_l∈{±1}`. Construct maps and
-   inverse maps from fixed coefficient tuples to `Ann_A(μ-1)` over every
-   commutative ring A: the inverse sends t to the tuple `(c_r t)_r`. A positive
-   cycle contributes A, a negative cycle A[2]. For Q's Cartan permutation the
-   distinct simple-orbit sums are an integral basis. Together with positive
-   root-cycle sums they give the actual integral fixed-module basis. Prove
-   independence, spanning, coordinate formulas, change-of-representative maps
-   and the bracket coefficients in that basis. Negative cycles have no integral
-   fixed vector; their A[2] vectors after base change must not disappear.
-   Compute the fixed bracket by restricting the ambient bracket and expanding
-   its actual finite signed sums, including the opposite-root Cartan cases.
+   **Signed orbit modules and brackets.** The integral fixed module of the pinned action is
+   pinned: on each root cycle `a,γa,...,γ^(l−1)a` the coefficients are `c_0=1`,
+   `c_(r+1)=c_r s_γ(γ^r a)` with monodromy `μ=c_l∈{±1}`; the fixed coefficients of one cycle
+   over a commutative ring A are A for `μ=1` and A[2] for `μ=−1`
+   (`TauCeti.WeightedCycle.fixedEquivTorsion`); the orbit sums of simple vertices and the signed
+   sums over root cycles of monodromy 1 form an integral basis of the fixed submodule
+   (`Matrix.ShellLieAlgebra.fixedBasis`); and the fixed Cartan vectors have centralizer exactly
+   the fixed Cartan (`Matrix.ShellLieAlgebra.exists_fixed_cartan_eq_iff`). The target is the fixed
+   bracket in this basis: restrict the ambient bracket and expand its finite signed sums,
+   including the opposite-root Cartan cases, and give the change-of-representative maps.
 
    For a permutation orbit of connected components, choose one component and
    construct its return automorphism, restriction and diagonal-transport inverse;
@@ -2872,15 +3033,16 @@ algebra by its Killing-semisimple part.
    complete actual-root/weight-space correspondence, including negatives,
    reflection and root/coroot equations, before identifying a Dynkin type.
 
-   **Folded frame, finite Cartan and presentation.** For a simple orbit O put
-   `d_O=Σ_(j∈O)B(α_j,α_i)` for i∈O. The induced graph on O is a regular finite
-   forest, so its degree is 0 or 1 and `d_O=2` or 1. Reducible diagrams can give a
-   union of adjacent pairs. Set `c_O=2/d_O∈{1,2}` and define
-   `H'_O=c_OΣ_(i∈O)H_i`, `E'_O=Σ_(i∈O)x_(α_i)`,
-   `F'_O=c_OΣ_(i∈O)x_(-α_i)`; simple negative sections are inverse lifts.
-   Prove fixedness, `[E'_O,F'_O]=H'_O`, all mixed E/F and Cartan equations, with
-   the integer matrix having **H rows and E columns**
-   `C_(O,P)=c_OΣ_(i∈O)B(α_i,α_j)`, j∈P.
+   **Folded frame, finite Cartan and presentation.** For a simple orbit O, the column sum
+   `d_O=Σ_(j∈O)B(α_j,α_i)` (i∈O) is 2 or 1, the induced graph on O being a regular finite forest
+   (`SimpleGraph.IsAcyclic.exists_graphCartanMatrix_sum_orbit`); with `c_O=2/d_O∈{1,2}`, the
+   folded Cartan matrix with **H rows and E columns** `C_(O,P)=c_OΣ_(i∈O)B(α_i,α_j)`, j∈P, is
+   `Matrix.foldedCartanMatrix`, and the folded frame `H'_O=c_OΣ_(i∈O)H_i`,
+   `E'_O=Σ_(i∈O)x_(α_i)`, `F'_O=c_OΣ_(i∈O)x_(−α_i)` is a Serre system for it, fixed by the
+   pinned action, with its `TauCeti.serreLift` landing in the fixed vectors
+   (`Matrix.ShellLieAlgebra.isSerreSystem_folded`,
+   `Matrix.ShellLieAlgebra.reindex_serreLift_folded`). These are pinned and consumed; reducible
+   diagrams can give a union of adjacent pairs.
    With `S_O=Σ_(i∈O)α_i` and `β_O=p(α_i)=S_O/|O|`, prove independence,
    `B(β_O,β_O)=d_O/|O|`, and
    `C_(O,P)=2B(β_O,β_P)/B(β_O,β_O)`. Its off-diagonal entries are nonpositive
@@ -2891,10 +3053,8 @@ algebra by its Killing-semisimple part.
    translate it by the actual transpose to the H-row convention as in
    [LieHighestWeight Layer 7](../RepresentationTheory/LieHighestWeight/README.md).
 
-   Prove the exact higher Serre powers and construct `TauCeti.IsSerreSystem`
-   for these actual fixed vectors. The resulting native `serreLift` maps into
-   the actual fixed Lie subalgebra, with H/E/F value equations. Prove its
-   surjectivity by constructing every signed orbit root vector as a rational
+   Prove that the folded `serreLift` is surjective onto the fixed Lie subalgebra over ℚ by
+   constructing every signed orbit root vector as a rational
    combination of bracket words in E′/F′, and the fixed Cartan from their
    brackets. Retain all nonzero factors 2/3. Prove generation using the concrete
    comparisons below; a dimension match or existence of the Serre map alone
@@ -3009,10 +3169,9 @@ algebra by its Killing-semisimple part.
    basis.
 
    **Integral and full-Y comparisons.** The actual integral fixed lattice is
-   bracket-closed. For the Q-based carrier only, construct the comparison
-   `A⊗_ℤ(g_ℤ^γ)→(A⊗_ℤg_ℤ)^γ` on the orbit basis. Its extra factors are exactly
-   A[2] from negative cycles, so it is an isomorphism when A has no 2-torsion;
-   if there are no negative cycles it is an isomorphism for every A. Do not
+   bracket-closed. For the Q-based carrier, the comparison `A⊗_ℤ(g_ℤ^γ)→(A⊗_ℤg_ℤ)^γ` is
+   pinned: it is injective, and surjective exactly when there is no negative cycle or A has no
+   2-torsion (`Matrix.ShellLieAlgebra.fixedSubmoduleBaseChange_surjective_iff`). Do not
    identify this lattice with a chosen normalized folded Chevalley form.
    For A2 exchange prove the integral basis e=xα+xβ, f=x−α+x−β,
    h=Hα+Hβ satisfies `[e,f]=h`, `[h,e]=e`, `[h,f]=-f`; the normalized A1 frame
@@ -3117,7 +3276,11 @@ comparison for a group that is still being constructed.
 Use the split data and pinnings of §§8.1–8.2 as the output specification.
 - **The Chevalley–Demazure construction.** For each root datum, an explicitly constructed
   split reductive group scheme over `ℤ` realizing it, via a Chevalley basis and the Kostant
-  `ℤ`-form of the enveloping algebra. Constructed, not asserted to exist.
+  `ℤ`-form of the enveloping algebra. Constructed, not asserted to exist. The closed subgroup
+  scheme of `GLₙ` over `ℤ` generated by the Kostant root subgroups on an admissible lattice and a
+  weight torus is the pinned `TauCeti.UniversalEnvelopingAlgebra.kostantToralGroupScheme`
+  (supplier contracts); the target is that, for a Chevalley system and a full admissible lattice
+  whose weights generate `X`, it is a split reductive group scheme with root datum `Ψ`.
 - **Base change** along `ℤ → k` for any commutative ring `k`, and the compatibility of the
   pinning with it.
 - **Root subgroup maps.** `x_α : 𝔾_a → G` for each root `α`, the Chevalley commutator
@@ -3207,9 +3370,12 @@ Hopf ideals. *Needs:* §9B's pinned construction; Layer 7's root extraction and 
 
 ##### Elementary subgroups and further pinned constructions
 
-- **Elementary generators and all ring points.** For each commutative ring A,
+- **Elementary generators and all ring points.** The elementary group `E(A)` generated by the
+  Kostant root subgroups on an admissible lattice, functorial in `A`, is the pinned
+  `TauCeti.UniversalEnvelopingAlgebra.kostantElementarySubgroup`. For each commutative ring A,
   define E_G(A) inside the constructed G(A) as the subgroup generated by
-  all x_α(a), and GE_G(A) as the subgroup generated by E_G(A) and T(A).
+  all x_α(a), compared with `E(A)` through the matrix realization, and GE_G(A) as the subgroup
+  generated by E_G(A) and T(A).
   Here T(A) denotes the image of the pinned torus embedding in G(A).
   Use native subgroups of Layer 0's same points group, with inclusions and
   ring-functorial restrictions compatible with all base-change maps. Prove
@@ -3258,57 +3424,52 @@ Hopf ideals. *Needs:* §9B's pinned construction; Layer 7's root extraction and 
   `τ(x_α(t)) = x_(α')(t^p)` for a short root `α` (so `α'` is long); on characters `τ*` sends
   a short root to the corresponding long root and a long root to `p` times the corresponding
   short root, and `τ` restricted to the torus is the map dual to this lattice endomorphism.
-  Prove multiplicativity, the equations on all root subgroups and the square relation
-  `τ² = Frob_p`, and that the kernel of `τ` is the infinitesimal subgroup scheme whose Lie
-  algebra is the short-root ideal below. This is a statement about group schemes and belongs
-  here rather than in any consumer. The three carriers on which it is constructed are:
+  These isogenies are pinned on three explicit carriers, with multiplicativity, the pinning
+  equations on the numbered simple root subgroups in exactly the exponent convention above and
+  the square relation `τ² = Frob_p` (supplier contracts):
   1. the rank-two symplectic carrier, where `τ` is the native
      `TauCeti.SpStd.specialIsogeny`, with `SpStd.specialIsogeny_specialIsogeny` the square
      relation and `SpStd.specialIsogeny_rootSubgroupPoints_inl_zero`,
      `specialIsogeny_rootSubgroupPoints_inl_last`, `specialIsogeny_rootSubgroupPoints_inr_zero`
-     and `specialIsogeny_rootSubgroupPoints_inr_last` the pinning equations on the four
-     numbered simple root subgroups, in exactly the exponent convention above; it acts on
-     the four-dimensional subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square of the standard
-     module by `2×2` minors;
-  2. the short-root `G₂` carrier over `𝔽₃`: the closed subgroup scheme of `GL₇` over `𝔽₃`
-     generated by the reductions modulo three of the root subgroups and torus of the Kostant
-     toral closure of the seven-dimensional module `V(ϖ₁)` (the admissible lattice generated
-     from a highest weight vector by the divided-power lowering operators of 9A);
-  3. the short-root `F₄` carrier over `𝔽₂`: the closed subgroup scheme of `GL₂₆` over `𝔽₂`
-     generated the same way from the toral closure of the twenty-six-dimensional module
-     `V(ϖ₄)`, whose integral form has a rank-two zero-weight summand; an ordered integral
-     weight basis, including a basis of that summand, is part of the data.
-  For the `G₂` and `F₄` carriers construct `τ` as follows. Let `V` be the module, `𝔤 ⊂ End V`
-  the represented Chevalley Lie algebra (the span of the Chevalley basis matrices) and
-  `I ⊂ 𝔤` the short-root ideal, spanned by the short root vectors and the short coroots; `I`
-  is an ideal exactly in characteristic `p`, where the short coroots span a line for `G₂`
-  and a plane for `F₄`. Prove that `I` is stable under the carrier, that `𝔤 ⧸ I` has the long
-  roots as weights with the zero weight of the same multiplicity as in `V`, and fix a linear
-  identification `C : 𝔤 ⧸ I ≃ V` relabelling weights along `τ*`, with each basis vector
-  normalized against the numbered pinning. Then `τ(g)` is the matrix of `g` acting on
-  `𝔤 ⧸ I`, read back in `V` through `C`; since `det g = 1`, `g⁻¹` is the adjugate and every
-  entry of `τ(g)` is a polynomial in the entries of `g`. Prove that `τ` preserves the
-  carrier's points, is multiplicative, satisfies the pinning equations on the numbered simple
-  root subgroups and squares to Frobenius, by computation or structurally. The prime field is
-  the base because the isogeny exists only in characteristic `p` and because the closed
-  subgroup scheme generated over `𝔽_p` by the reduced root subgroups and torus is only known
-  to be contained in the base change of the integral toral closure, non-flat base change
-  possibly adding equations. *Needs:* 9A's Chevalley lattice, divided powers and admissible
-  lattices; 9B's pinned root subgroups and torus; Layer 3's closed subgroup schemes and
-  kernels; Layer 2's Lie algebra; the native rank-two symplectic carrier.
-- **Explicit carriers with numbered symmetries.** Construct the toral-closure carriers
-  that have no native counterpart: the short-root `G₂` and `F₄` carriers above, and the tripled
-  `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
-  numbered symmetry, a signed permutation of the weight basis permuting the three summands,
-  the way the doubled `E₆` carrier `V(ϖ₁) ⊕ V(ϖ₆)` inside `GL₅₄` carries its graph
-  automorphism. The spin module alone cannot carry triality linearly, because triality
-  permutes the three eight-dimensional representations and fixes none of them, nor their
-  sum `8ₛ ⊕ 8꜀`. Each carrier comes with its numbered simple root subgroups, weight torus,
-  pinning equations against `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span
-  statement that its weights generate the full character lattice (for the short-root
-  modules because the short roots of `G₂` and `F₄` generate the root lattice, which is the
-  weight lattice there). *Needs:* 9A's admissible lattices and 9B's pinned construction;
-  no fixed-point theorem is an input to these carrier constructions.
+     and `specialIsogeny_rootSubgroupPoints_inr_last` the pinning equations; it acts on the
+     four-dimensional subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square of the standard module by
+     `2×2` minors;
+  2. the short-root `G₂` carrier over `𝔽₃`, the closed subgroup scheme of `GL₇` generated by the
+     numbered root subgroups and weight torus of `V(ϖ₁)`, with
+     `TauCeti.G2ShortRoot.PrimeField.specialIsogenyHom`,
+     `TauCeti.G2ShortRoot.PrimeField.specialIsogenyHom_comp_self` and
+     `TauCeti.G2ShortRoot.PrimeField.specialIsogeny_rootSubgroupPoints`;
+  3. the short-root `F₄` carrier over `𝔽₂`, the closed subgroup scheme of `GL₂₆` generated the
+     same way from `V(ϖ₄)`, with `TauCeti.F4ShortRoot.PrimeField.specialIsogenyHom`,
+     `TauCeti.F4ShortRoot.PrimeField.specialIsogenyHom_comp_self` and
+     `TauCeti.F4ShortRoot.PrimeField.specialIsogeny_rootSubgroupPoints`.
+  The `G₂` and `F₄` carriers are reductive over their prime fields (supplier contracts). The
+  targets are: the kernel of `τ` is the infinitesimal subgroup scheme whose Lie algebra is the
+  short-root ideal `I ⊂ 𝔤`, spanned by the short root vectors and the short coroots, which is an
+  ideal exactly in characteristic `p`, where the short coroots span a line for `G₂` and a plane
+  for `F₄`; and each carrier is identified with the base change to `𝔽_p` of 9B's pinned simply
+  connected group of its type, so that `τ` transfers to that group scheme. The prime field is the
+  base of the carriers because the isogeny exists only in characteristic `p` and because the
+  closed subgroup scheme generated over `𝔽_p` by the reduced root subgroups and torus is only
+  known to be contained in the base change of the integral toral closure, non-flat base change
+  possibly adding equations. This is a statement about group schemes and belongs here rather
+  than in any consumer. *Needs:* the pinned carriers and isogenies; 9A's Chevalley lattice and
+  admissible lattices; 9B's pinned root subgroups and torus; Layer 3's closed subgroup schemes and
+  kernels; Layer 2's Lie algebra.
+- **Explicit carriers with numbered symmetries.** The short-root `G₂` and `F₄` carriers above
+  and the tripled `D₄` carrier `TauCeti.D4Tripled.groupScheme`, the toral closure of
+  `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄` over `ℤ` carrying triality `TauCeti.D4Tripled.trialityAutomorphism`
+  as a numbered symmetry of order three, a signed permutation of the weight basis permuting the
+  three summands, are pinned with their numbered simple root subgroups, weight tori, pinning
+  equations and Frobenius (supplier contracts), the way the doubled `E₆` carrier
+  `V(ϖ₁) ⊕ V(ϖ₆)` inside `GL₅₄` carries its graph automorphism. The spin module alone cannot
+  carry triality linearly, because triality permutes the three eight-dimensional representations
+  and fixes none of them, nor their sum `8ₛ ⊕ 8꜀`. The target is the identification of each
+  carrier with 9B's pinned simply connected group of its type, using the span statement that its
+  weights generate the full character lattice (for the short-root modules because the short roots
+  of `G₂` and `F₄` generate the root lattice, which is the weight lattice there). *Needs:* the
+  pinned carriers; 9A's admissible lattices and 9B's pinned construction; no fixed-point theorem
+  is an input to these identifications.
 
   **Checks.**
   - On characters of `B₂` with short simple root `α` and long simple root `β`,
@@ -3405,7 +3566,8 @@ The distribution algebra and Frobenius section precede rational integration.
 Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; Tau Ceti's Cartan–Killing
 classification and numbered root data (supplier contracts); RootSystems §§5.1–5.2 for §9A.1a-L;
 LieHighestWeight Layers 3–4 and 7; IntegralLattices; Tau Ceti's Kostant form, Serre presentation
-and Geck constructions.
+and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂`, `F₄` and tripled
+`D₄` carriers (supplier contracts).
 
 ## Layer 9D: classification, relative groups and forms
 - The **isomorphism** and **existence theorems**: split reductive groups ↔ root data
@@ -4015,6 +4177,18 @@ with explicit basepoint-change transport for any other basepoint (Brieskorn,
 Salvetti, Part Two, pp. 611–616, for the two-skeleton presentation route).
 The source presentation is for finite real reflection groups; this layer uses
 its crystallographic subclass. A W-fixed central summand is a contractible factor.
+The headline `ReflectionArrangementAcceptance.nonempty_mulEquiv_artinGroup` states the existence of
+this isomorphism at the class of every regular point, on the standard-coordinate model: a finite
+reduced crystallographic root pairing `P` over `ℂ` on `ℂ^κ` with a base, the Weyl group
+`ReflectionArrangementAcceptance.corootReflectionGroup` generated by the coreflections
+`y ↦ y − ⟨α_i, y⟩ α_i^∨` of the coroot space, the complement
+`ReflectionArrangementAcceptance.RegularCoroots` of the root hyperplanes there and its orbit space
+`ReflectionArrangementAcceptance.RegularOrbits` with the quotient topology. Such a `P` is the
+complexification of its rational form on the spans of its roots and coroots, since the rational
+pairing between those spans is nondegenerate, and the subspace on which every root vanishes is a
+`W`-fixed contractible factor; the basis/dual-basis transport above reduces an arbitrary real
+realization to this model. The generator characterization and basepoint transport are the
+further targets of this section.
 
 Consume the native `TauCeti.weylCoxeterSystem`, with its finite, reduced, crystallographic
 and characteristic-zero-domain hypotheses, and transport it along the chosen coordinates.
@@ -4247,9 +4421,10 @@ are useful interfaces for p-adic consumers before the full root-data classificat
 
 The finite groups of Lie type consume Layer 9 through fixed points of Steinberg endomorphisms
 on the points of pinned Chevalley–Demazure groups, or on explicit carriers identified with
-those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pinned groups,
-the special isogenies and the three explicit carriers of 9B, which its carrier plan
-designates; its milestone L5 needs constructions rather than existence theorems.
+those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pinned groups and
+9B's identification with them of the special isogenies and the three explicit carriers, which
+its carrier plan designates and Tau Ceti pins; its milestone L5 needs constructions rather than
+existence theorems.
 ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
 Lang theorem and fixed-coset lifting, and Layer 3A.5b's point-topology comparisons for local
 topological algebras (in its RG2.0.1). Layer 3A.5 is the single owner of complex points, their
