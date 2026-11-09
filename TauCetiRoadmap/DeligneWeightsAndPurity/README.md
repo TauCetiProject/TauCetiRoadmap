@@ -3053,7 +3053,9 @@ Use rational `ℚ_ℓ` coefficients; the integral assertion fails in general.
 
 ### 9.7. Primitive decomposition for a graded operator satisfying hard Lefschetz
 
-Let `K` be a field, `n ∈ ℕ`, `V` a finite-dimensional `K`-vector space which is the internal direct sum of subspaces `V^j` (`0 ≤ j ≤ 2n`; `V^j = 0` otherwise), and `λ ∈ End(V)` with `λ(V^j) ⊆ V^{j+2}`, such that `λ^r : V^{n−r} → V^{n+r}` is bijective for `0 ≤ r ≤ n`. Put `P^{n−r} = V^{n−r} ∩ ker λ^{r+1}` for `0 ≤ r ≤ n`. Then: (i) for `0 ≤ r ≤ n`, the maps `⊕_{k ≥ 0} λ^k : ⊕_{k≥0} P^{n−r−2k} → V^{n−r}` and `⊕_{k ≥ 0} λ^{r+k}` : `⊕_{k≥0} P^{n−r−2k} → V^{n+r}` are isomorphisms; (ii) `dim P^{n−r} = dim V^{n−r} − dim V^{n−r−2}`; (iii) if `B` is a nondegenerate bilinear form on `V` with `B(V^a, V^b) = 0` unless `a + b = 2n` and `B(λx, y) = B(x, λy)`, then for `0 ≤ r ≤ n` the form `ψ_r(x, y) = B(λ^r x, y)` on `V^{n−r}` is nondegenerate, the decomposition (i) of `V^{n−r}` is `ψ_r`-orthogonal, and `ψ_r` restricts to a nondegenerate form on `P^{n−r}`; if moreover `B(y, x) = (−1)^a B(x, y)` for `x ∈ V^a`, then `ψ_r` is `(−1)^{n−r}`-symmetric.
+Let `K` be a field, `n ∈ ℕ`, `V` a finite-dimensional `K`-vector space which is the internal direct sum of subspaces `V^j` (`0 ≤ j ≤ 2n`; `V^j = 0` otherwise), and `λ ∈ End(V)` with `λ(V^j) ⊆ V^{j+2}`, such that `λ^r : V^{n−r} → V^{n+r}` is bijective for `0 ≤ r ≤ n`. Put `P^{n−r} = V^{n−r} ∩ ker λ^{r+1}` for `0 ≤ r ≤ n`. Then: (i) for `0 ≤ r ≤ n`, the maps `⊕_{k ≥ 0} λ^k : ⊕_{k≥0} P^{n−r−2k} → V^{n−r}` and `⊕_{k ≥ 0} λ^{r+k}` : `⊕_{k≥0} P^{n−r−2k} → V^{n+r}` are isomorphisms; (ii) `dim P^{n−r} = dim V^{n−r} − dim V^{n−r−2}`; (iii) let `B` be a bilinear form on `V` with `B(λx, y) = B(x, λy)`, and for `0 ≤ r ≤ n` put `ψ_r(x, y) = B(λ^r x, y)` on `V^{n−r}`; then the decomposition (i) of `V^{n−r}` is `ψ_r`-orthogonal; if `B(y, x) = (−1)^a B(x, y)` for `x ∈ V^a`, then `ψ_r` is `(−1)^{n−r}`-symmetric; and if `B` is moreover nondegenerate with `B(V^a, V^b) = 0` unless `a + b = 2n`, then `ψ_r` is nondegenerate on `V^{n−r}` and restricts to a nondegenerate form on `P^{n−r}`.
+
+Orthogonality and graded symmetry use only the self-adjointness of `λ`: for `p ∈ P^{n−r−2k}`, `q ∈ P^{n−r−2l}` and `k ≠ l`, `ψ_r(λ^k p, λ^l q)` equals both `B(λ^{r+k+l} p, q)` and `B(p, λ^{r+k+l} q)`, and `r + k + l` exceeds `r + 2 min(k, l)`, so one of `λ^{r+k+l} p` and `λ^{r+k+l} q` is zero. Nondegeneracy and the grading condition on `B` enter only the nondegeneracy clauses.
 
 *Needs:* [DirectSum.IsInternal](#from-mathlib-and-tau-ceti), [LinearMap.ker](#from-mathlib-and-tau-ceti), [Module.finrank](#from-mathlib-and-tau-ceti), [LinearMap.BilinForm.Nondegenerate](#from-mathlib-and-tau-ceti).
 
@@ -3064,9 +3066,11 @@ The definition `primitivePiece` in Suggested.lean is
 `𝒱:ℤ→Submodule K V`. The statement `lefschetzDecomposition` gives both
 independent spanning families, the injective primitive-source maps with
 exponents `k` and `r+k`, and the dimension difference in (i)–(ii).
-The statement `lefschetzPairings` gives nondegeneracy, orthogonality and the
-conditional graded symmetry in (iii). Both statements retain all hypotheses
-of §9.7, over an arbitrary field.
+The statement `lefschetzPairings` gives (iii) in the same generality:
+orthogonality and the conditional graded symmetry for every `λ`-self-adjoint
+`B`, and nondegeneracy once `B` is nondegenerate and pairs `V^a` only with
+`V^{2n−a}`. Both statements are over an arbitrary field, under the standing
+hypotheses of §9.7 on `V` and `λ`.
 (Source: [Lef](#references), (1.5)–(1.6), p. 108.)
 
 Extend a natural grading `𝒱_nat:ℕ→Submodule K V` by zero in negative degrees
@@ -3093,6 +3097,9 @@ Tate twist.
   exponent `r+1` is essential.
 - On `V=K` concentrated in degree zero with `λ=0` and `n=0`, primitivePiece at `r=0`
   is `V`, while its value at `r=1` is zero. For `V=0` every primitive piece is zero.
+- On that `V=K` with `B=0`, `B` is `λ`-self-adjoint, graded-symmetric and
+  grading-compatible, and (iii)'s orthogonality and symmetry hold, but `ψ_0=0` is
+  degenerate on `V^0=P^0=K`: the nondegeneracy clauses need `B` nondegenerate.
 - For the natural grading of the three-step chain, extension by zero gives
   `𝒱(−1)=0`; `j=0` corresponds to `r=n=2` and the kernel of `λ³`, while
   `j=n=2` corresponds to `r=0` and the kernel of `λ`. The same comparison
