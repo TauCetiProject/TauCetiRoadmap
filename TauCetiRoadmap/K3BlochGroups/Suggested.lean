@@ -77,7 +77,8 @@ noncomputable def preBlochSymbol {F : Type*} [Field F] (x : F) : preBloch F :=
 
 /-- AlgebraicKTheory A1's block inclusion on native field matrices, sending a matrix to
 `diag(g,1)`. The inverse block is `diag(g⁻¹,1)`; the sum of index types is reindexed by
-`finSumFinEquiv`. This adapter supplies the map in the stability headline below. -/
+`finSumFinEquiv`. This adapter supplies the map in the stability headline below; over a field
+it is HomologicalStabilityOfGeneralLinearGroups §2.4's `stabilization`. -/
 def generalLinearStabilization (F : Type u) [Field F] (n : ℕ) :
     Matrix.GeneralLinearGroup (Fin n) F →*
       Matrix.GeneralLinearGroup (Fin (n + 1)) F :=
