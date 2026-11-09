@@ -2100,8 +2100,9 @@ in the charts `Projectivization.affineChart i` and `affineChart i`, both of whic
 statements of K7.2 are on the sphere-quotient model.
 This roadmap is the single owner of that comparison and of the transport of `cwComplex` and
 its characteristic maps in K7.2: AlgebraicTopology Stage 4.6 supplies only the generic quotient
-topology on `Projectivization`, and AlgebraicTopology's complex-projective Euler-characteristic
-check (Stage 7) consumes K7.1's model and K7.2's cell structure on the `Projectivization` carrier.
+topology on `Projectivization`. The value χ(ℂPⁿ)=n+1 needs neither the comparison nor the
+transported cells: `TauCeti.eulerChar_complexProjectiveSpace` proves it on the sphere-quotient
+model that carries `cwComplex`.
 
 Prove the underlying real smooth atlas and its
 complex orientation agree with K1. Upgrade the existing equivalence
