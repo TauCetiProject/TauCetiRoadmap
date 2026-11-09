@@ -186,7 +186,7 @@ one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not
 
 | Use here | Section |
 |---|---|
-| chief series `ChiefSeries G` (composition series in the lattice of normal subgroups), whose successive factors are the chief factors of §1.2 | §0.2 |
+| chief series `ChiefSeries G` (composition series in the lattice of normal subgroups, with no endpoint condition in the carrier), used in §1.2 only from `⊥` to `⊤`, the endpoint hypothesis of `chiefFactors_eq`; their successive factors are the chief factors of §1.2 | §0.2 |
 | `IsMinimalNormal N` and `exists_mulEquiv_pi_of_isMinimalNormal`: a minimal normal subgroup of a finite group is isomorphic to `S^k` for a simple group `S`; for solvable `G` every chief factor is elementary abelian | §0.3 |
 | `IsHallFor π H` (every prime divisor of `|H|` lies in `π`, none of `|G : H|` does) and Hall's theorem `exists_isHallFor_of_isSolvable`: a finite solvable group has a Hall `π`-subgroup for every `π` | §2.1 |
 
@@ -391,7 +391,12 @@ primes `p` (a nilpotent normal subgroup is the product of its Sylow subgroups, e
 `Z(F(G))` (Lemma 1.2; math-comp `minnormal_solvable_Fitting_center`, MC-BGsection1 lines
 136–138, which assumes only that the minimal normal subgroup is solvable). For solvable `G`
 prove: `F(G)` is the intersection of the centralizers `C_G(s_{i+1} ⧸ s_i)` of the factors of a
-chief series `s` of `G` (FiniteGroupInvariants §0.2, `ChiefSeries`) (Proposition 1.2);
+chief series `s` of `G` from `⊥` to `⊤` (FiniteGroupInvariants §0.2, `ChiefSeries`, with the
+endpoint hypothesis `s.head = ⊥ ∧ s.last = ⊤` of its `chiefFactors_eq`; the carrier itself
+admits series with other endpoints) (Proposition 1.2; math-comp `Fitting_stab_chief` and
+`chief_stab_sub_Fitting`, MC-BGsection1 lines 169–215, prove the nontrivial inclusions of its
+two equalities in relative form, for `G' ⊴ G`, with the intersection taken over all chief
+factors of `G` rather than over one series);
 `C_G(F(G)) ≤ F(G)` (Proposition 1.3, due to P. Hall); and, for `A` acting on `G` with
 `gcd(|A|, |G|) = 1`, `C_A(G) = 1` implies `C_A(F(G)) = 1` (Proposition 1.4). *Needs:* §1.1,
 InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*, *Fitting
@@ -403,6 +408,11 @@ normal subgroups), Mathlib `Group.IsNilpotent`, `Subgroup.centralizer`,
 - `F(S₄) = V₄ = O_2(S₄) · O_3(S₄) = V₄ · 1`, `C_{S₄}(V₄) = V₄ ≤ F(S₄)`; the chief series
   `1 < V₄ < A₄ < S₄` has factor centralizers `V₄`, `A₄` (a transposition inverts `A₄ ⧸ V₄ ≅ C₃`)
   and `S₄`, whose intersection is `V₄`.
+- The endpoints in Proposition 1.2 are needed: `V₄ < A₄ < S₄` is a composition series in the
+  lattice of normal subgroups of `S₄` (each step is maximal among normal subgroups), so it is a
+  member of `ChiefSeries S₄`, but its factor centralizers `A₄` and `S₄` meet in `A₄ ≠ V₄ = F(S₄)`.
+  For the trivial group the only series from `⊥` to `⊤` has length `0`, and the empty
+  intersection is `1 = F(1)`.
 - `F(C₆) = C₆ = O_2(C₆) × O_3(C₆)`: a wrong model "`F(G) = O_p(G)` for one prime `p`" gives `C₃`
   or `C₂`.
 - Solvability is needed in Proposition 1.3 and Lemma 1.2: `F(A₅) = 1` with `C_{A₅}(1) = A₅`, and
