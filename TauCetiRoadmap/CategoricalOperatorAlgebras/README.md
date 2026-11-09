@@ -42,8 +42,7 @@ additive and Karoubi completion and the finite-Hilbert and Hilbert-module
 examples (CA1a),
 and C*-tensor categories with solutions of the conjugate equations,
 standard solutions and intrinsic dimension, unitary dual functors and
-signed self-dualities (CA2a) have their single home here; QuantumGroups
-consumes CA1a and CA2a for these tensor-category inputs.
+signed self-dualities (CA2a) have their single home here.
 The positive Temperley–Lieb quotients and their C*-inductive limit are
 Subfactors 3.3. The unitary Temperley–Lieb category is
 TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
@@ -2141,9 +2140,6 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
 
 ## Downstream consumers
 
-- QuantumGroups consumes CA1a and CA2a: the finite-Hilbert dagger
-  category, unitary rigid tensor categories, chosen conjugates, signed
-  self-duality, standard solutions and intrinsic dimension.
 - TemperleyLiebOperatorAlgebras Layer 3 consumes CA1a's C*-category
   interfaces (3.2–3.3) and CA2a's dagger tensor and unitary-duality
   interfaces (3.3) for the unitary Temperley–Lieb category.
