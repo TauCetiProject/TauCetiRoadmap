@@ -47,7 +47,7 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 | Chern number | `c₁(A) = ⟨c₁(TX, J), A⟩` with the integral class of CharacteristicClasses C3 item 2; `K_J = −c₁(TX, J)` |
 | Virtual dimension | `d_(g,n,A) = 2((1 − g)(m − 3) + c₁(A) + n)`, a signed integer |
 | Degree of the operation | `deg I_(g,n,A)(γ₁, …, γ_n) = Σ_i deg γ_i + 2(g − 1)m − 2c₁(A)`, equivalently the shift `2(K_J · A) + (2g − 2)m` of Kontsevich–Manin (2.2); the real virtual dimension and the cohomological degree are never conflated |
-| Stable range | `2g − 2 + n > 0`; `(0, 3)` is stable with `M̄_(0,3)` a point; `(0, 0)`, `(0, 1)`, `(0, 2)` and `(1, 0)` are unstable and have no Deligne–Mumford target |
+| Stable range | `2g − 2 + n > 0`, the domain `n + 2g − 3 ≥ 0` of Kontsevich–Manin Definition 2.2 (p. 4); `(0, 3)` is stable with `M̄_(0,3)` a point; `(0, 0)`, `(0, 1)`, `(0, 2)` and `(1, 0)` are unstable and have no Deligne–Mumford target |
 | Maps | `ev_i` is evaluation at the i-th mark; `st` forgets the map and contracts components unstable as pointed curves and exists only in the stable range; forgetting a mark of a stable map contracts newly unstable constant components and retains nonconstant components whose pointed domains become unstable |
 | Pairing | `⟨α⟩ = ∫^wt α` is the weighted pairing of Orbifolds O5 on a compact Deligne–Mumford target, with a chart of group `Γ` weighted by `1/|Γ|` including ineffective kernels; `π_*` is the adjoint of `π^*` under the weighted pairings, never unweighted coarse integration |
 | Casimir and signs | a homogeneous basis `Δ_a` of `H^*(X; ℚ)` with `g_(ab) = ∫_X Δ_a ⌣ Δ_b` and `(g^(ab)) = (g_(ab))^(−1)`; the Casimir is `Σ_(a,b) g^(ab) Δ_a ⊗ Δ_b` in the displayed order; reordering odd insertions carries the Koszul sign of the permutation and nothing else |
@@ -313,7 +313,7 @@ for every test class `ψ` of degree `t − r`; uniqueness is by perfectness of �
 
 ### 2.3 Endpoint equality along tame paths and auxiliary reductions
 
-For a compact collared path `J_t`, `t ∈ [0, 1]`, of tame structures, consume the family maps `(st, ev)` of AnalyticStableMaps §13.4 and the collared relative family of §10.1 with fixed class `A` and the uniform support of §0.3; choose compatible relative-atlas and cobordism data of ImplicitAtlases §5.2 over this family with the endpoint reductions as its boundary faces; evaluate the same test class `ψ` at both ends against the identical weighted pairing of D8, and apply the global relative trace and the outward-first boundary convention of §5.2 to prove that the two pairings agree for every `ψ`; perfectness then gives `I_(g,n,A)^(J₀) = I_(g,n,A)^(J₁)`. For auxiliary reductions at fixed `J`, or for changes of auxiliary data not contained in one ambient atlas, require the constructed common ambient family or compatible cobordism of §10.2; independence between arbitrary unrelated atlases is not asserted. The theorem is independence along supplied compact paths and reductions with the stated compactness, uniform-support and compatibility witnesses; it says nothing about varying `ω`.
+For a compact collared path `J_t`, `t ∈ [0, 1]`, of tame structures, consume the family maps `(st, ev)` of AnalyticStableMaps §13.4 and the collared relative family of §10.1 with fixed class `A` and the uniform support of §0.3; choose compatible relative-atlas and cobordism data of ImplicitAtlases §5.2 over this family with the endpoint reductions as its boundary faces; evaluate the same test class `ψ` at both ends against the identical weighted pairing of D8, and apply the global relative trace and the outward-first boundary convention of §5.2 to prove that the two pairings agree for every `ψ`; perfectness then gives `I_(g,n,A)^(J₀) = I_(g,n,A)^(J₁)` (for the pushforward of the virtual class to `H_•(M̄_(g,n) × X^n; ℚ)` along a smooth path of tame structures, Pardon, Lemma 9.3.2, p. 100; the class-valued form through the weighted pairing and the comparisons for auxiliary reductions are this roadmap's). For auxiliary reductions at fixed `J`, or for changes of auxiliary data not contained in one ambient atlas, require the constructed common ambient family or compatible cobordism of §10.2; independence between arbitrary unrelated atlases is not asserted. The theorem is independence along supplied compact paths and reductions with the stated compactness, uniform-support and compatibility witnesses; it says nothing about varying `ω`.
 
 - Two tame structures for the same `ω` are joined by a smooth path fixed near its endpoints (AnalyticStableMaps §10.1), so `I_(g,n,A)` depends on `(X, ω)` and the atlas data only through the comparisons above.
 - Finite subatlases of one ambient collection give the same operation (ImplicitAtlases §4.3).
@@ -356,6 +356,7 @@ Construct the rank-`g` Hodge bundle `𝔼_g` on the stable-domain groupoid of Co
 - `𝔼_g` is an arrow-equivariant complex vector bundle of rank `g` on the stable-domain groupoid, compatible with base change and with the refinements of D5.
 - On a smooth fibre `𝔼_g` is the space of holomorphic differentials.
 - On a nodal fibre `𝔼_g` is the space of residue-matched differentials on the normalization, of dimension `Σ_v g_v + b₁(Γ_C)`.
+- For `2g − 2 + n > 0` and the one-mark forgetful map `π : M̄_(g,n+1) → M̄_(g,n)` of ComplexCurveModuli D7 item 1 there is an arrow-equivariant isomorphism `π^* 𝔼_g ≅ 𝔼_g`, compatible with base change and refinements, constructed on the contraction charts of D7 item 1 and equal on each fibre to the restriction of residue-matched differentials to the components that `π` does not contract; hence `𝔼_g` on `M̄_(g,n)` is pulled back from `M̄_(1,1)` for `g = 1` and from `M̄_(g,0)` for `g ≥ 2` (Kontsevich–Manin 2.4.5, p. 10, for the dual sheaf `E_(g,n)`). A contracted component is a smooth rational curve carrying, besides the forgotten mark, either one node and one mark, where a residue-matched differential has at most one simple pole and vanishes by the residue theorem, or two nodes, where it is `c dz/z` with `c` fixed by the residues of the neighbouring branches and need not vanish; restriction is injective in both cases, and the ranks agree.
 
 **Checks.**
 
@@ -363,8 +364,9 @@ Construct the rank-`g` Hodge bundle `𝔼_g` on the stable-domain groupoid of Co
 - Two spheres joined at one node, `g = 0`: a differential with one simple pole on `ℂP¹` has zero residue by the residue theorem, hence is holomorphic, hence zero; the fibre is `0 = 0 + 0`.
 - Two elliptic curves joined at one node, `g = 2`: each component contributes its holomorphic differential and a pole is excluded as before; dimension `1 + 1 + 0 = 2`. Two spheres joined at two nodes, `g = 1`: `b₁ = 1`; on each sphere the differentials with simple poles at its two branch points form a line, `c₁ dz/z` and `c₂ dw/w`, so the unmatched space has dimension `2`, and opposite residues at the paired branches impose the single condition `c₂ = −c₁` (the second node gives the same condition by the residue theorem), dimension `0 + 1 = 1`; a definition allowing independent residues would give `2`.
 - On `M̄_(1,1)` the elliptic involution acts by `−1` on `𝔼₁`, so the generic ineffective `ℤ/2` acts nontrivially on `𝔼₁^∨ ⊗ T_xX`.
+- Forgetting mark `2` on the cycle of two spheres with one mark on each, a point of `M̄_(1,2)`, contracts the sphere carrying mark `2`, a bridge, and gives the irreducible nodal rational curve of `M̄_(1,1)`. Both fibres are lines (the Checks above), and restriction to the surviving sphere sends the generator `(c₁ dz/z, c₂ dw/w)`, `c₂ = −c₁ ≠ 0`, to `c₁ dz/z`. The contracted bridge carries the nonzero differential `c₂ dw/w`: a comparison extending differentials by zero on contracted components would leave the residues `±c₁` at the two branches of the surviving sphere unmatched and would not land in `𝔼₁`.
 
-*Needs:* ComplexCurveModuli D3 item 5, D4, D5, D6; ComplexKahlerGeometry K5b; PseudoholomorphicCurveAnalysis PH1, PH3.2, PH6.1, PH6.3; PDE §1.6.
+*Needs:* ComplexCurveModuli D3 item 5, D4, D5, D6, D7 item 1; ComplexKahlerGeometry K5b; PseudoholomorphicCurveAnalysis PH1, PH3.2, PH6.1, PH6.3; PDE §1.6.
 
 ### 3.3 The constant-map obstruction model and the master concordance
 
@@ -387,13 +389,14 @@ For `A = 0` the constant-map chart is `M̄_(g,n) × X` with obstruction bundle `
 For general `g` retain the full top Euler class `c_(mg)(𝔼_g^∨ ⊠ TX)` and derive the degree-zero formula of §5.4 by its weighted Thom pairing. The source states the coefficient of `I_(1,1,0)(1)` as `Σ_i (−1)^i h^(i,0)` (Kontsevich–Manin (2.9), p. 6); the constant-map computation gives the topological Euler characteristic, which differs already for `X = ℂP¹`, and the value proved here is `χ_top(X)`.
 
 - `I_(1,1,0)(1) = χ(X) · 1`.
-- For a degree-two insertion `δ`, `⟨I_(1,1,0)(δ)⟩ = −(1/24) ∫_X c_(m−1)(TX) ⌣ δ`, from the `k = 1` term and `∫^wt_(M̄_(1,1)) λ₁ = 1/24`.
-- For `g ≥ 2`, `n = 0` and `m ≥ 4` the class `I_(g,0,0)(1)` has degree `2(g − 1)m > 6g − 6` and vanishes.
+- For a degree-two insertion `δ`, `⟨I_(1,1,0)(δ)⟩ = −(1/24) ∫_X c_(m−1)(TX) ⌣ δ`, from the `k = 1` term and `∫^wt_(M̄_(1,1)) λ₁ = 1/24`; as a class, `I_(1,1,0)(δ) = −(∫_X c_(m−1)(TX) ⌣ δ) λ₁ = −(1/12)(∫_X c_(m−1)(TX) ⌣ δ) [pt]^∨` with `[pt]^∨` the coarse orientation class of `|M̄_(1,1)|`, of weighted integral `1/2`. This is Kontsevich–Manin (2.10), p. 6, which does not compute its characteristic class of the tangent bundle; its generator `e² = c₁(𝒪(1))` of `H²` of the coarse `M̄_(1,1) ≅ ℂP¹` being `[pt]^∨`, the component of degree `2m − 2` of that class, the only one the pairing sees, is `−(1/12) c_(m−1)(TX)`.
+- For `g ≥ 2`, `n = 0` and `m ≥ 4` the class `I_(g,0,0)(1)` has degree `2(g − 1)m > 6g − 6` and vanishes; this is the case `n = 0` of the vanishing for every `n` in §5.4.
 
 **Checks.**
 
 - `X = ℂP¹`: `m = 1`, `c₁(Tℂ P¹)` integrates to `2`, so `I_(1,1,0)(1) = 2 · 1`; the source's `Σ(−1)^i h^(i,0) = 1` is refuted by this instance. `X = pt`: `1`. `X = T²`: `0`.
 - `X = ℂP¹`, `δ = pt`: `⟨I_(1,1,0)(pt)⟩ = −(1/24) ∫ c₀ ⌣ pt = −1/24`; the genus-reduction identity of §6.3 restricted to the boundary point of `M̄_(1,1)` gives `ξ^* I_(1,1,0)(1) = Σ_(a,b) g^(ab) ∫_X Δ_a Δ_b = Σ_a (−1)^(deg Δ_a) = χ(X)`, consistent with the value above and computed only after Layer 6 is proved.
+- The normalization of Kontsevich–Manin (2.10) on `ℂP¹` with `δ = pt`: `H²(|M̄_(1,1)|; ℚ)` is spanned by `[pt]^∨`, of weighted integral `1/2`, and `∫^wt λ₁ = 1/24`, so `λ₁ = (1/12)[pt]^∨` and `I_(1,1,0)(pt) = −(1/12)[pt]^∨`, of weighted integral `−1/24` as above; reading `1/24` as the coefficient of `[pt]^∨` would give `−(1/24)[pt]^∨` and the value `−1/48`.
 - The expansion for `m = 2`: `c₂(L ⊗ V) = c₂(V) + c₁(L)c₁(V) + c₁(L)²`; for `L = 𝔼₁^∨` on `M̄_(1,1)` the last term is `λ₁² = 0` by dimension, and the middle term pairs to zero over `X` against the insertion `1`.
 
 *Needs:* §3.1–§3.3; ImplicitAtlases §5.6; CharacteristicClasses C2 items 1 and 3, C3 item 2; AlgebraicTopology Stage 7 item 1; ComplexCurveModuli D8; Orbifolds O5 item 5.
@@ -405,7 +408,7 @@ For general `g` retain the full top Euler class `c_(mg)(𝔼_g^∨ ⊠ TX)` and 
 
 ### Dependencies
 
-Layers 1–2; ComplexCurveModuli D3–D6, D8; ComplexKahlerGeometry K5b; PseudoholomorphicCurveAnalysis PH1, PH3, PH6; PDE §1.6; AnalyticStableMaps §4.3, §6–§9; ImplicitAtlases §1.1, §5.2, §5.6; CharacteristicClasses C2–C3; AlgebraicTopology Stage 7.
+Layers 1–2; ComplexCurveModuli D3–D6, D7 item 1, D8; ComplexKahlerGeometry K5b; PseudoholomorphicCurveAnalysis PH1, PH3, PH6; PDE §1.6; AnalyticStableMaps §4.3, §6–§9; ImplicitAtlases §1.1, §5.2, §5.6; CharacteristicClasses C2–C3; AlgebraicTopology Stage 7.
 
 ## Layer 4: Effectivity, covariance and grading (G4)
 
@@ -500,15 +503,21 @@ For non-basic `I_(g,n,A)` and a degree-two last insertion `δ` prove the class-v
 
 ### 5.4 Mapping to a point
 
-For `A = 0` compute every genus from the constant-map model of §3.3–§3.4 (Kontsevich–Manin 2.2.5, pp. 5–6). For `g = 0` prove that `I_(0,n,0)(γ₁, …, γ_n) = (∫_X γ₁ ⌣ ⋯ ⌣ γ_n) · 1` on `M̄_(0,n)`, nonzero only for `Σ deg γ_i = 2m` (equation (2.8), p. 5). For `g = 1` and `g ≥ 2` give the Hodge–Euler formulas `I_(g,n,0)(γ) = p_(1*)(c_(mg)(𝔼_g^∨ ⊠ TX) ⌣ p_2^*(γ₁ ⌣ ⋯ ⌣ γ_n))` with `p₁, p₂` the projections of `M̄_(g,n) × X` (2.4.5, p. 10), the genus-one normalization being §3.4.
+For `A = 0` compute every genus from the constant-map model of §3.3–§3.4 (Kontsevich–Manin 2.2.5, pp. 5–6). For `g = 0` prove that `I_(0,n,0)(γ₁, …, γ_n) = (∫_X γ₁ ⌣ ⋯ ⌣ γ_n) · 1` on `M̄_(0,n)`, nonzero only for `Σ deg γ_i = 2m` (equation (2.8), p. 5). For `g = 1` and `g ≥ 2` give the Hodge–Euler formulas `I_(g,n,0)(γ) = p_(1*)(c_(mg)(𝔼_g^∨ ⊠ TX) ⌣ p_2^*(γ₁ ⌣ ⋯ ⌣ γ_n))` with `p₁, p₂` the projections of `M̄_(g,n) × X` (2.4.5, p. 10), the genus-one normalization being §3.4. Then derive the pullback form and the vanishing below.
+
+- For `g ≥ 1` let `n₀ = 1` if `g = 1` and `n₀ = 0` if `g ≥ 2`, and for `n ≥ n₀` let `π : M̄_(g,n) → M̄_(g,n₀)` forget the marks after the first `n₀`. Since `𝔼_g ≅ π^* 𝔼_g` (§3.2), Chern classes are natural (CharacteristicClasses C3 item 2) and the pushforward along the product projection satisfies `p_(1*)(p_1^* a ⌣ p_2^* b) = (∫_X b) a` on the Künneth decomposition (AlgebraicTopology Stage 5 item 1), the Hodge–Euler formula gives `I_(g,n,0)(γ₁, …, γ_n) = π^* p_(1*)(c_(mg)(𝔼_g^∨ ⊠ TX) ⌣ p_2^*(γ₁ ⌣ ⋯ ⌣ γ_n))` with the pushforward taken on `M̄_(g,n₀) × X`; the class pulled back has degree `s + 2(g − 1)m`, where `s = Σ_i deg γ_i`.
+- For `g = 1` this reads `I_(1,n,0)(γ₁, …, γ_n) = π^* I_(1,1,0)(γ₁ ⌣ ⋯ ⌣ γ_n)`, and the expansion of §3.4 gives `I_(1,1,0)(γ) = (∫_X c_m(TX) ⌣ γ) · 1 − (∫_X c_(m−1)(TX) ⌣ γ) λ₁`. So `I_(1,n,0)(γ₁, …, γ_n) = 0` unless `s ∈ {0, 2}`, and the nonzero classes are pullbacks of `I_(1,1,0)(1) = χ(X) · 1` and of `I_(1,1,0)(δ)` with `deg δ = 2` (Kontsevich–Manin (2.9)–(2.10), p. 6, with the coefficient and the class computed in §3.4).
+- For `g ≥ 2` and `m ≥ 4`, `s + 2(g − 1)m ≥ 8(g − 1) > 6g − 6 = dim_ℝ M̄_(g,0)`, so `I_(g,n,0) = 0` for every `n` (Kontsevich–Manin 2.2.5, p. 6, where a nonzero class of genus `g ≥ 2` with `A = 0` needs `dim_ℂ X ≤ 3`).
 
 **Checks.**
 
 - `ℂP¹`, `n = 4`: `I_(0,4,0)(pt, 1, 1, 1) = 1` and `I_(0,4,0)(pt, pt, 1, 1) = 0` since `s = 4 > 2`.
 - `T²`, `(0, 3, 0)`, insertions `α, β, 1`: `∫ α ⌣ β = 1`; the genus-zero degree-zero operation sees the odd classes.
 - `g = 1`, `δ` of degree 2: `⟨I_(1,1,0)(δ)⟩ = −(1/24) ∫_X c_(m−1)(TX) ⌣ δ` as in §3.4; for `g ≥ 2` and `m ≥ 4`, `I_(g,0,0)(1) = 0` by degree.
+- `X = T² × ℂP³`, `m = 4`, `(g, n) = (2, 2)`, insertions `α, β` pulled back from `H¹(T²)` with `∫_(T²) α ⌣ β = 1`: `I_(2,2,0)(α, β)` has degree `2 + 8 = 10 = dim_ℝ M̄_(2,2)`, so the degree count on `M̄_(2,2)` alone allows a nonzero top class, and the fundamental-class identity of §5.2 does not apply since no insertion is `1`. It vanishes as the pullback of a class of degree `10 > 6` on `M̄_(2,0)`: the integrand needs `X`-degree `8`, so only the part of `c_8(𝔼₂^∨ ⊠ TX)` of complex `X`-degree `3` contributes, and its Hodge factor, of complex degree `5`, is pulled back from `M̄_(2,0)`, of complex dimension `3`. On `M̄_(2,2)`, of complex dimension `5`, a Hodge bundle not pulled back would leave this factor unconstrained by degree.
+- `X = ℂP²`, `(1, 2, 0)`: `I_(1,2,0)(H, H) = π^* I_(1,1,0)(H²) = 0` since `deg H² = 4 ∉ {0, 2}`, although its degree `4 = dim_ℝ M̄_(1,2)` allows a top class; `I_(1,2,0)(H, 1) = π^* I_(1,1,0)(H) = −3 π^* λ₁` from `∫_X c₁(Tℂ P²) ⌣ H = 3`, agreeing with the fundamental-class identity of §5.2 and with `⟨I_(1,1,0)(H)⟩ = −3/24 = −1/8` of §3.4.
 
-*Needs:* §3.3–§3.4, §2.2; CharacteristicClasses C3 item 2.
+*Needs:* §3.2–§3.4, §2.2; CharacteristicClasses C3 item 2; ComplexCurveModuli D7 item 1; AlgebraicTopology Stage 5 item 1.
 
 ### Examples
 
@@ -517,7 +526,7 @@ For `A = 0` compute every genus from the constant-map model of §3.3–§3.4 (Ko
 
 ### Dependencies
 
-Layers 1–3; AnalyticStableMaps §10.2, §11.1, §12.2; ImplicitAtlases §1.1, §5.2; ComplexCurveModuli D7; Orbifolds O5; CharacteristicClasses C3.
+Layers 1–3; AnalyticStableMaps §10.2, §11.1, §12.2; ImplicitAtlases §1.1, §5.2; ComplexCurveModuli D7; Orbifolds O5; CharacteristicClasses C3; AlgebraicTopology Stage 5.
 
 ## Layer 6: Splitting and genus reduction (G6)
 
@@ -800,7 +809,7 @@ Layers 0–2, 5–6; ComplexCurveModuli D5, D7; AnalyticStableMaps §9.1–§9.2
 
 ## References
 
-- M. Kontsevich and Yu. Manin, *Gromov–Witten classes, quantum cohomology, and enumerative geometry*, Comm. Math. Phys. 164 (1994), 525–562, [arXiv:hep-th/9402147v2](https://arxiv.org/abs/hep-th/9402147v2). Page numbers are those of the arXiv version. Cited for: Definition 2.2 and the properties 2.2.0 (effectivity), 2.2.1 (covariance) and 2.2.2 (grading, equation (2.2)), p. 4; basic classes (2.3) and codimension (2.4), p. 4; 2.2.3 fundamental class, equations (2.6)–(2.7), p. 5; 2.2.4 divisor, p. 5; 2.2.5 mapping to a point, equation (2.8), p. 5, and equations (2.9)–(2.10), p. 6, where the coefficient of (2.9) is corrected in §3.4; 2.2.6 splitting, equation (2.11), p. 6; 2.2.7 genus reduction, equation (2.12), p. 6; 2.2.8 motivic axiom, p. 6, outside this roadmap; 2.4.5 mapping to a point with the obstruction sheaf `E ⊠ TV` of rank `g · dim V`, p. 10; Theorem-Definition 4.5, p. 19, the quantum cohomology ring conditional on the axioms; Definition 6.1 with axioms 6.1.1–6.1.3, p. 31, the cohomological field theory without a unit.
+- M. Kontsevich and Yu. Manin, *Gromov–Witten classes, quantum cohomology, and enumerative geometry*, Comm. Math. Phys. 164 (1994), 525–562, [arXiv:hep-th/9402147v2](https://arxiv.org/abs/hep-th/9402147v2). Page numbers are those of the arXiv version. Cited for: Definition 2.2 (the domain `n + 2g − 3 ≥ 0`) and the properties 2.2.0 (effectivity), 2.2.1 (covariance) and 2.2.2 (grading, equation (2.2)), p. 4; basic classes (2.3) and codimension (2.4), p. 4; 2.2.3 fundamental class, equations (2.6)–(2.7), p. 5; 2.2.4 divisor, p. 5; 2.2.5 mapping to a point, equation (2.8), p. 5, and equations (2.9)–(2.10) with the vanishing in genus `g ≥ 2` for `dim_ℂ V ≥ 4`, p. 6, where the coefficient of (2.9) is corrected and the characteristic class of (2.10) computed in §3.4; 2.2.6 splitting, equation (2.11), p. 6; 2.2.7 genus reduction, equation (2.12), p. 6; 2.2.8 motivic axiom, p. 6, outside this roadmap; 2.4.5 mapping to a point with the obstruction sheaf `E ⊠ TV` of rank `g · dim V` and `E_(g,n)` pulled back from the signatures `(0, 3)`, `(1, 1)` and `(g, 0)`, p. 10; Theorem-Definition 4.5, p. 19, the quantum cohomology ring conditional on the axioms; Definition 6.1 with axioms 6.1.1–6.1.3, p. 31, the cohomological field theory without a unit.
 - M. Kontsevich and Yu. Manin, *Relations between the correlators of the topological sigma-model coupled to gravity*, Comm. Math. Phys. 196 (1998), [arXiv:alg-geom/9708024v1](https://arxiv.org/abs/alg-geom/9708024v1). Page numbers are those of the arXiv version. Cited for: §1.1, equations (1)–(2), p. 2, descendant and generalized correlators; Theorem 1.2, equation (4), p. 2, with its proof sketch, p. 3, the descendant–ancestor comparison; Corollary 1.3, equation (4a), p. 3, the three-point genus-zero recursion; equation (11), p. 5, the genus-zero ψ̄-integrals; Lemma 1.5.2, equation (12), p. 5, the divisor equation; Lemma 1.5.3, p. 6, the dilaton equation. All in the algebraic setting.
 - J. Kock, *Notes on psi classes*, preliminary version of 6 June 2001, author's page (https://mat.uab.cat/~kock/GW/notes/psi-notes.pdf). Cited for: Lemma 1.2.6, p. 10, restriction of cotangent lines to boundary divisors; the identity `ψ_i · D_(i,0) = 0` and Lemma 1.3.1, p. 12, the forgetful comparison; Lemma 1.4.2, p. 14, the string equation; Lemma 1.5.1 and 1.5.2, p. 15, the genus-zero integrals and boundary expression of `ψ̄₁`; 1.6.2, p. 16, the dilaton equation; (5.1.7.1)–(5.1.7.3), pp. 50–51, the stable-map analogues, stated in genus zero; Proposition 5.1.8 and Lemma 5.1.9, p. 51, the genus-zero boundary expression and descendant–ancestor comparison for stable maps; Lemma 5.2.1, p. 53, the splitting lemma. All in the algebraic setting.
 - P. Deligne and D. Mumford, *The irreducibility of the space of curves of given genus*, Publ. Math. IHÉS 36 (1969), 75–109, [Numdam](http://www.numdam.org/item/PMIHES_1969__36__75_0/). Cited for: §1, p. 77, facts b) and c) on the dualizing sheaf of a stable curve: the residue-matched differentials on the normalization with at most simple poles at the node branches, and the duality between `Hom(𝓕, ω_C)` and `H¹(C, 𝓕)`.
