@@ -62,7 +62,10 @@ The baseline is `2fd255d997f47c0b5d834ee416c7015d55444ce5`. Read declarations at
 - `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, in `TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, is the Zariski cohomology of a native module sheaf. `AlgebraicGeometry.Scheme.Modules.cohomologyBaseModule`, in `TauCeti/AlgebraicGeometry/Cohomology/Module/Base.lean`, restricts its global-function action to the specified base ring. A zero group is expressed by `Subsingleton`; finite-dimensionality is a separate conclusion in the Hodge-number theorem.
 - `TauCeti.AlgebraicGeometry.LineBundleClass`, `LineBundleClass.mk_eq_mk_iff`, `mk_tensorProduct` and `mk_eq_one_iff`, in `TauCeti/AlgebraicGeometry/LineBundle/Class.lean`, supply the global Picard class carrier and tensor/dual/trivial comparisons. The class is a skeleton of invertible sheaves, not an affine ring Picard group.
 - `TauCeti.AlgebraicGeometry.LineBundleClass.pullback`, `pullback_id` and `pullback_comp`, in `TauCeti/AlgebraicGeometry/LineBundle/Functoriality.lean`, give the pullback of a line-bundle class along a scheme morphism with its identity and composition laws. The Picard-faithfulness headline of §6.4a is stated on this map.
-- `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`, in `TauCeti/AlgebraicGeometry/LineBundle/Ample.lean`, is the ample predicate on a line-bundle class: the scheme is quasi-compact and every point lies in an affine nonvanishing locus of a global section of some positive power of the class (the structure's two fields at the pin, lines 71–77 of that file). It is the absolute notion on X, which for a finite-type k-scheme agrees with ampleness relative to Spec k (stacks-projective-morphisms Lemma 40.4, tag 01VT, line 4153). The projectivity headline of §1.3 is stated as the existence of an ample class; the file's `isAmple_one_iff` says the trivial class is ample exactly on a quasi-affine scheme.
+- `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`, in `TauCeti/AlgebraicGeometry/LineBundle/Ample.lean`, is the ample predicate on a line-bundle class: the scheme is quasi-compact and every point lies in an affine nonvanishing locus of a global section of some positive power of the class (the structure's two fields at the pin, lines 71–77 of that file). It is the absolute notion on X, which for a finite-type k-scheme agrees with ampleness relative to Spec k (stacks-projective-morphisms Lemma 40.4, tag 01VT, line 4153). The polarized finiteness headline of §5.3 and the ample vanishing headline of §7.4 are stated on this predicate, and the Checks of §1.3 use it; the file's `isAmple_one_iff` says the trivial class is ample exactly on a quasi-affine scheme.
+- `AlgebraicGeometry.Scheme.IsProjectiveOver`, in `TauCeti/AlgebraicGeometry/ProjectiveSpectrum/ProjectiveOver.lean` (line 57), is the class of schemes X over Spec R admitting a closed immersion over R into `Proj (Sym_R M)` for a finite R-module M; over a field this is a closed subscheme of a projective space over k, and the file's instance `IsProjectiveOver.isProper` gives properness. The projectivity headline of §1.3 is stated on this class.
+- `TauCeti.AlgebraicGeometry.InvertibleSheaf`, in `TauCeti/AlgebraicGeometry/LineBundle/Basic.lean` (line 119), is the full subcategory of invertible module sheaves on X, and `TauCeti.AlgebraicGeometry.LineBundleClass.mk`, in `LineBundle/Class.lean` (line 58), sends an invertible sheaf to its class. The ample vanishing headline of §7.4 is stated on an invertible sheaf whose class is ample.
+- `HomogeneousIdeal.quotientGrading`, in `TauCeti/RingTheory/GradedAlgebra/Homogeneous/Quotient.lean`, grades the quotient of a graded ring by a homogeneous ideal; `TauCeti/AlgebraicGeometry/ProjectiveSpectrum/PolynomialQuotient.lean` makes `Proj I.quotientGrading`, for a homogeneous ideal I of `R[X₀,…,Xₙ]`, a scheme over Spec R through `AlgebraicGeometry.Proj.toSpecCoeff` (the `Over` instance at line 47) and proves it proper (line 57). `AlgebraicGeometry.Proj.twistingSheaf`, in `TauCeti/AlgebraicGeometry/ProjectiveSpectrum/TwistingSheaf/Basic.lean` (line 254), is O(n) for n∈ℤ, whose sections are local fractions r/s with deg r = deg s + n, so O(1) is the hyperplane class and not its inverse. The quartic headline of §1.6 is stated on these carriers.
 - `TauCeti.IntegralLattice`, `IntegralLattice.ofSubmodule` and `integralForm_cast`, in `TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`, use a full finite ℤ-submodule of a rational vector space and an integral symmetric rational form. Nondegeneracy is a separate mixin. §4.2 supplies precisely the geometric instance.
 - `TauCeti.Model` and `TauCeti.Model.IsProper`, in `TauCeti/AlgebraicGeometry/Curves/StableReduction/Model/Basic.lean`, give a flat finitely presented DVR model with a specified generic-fibre isomorphism, and its separate properness predicate. Neither regularity, relative minimality nor smoothness of the generic fibre is a field of this carrier. The companion `TauCeti/AlgebraicGeometry/Curves/StableReduction/Model/BaseChange.lean` supplies `TauCeti.Model.baseChange` and `TauCeti.Model.baseChangeGenericFiberIso` for a `TauCeti.FiniteDVRExtension`; this is a finite DVR-extension API. NeronModelsAndSemistableAbelianVarietiesPartII §2.1 constructs the global-to-local adapter from a genus-one fibration to this carrier and compares it with this existing API; §6.0b consumes that adapter and does not construct it again.
 
@@ -258,7 +261,7 @@ Consume N8's explicit chart resolutions of the complex ADE hypersurfaces xy+z^(m
 
 ## How to read the build
 
-[Suggested.lean](Suggested.lean) is the acceptance test for the headline theorems against the pinned APIs. It states field-extension invariance, projectivity over the ground field, the vanishing and Hodge theorems, Picard finite freeness, rank bounds, bounded rank descent, the universal finite-subgroup bound, the wild-prime bound and rank-22 Picard faithfulness on native schemes, line-bundle classes and automorphism groups. Its module docstring identifies the missing carriers for the remaining geometric headlines. The README specifies every target, interface law and Check on the full K3, cohomology and moduli objects.
+[Suggested.lean](Suggested.lean) is the acceptance test for the headline theorems against the pinned APIs. It states field-extension invariance, projectivity over the ground field, the K3 property and Hilbert polynomial of a smooth quartic, the vanishing and Hodge theorems, Picard finite freeness, rank bounds, bounded rank descent, polarized automorphism finiteness, the universal finite-subgroup bound, the wild-prime bound, rank-22 Picard faithfulness and the vanishing of the higher cohomology of an ample line bundle, on native schemes, Proj of a graded quotient, line-bundle classes, invertible sheaves and automorphism groups. Its module docstring identifies the missing carriers for the remaining geometric headlines. The README specifies every target, interface law and Check on the full K3, cohomology and moduli objects.
 
 Layer 1 fixes the native surface predicate and integer RR conventions. Layer 2 constructs its Picard-space instance and proves the positive-characteristic vanishing and lifting floor. Layer 3 transports the supplied complex cup lattice to integral geometric étale cohomology. Layer 4 builds the geometric lattice instance and proves rank/descent bounds using the supplied general odd-prime congruence theorem. Layer 5 defines actual symplectic and polarized stabilizers and tests full-group infinitude. Layer 6 starts with discriminants, height and genus-one rank comparisons, then supplies quotient, faithfulness and finite-subgroup bounds; the involution pencil follows the fixed-point table. Layers 7–8 construct the all-prime Hilbert atlas and separated polarized stacks, then prove smoothness on its stated open base and finite-field finiteness. Each layer uses its predecessors and the exact supplier contracts. A gap specifies a mathematical theorem supplied by its named owner; it adds no hypothesis to a K3 surface.
 
@@ -309,17 +312,18 @@ Descent and base change handle relative smoothness, properness, dimension and ge
 
 ### 1.3 Projectivity over the original field
 
-Every K3 surface over an arbitrary field k is projective over k. (huybrechts, Chapter 1 Remark 1.2, p. 7; huybrechts line 147). `IsK3.projective` states this as the existence of an ample line-bundle class on X: for the proper k-scheme X an ample class is a class whose power is the hyperplane class of an immersion into some projective space over k, closed by properness, so the two formulations agree (stacks-projective-morphisms Lemma 40.4, tag 01VT, line 4153, and Lemma 44.13, tag 0BCL, line 4764).
+Every K3 surface over an arbitrary field k is projective over k. (huybrechts, Chapter 1 Remark 1.2, p. 7; huybrechts line 147). `IsK3.projective` states this as membership in Tau Ceti's `Scheme.IsProjectiveOver`: a closed immersion over k into `Proj (Sym_k V)` for a finite-dimensional k-vector space V, that is, into a projective space over k. For the proper k-scheme X this is equivalent to the existence of an ample line-bundle class on X: an ample class is a class whose power is the hyperplane class of an immersion into some projective space over k, closed by properness, and conversely the hyperplane class of a closed immersion is ample (stacks-projective-morphisms Lemma 40.4, tag 01VT, line 4153, and Lemma 44.13, tag 0BCL, line 4764).
 
 Apply the general smooth proper surface projectivity theorem required from the scheme owner, with relative smoothness of dimension 2 and geometric integrality supplied by 1.1. The supplier contract retains its full arbitrary-field surface statement and its modification/ample-support proof. Projectivity is not inferred merely from projectivity after algebraic closure.
 
 Over every algebraically closed k, in every characteristic including 2, construct the specialization equivalence between `IsK3 k f` and its Conventions' projective algebraic condition on the same f; that condition imposes no restriction on the characteristic, and only K0.A's vanishing theorem retains p>2. In the forward direction use projectivity and the native identification ∧²Ω¹≅ω; in the reverse direction forget projectivity to properness and use the same identification. Both composites are the identity on the underlying scheme and its isomorphisms. For k=ℂ, compose this adapter with K3Surfaces K1 to obtain its projective analytic object. The algebraization counit is an isomorphism over ℂ to the original X; transport along it identifies the canonical line, coherent cohomology and Picard classes with the originals. The adapter commutes with isomorphisms and field extension wherever both presentations apply. It makes no choice of σ; when a construction asks for σ, its possible choices form a kˣ-torsor. (huybrechts, Chapter 1 Definition 1.1, Remark 1.2 and Proposition 3.2, lines 135–153, 420–429.)
 
-*Needs:* §1.1; §1.2; `gap:surface-projectivity`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`; AlgebraicVectorBundles L0C; K3Surfaces Conventions, K0 and K1.
+*Needs:* §1.1; §1.2; `gap:surface-projectivity`; Tau Ceti `AlgebraicGeometry.Scheme.IsProjectiveOver`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`; AlgebraicVectorBundles L0C; K3Surfaces Conventions, K0 and K1.
 
 **Checks.**
 
-- A smooth quartic has O(1) as an ample witness: the nonvanishing locus of each coordinate section x_i is the affine open X∩{x_i≠0}, and the four cover X. It satisfies the native predicate rather than carrying an embedding as data.
+- A smooth quartic is projective over k through its closed immersion into ℙ³_k, the Proj of the symmetric algebra of k⁴; the statement is the existence of such an immersion, not a chosen one. Its O(1) is an ample witness for the equivalent formulation: the nonvanishing locus of each coordinate section x_i is the affine open X∩{x_i≠0}, and the four cover X.
+- The affine plane over k is not projective over k, although it carries the ample trivial class: a closed subscheme of a projective space is proper, and the affine plane is not. So the equivalence with ampleness needs properness, which the K3 predicate supplies.
 - The trivial class is never the ample witness: it is ample exactly on a quasi-affine scheme, and a K3 surface, proper of dimension 2 over k, is not quasi-affine. A definition that let the trivial class count would make the statement empty.
 - The argument is a surface theorem and does not assert projectivity of all smooth proper varieties.
 - Relative smoothness is retained over imperfect k; regularity alone is not the stated hypothesis.
@@ -356,16 +360,19 @@ Fix a k-ample H. A nontrivial L with L·H=0 has no section, nor does its inverse
 
 ### 1.6 Quartics over every field
 
-For every field k, a smooth quartic hypersurface X⊂P³_k is K3, with H=O_X(1), H²=4 and χ(O_X(t))=2t²+2 for all integers t. The Fermat quartic is smooth exactly when char k≠2. (huybrechts, Chapter 1 Example 1.3(i), p. 8; huybrechts lines 160–183).
+For every field k, a smooth quartic hypersurface X⊂P³_k is K3, with H=O_X(1), H²=4 and χ(O_X(t))=2t²+2 for all integers t. The Fermat quartic is smooth exactly when char k≠2. (huybrechts, Chapter 1 Example 1.3(i), p. 8; huybrechts lines 160–183). Define `quarticIdeal` as the homogeneous ideal of k[X₀,X₁,X₂,X₃] generated by a homogeneous quartic F; the quartic surface is the Proj of the graded quotient, a scheme over Spec k through the coefficient morphism. `isK3_quartic` states, for F whose Proj is smooth of relative dimension 2 over k, that this Proj satisfies `IsK3` and that the alternating sum of the k-dimensions of Hⁱ(X,O_X(t)), i=0,1,2, equals 2t²+2 for every integer t, with O_X(t) the twisting sheaf of the quotient grading. The relative-dimension hypothesis is the smoothness of the hypersurface: it excludes F=0, whose Proj is ℙ³_k. The self-intersection H²=4 is the one clause of this target not in the Lean statement.
 
 The hypersurface and conormal sequences compute H¹ and ω. Smooth geometric connectedness gives integrality. Bézout gives H², then RR gives the polynomial. Fermat partials are 4x_i³.
 
-*Needs:* §1.1; §1.4; `gap:hypersurface-cohomology`; SchemeAndStackFoundations §5.10; JacobianChallenge Layer C.
+*Needs:* §1.1; §1.4; `gap:hypersurface-cohomology`; SchemeAndStackFoundations §5.10; JacobianChallenge Layer C; Tau Ceti `HomogeneousIdeal.quotientGrading`, `AlgebraicGeometry.Proj.toSpecCoeff` and `AlgebraicGeometry.Proj.twistingSheaf`.
 
 **Checks.**
 
 - χ(O)=2 although h⁰(O)=1.
 - χ(H)=4.
+- F=0 is homogeneous of degree 4 and generates the zero ideal, whose Proj is ℙ³_k of relative dimension 3 with χ(O)=1; the relative-dimension-2 hypothesis excludes it, and a statement quantified over all homogeneous quartics would be false.
+- The twisting-sheaf convention is fixed by h⁰(O_X(1))=4 on a smooth quartic: the sections of O(1) are the four linear forms, so O(1) is the hyperplane class; the inverse convention would give h⁰=0 and Euler characteristic 4 at t=−1 read at t=1, which the polynomial 2t²+2 cannot distinguish, but h⁰ can.
+- Over any field, χ(O_X(t)) at t=1 and t=−1 are both 4, while h⁰(O_X(1))=4 and h⁰(O_X(−1))=0; the polynomial is even in t, the dimensions are not.
 - Over F₂ the equation is (Σx_i)⁴=0, a nonreduced thickening.
 - The ample quartic has positive dimension and is geometrically connected; the smooth ample divisor V(x₀x₁) in ℙ¹ consists of two points, so smoothness and ampleness without positive dimension do not suffice.
 
@@ -375,7 +382,7 @@ Smooth quartics, the empty scheme, P², and products of elliptic curves distingu
 
 ### Dependencies
 
-K3Surfaces Conventions, K0 and K1; Mathlib `AlgebraicGeometry.SmoothOfRelativeDimension`; Mathlib `AlgebraicGeometry.IsProper`; Mathlib `AlgebraicGeometry.GeometricallyIntegral`; Tau Ceti `AlgebraicGeometry.Scheme.relativeDifferentials`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`; AlgebraicVectorBundles L0C; SchemeAndStackFoundations §2.20; SchemeAndStackFoundations §0.11; SchemeAndStackFoundations §1.1; JacobianChallenge Layer C; `gap:surface-projectivity`; SchemeAndStackFoundations §5.8; SchemeAndStackFoundations §5.9; SchemeAndStackFoundations §5.10; `gap:hypersurface-cohomology`.
+K3Surfaces Conventions, K0 and K1; Mathlib `AlgebraicGeometry.SmoothOfRelativeDimension`; Mathlib `AlgebraicGeometry.IsProper`; Mathlib `AlgebraicGeometry.GeometricallyIntegral`; Tau Ceti `AlgebraicGeometry.Scheme.relativeDifferentials`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`; Tau Ceti `AlgebraicGeometry.Scheme.IsProjectiveOver`; Tau Ceti `HomogeneousIdeal.quotientGrading`, `AlgebraicGeometry.Proj.toSpecCoeff` and `AlgebraicGeometry.Proj.twistingSheaf`; AlgebraicVectorBundles L0C; SchemeAndStackFoundations §2.20; SchemeAndStackFoundations §0.11; SchemeAndStackFoundations §1.1; JacobianChallenge Layer C; `gap:surface-projectivity`; SchemeAndStackFoundations §5.8; SchemeAndStackFoundations §5.9; SchemeAndStackFoundations §5.10; `gap:hypersurface-cohomology`.
 
 ## Layer 2: Picard spaces, vanishing and lifting
 
@@ -708,15 +715,16 @@ Prove the following interface laws:
 
 ### 5.3 Finite étale polarized automorphism schemes
 
-For K3 X/k and ample L, the functor of k-scheme automorphisms preserving the relative Picard class of L is represented by a finite étale k-group scheme. The kernel of its action on the canonical section line is also a finite étale k-group scheme, with k-points exactly the symplectic polarized subgroup. Both k-point groups are finite. (huybrechts, Chapter 5 Proposition 3.3 and Remark 3.4, pp.91–92; huybrechts lines 3372, 3400; rizov Proposition 3.3.3 line 615).
+For K3 X/k and ample L, the functor of k-scheme automorphisms preserving the relative Picard class of L is represented by a finite étale k-group scheme. The kernel of its action on the canonical section line is also a finite étale k-group scheme, with k-points exactly the symplectic polarized subgroup. Both k-point groups are finite. (huybrechts, Chapter 5 Proposition 3.3 and Remark 3.4, pp.91–92; huybrechts lines 3372, 3400; rizov Proposition 3.3.3 line 615). `IsK3.polarizedAut_finite` states the k-point finiteness: for an ample line-bundle class a on X, the set of automorphisms of X over k whose pullback fixes a is finite. Pullback and inverse pullback have the same stabilizer, so the set is the k-point group of the polarized automorphism scheme.
 
 Use an embedding by a sufficiently high power of L and the graph Hilbert scheme to represent the stabilizer by a finite-type closed algebraic subgroup of PGL. Its tangent is H⁰(T_X)=0, hence it is unramified and dimension 0. A finite-type dimension 0 group scheme over a field with zero geometric tangent is finite étale. Intersect its k-points with the symplectic subgroup. The canonical section line defines an inverse-pullback group-scheme character by coherent base change. Its scheme-theoretic kernel is a closed subgroup of a finite étale k-scheme, hence finite étale, and recovers the symplectic polarized subgroup on k-points. Prove the symplectic finite étale kernel comparison with this comparison.
 
-*Needs:* §2.3; §5.2; SchemeAndStackFoundations §4.14.
+*Needs:* §2.3; §5.2; SchemeAndStackFoundations §4.14; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple` and `LineBundleClass.pullback`.
 
 **Checks.**
 
 - A polarized involution is retained as a nonidentity point.
+- With the trivial class in place of an ample one the set is all of Aut_k(X), which is infinite for the Wehler surface of §5.4; ampleness of a is what makes the statement nonvacuous and true.
 - Geometric automorphisms need not all be k-rational.
 - Zero tangent supplies étaleness even in characteristic 2.
 
@@ -741,7 +749,7 @@ Identity is symplectic; pullback composition reverses order. Polarized automorph
 
 ### Dependencies
 
-§1.2; §1.4; JacobianChallenge Layer C; AlgebraicVectorBundles L0C; §4.1; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`; §2.3; SchemeAndStackFoundations §4.14; §1.1; SchemeAndStackFoundations §2.23; SchemeAndStackFoundations §5.10; `gap:hypersurface-cohomology`; `gap:surface-quotient-resolutions`.
+§1.2; §1.4; JacobianChallenge Layer C; AlgebraicVectorBundles L0C; §4.1; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`; Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple` and `LineBundleClass.pullback`; §2.3; SchemeAndStackFoundations §4.14; §1.1; SchemeAndStackFoundations §2.23; SchemeAndStackFoundations §5.10; `gap:hypersurface-cohomology`; `gap:surface-quotient-resolutions`.
 
 ## Layer 6: Finite symplectic actions and universal bounds
 
@@ -1230,15 +1238,17 @@ Prove the following interface laws:
 
 ### 7.4 Polarized Hilbert polynomial and vanishing
 
-For K3 X/k and ample L with L²=2d, d>0, χ(L^t)=dt²+2 for every integer t, and Hⁱ(X,L^m)=0 for every i>0 and integer m>0. Consequently h⁰(L^m)=dm²+2 for m>0. (rizov, Theorem 1.2.2, p.4; rizov line 142; terakawa Theorem 1.6, pp.191–192, terakawa line 183).
+For K3 X/k and ample L with L²=2d, d>0, χ(L^t)=dt²+2 for every integer t, and Hⁱ(X,L^m)=0 for every i>0 and integer m>0. Consequently h⁰(L^m)=dm²+2 for m>0. (rizov, Theorem 1.2.2, p.4; rizov line 142; terakawa Theorem 1.6, pp.191–192, terakawa line 183). `IsK3.cohomology_ample_subsingleton` states the vanishing: for an invertible sheaf L on X whose class is ample, Hⁱ(X,L)=0 for every i>0. Each positive power L^m is an invertible sheaf with ample class, so the statement covers every m>0; the polynomial χ(L^t)=dt²+2 needs the surface pairing for d and is not in the Lean statement.
 
 After algebraic closure use the general adjoint vanishing theorem: K_X=0, X has Kodaira dimension 0, and mL is nef big. This is within Terakawa’s characteristic 2 domain. Descend cohomology and use integer RR. In characteristic zero use AlgebraicModuliForArithmeticGeometry §9.10 `algebraicAdjointVanishing` for the integral nef big divisor mL, whose fractional support is empty; in positive characteristic use Terakawa Theorem 1.6, since a K3 is neither general type nor quasi-elliptic of Kodaira dimension one.
 
-*Needs:* §1.4; `gap:adjoint-positivity`; AlgebraicModuliForArithmeticGeometry §9.10 `algebraicAdjointVanishing`; JacobianChallenge Layer C.
+*Needs:* §1.4; `gap:adjoint-positivity`; AlgebraicModuliForArithmeticGeometry §9.10 `algebraicAdjointVanishing`; JacobianChallenge Layer C; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`, `LineBundleClass.mk`, `LineBundleClass.IsAmple` and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 **Checks.**
 
 - At m=0, H²(O)=k, so the vanishing must exclude 0.
+- The trivial sheaf O_X has H²(O_X)=k of dimension 1; its class is not ample on the proper surface X, so the ampleness hypothesis excludes it.
+- At i=0 the statement would be false: h⁰(L)=d+2≥3 for ample L. The degree hypothesis i>0 is the content; for i≥3 the vanishing holds on every surface.
 - For d=2, h⁰(L),h⁰(L²),h⁰(L³) are 4, 10, 20.
 - χ(L⁻¹)=d+2, but negative powers are not asserted to have zero higher cohomology.
 
@@ -1305,7 +1315,7 @@ For degree 2d the polynomial is dt²+2. Cubing gives h⁰=9d+2 and projective di
 
 ### Dependencies
 
-§2.1; §4.1; §4.2; §1.5; JacobianChallenge Layer C; SchemeAndStackFoundations §0.9; AlgebraicModuliForArithmeticGeometry §7.6.1–§7.6.1a; ComplexComparisonPartII C3.2d.2–C3.2d.5; JacobianChallenge Layer D; §1.2; StableReduction Layer 2; SchemeAndStackFoundations §1.11; §1.4; `gap:adjoint-positivity`; AlgebraicModuliForArithmeticGeometry §9.10; SchemeAndStackFoundations §5.10; §1.1; SchemeAndStackFoundations §4.14; AlgebraicVectorBundles L0C.
+§2.1; §4.1; §4.2; §1.5; JacobianChallenge Layer C; SchemeAndStackFoundations §0.9; AlgebraicModuliForArithmeticGeometry §7.6.1–§7.6.1a; ComplexComparisonPartII C3.2d.2–C3.2d.5; JacobianChallenge Layer D; §1.2; StableReduction Layer 2; SchemeAndStackFoundations §1.11; §1.4; `gap:adjoint-positivity`; AlgebraicModuliForArithmeticGeometry §9.10; SchemeAndStackFoundations §5.10; §1.1; SchemeAndStackFoundations §4.14; AlgebraicVectorBundles L0C; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`, `LineBundleClass.mk`, `LineBundleClass.IsAmple` and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`.
 
 ## Layer 8: Separated moduli and arithmetic finiteness
 
