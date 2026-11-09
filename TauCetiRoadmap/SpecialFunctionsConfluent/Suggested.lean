@@ -13,12 +13,15 @@ one or more per layer. The definitive document is `README.md`, which states ever
 file states a selection of them, and discharging it finishes neither a layer nor the roadmap.
 
 Some headlines cannot be stated at the pins, because their carriers belong to roadmaps that are
-not yet in Tau Ceti: the continued fractions of 5.1 need `contFrac` of
-SpecialFunctionsEiLiErfIncompleteGamma §4.1, and the complex incomplete Gamma, `E_p` and `erfc`
-relations of 5.2 and 10.1 need the functions of that roadmap. Their real forms are stated through
+not yet in Tau Ceti: the complex incomplete Gamma, `E_p` and `erfc` relations of 5.2 and 10.1 need
+the functions of SpecialFunctionsEiLiErfIncompleteGamma, and 13.18.17 needs the Laguerre
+polynomials of LaguerreJacobi. Their real forms are stated through
 Tau Ceti's `TauCeti.Real.erfc` and `TauCeti.lowerIncompleteGamma`. The Airy, Bessel and parabolic
 cylinder relations are stated with roadmap-local copies of the pinned `Ai` of SpecialFunctionsAiry,
 `I_ν` and `K_ν` of SpecialFunctionsBessel and `U(a, z)` of SpecialFunctionsParabolicCylinder.
+QuantumFoundations §9.4 owns Tricomi's `U` but gives it no Lean name; `kummerU_eq_integral` states
+the agreement of `kummerU` with it through 13.4.4, its defining formula, and the results of §9.4
+(13.2.9–13.2.11, 13.2.34, 13.3.7 and `U ∼ z^{−a}` of 13.2.6) are inputs, not restated here.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 they live in `Complex`, beside Mathlib's `Complex.regularizedHGFun`; here they live in this file's
@@ -71,10 +74,11 @@ def kummerUBracket (a b w : ℂ) : ℂ :=
 
 open scoped Classical in
 /-- Kummer's function `U(a, b, e^w)` on the logarithmic plane: DLMF 13.2.42,
-`U = (π / sin πb) F`, off the integers, and its limit `(−1)ⁿ ∂_b F` at `b = n ∈ ℤ`. -/
+`U = (π / sin πb) F`, off the integers, and its limit `(−1)ⁿ ∂_b F` at `b = n ∈ ℤ`, with `(−1)ⁿ`
+written `cos(πb)`. -/
 def kummerULog (a b w : ℂ) : ℂ :=
-  if h : ∃ n : ℤ, (n : ℂ) = b then
-    (-1 : ℂ) ^ h.choose * deriv (fun β => kummerUBracket a β w) b
+  if ∃ n : ℤ, (n : ℂ) = b then
+    Complex.cos (π * b) * deriv (fun β => kummerUBracket a β w) b
   else (π : ℂ) / Complex.sin (π * b) * kummerUBracket a b w
 
 /-- The principal branch `U(a, b, z)`, holomorphic on the slit plane. -/
@@ -114,8 +118,8 @@ def besselI (ν z : ℂ) : ℂ := (z / 2) ^ ν * 𝐅(ν + 1) ((z / 2) ^ 2)
 open scoped Classical in
 /-- A roadmap-local copy of SpecialFunctionsBessel's pinned `K_ν`. -/
 def besselK (ν z : ℂ) : ℂ :=
-  if h : ∃ n : ℤ, (n : ℂ) = ν then
-    (-1 : ℂ) ^ (h.choose - 1) / 2 *
+  if ∃ n : ℤ, (n : ℂ) = ν then
+    -Complex.cos (ν * π) / 2 *
       (deriv (fun μ => besselI μ z) ν + deriv (fun μ => besselI μ z) (-ν))
   else (π : ℂ) / 2 * (besselI (-ν) z - besselI ν z) / Complex.sin (ν * π)
 
@@ -191,22 +195,18 @@ theorem differentiable_regularizedWhittakerMLog :
 
 /-! ### Layer 2: limiting forms at `0`, Wronskians and connection formulas -/
 
-/-- **2.1** `U(a, b, z) → Γ(1 − b)/Γ(a − b + 1)` as `z → 0` for `Re b < 1` (DLMF 13.2.20,
-13.2.22). -/
-theorem tendsto_kummerU_nhdsWithin_zero (a : ℂ) {b : ℂ} (hb : b.re < 1) (hb0 : b ≠ 0) :
+/-- **2.1** `U(a, b, z) → Γ(1 − b)/Γ(a − b + 1)` as `z → 0` for `Re b < 1` (DLMF 13.2.20–13.2.22;
+at `b = 0` the limit is `1/Γ(a + 1)` by 13.2.21). -/
+theorem tendsto_kummerU_nhdsWithin_zero (a : ℂ) {b : ℂ} (hb : b.re < 1) :
     Tendsto (kummerU a b) (𝓝[slitPlane] 0) (𝓝 (Gamma (1 - b) * (Gamma (a - b + 1))⁻¹)) :=
   sorry
-
-/-- **2.2** The Wronskian `𝒲{𝐌, U} = −z^{−b} e^z / Γ(a)` (DLMF 13.2.34). -/
-theorem wronskian_regularizedHGFun_kummerU (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    𝐌(a, b) z * deriv (kummerU a b) z - deriv 𝐌(a, b) z * kummerU a b z =
-      -(z ^ (-b) * cexp z * (Gamma a)⁻¹) := sorry
 
 /-- **2.3** Kummer's second transformation (DLMF 13.2.40). -/
 theorem kummerU_eq_cpow_mul_kummerU (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     kummerU a b z = z ^ (1 - b) * kummerU (a - b + 1) (2 - b) z := sorry
 
-/-- **2.3** The connection formula DLMF 13.2.41, upper sign, for every `z ≠ 0`. -/
+/-- **2.3** The connection formula DLMF 13.2.41, upper sign, for every `z ≠ 0`; QuantumFoundations
+§9.4 gives it for `−π < arg z < 0`. -/
 theorem regularizedHGFun_eq_kummerU_add (a b : ℂ) {z : ℂ} (hz : z ≠ 0) :
     𝐌(a, b) z =
       cexp (-(a * π * I)) * (Gamma (b - a))⁻¹ * kummerU a b z +
@@ -230,11 +230,6 @@ theorem whittakerW_eq_whittakerM_add (κ : ℂ) {μ : ℂ} (hμ : ∀ n : ℤ, 2
 theorem hasDerivAt_kummerU (a b : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     HasDerivAt (kummerU a b) (-a * kummerU (a + 1) (b + 1) z) z := sorry
 
-/-- **3.1** The contiguous relation in `a` (DLMF 13.3.7), for every `z ≠ 0`. -/
-theorem kummerU_sub_one_add (a b : ℂ) {z : ℂ} (hz : z ≠ 0) :
-    kummerU (a - 1) b z + (b - 2 * a - z) * kummerU a b z +
-        a * (a - b + 1) * kummerU (a + 1) b z = 0 := sorry
-
 /-! ### Layer 4: integral representations -/
 
 /-- **4.1** Euler's integral (DLMF 13.4.1). -/
@@ -244,7 +239,8 @@ theorem regularizedHGFun_eq_integral {a b : ℂ} (ha : 0 < a.re) (hab : a.re < b
         ∫ t in (0 : ℝ)..1, cexp (z * t) * (t : ℂ) ^ (a - 1) * (1 - (t : ℂ)) ^ (b - a - 1) :=
   sorry
 
-/-- **4.1** The Laplace integral of `U` (DLMF 13.4.4). -/
+/-- **4.1** The Laplace integral of `U` (DLMF 13.4.4). It is the defining formula of the `U` of
+QuantumFoundations §9.4, so this is the agreement of `kummerU` with that function. -/
 theorem kummerU_eq_integral {a : ℂ} (ha : 0 < a.re) (b : ℂ) {z : ℂ} (hz : 0 < z.re) :
     kummerU a b z =
       (Gamma a)⁻¹ *
@@ -260,7 +256,16 @@ theorem regularizedHGFun_neg_eq_barnes_integral {a : ℂ} (b : ℂ) {z : ℂ} (h
         ∫ y : ℝ, Gamma (a + (c + y * I)) * Gamma (-(c + y * I)) *
           (Gamma (b + (c + y * I)))⁻¹ * z ^ (c + y * I) := sorry
 
-/-! ### Layer 5: relations to other functions -/
+/-! ### Layer 5: continued fractions and relations to other functions -/
+
+/-- **5.1** The continued fraction DLMF 13.5.1 for `M(a, b, z)/M(a + 1, b + 1, z)`, with the
+partial numerators `u_{k+1} z` of DLMF 13.5.2. -/
+theorem tendsto_convs_regularizedHGFun_div {a b : ℂ} (hb : ∀ n : ℕ, b ≠ -n) {z : ℂ}
+    (hz : 𝐌(a + 1, b + 1) z ≠ 0) :
+    Tendsto (fun n => (⟨1, Stream'.Seq.ofStream fun k : ℕ =>
+        ⟨(if k % 2 = 0 then (a - b - (k / 2 : ℕ)) else (a + ((k + 1) / 2 : ℕ))) /
+          ((b + k) * (b + k + 1)) * z, 1⟩⟩ : GenContFract ℂ).convs n) atTop
+      (𝓝 (𝐌(a, b) z / (b * 𝐌(a + 1, b + 1) z))) := sorry
 
 /-- **5.2** The complementary error function (DLMF 13.6.8) at real argument. -/
 theorem kummerU_half_half_sq {x : ℝ} (hx : 0 < x) :
@@ -389,9 +394,12 @@ theorem parabolicCylinderU_eq_whittakerW (a : ℂ) {z : ℂ} (hz : 0 < z.re) :
 #check @_root_.Complex.regularizedHGFun_zero
 #check @_root_.Complex.regularizedHGFun_zero_zero
 #check @_root_.Complex.slitPlane
+#check @_root_.GenContFract
+#check @_root_.GenContFract.convs
 #check @_root_.Polynomial.hermite
 #check @_root_.Real.Gamma
 #check @_root_.Real.eulerMascheroniConstant
+#check @_root_.Stream'.Seq.ofStream
 #check @_root_.TauCeti.Real.erf
 #check @_root_.TauCeti.Real.erfc
 #check @_root_.TauCeti.lowerIncompleteGamma

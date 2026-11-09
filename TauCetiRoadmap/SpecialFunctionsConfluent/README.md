@@ -37,8 +37,8 @@ zeros, the integrals and the series; the formula ranges are in the table under
 groups:
 - material planned for follow-up roadmaps: chiefly the large-parameter and uniform expansions of
   §§13.8, 13.20 and 13.21 and what rests on them, and the formulas through the Gauss function off
-  its disk of convergence, the Laguerre and Charlier polynomials and the Coulomb functions, which
-  belong with roadmaps for DLMF Chapters 15, 18 and 33;
+  its disk of convergence, the Charlier polynomials and the Coulomb functions, which belong with
+  roadmaps for DLMF Chapters 15, 18 and 33;
 - material deferred without a planned roadmap: the error bounds and exponentially improved
   expansions of §13.7(ii)–(iii), the asymptotics of the complex zeros, the Whittaker transform and
   the applications and computation sections.
@@ -49,6 +49,13 @@ The general asymptotic and contour tools are consumed from
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) (DLMF Chapter 2): the expansion API,
 Watson's lemma and the rotation of the path, the Mellin tools and the regular and rank-one
 irregular singularities. Other functions are consumed as follows:
+- Tricomi's `U` from
+  [QuantumFoundations §9.4](../QuantumFoundations/README.md#94-kummer-and-tricomi-functions),
+  with its Laplace integral, its recurrence in `a`, its Wronskian with `𝐌`, the connection formula
+  with `𝐌`, its integer-`b` forms and its leading behaviour at infinity; 4.1 identifies this
+  roadmap's `U` with it;
+- the Laguerre polynomials and their orthogonality from
+  [LaguerreJacobi](../LaguerreJacobi/README.md);
 - Mathlib's `𝐌`, with Kummer's equation, its derivative, Kummer's transformation and its
   holomorphy in the parameters from
   [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md), which also
@@ -56,14 +63,14 @@ irregular singularities. Other functions are consumed as follows:
 - the incomplete Gamma, exponential integral and error functions and Pincherle's theorem from
   [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md);
 - the Airy functions from [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md);
-- the Bessel functions `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` from
+- the Bessel functions `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` and Sturm comparison from
   [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md).
 
-This roadmap builds the removable singularity in `b` behind the definition of `U` at integer `b`,
-the logarithmic coordinate on which `U` and `W_{κ,μ}` are entire, the loop contours of §13.4(ii),
-the coefficients of the Bessel-series expansions 13.11.3 and 13.24.2, and the zero-counting tools
-of Layer 7: Sturm comparison, continuity of zeros in the parameters and the positive zeros of the
-polynomials `M(−n, b, ·)`.
+This roadmap builds the bracket form 13.2.42 of `U`, with the removable singularity in `b` at
+integer `b`, and its agreement with the `U` of QuantumFoundations; the logarithmic coordinate on
+which `U` and `W_{κ,μ}` are entire; the loop contours of §13.4(ii); the coefficients of the
+Bessel-series expansions 13.11.3 and 13.24.2; and the zero-counting tools of Layer 7: continuity of
+zeros in the parameters and the positive zeros of the polynomials `M(−n, b, ·)`.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Confluent/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`, which this roadmap extends.
@@ -95,17 +102,17 @@ specified in the layers:
 
 | Formulas | Targets |
 |---|---|
-| 13.2.1 (for `U` and its branches), 13.2.5, 13.2.7–13.2.12, 13.2.42 | `U`: definition, equation, special cases, continuation (1.1–1.4). |
+| 13.2.1 (for `U` and its branches), 13.2.5, 13.2.7–13.2.8, 13.2.12, 13.2.42 | `U`: the bracket form, equation, special cases, continuation (1.1–1.4). |
 | 13.14.1–13.14.13 | Whittaker functions: definitions, equation, series, special cases, continuation (1.5). |
-| 13.2.13–13.2.22, 13.2.24–13.2.38, 13.2.40–13.2.41, 13.2.43–13.2.44 | Kummer: limiting forms at `0`, solution pairs, Wronskians, connection formulas (2.1–2.3). |
+| 13.2.13–13.2.22, 13.2.24–13.2.33, 13.2.35–13.2.38, 13.2.40–13.2.41, 13.2.43–13.2.44 | Kummer: limiting forms at `0`, solution pairs, Wronskians, connection formulas (2.1–2.3). |
 | 13.14.14–13.14.19, 13.14.22–13.14.35 | Whittaker: the same (2.4). |
-| 13.3.1–13.3.29, 13.15.1–13.15.26 | Recurrences and derivatives (Layer 3). |
-| 13.4.1–13.4.7, 13.4.9–13.4.11, 13.4.13–13.4.14, 13.4.16–13.4.18 | Kummer integral representations (4.1–4.3). |
+| 13.3.1–13.3.6, 13.3.8–13.3.29, 13.15.1–13.15.26 | Recurrences and derivatives (Layer 3). |
+| 13.4.1–13.4.3, 13.4.5–13.4.7, 13.4.9–13.4.11, 13.4.13–13.4.14, 13.4.16–13.4.18 | Kummer integral representations (4.1–4.3). |
 | 13.16.1–13.16.8, 13.16.10–13.16.12 | Whittaker integral representations (4.4). |
 | 13.5.1–13.5.4, 13.17.1–13.17.4 | Continued fractions (5.1). |
 | 13.6.1–13.6.11, 13.6.11_1, 13.6.11_2, 13.6.12–13.6.18, 13.6.21 (terminating cases) | Kummer: relations to other functions (5.2). |
-| 13.18.1–13.18.16 | Whittaker: relations to other functions (5.3). |
-| 13.2.6, 13.2.23, 13.7.1–13.7.3, 13.14.20–13.14.21, 13.19.1–13.19.3, 13.8.1, 13.20.1 | Large argument; large `b`, large `μ` (Layer 6). |
+| 13.18.1–13.18.17 | Whittaker: relations to other functions (5.3). |
+| 13.2.6 (the uniqueness statement), 13.2.23, 13.7.1–13.7.3, 13.14.20–13.14.21, 13.19.1–13.19.3, 13.8.1, 13.20.1 | Large argument; large `b`, large `μ` (Layer 6). |
 | 13.9.1–13.9.7, 13.9.11–13.9.15 | Real zeros, zero counts and zero-free regions (Layer 7). |
 | 13.10.1–13.10.2, 13.10.4–13.10.6, 13.10.8–13.10.16 | Kummer integrals (8.1–8.2). |
 | 13.23.1–13.23.3, 13.23.5–13.23.12 | Whittaker integrals (8.3). |
@@ -131,7 +138,17 @@ not targets; the targets are the remaining cases. The inputs are:
   ([SpecialFunctionsEiLiErfIncompleteGamma §2.2](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#22-kummer-representations));
 - 13.6.7, which is DLMF 7.11.4
   ([SpecialFunctionsEiLiErfIncompleteGamma §11.4](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#114-series-derivatives-and-hypergeometric-forms))
-  with `M(½, 3/2, ·) = Γ(3/2) 𝐌(½, 3/2, ·)`.
+  with `M(½, 3/2, ·) = Γ(3/2) 𝐌(½, 3/2, ·)`;
+- from [QuantumFoundations §9.4](../QuantumFoundations/README.md#94-kummer-and-tricomi-functions):
+  Tricomi's `U(a, b, z)`, defined there by the Laplace integral 13.4.4 for `Re a > 0`, `Re z > 0`
+  and continued to the logarithmic plane, entire in `a` and `b`; the recurrence 13.3.7; the
+  Wronskian 13.2.34; the connection formula 13.2.41 with the upper signs for `−π < ph z < 0` and
+  the lower signs for `0 < ph z < π`; the integer-`b` forms 13.2.9–13.2.11; and
+  `U(a, b, z) ∼ z^{−a}` in `|ph z| ≤ 3π/2 − δ` with its derivatives, which is 13.2.6 without its
+  uniqueness statement. They hold for `kummerULog` through the agreement of 4.1;
+- 13.6.19, `L_n^{(α)}(z) = ((α + 1)_n/n!) M(−n, α + 1, z)` for `α + 1 ∉ {0, −1, …}`
+  (QuantumFoundations §9.4, with LaguerreJacobi's `Polynomial.laguerre`); its first equality is
+  13.2.7.
 
 13.6.9 and 13.6.10 are DLMF 10.39.5 and 10.39.6 rearranged; 10.39.5 is a target of
 SpecialFunctionsBessel (its 4.3) and is consumed for 13.6.9, and 10.39.6 is a target here (10.2).
@@ -143,10 +160,10 @@ Ceti nor a consumed roadmap provides:
 |---|---|
 | The bracket `F(a, b, z) = 𝐌(a, b, z)/Γ(a − b + 1) − z^{1−b} 𝐌(a − b + 1, 2 − b, z)/Γ(a)` vanishes at integer `b`, so that `π F / sin(πb)` has removable singularities there with value `(−1)ⁿ ∂_b F` | 1.1 |
 | Uniqueness for Kummer's equation on the slit plane given value and derivative at one point | 1.2 |
+| Agreement with QuantumFoundations §9.4: for `Re a > 0` and `Re z > 0`, `kummerU a b z` is the integral 13.4.4 (`kummerU_eq_integral`), which defines §9.4's `U(a, b, z)` there; hence `kummerULog a b w` is §9.4's `U(a, b, e^w)` for all `a`, `b`, `w`, by the identity theorem in `w` and then in `a` | 4.1 |
 | The loop contours of §13.4(ii) as explicit concatenations of segments, rays and circles, with the branch of each power fixed on each piece, and the deformation lemma that moves them | 4.2 |
-| Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous `q₁ ≤ q₂`, between two consecutive zeros of a nontrivial real solution of `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` has a zero, unless `q₁ = q₂` and `v` is a multiple of `u`; and the zeros of a nontrivial real solution are simple and isolated | 7.1 |
 | Continuity of zeros in the parameters: for real solutions `w(λ, x)` jointly `C¹` in `(λ, x)`, with simple zeros, the number of zeros in `(0, X)` is locally constant in `λ` as long as no zero reaches `0` or `X`; and the counting form used for 13.9.1–13.9.7, in which the number of zeros in `(0, ∞)` changes only through a zero leaving at `0` or arriving from `∞` | 7.1 |
-| For `b > 0` and `n ≥ 1`, `M(−n, b, ·)` (and `U(−n, b, ·) = (−1)ⁿ (b)ₙ M(−n, b, ·)`) has exactly `n` positive zeros, all simple: the polynomials `M(−n, b, ·)` are orthogonal for the weight `x^{b−1} e^{−x}` on `(0, ∞)`, by the self-adjoint form of Kummer's equation | 7.1 |
+| For `b > 0` and `n ≥ 1`, `M(−n, b, ·)` (and `U(−n, b, ·) = (−1)ⁿ (b)ₙ M(−n, b, ·)`) has exactly `n` positive zeros, all simple: by 13.6.19 it is a nonzero multiple of `L_n^{(b−1)}`, which is orthogonal to every polynomial of lower degree for the weight `x^{b−1} e^{−x}` on `(0, ∞)` (LaguerreJacobi B3), so it changes sign at `n` points of `(0, ∞)` | 7.1 |
 | The coefficients `A_n` of 13.11.4 and the polynomials `p_s^{(μ)}(z)` of 13.24.3 | 9.1, 9.4 |
 
 **What it does not own:**
@@ -154,6 +171,11 @@ Ceti nor a consumed roadmap provides:
   Laplace integrals, the Mellin tools and the regular and rank-one irregular singularities. They
   are consumed from AsymptoticExpansions; see [Exact supplier contracts](#exact-supplier-contracts).
 - The regularized Kummer function `𝐌` and the facts listed above as inputs.
+- Tricomi's `U` as QuantumFoundations §9.4 constructs it, with the results of §9.4 listed above
+  as inputs. This roadmap's `kummerULog` is identified with it in 4.1.
+- The Laguerre polynomials `L_n^{(α)}` and their orthogonality, consumed from LaguerreJacobi, and
+  13.6.19, consumed from QuantumFoundations §9.4.
+- Sturm comparison, consumed from SpecialFunctionsBessel.
 - Weber's parabolic cylinder function `U(a, z)`, consumed from SpecialFunctionsParabolicCylinder.
 - The incomplete Gamma functions, `E_p`, `E₁`, the auxiliary functions `f`, `g` of the sine and
   cosine integrals, `erf`, `erfc`, the repeated integrals `iⁿ erfc` and Pincherle's theorem,
@@ -162,9 +184,9 @@ Ceti nor a consumed roadmap provides:
 - `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` and their own formulas, among them 10.16.5 and 10.39.5,
   consumed from SpecialFunctionsBessel.
 - The formulas through the Gauss function `₂F₁` at arguments outside its disk of convergence
-  (DLMF 13.4.8, 13.4.12, 13.4.15, 13.10.3, 13.10.7, 13.16.9, 13.23.4), through the Laguerre and
-  Charlier polynomials (13.6.19–13.6.20, 13.18.17), through the Coulomb functions (§13.6(vii),
-  §13.18(vi)), and the non-terminating meaning of `₂F₀` in 13.6.21.
+  (DLMF 13.4.8, 13.4.12, 13.4.15, 13.10.3, 13.10.7, 13.16.9, 13.23.4), through the Charlier
+  polynomials (13.6.20), through the Coulomb functions (§13.6(vii), §13.18(vi)), and the
+  non-terminating meaning of `₂F₀` in 13.6.21.
 - The large-parameter and uniform expansions (DLMF 13.8.2–13.8.18, §13.20 beyond 13.20.1, §13.21)
   and what rests on them (13.9.8, 13.9.10, 13.9.16, 13.22.1).
 - The error bounds and exponentially improved expansions (DLMF 13.7.4–13.7.13), the asymptotics of
@@ -173,19 +195,22 @@ Ceti nor a consumed roadmap provides:
 
 See the last section for these.
 
-**Coordination with other roadmaps.** No open roadmap pull request specifies Kummer's `U` or the
-Whittaker functions of DLMF Chapter 13; the automorphic roadmaps that mention Whittaker models mean
-the representation-theoretic notion. The roadmaps of DLMF Chapters 2, 6–10 and 12 leave the
-formulas listed in Layer 10 to this roadmap, and this roadmap consumes their functions without
-restating them.
+**Ownership of `U`.** QuantumFoundations §9.4 owns Tricomi's `U` and the results listed above as
+inputs. This roadmap owns the bracket form 13.2.42 of `U`, its agreement with §9.4's `U` (4.1),
+and the rest of DLMF Chapter 13 stated through `U`, among them 13.2.41 on the rest of `z ≠ 0` and
+the expansion 13.7.3 to every order. The Whittaker models of the automorphic roadmaps are the
+representation-theoretic notion, not the functions of §13.14. The roadmaps of DLMF Chapters 2,
+6–10 and 12 leave the formulas listed in Layer 10 to this roadmap, and this roadmap consumes their
+functions without restating them.
 
-**The boundary in one sentence:** this roadmap owns `U`, `M_{κ,μ}`, `W_{κ,μ}` and everything in
-DLMF Chapter 13 stated through them, `𝐌` and functions that Mathlib, Tau Ceti or a consumed roadmap
-defines, on the principal sheet and on the logarithmic plane, together with the formulas that the
-roadmaps of Chapters 6–10 and 12 leave to it; it consumes the general methods of
-AsymptoticExpansions and the basic `𝐌` theory of SpecialFunctionsParabolicCylinder, and excludes
-the large-parameter and uniform asymptotics, the Gauss function off its disk, the Laguerre,
-Charlier and Coulomb functions, error bounds, transforms and numerics.
+**The boundary in one sentence:** this roadmap owns the bracket form of `U` and its agreement with
+the `U` of QuantumFoundations, `M_{κ,μ}`, `W_{κ,μ}` and everything in DLMF Chapter 13 stated through
+them, `𝐌` and functions that Mathlib, Tau Ceti or a consumed roadmap defines, on the principal
+sheet and on the logarithmic plane, together with the formulas that the roadmaps of Chapters 6–10
+and 12 leave to it; it consumes the general methods of AsymptoticExpansions, the basic `𝐌` theory
+of SpecialFunctionsParabolicCylinder and the basic `U` theory of QuantumFoundations, and excludes
+the large-parameter and uniform asymptotics, the Gauss function off its disk, the Charlier and
+Coulomb functions, error bounds, transforms and numerics.
 
 ## Conventions
 
@@ -213,12 +238,15 @@ U(a, b, e^w) = (π / sin πb) F(a, b, w)                     b ∉ ℤ     (DLMF
 U(a, n, e^w) = (−1)ⁿ ∂_b F(a, b, w)|_{b=n}                 n ∈ ℤ
 ```
 
-  This is `Complex.kummerULog a b w`. `Γ⁻¹` is Mathlib's `(Complex.Gamma ·)⁻¹`, which is `0` at
-  the poles, so `F` is entire in `(a, b, w)`. The integer case is selected by
-  `∃ n : ℤ, (n : ℂ) = b`, and `∂_b` is `deriv` in `b` at fixed `a`, `w`. DLMF takes the limit at
-  integer `b`; 1.1 proves that `F` vanishes there and that the two cases glue to an entire
+  This is `Complex.kummerULog a b w`. `Γ⁻¹` is Mathlib's `(Complex.Gamma ·)⁻¹`, which is `0` at the
+  poles, so `F` is entire in `(a, b, w)`. The integer case is selected by `∃ n : ℤ, (n : ℂ) = b`,
+  `(−1)ⁿ` is written `cos(πb)`, and `∂_b` is `deriv` in `b` at fixed `a`, `w`. DLMF takes the limit
+  at integer `b`; 1.1 proves that `F` vanishes there and that the two cases glue to an entire
   function, so the derivative form is that limit. The principal branch is
-  `Complex.kummerU a b z = Complex.kummerULog a b (Complex.log z)`.
+  `Complex.kummerU a b z = Complex.kummerULog a b (Complex.log z)`. QuantumFoundations §9.4
+  constructs the same function from the Laplace integral 13.4.4 and continuation, and 4.1 proves
+  that the two agree. When §9.4's `U` is in Tau Ceti under a Lean name, Tau Ceti uses it, and the
+  bracket form becomes a theorem.
 - **Whittaker functions.** With principal powers on the slit plane and `e^{(½+μ)w}` on the
   logarithmic plane:
 
@@ -309,6 +337,23 @@ The following are consumed with the hypotheses and conventions stated there.
   ([its Conventions](../SpecialFunctionsParabolicCylinder/README.md#conventions)), for
   13.6.12–13.6.15, 13.18.11–13.18.13 and 12.7.14.
 
+### From [QuantumFoundations](../QuantumFoundations/README.md)
+
+- Tricomi's `U(a, b, z)` of
+  [§9.4](../QuantumFoundations/README.md#94-kummer-and-tricomi-functions) with the results listed
+  as inputs under [Scope and ownership](#scope-and-ownership): the Laplace integral 13.4.4 that
+  defines it for `Re a > 0`, `Re z > 0`, its continuation to the logarithmic plane, entire in `a`
+  and `b`, 13.3.7, 13.2.34, 13.2.41, 13.2.9–13.2.11 and `U ∼ z^{−a}` in `|ph z| ≤ 3π/2 − δ` with
+  its derivatives, for 4.1 (the agreement) and, through it, 1.3, 2.1–2.3, 3.1 and 6.1. §9.4 gives
+  `U` no Lean name, so the agreement is stated through 13.4.4, its defining formula.
+- The Laguerre comparison 13.6.19 for `α + 1 ∉ {0, −1, …}`, for 5.3 and 7.1.
+
+### From [LaguerreJacobi](../LaguerreJacobi/README.md)
+
+- `Polynomial.laguerre` (A1) and the orthogonality
+  `Polynomial.integral_laguerre_mul_laguerre_laguerreMeasure` for `−1 < α` (B3), for 13.18.17 in
+  5.3 and the zeros of the polynomials `M(−n, b, ·)` in 7.1.
+
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
 - Pincherle's theorem and the continued-fraction conventions `contFrac`, `IsMinimalSolution`,
@@ -335,6 +380,9 @@ The following are consumed with the hypotheses and conventions stated there.
   the Kummer form 10.39.5 of `I_ν` (its 4.3) and the integral 10.32.9 of `K_ν` (its 3.1), for
   13.4.3, 13.4.7, 13.6.9–13.6.11_2, 13.10.8–13.10.9, 13.10.13–13.10.16, 13.11.1–13.11.3,
   13.16.3–13.16.4, 13.16.8, 13.18.8–13.18.9, 13.23.6–13.23.12, 13.24.1–13.24.2 and 10.2.
+- Sturm comparison, an auxiliary target of
+  [its 7.1](../SpecialFunctionsBessel/README.md#71-reality-simplicity-and-enumeration), for the
+  zero counts of 7.1.
 
 ### From Tau Ceti
 
@@ -361,7 +409,7 @@ The following are consumed with the hypotheses and conventions stated there.
   function `Complex.regularizedGaussHGFun` with
   `Complex.radius_regularizedGaussHGFunSeries_eq_top_of_left` and
   `Complex.radius_regularizedGaussHGFunSeries_ge_one`, for the terminating and in-disk Gauss
-  values of 13.14.6, 13.23.1 and 13.23.9–13.23.12.
+  values of 13.14.6 and 13.23.1.
 - **Bessel function.** `Complex.besselJ` and `Complex.besselJ_def`.
 - **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`,
   `Complex.Gamma_eq_integral`, `Complex.Gamma_neg_nat_eq_zero`, `Complex.betaIntegral`,
@@ -372,7 +420,8 @@ The following are consumed with the hypotheses and conventions stated there.
   `Complex.differentiableOn_update_limUnder_of_bddAbove`, the Cauchy integral formula and
   `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
 - **Integration and transforms.** `MeasureTheory.integral` on `Set.Ioi`, `intervalIntegral`,
-  Fubini, parametric differentiation, `mellin` and `GenContFract`.
+  Fubini, parametric differentiation and `mellin`.
+- **Continued fractions.** `GenContFract`, `GenContFract.convs` and `Stream'.Seq.ofStream`.
 - **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded`,
   `Complex.arg`, `Complex.log` and `Complex.cpow`.
 
@@ -380,24 +429,27 @@ The following are consumed with the hypotheses and conventions stated there.
 
 Layer 1 rests on two facts: `𝐌` is entire in all three variables (consumed), and the bracket `F`
 vanishes at integer `b` by 13.2.5, so that `U` is entire in `a`, `b` and in the logarithmic
-coordinate `w`. Kummer's equation for `U` follows from that of `𝐌` and of `z^{1−b} 𝐌(a − b + 1,
-2 − b, z)`, which is the change of variables 13.2.40 applied to 13.2.1, and from continuity in `b`
-at the integers. Every identity between solutions in Layers 1–5 is then checked on series
-coefficients at `0`, by comparing Wronskians, or for non-integer `b` and extended to integer `b` by
-continuity in `b`. Layer 4 proves each integral representation by showing that the integral solves
-Kummer's equation with the right behaviour at `0` or `∞`, or by termwise integration of the series.
-Layer 6 expands the Laplace form 13.4.4 of `U` by Watson's lemma, rotates the path, and transfers
-the result to `𝐌` by the connection formula 13.2.41. Layer 7 counts real zeros by Sturm's
-comparison on the self-adjoint form of Kummer's equation and continuity in the parameters. Layers
-8–9 apply Layers 1–6. Layer 10 proves the relations owed to other roadmaps. The `### Examples` of
-each layer are statements to prove, and they test the conventions on explicit values.
+coordinate `w`. Kummer's equation for `U` follows from that of `𝐌` and of
+`z^{1−b} 𝐌(a − b + 1, 2 − b, z)`, which is the change of variables 13.2.40 applied to 13.2.1, and
+from continuity in `b` at the integers. 4.1 identifies this `U` with that of QuantumFoundations §9.4
+through 13.4.4, so that §9.4's results hold for it. Every identity between solutions in Layers 1–5
+is then checked on series coefficients at `0`, by comparing Wronskians, or for non-integer `b` and
+extended to integer `b` by continuity in `b`. Layer 4 proves each integral representation by showing
+that the integral solves Kummer's equation with the right behaviour at `0` or `∞`, or by termwise
+integration of the series. Layer 6 expands the Laplace form 13.4.4 of `U` by Watson's lemma, rotates
+the path, and transfers the result to `𝐌` by the connection formula 13.2.41. Layer 7 counts real
+zeros by Sturm comparison (from SpecialFunctionsBessel) on the self-adjoint form of Kummer's
+equation and continuity in the parameters. Layers 8–9 apply Layers 1–6. Layer 10 proves the
+relations owed to other roadmaps. The `### Examples` of each layer are statements to prove, and they
+test the conventions on explicit values.
 
 ## Layer 1: definitions, the equations and analytic continuation
 
 ### 1.1 Kummer's `U`
 
 `kummerULog` and `kummerU` as pinned. The targets:
-- the bracket `F(a, b, w)` vanishes at `b = n ∈ ℤ` for all `a`, `w`: for `n ≥ 2` by 13.2.5 for
+- the bracket `F(a, b, w)` (`kummerUBracket`) vanishes at `b = n ∈ ℤ` for all `a`, `w`
+  (`kummerUBracket_intCast`): for `n ≥ 2` by 13.2.5 for
   `𝐌(a − n + 1, 2 − n, ·)`, with `e^{(1−n)w} e^{(n−1)w} = 1`; for `n ≤ 0` by 13.2.5 for
   `𝐌(a, n, ·)`; and at `n = 1` the two terms coincide;
 - `(a, b, w) ↦ kummerULog a b w` is holomorphic on `ℂ × ℂ × ℂ` (`differentiable_kummerULog`),
@@ -411,7 +463,7 @@ each layer are statements to prove, and they test the conventions on explicit va
 
 The proof of the equation for non-integer `b` is the equation for the two terms of `F`; at integer
 `b` it follows by continuity in `b`, since the `z`-derivatives of a function holomorphic in
-`(b, z)` are continuous in `b`.
+`(b, z)` are continuous in `b`. The agreement with the `U` of QuantumFoundations §9.4 is in 4.1.
 
 **Checks.**
 - `U(1, 1, 1) = e E₁(1) = 0.59634 73623…` (13.6.6 at `a = 1`).
@@ -434,21 +486,19 @@ Wronskians 13.2.33–13.2.34 (2.2) do not vanish.
 
 ### 1.3 Special cases
 
-DLMF 13.2.5 and 13.2.7–13.2.11, with DLMF's hypotheses:
+DLMF 13.2.5 and 13.2.7–13.2.8, with DLMF's hypotheses:
 - 13.2.5: `𝐌(a, −n, z) = ((a)_{n+1}/(n + 1)!) z^{n+1} M(a + n + 1, n + 2, z)` for every `a`
   (`regularizedHGFun_neg_nat`); the limit form on the left is the continuity of `𝐌` in `b`;
 - 13.2.7: `U(−m, b, z) = (−1)^m (b)_m M(−m, b, z) = (−1)^m ∑_{s≤m} C(m, s) (b + s)_{m−s} (−z)^s`,
   the middle form for `b ∉ {0, −1, …}` and the sum for every `b` (`kummerU_neg_nat`);
 - 13.2.8 for `a − b + 1 = −n`: the sum `z^{−a} ∑_{s≤n} C(n, s) (a)_s z^{−s}` for every `a`, and
-  the middle form where `1 − a − n ∉ {0, −1, …}`;
-- 13.2.9 for `b = n + 1` and `a ∉ {0, −1, …}`, the logarithmic series; 13.2.10 for `b = n + 1`
-  and `a = −m`;
-- 13.2.11: `U(a, −n, z) = z^{n+1} U(a + n + 1, n + 2, z)`, the case `b = −n` of 13.2.40.
+  the middle form where `1 − a − n ∉ {0, −1, …}`.
 
-The logarithmic series 13.2.9 is `(−1)^{n+1} ∂_b F` evaluated termwise: the derivative of
-`e^{(1−b)w}` gives the `ln z` and the derivatives of `Γ⁻¹` and `(b)_k⁻¹` give the digamma terms.
+The integer-`b` forms 13.2.9–13.2.11 (the logarithmic series for `b = n + 1`, its polynomial case
+`a = −m`, and `U(a, −n, z) = z^{n+1} U(a + n + 1, n + 2, z)`) are inputs from QuantumFoundations
+§9.4, through 4.1.
 
-*Needs:* 1.1; Mathlib `Complex.digamma` and `Complex.regularizedHGFunCoeff_eq_zero_right`.
+*Needs:* 1.1; Mathlib `Complex.regularizedHGFunCoeff_eq_zero_right`.
 
 ### 1.4 Analytic continuation
 
@@ -460,9 +510,10 @@ U(a, b, e^{w + 2mπi}) = (2πi e^{−πibm} sin(πbm) / (Γ(1 + a − b) sin πb
 ```
 
 for `b ∉ ℤ` (`kummerULog_add_two_pi_mul_I`). At `b = n ∈ ℤ` the coefficient of `𝐌` is its limit
-`2πi m (−1)ⁿ/Γ(1 + a − n)`, since `sin(πbm)/sin(πb) → m (−1)^{n(m−1)}`, and `e^{−2πinm} = 1`. On
-the slit plane `kummerU` is the branch `m = 0`. The proof: `𝐌(a, b, e^w)` is `2πi`-periodic in `w`
-and `e^{(1−b)w}` gains `e^{−2πibm}`; the integer case follows by continuity in `b`.
+`2πi m (−1)ⁿ/Γ(1 + a − n)` (`kummerULog_intCast_add_two_pi_mul_I`), since
+`sin(πbm)/sin(πb) → m (−1)^{n(m−1)}`, and `e^{−2πinm} = 1`. On the slit plane `kummerU` is the
+branch `m = 0`. The proof: `𝐌(a, b, e^w)` is `2πi`-periodic in `w` and `e^{(1−b)w}` gains
+`e^{−2πibm}`; the integer case follows by continuity in `b`.
 
 **Checks.**
 - At `a = 0.3`, `b = 0.45`, `z = 1.1 + 0.7i` and `m = 1`, both sides of 13.2.12 equal
@@ -487,12 +538,16 @@ DLMF 13.14.1–13.14.13:
 - 13.14.10–13.14.13, the continuation in logarithmic coordinates; 13.14.10 and 13.14.11 for
   `𝐌_{κ,μ}` follow from `e^{(½+μ)(w ± πi)}` and 13.2.39;
 - `(κ, μ, w) ↦ regularizedWhittakerMLog κ μ w` and `whittakerWLog κ μ w` are entire, as DLMF
-  states after 13.14.13.
+  states after 13.14.13 (`differentiable_regularizedWhittakerMLog`).
 
 **Checks.**
-- `W_{0,1/2}(1) = e^{−1/2} = 0.60653 06597…` (13.18.2 at `κ = ½`, through `U(0, 2, z) = 1`).
-- 13.14.10 at `κ = 0`, `μ = ½`, upper sign: `M_{0,1/2}(z e^{πi}) = i e^{πi/2} M_{0,1/2}(z) =
-  −M_{0,1/2}(z)`, consistent with `M_{0,1/2}(2z) = 2 sinh z` (13.18.1) and `sinh(−z) = −sinh z`.
+- `W_{0,1/2}(2) = e^{−1} = 0.36787 94412…` (13.18.2 at `κ = 0`, through `U(1, 2, z) = z^{−1}`),
+  while the swapped `W_{1/2,0}(2) = √2 e^{−1} = 0.52026 00950…`.
+- 13.18.1 at `z = 0.6 + 0.3i`: both `M_{0,1/2}(2z)` and `2 sinh z` equal
+  `1.21643 67959… + 0.70065 78526… i`.
+- 13.14.10 at `κ = 0`, `μ = ½`, upper sign:
+  `M_{0,1/2}(z e^{πi}) = i e^{πi/2} M_{0,1/2}(z) = −M_{0,1/2}(z)`, consistent with
+  `M_{0,1/2}(2z) = 2 sinh z` (13.18.1) and `sinh(−z) = −sinh z`.
 
 *Needs:* 1.1–1.4; SpecialFunctionsParabolicCylinder §1.4.
 
@@ -513,26 +568,28 @@ SpecialFunctionsParabolicCylinder Layer 1; AsymptoticExpansions §10.2.
 DLMF 13.2.13–13.2.22 along `𝓝[slitPlane] 0`, each with DLMF's case distinction: 13.2.14–13.2.15
 when `a = −n` or `a = −n + b − 1`, and 13.2.16–13.2.22 in all other cases, split by `Re b`. The
 `O`-terms are `Asymptotics.IsBigO` along `𝓝[≠] 0 ⊓ 𝓟 slitPlane`; 13.2.17, 13.2.19 and 13.2.21
-contain `ln z`. The proof is the definition 13.2.42 for `b ∉ ℤ` and the logarithmic series 13.2.9
-at integer `b`.
+contain `ln z`. For example, `U(a, b, z) → Γ(1 − b)/Γ(a − b + 1)` for `Re b < 1`, by 13.2.20–13.2.22
+(`tendsto_kummerU_nhdsWithin_zero`); at `b = 0` the limit is `1/Γ(a + 1)` (13.2.21). The proof is
+the definition 13.2.42 for `b ∉ ℤ` and the logarithmic series 13.2.9 (an input, through 4.1) at
+integer `b`.
 
 **Checks.**
 - 13.2.19 at `a = 1`: `U(1, 1, z) = e^z E₁(z) = −ln z − γ + O(z ln z)`, since `ψ(1) = −γ`.
 
-*Needs:* 1.1–1.3.
+*Needs:* 1.1–1.3, 4.1; QuantumFoundations §9.4.
 
 ### 2.2 Numerically satisfactory solutions and Wronskians
 
-DLMF 13.2.24–13.2.38. The content of 13.2.24–13.2.32 formalized here is that each listed function
-solves 13.2.1 and that each listed pair has non-vanishing Wronskian on the stated sector, with the
-logarithmic series 13.2.27–13.2.32 at integer `b` stated as functions on the slit plane. 13.2.24
-and 13.2.25 are stated in logarithmic coordinates. The Wronskians 13.2.33–13.2.38 hold on the
-slit plane, with `e^{±πi} z` as in the Conventions; for example
-`𝒲{𝐌(a, b, z), U(a, b, z)} = −z^{−b} e^z/Γ(a)` (13.2.34; `wronskian_regularizedHGFun_kummerU`).
-They are computed from the leading terms at `0` or at `∞`, since `z^b e^{−z} 𝒲` is constant by
-13.2.1.
+DLMF 13.2.24–13.2.33 and 13.2.35–13.2.38. The content of 13.2.24–13.2.32 formalized here is that
+each listed function solves 13.2.1 and that each listed pair has non-vanishing Wronskian on the
+stated sector, with the logarithmic series 13.2.27–13.2.32 at integer `b` stated as functions on the
+slit plane. 13.2.24 and 13.2.25 are stated in logarithmic coordinates. The Wronskians
+13.2.33–13.2.38 hold on the slit plane, with `e^{±πi} z` as in the Conventions. They are computed
+from the leading terms at `0` or at `∞`, since `z^b e^{−z} 𝒲` is constant by 13.2.1. The Wronskian
+13.2.34, `𝒲{𝐌(a, b, z), U(a, b, z)} = −z^{−b} e^z/Γ(a)`, is an input from QuantumFoundations §9.4,
+through 4.1.
 
-*Needs:* 1.1–1.4, 2.1.
+*Needs:* 1.1–1.4, 2.1, 4.1; QuantumFoundations §9.4.
 
 ### 2.3 Connection formulas
 
@@ -540,7 +597,10 @@ DLMF 13.2.40–13.2.41 and 13.2.43–13.2.44:
 - 13.2.40: `U(a, b, z) = z^{1−b} U(a − b + 1, 2 − b, z)` on the slit plane
   (`kummerU_eq_cpow_mul_kummerU`), and its logarithmic form for every `w`;
 - 13.2.41 for every `z ≠ 0` and both signs, with `U(b − a, b, e^{±πi} z)` as
-  `kummerULog (b − a) b (log z ± πi)` (`regularizedHGFun_eq_kummerU_add`);
+  `kummerULog (b − a) b (log z ± πi)` (`regularizedHGFun_eq_kummerU_add`). QuantumFoundations
+  §9.4 gives the upper signs for `−π < ph z < 0` and the lower for `0 < ph z < π`; with
+  `w = log z` both sides are entire in `w`, so each sign extends to every `w` and in particular to
+  every `z ≠ 0`;
 - 13.2.43–13.2.44 for every `z ≠ 0` in the same form.
 
 13.2.42 is the definition (1.1).
@@ -549,7 +609,7 @@ DLMF 13.2.40–13.2.41 and 13.2.43–13.2.44:
 - At `a = 0.3`, `b = 0.45`, `z = 1.1 + 0.7i`, the upper sign of 13.2.41 gives
   `𝐌(a, b, z) = 0.94558 25545… + 0.60235 84360… i` on both sides.
 
-*Needs:* 1.1–1.4, 2.2.
+*Needs:* 1.1–1.4, 2.2, 4.1; QuantumFoundations §9.4.
 
 ### 2.4 Whittaker functions
 
@@ -564,7 +624,7 @@ DLMF 13.14.14–13.14.19 and 13.14.22–13.14.35, translated from 2.1–2.3 by 1
   forms hold for every `μ`: `𝒲{𝐌_{κ,μ}, 𝐌_{κ,−μ}} = −sin(2πμ)/π`, and 13.14.26–13.14.29 divided
   by `Γ(1 ± 2μ)`, for example `𝒲{𝐌_{κ,μ}, W_{κ,μ}} = −1/Γ(½ + μ − κ)`;
 - the symmetry `W_{κ,μ} = W_{κ,−μ}` (13.14.31; `whittakerW_neg`) and the connection formulas
-  13.14.32–13.14.35.
+  13.14.32–13.14.35 (13.14.33 for `2μ ∉ ℤ`: `whittakerW_eq_whittakerM_add`).
 
 *Needs:* 1.5, 2.1–2.3.
 
@@ -577,15 +637,16 @@ DLMF 13.14.14–13.14.19 and 13.14.22–13.14.35, translated from 2.1–2.3 by 1
 
 ### Dependencies
 
-Layer 1.
+Layer 1, 4.1; QuantumFoundations §9.4.
 
 ## Layer 3: recurrences and derivatives
 
 ### 3.1 Kummer functions
 
 DLMF 13.3.1–13.3.29 on the slit plane:
-- the contiguous relations 13.3.1–13.3.6 and 13.3.13 for `M` and 13.3.7–13.3.12 and 13.3.14 for
-  `U`; those for `M` are stated as identities of `Γ(b)𝐌` with each occurring denominator parameter
+- the contiguous relations 13.3.1–13.3.6 and 13.3.13 for `M` and 13.3.8–13.3.12 and 13.3.14 for
+  `U`; 13.3.7, the relation in `a` for `U`, is an input from QuantumFoundations §9.4, through 4.1.
+  Those for `M` are stated as identities of `Γ(b)𝐌` with each occurring denominator parameter
   outside `{0, −1, …}`, and in regularized form, with `Γ(b)` divided out, for all `b`;
 - the derivatives 13.3.15–13.3.28 for `n : ℕ`, through `iteratedDeriv` and the operator
   `(z d/dz z)ⁿ` of 3.2, and the operator identity 13.3.29; 13.3.22,
@@ -594,7 +655,7 @@ DLMF 13.3.1–13.3.29 on the slit plane:
 The proofs for `𝐌` are coefficient identities; for `U` they follow from 13.2.42 for `b ∉ ℤ` and
 continuity in `b`.
 
-*Needs:* Layer 1; SpecialFunctionsParabolicCylinder §1.2.
+*Needs:* Layer 1, 4.1; SpecialFunctionsParabolicCylinder §1.2; QuantumFoundations §9.4.
 
 ### 3.2 Whittaker functions
 
@@ -615,27 +676,34 @@ correct errors in earlier tables; the forms here are DLMF's.
 
 ### Dependencies
 
-Layers 1–2.
+Layers 1–2, 4.1; QuantumFoundations §9.4.
 
 ## Layer 4: integral representations
 
 ### 4.1 Integrals along the real line
 
 DLMF 13.4.1–13.4.7 with DLMF's hypotheses:
-- 13.4.1 (Euler's integral, `Re b > Re a > 0`) and 13.4.2 (`Re b > Re c > 0`), for every `z`;
+- 13.4.1 (Euler's integral, `Re b > Re a > 0`; `regularizedHGFun_eq_integral`) and 13.4.2
+  (`Re b > Re c > 0`), for every `z`;
 - 13.4.3 for `Re a > 0` and `z ≠ 0`, through `Complex.besselJ (b − 1) (2√(zt))`;
 - 13.4.4, `U(a, b, z) = Γ(a)⁻¹ ∫₀^∞ e^{−zt} t^{a−1} (1 + t)^{b−a−1} dt` for `Re a > 0` and
-  `|ph z| < π/2` (`kummerU_eq_integral`);
+  `|ph z| < π/2` (`kummerU_eq_integral`). This is the defining formula of the `U` of
+  QuantumFoundations §9.4, so it is the agreement of the two functions there; both are
+  holomorphic in `w = log z` on the logarithmic plane and entire in `a`, so the identity theorem
+  in `w` and then in `a` makes `kummerULog` equal to §9.4's `U` everywhere (auxiliary);
 - 13.4.5 for `|ph z| < π` and `Re a > max(Re b − 1, 0)`; 13.4.6 for `n : ℕ` with
   `−Re b < n < 1 + Re(a − b)`;
 - 13.4.7 through SpecialFunctionsBessel's `K_{b−1}`, for `Re a > max(Re b − 1, 0)` and
   `z ∈ slitPlane`.
 
-13.4.1 is proved by expanding `e^{zt}` and Mathlib's `Complex.betaIntegral`; 13.4.4 by showing that
-the integral solves 13.2.1, is `O(z^{−a})` at `+∞` and has the right value of the recessive
-coefficient, or by the Mellin–Barnes form 4.3.
+13.4.1 is proved by expanding `e^{zt}` and Mathlib's `Complex.betaIntegral`. 13.4.4 is proved for
+`b ∉ ℤ` with `Re b < 1` and extended by holomorphy in `b`. The integral solves 13.2.1, so by 1.2
+it is `c₁ 𝐌(a, b, z) + c₂ z^{1−b} 𝐌(a − b + 1, 2 − b, z)`. Its value `Γ(1 − b)/Γ(a − b + 1)` at
+`0⁺` fixes `c₁`. It is `O(x^{−Re a})` as `x → +∞`, while `𝐌(a, b, x) ∼ e^x x^{a−b}/Γ(a)` by 13.4.1
+and Watson's lemma, which fixes `c₂`. The two coefficients are those of 13.2.42.
 
-*Needs:* Layers 1–2; Mathlib `Complex.betaIntegral`; SpecialFunctionsBessel.
+*Needs:* 1.1–1.2; Mathlib `Complex.betaIntegral`; AsymptoticExpansions §4.2; SpecialFunctionsBessel;
+QuantumFoundations §9.4.
 
 ### 4.2 Contour integrals
 
@@ -666,7 +734,8 @@ the parameters.
 
 ### 4.3 Mellin–Barnes integrals
 
-DLMF 13.4.16–13.4.18: 13.4.16 for `|ph z| < π/2` and `a ∉ {0, −1, …}`, 13.4.17 for
+DLMF 13.4.16–13.4.18: 13.4.16 for `|ph z| < π/2` and `a ∉ {0, −1, …}`
+(`regularizedHGFun_neg_eq_barnes_integral`), 13.4.17 for
 `|ph z| < 3π/2` in logarithmic coordinates and `a, a − b + 1 ∉ {0, −1, …}`, and 13.4.18 for
 `|ph z| < π/2`. Each is stated on a vertical line `Re t = c` that separates the poles when such a
 line exists, and in general as the line integral minus finitely many residues.
@@ -693,7 +762,7 @@ and 4.3 by 13.14.2–13.14.3.
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsBessel; AsymptoticExpansions Layer 8.
+Layers 1–3; SpecialFunctionsBessel; AsymptoticExpansions Layers 4 and 8; QuantumFoundations §9.4.
 
 ## Layer 5: continued fractions and relations to other functions
 
@@ -701,15 +770,21 @@ Layers 1–3; SpecialFunctionsBessel; AsymptoticExpansions Layer 8.
 
 DLMF 13.5.1–13.5.4 and 13.17.1–13.17.4. The fraction 13.5.1 for
 `M(a, b, z)/M(a + 1, b + 1, z) = 𝐌(a, b, z)/(b 𝐌(a + 1, b + 1, z))` converges at every `z` with
-`𝐌(a + 1, b + 1, z) ≠ 0`, for `b ∉ {0, −1, …}`; 13.5.3 for `U(a, b, z)/U(a, b − 1, z)` converges
-for `|ph z| < π` where `U(a, b − 1, z) ≠ 0`; 13.17.1–13.17.4 likewise, with DLMF's parameter
-hypotheses, such as `μ + ½ ± (κ + 1) ∉ {−1, −2, …}` for 13.17.3. The partial numerators divide
-by the shifted denominators `(b + 2n)(b + 2n + 1)` and `(2μ + 2n)(2μ + 2n + 1)`, so the parameter
-exclusions are needed even where the left side is defined. "Converges to the meromorphic function"
-is stated as convergence of the convergents at each point where the left side is defined and finite.
-The proof is Pincherle's theorem for the contiguous relations of 3.1, with the minimal solutions
-identified by bounding the ratios of consecutive terms through the integrals 13.4.1 and 13.4.4
-(Gautschi 1967), and holomorphy in the parameters for the remaining parameters.
+`𝐌(a + 1, b + 1, z) ≠ 0`, for `b ∉ {0, −1, …}`, as the convergents of Mathlib's `GenContFract` with
+partial numerators `u_{k+1} z` of 13.5.2 (`tendsto_convs_regularizedHGFun_div`); 13.5.3 for
+`U(a, b, z)/U(a, b − 1, z)` converges for `|ph z| < π` where `U(a, b − 1, z) ≠ 0`; 13.17.1–13.17.4
+likewise, with DLMF's parameter hypotheses, such as `μ + ½ ± (κ + 1) ∉ {−1, −2, …}` for 13.17.3. The
+partial numerators divide by the shifted denominators `(b + 2n)(b + 2n + 1)` and
+`(2μ + 2n)(2μ + 2n + 1)`, so the parameter exclusions are needed even where the left side is
+defined. "Converges to the meromorphic function" is stated as convergence of the convergents at each
+point where the left side is defined and finite. The proof is Pincherle's theorem for the contiguous
+relations of 3.1, with the minimal solutions identified by bounding the ratios of consecutive terms
+through the integrals 13.4.1 and 13.4.4 (Gautschi 1967), and holomorphy in the parameters for the
+remaining parameters.
+
+**Checks.**
+- At `a = −2`, `b = ½`, `z = 1` the fraction terminates, and both sides equal
+  `M(−2, ½, 1)/M(−1, 3/2, 1) = −5`.
 
 *Needs:* 3.1, 4.1; SpecialFunctionsEiLiErfIncompleteGamma §4.1.
 
@@ -743,14 +818,20 @@ SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder.
 
 ### 5.3 Whittaker functions
 
-DLMF 13.18.1–13.18.16: elementary functions 13.18.1–13.18.3, incomplete Gamma and error functions
+DLMF 13.18.1–13.18.17: elementary functions 13.18.1–13.18.3, incomplete Gamma and error functions
 13.18.4–13.18.7, modified Bessel and Airy functions 13.18.8–13.18.10
-(`whittakerW_zero_eq_besselK` for 13.18.9), Weber's function 13.18.11–13.18.13 and Hermite
-polynomials 13.18.14–13.18.16, with the domains of 5.2 transported by 13.14.2–13.14.3. 13.18.4
-and 13.18.6 come from the inputs 13.6.5 and 13.6.7 by 13.14.2, and 13.18.5 and 13.18.7 from 13.6.6
-and 13.6.8 by 13.14.3; they are targets here because the Whittaker functions are.
+(`whittakerW_zero_eq_besselK` for 13.18.9), Weber's function 13.18.11–13.18.13, Hermite
+polynomials 13.18.14–13.18.16 and Laguerre polynomials 13.18.17, with the domains of 5.2
+transported by 13.14.2–13.14.3; 13.18.17 is for `z ∈ slitPlane` and `α + 1 ∉ {0, −1, …}`, with
+LaguerreJacobi's `Polynomial.laguerre`. 13.18.4 and 13.18.6 come from the inputs 13.6.5 and 13.6.7
+by 13.14.2, 13.18.5 and 13.18.7 from 13.6.6 and 13.6.8 by 13.14.3, and 13.18.17 from 13.2.7 and
+the input 13.6.19; they are targets here because the Whittaker functions are.
 
-*Needs:* 1.5, 5.2.
+**Checks.**
+- 13.18.17 at `α = 0.4`, `n = 2`, `z = 0.7 + 0.2i`: all three members equal
+  `0.28910 98319… − 0.35794 75478… i`.
+
+*Needs:* 1.5, 5.2; QuantumFoundations §9.4; LaguerreJacobi A1.
 
 ### Examples
 
@@ -761,7 +842,7 @@ and 13.6.8 by 13.14.3; they are targets here because the Whittaker functions are
 ### Dependencies
 
 Layers 1–4, 6; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsBessel;
-SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder.
+SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder; QuantumFoundations §9.4; LaguerreJacobi.
 
 ## Layer 6: large argument
 
@@ -774,13 +855,16 @@ DLMF 13.2.6, 13.7.3, 13.14.21 and 13.19.3: for every `δ > 0` and `N`, in logari
 U(a, b, z) = z^{−a} ∑_{s<N} (a)_s (a − b + 1)_s/s! (−z)^{−s} + O(|z|^{−Re a − N})
 ```
 
-(`isBigO_kummerULog_sub_sum`), with `z^{−a} = e^{−aw}`; 13.2.6 is the case `N = 1` together with
-the uniqueness statement of DLMF: `U` is the only solution of 13.2.1 with `U(a, b, z) ∼ z^{−a}`
-along the positive axis, when `a ∉ {0, −1, …}`. 13.14.21 and 13.19.3 follow by 13.14.3. The
-proof: Watson's lemma applied to 13.4.4 for `Re a > 0` in `|ph z| ≤ π/2 − δ`, rotation of the ray
-through `|ph t| < π`, and 13.3.7 (the recurrence lowering `a`) for the remaining `a`.
+(`isBigO_kummerULog_sub_sum`), with `z^{−a} = e^{−aw}`. Its leading behaviour
+`U(a, b, z) ∼ z^{−a}` is the input 13.2.6 from QuantumFoundations §9.4, through 4.1; the expansion
+with remainder `O(|z|^{−Re a − N})` is a target for every `N`. The uniqueness statement of
+13.2.6 is a target: `U` is the only solution of 13.2.1 with `U(a, b, z) ∼ z^{−a}` along the
+positive axis. With `e^z U(b − a, b, e^{πi} z)` it forms a pair with nonzero Wronskian (13.2.38),
+and the second solution dominates on the positive axis. 13.14.21 and 13.19.3 follow by 13.14.3.
+The proof: Watson's lemma applied to 13.4.4 for `Re a > 0` in `|ph z| ≤ π/2 − δ`, rotation of the
+ray through `|ph t| < π`, and 13.3.7 (the recurrence lowering `a`) for the remaining `a`.
 
-*Needs:* 4.1, 3.1; AsymptoticExpansions §§4.2–4.3, §10.4.
+*Needs:* 4.1, 3.1, 2.2; AsymptoticExpansions §§4.2–4.3, §10.4; QuantumFoundations §9.4.
 
 ### 6.2 `M` and `M_{κ,μ}`
 
@@ -794,7 +878,8 @@ two-sum expansion, unless `a` and `b − a` are both nonpositive integers; 13.2.
 ### 6.3 Large `b` and large `μ`
 
 - DLMF 13.8.1: for fixed `a`, `z` and `δ > 0`, as `b → ∞` in `{b | ∀ n : ℕ, δ ≤ |b + n|}`,
-  `M(a, b, z) = ∑_{s<n} (a)_s z^s/((b)_s s!) + O(|b|^{−n})`.
+  `M(a, b, z) = ∑_{s<n} (a)_s z^s/((b)_s s!) + O(|b|^{−n})`
+  (`isBigO_regularizedHGFun_sub_sum_cobounded`).
 - DLMF 13.20.1: for fixed `κ` and `R > 0`, as `μ → ∞` in `|ph μ| ≤ π/2 − δ`,
   `M_{κ,μ}(z) = z^{μ+½}(1 + O(μ^{−1}))` uniformly for `0 < |z| ≤ R` in the slit plane.
 
@@ -810,7 +895,7 @@ Both are tail estimates of the series: under `|b + n| ≥ δ` for all `n`, the t
 
 ### Dependencies
 
-Layers 1–4; AsymptoticExpansions Layers 1, 4 and 10.
+Layers 1–4; AsymptoticExpansions Layers 1, 4 and 10; QuantumFoundations §9.4.
 
 ## Layer 7: zeros
 
@@ -843,15 +928,14 @@ DLMF (Release 1.2.8) prints 13.9.3 and 13.9.4 for `a ≥ 0` and 13.9.6 for every
 - 13.9.3 and 13.9.4 for `a > 0`. At `a = 0`, `M(0, b, x) = 1` has no zeros, while 13.9.3 at
   `b = −1/2` and 13.9.4 at `b = −5/2` give `1`;
 - 13.9.6 for `a ∉ {−1, −2, …}`. At `a = −1`, `b = −3/2` it gives `1`, but
-  `M(−1, −3/2, x) = 1 + 2x/3` has no positive zero. The NIST draft of §13.9 dated 2026-11-06 adds
-  this hypothesis; it keeps `a ≥ 0` in 13.9.3 and 13.9.4;
+  `M(−1, −3/2, x) = 1 + 2x/3` has no positive zero;
 - 13.9.7 with the same exclusions on the pair `(b − a, b)`. At `a = b = −1/2` and at `a = −1/2`,
   `b = −3/2` the printed value is `1`, and there are no negative zeros.
 
-The proof counts sign changes through Sturm comparison on the self-adjoint form
-`(x^b e^{−x} w′)′ = a x^{b−1} e^{−x} w` and continuity of the zeros in the parameters, with the
-polynomial cases `a = −n` as base cases; both are auxiliary targets of this layer (see the table
-of auxiliary results).
+The proof counts sign changes through Sturm comparison (SpecialFunctionsBessel 7.1, auxiliary) on
+the self-adjoint form `(x^b e^{−x} w′)′ = a x^{b−1} e^{−x} w` and continuity of the zeros in the
+parameters, with the polynomial cases `a = −n` as base cases. The continuity of the zeros and the
+polynomial cases are auxiliary targets of this layer (see the table of auxiliary results).
 
 **Checks.**
 - `M(−0.5, 0.01, ·)` has one positive zero, at `x = 0.01990 14758…`, and `𝐌(−0.5, 0, ·)` has
@@ -860,7 +944,8 @@ of auxiliary results).
   13.9.3–13.9.6 agree with a sign-change count of `M(a, b, ·)` on `(0, 80]`; the printed ones
   fail only at `a = 0` (13.9.3, 13.9.4) and at negative integer `a` (13.9.6).
 
-*Needs:* Layers 1–2, 6.
+*Needs:* Layers 1–2, 6; SpecialFunctionsBessel 7.1 (auxiliary: Sturm comparison);
+QuantumFoundations §9.4 (13.6.19); LaguerreJacobi B3.
 
 ### 7.2 Zeros of `U`
 
@@ -873,7 +958,7 @@ infinitely many zeros accumulating at `0⁺` (DLMF 10.45.7). The layer also owns
 13.9.11–13.9.15 of zeros `T(a, b)` in `|ph z| < π` and `P(a, b)` on `(0, ∞)` for real noninteger
 `a`, `b`, `a − b + 1`, with `T(a, b) = T(a − b + 1, 2 − b)` and `P(a, b) = P(a − b + 1, 2 − b)`
 for `b ≥ 1` by 13.2.40, and Wimp's theorem: for real `a`, `b` with `2a − b > −1`, `U(a, b, z) ≠ 0`
-for `|ph z| ≤ π/2`, `z ≠ 0`.
+for `|ph z| ≤ π/2`, `z ≠ 0` (`kummerU_ne_zero`).
 
 *Needs:* Layers 1–2, 6.
 
@@ -891,16 +976,17 @@ DLMF §13.22 without 13.22.1: the zeros of `M_{κ,μ}` away from `0` are those o
 
 ### Dependencies
 
-Layers 1–2, 5–6.
+Layers 1–2, 5–6; SpecialFunctionsBessel 7.1; QuantumFoundations §9.4; LaguerreJacobi.
 
 ## Layer 8: integrals
 
 ### 8.1 Indefinite integrals, Laplace and Mellin transforms
 
-DLMF 13.10.1–13.10.2 (as derivatives, for `a ≠ 1`), 13.10.4–13.10.6 and 13.10.8–13.10.11 with
-DLMF's hypotheses. The loop integrals 13.10.8–13.10.9 use the loop `∫_{−∞}^{(0+)}` of the
-Conventions, for `y > 0` and `Re z > 0`, through SpecialFunctionsBessel's `I_{b−1}` and
-`K_{b−1}`; on the loop `y/t` stays in the slit plane, so `U(a, b, y/t)` is principal.
+DLMF 13.10.1–13.10.2 (as derivatives, for `a ≠ 1`), 13.10.4–13.10.6 and 13.10.8–13.10.11 with DLMF's
+hypotheses; 13.10.10 is `integral_cpow_mul_regularizedHGFun_neg`. The loop integrals 13.10.8–13.10.9
+use the loop `∫_{−∞}^{(0+)}` of the Conventions, for `y > 0` and `Re z > 0`, through
+SpecialFunctionsBessel's `I_{b−1}` and `K_{b−1}`; on the loop `y/t` stays in the slit plane, so
+`U(a, b, y/t)` is principal.
 
 *Needs:* Layers 1–4; AsymptoticExpansions §8.1; SpecialFunctionsBessel.
 
@@ -924,7 +1010,8 @@ Hankel transforms 13.23.9–13.23.12.
 
 - 13.10.4 at `a = 0`: `∫₀^∞ e^{−zt} t^{b−1}/Γ(b) dt = z^{−b}`, which is Mathlib's
   `Complex.Gamma_eq_integral` after scaling.
-- 13.10.11 at `a = b = 1`: `∫₀^∞ t^{λ−1} e^t E₁(t) dt = Γ(λ) Γ(1 − λ)` for `0 < Re λ < 1`.
+- 13.10.11 at `a = b = 1`: `∫₀^∞ t^{λ−1} e^t E₁(t) dt = Γ(λ)² Γ(1 − λ) = π Γ(λ)/sin(πλ)` for
+  `0 < Re λ < 1`; at `λ = ½` both sides equal `π^{3/2} = 5.56832 79968…`.
 
 ### Dependencies
 
@@ -953,13 +1040,15 @@ DLMF 13.11.1–13.11.4:
   side `2.83359 66305… − 3.38992 70140… i`;
 - the coefficients `A_n` of 13.11.4: `A₀ = 1`, `A₁ = 0`, `A₂ = b/2`, and
   `(n + 1) A_{n+1} = (n + b − 1) A_{n−1} + (2a − b) A_{n−2}` for `n ≥ 2` (`buchholzCoeff`).
+  Checks: `A₃ = (2a − b)/3` and `A₄ = b(b + 2)/8`; at `a = 0.3 + 0.1i`, `b = 1.7` these are
+  `−0.36666 66667… + 0.06666 66667… i` and `0.78625`.
 
 *Needs:* Layers 1–3; SpecialFunctionsBessel.
 
 ### 9.2 Products
 
-DLMF 13.12.1, for `b ∉ ℤ`. The left side is bounded at infinity by 13.2.39–13.2.41 and 6.1, and
-equals `1` at `0`.
+DLMF 13.12.1, for `b ∉ ℤ` (`kummer_quadratic_relation`). The left side is bounded at infinity by
+13.2.39–13.2.41 and 6.1, and equals `1` at `0`.
 
 *Needs:* 2.3, 6.1.
 
@@ -1008,13 +1097,14 @@ Layers 1–6; SpecialFunctionsBessel.
 
 ### 10.2 Airy, Bessel and parabolic cylinder functions
 
-- DLMF 9.6.21–9.6.24 with `ζ = (2/3) z^{3/2}`, for `z ≠ 0`, `|ph z| < 2π/3`.
+- DLMF 9.6.21–9.6.24 with `ζ = (2/3) z^{3/2}`, for `z ≠ 0`, `|ph z| < 2π/3` (9.6.21:
+  `airyAi_eq_whittakerW`).
 - DLMF 10.16.6–10.16.8 for `Re z > 0`, where all powers are principal (DLMF states that principal
   branches correspond at least when `|ph z| ≤ π/2`; on the ray `ph z = −π/2` the argument `−2iz`
   of 10.16.6 lies on the cut with DLMF phase `−π`), with `2ν ∉ {−1, −2, …}` for 10.16.7.
-- DLMF 10.39.6 and 10.39.8 for `z ∈ slitPlane`, and 10.39.7 for `z ∈ slitPlane`,
-  `2ν ∉ {−1, −2, …}`.
-- DLMF 12.7.14 for `Re z > 0`.
+- DLMF 10.39.6 and 10.39.8 for `z ∈ slitPlane` (10.39.6: `besselK_eq_kummerU`), and 10.39.7 for
+  `z ∈ slitPlane`, `2ν ∉ {−1, −2, …}`.
+- DLMF 12.7.14 for `Re z > 0` (its last form: `parabolicCylinderU_eq_whittakerW`).
 
 *Needs:* Layers 1, 5; SpecialFunctionsAiry; SpecialFunctionsBessel;
 SpecialFunctionsParabolicCylinder.
@@ -1031,13 +1121,10 @@ SpecialFunctionsParabolicCylinder.
 
 ## Downstream consumers
 
-- **SpecialFunctionsEiLiErfIncompleteGamma**, **SpecialFunctionsAiry**, **SpecialFunctionsBessel**
-  and **SpecialFunctionsParabolicCylinder** rely on this roadmap for the formulas through `U` and
-  the Whittaker functions that they exclude (Layer 10).
 - A roadmap for the large-parameter and uniform expansions of DLMF §§13.8, 13.20–13.21 consumes
   Layers 1–6 with the Bessel, Airy and parabolic cylinder roadmaps.
-- Roadmaps for the Gauss function (DLMF Chapter 15), the orthogonal polynomials (Chapter 18) and
-  the Coulomb functions (Chapter 33) consume Layers 1–5 for the formulas listed below.
+- Roadmaps for the Gauss function (DLMF Chapter 15), the Charlier polynomials (Chapter 18) and the
+  Coulomb functions (Chapter 33) consume Layers 1–5 for the formulas listed below.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -1053,10 +1140,9 @@ Contributors should not attempt it under this roadmap.
 - **Formulas through the Gauss function off its disk of convergence**: DLMF 13.4.8, 13.4.12,
   13.4.15, 13.10.3, 13.10.7, 13.16.9 and 13.23.4. They need `₂F₁` continued to `ℂ \ [1, ∞)` and
   belong to a roadmap for DLMF Chapter 15.
-- **Laguerre and Charlier polynomials**: DLMF 13.6.19–13.6.20 and 13.18.17, which belong to an
-  orthogonal-polynomial roadmap (DLMF Chapter 18). The positive zeros of the polynomials
-  `M(−n, b, ·)`, which Layer 7 needs, are an auxiliary target here and are stated without
-  `L_n^{(α)}`.
+- **Charlier polynomials**: DLMF 13.6.20, which belongs to an orthogonal-polynomial roadmap (DLMF
+  Chapter 18). The Laguerre relation 13.6.19 is not deferred: QuantumFoundations §9.4 owns it,
+  with the polynomials of LaguerreJacobi, and 13.18.17 is a target here (5.3).
 - **Coulomb functions**: DLMF §13.6(vii) and §13.18(vi), which belong to a roadmap for DLMF
   Chapter 33.
 - **The generalized hypergeometric `₂F₀`** in 13.6.21 when neither `a` nor `a − b + 1` is a
@@ -1103,8 +1189,9 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 
 ## References
 
-- NIST *Digital Library of Mathematical Functions*, Chapter 13 (A. B. Olde Daalhuis),
-  <https://dlmf.nist.gov/13>.
+- NIST *Digital Library of Mathematical Functions*, Release 1.2.8 of 2026-09-15, Chapter 13
+  (A. B. Olde Daalhuis), <https://dlmf.nist.gov/13>. Every equation number refers to this
+  release.
 - F. G. Tricomi, *Funzioni ipergeometriche confluenti*, Edizioni Cremonese, Rome, 1954.
 - L. J. Slater, *Confluent Hypergeometric Functions*, Cambridge University Press, 1960.
 - H. Buchholz, *The Confluent Hypergeometric Function*, Springer, 1969.
