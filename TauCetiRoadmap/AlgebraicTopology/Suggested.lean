@@ -93,20 +93,22 @@ open CategoryTheory ContinuousMap Topology
 open CategoryTheory.Limits
 open scoped ContDiff Manifold MonoidalCategory
 
-universe u
+universe u w
 
 noncomputable section
 
 /-! ## Stage 4.5: the compactly generated coreflection -/
 
-/-- **The inclusion of compactly generated spaces has a right adjoint** (Stage 4.5): Mathlib's
+/-- **The inclusion of compactly generated spaces has a right adjoint** (Stage 4.5; Strickland,
+*The category of CGWH spaces*, Corollaries 1.9 and 1.10): for all universes `u` and `w`, Mathlib's
 fully faithful inclusion `CompactlyGenerated.compactlyGeneratedToTop` of the `u`-compactly
-generated spaces into `TopCat.{u}` is a left adjoint. Its right adjoint is the coreflection
+generated spaces into `TopCat.{w}` is a left adjoint. Its right adjoint is the coreflection
 `k` that puts `TopologicalSpace.compactlyGenerated` on a space, whose counit `k X → X` is the
 continuous identity; this is the interface consumed by the kified CW product of Stage 4.5 and by
-Stages 8.10–8.11. -/
+Stages 8.10–8.11. One route transports Mathlib's coreflection `GeneratedByTopCat.adj` for the
+family of spaces of `CompHaus.{u}`. -/
 theorem compactlyGeneratedToTop_isLeftAdjoint :
-    CompactlyGenerated.compactlyGeneratedToTop.{u, u}.IsLeftAdjoint := by
+    CompactlyGenerated.compactlyGeneratedToTop.{u, w}.IsLeftAdjoint := by
   sorry
 
 /-! ## Stage 6: Poincaré duality -/
@@ -141,7 +143,9 @@ theorem bijective_singularCap_fundamentalClass
 
 /-! ## Stage 7: the Euler characteristic of a fibre bundle -/
 
-/-- **Multiplicativity of the Euler characteristic in a fibre bundle** (Stage 7.2): for a fibre
+/-- **Multiplicativity of the Euler characteristic in a fibre bundle** (Stage 7.2; Klein,
+Malkiewich and Ramzi, *On the multiplicativity of the Euler characteristic*, arXiv:2211.04992,
+Theorem A, for fibre sequences of finitely dominated spaces): for a fibre
 bundle with fibre `F` over `B`, with `B`, `F` and the total space of finite CW type, the pinned
 Euler characteristic of the total space is the product of those of the base and of the fibre.
 The route is the homological Serre spectral sequence of Stage 5.5 with field coefficients, with
@@ -178,7 +182,8 @@ def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ∞ :=
     ∃ d : ℕ, ∃ a : X.singularCohomology (ModuleCat.of R R) R (ModuleCat.of R R) d,
       a ≠ 0 ∧ LSPositiveCupProduct X R r ⟨d, a⟩}
 
-/-- **The cup-length lower bound** (the categorical-cover supplement of Stage 6.2): on a nonempty
+/-- **The cup-length lower bound** (the categorical-cover supplement of Stage 6.2; Hatcher,
+Section 3.2, Exercise 2, for covers by contractible opens): on a nonempty
 space, the cup length plus one is at most the pinned unnormalized Lusternik–Schnirelmann count
 `TauCeti.lsCategoryCount X Set.univ`. A class restricts to zero on a categorical open by homotopy
 invariance and the vanishing of positive-degree cohomology of a point, so a product of `r`
@@ -321,7 +326,9 @@ def ordinaryDoldKanBasepoint (A : AddCommGrpCat.{u}) (n : ℕ) :
       ((SSet.toTopSimplex.app (SimplexCategory.mk 0)).inv
         (default : SimplexCategory.toTop.obj (SimplexCategory.mk 0)))
 
-/-- **The Dold–Kan realization is a `K(A, n + 2)`** (Stage 8.8c): the geometric realization of
+/-- **The Dold–Kan realization is a `K(A, n + 2)`** (Stage 8.8c; Goerss and Schemmerhorn,
+*Model categories and simplicial methods*, arXiv:math/0609537v2, Example 2.15 and Theorem 4.1):
+the geometric realization of
 `Γ(A[n + 2])`, based at its zero vertex, is homeomorphic through a based homeomorphism to a CW
 Eilenberg–MacLane model. The route is Stage 8.2's Kan comparison for simplicial groups and the
 realization-unit theorem, with the degree-`(n + 2)` homotopy group read off the Moore complex
@@ -375,10 +382,12 @@ theorem hurewicz_mod_isTorsion (X : Type) [TopologicalSpace X] (x : X)
 
 /-- **Hurewicz modulo the class of groups annihilated by a power of `d`** (Stage 8.8d; Serre
 1953, Theorem 1, for the class `isKilledBySomePower d`): the same statement for the
-pinned Serre class of abelian groups annihilated by some power of `d ≥ 1`. The route differs from
-the torsion class at the `K(A, 1)` axiom, which uses Prüfer's decomposition of a bounded abelian
-group and the Künneth theorem on finite sums rather than transfer alone. -/
-theorem hurewicz_mod_isKilledBySomePower (d : ℕ) (_hd : 0 < d) (X : Type) [TopologicalSpace X]
+pinned Serre class of abelian groups annihilated by some power of `d`. For `d = 0` the class
+contains every abelian group, since `0 ^ 1 = 0`, and the statement is empty; for `d = 1` it is the
+class of zero groups and the statement is the integral Hurewicz theorem. The route differs from
+the torsion class at the `K(A, 1)` axiom for infinite `A`, which uses Prüfer's decomposition of a
+bounded abelian group and the Künneth theorem on finite sums to keep a uniform exponent. -/
+theorem hurewicz_mod_isKilledBySomePower (d : ℕ) (X : Type) [TopologicalSpace X]
     (x : X) [SimplyConnectedSpace X] (n : ℕ)
     (_hπ : ∀ j : ℕ, j + 2 < n + 2 →
       (AddCommGrpCat.isKilledBySomePower.{0} d)
@@ -422,7 +431,11 @@ Eilenberg–MacLane model `K` of type `(A, m + 1)` there is a universal class
 `ι ∈ H^{m+1}(K; A)`, normalized so that its Kronecker evaluation on the Hurewicz image of a
 class `p ∈ π_{m+1}(K)` is the chosen identification of `p` in `A`, such that pulling `ι` back is a
 bijection from homotopy classes of maps `X → K` to `H^{m+1}(X; A)` for every Hausdorff CW complex
-`X`, of arbitrary dimension and with any number of components. The normalization determines `ι`:
+`X`, of arbitrary dimension and with any number of components. The Hurewicz map is the native one,
+which in degree one is minus the loop-as-cycle map
+(`HomotopyGroup.hurewiczHom_hom_one_eq_neg_hurewicz₁`): for `m = 0`, `ι` takes the value `-a`
+on the class of the 1-cycle traced by a loop whose homotopy class has identification `a`. The
+normalization determines `ι`:
 in degree `m + 1 ≥ 1` the Kronecker map `H^{m+1}(K; A) → Hom(H_{m+1}(K; ℤ), A)` is bijective,
 since `H_m(K; ℤ)` is free, and the Hurewicz map is onto `H_{m+1}(K; ℤ)`. No finite-CW hypothesis
 is made, so no phantom-map issue is suppressed. -/
