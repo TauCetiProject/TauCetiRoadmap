@@ -466,6 +466,17 @@ nilpotent two-sided ideal `I ⊆ A` (some `Iᴺ = 0`), the quotient map induces 
   matrices, and `I` its strictly upper triangular part, `I² = 0` and 3.2 gives
   `HP₀(T₂(k)) = HP₀(k × k) = k²`.
 
+Not a target: nil-invariance fails in characteristic `p > 0`, already for `𝔽_p[ε]`, `ε² = 0`
+(own computation). The normalised chains of `k[ε]` split by weight, the number of `ε`'s. In weight
+`w ≥ 1` they have the basis `x_w = 1 ⊗ ε^⊗w` in degree `w` and `y_(w−1) = ε ⊗ ε^⊗(w−1)` in
+degree `w − 1`, with `b y_(w−1) = 0`, `B x_w = 0`, `b x_w = (1 + (−1)^w) y_(w−1)` (the first and
+last faces; the middle ones contain `ε²`) and `B y_(w−1) = Σ_(i<w) (−1)^(i(w−1)) x_w`, which is
+`w x_w` for `w` odd and `0` for `w` even. The periodic complex is the product of its weight
+pieces. In characteristic zero each piece of weight `w ≥ 1` is acyclic and `HP_*(k[ε]) = HP_*(k)`,
+as 3.2 says. In characteristic `p` the piece of weight `w` has zero differential for every odd
+multiple `w` of `p` when `p` is odd, and for every even `w` when `p = 2`; each such piece adds `k`
+in both parities, so `HP₁(𝔽_p[ε]) ≠ 0 = HP₁(𝔽_p)`.
+
 ### Examples
 
 - For a finite-dimensional algebra `A` over a field of characteristic zero with Jacobson radical
@@ -531,6 +542,19 @@ that separable algebras, `k[x]` and `k[x, x⁻¹]` are quasi-free, and that the 
 - `M₂(K)` is separable, hence quasi-free of cohomological dimension 0; `K[ε]/(ε²)` is not
   quasi-free: the identity does not lift along `K[t]/(t³) → K[t]/(t²)`, since a lift would send
   `ε` to an element of square zero in `K[t]/(t³)` mapping to `t`, and `(t + ct²)² = t² ≠ 0`.
+
+Not a target: for a field `k` and a group `G`, the group algebra `k[G]` is quasi-free exactly
+when `G` is the fundamental group of a graph of finite groups whose orders are invertible in `k`
+(own argument from Dunwoody 1979). By 4.1 quasi-free means Hochschild cohomological dimension at
+most one. For a `k[G]`-bimodule `M`, `HHⁿ(k[G], M) ≅ Hⁿ(G, M_ad)`, with `G` acting on `M` by
+`g·m = g m g⁻¹`, so the Hochschild dimension is at most `cd_k G`. Conversely, for a `k[G]`-module
+`N` the bimodule `N ⊗_k k[G]`, `g(x ⊗ h)g′ = gx ⊗ ghg′`, has adjoint module the direct sum over
+the conjugacy classes of `h` of `G`-stable summands, and the class of `1` gives `N`; so `Hⁿ(G, N)`
+is a direct summand of `HHⁿ(k[G], N ⊗_k k[G])` and the Hochschild dimension is `cd_k G`.
+Dunwoody's theorem characterises `cd_k G ≤ 1` as above. Hence `ℚ[SL₂(ℤ)]`, with
+`SL₂(ℤ) ≅ ℤ/4 *_(ℤ/2) ℤ/6`, and `k[F_r]` are quasi-free, while `k[ℤ²] = k[x^(±1), y^(±1)]`
+(`cd_k ℤ² = 2`) and `𝔽_p[ℤ/p]` (`cd_(𝔽_p) ℤ/p = ∞`) are not. This agrees with 4.2: `k[G]` for a
+finite `G` of order invertible in `k` is separable, and `k[ℤ] = k[x, x⁻¹]`.
 
 ### 4.3 Noncommutative forms and the X-complex
 
@@ -810,6 +834,8 @@ Institute) work on these questions.
   211–264. doi:10.2307/1970615.
 - T. G. Goodwillie, « Cyclic homology, derivations, and the free loopspace », *Topology* 24
   (1985), 187–215. doi:10.1016/0040-9383(85)90055-2. Zbl 0569.16021.
+- M. J. Dunwoody, « Accessibility and groups of cohomological dimension one », *Proc. London
+  Math. Soc.* (3) 38 (1979), no. 2, 193–215. doi:10.1112/plms/s3-38.2.193. Zbl 0419.20040.
 - J. Cuntz, D. Quillen, « Algebra extensions and nonsingularity », *J. Amer. Math. Soc.* 8
   (1995), 251–289. doi:10.1090/S0894-0347-1995-1303029-0. Zbl 0838.19001. Cited as 1995a.
 - J. Cuntz, D. Quillen, « Cyclic homology and nonsingularity », *J. Amer. Math. Soc.* 8 (1995),
