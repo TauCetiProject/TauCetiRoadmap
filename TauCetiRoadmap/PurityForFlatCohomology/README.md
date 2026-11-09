@@ -48,20 +48,26 @@ The headline theorems stated in `Suggested.lean` are Zariski–Nagata purity in 
 Gabber's local Picard conjecture (`localPicard_torsion_eq_one`, §7.6), the vanishing of the local
 Picard group of a regular local ring (`localPicard_subsingleton`, §7.6) and the Picard groups of global
 complete intersections (`picard_globalCompleteIntersection_torsion_eq_one`,
-`picard_globalCompleteIntersection_bijective_zpow`, §7.8), Gabber's étale-depth bound for the constant
-coefficients `ℤ/n` (`etaleDepth_ge_virtualDimension`, §6.3, stated on the small étale site with the
+`picard_globalCompleteIntersection_bijective_zpow`, §7.8), Gabber's étale-depth bound for every
+commutative finite étale coefficient group `G` (`etaleDepth_ge_virtualDimension`, §6.3, stated on the
+small étale site for the sheaf `smallEtaleSheaf G` of `G`, built from `homPresheaf G`, with the
 inclusion `openEtaleHom` of the punctured spectrum), purity for the torsion of `H²(−, 𝔾_m)` of Noetherian
 schemes along complete-intersection and regular points (`etaleCohomology_two_gm_torsion_purity`, §7.14),
 Česnavičius's purity for the Brauer group of a punctured strictly henselian regular local ring
 (`etaleCohomology_two_gm_puncturedSpectrum_subsingleton`, §8.1) and of regular schemes
 (`etaleCohomology_gm_purity_regular`, §8.7), all three on the étale sheaf `gmSmallEtale` of Convention 7,
+and Česnavičius's purity for tori on the punctured spectrum of a henselian regular local ring whose
+residue field has dimension at most one (`etaleCohomology_torus_puncturedSpectrum_subsingleton`, §8.3,
+with the predicate `IsOfDimLEOne` of §8.2(d)) and along regular closed subsets of codimension `≥ 2`
+(`etaleCohomology_torus_purity`, §8.6), both for the tori `IsTorus` of §7.12c,
 with three classical inputs proved here:
 Katz's theorem on Frobenius-fixed vectors (`frobeniusSemilinear_exists_fixed_basis`, §5.6), Auslander's
 freeness criterion (`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of regular local rings
 (`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). The local headlines are stated on Tau Ceti's
 punctured spectrum of a local ring and its restriction functor on finite étale schemes.
 The theory of groups of multiplicative type over a base on which §§7.13–7.15 and Layer 8 rest
-(§§7.12a–7.12e) is supporting theory, specified here only.
+(§§7.12a–7.12e) is supporting theory, specified here; of it, `Suggested.lean` states only the torus
+predicate that §§8.3 and 8.6 need.
 The flat-cohomological headline theorems are specified in this README; the module docstring of
 `Suggested.lean` names the carrier each of them lacks at the pinned libraries.
 
@@ -205,8 +211,10 @@ section named instead of planning it.
 Diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme, with their
 homomorphisms, smoothness, exactness and kernels, character sheaves, subgroups, quotients and largest
 subtori (§§7.12a–7.12e), are likewise owned here (for finite `M` the group `D_S(M)` is ModularCurves
-0B's, above), and a later roadmap on group schemes over a base is to import them from these sections
-instead of restating them.
+0B's, above). ReductiveGroups owns diagonalizable groups, groups of multiplicative type and tori over a
+field (its Layer 4); their theory over an arbitrary base scheme is owned here, and ReductiveGroups, for
+its relative theory of reductive group schemes, is to import it from these sections instead of
+restating it (Downstream consumers).
 
 ## Conventions
 
@@ -295,18 +303,21 @@ Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`; each declaration was read 
   étale site of a scheme `S` as the full subcategory of `Over S` on étale morphisms; the `HasSheafify`
   instance for `S.smallEtaleTopology` and `AlgebraicGeometry.Scheme.isGrothendieckAbelian_sheaf_smallEtaleTopology`
   (`Mathlib/AlgebraicGeometry/Sites/AffineEtale.lean`): abelian sheaves on it, in the universe of `S`,
-  form a Grothendieck abelian category, so that `cohomologyPresheaf` and `CategoryTheory.constantSheaf`
-  apply there. They carry étale cohomology of `Spec R` and of `U_R` with constant coefficients and the
-  restriction map between them (§6.3), and, with Tau Ceti's `AlgebraicGeometry.Scheme.Gm`, the étale
-  cohomology of `𝔾_m` with its restriction maps (Convention 7; §§7.14, 8.1, 8.7); the pins have no
-  functor from commutative finite étale group schemes to abelian sheaves on that site.
+  form a Grothendieck abelian category, so that `cohomologyPresheaf` applies there. They carry the
+  étale cohomology of `Spec R` and of `U_R` with coefficients in a commutative finite étale group and
+  the restriction map between them (§6.3, through `smallEtaleSheaf`), the étale cohomology of a torus
+  with its restriction maps (§§8.3, 8.6), and, with Tau Ceti's `AlgebraicGeometry.Scheme.Gm`, the étale
+  cohomology of `𝔾_m` with its restriction maps (Convention 7; §§7.14, 8.1, 8.7). The constant sheaf
+  `CategoryTheory.constantSheaf` is the case of a constant group (§6.3).
 - `CategoryTheory.presheafToSheaf` (`Mathlib/CategoryTheory/Sites/Sheafification.lean`): sheafification,
-  used on the small étale site for `gmSmallEtale` (Convention 7). `AlgebraicGeometry.IsLocallyNoetherian`
+  used on the small étale site for `gmSmallEtale` (Convention 7) and `smallEtaleSheaf` (§6.3).
+  `AlgebraicGeometry.IsLocallyNoetherian`
   and `AlgebraicGeometry.IsNoetherian` (locally Noetherian and quasi-compact;
   `Mathlib/AlgebraicGeometry/Noetherian.lean`), the stalks `X.presheaf.stalk z` with their local-ring
   structure, `HenselianLocalRing` (`Mathlib/RingTheory/Henselian.lean`), `IsSepClosed`
-  (`Mathlib/FieldTheory/IsSepClosed.lean`), `IsLocalRing.ResidueField` and `IsOfFinAddOrder`: the
-  hypotheses and the torsion condition of §§7.14, 8.1 and 8.7.
+  (`Mathlib/FieldTheory/IsSepClosed.lean`), `IsLocalRing.ResidueField`, `IsOfFinAddOrder`,
+  `AlgebraicGeometry.QuasiCompact`, `ringChar`, `FiniteDimensional` and `Algebra.IsSeparable`: the
+  hypotheses and the torsion condition of §§7.14 and 8.1–8.7.
 - `localCohomology` (`Mathlib/Algebra/Homology/LocalCohomology.lean`): local cohomology of modules
   as a colimit of Ext groups; compared with Zariski supports by SchemeAndStackFoundations §2.7.
 - `IsRegularLocalRing` (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`): a Noetherian local ring
@@ -347,6 +358,13 @@ Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`; each declaration was read 
   presheaf of groups `Hom(−, G)` of a group object; `CategoryTheory.GrothendieckTopology.subcanonical_over`
   (`Mathlib/CategoryTheory/Sites/SubcanonicalOver.lean`) with the instance making
   `AlgebraicGeometry.Scheme.fppfTopology` subcanonical: `Hom(−, G)` is a sheaf on the big fppf site of `S`.
+  For a commutative group object `G` (`IsCommMonObj`), `CategoryTheory.Hom.commGroup` (scoped in
+  `CategoryTheory.MonObj`, same file) is the pointwise commutative group structure on `Hom(T, G)`, and
+  `CategoryTheory.MonObj.comp_one` and `CategoryTheory.MonObj.comp_mul`
+  (`Mathlib/CategoryTheory/Monoidal/Cartesian/Mon.lean`) say that precomposition is a homomorphism:
+  together they give the presheaf of abelian groups `homPresheaf G` (§6.3). The pins have no
+  `CommGrpCat`-valued presheaf on `C` of a commutative group object of `C`
+  (`CategoryTheory.yonedaCommGrpGrp` is a presheaf on `Grp C`).
 - `AlgebraicGeometry.Scheme.Cover` (`Mathlib/AlgebraicGeometry/Cover/MorphismProperty.lean`) for the
   precoverages `AlgebraicGeometry.Scheme.etalePrecoverage`, `AlgebraicGeometry.Scheme.fppfPrecoverage`
   and `AlgebraicGeometry.Scheme.fpqcPrecoverage` (`Mathlib/AlgebraicGeometry/Sites/Etale.lean`,
@@ -390,6 +408,12 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
   `TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective` (`…/Scheme/ClosedImmersion.lean`)
   and `TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`
   (`…/Scheme/MultiplicativeType.lean`). These are the affine case of §7.12a.
+  `TauCeti.SplitTorus.groupScheme` (`TauCeti/Algebra/AlgebraicGroup/SplitTorus/Scheme.lean`): for a
+  commutative ring `R` and a finite type `σ`, the split torus `Spec R[ℤ^σ]` over `Spec R`, by definition
+  `TauCeti.DiagonalizableGroup.groupScheme R` of the character group
+  `TauCeti.SplitTorus.characterGroup σ = Multiplicative (σ →₀ ℤ)`
+  (`TauCeti/Algebra/AlgebraicGroup/SplitTorus/Basic.lean`); with `σ = ULift (Fin r)` it is the split torus
+  of rank `r` in `IsTorus` (§7.12c).
 - `TauCeti.MonoidAlgebra.faithfullyFlat_mapDomainRingHom_of_injective`
   (`TauCeti/Algebra/MonoidAlgebra/FaithfullyFlat.lean`) and
   `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`
@@ -1169,9 +1193,9 @@ of étale sheaves on `Spec R̃` (étale sites ignore nilpotents) and `vdim(R_*) 
 `H^i_𝔪(R̃, ℤ/ℓ) = 0` for `i < 2 dim R̃`, and the local Lefschetz theorem (§1.5:
 `H^i_𝔪(R̃, ℤ/ℓ) → H^i_𝔪(R̃/(f), ℤ/ℓ)` is bijective for `i < dim R̃ − 1`) carries this to
 `H^i_𝔪(R, ℤ/ℓ) = 0` for `i < dim R̃ − 1 = vdim(R)`. The reduction to hypersurfaces works for every
-finite étale `G` and is reused in §6.3. For the constant group `ℤ/n` with `n` invertible in `R` this
-target is the corresponding case of `etaleDepth_ge_virtualDimension` (§6.3), proved here without the
-perfectoid input of Layers 2–6.
+finite étale `G` and is reused in §6.3. This target is the case of `etaleDepth_ge_virtualDimension`
+(§6.3) in which the order of `G` is invertible in `R`, proved here without the perfectoid input of
+Layers 2–6.
 *Needs:* §§0.2, 1.1, 1.5; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.0.4
 (étale sites ignore nilpotents); SchemeAndStackFoundations §2.10 (fppf and étale cohomology of `ℤ/ℓ`
 agree); PrismaticCohomology §2.0; ModularCurves Layer 4D.
@@ -2007,31 +2031,85 @@ Prove: for a Noetherian local ring `(R, 𝔪)` and a commutative finite étale `
 Route: the reduction of §1.6 works for every finite étale `G` and ends at `G = ℤ/p` on a hypersurface
 `R̃/(f)` with `p = char(R/𝔪)`; a hypersurface is a complete intersection with `vdim = dim` (§1.1), and
 §6.2 applies.
-For the constant group `G = ℤ/n`, `n ≥ 1`, the statement is `etaleDepth_ge_virtualDimension`, in the
-equivalent form given by the long exact sequence `H^i_𝔪(R, G) → H^i(Spec R, G) → H^i(U_R, G) → H^{i+1}_𝔪(R, G)`
-of étale cohomology with supports: restriction `H^i(Spec R, ℤ/n) → H^i(U_R, ℤ/n)` is injective for
-`i < vdim(R)` and bijective for `i + 1 < vdim(R)`. There the cohomology is Mathlib's
-`CategoryTheory.Sheaf.cohomologyPresheaf` of the constant sheaf `ℤ/n` on the small étale site of
-`Spec R`, and the restriction is its map along `openEtaleHom (TauCeti.IsLocalRing.puncturedSpectrum R)`.
+In Lean the statement is `etaleDepth_ge_virtualDimension`, for `G` a commutative group object of
+`Over (Spec R)` (Mathlib `GrpObj`, `IsCommMonObj`) whose structure morphism is finite
+(`AlgebraicGeometry.IsFinite`) and étale (`AlgebraicGeometry.Etale`), in the equivalent form given by
+the long exact sequence `H^i_𝔪(R, G) → H^i(Spec R, G) → H^i(U_R, G) → H^{i+1}_𝔪(R, G)` of étale
+cohomology with supports: restriction `H^i(Spec R, G) → H^i(U_R, G)` is injective for `i < vdim(R)` and
+bijective for `i + 1 < vdim(R)`. There the cohomology is Mathlib's
+`CategoryTheory.Sheaf.cohomologyPresheaf` of the sheaf `smallEtaleSheaf G` below on the small étale site
+of `Spec R`, and the restriction is its map along `openEtaleHom (TauCeti.IsLocalRing.puncturedSpectrum R)`.
 For an open `U` of a scheme `X`, `openEtaleHom U` is the inclusion `U → X`, an open immersion and hence
 étale, as a morphism of the small étale site of `X` from `U` to the terminal object `X`; here
-`U = U_R`. Étale cohomology agrees
-with fppf cohomology for the smooth group `ℤ/n` (SchemeAndStackFoundations §2.10).
+`U = U_R`. Étale cohomology agrees with fppf cohomology for the smooth group `G`
+(SchemeAndStackFoundations §2.10, `smoothGroup_fppf_etale_comparison`).
 *Needs:* §§1.1, 1.6, 6.2; Mathlib `AlgebraicGeometry.Scheme.Etale`, `AlgebraicGeometry.Scheme.Etale.mk`,
 `AlgebraicGeometry.Scheme.Etale.forget`, `AlgebraicGeometry.Scheme.smallEtaleTopology`,
-`CategoryTheory.constantSheaf`, `CategoryTheory.Sheaf.cohomologyPresheaf`; Tau Ceti
-`TauCeti.IsLocalRing.puncturedSpectrum`; SchemeAndStackFoundations §2.10.
+`AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Etale`, `CategoryTheory.Sheaf.cohomologyPresheaf`; Tau Ceti
+`TauCeti.IsLocalRing.puncturedSpectrum`; SchemeAndStackFoundations §2.10; for the Lean form, `smallEtaleSheaf`
+(below).
+
+Define, for a scheme `S` and a commutative group `G` over `S` (a group object of `Over S` with
+`IsCommMonObj`), the presheaf `homPresheaf G` of abelian groups on schemes over `S`: it sends `T` to
+`Hom_S(T, G)` with the pointwise group law (Mathlib's `CategoryTheory.Hom.commGroup`), written
+additively, and a morphism `T′ → T` to precomposition, a homomorphism by
+`CategoryTheory.MonObj.comp_one` and `CategoryTheory.MonObj.comp_mul`. Define `smallEtaleSheaf G`, the
+**sheaf of `G` on the small étale site** of `S`, as the sheafification (Mathlib
+`CategoryTheory.presheafToSheaf`) of the restriction of `homPresheaf G` along
+`AlgebraicGeometry.Scheme.Etale.forget S`. It is the restriction to `S_ét` of the fppf sheaf of `G`,
+the coefficient sheaf of SchemeAndStackFoundations §2.10's `smoothGroup_fppf_etale_comparison`, in a
+Lean form here because `Suggested.lean` cannot import another roadmap's module.
+*Needs:* Mathlib `GrpObj`, `IsCommMonObj`, `CategoryTheory.Hom.commGroup`,
+`CategoryTheory.MonObj.comp_one`, `CategoryTheory.MonObj.comp_mul`, `CategoryTheory.presheafToSheaf`,
+`AlgebraicGeometry.Scheme.Etale.forget`, `AlgebraicGeometry.Scheme.smallEtaleTopology`;
+SchemeAndStackFoundations §2.10.
+
+API (each a target):
+- The restriction of `homPresheaf G` to the small étale site is already a sheaf, a representable
+  functor being a sheaf for the fpqc topology (Mathlib's `AlgebraicGeometry.Scheme.fpqcTopology` is
+  subcanonical) and étale covers being fpqc covers; so the sheafification map is an isomorphism, and
+  `smallEtaleSheaf G` takes an étale `V → S` to `Hom_S(V, G)`.
+- A homomorphism `G → G′` of commutative groups over `S` induces, by postcomposition, morphisms
+  `homPresheaf G → homPresheaf G′` and `smallEtaleSheaf G → smallEtaleSheaf G′`, compatibly with
+  composition.
+- For smooth `G`, the cohomology of `smallEtaleSheaf G` at an étale `V → S` is the fppf cohomology
+  `H^i_fppf(V, G)` (SchemeAndStackFoundations §2.10); this covers finite étale groups (§6.3) and tori
+  (§§8.3, 8.6).
+- For a finite group `M` and the constant group `M_S = ⊔_M S`, `smallEtaleSheaf M_S` is isomorphic to
+  the constant sheaf `M` (Mathlib `CategoryTheory.constantSheaf`), its sections over an étale `V → S`
+  being the locally constant functions `V → M`. For `G = D_S(ℤ)` it is isomorphic to `gmSmallEtale S`
+  (Convention 7) through the points of `D_S(ℤ)` (§7.12a).
 
 **Checks.**
 - For `R = 𝔽_p⟦x, y, z, t⟧/(x², y², xz − yt)` (`vdim = 1`) it gives `H^0_𝔪(R, ℤ/p) = 0`, although
   `H^0_𝔪(R, α_p) ≠ 0` (§6.4).
 - For complete intersections it is the étale case of §6.2.
 - For `vdim(R) ≤ 0` nothing is asserted: for `R = k⟦x, y⟧/(x, y)²`, `H^0_𝔪(R, ℤ/p) = ℤ/p` since `U_R = ∅`.
-- The restriction form is sharp in both clauses: for `R = k⟦x, y⟧/(xy)` (`vdim = 1`) and `i = 0`,
-  restriction is the diagonal `ℤ/n → (ℤ/n)²`, since `Spec R` is connected and `U_R` has two connected
-  components; it is injective, as claimed for `i < 1`, and not bijective, which is claimed only for
-  `i + 1 < 1`. For a field (`vdim = 0`), `ℤ/n → H^0(∅, ℤ/n) = 0` is not injective, and nothing is claimed.
-- `n ≥ 1` is needed: `ZMod 0 = ℤ` is not a finite group, and the theorem says nothing about it.
+- Constant coefficients: for `G = (ℤ/n)_R = ⊔_{ℤ/n} Spec R`, `n ≥ 1`, a morphism `V → G` over `Spec R`
+  is a decomposition of `V` into clopen pieces labelled by `ℤ/n`, so the sheaf of `G` is the constant
+  sheaf `ℤ/n` and the theorem says that restriction `H^i(Spec R, ℤ/n) → H^i(U_R, ℤ/n)` is injective
+  for `i < vdim(R)` and bijective for `i + 1 < vdim(R)`.
+- The restriction form is sharp in both clauses: for `R = k⟦x, y⟧/(xy)` (`vdim = 1`), `G = (ℤ/n)_R` and
+  `i = 0`, restriction is the diagonal `ℤ/n → (ℤ/n)²`, since `Spec R` is connected and `U_R` has two
+  connected components; it is injective, as claimed for `i < 1`, and not bijective, which is claimed only
+  for `i + 1 < 1`. For a field (`vdim = 0`), `ℤ/n → H^0(∅, ℤ/n) = 0` is not injective, and nothing is
+  claimed.
+- Non-constant coefficients: for `R = ℝ⟦x, y⟧` (regular, `vdim = 2`) and `G = μ_3`, which is finite
+  étale over `R` (`3` is a unit) and not constant, `H^0(Spec R, μ_3) = μ_3(R) = 1` and
+  `H^0(U_R, μ_3) = μ_3(Γ(U_R, 𝒪)) = 1` since `Γ(U_R, 𝒪) = R` (depth `2`), so restriction is bijective
+  for `i = 0`; and the Kummer sequences with `Pic(R) = 0` give `H^1(Spec R, μ_3) = R^×/R^{×3}`, which
+  injects into `H^1(U_R, μ_3)` through `Γ(U_R, 𝒪)^×/3 = R^×/R^{×3}`, as claimed for `i = 1`.
+- The sheaf of `G` is neither the constant sheaf on `G(R)` nor one on the underlying group of `G`
+  over a separable closure: for `μ_3` over `ℝ` its sections are `1` over `Spec ℝ` and `μ_3(ℂ) ≅ ℤ/3`
+  over `Spec ℂ`, while the constant sheaf on `μ_3(ℝ) = 1` vanishes over `Spec ℂ` and the constant
+  sheaf `ℤ/3` has sections `ℤ/3` over `Spec ℝ`.
+- Non-smooth groups are excluded: for `S = Spec 𝔽_p⟦x⟧` and `G = μ_p`, every étale `S`-scheme is
+  reduced, so the sheaf of `G` on the small étale site is zero and its `H¹` vanishes, while
+  `H¹_fppf(S, μ_p) = 𝔽_p⟦x⟧^×/(𝔽_p⟦x⟧^×)^p` contains the nonzero class of `1 + x`, which is not a power
+  series in `x^p`. So the small étale site computes fppf cohomology only for smooth `G`, which is why
+  `G` is étale here and §§6.2 and 6.5 are not stated on it.
+- The trivial group `G = Spec R` has the zero sheaf, all of whose cohomology vanishes, and both clauses
+  hold for it in every degree.
 - `openEtaleHom U` for `U = ⊤` is an isomorphism of the small étale site (the open immersion `⊤ → X` is
   an isomorphism), so restriction along it is bijective in every degree; for `U = ∅` its source is the
   empty scheme, whose cohomology vanishes, so restriction is the zero map, as in the field Check above.
@@ -2098,7 +2176,9 @@ sequence `Pic(U_R)[p] = 0` and `Γ(U_R, 𝒪)^×/p = R^×/p`.
 PerfectoidQuotients §0.6; PerfectoidQuotientsPartII §Q10.1 and the regular tower tilt contract;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.40; LefschetzPencilsAndVanishingCycles §0.10;
 SchemeAndStackFoundations §2.10; Mathlib `AlgebraicGeometry.Scheme.Etale`,
-`AlgebraicGeometry.Scheme.smallEtaleTopology`, `CategoryTheory.constantSheaf`,
+`AlgebraicGeometry.Scheme.smallEtaleTopology`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Etale`,
+`GrpObj`, `IsCommMonObj`, `CategoryTheory.Hom.commGroup`, `CategoryTheory.MonObj.comp_one`,
+`CategoryTheory.MonObj.comp_mul`, `CategoryTheory.presheafToSheaf`,
 `CategoryTheory.Sheaf.cohomologyPresheaf`; Tau Ceti `TauCeti.IsLocalRing.puncturedSpectrum`.
 
 ## Layer 7: Global purity and the conjectures of Gabber
@@ -2662,6 +2742,21 @@ colimit of the étale neighbourhoods of `s`, is already defined over one of them
 `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`, `TauCeti.torusAffineGroupSchemeProperty`,
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`, `TauCeti.DiagonalizableGroup.cartierDualIso`.
 
+In Lean the torus predicate is `IsTorus T` for `T : Grp (Over X)`: there are commutative rings `A_i`,
+indexed by a type in the universe of `X`, and étale morphisms `f_i : Spec A_i → X`, jointly surjective,
+such that every base change `(Over.pullback f_i).mapGrp.obj T` is isomorphic in `Grp (Over (Spec A_i))`
+to Tau Ceti's split torus `TauCeti.SplitTorus.groupScheme A_i (ULift (Fin r_i))` for some `r_i`, which
+may depend on `i`. It agrees with the definition above: a jointly surjective family of étale morphisms
+is an étale cover, hence an fppf cover; conversely, by the theorem of this section a torus is split over
+the members of an étale cover, each member is covered by affine opens, étale over `X`, base change of
+`D(ℤ^r)` is `D(ℤ^r)`, and over `Spec A` the group `D(ℤ^r)` is
+`TauCeti.DiagonalizableGroup.groupScheme A` of `ℤ^r`, which is
+`TauCeti.SplitTorus.groupScheme A (ULift (Fin r))` (§7.12a). A torus is commutative (API below); the
+Lean statements on tori (§§8.3, 8.6) carry `IsCommMonObj T.X` as an instance argument, which their
+coefficient sheaf `smallEtaleSheaf` (§6.3) needs.
+*Needs:* the theorem above, §7.12a; Mathlib `CategoryTheory.Grp`, `CategoryTheory.Over.pullback`,
+`CategoryTheory.Functor.mapGrp`, `AlgebraicGeometry.Etale`; Tau Ceti `TauCeti.SplitTorus.groupScheme`.
+
 API (each a target):
 - Diagonalizable groups are of multiplicative type (by the identity cover), `D_S(ℤ^r)` is a torus, and
   tori are of multiplicative type. The three predicates are invariant under isomorphism, stable under
@@ -2699,6 +2794,15 @@ API (each a target):
 - Over `S = Spec(k × k)` the group that is `𝔾_m` over one point and `μ_2` over the other is of
   multiplicative type (cover `S` by its two points) but not diagonalizable, since `D_S(M)` has the same
   fibre `D(M)` over both points: the definition must let `M_i` depend on `i`.
+- Splitting over the affine members of an étale family cannot be weakened to splitting over a Zariski
+  cover: the circle torus over `ℝ` is split over the étale cover `Spec ℂ → Spec ℝ`, while the only
+  nonempty open of `Spec ℝ` is `Spec ℝ` itself, over which it is not split, so a Zariski-local
+  definition would not make it a torus.
+- Joint surjectivity of the étale family is needed: the empty family satisfies every other condition
+  for every group over every `X`, `μ_2` over `Spec ℚ` included, which is not a torus.
+- The rank may depend on the member: over `Spec(k × k)` the group that is `𝔾_m` over one point and
+  trivial over the other is a torus, of rank `1` over the first point and `0` over the second, split by
+  the two points with `r = 1` and `r = 0`.
 
 ### 7.12d The character sheaf and the anti-equivalence
 
@@ -2924,6 +3028,7 @@ Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.IsLocalRing.punct
 `TauCeti.MultiplicativeTypeAffineGroupSchemeCat`,
 `TauCeti.TorusAffineGroupSchemeCat`, `TauCeti.FiniteTypeAffineGroupSchemeCat`, `TauCeti.FGCommGrpCat`,
 `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.groupSchemeMap`,
+`TauCeti.SplitTorus.groupScheme`,
 `TauCeti.DiagonalizableGroup.isClosedImmersion_groupSchemeMap_of_surjective`,
 `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom`, `TauCeti.DiagonalizableGroup.kernelCoordinateIso`,
 `TauCeti.DiagonalizableGroup.finrank_kernelCoordinate`,
@@ -2986,14 +3091,25 @@ commutative finite étale `G` and, in positive characteristic, `Br(k′) = 0` fo
 then `H^i(k, T) = 0` for `i ≥ 1` and every `k`-torus `T`; (e) for a henselian regular local ring `R` of
 dimension `≥ 2` with residue field of dimension `≤ 1`, a nonzero finite étale `R`-algebra `R′` and an
 `R`-torus `T`, `H^1(U_R, T) → H^1(U_{R′}, T)` and `H²(U_R, T) → H²(U_{R′}, T)` are injective. Part (b) is
-stated for commutative `G`; see the Notes on the sources under References.
+stated for commutative `G`; see the Notes on the sources under References. The definition in (d) is
+`IsOfDimLEOne k` in Lean ([C19] Definition A.1, p. 15, which states the Brauer clause as
+`H²_ét(K, 𝔾_m) = 0`): `H^i` of `smallEtaleSheaf G` (§6.3) at the terminal object `Spec k` of the small
+étale site vanishes for `i ≥ 2` and every commutative finite étale `k`-group `G`, and, when
+`ringChar k ≠ 0`, `H²` of `gmSmallEtale (Spec K)` (Convention 7) at `Spec K` vanishes for every finite
+separable extension `K/k` (Mathlib `FiniteDimensional`, `Algebra.IsSeparable`).
 *Needs:* §§0.1, 0.5, 7.6, 7.12c, 7.13; SchemeAndStackFoundations §§1.15, 2.3, 2.11, 2.15; ModularCurves
-Layer 4D.
+Layer 4D; for the Lean form of (d), §6.3 and Convention 7.
 
 **Checks.**
 - For `R′ = R` all maps in (b), (c), (e) are identities.
 - Finite fields, `ℂ((t))` and the maximal unramified extension of `ℚ_p` have dimension `≤ 1`; `ℝ` does not
   (`H²(ℝ, ℤ/2) = ℤ/2`).
+- A separably closed field has dimension `≤ 1`: its étale cohomology vanishes in positive degrees and
+  its only finite separable extension is itself. So §8.3 contains §8.1, the case of a strictly
+  henselian `R` and `T = 𝔾_m`.
+- `ℚ_p` does not have dimension `≤ 1`, since `H²(ℚ_p, μ_ℓ) ≅ Br(ℚ_p)[ℓ] ≅ ℤ/ℓ` for every prime `ℓ`; nor
+  does `𝔽_p((t))`, whose Brauer group `H²(𝔽_p((t)), 𝔾_m)` is `ℚ/ℤ`, so that the Brauer clause fails
+  already for `K = k`.
 - In (c), `Pic(V_{R′⊗R′}) = 0` holds in (e) because `R′ ⊗_R R′` is a product of regular local rings of
   dimension `≥ 2` and §7.6 applies to each factor.
 
@@ -3001,10 +3117,15 @@ Layer 4D.
 
 Prove: for a henselian regular local ring `R` of dimension `≥ 2` whose residue field has dimension `≤ 1`
 (§8.2(d)) and an `R`-torus `T`, `H^1_ét(U_R, T) = H²_ét(U_R, T) = 0` ([C19] Theorem 1.4, p. 3; §5.4, p. 13).
+In Lean this is `etaleCohomology_torus_puncturedSpectrum_subsingleton`: for `R` with Mathlib's
+`IsRegularLocalRing` and `HenselianLocalRing`, `IsOfDimLEOne` of its residue field and
+`2 ≤ ringKrullDim R`, and `T : Grp (Over (Spec R))` with `IsTorus T` (§7.12c), the cohomology `H^q`,
+`q ∈ {1, 2}`, of `smallEtaleSheaf T.X` (§6.3) at the object `U_R → Spec R` of the small étale site is a
+subsingleton. Tori are smooth, so this is also fppf cohomology (SchemeAndStackFoundations §2.10).
 Route: §8.2(e) and passage to the colimit over finite étale local `R′` (SchemeAndStackFoundations §2.15,
 `etale_cohomology_limits`) reduce to strictly henselian `R`, where `T` is split; then `Pic(U_R) = 0` (§7.6)
 and §8.1.
-*Needs:* §§7.6, 8.1, 8.2; SchemeAndStackFoundations §2.15.
+*Needs:* §§7.6, 8.1, 8.2; SchemeAndStackFoundations §2.15; for the Lean form, §§6.3, 7.12c.
 
 **Checks.**
 - For strictly henselian `R` and `T = 𝔾_m` it is `Pic(U_R) = 0` and §8.1.
@@ -3052,7 +3173,12 @@ closed point; then `H^0(R, 𝔾_m) ≅ H^0(U_R, 𝔾_m)` (§0.5), `H^{>0}(R, �
 Prove: for a scheme `X`, an `X`-torus `T` and a closed `Z ⊂ X` with `X ∖ Z → X` quasi-compact and every
 `𝒪_{X,z}`, `z ∈ Z`, regular of dimension `≥ 2`, `H^q_ét(X, T) → H^q_ét(X ∖ Z, T)` is an isomorphism for `q ≤ 2`
 and injective for `q = 3` ([C19] Theorem 6.1, p. 13), by §8.5 and the long exact sequence of §0.2.
-*Needs:* §§0.2, 8.5.
+In Lean this is `etaleCohomology_torus_purity`: for a scheme `X`, `T : Grp (Over X)` with `IsTorus T`
+(§7.12c), an open `U = X ∖ Z` whose inclusion is quasi-compact (Mathlib `AlgebraicGeometry.QuasiCompact`)
+and every stalk at a point outside `U` regular of dimension `≥ 2`, the maps of the cohomology presheaves
+of `smallEtaleSheaf T.X` (§6.3) along `openEtaleHom U` are bijective in degrees `≤ 2` and injective in
+degree `3`. No regularity is assumed on `U`.
+*Needs:* §§0.2, 8.5; for the Lean form, §§6.3, 7.12c.
 
 **Checks.**
 - For `T = 𝔾_m` and `q = 1`: `Pic(X) ≅ Pic(X ∖ Z)` for regular `X` and `Z` of codimension `≥ 2`.
@@ -3296,14 +3422,15 @@ punctured spectrum, §8.10 describes `Br(ℤ_p⟦x⟧)` inside `Br(Frac ℤ_p⟦
 
 ### Dependencies
 
-§§0.1–0.5, 3.5, 6.5, 7.6, 7.9–7.11, 7.12c, 7.12d, 7.13; SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.11,
-2.15, 2.22; ModularCurves Layer 4D; ArithmeticGaloisDuality §R02.2.4; Tau Ceti
-`AlgebraicGeometry.Scheme.Gm`, `TauCeti.IsLocalRing.puncturedSpectrum`.
+§§0.1–0.5, 3.5, 6.3, 6.5, 7.6, 7.9–7.11, 7.12c, 7.12d, 7.13; SchemeAndStackFoundations §§1.15, 2.1–2.3,
+2.10, 2.11, 2.15, 2.22; ModularCurves Layer 4D; ArithmeticGaloisDuality §R02.2.4; Tau Ceti
+`AlgebraicGeometry.Scheme.Gm`, `TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.SplitTorus.groupScheme`;
+Mathlib `AlgebraicGeometry.QuasiCompact`, `Algebra.IsSeparable`.
 
 ## Downstream consumers
 
-These roadmaps are later in the merge order; each is to import the sections named from here, which own
-them, instead of planning them (see Scope and ownership).
+Each roadmap below is to import the sections named from here, which own them, instead of planning
+them (see Scope and ownership).
 
 - SchemeAndStackFoundationsPartII is to import fppf cohomology with supports (§0.2), the supports,
   nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals,
@@ -3312,9 +3439,12 @@ them, instead of planning them (see Scope and ownership).
   Brauer comparison of §7.10.
 - EtaleDualityAndPerverseSheavesPartII is to import the local duality statements on excellent regular local
   rings and the local Lefschetz theorem (§§1.4–1.5).
-- A later roadmap on group schemes over a base is to import diagonalizable groups, groups of
-  multiplicative type and tori over a base, with their character sheaves, subgroups, quotients and
-  largest subtori (§§7.12a–7.12e), instead of restating them.
+- ReductiveGroups, for its relative theory of reductive group schemes over a base (the étale-local
+  splitting of groups of multiplicative type, the anti-equivalence with twisted constant sheaves of
+  finite type, closed immersions from monomorphisms, subgroups of multiplicative type), is to import
+  diagonalizable groups, groups of multiplicative type and tori over a base, with their character
+  sheaves, subgroups, quotients and largest subtori (§§7.12a–7.12e), instead of restating them; its
+  Layer 4 keeps the theory over a field.
 
 ## Worked examples
 
