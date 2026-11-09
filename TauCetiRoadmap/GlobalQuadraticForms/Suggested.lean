@@ -5,7 +5,7 @@ public import TauCeti.NumberTheory.QuadraticForm.Global.Localization
 public import TauCeti.NumberTheory.QuadraticForm.Global.Predicates
 public import TauCeti.NumberTheory.QuadraticForm.Global.Invariants
 public import TauCeti.NumberTheory.QuadraticForm.Global.FormInvariants
-public import TauCeti.LinearAlgebra.QuadraticForm.Witt.BaseChange
+public import TauCeti.NumberTheory.QuadraticForm.Global.WittLocalization
 
 /-!
 # Global quadratic forms over number fields: target signatures
@@ -20,7 +20,8 @@ The statements use Tau Ceti's carriers as they are: the localizations
 `QuadraticForm.LocallyEquivalent`, the invariant record
 `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` with its predicate
 `GlobalFormInvariants.IsAdmissible`, the record `QuadraticForm.globalInvariants` of a regular form,
-and the Witt ring `TauCeti.WittRing` with its scalar extension `TauCeti.WittRing.baseChange`.
+and the Witt ring `TauCeti.WittRing` with its global-to-local map
+`TauCeti.WittRing.globalToLocal`.
 
 The headline theorems are the global square theorem (4.2), Hasse–Minkowski for isotropy (5.5),
 for the representation of nonzero scalars (6.1), for the representation of forms (6.2) and for
@@ -136,19 +137,13 @@ theorem equivalent_of_locallyEquivalent
     Q.Equivalent R :=
   (hasseMinkowski_equivalent Q hQ R hR).2 h
 
-/-- **8.3, injectivity of the global-to-local map of Witt rings.** A Witt class of `K` whose
-scalar extensions to the Witt rings of every finite completion and of every real completion
-vanish is zero; equivalently, the map below is injective. The real component at `w` is scalar
-extension along the real embedding of `w`. Complex places are not needed: a class that vanishes
-at one finite place has even dimension, and the dimension modulo two is the only invariant of
-`W(ℂ)`. -/
-theorem injective_wittRing_baseChange_places [Invertible (2 : K)] :
-    Function.Injective fun x : TauCeti.WittRing K =>
-      ((fun v : HeightOneSpectrum (𝓞 K) =>
-          TauCeti.WittRing.baseChange (L := v.adicCompletion K) x),
-        fun w : {w : InfinitePlace K // w.IsReal} =>
-          @TauCeti.WittRing.baseChange K ℝ _ _
-            (InfinitePlace.embedding_of_isReal w.2).toAlgebra _ _ x) :=
+/-- **8.3, injectivity of the global-to-local map of Witt rings.** The ring homomorphism
+`W(K) → ∏_v W(K_v) × ∏_w W(ℝ)`, scalar extension to every finite completion and, along the real
+embedding, to every real place, is injective: a Witt class of `K` that vanishes at every finite
+and every real place is zero. Complex places are not needed: a class that vanishes at one finite
+place has even dimension, and the dimension modulo two is the only invariant of `W(ℂ)`. -/
+theorem injective_wittRing_baseChange_places :
+    Function.Injective (TauCeti.WittRing.globalToLocal K) :=
   sorry
 
 end Existence

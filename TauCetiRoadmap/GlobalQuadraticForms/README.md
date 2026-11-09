@@ -19,8 +19,9 @@ injectivity of the global-to-local map of Witt rings. The end theorems are
 
 This roadmap owns:
 
-- transport along isomorphisms of number fields (4.1), through which the Tau Ceti inputs stated
-  for number fields in `Type` serve number fields in every universe;
+- transport along isomorphisms of number fields (4.1), through which seven of the eight Tau Ceti
+  inputs stated for number fields in `Type` serve number fields in every universe; the remaining
+  one, the first inequality, is applied only to a model in `Type` inside 4.2;
 - the global square theorem (4.2) and the quadratic Hasse norm theorem read as representation by
   the binary form `⟨1, -d⟩` (4.3);
 - the binary and ternary cases of Hasse–Minkowski isotropy (5.1) and the theorem in every rank
@@ -88,11 +89,15 @@ This roadmap does not own, and cites:
 
 ## Conventions
 
-- `K` is a number field (`[Field K] [NumberField K]`, in any universe); the Tau Ceti inputs stated
-  for number fields in `Type` reach every universe through 4.1. A form is a
-  `QuadraticForm K V` on a finite-dimensional `V`; regular means `QuadraticForm.Nondegenerate`.
+- `K` is a number field (`[Field K] [NumberField K]`, in any universe); seven of the eight Tau Ceti
+  inputs stated for number fields in `Type` reach every universe through 4.1, and the remaining
+  one, the first inequality, is applied only to `K` in `Type` inside 4.2. A form is a
+  `QuadraticForm K V` on a finite-dimensional `V`; regular means `QuadraticMap.Nondegenerate`
+  (written `Q.Nondegenerate`, a `QuadraticForm` being a `QuadraticMap` with values in its ring).
   Two forms on `V` and on `W` may live in different universes. Where a Tau Ceti carrier takes
-  `[Invertible (2 : K)]` (the Witt ring), any instance serves: they are all equal.
+  `[Invertible (2 : K)]` (the Witt ring), the instance is Mathlib's `invertibleTwo` for fields of
+  characteristic zero, the one `TauCeti.WittRing.globalToLocal` uses; any other instance is equal
+  to it.
 - "Locally" means at every finite place `v : HeightOneSpectrum (𝓞 K)`, through
   `v.adicCompletion K`, and at every real place `w`, through `InfinitePlace.embedding_of_isReal`.
   Complex places are omitted because Tau Ceti proves that they add no condition.
@@ -141,8 +146,11 @@ pins. Eight of the Tau Ceti inputs are stated for number fields in `Type`:
 `TauCeti.hilbertSymbol_productFormula`, `QuadraticForm.globalInvariants_hasseProduct_eq_one`,
 `QuadraticForm.isAdmissible_globalInvariants`,
 `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite` and
-`TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`. Section 4.1 carries them to
-number fields in every universe.
+`TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`. Section 4.1 carries the last
+seven of these to number fields in every universe. The first, the first inequality of class field
+theory, is not transported: it concerns a second field `L`, idele classes and the index of a norm
+group, which 4.1 does not carry, and 4.2 applies it only after transporting its own hypothesis and
+conclusion to a model of `K` in `Type`.
 
 ### From Mathlib
 
@@ -151,6 +159,13 @@ number fields in every universe.
   `QuadraticMap.Equivalent` (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): forms, scalar
   extension along an algebra map, anisotropy (`Q x = 0` only for `x = 0`; the zero-dimensional
   form is anisotropic), and the existence of an isometry.
+- `QuadraticMap.Nondegenerate` (`LinearAlgebra/QuadraticForm/Radical.lean`): the radical is `⊥`
+  and the kernel of the polar form has rank at most one. When `2` is invertible the radical is the
+  kernel of the polar form (`QuadraticMap.radical_eq_ker_polarBilin`), so this is regularity in the
+  usual sense: `⟨1, -1⟩` satisfies it, `⟨1, 0⟩` does not, and the zero form on the zero space does.
+- `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'`
+  (`LinearAlgebra/QuadraticForm/IsometryEquiv.lean`): a form whose associated bilinear form is
+  separating is isometric to a diagonal form `⟨a₁, …, aₙ⟩` with unit weights.
 - `IsDedekindDomain.HeightOneSpectrum` and `HeightOneSpectrum.adicCompletion`
   (`RingTheory/DedekindDomain/AdicValuation/Completion.lean`): the finite places and their
   completions.
@@ -162,6 +177,8 @@ number fields in every universe.
 - `IdeleGroup` and `IdeleClassGroup` (`NumberTheory/NumberField/AdeleRing.lean`): the ideles and
   the idele classes.
 - `IsSquare`, `Function.HasFiniteMulSupport` and `finprod`.
+- `invertibleTwo` (`Algebra/CharP/Invertible.lean`): the instance `Invertible (2 : K)` for a
+  division semiring of characteristic zero, through which a number field carries its Witt ring.
 - Transport of number fields: `Field.exists_primitive_element`
   (`FieldTheory/PrimitiveElement.lean`), `IntermediateField.adjoinRootEquivAdjoin`
   (`FieldTheory/IntermediateField/Adjoin/Basic.lean`; `AdjoinRoot (minpoly F α) ≃ₐ[F] F⟮α⟯` for
@@ -184,7 +201,8 @@ All paths are under `TauCeti/`.
   `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
   isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
   `QuadraticForm.Nondegenerate.atFinitePlace` and their real versions); compatibility with
-  orthogonal sums, negation and scaling; the localized discriminant; and
+  orthogonal sums, negation and scaling; the localized discriminant
+  (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
   `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
 - Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
   `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
@@ -261,7 +279,7 @@ All paths are under `TauCeti/`.
   `a ∈ Kˣ`, `a = x² - d y²` is solvable in `K` exactly when it is solvable in every finite and every
   infinite completion).
 - Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Witt/Cancellation.lean`,
-  `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`,
+  `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`, `RegularFormClass/LowRank.lean`,
   `NumberTheory/LocalField/QuadraticForm/Hasse.lean`, `Classification.lean`, `Realization.lean`):
   `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
   `QuadraticMap.not_anisotropic_prod_of_represents_neg`,
@@ -274,6 +292,8 @@ All paths are under `TauCeti/`.
   which `2` is invertible, the product over `i < j` of the Hilbert symbols `(aᵢ, aⱼ)` of the
   weights of any diagonalization `⟨a₁, …, aₙ⟩`, independent of the diagonalization, in `ℤˣ`),
   `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`,
+  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over any field in which
+  `2` is invertible, a regular binary form is isotropic exactly when its discriminant is `[-1]`),
   `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq` and
   `TauCeti.RegularFormClass.exists_of_realization`.
 - Hasse–Minkowski steps (`LinearAlgebra/QuadraticForm/QuaternaryDescent.lean`,
@@ -318,8 +338,9 @@ All paths are under `TauCeti/`.
 
 The build starts at Layer 4. The foundations (localization, local predicates, archimedean and
 finite invariants, the invariant record) are Tau Ceti declarations, and the section map in Scope
-and ownership resolves citations of Layers 0–3 to them. Layer 4 first carries the Tau Ceti inputs
-stated for number fields in `Type` to every universe, and then proves the two arithmetic inputs of
+and ownership resolves citations of Layers 0–3 to them. Layer 4 first carries seven of the eight
+Tau Ceti inputs stated for number fields in `Type` to every universe (the first inequality is used
+only in `Type`, inside 4.2), and then proves the two arithmetic inputs of
 Hasse–Minkowski that are not in Tau Ceti: the global square theorem and the quadratic Hasse norm
 theorem in the language of forms. Layer 5 proves the binary and ternary cases and
 assembles Hasse–Minkowski for isotropy in every rank from them and Tau Ceti's conditional
@@ -334,7 +355,10 @@ the Witt-ring consequences. The worked examples test the end theorems on `ℚ` a
 
 The headline theorems are stated for number fields `K : Type u`, while the eight Tau Ceti inputs
 listed at the head of the supplier contracts are stated for number fields in `Type`. Prove the two
-facts that carry those inputs to every universe.
+facts that carry seven of them to every universe. The remaining one, the first inequality
+`TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`, is a statement about a cyclic
+extension `L/K`, idele classes and the index of the image of `ideleClassNormMap K L`, none of which
+the second fact transports; it is consumed only by 4.2, which reduces to `K` in `Type` first.
 
 1. Every number field `K : Type u` is isomorphic to a number field in `Type`. Route:
    `Field.exists_primitive_element` gives `α ∈ K` with `ℚ⟮α⟯ = K`, and
@@ -372,9 +396,12 @@ facts that carry those inputs to every universe.
    record: the discriminants match because `τ_v` agrees with `σ` on `K`, and the Hasse signs and
    positive indices are reindexed along the same correspondences of places.
 
-Together these give each of the eight inputs for number fields in every universe: transport the
+Together these give the other seven inputs for number fields in every universe: transport the
 data to a model in `Type` by the first fact, apply the input there, and transport the conclusion
-back by the second. This is how 4.2, 4.3, 7.2 and 7.3 reach the generality of their statements.
+back by the second. The first inequality is not transported: 4.2 transports its own hypothesis
+(local squares at the places outside `S`) and conclusion (a global square), and applies the first
+inequality to the model of `K` in `Type` and a quadratic extension of it, also in `Type`. This is
+how 4.2, 4.3, 7.2 and 7.3 reach the generality of their statements.
 
 *Needs:* Mathlib `Field.exists_primitive_element`, `IntermediateField.adjoinRootEquivAdjoin`,
 `NumberField.RingOfIntegers.mapRingEquiv`, `IsDedekindDomain.HeightOneSpectrum.equivOfRingEquiv`,
@@ -530,9 +557,17 @@ and 4.3 gives global representation.
 With the ternary case, `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` becomes
 unconditional: a locally isotropic regular quaternary form over a number field is isotropic.
 
-*Needs:* 4.2, 4.3; Tau Ceti `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`,
-`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`,
-`QuadraticForm.IsLocallyIsotropic`.
+*Needs:*
+
+- all three results: Tau Ceti `QuadraticForm.IsLocallyIsotropic`;
+- the binary case: 4.2 (with `S = ∅`); Tau Ceti
+  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over each `K_v`),
+  `QuadraticForm.discr_atFinitePlace` and
+  `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`;
+- the ternary case: 4.3; Mathlib
+  `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'` (diagonalization);
+- the unconditional quaternary consequence: the ternary case, over every number field in the
+  universe of `K`, and Tau Ceti `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`.
 
 **Checks.**
 
@@ -564,11 +599,12 @@ gives `b = 0` and the singular form `⟨0⟩ ⊥ W`, while `x = (1, 0)` gives `b
 with `W(y) = -1`. Approximating the scalar `b` directly in prescribed local square classes, instead
 of the vector `x`, shows only that `-b` is represented by `W`, not that `b` is represented by `U`.
 
-*Needs:* 5.1; Tau Ceti `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
-`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`,
-`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`,
-`QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`,
-`QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace`.
+*Needs:* 5.1 (the binary, ternary and quaternary cases); Tau Ceti
+`QuadraticForm.isLocallyIsotropic_of_not_anisotropic` and
+`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`. The lemmas of the
+higher-rank step discussed above, `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
+and `QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace`, are inputs of the Tau Ceti proof of
+that step, not of this target.
 
 **Checks.**
 
@@ -800,7 +836,8 @@ global discriminant, finite Hasse signs and real positive indices
 zero. With 7.3 it gives a bijection from the isometry classes of regular forms of positive rank to
 the admissible records, and the zero form is the only regular form of rank zero up to isometry.
 
-*Needs:* 7.3, 7.4; Tau Ceti `QuadraticMap.Equivalent.globalInvariants_eq`.
+*Needs:* 7.4; Tau Ceti `QuadraticMap.Equivalent.globalInvariants_eq`. The bijection with
+admissible records additionally needs 7.3.
 
 **Checks.**
 
@@ -835,11 +872,12 @@ statement to `Q ⊥ (-R)`, which is hyperbolic exactly when `Q` and `R` have the
 
 ### 8.3 Injectivity of the global-to-local Witt map
 
-Prove that the global-to-local map of Witt rings, whose component at a finite place `v` is
-`TauCeti.WittRing.baseChange` along `K → K_v` and whose component at a real place `w` is the same
-map along the real embedding of `w`, is injective (`injective_wittRing_baseChange_places`; the
-local–global principle it rests on is Milne, VIII, Theorem 6.3, p. 252, through 8.2). This
-map is `TauCeti.WittRing.globalToLocal`; the Lean statement writes its components out. Its kernel
+Prove that the global-to-local map of Witt rings `TauCeti.WittRing.globalToLocal K`, whose
+component at a finite place `v` is `TauCeti.WittRing.baseChange` along `K → K_v` and whose
+component at a real place `w` is the same map along the real embedding of `w`, is injective
+(`injective_wittRing_baseChange_places`; the local–global principle it rests on is Milne, VIII,
+Theorem 6.3, p. 252, through 8.2). The Lean statement is the injectivity of
+`TauCeti.WittRing.globalToLocal`. Its kernel
 is 8.2: a class in the kernel is the class of an anisotropic form whose localizations are
 hyperbolic, which 8.2 makes hyperbolic, so the class is zero. Complex places add nothing: a class
 that vanishes at one finite place has even dimension, which is its whole image in `W(ℂ) = ℤ/2`.
