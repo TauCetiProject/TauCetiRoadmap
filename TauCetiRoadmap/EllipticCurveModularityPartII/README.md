@@ -8,7 +8,7 @@ EllipticCurveModularity ends at rational elliptic modularity; this Part II owns 
 
 The elliptic isogeny, duality, torsion, Weil pairing, local reduction, Tate-curve and twist theories belong to EllipticCurves Layers 1–5; global minimal equations belong to its Layer 4.5b. Tau Ceti already supplies the old/new spaces, the all-index Hecke eigenform property of a newform, the bad-prime coefficient classification, the normalized exact-divisor Atkin–Lehner operators on Γ₀(N), coefficient fields with integral coefficients in weight at least two, the integral Hecke algebra, the Γ₀(N) index formula and the characteristic-zero finite-index Sturm bound, at the declarations named in the supplier contracts. ModularForms §3.1 owns the fixed-character old/new indexing, §8.2 the Galois conjugate newforms with their character transport and orbit sizes, §10C the exact dimension formulas and the newspace dimension identity, and §§0.2 and 1.1 the eta-quotient cusp orders and the geometric order dictionary. ComputationalNumberTheory §3.4 owns the level-one rational-coefficient prime-modulus Sturm specialization; the arbitrary-level, character and ideal extension is built here. ModularCurves Layers 1A and 1D own the projective elliptic scheme and group law; StableReduction Layer 5 owns minimal regular proper models. JacobianChallenge Layers D–F own general Jacobians, abelian varieties and Abel–Jacobi maps. These constructions are consumed here rather than reconstructed.
 
-General arithmetic representations, optimized modular lifts and modular Jacobians belong to the earlier suppliers in the exact contracts below. Layer 5 owns the prime and composite rational cyclic-isogeny classifications, extending the fixed-vector torsion exclusion of EisensteinIdealAndRationalTorsion §§7.8 and 8.9 to stable lines. Layer 6 owns the arithmetic continuation of ModularCurvesPartII: Chen’s comparison on the supplied curves, rational-point theorems, normalized coordinates, winding quotients and their integral comparison. ModularSymbolsPadicLFunctions §§0.6–0.8 and 1.1 supply symbol duality and rational periods; EisensteinIdealAndRationalTorsion §7.9 supplies the geometric cuspidal-divisor (Manin–Drinfeld) theorem, which §6.0c imports for §§6.5 and 6.8; the saturated winding lattice is proved here. PadicFamilies §§4.0.1–4.0.3 owns the normalized theta/Siegel units, ordered symbols, finite-level modular classes and their reciprocity, including the CM induced-character/elliptic-unit comparison. The labelled auxiliary-level pushforward and its final-level reciprocity are required extensions of that supplier, specified separately in the exact contracts below. Section 6.0e specializes those inputs at k=2, r=r′=1 and owns the explicit cup/Chern sign and Tate-module duality comparisons and the unconditional modular abelian rank-zero application; EulerSystemsAndKolyvaginSystems supplies conditional descent. Section 6.0f owns the explicit elliptic isogeny-degree bound needed for its rational-point theorem, the minimal period subvariety A_ω of an abelian variety in every dimension and for every tangent vector, Cartier's smoothness theorem for group schemes locally of finite type over a field of characteristic zero beyond the affine case at the pins, which the existence of A_ω uses, and the explicit Gaudron–Rémond period estimates on its route: the auxiliary-section, jet-norm and slope bounds, the multiplicity estimate at the origin, the surface estimate and the period graph in E²×E′²; ArakelovGeometryAndAbelianHeights §§4.4 and 5.9 supply the height comparisons along a given isogeny and with j. The five-level nonvanishing, formal immersion and j-integrality arguments then use these targets. The sharp square-root thresholds here are denoted F♯, G♯, H♯ (sharpF, sharpG, sharpH); they differ from the numerical majorants without square roots. Each threshold has one definition in §§1.5–1.7. The modular coordinates are constructed in §6.0a; §6.15 proves their integral-value characterization. The progression applications listed under Downstream consumers use Layers 1–6; their specialized arithmetic is outside this roadmap.
+General arithmetic representations, optimized modular lifts and modular Jacobians belong to the earlier suppliers in the exact contracts below. Layer 5 owns the prime and composite rational cyclic-isogeny classifications, extending the fixed-vector torsion exclusion of EisensteinIdealAndRationalTorsion §§7.8 and 8.9 to stable lines. Layer 6 owns the arithmetic continuation of ModularCurvesPartII: Chen’s comparison on the supplied curves, rational-point theorems, normalized coordinates, winding quotients and their integral comparison. ModularSymbolsPadicLFunctions §§0.6–0.8 and 1.1 supply symbol duality and rational periods; EisensteinIdealAndRationalTorsion §7.9 supplies the geometric cuspidal-divisor (Manin–Drinfeld) theorem, which §6.0c imports for §§6.5 and 6.8; the saturated winding lattice is proved here. PadicFamilies §§4.0.1–4.0.3 owns the normalized theta/Siegel units, ordered symbols, finite-level modular classes and their reciprocity, including the CM induced-character/elliptic-unit comparison. The labelled auxiliary-level pushforward and its final-level reciprocity are required extensions of that supplier, specified separately in the exact contracts below. Section 6.0e specializes those inputs at k=2, r=r′=1 and owns the explicit cup/Chern sign and Tate-module duality comparisons and the unconditional modular abelian rank-zero application; EulerSystemsAndKolyvaginSystems supplies conditional descent. Section 6.0f owns the explicit elliptic isogeny-degree bound needed for its rational-point theorem, the minimal period subvariety A_ω of an abelian variety in every dimension and for every tangent vector, Cartier's smoothness theorem for group schemes locally of finite type over a field of characteristic zero beyond the affine case at the pins, which the existence of A_ω uses, and the explicit Gaudron–Rémond period estimates on its route: the auxiliary-section, jet-norm and slope bounds, the multiplicity estimate at the origin, the surface estimate and the period graph in E²×E′²; ArakelovGeometryAndAbelianHeights §§4.4 and 5.9 supply the height comparisons along a given isogeny and with j. The five-level nonvanishing, formal immersion and j-integrality arguments then use these targets. The sharp square-root thresholds here are denoted F♯, G♯, H♯ (`sharpF`, `sharpG`, `sharpH`); they differ from the numerical majorants without square roots. Each threshold has one definition in §§1.5–1.7. The modular coordinates are constructed in §6.0a; §6.15 proves their integral-value characterization. The progression applications listed under Downstream consumers use Layers 1–6; their specialized arithmetic is outside this roadmap.
 
 ImaginaryQuadraticClassNumber §H3.6 owns the nine-field and thirteen-order class-number-one classifications used in §5.0a; ComplexMultiplicationAndExplicitReciprocity Layer 3 supplies their CM interpretation and singular values.
 
@@ -161,7 +161,7 @@ The conductor and optimized-lift contracts use Kraus §3.1, Theorems 3–4, pp. 
 
 ## How to read the build
 
-Layer 1 fixes dimensions and thresholds. Layer 2 fixes the native torsion representation and bounds a residual characteristic at a deleted prime. Layer 3 forces rational coefficients and realizes them at the exact conductor. Layer 4 adds full rational two-torsion, with separate local level/weight comparisons. Layer 5 develops the rational cyclic-degree classification and derives uniform irreducibility. Layer 6 first builds the modular-curve arithmetic, winding and rank-zero comparisons, then proves rational-isogeny surjectivity using Cartan geometry and finite j-value image bounds. All target dependencies are stated within these layers or in the exact supplier contracts.
+Layer 1 fixes dimensions and thresholds. Layer 2 fixes the native torsion representation and bounds a residual characteristic at a deleted prime. Layer 3 forces rational coefficients and realizes them at the exact conductor, at N(E[ℓ]) under Kraus's weight-two hypotheses and at the deletion level M₀ under irreducibility alone. Layer 4 adds full rational two-torsion, with separate local level/weight comparisons. Layer 5 develops the rational cyclic-degree classification, derives uniform irreducibility, and with it realizes full rational two-torsion at the deletion level. Layer 6 first builds the modular-curve arithmetic, winding and rank-zero comparisons, then proves rational-isogeny surjectivity using Cartan geometry and finite j-value image bounds. All target dependencies are stated within these layers or in the exact supplier contracts.
 
 ## Layer 1: Thresholds and sharp newspace dimensions
 
@@ -230,13 +230,13 @@ Identify the arithmetic dimension expression with the native trivial-character n
 
 ### 1.5 Kraus’s coefficient-rationality threshold F♯
 
-For N>0 put I(N)=[SL₂(ℤ):Γ₀(N)] using the native subgroup index, and g(N)=finrank over ℂ of (cuspFormsNew(N,2)∩cuspFormCharSpace(2,1)). Define sharpF(N)=(√(I(N)/6)+1)^(2g(N)). ([Kraus](#references), §3.1, equation (7), p.1143).
+For N>0 put I(N)=[SL₂(ℤ):Γ₀(N)] using the native subgroup index, and g(N)=finrank over ℂ of (cuspFormsNew(N,2)∩cuspFormCharSpace(2,1)). Define `sharpF` by sharpF(N)=(√(I(N)/6)+1)^(2g(N)) for N>0 and sharpF(0)=0, the latter only as a total-function convention. ([Kraus](#references), §3.1, equation (7), p.1143).
 
 *Needs:* the native Γ₀ index and trivial-character newspace; §1.3. Evaluate the square root in ℝ before the power; the exponent is twice the actual dimension, including dimension zero.
 
 The API supplies the following facts.
 
-- sharpF is the displayed expression in the native index and newspace dimension.
+- For N>0, sharpF(N) is the displayed expression in the native index and newspace dimension; sharpF(0)=0 is a junk-level convention, and every level at which a theorem below applies it is a positive deletion level.
 - For positive N, 1≤sharpF(N).
 - If the actual g(N)=0 then sharpF(N)=1.
 
@@ -248,13 +248,13 @@ The API supplies the following facts.
 
 ### 1.6 Kraus’s two-torsion threshold G♯
 
-For N>0 define sharpG(N)=(√(I(lcm(N,4))/6)+1)^2, where I is the native Γ₀ index. The lcm is essential and is not replaced by 4N. ([Kraus](#references), §3.1, equation (8), p.1144).
+Define `sharpG` by sharpG(N)=(√(I(lcm(N,4))/6)+1)^2 for N>0, where I is the native Γ₀ index, and sharpG(0)=0 as a total-function convention. The lcm is essential and is not replaced by 4N. ([Kraus](#references), §3.1, equation (8), p.1144).
 
 *Needs:* the native Γ₀ index and least common multiples. Form L=lcm(N,4) first; levels 1, 2 and 4 all give L=4.
 
 The API supplies the following facts.
 
-- sharpG is the displayed least-common-multiple expression.
+- For N>0, sharpG(N) is the displayed least-common-multiple expression; sharpG(0)=0.
 - For positive N, 1≤sharpG(N).
 - If 4 divides N, sharpG(N)=(√(I(N)/6)+1)^2.
 
@@ -266,13 +266,14 @@ The API supplies the following facts.
 
 ### 1.7 Kraus’s full-two-torsion comparison threshold H♯
 
-For N>0 define sharpH(N)=max(sharpF(N),sharpG(N)). ([Kraus](#references), §3.1, equation (9), p.1144).
+Define `sharpH` by sharpH(N)=max(sharpF(N),sharpG(N)) for every N, so that sharpH(0)=0. ([Kraus](#references), §3.1, equation (9), p.1144).
 
 *Needs:* §§1.5–1.6. The maximum combines the independent rationality and two-torsion requirements; at N=11 its second argument is larger.
 
 The API supplies the following facts.
 
-- For N>0, sharpH(N)=max(sharpF(N),sharpG(N)).
+- For every N, sharpH(N)=max(sharpF(N),sharpG(N)).
+- For positive N, 4≤sharpH(N): the level lcm(N,4) is a multiple of 4, so its Γ₀ index is at least μ(4)=6 and sharpG(N)≥(1+1)²=4. A strict inequality sharpH(N)<ℓ with N>0 therefore forces ℓ≥5.
 - sharpF(N)≤sharpH(N).
 - sharpG(N)≤sharpH(N).
 - For real ell, sharpH(N)<ell iff sharpF(N)<ell and sharpG(N)<ell.
@@ -343,7 +344,7 @@ The native headline is `norm_bound`. Its prime ideal I is nonzero and prime, con
 
 ### 2.2 The removed-prime exponent bound
 
-SerreWeightAndLevelOptimisation §6.1 owns the reduced level M₀ of the Conventions as a number. Define `deletionLevel E ℓ` as this roadmap's rendering of that M₀ on the pinned carriers, for an elliptic curve E over ℚ and a natural number ℓ; it is needed to state the removed-prime bound below and is consumed together with it, so that a roadmap stating the bound on an elliptic curve reads M₀ from here and does not define it again. With M the absolute norm of Tau Ceti `WeierstrassCurve.algorithmicConductor` over ℤ, the conductor by Ogg's formula, and |Δ| the absolute norm of `WeierstrassCurve.minimalDiscriminantIdeal`, it is M divided by the product of the primes q with ord_q(M)=1 and ℓ | ord_q(Δ); the prime q=ℓ is not excluded ([BS](#references), §2, equation (3), p. 358). For a prime ℓ≥3 it is the M₀ of SerreWeightAndLevelOptimisation §6.1, which defines M₀ only for such ℓ; at any other ℓ the same formula is the definition and claims nothing beyond the facts below. The API supplies the following facts, for every ℓ.
+SerreWeightAndLevelOptimisation §6.1 owns the reduced level M₀ of the Conventions as a number. Define `deletionLevel E ℓ` as this roadmap's rendering of that M₀ on the pinned carriers, for an elliptic curve E over ℚ and a natural number ℓ; it is needed to state the removed-prime bound below and the realization theorems of §§3.4 and 5.6, and is consumed together with them, so that a roadmap stating the bound on an elliptic curve reads M₀ from here and does not define it again. With M the absolute norm of Tau Ceti `WeierstrassCurve.algorithmicConductor` over ℤ, the conductor by Ogg's formula, and |Δ| the absolute norm of `WeierstrassCurve.minimalDiscriminantIdeal`, it is M divided by the product of the primes q with ord_q(M)=1 and ℓ | ord_q(Δ); the prime q=ℓ is not excluded ([BS](#references), §2, equation (3), p. 358). For a prime ℓ≥3 it is the M₀ of SerreWeightAndLevelOptimisation §6.1, which defines M₀ only for such ℓ; at any other ℓ the same formula is the definition and claims nothing beyond the facts below. The API supplies the following facts, for every ℓ.
 
 - M₀ divides M, and M/M₀ is a squarefree product of primes of multiplicative reduction.
 - A prime q divides M/M₀ exactly when ord_q(M)=1 and ℓ divides ord_q(Δ); at every prime of additive reduction ord_q(M₀)=ord_q(M).
@@ -379,7 +380,7 @@ Layer 1; norm divisibility and the all-embedding eigenvalue bound; the deletion-
 
 ## Layer 3: Rationality and exact-conductor realization
 
-Kraus's first theorem starts from E[ℓ], irreducible, of Serre weight 2 and of prime-to-ℓ Artin conductor N, with ℓ ≥ 5. Modularity, with the optimisation of level and weight, gives a newform f of weight two and level exactly N with trivial character whose residual representation at a prime λ above ℓ is E[ℓ]. If some coefficient c_q with q ≤ μ(N)/6 and q ∤ N were not an integer, then c_q minus the integer it is congruent to modulo λ (the trace of Frobenius of E at q, or ±(q + 1) if E has multiplicative reduction at q) would be a nonzero element of λ of norm at most (√q + 1)^(2d) ≤ F♯(N), against ℓ > F♯(N). So the coefficients at the primes up to μ(N)/6 are integers; the recurrences for the coefficients and the Sturm bound in characteristic zero then make f equal to all its conjugates, and f is rational. A rational newform of level N gives an elliptic curve C of conductor exactly N with C[ℓ]^ss≅ρ̄_f,ℓ. Irreducibility of E[ℓ] upgrades the comparison to actual torsion.
+Kraus's first theorem starts from E[ℓ], irreducible, of Serre weight 2 and of prime-to-ℓ Artin conductor N, with ℓ ≥ 5. Modularity, with the optimisation of level and weight, gives a newform f of weight two and level exactly N with trivial character whose residual representation at a prime λ above ℓ is E[ℓ]. If some coefficient c_q with q ≤ μ(N)/6 and q ∤ N were not an integer, then c_q minus the integer it is congruent to modulo λ (the trace of Frobenius of E at q, or ±(q + 1) if E has multiplicative reduction at q) would be a nonzero element of λ of norm at most (√q + 1)^(2d) ≤ F♯(N), against ℓ > F♯(N). So the coefficients at the primes up to μ(N)/6 are integers; the recurrences for the coefficients and the Sturm bound in characteristic zero then make f equal to all its conjugates, and f is rational. A rational newform of level N gives an elliptic curve C of conductor exactly N with C[ℓ]^ss≅ρ̄_f,ℓ. Irreducibility of E[ℓ] upgrades the comparison to actual torsion. The same argument, run on the newform of level M₀ that deletion-level lowering attaches to an irreducible E[ℓ] for every prime ℓ≥3, realizes E[ℓ] at the deletion level M₀ with no hypothesis on the Serre weight or on N(E[ℓ]) (§3.4).
 
 
 ### 3.1 Rationality from finitely many prime coefficients
@@ -414,19 +415,36 @@ Combine the optimized weight-two lift, the preceding rationality argument and th
 - For level 11 the rational normalized newform has first coefficients 1,−2,−1,2; integral prime coefficients and the recurrences agree, whereas rationality alone without algebraic integrality would not imply integrality.
 - At a good prime q, use the integer a_q(E); at a removed multiplicative prime use ±(q+1). The latter need not lie in the Hasse interval for a good-reduction trace.
 
+### 3.4 Realization at the deletion level
+
+State `deletion_level_realization`: let E/ℚ be an elliptic curve, ℓ≥3 a prime with E[ℓ] irreducible, and M₀=`deletionLevel E ℓ` (§2.2). If ℓ>F♯(M₀), there is an elliptic curve C/ℚ of conductor exactly M₀ with C[ℓ]≅E[ℓ] as Galois modules. The conductor of C is read, as for E, as the absolute norm of `WeierstrassCurve.algorithmicConductor` over ℤ. No hypothesis is made on the Serre weight of E[ℓ] or on N(E[ℓ]), and ℓ may divide M₀. ([BS](#references), §2, Theorem 3 and the paragraph preceding Theorem 4, pp. 359–360; the route is [Kraus](#references), §3.2, Lemma 1 and the proof of Theorem 3, pp. 1144–1145, run on the newform of level M₀.)
+
+*Needs:* §1.5; §2.0 for E[ℓ] and C[ℓ]; §2.1; §2.2 for M₀; §3.1; elliptic-modularity, deletion-level-lowering, coefficient-bound, newform-quotient and modular-abelian-conductor contracts; Tau Ceti `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one` and `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_sq_dvd` for the coefficients at primes dividing M₀; ModularForms §8.2 for the orbit size; NeronModelsAndSemistableAbelianVarieties §5.3e, Ogg's formula, for the conductors of E and C.
+
+A proof route takes the normalized weight-two trivial-character newform f of level M₀ and the prime λ above ℓ of deletion-level-lowering, with ρ̄_f,λ≅E[ℓ], c_q≡a_q(E) mod λ at primes q∤ℓMM₀, and c_q≡±(q+1) mod λ at primes q∤ℓM₀ with q∥M. The existence of f gives g⁺(M₀)≥1, hence F♯(M₀)>μ(M₀)/6, so every prime q≤μ(M₀)/6 is smaller than ℓ. Fix such a q. If q∣M₀, then c_q is 0 or ±1 by the bad-prime coefficient theorems. If q∤M and c_q∉ℤ, then c_q−a_q(E) is a nonzero element of λ whose conjugates have absolute value at most 4√q≤(√q+1)². If q∤M₀ but q∣M, then q∥M is a deleted multiplicative prime, and c_q∓(q+1) is a nonzero element of λ, because every conjugate of c_q has absolute value at most 2√q<q+1, with conjugates bounded by (√q+1)². In the last two cases §2.1, with d=[K_f:ℚ]≤g⁺(M₀), gives ℓ≤(√q+1)^(2d)≤F♯(M₀), a contradiction. Hence c_q∈ℤ at every prime q≤μ(M₀)/6, and no deleted prime lies below that bound. Section 3.1 makes f rational; newform-quotient and modular-abelian-conductor give an elliptic curve C of conductor M₀ with C[ℓ]^ss≅ρ̄_f,ℓ≅E[ℓ]; irreducibility of E[ℓ] gives C[ℓ]≅E[ℓ]. At ℓ=3 the threshold forces g⁺(M₀)=0, because g⁺(M₀)≥1 implies M₀≥11, μ(M₀)≥12 and F♯(M₀)≥(√2+1)²>3; the theorem then says that the hypotheses are inconsistent, which is the existence of the level-M₀ newform in deletion-level-lowering.
+
+When ℓ≥5, E[ℓ] has Serre weight 2 and M₀=N(E[ℓ]), §3.3 is the special case of this theorem at that level. When the weight is 2 and N(E[ℓ]) is a proper divisor of M₀, which for ℓ≥5 happens exactly when ℓ∣M₀ (§4.8), §3.3 realizes E[ℓ] at the smaller level N(E[ℓ]); when ℓ=3 or the Serre weight is not 2, only this theorem applies.
+
+**Checks.**
+
+- For 11a1 at ℓ=11, M₀=11 since 11∤ord₁₁(Δ)=5, and F♯(11)=3+2√2<11. With a₂=−2, the Frobenius polynomial x²+2x+2 has discriminant −4, a nonsquare modulo 11, so E[11] is irreducible; the conclusion holds with C=E. Here N(E[11])=1 and the Serre weight is 12, so §3.3 makes no assertion: a deletion-level statement that required M₀=N(E[ℓ]) and weight 2 would miss this case.
+- For 11a1 at ℓ=5, M₀=1 and F♯(1)=1<5, but no elliptic curve has conductor 1. The curve has a rational point of order 5, so E[5] is reducible: irreducibility is the hypothesis that excludes it.
+- For y²+xy+y=x³−x²−3x+3 (26b1), c₄=129 and Δ=−2⁷·13 are coprime, so M=26 with both primes multiplicative. At ℓ=7 the prime 2 is deleted and 13 is not, so M₀=13, g⁺(13)=0 and F♯(13)=1<7, while no elliptic curve has conductor 13. The point (1,0) has order 7, so E[7] is reducible; a deleted prime q≠ℓ does not remove the need for irreducibility.
+- For 141a1, y²+y=x³+x²−12x+2, Δ=3⁷·47 with c₄=592 coprime to it, so M=141. At ℓ=7 the prime 3 is deleted and M₀=47. With a₂=−2 the discriminant of x²+2x+2 is −4≡3 mod 7, a nonsquare, so E[7] is irreducible. No elliptic curve over ℚ has conductor 47, and F♯(47)=(1+2√2)⁸≈4.6·10⁴>7 with g⁺(47)=4 (§1.4): the threshold is the hypothesis that excludes this case.
+
 ### Examples
 
 For level 11 the rationality threshold is 3+2√2≈5.828. The conclusion applies at a prime ℓ≥7 satisfying irreducibility, weight two and exact residual conductor 11; it does not require ℓ to exceed the larger majorant 9.
 
 ### Dependencies
 
-Layers 1–2; modularity and optimized weight-two lifts; Tau Ceti coefficient integrality, the all-index eigenform property and the finite-index Sturm bound; ModularForms §8.2 for conjugation and orbit size; newform-quotient, newform-residual-representation and modular-abelian-conductor contracts for realization and exact conductor. None of these inputs is inferred from the realization conclusion.
+Layers 1–2; modularity and optimized weight-two lifts; Tau Ceti coefficient integrality, the all-index eigenform property and the finite-index Sturm bound; ModularForms §8.2 for conjugation and orbit size; newform-quotient, newform-residual-representation and modular-abelian-conductor contracts for realization and exact conductor; for §3.4, §2.2's deletion level, the deletion-level-lowering contract (SerreWeightAndLevelOptimisation §§6.1–6.3) and NeronModelsAndSemistableAbelianVarieties §5.3e. None of these inputs is inferred from the realization conclusion.
 
 ## Layer 4: Full rational two-torsion realization
 
 If E has full rational two-torsion, the comparison curve C of the preceding layer need not have it, but its point counts show a trace of it. For ℓ > G♯(N) and a prime q ∤ 2N with q ≤ μ(lcm(N, 4))/6, the traces of E and of C at q are congruent modulo ℓ and differ by less than ℓ, so they are equal, and #C(𝔽_q) = #E(𝔽_q) is divisible by 4 (bad reduction of E at such a prime is excluded by the same inequality). A congruence criterion of Sturm type modulo 4, at level lcm(N, 4), extends the divisibility from these finitely many primes to every prime q ∤ 2N. By Chebotarev's theorem the condition constrains the action of Galois on C[4], and it follows that C, or the quotient of C by its rational point of order two, has full rational two-torsion. The isogeny has degree 1 or 2, so it changes neither the conductor nor the representation on ℓ-torsion.
 
-The theorems of this layer and the preceding one are stated at the residual conductor N(E[ℓ]). The removed-prime bound is stated at the deletion level M₀. The two levels agree under a condition on the reduction of E at ℓ, and an application that uses both must check it.
+Kraus's theorems §§3.3 and 4.7 are stated at the residual conductor N(E[ℓ]) with Serre weight 2. The removed-prime bound and the realization theorems §§3.4 and 5.6 are stated at the deletion level M₀, with no weight hypothesis. The two levels agree under a condition on the reduction of E at ℓ (§4.8).
 
 
 ### 4.1 Kraus’s local coefficient filters
@@ -532,11 +550,11 @@ Prove weight-two-reduction-alternative: for E/ℚ, prime ℓ≥11 and irreducibl
 
 ### 4.8 From the deletion level to the residual conductor
 
-Kraus's theorems are stated at the prime-to-ℓ conductor N(E[ℓ]) and Serre weight 2; an application at the deletion level M₀ needs N(E[ℓ]) = M₀ and weight 2 as separate facts. ([BS](#references), §2, Theorems 3–4, pp. 359–360; application adapter with separate local-conductor and weight hypotheses).
+Kraus's theorems §§3.3 and 4.7 are stated at the prime-to-ℓ conductor N(E[ℓ]) with Serre weight 2, and the realization theorems §§3.4 and 5.6 at the deletion level M₀ with neither hypothesis. Prove the comparison of the two levels: for E/ℚ and a prime ℓ≥5, the prime-to-ℓ part of M₀ is N(E[ℓ]), so M₀=N(E[ℓ]) exactly when ℓ∤M₀, that is, when E has good reduction at ℓ or multiplicative reduction there with ℓ∣ord_ℓ(Δ). ([BS](#references), §2, Theorems 3–4, pp. 359–360, and [Kraus](#references), §3.1, Theorems 3–4, p. 1144, for the two levels; the comparison is the local-conductor adapter between them.)
 
-*Needs:* elliptic-conductor-and-weight, residual-conductor-away-from-ell, weight-two-reduction-alternative and optimized-weight-two-lift contracts; EllipticCurves Layer 4.
+*Needs:* elliptic-conductor-and-weight, residual-conductor-away-from-ell and weight-two-reduction-alternative contracts; EllipticCurves Layer 4.
 
-A proof route uses the away-from-ℓ conductor formula first. For ℓ≥5, the adapter gives M₀=N(E[ℓ]) if E has good reduction at ℓ, or multiplicative reduction there with ℓ|ord_ℓ(Δ). For ℓ≥11 and the irreducible representation in Kraus's comparison, the weight-two-reduction-alternative contract supplies this reduction alternative. For ℓ=5 or 7, retain it as an explicit hypothesis. An additive prime ℓ can remain in M₀ even though N(E[ℓ]) is prime to ℓ.
+A proof route uses the away-from-ℓ conductor formula first: at every prime q≠ℓ the exponent of q in N(E[ℓ]) is that in M₀. The exponent of ℓ in M₀ is 0 at good reduction and in the deleted multiplicative case, 1 in the multiplicative case with ℓ∤ord_ℓ(Δ), and ord_ℓ(M)≥2 at additive reduction. For ℓ≥11 and E[ℓ] irreducible of Serre weight 2, the weight-two-reduction-alternative contract supplies the local condition, so Kraus's level is M₀; for ℓ=5 or 7 the local condition is a separate hypothesis of the comparison. The realization theorems at M₀ use neither this comparison nor the weight. An additive prime ℓ can remain in M₀ even though N(E[ℓ]) is prime to ℓ.
 
 **Checks.**
 
@@ -553,7 +571,7 @@ Layers 1–3; the integral congruence theorem, the six-branch local filters, Che
 
 ## Layer 5: Uniform two-torsion irreducibility
 
-A reducible E[ℓ] has an invariant line, which is a Galois-stable cyclic subgroup of order ℓ; its points need not be rational. With a rational point of order two, the sum of the two subgroups is a stable cyclic subgroup of order 2ℓ. With full rational two-torsion, a stable cyclic subgroup of order 4 exists on the quotient of E by one of the points of order two (the kernel of the composite E/T → E → E/T′ for two distinct rational subgroups T, T′ of order 2), and with the transported line it gives a cyclic subgroup of order 4ℓ. The degrees of rational cyclic isogenies of elliptic curves over ℚ are known: they are the integers from 1 to 19 and 21, 25, 27, 37, 43, 67, 163. No 2ℓ with ℓ ≥ 11 and no 4ℓ with ℓ ≥ 5 is among them, which gives the two irreducibility statements. They hold for every curve with the stated two-torsion, with or without complex multiplication. A curve with a cyclic 14-isogeny shows that ℓ ≥ 11 cannot be lowered to ℓ ≥ 7 in the statement with one point of order two.
+A reducible E[ℓ] has an invariant line, which is a Galois-stable cyclic subgroup of order ℓ; its points need not be rational. With a rational point of order two, the sum of the two subgroups is a stable cyclic subgroup of order 2ℓ. With full rational two-torsion, a stable cyclic subgroup of order 4 exists on the quotient of E by one of the points of order two (the kernel of the composite E/T → E → E/T′ for two distinct rational subgroups T, T′ of order 2), and with the transported line it gives a cyclic subgroup of order 4ℓ. The degrees of rational cyclic isogenies of elliptic curves over ℚ are known: they are the integers from 1 to 19 and 21, 25, 27, 37, 43, 67, 163. No 2ℓ with ℓ ≥ 11 and no 4ℓ with ℓ ≥ 5 is among them, which gives the two irreducibility statements. They hold for every curve with the stated two-torsion, with or without complex multiplication. A curve with a cyclic 14-isogeny shows that ℓ ≥ 11 cannot be lowered to ℓ ≥ 7 in the statement with one point of order two. With full rational two-torsion the first statement removes the irreducibility hypothesis from the realization at the deletion level, which then keeps the full two-torsion (§5.6).
 
 
 ### 5.0a Prime rational isogenies and their non-CM refinement
@@ -657,13 +675,30 @@ State `rational_two_irreducible`: if E/ℚ has a rational point of order 2 and �
 
 A reducible E[ℓ] gives a forbidden 2ℓ-isogeny on E. Upgrade to absolute irreducibility by the same oddness lemma. The lower bound cannot be replaced by ℓ≥7: a rational cyclic 14-isogeny supplies a counterexample with a rational point of order two.
 
+### 5.6 Full rational two-torsion realization at the deletion level
+
+State `deletion_level_full_two_realization`: let E/ℚ be an elliptic curve with full rational 2-torsion, ℓ a prime, and M₀=`deletionLevel E ℓ`. If ℓ>H♯(M₀), there is an elliptic curve C/ℚ with full rational 2-torsion, of conductor exactly M₀, with C[ℓ]≅E[ℓ] as Galois modules; the conductor is read as in §3.4. Neither ℓ≥5 nor irreducibility of E[ℓ] is a hypothesis: the first follows from H♯(M₀)≥4 (§1.7), the second from §5.4. ([BS](#references), §2, Theorem 4, p. 360, stated there with the majorant H_K of §1.8 and with irreducibility of E[ℓ] assumed; the route is [Kraus](#references), §3.3, pp. 1145–1146, run at level M₀.)
+
+*Needs:* §§1.6–1.7; §3.4; §§4.3, 4.5 and 4.6; §5.1 for the predicate; §5.4 for irreducibility only; elliptic-modularity, deletion-level-lowering, coefficient-bound, newform-quotient and newform-residual-representation contracts; EllipticCurves Layer 4 for the reduction of two-torsion at odd primes of good reduction.
+
+A proof route first notes that ℓ>H♯(M₀)≥4 makes ℓ≥5, so E[ℓ] is irreducible by §5.4; for E with E[ℓ] irreducible, the rest of the argument uses no result of this layer. Since ℓ>F♯(M₀), §3.4 gives the curve C₀ of conductor M₀ attached to the rational newform f of level M₀ of deletion-level-lowering, with C₀[ℓ]≅E[ℓ] and a_q(C₀)=c_q(f) at every prime q∤M₀. Suppose that 4∤#C₀(𝔽_q) for some prime q∤2M₀. By §4.3 there is such a q≤μ(lcm(M₀,4))/6, and then (√q+1)²≤G♯(M₀)<ℓ. If q∤M, then E and C₀ have good reduction at q, c_q≡a_q(E) modulo ℓ and |a_q(C₀)−a_q(E)|≤4√q<(√q+1)²<ℓ, so the traces are equal and #C₀(𝔽_q)=#E(𝔽_q); this is divisible by 4 because the four rational two-torsion points of E reduce injectively at the odd prime q, a contradiction. If q∣M, then q∥M is a deleted multiplicative prime, a_q(C₀)≡±(q+1) modulo ℓ and 0<|a_q(C₀)∓(q+1)|≤(√q+1)²<ℓ, a contradiction. So 4 divides #C₀(𝔽_q) at every odd prime of good reduction of C₀, and §4.6 gives an isogeny C₀→C over ℚ of degree 1 or 2 onto a curve with full rational 2-torsion, of the same conductor M₀, with C[ℓ]≅C₀[ℓ]≅E[ℓ] since ℓ is odd.
+
+When the Serre weight of E[ℓ] is 2 and M₀=N(E[ℓ]), §4.7 is the case of this theorem in which irreducibility is assumed rather than derived.
+
+**Checks.**
+
+- On y²+xy+y=x³+x²−10x−10 (15a1), the two-division cubic is 4x³+5x²−38x−39=(x+1)(x−3)(4x+13), so E has full rational 2-torsion; Δ=3⁴·5⁴ with c₄=481 coprime to it, so M=15 and M₀=15 at every prime ℓ≥5. With μ(15)=24, g⁺(15)=1 and μ(60)=144, F♯(15)=9 and G♯(15)=H♯(15)=25+4√6≈34.80, so the theorem applies from ℓ=37 on, with C=E.
+- For 11a1 at ℓ=23, M₀=11, H♯(11)=13+4√3≈19.93<23 and E[23] is irreducible (the discriminant −4 of x²+2x+2 is a nonsquare modulo 23). Every elliptic curve of conductor 11 has a₃=−1, hence #C(𝔽₃)=5 is odd and C has no rational point of order two: without full rational 2-torsion of E the conclusion fails.
+- At M₀=11 the primes ℓ=7, 11, 13, 17, 19 satisfy ℓ>F♯(11)=3+2√2 but not ℓ>H♯(11); §3.4 applies to them and this theorem does not. The prime ℓ=23 satisfies ℓ>H♯(11) but not ℓ>H_K(11)=169, the threshold of the source statement.
+- At ℓ=3 the hypothesis fails for every E, since H♯(M₀)≥4; there §5.4 gives no irreducibility, because a cyclic 12-isogeny is permitted by §5.0b.
+
 ### Examples
 
 For ℓ=5, 4ℓ=20 is excluded by the cyclic-degree list; for ℓ=7, 4ℓ=28 is also excluded. For ℓ=3, 4ℓ=12 is allowed, so the exclusion proof does not extend to all odd primes. For one rational two-point, 2·7=14 is allowed and gives the sharp negative control; 2·11=22 is excluded.
 
 ### Dependencies
 
-§2.0 for the torsion carriers; EllipticCurves Layers 1–2; ModularCurvesPartII §§5.2, 9.1, 13.1–13.3 and 16.2; EisensteinIdealAndRationalTorsion §§7.8–7.9 and 8.9; ComplexMultiplicationAndExplicitReciprocity Layer 3; ImaginaryQuadraticClassNumber §H3.6; the cyclic-degree targets; complex-conjugation-on-torsion and odd-irreducible-absolutely-irreducible contracts. The line must be Galois-stable, not pointwise fixed, and the cyclic degree-4 construction lives on an isogenous curve.
+§2.0 for the torsion carriers; EllipticCurves Layers 1–2; ModularCurvesPartII §§5.2, 9.1, 13.1–13.3 and 16.2; EisensteinIdealAndRationalTorsion §§7.8–7.9 and 8.9; ComplexMultiplicationAndExplicitReciprocity Layer 3; ImaginaryQuadraticClassNumber §H3.6; the cyclic-degree targets; complex-conjugation-on-torsion and odd-irreducible-absolutely-irreducible contracts; for §5.6, §§1.6–1.7, 3.4, 4.3 and 4.5–4.6 with the deletion-level-lowering, coefficient-bound, newform-quotient and newform-residual-representation contracts. The line must be Galois-stable, not pointwise fixed, and the cyclic degree-4 construction lives on an isogenous curve.
 
 ## Layer 6: Rational-isogeny uniformity
 
@@ -1110,7 +1145,7 @@ Layer 5; PadicFamilies §§4.0.1–4.0.3 and its contracts gap:kato-labelled-pus
 
 ## Downstream consumers
 
-ErdosProgressionPowers consumes this roadmap through its supplier contract labelled EC.0–EC.6: §1.4 (EC.0), §2.2 (EC.1), §§1.5–1.8 (EC.2), §4.7 (EC.3), §§5.4–5.5 (EC.4), §6.18 (EC.5), and §2.0's `GeometricTorsion` and `torsionRepresentation` and §5.1's `FullRationalTwo` (EC.6). EC.1 carries `deletionLevel` with the bound: it is the rendering of the reduced level that the bound is stated on, and ErdosProgressionPowers §1.7 restates it on the same carriers for its own statements, as its §1.12 restates the full-two-torsion predicate. Its Layers 1–2 use the removed-prime bound, exact-conductor realization with full rational two-torsion and uniform irreducibility, and bound its progression levels against the majorants of §1.8. Rational-isogeny applications use the surjectivity theorem for every prime above 37. The sharp thresholds strengthen the numerical-majorant versions: at level 11 the full-two threshold is 13+4√3 instead of 169.
+ErdosProgressionPowers consumes this roadmap through its supplier contract labelled EC.0–EC.6: §1.4 (EC.0), §2.2 (EC.1), §§1.5–1.8 (EC.2), §4.7 (EC.3), §§5.4–5.5 (EC.4), §6.18 (EC.5), and §2.0's `GeometricTorsion` and `torsionRepresentation` and §5.1's `FullRationalTwo` (EC.6). EC.1 carries `deletionLevel` with the bound: it is the rendering of the reduced level that the bound is stated on, and ErdosProgressionPowers §1.7 restates it on the same carriers for its own statements, as its §1.12 restates the full-two-torsion predicate. EC.3 is Kraus's form at N(E[ℓ]); its deletion-level form §5.6, which assumes neither the Serre weight nor M₀=N(E[ℓ]), is stated at the level of the comparison curve of ErdosProgressionPowers §1.12. The Layers 1–2 of ErdosProgressionPowers use the removed-prime bound, exact-conductor realization with full rational two-torsion and uniform irreducibility, and bound its progression levels against the majorants of §1.8. Rational-isogeny applications use the surjectivity theorem for every prime above 37. The sharp thresholds strengthen the numerical-majorant versions: at level 11 the full-two threshold is 13+4√3 instead of 169.
 
 Section 6.0e supplies the explicit weight-two cup/Chern sign and Tate-module duality comparisons and the unconditional modular abelian rank-zero application. ModularIwasawaMainConjectures uses the common finite-level classes and reciprocity through PadicFamilies §4.0; the comparison here uses those same classes, levels, smoothing integers, transfers and periods.
 

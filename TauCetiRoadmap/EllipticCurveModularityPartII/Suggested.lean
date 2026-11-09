@@ -17,7 +17,7 @@ theorems against the pinned Mathlib and Tau Ceti APIs.
 
 Headlines: Martin's dimension formula and sharp equality criterion; the integral
 norm bound and the removed-prime exponent bound; sharp Kraus rational and
-full-two-torsion realization; uniform
+full-two-torsion realization at the deletion level; uniform
 irreducibility and absolute irreducibility with rational two-torsion; the prime,
 non-CM prime and composite rational cyclic-isogeny degree classifications; the rational
 j-tables at levels 11, 17 and 37; finite-prime
@@ -29,9 +29,11 @@ the quantitative elliptic isogeny-degree bound.
 
 The removed-prime exponent bound reads the conductor as the norm of Tau Ceti's
 `WeierstrassCurve.algorithmicConductor`, the conductor by Ogg's formula, and the minimal
-discriminant as the norm of `WeierstrassCurve.minimalDiscriminantIdeal`. Kraus's rational
-and full-two-torsion realization theorems are not statable at the pins: the prime-to-ell
-Artin conductor of the residual representation and its Serre weight are missing. The Cartan
+discriminant as the norm of `WeierstrassCurve.minimalDiscriminantIdeal`; the realization
+theorems at the deletion level read the conductor of the realized curve the same way. Kraus's
+rational and full-two-torsion realization theorems in their form at the prime-to-ell Artin
+conductor of the residual representation, with Serre weight two, are not statable at the pins:
+that conductor and the Serre weight are missing. The Cartan
 correspondence, winding quotient and formal immersion headlines
 lack the modular curves with their moduli/j maps, modular Jacobians with integral
 Hecke quotients, and their canonical integral models. They remain README targets;
@@ -104,6 +106,24 @@ theorem dimension_comparison (N : ℕ) [NeZero N] :
 theorem martin_bound (N : ℕ) [NeZero N] :
     12 * newDimension N ≤ N + 1 ∧
       (12 * newDimension N = N + 1 ↔ N = 35 ∨ (N.Prime ∧ N % 12 = 11)) := by sorry
+
+/-- Kraus's coefficient-rationality threshold `F♯(N) = (√(μ(N)/6) + 1)^(2 g⁺(N))`, with
+`μ(N)` the index of `Γ₀(N)` and `g⁺(N)` the trivial-character newspace dimension
+(Kraus, §3.1, equation (7)); the value `0` at `N = 0` is a total-function convention. -/
+def sharpF (N : ℕ) : ℝ :=
+  if h : N = 0 then 0 else
+    haveI : NeZero N := ⟨h⟩
+    (Real.sqrt (((CongruenceSubgroup.Gamma0 N).index : ℝ) / 6) + 1) ^ (2 * newDimension N)
+
+/-- Kraus's two-torsion threshold `G♯(N) = (√(μ(lcm(N,4))/6) + 1)^2` (Kraus, §3.1,
+equation (8)); the value `0` at `N = 0` is a total-function convention. -/
+def sharpG (N : ℕ) : ℝ :=
+  if N = 0 then 0 else
+    (Real.sqrt (((CongruenceSubgroup.Gamma0 (Nat.lcm N 4)).index : ℝ) / 6) + 1) ^ 2
+
+/-- Kraus's full-two-torsion threshold `H♯(N) = max(F♯(N), G♯(N))` (Kraus, §3.1,
+equation (9)). -/
+def sharpH (N : ℕ) : ℝ := max (sharpF N) (sharpG N)
 
 /-! ## Layer 2: removed-prime exponent bounds -/
 
@@ -178,6 +198,21 @@ theorem rationality_of_small_prime_coefficients (N : ℕ) [NeZero N]
       ∃ z : ℤ, (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff q = (z : ℂ)) :
     ∀ n : ℕ, ∃ z : ℤ, (UpperHalfPlane.qExpansion 1 f.toCuspForm).coeff n = (z : ℂ) := by sorry
 
+/-- Realization at the deletion level: for a prime `ell ≥ 3` with `E[ell]` irreducible and
+`ell > F♯(M₀)`, `M₀` the deletion level, there is an elliptic curve `C/ℚ` of conductor exactly
+`M₀` whose geometric `ell`-torsion is isomorphic to that of `E` as a Galois module. No Serre
+weight or residual-conductor hypothesis is made (Bennett–Siksek, §2, Theorem 3 and p. 360;
+Kraus's proof of Theorem 3, §3.2, p. 1145, run on the level-`M₀` newform). -/
+theorem deletion_level_realization (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (ell : ℕ) [Fact ell.Prime] (hell : 3 ≤ ell)
+    (hirr : (torsionRepresentation E ell).IsIrreducible)
+    (hF : sharpF (deletionLevel E ell) < ell) :
+    ∃ (C : WeierstrassCurve ℚ) (_ : C.IsElliptic),
+      Ideal.absNorm (WeierstrassCurve.algorithmicConductor ℤ C) = deletionLevel E ell ∧
+      ∃ e : GeometricTorsion E ell ≃ₗ[ZMod ell] GeometricTorsion C ell,
+        ∀ σ P, e (torsionRepresentation E ell σ P) = torsionRepresentation C ell σ (e P) := by
+  sorry
+
 /-! ## Layer 4: full rational two-torsion realization -/
 
 /-- For any nonnegative weight, level, nebentypus and ideal of a number field's
@@ -247,6 +282,21 @@ theorem rational_two_irreducible (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (ell : ℕ) [Fact ell.Prime] (hell : 11 ≤ ell) (hE : RationalTwo E) :
     (torsionRepresentation E ell).IsIrreducible ∧
       ((torsionRepresentation E ell).baseChange (AlgebraicClosure (ZMod ell))).IsIrreducible := by sorry
+
+/-- Realization with full rational two-torsion at the deletion level: if `E/ℚ` has full
+rational two-torsion and the prime `ell` exceeds `H♯(M₀)`, `M₀` the deletion level, there is an
+elliptic curve `C/ℚ` with full rational two-torsion, conductor exactly `M₀`, and geometric
+`ell`-torsion isomorphic to that of `E` as a Galois module. Since `H♯ ≥ 4`, `ell ≥ 5`, and
+`E[ell]` is irreducible by `full_two_irreducible` (Bennett–Siksek, §2, Theorem 4, p. 360;
+Kraus, §3.3, pp. 1145–1146, run at level `M₀`). -/
+theorem deletion_level_full_two_realization (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hE : FullRationalTwo E) (ell : ℕ) [Fact ell.Prime]
+    (hH : sharpH (deletionLevel E ell) < ell) :
+    ∃ (C : WeierstrassCurve ℚ) (_ : C.IsElliptic), FullRationalTwo C ∧
+      Ideal.absNorm (WeierstrassCurve.algorithmicConductor ℤ C) = deletionLevel E ell ∧
+      ∃ e : GeometricTorsion E ell ≃ₗ[ZMod ell] GeometricTorsion C ell,
+        ∀ σ P, e (torsionRepresentation E ell σ P) = torsionRepresentation C ell σ (e P) := by
+  sorry
 
 /-! ## Layer 6: rational-isogeny uniformity -/
 
