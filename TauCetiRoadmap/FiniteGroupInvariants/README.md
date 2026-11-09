@@ -802,7 +802,7 @@ Define `commutatorLength G` as the least `k` with `commutator G ⊆ commutatorSe
 - invariance under `≃*` and `commutatorLength (G × H) = max (commutatorLength G) (commutatorLength H)`;
 - **Guralnick's theorem** `commutatorLength_le_one_of_card_lt`: a finite group of order less than
   `96` has `commutatorLength G ≤ 1`, and there are groups of order `96` with commutator length `2`
-  (guralnick-1982, pp. 319–330; the threshold `96` and the two groups of that order are restated in
+  (guralnick-1980, pp. 651–654; the threshold `96` and the two groups of that order are restated in
   kunyavskii-2020, §3, p. 6).
 
 The route to Guralnick's theorem is his argument; a check over a classification of the groups of
@@ -1117,7 +1117,10 @@ finite products. *Needs:* 1.1, 1.3; InductionRestriction Layer 5.
 Define `irrDegreeC G` as the least degree of a faithful irreducible complex character, `⊤` if none.
 Prove Gaschütz's criterion `irrDegreeC_lt_top_iff`: `G` has a faithful irreducible complex
 character iff its socle is the normal closure of one element (gaschutz, pp. 253–255; the criterion is
-restated in szechtman-2015, p. 4, as the socle being a cyclic `ℤ[G]`-module). The least
+restated in szechtman-2015, p. 4, as `T(G)`, the product of the abelian minimal normal subgroups,
+being a cyclic `ℤ[G]`-module; for finite `G` this is equivalent to the socle being the normal closure
+of one element, since each nonabelian minimal normal subgroup is the normal closure of any of its
+nontrivial elements and the socle is the direct product of `T(G)` with the nonabelian ones). The least
 degree of a faithful representation (not necessarily irreducible) is the least total degree of a
 set of characters whose kernels meet trivially; over `ℝ` and `ℚ` the degrees follow from 6.4–6.5.
 *Needs:* 0.7, 5.3, 6.4, 6.5; Tau Ceti `FDRep.mem_ker_iff_char_eq`.
@@ -1713,8 +1716,8 @@ the abstract group from here.
   (1981), Theorem 1.
 - gaschutz: W. Gaschütz, *Endliche Gruppen mit treuen absolut-irreduziblen Darstellungen*, Math.
   Nachr. 12 (1954), 253–255: the theorem of the paper (the criterion is restated in szechtman-2015).
-- guralnick-1982: R. M. Guralnick, *Commutators and commutator subgroups*, Adv. Math. 45 (1982),
-  319–330: the order-`96` threshold (restated in kunyavskii-2020).
+- guralnick-1980: R. M. Guralnick, *Expressing group elements as commutators*, Rocky Mountain J.
+  Math. 10 (1980), 651–654: the order-`96` threshold (restated in kunyavskii-2020).
 - hall-1936: P. Hall, *The Eulerian functions of a group*, Quart. J. Math. 7 (1936), 134–151: the
   Möbius formula for `φ_n(G)` and the vanishing theorem (both restated in dallavolta-lucchini-2021).
 - hall-1940: P. Hall, *The classification of prime-power groups*, J. reine angew. Math. 182 (1940),
@@ -1753,4 +1756,5 @@ the abstract group from here.
 - sutherland-18785: A. Sutherland, *18.785 Number Theory I, Lecture 24: the Herbrand unit theorem*,
   MIT, 2021, Theorem 24.6.
 - szechtman-2015: F. Szechtman, *Groups having a faithful irreducible representation*,
-  arXiv:1504.01343v9: p. 4 (Gaschütz's criterion, as the socle being a cyclic `ℤ[G]`-module).
+  arXiv:1504.01343v9: p. 4 (Gaschütz's criterion, as `T(G)`, the product of the abelian minimal
+  normal subgroups, being a cyclic `ℤ[G]`-module; p. 1 defines `T(G)`).

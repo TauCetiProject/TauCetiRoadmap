@@ -276,7 +276,7 @@ noncomputable def commutatorLength : ℕ :=
   sInf {k | (commutator G : Set G) ⊆ commutatorSet G ^ k}
 
 /-- Guralnick's theorem: in a finite group of order less than `96`, every element of the
-commutator subgroup is a commutator (README 4.1; Guralnick 1982). -/
+commutator subgroup is a commutator (README 4.1; Guralnick 1980). -/
 theorem commutatorLength_le_one_of_card_lt [Finite G] (hG : Nat.card G < 96) :
     commutatorLength G ≤ 1 := sorry
 
