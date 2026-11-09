@@ -33,8 +33,9 @@ to group maps. These foundations are independent of quantum-group
 reconstruction. Section 0.2 is the single home of C*-categories with their
 orthogonal sums, projection splittings and additive dagger Karoubi completion,
 the finite-Hilbert and Hilbert-module C*-categories, C*-tensor categories with
-conjugate solutions, standard solutions, intrinsic dimension and signed
-self-dualities; §0.3 is the single home of the unitary Temperley–Lieb category
+conjugate solutions, standard solutions, intrinsic dimension, the balanced
+unitary dual functor and signed self-dualities; §0.3 is the single home of
+the unitary Temperley–Lieb category
 with its Hom-space adjoint, positive trace forms, C*-norms, standard conjugates
 and generic and truncated fusion. CategoricalOperatorAlgebras CA1a–CA2a and
 TemperleyLiebOperatorAlgebras Layer 3 come later in the build and consume these
@@ -294,9 +295,10 @@ Theorems 3.8 and 3.11; Neshveyev–Tuset §2.2, Definitions 2.2.10 and 2.2.12,
 Theorems 2.2.14 and 2.2.17). Prove d(X) ≥ 1 for nonzero X, because the unit is
 a subobject of X⊗X̄, with equality exactly when X is invertible: equality
 forces X⊗X̄≅1 by additivity and positivity of dimensions (Neshveyev–Tuset
-§2.7, Definition 2.7.1 and the remark following it). Transport these solutions to a dagger-compatible dual
-functor with unitary tensorator and the pivotal and spherical structures of
-PivotalSpherical. For a unitary self-duality r:X→X∨ keep the signed condition
+§2.7, Definition 2.7.1 and the remark following it). Transport these solutions
+to the balanced unitary dual functor, a dagger-compatible dual functor
+(`(f∨)†=(f†)∨`) with unitary tensorator, and to the pivotal and spherical
+structures of PivotalSpherical. For a unitary self-duality r:X→X∨ keep the signed condition
 `bar(r) r=ε φ_X`, ε=±1, where bar(f)=(f†)∨ and φ is the pivotal comparison.
 Prove invariance of the sign on a simple self-dual object. Neshveyev–Tuset §2.5
 normalise a self-conjugate simple object by `R̄=−τR` with τ=±1, so their τ is
@@ -1788,8 +1790,9 @@ Q8 item 1, for its rank-one comparison. HopfologicalAlgebra §2.1 consumes
 §8.5's finite Hopf-module category, which it cites as Q8 item 5, for its
 monoidal category of all H-modules. CategoricalOperatorAlgebras consumes §0.2
 for the C*-categories, their completions, the finite-Hilbert and Hilbert-module
-examples, conjugate and standard solutions, intrinsic dimension and signed
-self-dualities that its CA1a and CA2a use. TemperleyLiebOperatorAlgebras Layer 3
+examples, conjugate and standard solutions, intrinsic dimension, the balanced
+unitary dual functor and signed self-dualities that its CA1a and CA2a use.
+TemperleyLiebOperatorAlgebras Layer 3
 consumes §0.3 for the unitary Temperley–Lieb category, its Hom norms, standard
 conjugates and fusion rules.
 
