@@ -87,7 +87,7 @@ For `e := (ULift.ringEquiv : ULift.{w} K ≃+* K).symm`, the required explicit c
 `brauerExplicitH2Equiv (ULift K) (Additive.ofMul (BrauerGroup.uliftEquiv K x)) =
 e.unitsH2Congr (brauerExplicitH2Equiv K (Additive.ofMul x))` for every
 `x : BrauerGroup.{u, u} K`, together with its continuous-cohomology form through the
-canonical explicit-to-continuous comparison. `brauerCohomologyEquiv_baseChange` retains
+canonical explicit-to-continuous comparison. `TauCeti.brauerCohomologyEquiv_baseChange` retains
 same-universe field parameters. The finite-inflation equations and quaternion formulas
 do not yet identify the independently defined quotient transport with the comparison on
 all classes. The cohomological `ClassFieldTheory.brCongr` alone does not supply this
@@ -382,7 +382,7 @@ Tau Ceti supplies what the rest of the roadmap needs of it:
 - the discriminant and the signed discriminant (`TauCeti.RegularFormClass.discr`,
   `TauCeti.RegularFormClass.signedDiscr`), and scalar extension along a field extension,
   with which the rank and the discriminant commute (`TauCeti.RegularFormClass.baseChange`,
-  `rank_baseChange`, `discr_baseChange`);
+  `TauCeti.RegularFormClass.rank_baseChange`, `TauCeti.RegularFormClass.discr_baseChange`);
 - the descent principle `TauCeti.RegularFormClass.liftDiagonal` of Layer 0, which turns a
   function of presentations into a function of classes.
 
@@ -525,7 +525,7 @@ improvement through their own review rather than duplicating them.
   `I/I² ≅ Kˣ/(Kˣ)²`, the Pfister forms with the additive generation of `Iⁿ` for `n ≥ 1`, and
   the roundness of 1-fold and 2-fold Pfister forms. This is Layer 4.
 - **`TauCeti/FieldTheory/IntermediateField/Quadratic.lean`**: the quadratic normal form
-  `a + b√x`, `finrank_adjoin_simple_eq_two_of_sq_mem_notMem`, and
+  `a + b√x`, `IntermediateField.finrank_adjoin_simple_eq_two_of_sq_mem_notMem`, and
   `isSquare_mul_of_adjoin_simple_eq`. Layer 6 uses these when `K(√a)` must lie inside a
   given ambient field.
 - **`TauCeti/NumberTheory/Multiquadratic/SquareClass/{Basic,Independence}.lean`**:
@@ -538,7 +538,7 @@ improvement through their own review rather than duplicating them.
   odd-residue-characteristic formula reuses.
 - **`TauCeti/NumberTheory/EffectiveBounds/TraceForm.lean`** and
   `TauCeti/FieldTheory/Trace`: trace-form diagonalization on square-root bases, that is
-  `discr_one_elem_eq_of_sq_algebraMap` and the trace-vanishing criterion. Layer 9's
+  `TauCeti.Algebra.discr_one_elem_eq_of_sq_algebraMap` and the trace-vanishing criterion. Layer 9's
   `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩` for `K(√d)/K` is the form-level restatement, and is proved through
   this API.
 - **`TauCeti/RingTheory/Norm/Quadratic.lean`**: the trace and norm of `b + aθ` in a
@@ -660,21 +660,26 @@ arguments: `normalizedValuation`, `unitFiltration`, `natCastValuation`,
 `NatCastValuation.lean`, `RamificationIndex.lean`, `InertiaDegree.lean`,
 `AbsoluteRamificationIndex.lean`, and `TauCeti/RingTheory/Henselian/Teichmuller.lean` for
 `TauCeti.teichmuller 𝒪[K]`), and the lemmas about them in the rows below are proved by Tau
-Ceti's. This roadmap consumes the supplier's names.
+Ceti's. This roadmap consumes the supplier's names. That roadmap's layers hold only its own
+targets, so it is cited here by section: every supplier name below is in its list *Names
+imported by other roadmaps*, and the supplier column names the item of its *Exact supplier
+contracts* (From Tau Ceti) under which the Tau Ceti original is recorded.
 
-| Consumer milestone | Supplier layer | Exact declaration | Mathematical type |
+| Consumer milestone | Supplier item | Exact declaration | Mathematical type |
 |---|---|---|---|
-| Layer 6A, the valuation; every statement of 6B and 6C | 0 | `normalizedValuation`, `normalizedValuation_surjective`, `normalizedValuation_eq_one_iff`, `normalizedValuation_irreducible` | `Kˣ →* Multiplicative ℤ`, surjective, with the unit equation and the uniformizer equation |
-| Layer 6A, the unit filtration; 6B's defect bounds | 1 | `unitFiltration`, `mem_unitFiltration_zero`, `mem_unitFiltration_succ_congr`, `mem_unitFiltration_succ_valuation`, `unitFiltration_antitone`, `iInf_unitFiltration` | `ℕ → Subgroup Kˣ`, decreasing with trivial intersection, in both membership forms |
-| Layer 6A, residue and ramification data of a finite extension | 0 | `ramificationIndex`, `inertiaDegree`, `normalizedValuation_algebraMap`, `card_residueField`, `ramificationIndex_mul_inertiaDegree` | `e`, `f`, `v_L ∘ algebraMap = e · v_K`, `#𝓀[L] = #𝓀[K]^f`, and `e · f = [L:K]` |
-| Layer 6A, the level `e = v_K(2)`; the thresholds of 6B and the counts of 6D | 0 | `natCastValuation`, `normalizedValuation_natCast`, `natCastValuation_eq_zero_iff`; `absoluteRamificationIndex` with `absoluteRamificationIndex_eq_natCastValuation` for the comparison only | `e = v_K(2)` as `natCastValuation K 2`, named `dyadicLevel` here, with `v_K^×(2) = Multiplicative.ofAdd e` and `e = 0` exactly when `2` is a unit of `𝒪[K]`. ⚠ Not `absoluteRamificationIndex K 2`: that name is reserved for a finite extension of `ℚ_p` and reading it at `p = 2` forces `[Algebra ℚ_[2] K]`, which makes the odd-residue-characteristic branch unsatisfiable rather than false. ⚠ The relative `ramificationIndex K L` of the row above is a third, different invariant |
-| Layer 6A, the square-class dictionary; every count of 6D and the Kummer isomorphism of 7A | 1 | `square_eq_range_powMonoidHom` | `Subgroup.square Kˣ = (powMonoidHom 2).range`, the identification of Mathlib's subgroup of squares with the range the supplier's count and the Kummer isomorphism are stated at |
-| Layer 6A, the residue field and its unit group | 1 | `teichmuller`, `teichmuller_section` | `𝓀[K]ˣ →* 𝒪[K]ˣ`, a multiplicative section of reduction |
-| Layer 6A, the filtration quotients; 6B's approximation steps | 1, with the carrier from 3 | `UnitFiltrationGraded`; milestone *Graded pieces* (no target signature for the two isomorphisms) | the quotient `U(K,i)/U(K,i+1)` as a type, and `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ`, `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` for `i ≥ 1`. The two isomorphisms are frozen here as `nonempty_unitFiltrationGraded_zero_equiv` and `nonempty_unitFiltrationGraded_succ_equiv`, on the supplier's carrier |
-| Layer 6A, the square-class counts; 6D's counting arguments | 1 | `card_powerClasses_of_isUnit`, `card_powerClasses_mixed`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`; at `dyadicLevel`, `card_squareClass_of_odd` is Tau Ceti's `TauCeti.card_squareClass_of_odd` and `card_squareClass_of_dyadic` is frozen here | `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` in the two regimes, with the `n = 2` values `4` when `2` is a unit of `𝒪[K]` and `4 · q^e` for `K/ℚ_2` finite, at `e = dyadicLevel K` |
-| Layer 6A, the local square theorem; 6B's list of unit defects | 1 | `unitFiltration_le_range_powMonoidHom_two`, `not_unitFiltration_le_range_powMonoidHom_two`; at `dyadicLevel`, Tau Ceti's `TauCeti.unitFiltration_le_square` and `TauCeti.not_unitFiltration_le_square`, consumed here under the same names | `U(K, 2e+1) ⊆ (Kˣ)²` for `K/ℚ_2` finite, and its sharpness `U(K, 2e) ⊄ (Kˣ)²`, which 6B's defect list needs in order to know the bound is attained. The supplier's two carry `[Algebra ℚ_[2] K]`, which the odd-residue-characteristic branch cannot satisfy; Tau Ceti's need only `2 ≠ 0` |
-| Layer 6A, the unramified class; 6B's evaluation formula | 2 | `normGroup`, `map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`; milestone *Existence and uniqueness* (no target signature) | the unramified norm group in norm-equation form, `x ∈ normGroup L/K ↔ f ∣ v_K(x)`, with `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`; and the unramified extension of each degree. At degree `2` the existence and the uniqueness halves are frozen here, extension-free, as `exists_unramified_class` and `unramified_class_unique` |
-| Layer 6, the `ℚ_p` acceptance suite | 0 | the non-vacuity milestone (worked example) | `IsNonarchimedeanLocalField ℚ_[p]` |
+| Layer 6A, the valuation; every statement of 6B and 6C | *Valuations and `e`, `f`* | `normalizedValuation`, `normalizedValuation_surjective`, `normalizedValuation_eq_one_iff`, `normalizedValuation_irreducible` | `Kˣ →* Multiplicative ℤ`, surjective, with the unit equation and the uniformizer equation |
+| Layer 6A, the unit filtration; 6B's defect bounds | *Units* | `unitFiltration`, `mem_unitFiltration_zero`, `mem_unitFiltration_succ_congr`, `mem_unitFiltration_succ_valuation`, `unitFiltration_antitone`, `iInf_unitFiltration` | `ℕ → Subgroup Kˣ`, decreasing with trivial intersection, in both membership forms |
+| Layer 6A, residue and ramification data of a finite extension | *Valuations and `e`, `f`* | `ramificationIndex`, `inertiaDegree`, `normalizedValuation_algebraMap`, `card_residueField`, `ramificationIndex_mul_inertiaDegree` | `e`, `f`, `v_L ∘ algebraMap = e · v_K`, `#𝓀[L] = #𝓀[K]^f`, and `e · f = [L:K]` |
+| Layer 6A, the level `e = v_K(2)`; the thresholds of 6B and the counts of 6D | *Valuations and `e`, `f`* | `natCastValuation`, `normalizedValuation_natCast`, `natCastValuation_eq_zero_iff`; `absoluteRamificationIndex` with `absoluteRamificationIndex_eq_natCastValuation` for the comparison only | `e = v_K(2)` as `natCastValuation K 2`, named `dyadicLevel` here, with `v_K^×(2) = Multiplicative.ofAdd e` and `e = 0` exactly when `2` is a unit of `𝒪[K]`. ⚠ Not `absoluteRamificationIndex K 2`: that name is reserved for a finite extension of `ℚ_p` and reading it at `p = 2` forces `[Algebra ℚ_[2] K]`, which makes the odd-residue-characteristic branch unsatisfiable rather than false. ⚠ The relative `ramificationIndex K L` of the row above is a third, different invariant |
+| Layer 6A, the square-class dictionary; every count of 6D and the Kummer isomorphism of 7A | *Power classes* | `square_eq_range_powMonoidHom` | `Subgroup.square Kˣ = (powMonoidHom 2).range`, the identification of Mathlib's subgroup of squares with the range the supplier's count and the Kummer isomorphism are stated at |
+| Layer 6A, the residue field and its unit group | *Units* | `teichmuller`, `teichmuller_section` | `𝓀[K]ˣ →* 𝒪[K]ˣ`, a multiplicative section of reduction |
+| Layer 6A, the filtration quotients; 6B's approximation steps | *Units* | `UnitFiltrationGraded`; Tau Ceti's `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits` and `TauCeti.unitFiltrationGradedSuccEquivResidueField` | the quotient `U(K,i)/U(K,i+1)` as a type, and `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ`, `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` for `i ≥ 1`. This roadmap's `nonempty_unitFiltrationGraded_zero_equiv` and `nonempty_unitFiltrationGraded_succ_equiv` restate the two isomorphisms on the supplier's carrier |
+| Layer 6A, the square-class counts; 6D's counting arguments | *Power classes* | `card_powerClasses_of_isUnit`, `card_powerClasses_mixed`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`; at `dyadicLevel`, `card_squareClass_of_odd` is Tau Ceti's `TauCeti.card_squareClass_of_odd` and `card_squareClass_of_dyadic` restates Tau Ceti's `TauCeti.card_squareClasses` | `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` in the two regimes, with the `n = 2` values `4` when `2` is a unit of `𝒪[K]` and `4 · q^e` for `K/ℚ_2` finite, at `e = dyadicLevel K` |
+| Layer 6A, the local square theorem; 6B's list of unit defects | *Power classes* | `unitFiltration_le_range_powMonoidHom_two`, `not_unitFiltration_le_range_powMonoidHom_two`; at `dyadicLevel`, Tau Ceti's `TauCeti.unitFiltration_le_square` and `TauCeti.not_unitFiltration_le_square`, consumed here under the same names | `U(K, 2e+1) ⊆ (Kˣ)²` for `K/ℚ_2` finite, and its sharpness `U(K, 2e) ⊄ (Kˣ)²`, which 6B's defect list needs in order to know the bound is attained. The supplier's two carry `[Algebra ℚ_[2] K]`, which the odd-residue-characteristic branch cannot satisfy; Tau Ceti's need only `2 ≠ 0` |
+| Layer 6A, the unramified class; 6B's evaluation formula | *Unramified extensions* | `normGroup`, `LocalFieldsRamification.map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`; Tau Ceti's `TauCeti.existsUnique_isUnramified_finrank_eq` | the unramified norm group in norm-equation form, `x ∈ normGroup L/K ↔ f ∣ v_K(x)`, with `N(𝒪[L]ˣ) = 𝒪[K]ˣ`; and the unramified extension of each degree. At degree `2` the existence and the uniqueness halves, extension-free, are Tau Ceti's `TauCeti.exists_unramified_class` and `TauCeti.unramified_class_unique`, restated here as `exists_unramified_class` and `unramified_class_unique` |
+
+The `ℚ_p` acceptance suite of Layer 6 needs `IsNonarchimedeanLocalField ℚ_[p]`, which is a Mathlib
+instance (`Mathlib/NumberTheory/Padics/LocalField.lean`), not a supplier row.
 
 **From the [class-field-theory roadmap](../ClassFieldTheory/README.md)**, namespace
 `TauCetiRoadmap.ClassFieldTheory`. These declarations are imported; QFI supplies comparison
@@ -682,10 +687,10 @@ theorems only.
 
 | Consumer milestone | Supplier layer | Exact declaration | Mathematical type |
 |---|---|---|---|
-| Layers 6E and 7C, the local invariant normalization | 2--3 | `H`, `muNRep`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu` | continuous `H²(F, mu_n)` and its arithmetic invariant in `ZMod n`, including mixed characteristic |
-| Layer 7C, the cohomological Hilbert pairing | 3 | `kummerClass`, `kummerClass_eq_kummerCocycleClass`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol` | the Kummer class, which is Tau Ceti's `kummerMap` carried to `Field.absoluteGaloisGroup F`; the pairing `(x, y) ↦ log_ζ(x) · y` on `μ_n` for a primitive `n`-th root `ζ ∈ F`; and their cup followed by the local invariant. No quadratic-form definition occurs in CFT |
-| Layer 7C, nondegeneracy comparison | 3 | `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, which is Tau Ceti's internal Hom into `μ_n`, and its perfectness for finite `A` on which the action is smooth (`TauCeti.IsSmoothDiscrete`, found by instance search at `muNRep`), with the invariant normalization supplied by CFT |
-| `hilbertSymbol_productFormula`, exported to Global Quadratic Forms | 5 | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `finiteHilbertSupport`, `hilbertProductFormula` | finite support and the additive Hilbert reciprocity equation over all finite and infinite places |
+| Layers 6E and 7C, the local invariant normalization | 5 | `H`, `muNRep`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu` | continuous `H²(F, mu_n)` and its arithmetic invariant in `ZMod n`, including mixed characteristic |
+| Layer 7C, the cohomological Hilbert pairing | 5 | `kummerClass`, `kummerClass_eq_kummerCocycleClass`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol` | the Kummer class, which is Tau Ceti's `kummerMap` carried to `Field.absoluteGaloisGroup F`; the pairing `(x, y) ↦ log_ζ(x) · y` on `μ_n` for a primitive `n`-th root `ζ ∈ F`; and their cup followed by the local invariant. No quadratic-form definition occurs in CFT |
+| Layer 7C, nondegeneracy comparison | 5 | `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, which is Tau Ceti's internal Hom into `μ_n`, and its perfectness for finite `A` on which the action is smooth (`TauCeti.IsSmoothDiscrete`, found by instance search at `muNRep`), with the invariant normalization supplied by CFT |
+| `hilbertSymbol_productFormula`, exported to Global Quadratic Forms | 14 | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `finiteHilbertSupport`, `hilbertProductFormula` | finite support and the additive Hilbert reciprocity equation over all finite and infinite places |
 
 The two frozen QFI bridge names are `hilbertSymbol_eq_cohomological` and
 `hilbertSymbol_productFormula`. The first identifies QFI's norm-equation/quaternion symbol with
@@ -774,11 +779,11 @@ or comparison; the milestone is not a licence to construct a second public carri
 |---|---|---|
 | Quaternion Brauer symbol and tensor law | `TauCeti.Algebra.Quaternion.BrauerClass`: `TauCeti.BrauerGroup.quaternionCSA`, `quaternionClass`; `TauCeti.Algebra.BrauerGroup.Group`: `TauCeti.BrauerGroup.instCommGroup` | Read the tuple formulas in the same tensor-defined group; retain the general central-simple/Clifford and invariant identities below |
 | Quadratic defect | `TauCeti.NumberTheory.LocalField.QuadraticForm.Defect`: `quadraticDefect`, `defectExponent`, `isGLB_quadraticDefect`, attained approximation and square-scaling laws | The roadmap names are aliases of these objects; the direct integral-basis norm computations below use these exact exponents |
-| Classical local Hilbert symbol | `TauCeti.NumberTheory.HilbertSymbol.Basic`: `hilbertSymbol`, norm/splitting comparisons; `LocalField.QuadraticForm.Bimultiplicativity`: `quadraticNormSubgroup_index_eq_two_of_not_isSquare`, `hilbertSymbol_mul_right`, `exists_hilbertSymbol_eq_neg_one` | Preserve the explicit dyadic tables, defect/conductor witnesses and cohomological-normalization comparison as separate outputs |
+| Classical local Hilbert symbol | `TauCeti.NumberTheory.HilbertSymbol.Basic`: `hilbertSymbol`, norm/splitting comparisons; `LocalField.QuadraticForm.Bimultiplicativity`: `quadraticNormSubgroup_index_eq_two_of_not_isSquare`, `TauCeti.hilbertSymbol_mul_right`, `exists_hilbertSymbol_eq_neg_one` | Preserve the explicit dyadic tables, defect/conductor witnesses and cohomological-normalization comparison as separate outputs |
 | Local classification | `LocalField.QuadraticForm.Classification`: `RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, under the actual local-field and invertible-two hypotheses | Compare the roadmap tuple and plain/signed discriminants with the native class-level invariants; retain realization and every rank boundary |
 | Crossed products | `TauCeti.Algebra.CrossedProduct.Basic`: `TwoCocycle`, `CrossedProduct`, `inc`, `basis`, `finrank_eq_finrank_mul_card`, `finrank_eq_finrank_sq` | Translate the existing public cocycle convention to the native one; use its finitely supported carrier and unnormalized scalar embedding |
 | Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The audited native Brauer and cup-norm comparisons bind `K : Type u`; the final local-symbol comparison exports are generalized by TauCeti#22016 |
-| Transfer and degree-one relative formula | `TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic`: `QuadraticMap.scharlauTransfer`; `StiefelWhitney.Transfer`: `sw1Class_traceTransfer_mk_rankOne` | The public argument-order wrapper consumes the native construction. The degree-two Evens/Kahn formula and its cochain-level value calculation remain explicit milestones |
+| Transfer and degree-one relative formula | `TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic`: `QuadraticMap.scharlauTransfer`; `StiefelWhitney.Transfer`: `TauCeti.sw1Class_traceTransfer_mk_rankOne` | The public argument-order wrapper consumes the native construction. The degree-two Evens/Kahn formula and its cochain-level value calculation remain explicit milestones |
 | Matrix Pin-plus model | `TauCeti.LinearAlgebra.Matrix.PinPlusPlane`: `pinE1`, `pinE2`, `pinVec`, `IsPinLift`, `pinT`, `pinDihedral`, `pinLift` | Compare the public total formulas and the matrix-orthogonality predicate with the native proof-parameterized maps before the Galois/descent calculation |
 
 For an arbitrary-universe cohomological statement, preserve the field and all module/group
@@ -903,8 +908,9 @@ Each prerequisite carries one of these sources:
 - **[Mathlib]** for an existing Mathlib declaration;
 - **[Tau Ceti]** for an existing accepted Tau Ceti declaration;
 - **[Layer n]** for an earlier milestone of this roadmap;
-- **[Local Fields Ramification, Layer n]**, **[Profinite Cohomology, Layer n]**,
-  **[Class Field Theory, Layer n]**, and **[SSA Layer n]**
+- **[Local Fields Ramification, *item*]** for an item of that roadmap's *Exact supplier
+  contracts* (From Tau Ceti), whose names it exports under *Names imported by other roadmaps*;
+- **[Profinite Cohomology, Layer n]**, **[Class Field Theory, Layer n]**, and **[SSA Layer n]**
   for a named layer of a roadmap this one consumes. Every such
   prerequisite appears as a row of the contract table above, with its exact declaration.
 
@@ -1035,7 +1041,8 @@ as built here:
   the universal property (`liftDiagonal_unique`);
 - functoriality: pushforward of square classes and of presentations along a field map
   `K →+* L`, with the rank and `discr` commuting with it
-  (`TauCeti.RegularFormClass.baseChange`, `rank_baseChange`, `discr_baseChange`);
+  (`TauCeti.RegularFormClass.baseChange`, `TauCeti.RegularFormClass.rank_baseChange`,
+  `TauCeti.RegularFormClass.discr_baseChange`);
 - comparison lemmas: `DiagonalChain` against `Equivalent`, rank by rank; `IsSquare (a*b)`
   against equality in the square-class group (`squareClass_eq_iff_isSquare_mul`);
   contiguous orthogonal bases against `DiagonalChain`, built here;
@@ -1189,7 +1196,7 @@ Milestones:
   `f : ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` commutes with `star` (`QuaternionAlgebra.map_star_of_algEquiv`),
   preserves the reduced trace and the reduced norm (`reducedTrace_eq_of_algEquiv`,
   `normForm_eq_of_algEquiv`), maps the trace-zero subspace onto the trace-zero subspace
-  (`map_ker_reₗ_of_algEquiv`), and restricts to an isometry of pure norm forms
+  (`QuaternionAlgebra.map_ker_reₗ_of_algEquiv`), and restricts to an isometry of pure norm forms
   `⟨−a,−b,ab⟩ ≅ ⟨−c,−d,cd⟩` (`QuaternionAlgebra.equivalent_weightedSumSquares_of_algEquiv`).
   Without this milestone, equality of quaternion invariants gives no isometry, and the
   dimension-3 classification of Layer 5 has no proof.
@@ -1281,8 +1288,10 @@ Milestones:
   d(q ⊗ r)  = d(q)^n · d(r)^m            d±(q ⊗ r)  = (−1)^{mn(mn−1)/2} d(q)^n d(r)^m
   ```
 
-  These are `discr_add`, `discr_mk_rankOne_mul`, `discr_mul`, `signedDiscr_add`,
-  `signedDiscr_mk_rankOne_mul` and `signedDiscr_mul`, stated additively, with scaling by `λ`
+  These are `TauCeti.RegularFormClass.discr_add`, `TauCeti.RegularFormClass.discr_mk_rankOne_mul`,
+  `TauCeti.RegularFormClass.discr_mul`, `TauCeti.RegularFormClass.signedDiscr_add`,
+  `TauCeti.RegularFormClass.signedDiscr_mk_rankOne_mul` and
+  `TauCeti.RegularFormClass.signedDiscr_mul`, stated additively, with scaling by `λ`
   written as multiplication by the rank-one class `⟨λ⟩`. The conversion
   `d±(q) = (−1)^{m(m−1)/2} · d(q)` is `signedDiscr_eq_sign_add_discr`, read here as
   `signedDiscr_eq_sign_mul_discr`, and it is the only conversion that a later proof uses.
@@ -1419,9 +1428,9 @@ Milestones:
   - `⟨⟨a,b⟩⟩` is the norm form of `ℍ[K,a,b]` (Layer 2,
     `QuaternionAlgebra.equivalent_normForm_weightedSumSquares`);
   - **round**: for `n ≤ 2`, every `c ∈ unitValueSet ⟨⟨a₁,…,aₙ⟩⟩` is a similarity factor,
-    that is `c • ⟨⟨a₁,…,aₙ⟩⟩ ≅ ⟨⟨a₁,…,aₙ⟩⟩`
-    (`TauCeti.oneFoldPfister_smul_equivalent_of_mem_unitValueSet`,
-    `TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet`);
+    that is `c • ⟨⟨a₁,…,aₙ⟩⟩ ≅ ⟨⟨a₁,…,aₙ⟩⟩`, and conversely a similarity factor is
+    represented (`TauCeti.oneFoldPfister_smul_equivalent_iff`,
+    `TauCeti.twoFoldPfister_smul_equivalent_iff`);
   - `⟨⟨a,b⟩⟩` is isotropic if and only if it is hyperbolic, if and only if `ℍ[K,a,b]` splits,
     which is the four-fold criterion stated in the Witt ring: Tau Ceti's
     `pfisterFormClass_two_tfae`, with `pfisterClass_two_eq_zero_iff`, in
@@ -1618,7 +1627,8 @@ normalized valuation is that roadmap's `normalizedValuation`, the unit filtratio
 `unitFiltration`, the level `e = v_K(2)` is its `natCastValuation K 2`, and the graded
 pieces, the power-class counts with the
 identification of the two spellings of the square classes, the unramified extensions and
-their norm groups are its milestones. Nothing here defines a second valuation, a second
+their norm groups are Tau Ceti's, recorded in its supplier contracts under *Units*, *Power
+classes* and *Unramified extensions*. Nothing here defines a second valuation, a second
 filtration or a second ramification index: a second one would need a comparison lemma at
 every use site, and every statement of 6B, 6C and 6D is written against the supplied
 objects.
@@ -1643,21 +1653,25 @@ Prerequisites:
 
 - **[Mathlib]** `IsNonarchimedeanLocalField`, `ValuativeRel`, `𝒪[K]`, `𝓂[K]`, `𝓀[K]`,
   `ℚ_[p]`, `ℤ_[p]`, `PadicInt.toZModPow`, Hensel's lemma;
-- **[Local Fields Ramification, Layer 0]** `normalizedValuation` with `normalizedValuation_surjective`,
+- **[Local Fields Ramification, *Valuations and `e`, `f`*]** `normalizedValuation` with `normalizedValuation_surjective`,
   `normalizedValuation_eq_one_iff` and `normalizedValuation_irreducible`;
   `ramificationIndex`, `inertiaDegree`, `card_residueField`,
   `ramificationIndex_mul_inertiaDegree`; `natCastValuation` with
   `normalizedValuation_natCast` and `natCastValuation_eq_zero_iff`, and
   `absoluteRamificationIndex` with `absoluteRamificationIndex_eq_natCastValuation`;
-- **[Local Fields Ramification, Layer 1]** `unitFiltration` with `mem_unitFiltration_zero`,
+- **[Local Fields Ramification, *Units* and *Power classes*]** `unitFiltration` with `mem_unitFiltration_zero`,
   `mem_unitFiltration_succ_congr`, `mem_unitFiltration_succ_valuation`,
   `unitFiltration_antitone` and `iInf_unitFiltration`; `square_eq_range_powMonoidHom`;
   `teichmuller` with `teichmuller_section`; `card_powerClasses_of_isUnit`,
   `card_powerClasses_mixed`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`;
   `unitFiltration_le_range_powMonoidHom_two` with
-  `not_unitFiltration_le_range_powMonoidHom_two`; the milestone *Graded pieces*;
-- **[Local Fields Ramification, Layer 2]** `normGroup`, `map_norm_unitFiltration_zero` and
-  `mem_normGroup_iff_dvd_normalizedValuation`; the milestone *Existence and uniqueness*;
+  `not_unitFiltration_le_range_powMonoidHom_two`; the graded-piece isomorphisms, Tau Ceti's
+  `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits` and
+  `TauCeti.unitFiltrationGradedSuccEquivResidueField`;
+- **[Local Fields Ramification, *Unramified extensions*]** `normGroup`,
+  `LocalFieldsRamification.map_norm_unitFiltration_zero` and
+  `mem_normGroup_iff_dvd_normalizedValuation`; the unramified extension of each degree, Tau
+  Ceti's `TauCeti.existsUnique_isUnramified_finrank_eq`;
 - **[Layer 0]** the square-class calculus and the `Nat.card` finiteness API.
 
 Milestones:
@@ -1706,7 +1720,8 @@ Milestones:
   the sharpness and not only the containment, because a defect list built on a depth that
   is not attained would classify nothing.
 - **The square-class counts, consumed in the `4 · q^e` form 6D uses.** `Kˣ/(Kˣ)²` is
-  finite, which is a separate statement from its order. The order is
+  finite, which is a separate statement from its order (`Nat.card` of an infinite type is
+  `0`) and follows from either count. The order is
   `card_squareClasses_of_isUnit`, that is `4`, when the residue
   characteristic is odd, and `card_squareClasses_dyadic`, that is `4 · q^e` with
   `q = #𝓀[K]` and `e = v_K(2)`, when the residue
@@ -1715,15 +1730,18 @@ Milestones:
   `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2`, where `#μ_2(K) = 2` because `2` is
   invertible. In the `dyadicLevel` shape 6D consumes, the odd count is Tau Ceti's
   `TauCeti.card_squareClass_of_odd`, consumed here as `card_squareClass_of_odd`; the
-  supplier states the dyadic half relative to `ℚ_2`, so its `dyadicLevel` shape is frozen
-  here as `card_squareClass_of_dyadic`. What is stated here, and is not the supplier's, is the
+  supplier's name states the dyadic half relative to `ℚ_2`, the intrinsic `4 · q^e` is Tau
+  Ceti's `TauCeti.card_squareClasses`, and `card_squareClass_of_dyadic` restates it at
+  `dyadicLevel`. What is stated here, and is not the supplier's, is the
   choice of representatives: for odd residue characteristic the four classes are
   represented by `1, u, π, uπ`, where `u` is a unit whose residue is a nonsquare. That
   choice of `u` is part of the statement and is never left implicit.
 - **The graded pieces, consumed.** The carrier is the local-fields-ramification roadmap's
-  `UnitFiltrationGraded`. That roadmap's Layer 1 milestone *Graded pieces* owns the two
-  isomorphisms `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` and `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` for `i ≥ 1` and
-  exports no target signature for them, so the shape 6B consumes is frozen here as
+  `UnitFiltrationGraded`. The two isomorphisms `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` and
+  `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` for `i ≥ 1` are Tau Ceti's
+  `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits` and
+  `TauCeti.unitFiltrationGradedSuccEquivResidueField`, which that roadmap records under
+  *Units*; the shape 6B consumes is restated here as
   `nonempty_unitFiltrationGraded_zero_equiv` and
   `nonempty_unitFiltrationGraded_succ_equiv`, on that carrier. ⚠ The depth-zero piece is
   multiplicative and the deeper pieces are additive, and the two statements stay apart.
@@ -1733,12 +1751,15 @@ Milestones:
 - **The unramified quadratic extension, in the norm-equation form 6B and 6C consume.**
   There is a nonsquare unit `Δ` such that `K(√Δ)/K` is the unramified quadratic extension,
   and `b` is a norm from it exactly when `v_K(b)` is even; equivalently every unit is a
-  norm and a uniformizer is not. The local-fields-ramification roadmap owns the unramified extension
-  and the norm group, and states the criterion at `mem_normGroup_iff_dvd_normalizedValuation`,
+  norm and a uniformizer is not. The unramified extension and its norm group are Tau Ceti's,
+  recorded by the local-fields-ramification roadmap under *Unramified extensions*, which
+  states the criterion at `mem_normGroup_iff_dvd_normalizedValuation`,
   namely `x ∈ normGroup L/K ↔ f ∣ v_K(x)`; at `f = 2` that is the parity condition above.
   What this statement adds is the passage to the norm equation `b = x² − Δ y²`, which is
   the shape 6B's evaluation formula and 6C's symbol computation apply, and which needs no
-  extension-building API. Both halves are frozen: `exists_unramified_class` for existence,
+  extension-building API. Both halves are Tau Ceti's (`TauCeti.exists_unramified_class`,
+  which also gives `Δ ≡ 1 mod 4`, and `TauCeti.unramified_class_unique`), restated here as
+  `exists_unramified_class` for existence,
   with `Δ` of even valuation so that it is a unit up to squares, and
   `unramified_class_unique` for uniqueness, which says that the norm criterion pins `Δ` to
   a single square class. Uniqueness is not decoration: 6B's ramification dictionary says
@@ -1782,7 +1803,7 @@ Prerequisites:
 
 - **[Mathlib]** `FractionalIdeal`, `FractionalIdeal.spanSingleton`, the `Lattice` and
   `OrderBot` instances on `FractionalIdeal`, `IsFractionRing 𝒪[K] K`;
-- **[Local Fields Ramification, Layers 0 and 1]** `normalizedValuation` and
+- **[Local Fields Ramification, *Valuations and `e`, `f`* and *Units*]** `normalizedValuation` and
   `unitFiltration`, which
   every statement below is written against;
 - **[Layer 6A]** the absolute ramification index, the local square theorem in its sharp
@@ -2000,7 +2021,10 @@ the cohomological Kummer-cup pairing and defines no quadratic form or quaternion
 The comparison is the frozen declaration `hilbertSymbol_eq_cohomological`; no CFT
 milestone depends on it, and it rests on the single coefficient comparison
 `localSymbol_eq_zero_iff_cup` together with Layer 7C's
-`cup_kummerClass_eq_zero_iff_hilbertSymbol`. The frozen `hilbertSymbol_productFormula` then
+`cup_kummerClass_eq_zero_iff_hilbertSymbol`. Both comparisons are proved at the pin, for every
+field in which `2` is invertible, as Tau Ceti's `TauCeti.localSymbol_eq_zero_iff_cup` and
+`TauCeti.hilbertSymbol_eq_cohomological` (`TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`).
+The frozen `hilbertSymbol_productFormula` then
 translates `ClassFieldTheory.hilbertProductFormula` into multiplicative signs.
 
 Prerequisites:
@@ -2010,9 +2034,9 @@ Prerequisites:
   counts over the quadratic field and its norm-subgroup cardinal identity;
 - **[Layer 2]** the four-fold splitting criterion;
 - **[Layer 3]** the binary quaternion lemma and the chain-induction lemmas;
-- **[Local Fields Ramification, Layers 0 and 1]** `normalizedValuation` and
+- **[Local Fields Ramification, *Valuations and `e`, `f`* and *Units*]** `normalizedValuation` and
   `unitFiltration`;
-- **[Class Field Theory, Layers 2--3]** `H`, `muNRep`, `kummerClass`,
+- **[Class Field Theory, Layer 5]** `H`, `muNRep`, `kummerClass`,
   `h2MuEquivZMod_mixed`, `kummerCupPairing`, `localSymbol`, and
   `tateDualityPairing_perfect_mixed`, for the comparison below;
 - **[Layer 6A]** the uniformizer predicate, the absolute ramification index, the local
@@ -2034,7 +2058,7 @@ Milestones, in this order:
    `b ∈ N(K(√a)ˣ)` and by `a ∈ N(K(√b)ˣ)`, are interchangeable, and a source may be read
    in either.
 4. **The norm index**, consumed from the native square-class-count proof, or compared
-   with the independently supplied cyclic norm-index theorem. The direct6B computation
+   with the independently supplied cyclic norm-index theorem. The direct 6B computation
    remains a separate proof and explicit-evaluation output, using its corrected integral basis.
 5. **Bimultiplicativity** `(a, bc)_K = (a,b)_K · (a,c)_K`, with the dyadic case
    included. It follows from the index theorem and the indicator lemma in the second
@@ -2042,7 +2066,7 @@ Milestones, in this order:
    `K = ℚ_p`).
 6. **Nondegeneracy.** For a nonsquare `a` there is `b` with `(a,b)_K = −1`, from
    properness of the native index-two subgroup. The more explicit defect witnesses
-   of6B remain separately required.
+   of 6B remain separately required.
 7. **The local Hasse invariant** `localHasse q = ∏_{i<j} (aᵢ, aⱼ)_K ∈ ℤˣ` for
    `q ≅ ⟨a₁,…,aₙ⟩`. It is well defined by Layer 0's descent principle, whose two step
    hypotheses are Layer 3's chain-induction lemmas with `M = ℤˣ`. Symmetry and
@@ -2099,7 +2123,7 @@ Milestones, in this order:
     on the finite group `Kˣ/(Kˣ)²`, whose order is 6A's `4·q^e = 2^{[K:ℚ_2]+2}`:
     - symmetry is item 3 and bilinearity is item 5;
     - well-definedness on square classes is `hilbertSymbol_congr_sq`;
-    - nondegeneracy is item 7, in the square-class form
+    - nondegeneracy is item 6, in the square-class form
       `exists_hilbertSymbol_eq_neg_one_squareClass`;
     - the value against the unramified class is the closed
       `(Δ, b)_K = (−1)^{v_K(b)}` of 6B, which fixes one basis vector outright;
@@ -2123,7 +2147,7 @@ Milestones, in this order:
     ```
 
     that is `(−1,−1) = −1` and `(2,5) = −1`, with every other basis pairing `+1`. The
-    matrix is nondegenerate over `𝔽₂`, which is item 7 read on this basis.
+    matrix is nondegenerate over `𝔽₂`, which is item 6 read on this basis.
 13. **The symbol is the mod-2 specialization of the CFT pairing.** Class Field Theory
     builds `localSymbol` from `kummerClass`, `kummerCupPairing`, and the arithmetic
     invariant on `H²(G_K, μ₂)`, and proves the corresponding local duality pairing
@@ -2241,7 +2265,7 @@ Prerequisites:
 - **[Layer 6C]** `localHasse`;
 - **[Layer 6D]** the uniqueness of the quaternion division algebra;
 - **[Layer 7B]** the 2-torsion comparison `ι`, for the second milestone only;
-- **[Class Field Theory, Layers 2--3]** the local invariant normalization
+- **[Class Field Theory, Layer 5]** the local invariant normalization
   `h2MuEquivZMod_mixed` and its `localSymbol`, for the second milestone only.
 
 Milestone 1. The subgroup `Q(K) ≤ BrauerGroup K` generated by the quaternion classes is
@@ -2279,8 +2303,10 @@ consequence.
 Layer 7B's `ι [(a,b)] = (a) ∪ (b)` and Milestone 1's `ε (hasseInvariant q) = localHasse q`,
 the composite `ε ∘ ι⁻¹` carries `(a) ∪ (b)` to `(a,b)_K`; in particular `(a) ∪ (b) = 0`
 exactly when `(a,b)_K = +1`, which is Layer 7C's
-`cup_kummerClass_eq_zero_iff_hilbertSymbol`, and the sign attached to a nonzero cup is
-fixed by the displayed equality. No further normalization convention is introduced
+`cup_kummerClass_eq_zero_iff_hilbertSymbol` (at the pin, Tau Ceti's
+`TauCeti.cup_kummerClass_eq_zero_iff_hilbertSymbol_eq_one`, and in Brauer-group form
+`TauCeti.kummerBrauerClass_eq_zero_iff_hilbertSymbol_eq_one`), and the sign attached to a
+nonzero cup is fixed by the displayed equality. No further normalization convention is introduced
 anywhere in Layers 6 to 9.
 
 The Hasse invariant of a form is the local invariant of its Brauer class. The
@@ -2641,7 +2667,15 @@ Basic API:
 
 #### 7C. The cup-norm theorem
 
-**This sublayer is the canonical owner of the Kummer-cup/norm-equation criterion.** It is
+**This sublayer states the Kummer-cup/norm-equation criterion with trivial `𝔽₂`
+coefficients**, at the profinite-cohomology `cup` along `f2Pairing`, together with its
+comparison `localSymbol_eq_zero_iff_cup` with the `μ₂`-valued local symbol. Tau Ceti proves the
+same criterion at its own cup product along `trivialF2TopPairing`, as
+`TauCeti.cup_kummerClass_eq_zero_iff` (`TauCeti/FieldTheory/GaloisCohomology/MuTwo/CupNorm.lean`).
+The criterion with `μ_n` coefficients, over any field containing a primitive `n`-th root of
+unity with `n` invertible (`(a, b) = 0` exactly when `a` is a norm from `K(b^(1/n))`), is Class
+Field Theory's, Layer 5 (Tau Ceti's `TauCeti.ClassFieldTheory.localSymbol_eq_zero_iff_mem_normGroup`),
+and is cited, not restated. The `𝔽₂` form is
 stated over an arbitrary field in which `2` is invertible, which is the right generality:
 no statement here carries a local hypothesis, and none excludes the dyadic case. The local
 identification with the classical `{±1}`-valued symbol is 6C's, and is the only statement

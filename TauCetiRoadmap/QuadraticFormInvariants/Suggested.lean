@@ -968,15 +968,11 @@ theorem not_unitFiltration_le_square [Invertible (2 : K)] :
     ¬ (unitFiltration K (2 * dyadicLevel K) ≤ Subgroup.square Kˣ) :=
   TauCeti.not_unitFiltration_le_square _
 
-/-- **Layer 6A, the square-class group is finite.** A corollary of the Local Fields Ramification Layer 1
-milestone *Power classes, the primary statement*, through `square_eq_range_powMonoidHom`. -/
-instance squareClass_finite [Invertible (2 : K)] : Finite (Kˣ ⧸ Subgroup.square Kˣ) :=
-  sorry
-
 /-- **Layer 6A, the square-class count in odd residue characteristic**, together with the
 representatives `1, u, π, uπ` for a uniformizer `π` and a unit `u` whose residue is a
-nonsquare. This is the Local Fields Ramification Layer 1 count
-`#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. It is
+nonsquare. This is the power-class count `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^(v_K(n))` at `n = 2` with
+`e = 0`, which the Local Fields Ramification roadmap lists under *Power classes* of its supplier
+contracts (Tau Ceti's `TauCeti.card_powerClasses`), in the shape 6D consumes. It is
 Tau Ceti's `TauCeti.card_squareClass_of_odd`, whose hypothesis `IsUnit (2 : 𝒪[K])` is `e = 0` by
 `TauCeti.natCastValuation_eq_zero_iff`. -/
 theorem card_squareClass_of_odd [Invertible (2 : K)]
@@ -990,9 +986,10 @@ theorem card_squareClass_of_odd [Invertible (2 : K)]
 /-- **Layer 6A, the square-class count in residue characteristic two**, stated
 intrinsically as `4 · q^e` with `q = #𝓀[K]` and `e = v_K(2)`. For a finite extension of
 `ℚ_2` of degree `N = e·f` this is `2^{N+2}`, and over `ℚ_2` itself it is `8`, on the
-basis `−1, 2, 5`. It is the same Local Fields Ramification count at `n = 2`, where `#μ_2(K) = 2` because
-`2` is invertible; the Local Fields Ramification roadmap exports the general formula as a milestone and the
-`ℚ_2` instance as a worked example, so the `4·q^e` shape that 6D consumes is stated here. -/
+basis `−1, 2, 5`. It is Tau Ceti's `TauCeti.card_squareClasses`, `#(Kˣ/(Kˣ)²) = 4 · q^(v_K(2))`
+whenever `2 ≠ 0`, read at `dyadicLevel` through `square_eq_range_powMonoidHom`; the Local Fields
+Ramification roadmap lists that count under *Power classes* of its supplier contracts and owns its
+degree form `2^(N+2)` for `K/ℚ_2` (its §0.3). -/
 theorem card_squareClass_of_dyadic [Invertible (2 : K)]
     (h2 : dyadicLevel K ≠ 0) :
     Nat.card (Kˣ ⧸ Subgroup.square Kˣ) =
@@ -1000,10 +997,10 @@ theorem card_squareClass_of_dyadic [Invertible (2 : K)]
   sorry
 
 /-- **Layer 6A, the graded piece at depth zero**, `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction. The
-carrier is the Local Fields Ramification roadmap's `UnitFiltrationGraded`; the isomorphism is
-that roadmap's Layer 1 milestone *Graded pieces*, which exports no target signature, so the
-shape 6B consumes is frozen here. It is stated as an existence because the isomorphism itself is
-the supplier's and this roadmap builds no second copy of it. -/
+carrier is the Local Fields Ramification roadmap's `UnitFiltrationGraded`; the isomorphism is Tau
+Ceti's `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits`, which that roadmap lists under
+*Units* of its supplier contracts. It is stated as an existence because the isomorphism itself is
+Tau Ceti's and this roadmap builds no second copy of it. -/
 theorem nonempty_unitFiltrationGraded_zero_equiv :
     Nonempty (UnitFiltrationGraded K 0 ≃* 𝓀[K]ˣ) :=
   sorry
@@ -1013,7 +1010,9 @@ theorem nonempty_unitFiltrationGraded_zero_equiv :
 additive, which is why the two statements stay apart. 6B needs the additive form: the
 classification of unit defects improves an approximation `u = 1 + ε` with `v(ε) = d` by writing
 the residue of `ε` as a square, which is possible exactly because the piece is `𝓀[K]⁺` and
-`𝓀[K]` is a perfect field of characteristic `2` in the dyadic case. -/
+`𝓀[K]` is a perfect field of characteristic `2` in the dyadic case. The isomorphism is Tau Ceti's
+`TauCeti.unitFiltrationGradedSuccEquivResidueField`, read multiplicatively; the Local Fields
+Ramification roadmap lists its uniformizer form under *Units* of its supplier contracts. -/
 theorem nonempty_unitFiltrationGraded_succ_equiv (i : ℕ) :
     Nonempty (UnitFiltrationGraded K (i + 1) ≃* Multiplicative 𝓀[K]) :=
   sorry
@@ -1022,10 +1021,12 @@ theorem nonempty_unitFiltrationGraded_succ_equiv (i : ℕ) :
 nonsquare `Δ` of even valuation — so a unit up to squares — such that `K(√Δ)/K` is the
 unramified quadratic extension, and an element is a norm from it exactly when its valuation is
 even. The statement is phrased through the norm equation, so it needs no extension-building API,
-and that is the shape 6B's evaluation formula and 6C's symbol computation consume. It rests on
-the Local Fields Ramification Layer 2 milestones *Existence and uniqueness* and *Norms*, which
-own the unramified extension and the equality `N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`; that roadmap
-exports no target signature phrased through the norm equation. -/
+and that is the shape 6B's evaluation formula and 6C's symbol computation consume. It is Tau
+Ceti's `TauCeti.exists_unramified_class`, which adds `Δ ≡ 1 mod 4`. The unramified extension of
+each degree and its norm group `x ∈ N(Lˣ) ↔ f ∣ v_K(x)` are Tau Ceti's
+`TauCeti.existsUnique_isUnramified_finrank_eq` and
+`TauCeti.mem_normGroup_iff_dvd_normalizedValuation`, which the Local Fields Ramification roadmap
+lists under *Unramified extensions* of its supplier contracts. -/
 theorem exists_unramified_class [Invertible (2 : K)] :
     ∃ u : Kˣ, ¬ IsSquare u ∧
       Multiplicative.toAdd (normalizedValuation K u) = 0 ∧
@@ -1035,8 +1036,8 @@ theorem exists_unramified_class [Invertible (2 : K)] :
 
 /-- **Layer 6A, the unramified quadratic extension and its norms, uniqueness.** The norm
 criterion pins `Δ` to a single square class, so "the unramified class" is well defined without
-building the extension. This is the uniqueness half of the Local Fields Ramification Layer 2
-milestone *Existence and uniqueness* at degree `2`, read through the norm equation; 6B's
+building the extension. It is Tau Ceti's `TauCeti.unramified_class_unique`, the uniqueness of
+the unramified extension of degree `2` read through the norm equation; 6B's
 ramification dictionary needs it, because "exactly one unit square class has defect `4𝒪[K]`" is
 a statement about a class and not about a chosen element. -/
 theorem unramified_class_unique [Invertible (2 : K)] (u u' : Kˣ)
@@ -3331,9 +3332,10 @@ theorem pinDiagonalLift_mul (ε ε' : Fin 2 → ZMod 2) :
     intro a b a' b'
     rcases hZ a with rfl | rfl <;> rcases hZ b with rfl | rfl <;> rcases hZ a' with rfl | rfl <;>
       rcases hZ b' with rfl | rfl <;>
-      (simp (config := {decide := true}) only [↓reduceIte, one_mul, mul_one] <;>
-        ext i j <;> fin_cases i <;> fin_cases j <;>
-        simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
+      simp (config := {decide := true}) only [↓reduceIte, one_mul, mul_one]
+    all_goals
+      ext i j
+      fin_cases i <;> fin_cases j <;> simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
   simpa [pinDiagonalLift] using key (ε 0) (ε 1) (ε' 0) (ε' 1)
 
 /-- The explicit matrix generators are the existing native generators. -/
