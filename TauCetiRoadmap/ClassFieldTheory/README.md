@@ -69,8 +69,11 @@ against the pinned Mathlib and Tau Ceti (Exact supplier contracts, Headline acce
 
 This roadmap specifies the following constructions and theorems. Tau Ceti implements most of them
 at the pin; that material is consumed under Tau Ceti's names, listed in Exact supplier contracts and in the layer that
-specifies it, and is never rebuilt here. The **open targets** close the items that have them; they
-are the theorems stated in `Suggested.lean`.
+specifies it, and is never rebuilt here. The **open targets** close the items that have them. The
+open headline theorems among them are the theorems stated in `Suggested.lean`. The comparison of
+extension of idele classes with extension of ideal classes (item 9, Layer 13) is an open target
+too, but it is a step of the principal ideal theorem's route rather than a headline, and it is
+stated in this README only.
 
 1. The local Brauer group on the imported continuous carrier, its invariant map, and the
    cohomological local Hilbert symbol built from Kummer classes, the continuous cup product and
@@ -249,15 +252,31 @@ formula is proved cohomologically. This fixes the dependency direction
 
 ### Section and name correspondence
 
-Citations of this roadmap by section number read as follows:
+Citations of this roadmap by a former section number resolve to the sections in the right
+column. A former number means its row here even where a layer subsection carries the same digits:
+the subsections 2.1 of Layer 2 and 5.1 of Layer 5 are not the former §2.1 and §5.1, and a citation
+of a layer subsection names its layer.
 
-- **§2.1–§2.7**, the conventions, are Conventions C.1–C.7: **§2.4** is C.4 (Tate's theorem and its
-  Tate–Nakayama generalization) and **§2.6** is C.6 (the Frobenius convention);
-- **§4**, the build, is Layers 0–14, and **§4 Layer k** is Layer k;
-- **Layer 0, item 4**, the list of generic Tate-cohomology suppliers, is the Layer 0 bullets from
-  *The operations* to *Primary components*; Tate–Nakayama with a free coefficient lattice is the
-  bullet *The Tate–Nakayama theorem*, which rests on the bullet *The theorem of Nakayama and Rim*;
-- **§5.1–§5.8**, the worked examples, are W.1–W.8.
+| Former section | Where it is now |
+|---|---|
+| §2.1 | Conventions C.1, formations |
+| §2.2 | Conventions C.2, class formations |
+| §2.3 | Conventions C.3, fundamental classes |
+| §2.4 | Conventions C.4, Tate's theorem and its Tate–Nakayama generalization |
+| §2.5 | Conventions C.5, the direction of reciprocity |
+| §2.6 | Conventions C.6, the Frobenius convention |
+| §2.7 | Conventions C.7, further pinned conventions |
+| §4 | the build, Layers 0–14 |
+| §4 Layer k | Layer k |
+| Layer 0, item 4 | the Layer 0 bullets from *The operations* to *Primary components*; Tate–Nakayama with a free coefficient lattice is the bullet *The Tate–Nakayama theorem*, which rests on the bullet *The theorem of Nakayama and Rim* |
+| §5.1 | Worked example W.1, the trivial layer |
+| §5.2 | Worked example W.2, kernel, quotient and cyclic layers |
+| §5.3 | Worked example W.3, unramified local extensions |
+| §5.4 | Worked example W.4, quadratic extensions |
+| §5.5 | Worked example W.5, cyclotomic fields |
+| §5.6 | Worked example W.6, compatibility and tower tests |
+| §5.7 | Worked example W.7, downstream worked examples |
+| §5.8 | Worked example W.8, the minimal mandatory suite |
 
 Other roadmaps cite the following statements under the names in the left column; each is the
 declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
@@ -1909,7 +1928,9 @@ an idele class, orders and `Pic`);
 the class fields and Kronecker–Weber have their interface in
 `TauCeti/NumberTheory/ClassFieldTheory/Global/HasseNorm/` and `ClassFields/`, and consumed here
 under Tau Ceti's names; the principal ideal theorem and the global conductor–discriminant formula
-are the open targets of this layer. The contract:
+are the open headline targets of this layer, and the comparison of extension of ideals with
+extension of ideles, which the principal ideal theorem's route reads, is its supporting open
+target. The contract:
 
 - **The cyclic Hasse norm theorem** `cyclicHasseNorm`: for cyclic `L/K`, `x ∈ Kˣ` is a norm from
   `Lˣ` exactly when its principal idele is an idele norm. Its placewise form
