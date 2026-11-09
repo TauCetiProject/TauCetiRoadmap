@@ -67,6 +67,9 @@ Not statable at the pins, so nothing is stated in their place:
   bilinear relations (K6.1): the pinned `integralTopForm` integrates real-valued top forms only;
 * the Kähler identities (K6.0): the pins have the Hodge star and codifferential of real forms
   only, and no adjoints `∂*`, `∂̄*` on complex-valued forms;
+* the planar star, codifferential and Laplacian comparisons (K6.0.PlanarHodge,
+  K6.0.PlanarLaplacian): they concern complex-valued forms of finite regularity, while the pins
+  have the star of real forms and the codifferential of smooth real forms only;
 * the analytic-cycle classes (K6.1): integration over the regular locus of a compact
   analytic subvariety needs the analytic-subset dimension theory and the complex-valued
   integration that the pins lack;

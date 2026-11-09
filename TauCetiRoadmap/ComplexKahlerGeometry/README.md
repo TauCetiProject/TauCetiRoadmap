@@ -1749,6 +1749,57 @@ local formal-adjoint comparison. It uses no compact Hodge theorem, analytic-set
 triangulation or RealAnalyticGeometry R5. RealAnalyticGeometry R3 consumes these
 identities and owns their complete-metric weighted domain and existence theory.
 
+**K6.0.PlanarHodge — the planar star and codifferential.** Let U be an arbitrary open
+subset of ℂ, the Euclidean plane through its real inner product, with `x=Re z`, `y=Im z`,
+the orientation `dx∧dy` and the restricted standard metric. The carrier is DG0.3's rough
+forms `RoughForm 𝓘(ℝ, ℂ) U ℂ k` on the open subtype, with DG1.1's exterior derivative
+`mextDeriv`. At regularity Cʳ every coefficient of an ambient representative satisfies
+`ContDiffOn ℝ r` on U, with r=1 for the identities below and r=2 for those of
+K6.0.PlanarLaplacian. The star on complex-valued forms is
+the complex-linear extension of K5a's pinned real star `TauCeti.RoughForm.hodgeStar`,
+applied to real and imaginary parts; pointwise it is `Orientation.complexHodgeStar`.
+Define the planar codifferential of C¹ forms by the star formula `δ=−*d*`, which is the
+sign `(−1)^(m(k+1)+1)` of K5a's `d*` at m=2. Prove `*1=dx∧dy`, `*(dx∧dy)=1`, `*dx=dy`
+and `*dy=−dx`, hence `*dz=−i dz` and `*dz̄=i dz̄`, which pins the multiple in K5b's
+type check. For a C¹ complex-valued one-form `α=P dx+Q dy` prove
+`dα=(∂_x Q−∂_y P) dx∧dy` and `δα=−(∂_x P+∂_y Q)`; for a top form with a C¹ coefficient h
+prove `δ(h dx∧dy)=(∂_y h) dx−(∂_x h) dy`; δ is zero on functions. Prove that these
+identities commute with restriction to every smaller open set. On smooth forms the real
+and imaginary parts of δ are K5a's pinned `TauCeti.SmoothForm.codifferential`, so δ is the
+formal L² adjoint of d against compactly supported tests in U
+(`integralTopForm_inner_mextDeriv_eq_inner_codifferential`); this introduces no boundary
+condition on the pointwise formulas.
+
+**K6.0.PlanarLaplacian — the planar Hodge Laplacian and its signs.** On U as above, prove
+that `Δ_H=dδ+δd` acts on forms with C² coefficients as the negative Euclidean Laplacian on
+each coefficient, in each of the degrees 0, 1 and 2. For a C² complex-valued function u,
+with K2's Wirtinger operators `∂_z=(∂_x−i∂_y)/2` and `∂_z̄=(∂_x+i∂_y)/2`, prove
+`Δ_H u=−(∂_x²u+∂_y²u)=−4∂_z∂_z̄u`. The middle term is the negative of Mathlib's
+`Laplacian.laplacian` of an ambient representative at points of U
+(`InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`) and of DG 12.3's
+`laplaceBeltrami=div∘grad`. For compactly supported smooth α prove
+`⟨Δ_H α,α⟩_L²=‖dα‖²_L²+‖δα‖²_L²`, with the Hermitian pairing for complex coefficients.
+On smooth forms Δ_H is K5a's Hodge Laplacian `Δ_d`. These formulas specialize the Gram
+star and formal-adjoint identities (Demailly, Chapter VI, §3.1, (3.1)–(3.5), and §3.2,
+Theorem 3.9, pp. 291–292) and use the C² equality of mixed derivatives; the Wirtinger
+normalization is Demailly, Chapter I, (3.1), p. 20.
+
+*Needs:* DG0.3, DG1.1 and DG 12.3; K2's Wirtinger operators; K5a's pinned star,
+codifferential and formal adjointness; K5b's Gram normalization for the last check.
+
+**Checks.**
+
+- For `α=x dx+y dy`, `δα=−2` and `dα=0`; for `α=x dy`, `dα=dx∧dy` and `δα=0`.
+- For `h=x²+y²`, `δ(h dx∧dy)=2y dx−2x dy` and `Δ_H h=−4`, while `laplaceBeltrami h=4`.
+- For `u(x+iy)=|x|³`, `∂_x²u=6|x|` and `∂_y²u=0`, so `Δ_H u=−6|x|`, including 0 on x=0.
+  This function is C² and not C³, and the C² statement admits it.
+- On the empty open set the carrier has a unique element and every identity is vacuous;
+  no global extension is required.
+- For a compactly supported smooth scalar u, integration by parts gives
+  `∫conj(u)Δ_H u=∫(|∂_x u|²+|∂_y u|²)`, fixing the nonnegative sign.
+- On functions `Δ_H u=−4∂_z∂_z̄u` is twice K5b's `Δ_∂̄u=−2∂_z∂_z̄u`, which is K6.0's
+  `Δ_d=2Δ_∂̄` on ℂ with the standard metric.
+
 ### K6.1. Compact Kähler Hodge theory and analytic cycles
 
 On compact Kähler M prove the `∂∂̄` lemma, then prove Hodge decomposition `H^k_dR(M;ℂ)≃⊕_(p+q=k)H^(p,q)(M)`, Hodge
@@ -2700,7 +2751,9 @@ componentwise bundles. Its finite-product/orthogonal-sum maps precede the
 global compact Hodge/Serre conclusions for locally finite varying ranks.
 PDO P1.1 and P2 onward consume this analysis. K5b uses K1, K2, K4
 and K5a. K6.0 uses K1/K2/K4 and K5a local identities, and precedes
-RealAnalyticGeometry R3/R4/R5. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
+RealAnalyticGeometry R3/R4/R5. K6.0.PlanarHodge and K6.0.PlanarLaplacian use DG0.3, DG1.1,
+DG 12.3, K2's Wirtinger operators and K5a's pinned star and codifferential; their last check
+uses K5b and K6.0. K6.1 follows K5b, K6.0 and K3's analytic-set theory, K3.0's real-analytic
 atlas, RealAnalyticGeometry R1/R5, DG5/8.3–8.5/12.1 (the absolute smoothing,
 chain integration, `deRhamHom` and `deRhamEquiv`), Tau Ceti's smooth singular
 simplices and fundamental classes for K6.1.RelativeIntegration, AT4.5/4.7/6.1/6.3
@@ -2752,8 +2805,10 @@ supplies the compatible triangulation in K6.
   local analytic geometry, Dolbeault/Hermitian and Kähler foundations.
 - [Demailly, *Complex Analytic and Differential Geometry*](https://www-fourier.ujf-grenoble.fr/~demailly/manuscripts/agbook.pdf),
   for analytic germs, bundle connections, elliptic theory and Kähler identities;
-  Chapter V, (8.2), p. 264, (9.2) and (9.5), pp. 264–265, and Chapter VI, §9.1, (9.1),
-  p. 314, for the exponential sequences and first Chern classes of K4.P; Chapter IV, §10,
+  Chapter I, (3.1), p. 20, and Chapter VI, §§3.1–3.2, pp. 291–292, for the planar
+  Wirtinger, star and codifferential normalizations of K6.0.PlanarHodge and
+  K6.0.PlanarLaplacian; Chapter V, (8.2), p. 264, (9.2) and (9.5), pp. 264–265, and
+  Chapter VI, §9.1, (9.1), p. 314, for the exponential sequences and first Chern classes of K4.P; Chapter IV, §10,
   (10.8), p. 225, and §11, (11.3)–(11.6), pp. 227–228, and Chapter VI, §11, (11.1)–(11.3),
   pp. 322–323, for the Frölicher spectral sequence and inequality of K8.
 - Webster, *A new proof of the Newlander–Nirenberg theorem*, Math. Z. 201 (1989), 303–316, for the convex-domain homotopy and rapidly converging iteration route.
