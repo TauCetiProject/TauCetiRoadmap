@@ -2,7 +2,6 @@ module
 import Mathlib
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.HilbertSymbol.Basic
-import TauCeti.NumberTheory.HilbertSymbol.Archimedean
 import TauCeti.NumberTheory.QuadraticForm.Global.Localization
 import TauCeti.NumberTheory.QuadraticForm.Global.HilbertSymbol
 import TauCeti.NumberTheory.NumberField.Global.RayClass.Basic

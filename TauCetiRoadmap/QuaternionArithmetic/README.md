@@ -239,8 +239,11 @@ milestone under *Scope and ownership*.
   symbol `hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`
   (`NumberTheory/QuadraticForm/Global/HilbertSymbol.lean`); the two-element quaternion subgroup of
   the local Brauer group `quaternionSubgroupSignEquiv` (`NumberTheory/LocalField/Quaternion/Subgroup.lean`);
-  the local invariant `TauCeti.ClassFieldTheory.invMap` and the global `finiteInvAt`,
-  `infiniteInvAt` (`NumberTheory/ClassFieldTheory/{Brauer/Invariant,Global/LocalInvariant}.lean`);
+  the local invariant `TauCeti.ClassFieldTheory.invMap` with its restriction square
+  `TauCeti.ClassFieldTheory.invMap_brRes` (for a finite extension `L/K` of nonarchimedean local
+  fields, restriction multiplies the invariant by `[L : K]`; used in 0.6), and the global
+  `finiteInvAt`, `infiniteInvAt`
+  (`NumberTheory/ClassFieldTheory/{Brauer/Invariant,Global/LocalInvariant}.lean`);
   orders in number fields `TauCeti.GlobalNumberFields.NumberFieldOrder` with `discr`, `index`,
   `conductor` and `Pic` (`NumberTheory/NumberField/Global/Orders/{Basic,Discriminant,Conductor,Picard}.lean`),
   which is the carrier of the quadratic orders of Layer 6 when `F = ℚ`; the `PSL(2,ℝ)` action on
@@ -272,6 +275,10 @@ milestone under *Scope and ownership*.
   in `NumberTheory/LocalField/Quaternion/Invariant.lean` (line 79) identifies Hilbert symbol −1
   with local invariant 1/2 for a nonarchimedean local field with 2 invertible;
   `quaternionSubgroup_eq_twoTorsion` in the same file identifies the quaternion subgroup with Br(K)[2].
+  At Tau Ceti `2fd255d` (the module is absent at `358314d`),
+  `TauCeti.brauerCohomologyEquiv_baseChange` (`Algebra/CrossedProduct/BaseChange/Naturality.lean`)
+  says that, for a finite separable extension `L/K` embedded in `Kˢ`, scalar extension of Brauer
+  classes corresponds to restriction in Galois cohomology; 0.6 uses it with `invMap_brRes`.
 - **From the quadratic form invariants roadmap:** Layer 2 (presentation theory of `ℍ[K,a,b]`, the
   Tau Ceti declarations above), sublayer 6C (bimultiplicativity and nondegeneracy of the local
   Hilbert symbol, the closed formulas over `ℚ_p` and `ℚ_2`, `hilbertSymbol_eq_cohomological`,
@@ -288,7 +295,9 @@ milestone under *Scope and ownership*.
   tests, the realization theorem
   `existsQuaternionRamification_iff` (every even set of noncomplex places is the ramification set
   of some `B`) and the uniqueness theorem `nonempty_quaternionAlgEquiv_of_localSplitting` (two
-  algebras with the same local splitting predicates are isomorphic). Layer 0 uses these through the comparison of §0.2, without restating them as targets. Its
+  symbol algebras `ℍ[K,a,b]`, `ℍ[K,c,d]` over a number field `K` with the same local splitting
+  predicates are isomorphic). Layer 0 uses these through the comparison of §0.2, and §0.6 applies
+  the uniqueness theorem over the quadratic extension `K`; neither restates them as targets. Its
   R17.3 (global Jacquet–Langlands) is the statement through which the Brandt matrices of Layer 7
   compute Hilbert modular forms; it is cited in Layer 7 and not restated. Its R17.3.8d supplies the
   Hecke operators `T_η φ = ∑_t φ|x_t` on quaternionic forms for a double coset `UηU = ⊔_t Ux_t`, with
@@ -597,9 +606,47 @@ Its API:
 ### 0.6 Quadratic subfields
 
 For a quadratic field extension K/F, prove that an F-algebra embedding K → B exists iff
-no ramified place of B splits in K ([V, 14.6.7]). The local criterion uses the abstract
-ramification classification through §0.2's comparison.
-*Needs:* 0.2–0.5; GL2AutomorphicRepresentationsAndTransfer R17.1.5; GlobalNumberFields Layer 1.
+no ramified place of B splits in K, that is, iff `K_v = K ⊗_F F_v` is a field for every
+`v ∈ Ram B` ([V, 14.6.7], p. 224). The route has three steps.
+
+- A quadratic field extension `L/E` embeds in a quaternion algebra over `E` iff it splits it
+  ([V, 5.4.7], p. 73), proved here. Over `F`, this reduces the theorem to `B ⊗_F K ≅ M₂(K)`.
+- Necessity is local. If `v ∈ Ram B` and `K_v ≅ F_v × F_v`, then `K_v` has zero divisors, so it
+  cannot embed in the division algebra `B_v` (0.2).
+- Sufficiency is a local splitting followed by global uniqueness over `K`. At a place `w | v` of
+  `K`, `B ⊗_F K_w` is split: either `v ∉ Ram B`, or `K_w = K_v` is a quadratic field extension
+  of `F_v`, which splits every quaternion algebra over `F_v` ([V, 13.4.4], p. 202). A real
+  `v ∈ Ram B` that does not split lies under a complex place of `K`, and complex places are never
+  ramified (Conventions). At a finite `v`, 0.3 gives `[B_v]` the local invariant `1/2`. Scalar
+  extension of Brauer classes to `K_w` is restriction in Galois cohomology, and restriction
+  multiplies the invariant by `[K_w : F_v] = 2`. So `[B ⊗_F K_w]` has invariant `0`, and the
+  Hilbert symbol of `(a,b)` over `K_w` is `+1`. Then `B ⊗_F K ≅ ℍ[K,a,b]` (`baseChangeTwoParams`)
+  is split at every place of `K`. So `nonempty_quaternionAlgEquiv_of_localSplitting`, applied over
+  `K` to `ℍ[K,a,b]` and `ℍ[K,1,1]`, gives `B ⊗_F K ≅ ℍ[K,1,1] ≅ M₂(K)` (`oneEquivMatrix`).
+
+*Needs:* 0.2–0.5; Tau Ceti `baseChangeTwoParams`, `oneEquivMatrix`, the restriction square
+`TauCeti.ClassFieldTheory.invMap_brRes` (`NumberTheory/ClassFieldTheory/Brauer/Invariant.lean`),
+`TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff` over `K_w`, and the
+naturality of the Brauer–cohomology comparison under scalar extension,
+`TauCeti.brauerCohomologyEquiv_baseChange` (`Algebra/CrossedProduct/BaseChange/Naturality.lean`, at
+Tau Ceti `2fd255d`; absent at `358314d`); completed NFA Layer 5 for `K_w` as a local field;
+GL2AutomorphicRepresentationsAndTransfer R17.1.5 (`nonempty_quaternionAlgEquiv_of_localSplitting`,
+over `K`); GlobalNumberFields Layer 1.
+
+**Checks.**
+
+- `K = ℚ(i)` in `ℍ[ℚ,-1,-1]`, with `Ram B = {2, ∞}`. `−1 ≡ 7 (mod 8)` is not a square in `ℚ₂`,
+  so `ℚ₂(i)` is a field, and `∞` is complex in `K`. Restriction gives `2·(1/2) = 0` at `2`, and
+  `i ↦ i` embeds.
+- (reject) `K = ℚ(√2)` in `ℍ[ℚ,-1,-1]`. `∞ ∈ Ram B` splits in `K`, so `K` does not embed:
+  `nrd` is positive definite, so no pure quaternion `μ` has `nrd μ = −2`.
+- (reject) `K = ℚ(√−7)` in `ℍ[ℚ,-1,-1]`. `−7 ≡ 1 (mod 8)`, so `2` splits and `K` does not embed:
+  `μ² = −7` for pure `μ` needs `x² + y² + z² = 7`, which has no rational solution.
+- `K = ℚ(√−2)` in `ℍ[ℚ,-1,-3]`, with `D = 3`. `−2 ≡ 1 (mod 3)` is a square, so `3` splits and `K`
+  does not embed. `ℚ(i)` in the same algebra has `3` inert and `∞` complex, and it embeds by
+  `μ = i`.
+- `M₂(ℚ)` has `Ram B = ∅`, so every quadratic field embeds, by its companion matrix. The criterion
+  does not require `B` to be a division algebra.
 
 ### 0.7 Worked symbol algebras
 
@@ -616,7 +663,7 @@ Hamilton symbols give D = 2; the split symbol (1,7) gives D = 1; (3,−1) gives 
 
 ### Dependencies
 
-Pinned quaternion/Hilbert-symbol theory; ArithmeticFuchsianGroups §1.2; QuadraticFormInvariants Layer 6C, GlobalQuadraticForms §4.4 and GL2AutomorphicRepresentationsAndTransfer R17.1.5.
+Pinned quaternion/Hilbert-symbol theory; the pinned restriction square of the local invariant and the naturality of the Brauer–cohomology comparison under scalar extension (0.6); ArithmeticFuchsianGroups §1.2; QuadraticFormInvariants Layer 6C, GlobalQuadraticForms §4.4, completed NFA Layer 5 (0.6) and GL2AutomorphicRepresentationsAndTransfer R17.1.5.
 
 ## Layer 1: lattices and orders
 
@@ -1016,8 +1063,10 @@ Its API:
 The signature predicate is `IsGorenstein`.
 
 `O` is **Gorenstein** when `codiff O` is invertible (`[V, 24.2.1]`). Prove it is local, and
-equivalent to: every sated (`O_L(I) = O`) left or right fractional `O`-ideal is invertible
-(`[V, 24.2.3]`); `nrd(codiff O)·discrd O = R` (`[V, 24.2.5]`, with `⊆` always); the ternary form
+equivalent to: every sated left or right fractional `O`-ideal is invertible (`[V, 24.2.3]`,
+p. 383), a left ideal being sated when `O_L(I) = O` and a right ideal when `O_R(I) = O`
+(`[V, 16.2.11]`, p. 253; on the right this is 3.1's *proper*); `nrd(codiff O)·discrd O = R`
+(`[V, 24.2.5]`, with `⊆` always); the ternary form
 of 2.1 is primitive (`[V, 24.2.10]`). Maximal and Eichler orders are Gorenstein. *Needs:*
 1.4, 1.12, 2.1.
 
@@ -1031,6 +1080,9 @@ Its API:
 - For M₂(ℤ), the codifferent is O and its norm ideal is (1), so the Gorenstein norm product is (1).
 - For Lipschitz L, codiff(L) = (1/2)L has norm ideal (1/4); multiplying by discrd(L) = (4) gives (1).
 - For ℤ+2O₆ the conductor product is (2), not (1); it is not Gorenstein.
+- Take `O = O₀(2)` and `g = diag(2,1)`. Then `I = gO` has `O_R(I) = O`, while
+  `O_L(I) = gOg⁻¹ = [[ℤ,2ℤ],[ℤ,ℤ]] ≠ O`. So `I` is a sated right ideal, and it is invertible
+  because it is principal. Testing a right ideal by `O_L(I) = O` would wrongly exclude it.
 
 ### 2.3 Gorenstein saturation and conductor
 
