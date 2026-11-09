@@ -57,10 +57,10 @@ formal characters and the classical specialization live under
 `TauCeti/Algebra/OreExtension/` and the finite Hopf-module category with its
 monoidal, rigid and double-dual trivialization structure under
 `TauCeti/Algebra/Category/FiniteHopfModuleCat/`. Layer 8's prose is the
-specification those files implement and names their declarations. Its one
-headline the library does not state verbatim, the local-finiteness
-characterization of §8.4, is stated on the native carrier; the
-Biedenharn–Elliott pentagon of §8.5, the pivotal structure, the compact
+specification those files implement and names their declarations. The
+local-finiteness characterization of §8.4 is
+`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`;
+the Biedenharn–Elliott pentagon of §8.5, the pivotal structure, the compact
 comparison of §8.6 and the comparison with RepresentationTheory/LieHighestWeight
 in §8.7 remain targets.
 
@@ -1400,13 +1400,16 @@ supplies a new simple complement if the sum is not all V. The converse and the e
 ⊕_(m,ε) (L_m^ε⊗Hom_U(L_m^ε,V))≃V, `TauCeti.UqSl2.ladderModuleTensorHomEquiv`,
 come with actual commuting actions.
 Type 1, the native `TauCeti.UqSl2.IsTypeOne`, is K diagonalizable with eigenvalues in {q^k:k∈ℤ},
-using an algebraic eigenspace direct sum even for infinite V. Prove:
-type 1 plus locally nilpotent E,F is equivalent to a direct sum of
+using an algebraic eigenspace direct sum even for infinite V. The native
+`isTypeOne_and_forall_exists_pow_smul_eq_zero_iff_exists_linearEquiv_dfinsupp_ladderModule`
+and `isTypeOne_and_isLocallyFiniteModule_iff_exists_linearEquiv_dfinsupp_ladderModule`
+say that type 1 plus locally nilpotent E,F is equivalent to a direct sum of
 L_m^+ and to local finiteness plus type 1. For the forward implication
 PBW bounds the E powers on each vector, the F powers on each resulting
 E^cv, and the K powers on their finite weight spans. The native predicate `TauCeti.UqSl2.IsSignedTypeOne` means algebraic spanning
-by K eigenvectors with eigenvalues in {±q^k}. Prove the headline
-`uqSl2_locallyFinite_iff`: this condition characterizes
+by K eigenvectors with eigenvalues in {±q^k}. The native
+`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`
+says that this condition characterizes
 unrestricted local finiteness when combined with E,F local nilpotence.
 Exhibit the one-dimensional L_0^- (K=−1,E=F=0): it is locally finite
 and locally nilpotent but not type 1. Thus the unsigned integral-weight
@@ -1471,9 +1474,9 @@ and S²=Ad(g), consume
 `GroupLike.toUnits k ⟨g,hg⟩` and native antipode/inverse laws.
 Prove Ad(g) bijective and deduce S bijective from bijectivity of S∘S.
 Supply that proof to the named rigid data; the double-dual trivialization
-j_V(v)(φ)=φ(gv), H-linear and natural in V, is
-`TauCeti.FiniteHopfModuleCat.unitEvalNatIso`. Construct `PivotalCategory`
-from it, proving monoidal naturality.
+j_V(v)(φ)=φ(gv), H-linear, natural in V and monoidal, is
+`TauCeti.FiniteHopfModuleCat.unitEvalNatIso` with `unitEvalNatIso_isMonoidal`.
+Bundle it as the `PivotalCategory` instance.
 Instantiate this generic category at U_q and g=K⁻¹.
 The normalized
 highest vectors `clebschGordanVector` and the actual intertwiners
@@ -1498,9 +1501,10 @@ Prove their naturality and their Biedenharn–Elliott
 pentagon identity on L_a^ε⊗L_b^δ⊗L_c^ζ⊗L_d^θ under the actual associator,
 and compatibility with dual evaluation and coevaluation.
 Both tensor orders of the sign representation, with their basis
-rescalings, are `signTensorEquiv` and `tensorSignEquiv`. Finite duals are the
+rescalings, are `TauCeti.UqSl2.LadderModule.signTensorEquiv` and
+`tensorSignEquiv`. Finite duals are the
 corresponding signed simples by the explicit antipode intertwiners
-`contragredientEquiv`, comparing the
+`TauCeti.UqSl2.LadderModule.contragredientEquiv`, comparing the
 U_q right/left duals and pivot with the generic construction above. Identify PivotalSpherical's rightTrace(f)=tr_V(gf) and
 leftTrace(f)=tr_V(g⁻¹f), with its right-dual convention.
 They coincide for all module endomorphisms
@@ -1535,7 +1539,7 @@ is native, `TauCeti.UqSl2.instStarRing` and `instStarCoalgebra` for a
 self-adjoint nonzero parameter.
 On each L_m^+ the positive invariant inner product with
 h₀=1 and h_j/h_(j−1)=[m−j+1]_q/([j]_q q^(m−2j)) is
-`TauCeti.UqSl2.invariantForm`, with its star relations and K positivity
+`TauCeti.UqSl2.LadderModule.invariantForm`, with its star relations and K positivity
 (`invariantForm_pos`, `invariantForm_k_pos`). Build the coefficient Hopf pairing
 and monoidal equivalence between finite positive-K modules
 (finite direct sums of the L_m^+) and

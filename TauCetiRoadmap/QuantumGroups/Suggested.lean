@@ -6,16 +6,13 @@ import Mathlib
 import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.Matrix
 import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
 import TauCeti.Algebra.Coalgebra.Star
-import TauCeti.QuantumGroups.UqSl2.TypeOne
 
 /-!
 # Quantum groups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: weighted Schur orthogonality, the
-algebraic compact-type characterization, and the characterization of local
-finiteness over the native generic `TauCeti.UqSl2` by signed integral weights
-and local nilpotence of both ladder operators.
+headline theorems against the pinned APIs: weighted Schur orthogonality and the
+algebraic compact-type characterization.
 
 The following headlines are not statable at the pins without heavy constructions:
 * Layer 0: the standard-solution, fiber-functor and Temperley–Lieb comparisons
@@ -39,10 +36,13 @@ The following headlines are not statable at the pins without heavy constructions
   reducibility, ladder decomposition of locally finite modules, Clebsch–Gordan
   and recoupling isomorphisms, invariant metric, quantum traces and classical
   specialization are proved in the pinned Tau Ceti (`TauCeti.QuantumGroups.UqSl2`
-  and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated. The
-  Biedenharn–Elliott pentagon of §8.5 needs channel coordinates on quadruple
-  tensor products and recoupling maps between all five bracketings, which the
-  pin's `TauCeti.UqSl2.clebschGordanRecouplingEquiv` supplies only for triple
+  and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated; in
+  particular the local-finiteness characterization of §8.4 is the pin's
+  `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`.
+  The Biedenharn–Elliott pentagon of §8.5 is the one Layer 8 statement not
+  statable: it needs channel coordinates on quadruple tensor products and
+  recoupling maps between all five bracketings, which the pin's
+  `TauCeti.UqSl2.clebschGordanRecouplingEquiv` supplies only for triple
   products; the compact comparison of §8.6 additionally needs analytic SUq(2).
 -/
 
@@ -108,19 +108,6 @@ theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
     [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
-  sorry
-
-/-! ## Layer 8: Generic rank-one representations -/
-
-open TauCeti TauCeti.UqSl2 in
-/-- Local finiteness is equivalent to signed integral weights and local nilpotence of both
-ladder operators, for arbitrary algebraic modules over the native generic `TauCeti.UqSl2 q`
-(§8.4; Virelizier §3.2 fixes the type-1 convention, the signed extension is this roadmap's). -/
-theorem uqSl2_locallyFinite_iff (q : ℂ) (hq : IsGenericQuantumParameter q)
-    (V : Type u) [AddCommGroup V] [Module ℂ V] [Module (UqSl2 q) V]
-    [IsScalarTower ℂ (UqSl2 q) V] :
-    IsLocallyFiniteModule ℂ (UqSl2 q) V ↔ IsSignedTypeOne q V ∧
-      (∀ v : V, ∃ n : ℕ, e q ^ n • v = 0) ∧ (∀ v : V, ∃ n : ℕ, f q ^ n • v = 0) := by
   sorry
 
 end TauCetiRoadmap.QuantumGroups
