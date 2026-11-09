@@ -63,7 +63,11 @@ Tau Ceti's, cited in K5a. The later pseudodifferential calculus
 and its Peetre theorem consume that analysis; K5a's analytic operator layer
 consumes only P1.0. The initial orientation-line and density layer consumes no PDO.
 [AlgebraicTopology](../AlgebraicTopology/README.md) owns singular cohomology
-and products. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
+and products. Tau Ceti's spectral sequence of a filtered cochain complex
+(`CochainComplex.spectralSequence`, with its first page, finite-filtration convergence,
+naturality and comparison theorem) supplies the generic spectral-sequence machinery of K8,
+which owns only its Frölicher and base-degree filtration adapters; no roadmap supplies a
+spectral sequence here. The linear Hodge-structure objects in `Completed/HodgeStructures` are a
 target for K6's comparison, not a proof of analytic Hodge theory.
 
 The complex structure J has `J²=-1`; `T^(1,0)` and `T^(0,1)` are its `+i` and `−i`
@@ -2503,11 +2507,53 @@ embedding in any ℂPⁿ.
 ## K8. The Frölicher spectral sequence and non-Kähler comparison
 
 Construct the spectral sequence of the double complex of smooth type forms, with
-`E₁^(p,q)=H^(p,q)_∂̄`, converging to complex de Rham cohomology. Consume DGFloer's generic
-filtered-complex spectral sequence and own its decreasing cohomological column-filtration
-adapter, with `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)`, finite filtration and associated-graded
-convergence. Use Mathlib's `SpectralObject`/bicomplex carriers; do not create another
-spectral-sequence object. Prove E₁ degeneration in the compact Kähler case using K6.
+`E₁^(p,q)=H^(p,q)_∂̄`, converging to complex de Rham cohomology. Consume Tau Ceti's spectral
+sequence of a filtered cochain complex: `CochainComplex.filtrationFunctor` turns an increasing
+filtration `ℤ → Subobject K` of a cochain complex K in an abelian category into an
+`EInt`-indexed functor, `CochainComplex.spectralSequence` is Mathlib's spectral sequence of its
+spectral object (`CategoryTheory.Abelian.SpectralObject`) for the recipe `coreE₂Cohomological`,
+whose first page is numbered 2, `CochainComplex.spectralSequenceFirstPageXIsoCokernel`
+identifies that page with the cohomology of the graded pieces,
+`CochainComplex.spectralSequence_first_page_d_eq` identifies its differential with the
+connecting map of two consecutive graded pieces, `CochainComplex.filtrationAbutmentIso` and
+`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite` give strong convergence to
+the associated graded of the image filtration on `H^k(K)` when the filtration is finite,
+`CochainComplex.filtrationFunctorMap` is the morphism induced by a filtered map and
+`CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page` is the comparison theorem
+for finite filtrations. Do not create another spectral-sequence object. Own the Frölicher
+adapter on top of them: the total type complex `A^k(M;ℂ)=⊕_(p+q=k)A^(p,q)(M)` with `d=∂+∂̄`
+as a cochain complex of ℂ-vector spaces indexed by ℤ, zero outside `0≤k≤2n`; the decreasing
+column filtration `F^p A^k=⊕_(r≥p)A^(r,k−r)`, a subcomplex because `∂` raises and `∂̄` keeps
+the first index, as the increasing filtration `G_t=F^(−t)` by subobjects, monotone and finite
+(`G_(−n−1)=F^(n+1)=0`, since no type `(r,s)` has `r>n`, and `G_0=F^0` is everything); the
+graded piece `F^p/F^(p+1)` as the Dolbeault complex `(A^(p,•),∂̄)` with `A^(p,q)` in total
+degree `p+q` (Demailly, IV (11.3)–(11.4), p. 227); the cohomological reindexing in which
+`E_r^(p,q)` is the native page `r+1` object at `(2p+q+1,−p−1)`, of total degree `p+q`, so that
+`E₁^(p,q)=H^(p,q)_∂̄` and `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)` (Demailly, IV (10.8), p. 225);
+`d₁` as the map induced by `∂` on Dolbeault classes, which is the connecting map of
+`0→F^(p+1)/F^(p+2)→F^p/F^(p+2)→F^p/F^(p+1)→0` applied to a `∂̄`-closed representative
+(Demailly, IV (11.5), p. 228); the Hodge filtration `F^p H^k_dR(M;ℂ)`, the image of
+`H^k(F^p A)→H^k_dR(M;ℂ)`, with `F^0 H^k=H^k` and `F^p H^k=0` for `p>k`, and the convergence
+`E_∞^(p,q)≃F^p H^(p+q)_dR/F^(p+1) H^(p+q)_dR` (Demailly, IV (11.6), p. 228, and VI (11.1),
+p. 322); and, on a compact complex manifold, where K5b makes every `h^(p,q)` finite, the
+Frölicher inequality `b_k ≤ Σ_(p+q=k) h^(p,q)`, with equality for every k exactly when every
+`d_r`, `r≥1`, vanishes (Demailly, VI (11.2)–(11.3), pp. 322–323). Prove E₁ degeneration in the
+compact Kähler case using K6: K6.1's Hodge decomposition gives `b_k=Σ_(p+q=k)h^(p,q)` in every
+degree.
+
+*Needs:* Tau Ceti's `CochainComplex.filtrationFunctor`, `CochainComplex.spectralSequence`,
+`CochainComplex.spectralSequenceFirstPageXIsoCokernel`,
+`CochainComplex.spectralSequence_first_page_d_eq`, `CochainComplex.filtrationAbutmentIso`,
+`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite`,
+`CochainComplex.filtrationFunctorMap` and
+`CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`, with Mathlib's
+`CategoryTheory.Abelian.SpectralObject` and `coreE₂Cohomological`; K2's type calculus,
+`d=∂+∂̄` and `∂̄∂̄=0`; K5b's finite `h^(p,q)` on compact manifolds; K6.1's Hodge
+decomposition for the Kähler degeneration;
+[ComplexManifolds Milestone 4](../ComplexManifolds/README.md)'s discrete holomorphic
+quotients; [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s Chevalley–Eilenberg
+differential; Sakane, pp. 188–189, Angella, §§4.1–4.2, and Raghunathan, Theorem 1.13 and
+Corollary 1, at the steps that cite them.
 
 Construct the complex Heisenberg group and its Gaussian-integer lattice, the compact
 Iwasawa quotient and invariant form equations. Compute `h^(1,0)=3`, `h^(0,1)=2`, `b₁=4`
@@ -2581,9 +2627,12 @@ own the Borel spectral-sequence construction for these holomorphic central-torus
 fibrations: fiberwise ∂̄ harmonic projection and translation-invariant fiber cohomology,
 the smooth local-system/trivial-monodromy comparison, and the corresponding base/fiber E₂
 identification. Prove the inclusion from invariant to full filtered complexes induces the
-comparison on these pages; apply induction on the central torus quotient and the
-finite-filtration comparison theorem. Generic DGFloer machinery supplies
-convergence/naturality, not these geometric page identifications. Apply Sakane only to
+comparison on these pages; apply induction on the central torus quotient and the native
+comparison theorem `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`, the
+inclusion being a `CochainComplex.filtrationFunctorMap` between the finite base-degree
+filtrations, reindexed as in the Frölicher adapter. Tau Ceti's filtered-complex spectral
+sequence supplies convergence, naturality and that comparison, not these geometric page
+identifications. Apply Sakane only to
 this precise complex-parallelizable nilpotent class. An invariant subcomplex alone does
 not prove its inclusion is a quasi-isomorphism.
 
@@ -2594,6 +2643,22 @@ not prove its inclusion is a quasi-isomorphism.
   holomorphic coframe, `d₁[φ₃]=[∂φ₃]=−[φ₁∧φ₂]≠0` in `E₁^(2,0)`.
 - A complex torus `ℂⁿ/Λ` has `h^(1,0)+h^(0,1)=2n=b₁` and degenerates at E₁; so does the
   non-Kähler Hopf surface (`0+1=1=b₁`), so E₁ degeneration does not imply Kähler.
+- Frölicher reindexing: `E₁^(1,0)` is the native page-2 object at `(2·1+0+1,−1−1)=(3,−2)`,
+  of total degree `3−2=1`, and the native differential `(a,b)↦(a+2,b−1)` sends it to
+  `(5,−3)`, which is `E₁^(2,0)`: bidegree `(p+1,q)`, total degree 2. Filtering by the second
+  index instead gives the first page `H_∂^(p,q)` with `d₁` induced by `∂̄`; on the Iwasawa
+  manifold that differential kills `[φ₃]`, since `∂̄φ₃=0`, while `∂φ₃=−φ₁∧φ₂≠0`, so the two
+  filtrations are not interchangeable.
+- Finiteness and the stable page: `G_(−n−1)=F^(n+1)=0` and `G_0=F^0` is everything, so
+  `E_r^(p,q)=E_∞^(p,q)` for `r≥max(p,n−p)+1`. On a point (`n=0`) `E₁^(0,0)=ℂ=H⁰_dR` and every
+  other term is zero. On a compact connected Riemann surface of genus g, `E₂=E_∞` and
+  `E₁=E₂`, since `b₀=1=h^(0,0)`, `b₁=2g=h^(1,0)+h^(0,1)` and `b₂=1=h^(1,1)`: the only candidate
+  differentials are `∂` on the constants, which vanishes, and `∂:E₁^(0,1)→E₁^(1,1)`, which
+  the equality forces to vanish. On the Iwasawa manifold (`n=3`) `E₄=E_∞` in every bidegree.
+- Hodge filtration: on a compact Kähler manifold K6.1's decomposition gives
+  `F^p H^k_dR=⊕_(r≥p)H^(r,k−r)`, so `E_∞^(p,q)=H^(p,q)=E₁^(p,q)` and the Frölicher inequality is
+  an equality in every degree; on the Iwasawa manifold `b₁=4<5=h^(1,0)+h^(0,1)`, so the
+  inequality is strict and `E_∞^(1,0)⊕E_∞^(0,1)` has dimension 4, not 5.
 - Malcev rationality for the integer Heisenberg group: the element with entries
   `x=y=z=1` has logarithm `X+Y+½Z`, so log Γ is not an additive subgroup of 𝔤 but spans
   the rational form `ℚX+ℚY+ℚZ`; the centre `A=exp(ℝZ)` has `Γ∩A≅ℤ`, `G/A≅ℝ²` and
@@ -2646,7 +2711,7 @@ projectivization instances and affine atlas and Tau Ceti's sphere-quotient model
 structure and additive groups are Tau Ceti's on the sphere-quotient model, transported by
 K7.1's comparison; its cup calculation uses AT Stage 6 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
-and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison
+and Tau Ceti's filtered-complex spectral sequence. K4.P follows K2's Čech/derived comparison
 and fine-implies-acyclic theorem, K3's function sheaf, K4's line bundles and SBC
 B6.1–B6.2, none of which uses K4.P; it owns the unit sheaf, `Pic_hol`, the
 exponential segment, the conditional `c₁` isomorphism and `F_M`, which
@@ -2673,8 +2738,8 @@ consumes ComplexManifolds Milestone 4; the general invariant-cohomology comparis
 first use K8.NilpotentCentralReduction's Γ-rational central subgroup,
 lattice, lower-dimensional quotient and smooth/holomorphic principal-torus
 bundle theorem, then [LieGroupoidsPoisson G1.3](../LieGroupoidsPoisson/README.md)'s CE adapter and the geometric
-spectral-sequence page comparisons in K8. The generic filtered-complex
-machinery supplies convergence after those inputs.
+spectral-sequence page comparisons in K8. Tau Ceti's filtered-complex spectral
+sequence supplies convergence after those inputs.
 Every local definition and bundle construction has restriction, gluing, functoriality and transport
 APIs before it becomes a global theorem's input.
 Within K3, the convergent complex local-algebra and singular-locus targets
@@ -2688,7 +2753,9 @@ supplies the compatible triangulation in K6.
 - [Demailly, *Complex Analytic and Differential Geometry*](https://www-fourier.ujf-grenoble.fr/~demailly/manuscripts/agbook.pdf),
   for analytic germs, bundle connections, elliptic theory and Kähler identities;
   Chapter V, (8.2), p. 264, (9.2) and (9.5), pp. 264–265, and Chapter VI, §9.1, (9.1),
-  p. 314, for the exponential sequences and first Chern classes of K4.P.
+  p. 314, for the exponential sequences and first Chern classes of K4.P; Chapter IV, §10,
+  (10.8), p. 225, and §11, (11.3)–(11.6), pp. 227–228, and Chapter VI, §11, (11.1)–(11.3),
+  pp. 322–323, for the Frölicher spectral sequence and inequality of K8.
 - Webster, *A new proof of the Newlander–Nirenberg theorem*, Math. Z. 201 (1989), 303–316, for the convex-domain homotopy and rapidly converging iteration route.
 - [Sakane, *On compact complex parallelisable solvmanifolds*](https://ir.library.osaka-u.ac.jp/repo/ouka/all/5964/ojm13_01_13.pdf), Theorem 1 and the nilpotent case, for the invariant Dolbeault comparison.
 - Wells, *Differential Analysis on Complex Manifolds*, for Dolbeault, elliptic

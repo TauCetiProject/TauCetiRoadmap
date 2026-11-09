@@ -79,8 +79,10 @@ Not statable at the pins, so nothing is stated in their place:
   the Fubini–Study form is itself a K7.2 construction, glued from its chart formulas;
 * the Hodge numbers of complex tori, the Hopf surface and the elliptic flat lines (K7): the pins
   have no complex torus `ℂⁿ/Λ` and no Hopf surface with a complex atlas;
-* the Frölicher spectral sequence and the Iwasawa-manifold computation (K8): the spectral
-  sequence of the type bicomplex and the Iwasawa quotient are constructions of K8.
+* the Frölicher spectral sequence and the Iwasawa-manifold computation (K8): Tau Ceti has the
+  spectral sequence of a filtered cochain complex (`CochainComplex.spectralSequence`), but the
+  filtered type complex (the type forms with `d = ∂ + ∂̄` as a cochain complex of ℂ-vector
+  spaces, with its column filtration) and the Iwasawa quotient are constructions of K8.
 -/
 
 @[expose] public noncomputable section
