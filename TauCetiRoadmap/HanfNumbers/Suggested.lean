@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.ModelTheory.Infinitary.Fragment
 public import TauCeti.ModelTheory.Infinitary.LanguageMap
 public import TauCeti.ModelTheory.ModelExistence.Types
 
@@ -17,10 +18,11 @@ the roadmap.
 Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction of
 the InfinitaryLogic roadmap (`FirstOrder.Language.BoundedFormulaω`, `Sentenceω`,
 `BoundedFormulaInf.Realize`, `SentenceInf.Realize`), and, from the InfinitaryModelExistence
-roadmap, the action of a language map on formulas (`FirstOrder.Language.LHom.onBoundedFormulaInf`)
-and complete Lω₁ω-types (`FirstOrder.Language.infinitaryType`, `realizedTypes`). There are no
-stand-ins. Skolem towers and the construction of the Ehrenfeucht–Mostowski term model are
-specified in the README only; the source and stretching theorems are stated here semantically.
+roadmap, fragments (`FirstOrder.Language.Fragment`), the action of a language map on formulas
+(`FirstOrder.Language.LHom.onBoundedFormulaInf`) and complete Lω₁ω-types
+(`FirstOrder.Language.infinitaryType`, `realizedTypes`). There are no stand-ins. Skolem towers
+and the construction of the Ehrenfeucht–Mostowski term model are specified in the README only;
+the source and stretching theorems are stated here semantically.
 Names are provisional.
 -/
 
@@ -190,23 +192,13 @@ section EMModels
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- An **Ehrenfeucht–Mostowski source** on a set `Γ` of formulas: a structure `N` with a sequence
-`a : ℕ → N` such that `Γ` is closed under constructor components (it is the underlying set of a
-`Fragment` of the InfinitaryModelExistence roadmap), contains the equality atom and
-an atom for every relation symbol, every universal member of `Γ` has its counterexamples witnessed
-by a term, and `a` is indiscernible for every member of `Γ` evaluated at terms in the sequence. The
-template of `a` on `Γ` is then a Skolem template for `Γ` and these terms (README, Layer 2.2),
-ω-complete because `Γ` is component-closed. -/
-structure IsEMSource (Γ : Set (Σ n, L.BoundedFormulaω Empty n)) (N : Type w) [L.Structure N]
-    (a : ℕ → N) : Prop where
-  imp_mem : ∀ {n} (φ ψ : L.BoundedFormulaω Empty n), ⟨n, φ.imp ψ⟩ ∈ Γ →
-    (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ Γ ∧ (⟨n, ψ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ Γ
-  all_mem : ∀ {n} (φ : L.BoundedFormulaω Empty (n + 1)), ⟨n, φ.all⟩ ∈ Γ →
-    (⟨n + 1, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ Γ
-  iSup_mem : ∀ {n} (φs : ℕ → L.BoundedFormulaω Empty n) (i : ℕ),
-    ⟨n, BoundedFormulaInf.iSup φs⟩ ∈ Γ → (⟨n, φs i⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ Γ
-  iInf_mem : ∀ {n} (φs : ℕ → L.BoundedFormulaω Empty n) (i : ℕ),
-    ⟨n, BoundedFormulaInf.iInf φs⟩ ∈ Γ → (⟨n, φs i⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ Γ
+/-- An **Ehrenfeucht–Mostowski source** on a fragment `Γ` (a set of formulas closed under
+constructor components): a structure `N` with a sequence `a : ℕ → N` such that `Γ` contains the
+equality atom and an atom for every relation symbol, every universal member of `Γ` has its
+counterexamples witnessed by a term, and `a` is indiscernible for every member of `Γ` evaluated at
+terms in the sequence. The template of `a` on `Γ` is then a Skolem template for `Γ` and these terms
+(README, Layer 2.2), ω-complete because `Γ` is component-closed. -/
+structure IsEMSource (Γ : L.Fragment) (N : Type w) [L.Structure N] (a : ℕ → N) : Prop where
   equal_mem : (⟨2, BoundedFormulaInf.equal (Term.var (Sum.inr 0)) (Term.var (Sum.inr 1))⟩ :
     Σ n, L.BoundedFormulaω Empty n) ∈ Γ
   rel_mem : ∀ {l} (R : L.Relations l),
@@ -229,13 +221,13 @@ Ehrenfeucht–Mostowski source over a language in `Language.{0, 0}` stretches to
 template of `a` on `Γ` along its skeleton, and has cardinality at most `max ℵ₀ |J| |L_fun|`. The
 skeleton is injective when `a` is. The source and the stretched model live in independent
 universes. -/
-theorem exists_emModel {L' : FirstOrder.Language.{0, 0}} {Γ : Set (Σ n, L'.BoundedFormulaω Empty n)}
+theorem exists_emModel {L' : FirstOrder.Language.{0, 0}} {Γ : L'.Fragment}
     {N : Type u''} [L'.Structure N] {a : ℕ → N} (h : IsEMSource Γ N a)
     (J : Type w) [LinearOrder J] :
     ∃ (E : Type w) (_ : L'.Structure E) (c : J → E),
       (∀ ψ : L'.Sentenceω, (⟨0, ψ⟩ : Σ n, L'.BoundedFormulaω Empty n) ∈ Γ →
         (SentenceInf.Realize ψ N ↔ SentenceInf.Realize ψ E)) ∧
-      (templateOf a).RealizesOn c Γ ∧
+      (templateOf (L := L') a).RealizesOn c Γ ∧
       #E ≤ max ℵ₀ (max #J (Cardinal.lift.{w} #(Σ n, L'.Functions n))) ∧
       (Function.Injective a → Function.Injective c) := by
   sorry
@@ -244,13 +236,13 @@ theorem exists_emModel {L' : FirstOrder.Language.{0, 0}} {Γ : Set (Σ n, L'.Bou
 symbols, an injective source stretched along an infinite `J` gives a model of cardinality exactly
 `#J`: the language term of `exists_emModel` is absorbed. -/
 theorem exists_emModel_card_eq {L' : FirstOrder.Language.{0, 0}}
-    [Countable (Σ n, L'.Functions n)] {Γ : Set (Σ n, L'.BoundedFormulaω Empty n)} {N : Type u''}
+    [Countable (Σ n, L'.Functions n)] {Γ : L'.Fragment} {N : Type u''}
     [L'.Structure N] {a : ℕ → N} (h : IsEMSource Γ N a) (ha : Function.Injective a)
     (J : Type w) [LinearOrder J] [Infinite J] :
     ∃ (E : Type w) (_ : L'.Structure E) (c : J → E),
       (∀ ψ : L'.Sentenceω, (⟨0, ψ⟩ : Σ n, L'.BoundedFormulaω Empty n) ∈ Γ →
         (SentenceInf.Realize ψ N ↔ SentenceInf.Realize ψ E)) ∧
-      (templateOf a).RealizesOn c Γ ∧ Function.Injective c ∧ #E = #J := by
+      (templateOf (L := L') a).RealizesOn c Γ ∧ Function.Injective c ∧ #E = #J := by
   sorry
 
 end EMModels
@@ -344,15 +336,17 @@ theorem hanfNumber_isHanfBound (φ : L.Sentenceω) :
 /-- **Layer 3 milestone, extraction of an Ehrenfeucht–Mostowski source from the cofinal
 hypothesis.** If `φ` has models of cardinality at least `ℶ_α` for every `α < ω₁`, there are a
 countable language `L'` with a language map `g : L →ᴸ L'` (sending each symbol of `φ` to its copy
-in the Skolem extension, and every other symbol to a dummy), a countable set `Γ` containing the image of `φ`,
-and an injective Ehrenfeucht–Mostowski source on `Γ` in a model of the image of `φ`. -/
+in the Skolem extension, and every other symbol to a dummy), a countable fragment `Γ` containing
+the image of `φ`, and an injective Ehrenfeucht–Mostowski source on `Γ` in a model of the image of
+`φ`. -/
 theorem exists_emSource_of_forall_beth (φ : L.Sentenceω)
     (h : ∀ α < Ordinal.omega.{w} 1,
       ∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M ∧ ℶ_ α ≤ #M) :
     ∃ (L' : FirstOrder.Language.{0, 0}) (_ : Countable (Σ n, L'.Functions n))
       (_ : Countable (Σ n, L'.Relations n)) (g : L →ᴸ L')
-      (Γ : Set (Σ n, L'.BoundedFormulaω Empty n)) (N : Type) (_ : L'.Structure N) (a : ℕ → N),
-      Γ.Countable ∧ IsEMSource Γ N a ∧ Function.Injective a ∧
+      (Γ : L'.Fragment) (N : Type) (_ : L'.Structure N) (a : ℕ → N),
+      (Γ : Set (Σ n, L'.BoundedFormulaω Empty n)).Countable ∧ IsEMSource Γ N a ∧
+      Function.Injective a ∧
       (⟨0, g.onBoundedFormulaInf φ⟩ : Σ n, L'.BoundedFormulaω Empty n) ∈ Γ ∧
       SentenceInf.Realize (g.onBoundedFormulaInf φ) N := by
   sorry

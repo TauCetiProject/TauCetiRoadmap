@@ -483,9 +483,7 @@ semantically stated source. For a language `L'`, a set `Γ` of formulas in bound
 structure `N` and `a : ℕ → N`, **`IsEMSource Γ N a`** means:
 
 1. `Γ` is closed under constructor components (both sides of `imp`, the body of `all`, every
-   component of `iSup` and `iInf`); that is, `Γ` is the underlying set of an IME `Fragment`
-   (IME 1.2), and the prototype states the four closure conditions directly only because it does
-   not import IME;
+   component of `iSup` and `iInf`), that is, `Γ` is an IME fragment `Γ : Fragment L'` (IME 1.2);
 2. `Γ` contains the equality atom `x₀ = x₁` and, for every relation symbol `R` of `L'`, the atom
    `R(x₀, …, x_{l-1})`;
 3. **Skolem terms**: for every member `∀y ψ(x̄, y)` of `Γ` of arity `n` there is an `L'`-term
