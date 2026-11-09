@@ -7,9 +7,9 @@ public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvatu
 public import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
-public import TauCeti.Geometry.Manifold.Riemannian.Sphere
-public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace
-public import TauCeti.Geometry.Manifold.Orientation
+public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Basic
+public import TauCeti.Geometry.Manifold.Orientation.Basic
 
 /-!
 # Riemannian geometry: target signatures
@@ -131,10 +131,11 @@ theorem rauch_norm_ge_of_sectional_le {γ : ℝ → M} {X : ∀ t, TangentSpace 
 /-- R4.6, Synge's theorem, even dimension: a compact connected orientable Riemannian manifold of
 even dimension whose sectional curvatures are all positive (`0 < ⟨R(u,v)v,u⟩` for every linearly
 independent pair `u, v`) is simply connected. Orientability is the pinned `TauCeti.Orientable`,
-the existence of an oriented smooth atlas. In dimension `0` the manifold is a point and the
+the existence of a manifold orientation: an orientation of the tangent spaces compatible with the
+chart Jacobians. In dimension `0` the manifold is a point and the
 conclusion holds; `RP²` is excluded by orientability, the flat torus by strict positivity and
 `RP³` by parity. -/
-theorem synge [ConnectedSpace M] [CompactSpace M] [TauCeti.Orientable I ∞ M]
+theorem synge [ConnectedSpace M] [CompactSpace M] [TauCeti.Orientable I M]
     (heven : Even (Module.finrank ℝ E))
     (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
       0 < inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u) :
@@ -149,7 +150,7 @@ theorem synge_orientable_of_odd [ConnectedSpace M] [CompactSpace M]
     (hodd : Odd (Module.finrank ℝ E))
     (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
       0 < inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u) :
-    TauCeti.Orientable I ∞ M := by
+    TauCeti.Orientable I M := by
   sorry
 
 end Intrinsic
@@ -322,32 +323,35 @@ end TwoSphere
 
 /-! ## Layer 5: Paraboloid geodesics and the vertex pole -/
 
-/-- The graph parametrization of the paraboloid `z = x² + y²`, on the global smooth
-coordinate manifold `EuclideanSpace ℝ (Fin 2)`. -/
+/-- The graph parametrization of the paraboloid `z = x² + y²` over the plane
+`EuclideanSpace ℝ (Fin 2)`. -/
 def paraboloidGraph (x : EuclideanSpace ℝ (Fin 2)) : EuclideanSpace ℝ (Fin 3) :=
   WithLp.toLp 2 ![x 0, x 1, (x 0) ^ 2 + (x 1) ^ 2]
 
 section Paraboloid
 
-variable [RiemannianBundle (fun x : EuclideanSpace ℝ (Fin 2) => TangentSpace (𝓡 2) x)]
+variable {S : Type*} [TopologicalSpace S]
+  [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S] [IsManifold (𝓡 2) ∞ S]
+  [RiemannianBundle (fun x : S => TangentSpace (𝓡 2) x)]
   [IsContMDiffRiemannianBundle (𝓡 2) ∞ (EuclideanSpace ℝ (Fin 2))
-    (fun x : EuclideanSpace ℝ (Fin 2) => TangentSpace (𝓡 2) x)]
+    (fun x : S => TangentSpace (𝓡 2) x)]
   [IsContMDiffRiemannianBundle (𝓡 2) 1 (EuclideanSpace ℝ (Fin 2))
-    (fun x : EuclideanSpace ℝ (Fin 2) => TangentSpace (𝓡 2) x)]
+    (fun x : S => TangentSpace (𝓡 2) x)]
 
-/-- R5a.3: every all-time unit-speed geodesic of the graph-induced paraboloid metric
-with nonzero angular momentum has infinitely many transverse self-intersections,
-with crossing radii and times tending to infinity. The determinant tests the two
-velocities in the global graph chart. -/
+/-- R5a.3: on a surface `S` with a global graph chart `e` in which its metric is the
+graph-induced paraboloid metric, every all-time unit-speed geodesic with nonzero angular
+momentum has infinitely many transverse self-intersections, with crossing radii and times
+tending to infinity. The curve `γ` is the geodesic read in the chart, and the determinant tests
+the two chart velocities. -/
 theorem paraboloid_geodesic_crossings
+    (e : Diffeomorph (𝓡 2) (𝓡 2) S (EuclideanSpace ℝ (Fin 2)) ∞)
     (hmetric : ∀ x (u v : TangentSpace (𝓡 2) x),
-      (RiemannianBundle.g (E := fun x : EuclideanSpace ℝ (Fin 2) =>
-        TangentSpace (𝓡 2) x)).inner x u v =
-          inner ℝ (mvfderiv (𝓡 2) paraboloidGraph x u)
-        (mvfderiv (𝓡 2) paraboloidGraph x v))
+      (RiemannianBundle.g (E := fun x : S => TangentSpace (𝓡 2) x)).inner x u v =
+        inner ℝ (mvfderiv (𝓡 2) (paraboloidGraph ∘ e) x u)
+          (mvfderiv (𝓡 2) (paraboloidGraph ∘ e) x v))
     (γ : ℝ → EuclideanSpace ℝ (Fin 2))
-    (hγ : TauCeti.Manifold.IsGeodesicCurveOn (𝓡 2) γ univ)
-    (hspeed : ∀ t, ‖TauCeti.Manifold.curveVelocityWithin (𝓡 2) γ univ t‖ = 1)
+    (hγ : TauCeti.Manifold.IsGeodesicCurveOn (𝓡 2) (e.symm ∘ γ) univ)
+    (hspeed : ∀ t, ‖TauCeti.Manifold.curveVelocityWithin (𝓡 2) (e.symm ∘ γ) univ t‖ = 1)
     (hmomentum : γ 0 0 * deriv γ 0 1 - γ 0 1 * deriv γ 0 0 ≠ 0) :
     ∃ (t₀ : ℝ) (τ : ℕ → ℝ),
       (∀ n, 0 < τ n) ∧ StrictMono τ ∧ Filter.Tendsto τ Filter.atTop Filter.atTop ∧
@@ -358,19 +362,18 @@ theorem paraboloid_geodesic_crossings
           deriv γ (t₀ + τ n) 1 * deriv γ (t₀ - τ n) 0 ≠ 0 := by
   sorry
 
-/-- R5a.3: the vertex is a pole for the graph-induced paraboloid metric: its
-Riemannian exponential is a smooth diffeomorphism from the entire tangent plane. -/
+/-- R5a.3: the vertex is a pole for the graph-induced paraboloid metric: on a surface `S` with a
+global graph chart `e` in which its metric is that metric, the Riemannian exponential at the
+point over the origin is a smooth diffeomorphism from the entire tangent plane. -/
 theorem paraboloid_vertex_pole
+    (e : Diffeomorph (𝓡 2) (𝓡 2) S (EuclideanSpace ℝ (Fin 2)) ∞)
     (hmetric : ∀ x (u v : TangentSpace (𝓡 2) x),
-      (RiemannianBundle.g (E := fun x : EuclideanSpace ℝ (Fin 2) =>
-        TangentSpace (𝓡 2) x)).inner x u v =
-          inner ℝ (mvfderiv (𝓡 2) paraboloidGraph x u)
-        (mvfderiv (𝓡 2) paraboloidGraph x v)) :
-    ∃ e : Diffeomorph
-        𝓘(ℝ, TangentSpace (𝓡 2) (0 : EuclideanSpace ℝ (Fin 2))) (𝓡 2)
-        (TangentSpace (𝓡 2) (0 : EuclideanSpace ℝ (Fin 2)))
-        (EuclideanSpace ℝ (Fin 2)) ∞,
-      ∀ v, e v = TauCeti.Manifold.riemannianExp (𝓡 2) (EuclideanSpace ℝ (Fin 2)) 0 v := by
+      (RiemannianBundle.g (E := fun x : S => TangentSpace (𝓡 2) x)).inner x u v =
+        inner ℝ (mvfderiv (𝓡 2) (paraboloidGraph ∘ e) x u)
+          (mvfderiv (𝓡 2) (paraboloidGraph ∘ e) x v)) :
+    ∃ exp₀ : Diffeomorph
+        𝓘(ℝ, TangentSpace (𝓡 2) (e.symm 0)) (𝓡 2) (TangentSpace (𝓡 2) (e.symm 0)) S ∞,
+      ∀ v, exp₀ v = TauCeti.Manifold.riemannianExp (𝓡 2) S (e.symm 0) v := by
   sorry
 
 end Paraboloid

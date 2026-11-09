@@ -2160,11 +2160,13 @@ despite `K=4/(1+4r²)²>0`.
   point although K>0; on the round sphere of curvature 4 the same initial
   data vanish again at ℓ=π/2.
 
-Define `paraboloidGraph` on the global smooth coordinate manifold ℝ² by
-(x,y)↦(x,y,x²+y²). Equip that manifold with any smooth Riemannian bundle whose
-inner product is ⟨dF_x u,dF_x v⟩ for this fixed graph F. This determines the
-metric exactly; the order-one regularity used by the native geodesic predicate
-is a consequence of smooth regularity for the same bundle.
+Define `paraboloidGraph` on ℝ² by (x,y)↦(x,y,x²+y²). The paraboloid is a
+smooth surface S with a global graph chart, a smooth diffeomorphism e : S → ℝ²,
+and any smooth Riemannian bundle on S whose inner product is
+⟨d(F∘e)_x u,d(F∘e)_x v⟩ for this fixed graph F. This determines the metric
+exactly; the order-one regularity used by the native geodesic predicate is a
+consequence of smooth regularity for the same bundle. The metric lives on S,
+not on the coordinate plane, because ℝ² already carries its flat metric.
 
 - Projection onto the first two coordinates is the inverse on the graph.
 - The differential is (u,v)↦(u,v,2xu+2yv), hence is injective everywhere.
@@ -2179,13 +2181,14 @@ is a consequence of smooth regularity for the same bundle.
 - F(−1,0)=(−1,0,1)≠F(1,0); replacing the graph by its height alone would
   identify these two points and would not be an immersion at the vertex.
 
-The headline `paraboloid_geodesic_crossings` applies to any native geodesic γ
-on all ℝ with unit speed in this metric and nonzero angular momentum at zero.
+The headline `paraboloid_geodesic_crossings` applies to any native geodesic
+of S on all ℝ with unit speed in this metric, read in the chart as a curve γ
+in ℝ² with nonzero angular momentum at zero.
 It produces a time t₀ and positive strictly increasing τ_n→∞ with
 γ(t₀+τ_n)=γ(t₀−τ_n), strictly increasing unbounded Euclidean radial coordinates,
 and nonzero determinant of the two chart velocities at each crossing.
-The headline `paraboloid_vertex_pole` identifies exp_0 on the entire tangent
-plane with a smooth diffeomorphism onto this graph-coordinate manifold.
+The headline `paraboloid_vertex_pole` identifies the exponential map at the
+vertex e⁻¹(0) on the entire tangent plane with a smooth diffeomorphism onto S.
 These are the geometric headlines of this section.
 Their statements use the graph immersion with its induced smooth metric and
 the native geodesic and exponential carriers. The integral estimates above
