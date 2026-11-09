@@ -150,6 +150,7 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
