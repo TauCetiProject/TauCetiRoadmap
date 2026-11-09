@@ -4212,7 +4212,9 @@ based-loop forms below retain the relative data.
 Hatcher Theorem 4.32 (§4.2, p.366) gives the Hurewicz isomorphisms and Theorem 4.37 (§4.2,
 p.371) the bijectivity of the Hurewicz map itself, and Theorem 4.5 (§4.1, p.346) gives Whitehead; Whitehead, Chapters
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
-Chapters 3 and 12, supplies the Kan-group construction and comparison route.
+§3 (homotopy groups of Kan complexes), §§14–16 (the realization and its comparison with
+topological spaces) and §17 (Theorem 17.1 and Proposition 17.4, simplicial groups and the Moore
+complex), supply the Kan-group construction and comparison route.
 Hatcher Section 4.3 supplies ordinary representability and obstruction theory;
 [*Vector Bundles and K-Theory*, §3.3, pp.99–102, Lemma 3.18 and Proposition 3.19](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf)
 supplies the untwisted case of the relative section obstruction and difference-cochain construction. The
