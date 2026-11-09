@@ -310,11 +310,18 @@ All paths are under `TauCeti/`.
   (a field isomorphism `σ : K ≃+* K'` compatible with the valuations at `v` and `w` extends to
   `K_v ≃+* K'_w`, continuous and agreeing with `σ` on `K`).
 - Ideles and class field theory (`NumberTheory/NumberField/Global/Ideles/Norm/Relative.lean`,
-  `Range.lean`, `NumberTheory/ClassFieldTheory/Global/IdeleClass/FirstInequality.lean`,
+  `Range.lean`, `Surjective.lean`, `RingTheory/Norm/Units.lean`,
+  `NumberTheory/ClassFieldTheory/Global/IdeleClass/FirstInequality.lean`,
   `NumberTheory/ClassFieldTheory/Global/HasseNorm/Quadratic.lean`):
   `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
   `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff` (an idele is a norm exactly when each
-  coordinate is a norm from the local algebra), `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`
+  coordinate is a norm from the local algebra), `TauCeti.Algebra.normUnits` (the algebra norm
+  read as a homomorphism `Sˣ →* Rˣ` for an `R`-algebra `S`),
+  `TauCeti.GlobalNumberFields.ideleClassNormMap_surjective_of_forall_range_normUnits_eq_top` (for
+  an extension `L/K` of number fields, in any universes, and a finite set `S` of finite places of
+  `K`, if `TauCeti.Algebra.normUnits : (K_v ⊗_K L)ˣ → K_vˣ` is onto at every finite `v ∉ S`, the
+  norm map on idele classes is onto),
+  `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`
   (for a cyclic extension `L/K` of number fields in `Type`, that is `[IsGalois K L]` and
   `[IsCyclic Gal(L/K)]`, `[L : K] ≤ [C_K : N(C_L)]`; without the cyclic hypothesis it fails, for
   `L = ℚ(∛2, ζ₃)` has degree `6` over `ℚ` and norm index `2`) and
@@ -547,6 +554,12 @@ and `QuadraticForm.isAdmissible_globalInvariants_iff`.
   `θ ↦ (1 + √5)/2` corresponds to `X̄ ↦ (1 + √5)/2` and likewise for the conjugate, and the record
   of `⟨1, θ, θ⟩`, with positive indices `3` and `1` at these two places, goes to the record of
   `⟨1, X̄, X̄⟩` with the same indices at the corresponding places.
+- On the same `K = ℚ(√5)` take the automorphism `σ` with `σθ = 1 - θ` and the real place `w'` with
+  `θ ↦ (1 + √5)/2`. The real embedding of `w'.comap σ` sends `θ` to the value of `w'` at `σθ`,
+  which is `(1 - √5)/2`, so `w'.comap σ` is the other real place. For `Q = ⟨1, θ, θ⟩` the form
+  `σQ` is `⟨1, 1 - θ, 1 - θ⟩`, whose positive index at `w'` is `1`, the index of `Q` at
+  `w'.comap σ`. A transport that kept the real place fixed would give `3`, the index of `Q` at
+  `w'`: the correspondence of real places must follow `σ`, as that of finite places does.
 - For `σ` the identity both correspondences of places are the identity and `σQ = Q`; the zero form
   transports to the zero form, whose record has rank `0` and is admissible on neither side.
 - Sign prescription with `b = -1` over `ℚ`, `S = {3}` and `T` the real place: `a = -3` works.
@@ -584,6 +597,13 @@ theory input is stated.
 5. This contradicts `finrank_le_index_range_ideleClassNormMap` for the cyclic extension `E/K`,
    which gives `2 = [E : K] ≤ [C_K : N(C_E)]`.
 
+Steps 3 and 4 together are Tau Ceti's
+`TauCeti.GlobalNumberFields.ideleClassNormMap_surjective_of_forall_range_normUnits_eq_top`: for an
+extension `L/K` of number fields and a finite set `S` of finite places of `K` such that, at every
+finite place `v ∉ S`, the norm `TauCeti.Algebra.normUnits : (K_v ⊗_K L)ˣ → K_vˣ` is onto, the
+norm map `C_L → C_K` on idele classes is onto. Step 2 is this hypothesis for `L = E`, so the
+declaration gives the surjectivity used in step 5 directly.
+
 ⚠ Steps 2 and 3 need no statement about the distribution of primes: the finitely many places where
 `a` is not a local square are absorbed by weak approximation in step 3. The argument "a nontrivial
 quadratic extension cannot split at almost every place" is this theorem in other words and cannot
@@ -597,7 +617,10 @@ that `i_v / α` be a square at each place of `S`, which `α = 1` already achieve
 `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`,
 `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`,
 `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`; Mathlib `IdeleGroup`,
-`IdeleClassGroup`, `InfinitePlace.Completion.ringEquivRealOfIsReal`.
+`IdeleClassGroup`, `InfinitePlace.Completion.ringEquivRealOfIsReal`. Steps 3 and 4 can instead
+be taken together from Tau Ceti
+`TauCeti.GlobalNumberFields.ideleClassNormMap_surjective_of_forall_range_normUnits_eq_top`, with
+`TauCeti.Algebra.normUnits`.
 
 **Checks.**
 
