@@ -3,17 +3,20 @@ module
 public import Mathlib
 public import TauCeti.Geometry.Manifold.Boundary.Charts
 public import TauCeti.Geometry.Manifold.Boundary.InducedOrientation
+public import TauCeti.Geometry.Manifold.Measure
 public import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
 public import TauCeti.Geometry.Manifold.Orientation.Preserving
+public import TauCeti.Geometry.Manifold.RegularValue
 
 /-!
 # Tangential bordism: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, relative smoothing of continuous maps from manifolds with corners into
-compact boundaryless manifolds (Layer 2, B1.6), smooth oriented three-manifold
-parallelization (Layer 8, B3.1) and the zero entries of the low unoriented and oriented
-coefficient tables (Layer 8, B3.1): `ΩO_n = 0` for `n = 1, 3` and `ΩSO_n = 0` for
+compact boundaryless manifolds and Sard's theorem in unequal dimensions for sources without
+boundary or on the Euclidean half-space (Layer 2, B1.6; Lee, Theorem 6.10), smooth oriented
+three-manifold parallelization (Layer 8, B3.1) and the zero entries of the low unoriented and
+oriented coefficient tables (Layer 8, B3.1): `ΩO_n = 0` for `n = 1, 3` and `ΩSO_n = 0` for
 `1 ≤ n ≤ 3`, each stated as "every closed (oriented) smooth `n`-manifold is the (oriented)
 boundary of a compact smooth `(n+1)`-manifold" on the pinned boundary charts and outward-first
 boundary orientation. For boundaryless sources the smoothing statement is
@@ -24,8 +27,11 @@ GeometricTopology (gap:finite-quadratic-arf) and is not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
 
 The other headline theorems are not statable at the pins:
+- Sard's theorem in unequal dimensions for sources with corners carrying DifferentialGeometry
+  5.5b's smooth face structure (B1.6): the pins have no face structure on a manifold with
+  corners, and a bare model with corners need not admit one;
 - parametric and relative transversality (B1.6): Mathlib has no transversality predicate for
-  smooth maps between manifolds;
+  smooth maps between manifolds, and the pins have no face strata for their facewise forms;
 - the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)`, the nonzero
   entries of their low tables (B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's
   presentation of `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or
@@ -73,6 +79,40 @@ theorem exists_contMDiff_homotopicRel
     (f : C(M, P)) {C U : Set M} (hC : IsClosed C) (hU : IsOpen U) (hCU : C ⊆ U)
     (hf : ContMDiffOn I J ∞ f U) :
     ∃ g : C(M, P), ContMDiff I J ∞ g ∧ f.HomotopicRel g C := by
+  sorry
+
+/-- Sard's theorem in unequal dimensions for sources without boundary (B1.6; Lee, Theorem 6.10,
+p.129): for a smooth map from a Lindelöf manifold without boundary, over any finite-dimensional
+real model with corners, to a manifold over any finite-dimensional real model with corners, the
+image of the points where the manifold derivative is not surjective is null in every extended
+chart of the target. No relation between the two dimensions is assumed; the pinned
+`TauCeti.isNullSet_image_criticalPoints` requires them equal. -/
+theorem isNullSet_image_criticalPoints_of_boundaryless
+    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
+    [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [BoundarylessManifold I M]
+    [LindelofSpace M]
+    {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    [MeasurableSpace E'] [BorelSpace E'] [TopologicalSpace H'] (J : ModelWithCorners ℝ E' H')
+    [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J ∞ N]
+    {f : M → N} (hf : ContMDiff I J ∞ f) :
+    TauCeti.IsNullSet J (f '' {x | ¬ TauCeti.IsRegularPoint I J f x}) := by
+  sorry
+
+/-- Sard's theorem in unequal dimensions for sources with boundary (B1.6; Lee, Theorem 6.10,
+p.129): for a smooth map from a Lindelöf manifold modelled on the Euclidean half-space of
+dimension `n ≥ 1` to a manifold over any finite-dimensional real model with corners, the image
+of the points where the manifold derivative is not surjective, boundary points included, is
+null in every extended chart of the target. The route splits the source into its interior and
+the boundary manifold of `TauCeti.boundaryChartedSpace`. -/
+theorem isNullSet_image_criticalPoints_halfSpace
+    {n : ℕ} [NeZero n] {M : Type*} [TopologicalSpace M]
+    [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M] [LindelofSpace M]
+    {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    [MeasurableSpace E'] [BorelSpace E'] [TopologicalSpace H'] (J : ModelWithCorners ℝ E' H')
+    [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J ∞ N]
+    {f : M → N} (hf : ContMDiff (𝓡∂ n) J ∞ f) :
+    TauCeti.IsNullSet J (f '' {x | ¬ TauCeti.IsRegularPoint (𝓡∂ n) J f x}) := by
   sorry
 
 /-! ## Layer 8: low geometric classifications and fillings -/
