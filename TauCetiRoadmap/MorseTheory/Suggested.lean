@@ -28,11 +28,21 @@ band (`TauCeti.exists_sublevelDeformation`), Milnor's cell attachment in CW form
 level (`TauCeti.IsMorse.exists_relCWComplex_sublevel_deformation`), Morse density in the strong
 Whitney topology `ContMDiffMap.manifoldStrongWhitneyTopology`
 (`TauCeti.dense_setOf_isMorse_manifoldStrongWhitney`) and the existence of a proper Morse
-function bounded below (`TauCeti.exists_isMorse_isProperMap_bddBelow`), the ambient deformations
-across critical-free bands and degenerate critical levels
-(`TauCeti.exists_ambientSublevelDeformation`, `TauCeti.exists_criticalLevelDeformation`), and the
+function bounded below (`TauCeti.exists_isMorse_isProperMap_bddBelow`), the weak Morse
+inequalities, the strong Morse inequalities in alternating form and Euler's equality on a compact
+manifold (`TauCeti.IsMorse.finrank_singularHomology_le`,
+`TauCeti.IsMorse.sum_range_neg_one_pow_mul_finrank_singularHomology_le`,
+`TauCeti.IsMorse.sum_range_neg_one_pow_mul_finrank_singularHomology_eq`), the ambient
+deformations across critical-free bands and degenerate critical levels
+(`TauCeti.exists_ambientSublevelDeformation`, `TauCeti.exists_criticalLevelDeformation`), the
 Lusternik–Schnirelmann bound for an arbitrary smooth function on a compact manifold
-(`TauCeti.lsCategoryCount_univ_le_totalCriticalCount`).
+(`TauCeti.lsCategoryCount_univ_le_totalCriticalCount`), Reeb's theorem that a compact manifold
+carrying a Morse function with exactly two critical points is homeomorphic to a sphere
+(`TauCeti.IsMorse.nonempty_homeomorph_sphere_of_totalCriticalCount_eq_two`), and the
+convergence of a maximal negative-gradient trajectory trapped in a compact set with finitely many
+critical points, with exponential decay of the Riemannian distance to a nondegenerate limit
+(`TauCeti.exists_tendsto_maximalIntegralCurve_neg_mgradient`,
+`TauCeti.exists_riemannianEDist_le_mul_exp_maximalIntegralCurve_neg_mgradient`).
 
 Not stated: the handle-attachment homeomorphism across a critical level and the comparison of
 handle attachments for different Morse charts with coherent dependence on a compact parameter
