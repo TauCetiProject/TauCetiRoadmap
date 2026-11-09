@@ -208,8 +208,10 @@ nonnegative smooth `β : M → ℝ`, then the parameters `p` for which the relat
 `f + β p` fails to be transverse to `j` at some point of `M` form a set that is null for every
 additive Haar measure on `V` (outer measure); every translate equals `f` on the zero set of `β`.
 The relative translation family is universally transverse, and the local form of §5.2 applies in
-countably many products of charts of `M` and `N`. The cutoff argument extends Lee,
-*Introduction to Smooth Manifolds*, Thm. 6.36, from embedded submanifolds to maps. -/
+countably many products of charts of `M` and `N`. Parametric transversality to an embedded
+submanifold is Lee, *Introduction to Smooth Manifolds*, Thm. 6.35; the form against a map, for
+relative translation families, is this roadmap's, its cutoff argument extending Thm. 6.36 from
+embedded submanifolds to maps. -/
 theorem addHaar_setOf_not_forall_isTransverseAt_relativeTranslate
     (I : ModelWithCorners ℝ EM HM) (J : ModelWithCorners ℝ EN HN) [FiniteDimensional ℝ EM]
     [FiniteDimensional ℝ EN] [FiniteDimensional ℝ V] [IsManifold I ∞ M]

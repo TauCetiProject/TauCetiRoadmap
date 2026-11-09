@@ -83,14 +83,24 @@ plans duality only, and that comparison, with the carrier and coefficient conver
 
 Adjacent roadmap with an overlapping object: TangentialBordism §2.1 proves parametric
 transversality to a closed embedded submanifold, with a null set (`TauCeti.IsNullSet`) of bad
-parameters, and relative Whitney approximation into a manifold. §5.2 here is the flat case of that
-theorem against a smooth map `j : W → V`: the slice at `p` is transverse to `j` exactly when
-`(x, y) ↦ (F(x, p), j(y))` is transverse to the diagonal of `V × V`, and on a vector space of
+parameters, relative smoothing into a compact manifold, and relative transversality of a map into
+a compact manifold to a closed embedded submanifold `Z`. §5.2 here is the flat case of the
+parametric theorem against a smooth map `j : W → V`: the slice at `p` is transverse to `j` exactly
+when `(x, y) ↦ (F(x, p), j(y))` is transverse to the diagonal of `V × V`, and on a vector space of
 parameters a null set is Haar-null. §5.2 is stated on `TauCeti.IsRegularParameter` of the
 incidence equation, which is statable at the pins and is the form §5.3 consumes, and is proved here
 by its own route on Tau Ceti's flat Sard theorem, so that this roadmap does not depend on
-TangentialBordism. The relative perturbations of §5.3 move `f` and keep `j` fixed, and §2.5 here
-prescribes boundary collar data for fillings into a vector space.
+TangentialBordism. The Haar-null theorem of §5.3 on manifold sources is likewise the instance of
+that parametric theorem with the second-countable boundaryless source `M × N`, parameters `V`,
+target `V × V`, `Z` its diagonal and the family `((x, y), p) ↦ (f(x) + β(x)p, j(y))`: the family is
+transverse to the diagonal exactly when it is universally transverse to `j`, its slice at `p` is
+transverse to the diagonal at `(x, y)` for every `y` exactly when `IsTransverseAt` holds for
+`relativeTranslate f β p` at `x`, and `TauCeti.IsNullSet` over `𝓘(ℝ, V)` is nullity for every
+additive Haar measure on `V`. It is proved here from the local form of §5.2 for the same reason,
+and the compact-source corollaries of §5.3 follow from it. The relative perturbations of §5.3 move
+`f` and keep `j` fixed, unlike TangentialBordism's relative theorem, which moves a map into a
+compact manifold, by a homotopy rel a closed set, until it is transverse to a fixed `Z`; and §2.5
+here prescribes boundary collar data for fillings into a vector space.
 
 Adjacent roadmap with a different object: ComplexKahlerGeometry K5a owns the complex-coefficient
 de Rham comparison and the punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms;
@@ -1100,8 +1110,11 @@ The targets on manifolds:
   family and `j`, read in the charts, are smooth on open sets and the chart derivatives are
   isomorphisms, so transversality of `relativeTranslate f β p` to `j` there is regularity of `p`
   for the coordinate family (§5.1). The local form of §5.2 makes the bad parameters of each
-  product Haar-null, and a countable union of Haar-null sets is Haar-null. *Needs:* §5.1, the
-  local form of §5.2; Mathlib `mfderiv`, `exists_contMDiff_zero_iff_one_iff_of_isClosed`.
+  product Haar-null, and a countable union of Haar-null sets is Haar-null. Parametric
+  transversality to an embedded submanifold is [Lee, Thm. 6.35]; the form against a map, for
+  relative translation families, is this roadmap's, its cutoff argument extending [Lee, Thm. 6.36]
+  as in the flat case. *Needs:* §5.1, the local form of §5.2; Mathlib `mfderiv`,
+  `exists_contMDiff_zero_iff_one_iff_of_isClosed`.
 - *Compact sources, finitely many maps, finite order.* If moreover `M` is compact and
   `f₁, …, f_n : M → V` are smooth, each transverse to `j` at every zero of `β`, then for every
   `k ∈ ℕ` and `ε > 0` there is one `p ∈ V` such that every `relativeTranslate f_i β p` is
