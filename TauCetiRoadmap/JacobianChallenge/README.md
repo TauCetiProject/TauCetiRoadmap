@@ -88,9 +88,10 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
 - **Standing curve.** `X` is smooth, proper and geometrically connected of relative dimension
   one over a field `k` (`SmoothOfRelativeDimension 1`, `IsProper`, `GeometricallyConnected` for
   the structure morphism). Such a curve is geometrically integral (smoothness gives geometric
-  reducedness; regular and connected gives irreducible), and this is recorded as a theorem, never
-  assumed. Over imperfect fields every hypothesis is a geometric adjective ("geometrically
-  connected", "geometrically integral"), never bare connectedness.
+  reducedness and geometric normality; a connected Noetherian normal scheme is integral), and
+  this is A.3's first statement, never assumed. Over imperfect fields every hypothesis is a
+  geometric adjective ("geometrically connected", "geometrically integral"), never bare
+  connectedness.
 - **The rational point.** A `k`-rational point `x₀`, a morphism `𝟙_(Over (Spec k)) ⟶ X`, is a
   hypothesis exactly of the statements that use it: the Abel–Jacobi morphism, its universal
   property and the rigidified comparisons. `Jac X` is constructed without one (Layer D).
@@ -137,13 +138,18 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `IsSeparated`, `Flat`, `LocallyOfFiniteType`, `LocallyOfFinitePresentation`,
   `IsClosedImmersion`, `Etale`, stable under base change and composition, with their instances
   on `pullback.snd`.
-- `GeometricallyConnected` and `GeometricallyIntegral` in
-  `Mathlib/AlgebraicGeometry/Geometrically/{Connected,Integral}.lean`.
+- `GeometricallyConnected`, `GeometricallyReduced`, `GeometricallyIrreducible` and
+  `GeometricallyIntegral` in `Mathlib/AlgebraicGeometry/Geometrically/*.lean`, with
+  `GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible`, which assembles
+  geometric integrality from geometric reducedness and geometric irreducibility (A.3 applies it
+  to the standing curve).
 - `AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral`
-  (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`): a proper geometrically integral group
-  scheme over a field is commutative. Layer E consumes it for every abelian variety; the Picard
-  group law is commutative directly by tensor product (Stacks
-  [0BFD](https://stacks.math.columbia.edu/tag/0BFD)).
+  (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`; Stacks
+  [0BFD](https://stacks.math.columbia.edu/tag/0BFD) is the same theorem, stated for abelian
+  varieties and proved by rigidity): a proper geometrically integral group scheme over a field
+  is commutative. Layer E consumes it for every abelian variety; the Picard group law is
+  commutative directly by tensor product, with no rigidity (D.2, through
+  `IsCommMonObj.ofRepresentableBy`).
 - `CommRing.Pic` and `ClassGroup.equivPic` (`Mathlib/RingTheory/PicardGroup.lean`): algebraic
   ingredients for affine charts, not a foundation for the global Picard scheme.
 - Site cohomology (`Mathlib/CategoryTheory/Sites/SheafCohomology/*`,
@@ -354,10 +360,18 @@ divisor of any nonzero rational section of `L` (`InvertibleSheaf.eulerDegree_eq_
 that it is additive under tensor product (`LineBundleClass.eulerDegree_mul`), and that
 `Pic⁰ X = ker deg` as an abstract group (`LineBundleClass.picZero`; the functorial `Pic⁰` is
 Layer D's). What remains here differs from those results by carrying no hypothesis beyond the
-standing curve and by the change of base field. Prove that the standing curve satisfies their
-hypotheses: it is integral (Conventions), its local rings at closed points are discrete
-valuation rings by regularity, it has dimension one, and `H¹(X, 𝒪_X)` is finite-dimensional
-(`finiteDimensional_cohomology_one_trivial_of_smooth`). Prove that the degree is invariant under
+standing curve and by the change of base field. Prove first that the standing curve is
+geometrically integral: smoothness gives geometric reducedness and geometric normality (Stacks
+[056T](https://stacks.math.columbia.edu/tag/056T)); after every extension `K/k` of the base
+field, `X_K` is a connected Noetherian normal scheme, hence integral (Stacks
+[033M](https://stacks.math.columbia.edu/tag/033M): a Noetherian normal scheme is a finite
+disjoint union of normal integral schemes, and a connected one is a single one), so `X` is
+geometrically irreducible; Mathlib's
+`GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible` assembles the two.
+Then prove that the standing curve satisfies their hypotheses: it is integral, its local rings
+at closed points are discrete valuation rings by regularity, it has dimension one, and
+`H¹(X, 𝒪_X)` is finite-dimensional (`finiteDimensional_cohomology_one_trivial_of_smooth`). Prove
+that the degree is invariant under
 extension of the base field: `deg_K L_K = deg_k L` for every field extension `K/k`, because each
 `dim Hⁱ` is (`finrank_cohomology_pullback_eq_of_isPullback`); this is distinct from the factor
 `[K : k]` that appears when a `K`-scheme is regarded over `k`
@@ -365,9 +379,18 @@ extension of the base field: `deg_K L_K = deg_k L` for every field extension `K/
 `SchemeWeilDivisor.relativeDegree`, `InvertibleSheaf.eulerDegree`,
 `SchemeWeilDivisor.relativeDegree_principalDivisor`, `InvertibleSheaf.eulerDegree_eq_relativeDegree`,
 `LineBundleClass.picZero`, `finiteDimensional_cohomology_one_trivial_of_smooth`,
-`finrank_cohomology_pullback_eq_of_isPullback`.
+`finrank_cohomology_pullback_eq_of_isPullback`; Mathlib
+`GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible`.
 
 **Checks.**
+- Geometric connectedness is used for geometric integrality: for a separable quadratic
+  extension `L/k`, `ℙ¹_L` regarded over `k` is smooth, proper and integral, but
+  `ℙ¹_L ×_k k̄` is two disjoint copies of `ℙ¹_k̄`, so it is not geometrically integral, and
+  `H⁰(𝒪) = L ≠ k`. Smoothness, not regularity, gives geometric reducedness: for `k = 𝔽_p(t)` and
+  `k' = k(t^{1/p})`, `ℙ¹_{k'}` regarded over `k` is regular, proper and geometrically connected
+  (`k' ⊗_k k̄` is local), but `ℙ¹_{k'} ×_k k̄` is `ℙ¹` over `k̄[u]/(u − t^{1/p})ᵖ`, non-reduced. The
+  pointless conic `x² + y² + z² = 0` over `ℝ` is smooth, proper and geometrically connected,
+  hence geometrically integral, with `H⁰(𝒪) = ℝ`.
 - On `ℙ¹_k`, `𝒪(1)` has degree one and `χ(𝒪(1)) − χ(𝒪) = 2 − 1 = 1`; `𝒪(−3)` has degree `−3`
   and `χ(𝒪(−3)) − χ(𝒪) = (0 − 2) − 1 = −3`.
 - On `ℙ¹_ℝ`, `𝒪(P)` for the closed point `P` with `x² + 1 = 0` has degree `2`, and `𝒪(P) ≅ 𝒪(2)`.
@@ -498,7 +521,7 @@ constant field. The genus of the function field is `SchemeWeilDivisor.genus_eq_g
 `deg Ω_{X/k} = 2g − 2` (Tau Ceti's `eulerDegree_relativeDifferentials`; Stacks
 [0C1A](https://stacks.math.columbia.edu/tag/0C1A)) needs `H⁰(X, 𝒪_X) = k`: prove that every
 smooth proper geometrically connected curve over `k` satisfies the hypotheses of
-`eulerDegree_relativeDifferentials`. Here `H⁰(X, 𝒪_X) = k` by geometric integrality (Stacks
+`eulerDegree_relativeDifferentials`. Here `H⁰(X, 𝒪_X) = k` by geometric integrality (A.3; Stacks
 [0BUG](https://stacks.math.columbia.edu/tag/0BUG) (8)); `k` is integrally closed in `k(X)`
 because an element of `k(X)` integral over `k` is regular at every point of the normal curve
 `X`, hence lies in `H⁰(X, 𝒪_X) = k`; `Ω_{X/k}` is invertible by smoothness of relative
@@ -826,9 +849,9 @@ inputs are Layer C and SchemeAndStackFoundations §4.9's
 `Scheme.Modules.Cohomology.formalFunctionsIso`.
 
 Specialize to the standing curve: proper curves are projective (Stacks
-[0A26](https://stacks.math.columbia.edu/tag/0A26)), so `hasPicardScheme_of_curve` holds with no
-rational point, and the structural morphism of the curve's `picardScheme` is flat and locally of
-finite presentation. With `x₀`, the comparison of D.1 identifies `rigidifiedPicardFunctor` with
+[0A26](https://stacks.math.columbia.edu/tag/0A26)) and the standing curve is geometrically
+integral (A.3), so `hasPicardScheme_of_curve` holds with no rational point, and the structural
+morphism of the curve's `picardScheme` is flat and locally of finite presentation. With `x₀`, the comparison of D.1 identifies `rigidifiedPicardFunctor` with
 the Picard sheaf, so `picardScheme` represents it through `picardSchemeIso`; this is a theorem
 about the named representing object, not a separate existence statement.
 SchemeAndStackFoundations §§3.6–3.7 consume this represented object and supply no input to its
