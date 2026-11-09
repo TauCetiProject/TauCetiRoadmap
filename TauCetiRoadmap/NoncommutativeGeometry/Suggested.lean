@@ -29,10 +29,10 @@ Headline theorems of the README that are not statable at the pins:
   `0 < p < 1`;
 * the Hochschild-class theorem of N5 lacks the Borel functional calculus `|D|⁻ⁿ` of a
   self-adjoint operator with compact resolvent, the spectral-triple carrier, N3's
-  character and the complex-linear Dixmier trace on `L^(1,∞)`, which the Hochschild cocycle
-  evaluates on non-positive operators; the pin has the logarithmic ideal and the real-valued
-  `dixmierTrace`, which is Dixmier's trace on positive operators and `Tr_ω(|T|)` on a general
-  operator `T`;
+  character and the complex-linear Dixmier trace on `L^(1,∞)` of a dilation-invariant
+  generalized limit, which the Hochschild cocycle evaluates on non-positive operators; the pin
+  has the logarithmic ideal and the real-valued `dixmierTrace`, which is Dixmier's trace on
+  positive operators and `Tr_ω(|T|)` on a general operator `T`;
 * the periodic cyclic cohomology `HP^even(𝒜_θ) ≃ ℂ²` of N6 lacks the Fréchet topology and the
   derivations of the smooth torus `SmoothNoncommutativeTorus` and a continuous periodic cyclic
   cohomology; the pin has the algebraic periodic theory and continuous cyclic cohomology in

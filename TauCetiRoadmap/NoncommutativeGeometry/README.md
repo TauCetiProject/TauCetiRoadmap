@@ -1209,9 +1209,13 @@ a generalized limit vanishes on null sequences, and dilation invariance
 the two. Membership and positivity are both needed for the pinned
 functional: for positive S outside `L^(1,∞)` and `T=diag(1/(j+1))`,
 S+T lies outside `L^(1,∞)` and `Tr_ω(S+T)=0≠0+1`; for
-`S=diag(1/(j+1))` and T=−S, `Tr_ω(S+T)=0≠1+1`. Construct here the
-linear extension to a trace on L^(1,∞), prove `Tr_ω(AT)=Tr_ω(TA)` for bounded A (Connes IV.2,
-Proposition 3(b), p. 312) and its boundedness.
+`S=diag(1/(j+1))` and T=−S, `Tr_ω(S+T)=0≠1+1`. For dilation-invariant ω
+construct here the linear Dixmier trace, the complex-linear functional on
+L^(1,∞) that agrees with `dixmierTrace` on positive operators, and prove
+`Tr_ω(AT)=Tr_ω(TA)` for bounded A (Connes IV.2, Proposition 3(b),
+p. 312) and its boundedness. From here on, Tr_ω of an operator that is
+not positive means this linear functional for a dilation-invariant ω,
+not the pinned value `Tr_ω(|T|)`.
 Prove that, for infinite-dimensional H, no Dixmier trace is the
 restriction to `L^(1,∞)` of a normal (ultraweakly continuous) functional
 on B(H), which by the trace-class duality of VonNeumannAlgebras V4.Core
@@ -1242,6 +1246,12 @@ ordinary convergence of the logarithmic means a sufficient condition.
   with 2N on the right. Here the means converge, so the equality holds
   for every ω; in general the passage from 2N back to N uses dilation
   invariance.
+- Linear against pinned on operators that are not positive: for
+  `T=−diag(1/(j+1))` the linear Dixmier trace is −1, while the pinned
+  value `Tr_ω(|T|)` is 1 for T and for −T, so the pinned functional is not
+  linear. For `T=diag(1/(j+1))⊕(−diag(1/(j+1)))` on ℓ²⊕ℓ², the linear
+  value is `1−1=0` for every dilation-invariant ω. The pinned value is 2,
+  since |T| takes each value 1/(j+1) twice and `σ_(2M)(|T|)=2H_M`.
 - The diagonal operator with `μ_j=1` for j<4 and, for k≥1, `μ_j=k/N_k` on
   `[N_k,2N_k)` and `μ_j=(k+1)/N_(k+1)` on `[2N_k,N_(k+1))` is
   non-increasing, has `(j+1)μ_j=2k` at `j=2N_k−1`, hence lies outside
@@ -1369,16 +1379,22 @@ not only smoothness of π(a).
 For integer n≥1 of the module's parity, initially invertible D, assume
 D⁻¹∈L^(n,∞), F=sign D, and the preceding regularity and bounded
 commutators. Prove finite summability in every larger exponent and
-construct N3's character. Prove the Hochschild-class theorem: for
+construct N3's character. Prove the Hochschild-class theorem: for every
+dilation-invariant generalized limit ω, with N4's linear Dixmier trace
+Tr_ω, and
 
 `φ_ω(a₀,…,a_n)=λ_n Tr_ω(π(a₀)[D,π(a₁)]⋯[D,π(a_n)]|D|⁻n)`,
 
 with γ inserted in even parity and N3's λ_n, prove bφ_ω=0 and equality
 with the Chern-character evaluation on every Hochschild n-cycle
-(Connes IV.2, Theorem 8, p. 315).
+(Connes IV.2, Theorem 8, p. 315, for the limits of IV.2, p. 312, a
+positive functional at infinity composed with the logarithmic Cesàro
+mean M, which are dilation invariant; Carey–Rennie–Sukochev–Zanin,
+Theorem 16, p. 9, for every dilation-invariant ω).
 Develop the trace-ideal/domain estimates, resolvent transgression and
 finite truncations that prove the comparison. The cochain can depend
-on ω, while its cycle evaluation is independent of ω. State the
+on ω, while its cycle evaluation is the same for every dilation-invariant
+ω. State the
 character as a periodic cyclic class and its Hochschild image; do not
 identify arbitrary representatives as equal cochains.
 
@@ -1404,7 +1420,8 @@ local index formula.
   agree, as the theorem requires.
 - The absolute value in `|D|⁻ⁿ` is needed: on the same D the positive
   and negative parts of D⁻¹ each have singular values 2,2/3,2/5,…, with
-  Dixmier trace 1, so the linear Tr_ω gives `Tr_ω(z⁻¹[D,z]D⁻¹)=1−1=0`,
+  Dixmier trace 1, so for every dilation-invariant ω the linear Tr_ω
+  gives `Tr_ω(z⁻¹[D,z]D⁻¹)=1−1=0`,
   and a cocycle built with D⁻ⁿ would vanish on z⁻¹⊗z while the character
   does not. Replacing D by cD for c>0 changes neither `[D,a]|D|⁻¹` nor
   the value 2.
@@ -1630,7 +1647,8 @@ lattice point and a two-dimensional kernel at (0,0). Combine lattice
 points of equal radius when computing eigenvalue multiplicities.
 Prove p-summability for p>2 and failure
 at p=2. Build the lattice-counting estimates and derive
-`Tr_ω(|D|⁻²)=1/(2π)`, with zero on the kernel. More generally prove
+`Tr_ω(|D|⁻²)=1/(2π)`, with zero on the kernel. More generally prove,
+for every dilation-invariant ω and N4's linear Dixmier trace,
 `Tr_ω(π(a)|D|⁻²)=τ(a)/(2π)`. For a spin matrix M∈M₂(𝒜_θ),
 prove `Tr_ω(π₂(M)|D|⁻²)=τ(Tr₂ M)/(4π)`.
 Construct the gauge implementing unitaries commuting with |D|; unitary
@@ -1849,6 +1867,17 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   invariant under Morita equivalence of unital algebras through a
   bimodule finite projective on both sides; matrix Morita invariance
   with R=M=ℂ is the case of `A^ι`.
+- A. L. Carey, A. Rennie, F. Sukochev and D. Zanin, [*Universal
+  measurability and the Hochschild class of the Chern
+  character*](https://arxiv.org/abs/1401.1860v1), arXiv:1401.1860v1
+  (2014), numbering of that version; J. Spectral Theory 6 (2016), 1–41.
+  Theorem 16, p. 9: for a smooth spectral triple with `(1+D²)^(−p/2)`
+  in the logarithmic ideal and a Hochschild p-cycle `c=Σa₀⊗⋯⊗a_p`, the
+  Dixmier trace of `Σγa₀[D,a₁]⋯[D,a_p](1+D²)^(−p/2)` is the
+  Chern-character value of c for every dilation-invariant generalized
+  limit (Definition 2 and the example after it, p. 4); with
+  `(1+D²)^(−p/2)` in the weak trace class, every normalised trace on it
+  gives that value.
 - T. Fack and H. Kosaki, [*Generalized s-numbers of τ-measurable
   operators*](https://msp.org/pjm/1986/123-2/pjm-v123-n2-p03-s.pdf),
   Pacific J. Math. 123 (1986), 269–300. Theorem 4.2, p. 286: Hölder with
