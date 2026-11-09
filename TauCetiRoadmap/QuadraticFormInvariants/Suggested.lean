@@ -20,13 +20,15 @@ theorem of Layer 7C, and, in Layer 9, the value of the Evens norm on a Kummer cl
 degree-two relative Stiefel–Whitney formula. Every headline is statable at the pins, and each is
 discharged by the Tau Ceti declaration that its docstring names.
 
-The file also declares the names that a roadmap on main imports from this namespace:
+The file also declares the three names that a roadmap on main imports from this namespace:
 `OrthogonalSpinGroups` imports `hilbertSymbol`, `localHasse` (Layer 6C) and
 `hasseInvariant_eq_localHasse` (Layer 6E). `hilbertSymbol` is a reducible alias of Tau Ceti's
 symbol, `localHasse` is the pairwise product on a diagonal tuple `Fin n → Kˣ`, and
-`hasseInvariant_eq_localHasse` is proved from Tau Ceti with no admitted step. `RegularFormClass`
-and `formClass` are exported from Tau Ceti. Every other name that a roadmap cites from this
-namespace is Tau Ceti's, and the README's scope section gives the Tau Ceti name for each.
+`hasseInvariant_eq_localHasse` is proved from Tau Ceti with no admitted step. Every other name
+that a roadmap cites from this namespace is Tau Ceti's, and the README's scope section gives the
+Tau Ceti name for each. The carrier of isometry classes of regular forms and the class of a form
+are Tau Ceti's `TauCeti.RegularFormClass` and `TauCeti.formClass`, written with their Tau Ceti
+names below.
 -/
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
@@ -34,14 +36,7 @@ namespace TauCetiRoadmap.QuadraticFormInvariants
 open QuadraticMap
 open scoped Quaternion
 
-universe u v
-
-/-! `RegularFormClass` and `formClass` are Tau Ceti's carrier for isometry classes of regular forms
-and the class of a regular form (`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`),
-the carrier of the README's Conventions and Layer 0. The `export` makes the two names of this
-namespace denote the same constants. -/
-
-export TauCeti (RegularFormClass formClass)
+universe u v w
 
 /-! ## Layer 2: quaternion algebras and the four-fold splitting criterion -/
 
@@ -97,15 +92,16 @@ local field two regular forms are isometric exactly when their dimensions, discr
 Hasse invariants agree. The class-level form is
 `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`. -/
 example [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    [Invertible (2 : K)] {V W : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    [Invertible (2 : K)] {V : Type v} {W : Type w}
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
     (hR : R.Nondegenerate) :
     Q.Equivalent R ↔ Module.finrank K V = Module.finrank K W ∧
-      TauCeti.RegularFormClass.discr (formClass Q hQ) =
-        TauCeti.RegularFormClass.discr (formClass R hR) ∧
-      TauCeti.RegularFormClass.localHasse (formClass Q hQ) =
-        TauCeti.RegularFormClass.localHasse (formClass R hR) :=
+      TauCeti.RegularFormClass.discr (TauCeti.formClass Q hQ) =
+        TauCeti.RegularFormClass.discr (TauCeti.formClass R hR) ∧
+      TauCeti.RegularFormClass.localHasse (TauCeti.formClass Q hQ) =
+        TauCeti.RegularFormClass.localHasse (TauCeti.formClass R hR) :=
   QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq Q hQ hR
 
 end Layer6D
@@ -199,11 +195,12 @@ example [Invertible (2 : K)] [FiniteDimensional K L] [Invertible (2 : L)]
     (σ : L →ₐ[K] SeparableClosure K) (hfin : Module.finrank K L = 2) (a : Lˣ)
     (ha : (((a : L) • QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate)
     (h1 : ((QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate) :
-    TauCeti.sw2Class (formClass _ ha) =
-      TauCeti.sw2Class (formClass _ h1) +
+    TauCeti.sw2Class (TauCeti.formClass _ ha) =
+      TauCeti.sw2Class (TauCeti.formClass _ h1) +
           TauCeti.galoisEvens K L σ hfin (TauCeti.kummerClass a) +
         (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.sw1Class (formClass _ h1)) (TauCeti.galoisCor K L σ 1 (TauCeti.kummerClass a)) :=
+          (TauCeti.sw1Class (TauCeti.formClass _ h1))
+          (TauCeti.galoisCor K L σ 1 (TauCeti.kummerClass a)) :=
   TauCeti.sw2Class_formClass_traceTransfer_smul_sq σ hfin a ha h1
 
 end Layer9

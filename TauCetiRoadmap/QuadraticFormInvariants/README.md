@@ -22,14 +22,14 @@ implemented in Tau Ceti, and the supplier contracts below name the native declar
 for each one. The layers state each milestone and cite the declaration that discharges it; a
 contributor extends the native files rather than building a second copy. `Suggested.lean` states
 the five headline theorems as examples proved by Tau Ceti and declares, as aliases proved from Tau
-Ceti, the names that a roadmap on main imports from this namespace:
-
-- `hilbertSymbol`, `localHasse` and `hasseInvariant_eq_localHasse` (`OrthogonalSpinGroups`);
-- `RegularFormClass` and `formClass`, exported from Tau Ceti.
+Ceti, the three names that a roadmap on main imports from this namespace: `hilbertSymbol`,
+`localHasse` and `hasseInvariant_eq_localHasse`, which `OrthogonalSpinGroups` imports.
 
 Every other name that a roadmap cites from this namespace is a Tau Ceti declaration, and this
 roadmap declares no copy of it. One line per cited name or section, old → new:
 
+- RegularFormClass → `TauCeti.RegularFormClass`;
+- formClass → `TauCeti.formClass`;
 - discr → `TauCeti.RegularFormClass.discr`, valued in the additive `TauCeti.SquareClassGroup K`
   and read in `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`;
 - signedDiscr → `TauCeti.RegularFormClass.signedDiscr`, read in `Kˣ ⧸ (Kˣ)²` in the same way;
@@ -44,8 +44,9 @@ roadmap declares no copy of it. One line per cited name or section, old → new:
 - hilbertSymbol_mul → `TauCeti.hilbertSymbol_mul_right`, under `(2 : K) ≠ 0`;
 - exists_hilbertSymbol_eq_neg_one → `TauCeti.exists_hilbertSymbol_eq_neg_one`, under
   `(2 : K) ≠ 0`;
-- hilbertSymbol_unramified → `TauCeti.exists_unramified_class`, which produces the unit `Δ` of
-  6A, with `TauCeti.hilbertSymbol_unramified` for its evaluation;
+- hilbertSymbol_unramified → `TauCeti.hilbertSymbol_unramified`, with the unit `Δ` implicit;
+  `TauCeti.exists_unramified_class`, under `(2 : K) ≠ 0`, produces a unit satisfying its
+  hypothesis;
 - localHasse_congr → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
   two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for
   `localHasse` of a tuple;
@@ -299,7 +300,7 @@ Each layer states its results against this list.
   | Layer | Native files | Principal declarations |
   |---|---|---|
   | 0 | `FieldTheory/SquareClassGroup/{Basic,Multiplicative}.lean`, `LinearAlgebra/QuadraticForm/RegularFormClass/{Basic,Descent,Semiring}.lean`, `LinearAlgebra/QuadraticForm/Diagonal/`, `LinearAlgebra/QuadraticForm/{Representation,Binary}.lean` | `TauCeti.SquareClassGroup`, `TauCeti.RegularFormClass`, `TauCeti.formClass`, `TauCeti.RegularFormClass.liftDiagonal`, `TauCeti.DiagonalChain`, `QuadraticMap.unitValueSet` |
-  | 1 | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/{Decomposition,Cancellation,Extension}.lean`, `OrthogonalGroup.lean`, `CartanDieudonne/Basic.lean` | `TauCeti.hyperbolicPlane`, `TauCeti.exists_hyperbolicPlane_prod_equivalent` |
+  | 1 | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/{Decomposition,Cancellation,Extension}.lean`, `OrthogonalGroup/Basic.lean`, `CartanDieudonne/Basic.lean` | `TauCeti.hyperbolicPlane`, `TauCeti.exists_hyperbolicPlane_prod_equivalent` |
   | 2 | `Algebra/Quaternion/{NormForm,Split,SquareSplit,Steinberg,SymbolEquiv,AlgEquiv,SplittingCriterion,Binary}.lean` | `QuaternionAlgebra.normForm`, `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae` |
   | 3 | `LinearAlgebra/QuadraticForm/RegularFormClass/{Discriminant,BaseChange}.lean` | `TauCeti.RegularFormClass.discr`, `TauCeti.RegularFormClass.signedDiscr` |
   | 4 | `LinearAlgebra/QuadraticForm/Witt/{Ring,FundamentalIdeal,Discriminant,Round}.lean`, `Witt/Pfister/` | `TauCeti.WittGrothendieckRing`, `TauCeti.WittRing`, `TauCeti.fundamentalIdeal`, `TauCeti.pfisterFormClass`, `TauCeti.oneFoldPfister_smul_equivalent_iff`, `TauCeti.twoFoldPfister_smul_equivalent_iff` |
@@ -2232,8 +2233,8 @@ degree, which is an exclusion of this roadmap; see "Scope and ownership".
 
   They therefore descend to the named functions `TauCeti.sw1Class` and `TauCeti.sw2Class`,
   agreeing with the tuple-level definitions on every presentation (`TauCeti.sw1Class_mk`,
-  `TauCeti.sw2Class_mk`). Composed with `formClass`, they are what `w₁(q)` and `w₂(q)` mean for a
-  form `q` throughout this roadmap; in particular two regular forms that are
+  `TauCeti.sw2Class_mk`). Composed with `TauCeti.formClass`, they are what `w₁(q)` and `w₂(q)`
+  mean for a form `q` throughout this roadmap; in particular two regular forms that are
   `QuadraticMap.Equivalent` have the same `w₁` and `w₂` (`TauCeti.sw1Class_formClass_congr`,
   `TauCeti.sw2Class_formClass_congr`), which is what lets Layer 9 apply to a form given by a
   construction rather than by a tuple.
@@ -2374,9 +2375,9 @@ the value of the Evens norm on a Kummer class and the relative Stiefel–Whitney
   - **the discriminant.** For every functional `s`, `d(s_*⟨a⟩) = d(s_*⟨1⟩) + (N a)` in
     `SquareClassGroup K` (`TauCeti.discr_formClass_scharlauTransfer_smul_sq`,
     `TauCeti/LinearAlgebra/QuadraticForm/Transfer/Discriminant.lean`), stated for Tau Ceti's discriminant
-    `TauCeti.RegularFormClass.discr` of `formClass` of the transferred forms. At the trace, with
-    `d(Tr_*⟨1⟩) = (d)`, this is `d(Tr_*⟨a⟩) = d · N a` modulo squares, which is the one step of the
-    degree-1 formula that the transfer milestones above do not state.
+    `TauCeti.RegularFormClass.discr` of `TauCeti.formClass` of the transferred forms. At the
+    trace, with `d(Tr_*⟨1⟩) = (d)`, this is `d(Tr_*⟨a⟩) = d · N a` modulo squares, which is the
+    one step of the degree-1 formula that the transfer milestones above do not state.
 
   *Needs:* Layer 1's hyperbolic plane (`TauCeti.exists_hyperbolicPlane_prod_equivalent`); Layer 3's
   discriminant; Tau Ceti's quadratic normal form
@@ -2589,10 +2590,10 @@ Kummer class is the class of this character, through
     `TauCeti/FieldTheory/QuadraticForm/StiefelWhitney/QuadraticExtension.lean`).
 
   Nothing in the statement is a chosen diagonalization. The left-hand sides are Layer 8's
-  descended `w₁` and `w₂` applied to `formClass` of the two transferred forms themselves; the
-  right-hand sides use the canonical corestriction, cup, and index-two Evens norm attached to
-  `L/K`. A consumer applies it to a quadratic extension and its trace forms and supplies no
-  presentation of either side. The hypotheses are a `K`-embedding `σ : L → Kˢ`,
+  descended `w₁` and `w₂` applied to `TauCeti.formClass` of the two transferred forms
+  themselves; the right-hand sides use the canonical corestriction, cup, and index-two Evens norm
+  attached to `L/K`. A consumer applies it to a quadratic extension and its trace forms and
+  supplies no presentation of either side. The hypotheses are a `K`-embedding `σ : L → Kˢ`,
   `Module.finrank K L = 2`, `Invertible (2 : L)`, and the regularity of the two transferred forms;
   separability of `L/K` follows from `Invertible (2 : K)`.
 
@@ -2700,8 +2701,8 @@ to this one.
 - SpinRepresentations: the reflection and Cartan–Dieudonné suppliers recorded in Layer 1.
 - SchemeAndStackFoundations: the identification of the Brauer group of a field with `H²` of
   Layer 7B.
-- QuadraticFormInvariantsPartII, which continues this roadmap past its exclusions: Layers 1, 4
-  and 7B.
+- QuadraticFormInvariantsPartII, which continues this roadmap past its exclusions: Layers 1, 4,
+  7A, 7B and 9.
 - GeometryOfNumbersAndQuadraticArithmeticPartII: the Witt theory of Layer 4, the local
   classification and the Hilbert symbol of Layer 6, and the transfer of Layer 9.
 
