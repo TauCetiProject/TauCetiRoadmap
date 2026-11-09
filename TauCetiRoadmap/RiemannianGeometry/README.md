@@ -39,10 +39,11 @@ completeness of the quotient of a complete Riemannian manifold by a free properl
 discontinuous group of isometries, built on the library's quotient manifold, quotient
 metric and curvature naturality, and the space-form quotients; PseudodifferentialOperators P7a consumes
 these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
-no cycle. UnboundedOperators §4.7
-owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
-its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
-geometric form and its boundary-domain identification.
+no cycle. R5b owns the Dirichlet realization of the normal Jacobi operator: its
+form on W¹,²₀, the self-adjoint operator that form represents, built on Tau Ceti's
+Lax–Milgram solution operator, and its boundary-domain identification. It is
+stated for forms that are coercive after a shift with a compact dense embedding,
+the only case R5b uses; no general closed-form representation is a target here.
 
 The following are already in Tau Ceti, and this roadmap cites them rather than
 restating them: the first and second Bianchi identities, the metric skew symmetry
@@ -63,7 +64,10 @@ and curvature of an ad-invariant left-invariant metric, the left-invariant metri
 product on the Lie algebra with its bi-invariance for an Ad-invariant product and
 the completeness of every left-invariant metric, completeness of homogeneous
 Riemannian manifolds, and the pointwise curvature operator on bivectors with its
-symmetry, Rayleigh quotients and isometry naturality (R1); smoothness of geodesics
+symmetry, Rayleigh quotients and isometry naturality (R1); the regularity,
+fixed-chart formula and reparametrization law of covariant differentiation along
+curves (R2) and the commutation of mixed covariant derivatives up to curvature on a
+parametrized surface (R3); smoothness of geodesics
 of a smooth metric up to the ends of their parameter sets, the Jacobi predicate
 with uniqueness from initial data, the Wronskian, the constant-curvature
 solutions, the absence of endpoint-zero Jacobi fields under nonpositive sectional
@@ -93,7 +97,11 @@ sectional, Ricci and scalar curvature under local Riemannian isometries (R4.3,
 R4.7); the critical points, Hessian and Hessian kernel of the squared distance
 along a parametrization in a Euclidean space, properness of the squared distance from a
 point along a closed embedding and its almost-everywhere nondegeneracy and Morse
-property along an immersion (R6); the Laplace–Beltrami operator, the pointwise
+property along an immersion, and the normal exponential of an embedding with its
+open natural domain, its smoothness and its differential along the zero section
+(R6); the Lax–Milgram solution operator of a coercive form along a continuous linear
+map, with its compactness, symmetry, eigenbasis and Rayleigh principle (R5b); the
+Laplace–Beltrami operator, the pointwise
 scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); the de Rham
 cohomology of a manifold (R7.6, R7.7); the polynomial
 Laplacian, the Fischer decomposition, the dimension of the harmonic
@@ -388,6 +396,30 @@ D_tX(0)=w, is X(t)=d(exp_p)_(tv)(tw) there, with no completeness hypothesis.
 lemma `⟨d exp_v(v),d exp_v(w)⟩=⟨v,w⟩` for v in `expDomain` at p, on a boundaryless
 Hausdorff manifold.
 
+For covariant differentiation along curves (R2, R3), in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/`, for a
+connection on the tangent bundle of a finite-dimensional C² manifold over a complete
+nontrivially normed field: `CovariantDerivative.contMDiffOn_alongCurveWithin`
+(`Regularity.lean`), when the connection is C^k on every chart trivialization base set
+and the section lift t↦(γ(t),X(t)) is C^(k+1) on a `UniqueDiffOn` parameter set s, the
+lift of D_tX is C^k on s, the section X being arbitrary and not required to extend to a
+vector field; `CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin`
+(`Regularity.lean`), near a parameter of s where that lift is C¹ and γ lies in the base
+set of a fixed chart, the reading of D_tX in that chart is the fixed-chart formula, the
+derivative of the coordinates of X plus the Christoffel contraction of X with the
+velocity; `CovariantDerivative.symmL_alongCurveInChartWithin` (`Chart.lean`), chart
+independence of that formula, for a curve and field differentiable within s at a point of
+unique derivatives; and `CovariantDerivative.alongCurveWithin_comp` (`Basic.lean`), the
+reparametrization law `D_t(X∘φ)(t)=φ′(t)·(D_tX)(φ(t))` for φ differentiable within s′ at t
+and mapping s′ into s, the curve and field reading differentiably at φ(t). In
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Surface.lean`,
+`CovariantDerivative.alongCurve_alongCurve_sub_alongCurve_alongCurve`: for a smooth
+connection on the tangent bundle of a smooth Hausdorff real manifold of finite dimension,
+a parametrized surface f(q,r) and a field W along it whose lift
+(q,r)↦(f(q,r),W(q,r)) is C² at (u,v), `D_qD_rW−D_rD_qW=R(∂_qf,∂_rf)W` at (u,v), with no
+metric or torsion hypothesis; the derivatives are taken along the full parameter lines,
+not within a parameter set.
+
 For §2.2, in `TauCeti/Geometry/Manifold/Riemannian/Geodesic/Normal/Coordinates.lean`,
 for a normal domain U at p: `TauCeti.Manifold.normalCoordinateField`, the field X_w
 whose value at exp_p(v) is d(exp_p)_v(w), the coordinate field ∂_i when w=e_i;
@@ -509,6 +541,24 @@ when i(x)−a is normal that Hessian is `2⟨Di((1−S_(a−i(x)))v),Di w⟩`, a
 a=i(x)+tν is the t⁻¹-eigenspace of S_ν. These concern one parametrization on a vector
 space; R5a and R6 own the manifold forms and the comparison with R5a's intrinsic B and S.
 
+For R5b, in `TauCeti/Analysis/InnerProductSpace/Variational/`, for a bounded coercive
+bilinear form B on a real Hilbert space V and a continuous linear map J:V→H into a real
+inner-product space: `IsCoercive.formSolutionMap` (`Spectrum.lean`), the Lax–Milgram
+solution map H→V sending h to the unique u with B(u,v)=⟨h,Jv⟩ for every v
+(`IsCoercive.apply_formSolutionMap`, `IsCoercive.eq_formSolutionMap`);
+`IsCoercive.formSolutionOperator`, the composite S of J with that map, an operator H→H,
+compact when J is (`IsCoercive.isCompactOperator_formSolutionOperator`), symmetric when B
+is (`IsCoercive.isSymmetric_formSolutionOperator`), with nonnegative quadratic form
+(`IsCoercive.inner_formSolutionOperator_self_nonneg`) and kernel the orthogonal complement
+of the range of J (`IsCoercive.ker_formSolutionOperator`);
+`IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner`, for H complete, J compact
+with dense range and B symmetric, a Hilbert basis of H of vectors Ju with
+B(u,v)=κ⟨Ju,Jv⟩ for every v and κ>0, in which S is diagonal with eigenvalues κ⁻¹; and
+`IsCoercive.isLeast_rayleighQuotient` (`Rayleigh.lean`), for J compact and nonzero and B
+symmetric, ‖S‖⁻¹ is the least value of B(v,v)/‖Jv‖² over the v with Jv≠0. These rest on
+Mathlib's Lax–Milgram equivalence `IsCoercive.continuousLinearEquivOfBilin` in
+`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`.
+
 For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
 `TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
 injective differential from a second-countable boundaryless C² manifold modelled on
@@ -520,6 +570,20 @@ function is `TauCeti.IsMorse` for almost every a; and
 `TauCeti/Topology/Maps/Proper/Metric.lean`: along a closed embedding of a
 topological space into a proper normed group, `x↦|i(x)−a|²` is a proper map for
 every a. Neither genericity statement needs closedness of i.
+
+For the normal exponential of R6, in `TauCeti/Geometry/Manifold/TubularNeighborhood/Riemannian/`,
+for a C^n embedding f:M→N (n≠0) into a smooth boundaryless Hausdorff manifold with a
+smooth Riemannian metric, on the total space of Tau Ceti's intrinsic quotient normal
+bundle: `TauCeti.SmoothEmbedding.normalExpDomain` (`Basic.lean`), the normal classes whose
+orthogonal representatives lie in `expDomain` at f(p), which contains the zero section
+and is star-shaped in each fibre; `TauCeti.SmoothEmbedding.normalExp` (`Basic.lean`), the
+ambient exponential of the orthogonal representative;
+`TauCeti.SmoothEmbedding.isOpen_normalExpDomain` and
+`TauCeti.SmoothEmbedding.contMDiffOn_normalExp` (`Regularity.lean`), for a
+finite-dimensional source the domain is open and the map is C^m on it when m+1≤n; and
+`TauCeti.SmoothEmbedding.mfderiv_normalExp_zeroSection_apply` (`Differential.lean`), for
+n≥2 its differential at the zero section is (u,v)↦df(u)+v, v read as its orthogonal
+representative.
 
 For R7.6 and R7.7, `TauCeti.deRhamCohomology` in
 `TauCeti/Geometry/Manifold/DeRham/Basic.lean`: the cohomology of the complex of
@@ -569,8 +633,8 @@ The following contracts specify each supplier and section consumed.
   `TauCeti.Manifold.riemannianExp`, normal balls/logarithms, Gauss lemma, first
   energy variation, minimizing geodesics, completeness and smooth-isometry
   transport. Use its existing `alongCurveWithin` carrier and proved chart-change laws;
-  R2 supplies the remaining arbitrary-section regularity and reparametrization
-  extensions needed for iterated covariant differentiation.
+  the arbitrary-section regularity, fixed-chart formula and reparametrization law
+  needed for iterated covariant differentiation are Tau Ceti's (Tau Ceti contract).
 - [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–9, 12:
   ordinary forms and exterior calculus, orientation, smooth flows,
   integration/Stokes, de Rham/singular comparison, metrics, gradient/Hessian,
@@ -623,18 +687,14 @@ The following contracts specify each supplier and section consumed.
   Dirac-type theorem only the case D:E→E is assumed; R7.3 derives the
   D:E→F case from the composition and adjoint symbol formulas. R5b's normal
   Jacobi operator and R7's geometric operators are P1.0 differential operators.
-- [PDE A.1–6/D16–19/E20–22](../PDE/README.md) and
-  VariationalMethods §2.3–§2.4 and Layers 3–5.2: Sobolev,
-  trace, energy/interior estimates and abstract closed-form/represented-operator
-  theory for R5b's normal-Jacobi Dirichlet specialization. R5b constructs its
-  boundary H² estimate and exact operator domain; these are not supplied by
-  closed-manifold K5a or PDE E's interior regularity theorem.
-  Consume UnboundedOperators §4.7 (UO-D06)
-  for the single generic closed semibounded-form representation, with its
-  native partial-operator domain, self-adjointness and real/complex comparison.
-  The abstract order is UnboundedOperators §4.7 → VariationalMethods §2.3
-  and §§5.1–5.2 → R5b. The energy-space specialization consumes the represented
-  operator; R5b supplies its geometric form and boundary-domain identification.
+- [PDE A.1–6/D16–19/E20–22](../PDE/README.md): Sobolev, trace and
+  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization.
+  R5b constructs its boundary H² estimate and exact operator domain; these are
+  not supplied by closed-manifold K5a or PDE E's interior regularity theorem.
+  The abstract coercive-form solution operator, its compactness, symmetry,
+  eigenbasis and Rayleigh principle are Tau Ceti's (Tau Ceti contract, R5b
+  paragraph); R5b constructs the self-adjoint operator its shifted form
+  represents, its geometric form and its boundary-domain identification.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -1165,11 +1225,13 @@ constant Wronskian (`wronskian_eq`), the splitting into a tangential field
 (`finrank_jacobiFieldSpace_le`), the variation field of a family of geodesics as
 a Jacobi field, and the Jacobi field t↦d(exp_p)_(tv)(tw) along a radial geodesic.
 
-Extend the existing along-curve carrier: for C^(k+1) curves and
-section lifts on a `UniqueDiffOn` parameter set, prove the lift of D_tX is C^k
-with its fixed-chart formula near every point. Consume native
-`CovariantDerivative.symmL_alongCurveInChartWithin` for chart independence under
-its differentiability/unique-derivative hypotheses. Trivialize along γ by
+Iterated covariant differentiation along γ uses Tau Ceti's along-curve regularity
+(supplier contract), consumed here: `CovariantDerivative.contMDiffOn_alongCurveWithin`
+makes D_tX of a C^(k+1) section lift on a `UniqueDiffOn` parameter set C^k,
+`CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin` gives its fixed-chart
+formula near every parameter, `CovariantDerivative.symmL_alongCurveInChartWithin` its
+chart independence and `CovariantDerivative.alongCurveWithin_comp` its reparametrization
+law; R2 owns no along-curve regularity statement. Trivialize along γ by
 parallel transport and obtain a linear second-order ODE on a **fixed** tangent
 space. Prove global solvability (`exists_jacobi_initial_data`) on each
 prescribed compact geodesic interval for arbitrary (X(t₀),D_tX(t₀)), smooth
@@ -1378,8 +1440,16 @@ endpoint traces, with their inclusion/restriction laws. The periodic and R6
 mixed-endpoint subspaces use this same ambient interval-section module, with
 their own endpoint constraints. Starting from HopfRinow's first variation,
 first prove the first-variation formula for continuous piecewise smooth curves,
-including the jump of tangent velocity at each corner. Then prove mixed
-covariant derivatives commute up to curvature, interchange
+including the jump of tangent velocity at each corner. Mixed covariant
+derivatives commute up to curvature by Tau Ceti's
+`CovariantDerivative.alongCurve_alongCurve_sub_alongCurve_alongCurve` (supplier
+contract), `D_sD_tW−D_tD_sW=R(∂_sf,∂_tf)W` wherever the field is C², consumed at
+interior parameters of each smooth piece of a variation. R3 owns its one-sided
+form at the end parameters of each closed piece [t_i,t_(i+1)]×(−ε,ε), where the
+variation is defined only within that set and the pinned theorem, stated for
+derivatives along full parameter lines, does not apply: both sides are continuous
+on the closed piece for a C² variation, by Tau Ceti's along-curve regularity, and
+agree on its interior. Interchange
 derivative/integral under compact-parameter hypotheses, and derive the second
 energy variation, including endpoint acceleration and corner terms. For fixed
 endpoints its Hessian is the pinned index form. For length, use normal fields
@@ -1442,10 +1512,17 @@ Hessian, so its index and nullity are unchanged.
 - At L=3π/2 the same I=−5π/12<0 and the index is n−1, accounting for
   the first interior conjugate time π. Counting the final endpoint at L=π
   as index would give the wrong value n−1.
+- Sign of the commutator: on the unit sphere with
+  f(q,r)=(sin r cos q, sin r sin q, cos r) and W=∂_rf, the meridians are geodesics,
+  so D_rW=0, while D_qW=D_r∂_qf=cos r e_θ with e_θ=(−sin q, cos q, 0). Hence
+  `D_qD_rW−D_rD_qW=sin r e_θ`, and `R(∂_qf,∂_rf)∂_rf=|∂_rf|²∂_qf−⟨∂_qf,∂_rf⟩∂_rf=sin r e_θ`
+  for K=1; the opposite curvature sign would give −sin r e_θ.
 
 *Needs:* R2 Jacobi theory; HopfRinow Layer 3 (first variation);
-SmoothBundlesConnections B6.0 (strongly convex subdivisions); finite-dimensional
-bilinear-form inertia. R6's mixed-endpoint form is a later application.
+Tau Ceti `CovariantDerivative.alongCurve_alongCurve_sub_alongCurve_alongCurve`
+(mixed covariant derivatives) and `CovariantDerivative.contMDiffOn_alongCurveWithin`
+(along-curve regularity); SmoothBundlesConnections B6.0 (strongly convex
+subdivisions); finite-dimensional bilinear-form inertia. R6's mixed-endpoint form is a later application.
 
 ### R3.1. H¹ paths and the speed topology
 
@@ -2928,16 +3005,64 @@ sections, not the scalar inequality for every function on the cover.
 
 Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
 domains and its agreement with the smooth form. Consume PDE A.1–6/D16–19/
-E20–22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and
-the abstract coercive, compact-form and represented-operator comparisons of
-VariationalMethods §2.3–§2.4 and Layers 3–5.2, consuming
-UnboundedOperators §4.7's single generic closed-form representation. Own their finite-chart Riemannian normal-bundle specialization:
-actual metric/connection weights, trace-compatible transitions, bounded curvature
-potential, coercive shift, form closure and compact embedding. Construct the
-Dirichlet self-adjoint realization, domain/regularity comparison, compact resolvent
-and variational eigenvalue/index statements on those compact domains. This is not
-another generic form/spectral theory; CKG K5a retains compact-boundaryless bundle
-Laplace theory and PDO P5/P6 does not supply a Dirichlet boundary theorem.
+E20–22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and own
+their finite-chart Riemannian normal-bundle specialization: actual
+metric/connection weights, trace-compatible transitions, bounded curvature
+potential, coercive shift, form closure and compact embedding. On a relatively
+compact smooth domain D⊂P write V=W¹,²₀(D;ν), H=L²(D;ν), J:V→H for the
+inclusion, injective and compact with dense range, and Q for the extended form,
+bounded and symmetric on V. Prove the coercive shift: with K the supremum over D
+of the curvature potential, `Q(u,u)≥‖∇⊥u‖²−K‖Ju‖²`, so there are c≥0 and α>0
+with `Q(u,u)+c‖Ju‖²≥α‖u‖²_V` for every u∈V.
+
+Define the Dirichlet Jacobi operator L_D as the partial operator on H whose graph
+is the set of pairs (Ju,f) with Q(u,v)=⟨f,Jv⟩ for every v∈V; injectivity and
+dense range of J make u and f unique, and its domain is the image under J of the
+u for which v↦Q(u,v) is bounded by a multiple of ‖Jv‖. Prove that L_D is
+self-adjoint with `⟨L_D x,x⟩≥−c‖x‖²` on its domain, that `(L_D+c)⁻¹` is the
+solution operator S, Tau Ceti's `IsCoercive.formSolutionOperator` of the shifted
+form B=Q+c⟨J·,J·⟩ along J, hence compact, symmetric and positive with zero
+kernel, and that L_D does not depend on the choice of c and α. A route: S is
+bounded, symmetric and injective on H, so the inverse of S on its range, which is
+dense, is self-adjoint; and Ju lies in that range exactly when v↦Q(u,v) is
+bounded by a multiple of ‖Jv‖, by the Riesz representation on the closure of the
+range of J, which is H. The Dirichlet eigenvalues are κ−c for the variational
+eigenvalues κ of the basis of `IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner`,
+of finite multiplicity and accumulating only at +∞; when V≠0 the least is
+`‖S‖⁻¹−c`, by `IsCoercive.isLeast_rayleighQuotient`. Prove the index statement:
+the supremum of the dimensions of subspaces of V on which Q is negative definite
+is the number of negative Dirichlet eigenvalues counted with multiplicity, and is
+attained on the span of their eigenvectors. Construct the domain/regularity
+comparison and compact resolvent on those compact domains. This is not a general
+closed-form or spectral theory: only forms that are coercive after a shift, along
+a compact embedding with dense range, occur. CKG K5a retains compact-boundaryless
+bundle Laplace theory and PDO P5/P6 does not supply a Dirichlet boundary theorem.
+
+- L_D is self-adjoint and bounded below by −c, and `(L_D+c)⁻¹=S` is compact.
+- Its eigenvalues are κ−c, of finite multiplicity, and its eigenvectors form a
+  Hilbert basis of H.
+- The index of Q on V is the number of negative eigenvalues of L_D, with
+  multiplicity.
+
+**Checks.**
+
+- V=H=ℝ, J=id, Q(u,v)=2uv, c=0, α=2: the solution map sends h to h/2, so S=½Id
+  and L_D=2Id, the multiplication Q represents. Exchanging the two entries of the
+  graph, the plausible inverse convention, gives ½Id instead.
+- V=H=ℝ, J=id, Q(u,v)=−uv: the shift c=1 gives B=0, which is not coercive, and
+  c=2 gives B(u,v)=uv with α=1, S=Id and L_D=S⁻¹−2=−Id, the multiplication Q
+  represents; c=3 gives S=½Id and the same L_D=2−3=−1. The sign error S⁻¹+c
+  would give 3Id.
+- On an arc D of length ℓ of the equator of the round unit S², A=0 and
+  Ric_N(ν,ν)=1, so L=−d²/ds²−1 and the Dirichlet eigenvalues are (πk/ℓ)²−1, k≥1,
+  with eigenfunctions sin(πks/ℓ); c=2 and α=1 are admissible. At ℓ=3π/2 exactly one
+  eigenvalue, 4/9−1=−5/9, is negative, so the index is 1, R3's geodesic index n−1
+  at L=3π/2 for n=2; at ℓ=π the least eigenvalue is 0, nullity without index.
+- Form domain versus operator domain, on the flat interval D=(0,π) with
+  Q(φ,ψ)=∫φ′ψ′: the tent function φ=min(s,π−s) lies in V, but Q(φ,v)=2v(π/2) is
+  not bounded by a multiple of the L² norm of v, so φ∉dom L_D; s(π−s) lies in
+  dom L_D with L_D(s(π−s))=2.
+
 Own the boundary H² estimate for the normal Jacobi operator on a relatively compact smooth domain D
 with smooth boundary and the actual smooth normal bundle/connection. For its
 normal Jacobi operator L, a weak u∈W¹,²₀ with Lu=f∈L² satisfies
@@ -2948,8 +3073,7 @@ first-order energy estimate; control connection/metric commutators and recover
 the second normal derivative from the uniformly elliptic normal coefficient.
 The principal symbol is the scalar metric symbol times the identity. This
 boundary H² theorem is a target here, not an assumed PDE E theorem.
-Own the Dirichlet-domain identification: the represented
-Dirichlet operator has domain exactly W²,²(D;ν)∩W¹,²₀(D;ν), with graph norm
+Own the Dirichlet-domain identification: L_D has domain exactly W²,²(D;ν)∩W¹,²₀(D;ν), with graph norm
 equivalent to W²,². Compare it with the smooth differential operator and give
 interior/up-to-boundary higher regularity for smooth data by the same chart
 argument. No global Fredholm claim on arbitrary noncompact P is inferred.
@@ -2976,27 +3100,32 @@ geodesic residual −1; the actual turning geodesic has r″=1/5.
 
 R5a uses R1, SmoothBundlesConnections B2–B4 and GeometricTopology Layer 1.
 R5a.1 uses DifferentialGeometry Layer 12 densities; R5a.2 and R5b use R5a.1.
-R5a.3 additionally uses R2 and HopfRinow. R5b consumes UnboundedOperators
-§4.7 before VariationalMethods §2.3 and §§5.1–5.2, and PDE boundary estimates;
-its normal Jacobi operator, principal symbol and formal self-adjointness use
+R5a.3 additionally uses R2 and HopfRinow. R5b consumes PDE's Sobolev, trace and
+boundary estimates and Tau Ceti's Lax–Milgram solution operator
+`IsCoercive.formSolutionOperator` with its eigenbasis and Rayleigh principle; its
+normal Jacobi operator, principal symbol and formal self-adjointness use
 PseudodifferentialOperators P1.0's operator, symbol and formal-adjoint carriers.
-For a(u,v)=2uv the represented operator is 2 Id and its forcing solution h/2;
-constructing its energy norm √2|u| does not precede that representation.
 
 ## Layer 6: focal points and squared distance
 
 ### R6. Focal geometry and squared-distance Morse functions
 
-Define the normal exponential on its open natural domain
-`{(p,v)∈νM | v∈expDomain(f(p))}` as the ambient exponential restricted to the
-normal bundle. GeometricTopology Layer 1 owns the embedding total-space bundle
-and the tubular neighbourhood theorem; R6 owns the normal exponential, its
-natural-domain openness and smoothness, derived from HopfRinow's open
-`expDomain`, its smooth exponential and the tangent-bundle exponential lemmas.
-For complete ambient N the
-domain is all of νM. R6 owns focal critical-point and index/Hessian geometry.
-For general immersions use R5a’s pullback normal bundle and the same ambient
-exponential formula, comparing the embedding specialization to GT literally.
+For a smooth embedding f:M→N, the normal exponential on its natural domain
+`{(p,v)∈νM | v∈expDomain(f(p))}`, the ambient exponential of the orthogonal
+representative, is Tau Ceti's `TauCeti.SmoothEmbedding.normalExp` on
+`TauCeti.SmoothEmbedding.normalExpDomain`; the openness of that domain, the
+smoothness of the map on it and its differential (u,v)↦df(u)+v along the zero
+section are `TauCeti.SmoothEmbedding.isOpen_normalExpDomain`,
+`TauCeti.SmoothEmbedding.contMDiffOn_normalExp` and
+`TauCeti.SmoothEmbedding.mfderiv_normalExp_zeroSection_apply` (supplier contract),
+consumed here. GeometricTopology Layer 1 owns the tubular neighbourhood theorem.
+For complete ambient N the domain is all of νM, since `expDomain` is then the
+whole tangent space. R6 owns the immersion case: for an immersion f:P→N define
+the normal exponential on R5a's pullback normal bundle by the same formula, prove
+its natural domain open and the map smooth there from HopfRinow's open
+`expDomain` and smooth exponential, and prove that for an embedding it is Tau
+Ceti's `normalExp` under R5a's comparison of the orthogonal normal bundle with
+the quotient one. R6 owns focal critical-point and index/Hessian geometry.
 Define a focal point as a critical domain point, with multiplicity the kernel
 dimension there; the focal set in N is the image of those points. Distinct
 critical domain points can give the same ambient value with different
@@ -3043,6 +3172,10 @@ field at b=1. R3's endpoint-zero Euclidean form has neither conclusion.
   focal points. A zero map would falsely make every vector focal.
 
 *Needs:* R5a normal bundle and shape operator; HopfRinow exponential map;
+Tau Ceti `TauCeti.SmoothEmbedding.normalExp`, `TauCeti.SmoothEmbedding.normalExpDomain`,
+`TauCeti.SmoothEmbedding.isOpen_normalExpDomain`,
+`TauCeti.SmoothEmbedding.contMDiffOn_normalExp` and
+`TauCeti.SmoothEmbedding.mfderiv_normalExp_zeroSection_apply` (the embedding case);
 R2 Jacobi variation and R3 mixed-endpoint section comparisons.
 
 In Euclidean ambient space compute the normal-exponential derivative block and
@@ -3618,7 +3751,7 @@ polar integration, and supply OT Layer 7's geometric injectivity/cut-locus objec
 R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a uses the shared
 bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
 R4.9 uses R4.6's short-geodesic/injectivity estimates, the geodesic ODE, the planar Jordan/arclength/winding theorems, and finite AT/CC constructions. Its topological order is the Fréchet-plus-length carrier and component cover, relative cocycle/finite Thom detection, positive widths, and finite parameter carriers. The shared periodic normal-graph theorem, general nonzero linear zero-number theorem, interior parabolic-box compactness and scalar Harnack feed their stated g₀/arbitrary-g applications; the fixed-endpoint construction separately uses the Dirichlet boundary theorem. The round closed small-length two-point comparison precedes its Type-II exclusion and circular Type-I/stability output. Final entry neighbourhoods consume the local exit constants before the global curvature-gap theorem. The round branch then constructs its finite-length Jordan smoothing/trace and weak-set avoidance outputs; its finite-collapse conclusion consumes the arbitrary-g finite-time alternative plus the Gauss–Bonnet area ODE, while circular-singularity asymptotics and great-circle convergence are separate outputs with the routes stated in R4.9.6a. The arbitrary-g branch separately proves the finite-time BI/BII exclusion, the immortal derivative estimate as a reusable output, compact primitive geodesic sets, and smooth local graph/exit estimates. The safe family clock, intrinsic restriction/cubical face-identification laws and compatible-choice comparisons feed uniform point-relative finite-family localization and cap/minimax realization. No minimax or three-geodesic conclusion is an input to either smooth-flow analysis. R4.8's distinct-endpoint path theorem and DGF's free-loop Morse/Bott machinery keep their separate scopes.
-R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
+R5b additionally uses PDE and Tau Ceti's Lax–Milgram solution operator, with no CalibratedGeometry
 input. R1.5 (§2.3) follows the R1.4 jets (§2.2), Tau Ceti's constant-scaling law
 `Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`
 and SBC B6.0. The Surfaces

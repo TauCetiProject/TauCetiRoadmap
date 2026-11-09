@@ -49,7 +49,9 @@ Bianchi identities, pair interchange and the Ricci identity, parallel curvature 
 sectional curvature and local isometries, the constant-scaling and product curvature laws, the
 characterization of constant sectional curvature, Schur's theorem, the constancy of the Einstein
 factor and the completeness of left-invariant metrics on Lie groups (R1); smoothness of geodesics
-up to the ends of their parameter sets, uniqueness of Jacobi fields from initial data, the
+up to the ends of their parameter sets, the regularity and reparametrization law of covariant
+differentiation along curves, the commutation of mixed covariant derivatives up to curvature on
+a parametrized surface, uniqueness of Jacobi fields from initial data, the
 identification of the differential of the exponential map with radial Jacobi fields, the
 vanishing first derivatives of the metric in normal coordinates, conjugate multiplicity and its
 bound `n − 1`, and the absence of endpoint-zero Jacobi fields under nonpositive sectional
@@ -58,11 +60,13 @@ curvature (R4.4); the curvature of the round spheres and of the half-space model
 isometry groups of Euclidean space and of the round sphere, and the Gauss formula giving the
 round-sphere connection by tangential projection (R4.7, R5a); the round metric in stereographic
 coordinates and the second fundamental form and shape operator of a parametrization in a
-Euclidean space (R5a.2); the Hessian of the squared distance along a parametrization and its
-kernel, the almost-everywhere Morse property of the squared distance from a point along an
-immersion and its properness along a closed embedding (R6); the scalar Bochner identity and the
-Lichnerowicz eigenvalue bound (R7.0); and the Fischer decomposition of homogeneous polynomials
-(R8.1).
+Euclidean space (R5a.2); the Lax–Milgram solution operator of a coercive form, with its
+eigenbasis and Rayleigh principle (R5b); the Hessian of the squared distance along a
+parametrization and its kernel, the almost-everywhere Morse property of the squared distance from
+a point along an immersion, its properness along a closed embedding, and the normal exponential
+of an embedding with its open natural domain and smoothness (R6); the scalar Bochner identity
+and the Lichnerowicz eigenvalue bound (R7.0); and the Fischer decomposition of homogeneous
+polynomials (R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
