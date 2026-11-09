@@ -1466,7 +1466,7 @@ Completion and functional equation.
 - For even parity the Mellin constants are 4·2^(s−2)·(2π)^(−s) = π^(−s).
 - For odd parity the restriction to the imaginary axis is 0 and its transverse derivative supplies the shifted gamma factors; at trivial character the root number is −ε_N.
 - At λ = 1/5 the gamma shifts are δ±√(1/20); at the threshold they coincide at δ. For cubic χ the equation pairs χ with χ̄.
-- The zero function has L-series 0 and completed function 0: the zero entire extension exists and is unique. On Re s>1 either branch in the total definition agrees with the same gamma product, without requiring a newform.
+- The zero function has L-series 0 and completed function 0: the zero entire extension exists and is unique. Every Λ satisfying `IsCompletedLFunction` agrees on Re s>1 with the gamma product in both spectral branches (shifts δ±ir above the threshold, δ±√(1/4−λ) below it), whether or not f is a newform; the newform hypothesis enters only in the existence of an entire Λ.
 
 
 (Duke–İmamoğlu–Tóth (2016), §5, unnumbered “Spectral expansion” subsection, (5.8)–(5.9), pp.962–963, is the level-one comparison. The level/character extension uses the Fricke relation and the all-cusp decay proved here.)
