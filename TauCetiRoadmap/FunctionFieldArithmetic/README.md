@@ -58,8 +58,8 @@ This roadmap owns:
   the Fourier transforms of lattice indicators (Layer 2);
 - Artin–Schreier–Witt theory of fields of characteristic `p`, reduced representatives over
   `k((T))` and the conductor formula (Layer 3);
-- Lubin–Tate formal modules in equal characteristic, their torsion ramification and
-  reciprocity on every unit-filtration step, `p`-primary local existence, local
+- Lubin–Tate formal modules in equal characteristic, their torsion ramification and the
+  action of the local Artin map on their torsion, `p`-primary local existence, local
   Kronecker–Weber and injectivity of the local Artin map in equal characteristic, and the
   Schmid–Witt symbol; the additional scheme and structure assertions for rigidified Picard
   spaces, Rosenlicht's perfect-field universal property at a fixed modulus, and the extension
@@ -126,10 +126,10 @@ It leaves the following to the roadmaps that state them, and states none of them
   mixed-characteristic Lubin–Tate construction, torsion and arithmetic Artin comparison.
   Section 4.1 adds the equal-characteristic construction on these same carriers.
 - **ClassFieldTheory** (Tau Ceti): class formations and Tate's theorem (Layers 1–4), local
-  invariants (Layer 5), the local class formation and reciprocity (Layers 6–7) and the
-  prime-to-`p` local existence theorem of Layer 8. Its scope section excludes Lubin–Tate theory,
-  Artin–Schreier–Witt theory and `p`-primary existence in equal characteristic; those are
-  Layers 3–4 here.
+  invariants (Layer 5), the local class formation and reciprocity (Layers 6–7), unit-filtration
+  reciprocity in either characteristic (Layer 7) and the prime-to-`p` local existence theorem
+  of Layer 8. Its scope section excludes Lubin–Tate theory, Artin–Schreier–Witt theory and
+  `p`-primary existence in equal characteristic; those are Layers 3–4 here.
 - **LocalFieldsRamification** (Tau Ceti), Layer 3: lower and upper numbering, Herbrand functions
   and Hasse–Arf.
 - **ReductiveGroupsPartII**: §RG2.3.7 Lang's theorem, Layer RG2.4 Iwasawa and Cartan
@@ -281,8 +281,10 @@ ClassFieldTheory Layers 1–4 provide class formations and Tate's theorem; Layer
 provide local invariants, unramified extensions and arithmetic local reciprocity.
 Layer 8 supplies local existence for finite extensions of `ℚ_p` and the prime-to-residue-
 characteristic existence theorem in equal characteristic. These are the domains used here.
-Layer 7's conductors are minima of unit-kernel depths; §§4.1–4.2 prove the ramification
-comparison for the equal-characteristic Lubin–Tate realization used in §4.4.
+Layer 7's conductors are minima of unit-kernel depths. Layer 7 also supplies unit-filtration
+reciprocity for every nonarchimedean local field, equal characteristic included:
+`map_unitFiltration_normResidue` at each finite abelian level and its absolute form
+`closure_map_artinMap_unitFiltration`. Section 4.4 consumes both.
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
@@ -1009,7 +1011,8 @@ for a discrete valuation with finite residue field
 LubinTateFormalModulesAndQuasiCanonicalLifts LT.1–LT.2 and ClassFieldTheory; this layer
 adds the equal-characteristic construction and combines the two cases. ClassFieldTheory
 Layers 5–8 supply the local invariant, the local class formation, the absolute local Artin map
-`Art_K : Kˣ → Gal(K^ab/K)` (arithmetic normalization), its conductors, and local existence for
+`Art_K : Kˣ → Gal(K^ab/K)` (arithmetic normalization), its conductors, unit-filtration
+reciprocity in both characteristics (Layer 7), and local existence for
 finite extensions of `ℚ_p` and for norm subgroups of index prime to `p`; its scope section
 excludes Lubin–Tate theory and `p`-primary existence in equal characteristic, which this layer
 supplies. The completion `F_v` of a function field over `𝔽_q` at a place is such a field
@@ -1113,12 +1116,12 @@ Prove lubinTate_artin: `Art_K(π)` is trivial on `K_π` and acts as `φ` on `K^u
 conductor_existence_all: the norm subgroup of an abelian extension of conductor exponent `n`
 contains `U^(n)` and not `U^(n−1)` (for `n ≥ 1`), in every characteristic.
 
-The ramification assertion of lubinTate_artin is the following comparison in equal
-characteristic: for every finite abelian extension `L/K` and every integer `r≥0`,
-`Art_{L/K}(U_K^(r)) = Gal(L/K)^r`, where `Art_{L/K}` is restriction of `Art_K`,
-`U_K^(0)=Oˣ` and `U_K^(r)=1+𝔭^r` for `r≥1`. For every abelian algebraic extension
-`E/K`, the same equality holds with upper groups defined by their compatible finite
-quotients; the unit image is closed because `U_K^(r)` is compact.
+Write `U_K^(0)=Oˣ` and `U_K^(r)=1+𝔭^r` for `r≥1`. Unit-filtration reciprocity,
+`Art_{L/K}(U_K^(r)) = Gal(L/K)^r` for finite abelian `L/K` and `r ≥ 0`, and its absolute form
+are consumed from ClassFieldTheory Layer 7 (`map_unitFiltration_normResidue` and
+`closure_map_artinMap_unitFiltration`), which states them in either characteristic. Since
+inversion preserves `U_K^(r)`, lubinTate_artin restricts `Art_K(U_K^(r))` on `K_{π,m}` to the
+image of `U_K^(r)` under the unit-class isomorphism `(O/𝔭^m)ˣ ≅ Gal(K_{π,m}/K)` of §4.1.
 
 These extend, without restating, ClassFieldTheory Layer 8's `localAbelianExistence`,
 `injective_artinMap` and `localClassFieldCorrespondence` (there stated for finite extensions of
@@ -1137,18 +1140,6 @@ ClassFieldTheory's. (Yoshida, Theorem A, pp. 411–412; Definition 4.10, p. 422;
 p. 425; Theorem 5.15 and Corollary 5.16, p. 427; the existence theorem in §5.3(iv), p. 428;
 Theorems 6.11 and 6.15, pp. 432–433.)
 
-For the ramification comparison, §4.1 computes the upper groups in `K_{π,m}/K`, and
-the inverse-unit action above preserves every unit subgroup. A finite abelian `L/K`
-lies in a compositum of a finite unramified extension and some `K_{π,m}` by
-localKroneckerWeber. The unramified factor contributes no group at depth `r≥0`;
-the lower groups on the totally ramified factor are unchanged by unramified base
-extension, as follows directly from their displacement definition. Herbrand's quotient
-theorem then gives the equality for `L/K`. Passing to all finite quotients gives the
-assertion for `E/K`: compactness of `U_K^(r)` realizes a compatible family of finite
-unit images by a single unit. This derives the comparison from the Lubin–Tate
-realization (Yoshida, Proposition 6.14 and proof and Theorem 6.15, p. 433), before
-using the Schmid–Witt formula.
-
 *Needs:* Layer 4.1; ClassFieldTheory Layers 4, 6, 7 and 8; LocalFieldsRamification Layer 3.
 
 **Checks.**
@@ -1163,16 +1154,13 @@ using the Schmid–Witt formula.
   contains `1 + TO`, so the prime-to-`p` theorem of ClassFieldTheory Layer 8 cannot produce `H`.
 - With Yoshida's normalization substituted for ClassFieldTheory's, lubinTate_artin would read
   `[u]_f` instead of `[u⁻¹]_f`; the sign check is the action of `Art_K(π)` on `K^ur`.
-- In an unramified extension of degree `2`, `Art(U_K^(0))=1=G^0` while
-  `Art_K(π)` restricts to the nonidentity Frobenius. Replacing `U_K^(0)` by `Kˣ`
-  would give the whole group of order `2`.
-- In `K_{π,2}/K` for `Q=3`, the images of `U_K^(0),U_K^(1),U_K^(2)` have
-  orders `6,3,1`, equal to the upper group orders in §4.1. Taking their compositum
-  with an unramified quadratic extension gives group order `12` and the same
-  depth-`0,1,2` orders `6,3,1`.
-- For the unramified `ℤ_p`-extension every unit image and every nonnegative upper
-  group is `1`; for the tower `⋃_m K_{π,m}`, the image at depth `r≥1` is
-  `1+𝔭^r`, since its finite images are `U_K^(r)/U_K^(m)` for `m≥r`.
+- In `K_{π,2}/K` for `Q=3`, lubinTate_artin gives images of `U_K^(0),U_K^(1),U_K^(2)` of
+  orders `6,3,1`. These are the upper group orders of §4.1, as ClassFieldTheory Layer 7's
+  `map_unitFiltration_normResidue` requires; the lower group orders `6,3,3,1` would
+  disagree at depth `2`.
+- Every `Art_K(u)` with `u ∈ Oˣ` is trivial on the unramified `ℤ_p`-extension. On the
+  tower `⋃_m K_{π,m}` the image of `U_K^(r)`, `r≥1`, is `1+𝔭^r` inside
+  `lim_m (O/𝔭^m)ˣ = Oˣ`, its finite images being `U_K^(r)/U_K^(m)` for `m≥r`.
 
 ### 4.3 The Schmid–Witt symbol
 
@@ -1264,11 +1252,11 @@ The conductor API is:
 - A constant-only class has conductor zero, in agreement with
   ArithmeticGaloisRepresentations §3.7.
 
-*Proof sketch.* The ramification comparison in lubinTate_artin (§4.2) identifies
-`Art_{L/K}(U_K^(r))` with `Gal(L/K)^r` at every finite abelian level, and its
-inverse-limit form does so on the tower. This is the input used in Kosters–Wan
-§4.5.1 immediately before Theorem 4.12, p. 21. The image of `U^(r)` under the
-Schmid–Witt symbol is computed from the explicit
+*Proof sketch.* ClassFieldTheory Layer 7's `map_unitFiltration_normResidue` identifies
+`Art_{L/K}(U_K^(r))` with `Gal(L/K)^r` at every finite abelian level, and its absolute form
+`closure_map_artinMap_unitFiltration`, restricted to `K(℘⁻¹x)`, does so on the tower. This is
+the input used in Kosters–Wan §4.5.1 immediately before Theorem 4.12, p. 21. The image of
+`U^(r)` under the Schmid–Witt symbol is computed from the explicit
 formula of 4.3 on the topological generators `(1 − aT^i)^(p^j)` of the principal units, which lie
 in `U^(r)` exactly when `ip^j ≥ r`, with `j ≥ 0`; thus the least allowed `j` is
 `max(0, ⌈log_p(r/i)⌉)`. This nonnegative bound must be retained when passing to a character
@@ -1283,9 +1271,10 @@ as does the expression for `φ₁(U^r)` in Theorem 4.12.
 The unit generators preceding Theorem 4.12 have nonnegative indices; negative powers of `p`
 cannot supply additional units. The conductor formula itself is unchanged.
 
-*Needs:* Layers 3.2, 4.2 (the unit-filtration ramification assertion of lubinTate_artin)
-and 4.3; LocalFieldsRamification Layer 3 (quotient compatibility);
-ClassFieldTheory Layer 7 (the Artin map and unit-defined conductors).
+*Needs:* Layers 3.2 and 4.3; LocalFieldsRamification Layer 3 (quotient compatibility);
+ClassFieldTheory Layer 7 (the Artin map, unit-defined conductors, and unit-filtration
+reciprocity `map_unitFiltration_normResidue` with its absolute form
+`closure_map_artinMap_unitFiltration`).
 
 **Checks.**
 
