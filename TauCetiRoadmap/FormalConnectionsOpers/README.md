@@ -26,8 +26,9 @@ the symbols, Atiyah sequences and Lie–Rinehart enveloping algebras of differen
 and the algebraic connection comparisons (Layer 2), the fixed-model manifold realization of
 smooth separated finite-type complex schemes with its tangent, toric, group and gauge comparisons
 (§2.4), formal and polynomial loop groups with their gauge groupoids, quotient prestacks, the
-polynomial/formal quotient comparison and the loop Grassmannian, affine flags and Cartan
-decomposition (Layers 3 and 3A), intrinsic opers, the lower
+polynomial/formal quotient comparison, the loop Grassmannian and affine flag ind-schemes and the
+lattice form of ReductiveGroupsPartII's loop decompositions (Layers 3 and 3A), intrinsic opers, the
+lower
 algebraic/analytic dictionary of `G(ℂ)`, the Chevalley–Kostant adapter and the Drinfeld–Sokolov
 normal form (Layer 4), oper coordinates and function algebras (Layer 5), the cyclic-vector
 theorem and the oper-reduction theorem over `ℂ((t))` with its proof lane (Layer 6), the
@@ -94,6 +95,17 @@ intrinsic descriptions.
   charts to that carrier, the Maurer–Cartan trivialization and rank, the comparison of §2.4's
   germ tangent map with the counit derivations and their convolution bracket, the realification
   comparison and the holomorphic exponential chart.
+- **ReductiveGroupsPartII RG2.1, RG2.3 and RG2.4** owns, for every field henselian for a nontrivial
+  discrete valuation of rank one with perfect residue field, hence for `ℂ((t))`, the affine Weyl
+  group with its Coxeter system and its description `W(Φ) ⋉ Q^∨` at a special point, the parahoric,
+  Iwahori and hyperspecial subgroups, the Iwahori–Weyl group `W̃ = N(K)/Z(K)_0` with
+  `W̃ = W_a ⋊ Ω`, the Iwahori–Bruhat decomposition and the Cartan decomposition at a special
+  point, for every connected reductive group over such a field. §§3A.3 and 3A.5 prove none of
+  these again. They own the polynomial normalizer quotient `N_G(T)(ℂ[t, t⁻¹])/T(ℂ[t]) ≃ Y ⋊ W`,
+  the identification of `W̃` with `Y ⋊ W` for split `G` over `ℂ((t))`, the identification of
+  `G(ℂ[[t]])` and `I_form(ℂ)` with the hyperspecial parahoric of the origin and the Iwahori of the
+  base alcove, and the transport of RG2.4's double-coset bijections to the lattice strata of the
+  loop Grassmannian and the affine flag variety.
 - **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
   algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
   homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
@@ -219,8 +231,9 @@ coordinate automorphisms preserving the chosen formal disc.
   `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`: the weak and strong Nullstellensatz over
   `ℂ`, for the complex-point statements of §2.4. The strong form needs the reduced hypothesis.
 - `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one`,
-  `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `nhds_basis_clopen`: open subgroups
-  inside clopen neighbourhoods of `1`, for the finite-monodromy classification of Layer 6.
+  `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `nhds_basis_isClopen` (for a
+  `ZeroDimensionalSpace`, which a profinite group is): open subgroups inside clopen neighbourhoods
+  of `1`, for the finite-monodromy classification of Layer 6.
 
 ### From Tau Ceti
 
@@ -321,8 +334,24 @@ descriptions, and take them from no other roadmap.
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
 RG2.5.1: the dual pinned group from `RootPairing.flip` and `RootPairing.Base.flip`. This is the
-ordinary dual algebraic group, not a Weil semidirect product; no nonarchimedean building or
-arithmetic normalization is consumed.
+ordinary dual algebraic group, not a Weil semidirect product; no arithmetic normalization is
+consumed.
+
+RG2.1 *affine-weyl-group*, RG2.3 *parahoric-subgroup* and *hyperspecial-vertices*, RG2.4.1
+*iwahori-weyl-group*, RG2.4.2 *iwahori-bruhat-decomposition* and RG2.4.4 *cartan-decomposition*,
+at the single instance `K = ℂ((t))` (complete for the `t`-adic valuation, of rank one, with perfect
+residue field `ℂ`, so a field of RG2's Conventions), `G` a connected reductive group split over `ℂ`
+with the split maximal torus `T` of ReductiveGroups Layers 8–9 as its maximal split torus, so that
+`Z = T`, `Z(K)_0 = T(ℂ[[t]])` and `Z(K)/Z(K)_0 ≃ Y` (RG2.4.1's Check `splitTorus`). What is
+assumed of them: `(W_a, S_aff)` is a Coxeter system with `W_a = W ⋉ Q^∨` at the special origin;
+the Iwahori–Weyl group `W̃ = N_G(T)(ℂ((t)))/T(ℂ[[t]])` is `W_a ⋊ Ω` with `Ω` the stabilizer of
+the base alcove; `w ↦ I w I` is a bijection from `W̃` to the `I`-double cosets for the Iwahori
+`I` of the base alcove; and at the special origin, with `K₀` its parahoric, `n ↦ K₀ n K₀` induces
+a bijection `W \ W̃ / W ≃ K₀ \ G(ℂ((t))) / K₀`. These are stated there for every such field with no
+finiteness of the residue field, as RG2.4's Check `glDecompositions_infinite_residue` records for
+`ℂ((t))`; the compactness and cardinality clauses of RG2.4, which need a finite residue field, are
+not consumed. §3A.3 identifies `W̃` with `Y ⋊ W`, §3A.5 identifies `I_form(ℂ)` and `G(ℂ[[t]])`
+with RG2.3's Iwahori and hyperspecial parahoric and transports the bijections to lattice strata.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -444,8 +473,9 @@ differential operators and principal parts, and the fixed-model analytic compari
 complex schemes with the regular horizontal trivialization. Layer 3 builds formal loop groups,
 their connections and the gauge groupoid with its fpqc stackification; Layer 3A builds polynomial
 loops, the polynomial/formal quotient comparison, normalizers, Iwahori subgroups, the loop
-Grassmannian and affine flag ind-schemes with the Cartan decomposition, and positive double
-cosets. Layer 4 builds intrinsic opers, the lower analytic dictionary of `G(ℂ)`, the
+Grassmannian and affine flag ind-schemes with the lattice form of ReductiveGroupsPartII's Cartan
+and Iwahori–Bruhat decompositions, and positive double cosets. Layer 4 builds intrinsic opers, the
+lower analytic dictionary of `G(ℂ)`, the
 Chevalley–Kostant adapter and the Drinfeld–Sokolov normal form. Layer 5 builds the coordinate
 action, oper function algebras and the scalar operator models. Layer 6 proves the cyclic-vector
 theorem and the Frenkel–Zhu oper-reduction theorem with its torsor-triviality,
@@ -1046,8 +1076,10 @@ Construct `Conn_G(R) = {d + A(t) dt : A ∈ 𝔤 ⊗_k F_R}`; finite dimension i
 algebraic tensor with the relative Tate coefficient module. Define `dlog(g) = (dg) g⁻¹`
 intrinsically through dual-number tangent translation and prove `gauge(g, A) = Ad(g)A − dlog(g)`,
 the cocycle identity `dlog(gh) = dlog(g) + Ad(g) dlog(h)`, and
-`gauge(h, gauge(g, A)) = gauge(hg, A)`. With `g = 1 + εx`, the infinitesimal variation is
-`[x, A] − x′`. Construct the tautological relative connection.
+`gauge(h, gauge(g, A)) = gauge(hg, A)` (Frenkel, (1.2-4), p. 15, and §1.2.6, (1.2-7), p. 18;
+Frenkel–Gaitsgory, §1.1, (1.2), pp. 15–16, for the gauge action of `G(R((t)))` on connections on
+the trivial `R`-family). With `g = 1 + εx`, the infinitesimal variation is `[x, A] − x′`.
+Construct the tautological relative connection.
 
 - `gauge` is a left action of `LG(R)` on `Conn_G(R)`, natural in `R`.
 - `dlog` is a crossed homomorphism `LG → 𝔤((t)) dt` for the adjoint action.
@@ -1065,9 +1097,12 @@ the cocycle identity `dlog(gh) = dlog(g) + Ad(g) dlog(h)`, and
 
 Construct the action groupoid of trivialized connections, with actual `Groupoid` instances,
 base-change functors and naturality: source `A`, target `gauge(g, A)`, unit `1`, inverse `g⁻¹`,
-composite `h` after `g` is `hg`. Its fpqc stackification on coefficient algebras is `Loc_G(D×)`.
+composite `h` after `g` is `hg` (Frenkel–Gaitsgory, §4.3, (4.5), p. 39: the action groupoid
+`Conn_G(D×) × G((t))` of the gauge action, there over `ℂ`). Its fpqc stackification on coefficient
+algebras is `Loc_G(D×)` (Frenkel, §1.2.6, (1.2-7), p. 18, the set of gauge classes over `ℂ`).
 Identify its objects intrinsically as relative connections on torsors trivializable after a
-coefficient-ring fpqc cover. Construct the groupoid of all `G`-torsors with relative connection
+coefficient-ring fpqc cover (Frenkel–Gaitsgory, §1.1, p. 16, for `R`-families of torsors on `D×`
+locally trivial over `Spec R`). Construct the groupoid of all `G`-torsors with relative connection
 over `F_R` using Layer 2, and the comparison functor; prove full faithfulness and the stated
 essential-image criterion. Prove that torsors extending to `O_R` are in this image for smooth
 `G` by formal lifting after trivializing their `t = 0` fibre. Layer 6 proves the all-torsor
@@ -1221,36 +1256,54 @@ Construct the ordinary conjugation action `W → Aut(Y)`, using the inverse of t
 contravariant/opposite coweight action. With translation first use
 `(λ, w)(μ, v) = (λ + wμ, wv)` on `Y ⋊ W`, and give the inverse dictionary to the factor order
 `W ⋉ Y`. Put `t^λ = λ(t)`, prove `t^(λ+μ) = t^λ t^μ` and `n_w t^λ n_w⁻¹ = t^(wλ)`. Prove
-`N_G(T)(ℂ[t, t⁻¹])/T(ℂ[t]) ≃ Y ⋊ W` and the corresponding formal normalizer quotient modulo
-`T(ℂ[[t]])`, compatibly with coefficient inclusion (Iwahori–Matsumoto, *On some Bruhat
-decomposition and the structure of the Hecke rings of p-adic Chevalley groups*, §1–§2, for the
-affine Weyl group presentation). Laurent units of the split torus have unique `a t^n` form; the
-multiplication defects of chosen finite normalizer lifts lie in `T(ℂ)` and vanish in these
-quotients. No splitting `W → N_G(T)(ℂ)` is asserted.
+`N_G(T)(ℂ[t, t⁻¹])/T(ℂ[t]) ≃ Y ⋊ W` (Iwahori–Matsumoto, *On some Bruhat decomposition and the
+structure of the Hecke rings of p-adic Chevalley groups*, §1, for the group `Y ⋊ W` and its
+length-zero subgroup). The formal quotient `N_G(T)(ℂ((t)))/T(ℂ[[t]])` is ReductiveGroupsPartII
+RG2.4.1's Iwahori–Weyl group `W̃` for `K = ℂ((t))` and the split maximal torus `T`, with
+`Z(K)_0 = T(ℂ[[t]])` the `ℂ[[t]]`-points of the connected Néron model of `T`; identify it with
+`Y ⋊ W` through `t^λ ↦ (λ, 1)` and the finite normalizer lifts, compatibly with the coefficient
+inclusion from the polynomial quotient, consuming RG2.4.1's exact sequence
+`1 → Z(K)/Z(K)_0 → W̃ → W → 1` and its Check `splitTorus` (`T(ℂ((t)))/T(ℂ[[t]]) ≃ Y`). Laurent
+units of the split torus have unique `a t^n` form; the multiplication defects of chosen finite
+normalizer lifts lie in `T(ℂ)` and vanish in both quotients. No splitting `W → N_G(T)(ℂ)` is
+asserted.
 
-Identify the affine Coxeter subgroup as `Q^∨ ⋊ W`, with `Q^∨` the actual coroot span in `Y`, and
-its extended quotient as `Y/Q^∨`. Construct the component map and its comparison with the
+Under this identification RG2.1 *affine-weyl-group*'s affine Weyl group `W_a`, a Coxeter group
+equal to `W ⋉ Q^∨` at the special origin (`AffineWeylGroup.semidirect`, `coxeterSystem`), is the
+subgroup `Q^∨ ⋊ W`, with `Q^∨` the actual coroot span in `Y`, and RG2.4.1's length-zero complement
+`Ω` of `W̃ = W_a ⋊ Ω` maps isomorphically onto `Y/Q^∨`; the Coxeter structure is cited from RG2.1
+and not proved again. Construct the component map `Y ⋊ W → Y/Q^∨` and its comparison with the
 Grassmannian's connected components. Central translations have length zero and the length-zero
 alcove stabilizer need not be finite. Define dominant `Y` by `α_i(λ) ≥ 0`, transport the finite
 dual-root chamber theorem of RootSystems to the actual integral lattice with central directions,
 and prove uniqueness of dominant orbit representatives.
 
-- `Y ⋊ W` is a group with the displayed law, `Q^∨ ⋊ W` is its Coxeter subgroup, and
+- `Y ⋊ W` is a group with the displayed law; the identification `W̃ ≃ Y ⋊ W` carries RG2.1's
+  Coxeter group `W_a` onto `Q^∨ ⋊ W` and RG2.4.1's `Ω` onto `Y/Q^∨`, and
   `(Y ⋊ W)/(Q^∨ ⋊ W) ≃ Y/Q^∨` as sets with the component map.
 - Every `W`-orbit in `Y` contains exactly one dominant cocharacter.
-- The normalizer quotient isomorphism intertwines `t^λ ↦ (λ, 1)` and `n_w ↦ (0, w)`.
+- The polynomial normalizer quotient isomorphism intertwines `t^λ ↦ (λ, 1)` and `n_w ↦ (0, w)`,
+  and the coefficient inclusion `ℂ[t, t⁻¹] → ℂ((t))` induces the identity of `Y ⋊ W` between the
+  polynomial quotient and `W̃`.
 
 **Checks.**
 
-- `G = 𝔾_m`: `W = 1`, `Q^∨ = 0`, `Y = ℤ`, and `ℂ[t, t⁻¹]ˣ/ℂ[t]ˣ = {a t^n}/ℂˣ ≃ ℤ`.
-- `G = SL₂`: `Y = ℤα^∨ = Q^∨`, `Y/Q^∨ = 0`; `G = PGL₂`: `Y = ℤ(α^∨/2)`, `Y/Q^∨ = ℤ/2`; `G = GL_n`:
-  the determinant leaves `Y/Q^∨ = ℤ`.
+- `G = 𝔾_m`: `W = 1`, `Q^∨ = 0`, `Y = ℤ`, and `ℂ[t, t⁻¹]ˣ/ℂ[t]ˣ = {a t^n}/ℂˣ ≃ ℤ`; the formal
+  quotient `ℂ((t))ˣ/ℂ[[t]]ˣ ≃ ℤ` is the `t`-adic valuation, and the inclusion sends the class of
+  `t` to the class of `t`, so the identification is `λ ↦ t^λ` with `1 ↦ t`; the convention
+  `λ ↦ t^(−λ)` would send the polynomial class of `t` to the formal class of `t⁻¹` and fail the
+  compatibility.
+- `G = SL₂`: `Y = ℤα^∨ = Q^∨`, `Y/Q^∨ = 0`, and RG2.4.1's Check `sl2_eq_affineWeyl` gives
+  `W̃ = W_a` infinite dihedral with `Ω = 1`; `G = PGL₂`: `Y = ℤ(α^∨/2)`, `Y/Q^∨ = ℤ/2`, and the
+  class of `diag(t, 1)` is the nontrivial element of `Ω`, as in RG2.1's non-example
+  `AffineWeylGroup.not_all_of_N`; `G = GL_n`: the determinant leaves `Y/Q^∨ = ℤ`.
 - `(λ, w)(μ, v)(ν, u) = (λ + wμ + wvν, wvu)` in both bracketings; the factor order `W ⋉ Y` has
   `(w, λ)(v, μ) = (wv, v⁻¹λ + μ)`, a different formula for the same group.
 - `n_w t^λ n_w⁻¹ = t^(wλ)`: for `SL₂`, `n = [[0, 1], [−1, 0]]` and `t^λ = diag(t, t⁻¹)` give
   `n t^λ n⁻¹ = diag(t⁻¹, t) = t^(−λ)`.
 
-*Needs:* §3A.1; ReductiveGroups Layers 4, 7, 9; RootSystems.
+*Needs:* §3A.1; ReductiveGroups Layers 4, 7, 9; RootSystems; ReductiveGroupsPartII RG2.1
+*affine-weyl-group*, RG2.3.2 Néron models of tori, RG2.4.1 *iwahori-weyl-group*.
 
 ### 3A.4 Iwahori, parabolic and real-root formulas (F3A.4)
 
@@ -1307,40 +1360,50 @@ their projective stage presentations and the minimal-parahoric `ℙ¹`-fibration
 preserving the quotient maps, the left `LG`-actions and base change: the polynomial coset functor
 is a presentation of the same sheaf.
 
-Prove the complex loop Cartan decomposition on complex points,
-`G(ℂ((t))) = ⊔_(λ ∈ Y⁺) G(ℂ[[t]]) t^λ G(ℂ[[t]])` with `Y⁺` the dominant cocharacters of §3A.3
-(Iwahori–Matsumoto, *On some Bruhat decomposition and the structure of the Hecke rings of
-p-adic Chevalley groups*, Proposition 2.34 (iii), applied with both subgroups equal to
-`G(ℂ[[t]])`, whose associated subgroup of the affine Weyl group is the finite Weyl group, so that
-the double cosets are `W \ (Y ⋊ W) / W ≃ Y⁺`). Their statement is for the Chevalley group of a
-complex semisimple Lie algebra over a field with a nontrivial discrete valuation, with no
-finiteness assumption on the residue field; the extension to every connected reductive complex
-`G`, with its central torus and its isogeny type, is a target here, proved by the
-central-torus/derived-group reduction of ReductiveGroups Layer 6 and the uniqueness of dominant
-representatives of §3A.3. Prove the Coxeter relations of the affine Weyl group for the simple
-affine reflections of §3A.4 (Iwahori–Matsumoto, §1) and the Iwahori–Bruhat decomposition
-`G(ℂ((t))) = ⊔_(w ∈ Y ⋊ W) I w I` on complex points (Iwahori–Matsumoto, Theorem 2.16, extended to
-reductive `G` by the same reduction). Define the bounded lattice strata as the
-`G(ℂ[[t]])`-orbits `Gr^λ` of the points `t^λ`, and prove that `Gr^λ` lies in the chart of pole
+The Cartan and Iwahori–Bruhat decompositions of `G(ℂ((t)))` are ReductiveGroupsPartII RG2.4's,
+stated there for every connected reductive group over a field henselian for a nontrivial discrete
+valuation of rank one with perfect residue field, which `ℂ((t))` is; they are cited, for every
+isogeny type and central torus, and not proved again. What is proved here is the dictionary.
+Identify `G(ℂ[[t]])` with RG2.3 *hyperspecial-vertices*' hyperspecial parahoric of the origin of
+the standard apartment of `T`, the `ℂ[[t]]`-points of the split Chevalley model of ReductiveGroups
+Layer 9, and `I_form(ℂ) = ev₀⁻¹(B(ℂ))` with RG2.3 *parahoric-subgroup*'s Iwahori of the base
+alcove on which the simple affine roots of §3A.4 are positive. Through these identifications and
+§3A.3's `W̃ ≃ Y ⋊ W`, RG2.4.4 *cartan-decomposition* (the bijection
+`W \ W̃ / W ≃ K₀ \ G(K) / K₀` at the special origin, with `K₀ = G(ℂ[[t]])`) together with
+§3A.3's uniqueness of dominant
+representatives reads `G(ℂ((t))) = ⊔_(λ ∈ Y⁺) G(ℂ[[t]]) t^λ G(ℂ[[t]])`, and RG2.4.2
+*iwahori-bruhat-decomposition* reads `G(ℂ((t))) = ⊔_(w ∈ Y ⋊ W) I w I`; the Coxeter relations of
+the simple affine reflections of §3A.4 are those of RG2.1 *affine-weyl-group* through §3A.3's
+identification. Define the bounded lattice strata as the `G(ℂ[[t]])`-orbits `Gr^λ` of the points
+`t^λ` in `Gr_G(ℂ)`, identify RG2.4.4's double cosets with the strata and RG2.4.2's double cosets
+with the `I`-orbits `I w I/I` of `Fℓ_G(ℂ)`, and prove that `Gr^λ` lies in the chart of pole
 order `max_ω |⟨λ, ω⟩|`, the maximum over the weights `ω` of the faithful representation, so that
 each stratum is a finite-dimensional quasi-projective variety.
 
 - `Gr_G` and `Fℓ_G` are ind-projective; the lattice charts of bounded pole order are projective
   schemes, and `Fℓ_G → Gr_G` is a fibration with fibre `G/B`.
-- The Cartan decomposition: `λ ↦ G(ℂ[[t]]) t^λ G(ℂ[[t]])` is a bijection from `Y⁺` to the
-  `G(ℂ[[t]])`-double cosets of `G(ℂ((t)))`, and `t^λ`, `t^μ` lie in one double coset iff `μ ∈ Wλ`.
-- The Iwahori–Bruhat decomposition: `w ↦ I w I` is a bijection from `Y ⋊ W` to the `I`-double
-  cosets of `G(ℂ((t)))`.
+- The Cartan decomposition in lattice form: `λ ↦ Gr^λ` is a bijection from `Y⁺` to the
+  `G(ℂ[[t]])`-orbits of `Gr_G(ℂ)`, with `Gr^λ = G(ℂ[[t]]) t^λ G(ℂ[[t]])/G(ℂ[[t]])`, and `t^λ`,
+  `t^μ` lie in one orbit iff `μ ∈ Wλ`.
+- The Iwahori–Bruhat decomposition in flag form: `w ↦ I w I/I` is a bijection from `Y ⋊ W` to the
+  `I`-orbits of `Fℓ_G(ℂ)`, and `I w I/I` is the `I`-orbit of the point `w` of `Fℓ_G`.
 
 **Checks.**
 
-- `GL₁`: `Gr = ℤ` as a discrete set of lattices `t^n ℂ[[t]]`, the Cartan decomposition is
-  `ℂ((t))ˣ = ⊔_n ℂ[[t]]ˣ t^n`, and the affine Weyl group is `ℤ` acting by translation; the Iwahori
-  is `ℂ[[t]]ˣ` and the Iwahori–Bruhat decomposition is the same disjoint union.
+- `GL₁`: `Gr = ℤ` as a discrete set of lattices `t^n ℂ[[t]]`, RG2.4.4's Cartan decomposition
+  reads `ℂ((t))ˣ = ⊔_n ℂ[[t]]ˣ t^n`, and the Iwahori–Weyl group is `ℤ` acting by translation
+  (RG2.4.1's Check `splitTorus`); the Iwahori is `ℂ[[t]]ˣ`, the hyperspecial parahoric of the
+  origin, and the Iwahori–Bruhat decomposition is the same disjoint union.
 - `SL₂`: `diag(t, t⁻¹)` and `diag(t⁻¹, t)` lie in one `SL₂(ℂ[[t]])`-double coset (conjugate by
   `[[0, 1], [−1, 0]]`), with dominant representative `α^∨`; the double cosets of `diag(t, t⁻¹)`
   and `diag(t², t⁻²)` are distinct, since the elementary divisors `(t, t⁻¹)` and `(t², t⁻²)` of the
-  lattice `g·ℂ[[t]]²` relative to `ℂ[[t]]²` differ.
+  lattice `g·ℂ[[t]]²` relative to `ℂ[[t]]²` differ; so the strata `Gr^(α^∨)` and `Gr^(2α^∨)` are
+  distinct orbits, as the bijection with `Y⁺ = ℕα^∨` requires.
+- `SL₂`: the identification of `I_form(ℂ)` with the Iwahori of the base alcove is tested on
+  `[[1, 1], [0, 1]]`, which lies in `I_form(ℂ)`, and on `[[1, 0], [1, 1]]`, which lies in
+  `SL₂(ℂ[[t]])` but not in `I_form(ℂ)`; the Iwahori `ev₀⁻¹(B⁻(ℂ))` of the alcove across the wall
+  through the origin contains the second and not the first, and both contain `[[1, 0], [t, 1]]`,
+  whose constant term is the identity.
 - `SL₂`: the closed Schubert variety of `t^(α^∨)` in `Gr` is a two-dimensional quadric cone whose
   vertex is the base point `L₀ = ℂ[[t]]²`, the orbit `Gr^(α^∨)` being its complement; the
   minimal-parahoric fibration `Fℓ → Gr` has `ℙ¹` fibres parametrizing lines in `L/tL`.
@@ -1350,11 +1413,14 @@ each stratum is a finite-dimensional quasi-projective variety.
   colength `k`, for every `k`, and not be of finite type.
 
 *Needs:* §§3A.2–3A.4; §§3.1–3.2; ReductiveGroups Layers 1, 6, 6B, 7, 9; SchemeAndStackFoundations
-§§1.14–1.17; RootSystems.
+§§1.14–1.17; RootSystems; ReductiveGroupsPartII RG2.1 *affine-weyl-group*, RG2.3
+*parahoric-subgroup* and *hyperspecial-vertices*, RG2.4.1 *iwahori-weyl-group*, RG2.4.2
+*iwahori-bruhat-decomposition*, RG2.4.4 *cartan-decomposition*.
 
 ### 3A.6 Positive double cosets (F3A.6)
 
-After §3A.5's formal Cartan decomposition, prove the polynomial positive double-coset comparison
+After §3A.5's lattice form of the formal Cartan decomposition, prove the polynomial positive
+double-coset comparison
 and the compatible bijections between the double cosets of `G(ℂ[t])` on both sides of
 `G(ℂ[t, t⁻¹])`, the double cosets of `W` on both sides of `Y ⋊ W`, the orbits `Y/W` and the
 dominant cocharacters `Y⁺`. Specify the two-sided orbit relation and all representative maps and
@@ -1406,8 +1472,9 @@ a homotopy equivalence is asserted.
 
 The order within the layer is its numbering: §3A.1's coefficient/point definitions and §3A.2's
 torsor comparison, then the algebraic root/lattice/Iwahori maps of §§3A.3–3A.4 from
-ReductiveGroups and RootSystems, then §3A.5's lattice Grassmannian, flag geometry and Cartan
-decomposition, then §3A.6's positive-orbit comparison. The semilocal torsor lemmas are
+ReductiveGroups and RootSystems, then §3A.5's lattice Grassmannian, flag geometry and the lattice
+form of ReductiveGroupsPartII's decompositions, then §3A.6's positive-orbit comparison. The
+semilocal torsor lemmas are
 constructed independently of the desired polynomial quotient theorem. Layer 6's affine-Springer
 cycle/oper argument consumes these exports; no oper-reduction, critical-centre,
 representation-category or KacMoody group-comparison return edge supplies them.
@@ -1421,8 +1488,9 @@ explicit polynomial-times-positive factorization; the `SL₂` quadric-cone Schub
 
 ### Dependencies
 
-Layers 1–3, ReductiveGroups Layers 1, 4, 6, 6B, 7, 9, RootSystems, SchemeAndStackFoundations
-§§1.14–1.18 and FormalLaurentPuiseux L1. Nothing from Layer 6, KacMoody or AffineLieAlgebras.
+Layers 1–3, ReductiveGroups Layers 1, 4, 6, 6B, 7, 9, ReductiveGroupsPartII RG2.1, RG2.3 and
+RG2.4, RootSystems, SchemeAndStackFoundations §§1.14–1.18 and FormalLaurentPuiseux L1. Nothing
+from Layer 6, KacMoody or AffineLieAlgebras.
 
 ## Layer 4: intrinsic opers and the Drinfeld–Sokolov/Kostant slice (F4)
 
@@ -1970,7 +2038,7 @@ the native `Matrix.linftyOpNormedRing` and `Matrix.linftyOpNormedAlgebra` real n
 structures on matrices; compare the native `Units` topology on invertible matrices with the complex
 matrix-group topology. Native `ContinuousMonoidHom.exists_mem_nhds_one_forall_le_ker` supplies a
 neighbourhood of `1` containing only subgroups killed by the homomorphism. Shrink it to a clopen
-neighbourhood using `nhds_basis_clopen` and then consume
+neighbourhood using `nhds_basis_isClopen` and then consume
 `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one` (or native
 `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`). The kernel contains that open
 subgroup and is open; its compact discrete quotient is finite. Faithfulness gives finite image in
@@ -2067,7 +2135,8 @@ On §3A.5's loop Grassmannian and affine flag ind-schemes, with their bounded la
 Iwahori and minimal parahoric quotients and `ℙ¹`-fibrations, construct the Schubert cells
 `I w I / I` of `Fℓ_G` as affine spaces of dimension the affine length `ℓ(w)`, their closures,
 complex realization, proper pushforward, and the affine Weyl action on homology through the
-parahoric correspondences, compatible with the Coxeter relations of §3A.5. Consume
+parahoric correspondences, compatible with the Coxeter relations of ReductiveGroupsPartII RG2.1's
+affine Weyl group as identified in §3A.3. Consume
 AffineMorseLefschetz A4's compatible triangulation of projective pairs and Borel–Moore homology of
 locally finite polyhedra; own the finite-stage comparison, projective-stage colimit and Schubert
 fundamental-class calculations. Prove the Kazhdan–Lusztig 1988 §4 Lemma 6 specialization: each
@@ -2207,7 +2276,7 @@ singleton Springer fibre; the `r = −1`/`r = −2` witness for `Aut⁰(O)` vers
 
 ### Dependencies
 
-Layers 1–5, including §3A.5's loop Grassmannian, affine flags and Cartan decomposition;
+Layers 1–5, including §3A.5's loop Grassmannian, affine flags and lattice-form decompositions;
 FormalLaurentPuiseux L2 and L7; ReductiveGroups Layers 1, 6, 7, 9; AffineMorseLefschetz A4;
 ProfiniteCohomology Layers 1 and 11; Tau Ceti `zHat`; Mathlib `Differential`. The order inside
 the layer is §6.5 and §6.2 first, then §6.3's Schubert cycles and Kazhdan–Lusztig involutions,
@@ -2266,8 +2335,8 @@ Hamiltonian anchor of `dH_x` is `+∇_ad x = x′ + [A, x]`. The tangent vector 
 `x` instead acts by `−∇_ad x = [x, A] − x′`; consequently the cotangent-to-gauge identification
 sends `dH_x` to the gauge tangent labelled `−x`. Prove these signs and the resulting bracket
 compatibility explicitly. Construct the `N((t))` moment map, identify its `f`-level with
-`f + 𝔟((t))`, prove its action free (Frenkel, Lemma 4.2.2 and the display following Lemma 8.3.2's
-statement), and construct Hamiltonian reduction and the induced continuous
+`f + 𝔟((t))`, prove its action free (Frenkel, Lemma 4.2.2, p. 112, and the paragraph preceding
+Lemma 8.3.2, p. 247), and construct Hamiltonian reduction and the induced continuous
 bracket on `Fun Op(D×)` (Frenkel, Lemma 8.3.2, for the coincidence with the vertex
 Poisson structure). Prove well-definedness independent of invariant extensions and continuity
 across cofinal pole bounds; arbitrary pole-bound stages need not themselves be Poisson quotients.
@@ -2299,9 +2368,12 @@ Establish `Aut(O)` equivariance.
 
 In `PGL₂` with the rank-one normalization fixing Layer 5's `q`, calculate the Hamiltonian
 operator `P_q = 2q∂ + q′ − ½∂³`. For `H_ε = Res(εq dt)`, `anchor(dH_ε)(q) = P_q ε`. With
-`L_n = Res(t^(n+1) q dt)`, prove `{L_m, L_n} = (m − n) L_(m+n) − ½(m³ − m) δ_(m+n,0)`. For
+`L_n = Res(t^(n+1) q dt)`, prove `{L_m, L_n} = (m − n) L_(m+n) − ½(m³ − m) δ_(m+n,0)`, the
+Virasoro relations of Frenkel, (3.1-3) and §3.1.3, p. 66, at central charge `−6`. For
 `H = Res(q² dt)`, compute `q̇ = P_q(2q) = 6qq′ − q‴` and prove this KdV vector field is
-infinitesimally gauge-class preserving. For every homogeneous Drinfeld–Sokolov generator `q_i`
+infinitesimally gauge-class preserving (Frenkel–Gaitsgory, Remark 4.2.1, p. 38: the KdV flows
+defined by the Poisson structure preserve gauge classes). For every homogeneous Drinfeld–Sokolov
+generator `q_i`
 construct the λ-brackets `{q_i {}_λ q_j}`, differential-polynomial coefficient formulas via the
 reduction algorithm, and verify translation, sesquilinearity, both Leibniz rules and Jacobi;
 identify their modes with the continuous coefficient-ring bracket. Construct the full continuous
@@ -2561,9 +2633,12 @@ take `κ₀` and its inverse dual form factorwise. It uses the central cocycle `
 `{z, w} = ([z̃, w̃]/ε) mod ε`. Its comparison must calculate the dual invariant form and exact
 rank-one scalar and sign relative to Layer 7, never assert equality only up to an unspecified
 scalar. The form on the dual Cartan is the inverse of `κ₀` on the original Cartan. In rank one
-`κ₀(h, h) = 2` and the normalized Segal–Sugawara generator `S = (1/2) Σ :J^a J_a:` must map
-modewise to `L_n = Res(t^(n+1) q dt)`, giving the displayed `−1/2` central term. Layer 7 is
-constructed independently of that comparison so the two roadmaps have no dependency cycle.
+`κ₀(h, h) = 2` and the normalized Segal–Sugawara generator `S = (1/2) Σ :J^a J_a:` (Frenkel,
+(2.1-9), p. 37) must map modewise to `L_n = Res(t^(n+1) q dt)`, giving the displayed `−1/2`
+central term, the Virasoro relation of Frenkel, (3.1-3), p. 66, at central charge `−6`. The
+exported continuous cotangent algebroid is the one of Frenkel–Gaitsgory, §4.3, Lemma 4.3.1, p. 39,
+over the coefficient field `k`. Layer 7 is constructed independently of that comparison so the two
+roadmaps have no dependency cycle.
 
 **Checks.**
 
@@ -2617,8 +2692,8 @@ GeometricRepresentationCategories.
   finite-type `ℂ`-scheme `X`, with the identification of its holomorphic function sheaf with
   ComplexComparisonPartII C−1.1's analytic ring sheaf, specialized to its flag and word schemes.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
-  subgroups, full-cocharacter normalizer quotients, loop Cartan decomposition and positive-orbit
-  comparison, and compares its
+  subgroups, full-cocharacter normalizer quotients, the lattice form of the loop Cartan
+  decomposition and the positive-orbit comparison, and compares its
   minimal derived affine group with them.
 - **§6.2** is the owner of the cyclic-vector theorem at the generality of differential fields of
   characteristic zero with nonzero derivation. PadicDifferentialEquationsAndRigidCohomology,
@@ -2647,9 +2722,10 @@ GeometricRepresentationCategories.
   owning the algebraic quotient construction (uncertified).
 - N. Iwahori and H. Matsumoto, [*On some Bruhat decomposition and the structure of the Hecke rings
   of p-adic Chevalley groups*](https://www.numdam.org/item/PMIHES_1965__25__5_0/), Publ. Math.
-  IHÉS 25 (1965), §1, Theorem 2.16 and Proposition 2.34: the affine Weyl group, the Iwahori–Bruhat
-  decomposition and the parahoric double-coset decomposition specialized to the Cartan
-  decomposition, for Chevalley groups over a discretely valued field.
+  IHÉS 25 (1965), §1: the group `Y ⋊ W` and its length-zero subgroup, cited by §3A.3 for the
+  polynomial normalizer quotient. Its Theorem 2.16 and Proposition 2.34 are the primary sources of
+  the Iwahori–Bruhat and Cartan decompositions, which ReductiveGroupsPartII RG2.4 states for every
+  henselian discretely valued field with perfect residue field and which §3A.5 cites from there.
 - V. Drinfeld, [*Infinite-dimensional vector bundles in algebraic geometry (an introduction)*, v4](https://arxiv.org/abs/math/0309155v4),
   §3: elementary and Tate modules and lattices (§§3.2.1–3.2.3), Theorem 3.3 (categorical flat
   descent), Lemma 3.9 and Theorem 3.10 (topologically nilpotent automorphisms and finite projective
