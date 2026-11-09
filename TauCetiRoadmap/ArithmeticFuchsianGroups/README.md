@@ -1323,7 +1323,7 @@ PseudodifferentialOperators P7a.
 
 ## Downstream consumers
 
-- TeichmullerGeometry takes §1.1 and §1.4 (cited there as Layer 1 items 1 and 4) for its arithmetic
+- TeichmullerGeometry takes §1.1 and §1.4 (cited there as §1.1 and §1.4) for its arithmetic
   locus, and §3.1, for distance-preserving bijections with no differentiability assumed, for its
   §0.4a identification of `Isom(ℍ)` with `PGL₂(ℝ)`. §3.1's isometry lifting, between quotients of
   `ℍ` by discrete torsion-free subgroups of `PGL₂(ℝ)` and unique up to left multiplication by `Γ₂`,
