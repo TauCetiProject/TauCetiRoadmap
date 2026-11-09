@@ -304,7 +304,7 @@ the class `a`, is `Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the implied consta
 `𝔪`. The width `c` comes from the region constant of `heckeLFunction_zeroFreeRegion` for degree
 `n`; for fixed `K` and `𝔪` the exceptional term is `O(x^β)` with `β < 1`, which the error absorbs.
 The main coefficient is `1/#Cl_𝔪`, not the ideal-counting constant `rayClassIdealMainTerm 𝔪`. At
-`n = 1` the constant is absolute, and `K = ℚ`, `𝔪 = (q)∞` give
+`n = 1` the width `c` is absolute, and `K = ℚ`, `𝔪 = (q)∞` give
 `primeCounting_progression_effective`. -/
 theorem rayClassPrimeCount_effective (n : ℕ) :
     ∃ c : ℝ, 0 < c ∧ ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
