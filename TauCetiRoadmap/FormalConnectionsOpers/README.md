@@ -45,21 +45,21 @@ intrinsic descriptions.
   continuous and formal extensions, symbols, Atiyah sequences, Lie–Rinehart PBW and
   principal-group connections.
 - **ComplexComparisonPartII C−1.1, C0.3–C0.4, C5.1–C5.2** owns the scheme analytification
-  functor and its analytic ring sheaf, complex points, open and closed subspaces, fibre products,
-  smooth charts, étale local isomorphisms and the separated/Hausdorff comparison, the coherent
-  tensor pullback and finite locally free bundle dictionary, the characteristic-free order
-  predicate on differential operators with its all-order modules of principal parts, universal
-  jet, universal bijection, composition maps and localization, and the analytic
-  differential-operator and connection dictionaries. §2.2 consumes C5.1's algebraic operator
-  interface and builds symbols, the Atiyah sequence and the Lie–Rinehart enveloping algebra on
-  top of it. This roadmap takes complex points, their classical topology and all these
-  comparisons from C−1.1 and builds on no second analytification; the one other classical
-  topology it uses, ReductiveGroups Layer 3A.5's on `G(ℂ)` for an affine algebraic group `G`
-  over `ℂ`, is identified with C−1.1's by the identity of `G(ℂ)` in §4.3. §2.4 owns the
-  complex-manifold structure on the complex points of a separated smooth finite-type complex
-  scheme of constant differential dimension `d`: the atlas modelled on `Fin d → ℂ`, its maximal
-  atlas and holomorphic morphisms, the tangent isomorphism and the toric, group and gauge
-  comparisons. A roadmap that needs this manifold structure takes it from §2.4.
+  functor and its analytic ring sheaf, open and closed subspaces, fibre products, étale local
+  isomorphisms and the separated/Hausdorff comparison, the coherent tensor pullback and finite
+  locally free bundle dictionary, the characteristic-free order predicate on differential
+  operators with its all-order modules of principal parts, universal jet, universal bijection,
+  composition maps and localization, and the analytic differential-operator and connection
+  dictionaries. §2.2 consumes C5.1's algebraic operator interface and builds symbols, the Atiyah
+  sequence and the Lie–Rinehart enveloping algebra on top of it. This roadmap takes the
+  analytification and all these comparisons from C−1.1 and builds on no second analytification.
+  It takes complex points, their classical topology and smooth charts from ReductiveGroups §3A.5
+  alone (see the ReductiveGroups bullet below), and compares them with C−1.1's analytification
+  in §2.4 and, on `G(ℂ)`, in §4.3. §2.4 owns the complex-manifold structure on the complex points
+  of a separated smooth finite-type complex scheme of constant differential dimension `d`: the
+  atlas modelled on `Fin d → ℂ` built from ReductiveGroups §3A.5's charts, its maximal atlas and
+  holomorphic morphisms, the tangent isomorphism and the toric, group and gauge comparisons. A
+  roadmap that needs this manifold structure takes it from §2.4.
   No proper GAGA or global algebraization theorem is a prerequisite of any lane here.
 - **ComplexKahlerGeometry K1, K3.0, K4** owns joint holomorphic inverse and implicit maps,
   regular-zero-set submanifolds, finite-dimensional Cauchy/analyticity, the holomorphic
@@ -77,12 +77,13 @@ intrinsic descriptions.
   Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
   groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
   ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
-  the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups Layer 3A.5 owns the
-  classical topology on the complex points of every locally finite-type `ℂ`-scheme, the complex
+  the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups §3A.5 owns the complex
+  points of every locally finite-type `ℂ`-scheme with their classical topology, the complex
   charts of every smooth one and the complex Lie-group structure on `G(ℂ)` for every affine
   algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie algebra
-  with its Layer 2 tangent Lie algebra; §4.3 consumes these and owns only the comparison of that
-  topology and those charts on `G(ℂ)` with ComplexComparisonPartII C−1.1's `G^an` and §2.4's
+  with its Layer 2 tangent Lie algebra. §2.4 takes the points, topology and charts from there;
+  §4.3 consumes all of these and owns only the comparison of that topology and those charts on
+  `G(ℂ)` with the underlying space of ComplexComparisonPartII C−1.1's `G^an` and with §2.4's
   fixed-model atlas, their transport to the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)`, the
   Maurer–Cartan trivialization and rank, the comparison of §2.4's germ tangent map with the
   counit derivations and their convolution bracket, the realification comparison and the
@@ -163,8 +164,9 @@ Cartan form; in rank one it is the trace form with `κ(h, h) = 2`. Residue pairi
 `𝔤((t))dt` with the continuous dual of `𝔤((t))`; the canonical Hamiltonian anchor of `dH_x` is
 `+∇_ad x = x' + [A, x]`, while the tangent labelled by a left gauge `x` is `−∇_ad x = [x, A] − x'`.
 Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native Hopf-point carrier
-`WithConv (H →ₐ[ℂ] ℂ)` with the topology and atlas of §4.3; `Aut(O)` means the group functor of
-§1.2 of coordinate automorphisms preserving the chosen formal disc.
+`WithConv (H →ₐ[ℂ] ℂ)` with ReductiveGroups §3A.5's classical topology and charts, transported to
+it in §4.3; `Aut(O)` means the group functor of §1.2 of coordinate automorphisms preserving the
+chosen formal disc.
 
 ## Exact supplier contracts
 
@@ -270,14 +272,15 @@ structure; Layer 8's classification of split reductive groups by root data; Laye
 Chevalley groups and root maps over `ℤ`; Layer 6B's complex reductive coset affineness, with its
 fpqc quotient and invariant-ring identification, applied to `GL_n/G`.
 
-Layer 3A.5: the classical topology on the complex points of a locally finite-type `ℂ`-scheme,
-which on an affine presentation is the zero-locus subspace topology in `ℂ^n`; the complex charts
-of a smooth `ℂ`-scheme, each the restriction of an étale coordinate map `U → 𝔸^d`, on a Zariski
-open `U`, to an open set of `U(ℂ)` on which it is injective; and the complex Lie-group structure
-on `G(ℂ)` for an affine algebraic group `G` over `ℂ`, with multiplication, unit and inverse
-holomorphic because they are induced by scheme maps, and the chart-at-the-identity
-identification of its Lie algebra with Layer 2's tangent Lie algebra. §4.3 uses of the topology
-and the charts only these two descriptions.
+§3A.5: the complex points `X(ℂ)` of a locally finite-type `ℂ`-scheme with their classical
+topology, which on an affine presentation is the zero-locus subspace topology in `ℂ^n` and is
+glued along affine opens; the complex charts of a smooth `ℂ`-scheme, built from local
+standard-smooth presentations, each the restriction of an étale coordinate map `U → 𝔸^d`, on a
+Zariski open `U`, to an open set of `U(ℂ)` on which it is injective; and the complex Lie-group
+structure on `G(ℂ)` for an affine algebraic group `G` over `ℂ`, with multiplication, unit and
+inverse holomorphic because they are induced by scheme maps, and the chart-at-the-identity
+identification of its Lie algebra with Layer 2's tangent Lie algebra. §§2.4 and 4.3 use of the
+topology and the charts only these two descriptions, and take them from no other roadmap.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
@@ -313,8 +316,8 @@ flatness and the flat holomorphic/smooth/local-system equivalence.
 ### From TauCetiRoadmap.ComplexComparisonPartII
 
 C−1.1: the single scheme analytification functor `complexSchemeAnalytification` with its analytic
-ring sheaf and comparison morphism `φ_X`, its complex-point comparison, open-restriction and
-closed-immersion comparisons, fibre-product comparison, smooth-chart comparison, étale
+ring sheaf and comparison morphism `φ_X`, the identification of the underlying set of `X^an` with
+`X(ℂ)`, its open-restriction and closed-immersion comparisons, fibre-product comparison, étale
 local-isomorphism comparison and separated/Hausdorff comparison; C0.3's `holomorphicBundleDictionary`;
 C0.4's coherent tensor pullback; C5.1's algebraic interface `IsDifferentialOperator` (order at
 most `m` by iterated commutators with multiplication, for arbitrary commutative `k`, commutative
@@ -329,7 +332,8 @@ schemes, and its analytic adapter `DifferentialOperatorAnalytification`; C5.2's
 `holomorphicConnectionDictionary`. The stage order is C5.1's algebraic interface, then §2.2's
 symbols, Atiyah sequence and Lie–Rinehart enveloping algebra, then C5.1's analytic adapter, then
 §2.4. The section-level comparisons of C−1.1 are cited by their subject, as C−1.1 states them in
-prose.
+prose. Complex points, their classical topology and smooth charts are taken from ReductiveGroups
+§3A.5, not from C−1.1.
 
 ### From TauCetiRoadmap.ComplexManifolds
 
@@ -722,7 +726,8 @@ SchemeAndStackFoundations §§1.14–1.16 for torsors.
 ### 2.4 Analytification on fixed models and the regular horizontal trivialization (F2.4)
 
 Take ComplexComparisonPartII C−1.1's `complexSchemeAnalytification`, its analytic ring sheaf and
-comparison morphism `φ_X`. For every separated finite-type smooth scheme `X` over `ℂ` whose
+comparison morphism `φ_X`, and ReductiveGroups §3A.5's complex points with their classical
+topology and smooth charts. For every separated finite-type smooth scheme `X` over `ℂ` whose
 `Ω¹_(X/ℂ)` is locally free of constant rank `d`, construct its fixed-model manifold realization
 and compare it with this same analytic space. Call the selected rank the constant differential
 dimension `d`. Construct the comparison with Krull pure dimension `d`. At every closed complex
@@ -736,26 +741,27 @@ point. Prove the equivalence of constant differential dimension `d` with every i
 component having Krull dimension `d`. Include the empty scheme separately, with its empty manifold
 for each selected `d`.
 
-Define `X(ℂ)` as the `ℂ`-morphisms `Spec ℂ → X`, and use C−1.1's complex-point comparison to
-identify this carrier with the underlying space of `X^an`. For `X = Spec A` construct the
-Spec-adjunction equivalence with `A →ₐ[ℂ] ℂ`, natural under algebra maps. On a finite affine
-presentation identify the supplied topology with the common-zero-set subspace topology in `ℂ^N`.
-Verify independence from generators and presentation by the polynomial coordinate maps and their
-inverse equations. Identify C−1.1's open-restriction comparison on each `D(f)` with evaluation into
-`{x : f(x) ≠ 0}`, including its open-embedding map, then use the principal open basis for every
-Zariski open immersion. On a finite affine cover identify the supplied glued space with the actual
-`TopCat.GlueData` of these point spaces and overlaps. Prove the glued-point identification is the
-identity on `X(ℂ)`, each affine-open point map is an `IsOpenEmbedding`, these maps cover, and
-common refinements give the same topology and maps. These adapter statements precede any manifold
-instance. Identify C−1.1's fibre-product comparison with the affine tensor-product point
-comparison on every open chart, giving `(X × Y)^an ≃ X^an × Y^an` with its actual projections.
-Identify its closed-immersion comparison with the corresponding closed embeddings and the
-separated diagonal with the diagonal of this product. Use its separated/Hausdorff comparison on
-this same topology. Each affine piece is a second-countable subspace of a finite-dimensional
-complex space. For the finite family of its open images `U_i`, transport second countability to
-each subtype `U_i` and apply `TopologicalSpace.secondCountableTopology_of_countable_cover`, with
-openness, a countable index type and `⋃ i, U_i = univ`. Obtain second countability and hence
-separability of `X(ℂ)`. The local implicit-function charts need not be finite.
+Take `X(ℂ)`, the `ℂ`-morphisms `Spec ℂ → X`, with ReductiveGroups §3A.5's classical topology, and
+use C−1.1's identification of the underlying set of `X^an` with `X(ℂ)`. For `X = Spec A` construct
+the Spec-adjunction equivalence with `A →ₐ[ℂ] ℂ`, natural under algebra maps. On a finite affine
+presentation identify the topology of `X^an` with the common-zero-set subspace topology in `ℂ^N`,
+which is ReductiveGroups §3A.5's affine description. Identify C−1.1's open-restriction comparison on
+each `D(f)` with evaluation into `{x : f(x) ≠ 0}`, including its open-embedding map, then use the
+principal open basis for every Zariski open immersion. On a finite affine cover identify the glued
+space underlying `X^an` with the actual `TopCat.GlueData` of these point spaces and overlaps. Prove
+the glued-point identification is the identity on `X(ℂ)`, each affine-open point map is an
+`IsOpenEmbedding`, these maps cover, and common refinements give the same topology and maps; hence
+the identity of `X(ℂ)` is a homeomorphism from ReductiveGroups §3A.5's topology onto the underlying
+space of `X^an`. These adapter statements precede any manifold instance. Identify C−1.1's
+fibre-product comparison with the affine tensor-product point comparison on every open chart, giving
+`(X × Y)^an ≃ X^an × Y^an` with its actual projections. Identify its closed-immersion comparison
+with the corresponding closed embeddings and the separated diagonal with the diagonal of this
+product. Use its separated/Hausdorff comparison on this same topology. Each affine piece is a
+second-countable subspace of a finite-dimensional complex space. For the finite family of its open
+images `U_i`, transport second countability to each subtype `U_i` and apply
+`TopologicalSpace.secondCountableTopology_of_countable_cover`, with openness, a countable index type
+and `⋃ i, U_i = univ`. Obtain second countability and hence separability of `X(ℂ)`. The local
+implicit-function charts need not be finite.
 
 Prove both finite-type complex-point Nullstellensatz applications. Every nonempty Zariski open of
 a finite-type complex scheme has a complex point: reduce to a nonempty principal affine open and a
@@ -770,13 +776,14 @@ Consume native `Algebra.IsSmoothAt.exists_isStandardEtale_mvPolynomial` and
 `Algebra.Smooth.exists_span_eq_top_isStandardSmooth` with their finite-presentation and smoothness
 hypotheses. Own the standard-smooth cotangent/Jacobian comparison: identify the free differential
 rank `n` in each standard-étale polynomial presentation with the fibre rank of `Ω¹_(X/ℂ)`. The
-constant-rank hypothesis gives `n = d` before any manifold instance. Use C−1.1's smooth-chart
-comparison and compare its standard-smooth presentation with K1's joint holomorphic implicit map
-and regular-zero-set theorem in the presentation's complex model spaces. Prove the resulting open
-subsets of `Fin d → ℂ` map by open embeddings into the already topologized `X(ℂ)`, and cover it.
-This includes the comparison from localized fresh presentation coordinates to any fixed affine
-embedding. Compute overlap maps directly from polynomial and fraction evaluations and the joint
-implicit solutions; prove the holomorphic local-deck equations before applying native
+constant-rank hypothesis gives `n = d` before any manifold instance. Take ReductiveGroups §3A.5's
+smooth charts, built from local standard-smooth presentations, and compare each presentation with
+K1's joint holomorphic implicit map and regular-zero-set theorem in the presentation's complex
+model spaces. Prove the resulting open subsets of `Fin d → ℂ` map by open embeddings into the
+already topologized `X(ℂ)`, and cover it. This includes the comparison from localized fresh
+presentation coordinates to any fixed affine embedding. Compute overlap maps directly from
+polynomial and fraction evaluations and the joint implicit solutions; prove the holomorphic
+local-deck equations before applying native
 `TauCeti.chartedSpaceOfIsOpenEmbedding` and `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding` at
 order `ω`. Export `ChartedSpace (Fin d → ℂ) X^an` and `IsManifold 𝓘(ℂ, Fin d → ℂ) ω X^an`, hence
 order `∞`. For two embeddings, presentations or covers prove the identity on `X(ℂ)` is
@@ -876,10 +883,11 @@ connection isomorphisms with isomorphisms of fibres at `t = 0`.
 - `regularGauge` composition: `gauge(h, gauge(g, A)) = hgA(hg)⁻¹ − (h′h⁻¹ + h g′g⁻¹ h⁻¹) =
   gauge(hg, A)`, since `(hg)′(hg)⁻¹ = h′h⁻¹ + h g′ g⁻¹ h⁻¹`.
 
-*Needs:* ComplexComparisonPartII C−1.1, C0.3, C0.4, C5.1, C5.2; ComplexKahlerGeometry K1, K3.0,
-K4; ComplexManifolds Milestones 1, 2, 7; AnalyticToricGeometry L2, L3G, L3, L6; Mathlib
-standard-smooth presentations, Nullstellensatz lemmas, `secondCountableTopology_of_countable_cover`;
-Tau Ceti gluing and `regularAffinePointHomeomorph`; §§2.1–2.3; Layer 1.
+*Needs:* ComplexComparisonPartII C−1.1, C0.3, C0.4, C5.1, C5.2; ReductiveGroups §3A.5;
+ComplexKahlerGeometry K1, K3.0, K4; ComplexManifolds Milestones 1, 2, 7; AnalyticToricGeometry
+L2, L3G, L3, L6; Mathlib standard-smooth presentations, Nullstellensatz lemmas,
+`secondCountableTopology_of_countable_cover`; Tau Ceti gluing and `regularAffinePointHomeomorph`;
+§§2.1–2.3; Layer 1.
 
 ### Examples
 
@@ -892,7 +900,8 @@ characteristic `p`, which no element of the Lie–Rinehart enveloping algebra re
 
 ### Dependencies
 
-Layer 1; CrystallineCohomology CR.1.3; ComplexComparisonPartII; ComplexKahlerGeometry;
+Layer 1; CrystallineCohomology CR.1.3; ComplexComparisonPartII; ReductiveGroups §3A.5 for the
+complex points, their classical topology and smooth charts; ComplexKahlerGeometry;
 ComplexManifolds; AnalyticToricGeometry; AlgebraicVectorBundles; SchemeAndStackFoundations
 §§1.14–1.16; Mathlib and Tau Ceti as listed. The stage order is ComplexComparisonPartII C5.1's
 algebraic operators and all-order principal parts, then §2.2's symbols, Atiyah sequence and
@@ -1427,43 +1436,42 @@ Construct the algebraic left Maurer–Cartan trivialization `Ω¹_(H/ℂ) ≃ H 
 `TauCeti.smoothCommHopfAlgProperty_of_charZero`, and finite type give finite local freeness, so
 `Ω¹_(G/ℂ)` has constant rank `d = dim_ℂ 𝔤` before analytification, and
 `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` identifies `d` with the Krull
-dimension of `H`. Take
-ReductiveGroups Layer 1's faithful closed representation, which exhibits `G` as a smooth closed
-subscheme of `GL_N`, and consume ReductiveGroups Layer 3A.5's complex comparison on `G(ℂ)`: its
-classical topology and smooth charts, the holomorphic multiplication, unit and inverse, hence the
-complex Lie-group structure, and the chart-at-the-identity identification of its Lie algebra with
-Layer 2's tangent Lie algebra. The complex Lie group `G(ℂ)` is constructed there and not again
-here. Apply §2.4 with the rank `d`. Prove that the identity of `G(ℂ)`, through C−1.1's
-complex-point comparison, is a homeomorphism from Layer 3A.5's classical topology onto the
+dimension of `H`. Take ReductiveGroups Layer 1's faithful closed representation, which exhibits
+`G` as a smooth closed subscheme of `GL_N`, and consume ReductiveGroups §3A.5's complex comparison
+on `G(ℂ)`: its complex points with their classical topology and smooth charts, the holomorphic
+multiplication, unit and inverse, hence the complex Lie-group structure, and the
+chart-at-the-identity identification of its Lie algebra with Layer 2's tangent Lie algebra. The
+complex Lie group `G(ℂ)` is constructed there and not again here. Apply §2.4 with the rank `d`.
+On `G(ℂ)`, compute §2.4's homeomorphism from ReductiveGroups §3A.5's classical topology onto the
 underlying space of C−1.1's `G^an`: present `G` as a closed subscheme of `𝔸^(N²+1)` through
-`G ⊂ GL_N` with the matrix entries and `det⁻¹` as coordinates; Layer 3A.5's affine description
-and §2.4's affine identification both give the zero-locus subspace topology of this presentation.
-Prove that every chart of Layer 3A.5 on `G(ℂ)` belongs to §2.4's maximal atlas, after the
-coordinate identification of the two model spaces: such a chart restricts an étale coordinate
-map `U → 𝔸^d` on a Zariski open `U ⊂ G`, §2.4 makes `U^an → ℂ^d` a local biholomorphism, and an
-injective local biholomorphism on an open set is a biholomorphism onto its open image. Hence the
-two maximal atlases coincide and the identity of `G(ℂ)` is biholomorphic; identify both with the
-matrix-subspace realization including `det⁻¹` on `GL_N`. Use the Spec adjunction to identify the
-point carrier `G(ℂ)` with native `TauCeti.HopfAlgebra.points`, namely `WithConv (H →ₐ[ℂ] ℂ)`.
-Transport the topology, atlas and Lie-group structure to this fixed native carrier; retain its
-existing group structure. Prove that regular multiplication, unit and inverse correspond exactly
-to convolution, counit and antipode. All subsequent `G(ℂ)` Lie-group and continuous-homomorphism
-statements use this carrier. Use the native complex Lie algebra
+`G ⊂ GL_N` with the matrix entries and `det⁻¹` as coordinates; ReductiveGroups §3A.5's affine
+description and §2.4's affine identification both give the zero-locus subspace topology of this
+presentation. Prove that every chart of ReductiveGroups §3A.5 on `G(ℂ)` belongs to §2.4's maximal
+atlas, after the coordinate identification of the two model spaces: such a chart restricts an
+étale coordinate map `U → 𝔸^d` on a Zariski open `U ⊂ G`, §2.4 makes `U^an → ℂ^d` a local
+biholomorphism, and an injective local biholomorphism on an open set is a biholomorphism onto its
+open image. Hence the two maximal atlases coincide and the identity of `G(ℂ)` is biholomorphic;
+identify both with the matrix-subspace realization including `det⁻¹` on `GL_N`. Use the Spec
+adjunction to identify the point carrier `G(ℂ)` with native `TauCeti.HopfAlgebra.points`, namely
+`WithConv (H →ₐ[ℂ] ℂ)`. Transport the topology, atlas and Lie-group structure to this fixed
+native carrier; retain its existing group structure. Prove that regular multiplication, unit and
+inverse correspond exactly to convolution, counit and antipode. All subsequent `G(ℂ)` Lie-group
+and continuous-homomorphism statements use this carrier. Use the native complex Lie algebra
 `GroupLieAlgebra 𝓘(ℂ, Fin d → ℂ) G(ℂ)`, whose bracket is `mlieBracket` of the left-invariant
 tangent fields at `1`. §2.4's `τ_e` lands first in `Der_ℂ(O_(G,e), ℂ)`. Construct restriction
 along `H → O_(G,e)` as a complex-linear equivalence from germ derivations to the displayed global
 counit derivations. Its inverse localizes `D` by `D(a/s) = D(a)/ε(s) − ε(a)D(s)/ε(s)²` for
 `ε(s) ≠ 0`; prove representative independence, Leibniz and the two inverse laws. Compose this
-with `τ_e`, and prove that the composite is Layer 3A.5's chart-at-the-identity identification.
-Prove bracket compatibility with no minus sign:
+with `τ_e`, and prove that the composite is ReductiveGroups §3A.5's chart-at-the-identity
+identification. Prove bracket compatibility with no minus sign:
 `D^L h = Σ h_(1) D(h_(2))`, with coproduct `Δ = μ*` and the left group factor first; thus the
 commutator at `1` evaluates to `D*E − E*D`, the native counit bracket. These steps use neither
 connectedness nor reductivity, only ReductiveGroups Layers 0–2 and 3A.5, ComplexComparisonPartII
 C−1.1 and §2.4, and are stated for every affine algebraic group over `ℂ`; what is owned here is
-the comparison of Layer 3A.5's topology and charts on `G(ℂ)` with C−1.1's `G^an` and §2.4's
-atlas, the native-carrier transport and the comparison of §2.4's tangent map with the counit
-derivations and their bracket, not a second complex Lie group. From the realification comparison
-on, `G` is connected reductive.
+the comparison of ReductiveGroups §3A.5's topology and charts on `G(ℂ)` with the underlying space
+of C−1.1's `G^an` and with §2.4's atlas, the native-carrier transport and the comparison of
+§2.4's tangent map with the counit derivations and their bracket, not a second complex Lie
+group. From the realification comparison on, `G` is connected reductive.
 
 Own the realification comparison: with ComplexManifolds Milestone 1's named realification `G(ℂ)_ℝ`
 of the same carrier, construct the real-linear tangent equivalence from the underlying real vector
@@ -1620,10 +1628,11 @@ coefficientwise; prove existence, uniqueness, freeness and recovery of the gauge
   Zariski closure of `S¹` is `𝔾_m`, and its characters restrict to `z ↦ z^n`. A finite subgroup
   `μ_n` also has bounded powers but Zariski closure `μ_n`: the maximal-torus hypothesis, not
   boundedness alone, produces the algebraic torus.
-- Two classical topologies on `G(ℂ)`: for `G = 𝔾_m ⊂ GL₁`, presented as
-  `{(x, y) ∈ ℂ² : xy = 1}`, Layer 3A.5's topology and C−1.1's are both the subspace topology of
-  this hyperbola, so the identity is a homeomorphism, and the étale coordinate `x` is a chart of
-  both atlases, onto `ℂˣ ⊂ ℂ`, with identity transition. Complex conjugation is a homeomorphism of
+- Classical topology and analytification of `G(ℂ)`: for `G = 𝔾_m ⊂ GL₁`, presented as
+  `{(x, y) ∈ ℂ² : xy = 1}`, ReductiveGroups §3A.5's topology and the underlying space of C−1.1's
+  `G^an` are both the subspace topology of this hyperbola, so the identity is a homeomorphism, and
+  the étale coordinate `x` is a chart of ReductiveGroups §3A.5's atlas and of §2.4's, onto
+  `ℂˣ ⊂ ℂ`, with identity transition. Complex conjugation is a homeomorphism of
   `ℂˣ` whose transition with `x` is not holomorphic, so the topological comparison alone does not
   identify the two atlases; the étale-coordinate argument does. For `G = μ_n` both sides are `n`
   discrete points with charts to `Fin 0 → ℂ`; for the trivial group both are one point.
@@ -1687,14 +1696,15 @@ gerbe and Picard groupoid.
 `PGL₂`: opers are `d + [[0, q], [1, 0]] dt`, their normalization, their `SL₂`-lifts and the
 projective-connection model of Layer 5. `𝔰𝔩₂`, `𝔤𝔩₂` and `𝔰𝔩₃` invariants, exponents and slices
 as above. `μ₂ ⊂ 𝔾_m` as the disconnected counterexample to `V^G = V^𝔤`. `𝔾_m`, `μ_n` and the
-trivial group for the identification of Layer 3A.5's classical topology and charts on `G(ℂ)` with
-C−1.1's and §2.4's.
+trivial group for the identification of ReductiveGroups §3A.5's classical topology and charts on
+`G(ℂ)` with the underlying space of C−1.1's `G^an` and with §2.4's atlas.
 
 ### Dependencies
 
 Layers 2–3, §3A.3 for the translation lattice compared with the compact exponential kernel,
-ReductiveGroups Layers 1–9 (with Layer 3A.5's complex Lie group `G(ℂ)`), ComplexComparisonPartII
-C−1.1 for the comparison of the two classical topologies on `G(ℂ)`, LieHighestWeight Layer 7,
+ReductiveGroups Layers 1–9 (with ReductiveGroups §3A.5's complex points, classical topology,
+charts and complex Lie group `G(ℂ)`), ComplexComparisonPartII C−1.1 for the comparison of that
+topology with the underlying space of `G^an`, LieHighestWeight Layer 7,
 LieGroups Layers 0, 6, 7,
 ComplexManifolds Milestone 1, ComplexKahlerGeometry K1 and K3.0, CharacteristicClasses C5.1 for the
 comparison only. The order inside §4.3 is lower dictionary → Chevalley restriction (which uses only
@@ -2513,8 +2523,8 @@ GeometricRepresentationCategories.
   restriction isomorphism with its rational descent, and the finite principal triple, exponents,
   Kostant slice and regular-nilpotent/simple-component/unique-Borel theorems.
 - **SchubertGeometry** consumes §2.4's fixed-model manifold on the complex points of a separated
-  smooth finite-type `ℂ`-scheme and its comparison with ComplexComparisonPartII C−1.1's smooth
-  carrier, specialized to its flag and word schemes.
+  smooth finite-type `ℂ`-scheme and its comparison with ComplexComparisonPartII C−1.1's
+  analytification `X^an`, specialized to its flag and word schemes.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
   subgroups, full-cocharacter normalizer quotients, loop Cartan decomposition and positive-orbit
   comparison, and compares its
