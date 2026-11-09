@@ -106,9 +106,10 @@ consequences proved here using the universal family.
 The same supplier provides strict normal crossings divisors (§4.17), Chern classes and the
 projective bundle of a locally free sheaf in the lines convention (§§5.3–5.4).
 ResolutionOfSingularitiesCharacteristicZero supplies the marked-ideal, Samuel-presentation and
-exceptional-history APIs (Layers 1–4), principalization and resolved-pair cleanup (Layer 5),
-`resolution_field` (§7.8), `relativeEmbeddedResolution` (§5.6), `sncCompactification` (§6.2) and
-`cartierSeparation` (§6.3). Layer 9 consumes these on the common scheme and SNC carriers and
+exceptional-history theory (Layers 1–4), principalization and resolved-pair cleanup (Layer 5),
+field resolution (§7.8, stated as `exists_resolution`), relative embedded resolution with an
+initial boundary (§5.6), SNC compactification (§6.2) and Cartier separation (§6.3). Layer 9
+consumes these statements, cited by section, on the common scheme and SNC carriers and
 constructs their vanishing and numerical applications.
 StableReduction supplies relative Proj of a
 finitely generated graded algebra, relative ampleness, coherent cohomology and base change (Layer
@@ -180,7 +181,7 @@ history; local-isomorphism comparisons omit precisely the steps with empty centr
 
 ## Exact supplier contracts
 
-**From Mathlib** (pinned commit `6b7abb3`). Schemes and morphism classes: `AlgebraicGeometry.Scheme`,
+**From Mathlib** (pinned commit `1b1ccf4b`). Schemes and morphism classes: `AlgebraicGeometry.Scheme`,
 `Flat`, `IsProper`, `IsImmersion`, `IsClosedImmersion`, `IsFinite`, `QuasiCompact`,
 `QuasiSeparated`, `Smooth`, `LocallyOfFiniteType`, `Scheme.fppfTopology`,
 `Scheme.Hom.normalization`, `Scheme.Hom.image`, `Scheme.IdealSheafData`, `AlgebraicCycle`. Modules:
@@ -208,7 +209,7 @@ Commutative algebra: `AdicCompletion`, `IsAdicComplete`, `HenselianLocalRing`,
 and the induced map of quotients), `ValuationSubring`, `integralClosure`, `MvPolynomial.pderiv`,
 `MvPowerSeries.order`. Each use carries the ring, finiteness and universe parameters of the statement in which it occurs.
 
-**From Tau Ceti** (pinned commit `a91d3aa`). Invertible sheaves and line-bundle classes:
+**From Tau Ceti** (pinned commit `2fd255d9`). Invertible sheaves and line-bundle classes:
 `TauCeti.AlgebraicGeometry.InvertibleSheaf`, `TauCeti.AlgebraicGeometry.LineBundleClass` with
 `LineBundleClass.pullback`, `pullback_id` and `pullback_comp`, `RigidifiedLineBundle`,
 `RigidifiedLineBundle.autSubgroup_eq_bot_iff` and `TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`.
@@ -232,7 +233,7 @@ Further: the affine blowup charts `TauCeti.AlgebraicGeometry.affineBlowupι`, in
 affine schemes `TauCeti.AffineInvariantQuotient.quotient`, Cartier duality
 `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, the Zariski tangent space
 `TauCeti.AlgebraicGeometry.ZariskiTangentSpace` with `AlgHom.kernelCotangentLinearEquivZariski`,
-`TauCeti.derivationToDualNumberEquivLift`, `MvPolynomial.orderAt`, `Algebra.trace_quotient_pow_mk`,
+`TauCeti.derivationToTrivSqZeroExtEquivLift`, `MvPolynomial.orderAt`, `Algebra.trace_quotient_pow_mk`,
 `TauCeti.SheafOfModules.IsInvertible`.
 
 **From roadmaps on main.** AlgebraicVectorBundles L0A–L2B; StableReduction Layers 2 and 4;
@@ -276,7 +277,7 @@ here needs one of their carriers, the README states it and the Lean does not.
 | Object | Supplier/export | Contract |
 | --- | --- | --- |
 | Compatible perfect ring-complex systems | DerivedModuleAlgebra §1.E.1 / `perfectInverseSystemEffectivity` | Derived-limit effectivity for surjective inverse ring systems with locally nilpotent transition kernels |
-| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `resolution_field`, `relativeEmbeddedResolution`, `sncCompactification`, `cartierSeparation` | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 identify the supplier exports, and §§9.10–9.11 construct their vanishing and numerical applications |
+| Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `exists_resolution` (§7.8) and the statements of §§5.6, 6.2 and 6.3 | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 consume the supplier statements by section, and §§9.10–9.11 construct their vanishing and numerical applications |
 | Matlis duality and completion | DerivedModuleAlgebra §1.M.2 / *Matlis duality and completion inputs* | §7.5 uses the arbitrary-residue-field duality in `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` and `ko_cohomology_cofinite` |
 
 ## How to read the build
@@ -2239,7 +2240,7 @@ For the proof, compare F with the lifting gerbe of its quotient torsor by a band
 
 *Needs:* `torsorRepresentativeOfClass`, `classOfGerbe`, `classChoiceIndependent`, `neutralizationEquivalence`, `band_morphism_equivalence`.
 
-Define `rootGerbe`. For a scheme X, an invertible sheaf L and `n>0` invertible on X, `RootGerbe_n(L)(T)` consists of line bundles M on T and isomorphisms `φ:M⊗n≅L|T`, with arrows ρ satisfying `φ=ψ∘ρ⊗n`. It is the lifting gerbe for 1→μn→Gm→Gm→1 and the Gm-torsor of L, hence a μn-gerbe. No section of L is part of the data. The root stack of a line bundle with a section is a different construction owned by FunctionFieldArithmeticPartII:key/root-stacks.
+Define `rootGerbe`. For a scheme X, an invertible sheaf L and `n>0` invertible on X, `RootGerbe_n(L)(T)` consists of line bundles M on T and isomorphisms `φ:M⊗n≅L|T`, with arrows ρ satisfying `φ=ψ∘ρ⊗n`. It is the lifting gerbe for 1→μn→Gm→Gm→1 and the Gm-torsor of L, hence a μn-gerbe. No section of L is part of the data. The root stack of a line bundle with a section is a different construction owned by SchemeAndStackFoundations §1.21.
 
 Here X is a scheme; n is a positive integer invertible on X; L is an invertible sheaf, with no chosen section.
 
@@ -9842,9 +9843,9 @@ Here the k-rational special case fixes base `S=Spec k` and its structural k-alge
 
 ([Stacks](https://stacks.math.columbia.edu/download/artin.pdf), Lemma 98.8.1, proof pp. 10–11; [Stacks](https://stacks.math.columbia.edu/download/formal-defos.pdf), Example 90.11.11, p. 34; equation 90.15.0.1, p. 44).
 
-For the proof, restrict the natural comparison to `k[ε]`; then apply the dual-number lift–derivation equivalence with the correct algebra tower; then the affine rational-point cotangent localization equivalence is already Tau Ceti. Dualize that equivalence and use the derivation–cotangent universal property (Tau Ceti `TauCeti.derivationToDualNumberEquivLift`); reduce a non-affine point to its affine neighbourhood. Only the geometric functor transport is new.
+For the proof, restrict the natural comparison to `k[ε]`; then apply the dual-number lift–derivation equivalence with the correct algebra tower; then the affine rational-point cotangent localization equivalence is already Tau Ceti. Dualize that equivalence and use the derivation–cotangent universal property (Tau Ceti `TauCeti.derivationToTrivSqZeroExtEquivLift` with `B = k` and `M = k`, so that `TrivSqZeroExt k k` is `k[ε]` and the lifts are the k-algebra maps `O_X,x → k[ε]` over the point `O_X,x → k`); reduce a non-affine point to its affine neighbourhood. Only the geometric functor transport is new.
 
-*Needs:* `schemeFramedCompletionEquiv`, Tau Ceti `TauCeti.derivationToDualNumberEquivLift`, Tau Ceti `TauCeti.AlgebraicGeometry.ZariskiTangentSpace`, Tau Ceti `AlgHom.kernelCotangentLinearEquivZariski`, SchemeAndStackFoundations §4.3, SchemeAndStackFoundations Layer 1.
+*Needs:* `schemeFramedCompletionEquiv`, Tau Ceti `TauCeti.derivationToTrivSqZeroExtEquivLift`, Tau Ceti `TauCeti.AlgebraicGeometry.ZariskiTangentSpace`, Tau Ceti `AlgHom.kernelCotangentLinearEquivZariski`, SchemeAndStackFoundations §4.3, SchemeAndStackFoundations Layer 1.
 
 Define `FormalObject`. For a fixed complete Noetherian local S-algebra R with residue k, a formal object of X is a tower `ξ_n∈X(R/m_R^(n+1))`, `n≥0`, with restriction isomorphisms `ξ_(n+1)|_(R/m^(n+1))≅ξ_n`. Morphisms are levelwise arrows commuting with these comparisons. Composites of adjacent comparisons define all longer transitions. The category is a groupoid at fixed R, and changes of complete local base use coherent pullback.
 
@@ -10042,20 +10043,21 @@ carriers of Layers 5 and 8 without imposing smoothness on an arbitrary moduli st
 Use ResolutionOfSingularitiesCharacteristicZero Layer 1 on smooth finite-type schemes over any
 characteristic-zero field. Its birth-ordered boundary enriches SchemeAndStackFoundations §4.17's
 SNC data; forgetting birth order retains exactly that SNC divisor and its component labels.
-Each comparison below uses the supplier export of the same name at the indicated section.
+Each comparison below consumes the statement of the indicated supplier section, cited by
+section and title.
 
-| Comparison names | Supplier section | Identified data and hypotheses |
-| --- | --- | --- |
-| `regularCoordinates` | §1.1 | Étale coordinates at closed points, completion over the residue field with a chosen coefficient-field section, and coordinate differentiation |
-| `stalkOrder`, `stalkIdeal_affine`, `idealOrder_eq_iInf`, `idealOrder_span` | §1.2 | Localized ideal order, valued in ℕ∪{∞}, and its formal-chart and finite-generator comparisons over Noetherian local rings |
-| `sncBoundary`, `sncBoundary_empty`, `sncBoundary_restrict`, `sncBoundary_coordinate` | §1.3 | Finite globally labelled smooth components, simultaneous coordinates and open restriction, retaining birth order when transforms are used |
-| `markedIdeal` | §1.4 | Positive marks and weighted presentations with a common mark on smooth ambient schemes |
-| `permissibleCentre`, `permissibleCentre_idealPower`, `permissibleCentre_boundaryContained`, `permissibleCentre_snc_after` | §1.5 | Smooth closed centres in the cosupport, simultaneous SNC and the ideal-power condition for controlled division |
-| `controlledTransform`, `controlledTransform_factor`, `controlledTransform_identityCartier`, `controlledTransform_flatBaseChange` | §1.6 | Image-ideal pullback divided by the marked exceptional power; the strict and weak transforms retain their separate meanings |
-| `testEquivalence`, `presentationEquivalent_equivalence`, `presentationEquivalent_transform`, `presentationEquivalent_strength` | §1.7 | Blowup, product and exceptional test policies with their history, including the fixed old label in the restricted exceptional policy |
-| `weightedPresentation_commonMark`, `markedIdeal_rescale` | §1.7 | Powering to a common positive integral mark preserves cosupports after every full test sequence, and `(J,d)` is test-equivalent to `(Jʳ,rd)` for every positive integer r |
-| `normalizedOrders`, `normalizedOrder_commonMark`, `exceptionalOrder_divisibility`, `residualOrder_nonnegative` | §1.8 | Point order, labelled generic boundary divisibility and residual order, with a separate infinite case |
-| `ordersInvariant` | §1.9 | Normalized order under blowup/product equivalence, and finite exceptional and residual orders under the stronger restricted exceptional policy, at fixed presentation codimension |
+| Supplier section | Identified data and hypotheses |
+| --- | --- |
+| §1.1 *Regular coordinates* | Étale coordinates at closed points, completion over the residue field with a chosen coefficient-field section, and coordinate differentiation |
+| §1.2 *Stalk order* | Localized ideal order, valued in ℕ∪{∞}, and its formal-chart and finite-generator comparisons over Noetherian local rings |
+| §1.3 *Birth-ordered SNC boundaries* | Finite globally labelled smooth components, simultaneous coordinates and open restriction, retaining birth order when transforms are used |
+| §1.4 *Marked ideal* | Positive marks and weighted presentations with a common mark on smooth ambient schemes |
+| §1.5 *Permissible centre* | Smooth closed centres in the cosupport, simultaneous SNC and the ideal-power condition for controlled division |
+| §1.6 *Controlled transform* | Image-ideal pullback divided by the marked exceptional power; the strict and weak transforms retain their separate meanings |
+| §1.7 *Test equivalence* | Blowup, product and exceptional test policies with their history, including the fixed old label in the restricted exceptional policy |
+| §1.7 *Test equivalence* (common mark and rescaling) | Powering to a common positive integral mark preserves cosupports after every full test sequence, and `(J,d)` is test-equivalent to `(Jʳ,rd)` for every positive integer r |
+| §1.8 *Normalized orders* | Point order, labelled generic boundary divisibility and residual order, with a separate infinite case |
+| §1.9 *Invariance of normalized orders* | Normalized order under blowup/product equivalence, and finite exceptional and residual orders under the stronger restricted exceptional policy, at fixed presentation codimension |
 
 Source: Bierstone–Milman 1997, §§3.1–3.8, pp. 231–234; Example 3.12, pp. 236–237;
 §§4.1–4.10, pp. 241–244; Construction 4.23, p. 247; the precise export statements are
@@ -10063,7 +10065,7 @@ ResolutionOfSingularitiesCharacteristicZero §§1.1–1.9.
 
 **Checks.**
 
-- On `𝔸¹` with coordinate x, `(x²,2)` and `(x⁴,4)` are test-equivalent by `markedIdeal_rescale`
+- On `𝔸¹` with coordinate x, `(x²,2)` and `(x⁴,4)` are test-equivalent by the rescaling of §1.7
   with r = 2: blowing up the origin (an isomorphism of the curve) and dividing by the second,
   respectively fourth, power of the exceptional equation turns both into the unit ideal, so both
   cosupports become empty together.
@@ -10075,8 +10077,8 @@ ResolutionOfSingularitiesCharacteristicZero §§1.1–1.9.
 
 ### 9.1a Order and marked sums
 
-Consume ResolutionOfSingularitiesCharacteristicZero §1.10's affine order and marked-sum API in
-its namespace `ResolutionOfSingularities`. Affine localization agrees with `stalkOrder` above.
+Consume ResolutionOfSingularitiesCharacteristicZero §1.10 (*Affine order and marked sums*).
+Affine localization agrees with the stalk order of §1.2 above.
 Positive-mark rescaling and the marked-sum cosupport intersection use regular localizations;
 closed cosupport uses finite type over a characteristic-zero field and regularity. There is one
 affine marked-ideal carrier, with the supplier's positive mark, and one order function.
@@ -10088,22 +10090,22 @@ The sum of marks a,b has ideal `I^b + J^a` and mark `ab`.
 Consume ResolutionOfSingularitiesCharacteristicZero Layer 2 on its smooth characteristic-zero
 charts, using the same weighted presentations and ordered boundaries as §9.1.
 
-| Comparison names | Supplier section | Identified data and hypotheses |
-| --- | --- | --- |
-| `maximalContact` | §2.1 | Normalized presentations with an attaining pair and a unit top derivative in a direction transverse to every remaining boundary component |
-| `coefficientPresentation`, `coefficientPresentation_cosupport`, `coefficientPresentation_commonMark`, `coefficientPresentation_transform` | §2.2 | Weighted Taylor coefficients on the contact hypersurface, common-mark powers and exceptional-power transform formulas under the maximal-contact hypotheses |
-| `coefficientEquivalence` | §2.3 | Full test equivalence with that coefficient presentation, retaining its changed presentation codimension |
-| `residualPresentation`, `residualPresentation_normalized`, `residualPresentation_stratum`, `residualPresentation_sstar` | §2.4 | Boundary factorization and guarded monomial pair for finite positive residual order; separate zero and infinite terminal cases |
-| `initialDiagram`, `initialDiagram_upward`, `initialDiagram_vertices`, `initialDiagram_monomial` | §2.5 | Upward-closed initial exponents in a finite-variable power-series ring over the residue field |
-| `formalDivision` | §2.6 | Unique division with the supplier's disjoint support regions and remainder outside the diagram |
-| `hilbertSamuel`, `hilbertSamuel_completion`, `hilbertSamuel_diagram`, `hilbertSamuel_order` | §2.7 | Local-ring lengths of maximal-ideal quotients, preserved by completion and compared by pointwise order |
-| `hsStabilization` | §2.8 | Stabilization of descending realized Hilbert–Samuel functions in a fixed finite-variable ambient dimension |
-| `finiteDegree` | §2.9 | The finite-degree spanning bound determined by the initial diagram |
-| `samuelJetIdeal`, `samuelJetIdeal_vanishing`, `samuelJetIdeal_generatorIndependent`, `samuelJetIdeal_monotone` | §2.10 | Determinantal jet ideals cutting out the finite list of Hilbert–Samuel inequalities |
-| `samuelPresentationIdentity` | §2.11 | The weighted derivative identity for a normalized standard-basis presentation, including its bounded Taylor data |
-| `samuelTransform` | §2.12 | Controlled transform of those weighted derivatives along a permissible constant-Hilbert–Samuel centre |
-| `semicoherentPresentation`, `semicoherentPresentation_restrict`, `semicoherentPresentation_stratum`, `semicoherentPresentation_transform` | §2.13 | A common local presentation of the equality stratum and its restrictions and transforms |
-| `hsSemicoherence` | §2.14 | Semicoherent presentations of the Hilbert–Samuel function for a closed finite-type subscheme of a smooth ambient scheme |
+| Supplier section | Identified data and hypotheses |
+| --- | --- |
+| §2.1 *Maximal contact* | Normalized presentations with an attaining pair and a unit top derivative in a direction transverse to every remaining boundary component |
+| §2.2 *Coefficient presentation* | Weighted Taylor coefficients on the contact hypersurface, common-mark powers and exceptional-power transform formulas under the maximal-contact hypotheses |
+| §2.3 *Coefficient equivalence* | Full test equivalence with that coefficient presentation, retaining its changed presentation codimension |
+| §2.4 *Residual presentation* | Boundary factorization and guarded monomial pair for finite positive residual order; separate zero and infinite terminal cases |
+| §2.5 *Initial diagram* | Upward-closed initial exponents in a finite-variable power-series ring over the residue field |
+| §2.6 (`formalDivision`) | Unique division with the supplier's disjoint support regions and remainder outside the diagram |
+| §2.7 *Hilbert–Samuel function* (`localQuotientHilbertSamuel`) | Local-ring lengths of maximal-ideal quotients, preserved by completion and compared by pointwise order |
+| §2.8 *Pointwise Hilbert–Samuel stabilization* (`hsLexStabilization`) | Stabilization of descending realized Hilbert–Samuel functions in a fixed finite-variable ambient dimension |
+| §2.9 *Finite-degree criterion* | The finite-degree spanning bound determined by the initial diagram |
+| §2.10 *Samuel jet ideal* | Determinantal jet ideals cutting out the finite list of Hilbert–Samuel inequalities |
+| §2.11 *Samuel presentation identity* | The weighted derivative identity for a normalized standard-basis presentation, including its bounded Taylor data |
+| §2.12 *Samuel transform* | Controlled transform of those weighted derivatives along a permissible constant-Hilbert–Samuel centre |
+| §2.13 *Semicoherent presentation* | A common local presentation of the equality stratum and its restrictions and transforms |
+| §2.14 *Hilbert–Samuel semicoherence* | Semicoherent presentations of the Hilbert–Samuel function for a closed finite-type subscheme of a smooth ambient scheme |
 
 Source: Bierstone–Milman 1997, §§4–5, pp. 241–253, and §§7–9, pp. 262–283;
 ResolutionOfSingularitiesCharacteristicZero §§2.1–2.14 fixes each presentation and transform formula.
@@ -10123,15 +10125,15 @@ Consume ResolutionOfSingularitiesCharacteristicZero Layer 3's finite resolving s
 invariant comparisons. Geometric upper semicontinuity is on closed points as in that supplier;
 local-ring order remains defined at every prime.
 
-| Comparison names | Supplier section | Identified data and hypotheses |
-| --- | --- | --- |
-| `exceptionalHistory`, `exceptionalHistory_disjoint`, `exceptionalHistory_birth`, `exceptionalHistory_stratum` | §3.1 | Disjoint old-boundary blocks from the actual tower and the first year attaining each current prefix |
-| `invariantWord`, `invariantWord_prefix`, `invariantWord_compare`, `invariantWord_terminal` | §3.2 | Hilbert–Samuel first entry, residual orders, old-boundary counters and distinct terminal values 0 and ∞ |
-| `recursiveInvariant`, `resolutionInvariant_first`, `resolutionInvariant_equivalent`, `resolutionInvariant_hypersurface` | §3.3 | The embedding-independent normalized word, with its specified presentation and hypersurface comparisons |
-| `invariantProperties` | §3.4 | Local finiteness, upper semicontinuity and stabilization of realized words with the supplier's dimension and presentation-mark bounds |
-| `monomialData`, `monomialCentre_minimal`, `monomialWeight_transform`, `monomialMass_denominator` | §3.5 | Minimal qualifying boundary subsets, pivot exponents and common-mark denominator bounds |
-| `monomialDecrease` | §3.6 | Strict decrease of auxiliary mass when the invariant word stays fixed, and the separate terminal-infinity decrease |
-| `finitePermissibleResolutionExists` | §3.7 | Finite ideal and embedded resolving towers: ideals are generically nonzero on every component, and embedded schemes are reduced |
+| Supplier section | Identified data and hypotheses |
+| --- | --- |
+| §3.1 *Exceptional history* | Disjoint old-boundary blocks from the actual tower and the first year attaining each current prefix |
+| §3.2 *Invariant word* | Hilbert–Samuel first entry, residual orders, old-boundary counters and distinct terminal values 0 and ∞ |
+| §3.3 *Recursive invariant* | The embedding-independent normalized word, with its specified presentation and hypersurface comparisons |
+| §3.4 *Invariant properties* | Local finiteness, upper semicontinuity and stabilization of realized words with the supplier's dimension and presentation-mark bounds |
+| §3.5 *Monomial data* | Minimal qualifying boundary subsets, pivot exponents and common-mark denominator bounds |
+| §3.6 *Monomial decrease* | Strict decrease of auxiliary mass when the invariant word stays fixed, and the separate terminal-infinity decrease |
+| §3.7 *Finite permissible resolution existence* | Finite ideal and embedded resolving towers: ideals are generically nonzero on every component, and embedded schemes are reduced |
 
 Source: Bierstone–Milman 1997, Theorem 1.14, pp. 218–220; §§6–9, pp. 254–283;
 Theorems 11.14 and 13.2, pp. 290–291, 297–298.
@@ -10141,16 +10143,16 @@ Theorems 11.14 and 13.2, pp. 290–291, 297–298.
 Consume ResolutionOfSingularitiesCharacteristicZero §§5.1–5.5 and §7.8 through the following
 comparisons on the common scheme and blowup carriers.
 
-| Comparison names | Supplier export | Contract used here |
-| --- | --- | --- |
-| `principalization` | §5.1, `principalization` | For a coherent ideal generically nonzero on every component of a smooth finite-type characteristic-zero scheme, the total transform is an invertible monomial ideal with strict-SNC support; the weak transform is the unit ideal and the complement of the ideal's zero locus is unchanged |
-| `embeddedResolution` | §5.2, `embeddedResolution` | For a reduced closed subscheme of a smooth finite-type characteristic-zero ambient scheme with empty initial boundary, a smooth strict transform simultaneous-SNC with the exceptional boundary, preserving the entire regular locus |
-| `resolvedLocus`, `resolvedLocus_subsetCriterion`, `resolvedLocus_open`, `resolvedLocus_restrict` | §5.3, same names | Smooth embedded schemes with labelled SNC boundary not containing any component: the simultaneous-coordinate locus equals the smooth expected-codimension subset-intersection locus |
-| `preserveResolvedPoints`, `smoothPairCleanup` | §5.4, `preserveResolvedPoints` (also `smoothPairCleanup`) | Smooth-pair cleanup with centres in the unresolved locus, retaining every initially resolved point |
-| `localIsomorphismResolution` | §5.5, `localIsomorphismResolution`; §7.8, `resolution_field` | Every reduced finite-type characteristic-zero scheme has a projective birational smooth-source resolution preserving its entire regular locus; local-isomorphism comparison retains the resolving towers after empty steps are omitted |
+| Supplier section | Contract used here |
+| --- | --- |
+| §5.1 *Principalization* | For a coherent ideal generically nonzero on every component of a smooth finite-type characteristic-zero scheme, the total transform is an invertible monomial ideal with strict-SNC support; the weak transform is the unit ideal and the complement of the ideal's zero locus is unchanged |
+| §5.2 *Embedded resolution* | For a reduced closed subscheme of a smooth finite-type characteristic-zero ambient scheme with empty initial boundary, a smooth strict transform simultaneous-SNC with the exceptional boundary, preserving the entire regular locus |
+| §5.3 *Resolved locus* | Smooth embedded schemes with labelled SNC boundary not containing any component: the simultaneous-coordinate locus equals the smooth expected-codimension subset-intersection locus |
+| §5.4 *Preservation of resolved points* (smooth-pair cleanup) | Smooth-pair cleanup with centres in the unresolved locus, retaining every initially resolved point |
+| §5.5 *Local-isomorphism resolution*; §7.8 *Field and affinoid specializations* (`exists_resolution`) | Every reduced finite-type characteristic-zero scheme has a projective birational smooth-source resolution preserving its entire regular locus; local-isomorphism comparison retains the resolving towers after empty steps are omitted |
 
-For §9.10, `principalization` identifies the total ideal with `O(−F)` for its effective
-SNC-supported divisor F; `localIsomorphismResolution` supplies the smooth birational source used
+For §9.10, principalization (§5.1) identifies the total ideal with `O(−F)` for its effective
+SNC-supported divisor F; local-isomorphism resolution (§5.5) supplies the smooth birational source used
 in `resolutionCanonicalDegreeBound`. These are applications of the supplier's field theorem,
 including reducible schemes, with no integrality restriction on the supplied resolution contract.
 (Source: Bierstone–Milman 1997, Theorem 1.10, pp. 216–217; Theorems 11.14, 12.2, 12.4 and 13.2,
@@ -10159,27 +10161,26 @@ pp. 290–298; ResolutionOfSingularitiesCharacteristicZero §§5.1–5.5, 7.8.)
 **Checks.**
 
 - For the unit ideal the supplied principalization has F=0, so the multiplier-ideal application in §9.10 gives `O_X`.
-- An ideal zero on one component and unit on another has no invertible total transform on the zero component; it does not meet `principalization`'s generic-nonzero hypothesis.
+- An ideal zero on one component and unit on another has no invertible total transform on the zero component; it does not meet the generic-nonzero hypothesis of §5.1.
 - A smooth projective hypersurface of degree δ and dimension p uses the identity resolution, and the canonical-degree comparison of §9.10 is adjunction `ω_Y = O_Y(δ−p−2)`.
 
 ### 9.5 SNC compactification and Cartier separation
 
-Consume ResolutionOfSingularitiesCharacteristicZero §6.2's `sncCompactification` for every smooth
+Consume ResolutionOfSingularitiesCharacteristicZero §6.2 (*SNC compactification*) for every smooth
 quasi-projective finite-type scheme U over a characteristic-zero field. The comparison retains
 the prescribed dense open U, a smooth projective compactification, and its reduced strict-SNC
-boundary with globally smooth labelled components. The names `sncCompactification_open`,
-`sncCompactification_boundary` and `sncCompactification_projective` identify these three supplier
-comparisons. Projectivity is part of the export, including the chosen projective closure and its
+boundary with globally smooth labelled components. The comparison retains these three facts
+separately: the dense open, the labelled boundary and projectivity. Projectivity is part of the
+supplied statement, including the chosen projective closure and its
 projective modifications. The SNC boundary is the one used for `logDeRhamComplex` in §9.10.
 (Source: Bierstone–Milman 1997, Theorems 1.10, 11.14, 12.2 and 13.2, pp. 216–217, 290–298;
 ResolutionOfSingularitiesCharacteristicZero §§6.1–6.2.)
 
-Consume ResolutionOfSingularitiesCharacteristicZero §6.3's `cartierSeparation` for two effective
+Consume ResolutionOfSingularitiesCharacteristicZero §6.3 (*Cartier separation*) for two effective
 Cartier divisors on any scheme X. On the blowup of the sum of their invertible ideals, write
 `p*D_i = F + D′_i`; the residual divisors have disjoint support and
-`p*D₁ + D′₂ = p*D₂ + D′₁`. The comparison names `cartierSeparation_residual`,
-`cartierSeparation_disjoint` and `cartierSeparation_difference` retain these identities on the
-same blowup. Cartier divisors here mean invertible ideal sheaves with regular local equations,
+`p*D₁ + D′₂ = p*D₂ + D′₁`. The comparison retains these three identities (the residual
+decomposition, the disjoint supports and the difference identity) on the same blowup. Cartier divisors here mean invertible ideal sheaves with regular local equations,
 so this contract applies without smoothness, integrality, Noetherianity or characteristic
 hypotheses. (Boxer–Pilloni, §4.1.10, Proposition-construction 4.1.11, p. 42;
 ResolutionOfSingularitiesCharacteristicZero §6.3.)
@@ -10194,16 +10195,16 @@ ResolutionOfSingularitiesCharacteristicZero §6.3.)
 
 Consume ResolutionOfSingularitiesCharacteristicZero §4.1 on its smooth finite-type
 characteristic-zero ambient schemes, positive marks and ordered SNC boundaries. The following
-names identify its exports on exactly those carriers.
+comparisons identify its statements, by topic within §4.1, on exactly those carriers.
 
-| Comparison names | Retained supplier contract |
+| Supplier topic | Retained supplier contract |
 | --- | --- |
-| `residualPresentation.normalizedOrder`, `residualPresentation.testComparison`, `residualPresentation.transforms`, `residualPresentation.independent`, `residualPresentation.zeroTerminal`, `residualPresentation.infiniteTerminal` | Guarded monomial pairs, fixed-codimension test comparisons and separate zero/infinite cases of `residualPresentation` |
-| `boundaryMonomialPart`, `nonmonomialPart`, `companionIdeal`, `companionIdeal.maximalOrder`, `companionIdeal.cosupport`, `companionIdeal.permissible`, `companionIdeal.transformComparison`, `companionIdeal.orderDropsAfterResolution` | Factorization for ideals generically nonzero on every component; for maximum residual order c>0, the marked sum uses b−c only when c<b |
-| `monomialRestrictionComparison` | A permissible tower on an open containing the full cosupport extends over the ambient scheme; the locally monomial c=0 branch uses precisely this open |
-| `MarkedIdeal.homogenize`, `homogenize_equiv`, `homogenize_tangentTransport`, `homogenize_etaleGluing` | Maximal-order marked ideals, blowup/product equivalence and order-one contact directions transverse to the entire labelled boundary, with the supplier's completed and étale comparisons |
-| `exceptionalBirthBlocks`, `exceptionalBirthBlocks.firstBlock`, `exceptionalBirthBlocks.nextBlock`, `exceptionalBirthBlocks.disjoint`, `exceptionalBirthBlocks.survivingTransform`, `exceptionalBirthBlocks.samePrefixLocality`, `exceptionalBirthBlocks.resetAtDrop` | Prefix birth years, surviving labels and reset at a drop, with earlier blocks removed before forming the next block |
-| `monomialComponents`, `monomialMultiplicity`, `zeroTerminal_decrease`, `infiniteTerminal_decrease` | Minimal qualifying subsets and strict auxiliary-mass decrease at terminal zero; strict word decrease at terminal infinity |
+| §4.1, residual normalization | Guarded monomial pairs, fixed-codimension test comparisons and separate zero/infinite cases of the residual presentation of §2.4 |
+| §4.1, boundary monomial factor, nonmonomial factor and companion ideal | Factorization for ideals generically nonzero on every component; for maximum residual order c>0, the marked sum uses b−c only when c<b |
+| §4.1, monomial restriction comparison | A permissible tower on an open containing the full cosupport extends over the ambient scheme; the locally monomial c=0 branch uses precisely this open |
+| §4.1, marked-ideal homogenization | Maximal-order marked ideals, blowup/product equivalence and order-one contact directions transverse to the entire labelled boundary, with the supplier's completed and étale comparisons |
+| §4.1, exceptional birth blocks | Prefix birth years, surviving labels and reset at a drop, with earlier blocks removed before forming the next block |
+| §4.1, minimal monomial components and auxiliary mass | Minimal qualifying subsets and strict auxiliary-mass decrease at terminal zero; strict word decrease at terminal infinity |
 
 Source: Bierstone–Milman 1997, Construction 4.23 and Proposition 4.24, pp. 247–248; §§6.6–6.17,
 pp. 255–261; Włodarczyk, *Simple Hironaka resolution in characteristic zero*, Definition 3.0.10
@@ -10212,13 +10213,14 @@ ResolutionOfSingularitiesCharacteristicZero §4.1 fixes the version-specific hom
 
 ### 9.7 Relative embedded resolution with an initial boundary
 
-Consume ResolutionOfSingularitiesCharacteristicZero §5.6's `relativeEmbeddedResolution` for a
+Consume ResolutionOfSingularitiesCharacteristicZero §5.6 (*Relative embedded resolution with an
+initial boundary*) for a
 reduced closed finite-type subscheme X of a smooth separated ambient scheme over any
 characteristic-zero field, with a finite ordered SNC boundary E no component of which contains a
 component of X. The comparison gives the same finite permissible blowup tower, smooth strict
 transform simultaneous-SNC with the transformed initial and exceptional boundary, and identity
 over the original smooth simultaneous-SNC locus. With empty E this recovers preservation of the
-entire regular locus in `embeddedResolution`; with nonempty E the isomorphism locus is the
+entire regular locus in the embedded resolution of §5.2; with nonempty E the isomorphism locus is the
 resolved pair locus. This is the boundary comparison used together with §9.5's logarithmic carrier.
 (Source: Bierstone–Milman 1997, tower (6.7), pp. 255–256; Theorems 12.2 and 12.4 and
 Lemmas 12.5, 12.7–12.8, pp. 292–295; ResolutionOfSingularitiesCharacteristicZero §5.6.)
@@ -10314,7 +10316,7 @@ Define `algebraicMultiplierIdeal` for a nonzero coherent ideal a on a smooth cha
 
 Prove `uniformAdjointVeryAmpleness`: `K_X+(n+1)L` is nef for ample L, and there is a positive integer `λ_n` depending only on n such that `m(K_X+(n+2)L)+G` is very ample for every `m≥λ_n` and nef G. One may take `λ_n=max(1, binom(3n+1,n)−2n)` for `n≥1`. For the proof, apply multiplier-ideal vanishing to ideals of algebraic sections, choose sections outside each positive-dimensional multiplier support by the numerical-polynomial root bound, and strictly enlarge its coherent ideal. Noetherianity leaves only a finite support. Jet restrictions then surject by `H¹` vanishing. The descending integer recurrence `b_(k+1)=floor(a(b_k+η)/(a+1))+1` stops at `a(η+1)+1`; with no imposed jets `η=n`, taking `a→∞` proves nefness of `K+(n+1)L`. With two point jets or one first-order jet, take `a=1` and the binomial jet-length bound. This yields the adjoint very-ampleness constant and its stability under nef addition. This proof uses only the algebraic multiplier ideals just constructed, HRR and coherent exact sequences, although the source writes the same ideals using weights of sections. (Demailly, Theorems 2.3 and 2.4 with proofs, pp. 6–10, and Theorem 0.2`(c)`, p. 2.)
 
-Prove `nefMixedIntersectionBound`: for ample L, nef H and `v=L^n>0`, `H^p L^(n−p)≤(H L^(n−1))^p/v^(p−1)` for `1≤p≤n`. Cut to surfaces by general ample divisors, apply the supplied surface Hodge-index theorem, and use induction for the log-concavity of mixed intersections; take a limit after adding positive rational ample classes to nef factors. The dimensions zero and one need no surface cutting. This is the specific higher-dimensional inequality needed below, not a new copy of the supplied surface theorem.
+Prove `nefMixedIntersectionBound`: for ample L, nef H and `v=L^n>0`, `H^p L^(n−p)≤(H L^(n−1))^p/v^(p−1)` for `1≤p≤n`. Cut to surfaces by general ample divisors (SchemeAndStackFoundations §4.13), apply the surface Hodge index theorem of SchemeAndStackFoundations §5.10, and use induction for the log-concavity of mixed intersections `(H^p L^(n−p))² ≥ (H^(p−1) L^(n−p+1))(H^(p+1) L^(n−p−1))`; take a limit after adding positive rational ample classes to nef factors. The bound is the telescoped form of log-concavity: the ratios `H^p L^(n−p) / H^(p−1) L^(n−p+1)` are nonincreasing in p and the first is `h/v`. The dimensions zero and one need no surface cutting. This is the specific higher-dimensional inequality needed below, not a new copy of the supplied surface theorem. (Demailly, proof of Theorem 4.7, p. 15, where it is the Khovanskii–Teissier concavity inequality `(L^(n−p)·H^p)^(1/p) (L^n)^(1−1/p) ≤ L^(n−1)·H`, with its references Teissier 1979 and 1982.)
 
 Prove `resolutionCanonicalDegreeBound`: for an integral p-dimensional subvariety Y in a very ample embedding H of degree δ, its Grauert–Riemenschneider canonical sheaf `ω_Y^GR=ρ_*ω_(Ỹ)` has a nonzero map to `O_Y((δ−p−2)H)`. A general projection is finite and birational to a hypersurface of degree δ. The canonical trace embeds the resolution canonical sheaf in the hypersurface's dualizing line; its rational-form identification and pullback into `O_Y` give the asserted map. This uses the resolution canonical sheaf, which need not equal the dualizing sheaf of a non-rational singularity. On a smooth hypersurface the bound is an equality. Combining adjoint vanishing on the resolution, HRR, and the fact that a degree-p nonzero polynomial has at most p integer roots gives a nonzero section of `ω_Y^GR⊗O_Y(mL−B)` for some `m≤p(B L^(p−1)Y)/(L^pY)+p+1`, when L is ample and B nef. (Demailly, Theorem 3.1 and its projection proof, pp. 11–12; Proposition 4.6, p. 13.)
 
@@ -10328,9 +10330,9 @@ Here `d≥1`; X a smooth projective complex variety (geometrically integral), am
 
 ([Demailly](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/very_ample.pdf), Theorems 2.3 and 2.4, pp. 6–10; Theorem 4.7 and proof, pp. 14–16; [Esnault–Viehweg](https://page.mi.fu-berlin.de/esnault/books/esvibuch.pdf), Corollary 5.12(c), pp. 48–52; Theorem 10.16, pp. 114–116; Corollary 10.23, p. 124).
 
-For the proof, use the algebraic vanishing and effective adjoint chain of §9.10: logarithmic Frobenius splitting and characteristic-zero degeneration give cyclic-cover vanishing; principalization gives the algebraic multiplier ideals; HRR and the ideal-enlargement recurrence give uniform adjoint very ampleness. The descending-cycle and mixed-intersection argument then gives an exponent depending only on dimension, `L^d` and `K_X L^(d−1)`; then separate the curve case using degree `m deg L≥deg K_X+3` and the dimension-zero point. Once `L^m` is very ample, the nondegenerate complete embedding has `h⁰≤m^d v+d`. ResolutionOfSingularitiesCharacteristicZero supplies the resolution input independently of this vanishing chain, as stated in §9.10.
+For the proof, use the algebraic vanishing and effective adjoint chain of §9.10: logarithmic Frobenius splitting and characteristic-zero degeneration give cyclic-cover vanishing; principalization gives the algebraic multiplier ideals; HRR and the ideal-enlargement recurrence give uniform adjoint very ampleness. The descending-cycle and mixed-intersection argument then gives an exponent depending only on dimension, `L^d` and `K_X L^(d−1)`; then separate the curve case using degree `m deg L≥deg K_X+3`, which uses none of the §9.10 inputs, and the dimension-zero point. Once `L^m` is very ample, the nondegenerate complete embedding has `h⁰≤m^d v+d`. ResolutionOfSingularitiesCharacteristicZero supplies the resolution input independently of this vanishing chain, as stated in §9.10.
 
-*Needs:* `amplePowersAndFixedTwists`, `hilbertPolynomial`, `uniformQuotientRegularity`, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §5.3, SchemeAndStackFoundations Layer 4.
+*Needs:* `uniformAdjointVeryAmpleness`, `nefMixedIntersectionBound`, `resolutionCanonicalDegreeBound`, `algebraicAdjointVanishing`, `algebraicMultiplierIdeal`, `amplePowersAndFixedTwists`, `hilbertPolynomial`, ResolutionOfSingularitiesCharacteristicZero §§5.1, 5.5 through §9.4, SchemeAndStackFoundations Layer 5, SchemeAndStackFoundations §§2.20, 5.3.
 
 Prove `smoothPolarizedBoundedness`. Fix `n≥1` and `r>0`. Smooth projective complex varieties X of dimension 2n with `K_X` trivial and an ample L satisfying `L^(2n)=r` form a bounded family of underlying varieties. A uniform power `L^m` embeds them into one fixed `P^N` with degree `m^(2n)r`. The bounded-support families of `boundedSupportParameters`, through the bounded-degree target, then supply finitely many finite-type projective parameter families, and finitely many Hilbert polynomials. These families need no Hilbert-functor representability; Layer 2 uses this polynomial finiteness in applications of the Hilbert schemes supplied by SchemeAndStackFoundations §4.14's `hilbert_quot_schemes`.
 
@@ -10375,9 +10377,9 @@ theorems. ComplexComparisonPartII uses
 `spaceDQCoh` and `spacePerfect` (§7.7) for its quasi-coherator and derived-limit constructions,
 the independent representability inputs and Picard carriers of §7.3, the framed comparisons
 of §8.3 and coherent dévissage (§2.3). ResolutionOfSingularitiesCharacteristicZero supplies the
-shared algebraic resolution and SNC compactification interfaces; §§9.4–9.7 retain the named
-consumption comparisons `localIsomorphismResolution`, `sncCompactification` and
-`relativeEmbeddedResolution`. The algebraic vanishing and numerical boundedness applications
+shared algebraic resolution and SNC compactification interfaces; §§9.4–9.7 retain the
+consumption comparisons of its §§5.5, 5.6 and 6.2 (local-isomorphism resolution, relative
+embedded resolution with an initial boundary and SNC compactification). The algebraic vanishing and numerical boundedness applications
 of §§9.10–9.11 remain exports of this roadmap. FiniteEquivalenceRelations §4.2 states the pure-map
 (Joyal–Tierney) form of module descent and reads its descent data through the dictionary of
 §§3.2–3.3; §3.1 is its faithfully flat case.
