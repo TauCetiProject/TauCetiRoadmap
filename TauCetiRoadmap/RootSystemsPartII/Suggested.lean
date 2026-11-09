@@ -56,7 +56,7 @@ noncomputable def orbitSum (P : RootPairing ι ℝ M N) [Finite ι]
 
 /-- The distinct image of root-orbit sums, used as an index type rather than a
 possibly noninjective quotient of root orbits. -/
-def foldedIndices (P : RootPairing ι ℝ M N) [Finite ι] (sigma : P.Aut) : Set M :=
+noncomputable def foldedIndices (P : RootPairing ι ℝ M N) [Finite ι] (sigma : P.Aut) : Set M :=
   Set.range (orbitSum P sigma)
 
 /-- A realization bundles a native based root pairing on the fixed space and its
