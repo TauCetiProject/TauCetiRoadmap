@@ -398,8 +398,8 @@ theorem nonempty_pi_SO_mulEquiv_int (j m : ℕ) (hj : j % 8 = 2 ∨ j % 8 = 6) (
 
 /-! ## Layer 4: the torsion group `π_(n−1)(SO(n))` -/
 
-/-- `π₂(SO(3)) = 0`, the first low-rank value of Lemma 6.35 (README 4.3), through the double
-cover `S³ → SO(3)`. -/
+/-- `π₂(SO(3)) = 0`, the first low-rank value of Lemma 6.35 (README 4.3): the double cover
+`S³ ≅ Spin(3) → SO(3)` induces an isomorphism on `π₂`, and `π₂(S³) = 0`. -/
 theorem subsingleton_pi2_SO3 : Subsingleton (π_ 2 (SO 3) 1) := sorry
 
 /-- `π₄(SO(5)) ≅ ℤ/2` (README 4.3). -/

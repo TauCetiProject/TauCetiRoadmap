@@ -294,7 +294,32 @@ target of this roadmap or of the named supplier, never a "native" API.
   restriction to `SO(n+1)`.
 - `IsCoveringMap.homotopyGroupPiMulEquiv` (`TauCeti/Topology/Homotopy/HomotopyGroup/Covering.lean`):
   a covering map induces isomorphisms `π_(n+2)(E, e) ≃* π_(n+2)(X, p e)`, with no connectivity
-  hypothesis; 4.3 reads `π₂(SO(3)) ≅ π₂(S³)` off the double cover `S³ → SO(3)`.
+  hypothesis; 4.3 reads `π₂(SO(3)) ≅ π₂(S³)` off the double cover `S³ → SO(3)` of the next item.
+- The double cover `S³ → SO(3)`:
+  `CliffordAlgebra.isCoveringMap_realCliffordSpinProjectionZero`
+  (`TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Covering.lean`), that for `n ≥ 1` the projection
+  `CliffordAlgebra.realCliffordSpinProjectionZero n` of the real Spin group of the
+  positive-definite form `TauCeti.realCliffordForm n 0` onto the special orthogonal group of that
+  form is a covering map once the Spin group is compact, which the instance
+  `CliffordAlgebra.instCompactSpaceRealCliffordSpinGroupZero`
+  (`TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Compact.lean`) gives for every `n`;
+  `TauCeti.realSpinThreeHomeomorphQuaternionSphere`
+  (`TauCeti/Topology/Algebra/CliffordAlgebra/Spin/SimplyConnected.lean`), a homeomorphism of
+  `Spin(3)` with the unit sphere of `ℍ`; and
+  `TauCeti.QuadraticMap.matrixSpecialOrthogonalContinuousMulEquivRealCliffordForm`
+  (`TauCeti/Topology/Algebra/QuadraticForm/RealSpecialOrthogonal.lean`), an isomorphism of
+  topological groups from `Matrix.specialOrthogonalGroup (Fin n) ℝ` onto that special orthogonal
+  group, a matrix acting by its linear map. Composed by Mathlib's `IsCoveringMap.comp_homeomorph`
+  and `IsCoveringMap.homeomorph_comp`, they make `S³ → SO(3)` a covering map onto the matrix
+  carrier of 4.2a–4.3, sending the image of `1 ∈ Spin(3)` to the identity; with
+  `IsCoveringMap.homotopyGroupPiMulEquiv` and `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`
+  this is the value `π₂(SO(3)) = 0` of 4.3.
+- `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv`
+  (`TauCeti/Topology/Algebra/CliffordAlgebra/Spin/UniversalCover.lean`): the fundamental group of
+  `Matrix.specialOrthogonalGroup (Fin n) ℝ` at the identity is `ℤ/2` for `n ≥ 3`. Through
+  Mathlib's `HomotopyGroup.pi1MulEquivFundamentalGroup` it is the case `i = 1` of 4.2c's `ℤ/2`
+  statement, which 4.2c states for every `i ≥ 1` with `i ≡ 0, 1 (mod 8)`, and the value
+  `π₁(SO(3)) = ℤ/2` of 4.2a's range Check.
 - `TauCeti.NDRPair` with `TauCeti.nonempty_ndrPair_iff`
   (`TauCeti/Topology/Homotopy/Extension/NDRPair.lean`): Strøm's characterization of closed
   cofibrations as the subsets admitting NDR data (a control function vanishing exactly on the
@@ -1555,7 +1580,8 @@ G4.0b, SmoothBundlesConnections B1.4, DGFloer Layer 1 item 2, Tau Ceti `Homotopy
 **Checks.**
 - `O(0)` and `SO(1)` are one-point groups and `O(1) = {±1}`; the inclusion `O(0) → O(1)` meets only
   `+1`, so `π₀(O(r)) = ℤ/2` holds from `r = 1` on, and confusing `O` with `SO` loses a component.
-- The range is sharp: `π₁(SO(2)) = ℤ → π₁(SO(3)) = ℤ/2` is onto but not injective (`i = r − 1`),
+- The range is sharp: `π₁(SO(2)) = ℤ → π₁(SO(3)) = ℤ/2`
+  (`TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv`) is onto but not injective (`i = r − 1`),
   and `π₃(SO(3)) = ℤ → π₃(SO(4)) ≅ ℤ²` is not onto (`i = r`); `π₃(SO(4)) → π₃(SO(5)) = ℤ` is onto,
   and `π₃(SO(5)) = π₃(SO)` (`r = i + 2`).
 - `π₈(SO(9)) ≅ (ℤ/2)²` (4.3) while `π₈(SO) = ℤ/2` (4.2c): at `r = i + 1` the map to the stable
@@ -1721,14 +1747,17 @@ a product and there are two.
   4.2a, in finite rank `r ≥ i + 2` and with `i = j + 1`, these are `subsingleton_pi_SO_of_stable`
   (`i ≡ 2, 4, 5, 6`), `nonempty_pi_SO_mulEquiv_zmod_two` (`i ≡ 0, 1`, `i ≥ 1`) and
   `nonempty_pi_SO_mulEquiv_int` (`i ≡ 3, 7`), and periodicity for `r ≥ i + 10` is
-  `nonempty_pi_add_eight_SO_mulEquiv`.
+  `nonempty_pi_add_eight_SO_mulEquiv`. In degree `i = 1` the second also follows, for every
+  `r ≥ 3`, from Tau Ceti's `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv` through
+  Mathlib's `HomotopyGroup.pi1MulEquivFundamentalGroup`, without the Bott maps.
 
 *Needs:* 1.0 (convenient colimits, path spaces and compact families), 2.1 (the locally symmetric
 conjugate-point computation), 4.2a, 4.2b, RiemannianGeometry R1–R3, MorseTheory M5,
 AlgebraicTopology Stage 4 item 5 (`cofibrationTowerHomotopyEquivalence`, cellular approximation)
 and Stage 8 items 5, 7 and 11a, DGFloer Layer 1 item 2, Tau Ceti
-`HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.realClifford_classification`, Mathlib
-`HomotopyGroup.Pi`. Sources: Milnor, *Morse Theory*, §§22–24, in particular Theorems 22.3 and
+`HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.realClifford_classification`,
+`TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv` (the case `i = 1`), Mathlib
+`HomotopyGroup.Pi`, `HomotopyGroup.pi1MulEquivFundamentalGroup` (the case `i = 1`). Sources: Milnor, *Morse Theory*, §§22–24, in particular Theorems 22.3 and
 24.5 and the proof of 24.5 for the index bounds; Bott, *The stable homotopy of the classical
 groups*; Eschenburg and Hanke, *Bott periodicity, submanifolds, and vector bundles*, §4.
 
@@ -1785,7 +1814,8 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   `π_(n−1)(SO(n))` is torsion from the low-rank values and the stable-plus-Stiefel splitting
   below. Give the low-rank values `π₂(SO(3)) = 0`, `π₄(SO(5)) = ℤ/2`, `π₆(SO(7)) = 0`,
   `π₈(SO(9)) = (ℤ/2)²`, `π₁₀(SO(11)) = π₁₂(SO(13)) = π₁₄(SO(15)) = ℤ/2`, each with the maps and
-  fibration exact sequences that certify it. For odd `n ≥ 17` construct the stable-plus-Stiefel
+  fibration exact sequences that certify it; the first is the image of `π₂(S³) = 0` under the
+  isomorphism on `π₂` induced by the double cover `S³ → SO(3)` of the supplier contracts. For odd `n ≥ 17` construct the stable-plus-Stiefel
   splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))`, with `O` 4.2a's stable
   orthogonal group; prove the stable term is `0` or `ℤ/2`, namely `ℤ/2` exactly when
   `n ≡ 1 (mod 8)`, by 4.2c's stable homotopy groups of `O`, and the Stiefel term
@@ -1823,12 +1853,16 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
 *Needs:* 1.4, 4.2a, 4.2c, DGFloer Layer 1 items 1–2 and 6, Layer 2, Layer 5
 item 5, Layer 11, GeometricTopology Layer 3, AlgebraicTopology Stage 8.1–8.7,
 Tau Ceti `IsAspherical`, `TauCeti.continuousOrthogonalToDiffSphere`,
-`IsCoveringMap.homotopyGroupPiMulEquiv`, `TauCeti.stiefel`, Mathlib `HomotopyGroup.Pi`,
+`IsCoveringMap.homotopyGroupPiMulEquiv`,
+`CliffordAlgebra.isCoveringMap_realCliffordSpinProjectionZero`,
+`TauCeti.realSpinThreeHomeomorphQuaternionSphere`,
+`TauCeti.QuadraticMap.matrixSpecialOrthogonalContinuousMulEquivRealCliffordForm`,
+`TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, `TauCeti.stiefel`, Mathlib `HomotopyGroup.Pi`,
 `IsOfFinOrder`, `Matrix.specialOrthogonalGroup`.
 
 **Checks.**
-- Low ranks: `π₂(SO(3)) = π₂(S³) = 0` through the double cover `S³ → SO(3)`
-  (`IsCoveringMap.homotopyGroupPiMulEquiv`, and `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`
+- Low ranks: `π₂(SO(3)) = π₂(S³) = 0` through the double cover `S³ → SO(3)` of the supplier
+  contracts (`IsCoveringMap.homotopyGroupPiMulEquiv`, and `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`
   for `π₂(S³)`); `π₈(SO(9)) = (ℤ/2)²`
   as above, so a statement of `π₈(SO(9)) ≅ ℤ/4` would be false (an element of order `4` would
   survive in the quotient of `(ℤ/2)³`).
@@ -2113,10 +2147,16 @@ SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAsp
 `TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
 `TauCeti.realClifford_classification`, `TauCeti.continuousOrthogonalToDiffSphere`,
-`IsCoveringMap.homotopyGroupPiMulEquiv`, `TauCeti.stiefel` (4.3), the fibre dilation and
+`IsCoveringMap.homotopyGroupPiMulEquiv`,
+`CliffordAlgebra.isCoveringMap_realCliffordSpinProjectionZero`,
+`TauCeti.realSpinThreeHomeomorphQuaternionSphere`,
+`TauCeti.QuadraticMap.matrixSpecialOrthogonalContinuousMulEquivRealCliffordForm`,
+`TauCeti.stiefel` (4.3), `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv` (4.2a, 4.2c),
+the fibre dilation and
 capacity statements of 4.5,
 `TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace` (4.6); Mathlib
-`HomotopyGroup.Pi`, `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
+`HomotopyGroup.Pi`, `HomotopyGroup.pi1MulEquivFundamentalGroup` (4.2c), `IsCoveringMap.comp_homeomorph`
+and `IsCoveringMap.homeomorph_comp` (4.3), `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
 `Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.2, 4.6), `FiberBundle`,
 `VectorBundle`, `IsContinuousRiemannianBundle` and `IsCoveringMap.existsUnique_continuousMap_lifts`
 (4.2). Sources: the source paper §§6.3–6.4 and §7, with Remark 6.2 for finite coverings (4.2);
