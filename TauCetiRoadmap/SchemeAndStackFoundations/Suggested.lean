@@ -698,15 +698,6 @@ def vectorBundleDegree (X : Scheme.{u}) [X.Over (Spec (.of k))] (E : X.Modules) 
   Scheme.Modules.eulerCharBelow k X E 2 -
     r * Scheme.Modules.eulerCharBelow k X (structureModule X) 2
 
-/-- Additivity in short exact sequences. Stacks, Lemma 0AYS. -/
-theorem vectorBundleDegree_add_of_shortExact (X : Scheme.{u}) [X.Over (Spec (.of k))]
-    [IsProper (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X ≤ 1)
-    (S : ShortComplex X.Modules) (hS : S.ShortExact) (r₁ r₃ : ℕ)
-    (h₁ : isFiniteLocallyFreeOfRank S.X₁ r₁) (h₃ : isFiniteLocallyFreeOfRank S.X₃ r₃) :
-    vectorBundleDegree k X S.X₂ (r₁ + r₃) =
-      vectorBundleDegree k X S.X₁ r₁ + vectorBundleDegree k X S.X₃ r₃ := by
-  sorry
-
 /-- Pullback multiplies degree by the function-field degree for nonconstant maps of
 proper integral curves; `K(Y) → K(X)` is the algebra map compatible with `f` at the generic
 points. Stacks, Lemma 33.44.11 (0AYZ). -/
@@ -735,17 +726,6 @@ theorem genus_of_finite_etale {X Y : Scheme.{u}} [X.Over (Spec (.of k))] [Y.Over
     (hf : f ≫ Y ↘ Spec (.of k) = X ↘ Spec (.of k))
     (n : ℕ) (hn : ∀ y : Y, f.finrank y = n) :
     (X.genus k : ℤ) - 1 = n * ((Y.genus k : ℤ) - 1) := by
-  sorry
-
-/-- `deg L > 2g − 2` forces `H¹(L) = 0` and `h⁰(L) = deg L + 1 − g`.
-Stacks, Lemmas 0E3A, 0E3B, 0E3C and 0E3D. -/
-theorem cohomologyDim_one_eq_zero_of_degree_gt (X : Scheme.{u}) [X.Over (Spec (.of k))]
-    [IsProper (X ↘ Spec (.of k))] [Smooth (X ↘ Spec (.of k))]
-    [GeometricallyIntegral (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1)
-    [FiniteDimensional k (Scheme.Modules.Cohomology (InvertibleSheaf.trivial X).obj 1)]
-    (L : InvertibleSheaf X) (hL : 2 * (X.genus k : ℤ) - 2 < vectorBundleDegree k X L.obj 1) :
-    cohomologyDim k X L.obj 1 = 0 ∧
-      (cohomologyDim k X L.obj 0 : ℤ) = vectorBundleDegree k X L.obj 1 + 1 - X.genus k := by
   sorry
 
 end Curve

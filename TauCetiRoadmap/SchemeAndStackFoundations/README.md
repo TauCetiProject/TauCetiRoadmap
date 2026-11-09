@@ -277,9 +277,12 @@ pinned libraries; each is cited where it lives and is not a target here.
   `InvertibleSheaf.eulerCharBelow_eq_relativeDegree_add_one_sub_genus`,
   `InvertibleSheaf.nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual`,
   `SchemeWeilDivisor.classGroupAddEquivLineBundleClass`,
-  `SchemeWeilDivisor.relativeDegree_principalDivisor`, `TauCeti.length_quotient_span_pair_comm`, and
-  the Hasse bound for elliptic curves `WeierstrassCurve.hasse_bound`; Layer 3 and Layer 5 state only
-  what these do not.
+  `SchemeWeilDivisor.relativeDegree_principalDivisor`, `TauCeti.length_quotient_span_pair_comm`, the
+  degree bounds of line bundles on smooth proper curves cited in §3.2 (`H¹ = 0` and
+  `h⁰ = deg + 1 − g` above `2g − 2`, effectivity from degree `g`, no sections in negative degree,
+  global generation from degree `2g` over an algebraically closed field), the degree of vector
+  bundles of constant rank with its additivity cited in §3.3, and the Hasse bound for elliptic
+  curves `WeierstrassCurve.hasse_bound`; Layer 3 and Layer 5 state only what these do not.
 - ModularCurves 7D's `ArtinianTestAlgebra` is the case `Λ = W(k)`, `k` algebraically closed, of
   §4.2's Artinian coefficient category `C_Λ`; that identification is a comparison on the side of ModularCurves, which
   comes later, and is not a target here.
@@ -1285,11 +1288,11 @@ Cohen–Macaulay modules and rings are Tau Ceti's: `Module.IsCohenMacaulay R M`
 (`Flat.lean:158`; Lemma 10.103.13 (0AAI)). Serre's conditions are Tau Ceti's `Module.SatisfiesSerreS n R M`
 (`TauCeti/RingTheory/SerreCondition/Basic.lean:85`; `depth M_p ≥ min(n, dim Supp M_p)` at every prime,
 Definition 10.157.1 (031P)) and `Ring.SatisfiesSerreR n R` (`:199`), with `satisfiesSerreS_zero`
-(`:102`), `SatisfiesSerreS.mono` (`:112`), `forall_satisfiesSerreS_iff_forall_isCohenMacaulay` (`:118`)
-and `TauCeti.Ring.isCohenMacaulay_iff_forall_satisfiesSerreS` (`TauCeti/RingTheory/CohenMacaulay/Ring.lean:59`), `satisfiesSerreS_one_iff`
-(`:144`; Lemma 10.157.2 (031Q)), `SatisfiesSerreS.localization_self` (`:175`), `SatisfiesSerreR.mono`
-(`:211`) and `TauCeti.isReduced_iff_satisfiesSerreR_zero_and_satisfiesSerreS_one` (`:258`; Lemma 10.157.3
-(031R)).
+(`:102`), `SatisfiesSerreS.mono` (`:112`), `forall_satisfiesSerreS_iff_forall_isCohenMacaulay` (`:118`),
+`satisfiesSerreS_one_iff` (`:144`; Lemma 10.157.2 (031Q)), `SatisfiesSerreS.localization_self` (`:175`),
+`SatisfiesSerreR.mono` (`:211`) and `TauCeti.isReduced_iff_satisfiesSerreR_zero_and_satisfiesSerreS_one`
+(`:258`; Lemma 10.157.3 (031R)), all in `SerreCondition/Basic.lean`, and
+`TauCeti.Ring.isCohenMacaulay_iff_forall_satisfiesSerreS` (`TauCeti/RingTheory/CohenMacaulay/Ring.lean:59`).
 
 Prove what Tau Ceti lacks. *depth_localization_le*: for a finite module `M` over a Noetherian local
 ring `R` and a prime `p`, `depth M_p + dim(R/p) ≥ depth M` (Stacks, Lemma 10.72.10 (0FCC), p. 607).
@@ -4726,10 +4729,22 @@ resulting divisor); without the degree-one hypothesis, the degree-`d` Picard tor
 curve under its Jacobian are the genus-one case of §3.6's *picardComponent_torsor*; the
 rational-point consequence for divisors is Tau Ceti's
 `exists_linearlyEquivalent_ofPoint_of_genus_eq_one`. Prove `lineBundle_degree_bounds`: for a smooth
-proper geometrically connected curve of genus `g` and `L` invertible: `deg L > 2g − 2` implies
-`H¹(L) = 0` and `h⁰(L) = deg L + 1 − g`; `deg L ≥ g` implies `h⁰(L) > 0`; `deg L ≥ 2g` implies `L`
-globally generated; `deg L ≥ 2g + 1` implies `L` very ample; `deg L < 0` implies `h⁰(L) = 0`
-(Stacks, Lemmas 0E3A, 0E3B, 0E3C, 0E3D, 0H2V; Lemma 0B5E). *Needs:* §3.1, §3.3; StableReduction
+proper geometrically connected curve `X` over a field `k`, of genus `g`, and `L` invertible,
+`deg L ≥ 2g` implies `L` globally generated (Stacks, Lemma 53.22.3 (0E3C)) and `deg L ≥ 2g + 1`
+implies `L` very ample (Lemmas 53.22.4 (0E3D) and 53.22.5 (0H2V)). The other degree bounds on such
+a curve are Tau Ceti's, with `deg` its `InvertibleSheaf.eulerDegree`, over every field: `deg L > 2g − 2`
+implies `H¹(X, L) = 0` and `h⁰(L) = deg L + 1 − g`
+(`InvertibleSheaf.subsingleton_cohomology_one_of_smooth_of_two_mul_genus_sub_two_lt_eulerDegree` and
+`InvertibleSheaf.finrank_cohomology_zero_eq_eulerDegree_add_one_sub_genus_of_smooth`,
+`TauCeti/AlgebraicGeometry/Curves/HighDegree.lean:73`, `:88`; Lemmas 53.6.3 (0B5E), 53.22.1 (0E3A)
+and 53.22.2 (0E3B)); `deg L ≥ g` gives an effective divisor `D` with `L ≅ O(D)`, so `h⁰(L) > 0`
+(`InvertibleSheaf.exists_isEffective_iso_sheaf_of_genus_le_eulerDegree`,
+`TauCeti/AlgebraicGeometry/LineBundle/Effective.lean:57`); and a divisor `D` of negative degree has
+`h⁰(O(D)) = 0` (`SchemeWeilDivisor.finrank_cohomology_zero_sheaf_eq_zero_of_relativeDegree_neg`,
+`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/RiemannRoch/Basic.lean:181`). Tau Ceti's global
+generation `InvertibleSheaf.isGloballyGenerated_of_smooth_of_two_mul_genus_le_eulerDegree`
+(`TauCeti/AlgebraicGeometry/Curves/GlobalGeneration.lean:48`) assumes `k` algebraically closed; the
+target differs from it by allowing every field. *Needs:* §3.1, §3.3; StableReduction
 Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
 
 **Checks.**
@@ -4743,12 +4758,23 @@ Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
 - An elliptic curve has a degree-one sheaf `O(O)`.
 - `K` has degree `2g − 2` and `h⁰(K) = g`, so the bound
   `deg > 2g − 2` is sharp.
+- On an elliptic curve `E` with origin `O`, `O(O)` has degree `1 < 2g = 2` and `h⁰ = 1`, so its
+  sections all vanish at `O` and it is not globally generated; `O(2O)` has degree `2 = 2g`, so it
+  is globally generated, but `2 < 2g + 1` and `h⁰ = 2`, so it defines a degree-two map `E → ℙ¹`,
+  not an embedding; `O(3O)` has degree `3` and embeds `E` as a plane cubic. Both bounds are sharp.
+- On the real conic `X : x² + y² + z² = 0` (`g = 0`, no rational point), the anticanonical sheaf
+  has degree `2 ≥ 2g + 1 = 1` and `h⁰ = 3`; it is globally generated and very ample over `ℝ`, and
+  its sections embed `X` in `ℙ²_ℝ` as the conic itself. Global generation stated only over
+  algebraically closed fields gives this over `ℂ`, not over `ℝ`.
 
-*Lean:* `Curve.genus_of_finite_etale` (the finite étale case of `scheme_riemann_hurwitz`),
-`Curve.cohomologyDim_one_eq_zero_of_degree_gt` (the case `deg L > 2g − 2` of
-`lineBundle_degree_bounds`). *genus_one_curves* is specified in this README only; its
-rational-point consequence for divisors is Tau Ceti's
-`SchemeWeilDivisor.exists_linearlyEquivalent_ofPoint_of_genus_eq_one`.
+*Lean:* `Curve.genus_of_finite_etale` (the finite étale case of `scheme_riemann_hurwitz`).
+*genus_one_curves* is specified in this README only; its rational-point consequence for divisors is
+Tau Ceti's `SchemeWeilDivisor.exists_linearlyEquivalent_ofPoint_of_genus_eq_one`. Citations of
+*Curve.cohomologyDim_one_eq_zero_of_degree_gt* (the case `deg L > 2g − 2` of
+`lineBundle_degree_bounds`) to §3.2 resolve to Tau Ceti's
+`InvertibleSheaf.subsingleton_cohomology_one_of_smooth_of_two_mul_genus_sub_two_lt_eulerDegree` and
+`InvertibleSheaf.finrank_cohomology_zero_eq_eulerDegree_add_one_sub_genus_of_smooth`
+(`TauCeti/AlgebraicGeometry/Curves/HighDegree.lean:73`, `:88`).
 
 ### 3.3 Degrees of vector bundles, Riemann–Roch and Serre duality on curves
 
@@ -4756,7 +4782,14 @@ Define `vectorBundleDegree E r := χ(X, E) − r · χ(X, O_X)` for `X` proper o
 `≤ 1` and `E` finite locally free of rank `r` (AlgebraicVectorBundles L0B's predicate; Stacks,
 Definition 0AYR). API: *vectorBundleDegree_rankOne* (for `r = 1` it is Tau Ceti's
 `InvertibleSheaf.eulerDegree`), `_of_iso`, `_add_of_shortExact` (additive in short exact sequences
-of locally free sheaves; Lemma 0AYS), `_tensor` (`deg(E ⊗ V) = r deg V + s deg E`; Lemma 0AYX),
+of locally free sheaves on every proper `X` of dimension `≤ 1`, reducible and nonreduced included;
+Lemma 0AYS; Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact`
+(`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:150`) proves it given finite-dimensional
+`H¹(E₁)`, `H⁰(E₂)`, `H¹(E₂)` and `H²(E₁) = 0`, and
+`FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact_of_isCurveOver` (`:168`) on integral curves
+whose codimension-one local rings are discrete valuation rings, so the target is the discharge of
+those hypotheses on a proper `X` of dimension `≤ 1` by §2.5's vanishing and §2.6's finiteness),
+`_tensor` (`deg(E ⊗ V) = r deg V + s deg E`; Lemma 0AYX),
 `_det` (`deg E = deg det E` with AlgebraicVectorBundles L0C's `determinant`; Lemma 0DJ5), `_dual`
 (`deg E^∨ = −deg E`), `_twist` (by an effective Cartier divisor `D`: `deg E(D) = deg E + r deg D`),
 `_elementaryModification`, `_baseChange` (invariant under field extension; Lemma 0B59),
@@ -4815,8 +4848,9 @@ A–B; StableReduction Layer 2.
   formula and does not assert that `K` is locally free.
 
 *Lean:* `Curve.isFiniteLocallyFreeOfRank` (locally isomorphic to `O^r`),
-`Curve.vectorBundleDegree`, `Curve.vectorBundleDegree_add_of_shortExact`,
-`Curve.vectorBundleDegree_pullback` (dominance expresses nonconstancy between integral curves).
+`Curve.vectorBundleDegree`, `Curve.vectorBundleDegree_pullback` (dominance expresses nonconstancy
+between integral curves). Citations of *Curve.vectorBundleDegree_add_of_shortExact* to §3.3 resolve
+to the target `_add_of_shortExact` above.
 `vectorBundle_riemann_roch` is otherwise the definition of the degree and is specified in this README
 only. Tau Ceti's `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
 (`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:82`) is the same degree `χ(E) − r·χ(O_X)` on
