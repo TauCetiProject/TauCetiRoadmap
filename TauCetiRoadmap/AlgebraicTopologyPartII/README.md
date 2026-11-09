@@ -27,7 +27,7 @@ TauCetiRoadmap.SchemeAndStackFoundations §2.5 owns the generic filtered-colimit
 
 TauCetiRoadmap.AffineMorseLefschetz A2–A3 owns smooth affine CW dimension and its cohomological vanishing over ℝ. Section 11.1 owns the singular-affine and arbitrary-real-closed extensions used in real restriction.
 
-Finite Borel approximation belongs to MotivesAndAlgebraicCycles §7.6b, as does the all-degree Steenrod-conjugated real pushforward. The internal finite-group Ext-stalk theorem belongs to SchemeAndStackFoundations §2.23 and its semialgebraic specialization to MotivesAndAlgebraicCycles §7.6a. Their full consumed statements, coefficient conventions and Checks are in Exact supplier contracts; Layers 8, 12 and 14 apply those interfaces.
+Finite Borel approximation belongs to MotivesAndAlgebraicCycles §7.6b, as does the all-degree Steenrod-conjugated real pushforward. The internal finite-group Ext-stalk theorem belongs to SchemeAndStackFoundations §2.23 and its semialgebraic specialization to MotivesAndAlgebraicCycles §7.6a. Their full consumed statements, coefficient conventions and Checks are in Exact supplier contracts; §§8.1, 12.1 and 15.6 apply those interfaces.
 
 The supply direction of the real-locus strand is generic sheaf carriers → the semialgebraic foundations of MotivesAndAlgebraicCycles §§7.6a–7.6b → the additional formulas here → arithmetic applications. Algebraic Picard comparisons, Brauer classes, cycle-class construction, arithmetic vanishing cycles and mapping-space analytic comparisons belong to their algebraic or analytic owners. No such comparison is used to prove the affine topology in Layer 11.
 
@@ -1394,7 +1394,7 @@ On a transverse disc the branched trace is multiplication by 2 at the origin; th
 
 ### Dependencies
 
-TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a (gap:semialgebraic-ext-stalk); TauCetiRoadmap.AlgebraicTopology Stage 5; §14.1; §7.4; TauCetiRoadmap.SchemeAndStackFoundations §2.23; §7.2.
+TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a; TauCetiRoadmap.AlgebraicTopology Stage 5; §14.1; §7.4; TauCetiRoadmap.SchemeAndStackFoundations §2.23; §7.2.
 
 ## Layer 15: permutation quotients and integral lifts
 
@@ -1506,7 +1506,7 @@ The construction has the following API, with the hypotheses of this section.
 - δ_E(1)=0 exactly when the quotient unit has a global section lift in E. This does not assert an abelian-sheaf splitting: constant ℤ/4 has such a lift but its extension by 𝔽₂ is nonsplit.
 - For n=2 with one regular stalk, E=(𝔽₂⊕ℤ)/⟨(1,2)⟩≅ℤ/4. For n=4 the corresponding stalk is 𝔽₂². In the constant ℤ/4 extension, the quotient unit lifts to the section 1 and its H¹ boundary is zero, but there is no group-homomorphic section 𝔽₂→ℤ/4 of the quotient.
 
-*Needs:* §15.1; §15.5; §7.3; §12.2; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a (finite-group Ext-stalk comparison).
+*Needs:* §15.1; §15.5; §7.3; §12.2; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a (gap:semialgebraic-ext-stalk).
 
 ### Examples
 
@@ -1514,11 +1514,11 @@ For n=4 and a=(1,0,0,0), ψ[a]=(−3,1,1,1) and its trace is 0. The negative vec
 
 ### Dependencies
 
-TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a; §14.1; TauCetiRoadmap.AlgebraicTopology Stage 5; §15.1; §15.2; §15.3; §7.2; §7.4; §15.5; §7.3; §12.2; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a (finite-group Ext-stalk comparison).
+TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a; §14.1; TauCetiRoadmap.AlgebraicTopology Stage 5; §15.1; §15.2; §15.3; §7.2; §7.4; §15.5; §7.3; §12.2; TauCetiRoadmap.MotivesAndAlgebraicCycles §7.6a (gap:semialgebraic-ext-stalk).
 
 ## Layer 16: equivariant transport and derived chases
 
-Equivariant smooth transport; the stratified foundations it needs (smooth stratified spaces, Whitney's condition (b), Thom–Mather control data, controlled vector fields and Thom's first isotopy lemma); its stronger stratified-pair version; finite-index invariant lattices, finite-group Ext stalks and the exact double-cover diagram comparison. Pair preservation and lift normalization remain explicit application checks.
+Equivariant smooth transport; the stratified foundations it needs (smooth stratified spaces, Whitney's condition (b), Thom–Mather control data, controlled vector fields and Thom's first isotopy lemma); its stronger stratified-pair version; finite-index invariant lattices and the exact double-cover diagram comparison. Pair preservation and lift normalization remain explicit application checks.
 
 ### 16.1 Equivariant Ehresmann transport
 
