@@ -1,46 +1,47 @@
 import Mathlib
 
 /-!
-# Automorphic L-functions and local factors: headline target statements
+# Automorphic L-functions and local factors: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. These statements give acceptance goals on the pinned Mathlib carriers.
+`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib, with
+only the definitions their statements need.
 
 AL.0 states the finite-jet theorem for point-supported tempered distributions, the half-order
 K-Bessel derivative and the Bessel–Laplace Mellin identity. AL.1 states local eigenline
 uniqueness and Tate continuation with its local functional equation at every place. AL.2 states
 the local Godement–Jacquet theorem at every finite place in every rank (the standard L-factor as
 generator of the ideal of zeta integrals, and the local functional equation with its monomial
-epsilon factor), the generic newform line in every positive rank, and Casselman's full GL₂
-fixed-space dimension theorem. AL.3 states local Whittaker uniqueness in every rank: the
-`ψ_N`-equivariant functionals on an irreducible smooth admissible representation of `GLₙ(F)` form
-a space of rank at most one. The local-field statements allow both characteristics. All
-definitions below have bodies on native carriers.
+epsilon factor) and Casselman's full GL₂ fixed-space dimension theorem. AL.3 states local
+Whittaker uniqueness in every rank (the `ψ_N`-equivariant functionals on an irreducible smooth
+admissible representation of `GLₙ(F)` form a space of rank at most one), the local
+Rankin–Selberg theorem at every finite place for every pair of ranks (the pair L-factor as
+generator of the ideal of local integrals, and the local functional equation with its monomial
+epsilon factor), and the generic newform line in every positive rank. The local-field statements
+allow both characteristics. All definitions below have bodies on native carriers.
 
 The two Bessel statements take AnalyticNumberTheoryPartI §2.1a's K-Bessel kernel as an argument
 together with its defining integral; that roadmap's `besselK` satisfies the hypothesis by `rfl`.
 
-The all-place Godement–Jacquet and Rankin–Selberg theorems, multiplicity one, converse theorems
-and rational-period twisting need smooth automorphic cuspidal representations, restricted tensor
-Whittaker models and archimedean globalizations/cohomological rational structures. Those
-carriers are absent, as is the normalized Maass eigenform carrier needed for the Maass
-functional equation and norm formula.
-The arithmetic identification of the local gamma scalar and the global root number needs the
-supplied `tateLocalConstant` and standard-vector comparisons, also absent at the pins. The
-archimedean Godement–Jacquet theorem needs Casselman–Wallach representations of `GLₙ(ℝ)` and
-`GLₙ(ℂ)` with their continuous contragredient vectors, absent at the pins; only its rank-one
-case, on Mathlib's Schwartz space, is stated.
+The following headline theorems are not statable at the pins. The global Godement–Jacquet and
+Rankin–Selberg theorems, multiplicity one, converse theorems and rational-period twisting need
+smooth automorphic cuspidal representations, restricted tensor Whittaker models and archimedean
+globalizations/cohomological rational structures. The Maass functional equation and norm formula
+need the normalized Maass eigenform carrier. The arithmetic identification of the local gamma
+scalar and the global root number needs the supplied `tateLocalConstant` and standard-vector
+comparisons. The archimedean Godement–Jacquet and Rankin–Selberg theorems need Casselman–Wallach
+representations of `GLₙ(ℝ)` and `GLₙ(ℂ)` with their continuous contragredient vectors and
+Whittaker functionals; only the rank-one case, on Mathlib's Schwartz space, is stated.
 
 AL.3's curve reciprocity and pure realization, intersection-complex purity, shtuka comparison,
 cuspidal polynomial degree and Riemann-hypothesis statements need lisse adic sheaves,
 intermediate extensions, their weight/cohomology theory and shtuka spaces with Hecke actions.
 AL.4's actual Satake/L-group and Weil–Deligne comparisons need those parameter carriers.
 AL.5's automorphic period, stabilization and conductor comparisons need the preceding
-representations and rational period structures. These headline results are deferred as Lean
-statements until their objects exist. Scalar determinant operations, finite correction identities
-and scalar division/sign consequences do not replace them.
+representations and rational period structures. These headline results are not statable at the
+pins. Scalar determinant operations, finite correction identities and scalar division/sign
+consequences do not replace them.
 -/
-
 noncomputable section
 open MeasureTheory
 open scoped Topology NNReal ENNReal NumberField
@@ -111,8 +112,8 @@ def archimedeanEigenSpace {F : Type*} [RCLike F]
     simp only [Set.mem_ofPred_eq] at hT ⊢
     simp [hT a f, mul_left_comm]
 
-/-- AL.1/local-uniqueness-theorem: every archimedean quasi-character has a
-one-dimensional continuous eigendistribution space. -/
+/-- AL.1.2.5: every archimedean quasi-character has a one-dimensional continuous
+eigendistribution space. -/
 theorem archimedeanEigenSpace.finrank {F : Type*} [RCLike F]
     (χ : Fˣ →ₜ* ℂˣ) : Module.finrank ℂ (archimedeanEigenSpace χ) = 1 := by
   sorry
@@ -150,8 +151,8 @@ theorem localZetaIntegral_functionalEquation {F : Type*} [Field F] [ValuativeRel
           ∀ s₀ : ℂ, (fun s => Zhat (1 - s)) =ᶠ[𝓝[≠] s₀] fun s => γ s * Z s := by
   sorry
 
-/-- AL.1/rank-one-local-functional-equation at the real and complex places:
-meromorphic continuation and one gamma factor for every native Schwartz function. -/
+/-- AL.1.3.2 at the real and complex places: meromorphic continuation and one gamma factor for
+every native Schwartz function. -/
 theorem archimedeanLocalFunctionalEquation {F : Type*} [RCLike F]
     [MeasurableSpace F] [BorelSpace F]
     (μ : Measure F) [μ.IsAddHaarMeasure] (ν : Measure Fˣ) [ν.IsHaarMeasure]
@@ -217,14 +218,16 @@ theorem finiteEigenSpace_finrank {F : Type*} [Field F] [ValuativeRel F]
 
 end TateZeta
 
-/-! ## Layer AL.2: Godement–Jacquet standard functions and newforms -/
+/-! ## Layer AL.2: Godement–Jacquet standard functions -/
 
 namespace AL2
 
 open Matrix
 open scoped ValuativeRel
 
-/-- Matrices whose last row is the last standard basis row. -/
+/-- Matrices whose last row is the last standard basis row; with `newformK1` and `newformLocalK1`
+it gives the last-row level subgroups of the `GL₂` newvector theorem (AL.2.2) and of the generic
+newform theorem `AL3.genericNewform` (AL.3.3.5). -/
 def lastRowStabilizer {R : Type*} [CommRing R] (n : ℕ) :
     Subgroup (GeneralLinearGroup (Fin (n+1)) R) where
   carrier := {g | ∀ j, g (Fin.last n) j = if Fin.last n = j then 1 else 0}
@@ -251,31 +254,6 @@ def newformLocalK1 (F : Type*) [Field F] [ValuativeRel F]
     [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n c : ℕ) :
     Subgroup (GeneralLinearGroup (Fin (n+1)) F) :=
   (newformK1 n (𝓂[F] ^ c)).map (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
-
-/-- The generic newform line in every positive rank, on native representations. -/
-theorem genericNewform {F V : Type*} [Field F] [ValuativeRel F]
-    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
-    [AddCommGroup V] [Module ℂ V] (n : ℕ)
-    (π : Representation ℂ (GeneralLinearGroup (Fin (n+1)) F) V)
-    [Representation.IsIrreducible π]
-    (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin (n+1)) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
-      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (ψ : AddChar F Circle) (hψ : Continuous ψ)
-    (hψO : ∀ a : 𝒪[F], ψ (a : F) = 1)
-    (hψp : ∃ x : F, (∀ a : 𝒪[F], a ∈ 𝓂[F] →
-      x * (a : F) ∈ (𝒪[F] : Set F)) ∧ ψ x ≠ 1)
-    (ell : V →ₗ[ℂ] ℂ) (hell : ell ≠ 0)
-    (hwhit : ∀ (u : GeneralLinearGroup (Fin (n+1)) F),
-      (∀ i j, j < i → u i j = 0) → (∀ i, u i i = 1) →
-      ∀ v : V, ell (π u v) = (ψ (∑ i : Fin n, u i.castSucc i.succ) : ℂ) * ell v) :
-    ∃ c : ℕ,
-      (∀ m < c, Representation.invariants (π.comp (newformLocalK1 F n m).subtype) = ⊥) ∧
-      Module.finrank ℂ (Representation.invariants (π.comp (newformLocalK1 F n c).subtype)) = 1 ∧
-      ∃ v : Representation.invariants (π.comp (newformLocalK1 F n c).subtype), ell v.val ≠ 0 := by
-  sorry
 
 /-- The trace pairing `(X, Y) ↦ tr(XY)` on square matrices, as an `F`-bilinear map; the Fourier
 transform of AL.2.1.5 is taken against it. -/
@@ -415,7 +393,7 @@ theorem casselmanNewvector
 
 end GL2Blueprint
 
-/-! ## Layer AL.3: Whittaker functionals -/
+/-! ## Layer AL.3: Whittaker functionals, local Rankin–Selberg theory and newforms -/
 
 namespace AL3
 open _root_.Matrix
@@ -458,6 +436,303 @@ theorem whittakerUniqueness {F V : Type*} [Field F] [ValuativeRel F]
       FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
     (ψ : AddChar F Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1) :
     Module.rank ℂ (whittakerFunctionals n π ψ) ≤ 1 := by
+  sorry
+
+/-- The upper unitriangular subgroup `N_n(F)` of `GL_n(F)`, the subgroup of the Whittaker
+character `ψ_N`. The local Rankin–Selberg integrals are taken over `N_n(F)\GL_n(F)`. -/
+def upperUnitriangular (F : Type*) [Field F] (n : ℕ) :
+    Subgroup (GeneralLinearGroup (Fin n) F) where
+  carrier := {u | (∀ i j, j < i → u i j = 0) ∧ ∀ i, u i i = 1}
+  one_mem' := ⟨fun i j h => by simp [h.ne'], fun i => by simp⟩
+  mul_mem' := by
+    rintro u v ⟨hu, hu1⟩ ⟨hv, hv1⟩
+    refine ⟨fun i j hji => ?_, fun i => ?_⟩
+    · change (u.val * v.val) i j = 0
+      rw [Matrix.mul_apply]
+      refine Finset.sum_eq_zero fun l _ => ?_
+      rcases lt_or_ge l i with h | h
+      · simp [hu i l h]
+      · simp [hv l j (lt_of_lt_of_le hji h)]
+    · change (u.val * v.val) i i = 1
+      rw [Matrix.mul_apply, Finset.sum_eq_single i]
+      · simp [hu1 i, hv1 i]
+      · intro l _ hl
+        rcases lt_or_gt_of_ne hl with h | h
+        · simp [hu i l h]
+        · simp [hv l i h]
+      · simp
+  inv_mem' := by
+    rintro u ⟨hu, hu1⟩
+    have htri : (u.val).BlockTriangular id := fun i j h => hu i j h
+    have hinv : ((u⁻¹ : GeneralLinearGroup (Fin n) F).val).BlockTriangular id := by
+      rw [Matrix.coe_units_inv]
+      have : Invertible u.val := Units.invertible u
+      exact Matrix.blockTriangular_inv_of_blockTriangular htri
+    refine ⟨fun i j h => hinv h, fun i => ?_⟩
+    have h1 : (u.val * (u⁻¹ : GeneralLinearGroup (Fin n) F).val) i i = 1 := by simp
+    rw [Matrix.mul_apply, Finset.sum_eq_single i] at h1
+    · simpa [hu1 i] using h1
+    · intro l _ hl
+      rcases lt_or_gt_of_ne hl with h | h
+      · simp [hu i l h]
+      · simp [hinv h]
+    · simp
+
+/-- The block matrix `[[h, 0, 0], [x, I_j, 0], [0, 0, I_{k+1−j}]]` of `GL_{m+k+2}(F)`, for
+`h ∈ GL_{m+1}(F)` and a `j × (m+1)` matrix `x` (`j ≤ k+1`): the argument of the first Whittaker
+function in the local Rankin–Selberg integral `Ψ_j` of `GL_{m+k+2} × GL_{m+1}`. At `j = 0` it is
+`diag(h, I_{k+1})`. -/
+def rsEmbedding {F : Type*} [Field F] (m k j : ℕ) (h : GeneralLinearGroup (Fin (m+1)) F)
+    (x : Matrix (Fin j) (Fin (m+1)) F) : GeneralLinearGroup (Fin (m+k+1+1)) F :=
+  let e : Fin (m+1) ⊕ Fin (k+1) ≃ Fin (m+k+1+1) := finSumFinEquiv.trans (finCongr (by omega))
+  let X : Matrix (Fin (k+1)) (Fin (m+1)) F :=
+    fun i l => if hi : (i : ℕ) < j then x ⟨i, hi⟩ l else 0
+  { val := reindexAlgEquiv F F e (fromBlocks h.val 0 X 1)
+    inv := reindexAlgEquiv F F e (fromBlocks (h⁻¹ : GeneralLinearGroup _ F).val 0
+      (-(X * (h⁻¹ : GeneralLinearGroup _ F).val)) 1)
+    val_inv := by
+      rw [← map_mul, fromBlocks_multiply]
+      simp
+    inv_val := by
+      rw [← map_mul, fromBlocks_multiply]
+      simp [Matrix.mul_assoc] }
+
+/-- The long Weyl element `w_n` of `GL_n(F)`, the antidiagonal permutation matrix. -/
+def longWeyl (F : Type*) [Field F] (n : ℕ) : GeneralLinearGroup (Fin n) F :=
+  (Matrix.permMatrixHom (R := F)).toHomUnits Fin.revPerm
+
+/-- The Weyl element `w_{n,m} = diag(I_{m+1}, w_{k+1})` of `GL_{m+k+2}(F)`, `n = m+k+2`, by which
+the dual Whittaker function is translated in the unequal-rank local functional equation. -/
+def rsWeyl (F : Type*) [Field F] (m k : ℕ) : GeneralLinearGroup (Fin (m+k+1+1)) F :=
+  let e : Fin (m+1) ⊕ Fin (k+1) ≃ Fin (m+k+1+1) := finSumFinEquiv.trans (finCongr (by omega))
+  { val := reindexAlgEquiv F F e (fromBlocks 1 0 0 (longWeyl F (k+1)).val)
+    inv := reindexAlgEquiv F F e
+      (fromBlocks 1 0 0 ((longWeyl F (k+1))⁻¹ : GeneralLinearGroup _ F).val)
+    val_inv := by
+      rw [← map_mul, fromBlocks_multiply]
+      simp
+    inv_val := by
+      rw [← map_mul, fromBlocks_multiply]
+      simp }
+
+/-- AL.3.2.1, the integrand of the unequal-rank local Rankin–Selberg integral
+`Ψ_j(s; W, W′) = ∫_{N_{m+1}\GL_{m+1}} ∫_{Mat_{j×(m+1)}} W([[h,0,0],[x,I_j,0],[0,0,I]]) W′(h)
+|det h|^(s−(k+1)/2) dx dh` of `GL_{m+k+2} × GL_{m+1}`, with `a` the modulus of `F`. The quotient
+`N\GL` is realized on the left coset space `GL ⧸ N` through `h = y⁻¹` for a representative `y`;
+for Whittaker functions `W`, `W′` with opposite characters the integrand is left `N`-invariant in
+`h`, so it does not depend on the representative. -/
+def rsIntegrand {F : Type*} [Field F] (m k j : ℕ) (a : F → ℝ)
+    (W : GeneralLinearGroup (Fin (m+k+1+1)) F → ℂ) (W' : GeneralLinearGroup (Fin (m+1)) F → ℂ)
+    (s : ℂ)
+    (p : (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) ×
+      Matrix (Fin j) (Fin (m+1)) F) : ℂ :=
+  W (rsEmbedding m k j (p.1.out)⁻¹ p.2) * W' (p.1.out)⁻¹ *
+    (a ((p.1.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F).val.det : ℂ) ^ (s - ((k : ℂ) + 1) / 2)
+
+/-- AL.3.2.1, the integrand of the equal-rank local Rankin–Selberg integral
+`Ψ(s; W, W′, Φ) = ∫_{N_{m+1}\GL_{m+1}} W(h) W′(h) Φ(e_{m+1} h) |det h|^s dh`, where
+`e_{m+1} h` is the last row of `h`, with the quotient realized as in `rsIntegrand`. -/
+def rsIntegrandEqualRank {F : Type*} [Field F] (m : ℕ) (a : F → ℝ)
+    (W W' : GeneralLinearGroup (Fin (m+1)) F → ℂ) (Φ : (Fin (m+1) → F) → ℂ) (s : ℂ)
+    (y : GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) : ℂ :=
+  W (y.out)⁻¹ * W' (y.out)⁻¹ *
+    Φ (fun l => ((y.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F) (Fin.last m) l) *
+    (a ((y.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F).val.det : ℂ) ^ s
+
+/-- AL.3.2.3 and AL.3.3.2 at a finite place for unequal ranks, the local Rankin–Selberg theorem
+of Jacquet–Piatetski-Shapiro–Shalika for `GL_{m+k+2} × GL_{m+1}` (Cogdell, Fields lectures,
+Lecture 6, Proposition 6.2, Theorem 6.1, Corollary 6.3.1, Theorem 6.2 and Proposition 6.5,
+pp.47–49). Let `π`, `π′` be irreducible smooth admissible with nonzero Whittaker functionals `ℓ`
+for `ψ` and `ℓ′` for `ψ⁻¹`, so that `W(g) = ℓ(π(g)v)` and `W′(h) = ℓ′(π′(h)v′)` run over the
+Whittaker models `W(π, ψ)` and `W(π′, ψ⁻¹)`. Then there are polynomials `P = L(s, π×π′)⁻¹` and
+`Pd = L(s, π∨×π′∨)⁻¹` in `q^(−s)` with constant term 1, an abscissa `c` and a nonzero monomial
+`ε q^(−es)` such that: for every `0 ≤ j ≤ k` each integral `Ψ_j` converges absolutely for
+`Re s > c` and continues meromorphically, `Ψ_j · P(q^(−s))` is a Laurent polynomial in `q^(−s)`,
+and at every `s₀` one of these products is nonzero, so that the span of the `Ψ_j` is the
+fractional ideal generated by `L(s, π×π′)`, for every `j`; and
+`Ψ_k(1−s; R(w_{n,m})W̃, W̃′) Pd(q^(s−1)) = ε q^(−es) Ψ_0(s; W, W′) P(q^(−s))` as germs, with
+`W̃(g) = W(w_n ᵗg⁻¹)` and `R` right translation. The quotient measure `μ` on `GL_{m+1} ⧸ N` is
+any nonzero invariant measure finite on compacts and `μx j` any additive Haar measure on
+`j × (m+1)` matrices; the scalar `ε` absorbs the sign `ω_{π′}(−1)^(n−1)` of the source and
+depends on `ψ` and on these measures. -/
+theorem rankinSelbergLocal {F V V' : Type*} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] [MeasurableSpace F] [BorelSpace F]
+    [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V'] (m k : ℕ)
+    (π : Representation ℂ (GeneralLinearGroup (Fin (m+k+1+1)) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin (m+k+1+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (m+k+1+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (m+k+1+1)) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (π' : Representation ℂ (GeneralLinearGroup (Fin (m+1)) F) V')
+    [Representation.IsIrreducible π']
+    (hsm' : ∀ v : V', IsOpen {g | π' g v = v})
+    (hadm' : ∀ K : Subgroup (GeneralLinearGroup (Fin (m+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π'.comp K.subtype)))
+    (ψ : AddChar F Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1)
+    (ell : Module.Dual ℂ V) (hell : ell ∈ whittakerFunctionals (m+k+1) π ψ) (hell0 : ell ≠ 0)
+    (ell' : Module.Dual ℂ V') (hell' : ell' ∈ whittakerFunctionals m π' ψ⁻¹)
+    (hell'0 : ell' ≠ 0)
+    (μF : Measure F) [μF.IsAddHaarMeasure]
+    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)))
+    [SMulInvariantMeasure (GeneralLinearGroup (Fin (m+1)) F)
+      (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) μ]
+    [IsFiniteMeasureOnCompacts μ] (hμ : μ ≠ 0)
+    (μx : ∀ j : ℕ, Measure (Matrix (Fin j) (Fin (m+1)) F)) [∀ j, (μx j).IsAddHaarMeasure]
+    (a : F → ℝ) (ha : Continuous a) (hapos : ∀ x ≠ 0, 0 < a x)
+    (hmod : ∀ (x : F) (U : Set F), MeasurableSet U →
+      μF ((x * ·) '' U) = ENNReal.ofReal (a x) * μF U) :
+    ∃ (P Pd : Polynomial ℂ) (c : ℝ) (ε : ℂ) (e : ℤ),
+      P.eval 0 = 1 ∧ Pd.eval 0 = 1 ∧ ε ≠ 0 ∧
+      (∀ j ≤ k, ∀ (v : V) (v' : V'), ∃ Z : ℂ → ℂ, MeromorphicOn Z Set.univ ∧
+        (∀ s : ℂ, c < s.re →
+          Integrable (rsIntegrand m k j a (fun g => ell (π g v)) (fun h => ell' (π' h v')) s)
+            (μ.prod (μx j)) ∧
+          Z s = ∫ p, rsIntegrand m k j a (fun g => ell (π g v)) (fun h => ell' (π' h v')) s p
+            ∂(μ.prod (μx j))) ∧
+        ∃ (Q : Polynomial ℂ) (N : ℕ), ∀ s : ℂ, c < s.re →
+          Z s * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s)) * ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ N =
+            Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s))) ∧
+      (∀ j ≤ k, ∀ s₀ : ℂ, ∃ (v : V) (v' : V') (Q : Polynomial ℂ) (N : ℕ),
+        (∀ s : ℂ, c < s.re →
+          (∫ p, rsIntegrand m k j a (fun g => ell (π g v)) (fun h => ell' (π' h v')) s p
+            ∂(μ.prod (μx j))) * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s)) *
+            ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ N = Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s))) ∧
+        Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s₀)) ≠ 0) ∧
+      ∀ (v : V) (v' : V'), ∃ Z Zd : ℂ → ℂ,
+        MeromorphicOn Z Set.univ ∧ MeromorphicOn Zd Set.univ ∧
+        (∀ s : ℂ, c < s.re →
+          Z s = ∫ p, rsIntegrand m k 0 a (fun g => ell (π g v)) (fun h => ell' (π' h v')) s p
+            ∂(μ.prod (μx 0))) ∧
+        (∀ s : ℂ, c < s.re →
+          Integrable (rsIntegrand m k k a
+              (fun g => ell (π (longWeyl F (m+k+1+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ (g * rsWeyl F m k)).unop)⁻¹) v))
+              (fun h => ell' (π' (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ h).unop)⁻¹) v')) s)
+            (μ.prod (μx k)) ∧
+          Zd s = ∫ p, rsIntegrand m k k a
+              (fun g => ell (π (longWeyl F (m+k+1+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ (g * rsWeyl F m k)).unop)⁻¹) v))
+              (fun h => ell' (π' (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ h).unop)⁻¹) v')) s p
+            ∂(μ.prod (μx k))) ∧
+        ∀ s₀ : ℂ, (fun s => Zd (1 - s) * Pd.eval ((Nat.card 𝓀[F] : ℂ) ^ (s - 1)))
+          =ᶠ[𝓝[≠] s₀] fun s => ε * ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ e *
+            Z s * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s)) := by
+  sorry
+
+/-- AL.3.2.3 and AL.3.3.2 at a finite place for equal ranks, the local Rankin–Selberg theorem
+for `GL_{m+1} × GL_{m+1}` (Cogdell, Columbia lectures, §1.3, facts 1–4, pp.7–8). With `π`, `π′`,
+`ℓ`, `ℓ′` as in `rankinSelbergLocal`, there are polynomials `P = L(s, π×π′)⁻¹` and
+`Pd = L(s, π∨×π′∨)⁻¹` in `q^(−s)` with constant term 1, an abscissa `c` and a nonzero monomial
+`ε q^(−es)` such that for every locally constant compactly supported `Φ` on `F^{m+1}` the integral
+`Ψ(s; W, W′, Φ)` converges absolutely for `Re s > c`, continues meromorphically,
+`Ψ · P(q^(−s))` is a Laurent polynomial in `q^(−s)`, one such product is nonzero at every `s₀`,
+and `Ψ(1−s; W̃, W̃′, Φ̂) Pd(q^(s−1)) = ε q^(−es) Ψ(s; W, W′, Φ) P(q^(−s))` as germs, with
+`W̃(g) = W(w_{m+1} ᵗg⁻¹)` and `Φ̂(y) = ∫ Φ(x) ψ(x·y) dx`, the positive-kernel transform obtained
+from the negative-kernel `fourierIntegral` at `−y`. The scalar `ε` absorbs the sign
+`ω_{π′}(−1)^m` of the source and depends on `ψ` and on the measures `μ` and `μv`. -/
+theorem rankinSelbergLocalEqualRank {F V V' : Type*} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F] [MeasurableSpace F] [BorelSpace F]
+    [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V'] (m : ℕ)
+    (π : Representation ℂ (GeneralLinearGroup (Fin (m+1)) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin (m+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (π' : Representation ℂ (GeneralLinearGroup (Fin (m+1)) F) V')
+    [Representation.IsIrreducible π']
+    (hsm' : ∀ v : V', IsOpen {g | π' g v = v})
+    (hadm' : ∀ K : Subgroup (GeneralLinearGroup (Fin (m+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (m+1)) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π'.comp K.subtype)))
+    (ψ : AddChar F Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1)
+    (ell : Module.Dual ℂ V) (hell : ell ∈ whittakerFunctionals m π ψ) (hell0 : ell ≠ 0)
+    (ell' : Module.Dual ℂ V') (hell' : ell' ∈ whittakerFunctionals m π' ψ⁻¹)
+    (hell'0 : ell' ≠ 0)
+    (μF : Measure F) [μF.IsAddHaarMeasure]
+    (μv : Measure (Fin (m+1) → F)) [μv.IsAddHaarMeasure]
+    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)))
+    [SMulInvariantMeasure (GeneralLinearGroup (Fin (m+1)) F)
+      (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) μ]
+    [IsFiniteMeasureOnCompacts μ] (hμ : μ ≠ 0)
+    (a : F → ℝ) (ha : Continuous a) (hapos : ∀ x ≠ 0, 0 < a x)
+    (hmod : ∀ (x : F) (U : Set F), MeasurableSet U →
+      μF ((x * ·) '' U) = ENNReal.ofReal (a x) * μF U) :
+    ∃ (P Pd : Polynomial ℂ) (c : ℝ) (ε : ℂ) (e : ℤ),
+      P.eval 0 = 1 ∧ Pd.eval 0 = 1 ∧ ε ≠ 0 ∧
+      (∀ (v : V) (v' : V') (Φ : (Fin (m+1) → F) → ℂ), IsLocallyConstant Φ →
+        HasCompactSupport Φ →
+        ∃ Z Zd : ℂ → ℂ, MeromorphicOn Z Set.univ ∧ MeromorphicOn Zd Set.univ ∧
+          (∀ s : ℂ, c < s.re →
+            Integrable (rsIntegrandEqualRank m a (fun g => ell (π g v))
+              (fun h => ell' (π' h v')) Φ s) μ ∧
+            Z s = ∫ y, rsIntegrandEqualRank m a (fun g => ell (π g v))
+              (fun h => ell' (π' h v')) Φ s y ∂μ) ∧
+          (∀ s : ℂ, c < s.re →
+            Integrable (rsIntegrandEqualRank m a
+              (fun g => ell (π (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ g).unop)⁻¹) v))
+              (fun h => ell' (π' (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ h).unop)⁻¹) v'))
+              (fun y => VectorFourier.fourierIntegral ψ μv (dotProductBilin F F) Φ (-y))
+              s) μ ∧
+            Zd s = ∫ y, rsIntegrandEqualRank m a
+              (fun g => ell (π (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ g).unop)⁻¹) v))
+              (fun h => ell' (π' (longWeyl F (m+1) *
+                ((GeneralLinearGroup.transposeMulEquiv _ h).unop)⁻¹) v'))
+              (fun y => VectorFourier.fourierIntegral ψ μv (dotProductBilin F F) Φ (-y))
+              s y ∂μ) ∧
+          (∃ (Q : Polynomial ℂ) (N : ℕ), ∀ s : ℂ, c < s.re →
+            Z s * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s)) * ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ N =
+              Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s))) ∧
+          ∀ s₀ : ℂ, (fun s => Zd (1 - s) * Pd.eval ((Nat.card 𝓀[F] : ℂ) ^ (s - 1)))
+            =ᶠ[𝓝[≠] s₀] fun s => ε * ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ e *
+              Z s * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s))) ∧
+      ∀ s₀ : ℂ, ∃ (v : V) (v' : V') (Φ : (Fin (m+1) → F) → ℂ) (Q : Polynomial ℂ) (N : ℕ),
+        IsLocallyConstant Φ ∧ HasCompactSupport Φ ∧
+        (∀ s : ℂ, c < s.re →
+          (∫ y, rsIntegrandEqualRank m a (fun g => ell (π g v))
+              (fun h => ell' (π' h v')) Φ s y ∂μ) * P.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s)) *
+            ((Nat.card 𝓀[F] : ℂ) ^ (-s)) ^ N = Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s))) ∧
+        Q.eval ((Nat.card 𝓀[F] : ℂ) ^ (-s₀)) ≠ 0 := by
+  sorry
+
+/-- AL.3.3.5, the generic newform line in every positive rank, on native representations: for an
+irreducible smooth admissible `π` of `GL_{n+1}(F)` with a nonzero `ψ_N`-Whittaker functional, for
+`ψ` trivial on `O` but not on `P⁻¹`, there is a least depth `c` with nonzero fixed vectors under
+the last-row level `K₁(P^c)`, the fixed space there is a line, and the Whittaker functional is
+nonzero on it (Jacquet–Piatetski-Shapiro–Shalika, *Conducteur*, Théorèmes (4)–(5), as recorded in
+Humphries, Godement–Jacquet tests, Theorems 3.2 and 3.7). -/
+theorem genericNewform {F V : Type*} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+    [AddCommGroup V] [Module ℂ V] (n : ℕ)
+    (π : Representation ℂ (GeneralLinearGroup (Fin (n+1)) F) V)
+    [Representation.IsIrreducible π]
+    (hsm : ∀ v : V, IsOpen {g | π g v = v})
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin (n+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
+      FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
+    (ψ : AddChar F Circle) (hψ : Continuous ψ)
+    (hψO : ∀ a : 𝒪[F], ψ (a : F) = 1)
+    (hψp : ∃ x : F, (∀ a : 𝒪[F], a ∈ 𝓂[F] →
+      x * (a : F) ∈ (𝒪[F] : Set F)) ∧ ψ x ≠ 1)
+    (ell : Module.Dual ℂ V) (hell : ell ≠ 0) (hwhit : ell ∈ whittakerFunctionals n π ψ) :
+    ∃ c : ℕ,
+      (∀ m < c, Representation.invariants (π.comp (AL2.newformLocalK1 F n m).subtype) = ⊥) ∧
+      Module.finrank ℂ
+        (Representation.invariants (π.comp (AL2.newformLocalK1 F n c).subtype)) = 1 ∧
+      ∃ v : Representation.invariants (π.comp (AL2.newformLocalK1 F n c).subtype),
+        ell v.val ≠ 0 := by
   sorry
 
 end AL3
