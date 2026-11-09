@@ -113,7 +113,8 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
 - Sites: `GrothendieckTopology`, `Sieve` with its complete lattice, `Sheaf`, `presheafToSheaf`,
   `constantSheaf`, `GrothendieckTopology.Subcanonical`, `Opens.grothendieckTopology`,
   `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`), `Sheaf.instHasColimitsOfShape`
-  (`Sites/Limits`, the `u`-small coproducts of sheaves).
+  (`Sites/Limits`, the `u`-small coproducts of sheaves), `Sheaf.isLocallySurjective_iff_epi`
+  (`Sites/LocallySurjective`).
 - Categories: `HasProducts`, `HasCoproducts`, `Limits.Pi.map`, `Sigma.desc`, `Sigma.ι`, `Epi`,
   `IsIso`, `IsInitial`, `BinaryCofan`, `pullback`, `yoneda`, `Adjunction`, `Functor.IsRightAdjoint`,
   `Functor.Full`, `Functor.Faithful`, `PreservesFiniteLimits`, `PreservesLimitsOfShape`,
@@ -134,7 +135,7 @@ functor has a left adjoint; `Sh(X)` is locally connected exactly when `X` is), 5
 (`GeometricMorphism.IsEssential`, `GeometricMorphism.isEssential_iff_preservesProducts`), 6.5
 (`exists_equiv_presheaf_iff_essential_points`, `epi_piMap_presheaf`, `isIso_sigma_pi_presheaf`), 7.1
 (`Frame.grothendieckTopology`: subcanonical, and equal to `Opens.grothendieckTopology X` for
-`L = Opens X`; for targets 3.1 and 3.3–3.5).
+`L = Opens X`; for targets 3.1, 3.3–3.5 and 4.2).
 
 ## How to read the build
 
@@ -598,12 +599,15 @@ Route: for `U ∈ 𝔅` the open set `U` is projective: given an epimorphism `F 
 of `G` over `U`, lift `t` on an open cover of `U`, refine that cover to a disjoint one with union
 `U` and glue the restricted lifts, which are compatible since the overlaps are empty; coproducts of
 projective objects are projective, and the coproduct of the members of `𝔅` over the sections of a
-sheaf on them covers it. Then prove `enoughProjectives_sh_cantor`, sheaves on the Cantor space have
-enough projectives, as the instance where `𝔅` is the set of clopen sets, whose covers have finite
-refinements by disjoint clopen sets (3.6, route). With 3.5, neither hypothesis of 4.1 can be
-dropped.
-*Needs:* 3.6; Mathlib `EnoughProjectives`, `TopologicalSpace.IsTopologicalBasis`,
-`Set.PairwiseDisjoint`.
+sheaf on them covers it.
+*Needs:* GrothendieckTopoi 7.1 (open sets are sheaves); Mathlib
+`TopologicalSpace.IsTopologicalBasis`, `Set.PairwiseDisjoint`, `Sheaf.isLocallySurjective_iff_epi`,
+`Projective`, `EnoughProjectives`.
+
+Then prove `enoughProjectives_sh_cantor`, sheaves on the Cantor space have enough projectives, as
+the instance where `𝔅` is the set of clopen sets, whose covers have finite refinements by disjoint
+clopen sets (3.6, route). With 3.5, neither hypothesis of 4.1 can be dropped.
+*Needs:* the general statement of 4.2, 3.6.
 
 **Checks.**
 
@@ -621,9 +625,10 @@ dropped.
 - An Alexandrov space (`AlexandrovDiscrete`) qualifies, with `𝔅` the smallest open neighbourhoods
   `Uₓ`: a member of a cover of `Uₓ` that contains `x` contains `Uₓ`, so `{Uₓ}` refines it. On the
   Sierpiński space, every open cover of `X = U_c` contains `X`.
-- `ℝ` and `LowerIco` admit no such basis. In `ℝ`, a basic set containing `x` contains an interval
-  `(a, b)`, covered by `(a, (a + 2b)/3)` and `((2a + b)/3, b)`; a disjoint open refinement
-  partitions the connected `(a, b)`, so one member contains it and lies in neither. In `LowerIco`,
+- `ℝ` and `LowerIco` admit no such basis. In `ℝ`, a basic set `U` contains an interval `(a, b)`;
+  `U` is covered by `(a, (a + 2b)/3)`, `((2a + b)/3, b)` and `U ∖ {(a + b)/2}`, and a disjoint
+  open refinement with union `U` partitions the connected `(a, b)`, so one member contains `(a, b)`
+  and lies in none of the three. In `LowerIco`,
   nonempty open sets pairwise meet, so the cover of a nonempty basic set `[0, a)` by the `[0, b)`
   with `b < a` has no disjoint refinement. Both agree with 3.5 and with the next Check.
 - `Sh ℝ` satisfies (B) (3.2) and is not a presheaf topos (3.3), so by 4.1 it does not have enough
@@ -636,7 +641,7 @@ dropped.
 
 ### Dependencies
 
-Layers 2 and 3, GrothendieckTopoi 1.1 and 6.5, and Mathlib. Within the layer, 4.2 uses 3.6.
+Layers 2 and 3, GrothendieckTopoi 1.1, 6.5 and 7.1, and Mathlib. Within the layer, 4.2 uses 3.6.
 
 ## Downstream consumers
 
