@@ -58,8 +58,8 @@ scalar contractions, the
 characterization of constant sectional curvature by the curvature tensor,
 Schur's theorem, the constancy of the Einstein factor, the parallel-curvature
 characterization of locally symmetric surfaces, the conformal-change laws for
-curvature, Ricci and scalar curvature, and the connection and curvature of an
-ad-invariant left-invariant metric, the left-invariant metric of an inner
+the connection and for curvature, Ricci and scalar curvature, and the connection
+and curvature of an ad-invariant left-invariant metric, the left-invariant metric of an inner
 product on the Lie algebra with its bi-invariance for an Ad-invariant product and
 the completeness of every left-invariant metric, completeness of homogeneous
 Riemannian manifolds, and the pointwise curvature operator on bivectors with its
@@ -77,7 +77,12 @@ cosine (R4.1); the curvature of the round sphere of every radius and of the
 half-space model, the full isometry groups of Euclidean space and of the round
 sphere, the normal form of the isometries of the half-space model and the
 determination of an isometry of a connected manifold by its value and
-differential at one point (R4.7); pullback metrics along immersions, the smooth atlas of the
+differential at one point (R4.7); the Gauss formula for a map into a real
+inner-product space whose differential preserves inner products, which gives the
+round-sphere connection and the flat-ambient case of the induced connection
+(R4.7, R5a); the round metric in stereographic coordinates and the second
+fundamental form and shape operator of a parametrization in a Euclidean space
+(R5a.2); pullback metrics along immersions, the smooth atlas of the
 based-path universal cover with its local-diffeomorphism projection, the bijection
 of its basepoint fibre with the fundamental group and the finiteness of the
 fundamental group when the universal cover is compact (R4.3); the
@@ -85,7 +90,8 @@ norm-nondecreasing exponential differential under nonpositive sectional curvatur
 (R4.4); the quotient manifold of a free properly discontinuous smooth action and
 the descended invariant metric, and the naturality of the curvature tensor,
 sectional, Ricci and scalar curvature under local Riemannian isometries (R4.3,
-R4.7); properness of the squared distance from a
+R4.7); the critical points, Hessian and Hessian kernel of the squared distance
+along a parametrization in a Euclidean space, properness of the squared distance from a
 point along a closed embedding and its almost-everywhere nondegeneracy and Morse
 property along an immersion (R6); the Laplace–Beltrami operator, the pointwise
 scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); the de Rham
@@ -223,7 +229,13 @@ positive dimension other than two;
 `Bundle.ContMDiffRiemannianMetric.curvatureOperator_leviCivitaConnection_rescale`,
 `Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale` and
 `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale` (`Conformal.lean`), the
-curvature, Ricci and scalar curvature laws, written with Tau Ceti's Δ=div grad.
+curvature, Ricci and scalar curvature laws, written with Tau Ceti's Δ=div grad, with
+`Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale_of_finrank_eq_two` (`Conformal.lean`),
+its surface case `Scal(e^(2φ)g)=e^(−2φ)(Scal(g)−2Δφ)`; and
+`Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_apply` in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Conformal.lean`,
+the connection law `∇̃_X Y=∇_X Y+(2f)⁻¹(df(X)Y+df(Y)X−g(X,Y)grad f)` for the metric f g
+with f>0, which for f=e^(2φ) is `∇_X Y+dφ(X)Y+dφ(Y)X−g(X,Y)grad φ`.
 In `TauCeti/Geometry/Manifold/Riemannian/LieGroup/BiInvariant.lean`,
 `CovariantDerivative.IsLeviCivitaConnection.apply_mulInvariantVectorField` gives
 ∇_(X_a)X_b=½X_[a,b] and `CovariantDerivative.IsLeviCivitaConnection.curvatureTensor_one`
@@ -457,6 +469,45 @@ or such a similarity followed by an inversion in a sphere centred on the boundar
 hyperplane; and `TauCeti.RiemannianIsometry.ext_of_mfderiv_eq` (`Isometry/Ext.lean`),
 two Riemannian isometries of a preconnected boundaryless Hausdorff smooth Riemannian
 manifold with the same value and differential at one point are equal.
+
+For the round-sphere connection of R4.7 and the flat-ambient case of R5a,
+`CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv` in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Immersion.lean`
+is the Gauss formula: for a Levi-Civita connection ∇ of a C¹ metric on a C² manifold M
+and a map f:M→F into a real inner-product space that is C² at x and whose differential
+preserves inner products at every point, `⟨∇_X Y,w⟩=⟨D_X(df Y),df w⟩` for vector fields
+X,Y differentiable at x and every w∈T_xM, where D_X(df Y) is the ambient derivative of
+y↦df_y(Y(y)); so df_x(∇_X Y) is the orthogonal projection of D_X(df Y) onto the range of
+df_x. The round metric is the ambient inner product on the images under the inclusion
+(`TauCeti.inner_tangentSpace_sphere` in `TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`),
+so the formula applies to Sⁿ→ℝⁿ⁺¹. In
+`TauCeti/Geometry/Manifold/Riemannian/Sphere/Stereographic.lean`,
+`TauCeti.inner_mfderiv_stereographic'_symm`: for a unit vector v of an (n+1)-dimensional
+real inner-product space, the round metric pulled back along the inverse of Mathlib's
+stereographic chart `stereographic' n v` is `(4/(|y|²+4))²` times the Euclidean inner
+product at y∈ℝⁿ. That chart projects from v onto the hyperplane orthogonal to v through
+−v, so the equatorial coordinate is x=y/2 and the coefficient becomes `4/(1+|x|²)²`.
+
+For the coordinate calculations of R5a.2 and the Euclidean focal geometry of R6, in
+`TauCeti/Analysis/InnerProductSpace/`, for a map i:V→E from a finite-dimensional real
+normed space into a real inner-product space: `TauCeti.secondFundamentalForm`
+(`SecondFundamentalForm.lean`), B(v,w) the component of D²i(x)(v,w) orthogonal to the
+range of Di(x), symmetric when i is C² at x (`ContDiffAt.secondFundamentalForm_apply_comm`)
+and unchanged, up to the derivative of the reparametrization, under precomposition with a
+map C² at the point whose derivative is surjective (`ContDiffAt.secondFundamentalForm_comp`);
+`TauCeti.shapeOperator` (`ShapeOperator.lean`), for injective Di(x) the endomorphism S_ν of
+V with `⟨Di(S_ν v),Di w⟩=⟨ν,B(v,w)⟩` (`TauCeti.inner_fderiv_shapeOperator_apply`), and 0
+otherwise, self-adjoint for the induced metric when i is C² at x
+(`ContDiffAt.inner_fderiv_shapeOperator_apply_comm`); in `SquaredDistance.lean`,
+`TauCeti.fderiv_norm_sq_sub_comp_eq_zero_iff`, the function h_a(y)=|i(y)−a|² is critical at
+x exactly when i(x)−a is orthogonal to the range of Di(x), for i differentiable at x, and
+`TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply`, its Hessian at x is
+`2(⟨Di v,Di w⟩+⟨i(x)−a,D²i(x)(v,w)⟩)` for i C² at x; and in `ShapeOperator.lean`, for i C²
+at x with Di(x) injective, `TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply_eq_inner_shapeOperator`,
+when i(x)−a is normal that Hessian is `2⟨Di((1−S_(a−i(x)))v),Di w⟩`, and
+`TauCeti.ker_fderiv_fderiv_norm_sq_sub_add_smul_comp`, for a normal ν and t≠0 its kernel at
+a=i(x)+tν is the t⁻¹-eigenspace of S_ν. These concern one parametrization on a vector
+space; R5a and R6 own the manifold forms and the comparison with R5a's intrinsic B and S.
 
 For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
 `TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
@@ -869,6 +920,11 @@ taken on M and Δ=div grad on M:
   `−cos²t/sin²t`, so K=1; on mixed planes K=−(−sin t)/sin t=1, and
   `Ric(∂t,∂t)=−k(−sin t)/sin t=k`. Dropping the |grad f|² term would give 1/sin²t on
   vertical planes.
+- On the same (0,π)×_(sin) S^k, f⁻¹Δf=f″/f=−1 with Δ=div grad, so a g-unit vertical V
+  has `Ric(V,V)=(k−1)/sin²t−(−1+(k−1)cot²t)=k`, the unit-sphere value; at k=2,
+  t=π/3 this is 4/3+2/3=2. Reading Δ as Δ⁺=−div grad gives f⁻¹Δ⁺f=+1 and
+  `Ric(V,V)=k−2`, which is 4/3−4/3=0 at the same point. The other Checks have Δf=0
+  or test only sectional curvature, so this one fixes the sign of the Δf term.
 - Euclidean ℝ^(k+1)∖{0} is (0,∞)×_r S^k: Hess f=0 and |grad f|²=1, so
   `R(V,W)U=R_N(V,W)U−(g_N(W,U)V−g_N(V,U)W)=0`, flat as required, and the
   vertical Ricci curvature is `(k−1)g_N−(k−1)r⁻²·r²g_N=0`.
@@ -1011,7 +1067,8 @@ The warped-product Checks follow directly from the metric Christoffel formula.
 **Projective metric examples.** This block follows the generic submersion
 construction and the indicated smooth-carrier suppliers. Its curvature and
 geodesic calculations also consume R4.7's independently constructed round
-model, which uses R1's connection formulas and no R3 theorem.
+model, whose connection is Tau Ceti's Gauss formula for the inclusion and which
+uses no R3 theorem.
 On [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md)'s
 smooth CP^d carrier and [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory)'s
 smooth HP^d carrier, construct metrics as the quotients of the round unit
@@ -2011,9 +2068,14 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    hyperboloid and ball models, and the scaling of geodesics and exponential maps
    with the radius.
    This direct model construction is independent of R3 and R4's comparison
-   theorems: derive the round-sphere Levi-Civita connection by ambient
-   tangential projection and from it the great-circle geodesics, using R1's
-   connection identities. It precedes
+   theorems. The round-sphere Levi-Civita connection is the tangential
+   projection of the ambient derivative: this is Tau Ceti's Gauss formula
+   `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv`
+   applied to the inclusion Sⁿ→ℝⁿ⁺¹, whose differential preserves inner products
+   by `TauCeti.inner_tangentSpace_sphere` (supplier contract), consumed here.
+   R4.7 derives the great-circle geodesics from it: for orthonormal p,v the curve
+   t↦cos t·p+sin t·v has ambient acceleration −γ(t), which is normal to the
+   sphere, so its covariant acceleration vanishes. It precedes
    R1's projective curvature/period calculations and R3's projective examples;
    the global space-form classification below uses the remaining R4 machinery.
    Use type synonyms carrying the induced Riemannian distance via
@@ -2289,7 +2351,7 @@ This is a theorem for either selected side, with its own induced orientation and
 `∫_(∂Ann) k_Ann ds_(g₀) + Area_(g₀)(Ann) = 0`.
 Give the restriction, orientation-reversal, disk-difference and parameter-dependent integral laws needed for these actual domains.
 
-Build the signed turning input here: an oriented smooth embedded planar Jordan curve bounding a disk on its left has tangent-map degree +1 and signed Euclidean total curvature 2π. Construct the tangent-angle lift on intervals, its degree/turning-integral identity, and the Jordan orientation comparison giving degree +1; unsigned Fenchel is a different theorem. For a selected spherical disk choose a stereographic pole in the opposite open component, transport it to a compact planar smooth Jordan disk, and use R1's stereographic metric and conformal connection comparisons. For g₀=e^(2u)(dx²+dy²), prove the signed boundary identity `k_(g₀) ds_(g₀)=(k_e+∂_(n_out)u)ds_e` and curvature identity `K_(g₀)dA_(g₀)=−Δu dxdy`. DG's Green/Stokes theorem and the signed turning theorem then give the disk formula because K_(g₀)=1. Derive the annulus formula by subtracting the two nested disk formulas and reversing the inner boundary. Own these geometric/line-integral/volume comparisons here; generic Stokes alone does not assert them.
+Build the signed turning input here: an oriented smooth embedded planar Jordan curve bounding a disk on its left has tangent-map degree +1 and signed Euclidean total curvature 2π. Construct the tangent-angle lift on intervals, its degree/turning-integral identity, and the Jordan orientation comparison giving degree +1; unsigned Fenchel is a different theorem. For a selected spherical disk choose a stereographic pole in the opposite open component, transport it to a compact planar smooth Jordan disk, and use Tau Ceti's stereographic form of the round metric, `TauCeti.inner_mfderiv_stereographic'_symm`, and its conformal connection law `Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_apply` (supplier contract). For g₀=e^(2u)(dx²+dy²), prove the signed boundary identity `k_(g₀) ds_(g₀)=(k_e+∂_(n_out)u)ds_e`; the curvature identity `K_(g₀)dA_(g₀)=−Δu dxdy` is Tau Ceti's surface law `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale_of_finrank_eq_two` with Scal=2K, the flat metric and dA_(g₀)=e^(2u)dxdy. DG's Green/Stokes theorem and the signed turning theorem then give the disk formula because K_(g₀)=1. Derive the annulus formula by subtracting the two nested disk formulas and reversing the inner boundary. Own these geometric/line-integral/volume comparisons here; generic Stokes alone does not assert them.
 
 For a smooth moving Jordan disk establish the signed moving-boundary formula `A_side′=−∫k_D ds` with the same curvature/normal convention. Combine it with the owned disk identity to obtain `A_side′=A_side−2π`, and construct its continuous finite-endpoint area trace. For two nested evolving smooth boundaries prove the corresponding variation formula with both induced annulus orientations on their common lifetime; the annulus identity gives `A_ann′=A_ann`, hence `A_ann(t)=exp(t−s)A_ann(s)` before either boundary loses smooth existence. Retain the nesting and endpoint-trace hypotheses when taking approximation limits. These focused round disk/annulus theorems supply the applications in this section; no general Gauss–Bonnet–Chern theorem is a prerequisite. The arbitrary-metric finite-time alternative and the disk area equation give finite extinction exactly when A_side(0)≠2π; area bisection excludes finite collapse.
 
@@ -2473,7 +2535,8 @@ compactness in the two-geodesic theorem cannot be dropped.
 
 ### Dependencies
 
-The direct round-model part of R4.7 uses R1 and HopfRinow only. Comparison
+The direct round-model part of R4.7 uses Tau Ceti's Gauss formula, R1 and
+HopfRinow only. Comparison
 uses R2–R3; Cartan–Hadamard uses Tau Ceti's norm-nondecreasing exponential
 differential and R4.3's covering criterion, not R3. R4.3 uses Tau Ceti's
 universal-cover manifold, fibre bijection and pullback metric, and
@@ -2518,7 +2581,11 @@ fibres and identify their smooth assembly with the supplied normal bundle; for i
 GeometricTopology Layer 1 (embedding normal bundle); finite-dimensional
 orthogonal projection and smooth inversion of positive Gram matrices.
 
-Prove the induced tangential connection is Levi-Civita, define B,
+Prove the induced tangential connection is Levi-Civita. For a flat ambient N, a
+real inner-product space, this is Tau Ceti's Gauss formula
+`CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv`
+(supplier contract), consumed here; R5a owns the case of a Riemannian ambient N,
+through the pullback ambient connection. Define B,
 the normal connection and S, and prove tensoriality/symmetry/self-adjointness,
 frame/normal-change laws and smoothness. Include Gauss, Codazzi and Ricci
 equations with the pinned signs, their sectional contraction, and Theorema
@@ -2580,7 +2647,8 @@ The normal-connection API comprises:
   and the derivative of ⟨n₁,n₂⟩ is 1−1=0.
 
 *Needs:* R1 curvature and tensor connections; R5a smooth normal comparison;
-SmoothBundlesConnections B2–B4.
+SmoothBundlesConnections B2–B4; Tau Ceti's Gauss formula for a flat ambient
+(supplier contract).
 
 #### R5a.1. Orientation-free C² relative volume
 
@@ -2683,10 +2751,23 @@ submanifold of the unit sphere, pin
 (m+1)-dimensional Euclidean cone.
 
 Give reusable coordinate formulas for induced metrics, Christoffel coefficients,
-B, S, H and K; the cross-product formula raises an index with the inverse first
-fundamental form. Compute the unit round sphere in stereographic coordinates, with
-`g_ij=4δ_ij/(1+|x|²)²`,
-`Γ^k_ij=−2(δ^k_i x_j+δ^k_j x_i−δ_ij x_k)/(1+|x|²)`, K=1 and H=−position. Compute the
+B, S, H and K of a parametrization F of an open subset of ℝ^m in a Euclidean space;
+the cross-product formula raises an index with the inverse first fundamental form.
+Their building blocks are Tau Ceti's (supplier contract), consumed here: the induced
+metric `g_ij=⟨∂_iF,∂_jF⟩` is `TauCeti.inducedRiemannianMetric_inner`, the
+Christoffel symbols of the first kind `⟨∇_(∂_i)∂_j,∂_k⟩=⟨∂_i∂_jF,∂_kF⟩` are the
+Gauss formula `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv`
+on the coordinate fields, and B and S in the parametrization are
+`TauCeti.secondFundamentalForm` and `TauCeti.shapeOperator`, paired by
+`TauCeti.inner_fderiv_shapeOperator_apply`. R5a.2 owns their identification with
+R5a's intrinsic B and S, the coordinate formulas for H and K, and the examples
+below. On the unit round sphere in equatorial stereographic coordinates x,
+the metric `g_ij=4δ_ij/(1+|x|²)²` is Tau Ceti's
+`TauCeti.inner_mfderiv_stereographic'_symm` under the substitution y=2x between
+Mathlib's chart `stereographic'` and the equatorial one, with the Jacobian factor 2²
+(at x=0 the coefficient is 2²·(4/4)²=4; omitting that factor gives 1), and K=1 is
+`TauCeti.hasConstantSectionalCurvature_sphere` (supplier contract). Compute
+`Γ^k_ij=−2(δ^k_i x_j+δ^k_j x_i−δ_ij x_k)/(1+|x|²)` and H=−position. Compute the
 helicoid `(u,v)↦(v cos u,v sin u,a u)` with pitch a≠0
 (H=0, K=−a²/(a²+v²)²), and the paraboloid `(u,v)↦(v cos u,v sin u,v²)`
 on v>0 (with a separate Cartesian chart at its vertex),
@@ -2968,7 +3049,12 @@ In Euclidean ambient space compute the normal-exponential derivative block and
 `det(I−tS_v)`. Focal times along a unit normal are 1/κ_i for nonzero principal
 curvatures, with multiplicity; retain both signs of t and use t>0 for the
 chosen forward normal ray. For `h_q(p)=|f(p)−q|²`, criticality is normality
-and Hessian is `2(g−⟨B, q−f(p)⟩)`; at q=f(p)+tv this is 2(I−tS_v).
+and Hessian is `2(g−⟨B, q−f(p)⟩)`; at q=f(p)+tv this is 2(I−tS_v), with kernel the
+t⁻¹-eigenspace of S_v for t≠0. In one parametrization these are Tau Ceti's
+`TauCeti.fderiv_norm_sq_sub_comp_eq_zero_iff`,
+`TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply_eq_inner_shapeOperator` and
+`TauCeti.ker_fderiv_fderiv_norm_sq_sub_add_smul_comp` (supplier contract); R6 owns
+their manifold form with R5a's intrinsic B and S.
 Identify degeneracy/focality and count negative Hessian directions by the
 segment f(p)+sv, 0<s<1 when q=f(p)+v: the index of h_q at p is the sum
 of those interior focal multiplicities (Milnor, *Morse Theory*, §6,
@@ -2994,10 +3080,11 @@ is normal at p and (p,q−f(p)) is a critical point of the normal map
 (p,v)↦f(p)+v, so the q for which some critical point of h_q is degenerate form
 the image of the focal set. An arbitrary nonclosed embedding does not give a
 proper exhaustion: the open unit disc in ℝ² with q=(2,0) has no minimum of h_q.
-Own the two chart lemmas
-these use: in a chart x↦f(x) of a C² embedding,
-`∂_i∂_j h_q=2(⟨∂_i f,∂_j f⟩+⟨∂_i∂_j f,f−q⟩)`, and for a C¹ normal field ν
-along f, `⟨∂_i∂_j f,ν⟩=−⟨∂_i f,∂_j ν⟩`. Compare these chart second
+Of the two chart lemmas
+these use, the first, in a chart x↦f(x) of a C² embedding
+`∂_i∂_j h_q=2(⟨∂_i f,∂_j f⟩+⟨∂_i∂_j f,f−q⟩)`, is Tau Ceti's
+`TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply` (supplier contract); own the second:
+for a C¹ normal field ν along f, `⟨∂_i∂_j f,ν⟩=−⟨∂_i f,∂_j ν⟩`. Compare these chart second
 derivatives with R5a's intrinsic B/S and normal connection, proving the
 Euclidean Hessian and normal-exponential derivative-block formulas on the
 shared normal bundle and recovering `2(g−⟨B,q−f(p)⟩)` at a critical point.
@@ -3017,6 +3104,10 @@ consequences follow from R2–R4.
 *Needs:* Tau Ceti `TauCeti.isProperMap_norm_sq_sub_comp`,
 `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` and
 `TauCeti.ae_isMorse_norm_sq_sub_comp` (properness and genericity of h_q),
+Tau Ceti `TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply`,
+`TauCeti.fderiv_fderiv_norm_sq_sub_comp_apply_eq_inner_shapeOperator` and
+`TauCeti.ker_fderiv_fderiv_norm_sq_sub_add_smul_comp` (the Hessian of h_q and its
+kernel in one parametrization),
 Tau Ceti `TauCeti.isNullSet_image_criticalPoints` (Sard in equal dimensions, on
 manifolds, for the focal set), with Mathlib
 `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero` as its
@@ -3039,8 +3130,10 @@ The Euclidean focal calculation uses R5a and the normal-bundle comparison;
 the properness and genericity of the squared distance are Tau Ceti's
 `TauCeti.isProperMap_norm_sq_sub_comp`,
 `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` and
-`TauCeti.ae_isMorse_norm_sq_sub_comp`, and the nullity of the focal set uses the
-pinned equal-dimension Sard theorem and R4.6's null-set transfer.
+`TauCeti.ae_isMorse_norm_sq_sub_comp`, its Hessian and Hessian kernel in one
+parametrization are Tau Ceti's squared-distance and shape-operator theorems, and the
+nullity of the focal set uses the pinned equal-dimension Sard theorem and R4.6's
+null-set transfer.
 General focal/index theory also uses R2–R3 and R4.2 moving-endpoint variation.
 No finite fundamental group or global space-form theorem enters the Euclidean proof.
 
@@ -3515,7 +3608,7 @@ theorem. The following internal order separates the direct model and algebra
 constructions from their comparison and analytic applications.
 
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
-jets follow R2. R4.7's direct model geometry uses R1's connection formulas
+jets follow R2. R4.7's direct model geometry uses Tau Ceti's Gauss formula, R1
 and HopfRinow without R3 or R4's comparison theorems. R1's projective metric
 examples consume K7.1/G4.0b, that round-model geometry and the generic submersion
 formulas; R3's projective examples consume those metrics and R2. SBC B6.0
@@ -3578,8 +3671,9 @@ minimization nor GeometricCurrents regularity enters R5b.
   Mathematics Magazine 76 (2003), 87–98, section "Seeing the Hopf
   fibration": the stereographic picture of the Hopf fibres used by R3.3c.
 - L. I. Nicolaescu, [Lectures on the Geometry of Manifolds](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
-  author's electronic edition, Definition 4.1.23 and Proposition 4.1.25,
-  p. 151 (injectivity radius; first-order contact of normal coordinates),
+  author's electronic edition, Definition 4.1.23, Proposition 4.1.25 and
+  Lemma 4.1.26, p. 151 (injectivity radius; first-order contact of normal
+  coordinates; vanishing of their Christoffel symbols at the centre, used by R1.4),
   Example 4.2.36, p. 195, and Exercise 4.2.38, p. 196 (the Einstein factor is
   Scal/n and is constant in dimension at least three),
   Theorem 5.2.26, p. 220 (Myers: diameter bound and compactness), Theorem 6.2.6,
@@ -3614,7 +3708,9 @@ minimization nor GeometricCurrents regularity enters R5b.
 - J. Barzen and F. Leymann, [Mathematics of Spacetime: A Guided Tour Through The
   Underlying Differential Topology and Differential Geometry](https://arxiv.org/abs/2606.02616),
   arXiv:2606.02616, Theorem 9, p. 60: the Killing–Hopf classification of complete
-  simply connected manifolds of constant sectional curvature, used by R4.7.
+  simply connected manifolds of constant sectional curvature, used by R4.7; Lemma 35,
+  pp. 61–62, and Lemma 36, p. 62: the curvature and Ricci tensors of a warped product,
+  with the opposite curvature sign, used by R1.3.
 - Z. Wang, [Riemannian geometry notes](https://xumin.net/c/files/riemannian_geometry.pdf),
   as recorded by X. Liang, Chapters 5–6, provides an accessible finite
   piecewise-Jacobi index reduction and comparison reference.

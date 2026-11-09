@@ -54,11 +54,15 @@ identification of the differential of the exponential map with radial Jacobi fie
 vanishing first derivatives of the metric in normal coordinates, conjugate multiplicity and its
 bound `n − 1`, and the absence of endpoint-zero Jacobi fields under nonpositive sectional
 curvature (R2, R3); the norm-nondecreasing exponential differential under nonpositive sectional
-curvature (R4.4); the curvature of the round spheres and of the half-space model and the full
-isometry groups of Euclidean space and of the round sphere (R4.7); the almost-everywhere Morse property of the squared
-distance from a point along an immersion and its properness along a closed embedding (R6); the
-scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); and the Fischer
-decomposition of homogeneous polynomials (R8.1).
+curvature (R4.4); the curvature of the round spheres and of the half-space model, the full
+isometry groups of Euclidean space and of the round sphere, and the Gauss formula giving the
+round-sphere connection by tangential projection (R4.7, R5a); the round metric in stereographic
+coordinates and the second fundamental form and shape operator of a parametrization in a
+Euclidean space (R5a.2); the Hessian of the squared distance along a parametrization and its
+kernel, the almost-everywhere Morse property of the squared distance from a point along an
+immersion and its properness along a closed embedding (R6); the scalar Bochner identity and the
+Lichnerowicz eigenvalue bound (R7.0); and the Fischer decomposition of homogeneous polynomials
+(R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
