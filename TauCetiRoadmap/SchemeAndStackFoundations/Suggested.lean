@@ -135,60 +135,6 @@ theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
         IsClosed (U : Set Y) ∧ IsFinite (U.ι ≫ p) ∧ Etale (U.ι ≫ p) := by
   sorry
 
-/-! ### §0.12 The henselization of a pair -/
-
-namespace Henselization
-
-variable {R : Type u} [CommRing R]
-
-/-- The canonical map `R/I → B/IB`. -/
-abbrev reducedMap (I : Ideal R) (B : CommAlgCat.{u} R) :
-    R ⧸ I →+* B ⧸ I.map (algebraMap R B) :=
-  Ideal.quotientMap (I.map (algebraMap R B)) (algebraMap R B) Ideal.le_comap_map
-
-/-- Étale neighbourhoods of `(R, I)`: étale `R`-algebras `B` with `R/I ≅ B/IB`.
-Stacks, Lemma 15.12.1, construction. -/
-def IsNeighbourhood (I : Ideal R) : ObjectProperty (CommAlgCat.{u} R) :=
-  fun B => Algebra.Etale R B ∧ Function.Bijective (reducedMap I B)
-
-/-- The category of étale neighbourhoods of `(R, I)`. -/
-abbrev Neighbourhood (I : Ideal R) := (IsNeighbourhood I).FullSubcategory
-
-theorem neighbourhood_isFiltered (I : Ideal R) : IsFiltered (Neighbourhood I) := by sorry
-attribute [instance] neighbourhood_isFiltered
-
-theorem neighbourhood_essentiallySmall (I : Ideal R) :
-    EssentiallySmall.{u} (Neighbourhood I) := by sorry
-attribute [instance] neighbourhood_essentiallySmall
-
-/-- The neighbourhood diagram on a small model. -/
-noncomputable def diagram (I : Ideal R) :
-    SmallModel.{u} (Neighbourhood I) ⥤ CommAlgCat.{u} R :=
-  (equivSmallModel.{u} (Neighbourhood I)).inverse ⋙ (IsNeighbourhood I).ι
-
-/-- The henselization `R^h` of the pair `(R, I)`: the colimit of its étale neighbourhoods. -/
-noncomputable def algebra (I : Ideal R) : CommAlgCat.{u} R := colimit (diagram I)
-
-/-- The extended ideal `I^h = I · R^h`. -/
-noncomputable abbrev extended (I : Ideal R) : Ideal (algebra I) :=
-  I.map (algebraMap R (algebra I))
-
-/-- `(R^h, I^h)` is a henselian pair. Stacks, Lemma 15.12.1. -/
-theorem henselian (I : Ideal R) : HenselianRing (algebra I) (extended I) := by sorry
-
-/-- Universal property: every map from `R` to a henselian pair carrying `I` into the ideal
-factors uniquely through `R^h`. Stacks, Lemma 15.12.1. -/
-theorem existsUnique_lift (I : Ideal R) {S : Type u} [CommRing S]
-    (J : Ideal S) [HenselianRing S J] (f : R →+* S) (hf : I ≤ J.comap f) :
-    ∃! g : algebra I →+* S, g.comp (algebraMap R (algebra I)) = f := by sorry
-
-/-- A henselian pair is its own henselization: the canonical map `R → R^h` is bijective.
-Stacks, Lemma 15.12.1 (universal property). -/
-theorem fixed_of_henselian (I : Ideal R) [HenselianRing R I] :
-    Function.Bijective (algebraMap R (algebra I)) := by sorry
-
-end Henselization
-
 /-! ### §0.20 Japanese and Nagata rings -/
 
 /-- A domain is Japanese (N-2) if its integral closure in every finite extension of its fraction
@@ -290,12 +236,6 @@ theorem universalHomeomorphismEtaleEquivalence_coverPreserving {X Y : Scheme.{u}
       (universalHomeomorphismEtaleEquivalence f hf).inverse := by
   sorry
 
-/-- Identity compatibility uses the canonical pullback comparison. -/
-theorem universalHomeomorphismEtaleEquivalence_id (X : Scheme.{u})
-    (hX : (topologically IsHomeomorph).universally (𝟙 X)) :
-    ∃ e : (universalHomeomorphismEtaleEquivalence (𝟙 X) hX).functor ≅ 𝟭 X.Etale,
-      ∀ V : X.Etale, (e.hom.app V).left = pullback.fst V.hom (𝟙 X) := by sorry
-
 /-- Composition compatibility is the associativity comparison for scheme pullbacks. -/
 theorem universalHomeomorphismEtaleEquivalence_comp {X Y Z : Scheme.{u}}
     (f : X ⟶ Y) (g : Y ⟶ Z)
@@ -347,33 +287,6 @@ theorem element_annihilator_flat_baseChange {R S M : Type u}
 
 end FlatAnnihilator
 
-/-! ### §0.29 Scheme Frobenius -/
-
-namespace SchemeFrobenius
-
-open AlgebraicGeometry CategoryTheory.Limits
-
-/-- Intrinsic characteristic `p`: every local ring has characteristic `p`. -/
-def SchemeCharP (X : Scheme.{u}) (p : ℕ) : Prop :=
-  ∀ x : X, CharP (X.presheaf.stalk x) p
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- On affine schemes intrinsic characteristic means `p = 0`, including the zero ring. -/
-theorem schemeCharP_spec_iff (A : Type u) [CommRing A] :
-    SchemeCharP (Spec (CommRingCat.of A)) p ↔ (p : A) = 0 := sorry
-
-/-- Intrinsic characteristic is equivalent to a unique prime-field structure map. -/
-theorem schemeCharP_iff_structureMap (X : Scheme.{u}) :
-    SchemeCharP X p ↔ ∃! f : X ⟶ Spec (CommRingCat.of (ULift.{u} (ZMod p))), True := sorry
-
-/-- A scheme mapping to a characteristic-`p` scheme has characteristic `p`. -/
-theorem schemeCharP_of_hom {X S : Scheme.{u}} (f : X ⟶ S) (hS : SchemeCharP S p) :
-    SchemeCharP X p := by
-  sorry
-
-end SchemeFrobenius
-
 /-! ### §0.30 Normal schemes, codimension-one points under finite morphisms, ramification -/
 
 namespace NormalSchemes
@@ -390,11 +303,6 @@ class IsNormalScheme (X : Scheme.{u}) : Prop where
 instance IsNormalScheme.isDomain_stalk' (X : Scheme.{u}) [IsNormalScheme X] (x : X) :
     IsDomain (X.presheaf.stalk x) :=
   IsNormalScheme.isDomain_stalk x
-
-/-- A normal scheme is reduced. Stacks, Lemma 28.7.3 (033K). -/
-@[stacks 033K]
-theorem IsNormalScheme.isReduced (X : Scheme.{u}) [IsNormalScheme X] : IsReduced X := by
-  sorry
 
 /-- On a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete
 valuation ring. Stacks, Lemma 10.119.7 (00PD). -/
@@ -737,12 +645,6 @@ def nisnevichPrecoverage : Precoverage Scheme.{u} where
 /-- The big Nisnevich topology. -/
 def nisnevichTopology : GrothendieckTopology Scheme.{u} :=
   nisnevichPrecoverage.toGrothendieck
-
-theorem zariskiTopology_le_nisnevichTopology :
-    Scheme.zariskiTopology.{u} ≤ nisnevichTopology := by sorry
-
-theorem nisnevichTopology_le_etaleTopology :
-    nisnevichTopology.{u} ≤ Scheme.etaleTopology := by sorry
 
 /-- An elementary distinguished square: an open immersion `j`, an étale `p`, and `p` an
 isomorphism over the reduced complement of `j`. Morel–Voevodsky, §3.1, Definition 1.3. -/
@@ -1262,15 +1164,6 @@ theorem node_local_structure_dvr (R : Type u) [CommRing R] [IsDomain R]
             Ideal.Quotient.mk (J (π ^ n)) (MvPolynomial.X 0) ∧
         e (Ideal.Quotient.mk (J a) (MvPolynomial.X 1)) =
           Ideal.Quotient.mk (J (π ^ n)) (MvPolynomial.X 1)) := by
-  sorry
-
-/-- A smooth generic fibre excludes the persistent node. de Jong 1996, 2.23. -/
-theorem node_local_structure_dvr_nonzero_of_generic_smooth
-    (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (a : R)
-    (hsmooth : Algebra.Smooth (FractionRing R) (FractionRing R ⊗[R]
-      (MvPolynomial (Fin 2) R ⧸ Ideal.span
-        {MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.C a}))) :
-    a ≠ 0 := by
   sorry
 
 /-- A scheme `X` with structure morphism `g : X ⟶ Spec R` is projective over `R` when for some
