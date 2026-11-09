@@ -42,7 +42,9 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   determinant reduced discriminant of a lattice, and the cubic discriminant of an order, the trace dual and codifferent, maximal orders and the
   criterion `discrd O = disc B`, the local structure of maximal orders, Eichler orders and their
   level, hereditary orders, the unit group `O^×` and the norm-one group `O¹`, products of
-  lattices and the definitions of principal and invertible lattices.
+  lattices and the definitions of principal and invertible lattices, and the Hurwitz order of
+  `ℍ[ℚ,-1,-1]` with its maximality, its unit group of order `24` and the principality of its
+  right ideals (1.14).
 - **Gorenstein, Bass and the ternary form** (Layer 2): the even Clifford correspondence between
   ternary quadratic modules and orders, Gorenstein orders, the Gorenstein saturation and
   conductor, Bass orders, the Eichler symbol and the local unit counts.
@@ -50,8 +52,8 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   class set `Cls O`, the type set `Typ O`, connecting ideals and genera, the quaternion reading of
   the idelic dictionary (`Cls O` as the idele double cosets of classical arithmetic completion 7.78,
   with the reduced-norm identity and the comparisons with the two definite class sets), finiteness
-  of class and type sets, two-sided ideals, `Pic_R(O)`, the normalizer and the Atkin–Lehner group
-  `AL(O)`.
+  of class and type sets, the class number one of the Hurwitz order (3.8), two-sided ideals,
+  `Pic_R(O)`, the normalizer and the Atkin–Lehner group `AL(O)`.
 - **Eichler's theorems for indefinite algebras** (Layer 4), as stated theorems whose
   strong-approximation input is consumed.
 - **The Eichler mass formula** (Layer 5) in its absolute form, over `ℚ` and over totally real
@@ -163,7 +165,7 @@ The roadmaps consumed are: [quadratic form invariants](../QuadraticFormInvariant
 (Layer 7, items 7.4, 7.20, 7.21, 7.44, 7.56, 7.60, 7.72, 7.77, 7.78, 7.98),
 [Fuchsian orbifolds](../FuchsianOrbifolds/README.md) (Layers 0–5), [Teichmüller geometry](../TeichmullerGeometry/README.md) (§9.1), [theta series](../ThetaSeries/README.md) (Layer 7),
 [adelic algebraic groups](../AdelicAlgebraicGroups/README.md) (AA.3.4, AA.4.2, AA.4.6, AA.5.3),
-[quaternionic modular forms](../QuaternionicModularForms/README.md) (Layer 0 and 3.1),
+[quaternionic modular forms](../QuaternionicModularForms/README.md) (§3.1),
 [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 (R17.1.5, R17.3) and
 [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md)
@@ -221,18 +223,17 @@ ownership*.
 - **From the class field theory roadmap:** Layer 5 (`Br K`, `invMap`), Layer 10
   (`finiteInvAt`, `infiniteInvAt`, `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`,
   `exists_br_of_sum_eq_zero`), Layer 14 (`hilbertProductFormula`).
-- **From GL₂ automorphic representations and transfer, R17.1.5:** the predicate
-  `RamifiedExactlyAt D S` on an abstract quaternion algebra, `ramifiedExactlyAt_iff_nonsplit`, the
-  realization theorem `existsQuaternionRamification_iff` (every even set of noncomplex places is
-  the ramification set of some `B`) and the uniqueness theorem `quaternionAlgEquivOfLocalSplitting`
-  (two algebras with the same local splitting predicates are isomorphic). Layer 0 uses these through the comparison of §0.2, without restating them as targets. Its
+- **From GL₂ automorphic representations and transfer, R17.1.5:** the predicate *`D` is ramified
+  exactly at `S`* on an abstract quaternion algebra and the equivalence of its two local division
+  tests, the realization theorem
+  `existsQuaternionRamification_iff` (every even set of noncomplex places is the ramification set
+  of some `B`) and the uniqueness theorem `nonempty_quaternionAlgEquiv_of_localSplitting` (two
+  algebras with the same local splitting predicates are isomorphic). Layer 0 uses these through the comparison of §0.2, without restating them as targets. Its
   R17.3 (global Jacquet–Langlands) is the statement through which the Brandt matrices of Layer 7
   compute Hilbert modular forms; it is cited in Layer 7 and not restated.
-- **From quaternionic modular forms:** §0.3 the finite adelic class set
-  `classSet U = D^× \ D_f^× / U` with `finite_classSet` and `DefiniteQuaternion.finite_stab`, for
-  a totally definite algebra; §3.1 the Hecke operators `T_η` on quaternionic forms. Layer 3 identifies `Cls O` with
-  `classSet Ô^×` and Layer 7 compares the transpose Brandt matrices with sums of T(η⁻¹) on forms with
-  trivial coefficients, keeping the local double-coset types.
+- **From quaternionic modular forms:** §3.1 the Hecke operators `T_η` on quaternionic forms. Layer
+  7 compares the transpose Brandt matrices with sums of T(η⁻¹) on forms with trivial coefficients,
+  keeping the local double-coset types.
 - **From Hilbert modular varieties and Shimura curves:** R18.1 (the canonical curve
   `Sh_U(G_B, X_B)` over `ℚ` and its complex uniformization), which is the algebraic curve whose
   complex points Layer 8 and Layer 9 describe as `Γ \ ℍ`; R18.3.1 (`DefiniteClassSet`, the central
@@ -247,10 +248,14 @@ ownership*.
 - **From adelic algebraic groups:** §4.4 “Nested-level map on double cosets” and
   “Finite-index bound for level changes” for §3.9; AA.3.4 `class-number-finite` (`Reduction.finite_classes`),
   AA.4.2 `quaternion-norm-one-strong-approximation` (`D¹(𝔸_{F,f}) = D¹(F)·D¹(F_v)·U^{v,1}` for a
-  split finite place `v`), AA.4.6 `quaternion-norm-images` (`Nrd(D^×) = F^×_{>Ω 0}`), AA.5.3 the
-  volume identity under level change for a definite algebra over ℚ and the Hurwitz
-  benchmark (one class, 24 units, mass 1/12). Section 1.8 here constructs its explicit order
-  and proves maximality; these numerical facts are consumed.
+  split finite place `v`), AA.4.6 `quaternion-norm-images` (`Nrd(D^×) = F^×_{>Ω 0}`), and AA.5.3:
+  *quaternion-class-sets* (the class set `Cl(U) = D^× \ D_f^× / U` of a quaternion algebra is
+  finite for every compact open `U`, with representatives and surjective refinement maps),
+  *definite-quaternion-stabilizers* (for totally definite `D` and compact `U` the stabilizers
+  `D^× ∩ xUx⁻¹` are finite modulo `F^× ∩ U`, and finite over `ℚ`) and the volume identity under
+  level change for a definite algebra over ℚ. Layer 3 identifies `Cls O` with `Cl(Ô^×)`. The Hurwitz order's maximality, its
+  `24` units, its single class and its mass `1/12` are proved here (1.8, 1.14, 3.8, 5.6), not
+  consumed.
 - **From Fuchsian orbifolds:** Layers 0–5 supply the effective action, coarse quotient,
   compactification, genus, Riemann–Hurwitz, and covolume scaling for finite-index subgroups.
 - **From ReductiveGroupsPartII RG2.2.4, “sl2-tree”:** the homothety-class lattice graph,
@@ -388,7 +393,7 @@ and IsRamifiedAtReal B w :⟺ (a_w, b_w)_ℝ = -1. Prove:
   parameters of an equivalent presentation (`hilbertSymbol_comm`, `hilbertSymbol_congr_sq`, and
   naturality of the splitting predicate under `AlgEquiv`);
 - for an abstract quaternion algebra `D` with a presentation `e : D ≃ₐ[F] ℍ[F,a,b]`, the GL₂
-  transfer roadmap's `RamifiedExactlyAt D S` holds exactly when `S` is the set of places at which
+  transfer roadmap's predicate *`D` is ramified exactly at `S`* holds exactly when `S` is the set of places at which
   `ℍ[F,a,b]` is ramified by these predicates. This is the only point of contact with that
   predicate, and it is a comparison, not a second definition.
 
@@ -643,8 +648,7 @@ The rational maximality equivalence is `isMax_iff_discrdNat_eq`.
 
 For `R = 𝓞 F`: `O` is maximal iff `discrd O = disc B` (`[V, 15.5.5]`). Corollaries: maximal orders
 form one genus; two maximal orders have the same reduced discriminant; the maximal orders of the
-examples of 0.7: the Hurwitz order `ℤ⟨i, j, (1+i+j+k)/2⟩ ⊂ ℍ[ℚ,-1,-1]` (construct the displayed lattice as an order and prove maximality by its discriminant;
-AdelicAlgebraicGroups §5.3 supplies its 24 units and one class) and, for `ℍ[ℚ,3,-1]`,
+examples of 0.7: the Hurwitz order `ℤ⟨i, j, (1+i+j+k)/2⟩ ⊂ ℍ[ℚ,-1,-1]` (construct the displayed lattice as an order and prove maximality by its discriminant) and, for `ℍ[ℚ,3,-1]`,
 `O = ℤ⟨1, i, j, (1+i+j+k)/2⟩` with `discrd O = 6`. The Lipschitz order `ℤ⟨i,j⟩ ⊂ ℍ[ℚ,-1,-1]` has
 `discrd = 4` and is not maximal. *Needs:* 0.4, 1.5, 1.7.
 
@@ -777,6 +781,46 @@ Its API:
 - For I = 2O, the inverse is (1/2)O and both inverse products are O; nrd(I) = (4).
 - For I = 2O and J = 3O, compatibility holds, IJ = 6O and nrd(IJ) = (36) = (4)(9).
 - The zero submodule has product zero with every module and norm module zero; it is not a full or invertible lattice.
+
+### 1.14 The Hurwitz order
+
+Let `B = ℍ[ℚ,-1,-1]`, `ω = (−1+i+j+k)/2` and `O_H = ℤ + ℤi + ℤj + ℤω = ℤ⟨i, j, (1+i+j+k)/2⟩`,
+the Hurwitz order of 1.8. Prove:
+
+- **Order and maximality.** `O_H` is an order containing the Lipschitz order `ℤ⟨i,j⟩` with index
+  `2`, and it is the unique order properly containing `ℤ⟨i,j⟩` (`[V, 11.1.2]`). Route: an element
+  `t + xi + yj + zk` of an order containing `ℤ⟨i,j⟩` has `2t, 2x, 2y, 2z ∈ ℤ` by integrality of
+  `trd(α)`, `trd(αi)`, `trd(αj)`, `trd(αk)` (1.1), and `t² + x² + y² + z² ∈ ℤ` forces the four
+  coordinates to lie all in `ℤ` or all in `½ + ℤ`. Maximality follows, and agrees with 1.8's
+  criterion `discrd O_H = 2 = D` (0.7).
+- **Units.** `O_H^× = O_H¹` (`nrd` is positive on the definite `B` and `nrd(O_H^×) ⊆ ℤ^×` by 1.2),
+  and `O_H^× = {±1, ±i, ±j, ±k} ∪ {(±1 ± i ± j ± k)/2}` has order `24`: the solutions of
+  `t² + x² + y² + z² = 1` with all coordinates in `ℤ` or all in `½ + ℤ`. Reduction modulo `3`,
+  `O_H/3O_H ≃ M₂(𝔽₃)` by `i ↦ [[0,−1],[1,0]]`, `j ↦ [[1,1],[1,−1]]`, maps `O_H^×` into `SL₂(𝔽₃)`;
+  it is injective because `γ ≡ 1 mod 3O_H` forces `9 ∣ nrd(γ − 1) = 2 − trd γ ∈ {0, 1, 2, 3, 4}`,
+  so `γ = 1`. Hence `O_H^× ≃ SL₂(𝔽₃)` (`[V, 11.2.1]`), with `1 → {±1} → O_H^× → A₄ → 1`
+  (`[V, (11.2.3)]`).
+- **Euclidean property and principal ideals.** For every `γ ∈ B` there is `μ ∈ O_H` with
+  `nrd(γ − μ) ≤ 1/2`: translating by `ℤ⁴ ⊂ O_H` puts the four coordinates `x_ι` of `γ` in
+  `[−1/2, 1/2]`, and the reduced norms of the differences from `0` and from the point
+  `(±1 ± i ± j ± k)/2` whose signs match those of the `x_ι` add up to
+  `∑ (x_ι² + (1/2 − |x_ι|)²) ≤ 4 · 1/4 = 1`. Hence `O_H` is right norm-Euclidean (`[V, 11.3.1–11.3.2]`):
+  for `α, β ∈ O_H` with `β ≠ 0` there are `μ, ρ ∈ O_H` with `α = βμ + ρ` and `nrd ρ < nrd β`.
+  Every right ideal `I ⊆ O_H` is principal, `I = βO_H` for an element `β ∈ I` of least nonzero
+  reduced norm (`[V, 11.3.4]`), and every maximal order of `B` is `α⁻¹O_Hα` for some `α ∈ B^×`
+  (`[V, 11.3.7]`).
+
+*Needs:* 0.7, 1.1, 1.2, 1.8, 1.13.
+
+**Checks.**
+
+- `#O_H^× = 8 + 16 = 24 = #SL₂(𝔽₃)`; `−1` is the only element of order `2`, and the unit traces are
+  `−2, −1, 0, 1, 2`.
+- (bound attained) `γ = (1+i)/2` has distance `1/2` from `O_H`: its distances to `0`, `1`, `i`,
+  `1+i` and to the nearest half-integral points are all `1/2`.
+- (reject) In the Lipschitz order `ℤ⟨i,j⟩` the right ideal `2O_H = 2ℤ⟨i,j⟩ + (1+i+j+k)ℤ⟨i,j⟩` is
+  not principal (`[V, 11.3.8]`): a generator would have reduced norm `4` and would give
+  `2O_H = 2ℤ⟨i,j⟩`. The Euclidean property needs the half-integral points.
 
 ### Examples
 
@@ -1018,21 +1062,22 @@ classical arithmetic completion 7.78 at `Λ = O` (its `U(O)` contains the archim
 completions is its 7.72; both are consumed. Prove the quaternion reading: a right `O`-lattice is
 locally free of rank one over O iff it is a proper invertible lattice (3.1), so that 7.78 reads
 `Cls O ≃ B^× \ B̂^× / Ô^×` (`[V, 27.6.8]`, bijection (27.6.9)), and the reduced-norm identity
-`nrd(B ∩ α̂Ô) = F ∩ nrd(α̂)R̂`. For totally definite `B` this is the comparison with quaternionic
-modular forms §0.3's `classSet U` at `U = Ô^×`, and with Hilbert modular varieties R18.3.1's
-`DefiniteClassSet` after the central quotient; this milestone states the comparison and proves it,
-and it is the only place a second description of `Cls O` appears. *Needs:* 3.1, 3.2;
-global number fields Layers 4, 6; CAC 7.72, 7.78; QMF §0.3.
+`nrd(B ∩ α̂Ô) = F ∩ nrd(α̂)R̂`. This is the comparison with adelic algebraic groups AA.5.3's class
+set `Cl(U)` (*quaternion-class-sets*) at `U = Ô^×` and, for totally definite `B`, with Hilbert
+modular varieties R18.3.1's `DefiniteClassSet` after the central quotient; this milestone states
+the comparison and proves it, and it is the only place a second description of `Cls O` appears.
+*Needs:* 3.1, 3.2; global number fields Layers 4, 6; CAC 7.72, 7.78; AA.5.3.
 
 ### 3.5 Finiteness of class and type sets
 
 The acceptance theorem `finite_classSet` is stated for the ring of integers of every number field.
 
 Prove `Cls O` and `Typ O` finite for every order over `𝓞 F` (`[V, 17.7.1]`): through 3.4 and adelic
-algebraic groups AA.3.4 `class-number-finite` for `G = B^×` with the compact open `Ô^×`; for totally
-definite `B` also directly through quaternionic modular forms `finite_classSet`. Over `ℚ` and `B`
-definite, prove `O^× = O¹` is finite and every class is represented by an integral ideal of norm
-`≤ (8/π²)·discrd O` (`[V, 17.5.6]`). *Needs:* 3.4; AA.3.4; QMF §0.3.
+algebraic groups AA.3.4 `class-number-finite` for `G = B^×` with the compact open `Ô^×`, which is
+AA.5.3 *quaternion-class-sets* at `U = Ô^×`. Over `ℚ` and `B` definite, prove `O^× = O¹` is finite:
+`O^× = B^× ∩ Ô^×` is the stabilizer of AA.5.3 *definite-quaternion-stabilizers* at `x = 1`, and
+`nrd` is positive on `B`. Prove every class is represented by an integral ideal of norm
+`≤ (8/π²)·discrd O` (`[V, 17.5.6]`). *Needs:* 3.4; AA.3.4; AA.5.3.
 
 ### 3.6 Two-sided ideals, the normalizer and `Pic_R(O)`
 
@@ -1083,9 +1128,12 @@ Its API:
 
 ### 3.8 Hurwitz and the class number one examples
 
-Prove `# Cls = 1` for the Hurwitz order (AdelicAlgebraicGroups §5.3, consumed) and for the
+Prove `# Cls O_H = 1` and `# Typ O_H = 1` for the Hurwitz order `O_H` of 1.14: an invertible right
+fractional `O_H`-ideal `I` has `nI ⊆ O_H` for a positive integer `n`, and `nI = βO_H` by 1.14, so
+`(nβ^{-1})I = O_H` and `[I] = [O_H]`; the surjection `Cls O → Typ O` of 3.2 then gives one type
+(`[V, 11.3.4, 11.3.7]`). Prove `# Cls = 1` for the
 maximal orders of discriminant `3, 5, 7, 13`, and `# Cls = 2` for discriminant `11` with unit
-groups of orders `4` and `6`, `# Cls = 3` for `37` with all unit groups `{±1}`, by the mass and embedding formulas of 5.2 and 6.6, with the left-order unit counts retained. *Needs:* 3.2, 3.5.
+groups of orders `4` and `6`, `# Cls = 3` for `37` with all unit groups `{±1}`, by the mass and embedding formulas of 5.2 and 6.6, with the left-order unit counts retained. *Needs:* 3.2, 3.5; 1.14 for the Hurwitz order.
 
 **Checks.**
 
@@ -1144,7 +1192,7 @@ D = 11 has two ideal classes and two types; D = 37 has three classes and two typ
 
 ### Dependencies
 
-Layer 1; ClassicalArithmeticCompletion §§7.72, 7.78; AdelicAlgebraicGroups §3.4; GlobalNumberFields Layers 4 and 6; QuaternionicModularForms §0.3.
+Layer 1; ClassicalArithmeticCompletion §§7.72, 7.78; AdelicAlgebraicGroups §§3.4, 5.3; GlobalNumberFields Layers 4 and 6.
 
 ## Layer 4: indefinite algebras — Eichler's theorems from strong approximation
 
@@ -1313,10 +1361,11 @@ isomorphism classes of orders, not just reduced discriminants. *Needs:* 2.5–2.
 
 ### 5.6 Worked masses
 
-Prove the values: `D = 2`: one class, `w = 12`; `D = 3`: one class, `w = 6`; `D = 5`: `w = 3`;
+Prove the values: `D = 2`: one class, `w = 12` (for the Hurwitz order also directly from 1.14 and
+3.8, mass `1/12 = φ(2)/12`); `D = 3`: one class, `w = 6`; `D = 5`: `w = 3`;
 `D = 7`: `w = 2`; `D = 11`: two classes with `w = 2, 3`, mass `5/6`; `D = 13`: one class, `w = 1`;
 `D = 37`: three classes with `w = 1`, mass `3`; the Eichler order of level `3` in `D = 2`: one
-class with `w = 3`, mass `φ(2)ψ(3)/12 = 1/3`. *Needs:* 5.2.
+class with `w = 3`, mass `φ(2)ψ(3)/12 = 1/3`. *Needs:* 5.2; 1.14 and 3.8 for the Hurwitz order.
 
 ### Examples
 
@@ -1595,7 +1644,7 @@ For general conductor exponents retain the transferred local representation and 
 the Eichler-order model applies precisely to its Ôᵥˣ-invariants, and is not asserted to realize
 every ramified local type. Identify the cuspidal subspace as the orthogonal complement of
 all forms factoring through reduced norm, including nontrivial norm characters.
-*Needs:* 7.1, 3.4; QuaternionicModularForms §§0.3, 3.1; HilbertModularVarietiesAndShimuraCurves R18.5.17a; GL2AutomorphicRepresentationsAndTransfer R17.3.
+*Needs:* 7.1, 3.4; QuaternionicModularForms §3.1; HilbertModularVarietiesAndShimuraCurves R18.5.17a; GL2AutomorphicRepresentationsAndTransfer R17.3.
 
 **Checks.**
 
@@ -2238,8 +2287,8 @@ Every number below is checked by computation (Sage: `QuaternionAlgebra`, `Brandt
 
 `(−1,−1)_2 = −1`, `(−1,−1)_p = 1` for odd `p`, `(−1,−1)_ℝ = −1`: `Ram = {2, ∞}`, `D = 2`,
 definite (0.4, 0.5, 0.7). The Lipschitz order `ℤ⟨i,j⟩` has `discrd = 4` (1.8); the Hurwitz order
-has `discrd = 2 = D`, is maximal (1.8), has `24` units, `w = 12`, `# Cls = 1` (3.8), mass
-`1/12 = φ(2)/12` (5.6), class number formula `1/12 + 1/4 + 2/3 = 1` (6.7), `T(3) = (4)`,
+has `discrd = 2 = D`, is maximal (1.8, 1.14), has `24` units forming `SL₂(𝔽₃)` (1.14), `w = 12`,
+`# Cls = 1` (3.8), mass `1/12 = φ(2)/12` (5.6), class number formula `1/12 + 1/4 + 2/3 = 1` (6.7), `T(3) = (4)`,
 `T(5) = (6)` (7.6). Eichler order of level `3`: `discrd = 6`, `6` units, `w = 3`, mass `1/3`,
 `# Cls = 1`, `T(5) = (6)`, `T(7) = (8)`. Boundary: `ℍ[ℚ,-1,-13]` also has `D = 2`, not `13`
 (`(−1,−13)_{13} = 1` since `−1` is a square mod `13`).
@@ -2335,10 +2384,11 @@ untwisted, one pair for each `S`: two classes, the LMFDB's `39.1` being the pair
 - **Layer 0** (ramification, discriminant) rests on Tau Ceti and the consumed classification; it
   is independent of everything else and can start at once.
 - **Layer 1** (orders) rests on Mathlib's `IsLattice` and 0.1 only; 1.8 and 1.10 need 0.4, 1.10
-  needs CAC 7.60; 1.12 uses elementary divisors over a DVR.
+  needs CAC 7.60; 1.12 uses elementary divisors over a DVR; 1.14 needs 0.7, 1.8 and 1.13.
   **Layer 2** (Gorenstein, Bass) needs Layer 1 only and is independent of Layer 3.
 - **Layer 3** (ideals, class sets, idelic dictionary, finiteness) needs Layer 1; 3.4 needs CAC
-  7.72, 7.78 and global number fields Layers 4–6; 3.5 needs AA.3.4.
+  7.72, 7.78, global number fields Layers 4–6 and AA.5.3; 3.5 needs AA.3.4 and AA.5.3; 3.8 needs
+  1.14.
 - **Layer 4** (indefinite) needs Layer 3, AA.4.2, AA.4.6 and CAC 7.44, 7.60, 7.98. **Layer 5** (mass)
   needs Layer 3, 2.4 and AA.5.3; Layers 4 and 5 are independent of each other.
 - **Layer 6** (embeddings) needs Layers 1, 3; 6.4 needs 3.5; 6.5 needs 4.3 in the indefinite
