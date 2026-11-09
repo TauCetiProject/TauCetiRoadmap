@@ -13,6 +13,7 @@ public import TauCeti.AlgebraicTopology.SerreClass.PowerTorsion
 public import TauCeti.AlgebraicTopology.SerreClass.Torsion
 public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
 public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
+public import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
 public import TauCeti.Topology.Homotopy.HomotopyGroup.WeakHomotopyEquivalence
 public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
 
@@ -26,28 +27,35 @@ spaces (Stage 4.5); Poincaré duality by cap product with the pinned fundamental
 oriented manifold (Stage 6.4); the multiplicativity of the Euler characteristic in a fibre bundle
 (Stage 7.2); the relative Hurewicz isomorphism for a simply connected subspace (Stage 8.4);
 homological Whitehead (Stage 8.5); the finite CW type of compact smooth manifolds (Stage 8.7);
-the existence of CW Eilenberg–MacLane spaces, of the coefficient-functorial family and of the
+the existence of the coefficient-functorial family of CW Eilenberg–MacLane spaces and of the
 Dold–Kan models (Stage 8.8c); Hurewicz modulo the torsion class and modulo the class of groups
 annihilated by a power of `d` (Stage 8.8d); ordinary cohomology representability with its
-normalized universal class (Stage 8.10); and the cup-length lower bound for the
-Lusternik–Schnirelmann category (the categorical-cover supplement of Stage 6.2).
+normalized universal class (Stage 8.10); the loop comparison `K(A, n) → ΩK(A, n + 1)` in positive
+degrees (Stage 8.11b); and the cup-length lower bound for the Lusternik–Schnirelmann category (the
+categorical-cover supplement of Stage 6.2).
 
 Headline theorems that are theorems of the pinned Tau Ceti, and therefore not stated here: van
 Kampen for the fundamental groupoid (`TauCeti.FundamentalGroupoid.isColimitCechCocone`), excision
 and Mayer–Vietoris (`TopPair.isIso_singularHomologyMap_excisionMap_compl`,
 `TopCat.mayerVietoris_exact₁`), the cellular comparison in every dimension
-(`TauCeti.cellularSingularHomologyIsoUniv`), the absolute Hurewicz theorem
+(`TauCeti.cellularSingularHomologyIsoUniv`), the degree-one Hurewicz isomorphism
+(`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`), the absolute Hurewicz theorem
 (`HomotopyGroup.hurewiczAddEquiv`), the relative Hurewicz isomorphism for two highly connected
 spaces (`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`),
 Whitehead's theorem for spaces of CW type
-(`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`), CW approximation
-(`TauCeti.cwApproximationLift`), cellular approximation (`TauCeti.exists_isCellular_homotopicRel`),
+(`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`), CW approximation of a path-connected
+space (`TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`), the invariance of singular
+homology under weak homotopy equivalences
+(`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`), cellular approximation
+(`TauCeti.exists_isCellular_homotopicRel`),
 the Künneth theorem over a field and with projective homology
 (`TopCat.isIso_singularHomologyKunneth_of_projective_homology`), the transfer of a finite covering
 (`IsCoveringMap.singularTransfer`), the spectral sequence of a filtered space
 (`TauCeti.filteredSpaceSpectralSequence`), the fundamental class of a compact oriented manifold
 (`TauCeti.HomologicalOrientation.fundamentalClass`), the Euler characteristic of a space of finite
-CW type (`TauCeti.eulerChar`), Brouwer's fixed-point theorem
+CW type (`TauCeti.eulerChar`) with its product, finite-cover and open Mayer–Vietoris laws
+(`TauCeti.eulerChar_prod`, `TauCeti.eulerChar_eq_mul_of_isCoveringMap`,
+`TauCeti.eulerChar_union_add_eulerChar_inter`), Brouwer's fixed-point theorem
 (`TauCeti.brouwerFixedPoint_compactConvex`), the categorical covers and the unnormalized
 Lusternik–Schnirelmann count (`TauCeti.LSCategoricalCover`, `TauCeti.lsCategoryCount`), and
 simple connectivity at infinity (`TauCeti.SimplyConnectedAtInfinity`).
@@ -59,14 +67,22 @@ multiplicative structure (Stage 5.5; the pinned fibre local system is for Hurewi
 cubical chains, and the identification of the second page with twisted cellular homology has no
 carrier), the Cartan–Leray spectral sequence (Stage 5.3; no double complex of a regular cover
 in the pinned representation category), the Künneth spectral sequence over a general ring
-(Stage 5.1), the twisted relative fundamental class of a manifold with boundary and the
-Poincaré–Lefschetz and triad dualities with local coefficients (Stages 6.3–6.4; no orientation
-local system across a boundary and no twisted fundamental class at the pin), the torsion linking
-pairing (Stage 6.5), the proper Whitehead theorem (Stage 8.5; no compactly supported cohomology
-at the pin), the relative obstruction cochain with local coefficients and its extension criteria
-(Stage 8.9; the cochain is a construction, carried as a README target with its signature), the
-loop comparison `K(A, n) → ΩK(A, n + 1)` and the cohomology suspension (Stage 8.11b), and the
-normalized nerve-model comparison with the pinned classifying spaces (Stage 8.8b).
+(Stage 5.1; a spectral sequence is data, and neither pin has a spectral object of a pair of spaces
+whose second page is identified with the `Tor` groups of their homologies, so only the weaker
+existence of some spectral sequence could be written), the twisted relative fundamental class of
+a manifold with boundary and the Poincaré–Lefschetz and triad dualities with local coefficients
+(Stages 6.3–6.4; no orientation local system across a boundary and no twisted fundamental class
+at the pin), the torsion linking pairing (Stage 6.5; the pairing is a construction, the
+composite of a Bockstein, Poincaré duality and the universal-coefficient `Ext` term, and its
+nonsingularity is a property of that map, which no pinned declaration defines), the proper
+Whitehead theorem (Stage 8.5; no compactly supported cohomology at the pin), the relative
+obstruction cochain with local coefficients and its extension criteria (Stage 8.9; the cochain is
+a construction, carried as a README target with its signature), the cohomology suspension
+(Stage 8.11b; the suspension map is a construction, the connecting map of the cone pair
+transported to the suspension, and neither pin has the cone or the reduced suspension of a
+topological space), and the normalized nerve-model comparison with the pinned classifying spaces
+(Stage 8.8b; its normalization runs through Stage 8.8a's identification of `π₁` of the realized
+nerve of `SingleObj π` with `π`, a construction absent from the pins).
 -/
 
 @[expose] public section
@@ -181,9 +197,10 @@ the relative homotopy sets `π_{k+1}(Y, B, b)` vanish for `k + 1 < n + 2`, then 
 relative Hurewicz homomorphism `π_{n+2}(Y, B, b) → H_{n+2}(Y, B; ℤ)` is bijective. The pinned
 `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` proves this when `B`
 and `Y` are both `(n + 1)`-connected; the headline needs only `π₁(B) = 0` beyond the connectivity
-of the pair. Simple connectivity of `B` cannot be dropped: for `(D², S¹)` the relative `π₂` is
-`ℤ` with the nontrivial action of `π₁(S¹)`, and in degree three `π₃(D², S¹) = π₂(S¹) = 0` while
-`H₃(D², S¹; ℤ) = 0`, but `(D², S¹)` is not `2`-connected. -/
+of the pair. Simple connectivity of `B` cannot be dropped: for `Y = S¹ ∨ S²`, `B = S¹` and
+`n = 0` the pair is `1`-connected, but `π₂(Y, B) ≅ π₂(S¹ ∨ S²) ≅ ℤ[t, t⁻¹]` (the second homotopy
+group of the universal cover, a line with a sphere at each integer), `H₂(Y, B; ℤ) ≅ ℤ`, and the
+Hurewicz map is the augmentation, which is not injective. -/
 theorem bijective_relativeHurewicz_of_simplyConnected {Y : TopCat.{0}} {B : Set Y} (b : B)
     (n : ℕ) (h₀ : ∀ y : Y, ∃ a ∈ B, Joined y a)
     (hB : ∀ k < 2, Subsingleton (HomotopyGroup (Fin k) B b))
@@ -201,8 +218,11 @@ homotopy equivalence. For spaces of CW type the pinned Whitehead theorem
 `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` then makes it the forward map of a
 homotopy equivalence. The route is the mapping cylinder and the relative Hurewicz theorem of
 Stage 8.4 applied to the pair `(M_f, X)`, whose subspace `X` is simply connected. Simple
-connectivity cannot be dropped: the inclusion of a point into the Poincaré homology sphere is a
-homology isomorphism but not a weak equivalence. -/
+connectivity cannot be dropped: collapsing the complement of an open ball in the Poincaré
+homology sphere `P` gives a degree-one map `P → S³`, an isomorphism on integral homology in every
+degree, which is not a weak equivalence since `π₁(P)` is the binary icosahedral group of order
+`120`; Hatcher, Example 4.35, gives an inclusion `S¹ ↪ (S¹ ∨ Sⁿ) ∪ eⁿ⁺¹` with the same
+property. -/
 theorem isWeakHomotopyEquivalence_of_isIso_singularHomologyMap
     {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
     [SimplyConnectedSpace X] [SimplyConnectedSpace Y] (f : C(X, Y))
@@ -277,18 +297,12 @@ structure NormalizedAbelianEMFamily where
       (HomotopyGroup.map (map f n).hom (map_point f n) p) =
       Multiplicative.ofAdd (f.hom (Multiplicative.toAdd ((model A n).homotopyIdentification p)))
 
-/-- **Existence of CW Eilenberg–MacLane spaces** (Stage 8.8c; Hatcher, Example 4.30 and
-Lemma 4.31): for every abelian group `A` and `n ≥ 1` there is a `K(A, n)` of the form above. In
-degree one the pinned `TauCeti.classifyingSpace (Multiplicative A)` is such a model; the headline
-is the general degree. -/
-theorem nonempty_ordinaryEMModel (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n] :
-    Nonempty (OrdinaryEMModel A n) := by
-  sorry
-
-/-- **The coefficient-functorial family of Eilenberg–MacLane models** (Stage 8.8c): there is a
-family of models, natural in the coefficient group, inducing the given homomorphisms on `πₙ`.
-The roadmap's family takes the bar model in degree one and the realizations of the Dold–Kan
-simplicial abelian groups in higher degrees. -/
+/-- **The coefficient-functorial family of Eilenberg–MacLane models** (Stage 8.8c; for the
+existence of each model, Hatcher's construction of `K(G, n)` in Section 4.2 from Corollary 1.28,
+Example 4.29 and Example 4.16): there is a family of models, a
+`K(A, n)` of the form above for every abelian group `A` and `n ≥ 1`, natural in the coefficient
+group and inducing the given homomorphisms on `πₙ`. The roadmap's family takes the bar model in
+degree one and the realizations of the Dold–Kan simplicial abelian groups in higher degrees. -/
 theorem nonempty_normalizedAbelianEMFamily : Nonempty NormalizedAbelianEMFamily.{u} := by
   sorry
 
@@ -422,6 +436,28 @@ theorem exists_universalClass_ordinaryEMPullback_bijective (A : Type u) [AddComm
           Multiplicative.toAdd (K.homotopyIdentification p)) ∧
       ∀ (X : TopCat.{u}) [T2Space X] [CWComplex (Set.univ : Set X)],
         Function.Bijective (ordinaryEMPullback A (m + 1) K X ι) := by
+  sorry
+
+/-! ## Stage 8.11b: the ordinary Eilenberg–MacLane loop comparison -/
+
+/-- **The loop comparison** (Stage 8.11b): for CW Eilenberg–MacLane models `K` of type
+`(A, m + 1)` and `K'` of type `(A, m + 2)` there is a pointed map `f` from `K` to Mathlib's loop
+space `Ω K'`, based at the constant loop, which is a weak homotopy equivalence and induces the
+identity of `A` through the chosen identifications and the pinned shift
+`HomotopyGroup.pathLoopSpaceMulEquiv : π_{m+1}(Ω K') ≃* π_{m+2}(K')`. The loop space of `K'` is
+path-connected since `π₁(K') = 0`, and its homotopy groups at the constant loop are those of `K'`
+shifted down by one, so it is a `K(A, m + 1)` of the homotopy type of a CW complex by Milnor's
+theorem; the map is built on a presentation model by Hatcher, Lemma 4.31, and transported to `K`
+by Whitehead's theorem. Two pointed maps with the same effect on `π_{m+1}` are pointed homotopic,
+so the comparison is natural in `A` up to pointed homotopy. -/
+theorem exists_ordinaryEMModel_loopComparison (A : Type u) [AddCommGroup A] (m : ℕ)
+    (K : OrdinaryEMModel A (m + 1)) (K' : OrdinaryEMModel A (m + 2)) :
+    ∃ (f : C(K.space, LoopSpace K'.space K'.point)) (hf : f K.point = Path.refl K'.point),
+      f.IsWeakHomotopyEquivalence ∧
+      ∀ p : HomotopyGroup (Fin (m + 1)) K.space K.point,
+        K'.homotopyIdentification
+            (HomotopyGroup.pathLoopSpaceMulEquiv m (HomotopyGroup.map f hf p)) =
+          K.homotopyIdentification p := by
   sorry
 
 end
