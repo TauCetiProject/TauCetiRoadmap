@@ -355,13 +355,17 @@ Each layer states its results against this list.
   module of it and consumes the Tau Ceti declarations `TauCeti.ClassFieldTheory.muNRep`,
   `TauCeti.ClassFieldTheory.kummerClass`, `TauCeti.ClassFieldTheory.kummerCupPairing`,
   `TauCeti.ClassFieldTheory.localSymbol`, `TauCeti.ClassFieldTheory.invMap`,
-  `TauCeti.ClassFieldTheory.brauerGroupEquivBr` (Mathlib's `BrauerGroup` against the cohomological
-  `Br F` on which the invariant is defined), `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
   `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
   `TauCeti.ClassFieldTheory.hilbertProductFormula`
   (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
-  `Brauer/Invariant.lean`, `Brauer/CentralSimple/Basic.lean`, `Brauer/RootsOfUnity.lean` and
-  `Global/Hilbert/`). The comparisons of Layers 6C and 7C and the product formula are stated on Tau
+  `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). The bridge
+  `TauCeti.ClassFieldTheory.brauerGroupEquivBr : Additive (BrauerGroup F) ≃+ Br F`
+  (`Brauer/CentralSimple/Basic.lean` there), along which the invariant evaluates the classes of
+  central simple algebras, lies in the same namespace but is no part of that roadmap's layers: it
+  is Layer 7B item 3's `TauCeti.brauerExplicitH2Equiv` followed by Tau Ceti's change of model
+  `TauCeti.ClassFieldTheory.unitsRepH2Equiv` onto the carrier `Br F = H²(G_F, (Fˢ)ˣ)` of that
+  roadmap's Layer 5. The comparisons of Layers 6C and 7C and the product formula are stated on Tau
   Ceti's objects (`TauCeti.hilbertSymbol_eq_cohomological`,
   `TauCeti.hilbertSymbol_productFormula`).
 - **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
@@ -1800,9 +1804,12 @@ anywhere in Layers 6 to 9.
 This second milestone is the one place in Layers 0 to 6 that uses cohomology, and it comes after
 Layer 7B in the build order.
 
-*Needs:* Milestone 1; Layer 7B's comparison `Br(K)[2] ≅ H²(G_K, μ₂)`; TauCetiRoadmap.ClassFieldTheory
-Layer 5 for the local invariant `TauCeti.ClassFieldTheory.invMap`, its comparison
-`TauCeti.ClassFieldTheory.brauerGroupEquivBr` with Brauer classes, and the local symbol.
+*Needs:* Milestone 1; Layer 7B's comparisons `Additive (BrauerGroup K) ≃+ H²_cont(G_K, Kˢˣ)` (item 3)
+and `Br(K)[2] ≅ H²(G_K, μ₂)` (item 4); TauCetiRoadmap.ClassFieldTheory Layer 5 for the local
+invariant `TauCeti.ClassFieldTheory.invMap` on its carrier `Br F = H²(G_F, (Fˢ)ˣ)` and for the local
+symbol; and Tau Ceti's bridge `TauCeti.ClassFieldTheory.brauerGroupEquivBr` from Brauer classes to
+that carrier, which is item 3's `TauCeti.brauerExplicitH2Equiv` followed by the change of model
+`TauCeti.ClassFieldTheory.unitsRepH2Equiv` and is not a target of ClassFieldTheory.
 
 ### Examples
 
