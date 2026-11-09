@@ -174,6 +174,11 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   Hirzebruch–Riemann–Roch (§5.8, `grothendieck_riemann_roch`). The effectivity of polarized
   formal abelian schemes and genus-two curves is A4.8 and A4.14 here; quadratic projective
   descent uses StableReduction Layer 2's étale polarized-scheme descent contract.
+- *EquivariantIntersectionTheory.* §1.1: the groupoid of `G`-linearized invertible sheaves on an
+  `S`-scheme with an action of a flat finitely presented group scheme `G`, with tensor, dual,
+  pullback and base change. §1.4: invertible sheaves on the quotient stack `[X/G]` are the
+  `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`. A3.6 (5)
+  applies both to a finite locally free subgroup `H ⊆ K(L)` acting on `A` by translation.
 - *CrystallineCohomology.* Layer CR.1 supplies the base-compatible big fppf crystalline site,
   its module-sheaf category and quasi-coherent and finite locally free crystals. CR.7.1 supplies coefficient
   evaluation, pullback, tensor and dual, and the twist convention `φ_{D(r)} = p^{−r}φ_D`,
@@ -552,6 +557,13 @@ the symplectic formulas. The linear action exists also at stabilizers; a manifol
 that action requires a free base action and the supplier's proper-discontinuity hypotheses.
 Polarized Hodge structures, Appell–Humbert and algebraicity remain A5 targets; the generic
 cyclic-affine and logarithmic-transform constructions remain in ComplexTori.
+
+### From TauCetiRoadmap.EquivariantIntersectionTheory
+
+| Supplier | Provides / consumer | Convention or hypothesis |
+|---|---|---|
+| EquivariantIntersectionTheory §1.1 | `G`-linearized invertible sheaves and their groupoid, with tensor, dual, pullback and base change, used by A3.6 (5) | `G` is flat of finite presentation over `S` and acts through SchemeAndStackFoundations §1.13; a finite locally free `H ⊆ K(L)` acting on `A` by translation qualifies. |
+| EquivariantIntersectionTheory §1.4 | Invertible sheaves on `[X/G]` are the `G`-linearized invertible sheaves on `X`, by descent along the torsor `X → [X/G]`, used by A3.6 (5) | Stated for the quotient stack of SchemeAndStackFoundations §1.21; A3.6 identifies `[A/H]` with `A/H` because `q : A → A/H` of A3.3 is an `H`-torsor, and carries the rigidification along zero on both sides. |
 
 ## How to read the build
 
@@ -1578,16 +1590,19 @@ ample, `K(L)` is finite locally free of rank `χ(L_s)²` over `s ∈ S` and `e_L
 its Cartier dual. (4) The formation of `G(L)`, of `e_L` and of the descent in
 (5) commutes with arbitrary base change `T → S`. (5) For a finite locally free subgroup `H ⊆ K(L)`,
 splittings `H → G(L)` of the extension over `H` (level subgroups) are exactly the `H`-linearizations
-of `L`, and through fppf descent along the `H`-torsor `q : A → A/H` of A3.3 they correspond to pairs
-of a line bundle `M` on `A/H` rigidified along zero and a rigidified isomorphism `q^*M ≅ L`; isotropy
-of `H` alone does not choose the descent. Over a field this is the classical theta group, and no
-separate field carrier is introduced (Faltings–Chai, the introduction to I.5, p. 25, for the relative
-theta group, its commutator and nondegeneracy, and I.1.6, p. 4, for relatively ample `L`; Milne 2022,
+of `L` for the translation action, in the sense of EquivariantIntersectionTheory §1.1. By that
+roadmap's §1.4, with `[A/H] ≅ A/H` because `q : A → A/H` of A3.3 is an `H`-torsor, they correspond
+to pairs of a line bundle `M` on `A/H` rigidified along zero and a rigidified isomorphism
+`q^*M ≅ L`; isotropy of `H` alone does not choose the descent. Over a field this is the classical
+theta group, and no separate field carrier is introduced (Faltings–Chai, the introduction to I.5,
+p. 25, for the relative theta group, its commutator and nondegeneracy, and I.1.6, p. 4, for
+relatively ample `L`; Milne 2022,
 Theorem 13.3(a), p. 25, for the order `χ(L)²` of `K(L)`). The construction composes translated
 isomorphisms, identifies the scalar kernel through A0.3(1), identifies the commutator with the
 biextension of A2.3 restricted to `K(L) × K(L)` and, on `A[n]`, with the Poincaré pairing of A3.5
 through `φ_{L^n} = φ_L ∘ [n]`, reads perfection off the Cartier-dual kernel of the isogeny `φ_L`
-(A2.5, A3.5), and descends invertible sheaves along the `H`-torsor. The API is ThetaGroup.mk,
+(A2.5, A3.5), and descends invertible sheaves along the `H`-torsor by EquivariantIntersectionTheory
+§1.4. The API is ThetaGroup.mk,
 ThetaGroup.commutator (the bimultiplicative pairing on `K(L)` as a morphism over `S`),
 ThetaGroup.stronglyAlternating (the extension `G(L)` witnesses strong alternation),
 ThetaGroup.restrict (pullback of the extension along a subgroup inclusion, with the restricted
@@ -1596,7 +1611,8 @@ ThetaGroup.descend (a splitting over a finite locally free `H` gives the descend
 bundle on `A/H` with its pullback identification) and ThetaGroup.baseChange (an isomorphism of
 central extensions preserving the scalar inclusion, commutator and witness). *Needs:* A0.3, A2.3,
 A2.4, A2.5, A3.3, A3.5; ModularCurves 2E (the shared finite-flat pairing carrier);
-SchemeAndStackFoundations Layer 1 (sheaves and torsors).
+SchemeAndStackFoundations Layer 1 (sheaves and torsors); EquivariantIntersectionTheory §§1.1,
+1.4 (linearized invertible sheaves and their descent).
 
 **Checks.**
 
@@ -1804,7 +1820,8 @@ product principal polarization, the Rosati involution is `(α, β) ↦ (α̂, β
 ### Dependencies
 
 A0–A2; Tau Ceti `IsIsogeny`, group-scheme kernels and Cartier duality; JacobianChallenge Layers D
-and E; ModularCurves 0B, 0E; AlgebraicModuli Layers 1, 3 and 5; SchemeAndStackFoundations Layer 1.
+and E; ModularCurves 0B, 0E; AlgebraicModuli Layers 1, 3 and 5; SchemeAndStackFoundations Layer 1;
+EquivariantIntersectionTheory §§1.1, 1.4.
 
 
 ## Layer A4: Realizations and deformations
