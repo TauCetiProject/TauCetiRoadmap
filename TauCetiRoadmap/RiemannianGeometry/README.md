@@ -177,6 +177,17 @@ In `TauCeti/Geometry/Manifold/Riemannian/LieGroup/BiInvariant.lean`,
 ∇_(X_a)X_b=½X_[a,b] and `CovariantDerivative.IsLeviCivitaConnection.curvatureTensor_one`
 gives R(a,b)c=−¼[[a,b],c] at the identity, for a left-invariant metric whose inner
 product at the identity is ad-invariant.
+For R1's mixed polarization (§1.1 item 4), in
+`TauCeti/LinearAlgebra/Multilinear/SectionalPolarization.lean`, over every
+commutative ring and for a four-linear form T skew in its first pair and in its
+last pair and satisfying the first Bianchi identity:
+`LinearMap.six_mul_apply_eq_of_cyclic_eq_zero`, the six-term identity writing
+6T(x,y,z,w) through the values k(a,b)=T(a,b,b,a); `LinearMap.eq_of_cyclic_eq_zero`,
+two such forms with the same k are equal when 6 is not a zero divisor; and
+`LinearMap.eq_of_cyclic_eq_zero_of_linearIndependent`, agreement of k on linearly
+independent pairs suffices over a domain with 6≠0. The pointwise four-tensor
+`CovariantDerivative.riemannCurvatureTensor`, Rm(u,v,w,z)=⟨R(u,v)w,z⟩, with its
+two skew symmetries and first Bianchi identity, is in `Curvature/Riemann.lean`.
 
 For R2, in `TauCeti/Geometry/Manifold/Riemannian/Jacobi/`: the Jacobi predicate
 `TauCeti.Manifold.IsJacobiFieldOn` (`Basic.lean`), a C² section of γ*TM along a
@@ -432,6 +443,59 @@ use the comparison or path-space theorems.
    to a local Euclidean isometry around every point of that set. For the flat
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
+4. Pin the mixed form of the polarization in item 2. For the covariant
+   four-tensor `r(x,y,z,w)=⟨R(x,y)z,w⟩`, Tau Ceti's
+   `CovariantDerivative.riemannCurvatureTensor`, put `Q(x,y)=r(x,y,y,x)`. This
+   numerator is defined for all vectors, including dependent pairs; on
+   independent pairs it is sectional curvature times the Gram determinant.
+   Prove
+
+   ```
+   B_Q(x,w;y,z) = Q(x+w,y+z) − Q(x+w,y−z)
+                 − Q(x−w,y+z) + Q(x−w,y−z),
+   24 r(x,y,z,w) = B_Q(x,w;y,z) − B_Q(y,w;x,z)
+   ```
+
+   (`twentyFour_mul_apply_eq_of_cyclic_eq_zero`) for every four-linear form over
+   a commutative ring that is skew in its first pair and in its last pair and
+   satisfies the first Bianchi identity, the hypotheses of Tau Ceti's six-term
+   identity `LinearMap.six_mul_apply_eq_of_cyclic_eq_zero`, and specialize it
+   pointwise to `CovariantDerivative.riemannCurvatureTensor` of a
+   metric-compatible torsion-free connection. Multilinearity alone gives
+   `B_Q(x,w;y,z)=4(r(x,y,z,w)+r(w,y,z,x)+r(x,z,y,w)+r(w,z,y,x))`; the two skew
+   symmetries, the first Bianchi identity and pair interchange in the form
+   `2r(x,y,z,w)=2r(z,w,x,y)`, which holds over every commutative ring, then
+   reduce the difference to `24r(x,y,z,w)`, the common factor 4 absorbing the 2.
+   No inner product, orthonormality or independence enters. Reconstruction of r
+   from Q, the vanishing of Q on dependent pairs and the reduction to
+   independent pairs are Tau Ceti's (supplier contract) and are not reproved
+   here. Andrews writes sectional curvature in the slot convention
+   `K(σ)=R(e₁,e₂,e₁,e₂)`; translate his display into the convention above.
+
+   **Checks.**
+   - Orthonormal x,y in constant curvature +1, with z=y and w=x: here
+     `Q(a,b)=|a|²|b|²−⟨a,b⟩²`, so `B_Q(x,x;y,y)=Q(2x,2y)=16` (the other
+     three terms have a zero argument), while `B_Q(y,x;x,y)` has
+     `Q(x+y,x+y)=0`, `Q(x+y,x−y)=4`, `Q(y−x,x+y)=4`, `Q(y−x,x−y)=0`, hence
+     equals −8; the right side is `16−(−8)=24=24·r(x,y,y,x)` with K=1. A
+     formula with the two B_Q terms interchanged, or with the constant 12
+     or 48, fails on this pair.
+   - Dependent pairs: `Q(x,λx)=λ²r(x,x,x,x)=0` by skew symmetry, so the
+     formula is evaluated on dependent arguments without any division; the
+     numerator `⟨R(x,y)x,y⟩=r(x,y,x,y)` of the opposite slot order gives
+     `−K` on orthonormal pairs, the wrong sign.
+   - Without the first Bianchi identity the formula is false: for a
+     nondegenerate skew form ω on ℝ⁴ with `ω(e₁,e₂)=ω(e₃,e₄)=1` and all
+     other basis pairs zero, `r(x,y,z,w)=ω(x,y)ω(z,w)` is skew in each pair
+     and symmetric under pair interchange, with `Q(x,y)=−ω(x,y)²`; at
+     `(e₁,e₂,e₃,e₄)` the right side is `8−(−8)=16` while
+     `24·r(e₁,e₂,e₃,e₄)=24`.
+
+   *Needs:* Tau Ceti's six-term polarization identity and
+   `CovariantDerivative.riemannCurvatureTensor` with its skew symmetries and
+   first Bianchi identity (supplier contract); item 2; Mathlib iterated linear
+   maps over a commutative ring.
+
 ### 1.2 Local symmetry and the Einstein factor
 
 The local-symmetry predicate is ∇R=0. Its API consists of restriction to open
@@ -1099,6 +1163,8 @@ refinement above; AlgebraicTopology Stage 8.11a.
 
 Keep the ordinary path carrier, chosen endpoints and endpoint-change maps fixed throughout these calculations. The full result uses the three constructions below; the n = 2 argument is not a premise of the n ≥ 3 construction or of circle winding.
 
+Their conclusion for loops is the headline `singularHomology_loopSpace_sphere`: for n ≥ 2 and a point p of the unit Sⁿ, the integral singular homology of `Path p p` is ℤ in every degree divisible by n − 1 and 0 in every other degree. R3.3a gives the case n ≥ 3 and R3.3c the case n = 2; R3.3b shows why n = 1 is excluded.
+
 #### R3.3a. Lacunary cells in dimensions n ≥ 3
 
 For the unit round Sⁿ, n ≥ 3, fix p, q with q neither p nor −p and angle θ ∈ (0, π). The two oriented great-circle arcs and their extra full turns have lengths θ + 2πk and 2π − θ + 2πk. The Jacobi/index comparison gives indices 2k(n − 1) and (2k + 1)(n − 1), and no nullity at these nonconjugate endpoints. The finite broken-geodesic critical-band theorem and coherent exhaustion therefore give exactly one cell in every dimension j(n − 1), j ≥ 0, on the ordinary path CW-type model. Since n − 1 ≥ 2, no cells have adjacent dimensions and every cellular boundary is 0. Hence integral Hᵢ is ℤ in multiples of n − 1 and 0 otherwise. Use the CW/homology colimit for the unbounded exhaustion. There is no 1-cell, so the based path model is simply connected by the relative-cell connectivity theorem. Endpoint change by a chosen reference path transports this to ΩSⁿ. In particular ΩS³ has free integral homology ℤ in even degrees and is simply connected. The n = 2 Hopf comparison (R3.3c) and the n = 1 winding branch (R3.3b) are separate consumers, never premises here.
@@ -1124,6 +1190,80 @@ Every map above has the specified basepoints, ordinary-loop/concatenation compar
 The n = 2 construction consumes the preceding independent n ≥ 3 lacunary branch and the circle winding/higher-asphericity interfaces. It does not consume an all-dimensional sphere-path homology theorem containing its own conclusion. Only after all three constructions are complete assemble the all-dimensional nonconjugate path result, with endpoint-change and cellular generators compared. R1 retains the separate metric-normalization comparison for its CP¹ example; no Fubini–Study/round metric equality is a premise of this pointed topological Hopf bridge.
 
 On the equator w = e^(iθ), the displayed chart sections satisfy s₁ = s₀·w⁻¹. Compute the boundary winding using that transition together with the oriented disc-boundary convention in DGFloer's connecting map; record its sign against AlgebraicTopology's interval-last suspension homeomorphism. If the chosen generator requires the opposite sign, apply the explicit inversion on S¹ rather than suppressing the sign. The magnitude-one winding supplies the required π₁ isomorphism. Construct the ordinary-loop product map with the constant loop at every designated basepoint, and compare its induced product homomorphism with (x, y) ↦ s_*x + (ΩHopf)_*y using the loop unit and reparametrization homotopies.
+
+**Stereographic Hopf circles and the quotient disk.** Compare this same
+bundle with its orbit picture in real three-space: the stereographic images
+of the Hopf fibres are pairwise linked circles filling ℝ³ together with one
+line (Lyons, *An elementary introduction to the Hopf fibration*, section
+"Seeing the Hopf fibration", Investigations (L) and (M) and Figure 10, arXiv v1
+pp. 13–15: (L) gives the line and the circles, (M) their pairwise linking; Lyons projects
+from a point of the axis fibre and uses quaternion coordinates, which the
+chart below transports to the complex coordinates of R3.3c). Set P=(0,i) in
+S³⊂ℂ² and use the stereographic chart
+`σ(z₀,z₁)=(Re z₀,Im z₀,Re z₁)/(1−Im z₁)` from P. Construct its smooth
+inverse and its extension identifying S³ with the one-point compactification
+of ℝ³. For 0<r<1, the sets |z₁|=r are product tori: use
+`(z₀,z₁)=(√(1−r²)e^(iα),r e^(iβ))` to prove the diagonal Circle orbits
+have slope(1,1). Prove their stereographic images are embedded circles.
+Handle |z₁|=0 and |z₁|=1 as the two exceptional coordinate-circle fibres:
+the former is the unit circle in the xy-plane, and the latter is the
+z-axis together with the compactification point P. These circles and tori
+exhaust S³ and give the stated picture in ℝ³, retaining the axis as a line
+there rather than asserting it is a Euclidean circle.
+
+For the closed complex unit disk, the inverse image of its inclusion in
+the xy-plane is
+`j(u)=(2u/(1+|u|²),i(|u|²−1)/(1+|u|²))`.
+Prove j has values in S³, σ(j(u))=(Re u,Im u,0), and every orbit with
+z₁≠0 meets j(int D²) exactly once: for |u|,|v|≤1 some ζ in Circle has
+`ζ·j(u)=j(v)` exactly when u=v or |u|=|v|=1, and every point of S³ is
+`ζ·j(u)` for some ζ and some u with |u|≤1. Its boundary is precisely the
+entire z₁=0 fibre. Construct the continuous bijection
+`D²/∂D²→CP¹`, induced by u↦ℂ·j(u), and prove it is a homeomorphism
+using compactness and the Hausdorff projective model. Compare this map
+with the preceding CP¹≃S² charts. This identifies the actual orbit quotient,
+including the collapsed boundary, rather than another abstract sphere.
+
+The disk centre corresponds to [0:1], which the preceding h sends south.
+Use the specified orientation-preserving rotation
+`R(x,y,z)=(x,−y,−z)` and H=R∘h for the picture with centre called north,
+so `H(z₀,z₁)=(2Re(conj(z₀)z₁),−2Im(conj(z₀)z₁),|z₁|²−|z₀|²)`.
+Prove H is a smooth submersion and its north fibre is L={z₀=0}. At
+(0,z₁)∈L its normal vectors `(z₁/2,0)` and `(i z₁/2,0)` map under dH
+to the standard ordered tangent basis at north; prove they give the
+normal-bundle trivialization supplied by the differential. The picture's
+infinity P lies in L, so use the distinct source marked point b=(1,0) and
+target marked point H(b)=south for the based framed fibre, with regular
+value north; P remains the stereographic infinity. The general Hopf bundle
+stays with the preceding suppliers.
+
+**Checks.**
+- `|j(u)|²=(4|u|²+(|u|²−1)²)/(1+|u|²)²=1` for every u; `j(0)=(0,−i)` and
+  `j(u)=(u,0)` when |u|=1, so the disk centre lies over [0:1] and the
+  boundary circle is the z₁=0 fibre. The lift with the opposite sign in
+  the second coordinate, `(2u,i(1−|u|²))/(1+|u|²)`, also lies in S³ but
+  sends the centre to P, the one point σ does not chart.
+- On j(u), `1−Im z₁=2/(1+|u|²)`, hence `σ(j(u))=(Re u,Im u,0)`: the chart
+  returns the disk to itself. P=(0,i) is the only point with 1−Im z₁=0.
+- Orbit relation: for |u|<1 the second coordinate of j(u) is `−is` with
+  `s=(1−|u|²)/(1+|u|²)>0`, so `ζ·j(u)=j(v)` forces |u|=|v| and then ζ=1
+  and u=v; for |u|=1 the orbit of j(u)=(u,0) is the whole fibre {(ζu,0)}.
+  The open disk alone misses that fibre, and the closed disk without the
+  boundary collapse is not injective on orbits.
+- On |z₁|=r the orbit of `(√(1−r²),r)` is `(√(1−r²)e^(iθ),re^(iθ))`, the
+  diagonal (α,β)=(θ,θ) of the torus; at r=0 and r=1 the tori degenerate
+  to the two exceptional fibres.
+- `H(0,ζ)=(0,0,1)` for |ζ|=1 and `H(1,0)=(0,0,−1)`; without the rotation
+  R, h sends L to the south pole. At (0,ζ), dH applied to (ζ/2,0) is
+  `(2Re(conj(ζ/2)ζ),−2Im(conj(ζ/2)ζ),0)=(1,0,0)` and applied to
+  (iζ/2,0) is `(2Re(conj(iζ/2)ζ),−2Im(conj(iζ/2)ζ),0)=(0,1,0)`; the
+  third component vanishes because `|z₁|²−|z₀|²` is stationary in z₀ at
+  z₀=0. Listing the two normal vectors in the other order reverses the
+  orientation of the framing.
+
+*Needs:* R3.3c (the Hopf bundle, its charts and the map h), Mathlib `Circle`
+and its scalar action, `EuclideanSpace`, and the stereographic charts of the
+sphere.
 
 ### R3.4. Antipodal Morse–Bott attachments and suspension
 
@@ -1238,7 +1378,10 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    with the Laplacian trace and the scalar sign dictionary. Derive Günther
    lower-volume comparison from sectional upper bounds: on connected complete M
    with K≤κ, at p use 0<r<inj(p), and also r<π/√κ when κ>0, to conclude
-   Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. Treat the
+   Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. The headline
+   `guenther` states it with the hypothesis that exp_p is injective on the
+   tangent ball of radius r, which on a complete manifold holds exactly when
+   r≤inj(p), so the statement needs no injectivity-radius carrier. Treat the
    low-dimensional cases directly. For radial comparisons beyond this full-ball
    range retain the actual cut-time-truncated polar domain; cut-locus nullity
    does not remove its radial truncation. Distinguish Bishop–Gromov global
@@ -2733,6 +2876,87 @@ Prove `(x₁−ix₂)^d` is a highest-weight vector with character dε₁.
 Use the supplied classification to establish irreducibility; the numerical
 Weyl formulas alone are not a supplied highest-weight module.
 
+The supplied classification is read against a maximal torus and a Borel
+subgroup of SO_N, which R8.3 fixes as follows; it is the standard choice
+(Fulton–Harris, *Representation Theory*, Lecture 18, §18.1 for the
+quadratic form, torus and roots of so_N, Lecture 19 for the dominant
+weights), written in the standard orthonormal basis. Put `N=m+1≥2`,
+`r=⌊N/2⌋`, and use the isotropic basis `u_i=e_(2i−1)+i e_(2i)`,
+`v_i=(e_(2i−1)−i e_(2i))/2`, 1≤i≤r, of the complexified coordinate
+space, with the unpaired `e_N` kept when N is odd; the standard symmetric
+form satisfies `B(u_i,v_j)=δ_ij`, `B(u_i,u_j)=B(v_i,v_j)=0` and
+`B(e_N,u_i)=B(e_N,v_i)=0`. The torus consists of the elements acting by
+`t_i` on `u_i`, by `t_i⁻¹` on `v_i` and by 1 on `e_N`; its i-th
+coordinate is the eigenvalue on `u_i`. The Borel is the stabiliser of the
+isotropic flag `⟨u₁⟩⊂⟨u₁,u₂⟩⊂…⊂⟨u₁,…,u_r⟩`, upper triangular in the
+ordered basis `(u₁,…,u_r,v_r,…,v₁)` (with `e_N` in the middle when N is
+odd); its positive roots are `ε_i±ε_j` for i<j, together with `ε_i` when
+N is odd, and the dominant weights are `λ₁≥…≥λ_r≥0` for odd N and
+`λ₁≥…≥λ_(r−1)≥|λ_r|` for even N. Call this torus, Borel and coordinate
+system the Classical convention. In each consecutive coordinate plane let K act by
+`diag(1,−1)`, and let it fix an unpaired last coordinate. Prove
+`K²=I`, `KᵀK=I` and `det K=(−1)^r`. Conjugation
+`σ(g)=KgK` is an algebraic automorphism of the actual complex SO group;
+K need only belong to O, and this automorphism need not be inner in SO.
+For every plane, prove `KR_θK=R_(−θ)`. In the isotropic basis prove
+`Ku_i=2v_i`, `Kv_i=u_i/2`. Thus the Classical torus coordinate
+of `σ(R_θ)` is `t_i=e^(iθ_i)` for simultaneous plane rotations.
+Fix the R8 Borel as `σ⁻¹(B_Classical)` and transport every Cartan
+coordinate and the B/D positive roots through this dictionary. The
+untransported Classical character on `R_θ` is `e^(−iθ)`; do not identify
+it directly with the fixed R8 character `e^(iθ)`.
+
+Define `U_K p(x)=p(Kx)` on the actual polynomial model. Using its
+O-action, prove that U_K preserves homogeneity and the Laplacian kernel,
+and prove `U_K ρ(g) U_K⁻¹=ρ(σ(g))`. It sends the specified polynomial
+`(x₁−ix₂)^d` to `(x₁+ix₂)^d`. Prove the latter is a highest vector for
+the Classical Borel with torus character `t₁^d`, and transport this
+statement to the fixed R8 Borel and character `dε₁`. Apply the actual
+rational-group classification through this equivariant comparison.
+For SO(2) retain both degree-d characters when d≥1 and the single
+constant at d=0; do not infer irreducibility of their two-character sum.
+
+For N≥3 the irreducibility is the headline `harmonic_irreducible`: for N≥3
+and every d, a complex subspace of Tau Ceti's `MvPolynomial.harmonicSubmodule`
+of degree d in N variables (the complex homogeneous polynomials of degree d
+killed by `Σᵢ∂ᵢ²`) that every element of
+`Matrix.specialOrthogonalGroup (Fin N) ℝ` maps into itself under
+`(g·p)(x)=p(g⁻¹x)` is 0 or the whole space. For N=2 and d≥1 the invariant
+lines spanned by `(x₁±ix₂)ᵈ` show that the bound is needed.
+
+**Checks.**
+- `R_θu₁=e^(−iθ)u₁` and `R_θv₁=e^(iθ)v₁`: with `R_θe₁=cosθ e₁+sinθ e₂`
+  and `R_θe₂=−sinθ e₁+cosθ e₂`, `R_θ(e₁+ie₂)=(cosθ−i sinθ)(e₁+ie₂)`. So
+  the Classical coordinate of R_θ is `e^(−iθ)` and that of `σ(R_θ)=R_(−θ)`
+  is `e^(iθ)`, the fixed R8 value; reading the Classical coordinate on
+  R_θ itself would attach the weight −dε₁ to `(x₁−ix₂)^d`.
+- `KR_θK=R_(−θ)`: `diag(1,−1)·[[cosθ,−sinθ],[sinθ,cosθ]]·diag(1,−1)` has
+  entries `[[cosθ,sinθ],[−sinθ,cosθ]]`. `Ku₁=e₁−ie₂=2v₁`, `Kv₁=u₁/2`,
+  `B(u₁,v₁)=(1·1+i·(−i))/2=1` and `B(u₁,u₁)=1+i²=0`.
+- Under `(g·p)(x)=p(g⁻¹x)`, `(R_θ·(x₁−ix₂))(x)=e^(iθ)(x₁−ix₂)` and
+  `(R_θ·(x₁+ix₂))(x)=e^(−iθ)(x₁+ix₂)`; the action `p(gx)` would swap the
+  two characters. `x₁+ix₂=B(x,u₁)` is a Borel eigenvector for the
+  Classical Borel because `g·B(x,u₁)=B(x,gu₁)` and the Borel preserves
+  `⟨u₁⟩`.
+- `det K=(−1)^r`: for N=2, `K=diag(1,−1)∉SO(2)`, and σ is the inversion
+  `R_θ↦R_(−θ)` of the abelian group SO(2), not inner; for N=3,
+  `K=diag(1,−1,1)` has det K=−1, and since `−I` is central, σ is
+  conjugation by the rotation `−K=diag(−1,1,−1)`, hence inner on SO(3).
+- Dimensions: for N=2 and d≥1, H_d is spanned by `(x₁±ix₂)^d`, two
+  characters and no highest-weight irreducibility; for N=3, dim H_d=2d+1
+  by R8.1 equals the Weyl dimension of weight dε₁ in type B₁, and for
+  N=4, dim H_d=(d+1)² is the dimension of the type D₂ module of highest
+  weight (d,0).
+
+*Needs:* R8.1 (the harmonic-polynomial spaces H_d and their dimensions),
+R8.2 (eigenspace identification), ClassicalGroups Layer 3 (connected
+SO_N highest-weight classification) and Layer 5 (Weyl dimension formula,
+`ClassicalGroups/WeylDimension/OddOrthogonal.lean`,
+`ClassicalGroups/WeylDimension/EvenOrthogonal.lean`), CompactGroups
+(complete reducibility and invariant products), Tau Ceti's
+`MvPolynomial.harmonicSubmodule` (supplier contract), Mathlib
+`Matrix.specialOrthogonalGroup` and `MvPolynomial.aeval`.
+
 ### R8.4. Full eigenspace eigenmaps and Takahashi
 
 For an L²-orthonormal basis f_1,…,f_N of a positive eigenspace, prove
@@ -2827,13 +3051,17 @@ minimization nor GeometricCurrents regularity enters R5b.
 - B. Andrews, [Lectures on Differential Geometry, Lecture 16: Curvature](https://maths-people.anu.edu.au/andrews/DG/DG_chap16.pdf),
   Australian National University lecture notes, Proposition 16.2.1, p. 154:
   the polarization identity recovering the curvature tensor from sectional
-  curvatures, used by R1.1; Corollary 16.8.5, p. 162: the connection and
+  curvatures, used by §1.1 items 2 and 4 (in the slot convention
+  `K(σ)=R(e₁,e₂,e₁,e₂)`); Corollary 16.8.5, p. 162: the connection and
   curvature of a bi-invariant metric, with the opposite curvature sign, used by
   R1.3.
 - L. Brewin, [Riemann normal coordinate expansions using Cadabra](https://arxiv.org/abs/0903.2087),
   Class. Quantum Grav. 26 (2009) 175017, arXiv:0903.2087v3, §5 (third-order
   metric expansion, p. 9) and equation (11.1), p. 15: the quadratic and cubic
   jets of the metric in normal coordinates, used by R1.4.
+- D. W. Lyons, [An elementary introduction to the Hopf fibration](https://arxiv.org/abs/2212.01642),
+  Mathematics Magazine 76 (2003), 87–98, section "Seeing the Hopf
+  fibration": the stereographic picture of the Hopf fibres used by R3.3c.
 - L. I. Nicolaescu, [Lectures on the Geometry of Manifolds](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
   author's electronic edition, Definition 4.1.23 and Proposition 4.1.25,
   p. 151 (injectivity radius; first-order contact of normal coordinates),
@@ -2886,6 +3114,10 @@ minimization nor GeometricCurrents regularity enters R5b.
   [Spherical minimal immersions of the 3-sphere](https://ems.press/content/serial-article-files/42818?nt=1),
   introduction and spherical-harmonic setup, for Takahashi/eigenmap normalization
   and the distinction between full eigenspace maps and arbitrary eigenfunction lists.
+- W. Fulton and J. Harris, *Representation Theory: A First Course*,
+  Graduate Texts in Mathematics 129, Springer, 1991, Lecture 18, §18.1 and
+  Lecture 19: the isotropic basis, torus, roots and dominant weights of
+  so_N fixed by R8.3's convention bridge.
 
 
 - S. Axler, P. Bourdon and W. Ramey, [*Harmonic Function Theory*](https://www.axler.net/HFT.pdf),

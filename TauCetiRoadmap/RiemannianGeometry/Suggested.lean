@@ -10,6 +10,7 @@ public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Basic
 public import TauCeti.Geometry.Manifold.Orientation.Basic
+public import TauCeti.RingTheory.MvPolynomial.Harmonic
 
 /-!
 # Riemannian geometry: target signatures
@@ -20,16 +21,19 @@ the simple Jacobi-field, comparison-model and paraboloid definitions those headl
 Jacobi predicate `IsJacobiFieldOn`, the model function `modelSine` and model ball volume
 `modelBallVolume`, and the graph parametrization `paraboloidGraph`.
 
-Statable at the pins and stated here: existence of Jacobi fields with prescribed initial data on a
-compact geodesic interval (R2), the Rauch comparison under an upper sectional bound (R4.1), the
-Bishop–Gromov relative-volume monotonicity against the model of curvature `κ` (R4.1),
-Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the finiteness of the fundamental
-group (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms (R4.6), the three
-cases of the Killing–Hopf classification of simply connected space forms (R4.7), two distinct
-fixed-interval geodesics between distinct points of a connected closed positive-dimensional
-manifold (R4.8), the three simple closed geodesic images on a smooth two-sphere (R4.9), the
-paraboloid crossing and vertex-pole theorems (R5a.3) and the smooth-function duality for the
-Riemannian distance (R7.8).
+Statable at the pins and stated here: the mixed polarization of the sectional numerator (R1,
+§1.1 item 4), existence of Jacobi fields with prescribed initial data on a compact geodesic
+interval (R2), the integral homology of the based loop space of a round sphere (R3.3), the Rauch
+comparison under an upper sectional bound (R4.1), Günther's volume comparison under an upper
+sectional bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the model of
+curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the finiteness
+of the fundamental group (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms
+(R4.6), the three cases of the Killing–Hopf classification of simply connected space forms (R4.7),
+two distinct fixed-interval geodesics between distinct points of a connected closed
+positive-dimensional manifold (R4.8), the three simple closed geodesic images on a smooth
+two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), the smooth-function
+duality for the Riemannian distance (R7.8) and the irreducibility of the complex harmonic
+polynomials of each degree under `SO(N)` for `N ≥ 3` (R8.3).
 
 Not restated here, because Tau Ceti proves them and the README cites the declarations: the
 characterization of constant sectional curvature, Schur's theorem and the constancy of the
@@ -40,8 +44,7 @@ homogeneous polynomials (R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
-has no carrier at the pin; the Günther volume comparison (R4.1), whose full-ball range
-`r < inj(p)` needs the injectivity radius, absent at the pin; the Gauss, Codazzi and Ricci
+has no carrier at the pin; the Gauss, Codazzi and Ricci
 equations and the first and second variation of volume (R5a, R5b), which need the second
 fundamental form of an isometric immersion between manifolds, hence the pullback ambient
 connection, absent at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the
@@ -58,6 +61,31 @@ namespace TauCetiRoadmap.RiemannianGeometry
 
 open Set Bundle
 open scoped Manifold ContDiff
+
+/-! ## Layer 1: Mixed polarization of the sectional numerator -/
+
+section Polarization
+
+variable {R V : Type*} [CommRing R] [AddCommGroup V] [Module R V]
+
+/-- R1, §1.1 item 4: the mixed polarization of the sectional numerator `Q(a, b) = T(a, b, b, a)`.
+For a four-linear form skew in its first pair and in its last pair of arguments and satisfying
+the first Bianchi identity (the hypotheses of Tau Ceti's
+`LinearMap.six_mul_apply_eq_of_cyclic_eq_zero`), `24 T(x, y, z, w) = B_Q(x, w; y, z) −
+B_Q(y, w; x, z)`, where `B_Q(x, w; y, z) = Q(x + w, y + z) − Q(x + w, y − z) − Q(x − w, y + z) +
+Q(x − w, y − z)`. It holds over every commutative ring. For an orthonormal pair `x, y` in constant
+curvature `1`, with `z = y` and `w = x`, the two mixed terms are `16` and `−8`. -/
+theorem twentyFour_mul_apply_eq_of_cyclic_eq_zero {T : V →ₗ[R] V →ₗ[R] V →ₗ[R] V →ₗ[R] R}
+    (h₁ : ∀ x y z w, T x y z w = -T y x z w) (h₂ : ∀ x y z w, T x y z w = -T x y w z)
+    (h₃ : ∀ x y z w, T x y z w + T y z x w + T z x y w = 0) (x y z w : V) :
+    24 * T x y z w =
+      (T (x + w) (y + z) (y + z) (x + w) - T (x + w) (y - z) (y - z) (x + w) -
+          T (x - w) (y + z) (y + z) (x - w) + T (x - w) (y - z) (y - z) (x - w)) -
+        (T (y + w) (x + z) (x + z) (y + w) - T (y + w) (x - z) (x - z) (y + w) -
+          T (y - w) (x + z) (x + z) (y - w) + T (y - w) (x - z) (x - z) (y - w)) := by
+  sorry
+
+end Polarization
 
 /-! ## Layer 2: Jacobi fields -/
 
@@ -155,6 +183,24 @@ theorem synge_orientable_of_odd [ConnectedSpace M] [CompactSpace M]
 
 end Intrinsic
 
+/-! ## Layer 3: Loop spaces of round spheres -/
+
+/-- R3.3: for `n ≥ 2` and a point `p` of the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, the integral singular
+homology of the based loop space `ΩSⁿ`, the space `Path p p` of loops at `p` with the
+compact-open topology, is `ℤ` in every degree divisible by `n − 1` and zero in every other degree.
+For `n = 2` it is `ℤ` in every degree. The bound `2 ≤ n` is needed: the loop space of the circle
+has one contractible component for each winding number, so its degree-zero homology is free of
+countably infinite rank, not `ℤ`. -/
+theorem singularHomology_loopSpace_sphere {n : ℕ} (hn : 2 ≤ n) (i : ℕ)
+    (p : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) :
+    (n - 1 ∣ i → Nonempty
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)) ≅ ModuleCat.of ℤ ℤ)) ∧
+    (¬ n - 1 ∣ i → CategoryTheory.Limits.IsZero
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)))) := by
+  sorry
+
 /-! ## Layer 4: Complete manifolds and comparison -/
 
 section GlobalDistance
@@ -173,6 +219,30 @@ the exponent is `0` and the value is `r`; for `n = 0` the natural-number exponen
 again `0`, and the value is again `r`. -/
 def modelBallVolume (κ : ℝ) (n : ℕ) (r : ℝ) : ℝ :=
   ∫ t in (0 : ℝ)..r, modelSine κ t ^ (n - 1)
+
+/-- R4.1, Günther's volume comparison: on a connected complete manifold of dimension `n` whose
+sectional curvatures are at most `κ` (`⟨R(u,v)v,u⟩ ≤ κ(|u|²|v|² − ⟨u,v⟩²)` for all `u, v`), let
+`0 < r`, with `r < π/√κ` when `κ > 0`, and let `exp_p` be injective on the tangent ball of radius
+`r` at `p`. Then the metric ball `B(p,r)` has Riemannian volume at least `ω_{n−1}·V_κ(r)`, the
+volume of the ball of radius `r` in the `n`-dimensional model of curvature `κ`, where
+`ω_{n−1} = n·vol(Bⁿ)` is the volume of the unit `(n−1)`-sphere. On a complete manifold the
+injectivity hypothesis holds exactly when `r ≤ inj(p)`: past the cut time in a direction `v`, the
+point `exp_p(tv)` is also `exp_p(w)` for a strictly shorter minimizing vector `w`. So the
+statement needs no injectivity-radius carrier. On the unit two-sphere with `κ = 1` both sides are
+`2π(1 − cos r)`; for `n = 1` both sides are `2r`. -/
+theorem guenther [ConnectedSpace M] [CompleteSpace M]
+    [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+    [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)] (p : M) {κ r : ℝ}
+    (hK : ∀ x (u v : TangentSpace I x),
+      inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u ≤
+        κ * (‖u‖ ^ 2 * ‖v‖ ^ 2 - (inner ℝ u v) ^ 2))
+    (hr : 0 < r) (hmodel : 0 < κ → r < Real.pi / Real.sqrt κ)
+    (hinj : Set.InjOn (TauCeti.Manifold.riemannianExp I M p) (Metric.ball 0 r)) :
+    ENNReal.ofReal ((Module.finrank ℝ E : ℝ) * modelBallVolume κ (Module.finrank ℝ E) r) *
+        MeasureTheory.volume
+          (Metric.ball (0 : EuclideanSpace ℝ (Fin (Module.finrank ℝ E))) 1) ≤
+      TauCeti.riemannianVolume I M (Metric.ball p r) := by
+  sorry
 
 /-- R4.1, Bishop–Gromov: on a connected complete manifold of dimension `n` with
 `Ric(v,v) ≥ (n−1)κ|v|²`, the ratio `vol(B(p,r))/V_κ(r)` of the Riemannian volume
@@ -400,5 +470,28 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
+
+/-! ## Layer 8: Irreducibility of the harmonic polynomials -/
+
+section SphericalHarmonics
+
+open MvPolynomial
+
+/-- R8.3: for `N ≥ 3` and every degree `d`, the complex harmonic homogeneous polynomials of degree
+`d` on `ℝᴺ`, Tau Ceti's `MvPolynomial.harmonicSubmodule` (homogeneous polynomials of degree `d`
+killed by the Euclidean Laplacian `Σ ∂ᵢ²`), form an irreducible representation of the real group
+`SO(N)` acting by `(g·p)(x) = p(g⁻¹x)`: a complex subspace of them that every rotation maps into
+itself is zero or all of them. The bound `N ≥ 3` is needed: for `N = 2` and `d ≥ 1` the space is
+spanned by `(x₁ + i x₂)ᵈ` and `(x₁ − i x₂)ᵈ`, which span two invariant lines with the characters
+`e^(∓idθ)` of the rotation by `θ`. -/
+theorem harmonic_irreducible {N : ℕ} (hN : 3 ≤ N) (d : ℕ)
+    (W : Submodule ℂ (MvPolynomial (Fin N) ℂ)) (hW : W ≤ harmonicSubmodule (Fin N) ℂ d)
+    (hinv : ∀ g : Matrix.specialOrthogonalGroup (Fin N) ℝ, ∀ p ∈ W,
+      aeval (fun i => ∑ j, C ((((g⁻¹ : Matrix.specialOrthogonalGroup (Fin N) ℝ) :
+        Matrix (Fin N) (Fin N) ℝ) i j : ℝ) : ℂ) * X j) p ∈ W) :
+    W = ⊥ ∨ W = harmonicSubmodule (Fin N) ℂ d := by
+  sorry
+
+end SphericalHarmonics
 
 end TauCetiRoadmap.RiemannianGeometry
