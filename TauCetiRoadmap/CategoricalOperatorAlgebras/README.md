@@ -142,14 +142,18 @@ sphericality refer to the chosen dual functor, not just a dagger.
   supplies normality and normal representations (V4), projection
   comparison and countable absorption (V5), tracial standard form (V6),
   general standard form, tensor commutation and the continuous core (V11),
-  the tracial ultrapower (V12) and the hyperfinite II₁, II∞ and III₁
-  models (V13).
+  the tracial ultrapower and Connes's centrally trivial automorphisms
+  `Ct(M)` (V12), and the hyperfinite II₁, II∞ and III₁ models with
+  `Ct(R_(0,1))=Int(R_(0,1))` (V13).
 - [Subfactors Layers 1–3, 5–9](../Subfactors/README.md) supplies normal
   correspondences, the opposite weight and Connes fusion with its unitors
   (1.1–1.2), the basic construction, Pimsner–Popa bases and the Jones
   tower (2.1–2.3), bifinite bimodules with their conjugate equations and
-  statistical dimension and the minimal expectation with
-  `Ind(E_0)=d(X)²≤[M:N]` (2.4–2.5), Jones's Temperley–Lieb positivity at
+  statistical dimension, including Kosaki's sector dimension over
+  properly infinite factors (2.4), the inverse operator-valued weight
+  `E⁻¹` and index `Ind(E)=E⁻¹(1)` of a faithful normal expectation between
+  factors of any type, and the minimal expectation with
+  `Ind(E_0)=d(X)²≤[M:N]` (2.5), Jones's Temperley–Lieb positivity at
   the permitted moduli (3.2), the extremality criterion
   `d(X)²=[M:N]` (5.1), ordinary shaded planar algebras with the TL planar
   algebra example, rigid planar algebras with angle-power insertion, the
@@ -1554,8 +1558,29 @@ solution `R_std:id→ρ̄∘ρ` with R_std†R_std=d_ρ, and use the isometry
 `r_ρ* ρ̄(r̄_ρ)=d_ρ⁻¹1`, `r̄_ρ*ρ(r_ρ)=d_ρ⁻¹1` and the canonical
 normal ucp left inverse `φ_ρ(x)=r_ρ*ρ̄(x)r_ρ`.
 Prove φ_ρρ=id, faithfulness, normality, `E_ρ=ρφ_ρ` a conditional
-expectation, standard/minimal index d_ρ² and the tensor/composition
-and corner laws; retain the factor hypothesis in the scalar-index claim.
+expectation, standard/minimal index `Ind(E_ρ)=d_ρ²` for Subfactors 2.5's
+index of an expectation, agreement of d_ρ with Subfactors 2.4's sector
+dimension, and the tensor/composition and corner laws; retain the factor
+hypothesis in the scalar-index claim.
+
+For an inclusion N⊂M of factors with a faithful normal conditional
+expectation E of finite index, M in standard form on L²(M) with modular
+conjugation J, construct Kosaki's basic extension `M₁=⟨M,e_E⟩=JN′J`
+(Jones–Penneys, *Realizations*, Definition 3.3(1), p. 15), where the
+Jones projection e_E projects onto the closure of `Nξ` for the vector ξ
+of `ψ∘E`, ψ a faithful normal state on N, so that `e_E x e_E=E(x)e_E` for
+x∈M. Construct the dual expectation `E₁=Ind(E)⁻¹·j∘E⁻¹∘j:M₁→M` from
+Subfactors 2.5's inverse weight `E⁻¹:N′₊→M̂′₊`, where `j(x)=Jx*J`, and
+prove `E₁(e_E)=Ind(E)⁻¹` and `Ind(E₁)=Ind(E)`; iterate to the tower
+`N⊂M⊂M₁⊂M₂⊂⋯`. The algebra M₁ does not depend on E; its Jones projection
+and the index do. For a finite-index endomorphism σ of an infinite factor
+M with separable predual, applied to `σ(M)⊂M` with `E=E_σ`, identify
+`M⊂M₁` with `σ̄(M)⊂M`, the identification used in the proof of
+Masuda–Tomatsu 2009, Corollary 4.19 (p. 38). A route: realize M₁ as
+`J_M σ(M)′ J_M` for a vector cyclic and separating for both σ(M) and M;
+`γ=Ad(J_(σ(M))J_M)` maps M into σ(M), the two modular conjugations carry
+`M⊂M₁` anti-isomorphically onto `M′⊂σ(M)′` and that onto `γ(M)⊂σ(M)`, and
+`σ⁻¹∘γ` represents the sector `[σ̄]`.
 
 For separable-predual M and a free ultrafilter ω, build the general
 Ocneanu ultrapower (Tomatsu, §2.2, p. 5; Masuda–Tomatsu 2009, §2.4,
@@ -1658,15 +1683,30 @@ Masuda–Tomatsu 2009 with expectation-weight ratio μ₁/μ₀=r, and extract
 the displayed rank families. The normalizations and estimates needed
 for this application are part of this target.
 
-Call a finite-index endomorphism ρ of a factor M centrally trivial
-when ρ^ω is the identity on M_ω (Masuda–Tomatsu 2009, Definition 4.1,
-p. 30). On an infinite factor prove that the centrally trivial
-endomorphisms contain the inner automorphisms and are closed under
-composition, subobjects, finite direct sums and conjugates (Theorem 4.6,
-p. 31), that a centrally trivial ρ and an approximately inner
-automorphism θ satisfy `[θρθ⁻¹]=[ρ]` as sectors (Lemma 4.7, p. 32), and
-that every modular endomorphism, in particular every `Ad u∘σ_t^φ`, is
-centrally trivial (Lemma 4.11, p. 34). For irreducible ρ prove that ρ is
+Call a finite-index endomorphism ρ of a factor M with separable predual
+centrally trivial when ρ^ω is the identity on M_ω (Masuda–Tomatsu 2009,
+Definition 4.1, p. 30). Prove that on automorphisms this is
+VonNeumannAlgebras V12's `Ct(M)`: along a dense sequence in M_*, an
+ω-centralizing sequence on which ρ^ω is not the identity has a
+subsequence that is predual-centralizing in V12's sense and on which ρ
+does not converge to the identity, and a predual-centralizing sequence
+on which ρ does not converge to the identity has a subsequence bounded
+away from it, which is ω-centralizing for every free ultrafilter. Call
+ρ modular when its canonical extension ρ̃ above is inner, that is,
+implemented by a finite-dimensional Hilbert space in the core
+(Masuda–Tomatsu 2009, §4.2, p. 33, after Izumi). On every such factor
+prove that the inner automorphisms are centrally trivial (p. 31), that a
+centrally trivial ρ and an approximately inner automorphism θ satisfy
+`[θρθ⁻¹]=[ρ]` as sectors (Lemma 4.7, p. 32), and that every modular
+endomorphism, in particular every `Ad u∘σ_t^φ`, is centrally trivial
+(Lemma 4.11, p. 34). Prove that the irreducible modular endomorphisms of
+a factor of type II∞ are its inner automorphisms, and those of a factor
+of type III_λ, 0<λ≤1, are the `Ad u∘σ_t^φ` with u unitary, φ a faithful
+normal semifinite weight and t∈ℝ (Lemma 4.10(2)–(3), p. 34); by V11's
+Connes cocycle a faithful normal state may replace the weight. On an
+infinite factor prove that the centrally trivial endomorphisms are
+closed under composition, subobjects, finite direct sums and conjugates
+(Theorem 4.6, p. 31). For irreducible ρ prove that ρ is
 not centrally trivial exactly when no nonzero a∈M satisfies
 `ax=ρ^ω(x)a` for every x∈M_ω (Masuda–Tomatsu 2007, Lemma 8.3, p. 65,
 with K=ℂ; since a commutes with M_ω this is Definition 8.1(4), p. 64,
@@ -1682,20 +1722,39 @@ the two hyperfinite factors used below (Masuda–Tomatsu 2009,
 Theorem 4.12, p. 35, with Lemma 4.10(2)–(3), p. 34): an irreducible
 centrally trivial finite-index endomorphism of R_II∞ is an inner
 automorphism, and one of R_III₁ is `Ad u∘σ_t^φ` for a unitary u, a
-faithful normal state φ and some t∈ℝ. On R_II∞ prove the McDuff
-splitting `[ρ]=[θ∘(ρ⊗id)∘θ⁻¹]` for an isomorphism
-`θ:R_II∞⊗̄R_II∞→R_II∞` (Propositions 4.8–4.9, p. 33); the flip of
-`R_II∞⊗̄R_II∞` preserves the trace and so is approximately inner by
-V13b, and Lemma 4.7 then puts id⊗id inside ρ⊗ρ̄, so `Hom(id,ρ)≠0`
-(p. 35). On R_III₁ prove that for a non-inner irreducible centrally
-trivial ρ the inclusion `(id⊕ρ)(M)⊂M` is not centrally non-trivial
-(Definition 4.13 and Lemma 4.15, p. 36); prove Izumi's criterion
-comparing the relative commutants of σ and of its canonical extension
-σ̃ above, and Popa's criterion for central non-triviality of the tower
-inclusions `M⊂M_n` of a finite-index endomorphism σ of R_III₁, in the
-forms of Theorems 4.16 and 4.18 (p. 37); deduce Corollary 4.19 (p. 38);
-and exclude an outer `σ_t^φ` from ρρ̄: it would put `σ_(nt)^φ` into ρρ̄
-for every integer n, infinitely many inequivalent sectors by
+faithful normal state φ and some t∈ℝ. On an infinite McDuff factor M
+with separable predual, meaning that M_ω is of type II₁, prove for
+centrally trivial ρ the splittings `[ρ]=[θ∘(ρ⊗id)∘θ⁻¹]` for some
+isomorphism `θ:M⊗̄R₀→M`, R₀ the hyperfinite II₁ factor, and likewise
+for some isomorphism `θ:M⊗̄R_II∞→M` (Propositions 4.8–4.9, p. 33). On
+the McDuff factor R_II∞ the flip of `R_II∞⊗̄R_II∞` preserves the trace
+and so is approximately inner by V13b, and Lemma 4.7 then puts id⊗id
+inside ρ⊗ρ̄, so `Hom(id,ρ)≠0` (p. 35).
+
+Call an inclusion N⊂M of factors with a faithful normal conditional
+expectation centrally non-trivial when for every ε>0 and finite F⊂M_*
+some finite partition of unity (q_j) by projections of N satisfies
+`‖Σ_j q_jφq_j−φ∘E_(N∨(N′∩M))‖<ε` for every φ∈F, with E_(N∨(N′∩M)) the
+faithful normal conditional expectation onto N∨(N′∩M) of Masuda–Tomatsu
+2009, Definition 4.13 (p. 36); the condition does not depend on the
+expectation onto N. On an infinite factor with separable predual prove
+that for a non-inner irreducible centrally trivial ρ the inclusion
+`(id⊕ρ)(M)⊂M` is not centrally non-trivial (Lemma 4.15, p. 36). For a
+finite-index endomorphism σ of a type III₁ factor M with separable
+predual prove Izumi's criterion: `σ(M)′∩M=σ̃(M̃)′∩M̃` in the core M̃
+exactly when the sector `[σσ̄]` contains no outer modular automorphism
+(Masuda–Tomatsu 2009, Theorem 4.16, p. 37, recalled there from Izumi
+1993, Theorem 3.5). For a finite-index endomorphism σ of R_III₁, with the
+tower `σ(M)⊂M⊂M₁⊂⋯` constructed above and n≥1, prove Popa's criterion:
+`M⊂M_n` is centrally non-trivial exactly when `[(σσ̄)ⁿ]` contains no
+outer modular automorphism (Masuda–Tomatsu 2009, Theorem 4.18, p. 37).
+Popa proves this for centrally free subfactors (Popa 1995, Theorem 3.5(ii)
+and Corollary 4.4); the centrally non-trivial form is Masuda–Tomatsu's
+observation that his argument applies unchanged (p. 37). Deduce
+Corollary 4.19 (p. 38) by applying Lemma 4.15 to `σ̄` for `σ=id⊕ρ` and
+Popa's criterion with n=1 through the identification of `M⊂M₁` with
+`σ̄(M)⊂M`; and exclude an outer `σ_t^φ` from ρρ̄: it would put `σ_(nt)^φ`
+into ρρ̄ for every integer n, infinitely many inequivalent sectors by
 `T(R_III₁)={0}`, inside a finite-index endomorphism (p. 38).
 
 Define fusion amenability by the weighted Følner criterion: for every
@@ -1848,6 +1907,22 @@ is asserted.
   not isomorphic, and full faithfulness does not imply central freeness
   on a III_λ factor; dropping the II/III₁ restriction from the
   equivalence or from uniqueness fails here.
+- On the same `R_λ`, `σ_(t₀)` is an automorphism, hence irreducible; it is
+  modular, hence centrally trivial, and not inner since t₀∉T(R_λ). So the
+  infinite-factor form of Lemma 4.15 makes `(id⊕σ_(t₀))(R_λ)⊂R_λ` not
+  centrally non-trivial, an instance that a statement on R_III₁ alone
+  omits. For an inner ρ=Ad u the conclusion fails: `id⊕Ad u` is unitarily
+  equivalent to `id⊕id`, so `(id⊕Ad u)(M)⊂M` is isomorphic to
+  `M⊗1⊂M⊗M₂(ℂ)`, where `N∨(N′∩M)=M`, the expectation onto it is the
+  identity, and the one-term partition q₁=1 meets the definition: the
+  non-inner hypothesis cannot be dropped.
+- For `σ=id⊕id` on an infinite factor M, `σ(M)⊂M` is isomorphic to
+  `M⊗1⊂M⊗M₂(ℂ)`, `d_σ=2` and `Ind(E_σ)=4=d_σ²`; σ̄≅σ, so `M⊂M₁` is
+  again isomorphic to `M⊗1⊂M⊗M₂(ℂ)`, of index 4, and `E₁(e)=1/4`. The
+  non-minimal expectation `E=σ∘(x↦λv₁*xv₁+(1−λ)v₂*xv₂)` with λ=1/5 is
+  `id⊗Tr(diag(1/5,4/5)·)`, with `Ind(E)=5+5/4=25/4` and `E₁(e_E)=4/25`,
+  while M₁ is the same algebra. For an automorphism σ, `σ(M)=M`,
+  `M₁=M`, `e=1` and `σ̄(M)=M`.
 - On R_III₁ with a faithful normal state φ and t≠0, `n↦σ_(nt)^φ` is an
   action of ℤ by automorphisms that are outer for n≠0, since
   `T(R_III₁)={0}`, so it is a fully faithful representation of `Hilb(ℤ)`,
@@ -1869,7 +1944,7 @@ is asserted.
   images would accept this action.
 
 *Needs:* CA1a, CA1b, CA2a, CA2b, CA6; VonNeumannAlgebras V4, V5, V11, V12, V13;
-Subfactors 1.1–1.2, 9.1–9.2.
+Subfactors 1.1–1.2, 2.4–2.5, 9.1–9.2.
 
 ### Examples
 
@@ -1878,7 +1953,10 @@ on `M₂(ℂ)`, the ultrapower centralizers of `M_n(ℂ)`, `L(F₂)` and R, the 
 spaces and presentations of the corner model, the Hilb-valued transpose on
 Hilbert spaces and on pairs of Hilbert spaces, the Følner condition for
 `K=Irr(C)`, a centrally free and a centrally trivial fully faithful
-representation of `Hilb(ℤ/2)` in the III_λ Powers factor, a fully
+representation of `Hilb(ℤ/2)` in the III_λ Powers factor, the
+inclusion `(id⊕σ_(t₀))(R_λ)⊂R_λ` that is not centrally non-trivial
+against the inner control `id⊕Ad u`, the basic extension and index of
+`id⊕id` for the minimal and a non-minimal expectation, a fully
 faithful but centrally trivial action of `Hilb(ℤ)` on R_III₁, and a
 fully faithful but not centrally free representation of `Hilb(ℤ/2)` in
 `L(F₂)⊗̄B(ℓ²)`.
@@ -1886,7 +1964,7 @@ fully faithful but not centrally free representation of `Hilb(ℤ/2)` in
 ### Dependencies
 
 CA1a, CA1b, CA2a, CA2b and CA6; VonNeumannAlgebras V4, V5, V11, V12 and
-V13; Subfactors 1.1–1.2 and 9.1–9.2.
+V13; Subfactors 1.1–1.2, 2.4–2.5 and 9.1–9.2.
 
 ## CA10. Finite-depth real objects and anchored classification
 
@@ -2078,10 +2156,11 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   Q-systems, balanced composition, splitting, Q-system completeness and
   C*-realization (printed page numbers of the arXiv version).
 - Jones–Penneys, [*Realizations of algebra objects and discrete subfactors*](https://arxiv.org/abs/1704.02035),
-  Theorem A (p. 4), Corollary E (p. 6), Theorem 5.35 (p. 47),
-  Theorems 7.2–7.3 (pp. 58–59) and Corollary 7.14 (p. 62), for the
-  representation-relative equivalence, its canonical states and
-  morphisms, intermediate objects and standard invariants.
+  Theorem A (p. 4), Corollary E (p. 6), Definition 3.3(1) (p. 15),
+  Theorem 5.35 (p. 47), Theorems 7.2–7.3 (pp. 58–59) and Corollary 7.14
+  (p. 62), for the representation-relative equivalence, its canonical
+  states and morphisms, intermediate objects and standard invariants, and
+  Kosaki's basic extension `JN′J` for inclusions of arbitrary factors.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
   Theorem A (p. 3), Theorem C (p. 4), Lemma 3.20 (p. 14),
   Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
@@ -2135,13 +2214,26 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   endomorphisms*](https://arxiv.org/abs/0802.0344), Adv. Math. 220 (2009),
   §2.4 (p. 5), Definitions 2.1, 2.4, 3.1, Theorem 3.15 and
   Corollary 3.16(3)–(4) (p. 29), Definition 4.1 (p. 30), Theorem 4.6
-  (p. 31), Lemma 4.7 (p. 32), Propositions 4.8–4.9 (p. 33),
+  (p. 31), Lemma 4.7 (p. 32), Propositions 4.8–4.9 and §4.2 (p. 33),
   Lemmas 4.10–4.11 (p. 34), Theorem 4.12 (p. 35), Definition 4.13 and
   Lemma 4.15 (p. 36), Theorems 4.16 and 4.18 (p. 37) and Corollary 4.19
-  (p. 38), for the ultraproduct and central sequence algebras,
-  real-rank partial-isometry approximation and its II∞/III₁
-  characterizations, and the II∞/III₁ characterization of centrally
-  trivial endomorphisms.
+  with its proof (p. 38), for the ultraproduct and central sequence
+  algebras, real-rank partial-isometry approximation and its II∞/III₁
+  characterizations, modular and centrally trivial endomorphisms, central
+  non-triviality of inclusions, and the II∞/III₁ characterization of
+  centrally trivial endomorphisms; Theorem 4.16 is recalled there from
+  Izumi and Theorem 4.18 extends Popa's theorem from centrally free to
+  centrally non-trivial subfactors.
+- Izumi, [*On type II and type III principal graphs of subfactors*](https://doi.org/10.7146/math.scand.a-12473),
+  Math. Scand. 73 (1993), 307–319, Theorem 3.5, for the comparison of the
+  relative commutants of an endomorphism of a type III₁ factor and of its
+  canonical extension, as recalled in Masuda–Tomatsu 2009, Theorem 4.16.
+- Popa, *Classification of subfactors and their endomorphisms*, CBMS
+  Regional Conference Series in Mathematics 86, Amer. Math. Soc. (1995),
+  Theorem 3.5(ii) and Corollary 4.4, for the criterion relating central
+  freeness of the tower inclusions `M⊂M_n` of a hyperfinite type III₁
+  subfactor to the modular automorphisms in `[(σσ̄)ⁿ]`, as recalled in
+  Masuda–Tomatsu 2009, Theorem 4.18.
 - Tomatsu, [*Centrally free actions of amenable C*-tensor categories on
   von Neumann algebras*](https://arxiv.org/abs/1812.04222),
   §2.2 (p. 5), §2.4 (p. 8), Proposition 2.7 (p. 10), Remark 2.17(1)
