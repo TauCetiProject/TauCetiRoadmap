@@ -70,7 +70,10 @@ closed-immersion theorems and the base change of the Abel–Jacobi morphism (Lay
 - Already proved in Tau Ceti and consumed, not restated (listed under the supplier contracts):
   the higher direct image functors `R^q f_*`; flat base change of cohomology over an affine base;
   top-degree semicontinuity and degree-zero cohomology and base change on schemes covered by two
-  affines; the degree of a line bundle on a proper integral curve with `deg L = χ(L) − χ(𝒪_X)`,
+  affines; pullback of line-bundle classes as a functorial group homomorphism; the Weil/Cartier
+  equivalence and `Cl(X) ≅ Pic X` on a Noetherian integral curve whose codimension-one local
+  rings are discrete valuation rings; the degree of a line bundle on a proper integral curve with
+  `deg L = χ(L) − χ(𝒪_X)`, its additivity, its invariance under extension of the base field,
   `Pic⁰ = ker deg` and Riemann–Roch for line bundles with a rational point or with exact
   constants; point separation of the Abel–Jacobi map in positive genus; the elliptic curve of a
   Weierstrass equation as an abelian variety with `E(k) ≅ Pic⁰`. Layers A–C and F state only what
@@ -105,8 +108,9 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `χ(L) − χ(𝒪_X)` (Tau Ceti's `InvertibleSheaf.eulerDegree`) is Tau Ceti's
   `InvertibleSheaf.eulerDegree_eq_relativeDegree`, and `χ(L) = deg L + 1 − g` is Riemann–Roch
   (Layers A–B). Degrees are taken over the field the scheme is regarded over: for a field
-  extension `K/k`, `deg_K L_K = deg_k L`, while a `K`-scheme regarded over `k` has
-  `deg_k = [K : k]·deg_K`.
+  extension `K/k`, `deg_K L_K = deg_k L` (Tau Ceti's `InvertibleSheaf.eulerDegree_pullback`),
+  while a `K`-scheme regarded over `k` has `deg_k = [K : k]·deg_K`
+  (`InvertibleSheaf.eulerDegree_eq_finrank_mul`).
 - **Three Picard objects.** The Picard *stack*, the Picard *sheaf* `Pic_{X/k}` (fppf
   sheafification of `T ↦ Pic(X_T)/Pic(T)`) and the *rigidified functor* (line bundles
   trivialized along `x₀`) are kept distinct; `Pic⁰` as an abstract group is `ker deg`, and the
@@ -142,7 +146,8 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
 - `GeometricallyConnected` and `GeometricallyIntegral` in
   `Mathlib/AlgebraicGeometry/Geometrically/{Connected,Integral}.lean`, with
   `GeometricallyIntegral.isIntegral_of_subsingleton`: a scheme geometrically integral over a
-  field is integral. `SmoothOfRelativeDimension.smooth`
+  field is integral, and `GeometricallyConnected.connectedSpace_of_subsingleton`: a scheme
+  geometrically connected over a field is connected. `SmoothOfRelativeDimension.smooth`
   (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`), a lemma rather than an instance, turns the
   standing curve's `SmoothOfRelativeDimension 1` into the `Smooth` hypothesis of the Tau Ceti
   results below.
@@ -172,9 +177,16 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
 
 - Cartier divisors and classes: `Scheme.CartierDivisor`, `Scheme.CartierDivisor.ClassGroup`,
   `principalSubgroup_eq_ker`, `classGroupAddEquivLineBundleClass`, `nonempty_iso_sheaf_iff`
-  (`TauCeti/AlgebraicGeometry/CartierDivisor/ClassGroup.lean`); `LineBundleClass`;
-  `SchemeWeilDivisor` with `SchemeWeilDivisor.relativeDegree` and the Weil/Cartier comparison;
-  `InvertibleSheaf.eulerDegree`, `χ(L) − χ(𝒪_X)`.
+  (`TauCeti/AlgebraicGeometry/CartierDivisor/ClassGroup.lean`); `LineBundleClass`, whose
+  pullback along any morphism is a group homomorphism `LineBundleClass.pullbackHom`, functorial
+  (`LineBundleClass.pullbackHom_id`, `LineBundleClass.pullbackHom_comp`) and fixing the trivial
+  class (`LineBundleClass.pullback_one`) (`LineBundle/Functoriality.lean`);
+  `SchemeWeilDivisor` with `SchemeWeilDivisor.relativeDegree`. On a Noetherian integral scheme
+  whose points have coheight at most one and whose codimension-one local rings are discrete
+  valuation rings, Weil and Cartier divisors are additively equivalent,
+  `SchemeWeilDivisor.equivCartierDivisor` (`WeilDivisor/Scheme/Cartier/Inverse.lean`), and the
+  Weil class group is the Picard group, `SchemeWeilDivisor.classGroupAddEquivLineBundleClass`
+  (`WeilDivisor/Scheme/Picard.lean`). `InvertibleSheaf.eulerDegree`, `χ(L) − χ(𝒪_X)`.
 - The standing curve's structure. A smooth, geometrically connected morphism is geometrically
   integral, the instance `Smooth.geometricallyIntegral`
   (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/GeometricallyIntegral.lean`). A universally
@@ -191,22 +203,37 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `IsCurveOver.coheight_le_one`, `IsCurveOver.isFunctionField`,
   `IsCurveOver.valuativeCriterion_existence`, `Curves/Basic.lean`). On a scheme smooth of
   relative dimension one, `Ω_{X/k}` is invertible, `isInvertible_relativeDifferentials`
-  (`Modules/Differentials/Rank.lean`).
-- Degree and Riemann–Roch on a proper integral curve over `k` whose codimension-one local rings
-  are discrete valuation rings, with `H¹(X, 𝒪_X)` finite-dimensional: principal divisors have
-  degree zero, `SchemeWeilDivisor.relativeDegree_principalDivisor`, and the degree of a divisor of
+  (`Modules/Differentials/Rank.lean`). A scheme with a separated morphism to a separated scheme
+  is separated, `Scheme.IsSeparated.of_isSeparated` (`Morphisms/Separated.lean`), applied to the
+  structure morphism: a scheme proper over `k` is separated.
+- Degree and Riemann–Roch on a proper integral Noetherian scheme over `k` whose points have
+  coheight at most one and whose codimension-one local rings are discrete valuation rings, with
+  `H¹(X, 𝒪_X)` finite-dimensional: principal divisors have degree zero,
+  `SchemeWeilDivisor.relativeDegree_principalDivisor`, and the degree of a divisor of
   `L` is `χ(L) − χ(𝒪_X)`, `InvertibleSheaf.eulerDegree_eq_relativeDegree`
   (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/EulerCharacteristic.lean`), additive by
   `LineBundleClass.eulerDegree_mul`; `Pic⁰ = ker deg` is `LineBundleClass.picZero`
   (`WeilDivisor/Scheme/PicZero.lean`); for a `κ`-scheme regarded over `k`,
   `InvertibleSheaf.eulerDegree_eq_finrank_mul` gives `deg_k = [κ : k]·deg_κ`
-  (`LineBundle/Degree.lean`). `H¹(X, 𝒪_X)` of a smooth proper connected curve is
-  finite-dimensional, `finiteDimensional_cohomology_one_trivial_of_smooth`; with exact constants
-  `H⁰(X, 𝒪_X) = k`, `SchemeWeilDivisor.finrank_cohomology_zero_trivial_eq_one_of_isIntegrallyClosedIn`;
-  Riemann–Roch `χ(L) = deg D + 1 − g` with a rational point is
-  `InvertibleSheaf.eulerCharBelow_eq_relativeDegree_add_one_sub_genus`, and its Serre-duality form
-  with exact constants and no rational point is
-  `InvertibleSheaf.finrank_cohomology_zero_sub_finrank_cohomology_zero_tensor_dual`.
+  (`LineBundle/Degree.lean`); Riemann–Roch `χ(L) = deg D + 1 − g` with a rational point is
+  `InvertibleSheaf.eulerCharBelow_eq_relativeDegree_add_one_sub_genus`. On a connected proper
+  scheme smooth of relative dimension one over `k`, `H¹(X, 𝒪_X)` is finite-dimensional,
+  `finiteDimensional_cohomology_one_trivial_of_smooth`
+  (`WeilDivisor/Scheme/RiemannRoch/Finiteness.lean`), and the degree is additive with no further
+  hypothesis, `LineBundleClass.eulerDegree_mul_of_smooth` (`Curves/Degree.lean`). On a
+  quasi-compact scheme over `k` with affine diagonal, for instance a separated one, the degree of a
+  line bundle is unchanged by every extension `K/k` of the base field, with no smoothness,
+  connectedness or rational point, `InvertibleSheaf.eulerDegree_pullback` and
+  `LineBundleClass.eulerDegree_pullback` (`LineBundle/BaseChange.lean`). On an integral Noetherian
+  separated scheme over `k` whose points have coheight at most one, whose codimension-one local
+  rings are discrete valuation rings, whose function field is an algebraic function field of one
+  variable in which `k` is integrally closed, and which satisfies the existence part of the
+  valuative criterion over `k`, the constants are exact, `H⁰(X, 𝒪_X) = k`,
+  `SchemeWeilDivisor.finrank_cohomology_zero_trivial_eq_one_of_isIntegrallyClosedIn`
+  (`WeilDivisor/Scheme/SerreDuality.lean`), and Riemann–Roch in its Serre-duality form holds
+  with no rational point,
+  `InvertibleSheaf.finrank_cohomology_zero_sub_finrank_cohomology_zero_tensor_dual`
+  (`LineBundle/SerreDuality.lean`).
 - Coherent sheaves and cohomology: `FinitelyPresentedSheaf`
   (`TauCeti/AlgebraicGeometry/FinitelyPresentedSheaf/Basic.lean`), `Scheme.Modules.Cohomology`
   with its `k`-module structure and `Scheme.Modules.cohomologyMapBaseLinear`, `Scheme.genus`,
@@ -337,8 +364,11 @@ B–F against the pinned libraries.
 
 Use Tau Ceti's `LineBundleClass X`, the group of isomorphism classes of invertible sheaves on a
 scheme under tensor product, written additively through `Additive`, with pullback along
-morphisms. Prove that pullback is a homomorphism and functorial, and that the class of the
-structure sheaf is the identity. *Needs:* Tau Ceti `LineBundleClass`.
+morphisms. Tau Ceti proves that pullback is a group homomorphism (`LineBundleClass.pullbackHom`),
+functorial (`LineBundleClass.pullbackHom_id`, `LineBundleClass.pullbackHom_comp`), and that it
+sends the class of the structure sheaf to the class of the structure sheaf
+(`LineBundleClass.pullback_one`); nothing about them is restated here. *Needs:* Tau Ceti
+`LineBundleClass`, `LineBundleClass.pullbackHom`.
 
 **Checks.**
 - On `ℙ¹_k`, `𝒪(1) ⊗ 𝒪(−1)` is trivial, so the classes of `𝒪(1)` and `𝒪(−1)` are inverse.
@@ -357,9 +387,14 @@ a nonzero rational section, up to isomorphism preserving that section. Consume T
 `classGroupAddEquivLineBundleClass` (the class group is the Picard group) and
 `nonempty_iso_sheaf_iff` (two Cartier divisors have isomorphic sheaves exactly when their
 difference is the divisor of a nonzero rational function) from
-`CartierDivisor/ClassGroup.lean` (Hartshorne II.6.13–6.15). Prove the Weil/Cartier comparison
-an isomorphism on the smooth curve. *Needs:* A.1; Tau Ceti `Scheme.CartierDivisor.ClassGroup`,
-`SchemeWeilDivisor`.
+`CartierDivisor/ClassGroup.lean` (Hartshorne II.6.13–6.15). On the standing curve the
+Weil/Cartier comparison is Tau Ceti's additive equivalence `SchemeWeilDivisor.equivCartierDivisor`
+and `Cl(X) ≅ Pic X` is `SchemeWeilDivisor.classGroupAddEquivLineBundleClass` (Hartshorne II.6.11
+and II.6.16), both stated for a Noetherian integral scheme whose points have coheight at most one
+and whose codimension-one local rings are discrete valuation rings; A.3 checks these hypotheses
+on the standing curve. *Needs:* A.1; Tau Ceti `Scheme.CartierDivisor.ClassGroup`,
+`SchemeWeilDivisor`, `SchemeWeilDivisor.equivCartierDivisor`,
+`SchemeWeilDivisor.classGroupAddEquivLineBundleClass`.
 
 **Checks.**
 - On `ℙ¹_k`, `div(t) = [0] − [∞]` is nonzero but gives the same trivial line-bundle class as
@@ -372,35 +407,45 @@ an isomorphism on the smooth curve. *Needs:* A.1; Tau Ceti `Scheme.CartierDiviso
 
 The degree of a Weil divisor is Tau Ceti's `SchemeWeilDivisor.relativeDegree`,
 `Σ_x [κ(x) : k]·n_x`, and the degree of a line bundle is Tau Ceti's
-`InvertibleSheaf.eulerDegree`, `χ(L) − χ(𝒪_X)`. On a proper integral curve over `k` whose
-codimension-one local rings are discrete valuation rings and whose `H¹(X, 𝒪_X)` is
-finite-dimensional, Tau Ceti proves that principal divisors have degree zero
-(`SchemeWeilDivisor.relativeDegree_principalDivisor`), that `χ(L) − χ(𝒪_X)` is the degree of the
-divisor of any nonzero rational section of `L` (`InvertibleSheaf.eulerDegree_eq_relativeDegree`),
-that it is additive under tensor product (`LineBundleClass.eulerDegree_mul`), and that
-`Pic⁰ X = ker deg` as an abstract group (`LineBundleClass.picZero`; the functorial `Pic⁰` is
-Layer D's). What remains here differs from those results by carrying no hypothesis beyond the
-standing curve and by the change of base field. The standing curve satisfies their hypotheses
-by pinned results. It is geometrically integral by Tau Ceti's instance
-`Smooth.geometricallyIntegral`, through Mathlib's `SmoothOfRelativeDimension.smooth` (Stacks
+`InvertibleSheaf.eulerDegree`, `χ(L) − χ(𝒪_X)`. On a proper integral Noetherian scheme over `k`
+whose points have coheight at most one, whose codimension-one local rings are discrete valuation
+rings and whose `H¹(X, 𝒪_X)` is finite-dimensional, Tau Ceti proves that principal divisors have
+degree zero (`SchemeWeilDivisor.relativeDegree_principalDivisor`), that `χ(L) − χ(𝒪_X)` is the
+degree of the divisor of any nonzero rational section of `L`
+(`InvertibleSheaf.eulerDegree_eq_relativeDegree`), that it is additive under tensor product
+(`LineBundleClass.eulerDegree_mul`), and that `Pic⁰ X = ker deg` as an abstract group
+(`LineBundleClass.picZero`; the functorial `Pic⁰` is Layer D's). It also proves additivity on
+every connected proper scheme smooth of relative dimension one over `k` with no further
+hypothesis (`LineBundleClass.eulerDegree_mul_of_smooth`), and invariance under extension of the
+base field, `deg_K L_K = deg_k L` for every field extension `K/k`, on every quasi-compact scheme
+over `k` with affine diagonal (`InvertibleSheaf.eulerDegree_pullback`,
+`LineBundleClass.eulerDegree_pullback`), because each `dim Hⁱ` is
+(`finrank_cohomology_pullback_eq_of_isPullback`); this is distinct from the factor `[K : k]` that
+appears when a `K`-scheme is regarded over `k` (`InvertibleSheaf.eulerDegree_eq_finrank_mul`).
+
+Prove that the standing curve satisfies the hypotheses of all these results, so that each holds
+on it with no hypothesis beyond the standing curve. Every hypothesis is a pinned result. The curve
+is geometrically integral by Tau Ceti's instance `Smooth.geometricallyIntegral`, through
+Mathlib's `SmoothOfRelativeDimension.smooth` (Stacks
 [056T](https://stacks.math.columbia.edu/tag/056T) and
 [033M](https://stacks.math.columbia.edu/tag/033M) give the classical argument), hence integral
-(`GeometricallyIntegral.isIntegral_of_subsingleton`). Its local rings at codimension-one points,
-which are its closed points, are discrete valuation rings
-(`isDiscreteValuationRing_stalk_of_smooth`). It has dimension one
-(`Scheme.IsCurveOver.of_smooth`), and `H¹(X, 𝒪_X)` is finite-dimensional
-(`finiteDimensional_cohomology_one_trivial_of_smooth`). Prove that the degree is invariant under
-extension of the base field: `deg_K L_K = deg_k L` for every field extension `K/k`, because each
-`dim Hⁱ` is (`finrank_cohomology_pullback_eq_of_isPullback`); this is distinct from the factor
-`[K : k]` that appears when a `K`-scheme is regarded over `k`
-(`InvertibleSheaf.eulerDegree_eq_finrank_mul`). *Needs:* A.2; Tau Ceti
+(`GeometricallyIntegral.isIntegral_of_subsingleton`), and it is connected
+(`GeometricallyConnected.connectedSpace_of_subsingleton`). It is Noetherian and its points have
+coheight at most one (`Scheme.IsCurveOver.of_smooth`, with `IsCurveOver.isNoetherian` and
+`IsCurveOver.coheight_le_one`). Its local rings at codimension-one points, which are its closed
+points, are discrete valuation rings (`isDiscreteValuationRing_stalk_of_smooth`), and
+`H¹(X, 𝒪_X)` is finite-dimensional (`finiteDimensional_cohomology_one_trivial_of_smooth`). It is
+quasi-compact, being proper over `k`, and separated (`Scheme.IsSeparated.of_isSeparated`), so its
+diagonal is a closed immersion, hence affine, as base-field invariance requires. *Needs:* Tau Ceti
 `SchemeWeilDivisor.relativeDegree`, `InvertibleSheaf.eulerDegree`,
 `SchemeWeilDivisor.relativeDegree_principalDivisor`, `InvertibleSheaf.eulerDegree_eq_relativeDegree`,
-`LineBundleClass.picZero`, `Smooth.geometricallyIntegral`,
-`isDiscreteValuationRing_stalk_of_smooth`, `Scheme.IsCurveOver.of_smooth`,
-`finiteDimensional_cohomology_one_trivial_of_smooth`,
-`finrank_cohomology_pullback_eq_of_isPullback`; Mathlib `SmoothOfRelativeDimension.smooth`,
-`GeometricallyIntegral.isIntegral_of_subsingleton`.
+`LineBundleClass.eulerDegree_mul`, `LineBundleClass.picZero`,
+`LineBundleClass.eulerDegree_mul_of_smooth`, `LineBundleClass.eulerDegree_pullback`,
+`Smooth.geometricallyIntegral`, `isDiscreteValuationRing_stalk_of_smooth`,
+`Scheme.IsCurveOver.of_smooth`, `finiteDimensional_cohomology_one_trivial_of_smooth`,
+`Scheme.IsSeparated.of_isSeparated`; Mathlib `SmoothOfRelativeDimension.smooth`,
+`GeometricallyIntegral.isIntegral_of_subsingleton`,
+`GeometricallyConnected.connectedSpace_of_subsingleton`.
 
 **Checks.**
 - Geometric connectedness is used for geometric integrality: for a separable quadratic
@@ -428,10 +473,13 @@ group (A.2–A.3); the pointless real conic, whose line bundles all have even de
 
 ### Dependencies
 
-Mathlib schemes and invertible sheaves; Tau Ceti `LineBundleClass`, `Scheme.CartierDivisor`,
-`SchemeWeilDivisor`, `InvertibleSheaf.eulerDegree`, and the standing curve's structure results
-(`Smooth.geometricallyIntegral`, `isDiscreteValuationRing_stalk_of_smooth`,
-`Scheme.IsCurveOver.of_smooth`). No other layer.
+Mathlib schemes and invertible sheaves, with `GeometricallyConnected.connectedSpace_of_subsingleton`;
+Tau Ceti `LineBundleClass` with `LineBundleClass.pullbackHom`, `Scheme.CartierDivisor`,
+`SchemeWeilDivisor` with `SchemeWeilDivisor.equivCartierDivisor`, `InvertibleSheaf.eulerDegree`
+with `LineBundleClass.eulerDegree_mul_of_smooth` and `LineBundleClass.eulerDegree_pullback`, and
+the standing curve's structure results (`Smooth.geometricallyIntegral`,
+`isDiscreteValuationRing_stalk_of_smooth`, `Scheme.IsCurveOver.of_smooth`,
+`Scheme.IsSeparated.of_isSeparated`). No other layer.
 
 ## Layer B: coherent cohomology over `k`: genus, Riemann–Roch, Serre duality
 
@@ -555,14 +603,15 @@ discrete valuation rings (`isDiscreteValuationRing_stalk_of_smooth`). Finally th
 Noetherian of dimension one, with an algebraic function field of one variable and the existence
 part of the valuative criterion (`Scheme.IsCurveOver.of_smooth` and its consequences
 `IsCurveOver.isNoetherian`, `IsCurveOver.coheight_le_one`, `IsCurveOver.isFunctionField`,
-`IsCurveOver.valuativeCriterion_existence`). *Needs:* B.1, B.2; Mathlib
+`IsCurveOver.valuativeCriterion_existence`); it is separated, its structure morphism being
+proper (`Scheme.IsSeparated.of_isSeparated`). *Needs:* B.1, B.2; Mathlib
 `SmoothOfRelativeDimension.smooth`, `GeometricallyIntegral.isIntegral_of_subsingleton`; Tau Ceti
 `Scheme.genus`, `eulerDegree_relativeDifferentials`,
 `finrank_cohomology_zero_relativeDifferentials`, `Smooth.geometricallyIntegral`,
 `Scheme.baseRingToGlobalSections_bijective_of_geometricallyIntegral`,
 `isIntegrallyClosedIn_functionField_of_geometricallyIntegral`,
 `isInvertible_relativeDifferentials`, `isDiscreteValuationRing_stalk_of_smooth`,
-`Scheme.IsCurveOver.of_smooth`.
+`Scheme.IsCurveOver.of_smooth`, `Scheme.IsSeparated.of_isSeparated`.
 
 **Checks.**
 - `ℙ¹_k`: `H⁰(Ω_{X/k}) = 0` and `g = 0`; an elliptic curve: `H⁰(Ω_{X/k})` is spanned by the
