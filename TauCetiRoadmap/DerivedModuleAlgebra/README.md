@@ -46,7 +46,7 @@ the section, or the pinned declaration, in the right column.
 | `DerivedDeRham.derivedTensor`, `derivedTensor_flatModel`, `derivedTensor_triangulated`, `derivedTensor_kFlatColimit`, `derivedTensor_kFlatRealization` | §0.2: the bifunctor, its bounded-above flat model, its exactness, and K-flatness of filtered colimits and of totalizations |
 | `test_derived_tensor_unbounded_flat` | §0.2: the Check on the bi-infinite `ℤ/4` complex with every differential multiplication by `2`, acyclic and termwise free but not K-flat |
 | `DerivedDeRham.leftDerivedNonadditive` | §0.3 |
-| `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, its arrow-category model and its Checks |
+| `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `Algebra.CotangentComplex.map`, `Algebra.CotangentComplex.resolutionIso`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, the map `L_(B/A) ⊗^L_B B′ → L_(B′/A′)` induced by a commutative square with its identity and composition laws, the differential model given by any polynomial resolution, the arrow-category model and its Checks |
 | `Algebra.CotangentComplex.SquareZeroExtension`, `Algebra.CotangentComplex.extensionCategory`, `Algebra.CotangentComplex.extensionCategory_zero`, `Algebra.CotangentComplex.extensionCategory_polynomial`, `extensionSetoid`, `Algebra.CotangentComplex.extensionClass`, `Algebra.CotangentComplex.extensionClass_mk`, `Algebra.CotangentComplex.exal_add_representative`, `Algebra.CotangentComplex.morphismObstruction`, `Algebra.CotangentComplex.morphismObstruction_cocycle`, `derivationZero`, `derivationPostcompose` | §0.5 |
 | `Algebra.CotangentComplex.extZero`, `Algebra.CotangentComplex.extOne`, `Algebra.CotangentComplex.extensionClass_add`, `Algebra.CotangentComplex.conormalComparison`, `Algebra.CotangentComplex.conormalComparison_extensionClass`, `conormalComparison_zero`, `conormalComparison_identity`, `conormalComparison_zmodNine` | §0.6 |
 | `Algebra.CotangentComplex.homologyOneIso` | §0.7 |
@@ -64,7 +64,7 @@ the section, or the pinned declaration, in the right column.
 | `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
 | `CompactCoefficients.Tower.limOne_subsingleton_of_isMittagLeffler`, `CompactCoefficients.Tower.limOne_exact` | Tau Ceti `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; for a levelwise short exact sequence of towers, `TauCeti.ModuleTower.exact_limOneMap` (exactness at the middle `lim¹`) with `TauCeti.ModuleTower.limOneMap_surjective`; over `ℤ` |
 | `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
-| `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p` | §1.1: the degreewise-surjective model with its Milnor maps, and the multiplication-by-`p` Check |
+| `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p`, `mulTower` | §1.1: the degreewise-surjective model with its Milnor maps, and the Check on the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by a prime `p` (`lim = 0`, `lim¹ ≅ ℤ_p/ℤ ≠ 0`) |
 | `DerivedDeRham.moduleDerivedHom` | Tau Ceti `TauCeti.derivedHom` (§1.1.1) |
 | `DerivedDeRham.completionAdjunction` | §1.3, `DerivedDeRham.derivedCompleteness_isRightAdjoint` |
 | `DerivedDeRham.completeNakayama` | §1.3, derived Nakayama, stated on a K-flat model |
@@ -967,7 +967,14 @@ Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); Chapter II, §2,
 printed p. 105 (PDF p. 122)). In an arbitrary abelian category the second-page identification,
 the convergence of a double complex with finitely many nonzero terms in each total degree, and
 the comparison of an exact augmentation with the total complex are [StacksHom], §12.25,
-Lemmas 12.25.1, 12.25.3 and 12.25.4, Tags 0130, 0132 and 0133, pp.67–69. *Needs:* Tau Ceti
+Lemmas 12.25.1, 12.25.3 and 12.25.4, Tags 0130, 0132 and 0133, pp.67–69. The edge morphisms and
+the five-term and extended sequences follow from that convergence in any abelian category. Since
+`F⁰Hⁿ = Hⁿ`, `Fⁿ⁺¹Hⁿ = 0` and `d_r` has bidegree `(r, 1 − r)`, no differential with `r ≥ 2` enters
+`E_r^{0,n}` or leaves `E_r^{n,0}`. So `Hⁿ/F¹Hⁿ = E_∞^{0,n}` is a subobject of `E₂^{0,n}`, and
+`FⁿHⁿ = E_∞^{n,0}` is a quotient of `E₂^{n,0}`. In total degrees 1 and 2, `F¹H¹ = E₂^{1,0}`,
+`H¹/F¹H¹ = ker(d₂ : E₂^{0,1} → E₂^{2,0})` and `F²H² = coker d₂`, which is the five-term sequence.
+Under the row-vanishing hypothesis the same argument with `d_(n+1)` in place of `d₂` gives the
+extended sequence. *Needs:* Tau Ceti
 `CochainComplex.spectralSequence`, `CochainComplex.filtrationAbutmentIso`,
 `CochainComplex.filtrationSpectralSequencePageXIsoEInfty`,
 `HomologicalComplex₂.columnFiltrationSpectralSequence` and
