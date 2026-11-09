@@ -1,5 +1,7 @@
 import Mathlib
 import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
+import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
+import TauCeti.NumberTheory.ClassFieldTheory.LocalExistence.NormSubgroup
 
 /-!
 # FunctionFieldArithmetic: target signatures
@@ -8,17 +10,23 @@ The roadmap is README.md; this file is not the roadmap. It states its headline t
 against the pinned Mathlib and Tau Ceti APIs, using the few simple definitions they need.
 
 The degree-one divisor theorem, reduced-basis theorem, Witt-vector additive Hilbert 90,
-finite- and infinite-length Artin–Schreier–Witt character classification, equal-characteristic local
-abelian existence, divisor zeta identities and polynomial recovery are statable below.
+finite- and infinite-length Artin–Schreier–Witt character classification, local abelian
+existence and injectivity of the local Artin map for every nonarchimedean local field (on the
+pinned Tau Ceti Artin map and norm subgroups, and for `k((T))` with field carriers), divisor zeta
+identities and the recovery of the `L`-polynomial from `g` point counts are statable below.
 The remaining headline theorems lack the following carriers at the pins:
 divisor-lattice Fourier duality and volumes (§2) need completed adelic divisor lattices
-and the differential's self-dual measure; reduced Witt–Laurent representatives and the
-Schmid–Witt conductor formula (§§3.2, 4.3–4.4) need the reduced representative and local
-reciprocity constructions; Lubin–Tate torsion (§4.1), local Kronecker–Weber and Artin
-injectivity (§4.2) need formal-module coefficient actions, evaluated adic points,
-the Lubin–Tate tower and local reciprocity map; the perfect-field fixed-modulus universal
-property and finite-abelian ray-cover classification (§§4.7, 4.10) need generalized
-Picard schemes, Abel maps and Lang covers. The finite-coefficient cohomological
+and the differential's self-dual measure; reduced Witt–Laurent representatives (§3.2) need
+convergent sums in `W(k((T)))`, which carries no topology at the pins; the Schmid–Witt symbol
+and its residue formula (§4.3) need the Artin–Schreier–Witt character of a class as a map,
+whose construction is the duality theorem of §3.1 (asserted below only as an existence), and
+the completed ring `lim_m W_m(k)((T))` with its residue; the Kosters–Wan conductor formula
+(§4.4) needs those reduced representatives and the field `K(℘⁻¹x)` as a finite separable
+extension carrying the pinned conductor exponent. Lubin–Tate torsion (§4.1) and local
+Kronecker–Weber (§4.2) need the Lubin–Tate formal module with its coefficient action and the
+Lubin–Tate tower. The perfect-field fixed-modulus universal property and finite-abelian
+ray-cover classification (§§4.7, 4.10) need generalized Picard schemes, Abel maps and Lang
+covers. The finite-coefficient cohomological
 L-function identity (§5.7) needs constructible étale
 sheaves with derived compact-support cohomology and Frobenius; quantitative Chebotarev
 (§5.8) needs the finite-cover Frobenius conjugacy classes. Harder finiteness (§§6.4–6.5)
@@ -158,9 +166,34 @@ end ArtinSchreierWitt
 
 /-! ## Layer 4: equal-characteristic local class field theory -/
 
-/-- Every open finite-index subgroup of `k((T))ˣ`, for a finite field `k`, is the norm
-group of a unique finite abelian extension in a fixed algebraic closure, whose degree
-is that index (README 4.2; Yoshida, §5.3(iv)). -/
+/-- **Local abelian existence for every nonarchimedean local field** (README 4.2): every open
+subgroup of finite index of `Kˣ` is the norm subgroup of a finite abelian extension, that is, of
+an abelian class-field layer of `Gal(Kˢ/K)`. In characteristic zero this is the pinned
+`TauCeti.ClassFieldTheory.localAbelianExistence`, where openness is automatic; the content is
+`char K = p`, where it is not (Yoshida, Theorem A and §5.3(iv)). Uniqueness and the equality of
+degree and index are the pinned `localClassField_unique` and `index_localNormSubgroup`. -/
+theorem localAbelianExistence_all (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] (H : Subgroup Kˣ) (hH : IsOpen (H : Set Kˣ))
+    [H.FiniteIndex] :
+    ∃ V : OpenNormalSubgroup (AbsoluteGaloisGroup K),
+      V.IsAbelianClassFieldLayer ∧ ClassFieldTheory.localNormSubgroup K V = H := by
+  sorry
+
+/-- **Injectivity of the local Artin map for every nonarchimedean local field** (README 4.2):
+the absolute local Artin map `Kˣ →* G_K^ab` is injective. In characteristic zero this is the
+pinned `TauCeti.ClassFieldTheory.injective_artinMap`; in characteristic `p` the kernel, the
+intersection of all norm subgroups, is trivial once every open subgroup of finite index is a
+norm subgroup (`localAbelianExistence_all`). -/
+theorem injective_artinMap_all (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] :
+    Function.Injective (ClassFieldTheory.artinMap K) := by
+  sorry
+
+/-- **Local abelian existence for `k((T))` with field carriers** (README 4.2; Yoshida,
+§5.3(iv)): the case `K = k((T))` of `localAbelianExistence_all`, stated with intermediate fields
+of an algebraic closure and the field norm. Every open finite-index subgroup of `k((T))ˣ`, for a
+finite field `k`, is the norm group of a unique finite abelian extension in a fixed algebraic
+closure, whose degree is that index. -/
 theorem localAbelianExistence_laurentSeries (k : Type*) [Field k] [Finite k]
     (H : Subgroup (LaurentSeries k)ˣ)
     (hH : IsOpen (H : Set (LaurentSeries k)ˣ)) [H.FiniteIndex] :
@@ -260,18 +293,17 @@ def IsLPolynomialData (q g : ℕ) (N : ℕ → ℤ) (P : Polynomial ℤ) : Prop 
     (r : ℤ) * P.coeff r =
       ∑ i ∈ Finset.range r, (N (i + 1) - (q : ℤ) ^ (i + 1) - 1) * P.coeff (r - 1 - i)
 
-/-- The first `g` counts and the functional equation determine the polynomial (README 5.6). -/
-theorem IsLPolynomialData.unique {q g : ℕ} {N : ℕ → ℤ} {P P' : Polynomial ℤ}
-    (h : IsLPolynomialData q g N P) (h' : IsLPolynomialData q g N P') : P = P' := by
-  sorry
-
-/-- The `L`-polynomial of a function field satisfies the data with `N = pointCount`
-(README 5.6). -/
-theorem lPolynomial_isLPolynomialData {k F : Type*} [Field k] [Finite k] [Field F] [Algebra k F]
-    (hF : IsFunctionField k F) (hk : IsIntegrallyClosedIn k F) (P : Polynomial ℤ)
+/-- **The first `g` point counts determine the `L`-polynomial** (README 5.6): for a function
+field with finite exact constants and `P = L_F = (1 − T)(1 − qT) Z_F`, a polynomial satisfies the
+`L`-polynomial data for `q = #k`, the genus and the point counts exactly when it is `L_F`. The
+reverse direction says that `L_F` satisfies the Newton identities and the functional equation;
+the forward direction is the uniqueness of polynomials with the same data. -/
+theorem isLPolynomialData_iff_eq_lPolynomial {k F : Type*} [Field k] [Finite k] [Field F]
+    [Algebra k F] (hF : IsFunctionField k F) (hk : IsIntegrallyClosedIn k F) (P : Polynomial ℤ)
     (hP : zeta k F * ((1 - PowerSeries.X) *
-      (1 - PowerSeries.C (Nat.card k : ℤ) * PowerSeries.X)) = (P : PowerSeries ℤ)) :
-    IsLPolynomialData (Nat.card k) (genus k F) (fun r => pointCount k F r) P := by
+      (1 - PowerSeries.C (Nat.card k : ℤ) * PowerSeries.X)) = (P : PowerSeries ℤ))
+    (P' : Polynomial ℤ) :
+    IsLPolynomialData (Nat.card k) (genus k F) (fun r => pointCount k F r) P' ↔ P' = P := by
   sorry
 
 end LPolynomial

@@ -58,8 +58,8 @@ This roadmap owns:
   the Fourier transforms of lattice indicators (Layer 2);
 - Artin–Schreier–Witt theory of fields of characteristic `p`, reduced representatives over
   `k((T))` and the conductor formula (Layer 3);
-- Lubin–Tate formal modules in equal characteristic, their torsion ramification and the
-  action of the local Artin map on their torsion, `p`-primary local existence, local
+- the torsion of Lubin–Tate formal modules in equal characteristic, its ramification and the
+  action of the local Artin map on it, `p`-primary local existence, local
   Kronecker–Weber and injectivity of the local Artin map in equal characteristic, and the
   Schmid–Witt symbol; the additional scheme and structure assertions for rigidified Picard
   spaces, Rosenlicht's perfect-field universal property at a fixed modulus, and the extension
@@ -120,11 +120,13 @@ It leaves the following to the roadmaps that state them, and states none of them
   sections and induction normalization), §§2.15–2.16 (intertwiners), §§4.11–4.17
   (discrete and residual data). These are its everywhere-unramified `GLₙ` branch; they do not
   supply the unitary-group Eisenstein theory of Layer 7.
-- **LubinTateFormalModulesAndQuasiCanonicalLifts**, LT.0 targets *formal-hom*,
-  *formal-module* and *adic-points*: formal homomorphisms, tangent-compatible
-  coefficient actions and evaluated adic points. LT.1–LT.2 supply the
-  mixed-characteristic Lubin–Tate construction, torsion and arithmetic Artin comparison.
-  Section 4.1 adds the equal-characteristic construction on these same carriers.
+- **LubinTateFormalModulesAndQuasiCanonicalLifts**: §§0.1–0.2 (formal modules with their
+  tangent-compatible coefficient actions, and their adic points), §§1.1–1.4 (Lubin–Tate
+  series, interpolation, the Lubin–Tate formal module and its coordinate independence, over
+  every discrete valuation ring with finite residue field, so in equal characteristic too)
+  and §§2.1–2.5 (torsion, division fields, the Lubin–Tate character and its comparison with
+  local reciprocity, over finite extensions of `ℚ_p`). Section 4.1 adds the
+  equal-characteristic torsion, ramification and reciprocity on these same carriers.
 - **ClassFieldTheory** (Tau Ceti): class formations and Tate's theorem (Layers 1–4), local
   invariants (Layer 5), the local class formation, finite and absolute reciprocity and
   conductors (Layers 6–7) and the prime-to-`p` local existence theorem of Layer 8. Its scope
@@ -134,7 +136,14 @@ It leaves the following to the roadmaps that state them, and states none of them
   Herbrand's theorem for quotients, Hasse–Arf and the upper-numbering form of the norm-group
   conductor are proved in the pinned Tau Ceti for every nonarchimedean local field, equal
   characteristic included (exact names under *From Tau Ceti*). Unit-filtration reciprocity
-  follows from these and ClassFieldTheory Layers 6–7 (§4.2) and is not a target here.
+  follows from these and ClassFieldTheory Layers 6–7 (§4.2) and is not a target here. So
+  are the absolute local Artin map, norm subgroups of abelian layers with their uniqueness and
+  index, and the conductor exponent of a finite separable extension as an attained minimum,
+  in every characteristic, and local existence and injectivity of the Artin map in
+  characteristic zero. The conductor of the class field of an open subgroup `H` of finite
+  index is therefore the least `n` with `U^(n) ⊆ H` once §4.2 supplies that class field, and
+  is not a target here. Homomorphisms and isomorphisms of one-dimensional formal group laws
+  and their points in topologically nilpotent elements are also in the pinned Tau Ceti.
 - **ReductiveGroupsPartII**: §RG2.3.7 Lang's theorem, Layer RG2.4 Iwasawa and Cartan
   decompositions. **SmoothRepresentationsOfLocalGroups**: §SR.4.1 the Satake transform and
   isomorphism, §SR.4.4 unramified unitary groups. **AdelicAlgebraicGroups**: Layer AA.0
@@ -251,6 +260,43 @@ states, for a finite abelian `M/K` and `v : ℕ`, that `U(K,v) ⊆ N_{M/K}(Mˣ)`
 `TauCeti.unitFiltration K v` is `O_Kˣ` at `v = 0` and `1 + 𝔭_K^v` for `v ≥ 1`, and
 `TauCeti.normGroup K M` is the image of the norm on units.
 
+Local reciprocity is consumed from Tau Ceti in `TauCeti/NumberTheory/ClassFieldTheory/`, for
+every `IsNonarchimedeanLocalField K` unless a characteristic is named. In
+`Local/ArtinMap.lean`: the absolute local Artin map
+`TauCeti.ClassFieldTheory.artinMap K : Kˣ →* G_K^ab`, arithmetically normalized, into the
+topological abelianization `Field.absoluteGaloisGroupAbelianization K`; its finite restrictions
+`TauCeti.ClassFieldTheory.artinMap_restrict`; and `TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`
+(its kernel is the intersection of the norm subgroups). In `Formation/AbelianLayer.lean`:
+`OpenNormalSubgroup.IsAbelianClassFieldLayer` (an open normal subgroup of
+`TauCeti.AbsoluteGaloisGroup K = Gal(Kˢ/K)` containing the closed commutator subgroup, that is,
+a finite abelian extension inside `Kˢ`). In `LocalExistence/`:
+`TauCeti.ClassFieldTheory.localNormSubgroup K V`, the norm group of the class field of `V`, open
+and of finite index (`NormSubgroup.lean`); `TauCeti.ClassFieldTheory.index_localNormSubgroup`,
+index equal to degree for an abelian layer (`AbelianLayer.lean`);
+`TauCeti.ClassFieldTheory.localClassField_unique`, two abelian layers with the same norm subgroup
+are equal (`Correspondence.lean`); and, under `[CharZero K]` only,
+`TauCeti.ClassFieldTheory.localAbelianExistence` (`Existence.lean`) and
+`TauCeti.ClassFieldTheory.injective_artinMap` (`ArtinMap.lean`), whose module docstring claims
+neither statement in characteristic `p`. In every characteristic `Existence.lean` gives only
+`TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`, for index prime
+to `p`. `TauCeti.ClassFieldTheory.profiniteCompletionArtinMap` (`LocalExistence/ArtinMap.lean`)
+extends `artinMap K` to Mathlib's profinite completion
+`ProfiniteGrp.ProfiniteCompletion.completion (GrpCat.of Kˣ)`, the completion for all subgroups
+of finite index; it is surjective in every characteristic. In `Local/Conductor/Basic.lean`, for
+a finite separable `L/K`: `TauCeti.ClassFieldTheory.conductorExponent K L`, the least `n` with
+`U(K,n) ⊆ N_{L/K}(Lˣ)`, attained (`TauCeti.ClassFieldTheory.unitFiltration_conductorExponent_le_normGroup`)
+and characterized by `TauCeti.ClassFieldTheory.conductorExponent_le_iff`. In
+`TauCeti/RingTheory/LaurentSeries/LocalField.lean`,
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField` makes `k((T))` a nonarchimedean local field for
+finite `k`.
+
+Formal group laws are consumed from Tau Ceti in `TauCeti/RingTheory/FormalGroup/`:
+`TauCeti.FormalGroupHom` and `TauCeti.FormalGroupIso` (homomorphisms as power series without
+constant term, composition by substitution, base change; `Hom.lean`) and
+`FormalGroup.TopNilpotentPoint` (the group of points in the topologically nilpotent elements of
+a complete Hausdorff linearly topologized algebra, with continuous functoriality;
+`TopNilpotentPoint/Basic.lean`).
+
 ### From TauCetiRoadmap.AlgebraicCurves
 
 AlgebraicCurves Layers 0–12 provide intrinsic function fields and the chosen-generator
@@ -309,25 +355,30 @@ both characteristics, consumed by §4.4.
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
-The supplier specification is
-[LubinTateFormalModulesAndQuasiCanonicalLifts, LT.0–LT.2](https://github.com/TauCetiProject/TauCetiRoadmapJobs/blob/1842229991e0c68c8cc99af607ac3b6e9861f6a4/packages/LubinTateFormalModulesAndQuasiCanonicalLifts/design/README.md#lt0-formal-modules-coordinates-and-complete-points).
-These layers are prerequisites of Layer 4 and precede FunctionFieldArithmetic in the
-dependency order.
+LubinTateFormalModulesAndQuasiCanonicalLifts precedes this roadmap in the dependency order;
+Layer 4 uses the following of its sections.
 
-LubinTateFormalModulesAndQuasiCanonicalLifts LT.0, targets *formal-hom* (Formal group
-homomorphisms), *formal-module* (One-dimensional formal modules) and *adic-points*
-(Adic formal-module points), supplies the following interfaces. The first is defined
-for commutative rings and commutative Mathlib formal laws; composition and formal-group
-addition give the endomorphism ring. The second equips that law over an `A`-algebra `R`
-with a unital `A`-action whose linear coefficient is the structure map `A → R`.
-The third evaluates on an ideal defining the topology of a complete separated linearly
-topologized algebra, with continuous coefficient maps and coordinate transport.
-These three targets have no characteristic-zero restriction. Section 4.1 uses `A=R=O`
-and maximal ideals of rings of integers of finite extensions, taking their union for
-algebraic torsion points. LT.1 targets *admissible-series*, *interpolation*, *lt-module*
-and *lt-coordinate-comparison*, and LT.2 targets *primitive-division*, *lt-character*
-and *reciprocity-comparison*, supply the mixed-characteristic construction, torsion
-and arithmetic Artin comparison; §4.1 adds the equal-characteristic construction.
+- §0.1, *One-dimensional formal modules*: a formal `A`-module over an `A`-algebra `R` is a
+  commutative Mathlib `FormalGroup R` with a unital ring map `a ↦ [a]_F` into its endomorphisms
+  whose linear coefficient is the image of `a` in `R`, for any commutative ring `A`. The
+  endomorphisms are formal-group homomorphisms, the pinned `TauCeti.FormalGroupHom`.
+- §0.2, *The module of adic points*: the `A`-module of points `F(I)` for an ideal `I` of
+  topologically nilpotent elements of a complete Hausdorff linearly topologized algebra, with
+  continuous coefficient maps, and `F(𝔪_(K̄))` as the union of the `F(𝔪_L)` over finite
+  subextensions with its Galois action.
+- §§1.1–1.4, *The Lubin–Tate construction*: Lubin–Tate series for an irreducible `π` and the
+  residue cardinality `q`, Lubin–Tate interpolation, the Lubin–Tate formal module `F_f` with
+  `[π]_f = f` as the unique formal group law of which `f` is an endomorphism, and the unique strict
+  `O`-linear comparison `F_g → F_f` for two series for the same `π`. That layer works over every
+  discrete valuation ring with finite residue field, of either characteristic and complete or
+  not; in equal characteristic `πX + X^q` gives the additive law.
+- §§2.1–2.5, *Torsion, Tate modules and the Artin comparison*: torsion, division fields, the
+  Lubin–Tate character and its comparison with `TauCeti.ClassFieldTheory.artinMap`, for finite
+  extensions of `ℚ_p` only. This is the mixed-characteristic case that §4.1 parallels.
+
+Sections 4.1–4.2 use `A = R = O` and maximal ideals of rings of integers of finite separable
+extensions, taking their union for algebraic torsion points, and add the torsion, ramification
+and reciprocity statements in characteristic `p`.
 
 ### From TauCetiRoadmap.DeligneWeightsAndPurity
 
@@ -1031,12 +1082,18 @@ AlgebraicCurves Layers 6, 7 and 10.
 
 `K` is an equal-characteristic nonarchimedean local field of characteristic `p`: complete
 for a discrete valuation with finite residue field
-`𝔽_Q`, ring of integers `O`, maximal ideal `𝔭` and uniformizer `π`. The mixed-characteristic specialization is consumed from
-LubinTateFormalModulesAndQuasiCanonicalLifts LT.1–LT.2 and ClassFieldTheory; this layer
-adds the equal-characteristic construction and combines the two cases. ClassFieldTheory
+`𝔽_Q`, ring of integers `O`, maximal ideal `𝔭` and uniformizer `π`.
+LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2 and 1.1–1.4 supply formal modules and
+the Lubin–Tate construction over every discrete valuation ring with finite residue field, and
+its §§2.1–2.5 the torsion and reciprocity comparison over finite extensions of `ℚ_p`; this layer
+adds the equal-characteristic torsion, ramification and reciprocity, and §4.2 states existence
+and injectivity for every nonarchimedean local field. ClassFieldTheory
 Layers 5–8 supply the local invariant, the local class formation, the absolute local Artin map
 `Art_K : Kˣ → Gal(K^ab/K)` (arithmetic normalization), its conductors, and local existence for
-finite extensions of `ℚ_p` and for norm subgroups of index prime to `p`; its scope section
+finite extensions of `ℚ_p` and for norm subgroups of index prime to `p`, all at the pinned Tau
+Ceti (`TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.conductorExponent`,
+`TauCeti.ClassFieldTheory.localAbelianExistence` and
+`TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`); its scope section
 excludes Lubin–Tate theory and `p`-primary existence in equal characteristic, which this layer
 supplies. The completion `F_v` of a function field over `𝔽_q` at a place is such a field
 (AlgebraicCurves Layer 9; Tau Ceti `Place.completionIntegersEquivPowerSeries` at a
@@ -1044,17 +1101,20 @@ rational place), so every statement applies at the places of Layers 0–7.
 
 ### 4.1 Lubin–Tate formal modules
 
-Use LubinTateFormalModulesAndQuasiCanonicalLifts LT.0, targets *formal-hom*,
-*formal-module* and *adic-points*, for formal homomorphisms, tangent-compatible
-coefficient actions and evaluated points. Their ring and adic hypotheses are those
-in the exact supplier contract. The construction below is for `char K=p`;
-LT.1–LT.2 supply the mixed-characteristic specialization over finite extensions of `ℚ_p`.
+Use LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2 for formal modules, their
+tangent-compatible coefficient actions and their adic points, and §§1.1–1.4 for Lubin–Tate
+series, the Lubin–Tate formal module and its coordinate independence; that construction holds
+over every discrete valuation ring with finite residue field, so over `O`. Formal-group
+homomorphisms are the pinned `TauCeti.FormalGroupHom`. The ring and adic hypotheses are those
+in the exact supplier contract. The statements below are for `char K=p`;
+LubinTateFormalModulesAndQuasiCanonicalLifts §§2.1–2.5 supply their counterparts over finite
+extensions of `ℚ_p`.
 
-A *Lubin–Tate series* for `π` is `f ∈ O[[X]]` with `f ≡ πX` modulo degree `2` and
-`f ≡ X^Q` modulo `π`; `πX + X^Q` is one. Define `F_f`, the unique commutative
-one-dimensional formal group law over `O` (Mathlib `FormalGroup` with `FormalGroup.IsComm`) for
-which `f` is an endomorphism, and `[·]_f : O → End(F_f)`, the unique ring
-homomorphism with `[a]_f ≡ aX` modulo degree `2` and `[π]_f = f`. Define the torsion
+For a Lubin–Tate series `f` for `π` (`f ≡ πX` modulo degree `2` and `f ≡ X^Q` modulo `π`; for
+instance `πX + X^Q`), let `F_f` be the Lubin–Tate formal module of
+LubinTateFormalModulesAndQuasiCanonicalLifts §1.3: the commutative formal group law over `O`
+(Mathlib `FormalGroup` with `FormalGroup.IsComm`) of which `f` is an endomorphism, with action
+`[·]_f : O → End(F_f)`, `[a]_f ≡ aX` modulo degree `2` and `[π]_f = f`. Define the torsion
 `μ_{f,m} := {α ∈ 𝔪_{K^sep} : f^{∘m}(α) = 0}` (evaluated only in maximal ideals of finite
 extensions, where the series converge) and `K_{π,m} := K(μ_{f,m})`.
 
@@ -1064,11 +1124,12 @@ isomorphic to `O/𝔭^m` (any `α ∈ μ_{f,m} ∖ μ_{f,m−1}` is a generator)
 ramified and abelian of degree `(Q − 1)Q^(m−1)`, `α` is a uniformizer of `K_{π,m}`, `π` is a norm
 from `K_{π,m}`, and `u ↦ (α ↦ [u]_f(α))` is an isomorphism `(O/𝔭^m)ˣ ≅ Gal(K_{π,m}/K)`. Neither
 `K_{π,m}` nor the Galois action depends on the choice of `f` for the given `π`.
-The formal-module and torsion API is:
+The torsion API is:
 
-- The formal group is commutative, and the linear term of `[a]_f` is `aX`.
-- Two series for the same `π` give a unique isomorphism tangent to the identity and
-  commuting with their `O`-actions.
+- For two series `f, g` for the same `π`, the strict comparison `F_g → F_f` of
+  LubinTateFormalModulesAndQuasiCanonicalLifts §1.4 maps `μ_{g,m}` onto `μ_{f,m}`, `O`-linearly
+  and compatibly with the Galois action, so `K_{π,m}` and the isomorphism with `(O/𝔭^m)ˣ` do not
+  depend on `f`.
 - Torsion identifies with `O/𝔭^m`; the field is Galois of the stated degree and `π` is a norm.
 - For `m≥1`, `M=K_{π,m}`, a primitive torsion point `α` and `a∈Oˣ` with
   `a≢1 mod 𝔭^m`, put `j=ord_K(a−1)`, so `0≤j<m`; it is independent of the lift
@@ -1082,9 +1143,7 @@ The formal-module and torsion API is:
   `d(Q−1)Q^(m−1)` and norm group `⟨x⟩ × U_K^m` for `m≥1`.
   The unramified degree equals `ord_K(x)` and is not an independent parameter.
 
-*Proof sketch.* The coefficients of `F_f` and `[a]_f` are built degree by degree; at each degree
-the obstruction is divided by `π^t − π` with `t ≥ 2`, a unit times `π`, and uniqueness gives
-associativity, commutativity and the ring-homomorphism laws. Separability of `f^{∘m}` in
+*Proof sketch.* Separability of `f^{∘m}` in
 characteristic `p` needs a separate argument (its derivative is not a unit in general); it is
 proved by showing that the roots are simple through the `O`-module structure. The degree is
 computed by Newton polygons: the constant term of `f^{∘m}/f^{∘(m−1)}` is a unit times `π`, and all
@@ -1098,9 +1157,9 @@ the Herbrand function sends `Q^s−1` to `s` for `1≤s≤m`, giving the asserte
 p. 419; §5.1, Definition 5.3 and Proposition 5.4, p. 423; Proposition 5.10, p. 425;
 Appendix II, Proposition 8.1, p. 436; Proposition 6.14 and its proof, p. 433.)
 
-*Needs:* LubinTateFormalModulesAndQuasiCanonicalLifts LT.0 targets *formal-hom*,
-*formal-module* and *adic-points*; Mathlib `FormalGroup`,
-`PowerSeries`; ClassFieldTheory Layer 5 (local fields and their
+*Needs:* LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2 (formal modules and adic
+points) and §§1.1–1.4 (the Lubin–Tate formal module and its coordinate comparison); Tau Ceti
+`TauCeti.FormalGroupHom`; Mathlib `FormalGroup`, `PowerSeries`; ClassFieldTheory Layer 5 (local fields and their
 unramified extensions); Tau Ceti `TauCeti.LocalFieldsRamification.lowerRamificationGroup`,
 `TauCeti.LocalFieldsRamification.herbrand` and
 `TauCeti.LocalFieldsRamification.upperRamificationGroup` (lower groups, Herbrand function and
@@ -1113,9 +1172,12 @@ AlgebraicCurves Layer 9 (the expansion of a completed place).
   has degree `2`.
 - For `m ≥ 2` the degree is divisible by `Q^(m−1)`, so the extension is wildly ramified and lies
   outside the prime-to-`p` existence theorem of ClassFieldTheory Layer 8.
-- For `K = 𝔽_Q((π))` and `f = πX + X^Q`, `f` is additive, `F_f` is the additive formal
-  group `X + Y` and `[a]_f = aX` for `a ∈ 𝔽_Q`; in mixed characteristic no Lubin–Tate formal
-  group is additive, so a construction that silently used the additive group would be wrong there.
+- For `K = 𝔽_Q((π))` and `f = πX + X^Q`, `F_f` is the additive law `X + Y` with `[a]_f = aX`
+  for `a ∈ 𝔽_Q` (LubinTateFormalModulesAndQuasiCanonicalLifts §1.3). Then `μ_{f,1}` is the set of
+  the `Q` roots of `X(X^(Q−1) + π)`, an `𝔽_Q`-line under ordinary addition, and `K_{π,1}` is
+  `K((−π)^(1/(Q−1)))`, of degree `Q − 1` because `X^(Q−1) + π` is Eisenstein. Over a finite
+  extension of `ℚ_p` no Lubin–Tate law is additive, so computing torsion with ordinary addition
+  would be wrong there.
 - If `ord_K(x) = 2`, the relative field has unramified degree `2`, total degree
   `2(Q − 1)Q^(m−1)`, and its norm group has valuation subgroup `2ℤ`; using an unramified
   extension of degree `1` cannot give that norm group.
@@ -1129,18 +1191,36 @@ AlgebraicCurves Layer 9 (the expansion of a completed place).
 
 ### 4.2 Local existence, local Kronecker–Weber and injectivity in equal characteristic
 
-Prove localKroneckerWeber: `K^ab = K^ur · K_π` with `K_π = ⋃_m K_{π,m}`. Prove
-`localAbelianExistence_laurentSeries` for `K = k((T))` with finite `k`, and its
-transport localAbelianExistence_all to every equal-characteristic local field: for every open subgroup `H ⊆ Kˣ` of finite index (in particular of
-index divisible by `p` when `char K = p`) there is a unique finite abelian extension `L/K` inside
-`K^sep` with `N_{L/K}(Lˣ) = H`, and `[L : K] = [Kˣ : H]`. Prove injective_artinMap_all: the
-absolute Artin map of ClassFieldTheory Layer 7 is injective with image the abelian Weil group
-`W_K^ab = {σ : σ|_{K^ur} ∈ φ^ℤ}`, it induces an isomorphism of the profinite completion `K̂ˣ`
-with `Gal(K^ab/K)`, and the complete local class-field correspondence holds for every local field.
+Prove localKroneckerWeber: `K^ab = K^ur · K_π` with `K_π = ⋃_m K_{π,m}`.
+
+The next two theorems are stated for every nonarchimedean local field `K`, of either
+characteristic. In characteristic zero they are the pinned
+`TauCeti.ClassFieldTheory.localAbelianExistence` and `TauCeti.ClassFieldTheory.injective_artinMap`,
+so their content is the case `char K = p`. Prove `localAbelianExistence_all`: every open
+subgroup `H ⊆ Kˣ` of finite index, in particular one of index divisible by `p` when
+`char K = p`, is the norm subgroup `TauCeti.ClassFieldTheory.localNormSubgroup K V` of an
+abelian layer `V` (`OpenNormalSubgroup.IsAbelianClassFieldLayer`), that is, `N_{L/K}(Lˣ) = H` for
+a finite abelian extension `L/K` inside `K^sep`. That `L` is unique and `[L : K] = [Kˣ : H]`, by
+the pinned `TauCeti.ClassFieldTheory.localClassField_unique` and
+`TauCeti.ClassFieldTheory.index_localNormSubgroup`, which hold in every characteristic.
+`localAbelianExistence_laurentSeries` is its case `K = k((T))` with `k` finite, a local field by
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField`; it differs in its carriers (an intermediate
+field of an algebraic closure, the field norm and `Module.finrank`) and states the uniqueness and
+the degree itself. Prove `injective_artinMap_all`: the absolute local Artin map
+`TauCeti.ClassFieldTheory.artinMap K : Kˣ →* G_K^ab` is injective.
+
+Prove artinMap_completion_all, for every nonarchimedean local field: the image of `Art_K` is the
+abelian Weil group `W_K^ab = {σ : σ|_{K^ur} ∈ φ^ℤ}`, and `Art_K` extends to an isomorphism of
+topological groups onto `Gal(K^ab/K)` from the completion of `Kˣ` for its open subgroups of
+finite index, `lim Kˣ/H`. Hence sending `H` to its class field is an inclusion-reversing
+bijection from the open subgroups of finite index of `Kˣ` onto the finite abelian extensions of
+`K` inside `K^sep`, the complete local class-field correspondence. In characteristic zero every subgroup of finite
+index is open, that completion is Mathlib's profinite completion and the isomorphism is the
+pinned `TauCeti.ClassFieldTheory.profiniteCompletionArtinEquiv`; in characteristic `p` the two
+completions differ.
+
 Prove lubinTate_artin: `Art_K(π)` is trivial on `K_π` and acts as `φ` on `K^ur`, and for
-`u ∈ Oˣ`, `Art_K(u)` is trivial on `K^ur` and acts on `μ_{f,m}` by `[u⁻¹]_f`. Prove
-conductor_existence_all: the norm subgroup of an abelian extension of conductor exponent `n`
-contains `U^(n)` and not `U^(n−1)` (for `n ≥ 1`), in every characteristic.
+`u ∈ Oˣ`, `Art_K(u)` is trivial on `K^ur` and acts on `μ_{f,m}` by `[u⁻¹]_f`.
 
 Write `U_K^(0)=Oˣ` and `U_K^(r)=1+𝔭^r` for `r≥1` (Tau Ceti's `TauCeti.unitFiltration K r`).
 Unit-filtration reciprocity, `Art_{L/K}(U_K^(r)) = Gal(L/K)^r` for finite abelian `L/K` with
@@ -1161,9 +1241,10 @@ finite images. Since inversion preserves `U_K^(r)`, lubinTate_artin restricts
 `Art_K(U_K^(r))` on `K_{π,m}` to the image of `U_K^(r)` under the unit-class isomorphism
 `(O/𝔭^m)ˣ ≅ Gal(K_{π,m}/K)` of §4.1.
 
-These extend, without restating, ClassFieldTheory Layer 8's `localAbelianExistence`,
-`injective_artinMap` and `localClassFieldCorrespondence` (there stated for finite extensions of
-`ℚ_p`) to all nonarchimedean local fields.
+These extend ClassFieldTheory Layer 8's existence, injectivity and class-field correspondence,
+pinned under `[CharZero K]` as `TauCeti.ClassFieldTheory.localAbelianExistence`,
+`TauCeti.ClassFieldTheory.injective_artinMap` and
+`TauCeti.ClassFieldTheory.localClassFieldCorrespondence`, to all nonarchimedean local fields.
 
 *Proof sketch.* The Lubin–Tate extensions give norm groups `⟨π⟩ × (1 + 𝔭^m)` (Yoshida
 Proposition 5.10, using the relative formal modules for an element `x` of positive valuation in
@@ -1180,7 +1261,10 @@ p. 425; Theorem 5.15 and Corollary 5.16, p. 427; the existence theorem in §5.3(
 Theorems 6.11 and 6.15, pp. 432–433.)
 
 *Needs:* Layer 4.1; ClassFieldTheory Layers 4, 6, 7 and 8; Tau Ceti
-`TauCeti.LocalFieldsRamification.hasseArf`,
+`TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.artinMap_restrict`,
+`TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`, `TauCeti.ClassFieldTheory.localNormSubgroup`,
+`OpenNormalSubgroup.IsAbelianClassFieldLayer`, `TauCeti.ClassFieldTheory.localClassField_unique`,
+`TauCeti.ClassFieldTheory.index_localNormSubgroup`, `TauCeti.LocalFieldsRamification.hasseArf`,
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` and
 `TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`.
 
@@ -1190,6 +1274,21 @@ Theorems 6.11 and 6.15, pp. 432–433.)
   has valuation subgroup `rℤ` and is onto the units. For `r=1`, `H=Kˣ`, the extension
   is `K` and both its degree and the subgroup index are `1`.
 - `H = ⟨π⟩ × (1 + 𝔭^m)` gives `K_{π,m}`, of degree `(Q − 1)Q^(m−1)`.
+- The openness hypothesis cannot be dropped in characteristic `p`. For `K = 𝔽_p((T))` the
+  quotient `U_K^(1)/(U_K^(1))^p` is an infinite compact `𝔽_p`-vector space, topologically
+  generated by the classes of `1 − T^i` with `p ∤ i`, so it has discontinuous linear forms; their
+  kernels pull back to subgroups of `Kˣ` of index `p` that are not open. Norm subgroups are open,
+  so none of these is a norm group. In characteristic zero a subgroup of index `n` contains the
+  open subgroup `(Kˣ)^n`, and the hypothesis is automatic.
+- In characteristic `p` the extension of `Art_K` to the completion of `Kˣ` for all subgroups of
+  finite index is onto `Gal(K^ab/K)` but not injective. An injective extension would be a
+  homeomorphism of profinite groups. The closure in that completion of a non-open subgroup `N` of
+  index `p` (previous Check) is open, so its image would be an open subgroup of `Gal(K^ab/K)`
+  whose preimage under `Art_K` is `N`, and `N` would be a norm group. The completion for open
+  subgroups of finite index is the source of the isomorphism.
+- In `K = 𝔽_p((T))`, `1 + T` lies in every subgroup of index prime to `p`, so the prime-to-`p`
+  existence theorem cannot show that `Art_K(1 + T) ≠ 1`. The `p`-primary class field of the next
+  Check does: `[T^(−1), 1 + T) = 1 ≠ 0`, so `1 + T` is not a norm from `y^p − y = T^(−1)`.
 - For `K = 𝔽_p((T))`, the subgroup `H = ⟨𝔽_pˣ, T, 1 + T²O⟩`, of index `p`, is the norm group of
   the Artin–Schreier extension `y^p − y = T^(−1)` (conductor exponent `2`, Layer 4.4; by 4.3,
   `[T^(−1), T) = 0` and `[T^(−1), 1 − aT) = −a`). Every norm subgroup of index prime to `p`
@@ -1263,7 +1362,8 @@ Proposition 4.4 and proof, pp. 15–16; §4.4's completed ring `R`, p. 17; Theor
 ### 4.4 Conductors of Artin–Schreier–Witt extensions
 
 For `x ∈ W(K)` in the reduced form of Layer 3.2, prove aswConductor_eq: for `n ≥ 1` the
-conductor exponent of `K(℘⁻¹π_n(x))/K`, the least `u` with `U^(u) ⊆ ker Art_K` on that extension
+conductor exponent `TauCeti.ClassFieldTheory.conductorExponent` of `K(℘⁻¹π_n(x))/K`, the least
+`u` with `U^(u) ⊆ N(K(℘⁻¹π_n(x))ˣ)`, equivalently `U^(u) ⊆ ker Art_K` on that extension
 (`U^(0) = Oˣ`, `U^(u) = 1 + 𝔭^u`), is
 
 ```text
@@ -1313,7 +1413,9 @@ cannot supply additional units. The conductor formula itself is unchanged.
 
 *Needs:* Layers 3.2, 4.2 (unit-filtration reciprocity) and 4.3; Tau Ceti
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` (quotient
-compatibility); ClassFieldTheory Layer 7 (the Artin map and unit-defined conductors).
+compatibility) and `TauCeti.ClassFieldTheory.conductorExponent` with
+`TauCeti.ClassFieldTheory.conductorExponent_le_iff` (unit-defined conductors); ClassFieldTheory
+Layer 7 (the Artin map).
 
 **Checks.**
 
@@ -1733,14 +1835,18 @@ therefore realize all finite ray-character data for this modulus, including the 
 
 ### Dependencies
 
-Layers 0, 2 and 3; LubinTateFormalModulesAndQuasiCanonicalLifts LT.0–LT.2;
-ClassFieldTheory Layers 4–8; Tau Ceti's local ramification and conductor declarations listed
-under *From Tau Ceti* (`TauCeti.LocalFieldsRamification.hasseArf`,
+Layers 0, 2 and 3; LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2, 1.1–1.4 and
+2.1–2.5; ClassFieldTheory Layers 4–8; Tau Ceti's local ramification, reciprocity, conductor and
+formal-group declarations listed under *From Tau Ceti* (among them
+`TauCeti.LocalFieldsRamification.hasseArf`,
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
-`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`);
+`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`,
+`TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.localNormSubgroup`,
+`TauCeti.ClassFieldTheory.conductorExponent` and `TauCeti.FormalGroupHom`);
 AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup`.
 The geometric branch also uses AlgebraicCurves Layers 8 and 12, JacobianChallenge Layers
-A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, ReductiveGroupsPartII RG2.0a and RG2.3.7,
+A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, ModularCurves Layer 0E,
+ReductiveGroupsPartII RG2.0a and RG2.3.7,
 RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, and AL.3's
 *Ramified rank-one curve reciprocity*. No result of
 GlobalShtukasAndFunctionFieldLanglands is an input.
@@ -1920,17 +2026,22 @@ AlgebraicCurves Layer 8 for the constant-extension splitting law.)
 
 Define `IsLPolynomialData q g N P` for `P ∈ ℤ[T]` and `N : ℕ → ℤ`: `P(0) = 1`, `deg P ≤ 2g`,
 `a_{2g−j} = q^(g−j) a_j` for `0 ≤ j ≤ g`, and the Newton identities
-`r · a_r = Σ_{i=1}^{r} (N_i − q^i − 1) a_{r−i}` for `1 ≤ r ≤ g`. Prove `lPolynomial_isLPolynomialData`
-(`L_F` satisfies it with `N = pointCount`) and `IsLPolynomialData.unique` (two polynomials
-satisfying it for the same `q, g, N_1, …, N_g` are equal). Hence the counts `N_1, …, N_g` determine
-`L_F`, `h` and every `N_r`.
+`r · a_r = Σ_{i=1}^{r} (N_i − q^i − 1) a_{r−i}` for `1 ≤ r ≤ g`. Prove
+`isLPolynomialData_iff_eq_lPolynomial`: for `F` with finite exact constants over `k`, with
+`P = L_F` given by `Z_F · (1 − T)(1 − qT) = P` (§5.3), a polynomial `P′ ∈ ℤ[T]` satisfies
+`IsLPolynomialData q g N P′` with `q = #k`, `g` the genus and `N = pointCount` exactly when
+`P′ = L_F`. Its reverse direction is lPolynomial_isLPolynomialData, that `L_F` satisfies the
+data. Its forward direction follows from the algebraic uniqueness lemma
+IsLPolynomialData.unique: for all `q, g` and `N`, two polynomials satisfying the data for the
+same `q, g, N_1, …, N_g` are equal. Hence the counts `N_1, …, N_g` determine `L_F`, `h` and
+every `N_r`.
 The polynomial-data API is:
 
 - Only the values `N_1,…,N_g` affect the predicate; changing the other entries preserves it.
 - The normalization and symmetry give the coefficient `a_{2g}=q^g`; when `q>0` the degree is
   exactly `2g`, including degree zero at `g=0`.
 - The Newton identities determine the first `g` coefficients over `ℤ`, and reciprocal symmetry
-  determines the rest, as expressed by `IsLPolynomialData.unique`.
+  determines the rest, as expressed by the uniqueness lemma IsLPolynomialData.unique.
 
 *Proof sketch.* The Newton identities are the first `g` coefficients of `T·L′/L = Σ (N_r − q^r − 1)T^r`
 (5.1 divided by the denominator), and they determine `a_1, …, a_g` recursively because the
@@ -1947,6 +2058,9 @@ for `a_1 = N_1 − (q + 1)`.)
 - The total polynomial predicate also permits `q=0,1`: with `g=1,N_1=9`, its polynomials
   are `1+8T` and `1+7T+T²`, respectively. These are not finite-field zeta data.
 - `q = 5`, `g = 1`, `N_1 = 9`: the unique solution is `1 + 3T + 5T²`.
+- For `y² = x³ + x + 1` over `𝔽_5` (`N_1 = 9`, `L_F = 1 + 3T + 5T²`, §5.4) the equivalence
+  accepts `1 + 3T + 5T²`, rejects `1 + 2T + 5T²` because `a_1 = 9 − 5 − 1 = 3 ≠ 2`, and rejects
+  `1 + 3T + T²` because the symmetry requires `a_2 = 5·a_0 = 5`.
 - Pairing `N_1 = 8` with `1 + 3T + 5T²` fails the predicate. Pairing it with
   `1 + 2T + 5T²` passes, but this is not the polynomial of the displayed curve.
   The counts must be proved to equal the point counts of the specified curve.
@@ -3109,7 +3223,7 @@ Layers 0, 2, 6; ArithmeticGaloisDuality §R02.3.2; AutomorphicLFunctionsAndLocal
 ReductiveGroupsPartII Layers RG2.3–RG2.4; SmoothRepresentationsOfLocalGroups
 §§SR.2.1–SR.2.3, SR.4.1 and SR.4.4;
 GeometryOfNumbersAndQuadraticArithmetic §§3.1–3.2; MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b; SchemeAndStackFoundations
-§§2.11, 3.3 and 3.6; EtaleCohomologyFoundations §0.11.
+§§2.11, 3.3 and 3.6.
 
 ## Worked examples
 
@@ -3166,6 +3280,8 @@ wrong; each is a test of the layers cited.
   class field theory and Artin–Schreier–Witt theory of Layers 3–4.
 - **CountingBundlesAndHallAlgebrasOfCurves**, **FiniteFieldsAndCharacterSums** and
   **GlobalGaloisDeformationsPartII**: the zeta functions and `L`-polynomials of Layer 5.
+- **CurvesOverFiniteFields**: Layer 5, including the predicate `IsLPolynomialData` and the
+  uniqueness lemma IsLPolynomialData.unique of §5.6 for virtual point counts.
 - **ExoticMonoidalStructuresAndAbstractAutomorphicity**: Layers 4–6.
 
 ## References
