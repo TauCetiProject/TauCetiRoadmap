@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This sub-roadmap consumes [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) (SAST) Part A for Stone's theorem, Part B for the bounded Borel calculus and PVM carrier (implemented at the Tau Ceti pin as `TauCeti.ProjValMeasure`), Part C for `LinearPMap` graph/adjoint operations, Part D for resolvents, and Part E for the unbounded spectral PVM `P_A` (SA-E01), its resolvent formula (SA-E05), and the generated group/Stone uniqueness (SA-E26, SA-E29, SA-E43). Use the existing `P_A`; UO-A01 builds the unbounded spectral integral and its domains. It extends those APIs; it does not define a second `LinearPMap`, PVM, bounded Borel symbol, or Stone group. UO-A01 owns the unbounded spectral integral; H6 owns the scalar unbounded continuous calculus. UO-A08 compares H6’s unbounded continuous calculus with UO-A01, and UO-A02a compares VNA V10’s affiliated-operator functional calculus with it, after the independent APIs are constructed. UO-A07 owns the V10 cyclic multiplier identification and square-integrability domains, which A08 consumes rather than duplicating.
+This sub-roadmap consumes [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) (SAST) Part A for Stone's theorem, Part B for the bounded Borel calculus and PVM carrier (implemented at the Tau Ceti pin as `TauCeti.ProjValMeasure`), Part C for `LinearPMap` graph/adjoint operations, Part D for resolvents, and Part E for the unbounded spectral PVM `P_A` (SA-E01), its resolvent formula (SA-E05), and the generated group/Stone uniqueness (SA-E26, SA-E29, SA-E43). Use the existing `P_A`; UO-A01 builds the unbounded spectral integral and its domains. It extends those APIs; it does not define a second `LinearPMap`, PVM, bounded Borel symbol, or Stone group. UO-A01 owns the unbounded spectral integral; H6 owns the scalar unbounded continuous calculus. UO-A08 compares H6’s unbounded continuous calculus with UO-A01, and UO-A02a compares VNA V10’s affiliated-operator functional calculus with it, after the independent APIs are constructed. UO-A07 owns the V10 cyclic multiplier identification and square-integrability domains, which A08 consumes rather than duplicating. The essential spectrum of a partial operator and its perturbation theory (Weyl's theorem, relatively compact and analytic perturbations, Kato's `L²+L∞` theorem; §§3.2 and 5.4–5.7) are owned here; OperatorKTheory §8.4 owns the Fredholm essential spectrum of bounded operators, which §3.2 compares with it. GeneralizedCohomology G5.5-RealHilbert owns the conjugation of the Hilbert complexification and the unbounded complexification of real partial operators, which §4.7 consumes.
 
 Consume [HilbertModules H6](../../HilbertModules/README.md#h6-closed-module-operators-and-regularity) for the scalar Hilbert-space adjoint, graph norm, core, sum and composition foundations, and the von Neumann decomposition of `dom S*` with its boundary form and unitary classification of self-adjoint extensions. This roadmap proves the further spectral and analytic consequences of that API; it does not recopy H6's classification. Consume VonNeumannAlgebras V10.ClosedOperators' cyclic multiplier-form representation of self-adjoint operators and its domain `{g : ∫ |fg|² < ∞}`, and V10.Affiliation's spectral multiplier product rule. Consume VonNeumannAlgebras V2's completed Hilbert tensor products and V2.RectangularL2's arbitrary-measure realization. V2–V5 provide the bounded projection, commutant, representation, and finite-dimensional operator background where used; this roadmap does not redo those algebras.
 
@@ -45,6 +45,40 @@ inverse, specified only on the resolvent set. §4.2 and §5.3 state their resolv
 conclusions through these declarations; Layer 5 obtains membership from
 self-adjointness and nonreal parameters. Analyticity of the resolvent in the spectral
 parameter on the resolvent set is `TauCeti.LinearPMap.analyticAt_resolvent` from `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean`.
+The spectrum `LinearPMap.spectrum` of a partial operator is the complement of its resolvent set
+(same `Resolvent/Basic.lean`). The self-adjoint resolvent results of SelfAdjointSpectralTheory
+are implemented in `TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`: every nonreal
+scalar is a resolvent point of a self-adjoint partial operator
+(`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, SA-D17), its spectrum lies in the real axis
+(`IsSelfAdjoint.spectrum_subset_im_eq_zero`, SA-D18), and the adjoint of its resolvent at z is
+its resolvent at `conj z` (`IsSelfAdjoint.adjoint_resolvent`, SA-D20), an instance of
+`LinearPMap.IsFormalAdjoint.adjoint_resolvent_eq`: for formally adjoint A and B with
+`z∈ρ(A)` and `conj z∈ρ(B)`, `R_A(z)†=R_B(conj z)`. In
+`TauCeti/Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`,
+`LinearPMap.IsFormalAdjoint.norm_smul_sub_sq` is the identity
+`‖cx−Ax‖²=(Im c)²‖x‖²+‖(Re c)x−Ax‖²` for symmetric A (Teschl (2009), (2.44), p.66), and
+`LinearPMap.IsFormalAdjoint.isClosed_range_smul_sub` gives the closed range of a nonreal shift of
+a closed symmetric A. Relative boundedness is `LinearPMap.IsRelativelyBounded V A a b`
+(`TauCeti/Analysis/Normed/Operator/LinearPMap/RelativeBound.lean`): `dom A⊆dom V` and
+`‖Vx‖≤a‖x‖+b‖Ax‖` on `dom A`, the coefficient of `‖Ax‖` written second. The Kato–Rellich theorem
+is `IsSelfAdjoint.add_of_isRelativelyBounded`
+(`TauCeti/Analysis/InnerProductSpace/LinearPMap/KatoRellich.lean`, SA-C55): for self-adjoint A,
+symmetric V and `IsRelativelyBounded V A a b` with `b<1`, the sum `A+V`, whose domain is
+`dom A`, is self-adjoint, over any `RCLike` field. A closed subspace U reduces A,
+`LinearPMap.IsReducing A U` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Reducing.lean`),
+when the orthogonal projection onto U preserves `dom A` and U and its orthogonal complement are
+invariant; `LinearPMap.IsReducing.isSelfAdjoint_restrict` makes the reduced part of a
+self-adjoint operator self-adjoint.
+The Hilbert complexification of a real inner-product space X is the type synonym
+`WithLp 2 (TauCeti.Complexification X)` of `TauCeti/Analysis/InnerProductSpace/Complexification.lean`,
+whose complex inner product `WithLp.instComplexificationInnerProductSpace` gives `x+iy` the norm
+`√(‖x‖²+‖y‖²)`; it is complete for complete X (`WithLp.instComplexificationCompleteSpace`), the
+real inclusion is isometric (`WithLp.complexification_norm_toLp_ofReal`), and a bounded real
+operator T complexifies to `ContinuousLinearMap.complexifyL2 T`, compatibly with composition
+(`ContinuousLinearMap.complexifyL2_comp`) and adjoints (`ContinuousLinearMap.adjoint_complexifyL2`),
+preserving and reflecting self-adjointness (`ContinuousLinearMap.isSelfAdjoint_complexifyL2_iff`).
+The fixed vectors of a conjugate-linear involution K form the real subspace `TauCeti.realPoints K`
+(`TauCeti/LinearAlgebra/Complex/Conjugation.lean`).
 The projection-valued-measure carrier is `TauCeti.ProjValMeasure X H` from
 `TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean` (SelfAdjointSpectralTheory SA-B14 and
 SA-B21): on an arbitrary measurable space `X` and complex Hilbert space `H`, its fields are `proj`
@@ -58,8 +92,12 @@ measures `TauCeti.ProjValMeasure.polarizedComplexMeasure`, with value `⟪ψ,P(B
 `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`, the matrix elements
 of the bounded integral through the pairing `ContinuousLinearMap.mul ℝ ℂ`
 (`ProjValMeasure/MatrixElement.lean`, SA-B45); the reindexing `TauCeti.ProjValMeasure.map`
-(`ProjValMeasure/Map.lean`, SA-B25) and the null filter `TauCeti.ProjValMeasure.ae`
-(`ProjValMeasure/Null.lean`, SA-B49). Layers 1–3 state their spectral-measure conclusions on this
+(`ProjValMeasure/Map.lean`, SA-B25) with the change of variables
+`TauCeti.ProjValMeasure.integral_map` (SA-B51), the null filter `TauCeti.ProjValMeasure.ae`
+(`ProjValMeasure/Null.lean`, SA-B49), and in `ProjValMeasure/DominatedConvergence.lean` the
+almost-everywhere invariance `TauCeti.ProjValMeasure.integral_congr_ae` (SA-B50) and the bounded
+dominated-convergence theorem
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (SA-B53). Layers 1–3 state their spectral-measure conclusions on this
 carrier. The spectral measure of a given unbounded self-adjoint operator (SA-E01) is not at the pin.
 The geometric example uses `TauCeti.riemannianVolume` in §2.3, with its manifold
 hypotheses, and in §2.4 the finite-CW Euler–Poincaré theorem
@@ -74,9 +112,10 @@ boundary the difference of its endpoints) and `TauCeti.cellularIncidence_eq_inv_
 
 **From TauCetiRoadmap.SelfAdjointSpectralTheory.** Parts A–E supply the
 normalized PVM with its diagonal and polarized measures (SA-B14, SA-B21, SA-B40) and the
-bounded integral with its matrix elements (SA-B44, SA-B45), with their API SA-B49–B57 (all
-implemented at the Tau Ceti pin, above), cyclic models (SA-B85),
-graph cores (SA-C39), Kato–Rellich (SA-C55), nonreal resolvents (SA-D17),
+bounded integral with its matrix elements (SA-B44, SA-B45), with their API SA-B49–B53
+(implemented at the Tau Ceti pin, above) and SA-B54–B57, cyclic models (SA-B85),
+graph cores (SA-C39), Kato–Rellich (SA-C55), nonreal resolvents, reality of the spectrum and
+resolvent adjoints (SA-D17, SA-D18, SA-D20; these four implemented at the Tau Ceti pin, above),
 unbounded spectral PVM (SA-E01) with its resolvent formula (SA-E05) and its uniqueness among
 real PVMs satisfying that formula (SA-E44), and Stone identification (SA-E26, SA-E29,
 SA-E43). The unbounded integral of arbitrary Borel symbols is Layer 1 here.
@@ -92,10 +131,10 @@ for the deficiency spaces, with no separability or finite-dimensionality assumpt
 **From TauCetiRoadmap.HilbertModules.** H6 supplies closed scalar operator
 adjoints, graph domains, the deficiency decomposition and the bijection between
 self-adjoint extensions and deficiency-space unitaries, including existence iff
-such a unitary exists. Its hypotheses are closedness, density and symmetry. Its interval
-example supplies the deficiency indices `(1,1)` of `−i d/dt` on `H₀¹([0,1])` and the
-parametrization of its self-adjoint extensions `D_λ`, `λ∈𝕋`, by the condition `α₊=λα₋` on the
-coefficients along normalized deficiency vectors (consumed in §4.6).
+such a unitary exists. Its hypotheses are closedness, density and symmetry. H7 supplies the
+interval example built on that H6 deficiency API: the deficiency indices `(1,1)` of `−i d/dt` on
+`H₀¹([0,1])` and the parametrization of its self-adjoint extensions `D_λ`, `λ∈𝕋`, by the
+condition `α₊=λα₋` on the coefficients along normalized deficiency vectors (consumed in §4.6).
 
 **From TauCetiRoadmap.VonNeumannAlgebras.** V2 supplies completed Hilbert tensors
 and bounded tensor maps, the Hilbert space being the completion of Mathlib's inner-product
@@ -115,24 +154,28 @@ bounded rectangular polar factors (initial space PD-B29, final space PD-B32).
 BanachAlgebras A2 (Layer 2, §2.1) supplies bounded Riesz idempotents. PDE A1 and A3
 (§§1.1, 1.3) supply weak Sobolev derivatives with their interval endpoint traces and the
 Bessel-potential comparison; PDE A4 and A6 (§§1.4, 1.6) supply the Sobolev embeddings and
-local Rellich compactness used in §5.7.
-GeneralizedCohomology G5.5-RealHilbert supplies the Hilbert complexification
-`RealHilbertComplexification H` of a complete real inner-product space: its complex inner
-product, the isometric real inclusion `ι_H`, the antilinear isometric conjugation `J` with
-`Fix J = ι_H(H)`, completeness, and the transport to that Hilbert carrier of Tau Ceti's
-`ContinuousLinearMap.complexify` (`TauCeti/Analysis/Normed/Module/Complexification.lean`, the
-complexification of a bounded real operator on the Taylor-norm carrier `TauCeti.Complexification`)
-for bounded maps with composition and adjoints. The coercive solution map over `[RCLike 𝕜]`, the
-unbounded self-adjoint complexification and the real spectral restriction are §4.7 targets;
-VariationalMethods 5.1 consumes them and supplies nothing here.
+local Rellich compactness used in §5.7. OperatorKTheory §8.4 defines the essential spectrum of a
+bounded operator T on a Hilbert space as the set of λ for which `T−λ` is not Fredholm; §3.2
+compares it with this roadmap's `essentialSpectrum` of a partial operator.
+For a complete real inner-product space H, the Hilbert complexification `H_ℂ`, its isometric
+real inclusion `ι_H` and the transport of bounded operators are Tau Ceti's
+`WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` (above).
+GeneralizedCohomology G5.5-RealHilbert supplies the antilinear isometric conjugation
+`J(x+iy)=x−iy` of `H_ℂ`, and the unbounded complexification `D_ℂ(x+iy)=Dx+iDy` of a densely
+defined real `LinearPMap` D on the complexified domain, with graph and closure transport and
+`(D_ℂ)†=(D†)_ℂ` including equality of domains. The coercive solution map over `[RCLike 𝕜]`, the
+`J`-commutation and uniqueness properties of the complexified self-adjoint operator and the real
+spectral restriction are §4.7 targets; VariationalMethods 5.1 consumes them and supplies nothing
+here.
 LieGroups Layers 2 and 5 supply the matrix groups and SU(2) covering example.
 
 ## How to read the build
 
 Layers 1–3 build unbounded integration, normal/joint calculus and spectral types.
 Layer 4 applies H6's extension classifier and develops closed forms; its form
-representation needs Layer 1, Mathlib's real Lax–Milgram theorem and
-GeneralizedCohomology's Hilbert complexification, independently of Layers 2–3. Layer 5 develops cores, analytic vectors and perturbations. Layer 6 uses the
+representation needs Layer 1, Mathlib's real Lax–Milgram theorem, Tau Ceti's Hilbert
+complexification and GeneralizedCohomology's conjugation and unbounded complexification,
+independently of Layers 2–3. Layer 5 develops cores, analytic vectors and perturbations. Layer 6 uses the
 joint calculus on completed tensor products. The UO-A through UO-F identifiers
 name the corresponding targets inside these six layers; the worked examples
 apply them with their actual domains.
@@ -147,7 +190,7 @@ Let `P` be a normalized PVM on a measurable space `X`, on the carrier `TauCeti.P
 
 Define the unbounded integral using the SAST PVM and diagonal scalar measures; prove its exact domain, linearity, action on spectral cutoffs, and norm-square identity (Teschl (2009), §3.1: the domain (3.25), the cutoffs (3.26) and the graph limit (3.27), p.91, and Theorem 3.2, p.92). Teschl states the construction for PVMs on `ℝ`; it uses no property of the measurable space and is carried out here for every `X`. For x in the domain and every y, prove that f is integrable for the variation of the polarized measure `μ_(y,x)=P.polarizedComplexMeasure y x`, with `∫|f| d|μ_(y,x)|≤‖y‖(∫|f|² dμˣ)^(1/2)` from `|μ_(y,x)|(B)≤‖P(B)y‖‖P(B)x‖`, and that `⟪y,f[P]x⟫=∫ f dμ_(y,x)`; with the domain this characterizes `f[P]`. The headline `existsUnique_spectralIntegral` states existence and uniqueness of the partial operator with this domain and these matrix elements, together with density, closedness, the norm-square identity and the adjoint clause of §1.2.
 
-*Needs:* Mathlib Lp and scalar integration; Tau Ceti's `TauCeti.ProjValMeasure` API (SelfAdjointSpectralTheory SA-B14, SA-B21, SA-B40, SA-B44–B45 and SA-B49–B57); HilbertModules H6 graph closure.
+*Needs:* Mathlib Lp and scalar integration; Tau Ceti's `TauCeti.ProjValMeasure` API (SelfAdjointSpectralTheory SA-B14, SA-B21, SA-B40, SA-B44–B45 and SA-B49–B53); HilbertModules H6 graph closure.
 
 **API.**
 
@@ -288,7 +331,7 @@ Prove they are self-adjoint and strongly commute through the two marginal PVMs, 
 
 ### 2.1 Normal operator API (UO-B01)
 
-Develop closedness, scalar multiplication, adjoints, resolvents, restrictions to reducing subspaces, kernels, eigenspaces, and the polar decomposition of a closed normal operator, specializing VNA V10's general polar decomposition. Identify V10's `|T|=(T*T)^(1/2)` with the UO-A01 spectral square root by uniqueness of positive square roots and equality of their actual domains; then prove the normal-operator domain equalities. Prove the closed symmetric normal criterion: a closed symmetric operator is normal exactly when it is self-adjoint (normality as in Teschl (2009), p.91, after (3.27); the polar decomposition of a closed operator as in Teschl Problem 3.11, p.99).
+Develop closedness, scalar multiplication, adjoints, resolvents, restrictions to reducing subspaces (Tau Ceti's `LinearPMap.IsReducing`, with self-adjoint reduced parts by `LinearPMap.IsReducing.isSelfAdjoint_restrict`), kernels, eigenspaces, and the polar decomposition of a closed normal operator, specializing VNA V10's general polar decomposition. Identify V10's `|T|=(T*T)^(1/2)` with the UO-A01 spectral square root by uniqueness of positive square roots and equality of their actual domains; then prove the normal-operator domain equalities. Prove the closed symmetric normal criterion: a closed symmetric operator is normal exactly when it is self-adjoint (normality as in Teschl (2009), p.91, after (3.27); the polar decomposition of a closed operator as in Teschl Problem 3.11, p.99).
 
 *Needs:* HilbertModules H6 closed adjoints; VonNeumannAlgebras V10 polar decomposition; §1.1–§1.3 for the square-root comparison.
 
@@ -389,7 +432,7 @@ Layer 1; SelfAdjointSpectralTheory Stone/resolvent contracts; VonNeumannAlgebras
 
 ## Layer 3: spectrum, spectral types, and pure-point approximation
 
-For a closed densely defined operator T, define the point spectrum by noninjectivity of T−λ, the continuous spectrum by injectivity with dense but non-surjective range, and the residual spectrum by injectivity with non-dense range. These three sets are pairwise disjoint; together with the resolvent they partition ℂ. Prove the range criteria under this convention. For self-adjoint T, use `(ran(T−λ))⊥=ker(T−λ̄)` to prove the residual spectrum is empty; consume SAST SA-D18 for reality of the spectrum.
+For a closed densely defined operator T, define the point spectrum by noninjectivity of T−λ, the continuous spectrum by injectivity with dense but non-surjective range, and the residual spectrum by injectivity with non-dense range. These three sets are pairwise disjoint; together with the resolvent they partition ℂ. Prove the range criteria under this convention. For self-adjoint T, use `(ran(T−λ))⊥=ker(T−λ̄)` to prove the residual spectrum is empty; consume SAST SA-D18, Tau Ceti's `IsSelfAdjoint.spectrum_subset_im_eq_zero`, for reality of the spectrum.
 
 **Checks.**
 
@@ -397,7 +440,7 @@ For a closed densely defined operator T, define the point spectrum by noninjecti
 - For the zero operator on ℂ, the point spectrum is {0} and the other two parts are empty. For the zero operator restricted to the finite-support sequences of ℓ², a nonclosed operator, every λ≠0 is in the continuous spectrum (injective, with the dense proper range of finite-support sequences) and 0 is in the point spectrum, so the spectrum is all of ℂ.
 - For the self-adjoint multiplier M_x on L²(0,1), the spectrum is [0,1] and equals the continuous spectrum: no λ is an eigenvalue, every λ∈[0,1] has dense nonclosed range, and every λ∉[0,1] is a resolvent point because `M_x−λ` has the bounded inverse `(x−λ)⁻¹`. A definition of residual spectrum omitting injectivity would wrongly place each eigenvalue of a diagonal operator with nondense range, such as 0 for `diag(0,1,1,…)`, in the residual spectrum as well.
 
-**Closed-adjoint spectrum comparison (Grundling p.52).** For closed densely defined A on a complete complex Hilbert space, prove `ρ(A*)={conj z:z∈ρ(A)}` and `σ(A*)={conj z:z∈σ(A)}`. At z∈ρ(A), with SAST's existing `R_A(z)=(zI−A)⁻¹` convention, prove `R_(A*)(conj z)=R_A(z)*` with both inverse identities on the actual operator domains. Consume native partial-operator resolvent/domain identities and the existing Hilbert-adjoint API; use `A**=A` for the converse. This is the general closed-adjoint comparison, while SA-D20 remains its self-adjoint specialization. Closedness cannot be dropped: A=0 restricted to the finite-support sequences in ℓ²(ℕ) has σ(A)=ℂ whereas A*=0 on all H has σ(A*)={0}.
+**Closed-adjoint spectrum comparison (Grundling p.52).** For closed densely defined A on a complete complex Hilbert space, prove `ρ(A*)={conj z:z∈ρ(A)}` and `σ(A*)={conj z:z∈σ(A)}`. At z∈ρ(A), with SAST's existing `R_A(z)=(zI−A)⁻¹` convention, prove `R_(A*)(conj z)=R_A(z)*` with both inverse identities on the actual operator domains. Consume native partial-operator resolvent/domain identities and the existing Hilbert-adjoint API; use `A**=A` for the converse. Once `conj z∈ρ(A*)` is proved, the resolvent identity is Tau Ceti's `LinearPMap.IsFormalAdjoint.adjoint_resolvent_eq` for the formally adjoint pair A, A*. This is the general closed-adjoint comparison, while SA-D20, Tau Ceti's `IsSelfAdjoint.adjoint_resolvent`, remains its self-adjoint specialization. Closedness cannot be dropped: A=0 restricted to the finite-support sequences in ℓ²(ℕ) has σ(A)=ℂ whereas A*=0 on all H has σ(A*)={0}.
 
 ### 3.1 Approximate eigenvectors and spectral projections (UO-C01)
 
@@ -411,13 +454,13 @@ Approximate eigenvectors do not characterize point spectrum (Grundling p.55): mu
 
 ### 3.2 Essential spectrum (UO-C02)
 
-Define essential spectrum both as spectrum after deleting isolated eigenvalues of finite multiplicity and as failure of Fredholmness of `A−λ` with its closed domain/range data. Prove equivalence for self-adjoint `A`, stability under unitary equivalence, and the spectral-projection characterization using finite rank on compact intervals away from the essential spectrum. The first definition and the spectral-projection form are Teschl's (Teschl (2009), p.145: the discrete and essential spectrum and their spectral-projection descriptions (6.27)–(6.28)), with the Weyl criterion (Lemma 6.17, p.145) and invariance under compact and resolvent-compact perturbations (Lemma 6.18 and Theorem 6.19, p.146). The Fredholm characterization is proved here from (6.28) and Lemma 6.17. If `P_A((λ−ε,λ+ε))` has finite rank, `A−λ` is boundedly invertible on the complementary spectral subspace, so its kernel is finite-dimensional and its range is closed of finite codimension. Conversely, if `A−λ` is Fredholm it is bounded below on the orthogonal complement of its finite-dimensional kernel, which an orthonormal singular Weyl sequence contradicts. For nonreal λ both conditions hold, since `A−λ` is invertible.
+Define essential spectrum both as spectrum after deleting isolated eigenvalues of finite multiplicity and as failure of Fredholmness of `A−λ` with its closed domain/range data. Prove equivalence for self-adjoint `A`, stability under unitary equivalence, and the spectral-projection characterization using finite rank on compact intervals away from the essential spectrum. The first definition and the spectral-projection form are Teschl's (Teschl (2009), p.145: the discrete and essential spectrum and their spectral-projection descriptions (6.27)–(6.28)), with the Weyl criterion (Lemma 6.17, p.145) and invariance under compact and resolvent-compact perturbations (Lemma 6.18 and Theorem 6.19, p.146). The Fredholm characterization is proved here from (6.28) and Lemma 6.17. If `P_A((λ−ε,λ+ε))` has finite rank, `A−λ` is boundedly invertible on the complementary spectral subspace, so its kernel is finite-dimensional and its range is closed of finite codimension. Conversely, if `A−λ` is Fredholm it is bounded below on the orthogonal complement of its finite-dimensional kernel, which an orthonormal singular Weyl sequence contradicts. For nonreal λ both conditions hold, since `A−λ` is invertible. The definitions `discreteSpectrum` and `essentialSpectrum` apply to every complex partial operator A: `discreteSpectrum A` is the set of isolated points of `LinearPMap.spectrum A` that are eigenvalues with finite-dimensional eigenspace `ker(λI−A)`, and `essentialSpectrum A` is the complement of `discreteSpectrum A` in the spectrum. The headline `notMem_essentialSpectrum_iff` states the Fredholm characterization for self-adjoint A on a complete space: λ lies outside `essentialSpectrum A` exactly when `λI−A:dom A→H` has finite-dimensional kernel and closed range of finite codimension. For a bounded self-adjoint T, regarded as a total partial operator, prove that `essentialSpectrum` of T is OperatorKTheory §8.4's Fredholm essential spectrum of T on `H →L[ℂ] H`, a different declaration on the bounded carrier: by the headline both are the set of λ for which `T−λ` is not Fredholm.
 
-*Needs:* §3.1; HilbertModules H6 closed range; finite-dimensional projection/range theory.
+*Needs:* §3.1; HilbertModules H6 closed range; finite-dimensional projection/range theory; OperatorKTheory §8.4 for the bounded comparison.
 
 **API.**
 
-- For self-adjoint operators the Fredholm and isolated-finite-eigenvalue definitions agree.
+- For self-adjoint operators the Fredholm and isolated-finite-eigenvalue definitions agree (`notMem_essentialSpectrum_iff`).
 - Unitary conjugacy preserves the essential spectrum.
 - Finite-rank local spectral windows characterize its complement.
 
@@ -426,10 +469,11 @@ Define essential spectrum both as spectrum after deleting isolated eigenvalues o
 - For diag(0,1) on ℂ² the essential spectrum is empty; both eigenvalues have finite multiplicity.
 - For 0 on infinite-dimensional ℓ² the essential spectrum is {0}; the eigenspace has infinite dimension.
 - For the diagonal 1/n on ℓ² the essential spectrum is {0}; 0 is not an eigenvalue but every neighborhood has infinite-rank projection.
+- For the self-adjoint diagonal on ℓ² whose eigenvalues enumerate ℚ, each once, the spectrum is ℝ and no eigenvalue is isolated, so the essential spectrum is ℝ, and each `A−q`, q∈ℚ, has nonclosed range, so it is not Fredholm. Dropping isolation from the discrete spectrum would give the nonclosed set ℝ∖ℚ instead.
 
 ### 3.3 Pure-point/absolutely-continuous/singular decomposition (UO-C03)
 
-For every self-adjoint `A`, split H into the mutually orthogonal reducing subspaces generated by atomic, absolutely continuous, and singular-continuous scalar spectral measures (Teschl (2009), §3.3: Lemma 3.14, p.103, Lemma 3.15, p.104, Theorem 3.17, (3.83) and Lemma 3.19, p.105). The subspaces depend only on the spectral measure. For every normalized PVM P on `ℝ`, prove that `H_pp={x : P.diag x is carried by a countable set}`, `H_ac={x : P.diag x ≪ Lebesgue}` and `H_sc={x : P.diag x is singular to Lebesgue measure and has no atoms}` are closed subspaces, mutually orthogonal, invariant under every `P(B)`, with sum H: `μ^(x+y)≤2(μˣ+μʸ)` gives the subspaces, `|‖P(B)x‖−‖P(B)y‖|≤‖x−y‖` closedness, `μ^(P(B)x)=1_B μˣ` invariance, a Borel set carrying one measure and null for the other orthogonality, and the Lebesgue decomposition of each `μˣ` the sum. The headline `exists_spectralType_decomposition` states this on `TauCeti.ProjValMeasure ℝ H`, with no separability and no control measure; for `P=P_A` the three subspaces reduce A by SA-E06 and SA-E07. In the finite-control-measure case, prove independence of the chosen control measure, restriction self-adjointness, direct-sum reconstruction, and the corresponding spectral-set relations. In the general case, whether or not H is separable and whether or not a finite control measure is available, construct the reducing subspaces directly from all scalar spectral measures and prove the operator decomposition without assuming such a measure. Distinguish singular-continuous spectrum from the broader continuous spectrum. First supply the scalar-measure construction for a σ-finite Borel measure `ρ` on ℝ: prove `{x | ρ({x})>0}` is countable; set `A={x | ρ({x})>0}`, `ρ_pp=ρ.restrict A`, and `ρ_cont=ρ.restrict Aᶜ`. Prove `ρ_pp=Σ_{x∈A}ρ({x})·dirac(x)`, positivity, `ρ=ρ_pp+ρ_cont`, and uniqueness of this split. Prove that every measure-theoretic atom of a σ-finite Borel measure on ℝ is concentrated on a singleton: reduce to a finite positive piece and use a countable separating family of rational cuts. Deduce that `ρ_cont` is atomless. This restriction construction avoids ambiguous subtraction of infinite masses. Combine it with Mathlib's native Lebesgue decomposition of the s-finite `ρ` relative to σ-finite Lebesgue measure to obtain the unique `pp + ac + singular-continuous` split, with `singular-continuous` explicitly atomless and singular. σ-finiteness is needed for countably many atoms: counting measure on ℝ is Borel and has an atom at every point. For arbitrary H, define the three closed reducing subspaces by the types of all their scalar spectral measures, construct their orthogonal projections, and prove these projections commute with every `P_A(B)`, preserve the actual operator domain and give the direct-sum reconstruction. When a finite scalar control measure exists, in particular for separable H, identify the three projections as `P_A(B_pp)`, `P_A(B_ac)` and `P_A(B_sc)` for a Borel partition modulo PVM-null sets obtained from that measure's decomposition. The general reducing projections need not each be one Borel value of the PVM. As a required distinction, on `ℓ²(ℝ) ⊕ L²(ℝ,dx)` take the direct sum of the diagonal coordinate operator and multiplication by the real coordinate, with their square-moment domains. Prove its pure-point subspace is `ℓ²(ℝ)⊕0` and that its projection cannot equal `P_A(B)` for any Borel B: including every coordinate eigenvector forces B=ℝ, which also retains the continuous summand. This is the operator spectral-type theorem, not a second generic measure-theory roadmap.
+For every self-adjoint `A`, split H into the mutually orthogonal reducing subspaces (in the sense of Tau Ceti's `LinearPMap.IsReducing`) generated by atomic, absolutely continuous, and singular-continuous scalar spectral measures (Teschl (2009), §3.3: Lemma 3.14, p.103, Lemma 3.15, p.104, Theorem 3.17, (3.83) and Lemma 3.19, p.105). The subspaces depend only on the spectral measure. For every normalized PVM P on `ℝ`, prove that `H_pp={x : P.diag x is carried by a countable set}`, `H_ac={x : P.diag x ≪ Lebesgue}` and `H_sc={x : P.diag x is singular to Lebesgue measure and has no atoms}` are closed subspaces, mutually orthogonal, invariant under every `P(B)`, with sum H: `μ^(x+y)≤2(μˣ+μʸ)` gives the subspaces, `|‖P(B)x‖−‖P(B)y‖|≤‖x−y‖` closedness, `μ^(P(B)x)=1_B μˣ` invariance, a Borel set carrying one measure and null for the other orthogonality, and the Lebesgue decomposition of each `μˣ` the sum. The headline `exists_spectralType_decomposition` states this on `TauCeti.ProjValMeasure ℝ H`, with no separability and no control measure; for `P=P_A` the three subspaces reduce A by SA-E06 and SA-E07. In the finite-control-measure case, prove independence of the chosen control measure, restriction self-adjointness, direct-sum reconstruction, and the corresponding spectral-set relations. In the general case, whether or not H is separable and whether or not a finite control measure is available, construct the reducing subspaces directly from all scalar spectral measures and prove the operator decomposition without assuming such a measure. Distinguish singular-continuous spectrum from the broader continuous spectrum. First supply the scalar-measure construction for a σ-finite Borel measure `ρ` on ℝ: prove `{x | ρ({x})>0}` is countable; set `A={x | ρ({x})>0}`, `ρ_pp=ρ.restrict A`, and `ρ_cont=ρ.restrict Aᶜ`. Prove `ρ_pp=Σ_{x∈A}ρ({x})·dirac(x)`, positivity, `ρ=ρ_pp+ρ_cont`, and uniqueness of this split. Prove that every measure-theoretic atom of a σ-finite Borel measure on ℝ is concentrated on a singleton: reduce to a finite positive piece and use a countable separating family of rational cuts. Deduce that `ρ_cont` is atomless. This restriction construction avoids ambiguous subtraction of infinite masses. Combine it with Mathlib's native Lebesgue decomposition of the s-finite `ρ` relative to σ-finite Lebesgue measure to obtain the unique `pp + ac + singular-continuous` split, with `singular-continuous` explicitly atomless and singular. σ-finiteness is needed for countably many atoms: counting measure on ℝ is Borel and has an atom at every point. For arbitrary H, define the three closed reducing subspaces by the types of all their scalar spectral measures, construct their orthogonal projections, and prove these projections commute with every `P_A(B)`, preserve the actual operator domain and give the direct-sum reconstruction. When a finite scalar control measure exists, in particular for separable H, identify the three projections as `P_A(B_pp)`, `P_A(B_ac)` and `P_A(B_sc)` for a Borel partition modulo PVM-null sets obtained from that measure's decomposition. The general reducing projections need not each be one Borel value of the PVM. As a required distinction, on `ℓ²(ℝ) ⊕ L²(ℝ,dx)` take the direct sum of the diagonal coordinate operator and multiplication by the real coordinate, with their square-moment domains. Prove its pure-point subspace is `ℓ²(ℝ)⊕0` and that its projection cannot equal `P_A(B)` for any Borel B: including every coordinate eigenvector forces B=ℝ, which also retains the continuous summand. This is the operator spectral-type theorem, not a second generic measure-theory roadmap.
 
 For the spectral-type formulas of Grundling pp.88–90, prove explicitly `H_pp=closure(span(⋃_λ ker(A−λ)))`. The closure of the union alone is not `H_pp`: diag(0,1) on ℂ² has two closed eigenspace axes whose union omits (1,1). Use the singleton-projection expansion of each pure-point vector for the corrected closed span. Prove `σ(A_pp)=closure(σ_p(A))` and `σ(A)=σ(A_pp)∪σ(A_ac)∪σ(A_sc)`, with empty restriction spaces contributing empty spectra; these restriction spectra can overlap. The inclusion `σ_c(A)⊆σ(A_ac)∪σ(A_sc)` is false: the rational diagonal I9 has H_pp=H, H_ac=H_sc=0 and σ_c(A)=ℝ\ℚ. Topological continuous spectrum is not the spectrum of the continuous-measure summands. A vector-dependent scalar-measure partition does not by itself give a global PVM value for a type projection; apply the existing finite-control-measure qualification and arbitrary-H construction above.
 
@@ -471,7 +515,7 @@ The rational diagonal has pure-point measure type and nonempty continuous spectr
 
 ### Dependencies
 
-Layer 1, HilbertModules H6 and native scalar Lebesgue decomposition; no separability assumption for the general reducing-subspace split.
+Layer 1, HilbertModules H6 and native scalar Lebesgue decomposition; no separability assumption for the general reducing-subspace split; OperatorKTheory §8.4 only for the bounded comparison of §3.2.
 
 ## Layer 4: symmetric operators, deficiency and boundary data
 
@@ -479,7 +523,7 @@ Consume H6's Hilbert-space API for `dom S* = dom S ⊕ N₊ ⊕ N₋`, the bound
 
 ### 4.1 Deficiency functions on half-planes (UO-D01)
 
-For closed densely defined symmetric S, prove `dim_H ker(S*−z)` is constant on each open half-plane and invariant under the resolvent/Cayley identifications; `dim_H` is BanachSpaceTheory B5's Hilbert dimension, the cardinality of a Hilbert basis, which B5 proves independent of the basis. Define n₊,n₋ as the Hilbert dimensions of `N₊=ker(S*−i)` and `N₋=ker(S*+i)`. Import HilbertModules H6’s existence criterion for closed densely defined symmetric S: a self-adjoint extension exists iff its deficiency Hilbert spaces N₊,N₋ are unitarily isomorphic (Teschl (2009), Theorem 2.26, p.82, and Lemma 2.27, p.83; the surjectivity criterion below is Lemma 2.3, p.63). B5's unitary classification turns this into the cardinal criterion: a self-adjoint extension exists iff n₊=n₋, including infinite cardinals; the unitary criterion itself is an H6 input and the classification a B5 input. Use `finrank` only in the finite-dimensional case. Use SAST SA-A21 for the sufficient criterion that a symmetric operator with both `S+i` and `S−i` surjective is self-adjoint; use SA-D17 for the converse resolvent/surjectivity statement for self-adjoint S. State the closed symmetric hypotheses and prove the resulting equivalence.
+For closed densely defined symmetric S, prove `dim_H ker(S*−z)` is constant on each open half-plane and invariant under the resolvent/Cayley identifications; `dim_H` is BanachSpaceTheory B5's Hilbert dimension, the cardinality of a Hilbert basis, which B5 proves independent of the basis. Define n₊,n₋ as the Hilbert dimensions of `N₊=ker(S*−i)` and `N₋=ker(S*+i)`. Import HilbertModules H6’s existence criterion for closed densely defined symmetric S: a self-adjoint extension exists iff its deficiency Hilbert spaces N₊,N₋ are unitarily isomorphic (Teschl (2009), Theorem 2.26, p.82, and Lemma 2.27, p.83; the surjectivity criterion below is Lemma 2.3, p.63). B5's unitary classification turns this into the cardinal criterion: a self-adjoint extension exists iff n₊=n₋, including infinite cardinals; the unitary criterion itself is an H6 input and the classification a B5 input. Use `finrank` only in the finite-dimensional case. Use SAST SA-A21 for the sufficient criterion that a symmetric operator with both `S+i` and `S−i` surjective is self-adjoint; use SA-D17, Tau Ceti's `IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, for the converse resolvent/surjectivity statement for self-adjoint S. State the closed symmetric hypotheses and prove the resulting equivalence.
 
 *Needs:* BanachSpaceTheory B5 Hilbert dimension and unitary classification; PolarDecomposition PD-B29 and PD-B32; HilbertModules H6 unitary extension criterion; SelfAdjointSpectralTheory SA-A21 and SA-D17.
 
@@ -497,7 +541,7 @@ For closed densely defined symmetric S, prove `dim_H ker(S*−z)` is constant on
 
 ### 4.2 Spectrum alternatives (UO-D01a)
 
-For a closed symmetric S, prove the spectrum is either all of `ℂ`, the closed upper half-plane, the closed lower half-plane, or a subset of `ℝ`; prove `S` is self-adjoint iff its spectrum is contained in `ℝ` (Teschl (2009), Theorem 2.18, p.77), and every eigenvalue is real (Teschl Lemma 2.20, p.77). The four-way alternative is proved here. For nonreal z the identity `‖(S−z)x‖²=‖(S−Re z)x‖²+(Im z)²‖x‖²` (Teschl (2.44), in the proof of Lemma 2.7, p.66) makes `S−z` injective with closed range, so z is a resolvent point exactly when `ker(S*−z̄)=0`. By §4.1 that dimension is n₋ on the open upper half-plane and n₊ on the open lower half-plane, and the spectrum is closed. State this for the closed operator and the partial-operator spectrum convention fixed by SAST. The headline `resolventSet_alternatives_of_isClosed_symmetric` states the alternative and the self-adjointness criterion for a closed densely defined symmetric S on a complex Hilbert space through Tau Ceti's `LinearPMap.resolventSet`: z lies in it when `zI−S` has a bounded two-sided inverse with values in the domain, `LinearPMap.IsResolventAt`. The four alternatives read: the resolvent set is empty, exactly the open lower half-plane, exactly the open upper half-plane, or contains every nonreal point.
+For a closed symmetric S, prove the spectrum is either all of `ℂ`, the closed upper half-plane, the closed lower half-plane, or a subset of `ℝ`; prove `S` is self-adjoint iff its spectrum is contained in `ℝ` (Teschl (2009), Theorem 2.18, p.77), and every eigenvalue is real (Teschl Lemma 2.20, p.77). The four-way alternative is proved here. For nonreal z the identity `‖(S−z)x‖²=‖(S−Re z)x‖²+(Im z)²‖x‖²` (Teschl (2009), (2.44), in the proof of Lemma 2.7, p.66; Tau Ceti's `LinearPMap.IsFormalAdjoint.norm_smul_sub_sq`) makes `S−z` injective with closed range (`LinearPMap.IsFormalAdjoint.isClosed_range_smul_sub`), so z is a resolvent point exactly when `ker(S*−z̄)=0`. By §4.1 that dimension is n₋ on the open upper half-plane and n₊ on the open lower half-plane, and the spectrum is closed. State this for the closed operator and the partial-operator spectrum convention fixed by SAST. The headline `resolventSet_alternatives_of_isClosed_symmetric` states the alternative and the self-adjointness criterion for a closed densely defined symmetric S on a complex Hilbert space through Tau Ceti's `LinearPMap.resolventSet`: z lies in it when `zI−S` has a bounded two-sided inverse with values in the domain, `LinearPMap.IsResolventAt`. The four alternatives read: the resolvent set is empty, exactly the open lower half-plane, exactly the open upper half-plane, or contains every nonreal point.
 
 **Checks.**
 
@@ -574,9 +618,9 @@ Make p.200's boundary-value definition precise using D04's existing Hilbert quot
 
 ### 4.6 Resolvent and spectrum examples (UO-D05)
 
-For `S=−i d/dx` on `L²(0,∞)` with domain `H₀¹(0,∞)`, prove the deficiency indices are `(1,0)`, no self-adjoint extension exists, and the spectrum is the closed lower half-plane (Teschl (2009), Problem 2.27, p.84, in the `+i` sign). For the same expression on `L²(0,1)` with minimal domain `H₀¹(0,1)`, consume HilbertModules H6's deficiency indices `(1,1)` and its parametrization of the self-adjoint extensions `D_λ`, `λ∈𝕋`, by `α₊=λα₋`; do not prove them again. Prove here that, for the positive normalized deficiency vectors `φ₊=Ce·e^{−x}` spanning `ker(S*−i)` and `φ₋=Ce^{x}` spanning `ker(S*+i)`, `C=√(2/(e²−1))`, the domain of `D_λ` is `{u∈H¹(0,1) : u(1)=e^{iθ}u(0)}` with `e^{iθ}=(λ+e)/(1+eλ)`: the vector `λφ₊+φ₋` has `u(0)=C(1+eλ)≠0` and `u(1)=C(λ+e)`, and both domains contain `H₀¹(0,1)` with codimension one in `H¹(0,1)`. The map `λ↦(λ+e)/(1+eλ)` is a bijection of the unit circle. Prove that the spectrum of the realization with `u(1)=e^{iθ}u(0)` is `{θ+2πk:k∈ℤ}`, the eigenfunctions being `e^{i(θ+2πk)x}`. At `λ=1` the condition is periodic, `θ=0`, and the spectrum `2πℤ` is `−i` times V10's spectrum `2πiℤ` for `Tf=f′` with periodic domain; at `λ=−1` it is antiperiodic, with spectrum `π+2πℤ`. Compute the minimal/maximal adjoints and the resolvents on their actual domains; consume V10’s interval derivative calculations after multiplying the expression by `−i`. These generic examples exercise the H6 classification, while the discontinuous-at-zero exam derivative and the endpoint-zero interval derivative problem remain physically contextual acceptance cases with their source domains stated exactly.
+For `S=−i d/dx` on `L²(0,∞)` with domain `H₀¹(0,∞)`, prove the deficiency indices are `(1,0)`, no self-adjoint extension exists, and the spectrum is the closed lower half-plane (Teschl (2009), Problem 2.27, p.84, in the `+i` sign). For the same expression on `L²(0,1)` with minimal domain `H₀¹(0,1)`, consume HilbertModules H7's deficiency indices `(1,1)` and its parametrization of the self-adjoint extensions `D_λ`, `λ∈𝕋`, by `α₊=λα₋`; do not prove them again. Prove here that, for the positive normalized deficiency vectors `φ₊=Ce·e^{−x}` spanning `ker(S*−i)` and `φ₋=Ce^{x}` spanning `ker(S*+i)`, `C=√(2/(e²−1))`, the domain of `D_λ` is `{u∈H¹(0,1) : u(1)=e^{iθ}u(0)}` with `e^{iθ}=(λ+e)/(1+eλ)`: the vector `λφ₊+φ₋` has `u(0)=C(1+eλ)≠0` and `u(1)=C(λ+e)`, and both domains contain `H₀¹(0,1)` with codimension one in `H¹(0,1)`. The map `λ↦(λ+e)/(1+eλ)` is a bijection of the unit circle. Prove that the spectrum of the realization with `u(1)=e^{iθ}u(0)` is `{θ+2πk:k∈ℤ}`, the eigenfunctions being `e^{i(θ+2πk)x}`. At `λ=1` the condition is periodic, `θ=0`, and the spectrum `2πℤ` is `−i` times V10's spectrum `2πiℤ` for `Tf=f′` with periodic domain; at `λ=−1` it is antiperiodic, with spectrum `π+2πℤ`. Compute the minimal/maximal adjoints and the resolvents on their actual domains; consume V10’s interval derivative calculations after multiplying the expression by `−i`. These generic examples exercise the H6 classification through H7's interval example, while the discontinuous-at-zero exam derivative and the endpoint-zero interval derivative problem remain physically contextual acceptance cases with their source domains stated exactly.
 
-*Needs:* §4.1, §4.3 and §4.5; HilbertModules H6 interval example (indices and `D_λ`); VonNeumannAlgebras V10 interval derivatives; PDE H¹ traces and weak ODEs.
+*Needs:* §4.1, §4.3 and §4.5; HilbertModules H7 interval example (indices and `D_λ`); VonNeumannAlgebras V10 interval derivatives; PDE H¹ traces and weak ODEs.
 
 ### 4.7 Closed forms and the Friedrichs extension (UO-D06)
 
@@ -607,23 +651,25 @@ and the resolvent estimate from shifted coercivity. Over ℂ identify the form
 domain with `dom((A−γ)^(1/2))` by UO-A01's spectral calculus; prove the form
 identity and both norm/domain comparisons. For a real form, prove that
 complexification of its represented operator is the D06 operator of the
-complexified form, with equal actual domains and actions, using the
-GeneralizedCohomology G5.5-RealHilbert complexification maps and the graph
-characterization; the complexified form is
+complexified form, with equal actual domains and actions, using Tau Ceti's Hilbert
+complexification, GeneralizedCohomology G5.5-RealHilbert's unbounded complexification and the
+graph characterization; the complexified form is
 `q_ℂ(u+Iu′,v+Iv′)=q(u,v)+q(u′,v′)+I(q(u,v′)−q(u′,v))` on the complexified form
 domain, Hermitian and conjugate-linear in its first slot. Obtain the real
 square-root form/domain identity through this comparison and the real spectral
 restriction below. These targets require no compactness.
 
 **D06 real unbounded spectral restriction.** For a real densely defined
-self-adjoint A on a complete real inner-product space H, use GeneralizedCohomology
-G5.5-RealHilbert's Hilbert complexification `H_ℂ=RealHilbertComplexification H`, its
-isometric real inclusion `ι_H:H→H_ℂ` and its antilinear isometric conjugation J; prove
-`Fix J=ι_H(H)` from the conjugation formula `J(x+Iy)=x−Iy`. Construct the complexification
-`A_ℂ` as the partial operator with domain `ι_H(dom A)+I•ι_H(dom A)` and action
-`A_ℂ(ι_H x+I•ι_H y)=ι_H(Ax)+I•ι_H(Ay)`; prove it is densely defined, closed and
-self-adjoint, that J preserves its domain with `JA_ℂ=A_ℂJ`, and that it is the only
-J-commuting self-adjoint operator whose restriction to `Fix J` is the transport of A. For every real-valued
+self-adjoint A on a complete real inner-product space H, let
+`H_ℂ=WithLp 2 (TauCeti.Complexification H)` be Tau Ceti's Hilbert complexification with its
+isometric real inclusion `ι_H:H→H_ℂ`, and J the antilinear isometric conjugation of
+GeneralizedCohomology G5.5-RealHilbert; prove that `Fix J`, Tau Ceti's `TauCeti.realPoints J`,
+is `ι_H(H)`, from the conjugation formula `J(x+Iy)=x−Iy`. Take for `A_ℂ` G5.5-RealHilbert's
+unbounded complexification of A, the partial operator with domain `ι_H(dom A)+I•ι_H(dom A)` and
+action `A_ℂ(ι_H x+I•ι_H y)=ι_H(Ax)+I•ι_H(Ay)`; its closure transport and adjoint identity
+`(A_ℂ)†=(A†)_ℂ`, with equal domains, make it densely defined, closed and self-adjoint. Prove here
+that J preserves its domain with `JA_ℂ=A_ℂJ`, and that it is the only J-commuting self-adjoint
+operator whose restriction to `Fix J` is the transport of A. For every real-valued
 Borel f, prove J preserves the actual domain of `f[P_(A_ℂ)]` and commutes
 with its action there: the scalar spectral measures of x and Jx agree, and
 the square-moment condition is J-invariant. Define the real spectral restriction of A by f
@@ -631,7 +677,7 @@ as the restriction of that partial operator to `Fix J`, transported along
 ι_H. Its actual domain is `{x:H | ι_H(x)∈dom f[P_(A_ℂ)]}` and its action
 is uniquely determined by `ι_H(f_R x)=f[P_(A_ℂ)](ι_H x)`. Prove density, closedness and real self-adjointness. For each Borel B define the restricted real projection map by `P_R(B)=π_R∘(P_{A_ℂ}(B)).restrictScalars ℝ∘ι_H`; its diagonal scalar measure is exactly `P_{A_ℂ}.diag (ι_H x)`. Prove the second-moment formula
 `dom(f_R)={x | ∫⁻ λ, ‖f(λ)‖ₑ² ∂(P_{A_ℂ}.diag (ι_H x))<⊤}`
-and compatibility with the restricted bounded calculus `g↦π_R∘(g[P_{A_ℂ}]).restrictScalars ℝ∘ι_H` for bounded real Borel g. These maps are concrete restrictions, not a new real `ProjValMeasure` instance. Use SAST SA-E01 for the complexified operator's spectral PVM and UO-A01–A03 for its unbounded integral. The unbounded complexification `A_ℂ`, the restricted projections `P_R` and the restricted bounded calculus are constructed here; G5.5-RealHilbert supplies the complexified Hilbert space, the inclusion `ι_H`, the conjugation J and the transport of bounded maps.
+and compatibility with the restricted bounded calculus `g↦π_R∘(g[P_{A_ℂ}]).restrictScalars ℝ∘ι_H` for bounded real Borel g. These maps are concrete restrictions, not a new real `ProjValMeasure` instance. Use SAST SA-E01 for the complexified operator's spectral PVM and UO-A01–A03 for its unbounded integral. The restricted projections `P_R` and the restricted bounded calculus are constructed here; Tau Ceti supplies the complexified Hilbert space, the inclusion `ι_H` and the transport of bounded maps, and G5.5-RealHilbert the conjugation J and the unbounded complexification `A_ℂ`.
 For a real form with lower bound γ, take `f(t)=sqrt(max 0 (t−γ))`, define
 B_R=f_R, and prove
 `ι_H(j(V))=dom((A_ℂ−γ)^(1/2))∩Fix J`, hence `dom B_R=j(V)`.
@@ -666,7 +712,7 @@ form domain put `q_α(u,v)=q(u,v)+α⟨j(u),j(v)⟩`, α>−γ. With
 do not identify that operator with the algebraic operator sum without its domain
 theorem.
 
-*Needs:* Mathlib RCLike, continuous sesquilinear forms and Hilbert adjoints; Mathlib `IsCoercive.continuousLinearEquivOfBilin` and `InnerProductSpace.rclikeToReal` for the coercive solution map; GeneralizedCohomology G5.5-RealHilbert for the complexification, inclusion and conjugation; §1.1–§1.3 and SelfAdjointSpectralTheory SA-E01 for square roots.
+*Needs:* Mathlib RCLike, continuous sesquilinear forms and Hilbert adjoints; Mathlib `IsCoercive.continuousLinearEquivOfBilin` and `InnerProductSpace.rclikeToReal` for the coercive solution map; Tau Ceti's `WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` for the Hilbert complexification and its inclusion; GeneralizedCohomology G5.5-RealHilbert for the conjugation and the unbounded complexification; §1.1–§1.3 and SelfAdjointSpectralTheory SA-E01 for square roots.
 
 **API.**
 
@@ -732,7 +778,7 @@ The interval and half-line momentum examples give (1,1) and (1,0); the boundary 
 
 ### Dependencies
 
-HilbertModules H6; Layer 1 for square roots; PolarDecomposition PD-B23–PD-B34; PDE for endpoint models; Mathlib's real Lax–Milgram theorem and GeneralizedCohomology G5.5-RealHilbert for the real complexification.
+HilbertModules H6; Layer 1 for square roots; PolarDecomposition PD-B23–PD-B34; PDE for endpoint models; Mathlib's real Lax–Milgram theorem, Tau Ceti's Hilbert complexification and GeneralizedCohomology G5.5-RealHilbert's conjugation and unbounded complexification for the real case.
 
 ## Layer 5: cores, analytic vectors and perturbations
 
@@ -740,11 +786,11 @@ A vector `x` is C-infinity for A when it lies in every iterated domain. It is an
 
 ### 5.1 Graph cores, common domains, and the bounded-commutator obstruction (UO-E01)
 
-Using SAST SA-C39's graph-core definition, prove D is a core for closed A exactly when it is dense in `dom A` for the graph norm, and likewise for A*. For closed symmetric A and nonreal z, prove D⊆dom A is graph-dense in `dom A` iff `(A−z)D` is norm-dense in `ran(A−z)` (Teschl (2009), Lemma 2.7, p.66; the invariant-domain criterion below is Corollary 5.3, p.125). If D is dense in H and both `(A−i)D` and `(A+i)D` are dense in H, prove the closure of the restriction is self-adjoint by the closed-symmetric range criterion; maximality then makes D a core for A. Also prove the unitary-group criterion for self-adjoint A: if dense D⊆dom A is invariant under every `exp(itA)`, differentiating on D and graph approximation makes D a core. Prove compatibility with graph closure, sums on intersection domains, and restrictions to reducing subspaces. On a nonzero Hilbert space H, prove there are no bounded P,Q with `PQ−QP=cI` for `c≠0` by iterating `PQⁿ−QⁿP=ncQⁿ⁻¹`; derive `n!|c|ⁿ≤(2‖P‖)ⁿ‖Qⁿ‖≤(2‖P‖‖Q‖)ⁿ` (with the nilpotent case giving an immediate contradiction at the first vanishing power), contradicting factorial growth. For a measurable kernel K between σ-finite measure spaces, define the maximal integral-operator domain by a.e. absolute convergence and an L² output. Prove the conjugate-transpose-kernel adjoint inclusion by Fubini under explicit integrability hypotheses. For Hilbert–Schmidt kernels and for Schur kernels, prove boundedness, density of the stated test domain, and equality with the bounded adjoint given by the conjugate-transpose kernel; state the row/column integral or product-L² hypotheses. Do not assert an unconditional kernel-adjoint equality for an arbitrary measurable kernel.
+Using SAST SA-C39's graph-core definition, prove D is a core for closed A exactly when it is dense in `dom A` for the graph norm, and likewise for A*. For closed symmetric A and nonreal z, prove D⊆dom A is graph-dense in `dom A` iff `(A−z)D` is norm-dense in `ran(A−z)`: the estimate (2.44) in the proof of Teschl (2009), Lemma 2.7, p.66 (Tau Ceti's `LinearPMap.IsFormalAdjoint.norm_smul_sub_sq`) makes `A−z` a linear homeomorphism from `dom A` with its graph norm onto `ran(A−z)`. If D is dense in H and both `(A−i)D` and `(A+i)D` are dense in H, prove the closure of the restriction is self-adjoint by the range criterion for essential self-adjointness (Teschl (2009), Lemma 2.7, p.66); maximality then makes D a core for A. The invariant-domain criterion below is Teschl (2009), Corollary 5.3, p.125. Also prove the unitary-group criterion for self-adjoint A: if dense D⊆dom A is invariant under every `exp(itA)`, differentiating on D and graph approximation makes D a core. Prove compatibility with graph closure, sums on intersection domains, and restrictions to reducing subspaces. On a nonzero Hilbert space H, prove there are no bounded P,Q with `PQ−QP=cI` for `c≠0` by iterating `PQⁿ−QⁿP=ncQⁿ⁻¹`; derive `n!|c|ⁿ≤(2‖P‖)ⁿ‖Qⁿ‖≤(2‖P‖‖Q‖)ⁿ` (with the nilpotent case giving an immediate contradiction at the first vanishing power), contradicting factorial growth. For a measurable kernel K between σ-finite measure spaces, define the maximal integral-operator domain by a.e. absolute convergence and an L² output. Prove the conjugate-transpose-kernel adjoint inclusion by Fubini under explicit integrability hypotheses. For Hilbert–Schmidt kernels and for Schur kernels, prove boundedness, density of the stated test domain, and equality with the bounded adjoint given by the conjugate-transpose kernel; state the row/column integral or product-L² hypotheses. Do not assert an unconditional kernel-adjoint equality for an arbitrary measurable kernel.
 
 #### UO-E01 integral counterexample
 
-Jones, *Von Neumann Algebras*, 13 November 2015, pp.86–87, Exercises 12.1.11(ii) and 12.1.15: On complex L²(ℝ) with Lebesgue measure, construct the partial linear operator `I:L²(ℝ) →ₗ.[ℂ] ℂ` with actual domain `{f∈L²(ℝ): f is integrable}` and action `If=∫_ℝ f`. Prove representative independence and density of this L¹∩L² domain; do not use the Bochner integral's default value outside its integrable domain to make I total. For each integer n≥1 put `f_n=n⁻¹1_[0,n]`; prove `f_n∈D(I)`, `‖f_n‖₂=1/√n→0` and `If_n=1`. Deduce that I is not closable and, using linearity and domain density, that the topological closure of its graph is all `L²(ℝ)×ℂ`. Compute the Hilbert adjoint on its actual domain: `D(I*)={0}` and `I*(0)=0`. This supplies a densely defined operator with nondense adjoint domain, including the zero-domain case between two Hilbert spaces. Consume H6's scalar graph/adjoint theory and native `LinearPMap.IsClosable`, graph closure and `LinearPMap.adjoint`; do not introduce a second partial-operator carrier. Suggested native signatures are in [Suggested.lean](Suggested.lean).
+Jones, *Von Neumann Algebras*, 13 November 2015, pp.86–87, Exercises 12.1.11(ii) and 12.1.15: On complex L²(ℝ) with Lebesgue measure, construct the partial linear operator `I:L²(ℝ) →ₗ.[ℂ] ℂ` with actual domain `{f∈L²(ℝ): f is integrable}` and action `If=∫_ℝ f`. Prove representative independence and density of this L¹∩L² domain; do not use the Bochner integral's default value outside its integrable domain to make I total. For each integer n≥1 put `f_n=n⁻¹1_[0,n]`; prove `f_n∈D(I)`, `‖f_n‖₂=1/√n→0` and `If_n=1`. Deduce that I is not closable and, using linearity and domain density, that the topological closure of its graph is all `L²(ℝ)×ℂ`. Compute the Hilbert adjoint on its actual domain: `D(I*)={0}` and `I*(0)=0`. This supplies a densely defined operator with nondense adjoint domain, including the zero-domain case between two Hilbert spaces. Consume H6's scalar graph/adjoint theory and native `LinearPMap.IsClosable`, graph closure and `LinearPMap.adjoint`; do not introduce a second partial-operator carrier. The headline `integralOperator_counterexample` states the density, the full graph closure, the zero adjoint domain and the non-closability for every partial operator from the carrier `L2`, Mathlib's `Lp ℂ 2` for Lebesgue measure on ℝ, to ℂ whose domain is exactly the integrable classes and whose action is the Bochner integral there; these two conditions determine I, and the construction above provides it.
 
 **Absolute-pairing kernel domain and composition adapter (Grundling physical pp.40–44,49).** On the existing complex L²(ℝ) carrier, for measurable K define the positive absolute-kernel integral `P_K f(x)=∫|K(x,y)|f(y)dy` on nonnegative inputs and the solid linear domain `D_abs(K)={f∈L²:P_K|f|∈L²}`. Prove this is exactly the revised source domain requiring absolute double pairing with every L² test, with a.e. absolute row convergence and the L² output condition; it need not equal the larger maximal-output domain permitted by cancellation. Prove the L² dual criterion used here: a nonnegative measurable q with `∫q|g|<∞` for every g∈L² belongs to L². An assumed unbounded positive functional would give nonnegative g_n of norms≤2^(−n) and values≥1, whose L² sum contradicts monotone convergence. If K_y=K(.,y) belongs to L² for a.e. y, prove D_abs(K) dense: bounded inputs supported in `[−n,n]∩{y:‖K_y‖₂≤n}` satisfy `‖P_K|f|‖₂≤n‖f‖₁`, and these sets exhaust a.e. Use measurability, Tonelli and the existing Bochner/Minkowski norm estimate, not a global HS assumption.
 
@@ -817,15 +863,15 @@ For the deficiency proof of Nelson's theorem (Grundling pp.206–208), prove the
 
 ### 5.4 Kato–Rellich and relatively compact perturbations (UO-E04)
 
-Consume SAST SA-C55 for the Kato–Rellich conclusion: symmetric V on `dom A` with A-relative bound strictly less than one preserves self-adjointness of self-adjoint A on `dom A`. Then define A-compactness by compactness of `V(A−i)⁻¹` (with the needed domain compatibility); prove the relative-compact perturbation theorem, self-adjointness of `A+V` under the stated symmetric relative-compact hypotheses, and invariance of essential spectrum (Teschl (2009), Theorem 6.4, p.135; Lemma 6.22 and Lemma 6.23, p.148; Theorem 6.19, p.146). Prove the bounded compact case as a corollary and keep point/discrete eigenvalue motion separate from essential-spectrum invariance.
+Consume SAST SA-C55, implemented as Tau Ceti's `IsSelfAdjoint.add_of_isRelativelyBounded`, for the Kato–Rellich conclusion: a symmetric V with `dom A⊆dom V` and A-bound `b<1`, in Tau Ceti's lettering `‖Vx‖≤a‖x‖+b‖Ax‖`, preserves self-adjointness of self-adjoint A on `dom A` (Teschl (2009), Theorem 6.4, p.135). Prove Weyl's theorem: self-adjoint A and B whose resolvents differ by a compact operator at one point of `ρ(A)∩ρ(B)` have the same essential spectrum (Teschl (2009), Theorem 6.19, p.146). Then call V A-compact when `dom A⊆dom V` and `V(A−i)⁻¹` is compact, equivalently `V R_A(i)` in the convention `R_A(z)=(zI−A)⁻¹`; prove that an A-compact V has A-bound zero (Teschl (2009), Lemma 6.22, p.148), so that `A+V` is self-adjoint on `dom A` for symmetric V, that A-compactness passes to `A+V` (Lemma 6.23, p.148), and that the resolvent difference `R_(A+V)(z)−R_A(z)` is compact, which gives invariance of the essential spectrum by Weyl's theorem. Prove the bounded compact case as a corollary and keep point/discrete eigenvalue motion separate from essential-spectrum invariance.
 
-*Needs:* SelfAdjointSpectralTheory SA-C55; §3.2; HilbertModules H6 graph norm; compact-operator norm limits.
+*Needs:* Tau Ceti's `IsSelfAdjoint.add_of_isRelativelyBounded` (SelfAdjointSpectralTheory SA-C55) and `LinearPMap.resolvent`; Mathlib `IsCompactOperator`; §3.2; HilbertModules H6 graph norm; compact-operator norm limits.
 
 **API.**
 
+- Weyl's theorem (`essentialSpectrum_eq_of_isCompactOperator_resolvent_sub`): self-adjoint operators whose resolvents at one common resolvent point differ by a compact operator have equal essential spectra; Tau Ceti's resolvent is the negative of Teschl's, which does not affect compactness.
 - Relative compactness uses the actual graph-domain map followed by a resolvent.
-- The symmetric relatively compact perturbation is self-adjoint on the original domain.
-- Its essential spectrum agrees with that of the original self-adjoint operator.
+- A symmetric A-compact perturbation is self-adjoint on the original domain and has the essential spectrum of A (`isSelfAdjoint_add_and_essentialSpectrum_eq`).
 
 **Checks.**
 
@@ -835,13 +881,13 @@ Consume SAST SA-C55 for the Kato–Rellich conclusion: symmetric V on `dom A` wi
 
 ### 5.5 Local analytic perturbation and isolated spectral branches (UO-E04a)
 
-On a complete complex Hilbert space let A be self-adjoint and let B:D(A)→H be complex linear and symmetric there, with explicit finite a,b≥0 satisfying ‖Bx‖≤a‖Ax‖+b‖x‖. Define T(z)=A+zB on exactly D(A), a holomorphic family of type (A) (Kato (1995), Chapter VII, §2). For sufficiently small complex z prove closedness and equivalence of its graph norm with A's graph norm; for real t with |t|a<1 prove self-adjointness by SA-C55. Consume `LinearPMap.IsResolventAt`, `resolvent` and `analyticAt_resolvent`, with the convention R_A(w)=(wI−A)⁻¹; the latter existing analyticity is in w, not a perturbation theorem in z. For a compact resolvent contour Γ prove continuity and a finite uniform bound M for ‖BR_A(w)‖ on Γ, and for |z|M<1 prove the actual-domain inverse formula `R_(T(z))(w)=R_A(w)(I−zBR_A(w))⁻¹`. Include the graph-domain-valued inverse and its locally uniformly convergent Neumann series, operator-norm holomorphy in z, `∂_z R_(T(z))(w)=R_(T(z))(w) B R_(T(z))(w)` and the contour differentiation formulas. Prove local adjoint compatibility T(z)*=T(conj z), the resolvent adjoint identity, unitary-conjugacy naturality and independence of the Riesz projection under contour deformations separating the same spectral component. All compositions with B use the proved graph-domain inverse.
+On a complete complex Hilbert space let A be self-adjoint and let B be a symmetric complex-linear partial operator with D(A)⊆D(B) and explicit finite a,b≥0 satisfying `‖Bx‖≤a‖x‖+b‖Ax‖` on D(A), Tau Ceti's `IsRelativelyBounded B A a b`. Define T(z)=A+zB on exactly D(A), a holomorphic family of type (A) (Kato (1995), Chapter VII, §2). For sufficiently small complex z prove closedness and equivalence of its graph norm with A's graph norm; for real t with |t|b<1 prove self-adjointness by Tau Ceti's `IsSelfAdjoint.add_of_isRelativelyBounded` (SA-C55). Consume `LinearPMap.IsResolventAt`, `resolvent` and `analyticAt_resolvent`, with the convention R_A(w)=(wI−A)⁻¹; the latter existing analyticity is in w, not a perturbation theorem in z. For a compact resolvent contour Γ prove continuity and a finite uniform bound M for ‖BR_A(w)‖ on Γ, and for |z|M<1 prove the actual-domain inverse formula `R_(T(z))(w)=R_A(w)(I−zBR_A(w))⁻¹`. Include the graph-domain-valued inverse and its locally uniformly convergent Neumann series, operator-norm holomorphy in z, `∂_z R_(T(z))(w)=R_(T(z))(w) B R_(T(z))(w)` and the contour differentiation formulas. Prove local adjoint compatibility T(z)*=T(conj z), the resolvent adjoint identity, unitary-conjugacy naturality and independence of the Riesz projection under contour deformations separating the same spectral component. All compositions with B use the proved graph-domain inverse.
 
 For an isolated real eigenvalue λ₀ of finite multiplicity m≥1 choose a positively oriented circle Γ around λ₀ meeting and enclosing no other spectrum of A; the separation of the spectrum by Γ and its Riesz projection are Kato's (Kato (1995), Chapter VII, §1). Construct `P(z)=(2πi)⁻¹∮_Γ R_(T(z))(w)dw`, prove it is a bounded idempotent with rank m for small z (including the case where the complementary spectral subspace is zero), and prove the exact spectral decomposition inside/outside Γ, invariance of D(A), `range P(z)⊆D(A)`, commutation on that domain and holomorphy as H→D(A) in the A-graph norm. Consume [BanachAlgebras A2](../../BanachAlgebras/README.md#layer-2-holomorphic-functional-calculus) (Layer 2, §2.1) for bounded Riesz idempotents and their spectral corners. Supply the bridge through a fixed bounded resolvent `(w_*I−T(z))⁻¹`, with w_* outside Γ and in all the local resolvent sets, using the spectral change μ=(w_*−λ)⁻¹ away from0; identify its bounded Riesz idempotent with the displayed unbounded contour integral. Do not construct a second Banach-algebra holomorphic calculus.
 
-For m=1 and a unit u₀∈ker(A−λ₀), prove the unique eigenvalue λ(z) inside Γ and a nonvanishing eigenvector v(z) are holomorphic locally, with v(z)∈D(A) graph-norm holomorphically, λ(0)=λ₀ and v(0)=u₀. One may use v(z)=P(z)u₀ and the complex-linear functional x↦⟨u₀,x⟩ to recover λ(z); shrink the neighborhood to keep its denominator nonzero. For real t prove λ(t) is real and v(t)/‖v(t)‖ is a real-analytic unit eigenvector (Kato (1995), Chapter VII, §3, for selfadjoint holomorphic families), and prove `λ′(0)=⟨u₀,Bu₀⟩` here by differentiating `⟨u₀,(T(z)−λ(z))v(z)⟩=0` at z=0: the term `⟨u₀,(A−λ₀)v′(0)⟩=⟨(A−λ₀)u₀,v′(0)⟩` vanishes by symmetry, and `⟨u₀,v(0)⟩=1`. Do not require unit normalization to be holomorphic for complex z.
+For m=1 and a unit u₀∈ker(A−λ₀), prove the unique eigenvalue λ(z) inside Γ and a nonvanishing eigenvector v(z) are holomorphic locally, with v(z)∈D(A) graph-norm holomorphically, λ(0)=λ₀ and v(0)=u₀. One may use v(z)=P(z)u₀ and the complex-linear functional x↦⟨u₀,x⟩ to recover λ(z); shrink the neighborhood to keep its denominator nonzero. For real t prove λ(t) is real and v(t)/‖v(t)‖ is a real-analytic unit eigenvector (Kato (1995), Chapter VII, §3, for selfadjoint holomorphic families), and prove `λ′(0)=⟨u₀,Bu₀⟩` here by differentiating `⟨u₀,(T(z)−λ(z))v(z)⟩=0` at z=0: the term `⟨u₀,(A−λ₀)v′(0)⟩=⟨(A−λ₀)u₀,v′(0)⟩` vanishes by symmetry, and `⟨u₀,v(0)⟩=1`. Do not require unit normalization to be holomorphic for complex z. The headline `exists_analytic_eigenvalue_branch` states the complex-parameter part: if λ₀ is an isolated point of the spectrum of A whose eigenspace is spanned by the unit vector u₀, there are r>0 and functions λ and v, holomorphic on `|z|<r` (v as an H-valued function), with λ(0)=λ₀, v(0)=u₀, `λ′(0)=⟨u₀,Bu₀⟩`, and v(z)∈D(A), v(z)≠0 and `Av(z)+zBv(z)=λ(z)v(z)` for `|z|<r`.
 
-For m>1 also build the finite-multiplicity real-parameter layer: transport P(t)H real-analytically to the fixed m-dimensional initial eigenspace, using an orthonormal frame obtained from `P(t)|_(P(0)H)` and its positive Gram-matrix inverse square root. Prove the finite-dimensional Rellich theorem that a one-real-parameter real-analytic Hermitian matrix family admits local real-analytic eigenvalues and a real-analytic orthonormal eigenbasis (Kato (1995), Chapter II, §6); use it to produce m real-analytic eigenvalue/eigenvector branches for T(t), counted with multiplicity and without imposing increasing eigenvalue order through crossings, with graph-norm-analytic eigenvectors. Include the degenerate first-derivative comparison with the eigenvalues of `P(0)B|_(P(0)H)`. Keep this local real-parameter theorem distinct from global analyticity of the full spectral set or branch claims for arbitrary non-self-adjoint analytic families. These local theorems answer the perturbation question of Grundling p.91.
+For m>1 also build the finite-multiplicity real-parameter layer: transport P(t)H real-analytically to the fixed m-dimensional initial eigenspace, using an orthonormal frame obtained from `P(t)|_(P(0)H)` and its positive Gram-matrix inverse square root. Prove the finite-dimensional Rellich theorem that a one-real-parameter real-analytic Hermitian matrix family admits local real-analytic eigenvalues and a real-analytic orthonormal eigenbasis (Kato (1995), Chapter II, §6); use it to produce m real-analytic eigenvalue/eigenvector branches for T(t), counted with multiplicity and without imposing increasing eigenvalue order through crossings, with graph-norm-analytic eigenvectors. Include the degenerate first-derivative comparison with the eigenvalues of `P(0)B|_(P(0)H)`. Keep this local real-parameter theorem distinct from global analyticity of the full spectral set or branch claims for arbitrary non-self-adjoint analytic families. These local theorems answer the perturbation question of Grundling p.91. The headline `exists_realAnalytic_eigenvalue_branches` states the branch theorem for every finite multiplicity m, m=1 included: if λ₀ is an isolated point of the spectrum of A with m-dimensional eigenspace, there are r,δ>0 and functions `λ_k:ℝ→ℝ` and `v_k:ℝ→H`, k<m, real analytic on `(−r,r)`, with `λ_k(0)=λ₀`, such that for `|t|<r` the `v_k(t)` are orthonormal vectors of D(A) with `Av_k(t)+tBv_k(t)=λ_k(t)v_k(t)`, the spectrum of `A+tB` in the disc of radius δ about λ₀ is `{λ_k(t)}`, and every eigenvector of `A+tB` for an eigenvalue in that disc lies in the span of the `v_k(t)`. Both headlines record analyticity of the eigenvectors as H-valued functions; their graph-norm analyticity is the further target above.
 
 *Needs:* §5.4; Tau Ceti unbounded resolvent identities; BanachAlgebras A2 bounded Riesz idempotents; finite-dimensional Hermitian matrix theory for the Rellich branch.
 
@@ -849,13 +895,15 @@ For m>1 also build the finite-multiplicity real-parameter layer: transport P(t)H
 
 - The perturbed operator uses the fixed domain D(A); local resolvents take values in this graph domain.
 - The separating Riesz projection has constant finite rank and depends holomorphically on the parameter.
-- Real-parameter eigenbranches are real analytic, without an ordering requirement across crossings.
+- Real-parameter eigenbranches are real analytic, without an ordering requirement across crossings, and exhaust the spectrum near λ₀ with its eigenvectors (`exists_realAnalytic_eigenvalue_branches`).
+- At multiplicity one the branch is holomorphic in the complex parameter with `λ′(0)=⟨u₀,Bu₀⟩` (`exists_analytic_eigenvalue_branch`).
 
 **Checks.**
 
 - For A=2I,B=3I on ℂ, R_(T(z))(w)=1/(w−2−3z) and its z derivative is 3/(w−2−3z)², fixing the positive derivative sign.
 - For T(t)=diag(t,−t), the analytic branches are t and −t; increasing order instead gives −|t|,|t| and fails analyticity at 0.
 - For B=0 the contour projection is constant. If the enclosed eigenspace is all H, its complement is zero and the projection is I, not an excluded case.
+- For A=diag(0,1) and B=[[1,1],[1,0]] on ℂ², with λ₀=0 and u₀=e₁, the eigenvalue of A+zB near 0 is `λ(z)=((1+z)−√(1−2z+5z²))/2=z−z²+O(z³)`, so `λ′(0)=1=⟨e₁,Be₁⟩`; the second-order term `−z²=|B₁₂|²z²/(0−1)` comes from the other eigenvalue, and the family A−zB would give `λ′(0)=−1`.
 
 ### 5.6 Worked cores (UO-E05)
 
@@ -865,9 +913,9 @@ For the one-dimensional harmonic oscillator, prove the finite Hermite span consi
 
 ### 5.7 Three-dimensional L²+L∞ potentials (UO-E06)
 
-On `L²(ℝ³)`, realize the nonnegative free Laplacian `−Δ` as the Fourier conjugate of multiplication by `4π²|ξ|²` in the `e^(−2π i x·ξ)` convention, with domain `H²(ℝ³)` and `C_c∞(ℝ³)` as a graph core. Prove the Fourier identity and domain agreement with the PDE Bessel-potential operator. First prove the Gagliardo–Nirenberg estimate `‖u‖∞ ≤ C‖u‖₂^(1/4)‖Δu‖₂^(3/4)` on H²: split `‖û‖₁` at radius R, use Plancherel and Cauchy–Schwarz on the inner and outer regions, and optimize R; handle u=0 separately. For real `V=V₂+V∞` with `V₂∈L²(ℝ³)`, `V∞∈L∞(ℝ³)`, deduce `‖V₂u‖₂ ≤ ε‖Δu‖₂+Cε‖u‖₂` by Young's inequality and `‖V∞u‖₂≤‖V∞‖∞‖u‖₂`; apply the relative-bound theorem on `H²` and prove graph-norm equivalence on the common domain; this transfers the `C_c∞` core and yields the claimed essential self-adjointness. For relative compactness assume additionally `V∞(x)→0` essentially at infinity (compact support suffices). Truncate V₂ and V∞ outside large balls; use local Rellich plus compactness of `H²` into `C⁰` on bounded subdomains to prove compactness of truncated multiplication-resolvent factors, and the L² tail of V₂ and L∞ tail of V∞ for the operator-norm remainder. This is an `ℝ³` theorem: do not generalize the source's `L²+L∞ε` assertion to `ℝⁿ` for n≥4. The acceptance targets for Grundling Theorem 5.8 (pp. 58, 200) and the relative compactness of p. 219 carry these exact decomposition and decay hypotheses; the Coulomb application and the radial and hydrogen calculations belong to a physical-model consumer outside this roadmap.
+On `L²(ℝ³)`, realize the nonnegative free Laplacian `−Δ` as the Fourier conjugate of multiplication by `4π²|ξ|²` in the `e^(−2π i x·ξ)` convention, with domain `H²(ℝ³)` and `C_c∞(ℝ³)` as a graph core. Prove the Fourier identity and domain agreement with the PDE Bessel-potential operator. First prove the Gagliardo–Nirenberg estimate `‖u‖∞ ≤ C‖u‖₂^(1/4)‖Δu‖₂^(3/4)` on H²: split `‖û‖₁` at radius R, use Plancherel and Cauchy–Schwarz on the inner and outer regions, and optimize R; handle u=0 separately. For real `V=V₂+V∞` with `V₂∈L²(ℝ³)`, `V∞∈L∞(ℝ³)`, deduce `‖V₂u‖₂ ≤ ε‖Δu‖₂+Cε‖u‖₂` by Young's inequality and `‖V∞u‖₂≤‖V∞‖∞‖u‖₂`; apply the relative-bound theorem on `H²` and prove graph-norm equivalence on the common domain; this transfers the `C_c∞` core and yields the claimed essential self-adjointness (Teschl (2009), Lemma 10.1, p.221, and Theorem 10.2, p.222, there with the bounded part vanishing at infinity; a bounded part that does not vanish has relative bound zero by `‖V∞u‖₂≤‖V∞‖∞‖u‖₂`). The headline `isSelfAdjoint_closure_neg_laplacian_add_potential` states this essential self-adjointness: for real `V₂∈L²(ℝ³)` and `V∞∈L∞(ℝ³)`, the partial operator on `L²(ℝ³)` whose domain is the classes of smooth compactly supported functions f, acting by `−Δf+(V₂+V∞)f` with Mathlib's Laplacian `Δ`, has a self-adjoint closure. Its smoothness index is `(⊤ : ℕ∞)`: at the Mathlib pin `ContDiff ℝ ⊤` means analytic, and an analytic function with compact support on ℝ³ is zero. For relative compactness assume additionally `V∞(x)→0` essentially at infinity (compact support suffices). Truncate V₂ and V∞ outside large balls; use local Rellich plus compactness of `H²` into `C⁰` on bounded subdomains to prove compactness of truncated multiplication-resolvent factors, and the L² tail of V₂ and L∞ tail of V∞ for the operator-norm remainder. This is an `ℝ³` theorem: do not generalize the source's `L²+L∞ε` assertion to `ℝⁿ` for n≥4. The acceptance targets for Grundling Theorem 5.8 (pp. 58, 200) and the relative compactness of p. 219 carry these exact decomposition and decay hypotheses; the Coulomb application and the radial and hydrogen calculations belong to a physical-model consumer outside this roadmap.
 
-*Needs:* §5.4 and §5.6; PDE A1 and A3 (§§1.1, 1.3), Sobolev embeddings (A4, §1.4) and local Rellich compactness (A6, §1.6); native Fourier and Young inequalities.
+*Needs:* §5.4 and §5.6; PDE A1 and A3 (§§1.1, 1.3), Sobolev embeddings (A4, §1.4) and local Rellich compactness (A6, §1.6); Mathlib's Laplacian `InnerProductSpace.instLaplacian`, native Fourier and Young inequalities.
 
 ### Examples
 
@@ -875,7 +923,7 @@ The scalar 2I example satisfies Nelson’s estimate; iI fails symmetry and the P
 
 ### Dependencies
 
-Layers 1, 3 and 4; SelfAdjointSpectralTheory SA-C39 and SA-C55; Mathlib Lp and integration; BanachAlgebras A2 for perturbation contours; PDE for differential cores.
+Layers 1, 3 and 4; SelfAdjointSpectralTheory SA-C39 and SA-C55, the latter with Tau Ceti's relative bounds as `IsSelfAdjoint.add_of_isRelativelyBounded`; Mathlib Lp, integration and Laplacian; BanachAlgebras A2 for perturbation contours; PDE for differential cores.
 
 ## Layer 6: closed tensor operators and self-adjoint sums
 
@@ -883,13 +931,13 @@ Use V2's completed Hilbert tensor product and bounded tensor maps. Start with de
 
 ### 6.1 Tensor operators (UO-F01)
 
-For closed densely defined operators A and B, construct the closure of the algebraic tensor operator `A⊙B` on `dom A ⊙ dom B`, prove it is closable, identify its adjoint as the closure of `A*⊙B*` for all closed densely defined A and B, and establish domain, graph-norm, kernel and range lemmas (the self-adjoint case and its spectrum are Teschl (2009), Theorem 4.14 and Problem 4.5, p.121, which also cover §6.2–§6.3). Prove the corresponding one-sided operators `A⊗I` and `I⊗B` are closed on their natural graph domains.
+For closed densely defined operators A and B, construct the closure of the algebraic tensor operator `A⊙B` on `dom A ⊙ dom B`, prove it is closable, identify its adjoint as the closure of `A*⊙B*` for all closed densely defined A and B, and establish domain, graph-norm, kernel and range lemmas. The self-adjoint case and its spectrum are Teschl (2009), Theorem 4.14 and Problem 4.5, p.121, which also cover §6.2–§6.3. A route for the adjoint identity in general: write `A=U|A|` and `B=V|B|` by VonNeumannAlgebras V10's closed-operator polar decomposition, so that `A*=|A|U*` and `B*=|B|V*` with `dom|A|=dom A` and `dom|B|=dom B`; Theorem 4.14 for the real polynomial `λ₁λ₂`, on the smaller domain `dom|A|²⊙dom|B|²` as in §6.2, makes the closure of the symmetric operator `|A|⊙|B|` on `dom A⊙dom B` self-adjoint; the partial isometry `U⊗V` is isometric on the closure of the range of `|A|⊙|B|`, so the closure of `A⊙B` is `(U⊗V)·cl(|A|⊙|B|)`, whose adjoint is `cl(|A|⊙|B|)(U⊗V)*`; this is the closure of `A*⊙B*`, by graph approximation on `ker(U⊗V)*` and on the image under `U⊗V` of elementary tensors from the initial space. Prove the corresponding one-sided operators `A⊗I` and `I⊗B` are closed on their natural graph domains.
 
 **One-sided closed tensor eigenspace adapter (Grundling pp.213–218).** For closed densely defined A on K use the SAME natural closed `I_H⊗A` constructed in F01. Relative to any Hilbert basis of H identify H⊗̂K with square-summable K-coordinates(x_i), and prove its domain is exactly `x_i∈D(A)` with `Σ_i(‖x_i‖²+‖Ax_i‖²)<∞`, acting coordinatewise. Prove this by finite coordinate cutoffs and graph closure of the algebraic tensor operator. Deduce, for every complex λ, `ker(I_H⊗A−λ)=H⊗̂ker(A−λ)`: closedness makes the factor kernel closed; eigen-coordinates give graph sum `(1+|λ|²)Σ_i‖x_i‖²`. Include arbitrary basis cardinals and zero factors. Do not assert this completed-space equality on the raw algebraic tensor domain or for an unspecified closure of a merely densely defined nonclosed factor. Consume V2's completed product basis and V2.RectangularL2: for arbitrary marginal measures use the maximal rectangle-cover product given by native Measure.pi transported through MeasurableEquiv.piFinTwo, with the a.e. elementary-product unitary, rectangle density and null-cylinder representative independence proved there. No separability or σ-finiteness is required for that convention. Under σ-finite marginals consume its proved equality with native Measure.prod and recover the course's Euclidean realization. Separability alone does not identify arbitrary rectangle-consistent extensions or turn the native bind product into the maximal product.
 
 For analytic independent factor vectors the binomial norm-series estimate bounds the tensor-sum analytic series by the product of the two factor series at a radius below both. Finite elementary-tensor sums retain a common smaller radius. This proves p.218's analytic-vector tensor lemma. Its later arbitrary factor graph-core domain instead uses the existing independent polynomial/power-core adapter with degree1 in each factor and F02's full joint(s+t)-moment closure. No analytic premise on every Coulomb C_c∞ vector is inferred. Transport the resulting core by the stated coordinate unitary. These are adapters on the existing tensor carrier and factor-core theorem.
 
-*Needs:* HilbertModules H6 closed graphs; VonNeumannAlgebras V2 completed Hilbert tensors and V2.RectangularL2.
+*Needs:* HilbertModules H6 closed graphs; VonNeumannAlgebras V2 completed Hilbert tensors and V2.RectangularL2; VonNeumannAlgebras V10.ClosedOperators polar decomposition for the general adjoint identity.
 
 **API.**
 
@@ -937,7 +985,7 @@ Scalar tensor factors give sum 5 and product 6. Independent unbounded diagonals 
 
 ### Dependencies
 
-VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; Layers 1–2 joint calculus; Layer 5 analytic vectors for §6.4 only.
+VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; VonNeumannAlgebras V10 polar decomposition for the adjoint identity of §6.1; Layers 1–2 joint calculus; Layer 5 analytic vectors for §6.4 only.
 
 ## Downstream consumers
 

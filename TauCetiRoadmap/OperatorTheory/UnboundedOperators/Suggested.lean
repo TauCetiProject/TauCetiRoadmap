@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import TauCeti.Topology.Algebra.Module.LinearPMap.Resolvent.Basic
+import TauCeti.Analysis.Normed.Operator.LinearPMap.RelativeBound
 import TauCeti.Analysis.InnerProductSpace.ProjValMeasure.MatrixElement
 
 /-!
@@ -12,39 +13,43 @@ import TauCeti.Analysis.InnerProductSpace.ProjValMeasure.MatrixElement
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned APIs. Projection-valued measures are Tau Ceti's
 `TauCeti.ProjValMeasure`, with diagonal measures `diag` and polarized complex measures
-`polarizedComplexMeasure`; resolvents are Tau Ceti's `LinearPMap.resolventSet` and
-`LinearPMap.resolvent`; completed Hilbert tensor products are completions of Mathlib's
+`polarizedComplexMeasure`; resolvents, resolvent sets and spectra are Tau Ceti's
+`LinearPMap.resolvent`, `LinearPMap.resolventSet` and `LinearPMap.spectrum`, in the convention
+`R(z) = (zI − A)⁻¹`; relative bounds are Tau Ceti's `LinearPMap.IsRelativelyBounded`, with
+`‖V x‖ ≤ a ‖x‖ + b ‖A x‖`; completed Hilbert tensor products are completions of Mathlib's
 inner-product tensor product. Stated here: the unbounded spectral integral of a measurable
 symbol against a normalized projection-valued measure on any measurable space, with its
 adjoint; the maximal multiplication operator; the spectral theorem for a normal partial
 operator; the joint projection-valued measure of finitely many strongly commuting
 self-adjoint operators; the multiparameter Stone theorem; the spectral-type decomposition of
-a real projection-valued measure; the spectrum alternatives of a closed symmetric operator;
-the closed-form representation; the Friedrichs extension with its extremal property in
+a real projection-valued measure; the essential spectrum of a partial operator and its Fredholm
+characterization for self-adjoint operators; the spectrum alternatives of a closed symmetric
+operator; the closed-form representation; the Friedrichs extension with its extremal property in
 resolvent order; the nonclosable integration counterexample on `L²(ℝ)`; Nelson's essential
-self-adjointness and commutation theorem; and the self-adjoint closures of tensor sums and
-tensor products with their spectra. The Hilbert-basis cardinal classification used by the
-deficiency theory is BanachSpaceTheory B5's `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and
-is not restated here.
+self-adjointness and commutation theorem; Weyl's theorem on the essential spectrum and the
+relatively compact symmetric perturbation theorem; the holomorphic eigenvalue branch through a
+simple isolated eigenvalue of a type (A) family and Rellich's real-analytic branches at finite
+multiplicity; Kato's essential self-adjointness of `−Δ + V` on `C_c^∞(ℝ³)` for real
+`V ∈ L² + L^∞`; and the self-adjoint closures of tensor sums and tensor products with their
+spectra. The Hilbert-basis cardinal classification used by the deficiency theory is
+BanachSpaceTheory B5's `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and is not restated here.
 
 Not statable at the pins: every headline about the spectral measure `P_A` of a given
 self-adjoint partial operator, which is SelfAdjointSpectralTheory SA-E01 and not at the pins.
 This covers the Borel calculus `f(A)` and its representation of `A` (README §§1.2–1.8), the
 equivalent forms of strong commutation (§2.3), the spectral-projection form of the essential
 spectrum (§3.2), the staircase approximation (§3.4), the diagonal spectrum realization (§3.5),
-the square-root form-domain identity (§4.7), the identification of the tensor closures with
-joint spectral integrals and their unitary groups (§§6.2–6.3); the real spectral restriction
-(§4.7) needs in addition GeneralizedCohomology's Hilbert complexification
-`RealHilbertComplexification`. The singular-endpoint headlines need the minimal and maximal
-Sturm–Liouville operators (§4.8). The analytic-perturbation spectral-branch headlines need the
-spectral subspaces of a holomorphic family of type (A) (§5.5), and the geometric
-Nelson-counterexample headlines (the completed translation surface, its genus and the
-noncommuting Stone groups, §§2.3–2.4) need the translation-surface construction described in
+the square-root form-domain identity and the real spectral restriction (§4.7), the latter on the
+pinned Hilbert complexification `WithLp 2 (TauCeti.Complexification H)`, and the identification
+of the tensor closures with joint spectral integrals and their unitary groups (§§6.2–6.3). The
+singular-endpoint headlines need the minimal and maximal Sturm–Liouville operators (§4.8), and
+the geometric Nelson-counterexample headlines (the completed translation surface, its genus and
+the noncommuting Stone groups, §§2.3–2.4) need the translation-surface construction described in
 the README; none of these is at the pins.
 -/
 
 open MeasureTheory
-open scoped InnerProductSpace ENNReal Pointwise TensorProduct
+open scoped InnerProductSpace ENNReal Pointwise TensorProduct Laplacian
 
 namespace TauCetiRoadmap.UnboundedOperators
 
@@ -132,6 +137,34 @@ theorem existsUnique_projValMeasure_of_unitary_representation {H : Type*}
 
 /-! ## Layer 3: spectrum, spectral types, and pure-point approximation -/
 
+/-- The discrete spectrum of a partial operator (README §3.2, UO-C02): the isolated points of its
+spectrum that are eigenvalues with a finite-dimensional eigenspace `ker(zI − A)` (Teschl, §6.4,
+p.145). -/
+def discreteSpectrum {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    (A : H →ₗ.[ℂ] H) : Set ℂ :=
+  {z | z ∈ A.spectrum ∧ (∃ ε > 0, Metric.ball z ε ∩ A.spectrum = {z}) ∧
+    LinearMap.ker (z • A.domain.subtype - A.toFun) ≠ ⊥ ∧
+    FiniteDimensional ℂ (LinearMap.ker (z • A.domain.subtype - A.toFun))}
+
+/-- The essential spectrum of a partial operator (README §3.2, UO-C02): the complement of the
+discrete spectrum in the spectrum (Teschl, §6.4, p.145). -/
+def essentialSpectrum {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    (A : H →ₗ.[ℂ] H) : Set ℂ :=
+  A.spectrum \ discreteSpectrum A
+
+/-- Fredholm characterization of the essential spectrum (README §3.2, UO-C02): for a
+self-adjoint partial operator `A` on a complex Hilbert space, `z` lies outside the essential
+spectrum exactly when `zI − A : dom A → H` is Fredholm, that is, has a finite-dimensional kernel
+and a closed range of finite codimension. It is proved from Teschl's spectral-projection form
+(6.28), p.145, and the Weyl criterion, Lemma 6.17, p.145. -/
+theorem notMem_essentialSpectrum_iff {H : Type*} [NormedAddCommGroup H]
+    [InnerProductSpace ℂ H] [CompleteSpace H] (A : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (z : ℂ) :
+    z ∉ essentialSpectrum A ↔
+      FiniteDimensional ℂ (LinearMap.ker (z • A.domain.subtype - A.toFun)) ∧
+        IsClosed (LinearMap.range (z • A.domain.subtype - A.toFun) : Set H) ∧
+        FiniteDimensional ℂ (H ⧸ LinearMap.range (z • A.domain.subtype - A.toFun)) := by
+  sorry
+
 /-- Spectral-type decomposition (README §3.3, UO-C03): for a normalized projection-valued
 measure on `ℝ`, the vectors whose diagonal measure is pure point, absolutely continuous, or
 singular continuous form three closed, mutually orthogonal subspaces, invariant under every
@@ -217,16 +250,11 @@ here. -/
 /-- Complex `L²(ℝ)` for Lebesgue measure, the carrier of the integration counterexample. -/
 abbrev L2 : Type := Lp ℂ 2 (volume : Measure ℝ)
 
-/-- Integration exists as a partial operator whose domain is exactly the integrable
-classes and whose action is the Bochner integral there. -/
-theorem exists_integralOperator :
-    ∃ I : L2 →ₗ.[ℂ] ℂ,
-      (∀ f : L2, f ∈ I.domain ↔ Integrable (f : ℝ → ℂ) volume) ∧
-      (∀ f : I.domain, I f = ∫ x : ℝ, (f : L2) x) := by
-  sorry
-
-/-- Density of the domain, the full graph closure, the zero adjoint domain and
-non-closability of any such integration operator (Jones, Exercises 12.1.11(ii), 12.1.15). -/
+/-- Integration on `L²(ℝ)` (README §5.1, UO-E01): a partial operator `I : L²(ℝ) → ℂ` whose
+domain is exactly the integrable classes and whose action is the Bochner integral there has dense
+domain, graph closure all of `L²(ℝ) × ℂ` and adjoint domain `{0}`, and is not closable (Jones,
+Exercises 12.1.11(ii) and 12.1.15, pp.86–87). Such an `I` exists, and `hdom` and `hact` determine
+it. -/
 theorem integralOperator_counterexample
     (I : L2 →ₗ.[ℂ] ℂ)
     (hdom : ∀ f : L2, f ∈ I.domain ↔ Integrable (f : ℝ → ℂ) volume)
@@ -312,6 +340,95 @@ theorem nelson_resolvent_commute [CompleteSpace H] {k : ℕ}
   sorry
 
 end Nelson
+
+/-- Weyl's theorem (README §5.4, UO-E04): self-adjoint partial operators whose resolvents differ
+by a compact operator at one common resolvent point have the same essential spectrum (Teschl,
+Theorem 6.19, p.146). Tau Ceti's resolvent `(zI − A)⁻¹` is the negative of Teschl's `(A − z)⁻¹`,
+which does not affect compactness of the difference. -/
+theorem essentialSpectrum_eq_of_isCompactOperator_resolvent_sub {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (A B : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (hB : IsSelfAdjoint B) (z : ℂ)
+    (hzA : z ∈ A.resolventSet) (hzB : z ∈ B.resolventSet)
+    (hK : IsCompactOperator (A.resolvent z - B.resolvent z)) :
+    essentialSpectrum A = essentialSpectrum B := by
+  sorry
+
+/-- Relatively compact symmetric perturbations (README §5.4, UO-E04): if `A` is self-adjoint and
+`V` is symmetric with `dom A ⊆ dom V` and `V (iI − A)⁻¹` compact, then `A + V`, with domain
+`dom A`, is self-adjoint and has the essential spectrum of `A` (Teschl, Lemmas 6.22–6.23, p.148,
+and Theorem 6.19, p.146). -/
+theorem isSelfAdjoint_add_and_essentialSpectrum_eq {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (A V : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (hV : V.IsFormalAdjoint V)
+    (hdom : A.domain ≤ V.domain)
+    (hcpt : ∃ K : H →L[ℂ] H, IsCompactOperator K ∧
+      ∀ y : H, ∃ h : A.resolvent Complex.I y ∈ V.domain, V ⟨_, h⟩ = K y) :
+    IsSelfAdjoint (A + V) ∧ essentialSpectrum (A + V) = essentialSpectrum A := by
+  sorry
+
+/-- Holomorphic eigenvalue branch (README §5.5, UO-E04a, multiplicity one): let `A` be
+self-adjoint and `B` symmetric and `A`-bounded, and let `λ₀` be an isolated point of the spectrum
+of `A` whose eigenspace is spanned by the unit vector `u₀`. For small complex `z` the family
+`A + zB` on `dom A` has an eigenvalue `λ(z)` with eigenvector `v(z)`, both holomorphic, with
+`λ(0) = λ₀`, `v(0) = u₀` and `λ′(0) = ⟪u₀, B u₀⟫` (Kato, Chapter VII, §§1–3). -/
+theorem exists_analytic_eigenvalue_branch {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (A B : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (hB : B.IsFormalAdjoint B) (a b : ℝ)
+    (hAB : B.IsRelativelyBounded A a b)
+    (lam₀ : ℝ) (u₀ : A.domain) (hu₀ : ‖(u₀ : H)‖ = 1) (heig : A u₀ = (lam₀ : ℂ) • (u₀ : H))
+    (hsimple : ∀ x : A.domain, A x = (lam₀ : ℂ) • (x : H) → ∃ c : ℂ, (x : H) = c • (u₀ : H))
+    (hiso : ∃ ε > 0, Metric.ball (lam₀ : ℂ) ε ∩ A.spectrum = {(lam₀ : ℂ)}) :
+    ∃ r > 0, ∃ (lam : ℂ → ℂ) (v : ℂ → H),
+      AnalyticOnNhd ℂ lam (Metric.ball 0 r) ∧ AnalyticOnNhd ℂ v (Metric.ball 0 r) ∧
+      lam 0 = lam₀ ∧ v 0 = u₀ ∧
+      deriv lam 0 = ⟪(u₀ : H), B ⟨u₀, hAB.domain_le u₀.2⟩⟫_ℂ ∧
+      ∀ z ∈ Metric.ball (0 : ℂ) r, ∃ h : v z ∈ A.domain,
+        v z ≠ 0 ∧ A ⟨v z, h⟩ + z • B ⟨v z, hAB.domain_le h⟩ = lam z • v z := by
+  sorry
+
+/-- Rellich's theorem for a type (A) family (README §5.5, UO-E04a): let `A` be self-adjoint and
+`B` symmetric and `A`-bounded, and let `λ₀` be an isolated point of the spectrum of `A` whose
+eigenspace has finite dimension `m`. For small real `t`, the spectrum of `A + tB` near `λ₀`
+consists of `m` real-analytic eigenvalue branches, counted with multiplicity and not ordered,
+with real-analytic orthonormal eigenvectors that span every eigenvector of `A + tB` for an
+eigenvalue near `λ₀` (Kato, Chapter VII, §3, and Chapter II, §6). -/
+theorem exists_realAnalytic_eigenvalue_branches {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (A B : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (hB : B.IsFormalAdjoint B) (a b : ℝ)
+    (hAB : B.IsRelativelyBounded A a b) (lam₀ : ℝ) (m : ℕ)
+    (hfin : FiniteDimensional ℂ (LinearMap.ker ((lam₀ : ℂ) • A.domain.subtype - A.toFun)))
+    (hm : Module.finrank ℂ (LinearMap.ker ((lam₀ : ℂ) • A.domain.subtype - A.toFun)) = m)
+    (hiso : ∃ ε > 0, Metric.ball (lam₀ : ℂ) ε ∩ A.spectrum = {(lam₀ : ℂ)}) :
+    ∃ r > 0, ∃ δ > 0, ∃ (lam : Fin m → ℝ → ℝ) (v : Fin m → ℝ → H),
+      (∀ k, AnalyticOnNhd ℝ (lam k) (Set.Ioo (-r) r)) ∧
+      (∀ k, AnalyticOnNhd ℝ (v k) (Set.Ioo (-r) r)) ∧ (∀ k, lam k 0 = lam₀) ∧
+      ∀ t ∈ Set.Ioo (-r) r, Orthonormal ℂ (fun k => v k t) ∧
+        (∀ k, ∃ h : v k t ∈ A.domain,
+          A ⟨v k t, h⟩ + (t : ℂ) • B ⟨v k t, hAB.domain_le h⟩ = (lam k t : ℂ) • v k t) ∧
+        (A + (t : ℂ) • B).spectrum ∩ Metric.ball (lam₀ : ℂ) δ =
+          Set.range (fun k => ((lam k t : ℝ) : ℂ)) ∧
+        ∀ (μ : ℂ) (x : A.domain), μ ∈ Metric.ball (lam₀ : ℂ) δ →
+          A x + (t : ℂ) • B ⟨x, hAB.domain_le x.2⟩ = μ • (x : H) →
+          (x : H) ∈ Submodule.span ℂ (Set.range fun k => v k t) := by
+  sorry
+
+open scoped ContDiff in
+/-- Kato's theorem (README §5.7, UO-E06): for a real potential `V = V₂ + Vb` on `ℝ³` with
+`V₂ ∈ L²` and `Vb ∈ L^∞`, the operator `−Δ + V` on the classes of smooth compactly supported
+functions is essentially self-adjoint in `L²(ℝ³)` (Teschl, Lemma 10.1, p.221, and Theorem 10.2,
+p.222). Here `∞` is the smoothness index `(⊤ : ℕ∞)`; `ContDiff ℝ ⊤` would require analyticity. -/
+theorem isSelfAdjoint_closure_neg_laplacian_add_potential
+    (V₂ Vb : EuclideanSpace ℝ (Fin 3) → ℝ) (h₂ : MemLp V₂ 2 volume) (hb : MemLp Vb ⊤ volume)
+    (T : Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin 3))) →ₗ.[ℂ]
+      Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin 3))))
+    (hdom : ∀ u, u ∈ T.domain ↔ ∃ f : EuclideanSpace ℝ (Fin 3) → ℂ,
+      ContDiff ℝ ∞ f ∧ HasCompactSupport f ∧ (u : EuclideanSpace ℝ (Fin 3) → ℂ) =ᵐ[volume] f)
+    (hact : ∀ (u : T.domain) (f : EuclideanSpace ℝ (Fin 3) → ℂ), ContDiff ℝ ∞ f →
+      HasCompactSupport f → ((u : Lp ℂ 2 volume) : EuclideanSpace ℝ (Fin 3) → ℂ) =ᵐ[volume] f →
+      (T u : EuclideanSpace ℝ (Fin 3) → ℂ) =ᵐ[volume]
+        fun x => -(Δ f) x + ((V₂ x + Vb x : ℝ) : ℂ) * f x) :
+    IsSelfAdjoint T.closure := by
+  sorry
 
 /-! ## Layer 6: closed tensor operators and self-adjoint sums -/
 
