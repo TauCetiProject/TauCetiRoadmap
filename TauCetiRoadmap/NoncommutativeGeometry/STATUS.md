@@ -1,52 +1,54 @@
-<!--tauceti-status:v1 {"roadmap":"NoncommutativeGeometry","to_sha":"69cd1ab4dcfbb6676e344f3f193e63473eab5a3d","ts":"2026-10-25T14:11:34Z"}-->
+<!--tauceti-status:v1 {"roadmap":"NoncommutativeGeometry","to_sha":"7ca783d4c8d324c9c74efaacd641c8a40f69f284","ts":"2026-11-09T03:33:42Z"}-->
 # Status: NoncommutativeGeometry
 
-This file documents the status of the NoncommutativeGeometry roadmap up until `69cd1ab` (2026-10-25T14:11:34Z). There may have been subsequent updates.
+This file documents the status of the NoncommutativeGeometry roadmap up until `7ca783d` (2026-11-09T03:33:42Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** For unital algebras, the algebraic cyclic theory of N1 is mostly in place: the (b, B) operators, the comparison with the cyclic bicomplex, Hochschild cohomology, and cycles with their characters. SBI exactness, periodic cohomology and the higher universal forms are still missing. N2 has both of Connes' pairings, with their stabilization and invariance properties, but no K-theory for them to descend to. N3–N7 have not begun.
+**At a glance.** The algebraic cyclic theory of N1 is largely done, and N2's pairings now descend to algebraic K₀ and K₁. N4's Dixmier traces are in place apart from the Tauberian bridge. N3, N5 and N6 have begun with foundations only, and N7 has not begun.
 
 ### Named results
 
-- **Cyclic cochains compute the cyclic bicomplex** — over a ring containing ℚ, the inclusion of Connes' cyclic cochain complex into the total complex of the cyclic bicomplex is a quasi-isomorphism ([`quasiIso_cyclicCochainComplexToTotal`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Bicomplex.html#TauCeti.quasiIso_cyclicCochainComplexToTotal)). A degreewise version only needs 1, …, m to be invertible.
-- **Cyclic cohomology of the ground ring** — in even degree it is the coefficient module, via the product cochain, whenever 2 is not a zero divisor ([`selfEquiv`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/GroundRing.html#TauCeti.cyclicCohomology.selfEquiv)). In odd degree it vanishes ([`isZero_cyclicCohomology_self_of_odd`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/GroundRing.html#TauCeti.isZero_cyclicCohomology_self_of_odd)).
-- **Connes' even pairing** — for an idempotent matrix e, the value (m!)⁻¹(φ#Tr)(e,…,e) depends only on the class of φ. It is invariant under conjugation by units ([`evenPairing_units_conj`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/EvenPairing/Invariance.html#TauCeti.cyclicCohomology.evenPairing_units_conj)) and polynomial homotopy, and additive on direct sums.
-- **Connes' odd pairing** — an invertible u pairs with an odd class through (1+i)⁻¹ 2⁻ⁿ Γ(n/2+1)⁻¹ φ(u⁻¹−1, u−1, …) ([`oddPairing`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/OddPairing.html#TauCeti.cyclicCohomology.oddPairing)). The pairing is unchanged under u ↦ u ⊕ 1 ([`oddPairing_matrixExtension_of_val_eq_fromBlocks_one`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/OddPairing.html#TauCeti.cyclicCohomology.oddPairing_matrixExtension_of_val_eq_fromBlocks_one)) and additive on direct sums.
-- **The character of a cycle** — for a differential graded algebra with a closed graded trace and a map ρ that need not preserve units, ∫ρ(a₀)dρ(a₁)⋯dρ(aₙ) is a cyclic cocycle ([`cycleCocycle`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Cycle.html#TauCeti.cycleCocycle)).
+- **The SBI exact sequence** — for a unital algebra, the sequence HH → H(Tot) → H(Tot) → HH of the total cyclic bicomplex is exact at every term. The three statements are [exactness at S](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/ExactSequence.html#TauCeti.exact_cyclicTotalHomologyConnesB_cyclicTotalHomologyPeriodicity), [exactness at B](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/ExactSequence.html#TauCeti.exact_homologyMap_cyclicTotalComplexToHochschild_cyclicTotalHomologyConnesB) and [exactness at I](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Periodicity.html#TauCeti.exact_cyclicTotalHomologyPeriodicity_homologyMap_cyclicTotalComplexToHochschild). Over a ring containing ℚ, the total complex computes cyclic cohomology ([`quasiIso_cyclicCochainComplexToTotal`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Bicomplex.html#TauCeti.quasiIso_cyclicCochainComplexToTotal)).
+- **Cyclic cocycles are characters of cycles** — the universal forms over A⁺ are a differential graded algebra, and every cyclic cocycle φ is the character of the universal-form cycle with trace ∫_φ ([`cycleCocycle_trace`](https://taucetiproject.org/docs/TauCeti/NoncommutativeGeometry/UniversalDifferential/Cycle.html#TauCeti.UniversalForms.cycleCocycle_trace)). With the earlier converse, this matches cycles and cocycles.
+- **Connes' pairings on algebraic K-theory** — the odd pairing factors through K₁ = GL∞/E∞ ([`AlgebraicK1.oddPairing`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/OddPairing/AlgebraicK1.html#TauCeti.AlgebraicK1.oddPairing)) and through relative K₁ for nonunital algebras. The even pairing factors through K₀ of finitely generated projective modules ([`evenPairingK0`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/EvenPairing/AlgebraicK0.html#TauCeti.cyclicCohomology.evenPairingK0)).
+- **The Dixmier trace is a trace** — for a dilation-invariant generalized limit ω, Tr_ω is additive on positive operators of L^(1,∞) and extends to a [continuous linear functional](https://taucetiproject.org/docs/TauCeti/Analysis/OperatorIdeal/Family/DixmierTrace/Linear.html#TauCeti.linearDixmierTrace) with Tr_ω(AT) = Tr_ω(TA) for bounded A ([`complexDixmierTrace_comp_comm`](https://taucetiproject.org/docs/TauCeti/Analysis/OperatorIdeal/Family/DixmierTrace/Linear.html#TauCeti.complexDixmierTrace_comp_comm)). It vanishes on the trace class, and an explicit operator has [traces that depend on ω](https://taucetiproject.org/docs/TauCeti/Analysis/OperatorIdeal/Family/DixmierTrace/Measurable.html#TauCeti.exists_isPositive_mem_logarithmic_not_isDixmierMeasurable).
+- **Eigenbasis for compact resolvent** — a self-adjoint operator with compact resolvent has an orthonormal eigenbasis inside its domain ([`exists_hilbertBasis_forall_apply_eq_smul_of_hasCompactResolvent`](https://taucetiproject.org/docs/TauCeti/Analysis/InnerProductSpace/LinearPMap/Eigenbasis.html#IsSelfAdjoint.exists_hilbertBasis_forall_apply_eq_smul_of_hasCompactResolvent)).
 
 ### Notable definitions and infrastructure
 
-- [Relative cyclic cohomology](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Relative.html#TauCeti.relativeCyclicCohomology), the kernel of scalar restriction on the forced unitization, is the README's nonunital convention and the base for nonunital pairings.
-- [Matrix extension on cyclic cohomology](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Matrix.html#TauCeti.cyclicCohomology.matrixExtension), the generalized trace φ#Tr, commutes with b, B and the cyclic operators. It carries both pairings and is the ingredient for Morita invariance.
-- [Continuous cyclic cochains](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Continuous.html#TauCeti.continuousCyclicCochains) on algebras with jointly continuous multiplication are preserved by b, B, the cyclic operator and the cyclic norm, which satisfy the mixed-complex relations. These operators are continuous for bounded convergence ([`continuous_continuousConnesB`](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/OperatorTopology.html#TauCeti.continuous_continuousConnesB)).
+- [Periodic cyclic cohomology](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/PeriodicCohomology.html#TauCeti.periodicCyclicCohomology) is the direct limit of the bicomplex cohomology under S. It is [2-periodic](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/PeriodicCohomology.html#TauCeti.periodicCyclicCohomology.shiftIso) and [stabilizes](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/PeriodicCohomology.html#TauCeti.periodicCyclicCohomology.isIso_ι_of_isZero_hochschildCohomology) when Hochschild cohomology vanishes in high degree.
+- [Continuous cyclic cohomology](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Continuous/Cohomology.html#TauCeti.continuousCyclicCohomology) is defined as the README asks: actual coboundaries rather than their closure, and the quotient topology. A [relative version](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Continuous/Relative.html#TauCeti.continuousRelativeCyclicCohomology) handles nonunital algebras.
+- The [smooth noncommutative torus](https://taucetiproject.org/docs/TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.html#TauCeti.SmoothNoncommutativeTorus) is the algebra of rapidly decreasing Fourier series with U₂U₁ = e^(2πiθ)U₁U₂ and a faithful trace. The source also gives it its Fréchet seminorm topology, its gauge derivations δ₁, δ₂ and continuous versions of the torus cocycles.
 
 ### Roadmap coverage
 
-**N1 is partial.** Done for unital algebras:
-- the cochain-level cyclic theory: b, the cyclic operator and norm, b′ with its contraction, and B with B² = 0 and bB + Bb = 0;
-- cyclic, reduced and relative cohomology, and the ground-ring computation;
-- the bicomplex comparison and the Hochschild comparison with dual coefficients;
-- Hochschild cohomology, with I and B on cohomology;
-- the character of a cycle.
+**N1 is partial.** Done:
+- the algebraic theory for unital and relative cochains: the bicomplex comparison, SBI exactness and periodic cohomology;
+- universal forms as a differential graded algebra, with cycles and cocycles matched in both directions, and exterior products of cocycles;
+- normalized cochains and chains;
+- continuous cyclic cohomology.
 
-Missing from N1:
-- S, SBI exactness, periodic cohomology and the normalization constants;
-- homotopy and Morita invariance at the level of cohomology, and products;
-- universal forms above degree one, and the realization of cyclic cocycles by cycles;
-- on the analytic side, continuous cohomology, completed bar resolutions, Fréchet completeness and the smooth-circle tensor identity.
+Missing:
+- S as the product with σ₁, the comparison with the (b, B) totalization and its constants;
+- homotopy and Morita invariance on cohomology, and the shuffle comparison;
+- completed bar resolutions and the smooth-circle tensor identity.
 
-**N2 is partial.** Both pairings exist on individual idempotents and invertibles, with stabilization and direct sums, and for the even pairing conjugation and polynomial homotopy. Algebraic K₀ and K₁, descent to K-theory, the Fréchet/C*-transport and the Chern-chain calibrations are absent.
+**N2 is partial.** The pairings descend to algebraic K-theory, and the Chern chains satisfy (b + B)ch = 0. Missing are the relative K₀ pairing, topological homotopy, the Fréchet/C* transport and every calibration (circle, Bott and odd product).
 
-**N3, N4, N5, N6 and N7 are untouched.** The source has no Fredholm modules, logarithmic ideal, Dixmier traces, spectral triples or smooth torus. It does have the algebraic shapes of the torus cocycles: the 1-cocycle τ(a₀δa₁) and the [two-derivation 2-cocycle](https://taucetiproject.org/docs/TauCeti/RingTheory/CyclicCohomology/Derivation.html#TauCeti.traceDerivationPairCocycle).
+**N4 is partial and nearly done.** The logarithmic ideal, generalized limits, the linear Dixmier trace, measurability and the pathological examples are proved. The Tauberian bridge with its residue formula is missing, and so are the weak-Schatten comparisons.
+
+**N3, N5 and N6 have foundations only.** For N3, the source defines even and odd Fredholm modules with compact perturbation and unitary transport, but has no characters, normalization or index theorem. N5 has compact resolvent and the eigenbasis, but no spectral triples. N6 has the smooth torus and its derivations, but no C*-comparison, connections or cohomology computation.
+
+**N7 is untouched.**
 
 ## The frontier
 
-- **The SBI sequence** — I and B on cohomology exist, and B ∘ I = 0. What remains is S as the exterior product with σ₁, followed by exactness at every term.
-- **Algebraic K₀/K₁ and descent of the pairings** — build K₀ by group completion and K₁ as GL∞/E∞, then show both pairings factor through them. Stabilization and direct sums are already proved.
-- **Periodic cyclic cohomology** — the direct limit under S, its comparison with the (b, B) totalization, and the pinned constants c₂ₘ and c₂ₖ₊₁.
-- **Continuous cyclic cohomology** — the quotient of continuous cocycles by continuous coboundaries, with its quotient topology. It also needs the comparison with continuous functionals on completed tensors, and completed bar resolutions. N6's torus computation needs all of these.
-- **Higher universal forms** — the graded differential algebra over A⁺ with d² = 0. The aim is to show that every cyclic cocycle is the character of a universal-form cycle, which now has the cycle-to-cocycle direction to build on.
+- **Normalizing S and the periodic comparison** — identify the column shift with the product by σ₁, then compare HP with the direct-sum (b, B) totalization using the pinned constants c₂ₘ and c₂ₖ₊₁.
+- **The Tauberian bridge** — (s − 1)Tr(T^s) → L iff the logarithmic means converge, giving Tr_ω(T) = L. N7's Tr_ω(|D|⁻²) = 1/(2π) depends on this.
+- **Fredholm-module characters** — the conditional trace Tr′, the cocycles τₙ, and normalization by the sine replacement and doubling. Then the character index theorem, which needs K4's index.
+- **Topological invariance of the pairings** — smooth homotopy invariance and the transport through K3 to C*-K-theory for inverse-closed Fréchet subalgebras.
+- **Periodic cyclic cohomology of the torus** — HP^even and HP^odd of 𝒜_θ are each ℂ², spanned by Sτ, φ and the classes τ(a₀δⱼa₁). This needs the continuous two-step resolution, which needs N1's completed bar resolutions.

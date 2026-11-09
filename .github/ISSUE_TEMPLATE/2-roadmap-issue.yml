@@ -25,6 +25,8 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -32,6 +34,7 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -45,9 +48,11 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DifferentialGeometry
@@ -57,11 +62,13 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
         - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
         - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
@@ -78,6 +85,7 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
@@ -89,10 +97,12 @@ body:
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -101,6 +111,8 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -110,6 +122,7 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
@@ -128,13 +141,19 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
@@ -148,6 +167,7 @@ body:
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
