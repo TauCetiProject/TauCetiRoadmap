@@ -21,39 +21,43 @@ public import TauCeti.Analysis.Normed.Module.FilledHull
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
 definitions they need; the README carries every target, API list and acceptance example.
 
-Headline theorems stated here, by layer: associativity, the flip identity and the graded Jacobi
-identity of the paired wedge and the interior-product rule [Lee, Lemma 14.13] (0.1); smoothness
-of the alternating bundle (0.2), of pullbacks (0.3) and of paired wedges of smooth forms (0.4);
-naturality, `d ∘ d = 0`, regularity, the Leibniz rule and the invariant formula
-[Lee, Prop. 14.29] for the exterior derivative (1); orientation extensionality and the
-two-orientation theorem, the pullback orientation [Lee, Prop. 15.15], top forms and orientations
-[Lee, Prop. 15.5], the oriented-atlas criterion [Lee, Prop. 15.6] and orientability without
-index-two subgroups of `π₁` [Lee, Thm. 15.43] (2); smooth dependence on initial conditions for
-Banach models, the fundamental theorem of flows for Banach models, completeness [Lee, Thm. 9.16],
-homogeneity, naturality [Lee, Prop. 9.6], the flow characterization of the bracket
-[Lee, Thm. 9.38], straightening [Lee, Thm. 9.22] and time-dependent flows [Lee, Thm. 9.48] (3);
-integrability implies involutivity, the annihilator criterion, local Frobenius with integral
-slices, weak embeddedness and global leaves [Lee, Ch. 19] (4); outward fields
-[Lee, Prop. 15.33], the planar radial primitive and the moving-pullback identity (5.1–5.4a);
-Green's theorem for absolutely continuous cycles, in winding-weighted form and at HOL Light's
-strength, and the one-cell identities on vertical and horizontal cells (5.6); the hairy ball
-theorem in its tangent-field and tangent-bundle-section forms [Lee, Problem 16-6] (11);
-existence of Riemannian metrics [Lee, Prop. 13.3], symmetry of the Hessian, the Riemannian
-divergence theorem on boundaryless manifolds with Green's identities, and on half-space manifolds
-with the induced boundary measure and outward unit normal [Lee, Thm. 16.32] (12).
+Headline theorems stated here, by layer: smoothness of bundle-valued pullbacks (0.3); the chart
+signs of the pullback orientation [Lee, Prop. 15.15], the smooth top form of an orientation
+[Lee, Prop. 15.5] and the oriented-atlas criterion [Lee, Prop. 15.6] (2); smooth dependence on
+initial conditions for Banach models, the fundamental theorem of flows for Banach models,
+homogeneity, the flow characterization of the bracket [Lee, Thm. 9.38], straightening
+[Lee, Thm. 9.22] and time-dependent flows [Lee, Thm. 9.48] (3); integrability implies
+involutivity, the annihilator criterion, local Frobenius with integral slices, weak embeddedness
+and global leaves [Lee, Ch. 19] (4); the planar radial primitive and the moving-pullback identity
+(5.4–5.4a); the one-cell identities on vertical and horizontal cells (5.6); the hairy ball theorem
+in its tangent-field and tangent-bundle-section forms [Lee, Problem 16-6] (11); the Riemannian
+divergence theorem on half-space manifolds with the induced boundary measure and outward unit
+normal [Lee, Thm. 16.32], and the volume of the round circle (12).
+
+Headline theorems that Tau Ceti proves at the pins are not restated: the flip, associativity,
+graded Jacobi and interior-product identities of the paired wedge (0.1), the smooth alternating
+bundle (0.2), the wedge of smooth forms (0.4), naturality, `d ∘ d = 0`, regularity, the Leibniz
+rule and the invariant formula of the exterior derivative (1.2–1.4), the two-orientation theorem,
+the pullback orientation, the orientation of a nowhere-vanishing top form and the π₁ criterion
+(2.1–2.4), compactly supported completeness and conjugate flows (3.3–3.4), the outward field
+(5.1), Green's theorem for absolutely continuous cycles (5.6.3), and the existence of metrics,
+the symmetry of the Hessian and the boundaryless divergence theorem with Green's identities
+(12.1, 12.3, 12.5); the README's *From Tau Ceti* contract names each with its module. Four
+statements that Tau Ceti also proves are kept because declarations of this file or of its
+consumers use them: `mextDeriv_add`, `mextDeriv_smul` and `isSmoothForm_mextDeriv_infty` build
+the linear map `mextDerivₗ` behind `closedForms`, and `Manifold.Orientation.ext` is imported by
+the orientation modules of AlgebraicTopology, ComplexKahlerGeometry and MorseNovikov.
 
 Headline theorems not statable at the pins, and what each lacks: Stokes' theorem for the
 half-space (5.3) and for smooth faces and corners (5.5b) lack the integral of a top form over a
 manifold and the outward-first boundary orientation, constructions whose bodies are themselves
 theorems (5.1–5.2), and the corner version also lacks the smooth face structure with its abstract
 boundary (5.5b); the face-structured divergence theorem (12.5) lacks the same face structure; the
-equivalences of 2.4 lack, at the Tau Ceti revision this file is built against, the orientation
-double cover with its topology (2.4), from which Tau Ceti's `IsLocalHomeomorph.chartedSpaceComap`
-(2.3) gives its smooth structure (the Tau Ceti revision the content repository pins has the cover
-and proves two of the equivalences,
-`TauCeti.Manifold.OrientationCover.orientable_iff_exists_section` and
-`TauCeti.Manifold.OrientationCover.orientable_iff_not_connectedSpace`, which 2.4 cites); the
-homotopy-operator identity (5.4) lacks the homotopy operator; agreement of
+triviality of the orientation double cover and the commutation of `d` with the averaging
+operators (2.4) lack, among this file's imports, Tau Ceti's `TauCeti.Manifold.OrientationCover`
+and `TauCeti.invariantPart`, and the antipodal sign on `Sⁿ` lacks the outward orientation of the
+sphere, a construction; the homotopy-operator identity (5.4) lacks the homotopy operator;
+agreement of
 densities with the integral of top forms (5.5a) and of the Riemannian volume form with the
 Riemannian density (12.4) lack those integrals and the volume form; Cartan's formula (1.4) lacks
 the Lie derivative of forms; the finite type-I/type-II division theorems (5.6.2) lack the oriented
@@ -101,10 +105,11 @@ the `wedge_product` shape of Kudryashov's `DeRhamCohomology`. The normalization 
 sign-weighted sum over all permutations divided by `k! * l!` (the alternatization below sums
 over all permutations); equivalently it is the sum over `(k, l)`-shuffles with no factorial,
 matching `AlternatingMap.domCoprod`, so that on two covectors it is the `2 × 2` determinant with
-no factor `1/2`. At this generality the flip identity `wedgeWith_flip` holds for every pairing;
-associativity and graded commutativity are **not** theorems here (degree zero reduces them to
-associativity and commutativity of `μ`) and hold only under explicit hypotheses on the
-pairings — `wedgeWith_assoc` below. -/
+no factor `1/2`. It is the signature of Tau Ceti's `ContinuousAlternatingMap.pairedWedge`, whose
+flip identity `ContinuousAlternatingMap.pairedWedge_flip` holds for every pairing; associativity
+and graded commutativity are **not** theorems at this generality (degree zero reduces them to
+associativity and commutativity of `μ`) and hold only under explicit hypotheses on the pairings
+(`ContinuousAlternatingMap.pairedWedge_assoc`). -/
 noncomputable def wedgeWith {k l : ℕ} (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃)
     (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₂) :
     E [⋀^Fin (k + l)]→L[ℝ] F₃ :=
@@ -130,92 +135,17 @@ noncomputable def wedgeWith {k l : ℕ} (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃
 
 variable {k l m : ℕ} {μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃}
 
-/-- **Layer 0.1, the flip identity.** Swapping the factors flips the pairing and costs the
-graded sign; this holds for *every* pairing, and graded commutativity for a commutative
-`μ` (where `μ.flip = μ`) is its corollary. The degree cast is `Fin.cast`. -/
-theorem wedgeWith_flip (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₂)
-    (v : Fin (k + l) → E) :
-    wedgeWith μ φ ψ v =
-      (-1 : ℝ) ^ (k * l) • wedgeWith μ.flip ψ φ (v ∘ Fin.cast (Nat.add_comm l k)) :=
-  sorry
-
-/-- **Layer 0.1, associativity under a compatibility hypothesis on the pairings**: associativity
-holds when the two composite pairings agree, `μ₁₂₃ (μ₁₂ a b) c = μ₁₂₃' a (μ₂₃ b c)`,
-which is associativity of a multiplication in the algebra case and *fails* for a Lie
-bracket. -/
-theorem wedgeWith_assoc (μ₁₂ : F₁ →L[ℝ] F₂ →L[ℝ] F₁₂) (μ₁₂₃ : F₁₂ →L[ℝ] F₃ →L[ℝ] G)
-    (μ₂₃ : F₂ →L[ℝ] F₃ →L[ℝ] F₂₃) (μ₁₂₃' : F₁ →L[ℝ] F₂₃ →L[ℝ] G)
-    (h : ∀ a b c, μ₁₂₃ (μ₁₂ a b) c = μ₁₂₃' a (μ₂₃ b c))
-    (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₂) (χ : E [⋀^Fin m]→L[ℝ] F₃)
-    (v : Fin (k + l + m) → E) :
-    wedgeWith μ₁₂₃ (wedgeWith μ₁₂ φ ψ) χ v =
-      wedgeWith μ₁₂₃' φ (wedgeWith μ₂₃ ψ χ) (v ∘ Fin.cast (Nat.add_assoc k l m).symm) :=
-  sorry
-
 /-- **Layer 0.1.** The bracket wedge `[φ ∧ ψ]` of forms with values in a space carrying a
 continuous bilinear bracket `β` (a finite-dimensional Lie algebra's bracket, say): `wedgeWith`
-along `β`. It is neither associative nor graded commutative; graded skew-symmetry for a
-skew-symmetric bracket is the flip identity `wedgeWith_flip` with `β.flip = -β`, and the graded
-Jacobi identity below holds for a bracket satisfying the Jacobi identity. -/
+along `β`, the signature of Tau Ceti's `TauCeti.bracketWedge`. It is neither associative nor
+graded commutative; graded skew-symmetry for a skew-symmetric bracket is the flip identity with
+`β.flip = -β` (`TauCeti.bracketWedge_skew`), and the graded Jacobi identity
+`TauCeti.bracketWedge_jacobi` holds for a bracket satisfying the Jacobi identity. -/
 noncomputable def bracketWedge (β : F₁ →L[ℝ] F₁ →L[ℝ] F₁) (φ : E [⋀^Fin k]→L[ℝ] F₁)
     (ψ : E [⋀^Fin l]→L[ℝ] F₁) : E [⋀^Fin (k + l)]→L[ℝ] F₁ :=
   wedgeWith β φ ψ
 
-/-- **Layer 0.1.** The graded Jacobi identity of the bracket wedge,
-`(-1)^{km} [[φ∧ψ]∧χ] + (-1)^{kl} [[ψ∧χ]∧φ] + (-1)^{lm} [[χ∧φ]∧ψ] = 0`, the three terms cast to
-degree `k + l + m`, for a bracket satisfying the Jacobi identity. -/
-theorem bracketWedge_jacobi {β : F₁ →L[ℝ] F₁ →L[ℝ] F₁} (hβ : ∀ a b, β a b = -β b a)
-    (hβ' : ∀ a b c, β a (β b c) = β (β a b) c + β b (β a c))
-    (φ : E [⋀^Fin k]→L[ℝ] F₁) (ψ : E [⋀^Fin l]→L[ℝ] F₁) (χ : E [⋀^Fin m]→L[ℝ] F₁)
-    (v : Fin (k + l + m) → E) :
-    (-1 : ℝ) ^ (k * m) • bracketWedge β (bracketWedge β φ ψ) χ v +
-      (-1 : ℝ) ^ (k * l) • bracketWedge β (bracketWedge β ψ χ) φ
-        (v ∘ Fin.cast (show l + m + k = k + l + m by omega)) +
-      (-1 : ℝ) ^ (l * m) • bracketWedge β (bracketWedge β χ φ) ψ
-        (v ∘ Fin.cast (show m + k + l = k + l + m by omega)) = 0 :=
-  sorry
-
-/-- **Layer 0.1, the interior product.** Mathlib's `ContinuousAlternatingMap.curryLeft` *is*
-`ι_v` and `ι_v ∘ ι_v = 0` is its `curryLeft_same`; what is built here is the degree-`(−1)`
-antiderivation rule [Lee, Lemma 14.13], stated for the paired wedge. -/
-theorem curryLeft_wedgeWith (φ : E [⋀^Fin (k + 1)]→L[ℝ] F₁) (ψ : E [⋀^Fin (l + 1)]→L[ℝ] F₂)
-    (v : E) (w : Fin (k + 1 + l) → E) :
-    (wedgeWith μ φ ψ).curryLeft v w =
-      wedgeWith μ (φ.curryLeft v) ψ (w ∘ Fin.cast (show k + (l + 1) = k + 1 + l by omega)) +
-        (-1 : ℝ) ^ (k + 1) • wedgeWith μ φ (ψ.curryLeft v) w :=
-  sorry
-
 end Wedge
-
-section AlternatingBundle
-
-variable {𝕜 B ι : Type*} {n : WithTop ℕ∞}
-  [NontriviallyNormedField 𝕜] [Fintype ι]
-  {F₁ F₂ : Type*} [NormedAddCommGroup F₁] [NormedSpace 𝕜 F₁]
-  [NormedAddCommGroup F₂] [NormedSpace 𝕜 F₂]
-  {E₁ : B → Type*} [∀ x, AddCommGroup (E₁ x)] [∀ x, Module 𝕜 (E₁ x)]
-  [TopologicalSpace (TotalSpace F₁ E₁)] [∀ x, TopologicalSpace (E₁ x)]
-  {E₂ : B → Type*} [∀ x, AddCommGroup (E₂ x)] [∀ x, Module 𝕜 (E₂ x)]
-  [TopologicalSpace (TotalSpace F₂ E₂)] [∀ x, TopologicalSpace (E₂ x)]
-  {EB : Type*} [NormedAddCommGroup EB] [NormedSpace 𝕜 EB]
-  {HB : Type*} [TopologicalSpace HB] {IB : ModelWithCorners 𝕜 EB HB}
-  [TopologicalSpace B] [ChartedSpace HB B]
-  [FiberBundle F₁ E₁] [VectorBundle 𝕜 F₁ E₁]
-  [FiberBundle F₂ E₂] [VectorBundle 𝕜 F₂ E₂]
-  [∀ x, IsTopologicalAddGroup (E₂ x)] [∀ x, ContinuousSMul 𝕜 (E₂ x)]
-
-/-- **Layer 0.2.** The bundle of continuous alternating maps
-between two `C^n` vector bundles over the same base is a `C^n` vector bundle — the
-statement mirrors `ContMDiffVectorBundle.continuousLinearMap` in
-`Mathlib/Geometry/Manifold/VectorBundle/Hom.lean`, over the topological bundle of
-`Mathlib/Topology/VectorBundle/ContinuousAlternatingMap.lean`. Stated as a theorem;
-promote to an instance once proved, never while it carries `sorry`. -/
-theorem contMDiffVectorBundle_continuousAlternatingMap
-    [ContMDiffVectorBundle n F₁ E₁ IB] [ContMDiffVectorBundle n F₂ E₂ IB] :
-    ContMDiffVectorBundle n (F₁ [⋀^ι]→L[𝕜] F₂) (fun x ↦ E₁ x [⋀^ι]→L[𝕜] E₂ x) IB :=
-  sorry
-
-end AlternatingBundle
 
 /-! ## Layer 0.3–0.4: rough and smooth forms on manifolds, pullback -/
 
@@ -394,16 +324,6 @@ abbrev SmoothForm (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M
     (k : ℕ) : Type _ :=
   ↥(smoothForms I M F k)
 
-/-- **Layer 0.4.** The paired wedge of smooth fixed-coefficient forms is smooth for every
-continuous bilinear pairing. This is where 0.2's smooth bundle structure is used. -/
-theorem smoothForms_wedgeWith_mem [IsManifold I 1 M] [IsManifold I ∞ M]
-    {F₁ F₂ F₃ : Type*} [NormedAddCommGroup F₁] [NormedSpace ℝ F₁]
-    [NormedAddCommGroup F₂] [NormedSpace ℝ F₂] [NormedAddCommGroup F₃] [NormedSpace ℝ F₃]
-    (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃) (φ : SmoothForm I M F₁ k) (η : SmoothForm I M F₂ l) :
-    RoughForm.wedgeWith μ (φ : RoughForm I M F₁ k) (η : RoughForm I M F₂ l) ∈
-      smoothForms I M F₃ (k + l) :=
-  sorry
-
 end Forms
 
 /-! ## Layer 1: the exterior derivative and its naturality -/
@@ -441,58 +361,9 @@ theorem mextDeriv_add [IsManifold I 1 M] {φ η : RoughForm I M F k} (hφ : IsSm
 theorem mextDeriv_smul (c : ℝ) (φ : RoughForm I M F k) : mextDeriv (c • φ) = c • mextDeriv φ :=
   sorry
 
-/-- **Layer 1.2, naturality.** For a `C²` map and a `C¹` form, `f^* (dφ) = d (f^* φ)`. -/
-theorem mpullback_mextDeriv [IsManifold I 1 M] [IsManifold I' 1 M'] [IsManifold I 2 M]
-    [IsManifold I' 2 M'] {f : M → M'}
-    (hf : ContMDiff I I' 2 f) {φ : RoughForm I' M' F k} (hφ : IsSmoothForm I' 1 φ) :
-    mpullback I I' f (mextDeriv φ) = mextDeriv (mpullback I I' f φ) :=
-  sorry
-
-/-- **Layer 1.3.** `d ∘ d = 0` on `C²` forms. -/
-theorem mextDeriv_mextDeriv [IsManifold I 1 M] [IsManifold I 2 M] {φ : RoughForm I M F k}
-    (hφ : IsSmoothForm I 2 φ) : mextDeriv (mextDeriv φ) = 0 :=
-  sorry
-
-/-- **Layer 1.3.** Preservation of regularity, the manifold transfer of the flat fact that
-`extDerivWithin` takes `C^(n+1)` forms to `C^n` forms on a set of unique differentiability: on a
-`C^(n+2)` manifold, `d` takes `C^(n+1)` forms to `C^n` forms. -/
-theorem isSmoothForm_mextDeriv [IsManifold I 1 M] [IsManifold I (n + 2) M] {φ : RoughForm I M F k}
-    (hφ : IsSmoothForm I (n + 1) φ) : IsSmoothForm I n (mextDeriv φ) :=
-  sorry
-
 /-- **Layer 1.3.** The smooth case: `d` maps `Ω^k` to `Ω^(k+1)`. -/
 theorem isSmoothForm_mextDeriv_infty [IsManifold I 1 M] [IsManifold I ∞ M] {φ : RoughForm I M F k}
     (hφ : IsSmoothForm I ∞ φ) : IsSmoothForm I ∞ (mextDeriv φ) :=
-  sorry
-
-/-- **Layer 1.4.** The vector-valued Leibniz rule for a fixed continuous bilinear pairing,
-with the determinant convention's unit constants. This includes a Lie bracket, so it applies
-to `dω + ½[ω ∧ ω]`. A base-dependent pairing would contribute its own derivative; arbitrary
-bundle coefficients instead require connections and a compatible (parallel) pairing. -/
-theorem mextDeriv_wedgeWith [IsManifold I 1 M]
-    {F₁ F₂ F₃ : Type*} [NormedAddCommGroup F₁] [NormedSpace ℝ F₁]
-    [NormedAddCommGroup F₂] [NormedSpace ℝ F₂] [NormedAddCommGroup F₃] [NormedSpace ℝ F₃]
-    (μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃) {φ : RoughForm I M F₁ k} {η : RoughForm I M F₂ l}
-    (hφ : IsSmoothForm I 1 φ) (hη : IsSmoothForm I 1 η) (x : M)
-    (v : Fin (k + l + 1) → TangentSpace I x) :
-    mextDeriv (RoughForm.wedgeWith μ φ η) x v =
-      RoughForm.wedgeWith μ (mextDeriv φ) η x
-        (v ∘ Fin.cast (show k + 1 + l = k + l + 1 by omega)) +
-        (-1 : ℝ) ^ k • RoughForm.wedgeWith μ φ (mextDeriv η) x
-          (v ∘ Fin.cast (show k + (l + 1) = k + l + 1 by omega)) :=
-  sorry
-
-/-- **Layer 1.4, the invariant formula for 1-forms** [Lee, Prop. 14.29]:
-`dφ(V, W) = V(φ(W)) − W(φ(V)) − φ([V, W])`. -/
-theorem mextDeriv_apply_one [IsManifold I 1 M] [IsManifold I 2 M] {φ : RoughForm I M ℝ 1}
-    (hφ : IsSmoothForm I 1 φ)
-    {V W : (x : M) → TangentSpace I x}
-    (hV : ContMDiff I I.tangent 1 (fun x ↦ (⟨x, V x⟩ : TangentBundle I M)))
-    (hW : ContMDiff I I.tangent 1 (fun x ↦ (⟨x, W x⟩ : TangentBundle I M))) (x : M) :
-    mextDeriv φ x ![V x, W x] =
-      (id (mfderiv I 𝓘(ℝ) (fun y ↦ φ y ![W y]) x (V x)) : ℝ) -
-        (id (mfderiv I 𝓘(ℝ) (fun y ↦ φ y ![V y]) x (W x)) : ℝ) -
-        φ x ![VectorField.mlieBracket I V W x] :=
   sorry
 
 end ExtDeriv
@@ -625,11 +496,6 @@ theorem Manifold.Orientation.ext {o o' : Manifold.Orientation I M ι}
     (h : ∀ x, orientationAt o x = orientationAt o' x) : o = o' :=
   sorry
 
-/-- **Layer 2.1.** On a preconnected manifold there are at most two orientations. -/
-theorem Manifold.Orientation.eq_or_eq_neg [PreconnectedSpace M]
-    (o o' : Manifold.Orientation I M ι) : o' = o ∨ o' = o.neg :=
-  sorry
-
 variable (I M) in
 /-- **Layer 2.1.** Orientability, with the canonical index type `Fin (finrank ℝ E)`. -/
 def Orientable : Prop :=
@@ -642,18 +508,6 @@ def IsOrientationPreservingAt [FiniteDimensional ℝ E'] (o : Manifold.Orientati
   ∃ e : TangentSpace I x ≃L[ℝ] TangentSpace I' (f x),
     (e : TangentSpace I x →L[ℝ] TangentSpace I' (f x)) = mfderiv I I' f x ∧
       Orientation.map ι e.toLinearEquiv (orientationAt o x) = orientationAt o' (f x)
-
-/-- **Layer 2.2, the pullback orientation** [Lee, Prop. 15.15]: along a local diffeomorphism
-there is an orientation of the source making `f` orientation-preserving everywhere, provided the
-index type has the source's dimension. That hypothesis is exactly what is needed: when `M` is
-nonempty it follows from `card_eq` of `o'` and the invertible differential of `f` at any point,
-and when `M` is empty it is the whole content (for the empty map from an empty manifold modelled
-on `ℝ²` to `ℝ` there is no orientation indexed by `Fin 1`, since `card_eq` would force `1 = 2`). -/
-theorem exists_isOrientationPreservingAt_pullback [FiniteDimensional ℝ E'] [IsManifold I n M]
-    [IsManifold I' n M'] {f : M → M'} (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n)
-    (o' : Manifold.Orientation I' M' ι) (hcard : Fintype.card ι = Module.finrank ℝ E) :
-    ∃ o : Manifold.Orientation I M ι, ∀ x, IsOrientationPreservingAt o o' f x :=
-  sorry
 
 open Classical in
 /-- **Layer 2.2.** The chart signs of the pullback orientation relative to a model orientation
@@ -701,7 +555,8 @@ class of the lift whose model orientation `μ` is the orientation of a basis of 
 and whose chart signs are `Manifold.Orientation.pullbackSign hf hn o' μ`. The class does not
 depend on the basis: replacing `μ` by `−μ` negates every chart sign, which is the diagonal flip.
 Its tangent orientation at `x` is `orientationAt o' (f x)` carried back by the inverse of the
-differential of `f` at `x`, so it is the witness of `exists_isOrientationPreservingAt_pullback`.
+differential of `f` at `x`, so `f` preserves orientation from it at every point, as from Tau
+Ceti's `TauCeti.Manifold.Orientation.pullback`.
 The dimension hypothesis is discharged by `simp` for Euclidean sources indexed by `Fin m`. -/
 noncomputable def Manifold.Orientation.pullback [FiniteDimensional ℝ E'] [IsManifold I n M]
     [IsManifold I' n M'] {f : M → M'} (hf : IsLocalDiffeomorph I I' n f) (hn : 1 ≤ n)
@@ -716,15 +571,6 @@ noncomputable def Manifold.Orientation.pullback [FiniteDimensional ℝ E'] [IsMa
       sign := Manifold.Orientation.pullbackSign hf hn o' μ
       continuous_sign := Manifold.Orientation.continuous_pullbackSign hf hn o' μ
       sign_mul_sign := Manifold.Orientation.pullbackSign_mul_pullbackSign hf hn o' μ }
-
-/-- **Layer 2.2.** A nowhere-vanishing continuous top form determines an orientation: the one
-for which the form is positive on positively oriented bases. -/
-theorem exists_orientation_of_topForm [IsManifold I 1 M]
-    {φ : RoughForm I M ℝ (Module.finrank ℝ E)} (hφ : IsSmoothForm I 0 φ) (h0 : ∀ x, φ x ≠ 0) :
-    ∃ o : Manifold.Orientation I M (Fin (Module.finrank ℝ E)),
-      ∀ (x : M) (b : Module.Basis (Fin (Module.finrank ℝ E)) ℝ (TangentSpace I x)),
-        b.orientation = orientationAt o x ↔ 0 < φ x b :=
-  sorry
 
 /-- **Layer 2.2.** Conversely an orientation admits a positively oriented smooth top form; the
 partition-of-unity direction carries `[T2Space M] [SigmaCompactSpace M]` [Lee, Prop. 15.5]. -/
@@ -751,25 +597,6 @@ theorem orientable_iff_exists_atlas [BoundarylessManifold I M] [IsManifold I 1 M
   sorry
 
 end Orientation
-
-section IndexTwo
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M] [ChartedSpace H M]
-  [FiniteDimensional ℝ E]
-
-/-- **Layer 2.4** [Lee, Thm. 15.43]: if `M` is connected and `π₁(M, x)` has no subgroup of
-index `2`, `M` is orientable; in particular simply connected manifolds are orientable. No
-separation hypothesis is needed, and local path-connectedness comes from the charts. The route is
-the orientation double cover of 2.4: if it were connected, it would be a connected two-sheeted
-cover, whose subgroup of `π₁` has index `2`. Tau Ceti proves it, with these hypotheses and for
-its class `TauCeti.Orientable`, at the revision the content repository pins
-(`TauCeti.Manifold.orientable_of_forall_index_ne_two`). -/
-theorem orientable_of_forall_index_ne_two [IsManifold I 1 M] [ConnectedSpace M] (x : M)
-    (h : ∀ K : Subgroup (FundamentalGroup M x), K.index ≠ 2) : Orientable I M :=
-  sorry
-
-end IndexTwo
 
 /-! ## Layer 3: flows -/
 
@@ -833,12 +660,6 @@ theorem contMDiffOn_maximalIntegralCurve_of_completeSpace {n : ℕ∞} (hn : 1 �
 def IsCompleteVectorField (v : (x : M) → TangentSpace I x) : Prop :=
   flowDomain v = univ
 
-/-- **Layer 3.3.** Compactly supported fields are complete [Lee, Thm. 9.16]. -/
-theorem isCompleteVectorField_of_isCompact [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
-    (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) {K : Set M}
-    (hK : IsCompact K) (hvK : ∀ x ∉ K, v x = 0) : IsCompleteVectorField v :=
-  sorry
-
 /-- **Layer 3.3.** Every `C¹` field on a compact boundaryless manifold is complete. This is not a
 target: it is Tau Ceti's `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo` (with the
 whole manifold as the compact set) read in the `flowDomain` form, and is proved from it. -/
@@ -894,18 +715,6 @@ theorem exists_flowOf_one_eq [FiniteDimensional ℝ E] [IsManifold I 1 M] [IsMan
     ∃ v : (x : M) → TangentSpace I x,
       ContMDiff I I.tangent ∞ (fun y ↦ (⟨y, v y⟩ : TangentBundle I M)) ∧
         (∃ K : Set M, IsCompact K ∧ ∀ z ∉ K, v z = 0) ∧ flowOf v 1 x = y :=
-  sorry
-
-/-- **Layer 3.4, naturality.** `F`-related fields have `F`-conjugate flows [Lee, Prop. 9.6]. -/
-theorem flowOf_comp_of_related {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
-    [CompleteSpace E'] [TopologicalSpace H'] {J : ModelWithCorners ℝ E' H'} [TopologicalSpace N]
-    [ChartedSpace H' N] [T2Space N] [BoundarylessManifold J N] [IsManifold I 1 M]
-    [IsManifold J 1 N] {v : (x : M) → TangentSpace I x} {w : (y : N) → TangentSpace J y}
-    (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M)))
-    (hw : ContMDiff J J.tangent 1 (fun y ↦ (⟨y, w y⟩ : TangentBundle J N)))
-    {f : M → N} (hf : ContMDiff I J 1 f) (hrel : ∀ x, mfderiv I J f x (v x) = w (f x))
-    {t : ℝ} {x : M} (ht : (t, x) ∈ flowDomain v) :
-    (t, f x) ∈ flowDomain w ∧ f (flowOf v t x) = flowOf w t (f x) :=
   sorry
 
 omit [CompleteSpace E] in
@@ -1156,13 +965,6 @@ def IsOutwardPointing (x : M) (v : TangentSpace (𝓡∂ (n + 1)) x) : Prop :=
     (id (mfderiv (𝓡∂ (n + 1)) 𝓘(ℝ, EuclideanSpace ℝ (Fin (n + 1)))
       (extChartAt (𝓡∂ (n + 1)) x) x v) : EuclideanSpace ℝ (Fin (n + 1))) 0 < 0
 
-/-- **Layer 5.1.** An outward-pointing smooth field along the boundary exists [Lee, Prop. 15.33]. -/
-theorem exists_isOutwardPointing [T2Space M] [SigmaCompactSpace M] [IsManifold (𝓡∂ (n + 1)) ∞ M] :
-    ∃ v : (x : M) → TangentSpace (𝓡∂ (n + 1)) x,
-      ContMDiff (𝓡∂ (n + 1)) (𝓡∂ (n + 1)).tangent ∞ (fun y ↦ (⟨y, v y⟩ : TangentBundle (𝓡∂ (n + 1)) M)) ∧
-        ∀ x ∈ (𝓡∂ (n + 1)).boundary M, IsOutwardPointing x (v x) :=
-  sorry
-
 end Boundary
 
 section PlanarPrimitive
@@ -1383,37 +1185,6 @@ theorem green_horizontalCell {c d : ℝ} (hcd : c < d) {ℓ u : ℝ → ℝ}
       ∫ z in horizontalCell c d ℓ u, Qx z :=
   sorry
 
-/-- **Layer 5.6.3, Green for absolutely continuous cycles**, winding-weighted: for a closed
-absolutely continuous curve whose index vanishes off an open `U` containing its trace and fields
-`C¹` on `U`, both sides are integrable and the circulation equals the weighted curl integral.
-Repeated traversal and self-intersection are allowed. -/
-theorem green_ac_winding {γ : ℝ → ℂ} {a b : ℝ} {U : Set ℂ} {P Q : ℂ → ℝ}
-    (hab : a < b) (hγ : AbsolutelyContinuousOnInterval γ a b) (hclosed : γ a = γ b)
-    (hU : IsOpen U) (htrace : γ '' uIcc a b ⊆ U)
-    (hP : ContDiffOn ℝ 1 P U) (hQ : ContDiffOn ℝ 1 Q U)
-    (hindex : ∀ z ∉ U, TauCeti.Contour.windingNumber γ a b z = 0) :
-    IntervalIntegrable (circulationFun P Q γ) volume a b ∧
-      IntegrableOn (fun z ↦ windingWeight γ a b z * curl P Q z) U volume ∧
-      (∫ t in a..b, circulationFun P Q γ t) =
-        ∫ z in U, windingWeight γ a b z * curl P Q z :=
-  sorry
-
-/-- **Layer 5.6.3, HOL Light's strength**: index one on the bounded complementary region
-`filledHull K \ K` of the trace `K`, contained with the region in `U`. No simplicity, finite
-partition, nonzero speed, or compact support of the field is assumed; the flux form follows by
-replacing `(P, Q)` with `(−Y, X)`. -/
-theorem green_ac_index_one {γ : ℝ → ℂ} {a b : ℝ} {U : Set ℂ} {P Q : ℂ → ℝ}
-    (hab : a < b) (hγ : AbsolutelyContinuousOnInterval γ a b) (hclosed : γ a = γ b)
-    (hU : IsOpen U) (hregion : TauCeti.filledHull (γ '' uIcc a b) ⊆ U)
-    (hP : ContDiffOn ℝ 1 P U) (hQ : ContDiffOn ℝ 1 Q U)
-    (hindex : ∀ z ∈ TauCeti.filledHull (γ '' uIcc a b) \ (γ '' uIcc a b),
-      TauCeti.Contour.windingNumber γ a b z = 1) :
-    IntervalIntegrable (circulationFun P Q γ) volume a b ∧
-      IntegrableOn (curl P Q) (TauCeti.filledHull (γ '' uIcc a b) \ (γ '' uIcc a b)) volume ∧
-      (∫ t in a..b, circulationFun P Q γ t) =
-        ∫ z in TauCeti.filledHull (γ '' uIcc a b) \ (γ '' uIcc a b), curl P Q z :=
-  sorry
-
 end
 
 end Green
@@ -1452,20 +1223,6 @@ end HairyBall
 
 /-! ## Layer 12: Riemannian metrics and the Laplace–Beltrami operator -/
 
-section RiemannianExistence
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
-  [ChartedSpace H M]
-
-/-- **Layer 12.1.** Every T2 σ-compact finite-dimensional `C^∞` manifold admits a `C^∞`
-Riemannian metric [Lee, Prop. 13.3]. -/
-theorem nonempty_contMDiffRiemannianMetric [T2Space M] [SigmaCompactSpace M] [IsManifold I ∞ M] :
-    Nonempty (ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x)) :=
-  sorry
-
-end RiemannianExistence
-
 section Riemannian
 
 variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
@@ -1500,54 +1257,11 @@ noncomputable def hessian (I : ModelWithCorners ℝ E H) {M : Type*} [Topologica
     (f : M → ℝ) (x : M) (v w : TangentSpace I x) : ℝ :=
   ⟪CovariantDerivative.leviCivitaConnection I M (mgradient I f) x v, w⟫_ℝ
 
-/-- **Layer 12.3.** Symmetry of the Hessian of a smooth function, from torsion-freeness of the
-Levi-Civita connection. -/
-theorem hessian_symm [IsManifold I ∞ M] [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    {f : M → ℝ} (hf : ContMDiff I 𝓘(ℝ) ∞ f) (x : M) (v w : TangentSpace I x) :
-    hessian I f x v w = hessian I f x w v :=
-  sorry
-
 /-- **Layer 12.3.** The Laplace–Beltrami operator, `Δ f = div (grad f)` — this repository's sign. -/
 noncomputable def laplaceBeltrami (I : ModelWithCorners ℝ E H) {M : Type*} [TopologicalSpace M]
     [ChartedSpace H M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)] [IsManifold I 2 M]
     [IsContMDiffRiemannianBundle I 1 E (fun x : M ↦ TangentSpace I x)] (f : M → ℝ) (x : M) : ℝ :=
   divergence I (mgradient I f) x
-
-/-- **Layer 12.5, the divergence theorem on boundaryless `M`** [Lee, Thm. 16.32]: a compactly
-supported smooth field has divergence of integral zero for the Riemannian volume. The
-smooth-boundary theorem is `integral_divergence_eq_boundaryFlux` below. -/
-theorem integral_divergence_eq_zero [MeasurableSpace M] [BorelSpace M] [T2Space M]
-    [SigmaCompactSpace M] [BoundarylessManifold I M] [IsManifold I ∞ M]
-    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
-    {X : (x : M) → TangentSpace I x}
-    (hX : ContMDiff I I.tangent ∞ (fun y ↦ (⟨y, X y⟩ : TangentBundle I M)))
-    {K : Set M} (hK : IsCompact K) (hXK : ∀ x ∉ K, X x = 0) :
-    ∫ x, divergence I X x ∂TauCeti.riemannianVolume I M = 0 :=
-  sorry
-
-/-- **Layer 12.5, Green's first identity** on boundaryless `M`, for `f` compactly supported:
-`∫ f Δg = −∫ ⟪grad f, grad g⟫`. -/
-theorem integral_mul_laplaceBeltrami [MeasurableSpace M] [BorelSpace M] [T2Space M]
-    [SigmaCompactSpace M] [BoundarylessManifold I M] [IsManifold I ∞ M]
-    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] {f g : M → ℝ}
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f) (hg : ContMDiff I 𝓘(ℝ) ∞ g) (hfc : HasCompactSupport f) :
-    ∫ x, f x * laplaceBeltrami I g x ∂TauCeti.riemannianVolume I M =
-      -∫ x, ⟪mgradient I f x, mgradient I g x⟫_ℝ ∂TauCeti.riemannianVolume I M :=
-  sorry
-
-/-- **Layer 12.5, Green's second identity** on boundaryless `M`, for `f` and `g` compactly
-supported: `Δ` is symmetric for the Riemannian volume. -/
-theorem integral_laplaceBeltrami_symm [MeasurableSpace M] [BorelSpace M] [T2Space M]
-    [SigmaCompactSpace M] [BoundarylessManifold I M] [IsManifold I ∞ M]
-    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
-    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] {f g : M → ℝ}
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f) (hg : ContMDiff I 𝓘(ℝ) ∞ g) (hfc : HasCompactSupport f)
-    (hgc : HasCompactSupport g) :
-    ∫ x, f x * laplaceBeltrami I g x ∂TauCeti.riemannianVolume I M =
-      ∫ x, laplaceBeltrami I f x * g x ∂TauCeti.riemannianVolume I M :=
-  sorry
 
 end Riemannian
 
