@@ -498,7 +498,7 @@ the base, the algebra and the indexing category) with `flat`, `baseChange`, `loc
 nonempty directed preorder), `Ideal.henselianRing_radical`, `Ideal.henselianRing_of_le`
 (`TauCeti/RingTheory/Henselian/`); and the declarations cited by name, file and
 line in §§0.1–0.5, 0.7, 0.10, 0.16–0.18, 0.20, 0.21, 0.23, 0.24, 0.27, 0.29, 0.30, 1.1, 1.3, 2.1, 2.3,
-2.5, 2.6, 2.9, 2.17, 3.1, 3.3, 4.1, 4.11, 4.13 and 5.1,
+2.5, 2.6, 2.9, 2.17, 3.1, 3.2, 3.3, 4.1, 4.11, 4.13 and 5.1,
 with the hypotheses stated there. In particular, scheme Frobenius takes characteristic `p` as
 `(p : Γ(X, ⊤)) = 0` with `[Fact p.Prime]` and has absolute and relative maps with distinct codomains;
 normality is stalkwise; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the
@@ -4744,7 +4744,9 @@ and 53.22.2 (0E3B)); `deg L ≥ g` gives an effective divisor `D` with `L ≅ O(
 `TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/RiemannRoch/Basic.lean:181`). Tau Ceti's global
 generation `InvertibleSheaf.isGloballyGenerated_of_smooth_of_two_mul_genus_le_eulerDegree`
 (`TauCeti/AlgebraicGeometry/Curves/GlobalGeneration.lean:48`) assumes `k` algebraically closed; the
-target differs from it by allowing every field. *Needs:* §3.1, §3.3; StableReduction
+target differs from it by allowing every field. *Needs:* §3.1, §3.3; Tau Ceti
+`InvertibleSheaf.eulerDegree` and `Curves/HighDegree.lean` `:73`, `:88` (for the degree bounds, applied
+to `I_Z ⊗ L` with `I_Z` the invertible ideal of a `0`-dimensional `Z ⊂ X`); StableReduction
 Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
 
 **Checks.**
@@ -4770,8 +4772,8 @@ Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
 *Lean:* `Curve.genus_of_finite_etale` (the finite étale case of `scheme_riemann_hurwitz`).
 *genus_one_curves* is specified in this README only; its rational-point consequence for divisors is
 Tau Ceti's `SchemeWeilDivisor.exists_linearlyEquivalent_ofPoint_of_genus_eq_one`. Citations of
-*Curve.cohomologyDim_one_eq_zero_of_degree_gt* (the case `deg L > 2g − 2` of
-`lineBundle_degree_bounds`) to §3.2 resolve to Tau Ceti's
+*Curve.cohomologyDim_one_eq_zero_of_degree_gt* (the vanishing `H¹(L) = 0` and
+`h⁰(L) = deg L + 1 − g` for `deg L > 2g − 2`) to §3.2 resolve to Tau Ceti's
 `InvertibleSheaf.subsingleton_cohomology_one_of_smooth_of_two_mul_genus_sub_two_lt_eulerDegree` and
 `InvertibleSheaf.finrank_cohomology_zero_eq_eulerDegree_add_one_sub_genus_of_smooth`
 (`TauCeti/AlgebraicGeometry/Curves/HighDegree.lean:73`, `:88`).
@@ -4788,7 +4790,9 @@ Lemma 0AYS; Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_
 `H¹(E₁)`, `H⁰(E₂)`, `H¹(E₂)` and `H²(E₁) = 0`, and
 `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact_of_isCurveOver` (`:168`) on integral curves
 whose codimension-one local rings are discrete valuation rings, so the target is the discharge of
-those hypotheses on a proper `X` of dimension `≤ 1` by §2.5's vanishing and §2.6's finiteness),
+those hypotheses on a proper `X` of dimension `≤ 1` by §2.6: `proper_fibreDimension_vanishing` for
+`X → Spec k` with `d = 1` gives `H²(E₁) = 0`, and the finiteness of coherent cohomology over `k`
+cited there gives the finite-dimensionality),
 `_tensor` (`deg(E ⊗ V) = r deg V + s deg E`; Lemma 0AYX),
 `_det` (`deg E = deg det E` with AlgebraicVectorBundles L0C's `determinant`; Lemma 0DJ5), `_dual`
 (`deg E^∨ = −deg E`), `_twist` (by an effective Cartier divisor `D`: `deg E(D) = deg E + r deg D`),
@@ -4817,7 +4821,8 @@ by tensor–Hom adjunction and the dualizing-module formula. Also `ω_X ≅ Ω¹
 Ceti's `nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual`, and this target differs by
 allowing coherent sheaves, the `Ext` form and Cohen–Macaulay singular curves. *Needs:* §2.6, §2.20;
 AlgebraicVectorBundles L0B–L0C; Tau Ceti `eulerCharBelow`,
-`finrank_cohomology_zero_sub_one_eq_add`, `InvertibleSheaf.eulerDegree`; JacobianChallenge Layers
+`finrank_cohomology_zero_sub_one_eq_add`, `InvertibleSheaf.eulerDegree`,
+`FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact`; JacobianChallenge Layers
 A–B; StableReduction Layer 2.
 
 **Checks.**
