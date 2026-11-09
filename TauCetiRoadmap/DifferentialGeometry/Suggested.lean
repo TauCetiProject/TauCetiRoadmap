@@ -44,7 +44,9 @@ time-dependent flow on the time slab `ℝ` (3.5), the outward field, the outward
 orientation, the closed ball with its boundary sphere and radial field, the integral of top forms
 with its chart formula, linearity, orientation sign, positivity and change of variables, and
 Stokes' theorem for the half-space with its boundaryless and interval cases (5.1–5.3), the
-homotopy operator with its cochain-homotopy identity (5.4), the index calculus of absolutely
+homotopy operator with its cochain-homotopy identity (5.4), the insertion of a vector field in a
+form with its pullback law and its antiderivation law `TauCeti.RoughForm.interior_wedgeWith_apply`
+on the paired wedge (5.4a, the case of the identity map), the index calculus of absolutely
 continuous curves, the one-cell identities on vertical and horizontal cells, Green's theorem for
 finite type-I/type-II divisions with Henstock–Kurzweil boundary integrals, the winding-weighted
 polygonal identity and Green's theorem for absolutely continuous cycles (5.6.1–5.6.3), the
@@ -75,15 +77,15 @@ the de Rham homomorphism on smooth singular chains, a cochain map whose well-def
 Stokes for chains (8.4) (singular cohomology with real coefficients is
 `TauCeti.singularCohomologyFunctor` over `ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`); the
 homotopy invariance of the degree (10.5) lacks the degree as one integer, whose independence of
-the regular value is 10.4. Four further headlines are stated in the README on Tau Ceti carriers
-that the Tau Ceti revision this file is built against does not contain, and are stated here once
-the build is against the revision of the README's *From Tau Ceti* contract: the triviality of the
-orientation double cover of an orientable manifold and the commutation of `d` with the averaging
-operators (2.4, on `TauCeti.Manifold.OrientationCover` and `TauCeti.invariantPart`), the
-top-cohomology theorem and Poincaré duality (9.2–9.3, on
-`TauCeti.compactlySupportedDeRhamCohomology.integral` and `TauCeti.poincarePairing`), and the
-degree formula `∫_M f^*ω = deg f · ∫_N ω` (10.3–10.4, on `TauCeti.integralTopForm` and
-`TauCeti.degreeAtRegularValue`).
+the regular value is 10.4. Four further headlines are not statable against the Tau Ceti
+modules this file can import, each for want of the carriers its README statement names: the
+triviality of the orientation double cover of an orientable manifold and the commutation of `d`
+with the averaging operators (2.4) lack `TauCeti.Manifold.OrientationCover` and
+`TauCeti.invariantPart`; the top-cohomology theorem and Poincaré duality (9.2–9.3) lack
+`TauCeti.compactlySupportedDeRhamCohomology.integral` and `TauCeti.poincarePairing`; the degree
+formula `∫_M f^*ω = deg f · ∫_N ω` (10.3–10.4) lacks `TauCeti.integralTopForm` and
+`TauCeti.degreeAtRegularValue`. For the same reason the integral manifold of layer 4 is declared
+here with the fields of `TauCeti.IntegralManifold` and is not that structure.
 
 The definitions `closedForms`, `toFlow`, `fullSimplex`, `fullSimplexEquivStdSimplex`, `Density`,
 `RoughDensity`, `CurvatureForm`, `circleAngularForm` and `Manifold.Orientation.pullback` are the
@@ -775,23 +777,26 @@ namespace Distribution
 
 variable (I n) in
 /-- **Layer 4.2.** A packaged `k`-dimensional integral manifold of the tangent-subspace family
-`D`: a `C^n` manifold carrier modelled on `ℝ^k`, with its own topology (not the subspace topology
-of its image), and a `C^n` immersion into `M` whose differential has image exactly `D` at every
-point. The immersion need not be injective; injectivity, connectedness and second countability
-are hypotheses or conclusions where they are used. Regularity and involutivity of `D` are Tau
-Ceti's `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`. -/
+`D`: a nonempty `C^n` manifold carrier modelled on `ℝ^k`, with its own topology (not the subspace
+topology of its image), and a `C^n` immersion into `M` whose differential has image exactly `D` at
+every point. The immersion need not be injective; injectivity, connectedness and second
+countability are hypotheses or conclusions where they are used. The fields, with their names, are
+those of Tau Ceti's `TauCeti.IntegralManifold`, on which the theorems of this layer are proved.
+Regularity and involutivity of `D` are Tau Ceti's `TauCeti.IsContMDiffDistribution` and
+`TauCeti.IsInvolutiveDistribution`. -/
 structure IntegralManifold (D : (x : M) → Submodule ℝ (TangentSpace I x)) (k : ℕ) where
   carrier : Type u
   [topologicalSpace : TopologicalSpace carrier]
   [chartedSpace : ChartedSpace (EuclideanSpace ℝ (Fin k)) carrier]
   [isManifold : IsManifold (𝓡 k) n carrier]
-  inclusion : carrier → M
-  isImmersion : Manifold.IsImmersion (𝓡 k) I n inclusion
+  [nonempty : Nonempty carrier]
+  map : carrier → M
+  isImmersion : Manifold.IsImmersion (𝓡 k) I n map
   range_mfderiv : ∀ y,
-    LinearMap.range (mfderiv (𝓡 k) I inclusion y).toLinearMap = D (inclusion y)
+    LinearMap.range (mfderiv (𝓡 k) I map y).toLinearMap = D (map y)
 
 attribute [instance] IntegralManifold.topologicalSpace
-  IntegralManifold.chartedSpace IntegralManifold.isManifold
+  IntegralManifold.chartedSpace IntegralManifold.isManifold IntegralManifold.nonempty
 
 /-- **Layer 4.2.** A smooth rank-`k` distribution with a smooth integral
 manifold through every point is involutive, in Tau Ceti's local sense (brackets of fields that are
@@ -801,7 +806,7 @@ theorem isInvolutive_of_forall_exists_integralManifold
     [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     {D : (x : M) → Submodule ℝ (TangentSpace I x)}
     (hD : TauCeti.IsContMDiffDistribution I ∞ k D)
-    (h : ∀ x : M, ∃ N : IntegralManifold I ∞ D k, x ∈ range N.inclusion) :
+    (h : ∀ x : M, ∃ N : IntegralManifold I ∞ D k, x ∈ range N.map) :
     TauCeti.IsInvolutiveDistribution I D :=
   sorry
 
@@ -845,9 +850,9 @@ theorem exists_isSliceChart_integralManifold
     (hD : TauCeti.IsContMDiffDistribution I ∞ k D) (hInv : TauCeti.IsInvolutiveDistribution I D)
     (x : M) :
     ∃ (N : IntegralManifold I ∞ D k) (e : OpenPartialHomeomorph M E) (P : AffineSubspace ℝ E),
-      x ∈ range N.inclusion ∧ x ∈ e.source ∧ Module.finrank ℝ P.direction = k ∧
+      x ∈ range N.map ∧ x ∈ e.source ∧ Module.finrank ℝ P.direction = k ∧
       ContMDiffOn I 𝓘(ℝ, E) ∞ e e.source ∧ ContMDiffOn 𝓘(ℝ, E) I ∞ e.symm e.target ∧
-      TauCeti.IsSliceChart e (P : Set E) (range N.inclusion) :=
+      TauCeti.IsSliceChart e (P : Set E) (range N.map) :=
   sorry
 
 /-- **Layer 4.3, weak embeddedness.** A smooth map from a finite-dimensional
@@ -857,7 +862,7 @@ it. -/
 theorem exists_contMDiff_factor [IsManifold I ∞ M]
     [BoundarylessManifold I M] [T2Space M] {D : (x : M) → Submodule ℝ (TangentSpace I x)}
     (hD : TauCeti.IsContMDiffDistribution I ∞ k D) (hInv : TauCeti.IsInvolutiveDistribution I D)
-    (N : IntegralManifold I ∞ D k) (hinj : Function.Injective N.inclusion)
+    (N : IntegralManifold I ∞ D k) (hinj : Function.Injective N.map)
     [SecondCountableTopology N.carrier]
     {E' H' P : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
     [FiniteDimensional ℝ E'] [TopologicalSpace H']
@@ -865,9 +870,9 @@ theorem exists_contMDiff_factor [IsManifold I ∞ M]
     [ChartedSpace H' P] [IsManifold J ∞ P]
     [BoundarylessManifold J P] [T2Space P] [SecondCountableTopology P]
     {f : P → M} (hf : ContMDiff J I ∞ f)
-    (hrange : range f ⊆ range N.inclusion) :
+    (hrange : range f ⊆ range N.map) :
     ∃ g : P → N.carrier, ContMDiff J (𝓡 k) ∞ g ∧
-      N.inclusion ∘ g = f :=
+      N.map ∘ g = f :=
   sorry
 
 /-- **Layer 4.4, global leaves** [Lee, Thm. 19.21]: through every point of a smooth Hausdorff
@@ -880,11 +885,11 @@ theorem exists_leaf [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     {D : (x : M) → Submodule ℝ (TangentSpace I x)}
     (hD : TauCeti.IsContMDiffDistribution I ∞ k D) (hInv : TauCeti.IsInvolutiveDistribution I D)
     (x : M) :
-    ∃ N : IntegralManifold I ∞ D k, x ∈ range N.inclusion ∧ ConnectedSpace N.carrier ∧
-      Function.Injective N.inclusion ∧
+    ∃ N : IntegralManifold I ∞ D k, x ∈ range N.map ∧ ConnectedSpace N.carrier ∧
+      Function.Injective N.map ∧
       (∀ N' : IntegralManifold I ∞ D k, ConnectedSpace N'.carrier →
-        (range N'.inclusion ∩ range N.inclusion).Nonempty →
-          range N'.inclusion ⊆ range N.inclusion) ∧
+        (range N'.map ∩ range N.map).Nonempty →
+          range N'.map ⊆ range N.map) ∧
       (SecondCountableTopology M → SecondCountableTopology N.carrier) :=
   sorry
 

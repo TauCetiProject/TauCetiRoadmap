@@ -548,7 +548,42 @@ parallel distribution or involutivity theory. `Suggested.lean` states layer 4
 on these predicates directly and adds only the bundled integral manifold. The pinned files are
 `TauCeti/Geometry/Manifold/Distribution.lean`,
 `TauCeti/Geometry/Manifold/Foliation/Basic.lean` and
-`TauCeti/Geometry/Manifold/Distribution/Graph.lean`.
+`TauCeti/Geometry/Manifold/Distribution/Graph.lean`, together with, under
+`TauCeti/Geometry/Manifold/`:
+
+- `Distribution/IntegralManifold.lean`: the unbundled predicate `TauCeti.IsIntegralManifold`
+  (nonempty source, `C^n` immersion, range of the differential equal to the fibre of `D`) with
+  `TauCeti.IsIntegralManifold.isImmersion`, `TauCeti.IsIntegralManifold.range_mfderiv`,
+  `TauCeti.IsIntegralManifold.finrank_model_eq` and `TauCeti.isIntegralManifold_id`, and the
+  bundled `TauCeti.IntegralManifold` with carrier modelled on `ℝ^k`;
+- `Distribution/Diffeomorph.lean`: transport through a diffeomorphism,
+  `TauCeti.IsDistributionFrameOn.comap_mfderivWithin`, `TauCeti.IsDistributionFrameOn.comap_mfderiv`
+  and `TauCeti.IsContMDiffDistribution.comap_mfderiv` (a `C^m` distribution pulls back through a
+  `C^n` diffeomorphism to a `C^m` distribution of the same rank when `m + 1 ≤ n`), and
+  `TauCeti.IsInvolutiveDistribution.diffeomorph` (a `C²` diffeomorphism whose differential
+  identifies two distributions carries involutivity across);
+- `Distribution/Annihilator.lean`: `TauCeti.IsContMDiffDistribution.exists_local_annihilator`
+  (a `C^n` distribution of corank one on a `C^(n+1)` finite-dimensional manifold is, near each
+  point, the kernel of a nowhere-zero `C^n` covector field);
+- `Distribution/Splitting.lean`: `TauCeti.IsContMDiffDistribution.exists_splitCoordinates` (on a
+  finite-dimensional normed space, linear product coordinates `D_p × T` at a chosen point `p` in
+  which the fibre at `p` is the horizontal factor, keeping rank, regularity and involutivity);
+- `Distribution/Transverse.lean`:
+  `TauCeti.IsContMDiffDistribution.exists_eventually_eq_graphDistribution` (a distribution on
+  `E × F` of rank `dim E` transverse to `0 × F` at a point is a graph distribution near it) and
+  `TauCeti.IsInvolutiveDistribution.exists_eventually_eq_graph_fderiv` (if it is also involutive
+  and `C^(n+1)`, the graph of a `C^(n+1)` function through the point is tangent to it);
+- `Foliation/Leaf.lean`: the leaf `TauCeti.Foliation.leaf` of a foliation as a set (the points
+  joined to `x` by finite chains of `C¹` curves tangent to the foliation), with
+  `TauCeti.Foliation.mem_leaf_self`, the partition laws `TauCeti.Foliation.leaf_eq_leaf_iff` and
+  `TauCeti.Foliation.disjoint_leaf_iff`, `TauCeti.Foliation.isPathConnected_leaf` and the
+  constant case `TauCeti.Foliation.leaf_ofSubmodule` (the leaf through `x` is `x + S`). It carries
+  no manifold structure on the leaf; that is 4.4's;
+- `DifferentialForm/Interior.lean` and `DifferentialForm/Wedge/Interior.lean`: the insertion of a
+  vector field in the first slot `TauCeti.RoughForm.interior`, its pullback law for related
+  fields `TauCeti.mpullback_interior`, and its antiderivation law on the paired wedge of two forms
+  of positive degree `TauCeti.RoughForm.interior_wedgeWith_apply`; 5.4a's contraction along a map
+  extends them.
 
 Layer 12.2 consumes the Riemannian gradient `TauCeti.Manifold.mgradient`, built on the pinned
 fibrewise Riesz isometry `Riemannian.Tensor.rieszDual`
@@ -1254,7 +1289,7 @@ Geometric Topology.
   the straightening theorem `exists_chart_mfderiv_eq_const` [Lee, Thm. 9.22], the
   flow characterization of the bracket `hasDerivAt_mpullback_flowOf` [Lee, Thm. 9.38], commuting
   flows and the canonical form for commuting fields [Lee, Thm. 9.44, 9.46], and Lie derivatives of
-  forms via flows [Lee, Thm. 12.37]: for a complete `C²` field `Z` on a boundaryless
+  forms via flows [Lee, Prop. 12.36]: for a complete `C²` field `Z` on a boundaryless
   finite-dimensional Hausdorff `C²` manifold and a form `α` differentiable at `ψ_t x`, the
   curve `s ↦ (ψ_s^*α)_x` has derivative `(ψ_t^* L_Z α)_x` at `t`, which is Tau Ceti's
   `TauCeti.hasDerivAt_mpullback_globalFlow` (`DifferentialForm/Flow.lean`) on its
@@ -1346,38 +1381,76 @@ involutivity or foliation implementation.
 
 The existing implementation is in
 `TauCeti/Geometry/Manifold/Distribution.lean`,
-`TauCeti/Geometry/Manifold/Foliation/Basic.lean`, and
-`TauCeti/Geometry/Manifold/Distribution/Graph.lean`. The last file already
+`TauCeti/Geometry/Manifold/Foliation/Basic.lean`,
+`TauCeti/Geometry/Manifold/Foliation/Leaf.lean`,
+`TauCeti/Geometry/Manifold/Distribution/Graph.lean` and, in the same directory,
+`IntegralManifold.lean`, `Diffeomorph.lean`, `Splitting.lean`, `Annihilator.lean` and
+`Transverse.lean`. `Graph.lean` already
 provides graph distributions, their involutivity criterion, and the local
 integral-graph theorem
 `TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt`, using
-`TauCeti/Analysis/ODE/Frobenius.lean`. These are consumed, not scheduled again.
+`TauCeti/Analysis/ODE/Frobenius.lean`; the other files provide integral manifolds, transport
+through diffeomorphisms, split linear coordinates, the corank-one local annihilator, the
+reduction of a transverse distribution to a graph distribution, and the leaf of a foliation as a
+set with its partition laws (*From Tau Ceti* lists the declarations). These are consumed, not
+scheduled again.
 
 Every headline of this layer takes the family `D` with the hypotheses
 `TauCeti.IsContMDiffDistribution I ∞ k D` (rank `k`, smooth local frames) and,
 where needed, `TauCeti.IsInvolutiveDistribution I D`, and concludes the latter
-where involutivity is the conclusion. The only definition `Suggested.lean`
-adds is the bundled integral manifold `Distribution.IntegralManifold` of 4.2.
-Tau Ceti's bundle is
-`TauCeti.IntegralManifold` (`Geometry/Manifold/Distribution/IntegralManifold.lean`),
-which also asks for a nonempty carrier; the declaration of `Suggested.lean` is
-that target's signature, never a second definition.
+where involutivity is the conclusion. The bundled integral manifold of 4.2 is Tau Ceti's
+`TauCeti.IntegralManifold` (`Geometry/Manifold/Distribution/IntegralManifold.lean`): a nonempty
+carrier with its own topology, charts on `ℝ^k` and `C^n` manifold structure, a map into `M`, and
+the two facts that the map is a `C^n` immersion and that its differential has range the fibre of
+`D` at every point. `Distribution.IntegralManifold`, the only definition `Suggested.lean` has in
+this layer, repeats that structure field for field, under the same field names, so that the six
+statements below read verbatim on `TauCeti.IntegralManifold`; the library keeps one structure,
+Tau Ceti's, and the theorems are proved for it.
 
 - **4.1 Distributions and frames.** Consume the existing rank, frame,
-  regularity, constant-distribution and contact-distribution APIs. Add the
-  restriction, coordinate-transport and annihilator lemmas needed by the
-  remaining geometry to those APIs. A frame is a basis of the distribution
+  regularity, constant-distribution and contact-distribution APIs. Coordinate transport is Tau
+  Ceti's: `TauCeti.IsDistributionFrameOn.comap_mfderivWithin` (frames, through partial
+  coordinates), `TauCeti.IsContMDiffDistribution.comap_mfderiv` (regularity and rank, through a
+  `C^n` diffeomorphism, for a `C^m` distribution with `m + 1 ≤ n`) and
+  `TauCeti.IsInvolutiveDistribution.diffeomorph` (involutivity, through a `C²` diffeomorphism
+  whose differential identifies the two distributions). The local annihilator in corank one is
+  `TauCeti.IsContMDiffDistribution.exists_local_annihilator`. Two statements remain targets.
+  Restriction: for an open `U ⊆ M`, the family `x ↦ D x` on `U` (through the identification of
+  the tangent spaces of `U` with those of `M`) is a `C^n` distribution of rank `k` when `D` is,
+  and is involutive when `D` is. Local annihilating coframes in any corank: a `C^n` distribution
+  of rank `k` on a `C^(n+1)` manifold with model of dimension `d` is, near each point, the common
+  kernel of `d − k` covector fields of class `C^n` that are linearly independent at every point
+  of the neighbourhood ([Lee, Lemma 19.5] for smooth `D`; the dual coframe of a `C^n` frame
+  completing a frame of `D` gives the `C^n` case); for `d − k = 1` this is the library statement, and 4.2's
+  criterion uses it in every corank. A frame is a basis of the distribution
   fiber, not just a list of tangent vectors. Existing results are not new
   completion targets. *Needs:* Tau Ceti's `TauCeti.IsDistributionFrameOn`,
   `TauCeti.IsContMDiffDistribution` and `TauCeti.standardContactDistribution`
-  (`Geometry/Manifold/Distribution.lean`).
+  (`Geometry/Manifold/Distribution.lean`), and the transport and annihilator declarations named
+  above (`Distribution/Diffeomorph.lean`, `Distribution/Annihilator.lean`).
+  **Checks.**
+  - Restriction, rank: the constant family `span(e₁)` on `ℝ²` restricts to the open unit disc as
+    a rank-one distribution with frame `e₁`; on `U = ∅` the restriction is a distribution of every
+    rank, vacuously, as the library's pointwise definition gives for an empty manifold.
+  - Coframe count: on `ℝ³` the family `span(e₁)` is the common kernel of `dy` and `dz`
+    (`3 − 1 = 2` covectors); the single covector `dy` has kernel `span(e₁, e₃)`, of rank `2`, so
+    one covector does not suffice in corank two.
+  - Corank one agrees with the library: the contact family `ker(dz − y dx)` on `ℝ³` has rank `2`,
+    `d − k = 1`, and the coframe is the one nowhere-zero form `dz − y dx`.
+  - Degenerate ranks: for `k = d` the coframe is empty and its common kernel is the whole tangent
+    space; for `k = 0` it is a local coframe of the cotangent bundle, with common kernel `0`.
 
 - **4.2 Integral manifolds and involutivity.** An integral immersion has its
   own smooth `k`-dimensional manifold carrier and a smooth immersion into `M`
   whose differential has image exactly `D` at every point (the bundled data
   `Distribution.IntegralManifold`, over the family `D` itself; regularity and involutivity are
-  `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`). Define the
-  unbundled predicate and the bundled data, with their evaluation laws.
+  `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`). The
+  unbundled predicate and the bundled data are Tau Ceti's `TauCeti.IsIntegralManifold` and
+  `TauCeti.IntegralManifold`, with the evaluation laws `TauCeti.IsIntegralManifold.isImmersion`
+  and `TauCeti.IsIntegralManifold.range_mfderiv` and the dimension count
+  `TauCeti.IsIntegralManifold.finrank_model_eq`; both ask for a nonempty source, since the empty
+  map would otherwise be an integral manifold of every family. Nothing about them is planned
+  here.
   A parametrizing immersion need not be injective. Distinguish it from an
   injectively immersed integral submanifold.
 
@@ -1393,7 +1466,8 @@ that target's signature, never a second definition.
   global annihilating forms can be used through local bump extensions;
   they do not replace the local definition of involutivity. *Needs:* 4.1; Mathlib's
   `Manifold.IsImmersion`, `mlieBracket` and smooth bump functions; Tau Ceti's
-  `TauCeti.IsInvolutiveDistribution`; 0.3, 1.1 and 1.4's invariant formula `TauCeti.mextDeriv_apply_one`
+  `TauCeti.IsInvolutiveDistribution`, `TauCeti.IsIntegralManifold` and `TauCeti.IntegralManifold`
+  (`Distribution/IntegralManifold.lean`); 0.3, 1.1 and 1.4's invariant formula `TauCeti.mextDeriv_apply_one`
   for the annihilating-form criterion.
 
   **Checks.**
@@ -1410,6 +1484,11 @@ that target's signature, never a second definition.
   - Its own topology: the irrational line `t ↦ (t, αt)` on the torus `ℝ²/ℤ²` is an integral
     manifold of the constant-slope family with carrier `ℝ` and dense image; its image with the
     subspace topology is not a manifold, so a carrier given by the image would be wrong.
+  - Nonempty carrier: the empty map from the empty `k`-manifold satisfies the immersion and
+    range clauses for every family, the contact one included; with the nonempty field it is not
+    an integral manifold, and no headline changes, since each asks for a point of `M` in the
+    image or for a connected, hence nonempty, carrier, and the factorization of 4.3 through an
+    empty carrier would concern only maps from the empty manifold.
   - The hypotheses of the headlines: the constant family satisfies
     `TauCeti.IsContMDiffDistribution` at rank `k` with the constant frame, rank `0` being `⊥`
     with the empty frame and rank `dim E` being `⊤`; the family on `ℝ` that is `span(∂x)` off `0`
@@ -1430,10 +1509,14 @@ that target's signature, never a second definition.
   (`Distribution.exists_isSliceChart_integralManifold`: through each point an integral manifold
   and a smooth chart with values in the model space, smooth with smooth inverse, which carries
   the part of the integral manifold in its source onto the part of a `k`-dimensional affine
-  subspace in its target, in the sense of `TauCeti.IsSliceChart`). Transport the distribution into coordinates,
-  choose a complementary subspace, and express it locally as a graph
-  distribution. Reuse the existing graph-coordinate Frobenius theorem.
-  The remaining work includes the coordinate reduction and the transverse
+  subspace in its target, in the sense of `TauCeti.IsSliceChart`). The linear steps of the route
+  are Tau Ceti's, all in the flat model: `TauCeti.IsContMDiffDistribution.exists_splitCoordinates`
+  chooses the complementary subspace and the product coordinates,
+  `TauCeti.IsContMDiffDistribution.exists_eventually_eq_graphDistribution` expresses the
+  distribution near the point as a graph distribution, and
+  `TauCeti.IsInvolutiveDistribution.exists_eventually_eq_graph_fderiv` gives one integral graph
+  through the point. The target is what they do not give: the transport of `D` from `M` into
+  chart coordinates (by 4.1's transport laws) and the transverse
   parameter/local-diffeomorphism argument producing a flat chart; existence
   of one integral graph alone is not a flat-chart theorem. Connect the
   resulting slices to the existing `TauCeti.IsSliceChart` interface and
@@ -1446,6 +1529,10 @@ that target's signature, never a second definition.
   arbitrary parametrizing immersion or an uncountable discrete carrier. *Needs:* 4.1–4.2; 3.4's
   straightening theorem `exists_chart_mfderiv_eq_const` (rank one); Tau Ceti's
   `TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt` (`Distribution/Graph.lean`),
+  `TauCeti.IsContMDiffDistribution.exists_splitCoordinates` (`Distribution/Splitting.lean`),
+  `TauCeti.IsContMDiffDistribution.exists_eventually_eq_graphDistribution` and
+  `TauCeti.IsInvolutiveDistribution.exists_eventually_eq_graph_fderiv`
+  (`Distribution/Transverse.lean`),
   `TauCeti.IsSliceChart` (`LocallyFlat/Basic.lean`) and inverse function theorem
   `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; Mathlib's `AffineSubspace`.
   **Checks** (for the slice statement).
@@ -1467,13 +1554,28 @@ that target's signature, never a second definition.
   Hausdorff boundaryless manifold, for an involutive smooth distribution. Give it its own charted
   carrier, not the subspace topology on its image. Prove that it contains the specified
   point, is connected, has injective inclusion, and contains the image of every connected smooth
-  integral immersion meeting it (in particular of every one through the point). Prove that the
-  leaf images partition `M` (two leaves that meet contain each other) and that leaves are second
+  integral immersion meeting it (in particular of every one through the point). Prove that
+  leaves are second
   countable when `M` is second countable. `Distribution.exists_leaf` states existence with all
   these properties. Develop these results on the existing distribution and foliation
   interfaces. No boundaryless leaf through every boundary point is asserted: the full tangent
-  distribution on `[0, ∞)` rules that out. *Needs:* 4.2–4.3 (flat charts, slices and weak
-  embeddedness); Tau Ceti's `TauCeti.Foliation` (`Foliation/Basic.lean`).
+  distribution on `[0, ∞)` rules that out.
+
+  Comparison with the library's leaf. Tau Ceti's `TauCeti.Foliation.leaf` is a subset of `M`: the
+  points joined to `x` by a finite chain of curves that are `C¹` on `[0, 1]` and tangent to the
+  foliation. Prove that for a foliation `F : TauCeti.Foliation I ∞ M k` of a Hausdorff boundaryless
+  finite-dimensional smooth manifold, the image of the leaf of `F.distribution` through `x` is
+  `F.leaf x`. One inclusion joins two points of the connected carrier by a piecewise smooth path
+  and pushes it forward by the immersion, whose velocities lie in the range of the differential;
+  the other shows that a tangent `C¹` curve stays in one plaque of a flat chart of 4.3 for a short
+  time, so that the set of parameters at which it lies in the leaf is open and closed in `[0, 1]`.
+  The partition of `M` by leaf images (two leaves that meet contain each other) is then Tau Ceti's
+  `TauCeti.Foliation.leaf_eq_leaf_iff` and `TauCeti.Foliation.disjoint_leaf_iff`, and is not
+  proved a second time; what this section adds to the library's leaf is the manifold structure
+  on it, the maximality among connected integral manifolds and second countability.
+  *Needs:* 4.2–4.3 (flat charts, slices and weak
+  embeddedness); Tau Ceti's `TauCeti.Foliation` (`Foliation/Basic.lean`) and
+  `TauCeti.Foliation.leaf` with its partition laws (`Foliation/Leaf.lean`).
   **Checks.**
   - Rank zero: the leaves are the points of `M`; rank `dim M`: the leaves are the connected
     components with their manifold structure.
@@ -1482,6 +1584,15 @@ that target's signature, never a second definition.
     connected, so a leaf carried by its image would be wrong.
   - Maximality only among *connected* integral manifolds: a disjoint union of two plaques of
     different leaves is an integral manifold meeting a leaf without lying in it.
+  - The comparison, on the three cases above. Rank zero: a tangent curve has zero velocity and is
+    constant, so `F.leaf x = {x}`, the point leaf. Rank `dim M`: every `C¹` curve is tangent, so
+    `F.leaf x` is the `C¹`-path component of `x`, which in a manifold is its connected component.
+    Irrational slope on the torus: both are the dense line through `x`. For the constant family
+    `S` on a normed space the library computes `F.leaf x = x + S`
+    (`TauCeti.Foliation.leaf_ofSubmodule`), the affine slice of the acceptance examples.
+  - What the set forgets: on the torus the dense line, as a subset, has no manifold structure
+    making the inclusion an embedding, so `F.leaf x` alone does not give the carrier that weak
+    embeddedness and second countability are stated on.
 
 **Acceptance examples.** Constant distributions give affine slices. Reuse
 `TauCeti.standardContactDistribution` and its noninvolutivity theorem. To
@@ -1680,6 +1791,14 @@ stronger quantifier order.
   h:L→M and q:N→Q, prove the actual naturality equations
   `C_(p∘h,V∘h)ω=h*(C_(p,V)ω)` and
   `C_(p,V)(q*η)=C_(q∘p,dq∘V)η`.
+  For `p = id` the contraction `C_(id,V)` is Tau Ceti's insertion `TauCeti.RoughForm.interior`
+  of the field `V` (`DifferentialForm/Interior.lean`); for a map `f`, a field `Y` on the target
+  and an `f`-related field `X` on the source, the two naturality equations combine to
+  `f*(ι_Y ω) = ι_X(f*ω)`, which is `TauCeti.mpullback_interior`; and the wedge law below, for
+  `p = id` and both degrees positive, is `TauCeti.RoughForm.interior_wedgeWith_apply`
+  (`DifferentialForm/Wedge/Interior.lean`). The targets are the statements along a map `p` with a
+  section `V` of `p*TN` that need not come from a field, proved so that these three are their
+  specializations.
   Contraction of a zero-form is zero by convention; introduce no
   negative-degree form carrier. For ω of degree k and η of degree l with
   k+l≥1 and any fixed continuous bilinear coefficient pairing μ, prove
