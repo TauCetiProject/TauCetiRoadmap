@@ -1,482 +1,146 @@
 import Mathlib
+import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+import TauCeti.Analysis.Complex.Fuchsian.Compactification.Manifold
+import TauCeti.Analysis.Complex.Fuchsian.Covolume
+import TauCeti.Analysis.Complex.Fuchsian.Elliptic.Finite
 import TauCeti.Analysis.Complex.RiemannSurface.Degree
+import TauCeti.Analysis.Complex.RiemannSurface.Divisor.Basic
 import TauCeti.Analysis.Complex.RiemannSurface.Ramification
+import TauCeti.GroupTheory.GroupAction.Stabilizer.Basic
 
 /-!
 # Fuchsian groups and orbifold Riemann surfaces: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These declarations pin the effective projective action, the standard orbit
-quotient and free locus, invariant-function descent, primitive cusp data, the compactification
-carrier, and the native compact-Riemann-surface degree API.
+**This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`. This file
+states the roadmap's headline theorems that the pinned Tau Ceti does not already prove, each with
+`sorry`, against the pinned Mathlib and Tau Ceti, together with the one definition they need.
 
-Elliptic quotient charts and the topology and atlas on the displayed compactification carrier
-remain roadmap targets. They are specified in the markdown rather than represented by empty
-`Prop` wrappers.
+Headlines already proved at the Tau Ceti pin, and therefore not restated: the effective action of
+`PSL(2, ℝ)` on `ℍ` (`UpperHalfPlane.instMulActionPSL2`) and proper discontinuity of discrete
+subgroups; the Riemann-surface structure of the coarse quotient
+(`Subgroup.instIsManifoldOrbitRelQuotient`); Poincaré's polygon theorem and its converse
+(`TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.relatorQuotientTo_bijective_of_isParabolic`,
+`Subgroup.IsCofinite.exists_sidePairing_relatorQuotientTo_bijective`); hyperbolic triangle groups
+(`TauCeti.TriangleOrder.IsHyperbolic.exists_isCofinite_triangleGroup`); compactness and the
+analytic atlas of the cusp compactification (`Subgroup.IsCofinite.compactSpace_compactifiedQuotient`,
+`Subgroup.CompactifiedQuotient.instIsManifold`); the branched-cover Euler-characteristic formula
+(`TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`);
+and the biholomorphism `X(1) ≃ P¹` given by `j` (`TauCeti.ModularGroup.jBiholomorph`).
+
+Stated here: `χ = 2 − 2g` for compact connected Riemann surfaces, Riemann–Hurwitz in genus form,
+the orbifold area formula of a cofinite group in terms of the genus of its compactified quotient,
+and the minimal areas `π / 21` and `π / 3` with their equality cases. The Fuchsian Riemann–Hurwitz
+formula of Layer 5 item 6 is `riemannHurwitz` applied to Tau Ceti's
+`TauCeti.Fuchsian.compactifiedQuotientFiniteHolomorphicMap`, and is not restated. Every headline
+of the roadmap is statable at the pins; none is omitted for want of a carrier.
 -/
 
 namespace TauCetiRoadmap.FuchsianOrbifolds
 
-open MeasureTheory
-open Matrix MulAction
-open scoped ContDiff Manifold MatrixGroups UpperHalfPlane
+open MeasureTheory MulAction TauCeti
+open scoped MatrixGroups UpperHalfPlane Manifold Real
 
-private abbrev SL₂R := SL(2, ℝ)
-private abbrev PSL₂R := PSL(2, ℝ)
+/-! ## Layer 4: compactified quotient Riemann surfaces -/
 
-/-! ## Effective projective action -/
+/-- The compactified quotient `X(Γ) = (Γ \ ℍ) ⊔ {cusp orbits}`: the roadmap's name for Tau Ceti's
+carrier `Subgroup.CompactifiedQuotient`, under which the modular-forms roadmap imports it. -/
+abbrev CompactifiedQuotient (Γ : Subgroup PSL(2, ℝ)) : Type := Γ.CompactifiedQuotient
 
-/-- The Möbius action of `SL(2,R)` factors through its center. This named homomorphism is the
-canonical projective action; any `MulAction` and continuous-action instances are derived from it
-without exporting a competing action. -/
-noncomputable def pslAction : PSL₂R →* Equiv.Perm ℍ := by
-  sorry
-
-/-- The projective action factors the native special-linear Möbius action. -/
-@[simp] theorem pslAction_mk (g : SL₂R) (z : ℍ) :
-    pslAction (QuotientGroup.mk g) z = g • z := by
-  sorry
-
-/-- The projective Möbius action is effective. -/
-theorem pslAction_injective : Function.Injective pslAction := by
-  sorry
-
-/-- Every element of the projective group acts holomorphically on the upper half-plane. -/
-theorem pslAction_mdifferentiable (g : PSL₂R) : MDiff (pslAction g : ℍ → ℍ) := by
-  sorry
-
-/-- The effective action is jointly continuous. Its construction is the restriction of Mathlib's
-projective action along the canonical map `PSL(2,ℝ) → PGL(2,ℝ)`. -/
-theorem continuous_pslAction : Continuous fun p : PSL₂R × ℍ ↦ pslAction p.1 p.2 := by
-  sorry
-
-/-- Restrict the one canonical action to a subgroup; a Fuchsian input is the subgroup together
-with `[DiscreteTopology Γ]`, not a record duplicating either datum. -/
-@[instance_reducible]
-noncomputable def pslSubgroupMulAction (Γ : Subgroup PSL₂R) : MulAction Γ ℍ :=
-  MulAction.compHom ℍ (pslAction.comp Γ.subtype)
-
-@[simp] theorem pslSubgroup_smul (Γ : Subgroup PSL₂R) (g : Γ) (z : ℍ) :
-    letI := pslSubgroupMulAction Γ
-    g • z = pslAction g.val z := rfl
-
-/-- The effective projective action on the ideal boundary `P¹(R) = OnePoint R`. It is obtained
-from the projective action rather than by choosing matrix representatives. -/
-noncomputable def pslBoundaryAction : PSL₂R →* Equiv.Perm (OnePoint ℝ) := by
-  sorry
-
-/-- The boundary action factors the native general-linear action on the projective line. -/
-@[simp] theorem pslBoundaryAction_mk (g : SL₂R) (z : OnePoint ℝ) :
-    pslBoundaryAction (QuotientGroup.mk g) z = Matrix.SpecialLinearGroup.toGL g • z := by
-  sorry
-
-/-- Restriction of the canonical boundary action to a projective subgroup. -/
-@[instance_reducible]
-noncomputable def pslBoundarySubgroupMulAction (Γ : Subgroup PSL₂R) :
-    MulAction Γ (OnePoint ℝ) :=
-  MulAction.compHom (OnePoint ℝ) (pslBoundaryAction.comp Γ.subtype)
-
-@[simp] theorem pslBoundarySubgroup_smul (Γ : Subgroup PSL₂R) (g : Γ) (z : OnePoint ℝ) :
-    letI := pslBoundarySubgroupMulAction Γ
-    g • z = pslBoundaryAction g.val z := rfl
-
-/-- The trivial-stabilizer locus for the effective subgroup action. -/
-noncomputable def pslFreeLocus (Γ : Subgroup PSL₂R) : Set ℍ :=
-  letI := pslSubgroupMulAction Γ
-  {z | MulAction.stabilizer Γ z = ⊥}
-
-/-- Discreteness of a projective subgroup supplies proper discontinuity for its effective action. -/
-theorem properlyDiscontinuous_pslSubgroup (Γ : Subgroup PSL₂R) [DiscreteTopology Γ] :
-    letI := pslSubgroupMulAction Γ
-    ProperlyDiscontinuousSMul Γ ℍ := by
-  sorry
-
-/-- The roadmap consumes Mathlib's invariant measure rather than constructing another one. -/
-example : IsLocallyFiniteMeasure (volume : Measure ℍ) := inferInstance
-
-/-! ## Existing properly-discontinuous and free-locus anchors -/
-
-/-- Mathlib already proves proper discontinuity for every discrete subgroup of `SL(2,R)`.
-The roadmap proves the effective `PSL(2,R)` form and does not infer freeness from this result. -/
-example (Γ : Subgroup SL₂R) [DiscreteTopology Γ] : ProperlyDiscontinuousSMul Γ ℍ :=
+/-- The complex atlas of `X(Γ)` for a discrete `Γ`, made of the coarse-quotient charts and the
+`q`-coordinate charts at the cusps: Tau Ceti's `Subgroup.CompactifiedQuotient.instChartedSpace`,
+under the name the modular-forms roadmap imports. -/
+noncomputable abbrev compactifiedChartedSpace (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ] :
+    ChartedSpace ℂ (CompactifiedQuotient Γ) :=
   inferInstance
 
-/-- Proper discontinuity gives finite stabilizers, not trivial stabilizers. -/
-example (Γ : Subgroup SL₂R) [DiscreteTopology Γ] (z : ℍ) :
-    (MulAction.stabilizer Γ z : Set Γ).Finite :=
-  ProperlyDiscontinuousSMul.finite_stabilizer z
+/-! ## Layer 5: genus, Riemann–Hurwitz and the orbifold area formula -/
 
-/-- The ordinary quotient projection is a covering on exactly the trivial-stabilizer locus.
-Elliptic points are handled by the separate cyclic quotient chart of the roadmap. -/
-example (Γ : Subgroup SL₂R) [DiscreteTopology Γ] :
-    IsCoveringMapOn (Quotient.mk <| MulAction.orbitRel Γ ℍ) <|
-      (Quotient.mk <| MulAction.orbitRel Γ ℍ) ''
-        {z | MulAction.stabilizer Γ z = ⊥} :=
-  isCoveringMapOn_quotientMk_of_properlyDiscontinuousSMul
+/-- The **topological genus** of a space of finite CW type, read off its Euler characteristic
+through `χ = 2 − 2g`, that is `g = (2 − χ) / 2` truncated at `0`. For a compact connected Riemann
+surface `2 − χ` is a nonnegative even integer (`eulerChar_eq_two_sub_two_mul_genus`), so this is
+its genus: the sphere has `χ = 2` and genus `0`, the torus `χ = 0` and genus `1`. On spaces that
+are not closed orientable surfaces the value carries no meaning. -/
+noncomputable def genus (X : Type*) [TopologicalSpace X] [FiniteCWType X] : ℕ :=
+  ((2 - eulerChar X) / 2).toNat
 
-/-! ## Descent through the standard orbit quotient -/
-
-private abbrev OrbitQuotient (Γ : Type*) [Group Γ] [MulAction Γ ℍ] :=
-  MulAction.orbitRel.Quotient Γ ℍ
-
-/-- An invariant function descends through `MulAction.orbitRel.Quotient`; no quotient section is
-chosen. Holomorphic and meromorphic descent add the corresponding map-level hypotheses. -/
-def descendInvariant {Γ Y : Type*} [Group Γ] [MulAction Γ ℍ] (f : ℍ → Y)
-    (hf : ∀ (g : Γ) (z : ℍ), f (g • z) = f z) : OrbitQuotient Γ → Y :=
-  Quotient.lift f fun a b hab ↦ by
-    rcases hab with ⟨g, rfl⟩
-    exact hf g b
-
-@[simp]
-theorem descendInvariant_quotientMk {Γ Y : Type*} [Group Γ] [MulAction Γ ℍ]
-    (f : ℍ → Y) (hf : ∀ (g : Γ) (z : ℍ), f (g • z) = f z) (z : ℍ) :
-    descendInvariant f hf (Quotient.mk'' z) = f z :=
-  rfl
-
-/-! ## Choice-dependent cusp data and coordinates -/
-
-/-- Parabolicity in the effective projective group. The implementation is obtained by descending
-Mathlib's matrix classification and is independent of a lift to `SL(2,R)`. -/
-def IsParabolic (g : PSL₂R) : Prop :=
-  ∃ lift : SL₂R,
-    QuotientGroup.mk' (Subgroup.center SL₂R) lift = g ∧
-      (Matrix.SpecialLinearGroup.toGL lift).IsParabolic
-
-/-- A boundary point is a cusp when a nontrivial parabolic element of the subgroup fixes it. -/
-def IsCuspPoint (Γ : Subgroup PSL₂R) (c : OnePoint ℝ) : Prop :=
-  ∃ g : Γ, g ≠ 1 ∧ IsParabolic g ∧ pslBoundaryAction g c = c
-
-/-- The full subgroup stabilizer of a boundary point. -/
-noncomputable def cuspStabilizer (Γ : Subgroup PSL₂R) (c : OnePoint ℝ) : Subgroup Γ :=
-  letI := pslBoundarySubgroupMulAction Γ
-  MulAction.stabilizer Γ c
-
-/-- The orbit relation on the projective boundary for the effective subgroup action. -/
-noncomputable def boundaryOrbitRel (Γ : Subgroup PSL₂R) : Setoid (OnePoint ℝ) :=
-  letI := pslBoundarySubgroupMulAction Γ
-  MulAction.orbitRel Γ (OnePoint ℝ)
-
-/-- Boundary orbits before restricting to parabolic fixed points. -/
-abbrev BoundaryOrbit (Γ : Subgroup PSL₂R) := Quotient (boundaryOrbitRel Γ)
-
-/-- Being a cusp is invariant under the subgroup action and therefore descends to boundary
-orbits. -/
-def IsCuspOrbit (Γ : Subgroup PSL₂R) (C : BoundaryOrbit Γ) : Prop :=
-  ∃ c : OnePoint ℝ, IsCuspPoint Γ c ∧ Quotient.mk (boundaryOrbitRel Γ) c = C
-
-theorem isCuspOrbit_quotientMk {Γ : Subgroup PSL₂R} (c : OnePoint ℝ) :
-    IsCuspOrbit Γ (Quotient.mk (boundaryOrbitRel Γ) c) ↔ IsCuspPoint Γ c := by
+/-- **`χ = 2 − 2g`.** The Euler characteristic of a compact connected Riemann surface is
+`2 − 2g` for its genus `g`: the zeroth and second Betti numbers are `1` and the first is even
+(Miranda, Chapter II §4). -/
+theorem eulerChar_eq_two_sub_two_mul_genus (X : Type*) [TopologicalSpace X] [ChartedSpace ℂ X]
+    [IsManifold 𝓘(ℂ) 1 X] [T2Space X] [CompactSpace X] [ConnectedSpace X] [FiniteCWType X] :
+    eulerChar X = 2 - 2 * (genus X : ℤ) := by
   sorry
 
-/-- The actual cusp-orbit carrier adjoined in the compactification. -/
-abbrev CuspOrbit (Γ : Subgroup PSL₂R) := {C : BoundaryOrbit Γ // IsCuspOrbit Γ C}
-
-/-- Normalized data at an actual cusp representative. The selected element generates the full
-stabilizer, the scaling sends the cusp to infinity, and the generator becomes translation by the
-positive width. Thus a proper power of the primitive generator cannot masquerade as cusp data. -/
-structure CuspDatum (Γ : Subgroup PSL₂R) where
-  cusp : OnePoint ℝ
-  isCusp : IsCuspPoint Γ cusp
-  scaling : PSL₂R
-  scaling_cusp : pslBoundaryAction scaling cusp = OnePoint.infty
-  positiveGenerator : Γ
-  width : ℝ
-  width_pos : 0 < width
-  zpowers_generator : Subgroup.zpowers positiveGenerator = cuspStabilizer Γ cusp
-  conjugates_generator : ∀ z : ℍ,
-    pslAction scaling (pslAction positiveGenerator z) = width +ᵥ pslAction scaling z
-
-/-- The cusp orbit underlying normalized cusp data. -/
-noncomputable def CuspDatum.orbit {Γ : Subgroup PSL₂R} (D : CuspDatum Γ) : CuspOrbit Γ :=
-  ⟨Quotient.mk (boundaryOrbitRel Γ) D.cusp,
-    (isCuspOrbit_quotientMk (Γ := Γ) D.cusp).2 D.isCusp⟩
-
-/-- Membership in the full cusp stabilizer is exactly being an integral power of the selected
-positive generator. -/
-theorem CuspDatum.mem_stabilizer_iff {Γ : Subgroup PSL₂R} (D : CuspDatum Γ) (g : Γ) :
-    g ∈ cuspStabilizer Γ D.cusp ↔ ∃ n : ℤ, g = D.positiveGenerator ^ n := by
+/-- **The Riemann–Hurwitz formula.** For a finite holomorphic map `f : X → Y` of compact connected
+Riemann surfaces, `2g(X) − 2 = deg f · (2g(Y) − 2) + R(f)`, where `R(f) = Σₓ (eₓ − 1)` is the
+ramification degree (Forster, §17; Miranda, Chapter II §4). -/
+theorem riemannHurwitz {X Y : Type*} [TopologicalSpace X] [ChartedSpace ℂ X]
+    [IsManifold 𝓘(ℂ) 1 X] [T2Space X] [CompactSpace X] [ConnectedSpace X] [FiniteCWType X]
+    [TopologicalSpace Y] [ChartedSpace ℂ Y] [IsManifold 𝓘(ℂ) 1 Y] [T2Space Y] [CompactSpace Y]
+    [ConnectedSpace Y] [FiniteCWType Y] (f : RiemannSurface.FiniteHolomorphicMap X Y) :
+    2 * (genus X : ℤ) - 2 =
+      (RiemannSurface.degree f : ℤ) * (2 * (genus Y : ℤ) - 2) +
+        (RiemannSurface.ramificationDegree f : ℤ) := by
   sorry
 
-/-- After scaling, the full stabilizer is exactly the translation group `width * Z`; the selected
-generator corresponds to the positive translation `+width`. -/
-theorem CuspDatum.conjugates_stabilizer_iff {Γ : Subgroup PSL₂R} (D : CuspDatum Γ) (g : Γ) :
-    g ∈ cuspStabilizer Γ D.cusp ↔
-      ∃ n : ℤ, g = D.positiveGenerator ^ n ∧ ∀ z : ℍ,
-        pslAction D.scaling (pslAction g z) =
-          ((n : ℝ) * D.width) +ᵥ pslAction D.scaling z := by
+/-- **The orbifold area formula.** A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; s)`
+has covolume `2π (2g − 2 + Σᵢ (1 − 1 / mᵢ) + s)`, where `g` is the genus of the compactified
+quotient `X(Γ)`, the `mᵢ` are the stabilizer orders of the elliptic orbits and `s` is the number
+of cusp orbits (Beardon, §10.4; Katok, §4.3). -/
+theorem covolume_eq_two_pi_mul_signature (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
+    (hΓ : Γ.IsCofinite) [FiniteCWType (CompactifiedQuotient Γ)] :
+    covolume Γ ℍ = ENNReal.ofReal (2 * π * (2 * (genus (CompactifiedQuotient Γ) : ℝ) - 2 +
+      ∑ᶠ e ∈ Γ.ellipticOrbits, (1 - (cardStabilizerOnOrbit e : ℝ)⁻¹) +
+        Nat.card Γ.CuspOrbit)) := by
   sorry
 
-/-- The q-coordinate associated to a positive cusp width `w`. -/
-noncomputable def cuspCoordinate (w : ℝ) (z : ℍ) : ℂ :=
-  Complex.exp (2 * (Real.pi : ℂ) * Complex.I * (z : ℂ) / w)
+/-! ## Layer 4a: minimal areas of cofinite Fuchsian groups -/
 
-/-- Positive translation by the cusp width fixes the q-coordinate. -/
-theorem cuspCoordinate_vadd (w : ℝ) (hw : 0 < w) (z : ℍ) :
-    cuspCoordinate w (w +ᵥ z) = cuspCoordinate w z := by
+/-- **Siegel's lower bound.** Every cofinite Fuchsian group has covolume at least `π / 21`
+(Siegel 1945). -/
+theorem pi_div_twentyOne_le_covolume (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.IsCofinite) :
+    ENNReal.ofReal (π / 21) ≤ covolume Γ ℍ := by
   sorry
 
-/-- A cusp coordinate takes values in the punctured plane before compactification. -/
-theorem cuspCoordinate_ne_zero (w : ℝ) (z : ℍ) : cuspCoordinate w z ≠ 0 := by
-  exact Complex.exp_ne_zero _
-
-/-- The q-coordinate associated to all of the normalized cusp datum. -/
-noncomputable def CuspDatum.coordinate {Γ : Subgroup PSL₂R} (D : CuspDatum Γ) (z : ℍ) : ℂ :=
-  cuspCoordinate D.width (pslAction D.scaling z)
-
-/-- The q-coordinate descends under every element of the full cusp stabilizer, not only under the
-selected generator. -/
-theorem CuspDatum.coordinate_eq_of_mem_stabilizer {Γ : Subgroup PSL₂R} (D : CuspDatum Γ)
-    (g : Γ) (hg : g ∈ cuspStabilizer Γ D.cusp) (z : ℍ) :
-    D.coordinate (pslAction g z) = D.coordinate z := by
+/-- **The equality case of Siegel's bound.** A cofinite Fuchsian group has covolume `π / 21`
+exactly when its signature is `(0; 2, 3, 7)`: genus zero, no cusp, and one elliptic orbit of each
+order `2`, `3` and `7`. -/
+theorem covolume_eq_pi_div_twentyOne_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
+    (hΓ : Γ.IsCofinite) [FiniteCWType (CompactifiedQuotient Γ)] :
+    covolume Γ ℍ = ENNReal.ofReal (π / 21) ↔
+      genus (CompactifiedQuotient Γ) = 0 ∧ IsEmpty Γ.CuspOrbit ∧
+        ∀ m : ℕ, Nat.card {e // e ∈ Γ.ellipticOrbits ∧ cardStabilizerOnOrbit e = m} =
+          Multiset.count m {2, 3, 7} := by
   sorry
 
-/-- With the same cusp representative and selected positive generator, scaling the cusp chart
-by `a > 0` scales its translation width by `a`. -/
-theorem CuspDatum.width_change {Γ : Subgroup PSL₂R} (D D' : CuspDatum Γ)
-    (hcusp : D'.cusp = D.cusp) (hgen : D'.positiveGenerator = D.positiveGenerator)
-    (a b : ℝ) (ha : 0 < a)
-    (hscale : ∀ z : ℍ, (pslAction D'.scaling z : ℂ) =
-      a * (pslAction D.scaling z : ℂ) + b) :
-    D'.width = a * D.width := by
+/-- **The minimal area with a cusp.** A cofinite Fuchsian group with at least one cusp has
+covolume at least `π / 3`. -/
+theorem minimum_area_finite_area_orbifold (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.IsCofinite)
+    [Nonempty Γ.CuspOrbit] :
+    ENNReal.ofReal (π / 3) ≤ covolume Γ ℍ := by
   sorry
 
-/-- The width-change theorem is consumed here; the scaling relation is not assumed as data. -/
-theorem CuspDatum.coordinate_change {Γ : Subgroup PSL₂R} (D D' : CuspDatum Γ)
-    (hcusp : D'.cusp = D.cusp) (hgen : D'.positiveGenerator = D.positiveGenerator)
-    (a b : ℝ) (ha : 0 < a)
-    (hscale : ∀ z : ℍ, (pslAction D'.scaling z : ℂ) =
-      a * (pslAction D.scaling z : ℂ) + b) (z : ℍ) :
-    D'.coordinate z = Complex.exp (2 * Real.pi * Complex.I * b / (a * D.width)) *
-      D.coordinate z := by
-  have hwidth := D.width_change D' hcusp hgen a b ha hscale
+/-- **The equality case with a cusp.** A cofinite Fuchsian group with at least one cusp has
+covolume `π / 3` exactly when its signature is `(0; 2, 3; 1)`, that of `PSL(2, ℤ)`: genus zero,
+one cusp, and one elliptic orbit of each order `2` and `3`. -/
+theorem covolume_eq_pi_div_three_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
+    (hΓ : Γ.IsCofinite) [Nonempty Γ.CuspOrbit] [FiniteCWType (CompactifiedQuotient Γ)] :
+    covolume Γ ℍ = ENNReal.ofReal (π / 3) ↔
+      genus (CompactifiedQuotient Γ) = 0 ∧ Nat.card Γ.CuspOrbit = 1 ∧
+        ∀ m : ℕ, Nat.card {e // e ∈ Γ.ellipticOrbits ∧ cardStabilizerOnOrbit e = m} =
+          Multiset.count m {2, 3} := by
   sorry
-
-/-! ## Typed triangle parameters -/
-
-/-- A triangle vertex is either elliptic of a stated finite order or a cusp. -/
-inductive TriangleOrder where
-  | elliptic (m : ℕ) (hm : 2 ≤ m)
-  | cusp
-
-/-- The reciprocal contribution to the hyperbolic triangle inequality. -/
-noncomputable def TriangleOrder.reciprocal : TriangleOrder → ℝ
-  | .elliptic m _ => (m : ℝ)⁻¹
-  | .cusp => 0
-
-/-! ## Elliptic local coordinate anchor -/
-
-/-- The coordinate map for a cyclic stabilizer of order `m`. The roadmap proves that the full
-local orbit map is biholomorphically conjugate to this map. -/
-def cyclicQuotientCoordinate (m : ℕ) (z : ℂ) : ℂ := z ^ m
-
-theorem cyclicQuotientCoordinate_differentiable (m : ℕ) :
-    Differentiable ℂ (cyclicQuotientCoordinate m) := by
-  sorry
-
-theorem cyclicQuotientCoordinate_eq_zero {m : ℕ} (hm : 0 < m) (z : ℂ) :
-    cyclicQuotientCoordinate m z = 0 ↔ z = 0 := by
-  sorry
-
-/-! ## Compactification carrier -/
-
-/-- The effective coarse orbit relation on the upper half-plane. -/
-noncomputable def coarseOrbitRel (Γ : Subgroup PSL₂R) : Setoid ℍ :=
-  letI := pslSubgroupMulAction Γ
-  MulAction.orbitRel Γ ℍ
-
-/-- The coarse quotient before adjoining cusps. -/
-abbrev CoarseQuotient (Γ : Subgroup PSL₂R) := Quotient (coarseOrbitRel Γ)
-
-/-- The compactification carrier is visibly the disjoint sum of the coarse orbit quotient and one
-point for each cusp orbit. Its topology glues punctured cusp neighbourhoods across these
-constructors; the carrier is not an arbitrary type or a classified surface. -/
-inductive CompactifiedQuotient (Γ : Subgroup PSL₂R) where
-  | ofQuotient (point : CoarseQuotient Γ)
-  | ofCusp (cusp : CuspOrbit Γ)
-
-/-- The compactification carrier has exactly the promised sum construction. -/
-def CompactifiedQuotient.equivSum {Γ : Subgroup PSL₂R} :
-    CompactifiedQuotient Γ ≃ CoarseQuotient Γ ⊕ CuspOrbit Γ where
-  toFun
-    | .ofQuotient point => Sum.inl point
-    | .ofCusp cusp => Sum.inr cusp
-  invFun
-    | Sum.inl point => .ofQuotient point
-    | Sum.inr cusp => .ofCusp cusp
-  left_inv point := by cases point <;> rfl
-  right_inv point := by cases point <;> rfl
-
-noncomputable instance compactifiedTopologicalSpace (Γ : Subgroup PSL₂R)
-    [DiscreteTopology Γ] : TopologicalSpace (CompactifiedQuotient Γ) := by
-  sorry
-
-@[instance_reducible]
-noncomputable def compactifiedChartedSpace (Γ : Subgroup PSL₂R) [DiscreteTopology Γ] :
-    ChartedSpace ℂ (CompactifiedQuotient Γ) := by
-  sorry
-
-/-- Elliptic and cusp charts give the compactified carrier its Riemann-surface structure. -/
-theorem compactified_isManifold (Γ : Subgroup PSL₂R) [DiscreteTopology Γ] :
-    letI := compactifiedChartedSpace Γ
-    IsManifold 𝓘(ℂ, ℂ) ∞ (CompactifiedQuotient Γ) := by
-  sorry
-
-/-!
-The level-one application first constructs a compact Riemann surface, then descends `j`, proves
-the extended map to `OnePoint ℂ` has degree one, and only then obtains a biholomorphism with the
-Riemann sphere. No target here installs a sphere atlas on the quotient by assumption.
--/
 
 end TauCetiRoadmap.FuchsianOrbifolds
 
-/-! ## Surface Euler characteristic and branched-cover targets
-
-The finite-map, degree, divisor-pullback and ramification carriers are consumed from the native
-`TauCeti.RiemannSurface` modules imported above. The local Euler and genus names specialize the
-SurfaceInvariants declarations; the genus and Riemann--Hurwitz names are re-exported below on
-`TauCeti.RiemannSurface`. Generic compact-surface classification and genus belong to
-SurfaceTopology Layer 8, and generic topological
-Riemann--Hurwitz belongs to its Layer 5. This roadmap owns the analytic finite-map adapter and
-Fuchsian applications.
--/
-
-namespace TauCetiRoadmap.FuchsianOrbifolds
-
-section SurfaceInvariants
-
-/-!
-### Complex-curve surface invariants
-
-SurfaceTopology Layer 8 owns generic compact-surface classification, models, genus, and Euler
-characteristic, and Layer 5 owns generic topological Riemann–Hurwitz. GeometricTopology Layer 1
-supplies the smooth finite-CW comparison adapter; PlanarTopology Layers 5, 6 and 8 supply
-triangulation, surface Euler/orientation invariance and the category comparison.
-This section owns only their typed specialization to the native compact complex-curve carrier.
-The admitted definitions are target signatures: their implementation compares the complex curve's underlying oriented smooth surface with the Layer 8
-model and the Layer 1 adapter; they do not introduce a second generic surface carrier.
--/
-
-namespace SurfaceInvariants
-
-open scoped ContDiff Manifold
-
-variable {X : Type*} [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-  [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X]
-
-/-- SurfaceTopology Layer 8 Euler characteristic specialized to a compact connected complex curve. -/
-noncomputable def surfaceEulerCharacteristic (X : Type*) [TopologicalSpace X]
-    [ChartedSpace ℂ X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
-    [IsManifold 𝓘(ℂ) 1 X] : ℤ := by
-  sorry
-
-/-- SurfaceTopology Layer 8 genus specialized to a compact connected complex curve. -/
-noncomputable def genus (X : Type*) [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-    [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X] : ℕ := by
-  sorry
-
-/-- Closed oriented surface relation for the complex-curve specialization of SurfaceTopology Layer 8. -/
-theorem surfaceEulerCharacteristic_eq_two_sub_two_mul_genus :
-    surfaceEulerCharacteristic X = 2 - 2 * (genus X : ℤ) := by
-  sorry
-
-end SurfaceInvariants
-
-end SurfaceInvariants
-
-open scoped ContDiff Manifold
-open TauCeti.RiemannSurface
-
-variable {X Y : Type*} [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-  [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X]
-  [TopologicalSpace Y] [ChartedSpace ℂ Y] [T2Space Y] [CompactSpace Y] [ConnectedSpace Y]
-  [IsManifold 𝓘(ℂ) 1 Y]
-
-/-- SurfaceTopology Layer 8 Euler characteristic specialized to compact complex curves. -/
-noncomputable abbrev surfaceEulerCharacteristic (X : Type*) [TopologicalSpace X]
-    [ChartedSpace ℂ X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
-    [IsManifold 𝓘(ℂ) 1 X] : ℤ :=
-  TauCetiRoadmap.FuchsianOrbifolds.SurfaceInvariants.surfaceEulerCharacteristic (X := X)
-
-/-- SurfaceTopology Layer 8 genus specialized to compact complex curves. -/
-noncomputable abbrev genus (X : Type*) [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-    [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X] : ℕ :=
-  TauCetiRoadmap.FuchsianOrbifolds.SurfaceInvariants.genus (X := X)
-
-theorem surfaceEulerCharacteristic_eq_two_sub_two_mul_genus :
-    surfaceEulerCharacteristic X = 2 - 2 * (genus X : ℤ) :=
-  TauCetiRoadmap.FuchsianOrbifolds.SurfaceInvariants.surfaceEulerCharacteristic_eq_two_sub_two_mul_genus
-    (X := X)
-
-/-- Consume SurfaceTopology Layer 5 after the owned analytic `z ↦ z^e` normal-form adapter:
-identify the proper off-branch covering degree and local indices with native degree and
-`localMultiplicity`, and its finite branch sum with `ramificationDegree`. This is a complex-curve
-adapter target; the generic lifted-cell Riemann--Hurwitz proof remains in SurfaceTopology. -/
-theorem branchedCover_eulerCharacteristic (f : TauCeti.RiemannSurface.FiniteHolomorphicMap X Y) :
-    surfaceEulerCharacteristic X =
-      (TauCeti.RiemannSurface.degree f : ℤ) * surfaceEulerCharacteristic Y -
-        (TauCeti.RiemannSurface.ramificationDegree f : ℤ) := by
-  sorry
-
-theorem riemannHurwitz (f : TauCeti.RiemannSurface.FiniteHolomorphicMap X Y) :
-    2 * (genus X : ℤ) - 2 =
-      (TauCeti.RiemannSurface.degree f : ℤ) * (2 * (genus Y : ℤ) - 2) +
-        (TauCeti.RiemannSurface.ramificationDegree f : ℤ) := by
-  have hX := surfaceEulerCharacteristic_eq_two_sub_two_mul_genus (X := X)
-  have hY := surfaceEulerCharacteristic_eq_two_sub_two_mul_genus (X := Y)
-  have hχ := branchedCover_eulerCharacteristic f
-  rw [hX, hY] at hχ
-  linarith
-
-end TauCetiRoadmap.FuchsianOrbifolds
-
-/-! Public complex-curve specializations consumed by downstream applications. These are re-exports
-of this owner's target signatures, not new native degree/ramification implementations. -/
-namespace TauCeti.RiemannSurface
-
-open scoped ContDiff Manifold
-
-variable {X Y : Type*} [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-  [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X]
-  [TopologicalSpace Y] [ChartedSpace ℂ Y] [T2Space Y] [CompactSpace Y] [ConnectedSpace Y]
-  [IsManifold 𝓘(ℂ) 1 Y]
-
-noncomputable abbrev surfaceEulerCharacteristic (X : Type*) [TopologicalSpace X]
-    [ChartedSpace ℂ X] [T2Space X] [CompactSpace X] [ConnectedSpace X]
-    [IsManifold 𝓘(ℂ) 1 X] : ℤ :=
-  TauCetiRoadmap.FuchsianOrbifolds.SurfaceInvariants.surfaceEulerCharacteristic (X := X)
-
-noncomputable abbrev genus (X : Type*) [TopologicalSpace X] [ChartedSpace ℂ X] [T2Space X]
-    [CompactSpace X] [ConnectedSpace X] [IsManifold 𝓘(ℂ) 1 X] : ℕ :=
-  TauCetiRoadmap.FuchsianOrbifolds.SurfaceInvariants.genus (X := X)
-
-theorem riemannHurwitz (f : TauCeti.RiemannSurface.FiniteHolomorphicMap X Y) :
-    2 * (genus X : ℤ) - 2 =
-      (TauCeti.RiemannSurface.degree f : ℤ) * (2 * (genus Y : ℤ) - 2) +
-        (TauCeti.RiemannSurface.ramificationDegree f : ℤ) :=
-  TauCetiRoadmap.FuchsianOrbifolds.riemannHurwitz f
-
-end TauCeti.RiemannSurface
-
-/-! Public short names for the native compact-curve API and this owner's surface specializations.
-The aliases use the same carriers and declarations; they add no independent degree or genus theory. -/
+/-! The short names `RiemannSurface.*` under which the modular-forms roadmap imports the native
+compact-Riemann-surface API and this roadmap's genus and Riemann–Hurwitz theorem. -/
 namespace RiemannSurface
 
-/-- Finite formal integer sums on the native divisor carrier. -/
-abbrev Divisor (X : Type*) := TauCeti.AlgebraicGeometry.WeilDivisor X
-
 export TauCeti.RiemannSurface
-  (FiniteHolomorphicMap localMultiplicity localMultiplicity_pos degree degree_eq_fiber_sum
-   localMultiplicity_comp degree_comp biholomorphOfDegreeEqOne biholomorphOfDegreeEqOne_toFun
-   divisorPullback surfaceEulerCharacteristic genus ramificationDegree riemannHurwitz)
+  (FiniteHolomorphicMap localMultiplicity degree degree_comp divisorPullback
+   biholomorphOfDegreeEqOne biholomorphOfDegreeEqOne_toFun)
 
-export TauCetiRoadmap.FuchsianOrbifolds
-  (surfaceEulerCharacteristic_eq_two_sub_two_mul_genus branchedCover_eulerCharacteristic)
-
-namespace FiniteHolomorphicMap
-
-export TauCeti.RiemannSurface.FiniteHolomorphicMap
-  (mk toFun holomorphic nonconstant finite_fiber comp)
-
-end FiniteHolomorphicMap
+export TauCetiRoadmap.FuchsianOrbifolds (genus riemannHurwitz)
 
 end RiemannSurface
