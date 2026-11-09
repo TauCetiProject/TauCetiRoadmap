@@ -948,19 +948,31 @@ ramification square, finite fibres over primes and residue extension functors.
 
 ### 2.4 Even injectivity and what exactness supplies
 
-For any Dedekind domain R with finite residue fields and even n≥4, prove
-that K_n(R)→K_n(K) is injective: the preceding finite-field groups
-K_n(k(v)) vanish. Specialize to number-field S-integers and include n=2
-using the supplied tame-kernel theorem, not the
-vanishing argument in a degree where it has not been established by that
-argument. For odd n≥3, surjectivity of K_n(R)→K_n(K) comes from the
+For any Dedekind domain R with fraction field K and finite residue fields,
+and every even n≥2, prove that K_n(R)→K_n(K) is injective: the preceding
+finite-field groups K_n(k(v)) vanish in every positive even degree, K₂
+included. At n=2 and number-field S-integers with S finite this is the
+injectivity in K2SymbolsBrauer §12.2's tame-kernel sequence, which also
+identifies the image with the subgroup unramified outside S (§12.1); the
+general statement covers arbitrary S and the coordinate rings of smooth
+affine curves over finite fields as well. For odd n≥3, surjectivity of K_n(R)→K_n(K) comes from the
 vanishing of the residue groups K_(n−1)(k(v)), n−1 being even and
 positive; at n=1 the residue groups K₀(k(v))=ℤ are nonzero and
 K₁(ℤ)={±1}→K₁(ℚ)=ℚ^× is not onto. Odd injectivity does not follow from
 this exact sequence; Soulé's additional argument in Layer 5 gives it.
-(K-book, V.6.6, p. 409; V.6.8, pp. 412–413.)
+(K-book, IV.1.13, p. 269; V.6.6 and the finite-residue-field sequence
+after it, p. 409; V.6.8, pp. 412–413.)
 
-*Needs:* §2.1; KTheoryFiniteLocalFields §§1.1–1.6; K2SymbolsBrauer §§12.1–12.3 for degree two.
+**Checks.**
+
+- At R=ℤ and n=2, K₂(𝔽_p)=0 for every p gives K₂(ℤ)=ℤ/2↪K₂(ℚ), so
+  {−1,−1} stays nonzero in K₂(ℚ) (K-book, III.6.5.1, p. 236).
+- At R=ℤ and n=3 the residue groups K₃(𝔽_p)=ℤ/(p²−1) are nonzero (ℤ/3 at
+  p=2), so the even-degree argument gives no odd injectivity; a statement
+  claiming residue vanishing in every degree n≥2 fails here.
+
+*Needs:* §2.1; KTheoryFiniteLocalFields §§1.1–1.6 for K_n(𝔽_q)=0 at even n≥2;
+K2SymbolsBrauer §§12.1–12.3 only for the degree-two comparison with the tame-kernel sequence.
 
 ### Examples
 
@@ -1057,9 +1069,12 @@ For every field K and finite-dimensional K-space V of dimension m,
 construct `titsBuilding` K V as the nerve of the poset of nonzero proper
 subspaces, whose realization is their flag complex, and its GL(V)-action.
 For m≥2 prove `solomonTits`: in every degree other than m−2, the map from
-the building to a point induces an isomorphism on integral homology. Thus
-its reduced integral homology vanishes outside degree m−2; in particular
-the building is nonempty, and connected for m≥3. In degree m−2 the reduced
+the building to a point induces an isomorphism on integral homology. For
+m≥3 the degree-zero case makes the building nonempty and connected, so its
+reduced integral homology vanishes outside degree m−2. At m=2 the building
+is the nonempty discrete set of lines, and the statement concerns positive
+degrees only: the empty simplicial set also satisfies it there, so
+nonemptiness at m=2 is the separate fact that V has a line. In degree m−2 the reduced
 homology is the Steinberg module steinbergModule V, and the realization is
 a wedge of (m−2)-spheres. Transport, apartment classes, the rank-one
 convention St₁=ℤ, and equivariance form the API. The building is not

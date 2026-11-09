@@ -91,10 +91,10 @@ def titsBuilding (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K 
 
 /-- Solomon–Tits, homological form; README §3.2. If `V` has dimension `m ≥ 2`, the map from
 `titsBuilding K V` to a point induces an isomorphism on integral homology in every degree
-`k ≠ m − 2`. Equivalently, the reduced integral homology of the building is concentrated in
-degree `m − 2`: the building is nonempty, connected when `m ≥ 3`, and has no homology in
-positive degrees other than `m − 2` (Putman–Studenmund, §1, p. 3; Kahn, §4.3.1, p. 17,
-citing Quillen, Theorem 2, p. 180). -/
+`k ≠ m − 2`. For `m ≥ 3` the case `k = 0` makes the building nonempty and connected, so its
+reduced integral homology is concentrated in degree `m − 2`; for `m = 2` the building is the
+discrete set of lines of `V` and the statement concerns positive degrees only
+(Putman–Studenmund, §1, p. 3; Kahn, §4.3.1, p. 17, citing Quillen, Theorem 2, p. 180). -/
 theorem solomonTits (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (hm : 2 ≤ Module.finrank K V) (k : ℕ)
     (hk : k ≠ Module.finrank K V - 2) :
