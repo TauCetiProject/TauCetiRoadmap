@@ -10,8 +10,8 @@ retains every characteristic in its integral and reductive structure theorems.
 
 This roadmap owns the algebraic-group dictionaries, general orbit geometry, the
 structure and classification targets, and the integral, representation-theoretic
-and spectral constructions in Layers 0–11. The SL polynomial presentation concerns
-the existing determinant-kernel coordinate algebra; it introduces no second SL group.
+and spectral constructions in Layers 0–11. The SL polynomial presentation of 9B.4
+concerns the existing determinant-kernel coordinate algebra; it introduces no second SL group.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
 group over a finite field and the fixed-coset bijection `H^σ/J^σ ≃ (H/J)^σ`, built on the pinned
 fixed-lift lemma; Layer 9E owns their Steinberg-endomorphism extension. Layer 1.1 owns rational
@@ -82,8 +82,8 @@ separable extension, and the character functor as one equivalence over every fie
 character-group comparison and exactness for diagonalizable groups, the definition of
 multiplicative type, and the morphism classification over perfect fields are pinned Tau Ceti
 (supplier contracts). So is the classification of groups split by a given finite Galois
-extension. Layer 9D owns the relative forms of these results over an arbitrary base, groups of
-multiplicative type there included. The generic isometry subgroup is `TauCeti.BilinForm.isometryGroup`;
+extension. Layer 9D owns the relative forms of these results over an arbitrary affine base
+`S = Spec R`, groups of multiplicative type there included. The generic isometry subgroup is `TauCeti.BilinForm.isometryGroup`;
 Layer 9A specializes it to the ADE lattice and constructs the new lift action.
 The generic finite-index induction dimension formula is `TauCeti.finrank_indFDRep`;
 Layer 7c uses its complex specialization.
@@ -625,6 +625,19 @@ semisimple. `TauCeti.FiniteTypeCommHopfAlgCat.identityComponent`
 algebraically closed field, and `TauCeti.FiniteTypeCommHopfAlgCat.baseChangeFunctor` is extension
 of scalars. These are consumed by Layer 6, not restated.
 
+The classical examples are reductive in the library, for the standard models over a field `k`:
+`TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`
+(`Algebra/AlgebraicGroup/GeneralLinear/Reductive/Basic.lean`),
+`TauCeti.SpecialLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`
+(`SpecialLinear/Reductive/Basic.lean`) and
+`TauCeti.Symplectic.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`
+(`Symplectic/Reductive/Basic.lean`) for `GLₙ`, `SLₙ` and `Sp₂ₘ` over every field and every
+`n`, `m`; `TauCeti.ProjectiveGeneralLinear.reductiveCommHopfAlgProperty_coordinateHopfAlgebra`
+(`ProjectiveGeneralLinear/Semisimple.lean`) for `PGLₙ` over every field; and
+`TauCeti.SpecialOrthogonal.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`
+(`SpecialOrthogonal/Reductive.lean`) for the standard `SOₙ` over every field with `2 ≠ 0`. The
+worked examples consume them.
+
 ### Native group-scheme dictionaries, Jordan decomposition and tori
 
 - **The affine dictionary (Layer 0).** Over every commutative ring `S`,
@@ -661,6 +674,19 @@ of scalars. These are consumed by Layer 6, not restated.
   `Spec H`. `TauCeti.CommHopfAlgCat.kernelSpec` and `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`
   (`HopfIdeal/Scheme/Kernel.lean`) give the kernel of a homomorphism as the closed subgroup cut out
   by the kernel Hopf ideal and as the fibre over the identity section, a pullback of group schemes.
+  Over a field `k`, for a morphism `f : H ⟶ K` of commutative Hopf `k`-algebras,
+  `TauCeti.CommHopfAlgCat.image` and `TauCeti.CommHopfAlgCat.imageι`
+  (`Algebra/AlgebraicGroup/HopfIdeal/Quotient/Image/Basic.lean`) are the quotient `H/ker f` and its
+  injective morphism to `K`, through which `f` factors; geometrically, `Spec (H/ker f)` is the
+  closed image of the group `Spec K` in `Spec H`. `TauCeti.CommHopfAlgCat.faithfullyFlat_imageι`
+  (`HopfIdeal/Quotient/Image/FaithfullyFlat.lean`) makes `imageι f` faithfully flat when `H` and
+  `K` are of finite type in the universe of `k` and `K` is geometrically reduced
+  (`[Algebra.IsGeometricallyReduced k K]`); a nonreduced source such as `μ_p` in characteristic `p`
+  is outside it. `TauCeti.AlgHom.faithfullyFlatDescentMulEquiv`
+  (`Algebra/AlgebraicGroup/FaithfullyFlatDescent.lean`) identifies, for a Hopf algebra over a
+  commutative semiring and commutative rings `A → B` with `B` faithfully flat over `A`
+  (`[Module.FaithfullyFlat A B]`), the convolution group of `A`-points with the `B`-points whose two
+  restrictions to `B ⊗_A B` agree.
 - **Jordan decomposition (Layer 4).** For a commutative Hopf algebra `H` over a field `k` and a
   perfect extension field `K`, with `k`, `H` and `K` in one universe,
   `TauCeti.HopfAlgebra.Point.jordanDecomposition`, `TauCeti.HopfAlgebra.Point.jordanDecomposition_spec`
@@ -783,6 +809,29 @@ of scalars. These are consumed by Layer 6, not restated.
   (`Kostant/RootSubgroup/Scheme/ToralClosure/Basic.lean`) the closed subgroup scheme of `GLₙ`
   over `ℤ` generated by those root subgroups and a weight torus. None of these carriers is
   identified in the library with the pinned simply connected group of its type.
+- **The special linear group (9B.4).** For every commutative ring `R` and every `n ≥ 0`,
+  `TauCeti.SpecialLinear.coordinateHopfAlgebra R n`, with quotient map
+  `TauCeti.SpecialLinear.coordinateMap R n` (`Algebra/AlgebraicGroup/SpecialLinear/Basic.lean`), is
+  the quotient of the general linear coordinate Hopf algebra, the localization
+  `R[x_ij][det⁻¹]`, by the determinant-kernel Hopf ideal, which
+  `TauCeti.SpecialLinear.definingHopfIdeal_toIdeal` shows is generated by `det − 1`.
+  `TauCeti.SpecialLinear.pointsMulEquiv` is a group isomorphism from the convolution group of its
+  `A`-points to `Matrix.SpecialLinearGroup (Fin n) A` for every commutative `R`-algebra `A`, natural
+  in `A` by `TauCeti.SpecialLinear.pointsMulEquiv_mapValue` and `TauCeti.SpecialLinear.pointsNatIso`.
+  In `StandardComodule.lean`, `TauCeti.SpecialLinear.coefficientMatrix_basisFun` identifies the
+  coefficient matrix of the standard comodule `Rⁿ` with the image of the generic matrix of `GLₙ`,
+  `TauCeti.SpecialLinear.map_antipode_coefficientMatrix` makes its antipode the adjugate, and
+  `TauCeti.SpecialLinear.ofConv_coefficientMatrix` evaluates an `A`-point on it as the matrix of
+  that point. `TauCeti.Comodule.comul_coefficientMatrix_eq_sum` and
+  `TauCeti.Comodule.counit_coefficientMatrix`
+  (`Algebra/Coalgebra/Comodule/MatrixCoefficient/Matrix.lean`) give the comultiplication of a
+  coefficient entry as a matrix product across the two tensor factors, for a comodule with a
+  finite basis, and its counit as the identity-matrix entry, for any basis.
+  `TauCeti.SpecialLinear.diagonalRootDatum r` (`SpecialLinear/DiagonalTorus/RootDatum.lean`) is the
+  root datum of `SL_(r+1)` relative to its diagonal torus, the simply connected datum of type `A_r`
+  on the lattices `Fin r →₀ ℤ` and `Fin r → ℤ`, with `Fin r` lifted by `ULift` to a chosen
+  universe. No polynomial presentation of the coordinate algebra without the determinant
+  localization, and no comparison with the pinned group of Layer 9, is in the library.
 
 ### Native complex-point topology
 
@@ -1225,12 +1274,13 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   algebra is faithfully flat over each Hopf subalgebra (Theorem 3.31, p. 73). A faithfully flat
   homomorphism with trivial kernel is then an isomorphism, by faithfully flat descent of points.
   This route needs no quotient `G/H` by a subgroup that is not normal. *Needs:* the pinned image
-  factorization `TauCeti.CommHopfAlgCat.image`, `TauCeti.CommHopfAlgCat.imageι`
-  (`HopfIdeal/Quotient/Image/Basic.lean`) and its faithful flatness for a geometrically reduced
-  source, `TauCeti.CommHopfAlgCat.faithfullyFlat_imageι` (`HopfIdeal/Quotient/Image/FaithfullyFlat.lean`).
-  The extension of that faithful flatness to nonreduced sources is part of this target. Also
-  needed are the pinned descent of points `TauCeti.AlgHom.faithfullyFlatDescentMulEquiv`
-  (`FaithfullyFlatDescent.lean`) and the scheme kernels of this section.
+  factorization `TauCeti.CommHopfAlgCat.image`, `TauCeti.CommHopfAlgCat.imageι` and its faithful
+  flatness for a geometrically reduced source, `TauCeti.CommHopfAlgCat.faithfullyFlat_imageι`
+  (supplier contracts, *Closed subgroups and kernels*). The extension of that faithful flatness
+  to nonreduced sources, such as `μ_p → GL₁` in characteristic `p`, whose source
+  `k[t]/(t^p − 1)` is not geometrically reduced, is part of this target. Also needed are the
+  pinned descent of points `TauCeti.AlgHom.faithfullyFlatDescentMulEquiv` (same contract) and the
+  scheme kernels of this section.
   Transport the native kernel–differential Lie equivalence through Layer 0's
   scheme/Hopf dictionary and Layer 2's tangent comparison: for a group morphism
   f:G→H, its inclusion Lie(ker f)→Lie(G) agrees with the inclusion ker(df)→Lie(G).
@@ -1301,8 +1351,9 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 
 ### Dependencies
 
-Layers 0–2; the native fppf quotient sheaves, closed-subgroup classification and scheme kernels
-(supplier contracts); SchemeAndStackFoundations §§1.13–1.15.
+Layers 0–2; the native fppf quotient sheaves, closed-subgroup classification and scheme kernels,
+and the pinned image factorization, its faithful flatness for a geometrically reduced source and
+the faithfully flat descent of points (supplier contracts); SchemeAndStackFoundations §§1.13–1.15.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -3528,6 +3579,66 @@ Hopf ideals. *Needs:* §9B's pinned construction; Layer 7's root extraction and 
 - SL₂ and PGL₂ have Dynkin type A₁ but lattices of index 2; the central
   isogeny of §9B.2 is not an isomorphism of these pinned groups.
 
+##### 9B.4 The special linear group
+
+For every `n ≥ 0` the single carrier of `SLₙ` is the pinned determinant-kernel quotient
+`TauCeti.SpecialLinear.coordinateHopfAlgebra ℤ n` of the general linear coordinate Hopf algebra,
+with quotient map `TauCeti.SpecialLinear.coordinateMap ℤ n` (supplier contracts, *The special
+linear group*); no second SL group is introduced. Write `x_ij` for the image in `O(SLₙ)` of the
+matrix coordinate `(i, j)` of `GLₙ` and `X = (x_ij)`. The Hopf structure on these coordinates and
+the points are pinned and consumed, not restated. `X` is the coefficient matrix of the standard
+comodule (`TauCeti.SpecialLinear.coefficientMatrix_basisFun`), so `Δ(x_ij) = Σ_k x_ik ⊗ x_kj` and
+`ε(x_ij) = δ_ij` are `TauCeti.Comodule.comul_coefficientMatrix_eq_sum` and
+`TauCeti.Comodule.counit_coefficientMatrix` rewritten by it, and `S(x_ij) = adjugate(X)_ij` is
+`TauCeti.SpecialLinear.map_antipode_coefficientMatrix`. For every commutative ring `A`,
+`TauCeti.SpecialLinear.pointsMulEquiv` is a group isomorphism from the convolution group of
+`A`-points to `Matrix.SpecialLinearGroup (Fin n) A`, natural in `A`
+(`TauCeti.SpecialLinear.pointsNatIso`, `TauCeti.SpecialLinear.pointsMulEquiv_mapValue`), and a
+point takes `x_ij` to the `(i, j)` entry of its matrix
+(`TauCeti.SpecialLinear.ofConv_coefficientMatrix`). So convolution is matrix multiplication, the
+counit is the identity point and composition with the antipode is matrix inversion.
+
+- **Polynomial presentation.** Construct the `ℤ`-algebra isomorphism
+  `O(SLₙ) ≃ₐ[ℤ] ℤ[x_ij | i, j ∈ Fin n]/(det X − 1)`, with both maps and their values on the
+  generators, by removing the determinant localization. The class of `det X` in the polynomial
+  quotient is `1`, hence a unit, so the universal property of localization extends the quotient
+  map of `ℤ[x_ij]` to `ℤ[x_ij][det⁻¹]`; the extension kills `det − 1`, which generates the
+  defining ideal (`TauCeti.SpecialLinear.definingHopfIdeal_toIdeal`), so it factors through
+  `O(SLₙ)`, and the map back sends each generator `x_ij` to its class. The statement includes
+  `n = 0` and `n = 1` (Milne, Algebraic Groups, §2.a, the matrix-group coordinate descriptions).
+  *Needs:* the pinned SL carrier and `TauCeti.SpecialLinear.definingHopfIdeal_toIdeal`; Mathlib's
+  `MvPolynomial`, ideal quotients and `IsLocalization.Away`.
+- **Comparison with the pinned group.** For `n ≥ 1` compare with 9B's pinned group for the datum
+  `TauCeti.SpecialLinear.diagonalRootDatum (n − 1)`: identify its character lattice `X` with
+  `ℤⁿ/ℤ(1, …, 1)`, its simple roots with `ε_i − ε_(i+1)` and its pinned root maps with
+  `x_(ε_i − ε_j)(a) = I + a E_ij`. In 9B.2 take the standard representation `ℤⁿ`, whose weights
+  `ε_1, …, ε_n` span all of `X`, compare the two defining Hopf ideals in the native `O(GLₙ)`, and
+  construct the pinned isomorphism, compatible with 9B.3's based-datum comparison. Over a field
+  `k`, compare the generation of `SLₙ(k)` by root subgroups and torus (*Elementary generators and
+  all ring points*, `GE_G(k) = G(k)`) with Mathlib's transvection reduction
+  `Matrix.Pivot.exists_list_transvec_mul_diagonal_mul_list_transvec`. At `n = 1` the group is
+  trivial and the datum `diagonalRootDatum 0` has `X = 0` and no roots. *Needs:* §9B's pinned
+  construction and root subgroup maps; §9B.2's realizations and central quotients; §9B.3's
+  pinned comparison; Layer 0's point groups; the pinned `TauCeti.SpecialLinear.diagonalRootDatum`,
+  `TauCeti.SpecialLinear.pointsMulEquiv` and `TauCeti.SpecialLinear.ofConv_coefficientMatrix`;
+  for the field comparison, §9B's *Elementary generators and all ring points* and Mathlib's
+  transvection reduction.
+
+**Checks.**
+- At `n = 0` the empty determinant is `1`, so the relation is `0` and the algebra is `ℤ`; the
+  points group `Matrix.SpecialLinearGroup (Fin 0) A` has one element.
+- At `n = 1` the relation is `x − 1`, so `x` maps to `1` and the algebra is `ℤ`; the pinned group
+  of `diagonalRootDatum 0`, whose character lattice is `0`, is trivial as well.
+- At `n = 2` the relation is `ad − bc − 1`. Over `ℤ/4` the matrix with rows `(1, 1), (0, 1)` has
+  determinant `1` and inverse with upper-right entry `−1 = 3`, the value of `S(b) = −b`. The
+  wrong sign `S(b) = b` would give `[[1, 1], [0, 1]]` as its own inverse, but its square
+  `[[1, 2], [0, 1]]` is not the identity over `ℤ/4`; over `ℤ/2` the two signs agree, so that ring
+  cannot test the sign.
+- At `n = 2` the lattice `ℤ²/ℤ(1, 1)` is generated by the class of `ε_1` and the simple root
+  `ε_1 − ε_2` is twice that class, so `ℤΦ` has index `2` in `X`. The standard representation
+  realizes `SL₂`; the adjoint representation, whose weights `0, ±(ε_1 − ε_2)` span only `ℤΦ`,
+  realizes `PGL₂` in 9B.2, and is the wrong realization for this comparison.
+
 ##### Elementary subgroups and further pinned constructions
 
 - **Elementary generators and all ring points.** The elementary group `E(A)` generated by the
@@ -3726,8 +3837,10 @@ The distribution algebra and Frobenius section precede rational integration.
 Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; Tau Ceti's Cartan–Killing
 classification and numbered root data (supplier contracts); RootSystems §§5.1–5.2 for §9A.1a-L;
 LieHighestWeight Layers 3–4 and 7; IntegralLattices; Tau Ceti's Kostant form, Serre presentation
-and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂`, `F₄` and tripled
-`D₄` carriers (supplier contracts).
+and Geck constructions, its signed ADE shell Lie algebras and explicit `G₂`, `F₄` and tripled
+`D₄` carriers, and its special linear coordinate Hopf algebra with its points, coordinate Hopf
+formulas and diagonal root datum (supplier contracts); for §9B.4, Mathlib's `MvPolynomial`, ideal
+quotients, `IsLocalization.Away` and transvection reduction.
 
 ## Layer 9D: classification, relative groups and forms
 - The **isomorphism** and **existence theorems**: split reductive groups ↔ root data
@@ -3800,9 +3913,9 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   is an anti-equivalence from `S`-groups of multiplicative type to these sheaves, so that every
   such group splits étale-locally on `S` (Proposition B.3.4, pp. 290–291). Over `S = Spec k` this
   anti-equivalence is Layer 4's classification by Galois modules (Milne, Theorem 12.23, p. 240).
-  Prove that over a normal scheme `S` every `S`-group of multiplicative type is isotrivial on
-  the members of a Zariski cover, and isotrivial when `S` is irreducible (Corollary B.3.6,
-  p. 293). So for irreducible normal `S` and a geometric point `s`, `H ↦ Hom_(S-gp)(H, 𝔾_m)_s` is
+  Prove that when `S = Spec R` is a normal scheme, every `S`-group of multiplicative type is
+  isotrivial on the members of a Zariski cover of `S`, and isotrivial when `S` is moreover
+  irreducible (Corollary B.3.6, p. 293). So for irreducible normal `S` and a geometric point `s`, `H ↦ Hom_(S-gp)(H, 𝔾_m)_s` is
   an anti-equivalence to discrete `π₁(S, s)`-modules that are finitely generated as abelian
   groups. Here `π₁` is EtaleCohomologyFoundations F.0.2's étale fundamental group, and the
   comparison extends its `VanishingCycles.lisseMonodromyEquiv` from finite to finitely generated
@@ -4628,47 +4741,19 @@ inverse-function theorems; Tau Ceti's braid and Artin groups.
 ## Worked examples
 
 Concrete Hopf algebras / group schemes that exercise and validate the definitions:
-`𝔾_a`, `𝔾_m`, `μ_n`/`μ_p`, `GLₙ`, `SLₙ`, `PGLₙ`, `SOₙ`, `Sp₂ₙ`, and tori. Prove they are
-reductive where applicable via `R_u = 1` / root data (the definition that works in all
-characteristics), and *additionally* via complete reducibility only in characteristic 0
-or for linearly reductive groups. Exercise the diagonalizable/Cartier-duality theory on
-the multiplicative-type examples. Use `GLₙ` as a test case for the general theory, not as its
-source.
-
-For every n≥0 consume native `TauCeti.SpecialLinear.coordinateHopfAlgebra ℤ n`
-and `coordinateMap` from `TauCeti.Algebra.AlgebraicGroup.SpecialLinear.Basic`.
-Its determinant-kernel quotient of the native GL coordinate Hopf algebra
-is the single SL carrier. Construct the explicit algebra presentation
-`O(SL_n)≃ₐ[ℤ]ℤ[x_ij | i,j∈Fin n]/(det(X)−1)` by removing the redundant
-determinant localization, with both maps and generator equations.
-On the native images x_ij of GL's matrix coordinates prove
-`Δ(x_ij)=Σ_k x_ik⊗x_kj`, `ε(x_ij)=δ_ij` and
-`S(x_ij)=adjugate(X)_ij`, consuming native Hopf laws and determinant-one
-identities. Consume `SpecialLinear.pointsMulEquiv`, `pointsNatIso` and
-`pointsMulEquiv_mapValue` to identify ℤ-algebra maps to every commutative
-ring A with native `Matrix.SpecialLinearGroup (Fin n) A`. Export the
-explicit generator/convolution equations and naturality squares: multiplication
-is matrix multiplication, counit is the identity and antipode is inversion.
-For n≥1 compare with 9B at `SpecialLinear.diagonalRootDatum (n−1)`,
-identifying X with ℤ^n/ℤ(1,…,1), simple roots ε_i−ε_(i+1) and pinned
-root maps `x_(ε_i−ε_j)(a)=I+aE_ij`. In 9B.2 take the standard representation,
-whose weights span all of X, and compare the two defining Hopf ideals in
-native O(GL_n); construct the pinned isomorphism, compatible with 9B.3's
-based-datum comparison. Check field root-generation against native
-transvection reduction. Include n=0 and n=1 as the trivial-group cases;
-for n=1 the datum has X=0.
-The native determinant-kernel construction and the polynomial quotient by the integral
-generic determinant minus one are both defined for n=0 and n=1, where the presentation
-is stated as well.
-
-**Checks.**
-- At n=0 the empty determinant is 1, so the relation is 0 and the algebra is ℤ.
-- At n=1 the relation is x−1, so x maps to 1 and the algebra is ℤ.
-- At n=2 the relation is ad−bc−1. Over ℤ/4 the matrix with rows (1,1),(0,1)
-  has determinant 1; its inverse has upper-right entry −1=3, testing the antipode sign.
-*Needs:* native SL coordinate algebra and its coordinate map; polynomial
-quotients and the universal property of determinant localization (Milne,
-Algebraic Groups, §2.a, the matrix-group coordinate descriptions).
+`𝔾_a`, `𝔾_m`, `μ_n`/`μ_p`, `GLₙ`, `SLₙ`, `PGLₙ`, `SOₙ`, `Sp₂ₙ`, and tori. They are the test
+objects of the layers' Checks, not separate targets. Their reductivity, through `R_u = 1` (the
+definition that works in all characteristics), is pinned: over every field for `GLₙ`, `SLₙ`,
+`PGLₙ` and `Sp₂ₙ`
+(`TauCeti.GeneralLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`,
+`TauCeti.SpecialLinear.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`,
+`TauCeti.ProjectiveGeneralLinear.reductiveCommHopfAlgProperty_coordinateHopfAlgebra`,
+`TauCeti.Symplectic.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`), and over
+every field of characteristic other than `2` for `SOₙ`
+(`TauCeti.SpecialOrthogonal.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`).
+Complete reducibility tests reductivity only in characteristic 0 or for linearly reductive
+groups (Layer 6's Checks), and the multiplicative-type examples test Layer 4's diagonalizable
+theory. Use `GLₙ` as a test case for the general theory, not as its source.
 
 ## Conventions in examples
 
