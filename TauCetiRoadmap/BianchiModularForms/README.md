@@ -2280,12 +2280,26 @@ non-Euclidean fields prove that the unit hemispheres no longer cover the transla
 hemispheres with `|c| > 1` carry faces, determine the finite face list of each floor by the
 termination criterion of 0.3 (Swan, Proposition 8.4; Aranés, thesis §3.2.4, Proposition 3.2.25,
 p.76), and prove the resulting face incidences and the fundamental-domain property. The face
-lists are the Checks below: a hemisphere carries a face when the floor height at its centre is its
-own radius, and carries none when its height never exceeds the floor. Finite geometric
-descriptions are mathematical targets, not an enumeration procedure.
+lists are the Checks below: a hemisphere carries a face when the floor formed by the other
+primitive hemispheres is strictly lower than its apex, so that its own height at its centre exceeds
+that floor by a positive margin, and carries none when its height never exceeds the floor; equality
+at the apex decides nothing, since a hemisphere whose apex is a vertex of the floor can lie below
+the floor everywhere else. Finite geometric descriptions are mathematical targets, not an
+enumeration procedure.
 
 **Checks.**
 
+- Negative control for the Euclidean case, `d = 1`: the primitive pair `(1 + i, −i)` gives the
+  hemisphere of centre `(1 + i)/2` and radius² `1/2`, whose apex is the lowest vertex of the
+  floor, where the four unit hemispheres at `0, 1, i, 1 + i` meet. The floor height² at its
+  centre is `1/2`, its own radius², yet it exceeds the unit hemisphere at `a` only on the open
+  half-plane beyond the perpendicular bisector of `a` and `1 + i − a`, and the four half-planes
+  have empty intersection, so it lies below the floor off its apex and carries no face. A
+  criterion that accepts equality at the apex would add `|c|² = 2` to the Euclidean list `{1}`.
+  The same happens for `d = 2` with `(2, −1 − √−2)`, whose apex `(1/2, √2/2)` is the lowest
+  vertex of that floor at height² `1/4`, and for `d = 11` with `(2, 1 + ω)`, whose apex is the
+  midpoint of `−1` and `−ω` and which contains the whole edge where those two unit hemispheres
+  meet, the tangency recorded above.
 - For every `d ≡ 3 (mod 4)` with `d ≥ 19`, the centre `−(1 + ω)/2 = (−3/4, −√d/4)` of
   `S_{2,1+ω}` is at distance² `(1 + d)/16 > 1` from every element of `𝓞_K` (nearest `−1` and
   `−ω`), so no unit hemisphere reaches it and the floor height² there is exactly `1/4`, carried by
