@@ -75,7 +75,7 @@ Consume §§1.15b–1.18 for the formal identity chart and full torsion speciali
 
 ### From TauCetiRoadmap.ModularCurvesPartII
 
-Consume §§3.8, 5.2 and 9.5–9.7 for finite-level Borel/Cartan curves, their moduli and the split-normalizer identification; §§9.1, 13.1–13.3, 14.15 and 17.3 for Jacobians, Abel–Jacobi maps, Hecke correspondences and differential comparisons, and §§4.1–4.2, 4.8 and 5.5 for cusp charts; §§16.2–16.6 for newform quotients and their dimension. Sections 14.11–14.12 supply the geometric pairing and relative symbol lattice, not a geometric cuspidal-torsion assertion. Sections 3.8 and 5.2 supply the mixed curves and their j-maps by the open subgroup with the prescribed coprime level factors. Section 13.1 supplies Jacobian pullback and norm for their finite maps, and §§13.2–13.3 supply the Hecke compatibility. The specific split-to-nonsplit correspondence is the target of §5.10 here. The exact-divisor quotient retains the r-level.
+Consume §§3.8, 5.2 and 9.5–9.8 for finite-level Borel/Cartan curves, their moduli, the split-normalizer identification and the Atkin–Lehner quotients X₀⁺(N)=X₀(N)/⟨w_N⟩; §§9.1, 13.1–13.3, 14.15 and 17.3 for Jacobians, Abel–Jacobi maps, Hecke correspondences and differential comparisons, and §§4.1–4.2, 4.8 and 5.5 for cusp charts; §§16.2–16.6 for newform quotients and their dimension. Sections 14.11–14.12 supply the geometric pairing and relative symbol lattice, not a geometric cuspidal-torsion assertion. Sections 3.8 and 5.2 supply the mixed curves and their j-maps by the open subgroup with the prescribed coprime level factors. Section 13.1 supplies Jacobian pullback and norm for their finite maps, and §§13.2–13.3 supply the Hecke compatibility. The specific split-to-nonsplit correspondence is the target of §5.10 here. The exact-divisor quotient retains the r-level.
 
 What ModularCurvesPartII must provide (gap:mixed-cusp-charts): For coprime positive auxiliary and Cartan levels, supply smooth cusp charts on the normalized mixed curves away from 6 times the level, with their actual cusp residue fields and compatibility with the level maps.
 
@@ -83,7 +83,7 @@ What ModularCurvesPartII must provide (gap:chen-winding-comparison): Supply the 
 
 ### From TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
 
-Consume §1.7, Generalized Jacobian of a reduced boundary: for a smooth proper geometrically connected curve C over a field k of characteristic zero and a nonempty reduced finite étale divisor D, the semiabelian variety `J_D=Pic⁰(C,D)` of line bundles trivialized along D, equivalently of degree-zero divisors prime to D modulo divisors of functions equal to 1 along D, with the exact sequence `1→T_D→J_D→J_C→1`, `T_D=(Res_(D/k)𝔾_m)/𝔾_m` modulo the diagonal, functoriality for maps of pointed pairs, extension of the ground field, and, for a specified point b of C−D over k, the pointed Abel map `a_b:C−D→J_D` sending x to the class of x−b. Section 5.4a uses it for C=X₀(p) over ℚ and D=(0)+(∞), two distinct rational points, where `T_D=𝔾_m`, and uses the Abel map after extension to a quadratic field K with b=x₁∈Y₀(p)(K). The Hecke correspondences are not maps of curves, and the Atkin–Lehner involution w_p, although it exchanges the two cusps, is not a map of pointed pairs over ℚ in general: for p=23, X₀(23)(ℚ) consists of the two cusps by §4.7, so no rational base point off D exists. The actions of T_n and w_p on J₀(p)♯ are therefore targets of §5.4a, proved from the divisor description. The p-adic de Rham and Tate-module comparisons for `J_D` in §2.0 of that roadmap need a smooth proper model with a reduced finite étale boundary. For the primes p>11, p≠13 of §5.4a, X₀(p) has positive genus and J₀(p) has purely toric reduction at p, so X₀(p) has no smooth proper model over ℤ_p, and the cotangent identification of the special fibre at p is also a target of §5.4a.
+Consume §1.7, Generalized Jacobian of a reduced boundary: for a smooth proper geometrically connected curve C over a field k of characteristic zero and a nonempty reduced finite étale divisor D, the semiabelian variety `J_D=Pic⁰(C,D)` of line bundles trivialized along D, equivalently of degree-zero divisors prime to D modulo divisors of functions equal to 1 along D, with the exact sequence `1→T_D→J_D→J_C→1`, `T_D=(Res_(D/k)𝔾_m)/𝔾_m` modulo the diagonal, functoriality for maps of pointed pairs, extension of the ground field, and, for a specified point b of C−D over k, the pointed Abel map `a_b:C−D→J_D` sending x to the class of x−b. Section 5.4a uses it for C=X₀(p) over ℚ and D=(0)+(∞), two distinct rational points, where `T_D=𝔾_m`, and uses the Abel map after extension to a quadratic field K with b=x₁∈Y₀(p)(K), where Y₀(p)=C−D is the complement of the two cusps. The Hecke correspondences are not maps of curves, and the Atkin–Lehner involution w_p, although it exchanges the two cusps, is not a map of pointed pairs over ℚ in general: for p=23, X₀(23)(ℚ) consists of the two cusps by §4.7, so no rational base point off D exists. The actions of T_n and w_p on J₀(p)♯ are therefore targets of §5.4a, proved from the divisor description. The p-adic de Rham and Tate-module comparisons for `J_D` in §2.0 of that roadmap need a smooth proper model with a reduced finite étale boundary. For the primes p>11, p≠13 of §5.4a, X₀(p) has positive genus and J₀(p) has purely toric reduction at p, so X₀(p) has no smooth proper model over ℤ_p, and the cotangent identification of the special fibre at p is also a target of §5.4a.
 
 ### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
 
@@ -1258,7 +1258,7 @@ For the cyclic corollary let φ have degree δ and let ψ be a bounded geometric
 
 ### 5.3b Integrality of split Cartan rational points
 
-For prime p=11 or p≥17 and every noncuspidal rational point P on X_s⁺(p), prove j(P)∈ℤ, without a non-CM restriction. (bilu-parent-split, arXiv 0807.4954v5, Theorem 6.1, pp.8–10, bilu-parent-split lines 430–443, 513–542.)
+For prime p=11 or p≥17 and every noncuspidal rational point P on X_s⁺(p), prove j(P)∈ℤ, without a non-CM restriction. Here X_s⁺(p) is the modular curve of ModularCurvesPartII §9.6 for the normalizer C_s⁺(p) of the diagonal Cartan subgroup of GL₂(𝔽_p), whose noncuspidal points over ℚ̄ are the isomorphism classes of elliptic curves with an unordered pair of distinct subgroups of order p. (bilu-parent-split, arXiv 0807.4954v5, Theorem 6.1, pp.8–10, bilu-parent-split lines 430–443, 513–542.)
 
 A proof route uses the difference of the two p-isogeny maps to the finite Eisenstein quotient of J₀(p). For p≥37 use the Appendix’s argument; for p∈{11,17,19,23,29,31} retain the finite-level integrality assertions of Theorem 6.1 as part of this target, with their cusp and isogeny calculations. Prove that a denominator forces specialization to the rational split cusp, and prove the split-cusp differential comparison there in every denominator characteristic, including 2. That comparison is owned here; the formal-immersion theorem for X₀(p), which excludes residue characteristic 2, does not supply it. The required integral Hecke pairing and Eisenstein quotient are imported (bilu-parent-split lines 443–444, 503–552).
 
@@ -1286,15 +1286,15 @@ A proof route imports the Siegel functions of ImaginaryQuadraticClassNumber H3.2
 
 ### 5.4 The large-prime split Cartan exclusion
 
-For a prime p>1.4·10^7, every rational point of X0^+(p²) is a cusp or CM point. (bilu-parent-rebolledo, Theorem4.1(i) and proof, pp.970–972, bilu-parent-rebolledo line 625.)
+For a prime p>1.4·10⁷, every rational point of X₀⁺(p²) is a cusp or CM point. Here X₀⁺(p²)=X₀(p²)/⟨w_(p²)⟩ is the Atkin–Lehner quotient of ModularCurvesPartII §9.8, isomorphic over ℚ to X_s⁺(p) by ModularCurvesPartII §9.5. (bilu-parent-rebolledo, Theorem 4.1(i) and proof, pp.970–972, bilu-parent-rebolledo line 625.)
 
-Throughout this subsection, p>1.4·10^7 is prime; P∈X0^+(p²)(ℚ).
+Throughout this subsection, p>1.4·10⁷ is prime; P∈X₀⁺(p²)(ℚ).
 
 A proof route is as follows. Use the general quantitative bound in §5.3a, §5.3b’s split-Cartan integrality and §5.3c’s Runge inequality, and the normalized isogeny/height comparisons. A cyclic p²-isogeny over a quadratic field gives p≤7000·max(h_F(E₁),985). Together with the p-isogeny height difference and Runge estimate, this forces p≤1.4·10⁷.
 
 Use the exact stable height comparison of ArakelovGeometryAndAbelianHeights §§4.4,5.9, the arithmetic targets §§5.3a–5.3c.
 
-*Needs:* ModularCurvesPartII §§5.2, 5.5; EllipticCurves Layer 4; EllipticCurves Layer 1; ArakelovGeometryAndAbelianHeights §4.4; ArakelovGeometryAndAbelianHeights §5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; Layer 5 §5.3a quantitative elliptic isogenies; Layer 5.3b Integrality of split Cartan rational points; Layer 5.3c The explicit Runge inequality.
+*Needs:* ModularCurvesPartII §§5.2, 5.5, 9.5, 9.8; EllipticCurves Layer 4; EllipticCurves Layer 1; ArakelovGeometryAndAbelianHeights §4.4; ArakelovGeometryAndAbelianHeights §5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; Layer 5 §5.3a quantitative elliptic isogenies; Layer 5.3b Integrality of split Cartan rational points; Layer 5.3c The explicit Runge inequality.
 
 ### 5.4a The generalized Jacobian of X₀(p) and Heegner–Gross vectors
 
@@ -1328,7 +1328,7 @@ Prove the following, for a noncuspidal non-CM rational point P of X₀⁺(p²), 
 
 ### 5.5 The Heegner–Gross criterion for split Cartan points
 
-For prime p>11, p≠13, suppose there is a negative fundamental discriminant −D with χ_D(p)∈{0,−1} and p not dividing gcd_(2≤c≤7)Res(H′_(−D),H′_(−c²D)). Then every point of X0^+(p²)(ℚ) is cusp or CM. (bilu-parent-rebolledo, Corollary 5.7, p.976, with p>11, bilu-parent-rebolledo line 847.)
+For prime p>11, p≠13, suppose there is a negative fundamental discriminant −D with χ_D(p)∈{0,−1} and p not dividing gcd_(2≤c≤7)Res(H′_(−D),H′_(−c²D)). Then every point of X₀⁺(p²)(ℚ) is cusp or CM. (bilu-parent-rebolledo, Corollary 5.7, p.976, with p>11, bilu-parent-rebolledo line 847.)
 
 Throughout this subsection, p>11 is prime and p≠13; −D is a negative fundamental discriminant; χ_D(p)∈{0,−1}; p does not divide gcd_(2≤c≤7) Res(H′_(−D),H′_(−c²D)), with H the actual Hilbert class polynomials.
 
@@ -1336,7 +1336,7 @@ A proof route is as follows. The resultant condition gives a conductor c∈{2,�
 
 The divisor comparison takes place in the generalized Jacobian J₀(p)♯ of §5.4a, not in the Picard Jacobian of X₀(p).
 
-*Needs:* Layer 5.4a The generalized Jacobian of X₀(p) and Heegner–Gross vectors; ModularCurvesPartII §§5.2, 5.5; ComplexMultiplicationAndExplicitReciprocity §3.1 and §5.1.
+*Needs:* Layer 5.4a The generalized Jacobian of X₀(p) and Heegner–Gross vectors; ModularCurvesPartII §§5.2, 5.5, 9.8; ComplexMultiplicationAndExplicitReciprocity §3.1 and §5.1.
 
 ### 5.6 The finite split Cartan exclusion
 
@@ -1350,15 +1350,15 @@ A proof route proves that each prime in the stated interval has a discriminant i
 - At p=17 the discriminant −3 has χ_(−3)(17)=−1; H_(−3)=X and H_(−12)=X−54000 give derivatives 1,1 and resultant 1. In contrast χ_(−4)(17)=1, so −4 alone does not meet the criterion.
 - The upper cutoff 14000000 is less than 10¹⁴. Equality is retained on the finite side of the split at 14000000, even though this integer itself is composite.
 
-*Needs:* Layer 5.5 The Heegner–Gross criterion for split Cartan points; ComplexMultiplicationAndExplicitReciprocity §§5.1–5.5; ModularForms Layers 1 and 10.
+*Needs:* Layer 5.5 The Heegner–Gross criterion for split Cartan points; ModularCurvesPartII §9.8; ComplexMultiplicationAndExplicitReciprocity §§5.1–5.5; ModularForms Layers 1 and 10.
 
 ### 5.7 The split Cartan uniformity input
 
-Prove `split_normalizer_exclusion`: for geometrically non-CM E/ℚ and every prime p>11 except p=13, the image of E[p] is not contained in a split Cartan normalizer. This includes the p>37 range used in the proper-image comparison. (bilu-parent-rebolledo, Theorem1.1 and identification Xsplit(p)≅X0^+(p²), pp.958–960; Theorem4.1(i), Proposition5.9, bilu-parent-rebolledo line 104.)
+Prove `split_normalizer_exclusion`: for geometrically non-CM E/ℚ and every prime p>11 except p=13, the image of E[p] is not contained in a split Cartan normalizer. This includes the p>37 range used in the proper-image comparison. (bilu-parent-rebolledo, Theorem 1.1 and identification X_split(p)≅X₀⁺(p²), pp.958–960; Theorem 4.1(i), Proposition 5.9, bilu-parent-rebolledo line 104.)
 
 Throughout this subsection, E/ℚ is geometrically non-CM; p>11 is prime and p≠13.
 
-A proof route is as follows. Identify Xsplit(p)≅X0^+(p²). For p>1.4·10^7 use §5.4. For 11<p≤1.4·10^7 use §5.6. A non-CM elliptic point is noncuspidal.
+A proof route is as follows. Identify X_s⁺(p)≅X₀⁺(p²) over ℚ (ModularCurvesPartII §9.5). For p>1.4·10⁷ use §5.4. For 11<p≤1.4·10⁷ use §5.6. A non-CM elliptic point is noncuspidal.
 
 **Checks.**
 
@@ -1366,7 +1366,7 @@ A proof route is as follows. Identify Xsplit(p)≅X0^+(p²). For p>1.4·10^7 use
 - At p=13 the exception excludes the prime even though 11<13.
 - At p=17 the lower and exceptional-prime hypotheses hold, and the finite-range theorem applies. Every p>37 used in §5.8 satisfies both.
 
-*Needs:* Layer 5.4 The large-prime split Cartan exclusion; Layer 5.6 The finite split Cartan exclusion; ModularCurvesPartII §§3.8, 5.2, 9.5–9.7.
+*Needs:* Layer 5.4 The large-prime split Cartan exclusion; Layer 5.6 The finite split Cartan exclusion; ModularCurvesPartII §§3.8, 5.2, 9.5–9.8.
 
 ### 5.8 Every remaining proper image is in a non-split Cartan normalizer
 
@@ -1700,7 +1700,7 @@ At residual p=11 and local q=3, a quadratic Tate twist has squared diagonal eige
 
 ### Dependencies
 
-Layer 4; EllipticCurves Layers 1–5; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; ModularCurvesPartII §§9.5–9.7,13.1–13.3,14.11–14.12,16.2–16.6; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8,1.1–1.2; ComplexMultiplicationAndExplicitReciprocity §§3.1,5.1–5.5; ImaginaryQuadraticClassNumber H3.2, H3.5–H3.6; AnabelianGeometryAndNonabelianChabauty §1.7; ArakelovGeometryAndAbelianHeights §§4.4,5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EulerSystemsAndKolyvaginSystems §§4.7,5.13; gap:mixed-cusp-charts, gap:chen-winding-comparison, gap:positive-characteristic-support, gap:modular-rank-zero and gap:quantitative-abelian-periods; the exceptional-prime point-exhaustion, mixed-boundary and split-height targets; and the full-torsion specialization theorem of HeightsRationalPointsAndObstructions §1.18. Each finite image theorem includes an exhaustive all-primes bound.
+Layer 4; EllipticCurves Layers 1–5; ArithmeticGaloisRepresentations §§2.3–2.4,4.2–4.5,6.1–6.4; ModularCurvesPartII §§9.5–9.8,13.1–13.3,14.11–14.12,16.2–16.6; EisensteinIdealAndRationalTorsion §7.9; ModularSymbolsPadicLFunctions §§0.6–0.8,1.1–1.2; ComplexMultiplicationAndExplicitReciprocity §§3.1,5.1–5.5; ImaginaryQuadraticClassNumber H3.2, H3.5–H3.6; AnabelianGeometryAndNonabelianChabauty §1.7; ArakelovGeometryAndAbelianHeights §§4.4,5.9; FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7; EulerSystemsAndKolyvaginSystems §§4.7,5.13; gap:mixed-cusp-charts, gap:chen-winding-comparison, gap:positive-characteristic-support, gap:modular-rank-zero and gap:quantitative-abelian-periods; the exceptional-prime point-exhaustion, mixed-boundary and split-height targets; and the full-torsion specialization theorem of HeightsRationalPointsAndObstructions §1.18. Each finite image theorem includes an exhaustive all-primes bound.
 
 ## Downstream consumers
 
