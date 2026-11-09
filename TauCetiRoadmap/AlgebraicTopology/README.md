@@ -713,8 +713,13 @@ named in this section is cited as it is at those revisions.
   complex on a Hausdorff space has Hausdorff target (`TopCat.RelativeCWComplex.t2Space`,
   `Topology/CWComplex/Abstract/Hausdorff.lean`). Consumed by §4.5.
 - Projective spaces: Mathlib's quotient topology on `Projectivization 𝕜 V`,
-  `Projectivization.instTopologicalSpace`, with `Projectivization.isQuotientMap_mk'` and
-  `Projectivization.continuous_iff` (`Mathlib/Topology/Algebra/Projectivization.lean`); Tau
+  `Projectivization.instTopologicalSpace`, with `Projectivization.isQuotientMap_mk'`,
+  `Projectivization.continuous_iff` and, for a continuous action of the units on V, the open
+  quotient map `Projectivization.isOpenQuotientMap_mk'`
+  (`Mathlib/Topology/Algebra/Projectivization.lean`), with the Hausdorff criterion for open
+  quotient maps `t2Space_iff_of_isOpenQuotientMap` (`Mathlib/Topology/Separation/Hausdorff.lean`);
+  Mathlib states no Hausdorff instance on this topology, and §4.6 proves it for
+  `Projectivization ℝ (Fin (n+1) → ℝ)`; Tau
   Ceti's affine-chart atlas `Projectivization.instChartedSpace` and manifold structure
   `Projectivization.instIsManifold` of `Projectivization 𝕜 (Fin (n+1) → 𝕜)`, for every
   nontrivially normed field and every order of smoothness
@@ -1630,7 +1635,9 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
 
 ### 4.6 Projective spaces
 
-*Needs:* §§4.1–4.5; Mathlib's projectivization topology; Tau Ceti's projective atlas,
+*Needs:* §§4.1–4.5; Mathlib's projectivization topology with its open quotient map
+`Projectivization.isOpenQuotientMap_mk'` and the Hausdorff criterion for open quotient maps
+`t2Space_iff_of_isOpenQuotientMap`; Tau Ceti's projective atlas,
 `TauCeti.RealProjectiveSpace` with its CW structure and incidences, and the degree-m
 two-cell differential (supplier contracts).
 
@@ -1646,10 +1653,19 @@ Real projective n-space is native `Projectivization ℝ (Fin (n+1) → ℝ)`, wi
    incidences are Tau Ceti's too: the cellular differential is ±2 in positive even degree
    and 0 in odd degree (Hatcher, Example 2.42, p.144: the attaching map composed with the
    collapse has degree `1 + (−1)^k`); the sign records the chosen characteristic maps and
-   cell generators. Own the homeomorphism from `TauCeti.RealProjectiveSpace n` to
+   cell generators. Prove that Mathlib's quotient topology on
+   `Projectivization ℝ (Fin (n+1) → ℝ)` is Hausdorff, which no pinned library states on
+   Mathlib's instance (Tau Ceti's `Projectivization.instT2Space` is on its own copy of the
+   topology): the quotient map from the nonzero vectors is an open quotient map
+   (`Projectivization.isOpenQuotientMap_mk'`), and the relation "v and w span the same line"
+   is closed in the square of the nonzero vectors, being the common zero set of the
+   continuous 2×2 minors `v_i w_j − v_j w_i` of the coordinates, so the Hausdorff criterion
+   for open quotient maps (`t2Space_iff_of_isOpenQuotientMap`) applies; this is Tau Ceti's
+   argument repeated on Mathlib's instance, with the coordinate functionals in place of a
+   separating dual. Own the homeomorphism from `TauCeti.RealProjectiveSpace n` to
    `Projectivization ℝ (Fin (n+1) → ℝ)` induced by v↦[v] on the unit sphere, a continuous
-   bijection from a compact space onto a Hausdorff one, and its smooth local comparison with
-   the affine charts, transporting the CW structure to Mathlib's carrier. The chart and CW
+   bijection from a compact space onto that Hausdorff space, and its smooth local comparison
+   with the affine charts, transporting the CW structure to Mathlib's carrier. The chart and CW
    comparisons use only Layers 2–4 and native manifold calculus, independently
    of Layer 6. For RP² construct the rank-one integral sign system from the
    antipodal double cover and compute its monodromy −1 around the generating
@@ -1672,6 +1688,14 @@ Real projective n-space is native `Projectivization ℝ (Fin (n+1) → ℝ)`, wi
 
 **Checks.**
 
+- Hausdorffness of the quotient topology: the lines through v=(1,2) and w=(2,4) in ℝ² have
+  every minor zero (1·4−2·2=0) and are one point of RP¹, while v=(1,0) and w=(0,1) have minor
+  1·1−0·0=1 and are distinct points; the antipodal pair ±(1,0) is one point, so the Hausdorff
+  separation is between lines, not between vectors.
+- Hausdorffness needs the nonzero vectors: the quotient of all of ℝ^(n+1) by unit scaling is
+  not Hausdorff, since a saturated open set containing the origin contains a ball and so meets
+  every line, so the class of the origin is separated from no other point; the criterion is
+  applied to the open quotient map from the nonzero vectors, where the origin is absent.
 - RP²: the sign system from the antipodal cover has monodromy −1 around the generator of
   π₁=ℤ/2, the constant system +1; with the sign system d₂=0 and d₁=±2, so H₂(RP²;ε)=ℤ,
   H₁=0 and H₀=ℤ/2, while constant integral coefficients give H₂=0, H₁=ℤ/2, H₀=ℤ.
