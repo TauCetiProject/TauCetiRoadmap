@@ -13,11 +13,14 @@ residue-enlargement, proalgebraic-unit and graded-norm targets its proof needs. 
 residue field it then builds the absolute upper filtration of the absolute Galois group, with
 inertia and wild inertia as its terms at `0` and `0+`, the transition function `ψ_(L/K)` of a
 finite separable extension with the open-subgroup identity, and the comparison with the
-completed maximal unramified extension. On a nonarchimedean local field each finite-level object
-is the completed roadmap's, and the agreement is a target here. The package is the ramification
-theory that `p`-adic Hodge theory, integral `p`-adic Hodge theory, the conductors of Galois
-representations and Serre's geometric local class field theory consume over bases such
-as `F̄_p((t))` and `Frac W(F̄_p)`.
+completed maximal unramified extension. On a nonarchimedean local field the objects of a finite
+Galois extension and the inertia and wild inertia subgroups are the completed roadmap's, the
+absolute upper filtration is ClassFieldTheory Layer 7's and the completed maximal unramified
+extension is ReductiveGroupsPartII's `Breve E`; the agreements with these are targets here, and
+the function `ψ_(L/K)` of a finite separable extension that is not Galois is this roadmap's there.
+The package is the ramification theory that `p`-adic Hodge theory, integral `p`-adic Hodge
+theory, the conductors of Galois representations and Serre's geometric local class field theory
+consume over bases such as `F̄_p((t))` and `Frac W(F̄_p)`.
 
 | Layer | Title | What it builds |
 |---|---|---|
@@ -44,9 +47,9 @@ and residue field `k`:
   tower transitivity and the intersection formula; Hasse–Arf for abelian `G` and separable
   residue extension, with the residue-enlargement construction, the proalgebraic unit groups
   with their norm-kernel components, and the graded norms with filtered norm-kernel components,
-  all over an algebraically closed residue field; and
-  the agreement of every one of these objects with the completed roadmap's on a nonarchimedean
-  local field.
+  all over an algebraically closed residue field; and, on a nonarchimedean local field, the
+  agreement of the Herbrand functions and the upper groups with the completed roadmap's, through
+  which §3a.3 recovers `TauCeti.LocalFieldsRamification.hasseArf`.
 - 4a: over a perfect residue field, the absolute upper filtration `G_K^u` and `G_K^(u+)` of
   `Field.absoluteGaloisGroup K`, defined relative to a valuation subring of `AlgebraicClosure K`,
   its closedness, normality, antitonicity, finite projections and separation, the identification
@@ -1144,12 +1147,12 @@ perfect residue field, in both characteristics. PadicExtensionFamilies consumes 
 extension of nonarchimedean local fields, with its independence of the Galois closure, tower law,
 finite-level subgroup identity and integral formula) for the breaks of a separable extension in
 its Layer 2 and its polygon-to-break theorem. FilteredLocalGaloisGroups and FieldOfNorms consume
-§§4a.1–4a.2 on nonarchimedean local fields (the absolute upper filtration with its finite
-projections and inertia, `ψ_(L/K)` with its tower law, the open-subgroup identity
-`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` and the integral formula), the first for the upper filtration of
-the absolute Galois group and of its solvable quotients, the second for arithmetically profinite
-extensions and their fields of norms. Integral `p`-adic Hodge theory reaches the package through
-PadicPeriodRings.
+§4a.2 on nonarchimedean local fields (`ψ_(L/K)` with its tower law, the open-subgroup identity
+`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` and the integral formula), reading `G_K^u` there as
+ClassFieldTheory Layer 7's absolute upper filtration through §4a.1's local-field agreement, the
+first for the upper filtration of the absolute Galois group and of its solvable quotients, the
+second for arithmetically profinite extensions and their fields of norms. Integral `p`-adic
+Hodge theory reaches the package through PadicPeriodRings.
 
 ## References
 
