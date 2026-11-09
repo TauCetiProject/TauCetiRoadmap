@@ -40,17 +40,21 @@ modules and the Joyal–Tierney theorem for pure ring maps, with their applicati
 map `A^R → A` and to the universal effective epimorphisms of affine schemes (Layer 4). No roadmap
 on main or in an open pull request states descent along pure maps; this roadmap gives no name to
 purity itself and writes the condition out (`P → B ⊗[A] P` injective for every `A`-module `P`).
+This roadmap owns the Joyal–Tierney theorem of 4.2 as the general affine statement of descent of
+modules: faithfully flat affine module descent is its case of a faithfully flat ring map, and the
+roadmaps stating that case are listed under Downstream consumers.
 
 **Owned elsewhere.**
 
-- Tau Ceti owns the quotient of an affine scheme by a finite locally free equivalence relation
-  (SGA 3, Exp. V, Théorème 4.1, affine case), on rings for the predicate
-  `RingHom.IsSpecEquivRel` and on schemes for Mathlib's `CategoryTheory.IsEquivalenceRelation`
-  (supplier contracts below). Target 2.1 is the adapter: it translates that theorem into the
-  effectivity of this roadmap for `A` finite over a field. The ideal condition `IsEquivIdeal` of
-  0.1 is the library's `RingHom.IsSpecEquivRel` for the two projections `relFst`, `relSnd`
-  (0.3, `isEquivIdeal_iff_isSpecEquivRel`): the first says it with ideals of `A ⊗[k] A`, the
-  second with the `T`-points of `Spec ((A ⊗[k] A) ⧸ I) ⇉ Spec A`.
+- ModularCurves Layer 0C, item 3, owns the quotient of an affine scheme by an equivalence
+  relation with finite locally free projections (SGA 3, Exp. V, Théorème 4.1, affine case), and
+  Tau Ceti supplies it on rings for the predicate `RingHom.IsSpecEquivRel` and on schemes for
+  Mathlib's `CategoryTheory.IsEquivalenceRelation` (supplier contracts below). Target 2.1 is the
+  adapter: it translates that theorem into the effectivity of this roadmap for `A` finite over a
+  field. The ideal condition `IsEquivIdeal` of 0.1 is the library's `RingHom.IsSpecEquivRel` for
+  the two projections `relFst`, `relSnd` (0.3, `isEquivIdeal_iff_isSpecEquivRel`): the first says
+  it with ideals of `A ⊗[k] A`, the second with the `T`-points of
+  `Spec ((A ⊗[k] A) ⧸ I) ⇉ Spec A`.
 - SchemeAndStackFoundations §1.5 owns the predicate `IsEquivRel` for equivalence relations of
   schemes and algebraic spaces over a base and the fppf quotient sheaf, and §1.17 owns
   `IsCategoricalQuotient` and `IsGeometricQuotient`. This roadmap works with Mathlib's
@@ -65,9 +69,13 @@ purity itself and writes the condition out (`P → B ⊗[A] P` injective for eve
 - AlgebraicModuliForArithmeticGeometry §3.1, §3.2 and §3.3 own the equivalence, along any map of
   commutative rings, between descent data for modules and the coalgebras of the comonad of
   `ModuleCat.extendRestrictScalarsAdj` (`overlapCoalgebraEquivalence`, `moduleCanonicalComparison`,
-  `descentEqualizerModuleCoordinates`), and faithfully flat affine module descent
-  (`affineModuleDescentEquivalence`). Layer 4 works with the coalgebras directly and uses that
-  dictionary only to read its statements in the language of descent data.
+  `descentEqualizerModuleCoordinates`), with their faithfully flat affine module descent
+  (`affineModuleDescentEquivalence`), the case of 4.2 in which `A → B` is faithfully flat. Layer 4
+  works with the coalgebras directly and uses that dictionary only to read its statements in the
+  language of descent data.
+- DirectSummandsAndBigCohenMacaulay §0.1 owns split algebras (`R`-linear retractions of the
+  unit) and the equivalence of splitting with purity for an algebra finitely presented as a
+  module. An example of Layer 4 cites it; no target uses it.
 
 **Not here.** Quotients by finite equivalence relations of schemes of finite type in positive
 characteristic, and the existence of geometric quotients (Kollár 2012, Theorem 6 and
@@ -176,7 +184,12 @@ along which descent of flat modules is not effective (Venken 1971) is research c
   `M → S ⊗[R] M → S ⊗[R] (S ⊗[R] M)` is exact for every `R`-module `M`
   (`TauCeti/RingTheory/Flat/EffectiveDescent.lean`).
 
-Nothing is consumed from another roadmap.
+**From ModularCurves** (on main).
+
+- Layer 0C, item 3: for `X` affine and `R ⇉ X` an equivalence relation whose two projections are
+  finite locally free, the quotient `X/R` exists and is affine, `X ⟶ X/R` is finite locally free
+  and surjective, and `R = X ×_{X/R} X` (SGA 3, Exp. V, Théorème 4.1, affine case). Target 2.1 is
+  its case `X = Spec A`, `A` finite over a field, through the Tau Ceti declarations above.
 
 ## How to read the build
 
@@ -374,9 +387,11 @@ Layer 0; Mathlib `AlgHom.equalizer`, `IsEffectiveEquivalenceRelation`, `Cofork`,
 
 Prove `isEffectiveEquivalenceRelation_of_flat`: for `k` a field, `A` finite-dimensional and `I` an
 equivalence ideal such that `(A ⊗[k] A) ⧸ I` is flat over `A` through the first factor
-(`Algebra.TensorProduct.leftAlgebra`), the relation is effective and `A` is flat over `A^R`
-(SGA 3, Exp. V, Théorème 4.1 (iv); FGA III, Théorème 5.1 (iv), p. 212-12; Stacks,
-Proposition 39.23.9, Tag 03BM). Route: `B = (A ⊗[k] A) ⧸ I` is finite over `A` through `relFst`
+(`Algebra.TensorProduct.leftAlgebra`), the relation is effective and `A` is flat over `A^R`.
+This is the case `X = Spec A`, `A` finite over a field, of ModularCurves Layer 0C, item 3 (SGA 3,
+Exp. V, Théorème 4.1 (iv), affine case; FGA III, Théorème 5.1 (iv), p. 212-12; Stacks,
+Proposition 39.23.9, Tag 03BM), read in the language of ideals; this target is the adapter and
+states nothing beyond that case. Route: `B = (A ⊗[k] A) ⧸ I` is finite over `A` through `relFst`
 (`A` is finite over `k`), finitely presented since `A` is noetherian, and flat by hypothesis, hence
 projective. By 0.3, `relFst`, `relSnd` satisfy `RingHom.IsSpecEquivRel`, and the ring of invariants
 `(relFst I).toRingHom.eqLocus (relSnd I).toRingHom` has the carrier of `invariants I`. Tau Ceti's
@@ -387,7 +402,7 @@ form, the same follows from 0.3 with `specFst` finite, flat and locally of finit
 `AlgebraicGeometry.Scheme.Hom.isKernelPair_affineCoequalizerπ`,
 `AlgebraicGeometry.Scheme.Hom.isColimitAffineCoequalizerCofork` and
 `AlgebraicGeometry.Scheme.Hom.flat_affineCoequalizerπ`, transported along
-`affineCoequalizer ≅ Spec A^R`. *Needs:* 0.3, 1.1, 1.3, Tau Ceti
+`affineCoequalizer ≅ Spec A^R`. *Needs:* 0.3, 1.1, 1.3, ModularCurves Layer 0C (item 3), Tau Ceti
 `RingHom.IsSpecEquivRel.isPullback_SpecMap`, `RingHom.IsSpecEquivRel.isColimitCofork`,
 `RingHom.IsSpecEquivRel.flat`,
 `AlgebraicGeometry.Scheme.Hom.isKernelPair_affineCoequalizerπ`,
@@ -409,7 +424,8 @@ form, the same follows from 0.3 with `specFst` finite, flat and locally of finit
 
 ### Dependencies
 
-Layer 1; Tau Ceti `TauCeti/RingTheory/Invariant/EquivalenceRelation/Quotient.lean` and
+Layer 1; ModularCurves Layer 0C (item 3); Tau Ceti
+`TauCeti/RingTheory/Invariant/EquivalenceRelation/Quotient.lean` and
 `TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
 
 ## Layer 3: examples
@@ -724,8 +740,9 @@ universality is what brings in every module. *Needs:* 4.1, 4.2, Mathlib `Algebra
 - Kernel pairs of split subalgebras `C ⊆ A`, such as invariants of a finite group of invertible
   order: `C → A` is pure and modules descend along `Spec A → Spec C`; when the retraction is a
   map of `C`-algebras, `Algebra.IsEffective C A` is `Algebra.IsEffective.of_section`.
-  Conversely, for `C` noetherian and `A` a finite `C`-module, `A ⧸ C` is finitely presented, so
-  `C → A` is pure only if it is split as a map of `C`-modules (Stacks, Lemma 10.82.4, Tag 058L).
+  Conversely, for `C` noetherian and `A` a finite `C`-module, `A` is finitely presented over `C`,
+  so `C → A` is pure only if it is split as a map of `C`-modules (DirectSummandsAndBigCohenMacaulay
+  §0.1; Stacks, Lemma 10.82.4, Tag 058L).
 
 ### Dependencies
 
@@ -737,7 +754,9 @@ Layers 1 and 2; Mathlib `Algebra.IsEffective`, `ModuleCat.extendScalars`,
 
 ## Downstream consumers
 
-No roadmap on main or in an open pull request cites this one.
+- AlgebraicModuliForArithmeticGeometry §3.1: faithfully flat affine module descent
+  (`affineModuleDescentEquivalence`) is the case of 4.2 (`full_faithful_comparison_iff`,
+  `nonempty_comonadicLeftAdjoint_iff`) in which `A → B` is faithfully flat.
 
 ## Research context
 
