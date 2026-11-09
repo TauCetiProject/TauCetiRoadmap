@@ -164,6 +164,19 @@ theorem HasExtensionUpTo.mono {G : SimpleGraph V} {d e : ℕ}
     (h : HasExtensionUpTo G d) (hed : e ≤ d) : HasExtensionUpTo G e := by
   sorry
 
+/-- Full extension supplies arbitrarily many witnesses, so the carrier is infinite. -/
+theorem HasExtensionProperty.infinite {G : SimpleGraph V} (hG : G.HasExtensionProperty) :
+    Infinite V := by
+  sorry
+
+/-- The converse of Tau Ceti's `SimpleGraph.Iso.toLanguageEquiv`: an equivalence of the
+graph-language structures is a graph isomorphism. -/
+def Language.Equiv.toSimpleGraphIso {G : SimpleGraph V} {H : SimpleGraph W}
+    (e : letI := G.structure; letI := H.structure; V ≃[Language.graph] W) : G ≃g H :=
+  letI := G.structure
+  letI := H.structure
+  ⟨e.toEquiv, fun {a b} => e.map_rel Language.adj ![a, b]⟩
+
 /-- The `(r, s)` extension axiom: for all pairwise distinct `y₀, …, y_{r+s-1}` some `z`, distinct
 from every `yᵢ`, is adjacent to the first `r` and not adjacent to the last `s`. -/
 noncomputable def extensionSentence (r s : ℕ) : Language.graph.Sentence :=
