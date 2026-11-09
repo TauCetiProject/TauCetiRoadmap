@@ -141,9 +141,9 @@ jobs:
       # GitHub releases) and the toolchain (from releases.lean-lang.org) afresh on every run and does
       # not retry either; between 05:17 and 05:50 UTC on 2026-11-09 those downloads failed
       # intermittently (HTTP 504 among them) and 17 builds, three of them `main`, went red before
-      # compiling anything. Only the last attempt can fail the job. The retries test the previous
-      # attempt's `outcome`, which is always `success`, `failure` or `skipped`, so no comparison
-      # involves a missing value (see the scope step).
+      # compiling anything. Only the last attempt can fail the job. Each retry runs only when the
+      # previous attempt's `outcome` is `failure`; `outcome` is always set (`success`, `failure`,
+      # `cancelled` or `skipped`), so no comparison involves a missing value (see the scope step).
       - name: Set up Lean and restore Mathlib
         id: lean_setup
         if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
