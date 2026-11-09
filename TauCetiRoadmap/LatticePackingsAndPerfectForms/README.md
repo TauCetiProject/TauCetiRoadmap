@@ -41,7 +41,7 @@ roadmap builds for a rational lattice (`realModel`, its 2D), and milestone 0.4 i
 Suggested homes: `TauCeti/LinearAlgebra/QuadraticForm/PosDefForm/` for Layers 0–4 (forms,
 densities, covering, perfect and eutactic forms, Voronoi's theorem and adjacency),
 `TauCeti/LinearAlgebra/IntegralLattice/PosDef/Geometry/` for the lattice-side definitions and the
-LMFDB columns (Layers 0, 1, 7, 8), `TauCeti/Analysis/SphericalDesign/` and
+LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
 `TauCeti/NumberTheory/ThetaSeries/Harmonic/` for Layer 5, and
 `TauCeti/NumberTheory/IntegralLattice/Universal/` for Layer 6.
 
@@ -84,25 +84,40 @@ LMFDB columns (Layers 0, 1, 7, 8), `TauCeti/Analysis/SphericalDesign/` and
   Tau Ceti's `minimum` and `kissingNumber` **are** the LMFDB `minimum` and `kissing` columns;
   Layer 1 identifies them with the form-side definitions and adds no second minimum on the
   rational carrier.
-- **From Tau Ceti at the pin**, the integral successive minima and Hermite's inequality:
+- **From Tau Ceti at the pin**, the integral successive minima, Hermite's inequality, Minkowski's
+  bound, Minkowski reduction and the `E₈` root count:
   `TauCeti.IntegralLattice.successiveMinimum` and `IsPosSemidef.successiveMinimum_zero`
   (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/SuccessiveMinima.lean`);
-  `IsPosDef.three_pow_mul_minimum_pow_le` and `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
-  (`…/IntegralLattice/PosDef/Hermite.lean`); the `A₂` equality case
-  `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`
-  (`…/IntegralLattice/RootLattice/TypeA/Hermite.lean`); and the form-level statements
+  `IsPosDef.minimum_le_rpow_mul_determinant_rpow` (`…/IntegralLattice/PosDef/Hermite.lean`); the
+  `A₂` equality case `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`
+  (`…/IntegralLattice/RootLattice/TypeA/Hermite.lean`); the form-level statements
   `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le` and
   `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det`
-  (`TauCeti/LinearAlgebra/BilinearForm/Hermite.lean`). The remaining integral Minkowski,
-  reduction and class-finiteness inputs are consumed from IntegralLattices §§2E–2G, and the E₈
-  root count from its §6G; they are not new targets here.
+  (`TauCeti/LinearAlgebra/BilinearForm/Hermite.lean`); Minkowski's bound
+  `TauCeti.IntegralLattice.IsPosDef.minimum_le_mul_determinant_rpow`
+  (`…/IntegralLattice/PosDef/Minkowski.lean`); the reduction theory
+  `TauCeti.IntegralLattice.IsMinkowskiReduced`,
+  `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`,
+  `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`,
+  `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le`,
+  `TauCeti.IntegralLattice.IsMinkowskiReduced.integralNorm_le_factorial_sq_mul_successiveMinimum`
+  and `TauCeti.IntegralLattice.IsMinkowskiReduced.prod_integralNorm_mul_pi_pow_le`
+  (`…/IntegralLattice/PosDef/{Reduction,ReducedGram}.lean`); and the `E₈` root count
+  `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice`
+  (`…/IntegralLattice/RootLattice/TypeE/Roots.lean`). None of them is a new target here.
+- **From Tau Ceti at the pin**, the modular-form inputs of 4.11 and 6.4: the valence formulas,
+  the character spaces, the Hecke recurrences, newforms with the old/new decomposition, and the
+  bad-prime coefficients of newforms, tabulated under *From Tau Ceti*. ModularForms supplies only
+  its §0.1, the cusp–Eisenstein decomposition in weights one and two.
 - **From GeometryOfNumbersAndQuadraticArithmetic §4.3**: `polynomialLaplacian`,
   `polynomial_fischer_decomposition`, `polynomial_sphere_harmonic_span`, and
   `fourier_harmonic_gaussian`. Layer 5 adds the Gram-coordinate adapter, the design
   application and the complex-parameter Fourier identity.
 - **From the theta-series roadmap**: `poissonSummation`, `gaussian`, `fourier_gaussian` (Layer 1);
   `RealSpace M`, `realModel M`, `ratModel`, the invariant comparisons of 2D; `shell`, `repNum` and
-  `ncard_vectorsOfNorm_ratModel` (2G); the theta identities `Θ_{E₈} = E₄` and `Θ_Λ = E₄³ − 720Δ`
+  `ncard_vectorsOfNorm_ratModel` (2G); the level-one modularity of the theta series of an even
+  unimodular lattice (Layer 5) and the Hecke–Schoeneberg theorem at general level (Layer 7); the
+  theta identities `Θ_{E₈} = E₄` and `Θ_Λ = E₄³ − 720Δ`
   with their corollaries `r_{E₈}(2) = 240` (8B) and `r_Λ(4) = 196560` (8D). Layer 5 here builds
   theta series *with harmonic coefficients*, which that roadmap explicitly leaves out; the scalar
   theta series is never redefined.
@@ -250,20 +265,21 @@ LMFDB has no rank-zero lattice. Positive definiteness is in the type of a form a
 Every milestone rests on Mathlib at the pin, on Tau Ceti at the pin, on an earlier milestone of
 this roadmap, or on a cited milestone of one of the following roadmaps.
 
-- [Integral quadratic forms and lattices](../IntegralLattices/README.md) (IL): 2A finiteness of
-  bounded-norm sets, 2B minimum, shells, kissing number and representation numbers, 2C the
-  automorphism group `O(L)` and its finiteness, 2D the covolume identity, 2E Minkowski's and
-  Hermite's bounds, 2F integral successive minima, 2G Minkowski reduction and class finiteness;
-  1B–1D the dual, the discriminant group `A_L`, `b_L` and `q_L`; 1G finite quadratic modules; 6C–6G
-  the `E₈` lattice, the rank-16 pair, the Niemeier reference lattices and `|O(E₈)|`; 9A/9B the
-  stored-column certificates.
+- [Integral quadratic forms and lattices](../IntegralLattices/README.md) (IL): 0F orthogonal sums
+  and unit-norm splittings, 2C the automorphism group `O(L)` and its finiteness, and 1C–1D the
+  discriminant group `A_L` with `b_L` and `q_L` (labels IL gives to native Tau Ceti declarations,
+  consumed here as those declarations); 1G finite quadratic modules and their isometry groups;
+  4A class sets and genera; 6C–6D the `E₈` lattice as the even unimodular lattice of rank 8 and the
+  rank-16 pair; 9B the exhaustion of a list of classes from the mass.
 - [Completed integral lattices](../../Completed/IntegralLattices/README.md): the carrier
   `TauCeti.IntegralLattice`, isometries, orthogonal sums, scaling, duals, discriminant forms, the
   rank-one and ADE lattices (Layer 5).
 - [Theta series](../ThetaSeries/README.md): Layer 1 Poisson summation for a full lattice in a real
   inner product space, 2D the real model `realModel` of a positive definite rational lattice and the
-  bridge, 2G shells and representation numbers of the real model, 8B `r_{E₈}(2) = 240` and 8D
-  `r_Λ(4) = 196560` as corollaries of theta identities.
+  bridge, 2G shells and representation numbers of the real model, Layer 5 the level-one modularity
+  of the theta series of an even unimodular lattice (5.6), Layer 7 (7C–7D) the Hecke–Schoeneberg
+  theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` for an even lattice of rank `2k` and level `N` (6.4), 8B
+  `r_{E₈}(2) = 240` and 8D `r_Λ(4) = 196560` as corollaries of theta identities.
 - [Niemeier glue data and explicit Leech constructions](../Rank24LatticeConstructions/README.md):
   Layer 6, the Leech lattice `Λ₂₄` with minimum `4` and no roots.
 - [Successive minima and Minkowski's theorems](../SuccessiveMinima/README.md): 1.1 the real
@@ -276,11 +292,13 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
 - [Orthogonal Tamagawa comparison and lattice masses](../OrthogonalTamagawaAndLatticeMass/README.md):
   §4, the finite automorphism-group certificates for `E₈`, the rank-16 pair and the rank-24
   lattices, and the mass and class-number columns.
-- [Modular forms](../ModularForms/README.md): the level-one graded ring and the dimensions of
-  `M_k(SL₂(ℤ))` and `S_k(SL₂(ℤ))`, consumed in Layer 5 through Tau Ceti's
-  `TauCeti.ModularForm.mvPolynomialEquivModularForms` and Mathlib's level-one dimension formula.
-  Layer 0 (forms with character), Layer 1 (the valence formula), Layer 2 (Hecke recurrences) and
-  Layers 4–5 (eigenforms, newforms and the Eisenstein decomposition) are consumed in 4.11 and 6.4.
+- [Modular forms](../ModularForms/README.md): §0.1, the cusp–Eisenstein decomposition
+  `M_k(N,χ) = S_k(N,χ) ⊕ E_k(N,χ)` in weights one and two, consumed in 6.4 at weight two for the
+  theta series of an even quaternary lattice. The level-one graded ring and the dimensions of
+  `M_k(SL₂(ℤ))` and `S_k(SL₂(ℤ))` used in Layer 5 are Tau Ceti's
+  `TauCeti.ModularForm.mvPolynomialEquivModularForms` and Mathlib's level-one dimension formula,
+  and the valence formulas, character spaces, Hecke recurrences, newforms and bad-prime
+  coefficients used in 4.11 and 6.4 are the Tau Ceti declarations of *From Tau Ceti*.
 - [Global quadratic forms](../GlobalQuadraticForms/README.md) (GQF): 4.4 Hilbert reciprocity and
   6.1 scalar representation of a rational quadratic form, the local representation conditions used
   in 6.1, 6.3 and 6.4.
@@ -291,21 +309,21 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
 
 | Declarations | File | Consumed by |
 | --- | --- | --- |
-| `Matrix.PosDef`, `Matrix.PosDef.det_pos`, `Matrix.PosDef.transpose`, `Matrix.posDef_iff_dotProduct_mulVec`, `Matrix.PosDef.inv` | `Mathlib/LinearAlgebra/Matrix/PosDef.lean` | 0.1, 0.2, 4.1 |
+| `Matrix.PosDef`, `Matrix.PosDef.det_pos`, `Matrix.PosDef.transpose`, `Matrix.posDef_iff_dotProduct_mulVec`, `Matrix.PosDef.inv` | `Mathlib/LinearAlgebra/Matrix/PosDef.lean` | 0.1, 0.2, 0.5, 4.2 |
 | `Matrix.GeneralLinearGroup`, `Matrix.det_mul`, `Int.isUnit_iff` | `Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean` | 0.1 |
 | `Matrix.vecMulVec`, `Matrix.trace` | `Mathlib/Data/Matrix/Mul.lean` | 4.1, 4.2 |
 | `InnerProductSpace.ofCore`, `InnerProductSpace.Core` | `Mathlib/Analysis/InnerProductSpace/Defs.lean` | 0.3 |
-| `IsZLattice`, `ZSpan.instIsZLatticeRealSpan`, `ZSpan.setFinite_inter`, `ZLattice.covolume`, `ZLattice.covolume_eq_det`, `ZLattice.covolume_comap` | `Mathlib/Algebra/Module/ZLattice/Basic.lean`, `Covolume.lean` | 0.3, 1.4, 1.5 |
+| `IsZLattice`, `ZSpan.instIsZLatticeRealSpan`, `ZSpan.setFinite_inter`, `ZLattice.covolume`, `ZLattice.covolume_eq_det`, `ZLattice.covolume_comap` | `Mathlib/Algebra/Module/ZLattice/Basic.lean`, `Covolume.lean` | 0.3, 1.1, 1.4, 3.1 |
 | `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure` (Minkowski's convex body theorem) | `Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean` | 1.7 |
-| `InnerProductSpace.volume_ball`, `EuclideanSpace.volume_ball`, `InnerProductSpace.volume_ball_of_dim_even` | `Mathlib/MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean` | 1.5, 1.7, 3.4 |
+| `InnerProductSpace.volume_ball`, `EuclideanSpace.volume_ball`, `InnerProductSpace.volume_ball_of_dim_even` | `Mathlib/MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean` | 1.4, 1.5, 1.7, 3.2 |
 | `MeasureTheory.Measure.toSphere`, `toSphere_apply_univ`, `measurePreserving_homeomorphUnitSphereProd` | `Mathlib/MeasureTheory/Constructions/HaarToSphere.lean` | 5.1 |
-| `Metric.infDist`, `Metric.infDist_le_dist_of_mem`, `IsCompact.exists_isMaxOn` | `Mathlib/Topology/MetricSpace/HausdorffDistance.lean`, `Mathlib/Topology/Order/Compact.lean` | 3.1, 3.2 |
+| `Metric.infDist`, `Metric.infDist_le_dist_of_mem`, `IsCompact.exists_isMaxOn` | `Mathlib/Topology/MetricSpace/HausdorffDistance.lean`, `Mathlib/Topology/Order/Compact.lean` | 2.2, 3.1, 3.2 |
 | `IsLocalMax`, `IsLocalMaxOn` | `Mathlib/Topology/Order/LocalExtr.lean` | 4.3, 4.5 |
 | `fderiv`, `HasFDerivAt` | `Mathlib/Analysis/Calculus/FDeriv/` | 4.5, 4.7 |
 | `MvPolynomial`, `MvPolynomial.pderiv`, `MvPolynomial.totalDegree`, `MvPolynomial.restrictTotalDegree`, `MvPolynomial.eval` | `Mathlib/Algebra/MvPolynomial/PDeriv.lean`, `Mathlib/RingTheory/MvPolynomial/Basic.lean` | 5.1, 5.4 |
 | `SchwartzMap.fourierTransformCLM` | `Mathlib/Analysis/Distribution/SchwartzSpace/Fourier.lean` | 5.5 |
 | `ModularForm`, `CuspForm`, `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `CuspForm.rank_eq_one_of_weight_eq_twelve`, `ModularForm.levelOne_odd_weight_eq_zero`, `discriminantEquiv` | `Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean` | 5.6, 5.7 |
-| `Nat.sum_four_squares` | `Mathlib/NumberTheory/SumFourSquares.lean` | 6.1, 9 (examples) |
+| `Nat.sum_four_squares` | `Mathlib/NumberTheory/SumFourSquares.lean` | 6.1, worked examples |
 | `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `tensorDistrib_tmul`, `Basis.tensorProduct` | `Mathlib/LinearAlgebra/BilinearForm/TensorProduct.lean`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean` | 7.1 |
 | `Matrix.kronecker`, `Matrix.det_kronecker`, `Matrix.kroneckerMap` | `Mathlib/LinearAlgebra/Matrix/Kronecker.lean` | 7.1, 7.2 |
 | `Subgroup.index`, `MonoidHom.range`, `AddAut` | `Mathlib/GroupTheory/Index.lean` | 7.5 |
@@ -319,22 +337,24 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 
 | Declarations | Location | Consumed by |
 | --- | --- | --- |
-| `IntegralLattice`, `gramMatrix`, `determinant`, `discriminant`, `ofGramMatrix`, `ofGramMatrix.basis`, `Isometry.ofGramMatrixEq`, `IsPosDef`, `scale`, `orthogonalSum` | `TauCeti/LinearAlgebra/IntegralLattice/{Basic,Gram,Signature,Scaling,Orthogonal/Sum}.lean` | 0.2, 0.5, 7.1 |
-| `norm`, `integralNorm`, `vectorsOfNorm`, `representationNumber`, `minimum`, `kissingNumber`, `IsPosDef.finite_vectorsOfNorm`, `IsPosSemidef.isLeast_minimum`, `IsPosDef.minimum_pos`, `TauCeti.IntegralLattice.kissingNumber_eq_representationNumber`, `Isometry.minimum_eq`, `Isometry.kissingNumber_eq` | `…/Norm.lean`, `…/PosDef/{Finite,RepresentationNumber,Minimum}.lean` | 1.2, 1.3, 6.1, 8.1 |
-| `Isometry`, `Isometry L L` as a group, `Isometry.det`, `specialOrthogonalGroup`, `IsPosDef.finite_isometry`, `Isometry.dualCarrierEquiv`, `Isometry.discriminantGroupEquiv` | `…/Isometry/{Basic,Group}.lean`, `…/Dual/Basic.lean`, `…/Discriminant/Group.lean` | 7.5, 7.6 |
-| realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3, 1.5 |
-| `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.4, 7.5 |
-| `FiniteBilinearModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/` | 7.5 |
-| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `d8PlusLattice` | `…/RankOne.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/Basic.lean`, `…/RootLattice/TypeE.lean`, `…/RootLattice/D8Plus/Basic.lean` | 4.10, worked examples |
-| `TauCeti.ModularForm.mvPolynomialEquivModularForms`, the level-one graded ring | `TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.lean` | 5.6 |
-| `TauCeti.IntegralLattice.successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `IsPosDef.three_pow_mul_minimum_pow_le`, `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`, `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le`, `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det` | `…/PosDef/{SuccessiveMinima,Hermite}.lean`, `…/RootLattice/TypeA/Hermite.lean`, `TauCeti/LinearAlgebra/BilinearForm/Hermite.lean` | 1.6, 1.8, 2.3 |
-| Minkowski's theorems, Minkowski reduction, reduced-Gram bounds, class finiteness, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | IntegralLattices §§2E–2G and §6G, with intended homes under `TauCeti/LinearAlgebra/IntegralLattice/PosDef/{Minkowski,Reduction,ReducedGram,Classes}.lean` and `…/RootLattice/TypeE/Roots.lean`; cited in prose only | 1.6, 2.3, 1.9, 4.9, 9 |
+| `IntegralLattice`, `gramMatrix`, `determinant`, `discriminant`, `ofGramMatrix`, `ofGramMatrix.basis`, `Isometry.ofGramMatrixEq`, `IsPosDef`, `scale`, `orthogonalSum` | `TauCeti/LinearAlgebra/IntegralLattice/{Basic,Gram,Signature,Scaling,Orthogonal/Sum}.lean` | 0.2, 0.5, 6.2, 7.1, 7.3 |
+| `norm`, `integralNorm`, `vectorsOfNorm`, `representationNumber`, `minimum`, `kissingNumber`, `IsPosDef.finite_vectorsOfNorm`, `IsPosSemidef.isLeast_minimum`, `IsPosDef.minimum_pos`, `TauCeti.IntegralLattice.kissingNumber_eq_representationNumber`, `Isometry.minimum_eq`, `Isometry.kissingNumber_eq` | `…/Norm.lean`, `…/PosDef/{Finite,RepresentationNumber,Minimum}.lean` | 0.4, 1.2, 6.1 |
+| `Isometry`, `Isometry L L` as a group, `Isometry.det`, `specialOrthogonalGroup`, `IsPosDef.finite_isometry`, `Isometry.dualCarrierEquiv`, `Isometry.discriminantGroupEquiv` | `…/Isometry/{Basic,Group}.lean`, `…/Dual/Basic.lean`, `…/Discriminant/Group.lean` | 4.4, 7.3, 7.4, 7.5 |
+| realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3 |
+| `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.1, 7.4, 7.5 |
+| `FiniteBilinearModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/` | 7.4, 7.5 |
+| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `d8PlusLattice` | `…/RankOne.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/Basic.lean`, `…/RootLattice/TypeE.lean`, `…/RootLattice/D8Plus/Basic.lean` | 4.10, 7.5, worked examples |
+| `TauCeti.ModularForm.mvPolynomialEquivModularForms`, the level-one graded ring | `TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.lean` | 5.7 |
+| `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex` | `TauCeti/NumberTheory/ModularForms/LevelOne/ValenceFormula.lean`, `TauCeti/NumberTheory/ModularForms/Norm/Cusps.lean` | 4.11 |
+| `modFormCharSpace`, `cuspFormCharSpace`, `TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff`, `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis`, `TauCeti.isCompl_cuspFormsOld_cuspFormsNew`, `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`, `HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq`, `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt` | `TauCeti/NumberTheory/ModularForms/DiamondOperators.lean`, `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/CoefficientCriterion.lean`, `TauCeti/NumberTheory/ModularForms/Newforms/{Newform,OrthogonalBasis,Basic}.lean`, `TauCeti/NumberTheory/ModularForms/Newforms/BadPrime/Classification.lean` | 6.4 |
+| `TauCeti.IntegralLattice.successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`, `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le`, `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det` | `…/PosDef/{SuccessiveMinima,Hermite}.lean`, `…/RootLattice/TypeA/Hermite.lean`, `TauCeti/LinearAlgebra/BilinearForm/Hermite.lean` | 1.6; 1.8 (the model of its route) |
+| `TauCeti.IntegralLattice.IsPosDef.minimum_le_mul_determinant_rpow`, `TauCeti.IntegralLattice.IsMinkowskiReduced`, `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`, `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le`, `TauCeti.IntegralLattice.IsMinkowskiReduced.integralNorm_le_factorial_sq_mul_successiveMinimum`, `TauCeti.IntegralLattice.IsMinkowskiReduced.prod_integralNorm_mul_pi_pow_le`, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | `…/PosDef/{Minkowski,Reduction,ReducedGram}.lean`, `…/RootLattice/TypeE/Roots.lean` | 1.6, 1.9, 7.2, worked examples |
 
 ## How to read the build
 
 Milestones are numbered `N.M` and may rest only on Mathlib, Tau Ceti at the pin, a cited supplier
 milestone, or an earlier milestone of this roadmap. Each layer ends with its dependency table,
-where **M** is Mathlib, **T** Tau Ceti at the pin, **T⁺** IntegralLattices §§2E–2G,
+where **M** is Mathlib, **T** Tau Ceti at the pin,
 **IL**, **TS**, **SM**, **GoN**, **OT**, **R24**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
 roadmap.
 
@@ -656,10 +676,11 @@ API:
 ### 1.6 Comparison with the integral theory
 
 Record, through the dictionary of 1.2, that Tau Ceti's `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
-(`min L ≤ (4/3)^{(n−1)/2} (det L)^{1/n}`) is the integral case of 1.8, that `T⁺`'s Minkowski bound
-for `L.minimum` is the integral case of 1.7, and that the first integral successive minimum is the
-minimum (Tau Ceti's `IsPosSemidef.successiveMinimum_zero`). No declaration here restates them; 1.7
-and 1.8 are the real-form versions those modules do not cover.
+(`min L ≤ (4/3)^{(n−1)/2} (det L)^{1/n}`) is the integral case of 1.8, that Tau Ceti's
+`TauCeti.IntegralLattice.IsPosDef.minimum_le_mul_determinant_rpow`
+(`min L ≤ (4/π) Γ(n/2+1)^{2/n} (det L)^{1/n}`) is the integral case of 1.7, and that the first
+integral successive minimum is the minimum (Tau Ceti's `IsPosSemidef.successiveMinimum_zero`). No
+declaration here restates them; 1.7 and 1.8 are the real-form versions those modules do not cover.
 
 **Checks.**
 
@@ -669,8 +690,8 @@ and 1.8 are the real-form versions those modules do not cover.
   2/√3; the integral equality is Tau Ceti's `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`.
 
 *Needs:* T `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `successiveMinimum`,
-`IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`;
-T⁺ `PosDef.Minkowski`; L 1.2.
+`IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`,
+`TauCeti.IntegralLattice.IsPosDef.minimum_le_mul_determinant_rpow`; L 1.2.
 
 ### 1.7 Minkowski's bound for real forms
 
@@ -721,7 +742,11 @@ contains a reduced form (greedy choice, each step a minimum over a set made fini
 inequalities `A₁₁ ≤ A₂₂ ≤ ⋯`, `2|Aᵢⱼ| ≤ Aᵢᵢ`, the comparison `λᵢ² ≤ Aᵢᵢ ≤ (i!)² λᵢ²` with the real
 successive minima `λᵢ` of the unit ball (SM 1.1; they are lengths, so they enter squared) and the
 bound `∏ Aᵢᵢ ≤ (∏ i!)² cₙⁿ det A` (GoN §1.3, Minkowski upper inequality). The integral case is
-`T⁺`'s `PosDef.Reduction`/`PosDef.ReducedGram` (Schürmann, Ch. 2), with the same proofs. Deduce the **coordinate bound**: for reduced
+Tau Ceti's `TauCeti.IntegralLattice.IsMinkowskiReduced`, with existence
+`TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, the comparison
+`TauCeti.IntegralLattice.IsMinkowskiReduced.integralNorm_le_factorial_sq_mul_successiveMinimum`
+and the product bound `TauCeti.IntegralLattice.IsMinkowskiReduced.prod_integralNorm_mul_pi_pow_le`
+(Schürmann, Ch. 2), with the same proofs. Deduce the **coordinate bound**: for reduced
 `A` and `x ∈ S(A)`, `|xᵢ| ≤ Cₙ` with an explicit `Cₙ` (induction from the top coordinate through the
 Gram–Schmidt coefficients, which are bounded by `(∏ i!)² cₙⁿ`), and that the reduced forms with
 `det A = 1` and min A ≥ η, for a fixed η > 0, form a compact set. Their
@@ -739,7 +764,11 @@ API:
 - For η = 1/4, t = 4 passes and t = 5 fails; without η, the second diagonal entry is unbounded.
 - For [a], a > 0, the unique reduced diagonal has determinant and minimum a; at determinant one it is [1].
 
-*Needs:* SM 1.1; GoN 1.3; T⁺ `PosDef.Reduction`, `PosDef.ReducedGram` (as the integral case, prose); L 0.1, 1.1.
+*Needs:* SM 1.1; GoN 1.3; T `TauCeti.IntegralLattice.IsMinkowskiReduced`,
+`TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`,
+`TauCeti.IntegralLattice.IsMinkowskiReduced.integralNorm_le_factorial_sq_mul_successiveMinimum`,
+`TauCeti.IntegralLattice.IsMinkowskiReduced.prod_integralNorm_mul_pi_pow_le` (as the integral case,
+prose); L 0.1, 1.1.
 
 ### Examples
 
@@ -754,10 +783,10 @@ The local Checks above and the worked examples below fix the normalizations used
 | 1.3 | L 1.1 |
 | 1.4 | M `InnerProductSpace.volume_ball`, `ZLattice.covolume`, `IsAddFundamentalDomain`; GoN 4.4.1; L 0.3, 1.1 |
 | 1.5 | M `Real.rpow`; L 0.2, 1.4 |
-| 1.6 | T `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`; T⁺ `PosDef.Minkowski`; L 1.2 |
+| 1.6 | T `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`, `TauCeti.IntegralLattice.IsPosDef.minimum_le_mul_determinant_rpow`; L 1.2 |
 | 1.7 | M `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`, `InnerProductSpace.volume_ball`; L 0.3, 1.1, 1.4, 1.5 |
 | 1.8 | M `abs_sub_round`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5 |
-| 1.9 | SM 1.1; GoN 1.3; T⁺ `PosDef.Reduction`, `PosDef.ReducedGram` (as the integral case, prose); L 0.1, 1.1 |
+| 1.9 | SM 1.1; GoN 1.3; T `TauCeti.IntegralLattice.IsMinkowskiReduced`, `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.integralNorm_le_factorial_sq_mul_successiveMinimum`, `TauCeti.IntegralLattice.IsMinkowskiReduced.prod_integralNorm_mul_pi_pow_le` (as the integral case, prose); L 0.1, 1.1 |
 
 ## Layer 2: the Hermite constant
 
@@ -951,7 +980,7 @@ the distance to the full lattice; no integral basis attaining every minimum is r
 
 ### 3.4 Covering values and the covering constant
 
-Prove the covering radii of the coordinate examples of 9 (`ℤⁿ`: `√n/2`; `A₂`: `√(2/3)`; `A₃`,
+Prove the covering radii of the lattices in the worked examples (`ℤⁿ`: `√n/2`; `A₂`: `√(2/3)`; `A₃`,
 `D₄`, `E₈` with minimum `2`: `1`; `Λ₂₄` with minimum `4`: `√2`, the last by citing
 Conway–Parker–Sloane, Conway–Sloane Ch. 23, as a theorem whose proof is the classification of the
 deep holes. This subsection owns that geometric classification: prove that, up to
@@ -1306,7 +1335,9 @@ API and acceptance statements:
 - Multiplying f by 3 leaves f(0)/f̂(0) = 3/3 = 1; f = 0 is excluded by f̂(0) > 0.
 
 *Needs:* ThetaSeries Layer 1 (Poisson summation and dual covolumes); Mathlib Schwartz and
-Fourier APIs; ModularForms Layer 1 (valence formula), Mathlib level-one Eisenstein series; Layers 1.4–1.5 and 2.1;
+Fourier APIs; T `TauCeti.ModularForm.valence_formula_weighted` and
+`TauCeti.ModularForm.valence_formula_finiteIndex` (the valence formulas), Mathlib level-one
+Eisenstein series; Layers 1.4–1.5 and 2.1;
 Rank24LatticeConstructions Layer 6 for the lower witness.
 
 ### Examples
@@ -1326,7 +1357,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 4.7 | GoN 4.5.8; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9 |
 | 4.9 | M `Convex`, `ConvexCone`, `IsClosed`; L 1.1, 4.1, 4.6 |
 | 4.10 | Completed IntegralLattices Layer 5 (root lattices, pinned ADE modules); L 0.2, 2.1, 2.2, 4.1, 4.5, 4.6, 4.9 |
-| 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; ModularForms Layer 1 (valence formula); R24 Layer 6; L 1.4, 1.5, 2.1 |
+| 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; T `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex`; R24 Layer 6; L 1.4, 1.5, 2.1 |
 
 ## Layer 5: spherical designs and Venkov's theorem
 
@@ -1418,7 +1449,7 @@ API:
 - The six A₂ minimal vectors have normalized degree-four moment 6·3/8 = 9/4 on the unit circle.
 - At rank zero the minimal set is empty and is not a design, while strong eutaxy is vacuous; positive rank is needed for the equivalence.
 
-*Needs:* L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and 9.
+*Needs:* L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and the worked examples.
 
 ### 5.4 Harmonic polynomials in Gram coordinates
 
@@ -1545,7 +1576,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | --- | --- |
 | 5.1 | M `Measure.toSphere`, `LinearIsometryEquiv.measurePreserving`, `MvPolynomial.restrictTotalDegree`, `OrthonormalBasis`; L none |
 | 5.2 | M `Real.Gamma`, `integral` over `toSphere`; L 5.1 |
-| 5.3 | L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and 9 |
+| 5.3 | L 1.1, 4.1, 4.2, 4.4, 4.5, 5.2; examples via 5.7 and the worked examples |
 | 5.4 | GoN §4.3; M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 0.3, 5.1, 5.2 |
 | 5.5 | GoN §4.3 `fourier_harmonic_gaussian`; M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4 |
 | 5.6 | TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5 |
@@ -1662,10 +1693,17 @@ not by discarding those integers. Prove representation of the remaining integers
 terminal escalation. These representation theorems and local reductions are mathematical
 targets of this subsection, not a certificate format or an executable procedure.
 
-*Needs:* T `IsEven`; Layers 6.1–6.2; ThetaSeries §5 (theta modularity); ModularForms Layers 0 and 4–5
-(Eisenstein decomposition and newforms); WeightsInEtaleCohomology §6.1
-(good-prime Ramanujan bound), with ModularForms Layer 4
-(bad-prime eigenvalues) and Layer 2 (Hecke recurrences); IntegralLattices §4A and
+*Needs:* T `IsEven`; Layers 6.1–6.2; ThetaSeries Layer 7 (7C–7D, the Hecke–Schoeneberg theorem:
+the theta series of an even lattice of rank 4 and level `N` lies in `M_2(Γ₀(N), χ)`); ModularForms
+§0.1 (the cusp–Eisenstein decomposition in weight two with character); T `modFormCharSpace`,
+`cuspFormCharSpace`, `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis` and
+`TauCeti.isCompl_cuspFormsOld_cuspFormsNew` (newforms and the old/new decomposition),
+`TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff` (multiplicativity and the prime-power
+Hecke recurrence of a normalized eigenform), and the bad-prime coefficients
+`HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`,
+`HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq` and
+`HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt`;
+WeightsInEtaleCohomology §6.1 (good-prime Ramanujan bound); IntegralLattices §4A and
 GlobalQuadraticForms §6.1 for the local representation conditions.
 
 API and acceptance statements:
@@ -1689,7 +1727,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 6.1 | T `representationNumber`, `IsPosDef.finite_vectorsOfNorm`; M `Nat.sum_four_squares`; IL 0F; GQF 6.1; L 1.1, 1.2 |
 | 6.2 | T `ofGramMatrix`, `IsPosDef`; L 1.1, 6.1 |
 | 6.3 | IL 4A; GQF 6.1; L 6.1, 6.2 |
-| 6.4 | T `IsEven`; TS Layer 5; ModularForms Layers 0, 2, 4, 5; WeightsInEtaleCohomology §6.1; IL 4A; GQF 6.1; L 6.1, 6.2 |
+| 6.4 | T `IsEven`, `modFormCharSpace`, `cuspFormCharSpace`, `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis`, `TauCeti.isCompl_cuspFormsOld_cuspFormsNew`, `TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff`, the bad-prime coefficients of `HeckeRing.GL2.Newform`; TS Layer 7; ModularForms §0.1; WeightsInEtaleCohomology §6.1; IL 4A; GQF 6.1; L 6.1, 6.2 |
 
 ## Layer 7: tensor products and the Festi–Veniani index
 
@@ -1761,7 +1799,10 @@ API:
 - (no unconditional equality) — the inequality `min (L₁ ⊗ L₂) ≤ min L₁ · min L₂` carries no rank
   hypothesis; equality is stated only under `rank L₁ ≤ 43`.
 
-*Needs:* T⁺ `PosDef.Reduction` (prose); L 1.1, 1.2, 7.1.
+*Needs:* T `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`,
+`TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`,
+`TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le` (the rank-two case, prose);
+L 1.1, 1.2, 7.1.
 
 ### 7.3 Tensor decomposability
 
@@ -1858,7 +1899,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 7.1 | M `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `Basis.tensorProduct`, `Matrix.det_kronecker`; T `ofIntegralForm`, `dualCarrier`; L 0.2 |
-| 7.2 | T⁺ `PosDef.Reduction` (prose); L 1.1, 1.2, 7.1 |
+| 7.2 | T `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`, `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le` (the rank-two case, prose); L 1.1, 1.2, 7.1 |
 | 7.3 | T `Isometry`, `determinant`; L 7.1, 7.2 |
 | 7.4 | T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
 | 7.5 | M `Subgroup.index`; T `IsPosDef.finite_isometry`; L 7.4 |
@@ -1870,8 +1911,8 @@ number are the native lattice invariants, shortest denotes the unordered normali
 of the minimal vectors, and density and Hermite invariant have the normalizations of
 §§1.4–1.5. A decimal value d with precision p denotes the inequality |d − value| < 10⁻ᵖ,
 not equality to a floating-point number. The universality, design, perfection and tensor
-results explain the corresponding mathematical predicates. Stored-column certificates
-remain IntegralLattices §9A–9B's responsibility; no database procedure is a target here.
+results explain the corresponding mathematical predicates. The completeness of a stored list of
+classes is IntegralLattices §9B's (exhaustion from the mass); no database procedure is a target here.
 
 ## Explicit scope exclusions
 
