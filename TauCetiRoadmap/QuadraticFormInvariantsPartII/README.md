@@ -115,6 +115,12 @@ The applications to function fields of real varieties (the Elman–Lam invariant
 index-two criterion, Benoist's period-index theorems for real surfaces, the level and the
 quadric-level computations of Benoist–Wittenberg) belong to `RealSurfacePeriodIndex` Layer PI.0, which takes the Tsen–Lang theorem of 5.6 from this roadmap.
 
+Quadratic forms on `Fin n → R` over an arbitrary commutative ring belong to `QuadraticFormsOverABase`:
+its §0.2 extends a form by coefficients along any ring map (`mapCoeffs`) and identifies the case of a
+field `K` and a `K`-algebra `L` with `extendScalars` of 0.2 here, and its §§2.1–2.2 define smoothness
+over a base and prove the unit criteria. 0.1 and 0.2 stay over a field, on arbitrary
+finite-dimensional spaces, which is the generality Layers 0–2 use.
+
 ## Conventions
 
 - **Fields and spaces.** `F` and `K` are arbitrary fields unless a target states a characteristic,
@@ -2018,6 +2024,8 @@ Layer 0 for scalar extension; Tau Ceti's valuation spectrum and patch topology; 
   definability of prime divisors.
 - `RealSurfacePeriodIndex` uses the Tsen–Lang theorem (5.6) for function fields of real surfaces and
   their complexifications; its Layer PI.0 owns the real-function-field applications listed in Scope.
+- `QuadraticFormsOverABase` compares its base change by coefficients with `extendScalars` (0.2) in
+  its §0.2.
 
 ## Worked examples
 
