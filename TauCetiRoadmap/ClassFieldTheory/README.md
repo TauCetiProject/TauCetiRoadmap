@@ -242,9 +242,13 @@ the normal basis theorem `IsGalois.normalBasis`; number fields, adeles and idele
 `InfinitePlace.Completion`; cyclotomic fields and `cyclotomicCharacter`; the class group
 `ClassGroup`; for the comparison of valuations, `ValuativeRel`, `ValuativeExtension`,
 `IsNonarchimedeanLocalField`, `HenselianLocalRing` and the finiteness of the residue field of a
-nonarchimedean local field; and, for the principal ideal theorem, `IsSepClosed.lift`, the
-factorization `Ideal.map_algebraMap_eq_finsetProd_pow` of an extended prime and
-`ClassGroup.mk0_eq_one_iff`.
+nonarchimedean local field; for the principal ideal theorem, `IsSepClosed.lift`, the
+factorization `Ideal.map_algebraMap_eq_finsetProd_pow` of an extended prime, the comparison
+`Ideal.ramificationIdx'_eq_ramificationIdx` of the two ramification indices and
+`ClassGroup.mk0_eq_one_iff`; and, for the conductor–discriminant formula, the extension of
+characters from a subgroup of a finite abelian group, `MonoidHom.domRestrict_surjective` and
+`CommGroup.card_domRestrictHom_ker`, and the degree `IntermediateField.finrank_fixedField_eq_card`
+of a fixed field.
 
 ### From Tau Ceti
 
@@ -259,7 +263,7 @@ name carries another prefix, it is in the namespace `TauCeti.ClassFieldTheory`, 
 | 2 | `ClassFormation`; ClassFormation: `fundamentalClass`, `inv_fundamentalClass`, `fundamentalClass_generates`, `fundamentalClass_restrict`, `fundamentalClass_cor`, `fundamentalClass_infl`, `fundamentalClass_conj`, `inv_cor`, `h1_subgroupLayer`, `card_H2_subgroupLayer`, `fundamentalClass_restrict_generates`, `natCard_normQuotient` |
 | 3 | `tateTheorem`, `tateTheorem_toAddMonoidHom`; ClassFormation: `tateIso`, `tateIso_toAddMonoidHom`, `tateIso_res`, `tateIso_cor`, `tateIso_res_trans`, `tateIso_conj`, `tateIso_infl` |
 | 4 | ClassFormation: `nakayamaNegTwo`, `artinEquiv`, `artinMap`, `ker_artinMap`, `surjective_artinMap`, `character_artinMap`, `eq_artinMap_of_character`, `normSubgroup_maximalAbelianLayer`, `isGenerator_artinMap_iff`, and the four diagrams `TauCeti.ClassFieldTheory.ClassFormation.artinMap_groundInclusion`, `TauCeti.ClassFieldTheory.ClassFormation.artinMap_groundNorm`, `TauCeti.ClassFieldTheory.ClassFormation.artinMap_conj`, `TauCeti.ClassFieldTheory.ClassFormation.artinMap_quotient`; `NormalLayer.characterConnectingClass`, `NormalLayer.artinCharacterCup` |
-| 5 | `GalRep`, `TauCeti.ClassFieldTheory.muNRep`, `kummerCoeffEquivMuNRep`, `TauCeti.ClassFieldTheory.muNRepEquivZMod`, `muNRepH1Equiv`, `kummerEquiv`, `kummerEquivOfCharZero`, `TauCeti.ClassFieldTheory.kummerClass`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor`, `invMap_brRes`, `invMap_brCor`, `TauCeti.herbrandQuotient_units_eq_finrank`, `TauCeti.TateCohomology.herbrandQuotient_unitFiltration_zero`, `TauCeti.index_normGroup_of_isCyclic`, `TauCeti.natCard_H2_units_dvd_finrank`, `h2MuEquivZMod`, `h2EquivZModOfMuNRepIso`, `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_mul`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_eq_zero_of_add_eq_one`, `TauCeti.ClassFieldTheory.localSymbol_antisymm`, `TauCeti.ClassFieldTheory.localSymbol_eq_zero_iff_mem_normGroup`, `forall_localSymbol_kummerClass_eq_zero_iff`, `separatingRight_localSymbol`, `TauCeti.ClassFieldTheory.tateDual`, `TauCeti.ClassFieldTheory.tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `TauCeti.ClassFieldTheory.tateDualMap_exact`, `TauCeti.ClassFieldTheory.tateDualityPairing`, `TauCeti.ClassFieldTheory.tateDualityPairing_perfect`, `TauCeti.ClassFieldTheory.finite_H`, `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`, `TauCeti.ClassFieldTheory.eulerCharacteristic_finrank_fp`, `TauCeti.FinitePadicExtension`, `TauCeti.algebraicExtensionValuativeRel`, `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.algebraicExtensionValuation_isEquiv`, `TauCeti.normalizedValuation`, `TauCeti.henselianLocalRing_integer` |
+| 5 | `GalRep`, `TauCeti.ClassFieldTheory.muNRep`, `kummerCoeffEquivMuNRep`, `TauCeti.ClassFieldTheory.muNRepEquivZMod`, `muNRepH1Equiv`, `kummerEquiv`, `kummerEquivOfCharZero`, `TauCeti.ClassFieldTheory.kummerClass`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor`, `invMap_brRes`, `invMap_brCor`, `TauCeti.herbrandQuotient_units_eq_finrank`, `TauCeti.TateCohomology.herbrandQuotient_unitFiltration_zero`, `TauCeti.index_normGroup_of_isCyclic`, `TauCeti.natCard_H2_units_dvd_finrank`, `h2MuEquivZMod`, `h2EquivZModOfMuNRepIso`, `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_mul`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_eq_zero_of_add_eq_one`, `TauCeti.ClassFieldTheory.localSymbol_antisymm`, `TauCeti.ClassFieldTheory.localSymbol_eq_zero_iff_mem_normGroup`, `forall_localSymbol_kummerClass_eq_zero_iff`, `separatingRight_localSymbol`, `TauCeti.ClassFieldTheory.tateDual`, `TauCeti.ClassFieldTheory.muNRepToTateDual`, `TauCeti.ClassFieldTheory.tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `TauCeti.ClassFieldTheory.tateDualMap_exact`, `TauCeti.ClassFieldTheory.tateDualityPairing`, `TauCeti.ClassFieldTheory.tateDualityPairing_perfect`, `TauCeti.ClassFieldTheory.finite_H`, `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`, `TauCeti.ClassFieldTheory.eulerCharacteristic_finrank_fp`, `TauCeti.FinitePadicExtension`, `TauCeti.algebraicExtensionValuativeRel`, `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.algebraicExtensionValuation_isEquiv`, `TauCeti.normalizedValuation`, `TauCeti.henselianLocalRing_integer` |
 | 6 | `unitsFormation`, `localClassFormation`, `localClassFormation_inv`, `brInfl`, `localFormationRestrict`, `localArtinEquiv`, `localArtinEquiv_eq_of_iota`, `TauCeti.ClassFieldTheory.localArtinMap`, `TauCeti.ClassFieldTheory.normResidue`, `TauCeti.ClassFieldTheory.localArtinMap_uniformizer`, `TauCeti.ClassFieldTheory.localArtinMap_eq_frobenius_pow_valuation`, `TauCeti.ClassFieldTheory.localArtinMap_unit_of_unramified`, `TauCeti.localNormQuotientEquivZModOfUnramified`, `TauCeti.ClassFieldTheory.localArtinMap_quadratic_eq_nontrivial_iff_not_norm`, `TauCeti.ClassFieldTheory.localArtinMap_quadratic_eq_hilbertSymbol`, `TauCeti.ClassFieldTheory.localArtinMap_cyclotomic_uniformizer`, `subsingleton_h3_unitsRep`, `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` |
 | 7 | `TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.artinMap_restrict`, `TauCeti.ClassFieldTheory.artinMap_norm`, `TauCeti.ClassFieldTheory.artinMap_congr`, `continuous_artinMap`, `TauCeti.ClassFieldTheory.denseRange_artinMap`, `not_surjective_artinMap`, `geometricArtinMap`, `TauCeti.absoluteGaloisGroupExtend`, `AlgHom.restrictNormalHom`, `TauCeti.unramifiedCoordinate`, `TauCeti.unramifiedCoordinate_mk_eq_one_iff`, `TauCeti.unramifiedCoordinate_mk_eq_gen_iff`, `TauCeti.ClassFieldTheory.unramifiedCoordinate_artinMap`, `mem_inertiaSubgroup_of_mk_eq_artinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`, `conductorExponent`, `conductorIdeal`, `conductorExponent_le_iff`, `conductorExponent_eq_zero_iff`, `characterConductorExp`, `TauCeti.cyclotomicSymbol`, `TauCeti.realCyclotomicSymbol`, `TauCeti.prod_cyclotomicSymbol`, `TauCeti.cyclotomicSymbol_norm_fixes`, `localCyclotomicCharacter_artinMap_padic_uniformizer`, `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_unit`, `localCyclotomicCharacter_artinMap_uniformizer` |
 | 8 | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_mono`, `localNormSubgroup_top`, `localNormSubgroup_maximalAbelianLayer`, `localNormSubgroup_inf_of_isAbelian`, `localNormSubgroup_sup`, `localAbelianExistence`, `localExistence`, `localAbelianExistence_primeToResidueCharacteristic`, `localClassField_unique`, `localClassField`, `localClassField_le_iff`, `localClassField_orderReversing`, `localClassFieldCorrespondence`, `localClassFieldCorrespondencePrimeToResidueCharacteristic`, `localAbelianGaloisEquiv`, `index_localNormSubgroup`, `localClassField_index`, `ker_artinMap_eq_iInf`, `injective_artinMap`, `profiniteCompletionArtinEquiv`, `conductorExponent_localClassField_le_iff` |
@@ -267,7 +271,7 @@ name carries another prefix, it is in the namespace `TauCeti.ClassFieldTheory`, 
 | 10 | `globalFormation`, `ideleFormation`, `infiniteInvMap`, `infiniteClassFormation`, `infiniteArtinAt`, `character_infiniteArtinAt`, `infiniteArtinAt_rootsOfUnity_of_isReal`, `infiniteArtinAt_norm`, `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`, `brLocalization_injective`, `sumLocalInv_brLocalization_eq_zero`, `exists_br_of_sum_eq_zero`, `ideleToClassH2`, `classToMultiplicativeH3`, `range_ideleToClassH2`, `surjective_ideleToClassH2_of_isCyclic`, `subsingleton_h1_globalFormation`, `degree_le_natCard_normQuotient_of_isCyclic`, `natCard_H2_globalFormation_dvd_degree`, `ideleSumLocalInv`, `exists_refinement_ideleSumLocalInv_eq`, `exists_refinement_mem_range_ideleToClassH2`, `ideleSumLocalInv_eq_of_ideleToClassH2_eq`, `globalInv`, `globalInv_ideleToClassH2`, `globalInv_infl`, `globalInv_unique`, `globalInv_injective`, `range_globalInv` |
 | 11 | `globalClassFormation`, `globalClassFormation_inv`, `ideleSumLocalInv_fundamentalClass`, `globalArtinEquiv`, `globalArtinMap`, `globalArtinMap_principal`, `globalArtinMap_comp`, `localArtinAt`, `globalArtinMap_local`, `primeIdeleClass`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt`, `TauCeti.decompositionRestrict`, `globalArtinMap_cyclotomic_prime`, `globalArtinMap_Qi_prime`, `globalArtinMap_zeta5_two` |
 | 12 | `globalNormSubgroup`, `isOpen_globalNormSubgroup`, `finiteIndex_globalNormSubgroup`, `globalNormSubgroup_mono`, `globalNormSubgroup_top`, `globalNormSubgroup_maximalAbelianLayer`, `exists_abelianLayer_globalNormSubgroup_eq_of_le`, `exists_abelianLayer_globalNormSubgroup_eq_of_comap_ideleClassNorm`, `exists_abelianLayer_globalNormSubgroup_eq_of_pow_mem`, `kummerLayer`, `auxiliaryKummerIdeleSubgroup`, `degree_kummerLayer_sUnits`, `globalNormSubgroup_kummerLayer_sUnits`, `globalAbelianExistence`, `globalExistence`, `globalClassField_unique`, `globalClassField`, `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing`, `globalNormSubgroup_inf_of_isAbelian`, `globalNormSubgroup_sup`, `globalAbelianGaloisEquiv`, `index_globalNormSubgroup`, `globalClassField_index`, `TauCeti.ClassFieldTheory.card_ideleClassNormQuotient`, `IsAdmissibleModulus`, `IsAdmissibleModulus.mem_support_of_ramified`, `abelianConductor`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `not_isAdmissibleModulus_one_Qi`, `rayClassArtinMap`, `rayClassArtinMap_idealClass`, `rayClassArtinMap_surjective`, `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap` |
-| 13 | `TauCeti.ClassFieldTheory.cyclicHasseNorm`, `TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere`, `TauCeti.GlobalNumberFields.IsFiniteLocalNorm`, `TauCeti.GlobalNumberFields.IsInfiniteLocalNorm`, `TauCeti.GlobalNumberFields.IsLocalNormEverywhere`, `TauCeti.GlobalNumberFields.isInfiniteLocalNorm_of_isComplex`, `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`, `TauCeti.GlobalNumberFields.unitEmbedding_mem_range_ideleNormMap_iff`, `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `isAdmissibleModulus_iff_le_rayClassField`, `gal_rayClassField_equiv_rayClassGroup`, `rayClassArtinEquiv`, `hilbertClassArtinEquiv`, `fieldRange_le_hilbertClassField_iff`, `isUnramifiedAt_hilbertClassField`, `kroneckerWeber`, `isLeast_absNorm_abelianConductor_finitePart`, `absNorm_abelianConductor_finitePart_mod_four_ne_two`, `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `TauCeti.ClassFieldTheory.ringClassField`, `TauCeti.ClassFieldTheory.ringClassArtinMap`, `TauCeti.ClassFieldTheory.ringClassArtinEquiv`, `TauCeti.ClassFieldTheory.ringClassArtinMap_eq_one_iff`, `isUnramifiedAt_ringClassField`, `ncard_primesOver_ringClassField_eq_finrank_iff`, `ncard_primesOver_eq_finrank_iff_rayClassArtinMap_idealClass_eq_one`, `ker_ringClassIdeleQuotient_maximalNumberFieldOrder`, `TauCeti.ClassFieldTheory.ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`, `TauCeti.LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`, `TauCeti.relDiscr`, `TauCeti.multiplicity_relDiscr`, `conductorExponent_fixedField_ker`, `IsAdmissibleModulus.conductorExponent_le_exponent`, `isAdmissibleModulus_abelianConductor`, `isAdmissibleModulus_rayClassField`, `rayClassArtinEquiv_apply`, `TauCeti.GlobalNumberFields.isCongrOne_one`, `TauCeti.GlobalNumberFields.idealClass_eq_one_iff`, `TauCeti.GlobalNumberFields.NumberFieldOrder`, `TauCeti.GlobalNumberFields.maximalNumberFieldOrder`, `TauCeti.GlobalNumberFields.Pic`, `TauCeti.GlobalNumberFields.Modulus`, `TauCeti.GlobalNumberFields.integralIdealsPrimeTo`, `TauCeti.GlobalNumberFields.idealClass`, `TauCeti.ClassFieldTheory.globalGroundEquiv`, `TauCeti.ClassFieldTheory.globalGroundEquiv_mk`, `TauCeti.ClassFieldTheory.ideleClassLevelEquiv_mk`, `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_ideleExtension`, `TauCeti.ClassFieldTheory.NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`, `TauCeti.ClassFieldTheory.range_ideleClassNormMap_rayClassField`, `TauCeti.GlobalNumberFields.ideleExtension`, `TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`, `TauCeti.GlobalNumberFields.range_ideleClassNormMap_eq_of_algEquiv`, `TauCeti.GlobalNumberFields.ker_rayClassQuotient`, `TauCeti.GlobalNumberFields.rayClassQuotient_mk_of_mem`, `TauCeti.GlobalNumberFields.ideleCongrOneSubgroup_one`, `TauCeti.GlobalNumberFields.oneEquivClassGroup_rayClassMk`, `NumberField.IdeleGroup.ofFiniteIdele`, `IsDedekindDomain.FiniteAdeleRing.toFractionalIdeal_surjective`, `IsDedekindDomain.FiniteAdeleRing.count_coe_toFractionalIdeal`, `IsDedekindDomain.HeightOneSpectrum.valued_adicCompletionExtension`, `IsDedekindDomain.HeightOneSpectrum.differentExponent_adicCompletion_eq_multiplicity_differentIdeal`, `IsDedekindDomain.HeightOneSpectrum.multiplicity_differentIdeal_adicCompletionIntegers_eq_multiplicity_asIdeal`, `IsDedekindDomain.HeightOneSpectrum.finrank_residueField_adicCompletion`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` |
+| 13 | `TauCeti.ClassFieldTheory.cyclicHasseNorm`, `TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere`, `TauCeti.GlobalNumberFields.IsFiniteLocalNorm`, `TauCeti.GlobalNumberFields.IsInfiniteLocalNorm`, `TauCeti.GlobalNumberFields.IsLocalNormEverywhere`, `TauCeti.GlobalNumberFields.isInfiniteLocalNorm_of_isComplex`, `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`, `TauCeti.GlobalNumberFields.unitEmbedding_mem_range_ideleNormMap_iff`, `rayNormSubgroup`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `isAdmissibleModulus_iff_le_rayClassField`, `gal_rayClassField_equiv_rayClassGroup`, `rayClassArtinEquiv`, `hilbertClassArtinEquiv`, `fieldRange_le_hilbertClassField_iff`, `isUnramifiedAt_hilbertClassField`, `kroneckerWeber`, `isLeast_absNorm_abelianConductor_finitePart`, `absNorm_abelianConductor_finitePart_mod_four_ne_two`, `ringClassIdeleQuotient`, `ringClassNormSubgroup`, `TauCeti.ClassFieldTheory.ringClassField`, `TauCeti.ClassFieldTheory.ringClassArtinMap`, `TauCeti.ClassFieldTheory.ringClassArtinEquiv`, `TauCeti.ClassFieldTheory.ringClassArtinMap_eq_one_iff`, `isUnramifiedAt_ringClassField`, `ncard_primesOver_ringClassField_eq_finrank_iff`, `ncard_primesOver_eq_finrank_iff_rayClassArtinMap_idealClass_eq_one`, `ker_ringClassIdeleQuotient_maximalNumberFieldOrder`, `TauCeti.ClassFieldTheory.ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`, `TauCeti.LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`, `TauCeti.relDiscr`, `TauCeti.multiplicity_relDiscr`, `conductorExponent_fixedField_ker`, `IsAdmissibleModulus.conductorExponent_le_exponent`, `isAdmissibleModulus_abelianConductor`, `isAdmissibleModulus_rayClassField`, `rayClassArtinEquiv_apply`, `TauCeti.GlobalNumberFields.isCongrOne_one`, `TauCeti.GlobalNumberFields.idealClass_eq_one_iff`, `TauCeti.GlobalNumberFields.NumberFieldOrder`, `TauCeti.GlobalNumberFields.maximalNumberFieldOrder`, `TauCeti.GlobalNumberFields.Pic`, `TauCeti.GlobalNumberFields.Modulus`, `TauCeti.GlobalNumberFields.integralIdealsPrimeTo`, `TauCeti.GlobalNumberFields.idealClass`, `TauCeti.ClassFieldTheory.LayerRestriction.groundInclusion_apply_coe`, `TauCeti.ClassFieldTheory.globalGroundEquiv`, `TauCeti.ClassFieldTheory.globalGroundEquiv_mk`, `TauCeti.ClassFieldTheory.ideleClassLevelEquiv_mk`, `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField`, `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_coe`, `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_ideleExtension`, `TauCeti.ClassFieldTheory.NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`, `TauCeti.ClassFieldTheory.range_ideleClassNormMap_rayClassField`, `TauCeti.GlobalNumberFields.ideleExtension`, `TauCeti.GlobalNumberFields.ideleExtension_comp`, `TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`, `TauCeti.GlobalNumberFields.range_ideleClassNormMap_eq_of_algEquiv`, `TauCeti.GlobalNumberFields.ker_rayClassQuotient`, `TauCeti.GlobalNumberFields.rayClassQuotient_mk_of_mem`, `TauCeti.GlobalNumberFields.ideleCongrOneSubgroup_one`, `TauCeti.GlobalNumberFields.oneEquivClassGroup_rayClassMk`, `NumberField.IdeleGroup.ofFiniteIdele`, `IsDedekindDomain.FiniteAdeleRing.toFractionalIdeal_surjective`, `IsDedekindDomain.FiniteAdeleRing.count_coe_toFractionalIdeal`, `IsDedekindDomain.HeightOneSpectrum.valued_adicCompletionExtension`, `IsDedekindDomain.HeightOneSpectrum.differentExponent_adicCompletion_eq_multiplicity_differentIdeal`, `IsDedekindDomain.HeightOneSpectrum.multiplicity_differentIdeal_adicCompletionIntegers_eq_multiplicity_asIdeal`, `IsDedekindDomain.HeightOneSpectrum.finrank_residueField_adicCompletion`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`, `IsDedekindDomain.HeightOneSpectrum.decompositionEquiv`, `IsDedekindDomain.HeightOneSpectrum.isAbelianGalois_adicCompletion`, `IsDedekindDomain.HeightOneSpectrum.continuous_decompositionHom`, `IsDedekindDomain.HeightOneSpectrum.decompositionHom_algebraMap`, `IsDedekindDomain.HeightOneSpectrum.card_stabilizer_eq_finrank_adicCompletion`, `IsDedekindDomain.HeightOneSpectrum.finrank_adicCompletion_fixedField`, `IsDedekindDomain.HeightOneSpectrum.completionAlgHom`, `IsDedekindDomain.HeightOneSpectrum.completionAlgHom_comp`, `IsDedekindDomain.HeightOneSpectrum.algebraMap_eq_completionAlgHom`, `IsDedekindDomain.HeightOneSpectrum.continuous_completionAlgHom`, `AlgEquiv.normGroup_eq`, `TauCeti.pow_finrank_mem_normGroup`, `TauCeti.GlobalNumberFields.ideleCongruenceSubgroup.ideleFiniteCoord_mem_unitFiltration`, `TauCeti.mem_range_normUnits_adicCompletion_iff`, `TauCeti.mem_range_normUnits_completion_iff`, `TauCeti.mem_range_normUnits_completion_of_finrank_eq_one`, `TauCeti.mem_range_normUnits_completion_of_isComplex` |
 | 14 | `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt`, `TauCeti.ClassFieldTheory.infiniteHilbertInvariantAt`, `TauCeti.ClassFieldTheory.finiteHilbertSupport`, `TauCeti.ClassFieldTheory.hilbertProductFormula`, `sum_finiteHilbertInvariantAt_add_sum_infiniteHilbertInvariantAt_eq_zero_iff` |
 
 ### From TauCetiRoadmap.GlobalNumberFields
@@ -276,8 +280,8 @@ name carries another prefix, it is in the namespace `TauCeti.ClassFieldTheory`, 
 |---|---|---|
 | moduli, ray subgroups and ray class groups (Layers 12–13) | Layer 2 | `TauCeti.GlobalNumberFields.Modulus`, `TauCeti.GlobalNumberFields.integralIdealsPrimeTo`, `TauCeti.GlobalNumberFields.idealClass`, `TauCeti.GlobalNumberFields.oneEquivClassGroup_rayClassMk` |
 | the fractional ideal of a finite idele (Layer 13) | Layer 4 | `IsDedekindDomain.FiniteAdeleRing.toFractionalIdeal_surjective`, `IsDedekindDomain.FiniteAdeleRing.count_coe_toFractionalIdeal` |
-| ideles, idele classes, their extensions and norms (Layers 10–13) | Layers 6 and 8 | `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`, `TauCeti.GlobalNumberFields.ideleExtension`, `TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`, `TauCeti.GlobalNumberFields.range_ideleClassNormMap_eq_of_algEquiv` |
-| congruence subgroups and the ray class of an idele class (Layer 13) | Layer 7 | `TauCeti.GlobalNumberFields.ideleCongrOneSubgroup_one`, `TauCeti.GlobalNumberFields.rayClassQuotient_mk_of_mem`, `TauCeti.GlobalNumberFields.ker_rayClassQuotient` |
+| ideles, idele classes, their extensions and norms (Layers 10–13) | Layers 6 and 8 | `TauCeti.GlobalNumberFields.ideleNormMap`, `TauCeti.GlobalNumberFields.ideleClassNormMap`, `TauCeti.GlobalNumberFields.ideleExtension`, `TauCeti.GlobalNumberFields.ideleExtension_comp`, `TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`, `TauCeti.GlobalNumberFields.range_ideleClassNormMap_eq_of_algEquiv`, `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff` |
+| congruence subgroups and the ray class of an idele class (Layer 13) | Layer 7 | `TauCeti.GlobalNumberFields.ideleCongrOneSubgroup_one`, `TauCeti.GlobalNumberFields.ideleCongruenceSubgroup.ideleFiniteCoord_mem_unitFiltration`, `TauCeti.GlobalNumberFields.rayClassQuotient_mk_of_mem`, `TauCeti.GlobalNumberFields.ker_rayClassQuotient` |
 | orders and Picard groups (Layer 13) | Layer 11 | `TauCeti.GlobalNumberFields.NumberFieldOrder`, `TauCeti.GlobalNumberFields.maximalNumberFieldOrder`, `TauCeti.GlobalNumberFields.Pic` |
 
 That roadmap is complete and implemented in Tau Ceti; this roadmap uses its carriers through the
@@ -318,8 +322,8 @@ statement uses `Submodule.free_of_isPrincipalIdealRing` (Lang, *Algebra*, III Th
 every rank. Finally, `p`-primary Tate cohomology sees only `p`: if multiplication by `p` is
 bijective on `A`, the `p`-primary component of `Ĥⁿ(S, A)` vanishes.
 
-This roadmap re-exports the last two as `TateCohomology.projective_ker_of_isZero_res` and
-`TateCohomology.primaryComponent_tateCohomology_eq_bot` for `LocalGaloisGroups`.
+`LocalGaloisGroups` uses the last two as Tau Ceti's `Rep.projective_ker_of_isZero_res` and
+`TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`.
 
 ### Examples
 
@@ -530,7 +534,8 @@ by instance search (`TauCeti.ClassFieldTheory.instFactIsSmoothDiscreteTateDual`)
 `TauCeti.ClassFieldTheory.localSymbol P tr x y`, for a pairing `P : μ_n × μ_n → μ_n` and an
 equivalence `tr : H²(G_F, μ_n) ≃ ℤ/n`, is the cup product of `x, y ∈ H¹(G_F, μ_n)` along `P`,
 followed by `tr` (`TauCeti.ClassFieldTheory.localSymbol_apply`). For `n ≠ 0` and a primitive
-`n`-th root of unity `ζ ∈ F`, the map `muNRepToTateDual ζ : μ_n → Hom(μ_n, μ_n)`,
+`n`-th root of unity `ζ ∈ F`, the map
+`TauCeti.ClassFieldTheory.muNRepToTateDual ζ : μ_n → Hom(μ_n, μ_n)`,
 `x ↦ (y ↦ log_ζ(x) · y)`, is bijective (`TauCeti.ClassFieldTheory.bijective_muNRepToTateDual`),
 and through it the `(1, 1)` local duality pairing at `μ_n` is the local symbol at the Kummer cup
 pairing of `ζ` (`TauCeti.ClassFieldTheory.tateDualityPairing_muNRepToTateDual`).
@@ -542,9 +547,9 @@ pairing of `ζ` (`TauCeti.ClassFieldTheory.tateDualityPairing_muNRepToTateDual`)
 - With the same data, the symbol of the Kummer classes of `5` and `-1` is `0`, since `5 = 1² + 2²`
   is a norm from `ℚ₂(i)`.
 - At the zero pairing every value is `0`, so the pairing is part of the data.
-- At `n = 2`, `ζ = -1`: `muNRepToTateDual (-1)` sends `-1` to the identity of `μ₂` and `1` to the
-  trivial homomorphism, a bijection of two-element sets; `x ↦ (y ↦ y)` for every `x` would not be
-  injective.
+- At `n = 2`, `ζ = -1`: `TauCeti.ClassFieldTheory.muNRepToTateDual (-1)` sends `-1` to the
+  identity of `μ₂` and `1` to the trivial homomorphism, a bijection of two-element sets;
+  `x ↦ (y ↦ y)` for every `x` would not be injective.
 
 **Open target: the comparison of valuations.** Tau Ceti's Euler characteristic, and the
 cyclotomic normalization of Layer 7, assume that the `ℚ_p`-algebra structure of `F` is compatible
@@ -620,13 +625,14 @@ Tau Ceti builds the formation of `(Kˢ)ˣ` (`unitsFormation`) and the local clas
 `invMap` as its invariant (`localClassFormation_inv`), identifies the restriction of the formation
 of `K` to `G_L` with the formation of `L`, and transports the abstract Artin equivalence to
 `localArtinEquiv : Kˣ / N_{L/K}(Lˣ) ≃ Gal(L/K)^ab`, independent of the embedding, with
-`normResidue` its multiplicative form (§3, Layer 6). It proves the unramified normalization
-`Art(π) = Frob_arith` and `Art(x) = Frob_arith^{v(x)}`, the quadratic tests, the comparison of the
-quadratic Artin symbol with the local symbol at `kummerCupPairing (-1)`, and the cyclotomic value
-`Art(π)(ζ_m) = ζ_m^q` for `m` prime to the residue cardinality `q`. It proves
+`TauCeti.ClassFieldTheory.normResidue` its multiplicative form (§3, Layer 6). It proves the
+unramified normalization `Art(π) = Frob_arith` and `Art(x) = Frob_arith^{v(x)}`, the quadratic
+tests, the comparison of the quadratic Artin symbol with the local symbol at
+`kummerCupPairing (-1)`, and the cyclotomic value `Art(π)(ζ_m) = ζ_m^q` for `m` prime to the
+residue cardinality `q`. It proves
 `H³(G_K, (Kˢ)ˣ) = 0` and `cd_ℓ G_K = scd_ℓ G_K = 2` for every prime `ℓ` when `K` has
 characteristic zero (NSW (7.1.8), (7.2.5)); in characteristic `p`, `cd_p G_K = 1`. This roadmap
-re-exports `normResidue` and `scd_p_absoluteGaloisGroup_eq_two`.
+re-exports `scd_p_absoluteGaloisGroup_eq_two`.
 
 ### Examples
 
@@ -647,7 +653,8 @@ and pins it by three equations against named maps (§3, Layer 7): restriction to
 Galois extension gives the finite map (`TauCeti.ClassFieldTheory.artinMap_restrict`, against
 `AlgHom.restrictNormalHom`); its unramified coordinate `TauCeti.unramifiedCoordinate` is the
 normalized valuation (`TauCeti.ClassFieldTheory.unramifiedCoordinate_artinMap`); and the image of
-a lift of `Art_L(x)` under `absoluteGaloisGroupExtend` is `Art_K(N_{L/K} x)` (`artinMap_norm`).
+a lift of `Art_L(x)` under `absoluteGaloisGroupExtend` is `Art_K(N_{L/K} x)`
+(`TauCeti.ClassFieldTheory.artinMap_norm`).
 It proves naturality in the field, continuity, dense image and non-surjectivity, that every lift
 of `Art(u)` for a unit lies in inertia and every lift of `Art(π)` is an arithmetic Frobenius lift,
 the conductors with minimality and the unramified criterion, and the cyclotomic normalization:
@@ -655,7 +662,7 @@ the explicit cyclotomic symbols over `ℚ` and their product formula (Milne, *Cl
 VII Example 8.2), `χ_cyc(Art_{ℚ_p}(p)) = 1`, `χ_cyc(Art_{ℚ_p}(u)) = u⁻¹`, and
 `χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹` when the valuation of `F` extends that of `ℚ_p`.
 
-This roadmap re-exports `artinMap`, `absoluteGaloisGroupExtend`, `artinMap_norm`,
+This roadmap re-exports `artinMap`, `absoluteGaloisGroupExtend`,
 `cyclotomicCharacter_artinMap_padic` and `cyclotomicCharacter_artinMap_padic_uniformizer`.
 
 **Restriction to a finite Galois extension.** For a finite Galois extension `L/K` embedded in
@@ -680,10 +687,10 @@ for every `x ∈ L` (Tau Ceti's `AlgHom.restrictNormalHom_commutes`).
 compatibility hypothesis between the valuations, which is how `LocalGaloisGroups` consumes it.
 At `ℚ_p` the normalization is Milne, *Class Field Theory*, VII Example 8.2, pp. 221–222: the local
 Artin symbol at `ℓ` of `a = u ℓ^s` acts on `ℚ(ζ_{ℓ^r})` as `[u⁻¹]`. Norm functoriality
-(`artinMap_norm`) carries it to `F`; that example fixes the normalization at `ℚ_p` and does not
-supply the compatibility of the valuations, which is `valuativeExtension_of_finite` at `K = ℚ_p`
-(Layer 5). `Suggested.lean` closes the statement from it and
-`TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit`
+(`TauCeti.ClassFieldTheory.artinMap_norm`) carries it to `F`; that example fixes the
+normalization at `ℚ_p` and does not supply the compatibility of the valuations, which is
+`valuativeExtension_of_finite` at `K = ℚ_p` (Layer 5). `Suggested.lean` closes the statement
+from it and `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit`
 (`TauCeti/NumberTheory/ClassFieldTheory/Local/ExplicitCyclotomicSymbol/ArtinMap.lean`).
 *Needs:* `valuativeExtension_of_finite`;
 `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit`.
@@ -877,10 +884,17 @@ predicates and the idele norms.
      `NumberField.IdeleGroup.ofFiniteIdele`), and let `x_H` be its extension to `H`
      (`TauCeti.GlobalNumberFields.ideleExtension`). The ground inclusion of the class of `x`, an
      element of the ground level `C_K` (`TauCeti.ClassFieldTheory.globalGroundEquiv`), is the class
-     of `x_H` in the level `C_H`, both being the class of the same idele of `Kˢ`
-     (`TauCeti.ClassFieldTheory.globalGroundEquiv_mk`,
-     `TauCeti.ClassFieldTheory.ideleClassLevelEquiv_mk`,
-     `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_ideleExtension`). By step 3 and
+     of `x_H` in the level `C_H`, both being the class of the same idele of `Kˢ`. The ground
+     inclusion moves no element
+     (`TauCeti.ClassFieldTheory.LayerRestriction.groundInclusion_apply_coe`);
+     `TauCeti.ClassFieldTheory.globalGroundEquiv_mk` writes the ground side through the extension
+     of `x` to the bottom field `⊥` of `Kˢ/K`, and
+     `TauCeti.ClassFieldTheory.ideleClassLevelEquiv_mk` writes the level side through
+     `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField` at `H`; the two agree by
+     `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_coe` at `⊥`,
+     `TauCeti.GlobalNumberFields.ideleExtension_comp` for `K ⊆ ⊥ ⊆ H` and
+     `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_ideleExtension` from `⊥` to `H`. By
+     step 3 and
      `TauCeti.ClassFieldTheory.NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`, the class of
      `x_H` lies in `N_{H'/H}(C_{H'})`. That norm group is the ray subgroup of the trivial modulus
      of `H` (`TauCeti.ClassFieldTheory.range_ideleClassNormMap_rayClassField` at `Modulus.one H`,
@@ -894,7 +908,9 @@ predicates and the idele norms.
   5. The fractional ideal of `x_H` is `𝔞𝓞_H`, a comparison proved here for every finite extension
      of number fields. At a prime `w` of `H` above `v`, the `w`-adic order of `x_H` is `e(w|v)`
      times the `v`-adic order of `x` (`TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`,
-     `IsDedekindDomain.HeightOneSpectrum.valued_adicCompletionExtension`), and the extension of
+     `IsDedekindDomain.HeightOneSpectrum.valued_adicCompletionExtension`, whose exponent
+     `Ideal.ramificationIdx'` is Mathlib's ramification index `Ideal.ramificationIdx` by
+     `Ideal.ramificationIdx'_eq_ramificationIdx`), and the extension of
      `v` to `𝓞_H` is the product of the `w^{e(w|v)}` over the primes `w` above `v` (Mathlib's
      `Ideal.map_algebraMap_eq_finsetProd_pow`), so the two fractional ideals have the same
      multiplicity at every `w` (`IsDedekindDomain.FiniteAdeleRing.count_coe_toFractionalIdeal`).
@@ -905,9 +921,13 @@ predicates and the idele norms.
   *Needs:* `TauCeti.ClassFieldTheory.ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`,
   `TauCeti.ClassFieldTheory.ClassFormation.artinMap_groundInclusion` (Layer 4);
   `TauCeti.ClassFieldTheory.globalClassFormation` (Layer 11);
+  `TauCeti.ClassFieldTheory.LayerRestriction.groundInclusion_apply_coe`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Formation/Restriction.lean`),
   `TauCeti.ClassFieldTheory.globalGroundEquiv`, `TauCeti.ClassFieldTheory.globalGroundEquiv_mk`,
   `TauCeti.ClassFieldTheory.ideleClassLevelEquiv_mk`
   (`TauCeti/NumberTheory/ClassFieldTheory/Global/IdeleClass/Level.lean`),
+  `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField`,
+  `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_coe`,
   `TauCeti.ClassFieldTheory.ideleCoeffOfIntermediateField_ideleExtension`
   (`TauCeti/NumberTheory/ClassFieldTheory/Global/Coefficients.lean`),
   `TauCeti.ClassFieldTheory.NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`
@@ -917,6 +937,7 @@ predicates and the idele norms.
   `TauCeti.ClassFieldTheory.fieldRange_le_hilbertClassField_iff`
   (`TauCeti/NumberTheory/ClassFieldTheory/ClassFields/RayClassField.lean`);
   `TauCeti.GlobalNumberFields.ideleExtension`,
+  `TauCeti.GlobalNumberFields.ideleExtension_comp`,
   `TauCeti.GlobalNumberFields.ideleFiniteCoord_ideleExtension`
   (`TauCeti/NumberTheory/NumberField/Global/Ideles/Extension.lean`),
   `TauCeti.GlobalNumberFields.range_ideleClassNormMap_eq_of_algEquiv`
@@ -935,7 +956,9 @@ predicates and the idele norms.
   (`TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/ClassGroup.lean`),
   `IsDedekindDomain.HeightOneSpectrum.valued_adicCompletionExtension`
   (`TauCeti/RingTheory/DedekindDomain/AdicCompletionExtension.lean`); Mathlib's
-  `IsSepClosed.lift`, `Ideal.map_algebraMap_eq_finsetProd_pow` and `ClassGroup.mk0_eq_one_iff`.
+  `IsSepClosed.lift`, `Ideal.ramificationIdx'_eq_ramificationIdx`
+  (`Mathlib/RingTheory/RamificationInertia/Ramification.lean`),
+  `Ideal.map_algebraMap_eq_finsetProd_pow` and `ClassGroup.mk0_eq_one_iff`.
   *Checks:* for `K = ℚ(√-5)` with `H = ℚ(√-5, i)`, the prime `𝔭₂ = (2, 1 + √-5)` is not principal
   in `K` (no `x² + 5y² = 2`) and becomes `(1 + i)` in `H`, both being the unique ideal whose square
   is `(2)`, as `𝔭₂² = (2)` and `(1 + i)² = (2i)`; the prime `𝔭₃ = (3, 1 + √-5)` is not principal
@@ -952,9 +975,10 @@ predicates and the idele norms.
   p. 165), with `𝔣(χ)` the finite part of the conductor of the fixed field of `ker χ` (V Remark
   3.28, p. 165). Grouping the characters by that field, the product runs over the cyclic
   subextensions `M` of `L/K`, finitely many since `Gal(L/K)` is finite, with exponent
-  `φ([M : K])`, the number of characters cutting out `M`, so `φ(1) = 1` at `M = K`. Route, one
-  finite prime `v` of `K` at a time, with a prime `w` of `L` above it, decomposition group
-  `D = Gal(L_w/K_v)` and `g = [Gal(L/K) : D]` primes above `v`:
+  `φ([M : K])`, the number of characters cutting out `M`, so `φ(1) = 1` at `M = K`. Characters
+  take values in `ℂˣ`. Route, one finite prime `v` of `K` at a time, with a prime `w` of `L` above
+  it, its decomposition group `D ⊆ Gal(L/K)`, the stabilizer of `w`, and `g = [Gal(L/K) : D]`
+  primes above `v`:
   1. The discriminant side. By `TauCeti.multiplicity_relDiscr`, the exponent of `v` in
      `𝔡(L/K)` is the sum over the primes above `v` of the residue degree times the exponent of
      the different; for Galois `L/K` all `g` terms are equal. The exponent of `w` in the different
@@ -966,31 +990,68 @@ predicates and the idele norms.
      discriminant exponent is `δ(L_w/K_v) = f(L_w/K_v) · d(L_w/K_v)`
      (`TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`), so the exponent of
      `v` in `𝔡(L/K)` is `g · δ(L_w/K_v)`.
-  2. The local formula: `δ(L_w/K_v)` is the sum over the characters `ψ` of `D` of their Artin
-     conductor exponents
+  2. The local formula. The action of `D` on `L_w` identifies `D` with the Galois group of
+     `L_w/K_v` (`IsDedekindDomain.HeightOneSpectrum.decompositionEquiv`), and `L_w/K_v` is abelian
+     (`IsDedekindDomain.HeightOneSpectrum.isAbelianGalois_adicCompletion`). So `δ(L_w/K_v)` is the
+     sum over the characters `ψ` of `Gal(L_w/K_v)` of their Artin conductor exponents
      (`TauCeti.LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`).
-  3. Characters: restriction from `Gal(L/K)` to `D` is onto the characters of `D` with fibres of
-     `g` elements, so `g · δ(L_w/K_v)` is the sum over the characters `χ` of `Gal(L/K)` of the
-     Artin conductor exponent of `χ|_D`.
-  4. The local dictionary: the Artin conductor exponent of `χ|_D` is the conductor exponent of the
-     fixed field of its kernel (`TauCeti.ClassFieldTheory.conductorExponent_fixedField_ker`),
-     which is the completion `M_w` of the fixed field `M` of `ker χ`.
+  3. Characters: restriction from `Gal(L/K)` to `D` is onto the characters of `D`, with fibres
+     of `g` elements (Mathlib's `MonoidHom.domRestrict_surjective` and
+     `CommGroup.card_domRestrictHom_ker`, `ℂ` having every root of unity). Write `χ_w` for the
+     character `χ|_D` read on `Gal(L_w/K_v)` through `decompositionEquiv`. Then `g · δ(L_w/K_v)`
+     is the sum over the characters `χ` of `Gal(L/K)` of the Artin conductor exponent of `χ_w`.
+  4. The local dictionary. The Artin conductor exponent of `χ_w` is the conductor exponent of the
+     fixed field `F_χ ⊆ L_w` of `ker χ_w`
+     (`TauCeti.ClassFieldTheory.conductorExponent_fixedField_ker`). Let `M` be the fixed field of
+     `ker χ` in `L` and `u` the prime of `M` below `w`. The completion `M_u` is `K_v`-isomorphic
+     to `F_χ`, a comparison proved here for every finite abelian extension of number fields:
+     - the canonical map `M_u → L_w` (`IsDedekindDomain.HeightOneSpectrum.completionAlgHom`) is
+       `K_v`-linear, since it composes with `K_v → M_u` to `K_v → L_w`, which is the algebra map
+       of `L_w` over `K_v`
+       (`IsDedekindDomain.HeightOneSpectrum.completionAlgHom_comp`,
+       `IsDedekindDomain.HeightOneSpectrum.algebraMap_eq_completionAlgHom`);
+     - its image is fixed by the image of `D ∩ ker χ` in `Gal(L_w/K_v)`, which is `ker χ_w`: such
+       an automorphism is continuous and fixes the image of `M`
+       (`IsDedekindDomain.HeightOneSpectrum.continuous_decompositionHom`,
+       `IsDedekindDomain.HeightOneSpectrum.decompositionHom_algebraMap`), `M` is dense in `M_u`,
+       and the map is continuous
+       (`IsDedekindDomain.HeightOneSpectrum.continuous_completionAlgHom`);
+     - `[M_u : K_v] = [D : D ∩ ker χ]`
+       (`IsDedekindDomain.HeightOneSpectrum.finrank_adicCompletion_fixedField` at `ker χ`), and
+       `[F_χ : K_v] = [D : D ∩ ker χ]` by Galois theory in `L_w/K_v`
+       (`IntermediateField.finrank_fixedField_eq_card` gives `[L_w : F_χ] = #(D ∩ ker χ)`, and
+       `#D = [L_w : K_v]` by
+       `IsDedekindDomain.HeightOneSpectrum.card_stabilizer_eq_finrank_adicCompletion`).
+
+     So the image of `M_u` is `F_χ`. The conductor exponent of a finite extension is determined
+     by its norm group (`TauCeti.ClassFieldTheory.conductorExponent_le_iff`), and `K_v`-isomorphic
+     extensions have the same norm group (`AlgEquiv.normGroup_eq`), so the conductor exponent of
+     `F_χ/K_v` is that of `M_u/K_v`.
   5. Local and global conductors agree: the exponent of `v` in `abelianConductor K M` equals the
-     conductor exponent of `M_w/K_v`. The global exponent is at least the local one, as the
+     conductor exponent of `M_u/K_v`. The global exponent is at least the local one, as the
      conductor is admissible (`TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor`,
-     `TauCeti.ClassFieldTheory.IsAdmissibleModulus.conductorExponent_le_exponent`). It is at most
-     the local one because the modulus `𝔪₀` with the local conductor exponents at the finite
-     places and the real places of `K` that become complex in `M` is admissible: a congruence
-     idele of `𝔪₀` is a local norm at every place, by
-     `TauCeti.ClassFieldTheory.conductorExponent_le_iff` at the finite places (at exponent `0` it
-     gives that units are norms), by positivity at the real places of `𝔪₀`, and trivially at the
-     other infinite places, where `M` stays real or `K` is complex; the norms from `K_v ⊗_K M` are
-     those from one completion `M_w`, as `M/K` is Galois. Hence it is an idele norm
+     and `TauCeti.ClassFieldTheory.IsAdmissibleModulus.conductorExponent_le_exponent` for `M/K`
+     at `u`). It is at most the local one because the modulus `𝔪₀` is admissible, where `𝔪₀`
+     has, at each finite place `v'`, the conductor exponent of `M_{u'}/K_{v'}` for a chosen prime
+     `u'` of `M` above `v'`, and the real places of `K` that become complex in `M`. A congruence
+     idele of `𝔪₀` is a norm from every local étale algebra `K_{v'} ⊗_K M`. A norm from one
+     completion above `v'` is a norm from `K_{v'} ⊗_K M`, the other components being `1`
+     (`TauCeti.mem_range_normUnits_adicCompletion_iff`, and
+     `TauCeti.mem_range_normUnits_completion_iff` at the infinite places). At the finite places
+     the component lies in `U(K_{v'}, n)` with `n` the exponent of `𝔪₀`
+     (`TauCeti.GlobalNumberFields.ideleCongruenceSubgroup.ideleFiniteCoord_mem_unitFiltration`),
+     so it is a norm from `M_{u'}` by `TauCeti.ClassFieldTheory.conductorExponent_le_iff` (at
+     exponent `0` this says that units are norms). At a real place of `𝔪₀` the component is
+     positive, a square `b²`, and `b²` is the norm of `b` from a complex completion above it
+     (`TauCeti.pow_finrank_mem_normGroup`). At the other infinite places, where `M` stays real or
+     `K` is complex, every unit is a local norm
+     (`TauCeti.mem_range_normUnits_completion_of_finrank_eq_one`,
+     `TauCeti.mem_range_normUnits_completion_of_isComplex`). Hence the idele is an idele norm
      (`TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`), and
      `TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd` gives
      `abelianConductor K M ∣ 𝔪₀`.
 
-  Summing step 5 over the characters `χ` and grouping them by `M` gives the formula at `v`.
+  Summing steps 3–5 over the characters `χ` and grouping them by `M` gives the formula at `v`.
   *Needs:* `TauCeti.relDiscr` (`TauCeti/RingTheory/DedekindDomain/Discriminant/Basic.lean`),
   `TauCeti.multiplicity_relDiscr` (`TauCeti/RingTheory/DedekindDomain/Discriminant/Valuation.lean`);
   `IsDedekindDomain.HeightOneSpectrum.differentExponent_adicCompletion_eq_multiplicity_differentIdeal`,
@@ -1002,16 +1063,40 @@ predicates and the idele norms.
   (`TauCeti/NumberTheory/LocalField/Discriminant/Basic.lean`);
   `TauCeti.LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`
   (`TauCeti/NumberTheory/LocalField/Discriminant/Conductor.lean`);
+  `IsDedekindDomain.HeightOneSpectrum.decompositionEquiv`,
+  `IsDedekindDomain.HeightOneSpectrum.isAbelianGalois_adicCompletion`,
+  `IsDedekindDomain.HeightOneSpectrum.continuous_decompositionHom`,
+  `IsDedekindDomain.HeightOneSpectrum.decompositionHom_algebraMap`,
+  `IsDedekindDomain.HeightOneSpectrum.card_stabilizer_eq_finrank_adicCompletion`,
+  `IsDedekindDomain.HeightOneSpectrum.finrank_adicCompletion_fixedField`
+  (`TauCeti/NumberTheory/NumberField/LocalGlobal/DecompositionGroup.lean`),
+  `IsDedekindDomain.HeightOneSpectrum.completionAlgHom`,
+  `IsDedekindDomain.HeightOneSpectrum.completionAlgHom_comp`,
+  `IsDedekindDomain.HeightOneSpectrum.algebraMap_eq_completionAlgHom`,
+  `IsDedekindDomain.HeightOneSpectrum.continuous_completionAlgHom`
+  (`TauCeti/NumberTheory/NumberField/LocalGlobal/Completion.lean`);
+  Mathlib's `MonoidHom.domRestrict_surjective`, `CommGroup.card_domRestrictHom_ker`
+  (`Mathlib/GroupTheory/FiniteAbelian/Duality.lean`) and
+  `IntermediateField.finrank_fixedField_eq_card`;
   `TauCeti.ClassFieldTheory.conductorExponent_fixedField_ker`
   (`TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`) and
   `TauCeti.ClassFieldTheory.conductorExponent_le_iff` (Layer 7);
+  `AlgEquiv.normGroup_eq` (`TauCeti/RingTheory/Norm/Equiv.lean`),
+  `TauCeti.pow_finrank_mem_normGroup` (`TauCeti/RingTheory/Norm/Units.lean`);
   `TauCeti.ClassFieldTheory.abelianConductor`,
   `TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor`,
   `TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd`
   (`TauCeti/NumberTheory/ClassFieldTheory/Global/AdmissibleModulus/Basic.lean`) and
   `TauCeti.ClassFieldTheory.IsAdmissibleModulus.conductorExponent_le_exponent`
   (`TauCeti/NumberTheory/ClassFieldTheory/Global/AdmissibleModulus/Ramification.lean`) (Layer 12);
-  `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`.
+  `TauCeti.GlobalNumberFields.ideleCongruenceSubgroup.ideleFiniteCoord_mem_unitFiltration`
+  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Congruence.lean`),
+  `TauCeti.mem_range_normUnits_adicCompletion_iff`, `TauCeti.mem_range_normUnits_completion_iff`,
+  `TauCeti.mem_range_normUnits_completion_of_finrank_eq_one`,
+  `TauCeti.mem_range_normUnits_completion_of_isComplex`
+  (`TauCeti/NumberTheory/NumberField/LocalGlobal/Semilocal/Norm/Units.lean`),
+  `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`
+  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Range.lean`).
   *Checks:* for `ℚ(ζ₅)/ℚ` at `v = 5`, `g = 1`, the local extension is tame and totally ramified
   of degree `4`, so `f = 1`, `d = 3` and step 1 gives `1 · 1 · 3 = 3`, while its four characters
   have Artin conductor exponents `0, 1, 1, 1`, summing to the same `δ = 3`; for `ℚ(ζ₁₅)/ℚ` at
@@ -1022,7 +1107,17 @@ predicates and the idele norms.
   `ℚ(ζ₅)/ℚ` the global conductor `5·∞` has exponent `1` at `5`, equal to the local conductor
   exponent, and the formula reads `125 = 1 · 5 · 5²`; for `ℚ(i)/ℚ` at `v = 2`, `D = Gal(L/K)`, the
   characters have exponents `0` and `2`, the conductor `4·∞` has exponent `2`, and `𝔡 = (4)`;
-  for `ℚ(√5)/ℚ` at the inert prime `2`, `g = 1`, every exponent is `0`, and `2 ∤ 𝔡 = (5)`.
+  for `ℚ(√5)/ℚ` at the inert prime `2`, `g = 1`, every exponent is `0`, and `2 ∤ 𝔡 = (5)`; for
+  `L = ℚ(i, √5)` at `v = 5`, which splits in `ℚ(i)` and ramifies in `ℚ(√5)`: `g = 2`,
+  `D = Gal(L/ℚ(i))` and `L_w = ℚ₅(√5)`, tame of degree `2`, so `δ = 1` and step 1 gives
+  `2 · 1 = 2`; the characters cutting out `ℚ`, `ℚ(i)`, `ℚ(√5)` and `ℚ(√-5)` restrict to `D`
+  with Artin conductor exponents `0, 0, 1, 1`, summing to `2`, while the sum over the two
+  characters of `D` alone is `1`, so the factor `g` of step 3 is needed; their conductors `1`,
+  `4·∞`, `5` and `20·∞` have exponents `0, 0, 1, 1` at `5`, and
+  `𝔡 = 1 · 4 · 5 · 20 = 400 = 2⁴ · 5²`; in step 4 for `M = ℚ(√-5)`, `D ∩ ker χ` is trivial, so
+  `F_χ = L_w = ℚ₅(√5)`, while `M_u = ℚ₅(√-5)` is a separate field; the canonical map sends `√-5`
+  to `i · √5`, where `i ∈ ℚ₅` as `5 ≡ 1 mod 4`, so its image is `F_χ`, and
+  `[M_u : ℚ₅] = 2 = [D : D ∩ ker χ]`.
 
 ### Examples
 
@@ -1240,38 +1335,37 @@ Roadmaps that build on this one, with the parts they use:
 
 ### Names imported from `Suggested.lean`
 
-The Lean files of `LocalGaloisGroups` and `GlobalQuadraticForms` import `Suggested.lean` and cite
-the following names as this roadmap's, in their statements, proofs or docstrings. They are not
-headlines: each is an abbreviation of a Tau Ceti or Mathlib declaration (`H` is Mathlib's
-`continuousCohomology` and `principalIdele` is Mathlib's `NumberField.IdeleGroup.unitEmbedding`),
-one of the four definitions of Layer 5 built from Tau Ceti's, or a theorem closed by Tau Ceti's
-theorem under Tau Ceti's
-hypotheses or a specialization of them; `cyclotomicCharacter_artinMap` and
-`eulerCharacteristic_finrank_fp`, two of the three local theorems of §1 item 1, are closed from
-`valuativeExtension_of_finite`. `Suggested.lean` also declares `tateDual` and the three Hilbert
-invariants `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt` and `finiteHilbertSupport`,
-which no consumer cites but which occur in the types of `muNRepToTateDual` and
-`hilbertProductFormula`.
+The Lean files of `LocalGaloisGroups` and `GlobalQuadraticForms` import `Suggested.lean` and use
+the following names of it in their statements and proofs, so that removing one breaks their build.
+They are not headlines: each is an abbreviation of a Tau Ceti or Mathlib declaration (`H` is
+Mathlib's `continuousCohomology` and `principalIdele` is Mathlib's
+`NumberField.IdeleGroup.unitEmbedding`), one of the four definitions of Layer 5 built from Tau
+Ceti's, or a theorem closed by Tau Ceti's theorem under Tau Ceti's hypotheses or a specialization
+of them; `cyclotomicCharacter_artinMap`, one of the three local theorems of §1 item 1, is closed
+from `valuativeExtension_of_finite`. `Suggested.lean` also declares the other two,
+`eulerCharacteristic_mixed` and `eulerCharacteristic_finrank_fp`, as consequences of the open
+target, and the three Hilbert invariants `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`
+and `finiteHilbertSupport`, which occur in the type of `hilbertProductFormula`.
 
 | Use | Names |
 |---|---|
-| cohomological triviality | `TateCohomology.projective_ker_of_isZero_res`, `TateCohomology.primaryComponent_tateCohomology_eq_bot` |
 | coefficient objects and Kummer theory | `GalRep`, `H`, `muNRep`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerEquiv_mixed` |
-| degree two, the Kummer pairing and duality | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `kummerCupPairing`, `kummerCupPairing_bil`, `muNRepToTateDual`, `eulerCharacteristic_finrank_fp` |
-| reciprocity and orientation | `artinMap`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `normResidue`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap_padic_uniformizer`, `scd_p_absoluteGaloisGroup_eq_two` |
+| degree two and the Kummer pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `kummerCupPairing`, `kummerCupPairing_bil` |
+| reciprocity and orientation | `artinMap`, `absoluteGaloisGroupExtend`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap_padic_uniformizer`, `scd_p_absoluteGaloisGroup_eq_two` |
 | ideles and norms | `principalIdele`, `ideleNormMap`, `ideleClassNorm`, `card_ideleClassNormQuotient`, `cyclicHasseNorm`, `IsFiniteLocalNorm`, `IsInfiniteLocalNorm`, `IsLocalNormEverywhere`, `isGlobalNorm_iff_isLocalNormEverywhere` |
 | Hilbert reciprocity | `hilbertProductFormula` |
 
 `scd_p_absoluteGaloisGroup_eq_two`, `kummerEquiv_mixed`, `h2MuEquivZMod_mixed` and
 `h2FpEquivZMod_of_mu` are stated for a finite `ℚ_p`-algebra structure, the form in which
-`LocalGaloisGroups` applies them. The README of `LocalGaloisGroups` also cites, as this roadmap's,
-names that no Lean file uses, among them `tateTheorem`, `localSymbol`, `tateDualityPairing`,
-`bijective_muNRepToTateDual`, `tateDualityPairing_muNRepToTateDual`, `finite_H`,
-`tateDualityPairing_perfect_mixed`, `restrictAbsolute`, `denseRange_artinMap`,
-`artinMap_restrict` and `unramifiedCoordinate_artinMap`: each is the Tau Ceti declaration of the
-same short name, with Tau Ceti's hypotheses, except `restrictAbsolute`, which is
-`AlgHom.restrictNormalHom iota` after `TauCeti.absoluteGaloisGroupRestrictEquiv K`; all are listed
-below. In particular finiteness needs a nonarchimedean local field with `(n : F) ≠ 0`, and
+`LocalGaloisGroups` applies them. The README and the docstrings of `LocalGaloisGroups` also cite,
+as this roadmap's, names that no Lean file uses, among them `tateTheorem`, `localSymbol`,
+`tateDual`, `tateDualityPairing`, `muNRepToTateDual`, `bijective_muNRepToTateDual`,
+`tateDualityPairing_muNRepToTateDual`, `finite_H`, `tateDualityPairing_perfect_mixed`,
+`restrictAbsolute`, `denseRange_artinMap`, `artinMap_restrict`, `artinMap_norm`, `normResidue`,
+`unramifiedCoordinate_artinMap` and the two Nakayama–Rim names of Layer 0: each is the Tau Ceti
+declaration of the same short name, with Tau Ceti's hypotheses, except `restrictAbsolute`, which
+is `AlgHom.restrictNormalHom iota` after `TauCeti.absoluteGaloisGroupRestrictEquiv K`; all are
+listed below. In particular finiteness needs a nonarchimedean local field with `(n : F) ≠ 0`, and
 perfectness of the duality pairing one of characteristic zero with `n ≠ 0`.
 
 ### Earlier identifiers, old → new
@@ -1325,6 +1419,19 @@ Ids and names that roadmaps cite from earlier versions of this roadmap, one line
 - `unramifiedCoordinate` → `TauCeti.unramifiedCoordinate`;
 - `unramifiedCoordinate_artinMap` → `TauCeti.ClassFieldTheory.unramifiedCoordinate_artinMap`;
 - `localArtinMap` → `TauCeti.ClassFieldTheory.localArtinMap`;
+- `TateCohomology.projective_ker_of_isZero_res` → `Rep.projective_ker_of_isZero_res`
+  (`TauCeti/RepresentationTheory/Homological/TateCohomology/NakayamaRim.lean`);
+- `TateCohomology.primaryComponent_tateCohomology_eq_bot` →
+  `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`
+  (`TauCeti/RepresentationTheory/Homological/TateCohomology/PrimaryComponent.lean`);
+- `tateDual` → `TauCeti.ClassFieldTheory.tateDual`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Duality/Basic.lean`);
+- `muNRepToTateDual` → `TauCeti.ClassFieldTheory.muNRepToTateDual`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Duality/RootsOfUnity.lean`);
+- `normResidue` → `TauCeti.ClassFieldTheory.normResidue`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Reciprocity.lean`);
+- `artinMap_norm` → `TauCeti.ClassFieldTheory.artinMap_norm`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`);
 - `artinMap_restrict` → `TauCeti.ClassFieldTheory.artinMap_restrict`
   (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`), stated against
   `AlgHom.restrictNormalHom` after `TauCeti.absoluteGaloisGroupRestrictEquiv`.

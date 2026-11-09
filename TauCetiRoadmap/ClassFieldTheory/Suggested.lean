@@ -4,20 +4,15 @@ import TauCeti.NumberTheory.ClassFieldTheory.ClassFields.RayClassField
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Global.HasseNorm.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Global.Hilbert.Reciprocity
-import TauCeti.NumberTheory.ClassFieldTheory.Global.LocalArtin.Frobenius
 import TauCeti.NumberTheory.ClassFieldTheory.Global.Reciprocity
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.Local.CohomologicalDimension.Strict
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Cyclotomic
-import TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.RootsOfUnity
 import TauCeti.NumberTheory.ClassFieldTheory.Local.EulerCharacteristic.Theorem
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ExplicitCyclotomicSymbol.ArtinMap
-import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Symbol
 import TauCeti.NumberTheory.ClassFieldTheory.MuNRep
 import TauCeti.NumberTheory.NumberField.LocalGlobal.Semilocal.Norm.LocalNorm
-import TauCeti.RepresentationTheory.Homological.TateCohomology.NakayamaRim
-import TauCeti.RepresentationTheory.Homological.TateCohomology.PrimaryComponent
 import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
 
 /-!
@@ -47,56 +42,22 @@ the compatibility, so the route is checked by elaboration and the open input is 
 No headline of the roadmap is unstatable at the pins.
 
 **Names imported by other roadmaps.** The Lean files of `LocalGaloisGroups` and
-`GlobalQuadraticForms` import this file and cite the remaining declarations under this roadmap's
-name (README, §6), except `tateDual` and the three Hilbert invariants, which occur in the types of
-cited declarations. They are not headlines. Each is an abbreviation of a Tau Ceti or Mathlib
-declaration (`H` and `principalIdele` are Mathlib's), a definition built from Tau Ceti's, or a
-theorem closed by Tau Ceti's theorem under Tau Ceti's hypotheses or a specialization of them, so
-a consumer's statement is about the library's object.
+`GlobalQuadraticForms` import this file and use the remaining declarations under this roadmap's
+name in their statements and proofs (README, §6), except the three Hilbert invariants, which occur
+in the type of `hilbertProductFormula`. They are not headlines. Each is an abbreviation of a Tau
+Ceti or Mathlib declaration (`H` and `principalIdele` are Mathlib's), a definition built from Tau
+Ceti's, or a theorem closed by Tau Ceti's theorem under Tau Ceti's hypotheses or a specialization
+of them, so a consumer's statement is about the library's object.
 
-The two Layer 0 theorems, whose coefficient ring and group share a universe, and the valuation
-comparison are universe-polymorphic; everything else is stated for fields and groups in `Type`
-(universe `0`), as Tau Ceti's formations are: Mathlib's `tateCohomology` requires the group and the
-coefficient ring to live in one universe, and the coefficient ring of a formation is `ℤ`.
+The valuation comparison is universe-polymorphic; everything else is stated for fields and groups
+in `Type` (universe `0`), as Tau Ceti's formations are: Mathlib's `tateCohomology` requires the
+group and the coefficient ring to live in one universe, and the coefficient ring of a formation is
+`ℤ`.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
 
 open CategoryTheory NumberField IsDedekindDomain
-
-/-! ## Layer 0: the generic cohomology suppliers -/
-
-namespace TateCohomology
-
-universe u
-
-/-- **Nakayama–Rim: cohomological triviality is projective dimension at most one** (Rim, Ann. of
-Math. 69 (1959); Brown, *Cohomology of Groups*, VI §8): over a principal ideal domain of
-characteristic zero in which every prime is a unit or generates a maximal ideal, the kernel of a
-surjection from a projective `k[G]`-module onto a cohomologically trivial representation is
-projective. Tau Ceti's `Rep.projective_ker_of_isZero_res`. -/
-theorem projective_ker_of_isZero_res {k G : Type u} [CommRing k] [Group G] [Finite G] [IsDomain k]
-    [IsPrincipalIdealRing k] [CharZero k]
-    (hk : ∀ p : ℕ, p.Prime → IsUnit (p : k) ∨ (Ideal.span {(p : k)}).IsMaximal)
-    (A : Rep k G)
-    (hA : ∀ (S : Subgroup G) [Fintype S] (n : ℤ),
-      Limits.IsZero (tateCohomology (Rep.res S.subtype A) n))
-    {P : Type*} [AddCommGroup P] [Module (MonoidAlgebra k G) P]
-    [Module.Projective (MonoidAlgebra k G) P]
-    (f : P →ₗ[MonoidAlgebra k G] A.ρ.asModule) (hf : Function.Surjective f) :
-    Module.Projective (MonoidAlgebra k G) (LinearMap.ker f) :=
-  Rep.projective_ker_of_isZero_res hk A hA f hf
-
-/-- **`p`-primary Tate cohomology sees only `p`**: if multiplication by `p` is bijective on `A`,
-the `p`-primary component of `Ĥⁿ(S, A)` vanishes for every finite subgroup `S` and every `n`. Tau
-Ceti's `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`. -/
-theorem primaryComponent_tateCohomology_eq_bot {k G : Type u} [CommRing k] [Group G] (p : ℕ)
-    (A : Rep k G) (hA : Function.Bijective fun x : A.V => (p : k) • x) (S : Subgroup G) [Fintype S]
-    (n : ℤ) :
-    AddCommGroup.primaryComponent (tateCohomology (Rep.res S.subtype A) n) p = ⊥ :=
-  TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot p A hA S n
-
-end TateCohomology
 
 /-! ## Layer 5: local coefficients, the Brauer group, the local invariant, and duality -/
 
@@ -181,26 +142,6 @@ theorem kummerCupPairing_bil {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
   exact TauCeti.ClassFieldTheory.kummerCupPairing_bil ζ hζ x y
 
 end Coefficients
-
-section Duality
-
-variable {n : ℕ} {F : Type} [Field F]
-
-/-- **The Tate dual** `Hom(A, μ_n)` with the conjugation action: Tau Ceti's
-`TauCeti.ClassFieldTheory.tateDual`. -/
-noncomputable abbrev tateDual (A : GalRep n F) : GalRep n F :=
-  TauCeti.ClassFieldTheory.tateDual A
-
-/-- **`μ_n ≅ Hom(μ_n, μ_n)` after a primitive root is chosen**, `x ↦ (y ↦ log_ζ(x) · y)`: Tau
-Ceti's `TauCeti.ClassFieldTheory.muNRepToTateDual`, bijective by Tau Ceti's
-`TauCeti.ClassFieldTheory.bijective_muNRepToTateDual`. Through it the `(1, 1)` local duality
-pairing at `μ_n` is the local symbol at `kummerCupPairing ζ`
-(`TauCeti.ClassFieldTheory.tateDualityPairing_muNRepToTateDual`). -/
-noncomputable abbrev muNRepToTateDual [NeZero n] (ζ : F) (hζ : IsPrimitiveRoot ζ n) :
-    muNRep n F ⟶ tateDual (muNRep n F) :=
-  TauCeti.ClassFieldTheory.muNRepToTateDual ζ hζ
-
-end Duality
 
 /-! ## Layer 5: the comparison of valuations on finite extensions of local fields -/
 
@@ -293,28 +234,10 @@ pins it by three equations: its restriction to every finite Galois extension is 
 Artin map (`TauCeti.ClassFieldTheory.artinMap_restrict`, against `AlgHom.restrictNormalHom`), its
 unramified coordinate is the normalized valuation
 (`TauCeti.ClassFieldTheory.unramifiedCoordinate_artinMap`), and it is functorial for the norm
-(`artinMap_norm` below). Its image is dense (`TauCeti.ClassFieldTheory.denseRange_artinMap`). -/
+(`TauCeti.ClassFieldTheory.artinMap_norm`). Its image is dense
+(`TauCeti.ClassFieldTheory.denseRange_artinMap`). -/
 noncomputable abbrev artinMap : Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
   TauCeti.ClassFieldTheory.artinMap K
-
-variable (L : Type) [Field L] [Algebra K L]
-
-/-- **Finite local reciprocity** `Kˣ / N_{L/K}(Lˣ) ≃ Gal(L/K)^ab`, the multiplicative form of
-`localArtinEquiv`: Tau Ceti's `TauCeti.ClassFieldTheory.normResidue`. -/
-noncomputable abbrev normResidue [FiniteDimensional K L] [IsGalois K L] :
-    (Kˣ ⧸ TauCeti.normGroup K L) ≃* Abelianization (L ≃ₐ[K] L) :=
-  TauCeti.ClassFieldTheory.normResidue K L
-
-/-- **Norm functoriality of the absolute Artin map**: the image in `G_K^ab` of a lift of `Art_L x`
-is `Art_K (N_{L/K} x)`. Tau Ceti's `TauCeti.ClassFieldTheory.artinMap_norm`. -/
-theorem artinMap_norm [FiniteDimensional K L] (iota : L →ₐ[K] SeparableClosure K)
-    [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L] [ValuativeExtension K L]
-    (x : Lˣ) (τ : Field.absoluteGaloisGroup L)
-    (hτ : (QuotientGroup.mk τ : Field.absoluteGaloisGroupAbelianization L) = artinMap L x) :
-    (QuotientGroup.mk (absoluteGaloisGroupExtend K L iota τ) :
-        Field.absoluteGaloisGroupAbelianization K) =
-      artinMap K (TauCeti.Algebra.normUnits K x) :=
-  TauCeti.ClassFieldTheory.artinMap_norm L iota x τ hτ
 
 end Local
 
