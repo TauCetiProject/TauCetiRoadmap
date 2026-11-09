@@ -837,7 +837,7 @@ profinite group with continuous actions, which this roadmap does not treat.
 
 Grothendieck's 1973 Buffalo lectures on topoi treated classifying topoi as a programme: every
 geometric theory should have a topos whose points are its models, and constructions on theories
-should be constructions on topoi. The duality of 2.4 makes the lattice of quotients of a theory a
+should be constructions on topoi. The duality of 2.5 makes the lattice of quotients of a theory a
 coHeyting algebra, the subtopoi of its classifying topos, and Caramello's method of topos-theoretic
 bridges transfers properties of a classifying topos presented by two sites into properties of the
 two theories. Open questions there concern which invariants of topoi admit syntactic
