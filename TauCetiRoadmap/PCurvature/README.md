@@ -231,10 +231,10 @@ Prove `iterate_leibniz`: in characteristic `p`, `D^[p](ab) = a D^[p](b) + b D^[p
 
 ### 0.4 Commutators with multiplications
 
-Prove `lie_mulLeft`: for a derivation `D` of a commutative `R`-algebra `A` into itself and
-`a ∈ A`, the commutator of `D` with `LinearMap.mulLeft R a` in `Module.End R A` is
+Prove the commutator identity: for a derivation `D` of a commutative `R`-algebra `A` into
+itself and `a ∈ A`, the commutator of `D` with `LinearMap.mulLeft R a` in `Module.End R A` is
 `LinearMap.mulLeft R (D a)`; this is the Leibniz rule `D(a b) = a D(b) + D(a) b` read as an
-identity of operators. Prove `mulLeft_mul_mul_mulLeft_inv`: for a unit `u` of `A`,
+identity of operators. Prove the conjugation identity: for a unit `u` of `A`,
 `u ∘ D ∘ u⁻¹ = D − u⁻¹ D(u)` in `Module.End R A`, multiplications written as
 `LinearMap.mulLeft`. Route: `u D(u⁻¹ b) = D(b) + u D(u⁻¹) b` by the Leibniz rule, and
 `u D(u⁻¹) = −u⁻¹ D(u)` by `Derivation.leibniz_of_mul_eq_one` applied to `u⁻¹ u = 1`. Both hold
@@ -263,7 +263,8 @@ the gauge computation of 1.4 (the connection `D − D(u)/u` is `u ∘ D ∘ u⁻
   structure of `Der(𝔽_p[x])` contains the toral element `x ∂_x`.
 - On `M_n(𝔽_p)`, the restricted structure of 0.2 is `a ↦ a^p`, and the inclusion of the
   derivations `[a, −]` is a restricted morphism.
-- `lie_mulLeft` on `k[x]` with `D = d/dx` and `a = x` is the Weyl relation `[d/dx, x] = 1`.
+- The commutator identity of 0.4 on `k[x]` with `D = d/dx` and `a = x` is the Weyl relation
+  `[d/dx, x] = 1`.
 
 ### Dependencies
 
@@ -276,10 +277,10 @@ Mathlib only.
 
 For a connection `∇` on `M` define the `p`-curvature `ψ(D) = (∇_D)^p − ∇_{pPow p D}`. Prove
 `ψ(D)(a m) = a ψ(D)(m)` (Katz 1970, (5.0.6)–(5.0.9)), from `[∇_D, a] = D(a)` (the module
-analogue of 0.4 `lie_mulLeft`) and the commutator expansion of `(∇_D)^p a` in
+analogue of the commutator identity of 0.4) and the commutator expansion of `(∇_D)^p a` in
 characteristic `p`. Hence `ψ(D) ∈ End_A(M)`, and `ψ(D)` kills the horizontal sections.
-*Needs:* CrystallineCohomology CR.1.3; FormalConnectionsOpers §2.1; 0.3 `pPow`; 0.4
-`lie_mulLeft`.
+*Needs:* CrystallineCohomology CR.1.3; FormalConnectionsOpers §2.1; 0.3 `pPow`; the
+commutator identity of 0.4.
 
 **Checks.**
 
@@ -364,7 +365,7 @@ rank one, from 0.1 or directly); as an identity in `Module.End R A` this needs n
 carrier and is `rankOne_pCurvature_eq`. If `u ∈ A^×` and `ω(D) = −D(u)/u` for all `D` (the
 connection `d − du/u`, with horizontal section `u`), then `ψ = 0`: by 0.4,
 `D + ω(D) = u ∘ D ∘ u⁻¹`, whose `p`-th power is `u ∘ D^p ∘ u⁻¹`, and likewise for `D^p`.
-*Needs:* 1.1; 0.1, 0.3; 0.4 `lie_mulLeft`, `mulLeft_mul_mul_mulLeft_inv`; Mathlib
+*Needs:* 1.1; 0.1, 0.3; the commutator and conjugation identities of 0.4; Mathlib
 `LinearMap.mulLeft`.
 
 **Checks.**

@@ -18,8 +18,6 @@ Headline theorems stated here (README target, Lean name):
 * 0.2, the class `RestrictedLieAlgebra`.
 * 0.3, `iterate_leibniz`, `pPow_smul` (Hochschild's formula), `ad_pPow`, `pPow_add`, and the
   restricted structure on `Derivation R A A` (an instance on `pPow`).
-* 0.4, `lie_mulLeft` and `mulLeft_mul_mul_mulLeft_inv` (commutators of a derivation with
-  multiplications, used in 1.1 and 1.4).
 * 1.4, `rankOne_pCurvature_eq`: Jacobson's formula in rank one, as an identity of
   `R`-linear endomorphisms of `A`, which needs no connection carrier.
 * 2.0, `apply_eq_zero_of_mem_frobeniusImage` and `kaehlerD_eq_zero_iff` (on `frobeniusImage`).
@@ -131,19 +129,6 @@ noncomputable instance : RestrictedLieAlgebra R (Derivation R A A) p where
   pMap_smul c D := by ext a; simp [pPow, _root_.smul_pow]
   ad_pMap := ad_pPow p
   pMap_add := pPow_add p
-
-/-- **Layer 0.4.** The commutator of a derivation `D` with multiplication by `a` is multiplication
-by `D a`: the Leibniz rule as an identity in `Module.End R A`. -/
-theorem lie_mulLeft (D : Derivation R A A) (a : A) :
-    ⁅(D : Module.End R A), LinearMap.mulLeft R a⁆ = LinearMap.mulLeft R (D a) := by
-  sorry
-
-/-- **Layer 0.4.** Conjugating a derivation `D` by multiplication by a unit `u` subtracts
-multiplication by the logarithmic derivative `u⁻¹ D u`. -/
-theorem mulLeft_mul_mul_mulLeft_inv (D : Derivation R A A) (u : Aˣ) :
-    LinearMap.mulLeft R (u : A) * (D : Module.End R A) * LinearMap.mulLeft R ((u⁻¹ : Aˣ) : A) =
-      (D : Module.End R A) - LinearMap.mulLeft R (((u⁻¹ : Aˣ) : A) * D u) := by
-  sorry
 
 /-! ## Layer 1: the `p`-curvature -/
 
