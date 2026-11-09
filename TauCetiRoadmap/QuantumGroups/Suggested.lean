@@ -39,11 +39,11 @@ The following headlines are not statable at the pins without heavy constructions
   and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated; in
   particular the local-finiteness characterization of §8.4 is the pin's
   `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`.
-  The Biedenharn–Elliott pentagon of §8.5 is the one Layer 8 statement not
-  statable: it needs channel coordinates on quadruple tensor products and
-  recoupling maps between all five bracketings, which the pin's
-  `TauCeti.UqSl2.clebschGordanRecouplingEquiv` supplies only for triple
-  products; the compact comparison of §8.6 additionally needs analytic SUq(2).
+  The Biedenharn–Elliott pentagon of §8.5 is not statable: it needs channel
+  coordinates on quadruple tensor products and recoupling maps between all five
+  bracketings, which the pin's `TauCeti.UqSl2.clebschGordanRecouplingEquiv`
+  supplies only for triple products. Nor is the compact comparison of §8.6,
+  which needs analytic SUq(2).
 -/
 
 open scoped TensorProduct ComplexOrder

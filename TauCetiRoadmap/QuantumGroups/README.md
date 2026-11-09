@@ -111,7 +111,7 @@ the underlying vector space. These can differ.
 | [OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md) | Full/reduced discrete-group C*-algebras, canonical quotient/expectation and the invariant-mean/Reiter P₁/P₂ comparison. |
 | [FreeProbability F1,F3,F6](../FreeProbability/README.md) | Scalar moments, the free-group adjacency norm/full–reduced counterexample and the standard semicircular law; Q7 supplies the quantum-group character realization. |
 | [AmenableGroups, Layers 1,5,7](../AmenableGroups/README.md) | Layer 1 invariant means, Layer 5 discrete Følner criterion, Layer 7 locally compact amenability; Q4 constructs the reduced-counit comparison using D2's Reiter comparison. |
-| [PivotalSpherical Layers 0–2 and 7](../PivotalSpherical/README.md) | Algebraic double-right-dual, pivotal, trace and spherical conventions consumed by Q3 and Q8.5, compared with §0.1’s unitary duality. Layer7’s FDRep is the group-algebra comparison target for Q8.5. |
+| [PivotalSpherical Layers 0–2 and 7](../PivotalSpherical/README.md) | Layers 0–2 specify the double right dual, pivotal structures, left and right traces and sphericity; Tau Ceti implements them as `TauCeti.doubleRightDualFunctor`, `TauCeti.PivotalCategory`, `TauCeti.leftTrace`, `TauCeti.rightTrace` and `TauCeti.SphericalCategory`, and §§0.1, 3.3 and 8.5 consume these native declarations; §3.3 compares its pivot with §0.1’s unitary duality. Layer7’s FDRep is the group-algebra comparison target for Q8.5. |
 
 **From Mathlib.** Use `PositiveLinearMap.GNS` and
 `PositiveLinearMap.gnsStarAlgHom` from
@@ -147,7 +147,13 @@ preservation of Δ, with `TauCeti.StarCoalgebra.counit_star`; on it
 `Algebra/HopfAlgebra/Star.lean` proves `TauCeti.HopfAlgebra.antipode_bijective`
 and `antipode_star_antipode_star`, and `Algebra/HopfAlgebra/Cancellation.lean`
 constructs `TauCeti.HopfAlgebra.comulMulRightEquiv` and `leftMulComulEquiv`
-with their span statements; §§3.1 and 4.1 consume these. Layer 8 consumes
+with their span statements; §§3.1 and 4.1 consume these. For the pivots of
+§§0.1, 3.3 and 8.5 use `TauCeti.doubleRightDualFunctor`
+(`CategoryTheory/Monoidal/Rigid/DualFunctor.lean`), the class
+`TauCeti.PivotalCategory`, a monoidal natural isomorphism from the identity to
+that functor (`CategoryTheory/Monoidal/Pivotal/Basic.lean`), its traces
+`TauCeti.leftTrace` and `TauCeti.rightTrace` (`Pivotal/Trace.lean`) and
+`TauCeti.SphericalCategory` (`Pivotal/Spherical.lean`). Layer 8 consumes
 `TauCeti.UqSl2` with its generators, `TauCeti.UqSl2.LadderModule`,
 `TauCeti.quantumInteger` with `IsGenericQuantumParameter`,
 `TauCeti.IsLocallyFiniteModule`, `TauCeti.FiniteHopfModuleCat`, and
@@ -190,7 +196,8 @@ standard. Prove additivity, multiplicativity, and compatibility with subobjects
 and unitary tensor equivalences (Longo–Roberts §3, especially Lemma 3.3,
 Theorems 3.8 and 3.11; Neshveyev–Tuset §2.2, pp.29–36). Transport these
 solutions to a dagger-compatible dual functor with unitary tensorator and the
-pivotal and spherical structures of PivotalSpherical. For a unitary
+pivotal and spherical structures of PivotalSpherical Layers 1–2, which are the
+native `TauCeti.PivotalCategory` and `TauCeti.SphericalCategory`. For a unitary
 self-duality r:X→X∨ keep the signed condition `bar(r) r=ε φ_X`, ε=±1, where
 bar(f)=(f†)∨ and φ is the pivotal comparison; equivalently X has a cup
 R:1→X⊗X with (R*⊗1)(1⊗R)=ε1_X. Prove invariance of the sign on a simple
@@ -668,9 +675,10 @@ for S⁻¹=S, identify the pairings with native Finite/Rigid’s existing
 global instance, and use that native instance in the classical cases. For Pol(G), pin the pivotal comodule map
 `j_V(v)=can_V((id⊗f_1)δ(v))` into V**, where can_V is the ordinary
 double-dual identification. Its matrix is F; prove colinearity using
-S²u=FuF⁻¹ and monoidal naturality using the character law for f_1.
-Identify the right and left pivotal traces with tr(Ff) and tr(F⁻¹f),
-respectively. Use §0.1’s balanced unitary dual functor with the stated
+S²u=FuF⁻¹ and monoidal naturality using the character law for f_1, and
+bundle j as a `TauCeti.PivotalCategory` structure on that rigid category.
+Identify its right and left traces, `TauCeti.rightTrace` and
+`TauCeti.leftTrace`, with tr(Ff) and tr(F⁻¹f), respectively. Use §0.1’s balanced unitary dual functor with the stated
 algebraic evaluation/coevaluation. Compare its dagger-dual equations
 with these evaluations/coevaluations; their squared norms are both
 Tr F=Tr F⁻¹. Transport its Hilbert metrics and prove j is unitary,
@@ -1463,21 +1471,28 @@ generic S⁻¹ left dual and its evaluation/coevaluation agree with these
 canonical duals, using S⁻¹=S. Prove the monoidal
 equivalence comparison rather than treating the native unbundled
 categorical equivalence as already monoidal. Right duals via S with native `ExactPairing` triangle identities are
-`instRightRigidCategory`.
+`TauCeti.FiniteHopfModuleCat.instRightRigidCategory`.
 Given `Function.Bijective (HopfAlgebra.antipode)`, the
-inverse left dual and named `RigidCategory` data are `leftDual` and
+inverse left dual and named `RigidCategory` data are `TauCeti.FiniteHopfModuleCat.leftDual` and
 `TauCeti.FiniteHopfModuleCat.rigidCategory`, installed locally
 in every statement using its left duals, pivot, pivotal traces,
 dimensions or dual-compatible Clebsch–Gordan and 6j maps. For g:H with native
 [`IsGroupLikeElem k g`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Coalgebra/GroupLike.lean)
 and S²=Ad(g), consume
 `GroupLike.toUnits k ⟨g,hg⟩` and native antipode/inverse laws.
-Prove Ad(g) bijective and deduce S bijective from bijectivity of S∘S.
-Supply that proof to the named rigid data; the double-dual trivialization
-j_V(v)(φ)=φ(gv), H-linear, natural in V and monoidal, is
-`TauCeti.FiniteHopfModuleCat.unitEvalNatIso` with `unitEvalNatIso_isMonoidal`.
-Bundle it as the `PivotalCategory` instance.
-Instantiate this generic category at U_q and g=K⁻¹.
+Such a g makes S bijective,
+`TauCeti.HopfAlgebra.antipode_bijective_of_antipode_antipode`; write hS for
+that proof. The double-dual trivialization j_V(v)(φ)=φ(gv), an H-linear
+isomorphism natural in V from the identity functor to
+`TauCeti.doubleRightDualFunctor`, is
+`TauCeti.FiniteHopfModuleCat.unitEvalNatIso`; for group-like g it is monoidal,
+`TauCeti.FiniteHopfModuleCat.unitEvalNatIso_isMonoidal`. Bundle the two as a
+`TauCeti.PivotalCategory` structure on `TauCeti.FiniteHopfModuleCat k H` with
+the rigid structure `TauCeti.FiniteHopfModuleCat.rigidCategory hS`, whose right
+duals are `instRightRigidCategory`.
+Instantiate this generic category at U_q and g=K⁻¹, which is group-like by
+`TauCeti.UqSl2.comul_kInv` and `counit_kInv` and satisfies S²=Ad(K⁻¹) by
+`TauCeti.UqSl2.antipode_antipode`.
 The normalized
 highest vectors `clebschGordanVector` and the actual intertwiners
 `TauCeti.UqSl2.clebschGordanEquiv` give
@@ -1505,11 +1520,12 @@ rescalings, are `TauCeti.UqSl2.LadderModule.signTensorEquiv` and
 `tensorSignEquiv`. Finite duals are the
 corresponding signed simples by the explicit antipode intertwiners
 `TauCeti.UqSl2.LadderModule.contragredientEquiv`, comparing the
-U_q right/left duals and pivot with the generic construction above. Identify PivotalSpherical's rightTrace(f)=tr_V(gf) and
-leftTrace(f)=tr_V(g⁻¹f), with its right-dual convention.
-They coincide for all module endomorphisms
-(`TauCeti.UqSl2.trace_lsmul_k_comp_eq_trace_lsmul_kInv_comp`), giving the
-spherical structure. Ordinary weight characters are
+U_q right/left duals and pivot with the generic construction above. For this
+pivotal structure identify the native traces: `TauCeti.rightTrace` sends f to
+tr_V(gf) and `TauCeti.leftTrace` sends f to tr_V(g⁻¹f), under the right duals
+of `instRightRigidCategory`. At U_q, where g=K⁻¹, they coincide for all module
+endomorphisms (`TauCeti.UqSl2.trace_lsmul_k_comp_eq_trace_lsmul_kInv_comp`),
+giving `TauCeti.SphericalCategory`. Ordinary weight characters are
 `TauCeti.UqSl2.formalCharacter`; give the representation ring.
 The common pivotal dimension is ε[m+1]_q on L_m^ε;
 it is [m+1]_q on the positive family. These statements
