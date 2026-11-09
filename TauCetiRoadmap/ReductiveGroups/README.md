@@ -26,7 +26,20 @@ and nilpotents.
 The general Lang theorem and finite-field exactness belong to Layer 7a; rational
 cohomology and cotensor induction to §1.1; the group-specific analytic dictionary to §11.0.
 ReductiveGroupsPartII, IntegralHeckeAndGaloisDeterminants and FormalConnectionsOpers
-are consumers of those interfaces. The finite-presentation Weil restriction used in Layer 8
+are consumers of those interfaces.
+
+Section 11A owns the topological ordered and unordered configuration spaces of `n`
+points of the plane and of the open unit disc, the homeomorphism of the plane onto the
+disc and the `S_n`-equivariant homeomorphisms it induces between them, Artin's theorem identifying the
+fundamental group of the unordered configuration space with `TauCeti.BraidGroup n`
+(`BraidMonodromy.nonempty_mulEquiv_braidGroup`), and the identification of the ordered
+cover with `TauCeti.BraidGroup.permHom` and `TauCeti.BraidGroup.pureSubgroup n`.
+GeometricTopology Layer 4.2.8 and InverseGaloisAndArithmeticFundamentalGroups IG.5.1
+(*Configurations and punctured-disc groups*) consume these. This roadmap does not own
+configuration spaces of a general Hausdorff space, the asphericity of these spaces, the
+free fundamental groups of punctured discs or the algebraic configuration schemes over `ℤ`.
+
+The finite-presentation Weil restriction used in Layer 8
 comes directly from ModularCurves §0F. No arbitrary-affine extension of that construction
 is needed for the finite-type group examples over fields.
 
@@ -131,7 +144,10 @@ prove them equivalent** rather than committing.
   `Mathlib/Geometry/Manifold/Sheaf/LocallyRingedSpace.lean`: a germ is a unit
   exactly when its value is nonzero. `TopCat.GlueData` and `IsProperMap` supply topological gluing and
   proper continuous maps; the latter includes continuity and does not impose
-  Hausdorffness on either space.
+  Hausdorffness on either space. `Set.Countable.isPathConnected_compl_of_one_lt_rank`, in
+  `Mathlib/Analysis/Normed/Module/Connected.lean`, makes the complement of a countable set
+  path connected in a real topological vector space of rank greater than one; §11D applies it
+  to `ℂ` minus a finite set.
 - **Smoothness ingredient:** `Mathlib/RingTheory/Nilpotent/GeometricallyReduced.lean`.
 - **Combinatorial prerequisites** (not ready-made algebraic-group infrastructure; they
   supply abstract root systems/Weyl groups; extracting a *root datum from a group* still
@@ -261,6 +277,17 @@ prove them equivalent** rather than committing.
   `TauCeti.inversions_longestElement` in `TauCeti/LinearAlgebra/RootSystem/LongestElement.lean`
   give the longest element with inversion set all positive roots. Layers 7, 7C and 11
   consume these; no chamber theory is constructed here.
+- `TauCeti.simplyConnectedSpace_of_interior_union`, in
+  `TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen/Basic.lean`, is the two-set van
+  Kampen criterion: a space covered by the interiors of two simply connected subsets whose
+  intersection is path connected is simply connected. §11D applies it inductively to the Weyl
+  translates of the big cell of `G/B`.
+- The integral-lattice dictionary consumed in §9A.1a is native:
+  `TauCeti.IntegralLattice.integralForm`, in `TauCeti/LinearAlgebra/IntegralLattice/Basic.lean`,
+  and `TauCeti.IntegralLattice.ofIntegralForm`,
+  `TauCeti.IntegralLattice.ofIntegralForm.carrierIsometry` and
+  `TauCeti.IntegralLattice.rationalizationIsometry`, in
+  `TauCeti/LinearAlgebra/IntegralLattice/Rationalization.lean`.
 - Mathlib's root-system and Coxeter modules provide abstract combinatorial structures.
   Tau Ceti has concrete torus, GL, SL, and symplectic root-data carriers. These are
   reusable instances, not general root extraction or classification.
@@ -417,6 +444,69 @@ principal-bundle comparison and smooth division map. B1.4 supplies the quotient
 by a closed Lie subgroup and its local sections. Section 3A.5 applies these
 smooth results to the underlying real manifolds and proves the holomorphic
 comparison using its own complex charts and analytic inverse theorem.
+
+### From TauCetiRoadmap.LieHighestWeight
+
+Layers 3–4 supply, over a characteristic-zero field, the Verma modules and simple
+highest-weight quotients `L(λ)` of a split semisimple Lie algebra with a chosen base, the
+theorem that `L(λ)` is finite-dimensional exactly when `λ` is dominant integral, and the
+classification of finite-dimensional simple modules by their highest weights. §9A, item 5,
+consumes them before §9B's matrix construction. Layer 7's bullet *Serre's relations and the
+split-field presentation of `L`* supplies injectivity of the native `TauCeti.serreLift` for a
+normalized generating system of a finite-dimensional simple Lie algebra with nondegenerate
+Killing form and a split Cartan subalgebra over a characteristic-zero field, and the
+resulting presentation equivalence with its H-row
+Cartan-matrix orientation; §§9A.1 and 9A.1a consume it. Layer 7's bullet *Lie-algebra
+Chevalley restriction and the filtered proof* supplies, over an algebraically closed field of
+characteristic zero and for a finite-dimensional Lie algebra with nondegenerate Killing form,
+the restriction isomorphism from adjoint-invariant polynomial functions to Weyl-invariant
+polynomial functions on a Cartan subalgebra; §11C applies it to the Killing-semisimple summand
+only.
+
+### From TauCetiRoadmap.ReflectionInvariantTheory
+
+§1 supplies, for a finite group acting linearly on a finite-dimensional vector space over a
+field, the graded invariant subalgebra of `Sym(V*)` and, when the group order is invertible,
+the Reynolds projection onto it. §3 supplies, for a finite real reflection group, the
+polynomial invariant algebra with its basic invariants and degrees, the finite invariant
+quotient, the Jacobian and discriminant as products of the linear forms of the reflecting
+hyperplanes, one degree-one invariant for each central fixed direction, and the extension of
+these graded statements to `ℂ`. §11C consumes both.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 1 supplies the iterated finite-cover and group-presentation corollaries of the based
+van Kampen theorem, whose two-set form is the native `TauCeti.isPushout_fundamentalGroup`
+(in `TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen/Basic.lean`: the opens and their
+intersection path connected and containing the basepoint). Stage 4 supplies CW pairs, skeleta and cellular realization.
+§11B uses both for the realization of the Salvetti complex and the presentation read off its
+two-skeleton. The two-set simple-connectivity criterion used in §11D is the native Tau Ceti
+declaration cited in the Tau Ceti contract.
+
+### From TauCetiRoadmap.DGFloer
+
+Layer 1, item 2 (*Weak equivalences and CW approximation*, with its paragraph *All-CW testing
+and based fibration sequence*), supplies the homotopy exact sequence of a Serre fibration down
+to `π₀`: its connecting maps, exactness as pointed sets at `π₁` and `π₀`, naturality for
+commuting based squares, and its application to locally trivial bundles through the native
+`TauCeti.TopCat.mem_serreFibrations_proj` without a paracompactness hypothesis. §11D applies it
+to the bundle `G/T→G/B` and to the spectral projection `χ_rs`.
+
+### From TauCetiRoadmap.GroebnerGeometry
+
+G5 supplies, for an `n`-by-`n` matrix of indeterminates, the flag-minor subalgebra generated
+by the minors on an increasing row subset and the initial columns, with its standard-monomial
+and SAGBI bases, its fundamental multigrading and the underlying polynomial identities over
+`ℤ` and their base changes. §10D identifies this algebra with `O(Mat_n)^(1×N⁺)` and localizes
+it at the determinant.
+
+### From TauCetiRoadmap.InductionRestriction
+
+Layer 2.1 supplies almost-conjugacy of subgroups of a finite group and its target
+`Gassmann.almostConjugate_iff_permutation_equiv`: for a finite group and two subgroups,
+almost-conjugacy holds exactly when the complex permutation representations on the two coset
+spaces are equivalent as `Representation.Equiv`. Layer 7f consumes it for the
+common-Levi parabolics of a finite reductive group.
 
 ## How to read the build
 
@@ -1671,9 +1761,10 @@ central torus, arbitrary unipotent dimension, U=1 and Q=1 cases.
   reductive quotient SL₂ and no Levi complement (McNinch (3.2.1), p. 7); the
   characteristic hypothesis cannot be dropped.
 
-Under k=ℂ compare this exact algebraic decomposition with the underlying
-holomorphic group and use LieGroups Layer 7 only for the already reductive
-factor's compact real form. There is no asserted Levi splitting for all groups in
+Under k=ℂ the decomposition passes to complex points through §3A.5. Comparing
+the reductive factor with a compact real form is LieGroups Layer 7's application
+of this section's output (LieGroups Layer 7 uses Layers 0–4, 6 and 7C of this
+roadmap), so this section does not consume it. There is no asserted Levi splitting for all groups in
 positive characteristic; Layer 7's separate all-field parabolic theorem
 retains its hypotheses and is not replaced by this characteristic-zero lane.
 The regular extension/cohomology route is discussed in
@@ -2802,8 +2893,7 @@ algebra by its Killing-semisimple part.
    empty diagram. Consume the actual finite realizations of
    [RootSystems Layers 5–6](../RepresentationTheory/RootSystems/README.md) and the
    native `IntegralLattice.integralForm`, `ofIntegralForm`, `carrierIsometry` and
-   `rationalizationIsometry` dictionary from
-   [IntegralLattices](../IntegralLattices/README.md). Prove that the norm 2 shell
+   `rationalizationIsometry` dictionary of the Tau Ceti contract. Prove that the norm 2 shell
    `Φ={a∈Q:B(a,a)=2}` is exactly the root set of that realization, with explicit
    root/coroot index maps. A positive norm 2 vector has a simple reflection that
    lowers height unless it is simple: its coefficients have one sign, since two
@@ -4347,10 +4437,12 @@ smooth-sheaf stalk and evaluation; finite-dimensional holomorphic analyticity.
 **11A. Plane configurations, geometric braids and their basepoints.** Construct
 injective ordered complex tuples, their permutation quotient, the disc comparison,
 and the finite covering and braid/permutation maps below on the native topological
-and braid carriers. These supply the plane configuration interface used by arithmetic
-fundamental-group applications. Use subtype topology on `PConf_n(ℂ)={z:Fin n→ℂ | Function.Injective z}` and quotient
-topology on `Conf_n(ℂ)=PConf_n(ℂ)/S_n`. Transport that quotient topology when comparing to
-the finite-subset carrier; no discrete topology on `Finset ℂ` is intended. Permutations act
+and braid carriers. This section is their owner and the owner of Artin's theorem below;
+GeometricTopology Layer 4.2.8 and InverseGaloisAndArithmeticFundamentalGroups IG.5.1
+consume them (see *Scope and ownership*). Use subtype topology on `PConf_n(ℂ)={z:Fin n→ℂ | Function.Injective z}` and quotient
+topology on `Conf_n(ℂ)=PConf_n(ℂ)/S_n`. A consumer that models an unordered configuration
+as an `n`-element subset of `ℂ` transports this quotient topology along `[z]↦{z_1,…,z_n}`;
+no discrete topology on `Finset ℂ` is intended. Permutations act
 on tuples by `(σ·z)_i=z_(σ⁻¹ i)`.
 
 Define `BraidMonodromy.orderedConfiguration n` as `PConf_n(ℂ)`, and
@@ -4607,11 +4699,33 @@ map have coefficients −2, 2 and 1, so its determinant is −4≠0 over ℂ;
 reversing [X,t] to [t,X] gives the wrong two root signs.
 
 Construct `G/T→G/B` as a locally trivial bundle with contractible fiber `B/T≃U`, using
-Layer 7's ordered root coordinates. Consume the actual flag CW structure with only even
-real-dimensional cells from [LieGroups Layer 8](../RepresentationTheory/LieGroups/README.md). Prove connectedness
-and `π₁(G/T)=0` through that bundle and the based LES. This includes arbitrary connected
-complex reductive global forms; it does not assume `G` is simply connected, or infer a
-topological theorem merely from algebraic simple connectedness. Use
+Layer 7's ordered root coordinates. Here `B=B⁺=T⋉U⁺` and `U⁻` is the opposite unipotent
+radical, as in §7C.
+
+Prove that the complex points of `G/B`, with §3A.5's classical topology, form a simply
+connected space. For every `w∈W`, with the lift `n_w` fixed in §7C.5, put
+`Ω_w=n_w U⁻B/B`. Each `Ω_w` is Zariski open and isomorphic to `𝔸^|Φ⁺|`: at `w=w₀`,
+§7C.5 identifies `U⁺` with the cell `U⁺n₀B/B` by `j↦j n₀B`. That cell is an orbit of
+dimension `|Φ⁺|=dim G/B` in the irreducible `G/B`, locally closed by Layer 3A, hence open.
+Translating by `n_w n₀⁻¹` gives `Ω_w`, since `n₀U⁻n₀⁻¹=U⁺`. The `Ω_w` cover `G/B`:
+§7C.5's cell `J_w n_w B/B` lies in `Ω_w` because `J_w=U⁺∩n_w U⁻ n_w⁻¹` (Milne,
+Theorem 21.80(c), p. 450). Every nonempty Zariski open subset `V⊆Ω_w` has path-connected
+complex points. For `a,b∈V(ℂ)`, the line `t↦a+t(b−a)` meets the closed complement of `V` in a
+Zariski-closed subset of `𝔸¹` that misses `t=0`, hence in a finite set. Its complement in `ℂ`
+is path connected by Mathlib's `Set.Countable.isPathConnected_compl_of_one_lt_rank`, as `ℂ`
+has real dimension 2. List `W` as `w_1,…,w_m` and put `V_k=Ω_(w_1)∪…∪Ω_(w_k)`.
+Since `G/B` is irreducible, `V_k∩Ω_(w_(k+1))` is a nonempty Zariski open subset of
+`Ω_(w_(k+1))`, so its complex points are path connected. The native two-set criterion
+`TauCeti.simplyConnectedSpace_of_interior_union` (two simply connected open subsets with
+path-connected intersection have simply connected union) then shows by induction that every
+`V_k(ℂ)` is simply connected, starting from `V_1(ℂ)≃ℂ^|Φ⁺|`; `V_m=G/B`. The path-connectedness
+of the overlaps is where the complex numbers enter: the real points of the same two charts of
+`ℙ¹` meet in `ℝ∖{0}`, which is disconnected, and `π₁(ℙ¹(ℝ))=ℤ`.
+
+Prove connectedness and `π₁(G/T)=0` through the bundle `G/T→G/B` and the based LES. This
+includes arbitrary connected complex reductive global forms; it does not assume `G` is
+simply connected, or infer a topological theorem merely from algebraic simple
+connectedness. Use
 [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)'s actual closed-subgroup
 quotient and principal projection when changing analytic models.
 
@@ -4633,6 +4747,14 @@ a Serre-fibration lifting predicate alone does not supply those theorems.
   `Ad_(gn_w)(w⁻¹t)=Ad_g(t)`. With `wt` instead one gets `Ad_g(w²t)`, which for `A₂`,
   `w=s₁s₂` of order 3 and generic `t` differs from `Ad_g(t)`; the error is invisible in
   `A₁`, where `w=w⁻¹`.
+- For `SL₂` with `B` the upper-triangular Borel, which stabilizes the line `[e₁]`, and
+  `n_s=[[0,−1],[1,0]]`: `Ω_e=U⁻B/B={[1:c]}` is `ℙ¹` minus `[0:1]`, and
+  `Ω_s=n_sΩ_e={[−c:1]}` is `ℙ¹` minus `[1:0]`. They cover `ℙ¹`, and their overlap is
+  `{c≠0}≅ℂ*`, which is path connected but not simply connected. The two-set criterion
+  gives `π₁(ℙ¹)=1`; it needs only path-connected overlaps.
+- For `GL₃`, `|W|=6` charts, each `≅ℂ³`, cover the three-dimensional flag variety, and
+  the cells `J_w n_w B/B ⊆ Ω_w` have complex dimensions `ℓ(w)=0,1,1,2,2,3`. For a torus
+  `G=T`, `W=1`, `Φ⁺=∅` and `G/B` is one point, covered by the single chart `ℂ⁰`.
 - For `SL₂`, `G/B=ℙ¹` and `π₁(G/T)=0`; `B_W=ℂ*` has `π₁=ℤ`, so `π₁(𝔤_rs)≅ℤ`, matching
   the two-strand braid group of 11E. For `PGL₂` the variety `G/T` is the same and is
   simply connected although `π₁(PGL₂(ℂ))=ℤ/2`: the statement concerns `G/T`, not `G`.
@@ -4705,8 +4827,9 @@ vector spaces, and contribute no extra π₁.
 
 **11G. Prerequisite and scope comparisons.** The order is §11A's configuration/native
 braid contract, RootSystems' Coxeter presentation and the native chamber theory → finite arrangement topology;
-independent Layers 8–9 and §§3A.5/11.0 → 11C invariant/spectral maps; Layer 7 and
-LieGroups Layer 8 flag cells → homogeneous-fiber connectedness and simple connectedness;
+independent Layers 8–9 and §§3A.5/11.0 → 11C invariant/spectral maps; §7C.5's flag
+cells and big-cell translates with the native two-set van Kampen criterion →
+homogeneous-fiber connectedness and simple connectedness;
 the based DGFloer Layer 1.2 fiber sequence → the `χ_rs`-induced π₁ isomorphism; finite
 cover → actual root-datum monodromy. LieHighestWeight Layer 7 Lie invariants and
 ReflectionInvariantTheory §§1 and 3 finite invariants enter 11C with the explicit comparisons
@@ -4729,7 +4852,7 @@ For A₁ the regular Cartan is ℂˣ and its Weyl quotient is z↦z². A positiv
 
 ### Dependencies
 
-*Needs:* Layers 0–2 and 8–9; §11.0 analytic dictionary; §11A configurations; the finite Coxeter and topological suppliers named in §§11B–11G.
+*Needs:* Layers 0–2 and 8–9; §§7.3 and 7C (flag cells, big-cell translates and ordered root coordinates, for §11D); §11.0 analytic dictionary; §11A configurations; the finite Coxeter and topological suppliers named in §§11B–11G.
 
 ## Worked examples
 
@@ -4790,6 +4913,10 @@ The finite groups of Lie type consume Layer 9 through fixed points of Steinberg 
 on the points of pinned Chevalley–Demazure groups, or on explicit carriers identified with
 those points. CFSGStatement's supplier contract *From TauCetiRoadmap.ReductiveGroups* and
 its Layer 1.1 need constructions rather than existence theorems.
+
+GeometricTopology Layer 4.2.8 and InverseGaloisAndArithmeticFundamentalGroups IG.5.1 consume
+§11A's plane and disc configuration spaces, Artin's theorem and the ordered-cover
+identification.
 
 ## References
 
