@@ -115,7 +115,9 @@ are the theorems stated in `Suggested.lean`.
    field of a named norm subgroup; the ring class field of **every** order of every number field,
    with `Gal(H_O/K) ≃ Pic O`; admissible moduli, the conductor of a finite abelian extension and
    ray-class reciprocity; Kronecker–Weber (Layer 13): Tau Ceti's. **Open targets** (Layer 13): the
-   principal ideal theorem in the Hilbert class field, and the conductor–discriminant formula,
+   principal ideal theorem in the Hilbert class field, with the comparison of extension of idele
+   classes and extension of ideal classes along every finite extension of number fields that its
+   route reads, and the conductor–discriminant formula,
    with the discriminant the **product** and the conductor the **lcm** of the character
    conductors.
 10. Hilbert reciprocity, derived from item 6 (Layer 14): Tau Ceti's `hilbertProductFormula`.
@@ -619,7 +621,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | global reciprocity (Layer 11) | `globalClassFormation`, `globalArtinEquiv`, `globalArtinMap`, `ker_globalArtinMap`, `surjective_globalArtinMap`, `globalArtinMap_principal`, `globalArtinMap_local`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt` |
 | global existence and the global correspondence (Layer 12) | `globalAbelianExistence`, `globalClassField_unique`, `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing`, `globalAbelianGaloisEquiv`, `card_ideleClassNormQuotient` |
 | norm theorems and class fields (Layer 13) | `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`, `exists_sq_sub_mul_sq_iff_forall_completion`, `abelianConductor`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `rayClassArtinMap`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `hilbertClassArtinEquiv`, `fieldRange_le_hilbertClassField_iff`, `ringClassField`, `ringClassArtinEquiv`, `kroneckerWeber` |
-| inputs of the open targets of Layer 13: the class-formation principal ideal theorem and the local Artin symbol at a finite place | `ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`, `localArtinAt` |
+| inputs of the open targets of Layer 13: the class-formation principal ideal theorem, the local Artin symbol at a finite place, extension of ideles and its valuations, the ideal of a finite idele, the ray class of an idele class, the level identifications and norm subgroups of the idele-class formation, and the unramified maximality of the Hilbert class field | `ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`, `localArtinAt`, `ideleExtension`, `ideleClassExtension`, `ideleFiniteCoord_ideleExtension`, `valued_adicCompletionExtension`, `toFractionalIdeal`, `count_coe_toFractionalIdeal`, `ideleCongrOneSubgroup_one`, `rayClassQuotient_mk_of_mem`, `rayClassQuotient_surjective`, `ker_rayClassQuotient`, `oneEquivClassGroup_rayClassMk`, `globalGroundEquiv_mk`, `ideleClassLevelEquiv_mk`, `ideleCoeffOfIntermediateField_ideleExtension`, `NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`, `range_ideleClassNormMap_rayClassField`, `range_ideleClassNormMap_eq_of_algEquiv`, `isAbelianGalois_rayClassField`, `isUnramifiedAt_hilbertClassField`, `isUnramifiedAtInfinitePlaces_hilbertClassField` |
 | Hilbert reciprocity (Layer 14) | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `hilbertProductFormula` |
 
 ### From Mathlib
@@ -642,7 +644,14 @@ The carriers and inputs of the open targets (Layers 7 and 13) are: the class
 `Mathlib/FieldTheory/Galois/Profinite.lean`; `IsAbelianGalois` in
 `Mathlib/FieldTheory/Galois/Abelian.lean`; and
 `CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`, `MonoidHom.domRestrict_surjective` and
-`CommGroup.card_domRestrictHom_ker` in `Mathlib/GroupTheory/FiniteAbelian/Duality.lean`.
+`CommGroup.card_domRestrictHom_ker` in `Mathlib/GroupTheory/FiniteAbelian/Duality.lean`. The
+principal ideal theorem and its comparison of extension of ideals with extension of ideles use
+`ClassGroup.extendedHom`, `ClassGroup.extendedHom_mk` and `ClassGroup.extendedHom_mk0` in
+`Mathlib/RingTheory/ClassGroup/ExtendedHom.lean`, `ClassGroup.mk0_eq_one_iff`,
+`Ideal.map_algebraMap_eq_finsetProd_pow` in `Mathlib/RingTheory/DedekindDomain/Factorization.lean`,
+`IsSepClosed.lift`, `Algebra.IsUnramifiedAt.comp`, `Algebra.IsUnramifiedAt.of_liesOver`, and
+`IsUnramifiedAtInfinitePlaces.trans` and `IsUnramifiedAtInfinitePlaces.bot` in
+`Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.lean`.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -1471,8 +1480,9 @@ The norm-subgroup and existence interface consists of the following laws:
   `V = ⊤ ↦ K ↦ Kˣ`, which is what fixes the direction of the correspondence;
 - the concrete forms of norm limitation, `localNormSubgroup_maximalAbelianLayer`;
 - in characteristic zero, every finite-index subgroup of `Kˣ` is the norm subgroup of a finite
-  **abelian** layer (`localAbelianExistence`), with `localExistence` retained only as the
-  corollary that forgets abelianity;
+  **abelian** layer (`localAbelianExistence`; Milne, *Class Field Theory*, III Theorem 5.1, p. 115,
+  proved there in characteristic zero), with `localExistence` retained only as the corollary that
+  forgets abelianity;
 - for a general nonarchimedean local field of residue characteristic `p`, every finite-index
   subgroup of `Kˣ` whose index is prime to `p` is the norm subgroup of a finite abelian layer
   (`localAbelianExistence_primeToResidueCharacteristic`), again with a forgetful corollary
@@ -1659,7 +1669,8 @@ colimit. The Brauer interface is the exact sequence
 0 → Br(K) → ⨁_v Br(K_v) → ℚ/ℤ → 0
 ```
 
-in invariant coordinates: `finiteInvAt` and `infiniteInvAt` are the local invariants,
+(Milne, *Class Field Theory*, VIII Theorem 4.2, p. 241, with injectivity on the left VII Theorem
+7.1, p. 219), read in invariant coordinates: `finiteInvAt` and `infiniteInvAt` are the local invariants,
 `brauerSupport` is the finite ramification set, `sumLocalInv` is the middle map,
 `brLocalization_injective` is exactness at `Br K` (Albert–Brauer–Hasse–Noether),
 `sumLocalInv_brLocalization_eq_zero` is exactness in the middle, and `exists_br_of_sum_eq_zero` is
@@ -1762,8 +1773,10 @@ exists, and may not be used in its construction.
 For a finite Galois extension `L/K`, transport the abstract Artin equivalence to
 
 ```text
-C_K / N_{L/K}(C_L) ≃ Gal(L/K)^ab.
+C_K / N_{L/K}(C_L) ≃ Gal(L/K)^ab
 ```
+
+(for abelian `L/K`, Milne, *Class Field Theory*, V Theorem 5.3(b), p. 179).
 
 The resulting `globalArtinMap` satisfies:
 
@@ -1771,7 +1784,8 @@ The resulting `globalArtinMap` satisfies:
   (`globalArtinMap_local`, with local factor `localArtinAt`, the completion instance of
   `artinMap`, read in `Gal(L/K)^ab` by `decompositionRestrict`, which `decompositionRestrict_mk`
   pins as restriction along a place of `L` above `v`);
-- triviality on principal ideles (`globalArtinMap_principal`, the reciprocity law), which holds
+- triviality on principal ideles (`globalArtinMap_principal`, the reciprocity law; Milne, *Class
+  Field Theory*, V Theorem 5.3(a), pp. 178–179, proved as VII Theorem 8.1(a), p. 221), which holds
   because the global class formation is built on idele classes, its invariant being the
   sum of local invariants of Layer 10 that `sumLocalInv_brLocalization_eq_zero` makes well defined;
 - compatibility in towers;
@@ -1813,7 +1827,8 @@ Their API is:
   concrete norm limitation `globalNormSubgroup_maximalAbelianLayer`, and the direction test
   `globalNormSubgroup_top`;
 - every open finite-index subgroup of `C_K` is the norm subgroup of a finite **abelian** layer of
-  the global formation (`globalAbelianExistence`), with `globalExistence` retained only as the
+  the global formation (`globalAbelianExistence`; Milne, *Class Field Theory*, V Theorem 5.5,
+  p. 179, proved as VII Theorem 9.5, p. 226), with `globalExistence` retained only as the
   corollary that forgets abelianity;
 - **uniqueness**, `globalClassField_unique`, and hence the class field `globalClassField N` with
   its characterizing equation `globalClassField_normSubgroup`;
@@ -1888,7 +1903,8 @@ Layers 4, 10–11; GlobalNumberFields Layers 2 and 7 (moduli and ray classes).
 
 ### 13.1 Class fields and the global comparisons
 
-*Prerequisites:* Layers 7, 10, 11, 12; `GlobalNumberFields` (orders and `Pic`);
+*Prerequisites:* Layers 7, 10, 11, 12; `GlobalNumberFields` (extension of ideles, the ray class of
+an idele class, orders and `Pic`);
 `NumberFieldArithmetic` §§4.2, 5.9–5.10 (`relDiscr`, localization, completed differents and residue-degree-weighted exponents). The norm theorems,
 the class fields and Kronecker–Weber have their interface in
 `TauCeti/NumberTheory/ClassFieldTheory/Global/HasseNorm/` and `ClassFields/`, and consumed here
@@ -1930,21 +1946,113 @@ are the open targets of this layer. The contract:
   `≡ 2 mod 4`, and the compatibility of conductors with ramification
   (`IsAdmissibleModulus.mem_support_of_ramified`).
 
+**Extension of ideals, read on ideles.** For every finite extension `E/K` of number fields, with
+no Galois hypothesis, prove that extension of ideles covers extension of ideals. GlobalNumberFields
+Layer 7 compares ideles with ideals over one field only, and no supplier or pinned declaration
+relates `ideleClassExtension` to ideals, so the comparison is a target of this layer. Let `x` be an
+idele of `K` and `x_E = ideleExtension K E x`. At a prime `w` of `E` above `v`, the `w`-adic order
+of `x_E` is `e(w|v)` times the `v`-adic order of `x` (Tau Ceti's `ideleFiniteCoord_ideleExtension`
+and `valued_adicCompletionExtension`), and `v𝓞_E` is the product of the `w^{e(w|v)}` over the
+primes `w` above `v` (Mathlib's `Ideal.map_algebraMap_eq_finsetProd_pow`). So the fractional ideal
+of the finite part of `x_E` and the extension to `𝓞 E` of the fractional ideal of the finite part
+of `x` have the same multiplicity at every prime of `E` (`count_coe_toFractionalIdeal`), and are
+equal. At the trivial modulus every idele is congruent to one (`ideleCongrOneSubgroup_one`), and
+`rayClassQuotient_mk_of_mem` reads the ray class of an idele class as the class of that fractional
+ideal. Hence the square
+
+```text
+C_K  --ideleClassExtension K E-->  C_E
+ |                                  |
+ v                                  v
+Cl_K --ClassGroup.extendedHom----> Cl_E
+```
+
+commutes, each vertical map being `rayClassQuotient` at the trivial modulus followed by
+`oneEquivClassGroup` (`oneEquivClassGroup_rayClassMk`), and the bottom map being Mathlib's
+extension of ideal classes `ClassGroup.extendedHom (𝓞 K) (𝓞 E)` (`ClassGroup.extendedHom_mk`).
+*Needs:* GlobalNumberFields Layers 7 and 8 (the ray class of an idele class, extension of ideles);
+Tau Ceti `ideleExtension`, `ideleClassExtension`, `ideleFiniteCoord_ideleExtension`,
+`valued_adicCompletionExtension`, `toFractionalIdeal`, `count_coe_toFractionalIdeal`,
+`ideleCongrOneSubgroup_one`, `rayClassQuotient_mk_of_mem` and `oneEquivClassGroup_rayClassMk`;
+Mathlib `Ideal.map_algebraMap_eq_finsetProd_pow`, `ClassGroup.extendedHom` and
+`ClassGroup.extendedHom_mk`.
+
+**Checks** (extension of ideals).
+
+- `K = ℚ`, `E = ℚ(i)`, `x` equal to `2` at `2` and to `1` elsewhere: `2` ramifies, so `x_E` has
+  order `e = 2` at `w = (1 + i)` and fractional ideal `(1 + i)² = (2) = 2𝓞_E`, the extension of
+  `(2)`. A version that kept the order of `x` without the factor `e` returns `(1 + i)`, of absolute
+  norm `2` instead of `4`.
+- Same `E/K`, `x` equal to `3` at `3` and `1` elsewhere: `3 ≡ 3 mod 4` is inert, `e = 1` and
+  `f = 2`, so `x_E` has order `1` at `w = (3)` and fractional ideal `3𝓞_E`. A version that
+  multiplied orders by the degree `[E:K] = 2` instead of by `e(w|v)` agrees with the previous Check
+  and returns `(9)` here.
+- `K = ℚ(√−5)`, `E = K(i) = ℚ(i, √5)`, `x` a uniformizer at `𝔭 = (2, 1 + √−5)` and `1`
+  elsewhere: going down first gives `[𝔭] ≠ 1` in `Cl_K`, then `[𝔭𝓞_E]`. Over `ℚ`, `2` ramifies
+  in `ℚ(i)` and is inert in `ℚ(√5)` (`5 ≡ 5 mod 8`), so `E` has one prime `𝔓` above `2`, with
+  `e(𝔓|2) = f(𝔓|2) = 2`; as `e(𝔭|2) = 2`, `e(𝔓|𝔭) = 1`, and going across first gives an idele
+  of order `1` at `𝔓`, with fractional ideal `𝔓 = 𝔭𝓞_E`. From `𝔓² = 2𝓞_E = ((1 + i)²)` and
+  unique factorization, `𝔓 = (1 + i)`, so both paths give the trivial class of `Cl_E`.
+
 **The principal ideal theorem** `isPrincipal_map_hilbertClassField`, an open target: every ideal
-of `𝓞 K` becomes principal in the ring of integers of `hilbertClassField K` (Artin–Tate,
+of `𝓞 K` becomes principal in the ring of integers of `H = hilbertClassField K` (Artin–Tate,
 Chapter XIII; Milne, *Class Field Theory*, V Theorem 3.17, p. 161). Tau Ceti's
 `ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator` is its class-formation
 form, from Furtwängler's theorem that the transfer of a finite group into its commutator subgroup
-is trivial; the target reads it on ideals, applying it to the idele-class formation with `E` the
-Hilbert class field of `K` and the top field the Hilbert class field of `E`, and comparing idele
-classes with ideal classes through `hilbertClassArtinEquiv`. Checks: at `K = ℚ` the Hilbert class
-field is `ℚ` and the ideal `(2)` is already principal. At `K = ℚ(√−5)`, of class number `2` with
-Hilbert class field `K(i)`, the ideal `𝔭 = (2, 1 + √−5)` is not principal in `𝓞 K`, but
-`𝔭² = (2)`; after extension to `K(i)`, `(2) = ((1 + i)²)` as ideals, so the
-extended ideal is generated by `1 + i`.
-*Needs:* Layer 12 global correspondence; Tau Ceti’s
-`ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`;
-`hilbertClassArtinEquiv`; the ideal/idele-class comparison of GlobalNumberFields Layer 7.
+is trivial; it carries the hypothesis `hT` that the Galois group of the restricted layer is the
+commutator subgroup of the Galois group of the full layer. The zero ideal extends to the zero
+ideal, which is principal. One route for a nonzero ideal `𝔞`, in the idele-class formation
+`globalFormation K`:
+
+1. *The Hilbert class field of `H` inside `Kˢ`.* Let `H'` be the image of
+   `hilbertClassField H` under an `H`-embedding of the separable closure of `H` into `Kˢ`
+   (Mathlib's `IsSepClosed.lift`: `Kˢ` is separably closed and algebraic over `H`), so that `H'`
+   is `H`-isomorphic to `hilbertClassField H`.
+2. *The hypothesis `hT`.* `H'/K` is Galois: `H/K` is abelian (`isAbelianGalois_rayClassField`), so
+   every `σ ∈ G_K` maps `H` onto itself and `H'` onto an abelian extension of `H` unramified at
+   every finite prime and every infinite place, which lies in `H'` by
+   `fieldRange_le_hilbertClassField_iff` over `H` and equals it by degree. The maximal abelian
+   subextension of `H'/K` is
+   `H`: `H'/H` and `H/K` are unramified at every finite prime and every infinite place
+   (`isUnramifiedAt_hilbertClassField`, `isUnramifiedAtInfinitePlaces_hilbertClassField`), hence
+   so are `H'/K` (Mathlib's `Algebra.IsUnramifiedAt.comp` and
+   `IsUnramifiedAtInfinitePlaces.trans`) and each of its subextensions over `K`
+   (`Algebra.IsUnramifiedAt.of_liesOver` and `IsUnramifiedAtInfinitePlaces.bot`), and an abelian
+   one lies in `H` by `fieldRange_le_hilbertClassField_iff` over `K`. The fixed field of the
+   commutator subgroup of `Gal(H'/K)` is the maximal abelian subextension, so that subgroup is
+   `Gal(H'/H)`.
+3. *Idele classes.* Restrict the layer of `H'` over `K` to the ground `H`. The class-formation
+   theorem puts the ground inclusion of every element of the ground level into the norm subgroup
+   of the layer of `H'` over `H`. Read through `globalGroundEquiv` and `ideleClassLevelEquiv`,
+   that ground inclusion is `ideleClassExtension K H` (`globalGroundEquiv_mk`,
+   `ideleClassLevelEquiv_mk`, `ideleCoeffOfIntermediateField_ideleExtension`), and the norm
+   subgroup is `N_{H'/H}(C_{H'})` (`NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`). That
+   norm group is the ray subgroup of the trivial modulus of `H`
+   (`range_ideleClassNormMap_rayClassField`, transported along `H' ≃ₐ[H] hilbertClassField H` by
+   `range_ideleClassNormMap_eq_of_algEquiv`), the kernel of `rayClassQuotient` at the trivial
+   modulus (`ker_rayClassQuotient`).
+4. *Ideals.* By step 3, the square above for `H/K` and the surjectivity of `rayClassQuotient`
+   (`rayClassQuotient_surjective`), `ClassGroup.extendedHom (𝓞 K) (𝓞 H)` is trivial. So the
+   class of `𝔞𝓞_H` is trivial (`ClassGroup.extendedHom_mk0`), and `𝔞𝓞_H` is principal
+   (`ClassGroup.mk0_eq_one_iff`).
+
+Checks: at `K = ℚ` the Hilbert class field is `ℚ` and the ideal `(2)` is already principal. At
+`K = ℚ(√−5)`, of class number `2` with Hilbert class field `K(i)`, the ideal
+`𝔭 = (2, 1 + √−5)` is not principal in `𝓞 K`, but `𝔭² = (2)`; after extension to `K(i)`,
+`(2) = ((1 + i)²)` as ideals, so the extended ideal is generated by `1 + i`, as the third Check of
+the comparison above computes. The hypothesis `hT` cannot be dropped: applied to the layer of `H`
+over `K` with no restriction of the ground, the class-formation statement would make every idele
+class of `K` a norm from `C_H`, that is `Cl_K = 1`, which the class `[𝔭]` of `ℚ(√−5)` refutes.
+*Needs:* Layer 12 global correspondence; the comparison of extension of ideals with extension of
+ideles above; Tau Ceti's `ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`,
+`isAbelianGalois_rayClassField`, `isUnramifiedAt_hilbertClassField`,
+`isUnramifiedAtInfinitePlaces_hilbertClassField`, `fieldRange_le_hilbertClassField_iff`,
+`globalGroundEquiv_mk`, `ideleClassLevelEquiv_mk`, `ideleCoeffOfIntermediateField_ideleExtension`,
+`NormalLayer.ideleClassLevelEquiv_mem_normSubgroup_iff`, `range_ideleClassNormMap_rayClassField`,
+`range_ideleClassNormMap_eq_of_algEquiv`, `ker_rayClassQuotient` and
+`rayClassQuotient_surjective`; Mathlib's `IsSepClosed.lift`, `Algebra.IsUnramifiedAt.comp`,
+`Algebra.IsUnramifiedAt.of_liesOver`, `IsUnramifiedAtInfinitePlaces.trans`,
+`IsUnramifiedAtInfinitePlaces.bot`, `ClassGroup.extendedHom_mk0` and `ClassGroup.mk0_eq_one_iff`.
 
 **The global conductor–discriminant formula**, an open target, in both of its halves (Milne,
 *Class Field Theory*, V Theorem 3.27, with Remark 3.28 identifying the conductor of a character `ψ`
@@ -2021,7 +2129,7 @@ For ℚ(ζ₈)/ℚ, the four character conductor exponents at 2 are 0,2,3,3: the
 
 ### Dependencies
 
-Layers 7, 10–12; GlobalNumberFields Layers 7 and 11; NumberFieldArithmetic §§4.2, 5.9–5.10. The ideal theorem and the two conductor formulas list their individual inputs above.
+Layers 7, 10–12; GlobalNumberFields Layers 7, 8 and 11; NumberFieldArithmetic §§4.2, 5.9–5.10. The comparison of extension of ideals with extension of ideles, the ideal theorem and the two conductor formulas list their individual inputs above.
 
 ## Layer 14: Hilbert reciprocity and quadratic reciprocity
 
@@ -2038,9 +2146,11 @@ comes from the archimedean package of Layer 10; both are supported on the finite
 at the finite places. Hilbert reciprocity is `hilbertProductFormula`, in additive cohomological
 form: the sum of the local `ZMod 2` invariants is zero, which is the Layer 10 sum formula
 `sumLocalInv_brLocalization_eq_zero` applied to the Brauer class of the quaternion symbol, not an
-independent computation. The multiplicative form `∏_v (a,b)_v = 1`, for the norm-equation
-symbols, is Tau Ceti's `TauCeti.hilbertSymbol_productFormula`, derived from
-`hilbertProductFormula` through the placewise comparisons
+independent computation (Milne, *Class Field Theory*, VIII Theorem 4.2, p. 241, applied to the
+quaternion class). The multiplicative form `∏_v (a,b)_v = 1`, for the norm-equation symbols
+(Milne, *Class Field Theory*, V Example 5.4, p. 179), is Tau Ceti's
+`TauCeti.hilbertSymbol_productFormula`, derived from `hilbertProductFormula` through the placewise
+comparisons
 `TauCeti.hilbertSymbol_unitAtFinitePlace_eq_hilbertSign` and
 `TauCeti.hilbertSymbol_unitAtRealPlace_eq_hilbertSign`; `QuadraticFormInvariants` consumes these
 comparisons and the product formula.
@@ -2315,10 +2425,13 @@ local formulas of Layer 7 and the global correspondence of Layer 12.
 - J. Neukirch, *Algebraic Number Theory*, 1999 (neukirch-ant): V Theorem 6.2
   (upper-numbering reciprocity) and VI §7 (principal ideal theorem).
 - J. S. Milne, *Class Field Theory*, v4.03 (milne-cft): II Theorem 3.11, p. 84;
-  III Proposition 1.9, p. 102, Lemmas 2.3–2.6, Theorem 3.1 and Lemma 3.2, pp. 107–108;
+  III Proposition 1.9, p. 102, Lemmas 2.3–2.6, Theorem 3.1 and Lemma 3.2, pp. 107–108,
+  Theorem 5.1, p. 115 (local existence, proved there in characteristic zero);
   V Theorems 3.5 and 3.17, pp. 158 and 161, Theorem 3.27, Remark 3.28 and Examples
-  3.29–3.30, p. 165; VII §§4–5, Proposition 7.2, Lemma 7.3, Theorem 8.1, Lemmas 9.1–9.4
-  and Theorem 9.5; VIII Theorem 3.1 and Remark 3.2, p. 234, and Theorems 4.2 and 4.7.
+  3.29–3.30, p. 165, Theorem 5.3, Example 5.4 and Theorem 5.5, pp. 178–179 (the idelic
+  reciprocity law, the Hilbert product formula and global existence); VII §§4–5, Theorem 7.1, p. 219, Proposition 7.2, Lemma 7.3,
+  Theorem 8.1, p. 221, Lemmas 9.1–9.4 and Theorem 9.5, p. 226; VIII Theorem 3.1 and Remark 3.2, p. 234,
+  Theorem 4.2, p. 241 (the Brauer sequence), and Theorem 4.7.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed., 2006 (milne-adt): I Theorem 2.1
   and Corollary 2.3, pp. 26–28 (local duality and finiteness); I §2, footnote 6, p. 26
   (subgroups of finite index that are not closed in characteristic `p`); I Theorem 2.8, p. 31,
