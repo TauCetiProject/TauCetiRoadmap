@@ -2,9 +2,10 @@
 
 **Summary.** For a finite-type locally compact abelian group `M=ℝ^k×ℤ^p×𝕋^q×F` (k,p,q≥0, F
 finite abelian) and a lattice D in its phase space `G=M×M̂`, this roadmap builds the
-Schwartz–Bruhat space S(M), Poisson summation for D and its symplectic annihilator `E=D^⊥`, the
-twisted group C*-algebras `B=C*(D,β)` and `A=C*(E,conj β)` of the Heisenberg cocycle β, and the
-two algebra-valued pairings on S(M). Its end theorems are Rieffel's imprimitivity theorem for
+Schwartz–Bruhat space S(M), Poisson summation for D and its symplectic annihilator `E=D^⊥`, and
+the two pairings on S(M) with values in the twisted group C*-algebras `B=C*(D,β)` and
+`A=C*(E,conj β)` of the Heisenberg cocycle β, lattice instances of OperatorAlgebraDynamics'
+`C*(G,ω)`. Its end theorems are Rieffel's imprimitivity theorem for
 lattices — the completion 𝓔 of S(M) is a B–A imprimitivity bimodule, so `B≅K_A(𝓔)` and A and B
 are strongly Morita equivalent — together with the existence of finite Parseval frames with
 Schwartz windows and the trace formula `dim_A 𝓔=Σ_j‖ξ_j‖₂²=c_E=1/c_D`. On the Euclidean phase
@@ -27,19 +28,14 @@ This roadmap is a child of HilbertModules and owns, for finite-type M:
   phase space of a finite-type M, the symplectic transport of the Euclidean lattice Poisson
   formula of ThetaSeries Layer 1 (`F_sF(e)=𝓕F(−Je)`, `L^⊥=J⁻¹L^∨`, `c_L c_(L^⊥)=1`), and the
   fundamental identity (Layer 2);
-- the twisted group C*-algebra `C*(L,c)` of a discrete abelian group L with a normalised
-  circle-valued 2-cocycle c: its ℓ¹ algebra, universal and regular completions, canonical trace,
-  gauge action, full = reduced theorem, and, for finitely generated L, its rapid-decay subalgebra
-  S(L,c) as the smooth vectors of the gauge action (Layer 3, Layer 5). The inverse-closedness of
-  S(L,c) is Mathlib's smoothness of inversion at units, `contDiffAt_ringInverse`, along the gauge
-  orbit; no general theory of smooth elements of Banach-algebra actions is built here. The
-  algebras `C*(ℤ^d,c)`, the quantum tori `C*(ℤ^d,σ_Θ)` among them, are the case L=ℤ^d
-  (Downstream consumers). No roadmap on main owns the twisted group C*-algebra of a general
-  2-cocycle: OperatorAlgebraDynamics D1–D2 construct crossed products for an action, with no
-  2-cocycle twist, and regular representations, and are consumed only for those. OperatorAlgebraDynamics D8's universal Weyl algebra of a real
-  symplectic space (V,σ), with `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)`, is the instance L=V with the
-  discrete topology and `c=exp(−iσ/2)`; its symplectic functoriality, simplicity and regular
-  representations stay there and are not used here;
+- the twisted group C*-algebras of phase-space lattices: for a lattice L in G, the algebras
+  `C*(L,β)` and `C*(L,conj β)` of the restricted Heisenberg cocycle, the triviality of their
+  gauge-invariant ideals and the explicit cochains relating the cocycles met here (Layer 3); and,
+  for a finitely generated abelian group L with a normalised 2-cocycle c, the rapid-decay
+  subalgebra S(L,c) of `C*(L,c)` as the smooth vectors of the gauge action (Layer 5). The
+  inverse-closedness of S(L,c) is Mathlib's smoothness of inversion at units,
+  `contDiffAt_ringInverse`, along the gauge orbit; no general theory of smooth elements of
+  Banach-algebra actions is built here;
 - the pairings, positivity, completion, fullness and imprimitivity theorem (Layers 3–4), smooth
   frames, the trace formula and transport (Layer 5), and the worked families (Layer 6).
 
@@ -52,9 +48,14 @@ Left to other owners:
 - NoncommutativeGeometry N6–N7 own the smooth two-torus 𝒜_θ, its spectral invariance, cyclic
   cohomology, connections, curvature, index and the 0<θ<1 Schwartz module; Layer 6 compares with
   that module and does not rebuild it.
-- OperatorAlgebraDynamics D1–D2 own integrated forms of covariant pairs, regular representations,
-  the discrete faithful conditional expectation, and the theorem that amenability makes the
-  trivial representation weakly contained in the regular one.
+- OperatorAlgebraDynamics D1.CentralTwists and D2.CentralTwists own the scalar twisted group
+  C*-algebra `C*(G,ω)` of a locally compact group G with a 2-cocycle ω, as the central twisted
+  crossed product at A=ℂ: its L¹ algebra, universal and reduced completions, universal property,
+  twisted regular representation, comparison with `TauCeti.twistedMonoidAlgebra` for discrete G,
+  canonical trace, gauge action of the dual of a discrete abelian G, full = reduced theorem for
+  amenable G and cochain transport. §3.1 consumes them at a discrete abelian group; the algebras
+  `C*(ℤ^d,c)`, the quantum tori `C*(ℤ^d,σ_Θ)` among them, are that roadmap's (Downstream
+  consumers).
 - AmenableGroups Layer 6 owns amenability of every abelian discrete group.
 - ThetaSeries Layer 1 owns Poisson summation for a full-rank ℤ-lattice in a finite-dimensional
   real inner product space, for Schwartz functions, with both summability halves, the Fourier
@@ -142,16 +143,14 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
   twisted monoid algebra
   `TauCeti.twistedMonoidAlgebra k G α`, the free k-module on `TauCeti.TwistedMonoidAlgebra.of g`
   (`TauCeti.TwistedMonoidAlgebra.basis`) with the multiplication table
-  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g*h)`), its universal
-  property `TauCeti.TwistedMonoidAlgebra.lift` (a family u with `u 1 = 1` and
-  `u g * u h = α g h • u (g*h)` extends to an algebra map) with uniqueness
-  `TauCeti.TwistedMonoidAlgebra.algHom_ext`, its dimension
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of` (`of g * of h = α g h • of (g*h)`), its dimension
   `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` (`Nat.card G`), and
   `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (factor sets with
   `β g h * c (g*h) = α g h * (c g * c h)` have isomorphic algebras, `of g ↦ c g • of g`, from the
   β-algebra to the α-algebra) (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`). It is used
   with `k=ℂ` and `G=Multiplicative L` for a discrete abelian group L, the circle-valued cocycle c
-  read in `ℂˣ`; the involution, the ℓ¹ norm and the C*-completions are this roadmap's (§3.1).
+  read in `ℂˣ`; its involution, ℓ¹ norm, C*-completions and universal property are
+  OperatorAlgebraDynamics' (§3.1).
 
 **From TauCetiRoadmap.HilbertModules.** H1 (completion of a pre-Hilbert module and extension of
 bounded actions), H2 (adjointable and module-compact operators; for unital A, `id_E∈K_A(E)` iff E
@@ -161,10 +160,14 @@ conjugate module, evaluation unitaries `E⊗_B E*≅A` and `E*⊗_A E≅B`, stat
 `E⊗_A H_ω`, induction). It is assumed that these hold for arbitrary C*-algebras with no
 separability hypothesis.
 
-**From TauCetiRoadmap.OperatorAlgebraDynamics.** D1 (integrated form of a covariant pair and the
-discrete scalar case), D2 (regular representations; for discrete groups the faithful conditional
-expectation onto the coefficients; amenability makes the trivial representation weakly contained
-in the regular one, discrete ℓ² specialisation). Only untwisted actions are assumed of it.
+**From TauCetiRoadmap.OperatorAlgebraDynamics.** D1.CentralTwists and D2.CentralTwists, at a
+discrete abelian group L with counting Haar measure, A=ℂ, trivial action and scalar cocycle ω=c:
+the scalar twisted group C*-algebras `C*(L,c)` and `C*_r(L,c)` with their ℓ¹ algebra, the
+comparison of the finitely supported algebra with `TauCeti.twistedMonoidAlgebra` and its star,
+the universal property for c-projective unitary families, the twisted regular representation,
+the canonical faithful trace (the expectation E) with coefficient recovery, the gauge action of
+L̂ with its Haar average onto ℂ1, full = reduced for amenable L, and the cochain transport `T_b`
+from the algebra of `ω^b` to that of ω. Used in §3.1 and, through it, in Layers 3–6.
 
 **From TauCetiRoadmap.AmenableGroups.** Layer 6: every abelian discrete group is amenable.
 
@@ -190,8 +193,9 @@ comparison in §6.3 only.
 Layer 1 fixes phase space, the Schrödinger family and its cocycle, annihilators and the lattice
 geometry with covolumes. Layer 2 builds S(M), proves Poisson summation for finite-type M (the
 Euclidean lattice formula being ThetaSeries 1A in symplectic coordinates) and the fundamental
-identity, with the Euclidean fundamental identity on native carriers. Layer 3 constructs the twisted
-group C*-algebras of discrete abelian groups, the two actions and pairings on S(M), and positivity.
+identity, with the Euclidean fundamental identity on native carriers. Layer 3 takes the twisted
+group C*-algebras of OperatorAlgebraDynamics at the lattices of phase space, constructs the two
+actions and pairings on S(M), and proves positivity.
 Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices. Layer 5
 proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace formula
 and transport under changes of coordinates. Layer 6 computes the standard families and the two-torus
@@ -437,50 +441,42 @@ Layer 1; ThetaSeries Layer 1, 2A, 2C; Mathlib `SchwartzMap`, `SchwartzMap.fourie
 
 ## Layer 3: Twisted group C*-algebras and the two pairings
 
-### 3.1 Twisted group C*-algebras of discrete abelian groups
+### 3.1 Twisted group C*-algebras of phase-space lattices
 
-For a discrete abelian group L and a normalised circle-valued 2-cocycle c, the finitely supported
-twisted convolution algebra is Tau Ceti's `TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c`:
-c read in `ℂˣ` is a factor set `TauCeti.IsFactorSet` (its cocycle identity and normalisation are
-the fields), the point masses δ_x are the basis `TauCeti.TwistedMonoidAlgebra.of`, and
-`TauCeti.TwistedMonoidAlgebra.of_mul_of` is the Conventions' `δ_xδ_y=c(x,y)δ_(x+y)`. Equip it with
-the involution of the Conventions, a *-algebra structure because `c(x,−x)=c(−x,x)`
-(`TauCeti.IsFactorSet.apply_inv_eq_inv_apply`, the cocycle identity at (x,−x,x)), so that every
-δ_x is unitary, and with the ℓ¹ norm; construct the Banach
-*-algebra `ℓ¹(L,c)` as its completion, the universal C*-completion `C*(L,c)` (supremum over
-c-projective unitary representations, equivalently over nondegenerate *-representations of
-ℓ¹(L,c)), and the twisted regular representation `(λ_c(x)h)(y)=c(x,y−x)h(y−x)` on ℓ²(L) with
-reduced completion `C*_r(L,c)`. Prove the universal property for c-projective unitary
-representations `V_xV_y=c(x,y)V_(x+y)`: on finitely supported elements it is
-`TauCeti.TwistedMonoidAlgebra.lift` with uniqueness `TauCeti.TwistedMonoidAlgebra.algHom_ext`; the
-extension is *-preserving and of norm at most one for the ℓ¹ norm because every V_x is unitary,
-so it extends by continuity to ℓ¹(L,c) and factors through C*(L,c). Prove the canonical trace
-`τ(f)=f(0)` on C*_r(L,c), faithful, with Fourier coefficients `x↦τ(a δ_x^*)` determining a, and the
-gauge action of L̂, `α_γ(δ_x)=γ(x)δ_x`, with fixed-point algebra ℂ1 when L̂ is compact.
-Prove `C*(L,c)=C*_r(L,c)` by twisted Fell
-absorption: for every c-projective representation V, `V⊗λ` is unitarily equivalent to a multiple
-of λ_c via `ξ⊗δ_y↦V_yξ⊗δ_y`, and since L is amenable the trivial representation is weakly
-contained in λ, so V is weakly contained in V⊗λ and hence in λ_c.
-*Needs:* Tau Ceti `TauCeti.IsFactorSet`, `TauCeti.IsFactorSet.apply_inv_eq_inv_apply`,
-`TauCeti.twistedMonoidAlgebra`,
-`TauCeti.TwistedMonoidAlgebra.of`, `TauCeti.TwistedMonoidAlgebra.of_mul_of`,
-`TauCeti.TwistedMonoidAlgebra.basis`, `TauCeti.TwistedMonoidAlgebra.lift`,
-`TauCeti.TwistedMonoidAlgebra.algHom_ext`, `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`,
-`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`; OperatorAlgebraDynamics D1 (scalar integrated
-forms), D2 (discrete conditional expectation, weak containment of the trivial representation in λ
-for amenable groups); AmenableGroups Layer 6.
+For a discrete abelian group L and a normalised circle-valued 2-cocycle c, the twisted group
+C*-algebra `C*(L,c)`, its reduced form `C*_r(L,c)` and its ℓ¹ algebra `ℓ¹(L,c)` are
+OperatorAlgebraDynamics' `C*(G,ω)`, `C*_r(G,ω)` and `L¹(G,A,α,ω)` at G=L with counting Haar
+measure, A=ℂ, trivial action and ω=c (D1.CentralTwists, D2.CentralTwists); they are consumed,
+not rebuilt. The notation here matches that roadmap as follows. The twisted convolution and
+involution of the Conventions are its convolution and star with modular factor 1, because
+`c(x,−x)=c(−x,x)` (`TauCeti.IsFactorSet.apply_inv_eq_inv_apply`, the cocycle identity at
+(x,−x,x)); by its comparison the finitely supported algebra is
+`TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c`, c read in `ℂˣ` being a factor set
+`TauCeti.IsFactorSet`, with δ_x the unitary basis element `TauCeti.TwistedMonoidAlgebra.of` at x
+and `TauCeti.TwistedMonoidAlgebra.of_mul_of` the relation `δ_xδ_y=c(x,y)δ_(x+y)`; for L finite,
+`C*(L,c)` is that algebra, of dimension |L| by `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`.
+The universal property for c-projective unitary representations `V_xV_y=c(x,y)V_(x+y)` is its
+universal property for twisted covariant pairs with A=ℂ. The twisted regular representation
+`(λ_c(x)h)(y)=c(x,y−x)h(y−x)` on ℓ²(L) is its projective unitary `V_x`. The canonical trace
+`τ(a)=a(0)`, faithful, with Fourier coefficients `x↦τ(aδ_x^*)` determining a, is its expectation
+E. The gauge action `α_γ(δ_x)=γ(x)δ_x` of the compact group L̂ is its `α̂`, with
+`∫_(L̂)α_γ(a)dγ=τ(a)1`. `C*(L,c)=C*_r(L,c)` is its full = reduced theorem for amenable groups,
+L being amenable by AmenableGroups Layer 6. For a normalised cochain u on L with `|u|=1` and
+`c'=c·δu`, `δu(x,y)=u(x)u(y)/u(x+y)`, the isomorphism `δ_x↦u(x)δ_x` from the c'-algebra to the
+c-algebra is its cochain transport `T_u`, in the same direction, on the ℓ¹, full and reduced
+algebras; on finitely supported elements it is `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`,
+whose hypothesis `c'(x,y)u(x+y)=c(x,y)u(x)u(y)` is this relation.
 
-- For L finite, `ℓ¹(L,c)` is `TauCeti.twistedMonoidAlgebra ℂ (Multiplicative L) c` itself, of
-  dimension |L| by `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`, and `C*(L,c)` is that
-  algebra with the C*-norm of λ_c.
-- Every nonzero gauge-invariant closed ideal of `C*(L,c)` is the whole algebra: `L̂` is compact
-  for every discrete L, and the gauge average of a positive element a is `τ(a)1`.
-- For a normalised cochain u on L with `|u|=1` and `c'=c·δu`, `δu(x,y)=u(x)u(y)/u(x+y)`, the
-  isomorphism `δ_x↦u(x)δ_x` from the finitely supported c'-algebra to the c-algebra is
-  `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary` (its hypothesis `c'(x,y)u(x+y)=c(x,y)u(x)u(y)`
-  is this relation); it preserves the involution and the ℓ¹ norm and matches c'-projective unitary
-  representations with c-projective ones, so it extends to isometric *-isomorphisms
-  `ℓ¹(L,c')≅ℓ¹(L,c)` and `C*(L,c')≅C*(L,c)`.
+This roadmap's algebras are the instances at a lattice L in G: `C*(L,β)` and `C*(L,conj β)`, for
+the restrictions to L of the Heisenberg cocycle β and of its conjugate, normalised bicharacters
+by 1.1; §3.2 takes `B=C*(D,β)` and `A=C*(E,conj β)`. Prove that every nonzero gauge-invariant
+closed ideal of `C*(L,β)` or of `C*(L,conj β)` is the whole algebra: a nonzero positive element a
+of the ideal has gauge average `τ(a)1` in the ideal, and `τ(a)>0` because τ is faithful.
+*Needs:* 1.1, 1.3; OperatorAlgebraDynamics D1.CentralTwists, D2.CentralTwists; AmenableGroups
+Layer 6; Tau Ceti `TauCeti.IsFactorSet`, `TauCeti.IsFactorSet.apply_inv_eq_inv_apply`,
+`TauCeti.twistedMonoidAlgebra`, `TauCeti.TwistedMonoidAlgebra.of`,
+`TauCeti.TwistedMonoidAlgebra.of_mul_of`, `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard`,
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`.
 
 **Checks.**
 
@@ -495,7 +491,7 @@ for amenable groups); AmenableGroups Layer 6.
 - The symmetric form of the same twist: on L=ℤ², `σ_Θ(p,q)=exp(πi pᵀΘq)` with `Θ₁₂=−θ`, `Θ₂₁=θ`
   is `exp(πiθ(p₂q₁−p₁q₂))=c(p,q)·δu(p,q)` for the cocycle c of the previous Check and
   `u(m,n)=exp(πiθmn)`, since `δu(p,q)=exp(−πiθ(p₁q₂+q₁p₂))`. So `δ_x↦u(x)δ_x` is the coboundary
-  isomorphism of the last API bullet from the σ_Θ-algebra to the c-algebra: `δ_(1,0)δ_(0,1)` is
+  transport `T_u` above from the σ_Θ-algebra to the c-algebra: `δ_(1,0)δ_(0,1)` is
   `exp(−πiθ)δ_(1,1)` for σ_Θ and maps to `exp(−πiθ)u(1,1)δ_(1,1)=δ_(1,1)`, the c-product of the
   images, and `δ_(0,1)δ_(1,0)=exp(πiθ)δ_(1,1)` maps to `e(θ)δ_(1,1)`. Both cocycles have
   commutator `e(θ)`; the map with `u≡1` would leave the phase `exp(−πiθ)` unmatched.
@@ -560,9 +556,9 @@ Fourier transform. For finite M=F and D=0, the module is ℂ^|F| as a ℂ–M_|F
 
 ### Dependencies
 
-Layers 1–2; Tau Ceti `TauCeti.twistedMonoidAlgebra` with `TauCeti.TwistedMonoidAlgebra.lift`,
-`TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` and `TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`;
-OperatorAlgebraDynamics D1–D2; AmenableGroups Layer 6.
+Layers 1–2; OperatorAlgebraDynamics D1.CentralTwists, D2.CentralTwists; AmenableGroups Layer 6;
+Tau Ceti `TauCeti.twistedMonoidAlgebra` with `TauCeti.TwistedMonoidAlgebra.finrank_eq_natCard` and
+`TauCeti.TwistedMonoidAlgebra.equivOfCoboundary`.
 
 ## Layer 4: Completion, fullness and imprimitivity
 
@@ -814,15 +810,11 @@ Layers 1–5; NoncommutativeGeometry N6–N7.
 HilbertModules H5 compares its commutative torus section modules with the θ≠0 model of §6.3.
 NoncommutativeGeometry N7's Heisenberg module and Powers–Rieffel projection are the 0<θ<1 case
 of §6.3 and §5.2. The quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0, with
-`σ_Θ(p,q)=exp(πi pᵀΘq)` for a real skew-symmetric d×d matrix Θ, are §3.1 at L=ℤ^d and c=σ_Θ (a
-normalised bicharacter with `σ_Θ(p,−p)=1`): their twisted regular representation
-`λ_Θ(p)δ_q=σ_Θ(p,q)δ_(p+q)`, gauge action `α_z(W_p)=z^pW_p` of `𝕋^d` and coefficient trace are
-§3.1's `λ_c`, gauge action and τ, and their universal property is §3.1's. The twisted algebras
+`σ_Θ(p,q)=exp(πi pᵀΘq)` for a real skew-symmetric d×d matrix Θ, and the twisted algebras
 `C*(ℤ^d,c)` of OperatorKTheory §7.5, for d≥0 and a normalised circle-valued 2-cocycle c on ℤ^d,
-are §3.1 at L=ℤ^d: their twisted shifts `W_xδ_z=c(x,z)δ_(x+z)` on ℓ²(ℤ^d) are `λ_c(x)`, their
-trace `⟨δ_0,aδ_0⟩` with uniqueness of Fourier coefficients is τ, their gauge action
-`α_χ(W_y)=χ(y)W_y` is §3.1's, and their universal property for unitaries with
-`U_xU_y=c(x,y)U_(x+y)` is §3.1's universal property together with `C*(L,c)=C*_r(L,c)`. The
+are OperatorAlgebraDynamics' `C*(G,ω)` at G=ℤ^d (D1.CentralTwists, D2.CentralTwists) and are
+taken from there, not from this roadmap. What they share with this roadmap is the notation of
+§3.1 and the explicit coboundary of its Checks from σ_Θ on ℤ² to the rotation cocycle. The
 commutator bicharacter of c, the centre, the simplicity criterion and the identification of the
 rotation algebra `C(𝕋)⋊ℤ` with `C*(ℤ²,c)` for `c((m,n),(m',n'))=e(θnm')` are OperatorKTheory's.
 

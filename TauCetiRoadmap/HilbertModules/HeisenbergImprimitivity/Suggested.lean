@@ -26,9 +26,10 @@ Not statable at the pins:
 * C*-positivity of the two pairings, the imprimitivity bimodule, the Morita equivalence
   `C*(D, β) ≃ K_A(𝓔)`, fullness of both pairings (README Layers 3–4) and the module trace
   formula `Tr_𝓔(L_b) = c_E τ_B(b)` with `dim_A 𝓔 = 1/c_D` (README §5.2): the twisted group
-  C*-algebra `C*(L, c)` of a discrete abelian group with a circle-valued 2-cocycle, and the
-  Hilbert-module completion of the Schwartz space under its algebra-valued pairing, are not in
-  Mathlib or Tau Ceti.
+  C*-algebra `C*(L, c)` of a discrete abelian group with a circle-valued 2-cocycle (the
+  OperatorAlgebraDynamics roadmap's `C*(G, ω)` at `G = L`, README §3.1), and the Hilbert-module
+  completion of the Schwartz space under its algebra-valued pairing, are not in Mathlib or
+  Tau Ceti.
 -/
 
 namespace TauCetiRoadmap.HilbertModules.HeisenbergImprimitivity
