@@ -78,9 +78,14 @@ It leaves to named roadmaps:
   the Nijenhuis tensor, the real Hodge star and the codifferential, and the real de Rham complex
   with its cohomology, Mayer–Vietoris sequence, Poincaré lemma and homotopy invariance (see the
   Tau Ceti contract); none of them is constructed again here.
-- AlgebraicTopology owns singular cohomology and products, the CW structure of complex
-  projective space (Stage 4.6), the generic filtered-complex spectral sequence (Stage 5.0) and
-  the fundamental class of a compact oriented manifold (Stage 6.3).
+- AlgebraicTopology owns singular cohomology and products, the CW theory and the
+  cellular/singular comparison (Stage 4), the generic filtered-complex spectral sequence
+  (Stage 5.0) and the fundamental class of a compact oriented manifold (Stage 6.3). The pinned
+  Tau Ceti owns the finite CW structure, cellular chain complex and Euler characteristic of the
+  sphere-quotient model `TauCeti.ComplexProjectiveSpace n` of complex projective space; 7.2 owns
+  the homeomorphism of that model with `Projectivization ℂ (Fin (n+1) → ℂ)`, the transport of
+  the CW structure along it and the cup ring, which AlgebraicTopology Stage 7 and
+  CharacteristicClasses C1.5 consume.
 - GlobalHolomorphicFunctions owns Runge approximation, the global scalar `∂̄` solver on arbitrary
   plane domains, the exactness of smooth two-forms there, and the global theory of isolated
   singularities and Mittag–Leffler. Nothing of it is consumed here: this roadmap's solver (2.2)
@@ -107,7 +112,7 @@ It leaves to named roadmaps:
   OperatorTheory/UnboundedOperators own the abstract closed-form and compact-pair spectral
   theory; LieGroupoidsPoisson owns the Chevalley–Eilenberg complex of a Lie algebroid;
   GeometricTopology owns the smooth classification of compact surfaces and their polyhedral
-  models (Layers 1.7 and 1.7.1); HodgeStructures owns the linear Hodge-structure objects.
+  models (§1.7 and §1.7.1); HodgeStructures owns the linear Hodge-structure objects.
 - Kept variant: the Hartogs theorem of 3.5 is stated both on `ℂⁿ` and across analytic subsets
   of codimension two of a manifold.
 
@@ -313,7 +318,7 @@ All at the pinned revision; nothing listed here is constructed again.
   `⟨δ^(n)/n!, φ⟩ = 2^n`, so the partial sums of `Σ δ^(n)/n!` converge to no distribution;
   `DeltaSeries.lean`).
 - Projective space: Tau Ceti's copy of the quotient topology `Projectivization.instTopologicalSpace`
-  (the same definition as Mathlib's, from the same Mathlib pull request) with `isQuotientMap_mk'`,
+  (the same definition as Mathlib's) with `isQuotientMap_mk'`,
   `isOpenQuotientMap_mk'`, `instT2Space`, `instCompactSpace`, `instSecondCountableTopology`,
   `instPathConnectedSpace`, `isOpen_affineOpen` and the affine charts
   `affineOpenPartialHomeomorph i` with coordinates the ratios `v (i.succAbove j) / v i` and
@@ -324,6 +329,30 @@ All at the pinned revision; nothing listed here is constructed again.
   modules declare the topology instance a second time next to Mathlib's, so at the pins they
   cannot be imported beside `import Mathlib`; Layer 7 consumes them as the carrier and
   `Suggested.lean` states no projective theorem.
+- The sphere-quotient model of projective space `TauCeti.ComplexProjectiveSpace n`, the orbit
+  quotient of the unit sphere of `EuclideanSpace ℂ (Fin (n+1))` by the unit scalars, with
+  `ComplexProjectiveSpace.mk`, `mk_eq_mk_iff`, `isOpenQuotientMap_mk`, `continuousAt_lift`,
+  `instCompactSpace` and `instT2Space` (`Topology/ComplexProjectiveSpace/Basic.lean`), its ratio
+  charts `ratio k j`, `affineOpen k` and `affineChart k` with `affineChart_apply` (`Charts.lean`)
+  and its manifold structure `ComplexProjectiveSpace.instIsManifold`
+  (`Geometry/Manifold/Instances/ComplexProjectiveSpace.lean`); its finite CW structure
+  `ComplexProjectiveSpace.cwComplex` with one cell in each even dimension `0, 2, …, 2n` and none
+  in odd dimensions (`nat_card_cell_cwComplex`, `finite_cwComplex`, `finiteCWType`) and
+  characteristic maps `cellMap i` (`map_cwComplex`, `cellMap_apply`), the closed unit disc of
+  `ℂⁱ` sent to the class of `(v, √(1 − ‖v‖²), 0, …, 0)`
+  (`Topology/CWComplex/Classical/ComplexProjective.lean`); its cellular chain complex with every
+  differential zero `cellularChainComplex_d_eq_zero`, its singular homology
+  `ComplexProjectiveSpace.singularHomologyIso` (`H_(2i)(ℂPⁿ; R) ≃ R` for `i ≤ n`),
+  `isZero_singularHomology_of_odd` and `isZero_singularHomology_of_lt`
+  (`AlgebraicTopology/Cellular/ComplexProjective.lean`) and its Euler characteristic
+  `eulerChar_complexProjectiveSpace` (`Cellular/EulerCharacteristic/ComplexProjective.lean`);
+  the transport of a CW structure along a closed embedding
+  `Topology.IsClosedEmbedding.relCWComplex` with `relCWComplexCellEquiv` and
+  `coe_map_relCWComplex` (`Topology/CWComplex/Classical/Image.lean`), `Homeomorph.finiteCWType`
+  (`FiniteCWType.lean`), and the cellular/singular comparison
+  `TauCeti.cellularSingularHomologyIsoUniv` (`AlgebraicTopology/Cellular/Comparison.lean`).
+  Layer 7.2 transports these to `Projectivization ℂ (Fin (n+1) → ℂ)` along a homeomorphism it
+  constructs; nothing of them is built again.
 - Real de Rham theory: `TauCeti.deRhamComplex`, `deRhamCohomology I M k` (its homology),
   `closedForms`, `exactForms` and the class map `deRhamCohomology.mk`
   (`Geometry/Manifold/DeRham/Basic.lean`); functoriality `deRhamCohomology.map`, `map_comp`
@@ -402,13 +431,12 @@ class `c₁(P)`; B6.3 rank-one Chern–Weil.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-Stage 4.6: the quotient topology on `Projectivization ℂ (Fin (n+1) → ℂ)` and its finite CW
-structure with one cell in each even dimension `0, 2, …, 2n` and characteristic maps
-`z ↦ [z : √(1−|z|²)]`; Stage 4's CW theory, cellular/singular comparison and
-`cwSubcomplexNeighborhoods`; Stage 4.7 `simplicialRealizationCW`; Stage 5.0 the generic
+Stage 4's CW theory, cellular/singular comparison and `cwSubcomplexNeighborhoods` (the quotient
+topology on `Projectivization ℂ (Fin (n+1) → ℂ)` is the pinned Tau Ceti instance and its CW
+structure is 7.2's); Stage 4.7 `simplicialRealizationCW`; Stage 5.0 the generic
 filtered-complex spectral sequence; Stage 6 cohomology, cup products, Poincaré duality and
-universal coefficients; Stage 6.3 the fundamental class of a compact oriented manifold; Stage 7
-the Euler characteristic.
+universal coefficients; Stage 6.3 the fundamental class of a compact oriented manifold. Stage 7
+consumes 7.2's transported cell structure and nothing of Stage 7 is consumed here.
 
 ### From TauCetiRoadmap.RealAlgebraicGeometry (Completed)
 
@@ -442,10 +470,10 @@ its Cartan identities, consumed by 8.2–8.3.
 
 ### From TauCetiRoadmap.GeometricTopology
 
-Layer 1.7: the smooth classification of compact connected surfaces (every closed connected
+§1.7: the smooth classification of compact connected surfaces (every closed connected
 orientable smooth surface is diffeomorphic to exactly one standard model, the orientable surface
 of genus `g` built from `S²` by `g` connected sums with `T²`), the genus `(2 − χ)/2` of a closed
-orientable surface and `rank H₁(F; ℚ) = 2g`; Layer 1.7.1: finite polyhedral surfaces, their
+orientable surface and `rank H₁(F; ℚ) = 2g`; §1.7.1: finite polyhedral surfaces, their
 coherent triangle orientations and their equivalence with manifold orientability. Only the
 closed orientable case is consumed, for 7.3.
 
@@ -791,8 +819,9 @@ occurring in `dz̄`, using 2.2 for the parameters that the induction carries.
 - For `n = 0` the polydisc is a point, every form of positive degree is `0`, and `ψ = 0` works;
   for `r_1 ≤ 0` the polydisc is empty and the statement is vacuous.
 - `polydisc (1, 1)` in `ℂ²` contains `(0.9, 0.9)`, of Euclidean norm `0.9·√2 > 1`, and omits
-  `(1, 0)`; a definition by the Euclidean ball `|z| < 1` would decide both points the other
-  way, and a closed-disc definition would contain `(1, 0)`.
+  `(1, 0)`; a definition by the open Euclidean ball `|z| < 1` would omit `(0.9, 0.9)`, which the
+  polydisc contains, and a closed-polydisc definition would contain `(1, 0)`, which the open
+  polydisc omits.
 
 *Needs:* Tau Ceti `delBar`, `IsOfType`, `ofComplexManifold`, the opens-manifold instances, the
 pinned Cauchy transform; Mathlib `Complex.volume_preserving_equiv_real_prod`; 2.1–2.2;
@@ -812,11 +841,12 @@ wedge product (from `delBar_wedgeWith`) and the identification of `H^(p,0)` with
 
 Construct the sheaves `Ω^p` of holomorphic `p`-forms and of smooth type forms, prove the latter
 fine and acyclic using partitions of unity, and prove the **Dolbeault theorem**
-`H^q(M; Ω^p) ≃ H^(p,q)_∂̄(M)` with naturality and products (Demailly, Chapter IV, (6.13),
-p. 216; Wells, Chapter II). Here `𝒪 = Ω⁰` is Mathlib's `smoothSheafCommRing` for `𝓘(ℂ, ℂ)`,
-identified with the pinned `holomorphicStructureSheaf` by `smoothSheafIso`. Since 2.2's solver
-yields solutions on the full open parameter/domain products, `𝒪` and `Ω^p` are acyclic on the
-product domains of 2.1, so 7.3's punctured-plane cover of `ℂ² ∖ {0}` is a Leray cover. Build the
+`H^q(M; Ω^p) ≃ H^(p,q)_∂̄(M)` with naturality and products (Demailly, Chapter IV,
+(6.13)–(6.15), p. 216; Wells, Chapter II). Here `𝒪 = Ω⁰` is Mathlib's `smoothSheafCommRing`
+for `𝓘(ℂ, ℂ)`, identified with the pinned `holomorphicStructureSheaf` by `smoothSheafIso`.
+Since 2.2's solver yields solutions on the full open parameter/domain products, `𝒪` and `Ω^p`
+are acyclic on the product domains of 2.1, so 7.3's punctured-plane cover of `ℂ² ∖ {0}` is a
+Leray cover. Build the
 analytic-sheaf, Čech and derived comparison using
 Mathlib's Ext-based sheaf cohomology carrier: prove fine implies acyclic on paracompact
 Hausdorff manifolds and the Čech comparison for acyclic covers. Prove that for every abelian
@@ -829,14 +859,11 @@ of finite-order Stein covers; it does not assume the sheaf acyclic on their inte
 SmoothBundlesConnections B6.1 supplies the scalar good-cover comparison where it applies, not a
 coherent-sheaf theorem.
 
-After Layer 4 constructs `𝒪(E)`, `E`-valued type forms and `∂̄_E`, prove the bundle-valued
-comparison `H^q(M; 𝒪(Ω^p ⊗ E)) ≃ H^(p,q)(M; E)` for every finite-rank holomorphic bundle `E`, its
-naturality, and `Ω^(n,q)(E*) ≃ Ω^(0,q)(E* ⊗ K_M)`.
-
-Acceptance: whole-polydisc exactness (2.3), and no nonzero holomorphic one-form on 7.1's
-`Projectivization ℂ (Fin 2 → ℂ)`. Consume `MDifferentiable.exists_eq_const_of_compactSpace` for
-functions on connected compact complex manifolds and `MDifferentiable.isLocallyConstant` without
-connectedness; do not assert global constancy for disconnected manifolds.
+The bundle-valued comparison is 4.2's, once `𝒪(E)`, the `E`-valued type forms and `∂̄_E`
+exist. Acceptance: whole-polydisc exactness (2.3). Consume
+`MDifferentiable.exists_eq_const_of_compactSpace` for functions on connected compact complex
+manifolds and `MDifferentiable.isLocallyConstant` without connectedness; do not assert global
+constancy for disconnected manifolds.
 
 **Checks.**
 
@@ -856,8 +883,7 @@ connectedness; do not assert global constancy for disconnected manifolds.
 
 *Needs:* 2.1–2.3; Tau Ceti `typeProjection`, `delBar`, `kerDelBarZeroEquiv`, `mpullback_delBar`,
 `delBar_wedgeWith`, `smoothSheafIso`; Mathlib sheaf cohomology, `smoothSheafCommRing`,
-`MDifferentiable.exists_eq_const_of_compactSpace`; Layer 4 for the bundle-valued comparison; 7.1
-for the acceptance example.
+`MDifferentiable.exists_eq_const_of_compactSpace`.
 
 ### Examples
 
@@ -1011,8 +1037,11 @@ quantum-field-theory prerequisite and treats poles only.
 Prove the holomorphic stalk, a domain by the pinned `smoothStalkIsDomain`, Noetherian
 (Demailly, Chapter II, (2.7)), factorial ((2.10), `uniqueFactorizationMonoid_holomorphicStalk`)
 and a regular local ring of Krull dimension `n` with the coordinate germs as regular parameters
-(`isRegularLocalRing_holomorphicStalk`; the dimension is (4.32), p. 101, and the coordinate germs
-span the maximal ideal by the pinned `ker_eval_eq_span_holomorphicLinearCoordinateGerm`). Follow
+(`isRegularLocalRing_holomorphicStalk`: the coordinate germs span the maximal ideal by the pinned
+`ker_eval_eq_span_holomorphicLinearCoordinateGerm`, and `n` is its minimal number of generators
+by (4.32), p. 101; the Krull dimension is `n` because the primes `(z₁) ⊂ (z₁, z₂) ⊂ … ⊂
+(z₁, …, z_n)`, with quotients the domains `𝒪_(n−k)`, form a chain of length `n`, and Krull's
+height theorem in the Noetherian ring bounds the dimension by the number of generators). Follow
 Demailly, Chapter II, §4: prove local parametrization of a pure-dimensional analytic germ by a
 finite branched projection to a polydisc ((4.19)), elimination under finite projections, density
 of regular points ((4.24)) and the dimension and finite-fibre formulas. Prove the hypersurface
@@ -1200,6 +1229,13 @@ complex-linear structure. This supplies the nonlinear rank-`r` solvability step 
 assuming scalar `∂̄` solves a matrix equation. GeometricQuantization consumes this holomorphic
 prequantum line dictionary.
 
+With `𝒪(E)`, the `E`-valued type forms and `∂̄_E` in hand, prove the bundle-valued **Dolbeault
+comparison** `H^q(M; 𝒪(Ω^p ⊗ E)) ≃ H^(p,q)(M; E)` for every finite-rank holomorphic bundle `E`
+(Demailly, Chapter V, (11.7)): the `∂̄_E`-complex of `E`-valued `(p, •)`-forms resolves
+`𝒪(Ω^p ⊗ E)` by the local solvability of 2.3 applied in a holomorphic frame, its terms are fine,
+so 2.4's fine-resolution comparison applies; prove its naturality in `E` and the identification
+`Ω^(n,q)(E*) ≃ Ω^(0,q)(E* ⊗ K_M)` through `Ω^n ≃ K_M`.
+
 **Checks.**
 
 - On the trivial line with metric `h = e^(−φ)`, `A = −∂φ` and the curvature is `∂∂̄φ`, of type
@@ -1212,7 +1248,7 @@ prequantum line dictionary.
   took `a` instead of `−a` in the gauge would give `e^(u) f`, which does not satisfy
   `(∂̄ + a)(e^u f) = 0`.
 
-*Needs:* 4.1; 1.2; 1.4; Ballmann, Theorem 3.18; Demailly, Chapter V, §12.
+*Needs:* 4.1; 1.2; 1.4; 2.3–2.4; Ballmann, Theorem 3.18; Demailly, Chapter V, §12, (11.7).
 
 ### 4.3 Holomorphic connections and local systems
 
@@ -2053,10 +2089,15 @@ commutator identities with the factor `4π`. Prove `Δ_d = 2Δ_∂ = 2Δ_∂̄`,
 
 For a Hermitian holomorphic bundle `E` with 4.2's Chern connection, prove the pointwise
 Lefschetz algebra on `E`-valued forms and the twisted Kähler identities `[Λ, ∂̄_E] = −i(D′_E)*`
-with their adjoints. Prove `Δ″_E = Δ′_E + [iΘ(E), Λ]` and the integrated
-**Bochner–Kodaira–Nakano identity** on compactly supported smooth forms (Demailly, Chapter VII,
-(1.2)). On `(n,k)`-forms prove the curvature lower bound: if `iΘ(E) ≥ aω ⊗ Id_E` in the Nakano
-sense then `[iΘ(E), Λ] ≥ ka Id` for `k ≥ 1`, with the pointwise bounds for scalar weight
+with their adjoints. For the Kähler form `ω` prove `Δ″_E = Δ′_E + [iΘ(E), Λ]` (Demailly,
+Chapter VII, (1.3), the Kähler case of the **Bochner–Kodaira–Nakano identity** (1.2), whose two
+torsion terms `[D′_E, τ*] − [D″_E, τ*]` with `τ = [Λ, ∂ω]` vanish because `dω = 0`) and its
+integrated form on compactly supported smooth forms,
+`‖D″_E u‖² + ‖δ″_E u‖² = ‖D′_E u‖² + ‖δ′_E u‖² + ⟨⟨[iΘ(E), Λ]u, u⟩⟩`, whose consequence
+`‖D″_E u‖² + ‖δ″_E u‖² ≥ ⟨⟨[iΘ(E), Λ]u, u⟩⟩` is Demailly, Chapter VII, (2.1) (stated there on a
+compact manifold, with the torsion term `T_ω = 0` when `ω` is Kähler). On `(n,k)`-forms prove
+the curvature lower bound: if `iΘ(E) ≥ aω ⊗ Id_E` in the Nakano sense then
+`[iΘ(E), Λ] ≥ ka Id` for `k ≥ 1`, with the pointwise bounds for scalar weight
 curvature. Define Nakano positivity by its Hermitian form on `T^(1,0)M ⊗ E` and prove the
 contraction/eigenvalue calculation in a unitary frame. This local layer uses Layers 1, 2, 4 and
 5.1–5.2's formal-adjoint comparison; it uses no compact Hodge theorem. RealAnalyticGeometry R3
@@ -2084,7 +2125,7 @@ consumes these identities and owns their complete-metric weighted existence theo
 
 *Needs:* 1.3, 1.4; 2.3; 4.2; 5.1–5.2; DifferentialGeometry 0.4; Tau Ceti
 `SmoothTwoForm.Compatible`; Ballmann, Theorems 4.17 and 5.25, §5.1; Demailly, Chapter VI, §§5–6,
-Chapter VII, (1.2).
+Chapter VII, (1.2)–(1.3), (2.1).
 
 ### 6.2 Compact Kähler Hodge theory and analytic cycles (K6.1)
 
@@ -2183,7 +2224,7 @@ ballmann-kahler; Demailly, Chapters III, VI and VII.
 
 Use the single carrier `Projectivization ℂ (Fin (n+1) → ℂ)` with the pinned quotient topology
 from the nonzero vectors (Tau Ceti's `Projectivization.instTopologicalSpace`, the same
-definition as Mathlib's, on which AlgebraicTopology Stage 4.6 builds the CW structure) and the
+definition as Mathlib's, to which 7.2 transports the CW structure) and the
 pinned complex manifold structure: the affine chart on `U_i = {[v] : v_i ≠ 0}` is
 `affineOpenPartialHomeomorph i`, with coordinates the ratios `(v_(i.succAbove j)/v_i)_(j : Fin n)`,
 inverse insertion `Fin.insertNth i 1 z` and chart model `Fin n → ℂ` with `𝓘(ℂ, Fin n → ℂ)`;
@@ -2218,7 +2259,7 @@ transport theorem goes through it.
 *Needs:* Tau Ceti `Projectivization.instTopologicalSpace`, `affineOpenPartialHomeomorph`,
 `instChartedSpace`, `instIsManifold`, `instT2Space`, `instCompactSpace`,
 `instSecondCountableTopology`, `instPathConnectedSpace`, `complexOrientationLift`;
-AlgebraicTopology Stage 4.6 (the CW structure); ComplexManifolds Milestones 1–3; 1.1; Mathlib
+ComplexManifolds Milestones 1–3; 1.1; Mathlib
 `Projectivization`, `OnePoint.equivProjectivization`, `Fin.succAbove`, `Fin.insertNth`.
 
 ### 7.2 Projective bundles, forms and cohomology (K7.2)
@@ -2239,9 +2280,31 @@ holomorphic isomorphism `K_(ℂP¹) ≃ O(−2)` from `dz = −w⁻² dw`, keepi
 convention. With 5.10's Serre duality deduce `H¹(O(−1)) = 0` and `h⁰(O(−1)) − h¹(O(−1)) = 0`,
 independently of Riemann–Roch or the classification of `Pic(ℂP¹)`.
 
-Consume AlgebraicTopology Stage 4.6's finite CW structure on `Projectivization ℂ (Fin (n+1) → ℂ)`
-(one cell in each even dimension `0, 2, …, 2n`, characteristic maps `z ↦ [z : √(1−|z|²)]`) and
-its cellular/singular comparison, without Stage 7's Euler-characteristic theorem. Own the
+Construct the homeomorphism from `TauCeti.ComplexProjectiveSpace n` to
+`Projectivization ℂ (Fin (n+1) → ℂ)` sending the class of a unit vector to the line it spans
+(`Projectivization.mk`, a unit vector being nonzero): it is well defined and injective by
+`mk_eq_mk_iff` on the sphere side and `Projectivization.mk_eq_mk_iff` on the line side (two unit
+vectors span the same line iff they differ by a unit scalar), surjective because every nonzero
+`v` is a scalar multiple of `v/‖v‖`, continuous by `continuousAt_lift` and the continuity of
+`Projectivization.mk` for the quotient topology, hence a homeomorphism from the compact space to
+the Hausdorff one (`Continuous.homeoOfEquivCompactToT2`). Prove that on `affineOpen i` it
+carries the ratio chart `affineChart i` to `affineOpenPartialHomeomorph i` coordinate by
+coordinate (`affineChart_apply`), so that it is a biholomorphism between
+`ComplexProjectiveSpace.instIsManifold` and `Projectivization.instIsManifold`. Transport the
+pinned finite CW structure `ComplexProjectiveSpace.cwComplex` along it by
+`Topology.IsClosedEmbedding.relCWComplex` (`Homeomorph.isClosedEmbedding`; the image of the
+whole space is the whole space), with the same cells (`relCWComplexCellEquiv`: one cell in each
+even dimension `0, 2, …, 2n`, none in odd dimensions) and characteristic maps `cellMap i`
+followed by the homeomorphism (`coe_map_relCWComplex`), the closed unit disc of `ℂⁱ` sent to
+`z ↦ [z : √(1−|z|²) : 0 : ⋯ : 0]`, so that the `2i`-skeleton is the image of
+`Projectivization ℂ (Fin (i+1) → ℂ)` under the inclusion of the first `i + 1` coordinates.
+Transport the pinned cellular chain complex, whose differentials all vanish
+(`cellularChainComplex_d_eq_zero`), the singular homology `singularHomologyIso`,
+`isZero_singularHomology_of_odd` and `isZero_singularHomology_of_lt` and the Euler characteristic
+`eulerChar_complexProjectiveSpace` along the homeomorphism (singular homology and the cell count
+are homeomorphism invariants), using AlgebraicTopology Stage 4's cellular/singular comparison
+and not Stage 7's Euler-characteristic theorem; AlgebraicTopology Stage 7's complex-projective
+check and CharacteristicClasses C1.5 consume this transported structure. Own the
 cellular and cup calculation `H*(ℂPⁿ; ℤ) = ℤ[u]/(u^(n+1))`, `|u| = 2`, using Stage 6's cellular
 groups and products, with `u` the hyperplane class normalized by `⟨u, [ℂP¹]⟩ = +1`; use Stage
 6's Poincaré duality and the restrictions to `ℂP^k` to identify the powers of `u` and the cup
@@ -2267,9 +2330,29 @@ forms use `k ≥ 1`.
   the positivity `∫ ω_FS > 0`.
 - `H*(ℂP²; ℤ) = ℤ[u]/(u³)` has ranks `1, 0, 1, 0, 1`, and `u² ≠ 0` is the Poincaré dual of a
   point, so `u ∪ u` is not detected by the additive groups alone.
+- `ℂP¹` carries no nonzero holomorphic one-form: `H^(1,0) = H⁰(K) = H⁰(O(−2)) = 0` by the
+  Dolbeault theorem (2.4), `K ≃ O(−2)` and `h⁰(O(k)) = 0` for `k < 0`; on the chart `ℂ` the
+  form `dz` is holomorphic but equals `−dw/w²` on the other chart, with a double pole at `∞`,
+  so a computation on one chart alone would overcount.
+- The transported cellular chain complex of `ℂPⁿ` has a copy of `ℤ` in each even degree
+  `0, 2, …, 2n` and zero elsewhere, so every differential vanishes and `H_k(ℂPⁿ; ℤ)` is `ℤ` for
+  even `k ≤ 2n` and `0` otherwise; the alternating cell count is `n + 1`, so `χ(ℂP²) = 3` and
+  `χ(ℂP¹) = 2 = χ(S²)`. A model with one cell in every dimension `0, …, 2n`, as for `ℝP^(2n)`,
+  would give `χ = 1` and a differential `±2`.
+- For `n ≥ 1` the `2`-skeleton of the transported structure is the line `ℂP¹ ⊂ ℂPⁿ` of the
+  first two coordinates and the `0`-skeleton is the point `[1 : 0 : ⋯ : 0]`; for `n = 0` the
+  whole space is the `0`-cell and the homeomorphism identifies two one-point spaces.
+- The homeomorphism sends the class of `(1/√2, 1/√2)` to `[1 : 1] ∈ ℂP¹`, which lies in both
+  affine opens with ratio coordinate `1` in each, and the class of `(1, 0)` to `[1 : 0]`, which
+  lies in `U₀` only; the map from the sphere itself is not injective, since `(1, 0)` and `(i, 0)`
+  span the same line, so the unit-scalar quotient is needed on the source.
 
-*Needs:* 7.1; 2.4; 3.5 (Hartogs); 4.1–4.2; 5.10; 6.2; AlgebraicTopology Stage 4.6 and Stage 6;
-SmoothBundlesConnections B6.2–B6.3; Demailly, Chapter V, (15.5)–(15.6); knutson-borel-weil.
+*Needs:* 7.1; 2.4; 3.5 (Hartogs); 4.1–4.2; 5.10; 6.2; AlgebraicTopology Stage 4 and Stage 6;
+Tau Ceti `ComplexProjectiveSpace.cwComplex`, `cellMap`, `cellularChainComplex_d_eq_zero`,
+`singularHomologyIso`, `eulerChar_complexProjectiveSpace`, `IsClosedEmbedding.relCWComplex`,
+`cellularSingularHomologyIsoUniv`; Mathlib `Continuous.homeoOfEquivCompactToT2`,
+`Projectivization.mk_eq_mk_iff`; SmoothBundlesConnections B6.2–B6.3; Demailly, Chapter V,
+(15.5)–(15.6); knutson-borel-weil.
 
 ### 7.3 Tori, Riemann surfaces and the Hopf surface (K7.3)
 
@@ -2279,17 +2362,22 @@ and descent. Prove its flat Kähler structure, the invariant holomorphic forms a
 dictionary. For every compact connected Riemann surface define the geometric genus `g = h^(1,0)`
 and prove `h^(0,0) = h^(1,1) = 1`, `h^(0,1) = g` and `b₁ = 2g` by Hodge comparison. Prove the
 topological dictionary: the pinned realification and complex orientation make the surface a
-closed connected orientable smooth surface; consume GeometricTopology 1.7's smooth
+closed connected orientable smooth surface; consume GeometricTopology §1.7's smooth
 classification (it is diffeomorphic to exactly one standard model, the orientable surface of
-genus `j`, with `j = (2 − χ)/2` and `rank H₁(Σ; ℚ) = 2j`) and 1.7.1's polyhedral model with its
+genus `j`, with `j = (2 − χ)/2` and `rank H₁(Σ; ℚ) = 2j`) and §1.7.1's polyhedral model with its
 coherent triangle orientations to obtain that model and a diffeomorphism; own the adapter from
 1.1's realified atlas to the boundaryless compact connected smooth surface the classification
 takes, and the comparison of the complex orientation with the model's orientation (composing
 with an orientation-reversing reflection when needed). This layer owns the orientation adapter;
 a classification diffeomorphism does not assert compatibility with a preassigned smooth
-triangulation. Construct the comparison of that model with AlgebraicTopology's standard CW
-model (one vertex, `2j` edges, one face attached by the product of commutators), treating
-`j = 0` by the sphere comparison, and compute `b₁ = 2j`, hence `g = j`. On this oriented CW
+triangulation. Consume §1.7.1's polygon/CW model of the standard surface (for the closed
+orientable model: one vertex, `2j` edges `a₁, b₁, …, a_j, b_j` and one face attached along the
+word `[a₁, b₁]⋯[a_j, b_j]`, with its counts `V = 1`, `E = 2j`, `F = 1` and its comparison with
+the standard surface and its triangulation), treating `j = 0` by the sphere comparison. Own the
+cellular computation on it: each edge occurs in the attaching word once with each sign and is
+a loop at the single vertex, so the cellular differentials `d₂` and `d₁` vanish and
+`H₁(Σ; ℤ) ≃ ℤ^(2j)`, `H₂(Σ; ℤ) ≃ ℤ` by AlgebraicTopology Stage 4's cellular/singular
+comparison, hence `b₁ = 2j` and `g = j`. On this oriented CW
 model compute `H²(Σ; ℤ) ≃ ℤ`, identify its
 generator by evaluation on Stage 6.3's fundamental class, and compute the integral degree-one
 cup pairing on the `2g` polygon generators as the standard unimodular symplectic matrix,
@@ -2317,6 +2405,11 @@ any `ℂPⁿ`.
 - An elliptic curve has `h^(1,0) = h^(0,1) = 1`, `g = 1`, `b₁ = 2`; `ℂP¹` has `g = 0`,
   `b₁ = 0`; a genus-two surface has `b₁ = 4` and cup matrix the block sum of two copies of
   `((0,1),(−1,0))`.
+- On the polygon model the torus (`j = 1`, word `aba⁻¹b⁻¹`) has `d₂ = 0` and `H₁ = ℤ²`, while
+  §1.7.1's non-orientable models with the words `cc` (the projective plane) and `c₁c₁c₂c₂` (the
+  Klein bottle) have `d₂(face) = 2c` and `2c₁ + 2c₂`, hence `H₁ = ℤ/2` and `ℤ ⊕ ℤ/2` with
+  `H₂ = 0`; a cellular differential that ignored the edge orientations would read `aba⁻¹b⁻¹` as
+  `2a + 2b` and give the torus the Klein-bottle group `ℤ ⊕ ℤ/2`.
 - The dilation weight of `z₁^a z₂^b dz_j` is `2^(a+b+1) ≥ 2`, and of `z₁^(−m) z₂^(−n) dz_j` with
   `m, n ≥ 1` is `2^(1−m−n) ≤ 1/2`; the weight `1` would need `a + b + 1 = 0`, impossible, so the
   invariant and coinvariant parts of `H⁰` and `H¹` of `Ω¹` vanish.
@@ -2326,7 +2419,7 @@ any `ℂPⁿ`.
   `[ω] ≠ 0` in `H²`.
 
 *Needs:* 1.1; 2.1, 2.4; 3.5; 5.6; 5.10; 6.2; ComplexTori Milestone 1; ComplexManifolds Milestone
-4; GeometricTopology Layers 1.7 and 1.7.1; AlgebraicTopology Stage 4, Stage 6 and Stage 6.3;
+4; GeometricTopology §1.7 and §1.7.1; AlgebraicTopology Stage 4, Stage 6 and Stage 6.3;
 Tau Ceti `IsManifold.restrictScalars_of_ne_zero`, `complexOrientationLift`,
 `mayerVietorisShortComplex_shortExact`.
 
@@ -2337,9 +2430,10 @@ genus-two surface; the Hopf surface.
 
 ### Dependencies
 
-AlgebraicTopology Stages 4.6, 6, 6.3; ComplexManifolds Milestones 1–4; ComplexTori Milestone 1;
-SmoothBundlesConnections B6.2–B6.3; GeometricTopology Layers 1.7 and 1.7.1; Tau Ceti
-`Projectivization.instIsManifold` with its topology instances, `complexOrientationLift`,
+AlgebraicTopology Stages 4, 6, 6.3; ComplexManifolds Milestones 1–4; ComplexTori Milestone 1;
+SmoothBundlesConnections B6.2–B6.3; GeometricTopology §1.7 and §1.7.1; Tau Ceti
+`Projectivization.instIsManifold` with its topology instances, `ComplexProjectiveSpace.cwComplex`
+with its cellular homology and Euler characteristic, `complexOrientationLift`,
 `IsManifold.restrictScalars_of_ne_zero`, `mayerVietorisShortComplex_shortExact`; Layers 1–6;
 Mathlib `Projectivization`, `OnePoint.equivProjectivization`; Demailly, Chapter V;
 knutson-borel-weil.
@@ -2506,12 +2600,13 @@ Layers 2, 5, 6; AlgebraicTopology Stage 5.0; ComplexManifolds Milestone 4; LieGr
   factoriality, (3.19) Oka's coherence theorem, (4.19) local parametrization, (4.22) the
   Nullstellensatz, (4.24) density of regular points, (4.29) Cartan's theorem, (4.31) the
   singular locus, (4.32) the dimension of the local ring; Chapter III, (1.25) Wirtinger's
-  inequality, (2.6)–(2.7) Lelong's theorem on the current of integration; Chapter IV, (6.13) the
-  Dolbeault isomorphism theorem; Chapter V, §12, (12.4) the Chern connection and its curvature,
+  inequality, (2.6)–(2.7) Lelong's theorem on the current of integration; Chapter IV, (6.13)–(6.15)
+  the Dolbeault isomorphism theorem; Chapter V, §12, (12.4) the Chern connection and its curvature,
   (15.5)–(15.6) sections of `O(k)` on projective space; Chapter VI, §5.3 primitive forms, §6
   commutation relations, (7.2) the Hodge isomorphism theorem, (7.3) Serre duality, (8.5)–(8.7)
   Hodge decomposition and the `∂∂̄`-lemma, (8.12) Betti and Hodge numbers, (8.17) Hard Lefschetz,
-  §11 the Hodge–Frölicher spectral sequence; Chapter VII, (1.2) Bochner–Kodaira–Nakano.
+  §11 the Hodge–Frölicher spectral sequence; Chapter VII, (1.2)–(1.3) the Bochner–Kodaira–Nakano
+  identity and its Kähler case, (2.1) the integrated a priori inequality.
 - Werner Ballmann, *Lectures on Kähler Manifolds* (ballmann-kahler): Theorem 3.18 the Chern
   connection, Theorem 4.17 the Kähler equivalences, Theorem 4.23 nonvanishing of `[ω^k]`, §5.1
   and Theorem 5.25 the Kähler identities and Laplacians, Theorem 5.31 Hard Lefschetz.
