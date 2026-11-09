@@ -131,7 +131,11 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   `latticeCoveringRadius` (4.4.2), `StarBody` (4.5.1), with boundedness imposed where used,
   `criticalDeterminant` (4.5.2), `mahler_compactness` (4.5.8, n ≥ 2 and a positive shortest-length bound), `IsLLLReduced`, `lll_short_vector_factor` (5.1.2, 5.1.4). Milestones 1.4 and 3.3
   identify the packing radius and the inhomogeneous minimum of a form with the first two.
-- **From Rank 24 constructions**: Layer 6, the Leech lattice with `min Λ₂₄ = 4`.
+- **From Tau Ceti at the pin**, the Leech lattice `Λ₂₄` as `TauCeti.leechLattice`, built by
+  Construction B and an odd shift as Rank24LatticeConstructions Layer 6 specifies, with its rank,
+  evenness, unimodularity, positive definiteness, `min Λ₂₄ = 4`, the absence of roots and the
+  kissing number `196560`, tabulated under *What Tau Ceti supplies*. No milestone here
+  constructs `Λ₂₄` or proves those facts.
 - **From Mathlib**: everything under *What Mathlib supplies*.
 
 ### Not owned here
@@ -284,8 +288,6 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
   of the theta series of an even unimodular lattice (5.6), Layer 7 (7C–7D) the Hecke–Schoeneberg
   theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` for an even lattice of rank `2k` and level `N` (6.4), 8B
   `r_{E₈}(2) = 240` and 8D `r_Λ(4) = 196560` as corollaries of theta identities.
-- [Niemeier glue data and explicit Leech constructions](../Rank24LatticeConstructions/README.md):
-  Layer 6, the Leech lattice `Λ₂₄` with minimum `4` and no roots.
 - [Successive minima and Minkowski's theorems](../SuccessiveMinima/README.md): 1.1 the real
   successive minima `successiveMin L K i` of a convex body with respect to a lattice, 2.1.4 the lower half of Minkowski's second theorem. The upper half is Tau Ceti's
   `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, as Successive Minima
@@ -345,7 +347,9 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 | realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3 |
 | `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.1, 7.4 |
 | `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/{Basic,Quadratic}.lean` | 7.4 |
-| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice` (`Dₙ⁺` for `8 ∣ n`) | `…/RankOne/Basic.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/{Basic,Plus}.lean`, `…/RootLattice/TypeE/Basic.lean` | 4.10, worked examples |
+| `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice` (`Dₙ⁺` for `8 ∣ n`) | `…/RankOne/Basic.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/{Basic,Plus}.lean`, `…/RootLattice/TypeE/Basic.lean` | 4.10, 7.5, worked examples |
+| `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv` (`A_⟨a⟩ ≃ ℤ/|a|` for `a ≠ 0`), `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass` (`b(kg, lg) = kl/a`), `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass` (`q(kg) = k²/(2a)` for even `a`) | `…/RankOne/{Basic,Discriminant}.lean` | 7.5 |
+| `TauCeti.leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.discriminant_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.vectorsOfNorm_two_leechLattice`, `TauCeti.kissingNumber_leechLattice` | `…/Rank24/Leech/{Basic,Minimum,MinimalVectors}.lean` | 3.4, 4.11, 5.7, worked examples |
 | `TauCeti.ModularForm.mvPolynomialEquivModularForms`, the level-one graded ring | `TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.lean` | 5.7 |
 | `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex` | `TauCeti/NumberTheory/ModularForms/LevelOne/ValenceFormula.lean`, `TauCeti/NumberTheory/ModularForms/Norm/Cusps.lean` | 4.11 |
 | `modFormCharSpace`, `cuspFormCharSpace`, `TauCeti.forall_heckeTCompositeGamma0_eq_coeff_smul_iff`, `HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.basis`, `TauCeti.isCompl_cuspFormsOld_cuspFormsNew`, `HeckeRing.GL2.Newform.qExpansion_coeff_prime_sq_of_factorization_eq_one`, `HeckeRing.GL2.Newform.norm_qExpansion_coeff_prime_of_factorization_conductor_eq`, `HeckeRing.GL2.Newform.qExpansion_coeff_prime_eq_zero_of_factorization_conductor_lt` | `TauCeti/NumberTheory/ModularForms/DiamondOperators.lean`, `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/CoefficientCriterion.lean`, `TauCeti/NumberTheory/ModularForms/Newforms/{Newform,OrthogonalBasis,Basic}.lean`, `TauCeti/NumberTheory/ModularForms/Newforms/BadPrime/Classification.lean` | 6.4 |
@@ -359,7 +363,7 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 Milestones are numbered `N.M` and may rest only on Mathlib, Tau Ceti at the pin, a cited supplier
 milestone, or an earlier milestone of this roadmap. Each layer ends with its dependency table,
 where **M** is Mathlib, **T** Tau Ceti at the pin,
-**IL**, **TS**, **SM**, **GoN**, **R24**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
+**IL**, **TS**, **SM**, **GoN**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
 roadmap.
 
 `Suggested.lean` states the definitions and headline theorems that can be written over Mathlib and
@@ -1004,7 +1008,8 @@ the distance to the full lattice; no integral basis attaining every minimum is r
 ### 3.4 Covering values and the covering constant
 
 Prove the covering radii of the lattices in the worked examples (`ℤⁿ`: `√n/2`; `A₂`: `√(2/3)`; `A₃`,
-`D₄`, `E₈` with minimum `2`: `1`; `Λ₂₄` with minimum `4`: `√2`, the last by citing
+`D₄`, `E₈` with minimum `2`: `1`; `Λ₂₄`, Tau Ceti's `TauCeti.leechLattice` with minimum `4`, in the
+real model of the Gram matrix of any `ℤ`-basis: `√2`, the last by citing
 Conway–Parker–Sloane, Conway–Sloane Ch. 23, as a theorem whose proof is the classification of the
 deep holes. This subsection owns that geometric classification: prove that, up to
 lattice translations and lattice isometries, the Voronoi vertices are the finitely many
@@ -1023,7 +1028,8 @@ scope exclusions*).
   the total convention also gives the range {1}. In rank two A₂ contributes
   2π/√27, so 1 ≤ Θ₂ ≤ 2π/√27; no equality with the value of I₂, π/2, follows.
 
-*Needs:* L 1.4, 3.2; R24 Layer 6 for `Λ₂₄`.
+*Needs:* L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice` and
+`TauCeti.discriminant_leechLattice` for `Λ₂₄`.
 
 ### Examples
 
@@ -1036,7 +1042,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 3.1 | M `Convex`, `IsCompact`, `IsAddFundamentalDomain`, `ZLattice.covolume`; L 0.3, 1.1 |
 | 3.2 | M `Metric.infDist`, `IsCompact.exists_isMaxOn`, `InnerProductSpace.volume_ball`; L 1.4, 3.1 |
 | 3.3 | GoN 4.4.2; SM 1.1, 1.5; L 3.2 |
-| 3.4 | L 1.4, 3.2; R24 Layer 6 for `Λ₂₄` |
+| 3.4 | L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice` for `Λ₂₄` |
 
 ## Layer 4: perfect, eutactic and extreme forms
 
@@ -1334,8 +1340,9 @@ specified linear combination. These are analytic identities and inequalities, in
 the bounds on their Fourier expansions used to prove the signs, not numerical verification
 procedures (Cohn–Kumar–Miller–Radchenko–Viazovska, arXiv:1603.06518v4,
 §§2–4 and Appendix A, pp.1020–1032).
-This gives center density ≤ 1, hence γ₂₄ ≤ 4. The Leech lattice of
-Rank24LatticeConstructions Layer 6 has minimum 4 and determinant 1, so it attains equality.
+This gives center density ≤ 1, hence γ₂₄ ≤ 4. Tau Ceti's Leech lattice `TauCeti.leechLattice` has
+minimum 4 (`TauCeti.minimum_leechLattice`) and determinant 1 (`TauCeti.discriminant_leechLattice`
+with `TauCeti.isPosDef_leechLattice`), so it attains equality.
 Prove `hermiteConstant_twentyFour`. The external sphere-packing formalization is provenance,
 not a library prerequisite; the analytic input is owned in this subsection.
 
@@ -1361,7 +1368,8 @@ API and acceptance statements:
 Fourier APIs; T `TauCeti.ModularForm.valence_formula_weighted` and
 `TauCeti.ModularForm.valence_formula_finiteIndex` (the valence formulas), Mathlib level-one
 Eisenstein series; Layers 1.4–1.5 and 2.1;
-Rank24LatticeConstructions Layer 6 for the lower witness.
+T `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice`,
+`TauCeti.isPosDef_leechLattice` and `TauCeti.finrank_leechLattice` for the lower witness.
 
 ### Examples
 
@@ -1380,7 +1388,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 4.7 | GoN 4.5.8; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9 |
 | 4.9 | M `Convex`, `ConvexCone`, `IsClosed`; L 1.1, 4.1, 4.6 |
 | 4.10 | Completed IntegralLattices Layer 5 (root lattices); T `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`; L 0.2, 2.1, 2.2, 4.1, 4.5, 4.6, 4.9 |
-| 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; T `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex`; R24 Layer 6; L 1.4, 1.5, 2.1 |
+| 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; T `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex`, `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.finrank_leechLattice`; L 1.4, 1.5, 2.1 |
 
 ## Layer 5: spherical designs and Venkov's theorem
 
@@ -1587,7 +1595,7 @@ API and acceptance statements:
   while degree 12 gives dim S₂₄ = 2; the extra isolated vanishing does not give a 14-design
   (Venkov, Remark 16.5, p.61).
 
-*Needs:* M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`; TS 8B, 8D; R24 Layer 6; IL 6C, 6D; L 5.3, 5.4, 5.6.
+*Needs:* M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`; TS 8B, 8D; IL 6C, 6D; L 5.3, 5.4, 5.6.
 
 ### Examples
 
@@ -1603,7 +1611,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 5.4 | GoN §4.3; M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 0.3, 5.1, 5.2 |
 | 5.5 | GoN §4.3 `fourier_harmonic_gaussian`; M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4 |
 | 5.6 | TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; T `IsEven`, `IsUnimodular`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5 |
-| 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`; TS 8B, 8D; R24 Layer 6; IL 6C, 6D; L 5.3, 5.4, 5.6 |
+| 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`; TS 8B, 8D; IL 6C, 6D; L 5.3, 5.4, 5.6 |
 
 ## Layer 6: universality
 
@@ -1890,9 +1898,16 @@ invariant, `1` when `A_L` is trivial (unimodular `L`), and `1` whenever `O(D_L) 
 `−1 ∈ O(L)` maps to `−1`), which covers `A₂` (`O(ℤ/3, q) = {±1}`). Prove the rank-one formula: for a lattice with a singleton integral basis of Gram entry
 m ≥ 3, `O(⟨m⟩) = {±1}` maps onto `{±1} ⊂ (ℤ/m)^×`, and `O(D_⟨m⟩)` is `{u ∈ (ℤ/m)^× | u² ≡ 1 (mod m)}`
 when `m` is odd (the lattice is odd; `b_L(x,y) = xy/m`) and `{u | u² ≡ 1 (mod 2m)}` when `m` is even
-(the lattice is even; `q_L(x) = x²/(2m) mod ℤ`), so `fvIndex ⟨m⟩` is half the number of those `u`:
-The Lean theorem `fvIndex_rankOne` uses that singleton basis and its Gram entry;
-Tau Ceti's `rankOne m` instead has Gram entry 2m. In Gram-entry notation, `fvIndex ⟨5⟩ = fvIndex ⟨8⟩ = 1`, `fvIndex ⟨12⟩ = fvIndex ⟨15⟩ = 2`. Record that the bilinear and
+(the lattice is even; `q_L(x) = x²/(2m) mod ℤ`), so `fvIndex ⟨m⟩` is half the number of those `u`.
+The Lean theorem `fvIndex_rankOne` takes any lattice with a singleton integral basis of Gram
+entry `m`. Tau Ceti's `rankOne m` (`…/RankOne/Basic.lean`) is the lattice `⟨m⟩` itself: its
+singleton basis has Gram entry `m` (`TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`),
+and `Isometry.ofGramMatrixEq` identifies every lattice with such a basis with it. Its discriminant
+form is Tau Ceti's too, with generator `g = 1/m + ℤ`:
+`TauCeti.IntegralLattice.rankOneDiscriminantEquiv` identifies `A_⟨m⟩` with `ℤ/m`,
+`TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass` gives `b(kg, lg) = kl/m`, and for
+even `m` `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass` gives
+`q(kg) = k²/(2m)`; the description of `O(D_⟨m⟩)` above is read off from these. In Gram-entry notation, `fvIndex ⟨5⟩ = fvIndex ⟨8⟩ = 1`, `fvIndex ⟨12⟩ = fvIndex ⟨15⟩ = 2`. Record that the bilinear and
 quadratic groups differ: for `⟨8⟩` the group `O(ℤ/8, b)` has order `4` while `O(ℤ/8, q) = {±1}`, so
 the index of an even lattice must be taken in the quadratic group as pinned. `fvIndex (L ⊕ M)` is
 not a function of the two indices and no product formula is claimed. Cite Festi–Veniani, *Counting
@@ -1909,9 +1924,13 @@ API:
   The condition u² = 1 modulo 16 leaves residues 1,7, so the index is 2/2 = 1;
   u = 3 has q(3e/8) = 9/16 ≠ 1/16 despite preserving the bilinear form.
 - For Gram [12], the four residues 1,5,7,11 square to 1 modulo 24, so the index is 4/2 = 2.
-- For Gram [15], residues 1,4,11,14 give index 2; native rankOne 15 instead has Gram [30] and is not the same input.
+- For Gram [15], the residues 1, 4, 11, 14 square to 1 modulo 15, so the index is 4/2 = 2.
+- The Gram entry is the input, not twice it: for ⟨6⟩ the units 1, 5 of ℤ/6 both square to 1
+  modulo 12, so `O(ℤ/6, q) = {±1}` and the index is 1, while Gram [12] has the four residues
+  1, 5, 7, 11 and index 2. A doubled normalization of the input turns the value 1 at `m = 6`
+  into 2.
 
-*Needs:* M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`; L 7.4.
+*Needs:* M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4.
 
 ### Examples
 
@@ -1925,7 +1944,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 7.2 | T `scale`, `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`, `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le` (the rank-two case, prose); L 1.1, 1.2, 7.1 |
 | 7.3 | T `Isometry`, `determinant`; L 7.1, 7.2 |
 | 7.4 | T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
-| 7.5 | M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`; L 7.4 |
+| 7.5 | M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4 |
 
 ## Downstream consumers
 

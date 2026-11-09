@@ -28,9 +28,12 @@ the 15 and 290 universality theorems; and the rank-one discriminant-image index 
 The integral-lattice tensor construction and its decomposition API in README §§7.1–7.3
 require a bundled integral-lattice tensor product absent at the pins; Kitaoka's minimum
 headline is stated on the form-side Kronecker Gram matrix. The perfect-class counts use
-the existing similarity quotient and need no chosen representative families. The explicit
-Leech covering-radius and deep-hole classification need the Leech lattice carrier from
-Rank24LatticeConstructions Layer 6. All other API, local checks and examples are in README.md.
+the existing similarity quotient and need no chosen representative families. The Leech
+covering radius `μ(Λ₂₄) = √2` and the classification of the Leech deep holes (README §3.4) are
+not stated: both need Tau Ceti's Leech lattice `TauCeti.leechLattice`
+(`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`), which the Tau Ceti revision this
+file elaborates against does not contain. All other API, local checks and examples are in
+README.md.
 
 The form carrier uses native Matrix.PosDef. Metric statements use FormSpace A, whose squared
 norm is xᵀAx. Harmonic polynomials evaluated in integral coordinates use the inverse-Gram
