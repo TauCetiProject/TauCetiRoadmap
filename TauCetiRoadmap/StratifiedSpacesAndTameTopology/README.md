@@ -34,11 +34,9 @@ definable sets and the semialgebraic triangulation (Layer 4); the face structure
 corners built on the abstract boundary (depth, the immersion `j`, products), embedded corners,
 intersections of boundary hypersurfaces and collars of boundary hypersurfaces (Layer 5); unfolding
 data, gluing, the unfolding of a Thom–Mather space and reconstruction (Layer 6); `C¹` cells and
-Whitney stratifications of definable sets (Layer 7). A search of main and of the open roadmap pull
-requests for stratifications, exit paths, triangulations of definable sets, unfoldings and faces
-of manifolds with corners finds no other owner, except that DifferentialGeometry 5.5 owns the
-abstract boundary `∂̃M` of a manifold with corners, which it uses for Stokes' theorem; Layer 5
-consumes it and builds the face structure on top of it, defining no second boundary carrier.
+Whitney stratifications of definable sets (Layer 7). DifferentialGeometry 5.5 owns the abstract
+boundary `∂̃M` of a manifold with corners, which it uses for Stokes' theorem; Layer 5 consumes it
+and builds the face structure on top of it, defining no second boundary carrier.
 
 **Left to other roadmaps.** General o-minimal structures and definable maps, monotonicity, cell
 decomposition, uniform finiteness, dimension, definable choice, curve selection and the o-minimality
@@ -58,21 +56,21 @@ triangulations of compact semialgebraic sets with its lifting data, the definiti
 dimension from CAD cells, and its product and fibre-dimension laws are AffineMorseLefschetz A4.1;
 compact 4.3 implies its existential triangulation theorem, while its lifting data, which
 RealAnalyticGeometry R2.1 consumes, are not supplied by 4.1. The Euler characteristic of spaces of
-finite CW type is AlgebraicTopology Stage 7; no roadmap states the o-minimal Euler characteristic of
-a definable set (van den Dries, Chapter 4, §2). The collar theorem for manifolds with boundary and
-the tubular neighbourhood theorem are GeometricTopology Layer 1.
+finite CW type is AlgebraicTopology Stage 7. The collar theorem for manifolds with boundary and the
+tubular neighbourhood theorem are GeometricTopology Layer 1.
 
 **Out of scope.** Subanalytic sets; constructible sheaves on stratified spaces, exit-path
 ∞-categories and 2-categories, constructible stacks and hypercoverings; intersection homology;
-Whitney's condition (a) and Verdier's condition (w) as subjects; the second isotopy lemma. No
-roadmap on main states them. Not targets either: in an o-minimal structure, a definable subset
-`X ⊆ Rⁿ` is definably compact (every definable curve `(a, b) → X` has limits in `X` at both ends)
-iff it is closed and bounded (Peterzil–Steinhorn 1999, Theorem 2.1, as recalled in Andújar Guerrero
-2025, Remark 5.9, whose Theorem A compares the notions of definable compactness); smooth `Cᵏ`
-manifolds with corners have `Cᵏ` triangulations (the Cairns–Whitehead theorem, stated with corners
-in Murayama–Shiota 2013, p. 160); for finite `p` and an o-minimal expansion of the real field,
-compact definable `Cᵖ` manifolds with corners have definable triangulations, `Cᵖ` on open faces
-(Commelin–Huber, appendix to Huber 2022, Proposition A.1).
+Whitney's condition (a) and Verdier's condition (w) as subjects; the second isotopy lemma; the
+o-minimal Euler characteristic of definable sets (van den Dries, Chapter 4, §2). Not targets either:
+in an o-minimal structure, a definable subset `X ⊆ Rⁿ` is definably compact (every definable curve
+`(a, b) → X` has limits in `X` at both ends) iff it is closed and bounded (Peterzil–Steinhorn 1999,
+Theorem 2.1, as recalled in Andújar Guerrero 2025, Remark 5.9, whose Theorem A compares the notions
+of definable compactness); smooth `Cᵏ` manifolds with corners have `Cᵏ` triangulations (the
+Cairns–Whitehead theorem, stated with corners in Murayama–Shiota 2013, p. 160); for finite `p` and
+an o-minimal expansion of the real field, compact definable `Cᵖ` manifolds with corners have
+definable triangulations, `Cᵖ` on open faces (Commelin–Huber, appendix to Huber 2022,
+Proposition A.1).
 
 ## Conventions
 
@@ -238,7 +236,7 @@ DifferentialGeometry 5.5's abstract boundary, Mathlib's quadrant model and Tau C
 Layer 6 unfolds a Thom–Mather space of AlgebraicTopologyPartII §§16.1a–16.1e into the manifolds
 with corners of Layer 5 and reconstructs it. Layer 7 combines ShimuraVarieties' o-minimal theory
 with AlgebraicTopologyPartII's Whitney stratifications and control data for definable sets over
-`ℝ`, and applies Layer 6 to compact semialgebraic sets.
+`ℝ`, and applies Layer 6 to closed semialgebraic sets.
 
 ## Layer 1: stratified spaces over a poset
 
@@ -268,6 +266,8 @@ Construct the restriction of a stratification to a subspace, the pullback along 
 the pushforward along a monotone map `P → Q`, products over `P × Q` with the product order, the
 trivial stratification over `Unit`, and disjoint unions over `P`. Define stratified maps (a
 continuous `f : X → Y` with a monotone `φ : P → Q` and `s_Y ∘ f = φ ∘ s_X`) and their category.
+(Own; for smooth strata, restriction to open subsets and products are AlgebraicTopologyPartII
+§16.1a.)
 *Needs:* 1.1.
 
 **Checks.**
@@ -290,7 +290,8 @@ meets `X_r`, and distinct strata are disjoint); for finite `P` with the frontier
 the indices of its nonempty strata with this *incidence order*. The frontier condition is preserved
 by products and by restriction to open subsets. For the realization of an abstract simplicial
 complex stratified by its open simplices over the face poset, the frontier condition, with the
-strict face order as incidence order, is AlgebraicTopologyPartII §16.1a.
+strict face order as incidence order, is AlgebraicTopologyPartII §16.1a. (Own; for smooth strata,
+the incidence order with its restriction and product rules is AlgebraicTopologyPartII §16.1a.)
 *Needs:* 1.1, 1.2; AlgebraicTopologyPartII §16.1a (open simplices of a realization).
 
 **Checks.**
@@ -346,7 +347,8 @@ stratification `OpenCone.stratification p sL hp`. Prove: `OpenCone.mk` is an ope
 - `C(∅)` is one point, and `C(Fin 2)` is homeomorphic to `ℝ` with the apex at `0`, the two rays
   being the two points of `L`.
 - Convention 4's `L = ℕ`: `{apex} ∪ ⋃ₙ {n} × (0, 1/(n+1))` is open in the quotient topology and
-  not in `C(ℕ)`, so a definition by the quotient topology differs for noncompact `L`.
+  not in `C(ℕ)`, so a definition by the quotient topology differs for `L = ℕ`; for countably
+  compact `L`, such as `ω₁`, the two topologies agree.
 - The hypothesis of the cone stratification is needed: for `L` a point of index `0` and the apex of
   index `1` over `{0 < 1}`, the preimage of the upper set `{1}` is `{apex}`, which is not open.
 
@@ -435,7 +437,9 @@ Layer 1 and GeometricTopology Layer 1. Within the layer, 2.2 uses 2.1, 2.3 uses 
 Define `IsExitPath` (Convention 5). Prove: exit paths are closed under `Path.trans`, monotone
 reparametrization and stratified maps; constant paths are exit paths; an exit path between two
 points of the same index stays in that stratum; there is an exit path from `x` to `y` only if
-`s x ≤ s y`.
+`s x ≤ s y`. (Exit paths are the po-paths of Woolf 2009, §2, defined before Definition 2.1; the
+1-simplices of Lurie, *Higher Algebra*, Definition A.6.2, are the exit paths whose index is
+constant on `(0, 1]`.)
 *Needs:* 1.2; Mathlib `Path`, `Path.trans`.
 
 **Checks.**
@@ -484,7 +488,9 @@ open cone with its cone stratification there is exactly one morphism from the ap
 object (an exit path from the apex is exit-homotopic to the radial path, by first straightening
 its height to `t ↦ t · t₁` and then sliding its `L`-coordinate to the endpoint), and the full
 subcategory on `L × (0, ∞)` is equivalent to the exit-path category of `L`. (f) For `Z × C(L)`,
-the exit-path category is the product of `FundamentalGroupoid Z` with that of `C(L)`.
+the exit-path category is the product of `FundamentalGroupoid Z` with that of `C(L)`. (Own; (c)
+is the 1-categorical form of Lurie, *Higher Algebra*, Theorem A.6.4(3), p. 1428, and Treumann's
+Example 1.3 is (e) for `L = S¹`.)
 *Needs:* 2.1, 3.2; Mathlib `FundamentalGroupoid`.
 
 **Checks.**
@@ -664,7 +670,7 @@ its depth in `F` is its depth in `M` minus `k`; `F` has embedded corners, and it
 hypersurfaces are the connected components of the sets `F ∩ H` for the boundary hypersurfaces `H`
 of `M` other than `H_1, …, H_k`. The proof uses embeddedness twice: `H_1, …, H_k` come from `k`
 distinct local boundary germs at `x`, and, `j` being proper and injective on each component, near
-`x` each of `H_1, …, H_k` is the image of one sheet only.
+`x` each of `H_1, …, H_k` is the image of one sheet only. (Own; compare Joyce, Proposition 2.9.)
 *Needs:* 5.2.
 
 **Checks.**
@@ -732,7 +738,8 @@ collars above them. A **smooth** unfolding datum has each `Σ_j` a manifold with
 hypersurfaces of `Σ_j`, every boundary hypersurface lies in exactly one `∂_iΣ_j`, and two distinct
 boundary hypersurfaces in the same `∂_iΣ_j` are disjoint; the collar of each hypersurface in
 `∂_iΣ_j` is a smooth face collar (5.4); and all maps are smooth. By 5.3 the sets `∂_iΣ_k ∩ ∂_jΣ_k`
-are then closed embedded submanifolds with corners of codimension two.
+are then closed embedded submanifolds with corners of codimension two. (Own definition, after the
+iterated fibration structures of Albin, Leichtnam, Mazzeo and Piazza, §2.2.)
 *Needs:* 5.2–5.4; Tau Ceti `TauCeti.IsCollar`.
 
 **Checks.**
@@ -911,9 +918,10 @@ the sense of ShimuraVarieties §3.4b.
 
 ### 7.1 `C¹` cells
 
-Definable functions are `C¹` off a definable set of lower dimension; every finite family of
-definable sets is partitioned by a decomposition into `C¹` cells, each a `C¹` submanifold of
-`Fin n → ℝ` (van den Dries, Chapter 7).
+Every definable `f : U → ℝ` on a definable open `U ⊆ Fin n → ℝ` is `C¹` outside a definable
+subset, closed in `U`, of dimension `< n`. Finitely many definable subsets of `Fin n → ℝ` are
+partitioned by one decomposition into `C¹` cells, each a connected `C¹` submanifold (van den
+Dries and Miller, 4.2(1)–(2) with `p = 1`).
 *Needs:* ShimuraVarieties §§3.4c, 3.4d.
 
 **Checks.**
@@ -928,7 +936,8 @@ For every finite `k ≥ 1`, every closed definable set admits a finite stratific
 connected `C^k` submanifolds satisfying the frontier condition and Whitney's condition (b)
 (AlgebraicTopologyPartII §16.1a, read with `C^k` embeddings in place of smooth ones), compatible
 with finitely many definable subsets (van den Dries and Miller, *Geometric categories and
-o-minimal structures*, 4.8(1)).
+o-minimal structures*, 4.8(1)). When the structure has `C^∞` cell decomposition (their 4.2 with
+`p = ∞`), the strata can be taken `C^∞` (van den Dries and Miller, 4.8, Remark (1)).
 *Needs:* 7.1; AlgebraicTopologyPartII §16.1a.
 
 **Checks.**
@@ -936,15 +945,18 @@ o-minimal structures*, 4.8(1)).
 - The cone `{x² + y² = z²}` with strata `{0}` and its complement, which has two connected
   components, refined to three connected strata.
 - `{xy = 0}` with the origin below the four open half-axes.
-- `|x|^{k + 1/2}` (semialgebraic) is `C^k` and not `C^{k+1}` at `0`: strata of class `C^k` for
-  each finite `k` is the general statement, and `C^∞` needs 7.3.
+- The graph of `x ↦ |x|^{k + 1/2}` (semialgebraic) is a `C^k` submanifold of `ℝ²` but not a
+  `C^{k+1}` one at the origin, where its tangent is horizontal. A `C^k` stratification may keep
+  the graph as one stratum; a `C^{k+1}` stratification must split off the origin as a point below
+  the two open branches. At `k = 1`: the derivative `(3/2)|x|^{1/2}·sign x` of `|x|^{3/2}` is
+  continuous, and its second derivative `(3/4)|x|^{−1/2}` is unbounded at `0`.
 
 ### 7.3 The semialgebraic case with smooth strata
 
 For the semialgebraic structure the strata can be taken to be Nash, hence smooth, submanifolds
-(Bochnak, Coste and Roy, *Real Algebraic Geometry*, Theorem 9.7.11). Consequently every compact
-semialgebraic set carries normalised Thom–Mather control data (AlgebraicTopologyPartII §16.1c), a
-smooth unfolding datum (6.3) and the reconstruction of 6.4.
+(Bochnak, Coste and Roy, *Real Algebraic Geometry*, Theorem 9.7.11). Consequently every closed
+semialgebraic subset of `Fin n → ℝ` carries normalised Thom–Mather control data
+(AlgebraicTopologyPartII §16.1c), a smooth unfolding datum (6.3) and the reconstruction of 6.4.
 *Needs:* 6.3, 6.4, 7.2; ShimuraVarieties §3.4b (the semialgebraic structure);
 AlgebraicTopologyPartII §16.1c.
 
@@ -954,6 +966,10 @@ AlgebraicTopologyPartII §16.1c.
 - The cone `{x² + y² = z²}` intersected with the closed unit ball: its unfolding is that of 6.3,
   truncated.
 - `{xy = 0} ∩ [−1, 1]²`: the origin, the four end points and the four open half-segments.
+- Compactness is not needed: `{xy = 0} ⊆ ℝ²` is closed and not compact. With the control data of
+  AlgebraicTopologyPartII §16.1c's fourth Check (`T₀ = ℝ²`, `π₀ = 0`, `ρ₀ = x² + y²`), `Σ₀ = {0}`,
+  `Σ₁` is the four closed rays `|t| ≥ √ε` on the axes, `∂₀Σ₁` is their four end points, and
+  `glue(Σ) = {xy = 0}`.
 
 ### Examples
 
@@ -966,40 +982,42 @@ Within the layer, 7.2 uses 7.1 and 7.3 uses 7.2.
 
 ## Downstream consumers
 
-No roadmap on main or in an open roadmap pull request cites this one. ImplicitAtlases Layer 6.1
-stratifies each thickening over a finite poset with the sets `X^{≥s}` open, which is a
-stratification in the sense of 1.1.
+ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
+open, which is a stratification in the sense of 1.1.
 
 ## References
 
 - J. Lurie, *Higher Algebra*, Appendix A: Definitions A.5.1 (Alexandrov topology and
   stratifications), A.5.3 (open cone), A.5.5 (conically stratified spaces), §A.6 (exit paths),
-  and Proposition A.6.8 (the stratification of the realization of a locally finite simplicial
-  complex by open simplices is conical).
+  Definition A.6.2 and Theorem A.6.4(3) (p. 1428), and Proposition A.6.8 (the stratification of the
+  realization of a locally finite simplicial complex by open simplices is conical).
 - J. Woolf, "The fundamental category of a stratified space", *Journal of Homotopy and Related
-  Structures* 4 (2009), 359–387: the 1-categorical exit-path category.
+  Structures* 4 (2009), 359–387; numbering of arXiv:0811.2580v3: §2 (po-paths) and Definition 2.1
+  (the fundamental category, the 1-categorical exit-path category).
 - D. Treumann, "Exit paths and constructible stacks", *Compositio Mathematica* 145 (2009),
-  1504–1532, doi:10.1112/S0010437X09004229; numbering of arXiv:0708.0659: Example 1.4 (the
-  exit-path category of `S²` stratified by a point).
+  1504–1532, doi:10.1112/S0010437X09004229; numbering of arXiv:0708.0659: Examples 1.3 (the
+  open disc stratified by its centre) and 1.4 (`S²` stratified by a point).
 - L. van den Dries, *Tame Topology and o-minimal Structures*, LMS Lecture Note Series 248,
-  Cambridge University Press (1998): Chapter 4, §2 (Euler characteristic); Chapter 7 (`C¹` cell
-  decomposition); Chapter 8, (2.9) (triangulation).
+  Cambridge University Press (1998): Chapter 4, §2 (Euler characteristic); Chapter 8, (2.9)
+  (triangulation).
 - L. van den Dries and C. Miller, "Geometric categories and o-minimal structures", *Duke
-  Mathematical Journal* 84 (1996), 497–540, 4.8(1) (Whitney stratifications with `C^k` strata).
+  Mathematical Journal* 84 (1996), 497–540: 4.2 (`C^p` cell decomposition), 4.8(1) and
+  Remark (1) after 4.8 (Whitney stratifications with `C^p` and `C^∞` strata).
 - J. Bochnak, M. Coste and M.-F. Roy, *Real Algebraic Geometry*, Ergebnisse der Mathematik 36,
   Springer (1998), Theorem 9.7.11 (Whitney stratification of semialgebraic sets with Nash
   strata).
 - J. Mather, "Notes on topological stability", *Bulletin of the AMS* 49 (2012), 475–506 (Harvard
   notes, 1970): §8 (the tubes `T_{X,Y}`).
-- P. Albin, É. Leichtnam, R. Mazzeo and P. Piazza, "The signature package on Witt spaces",
-  *Annales scientifiques de l'École normale supérieure* 45 (2012), 241–310,
-  doi:10.24033/asens.2165; numbering of the published text and of arXiv:1112.0989: §2.1 (depth of a
-  stratum), Proposition 2.3 (blowdown of a manifold with corners with iterated fibration structure)
-  and Proposition 2.5 (resolution of a smoothly stratified space).
+- P. Albin, É. Leichtnam, R. Mazzeo and P. Piazza, "The signature package on Witt spaces", *Annales
+  scientifiques de l'École normale supérieure* 45 (2012), 241–310, doi:10.24033/asens.2165;
+  numbering of the published text and of arXiv:1112.0989: §2.1 (depth of a stratum), §2.2 (iterated
+  fibration structures), Proposition 2.3 (blowdown of a manifold with corners with iterated
+  fibration structure) and Proposition 2.5 (resolution of a smoothly stratified space).
 - D. Joyce, "On manifolds with corners", in *Advances in Geometric Analysis*, Advanced Lectures in
   Mathematics 21 (2012), 225–258, §2; numbering of arXiv:0910.3518v2: Definition 2.3 (depth),
-  Definitions 2.5–2.6 (local boundary components and the boundary `∂X`), Remark 2.11 (manifolds
-  with faces, embedded corners, the teardrop).
+  Definitions 2.5–2.6 (local boundary components and the boundary `∂X`), Proposition 2.9 (`∂ᵏX` by
+  distinct local boundary components), Remark 2.11 (manifolds with faces, embedded corners, the
+  teardrop).
 - J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics 218,
   Springer (2013), Theorem 9.25 (the collar theorem).
 - D. Ayala, J. Francis and H. L. Tanaka, "Local structures on stratified spaces", *Advances in

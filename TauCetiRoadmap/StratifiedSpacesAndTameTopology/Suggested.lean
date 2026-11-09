@@ -79,7 +79,8 @@ def mk (x : L) (t : Ioi (0 : ℝ)) : OpenCone L := (some (x, t) : Option (L × I
 
 /-- **Layer 2.1.** The cone topology: a set is open when its trace on `L × (0, ∞)` is open and, if
 it contains the apex, it contains a uniform collar `L × (0, ε)`. For compact `L` this is the
-quotient topology of `L × [0, ∞)` with `L × {0}` collapsed; for noncompact `L` it is not. -/
+quotient topology of `L × [0, ∞)` with `L × {0}` collapsed; for `L = ℕ` it is strictly coarser
+than that quotient topology. -/
 instance [TopologicalSpace L] : TopologicalSpace (OpenCone L) where
   IsOpen U := IsOpen {z : L × Ioi (0 : ℝ) | mk z.1 z.2 ∈ U} ∧
     (apex ∈ U → ∃ ε : ℝ, 0 < ε ∧ ∀ (x : L) (t : Ioi (0 : ℝ)), (t : ℝ) < ε → mk x t ∈ U)
