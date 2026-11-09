@@ -11,8 +11,11 @@ import TauCeti.Algebra.Coalgebra.Star
 # Quantum groups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: weighted Schur orthogonality and the
-algebraic compact-type characterization.
+headline theorems against the pinned APIs: weighted Schur orthogonality, the
+algebraic compact-type characterization and, on every Hopf star algebra with a
+positive normalized invariant integral, the uniqueness of the modular automorphism
+of that integral and the Kac equivalence between its traciality and involutivity of
+the antipode.
 
 The following headlines are not statable at the pins without heavy constructions:
 * Layer 0: the standard-solution, fiber-functor and Temperley–Lieb comparisons
@@ -23,9 +26,10 @@ The following headlines are not statable at the pins without heavy constructions
   compact-quantum-group carrier.
 * Layer 2: arbitrary-Hilbert complete reducibility and analytic Peter–Weyl density
   need free Hilbert C*-modules, their multiplier coactions and analytic CQGs.
-* Layer 3: the dense Hopf core, Plancherel completion, modular/Kac comparison and
-  unitary pivotal comparison need that analytic CQG, its Haar GNS completion,
-  the full left Hilbert algebra and unitary tensor-category carriers.
+* Layer 3: the density of the Hopf core, the Plancherel completion, the unitary
+  pivotal comparison and intrinsic dimension of §3.3 and the Tomita comparison of
+  §3.4 need that analytic CQG, its Haar GNS completion, the full left Hilbert
+  algebra and unitary tensor-category carriers.
 * Layer 4: universal/reduced completion and coamenability criteria need the
   constructed C*-completions and their comparison maps.
 * Layers 5–7: the SUq(2)/free orthogonal universal presentations, Tannaka–Krein and
@@ -108,6 +112,25 @@ theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
     [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
+  sorry
+
+/-- The modular automorphism of the Haar integral (§4.1, from §3.2): a positive normalized
+invariant integral `h` on a Hopf star algebra admits exactly one algebra automorphism `θ` with
+`h(ab) = h(b θ(a))` for all `a, b`. It is convolution by the Woronowicz character `f₁` on both
+sides, so `θ(u) = F u F` on a unitary coefficient matrix, and uniqueness is the faithfulness of
+`h` (Neshveyev–Tuset, Theorem 1.7.3, p. 22, where `θ = σ_(-i)`). -/
+theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
+    [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
+    ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
+  sorry
+
+/-- The Kac equivalence (§4.1, from §3.3): a positive normalized invariant integral `h` on a
+Hopf star algebra is a trace exactly when the antipode is involutive (Neshveyev–Tuset,
+Proposition 1.7.7, p. 23). -/
+theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A]
+    [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
+    (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
+      ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
 
 end TauCetiRoadmap.QuantumGroups
