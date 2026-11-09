@@ -13,8 +13,23 @@ permissions: {}
 
 jobs:
   label:
-    if: github.repository == 'TauCetiProject/TauCetiRoadmap'
-    runs-on: ubuntu-latest
+    # Reject ordinary comments before allocating a runner. This broad, case-insensitive
+    # prefilter must include every label below; the parser still enforces exact commands.
+    if: >-
+      github.repository == 'TauCetiProject/TauCetiRoadmap' && (
+        contains(github.event.comment.body, 'dont-repair-in-queue') ||
+        contains(github.event.comment.body, 'awaiting-author') ||
+        contains(github.event.comment.body, 'awaiting-review') ||
+        contains(github.event.comment.body, 'awaiting-dependencies') ||
+        contains(github.event.comment.body, 'roadmap-feedback') ||
+        contains(github.event.comment.body, 'meta') ||
+        contains(github.event.comment.body, 'documentation') ||
+        contains(github.event.comment.body, 'enhancement') ||
+        contains(github.event.comment.body, 'help wanted')
+      )
+    runs-on:
+      - nscloud-ubuntu-24.04-amd64-2x4-with-features
+      - namespace-features:github.run-id=${{ github.run_id }}
     timeout-minutes: 5
     steps:
       # No checkout: neither PR code nor comment text is ever executed.
