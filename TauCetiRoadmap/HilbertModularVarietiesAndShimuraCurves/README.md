@@ -40,7 +40,7 @@ Tau Ceti roadmaps supply the general objects, and nothing they contain is repeat
 | StableReduction, Layers 0, 1, 4, 5, 6 | Relative curves over DVRs, nodes and dual multigraphs, blow-ups and divisors on arithmetic surfaces, regular and minimal models, numerical types. |
 | JacobianChallenge, Layer A | Line bundles, divisor classes, Picard groups and degree, used for the rational quaternionic Hodge line. |
 | ModularCurves | The elliptic moduli problems and their paired torsion twists, specialized in H5 and H6. |
-| ClassFieldTheory, Layer 12; Chebotarev, Layer 10 | Ray-class characters and reciprocity, and infinitude of Frobenius classes, used in residual Eisenstein vanishing and early Galois arguments. |
+| ClassFieldTheory, Layers 12, 13; Chebotarev, Layer 10 | Ray-class characters and reciprocity (Layer 12); the Hilbert and narrow Hilbert class fields with their splitting and unramifiedness properties, and the cyclic Hasse norm theorem (Layer 13); infinitude of Frobenius classes (Chebotarev). Used in the central twist of §R18.1.1a, the norm-factor forms of §R18.3.7, residual Eisenstein vanishing (§R18.4.8), the auxiliary-prime and ordered-class conditions of §H6.5, the Hasse principle of §R18.5.12b, and the auxiliary primes and early Galois arguments of §§R18.4.18 and R18.4.27. |
 | DeformationAndDerivedPatchingAlgebra, §3.3 | Generic module miracle flatness over a regular local base; §R18.4.30 proves the MCM support-dimension specialization for the patched local-type rings. |
 | AlgebraicTopology, Layer 6 | Direct and cellular cochains and cohomology with local coefficients, the cellular-to-singular comparison, and the identification of cochains with coefficients in the dual system with Hom of twisted chains, which is the pinned Tau Ceti twisted cochain complex; this roadmap adds only the arithmetic finite-free dual adapter. |
 
@@ -97,7 +97,7 @@ The general objects of the table under Scope and ownership are imported with the
 - **IntegralHeckeAndGaloisDeterminants.** Reconstruction of a representation from an algebraically closed or continuous determinant (Layer 1), the GLₙ Hecke polynomial `X²−T_vX+q_vS_v` with the arithmetic-to-geometric Frobenius conversion (§3a.1), and compact determinant gluing (Layer 4).
 - **QuadraticFormInvariants** (Layer 2): quaternion algebras, conjugation, reduced norm and trace, real matrix splitting and CM scalar extension.
 - **StableReduction** (Layers 0, 1, 4, 5, 6). Relative curves and DVR extensions, distinguishing ramified from unramified base change. Nodes, normalization and dual multigraphs with thickness, branches, loops and repeated edges. Codimension-two extension and Cartier divisors on regular surfaces. Regular proper models and the uniqueness of the minimal regular model in positive genus. Numerical types. Finite group quotients of models are not part of Layer 5 and are constructed here.
-- **AlgebraicVectorBundles** (L0), **JacobianChallenge** (Layer A), **ModularCurves**, **ClassFieldTheory** (Layer 12), **Chebotarev** (Layer 10) and **AlgebraicTopology** (Layer 6), as in the table. The Artin map of ClassFieldTheory is arithmetic and is inverted wherever a geometric normalization is declared.
+- **AlgebraicVectorBundles** (L0), **JacobianChallenge** (Layer A), **ModularCurves**, **ClassFieldTheory** (Layers 12, 13), **Chebotarev** (Layer 10) and **AlgebraicTopology** (Layer 6), as in the table. The Artin map of ClassFieldTheory is arithmetic and is inverted wherever a geometric normalization is declared.
 
 ### From neighbouring roadmap layers
 
@@ -1289,7 +1289,7 @@ The adjugate reverses products, `adj(γδ)=adj(δ)adj(γ)`, so `α↦α∘adj(γ
 
 ### Dependencies
 
-This layer uses earlier layers H1, H0, H3, H2; AbelianSchemesAndArithmeticModuli (A3); AdelicAlgebraicGroups (Layer 4); AlgebraicModuliForArithmeticGeometry (§§5.1–5.4); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1); PELModuli (M1); ShimuraVarieties (§§8.1–8.5, 8.22); Tau Ceti `NumberField.unitsMulEquivTorsionProdMultiplicative`; Mathlib `Matrix.adjugate_mul_distrib`, `Matrix.det_adjugate`, `QuotientGroup.mk'`.
+This layer uses earlier layers H1, H0, H3, H2; AbelianSchemesAndArithmeticModuli (A3); AdelicAlgebraicGroups (Layer 4); AlgebraicModuliForArithmeticGeometry (§§5.1–5.4); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1); PELModuli (M1); ShimuraVarieties (§§8.1–8.5, 8.22); the Tau Ceti roadmap ModularCurves (Layers 3B–3D, 8); Tau Ceti `NumberField.unitsMulEquivTorsionProdMultiplicative`; Mathlib `Matrix.adjugate_mul_distrib`, `Matrix.det_adjugate`, `QuotientGroup.mk'`.
 
 ## Layer H5: Modular comparisons, Hodge factors and algebraic weights
 
@@ -1489,7 +1489,7 @@ Nothing is asserted at other places, for other residual modules, or for local mo
 
 (Source: [Tay02](#references) §1, pp.6–10, for the residual data, the Weil numbers and the auxiliary prime, Lemma 1.1 and the choice of `L, ψ, N` and M; Lemma 1.2 and proof, pp.10–12; Lemma 1.3, p.12; and the moduli space and its local points, p.13. [Rap78](#references) §§2.9.1–2.9.6, pp.273–274, for the Tate HBAV, its torsion and its polarization module.)
 
-*Needs:* [H6.3 Selected component descent and irreducibility](#h63-selected-component-descent-and-irreducibility), [H6.1 Simultaneous torsion Isom torsor](#h61-simultaneous-torsion-isom-torsor), [H6.4 Real torsion points with polarization signature](#h64-real-torsion-points-with-polarization-signature), [H1.3 Ordered c-polarization](#h13-ordered-c-polarization); [AbelianSchemesAndArithmeticModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AbelianSchemesAndArithmeticModuli/README.md) `A4`, `A2`, `A3`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.4.20–R07.4.24`, `R07.6.8`; [NeronModelsAndSemistableAbelianVarieties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NeronModelsAndSemistableAbelianVarieties/README.md) `§3.14`; [ArithmeticGaloisDuality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisDuality/README.md) `D7.4`; Tau Ceti roadmap [ClassFieldTheory, layer 12 separate arithmetic global existence the norm index and the global correspondence](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-12-separate-arithmetic-global-existence-the-norm-index-and-the-global-correspondence); Tau Ceti `NumberField.NarrowClassGroup.instFinite`.
+*Needs:* [H6.3 Selected component descent and irreducibility](#h63-selected-component-descent-and-irreducibility), [H6.1 Simultaneous torsion Isom torsor](#h61-simultaneous-torsion-isom-torsor), [H6.4 Real torsion points with polarization signature](#h64-real-torsion-points-with-polarization-signature), [H1.3 Ordered c-polarization](#h13-ordered-c-polarization); [AbelianSchemesAndArithmeticModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AbelianSchemesAndArithmeticModuli/README.md) `A4`, `A2`, `A3`; [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.4.20–R07.4.24`, `R07.6.8`; [NeronModelsAndSemistableAbelianVarieties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NeronModelsAndSemistableAbelianVarieties/README.md) `§3.14`; [ArithmeticGaloisDuality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisDuality/README.md) `D7.4`; [ClassFieldTheory](../ClassFieldTheory/README.md) `Layers 12, 13`; Tau Ceti `NumberField.NarrowClassGroup.instFinite`.
 
 ### H6.6 Allen elliptic twists and Weil restriction
 
@@ -1564,7 +1564,7 @@ Condition (C6) of §H6.5 is not automatic. For `l=5` and `k=𝔽₅` one has `ζ
 
 ### Dependencies
 
-This layer uses earlier layers H1, H4, H0, H5; AbelianSchemesAndArithmeticModuli (A2, A3, A4, A5, A6); AlgebraicModuliForArithmeticGeometry (§3.5); ArithmeticGaloisDuality (D7); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.6); NeronModelsAndSemistableAbelianVarieties (§3.14); PELModuli (M1, M2, M3); the Tau Ceti roadmap ClassFieldTheory; Tau Ceti `NumberField.NarrowClassGroup.instFinite`; Mathlib `AlgebraicGeometry.Scheme`.
+This layer uses earlier layers H1, H4, H0, H5; AbelianSchemesAndArithmeticModuli (A2, A3, A4, A5, A6); AlgebraicModuliForArithmeticGeometry (§3.5); ArithmeticGaloisDuality (D7); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.6); NeronModelsAndSemistableAbelianVarieties (§3.14); PELModuli (M1, M2, M3); the Tau Ceti roadmap ClassFieldTheory (Layers 12, 13); Tau Ceti `NumberField.NarrowClassGroup.instFinite`; Mathlib `AlgebraicGeometry.Scheme`.
 
 ## Layer R18.1: Quaternionic canonical curves and the PEL bridge
 
@@ -1756,7 +1756,7 @@ For `F=ℚ` and B indefinite of discriminant 6 the canonical curve is compact, h
 
 ### Dependencies
 
-This layer uses AdelicAlgebraicGroups (Layer 3); ModularCurvesPartII (§§3.1, 3.14, 8.1); PELModuli (M0, M1, M3); ReductiveGroupsPartII (RG2.0, RG2.0a, RG2.3); ShimuraVarieties (§§P.1, P.3, 8.1–8.5, 8.22); the Tau Ceti roadmaps QuadraticFormInvariants; Mathlib `AlgebraicGeometry.Scheme`.
+This layer uses AdelicAlgebraicGroups (Layer 3); ModularCurvesPartII (§§3.1, 3.14, 8.1); PELModuli (M0, M1, M3); ReductiveGroupsPartII (RG2.0, RG2.0a, RG2.3); ShimuraVarieties (§§P.1, P.3, 8.1–8.5, 8.22); the Tau Ceti roadmaps ClassFieldTheory (Layer 12), QuadraticFormInvariants, StableReduction (Layer 5); Mathlib `AlgebraicGeometry.Scheme`.
 
 ## Layer R18.5, part 1: Local Drinfeld geometry, very free quotients and auxiliary PEL factors
 
@@ -3353,7 +3353,7 @@ For weight two the coefficient module has rank one; for degree two and weight fo
 
 ### Dependencies
 
-This layer uses AdelicAlgebraicGroups (Layer 3, Layer 4, §4.5, §5.3); AutomorphicFormsOnReductiveGroups (§7.6); GL2AutomorphicRepresentationsAndTransfer (R16.2.13, R16.6.3, R17.3.8a–R17.3.8d, R17.3.9); AutomorphicSpectralTheory (Layer 4, Layer 6); SmoothRepresentationsOfLocalGroups (SR.0:abelian-category, SR.2, SR.3); the Tau Ceti roadmaps QuadraticFormInvariants; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`, `QuaternionAlgebra.normForm_coe`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`, `TauCeti.SU2.finrank_symPower`, `TauCeti.SU2.isIrreducible_symPower`, `TauCeti.SU2.symPower`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearEquiv`, `Module.Finite`, `Module.Free`, `MonoidAlgebra`, `MvPolynomial.eval₂Hom`, `QuotientGroup.mk`, `Representation`, `Representation.invariants`, `RingHom.ker`, `RingHom.ker_isMaximal_of_surjective`.
+This layer uses AdelicAlgebraicGroups (Layer 3, Layer 4, §4.5, §5.3); AutomorphicFormsOnReductiveGroups (§7.6); GL2AutomorphicRepresentationsAndTransfer (R16.2.13, R16.6.3, R17.3.8a–R17.3.8d, R17.3.9); AutomorphicSpectralTheory (Layer 4, Layer 6); SmoothRepresentationsOfLocalGroups (SR.0:abelian-category, SR.2, SR.3); the Tau Ceti roadmaps ClassFieldTheory (Layer 12), GlobalQuadraticForms (§§5.5, 6.1), QuadraticFormInvariants; Tau Ceti `NumberField.card_elementaryTwoQuotient_units`, `QuaternionAlgebra.normForm_coe`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`, `TauCeti.SU2.finrank_symPower`, `TauCeti.SU2.isIrreducible_symPower`, `TauCeti.SU2.symPower`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearEquiv`, `Module.Finite`, `Module.Free`, `MonoidAlgebra`, `MvPolynomial.eval₂Hom`, `QuotientGroup.mk`, `Representation`, `Representation.invariants`, `RingHom.ker`, `RingHom.ker_isMaximal_of_surjective`.
 
 ## Layer R18.4: Coefficient cohomology, Ihara's lemma and finite-level comparisons
 
@@ -3527,7 +3527,7 @@ k is a finite field of characteristic l; the associated residual representation 
 
 (Source: [MS19](#references) Propositions 2.3–2.4, pp.9–10 (Constant and finite local coefficient cohomology in degrees zero and two has Eisenstein support))
 
-*Needs:* [R18.4.7 Hecke action on quaternionic connected components](#r1847-hecke-action-on-quaternionic-connected-components); [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) `ALS.4.10`, `ALS.5a.4`; [IntegralHeckeAndGaloisDeterminants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md) `§1.2`; Tau Ceti roadmap [ClassFieldTheory, layer 12 separate arithmetic global existence the norm index and the global correspondence](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-12-separate-arithmetic-global-existence-the-norm-index-and-the-global-correspondence); Tau Ceti roadmap [Chebotarev, layer 10 dirichlet density chebotarev](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Chebotarev/README.md#layer-10-dirichlet-density-chebotarev).
+*Needs:* [R18.4.7 Hecke action on quaternionic connected components](#r1847-hecke-action-on-quaternionic-connected-components); [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) `ALS.4.10`, `ALS.5a.4`; [IntegralHeckeAndGaloisDeterminants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md) `§1.2`; [ClassFieldTheory](../ClassFieldTheory/README.md) `Layer 12`; Tau Ceti roadmap [Chebotarev, layer 10 dirichlet density chebotarev](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/Chebotarev/README.md#layer-10-dirichlet-density-chebotarev).
 
 ### R18.4.9 Adjoint Hecke localization and integral duality
 
