@@ -251,7 +251,9 @@ Each of these could go two ways; every milestone uses the choice made here.
   satisfiable by no `F`. The indices agree, `[PSL₂(ℤ) : Γ̄₀(N)] = [SL₂(ℤ) : Γ₀(N)]`, because
   `-I ∈ Γ₀(N)`. The **Petersson inner product** is
   `⟨f, g⟩ = ∫_F f ḡ dμ`, conjugate-linear in the second slot, with no normalization by the
-  covolume. The norm of a form is `‖f‖ = ⟨f, f⟩^{1/2}`. On `L²(N, χ)`, read as the `χ`-isotypic
+  covolume; `F` is the Dirichlet domain of `Γ̄₀(N)` centred at `2i` (0.5), and the value is the
+  same over every measurable fundamental domain for square-integrable automorphic `f, g`. The norm
+  of a form is `‖f‖ = ⟨f, f⟩^{1/2}`. On `L²(N, χ)`, read as the `χ`-isotypic
   subspace of `L²(X_{Γ₁(N)}, μ_{Γ₁(N)})` (0.5), the Petersson product is
   `petersson N f g = D⁻¹ * inner ℂ ĝ f̂`, where f̂ and ĝ are their Γ₁(N)-quotient
   classes and `D = [Γ̄₀(N) : Γ̄₁(N)]` is the positive index of the images in `PSL(2, ℝ)`
@@ -342,7 +344,16 @@ Each of these could go two ways; every milestone uses the choice made here.
   `CuspOrbit`, `CuspDatum` with `scaling`, `generator`, `width`, `zpowers_generator`,
   `scaling_mul_generator_mul_inv`, horodiscs, `coordinate`, `qCoordinate`, finiteness of cusp orbits,
   `widthIndex`); `TauCeti.Analysis.Complex.UpperHalfPlane.*` (`FundamentalDomain`,
-  `DirichletDomain`, `CuspCoordinate`, `Growth`, `Stabilizer`).
+  `DirichletDomain`, `CuspCoordinate`, `Growth`, `Stabilizer`). The Dirichlet domain of a group
+  acting on a metric space is `TauCeti.dirichletDomain G p` in
+  `TauCeti/MeasureTheory/Group/DirichletDomain/Basic.lean`, the points at least as close to `p` as
+  to every point of its orbit; `Subgroup.isFundamentalDomain_dirichletDomain` in
+  `TauCeti/Analysis/Complex/Fuchsian/DirichletDomain.lean` makes it a measurable fundamental domain
+  for every discrete `Γ ≤ PSL(2, ℝ)` and every centre `p ∈ ℍ` with trivial stabilizer in `Γ`
+  (`freeLocus Γ ℍ`), and the image of `PSL(2, ℤ)` in `PSL(2, ℝ)` is discrete (the instance
+  `DiscreteTopology psl2zToPSL2R.range` in
+  `TauCeti/Topology/Algebra/Matrix/ProjectiveSpecialLinearGroup.lean`). Section 0.5 integrates the
+  Petersson product over the Dirichlet domain of `Γ̄₀(N)` centred at `2i`.
 - `TauCeti.NumberTheory.ModularForms.DiamondOperators`, `CharacterDecomp`, `Parity`
   (`diamondOp`, `modFormCharSpace`, `cuspFormCharSpace`, `mem_modFormCharSpace_iff_nebentypus`),
   `TauCeti.NumberTheory.ModularForms.Fricke.*` (`frickeGL`, `frickeOperator`, `frickeScalar`,
@@ -548,9 +559,16 @@ image of `Γ₀(N)` in `PSL(2, ℝ)`, transported along the quotient), and that 
 `μ_{Γ₀(N)}(X_{Γ₀(N)})` is `(π/3) [SL(2, ℤ) : Γ₀(N)] = (π/3) N ∏_{p ∣ N}(1 + 1/p)`, from §0.1's
 level-one value `π/3` and Tau Ceti's `MeasureTheory.covolume_eq_card_mul_covolume` (the index in
 `PSL(2, ℤ)` equals the index in `SL(2, ℤ)` because `-I ∈ Γ₀(N)`). Define
-`petersson N f g := ∫_F f ḡ dμ` for square-integrable `f, g ∈ A(N, χ)` and prove independence of
-`F` (`IsFundamentalDomain.setIntegral_eq`), sesquilinearity, positivity, and the invariance
-`⟨f ∘ σ, g ∘ σ⟩ = ⟨f, g⟩` for `σ` normalizing `Γ₀(N)`.
+`petersson N f g := ∫_F f ḡ dμ` over the Dirichlet domain
+`F = TauCeti.dirichletDomain (gamma0PSL N) (2i)` of `Γ̄₀(N)` centred at `2i`. Prove that `F` is a
+measurable fundamental domain of `Γ̄₀(N)` (`Subgroup.isFundamentalDomain_dirichletDomain`): `Γ̄₀(N)`
+is discrete as a subgroup of the discrete image of `PSL(2, ℤ)`, and `2i` has trivial stabilizer in
+`PSL(2, ℤ)`, since `Im(γ · 2i) = 2/(4c² + d²)` equals `2` only for `c = 0`, `d = ±1`, where
+`γ = ±T^b` moves `2i` to `2i + b`. Prove that for square-integrable `f, g ∈ A(N, χ)` the integral
+is the same over every measurable fundamental domain of `Γ̄₀(N)`
+(`IsFundamentalDomain.setIntegral_eq`, `f ḡ` being invariant since `|χ(d)| = 1`), and prove
+sesquilinearity, positivity, and the invariance `⟨f ∘ σ, g ∘ σ⟩ = ⟨f, g⟩` for `σ` normalizing
+`Γ₀(N)`.
 
 For `γ ∈ Γ₀(N)` the map `f ↦ f ∘ γ` descends to a unitary operator `⟨d_γ⟩` of
 `L²(X_{Γ₁(N)}, μ_{Γ₁(N)})` (`Γ₁(N)` is normal in `Γ₀(N)`, and `γ` preserves `μ_{Γ₁(N)}` by §0.1's
@@ -569,7 +587,8 @@ of `L²(N, χ)` with its Petersson norm onto `Lp ℂ 2 (volume.restrict F)`; and
 `X_{Γ₁(N)} → X_{Γ₀(N)}` identifies `L²(X_{Γ₀(N)}, μ_{Γ₀(N)})` with `L²(N, 1)`, multiplying squared
 norms by `[Γ̄₀(N) : Γ̄₁(N)]`.
 *Needs:* 0.3; CongruenceSpectralGap §0.1; Mathlib's `IsFundamentalDomain`, `Lp`; Tau Ceti's
-`Covolume` and `MeasureTheory.covolume_eq_card_mul_covolume`.
+`Covolume`, `MeasureTheory.covolume_eq_card_mul_covolume`, `TauCeti.dirichletDomain`,
+`Subgroup.isFundamentalDomain_dirichletDomain` and the discreteness of the image of `PSL(2, ℤ)`.
 
 
 The effective group, square-integrability, Petersson product and character Hilbert space.
@@ -581,6 +600,7 @@ The effective group, square-integrability, Petersson product and character Hilbe
 **Checks.**
 
 - For N = 1 the effective group has covolume π/3; the constant 1 has squared norm π/3 and the zero function has norm 0.
+- The centre 2i has trivial stabilizer in PSL₂(ℤ): Im(γ · 2i) = 2/(4c² + d²) is 2 only for c = 0, d = ±1, and then γ = ±T^b fixes 2i only for b = 0. The Dirichlet domain of Γ̄₀(1) centred at 2i has area π/3, while the one centred at i, which S fixes, is the union of the standard domain and its S-image, of area 2π/3, and is not a fundamental domain.
 - For N = 2 the covolume and squared norm of 1 are π. Multiplication by 2i multiplies squared norm by 4, giving 4π.
 - On a width-one cusp, √y has truncated squared integral log Y, whereas 1 has integral from 1 to infinity equal to 1; the former fails square-integrability.
 - At N=1 and trivial χ, `petersson 1 i 1 = iπ/3 = inner ℂ 1 i` and `petersson 1 1 i = −iπ/3 = inner ℂ i 1` on the quotient classes. The unswapped native products have the opposite signs, while both diagonal products at i are π/3.
@@ -1415,8 +1435,9 @@ The series and the coefficient comparison.
 
 Define the gamma factor `γ(s) := Γ_ℝ(s + δ + ir) Γ_ℝ(s + δ - ir)` with `δ` the parity (4.3) and
 `r` the spectral parameter (for an exceptional eigenvalue, `ir = -t` real, and the same formula),
-and `completedLFunction f : ℂ → ℂ` as the function characterized on `Re s > 1` by
-`Λ(s, f) = N^{s/2} γ(s) L(s, f)`. Prove, for an even newform, the **Mellin representation**
+and the predicate `IsCompletedLFunction N lam f Λ`: `Λ : ℂ → ℂ` is entire and
+`Λ(s) = N^{s/2} γ(s) L(s, f)` on `Re s > 1`. Such a `Λ` is unique by the identity theorem and is
+written `Λ(·, f)`. Prove, for an even newform, the **Mellin representation**
 `Λ(s, f) = N^{1/4} a_f(1)⁻¹ ∫₀^∞ f(iy/√N) y^{s - 1/2} dy/y` (with the factor-two convention
 `f(iy) = 4√y Σ_{n ≥ 1} a_f(n) K_{ir}(2πny)`, and 2.1 (v) giving
 `∫₀^∞ f(iy) y^{s-1/2} dy/y = a_f(1) Γ_ℝ(s + ir) Γ_ℝ(s - ir) L(s, f)` exactly, the constants
@@ -1437,8 +1458,8 @@ functional equation every zero of `Λ(·, f)` lies in `0 ≤ Re s ≤ 1`.
 Completion and functional equation.
 
 - The completed function agrees with the gamma product on Re s > 1 for both spectral branches.
-- `differentiable_completedLFunction` states entirety.
-- `completedLFunction_functional_equation` includes the unit-modulus Fricke scalar and the conjugate-reflection form.
+- `exists_completedLFunction` states that a newform has an entire completed `L`-function.
+- `completedLFunction_functional_equation` relates the completed `L`-functions of a newform and of its conjugate reflection, with the unit-modulus Fricke scalar.
 
 **Checks.**
 

@@ -4,6 +4,7 @@ import Mathlib
 import TauCeti.NumberTheory.ModularForms.HeckeSlash.Nebentypus.Ring
 import TauCeti.LinearAlgebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.Analysis.Complex.UpperHalfPlane.PSL.Action
+import TauCeti.MeasureTheory.Group.DirichletDomain.Basic
 
 /-!
 # Maass forms: target signatures
@@ -120,27 +121,22 @@ def IsSquareIntegrable (N : ℕ) (f : ℍ → ℂ) : Prop :=
     IntegrableOn (fun z => ‖f z‖ ^ 2) F volume
 
 /-- `README.md`, Layer 0, 0.5. The Petersson inner product `⟨f, g⟩ = ∫_F f ḡ dμ` of weight `0`,
-conjugate-linear in the second slot, unnormalized, over a classically chosen measurable fundamental
-domain `F` of `Γ̄₀(N)`; the value is independent of the domain for square-integrable automorphic `f, g` (README §0.5). -/
-def petersson (N : ℕ) (f g : ℍ → ℂ) : ℂ := by
-  classical exact
-    if h : ∃ F : Set ℍ, IsFundamentalDomain (gamma0PSL N) F volume then
-      ∫ z in h.choose, f z * (starRingEnd ℂ) (g z) ∂volume
-    else 0
+conjugate-linear in the second slot, unnormalized, over the Dirichlet domain `F` of `Γ̄₀(N)` centred
+at `2i` (`TauCeti.dirichletDomain`). The centre has trivial stabilizer in `PSL(2, ℤ)`, so `F` is a
+measurable fundamental domain of `Γ̄₀(N)`, and the value is the same over every measurable
+fundamental domain for square-integrable automorphic `f, g` (README §0.5). -/
+def petersson (N : ℕ) (f g : ℍ → ℂ) : ℂ :=
+  ∫ z in TauCeti.dirichletDomain (gamma0PSL N) (pt 0 2), f z * (starRingEnd ℂ) (g z) ∂volume
 
 /-- `README.md`, Layer 0, 0.5. The Petersson product vanishes when its first argument is `0`. -/
 theorem petersson_zero_left (N : ℕ) (g : ℍ → ℂ) : petersson N 0 g = 0 := by
-  unfold petersson
-  split_ifs <;> simp
+  simp [petersson]
 
 /-- `README.md`, Layer 0, 0.5. Linearity of the Petersson product in the first slot: scalars. -/
 theorem petersson_smul_left (N : ℕ) (c : ℂ) (f g : ℍ → ℂ) :
     petersson N (c • f) g = c * petersson N f g := by
-  unfold petersson
-  split_ifs
-  · simp only [Pi.smul_apply, smul_eq_mul, mul_assoc]
-    exact integral_const_mul c _
-  · simp
+  simp only [petersson, Pi.smul_apply, smul_eq_mul, mul_assoc]
+  exact integral_const_mul c _
 
 /-! ## Layer 1: the carrier and the spectral parameter -/
 
@@ -512,35 +508,35 @@ theorem lfunction_eulerProduct {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ
 otherwise). -/
 def parity (f : ℍ → ℂ) : ℕ := by classical exact if IsEven f then 0 else 1
 
-/-- `README.md`, Layer 6, 6.2. The completed `L`-function `Λ(s, f)`: the entire function that agrees
-with `N^{s/2} Γ_ℝ(s + δ + ir) Γ_ℝ(s + δ - ir) L(s, f)` on `Re s > 1` (unique by the identity
-theorem), chosen classically, and that product itself when no entire extension exists. For an
-exceptional eigenvalue the chosen order is `t = √(1/4 - λ)`; changing its sign exchanges the gamma factors. -/
-def completedLFunction (N : ℕ) (lam : ℝ) (f : ℍ → ℂ) : ℂ → ℂ :=
-  let ir : ℂ := besselOrder lam
-  let Λ₀ : ℂ → ℂ := fun s => (N : ℂ) ^ (s / 2) * Gammaℝ (s + parity f + ir) *
-    Gammaℝ (s + parity f - ir) * lfunction f s
-  by classical exact
-    if h : ∃ Λ : ℂ → ℂ, Differentiable ℂ Λ ∧ ∀ s : ℂ, 1 < s.re → Λ s = Λ₀ s then h.choose
-    else Λ₀
+/-- `README.md`, Layer 6, 6.2. `Λ` is a completed `L`-function of `f`: an entire function that agrees
+with `N^{s/2} Γ_ℝ(s + δ + ir) Γ_ℝ(s + δ - ir) L(s, f)` on `Re s > 1`. Such a `Λ` is unique by the
+identity theorem, and is written `Λ(·, f)`. For an exceptional eigenvalue the order is
+`t = √(1/4 - λ)`; changing its sign exchanges the gamma factors. -/
+def IsCompletedLFunction (N : ℕ) (lam : ℝ) (f : ℍ → ℂ) (Λ : ℂ → ℂ) : Prop :=
+  Differentiable ℂ Λ ∧ ∀ s : ℂ, 1 < s.re →
+    Λ s = (N : ℂ) ^ (s / 2) * Gammaℝ (s + parity f + besselOrder lam) *
+      Gammaℝ (s + parity f - besselOrder lam) * lfunction f s
 
-/-- `README.md`, Layer 6, 6.2. `Λ(·, f)` is entire. -/
-theorem differentiable_completedLFunction {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N}
+/-- `README.md`, Layer 6, 6.2. A newform has an entire completed `L`-function: `Λ(·, f)` exists. -/
+theorem exists_completedLFunction {N : ℕ} [NeZero N] {χ : DirichletCharacter ℂ N}
     {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f) :
-    Differentiable ℂ (completedLFunction N lam f) := by
+    ∃ Λ : ℂ → ℂ, IsCompletedLFunction N lam f Λ := by
   sorry
 
 /-- Conjugate reflection has the conjugate positive Fourier coefficients and the conjugate
 nebentypus, with first coefficient one when the original newform is normalized. -/
 def conjugateReflection (f : ℍ → ℂ) : ℍ → ℂ := fun z => star (reflection f z)
 
-/-- The completed functional equation for every nebentypus, including exceptional eigenvalues.
-The Fricke pseudo-eigenvalue has modulus one and multiplies the conjugate-reflection newform. -/
+/-- `README.md`, Layer 6, 6.2. The completed functional equation for every nebentypus, including
+exceptional eigenvalues, between the completed `L`-functions of `f` and of its conjugate reflection
+(each unique). The Fricke pseudo-eigenvalue has modulus one and multiplies the conjugate-reflection
+newform. -/
 theorem completedLFunction_functional_equation {N : ℕ} [NeZero N]
-    {χ : DirichletCharacter ℂ N} {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f) :
+    {χ : DirichletCharacter ℂ N} {lam : ℝ} {f : ℍ → ℂ} (hf : IsNewform N χ lam f)
+    {Λ Λ' : ℂ → ℂ} (hΛ : IsCompletedLFunction N lam f Λ)
+    (hΛ' : IsCompletedLFunction N lam (conjugateReflection f) Λ') :
     ∃ c : ℂ, ‖c‖ = 1 ∧ frickeOperator N f = c • conjugateReflection f ∧
-      ∀ s : ℂ, completedLFunction N lam f s =
-        c * (-1) ^ parity f * completedLFunction N lam (conjugateReflection f) (1 - s) := by
+      ∀ s : ℂ, Λ s = c * (-1) ^ parity f * Λ' (1 - s) := by
   sorry
 
 /-! ## Layer 8: the LMFDB layer -/
