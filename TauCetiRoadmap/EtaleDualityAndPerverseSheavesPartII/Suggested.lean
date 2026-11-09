@@ -323,7 +323,8 @@ theorem cohomologicalDimension_le_of_strictlyLocal
 a henselian noetherian local domain of Krull dimension d that is a G-ring (for a noetherian
 local ring, quasi-excellence), with fraction field K and residue field k, and ℓ a prime
 invertible in A. If ℓ ≠ 2 or k is not formally real, then cd_ℓ(K) = d + cd_ℓ(k), the
-ℓ-cohomological dimensions of the absolute Galois groups taken in ℕ∞. For A strictly henselian
+ℓ-cohomological dimensions of the absolute Galois groups taken in ℕ∞, with coefficient modules
+in the universe of A, the universe of both Galois groups. For A strictly henselian
 this is cd_ℓ(K) = d, conjectured in SGA 4 X 3.1. The upper bound is ILO 0, Corollaire 8
 (ILO14 line 396); the lower bound is SGA 4 X, Corollaire 2.4 (SGA4 line 1338). The hypothesis
 on k is needed: for ℓ = 2 the henselization of ℝ[x, y]/(x² + y²) at the origin has
@@ -333,8 +334,8 @@ theorem cohomologicalDimension_fractionRing_eq
     [TauCeti.Excellence.IsGRing A] (d : ℕ) (hdim : ringKrullDim A = d)
     (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : A))
     (hreal : ℓ ≠ 2 ∨ ¬ IsFormallyReal (IsLocalRing.ResidueField A)) :
-    TauCeti.cohomologicalDimensionAt.{0} ℓ (Field.absoluteGaloisGroup (FractionRing A)) =
-      (d : ℕ∞) + TauCeti.cohomologicalDimensionAt.{0} ℓ
+    TauCeti.cohomologicalDimensionAt.{u} ℓ (Field.absoluteGaloisGroup (FractionRing A)) =
+      (d : ℕ∞) + TauCeti.cohomologicalDimensionAt.{u} ℓ
         (Field.absoluteGaloisGroup (IsLocalRing.ResidueField A)) := by
   sorry
 
