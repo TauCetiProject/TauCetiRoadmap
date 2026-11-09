@@ -446,7 +446,9 @@ class, and ramified primes are excluded. No second ideal weight or Frobenius car
 
 ### From TauCetiRoadmap.LFunctions
 
-What the Tau Ceti pin does not realize of the [L-functions roadmap](../LFunctions/README.md):
+What the Tau Ceti pin does not realize of the [L-functions roadmap](../LFunctions/README.md),
+consumed by the names that roadmap's `Suggested.lean` declares in the layer cited (its README
+states the same targets in prose):
 
 - Layer 0: the average-coefficient-growth predicate, which that roadmap states in prose: what is
   consumed is that it makes `LSeries d.coeff` absolutely convergent on `Re s > 1` and bounded on
@@ -873,8 +875,13 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
   `s = 2` a pointwise functional equation with only the gamma hypotheses reads `0 = 1`, so the two
   polar exclusions are needed. Its poles are off `{0, 1}`, so a check run only at the `ζ` poles
   misses it.
-- For a non-real primitive character the functional equation relates `χ` to `χ⁻¹`; a statement of
-  the form `continuedL d s ↔ continuedL d (1 − s)` fails at the quartic character modulo `5`.
+- For a non-real primitive character the functional equation relates `χ` to `χ⁻¹`. Take the
+  quartic character `χ` modulo `5` with `χ(2) = i`: it is odd (`χ(−1) = χ(2)² = −1`), so `d` and
+  `d.dual` both have the single real gamma shift `1`, and `d.dual`, whose coefficients are the
+  conjugates, has coefficient `−i` at `2` where `d` has `i`. An equation of the same shape written
+  against `d` itself, with any root number `ε′`, would combine with the true one (the factor
+  `N^{1/2 − s} γ(1 − s)` being a nonzero germ) to give `ε L(s, χ̄) = ε′ L(s, χ)` on `Re s > 1`;
+  the coefficients at `1` force `ε′ = ε`, and those at `2` then give `−i = i`.
 
 ### Examples
 
@@ -1113,8 +1120,10 @@ Assume Dirichlet agreement, meromorphic continuation, the functional equation, t
 coefficient bound and *IsFiniteOrder* `d`. Then for every `δ > 0` and every nonzero clearing
 polynomial `P` as above there is `C` with
 `‖poleClearedContinuedL d P s‖ ≤ C (1 + |Im s|)^{deg P} analyticConductorAt d s ^ ((1/2 + δ)(1 + δ − σ)/(1 + 2δ))`
-for `σ = Re s ∈ [−δ, 1 + δ]`. The arithmetic-conductor powers `N^{1/2+δ}` and `N^0` at the edges are
-carried by hand, not interpolated, and reassembled with 2.2. Corollaries:
+for `σ = Re s ∈ [−δ, 1 + δ]`: Phragmén–Lindelöf between the two edges of 3.3, the convexity bound
+of Iwaniec–Kowalski §5.2 (for `ζ`, Titchmarsh §5.1). The arithmetic-conductor powers
+`N^{1/2+δ}` and `N^0` at the edges are carried by hand, not interpolated, and reassembled with
+2.2. Corollaries:
 
 - **central-line convexity**: at `σ = 1/2` the exponent is `1/4 + δ/2`, so for every `ε > 0`,
   `‖continuedL d (1/2 + it)‖ ≤ C analyticConductorAt d (1/2 + it)^{1/4 + ε}` for a record whose
@@ -1263,8 +1272,11 @@ principle on `ball c R`, for `M > 0`).
 
 For `Λ` of `dedekindZetaData K` or of `heckeData χ`, and `T ≥ 2`, the number of zeros of
 *entireCompletion* in `closedBall (1/2 + iT) 1` is `O(log analyticConductorAt d (iT))`, the
-constant depending on the degree only. Route: base point `c = 2 + iT`, where the Euler product
-gives `‖continuedL d c‖ ≥ ζ_K(2)^{−1}`; radii `3` and `4`; and the ratio bound
+constant depending on the degree only. At `K = ℚ` the disc lies in the strip `|Im s − T| ≤ 1`,
+whose zero count is `O(log T)` for `ζ` (Davenport §15) and `O(log (q (T + 2)))` for a primitive
+Dirichlet `L(s, χ)` (Davenport §16); the general statement is proved here. Route: base point
+`c = 2 + iT`, where the Euler product gives `‖continuedL d c‖ ≥ ζ_K(2)^{−1}`; radii `3` and
+`4`; and the ratio bound
 `sup_{sphere c 4} ‖entireCompletion d‖ / ‖entireCompletion d c‖ ≤ analyticConductorAt d (iT)^B`,
 in which the two gamma factors are compared on the same height range by 1.5 and the uncompleted
 factor is bounded by the wide-strip corollary of 3.4. Bounding *entireCompletion* alone and
@@ -1585,8 +1597,12 @@ from 6.4 and `log 3/2`.
 - At `n = 1`, `q(χ, 0) ≥ 3` (each archimedean factor is at least `3`), so the cap gives
   `c/log q(χ, 0) ≤ 1/2` and the whole region lies in `Re s ≥ 1/2`.
 - The principal character modulo `2` has `L(s) = (1 − 2^{−s}) ζ(s)`, which vanishes at `s = 0`
-  through the deleted Euler factor; an uncapped constant with `c/log 3 ≥ 1` would put `0` in the
-  region and break the comparison of 6.4b.
+  through the deleted Euler factor. Its primitive source is `ζ`, with `q(1, 0) = 3`, so an uncapped
+  constant with `c/log 3 ≥ 1` would put `0` in the region at that conductor, which is the region
+  of 6.3 and of the comparison of 6.4b, and break that comparison: `0` would be a zero of the
+  presented function in the range of 6.3 but a pole, not a zero, of the completed `ζ`. In the
+  modulus coordinate of the Dirichlet statement of 6.4, `q (|Im ρ| + 3) = 6` at `ρ = 0`, so there
+  `0` enters the region only at `c ≥ log 6`.
 - `riemannZeta_zeroFreeRegion` and `dirichletLFunction_zeroFreeRegion` at `χ = 1` agree: the
   trivial character modulo `1` has no zero in the region.
 
