@@ -56,8 +56,9 @@ Not statable at the pins, with the carrier each lacks:
 - `A ⋊_id G ≅ A ⊗_max C*(G)`, the coefficient-tensor identification, nuclearity and exactness
   of crossed products, and Takai duality `(A ⋊_α G) ⋊_α̂ Ĝ ≅ A ⊗ K(L²(G))`: no C*-tensor
   product and no dual action on the full crossed product;
-- the twisted products `A ⋊_(α,ω) G` (D1.CentralTwists, D2.CentralTwists): no twisted crossed
-  product;
+- the twisted products `A ⋊_(α,ω) G`, among them the twisted group C*-algebras
+  `C*(G,ω) = ℂ ⋊_(id,ω) G` of a locally compact group with a continuous 2-cocycle
+  (D1.CentralTwists, D2.CentralTwists): no twisted crossed product;
 - Mackey's theorem that an analytic Borel group with a nonzero σ-finite left-invariant measure
   carries exactly one second-countable locally compact group topology with the given Borel sets
   (D1.BorelPrefix): no class of analytic Borel spaces (Mathlib has `StandardBorelSpace`, which is
