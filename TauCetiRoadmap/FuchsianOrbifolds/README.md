@@ -88,13 +88,18 @@ The roadmap is complete when Tau Ceti proves the following.
   countability of `PSL(2,ℝ)` (Layer 0 item 1) and the isometry of the negative-determinant
   elements of `GL(2,ℝ)` (Layer 0 item 2). A subgroup of `PSL(2,R)` is the public Fuchsian-group
   input; no bespoke structure repeats a subgroup, topology, action, and discreteness fields.
-- **ComplexManifolds Milestones 1–6** supply Milestone 1's restriction of scalars from a complex
-  to the underlying real smooth surface, Milestone 2's canonical orientation of that surface,
-  Milestone 3's named two-chart atlas on `OnePoint ℂ`, Milestone 4's free properly discontinuous
-  holomorphic quotient, local biholomorphism and invariant-map descent, Milestone 5's compatible
-  atlas gluing, and Milestone 6's Hausdorffness, second-countability and proper-map comparisons.
-  Apply Milestone 4 on the free locus and supply the elliptic and cusp charts beyond its free-action
-  hypotheses; use Milestones 5–6 to glue and separate those charts.
+- **ComplexManifolds Milestones 1, 2 and 4–6** supply Milestone 1's restriction of scalars from
+  a complex to the underlying real smooth surface, Milestone 2's canonical orientation of that
+  surface, Milestone 4's free properly discontinuous holomorphic quotient, local biholomorphism and
+  invariant-map descent, Milestone 5's compatible atlas gluing, and Milestone 6's Hausdorffness,
+  second-countability and proper-map comparisons. Apply Milestone 4 on the free locus and supply
+  the elliptic and cusp charts beyond its free-action hypotheses; use Milestones 5–6 to glue and
+  separate those charts.
+- **Tau Ceti supplies the Riemann sphere.** The two-chart atlas on `OnePoint ℂ`, with charts
+  `z ↦ z` away from `∞` and `z ↦ z⁻¹` away from `0`, is Tau Ceti's `OnePoint.instChartedSpace`,
+  analytic by `OnePoint.instIsManifold`
+  (`TauCeti/Geometry/Manifold/Instances/OnePoint/Basic.lean`); ComplexManifolds Milestone 3
+  consumes the same instance.
 - **The universal-covers roadmap (completed) owns universal covers, deck groups, lifting
   criteria, and induced maps on homotopy groups.**  This roadmap identifies the upper-half-plane
   quotient as an instance of that theory and contributes the Fuchsian and orbifold presentations.
@@ -148,19 +153,22 @@ pins lack:
 
 - second countability of `PSL(2,ℝ)` (Layer 0 item 1);
 - the isometric action of the negative-determinant elements of `GL(2,ℝ)` (Layer 0 item 2);
-- the comparison of the Riemannian distance of the Poincaré metric with Mathlib's `dist`
-  (Layer 2 item 1);
-- the comparison of the boundary word of a fundamental polygon with the orientation of cusp
-  meridians (Layer 2 item 5);
+- the comparison of the Riemannian distance of the Poincaré metric with Mathlib's `dist`, and the
+  identification of the Poincaré metric with Tau Ceti's half-space metric on
+  `TauCeti.UpperHalfSpace ℝ` (Layer 2 item 1);
 - the topological genus with `χ = 2 − 2g`, Riemann–Hurwitz in genus form, the Fuchsian
   Riemann–Hurwitz formula and the intrinsic orbifold area formula (Layer 5 items 1, 3, 6 and 7);
 - the minimal areas and their equality cases (Layer 4a).
 
-`Suggested.lean` also declares `CompactifiedQuotient`, an abbreviation of
-`Subgroup.CompactifiedQuotient`, with its atlas `compactifiedChartedSpace`, Tau Ceti's
-`Subgroup.CompactifiedQuotient.instChartedSpace`, and exports the native degree API with `genus`
-and `riemannHurwitz` under the short names `RiemannSurface.*`. All other names in this README
-that begin with `TauCeti`, `Subgroup`, `UpperHalfPlane`, `Matrix`, `QuotientGroup` or
+`Suggested.lean` exports `genus` and `riemannHurwitz` as `RiemannSurface.genus` and
+`RiemannSurface.riemannHurwitz`; `RiemannSurface.genus` is the name under which
+PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite Layer 5 item 1's genus. It also
+declares `CompactifiedQuotient`, an abbreviation of Tau Ceti's `Subgroup.CompactifiedQuotient`,
+with its atlas `compactifiedChartedSpace`, Tau Ceti's
+`Subgroup.CompactifiedQuotient.instChartedSpace`, and exports the Tau Ceti degree API of Layer 5
+item 2 under the same short names `RiemannSurface.*`. The carrier written `CompactifiedQuotient Γ`
+in other roadmaps is Tau Ceti's `Γ.CompactifiedQuotient`. All other names in this README that
+begin with `TauCeti`, `Subgroup`, `UpperHalfPlane`, `Matrix`, `QuotientGroup`, `OnePoint` or
 `MeasureTheory` are pinned library declarations.
 
 The import graph is strict:
@@ -241,8 +249,9 @@ These conventions prevent silent inversions and non-effective actions.
   `R(f) = Σₓ (eₓ − 1)`, so the double cover `z ↦ z²` of the sphere has `R = 2`.
 - Genus is topological: `genus X = (2 − χ(X))/2` for Tau Ceti's finite-CW Euler characteristic
   `TauCeti.eulerChar`, never the analytic `dim H¹(X, 𝒪)` of ModularForms §10B.
-- `P^1` is the Riemann sphere `OnePoint ℂ` of ComplexManifolds Milestone 3.  A quotient becomes
-  `P^1` only through a named biholomorphism proved after the quotient has been compactified.
+- `P^1` is the Riemann sphere `OnePoint ℂ` with Tau Ceti's atlas `OnePoint.instChartedSpace`,
+  listed under Ownership.  A quotient becomes `P^1` only through a named biholomorphism proved
+  after the quotient has been compactified.
 
 ## Existing foundations to consume
 
@@ -261,8 +270,12 @@ The development starts from the following material.
   finiteness, and the `GL(2,ℝ)` invariant-measure instance, and Tau Ceti's Poincaré metric
   `TauCeti.UpperHalfPlane.poincareRiemannianMetric` with `UpperHalfPlane.riemannianVolume_eq_volume`
   (`Analysis/Complex/UpperHalfPlane/PoincareMetric.lean`).
-- RiemannianGeometry R4 item 7: the half-space model of hyperbolic space and its isometries.
-- ComplexManifolds Milestones 1–6, as listed under Ownership.
+- Tau Ceti's half-space model of hyperbolic space `TauCeti.UpperHalfSpace E`
+  (`TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`): its metric
+  `TauCeti.UpperHalfSpace.riemannianMetric`, `(‖dx‖² + dt²)/t²` on `E × ℝ` with `t > 0`, packaged
+  with completeness and curvature `−1` as `TauCeti.UpperHalfSpace.hyperbolicMetric`.
+- ComplexManifolds Milestones 1, 2 and 4–6 and Tau Ceti's atlas on `OnePoint ℂ`, as listed under
+  Ownership.
 - AlgebraicTopology Stage 6 items 4 and 5 and Stage 8 item 7, as listed under Ownership.
 - The Tau Ceti declarations listed under Ownership.
 - The universal-covers roadmap's covering and deck-transformation results.
@@ -279,8 +292,9 @@ The development starts from the following material.
    `QuotientGroup.instT2Space` (the centre is closed). Prove that `PSL(2,ℝ)` is second countable:
    `SL(2,ℝ)` carries the subspace topology of `Matrix (Fin 2) (Fin 2) ℝ` through Mathlib's
    `Matrix.SpecialLinearGroup.isClosedEmbedding_val`, so it is second countable, and Mathlib's
-   `QuotientGroup.instSecondCountableTopology` passes this to the quotient. Instance search at the
-   pins finds no `SecondCountableTopology` instance for `SL(2,ℝ)` or `PSL(2,ℝ)`.
+   `QuotientGroup.instSecondCountableTopology` passes this to the quotient (this roadmap's own
+   derivation from those two Mathlib declarations). Instance search at the pins finds no
+   `SecondCountableTopology` instance for `SL(2,ℝ)` or `PSL(2,ℝ)`.
    *Needs:* Mathlib `Matrix.SpecialLinearGroup.isClosedEmbedding_val`,
    `QuotientGroup.instSecondCountableTopology`.
    **Checks.**
@@ -307,10 +321,14 @@ The development starts from the following material.
    `UpperHalfPlane.instContMDiffConstSMulPSL2` (`UpperHalfPlane/PSL/Manifold.lean`). Prove that
    every element of `GL(2,ℝ)` acts by an isometry of `dist`: a positive-determinant element acts as
    an element of `SL(2,ℝ)`, an isometry by Mathlib's `IsIsometricSMul SL(2, ℝ) ℍ`, and a
-   negative-determinant element is such an element composed with `z ↦ −conj z`, which preserves
-   `dist` by `UpperHalfPlane.dist_eq`; negative-determinant elements reverse orientation and are
-   antiholomorphic. Do not export an unrelated permutation action as a second public action.
-   *Needs:* Mathlib `UpperHalfPlane.glAction`, `UpperHalfPlane.dist_eq`, `IsIsometricSMul SL(2, ℝ) ℍ`.
+   negative-determinant element is such an element composed with Mathlib's `UpperHalfPlane.J`,
+   the matrix `diag(−1, 1)` of `GL(2,ℝ)`, which acts by `z ↦ −conj z` and is an isometry by Tau Ceti's
+   `TauCeti.UpperHalfPlane.isometry_J_smul` (`UpperHalfPlane/Geodesic/Reflection.lean`) (this
+   roadmap's own derivation from those two isometries); negative-determinant elements reverse
+   orientation and are antiholomorphic. Do not export an unrelated permutation action as a second
+   public action.
+   *Needs:* Mathlib `UpperHalfPlane.glAction`, `UpperHalfPlane.J`, `IsIsometricSMul SL(2, ℝ) ℍ`;
+   Tau Ceti `TauCeti.UpperHalfPlane.isometry_J_smul`.
    **Checks.**
    - `diag(1, −1)` has determinant `−1` and acts by `z ↦ −conj z`, sending `1 + i` to `−1 + i`
      and fixing `i`; the model without conjugation would send `1 + i` to `−1 − i ∉ ℍ`.
@@ -384,10 +402,17 @@ The development starts from the following material.
    joining them is at least as long because `|d log y| ≤ ds`, the isometric `PSL(2,ℝ)` action moves
    an arbitrary pair to a vertical pair, and the resulting
    `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with `UpperHalfPlane.dist_eq`, including the
-   coincident-point case (Katok, §1.2). Identify this metric, through `x + iy ↦ (x, y)`, with the
-   dimension-two half-space model of RiemannianGeometry R4 item 7, which transports completeness and
-   curvature `−1`; the `PSL(2,ℝ)` and `PGL(2,ℝ)` actions are then Riemannian isometries by Layer 0
-   item 2. Covolume through measurable fundamental domains, independent of the domain, is Mathlib's
+   coincident-point case (Katok, §1.2). Prove that `x + iy ↦ (x, y)` identifies this metric with
+   Tau Ceti's half-space metric `TauCeti.UpperHalfSpace.riemannianMetric` on
+   `TauCeti.UpperHalfSpace ℝ`, the plane case `E = ℝ` of `(‖dx‖² + dt²)/t²`: both tensors are the
+   Euclidean one divided by the squared height, so the map is a Riemannian isometry (this roadmap's
+   own derivation from the two metric formulas). It transports Tau Ceti's completeness
+   `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric` (`Hyperbolic/Completeness.lean`) and
+   constant sectional curvature `−1` `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
+   (`Hyperbolic/UpperHalfSpace/Curvature.lean`), packaged together as
+   `TauCeti.UpperHalfSpace.hyperbolicMetric` (`Hyperbolic/UpperHalfSpace/Metric.lean`); the
+   `PSL(2,ℝ)` and `PGL(2,ℝ)` actions are then Riemannian isometries by Layer 0 item 2. Covolume
+   through measurable fundamental domains, independent of the domain, is Mathlib's
    `MeasureTheory.covolume` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean`); the existence of a
    fundamental domain and cofiniteness are Tau Ceti's `Subgroup.exists_isFundamentalDomain` and
    `Subgroup.IsCofinite` (`Fuchsian/Covolume.lean`), and the Gauss–Bonnet formula for finite
@@ -395,9 +420,15 @@ The development starts from the following material.
    (`Analysis/Complex/UpperHalfPlane/Triangle.lean`) and
    `TauCeti.UpperHalfPlane.CompactConvexPolygon.volume_carrier` (`UpperHalfPlane/Polygon/GaussBonnet.lean`).
    *Needs:* Tau Ceti `TauCeti.UpperHalfPlane.poincareRiemannianMetric`,
-   `UpperHalfPlane.riemannianVolume_eq_volume`; Mathlib `UpperHalfPlane.dist_eq`; RiemannianGeometry
-   R4 item 7; Layer 0 item 2.
+   `UpperHalfPlane.riemannianVolume_eq_volume`, `TauCeti.UpperHalfSpace.riemannianMetric`,
+   `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric`,
+   `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`; Mathlib `UpperHalfPlane.dist_eq`; Layer 0
+   item 2.
    **Checks.**
+   - At `2i` the tangent vector `1` has squared Poincaré length `(1·1 + 0·0)/2² = 1/4`, and its
+     image `(1, 0)` at `(0, 2)` has squared half-space length `(1² + 0²)/2² = 1/4`; the disc
+     normalisation `4|dz|²/y²` would give `1`, and the height rescaling `x + iy ↦ (x, 2y)` would send
+     it to `(1, 0)` at `(0, 4)`, of squared length `1/16`.
    - `dist(i, 2i) = log 2`: the vertical segment has length `∫₁² dy/y = log 2`, and
      `2 arsinh(1/(2√2)) = 2 log √2 = log 2`; the disc-model normalisation `2|dz|/(1 − |z|²)` read on
      `ℍ` as `2|dz|/y` would give `2 log 2`.
@@ -436,11 +467,19 @@ The development starts from the following material.
    (`Fuchsian/Elliptic/Polygon.lean`), the cusp orbits by
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.finite_cuspOrbit`
    (`Fuchsian/Compactification/Polygon.lean`), and the presentation by item 3; the genus read off
-   the polygon is identified with the genus of the compactified quotient in Layer 5 item 7. Prove
-   the relation between the orientation of the boundary word and the orientation of meridians in
-   the quotient, against the meridian convention fixed under Pinned conventions.
-   *Needs:* item 3; Tau Ceti `TauCeti.Subgroup.CuspDatum.meridian_lift_endpoint`,
-   `TauCeti.Subgroup.CuspDatum.meridian_neg`.
+   the polygon is identified with the genus of the compactified quotient in Layer 5 item 7. The
+   orientation of the boundary word agrees with that of the cusp meridians fixed under Pinned
+   conventions, in Tau Ceti's `Fuchsian/Cusp/Polygon.lean`, for a side pairing whose maps lie in
+   `Γ` and whose nontrivial `Γ`-translates of the open polygon are disjoint from it: at an ideal
+   vertex with parabolic cycle transformation, every scaling sending the vertex to `∞` carries a
+   cusp datum whose selected
+   generator is that cycle transformation
+   (`TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.exists_cuspDatum_generator_eq_cycleMap`), the
+   selected generator of every datum at that vertex is the cycle transformation, neither its inverse
+   nor a proper power (`TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.cuspDatum_generator_eq_cycleMap`),
+   and a lift of the meridian with `k` signed turns ends at the `k`th power of the cycle word applied
+   to its starting point
+   (`TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.meridian_lift_endpoint_eq_pairingHom_cycleWord_zpow_smul`).
 6. The finite-or-cusp parameter is Tau Ceti's `TauCeti.TriangleOrder`, with constructors
    `elliptic m` carrying `2 ≤ m` and `cusp`, and reciprocal `TauCeti.TriangleOrder.reciprocal`,
    equal to `1/m` and `0` respectively (`Fuchsian/TriangleOrder/Basic.lean`). Every triple whose
@@ -590,7 +629,8 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    Riemann surfaces is Tau Ceti's
    `TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`,
    given finite CW type of `X`, `Y` and of `Y` minus the finitely many branch values, which
-   AlgebraicTopology Stage 8 item 7 supplies with marked points. Prove `riemannHurwitz`:
+   AlgebraicTopology Stage 8 item 7 supplies with marked points. Prove `riemannHurwitz`, for `X`
+   and `Y` in one universe as in the pinned formula:
    `2 genus X − 2 = deg f · (2 genus Y − 2) + R(f)`, by rewriting both Euler characteristics with
    item 1 (Forster, §17; Miranda, Chapter II §4). No canonical divisor and no Riemann–Roch enters.
    *Needs:* item 1; Tau Ceti
@@ -623,7 +663,8 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `Γ′ ≤ Γ` of index `d`, `2g(Γ′) − 2 = d (2g(Γ) − 2) + Σ_P (e_P − 1)` over the points `P` of
    `X(Γ′)`, from item 3 and item 5, and `χ_orb(Γ′) = d χ_orb(Γ)` for
    `χ_orb = 2 − 2g − Σᵢ (1 − 1/mᵢ) − c`, from item 7 and Tau Ceti's
-   `MeasureTheory.covolume_eq_card_mul_covolume`.
+   `MeasureTheory.covolume_eq_card_mul_covolume` (this roadmap's own derivation from items 3, 5 and
+   7 and that theorem).
    *Needs:* items 3, 5 and 7; Tau Ceti `MeasureTheory.covolume_eq_card_mul_covolume`.
    **Checks.**
    - The image of `Γ(2)` in `PSL(2,ℤ)` has index `6` and `X(2)` has genus `0` with three cusps of
@@ -634,7 +675,9 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    read off a side-paired fundamental polygon (Layer 2 item 5) equals `genus Γ.CompactifiedQuotient`
    of item 1: subdivide the compactified polygon so that every elliptic cycle and every cusp orbit
    is a vertex, extending the incident sectors at cusps through the filled-disc charts; this is a
-   finite cell decomposition of `X(Γ)` whose cell count is `2 − 2h` for the polygon genus `h`.
+   finite cell decomposition of `X(Γ)` whose cell count is `2 − 2h` for the polygon genus `h`, and
+   that count is `TauCeti.eulerChar X(Γ)` by Tau Ceti's `TauCeti.eulerChar_eq_cwEulerChar`
+   (`Cellular/EulerCharacteristic/FiniteCWType.lean`), so item 1 gives `h = genus X(Γ)`.
    Combined with the polygon area formula of Layer 4 item 5 this proves
    `covolume_eq_two_pi_mul_signature`:
    `covolume Γ = 2π (2g − 2 + Σₑ (1 − 1/mₑ) + c)`, where `g = genus Γ.CompactifiedQuotient`, `e`
@@ -644,7 +687,8 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `χ_orb = 2 − 2g − Σₑ (1 − 1/mₑ) − c = −covolume Γ / 2π`.
    *Needs:* item 1; Layer 2 items 4 and 5; Layer 4; Tau Ceti
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`,
-   `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`.
+   `TauCeti.eulerChar_eq_cwEulerChar`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
+   `Subgroup.IsCofinite.finite_cuspOrbit`.
    **Checks.**
    - `PSL(2,ℤ)`: genus `0`, elliptic orders `2` and `3`, one cusp, and `2π(−2 + 1/2 + 2/3 + 1) = π/3`,
      the pinned `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`; dropping the cusp term gives the
@@ -755,8 +799,9 @@ implemented in Tau Ceti, in the construction order below.
    (`TauCeti.ModularGroup.compactSpace_compactifiedQuotient`). Its signature `(0; 2, 3; 1)` and
    covolume are read off the standard fundamental triangle
    (`TauCeti.ModularGroup.covolume_psl2zToPSL2RRange_eq_two_pi_mul`). The genus `genus X(1) = 0`,
-   expected by ModularForms §10B, follows from the definition of `genus` (Layer 5 item 1) and Tau
-   Ceti's `TauCeti.ModularGroup.eulerChar_compactifiedQuotient`, `χ(X(1)) = 2`.
+   expected by ModularForms §10A (its level-one Check of the genus formula), follows from the
+   definition of `genus` (Layer 5 item 1) and Tau Ceti's
+   `TauCeti.ModularGroup.eulerChar_compactifiedQuotient`, `χ(X(1)) = 2`.
 2. The descent of `j` to the uncompactified quotient is `TauCeti.ModularGroup.jQuotient`, with
    local multiplicity `1` at the orbits of `ρ` and `i`
    (`TauCeti.ModularGroup.localMultiplicity_jQuotient_ρ`,
@@ -783,7 +828,7 @@ implemented in Tau Ceti, in the construction order below.
 | --- | --- | --- |
 | L0 effective action and free locus | Mathlib, complex manifolds | L1--L4 |
 | L1 elliptic charts | L0, complex-manifold gluing | L4--L6 |
-| L2 polygons and presentations | L0, conformal mapping, RiemannianGeometry R4 item 7 | L3--L4, L6 |
+| L2 polygons and presentations | L0, conformal mapping, Tau Ceti half-space model | L3--L4, L6 |
 | L3 cusps and q-coordinates | L0, L2 | L4--L6 |
 | L4 compactification | L1--L3 | L5--L6 |
 | L5 degree theory and applications | ComplexManifolds Milestones 1--2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, modular forms |

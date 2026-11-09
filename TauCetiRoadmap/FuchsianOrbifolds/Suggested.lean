@@ -38,6 +38,8 @@ formula of Layer 5 item 6 is `riemannHurwitz` applied to Tau Ceti's
 of the roadmap is statable at the pins; none is omitted for want of a carrier.
 -/
 
+universe u
+
 namespace TauCetiRoadmap.FuchsianOrbifolds
 
 open MeasureTheory MulAction TauCeti
@@ -75,8 +77,10 @@ theorem eulerChar_eq_two_sub_two_mul_genus (X : Type*) [TopologicalSpace X] [Cha
 
 /-- **The Riemann–Hurwitz formula.** For a finite holomorphic map `f : X → Y` of compact connected
 Riemann surfaces, `2g(X) − 2 = deg f · (2g(Y) − 2) + R(f)`, where `R(f) = Σₓ (eₓ − 1)` is the
-ramification degree (Forster, §17; Miranda, Chapter II §4). -/
-theorem riemannHurwitz {X Y : Type*} [TopologicalSpace X] [ChartedSpace ℂ X]
+ramification degree (Forster, §17; Miranda, Chapter II §4). `X` and `Y` lie in one universe, as in
+Tau Ceti's branched-cover formula
+`TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`. -/
+theorem riemannHurwitz {X Y : Type u} [TopologicalSpace X] [ChartedSpace ℂ X]
     [IsManifold 𝓘(ℂ) 1 X] [T2Space X] [CompactSpace X] [ConnectedSpace X] [FiniteCWType X]
     [TopologicalSpace Y] [ChartedSpace ℂ Y] [IsManifold 𝓘(ℂ) 1 Y] [T2Space Y] [CompactSpace Y]
     [ConnectedSpace Y] [FiniteCWType Y] (f : RiemannSurface.FiniteHolomorphicMap X Y) :
