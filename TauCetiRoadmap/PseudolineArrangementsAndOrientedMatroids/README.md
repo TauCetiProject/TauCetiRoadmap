@@ -822,6 +822,13 @@ other than the diagonal in any order, and the diagonal last, when the restrictio
   from one of them works, and the two containing the triple `e₁, e₂, e₁ + e₂` cannot start one. With
   `n = 4` the listing is any order, and three elements, every one bigonal, are excluded.
 
+Not a target: the bound of (a) is not the best known. Csima and Sawyer's bound for straight lines,
+at least `6n/13` vertices with exactly two elements for `n ≠ 7` (Csima–Sawyer 1993; the
+Kelly–Moser configuration of 7 lines has 3), holds for every simple rank-3 chirotope on `n`
+elements, that is for pseudolines (Berman–Grünbaum–Lenchner 2008, p. 221, footnote 3;
+Lund–Purdy–Smith 2014, §3.2). The bound `n/2` for large `n`, which holds for straight lines
+(Green–Tao 2013), is open for pseudolines (Research context).
+
 ### Examples
 
 - The three lines `y = x`, `y = 1`, `y = 3 - x`, their 19 cells and their chirotope `ofVectorsFun`
@@ -1137,6 +1144,15 @@ and explicit coordinates for each class.
 - `n = 3`: the vectors `e₁, e₂, e₃` realize the class.
 - `n = 4, 5`: the vectors `(1, i, i²)` realize the unique class of 4.6.
 - Realizability is invariant under isomorphism (6.1), so one realization per class suffices.
+
+Not a target: the bound `n ≤ 6` is not sharp. Every arrangement of at most 8 pseudolines is
+stretchable (Goodman and Pollack's proof of Grünbaum's conjecture, 1980; Felsner–Goodman 2017,
+Theorem 5.3.2), so by 5.5 and 6.1 every uniform rank-3 chirotope on `Fin n`, `n ≤ 8`, is
+realizable over `ℝ`, hence over `ℚ`, since the realizations of a uniform chirotope form a nonempty
+open subset of `(ℝ³)ⁿ`. The first failure is at nine: every simple arrangement of 9 pseudolines is
+stretchable except one, the simple non-Pappus arrangement, obtained from the arrangement of 6.3
+by Ringel's perturbation (Richter 1989; Felsner–Goodman 2017, Theorem 5.3.3 and the text before
+Theorem 5.3.2).
 
 ### Examples
 
@@ -1561,7 +1577,11 @@ Mnëv's universality theorem says that the realization spaces of rank-3 oriented
 incidence schemes of marked points and lines in `ℙ²`, are as complicated as arbitrary
 semialgebraic sets; in scheme-theoretic form every singularity type occurs on some incidence
 scheme (Vakil 2006, Theorem 3.1). Whether the reconstruction of 8.4 (ii) extends to non-uniform
-simple rank-3 chirotopes with no bigonal element is open. Grothendieck's notes on pseudoline
+simple rank-3 chirotopes with no bigonal element is open. Whether an arrangement of `n > 13`
+pseudolines, not all through one point, can have fewer than `n/2` vertices on exactly two of them
+is open (Lund–Purdy–Smith 2014, §3.2, Problem 5): for straight lines Green and Tao exclude it for
+large `n` with the Cayley–Bacharach theorem for cubic curves, which has no pseudoline analogue
+(ibid.). Grothendieck's notes on pseudoline
 arrangements include the classification of 3.8 (b) and the listing of 3.8 (c) (Montpellier fonds,
 folder 80, pp. 20, 22, 24, 26 and 28, https://grothendieck.umontpellier.fr/80.pdf).
 
@@ -1584,7 +1604,10 @@ folder 80, pp. 20, 22, 24, 26 and 28, https://grothendieck.umontpellier.fr/80.pd
 - J. E. Goodman, R. Pollack, *On the combinatorial classification of nondegenerate configurations
   in the plane*, J. Combin. Theory Ser. A 29 (1980), 220–235 (allowable sequences);
   *Semispaces of configurations, cell complexes of arrangements*, J. Combin. Theory Ser. A 37
-  (1984), 257–293.
+  (1984), 257–293; *Proof of Grünbaum's conjecture on the stretchability of certain arrangements
+  of pseudolines*, J. Combin. Theory Ser. A 29 (1980), 385–390.
+- J. Richter, *Kombinatorische Realisierbarkeitskriterien für orientierte Matroide*, Mitt. Math.
+  Sem. Gießen 194 (1989).
 - S. Felsner, H. Weil, *Sweeps, arrangements and signotopes*, Discrete Appl. Math. 109 (2001),
   67–94 (signotopes, local sequences).
 - S. Felsner, *On the number of arrangements of pseudolines*, Discrete Comput. Geom. 18 (1997),
@@ -1593,7 +1616,7 @@ folder 80, pp. 20, 22, 24, 26 and 28, https://grothendieck.umontpellier.fr/80.pd
   Computational Geometry*, 3rd ed., CRC Press, 2017, §6.2.3 (chirotopes, the three-term
   Grassmann–Plücker identity).
 - S. Felsner, J. E. Goodman, *Pseudoline arrangements*, Chapter 5 of *Handbook of Discrete and
-  Computational Geometry*, 3rd ed., CRC Press, 2017, Table 5.6.1.
+  Computational Geometry*, 3rd ed., CRC Press, 2017, Theorems 5.3.2 and 5.3.3, Table 5.6.1.
 - D. E. Knuth, *Axioms and Hulls*, Lecture Notes in Computer Science 606, Springer, 1992.
 - OEIS A006245 (commutation classes of reduced words of the longest permutation), A006248 (simple
   projective arrangements).
@@ -1602,6 +1625,14 @@ folder 80, pp. 20, 22, 24, 26 and 28, https://grothendieck.umontpellier.fr/80.pd
 - J. Bokowski, P. Pokora, *On the Sylvester–Gallai and the orchard problem for pseudoline
   arrangements*, Period. Math. Hungar. 77 (2018), 164–174, arXiv:1607.05864 (Theorem 1.3,
   Melchior's equality, and Corollary 1.4, `t₂ ≥ 3`, numbered as in the arXiv version).
+- J. Csima, E. T. Sawyer, *There exist `6n/13` ordinary points*, Discrete Comput. Geom. 9 (1993),
+  187–202.
+- L. W. Berman, B. Grünbaum, J. Lenchner, *Omittable lines*, Ars Math. Contemp. 1 (2008),
+  206–222 (p. 221, footnote 3: the Csima–Sawyer theorem holds for pseudolines).
+- B. Lund, G. B. Purdy, J. W. Smith, *A pseudoline counterexample to the strong Dirac conjecture*,
+  Electron. J. Combin. 21(2) (2014), P2.31, arXiv:1202.3110 (§3.2 and Problem 5).
+- B. Green, T. Tao, *On sets defining few ordinary lines*, Discrete Comput. Geom. 50 (2013),
+  409–468, arXiv:1208.4714.
 - J.-P. Roudneff, B. Sturmfels, *Simplicial cells in arrangements and mutations of oriented
   matroids*, Geom. Dedicata 27 (1988) (mutations and simplicial topes).
 - A. Björner, P. H. Edelman, G. M. Ziegler, *Hyperplane arrangements with a lattice of regions*,
