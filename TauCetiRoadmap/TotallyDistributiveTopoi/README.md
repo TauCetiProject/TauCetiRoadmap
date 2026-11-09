@@ -105,9 +105,11 @@ idempotent ideals of arrows (Kelly–Lawvere, as recalled in Lucyshyn-Wright 201
   `CompletelyDistribLattice.MinimalAxioms`, `CompletelyDistribLattice.MinimalAxioms.of`,
   `CompletelyDistribLattice.ofMinimalAxioms`, `CompleteLinearOrder.toCompletelyDistribLattice`,
   `LowerSet`, `LowerSet.completelyDistribLattice`, `IsLowerSet`, `Set.Iic`, `Set.Iio`,
-  `OrderIso`, `DenselyOrdered`, `Disjoint`, `Pairwise`.
+  `OrderIso`, `DenselyOrdered`, `Disjoint`, `Pairwise`, `Set.PairwiseDisjoint`.
 - Topology: `TopologicalSpace.Opens`, `Topology.WithLower`, `LocallyConnectedSpace`,
-  `unitInterval`.
+  `unitInterval`, `TopologicalSpace.IsTopologicalBasis`, and for the Checks of 4.2
+  `ZeroDimensionalSpace`, `LindelofSpace`, `IsClosed.isLindelof`, `IsClopen.diff`,
+  `AlexandrovDiscrete`.
 - Sites: `GrothendieckTopology`, `Sieve` with its complete lattice, `Sheaf`, `presheafToSheaf`,
   `constantSheaf`, `GrothendieckTopology.Subcanonical`, `Opens.grothendieckTopology`,
   `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`), `Sheaf.instHasColimitsOfShape`
@@ -589,11 +591,19 @@ concludes.
 
 ### 4.2 Projectives without (B)
 
-Prove `enoughProjectives_sh_cantor`: sheaves on the Cantor space have enough projectives. Route:
-a clopen set is projective by the gluing argument of 3.6, coproducts of projective objects are
-projective, and every sheaf is covered by the coproduct of the clopen sets over its sections on
-clopen sets. With 3.5, neither hypothesis of 4.1 can be dropped.
-*Needs:* 3.6; Mathlib `EnoughProjectives`.
+Prove that `Sh X` has enough projectives when `X : Type u` has a basis `𝔅`
+(`TopologicalSpace.IsTopologicalBasis`) such that every cover of a member `U ∈ 𝔅` by open sets has
+a refinement by pairwise disjoint (`Set.PairwiseDisjoint`) open sets with union `U` (own argument).
+Route: for `U ∈ 𝔅` the open set `U` is projective: given an epimorphism `F ⟶ G` and a section `t`
+of `G` over `U`, lift `t` on an open cover of `U`, refine that cover to a disjoint one with union
+`U` and glue the restricted lifts, which are compatible since the overlaps are empty; coproducts of
+projective objects are projective, and the coproduct of the members of `𝔅` over the sections of a
+sheaf on them covers it. Then prove `enoughProjectives_sh_cantor`, sheaves on the Cantor space have
+enough projectives, as the instance where `𝔅` is the set of clopen sets, whose covers have finite
+refinements by disjoint clopen sets (3.6, route). With 3.5, neither hypothesis of 4.1 can be
+dropped.
+*Needs:* 3.6; Mathlib `EnoughProjectives`, `TopologicalSpace.IsTopologicalBasis`,
+`Set.PairwiseDisjoint`.
 
 **Checks.**
 
@@ -602,21 +612,22 @@ clopen sets. With 3.5, neither hypothesis of 4.1 can be dropped.
 - Every open set of the Cantor space is a disjoint union of countably many clopen sets (take a
   countable cover by cylinders and remove from each the earlier ones), hence projective; the
   complement of a point is not clopen and is projective.
+- A Lindelöf (`LindelofSpace`) zero-dimensional (`ZeroDimensionalSpace`) space qualifies, with `𝔅`
+  the clopen sets: a clopen `B` is Lindelöf (`IsClosed.isLindelof`), so an open cover of `B` is
+  refined by countably many clopen sets `Bₖ`, and the `Bₖ ∖ ⋃_{j<k} Bⱼ` are clopen
+  (`IsClopen.diff`), pairwise disjoint and cover `B`. Examples: `ℚ`, the Baire space `ℕ → ℕ` and
+  the Sorgenfrey line, where `[0, 2)` covered by `[0, 1)` and `[1/2, 2)` is refined by `[0, 1)` and
+  `[1, 2)`. None of them is locally connected, so by 3.2 and 4.1 none is a presheaf topos.
+- An Alexandrov space (`AlexandrovDiscrete`) qualifies, with `𝔅` the smallest open neighbourhoods
+  `Uₓ`: a member of a cover of `Uₓ` that contains `x` contains `Uₓ`, so `{Uₓ}` refines it. On the
+  Sierpiński space, every open cover of `X = U_c` contains `X`.
+- `ℝ` and `LowerIco` admit no such basis. In `ℝ`, a basic set containing `x` contains an interval
+  `(a, b)`, covered by `(a, (a + 2b)/3)` and `((2a + b)/3, b)`; a disjoint open refinement
+  partitions the connected `(a, b)`, so one member contains it and lies in neither. In `LowerIco`,
+  nonempty open sets pairwise meet, so the cover of a nonempty basic set `[0, a)` by the `[0, b)`
+  with `b < a` has no disjoint refinement. Both agree with 3.5 and with the next Check.
 - `Sh ℝ` satisfies (B) (3.2) and is not a presheaf topos (3.3), so by 4.1 it does not have enough
   projectives.
-
-Not a target: other spaces. Call a basis `𝔅` of open sets of `X` disjointly refinable when every
-open cover of a member of `𝔅` has a refinement by pairwise disjoint open sets. Then `Sh(X)` has
-enough projectives (own argument). For `U ∈ 𝔅` the open set `U` is projective: given an
-epimorphism `F ⟶ G` and a section `t` of `G` over `U`, lift `t` on an open cover of `U`, refine
-that cover to a disjoint one and glue the restricted lifts, which are compatible since the overlaps
-are empty; the coproduct of the members of `𝔅` over the sections of a sheaf on them covers it.
-A Lindelöf space with a basis of clopen sets qualifies: a clopen set `B` is Lindelöf, so an open
-cover of `B` is refined by countably many clopen sets `Bₖ`, and the `Bₖ ∖ ⋃_{j<k} Bⱼ` are clopen,
-pairwise disjoint and cover `B`. So do `ℚ`, the Baire space `ℕ → ℕ`, the Sorgenfrey line, every
-second-countable zero-dimensional space and every compact zero-dimensional space, and every
-Alexandrov space, with the basis of smallest open neighbourhoods `Uₓ`: a member of a cover of `Uₓ`
-that contains `x` contains `Uₓ`. The Cantor space of 4.2 is one case.
 
 ### Examples
 
