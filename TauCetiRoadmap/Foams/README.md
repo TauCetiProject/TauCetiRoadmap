@@ -219,13 +219,30 @@ the nonequivariant specialization sends them to zero.
   Section 0.8 requires a perfect pairing over a commutative ring.
   `LinearMap.IsFrobeniusFunctional.isPerfPair` identifies these conditions for
   finite-dimensional algebras over a field. [Frobenius functionals][tc-frobenius]
+- For Section 0.8 and KH1, use `TauCeti.Khovanov.coalgebra`,
+  `TauCeti.Khovanov.isFrobenius`, `TauCeti.Khovanov.mul_compr₂_counit` and
+  `TauCeti.Khovanov.baseChangeCoalgEquiv` for the chosen dual-number coalgebra,
+  its Frobenius law, perfect trace pairing and base-change comparison. For KH2,
+  use `TauCeti.Khovanov.CircleTensor`, `TauCeti.Khovanov.circleBasis` and
+  `TauCeti.Khovanov.circleQuantumGrading` for finite circle tensors and their
+  graded bases. [Khovanov Frobenius algebra][tc-khov-frobenius]
+  · [Circle tensors][tc-khov-circles]
 - `TauCeti.hsymm_mul_diagramSchurPoly` and `TauCeti.hsymm_mul_schurPoly`
   give the complete-symmetric Pieri rule. The elementary-symmetric rule is the
   separate SchurWeyl contract below. [Complete-symmetric Pieri][tc-pieri]
-- Permutation triples and bipartite ribbon graphs supply finite vertex, edge,
-  face and connected-component data. Section 2.4 constructs the trivalent-web
-  adapter and handles vertex-free circles. [Permutation triples][tc-permutations]
-  · [Bipartite ribbon graphs][tc-ribbon]
+- `TauCeti.PermutationTriple.ribbonGraph`,
+  `TauCeti.PermutationTriple.facePerm_ribbonGraph` and
+  `TauCeti.PermutationTriple.isConnected_ribbonGraph` compare permutation triples
+  with bipartite ribbon graphs, preserving faces and connectedness.
+  `TauCeti.BipartiteRibbonGraph.toPermutationTriple` gives the reverse construction
+  after numbering the edges. Use `TauCeti.BipartiteRibbonGraph.eulerChar_toPermutationTriple`,
+  `TauCeti.BipartiteRibbonGraph.even_eulerChar` and
+  `TauCeti.BipartiteRibbonGraph.IsConnected.eulerChar_le_two` for the Euler-count
+  comparison, parity and connected upper bound. Section 2.4 constructs the
+  trivalent-web adapter, subdivision comparison and vertex-free-circle cases.
+  [Permutation triples][tc-permutations] · [Bipartite ribbon graphs][tc-ribbon]
+  · [Forward comparison][tc-ribbon-forward] · [Reverse comparison][tc-ribbon-reverse]
+  · [Euler characteristic][tc-ribbon-euler]
 
 ### From other roadmaps
 
@@ -234,8 +251,8 @@ the nonequivariant specialization sends them to zero.
 | [PivotalSpherical, Layers 0–2][pivotal] | Ordinary chosen dual pairs, mates, monoidal dual functor, pivotal structure and traces | Match chosen foam pairings, then construct higher spatial duality |
 | [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, chosen graded Frobenius algebra, circle tensors, formal surface relations and evaluation | KH1–KH4 |
 | [TemperleyLieb, Layer 2 and Layers 6–7][tl] | Ordinary presentations, categorical tensor ideals, additive/monoidal envelopes and quotient descent | Verify the foam ideals and higher-operation compatibility |
-| [SurfaceTopology, Layer 2][surface] | Finite-map/permutation-triple/bipartite-ribbon-graph comparisons and Euler counts | Adapt trivalent rotations and vertex-free circles, prove fixed-rotation planarity |
-| [PlanarTopology, Layers 6–7][planar] | Euler/orientation results and Schoenflies and interior-arc isotopy theorems | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
+| [KhovanovHomology, G][khovanov-geometry] | Finite plane realizations, polygonal complement and boundary-orientation dictionaries, controlled smoothing and relative extension | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
+| [GeometricTopology, 2.2][geometric-schoenflies] and [3.3][geometric-isotopy] | Boundary-parametrized Schoenflies and relative isotopy extension with their collar and regularity hypotheses | Prove the interior-arc and boundary-relative disk-with-holes comparisons in Layer 7 |
 | [RepresentationTheory/SchurWeyl, Layer 7][schur] | Young-diagram identities, Schur bases, dual Jacobi–Trudi and both horizontal- and vertical-strip Pieri rules | Decoration substitutions, integral circle pairing and foam decomposition maps |
 
 The general constructions in these supplier contracts retain their owners.
@@ -644,7 +661,7 @@ composition and inclusion formulas and the extension property for functors into
 categories where these shifts are represented. Use this construction with finite
 sums in Layer 2. The higher-category extension is a separate target in Layer 3.
 Composition in C^(sh) carries no Koszul sign; this distinguishes it from Tau
-Ceti's differential graded DGShiftClosure.
+Ceti's differential graded `TauCeti.DGShiftClosure`.
 
 - Supply graded tensor and scalar-extension universal properties, pure-tensor formulas, the
   associator and unitors with their coherence laws, unsigned symmetry and coherent shift comparisons.
@@ -836,7 +853,7 @@ but its circle A{-1} has degrees −1 on 1 and +1 on x.
   The circle state algebra is A{−1}.
 
 Use [Goertz–Marino–Wedrich v1, Example 2.9, p. 12, Definition 3.35 and Example 3.38, p. 28][gmw] and
-[Goertz–Wedrich v2, Propositions 10–11, pp. 3–4][gw-cob].
+[Goertz–Wedrich v2, Propositions 10–11, p. 4][gw-cob].
 
 *Needs:* Statement: 0.4 and 0.8, a finite free commutative Frobenius algebra with even support when
 graded. Proof: its handle identities and the nilvalent presentation.
@@ -1013,8 +1030,8 @@ bivalent vertex and prove subdivision independence. Test the prescribed
 rotation, not whether the underlying graph admits some planar rotation.
 Zero-labeled edges remain in this test until erased.
 
-Reuse Tau Ceti's permutation and ribbon-graph structures, with the finite-map
-conversions of SurfaceTopology Layer 2. Consume the general spanning-tree,
+Reuse Tau Ceti's permutation-triple/ribbon-graph comparisons and Euler-count
+results listed above. Consume the general spanning-tree,
 boundary-cycle and noninterleaving chord lemmas developed for
 [KhovanovHomology K1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k1-resolution-circles-and-local-planar-calculus),
 stated on the shared finite-map carriers. Construct the trivalent-web adapter
@@ -1045,12 +1062,13 @@ No chosen presentation or embedding is part of an object.
   combined requirement of 2.
 
 Construct the web adapter here from the cited finite-map contract. For the rotation-system
-convention see [Erickson, Planar Graphs, “Rotation systems” and “Surface maps”][erickson]. This test
+convention see [Erickson, Planar Graphs, “Rotation systems”][erickson]. This test
 retains cyclic-order compatibility.
 
-*Needs:* Statement: 0.1, effective rotations, native bipartite ribbon graphs and SurfaceTopology
-Layer 2. Proof: subdivision and component-count comparison; 0.9 and KhovanovHomology K1 for planar
-presentations.
+*Needs:* Statement: 0.1, effective rotations and native bipartite ribbon graphs.
+Proof: the native permutation-triple/ribbon-graph and Euler-count comparisons;
+the subdivision and component-count adapter constructed here; 0.9 and KhovanovHomology K1
+for planar presentations.
 
 ### 2.5 Change of normalization on planar abstract webs
 
@@ -1507,7 +1525,7 @@ implication/converse classification of arbitrary evaluations is not required.
   basis vector and hence induces an isomorphism on these state modules.
 
 Prove this explicit universal-construction version of [Goertz–Marino–Wedrich v1, Lemma 3.32, p.
-26][gmw], using [Goertz–Wedrich v2, Propositions 10–11, pp. 3–4][gw-cob] for the unoriented domain.
+26][gmw], using [Goertz–Wedrich v2, Propositions 10–11, p. 4][gw-cob] for the unoriented domain.
 
 *Needs:* Statement: 0.8, 1.3 and 2.1 for a finite free Frobenius algebra with the stated grading.
 Proof: its dual basis and the nilvalent surface presentation, including unoriented closing tests.
@@ -2516,10 +2534,14 @@ and circles that match the profiles. Reverse the boundary-orientation
 convention on input holes when specifying the matching rule. Trivalent web
 vertices belong to the inserted objects, not to these connecting diagrams.
 Construct fixed boundary collars and the relative-boundary comparison
-for diagrams in disks with holes. Use PlanarTopology's Schoenflies and
-interior-arc results together with KhovanovHomology K1's finite planar
-calculus, and prove the additional boundary-relative extension and subdivision
-statements here. Take operations up to boundary-preserving planar isotopy and prove identity,
+for diagrams in disks with holes. Use KhovanovHomology K1's finite planar
+calculus and G's plane realizations, complement and boundary-orientation
+dictionaries, controlled smoothing and relative extension. Use GeometricTopology
+2.2's boundary-parametrized Schoenflies theorem and 3.3's relative isotopy
+extension with their collar and regularity hypotheses. Prove the interior-arc,
+boundary-relative disk-with-holes and subdivision statements here, including
+the comparison between the piecewise-linear diagrams and controlled smooth
+roundings. Take operations up to boundary-preserving planar isotopy and prove identity,
 substitution, associativity, boundary transport and relabeling laws. This
 collection with substitution is the colored planar operad acting on the
 categories; no separate general operad theory is a prerequisite.
@@ -2569,8 +2591,9 @@ pp. 1473–1474][bn] supplies the structure definition; [Ehrig–Tubbenhauer–W
 2.10, p. 8][etw] supplies the foam insertion model.
 
 *Needs:* Statement: 7.1, finite planar diagrams with marked boundary collars and the state
-categories of Layer 2. Proof: PlanarTopology Layers 6–7 and KhovanovHomology K1, plus the
-boundary-relative extensions and contextual local identities proved here.
+categories of Layer 2. Proof: KhovanovHomology K1 and G, GeometricTopology 2.2 and 3.3,
+plus the interior-arc and boundary-relative extensions, subdivision comparisons
+and contextual local identities proved here.
 
 ### 7.3 Comparison with the monoidal 2-category and compiler
 
@@ -2777,16 +2800,22 @@ extending a cited result are assigned explicitly in the relevant topic.
 [tc-graded-abelian]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Abelian.lean
 [tc-graded-tensor]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/TensorProduct.lean
 [tc-frobenius]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Algebra/Frobenius/Basic.lean
+[tc-khov-frobenius]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/Khovanov/Frobenius.lean
+[tc-khov-circles]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/Khovanov/CircleTensor.lean
 [tc-projective]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Projective.lean
 [tc-nakayama]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/Nakayama.lean
 [tc-pieri]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Pieri.lean
 [tc-permutations]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/PermutationTriple/Basic.lean
 [tc-ribbon]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/Basic.lean
+[tc-ribbon-forward]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/OfPermutationTriple.lean
+[tc-ribbon-reverse]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/ToPermutationTriple.lean
+[tc-ribbon-euler]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/EulerCharacteristic.lean
 [pivotal]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md#layer-0-the-dual-and-double-dual-functors
 [khovanov]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k2-the-rank-two-frobenius-object-and-circle-tensors
+[khovanov-geometry]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#g-plane-geometry-relative-extension-and-smooth-link-comparison
+[geometric-schoenflies]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometricTopology/README.md#22-the-generalized-schoenflies-theorem
+[geometric-isotopy]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometricTopology/README.md#33-isotopy-extension
 [tl]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/TemperleyLieb/README.md#layer-7-the-karoubi-envelope-and-the-root-of-unity-quotient
-[surface]: https://github.com/mccorvie/TauCetiRoadmap/blob/add-planar-surface-topology-roadmaps/TauCetiRoadmap/SurfaceTopology/README.md#layer-2-presentations-and-comparison-theorems
-[planar]: https://github.com/mccorvie/TauCetiRoadmap/blob/add-planar-surface-topology-roadmaps/TauCetiRoadmap/PlanarTopology/README.md#layer-7-the-schoenflies-theorem-and-tameness
 [schur]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk
 
 ## Contributors

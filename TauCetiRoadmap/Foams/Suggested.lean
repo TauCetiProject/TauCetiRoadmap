@@ -35,8 +35,8 @@ theorem existsUnique_frobeniusCoalgebra
     (R A : Type*) [CommRing R] [CommRing A] [Algebra R A]
     [Module.Free R A] [Module.Finite R A]
     (ε : A →ₗ[R] R) (hε : ((LinearMap.mul R A).compr₂ ε).IsPerfPair) :
-    ∃! c : Coalgebra R A, letI : Coalgebra R A := c
-      Coalgebra.counit (R := R) (A := A) = ε ∧ Coalgebra.IsFrobenius R A := by
+    ∃! c : Coalgebra R A,
+      c.counit = ε ∧ @Coalgebra.IsFrobenius R A _ _ _ _ _ c.toCoalgebraStruct := by
   sorry
 
 /-- The equivariant coefficient ring Λ_N. The variable X i is e_(i+1). -/
