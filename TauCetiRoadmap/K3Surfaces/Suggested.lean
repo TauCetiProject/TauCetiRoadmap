@@ -3,8 +3,7 @@ import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
-import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Operations
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Graph
 
 /-!
 # K3 surfaces: target signatures
@@ -18,8 +17,9 @@ characteristic, and integral extension through the discriminant gluing graph.
 The remaining headlines cannot yet be stated on their geometric carriers:
 * Kählerness, the Hodge diamond, integral (1,1) and projectivity comparisons need
   coherent analytic sheaves and their comparison with the complex manifold.
-  The exact Picard segment of Layer 1 likewise needs the holomorphic
-  line-bundle and structure-sheaf carriers on a general complex manifold.
+  The Layer 1 embedding of holomorphic line-bundle classes into `H²(X, ℤ)` for a
+  compact complex surface with `H¹(X, O_X) = 0` needs the group of holomorphic
+  line-bundle classes and their integral first Chern class, neither of which is pinned.
 * Ricci-flat existence/uniqueness, simple connectivity and the geometric K3 lattice
   need Kähler classes, Ricci curvature and the singular cup lattice of that manifold.
 * The 20-dimensional and polarized 19-dimensional deformation theorems need actual
@@ -87,26 +87,21 @@ theorem finrank_lineBundleClass_eq_twentyTwo_of_unirational
 open TauCeti
 
 /-- Let `S` and `T` be nondegenerate even lattices, `γ` an isometry from the discriminant
-quadratic form of `S` to the negative of that of `T`, and `L` the graph-glued overlattice: the
-lattice on `V × W` with the orthogonal-sum form whose carrier is the inverse image in the dual of
-the graph of `γ`. The two hypotheses on `L` determine it; it is the lattice Tau Ceti builds as
-`glueAlongDiscriminant`. A pair of integral isometries `g` of `S` and `h` of `T` extends to an
-integral isometry of `L`, necessarily uniquely, exactly when the induced discriminant actions
-commute with `γ` (Gritsenko–Hulek, §2, p.4; Huybrechts, §14.0.3(vii), p.284 for the K3
-model). -/
+quadratic form of `S` to the negative of that of `T`, and `S.glueAlongDiscriminant T hS hT γ`
+the graph-glued even unimodular overlattice of `S ⊕ T`: the lattice on `V × W` with the
+orthogonal-sum form whose carrier is the inverse image in the dual of the graph of `γ`. A pair
+of integral isometries `g` of `S` and `h` of `T` extends to an integral isometry of the glued
+lattice, necessarily uniquely, exactly when the induced discriminant actions commute with `γ`
+(Gritsenko–Hulek, §2, p.4; Huybrechts, §14.0.3(vii), p.284 for the K3 model). -/
 theorem gluing_isometry_extension_iff
     {V W : Type*} [AddCommGroup V] [Module ℚ V] [AddCommGroup W] [Module ℚ W]
     (S : IntegralLattice V) (T : IntegralLattice W)
     [S.IsNondegenerate] [T.IsNondegenerate] (hS : S.IsEven) (hT : T.IsEven)
     (γ : FiniteQuadraticModule.Isometry (S.discriminantQuadraticModule hS)
       (T.discriminantQuadraticModule hT).neg)
-    (L : IntegralLattice (V × W)) (hform : L.form = (S.orthogonalSum T).form)
-    (hcarrier : L.carrier =
-      ((S.orthogonalSum T).intermediateCarrierOfDiscriminantSubgroup
-        (γ.toAddEquiv.toAddMonoidHom.graph.comap
-          (S.discriminantGroupOrthogonalSumEquiv T).toAddMonoidHom) : Submodule ℤ (V × W)))
     (g : S.Isometry S) (h : T.Isometry T) :
-    (∃! F : L.Isometry L, ∀ v w, F (v, w) = (g v, h w)) ↔
+    (∃! F : (S.glueAlongDiscriminant T hS hT γ).Isometry (S.glueAlongDiscriminant T hS hT γ),
+        ∀ v w, F (v, w) = (g v, h w)) ↔
       ∀ a, γ (g.discriminantGroupEquiv a) = h.discriminantGroupEquiv (γ a) := by
   sorry
 
