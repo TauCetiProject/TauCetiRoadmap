@@ -134,9 +134,6 @@ interpretation of the Jones polynomial at `t = i` and the identification of fini
 with named finite groups. The algebraic affine simple
 modules of Layer 4 are included; no positivity is inferred from their bilinear pairings.
 
-QuantumGroups consumes Layers 1–3 for its free orthogonal fusion theorem (see Downstream
-consumers).
-
 ## Conventions
 
 - **The native presentation.** `TL_n` is `TauCeti.TemperleyLieb ℂ δ n`, with generators `e δ i`,
@@ -1774,17 +1771,6 @@ Mathlib
 
 ## Downstream consumers
 
-- QuantumGroups Q7 (free orthogonal fusion) compares the cup–cap projections `p_i` of `O_F^+` with
-  the positive Temperley–Lieb quotient at `d = d(u) ≥ 2`. It consumes Subfactors 3.2–3.3 for the
-  faithful Hermitian trace form on `Q_n`, 1.3 for the identification of `Q_n` with the
-  endomorphism algebra of the negligible quotient of the diagram category, and 1.2 for the
-  comparison of the Hermitian and bilinear cell forms; 2.1 when its signed loop parameter is
-  `−d`, for the algebra isomorphism `s` carrying each projection `p_i` to `p_i`, hence the signed
-  generator `−d·p_i` to minus the positive generator `d·p_i`, with equal normalised traces and
-  `Q_n^(−d) ≅ Q_n^d`; and Layer 3 for the Hom norms (3.2), the balanced cup–cap solution with
-  `dim 1 = d` (3.3), and the simple objects `X_r` with the untruncated fusion rule (3.4). The
-  signed cups and the sign of the self-duality stay QuantumGroups' own conjugate data: 2.1
-  identifies algebras and traces only. The finite C*-norms on `Q_n` come from Subfactors 3.3.
 - Subfactors and CategoricalOperatorAlgebras build the Temperley–Lieb material they need in
   Subfactors Layer 3 and consume it from there.
 
