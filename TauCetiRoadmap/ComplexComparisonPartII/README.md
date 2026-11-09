@@ -295,6 +295,9 @@ here uses no stage of this roadmap.
   not the locally finite duality of Layer 4 (A4.0) or the Lefschetz applications.
 - *UniversalCovers.* Fundamental-groupoid transport, covering classification, lifting and deck
   transformations for C6's finite topological covers and local systems.
+- *ModularCurves, §0B.* Cartier duality on finite locally free commutative group schemes over an
+  arbitrary base scheme, with biduality, rank and base change. C3.2d.5 extends it to
+  algebraic-space bases for its Cartier-dual torsors.
 - *SchemeAndStackFoundations.* Algebraic spaces, their étale sites and descent (Layer 1); site
   cohomology functoriality, higher direct images, Leray and Čech-to-cohomology (§2.1 `Sheaf.H.pullback`,
   §2.1 `Sheaf.higherDirectImage`, §2.2 `leray_spectral_sequence`, §2.2 `cech_to_cohomology`),
@@ -807,6 +810,11 @@ as explained in C5.1); the two names denote the same target.
   anti-equivalence with regular projective curves (algebraic only; the comparison with compact
   Riemann surfaces is excluded there and is built in C1.9 and C4 here); Layer 2: normal affine charts
   and their DVR/place dictionary. C4.5 constructs the open immersion into the projective model.
+- **ModularCurves.** §0B: Cartier duality as a contravariant anti-equivalence on
+  `FiniteFlatCommGroupScheme S` over an arbitrary base scheme `S`, glued from the pinned affine
+  dualities above along their base-change isomorphisms, with evaluation, biduality, preservation of
+  rank, arbitrary base change and `((ℤ/n)_S)ᴰ ≅ μ_n`. C3.2d.5 consumes it on scheme bases; its
+  extension to algebraic-space bases by étale charts is part of C3.2d.5.
 - **Completed HodgeStructures.** Abstract pure, polarized and mixed Hodge structures, Tate twists and
   morphisms, implemented as the Tau Ceti declarations above.
 
