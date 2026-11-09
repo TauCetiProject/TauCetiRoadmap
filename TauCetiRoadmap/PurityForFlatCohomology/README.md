@@ -359,12 +359,14 @@ Pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`; each declaration was read 
   (`Mathlib/CategoryTheory/Sites/SubcanonicalOver.lean`) with the instance making
   `AlgebraicGeometry.Scheme.fppfTopology` subcanonical: `Hom(−, G)` is a sheaf on the big fppf site of `S`.
   For a commutative group object `G` (`IsCommMonObj`), `CategoryTheory.Hom.commGroup` (scoped in
-  `CategoryTheory.MonObj`, same file) is the pointwise commutative group structure on `Hom(T, G)`, and
+  `CategoryTheory.MonObj`, `Mathlib/CategoryTheory/Monoidal/Cartesian/Grp.lean`) is the pointwise
+  commutative group structure on `Hom(T, G)`, and
   `CategoryTheory.MonObj.comp_one` and `CategoryTheory.MonObj.comp_mul`
   (`Mathlib/CategoryTheory/Monoidal/Cartesian/Mon.lean`) say that precomposition is a homomorphism:
   together they give the presheaf of abelian groups `homPresheaf G` (§6.3). The pins have no
   `CommGrpCat`-valued presheaf on `C` of a commutative group object of `C`
-  (`CategoryTheory.yonedaCommGrpGrp` is a presheaf on `Grp C`).
+  (`CategoryTheory.yonedaCommGrpGrp`, `Mathlib/CategoryTheory/Monoidal/Cartesian/CommGrp_.lean`, is a
+  presheaf on `Grp C`).
 - `AlgebraicGeometry.Scheme.Cover` (`Mathlib/AlgebraicGeometry/Cover/MorphismProperty.lean`) for the
   precoverages `AlgebraicGeometry.Scheme.etalePrecoverage`, `AlgebraicGeometry.Scheme.fppfPrecoverage`
   and `AlgebraicGeometry.Scheme.fpqcPrecoverage` (`Mathlib/AlgebraicGeometry/Sites/Etale.lean`,
@@ -2094,11 +2096,18 @@ API (each a target):
   connected components; it is injective, as claimed for `i < 1`, and not bijective, which is claimed only
   for `i + 1 < 1`. For a field (`vdim = 0`), `ℤ/n → H^0(∅, ℤ/n) = 0` is not injective, and nothing is
   claimed.
-- Non-constant coefficients: for `R = ℝ⟦x, y⟧` (regular, `vdim = 2`) and `G = μ_3`, which is finite
-  étale over `R` (`3` is a unit) and not constant, `H^0(Spec R, μ_3) = μ_3(R) = 1` and
+- Non-constant coefficients: for `R = ℚ⟦x, y⟧` (regular, `vdim = 2`) and `G = μ_3`, which is finite
+  étale over `R` (`3` is a unit) and not constant (`ζ_3 ∉ ℚ`), `H^0(Spec R, μ_3) = μ_3(R) = 1` and
   `H^0(U_R, μ_3) = μ_3(Γ(U_R, 𝒪)) = 1` since `Γ(U_R, 𝒪) = R` (depth `2`), so restriction is bijective
-  for `i = 0`; and the Kummer sequences with `Pic(R) = 0` give `H^1(Spec R, μ_3) = R^×/R^{×3}`, which
-  injects into `H^1(U_R, μ_3)` through `Γ(U_R, 𝒪)^×/3 = R^×/R^{×3}`, as claimed for `i = 1`.
+  for `i = 0`. In degree one, the Kummer sequence with `Pic(R) = 0` gives
+  `H^1(Spec R, μ_3) = R^×/R^{×3}`, and `R^× = ℚ^× × (1 + 𝔪)` with `1 + 𝔪` uniquely `3`-divisible (the
+  binomial series of `(1 + m)^{1/3}` has coefficients in `ℤ[1/3]` and converges `𝔪`-adically), so
+  `H^1(Spec R, μ_3) ≅ ℚ^×/ℚ^{×3}`, which contains the nonzero class of `2`. The Kummer sequence on `U_R`
+  embeds `Γ(U_R, 𝒪)^×/3 = R^×/R^{×3}` into `H^1(U_R, μ_3)`, compatibly with restriction, so restriction
+  is injective on this nonzero group, as claimed for `i = 1`. The zero sheaf, which is the constant sheaf
+  on `μ_3(R) = 1`, has `H^1 = 0` on both sides and so would pass a test made only in degree `0`; over
+  `ℝ⟦x, y⟧` the same computation would be empty, since every real number is a cube and
+  `ℝ⟦x, y⟧^×/3 = 0`.
 - The sheaf of `G` is neither the constant sheaf on `G(R)` nor one on the underlying group of `G`
   over a separable closure: for `μ_3` over `ℝ` its sections are `1` over `Spec ℝ` and `μ_3(ℂ) ≅ ℤ/3`
   over `Spec ℂ`, while the constant sheaf on `μ_3(ℝ) = 1` vanishes over `Spec ℂ` and the constant
@@ -3107,9 +3116,26 @@ Layer 4D; for the Lean form of (d), §6.3 and Convention 7.
 - A separably closed field has dimension `≤ 1`: its étale cohomology vanishes in positive degrees and
   its only finite separable extension is itself. So §8.3 contains §8.1, the case of a strictly
   henselian `R` and `T = 𝔾_m`.
-- `ℚ_p` does not have dimension `≤ 1`, since `H²(ℚ_p, μ_ℓ) ≅ Br(ℚ_p)[ℓ] ≅ ℤ/ℓ` for every prime `ℓ`; nor
-  does `𝔽_p((t))`, whose Brauer group `H²(𝔽_p((t)), 𝔾_m)` is `ℚ/ℤ`, so that the Brauer clause fails
-  already for `K = k`.
+- `ℚ_p` does not have dimension `≤ 1`, since `H²(ℚ_p, μ_ℓ) ≅ Br(ℚ_p)[ℓ] ≅ ℤ/ℓ` for every prime `ℓ`. Nor
+  does `𝔽_p((t))`, which fails both clauses: its Brauer group `H²(𝔽_p((t)), 𝔾_m)` is `ℚ/ℤ` ([Poo17]
+  Theorem 1.5.34(i), p. 25), so the Brauer clause fails already for `K = 𝔽_p((t))`, and for a prime
+  `ℓ ≠ p` the Kummer sequence and Hilbert 90 give `H²(𝔽_p((t)), μ_ℓ) ≅ Br(𝔽_p((t)))[ℓ] ≅ ℤ/ℓ ≠ 0` with
+  `μ_ℓ` commutative finite étale.
+- The Brauer clause is not implied by the first one in positive characteristic. Let `K₀ = 𝔽_p((t))`, let
+  `P` be a pro-`p` Sylow subgroup of `Gal(K₀^sep/K₀)` and let `k ⊂ K₀^sep` be its fixed field, so that
+  `Gal(K₀^sep/k) = P`. A commutative finite étale `k`-group is a finite discrete `P`-module `M`. Its
+  prime-to-`p` part has no cohomology in degrees `≥ 1`, `P` being pro-`p`; its `p`-primary part has a
+  `P`-stable filtration with quotients `ℤ/p` (trivial action), and the Artin–Schreier sequence
+  `0 → ℤ/p → 𝔾_a → 𝔾_a → 0` (`x ↦ x^p − x`) with `H^i(k, 𝔾_a) = 0` for `i ≥ 1` ([Poo17]
+  Proposition 1.3.15(i), p. 11) gives `H^i(k, ℤ/p) = 0` for `i ≥ 2`. So `H^i(k, M) = 0` for every
+  `i ≥ 2`, and `k` satisfies the first clause. But `Br(k)[p^∞]` is the colimit of the groups
+  `Br(K′)[p^∞] ≅ ℚ_p/ℤ_p` over the finite subextensions `K′/K₀` of `k`, which are local fields of degree
+  prime to `p` over `K₀` (every open subgroup of `Gal(K₀^sep/K₀)` containing `P` has index prime to
+  `p`); restriction multiplies invariants by the degree ([Poo17] Theorem 1.5.34(ii), p. 25), so every
+  transition map is bijective and `H²(k, 𝔾_m)[p^∞] ≅ ℚ_p/ℤ_p ≠ 0`. So `k` is not of dimension `≤ 1`,
+  while the definition without its Brauer clause, cohomological dimension `≤ 1`, would accept it. The
+  field `k` is imperfect (`t^{1/p} ∉ K₀^sep`), as it must be: for a perfect field the two notions agree
+  ([Poo17] Proposition 1.5.25 and Exercise 1.28, pp. 23, 30).
 - In (c), `Pic(V_{R′⊗R′}) = 0` holds in (e) because `R′ ⊗_R R′` is a product of regular local rings of
   dimension `≥ 2` and §7.6 applies to each factor.
 
@@ -3132,6 +3158,11 @@ and §8.1.
 - For `R = ℤ_p⟦x⟧` (residue field `𝔽_p` of dimension `1`) and `T = 𝔾_m`: `H²(U_R, 𝔾_m) = 0`.
 - The residue-field hypothesis cannot be dropped: for `R = ℝ⟦x, y⟧` and `T` the norm-one torus of `ℂ/ℝ`,
   `H^1(U_R, T) ≅ H^1(R, T) ≅ H^1(ℝ, T) = ℤ/2` by §8.6 and henselian invariance.
+- Nor can its Brauer clause be weakened to cohomological dimension `≤ 1`: for the imperfect field `k` of
+  the §8.2 Checks, which satisfies the first clause and has `Br(k) ≠ 0`, take `R = k⟦x, y⟧` and
+  `T = 𝔾_m`. Then `H²(R, 𝔾_m) ≅ Br(R) ≅ Br(k) ≠ 0` (§7.10; SchemeAndStackFoundations §2.22,
+  `brauer_henselian_local`), and restriction `H²(R, 𝔾_m) → H²(U_R, 𝔾_m)` is injective because its
+  composite with restriction to the generic point is injective (§7.9(b)); so `H²(U_R, 𝔾_m) ≠ 0`.
 
 ### 8.4 The coniveau spectral sequence for cohomology with supports
 
@@ -3477,7 +3508,7 @@ them (see Scope and ownership).
   Publ. Math. IHÉS 32 (1967), 17.5.1 and §21.13.
 - **[STACKS]** The Stacks project authors, *The Stacks project*, tags 07DV, 0913, 09Q1, 09Q7, 0DXR, 0DX9,
   0EHC, 0EJP, 023M.
-- **[Poo17]** Bjorn Poonen, *Rational points on varieties*, GSM 186, AMS 2017, §6.8.
+- **[Poo17]** Bjorn Poonen, *Rational points on varieties*, GSM 186, AMS 2017, §§1.3–1.5 and 6.8.
 - **[BC22]** Alexis Bouthier and Kęstutis Česnavičius, *Torsors on loop groups and the Hitchin fibration*,
   Ann. Sci. ÉNS 55 (2022); arXiv:1908.07480, Lemma 2.3.2.
 - **[ILO14]** L. Illusie, Y. Laszlo and F. Orgogozo (eds.), *Travaux de Gabber sur l'uniformisation locale et
