@@ -132,6 +132,11 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
 - `fourier`, `fourierCoeff`, `hasSum_fourier_series_L2` on `AddCircle`; `mFourier` on
   `UnitAddTorus` (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`); `Real.fourierChar`.
 - `PontryaginDual` with its compact-open topology; Haar measure.
+- Joint continuity of evaluation: `ContinuousMonoidHom.instContinuousEval` makes `(χ,m)↦χ(m)`
+  continuous on `(A →ₜ* B)×A` under `[LocallyCompactPair A B]`
+  (`Mathlib/Topology/Algebra/Group/CompactOpen.lean`), and `LocallyCompactPair A B` holds for every
+  locally compact A (`Mathlib/Topology/Compactness/LocallyCompact.lean`); at `B=Circle` this is
+  evaluation `M̂×M→𝕋` for a locally compact M, the continuity input of β and σ in §1.1.
 - `IsZLattice`, `ZLattice.covolume` (the volume of a fundamental domain),
   `ZLattice.covolume_eq_det`, `ZSpan.fundamentalDomain` and `ZSpan.isAddFundamentalDomain`.
 - `CStarModule` and `WithCStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/`).
@@ -142,8 +147,6 @@ belongs to a Part II of it, which starts from the Schwartz–Bruhat analysis of 
 
 **From Tau Ceti.**
 
-- `TauCeti.PontryaginDual.continuous_coe_eval_const` (continuity of evaluation at a point on the
-  dual, `TauCeti/Analysis/Fourier/Pontryagin/DualEval.lean`).
 - The lattice Poisson formula with its lattice calculus, for a finite-dimensional real inner
   product space E with its Borel σ-algebra and a full lattice L (`[DiscreteTopology L]`,
   `[IsZLattice ℝ L]`): `SchwartzMap.tsum_eq_tsum_dual_fourier` (for `f : 𝓢(E,ℂ)` and v∈E,
@@ -250,8 +253,9 @@ bicharacter (`σ(x,x)=1`, `σ(y,x)=conj σ(x,y)`) which is nondegenerate: `σ(x,
 On `M=ℝ^k`, with `x=(m,s)` and `y=(n,u)`, these are `schrodinger`, `schrodingerAdjoint` and
 `symplecticChar`: `σ(x,y)=e(u⬝m−s⬝n)`, and `schrodingerAdjoint x` is the adjoint of
 `schrodinger x`.
-*Needs:* OperatorAlgebraDynamics D1.CentralTwists; Mathlib Haar measure, `PontryaginDual`, `Lp`;
-Tau Ceti `TauCeti.PontryaginDual.continuous_coe_eval_const` for the continuity of β and σ.
+*Needs:* OperatorAlgebraDynamics D1.CentralTwists; Mathlib Haar measure, `PontryaginDual`, `Lp`,
+and `ContinuousMonoidHom.instContinuousEval` (joint continuity of evaluation `M̂×M→𝕋` for locally
+compact M, through `LocallyCompactPair`) for the continuity of β and σ on G×G.
 
 - `schrodinger x` preserves `L²(ℝ^k)` norms, and `l2Inner (schrodinger x ξ) η = l2Inner ξ
   (schrodingerAdjoint x η)` for square-integrable ξ, η.
@@ -327,9 +331,9 @@ M=ℤ/N and any subgroup D of `ℤ/N×ℤ/N`, `c_D=N/|D|`.
 ### Dependencies
 
 OperatorAlgebraDynamics D1.CentralTwists; Mathlib Haar measure, `PontryaginDual`,
-`ZLattice.covolume`; Tau Ceti `TauCeti.PontryaginDual.continuous_coe_eval_const`, `ZLattice.dual`,
-`ZLattice.dual_comap_continuousLinearEquiv`, `ZLattice.covolume_comap_continuousLinearEquiv`,
-`ZLattice.covolume_dual`.
+`ContinuousMonoidHom.instContinuousEval` (`Mathlib/Topology/Algebra/Group/CompactOpen.lean`),
+`ZLattice.covolume`; Tau Ceti `ZLattice.dual`, `ZLattice.dual_comap_continuousLinearEquiv`,
+`ZLattice.covolume_comap_continuousLinearEquiv`, `ZLattice.covolume_dual`.
 
 ## Layer 2: Schwartz–Bruhat spaces and Poisson summation
 
@@ -861,9 +865,7 @@ Layers 1–5; NoncommutativeGeometry N6–N7.
 
 ## Downstream consumers
 
-HilbertModules H5 compares its commutative torus section modules with the θ≠0 model of §6.3.
-NoncommutativeGeometry N7's Heisenberg module and Powers–Rieffel projection are the 0<θ<1 case
-of §6.3 and §5.2. The quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0, with
+The quantum tori `C*(ℤ^d,σ_Θ)` of CompactQuantumMetricSpaces §6.0, with
 `σ_Θ(p,q)=exp(πi pᵀΘq)` for a real skew-symmetric d×d matrix Θ, and the twisted algebras
 `C*(ℤ^d,c)` of OperatorKTheory §7.5, for d≥0 and a normalised circle-valued 2-cocycle c on ℤ^d,
 are OperatorAlgebraDynamics' `C*(G,ω)` at G=ℤ^d (D1.CentralTwists, D2.CentralTwists):
