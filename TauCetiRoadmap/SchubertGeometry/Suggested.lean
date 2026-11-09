@@ -15,16 +15,19 @@ headlines is statable at the pins this folder's manifest fixes, so nothing is st
   and their section representations; the Demazure operators themselves are the
   `RootPairing.demazureOperator` of `TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`,
   a directory the Tau Ceti revision this folder's manifest pins does not have.
-* S4's operator-stability and generation theorems (S4.2, S4.3) are statable on the
+* S4's operator-stability and generation theorems (S4.2, S4.3) need the
   Lakshmibai–Seshadri encodings `TauCeti.LSPath`, their realized paths
   `TauCeti.LSPath.toPLPath` and Littelmann's operators `TauCeti.PLPath.lower` and
-  `TauCeti.PLPath.raise`; its character identity (S4.4) on those encodings,
-  `TauCeti.weylDenominator` and `RootPairing.dotAlternatization`; its component and
-  tensor theorems need in addition the crystal structure on `TauCeti.LSPath` that S4.1
-  and S4.3 construct from operator stability. These carriers live in
-  `TauCeti/RepresentationTheory/LSPath/`, `TauCeti/RepresentationTheory/Crystal/` and
-  `TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Integral.lean`, none of which the
-  Tau Ceti revision this folder's manifest pins has.
+  `TauCeti.PLPath.raise` of `TauCeti/RepresentationTheory/LSPath/`, a directory the
+  Tau Ceti revision this folder's manifest pins does not have. Its character identity
+  (S4.4) needs in addition the dot alternatization `RootPairing.dotAlternatization` of
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Integral.lean`, a file that
+  revision does not have either; the Weyl denominator `TauCeti.weylDenominator` of
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Basic.lean` is present there. Its
+  component and tensor theorems need the normal crystals `TauCeti.NormalCrystal` of
+  `TauCeti/RepresentationTheory/Crystal/`, also absent from that revision, and the
+  crystal structure on `TauCeti.LSPath` that S4.1 and S4.3 construct from operator
+  stability.
 * S5's splitting, normality and vanishing theorems need the Schubert schemes
   and their Frobenius-module and coherent-cohomology constructions.
 * S6's all-degree standard monomial theorem needs geometric path sections and
