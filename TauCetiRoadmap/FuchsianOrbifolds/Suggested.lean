@@ -4,7 +4,6 @@ import TauCeti.Analysis.Complex.Fuchsian.Compactification.Manifold
 import TauCeti.Analysis.Complex.Fuchsian.Covolume
 import TauCeti.Analysis.Complex.Fuchsian.Elliptic.Finite
 import TauCeti.Analysis.Complex.RiemannSurface.Degree
-import TauCeti.Analysis.Complex.RiemannSurface.Divisor.Basic
 import TauCeti.Analysis.Complex.RiemannSurface.Ramification
 import TauCeti.GroupTheory.GroupAction.Stabilizer.Basic
 
@@ -14,9 +13,8 @@ import TauCeti.GroupTheory.GroupAction.Stabilizer.Basic
 **This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`. This file
 states the roadmap's headline theorems that the pinned Tau Ceti does not already prove, each with
 `sorry`, against the pinned Mathlib and Tau Ceti, together with the one definition they need,
-`genus`. It also names Tau Ceti's compactified carrier and its atlas `CompactifiedQuotient` and
-`compactifiedChartedSpace`, and exports the native degree API with `genus` and `riemannHurwitz`
-under the short names `RiemannSurface.*`.
+`genus`. It exports `genus` and `riemannHurwitz` as `RiemannSurface.genus` and
+`RiemannSurface.riemannHurwitz`.
 
 Headlines already proved at the Tau Ceti pin, and therefore not restated: the effective action of
 `PSL(2, ℝ)` on `ℍ` (`UpperHalfPlane.instMulActionPSL2`) and proper discontinuity of discrete
@@ -44,18 +42,6 @@ namespace TauCetiRoadmap.FuchsianOrbifolds
 
 open MeasureTheory MulAction TauCeti
 open scoped MatrixGroups UpperHalfPlane Manifold Real
-
-/-! ## Layer 4: compactified quotient Riemann surfaces -/
-
-/-- The compactified quotient `X(Γ) = (Γ \ ℍ) ⊔ {cusp orbits}`: an abbreviation of Tau Ceti's
-carrier `Subgroup.CompactifiedQuotient`. -/
-abbrev CompactifiedQuotient (Γ : Subgroup PSL(2, ℝ)) : Type := Γ.CompactifiedQuotient
-
-/-- The complex atlas of `X(Γ)` for a discrete `Γ`, made of the coarse-quotient charts and the
-`q`-coordinate charts at the cusps: Tau Ceti's `Subgroup.CompactifiedQuotient.instChartedSpace`. -/
-noncomputable abbrev compactifiedChartedSpace (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ] :
-    ChartedSpace ℂ (CompactifiedQuotient Γ) :=
-  inferInstance
 
 /-! ## Layer 5: genus, Riemann–Hurwitz and the orbifold area formula -/
 
@@ -89,9 +75,9 @@ theorem riemannHurwitz {X Y : Type u} [TopologicalSpace X] [ChartedSpace ℂ X]
         (RiemannSurface.ramificationDegree f : ℤ) := by
   sorry
 
-/-- **The orbifold area formula.** A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; s)`
-has covolume `2π (2g − 2 + Σᵢ (1 − 1 / mᵢ) + s)`, where `g` is the genus of the compactified
-quotient `X(Γ)`, the `mᵢ` are the stabilizer orders of the elliptic orbits and `s` is the number
+/-- **The orbifold area formula.** A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; c)`
+has covolume `2π (2g − 2 + Σᵢ (1 − 1 / mᵢ) + c)`, where `g` is the genus of the compactified
+quotient `X(Γ)`, the `mᵢ` are the stabilizer orders of the elliptic orbits and `c` is the number
 of cusp orbits (Martin, *The geometry and arithmetic of Kleinian groups*, arXiv:1311.2636,
 Theorem 2.2; Beardon, §10.4; Katok, §4.3). -/
 theorem covolume_eq_two_pi_mul_signature (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
@@ -144,13 +130,9 @@ theorem covolume_eq_pi_div_three_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopolo
 
 end TauCetiRoadmap.FuchsianOrbifolds
 
-/-! The short names `RiemannSurface.*` of the native compact-Riemann-surface API and of this
-roadmap's genus and Riemann–Hurwitz theorem. -/
+/-! The short names `RiemannSurface.genus` and `RiemannSurface.riemannHurwitz` of this roadmap's
+genus and Riemann–Hurwitz theorem. -/
 namespace RiemannSurface
-
-export TauCeti.RiemannSurface
-  (FiniteHolomorphicMap localMultiplicity degree degree_comp divisorPullback
-   biholomorphOfDegreeEqOne biholomorphOfDegreeEqOne_toFun)
 
 export TauCetiRoadmap.FuchsianOrbifolds (genus riemannHurwitz)
 

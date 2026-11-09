@@ -153,21 +153,19 @@ pins lack:
 
 - second countability of `PSL(2,ℝ)` (Layer 0 item 1);
 - the isometric action of the negative-determinant elements of `GL(2,ℝ)` (Layer 0 item 2);
-- the comparison of the Riemannian distance of the Poincaré metric with Mathlib's `dist`, and the
-  identification of the Poincaré metric with Tau Ceti's half-space metric on
-  `TauCeti.UpperHalfSpace ℝ` (Layer 2 item 1);
+- the action of `GL(2,ℝ)` by Riemannian isometries of the Poincaré metric, the comparison of the
+  Riemannian distance of the Poincaré metric with Mathlib's `dist`, and the identification of the
+  Poincaré metric with Tau Ceti's half-space metric on `TauCeti.UpperHalfSpace ℝ`, as a Riemannian
+  isometry and as an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ` (Layer 2 item 1);
 - the topological genus with `χ = 2 − 2g`, Riemann–Hurwitz in genus form, the Fuchsian
   Riemann–Hurwitz formula and the intrinsic orbifold area formula (Layer 5 items 1, 3, 6 and 7);
 - the minimal areas and their equality cases (Layer 4a).
 
 `Suggested.lean` exports `genus` and `riemannHurwitz` as `RiemannSurface.genus` and
 `RiemannSurface.riemannHurwitz`; `RiemannSurface.genus` is the name under which
-PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite Layer 5 item 1's genus. It also
-declares `CompactifiedQuotient`, an abbreviation of Tau Ceti's `Subgroup.CompactifiedQuotient`,
-with its atlas `compactifiedChartedSpace`, Tau Ceti's
-`Subgroup.CompactifiedQuotient.instChartedSpace`, and exports the Tau Ceti degree API of Layer 5
-item 2 under the same short names `RiemannSurface.*`. The carrier written `CompactifiedQuotient Γ`
-in other roadmaps is Tau Ceti's `Γ.CompactifiedQuotient`. All other names in this README that
+PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite Layer 5 item 1's genus. The
+carrier written `CompactifiedQuotient Γ` in other roadmaps is Tau Ceti's `Γ.CompactifiedQuotient`,
+with its atlas `Subgroup.CompactifiedQuotient.instChartedSpace`. All other names in this README that
 begin with `TauCeti`, `Subgroup`, `UpperHalfPlane`, `Matrix`, `QuotientGroup`, `OnePoint` or
 `MeasureTheory` are pinned library declarations.
 
@@ -244,7 +242,7 @@ These conventions prevent silent inversions and non-effective actions.
   stabilizer orders, and the number of cusp orbits.  Public theorems continue to expose those
   underlying objects.
 - A finite holomorphic map's local multiplicity, degree, divisor pullback and degree-one theorem
-  are Tau Ceti's `TauCeti.RiemannSurface` declarations listed under Ownership; degree is the
+  are Tau Ceti's `TauCeti.RiemannSurface` declarations listed in Layer 5 item 2; degree is the
   fibre sum of local multiplicities, not a field of a map record. Its ramification degree is
   `R(f) = Σₓ (eₓ − 1)`, so the double cover `z ↦ z²` of the sphere has `R = 2`.
 - Genus is topological: `genus X = (2 − χ(X))/2` for Tau Ceti's finite-CW Euler characteristic
@@ -396,22 +394,42 @@ The development starts from the following material.
 
 1. **L2.1: the hyperbolic metric, area and covolume.** Tau Ceti's
    `TauCeti.UpperHalfPlane.poincareRiemannianMetric` is the Riemannian metric
-   `(Re v Re w + Im v Im w)/y²` on `UpperHalfPlane`, and `UpperHalfPlane.riemannianVolume_eq_volume`
-   identifies its Riemannian volume with Mathlib's `volume`. Prove that its Riemannian distance is
-   Mathlib's `dist`: a vertical segment from `iy₁` to `iy₂` has length `|log(y₂/y₁)|`, every curve
-   joining them is at least as long because `|d log y| ≤ ds`, the isometric `PSL(2,ℝ)` action moves
-   an arbitrary pair to a vertical pair, and the resulting
+   `(Re v Re w + Im v Im w)/y²` on `UpperHalfPlane` (`UpperHalfPlane.poincareRiemannianMetric_inner`),
+   and `UpperHalfPlane.riemannianVolume_eq_volume` identifies its Riemannian volume with Mathlib's
+   `volume`. Prove that every element of `GL(2,ℝ)` acts on `ℍ` by a Riemannian isometry of this
+   metric, an element of Tau Ceti's isometry group `TauCeti.Isom 𝓘(ℝ, ℂ) ℍ`
+   (`Riemannian/Isometry/Group.lean`): an element `g = [[a, b], [c, d]]` of positive determinant
+   acts holomorphically with derivative `det g/(cz + d)²`, whose modulus `det g/|cz + d|²` is the
+   ratio `Im(g • z)/Im z` by Mathlib's `UpperHalfPlane.im_smul_eq_div_normSq`, so the tensor is
+   preserved; Mathlib's `UpperHalfPlane.J` acts by `z ↦ −conj z` (`UpperHalfPlane.coe_J_smul`),
+   whose differential `v ↦ −conj v` preserves `|v|` while the map preserves `Im z`; and an element
+   of negative determinant is `J` composed with one of positive determinant, as in Layer 0 item 2
+   (this roadmap's own derivation from the metric formula). Prove that the Riemannian distance of
+   this metric is Mathlib's `dist`, that is, that Mathlib's metric space `ℍ` satisfies Mathlib's
+   `IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ` for this metric: a vertical segment from `iy₁` to `iy₂` has
+   length `|log(y₂/y₁)|`, every curve joining them is at least as long because `|d log y| ≤ ds`,
+   the `PSL(2,ℝ)` action, by Riemannian isometries and by isometries of `dist`
+   (`IsIsometricSMul PSL(2, ℝ) ℍ`), moves an arbitrary pair to a vertical pair, and the resulting
    `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with `UpperHalfPlane.dist_eq`, including the
-   coincident-point case (Katok, §1.2). Prove that `x + iy ↦ (x, y)` identifies this metric with
-   Tau Ceti's half-space metric `TauCeti.UpperHalfSpace.riemannianMetric` on
-   `TauCeti.UpperHalfSpace ℝ`, the plane case `E = ℝ` of `(‖dx‖² + dt²)/t²`: both tensors are the
-   Euclidean one divided by the squared height, so the map is a Riemannian isometry (this roadmap's
-   own derivation from the two metric formulas). It transports Tau Ceti's completeness
-   `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric` (`Hyperbolic/Completeness.lean`) and
-   constant sectional curvature `−1` `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
-   (`Hyperbolic/UpperHalfSpace/Curvature.lean`), packaged together as
-   `TauCeti.UpperHalfSpace.hyperbolicMetric` (`Hyperbolic/UpperHalfSpace/Metric.lean`); the
-   `PSL(2,ℝ)` and `PGL(2,ℝ)` actions are then Riemannian isometries by Layer 0 item 2. Covolume
+   coincident-point case (Katok, §1.2). Prove that `x + iy ↦ (x, y)` is a Riemannian isometry
+   `TauCeti.RiemannianIsometry 𝓘(ℝ, ℂ) 𝓘(ℝ, WithLp 2 (ℝ × ℝ)) ℍ (TauCeti.UpperHalfSpace ℝ)` onto
+   Tau Ceti's half-space model with its metric `TauCeti.UpperHalfSpace.riemannianMetric`, the plane
+   case `E = ℝ` of `(‖dx‖² + dt²)/t²` (`TauCeti.UpperHalfSpace.inner_def`): both tensors are the
+   Euclidean one divided by the squared height (this roadmap's own derivation from the two metric
+   formulas). Give the half-space its Riemannian distance, Tau Ceti's
+   `TauCeti.MetricSpace.ofRiemannianMetric` (`Riemannian/Distance.lean`). With the distance
+   comparison above, Tau Ceti's `TauCeti.RiemannianIsometry.riemannianEDist_eq`
+   (`Riemannian/Isometry/Distance.lean`, whose `IsometryClass` instance turns a Riemannian isometry
+   between spaces whose distances are their Riemannian distances into a metric isometry) makes the
+   map an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ` from Mathlib's `dist` to the Riemannian distance
+   of the half-space; this is the comparison isometry that TeichmullerGeometry consumes, and
+   conjugation by it carries the `GL(2,ℝ)` action to Riemannian isometries of the half-space. Tau
+   Ceti's `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`
+   (`Riemannian/Isometry/Curvature.lean`) carries the constant sectional curvature `−1` of the
+   half-space, `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
+   (`Hyperbolic/UpperHalfSpace/Curvature.lean`), to the Poincaré metric, and the Riemannian distance
+   of the Poincaré metric is complete because, by the distance comparison, it is Mathlib's `dist`,
+   which is complete by Mathlib's `ProperSpace ℍ` instance (`UpperHalfPlane/Metric.lean`). Covolume
    through measurable fundamental domains, independent of the domain, is Mathlib's
    `MeasureTheory.covolume` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean`); the existence of a
    fundamental domain and cofiniteness are Tau Ceti's `Subgroup.exists_isFundamentalDomain` and
@@ -420,18 +438,28 @@ The development starts from the following material.
    (`Analysis/Complex/UpperHalfPlane/Triangle.lean`) and
    `TauCeti.UpperHalfPlane.CompactConvexPolygon.volume_carrier` (`UpperHalfPlane/Polygon/GaussBonnet.lean`).
    *Needs:* Tau Ceti `TauCeti.UpperHalfPlane.poincareRiemannianMetric`,
-   `UpperHalfPlane.riemannianVolume_eq_volume`, `TauCeti.UpperHalfSpace.riemannianMetric`,
-   `TauCeti.UpperHalfSpace.completeSpace_of_riemannianMetric`,
-   `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`; Mathlib `UpperHalfPlane.dist_eq`; Layer 0
-   item 2.
+   `UpperHalfPlane.poincareRiemannianMetric_inner`, `UpperHalfPlane.riemannianVolume_eq_volume`,
+   `TauCeti.Isom`, `TauCeti.UpperHalfSpace.riemannianMetric`, `TauCeti.UpperHalfSpace.inner_def`,
+   `TauCeti.MetricSpace.ofRiemannianMetric`, `TauCeti.RiemannianIsometry.riemannianEDist_eq`,
+   `TauCeti.RiemannianIsometry.hasConstantSectionalCurvature_iff`,
+   `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`, `IsIsometricSMul PSL(2, ℝ) ℍ`; Mathlib
+   `UpperHalfPlane.dist_eq`, `UpperHalfPlane.im_smul_eq_div_normSq`, `UpperHalfPlane.J`,
+   `UpperHalfPlane.coe_J_smul`, `IsRiemannianManifold`, `ProperSpace ℍ`; Layer 0 item 2.
    **Checks.**
+   - `diag(2, 1)` sends `i` to `2i` with derivative `2`: the tangent vector `1` at `i` has squared
+     Poincaré length `1/1² = 1` and its image `2` at `2i` has `2²/2² = 1`, while the Euclidean
+     tensor would give `1` and `4`. The class of `[[0, −1], [1, 0]]` acts by `z ↦ −1/z` with
+     derivative `1/z²`, equal to `−1/4` at `2i`: the vector `1` at `2i`, of squared length `1/4`,
+     goes to `−1/4` at `i/2`, of squared length `(1/16)/(1/2)² = 1/4`.
    - At `2i` the tangent vector `1` has squared Poincaré length `(1·1 + 0·0)/2² = 1/4`, and its
      image `(1, 0)` at `(0, 2)` has squared half-space length `(1² + 0²)/2² = 1/4`; the disc
      normalisation `4|dz|²/y²` would give `1`, and the height rescaling `x + iy ↦ (x, 2y)` would send
      it to `(1, 0)` at `(0, 4)`, of squared length `1/16`.
    - `dist(i, 2i) = log 2`: the vertical segment has length `∫₁² dy/y = log 2`, and
      `2 arsinh(1/(2√2)) = 2 log √2 = log 2`; the disc-model normalisation `2|dz|/(1 − |z|²)` read on
-     `ℍ` as `2|dz|/y` would give `2 log 2`.
+     `ℍ` as `2|dz|/y` would give `2 log 2`. The comparison isometry sends `i` and `2i` to `(0, 1)`
+     and `(0, 2)`, whose half-space Riemannian distance is the length `∫₁² dt/t = log 2` of the
+     vertical segment, the same value.
    - The ideal triangle with vertices `0`, `1`, `∞` has area `π`, the angular defect `π − 0`, while
      the region `{|x| ≤ 1/2, |z| ≥ 1}` has area `π/3`, the covolume of `PSL(2,ℤ)`.
    - `z ↦ −conj z` fixes the imaginary axis pointwise, so it is a reflection: an isometry that
@@ -856,7 +884,8 @@ replace local declarations when available, but no layer waits for them.
   translation formula. Its q-coordinate descends under the whole stabilizer; replacing `σ` by
   `aσ+b` changes `w` and `q` by the exact formulas above but not the compactified atlas.
 - L2.1 identifies the Riemannian distance of the Poincaré metric with Mathlib's `dist`, so that
-  `dist(i, 2i) = log 2`; no second invariant measure is constructed.
+  `dist(i, 2i) = log 2`, and proves that `x + iy ↦ (x, y)` is an isometry onto the half-space
+  model with its Riemannian distance; no second invariant measure is constructed.
 - A finite-sided cofinite polygon produces a compact surface after one point is adjoined for each
   cusp orbit, with the carrier visibly the coarse quotient plus cusp-orbit subtype and compactness
   proved from a truncated fundamental polygon.
