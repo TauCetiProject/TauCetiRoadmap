@@ -990,7 +990,7 @@ Layer 11 consumes Layers 3, 8, 9 and 10 and supplies the generic marked-lattice 
 - GroupActionsOnRiemannSurfaces leaves Teichmüller space, Fenchel–Nielsen coordinates and the fixed-locus dimension theorem (Layers 0 to 8) to this roadmap and consumes them.
 - ComplexCurveModuli's moduli groupoid is compared with Layer 3.3's moduli groupoid through the forgetful map of Layer 2.2; that comparison lives here, and ComplexCurveModuli does not depend on it.
 
-Other roadmaps cite this one by its earlier milestone ids, and two objects they take from it are supplied elsewhere; they correspond as follows.
+Other roadmaps cite this one by its earlier milestone and section ids, and two objects they take from it are supplied elsewhere; they correspond as follows.
 
 - `T0`, the surface, complex and hyperbolic carriers: Layer 0, with the trivial automorphism kernel in §0.5.
 - `T3`, mapping-class actions and the moduli groupoid: Layer 3, with proper discontinuity and finite compact transporters in §3.3.
@@ -1000,6 +1000,7 @@ Other roadmaps cite this one by its earlier milestone ids, and two objects they 
 - `T8`, arithmetic exceptions: Layer 9.
 - `T9`, the maximal-overgroup locus with `Isom(ℍ) ≃ PGL₂(ℝ)` and isometry lifting: §0.4a and Layer 10.
 - `T10`, the common generic locus: Layer 11.
+- Layer 4.1, the identification of `Isom(ℍ)` with `PGL₂(ℝ)` and isometry lifting: §0.4a.
 - The lattices `Γ(O)` of an order in a quaternion algebra over a totally real field split at one real place, discrete of finite covolume: ArithmeticFuchsianGroups Layer 1 item 1, read in §9.1.
 - The minimum area `π/21` of a compact orientable hyperbolic orbifold: the inequality is Tau Ceti's `TauCeti.one_div_forty_two_le_hyperbolic_deficit` and the equality case FuchsianOrbifolds Layer 4a, both read in §10.1.
 
