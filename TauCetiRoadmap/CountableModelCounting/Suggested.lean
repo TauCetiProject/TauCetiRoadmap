@@ -47,6 +47,12 @@ open TauCeti.RelationalConfiguration (atom modelsOf isoSetoid isoSetoidOn bfEqui
 
 variable {L : FirstOrder.Language.{u, v}}
 
+/-- Countably many relation symbols in all give countably many of each arity, the form of the
+countability hypothesis that Tau Ceti's counting results take. -/
+private theorem countable_relations [Countable (Σ l, L.Relations l)] (n : ℕ) :
+    Countable (L.Relations n) :=
+  (sigma_mk_injective (i := n)).countable
+
 /-! ## Layer 0: counting isomorphism classes of countable models
 
 The restricted isomorphism `isoSetoidOn V φ`, the classes `CountableModelClasses φ`, the count
@@ -63,34 +69,36 @@ variable [L.IsRelational]
 `Equiv.realize_encodeVia`, which carries realization along `Equiv.nonempty_equiv_encodeVia`). -/
 theorem encodeVia_mem_modelsOf {α : Type} (φ : L.Sentenceω) {M : Type w} [L.Structure M]
     (e : M ≃ α) (hM : SentenceInf.Realize φ M) :
-    e.encodeVia (L := L) ∈ (modelsOf φ : Set (RelationalConfiguration L α)) := by
-  sorry
+    e.encodeVia (L := L) ∈ (modelsOf φ : Set (RelationalConfiguration L α)) :=
+  RelationalConfiguration.mem_modelsOf.2 ((Equiv.realize_encodeVia e φ).2 hM)
 
 /-- **Layer 0 milestone.** Two countable models, in any two universes, have the same class
 exactly when they are isomorphic. -/
 theorem classOf_eq_classOf_iff (φ : L.Sentenceω) {M : Type w} {N : Type w'} [L.Structure M]
     [L.Structure N] [Countable M] [Countable N] (hM : SentenceInf.Realize φ M)
     (hN : SentenceInf.Realize φ N) :
-    classOf φ hM = classOf φ hN ↔ Nonempty (M ≃[L] N) := by
-  sorry
+    classOf φ hM = classOf φ hN ↔ Nonempty (M ≃[L] N) :=
+  TauCeti.classOf_eq_classOf_iff hM hN
 
 /-- **Layer 0 milestone.** Every class is the class of a countable model in every universe. -/
 theorem classOf_surjective (φ : L.Sentenceω) (q : CountableModelClasses φ) :
     ∃ (M : Type w) (_ : L.Structure M) (_ : Countable M) (hM : SentenceInf.Realize φ M),
-      classOf φ hM = q := by
-  sorry
+      classOf φ hM = q :=
+  TauCeti.classOf_surjective q
 
 /-- **Layer 0 milestone.** There are at most continuum many countable models. -/
 theorem countableModelCount_le_continuum [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω) :
-    countableModelCount φ ≤ 𝔠 := by
-  sorry
+    countableModelCount φ ≤ 𝔠 :=
+  haveI := countable_relations (L := L)
+  TauCeti.countableModelCount_le_continuum φ
 
 /-- **Layer 0 milestone.** Isomorphism of codes on `Fin n` is a finite union of graphs of
 relabellings, so it has Borel graph. -/
 theorem measurableSet_isoSetoid_fin [Countable (Σ l, L.Relations l)] (n : ℕ) :
     MeasurableSet {p : RelationalConfiguration L (Fin n) × RelationalConfiguration L (Fin n) |
-      isoSetoid L (Fin n) p.1 p.2} := by
-  sorry
+      isoSetoid L (Fin n) p.1 p.2} :=
+  haveI := countable_relations (L := L)
+  RelationalConfiguration.measurableSet_setOf_isoSetoid
 
 /-- **Layer 0.** `φ` has a perfect set of pairwise non-isomorphic models with carrier `α`. -/
 def HasPerfectSetOfNonisoModelsOn (α : Type) (φ : L.Sentenceω) : Prop :=
@@ -98,8 +106,9 @@ def HasPerfectSetOfNonisoModelsOn (α : Type) (φ : L.Sentenceω) : Prop :=
 
 /-- **Layer 0 milestone.** Perfectly many countable models are continuum many. -/
 theorem HasPerfectlyManyCountableModels.countableModelCount_eq [Countable (Σ l, L.Relations l)]
-    {φ : L.Sentenceω} (h : HasPerfectlyManyCountableModels φ) : countableModelCount φ = 𝔠 := by
-  sorry
+    {φ : L.Sentenceω} (h : HasPerfectlyManyCountableModels φ) : countableModelCount φ = 𝔠 :=
+  haveI := countable_relations (L := L)
+  TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq h
 
 /-- **Layer 0 milestone, the finite tiers.** For each `n`, the models of `φ` on `Fin n` are
 countably many up to isomorphism, or there is a perfect set of pairwise non-isomorphic ones:
@@ -109,11 +118,12 @@ theorem countable_or_hasPerfectSetOfNonisoModelsOn_fin [Countable (Σ l, L.Relat
     Countable (Quotient (isoSetoidOn (Fin n) φ)) ∨ HasPerfectSetOfNonisoModelsOn (Fin n) φ := by
   sorry
 
+omit [L.IsRelational] in
 /-- **Layer 0.** The sentence "the universe is infinite", `L.infiniteSentence`: for every `n`,
 there are `n` pairwise distinct elements. -/
 theorem realize_infiniteSentence_iff {M : Type w} [L.Structure M] :
-    SentenceInf.Realize L.infiniteSentence M ↔ Infinite M := by
-  sorry
+    SentenceInf.Realize L.infiniteSentence M ↔ Infinite M :=
+  FirstOrder.Language.realize_infiniteSentence_iff L
 
 end Layer0
 
@@ -126,15 +136,15 @@ languages preserves the number of countable models and perfectly many countable 
 theorem lift_countableModelCount_onBoundedFormulaInf {L' : FirstOrder.Language.{u', v'}}
     [L.IsRelational] [L'.IsRelational] (e : L ≃ᴸ L') (φ : L.Sentenceω) :
     Cardinal.lift.{v'} (countableModelCount φ) =
-      Cardinal.lift.{v} (countableModelCount (e.toLHom.onBoundedFormulaInf φ)) := by
-  sorry
+      Cardinal.lift.{v} (countableModelCount (e.toLHom.onBoundedFormulaInf φ)) :=
+  e.lift_countableModelCount_onBoundedFormulaInf φ
 
 theorem hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff
     {L' : FirstOrder.Language.{u', v'}} [L.IsRelational] [L'.IsRelational] (e : L ≃ᴸ L')
     (φ : L.Sentenceω) :
     HasPerfectlyManyCountableModels (e.toLHom.onBoundedFormulaInf φ) ↔
-      HasPerfectlyManyCountableModels φ := by
-  sorry
+      HasPerfectlyManyCountableModels φ :=
+  e.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff φ
 
 end Transport
 
@@ -194,16 +204,17 @@ sentence. -/
 theorem modelsOf_scottSentenceAtLevel [Countable (Σ l, L.Relations l)]
     (c : RelationalConfiguration L ℕ) {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
     (modelsOf (c.scottSentenceAtLevel β) : Set (RelationalConfiguration L ℕ)) =
-      {d | bfEquivSetoid L ℕ β c d} := by
-  sorry
+      {d | bfEquivSetoid L ℕ β c d} :=
+  RelationalConfiguration.modelsOf_scottSentenceAtLevel c hβ
 
 /-- **Layer 1 milestone, the instance.** The Scott height (values in `Ordinal.{0}` for structures
 on `ℕ`), read on codes, is an isolating rank, by `nonempty_equiv_of_bfEquiv_of_scottHeight_le`,
-`scottHeight_lt_omega_one` and `Language.Equiv.scottHeight_eq`. -/
+`scottHeight_lt_omega_one` and `Language.Equiv.scottHeight_eq`. Tau Ceti's
+`TauCeti.isIsolatingRank_scottHeight` proves it with no countability hypothesis on `L`. -/
 theorem isIsolatingRank_scottHeight [Countable (Σ l, L.Relations l)] :
     IsIsolatingRank
-      (fun c : RelationalConfiguration L ℕ => letI := c.toStructure; scottHeight (L := L) ℕ) := by
-  sorry
+      (fun c : RelationalConfiguration L ℕ => letI := c.toStructure; scottHeight (L := L) ℕ) :=
+  TauCeti.isIsolatingRank_scottHeight L
 
 theorem exists_isIsolatingRank [Countable (Σ l, L.Relations l)] :
     ∃ ρ : RelationalConfiguration L ℕ → Ordinal.{0}, IsIsolatingRank ρ :=
@@ -212,26 +223,38 @@ theorem exists_isIsolatingRank [Countable (Σ l, L.Relations l)] :
 /-- **Layer 1.** An isolating rank isolates at every level at or above its value. -/
 theorem IsIsolatingRank.isolates_of_le {ρ : RelationalConfiguration L ℕ → Ordinal.{0}}
     (hρ : IsIsolatingRank ρ) {c d : RelationalConfiguration L ℕ} {γ : Ordinal.{0}}
-    (hγ : ρ c ≤ γ) (h : bfEquivSetoid L ℕ γ c d) : isoSetoid L ℕ c d := by
-  sorry
+    (hγ : ρ c ≤ γ) (h : bfEquivSetoid L ℕ γ c d) : isoSetoid L ℕ c d :=
+  hρ.isolates_of_le hγ h
+
+/-- The image of a set `K` of codes in the quotient by isomorphism is the quotient of isomorphism
+restricted to `K`, the form in which Tau Ceti states its counting results. -/
+private noncomputable def quotientComapEquivImage (K : Set (RelationalConfiguration L ℕ)) :
+    Quotient ((isoSetoid L ℕ).comap (Subtype.val : K → RelationalConfiguration L ℕ)) ≃
+      (Quotient.mk (isoSetoid L ℕ) '' K) :=
+  (Setoid.comapQuotientEquiv _ _).trans
+    (Set.equivOfEq (by rw [Set.range_comp, Subtype.range_coe]))
 
 /-- **Layer 1 milestone, the stratification bound.** If at every level `β < ω₁` the codes of a
 set `K` fall into countably many back-and-forth classes, then `K` meets at most `ℵ₁`
-isomorphism classes: the classes of rank `β` inject into the level-`β` quotient. -/
+isomorphism classes: the classes of rank `β` inject into the level-`β` quotient. Tau Ceti's
+`TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels` proves it, with no countability hypothesis
+on `L`, for the quotient of isomorphism restricted to `K`. -/
 theorem mk_isoClasses_le_aleph_one_of_countable_levels [Countable (Σ l, L.Relations l)]
     (K : Set (RelationalConfiguration L ℕ))
     (hK : ∀ β < (Ordinal.omega 1 : Ordinal.{0}),
       Countable (Quotient ((bfEquivSetoid L ℕ β).comap
         (Subtype.val : K → RelationalConfiguration L ℕ)))) :
-    #(Quotient.mk (isoSetoid L ℕ) '' K) ≤ ℵ₁ := by
-  sorry
+    #(Quotient.mk (isoSetoid L ℕ) '' K) ≤ ℵ₁ :=
+  (Cardinal.mk_congr (quotientComapEquivImage K)).symm.trans_le
+    (TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels K hK)
 
 /-- **Layer 1 milestone.** Countably many relations with countable quotients, isolating the
 target, give it a countable quotient. -/
 theorem _root_.Setoid.countable_quotient_of_isolatedBy {X : Type*} {I : Type*} [Countable I]
     {E : I → Setoid X} {R : Setoid X} (hE : ∀ i, Countable (Quotient (E i)))
-    (h : R.IsolatedBy E) : Countable (Quotient R) := by
-  sorry
+    (h : R.IsolatedBy E) : Countable (Quotient R) :=
+  haveI := hE
+  h.countable_quotient
 
 end Layer1
 
@@ -338,7 +361,8 @@ theorem IsIsolatingRank.countable_isoClasses_iff_bounded
     {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K) :
     (Quotient.mk (isoSetoid L ℕ) '' K).Countable ↔
       ∃ β < Ordinal.omega 1, ∀ c ∈ K, ρ c < β := by
-  sorry
+  rw [← Set.countable_coe_iff, ← (quotientComapEquivImage K).countable_iff]
+  exact hρ.countable_isoClasses_iff_bounded hK
 
 /-- **Layer 4 milestone.** Under the same hypotheses, uncountably many classes are exactly `ℵ₁`. -/
 theorem IsIsolatingRank.mk_isoClasses_eq_aleph_one
@@ -346,7 +370,12 @@ theorem IsIsolatingRank.mk_isoClasses_eq_aleph_one
     {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K)
     (hunc : ¬ (Quotient.mk (isoSetoid L ℕ) '' K).Countable) :
     #(Quotient.mk (isoSetoid L ℕ) '' K) = ℵ₁ := by
-  sorry
+  have : Uncountable (Quotient ((isoSetoid L ℕ).comap
+      (Subtype.val : K → RelationalConfiguration L ℕ))) := by
+    rw [← not_countable_iff, (quotientComapEquivImage K).countable_iff, Set.countable_coe_iff]
+    exact hunc
+  rw [← Cardinal.mk_congr (quotientComapEquivImage K)]
+  exact hρ.mk_isoClasses_eq_aleph_one hK
 
 /-- **Layer 4.** A set of codes is concentrated at back-and-forth levels: at each level `β < ω₁`,
 all but countably many of its isomorphism classes lie in the class of one centre `k`. -/
@@ -632,8 +661,8 @@ construction grow without bound; no countability of the levels is needed. -/
 theorem exists_limit_of_bfEquiv_chain [L.IsRelational] (c : ℕ → RelationalConfiguration L ℕ)
     (α : ℕ → Ordinal.{0}) (hα : Monotone α)
     (hc : ∀ i, bfEquivSetoid L ℕ (α i + Ordinal.omega0) (c i) (c (i + 1))) :
-    ∃ d : RelationalConfiguration L ℕ, ∀ i, bfEquivSetoid L ℕ (α i) d (c i) := by
-  sorry
+    ∃ d : RelationalConfiguration L ℕ, ∀ i, bfEquivSetoid L ℕ (α i) d (c i) :=
+  RelationalConfiguration.exists_limit_of_bfEquiv_chain hα hc
 
 /-- **Layer 5 milestone, the Harnik–Makkai reduction.** A sentence with back-and-forth scattered
 models on `ℕ` meeting uncountably many isomorphism classes has a minimally uncountable
