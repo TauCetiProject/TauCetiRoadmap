@@ -110,8 +110,8 @@ Pin these once; every statement below uses them.
 
 | Supplier | Consumed material |
 |---|---|
-| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation `TauCeti.ModelTheory.Infinitary.*` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `toInf`/`toOmega` with `realize_toInf`, `IndexCoding`, `iInfAlong`/`iSupAlong` with their realization lemmas, `reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`) |
-| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) | `InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `BFEquiv`, Scott sentences `scottSentence` and `scott_isomorphism`, used in worked examples |
+| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/Infinitary/{Syntax,Semantics,IndexCoding,CodedConnectives,Reindex,Operations,Substitution,QuantifierRank,Equiv}.lean` at Tau Ceti `2fd255d99` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `BoundedFormulaInf.alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `BoundedFormula.toInf`/`BoundedFormulaInf.toOmega` with `BoundedFormula.realize_toInf`, `TauCeti.IndexCoding` and `IndexCoding.ofEncodableWith`, `BoundedFormulaInf.iInfAlong`/`iSupAlong` with their realization lemmas, `BoundedFormulaInf.reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `BoundedFormulaInf.qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`), all in the namespace `FirstOrder.Language` unless written with `TauCeti` |
+| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `realize_scottSentence_iff` states for `scottSentence` |
 | Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
 | Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
 | Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
@@ -150,14 +150,13 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
   relational and countable instances of `morleyize`, `nonempty_morleyEquiv_iff`,
   `Theoryω.conjunction`, `smallPresentation` and `smallPresentationEquiv`.
 
-This roadmap owns these interfaces. The sibling prototypes reproduce the current proposed
-declarations of `PCMem`, `pcSeparation`, `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
-`infinitaryType`, `realizedTypes`, `morleyize`, `lhomMorleyize`, `morleyExpansion`,
-`morleyize_isRelational`, `countable_relations_morleyize` and `nonempty_morleyEquiv_iff` as marked
-stand-ins, each recording the revision of this roadmap it was checked against. The copies are
-prototype scaffolding, not authorization to implement a parallel API in Tau Ceti. Changes to the
-interface here are propagated to the copies and rechecked by substituting these declarations for
-them, until the consumers import this roadmap's declarations directly.
+This roadmap owns these interfaces. Where Tau Ceti `2fd255d99` implements one (see
+[Tau Ceti implementation](#tau-ceti-implementation)), the sibling prototypes import the Tau Ceti
+declaration. An interface it does not implement, such as `pcSeparation`, is reproduced in the
+consuming prototype as a marked stand-in, recording the revision of this roadmap it was checked
+against. The copies are prototype scaffolding, not authorization to implement a parallel API in
+Tau Ceti. Changes to the interface here are propagated to the copies and rechecked by substituting
+these declarations for them.
 
 ## Layer 0: the signature calculus of infinitary formulas
 
