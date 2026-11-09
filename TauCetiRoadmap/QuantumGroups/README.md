@@ -297,8 +297,12 @@ a subobject of X⊗X̄, with equality exactly when X is invertible: equality
 forces X⊗X̄≅1 by additivity and positivity of dimensions (Neshveyev–Tuset
 §2.7, Definition 2.7.1 and the remark following it). Transport these solutions
 to the balanced unitary dual functor, a dagger-compatible dual functor
-(`(f∨)†=(f†)∨`) with unitary tensorator, and to the pivotal and spherical
-structures of PivotalSpherical. For a unitary self-duality r:X→X∨ keep the signed condition
+(`(f∨)†=(f†)∨`) with unitary tensorator (Neshveyev–Tuset Theorem 2.2.19 and
+Remark 2.2.20(ii), pp.36–37; the tensorator compares two standard solutions
+for X⊗Y, the chosen one and the composite `(ι⊗R_X⊗ι)R_Y`, which is standard
+by the proof of Theorem 2.2.16, so it is unitary by Proposition 2.2.13), and
+to the pivotal and spherical structures of PivotalSpherical. For a unitary
+self-duality r:X→X∨ keep the signed condition
 `bar(r) r=ε φ_X`, ε=±1, where bar(f)=(f†)∨ and φ is the pivotal comparison.
 Prove invariance of the sign on a simple self-dual object. Neshveyev–Tuset §2.5
 normalise a self-conjugate simple object by `R̄=−τR` with τ=±1, so their τ is

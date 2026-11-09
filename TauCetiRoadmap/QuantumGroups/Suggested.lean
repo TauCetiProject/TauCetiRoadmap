@@ -70,10 +70,11 @@ Not statable at the pins:
 * §8.5 rigid, pivotal and spherical structure of the finite `U_q(sl₂)`-modules, with the pivot
   `K⁻¹` and the sphericity hypothesis `q − q⁻¹ ≠ 0`: its carriers are
   `TauCeti.FiniteHopfModuleCat.rigidCategory`, `TauCeti.FiniteHopfModuleCat.unitEvalNatIso`,
-  `TauCeti.PivotalCategory` and `TauCeti.SphericalCategory`, in the modules
+  `TauCeti.PivotalCategory` and `TauCeti.SphericalCategory`, which live in the modules
   `TauCeti.Algebra.Category.FiniteHopfModuleCat.{Pivotal,Rigid}`,
   `TauCeti.CategoryTheory.Monoidal.Pivotal.{Basic,Trace,Spherical}` and
-  `TauCeti.QuantumGroups.UqSl2.{Antipode,Hopf}`, which this file does not import.
+  `TauCeti.QuantumGroups.UqSl2.{Antipode,Hopf}`; the pinned Tau Ceti has none of these modules,
+  so no statement of it elaborates here.
 * §8.6 comparison of finite positive-`K` modules with the finite unitary corepresentations of
   `SUq(2)`: it needs the universal C*-algebra `C(SUq(2))` of Layer 5, which needs the minimal
   tensor product above.
