@@ -98,7 +98,7 @@ Consume Stages 4–5’s based Hausdorff CW geometry, cofibrations, cellular and
 
 ### From TauCetiRoadmap.DGFloer
 
-Consume Layer 1 item 2’s homological Serre spectral sequence of a Serre fibration over a path-connected CW base B with coefficients in a commutative ring R: the filtration of singular chains by the preimages of the skeleta of B, E²_(p,q)=H_p(B;H_q(F;R)) with path-transport monodromy, strong convergence to H_(p+q)(E;R) with its abutment filtration, naturality and the componentwise version; §3.1 compares it with the case E=HR. Consume Layer 1 item 4’s Hurewicz theorem modulo a Serre class for simply connected spaces, applied in §4.3 to Tau Ceti's class `AddCommGrpCat.isKilledBySomePower` at d=p.
+Consume Layer 1 item 2’s homological Serre spectral sequence of a Serre fibration F→X→Y over a path-connected CW base Y with coefficients in a commutative ring R: the filtration of singular chains by the preimages of the skeleta of Y, E²_(s,t)=H_s(Y;H_t(F;R)) with path-transport monodromy, strong convergence to H_(s+t)(X;R) with its abutment filtration, naturality and the componentwise version; §3.1 compares it with the case E=HR. Consume Layer 1 item 4’s Hurewicz theorem modulo a Serre class for simply connected spaces, applied in §4.3 to Tau Ceti's class `AddCommGrpCat.isKilledBySomePower` at d=p.
 
 ### From TauCetiRoadmap.EllipticCohomology
 
