@@ -1,6 +1,8 @@
 module
 
 public import Mathlib
+public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Elementary
+public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Stable
 
 /-!
 # Homological stability of general linear groups: target signatures
@@ -11,32 +13,32 @@ with `sorry`, together with the definitions their statements need, all with real
 carriers. The API around each target, the special cases and the Checks stay in the README.
 
 Rings are commutative and live in `Type`, the universe of the coefficient ring `ℤ`, so that
-Mathlib's `groupHomology` applies to `GL_n(R)` with integral coefficients without transport.
+Mathlib's `groupHomology` applies to `GL_n(R)` and its subgroups with integral coefficients
+without transport. The stabilization `g ↦ diag(g, 1)` is Tau Ceti's `TauCeti.stabilizeGL`, and
+`E_n(R)` is Tau Ceti's `TauCeti.elementarySubgroup`.
 
 Headlines stated, with their README targets:
 
-* 1.1 `UnimodularFrame`, `UnimodularFrame.face`; 1.2 `frameBoundary`, `frameAugmentation`;
-* 1.4 `frameComplex_acyclic_of_ringKrullDim_le` and `frameComplex_acyclic_of_isSemisimpleRing`;
-* 2.4 `stabilization`, `homology_stabilization_of_ringKrullDim_le` and
-  `homology_stabilization_of_isSemisimpleRing`;
-* 2.5 `homology_stabilization_of_infinite_residueField`;
-* 3.3 `standardRep`, `twistedHomology_stabilization_of_ringKrullDim_le` and
+* 1.3 `affineGroup`, `affineInclusion` and `homology_affineInclusion_bijective`;
+* 2.2 `elementaryStabilization`, `elementaryHomology_stabilization_of_ringKrullDim_le` and
+  `elementaryHomology_stabilization_of_isSemisimpleRing`;
+* 2.3 `homology_stabilization_of_infinite_residueFields`;
+* 3.4 `standardRep`, `twistedHomology_stabilization_of_ringKrullDim_le` and
   `twistedHomology_stabilization_of_isSemisimpleRing`.
 
 Not stated:
 
-* 1.3 and 2.3, the acyclicity and stability theorems under Bass's stable range condition,
-  lacking AlgebraicKTheory's `HasStableRangeLE` (AlgebraicKTheory 4.1); the stability of
-  `H_m(E_n(R))` in 2.3 lacks also its `elementary` (AlgebraicKTheory 1.1). The theorems 1.4 and
-  2.4 are their instances through Bass's bounds (AlgebraicKTheory 4.2), stated with Mathlib's
-  hypotheses.
-* 2.2, the spectral sequence, lacking K3BlochGroups' group-module hyperhomology (K3BlochGroups
-  4.1).
-* 2.6, the comparison with `GL(R)` and with K-theory, lacking AlgebraicKTheory's stable linear
-  group (AlgebraicKTheory 1.2) and StableHomotopyKTheory's plus construction (StableHomotopyKTheory
-  3.25–3.27).
-* 3.2, stability with coefficients in a strongly central coefficient system, lacking
-  `HasStableRangeLE`; 3.3 is its instance for the standard representation.
+* 1.1, 1.2, Suslin's spectral sequence of 1.3, and 3.2, the frame complexes and the spectral
+  sequences, lacking SchemeKTheoryOperations §6.7's unimodular frames and group hyperhomology.
+* 2.1 and 3.3, the stability theorems under Bass's stable range condition, lacking
+  AlgebraicKTheory's `HasStableRangeLE` (AlgebraicKTheory 4.1); the theorems of 2.2 and 3.4 are
+  their instances through Bass's bounds (AlgebraicKTheory 4.2), stated with Mathlib's hypotheses.
+* 2.4, the comparison with `π_m(BGL_n(R)⁺)` and with `K_m(R)`, lacking StableHomotopyKTheory's
+  plus construction (StableHomotopyKTheory 3.25–3.27) and GeneralAlgebraicKTheory's `K_m(R)`.
+
+The stability of `H_m(GL_n(R); ℤ)` under the stabilization and its comparison with
+`H_m(GL(R); ℤ)`, along `TauCeti.StableGeneralLinearGroup.of`, with their noetherian and semilocal
+forms, are SchemeKTheoryOperations §6.7's and are not restated here.
 -/
 
 @[expose] public section
@@ -47,165 +49,130 @@ namespace TauCetiRoadmap.HomologicalStabilityOfGeneralLinearGroups
 
 variable (R : Type) [CommRing R]
 
-/-! ## Layer 1: unimodular frames and their complex -/
+/-! ## Layer 1: van der Kallen's groups and their spectral sequences -/
 
-/-- **1.1.** A unimodular `k`-frame in `Rⁿ`: an `n × k` matrix with a left inverse, that is, a
-sequence of `k` column vectors forming a basis of a free direct summand of `Rⁿ` (van der Kallen
-1980, 2.4). -/
-def UnimodularFrame (n k : ℕ) : Type :=
-  {A : Matrix (Fin n) (Fin k) R // ∃ B : Matrix (Fin k) (Fin n) R, B * A = 1}
+/-- **1.3.** The affine group `A_{n,m}`: the automorphisms of `Rⁿ ⊕ Rᵐ` fixing the vectors
+`(0; e_j)` of `Rᵐ`, that is, the block matrices `(g 0; u 1)` with `g ∈ GL_n(R)`; it is the
+stabiliser of the matrix `(0; 1)` for the action by left multiplication. -/
+def affineGroup (n m : ℕ) : Subgroup (Matrix.GeneralLinearGroup (Fin n ⊕ Fin m) R) :=
+  MulAction.stabilizer _
+    (Matrix.fromRows (0 : Matrix (Fin n) (Fin m) R) (1 : Matrix (Fin m) (Fin m) R))
 
-variable {R}
+/-- **1.3.** The inclusion `GL_n(R) → A_{n,m}`, `g ↦ diag(g, 1)`, through Tau Ceti's
+block-diagonal homomorphism. -/
+def affineInclusion (n m : ℕ) : Matrix.GeneralLinearGroup (Fin n) R →* affineGroup R n m :=
+  (TauCeti.fromBlocksGL.comp (MonoidHom.inl _ _)).codRestrict _ fun g => by
+    have h : ∀ (u : Matrix.GeneralLinearGroup (Fin n ⊕ Fin m) R)
+        (E : Matrix (Fin n ⊕ Fin m) (Fin m) R),
+        u • E = (u : Matrix (Fin n ⊕ Fin m) (Fin n ⊕ Fin m) R) * E := fun _ _ => rfl
+    rw [affineGroup, MulAction.mem_stabilizer_iff, h, MonoidHom.comp_apply, MonoidHom.inl_apply,
+      TauCeti.coe_fromBlocksGL]
+    simp [Matrix.fromBlocks_mul_fromRows]
 
-/-- **1.1.** The `i`-th face of a unimodular `(k + 1)`-frame: delete its column `i`. The rows
-`i.succAbove` of a left inverse form a left inverse of the face. -/
-def UnimodularFrame.face {n k : ℕ} (i : Fin (k + 1)) (A : UnimodularFrame R n (k + 1)) :
-    UnimodularFrame R n k :=
-  ⟨A.1.submatrix id i.succAbove, by
-    obtain ⟨B, hB⟩ := A.2
-    refine ⟨B.submatrix i.succAbove id, ?_⟩
-    have h : B.submatrix i.succAbove id * A.1.submatrix id i.succAbove =
-        (B * A.1).submatrix i.succAbove i.succAbove := by
-      ext a b
-      simp [Matrix.mul_apply]
-    rw [h, hB]
-    ext a b
-    simp [Matrix.one_apply]⟩
-
-variable (R)
-
-/-- **1.2.** The boundary of the complex of unimodular frames, from frames of length `k + 2`
-(degree `k + 1`) to frames of length `k + 1` (degree `k`): the alternating sum of the faces. -/
-noncomputable def frameBoundary (n k : ℕ) :
-    (UnimodularFrame R n (k + 2) →₀ ℤ) →ₗ[ℤ] (UnimodularFrame R n (k + 1) →₀ ℤ) :=
-  Finsupp.linearCombination ℤ fun A =>
-    ∑ i : Fin (k + 2), ((-1 : ℤ) ^ (i : ℕ)) • Finsupp.single (A.face i) (1 : ℤ)
-
-/-- **1.2.** The augmentation of the complex of unimodular frames: every unimodular vector,
-a frame of length one, goes to `1`. -/
-noncomputable def frameAugmentation (n : ℕ) : (UnimodularFrame R n 1 →₀ ℤ) →ₗ[ℤ] ℤ :=
-  Finsupp.linearCombination ℤ fun _ => (1 : ℤ)
-
-/-- **1.4.** For a commutative noetherian ring of Krull dimension at most `d`, the augmented
-complex of unimodular frames in `Rⁿ` is `(n - 2 - d)`-acyclic: the augmentation is onto when
-`n ≥ d + 1`, the reduced homology vanishes in degree `0` when `n ≥ d + 2`, and in degree `k + 1`
-when `n ≥ k + 1 + d + 2` (van der Kallen 1980, Theorem 2.6(i) with `δ = 0`, and Bass's stable
-range theorem). -/
-theorem frameComplex_acyclic_of_ringKrullDim_le [IsNoetherianRing R] (d n : ℕ)
-    (hd : ringKrullDim R ≤ d) :
-    (d + 1 ≤ n → Function.Surjective (frameAugmentation R n)) ∧
-    (d + 2 ≤ n → LinearMap.ker (frameAugmentation R n) ≤ LinearMap.range (frameBoundary R n 0)) ∧
-    ∀ k : ℕ, k + 1 + d + 2 ≤ n →
-      LinearMap.ker (frameBoundary R n k) ≤ LinearMap.range (frameBoundary R n (k + 1)) := by
-  sorry
-
-/-- **1.4.** For a ring whose quotient by its Jacobson radical is semisimple (a semilocal ring),
-the augmented complex of unimodular frames in `Rⁿ` is `(n - 2)`-acyclic (van der Kallen 1980,
-Theorem 2.6(i), with stable range one). -/
-theorem frameComplex_acyclic_of_isSemisimpleRing [IsSemisimpleRing (R ⧸ Ring.jacobson R)]
-    (n : ℕ) :
-    (1 ≤ n → Function.Surjective (frameAugmentation R n)) ∧
-    (2 ≤ n → LinearMap.ker (frameAugmentation R n) ≤ LinearMap.range (frameBoundary R n 0)) ∧
-    ∀ k : ℕ, k + 1 + 2 ≤ n →
-      LinearMap.ker (frameBoundary R n k) ≤ LinearMap.range (frameBoundary R n (k + 1)) := by
+/-- **1.3.** The Nesterenko–Suslin property of a semilocal ring with infinite residue fields: the
+inclusion `GL_n(R) → A_{n,m}` induces a bijection on integral homology in every degree
+(Galatius–Kupers–Randal-Williams 2025, Proposition 5.15 and Example 5.16; Nesterenko–Suslin
+1989, Proposition 1.10). The coefficient map `φ` is the identity of `ℤ`. -/
+theorem homology_affineInclusion_bijective [Finite (MaximalSpectrum R)]
+    [∀ 𝔪 : MaximalSpectrum R, Infinite (R ⧸ 𝔪.asIdeal)] (n m k : ℕ)
+    (φ : Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin n) R) ℤ ⟶
+      Rep.res (affineInclusion R n m) (Rep.trivial ℤ (affineGroup R n m) ℤ))
+    (hφ : φ.hom.toLinearMap = LinearMap.id) :
+    Function.Bijective (groupHomology.map (affineInclusion R n m) φ k) := by
   sorry
 
 /-! ## Layer 2: stability with constant coefficients -/
 
-/-- **2.4.** The stabilization `GL_n(R) → GL_{n+1}(R)`, `g ↦ diag(g, 1)`: the upper left block
-is `g`, the new last coordinate is fixed. The inverse block is `diag(g⁻¹, 1)`; the index type
-`Fin n ⊕ Fin 1` is reindexed by `finSumFinEquiv`. -/
-def stabilization (n : ℕ) :
-    Matrix.GeneralLinearGroup (Fin n) R →* Matrix.GeneralLinearGroup (Fin (n + 1)) R :=
-  (Units.map (Matrix.reindexRingEquiv R (finSumFinEquiv :
-    Fin n ⊕ Fin 1 ≃ Fin (n + 1))).toMonoidHom).comp
-    { toFun := fun g =>
-        { val := Matrix.fromBlocks g.val 0 0 (1 : Matrix (Fin 1) (Fin 1) R)
-          inv := Matrix.fromBlocks g.inv 0 0 (1 : Matrix (Fin 1) (Fin 1) R)
-          val_inv := by simp [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one]
-          inv_val := by simp [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one] }
-      map_one' := by apply Units.ext; exact Matrix.fromBlocks_one
-      map_mul' := fun g h => by
-        apply Units.ext
-        simp [Matrix.fromBlocks_multiply] }
+/-- **2.2.** The stabilization of the elementary subgroups, `E_n(R) → E_{n+1}(R)`: the restriction
+of `TauCeti.stabilizeGL`, which sends `E_n(R)` into `E_{n+1}(R)`. -/
+noncomputable def elementaryStabilization (n : ℕ) :
+    TauCeti.elementarySubgroup (Fin n) R →* TauCeti.elementarySubgroup (Fin (n + 1)) R :=
+  (Subgroup.inclusion
+      (TauCeti.map_stabilizeGL_elementarySubgroup_le (A := R) (Nat.le_succ n))).comp
+    ((TauCeti.stabilizeGL R (Nat.le_succ n)).subgroupMap _)
 
-/-- **2.4.** For a commutative noetherian ring of Krull dimension at most `d`, put
-`e = max 1 d`. The stabilization induces a surjection
-`H_m(GL_n(R); ℤ) → H_m(GL_{n+1}(R); ℤ)` for `n ≥ 2m + e - 1` and a bijection for `n ≥ 2m + e`
-(van der Kallen 1980, Theorem 4.11, with `sdim = d`). The coefficient map `φ` is the identity
-of `ℤ`. -/
-theorem homology_stabilization_of_ringKrullDim_le [IsNoetherianRing R] (d m n : ℕ)
+/-- **2.2.** For a commutative noetherian ring of Krull dimension at most `d`, put
+`e = max 1 d`. The stabilization induces a surjection `H_m(E_n(R); ℤ) → H_m(E_{n+1}(R); ℤ)` for
+`n ≥ 2m + e - 1` and a bijection for `n ≥ 2m + e` (van der Kallen 1980, Theorem 4.11, with
+`sdim = d`). The coefficient map `φ` is the identity of `ℤ`. -/
+theorem elementaryHomology_stabilization_of_ringKrullDim_le [IsNoetherianRing R] (d m n : ℕ)
     (hd : ringKrullDim R ≤ d)
-    (φ : Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin n) R) ℤ ⟶
-      Rep.res (stabilization R n)
-        (Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin (n + 1)) R) ℤ))
+    (φ : Rep.trivial ℤ (TauCeti.elementarySubgroup (Fin n) R) ℤ ⟶
+      Rep.res (elementaryStabilization R n)
+        (Rep.trivial ℤ (TauCeti.elementarySubgroup (Fin (n + 1)) R) ℤ))
     (hφ : φ.hom.toLinearMap = LinearMap.id) :
     (2 * m + max 1 d ≤ n + 1 →
-      Function.Surjective (groupHomology.map (stabilization R n) φ m)) ∧
+      Function.Surjective (groupHomology.map (elementaryStabilization R n) φ m)) ∧
     (2 * m + max 1 d ≤ n →
-      Function.Bijective (groupHomology.map (stabilization R n) φ m)) := by
+      Function.Bijective (groupHomology.map (elementaryStabilization R n) φ m)) := by
   sorry
 
-/-- **2.4.** For a ring whose quotient by its Jacobson radical is semisimple, the stabilization
-induces a surjection on `H_m(-; ℤ)` for `n ≥ 2m` and a bijection for `n ≥ 2m + 1` (van der
+/-- **2.2.** For a ring whose quotient by its Jacobson radical is semisimple, the stabilization
+induces a surjection on `H_m(E_n(R); ℤ)` for `n ≥ 2m` and a bijection for `n ≥ 2m + 1` (van der
 Kallen 1980, Theorem 4.11, with `sdim = 0`). -/
-theorem homology_stabilization_of_isSemisimpleRing [IsSemisimpleRing (R ⧸ Ring.jacobson R)]
+theorem elementaryHomology_stabilization_of_isSemisimpleRing
+    [IsSemisimpleRing (R ⧸ Ring.jacobson R)] (m n : ℕ)
+    (φ : Rep.trivial ℤ (TauCeti.elementarySubgroup (Fin n) R) ℤ ⟶
+      Rep.res (elementaryStabilization R n)
+        (Rep.trivial ℤ (TauCeti.elementarySubgroup (Fin (n + 1)) R) ℤ))
+    (hφ : φ.hom.toLinearMap = LinearMap.id) :
+    (2 * m ≤ n → Function.Surjective (groupHomology.map (elementaryStabilization R n) φ m)) ∧
+    (2 * m + 1 ≤ n →
+      Function.Bijective (groupHomology.map (elementaryStabilization R n) φ m)) := by
+  sorry
+
+/-- **2.3.** For a connected semilocal ring whose residue fields are all infinite, the
+stabilization induces a bijection on `H_m(-; ℤ)` for `m ≤ n`: the relative groups
+`H_d(GL_n(R), GL_{n-1}(R); ℤ)` vanish for `d < n` and `H_n(GL_n(R)) → H_n(GL_n(R), GL_{n-1}(R))`
+is onto (Galatius–Kupers–Randal-Williams 2025, Theorem 9.4 and its proof; Nesterenko–Suslin
+1989, Theorems 2.7 and 3.25; Guin 1989, Théorème 2). -/
+theorem homology_stabilization_of_infinite_residueFields [Finite (MaximalSpectrum R)]
+    [ConnectedSpace (PrimeSpectrum R)] [∀ 𝔪 : MaximalSpectrum R, Infinite (R ⧸ 𝔪.asIdeal)]
     (m n : ℕ)
     (φ : Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin n) R) ℤ ⟶
-      Rep.res (stabilization R n)
+      Rep.res (TauCeti.stabilizeGL R (Nat.le_succ n))
         (Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin (n + 1)) R) ℤ))
-    (hφ : φ.hom.toLinearMap = LinearMap.id) :
-    (2 * m ≤ n → Function.Surjective (groupHomology.map (stabilization R n) φ m)) ∧
-    (2 * m + 1 ≤ n → Function.Bijective (groupHomology.map (stabilization R n) φ m)) := by
-  sorry
-
-/-- **2.5.** For a local ring with infinite residue field, the stabilization induces a surjection
-on `H_m(-; ℤ)` for `m ≤ n` and an injection for `m < n`: the relative groups
-`H_m(GL_{n+1}(R), GL_n(R); ℤ)` vanish for `m ≤ n` (Nesterenko–Suslin 1989, Theorems 2.7 and
-3.25). -/
-theorem homology_stabilization_of_infinite_residueField [IsLocalRing R]
-    [Infinite (IsLocalRing.ResidueField R)] (m n : ℕ)
-    (φ : Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin n) R) ℤ ⟶
-      Rep.res (stabilization R n)
-        (Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin (n + 1)) R) ℤ))
-    (hφ : φ.hom.toLinearMap = LinearMap.id) :
-    (m ≤ n → Function.Surjective (groupHomology.map (stabilization R n) φ m)) ∧
-    (m < n → Function.Injective (groupHomology.map (stabilization R n) φ m)) := by
+    (hφ : φ.hom.toLinearMap = LinearMap.id) (hmn : m ≤ n) :
+    Function.Bijective (groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m) := by
   sorry
 
 /-! ## Layer 3: twisted coefficients -/
 
-/-- **3.3.** The standard representation of `GL_n(R)` on the column vectors `Rⁿ`, the
+/-- **3.4.** The standard representation of `GL_n(R)` on the column vectors `Rⁿ`, the
 `n × 1` matrices, by left multiplication, as an integral representation. -/
 noncomputable abbrev standardRep (n : ℕ) : Rep ℤ (Matrix.GeneralLinearGroup (Fin n) R) :=
   Rep.ofDistribMulAction ℤ (Matrix.GeneralLinearGroup (Fin n) R) (Matrix (Fin n) (Fin 1) R)
 
-/-- **3.3.** For a commutative noetherian ring of Krull dimension at most `d`, the
+/-- **3.4.** For a commutative noetherian ring of Krull dimension at most `d`, the
 stabilization together with the inclusion `Rⁿ → Rⁿ⁺¹` as the first `n` coordinates induces a
 surjection `H_m(GL_n(R); Rⁿ) → H_m(GL_{n+1}(R); Rⁿ⁺¹)` for `n ≥ 2m + d + 1` and a bijection for
 `n ≥ 2m + d + 3` (van der Kallen 1980, Theorem 5.6, for the coefficient system of degree one
 `Rⁿ`, and the exact sequence of relative groups). -/
 theorem twistedHomology_stabilization_of_ringKrullDim_le [IsNoetherianRing R] (d m n : ℕ)
     (hd : ringKrullDim R ≤ d)
-    (φ : standardRep R n ⟶ Rep.res (stabilization R n) (standardRep R (n + 1)))
+    (φ : standardRep R n ⟶ Rep.res (TauCeti.stabilizeGL R (Nat.le_succ n))
+      (standardRep R (n + 1)))
     (hφ : ∀ v : Matrix (Fin n) (Fin 1) R,
       φ.hom.toLinearMap v = Matrix.of fun i j => Fin.lastCases 0 (fun i' => v i' j) i) :
     (2 * m + d + 1 ≤ n →
-      Function.Surjective (groupHomology.map (stabilization R n) φ m)) ∧
+      Function.Surjective (groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m)) ∧
     (2 * m + d + 3 ≤ n →
-      Function.Bijective (groupHomology.map (stabilization R n) φ m)) := by
+      Function.Bijective (groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m)) := by
   sorry
 
-/-- **3.3.** For a ring whose quotient by its Jacobson radical is semisimple, the map
+/-- **3.4.** For a ring whose quotient by its Jacobson radical is semisimple, the map
 `H_m(GL_n(R); Rⁿ) → H_m(GL_{n+1}(R); Rⁿ⁺¹)` is surjective for `n ≥ 2m + 1` and bijective for
 `n ≥ 2m + 3` (van der Kallen 1980, Theorem 5.6, with `sdim = 0`). -/
 theorem twistedHomology_stabilization_of_isSemisimpleRing
     [IsSemisimpleRing (R ⧸ Ring.jacobson R)] (m n : ℕ)
-    (φ : standardRep R n ⟶ Rep.res (stabilization R n) (standardRep R (n + 1)))
+    (φ : standardRep R n ⟶ Rep.res (TauCeti.stabilizeGL R (Nat.le_succ n))
+      (standardRep R (n + 1)))
     (hφ : ∀ v : Matrix (Fin n) (Fin 1) R,
       φ.hom.toLinearMap v = Matrix.of fun i j => Fin.lastCases 0 (fun i' => v i' j) i) :
-    (2 * m + 1 ≤ n → Function.Surjective (groupHomology.map (stabilization R n) φ m)) ∧
-    (2 * m + 3 ≤ n → Function.Bijective (groupHomology.map (stabilization R n) φ m)) := by
+    (2 * m + 1 ≤ n →
+      Function.Surjective (groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m)) ∧
+    (2 * m + 3 ≤ n →
+      Function.Bijective (groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m)) := by
   sorry
 
 end TauCetiRoadmap.HomologicalStabilityOfGeneralLinearGroups
