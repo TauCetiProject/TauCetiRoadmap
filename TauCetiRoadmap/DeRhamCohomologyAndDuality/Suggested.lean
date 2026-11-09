@@ -2,6 +2,9 @@ module
 
 import Mathlib
 import TauCeti.Analysis.Fredholm.LevelSet.GlobalParametric
+import TauCeti.Geometry.Manifold.DifferentialForm.LocalPrimitive
+import TauCeti.Geometry.Manifold.SmoothSingular.Basic
+import TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Chains
 
 /-!
 # Differential geometry, Part II — relative de Rham theory, fundamental classes and relative transversality: target signatures
@@ -10,53 +13,55 @@ import TauCeti.Analysis.Fredholm.LevelSet.GlobalParametric
 roadmap's headline theorems against the pinned Mathlib and Tau Ceti, with the few definitions
 their statements need.
 
-Stated here: exactness of continuous planar `1`-forms with local potentials on simply connected
-domains (Layer 1), inward domination of a manifold with corners by its interior (Layer 2), and
-the Haar-null and relative-perturbation theorems of finite-parameter relative transversality in
-flat coordinates (Layer 5).
+Stated here: exactness of `1`-forms with local primitives on simply connected manifolds
+(Layer 1), inward domination of a manifold with corners by its interior and the relative smooth
+chain comparison (Layer 2), and the Haar-null and relative-perturbation theorems of
+finite-parameter relative transversality in flat coordinates (Layer 5).
 
 Not statable at the pins:
 
-* the transfer of smooth-chain equivalences and the relative smooth chain comparison (§§2.3–2.4)
-  need DifferentialGeometry 8.3's smooth singular chain complex, which is not in Tau Ceti;
-* the relative de Rham complex and the relative de Rham isomorphism (§§3.1–3.3) need the manifold
-  de Rham complex and `deRhamHom` of DifferentialGeometry 6.1 and 8.4;
-* the fundamental-class integration comparison (§4.1) needs integration of top forms
-  (DifferentialGeometry 5.2), the de Rham homomorphism and AlgebraicTopology 6.3's fundamental
-  classes;
+* the relative de Rham isomorphism (§3.3) needs the de Rham cochain map from smooth forms to
+  smooth singular cochains (`deRhamHom`, DifferentialGeometry 8.4): Tau Ceti integrates a form over
+  a single smooth simplex (`TauCeti.SmoothSimplex.integral`) but has no Stokes' theorem for smooth
+  simplices, hence no cochain map. The relative complex of §3.1 itself is definable from
+  `TauCeti.deRhamComplex.map`, `HomologicalComplex.extend` and `CochainComplex.mappingCocone`;
+* the fundamental-class integration comparison (§4.1) needs that cochain map and the homological
+  orientation of a tangent orientation (AlgebraicTopology 6.3): Tau Ceti has
+  `TauCeti.HomologicalOrientation` with its fundamental classes, and from a
+  `TauCeti.Manifold.Orientation` only the local orientation at a single point,
+  `TauCeti.localOrientationOfManifoldOrientation`;
 * the smooth-boundary compatibility formula (§4.2) needs, in addition, the relative de Rham class
-  of §3.3 and Stokes' theorem (DifferentialGeometry 5.3).
+  of §3.3 and the oriented relative class of a compact manifold with boundary
+  (AlgebraicTopology 6.3).
 -/
 
-open Set MeasureTheory
+open Set MeasureTheory CategoryTheory
 open scoped ContDiff Topology Manifold
 
 namespace TauCetiRoadmap.DeRhamCohomologyAndDuality
 
-/-! ## Layer 1: continuous planar forms with local potentials -/
+/-! ## Layer 1: `1`-forms with local primitives along continuous paths -/
 
-section ContinuousPaths
+section LocalPrimitives
 
-variable {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+variable {E H M F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
+  {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
+  [NormedAddCommGroup F] [NormedSpace ℝ F]
 
-/-- **§1.1.** A continuous real `1`-form on an open `Ω ⊆ ℂ`, given as its covector field
-`φ : C(Ω, ℂ →L[ℝ] F)`, has local potentials: every point has a disc in `Ω` on which some ambient
-`C¹` function differentiates to `φ`. -/
-def HasLocalPotentials (Ω : Set ℂ) (φ : C(Ω, ℂ →L[ℝ] F)) : Prop :=
-  ∀ z : Ω, ∃ r > 0, ∃ hD : Metric.ball (z : ℂ) r ⊆ Ω, ∃ g : ℂ → F,
-    ContDiffOn ℝ 1 g (Metric.ball (z : ℂ) r) ∧
-      ∀ w (hw : w ∈ Metric.ball (z : ℂ) r), HasFDerivAt g (φ ⟨w, hD hw⟩) w
-
-/-- **§1.3, exactness on simply connected domains.** A continuous `1`-form with local
-potentials on a simply connected open subset of `ℂ` has a global `C¹` potential; the proof goes
-through the continuous path integral of §1.2 and its homotopy invariance. No completeness of `F`
-is needed: the path integral is a finite sum of potential differences. -/
-theorem exists_hasFDerivAt_of_simplyConnected {Ω : Set ℂ} (hΩ : IsOpen Ω)
-    [SimplyConnectedSpace Ω] {φ : C(Ω, ℂ →L[ℝ] F)} (hφ : HasLocalPotentials Ω φ) :
-    ∃ g : ℂ → F, ContDiffOn ℝ 1 g Ω ∧ ∀ w : Ω, HasFDerivAt g (φ w) w :=
+/-- **§1.3, exactness on simply connected manifolds.** A `1`-form with local primitives on a
+simply connected `C¹` manifold over any real model with corners has a global primitive. No
+regularity of `φ`, completeness of `F`, finite dimensionality or Hausdorff property is assumed:
+the proof lifts the identity of `M` through the covering space `TauCeti.PrimitiveSpace φ` of
+local primitives (§1.2). For a closed `C^r` form with complete coefficients on a
+finite-dimensional Hausdorff manifold this is
+`TauCeti.exists_mextDeriv_eq_of_simplyConnectedSpace`. -/
+theorem exists_isPrimitiveOn_univ_of_simplyConnectedSpace [IsManifold I 1 M]
+    [SimplyConnectedSpace M] {φ : TauCeti.RoughForm I M F 1}
+    (hφ : ∀ x : M, ∃ (g : M → F) (U : Set M), x ∈ U ∧ TauCeti.IsPrimitiveOn φ g U) :
+    ∃ g : M → F, TauCeti.IsPrimitiveOn φ g univ :=
   sorry
 
-end ContinuousPaths
+end LocalPrimitives
 
 /-! ## Layer 2: smooth chains over manifolds with boundary and corners -/
 
@@ -79,6 +84,41 @@ theorem exists_smooth_inward_deformation (I : ModelWithCorners ℝ E H) [FiniteD
   sorry
 
 end InwardDomination
+
+section RelativeSmoothChains
+
+variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
+  (I : ModelWithCorners ℝ E H) (X : Type) [TopologicalSpace X] [ChartedSpace H X]
+
+/-- **§2.4.** The pair formed by the singular simplicial set of `X` and its subcomplex of the
+singular simplices with image in `W`; its relative chains are `C(X)/C(W)`. -/
+noncomputable abbrev singularPairIn (W : Set X) : SSetPair :=
+  ((TopCat.of X).smallSingularSubcomplex ![W]).pair
+
+/-- **§2.4.** The pair formed by the smooth singular simplices of `X` and those with image in
+`W`; its relative chains are `C^∞(X)/C^∞(W)` when `W` is open. -/
+noncomputable abbrev smoothPairIn (W : Set X) : SSetPair :=
+  SSetPair.of (SSet.Subcomplex.homOfLE
+    (inf_le_left : TauCeti.smoothSingularSubcomplex I X ⊓
+      (TopCat.of X).smallSingularSubcomplex ![W] ≤ TauCeti.smoothSingularSubcomplex I X))
+
+/-- **§2.4.** The inclusion of the smooth pair of `(X, W)` into its singular pair. -/
+noncomputable abbrev smoothPairToSingular (W : Set X) :
+    smoothPairIn I X W ⟶ singularPairIn X W :=
+  SSetPair.homMk (SSet.Subcomplex.homOfLE inf_le_right)
+    (TauCeti.smoothSingularSubcomplex I X).ι
+
+/-- **§2.4, the relative smooth chain comparison.** For an open `W` in a Hausdorff σ-compact
+smooth manifold `X` over any finite-dimensional real model with corners, the inclusion of
+relative smooth chains `C^∞(X)/C^∞(W)` into relative singular chains `C(X)/C(W)`, with real
+coefficients, is a quasi-isomorphism. The proof is the five lemma on the two short exact
+sequences of chains, from DifferentialGeometry 8.3's absolute comparisons for `X` and for `W`. -/
+theorem quasiIso_smoothPairToSingular [FiniteDimensional ℝ E] [IsManifold I ∞ X] [T2Space X]
+    [SigmaCompactSpace X] {W : Set X} (hW : IsOpen W) :
+    QuasiIso (SSetPair.chainComplexMap (smoothPairToSingular I X W) (ModuleCat.of ℝ ℝ)) :=
+  sorry
+
+end RelativeSmoothChains
 
 /-! ## Layer 5: finite-parameter relative transversality -/
 
