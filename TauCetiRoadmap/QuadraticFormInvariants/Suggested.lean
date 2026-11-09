@@ -3,6 +3,8 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCeti.Algebra.Quaternion.BrauerClass
+import TauCeti.FieldTheory.Trace
+import TauCeti.RingTheory.Norm.Quadratic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Clifford
 import TauCeti.Algebra.CrossedProduct.CentralSimple
