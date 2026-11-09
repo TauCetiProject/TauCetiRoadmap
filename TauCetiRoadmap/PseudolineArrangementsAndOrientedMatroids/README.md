@@ -5,16 +5,18 @@ arrangements of pseudolines, and the cartographic group acting on flags. The car
 vectors `E → SignType`; the structure `Chirotope r E` with the three-term Grassmann–Plücker
 relations and a matroid of bases; `OrientedMatroid E` in covector form; x-monotone arrangements
 `MonotoneArrangement n` with the line at infinity as `none : Option (Fin n)`; wiring diagrams as
-words of adjacent swaps; Mathlib's `CoxeterMatrix` and `CoxeterSystem`; and the flag carrier
-`GMap n D` on an arbitrary dart type (0.3). The end theorems are: the orientation double cover of a
-flag system with no fixed dart is orientable, connected iff the system is connected and not
-orientable, and doubles every cell count of a closed-surface map; the covectors of a chirotope form
-an oriented matroid; in a simple rank-3 chirotope every tope has at least three walls;
-Sylvester–Gallai for every simple rank-3 chirotope on a finite type (a rank-2 flat with exactly two
-elements); the cell decomposition of a monotone arrangement with `n ≥ 2`, whose point sign vectors
-are the covectors with value `1` at `none`; the Folkman–Lawrence representation of every simple
-rank-3 chirotope on `Option (Fin n)` in which `none` is in general position by a monotone
-arrangement, up to relabelling and reorientation; the Felsner–Weil characterization of signotopes;
+reduced words of `Fin.revPerm` in Tau Ceti's Coxeter system on permutations; Mathlib's
+`CoxeterMatrix` and `CoxeterSystem`; and the flag carrier `GMap n D` on an arbitrary dart type
+(0.3). The end theorems are: the orientation double cover of a flag system with no fixed dart is
+orientable, connected iff the system is connected and not orientable, and doubles every cell count
+of a closed-surface map; the covectors of a chirotope form an oriented matroid; in a simple rank-3
+chirotope every tope has at least three walls; Sylvester–Gallai for every simple rank-3 chirotope on
+a finite type (a rank-2 flat with exactly two elements); the cell decomposition of a monotone
+arrangement with `n ≥ 2`, whose point sign vectors are the covectors with value `1` at `none`; the
+Folkman–Lawrence representation of every simple rank-3 chirotope on `Option (Fin n)` in which `none`
+is in general position by a monotone arrangement, up to relabelling and reorientation, and,
+unmarked, of every simple rank-3 chirotope on a finite type as the deletion of the line at infinity
+from the chirotope of a monotone arrangement; the Felsner–Weil characterization of signotopes;
 Ringel's theorem that uniform rank-3 chirotopes on a finite type are connected by legal triangle
 flips and reorientations; Levi's enlargement lemma; the stretchability criterion, the realizability
 over `ℝ` of every simple rank-3 chirotope on at most eight elements (over `ℚ` when it is uniform),
@@ -61,7 +63,9 @@ covers (Orbifolds' "generalized maps" are morphisms of orbifolds, a different ob
   crystallographic root pairings and which RootSystems consumes, are not used here: the longest
   permutation enters 4.1–4.2 as Mathlib's `Fin.revPerm`, and the longest element of the
   non-crystallographic group H₃ enters 9.5 as the explicit word `hemiW₀`.
-- Tau Ceti owns the geometric representation of a Coxeter system (supplier contracts).
+- Tau Ceti owns the geometric representation of a Coxeter system, the symmetric group as a
+  Coxeter system with Matsumoto's theorem on reduced words (4.2–4.3), and the orders of the
+  polyhedral triangle groups (9.4–9.5) (supplier contracts).
 - ConformalMapping owns the Jordan-curve material of Tau Ceti (`TauCeti.IsJordanCurve`), which is
   not used here: pseudolines are graphs of continuous functions.
 
@@ -122,11 +126,14 @@ rank-3 chirotopes with no bigonal element is not a target.
    straight line `y = a x + b` has the vector `(-1, a, b)` and the line at infinity `(0, 0, 1)`:
    3.4 is an equality, not an equality up to sign. Witness: in 3.4.
 8. **Wiring diagrams.** Positions are counted from the bottom; a permutation `π` of a sweep sends a
-   position to the wire occupying it. A simple wiring diagram on `n + 1` wires is a word
-   `w : List (Fin n)`; the letter `i` swaps positions `i` and `i + 1`, acting by
-   `π ↦ π * Equiv.swap i.castSucc i.succ`, so the word is read left to right. It is a wiring
-   diagram when the product of its letters is `Fin.revPerm` and its length is `(n + 1) n / 2`.
-   Witness: in 4.2.
+   position to the wire occupying it. A simple wiring diagram on `n + 1` wires is a reduced word
+   `w : List (Fin n)` of `Fin.revPerm` for `TauCeti.permCoxeterSystem (n + 1)`, the symmetric
+   group as the Coxeter group of `CoxeterMatrix.A n`. The letter `i` is the adjacent
+   transposition `TauCeti.BraidGroup.transposition i`, swapping positions `i` and `i + 1` and
+   acting by `π ↦ π * transposition i`, so the word is read left to right: its word product is
+   the product of its letters (`TauCeti.permCoxeterSystem_wordProd`). A word with product
+   `Fin.revPerm` is reduced iff its length is `(n + 1) n / 2`, the number of inversions of
+   `Fin.revPerm` (`TauCeti.permCoxeterSystem_length_eq_card_inversion`). Witness: in 4.2.
 9. **Signotopes.** A rank-3 signotope on `Fin m` assigns a nonzero sign to each triple `i < j < k`
    and, for each `i < j < k < l`, the values on `ijk, ijl, ikl, jkl` change sign at most once
    (Felsner–Weil). Witness: in 4.4.
@@ -163,9 +170,9 @@ rank-3 chirotopes with no bigonal element is not a target.
   `Matroid.restrict_closure_eq`, `CircularOrder`, `sbtw`.
 - Topology: `IsPathConnected`.
 - Groups: `CoxeterMatrix`, `CoxeterMatrix.Group`, `CoxeterMatrix.simple`,
-  `CoxeterMatrix.IsLiftable`, `CoxeterMatrix.toCoxeterSystem`, `CoxeterMatrix.A`,
-  `CoxeterMatrix.B`, `CoxeterMatrix.H₃`, `CoxeterMatrix.reindex`, `CoxeterSystem`,
-  `CoxeterSystem.lift`, `CoxeterSystem.lengthParity`, `Subgroup.closure`, `Subgroup.center`,
+  `CoxeterMatrix.IsLiftable`, `CoxeterMatrix.toCoxeterSystem`, `CoxeterMatrix.A`, `CoxeterMatrix.B`,
+  `CoxeterMatrix.H₃`, `CoxeterMatrix.reindex`, `CoxeterSystem`, `CoxeterSystem.lift`,
+  `CoxeterSystem.lengthParity`, `CoxeterSystem.IsReduced`, `Subgroup.closure`, `Subgroup.center`,
   `Subgroup.zpowers`, `Subgroup.centralizer`, `alternatingGroup`, `MulAction.IsPretransitive`,
   `MulAction.orbitRel`, `MulAction.toPermHom`, `MulAut.conj`, `QuotientGroup.mk`, `Commute`,
   `Function.Involutive.toPerm`, `ZMod`.
@@ -173,13 +180,23 @@ rank-3 chirotopes with no bigonal element is not a target.
   `MonoidHom.ofClass`.
 - Graphs: `Graph`, `Graph.IsLink`, `Graph.Simple`, `Graph.toSimpleGraph`, `Graph.ofSimpleGraph`,
   `Graph.toSimpleGraphOfSimpleGraphIso`, `SimpleGraph`, `SimpleGraph.Colorable`,
-  `SimpleGraph.Preconnected`.
+  `SimpleGraph.Preconnected`, `SimpleGraph.bipartiteDoubleCover`.
 
 **From Tau Ceti** (at the pins). `TauCeti/GroupTheory/Coxeter/Geometric.lean`:
 `CoxeterMatrix.geometricForm`, `CoxeterMatrix.geometricReflection`,
 `CoxeterMatrix.isLiftable_geometricReflection`, `CoxeterSystem.geometricRepresentation`,
 `CoxeterSystem.geometricRepresentation_simple`, `CoxeterSystem.orderOf_simple_mul_simple`,
-`CoxeterSystem.orderOf_simple`, for Layer 10.
+`CoxeterSystem.orderOf_simple`, for Layer 10. `TauCeti/GroupTheory/Perm/Coxeter.lean`:
+`TauCeti.permCoxeterSystem`, `TauCeti.permCoxeterSystem_wordProd`,
+`TauCeti.permCoxeterSystem_length_eq_card_inversion`, for 4.2–4.3.
+`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`: `TauCeti.BraidGroup.transposition`, for
+4.2. `TauCeti/GroupTheory/Coxeter/BraidEquivalence.lean`: `CoxeterSystem.IsBraidMove`,
+`CoxeterSystem.BraidEquivalent`, `CoxeterSystem.BraidEquivalent.wordProd_eq`, for 4.3.
+`TauCeti/GroupTheory/Coxeter/Matsumoto.lean`: `TauCeti.braidEquivalent_of_isReduced_wordProd_eq`
+(Matsumoto's theorem), for 4.3. `TauCeti/GroupTheory/TriangleGroup/Polyhedral.lean`:
+`TauCeti.TriangleGroup.natCard_two_three_three`, `TauCeti.TriangleGroup.natCard_two_three_four`,
+`TauCeti.TriangleGroup.natCard_two_three_five`, `TauCeti.TriangleGroup.equivIcosahedral`, for
+9.4–9.5.
 
 **From GraphConnectivityAndFlows.** Target 1.1: the graph-isomorphism interface of `Graph α β`
 (equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition),
@@ -191,7 +208,8 @@ injective for every Coxeter system `cs : CoxeterSystem M W` on an arbitrary inde
 `Finsupp.linearEquivFunOnFinite`, for 10.1 and 10.2. Its Layer 2 is named in Scope and not used.
 
 Neither pin has orientations of matroids, chirotopes, sign vectors, arrangements of curves,
-wiring diagrams, signotopes, flag systems or abstract polytopes.
+signotopes, flag systems or abstract polytopes; reduced words of permutations and their braid
+moves are Tau Ceti's.
 
 ## How to read the build
 
@@ -300,14 +318,15 @@ any `adj i`, it is connected iff `G` is connected and not orientable; and
 `GMap.natCard_cell_orientationDoubleCover`: for a finite closed-surface `G` it doubles every cell
 count, and so the Euler characteristic. Route: every residue of a closed-surface map is an even
 cycle of the flag graph (a polygon for `{0, 1}` and `{1, 2}`, a 4-cycle for `{0, 2}`), so it lifts
-to two residues. Under the hypotheses of the connectedness criterion the cover is the bipartite
-double cover of the flag graph, so it is connected iff the flag graph is connected and not
+to two residues. Under the hypotheses of the connectedness criterion the flag graph of the cover is
+Mathlib's `SimpleGraph.bipartiteDoubleCover` of the flag graph, transported along
+`D × Bool ≃ D ⊕ D`, so it is connected iff the flag graph is connected and not
 bipartite, which is non-orientability in the sense of Wilson 2012, §5, p. 270, the connectedness
 of the cover and of `G` being read on their flag graphs by
 `GMap.isConnected_iff_preconnected_flagGraph` (Weichsel 1962, Theorem 1, p. 49: for connected
 graphs `G`, `H` the Kronecker product is connected iff `G` or `H` has an odd cycle; with `H = K₂`
 it is the bipartite double cover; stated for finite graphs, the argument is the same for any `D`).
-*Needs:* 0.3.
+*Needs:* 0.3; Mathlib `SimpleGraph.bipartiteDoubleCover`.
 
 **Checks.**
 
@@ -392,9 +411,9 @@ vectors span `Fin r → 𝕜` over an ordered field, and its matroid is the matr
 independence of `v`. The three-term relation comes from the three-term Plücker identity for
 `3 × 3` minors; prove that identity for `Matrix.det` over a commutative ring. Define
 `Chirotope.IsRealizable` (Convention 3); negating the first coordinate of every vector negates
-`ofVectorsFun`, so `-χ` is realizable when `χ` is. (Richter-Gebert–Ziegler 2017, §6.2.3: the
-three-term Grassmann–Plücker identity, and `χ_X` is a chirotope for every vector configuration
-`X`.)
+`ofVectorsFun`, so `-χ` is realizable when `χ` is. (Richter-Gebert–Ziegler 2017, §6.2.3,
+pp. 167–168: the three-term Grassmann–Plücker identity, and `χ_X` is a chirotope when `X` has
+rank `d`, the standing assumption of §6.1.3, p. 162.)
 *Needs:* 1.1, 1.3; Mathlib `Matrix.det`, `Submodule.span`.
 
 **Checks.**
@@ -438,10 +457,10 @@ reorientation and are exchanged by duality (BLSWZ §3.4, §3.6).
 
 Define reorientation equivalence (`χ'` is a reorientation of `χ` or of `-χ`) and isomorphism
 (relabelling followed by reorientation equivalence), and prove that both are equivalence
-relations. For odd `r`, `-χ` is the reorientation of `χ` on `Set.univ`. In rank 3 the classes
-are the isomorphism classes of pseudoline arrangements (Felsner–Goodman 2017, §5.1, p. 126, and
-§5.2, p. 131: projective abstract order types are the reorientation classes of rank-3 oriented
-matroids).
+relations. For odd `r`, `-χ` is the reorientation of `χ` on `Set.univ`. For simple rank-3
+chirotopes, reorientation classes correspond to isomorphism classes of labelled pseudoline
+arrangements, and isomorphism classes to unlabelled ones, which 4.6 counts (Felsner–Goodman 2017,
+§5.1, p. 126, and §5.2, p. 131).
 *Needs:* 1.5.
 
 **Checks.**
@@ -760,7 +779,7 @@ chirotopes through 3.3. No target of Layers 4 or 5 is used.
 For a simple rank-3 chirotope `χ` on a finite `E`, the maximal chains of the projective face poset
 (vertex < edge < cell), with the involutions changing one member, form a `GMap2` (0.3), with a
 labelling of its flags by the element vanishing on their edge. Prove that it is connected,
-`GMap.IsClosedSurface`, not `GMap.IsOrientable`, with `GMap.eulerChar` equal to
+`GMap.IsClosedSurface`, not `GMap.IsOrientable`, with Euler characteristic equal to
 `1`; that its vertices, edges and faces correspond to the classes of cocircuits, of rank-2
 covectors and of topes (2.5), and its vertices to the rank-2 flats of `χ.matroid`; that the
 labelling is constant on `adj 0`- and `adj 2`-orbits; and that relabelling and reorientation of `χ`
@@ -869,10 +888,13 @@ and 3.3; 3.7 uses 0.3 and Layer 2; 3.8 uses Layers 1–2.
 
 ### 4.1 Allowable sequences
 
-Define allowable sequences (Goodman–Pollack 1980): lists of permutations of `Fin n` from `1` to
+Define allowable sequences (Goodman–Pollack 1980; Felsner–Goodman 2017, Theorem 5.2.1, p. 129;
+half-periods from the identity to its reverse, p. 132): lists of permutations of `Fin n` from `1` to
 `Fin.revPerm`, each step reversing a family of pairwise disjoint intervals of consecutive
 positions, each pair of wires reversed exactly once; simple allowable sequences are those whose
-steps are single adjacent swaps. Prove that every monotone arrangement determines its allowable
+steps are single adjacent swaps. Condition (iii) of Theorem 5.2.1, that not all wires switch at
+once, is dropped: the line at infinity `none` is an element, so concurrent wires are allowed and
+still give a rank-3 chirotope. Prove that every monotone arrangement determines its allowable
 sequence (the order of the wires at abscissae avoiding crossings), and that two monotone
 arrangements with the same allowable sequence have the same chirotope.
 *Needs:* 3.1, 3.3.
@@ -888,11 +910,16 @@ arrangements with the same allowable sequence have the same chirotope.
 
 ### 4.2 Simple wiring diagrams
 
-Define `Wiring.wordProd` and `Wiring.IsWiringDiagram` (Convention 8). Prove that for a word of
-length `(n + 1) n / 2` the product of its letters is `Fin.revPerm` iff every pair of wires is
-swapped exactly once along the sweep. Define the piecewise-linear monotone arrangement drawn from
+Define the word product of a word in `Fin n` and simple wiring diagrams (Convention 8), and prove
+that the word product is the one of `TauCeti.permCoxeterSystem (n + 1)`
+(`TauCeti.permCoxeterSystem_wordProd`) and that a word of length `(n + 1) n / 2` with product
+`Fin.revPerm` is reduced (`TauCeti.permCoxeterSystem_length_eq_card_inversion`). Prove that for a
+word of length `(n + 1) n / 2` the product of its letters is `Fin.revPerm` iff every pair of wires
+is swapped exactly once along the sweep. Define the piecewise-linear monotone arrangement drawn from
 a wiring diagram (letter `t` on `[t, t + 1]`) and prove that it is simple.
-*Needs:* 3.1; Mathlib `Equiv.swap`, `Fin.revPerm`.
+*Needs:* 3.1; Mathlib `Equiv.swap`, `Fin.revPerm`, `CoxeterSystem.IsReduced`; Tau Ceti
+`TauCeti.permCoxeterSystem`, `TauCeti.permCoxeterSystem_wordProd`,
+`TauCeti.permCoxeterSystem_length_eq_card_inversion`, `TauCeti.BraidGroup.transposition`.
 
 **Checks.**
 
@@ -904,17 +931,22 @@ a wiring diagram (letter `t` on `[t, t + 1]`) and prove that it is simple.
 
 ### 4.3 Moves
 
-Define `Wiring.CommutationStep` (`… i j … ↦ … j i …` when `|i - j| ≥ 2`) and `Wiring.BraidStep`
-(`… i (i + 1) i … ↦ … (i + 1) i (i + 1) …`), and prove that both preserve wiring diagrams.
-Prove `Wiring.reflTransGen_of_isWiringDiagram`: any two simple wiring diagrams on `n + 1` wires
-are connected by commutations and braid moves (Felsner–Goodman 2017, Theorem 5.2.8,
-p. 133, any two simple wiring diagrams are joined by triangle flips, and the text after it, the
-Coxeter relations for reduced decompositions; a simple wiring diagram is a reduced decomposition
-of the reverse permutation, ibid., p. 132).
+The moves are Tau Ceti's `CoxeterSystem.IsBraidMove (CoxeterMatrix.A n)`: an entry `2` of the
+matrix gives a commutation (`… i j … ↦ … j i …` when `|i - j| ≥ 2`) and an entry `3` a braid
+move (`… i (i + 1) i … ↦ … (i + 1) i (i + 1) …`); both preserve simple wiring diagrams, since
+braid-equivalent words have the same product (`CoxeterSystem.BraidEquivalent.wordProd_eq`) and
+the same length. That any two simple wiring diagrams on `n + 1` wires are braid equivalent,
+`CoxeterSystem.BraidEquivalent (CoxeterMatrix.A n)`, is Matsumoto's theorem
+`TauCeti.braidEquivalent_of_isReduced_wordProd_eq` for `TauCeti.permCoxeterSystem (n + 1)`, cited
+and not proved here (Felsner–Goodman 2017, Theorem 5.2.8, p. 133, any two simple wiring diagrams
+are joined by triangle flips, and the text after it, the Coxeter relations for reduced
+decompositions; a simple wiring diagram is a reduced decomposition of the reverse permutation,
+ibid., p. 132). This target keeps the translation of 4.2 and the counts of commutation classes.
 Prove that commutations preserve the chirotope of the arrangement of 4.2. That a braid move is a
 legal mutation is proved in 4.5. The number of commutation classes is `1, 1, 2, 8, 62` for
 `1, …, 5` wires (OEIS A006245).
-*Needs:* 4.2.
+*Needs:* 4.2; Tau Ceti `CoxeterSystem.IsBraidMove`, `CoxeterSystem.BraidEquivalent`,
+`CoxeterSystem.BraidEquivalent.wordProd_eq`, `TauCeti.braidEquivalent_of_isReduced_wordProd_eq`.
 
 **Checks.**
 
@@ -927,7 +959,9 @@ legal mutation is proved in 4.5. The number of commutation classes is `1, 1, 2, 
 ### 4.4 Signotopes and local sequences
 
 Define `Wiring.AtMostOneSignChange` and `Wiring.IsSignotope` (Convention 9). Prove
-`Wiring.isSignotope_iff_exists_monotoneArrangement` (Felsner–Weil 2001): a function on triples is
+`Wiring.isSignotope_iff_exists_monotoneArrangement` (Felsner–Weil 2001, §4.1, Theorem 7;
+Bergold–Egeling–Hoang 2025, p. 16:1, and their Definition 1, p. 16:2, which is Convention 9 read
+in reverse): a function on triples is
 a signotope iff it is `i < j < k ↦ A.chiFun (some i, some j, some k)` for a simple monotone
 arrangement `A`; with 4.1 and 4.3, commutation classes of simple wiring diagrams on `m` wires,
 simple monotone arrangements up to equality of chirotopes, and signotopes on `Fin m` are in
@@ -935,7 +969,7 @@ bijection. The local sequence of a wire `i` is the order in which it crosses the
 a family of local sequences comes from a simple wiring diagram iff for every `i < j < k` either
 (`j` before `k` for `i`, `i` before `k` for `j`, `i` before `j` for `k`) or all three are
 reversed, and that the family determines the commutation class (Felsner–Goodman 2017,
-Theorem 5.2.10, p. 133, after Streinu 1997 and Felsner–Weil 2001; Felsner 1997).
+Theorem 5.2.10, p. 133, after Streinu 1997 and Felsner–Weil 2001, Theorem 8; Felsner 1997).
 *Needs:* 3.3, 4.1, 4.3.
 
 **Checks.**
@@ -999,8 +1033,8 @@ Prove that the isomorphism classes (1.6) of uniform rank-3 chirotopes on `Fin n`
 
 ### Dependencies
 
-Layers 1–3 and Mathlib. 4.2 uses 3.1; 4.3 uses 4.2; 4.4 uses 4.1 and 4.3; 4.5 uses Layer 2,
-4.2 and 4.3; 4.6 uses 4.5.
+Layers 1–3, Mathlib and Tau Ceti. 4.2 uses 3.1; 4.3 uses 4.2; 4.4 uses 4.1 and 4.3; 4.5 uses Layer
+2, 4.2 and 4.3; 4.6 uses 4.5.
 
 ## Layer 5: extensions and relative positions
 
@@ -1078,12 +1112,12 @@ pseudolines of `E`.
 
 ### 5.5 Topological representation, unmarked form
 
-Prove that for every simple rank-3 chirotope `χ` on a finite `E` and every generic extension `χ'`
-of `χ`, `χ'` relabelled along some `Option E ≃ Option (Fin n)` fixing `none` satisfies the
-hypotheses of 3.6. Hence every simple rank-3 chirotope is, up to isomorphism, the deletion of the
-line at infinity from the chirotope of a monotone arrangement; by 1.7 every rank-3 chirotope is
-obtained from one of these by adding loops and parallel or antiparallel copies
-(Richter-Gebert–Ziegler 2017, Theorem 6.2.4, p. 169, in rank 3).
+Prove that for every simple rank-3 chirotope `χ` on a finite `E` and every generic extension `χ'` of
+`χ`, `χ'` relabelled along some `Option E ≃ Option (Fin n)` fixing `none` satisfies the hypotheses
+of 3.6. Hence `exists_monotoneArrangement_of_isSimple`: every simple rank-3 chirotope is, up to
+isomorphism, the deletion of the line at infinity from the chirotope of a monotone arrangement; by
+1.7 every rank-3 chirotope is obtained from one of these by adding loops and parallel or
+antiparallel copies (Richter-Gebert–Ziegler 2017, Theorem 6.2.4, p. 169, in rank 3).
 *Needs:* 1.7, 3.6, 5.4.
 
 **Checks.**
@@ -1172,10 +1206,12 @@ Prove `isRealizable_real_of_natCard_le_eight`: every simple rank-3 chirotope on 
 `|E| ≤ 8` is realizable over `ℝ`; and `isRealizable_rat_of_natCard_le_eight`: every uniform one over
 `ℚ` (Goodman–Pollack, *Proof of Grünbaum's conjecture*, 1980; Felsner–Goodman 2017, Theorem 5.3.2,
 p. 135: every arrangement of 8 or fewer pseudolines is stretchable). Route: by 5.5 and 6.1 it
-suffices to stretch the monotone arrangement of the chirotope; its allowable sequence (4.1) is
-realized by straight lines, as in Goodman and Pollack's proof by allowable sequences
-(Felsner–Goodman 2017, §5.3, p. 134). The realizations of a uniform chirotope form a nonempty open
-subset of `(ℝ³)^E`, which meets `(ℚ³)^E`.
+suffices to stretch one monotone arrangement whose chirotope, with the line at infinity deleted,
+is isomorphic to `χ`. The generic extension of 5.5 that serves as the line at infinity has to be
+chosen: Goodman and Pollack's proof works with allowable sequences (4.1; Felsner–Goodman 2017,
+§5.3, p. 134), and the circular sequence of an arrangement depends on the choice of the point at
+infinity (ibid., p. 130, before Theorem 5.2.2). The realizations of a uniform chirotope form a
+nonempty open subset of `(ℝ³)^E`, which meets `(ℚ³)^E`.
 *Needs:* 1.4, 4.1, 5.5, 6.1.
 
 **Checks.**
@@ -1185,6 +1221,11 @@ subset of `(ℝ³)^E`, which meets `(ℚ³)^E`.
 - Realizability is invariant under isomorphism (6.1), so one realization per class suffices; the
   bound is sharp, since `nonPappusFun` (6.3) is a simple rank-3 chirotope on nine elements
   realizable over no ordered field.
+- The choice of the line at infinity is needed: deleting one line `ℓ` from the simple non-Pappus
+  arrangement `S` (Felsner–Goodman 2017, Theorem 5.3.3) leaves a uniform chirotope on eight
+  elements, realizable by Theorem 5.3.2; its generic extension by `ℓ` gives, through 5.5, a monotone
+  arrangement of eight wires whose chirotope, `none` included, is that of `S`, which is not
+  realizable, so these eight wires are not stretchable.
 
 The first failure among uniform chirotopes is also at nine: every simple arrangement of 9
 pseudolines is stretchable except one, the simple non-Pappus arrangement, obtained from the
@@ -1266,7 +1307,8 @@ flags commuting with every `rᵢ`, so with the connection group).
 For the `J`-residues of 0.3 (`J ⊆ Fin (n + 1)`, the cells being the case `J = {j | j ≠ i}`),
 define incidence (sharing a flag), and prove that residues of `J ⊆ K` are unions of residues of
 `J`; for `J = Set.univ` the residues are the components, connected exactly when the flag graph is
-preconnected (0.3, `GMap.isConnected_iff_preconnected_flagGraph`).
+preconnected (0.3, `GMap.isConnected_iff_preconnected_flagGraph`) (Wilson 2012, §5, p. 268:
+`i`-faces as orbits of the group generated by the `rⱼ`, `j ≠ i`).
 *Needs:* 0.3; Mathlib `MulAction.orbitRel`.
 
 **Checks.**
@@ -1307,7 +1349,7 @@ Layer 0 and Mathlib. 7.2 uses 0.3 and 7.1; 7.3 uses 7.2; 7.4 uses 0.3; 7.5 uses 
 ## Layer 8: maps, compared with the cartographic group and with arrangements
 
 A *map* is a connected `GMap2 D` with `GMap.IsClosedSurface` (0.3: no dart fixed by `adj 0`,
-`adj 1` or `adj 2`, and `adj 2 d ≠ adj 0 d`). Its cells, `GMap.eulerChar`, `GMap.IsOrientable`
+`adj 1` or `adj 2`, and `adj 2 d ≠ adj 0 d`). Its cells, Euler characteristic, `GMap.IsOrientable`
 and the orientation double cover with doubled cell counts are those of 0.3–0.4.
 
 ### 8.1 Orientability in the cartographic group
@@ -1471,18 +1513,23 @@ system is; regular polytopes of rank `n + 1` up to isomorphism correspond to str
 
 ### 9.4 Platonic maps
 
-Define `coxeterGMap cs hM`, the regular flag system of a Coxeter system whose non-adjacent
-entries are `2`, and the icosahedral map `icosahedronGMap` of `CoxeterMatrix.H₃`; the tetrahedral,
-octahedral, cubical and dodecahedral maps are those of `CoxeterMatrix.A 3`, `CoxeterMatrix.B 3`
-and, for the last two, of `CoxeterMatrix.B 3` and `CoxeterMatrix.H₃` with their generators
-reversed (`CoxeterMatrix.reindex Fin.revPerm`). Prove that the three groups have `24`, `48` and
-`120` elements; that each is a string C-group; that the regular flag systems are maps of types
-`{3,3}`, `{3,4}`, `{3,5}`, `{4,3}` and `{5,3}`, with vertices, edges and faces `(4,6,4)`,
-`(6,12,8)`, `(8,12,6)`, `(12,30,20)`, `(20,30,12)`, all closed-surface and orientable with Euler
-characteristic 2; and that the icosahedral skeleton is a 5-regular simple graph on 12 vertices
-(Coxeter–Moser 1980, Chapter 8, regular maps; McMullen–Schulte 2002, §2E, Theorem 2E11, for the
-string C-groups; Wilson 2012, §7, p. 272, for the types).
-*Needs:* 8.3, 9.2, 9.3.
+Define `coxeterGMap cs hM`, the regular flag system of a Coxeter system whose non-adjacent entries
+are `2`, and the icosahedral map `icosahedronGMap` of `CoxeterMatrix.H₃`; the tetrahedral,
+octahedral, cubical and dodecahedral maps are those of `CoxeterMatrix.A 3`, `CoxeterMatrix.B 3` and,
+for the last two, of `CoxeterMatrix.B 3` and `CoxeterMatrix.H₃` with their generators reversed
+(`CoxeterMatrix.reindex Fin.revPerm`). Prove that the three groups have `24`, `48` and `120`
+elements: their rotation subgroups, generated by `s₀ s₁` and `s₁ s₂`, have index 2 (the kernel of
+`CoxeterSystem.lengthParity`) and are the triangle groups of signatures `(2, 3, 3)`, `(2, 3, 4)` and
+`(2, 3, 5)`, of orders 12, 24 and 60 (`TauCeti.TriangleGroup.natCard_two_three_three`,
+`TauCeti.TriangleGroup.natCard_two_three_four`, `TauCeti.TriangleGroup.natCard_two_three_five`);
+that each is a string C-group; that the regular flag systems are maps of types `{3,3}`, `{3,4}`,
+`{3,5}`, `{4,3}` and `{5,3}`, with vertices, edges and faces `(4,6,4)`, `(6,12,8)`, `(8,12,6)`,
+`(12,30,20)`, `(20,30,12)`, all closed-surface and orientable with Euler characteristic 2; and that
+the icosahedral skeleton is a 5-regular simple graph on 12 vertices (Coxeter–Moser 1980, Chapter 8,
+regular maps; McMullen–Schulte 2002, §2E, Theorem 2E11, for the string C-groups; Wilson 2012, §7, p.
+272, for the types).
+*Needs:* 8.3, 9.2, 9.3; Tau Ceti `TauCeti.TriangleGroup.natCard_two_three_three`,
+`TauCeti.TriangleGroup.natCard_two_three_four`, `TauCeti.TriangleGroup.natCard_two_three_five`.
 
 **Checks.**
 
@@ -1497,7 +1544,10 @@ string C-groups; Wilson 2012, §7, p. 272, for the types).
 
 Define `hemiW₀ = (s 0 * s 1 * s 2) ^ 5` in `CoxeterMatrix.H₃.Group` and prove
 `center_eq_zpowers_hemiW₀` (it generates the centre, of order 2) and
-`nonempty_mulEquiv_alternatingGroup` (the quotient by the centre is `alternatingGroup (Fin 5)`).
+`nonempty_mulEquiv_alternatingGroup` (the quotient by the centre is `alternatingGroup (Fin 5)`:
+`hemiW₀` is central and odd, so the quotient is the rotation subgroup of 9.4, the triangle group
+of signature `(2, 3, 5)`, which is `alternatingGroup (Fin 5)` by
+`TauCeti.TriangleGroup.equivIcosahedral`).
 The regular flag system `hemiIcosahedronGMap` of the quotient is the hemi-icosahedron: 60 flags,
 6 vertices, 15 edges, 10 faces, a closed surface, non-orientable
 (`cellNumbers_hemiIcosahedronGMap`), Euler characteristic 1, type `{3,5}`, skeleton the complete
@@ -1506,7 +1556,8 @@ polytope; the icosahedral map is its orientation double cover (0.4,
 `nonempty_iso_orientationDoubleCover_hemiIcosahedronGMap`) (Coxeter–Moser 1980, Chapter 8;
 McMullen–Schulte 2002, §2E, Theorem 2E11, for the string C-group).
 *Needs:* 0.4, 8.1, 9.2–9.4; Mathlib `Subgroup.center`, `Subgroup.zpowers`, `alternatingGroup`,
-`QuotientGroup.mk`.
+`QuotientGroup.mk`; Tau Ceti `TauCeti.TriangleGroup.natCard_two_three_five`,
+`TauCeti.TriangleGroup.equivIcosahedral`.
 
 **Checks.**
 
@@ -1549,7 +1600,7 @@ multiple edges (the hosohedron `{2, n}`).
 
 ### Dependencies
 
-Layers 0, 7 and 8 and Mathlib. 9.2 uses 9.1;
+Layers 0, 7 and 8, Mathlib and Tau Ceti. 9.2 uses 9.1;
 9.3 uses 9.2; 9.4 uses 9.2–9.3; 9.5 uses 9.2–9.4; 9.6 uses 9.2.
 
 ## Layer 10: applications of the geometric representation
@@ -1645,7 +1696,9 @@ https://grothendieck.umontpellier.fr/80.pdf).
 - J. Richter, *Kombinatorische Realisierbarkeitskriterien für orientierte Matroide*, Mitt. Math.
   Sem. Gießen 194 (1989), 1–112.
 - S. Felsner, H. Weil, *Sweeps, arrangements and signotopes*, Discrete Appl. Math. 109 (2001),
-  67–94 (signotopes, local sequences).
+  67–94, §4.1, Theorems 7 and 8 (signotopes, local sequences).
+- I. Streinu, *Clusters of stars*, Proc. 13th ACM Symposium on Computational Geometry (1997),
+  439–441.
 - S. Felsner, *On the number of arrangements of pseudolines*, Discrete Comput. Geom. 18 (1997),
   257–267 (local sequences).
 - J. Richter-Gebert, G. M. Ziegler, *Oriented matroids*, Chapter 6 of *Handbook of Discrete and

@@ -15,8 +15,7 @@ Operations whose result is a chirotope only by a theorem (realization, reorienta
 relabelling, the chirotope of an arrangement, the non-Pappus chirotope, a triangle flip) are
 defined as functions `(Fin r → E) → SignType`; that they are chirotopes is a headline, stated
 with `IsChirotope`. Covectors are likewise a set of sign vectors, `Chirotope.covectorsOf`, and
-that this set is an `OrientedMatroid` is a headline. A wiring diagram on `n + 1` wires is a word
-in `Fin n`, so that `Fin.castSucc` and `Fin.succ` name the two swapped positions.
+that this set is an `OrientedMatroid` is a headline.
 
 Headlines stated here (README target, Lean name):
 
@@ -44,14 +43,13 @@ Headlines stated here (README target, Lean name):
   (on `MonotoneArrangement.signAt`).
 * 3.6, `exists_monotoneArrangement`.
 * 3.8 (a), `Chirotope.exists_isFlat_ncard_eq_two` (Sylvester–Gallai for pseudolines).
-* 4.2–4.3, `Wiring.reflTransGen_of_isWiringDiagram` (on `Wiring.wordProd`,
-  `Wiring.IsWiringDiagram`, `Wiring.CommutationStep`, `Wiring.BraidStep`).
 * 4.4, `Wiring.isSignotope_iff_exists_monotoneArrangement` (Felsner–Weil, on
   `Wiring.AtMostOneSignChange`, `Wiring.IsSignotope`).
 * 4.5, `Chirotope.isChirotope_flipFun`, `Chirotope.exists_triangle_of_flipFun`,
   `Chirotope.reflTransGen_mutationStep` (on `Chirotope.flipFun`, `Chirotope.Triangle`,
   `Chirotope.MutationStep`).
 * 5.3, `Chirotope.levi_enlargement` (on `Chirotope.IsExtension`).
+* 5.5, `exists_monotoneArrangement_of_isSimple`.
 * 6.1, `isRealizable_iff_exists_ofLines`.
 * 6.3, `isChirotope_nonPappusFun`, `not_isRealizable_nonPappusFun`,
   `exists_monotoneArrangement_nonPappus` (on `pappusPoints`, `nonPappusFun`).
@@ -88,16 +86,17 @@ Not stated here, with the carrier each lacks:
 * 4.2–4.3, the arrangement drawn from a wiring diagram, its simplicity, the invariance of its
   chirotope under commutations and the braid move as a legal mutation: they lack the
   piecewise-linear arrangement drawn from a word, which this file does not build.
-* 5.1 (localizations), 5.4, 5.5, the poset of positions and the unmarked topological
-  representation: they lack the localization of a single-element extension as a function on
-  cocircuits, which this file does not build.
+* 5.1 (localizations) and 5.4, the poset of positions: they lack the localization of a
+  single-element extension as a function on cocircuits, which this file does not build.
 * 9.3, the correspondence between regular polytopes and string C-groups: there is no abstract
   polytope at the pins.
 
-The inverse bijection of 7.2, the incidence of residues in 7.4, the pointed and finite-index forms
-of 7.5, the two orbits of 8.1, the skeleton of 8.3, the types and the skeleton clauses of 9.4–9.6
-and the string C-group clauses of 9.4–9.5 are API around the stated headlines; the README keeps
-them.
+The connectivity of simple wiring diagrams under braid moves (4.3) is Tau Ceti's Matsumoto theorem,
+`TauCeti.braidEquivalent_of_isReduced_wordProd_eq` for `TauCeti.permCoxeterSystem`, which the README
+cites. The inverse bijection of 7.2, the incidence of residues in 7.4, the pointed and finite-index
+forms of 7.5, the two orbits of 8.1, the skeleton of 8.3, the types and the skeleton clauses of
+9.4–9.6 and the string C-group clauses of 9.4–9.5 are API around the stated headlines; the README
+keeps them.
 
 The proof of 10.1–10.2 consumes the faithfulness of `CoxeterSystem.geometricRepresentation` for
 every Coxeter system, RootSystems §1.3 (`geometric_faithfulness`), which is not at the pins.
@@ -498,33 +497,6 @@ end Chirotope
 
 namespace Wiring
 
-variable {n : ℕ}
-
-/-- The sweep permutation of a word on `n + 1` wires; letter `i` swaps positions `i` and `i + 1`. -/
-def wordProd (w : List (Fin n)) : Perm (Fin (n + 1)) :=
-  (w.map fun i => Equiv.swap i.castSucc i.succ).prod
-
-/-- A simple wiring diagram on `n + 1` wires: its letters multiply to `Fin.revPerm`, and it has
-`(n + 1) n / 2` letters. -/
-def IsWiringDiagram (w : List (Fin n)) : Prop :=
-  wordProd w = Fin.revPerm ∧ w.length = (n + 1) * n / 2
-
-/-- A commutation of two distant adjacent letters. -/
-def CommutationStep (w w' : List (Fin n)) : Prop :=
-  ∃ (u v : List (Fin n)) (i j : Fin n), ((i : ℕ) + 2 ≤ j ∨ (j : ℕ) + 2 ≤ i) ∧
-    w = u ++ [i, j] ++ v ∧ w' = u ++ [j, i] ++ v
-
-/-- A braid move `i (i + 1) i ↦ (i + 1) i (i + 1)`. -/
-def BraidStep (w w' : List (Fin n)) : Prop :=
-  ∃ (u v : List (Fin n)) (i j : Fin n), (j : ℕ) = i + 1 ∧
-    w = u ++ [i, j, i] ++ v ∧ w' = u ++ [j, i, j] ++ v
-
-/-- Connectivity of simple wiring diagrams under commutations and braid moves (Layer 4.3). -/
-theorem reflTransGen_of_isWiringDiagram {w w' : List (Fin n)} (hw : IsWiringDiagram w)
-    (hw' : IsWiringDiagram w') :
-    Relation.ReflTransGen (fun u v => CommutationStep u v ∨ BraidStep u v ∨ BraidStep v u) w w' :=
-  sorry
-
 /-- At most one sign change along a list. -/
 def AtMostOneSignChange (l : List SignType) : Prop :=
   (l.zip l.tail).countP (fun p => p.1 != p.2) ≤ 1
@@ -613,6 +585,15 @@ theorem levi_enlargement [Finite E] (χ : Chirotope 3 E) (Y Z : E → SignType)
       (fun e => Option.elim e 0 Z) ∈ covectorsOf χ' := sorry
 
 end Chirotope
+
+/-- Topological representation in rank 3, unmarked form (Layer 5.5): every simple rank-3
+chirotope on a finite type is, up to relabelling and reorientation, the chirotope of a monotone
+arrangement with the line at infinity deleted. -/
+theorem exists_monotoneArrangement_of_isSimple {E : Type*} [Finite E] (χ : Chirotope 3 E)
+    (hs : χ.IsSimple) :
+    ∃ (n : ℕ) (e : E ≃ Fin n) (A : MonotoneArrangement n) (R : Set (Fin n)),
+      (fun t : Fin 3 → Fin n => A.chiFun (some ∘ t)) =
+        Chirotope.reorientFun (Chirotope.relabelFun e χ) R := sorry
 
 /-! ## Layer 6: stretchability -/
 
