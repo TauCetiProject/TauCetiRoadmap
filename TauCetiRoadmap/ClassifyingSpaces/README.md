@@ -61,69 +61,44 @@ Everything else is consumed.
 - **The profinite-cohomology roadmap** owns continuous cohomology of profinite groups; the group
   cohomology here is Mathlib's discrete one.
 
-Stage and item numbers cited from this roadmap resolve as follows, one line per id.
+Stage and item numbers of this roadmap's former numbering, also cited as `Stage s.i` for Stage
+`s` item `i`, resolve as follows: one heading per former stage, one row per former item or group of
+items.
 
-- **Stage 1 items 1 to 4** (countable join, weak contractibility, action and orbit cover, standing
-  hypotheses) → pinned `ClassifyingSpace/CountableJoin.lean`, `WeakContractibility.lean`,
-  `Action.lean`, `Basic.lean`.
-- **Stage 1 item 5** (Milnor's model is a `K(G, 1)`; direction of `π₁ ≃* G`) → pinned
-  `ClassifyingSpace/EilenbergMacLane.lean`; the direction is recorded under `## Conventions`.
-- **Stage 1 item 6** (strict functoriality) → pinned `ClassifyingSpace/Functoriality.lean`.
-- **Stage 2 item 7** (presentation complex) → pinned `TauCeti.PresentationComplex`,
-  `ClassifyingSpace/PresentationComplex.lean`.
-- **Stage 2 items 8 and 9** (killing a homotopy group; the tower) → pinned
-  `TauCeti.killHomotopyGroups`, `Homotopy/KillHomotopyGroups.lean`.
-- **Stage 2 item 10** (cellular `K(G, 1)`) → pinned `ClassifyingSpace/Cellular.lean`,
-  `Comparison.lean`.
-- **Stage 3 item 11** (Hatcher, Proposition 1B.9) → the algebraic-topology roadmap, Stage 8 item
-  8b.
-- **Stage 3 item 12** (uniqueness) → pinned `ClassifyingSpace/Uniqueness.lean`; the pointed form is
-  Layer 1, 1.1.
-- **Stage 3 item 13** (CW structures and coverings) → pinned `TauCeti.cwComplexPreimage`
-  (`Topology/CWComplex/Classical/Covering.lean`), `IsQuotientCoveringMap.cwComplexQuotient`
-  (`Topology/CWComplex/Classical/OrbitSpace.lean`), `TauCeti.cellularChainRepIsoFree`
-  (`AlgebraicTopology/Cellular/Covering.lean`).
-- **Stage 3 item 14** (the models agree) → pinned `ClassifyingSpace/Comparison.lean` for the two
-  pinned models; Layer 2, 2.1, for the nerve model.
-- **Stage 3 item 15** (homotopy functoriality) → pinned `ClassifyingSpace/HomotopyFunctor.lean`.
-- **Stage 4 item 16** (chain-level comparison) → pinned `ClassifyingSpace/Resolution.lean`,
-  `PresentedGroupResolution.lean`, `EilenbergMacLane/Resolution.lean`.
-- **Stage 4 item 17** (homology and cohomology) → pinned `ClassifyingSpace/Homology.lean`,
-  `Cohomology.lean`, `LocalCoefficients.lean` for Milnor's model; Layer 1, 1.2 and 1.3, for every
-  `K(G, 1)`; Layer 2, 2.2, for the nerve model.
-- **Stage 4 item 18** (comparison with the bar resolution) → pinned
-  `ClassifyingSpace/StandardComplex.lean`, `StandardResolution.lean`, `Naturality.lean`; Layer 2,
-  2.3, for the nerve model.
-- **Stage 4 item 19** (computations) → pinned `ClassifyingSpace/FirstHomology.lean`, `Circle.lean`,
-  `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean`.
+##### Stage 1: the simplicial model
 
-## Conventions`.
-- Stage 1 item 6 (strict functoriality): pinned `ClassifyingSpace/Functoriality.lean`.
-- Stage 2 item 7 (presentation complex): pinned `TauCeti.PresentationComplex`,
-  `ClassifyingSpace/PresentationComplex.lean`.
-- Stage 2 items 8 and 9 (killing a homotopy group, the tower): pinned `TauCeti.killHomotopyGroups`,
-  `Homotopy/KillHomotopyGroups.lean`.
-- Stage 2 item 10 (cellular `K(G, 1)`): pinned `ClassifyingSpace/Cellular.lean`, `Comparison.lean`.
-- Stage 3 item 11 (Hatcher, Proposition 1B.9): the algebraic-topology roadmap, Stage 8 item 8b.
-- Stage 3 item 12 (uniqueness): pinned `ClassifyingSpace/Uniqueness.lean`; the pointed form is
-  Layer 1, 1.1.
-- Stage 3 item 13 (CW structures and coverings): pinned `TauCeti.cwComplexPreimage`
-  (`Topology/CWComplex/Classical/Covering.lean`), `IsQuotientCoveringMap.cwComplexQuotient`
-  (`Topology/CWComplex/Classical/OrbitSpace.lean`), `TauCeti.cellularChainRepIsoFree`
-  (`AlgebraicTopology/Cellular/Covering.lean`).
-- Stage 3 item 14 (the models agree): pinned `ClassifyingSpace/Comparison.lean` for the two models
-  here; Layer 2, 2.1, for the nerve model.
-- Stage 3 item 15 (homotopy functoriality): pinned `ClassifyingSpace/HomotopyFunctor.lean`.
-- Stage 4 item 16 (chain-level comparison): pinned `ClassifyingSpace/Resolution.lean`,
-  `PresentedGroupResolution.lean`, `EilenbergMacLane/Resolution.lean`.
-- Stage 4 item 17 (homology and cohomology): pinned `ClassifyingSpace/Homology.lean`,
-  `Cohomology.lean`, `LocalCoefficients.lean` for Milnor's model; Layer 1, 1.2 and 1.3, for every
-  `K(G, 1)`; Layer 2, 2.2, for the nerve model.
-- Stage 4 item 18 (comparison with the bar resolution): pinned
-  `ClassifyingSpace/StandardComplex.lean`, `StandardResolution.lean`, `Naturality.lean`; Layer 2,
-  2.3, for the nerve model.
-- Stage 4 item 19 (computations): pinned `ClassifyingSpace/FirstHomology.lean`, `Circle.lean`,
-  `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean`.
+| Former id | Content | Resolves to |
+| --- | --- | --- |
+| Stage 1 items 1 to 4 | countable join, weak contractibility, action and orbit cover, standing hypotheses | pinned `ClassifyingSpace/CountableJoin.lean`, `WeakContractibility.lean`, `Action.lean`, `Basic.lean` |
+| Stage 1 item 5 | Milnor's model is a `K(G, 1)`; direction of `π₁ ≃* G` | pinned `ClassifyingSpace/EilenbergMacLane.lean`; the direction is recorded under `## Conventions` |
+| Stage 1 item 6 | strict functoriality | pinned `ClassifyingSpace/Functoriality.lean` |
+
+##### Stage 2: the cellular model
+
+| Former id | Content | Resolves to |
+| --- | --- | --- |
+| Stage 2 item 7 | presentation complex | pinned `TauCeti.PresentationComplex`, `ClassifyingSpace/PresentationComplex.lean` |
+| Stage 2 items 8 and 9 | killing a homotopy group; the tower | pinned `TauCeti.killHomotopyGroups`, `Homotopy/KillHomotopyGroups.lean` |
+| Stage 2 item 10 | cellular `K(G, 1)` | pinned `ClassifyingSpace/Cellular.lean`, `Comparison.lean` |
+
+##### Stage 3: uniqueness and the comparison of the models
+
+| Former id | Content | Resolves to |
+| --- | --- | --- |
+| Stage 3 item 11 | Hatcher, Proposition 1B.9 | the algebraic-topology roadmap, Stage 8 item 8b |
+| Stage 3 item 12 | uniqueness | pinned `ClassifyingSpace/Uniqueness.lean`; the pointed form is Layer 1, 1.1 |
+| Stage 3 item 13 | CW structures and coverings | pinned `TauCeti.cwComplexPreimage` (`Topology/CWComplex/Classical/Covering.lean`), `IsQuotientCoveringMap.cwComplexQuotient` (`Topology/CWComplex/Classical/OrbitSpace.lean`), `TauCeti.cellularChainRepIsoFree` (`AlgebraicTopology/Cellular/Covering.lean`) |
+| Stage 3 item 14 | the models agree | pinned `ClassifyingSpace/Comparison.lean` for the two pinned models; Layer 2, 2.1, for the nerve model |
+| Stage 3 item 15 | homotopy functoriality | pinned `ClassifyingSpace/HomotopyFunctor.lean` |
+
+##### Stage 4: group homology and cohomology
+
+| Former id | Content | Resolves to |
+| --- | --- | --- |
+| Stage 4 item 16 | chain-level comparison | pinned `ClassifyingSpace/Resolution.lean`, `PresentedGroupResolution.lean`, `EilenbergMacLane/Resolution.lean` |
+| Stage 4 item 17 | homology and cohomology | pinned `ClassifyingSpace/Homology.lean`, `Cohomology.lean`, `LocalCoefficients.lean` for Milnor's model; Layer 1, 1.2 and 1.3, for every `K(G, 1)`; Layer 2, 2.2, for the nerve model |
+| Stage 4 item 18 | comparison with the bar resolution | pinned `ClassifyingSpace/StandardComplex.lean`, `StandardResolution.lean`, `Naturality.lean`; Layer 2, 2.3, for the nerve model |
+| Stage 4 item 19 | computations | pinned `ClassifyingSpace/FirstHomology.lean`, `Circle.lean`, `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean` |
 
 ## Conventions
 
@@ -133,8 +108,8 @@ Stage and item numbers cited from this roadmap resolve as follows, one line per 
   `⟨0, 1⟩`, and `G` acts on the countable join by `g • ⟨i, h⟩ = ⟨i, g * h⟩`. For a loop `γ` at the
   base point write `m(γ)` for the label of the end point `⟨0, m(γ)⟩` of its lift starting at
   `⟨0, 1⟩`. Since `p * q` runs `q` first, the lift of `p * q` ends at `⟨0, m(q) * m(p)⟩`, so `m` is
-  an anti-homomorphism. The pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G`
-  is `γ ↦ m(γ)⁻¹` (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`: `γ` goes to
+  an anti-homomorphism. The pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G`,
+  written `κ_M`, is `γ ↦ m(γ)⁻¹` (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`: `γ` goes to
   `g` exactly when the lift ends at `⟨0, g⁻¹⟩`). Equivalently, the deck transformation of `γ` is
   left translation by the inverse of its image in `G`.
 - The cellular model of a presentation `⟨S | R⟩` is based at its unique `0`-cell and identified
@@ -159,7 +134,12 @@ Stage and item numbers cited from this roadmap resolve as follows, one line per 
 ## Exact supplier contracts
 
 - **From Mathlib:** `groupHomology`, `groupCohomology`, `Rep.trivial`, `Rep.ihom` (the internal hom
-  `Homₖ(A, B)` with `g` acting by conjugation), `Rep.standardResolution`, `Rep.standardComplex`,
+  `Homₖ(A, B)` with `g` acting by conjugation), `Rep.standardResolution`, `Rep.standardComplex`
+  (the alternating face map complex of `classifyingSpaceUniversalCover G ⋙ Rep.linearization k G`),
+  its normalisation `AlgebraicTopology.normalizedMooreComplex` with
+  `AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex` (vanishing on degenerate simplices by
+  `AlgebraicTopology.DoldKan.σ_comp_PInfty`) and the homotopy equivalence
+  `AlgebraicTopology.DoldKan.homotopyEquivNormalizedMooreComplexAlternatingFaceMapComplex`,
   `CategoryTheory.ProjectiveResolution` with its comparison maps and their uniqueness up to
   homotopy, `AlgebraicTopology.singularHomologyFunctor` with the homotopy invariance of
   `Mathlib/AlgebraicTopology/SingularHomology/HomotopyInvariance.lean`, `FundamentalGroup`,
@@ -202,7 +182,8 @@ Stage and item numbers cited from this roadmap resolve as follows, one line per 
     `TauCeti.cwType_killHomotopyGroups`.
   - `ClassifyingSpace/Resolution.lean`, `StandardComplex.lean`, `StandardResolution.lean`,
     `Naturality.lean`: `TauCeti.universalGSpaceResolution`,
-    `TauCeti.universalGSpaceToStandardComplex`, `TauCeti.universalGSpaceStandardHomotopyEquiv`,
+    `TauCeti.universalGSpaceChainComplexToStandardComplex` (the `G`-equivariant chain map sending a
+    simplex of the join to the tuple of its labels), `TauCeti.universalGSpaceStandardHomotopyEquiv`,
     `TauCeti.universalGSpaceChainComplexToStandardComplexHomotopy`,
     `MonoidHom.universalGSpaceChainComplexToStandardComplex_naturality`.
   - `ClassifyingSpace/Homology.lean`, `Cohomology.lean`, `LocalCoefficients.lean`:
@@ -216,7 +197,9 @@ Stage and item numbers cited from this roadmap resolve as follows, one line per 
     `IsQuotientCoveringMap.singularHomologyIsoGroupHomology` with
     `IsQuotientCoveringMap.singularHomologyIsoGroupHomology_hom_naturality` (naturality along a map
     of total spaces equivariant along a group homomorphism), and
-    `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`,
+    `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology` with
+    `IsQuotientCoveringMap.singularCohomologyMap_comp_singularCohomologyIsoGroupCohomology_hom` (the
+    same naturality in cohomology),
     `IsQuotientCoveringMap.twistedHomologyIsoGroupHomology`,
     `IsQuotientCoveringMap.twistedCohomologyIsoGroupCohomology`, each for the quotient covering map
     of a free action on a contractible space.
@@ -305,8 +288,11 @@ one universe, a Hausdorff CW complex `X` in the same universe and a point `x` at
 `K(G, 1)`, the singular homology `Hₙ(X; k)` (Mathlib's `AlgebraicTopology.singularHomologyFunctor`)
 is isomorphic to `groupHomology (Rep.trivial k G k) n` for every `n` (Hatcher, Section 2.2,
 "Homology of Groups", p. 148; Brown 1982, §II.4). Prove
-`nonempty_singularCohomology_iso_groupCohomology`, the same for Tau Ceti's
-`TopCat.singularCohomology` and `groupCohomology (Rep.trivial k G k) n`. Route: by
+`nonempty_singularCohomology_iso_groupCohomology`: in the same setting and for a `k`-module `M` in
+the same universe, Tau Ceti's `TopCat.singularCohomology` of `X` with values in `M` is isomorphic to
+`groupCohomology (Rep.trivial k G M) n` for every `n`. The homology statement keeps the
+coefficients `k` of the pinned comparison it transports; coefficients in a trivial `k`-module `M`
+are the case `A = Rep.trivial k G M` of 1.3, in twisted form. Route: by
 `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv`, with both CW types from
 `TauCeti.CWType.of_cwComplex_univ`, `X` is homotopy equivalent to `TauCeti.classifyingSpace G`;
 singular homology and cohomology are homotopy invariant (Mathlib's `HomotopyInvariance.lean`, Tau
@@ -319,13 +305,17 @@ invariance; Mathlib `AlgebraicTopology.singularHomologyFunctor` and its homotopy
 `groupHomology`, `groupCohomology`.
 
 - For every Hausdorff CW `K(G, 1)` `X` and every `n`, `Hₙ(X; k)` is isomorphic to `Hₙ(G, k)`.
-- For every Hausdorff CW `K(G, 1)` `X` and every `n`, `Hⁿ(X; k)` is isomorphic to `Hⁿ(G, k)`.
+- For every Hausdorff CW `K(G, 1)` `X`, every `k`-module `M` and every `n`, `Hⁿ(X; M)` is
+  isomorphic to `Hⁿ(G, M)`.
 
 **Checks.**
 - `G = ℤ`, `X` the circle: `H₁ = k` on both sides (`ℤᵃᵇ ⊗ k = k`), and `H₂ = 0` on both sides.
 - `G = ℤ/2`, `k = ℤ`: `H₁ = ℤ/2` and `H₂ = 0` on both sides; with `k = 𝔽₂` every degree is `𝔽₂`;
-  in cohomology with `k = ℤ`, `H¹ = 0` and `H² = ℤ/2`. A comparison that confused homology with
+  in cohomology with `k = M = ℤ`, `H¹ = 0` and `H² = ℤ/2`. A comparison that confused homology with
   cohomology would be caught in degree one.
+- `G = ℤ/2`, `k = ℤ`, `M = ℤ/2`: `Hⁿ(ℝP^∞; ℤ/2) = ℤ/2 = Hⁿ(ℤ/2, ℤ/2)` in every degree, so
+  `H¹ = ℤ/2`, while `M = ℤ` gives `H¹ = 0`; with `M = ℚ` both sides vanish in every positive degree.
+  A statement that replaced the values `M` by the ring `k` is caught in degree one.
 - Negative control: the `2`-sphere has trivial fundamental group and `H₂ = k`, while
   `H₂(1, k) = 0`; it is not a `K(1, 1)` because `π₂ ≠ 0`, so the hypothesis excludes it.
 
@@ -420,8 +410,10 @@ and, for a presentation `⟨S | R⟩` with an isomorphism `e : PresentedGroup R 
   identifications, by `MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq` and Stage 8
   item 8a's naturality of `κ_bar`.
 - The lift `ĉ : universalGSpace G → Eπ` of `c_G^M` sending the vertex `⟨0, 1⟩` to the base vertex
-  of `Eπ` is `G`-equivariant for the two left actions: `ĉ (g • e) = g • ĉ e`. Route: a lift of a
-  pointed map between the bases intertwines the deck transformations of `γ` and of its image; by
+  of `Eπ` is `G`-equivariant for the two left actions: `ĉ (g • e) = g • ĉ e` (Hatcher,
+  Propositions 1.33, 1.34 and 1.39, pp. 61–71, for the lift, its uniqueness and the deck
+  transformations). Route: a lift of a pointed map between the bases intertwines the deck
+  transformations of `γ` and of its image, both lifts of the same map agreeing at one point; by
   `## Conventions` the deck transformation of `γ` in Milnor's model is left translation by
   `κ_M(γ)⁻¹`, by Stage 8 item 8a's stated conversion the same holds in the nerve model with
   `κ_bar`, and the normalisation `κ_bar ∘ π₁(c_G^M) = κ_M` identifies the two translations.
@@ -444,15 +436,17 @@ deck-action conversion) and 8b (classification and `c_Z`); Tau Ceti
 
 ### 2.2 One comparison with group (co)homology
 
-Prove that the comparisons of the three models with group (co)homology agree under `c_G^M`.
+Prove that the comparisons of Milnor's model and of the nerve model with group (co)homology agree
+under `c_G^M`, in three forms.
 
 - Constant coefficients: for a commutative ring `k` in the universe of `G` and every `n`, the
   pinned `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` is the map induced by `c_G^M`
   on `Hₙ(-; k)` followed by the nerve model's comparison
   `IsQuotientCoveringMap.singularHomologyIsoGroupHomology` for `Eπ → Bπ`; likewise in cohomology
-  with `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`. Route: the equivariant lift
-  `ĉ` of 2.1 and `IsQuotientCoveringMap.singularHomologyIsoGroupHomology_hom_naturality` with
-  `φ` the identity, and its cohomological counterpart.
+  with values in a `k`-module `M`, with `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`.
+  Route: the equivariant lift `ĉ` of 2.1, with `φ` the identity and `b = c_G^M`, in
+  `IsQuotientCoveringMap.singularHomologyIsoGroupHomology_hom_naturality` and in
+  `IsQuotientCoveringMap.singularCohomologyMap_comp_singularCohomologyIsoGroupCohomology_hom`.
 - Local-coefficient homology: for `A : Rep k G`, pullback along `c_G^M` identifies the local system
   of `A` attached to `Eπ → Bπ` with `TauCeti.classifyingSpaceLocalSystem k A` (through `ĉ`), and
   under this identification `IsQuotientCoveringMap.twistedHomologyIsoGroupHomology` for the two
@@ -469,8 +463,11 @@ Prove that the comparisons of the three models with group (co)homology agree und
 
 (Brown 1982, §III.1, for the independence of group cohomology from the resolution.) *Needs:* 2.1;
 AlgebraicTopology Stage 8 items 8a (the contractible free cover) and 8b (the bar-model
-local-coefficient identification over `ℤ`); Tau Ceti the pinned comparisons and naturality
-statements listed under `## Exact supplier contracts`, `TauCeti.classifyingSpaceLocalSystem`;
+local-coefficient identification over `ℤ`); Tau Ceti
+`IsQuotientCoveringMap.singularHomologyIsoGroupHomology_hom_naturality`,
+`IsQuotientCoveringMap.singularCohomologyMap_comp_singularCohomologyIsoGroupCohomology_hom`, the
+other pinned comparisons listed under `## Exact supplier contracts`,
+`TauCeti.classifyingSpaceLocalSystem`;
 Mathlib `groupHomology`, `groupCohomology`, `Rep.ihom`.
 
 **Checks.**
@@ -482,50 +479,80 @@ Mathlib `groupHomology`, `groupCohomology`, `Rep.ihom`.
   same sign.
 - `G = ℤ²`, `k = ℤ`, degree one: `H₁(ℤ², ℤ) = ℤ²`, and the composite automorphism is the identity
   matrix. A comparison through an identification of `π₁` with `G` composed with the swap of the two
-  factors, an automorphism that `ℤ` alone cannot exhibit, gives the swap matrix. On Milnor's side
-  the class of a loop representing `g` goes to the class of the `1`-chain `g`
-  (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`), which fixes the identity.
+  factors, an automorphism that `ℤ` alone cannot exhibit, gives the swap matrix. Under
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` the class of a loop `γ` goes to the
+  class of the `1`-chain `κ_M(γ)⁻¹ = m(γ)`, the label at the end of its lift, and by the
+  equivariance of `ĉ` the nerve model's comparison sends the image loop to the same class; the
+  pinned `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` instead sends `γ` to the
+  class of `κ_M(γ)`, the negative in `H₁(G, ℤ) = Gᵃᵇ`. For `G = ℤ`, the loop whose lift ends at
+  `⟨0, 1⟩` goes to `+1` and to `−1` respectively.
 
 ### 2.3 One comparison of resolutions
 
 The nerve model's universal cover is the realization of Mathlib's
 `classifyingSpaceUniversalCover G` (the simplicial `G`-set `[n] ↦ Gⁿ⁺¹`), and by Stage 4 item 7 of
 the algebraic-topology roadmap its cells are its nondegenerate simplices, the tuples
-`(g₀, …, gₙ)` with `gᵢ ≠ gᵢ₊₁`. Prove that its lifted cellular chain complex, with the deck action
-of 2.1, is the normalised standard complex: the quotient of `Rep.standardComplex k G` by the
-subcomplex spanned by the tuples with two equal consecutive entries, with the cell of a tuple going
-to its class times a unit of `k` that depends only on the degree and is `1` in degree zero (the
-orientation of the cells is Stage 4 item 7's). By `TauCeti.exists_isCellular_homotopicRel`,
+`(g₀, …, gₙ)` with `gᵢ ≠ gᵢ₊₁` (Hatcher, Appendix, Proposition A.19 and the geometric realization
+that follows it, pp. 537–538). Write `N(k, G)` for the normalised standard complex, Mathlib's
+`(AlgebraicTopology.normalizedMooreComplex (Rep k G)).obj (classifyingSpaceUniversalCover G ⋙ Rep.linearization k G)`:
+its inclusion into `Rep.standardComplex k G` is a homotopy equivalence
+(`AlgebraicTopology.DoldKan.homotopyEquivNormalizedMooreComplexAlternatingFaceMapComplex`) whose
+inverse `AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex` vanishes on the tuples with two
+equal consecutive entries, the degenerate simplices (`AlgebraicTopology.DoldKan.σ_comp_PInfty`).
+Prove that the lifted cellular chain complex of the nerve model's cover, with the deck action of
+2.1, is isomorphic to `N(k, G)` in `Rep k G`, the cell of a nondegenerate tuple going to the image
+of that tuple under `PInftyToNormalizedMooreComplex` times a unit of `k` that depends only on the
+degree and is `1` in degree zero; the orientation of the cells is Stage 4 item 7's, and the
+differential is computed by the cellular boundary formula (Hatcher, Section 2.2, p. 140), a face
+that is a degenerate simplex contributing zero. By `TauCeti.exists_isCellular_homotopicRel`,
 `c_G^M` is pointed homotopic to a cellular map; prove that the lift of such a cellular map induces
 a `G`-equivariant, augmentation-preserving chain map from the cellular chains of the countable
 join, identified with the pinned resolution `TauCeti.universalGSpaceResolution` through the pinned
 `TauCeti.cellularChainComplexRealizationIso` (which rescales the cell of each degree by a unit, `1`
-in degree zero), to the normalised standard complex, and that it is chain homotopic to the pinned
-`TauCeti.universalGSpaceToStandardComplex` followed by the quotient map. The homotopy is the
-uniqueness up to homotopy of comparison maps between projective resolutions lifting the identity of
-the trivial representation (Brown 1982, §I.7), once both maps are shown equivariant and
-augmentation-preserving. *Needs:* 2.1; AlgebraicTopology Stage 8 item 8a and Stage 4 item 7;
-Tau Ceti `TauCeti.exists_isCellular_homotopicRel`, `TauCeti.universalGSpaceResolution`,
-`TauCeti.universalGSpaceToStandardComplex`, `TauCeti.cellularChainComplexRealizationIso`,
-`TauCeti.cellularChainComplexRep`; Mathlib
-`Rep.standardComplex`, `classifyingSpaceUniversalCover`, `CategoryTheory.ProjectiveResolution`.
+in degree zero), to `N(k, G)`, and that it is chain homotopic to the pinned equivariant map
+`TauCeti.universalGSpaceChainComplexToStandardComplex` followed by
+`PInftyToNormalizedMooreComplex`. The homotopy is the uniqueness up to homotopy of chain maps from
+a projective resolution to an acyclic augmented complex lifting the identity of the trivial
+representation (Brown 1982, §I.7): `N(k, G)` is acyclic with `H₀ = k` because it is homotopy
+equivalent to `Rep.standardComplex k G`, and both maps are equivariant and augmentation-preserving,
+`PInftyToNormalizedMooreComplex` being the identity in degree zero. *Needs:* 2.1; AlgebraicTopology
+Stage 8 item 8a and Stage 4 item 7; Tau Ceti `TauCeti.exists_isCellular_homotopicRel`,
+`TauCeti.universalGSpaceResolution`, `TauCeti.universalGSpaceChainComplexToStandardComplex`,
+`TauCeti.cellularChainComplexRealizationIso`, `TauCeti.cellularChainComplexRep`; Mathlib
+`Rep.standardComplex`, `classifyingSpaceUniversalCover`, `Rep.linearization`,
+`AlgebraicTopology.normalizedMooreComplex`, `AlgebraicTopology.DoldKan.PInftyToNormalizedMooreComplex`,
+`AlgebraicTopology.DoldKan.σ_comp_PInfty`,
+`AlgebraicTopology.DoldKan.homotopyEquivNormalizedMooreComplexAlternatingFaceMapComplex`,
+`CategoryTheory.ProjectiveResolution`.
 
 **Checks.**
-- `G = 1`, degree zero: the join has the free module `ℤ^(ℕ)` on its vertices `⟨i, 1⟩` and the
-  normalised standard complex has `ℤ`, so the chain map is not an isomorphism, only a homotopy
-  equivalence; a definition claiming an isomorphism is refuted here.
-- `G = 1`, degree one: the normalised standard complex is zero, since `(1, 1)` is degenerate,
-  while the join has one free generator for every pair of indices `i < j`; the chain map is zero in
-  degree one.
-- The join simplex `{⟨0, g⟩, ⟨1, g⟩}` goes to the degenerate tuple `(g, g)`, whose class in the
-  normalised complex is `0`; a map into the unnormalised complex `Rep.standardComplex` would not
-  vanish on it, and the comparison here is the composite with the quotient.
+- `G = 1`, `k = ℤ`, degree zero: the join has the free module `ℤ^(ℕ)` on its vertices `⟨i, 1⟩` and
+  `N(ℤ, 1)` has `ℤ`, so the chain map is not an isomorphism, only a homotopy equivalence; a
+  definition claiming an isomorphism is refuted here.
+- `G = 1`, degree one: `N(k, 1)` is zero, since degree one of `Rep.standardComplex k 1` is `k`,
+  spanned by the degenerate `(1, 1)`, and the normalised complex keeps only the kernel of the face
+  map `d₁`, which is the identity of `k`; the join has one free generator for every pair of indices
+  `i < j`, and the chain map is zero in degree one.
+- The join simplex `{⟨0, g⟩, ⟨1, g⟩}` goes under `TauCeti.universalGSpaceChainComplexToStandardComplex`
+  to the degenerate tuple `(g, g)`, which `PInftyToNormalizedMooreComplex` sends to `0`; the pinned
+  map into the unnormalised `Rep.standardComplex` does not vanish on it, and the comparison here is
+  its composite with `PInftyToNormalizedMooreComplex`.
+- `G = ℤ/2`: the nondegenerate tuples of length `n + 1` alternate between the two elements, two in
+  each degree forming one free orbit, so `N(k, ℤ/2)` is free of rank one over `k[ℤ/2]` in every
+  degree, as are the cellular chains of the cover `S^∞` of `ℝP^∞` with two cells in each dimension;
+  the unnormalised `Rep.standardComplex k (ℤ/2)` has rank `2ⁿ` over `k[ℤ/2]` in degree `n`, so an
+  identification of the cellular chains with it fails from degree one.
 
 ### Examples
 
 - For `G = ℤ`, 2.1 compares the nerve model with Milnor's model and, through the pinned
-  `TauCeti.circleHomotopyEquivClassifyingSpace`, with the circle; 2.2 identifies the three
-  isomorphisms `H₁ = ℤ` with the same sign.
+  `TauCeti.circleHomotopyEquivClassifyingSpace`, with the circle. Three isomorphisms identify a
+  first homology group with `H₁(ℤ, ℤ) = ℤ`: Milnor's
+  `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`, the nerve model's
+  `IsQuotientCoveringMap.singularHomologyIsoGroupHomology` for `Eπ → Bπ`, and the pinned
+  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` of Milnor's model. The first two
+  agree under `c_G^M` by 2.2, sending the loop whose lift ends at `⟨0, 1⟩` and its image to `+1`;
+  the third sends that loop to `−1`.
 - For a free group on `S`, the cellular model of the presentation with no relators is a wedge of
   circles up to homotopy (pinned `WedgeCircles.lean`), and 2.1 gives its comparison with the nerve
   model through `c_e^C`.
@@ -545,9 +572,16 @@ roadmap, 2.2 and 2.3 use 2.1.
 - TangentialBordism uses the homology of classifying spaces of finite cyclic groups: the pinned
   `ClassifyingSpace/FiniteCyclic.lean`, and 1.2 for other models.
 - ArithmeticLocallySymmetricSpaces uses the CW structures along coverings with their free cellular
-  chains, pinned, and the local-coefficient cohomology comparison, 1.3.
-- StableHomotopyKTheory and ArithmeticKTheory use the comparison of the nerve model with Milnor's
-  model and the identification of its homology with group homology, 2.1 and 2.2.
+  chains, pinned, and the local-coefficient cohomology comparison, 1.3, which identifies the
+  cohomology with values in `N` of the local system of `A` with the group cohomology of
+  `Homₖ(A, N)`.
+- ArithmeticKTheory uses the pinned uniqueness of `K(G, 1)` spaces of CW type, the CW structures
+  along coverings and the lifted cellular resolutions (former Stage 3 items 12–13 and Stage 4 item
+  16).
+- StableHomotopyKTheory takes the normalised comparison of the nerve model with Milnor's model from
+  the algebraic-topology roadmap's Stage 8 item 8b; from here it uses the former Stage 1 items 5–6,
+  Stage 3 items 11–15 and Stage 4 items 16–19, which resolve as listed under
+  `## Scope and ownership`, for the nerve model through 2.1–2.3.
 
 ## References
 

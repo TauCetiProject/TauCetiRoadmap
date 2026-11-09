@@ -75,14 +75,16 @@ theorem nonempty_singularHomology_iso_groupHomology
         (ModuleCat.of k k)).obj (TopCat.of X) ≅ groupHomology (Rep.trivial k G k) n) := sorry
 
 /-- **Cohomology of a `K(G, 1)`** (Layer 1, 1.2): the singular cohomology of any Hausdorff CW
-`K(G, 1)` with coefficients in a commutative ring `k` is Mathlib's group cohomology of the trivial
-representation `k`, in every degree. -/
+`K(G, 1)` with values in a module `M` over a commutative ring `k` is Mathlib's group cohomology of
+the trivial representation `M`, in every degree. For `G = ℤ/2`, `k = ℤ` and `M = ℤ/2` both sides
+are `ℤ/2` in degree one, where `M = ℤ` gives `0`. -/
 theorem nonempty_singularCohomology_iso_groupCohomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
-    {x : X} (_hX : IsEilenbergMacLaneSpaceOne G X x) (n : ℕ) :
-    Nonempty ((TopCat.of X).singularCohomology (ModuleCat.of k k) k (ModuleCat.of k k) n ≅
-      groupCohomology (Rep.trivial k G k) n) := sorry
+    {x : X} (_hX : IsEilenbergMacLaneSpaceOne G X x)
+    (M : Type u) [AddCommGroup M] [Module k M] (n : ℕ) :
+    Nonempty ((TopCat.of X).singularCohomology (ModuleCat.of k k) k (ModuleCat.of k M) n ≅
+      groupCohomology (Rep.trivial k G M) n) := sorry
 
 /-- **Homology with local coefficients of an aspherical CW complex** (Layer 1, 1.3; Hatcher,
 Proposition 3H.4, p. 331): for an aspherical Hausdorff CW complex `X` with an identification
