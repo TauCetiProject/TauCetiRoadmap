@@ -57,10 +57,15 @@ and section, and does not plan again:
   group, the fixed-coset criterion, `Gassmann.almostConjugate_iff_permutation_equiv`), §2.2 (the
   almost-conjugate, non-conjugate pair in `S₁₆` built from `C₄ × C₄` and `Q₈ × C₂`,
   `Gassmann.exists_S16_gassmann_pair`) and Layer 7 (projective representations, the Schur
-  multiplier `TauCeti.schurMultiplier`, representation groups), and **InductionRestrictionPartII**
+  multiplier `TauCeti.schurMultiplier`, and representation groups, that is Schur covers, with
+  their existence and lifting theorems); **InverseGaloisAndArithmeticFundamentalGroups** IG.3.4,
+  target *Reduced Schur covers* (for a Schur cover `π : S → G` of a finite group, the class map is
+  an isomorphism `M(G) ≅ ker π`, where `M(G) = H₂(G, ℤ)`); and **InductionRestrictionPartII**
   §RS.0.1 (the five-term exact sequence of a central extension and its stem corollaries: the class
-  map `M(G) → ker π` of a stem extension is onto). The order of the kernel of a stem extension and
-  the Schur covers are those sections'; Layer 4 here owns isoclinism and stem groups.
+  map `M(G) → ker π` of a stem extension is onto). The bound on the kernel of a stem extension is
+  RS.0.1's; the Schur covers are InductionRestriction Layer 7's, with IG.3.4's identification of
+  their kernel, and InductionRestrictionPartII consumes them without owning them. Layer 4 here
+  owns isoclinism and stem groups.
 - **ArithmeticStatisticsPartV** §3.9 *Malle invariants of a permutation group* (the index
   `ind(g)`, `ind(G)`, `a(G)` and `b(H, G)`). Malle's conjecture is that roadmap's.
 - **ClassicalArithmeticCompletion** Layer 7: §7.4 (orders in finite-dimensional algebras,
@@ -187,7 +192,10 @@ nilpotent normal subgroups, with Fitting's theorem (the join of two nilpotent no
 nilpotent), `F(G)` characteristic, every nilpotent normal subgroup contained in `F(G)`, and `F(G)`
 nilpotent for finite `G`. Used in 0.8. IG.4.4, target *Supersolvable Grunwald prescriptions*: its
 predicate `IsSupersolvable` (a chain of normal subgroups of `G` from `⊥` to `⊤`, each the join of
-the previous one with one cyclic subgroup), compared with 1.1's.
+the previous one with one cyclic subgroup), compared with 1.1's. IG.3.4, target *Reduced Schur
+covers*: for a finite group `G` and a Schur cover `π : S → G` (a representation group of
+InductionRestriction Layer 7), the class map `τ_S : M(G) ≅ ker π`, with `M(G)` Mathlib's
+`groupHomology.H2 (Rep.trivial ℤ G ℤ)`. Used in 4.4.
 
 ### From RepresentationTheory/CharacterTheory
 
@@ -210,7 +218,8 @@ representations with trace field finite over `k`. Used in 6.4 and 6.5, at `Γ = 
 ### From RepresentationTheory/InductionRestriction and InductionRestrictionPartII
 
 InductionRestriction §2.1 (`Gassmann.almostConjugate_iff_permutation_equiv`), §2.2
-(`Gassmann.exists_S16_gassmann_pair`), Layer 7 (representation groups); InductionRestrictionPartII
+(`Gassmann.exists_S16_gassmann_pair`), Layer 7 (representation groups, that is Schur covers: their
+existence and the lifting of every projective representation); InductionRestrictionPartII
 §RS.0.1 (stem surjectivity of the class map).
 
 ### From ArithmeticStatisticsPartV
@@ -853,8 +862,16 @@ Define `IsStemGroup G`: the centre lies in the commutator subgroup. Prove
 stem groups of an isoclinism class are exactly its groups of least order (hall-1940, p. 135:
 existence of stem groups in every class, and for finite groups their characterisation by least
 order). The kernel of a stem extension of `G` is a quotient of the Schur multiplier by
-InductionRestrictionPartII §RS.0.1. *Needs:* 4.3; InductionRestrictionPartII §RS.0.1 for the
-multiplier statement only.
+InductionRestrictionPartII §RS.0.1, and the bound is attained: a Schur cover of `G`
+(InductionRestriction Layer 7) is a stem extension whose kernel IG.3.4 identifies with `M(G)`.
+Tau Ceti proves the existence of such a finite stem extension, lifting every projective
+representation over an algebraically closed field
+(`TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` and
+`TauCeti.exists_finite_stem_extension_lifting_pgl`, in
+`TauCeti/RepresentationTheory/ProjectiveRepresentation/RepresentationGroup/{Basic,Lifting}.lean`,
+which landed after this repository's Tau Ceti pin).
+*Needs:* 4.3; for the multiplier statements only, InductionRestrictionPartII §RS.0.1,
+InductionRestriction Layer 7 and InverseGaloisAndArithmeticFundamentalGroups IG.3.4.
 
 **Checks.**
 - `Q₈`, `D₄`, `S₃` and the trivial group are stem groups; `C₂` is not.
@@ -869,7 +886,8 @@ multiplier statement only.
 
 ### Dependencies
 
-Mathlib; InductionRestrictionPartII §RS.0.1 (4.4).
+Mathlib; InductionRestrictionPartII §RS.0.1, InductionRestriction Layer 7 and
+InverseGaloisAndArithmeticFundamentalGroups IG.3.4 (4.4).
 
 ## Layer 5: the subgroup lattice and faithful permutation degrees
 
