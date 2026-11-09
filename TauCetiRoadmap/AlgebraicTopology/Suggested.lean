@@ -130,9 +130,9 @@ Headline theorems not statable at the pins, and what each lacks:
   boundary are constructions of the roadmap;
 * the proper Whitehead theorem (Stage 8.5): the pinned libraries have no compactly supported
   cohomology, so its hypothesis cannot be written;
-* the relative obstruction class with local coefficients (Stage 8.9): the pinned libraries have
-  no action of `π₁` on `π_n`, so the coefficient system of the obstruction cochain cannot be
-  written;
+* the relative obstruction class with local coefficients (Stage 8.9): the cochain is data built
+  on the roadmap's cellular cochains with local coefficients (Stage 6.1), which the pins lack;
+  the action of `π₁` on `π_n` it uses is native (`TauCeti.homotopyGroupMulAction`);
 * the functorial abelian family `K(A, n)` with its normalized identifications (Stage 8.8c) and
   the ordinary EM loop comparison and cohomology suspension (Stage 8.11b): they are data.
 -/
@@ -617,8 +617,8 @@ theorem properStrongDeformationRetract_of_inverse
 
 open scoped Manifold ContDiff in
 /-- Stage 8.7: a compact Hausdorff second-countable smooth manifold has finite CW type, in the
-native sense `TauCeti.FiniteCWType`, through GeometricTopology's smooth triangulation and the
-native `TauCeti.IsTriangulable.finiteCWType`. Its Euler characteristic is then the native
+native sense `TauCeti.FiniteCWType`, through GeometricTopology 12.1 (Whitehead's smooth
+triangulation) and the native `TauCeti.IsTriangulable.finiteCWType`. Its Euler characteristic is then the native
 `TauCeti.eulerChar`. -/
 theorem compactManifoldFiniteCWType (n : ℕ)
     (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
@@ -629,8 +629,9 @@ theorem compactManifoldFiniteCWType (n : ℕ)
 
 open scoped Manifold ContDiff in
 /-- Stage 8.7 with boundary: a compact Hausdorff smooth manifold with boundary, modelled on the
-half-space `𝓡∂ n` with `n ≥ 1`, has finite CW type, through GeometricTopology's smooth
-triangulation of manifolds with boundary and the native `TauCeti.IsTriangulable.finiteCWType`. -/
+half-space `𝓡∂ n` with `n ≥ 1`, has finite CW type, through GeometricTopology 12.1 (Whitehead's
+smooth triangulation of manifolds with boundary) and the native
+`TauCeti.IsTriangulable.finiteCWType`. -/
 theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n]
     (M : Type u) [TopologicalSpace M] [T2Space M] [CompactSpace M]
     [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M] :
@@ -744,7 +745,9 @@ def ordinaryEMPullback (A : Type u) [AddCommGroup A] (n : ℕ) (K : TopCat.{u})
       exact congrArg (fun q => q.hom ι) heq)
 
 /-- Stage 8.10 (Hatcher, Theorem 4.57, there for basepoint-preserving maps of connected complexes;
-`π₁(K)` acts trivially on them, so the free form follows componentwise): every `K(A, n + 1)` model
+`π₁(K)` acts trivially on them, by `TauCeti.fundamentalGroup_smul_eq_self` for `n ≥ 1` and because
+the degree-one action is conjugation in the abelian group `A` for `n = 0`, so the free form follows
+componentwise): every `K(A, n + 1)` model
 `K` carries a universal class `ι ∈ H^(n+1)(K; A)`, normalized by evaluating on the Hurewicz image
 of each `γ ∈ π_(n+1)(K)` to the element of `A` that the model's identification assigns to `γ`,
 and pulling `ι` back along

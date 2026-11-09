@@ -383,6 +383,14 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   (`Topology/Category/BasedTopPair.lean`) and the relative homotopy sets
   `TauCeti.RelHomotopyGroup` with their boundary maps, exact sequence and group structure in
   degrees at least two (`AlgebraicTopology/Homotopy/Relative/`).
+- Native action of the fundamental group on the homotopy groups
+  (`Topology/Homotopy/HomotopyGroup/FundamentalGroupAction.lean`): transport along a homotopy
+  class of paths `TauCeti.homotopyGroupTransportQuotient` with its identity and composition
+  laws, the left action `TauCeti.homotopyGroupMulAction` of `FundamentalGroup X x` on
+  `HomotopyGroup N X x`, by group automorphisms in positive dimension
+  (`TauCeti.homotopyGroupMulDistribMulAction`), its equivariance under based maps
+  (`TauCeti.map_fundamentalGroup_smul`) and its triviality on a simply connected space
+  (`TauCeti.fundamentalGroup_smul_eq_self`); Stages 8.9 and 8.10 consume them.
 - The native cellular comparison `TauCeti.cellularSingularHomologyIsoUniv` holds in every CW
   dimension once the inclusion of the `(n+1)`-skeleton induces an isomorphism on `H_n`, which
   `TauCeti.isIso_singularHomologyMap_skeletonBasePairToComplex_succ_of_hasExactColimitsOfShape`
@@ -527,15 +535,20 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   is `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`;
   basedHomotopyInverseOfEquivalence is
   `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel` applied through the
-  0-cell extension lemma of Stage 4.5.
+  0-cell extension lemma of Stage 4.5; ordinaryEMUniversalClass is the normalized universal
+  class ι whose existence is the first conjunct of `ordinaryEMRepresentability` (Stage 8.10);
+  simplicialRealizationCW is Stage 4.7's realization CW structure, stated in prose there; and
+  Stage 4 item 8, *Compact generation and the pointed adjunction*, is Stage 4.5's
+  compact-generation interface and 8.11b's based suspension–loop adjunction.
 
 ### From other roadmaps
 
 - **[UniversalCovers](../../Completed/UniversalCovers/README.md)** (completed): universal-cover
   construction, deck transformations, quotient covers, basepoint change and induced maps on
   homotopy groups, consumed by Stage 8.
-- **[GeometricTopology](../GeometricTopology/README.md)**: its smoothing-and-triangulation
-  comparison item 1 with its realization homeomorphism, consumed by Stage 8.7, and its manifold
+- **[GeometricTopology](../GeometricTopology/README.md)**: 12.1 (Whitehead's smooth
+  triangulation of smooth manifolds, with or without boundary) and Layer 11 (the realization
+  homeomorphism and CW structure of a triangulation), consumed by Stage 8.7, and its manifold
   boundary and collar conventions, consumed by Stage 6.
 - **[DifferentialGeometry](../DifferentialGeometry/README.md)**: the tangent-orientation API of
   Layer 2 with the orientation double cover of 2.4, the outward-normal-first boundary orientation
@@ -601,9 +614,10 @@ This stage is independent of Stages 2--8.
    continuous unital multiplicative maps, commutativity, and the resulting commutative-group
    instance whose underlying group is the existing one.
 
-The proof spine is Brown, *Topology and Groupoids*, Chapters 6--7: subdivision gives generation,
-the square-grid subdivision of a homotopy gives relations, and the universal property identifies
-the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based corollaries.
+The proof spine is Brown, *Topology and Groupoids*, Section 6.7 (Theorem 6.7.2 and its proof):
+subdivision by a Lebesgue number gives generation, the rectangular-grid subdivision of a homotopy
+gives relations, and the universal property identifies the colimit; Sections 8.4 and 9.1
+(Theorems 8.4.1 and 9.1.2) give the presentation corollaries.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based corollaries.
 
 ### Examples
 
@@ -2259,7 +2273,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    reducedSingularHomologySphereIso_zero on the unit sphere of
    EuclideanSpace ℝ (ULift (Fin 1)); this is the actual choice in the
    definition of reducedSingularHomologyTopCatSphereIso 0. Compare p₀ directly
-   with `q=ULift.up (homotopySpherePole 0)` on this same sphere carrier, without
+   with q=e₀, the positive-chart comparison pole fixed above, on this same sphere carrier, without
    a second coordinate transport. Prove the exhaustive dichotomy p₀=q or p₀=−q
    from the one-dimensional unit-vector coordinates, then compute the coefficient
    in each case. The native
@@ -2676,8 +2690,8 @@ items 1–7 are independent of those later constructions.
    to the positive first-coordinate pole and export the boundary-generator comparison.
 7. Prove that every finite-dimensional Hausdorff second-countable smooth manifold
    with the Euclidean or half-space model, with or without boundary, has
-   countable locally finite CW type by consuming GeometricTopology's
-   smoothing-and-triangulation comparison item1 and its realization homeomorphism.
+   countable locally finite CW type by consuming GeometricTopology 12.1 (Whitehead's smooth
+   triangulation) and Layer 11's realization homeomorphism and CW structure.
    The compact case has finite CW type, `compactManifoldFiniteCWType` on the Euclidean
    model and `compactManifoldWithBoundaryFiniteCWType` on the half-space model `𝓡∂ n`,
    n≥1, both stated on the native class `TauCeti.FiniteCWType` and proved through the native
@@ -2887,7 +2901,8 @@ items 1–7 are independent of those later constructions.
      at all, since the extension 0→ℤ/d^m→ℤ/d^(2m)→ℤ/d^m→0 leaves the class.
 9. **Relative obstruction cochains.**
     For each relative CW complex (X,B), n≥1 and path-connected target Y with
-    π₁Y acting trivially on π_nY (so π₁Y is abelian when n=1), and a map on
+    π₁Y acting trivially on π_nY in the native action `TauCeti.homotopyGroupMulAction`
+    (so π₁Y is abelian when n=1), and a map on
     X^n∪B, construct its relative cellular (n+1)-cochain with coefficient π_nY
     by its characteristic-map boundary classes. Use the outward-first
     orientation induced by Stage 2.5's coordinate-oriented ball reference
@@ -2895,8 +2910,9 @@ items 1–7 are independent of those later constructions.
     transported to the cell by Stage 4.4, and its
     degree +1 boundary-sphere homeomorphism. Choose the positive first-coordinate
     boundary point; transport the based class from f(φ_e(v₀)) to the fixed
-    y₀ along a specified path in Y. Prove choice independence using the trivial
-    π₁ action on π_n, with the degree-one commutativity hypothesis explicit.
+    y₀ along a specified path in Y, by the native transport along a homotopy class of
+    paths `TauCeti.homotopyGroupTransportQuotient`. Prove choice independence using the
+    trivial π₁ action on π_n, with the degree-one commutativity hypothesis explicit.
     These oriented, transported boundary classes define c(f)(e); prove the
     cochain is a cocycle. Prove that this fixed
     map on X^n∪B extends to X^(n+1)∪B exactly when the cochain is zero.
@@ -2911,7 +2927,8 @@ items 1–7 are independent of those later constructions.
     Prove the full local-coefficient lifting/section version for Stage 5's
     Serre fibrations with path-connected n-simple fibres: use fibre π_n and
     its transport along base paths as a module-valued functor on the fundamental
-    groupoid, concretely `LocalCoefficientSystem ℤ X`. For a lifting problem
+    groupoid, concretely `LocalCoefficientSystem ℤ X`, with the fibre transport built from
+    the native `TauCeti.homotopyGroupTransportQuotient` and its composition law. For a lifting problem
     along a given map b:X→Z, place the cell coefficient at b(φ_e(0)); transport
     the boundary-point class along b∘φ_e on the reversed radial segment from
     v₀ to 0. The base map is defined on the whole cell, even when its section
@@ -2940,7 +2957,10 @@ items 1–7 are independent of those later constructions.
     nontrivial automorphism of A, and determines ι, since the Hurewicz map onto
     H_(n+1)(K;ℤ) is surjective and `H^(n+1)(K;A)≅Hom(H_(n+1)(K;ℤ),A)` for a model
     (Hatcher, Theorem 4.57, there for basepoint-preserving maps of connected
-    complexes; π₁(K) acts trivially on them, and the free form follows componentwise). Fix degree-one identification
+    complexes; π₁(K) acts trivially on them: for n≥1 the model is simply connected and the
+    native `TauCeti.fundamentalGroup_smul_eq_self` applies, and for the degree-one model the
+    native action on π₁ is conjugation (`TauCeti.pi1MulEquivFundamentalGroup_smul`) in the
+    abelian group A; the free form follows componentwise). Fix degree-one identification
     by the bar's oriented one-simplex labelled a. Construct the pullback map
     `[f]↦f*ι_(A,n)` on free homotopy classes `continuousHomotopyClasses`, the quotient by
     the homotopy relation `continuousHomotopySetoid` (the map
@@ -3216,7 +3236,8 @@ trivial monodromy.
 
 ## References
 
-- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Chapters 6--7.
+- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Section 6.7 (Theorem 6.7.2)
+  and Sections 8.4 and 9.1 (Theorems 8.4.1 and 9.1.2).
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
