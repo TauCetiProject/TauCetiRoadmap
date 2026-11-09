@@ -2555,8 +2555,8 @@ field — it follows from `CompactSpace Z` and `T2Space (OnePoint ℂ)` — and 
 assumed.
 
 An **isomorphism** is a homeomorphism `Z ≃ₜ Z'` commuting with `π` and `π'`. Prove: the
-local degree `e` at a point is well defined (independent of the two charts, since any two
-choices differ by units and `w ↦ w^e` determines `e` as the order of vanishing); the fibers
+local degree `e` at a point is well defined, using SurfaceTopology's local-degree
+uniqueness theorem and the sheet count over a punctured target neighbourhood; the fibers
 over the three marked points are finite; `Σ e = n` over each of them; and the restriction of
 an isomorphism to the unbranched part is an isomorphism of covers in the sense of 6.1.
 
@@ -2565,6 +2565,18 @@ for **all** `y`. It fails at exactly the branch points, which is the entire cont
 object; the hypothesis is restricted to the complement of `marked` above, and the marked
 fibers are governed by `localPower` and `Σ e = n` instead.
 
+**Comparison with general surface covers.** Consume
+[SurfaceTopology layer 5](../SurfaceTopology/README.md#layer-5-embedded-graphs-and-the-heffteredmondsringel-theorem)
+for the general topological branched-cover predicate, positive local degrees, weighted
+fibre degree and Riemann–Hurwitz. This downstream marked-cover development supplies its
+specialized carrier and adapter, including all source/target and local power-model
+conditions needed by the general predicate. Use PlanarTopology layer 0 to transport the
+boundaryless complex-plane chart models into the half-space surface convention. The
+adapter preserves `π`, every local exponent and total degree `n`; for `z ↦ z²` the
+branch fibre has cardinality one and weight two, and a regular fibre has cardinality
+two and weight two. Completion from punctured-sphere covers and classification of
+marked covers are targets of this section's owner.
+
 7.2 and 7.3 construct a `TopBranchedCover n` from a connected finite cover of `U`, and 7.4
 says that construction is unique up to a unique isomorphism. Conversely, restricting `π`
 over `OnePoint ℂ ∖ {0,1,∞}` sends a `TopBranchedCover n` to a connected finite cover of
@@ -2572,7 +2584,8 @@ over `OnePoint ℂ ∖ {0,1,∞}` sends a `TopBranchedCover n` to a connected fi
 equivalence is what Layer 8.6 consumes; it is stated here rather than there because it is
 purely topological.
 
-*Prerequisites:* Layers 6.1, 7.2–7.5.
+*Prerequisites:* Layers 6.1, 7.2–7.5; SurfaceTopology layer 5's general branched-cover
+and degree results, with PlanarTopology layer 0's chart transport.
 
 ### Layer 8: Riemann surfaces and analytic Riemann existence
 
