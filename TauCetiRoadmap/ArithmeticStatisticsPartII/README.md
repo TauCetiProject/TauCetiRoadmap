@@ -13,6 +13,7 @@ The following boundaries fix the carriers and prevent parallel versions of exist
 - PolynomialGaloisGroups Layers 0, 2, 4 and 6 owns root permutation actions, generic orbit resolvents and transitive-group predicates. Tau Ceti's quartic three-element and quintic six-element resolvents below are reused. The integral resolvent-order comparisons retain their lattices, quadratic maps and orientations. A monic integral sextic resolvent polynomial alone does not specify the sextic lattice or its discriminant factor 16.
 - GlobalNumberFields Layer 11 owns the number-field-order specialization of orders, Picard groups, overorders, trace duals and ideal norms. The full-lattice order comparison below covers finite étale product algebras; degenerate rings use the localization predicates below over Z or a DVR. GlobalQuadraticForms Layer 5 owns the Hasse principle used in two-descent. OrthogonalSpinGroups Layer 0 owns the general orthogonal group; §1.13 here specializes it to a fixed arithmetic matrix and lattice. GeometryOfNumbersAndQuadraticArithmetic §0.2 owns adapted primitive lattice bases; the representation-specific minor fibres remain here.
 - SchemeAndStackFoundations §§3.6–3.7 owns unpointed Picard schemes, degree torsors, the Picard–Brauer obstruction and rational-divisor comparisons. JacobianChallenge Layers A and D supplies the pointed Jacobian comparison. AbelianSchemesAndArithmeticModuli Layers A2–A3 owns abelian isogenies, duality, theta groups and Cartier-dual kernels. The new targets here compare those objects with the orbit representations, retaining the generalized modulus and the precise scalar kernel.
+- Mathlib's `QuadraticForm.discr'` is the Gram determinant of a quadratic form on `n → R` and requires `Invertible (2 : R)`. Section 1.3 owns the division-free ternary `4 Det` over an arbitrary commutative ring and its law `4 Det(Q o M^T) = (det M)^2 4 Det Q`; `4 • discr'` is its value when 2 is invertible.
 - `TauCeti.NumberField.IsMonogenic` and `isMonogenic_iff_exists_index_eq_one` in `TauCeti.NumberTheory.NumberField.Monogenic` supply ordinary monogenicity of maximal number-field orders. The monogenized cubic resolvent in §1.11 retains a chosen generator modulo integer translation and includes nonmaximal and nonétale rings.
 
 The later arithmetic-statistics parts consume these dictionaries.
@@ -35,7 +36,7 @@ Every arithmetic conjecture is a proposition, not an axiom or an unconditional d
 
 ## Exact supplier contracts
 
-From Mathlib use `Cubic` and `Cubic.discr` for ordinary binary cubics; `Polynomial.discr`, resultants, separability and `Squarefree`; `Algebra.discr`, `Algebra.trace` and `Algebra.norm` on finite free algebras; `Basis`, `Module.Free`, `Module.Finite` and `Module.finrank`; `QuadraticForm`, `LinearMap.BilinMap.toQuadraticMap`, matrices, exterior powers, submodules and Smith normal form; `Matrix.GeneralLinearGroup`, `Matrix.SpecialLinearGroup` and `Matrix.ProjGenLinGroup`; `MulAction.stabilizer` and `MulAction.orbitRel`; `AdjoinRoot`, `Polynomial.modByMonic`, p-adic integers and fields and number-field completions. The fixed-degree binary discriminant comes from ArithmeticStatisticsPartI, rather than from the affine polynomial after a degree drop.
+From Mathlib use `Cubic` and `Cubic.discr` for ordinary binary cubics; `Polynomial.discr`, resultants, separability and `Squarefree`; `Algebra.discr`, `Algebra.trace` and `Algebra.norm` on finite free algebras; `Basis`, `Module.Free`, `Module.Finite` and `Module.finrank`; `QuadraticForm`, `LinearMap.BilinMap.toQuadraticMap`, `QuadraticForm.discr'` and `QuadraticForm.discr'_comp` (the Gram determinant and its transformation law, both under `Invertible (2 : R)`), matrices, exterior powers, submodules and Smith normal form; `Matrix.GeneralLinearGroup`, `Matrix.SpecialLinearGroup` and `Matrix.ProjGenLinGroup`; `MulAction.stabilizer` and `MulAction.orbitRel`; `AdjoinRoot`, `Polynomial.modByMonic`, p-adic integers and fields and number-field completions. The fixed-degree binary discriminant comes from ArithmeticStatisticsPartI, rather than from the affine polynomial after a degree drop.
 
 From Tau Ceti's `TauCeti.FieldTheory.GaloisGroups.Resolvent.Quartic.Basic` use `TauCeti.quarticD4Invariant`, `quarticD4Spec`, `quarticD4Spec_specialize` and `resolventCubic`. Its `.Quartic.Discriminant` supplies `discr_quarticD4Spec_specialize`, `discr_resolventCubic` and `separable_resolventCubic_iff`. These are the three-element Galois-set resolvent and polynomial discriminant identity consumed in §1.15. From `.Quintic.Basic` use `TauCeti.quinticF20Invariant`, `quinticF20Spec`, `card_renameOrbit_quinticF20Invariant` and `resolventSextic`, with `monic_resolventSextic` and `natDegree_resolventSextic`. This supplies the six-element `S₅/F₂₀` polynomial resolvent; distinct specialized values require its separation hypothesis. Section 1.10 constructs the distinct integral sextic resolvent lattice with discriminant `(16 Disc R)³`.
 
@@ -54,10 +55,6 @@ From AnalyticNumberTheoryPartII require binary-cubic action and discriminant (An
 ### From earlier arithmetic-statistics parts
 
 From ArithmeticStatisticsPartI require ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), ArithmeticStatisticsPartI, discriminant of the cubic ring of a form (Cubic supplier conventions), ArithmeticStatisticsPartI, binary quartic form (§0.3), ArithmeticStatisticsPartI, binary quartic invariants (§0.3), ArithmeticStatisticsPartI, relative invariance of i and j (§0.3), ArithmeticStatisticsPartI, invariants height and eligible pairs (§0.4), ArithmeticStatisticsPartI, quartic discriminant is the polynomial discriminant (§0.3), ArithmeticStatisticsPartI, binary local proportion (§0.12), ArithmeticStatisticsPartI, monic density formulas (§0.23), ArithmeticStatisticsPartI, local maximality (§0.12), ArithmeticStatisticsPartI, binary form order (§0.22), ArithmeticStatisticsPartI, symmetric pencil (§0.22), ArithmeticStatisticsPartI, strong weak discriminant (§0.12), ArithmeticStatisticsPartI, binary discriminant in pencil coordinates (§0.22). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
-
-### From TauCetiRoadmap.QuadraticFormsOverABase
-
-From QuadraticFormsOverABase §§1.1–1.3 require the half-discriminant of a quadratic form on `Fin n → R` over an arbitrary commutative ring, computed without dividing by two: §1.1's universal polynomial `univHalfDisc`, §1.2's value `halfDisc` at a form, and §1.3's transformation rules `halfDisc_mapCoeffs` (base change), `halfDisc_comp` (factor `(det g)²` in odd rank) and scaling by `aⁿ`. Section 1.3 here evaluates them at n = 3 as `4 Det`; it constructs no second half-discriminant and proves no second transformation rule.
 
 ## How to read the build
 
@@ -293,9 +290,9 @@ For the proof, If R subset R' with index p, write `R = ℤ +` pR' `+ ℤ θ` and
 
 ### 1.3 Quartic rings and cubic resolvents
 
-**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) = (Sym² R³ ⊗ R²)*` is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`, the half-discriminant of QuadraticFormsOverABase §1.2 at n = 3; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen `SL₂`-invariants `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}_{kl}`. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
+**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) = (Sym² R³ ⊗ R²)*` is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen `SL₂`-invariants `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}_{kl}`. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
 
-Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; `4 Det` has integer coefficients. Over a general coefficient ring, four times the ternary determinant is QuadraticFormsOverABase §1.2's `halfDisc` of the associated Mathlib form, whose value is the displayed integral coefficient polynomial (its §1.1 at n = 3); neither half-Gram entries nor division by four is performed in R. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is `4 Det(Ax − By)` (Bhargava-Shankar); HCL III writes `4 Det(Ax + By)`, which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) = {±1} × SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
+Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; `4 Det` has integer coefficients. Over a general coefficient ring, define four times the ternary determinant by the displayed integral coefficient polynomial; neither half-Gram entries nor division by four is performed in R. When 2 is invertible in R it equals `4 • QuadraticForm.discr'` of the associated Mathlib form, the determinant of its Gram matrix `QuadraticForm.toMatrix'`. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is `4 Det(Ax − By)` (Bhargava-Shankar); HCL III writes `4 Det(Ax + By)`, which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) = {±1} × SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
 
 The required API is:
 
@@ -303,7 +300,9 @@ The required API is:
 
 - `Q(t) = sum_{i<=j} a_ij t_i t_j`.
 
-- `4 Det Q`, defined as QuadraticFormsOverABase §1.2's `halfDisc` of the associated Mathlib form, with the displayed six-coefficient value.
+- `4 Det Q`, the displayed integral polynomial in the six coefficients.
+
+- When 2 is invertible in R, `4 Det Q` is four times Mathlib's `QuadraticForm.discr'` of the associated Mathlib form.
 
 - The form `t ↦ Q(M^T t)`, Gram matrix `M G M^T`.
 
@@ -313,7 +312,7 @@ The required API is:
 
 - toQuadraticForm `Q t = Q.eval t`.
 
-- `4 Det (Q o M^T) = (det M)^2 4 Det Q`, by QuadraticFormsOverABase §1.3's `halfDisc_comp` once the composed six-coefficient form is identified with the composed Mathlib form.
+- `4 Det (Q o M^T) = (det M)^2 4 Det Q` for every commutative ring R and every `M` in `Mat_3(R)`: an identity of integral polynomials in the six coefficients of Q and the nine entries of M.
 
 - Pairs `(A, B)`.
 
@@ -339,9 +338,9 @@ The required API is:
 
 - All `λ` vanish iff A, B span a space of dimension `≤ 1` (over Q).
 
-For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of `4 Det`: QuadraticFormsOverABase §1.3's `halfDisc_comp` at n = 3, applied over `R[x, y]` to `Ax − By`, gives the factor `det(g)^2`, and its `halfDisc_mapCoeffs` specializes `4 Det(Ax − By)` at `(x, y) = (1, 0)` to `4 Det A`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
+For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of `4 Det`: both sides of `4 Det(Q o M^T) = (det M)^2 4 Det Q` are integral polynomials in the coefficients `a_ij` and the entries `m_kl`. Over `ℚ[a, m]` the coefficients of `Q o M^T` are those of the Mathlib composite `Q.comp (Matrix.toLin' M^T)` (compare values at `e_i` and `e_i + e_j`), `4 Det` is `4 • QuadraticForm.discr'`, and Mathlib `QuadraticForm.discr'_comp` gives the identity there; the map `ℤ[a, m] → ℚ[a, m]` is injective, so the identity holds in `ℤ[a, m]`, and evaluation specializes it to every R, in particular to `R[x, y]` and the pencil `Ax − By`. Evaluating `4 Det(Ax − By)` at `(x, y) = (1, 0)` gives `4 Det A`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
 
-*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), QuadraticFormsOverABase §§1.1–1.3 (half-discriminant and its transformation rules), `QuadraticForm` (Mathlib), `LinearMap.BilinMap.toQuadraticMap` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
+*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), `QuadraticForm` (Mathlib), `LinearMap.BilinMap.toQuadraticMap` (Mathlib), `QuadraticForm.discr'` and `QuadraticForm.discr'_comp` (Mathlib, for the rational route to the transformation law), `MvPolynomial` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
 
 ([6], Section 3.1, (11), printed pp. 1339-1340; [6], Section 3.1, printed p. 1340; [6], Section 3.2, (20), printed p. 1342.)
 
@@ -354,6 +353,10 @@ For the proof, Define the six-coefficient ternary forms with evaluation, linear 
 - Proportional pairs `(Q, Q)` have all `λ = 0` and discriminant 0.
 
 - Over `F₂`, `Q=xy+xz+yz` has det4`=1` by the integral polynomial. Its polar bilinear form has determinant zero in odd dimension. Defining det4 as that polar determinant would therefore fail.
+
+- For `Q = x_1^2 + x_2^2 + x_3^2` and `M = diag(2, 1, 1)`, `Q o M^T = 4x_1^2 + x_2^2 + x_3^2` has `4 Det = 16 = 2^2 · 4`; a transformation factor `det M` would give 8. For the shear M with rows `(1,1,0)`, `(0,1,0)`, `(0,0,1)`, `Q o M^T = 2x_1^2 + 2x_1x_2 + x_2^2 + x_3^2` has `4 Det = 8 − 4 = 4`, so the off-diagonal coefficient enters with its full integral value.
+
+- Over `ℚ`, `Q = x_1x_2 + x_3^2` has Gram matrix with rows `(0, 1/2, 0)`, `(1/2, 0, 0)`, `(0, 0, 1)` and `QuadraticForm.discr' = −1/4`, while `4 Det Q = −a_33 a_12^2 = −1`. The comparison factor is exactly 4; identifying `4 Det` with `discr'` itself fails here.
 
 **Quartic ring and cubic resolvent.** A quartic ring is a commutative ring free of rank 4 over `ℤ`. Following HCL III Definitions `19-20`, a cubic resolvent of a quartic ring Q is a cubic ring C together with an isomorphism `ξ : ∧³(Q/ℤ) → ∧²(C/ℤ)` and a quadratic map `φ` : `Q/ℤ → C/ℤ` such that `(29) ξ(x ^ y ^ xy) = φ(x) ^ φ(y)` for all x, y in Q, and `(34)` the binary cubic form that C corresponds to under Delone-Faddeev is `Disc(φ)` (this implies `ξ(x ^ x^2 ^ x^3) = φ(x) ^ φ(x)^2`, identity `(25)`; the converse requires that the image of `φ` span rank two and fails for degenerate rank-smaller images). In bases `<1, alpha_1, alpha_2, alpha_3>` of Q and `<1, omega_1, omega_2>` of C, with `φ(Σ_i t_i α_i) = B(t) ω₁ + A(t) ω₂` modulo `ℤ`, the data is a pair `(A, B)` in `W(ℤ)` and the conditions read: `det(1, x, y, xy) = B(x) A(y) - A(x) B(y)` for all x, y in Q (coordinates of x on `alpha_1`, `alpha_2`, `alpha_3`), and the index form of `<1, omega_1, omega_2>` is `−4 Det(Ax − By)` (in the orientation of index-form-of-a-based-cubic-ring). The content `ct(Q)` is the supremum in `ℕ ∪ {∞}` of positive integers n for which `Q = ℤ + n Q′` inside `Q ⊗ ℚ`, where Q′ is an overring free of rank four over `ℤ`. The trivial square-zero quartic ring has infinite content.
 
@@ -759,7 +762,7 @@ The required API is:
 
 - `BinaryQuartic.irrationalCovariant`: `G(x, y) = (4 φ g(x,y) + g_4(x,y))/3` with `φ = -T/3`.
 
-- `BinaryQuartic.cubicInvariant`: `z(g)`, the class of G at an admissible point.
+- `BinaryQuartic.cubicInvariantAt`: the class of `G(x, y)` in `M_{I,J}` at a given admissible point `(x, y)`, one at which `G(x, y)` is a unit; `z(g)` denotes this class.
 
 - `z(g)` is the class of `G(x,y)` for every admissible `(x,y)`.
 
@@ -783,7 +786,9 @@ For the proof, `N(G) = g_6^2`: the norm of a linear element `u + v φ` is `u^3 -
 
 - `N(G(1,2)) = g_6(1,2)^2` for `x^4 - y^4 (I = -12, J = 0)`.
 
-- For `x^3 y - x y^3` (`I = 3`, `J = 0`, a linear factor) `z = 1`.
+- For `x^3 y - x y^3` (`I = 3`, `J = 0`, a linear factor) `z = 1`. At the admissible points `(1, 0)` and `(1, 2)` the values of G at the roots `0, 9, −9` of `T^3 − 81T` are `(1, 1, 1)` and `(25, 49, 1)`: both classes are trivial, as independence of the point requires.
+
+- Over `F_5`, `g = x^4 + y^4` has `I = 12 = 2`, `J = 0` and `4I^3 − J^2 = 2 ≠ 0`, while the syzygy gives `g_6^2 = 1024 x^2 y^2 (x^4 − y^4)^2`, which vanishes at all six points of `P^1(F_5)`. No admissible point exists, so the existence statement needs `#K ≠ 5`.
 
 - `N(G)` is always a square.
 
@@ -853,7 +858,7 @@ For the proof, Move the zero to `(1, 0)` by a proper change of `g_2`: `p_1 a_2 =
 
 **Cubic invariant determines the orbit.** Let K be a field of characteristic not 2 or 3, `K ≠ F_5`, and `g_1`, `g_2` binary quartics with the same invariants I, J, `4I^3 - J^2 ≠ 0`. Then `z(g_1) = z(g_2)` if and only if `g_1` and `g_2` are `PGL2(K)`-equivalent.
 
-`Suggested.lean` states this classification as `BinaryQuartic.cubicInvariant_determines_orbit`.
+`Suggested.lean` states this classification as `BinaryQuartic.cubicInvariant_determines_orbit`, comparing `BinaryQuartic.cubicInvariantAt` at arbitrary admissible points of the two quartics and asserting that an admissible point exists; at `g_1 = g_2` it gives the independence of the point.
 
 Includes the cases `I = 0` or `J = 0`, where equivalence by `GL2 x GL1` with the same invariants need not be proper; the theorem is about `PGL2(K)` (proper) equivalence.
 
@@ -905,15 +910,15 @@ For the proof, Invariants: direct computation using `η^2 = ξ^3 - 27 I ξ - 27 
 
 **Cubic invariant of the quartic of a point.** For P in `E_{I,J}(K)`, `z(q(P)) = μ(P)` in `M_{I,J}`, where `μ` is Tau Ceti's descent map `WeierstrassCurve.Affine.μ`: for `P = (ξ, η)` with `η ≠ 0` it is the class of `ξ - T`; at a 2-torsion point `(ξ, 0)` it is the class of the corrected representative `ξ - T + (T^2 + ξ T + ξ^2 - 27 I)` (Tau Ceti's fCofactor); and `μ(O) = 1`.
 
-char K not 2, 3; the identification `φ = -T/3` of the resolvent root. `#K ≠ 5` for the chosen construction of z by an admissible evaluation. The `F_5` orbit parametrization is handled separately without invoking this construction.
+char K not 2, 3; the identification `φ = -T/3` of the resolvent root. The identity holds at every admissible point of `q(P)`, over `F_5` as well; `#K ≠ 5` only guarantees that an admissible point exists. The `F_5` orbit parametrization is handled separately without invoking this construction.
 
 The required API is:
 
-- `BinaryQuartic.cubicInvariant_quarticOfPoint_eq_mu` in `Suggested.lean`: Under `char≠2`,3, `#K≠5` and ellipticity, `z(q(P))` equals native `WeierstrassCurve.Affine.μ` at every point, including ∞ and rational two-torsion.
+- `BinaryQuartic.cubicInvariant_quarticOfPoint_eq_mu` in `Suggested.lean`: under `char≠2,3` and ellipticity, for every point P and every admissible point `(x, y)` of `q(P)`, the class of `G(x, y)` equals native `WeierstrassCurve.Affine.μ` at P, including ∞, rational two-torsion and `K = F_5`.
 
-For the proof, For `η ≠ 0`: `G(1, 0) = (4 φ + p)/3` with `p = g_4(1,0) = 3.0 - 8.1`.`(-ξ/6) = 4 ξ/3`, so `G(1,0) = (4/9)(ξ + 3 φ) = (2/3)^2 (ξ - T)` (Cremona-Fisher Theorem `13(1)`; `g_6(1, 0) = 8(-η/27) ≠ 0`). For `η = 0` (so `g_6(1, 0) = 0`) evaluate G at another admissible point; the resulting class agrees with the corrected representative (the conjugate of G at the vanishing coordinate is replaced by the product of the other two, Cremona-Fisher Section 2 remarks), matching Tau Ceti's `μX_of_eval_f_eq_zero`. `μ(O) = 1` and `q(O)` has a linear factor, so `z = 1` (linear-factor-forms).
+For the proof, Cremona–Fisher Lemma 1 is a polynomial identity, so `G(x, y) G(1, 0)` is a square in A for every `(x, y)`. For an affine point, `G(1, 0) = (4 φ + p)/3` with `p = g_4(1,0) = 3.0 - 8.1`.`(-ξ/6) = 4 ξ/3`, so `G(1,0) = (4/9)(ξ + 3 φ) = (2/3)^2 (ξ - T)` (Cremona-Fisher Theorem `13(1)`). If `η ≠ 0` this is a unit (`g_6(1, 0) = 8(-η/27) ≠ 0`), and the class at every admissible point is that of `ξ - T`. If `η = 0`, split `A ≅ K × A'` along the root ξ (Tau Ceti `equivProdA'`). On `A'` the element `ξ - T` is a unit, so the square `G(x, y)(2/3)^2(ξ - T)` gives the class of `ξ - T`. On the factor K, `N(G(x, y)) = g_6(x, y)^2` gives the class of `N_{A'/K}(ξ - T) = f'(ξ)`. These are the two components of the corrected representative, matching Tau Ceti's `μX_of_eval_f_eq_zero` (Cremona-Fisher Section 2 remarks). For `P = O`, `G(1, 0) = g_4(1,0)/3 = 1`, so the class is `1 = μ(O)`. No step uses the size of K.
 
-*Needs:* quartic of a point (§1.6), cubic invariant of a binary quartic (§1.5), linear factor forms (§1.5), `WeierstrassCurve.Affine.μ` (Tau Ceti), `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero` (Tau Ceti), `WeierstrassCurve.Affine.μX_of_eval_f_eq_zero` (Tau Ceti).
+*Needs:* quartic of a point (§1.6), cubic invariant of a binary quartic (§1.5), `WeierstrassCurve.Affine.μ` (Tau Ceti), `WeierstrassCurve.Affine.μX_of_eval_f_ne_zero` (Tau Ceti), `WeierstrassCurve.Affine.μX_of_eval_f_eq_zero` (Tau Ceti), `WeierstrassCurve.Affine.equivProdA'` (Tau Ceti).
 
 ([8], Proof of Theorem 13(1), printed pp. 10-11; [8], Section 6, printed p. 10.)
 
@@ -1001,7 +1006,7 @@ K a number field; Tau Ceti's `selmerGroup₂` is defined by the norm condition a
 
 The required API is:
 
-- `BinaryQuartic.mem_selmerGroup₂_iff` in `Suggested.lean`: A class m in native W.M lies in `W.selmerGroup₂ (O_K)` (archimedean completions) iff it is the cubic invariant of an everywhere locally soluble quartic with invariants I,J.
+- `BinaryQuartic.mem_selmerGroup₂_iff` in `Suggested.lean`: A class m in native W.M lies in `W.selmerGroup₂ (O_K)` (archimedean completions) iff it is `BinaryQuartic.cubicInvariantAt` of an everywhere locally soluble quartic with invariants I,J at one of its admissible points.
 
 For the proof, Into the Selmer group: for locally soluble g, `z(g)` has square norm, and at each place v, localRes `z(g) = z_v(g)` (cubic-invariant-of-a-binary-quartic, base change) is in `z_v`(soluble orbits) `= range(mu_v)` (binary-quartic-parametrization-of-E-mod-2E over `K_v`, Tau Ceti `localRes_comp_μ`); this is membership in `selmerGroup₂` (Tau Ceti `mem_selmerGroup₂_iff`). Injective: cubic-invariant-determines-the-orbit (K is infinite). Surjective: for m in `selmerGroup₂`, at each place `m_v = mu_v(P_v) = z_v(q(P_v))` is represented by a linear unit, so the conic `Q_m` is isotropic over every `K_v` (image-of-the-cubic-invariant over `K_v`); it is regular, so by Hasse-Minkowski for ternary forms (GlobalQuadraticForms Layer 5) it is isotropic over K; hence `m = z(g)` for some g with invariants I, J (image-of-the-cubic-invariant over K). Then `z_v(g) = m_v = z_v(q(P_v))`, so g is `PGL2(K_v)`-equivalent to the soluble `q(P_v)` (injectivity over `K_v`): g is locally soluble. Identity: linear-factor-forms.
 
@@ -2116,11 +2121,11 @@ Proportional coefficient rows have zero quartic minors, and the characteristic-t
 
 ### Dependencies
 
-ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; AnalyticNumberTheoryPartII §§5.4–5.5 (cubic action, normalization, equivalence and stabilizers); QuadraticFormsOverABase §§1.1–1.3 (half-discriminant and its transformation rules); polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
+ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; AnalyticNumberTheoryPartII §§5.4–5.5 (cubic action, normalization, equivalence and stabilizers); polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
 
 ## Downstream consumers
 
-The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. AnalyticNumberTheoryPartII §§5.4–5.5 supplies the cubic dictionaries and takes no input from the statistics parts.
+The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. AnalyticNumberTheoryPartII §§5.4–5.5 supplies the cubic dictionaries and takes no input from the statistics parts. QuadraticFormsOverABase §§1.1–1.3 treats the half-discriminant of a quadratic form of every rank over an arbitrary base; at n = 3 it is §1.3's `4 Det`, and its odd-rank transformation rule specializes to §1.3's factor `(det M)^2`.
 
 ## References
 

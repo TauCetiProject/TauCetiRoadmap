@@ -16,13 +16,19 @@ E(K)/2E(K), compatibility with native two-descent, two-torsion stabilizers and t
 number-field two-Selmer dictionary (§1.6), and local and global integral
 representatives (§1.7). Proper equivalence is expressed by a GL₂ representative
 of a PGL₂ class, with the determinant-square twist and row-variable convention.
-All fields of characteristic different from two and three, including F₅, occur
-in the point-orbit and stabilizer statements. Only the admissible-evaluation
-construction of the cubic invariant excludes F₅.
+The cubic invariant is the square class of the irrational covariant at a given
+admissible point, a point where that covariant is a unit. All fields of
+characteristic different from two and three, including F₅, occur in the
+point-orbit, point-quartic and stabilizer statements; only the existence of an
+admissible point, asserted in the orbit classification, excludes F₅.
 
 Cubic normalization and equivalence are inputs from AnalyticNumberTheoryPartII
 §5.5; their based coordinate adapters are specified in the README.
 The other headline signatures require objects absent from the pinned libraries.
+The Davenport–Heilbronn maximality criterion and the counts of index-p subrings
+and overrings (§1.2) need the cubic ring of an integral binary cubic form,
+degenerate forms included, with its subrings and overrings; the pins have no
+such carrier, and Mathlib's `Cubic` records coefficients only.
 The quartic and quintic ring dictionaries
 (§§1.3–1.4, 1.10–1.11, 1.15) need integral multiplication tables and oriented
 quadratic or sextic resolvent data; the polynomial Galois resolvents do not supply them.
@@ -33,7 +39,7 @@ form orders and discriminants and the marked hyperdeterminant constructions.
 The pencil orbit, Fano, Selmer and integral comparisons (§§1.12, 1.16) need the
 BGW hyperelliptic models, smooth and generalized Jacobians, Picard degree
 torsors, Fano schemes, and the group-scheme central quotients. The higher-degree
-genus-one dictionaries need covering models and their effective group-scheme
+genus-one dictionaries (§1.14) need covering models and their effective group-scheme
 actions. The three-isogeny dictionary needs the Kummer and mirror-kernel
 comparisons for general abelian isogenies. These objects require the constructions specified in
 the README; their missing signatures are omitted here.
@@ -121,14 +127,11 @@ def irrationalCovariant {K : Type*} [Field K] (I J : K) (f : Fin 5 → K)
   algebraMap K _ (eval (hessian f) x y / 3) -
     algebraMap K _ (4 * eval f x y / 9) * AdjoinRoot.root (curveIJ I J).f
 
-/-- The admissible-evaluation cubic invariant in the native unit-squareclass quotient.
-It is the class of a unit value of the irrational covariant, with value one if none exists. -/
-noncomputable def cubicInvariant {K : Type*} [Field K] (I J : K)
-    (f : Fin 5 → K) : (curveIJ I J).M := by
-  classical
-  exact if h : ∃ u : (curveIJ I J).Aˣ, ∃ x y : K,
-      (u : (curveIJ I J).A) = irrationalCovariant I J f x y then
-    QuotientGroup.mk (Classical.choose h) else 1
+/-- The cubic invariant evaluated at an admissible point `(x, y)`: the class in the native
+unit-squareclass quotient of the unit value of the irrational covariant at `(x, y)`. -/
+def cubicInvariantAt {K : Type*} [Field K] (I J : K) (f : Fin 5 → K) (x y : K)
+    (hu : IsUnit (irrationalCovariant I J f x y)) : (curveIJ I J).M :=
+  QuotientGroup.mk hu.unit
 
 /-- Solubility at every finite and infinite completion of a number field. -/
 def IsEverywhereLocallySoluble {K : Type*} [Field K] [NumberField K]
@@ -140,11 +143,18 @@ def IsEverywhereLocallySoluble {K : Type*} [Field K] [NumberField K]
 
 variable {K : Type*} [Field K] [NeZero (2 : K)] [NeZero (3 : K)]
 
-/-- §1.5: the cubic invariant completely classifies proper orbits at fixed nonsingular invariants. -/
-theorem cubicInvariant_determines_orbit (I J : K) (hK : Nat.card K ≠ 5) (hΔ : 4 * I ^ 3 - J ^ 2 ≠ 0)
-    (f g : Fin 5 → K) (hIf : invI f = I) (hJf : invJ f = J)
+/-- §1.5: at fixed nonsingular invariants over a field other than F₅, every quartic has an
+admissible point, and the cubic invariants of two quartics, taken at any admissible points,
+agree exactly when the quartics are properly equivalent (Cremona–Fisher, Theorem 11). With
+`g = f` this says that the cubic invariant does not depend on the admissible point. -/
+theorem cubicInvariant_determines_orbit (I J : K) (hK : Nat.card K ≠ 5)
+    (hΔ : 4 * I ^ 3 - J ^ 2 ≠ 0) (f g : Fin 5 → K) (hIf : invI f = I) (hJf : invJ f = J)
     (hIg : invI g = I) (hJg : invJ g = J) :
-    cubicInvariant I J f = cubicInvariant I J g ↔ IsProperlyEquivalent f g := by sorry
+    (∃ x y : K, IsUnit (irrationalCovariant I J f x y)) ∧
+      ∀ (x y x' y' : K) (hu : IsUnit (irrationalCovariant I J f x y))
+        (hv : IsUnit (irrationalCovariant I J g x' y')),
+        cubicInvariantAt I J f x y hu = cubicInvariantAt I J g x' y' hv ↔
+          IsProperlyEquivalent f g := by sorry
 
 /-- §1.6: point quartics identify soluble proper orbits with E(K)/2E(K), including K = F₅. -/
 theorem solubleOrbit_bijection (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] :
@@ -155,10 +165,13 @@ theorem solubleOrbit_bijection (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] :
       IsProperlyEquivalent (quarticOfPoint I J P) (quarticOfPoint I J Q) ↔
         ∃ R : (curveIJ I J).Point, P - Q = 2 • R) := by sorry
 
-/-- §1.6: the point-quartic dictionary agrees with native two-descent, including rational two-torsion. -/
-theorem cubicInvariant_quarticOfPoint_eq_mu (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)] (hK : Nat.card K ≠ 5)
-    (P : (curveIJ I J).Point) :
-    cubicInvariant I J (quarticOfPoint I J P) =
+/-- §1.6: at every admissible point, the cubic invariant of the quartic of a point is the
+native two-descent image of the point, including the point at infinity and rational
+two-torsion; F₅ is included. -/
+theorem cubicInvariant_quarticOfPoint_eq_mu (I J : K) [NeZero (4 * I ^ 3 - J ^ 2)]
+    (P : (curveIJ I J).Point) (x y : K)
+    (hu : IsUnit (irrationalCovariant I J (quarticOfPoint I J P) x y)) :
+    cubicInvariantAt I J (quarticOfPoint I J P) x y hu =
       WeierstrassCurve.Affine.μ (W := curveIJ I J) (Multiplicative.ofAdd P) := by sorry
 
 /-- §1.6: rational two-torsion embeds in PGL₂ with image exactly the proper stabilizer. -/
@@ -175,8 +188,9 @@ theorem mem_selmerGroup₂_iff [NumberField K] (I J : K) [NeZero (4 * I ^ 3 - J 
     (m : (curveIJ I J).M) :
     m ∈ (curveIJ I J).selmerGroup₂ (𝓞 K)
       (fun v : NumberField.InfinitePlace K => v.Completion) ↔
-    ∃ f : Fin 5 → K, invI f = I ∧ invJ f = J ∧
-      IsEverywhereLocallySoluble f ∧ cubicInvariant I J f = m := by sorry
+    ∃ f : Fin 5 → K, invI f = I ∧ invJ f = J ∧ IsEverywhereLocallySoluble f ∧
+      ∃ (x y : K) (hu : IsUnit (irrationalCovariant I J f x y)),
+        cubicInvariantAt I J f x y hu = m := by sorry
 
 /-- §1.7: every soluble local orbit at the scaled integral invariants has an integral representative. -/
 theorem exists_integral_local (p : ℕ) [Fact p.Prime] (A B : ℤ_[p])
