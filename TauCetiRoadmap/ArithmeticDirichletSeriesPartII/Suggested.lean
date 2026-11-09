@@ -301,7 +301,9 @@ theorem lowerPole_perturbation {c d b : ℕ → ℝ} {G : ℂ → ℂ} {a B C : 
 
 /-- The divisor functions `d_k = ζ ^ k` (Dirichlet powers of the arithmetic function `ζ`): for
 every `k` and `Re s > 1`, `∑ d_k(n) n⁻ˢ` converges absolutely with sum `riemannZeta s ^ k`.
-At `k = 0` both sides are `1`. -/
+At `k = 0` both sides are `1`. Compare `LSeries_d_summable` and `LSeries_d_eq_riemannZeta_pow` in
+PrimeNumberTheoremAnd, `IwaniecKowalskiCh1.lean` (revision `127b50e3`), which state summability
+of the terms and the value of `LSeries`. -/
 theorem LSeriesHasSum_zeta_pow (k : ℕ) {s : ℂ} (hs : 1 < s.re) :
     Summable (fun n : ℕ ↦ ‖LSeries.term
       (fun n ↦ ((ArithmeticFunction.zeta ^ k : ArithmeticFunction ℕ) n : ℂ)) s n‖) ∧
