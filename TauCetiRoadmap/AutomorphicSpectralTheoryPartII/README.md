@@ -10,7 +10,7 @@ AutomorphicFormsOnReductiveGroups §§0.1–0.5 owns smooth adelic functions, th
 
 AdelicAlgebraicGroups §§2.1–2.3, 3.1 and 3.4–3.6 owns heights, quotient measures, split-centre conventions, Iwasawa and reduction theory; §§4.6–4.7 owns compact central quotients and character theory. SmoothRepresentationsOfLocalGroups SR.1–SR.4 owns finite-place Hecke algebras, normalized induction, Jacquet modules and Satake theory. AutomorphicLFunctionsAndLocalFactors AL.R.4, **GLₙ isobaric sums**, and AL.3.7.2, **Strong multiplicity one for isobaric sums**, owns the GLₙ construction and uniqueness inputs. The quotient-weight applications and spectral interpolation are owned here.
 
-ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis, and PseudodifferentialOperators Layer 6 owns elliptic parametrices. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
+ReductiveGroups Layer 7 and LieGroups Layer 7 own the group root datum and real descent. The finite involution coset and its shifted spectral lattices in §0.4 specialize those structures. NoncommutativeGeometry N1 owns completed projective tensor products. LocallyConvexDuality §§5.1–5.2 owns the completed injective tensor product and Grothendieck's identification of the projective and injective completions on nuclear spaces; §2.15 applies it only to separate points in its tensor holomorphy criterion. OperatorTheory/SelfAdjointSpectralTheory Parts A–E owns generic spectral calculus; OperatorTheory/OperatorIdeals OI-B32–OI-B41, OI-B84 and Part C owns Hilbert–Schmidt and trace-class tools. BanachSpaceTheory B4 owns the nuclear Banach-operator carrier and its isometric Hilbert trace-class comparison. PDE Lane A owns local Sobolev analysis, and PseudodifferentialOperators Layer 6 owns elliptic parametrices. The quotient nuclear inclusions and spectral realizations here differ by their automorphic weight and support estimates.
 
 GlobalHolomorphicFunctions, **Preparatory primary factors and locally uniform products**, owns the elementary factors, locally uniform product construction and exact zero divisor. Here §0.2 adds the fixed-genus finite-rank global growth bound, including rank zero and an origin factor. The native formulas in Suggested.lean spell the supplied product for this acceptance test. ZerosOfLFunctions, standing **finite order** convention and Layer 5.1–5.6, owns order bounds and genus-one Hadamard theory; the predicate in §0.2 is only the existential integral global-bound specialization needed for interpolation. ModularCurvesPartII §1.4a, **Lattice sigma function**, owns the rank-two period-lattice sigma specialization. No Hadamard factorization or elliptic sigma theory is developed here.
 
@@ -151,6 +151,10 @@ The section contract is V4.Core, Hilbert–Schmidt pairings and trace-class comp
 ### From TauCetiRoadmap.BanachSpaceTheory
 
 Consume B4, **Approximation and Banach tensor products**, for the quotient-norm nuclear Banach-operator carrier, its absolutely summable rank-one expansions and its isometric identification with the trace-class gauge on complete Hilbert pairs. The Hilbert–Schmidt composite in the preceding contract uses this identification; §2.8 applies the resulting nuclear map separately at each Banach seminorm completion.
+
+### From TauCetiRoadmap.LocallyConvexDuality
+
+Consume §5.1, **The injective tensor product**, for the completed injective tensor product E⊗̂εF and its embedding, for complete E and F, in the bilinear forms on the weak duals, and §5.2, **Nuclear spaces**, for Grothendieck's theorem that for E nuclear in the sense of AutomorphicSpectralTheory §0.11 the canonical map E⊗̂πF→E⊗̂εF is a topological isomorphism. Section 2.15 uses the two together: on complete nuclear Fréchet spaces the elementary functionals ℓ⊗m separate the points of E⊗̂πF.
 
 ### From TauCetiRoadmap.GlobalHolomorphicFunctions and ZerosOfLFunctions
 
@@ -968,9 +972,9 @@ A proof route is as follows. Compare suprema and L² norms using Ξ and its poly
 
 For each finite level J the spaces S([G]_P)^J and C([G]_P)^J are nuclear Fréchet. For two quotient data and product finite level J₁×J₂, multiplication of pure tensors induces topological isomorphisms `S(X₁)^J₁⊗̂πS(X₂)^J₂≅S(X₁×X₂)^{J₁×J₂}`, and the analogous C isomorphism. Use compatible product heights and product quotient-volume functions. Continuous sesquilinear or bilinear forms extend by the corresponding completed projective universal property. Passing to all levels must be checked through the strict stage system. (BPCZ §2.5.12, (2.5.12.10)–(2.5.12.11), p.215; bpcz line 1402). Prove also that for complete nuclear Fréchet spaces E and F, an open subset U of a finite-dimensional complex vector space and holomorphic maps e:U→E and f:U→F, the map λ↦e(λ)⊗f(λ) is holomorphic from U to E⊗̂πF (BPCZ Appendix A.0.3, criterion (A.0.3.1), and A.0.7, pp.328 and 330; bpcz line 6514 and line 6617).
 
-A proof route is as follows. Apply the nuclear smooth inclusions to the projective-limit seminorm systems. Prove density of product smooth functions and identify all product derivative seminorms; use the existing AutomorphicSpectralTheory §§0.11–0.15 completed tensor theory. For tensor holomorphy, the canonical bilinear map is continuous, so the family is continuous; its pairings with the elementary functionals ℓ⊗m are the holomorphic products ℓ(e(λ))m(f(λ)), and these functionals form a total set because nuclearity identifies the projective and injective completions; then apply (A.0.3.1).
+A proof route is as follows. Apply the nuclear smooth inclusions to the projective-limit seminorm systems. Prove density of product smooth functions and identify all product derivative seminorms; use the existing AutomorphicSpectralTheory §§0.11–0.15 completed tensor theory. For tensor holomorphy, the canonical bilinear map is continuous, so the family is continuous; its pairings with the elementary functionals ℓ⊗m are the holomorphic products ℓ(e(λ))m(f(λ)), and these functionals separate the points of E⊗̂πF because nuclearity identifies the projective and injective completions (LocallyConvexDuality §5.2) and the injective completion embeds in bilinear forms on the weak duals (LocallyConvexDuality §5.1); then apply (A.0.3.1).
 
-*Needs:* §1.1 (Nash Schwartz products); §2.10; §2.11; §2.8; AutomorphicSpectralTheory §§0.11–0.15; NoncommutativeGeometry N1.
+*Needs:* §1.1 (Nash Schwartz products); §2.10; §2.11; §2.8; AutomorphicSpectralTheory §§0.11–0.15; NoncommutativeGeometry N1; LocallyConvexDuality §§5.1–5.2.
 
 **Checks.**
 
@@ -1052,7 +1056,7 @@ On the GL₂ modular cusp let n_G≍y and Ξ_G≍y¹ᐟ². A tail y⁻ᵃ fails 
 
 ### Dependencies
 
-Layer 1’s Schwartz-action comparison; AdelicAlgebraicGroups §§2.1–2.3, 3.1, 3.4–3.6, 4.6–4.7; PDE Lane A; OperatorTheory/OperatorIdeals; BanachSpaceTheory B4; AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10; SpectralManifolds SM3; NoncommutativeGeometry N1.
+Layer 1’s Schwartz-action comparison; AdelicAlgebraicGroups §§2.1–2.3, 3.1, 3.4–3.6, 4.6–4.7; PDE Lane A; OperatorTheory/OperatorIdeals; BanachSpaceTheory B4; AutomorphicSpectralTheory §§0.11–0.15, 1.6–1.10; SpectralManifolds SM3; NoncommutativeGeometry N1; LocallyConvexDuality §§5.1–5.2.
 
 ## Layer 3: Cuspidal support, wave packets and Schwartz kernels
 
