@@ -29,22 +29,24 @@ Langlands and counting roadmaps.
 
 This is Part II of
 [ClassicalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md).
-That roadmap owns the standard complex classical-group actions and their
-tensor, exterior and symmetric constructions (Layers 0–2), the highest-weight
-classification of the connected complex symplectic group, of type C
-(Layer 3), formal characters (Layer 4) and the Weyl dimension formula with
-its symplectic product form (Layer 5). Here the new work is the independent
-multiplier coordinate of the diagonal torus, its central lattice and parity
-condition, the ν-valued contraction of exterior powers with its inverse-form
-wedge map, their commutator and the primitive exterior powers they cut out,
-explicit primitive-tensor rational forms and their comparison with the
-supplied split highest-weight modules, and the two integral GSp
-character-ring presentations. CG.1.4–CG.1.5 prove the contraction identities
-for the GSp-equivariant contraction over every characteristic-zero field;
-restricted to Sp₂g they are the Sp statements, and in these sections
-ClassicalGroups Layers 3 and 5 serve only to identify each complex
-contraction kernel as the simple Sp₂g-module of highest weight ω_k. CG.1.7 builds the rational form of the
-Cartan component inside the GSp primitive tensor product.
+That roadmap owns the standard complex classical-group actions, their tensor,
+exterior and symmetric constructions, formal characters and the Weyl dimension
+formula. Its Layer 3A owns the complex Sp₂g theory: the maximal torus, Borel
+subgroup and dominant weights (§3A.1), the group–Lie comparison (§3A.2), and in §3A.3
+contraction with the form, the inverse-form wedge map and their commutator in
+every degree, surjectivity of contraction in every degree k≤g+1, the highest weight ω_k,
+simplicity and dimension binom(2g,k)−binom(2g,k−2) of its kernel, and the
+classification by Cartan components. This roadmap consumes those Sp
+statements. Here the new
+work is the independent multiplier coordinate of the diagonal torus, its
+central lattice and parity condition, explicit primitive-tensor rational forms and their comparison with the supplied split highest-weight modules,
+and the two integral GSp character-ring presentations. Of the §3A.3 blocks,
+CG.1.4–CG.1.5 own only the GSp form, which differs in having a ν-valued,
+GSp-equivariant contraction over every characteristic-zero field: they
+transport the §3A.3 identities to the form J=−JFin, descend them from ℂ
+through their integer matrices, and transfer simplicity from Sp₂g to GSp₂g.
+CG.1.7 owns the rational form of the §3A.3 Cartan component inside the GSp
+primitive tensor product.
 
 [ReductiveGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md)
 owns the Hopf-algebra/affine-group dictionary (Layer 0), representations and
@@ -57,8 +59,7 @@ below; they are not rebuilt here. The abstract semisimple Lie classification
 is already in Tau Ceti
 (`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`,
 `TauCeti.finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`)
-and reaches this roadmap only through the type C classification of
-ClassicalGroups Layer 3.
+and reaches this roadmap only through ClassicalGroups §3A.3.
 The GSp-specific comparison of the tensor-generated Cartan component with
 ReductiveGroups §10B uses its one-dimensional top line and semisimplicity.
 
@@ -294,20 +295,30 @@ column Schur functor identifies ΛᵏV with the alternating image in V^⊗k.
 The rational alternating projector gives the K-form of that splitting.
 Layer 4 supplies the complex classical character comparison.
 
-Consume Layer 3's highest-weight classification of the connected symplectic
-group Sp₂g(ℂ)=`Matrix.symplecticGroup (Fin g) ℂ`, which preserves Layer 0's
-form `Matrix.J`=[[0,−I],[I,0]] on (Fin g ⊕ Fin g)→ℂ, of type C_g. With the
-diagonal torus diag(z,z⁻¹) of Sp₂g, character lattice Z^g, and the positive
-roots fixed in CG.0.4, it is used in this form: every simple rational
-Sp₂g(ℂ)-module has a unique highest weight, which is dominant
-(λ₁≥⋯≥λ_g≥0), has a one-dimensional weight space and lies above every
-other weight in the dominance order, and the highest weight is a bijection
-from dominant weights to isomorphism classes of simple modules. Consume
-Layer 5's symplectic product form of the Weyl dimension formula; CG.1.5
-evaluates it at ω_k=(1^k,0^(g−k)). The contraction identities and the
-Cartan components are proved in CG.1.5 and CG.1.7 for GSp₂g over every
-characteristic-zero field and restrict to Sp₂g; no embedding of K into ℂ
-is used.
+Layer 3A is stated for `Matrix.symplecticGroup (Fin g) ℂ` acting on
+(Fin g ⊕ Fin g)→ℂ, with the native form `Matrix.J`=[[0,−I],[I,0]].
+Consume §3A.1's maximal torus diag(t,t⁻¹) on the two summands, its character
+lattice Z^g, its Borel subgroup of block matrices [[A,B],[0,(Aᵀ)⁻¹]] with A
+upper triangular, whose positive roots are ε_i−ε_j and ε_i+ε_j (i<j) and
+2ε_i, and the dominant tuples λ₁≥⋯≥λ_g≥0; §3A.2's identification,
+for a smooth connected group over an algebraically closed field of
+characteristic zero, of group-stable with Lie-stable subspaces and of group
+with Lie intertwiners; and from §3A.3 the following. Contraction κ with the
+form and the inverse-form wedge map L, which multiplies by the bivector
+Σ_i a_i∧b_i of any basis with ω(a_i,b_j)=δ_ij and ω(a_i,a_j)=ω(b_i,b_j)=0,
+satisfy `κ_(k+2) ∘ L_k − L_(k−2) ∘ κ_k = (g−k) id` on ΛᵏV for every k≥0;
+in degree zero this says κ₂(Σ_i a_i∧b_i)=g. Contraction κ_k is surjective
+for every k≤g+1, and for 1≤k≤g its kernel in ΛᵏV has highest weight
+ω_k=(1^k,0^(g−k)) with highest vector e₁∧⋯∧e_k, is
+simple as a rational Sp₂g-module and has dimension
+binom(2g,k)−binom(2g,k−2). The Cartan component generated by the highest
+tensor of a tensor product of these kernels is the simple module of the summed
+weight, and these components exhaust the rational simples.
+Passing to J=−JFin negates the form, hence negates both the contraction and
+the bivector, and leaves their kernels and their commutator unchanged. Both
+maps have integer matrices in the standard exterior bases, so an identity or
+a surjectivity over ℂ holds over Q and then over every characteristic-zero K;
+no embedding of K into ℂ is used.
 The comparison of a specified tensor top line with the supplied simple is
 GSp-specific work here, not another classification.
 
@@ -550,7 +561,7 @@ ReductiveGroups split-pair interface. ([Yu](https://arxiv.org/pdf/1807.04659v5#p
 **Construction and proof.**
 
 1. The diagonal entries satisfy XJXᵀ=tJ, so the coordinate map descends and is a Hopf morphism. Its image contains t and every z_i and their inverses, proving closed immersion.
-2. A matrix commuting with all independent diagonal torus characters is diagonal. The similitude equation then says its paired products are equal, so its centralizer is this torus, proving maximality through the generic split-pair interface. Compute the adjoint roots from the symplectic matrix entries; at t=1 they restrict to the type C_g roots ±e_i±e_j (i<j) and ±2e_i of the diagonal Sp₂g torus, and the displayed simple roots restrict to e_i−e_(i+1) and 2e_g, whose dominant chamber λ₁≥⋯≥λ_g≥0 is the one used with the type C classification of ClassicalGroups Layer 3. Connected reductivity comes from the preceding central-isogeny target; the torus and chosen Borel then exhibit splitness.
+2. A matrix commuting with all independent diagonal torus characters is diagonal. The similitude equation then says its paired products are equal, so its centralizer is this torus, proving maximality through the generic split-pair interface. Compute the adjoint roots from the symplectic matrix entries; at t=1 they restrict to the type C_g roots ±e_i±e_j (i<j) and ±2e_i of the diagonal Sp₂g torus, and the displayed simple roots restrict to e_i−e_(i+1) and 2e_g, the base of the positive roots e_i−e_j, e_i+e_j (i<j) and 2e_i of the block upper-triangular Borel subgroup of ClassicalGroups §3A.1, whose dominant chamber is λ₁≥⋯≥λ_g≥0. Connected reductivity comes from the preceding central-isogeny target; the torus and chosen Borel then exhibit splitness.
 
 The required interface has the following properties.
 
@@ -567,7 +578,7 @@ The required interface has the following properties.
 
 **Consequences to check.** The first and second basis vectors of pair i have torus weights e_i and e_t−e_i. Set t=1 to recover diag(z_i,z_i⁻¹) in Sp.
 
-*Needs:* [Central isogeny and connected reductivity](#cg02-central-isogeny-and-connected-reductivity); [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [ReductiveGroups Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-7-structure-theory); [ClassicalGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-0-the-classical-groups-and-the-standard-representation); [ClassicalGroups Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-3-maximal-torus-weights-and-the-highest-weight-classification) for the matching type C chamber; `TauCeti.GLSymplecticFin.diagonal`.
+*Needs:* [Central isogeny and connected reductivity](#cg02-central-isogeny-and-connected-reductivity); [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group); [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [ReductiveGroups Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-7-structure-theory); [ClassicalGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-0-the-classical-groups-and-the-standard-representation); [ClassicalGroups §3A.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a1-tori-lattices-and-differentiation) for the Sp torus, Borel subgroup and dominant chamber; `TauCeti.GLSymplecticFin.diagonal`.
 
 ### CG.0.5 Reciprocal Weyl action on the Laurent character algebra
 
@@ -672,7 +683,7 @@ At g=1 the matrix diag(2,3) has t=6, while 2I has t=4. The central-cover lift of
 
 ### Dependencies
 
-Mathlib and Tau Ceti coordinate/group-algebra interfaces; ArithmeticGaloisRepresentations §7.3; PELModuli §§M0.5–M0.8; ReductiveGroups Layers 0, 3, 6 and 7; ClassicalGroups Layers 0 and 3; ReductiveGroups Layer 3’s central-quotient-representations contract specialized in CG.0.6.
+Mathlib and Tau Ceti coordinate/group-algebra interfaces; ArithmeticGaloisRepresentations §7.3; PELModuli §§M0.5–M0.8; ReductiveGroups Layers 0, 3, 6 and 7; ClassicalGroups Layer 0 and §3A.1; ReductiveGroups Layer 3’s central-quotient-representations contract specialized in CG.0.6.
 
 ## Layer CG.1: Rational algebraic representations and primitive powers
 
@@ -862,12 +873,12 @@ source Noetherian because the coefficients are a field and the source
 finite-dimensional. Negative exterior degrees are zero, and κ₀ and κ₁
 are zero maps. Exterior powers above 2g are also zero. The primitive
 objects P_k are defined only for 0≤k≤g; the contractions have the full
-degree range used by the commutator identity of CG.1.5. After identifying
-ν with its basis vector, contraction by the alternating form
-vᵀ(`Matrix.J`)w, which `Matrix.symplecticGroup` preserves, is −κ_k, with
-the same kernel; that contraction is equivariant only for Sp₂g, and the
-ν-valued target is what makes κ_k GSp-equivariant over every
-characteristic-zero field.
+degree range used by the commutator identity of CG.1.5. Over Q, after
+identifying ν with its basis vector and extending scalars to ℂ, κ_k is the
+negative of the contraction of ClassicalGroups §3A.3 by the native form
+vᵀ(`Matrix.J`)w, so the two have the same kernel. This section owns what
+that contraction lacks: the ν-valued target, GSp-equivariance and
+coefficients in every characteristic-zero field.
 
 **Construction and proof.**
 
@@ -892,11 +903,11 @@ The required interface has the following properties.
 
 **Consequences to check.** The untwisted contraction is equivariant only after restricting to Sp; over GSp its target must contain ν. The kernel API requires flatness of the coordinate coalgebra and a Noetherian source for kernel finiteness; both follow here from field coefficients and finite dimension.
 
-*Needs:* [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation); [The multiplier line and its integer twists](#cg13-the-multiplier-line-and-its-integer-twists); [ClassicalGroups Layer 0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-0-the-classical-groups-and-the-standard-representation) for the symplectic inclusion, in the comparison with contraction by the native form; [`TauCeti.Comodule.Hom.ker`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean); [`TauCeti.Comodule.Hom.ker_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean).
+*Needs:* [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation); [The multiplier line and its integer twists](#cg13-the-multiplier-line-and-its-integer-twists); [ClassicalGroups §3A.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a3-exterior-blocks-and-cartan-components) for the comparison with the Sp contraction; [`TauCeti.Comodule.Hom.ker`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean); [`TauCeti.Comodule.Hom.ker_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Subcomodule/Comap.lean).
 
 ### CG.1.5 Primitive exterior decomposition and fundamental highest weights
 
-For 2≤k≤g prove κ_k surjective over every characteristic-zero K, and split its exact sequence to give ([Sternberg](https://people.math.harvard.edu/~shlomo/docs/lie_algebras.pdf#page=131), §7.9, pp.131–133 (the contraction-kernel argument and the second fundamental dimension); [Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
+For 2≤k≤g deduce from ClassicalGroups §3A.3 that κ_k is surjective over every characteristic-zero K, and split its exact sequence to give ([Sternberg](https://people.math.harvard.edu/~shlomo/docs/lie_algebras.pdf#page=131), §7.9, pp.131–133 (the contraction-kernel argument and the second fundamental dimension); [Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
 
 `ΛᵏV ≃ P_k ⊕ (ν ⊗ Λ^(k−2)V).`
 
@@ -905,38 +916,38 @@ For 1≤k≤g, prove P_k absolutely simple with highest weight
 binom(2g,k)−binom(2g,k−2), where a negative lower index contributes zero.
 It is a summand of V^⊗k; ν is a summand of V^⊗2. Consequently the
 primitive class is [Λ^kV]−[ν][Λ^(k−2)V]. The k=1 expression is [V].
-Restricted to Sp₂g these are the Sp statements: the commutator, surjectivity
-of contraction, and the kernel as the simple module of highest weight ω_k
-and dimension binom(2g,k)−binom(2g,k−2). The commutator and surjectivity are
-proved here over Z and Q; ClassicalGroups Layers 3 and 5 are used only to
-identify the complex kernel.
+The complex Sp₂g statements behind these (commutator, surjectivity, kernel
+highest weight ω_k, simplicity and dimension) are ClassicalGroups §3A.3's.
+This section owns their ν-twisted GSp form, their transport to J=−JFin,
+their descent to every characteristic-zero K and the transfer of simplicity
+from Sp₂g to GSp₂g.
 
 **Construction and proof.**
 
-1. Choose the standard basis e_i,f_i with ω(e_i,f_j)=δ_ij for J=−JFin. For every integer k≥0 construct L_k:ν⊗ΛᵏV→Λ^(k+2)V by wedge multiplication by Ω=Σ_i e_i∧f_i in the chosen multiplier basis; let L_(−2),L_(−1) be zero boundary maps. The bivector transforms by ν, making L_k equivariant. Prove, on ν⊗ΛᵏV for every k≥0,
+1. Choose the standard basis e_i,f_i with ω(e_i,f_j)=δ_ij for J=−JFin. For every integer k≥0 construct L_k:ν⊗ΛᵏV→Λ^(k+2)V by wedge multiplication by Ω=Σ_i e_i∧f_i in the chosen multiplier basis; let L_(−2),L_(−1) be zero boundary maps. The bivector transforms by ν, making L_k equivariant. ClassicalGroups §3A.3 gives the commutator of contraction and inverse-form wedge over ℂ for the native form, whose symplectic basis (e_i,−f_i) has bivector −Ω. Negating the form negates both maps and leaves their commutator unchanged; both maps have integer matrices in the standard exterior bases, so the identity holds over Q and hence over every characteristic-zero K. On ν⊗ΛᵏV it reads, for every k≥0,
 
    `κ_(k+2) ∘ L_k − (id_ν ⊗ L_(k−2)) ∘ (id_ν ⊗ κ_k) = (g−k) id.`
 
-   Tensor associators are understood in the second composite; both sides are endomorphisms of ν⊗ΛᵏV. The coefficient g−k is an integer, not truncated natural subtraction; the Checks below fix its normalization. With ν identified with its basis vector, κ is Σ_i ι(f_i*)ι(e_i*), where ι(x*) is the interior product by the dual basis vector, and L is Σ_i ε(e_i)ε(f_i), where ε(x) is left wedge multiplication. Summands for different pairs commute. On the wedges 1, e_i, f_i, e_i∧f_i of one pair the commutator of the pair-i summands acts by 1, 0, 0, −1, that is by one minus the number of pair-i letters present, and it commutes with wedging by letters of the other pairs; summing over the pairs gives g−k on every basis wedge of degree k. Both maps have integer matrices in the standard exterior bases, so the identity holds over Z and over every K. For surjectivity use the rational inner product in which the standard wedge basis is orthonormal: ε(x) and ι(x*) are adjoint for every basis letter x, so the matrix of κ_k is the transpose of that of L_(k−2). The identity in degree k−2 then reads κ_k∘L_(k−2)=L_(k−4)∘L_(k−4)ᵀ+(g−k+2)id, positive semidefinite plus a positive scalar for k≤g+1, hence invertible over Q. So κ_k is surjective over Q for 2≤k≤g, and its integer matrix keeps this rank over every characteristic-zero K.
-2. Use semisimplicity for the splitting; rank–nullity then gives dim P_k=binom(2g,k)−binom(2g,k−2). The vector e_1∧⋯∧e_k lies in P_k with GSp weight (0,(1^k,0^(g−k))), which the central-cover pullback (m,u)↦(u,2m+Σu_i) sends to the Sp weight ω_k in scalar degree k. Kernels commute with field extension and κ_k over K is the extension of κ_k over Q under the Hopf comparison of CG.0.1, so P_k over K is P_k over Q extended to K. Over ℂ restrict to Sp₂g(ℂ): every point of GSp₂g(ℂ) is a scalar times a point of Sp₂g(ℂ), and scalars act on ΛᵏV by c^k, so by the point criterion of CG.1.2 the semisimple GSp comodule P_k is a semisimple Sp₂g(ℂ)-module. In ΛᵏV the Sp weight ω_k occurs only on the line of e_1∧⋯∧e_k, and every other weight lies below it in the type C dominance order; so this vector lies in a single simple summand of P_k, whose highest weight is ω_k (ClassicalGroups Layer 3). Evaluating ClassicalGroups Layer 5's symplectic product form at ω_k gives binom(2g,k)−binom(2g,k−2) (Sternberg, §7.9, pp.131–133), which is dim P_k; so P_k over ℂ is the simple Sp₂g-module of highest weight ω_k.
+   Tensor associators are understood in the second composite; both sides are endomorphisms of ν⊗ΛᵏV. The coefficient g−k is an integer, not truncated natural subtraction; the Checks below fix its normalization. Surjectivity of κ_k for 2≤k≤g descends in the same way: a Q-linear map whose extension to ℂ is surjective is surjective, and extension to K preserves surjectivity.
+2. Use semisimplicity for the splitting; rank–nullity then gives dim P_k=binom(2g,k)−binom(2g,k−2). The vector e_1∧⋯∧e_k lies in P_k with GSp weight (0,(1^k,0^(g−k))), which the central-cover pullback (m,u)↦(u,2m+Σu_i) sends to the Sp weight ω_k in scalar degree k. Kernels commute with field extension and κ_k over K is the extension of κ_k over Q under the Hopf comparison of CG.0.1, so P_k over K is P_k over Q extended to K, and P_k over Q extended to ℂ is the §3A.3 kernel, a simple Sp₂g-module of highest weight ω_k.
 3. Every GSp₂g(ℂ)-stable subspace is Sp₂g(ℂ)-stable, and an endomorphism commuting with GSp₂g(ℂ) commutes with Sp₂g(ℂ); so the point criterion of CG.1.2 makes the extension to ℂ of P_k over Q a simple GSp comodule with endomorphism algebra ℂ. By CG.1.1 an endomorphism space is the solution space of the coaction equation, the kernel of a linear map between finite-dimensional spaces; under the Hopf comparison of CG.0.1 the map for an extension of P_k is the extension of the map for P_k, and kernels commute with field extension (Milne, Corollary 4.34, p.96, and Exercise 4-4(a), p.97). Hence End(P_k)=Q over Q, and for an algebraic closure K̄ of any characteristic-zero K the endomorphism algebra over K̄ is one-dimensional as well; with semisimplicity over K̄ this is absolute simplicity. ClassicalGroups Layer 2 identifies the column Schur functor with Λ^k over C; the standard point comparison transports it, and the rational alternating projector (1/k!)Σ_σ sign(σ)σ gives the splitting over K; the pairing splits ν out of V^⊗2.
 
 **Checks.**
 
 - At g=2, L₀(1)=e₁∧f₁+e₂∧f₂ and κ₂L₀(1)=2. The other composite is zero, giving 2=g−0 in degree zero.
 - At g=2, L₁(e₁)=e₁∧e₂∧f₂ and κ₃L₁(e₁)=e₁; κ₁(e₁)=0. Thus the commutator is 1=g−1 and requires κ₃.
-- At g=2, with the basis ordered e₁,e₂,f₁,f₂, L₁(e₂)=e₁∧f₁∧e₂=−e₁∧e₂∧f₁ and κ₃(e₁∧e₂∧f₁)=−e₂: the two matrix entries agree, sign included, as the transpose relation requires, and κ₃∘L₁ is the identity of the four-dimensional space ν⊗V. A contraction with the opposite sign has matrix −L₁ᵀ and gives κ₃∘L₁=−id, which is not positive semidefinite plus (g−1)id.
-- At g=2, put q_i=e_i∧f_i. Then L₂(q₁)=q₁∧q₂ and κ₄L₂(q₁)=q₁+q₂=L₀κ₂(q₁); their difference is 0=g−2. Multiplier factors are identified with the chosen basis in these three computations.
+- At g=2, with the basis ordered e₁,e₂,f₁,f₂, L₁(e₂)=e₁∧f₁∧e₂=−e₁∧e₂∧f₁. The pair at positions 1 and 3 gives κ₃(e₁∧e₂∧f₁)=(−1)³ω(e₁,f₁)e₂=−e₂, so κ₃L₁(e₂)=e₂ and the commutator is again 1=g−1. A formula without the sign (−1)^(a+b−1) gives +e₂ on both e₁∧f₁∧e₂ and e₁∧e₂∧f₁, which are negatives of each other, so it does not descend to Λ³V.
+- At g=2, put q_i=e_i∧f_i. Then L₂(q₁)=q₁∧q₂ and κ₄L₂(q₁)=q₁+q₂=L₀κ₂(q₁); their difference is 0=g−2. Multiplier factors are identified with the chosen basis in these four computations.
 - At g=1 in degree two, κ₄L₂(q₁)=0 and L₀κ₂(q₁)=q₁, so the commutator is −q₁=(1−2)q₁. Truncating g−k to a natural number would give the wrong zero value.
 - For the native form the contraction and wedge maps are −κ and −L. At g=1 in degree zero, (−κ₂)(−L₀(1))=κ₂(e₁∧f₁)=1=g, whereas negating only the contraction gives −1; the transported commutator keeps its sign only when both maps change.
 - At g=2 the contraction Λ²V→ν has the integer row with entry 1 at e₁∧f₁ and e₂∧f₂ and 0 at the other four basis vectors. Its rank is 1 over Q and over ℂ, so its kernel has dimension 5=6−1 over both fields.
-- The positivity argument runs over Q and needs characteristic zero. Over a field of characteristic 2 at g=2 the row above still has rank 1, but κ₂(e₁∧f₁+e₂∧f₂)=2=0: the stable line L₀(ν) lies inside the five-dimensional kernel, which is then neither simple nor a complement of L₀(ν).
+- The descent passes through Q and needs characteristic zero. Over a field of characteristic 2 at g=2 the row above still has rank 1, but κ₂(e₁∧f₁+e₂∧f₂)=2=0: the stable line L₀(ν) lies inside the five-dimensional kernel, which is then neither simple nor a complement of L₀(ν).
 - Surjectivity needs an upper bound on k, but the bound is g+1, not g. At g=2 and k=3, κ₃:Λ³V→ν⊗V is a map between four-dimensional spaces of rank 4, an isomorphism, so P₃ would be zero. At g=1 and k=3, κ₃:Λ³V=0→ν⊗V has a two-dimensional target and is not surjective, and the formula binom(2,3)−binom(2,1)=−2 is negative. The range k≤g of CG.1.5 is the range of nonzero primitive modules.
 - At g=2, Λ²V=P₂⊕ν has a two-dimensional endomorphism algebra and is not simple, whereas P₁=V has endomorphisms K. One-dimensional endomorphisms give simplicity only with semisimplicity: the upper-triangular Borel of GL₂ acting on K² has only scalar endomorphisms and still preserves the line K e₁.
 
 **Consequences to check.** For k=1 the correction term is zero, so [P_1]=[V]. In rank two the second primitive module has dimension 5, whereas Λ²V has dimension 6.
 
-*Needs:* [Primitive symplectic exterior powers with multiplier twist](#cg14-primitive-symplectic-exterior-powers-with-multiplier-twist); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group) for the Hopf comparison and [The rational algebraic representation ring](#cg11-the-rational-algebraic-representation-ring) for Hom spaces as solution spaces of the coaction equation, used in the endomorphism comparison; [ClassicalGroups Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-3-maximal-torus-weights-and-the-highest-weight-classification) and [Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-5-the-weyl-dimension-formula) for the complex kernel; [ClassicalGroups Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-2-the-weyl-construction-via-young-symmetrizers); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
+*Needs:* [Primitive symplectic exterior powers with multiplier twist](#cg14-primitive-symplectic-exterior-powers-with-multiplier-twist); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Algebraic presentation of the symplectic similitude group](#cg01-algebraic-presentation-of-the-symplectic-similitude-group) for the Hopf comparison and [The rational algebraic representation ring](#cg11-the-rational-algebraic-representation-ring) for Hom spaces as solution spaces of the coaction equation, used in the endomorphism comparison; [ClassicalGroups §3A.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a3-exterior-blocks-and-cartan-components); [ClassicalGroups Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-2-the-weyl-construction-via-young-symmetrizers); [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
 
 ### CG.1.6 Hom spaces and torus weights commute with field extension
 
@@ -987,16 +998,12 @@ and dimension one. Prove this component absolutely simple, and twist it by
 compatibility with field extension. This constructs the rational form
 inside a definite tensor product rather than choosing a form of a complex
 simple module. The component over Q, extended to ℂ and restricted to Sp₂g,
-is the simple Sp₂g-module of highest weight u of ClassicalGroups Layer 3;
-for u=0 both are the unit. By the point criterion of CG.1.2 the generated
-subcomodule over ℂ is the span of the GSp₂g(ℂ)-orbit of the highest tensor.
-Every point is a scalar times a point of Sp₂g(ℂ), and scalars act on the
-tensor product by a single power, so this is the span of the
-Sp₂g(ℂ)-orbit. All weights of the tensor product have scalar degree Σu_i,
-so its Sp weight u is its GSp weight (0,u), occurring only on the highest
-line, and every other weight is lower. In the semisimple tensor product the
-highest tensor therefore lies in a single simple summand, of highest weight
-u, and its orbit spans that summand. ([Milne](https://www.jmilne.org/math/Books/iAG2022.pdf), Chapter 22 §a, Theorem 22.2 and complements 22.3–22.6, pp.464–466; [Sternberg](https://people.math.harvard.edu/~shlomo/docs/lie_algebras.pdf#page=131), §7.9, pp.131–132; [Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
+is the Cartan component of ClassicalGroups §3A.3; for u=0 both are the
+unit. By the point criterion of CG.1.2 the generated subcomodule over ℂ is
+the span of the GSp₂g(ℂ)-orbit of the highest tensor. Every point is a scalar times a point
+of Sp₂g(ℂ), and scalars act on the tensor product by a single power, so this
+is the span of the Sp₂g(ℂ)-orbit, which §3A.2 identifies with the
+U(sp₂g)-submodule generated by the tensor. ([Milne](https://www.jmilne.org/math/Books/iAG2022.pdf), Chapter 22 §a, Theorem 22.2 and complements 22.3–22.6, pp.464–466; [Sternberg](https://people.math.harvard.edu/~shlomo/docs/lie_algebras.pdf#page=131), §7.9, pp.131–132; [Yu](https://arxiv.org/pdf/1807.04659v5#page=64), §7.1, equation (7.1.1) and Remark 7.1.1, printed p.64).
 
 Use ReductiveGroups Layer 1's generated-vector-base-change contract for
 this highest tensor vector. Its coefficient-extraction span, inclusion and
@@ -1031,7 +1038,7 @@ The required interface has the following properties.
 
 **Consequences to check.** The highest vector is constructed inside a tensor product; no assertion that an arbitrary complex module has a chosen rational form is substituted for the descent proof.
 
-*Needs:* ReductiveGroups Layer 1’s generated-vector-base-change contract and §10A–10B; [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Primitive exterior decomposition and fundamental highest weights](#cg15-primitive-exterior-decomposition-and-fundamental-highest-weights); [Hom spaces and torus weights commute with field extension](#cg16-hom-spaces-and-torus-weights-commute-with-field-extension); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [ClassicalGroups Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-3-maximal-torus-weights-and-the-highest-weight-classification) for the complex comparison; [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules).
+*Needs:* ReductiveGroups Layer 1’s generated-vector-base-change contract and §10A–10B; [The integral central-similitude weight lattice](#cg03-the-integral-central-similitude-weight-lattice); [The central cover and its parity constraint](#cg06-the-central-cover-and-its-parity-constraint); [The standard algebraic GSp representation](#cg12-the-standard-algebraic-gsp-representation) for the point criterion; [Primitive exterior decomposition and fundamental highest weights](#cg15-primitive-exterior-decomposition-and-fundamental-highest-weights); [Hom spaces and torus weights commute with field extension](#cg16-hom-spaces-and-torus-weights-commute-with-field-extension); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [`TauCeti.Comodule.matrixCoefficientSubcoalgebra_finite`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Coalgebra/Comodule/MatrixCoefficient/Subcoalgebra.lean); [ClassicalGroups §3A.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a2-connected-rational-grouplie-comparison) and [§3A.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#3a3-exterior-blocks-and-cartan-components) for the complex Cartan component; [ReductiveGroups Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [ClassicalGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/ClassicalGroups/README.md#layer-1-functorial-constructions-and-tensor-powers); [ReductiveGroups Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-1-representations--comodules).
 
 ### CG.1.8 Highest-weight classification over Q and its extensions
 
@@ -1092,7 +1099,7 @@ At g=2 the primitive second exterior module has dimension 6−1=5; at g=1 L(m,u)
 
 ### Dependencies
 
-Layer CG.0; native finite comodules, kernels and exterior powers; characteristic-zero smoothness; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–3 and 5; ReductiveGroups Layer 1’s finite-comodule-category and generated-vector-base-change contracts specialized in CG.1.1 and CG.1.7.
+Layer CG.0; native finite comodules, kernels and exterior powers; characteristic-zero smoothness; ReductiveGroups Layers 1, 6, 7 and §7C, §10A–10B; ClassicalGroups Layers 0–2 and §§3A.2–3A.3; ReductiveGroups Layer 1’s finite-comodule-category and generated-vector-base-change contracts specialized in CG.1.1 and CG.1.7.
 
 ## Layer CG.2: Integral torus characters and the full representation ring
 
