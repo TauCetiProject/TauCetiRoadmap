@@ -299,7 +299,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Object | Exact supplier and file | Use here |
 |---|---|---|
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
-| Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
+| Geometric torsors and classes | SchemeAndStackFoundations, §§1.13, 1.15, 2.3: `GroupSpace.ofGroupScheme` (§1.13); `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorRepresentability`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk`, `torsorClasses.mk_eq_base_iff`, `torsorClasses.surjective_mk` (§1.15); `NonabelianH1` (§2.3). Its `Suggested.lean` states `Groups.Torsor.trivial_iff_section` and `Groups.torsorRepresentability`; the other names are targets of its README | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin L-functions | AnalyticNumberTheoryPartI §2.18a, specified in its README without a Lean statement: the local factors `L_v(ρ,s)` on inertia invariants with arithmetic Frobenius, the induction identity at every finite place including the ramified ones, the one-dimensional comparison with presented Hecke L-functions, and Brauer continuation with order `dim V^G` and a nonzero leading coefficient at one, positive for representations realized over `ℚ` | The character-module factors and leading coefficient of *convergence-factors*, the Artin product formula for `τ_G` and its transport under restriction of scalars (AA.2.5). |
 | Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=\|det M\| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
@@ -4114,7 +4114,11 @@ quaternion norms and compact abelian Fourier limits.
   `Torsor.baseChange` and its section comparison, then `torsorClasses.mk_eq_base_iff`;
   coefficient `pushforward` is a different map.
   These are equalities in the canonical class set, independently of an arbitrary C.
-  Source interfaces are SchemeAndStackFoundations §§1.15, 2.3 (its `Suggested.lean`).
+  Source interfaces are SchemeAndStackFoundations §1.13 (`GroupSpace.ofGroupScheme`), §1.15
+  (`torsorClasses.mk`, `torsorClasses.mk_eq_base_iff`, `Torsor.baseChange` and the section
+  comparison `Torsor.trivial_iff_section`) and §2.3 (`NonabelianH1`). Only
+  `Torsor.trivial_iff_section` is stated in its `Suggested.lean`; the others are targets of its
+  README.
   *Lean:* none; specified in the README only.
 
   **Checks.** This concrete
@@ -4152,8 +4156,8 @@ quaternion norms and compact abelian Fourier limits.
   use real-localization surjectivity for tori (§7.3, Corollary 2). Combined with twisting
   injectivity this gives bijectivity of real localization on SchemeAndStackFoundations's
   canonical fppf class set.
-  The affine comparison uses SchemeAndStackFoundations's `torsorClasses.surjective_mk`,
-  `torsorClasses.mk_eq_base_iff`, representability and natural base change.
+  The affine comparison uses SchemeAndStackFoundations §1.15: `torsorClasses.surjective_mk`,
+  `torsorClasses.mk_eq_base_iff`, `torsorRepresentability` and `Torsor.baseChange`.
   *Lean:* none; specified in the README only.
 - **Weak approximation.** `Approximation.hasWeakApproximation_of_simplyConnected` holds
   for every finite set of places. [Platonov–Rapinchuk], Theorem 7.8, p. 415, proof in §7.3, uses
@@ -5052,7 +5056,7 @@ quaternion norms and compact abelian Fourier limits.
   roadmap's deduction from *Volume of a level quotient* at both levels and
   `vol(U) = [U : U′] vol(U′)`; the class-count inequality on [LT], §3.2.3, p. 16, is its counting
   analogue.
-  *Needs:* AA.4.5; Mathlib `MeasureTheory.Subgroup.index_mul_measure`; AA.2.4.
+  *Needs:* AA.4.5; Mathlib `MeasureTheory.Subgroup.index_mul_measure`.
   *Lean:* none; specified in the README only.
 - **Integral lifting for reductive abelianization.** (*abelianization-integral-lifts*) For
   connected reductive `G/F` with simply connected derived group and `ν : G → D = G/G^der`, prove
@@ -5133,7 +5137,8 @@ quaternion norms and compact abelian Fourier limits.
   compact (for example, `T(F)\T(𝔸_F)` for an `F`-anisotropic torus `T`) and `π(Λ) = 1`, and `μ` the
   `T`-invariant probability measure on `Λ\T g`. Prove that `π_*μ` is the Haar probability
   measure of the coset `π(T)·π(g)` of the closed subgroup `π(T)` ([Khayutin], Definition 3.1,
-  arXiv v3 p. 22; Annals p. 169). *Needs:* AA.4.6; Mathlib
+  arXiv v3 p. 22; Annals p. 169). *Needs:* AA.2.2 (*quotient-measure*, for the invariant
+  probability measure on the compact quotient `Λ\T`); Mathlib
   `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
   *Lean:* none; specified in the README only.
   **Checks.**
@@ -5166,8 +5171,9 @@ quaternion norms and compact abelian Fourier limits.
   character `ψ` of `C`, `m_i` integrates `ψ` to zero unless
   `ψ = 1` or `ψ = χ_i`, and prove weak convergence of the
   `m_i` to Haar probability on `C` ([Khayutin],
-  Proposition 3.6, arXiv v3 p. 24, and its proof with Remark 3.7, p. 25). *Needs:* AA.2.4;
-  RepresentationTheory/CompactGroups, layer 5.
+  Proposition 3.6, arXiv v3 p. 24, and its proof with Remark 3.7, p. 25). *Needs:*
+  RepresentationTheory/CompactGroups, layer 0 (Haar probability on a compact group and its
+  invariance) and layer 5 (density of the span of characters).
   *Lean:* `CompactFourier.tendsto_quadraticKernel_haar` (weak convergence).
 
   **Checks.**
@@ -5206,8 +5212,8 @@ covering maps; Tau Ceti's Hecke degrees, covering-map composition and quaternion
 ReductiveGroups, layers 1, 6 and 7; ReductiveGroupsPartII, RG2.3 and RG2.4; GlobalNumberFields,
 layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layers 5,
 10 and 13;
-LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layer 5; the `p`-adic
-closed-subgroup development in AA.4.2 and the finite reductive order formula in AA.2.4.
+LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layers 0 and 5; the
+`p`-adic closed-subgroup development in AA.4.2.
 
 ## Layer 5: worked examples
 
