@@ -213,7 +213,35 @@ rebuild them.
   `liftEquiv` of the algebraic projective tensor and
   `CompletedProjectiveTensorProduct.liftEquiv` of its completion for
   continuous multilinear maps into complete Hausdorff targets
-  (`…/PiTensorProduct/UniversalProperty`).
+  (`…/PiTensorProduct/UniversalProperty`). For the family seminorms
+  the pin bounds a pure tensor only from above,
+  `PiTensorProduct.projectiveSeminormOf_tprod_le`
+  (`…/PiTensorProduct/Projective/Seminorm`).
+- Banach projective tensors (N1.Tensor), for seminormed spaces over a
+  normed field: the binary projective seminorm
+  `TensorProduct.projectiveSeminorm`, the infimum of `Σ‖x_i‖‖y_i‖` over
+  finite decompositions, on the copy `TauCeti.ProjectiveTensor 𝕜 E F` of
+  `E⊗F`, with its universal bound
+  `TensorProduct.apply_le_mul_projectiveSeminorm`
+  (`Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm`), and over
+  `RCLike` fields its cross property `TensorProduct.projectiveSeminorm_tmul`,
+  `π(x⊗y)=‖x‖‖y‖` for seminormed factors (`…/TensorProduct/InjectiveSeminorm`);
+  over a nontrivially normed field its completion
+  `TauCeti.CompletedProjectiveTensor 𝕜 E F`, a Banach space, with the
+  operators `TauCeti.CompletedProjectiveTensor.mapL` of norm at most
+  `‖f‖‖g‖` and the isometric universal property
+  `TauCeti.CompletedProjectiveTensor.liftIsometry`,
+  `(E→L F→L G)≃ₗᵢ(E⊗̂_π F→L G)` for every Banach space G, which at G=𝕜
+  identifies the dual with the bounded bilinear forms
+  (`…/TensorProduct/Completion`); and the symmetry, scalar-unit and
+  associativity isometries `TauCeti.ProjectiveTensor.comm`,
+  `TauCeti.ProjectiveTensor.lid` and `TauCeti.ProjectiveTensor.assoc` of
+  algebraic tensors with their pure-tensor equations, and the completed
+  symmetry and scalar unit `TauCeti.CompletedProjectiveTensor.comm` and
+  `TauCeti.CompletedProjectiveTensor.lid` (`…/TensorProduct/Associator`).
+  The pin has no comparison of the binary projective norm with the
+  finite-family `PiTensorProduct` projective norm; BanachSpaceTheory B4
+  supplies it.
 - Universal forms (N1.Cyclic): `UniversalForms k A n`, the words
   `x da₁⋯da_n` of `A⁺⊗A^⊗n` with their differential and cochain complex
   (`NoncommutativeGeometry/UniversalDifferential/Complex`), Connes' product
@@ -257,6 +285,33 @@ rebuild them.
   continuous complex and the continuous matrix extension
   (`…/Continuous/Basic`, `…/OperatorTopology`, `…/Continuous/Cohomology`,
   `…/Continuous/Relative`, `…/Continuous/Matrix`).
+- Hochschild cochains (N1.Cyclic): for a possibly nonunital normed
+  algebra A over a nontrivially normed field and a bounded bimodule E
+  with bounded bilinear left and right actions, the bounded Hochschild
+  coboundary `ContinuousLinearMap.hochschildBimoduleCoboundary` on the
+  cochains `ContinuousMultilinearMap 𝕜 (fun _ : Fin n ↦ A) E`,
+  `(δT)(a₀,…,a_n)=a₀·T(a₁,…,a_n)+Σ_(j<n)(−1)^(j+1)T(a₀,…,a_ja_(j+1),…,a_n)+(−1)^(n+1)T(a₀,…,a_(n−1))·a_n`,
+  with `‖δ‖≤‖L‖+n+‖R‖` for the action maps L and R
+  (`ContinuousLinearMap.norm_hochschildBimoduleCoboundary_le`), δ²=0
+  for associative commuting actions
+  (`ContinuousLinearMap.hochschildBimoduleCoboundary_hochschildBimoduleCoboundary`),
+  the central elements as degree-zero cocycles and the bounded
+  derivations as degree-one cocycles
+  (`ContinuousLinearMap.hochschildBimoduleCoboundary_constOfIsEmpty_eq_zero_iff`,
+  `ContinuousLinearMap.hochschildBimoduleCoboundary_ofSubsingleton_eq_zero_iff`)
+  (`Analysis/Normed/Algebra/HochschildCohomology/Coboundary`), and
+  naturality in bounded bimodule maps of the coefficients,
+  `ContinuousLinearMap.hochschildBimoduleCoboundary_compContinuousMultilinearMap`
+  (`…/HochschildCohomology/Coefficients`); for an algebra A over a
+  commutative semiring R and an R-module N, the dual bimodule
+  `A →ₗ[R] N` with `(x·f)(y)=f(yx)` and `(f·x)(y)=f(xy)`, which for N=R
+  is `(aφb)(y)=φ(bya)`, and `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`:
+  currying the first argument, `TauCeti.multilinearCurryFirstEquiv`,
+  carries the coboundary b of N-valued cochains in n+1 arguments to the
+  Hochschild coboundary of the `A →ₗ[R] N`-valued cochains in n
+  arguments (`RingTheory/HochschildCohomology/Dual`). The pin has no
+  cohomology groups of bounded cochains and no bounded form of the
+  currying comparison; BanachAlgebras A6 supplies both.
 - Pairings (N2): the matrix extension `φ#Tr` and
   `cyclicCohomology.matrixExtension` (`…/Matrix`);
   `cyclicCohomology.evenPairing` with Connes' formula, additivity on direct
@@ -360,20 +415,21 @@ rebuild them.
 
 | Supplier | Interface consumed here |
 | --- | --- |
-| [BanachAlgebras A2, A4, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's bounded Hochschild cochains and the A4 dual-bimodule convention, consumed by N1.Cyclic. N1 owns its resolution comparisons. |
+| [BanachAlgebras A2, A4, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's cohomology groups `Hⁿ=Zⁿ/Bⁿ` of bounded Hochschild cochains and the compatibility of the bounded coboundary with currying into the Banach dual, with A4's dual-bimodule convention `(a·φ)(x)=φ(xa)`, `(φ·a)(x)=φ(ax)`, consumed by N1.Cyclic. The bounded coboundary itself is Tau Ceti's. N1 owns its resolution comparisons. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
 | [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the B(H) inclusions of the quasi-ideals into the Schatten scale; N4 the singular traces. |
 | [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
 | [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
 | [HilbertModules H1–H3](../HilbertModules/README.md) | In Mathlib's right-module convention `CStarModule Aᵐᵒᵖ E`: H1's completion of a pre-Hilbert module, including a module over a dense *-subalgebra whose positivity and norm are measured in its C*-completion, with the extension of the action to that completion; H2's rank-one operators `z↦x⟨y,z⟩`, finite Parseval frames `Σ_i x_i⟨x_i,z⟩=z` with their analysis and synthesis maps and Gram-matrix projection `(⟨x_i,x_j⟩)_(i,j)` in `M_n(A)`, and, for unital A, the existence of a finite Parseval frame on a complete module exactly when it is finitely generated projective; H3's induced Hilbert space `E⊗_A H_π` of a nondegenerate representation π, and for a state ω its identification with the completion of E modulo `{x:ω(⟨x,x⟩)=0}` and with `E⊗_A H_ω`. N7 consumes them at A=A_θ and ω=τ for the Heisenberg module. |
-| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The completed Banach projective tensor over ℝ and ℂ and its universal property, consumed by N1.Tensor. |
+| [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The norm-preserving comparison, by the identity on pure tensors, of the binary projective norm on `E⊗F` with the finite-family `PiTensorProduct` projective norm of the pair (E,F), for normed spaces over ℝ and ℂ, consumed by N1.Tensor for its comparison with the pinned Banach projective tensor. That tensor, its cross property, universal property and symmetry, unit and associativity isometries are Tau Ceti's. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | D1's universal property of the full crossed product for nondegenerate covariant pairs in multiplier algebras, hence in any unital C*-algebra; D2's generator formulas for G=ℤ, the equality of full and reduced crossed products for amenable groups and the faithful conditional expectation of a discrete crossed product with its Fourier coefficient maps; D4's dual action of the circle. The full crossed product, its canonical multipliers and the rotation action are Tau Ceti's; N6 constructs the two-torus gauge action. |
 
 ## How to read the build
 
-N1 consumes Tau Ceti's completed locally convex projective tensors and
-adds their coherence laws and Fréchet and Banach comparisons (N1.Tensor),
-and consumes its universal forms, cyclic complexes, SBI sequence and
+N1 consumes Tau Ceti's completed locally convex and Banach projective
+tensors and adds the coherence laws and Fréchet comparison of the former
+and its comparison with the latter (N1.Tensor), and consumes its
+universal forms, cyclic complexes, bounded Hochschild coboundary, SBI sequence and
 periodic cyclic cohomology, adding the normalizations and comparisons,
 homotopy and Morita invariance and the continuous theory on completed
 tensors (N1.Cyclic). N2 consumes the pinned pairings of cyclic cocycles
@@ -418,25 +474,43 @@ and composition laws, the flip `reindex` with its naturality in `map`,
 and the universal property `CompletedProjectiveTensorProduct.liftEquiv`
 for jointly continuous 𝕜-bilinear maps into complete Hausdorff locally
 convex 𝕜-spaces, with uniqueness on pure tensors, are consumed from
-the pin. Prove here the cross property `π_(p,q)(x⊗y)=p(x)q(y)`, the pin
-giving only ≤, from functionals f, g with |f|≤p, f(x)=p(x), |g|≤q,
-g(y)=q(y) supplied by Hahn–Banach over 𝕜 (Mathlib's `exists_dual_vector''`
-on E with the seminorm p); for normed factors this is the isometric
-identification of bounded bilinear forms with the dual of the projective
-tensor (Grothendieck 1952, Chapter I, Théorème 1, p. 76) applied to the
-form (x,y)↦f(x)g(y). Then prove associativity, the scalar unit
-`𝕜⊗̂_π E≃E` and compatibility with finite direct sums (Grothendieck 1952,
-Chapter I, n° 1, p. 77, for products and direct sums), with their
-pure-tensor equations and coherence. Establish Fréchet completeness and
+the pin. Prove here the cross property `π_(p,q)(x⊗y)=p(x)q(y)` for the
+family seminorms, the pin giving only ≤ there
+(`PiTensorProduct.projectiveSeminormOf_tprod_le`), from functionals f, g
+with |f|≤p, f(x)=p(x), |g|≤q, g(y)=q(y) supplied by Hahn–Banach over 𝕜
+(Mathlib's `exists_dual_vector''` on E with the seminorm p). For two
+seminormed factors the binary equality is the pinned
+`TensorProduct.projectiveSeminorm_tmul`, and for normed factors the
+argument is the pinned isometric identification
+`TauCeti.CompletedProjectiveTensor.liftIsometry` at G=𝕜 of bounded
+bilinear forms with the dual of the projective tensor (Grothendieck 1952,
+Chapter I, Théorème 1, p. 76) applied to the form (x,y)↦f(x)g(y). Then
+prove associativity, the scalar unit `𝕜⊗̂_π E≃E` and compatibility with
+finite direct sums (Grothendieck 1952, Chapter I, n° 1, p. 77, for
+products and direct sums), with their pure-tensor equations and
+coherence; their normed binary case on algebraic tensors is pinned as
+the isometries `TauCeti.ProjectiveTensor.assoc` and
+`TauCeti.ProjectiveTensor.lid`. Establish Fréchet completeness and
 metrizability when E,F are Fréchet (Grothendieck 1952, Chapter I, n° 1,
 p. 77); no nuclearity or approximation
-hypothesis is imposed for this construction. For Banach factors compare
-with BanachSpaceTheory B4's completed Banach projective tensor over the
-same 𝕜 by the identity on pure tensors (for normed factors the projective
-topology is that of the norm `inf Σ‖x_i‖‖y_i‖` and the completion is a
-Banach space, Grothendieck 1952, Chapter I, n° 1, pp. 76–77), including the norm/universal-property and
-finite-family `PiTensorProduct` comparisons. This consumes B4's tensor
-contract, not its approximation-property or nuclear-operator results.
+hypothesis is imposed for this construction. For normed factors compare
+with the pinned Banach completed projective tensor
+`TauCeti.CompletedProjectiveTensor 𝕜 E F` over the same 𝕜 by the identity
+on pure tensors (for normed factors the projective topology is that of
+the norm `inf Σ‖x_i‖‖y_i‖` and the completion is a Banach space,
+Grothendieck 1952, Chapter I, n° 1, pp. 76–77): the completed tensor of
+the pair (E,F), each with the one-seminorm family of its norm, is
+linearly homeomorphic to `TauCeti.CompletedProjectiveTensor 𝕜 E F` by a
+map that is the identity on pure tensors and carries the extended
+projective seminorm to the Banach norm; under it
+`CompletedProjectiveTensorProduct.liftEquiv` and
+`TauCeti.CompletedProjectiveTensor.liftIsometry` agree for Banach
+targets, and the completed `map` of two bounded maps is
+`TauCeti.CompletedProjectiveTensor.mapL`. The equality of the two
+seminorms on `E⊗F` is BanachSpaceTheory B4's norm-preserving comparison
+of the binary projective norm with the finite-family `PiTensorProduct`
+projective norm, which the pin lacks; nothing else of B4 enters, in
+particular not its approximation-property or nuclear-operator results.
 
 **Checks.**
 
@@ -448,6 +522,16 @@ contract, not its approximation-property or nuclear-operator results.
   representation `e₀⊗e₀=(e₀+e₁)⊗e₀−e₁⊗e₀` has sum of products 3, so the
   value 1 is the infimum and a quantity read off one fixed representation is
   not a function of the tensor.
+- Pure tensors do not fix the norm of the Banach comparison. On
+  ℓ¹₂⊗ℓ¹₂, with ℓ¹₂ the plane with the ℓ¹ norm, the tensor
+  `u=e₀⊗e₀+e₀⊗e₁+e₁⊗e₀−e₁⊗e₁` has projective norm 4, the ℓ¹ norm of its
+  coefficient matrix, since ℓ¹₂⊗̂_π ℓ¹₂ is ℓ¹ of the four index pairs, over
+  either field. Its injective norm, the supremum of
+  `|f₀(g₀+g₁)+f₁(g₀−g₁)|` over `|f_i|,|g_j|≤1`, is the maximum over g of
+  `|g₀+g₁|+|g₀−g₁|`: 2 over ℝ, and 2√2 over ℂ, attained at g₀=1, g₁=i. Both norms
+  are cross norms, so a comparison that only matches pure tensors could
+  land in the injective norm; the comparison with the Banach projective
+  tensor must give 4.
 - On ℓ²⊗̂_π ℓ² the element `Σ_(i<n) e_i⊗e_i` has projective norm n (as a
   trace-class operator it is a rank-n projection, of trace norm n) while its
   Hilbert tensor norm is √n. The comparison map to the Hilbert tensor product
@@ -469,7 +553,7 @@ contract, not its approximation-property or nuclear-operator results.
   because the continuous seminorms of the Hausdorff space E separate its
   points. With E={0} the completed tensor is {0}.
 
-*Needs:* Tau Ceti `CompletedProjectiveTensorProduct` with its `lift`, `map`, `CompletedProjectiveTensorProduct.map_id`, `CompletedProjectiveTensorProduct.map_comp`, `reindex` and `CompletedProjectiveTensorProduct.liftEquiv`; Mathlib `TensorProduct`, `Seminorm`, `WithSeminorms`, `UniformSpace.Completion`, `PiTensorProduct` and `exists_dual_vector''`; BanachSpaceTheory B4.
+*Needs:* Tau Ceti `CompletedProjectiveTensorProduct` with its `lift`, `map`, `CompletedProjectiveTensorProduct.map_id`, `CompletedProjectiveTensorProduct.map_comp`, `reindex` and `CompletedProjectiveTensorProduct.liftEquiv`, `PiTensorProduct.projectiveSeminormOf_tprod_le`, `TauCeti.CompletedProjectiveTensor` with `TauCeti.CompletedProjectiveTensor.mapL` and `TauCeti.CompletedProjectiveTensor.liftIsometry`, and `TensorProduct.projectiveSeminorm_tmul`; Mathlib `TensorProduct`, `Seminorm`, `WithSeminorms`, `UniformSpace.Completion`, `PiTensorProduct` and `exists_dual_vector''`; BanachSpaceTheory B4's comparison of the binary and finite-family projective norms.
 
 ### N1.Cyclic. Universal forms and complexes
 
@@ -519,13 +603,21 @@ Hochschild coboundary is
 with b²=0, preservation of the cyclic subcomplex, cochain pullbacks,
 cyclic cocycles, coboundaries and `cyclicCohomology`, and with the
 Hochschild cohomology with coefficients in the algebraic dual, its
-comparison map I and Connes' B on cohomology, all at the pin. In the
-unital Banach/bounded specialization consume
-BanachAlgebras A6's Hochschild differential and cochain API; this
-roadmap supplies the Fréchet extensions and their comparison.
-For unital A, currying the first argument identifies the scalar (n+1)-cochains
-with n-cochains valued in A*, using `(aφb)(x)=φ(bxa)`; prove
-the differentials agree under this identification.
+comparison map I and Connes' B on cohomology, all at the pin. For unital
+A, currying the first argument identifies the scalar (n+1)-cochains with
+n-cochains valued in the algebraic dual A*, with the bimodule structure
+`(aφb)(x)=φ(bxa)`, and carries b to the Hochschild coboundary with
+coefficients in A*; this comparison is the pinned
+`TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`. In the
+Banach/bounded specialization the cochains are Mathlib's
+`ContinuousMultilinearMap`, and the bounded Hochschild coboundary with
+coefficients in a bounded bimodule, with its norm bound, δ²=0 and
+coefficient naturality, is the pinned
+`ContinuousLinearMap.hochschildBimoduleCoboundary`; BanachAlgebras A6
+supplies the cohomology groups of bounded cochains and the compatibility
+of that coboundary with currying into the Banach dual under A4's
+dual-bimodule convention, and this roadmap supplies the Fréchet
+extensions and their comparison.
 For locally convex A the pinned continuous multilinear cochains carry
 the topology of uniform convergence on products of bounded sets, the
 finite multiplication/permutation/degeneracy formulas preserve continuity,
@@ -630,6 +722,16 @@ commutative differential-form cycles with their cyclic characters.
   while the matrix-entry functional `φ(a)=a₁₁` has `(bφ)(e₁₂,e₂₁)=1−0=1`.
   With the sign +1 in place of `(−1)^(n+1)` the coboundary of the trace on
   ℂ would take the value 2 at (1,1), and no trace would be a cocycle.
+- The dual-bimodule convention under currying: a scalar 1-argument
+  cochain φ curries to f=φ in A*, and the Hochschild coboundary of the
+  constant cochain f is `a₁↦a₁f−fa₁`, whose value at a₀ under
+  `(aφb)(x)=φ(bxa)` is `φ(a₀a₁)−φ(a₁a₀)=(bφ)(a₀,a₁)`. On M₂(ℂ) with
+  `φ(a)=a₁₁`, a₀=e₁₂ and a₁=e₂₁ both sides are `φ(e₁₁)−φ(e₂₂)=1`. The
+  opposite actions `(aφb)(x)=φ(axb)` give `φ(a₁a₀)−φ(a₀a₁)=−1`, so the
+  currying comparison would hold only up to a sign. In degree one the
+  three terms `φ(a₀a₁,a₂)`, `−φ(a₀,a₁a₂)` and `φ(a₂a₀,a₁)` of
+  `(bφ)(a₀,a₁,a₂)` are the left action, the inner face and the right
+  action of the curried cochain.
 - The cyclic sign: a cyclic 1-cochain satisfies `φ(a₁,a₀)=−φ(a₀,a₁)`; on
   the smooth circle `ψ(a₀,a₁)=(2πi)⁻¹∫a₀da₁` has `ψ(z⁻¹,z)=1` and
   `ψ(z,z⁻¹)=(2πi)⁻¹∫z·(−z⁻²)dz=−1`. A convention with the sign +1 in odd
@@ -646,7 +748,7 @@ commutative differential-form cycles with their cyclic characters.
   cocycle, which is why cycles are built on the forced unitization with a
   possibly nonunital ρ.
 
-*Needs:* N1.Tensor; Tau Ceti `UniversalForms`, `cycleCocycle`, `exteriorProductCocycle`, `cyclicCohomology`, `cyclicCohomology.matrixExtension`, `periodicCyclicCohomology`, `continuousCyclicCohomology` and `derivationLieAlgebra ℂ A`; Mathlib `MultilinearMap`, `ChainComplex`, `CochainComplex` and their homology APIs; BanachAlgebras A4, A6.
+*Needs:* N1.Tensor; Tau Ceti `UniversalForms`, `cycleCocycle`, `exteriorProductCocycle`, `cyclicCohomology`, `cyclicCohomology.matrixExtension`, `periodicCyclicCohomology`, `continuousCyclicCohomology`, `derivationLieAlgebra ℂ A`, `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary` and `ContinuousLinearMap.hochschildBimoduleCoboundary`; Mathlib `MultilinearMap`, `ContinuousMultilinearMap`, `ChainComplex`, `CochainComplex` and their homology APIs; BanachAlgebras A4, A6.
 
 ### Examples
 
@@ -657,11 +759,14 @@ Hilbert norm √n. On ℂ the classes `S^mτ=σ_m`, with `σ_m(1,…,1)=m!`, spa
 
 ### Dependencies
 
-N1.Tensor: Tau Ceti's completed projective tensors; Mathlib tensor,
-seminorm and completion APIs; BanachSpaceTheory B4. N1.Cyclic: N1.Tensor;
-Tau Ceti's universal forms, cyclic, periodic and continuous cyclic
-cohomology and `derivationLieAlgebra ℂ A`; Mathlib complexes and their
-homology APIs; BanachAlgebras A4, A6.
+N1.Tensor: Tau Ceti's completed locally convex and Banach projective
+tensors with the binary cross property; Mathlib tensor, seminorm and
+completion APIs; BanachSpaceTheory B4's comparison of the binary and
+finite-family projective norms. N1.Cyclic: N1.Tensor; Tau Ceti's
+universal forms, cyclic, periodic and continuous cyclic cohomology,
+bounded Hochschild coboundary, dual-bimodule currying comparison and
+`derivationLieAlgebra ℂ A`; Mathlib complexes and their homology APIs;
+BanachAlgebras A4, A6.
 
 ## N2. Cyclic pairings with K-theory
 
