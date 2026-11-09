@@ -161,7 +161,8 @@ names, at its claim, the pinned declarations that prove it. The targets the pins
 - the action of `GL(2,ℝ)` by Riemannian isometries of the Poincaré metric, the comparison of the
   Riemannian distance of the Poincaré metric with Mathlib's `dist`, and the identification of the
   Poincaré metric with Tau Ceti's half-space metric on `TauCeti.UpperHalfSpace ℝ`, as a Riemannian
-  isometry and as an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ` (Layer 2 item 1);
+  isometry and as an isometry `ℍ ≃ᵢ TauCeti.UpperHalfSpace ℝ`, and the constant curvature `−1` and
+  the completeness of the Poincaré metric carried along them (Layer 2 item 1);
 - the topological genus with `χ = 2 − 2g`, Riemann–Hurwitz in genus form, the Fuchsian
   Riemann–Hurwitz formula and the intrinsic orbifold area formula (Layer 5 items 1, 3, 6 and 7);
 - the minimal areas and their equality cases (Layer 4a).
