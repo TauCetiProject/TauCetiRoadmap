@@ -126,7 +126,8 @@ theorem equivalent_iff_globalInvariants_eq
   sorry
 
 /-- **8.4, the isometry corollary consumed by the orthogonal-group roadmaps**: locally isometric
-regular forms are isometric. The translation to `H¹(K, SO(Q))` belongs to those roadmaps. -/
+regular forms are isometric. The translation to `H¹(K, SO(Q))` belongs to Orthogonal Tamagawa and
+Lattice Mass. -/
 theorem equivalent_of_locallyEquivalent
     {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
