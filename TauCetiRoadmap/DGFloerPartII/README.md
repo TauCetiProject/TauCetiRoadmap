@@ -171,11 +171,20 @@ target of this roadmap or of the named supplier, never a "native" API.
   currying `ContinuousMap.curry` and Whitehead's lemma
   `Topology.IsQuotientMap.continuous_lift_prod_left`, that the product of a quotient map with the
   identity of a locally compact space is again a quotient map (`Mathlib/Topology/CompactOpen.lean`).
-- `Bundle.Trivialization` (`Mathlib/Topology/FiberBundle/Trivialization.lean`) with the mixin
-  `Bundle.Trivialization.IsLinear` (`Mathlib/Topology/VectorBundle/Basic.lean`): a linear
+- `Bundle.Trivialization` (`Mathlib/Topology/FiberBundle/Trivialization.lean`), a local
+  trivialization of any projection `p : Z → B` with fibre `F`, an open partial homeomorphism
+  `p⁻¹(U) ≅ U × F` over an open base set `U`: the local triviality of the fibered families of 4.2
+  in `Suggested.lean`, a trivialization around every point of the base. With the mixin
+  `Bundle.Trivialization.IsLinear` (`Mathlib/Topology/VectorBundle/Basic.lean`), a linear
   trivialization whose base set is the whole base is a homeomorphism of the total space with the
   product, linear on fibres; the triviality of the normal bundle of `Y` in the statement of
   Theorem G (4.6) in `Suggested.lean`.
+- `FiberBundle` (`Mathlib/Topology/FiberBundle/Basic.lean`), `VectorBundle`
+  (`Mathlib/Topology/VectorBundle/Basic.lean`) and `IsContinuousRiemannianBundle`
+  (`Mathlib/Topology/VectorBundle/Riemannian.lean`, an inner product on each fibre given by a
+  continuous section of the bundle of bilinear forms): the real vector bundles with continuous
+  fibre metric whose unit-sphere bundles carry the sphere-bundle statements of 4.2 in
+  `Suggested.lean`.
 - Generated spaces (`Mathlib/Topology/Convenient/`): for a family `X` of topological spaces, the
   predicate `Topology.IsGeneratedBy` (the topology is coinduced by all continuous maps from
   members of `X`), with the closure of `X`-generated spaces under quotients, sums and sigma types
@@ -242,8 +251,9 @@ target of this roadmap or of the named supplier, never a "native" API.
   4.5 and 4.6 in `Suggested.lean`, as they are of the base roadmap's Theorem A.
 - `TauCeti.HomologicalOrientation` with `mapFundamentalClass`
   (`TauCeti/AlgebraicTopology/Singular/LocalHomology/FundamentalClass.lean`): the integral
-  fundamental class `[M]` and its images, for the covering condition `ev_*A = ℓ[M]` of 4.3 and 4.5
-  and the degree condition `g_*[S] = d[Y]` of Theorem G (4.6).
+  fundamental class `[M]` and its images, for the covering condition `ev_*A = ℓ[M]` of 4.3 and 4.5,
+  the orientations of base, total space and fibre and the fibre class `j_*[F]` of the fibered
+  families of 4.2, and the degree condition `g_*[S] = d[Y]` of Theorem G (4.6).
 - `Diffeomorph.weakWhitneyTopology` and `Diffeomorph.continuous_eval_const`
   (`TauCeti/Geometry/Diffeomorphism/Topology.lean`): the `C^∞` topology on the diffeomorphisms of
   a compact manifold, the weak and strong Whitney topologies agreeing there, with continuous
@@ -1248,11 +1258,26 @@ AlgebraicTopology Stage 6 (fundamental classes).
 
 ### 4.2 Fibered families of 2-spheres
 
-Define a *fibered family of 2-spheres* on `Q` (Definition 6.14): a smooth fibration
-`Σ_p → Σ → Q` with fibre a closed oriented manifold of positive dimension and a map of
-fibrations `σ : Σ → Map(S², Q)` over `Q`, with `(σ_p)_*[Σ_p] ≠ 0` in `H_*(Ω²Q)`. Prove
-Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class and has degree
-`dim Q + dim Σ_p > dim Q`, so `Q` is abundant.
+Define a *fibered family of 2-spheres* on a closed connected oriented `Q` (Definition 6.14): a
+fibre bundle `π : Σ → Q`, locally trivial with fibre `Σ_p` a closed oriented manifold of positive
+dimension, whose total space `Σ` is a closed oriented manifold, and a map `σ : Σ → Map(S², Q)`
+over `Q`, `σ(x)(s₀) = π(x)`, with `(σ_p)_*[Σ_p] ≠ 0` in `H_*(Ω²Q)`, where `Ω²Q` is the fibre
+`{f | f(s₀) = p}` of evaluation at `s₀` and `σ_p` is the restriction of `σ` to the fibre over the
+base point `p`. The source asks for a smooth fibration and leaves the orientability of `Σ`
+implicit; the proof uses only local triviality, and the criterion it rests on, Corollary 2.13,
+takes the total space closed and orientable (`bdho-cotangent` lines 1237–1239). Prove
+Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class, by Corollary 2.13 (DGFloer Layer
+5 item 5) for the two Hurewicz fibrations `π` and evaluation `Map(S², Q) → Q` (DGFloer Layer 2
+item 2: a locally trivial bundle over the compact manifold `Q`, and restriction along the closed
+cofibration `{s₀} ⊆ S²`), and has degree `dim Q + dim Σ_p > dim Q`, so `Q` is abundant. With
+Theorem H, `c°_HZ(D*Q) < ∞` for every Riemannian metric (4.5). In `Suggested.lean` this is
+`contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily`: the bundle is a map `p : S → Q`
+with a Mathlib `Bundle.Trivialization` of fibre `F` around every point, the orientations of `Q`,
+`S` and `F` are Tau Ceti `HomologicalOrientation`s, `σ` is a continuous map into the compact-open
+`C(S², Q)`, and the fibre class is `j_*[F]` (`HomologicalOrientation.mapFundamentalClass`) for the
+map `j` from `F` into the based mapping space `{f ∈ C(S², Q) | f(s₀) = q₀}` that reads `σ` on the
+fibre over `q₀` through a trivialization at `q₀`. The sign of `j_*[F]` depends on that
+trivialization and its vanishing does not.
 
 - **Even spheres** (Example 6.16, Propositions 6.17–6.18). `Σ = Stiefel₂(Sⁿ)`, with `Σ_p` the
   ordered orthonormal 2-frames of `T_pSⁿ`, of dimension `2n − 3`; `σ(p, u, v)` is the round
@@ -1276,20 +1301,26 @@ Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class and has degre
   connected, oriented total-space setting of §6.4.2, a smooth `Sⁿ`-bundle `Sⁿ → Q → B`,
   `n ≥ 2`, whose structure group reduces to `O(n+1)` is the unit-sphere bundle of a rank-`n+1`
   real vector bundle with a fibrewise metric; construct this equivalence and the vertical
-  tangent bundle `TᵥQ`. Prove the two alternatives separately.
+  tangent bundle `TᵥQ`. Prove the two alternatives separately, for the unit-sphere bundle `S(V)`
+  of a rank-`n+1` real vector bundle `V → B` with a continuous fibre metric over any topological
+  space `B`, and hence for every closed manifold `Q` homeomorphic to `S(V)`: a vertical tangent
+  vector at `x ∈ S(V_b)` is a vector of `V_b` orthogonal to `x`, the constructions below use only
+  local triviality and the metric, the projection `S(V) → B` is a Serre fibration over any base
+  (Hatcher, *Algebraic Topology*, Proposition 4.48), and a homeomorphism `Q ≅ S(V)` carries the
+  fibered family and its classes across.
   * `n` even and `B` `2n`-connected. The parameter fibre over `q ∈ Q` is the oriented manifold
     of ordered orthonormal two-frames in the tangent space to the sphere fibre. Put the Example
     6.16 sphere-family map into these fibres and include each sphere fibre into `Q` to obtain
     `Σ → Q` and `σ : Σ → Map(S², Q)`.
   * `n ≡ 3 (mod 4)` and `B` `(n+1)`-connected, with two everywhere independent vertical vector
-    fields `u, v`. Normalize them to an orthonormal pair. For `q` in the fibre, put
-    `V_x = u(x)^⊥` in the ambient rank-`n+1` Euclidean bundle and take the unit sphere in
-    `V_x ∩ v(x)^⊥`, the carrier `E` of Example 6.20: `x` and `v(x)` are orthogonal unit vectors
-    in `V_x`, so this is the equator `S^(n−2)` through `x`, whose points are sphere-fibre points,
-    not tangent vectors at `x`. Use the two-field sphere-family map and the sphere-fibre
-    inclusion to construct the oriented `Σ → Q` and `σ : Σ → Map(S², Q)`.
-  In both cases prove the carrier's orientation and local triviality, continuity and smoothness
-  of the family map, compatibility of the fibre map with the based inclusion `Ω²Sⁿ → Ω²Q`, and
+    fields `u, v`. Normalize them to an orthonormal pair. For `x ∈ Q`, a unit vector in the fibre
+    of the ambient rank-`n+1` Euclidean bundle, put `V_x = u(x)^⊥` in that fibre and take the
+    unit sphere in `V_x ∩ v(x)^⊥`, the carrier `E` of Example 6.20: `x` and `v(x)` are
+    orthogonal unit vectors in `V_x`, so this is the equator `S^(n−2)` through `x`, whose points
+    are sphere-fibre points, not tangent vectors at `x`. Use the two-field sphere-family map and
+    the sphere-fibre inclusion to construct the oriented `Σ → Q` and `σ : Σ → Map(S², Q)`.
+  In both cases prove the carrier's orientation and local triviality, continuity of the family
+  map, compatibility of the fibre map with the based inclusion `Ω²Sⁿ → Ω²Q`, and
   nonvanishing of its fibre class. For the even case the fibre class is in `H_(2n−3)(Ω²Sⁿ; ℤ)`;
   `2n`-connectivity gives `π_i(Ω²B) = 0` for `i ≤ 2n − 2`, hence `H_i(Ω²B; ℤ) = 0` for
   `1 ≤ i ≤ 2n − 2`, and the Serre spectral sequence of `Ω²Sⁿ → Ω²Q → Ω²B` gives the inclusion
@@ -1300,13 +1331,23 @@ Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class and has degre
   simply connected, prove `Q` simply connected and use this to trivialize the carrier's
   orientation local system over `Q`. The odd-case two-field condition is a hypothesis;
   quaternionic Hermitian sphere bundles are one source of such fields (Remark 6.24), not a
-  substitute for the general target.
+  substitute for the general target. With Proposition 6.15 and Theorem H this gives
+  `c°_HZ(D*Q) < ∞` for every Riemannian metric on `Q` (4.5). In `Suggested.lean` these are
+  `contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_even` and
+  `contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_odd`, on Mathlib's `FiberBundle`,
+  `VectorBundle` and `IsContinuousRiemannianBundle` with fibre `EuclideanSpace ℝ (Fin (n + 1))`,
+  for a closed manifold `Q` with a homeomorphism onto the subtype `{v | ‖v‖ = 1}` of the total
+  space; `k`-connectivity of `B` is path-connectedness with `π_i(B)` trivial for `1 ≤ i ≤ k`, and
+  the two fields of the odd case are continuous families `u(x), w(x) ∈ V_b`, `x ∈ S(V_b)`,
+  orthogonal to `x` and linearly independent.
 
-*Needs:* 1.2, 1.3, 1.4, DGFloer Layer 1 items 2 and 4, Layer 2, Layer 5 items 2–5,
+*Needs:* 1.2, 1.3, 1.4, 4.1, DGFloer Layer 1 items 2 and 4, Layer 2, Layer 5 items 2–5,
 AlgebraicTopology Stages 2, 6 and 8, SmoothBundlesConnections B2.2 and B2.5 (the unit-sphere
 bundle of a metrized vector bundle with `O(n+1)` reduction), GeneralAlgebraicKTheoryPartII
 §4.30b through 1.2, Tau Ceti `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv`
-(`n = 3` in Proposition 6.21).
+(`n = 3` in Proposition 6.21) and `TauCeti.HomologicalOrientation`, Mathlib
+`Bundle.Trivialization`, `FiberBundle`, `VectorBundle` and `IsContinuousRiemannianBundle`;
+Hatcher, *Algebraic Topology*, Proposition 4.48.
 
 **Checks.**
 - Degrees: for `Sⁿ`, `n` even, `α = σ_*[Σ]` has degree `n + (2n − 3) = 3n − 3`; for `n = 4k − 1`,
@@ -1326,6 +1367,23 @@ bundle of a metrized vector bundle with `O(n+1)` reduction), GeneralAlgebraicKTh
   4.5's Proposition 6.38.)
 - `S^(4k+1)` admits no pair of pointwise independent vector fields, so the odd-sphere
   construction is not available for `n ≡ 1 (mod 4)`; these spheres are covered by 4.3 instead.
+- Positive fibre dimension is needed: with a one-point fibre, `Σ = Q`, `π` the identity and `σ`
+  the constant spheres, the fibre class is the class of a point in `H₀(Ω²Q)`, nonzero for every
+  `Q`, including `T^r`, whose capacity is infinite (4.1). With positive fibre dimension `T^r`
+  admits no fibered family: every component of `Ω²T^r` is contractible, since
+  `π_i(Ω²T^r) = π_(i+2)(T^r) = 0`, so `H_k(Ω²T^r) = 0` for `k ≥ 1`.
+- Connectedness of `Q` is needed for the capacity: on `Q = S² ⊔ T²`, take the `n = 2` Stiefel
+  family over `S²` and the product `T² × O(2)` with the constant spheres over `T²`; the fibre
+  class over a point of `S²` is nonzero, but a Hamiltonian admissible on the component `D*T²`,
+  extended by zero, is admissible on `D*Q`, since a loop in `D*T²` contracts in `D*Q` only within
+  `D*T²`; so `c°_HZ(D*Q) ≥ c°_HZ(D*T²) = ∞` (4.1).
+- Orientability of `Σ`: `α = σ_*[Σ]` is the image of an integral fundamental class, which a
+  nonorientable total space does not have; every example here has a simply connected base and
+  an orientable fibre, so its total space is orientable.
+- The sphere-bundle statements at `B` a point: `S(V)` is `Sⁿ`, and they agree with 4.5's
+  statement for spheres; for the odd case at `n = 3`, `u(x) = ix` and `w(x) = jx` in `ℍ = ℝ⁴`
+  are orthogonal to `x` and independent. At `n = 0` the hypotheses hold for the trivial line
+  bundle over `B = T²`, with `S(V) = T² ⊔ T²` of infinite capacity, so `n ≥ 2` is needed.
 
 ### 4.2a Stable orthogonal groups and the finite-to-stable range
 
@@ -1774,6 +1832,11 @@ In `Suggested.lean` the finiteness of the capacity is stated on Tau Ceti's carri
 (`TauCeti.CotangentBundle.symplecticForm`, `TauCeti.CotangentBundle.codiscBundle`,
 `TauCeti.SmoothTwoForm.contractibleHZCapacity`), for every smooth Riemannian metric given by
 Mathlib's `Bundle.RiemannianBundle` and `IsContMDiffRiemannianBundle`:
+`contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily` for a closed connected oriented `Q`
+with a fibered family of 2-spheres, and
+`contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_even` and
+`contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_odd` for the sphere bundles of
+Proposition 6.23, in the forms of 4.2;
 `contractibleHZCapacity_codiscBundle_sphere_lt_top` for the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, `n ≥ 2`;
 `contractibleHZCapacity_codiscBundle_lt_top_of_covered` for a closed connected oriented `M` and
 `ℓ > 0` with a class `A ∈ H_n(Diff(M); ℤ)`, for Tau Ceti's `C^∞` topology
@@ -1918,7 +1981,7 @@ RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c);
 SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`, `HomotopyGroup.map`,
 `HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`,
 `TauCeti.homotopyGroupSphereAddEquiv`, `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv`
-(4.2), `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
+(4.2), `TauCeti.HomologicalOrientation` (4.2–4.6), `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
 `TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
 `TauCeti.realClifford_classification`, `TauCeti.continuousOrthogonalToDiffSphere`,
@@ -1926,9 +1989,10 @@ SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAsp
 capacity statements of 4.5,
 `TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace` (4.6); Mathlib
 `HomotopyGroup.Pi`, `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
-`Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.6). Sources: the source paper §§6.3–6.4 and §7;
+`Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.2, 4.6), `FiberBundle`,
+`VectorBundle` and `IsContinuousRiemannianBundle` (4.2). Sources: the source paper §§6.3–6.4 and §7;
 Milnor, *Morse Theory*, §§22–24; Bott, *The stable homotopy of the classical groups*;
-Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4.2.
+Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4.2 and Proposition 4.48.
 
 ## Downstream consumers
 
@@ -2010,7 +2074,8 @@ Numbers follow arXiv:2404.07953v3.
 - J. Milnor, J. Stasheff, *Characteristic Classes*, Annals of Mathematics Studies 76, Princeton,
   1974, Chapter 5; N. Steenrod, *The Topology of Fibre Bundles*, Princeton, 1951, Part I, §7:
   Stiefel manifolds and frame quotients in Layer 1.
-- A. Hatcher, *Algebraic Topology*, Cambridge, 2002, Theorem 3.26, §4.2, §4.J and Appendix,
-  Theorem A.6: the top homology of a closed manifold (3.2), fibration sequences, the homotopy
-  groups of Lie groups and Stiefel manifolds used in 4.2a and 4.3, the James construction, and
-  products of CW complexes (1.0).
+- A. Hatcher, *Algebraic Topology*, Cambridge, 2002, Theorem 3.26, §4.2 with Proposition 4.48,
+  §4.J and Appendix, Theorem A.6: the top homology of a closed manifold (3.2), fibration
+  sequences, the homotopy lifting of fibre bundles over any base used for the sphere bundles of
+  4.2, the homotopy groups of Lie groups and Stiefel manifolds used in 4.2a and 4.3, the James
+  construction, and products of CW complexes (1.0).

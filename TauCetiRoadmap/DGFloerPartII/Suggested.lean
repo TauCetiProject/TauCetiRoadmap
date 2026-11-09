@@ -32,8 +32,16 @@ Stated here:
   base roadmap's Theorem A: `TauCeti.CotangentBundle.symplecticForm`,
   `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, and Mathlib's singular homology for the
   map `H_n(U; ℤ) → H_n(Q; ℤ)`;
-* the finiteness `c°_HZ(D*Q) < ∞` of Theorem I (README 4.5), for every smooth Riemannian metric,
-  on `TauCeti.SmoothTwoForm.contractibleHZCapacity` and `TauCeti.CotangentBundle.codiscBundle`:
+* the finiteness `c°_HZ(D*Q) < ∞` of Theorem I (README 4.2, 4.5), for every smooth Riemannian
+  metric, on `TauCeti.SmoothTwoForm.contractibleHZCapacity` and
+  `TauCeti.CotangentBundle.codiscBundle`: for the closed connected oriented manifolds that admit a
+  fibered family of 2-spheres, a map `p : S → Q` locally trivial through Mathlib
+  `Trivialization`s, with closed oriented total space and fibre, and a map `S → C(S², Q)` over `Q`
+  whose fibre class, Tau Ceti's `HomologicalOrientation.mapFundamentalClass` in the based mapping
+  space `{f | f(s₀) = q₀}`, is nonzero; for the closed manifolds homeomorphic to the unit-sphere
+  bundle of a real vector bundle of rank `n + 1` with a continuous fibre metric (Mathlib
+  `VectorBundle` and `IsContinuousRiemannianBundle`), over a `2n`-connected base for even `n ≥ 2`
+  and, with two independent vertical fields, over an `(n+1)`-connected base for `n ≡ 3 (mod 4)`;
   for the spheres `Sⁿ`, `n ≥ 2`; for the closed connected oriented manifolds that are
   `ℓ`-covered by diffeomorphisms, on Tau Ceti's `C^∞` topology
   `Diffeomorph.weakWhitneyTopology`, under the homotopy hypothesis of Propositions 6.29 and 6.33;
@@ -62,16 +70,20 @@ Not statable at the pins, and stated in the README only:
   6.36, 6.38 and 6.39 (README 4.1–4.5): abundance with 2-spheres needs classes of
   `H_*(Map(S², Q))` living over the fundamental class, that is the shriek map
   `H_*(Map(S², Q)) → H_(*−n)(Ω²Q)` of the evaluation fibration, which neither library has.
-* Theorem I for fibered families of 2-spheres, for sphere bundles over highly connected bases and
-  for products with an abundant factor (README 4.2, 4.5): their hypotheses are a map of fibre
-  bundles into the evaluation fibration `Map(S², Q) → Q` with a nonzero fibre class, or abundance
-  itself, and neither library has that fibration. The homogeneous spaces of Proposition 6.36
-  (README 4.4) need the smooth structure of `G/H` for a closed subgroup `H`, absent at the pins.
+* Theorem I for products with an abundant factor (README 4.1, 4.5): its hypothesis is abundance
+  itself. The homogeneous spaces of Proposition 6.36 (README 4.4) need the smooth structure of
+  `G/H` for a closed subgroup `H`, absent at the pins.
 * The stable orthogonal group `O` of README 4.2a, a colimit of the `O(r)` in compactly generated
   spaces, has no named carrier at the pins, so its Bott equivalences (README 4.2c) are not stated
   here; its homotopy groups are stated in the finite ranks where they are already stable. The
-  Clifford chain and the index bounds of README 4.2b–4.2c need the energy on its path spaces,
-  which neither library has.
+  Clifford chain and the index bounds of README 4.2b–4.2c, the route to these statements, concern
+  geodesics in the members `Ω_k(n)`, `k ≥ 1`, of the chain, sets of orthogonal complex structures
+  that are not subgroups of `O(n)`. The pins put no manifold structure on them: Tau Ceti's
+  closed-subgroup theorem charts closed subgroups, so of the chain only `Ω₀ = O(n)`, as the
+  unitary subgroup of the units (`TauCeti.Lie.isEmbeddedLieSubgroup_unitarySubgroup`). Tau Ceti's
+  energy of curves
+  `TauCeti.Manifold.energy` and conjugate points `TauCeti.Manifold.IsConjugateOn` apply to them
+  once they are Riemannian manifolds.
 -/
 
 @[expose] public section
@@ -133,6 +145,95 @@ theorem hasContractibleAlmostExistence_of_map_singularHomology_ne_zero {E Q : Ty
   sorry
 
 /-! ## Layer 4: manifolds abundant with 2-spheres -/
+
+/-- **Theorem I for fibered families of 2-spheres** (README 4.2 and 4.5; Definition 6.14 and
+Proposition 6.15 with Theorem H). Let `Q` be a closed connected oriented manifold and `p : S → Q`
+a fibre bundle, locally trivial with fibre `F`, whose total space `S` and fibre `F` are closed
+oriented manifolds, `F` of positive dimension. Let `σ : S → Map(S², Q)` be continuous and lie
+over `Q`, `σ(x)(s₀) = p(x)`, and let its fibre class be nonzero: over a point `q₀`, read through a
+trivialization `e₀` at `q₀`, `σ` restricts to a map `j` from `F` into the based mapping space
+`{f | f(s₀) = q₀}`, the double loop space `Ω²Q`, with `j_*[F] ≠ 0`. Then for every smooth
+Riemannian metric the unit codisc bundle `D*Q` has finite `π₁`-sensitive Hofer–Zehnder capacity.
+The source asks for a smooth fibration and leaves the orientability of `S` implicit; its
+Corollary 2.13, through which Proposition 6.15 runs, needs it and uses only local triviality. -/
+theorem contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily {E Q ES S EF F : Type}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace Q]
+    [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q] [ConnectedSpace Q]
+    [RiemannianBundle (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, E) ∞ E (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    (oQ : HomologicalOrientation Q E (Module.finrank ℝ E))
+    [NormedAddCommGroup ES] [NormedSpace ℝ ES] [FiniteDimensional ℝ ES] [TopologicalSpace S]
+    [T2Space S] [ChartedSpace ES S] (oS : HomologicalOrientation S ES (Module.finrank ℝ ES))
+    [NormedAddCommGroup EF] [NormedSpace ℝ EF] [FiniteDimensional ℝ EF] [TopologicalSpace F]
+    [T2Space F] [ChartedSpace EF F] [CompactSpace F]
+    (oF : HomologicalOrientation F EF (Module.finrank ℝ EF)) (hF : 0 < Module.finrank ℝ EF)
+    (p : S → Q) (hp : ∀ q, ∃ e : Trivialization F p, q ∈ e.baseSet)
+    (s₀ : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1)
+    (σ : C(S, C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, Q))) (hσ : ∀ x, σ x s₀ = p x)
+    (q₀ : Q) (e₀ : Trivialization F p) (he₀ : q₀ ∈ e₀.baseSet)
+    (j : C(F, {f : C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, Q) // f s₀ = q₀}))
+    (hj : ∀ v, (j v).1 = σ (e₀.toOpenPartialHomeomorph.symm (q₀, v)))
+    (hσj : oF.mapFundamentalClass rfl j ≠ 0) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, E) Q) < ⊤ :=
+  sorry
+
+/-- **Theorem I for sphere bundles over highly connected bases, even fibres** (README 4.2 and 4.5;
+Proposition 6.23 with Proposition 6.15 and Theorem H). Let `V → B` be a real vector bundle of rank
+`n + 1`, `n ≥ 2` even, with a continuous fibre metric, over a `2n`-connected space `B`, and let `Q`
+be a closed manifold homeomorphic to its unit-sphere bundle `S(V)`, the form of an `Sⁿ`-bundle
+with structure group `O(n+1)` (Remark 6.25). Then for every smooth Riemannian metric on `Q` the
+unit codisc bundle `D*Q` has finite `π₁`-sensitive Hofer–Zehnder capacity. -/
+theorem contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_even {E Q B : Type} {n : ℕ}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace Q]
+    [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q]
+    [RiemannianBundle (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, E) ∞ E (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [TopologicalSpace B] {V : B → Type} [∀ b, NormedAddCommGroup (V b)]
+    [∀ b, InnerProductSpace ℝ (V b)]
+    [TopologicalSpace (TotalSpace (EuclideanSpace ℝ (Fin (n + 1))) V)]
+    [FiberBundle (EuclideanSpace ℝ (Fin (n + 1))) V]
+    [VectorBundle ℝ (EuclideanSpace ℝ (Fin (n + 1))) V]
+    [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin (n + 1))) V]
+    (h : Q ≃ₜ {v : TotalSpace (EuclideanSpace ℝ (Fin (n + 1))) V // ‖v.2‖ = 1})
+    (hn : Even n) (h2 : 2 ≤ n)
+    (hB : PathConnectedSpace B ∧
+      ∀ (b : B) (i : ℕ), i + 1 ≤ 2 * n → Subsingleton (π_ (i + 1) B b)) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, E) Q) < ⊤ :=
+  sorry
+
+/-- **Theorem I for sphere bundles over highly connected bases, fibres `S^(4k−1)`** (README 4.2
+and 4.5; Proposition 6.23 with Proposition 6.15 and Theorem H). Let `V → B` be a real vector
+bundle of rank `n + 1`, `n ≡ 3 (mod 4)`, with a continuous fibre metric, over an `(n+1)`-connected
+space `B`, with two vertical vector fields on its unit-sphere bundle `S(V)` that are everywhere
+linearly independent: continuous families `u(x), w(x) ∈ V_b` orthogonal to `x ∈ S(V_b)`, the
+tangent space at `x` to the sphere fibre. Let `Q` be a closed manifold homeomorphic to `S(V)`.
+Then for every smooth Riemannian metric on `Q` the unit codisc bundle `D*Q` has finite
+`π₁`-sensitive Hofer–Zehnder capacity. -/
+theorem contractibleHZCapacity_codiscBundle_lt_top_of_sphereBundle_odd {E Q B : Type} {n : ℕ}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace Q]
+    [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q]
+    [RiemannianBundle (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContMDiffRiemannianBundle 𝓘(ℝ, E) ∞ E (fun x : Q ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [TopologicalSpace B] {V : B → Type} [∀ b, NormedAddCommGroup (V b)]
+    [∀ b, InnerProductSpace ℝ (V b)]
+    [TopologicalSpace (TotalSpace (EuclideanSpace ℝ (Fin (n + 1))) V)]
+    [FiberBundle (EuclideanSpace ℝ (Fin (n + 1))) V]
+    [VectorBundle ℝ (EuclideanSpace ℝ (Fin (n + 1))) V]
+    [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin (n + 1))) V]
+    (h : Q ≃ₜ {v : TotalSpace (EuclideanSpace ℝ (Fin (n + 1))) V // ‖v.2‖ = 1})
+    (hn : n % 4 = 3)
+    (hB : PathConnectedSpace B ∧
+      ∀ (b : B) (i : ℕ), i + 1 ≤ n + 1 → Subsingleton (π_ (i + 1) B b))
+    (u w : ∀ x : {v : TotalSpace (EuclideanSpace ℝ (Fin (n + 1))) V // ‖v.2‖ = 1}, V x.1.proj)
+    (hu : Continuous fun x ↦ TotalSpace.mk' (EuclideanSpace ℝ (Fin (n + 1))) x.1.proj (u x))
+    (hw : Continuous fun x ↦ TotalSpace.mk' (EuclideanSpace ℝ (Fin (n + 1))) x.1.proj (w x))
+    (huw : ∀ x, inner ℝ x.1.2 (u x) = 0 ∧ inner ℝ x.1.2 (w x) = 0 ∧
+      LinearIndependent ℝ ![u x, w x]) :
+    (CotangentBundle.symplecticForm 𝓘(ℝ, E) Q).contractibleHZCapacity
+      (CotangentBundle.codiscBundle 𝓘(ℝ, E) Q) < ⊤ :=
+  sorry
 
 /-- **Theorem I for spheres** (README 4.5; Examples 6.16 and 6.20 and Proposition 6.34 with
 Theorem H). For every smooth Riemannian metric on the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, `n ≥ 2`, the unit
