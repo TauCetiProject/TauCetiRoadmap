@@ -33,6 +33,18 @@ Ceti, the names that other roadmaps import from this namespace:
 - `hilbertSymbol_eq_cohomological` and `hilbertSymbol_productFormula` (`GlobalQuadraticForms`,
   `IntegralLattices`).
 
+Three names that `GlobalQuadraticForms` cites from this namespace are Tau Ceti's declarations, and
+this roadmap declares no copy of them; one line per name, old → new:
+
+- `signedDiscr` → `TauCeti.RegularFormClass.signedDiscr`, valued in the additive
+  `TauCeti.SquareClassGroup K`; it reads in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv`, as `discr` does;
+- `localHasse_congr` → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
+  two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for this
+  roadmap's `localHasse` of a tuple;
+- `discr_mk` → `TauCeti.RegularFormClass.discr_mk`, read in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv_mk`.
+
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
 - The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
@@ -304,8 +316,10 @@ Each layer states its results against this list.
   `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). The comparisons of
   Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
   (`TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_productFormula`).
-- **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 1–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
-  the canonical carrier with restriction, inflation and coefficient maps (Layer 1), the explicit
+- **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
+  discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
+  which Layer 7B descends a continuous cocycle to a finite Galois level (Layer 0), the canonical
+  carrier with restriction, inflation and coefficient maps (Layer 1), the explicit
   low-degree complex and its comparison (Layers 2–3), the finite-quotient description (Layer 4),
   low-degree cups (Layer 8), Hilbert 90 and Kummer theory (Layer 9), corestriction (Layer 10), the
   graded cup product (Layer 12) and the index-two Evens norm with its `D₁₆` pullback formula
@@ -1165,14 +1179,16 @@ subalgebra; Layer 3's signed discriminant.
 `c` on `I²` is a theorem about the Clifford invariant and not a formality. All six are Tau Ceti's
 (`TauCeti/LinearAlgebra/QuadraticForm/Witt/Clifford.lean` and `Witt/Pfister/`).
 
-1. **Additivity on `I²`**: `c(q ⊥ r) = c(q) · c(r)` when the Witt classes of both summands lie in
-   `TauCeti.fundamentalIdeal K ^ 2`, that is when both have even rank and trivial signed
-   discriminant (`TauCeti.wittClass_mem_fundamentalIdeal_sq_iff`):
+1. **Additivity against `I²`**: `c(q ⊥ r) = c(q) · c(r)` when the Witt class of one summand, say
+   `q`, lies in `TauCeti.fundamentalIdeal K ^ 2`, that is when `q` has even rank and trivial signed
+   discriminant (`TauCeti.wittClass_mem_fundamentalIdeal_sq_iff`), and `r` is arbitrary:
    `TauCeti.RegularFormClass.cliffordInvariant_add_of_signedDiscr_eq_zero` and
    `TauCeti.WittRing.cliffordInvariant_add_of_mem_fundamentalIdeal_sq`. The dimension-dependent
-   correction terms of Lam V.3.20 and of the orthogonal-sum formula cancel exactly there. ⚠ Over a
-   general pair the identity is false, so the hypotheses are part of the statement, and `c` is not
-   additive on `W(K)`.
+   correction terms of Lam V.3.20 and of the orthogonal-sum formula cancel exactly then. Over `ℝ`,
+   `⟨1,1,1,1⟩ ∈ I²` and `⟨1,1,1⟩ ∉ I²` give `c(⟨1⁷⟩) = 1 = [ℍ] · [ℍ]`, an instance with only one
+   summand in `I²`. ⚠ When neither summand lies in `I²` the identity can fail, so the hypothesis is
+   part of the statement, and `c` is not additive on `W(K)`: over `ℝ`,
+   `c(⟨1,1⟩ ⊥ ⟨1⟩) = c(⟨1,1,1⟩) = [ℍ]` while `c(⟨1,1⟩) · c(⟨1⟩) = 1`.
 2. **The value on a 2-fold Pfister generator**, `c(⟨⟨a,b⟩⟩) = [(a,b)]`:
    `TauCeti.RegularFormClass.cliffordInvariant_pfisterFormClass_two` and
    `TauCeti.WittRing.cliffordInvariant_pfisterClass_two`.
@@ -1216,8 +1232,14 @@ the general theory of base change of central simple algebras.
 - The orthogonal-sum formula at `⟨a⟩ ⊥ ⟨b⟩`: the left side is `[(a,b)]` and the right side is
   `1 · 1 · [(a,b)]`.
 - The Clifford invariant of `⟨1,…,1⟩` over `ℝ` for `n = 1, …, 8` is `1, 1, [ℍ], [ℍ], [ℍ], [ℍ], 1, 1`,
-  matching the algebras `ℝ`, `M₂(ℝ)`, `ℍ`, `M₂(ℍ)`, `M₂(ℍ)`, `M₄(ℍ)`, `M₈(ℝ)`, `M₁₆(ℝ)`; this checks
-  both correction exponents of Lam V.3.20.
+  matching the algebras `ℝ`, `M₂(ℝ)`, `ℍ`, `M₂(ℍ)`, `M₂(ℍ)`, `M₄(ℍ)`, `M₈(ℝ)`, `M₁₆(ℝ)`. Here `s = 1`
+  and `d = [1]`, so the factor `[(−1, d)]^{(n−1)(n−2)/2}` is `1` whatever its exponent, and the list
+  checks only the second correction exponent of Lam V.3.20: the values are `[(−1,−1)]^{C(n+1,4)}`
+  with `C(n+1,4) = 0, 0, 1, 5, 15, 35, 70, 126`.
+- The first correction exponent is checked by `⟨−1,−1,−1⟩` over `ℝ`. Its even Clifford algebra is
+  generated by `e₁e₃` and `e₂e₃`, which square to `−1` and anticommute, so `C₀ ≅ ℍ` and `c = [ℍ]`.
+  The formula has `s = [ℍ]³ = [ℍ]`, `d = [−1]` and both exponents equal to `1`, so it gives
+  `[ℍ] · [ℍ] · [ℍ] = [ℍ]`; with the first factor dropped it would give `1`.
 
 ### Dependencies
 
@@ -1356,10 +1378,15 @@ graded pieces and unramified class; TauCetiRoadmap.LocalFieldsRamification Layer
 
 The three symbol computations of O'Meara 63:11 to 63:13 follow.
 
-- **Evaluation against the unramified class.** For `Δ` as in 6A and every `b : Kˣ`,
-  `(Δ, b)_K = (−1)^{v_K(b)}`: `TauCeti.hilbertSymbol_unramified` (`QuadraticForm/UnramifiedClass.lean`).
-  It is 6A's norm-equation criterion read through the definition of the symbol, and it is the only
-  closed formula available at this generality.
+- **Evaluation against the unramified class** (O'Meara 63:11). There is a nonsquare unit `Δ`, of
+  valuation zero, such that `(Δ, b)_K = (−1)^{v_K(b)}` for every `b : Kˣ`: this roadmap's
+  `hilbertSymbol_unramified`. The content is the existence of `Δ`, which is 6A's
+  `TauCeti.exists_unramified_class`; for that `Δ` the evaluation is
+  `TauCeti.hilbertSymbol_unramified` (`QuadraticForm/UnramifiedClass.lean`), which is 6A's
+  norm-equation criterion read through the definition of the symbol. It is the only closed formula
+  available at this generality. Over `ℚ_2` the class is that of `5`: `(5, 2) = −1` while
+  `(5, −1) = (5, 5) = +1`. The nonsquare unit `−1` is not the class, since `(−1, −1)_{ℚ_2} = −1`
+  although `v(−1) = 0`; a formula asserted for every nonsquare unit would fail there.
 - **Multiplicativity, in the form in which it is proved: an index theorem.** For a nonsquare `a`,
   `(Kˣ : N(K(√a)ˣ)) = 2`, where `N(K(√a)ˣ)` is `TauCeti.quadraticNormSubgroup a`
   (`TauCeti/NumberTheory/HilbertSymbol/NormSubgroup.lean`), the values of `x² − a y²`:
@@ -2089,8 +2116,8 @@ local hypothesis, and none excludes the dyadic case.
   available to a consumer as one named theorem rather than as a chain to be assembled.
 
   *Needs:* the cup-norm theorem; Layer 2's splitting criterion; Layer 6C's symbol.
-- **The local identification with Class Field Theory's symbol.** Over a nonarchimedean local field
-  the cohomological local symbol `TauCeti.ClassFieldTheory.localSymbol` at the Kummer cup pairing
+- **The identification with Class Field Theory's local symbol.** Over every field in which `2` is
+  invertible the cohomological local symbol `TauCeti.ClassFieldTheory.localSymbol` at the Kummer cup pairing
   `TauCeti.ClassFieldTheory.kummerCupPairing` vanishes exactly when `(a) ∪ (b)` does
   (`TauCeti.localSymbol_eq_zero_iff_cup`), so the norm-equation symbol is the sign of the
   cohomological one (`TauCeti.hilbertSymbol_eq_cohomological`), both in
@@ -2600,6 +2627,33 @@ the relative-formula half. Mathlib's `Algebra.trace`, `Algebra.traceForm`,
 `TauCeti/GroupTheory/SpecificGroups/Dihedral/Basic.lean`, `TauCeti/RingTheory/Norm/Quadratic.lean`
 and `TauCeti/FieldTheory/Trace.lean`. TauCetiRoadmap.ProfiniteCohomology Layers 9, 10, 12 and 13
 for the specification of the transfer along `L/K` and the `D₁₆` pullback formula.
+
+## Downstream consumers
+
+The names that these roadmaps import from this namespace, and the three names that are Tau Ceti's,
+are listed under Scope and ownership. None of these roadmaps supplies an input to this one.
+
+- GlobalQuadraticForms: the carrier and the discriminants of Layers 0 and 3, Layer 0's
+  representation criterion, Layer 1's hyperbolic planes, Witt cancellation and Witt extension,
+  Layer 4's Witt ring, the Hilbert symbol, the local Hasse invariant and the evaluation against the
+  unramified class of 6B–6C, the realization theorem and the classification with its isotropy list
+  of 6D, and the cohomological comparison and product formula of 6C.
+- IntegralLattices: the square classes and the Witt, Brauer, Hasse and Clifford invariants of
+  Layers 0 and 3 to 5, the local classification of 6D, and Hilbert reciprocity through
+  `hilbertSymbol_productFormula` (its 3G and 6A).
+- OrthogonalSpinGroups: Layer 0's orthogonal bases and multiplicative square-class quotient,
+  Layer 1's reflections, Cartan–Dieudonné theorem and Witt extension, Layer 3's plain
+  discriminant, and `hilbertSymbol`, `localHasse`, `hasseInvariant_eq_localHasse` and the
+  classification over `ℚ_p` by `(dim, d, s)` of 6C to 6E.
+- ClassicalArithmeticCompletion: 6C's Hilbert symbol, with which its degree-two norm-residue symbol
+  is compared, and 6C's formula over `ℚ_2`, whose exponent is computed in `ZMod 2`.
+- SpinRepresentations: the reflection and Cartan–Dieudonné suppliers recorded in Layer 1.
+- SchemeAndStackFoundations: the identification of the Brauer group of a field with `H²` of
+  Layer 7B.
+- QuadraticFormInvariantsPartII, which continues this roadmap past its exclusions: Layers 1, 4
+  and 7B.
+- GeometryOfNumbersAndQuadraticArithmeticPartII: the Witt theory of Layer 4, the local
+  classification and the Hilbert symbol of Layer 6, and the transfer of Layer 9.
 
 ## References
 

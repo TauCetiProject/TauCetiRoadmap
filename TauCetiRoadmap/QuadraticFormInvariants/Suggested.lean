@@ -45,10 +45,6 @@ nothing that Tau Ceti already has. It contains two kinds of declaration.
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
 
-/-- The tensor-product group law on the Brauer group, `TauCeti.BrauerGroup.instCommGroup`. -/
-noncomputable local instance qfiNativeBrauerCommGroup (F : Type*) [Field F] :
-    CommGroup (BrauerGroup F) := TauCeti.BrauerGroup.instCommGroup
-
 open QuadraticMap
 open scoped Quaternion
 
@@ -67,7 +63,9 @@ section Discriminant
 variable {K : Type u} [Field K]
 
 /-- **The discriminant in `Kˣ ⧸ (Kˣ)²`**: Tau Ceti's additive `TauCeti.RegularFormClass.discr`, read
-through Tau Ceti's `TauCeti.multiplicativeSquareClassEquiv`. -/
+through Tau Ceti's `TauCeti.multiplicativeSquareClassEquiv`. On the class of `⟨w 0, …, w (n-1)⟩` it
+is the class of `∏ i, w i`, by `TauCeti.RegularFormClass.discr_mk` and
+`TauCeti.multiplicativeSquareClassEquiv_mk`. -/
 noncomputable def discr [Invertible (2 : K)] (x : RegularFormClass K) :
     Kˣ ⧸ Subgroup.square Kˣ :=
   TauCeti.multiplicativeSquareClassEquiv.symm
@@ -100,7 +98,9 @@ noncomputable abbrev hilbertSymbol (a b : Kˣ) : ℤˣ :=
 
 /-- **The local Hasse invariant of a diagonal tuple**, `∏_{i<j} (aᵢ, aⱼ)`, with the empty product
 in ranks `0` and `1`. On the class of the tuple it is Tau Ceti's
-`TauCeti.RegularFormClass.localHasse`. -/
+`TauCeti.RegularFormClass.localHasse` (`TauCeti.RegularFormClass.localHasse_mk`), so over a
+nonarchimedean local field with `2` invertible isometric tuples have the same value, by
+`TauCeti.RegularFormClass.localHasse_congr`. -/
 noncomputable def localHasse {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
   ∏ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     hilbertSymbol (w ij.1) (w ij.2)
@@ -128,14 +128,16 @@ theorem hilbertSymbol_comm [Invertible (2 : K)] (a b : Kˣ) :
 
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
-/-- **Evaluation against the unramified class**, Tau Ceti's `TauCeti.hilbertSymbol_unramified`:
-if the norms from `K(√Δ)` are exactly the elements of even valuation, then
-`(Δ, b)_K = (−1)^(v_K(b))`. -/
-theorem hilbertSymbol_unramified (Δ : Kˣ)
-    (hΔ : ∀ b : Kˣ, (∃ x y : K, (b : K) = x ^ 2 - Δ * y ^ 2) ↔
-      Even (TauCeti.normalizedValuation K b).toAdd) (b : Kˣ) :
-    hilbertSymbol Δ b = if Even (TauCeti.normalizedValuation K b).toAdd then 1 else -1 :=
-  TauCeti.hilbertSymbol_unramified hΔ b
+/-- **Evaluation against the unramified class** (O'Meara 63:11): over a nonarchimedean local
+field in which `2` is invertible there is a nonsquare unit `Δ` of valuation zero such that
+`(Δ, b)_K = (−1)^(v_K(b))` for every `b ∈ Kˣ`. The existence of `Δ` is Tau Ceti's
+`TauCeti.exists_unramified_class`, and the evaluation is `TauCeti.hilbertSymbol_unramified`. -/
+theorem hilbertSymbol_unramified [Invertible (2 : K)] :
+    ∃ Δ : Kˣ, ¬ IsSquare Δ ∧ (TauCeti.normalizedValuation K Δ).toAdd = 0 ∧
+      ∀ b : Kˣ, hilbertSymbol Δ b =
+        if Even (TauCeti.normalizedValuation K b).toAdd then 1 else -1 := by
+  obtain ⟨Δ, hsq, hv, -, hΔ⟩ := TauCeti.exists_unramified_class (K := K) (Invertible.ne_zero 2)
+  exact ⟨Δ, hsq, hv, TauCeti.hilbertSymbol_unramified hΔ⟩
 
 variable [Invertible (2 : K)]
 
