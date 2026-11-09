@@ -198,9 +198,9 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   here. From `T = 8008.3` on it follows from statements here: up to `30 610 046 000` from the
   recorded bound for `S(T)` (0.4) with the expansion of `ϑ` in 2.9, which give
   `|N(T) − M(T)| ≤ 2.5167 + 1/(40T)`, at most `0.28 log T` once `log T ≥ 8.98823`; and from
-  `T = e^{20.455} = 7.65·10⁸` on from Rosser's bound (5.2): with `L = log T`,
+  `T = e^{20.456} = 7.65·10⁸` on from Rosser's bound (5.2): with `L = log T`,
   `0.137 L + 0.443 log L + 1.588 ≤ 0.28 L` exactly when `0.143 L − 0.443 log L ≥ 1.588`, whose
-  left side increases for `L > 3.1` and reaches `1.588` at `L = 20.455` (at `T = 30 610 046 000`
+  left side increases for `L > 3.1` and reaches `1.588` at `L = 20.45508` (at `T = 30 610 046 000`
   Rosser's bound is `6.306`, against `0.28 log T = 6.760`). On `[2π, 8008]` it is sharper than the
   recorded bound and rests on a computation with the zeros there, which `ExplicitPrimeCounting`
   carries as a hypothesis of the theorems that use it. Its second branch
@@ -1564,7 +1564,7 @@ is the complex conjugate). Route: split `(X, X + Y]` where `‖f'‖ ≥ δ` (4.
 - `λ → 0⁺` makes every bound infinite, as it must: the linear phase `f(x) = kx`, `k ∈ ℤ`, has
   `f'' = 0` and sum `Y`.
 - Ignoring the additive `1`, Lemma 4's factor `1 + 4/√(πλ)` is below Lemma 5's `A/√λ` exactly when
-  `√λ < A − 4/√π = 0.5369`, that is `λ < 0.2883`; neither form dominates the other.
+  `√λ < A − 4/√π = 0.53692…`, that is `λ < (A − 4/√π)² = 0.28828…`; neither form dominates the other.
 - Patel's two forms at `L = 10`, `V = 2`, `W = 3`: `32.907` and `41.362`, the second exceeding the
   first by `8.454 > L/V + 1 = 6`; Cheng and Graham's original constant, smaller by a factor about
   `√2` in the leading term (`patel2022` Remark 2.4), is not asserted.
@@ -1863,7 +1863,7 @@ Prove:
   (0.4b).
 - Lehman's bound on the whole range `t ≥ 0.2`, given `HiaryRecord`:
   `|ζ(1/2 + it)| ≤ 4(t/2π)^{1/4}`, from the first clause on `[0.2, 3]` (where
-  `4(t/2π)^{1/4} ≥ 1.6896 > 1.461`), the second on `[3, 200]` (where
+  `4(t/2π)^{1/4} ≥ 1.6895 > 1.461`), the second on `[3, 200]` (where
   `0.595 t^{1/6} log t ≤ 4(t/2π)^{1/4}`, with margin at least `1.877`) and 4.6 above `200`.
 - (Patel and Yang, Theorem 1.1, `patelyang2024` lines 49–50) `|ζ(1/2 + it)| ≤ 66.7 t^{27/164}` for
   `t ≥ 3`. Route: 4.6, 4.2, 4.5 (the B-process) and 4.4, organized as their §3, with the
@@ -1899,11 +1899,11 @@ Prove:
 - At `t = 3`: `0.618 · 3^{1/6} log 3 = 0.8154`, and the record's `0.595 · 3^{1/6} log 3 = 0.7850`;
   at `t = 200` the record gives `7.624` and Lehman's bound `4(200/2π)^{1/4} = 9.501`. A record
   reaching only `t = 3` would leave `[3, 200)`, where 4.6 does not apply, without a bound.
-- The Patel–Yang bound is the weaker of the two below `t = e^{89.90}` and the stronger above: at
-  `t = 3` it is `79.92`.
+- The Patel–Yang bound is the weaker of the two for `log t < 89.9038` and the stronger for
+  `log t > 89.9039` (they cross at `log t = 89.90382`): at `t = 3` it is `79.92`.
 - For `q = 64 = 2⁶`, `t = 200` the hybrid bound is `8911`, against `31.66` from Thorner–Zaman; the
-  hybrid bound wins only when `log(q|t|) > 123.4` (for `τ(q) = 7`), as a Weyl-type bound in the
-  conductor should.
+  hybrid bound wins only when `log(q|t|) > 123.36` (for `τ(q) = 7`; the two cross at `123.368`), as
+  a Weyl-type bound in the conductor should.
 
 ### 4.8 Bounds on the line one
 
@@ -1978,7 +1978,8 @@ Mathlib `Complex.log` (the factor `G`).
   5.2 first uses it comes from the interpolation route, hence from the three records.
 - The factor `G` is needed (negative control): with `|log(1.31 + s)|` in its place, which is what
   3.1 gives for the factor `log(1.31 + s)`, the ratio of the target to the interpolated bound at
-  `k = 4` is `0.998722` at `t = T_4` and below `1` on `29.79 < log t ≤ log T_4`, and at `k = 5`
+  `k = 4` is `0.998722` at `t = T_4` and below `1` on `29.7903 ≤ log t ≤ log T_4` (it crosses `1` at
+  `log t = 29.79028`), and at `k = 5`
   it is `0.971` at `t = 3`. With `G` the two ratios are `1.000104` and `1.177`; Yang's form with
   `log|1.31 + s|` gives the same `1.000104` at `T_4`, its margin being the `1.0001` of
   `A(e^{8.7})` built into the constant `2.6134 < 6 log(1.546/1.0001)` of `T_k`.
@@ -2058,10 +2059,11 @@ lines 173–182 and 357–386) and moves the critical value of `λ` from `87` to
   second clause takes `ρ = 3.21432`; the factor `3/8` replaces the `1/2` of Wooley's earlier exponent
   (lines 214–217).
 - The bound for `S(N, t)` beats the trivial `S(N, t) ≤ N` only when `N^{1/(133.66 λ²)} > 9.463`, that
-  is `log N > 300.39 λ²` (for Bellotti's pair, `log N > 289.09 λ²`), and Ford's proof uses the
-  trivial bound below `e^{300 λ²}` (lines 2292–2295); Bellotti's pair `(8.7979, 132.94357)` is
-  smaller than Ford's `(9.463, 133.66)` in both entries. The shift `u ∈ (0, 1]` is what lets one bound
-  serve every Hurwitz zeta function in 4.10; at `u = 1` the sum is `Σ_{N+1<m≤R+1} m^{−it}`.
+  is `log N > 133.66 log(9.463) λ² = 300.386… λ²` (for Bellotti's pair, `log N > 289.087… λ²`),
+  and Ford's proof uses the trivial bound below `e^{300 λ²}` (lines 2292–2295); Bellotti's pair
+  `(8.7979, 132.94357)` is smaller than Ford's `(9.463, 133.66)` in both entries. The shift
+  `u ∈ (0, 1]` is what lets one bound serve every Hurwitz zeta function in 4.10; at `u = 1` the sum
+  is `Σ_{N+1<m≤R+1} m^{−it}`.
 - `N = 1` is outside the statement (`λ = log t/log 1` is undefined) but trivial: the sum has the
   single term `(2 + u)^{−it}`, so `S(1, t) = 1`, below both constants; with `1/λ²` read as `0` the
   bound therefore holds for every `1 ≤ N ≤ t`, the range that Ford's Lemma 7.3 assumes in 4.10.
@@ -2144,7 +2146,7 @@ Prove, with `N(T)` as in the Conventions:
 - (Bellotti and Wong, Theorem 1.1, `bellottiwong2025` lines 31–38) given `HiaryRecord`,
   `PatelRecord` and `YangRecord` (0.4b), for `T ≥ 30 610 046 000`,
   `|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` and
-  `≤ 0.11200 log T + 0.12567 log log T + 3.77417`, the first being the smaller for `T ≥ e^{447.981}`
+  `≤ 0.11200 log T + 0.12567 log log T + 3.77417`, the first being the smaller for `T ≥ e^{447.982}`
   (`abs_zetaZeroCount_sub_le`); given also the record `ZetaArgumentBoundUpTo 30610046000 2.5167`
   (0.4), that is `|N(T) − ϑ(T)/π − 1| ≤ 2.5167` for `0 ≤ T ≤ 30 610 046 000`, the same two bounds for
   every `T ≥ e`, which is their Theorem 1.1 as stated (`abs_zetaZeroCount_sub_le_of_recorded`); and the
@@ -2245,15 +2247,18 @@ Rosser's bound below `1467`; `ZetaArgumentBoundUpTo 6800000 2`, for Rosser's bou
 - Rosser's bound below `1467` needs the record with constant `2` (negative control): at `T = 14.2`
   its right side is `2.3838`, while the record `ZetaArgumentBoundUpTo 30610046000 2.5167` allows
   `|N(T) − M(T)|` up to `2.5167 + 1/568 = 2.5185`, so that record does not give the bound on
-  `[14, 22.5]`, where the right side stays below `2.5185`. The true value at `T = 14.2`, where
+  `[14, 22.5]`, where the right side stays below that allowance `2.5167 + 1/(40T)` (at `T = 22.5`,
+  `2.51769` against `2.51781`; the two meet at `T = 22.5097`). The true value at `T = 14.2`, where
   `N = 1`, is `|1 − M(14.2)| = 0.5423`.
-- The two Bellotti–Wong bounds cross at `T = e^{447.981}`; below it the second, with constant
-  `3.77417`, is the smaller.
+- The two Bellotti–Wong bounds cross at `log T = 447.98114`; below it the second, with constant
+  `3.77417`, is the smaller (`bellottiwong2025` line 38 prints the threshold as `exp(447.981)`,
+  below the crossing).
 - Chirre and Helfgott's form at `t = 14`: the right side is `2.5278`, against `2.5167 + 1/560 =
   2.5185` from the recorded bound. Neither input suffices alone (negative control): below
-  `t = 13.368` the recorded bound does not give the form, which is why `ZetaZeroFreeUpTo 14` is a
-  hypothesis, and Rosser's bound does not give it for `300.4 < t < 5165.6` (at `L = 7.032` the
-  difference above is `−0.0090`), which is why the recorded bound is.
+  `t = 13.3678` the recorded bound does not give the form (the two sides meet at `t = 13.36783`),
+  which is why `ZetaZeroFreeUpTo 14` is a hypothesis, and Rosser's bound does not give it for
+  `300.4 < t < 5165.6` (at `L = 7.032` the difference above is `−0.0090`), which is why the
+  recorded bound is.
 - Trudgian's form with `7/8` and without the term `0.2/T` is stronger than his Corollary 1 as
   printed; at `T = e` its right side is `2.622`, against at most `2.5167 + 0.0092 = 2.5259` from
   the recorded bound. The arXiv text read here prints `0.111`, `0.275` and `2.450` in his Theorem 1
@@ -2310,7 +2315,7 @@ constants is the smaller, and from `|N(T) − (T/2π) log(T/(2πe))| ≤ 3.4009`
 The triples of `hasanalizadeshenwong2022` Corollary 1.4 bound `|S(T)|`, not the count; their first,
 `(0.1038, 0.2573, 8.3675)`, holds for the count with `7/8` by the fourth item. Their second,
 `(0.1095, 0.2042, 3.0305)`, is not asserted for the count: Rosser's bound implies it only for
-`log T ≤ 24.63` and the first Bellotti–Wong bound only for `log T ≥ 708.6`, while the second
+`log T ≤ 24.632` and the first Bellotti–Wong bound only for `log T ≥ 708.59`, while the second
 Bellotti–Wong bound with `7/8` added exceeds it at every height.
 
 *Needs:* 5.2; 2.9 (the mean `7/8`); 0.4 (`ZetaArgumentBoundUpTo 30610046000 2.5167`, for the fourth
@@ -2800,11 +2805,11 @@ Let `J(t) = min((1/4) log t + 1.8521, (1/6) log t + log log t + log 3)` and
 `c₆(t) = 0.05635 (J(4t + 1) − J(t) + 0.155 (log log(4t + 1) − log log t))/(J(t) + 0.155 log log t + 0.675)`.
 Given `RH(545 439 823)` (0.4), prove: for `t ≥ 5.45·10⁸`, `ζ(σ + it) ≠ 0` for
 `1 − σ ≤ (0.04962 − c₆(t))/(J(t) + 0.155 log log t + 0.675)` (Ford, Theorem 3, `ford2002zerofree`
-lines 96–103, with `c₆` as in his (9.9), lines 1342–1346); for `t ≥ 1.88·10¹⁴`, where the second
-branch is the minimum in `J`, the narrower region
-`σ ≥ 1 − (0.04962 − 0.0196/(J(t) + 1.15))/(J(t) + 0.685 + 0.155 log log t)` with
-`J(t) = (1/6) log t + log log t + log 3` (the form recorded in `mty2024` lines 107–112), which the
-first implies since there `c₆(t) < 0.0196/(J(t) + 1.15)` and `0.675 < 0.685`; and for `|t| ≥ 3`,
+lines 96–103, with `c₆` as in his (9.9), lines 1342–1346); for `t ≥ 1.88·10¹⁴` the narrower region
+`σ ≥ 1 − (0.04962 − 0.0196/(J₂(t) + 1.15))/(J₂(t) + 0.685 + 0.155 log log t)` with
+`J₂(t) = (1/6) log t + log log t + log 3`, the second branch of `J` (the form recorded in `mty2024`
+lines 107–112), which the first implies since there `J(t) ≤ J₂(t)`,
+`c₆(t) < 0.0196/(J₂(t) + 1.15)` and `0.675 < 0.685`; and for `|t| ≥ 3`,
 `ζ(σ + it) ≠ 0` for `σ ≥ 1 − 1/(8.464 log|t|)` (Theorem 4, lines 104–106: the bound of Theorem 3
 times `log t` increases in `t`, from `0.118151` at `t = 5.45·10⁸`, which exceeds
 `1/8.464 = 0.118147`, towards `6 · 0.04962 = 0.29772` (line 104 states the opposite direction,
@@ -2840,7 +2845,10 @@ hold without a record of 0.4b.
 - The reading of `c₆` and the passage to Theorem 4: at `t = 5.45·10⁸` (`log t = 20.11630`, where the
   first branch `6.88117` is the minimum in `J`), the exact region with `log 3` times `log t` is
   `0.118151`, just above `1/8.464 = 0.118147`. With `log 3` the two branches of `J` cross at
-  `log t = 32.87`, that is `t = 1.88·10¹⁴`, the threshold of the form of `mty2024`.
+  `log t = 32.86822`, that is `t = 1.88143·10¹⁴`, just above the threshold `1.88·10¹⁴` of the form
+  of `mty2024`; between the two the minimum in `J` is the first branch, below `J₂` by at most
+  `4.03·10⁻⁵`, which is why the implication uses `J ≤ J₂` (at `t = 1.88·10¹⁴`,
+  `c₆ = 0.0013921 < 0.0196/(J₂ + 1.15) = 0.0017470`, and the widths are `0.0042735` and `0.0042383`).
 - The exact against the simplified form, with `log 0.618`: at `t = 10¹⁰`, `J = 6.49299` and
   `c₆ = 0.0021981 < 0.0196/(J + 1.15) = 0.0025645`, and the regions have `1 − σ ≤ 0.0061956` and
   `≤ 0.0061397`; at `t = e^{170.2}` they are `0.0014271` and `0.0014215`.
@@ -2925,7 +2933,7 @@ with `|γ| ≥ 21` and `β ≥ 1 − 1/(9.645908801 log(|γ|/17))`: for `21 ≤ 
 lies to the right of `1/2`, because `log(21/17) = 0.21130 > 2/9.645908801 = 0.20734`; and for
 `|γ| > 3·10¹²` it lies inside the `5.558691` region, because
 `9.645908801 log(|γ|/17) ≥ 5.558691 log|γ|` as soon as
-`log|γ| ≥ 9.645908801 log 17/4.087218 = 6.6864`.
+`log|γ| ≥ 9.645908801 log 17/4.087217801 = 6.686435…`.
 
 Given `RH(545 439 823)`, the starting region `R = 9.645908801` follows from 7.2 for
 `|γ| ≥ 3` (Theorem 4 has `8.464 < 9.645908801`) and from the hypothesis itself for `2 ≤ |γ| < 3`,
@@ -3068,7 +3076,7 @@ this is `riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ 
   `1 − log L/(21.233 L) ≥ 1 − 1/(21.233 e) = 0.98267` lies right of `1/2`;
 - for `30 610 046 000 < t < e^{41}` the region of 7.3 at `R₀ = 5.573412`, in the form with `>`,
   given the verification up to `3.06·10¹⁰` that the first hypothesis implies and the second
-  hypothesis: it contains this one while `log L ≤ 21.233/5.573412 = 3.80970`, that is `L ≤ 45.137`;
+  hypothesis: it contains this one while `log L ≤ 21.233/5.573412 = 3.809695…`, that is `L ≤ 45.1366…`;
 - for `e^{41} ≤ t < e^{170.2}` Ford's region 7.2 in its exact form with `log 0.618`, which contains
   this one for `40.898 ≤ L ≤ 185.64`;
 - for `t ≥ e^{170.2}` Yang's argument (`yang2024` lines 2326–2372): the bounds 4.9 and 4.10;
@@ -3086,11 +3094,12 @@ this is `riemannZeta_ne_zero_littlewood`. Route, for `t ≥ 3` (the case `t ≤ 
   `e^{170.2} − 1 ≤ t' < e^{170.2}` (lines 2366–2370).
 
 Yang takes the verification only up to `5.45·10⁸` and the simplified region of 7.2 from there
-(lines 2328–2333). That region contains this one only for `50.13 ≤ L ≤ 170.26`, Ford's exact region
-only for `40.898 ≤ L ≤ 185.64`, and Theorem 4's region `σ ≥ 1 − 1/(8.464 log t)` nowhere on
-`20.12 ≤ L ≤ 171`; with the regions stated here, the least recorded verification of 0.4 that covers
-`20.12 ≤ L < 40.898` is `RH(30 610 046 000)`, through the `5.573412` region of 7.3 that it gives
-with `BrentPlattTrudgianRecord`.
+(lines 2328–2333). On `L ≥ 20.12` that region contains this one exactly for
+`50.1324… ≤ L ≤ 170.2635…`, Ford's exact region exactly for `40.8978… ≤ L ≤ 185.6440…`, and
+Theorem 4's region `σ ≥ 1 − 1/(8.464 log t)` nowhere on `20.12 ≤ L ≤ 171`; with the regions
+stated here, the least recorded verification of 0.4 that covers `20.12 ≤ L < 40.898` is
+`RH(30 610 046 000)`, through the `5.573412` region of 7.3 that it gives with
+`BrentPlattTrudgianRecord`.
 
 *Needs:* 0.4, 0.4b (`BrentPlattTrudgianRecord`, `HiaryRecord`, `PatelRecord`, `YangRecord`), 0.5,
 3.1, 4.7, 4.9, 4.10, 7.1, 7.2, 7.3 (its `5.573412` instance); the polynomial of `mty2024`.
@@ -3114,7 +3123,7 @@ with `BrentPlattTrudgianRecord`.
 - Yang's step at `t₀ = e^{170.2}` needs `1 − β' ≥ M₁ log log t'/log t'` for the zeros with
   `t₀ − 1 ≤ t' < t₀`, with `M₁ = 0.0470978` (lines 2338 and 2366–2370), that is `0.0014215052`: the
   exact region of 7.2 gives `0.0014271`, while the simplified one gives `0.0014214873`, which would
-  serve only with `M₁ ≤ 0.0470972`, still above `1/21.233 = 0.0470965`.
+  serve only with `M₁ ≤ 0.04709721`, still above `1/21.233 = 0.0470965`.
 
 ### 7.5 Regions for Dirichlet L-functions
 
@@ -3421,8 +3430,9 @@ optimised bound for `ζ'/ζ` (`leeLeong2022` lines 249–257).
   The shape `log t/log log t` is that of Weyl's method; for very large `t` it is weaker than the
   order `(log t)^{2/3}(log log t)^{1/3}` that the Vinogradov–Korobov region gives, and the
   constant `431.7` is what makes it the useful bound at moderate heights.
-- The first item implies the bound `30.812 log t` only once `log log t ≥ 431.7/30.812 = 14.011`, and
-  is below `29.388 log t` only once `log log t > 14.690`, that is `log t > 2.397·10⁶`; and it says
+- The first item implies the bound `30.812 log t` only once `log log t ≥ 431.7/30.812 = 14.0107…`,
+  and is below `29.388 log t` only once `log log t > 431.7/29.388 = 14.6896…`, that is
+  `log t > 2.3968·10⁶`; and it says
   nothing for `σ > 1`.
 - For `σ > 1`, `1/|ζ(σ + it)| ≤ Σ |μ(n)| n^{−σ} = ζ(σ)/ζ(2σ)`, which tends to `1` as `σ → ∞` and to
   `∞` as `σ → 1⁺`: the half-plane bound of the second item matters near the line one.
@@ -3752,7 +3762,7 @@ Eddin, Theorem 1, `saadeddin2016` lines 29–31): if `χ` is even and `χ(2) = 1
   `L(1, χ₁₇) = 2 log(4 + √17)/√17 = 1.016085 ≤ (1/2) log 17 − 0.02012 = 1.396487`.
 - Saad Eddin's hypothesis `χ(2) = 1` is the source's, and the case that 9.1 does not settle:
   when `2 ∣ q`, so that `χ(2) = 0`, 9.1's even bound `(1/4) log q + (1/2) log 2` is at most
-  `(1/2) log q − 0.02012` as soon as `log q ≥ 1.46677`, which every even primitive character with
+  `(1/2) log q − 0.02012` as soon as `log q ≥ 1.46678`, which every even primitive character with
   `2 ∣ q` satisfies (`q ≥ 8`; at `q = 8`, `0.866434 ≤ 1.019601`). For `χ(2) ∉ {0, 1}` nothing here
   decides whether the bound holds, and it is not asserted.
 
