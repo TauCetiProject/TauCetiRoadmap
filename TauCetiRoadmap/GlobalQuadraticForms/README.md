@@ -99,11 +99,13 @@ on quadratic forms.
 | 4.3, 5.1 | `finiteLocalNormMap`, `infiniteLocalNormMap`, `IsFiniteLocalNorm`, `IsInfiniteLocalNorm`, `isGlobalNorm_iff_isLocalNormEverywhere` | For a finite cyclic extension `L/K` and `a : Kˣ`, the final theorem states that `a` lies in the global norm group exactly when it is in the norm range of `K_v ⊗_K L` at every finite completion and of `K_w ⊗_K L` at every archimedean completion. The quadratic-extension instance is the ternary Hasse–Minkowski input. |
 | 3.3, 4.4 | `hilbertProductFormula` (Hilbert reciprocity) | The product over all places of the cohomological Kummer-cup Hilbert pairing is `1`, with the arithmetic invariant-map normalization. |
 | 4.2, 4.4 | `card_ideleClassNormQuotient` (Layer 12) | The norm-index theorem `[C_K : N_{L/K} C_L] = [L:K]` for a finite abelian extension. Applied to a quadratic `L = K(√d)` this is the single global input of both 4.2 and 4.4. |
-| 4.2, 4.4 | `principalIdele`, `ideleNormMap`, `ideleClassNorm` | The principal-idele map `Kˣ →* I_K`, the idele norm map of a finite extension, and the induced norm on idele classes, whose range is the image of the range of `ideleNormMap`. |
-| 4.2, 4.4 | `mem_range_ideleNormMap_iff` | The placewise description of `ideleNormMap` for an **arbitrary** idele, both directions, stated against Global Number Fields' coordinate projections `ideleFiniteCoord`/`ideleInfiniteCoord`; the principal case is `principalIdele_mem_range_ideleNormMap_iff`. 4.2 and 4.4 apply it to non-principal ideles in `N(I_E)`. |
+| 4.2, 4.4 | Mathlib's `IdeleGroup.unitEmbedding`; Tau Ceti's `GlobalNumberFields.ideleNormMap`, `GlobalNumberFields.ideleClassNormMap` | The principal-idele map `Kˣ →* I_K`, the idele norm map of a finite extension, and the induced norm on idele classes, whose range is the image of the range of `ideleNormMap`. |
+| 4.2, 4.4 | Tau Ceti's `GlobalNumberFields.mem_range_ideleNormMap_iff` | The placewise description of `ideleNormMap` for an **arbitrary** idele, both directions, stated against the coordinate projections `ideleFiniteCoord`/`ideleInfiniteCoord`; the principal case is `unitEmbedding_mem_range_ideleNormMap_iff`. 4.2 and 4.4 apply it to non-principal ideles in `N(I_E)`. |
 
 The public names `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`,
-`hilbertProductFormula` and `card_ideleClassNormQuotient` are part of this consumer contract.
+`hilbertProductFormula` and `card_ideleClassNormQuotient` are part of this consumer contract. They
+are Tau Ceti's, in `TauCeti.ClassFieldTheory`, and Class Field Theory consumes them under those
+names (its §3, Layers 12–14).
 `hilbertProductFormula` is cohomological. The equality between that pairing and the
 norm-equation/quaternion symbol is supplied by Quadratic Form Invariants below, so the dependency
 direction remains
@@ -424,9 +426,9 @@ no idele is required to be trivial on `S`. The identity `I_K = Kˣ · I_K^S` is 
 
 *Source:* O'Meara 65:15, with 65:21 for the index.
 
-*Prerequisites:* L 4.1, L 4.5; R Class Field Theory `card_ideleClassNormQuotient`,
-`principalIdele`, `ideleNormMap`, `ideleClassNorm`, and `mem_range_ideleNormMap_iff`;
-R Global Number Fields `IdeleGroup`, `IdeleClassGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord`. The theorem belongs here
+*Prerequisites:* L 4.1, L 4.5; R Class Field Theory `card_ideleClassNormQuotient`;
+M `IdeleGroup.unitEmbedding`; T `GlobalNumberFields.ideleNormMap`, `ideleClassNormMap` and
+`mem_range_ideleNormMap_iff`; R Global Number Fields `IdeleGroup`, `IdeleClassGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord`. The theorem belongs here
 because it is an internal quadratic-form bridge, not a second class-field carrier.
 
 #### 4.3 The quadratic Hasse norm adapter
@@ -515,9 +517,9 @@ kernel computed in step 4.
 
 *Source:* O'Meara 71:19 and 71:19a, with 65:21 for the index.
 
-*Prerequisites:* L 4.1, L 4.5; R Class Field Theory `hilbertProductFormula`,
-`card_ideleClassNormQuotient`, `principalIdele`, `ideleNormMap`, `ideleClassNorm`, and
-`mem_range_ideleNormMap_iff`; R Quadratic Form Invariants `hilbertSymbol`,
+*Prerequisites:* L 4.1, L 4.5; R Class Field Theory `hilbertProductFormula` and
+`card_ideleClassNormQuotient`; M `IdeleGroup.unitEmbedding`; T `GlobalNumberFields.ideleNormMap`,
+`ideleClassNormMap` and `mem_range_ideleNormMap_iff`; R Quadratic Form Invariants `hilbertSymbol`,
 `hilbertSymbol_mul`, `hilbertSymbol_comm`, `hilbertSymbol_neg_self`, `hilbertSymbol_unramified`,
 `exists_hilbertSymbol_eq_neg_one`, `hilbertSymbol_eq_cohomological`,
 `hilbertSymbol_productFormula`; R Global Number Fields `IdeleGroup`, `IdeleClassGroup`.

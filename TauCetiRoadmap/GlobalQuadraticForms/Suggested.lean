@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.NumberTheory.ClassFieldTheory.Global.HasseNorm.Basic
+import TauCeti.NumberTheory.ClassFieldTheory.Global.Hilbert.Reciprocity
 import Completed.GlobalNumberFields.Suggested
 import Completed.NumberFieldArithmetic.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
@@ -26,8 +28,12 @@ This consumer uses five frozen supplier names:
 * `ClassFieldTheory.card_ideleClassNormQuotient`, the idele-class norm index, which is the single
   global input of the global square theorem and of Hilbert sign prescription.
 
-The supplier roadmaps own the declarations and this file consumes them. The local quadratic-form
-side is `QuadraticFormInvariants.localHasse`, `exists_of_realization`, and the exact Layer 6D
+The supplier roadmaps own the declarations and this file consumes them. The four class-field names
+are Tau Ceti's (`TauCeti.ClassFieldTheory`), which Class Field Theory consumes under those names
+(its §3, Layers 12–14). The local-norm predicates and the idele norm maps are Tau Ceti's
+(`TauCeti.GlobalNumberFields`), and the principal ideles are Mathlib's
+`NumberField.IdeleGroup.unitEmbedding`. The local quadratic-form side is
+`QuadraticFormInvariants.localHasse`, `exists_of_realization`, and the exact Layer 6D
 classification contract recorded in `README.md`.
 
 Statements use `sorry`, which is allowed in this human-owned roadmap library. There is no
@@ -52,14 +58,14 @@ on the same branch. -/
 #check TauCetiRoadmap.GlobalNumberFields.IdeleClassGroup
 #check TauCetiRoadmap.NumberFieldArithmetic.isNonarchimedeanLocalField_adicCompletion
 #check TauCetiRoadmap.NumberFieldArithmetic.completionAlgHom
-#check TauCetiRoadmap.ClassFieldTheory.cyclicHasseNorm
-#check TauCetiRoadmap.ClassFieldTheory.IsFiniteLocalNorm
-#check TauCetiRoadmap.ClassFieldTheory.IsInfiniteLocalNorm
-#check TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere
-#check TauCetiRoadmap.ClassFieldTheory.hilbertProductFormula
-#check TauCetiRoadmap.ClassFieldTheory.principalIdele
-#check TauCetiRoadmap.ClassFieldTheory.ideleNormMap
-#check TauCetiRoadmap.ClassFieldTheory.ideleClassNorm
+#check TauCeti.ClassFieldTheory.cyclicHasseNorm
+#check TauCeti.GlobalNumberFields.IsFiniteLocalNorm
+#check TauCeti.GlobalNumberFields.IsInfiniteLocalNorm
+#check TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere
+#check TauCeti.ClassFieldTheory.hilbertProductFormula
+#check NumberField.IdeleGroup.unitEmbedding
+#check TauCeti.GlobalNumberFields.ideleNormMap
+#check TauCeti.GlobalNumberFields.ideleClassNormMap
 #check TauCetiRoadmap.QuadraticFormInvariants.hilbertSymbol
 #check TauCetiRoadmap.QuadraticFormInvariants.hilbertSymbol_neg_self
 #check TauCetiRoadmap.QuadraticFormInvariants.hilbertSymbol_mul
@@ -68,14 +74,14 @@ on the same branch. -/
 -- The global input of Layers 4.2 and 4.4, cited by name: for a finite abelian extension the
 -- idele-class norm subgroup has index `[L:K]`. Neither Hilbert reciprocity nor the global
 -- existence theorem replaces it.
-#check @TauCetiRoadmap.ClassFieldTheory.card_ideleClassNormQuotient
+#check @TauCeti.ClassFieldTheory.card_ideleClassNormQuotient
 
 example {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L]
     [Algebra K L] [Module.Finite K L] [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)]
     (x : Kˣ) :
     (∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x) ↔
-      TauCetiRoadmap.ClassFieldTheory.IsLocalNormEverywhere K L x :=
-  TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x
+      TauCeti.GlobalNumberFields.IsLocalNormEverywhere K L x :=
+  TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x
 
 /-- Closed consumer check for the completion-level Hasse norm contract. In particular this starts
 from one norm hypothesis at every finite and infinite completion, not from an idelic range
@@ -84,12 +90,12 @@ example {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L]
     [Algebra K L] [Module.Finite K L] [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)]
     (x : Kˣ)
     (hfinite : ∀ v : HeightOneSpectrum (𝓞 K),
-      TauCetiRoadmap.ClassFieldTheory.IsFiniteLocalNorm K L v x)
+      TauCeti.GlobalNumberFields.IsFiniteLocalNorm K L v x)
     (hinfinite : ∀ w : InfinitePlace K,
-      TauCetiRoadmap.ClassFieldTheory.IsInfiniteLocalNorm K L w x) :
+      TauCeti.GlobalNumberFields.IsInfiniteLocalNorm K L w x) :
     ∃ y : Lˣ, Units.map (Algebra.norm K : L →* K) y = x := by
   apply
-    (TauCetiRoadmap.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x).2
+    (TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere K L x).2
   exact ⟨hfinite, hinfinite⟩
 
 /-! ## Layer 0: canonical localization -/

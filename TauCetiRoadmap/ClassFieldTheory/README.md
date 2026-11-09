@@ -84,10 +84,11 @@ are the theorems stated in `Suggested.lean`.
    with its arithmetic-Frobenius normalization; `cd_ℓ G_K = scd_ℓ G_K = 2` in characteristic zero;
    the absolute local Artin map into the topological abelianization of `G_K`, with its
    restriction, unramified, norm and cyclotomic normalizations; and the local conductors
-   (Layers 6 and 7): Tau Ceti's. **Open targets** (Layer 7), in every characteristic: the
-   upper-numbering theorem identifying the image of `U(K,n)` under reciprocity with that of
-   `G(L/K)^n`, the local conductor–discriminant formula, and the conductor as the largest
-   character conductor.
+   (Layers 6 and 7): Tau Ceti's. **Open targets** (Layer 7): the cyclotomic normalization at a
+   unit for every finite `ℚ_p`-algebra structure, without Tau Ceti's compatibility hypothesis on
+   the valuations; and, in every characteristic, the upper-numbering theorem identifying the image
+   of `U(K,n)` under reciprocity with that of `G(L/K)^n`, the local conductor–discriminant
+   formula, and the conductor as the largest character conductor.
 4. Local existence for a finite **abelian** layer, uniqueness of that layer, and the local
    class-field correspondence with its quotient isomorphism and degree equality, in full in
    characteristic zero and in the prime-to-residue-characteristic range in every characteristic
@@ -148,15 +149,17 @@ are the theorems stated in `Suggested.lean`.
 - `LocalGaloisGroups` consumes the local-cohomological material of Layers 0 and 4–7 under Tau
   Ceti's names, without private stand-ins: the coefficients `GalRep`, `muNRep` and the Kummer
   isomorphisms `kummerEquiv` and `kummerEquivOfCharZero`; degree two and local duality, `finite_H`,
-  `h2MuEquivZMod_mixed`, `h2FpEquivZMod`, `tateDual`, `tateDualityPairing`,
+  `h2MuEquivZMod_mixed`, `h2EquivZModOfMuNRepIso`, `tateDual`, `tateDualityPairing`,
   `tateDualityPairing_perfect_mixed` and `eulerCharacteristic_finrank_fp`; the chosen-root
-  comparison of the cup square with duality, `muNRepEquivZMod`, `kummerCupPairing`,
-  `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual` and
-  `tateDualityPairing_muNRepToTateDual`; reciprocity and its orientation, `artinMap`,
+  comparison of the cup square with duality, `muNRepEquivZMod`, `muNRep_ρ_apply_eq_self`,
+  `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`,
+  `bijective_muNRepToTateDual` and `tateDualityPairing_muNRepToTateDual`; reciprocity and its orientation, `artinMap`,
   `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`,
   `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`,
-  `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_unit` and
-  `localCyclotomicCharacter_artinMap_uniformizer`; the class formation and Tate's theorem,
+  `localCyclotomicCharacter_artinMap_padic` and
+  `localCyclotomicCharacter_artinMap_padic_uniformizer`, and this roadmap's open target
+  `cyclotomicCharacter_artinMap` (Layer 7), the unit case of the cyclotomic normalization for every
+  finite `ℚ_p`-algebra structure; the class formation and Tate's theorem,
   `ClassFormation`, `ClassFormation.fundamentalClass`, `fundamentalClass_generates`, `tateTheorem`
   and `artinMap_conj`; the theorem of Nakayama and Rim, `Rep.projective_ker_of_isZero_res`, and
   `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`; and
@@ -173,7 +176,10 @@ are the theorems stated in `Suggested.lean`.
   Layers 8 and 9. The upper-numbering theorem and the conductor–discriminant formula of Layer 7
   stay here in every characteristic, because their norm-map proof uses neither theory;
 - `GlobalQuadraticForms` owns Hasse–Minkowski and the global classification of quadratic
-  forms, and consumes Tau Ceti's `hilbertProductFormula` (Layer 14);
+  forms. Its Layers 3.3, 4.2–4.4 and 5.1 consume Tau Ceti's norm index
+  `card_ideleClassNormQuotient` (Layer 12), the cyclic Hasse norm theorem `cyclicHasseNorm` with
+  its placewise form `isGlobalNorm_iff_isLocalNormEverywhere` (Layer 13), and
+  `hilbertProductFormula` (Layer 14);
 - `QuadraticFormInvariants` owns the norm-equation and quaternion presentations of local
   Hilbert symbols and proves that they agree with Tau Ceti's cohomological `localSymbol` and with
   the Hilbert invariants `finiteHilbertInvariantAt` and `infiniteHilbertInvariantAt`
@@ -536,6 +542,7 @@ Quadratic reciprocity is Mathlib's `legendreSym.quadratic_reciprocity`.
 
 | Theorem | Declaration |
 |---|---|
+| the cyclotomic normalization at a unit, for every finite `ℚ_p`-algebra structure | `cyclotomicCharacter_artinMap` |
 | the upper-numbering theorem | `normResidue_map_unitFiltration` |
 | the local conductor–discriminant formula | `galoisCharacterConductorExp`, `discriminantExponent_eq_finsum_galoisCharacterConductorExp` |
 | the conductor as the largest character conductor | `conductorExponent_eq_iSup_galoisCharacterConductorExp` |
@@ -976,9 +983,17 @@ consumed here under Tau Ceti's names. The contract:
   and the conductor exponent of the fixed field of `ker χ` is the Artin conductor of `χ`
   (`conductorExponent_fixedField_ker`).
 
-The **open targets** of this layer compare class-field conductors with ramification in every
+The **open targets** of this layer are the unit normalization for every finite `ℚ_p`-algebra
+structure, and three comparisons of class-field conductors with ramification in every
 characteristic, for a finite abelian Galois extension `L/K` of nonarchimedean local fields:
 
+- **The unit normalization without a compatibility hypothesis** `cyclotomicCharacter_artinMap`:
+  Tau Ceti's `localCyclotomicCharacter_artinMap_unit` assumes `ValuativeExtension ℚ_[p] F`, and
+  `LocalGaloisGroups` consumes the statement for every finite `ℚ_p`-algebra structure on a
+  nonarchimedean local field `F`. The hypothesis is automatic: a unit of `ℤ_p` is a root of unity
+  times an element of `1 + pℤ_p`, which has an `ℓ^k`-th root for a prime `ℓ ≠ p` and every `k`, so
+  the discrete valuation of `F` vanishes on `ℤ_pˣ`; it is nontrivial on `ℚ_p` because `F/ℚ_p` is
+  algebraic, hence a positive multiple of the `p`-adic valuation there.
 - **The upper-numbering theorem** `normResidue_map_unitFiltration`: for every `n : ℕ` the
   reciprocity map `Kˣ → Kˣ/N_{L/K}(Lˣ) ≃ Gal(L/K)^ab` carries `U(K,n)` onto the image of
   `G(L/K)^n`; at `n = 0` it carries `𝒪[K]ˣ` onto inertia (Neukirch, *Algebraic Number Theory*, V
@@ -1034,7 +1049,7 @@ the base and not the different exponent of `L`.
   exponent is `2` and `δ = 2 = 0 + 2`. The theorems of this layer cover this extension, which no
   prime-to-`p` existence statement reaches.
 
-**Exit criterion.** `normResidue_map_unitFiltration`,
+**Exit criterion.** `cyclotomicCharacter_artinMap`, `normResidue_map_unitFiltration`,
 `discriminantExponent_eq_finsum_galoisCharacterConductorExp` and
 `conductorExponent_eq_iSup_galoisCharacterConductorExp` are proved for every nonarchimedean local
 field, and `LocalGaloisGroups` consumes the local material of Layers 4–7 by its Tau Ceti names.

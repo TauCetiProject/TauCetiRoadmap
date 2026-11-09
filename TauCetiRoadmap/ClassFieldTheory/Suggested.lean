@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.ClassFieldTheory.ClassFields.RayClassField
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
+import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Conductor.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
 import TauCeti.NumberTheory.LocalField.Discriminant.Basic
@@ -45,8 +46,9 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names (READ
 
 The open headline theorems stated below are:
 
-* the upper-numbering theorem, the local conductor–discriminant formula, and the conductor as the
-  largest character conductor (Layer 7);
+* the cyclotomic normalization at a unit for every finite `ℚ_p`-algebra structure, the form that
+  `LocalGaloisGroups` consumes, the upper-numbering theorem, the local conductor–discriminant
+  formula, and the conductor as the largest character conductor (Layer 7);
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
@@ -57,7 +59,27 @@ namespace TauCetiRoadmap.ClassFieldTheory
 open IsDedekindDomain NumberField TauCeti TauCeti.ClassFieldTheory TauCeti.GlobalNumberFields
 open scoped ValuativeRel
 
-/-! ## Layer 7: the upper-numbering theorem and conductors -/
+/-! ## Layer 7: the cyclotomic normalization, the upper-numbering theorem and conductors -/
+
+/-- **The cyclotomic normalization at a unit, for every finite `ℚ_p`-algebra structure.** Let `F`
+be a nonarchimedean local field that is a finite `ℚ_p`-algebra, `u` a unit of its valuation ring,
+and `σ ∈ G_F` a lift of `Art_F(u)`. Then `χ_cyc(σ) = N_{F/ℚ_p}(u)⁻¹`. Tau Ceti's
+`localCyclotomicCharacter_artinMap_unit` proves this when the valuation of `F` extends that of
+`ℚ_p` (`ValuativeExtension ℚ_[p] F`); the open content is that this is automatic. A unit of `ℤ_p`
+is a root of unity times an element of `1 + pℤ_p`, which has an `ℓ^k`-th root for a prime `ℓ ≠ p`
+and every `k`; the valuation of `F` is discrete, so it vanishes on `ℤ_pˣ`. It is nontrivial on
+`ℚ_p` because `F/ℚ_p` is algebraic, so it restricts to a positive multiple of the `p`-adic
+valuation. -/
+theorem cyclotomicCharacter_artinMap (p : ℕ) [Fact p.Prime]
+    (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
+    (u : Fˣ) (_hu : ValuativeRel.valuation F (u : F) = 1)
+    (σ : Field.absoluteGaloisGroup F)
+    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization F) = artinMap F u) :
+    Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom
+        (cyclotomicCharacter (AlgebraicClosure F) p σ.toRingEquiv)
+      = (Units.map (Algebra.norm ℚ_[p] : F →* ℚ_[p]) u)⁻¹ :=
+  sorry
 
 /-- **The upper-numbering theorem** (Neukirch, *Algebraic Number Theory*, V Theorem 6.2; Serre,
 *Local Fields*, XV §2). For a finite abelian extension `L/K` of nonarchimedean local fields and
