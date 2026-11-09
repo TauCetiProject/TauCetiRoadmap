@@ -63,10 +63,11 @@ not the roadmap.
   winding-number form of `∮ f'/f` — as Tau Ceti realizes the
   [contour integration roadmap](../../Completed/ContourIntegration/README.md);
 - ideal arithmetic functions, the ideal von Mangoldt function, the prime count `π_K` and
-  Chebyshev's `ψ_K` over a set of primes, Abel and truncated Perron summation, the offset
-  logarithmic integral and the prime-number-theorem transfer, from the
+  Chebyshev's `ϑ_K` and `ψ_K` over a set of primes, the higher-prime-power estimate for
+  `ψ_K − ϑ_K`, Abel and truncated Perron summation, the offset logarithmic integral and the
+  prime-number-theorem transfer, from the
   [Arithmetic Dirichlet Series roadmap](../../Completed/ArithmeticDirichletSeries/README.md),
-  Layers 0–2, 4, 6 and 10, as Tau Ceti realizes them, together with Tau Ceti's qualitative prime
+  Layers 0–2, 4–6 and 10, as Tau Ceti realizes them, together with Tau Ceti's qualitative prime
   ideal theorem, which 8.5 strengthens;
 - moduli, ray class groups, ray-class characters and the class of an ideal prime to a modulus, from the
   [Global Number Fields roadmap](../../Completed/GlobalNumberFields/README.md), Layers 2 and 9, as
@@ -309,7 +310,24 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   the cutoff); `TauCeti.primePsi K S x` (`ArithmeticDirichletSeries/Prime/Psi.lean`), Chebyshev's
   `ψ` over `S`, the sum of `log 𝔑𝔭` over the prime powers `𝔭^k`, `k ≥ 1`, of norm at most `x` whose
   base `𝔭` lies in `S`, with `TauCeti.primePsi_eq_sum_range` and `TauCeti.normCoeff_vonMangoldt`
-  (at `S = Set.univ` it is `∑_{𝔑𝔞 ≤ x} Λ_K(𝔞)`); `TauCeti.primeIdealTheorem`
+  (at `S = Set.univ` it is `∑_{𝔑𝔞 ≤ x} Λ_K(𝔞)`); `TauCeti.primeTheta K S x` (`Counting.lean`),
+  Chebyshev's `ϑ` over `S`, the sum of `log 𝔑𝔭` over the primes of `S` of norm at most `x`;
+  `TauCeti.primePsi_sub_primeTheta` (`Prime/Psi.lean`: `primePsi K S x − primeTheta K S x` is the
+  sum of the higher-prime-power weight `log 𝔑𝔭` over the prime powers `𝔭^k`, `k ≥ 2`, of norm at
+  most `x` with base in `S`) and `TauCeti.primePowerSummatory_indicator_sub_primeTheta` (the same
+  split for the standard weight restricted to any set `T` of prime powers whose members that are
+  primes are exactly the primes of `S`); `TauCeti.higherPrimePowerTheta K x`
+  (`ArithmeticDirichletSeries/HigherPrimePowers.lean`, that sum over all `𝔭^k`, `k ≥ 2`, which is
+  `primePsi K Set.univ x − primeTheta K Set.univ x`) with `TauCeti.higherPrimePowerTheta_le` (for
+  `x ≥ 1` it is at most `([K : ℚ]/(2 log 2)) √x log² x`), `TauCeti.higherPrimePowerTheta_isBigO`
+  and `TauCeti.primePowerSummatory_isBigO_of_le_higherPrimePowerWeight` (a prime-power weight of
+  norm at most `C ≥ 0` times the higher-prime-power weight has summatory function
+  `O(√x log² x)`); `TauCeti.idealSummatory_eq_primePowerSummatory` (`Counting.lean`: an ideal
+  weight vanishing off the prime-power ideals has the summatory function of its restriction to
+  them); `TauCeti.primeCount_eq_primeTheta_div_log_add_integral`
+  (`ArithmeticDirichletSeries/AbelSummation.lean`: for every real `x`,
+  `primeCount K S x = primeTheta K S x / log x + ∫ t in Ioc 2 x, primeTheta K S t / (t log² t)`);
+  `TauCeti.primeIdealTheorem`
   (`ArithmeticDirichletSeries/Prime/PrimeIdealTheorem.lean`: `primePsi K Set.univ x ∼ x`,
   `primeTheta K Set.univ x ∼ x` and `primeCount K Set.univ x ∼ Li x`), which 8.5 strengthens;
   `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`
@@ -354,9 +372,17 @@ cited below, which Tau Ceti realizes in `NumberTheory/ArithmeticDirichletSeries/
 - Layers 0–2: `IdealArithmeticFunction` and `normCoeff`; `IdealArithmeticFunction.vonMangoldt`
   is supported on prime powers with value `log (Ideal.absNorm P)` at `P^k`, `k ≥ 1`;
 - Layers 3 and 5: `EulerProductData`, `abscissaOfAbsConv_normCoeff_one` and the ideal-count bounds;
+- §4.2: the inclusive summatory functions on ideals and on prime powers, with
+  `idealSummatory_eq_primePowerSummatory` for a weight supported on prime powers;
 - §4.3: `primeCount` (with `primeTheta`), the count of the primes of a set `S` of absolute norm
   at most `x`, inclusive cutoff, the carrier of the effective counts 8.5 and 8.7;
-- §6.1: `idealSummatory_mul_eq_sub_integral_mul`, with inclusive norm cutoffs;
+- §5.2: the higher prime powers, `higherPrimePowerTheta K x ≤ ([K : ℚ]/(2 log 2)) √x log² x`
+  for `x ≥ 1` (`higherPrimePowerTheta_le`, `higherPrimePowerTheta_isBigO`) and its form
+  `primePowerSummatory_isBigO_of_le_higherPrimePowerWeight` for a dominated weight, which remove
+  `ψ − ϑ` before the prime counts of 8.5 and 8.7;
+- §6.1: Abel summation with inclusive norm cutoffs, in its prime form
+  `primeCount_eq_primeTheta_div_log_add_integral`, `π = ϑ/log x + ∫_2^x ϑ(t)/(t log² t) dt`, which
+  passes from `ϑ`, not from `ψ`, to the prime count;
 - §6.2: `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹`,
   `logIntegral_isEquivalent_div_log`, the first integration by parts
   `logIntegral_eq_div_log_sub_add` (for `2 ≤ x`,
@@ -368,7 +394,9 @@ cited below, which Tau Ceti realizes in `NumberTheory/ArithmeticDirichletSeries/
 - Layers 9–10: `LSeries.wienerIkehara` and `primeNumberTheoremTransfer`, with the exact
   nonnegative von Mangoldt coefficient and boundary remainder specified there; §10.1 `primePsi`,
   Chebyshev's `ψ` over a set of primes with every prime power present, the carrier of `ψ_K` in
-  8.3 and 8.5.
+  8.3 and 8.5; §10.2 `primePsi_sub_primeTheta` and `primePowerSummatory_indicator_sub_primeTheta`,
+  the exact identification of `ψ − ϑ` with the higher-prime-power sum, over a set of primes and over
+  a set of prime powers.
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
@@ -1976,21 +2004,52 @@ For fixed `K` there is `c > 0` with `ψ_K(x) = x − x^β/β + O(x exp(−c √l
 *IsExceptionalZero* `1 β` (the trivial character, whose completion is `completedDedekindZeta`), and
 `ψ_K(x) = x + O(x exp(−c √log x))` when there is none. For fixed `K` the two are the same estimate,
 since `x^β = o(x exp(−c √log x))` for fixed `β < 1`; the term is carried for its meaning, and only a
-conductor-uniform absorption would need Siegel's theorem. By Abel summation
-(`TauCeti.idealSummatory_mul_eq_sub_integral_mul`) the number `π_K(x) = TauCeti.primeCount K Set.univ x`
-of nonzero prime ideals of norm at most `x` is `Li x + O(x exp(−c √log x))`,
-`Li = TauCeti.Real.logIntegral`: this is `primeIdealCount_effective`, stated on the count of Tau
-Ceti's qualitative prime ideal theorem. Since `x exp(−c √log x) = o(x/log x)` and
-`Li x ∼ x/log x` (`TauCeti.Real.logIntegral_isEquivalent_div_log`), discarding the error recovers
-the conclusions `ψ_K(x) ∼ x` and `π_K(x) ∼ Li x` of `TauCeti.primeIdealTheorem` as consistency
-theorems. The estimate is assembled here from 8.3 at height `T = exp(√log x)`,
-the region of 6.2–6.3, which bounds `|x^ρ|` by `x exp(−c √log x)` at every non-exceptional zero
+conductor-uniform absorption would need Siegel's theorem. The prime count is reached through
+`ϑ_K = TauCeti.primeTheta K Set.univ`, not through `ψ_K`: Abel summation of `ψ_K` against `1/log t`
+gives each prime power `𝔭^k` the weight `1/k`, which is Riemann's prime-power count and not `π_K`.
+The difference `ψ_K(x) − ϑ_K(x)` is the sum of `log 𝔑𝔭` over the `𝔭^k`, `k ≥ 2`, of norm at most
+`x` (`TauCeti.primePsi_sub_primeTheta` at `S = Set.univ`), which is
+`TauCeti.higherPrimePowerTheta K x ≤ ([K : ℚ]/(2 log 2)) √x log² x` for `x ≥ 1`
+(`TauCeti.higherPrimePowerTheta_le`, Arithmetic Dirichlet Series §5.2) and hence
+`O(x exp(−c √log x))`; so `ϑ_K` satisfies the estimate of `ψ_K`. The exact Abel identity
+`π_K(x) = ϑ_K(x)/log x + ∫_2^x ϑ_K(t)/(t log² t) dt`
+(`TauCeti.primeCount_eq_primeTheta_div_log_add_integral`), with
+`x/log x + ∫_2^x (log t)^(−2) dt = Li x + 2/log 2` (`TauCeti.Real.logIntegral_eq_div_log_sub_add`)
+for the main term and the monotonicity of `t exp(−c √log t)` for large `t` for the error, then
+gives that the number `π_K(x) = TauCeti.primeCount K Set.univ x` of nonzero prime ideals of norm at
+most `x` is `Li x + O(x exp(−c √log x))`, `Li = TauCeti.Real.logIntegral`: this is
+`primeIdealCount_effective`, stated on the count of Tau Ceti's qualitative prime ideal theorem.
+Since `x exp(−c √log x) = o(x/log x)` and `Li x ∼ x/log x`
+(`TauCeti.Real.logIntegral_isEquivalent_div_log`), discarding the error recovers the conclusions
+`ψ_K(x) ∼ x` and `π_K(x) ∼ Li x` of `TauCeti.primeIdealTheorem` as consistency theorems. The
+estimate is assembled here from 8.3 at height `T = exp(√log x)`, the region of 6.2–6.3, which
+bounds `|x^ρ|` by `x exp(−c √log x)` at every non-exceptional zero
 with `|Im ρ| ≤ T`, and the count 4.5, which gives `∑_{|Im ρ| ≤ T} m_ρ/‖ρ‖ = O(log² T)`;
 Davenport §18 is the `K = ℚ` case.
 
-*Needs:* 8.3, 6.2, 6.3, 4.5; Arithmetic Dirichlet Series §4.3 `TauCeti.primeCount`, §10.1
-`TauCeti.primePsi` and §§6.1–6.2 `idealSummatory_mul_eq_sub_integral_mul`,
-`TauCeti.Real.logIntegral`, `TauCeti.Real.logIntegral_isEquivalent_div_log`.
+*Needs:* 8.3, 6.2, 6.3, 4.5; Arithmetic Dirichlet Series §4.3 `TauCeti.primeCount` and
+`TauCeti.primeTheta`, §5.2 `TauCeti.higherPrimePowerTheta_le`, §§10.1–10.2 `TauCeti.primePsi` and
+`TauCeti.primePsi_sub_primeTheta`, and §§6.1–6.2
+`TauCeti.primeCount_eq_primeTheta_div_log_add_integral`, `TauCeti.Real.logIntegral`,
+`TauCeti.Real.logIntegral_eq_div_log_sub_add`, `TauCeti.Real.logIntegral_isEquivalent_div_log`.
+
+**Checks.**
+
+- `K = ℚ`, `x = 10`: `ψ(10) = log 2520 ≈ 7.8320` and `ϑ(10) = log 210 ≈ 5.3471`; the difference
+  `log 12 ≈ 2.4849` comes from `4`, `8` and `9`, within the bound `√10 log² 10/(2 log 2) ≈ 12.094`.
+  Abel summation of `ψ` against `1/log t` gives `4 + 2/2 + 1/3 = 16/3 ≈ 5.3333`, the primes with
+  weight `1`, the squares `4, 9` with weight `1/2` and the cube `8` with weight `1/3`; that of `ϑ`
+  gives `π(10) = 4`. A route that sums `ψ` against `1/log t` counts the wrong function.
+- `K = ℚ`, `x = 10⁶`: `ψ − ϑ ≈ 1102.42` against the bound `≈ 137682.4`, and Abel summation of `ψ`
+  against `1/log t` gives `≈ 78597.11` against `π(10⁶) = 78498`. The two differ by
+  `∑_{k ≥ 2} π(x^(1/k))/k ≈ 99.11`, which is `O(√x)` and so within the error term, but is not `0`.
+- `K = ℚ(i)`, `x = 10`: the prime ideals of norm at most `10` are `(1 + i)`, `(2 + i)`, `(2 − i)`
+  and `(3)`, of norms `2, 5, 5, 9`, and the only `𝔭^k` with `k ≥ 2` are `(1 + i)²` and `(1 + i)³`,
+  of norms `4` and `8`; so `ψ_K(10) − ϑ_K(10) = 2 log 2 ≈ 1.3863`, against the bound
+  `2 · 12.094 ≈ 24.19`, which depends on `K` only through `[K : ℚ] = 2`. The inert prime `(3)` has
+  norm `9 = 3²` but is a prime of `K`, counted by `π_K`: removing the ideals whose norm is not a
+  rational prime, in place of the `𝔭^k` with `k ≥ 2`, would take `log 9 ≈ 2.1972` from `ϑ_K` and
+  `1` from `π_K(10) = 4`.
 
 ### 8.6 The Hecke instance
 
@@ -2094,11 +2153,29 @@ residue by that correction and governs the count of all ideals in a class. Each 
 character enters through 8.6 after 6.4b replaces it by its primitive source; the zeros agree on
 `Re s > 0`, and on `Re s > 1` the deleted factors move the logarithmic derivative by at most
 `log 𝔑𝔪`, the bound of 6.4b at the presentation modulus `𝔪`. The passage to
-the prime count is Abel summation, `x^β/β` becoming `Li(x^β) − Li(2^β)` under `u = t^β`, legitimate
-because `β ≥ 1/2` (6.3). `x/log x` is not an admissible main term: `Li x − x/log x ∼ x/log² x`,
-which is not `O(x exp(−c √log x))`. For fixed `K` and `𝔪` each exceptional summand is
-`O(x^β)` with `β < 1`, hence `O(x exp(−c₀ √log x))`, and the prime count with that term absorbed
-is `rayClassPrimeCount_effective`: it is stated on `TauCeti.primeCount K S_c x` for the set
+the prime count first removes the higher prime powers, since Abel summation of *rayClassPsi*
+against `1/log t` would weight each `𝔭^k` in the class by `1/k`. *rayClassPsi* `𝔪 c x` is the
+summatory function of the standard weight `log 𝔑𝔭` at `𝔭^k`
+(`TauCeti.primePowerWeight_eq_vonMangoldt_re`) restricted to the set `T_c` of prime powers prime
+to `𝔪` in the class `c`
+(`TauCeti.idealSummatory_eq_primePowerSummatory`, `Λ_K` vanishing off the prime powers), and the
+members of `T_c` that are primes are exactly the primes of `S_c`; so
+`TauCeti.primePowerSummatory_indicator_sub_primeTheta` writes
+`rayClassPsi 𝔪 c x − TauCeti.primeTheta K S_c x` as the sum of `log 𝔑𝔭` over the `𝔭^k ∈ T_c` with
+`k ≥ 2` and `𝔑𝔭^k ≤ x`. That sum lies between `0` and
+`TauCeti.higherPrimePowerTheta K x ≤ (n/(2 log 2)) √x log² x` for `x ≥ 1`
+(`TauCeti.higherPrimePowerTheta_le`;
+`TauCeti.primePowerSummatory_isBigO_of_le_higherPrimePowerWeight` at `C = 1` gives the
+`O(√x log² x)`), a bound depending on `K` only through `n` and contained in
+`O(x exp(−c₀ √log x))`; so `ϑ` over `S_c` satisfies the estimate of *rayClassPsi*. The prime count
+is then the Abel identity `TauCeti.primeCount_eq_primeTheta_div_log_add_integral` for `ϑ` over
+`S_c`, `x/#Cl_𝔪` becoming `Li x/#Cl_𝔪 + 2/(#Cl_𝔪 log 2)` and `x^β/β` becoming
+`Li(x^β) − Li(2^β) + 2^β/(β log 2)` under `u = t^β`, legitimate because `β ≥ 1/2` (6.3); the
+constants are absorbed by the error. `x/log x` is not an admissible main term:
+`Li x − x/log x ∼ x/log² x`, which is not `O(x exp(−c √log x))`. For fixed `K` and `𝔪` each
+exceptional summand is `O(x^β)` with `β < 1`, hence `O(x exp(−c₀ √log x))`, and the prime count
+with that term absorbed is `rayClassPrimeCount_effective`: it is stated on
+`TauCeti.primeCount K S_c x` for the set
 `S_c` of the nonzero primes `P` of `𝓞 K` with
 `P ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪` and
 `TauCeti.GlobalNumberFields.idealClass 𝔪 P = c`, against
@@ -2119,8 +2196,13 @@ count with the same hypotheses.
 L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`, `PrimitiveRayClassCharacter.of`;
 Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
 `idealClass`, `integralIdealsPrimeTo`, `rayClassIdealMainTerm_eq`, `RayClassCharacter`;
-Arithmetic Dirichlet Series §§2.3, 4.3, 6.1–6.2 `IdealArithmeticFunction.vonMangoldt`,
-`TauCeti.primeCount`, `idealSummatory_mul_eq_sub_integral_mul`, `TauCeti.Real.logIntegral`;
+Arithmetic Dirichlet Series §§2.3, 4.2–4.3, 5.2, 6.1–6.2, 10.2
+`IdealArithmeticFunction.vonMangoldt`, `TauCeti.idealSummatory_eq_primePowerSummatory`,
+`TauCeti.primeCount`, `TauCeti.primeTheta`, `TauCeti.higherPrimePowerTheta_le`,
+`TauCeti.primePowerSummatory_isBigO_of_le_higherPrimePowerWeight`,
+`TauCeti.primeCount_eq_primeTheta_div_log_add_integral`, `TauCeti.Real.logIntegral`,
+`TauCeti.Real.logIntegral_eq_div_log_sub_add`, `TauCeti.primePowerWeight_eq_vonMangoldt_re` and
+`TauCeti.primePowerSummatory_indicator_sub_primeTheta`;
 at `K = ℚ`, Mathlib `Rat.HeightOneSpectrum.primesEquiv`, `ZMod.isUnit_iff_coprime` and Tau Ceti
 `Rat.HeightOneSpectrum.absNorm_asIdeal`.
 
@@ -2143,6 +2225,12 @@ at `K = ℚ`, Mathlib `Rat.HeightOneSpectrum.primesEquiv`, `ZMod.isUnit_iff_copr
   `3` are `3` and `7`, since `9 ≡ 1 (mod 4)`, so *rayClassPsi* is `log 21 ≈ 3.0445`; the base-selected
   sum `TauCeti.primePsi ℚ {p ≡ 3 (mod 4)} 9` also counts `9 = 3²` through its base and is
   `log 63 ≈ 4.1431`. The prime counts agree, both `TauCeti.primeCount` of the primes `3` and `7`.
+- `K = ℚ`, `𝔪 = (4)∞`, `c` the class of `1`, `x = 9`: the prime powers prime to `4` up to `9` in
+  the class of `1` are `5` and `9 = 3²`, so *rayClassPsi* is `log 15 ≈ 2.7081`, while `ϑ` over the
+  primes `≡ 1 (mod 4)` is `log 5 ≈ 1.6094`. The difference `log 3 ≈ 1.0986` is the prime power `9`
+  and lies within the higher-prime-power sum `log 12 ≈ 2.4849` of all classes, from `4`, `8` and
+  `9`. Abel summation of *rayClassPsi* against `1/log t` gives `1 + 1/2 = 3/2`, against the prime
+  count `1`, the prime `5`; that of `ϑ` gives `1`.
 - `K = ℚ`, `q = 4`: at `a = 3` the count `TauCeti.primeCount ℚ {p | 𝔑p % 4 = 3} 20` is `4`, from
   the primes `3, 7, 11, 19`, against `Li 20/φ(4) ≈ 4.4301`. At `a = 2` the hypothesis
   `IsUnit (2 : ZMod 4)` fails and the count is `1` for every `x ≥ 2`, from the prime `2` alone,
@@ -2265,7 +2353,8 @@ at `√x` bounds it by `√x/log³ 2 + 8x/log³ x`, which is `O(x/log³ x)`.
 
 ### Dependencies
 
-Arithmetic Dirichlet Series §§2.3, 6.1–6.4; Global Number Fields Layers 2, 3E, 9;
+Arithmetic Dirichlet Series §§2.3, 4.2–4.3, 5.2, 6.1–6.4, 10.1–10.2; Global Number Fields
+Layers 2, 3E, 9;
 Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform and
 `IsAbelianGalois`. Layers 1.4,
 1.4a, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3, 5. Tau Ceti
