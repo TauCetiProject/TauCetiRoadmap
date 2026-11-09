@@ -332,6 +332,25 @@ target of this roadmap or of the named supplier, never a "native" API.
   `c°_HZ(W, cσ) = c·c°_HZ(W, σ)` for `c > 0` and the invariance of `c°_HZ` under
   symplectomorphisms. These fix the magnetic sign of 3.3 and give the metric independence of 4.5
   and the change of projective model of 1.3.
+- `Diffeomorph.cotangent` with `Diffeomorph.cotangent_symm`
+  (`TauCeti/Geometry/Manifold/Diffeomorph/Cotangent.lean`): the cotangent lift
+  `T*M → T*N`, `(x, p) ↦ (h x, p ∘ (dh_x)⁻¹)`, of a smooth diffeomorphism `h : M → N`, whose inverse
+  is the lift of `h⁻¹`; `Diffeomorph.mpullback_cotangent_symplecticForm`
+  (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/Lift.lean`), that it pulls the canonical form of
+  `T*N` back to that of `T*M`; and `TauCeti.CotangentBundle.restrictOpen`
+  (`TauCeti/Geometry/Manifold/VectorBundle/Cotangent/Opens.lean`) with
+  `TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm`
+  (`TauCeti/Geometry/Symplectic/Cotangent/Bundle/Opens.lean`), the diffeomorphism of `T*U`, for an
+  open `U ⊆ M`, onto the part of `T*M` over `U`, under which the canonical form of `T*U` is the
+  restriction of that of `T*M`. They give the change of projective model of 1.3 and the local
+  symplectomorphism of the covering descent of 4.2.
+- `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` with its cube form
+  `TauCeti.hasHomotopyLiftingProperty_cube_of_exists_trivialization`
+  (`TauCeti/Topology/Homotopy/SerreFibration/FiberBundle.lean`): a map `p : Z → B` with a Mathlib
+  `Bundle.Trivialization` of some fibre `F` around every point of `B` is a Serre fibration
+  (`TauCeti.TopCat.serreFibrations`, the right lifting property against the bottom inclusions of
+  the disc cylinders, the predicate of DGFloer Layer 1 item 2), with no hypothesis on `B`. It makes
+  the unit-sphere bundles of 4.2 and the evaluations `SO(r+1) → S^r` of 4.2a Serre fibrations.
 
 ### From TauCetiRoadmap.DGFloer
 
@@ -747,9 +766,12 @@ quotient comparisons; what is built here is the identification between them.
   `TauCeti.ComplexProjectiveSpace d`, the quotient of the unit sphere of `ℂᵈ⁺¹` by the unit complex
   numbers, holomorphic in the homogeneous-coordinate charts of both, and from GeneralizedCohomology
   G4.0b's `HPᵈ` to `TauCeti.QuaternionicProjectiveSpace d`, the quotient of the unit sphere of
-  `ℍᵈ⁺¹` by right multiplication by unit quaternions. A diffeomorphism `ψ : M → N` lifts to a
-  symplectomorphism `T*N → T*M` carrying the codisc bundle of a metric `g` on `N` to that of `ψ*g`,
-  so the finiteness of `c°_HZ` passes between the two models for all metrics at once
+  `ℍᵈ⁺¹` by right multiplication by unit quaternions. A diffeomorphism `ψ : M → N` lifts to the
+  symplectomorphism `Diffeomorph.cotangent ψ : T*M → T*N`, `(x, p) ↦ (ψ x, p ∘ (dψ_x)⁻¹)`, which
+  pulls the canonical form of `T*N` back to that of `T*M`
+  (`Diffeomorph.mpullback_cotangent_symplecticForm`) and carries the codisc bundle of `ψ*g` onto
+  that of a metric `g` on `N`, since `|p ∘ (dψ_x)⁻¹|_g = |p|_(ψ*g)`; so the finiteness of `c°_HZ`
+  passes between the two models for all metrics at once
   (`TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_image`).
 - **Hopf metrics.** Transport the supplied unit-round Hopf metrics. Prove Hermitian
   compatibility of the `CP` metric with its designated complex structure, and the orientation,
@@ -773,6 +795,7 @@ quotient comparisons; what is built here is the identification between them.
 *Needs:* SmoothBundlesConnections B1.4 and B6.2–B6.3, LieGroups Layer 2, ComplexKahlerGeometry
 K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Tau Ceti `TauCeti.stiefel`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
+`Diffeomorph.cotangent`, `Diffeomorph.mpullback_cotangent_symplecticForm`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_image`, Mathlib
 `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `Quaternion`.
 
@@ -802,6 +825,12 @@ K7.1–K7.2, GeneralizedCohomology G4.0b, RiemannianGeometry R1, Tau Ceti `TauCe
   quotient by left multiplication the map would not be defined: for `v = (1, j)` and `λ = i`,
   `vλ = (i, −k)`, while the only left multiple `μv` with first entry `i` is `(i, k)`. For `d = 1`
   both complex models are `S²` and both quaternionic models are `S⁴`.
+- Direction of the cotangent lift: for `ψ : ℝ/ℤ → ℝ/2ℤ`, `x ↦ 2x`, and `g = dy²`, the lift sends
+  `p dx` at `x` to `(p/2) dy` at `2x`; `ψ*g = 4 dx²`, so `|p dx|_(ψ*g) = |p|/2 = |(p/2) dy|_g`, the
+  codisc bundle of `ψ*g` goes onto that of `g`, and `(p/2) dy` pulls back along `ψ` to `p dx`, so
+  the Liouville form is preserved. Multiplying the fibre coordinate by `ψ′ = 2` instead of
+  dividing by it would send `p dx` to `2p dy`, of norm `2|p|`, carry neither codisc bundle onto
+  the other, and pull the Liouville form `q dy` back to `4p dx`, four times that of `T*M`.
 - On `S³ ⊂ ℍ` the three fields `Iz, Jz, Kz` are orthonormal and tangent at every `z`:
   `⟨z, Iz⟩ = 0` because `I` is skew, and `⟨Iz, Jz⟩ = ⟨z, I⁻¹Jz⟩ = ⟨z, −Kz⟩ = 0`. On `S^(4k+1)`
   no two pointwise independent tangent fields exist, so the construction needs `n ≡ 3 (mod 4)`.
@@ -905,7 +934,8 @@ DGFloer Layers 0–2; GeneralAlgebraicKTheoryPartII §4.30b; AlgebraicTopology S
 6, with Stage 6 item 5; GeneralizedCohomology G2.10, G4.0b and G5 item 2;
 TangentialBordism B5.1 and B5.5; ComplexKahlerGeometry K7.1–K7.2; LieGroups Layer 2;
 SmoothBundlesConnections B1.4, B6.2–B6.3; RiemannianGeometry R1; GeometricTopology Layer 1; Tau
-Ceti `TauCeti.nonempty_ndrPair_iff` and the finite-stage factorization of 1.0; Mathlib
+Ceti `TauCeti.nonempty_ndrPair_iff` and the finite-stage factorization of 1.0,
+`Diffeomorph.cotangent` and `Diffeomorph.mpullback_cotangent_symplecticForm` (1.3); Mathlib
 `CompactlyGenerated`, `GeneratedByTopCat.adj`,
 `Topology.ContinuousMapGeneratedBy.curryEquiv`, `ContinuousMap.compactOpen`. Sources: the source
 paper §§6.3–6.4; Strickland, *The category of CGWH spaces*, §§2 and 5; Rezk, *Compactly generated
@@ -1318,9 +1348,15 @@ Proposition 6.15 with Theorem H, and its route first reduces to one component of
 - **Descent along a finite covering** (the source paper, Remark 6.2, p. 100, for the finite
   coverings used here). For a surjective finite covering `ρ : Q̃ → Q` of closed manifolds and the
   lifted metric, prove `c°_HZ(D*Q) ≤ c°_HZ(D*Q̃)`; `ρ` is surjective when `Q` is connected and
-  `Q̃` is not empty. The cotangent lift `ρ̂ : T*Q̃ → T*Q` of `ρ` is a local symplectomorphism and a
-  surjective finite covering, under which `D*Q̃` is the preimage of `D*Q`. An admissible
-  Hamiltonian `H` for `D*Q` pulls back to `H ∘ ρ̂`, smooth with compact support in the interior of
+  `Q̃` is not empty. The cotangent lift `ρ̂ : T*Q̃ → T*Q`, `(x̃, p) ↦ (ρ x̃, p ∘ (dρ_x̃)⁻¹)`, is a
+  local symplectomorphism: over a sheet `Ũ ⊆ Q̃` that `ρ` maps diffeomorphically onto an evenly
+  covered open `U ⊆ Q`, it is `Diffeomorph.cotangent` of `ρ|Ũ : Ũ → U` read through
+  `TauCeti.CotangentBundle.restrictOpen` for `Ũ` and for `U`, and so pulls the canonical form back
+  to the canonical form (`Diffeomorph.mpullback_cotangent_symplecticForm`,
+  `TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm`). It is also a surjective finite
+  covering, under which `D*Q̃` is the preimage of `D*Q`, since `|p ∘ (dρ_x̃)⁻¹|_g = |p|_(ρ*g)` as
+  in 1.3. An admissible Hamiltonian `H` for `D*Q` pulls back to `H ∘ ρ̂`, smooth with compact
+  support in the interior of
   `D*Q̃` because the covering is finite, vanishing on a nonempty open set and attaining the same
   maximum on a nonempty open set, these preimages being nonempty because `ρ̂` is surjective. Its
   Hamiltonian field covers that of `H`, so a nonconstant `T`-periodic orbit, `0 < T ≤ 1`,
@@ -1357,8 +1393,12 @@ The source's fibered families are the following.
   space `B`, and hence for every closed manifold `Q` homeomorphic to `S(V)`: a vertical tangent
   vector at `x ∈ S(V_b)` is a vector of `V_b` orthogonal to `x`, the constructions below use only
   local triviality and the metric, the projection `S(V) → B` is a Serre fibration over any base
-  (Hatcher, *Algebraic Topology*, Proposition 4.48), and a homeomorphism `Q ≅ S(V)` carries the
-  fibered family and its classes across.
+  (Tau Ceti `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`, applied to the
+  trivializations of `S(V)` with fibre `Sⁿ` obtained from those of `V` by normalizing,
+  `v ↦ (b, e_b(v)/|e_b(v)|)` for a linear trivialization `e` of `V` and the Euclidean norm `|·|`,
+  with inverse `(b, s) ↦ e_b⁻¹(s)/|e_b⁻¹(s)|_b` for the fibre metric `|·|_b`, both continuous
+  because the fibre metric is; Hatcher, *Algebraic Topology*, Proposition 4.48), and a homeomorphism
+  `Q ≅ S(V)` carries the fibered family and its classes across.
   * `n` even and `B` `2n`-connected. The parameter fibre over `q ∈ Q` is the oriented manifold
     of ordered orthonormal two-frames in the tangent space to the sphere fibre. Put the Example
     6.16 sphere-family map into these fibres and include each sphere fibre into `Q` to obtain
@@ -1397,7 +1437,11 @@ Layer 6 item 5 (the capacity, for the covering descent), AlgebraicTopology Stage
 SmoothBundlesConnections B2.2 and B2.5 (the unit-sphere bundle of a metrized vector bundle with
 `O(n+1)` reduction), GeneralAlgebraicKTheoryPartII §4.30b through 1.2, Tau Ceti
 `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv` (`n = 3` in Proposition 6.21),
-`TauCeti.HomologicalOrientation` and `TauCeti.SmoothTwoForm.contractibleHZCapacity`, Mathlib
+`TauCeti.HomologicalOrientation`, `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
+`Diffeomorph.cotangent`, `Diffeomorph.mpullback_cotangent_symplecticForm`,
+`TauCeti.CotangentBundle.restrictOpen` and
+`TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm` (the covering descent), and
+`TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` (the sphere bundles), Mathlib
 `Bundle.Trivialization`, `FiberBundle`, `VectorBundle`, `IsContinuousRiemannianBundle` and
 `IsCoveringMap.existsUnique_continuousMap_lifts`;
 Hatcher, *Algebraic Topology*, Proposition 4.48.
@@ -1448,6 +1492,11 @@ Hatcher, *Algebraic Topology*, Proposition 4.48.
   `±α′ ≠ 0`. The trivial bundle `S² × (S¹ ⊔ S¹)` carries no such family: on `S² × {θ}` it would be
   a section of evaluation on the degree-one maps `S² → S²`, that is a map `S² × S² → S²` of
   bidegree `(1, 1)`, which the nonzero Whitehead product `[ι₂, ι₂] = 2η` in `π₃(S²)` excludes.
+- The normalizing trivialization of `S(V)`: over a point with `V = ℝ²` and fibre metric
+  `4x² + y²`, `S(V)` is the ellipse `4x² + y² = 1`; normalizing sends `(1/2, 0)` to `(1, 0)` and
+  `(0, 1)` to `(0, 1)`, and the inverse sends `(1, 0)` back to `(1, 0)/|(1, 0)|_b = (1/2, 0)`. The
+  restriction of `e` alone, without normalizing, would send `S(V)` onto the ellipse rather than
+  the unit circle, so it is not a trivialization with fibre `S¹`.
 - The sphere-bundle statements at `B` a point: `S(V)` is `Sⁿ`, and they agree with 4.5's
   statement for spheres; for the odd case at `n = 3`, `u(x) = ix` and `w(x) = jx` in `ℍ = ℝ⁴`
   are orthogonal to `x` and independent. At `n = 0` the hypotheses hold for the trivial line
@@ -1477,22 +1526,28 @@ inclusions.
   `SO` is its kernel and the path component of the identity, and `π₀(O) = ℤ/2`. For every
   `i ≥ 0`, `π_i(O) = colim_r π_i(O(r))` and `π_i(SO) = colim_r π_i(SO(r))` through the colimit
   inclusions, and `π_i(SO) → π_i(O)` is an isomorphism for `i ≥ 1`.
-- **The finite-to-stable range.** Evaluation at the last basis vector, `A ↦ A e_r`, is a smooth
-  fibre bundle `SO(r+1) → S^r` with fibre `ι_r(SO(r))` over `e_r`, the principal projection of
-  the homogeneous quotient `SO(r+1)/SO(r) ≅ S^r` (SmoothBundlesConnections B1.4), hence a Serre
-  fibration. Since `π_i(S^r) = 0` for `i < r` (`TauCeti.subsingleton_homotopyGroup_sphere_of_lt`),
+- **The finite-to-stable range.** For `r ≥ 1`, evaluation at the last basis vector, `A ↦ A e_r`,
+  is a smooth fibre bundle `SO(r+1) → S^r` with fibre `ι_r(SO(r))` over `e_r`, the principal
+  projection of the homogeneous quotient `SO(r+1)/SO(r) ≅ S^r` (SmoothBundlesConnections B1.4),
+  hence a Serre fibration (Tau Ceti
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`, with the trivializations
+  `A ↦ (A e_r, s(A e_r)⁻¹A)` over the domains of the local sections `s` of B1.4). At `r = 0` the
+  map `SO(1) → S⁰` misses `−e₀` and the range below is empty. Since `π_i(S^r) = 0` for `i < r`
+  (`TauCeti.subsingleton_homotopyGroup_sphere_of_lt`),
   the fibration exact sequence (DGFloer Layer 1 item 2) shows that `ι_r` induces a bijection
   `π_i(SO(r)) → π_i(SO(r+1))` for `i ≤ r − 2` and a surjection for `i = r − 1`
   (`bijective_map_soBlockInclusion`, `surjective_map_soBlockInclusion`; in degree `0` a statement
   about path components). Hence `π_i(SO(r)) → π_i(SO)` is an isomorphism for `r ≥ i + 2` and onto
   for `r = i + 1`; the same holds for `O(r)` in degrees `i ≥ 1`, and `π₀(O(r)) = ℤ/2` for `r ≥ 1`.
-  The evaluations `U(r+1) → S^(2r+1)` and `Sp(r+1) → S^(4r+3)` give the ranges `i ≤ 2r − 1` for
+  The evaluations `U(r+1) → S^(2r+1)` and `Sp(r+1) → S^(4r+3)`, `r ≥ 0`, Serre fibrations by the
+  same trivializations, give the ranges `i ≤ 2r − 1` for
   `U(r) → U(r+1)` and `i ≤ 4r + 1` for `Sp(r) → Sp(r+1)`; in particular `π₁(U) = π₁(U(1)) = ℤ`
   through the determinant, and `π_i(Sp) = π_i(Sp(1)) = π_i(S³)` for `i ≤ 5`, which is `0` for
   `i ≤ 2` and `ℤ` for `i = 3` (`TauCeti.homotopyGroupSphereAddEquiv`).
 
 *Needs:* 1.0 (colimits, compact families and products), LieGroups Layer 2, GeneralizedCohomology
 G4.0b, SmoothBundlesConnections B1.4, DGFloer Layer 1 item 2, Tau Ceti `HomotopyGroup.map`,
+`TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`,
 `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, `TauCeti.homotopyGroupSphereAddEquiv`, Mathlib
 `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `Matrix.unitaryGroup`. Sources: Steenrod,
 *The Topology of Fibre Bundles*, Part I, §7; Hatcher, *Algebraic Topology*, §4.2.
@@ -2050,7 +2105,11 @@ RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c);
 SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`, `HomotopyGroup.map`,
 `HomotopyGroup.pathLoopSpaceMulEquiv`, `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`,
 `TauCeti.homotopyGroupSphereAddEquiv`, `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv`
-(4.2), `TauCeti.HomologicalOrientation` (4.2–4.6), `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
+(4.2), `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` (4.2, 4.2a),
+`Diffeomorph.cotangent`, `Diffeomorph.mpullback_cotangent_symplecticForm`,
+`TauCeti.CotangentBundle.restrictOpen` and
+`TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm` (4.2),
+`TauCeti.HomologicalOrientation` (4.2–4.6), `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
 `TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
 `TauCeti.realClifford_classification`, `TauCeti.continuousOrthogonalToDiffSphere`,
