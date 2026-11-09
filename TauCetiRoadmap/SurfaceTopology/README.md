@@ -213,6 +213,8 @@ flowchart TD
   L4 --> L7
   L3 --> L8["L8 Classification"]
   L6 --> L8
+  L4 --> CS["L8 Connected-sum choice independence"]
+  L8 --> CS
   L4 --> L9["L9 Mapping class groups"]
   L7 --> L9
   L8 --> L9
@@ -224,6 +226,8 @@ flowchart TD
 The supplier table above gives the individual PlanarTopology, graph, polygonal and
 chain inputs. In particular, layer 7 is not an input to classification: layer 8
 uses the geometric invariants from layer 3 and polygonal normal forms from layer 6.
+Connected-sum construction and invariant counts are in layer 4; their choice-independence
+corollary follows the core classification theorem in layer 8.
 
 ---
 
@@ -313,6 +317,9 @@ structure GMap2.Iso {D D' : Type*} [Fintype D] [Fintype D']
 
 
 def GMap2.eulerChar (G : GMap2 D) : ℤ := ...
+
+/-- Exactly one adjacency orbit; the empty map has zero orbits and is not connected. -/
+def GMap2.IsConnected (G : GMap2 D) : Prop := Nat.card G.Components = 1
 
 /-- Boundary. -/
 def GMap2.IsBoundaryDart (G : GMap2 D) (d : D) : Prop := G.adj 2 d = d
@@ -548,12 +555,17 @@ theorem flagComplex_toGMap2 (hK : IsCombinatorialSurface K) :
 
 - ⚠ Do not define realization through `AbstractSimplicialComplex`.
 - One barycentric subdivision makes the flag triple injective for every map, as the conventions explain, and `realization_homeomorph_flagComplex` needs no surface hypothesis: it is the homeomorphism between a Δ-complex and its subdivision.
+- Identify the adjacency-orbit components with the connected components of the
+  realization: send each dart to the component containing its triangle and prove this
+  gives a bijection. Thus `G.IsConnected` is equivalent to `ConnectedSpace G.realization`,
+  and restricting to a chosen orbit gives its actual connected surface component.
+  The empty map has zero components. These comparisons precede the layer 4 operations.
 - The surface structure needs no hypothesis either. Its charts come from the links: at a vertex, an edge midpoint, or a face centre the link is a cycle or a path, and the cone on it is a disc or a half-disc; on the interior of a side the two glued triangles, or the one unglued triangle, give the chart directly. The first two conditions of layer 1 enter only to identify the boundary with the `α₂`-fixed sides; the third enters only for the Euler characteristic.
 - `exists_gmap_of_compactSurface` is Radó followed by `toGMap2`; the orientation comparison is `PlanarTopology` layer 6 read through the flag complex.
 
 **Examples and mathematical checks.** The `aa` generalized map from the encoding conventions is a certified counter-witness: it is a valid surface map, its flag triple map is **not** injective, and its unsubdivided flag complex has one triangle where the map has four darts. Realization is checked to produce the correct Euler characteristic on the full layer 1 table, through `PlanarTopology`'s `Surface.eulerChar`, not through `GMap2.eulerChar`. The all-swap map on `Bool` is checked to realize to a sphere, so that `eulerChar_eq` fails for it as it must. The barycentric subdivision of the all-swap map is checked to have Euler characteristic two, which is why `eulerChar_barycentricSubdivision` carries the surface hypothesis.
 
-**Natural intermediate results.** (i) the gluing setoid and the quotient topology; (ii) compactness, Hausdorffness, and the surface structure for every map; (iii) the flag triple, injectivity after subdivision, and the counter-witness; (iv) the homeomorphism with the flag complex realization; (v) `exists_gmap_of_compactSurface`; (vi) Euler characteristic agreement; (vii) the boundary identification and the boundary count; (viii) orientability and orientations agree.
+**Natural intermediate results.** (i) the gluing setoid and the quotient topology; (ii) compactness, Hausdorffness, and the surface structure for every map; (iii) the flag triple, injectivity after subdivision, and the counter-witness; (iv) the homeomorphism with the flag complex realization; (v) `exists_gmap_of_compactSurface`; (vi) Euler characteristic agreement; (vii) the boundary identification and the boundary count; (viii) orientability and orientations agree; (ix) adjacency-orbit components agree with realization components, including connectedness and the empty case.
 
 **Consequences.** `GeometricTopology` layer 11's dimension-two case. `BelyiMaps`, through layer 2's comparisons: the surface of a dessin.
 
@@ -563,6 +575,23 @@ theorem flagComplex_toGMap2 (hK : IsCombinatorialSurface K) :
 
 This layer separates two kinds of operation. Subdivision, admissible contraction, and duality preserve the represented surface. Connected sum, cutting, the orientation cover, capping, and doubling change it in controlled ways. Each operation is accompanied by its precise theorem on realizations and invariants, not only by orbit-count identities.
 
+For connected sum, an **interior-disc choice** on a validated surface map `G` is a finite
+subdivision of its flag triangulation together with a closed triangulated disc subcomplex.
+Its inclusion is an embedding, and its entire closed carrier lies in the interior of
+`G.realization`. Record its boundary circle and a disc parametrization carrying the unit
+circle onto that boundary. A choice exists on every nonempty surface map: refine inside a
+flag triangle and take a small closed triangle in its interior. A **boundary gluing** is a
+PL homeomorphism between the two chosen boundary circles, represented by a simplicial
+isomorphism after finite boundary refinements. In the oriented version it reverses the
+boundary directions induced on the two punctured surfaces by their chosen orientations.
+
+The connected operation takes nonempty connected surface maps and these disc/gluing
+data. Its realization is the quotient of the disjoint union of the two surfaces with
+the chosen open-disc interiors removed, identifying precisely the corresponding boundary
+points. For disconnected inputs, select one adjacency component on each side and disc
+data within those components. Perform the same gluing and preserve all unselected
+components. The empty map supplies neither an interior disc nor a selected component.
+
 **Representative formal statements.**
 
 ```lean
@@ -571,7 +600,20 @@ def GMap2.subdivideFace   (G : GMap2 D) (f : G.Cell 2) : GMap2 _
 def GMap2.contractEdge    (G : GMap2 D) (h : IsSurfaceGMap G)
     (e : G.Cell 1) (he : G.IsContractibleEdge e) : BundledGMap2
 def GMap2.dual            (G : GMap2 D) : GMap2 D
-def GMap2.connectedSum    (G : GMap2 D) (H : GMap2 E) : GMap2 _
+/-- Connected inputs and explicit interior-disc and boundary-gluing data. -/
+def GMap2.connectedSum (G : GMap2 D) (H : GMap2 E)
+    (hG : IsSurfaceGMap G) (hH : IsSurfaceGMap H)
+    (hcG : G.IsConnected) (hcH : H.IsConnected)
+    (dG : G.InteriorDisc) (dH : H.InteriorDisc)
+    (φ : BoundaryGluing dG dH) : BundledGMap2
+/-- Restrict the dart set to the specified adjacency orbit. -/
+def GMap2.component (G : GMap2 D) (c : G.Components) : BundledGMap2
+/-- Glue the selected components and retain all other components. -/
+def GMap2.connectedSumAt (G : GMap2 D) (H : GMap2 E)
+    (hG : IsSurfaceGMap G) (hH : IsSurfaceGMap H)
+    (cG : G.Components) (cH : H.Components)
+    (dG : (G.component cG).map.InteriorDisc) (dH : (H.component cH).map.InteriorDisc)
+    (φ : BoundaryGluing dG dH) : BundledGMap2
 /-- Two-sided curve/proper-arc adapters use the cut models of FreeGroupsAndLimitGroups
     §6.0d. Collect all resulting components; a cut need not stay connected. -/
 def GMap2.cutAlong        (G : GMap2 D) (c : G.CombinatorialCurve) : BundledGMap2
@@ -619,6 +661,20 @@ theorem GMap2.double_eulerChar (h : IsSurfaceGMap G) : G.double.eulerChar = 2 * 
 
 **Proof strategy and formalization notes.**
 
+- **Connected sum with specified data.** Restricting to a component means restricting
+  the darts to that one orbit of all adjacencies; it gives a nonempty connected surface
+  map. Remove the selected open discs, refine their boundary circles to match the gluing,
+  and glue the finite presentations. Prove that the output is a surface map and that its
+  realization is the specified topological quotient, preserving the inclusions of the
+  two punctured surfaces. Connected inputs give a connected output. For the result `S`,
+  prove `χ(S) = χ(G) + χ(H) - 2`, boundary count `b(S) = b(G) + b(H)`, and
+  `S` orientable iff both inputs are orientable. With chosen orientations and a reversing
+  boundary gluing, the two orientations extend over the seam. The component-selected
+  operation has `Nat.card S.Components = Nat.card G.Components + Nat.card H.Components - 1`,
+  the same total Euler and boundary formulas, and canonical homeomorphisms on all
+  unselected components. These are finite gluing and orientation calculations. Require
+  naturality under relabelling and subdivision of the recorded data. Full independence
+  of the disc and gluing choices is the post-classification corollary in layer 8.
 - The **orientation double cover** is a covering map for surfaces with boundary. The orientation character is trivial on each boundary component because a collar supplies a two-sided neighbourhood; consequently every boundary circle lifts to two boundary circles, each mapping homeomorphically to the original one. (This behaviour should be included in the covering theorem.)
 - Compare this cover with `PlanarTopology` layer 6's simplicial orientation cover through the flag-complex realization of layer 3: construct an orientation-preserving homeomorphism of covering spaces that commutes with projection and the deck involution. This comparison uses the two oriented copies of each triangle, and is proved before classification. `PlanarTopology` constructs its cover independently of generalized maps.
 - ⚠ The **double** `DM = M ∪_∂M M` is a quotient by an involution with fixed points, `Fix σ = ∂M` and `DM/σ = M`.  Record the double for its Euler characteristic identity and for later use. ⚠ Do not attempt to derive triangulation with boundary from it, that would require an equivariant triangulation theorem.
@@ -660,6 +716,16 @@ theorem GMap2.double_eulerChar (h : IsSurfaceGMap G) : G.double.eulerChar = 2 * 
 
 **Examples and mathematical checks.** `dual (dual G) ≃ G` is checked on the closed maps in the layer 1 table (comparison theorem 5). `orientationDoubleCover` of the projective plane map has eight darts and realizes to the sphere, that of the Klein bottle map has sixteen darts and realizes to the torus, and that of an orientable map is disconnected; `cap` of the disc map realizes to the sphere; `double` of the Möbius band map has sixteen darts and realizes to the Klein bottle. The finite statements, dart counts, connectedness, orientability, and Euler characteristic, are by `decide` on the explicit maps; the identifications of realizations are by layer 8's classification, or by `decide` where a map isomorphism with a table entry of matching dart count exists.
 
+For connected sum, `sphere # torus` has Euler characteristic `2+0-2=0`, no boundary,
+and realizes to the torus. `disc # disc` has `χ=1+1-2=0` and two boundary circles,
+and realizes to an annulus. These are interior-disc sums. The empty map fails the
+connected-input and disc-choice conditions. Component selection is substantive:
+for `(sphere ⊔ torus) # torus`, choosing the sphere gives two tori, while choosing
+the torus gives a sphere beside a closed orientable genus-two surface. Both results
+have two components and total `χ=0`, but their component Euler characteristics are
+`{0,0}` and `{2,-2}`. The homeomorphism identifications use layer 8; the finite
+invariant counts are established here.
+
 For contraction, a boundary edge of a disc and a spoke from an interior vertex to a
 boundary vertex both give a disc. An interior non-loop edge of a closed surface
 preserves that surface, allowing the local presentation refinements specified above.
@@ -676,7 +742,7 @@ non-surface map on two darts with `α₀ = id` and `α₁ = α₂ = swap` realiz
 but has no `α₂`-fixed darts. It fails `IsSurfaceGMap` and is outside the capping API;
 its zero combinatorial boundary count cannot be used to cap the topological disc.
 
-**Natural intermediate results.** (i) subdivision operations; (ii) contraction and deletion; (iii) duality; (iv) connected sum; (v) cutting along a combinatorial curve; (vi) orientation double cover and comparison with the simplicial cover of `PlanarTopology` layer 6; (vii) capping and doubling.
+**Natural intermediate results.** (i) subdivision operations; (ii) contraction and deletion; (iii) duality; (iv) interior-disc and boundary-gluing data, component restrictions, connected sum and the selected-component version, their quotient comparisons and invariant formulas; (v) cutting along a combinatorial curve; (vi) orientation double cover and comparison with the simplicial cover of `PlanarTopology` layer 6; (vii) capping and doubling.
 
 ---
 
@@ -1204,6 +1270,8 @@ not just the ranks of their homology. The chain complexes of the layer 1 table a
 The summit of the core theory. Existence is layer 6's normal-form theorem transported to topology by `PlanarTopology`'s Radó and by the realization theorems of layers 2, 3, and 6; uniqueness is the three invariants that `PlanarTopology` makes topological: Euler characteristic, orientability, and the boundary count.
 
 **From PlanarTopology.** Radó, `Surface.eulerChar`, `Surface.IsOrientable`, `boundaryComponentCount` (layers 2, 5, and 6).
+**For connected-sum corollaries after classification.** Layer 4's gluing construction,
+connectedness, Euler, boundary and orientability formulas.
 
 **Representative formal statements.**
 
@@ -1274,10 +1342,19 @@ theorem model_nonorientable_homeomorph_sdiff_discs (k : ℕ) (hk : 0 < k) (b : �
 - ⚠ The `∃!` form is the form for the library. A quotient-and-representative form, of the kind [lean-eval](https://github.com/leanprover/lean-eval) statements use, is a bridge if it appears at all.
 - The boundary case is not a separate argument: boundary edges ride through layer 6's reduction as once-labels, and the normal form's hole blocks `c h c⁻¹` are its boundary circles. That a model with `b` holes is the closed model minus `b` discs is a schema computation: pasting a cap monogon `h⁻¹` onto `c h c⁻¹` and cancelling removes the block, so the capped model is the closed model and the removed discs are the caps. Schoenflies is not used.
 - Genus is derived from the invariants, `(2 − χ − b) / 2` in the orientable case and `2 − χ − b` otherwise; its meaning as a count of handles or crosscaps is exactly the two `genus_model` lemmas.
+- **Connected-sum choice independence.** After the classification theorem, prove that
+  the layer 4 connected sum has the same unoriented homeomorphism type for all admissible
+  interior discs, finite refinements and boundary gluings. The outputs are connected
+  surfaces with the same Euler characteristic, boundary count and orientability, so
+  apply `homeomorph_iff_invariants`. For fixed selected components of disconnected
+  inputs, apply this comparison to their joined component and use the identity on all
+  unselected components. This includes sphere as the connected-sum unit and gives the
+  usual interpretation of normal forms as sums of tori or projective planes. The
+  classification proof itself uses polygonal reduction and the three finite invariants.
 
 **Examples and mathematical checks.** The classification is instantiated on a surface presented only by charts, with no combinatorial data supplied, and produces the correct `StandardSurface`. The completeness statement is accompanied by a sharpness table. If Euler characteristic is dropped, the torus and the closed orientable genus-two surface agree on orientability and boundary count. If orientability is dropped, the torus and Klein bottle agree on Euler characteristic and boundary count. If boundary count is dropped, the torus and annulus agree on Euler characteristic and orientability. Dyck's theorem is exercised by identifying a torus connected-summed with a projective plane with the nonorientable genus-three surface. The four named models are checked against their Mathlib counterparts, and `genus` is computed on each.
 
-**Natural intermediate results.** (i) `StandardSurface`, its schemas and models, and the named models; (ii) existence; (iii) uniqueness; (iv) the complete invariant and its sharpness table; (v) genus; (vi) models with holes as closed models minus discs.
+**Natural intermediate results.** (i) `StandardSurface`, its schemas and models, and the named models; (ii) existence; (iii) uniqueness; (iv) the complete invariant and its sharpness table; (v) genus; (vi) models with holes as closed models minus discs; (vii) connected-sum choice independence, including fixed selected components, and the connected-sum interpretation of the normal forms.
 
 **Consequences.** `GeometricTopology` layer 9. Layer 5's `Graph.genus`. Layer 9. `BelyiMaps`, for the surface of a dessin.
 
@@ -1664,4 +1741,4 @@ Stable bibliographic keys and printed-page locators are recorded in `sources.tom
 - B. Farb and D. Margalit, *A Primer on Mapping Class Groups*, chapters 1–3. The change-of-coordinates principle, intersection numbers, and the Alexander method, cited for conventions; the route is Lickorish's.
 - J. R. Munkres, *Topology*, chapter 12. The normal forms and the abelianization computations of layer 7; uniqueness here goes through the Euler characteristic, orientability, and the boundary count instead.
 - E. Moise, *Geometric Topology in Dimensions 2 and 3* (1977), §§21–22, pp. 147–164. Euler characteristic and classification via triangulations; §8, pp. 58–64, treats triangulation and the Hauptvermutung.
-- J. Gallier and D. Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer (2013); locators here use the authors' revision dated January 8, 2025. Cell complexes are Definition 6.1, pp. 80–83; subdivisions are Definition 6.3 and Proposition 6.1, pp. 84–87; normal forms with hole blocks are Definition 6.5, pp. 88–91; reduction is Lemma 6.1, pp. 92–95; classification is Theorems 6.1–6.2, pp. 96–97. Keep the sphere digon instead of deleting its final inverse pair. Only the finite reduction is an input to layer 6; Euler invariance here follows PlanarTopology's elementary move counts.
+- J. Gallier and D. Xu, *A Guide to the Classification Theorem for Compact Surfaces*, Springer (2013); locators here use the authors' revision dated January 8, 2025. Cell complexes are Definition 6.1, pp. 80–83; subdivisions are Definition 6.3 and Proposition 6.1, pp. 84–87; normal forms with hole blocks are Definition 6.5, pp. 88–91; reduction is Lemma 6.1, pp. 92–95; classification is Theorems 6.1–6.2, pp. 96–97. Keep the sphere digon instead of deleting its final inverse pair. Only the finite reduction is an input to layer 6; Euler invariance here follows PlanarTopology's elementary move counts. Definition 6.6, p. 97, describes the connected-sum quotient and states its Euler formula; the choice-independence argument specified here uses the completed finite classification.

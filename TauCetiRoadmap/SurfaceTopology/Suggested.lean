@@ -28,6 +28,9 @@ Other README headlines need vocabulary not implemented at this library pin:
 * Topological normal forms and compact-surface classification need the shared
   SurfaceModel carrier, its moves and canonical models, and the realization adapters.
   No canonical model is represented here by an admitted constructor.
+* The finite connected-sum constructors need subdivided interior-disc subcomplexes,
+  boundary-gluing data and component restrictions. Layer 4 fixes their quotient and
+  invariant contracts; layer 8 proves independence of choices after classification.
 * Finite homology and the mapping-class action need the shared simplex chains and
   the cell-orientation/subdivision comparisons specified in layer 7.
 * Dehn–Lickorish needs interior curves/proper arcs, relative isotopies, the actual

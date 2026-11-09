@@ -79,7 +79,7 @@ title = "A Guide to the Classification Theorem for Compact Surfaces"
 authors = ["Jean Gallier", "Dianna Xu"]
 year = 2013
 edition = "Author revision dated January 8, 2025"
-locators = ["Definition 6.1, pp. 80–83: cell complexes", "Definition 6.3 and Proposition 6.1, pp. 84–87: subdivisions", "Definition 6.5, pp. 88–91: normal forms", "Lemma 6.1, pp. 92–95: reduction", "Theorems 6.1–6.2, pp. 96–97: classification"]
+locators = ["Definition 6.1, pp. 80–83: cell complexes", "Definition 6.3 and Proposition 6.1, pp. 84–87: subdivisions", "Definition 6.5, pp. 88–91: normal forms", "Lemma 6.1, pp. 92–95: reduction", "Theorems 6.1–6.2, pp. 96–97: classification", "Definition 6.6, p. 97: connected-sum quotient and Euler formula"]
 
 [sources.moise]
 title = "Geometric Topology in Dimensions 2 and 3"
