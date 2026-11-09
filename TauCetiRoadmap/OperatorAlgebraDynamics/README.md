@@ -15,8 +15,9 @@ full-algebra form of the Fourier isomorphism of a locally compact
 abelian group with the identification `C*(Ĝ)≅C₀(G)`, disintegration over
 the standard-fibre direct integrals of the spectral theorem, the KMS
 simplex, and the thermodynamic limit of quantum spin systems.
-The generic Hilbert-module induction and the C*-algebraic foundations of
-CStarAlgebras are consumed as declared gaps; the Plancherel and Pontryagin
+The generic Hilbert-module induction of HilbertModules H3 and the
+C*-algebraic foundations of CStarAlgebras Layers 1, 2 and 5–8 are consumed
+by section; the Plancherel and Pontryagin
 duality theorems, the Fourier isomorphism `C*_r(G)≅C₀(Ĝ)` of the reduced
 group C*-algebra and the measurable-field machinery are consumed from
 VonNeumannAlgebras V11 and V4.0.
@@ -119,7 +120,7 @@ It leaves to named roadmaps:
   algebras: CStarClassification CL2–CL3. The translation-lifting
   construction: CStarClassification CL5 (§§5.7–5.8). The concrete
   Toeplitz algebra on `ℓ²(ℕ)` with its extension by the compact operators:
-  CStarAlgebras C8.4, consumed as `gap:toeplitz-extension`.
+  CStarAlgebras C8.4, consumed by D2.SequenceToeplitz.
 - The independent full/reduced norm obstruction for F₂: FreeProbability F3;
   it is not a prerequisite for the Powers argument of D2.FreeGroups.
 - The von Neumann crossed products `M⋊̄G` themselves, with the regular–normal
@@ -144,8 +145,9 @@ It leaves to named roadmaps:
   pre-bimodules, the linking algebra `K_B(E⊕B)`, induction as an
   equivalence of representation categories, the Rieffel correspondence of
   ideals and strong Morita equivalence as an equivalence relation:
-  HilbertModules H2–H3, the induction and bimodule part consumed as the
-  declared gap `gap:hilbert-module-induction` below. D1.Modules keeps the
+  HilbertModules H2–H3, whose induction and bimodule part (H3, with H1's
+  completion over dense *-subalgebras) is consumed by section as the
+  supplier contracts below state. D1.Modules keeps the
   module conventions, the stage lemma for an explicit pairing of modules,
   and the convention witnesses that D2, D3 and D6 need.
 - Measurable Hilbert fields, direct integrals, decomposable operators, the
@@ -223,12 +225,12 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   vector integration, Haar modular identities, and the support and Fubini
   arguments needed without global σ-finiteness. Its amenability dependency
   is the AmenableGroups roadmap.
-- The C*-algebraic foundations (multipliers with the strict topology,
-  representation theory and the primitive ideal space, C*-tensor products
-  and inductive limits, nuclearity and exactness, the Toeplitz extension)
-  are consumed through the declared gaps `gap:cstar-ideals-multipliers`,
-  `gap:cstar-representations`, `gap:cstar-tensor-limits`,
-  `gap:cstar-nuclear-exact` and `gap:toeplitz-extension` below.
+- The C*-algebraic foundations (ideals, quotients and multipliers with the
+  strict topology, representation theory and the primitive ideal space,
+  C*-tensor products and inductive limits, nuclearity and exactness, the
+  Toeplitz extension) are consumed from CStarAlgebras by section, and the
+  induced Hilbert spaces and imprimitivity bimodules from HilbertModules H1
+  and H3, as the two contracts below state.
 - From Mathlib: `CStarModule` (Hilbert C*-modules, the norm `‖x‖=√‖⟨x,x⟩‖`,
   `CStarModule.norm_inner_le`, the self-module instance and
   `WithCStarModule.instCStarModuleComplex`, which makes a Hilbert space a
@@ -554,67 +556,65 @@ when for all x, y in M there is a bounded continuous function on
 `0≤Im z≤1`, holomorphic inside, with `F(t)=φ(α_t(x)y)` and
 `F(t+i)=φ(yα_t(x))` (V10.KMS).
 
-Declared gaps: each object below is consumed from the named section of
-another roadmap by its slug, which every consuming target cites.
-
-What HilbertModules must provide (gap:hilbert-module-induction): for a right
+HilbertModules supplies, as a roadmap on main cited by section, the
+induction and imprimitivity theory of H3 together with H1's completion of
+a module over a dense *-subalgebra in its C*-completion: for a right
 Hilbert B-module X with a left action of a C*-algebra A by adjointable maps
 and a nondegenerate representation ρ of B on a Hilbert space H, the induced
 Hilbert space `X⊗_ρH` with inner product `⟨x⊗ξ,y⊗η⟩=⟨ξ,ρ(⟨x,y⟩_B)η⟩`
-(positive by the Gram-matrix lemma) and balancing law `xb⊗ξ=x⊗ρ(b)ξ`, the
-induced representation `Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` of A with `‖Ind_Xρ(a)‖≤‖a‖`,
-nondegenerate when `φ(A)X` is dense, functorial on bounded intertwiners,
-compatible with unitary equivalence, Hilbert direct sums and induction in
-stages, with `B⊗_ρH≅H` by `b⊗ξ↦ρ(b)ξ` for `X=B`; and A–B imprimitivity
+(positive by H1's Gram-matrix lemma) and balancing law `xb⊗ξ=x⊗ρ(b)ξ`, the
+induced representation `Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` of A with
+`‖Ind_Xρ(a)‖≤‖a‖`, nondegenerate when `φ(A)X` is dense, functorial on
+bounded intertwiners, compatible with unitary equivalence, Hilbert direct
+sums and induction in stages, with `B⊗_ρH≅H` by `b⊗ξ↦ρ(b)ξ` for `X=B` (H3's
+unit unitary `B⊗_BF≅F` for a nondegenerate action); and A–B imprimitivity
 bimodules in the two-inner-product form (full on both sides, the left inner
 product linear in its first variable, each action adjointable for the other
-inner product, `_A⟨x,y⟩z=x⟨y,z⟩_B`), with the equality of their two norms,
-the completion of a pre-imprimitivity bimodule over dense *-subalgebras to
-an imprimitivity bimodule, and nondegeneracy of representations induced
-through one (HilbertModules H3; Williams, Proposition I.1, p. 479, and
-§4.1, pp. 114–115).
+inner product, `_A⟨x,y⟩z=x⟨y,z⟩_B`), with H3's equivalence between this form
+and the form `A≅K_B(E)`, which gives the equality of their two norms, the
+completion of a pre-imprimitivity bimodule over dense *-subalgebras to an
+imprimitivity bimodule, and nondegeneracy of representations induced
+through one (Williams, Proposition I.1, p. 479, and §4.1, pp. 114–115).
+D1.Modules, D2, D3 and D6 consume these by section.
 
-What CStarAlgebras must provide (gap:cstar-ideals-multipliers): closed
-two-sided ideals and their quotient C*-algebras with the correspondence to
-surjective *-homomorphisms (CStarAlgebras C1.3), the compact operators
-`K(H)` as the simple ideal of `B(H)` (C1.6), for each closed ideal an
-approximate unit of the ideal that is quasicentral in A (C1.4); and the multiplier algebra `M(A)=𝓜(ℂ,A)` with
-its strict topology, the essential-ideal universal property of A in
-`M(A)`, joint strict continuity of multiplication on bounded sets, and the
-unique strictly continuous unital extension `M(A)→M(B)` of a nondegenerate
-*-homomorphism `A→M(B)` into the multiplier algebra of a C*-algebra B
-(C1.7). The Hilbert-space case, the extension of a nondegenerate
-representation `A→B(H)` to `M(A)`, is Tau Ceti's
-`NonUnitalStarAlgHom.multiplierExtension` and is not part of this gap.
+CStarAlgebras supplies, as a roadmap on main cited by section, the
+C*-algebraic foundations used throughout:
 
-What CStarAlgebras must provide (gap:cstar-representations): extension of
-states from a unital C*-subalgebra (C2.1); cyclic and irreducible
-representations with intertwiners, unitary equivalence and direct sums, the
-criterion that a nonzero nondegenerate representation is irreducible iff
-its commutant is scalar, and the irreducibility of the GNS representation
-of a pure state (C2.2); the representations of the compact operators and of
-algebras containing them (C2.3–C2.4); and the primitive ideal space
-`Prim(A)` with its hull–kernel topology, the lattice correspondence of
-closed ideals with open sets and `Prim(A/I)` as the closed hull of I (§2.6,
-C2.AnnHull).
-
-What CStarAlgebras must provide (gap:cstar-tensor-limits): the minimal and
-maximal C*-tensor products `A⊗_minB` and `A⊗_maxB` with their universal
-properties and functoriality (C5.1–C5.2), and C*-inductive limits of
-directed systems with their universal property, together with the
-universal unital C*-algebra on a family of unitaries (C5.4).
-
-What CStarAlgebras must provide (gap:cstar-nuclear-exact): nuclear
-completely positive maps and nuclear C*-algebras with their
-completely-positive-approximation characterisation and the permanence of
-nuclearity under extensions and inductive limits (C6.1, C6.2, C6.5), and
-exact C*-algebras, defined by exactness of `A⊗_min−` on closed-ideal
-sequences, with nuclear algebras exact (C7.1).
-
-What CStarAlgebras must provide (gap:toeplitz-extension): with S the forward
-unilateral shift on `ℓ²(ℕ)` and `T=C*(S)` the Toeplitz algebra, the
-extension `0→K(ℓ²(ℕ))→T→C(𝕋)→0` whose symbol map sends S to the
-coordinate function z (C8.4).
+- ideals and multipliers: closed two-sided ideals and their quotient
+  C*-algebras with the correspondence to surjective *-homomorphisms (C1.3);
+  for each closed ideal an approximate unit of the ideal that is
+  quasicentral in A (C1.4); the compact operators `K(H)` as the simple
+  ideal of `B(H)` for nonzero H (C1.6); and the multiplier algebra
+  `M(A)=𝓜(ℂ,A)` with its strict topology, the essential-ideal universal
+  property of A in `M(A)`, joint strict continuity of multiplication on
+  bounded sets, and the unique strictly continuous unital extension
+  `M(A)→M(B)` of a nondegenerate *-homomorphism `A→M(B)` into the
+  multiplier algebra of a C*-algebra B (C1.7). The Hilbert-space case, the
+  extension of a nondegenerate representation `A→B(H)` to `M(A)`, is Tau
+  Ceti's `NonUnitalStarAlgHom.multiplierExtension`;
+- representations: extension of states from a unital C*-subalgebra (C2.1);
+  cyclic and irreducible representations with intertwiners, unitary
+  equivalence and direct sums, the criterion that a nonzero nondegenerate
+  representation is irreducible iff its commutant is scalar, and the
+  irreducibility of the GNS representation of a pure state (C2.2); the
+  representations of the compact operators and of algebras containing them
+  (C2.3–C2.4); and the primitive ideal space `Prim(A)` with its hull–kernel
+  topology, the lattice correspondence of closed ideals with open sets and
+  `Prim(A/I)` as the closed hull of I (§2.6, C2.AnnHull);
+- tensor products and limits: the minimal and maximal C*-tensor products
+  `A⊗_minB` and `A⊗_maxB` with their universal properties and functoriality
+  (C5.1–C5.2), and C*-inductive limits of directed systems with their
+  universal property, together with the universal unital C*-algebra
+  `C*(F_∞)` on countably many unitaries (C5.4);
+- nuclearity and exactness: nuclear completely positive maps and nuclear
+  C*-algebras with their completely-positive-approximation characterisation
+  and the permanence of nuclearity under extensions and inductive limits
+  (C6.1, C6.2, C6.5), and exact C*-algebras, defined by exactness of
+  `A⊗_min−` on closed-ideal sequences, with nuclear algebras exact (C7.1);
+- the Toeplitz extension: with S the forward unilateral shift on `ℓ²(ℕ)`
+  and `T=C*(S)` the Toeplitz algebra, the extension
+  `0→K(ℓ²(ℕ))→T→C(𝕋)→0` whose symbol map sends S to the coordinate
+  function z (C8.4).
 
 General API: Mathlib's star-algebra equivalences, nonunital star
 homomorphisms, positive continuous linear functionals, `ContinuousMap`,
@@ -635,7 +635,7 @@ crossed product with the L¹ integrated form, the recovery of covariant
 pairs, the universal property into multiplier algebras and the ideal exact
 sequence and, in D1.Modules, the module conventions and the stage
 lemma that D2, D3 and D6 use together with the induced Hilbert spaces of
-`gap:hilbert-module-induction`; D4.Harmonic carries VonNeumannAlgebras
+HilbertModules H3; D4.Harmonic carries VonNeumannAlgebras
 V11's Fourier isomorphism `C*_r(G)≅C₀(Ĝ)` to the full group C*-algebra by
 the full/reduced agreement and, with V11's Plancherel and Pontryagin
 duality theorems, builds the identification `C*(Ĝ)≅C₀(G)` that D4.LCAWeyl
@@ -645,8 +645,8 @@ measurable fields, and compare transformation groupoids with D1–D2. D7–D9
 form the equilibrium development on Tau Ceti's KMS, ground-state and
 finite-volume spin theory. Operator K-theory consumes crossed products and
 duality. The dependency order of the twisted sections is
-`gap:cstar-ideals-multipliers`/A7/D1.Modules → D1.CentralTwists →
-D2.CentralTwists, and A7/`gap:cstar-ideals-multipliers` → D1.BorelPrefix →
+CStarAlgebras C1.7/A7/D1.Modules → D1.CentralTwists →
+D2.CentralTwists, and A7/CStarAlgebras C1.7 → D1.BorelPrefix →
 D1.TwistedBorel; D5's order is V4.0.Fields → SA-B85 → V4.0.Decomposition →
 D5.Fields → D5. D2.SequenceToeplitz
 is built after D4.Harmonic, whose `C*(ℤ)≅C(𝕋)`, `δ_1↦z`, gives its circle
@@ -713,7 +713,7 @@ unitary representation of G, strongly continuous by
 `NonUnitalStarAlgHom.continuous_multiplierExtension_apply` (unitary
 multipliers have norm at most 1). The extension of a nondegenerate *-homomorphism
 into `M(B)` for a C*-algebra B, with the strict topology, is
-`gap:cstar-ideals-multipliers`. Recover the pair: every
+CStarAlgebras C1.7's. Recover the pair: every
 nondegenerate representation L of `A⋊_αG` on a Hilbert space is the
 extended integrated form
 `TauCeti.CStarAction.CovariantRepresentation.integratedFull` of a covariant
@@ -748,9 +748,9 @@ The full group C*-algebra is `C*(G)=ℂ⋊G`, the full crossed product of the
 trivial action on ℂ. Prove `A⋊_idG≃A⊗_maxC*(G)`, under which the
 function `s↦g(s)a` in `C_c(G,A)` corresponds to the elementary tensor `a⊗g`
 for `a∈A` and `g∈C_c(G)` (Williams, Lemma 2.73, p. 76), using the maximal
-tensor product of `gap:cstar-tensor-limits`. Identify the
+tensor product of CStarAlgebras C5.1. Identify the
 universal unital C*-algebra on countably many unitaries of
-`gap:cstar-tensor-limits` with the full C*-algebra of the free group on ℕ,
+CStarAlgebras C5.4 with the full C*-algebra of the free group on ℕ,
 matching each generator with the canonical unitary of a basis element and
 proving that the two universal properties induce inverse maps.
 
@@ -791,10 +791,10 @@ proving that the two universal properties induce inverse maps.
 
 *Needs:* BanachAlgebras A7 (vector integration, Haar modular identities,
 localized Fubini); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension`
-(the Hilbert-space multiplier extension); `gap:cstar-ideals-multipliers`
-(extensions into `M(B)` and the strict topology); `gap:cstar-tensor-limits`
-(the maximal tensor
-product and the universal algebra on unitaries); Tau Ceti as in the
+(the Hilbert-space multiplier extension); CStarAlgebras C1.7
+(extensions into `M(B)` and the strict topology); CStarAlgebras C5.1–C5.2
+and C5.4 (the maximal tensor product and the universal algebra on countably
+many unitaries); Tau Ceti as in the
 supplier contract (actions, the convolution algebra, covariant pairs,
 `TauCeti.CStarAction.FullCrossedProduct` and its canonical multipliers and
 functoriality); Mathlib `MeasureTheory.Measure.modularCharacter` and
@@ -819,8 +819,8 @@ the induced representation `Ind_Xρ(a)(x⊗ξ)=φ(a)x⊗ξ` of A with its norm
 bound, its nondegeneracy when ρ is nondegenerate and `φ(A)X` is dense, its
 functoriality on bounded intertwiners, its compatibility with unitary
 equivalence and Hilbert direct sums, and the unitary `B⊗_ρH≅H`,
-`b⊗ξ↦ρ(b)ξ`, for `X=B` and nondegenerate ρ, are the objects of
-`gap:hilbert-module-induction` (Williams, Proposition I.1, p. 479, states
+`b⊗ξ↦ρ(b)ξ`, for `X=B` and nondegenerate ρ, are supplied by
+HilbertModules H3 (Williams, Proposition I.1, p. 479, states
 the construction with the Hilbert B-module Y=H). So are A–B imprimitivity
 bimodules in the two-inner-product form, the left inner product `_A⟨x,y⟩`
 linear in its first variable with `_A⟨ax,y⟩=a·_A⟨x,y⟩`, `_A⟨x,y⟩*=_A⟨y,x⟩`
@@ -904,7 +904,8 @@ spans a dense subspace when the pairing has dense range, since
 *Needs:* Mathlib `CStarModule`, `WithCStarModule.instCStarModuleComplex` and
 `CStarMatrix` (the carrier of the Gram-matrix Check); the induced Hilbert
 spaces, induced representations and imprimitivity bimodules of
-`gap:hilbert-module-induction`; Mathlib `CStarAlgebra.approximateUnit`.
+HilbertModules H3, with H1's completion over dense *-subalgebras; Mathlib
+`CStarAlgebra.approximateUnit`.
 
 ### D1.CentralTwists. Continuous central multiplier cocycles
 
@@ -916,7 +917,7 @@ into the automorphisms of `M(A)`, unique by
 `TauCeti.CStarAction.eq_multiplier_of_apply_coe`. Prove preservation of the
 center and unitaries, and joint strict continuity on bounded multiplier
 sets. The
-strict topology here is that of `gap:cstar-ideals-multipliers`, not the
+strict topology here is that of CStarAlgebras C1.7, not the
 norm topology of `DoubleCentralizer`; Tau Ceti states strict continuity of
 α̃ pointwise (`TauCeti.CStarAction.continuous_multiplier_apply_fst`).
 
@@ -1125,10 +1126,22 @@ here.
   ω^b → ω.
 - For A=0 every value is the unit of `M(0)=0`, both continuity conditions
   hold, and all constructions return the zero algebra.
-- A noncentral Busby–Smith pair with `α_sα_t=Ad(ω(s,t))α_(st)` and ω not
-  central, for example the inner action of a nonabelian finite group on
-  `M_n(ℂ)` with its Schur multiplier, does not satisfy the `central` law
-  and is excluded; the cocycle law alone does not exclude it.
+- The `central` law is not implied by the others: let `G=ℤ/2={e,a}` act
+  trivially on `A=M_2(ℂ)`, so `M(A)=M_2(ℂ)`, and put `ω(a,a)=diag(1,−1)`,
+  every other value 1. This ω is unitary and normalized, continuity is
+  automatic for discrete G, and the cocycle law holds: at `r=s=t=a` both
+  sides are `diag(1,−1)`, and every triple containing e reduces by
+  normalization. But `diag(1,−1)E_12=E_12` while `E_12diag(1,−1)=−E_12`, so
+  `central` fails, and it is the only law that excludes this ω.
+- A genuine noncentral Busby–Smith pair is excluded earlier, by the action:
+  on `M_2(ℂ)` with `G=ℤ/2`, `α_a=Ad(diag(1,i))` and `ω(a,a)=diag(1,−1)`
+  satisfy `α_aα_a=Ad(ω(a,a))α_e` and the cocycle identity (`α_a` fixes the
+  diagonal matrix `ω(a,a)`), but `α_a²=Ad(diag(1,−1))` sends `E_12` to
+  `−E_12`, so α is not an action of ℤ/2 and is no `TauCeti.CStarAction`. A
+  Schur multiplier gives no such pair: for a projective unitary
+  representation u of a finite group on `ℂⁿ` with multiplier σ, the inner
+  action `α_s=Ad(u_s)` is an honest action and `u_su_tu_(st)*=σ(s,t)·1` is
+  central.
 - In the bicharacter case `G=M×M̂`, for `M=ℤ/2` the values are `±1` and
   `ω(x,x)=ψ(m)` for `x=(m,ψ)`; the star formula `f*(x)=overline(f(−x))ω(x,x)`
   agrees with `c(x)ω(x,x⁻¹)*α_x(f(x⁻¹)*)` because `ω(x,−x)=ω(x,x)⁻¹=ω(x,x)`
@@ -1137,12 +1150,12 @@ here.
 
 *Needs:* Tau Ceti's covariant pairs and full crossed product (integrated
 forms, regular representation, universal norm);
-`gap:cstar-ideals-multipliers` (the strict topology, multiplier
+CStarAlgebras C1.7 (the strict topology, multiplier
 extensions into `M(B)`); Tau Ceti `TauCeti.CStarAction.multiplier` and
 `NonUnitalStarAlgHom.multiplierExtension` (π̃ and ρ̃); Mathlib
 `CStarAlgebra.approximateUnit`;
 BanachAlgebras A7 (Haar integration, modular character, localized Fubini);
-D1.Modules with the induced Hilbert spaces of `gap:hilbert-module-induction`;
+D1.Modules with the induced Hilbert spaces of HilbertModules H3;
 Tau Ceti `twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`
 for the discrete scalar comparison; Mathlib `DoubleCentralizer` and `unitary`.
 
@@ -1321,7 +1334,7 @@ unqualified set-theoretic central cocycle.
 *Needs:* D1.BorelPrefix (Mackey topology, coefficient comparison,
 automatic continuity, strong-Borel correspondence); D1 (full completion,
 approximate units, pair recovery); BanachAlgebras A7 (lcsc scalar Fubini);
-`gap:cstar-ideals-multipliers` (multipliers of `C*(E_ω)`).
+CStarAlgebras C1.7 (multipliers of `C*(E_ω)`).
 
 ### Examples
 
@@ -1335,15 +1348,15 @@ inner product.
 
 ### Dependencies
 
-BanachAlgebras A7; `gap:cstar-ideals-multipliers` and
-`gap:cstar-tensor-limits`; Tau Ceti as in the supplier contract; Mathlib
+BanachAlgebras A7; CStarAlgebras C1.3, C1.7, C5.1–C5.2 and C5.4; Tau
+Ceti as in the supplier contract; Mathlib
 `ContRepresentation`,
 `MeasureTheory.Measure.modularCharacter`, `CStarModule`, `CStarMatrix`,
 `DoubleCentralizer`, `unitary`, `ContinuousLinearMap.toPointwiseConvergenceCLM`,
 `div_mem_nhds_one_of_haar_pos` and `MonoidHom.isOpenMap_of_sigmaCompact`; Tau
 Ceti `ContRepresentation.IsUnitary`, `ContRepresentation.integratedOperatorL1`,
 `twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`; the
-induced Hilbert spaces of `gap:hilbert-module-induction` (D1.Modules). Within
+induced Hilbert spaces of HilbertModules H3 (D1.Modules). Within
 the layer: D1 → D1.Modules → D1.CentralTwists, and D1 → D1.BorelPrefix →
 D1.TwistedBorel.
 
@@ -1361,7 +1374,7 @@ adjoint left convolution by `f*`, so that `C_c(G,A)` acts on the left of
 `L²(G,A)` by adjointable maps in the sense of D1.Modules, and that for a
 nondegenerate representation ρ of A on H the map
 `ξ⊗η↦(r↦ρ(α_(r⁻¹)(ξ(r)))η)` extends to a unitary from the induced Hilbert
-space `L²(G,A)⊗_ρH` of `gap:hilbert-module-induction` onto `L²(G,H)` (Williams, Proposition
+space `L²(G,A)⊗_ρH` of HilbertModules H3 onto `L²(G,H)` (Williams, Proposition
 I.21, p. 494, for the density of `C_c(G,H)`) carrying the induced operator
 of left convolution by f to the integrated regular representation
 `(ρ̃⋊λ)(f)` of D1: the regular representation is induced from ρ.
@@ -1432,7 +1445,7 @@ integrated norms by tensoring and absorption. Prove the compact-support
 approximation and integrated norm estimates; do not insert exactness as an unconditional
 property of reduced crossed products. Prove that a nuclear A and amenable G
 give a nuclear crossed product, using the CP approximations of
-`gap:cstar-nuclear-exact`.
+CStarAlgebras C6.1–C6.2.
 For exact A and amenable G prove the crossed product is exact.
 Establish the coefficient-tensor identification
 `(A⋊rG)⊗min D ≃ (A⊗min D)⋊rG` for the trivial action on D,
@@ -1448,13 +1461,13 @@ RepresentationTheory/CompactGroups.
 
 *Needs:* Tau Ceti's regular covariant representation, integrated forms and
 full crossed product with its canonical multipliers; D1 (the universal
-property into multiplier algebras, the ideal short exact sequence); D1.Modules with `gap:hilbert-module-induction`
+property into multiplier algebras, the ideal short exact sequence); D1.Modules with HilbertModules H3
 (induced Hilbert spaces through a module with a left action by adjointable
 maps); BanachAlgebras A7 (Haar
 integration, `L¹(G)` convolution, the Fubini and support arguments);
 AmenableGroups (invariant means on Haar `L∞`, Layer 7's `L¹` approximation
-and Layer 5's Følner sets); `gap:cstar-tensor-limits` (minimal and maximal
-tensor products) and `gap:cstar-nuclear-exact` (nuclearity with CP
+and Layer 5's Følner sets); CStarAlgebras C5.1–C5.2 (minimal and maximal
+tensor products) and C6.1–C6.2, C6.5 and C7.1 (nuclearity with CP
 approximations, exactness);
 RepresentationTheory/CompactGroups (Peter–Weyl); Mathlib `Lp`.
 
@@ -1482,7 +1495,7 @@ makes d constant on O, so the common commutant is ℂI
 (`transitive_commutant_scalar`, stated on the Hilbert sum of any transitive
 G-set with a point-separating family of diagonal operators). Apply D1's
 integrated intertwiner dictionary and the nonzero Schur criterion of
-`gap:cstar-representations`.
+CStarAlgebras C2.2.
 No discrete-subspace hypothesis on O or countability of G or O is required.
 Prove Π_p and Π_q are unitarily equivalent exactly when p,q lie in the same
 orbit. For different orbits, use the same point-separation argument to show
@@ -1537,7 +1550,7 @@ primitive ideal space.
 (`TauCeti.CStarAction.CovariantRepresentation.comp_integratedOperator_iff`);
 D2 (regular
 representation, coefficient expectation, reduced crossed product);
-`gap:cstar-representations` (Schur criterion, irreducible
+CStarAlgebras C2.2 (Schur criterion, irreducible
 representations); Mathlib `lp`, `AddCircle`, `MulAction.IsPretransitive`.
 
 ### D2.CentralTwists. Reduced central twisted products
@@ -1551,7 +1564,7 @@ twisted star. In standard-module coordinates its coefficient map is
 `V_sξ(r)=α̃_(r⁻¹)(ω(s,s⁻¹r))ξ(s⁻¹r)`; multiplication here is the
 multiplier action on A. Prove the formulas on compact-support sections,
 A-linearity, boundedness, adjoints and extension, and show that the
-induced Hilbert space `⊗_ρH` of `gap:hilbert-module-induction` for a
+induced Hilbert space `⊗_ρH` of HilbertModules H3 for a
 nondegenerate ρ is `L²(G,H_ρ)` carrying precisely D1.CentralTwists' regular
 pair.
 
@@ -1581,8 +1594,8 @@ no claim of middle exactness for arbitrary G is made. Reuse D2's actual
 P₁/P₂ construction, proving the twisted absorption unitary and its
 integrated estimates before concluding q is an isomorphism for amenable
 G. Prove the nuclear-coefficient and exact-coefficient consequences under
-this amenability hypothesis, using `gap:cstar-nuclear-exact` and the
-reduced tensor comparison
+this amenability hypothesis, using CStarAlgebras C6.1–C6.2, C6.5 and C7.1
+and the reduced tensor comparison
 `(A⋊_(α,ω),r G)⊗min D≃(A⊗min D)⋊_(α⊗id,ω⊗1),r G`.
 Construct the induced multiplier cocycle ω⊗1 by the nondegenerate
 coefficient tensor map, including nonunital D; prove the tensor norm and
@@ -1618,9 +1631,9 @@ At ω=1 prove that these identifications recover the entire ordinary
 D1–D2 construction and every map/expectation/norm/amenability/tensor result
 above. No von Neumann crossed product, twisted or untwisted, is a
 prerequisite for this C* theory.
-The dependency order is `gap:cstar-ideals-multipliers`/A7/D1.Modules →
+The dependency order is CStarAlgebras C1.7/A7/D1.Modules →
 D1.CentralTwists → D2.CentralTwists. The scalar Borel route is
-A7/`gap:cstar-ideals-multipliers` → D1.BorelPrefix → D1.TwistedBorel.
+A7/CStarAlgebras C1.7 → D1.BorelPrefix → D1.TwistedBorel.
 The all-weight decomposition and its type-I applications
 are NoncompactQuantumSymmetry M2's, built there on the extension `E_ω` of
 D1.BorelPrefix and the fibres of D1.TwistedBorel; nothing in D1 depends
@@ -1657,9 +1670,9 @@ on them or on von Neumann crossed-product duality.
 
 *Needs:* D1.CentralTwists (twisted L¹, full completion, multiplier maps,
 cochain transport); D2 (regular module, expectation, P₁/P₂ approximation,
-tensor identification); D1.Modules with `gap:hilbert-module-induction`
-(induced Hilbert spaces); `gap:cstar-tensor-limits` (tensor products) and
-`gap:cstar-nuclear-exact` (nuclearity, exactness); Mathlib `PontryaginDual` (compact for discrete G) and
+tensor identification); D1.Modules with HilbertModules H3
+(induced Hilbert spaces); CStarAlgebras C5.1–C5.2 (tensor products) and
+C6.1–C6.2, C6.5 and C7.1 (nuclearity, exactness); Mathlib `PontryaginDual` (compact for discrete G) and
 `CharacterModule.exists_character_apply_ne_zero_of_ne_zero`.
 
 ### D2.FreeGroups. Powers averaging, simplicity and the canonical trace
@@ -1779,7 +1792,7 @@ conclusions are proved here as stated.
   the full algebra is not simple when the basis has two elements.
 
 *Needs:* D1–D2 (full and reduced group C*-algebras, expectation,
-regular quotient); `gap:cstar-ideals-multipliers` (ideals); Mathlib
+regular quotient); CStarAlgebras C1.3 (ideals); Mathlib
 `Units.oneSub` (invertible elements near the unit); Mathlib `FreeGroup.toWord`, `FreeGroup.reduce`, `lp`, `lp.single`,
 `StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure`,
 `IsSimpleRing`.
@@ -1834,7 +1847,7 @@ standard representation or an irreducible representation of Q pulled
 back through the quotient. Prove this by restriction to the compact ideal,
 whose nonzero restriction is nondegenerate and extends uniquely by Tau
 Ceti's `NonUnitalStarAlgHom.multiplierExtension` through the embedding
-`R→M(K(H))` of `gap:cstar-ideals-multipliers`, with equivalence and kernel
+`R→M(K(H))` of CStarAlgebras C1.7, with equivalence and kernel
 comparisons. Every nonzero closed ideal of R contains K(H); hence the
 closed ideals are 0 and the inverse images of the closed ideals of Q.
 Identify `Prim(R)={η}⊔Prim(Q)`, η=0, with opens ∅ and
@@ -1868,8 +1881,8 @@ The C₊ example's circle characters need not extend to R.
 
 *Needs:* D1 (crossed product, exactness for invariant ideals); D2
 (amenable full/reduced comparison, gauge expectation);
-`gap:cstar-ideals-multipliers` (ideals, quotients) and
-`gap:cstar-representations` (irreducible representations, primitive ideal
+CStarAlgebras C1.3 (ideals, quotients) and
+C2.2–C2.4 and C2.AnnHull (irreducible representations, primitive ideal
 space);
 Mathlib `lp`, `lp.single` and the C*-algebra instance on `lp A ∞`
 (`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`).
@@ -1919,13 +1932,13 @@ since its faithful irreducible image contains the infinite-rank diagonal
 projection `e=M_(1_[0,∞))`.
 
 Prove e is a full projection of B and identify the full corner eBe with
-the concrete Toeplitz algebra on ℓ²(ℕ) of `gap:toeplitz-extension`, by
+the concrete Toeplitz algebra on ℓ²(ℕ) of CStarAlgebras C8.4, by
 `eUe↦S`, where S is the forward unilateral shift. Show the diagonal
 coefficients restricted to ℕ are convergent sequences, recover their
 finite-rank diagonal parts from `S^n(1−SS*)S*^n`, and prove both corner
 inclusions. Match `eK(ℓ²(ℤ))e` with K(ℓ²(ℕ)), q(e)=1 and the symbol
 of S with z, so the corner extension is exactly the Toeplitz extension of
-`gap:toeplitz-extension`
+CStarAlgebras C8.4,
 `0→K(ℓ²(ℕ))→T→C(𝕋)→0` with symbol `S↦z` (Arici–Mesland, §2.1,
 Definition 2.1 and extension (4), p. 3).
 Deduce its faithful representation and circle of character representations,
@@ -1942,7 +1955,7 @@ representation, on which S is unitary. They need not converge to I.
 - `q(e)=1` for `e=M_(1_[0,∞))`, and `eUe` acts on `ℓ²(ℕ)` by
   `δ_n↦δ_(n+1)`, the unilateral shift S, with `1−SS*` the rank-one
   projection onto δ_0; this is the Toeplitz extension of
-  `gap:toeplitz-extension`.
+  CStarAlgebras C8.4.
 - The nonzero irreducible representations are the standard one and the
   circle of characters `ev_z∘q`, z∈𝕋: a classification with a single
   additional irreducible, or a two-point primitive space, is refuted by the
@@ -1956,9 +1969,9 @@ representation, on which S is unitary. They need not converge to I.
 *Needs:* D1 (full exactness); D2 (amenable comparison, gauge
 expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
 `C₊⋊ℤ→R`); D4.Harmonic (`C*(ℤ)≅C(𝕋)` with `δ_1↦z`, for the circle
-quotient and its exact kernel); `gap:cstar-representations` (irreducible representations,
-primitive ideals), `gap:cstar-ideals-multipliers` (the embedding
-`R→M(K(H))`) and `gap:toeplitz-extension` (the concrete Toeplitz
+quotient and its exact kernel); CStarAlgebras C2.2–C2.4 and C2.AnnHull (irreducible representations,
+primitive ideals), CStarAlgebras C1.7 (the embedding
+`R→M(K(H))`) and CStarAlgebras C8.4 (the concrete Toeplitz
 algebra); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
 extension from the compact ideal); Mathlib `lp`.
 
@@ -1990,9 +2003,12 @@ primitive space.
 
 **Checks.**
 
-- `xy` is invariant, so the orbit of (x,y) with `xy=r>0` is the branch
-  `{(u,r/u):u>0}` of its quadrant, closed in ℝ²; the orbit of (x,0), x>0,
-  is the open positive x-half-axis, whose closure adds the origin.
+- `xy` is invariant, so the orbit of (x,y) with `xy≠0` is the branch
+  `{(u,xy/u):ux>0}` of its quadrant, closed in ℝ². The value of xy alone
+  does not determine the orbit: `(1,1)` and `(−1,−1)` both have `xy=1`,
+  with the disjoint orbits `{(u,1/u):u>0}` and `{(u,1/u):u<0}`, and the
+  orbit of `(1,−2)` is `{(u,−2/u):u>0}`. The orbit of (x,0), x>0, is the
+  open positive x-half-axis, whose closure adds the origin.
 - The saturated open set `{(x,y):x>0,|xy|<ε}` is a neighbourhood of the
   positive x-half-axis point that contains neither the origin nor any
   branch with r≥ε; so a half-axis point is T₀-separated from the origin,
@@ -2009,16 +2025,15 @@ primitive space.
 
 D1 with D1.Modules and D1.CentralTwists; D4.Harmonic for
 D2.SequenceToeplitz's circle quotient; BanachAlgebras A7; AmenableGroups
-(invariant means and Følner conditions); `gap:cstar-ideals-multipliers`,
-`gap:cstar-representations`, `gap:cstar-tensor-limits`,
-`gap:cstar-nuclear-exact` and `gap:toeplitz-extension`;
+(invariant means and Følner conditions); CStarAlgebras C1.3, C1.7,
+C2.2–C2.4, C2.AnnHull, C5.1–C5.2, C6.1–C6.2, C6.5, C7.1 and C8.4;
 RepresentationTheory/CompactGroups (Peter–Weyl); FreeProbability F3 is a
 comparison, not an input; Mathlib `lp`, `lp.single`, `AddCircle`,
 `MulAction.IsPretransitive`, `FreeGroup.toWord`, `FreeGroup.reduce`,
 `StarAlgebra.adjoin`, `StarSubalgebra.topologicalClosure`,
 `IsSimpleRing`, `PontryaginDual` and
 `CharacterModule.exists_character_apply_ne_zero_of_ne_zero`; the induced
-Hilbert spaces of `gap:hilbert-module-induction`.
+Hilbert spaces of HilbertModules H3.
 
 ## D3. Induction and imprimitivity
 
@@ -2039,7 +2054,7 @@ of unity lemmas used in density and fullness arguments.
 Prove Green imprimitivity for arbitrary closed H:
 `Ind_H^G(D,β)⋊G` is strongly Morita equivalent to `D⋊H` through an
 imprimitivity bimodule in the two-inner-product form of D1.Modules and
-`gap:hilbert-module-induction`. Construct the pre-imprimitivity bimodule on
+HilbertModules H3. Construct the pre-imprimitivity bimodule on
 `C_c(G,D)` with its Haar integrals, actions and both inner products; prove
 positivity, norm estimates, compatibility and fullness, and complete it by
 the consumed completion theorem. For the
@@ -2053,7 +2068,7 @@ Use the matching left action, right action and left inner product of
 Williams Theorem 4.22. Establish their conversion from the general induced
 model, including the modular rescaling; the subgroup and ambient modular
 functions need not agree. Induction through this bimodule
-(`gap:hilbert-module-induction`, in D1.Modules' conventions)
+(HilbertModules H3, in D1.Modules' conventions)
 gives the induced representations `Ind_H^G` of covariant pairs of `(D,H,β)`
 and of their bounded intertwiners. Prove induction in stages for closed
 subgroups `K⊆H⊆G`: the pairing `C_c(G,D)⊙C_c(H,D)→C_c(G,D)` of Williams,
@@ -2104,12 +2119,12 @@ H3's.
 
 *Needs:* D1 (crossed products, universal property, integrated forms,
 multiplier maps); D1.Modules (the module conventions, the stage lemma) with
-`gap:hilbert-module-induction` (imprimitivity bimodules, their completion,
+HilbertModules H1 and H3 (imprimitivity bimodules, their completion,
 induced Hilbert spaces); D2 (regular representations, for the compact
 operator identification); BanachAlgebras A7 (Haar measures on G and H,
 modular identities); Mathlib Haar measure on `G/H` and the quotient
 integral formula, with the quasi-invariant-measure version for a closed
-non-normal H as a target here; `gap:cstar-ideals-multipliers`
+non-normal H as a target here; CStarAlgebras C1.7
 (multipliers); Mathlib `CStarAlgebra.approximateUnit`.
 
 ### Examples
@@ -2120,8 +2135,8 @@ for G=ℤ.
 
 ### Dependencies
 
-D1, D1.Modules with `gap:hilbert-module-induction`, and D2; BanachAlgebras
-A7; `gap:cstar-ideals-multipliers`; Mathlib Haar measure and the quotient integral
+D1, D1.Modules with HilbertModules H1 and H3, and D2; BanachAlgebras
+A7; CStarAlgebras C1.7; Mathlib Haar measure and the quotient integral
 formula on `G/H` where it applies.
 
 ## D4. Dual actions and Takai duality
@@ -2346,7 +2361,7 @@ second real-case proof is given here.
 (the dual group and `C*(Ĝ)≅C₀(G)`); the Pontryagin duality theorem and the
 dual Haar measure of VonNeumannAlgebras V11; Tau Ceti's integrated forms
 and `NonUnitalStarAlgHom.multiplierExtension` (the extension of π to
-multipliers); `gap:cstar-representations` (the representation theory of compact
+multipliers); CStarAlgebras C2.3–C2.4 (the representation theory of compact
 operators); Mathlib `PontryaginDual`, `Lp`, `lp` and
 `LinearIsometryEquiv`; Tau Ceti `ContRepresentation.IsUnitary`.
 
@@ -2412,8 +2427,8 @@ groups, for ℤ, and the `ℤ/3` sign witness of the double-dual action.
 ### Dependencies
 
 D1–D2 and D3 (`C₀(G)⋊G≅K(L²G)` for D4.LCAWeyl and D4.Takai); BanachAlgebras
-A7; AmenableGroups; `gap:cstar-ideals-multipliers` and
-`gap:cstar-representations`; VonNeumannAlgebras V11 (the
+A7; AmenableGroups; CStarAlgebras C1.3, C1.6–C1.7 and
+C2.2–C2.4; VonNeumannAlgebras V11 (the
 Fourier isomorphism `C*_r(G)≅C₀(Ĝ)`); the dual Haar measure, Plancherel
 unitary, Fourier inversion and Pontryagin duality theorem of
 VonNeumannAlgebras V11; Mathlib `PontryaginDual`, `Circle`, Haar
@@ -2428,7 +2443,7 @@ isotropy, invariant subsets, reductions, transformation groupoids and
 continuous groupoid actions on that interface. A Haar system is a family of positive Radon measures λᵘ with
 support exactly `Gᵘ=r⁻¹(u)`, continuous integration of compactly supported
 functions, and left invariance
-`∫ f(γ η) dλˢ⁽ᵞ⁾(η)=∫ f(η) dλʳ⁽ᵞ⁾(η)`. Prove openness of range and
+`∫ f(γ η) dλˢ⁽ᵞ⁾(η)=∫ f(η) dλʳ⁽ᵞ⁾(η)` (Renault, Chapter I, §2). Prove openness of range and
 source and compact-support continuity of the integration map. Haar systems
 are supplied data; local compactness alone does not produce them. Let λᵤ
 be the image of λᵘ under inversion, a measure on the source fiber.
@@ -2449,11 +2464,12 @@ on `L²(G_u,λ_u)`:
 `L_u(f)ξ(γ)=∫ f(γ η⁻¹)ξ(η) dλ_u(η)`. Prove that this family separates
 `C_c(G)`, yields a C*-norm, and is dominated by the full norm. Complete both
 algebras and construct the canonical regular quotient and the nondegenerate
-unit-space multiplier maps `hf=(h∘r)f`, `fh=f(h∘s)`.
+unit-space multiplier maps `hf=(h∘r)f`, `fh=f(h∘s)` (Renault, Chapter II,
+§§1–2).
 
 Build the measure-theoretic representation layer explicitly. For a Radon
 measure μ on the unit space set `ν=∫λᵘ dμ(u)`. Quasi-invariance means ν and
-its inverse image ν⁻¹ have the same null sets. Develop the Radon–Nikodym
+its inverse image ν⁻¹ have the same null sets (Renault, Chapter I, §3). Develop the Radon–Nikodym
 cocycle `D=dν/dν⁻¹`, its inverse and composable-pair identities on appropriate
 conull sets, the symmetric measure `ν₀=D^(-1/2)ν`, and change of density under
 equivalent base measures. Use Mathlib measures, measurable maps, integrals
@@ -2481,7 +2497,7 @@ and almost-everywhere equality rather than an independent measure language.
 *Needs:* LieGroupoidsPoisson G0.0
 (the total-arrow and composable-arrow topologies); D1–D2
 (the group and transformation-groupoid comparisons); BanachAlgebras A7
-(Haar measure and modular identities); `gap:cstar-ideals-multipliers`
+(Haar measure and modular identities); CStarAlgebras C1.7
 (multipliers); Tau Ceti `TauCeti.CStarAction.FullCrossedProduct` (full
 completions); Mathlib Radon measures, `Measure.rnDeriv`, measurable maps
 and Bochner integration.
@@ -2657,7 +2673,8 @@ separable Hilbert space. Establish the stronger pre-representation form:
 a homomorphism on a dense invariant domain, with dense generated range,
 compact-support inductive-limit continuous matrix coefficients and the
 adjoint identity, extends to bounded operators with the same I-bound and
-then disintegrates. Construct the base measure, fiber matrix coefficients,
+then disintegrates (Muhly–Williams, Theorem 7.8, p. 35, proved in their
+Appendix B). Construct the base measure, fiber matrix coefficients,
 saturated conull reduction and intertwining unitary; use the general
 Muhly–Williams disintegration theorem's hypotheses. Derive the arbitrary
 Hilbert-space representation theory by orthogonal sums of cyclic
@@ -2687,7 +2704,7 @@ conventions.
   `F↦Δ^(1/2)F` of the previous Check.
 - The pair groupoid `X×X` with a full-support μ: every nondegenerate
   representation of `C*(X×X)=K(L²(X,μ))` is a multiple of the standard one
-  (`gap:cstar-representations`), the unit-space measure class is that of μ, the field
+  (CStarAlgebras C2.3), the unit-space measure class is that of μ, the field
   is constant with `U_(x,y)` the identity of the multiplicity space, and
   `D=1`; the integrated form of the one-dimensional field with `U=1` is the
   kernel operator `(L(f)ξ)(u)=∫f(u,v)ξ(v)dμ(v)`, while a field with
@@ -2705,9 +2722,9 @@ diagonal and the transport theorem); SelfAdjointSpectralTheory SA-B79 and
 SA-B85 (the diagonal `C₀(G⁰)` model
 and the transport of spectral projections); D1–D2 (integrated forms, the
 group case); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
-extension L̃) with `gap:cstar-ideals-multipliers` (the strict topology of
+extension L̃) with CStarAlgebras C1.7 (the strict topology of
 `M(C*(G))`) and
-`gap:cstar-representations` (representations of compact operators); Mathlib standard Borel spaces and Bochner integration.
+C2.3 (representations of compact operators); Mathlib standard Borel spaces and Bochner integration.
 
 ### Examples
 
@@ -2720,7 +2737,7 @@ with varying coordinate sets for the direct integrals.
 
 D1–D2; the topological groupoid vocabulary of
 LieGroupoidsPoisson G0.0; SelfAdjointSpectralTheory SA-B79 and SA-B85; BanachAlgebras A7;
-`gap:cstar-ideals-multipliers` and `gap:cstar-representations`; Mathlib
+CStarAlgebras C1.7 and C2.2–C2.3; Mathlib
 `Lp`, `Measure.rnDeriv`, Radon measures,
 standard Borel spaces and Bochner integration; the measurable fields of
 VonNeumannAlgebras V4.0.Fields and the
@@ -2745,15 +2762,18 @@ product is
 `⟨ξ,η⟩_H(h)=∫ conjugate(ξ(g⁻¹z)) η(g⁻¹zh) dλʳ⁽ᶻ⁾(g)`, where
 `s_Z(z)=r_H(h)`; prove independence of z. Complete to an imprimitivity
 `C*(G)`–`C*(H)` bimodule in the two-inner-product form of D1.Modules and
-`gap:hilbert-module-induction`. Prove that `C*(L)`
+HilbertModules H3 (Muhly–Williams, Theorem 5.5, p. 20, in the scalar case:
+the trivial bundles over the unit spaces). Prove that `C*(L)`
 decomposes under the unit-space projections, full projections in its
 multiplier algebra, into the corners `C*(G)`, `C*(H)` and this bimodule;
 its identification with the abstract linking algebra `K_(C*(H))(X⊕C*(H))`
 is HilbertModules H3's. Establish the regular corner
 norm equalities and identify the reduced linking algebra with `Cr*(L)`;
-obtain `Cr*(G)∼M Cr*(H)`. If `J_G=ker(C*(G)→Cr*(G))` and similarly for H,
+obtain `Cr*(G)∼M Cr*(H)` (Sims–Williams, Theorem 13, p. 10). If
+`J_G=ker(C*(G)→Cr*(G))` and similarly for H,
 prove that the full module carries `J_H` to `J_G` under ideal correspondence
-and that its quotient by `X J_H` is the reduced module. Develop composition
+and that its quotient by `X J_H` is the reduced module (Sims–Williams,
+Theorem 17, p. 12). Develop composition
 of equivalences `Z₁×_HZ₂` and prove, through the pairing
 `C_c(Z₁)⊙C_c(Z₂)→C_c(Z₁×_HZ₂)` and D1.Modules' stage lemma, that inducing
 along the composite is unitarily equivalent to inducing along `Z₂` and then
@@ -2780,9 +2800,9 @@ along `Z₁`, naturally in both factors.
 
 *Needs:* D5 (Haar systems, the convolution algebras, full and reduced
 completions, the regular representations); D1.Modules (the module
-conventions, the stage lemma) with `gap:hilbert-module-induction`
+conventions, the stage lemma) with HilbertModules H1 and H3
 (imprimitivity bimodules, their completion); D2 (the regular kernel);
-`gap:cstar-ideals-multipliers` (ideals, multipliers).
+CStarAlgebras C1.3 and C1.7 (ideals, multipliers).
 
 For étale groupoids use the canonical counting Haar system. Develop open
 bisections, their product and inverse, locally finite compact-support
@@ -2790,7 +2810,7 @@ decompositions, and the ample specialization using compact open bisections.
 Construct the injective coefficient-function map `j:Cr*(G)→C₀(G)` extending
 the identity on `C_c(G)`, with pointwise bounds by the reduced norm. Prove
 that restriction to units extends to a faithful conditional expectation
-`E:Cr*(G)→C₀(G⁰)`. Functions supported in open bisections normalize the
+`E:Cr*(G)→C₀(G⁰)` (Sims, Proposition 4.2.6). Functions supported in open bisections normalize the
 diagonal and their linear span is dense. No zero-dimensionality assumption
 is needed for this normalizer statement.
 
@@ -2798,10 +2818,11 @@ Throughout the remaining D6 targets G is étale with the counting Haar
 system. Define effectiveness by `interior{γ:r(γ)=s(γ)}=G⁰`, topological principality
 by density of units with trivial isotropy, and strong effectiveness by
 effectiveness of every closed invariant reduction. Prove equivalence of
-the first two under the standing second countability. For effective G
-prove the diagonal is maximal abelian and every nonzero ideal meets it
+the first two under the standing second countability (Sims, Lemma 4.2.3).
+For effective G prove the diagonal is maximal abelian (Sims, Proposition
+5.1.14, with the trivial twist) and every nonzero ideal meets it
 nontrivially; equivalently a *-homomorphism faithful on the diagonal is
-faithful on `Cr*(G)`. Develop the diagonal's approximate unit, normalizers
+faithful on `Cr*(G)` (Sims, Theorem 4.2.7). Develop the diagonal's approximate unit, normalizers
 and faithful expectation as the Cartan-pair structure, without requiring
 general reconstruction of arbitrary Cartan pairs.
 
@@ -2810,7 +2831,9 @@ measures m_iᵘ on the range fibers with
 `‖γ_*m_iˢ⁽ᵞ⁾−m_iʳ⁽ᵞ⁾‖₁→0` uniformly on compact sets of arrows. For étale G
 develop compact-support cutoffs of these means and the resulting
 approximately invariant functions. Prove
-`G amenable ⇔ C*(G) nuclear ⇔ Cr*(G) nuclear`; amenability also
+`G amenable ⇔ C*(G) nuclear ⇔ Cr*(G) nuclear` (Sims, Theorem 4.1.5;
+Takeishi, Theorem 5.4, p. 11, for the step from nuclearity of `Cr*(G)` to
+amenability, for every locally compact Hausdorff étale G); amenability also
 makes the regular quotient injective. Build the positive-definite kernels
 and completely positive maps used in these implications. For the converse,
 use nuclear finite-matrix c.c.p. factorizations approximating cutoff
@@ -2822,18 +2845,20 @@ compactly supported positive definite, bounded by 1 on units, and close
 to 1 uniformly on K by the factorization's module translation estimate.
 Direct these approximants by K and the error tolerance, and prove the
 positive-definite-function criterion equivalent to the stated invariant
-means. This is the trivial-line-bundle case of Takeishi's construction. Equality of the
+means. This is the trivial-line-bundle case of Takeishi's construction
+(Takeishi, proof of Theorem 5.4, p. 11). Equality of the
 full and reduced algebras alone is not used as a definition or converse.
 
 For an invariant open U prove the full short exact sequence for the
-restriction to U and its closed complement F. On reduced algebras prove
+restriction to U and its closed complement F (Sims, Proposition 4.3.2). On reduced algebras prove
 injectivity at U and surjectivity onto F. Prove middle exactness for
 amenable G using amenability of the reductions and full/reduced comparison.
 For amenable strongly effective G, prove the lattice isomorphism
-`U↦closure(C_c(G|U))` between invariant open subsets and closed ideals.
-For nonempty G⁰, prove that effective minimal G has simple reduced algebra;
-for amenable G,
-simplicity is equivalent to effectiveness and minimality. Mere effectiveness
+`U↦closure(C_c(G|U))` between invariant open subsets and closed ideals
+(Sims, Theorem 4.3.3).
+For nonempty G⁰, prove that effective minimal G has simple reduced algebra
+(Sims, Proposition 4.3.7); for amenable G, simplicity is equivalent to
+effectiveness and minimality (Sims, Theorem 4.3.6). Mere effectiveness
 does not replace strong effectiveness in the ideal-lattice theorem.
 
 **Checks.**
@@ -2860,8 +2885,8 @@ does not replace strong effectiveness in the ideal-lattice theorem.
 
 *Needs:* D5 (étale groupoids with counting Haar systems, full and reduced
 algebras, regular representations); D2 (the expectation on discrete group
-algebras, amenability); `gap:cstar-ideals-multipliers` (ideals) and
-`gap:cstar-nuclear-exact` (nuclearity, completely positive
+algebras, amenability); CStarAlgebras C1.3 (ideals) and
+C6.1–C6.2 and C6.5 (nuclearity, completely positive
 approximations); Mathlib `CStarAlgebra.approximateUnit`; Mathlib `IsOpen`,
 `interior` and locally finite partitions of unity.
 
@@ -2889,7 +2914,13 @@ amenability, effectiveness and minimality; identify the characteristic
 functions of the prefix bisections with isometries `S_i` satisfying
 `S_i* S_j=δ_ij` and `∑ S_i S_i*=1`.
 D6 owns the universal unital C*-algebra O_n of these Cuntz families:
-construct its universal norm/completion and generator maps. Construct the
+construct its universal norm/completion and generator maps. For n≥2 and
+every complete infinite-dimensional separable complex Hilbert space H, use
+this universal property to construct the unital representation O_n→B(H)
+carrying the generators to the residue-class family `S_j` of the concrete
+target below; compare the generator equations and their pullback under a
+change of Hilbert basis by its actual unitary map. This realizes O_n on the
+given H. Construct the
 gauge action by its universal property, the faithful circle-averaging
 expectation, and its fixed core as the direct limit of matrix algebras
 M_(n^k), generated by `s_μ s_ν*` with |μ|=|ν|=k. Prove gauge-invariant
@@ -2897,6 +2928,7 @@ uniqueness: a gauge-equivariant homomorphism injective on the core is
 injective, using faithfulness of the expectation. The map to the groupoid
 algebra is onto; prove injectivity on each matrix core and gauge equivariance,
 then apply uniqueness. Thus establish the universal groupoid identification
+(Renault, Chapter III, Proposition 2.7, by a representation-theoretic route)
 and deduce simplicity and nuclearity from the groupoid theorems. Identify
 the integer cocycle and its gauge action, without making classification of all groupoid KMS
 states as a target.
@@ -2924,7 +2956,7 @@ states as a target.
   it, since `shift(0^m10^∞)≠0^∞`, and converge to `(0^∞,1,0^∞)`, which
   lies in it.
 
-*Needs:* D5 (étale groupoids, their algebras); `gap:cstar-tensor-limits`
+*Needs:* D5 (étale groupoids, their algebras); CStarAlgebras C5.4
 (inductive limits, and the universal unitary algebra as the model of a
 universal norm); the concrete Cuntz families below, which make the universal norm of
 `O_n` finite and definite; the D6 ideal theory above (simplicity and nuclearity from amenability,
@@ -2945,12 +2977,10 @@ and the native orthogonal-family/Hilbert-sum construction. Prove
 identities. Identify H_j with the closed span of its residue-class basis,
 prove S_j S_j* is its orthogonal projection, and construct the resulting
 unitary identification of H with the finite Hilbert sum of the H_j.
-Include n=1 with H₀=H and S₀=Id. For n≥2 use D6's existing universal
-property to construct the unital representation O_n→B(H) carrying its
-specified generators to these S_j; compare the generator equations and
-pullback under a change of Hilbert basis by its actual unitary map. This
-realizes the universal algebra on the given H (`exists_residue_family`;
-the relations are Cuntz's defining relations for O_n, Cuntz, §1).
+Include n=1 with H₀=H and S₀=Id (`exists_residue_family`; the relations
+are Cuntz's defining relations for O_n, Cuntz, §1). This construction uses
+only the Hilbert basis; the representation of O_n that it gives is built in
+the O_n target above.
 
 **Checks.**
 
@@ -2967,8 +2997,7 @@ the relations are Cuntz's defining relations for O_n, Cuntz, §1).
   there is no ℕ-indexed Hilbert basis, and the target's hypothesis is
   separability.
 
-*Needs:* D6 (universal O_n and its gauge-invariant uniqueness); Mathlib
-`HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`,
+*Needs:* Mathlib `HilbertBasis`, `HilbertBasis.repr`, `exists_hilbertBasis`,
 `Nat.divModEquiv`, `ContinuousLinearMap.adjoint`.
 
 ### Examples
@@ -2981,9 +3010,8 @@ on a separable Hilbert space.
 
 ### Dependencies
 
-D5 and D5.Fields; D1.Modules with `gap:hilbert-module-induction`; D2;
-`gap:cstar-ideals-multipliers`, `gap:cstar-representations`,
-`gap:cstar-tensor-limits` and `gap:cstar-nuclear-exact`; Mathlib
+D5 and D5.Fields; D1.Modules with HilbertModules H1 and H3; D2;
+CStarAlgebras C1.3, C1.7, C2.2–C2.3, C5.4, C6.1–C6.2 and C6.5; Mathlib
 `HilbertBasis`, `Nat.divModEquiv`, `ContinuousLinearMap.adjoint` and
 point-set topology.
 
@@ -3027,7 +3055,7 @@ lacks.
 
 Develop tensor products of KMS states: for β-KMS states ω₁ and ω₂ of
 `(A₁,τ¹)` and `(A₂,τ²)`, the product state on the minimal tensor product of
-`gap:cstar-tensor-limits` is a β-KMS state of `τ¹⊗τ²`, its strip function on
+CStarAlgebras C5.1–C5.2 is a β-KMS state of `τ¹⊗τ²`, its strip function on
 elementary tensors being the product of the two strip functions.
 
 For β≠0 and a β-KMS state ω, Tau Ceti's invariance
@@ -3210,13 +3238,13 @@ perturbation that D9 applies with `Q=βπ_ω(W_Φ(Λ))`, that is `P=−W_Φ(Λ)`
 
 *Needs:* Tau Ceti as in the supplier contract (generators, entire analytic
 elements, perturbations, KMS and ground states, the GNS implementing group
-and its von Neumann extension, Gibbs states); `gap:cstar-tensor-limits`
+and its von Neumann extension, Gibbs states); CStarAlgebras C5.1–C5.2
 (minimal tensor products); OneParameterSemigroups (strongly continuous
 groups); SelfAdjointSpectralTheory SA-B14, SA-B44, SA-B50, SA-B59, SA-B67
 and SA-B79 (the PVM carrier, integration, null sets, commutative
 representations); D5.Fields with VonNeumannAlgebras V4.0.Fields
 (measurable fields and direct integrals for separable A);
-`gap:cstar-representations` (states and their GNS representations);
+CStarAlgebras C2.1–C2.2 (states and their GNS representations);
 VonNeumannAlgebras V1 (Kaplansky density in its strong-star form, for the
 strip condition on M), V10.ModularTheory (the standard form and natural
 cone of a cyclic separating vector) and V10.KMS (the KMS characterization
@@ -3237,7 +3265,7 @@ against faithfulness on A; products of Gibbs states for tensor products.
 
 Tau Ceti's real dynamics, KMS and ground states; OneParameterSemigroups;
 SelfAdjointSpectralTheory Part B as listed; D5.Fields;
-`gap:cstar-representations` and `gap:cstar-tensor-limits`; Mathlib
+CStarAlgebras C2.1–C2.2 and C5.1–C5.2; Mathlib
 `DifferentiableOn`, `Bornology.IsBounded`, `PositiveLinearMap`,
 `PositiveLinearMap.GNS`, `VonNeumannAlgebra` and `ContinuousLinearMapWOT`.
 VonNeumannAlgebras V1 (Kaplansky density), V10.ModularTheory (the
@@ -3579,8 +3607,8 @@ hypothesis.
   one-dimensional.
 
 *Needs:* D7 (the KMS condition, analytic elements, GNS implementation);
-`gap:cstar-representations` (states) and `gap:cstar-tensor-limits`
-(inductive limits, tensor products);
+CStarAlgebras C2.1–C2.2 (states) and C5.1–C5.2 and C5.4
+(tensor products, inductive limits);
 RepresentationTheory/SpinRepresentations (finite-dimensional Clifford and
 exterior algebras); VonNeumannAlgebras V2 (the completed Hilbert tensor
 product with `commIsometry` and `assocIsometry` on the completions, iterated
@@ -3600,7 +3628,7 @@ degenerate Weyl algebra.
 
 ### Dependencies
 
-D7; `gap:cstar-representations` and `gap:cstar-tensor-limits`;
+D7; CStarAlgebras C2.1–C2.2, C5.1–C5.2 and C5.4;
 RepresentationTheory/SpinRepresentations; VonNeumannAlgebras V2
 (completed Hilbert tensor products); OneParameterSemigroups;
 SelfAdjointSpectralTheory SA-A21; Mathlib
@@ -3624,7 +3652,7 @@ generator on an observable of `A_Λ` in a larger region `Λ'` is
 unique β-KMS states of the local dynamics, with their consistent extensions
 to larger regions by the normalized trace on the added sites
 (`TauCeti.QuantumSpin.Interaction.gibbsExtension`). Construct the
-quasi-local C*-inductive limit of `gap:cstar-tensor-limits`, density of
+quasi-local C*-inductive limit of CStarAlgebras C5.4, density of
 local observables, the tensor decomposition into a finite region and its
 complement, and product states. For `L=ℤ^ν`, ν≥1, construct translations
 and prove their asymptotic abelianness. For d=1 prove the scalar
@@ -3789,8 +3817,8 @@ entropy (`Matrix.vonNeumannEntropy`, `Matrix.relativeEntropy`,
 `Matrix.PosSemidef.vonNeumannEntropy_le_partialTraceRight_add_partialTraceLeft`,
 `Matrix.partialTraceRight`, `Matrix.partialTraceLeft`,
 `Matrix.cfc_one_kronecker`); Nielsen–Petz for strong subadditivity;
-`gap:cstar-tensor-limits` (tensor products, inductive limits) and
-`gap:cstar-representations` (states); Mathlib `Matrix.trace`, the matrix exponential `NormedSpace.exp`,
+CStarAlgebras C5.1–C5.2 and C5.4 (tensor products, inductive limits) and
+C2.1–C2.2 (states); Mathlib `Matrix.trace`, the matrix exponential `NormedSpace.exp`,
 the logarithm of a positive-definite matrix as the Hermitian functional
 calculus `cfc Real.log` of `Matrix.IsHermitian`, `Matrix.PosSemidef` and
 Schur complements; Bratteli–Robinson as cited.
@@ -3804,7 +3832,7 @@ segments in `ℤ²` as a non-van-Hove net.
 
 ### Dependencies
 
-D7; `gap:cstar-representations` and `gap:cstar-tensor-limits`; Tau Ceti's
+D7; CStarAlgebras C2.1–C2.2, C5.1–C5.2 and C5.4; Tau Ceti's
 quantum spin systems and matrix entropy as in the supplier contract; Mathlib matrix analysis
 (`Matrix.trace`,
 `Matrix.PosSemidef`, the exponential `NormedSpace.exp` and the logarithm
@@ -3920,7 +3948,7 @@ of a positive-definite matrix through the Hermitian functional calculus).
   recovery of the pair, §2.6 with Theorem 2.61 (p. 72) for the universal
   property and Lemma 2.73 (p. 76) for `A⋊_idG≅A⊗_maxC*(G)`; §4.1 (pp. 114–115) for the axioms of
   pre-imprimitivity bimodules and inner-product modules, the form in which
-  `gap:hilbert-module-induction` is consumed in D1.Modules;
+  HilbertModules H3 is consumed in D1.Modules;
   Appendix E (Definition E.16 and Theorem E.17, p. 405) and Definition F.1
   (p. 409) for the constant fields and the measurable fields with nonzero
   fibres with which D5.Fields' standard-fibre model is compared (Appendix F
@@ -3928,8 +3956,8 @@ of a positive-definite matrix through the Hermitian functional calculus).
   Theorem F.21 (p. 418), Proposition F.26 (p. 419) and Proposition F.33
   (p. 423) for the statements consumed from VonNeumannAlgebras V4.0.Fields
   and VonNeumannAlgebras V4.0.Decomposition; Appendix I (Proposition I.1, p. 479;
-  Proposition I.21, p. 494) for the induced Hilbert spaces consumed as
-  `gap:hilbert-module-induction` and for `L²(G,H)` (D1.Modules, D2);
+  Proposition I.21, p. 494) for the induced Hilbert spaces consumed from
+  HilbertModules H3 and for `L²(G,H)` (D1.Modules, D2);
   Theorem 5.9 and Lemma 5.10 for induction in stages; Proposition 3.19
   (p. 93) for full ideal exactness; Theorem 4.1, Corollary 4.17, Theorem 4.22,
   Corollary 4.23 and Theorem 4.24 for symmetric and Green imprimitivity and `C₀(G)⋊G≅K(L²G)` (Theorem 4.24,
@@ -3981,8 +4009,10 @@ of a positive-definite matrix through the Hermitian functional calculus).
 - Aidan Sims, *Hausdorff étale groupoids and their C*-algebras*, lecture
   notes (2017, the author's page):
   §§4.1–4.3 for amenability, diagonal uniqueness, exact sequences, strong
-  effectiveness and ideal lattices; §5.1 for diagonal regularity and maximal
-  abelianness. Keep the hypotheses of these modern formulations.
+  effectiveness and ideal lattices (Theorem 4.1.5, Lemma 4.2.3,
+  Proposition 4.2.6, Theorem 4.2.7, Propositions 4.3.2 and 4.3.7, Theorems
+  4.3.3 and 4.3.6); §5.1 for diagonal regularity and maximal abelianness
+  (Proposition 5.1.14). Keep the hypotheses of these modern formulations.
 - Bratteli–Robinson, *Operator Algebras and Quantum Statistical Mechanics 2*,
   second edition: §5.2 for the CAR and Weyl algebras with their uniqueness
   and simplicity, Bogoliubov automorphisms and quasi-free states, with
