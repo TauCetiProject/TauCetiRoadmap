@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Analysis.SpecialFunctions.LogIntegral
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 import TauCeti.NumberTheory.LFunctions.Hecke.Basic
 import TauCeti.NumberTheory.LFunctions.Hecke.Primitive
@@ -286,22 +287,22 @@ theorem riemannZeta_weilExplicitFormula (φ : ℝ → ℂ) (hφ : ContDiff ℝ �
   sorry
 
 /-- **Layer 8.5, the effective prime ideal theorem.** For a number field `K` there is `c > 0`
-such that the number of nonzero prime ideals of `𝓞 K` of norm at most `x` is
-`Li(x) + O(x exp(−c √log x))`, with `Li = TauCeti.Real.logIntegral`, `Li x = ∫₂ˣ dt / log t`
-(Arithmetic Dirichlet Series §6.2), and the constants depending on `K`. For fixed `K` a possible
-exceptional zero `β` of `ζ_K` contributes `Li(x^β)`, which the error absorbs. -/
+such that `π_K(x) = TauCeti.primeCount K Set.univ x`, the number of nonzero prime ideals of `𝓞 K`
+of norm at most `x` (Arithmetic Dirichlet Series §4.3), is `Li(x) + O(x exp(−c √log x))`, with
+`Li = TauCeti.Real.logIntegral`, `Li x = ∫₂ˣ dt / log t` (Arithmetic Dirichlet Series §6.2), and
+the constants depending on `K`. For fixed `K` a possible exceptional zero `β` of `ζ_K` contributes
+`Li(x^β)`, which the error absorbs. Discarding the error recovers the third conclusion
+`π_K(x) ∼ Li(x)` of Tau Ceti's `TauCeti.primeIdealTheorem`, stated on the same count. -/
 theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
     ∃ c : ℝ, 0 < c ∧
-      (fun x : ℝ ↦ (Set.ncard
-            {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
-              (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) - TauCeti.Real.logIntegral x)
+      (fun x : ℝ ↦ TauCeti.primeCount K Set.univ x - TauCeti.Real.logIntegral x)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 /-- **Layer 8.7, the effective prime count in a ray class.** For each degree `n` there is `c > 0`
 such that for every number field `K` of degree `n`, every modulus `𝔪` of `K` and every ray class
-`a` of `𝔪`, the number of nonzero prime ideals of `𝓞 K` prime to `𝔪`, of norm at most `x` and in
-the class `a`, is `Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the implied constant depending on `K` and
-`𝔪`. The width `c` comes from the region constant of `heckeLFunction_zeroFreeRegion` for degree
+`a` of `𝔪`, the number `TauCeti.primeCount K S x` of nonzero prime ideals of `𝓞 K` of norm at most
+`x` in the set `S` of those prime to `𝔪` and in the class `a` is
+`Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the implied constant depending on `K` and `𝔪`. The width `c` comes from the region constant of `heckeLFunction_zeroFreeRegion` for degree
 `n`; for fixed `K` and `𝔪` the exceptional term is `O(x^β)` with `β < 1`, which the error absorbs.
 The main coefficient is `1/#Cl_𝔪`, not the ideal-counting constant `rayClassIdealMainTerm 𝔪`. At
 `n = 1` the width `c` is absolute, and `K = ℚ`, `𝔪 = (q)∞` give
@@ -310,23 +311,27 @@ theorem rayClassPrimeCount_effective (n : ℕ) :
     ∃ c : ℝ, 0 < c ∧ ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
       ∀ (𝔪 : TauCeti.GlobalNumberFields.Modulus K)
         (a : TauCeti.GlobalNumberFields.RayClassGroup 𝔪),
-        (fun x : ℝ ↦ (Set.ncard
-              {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
-                ∃ h : P.asIdeal ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪,
-                  TauCeti.GlobalNumberFields.idealClass 𝔪 ⟨P.asIdeal, h⟩ = a ∧
-                    (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
+        (fun x : ℝ ↦ TauCeti.primeCount K
+              {P | ∃ h : P.asIdeal ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪,
+                TauCeti.GlobalNumberFields.idealClass 𝔪 ⟨P.asIdeal, h⟩ = a} x -
             TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪))
           =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 /-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
-There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,
-`π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
-(Davenport §20; for fixed `q` a possible exceptional term `Li(x^β)/φ(q)` is absorbed). The
-main term is the offset logarithmic integral `TauCeti.Real.logIntegral`, not `x / log x`. At
-`q = 1` this is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` invertible
+modulo `q`, `π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
+(Davenport §20; for fixed `q` a possible exceptional term `Li(x^β)/φ(q)` is absorbed). Here
+`π(x; q, a)` is the number of primes `p ≤ x` with `p ≡ a (mod q)`, counted as
+`TauCeti.primeCount ℚ` of the primes of `𝓞 ℚ` whose absolute norm, the rational prime below them,
+is `≡ a (mod q)`. The main term is the offset logarithmic integral `TauCeti.Real.logIntegral`, not
+`x / log x`. Discarding the error recovers Tau Ceti's
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`, stated on the same
+count with the same hypotheses. At `q = 1` this is de la Vallée Poussin's
+`π(x) = Li(x) + O(x exp(−c √log x))`. -/
 theorem primeCounting_progression_effective :
-    ∃ c : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q →
-      (fun x : ℝ ↦ ((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
+    ∃ c : ℝ, 0 < c ∧ ∀ (q a : ℕ) [NeZero q], IsUnit (a : ZMod q) →
+      (fun x : ℝ ↦ TauCeti.primeCount ℚ
+            {p | Ideal.absNorm p.asIdeal % q = a % q} x -
           TauCeti.Real.logIntegral x / q.totient)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
