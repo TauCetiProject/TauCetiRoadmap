@@ -782,11 +782,14 @@ Geometric Topology.
   oriented-atlas criterion for boundaryless `C¹` `M`: `Orientable I M` holds exactly when `M`
   has an oriented atlas `TauCeti.IsOrientedAtlas I 1` (`orientable_iff_exists_atlas`)
   [Lee, Prop. 15.6]. The direction from an oriented atlas to an orientation holds over every
-  model. The converse is stated for boundaryless `M`, and the hypothesis is needed only in
-  dimension `1`: for a manifold with boundary of dimension at least `2` the converse also holds
+  model. The converse is stated for boundaryless `M`. Over the half-space model `𝓡∂ n` the
+  hypothesis is needed only for `n = 1`: for `n ≥ 2` the converse also holds with boundary
   [Lee, Prop. 15.6], since a negatively signed chart at a boundary point becomes positive after
-  reflecting a coordinate other than the boundary-defining one, which preserves the half-space,
-  while `Set.Icc 0 1` is the one-dimensional obstruction (the first Check).
+  reflecting a coordinate other than the boundary-defining `x₀`, which preserves the half-space,
+  while `Set.Icc 0 1` is the one-dimensional obstruction (the first Check). Over a general model
+  with corners the hypothesis is needed in higher dimension as well: at a corner whose model cone
+  has no orientation-reversing linear automorphism every chart carries the same sign, and no
+  reflection is available (the pentagonal-cone Check).
   **Checks.**
   - Negative control for the boundaryless hypothesis, in dimension `1`: `Set.Icc 0 1` over
     `𝓡∂ 1` has an orientation (2.1) but no oriented atlas. A chart of the maximal atlas around
@@ -794,11 +797,31 @@ Geometric Topology.
     near `0`; one around `1` sends `1` there and so is decreasing near `1`. Positive transition
     derivatives would make the sign of the derivative of the charts, read against the coordinate
     of `[0, 1]`, locally constant on the connected `[0, 1]`, and it is `+` at `0` and `−` at `1`.
-  - The closed half-plane `{x₀ ≥ 0}` over `𝓡∂ 2` has an oriented atlas: the reflection
-    `(x₀, x₁) ↦ (x₀, −x₁)` preserves the half-plane with Jacobian `−1`, so a negatively signed
-    boundary chart composed with it is a positively signed boundary chart. A criterion that
-    demanded boundarylessness in every dimension would miss it, and a proof of the converse
-    that reflected the first coordinate would leave the half-plane.
+  - The strip `[0, 1] × ℝ`, charted on `𝓡∂ 2`, has an oriented atlas, which separates dimension
+    `2` from dimension `1`. The chart `(x, y) ↦ (x, y)` on `x < 1` has Jacobian `+1`. A chart
+    around the boundary line `x = 1` must send it into `{x₀ = 0}`: `(x, y) ↦ (1 − x, y)` has
+    Jacobian `−1`, and after reflecting the second coordinate, `(x, y) ↦ (1 − x, −y)` has
+    Jacobian `+1`. The transition `(u, v) ↦ (1 − u, −v)` between the two, on `0 < u < 1`, has
+    determinant `(−1)(−1) = +1`, so the two charts form an oriented atlas. Its one-dimensional
+    analogue `[0, 1]` has no second coordinate to reflect and no oriented atlas (the first
+    Check), and reflecting the first coordinate instead, `(x, y) ↦ (x − 1, y)`, would leave the
+    half-plane.
+  - Negative control over a model with corners, in dimension `3`: let `C ⊂ ℝ³` be the cone over
+    the pentagon with vertices `(0, 0), (4, 0), (6, 3), (2, 5), (−1, 2)` placed at height `1`,
+    made a model with corners by `ModelWithCorners.ofConvexRange` from the inclusion of `C`. A
+    linear map carrying `C` onto itself permutes its five edge rays by a symmetry of the
+    pentagon, and for each of the nine symmetries other than the identity the linear map
+    determined up to scale by where four of the rays go sends the fifth ray elsewhere; so the
+    linear automorphisms of `C` are the positive multiples of the identity. A coordinate change at the
+    apex fixes the apex (the only point of `C` whose tangent cone contains no line), and its
+    derivative within `C` carries `C` onto `C`, so it has positive determinant. Let `M ⊂ ℝ³` be
+    the union of `C ∩ B(0, 1)`, of its mirror image `q + σ(C ∩ B(0, 1))` for a reflection `σ`
+    and a point `q` with `|q| > 2`, and of an open tube that meets the two balls only in the
+    interiors of the two cones, charted by the inclusion near `0` and by `x ↦ σ(x − q)` near
+    `q`. `M` is connected and carries the orientation of `ℝ³`, but it has no oriented atlas: for
+    that orientation every chart at `0` is positive and every chart at `q` is negative, and for
+    the opposite orientation the reverse. A criterion making dimension `1` the only exception
+    would accept it.
   - On `ℝ`, the atlas `{id}` is oriented, and the atlas `{id, t ↦ −t}` (both in the maximal
     smooth atlas) is not, since its transition has derivative `−1`; an orientable manifold can
     carry a non-oriented atlas, so the criterion asks for some oriented atlas, not for the given
@@ -2185,7 +2208,8 @@ Each is a tempting mistake with its refutation.
 - **"Orientable = admits a positive-Jacobian atlas", as a definition.** `Set.Icc 0 1` over `𝓡∂ 1`
   is orientable but has no oriented atlas (`TauCeti.IsOrientedAtlas`, 2.2's Check); chart signs are
   the definition (2.1). Tau Ceti's oriented-atlas notion agrees with chart-sign orientability on
-  boundaryless manifolds, which is 2.2's criterion, and is narrower for 1-manifolds with boundary.
+  boundaryless manifolds, which is 2.2's criterion, and is narrower for 1-manifolds with boundary
+  and for some manifolds with corners in higher dimension (2.2's pentagonal-cone Check).
 - **"The sigma topology on pointwise orientations is the orientation cover."** It is discrete, so
   the projection is not a local homeomorphism.
 - **"Integral manifolds are embedded", "leaves carry the subspace topology", "`T_pS ⊆ D_p`

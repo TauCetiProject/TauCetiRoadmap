@@ -734,10 +734,13 @@ theorem exists_topForm_of_orientation [T2Space M] [SigmaCompactSpace M] [IsManif
 has a chart-sign orientation exactly when it has an oriented atlas in Tau Ceti's sense,
 `TauCeti.IsOrientedAtlas I 1`: charts of the maximal `C¹` atlas that cover `M` and whose
 coordinate changes lie in `TauCeti.orientationPreservingGroupoid I` (differentiable within
-`range I` with derivative of positive determinant). The boundaryless hypothesis is needed only
-in dimension `1`: `Set.Icc 0 1` over `𝓡∂ 1` is orientable but has no oriented atlas, since a
-chart at `0` increases and a chart at `1` decreases; with boundary in dimension at least `2` the
-converse also holds [Lee, Prop. 15.6]. -/
+`range I` with derivative of positive determinant). Over the half-space model `𝓡∂ n` the
+boundaryless hypothesis is needed only for `n = 1`: `Set.Icc 0 1` over `𝓡∂ 1` is orientable but
+has no oriented atlas, since a chart at `0` increases and a chart at `1` decreases, while for
+`n ≥ 2` the converse also holds with boundary [Lee, Prop. 15.6]. Over a general model with
+corners it is needed in higher dimension too: a connected `3`-manifold with one corner modelled
+on a cone that has no orientation-reversing linear automorphism and one mirror-image corner is
+orientable but has no oriented atlas. -/
 theorem orientable_iff_exists_atlas [BoundarylessManifold I M] [IsManifold I 1 M] :
     Orientable I M ↔ ∃ A : Set (OpenPartialHomeomorph M H), TauCeti.IsOrientedAtlas I 1 A :=
   sorry
