@@ -158,11 +158,13 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 open TauCeti TauCeti.Manifold CovariantDerivative Filter Topology
 
 /-- Layer 3.2: Gauss–Bonnet for a compact disk `D` in an oriented surface whose boundary is a
-piecewise `C²` unit-speed Jordan curve `c` with corners at `T`, with `D` on its left: `k_g` is
-taken against the inward conormal `J c′`, `J` the rotation by `+π/2` of the oriented tangent
-plane, and the exterior angles are the oriented angles from the left to the right tangent. -/
+piecewise `C²` unit-speed Jordan curve `c` with corners at `T` and integrable `k_g`, with `D` on
+its left: `k_g` is taken against the inward conormal `J c′`, `J` the rotation by `+π/2` of the
+oriented tangent plane, and the exterior angles are the oriented angles from the left to the
+right tangent. -/
 theorem integral_curvature_add_integral_geodesicCurvature_add_sum_exteriorAngle_eq_two_pi
-    (o : TauCeti.Manifold.Orientation I M (Fin 2)) (K : M → ℝ)
+    (o : TauCeti.Manifold.Orientation I M (Fin 2))
+    [∀ x : M, Fact (Module.finrank ℝ (TangentSpace I x) = 2)] (K : M → ℝ)
     (hK : ∀ x (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
       (leviCivitaConnection I M).sectionalCurvature
         (isMetricCompatible_leviCivitaConnection I) x u v = K x)
@@ -178,21 +180,18 @@ theorem integral_curvature_add_integral_geodesicCurvature_add_sum_exteriorAngle_
       ‖curveVelocityWithin I c (Ici s) s‖ = 1)
     (hcusp : ∀ s ∈ T, curveVelocityWithin I c (Ici s) s ≠ -curveVelocityWithin I c (Iic s) s)
     (hin : ∀ t, (∀ s ∈ T, ∀ k : ℤ, t ≠ s + k * L) →
-      haveI := o.fact_finrank_tangentSpace (c t)
       ∀ᶠ ε in 𝓝[>] (0 : ℝ), riemannianExp I M (c t)
         (ε • (o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t)) ∈
           interior D)
-    (hk : IntervalIntegrable (fun t ↦ haveI := o.fact_finrank_tangentSpace (c t)
-      inner ℝ (alongCurveWithin (leviCivitaConnection I M) c (curveVelocityWithin I c univ) univ t)
+    (hk : IntervalIntegrable (fun t ↦ inner ℝ
+        (alongCurveWithin (leviCivitaConnection I M) c (curveVelocityWithin I c univ) univ t)
         ((o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t))) volume 0 L) :
     (∫ x in D, K x ∂riemannianVolume I M) +
-      (∫ t in (0)..L, haveI := o.fact_finrank_tangentSpace (c t)
-        inner ℝ
+      (∫ t in (0)..L, inner ℝ
           (alongCurveWithin (leviCivitaConnection I M) c (curveVelocityWithin I c univ) univ t)
           ((o.orientationAt (c t)).rightAngleRotation (curveVelocityWithin I c univ t))) +
-      ∑ s ∈ T, (haveI := o.fact_finrank_tangentSpace (c s)
-        ((o.orientationAt (c s)).oangle (curveVelocityWithin I c (Iic s) s)
-          (curveVelocityWithin I c (Ici s) s)).toReal) = 2 * Real.pi := by
+      ∑ s ∈ T, ((o.orientationAt (c s)).oangle (curveVelocityWithin I c (Iic s) s)
+          (curveVelocityWithin I c (Ici s) s)).toReal = 2 * Real.pi := by
   sorry
 
 end DiskGaussBonnet

@@ -521,9 +521,10 @@ with respect to the inward conormal. Prove
 
 (do Carmo, *Curves and Surfaces*, §4-5, local Gauss–Bonnet theorem, from p. 264; Lee, 2nd
 ed., "The Gauss–Bonnet Formula", pp. 271–275). In the statement, the boundary is a piecewise
-`C²` unit-speed Jordan curve c with corners at a finite set T of parameters, D lies on its left
-in the sense of the conventions, `k_g = ⟨D_t c′, J c′⟩`, and the exterior angle at a corner is
-the oriented angle from the left to the right one-sided tangent, cusps excluded. Include the
+`C²` unit-speed Jordan curve c with corners at a finite set T of parameters and integrable k_g
+on the smooth pieces, D lies on its left in the sense of the conventions,
+`k_g = ⟨D_t c′, J c′⟩`, and the exterior angle at a corner is the oriented angle from the left
+to the right one-sided tangent, cusps excluded. Include the
 smooth-boundary and geodesic-polygon cases. Prove the comparison of the boundary integral
 with the local connection form of an oriented orthonormal frame, `k_g ds = dθ + ω(T) ds` in
 the conventions, and use Stokes with corners and 3.1 to obtain the intrinsic formula. Lean
