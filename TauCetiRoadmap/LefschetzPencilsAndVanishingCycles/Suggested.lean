@@ -73,11 +73,11 @@ map between opposite graded pieces is an isomorphism. README 1.3. -/
 def IsMonodromyFiltration {C : Type*} [Category C] [Abelian C] {X : C}
     (N : End X) (c : ℤ) (M : ℤ → Subobject X) : Prop :=
   Monotone M ∧ (∃ a b : ℤ, M a = ⊥ ∧ M b = ⊤) ∧
-  (∀ i : ℤ, (Subobject.«exists» N).obj (M i) ≤ M (i - 2)) ∧
+  (∀ i : ℤ, (Subobject.«exists» N.asHom).obj (M i) ≤ M (i - 2)) ∧
   (∀ r : ℕ,
-    (Subobject.«exists» (N ^ r)).obj (M (c + (r : ℤ))) ⊔ M (c - (r : ℤ) - 1) =
+    (Subobject.«exists» (N ^ r).asHom).obj (M (c + (r : ℤ))) ⊔ M (c - (r : ℤ) - 1) =
       M (c - (r : ℤ)) ∧
-    M (c + (r : ℤ)) ⊓ (Subobject.pullback (N ^ r)).obj (M (c - (r : ℤ) - 1)) =
+    M (c + (r : ℤ)) ⊓ (Subobject.pullback (N ^ r).asHom).obj (M (c - (r : ℤ) - 1)) =
       M (c + (r : ℤ) - 1))
 
 /-- Every nilpotent endomorphism in an abelian category has a unique monodromy
@@ -86,7 +86,7 @@ theorem monodromyFiltration_exists_unique {C : Type*} [Category C] [Abelian C] {
     (N : End X) (hN : IsNilpotent N) (c : ℤ) :
     (∃! M : ℤ → Subobject X, IsMonodromyFiltration N c M) ∧
       ∀ M : ℤ → Subobject X, IsMonodromyFiltration N c M →
-        ∀ i : ℤ, (Subobject.«exists» N).obj (M (i + 2)) = imageSubobject N ⊓ M i := by
+        ∀ i : ℤ, (Subobject.«exists» N.asHom).obj (M (i + 2)) = imageSubobject N.asHom ⊓ M i := by
   sorry
 
 /-! ## Layer LPV.2: Ordinary quadratic singularities and the Picard–Lefschetz formula -/

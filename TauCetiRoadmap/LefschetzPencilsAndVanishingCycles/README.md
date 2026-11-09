@@ -62,6 +62,9 @@ It uses, and does not redevelop:
   `𝔰𝔩₂`-modules from TauCetiRoadmap RepresentationTheory and Completed IntegralLattices; abelian Chebotarev from
   TauCetiRoadmap Chebotarev Layer 9; mixed Hodge structures and strictness from Completed HodgeStructures (layer L2) and
   Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`;
+- the `𝔰𝔩₂` triple of a Lefschetz structure from LefschetzStructures §0.4, which 1.4 applies to `gr^M`; the
+  even-rank unit criterion for quadratic forms on free modules from QuadraticFormsOverABase §2.2, to which
+  2.2 localizes (the statements over locally free modules in 2.1–2.2 stay here);
 - curve/Jacobian comparison, finite-coefficient and rational constructible trace formulas,
   and constant-sheaf point counts from InverseGaloisAndArithmeticFundamentalGroups
   §§IG.0.T1–IG.0.T4, on the domains specified in F.10;
@@ -206,9 +209,12 @@ It leaves to other roadmaps:
 - **AdelicAlgebraicGroups** Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups, their Lie algebras, openness).
 - **TauCetiRoadmap OrthogonalSpinGroups** Layers 0 and 2 (orthogonal groups over a general field and over `ℚ_p`, their
   topology and closedness).
+- **QuadraticFormsOverABase** §2.2 (the even-rank unit criterion), read through §2.1, in 2.2; contract
+  below.
 - **TauCetiRoadmap Chebotarev** Layer 9 (abelian Chebotarev).
 - **TauCetiRoadmap RepresentationTheory**: CharacterTheory Layer 4, LieHighestWeight Layer 0 (`𝔰𝔩₂`-modules,
   Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
+- **LefschetzStructures** §0.1 (Lefschetz structures) and §0.4 (their `𝔰𝔩₂` triple), in 1.4; contract below.
 - **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
   strictness).
 - **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
@@ -262,6 +268,20 @@ It leaves to other roadmaps:
   supplies Galois/cohomology conversion.
 - **TauCetiRoadmap AlgebraicTopology** Stage 5 item 2 (mapping-torus Wang sequence) and Stage 6
   item 4 (Poincaré–Lefschetz duality), adapted to cohomology and singular-fibre supports in 7b.6.
+
+### From TauCetiRoadmap.LefschetzStructures
+
+§0.4, on the Lefschetz structures of §0.1: over a field of characteristic zero, the unique `𝔰𝔩₂` triple
+`(L, h, f)` of a Lefschetz structure of weight `2n`, with `h` acting on `H^i` by `i − n` and its formula for
+`f` on powers of `L` applied to primitive classes. Item 3 of 1.4 applies it to `gr^M X` with `L = N` and
+owns only that application.
+
+### From TauCetiRoadmap.QuadraticFormsOverABase
+
+§2.2, `isSmooth_iff_isUnit_det`: a form of even rank on `Fin n → R` is `IsSmooth` exactly when its polar
+determinant is a unit, read through the §2.1 comparison of `IsSmooth` with ordinarity in the sense of 2.1
+here. 2.2 localizes to it for the equivalence of ordinarity in positive even rank with a bijective polar
+map.
 
 ## How to read the build
 
@@ -1126,9 +1146,15 @@ For each `r ≥ 0`, the subobject equalities
 3. (The `sl₂` realization.) For an untwisted nilpotent endomorphism of a finite-dimensional vector space
    over a field `k` of characteristic zero, `gr^M X` carries a canonical ordinary `𝔰𝔩₂` action, expressed
    as a Lie algebra homomorphism `sl (Fin 2) k →ₗ⁅k⁆ Module.End k (gr^M X)` and its induced `LieModule`.
+   It is the `𝔰𝔩₂` triple of a Lefschetz structure (LefschetzStructures §0.4) applied to `gr^M X`: if
+   `N^{d+1} = 0`, placing `gr_i` in degree `d − i` makes `gr^M X` with `L = N` a Lefschetz structure of
+   weight `2d` (LefschetzStructures §0.1), whose hard Lefschetz bijections are the opposite isomorphisms
+   `N^r : gr_r ≅ gr_{−r}`. For the triple `(N, h, f)` of §0.4 there, `(H, X, Y) = (−h, f, N)`; for
+   `N ≠ 0` this is Mathlib's `IsSl2Triple.symm` of `IsSl2Triple h N f`.
    The induced graded `N` is the lowering operator `Y` and `H` acts by the weight `i` on `gr_i`; the raising
-   operator `X` is defined on the primitive decomposition by `X(N^a u) = a(j − a + 1) N^{a−1} u` for
-   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `1 ≤ a ≤ j`, with the endpoint value `X(u) = 0`.
+   operator `X` is given on the primitive decomposition by `X(N^a u) = a(j − a + 1) N^{a−1} u` for
+   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `1 ≤ a ≤ j`, with the endpoint value `X(u) = 0`: this is the formula
+   of LefschetzStructures §0.4 for the primitive class `u` of degree `d − j`, with `a = k + 1`.
    These operators satisfy `[X,Y] = H`, `[H,X] = 2X` and `[H,Y] = −2Y`, including when `N = 0`,
    where the action is trivial. If `N ≠ 0`, they also satisfy Mathlib's `IsSl2Triple H X Y`:
    a string of length at least two has a nonzero weight, so `H ≠ 0`. Each `N`-string through a primitive
@@ -1148,11 +1174,13 @@ item 3 they follow from the Clebsch–Gordan rule, and `Sym^d` of the two-block 
 
 *Proof sketch.* Split each graded piece into the primitive kernel and the image of the next power of
 `N` using the opposite isomorphisms; iterate; strictness follows by graded surjectivity and injectivity.
-In characteristic zero define `X` on the primitive decomposition by the displayed formula and check the
-three bracket relations on each string, giving the homomorphism even for the trivial action;
-for `N ≠ 0`, a nontrivial string supplies the nonzero weight operator required by the native triple.
+In characteristic zero, item 3 takes the triple of LefschetzStructures §0.4 on the Lefschetz structure
+`gr^M X` and reverses it to `(−h, f, N)`; its bracket relations give the homomorphism even for the
+trivial action, the uniqueness in §0.4 makes it canonical and independent of `d`, and for `N ≠ 0` a
+nontrivial string supplies the nonzero weight operator required by the native triple.
 (Weil II, 1.6.3–1.6.8 and 1.6.10–1.6.12, pp. 165–168.)
-*Needs:* 1.3; Mathlib `LieHom`, `LieModule` and `IsSl2Triple`; TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
+*Needs:* 1.3; Mathlib `LieHom`, `LieModule` and `IsSl2Triple`; LefschetzStructures §§0.1 and 0.4
+(Lefschetz structures and their `𝔰𝔩₂` triple); TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
 (finite-dimensional `𝔰𝔩₂`-modules and Clebsch–Gordan); ArithmeticGaloisRepresentations Layer 2, §2.6.
 
 **Checks.**
@@ -1421,6 +1449,7 @@ theorem for local fields; §2.6 the vector-space monodromy filtration with its t
 the smooth-stage trait descent of 1.1;
 PurityOfBranchLocus §§2.1–2.2; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6; EtaleCohomologyFoundations §F.1;
 EtaleCohomologyFoundations §F.0 (Tate twists); Stacks Project 0BMB; SGA 1 XIII 5.3;
+LefschetzStructures §§0.1 and 0.4;
 TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0; Mathlib (`IsSl2Triple`, abelian categories);
 Tau Ceti (`LinearMap.GeneralLinearGroup.IsUnipotent`).
 
@@ -1519,14 +1548,19 @@ the Lagrangian idempotent and the discriminant cover, and prove:
 - Over a field, `e(W₁) = e(W₂) ↔ Even (finrank (W₁ ⧸ W₁ ⊓ W₂))`.
 - `Z(X) → S` for a smooth quadric of even dimension, with `e : Gén(X) → Z(X)` the Stein factorisation.
 
-*Proof sketch.* Étale locally `Q` is split; for `V = W_1 ⊕ W_2` with both summands totally isotropic,
-`C(Q) ≅ End(ΛW_1)` as graded algebras, so `C⁺(Q) ≅ End(ΛW_1)⁺ × End(ΛW_1)⁻` has centre `A × A`; descent
-gives the étale rank-two centre and the Azumaya property. The idempotent `e(W_1, W_2)` depends only on
-`W_1` by connectedness of the affine space of complements. The parity criterion reduces by the addition
+*Proof sketch.* Ordinarity and bijectivity of the polar map are both Zariski-local on `Spec A`; where `V`
+is free of rank `2m`, their equivalence is the even-rank unit criterion `isSmooth_iff_isUnit_det` of
+QuadraticFormsOverABase §2.2 (a unit polar determinant is a bijective `polarBilin`), whose `IsSmooth` is
+ordinarity in the sense of 2.1 by its §2.1 comparison. Étale locally `Q` is split; for
+`V = W_1 ⊕ W_2` with both summands totally isotropic, `C(Q) ≅ End(ΛW_1)` as graded algebras, so
+`C⁺(Q) ≅ End(ΛW_1)⁺ × End(ΛW_1)⁻` has centre `A × A`; descent gives the étale rank-two centre and the
+Azumaya property. The idempotent `e(W_1, W_2)` depends only on `W_1` by connectedness of the affine space
+of complements. The parity criterion reduces by the addition
 formula `e(W_1 ⊕ W_2) = e(W_1)e(W_2) + (1 − e(W_1))(1 − e(W_2))` to dimension two. For a smooth quadric,
 `C⁺` of the ambient form descends; generatrices disjoint from a given one form an affine space, so
 `Gén(X)` is smooth, and its geometric fibres over `Z(X)` are connected by reduction to `P¹ × P¹`. (SGA 7
 II, Exposé XII, Proposition 1.5, p. 5; Proposition 1.12, p. 8; Proposition 2.8, p. 13.) *Needs:* 2.1;
+QuadraticFormsOverABase §2.2 (the even-rank unit criterion, with its §2.1 comparison);
 Mathlib `CliffordAlgebra.even`, `Subalgebra.center`; Tau Ceti `CliffordAlgebra.adjoinRootEquivCenterEven` (the field
 case with two invertible); SchemeAndStackFoundations Layers 0 (§0.8, étale localization) and 1 (§1.1, descent of
 quasi-coherent modules). *Lean:* `Suggested.lean` states this algebraic theorem as
@@ -2249,6 +2283,7 @@ pp. 287–288.) *Needs:* the Picard–Lefschetz formula, the local description o
 Layers LPV.0 and LPV.1; Mathlib (quadratic forms, Clifford algebras, smoothness and the
 Jacobian criterion); Tau Ceti (the centre of the even Clifford algebra when two is invertible);
 AlgebraicModuliForArithmeticGeometry Layers 1 and 6; SchemeAndStackFoundations Layers 0 and 3;
+QuadraticFormsOverABase §§2.1–2.2 (in 2.2);
 TauCetiRoadmap ModularCurves Layer 4D; EtaleCohomologyFoundations §§F.1–F.7;
 InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (point counting);
 ComplexComparisonPartII §§C6.0–C6.6 and the nearby–Betti adapter 0.8a.
