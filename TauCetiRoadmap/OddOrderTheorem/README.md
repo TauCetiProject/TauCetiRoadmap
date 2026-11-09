@@ -43,7 +43,8 @@ The roadmap owns:
 - Peterfalvi Part I §§1–6 on native class functions: the preliminary lemmas of §1, **Dade data**,
   the **Dade isometry** and its comparison with induction (§2), the **cyclic trivial-intersection
   isometry** (§3), the prime trivial-intersection configurations (§4), **coherence** with its
-  uniqueness, restriction and gluing laws (§5) and the coherence theorems of §§5–6 (Layer 2).
+  restriction, duality, gluing and conjugation laws (§5) and the coherence theorems of §§5–6
+  (Layer 2).
   Layer 2 imports nothing from Layers 0–1 and 3–6, nothing from Layer 1's suppliers, and no
   odd-order hypothesis beyond those the cited theorems carry; GlaubermanZStar consumes the trivial-complement comparison from it;
 - the prime sets `α(M)`, `β(M)`, `σ(M)`, `τ₁(M)`, `τ₂(M)`, `τ₃(M)`, `κ(M)` of a maximal subgroup,
@@ -74,12 +75,16 @@ The roadmap leaves to named suppliers:
 - InverseGaloisAndArithmeticFundamentalGroups IG.4.3, target *The Fitting subgroup*: the Fitting
   subgroup `F(G)` as the supremum of the nilpotent normal subgroups, Fitting's theorem, its
   characteristic property, its nilpotence for finite `G` and `Φ(G) ≤ F(G)`; Layer 1 §1.2 adds the
-  laws the local analysis needs and never redefines `F(G)`. IG.3.4, target *Conjugacy of coprime
-  complements*: the conjugacy of the complements of a normal Hall subgroup `N` when `N` or `G ⧸ N`
-  is solvable (Schur–Zassenhaus conjugacy), consumed by §1.1 and §4.2;
+  laws the local analysis needs and never redefines `F(G)`. IG.4.3, target *Fitting supplements
+  for solvable groups*: `Φ(G) < F(G)` for a nontrivial finite solvable `G`, hence `F(G) ≠ 1`.
+  IG.3.4, target *Conjugacy of coprime complements*: the conjugacy of the complements of a normal
+  Hall subgroup `N` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy), consumed by
+  §1.1 and §4.2;
 - FiniteGroupInvariants §2.1: the predicate `IsHallFor π H` and Hall's existence theorem
   `exists_isHallFor_of_isSolvable`; conjugacy and containment, which that section does not state,
-  are Layer 1 §1.1;
+  are Layer 1 §1.1. FiniteGroupInvariants §0.2 and §0.3: chief series `ChiefSeries G`, the
+  predicate `IsMinimalNormal`, and the structure of a minimal normal subgroup of a finite group as
+  a direct power of a simple group, from which Layer 1 §1.2 reads off Lemma 1.1;
 - FiniteGroupExtensionSplitting §2.4 (Gaschütz) and §3.1 (Sylow detection): the splitting of an
   abelian normal subgroup after restriction to a Sylow subgroup, consumed by Layer 1.
 
@@ -174,12 +179,15 @@ one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not
 | Use here | Section |
 |---|---|
 | the Fitting subgroup `F(G)` of a group, the supremum of its nilpotent normal subgroups; Fitting's theorem (the join of two nilpotent normal subgroups is nilpotent); `F(G)` characteristic, nilpotent for finite `G`, containing every nilpotent normal subgroup and `Φ(G)` | IG.4.3, target *The Fitting subgroup* |
+| `Φ(G) < F(G)` for a nontrivial finite solvable group `G`, so `F(G) ≠ 1` | IG.4.3, target *Fitting supplements for solvable groups* |
 | the conjugacy, by an element of `N`, of any two complements of a normal subgroup `N ⊴ G` with `Nat.Coprime (Nat.card N) N.index` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy) | IG.3.4, target *Conjugacy of coprime complements* |
 
 ### From `TauCetiRoadmap.FiniteGroupInvariants`
 
 | Use here | Section |
 |---|---|
+| chief series `ChiefSeries G` (composition series in the lattice of normal subgroups), whose successive factors are the chief factors of §1.2 | §0.2 |
+| `IsMinimalNormal N` and `exists_mulEquiv_pi_of_isMinimalNormal`: a minimal normal subgroup of a finite group is isomorphic to `S^k` for a simple group `S`; for solvable `G` every chief factor is elementary abelian | §0.3 |
 | `IsHallFor π H` (every prime divisor of `|H|` lies in `π`, none of `|G : H|` does) and Hall's theorem `exists_isHallFor_of_isSolvable`: a finite solvable group has a Hall `π`-subgroup for every `π` | §2.1 |
 
 FiniteGroupInvariants §2.1 states existence only; the conjugacy of Hall subgroups, the
@@ -292,8 +300,10 @@ transfer lemmas, `IsSimpleGroup`, `IsMulCommutative`.
 §1.1–§1.5 state the general local analysis of Bender–Glauberman Chapter I that the pinned
 libraries lack; nothing in them assumes odd order except where a statement says so, and they are
 consumed by §1.6–§1.10 and by Layer 3. The Fitting subgroup is
-InverseGaloisAndArithmeticFundamentalGroups' (IG.4.3, target *The Fitting subgroup*) and the
-existence of Hall subgroups of solvable groups is FiniteGroupInvariants §2.1's; the existence
+InverseGaloisAndArithmeticFundamentalGroups' (IG.4.3, targets *The Fitting subgroup* and
+*Fitting supplements for solvable groups*), chief series and minimal normal subgroups are
+FiniteGroupInvariants §0.2–§0.3's, and the existence of Hall subgroups of solvable groups is
+FiniteGroupInvariants §2.1's; the existence
 half of Schur–Zassenhaus, Burnside's normal `p`-complement theorem and the Frattini argument are
 Mathlib's, and the conjugacy half of Schur–Zassenhaus is
 InverseGaloisAndArithmeticFundamentalGroups IG.3.4's (*Conjugacy of coprime complements*). A
@@ -316,8 +326,10 @@ and define the **upper `p`-series** by `O_{p',p}(H)` = the preimage in `H` of
   of their orders);
 - `O_π(H ⧸ O_π(H)) = 1`, and `O_π(H) = H` iff `H` is a `π`-group;
 - for `N ⊴ H`, `O_π(N) = O_π(H) ⊓ N`;
-- `O_p(H)` is the intersection of the Sylow `p`-subgroups of `H` (Lemma 1.22), and `O_{p'}(H)`
-  is the largest normal subgroup of `H` of order prime to `p`;
+- `O_p(H)` is the intersection of the Sylow `p`-subgroups of `H` (every normal `p`-subgroup lies
+  in each Sylow `p`-subgroup, Mathlib `IsPGroup.le_sylow_of_normal`, and that intersection is a
+  normal `p`-subgroup), and `O_{p'}(H)` is the largest normal subgroup of `H` of order prime to
+  `p`;
 - a surjective homomorphism maps `O_π(H)` into the `π`-core of its image, with equality when its
   kernel is a `π`-group.
 
@@ -368,15 +380,24 @@ InverseGaloisAndArithmeticFundamentalGroups IG.3.4, Mathlib `Sylow`, `IsPGroup`,
 Write `F(G)` for the Fitting subgroup of InverseGaloisAndArithmeticFundamentalGroups IG.4.3
 (target *The Fitting subgroup*: the supremum of the nilpotent normal subgroups, characteristic,
 nilpotent for finite `G`, containing every nilpotent normal subgroup); define nothing anew.
+Two facts are imported: `F(G) ≠ 1` for a nontrivial finite solvable `G` follows from
+`Φ(G) < F(G)` (InverseGaloisAndArithmeticFundamentalGroups IG.4.3, target *Fitting supplements
+for solvable groups*), and a solvable minimal normal subgroup (FiniteGroupInvariants §0.3,
+`IsMinimalNormal`) is elementary abelian (Lemma 1.1), since by FiniteGroupInvariants §0.3 it is a
+direct power `S^k` of a simple group `S`, which is then solvable and so cyclic of prime order.
 Prove, for a finite group `G`: `F(G)` is the internal direct product of the `O_p(G)` over the
 primes `p` (a nilpotent normal subgroup is the product of its Sylow subgroups, each normal in
-`G`); `F(N) = F(G) ⊓ N` for `N ⊴ G`; and `F(G) ≠ 1` when `G ≠ 1` is solvable. For solvable `G`
-prove: a minimal normal subgroup of `G` is elementary abelian (Lemma 1.1) and lies in `Z(F(G))`
-(Lemma 1.2); `F(G)` is the intersection of the centralizers `C_G(U ⧸ V)` over the chief factors
-`U ⧸ V` of `G` (Proposition 1.2); `C_G(F(G)) ≤ F(G)` (Proposition 1.3, due to P. Hall); and, for
-`A` acting on `G` with `gcd(|A|, |G|) = 1`, `C_A(G) = 1` implies `C_A(F(G)) = 1` (Proposition
-1.4). *Needs:* §1.1, InverseGaloisAndArithmeticFundamentalGroups IG.4.3, Mathlib
-`Group.IsNilpotent`, `Subgroup.centralizer`, `Subgroup.Characteristic`.
+`G`); `F(N) = F(G) ⊓ N` for `N ⊴ G`; and a solvable minimal normal subgroup of `G` lies in
+`Z(F(G))` (Lemma 1.2; math-comp `minnormal_solvable_Fitting_center`, MC-BGsection1 lines
+136–138, which assumes only that the minimal normal subgroup is solvable). For solvable `G`
+prove: `F(G)` is the intersection of the centralizers `C_G(s_{i+1} ⧸ s_i)` of the factors of a
+chief series `s` of `G` (FiniteGroupInvariants §0.2, `ChiefSeries`) (Proposition 1.2);
+`C_G(F(G)) ≤ F(G)` (Proposition 1.3, due to P. Hall); and, for `A` acting on `G` with
+`gcd(|A|, |G|) = 1`, `C_A(G) = 1` implies `C_A(F(G)) = 1` (Proposition 1.4). *Needs:* §1.1,
+InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*, *Fitting
+supplements for solvable groups*), FiniteGroupInvariants §0.2 (chief series) and §0.3 (minimal
+normal subgroups), Mathlib `Group.IsNilpotent`, `Subgroup.centralizer`,
+`Subgroup.Characteristic`.
 
 **Checks.**
 - `F(S₄) = V₄ = O_2(S₄) · O_3(S₄) = V₄ · 1`, `C_{S₄}(V₄) = V₄ ≤ F(S₄)`; the chief series
@@ -384,8 +405,10 @@ prove: a minimal normal subgroup of `G` is elementary abelian (Lemma 1.1) and li
   and `S₄`, whose intersection is `V₄`.
 - `F(C₆) = C₆ = O_2(C₆) × O_3(C₆)`: a wrong model "`F(G) = O_p(G)` for one prime `p`" gives `C₃`
   or `C₂`.
-- Solvability is needed in Proposition 1.3 and Lemma 1.1: `F(A₅) = 1` with `C_{A₅}(1) = A₅`, and
-  the minimal normal subgroup `A₅` of `A₅` is nonabelian.
+- Solvability is needed in Proposition 1.3 and Lemma 1.2: `F(A₅) = 1` with `C_{A₅}(1) = A₅`, and
+  the minimal normal subgroup `A₅` of `A₅` is not inside `Z(F(A₅)) = 1`. Lemma 1.2 needs only the
+  minimal normal subgroup to be solvable: in `A₅ × C₃` the minimal normal subgroup `C₃` lies in
+  `Z(F(A₅ × C₃)) = C₃`, although the group is not solvable.
 - `F(A₄) = V₄ = F(S₄) ⊓ A₄`, and `F(S₃) = A₃ = Z(F(S₃))` contains the minimal normal subgroup
   `A₃`.
 
@@ -545,12 +568,17 @@ for a cyclic Sylow `p`-subgroup `S`, either `S ⊓ G' = 1` or `S ≤ G'` (1.19(a
 
 For a finite solvable group `H` and a prime `p`, define **`p`-length at most one** as: a Sylow
 `p`-subgroup of `H ⧸ O_{p'}(H)` is normal, equivalently `O_{p',p,p'}(H) = H` (Bender–Glauberman
-§1, the definition before Lemma 1.1). Prove invariance under isomorphism, passage to subgroups
-and to quotients, and the normal-complement formulations: `H` has `p`-length at most one iff
-`O_{p',p}(H)` contains a Sylow `p`-subgroup of `H` iff `H ⧸ O_{p',p}(H)` is a `p'`-group, iff
-`O_{p'}(H₀)` is a Hall `p'`-subgroup of the subgroup `H₀` generated by the `p`-elements of `H`
-(Lemma 1.21(a)–(e), with the quotient criteria for a normal `p'`-subgroup and for a normal
-`p`-subgroup `K` with `O_{p'}(H ⧸ K) = 1`). Prove the Sylow lemmas of a group `G` of `p`-length
+§1, the definition before Lemma 1.1). Prove invariance under isomorphism and the
+normal-complement formulations: `H` has `p`-length at most one iff
+`O_{p',p}(H)` contains a Sylow `p`-subgroup of `H` iff `H ⧸ O_{p',p}(H)` is a `p'`-group
+(Bender–Glauberman §10, p. 75, before Theorem 10.6; math-comp `plength1_pseries2_quo`,
+MC-BGsection1 lines 1049–1051), iff `O_{p'}(H₀)` is a Hall `p'`-subgroup of the subgroup `H₀`
+generated by the `p`-elements of `H` (Lemma 1.21(d)). Prove Lemma 1.21: passage to subgroups and
+quotients (a); for a normal `p'`-subgroup `K`, `H ⧸ K` has `p`-length at most one iff `H` does
+(b); the same for a normal `p`-subgroup `K` with `O_{p'}(H ⧸ K) = 1` (c); the criterion through
+`H₀` above (d); and, for `H₁, H₂ ⊴ H` with `H₁ ⊓ H₂ = 1`, `H` has `p`-length at most one iff
+`H ⧸ H₁` and `H ⧸ H₂` do (e) (MC-BGsection1 lines 1058–1165; (e) is used in the induction of
+Theorem 3.6, §1.10). Prove the Sylow lemmas of a group `G` of `p`-length
 at most one with Sylow `p`-subgroup `S` and `K = O_{p'}(G)` (Lemma 6.6): `K S = O_{p',p}(G)` and
 `K · N_G(S) = G` (a); `S ≤ G'` forces `S ≤ N_G(S)'` (b); for solvable `G`, every `g ∈ G` with
 `Y ⊆ S` and `g⁻¹ Y g ⊆ S` factors as `c u` with `c ∈ C_G(Y)` and `u ∈ N_G(S)` (c), and every
@@ -572,6 +600,10 @@ Hall subgroups `H` and `k⁻¹ H k`, `k ∈ K` (§1.1), and (b) follows from (c)
   `2`-length is two: a negative control.
 - `S₄`, `p = 3`: `O_{3'}(S₄) = V₄` and the Sylow `3`-subgroup of `S₄ ⧸ V₄ ≅ S₃` is normal:
   `3`-length one.
+- Lemma 1.21(e) on `S₃ × S₃`, `p = 2`, `H₁ = S₃ × 1`, `H₂ = 1 × S₃`: both quotients are `S₃`, of
+  `2`-length one, and so is `S₃ × S₃` (`O_{2'} = A₃ × A₃` with quotient `C₂ × C₂`). The hypothesis
+  `H₁ ⊓ H₂ = 1` is needed: with `H₁ = H₂ = V₄ ⊴ S₄` the quotient `S₃` has `2`-length one while
+  `S₄` has `2`-length two.
 - Lemma 6.6(a) on `S₄`, `p = 3`: `K = V₄`, `S = C₃`, `K S = A₄ = O_{3',3}(S₄)` and
   `K · N_{S₄}(S) = V₄ · S₃ = S₄`.
 - Lemma 6.5 on `G = S₄`, `K = V₄`, `U = S₃` (the stabilizer of `4`), `H = ⟨(1 2 3)⟩`:
@@ -623,7 +655,9 @@ order that normalizes a `p`-subgroup `E ≤ K` with `[E, x, x] = 1 = [E, y, y]`,
 is a `p`-group (induction on `|E|` reduces to `E` a minimal normal subgroup of `E G`, hence
 elementary abelian, and then to an irreducible `𝔽_p`-module); together with the **Baer–Suzuki
 theorem**, stated and proved here since the pins lack it: a `p`-element `x` of a finite group `G`
-lies in `O_p(G)` iff `⟨x, g⁻¹ x g⟩` is a `p`-group for every `g ∈ G`. Given `P` and `A` as in
+lies in `O_p(G)` iff `⟨x, g⁻¹ x g⟩` is a `p`-group for every `g ∈ G` (math-comp `Baer_Suzuki` in
+`solvable/sylow.v`, MC-sylow lines 570–572, applied in the proof of Theorem A.4(c) at
+MC-BGappendixAB line 62). Given `P` and `A` as in
 the definition of `p`-stability and `a ∈ A`, the lemma applied to `a` and `g⁻¹ a g` for
 `g ∈ N_G(P)` shows that `⟨a, g⁻¹ a g⟩` acts on `P` as a `p`-group, and Baer–Suzuki in
 `N_G(P) ⧸ C_G(P)` puts the image of `a` in `O_p(N_G(P) ⧸ C_G(P))`. *Needs:* §1.1 (`O_p`), §1.3
@@ -719,7 +753,8 @@ multiplication by an element of order `13` and `C₃` by the Frobenius `x ↦ x�
 
 Layer 0 (solvability of proper subgroups when applied in Layer 3);
 InverseGaloisAndArithmeticFundamentalGroups IG.3.4 (*Conjugacy of coprime complements*) and
-IG.4.3 (*The Fitting subgroup*); FiniteGroupInvariants §2.1; FiniteGroupExtensionSplitting §2.4,
+IG.4.3 (*The Fitting subgroup*, *Fitting supplements for solvable groups*); FiniteGroupInvariants
+§0.2, §0.3, §2.1; FiniteGroupExtensionSplitting §2.4,
 §3.1; Tau Ceti `TauCeti.exists_index_eq_notMem_of_exponent_dvd`, `TauCeti.IsFrobeniusComplement`;
 Mathlib
 `Sylow`, `IsPGroup`, `IsZGroup`, `frattini`, `Subgroup.exists_right_complement'_of_coprime`,
@@ -863,7 +898,7 @@ hypotheses that fail for the sets used in Layer 4 and in the Brauer–Suzuki arg
 - `G = C₇ ⋊ C₃`, `L = C₃`, `A = L^#`: `L` is a T.I. subgroup, so the pinned
   `TauCeti.isometry_ind_of_isTISet` applies too and the two isometry statements agree.
 
-### 2.5 Integral spans, coherence, uniqueness and gluing
+### 2.5 Integral spans and coherence
 
 For a set `S` of class functions of `L` define `ℤ[S] = Submodule.span ℤ S` and
 `ℤ[S, A] = ℤ[S] ⊓ CF(L, A)`. For a map `τ : ℤ[S, A] → ClassFunction ℂ G`, say that `ν : ℤ[S] →+
@@ -873,11 +908,12 @@ Hermitian pairing and agrees with `τ` on `ℤ[S, A]`; `S` is **coherent** when 
 `S` consists of virtual characters, is the one used). Prove: the degree-zero theorem, that for
 each family used in Layer 4 (the induced families of §4.1 with `A = L^#`) every degree-zero
 element of `ℤ[S]` vanishes off `A`, so `ℤ[S, A]` is the degree-zero subspace; that `ν` carries an
-irreducible of `S` to a signed irreducible (`TauCeti.exists_eq_irreducibleCharacter_or_neg`) and
-conjugate pairs to conjugate pairs; the uniqueness of a coherent extension on `ℤ[S, A]` and, when
-`|S| ≥ 2` and `S` is closed under conjugation, up to the stated sign laws on `ℤ[S]`; restriction
-of a coherent extension to a subfamily; and the gluing of coherent extensions of two families
-that agree on the intersection of their domains (5.3)(a), (b). *Needs:* §2.1 (1.4), Tau Ceti
+irreducible of `S` to a signed irreducible (`TauCeti.exists_eq_irreducibleCharacter_or_neg`); and
+that a coherent extension of `τ` restricts, on `ℤ[S₁]`, to a coherent extension of the
+restriction of `τ` to `ℤ[S₁, A]` for every subfamily `S₁ ⊆ S` (math-comp `subset_coherent`). A
+coherent extension is not determined by `τ` off `ℤ[S, A]`, and two coherent families need not
+glue: the dual extension, the gluing law and the conjugation law for the Dade isometry carry the
+subcoherence hypothesis (5.2) or the Dade hypothesis and are §2.8. *Needs:* §2.1 (1.4), Tau Ceti
 `TauCeti.exists_eq_irreducibleCharacter_or_neg`, `TauCeti.virtualCharacters`.
 
 **Checks.**
@@ -891,8 +927,11 @@ that agree on the intersection of their domains (5.3)(a), (b). *Needs:* §2.1 (1
   for an isometry `ℤ[S] → ℤ[Irr G]`, which always exists; the content of coherence is the
   agreement on `ℤ[S, A]`, which is why every coherence theorem below carries a hypothesis making
   `ℤ[S, A]` large.
-- Sign law: if `ν` is a coherent extension so is `−ν` only when `ℤ[S, A] = 0`; otherwise `ν` is
-  pinned by `τ` on `ℤ[S, A]`.
+- Sign: if `ν` is a coherent extension, `−ν` is one only when `ℤ[S, A] = 0`, since `ν = −ν` on
+  `ℤ[S, A]` makes `τ` vanish there while `‖τ x‖² = ‖x‖²`. Agreement on `ℤ[S, A]` does not fix
+  `ν` on `ℤ[S]`: for `L = G = C₃`, `S = {ω, ω̄}`, `A = L^#` and `τ = id` on `ℤ[S, A] = ℤ (ω − ω̄)`,
+  both `ω ↦ ω, ω̄ ↦ ω̄` and `ω ↦ −ω̄, ω̄ ↦ −ω` are coherent extensions (each sends `ω − ω̄` to
+  `ω − ω̄`), and they are the only two.
 
 ### 2.6 The cyclic trivial-intersection isometry (§3)
 
@@ -959,27 +998,55 @@ support identities for the `μ_ij`, and the inequality (4.9). *Needs:* §2.3, §
 
 ### 2.8 The coherence theorems of §§5–6
 
-State and prove, with every numerical hypothesis explicit: the **subcoherence** hypothesis
-(5.2) for a family `S` of characters closed under conjugation with no real member, an isometry
-`τ` on `ℤ[S, L^#]`, and a choice of orthonormal sets `R(ξ)` with `τ(ξ − ξ̄) = ∑ R(ξ)`; the norm
-estimate (5.4); the coherence criterion (5.5); Feit's extension theorem (5.6): a coherent
-subfamily of a subcoherent `S` extends to `S` when the degree inequality it states holds; the
-extension theorem (5.7) for families with a character of larger degree; the inequality (5.8); and
-the Dade-restricted forms (5.9). Then the §6 theorems, under Peterfalvi's standing hypothesis
+Coherence in this subsection is relative to `L^#`, that is §2.5 with `ℤ[S, L^#]` in place of
+`ℤ[S, A]`, as in Peterfalvi §5. State and prove, with every numerical hypothesis explicit: the
+**subcoherence** hypothesis (5.2) on a family `S` of characters of `L`, a map `τ` and a choice of
+sets `R(ξ)`: `S` has no real member and is closed under complex conjugation, its members are
+pairwise orthogonal, `τ` is an isometry from `ℤ[S, L^#]` into `ℤ[Irr G, G^#]`, each `R(ξ)` is an
+orthonormal set of virtual characters of `G` with `τ(ξ − ξ̄) = ∑ R(ξ)`, and `R(φ) ⊥ R(ξ)` whenever
+`φ` is orthogonal to `ξ` and to `ξ̄` (math-comp `subcoherent`, MC-PFsection5 lines 488–499). Prove
+the two theorems that supply it: (5.3)(a), a conjugation-closed set `S` of irreducible characters of
+`L` with no real member, with an isometry `τ` from `ℤ[S, L^#]` into `ℤ[Irr G, G^#]`, is subcoherent
+for some `R` (math-comp `irr_subcoherent`); and (5.3)(b), for a prime Dade configuration (§2.7,
+(4.6)) with `τ` the Dade isometry of `(L, A₀)`, every conjugation-closed set `S` with no real member
+of distinct characters `Ind_K^L χ`, `χ ∈ Irr K` with `H ⊄ ker χ` (math-comp `seqIndD K L H 1`), is
+subcoherent for an `R` with `R(φ)` orthogonal to every `σ(w)`, `w ∈ Irr W`, for irreducible `φ ∈ S`,
+and with `R(μ_j)` the set of the `δ_j σ(w_ij)` and the `−δ_j σ(w_ij̄)` over `i`, where `j̄` indexes
+the complex conjugate of the `j`-th character of `W₂` (math-comp `prDade_subcoherent`, MC-PFsection5
+lines 687–699). Then: the norm estimate (5.4); the coherence criterion (5.5) and its consequence
+that two disjoint conjugation-closed subfamilies of a subcoherent `S` with coherent extensions `ν₁`,
+`ν₂` have orthogonal images (math-comp `coherent_ortho`); the **gluing law**: if `S` is subcoherent
+for `τ`, `S₁, S₂ ⊆ S` are disjoint, closed under complex conjugation and coherent with extensions
+`ν₁, ν₂`, and some `χ ∈ S₁` and `φ ∈ ℤ[S₂]` with `(χ − φ)(1) = 0` satisfy `τ(χ − φ) = ν₁ χ − ν₂ φ`,
+then `S₁ ∪ S₂` is coherent (math-comp `bridge_coherent`, MC-PFsection5 lines 1004–1011, a
+consequence of (5.5) used in (6.8) and in §§10–11); the **dual extension**: for a subcoherent `S`
+with at most two members, if `ν` is a coherent extension then so is `χ ↦ −ν(χ̄)` (math-comp
+`dual_coherence`, MC-PFsection5 lines 539–541); Feit's extension theorem (5.6): a coherent subfamily
+of a subcoherent `S` extends to `S` when the degree inequality it states holds; the extension
+theorem (5.7) for families with a character of larger degree; the inequality (5.8); and the
+Dade-restricted forms (5.9) for `τ` the Dade isometry of a Dade datum `(L, A, H)` (§2.3): (5.9)(a),
+if `ℤ[S, A] = ℤ[S, L^#]` and `S` is a set of characters of `L` with at least two irreducible
+members, closed under complex conjugation, then every coherent extension `ν` satisfies
+`ν(χ̄) = conj(ν χ)` for every irreducible `χ ∈ S`, and more generally `ν(χ^u) = (ν χ)^u` for every
+field automorphism `u` of `ℂ` under which `S` is closed (math-comp `cfAut_Dade_coherent`,
+MC-PFsection5 lines 1519–1529; for the induced families of §4.1 in a group of odd order the
+hypotheses on `S` hold automatically, math-comp `cfConjC_Dade_coherent`); and (5.9)(b), for an
+irreducible `χ` of `L` vanishing off `A ∪ {1}`, `τ(χ − χ̄) = ψ − ψ̄` for some irreducible `ψ` of `G`
+(math-comp `Dade_irr_sub_conjC`). Then the §6 theorems, under Peterfalvi's standing hypothesis
 (6.1): `K ⊴ L` with `K` solvable; for `X ⊴ L` with `X ≤ K`, the family `S_K(X)` of the distinct
-`Ind_K^L χ` for `χ ∈ Irr K` with `X ≤ ker χ` and `K ⊄ ker χ` (math-comp `seqIndD K L K X`; it
-grows as `X` shrinks, and `S_K(1)` is the family of §4.1 with `H₁ = K`); and an isometry `τ` on
+`Ind_K^L χ` for `χ ∈ Irr K` with `X ≤ ker χ` and `K ⊄ ker χ` (math-comp `seqIndD K L K X`; it grows
+as `X` shrinks, and `S_K(1)` is the family of §4.1 with `H₁ = K`); and an isometry `τ` on
 `ℤ[S_K(1), L^#]` for which `S_K(1)` is subcoherent. The quotient criterion (6.2): for `A < K` and
 `B ≤ D ≤ C ≤ K`, all normal in `L`, with `D ⧸ B` central in `C ⧸ B`, coherence of `S_K(A)` gives
 coherence of `S_K(B)` unless `|K : A| − 1 ≤ 2 |L : C| · √|C : D|`. Theorem (6.3): if
 `M ≤ H₁ ≤ H ≤ K`, all normal in `L`, `H ⧸ M` is nilpotent, `S_K(H₁)` is coherent and
 `|H : H₁| > 4 |L : K|² + 1`, then `S_K(M)` is coherent: the coherence of the smaller family
 `S_K(H₁)` is the input and the larger family `S_K(M)` the output. Sibley's theorem (6.8): for
-`L ≤ G` of odd order with `H ⊴ L` nilpotent and `H \ {1}` a T.I. set with normalizer `L` in `G`,
-and either `L = H ⋊ W₁` Frobenius with kernel `H`, or a prime Dade configuration (§2.7) for
-`(G, L, H, H, H \ {1})` (that is, `K = H`, `A = H \ {1}` and `A₀ = A ∪ V^L`) whose `W₂` has
-prime order and lies in `H'`, the family `S_H(1)` induced from `Irr(H) \ {1}` is coherent with
-`τ = Ind_L^G`. *Needs:* §2.3, §2.5, §2.7, Tau Ceti `TauCeti.IsTISet`,
+`L ≤ G` of odd order with `H ⊴ L` nilpotent and `H \ {1}` a T.I. set with normalizer `L` in `G`, and
+either `L = H ⋊ W₁` Frobenius with kernel `H`, or a prime Dade configuration (§2.7) for
+`(G, L, H, H, H \ {1})` (that is, `K = H`, `A = H \ {1}` and `A₀ = A ∪ V^L`) whose `W₂` has prime
+order and lies in `H'`, the family `S_H(1)` induced from `Irr(H) \ {1}` is coherent with
+`τ = Ind_L^G`. *Needs:* §2.3, §2.5, §2.6, §2.7, Tau Ceti `TauCeti.IsTISet`,
 `TauCeti.IsFrobeniusComplement`; InductionRestriction Layer 5 (Clifford); CharacterTheory §4.3.
 
 **Checks.**
@@ -994,6 +1061,22 @@ prime order and lies in `H'`, the family `S_H(1)` induced from `Irr(H) \ {1}` is
   `|H : H₁| = 37` does not; at `|L : K| = 1` the threshold is `5`.
 - The "no real member" clause of (5.2) holds for families of a group of odd order by (1.1), and
   fails for `S = {ε}` in `S₃`.
+- (5.3)(a) on `L = G = C₃`, `S = {ω, ω̄}`, with `τ(ω − ω̄) = 1 − ω` (norm `2 = ‖ω − ω̄‖²`, degree
+  `0`, so an isometry from `ℤ[S, L^#] = ℤ (ω − ω̄)` into `ℤ[Irr G, G^#]`): `R(ω) = {1, −ω}` and
+  `R(ω̄) = {ω, −1}` are orthonormal with sums `τ(ω − ω̄)` and `τ(ω̄ − ω)`, so `S` is subcoherent.
+- The Dade hypothesis of (5.9)(a) is needed: for the same `τ`, the coherent extensions
+  `ω ↦ 1, ω̄ ↦ ω` and its dual `ω ↦ −ω, ω̄ ↦ −1` both send `ω − ω̄` to `1 − ω`, and neither sends
+  `{ω, ω̄}` to a conjugate pair. This `τ` is no Dade isometry: a Dade datum with `L = G` has
+  trivial complements and its Dade isometry is the identity (§2.3), for which the two coherent
+  extensions, the identity and `ω ↦ −ω̄, ω̄ ↦ −ω`, both satisfy `ν(χ̄) = conj(ν χ)`.
+- The gluing law needs its bridge, not only agreement on `ℤ[S₁] ∩ ℤ[S₂]`: take
+  `L = S₃ ≤ G = S₃ × C₃`, `S₁ = {ε}`, `S₂ = {ρ}`, both coherent for every `τ` since
+  `ℤ[S₁, L^#] = ℤ[S₂, L^#] = 0`, with spans meeting in `0`. Put
+  `τ(ρ − 2ε) = ρ⊗ω + λ₁ − λ₂ − λ₃ − λ₄` for four distinct linear characters `λᵢ` of `G` (norm
+  `5 = ‖ρ − 2ε‖²`, degree `2 + 1 − 3 = 0`). For signed irreducibles `ν(ρ) ⊥ ν(ε)`, `ν(ρ) − 2ν(ε)`
+  has a coefficient `±2`, while every coefficient of `τ(ρ − 2ε)` is `±1`; so `S₁ ∪ S₂` is not
+  coherent. The gluing law makes no claim: `ε` and `ρ` are real, so no subcoherent `S` contains
+  them.
 - The two alternatives of (6.8) are not exhaustive for nilpotent `H ⊴ L`: `L = C₃ × C₅` with
   `H = C₅` is not Frobenius, and `H' = 1` contains no `W₂` of prime order, so (6.8) makes no
   claim about it.
@@ -1045,9 +1128,12 @@ elementary abelian subgroups), Mathlib `Sylow`, `Subgroup.normalizer`.
 **Checks.**
 - `α(C₃³) = {3}`, `α(C₃² × C₅) = ∅`; `β(C₃³) = {3}` (the only maximal elementary abelian
   subgroup has order `27`), so `β ⊆ α` is an equality here.
-- `C₃ ≀ C₃` (order `81`) has `3`-rank `3` and is narrow: for an element `x` outside the base
-  `C₃³`, `C_base(x)` is the diagonal `C₃`, and `⟨x, diagonal⟩ ≅ C₃²` is a maximal elementary
-  abelian subgroup. So `3 ∈ α` and `3 ∉ β` for this group; narrowness is not "rank at most two".
+- `C₃ ≀ C₃` (order `81`) has `3`-rank `3` and is narrow: the centralizer in the base `C₃³` of any
+  element outside the base is the diagonal `C₃`, and for an element `x` of order `3` outside the
+  base, for instance the cyclic shift `t`, `C(t) = ⟨t⟩ × diagonal ≅ C₃²` has order `9`, so it is a
+  maximal elementary abelian subgroup. Not every element outside the base has order `3`: for
+  `x = (1, 0, 0) · t`, `x³ = (1, 1, 1) ≠ 1`, so `x` has order `9`. So `3 ∈ α` and `3 ∉ β` for this
+  group; narrowness is not "rank at most two".
 - `σ` on an illustrative pair outside the minimal-simple setting, `G = S₄`, `M = S₃ = Stab(4)`:
   `N_G(A₃) = S₃ = M`, so `3 ∈ σ(M)`; `N_G(⟨(1 2)⟩) = ⟨(1 2), (3 4)⟩ ⊄ M`, so `2 ∉ σ(M)`, and the
   Sylow `2`-subgroup `⟨(1 2)⟩` of `M` is not Sylow in `G`.
@@ -1098,7 +1184,7 @@ Mathlib `Sylow`.
   `A` acts on a `7`-group `Q` is `Q` itself, and transitivity is the statement that any two such
   are conjugate by an element of `O_{3'}(C_G(A))`.
 - Uniqueness needs the rank hypothesis: in `S₄` (illustration only) the rank-two subgroup
-  `V₄` lies in the two maximal subgroups `A₄` and `D₈`.
+  `V₄ = O₂(S₄)` lies in four maximal subgroups, `A₄` and the three Sylow `2`-subgroups `D₈`.
 
 ### 3.3 Hall cores and the general prime-length theorem (F3c)
 
@@ -1216,15 +1302,18 @@ is irreducible iff the inertia group `I_M(χ)` is `K`, and in general its restri
 `|I_M(χ) : K|` times the sum over the `M`-orbit of `χ` (Peterfalvi (1.5)(a)). Prove, for each
 maximal `M`, the Dade datum of `(M, A(M))` with `A(M)` the support of Peterfalvi Definition
 (8.10) and complements the signalizers of §3.3 (Peterfalvi (8.11)–(8.13), Theorem (8.17)); the
-degree-zero theorem of §2.5 for `S(H₁)`; the integrality and the coherence or noncoherence
+degree-zero theorem of §2.5 for `S(H₁)`; the subcoherence (5.2) of these families for the Dade
+isometry of `(M, A(M))`, by (5.3)(b) for the P-configurations and by (5.3)(a) for the sets of
+irreducible constituents of the type-I families (§2.8; math-comp `FTtypeP_subcoherent`,
+`FTtype1_irr_subcoherent`); the integrality and the coherence or noncoherence
 conclusions with the full type hypotheses: the inverse Dade isometry and its norm expansion
 (7.1)–(7.3), the covering inequality (7.5) and the Frobenius bound (7.10); the structure of
 `H(M)` and the Galois and non-Galois cases of a P-configuration (9.4)–(9.10); the noncoherence of
 types III–V (Theorem (10.8)) and the exclusion of type V (Theorem (10.10)); and the type-II
 estimates of §11 (11.3)–(11.9). The ordinary irreducible basis, degree divisibility and the
 norm-one classification are consumed from Tau Ceti and CharacterTheory. *Needs:* §2.3, §2.5,
-§2.6, §2.7, §2.8, §3.3, §3.4, InductionRestriction Layer 5, CharacterTheory §4.3, Tau Ceti
-`TauCeti.Representation.finrank_dvd_card`.
+§2.6, §2.7, §2.8 (including (5.3)(a), (b)), §3.3, §3.4, InductionRestriction Layer 5,
+CharacterTheory §4.3, Tau Ceti `TauCeti.Representation.finrank_dvd_card`.
 
 **Checks.**
 - `M = S₃`, `K = A₃`, `H₁ = A₃`: `Irr(A₃) \ {1} = {ω, ω²}`, `Ind ω = Ind ω² = ρ`, so `S(A₃) =
@@ -1250,8 +1339,13 @@ internal to `M`; math-comp `FTtype1_Frobenius`). The ambient form
 `TauCeti.IsFrobeniusComplement (E.map M.subtype)` would assert that `E` is a trivial-intersection
 subgroup of `G`, which (12.7) does not prove. This strengthens the
 Frobenius-type data of §3.4 and is not true by definition of type I: the route is §4.1's
-coherence for the type-I families and the degree estimates (12.2)–(12.6). *Needs:* §3.4, §4.1,
-Tau Ceti `TauCeti.IsFrobeniusComplement`, `TauCeti.frobeniusKernelSubgroup`,
+coherence for the type-I families and the degree estimates (12.2)–(12.6). Prove in particular
+the converse direction used in §5.2, with (12.6): a maximal subgroup `L` that is Frobenius with
+kernel `H(L)` has type I, its Dade set `A(L)` is `H(L)^#`, and the family `S(H(L))` of §4.1
+consists of irreducible characters, contains a character of degree `|L : H(L)|` and is coherent
+for the Dade isometry of `(L, A(L))` (math-comp `FT_Frobenius_type1`, `FTsupp_Frobenius`,
+`FT_Frobenius_coherence` and `FTtype1_ref_irr`, MC-PFsection12 lines 60 and 493–510). *Needs:*
+§2.8, §3.4, §4.1, Tau Ceti `TauCeti.IsFrobeniusComplement`, `TauCeti.frobeniusKernelSubgroup`,
 `TauCeti.coe_frobeniusKernelSubgroup`.
 
 **Checks.**
@@ -1295,8 +1389,31 @@ A₀(S))`. Prove the Galois alternative (13.3), the degree inequalities (13.5)�
 order formula (13.15): when `U` acts irreducibly on `P` (the Galois case), `|U| = (p^q − 1)/(p −
 1)` if `p ≢ 1 (mod q)` and `q · |U| = (p^q − 1)/(p − 1)` if `p ≡ 1 (mod q)`. Use §3.4's
 coprimality so that `|W₁| ≠ |W₂|`, and orient the pair by `|W₁| < |W₂|`; that `T` is also of
-type II is Layer 5 §5.3, which needs the overgroup `L` of §5.2. *Needs:* §2.6, §2.7, §2.8, §3.4,
-§4.1, §4.2.
+type II is Layer 5 §5.3, which needs the overgroup `L` of §5.2.
+
+Prove the support and bridge theorems (Peterfalvi (13.17)–(13.19); math-comp
+`FTtypeII_support_facts`, `FTtypeP_bridge_facts`, `FTtypeI_bridge_facts`, MC-PFsection13 lines
+1661–1666, 1792–1805 and 1989–1996), stated for the P-configuration `(S, U, W₁, W₂)` and used
+also for `(T, V, W₂, W₁)`. Write `P = H(S)`, `q = |W₁|`, `p = |W₂|`, `τ` for the Dade isometry of
+`(S, A₀(S))`, `σ` for the cyclic isometry of §2.6 for `W` and `η_ij = σ(w_ij)`.
+- (13.17): if `S` has type II and `L` is a maximal subgroup containing `N_G(U)`, then `L` is
+  Frobenius with kernel `H(L)`, `U ≤ H(L)`, and either `L = H(L) ⋊ W₁` or `L = H(L) ⋊ (W₁ W₂^y)`
+  for some `y ∈ H(T)`.
+- (13.18): for `j ≠ 0` the **bridge character** `β_j = Ind_{P W₁}^S 1 − μ_0j`, with `μ_ij` the
+  irreducibles of §2.7 for the prime T.I. configuration `(S, S', W₁, W₂)`, lies in `CF(S, A₀(S))`
+  and has norm `(|U| − 1)/q + 2`; the virtual character `Γ = τ(β_j) − 1 + η_0j` is the same for
+  every `j ≠ 0`, is real and is orthogonal to `1`; whenever `Γ = X + Y` with `⟨X, Y⟩ = 0` and `Y`
+  orthogonal to every `η_ij`, `‖Y‖² ≤ (|U| − 1)/q`; and `q ∣ |U| − 1`.
+- (13.19): let `L` be any maximal subgroup of type I, `H = H(L)`, `e = |L : H|`, `τ_L` the Dade
+  isometry of `(L, H^#)` (the restriction (2.11) of that of `(L, A₀(L))`), `ν` a coherent extension
+  of `τ_L` on the family `S(H)` of §4.1 for `L`, and `φ ∈ S(H)` of degree `e`. Then the Dade support
+  of `(L, A(L))` is disjoint from every conjugate of `P` and of `W`; `ν` maps `S(H)` into the
+  orthogonal of every `η_ij`; with `β_L = Ind_H^L 1 − φ`, the pairing `⟨τ_L(β_L), η_0j⟩` is the same
+  for every `j ≠ 0`; and either `⟨τ(β_1), ν φ⟩` is odd and `(|H| − 1)/e ≤ (|U| − 1)/q`, or
+  `⟨τ_L(β_L), η_01⟩` is odd and `p ≤ e`.
+
+*Needs:* §2.3 ((2.11)), §2.6, §2.7, §2.8, §3.4, §4.1, §4.2, InductionRestriction Layer 2
+(induced characters).
 
 **Checks.**
 - `p = 5`, `q = 3`: `(p^q − 1)/(p − 1) = 31`, `5 ≢ 1 (mod 3)`, so `|U| = 31` in the Galois case;
@@ -1305,6 +1422,13 @@ type II is Layer 5 §5.3, which needs the overgroup `L` of §5.2. *Needs:* §2.6
   `𝔽₁₂₅ˣ` over `𝔽₅` has order `31`: the bound `|U| ≤ 31` is attained exactly in the Galois case.
 - The orientation uses `gcd(|W₁|, |W₂|) = 1`: `|W₁| = |W₂|` is excluded, so `<` or `>` holds,
   and the roles of `S` and `T` are exchanged by symmetry (`typeP_pair_sym`).
+- (13.18) in the Galois case at `(p, q) = (5, 3)`: `|U| = 31`, `q = 3` divides `|U| − 1 = 30`,
+  and `‖β_j‖² = 30/3 + 2 = 12`, of which `1 + 10 = 11` is the norm of `Ind_{P W₁}^S 1`, the
+  number of `W₁`-orbits on `U` in the Frobenius group `U ⋊ W₁`, and `1` that of `μ_0j`; at
+  `(7, 3)`: `|U| = 19`, `3 ∣ 18`, `‖β_j‖² = 8`. A model counting the points of `U` instead of its
+  `W₁`-orbits would give `|U| + 1 = 32` at `(5, 3)`.
+- (13.19) allows both alternatives in general; `L` of type I with `e = |L : H(L)| = q < p` (the
+  case `L = H(L) ⋊ W₁` of (13.17)) can only satisfy the first, which is how §5.2 uses it.
 
 ### Examples
 
@@ -1357,21 +1481,24 @@ assembly. *Needs:* Mathlib `rootsOfUnity`, `mem_rootsOfUnity`, `Algebra.norm`,
 ### 5.2 Supporting overgroups
 
 For the oriented pair of §4.4 put `q = |W₁| < p = |W₂|`, `P = H(S)`, `Q = H(T)`, and let `L` be a
-maximal subgroup containing `N_G(U)` (it exists by §0.3, and `U ≠ 1` by type II). Prove
-(Peterfalvi (14.3)–(14.5), math-comp `FTtypeII_support_facts` and `compl_of_typeII`): `L` has
-type I, `U ≤ H(L)`, `L` is Frobenius with kernel `H(L)` by §4.2, and `L = H(L) ⋊ (W₁ W₂^y)` for
-some `y ∈ Q`; the complement `W₁` alone is excluded by the family inequalities of §4.1 (Theorem
-(14.4) and the type-I bridge of §13), so the Frobenius complement has order `pq` and acts without
-fixed points on `H(L)`. The coherence of the family `S(H(L))` of `L` and a character `φ` of
-degree `|L : H(L)|` in it (Hypothesis (14.3)) come from §2.8 and §4.1. *Needs:* §0.3, §3.3, §3.4,
-§4.1, §4.2, §4.4.
+maximal subgroup containing `N_G(U)` (it exists by §0.3, and `U ≠ 1` by type II). By §4.4
+(13.17), `L` is Frobenius with kernel `H(L)`, `U ≤ H(L)`, and `L = H(L) ⋊ W₁` or
+`L = H(L) ⋊ (W₁ W₂^y)` for some `y ∈ Q`. By §4.2 ((12.6)), `L` has type I and the family
+`S(H(L))` of `L` is coherent for the Dade isometry of `(L, H(L)^#)` and contains a character `φ`
+of degree `|L : H(L)|` (Peterfalvi, Hypothesis (14.3)). Prove (Peterfalvi (14.5); math-comp, the
+proof of (14.5) in `PFsection14.v`) that the first alternative is excluded, so
+`L = H(L) ⋊ (W₁ W₂^y)` and the Frobenius complement has order `pq` and acts without fixed points
+on `H(L)`. The exclusion is the bridge theorem (13.19) at `e = q` together with (13.18) and the
+type-II condition `N_G(U) ⊄ S` (§3.4), as the second Check computes. *Needs:* §0.3, §3.3, §3.4,
+§4.1, §4.2, §4.4 ((13.17)–(13.19)).
 
 **Checks.**
 - The complement `W₁ W₂^y` of (14.5) equals `W^y`: `y ∈ Q = H(T)`, which is abelian and
   contains `W₁` (the P-configuration `(T, V, W₂, W₁)` puts `W₁ ≤ H(T)`), so `W₁^y = W₁`; hence
   the complement is cyclic of order `pq`, the order the Frobenius divisibility
   `|H(L)| ≡ 1 (mod pq)` of §5.5 uses.
-- The alternative `L = H(L) ⋊ W₁` of (13.17) is excluded by the bridge (13.19): either
+- The alternative `L = H(L) ⋊ W₁` of (13.17) is excluded by the bridge theorem (13.19) of §4.4,
+  with `q ∣ |U| − 1` from (13.18): either
   `p ≤ |L : H(L)| = q`, against `q < p`, or `(|H(L)| − 1)/q ≤ (|U| − 1)/q`, whence `H(L) = U`
   (as `U ≤ H(L)`) and `L = U ⋊ W₁ ≤ S`, so `L = S` by maximality and `N_G(U) ≤ S`, against the
   type II condition `N_G(U) ⊄ S`.
@@ -1381,10 +1508,12 @@ degree `|L : H(L)|` in it (Hypothesis (14.3)) come from §2.8 and §4.1. *Needs:
 Prove that `T` has type II (Peterfalvi (14.9); math-comp `FTtypeP_min_typeII`): the inequalities
 (14.8)(a) `q^{p+1} > p^{q+1}` for odd primes `q < p` with `p ≥ 5`, and (14.8)(b) `(|V| − 1)/p >
 (|U| − 1)/q` with `|V| = (q^p − 1)/(q − 1)` from the Galois alternative (14.4), contradict the
-type III–IV structure (10.8)-type estimate for `T` (math-comp `FTtype34_structure`). This needs
+type III–IV structure (10.8)-type estimate for `T` (math-comp `FTtype34_structure`), through
+the bridge theorem (13.18) of §4.4 for `T` (`p ∣ |V| − 1`) and for `S` (the support of `β_1` and
+the bridge virtual character `Γ`). This needs
 the overgroup `L`, its coherent family and the inequalities of §5.2, which is why it is placed
 after §5.2 and not with (13.2). The symmetric statement for `M ≥ N_G(V)` in §5.5 cites this
-subsection with the roles of `S, T` exchanged. *Needs:* §4.4, §5.2.
+subsection with the roles of `S, T` exchanged. *Needs:* §4.4 ((13.18)), §5.2.
 
 **Checks.**
 - (14.8)(a) at `(p, q) = (5, 3)`: `3⁶ = 729 > 5⁴ = 625`; at `(7, 3)`: `3⁸ = 6561 > 7⁴ = 2401`;
@@ -1508,10 +1637,10 @@ Layers 0–5.
   Cambridge University Press, 2000, Part I §§1–14: §§1–6 for Layer 2, §8 for Layer 3, §§7 and
   9–13 for Layer 4, §14 for Layer 5.
 - The Mathematical Components odd-order development (`math-comp/odd-order`, files `BGsection1.v`
-  to `BGsection16.v`, `BGappendixAB.v`, `BGappendixC.v`, `PFsection1.v` to `PFsection14.v`) is
-  an independently organized formal proof whose comments record the theorem numbers of the two books cited above;
-  every locator above was checked against it. Its finite-group and character types require
-  mathematical comparison with Lean's native objects; it is a provenance source, not a
-  specification.
+  to `BGsection16.v`, `BGappendixAB.v`, `BGappendixC.v`, `PFsection1.v` to `PFsection14.v`), with
+  the Mathematical Components library file `solvable/sylow.v` (MC-sylow) for the Baer–Suzuki
+  theorem, is an independently organized formal proof whose comments record the theorem numbers
+  of the two books cited above. Its finite-group and character types require mathematical
+  comparison with Lean's native objects; it is a provenance source, not a specification.
 - I. M. Isaacs, *Character Theory of Finite Groups*, Lemma 7.7 (induction from a
   trivial-intersection set), for §2.4.
