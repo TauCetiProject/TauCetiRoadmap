@@ -44,7 +44,7 @@ The model carrier is `SignatureModel.taylorCoeff`.
 | §0.0 and §2.5 real-lattice minima | [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md), §1.2 / Successive minima: successiveMin, successiveMin_isLeast, exists_successiveMin_witnesses | Package compact convex sets as ConvexBody; retain zero-based Fin d indices and the supplier carrier |
 | §0.0 and §2.5 Minkowski product bounds | GeometryOfNumbersAndQuadraticArithmetic §1.3 / Minkowski’s lower inequality and its sharpness; §1.5 / Minkowski’s upper inequality: minkowski_second_lower, minkowski_second_upper | Transport the canonical Euclidean volume and covolume together |
 | §0.0 linear forms | GeometryOfNumbersAndQuadraticArithmetic §1.4 / Minkowski’s linear forms theorem: minkowski_linear_forms | Consume the non-strict coordinate bounds, including determinant equality |
-| §§1–5 scalar and tuple heights | This roadmap §0.2 / Mahler measure, house and absolute height: absoluteProjectiveTupleHeight, mulHeight_algebraMap, absMulHeight₁_eq_rpow; §0.3 / Finiteness and size estimates: finite_setOf_absMulHeight₁_le | Native relative Height carriers; absolute degree root; Mahler measure retains the leading coefficient; bounded-degree Northcott |
+| §§1–5 scalar and tuple heights | This roadmap §0.2 / Mahler measure, house and absolute height: absoluteProjectiveTupleHeight, mulHeight_pow_finrank, absMulHeight₁_eq; §0.3 / Finiteness and size estimates: finite_setOf_absMulHeight₁_le | Native relative Height carriers; absolute degree root; Mahler measure retains the leading coefficient; bounded-degree Northcott |
 | §§1–5 coefficient and matrix heights | This roadmap §1.3 / Coefficient heights and products: Polynomial.mulHeight/logHeight, MvPolynomial.mulHeight/logHeight, matrixMulHeight, matrixMulHeight_mul_le | AdmissibleAbsValues generality; coefficients/entries have relative projective height; a linear form uses its coefficient tuple, a row space uses maximal minors |
 | §§2,4–5 Euclidean and subspace heights | This roadmap §2.5 / Relative Euclidean projective normalization and Native Plücker heights: arakelovMulHeight, relativePluckerPoint, relativeSubspaceHeight, relativeSubspaceArakelovHeight | height2 and subspaceHeight are absolute Euclidean adapters; vector zero height 0, projective zero height 1, zero-subspace height 1; dot-product perpendicular is transported dual annihilation |
 | §§1–5 Siegel estimates | This roadmap §0.3 / integer Siegel estimate and §2.8 / Saturated kernel lattices; Extraction through field towers; Kernel bases of bounded height; Relative-field Siegel and coefficient conditions: kernelLattice_covolume, linearIndependent_card_le_finrank_mul, exists_linearIndependent_comp_of_lt_finrank_span, exists_linearIndependent_comp_finrank_mul, exists_ne_zero_height2_le, siegelKernelBasis, siegelRelativeKernelBasis | One owner for arbitrary-tower extraction, number-field kernel covolume, discriminant constants and basis bounds; real-lattice inputs come from §0.0’s supplier |
@@ -92,7 +92,7 @@ Divided derivatives use binomial coefficients; ordinary order k contributes k!. 
 
 ## Exact supplier contracts
 
-**From Mathlib.** `Height.AdmissibleAbsValues`, `Height.mulHeight`, `Height.logHeight`, `Finsupp.mulHeight` and `Projectivization.mulHeight` supply the relative sup-height carriers over arbitrary admissible fields. `Module.Basis.exteriorPower` indexes the induced basis by `Set.powersetCard`; `exteriorPower.ιMultiDual_apply_ιMulti` computes its coordinates as determinants. `minpoly`, `IsLocalization.integerNormalization`, `Polynomial.primPart`, `supNorm`, `mapMahlerMeasure`, `hasseDeriv` and `MvPolynomial.pderiv` supply polynomial reduction, size and derivatives over their stated coefficient rings. `Finsupp.logHeight` is invariant under nonzero scaling. `NumberField.mulHeight_eq`, `mulHeight₁_eq` use complex multiplicity 2; `absMulHeight₁` defines the absolute scalar height; Layer 0 proves its field comparisons. `NumberField.house`, `exists_conjugate_one_le_norm`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow` bound conjugates in a fixed number field; Layer 0’s versions concern arbitrary algebraic elements and denominators. `finite_setOfPred_mulHeight₁_le` is fixed-field Northcott.
+**From Mathlib.** `Height.AdmissibleAbsValues`, `Height.mulHeight`, `Height.logHeight`, `Finsupp.mulHeight` and `Projectivization.mulHeight` supply the relative sup-height carriers over arbitrary admissible fields. `Module.Basis.exteriorPower` indexes the induced basis by `Set.powersetCard`; `exteriorPower.ιMultiDual_apply_ιMulti` computes its coordinates as determinants. `minpoly`, `IsLocalization.integerNormalization`, `Polynomial.primPart`, `supNorm`, `mapMahlerMeasure`, `hasseDeriv` and `MvPolynomial.pderiv` supply polynomial reduction, size and derivatives over their stated coefficient rings. `NumberField.mulHeight_eq`, `mulHeight₁_eq` use complex multiplicity 2; `absMulHeight₁` defines the absolute scalar height; Layer 0 proves its field comparisons. `NumberField.house`, `exists_conjugate_one_le_norm`, `norm_embedding_le_house`, `norm_norm_le_norm_mul_house_pow` bound conjugates in a fixed number field; Layer 0’s versions concern arbitrary algebraic elements and denominators. `finite_setOfPred_mulHeight₁_le` is fixed-field Northcott.
 
 `NumberField.InfinitePlace`, `FinitePlace` and `FinitePlace.equivHeightOneSpectrum` identify embeddings and prime ideals. `NumberField.Units.finrank_modTorsion`, the log embedding, torsion kernel and `exist_unique_eq_mul_prod` give rank r₁+r₂−1 and unit decomposition. `LiouvilleWith`, continued-fraction convergents, `LinearRecurrence.IsSolution`, `charPoly`, power series, derivations and transcendence degree supply the remaining foundations. `LindemannWeierstrass.exp_polynomial_approx` supplies an integer-polynomial exponential approximation estimate. The Hermite integral identity in §3.1 uses the fundamental theorem of calculus. `CliffordAlgebra.contractLeft`, `contractLeft_ι`, `contractLeft_ι_mul`, `contractLeft_algebraMap` and `contractLeft_contractLeft` supply contraction by a dual vector; apply them to `Derivation.liftKaehlerDifferential` on Kähler forms. Native declarations below retain their library hypotheses; names grouped under a namespace use that namespace as prefix.
 
@@ -266,7 +266,7 @@ For number fields K⊆L and a commutative-monoid-valued g on InfinitePlace K, pr
 
 *Needs:* Mathlib infinite places, their completions and local degrees.
 
-For a finite tuple x over number fields K⊆L, prove `mulHeight_algebraMap`: Hrel,L(x)=Hrel,K(x)^[L:K], including the zero tuple (both values 1). Apply this to (x,1) for scalar height. Write both heights by `NumberField.mulHeight_eq`. At a place w|v the coordinatewise maximum of the |xᵢ|_w is that of the |xᵢ|_v raised to [L_w:K_v], by `normalizedAbsValue_inl_algebraMap` and `normalizedAbsValue_inr_algebraMap`; the local degrees above v add to [L:K], by `prod_infinitePlace_comap_pow_mult` at infinity and `Ideal.sum_ramification_inertia_eq_finrank` at finite places. (Wu, §2, Lem. 2.5, p. 4; Yang, p. 4.)
+For a finite tuple x over number fields K⊆L, prove `mulHeight_pow_finrank`: Hrel,K(x)^[L:K]=Hrel,L(x), including the zero tuple (both values 1). This name, `mulHeight₁_pow_finrank` for the scalar case and `absMulHeight₁_eq` below are the names and shapes of the open mathlib4#41606, so that adopting it is a deletion plus an import. Apply this to (x,1) for scalar height. Write both heights by `NumberField.mulHeight_eq`. At a place w|v the coordinatewise maximum of the |xᵢ|_w is that of the |xᵢ|_v raised to [L_w:K_v], by `normalizedAbsValue_inl_algebraMap` and `normalizedAbsValue_inr_algebraMap`; the local degrees above v add to [L:K], by `prod_infinitePlace_comap_pow_mult` at infinity and `Ideal.sum_ramification_inertia_eq_finrank` at finite places. (Wu, §2, Lem. 2.5, p. 4; Yang, p. 4.)
 
 **Checks.**
 
@@ -276,7 +276,7 @@ For a finite tuple x over number fields K⊆L, prove `mulHeight_algebraMap`: Hre
 
 *Needs:* `prod_infinitePlace_comap_pow_mult`; the Tau Ceti place-extension interface of the supplier contract.
 
-A ring isomorphism of number fields preserves relative tuple height and scalar height: prove `mulHeight_ringEquiv`. An isomorphism e:K≃K′ fixes ℚ and identifies the infinite and finite places of K′ with those of K, preserving multiplicities and normalized absolute values; equivalently it is the degree-one case of `mulHeight_algebraMap` for the algebra structure transported along e. (Yang, p. 4.)
+A ring isomorphism of number fields preserves relative tuple height and scalar height: prove `mulHeight_ringEquiv`. An isomorphism e:K≃K′ fixes ℚ and identifies the infinite and finite places of K′ with those of K, preserving multiplicities and normalized absolute values; equivalently it is the degree-one case of `mulHeight_pow_finrank` for the algebra structure transported along e. (Yang, p. 4.)
 
 **Checks.**
 
@@ -284,9 +284,9 @@ A ring isomorphism of number fields preserves relative tuple height and scalar h
 - The isomorphism ℚ[X]/(X²−2)≅ℚ(√2) sends (X,1) to (√2,1); both have relative height 2.
 - A rational tuple keeps its height in every isomorphic copy of K, since e fixes ℚ.
 
-*Needs:* `mulHeight_algebraMap`.
+*Needs:* `mulHeight_pow_finrank`.
 
-For x∈K with K a number field of degree D, prove `absMulHeight₁_eq_rpow`: Habs(x)=Hrel,K(x)^(1/D), identifying the native definition through ℚ(x) with computation in K. Apply `mulHeight_algebraMap` to ℚ(x)⊆K and use [K:ℚ]=[ℚ(x):ℚ][K:ℚ(x)] (`Module.finrank_mul_finrank`). (Wu, §2, Def. 2.7, p. 4; Smyth, §1, p. 323.)
+For x∈K with K a number field of degree D, prove `absMulHeight₁_eq`: Habs(x)=Hrel,K(x)^(1/D), identifying the native definition through ℚ(x) with computation in K. Apply `mulHeight_pow_finrank` to ℚ(x)⊆K and use [K:ℚ]=[ℚ(x):ℚ][K:ℚ(x)] (`Module.finrank_mul_finrank`). (Wu, §2, Def. 2.7, p. 4; Smyth, §1, p. 323.)
 
 **Checks.**
 
@@ -294,7 +294,7 @@ For x∈K with K a number field of degree D, prove `absMulHeight₁_eq_rpow`: Ha
 - For x=2/3 in ℚ, Habs(x)=Hrel,ℚ(x)=3; in ℚ(i) the relative height is 9 and the square root is again 3.
 - Habs(0)=1, the height of the pair (0,1).
 
-*Needs:* `mulHeight_algebraMap`.
+*Needs:* `mulHeight_pow_finrank`.
 
 Equal rational minimal polynomials give equal absolute heights in any characteristic-zero fields: prove `absMulHeight₁_eq_of_minpoly_eq`. Hence absolute height is invariant under field embeddings; transcendental elements have value 1. For algebraic x and y, ℚ(x) and ℚ(y) are both isomorphic to the field obtained by adjoining a root of the common minimal polynomial (`IntermediateField.adjoinRootEquivAdjoin`), and `mulHeight_ringEquiv` compares the heights of the generators. If one element is transcendental its minimal polynomial is 0, so the other is transcendental too and both heights are the junk value. (Yang, p. 4; Smyth, §1, p. 323.)
 
@@ -304,9 +304,9 @@ Equal rational minimal polynomials give equal absolute heights in any characteri
 - π and e are transcendental, have minimal polynomial 0, and both take the junk value 1.
 - 2 and 1/2 have different minimal polynomials but the same absolute height 2; the converse implication fails.
 
-*Needs:* `mulHeight_ringEquiv`, `absMulHeight₁_eq_rpow`.
+*Needs:* `mulHeight_ringEquiv`, `absMulHeight₁_eq`.
 
-Define `absoluteProjectiveTupleHeight x` for a finite tuple x in a characteristic-zero field. If every coordinate is algebraic, it is `Height.mulHeight` of x computed in the number field ℚ(x) generated by the coordinates, raised to 1/[ℚ(x):ℚ]; otherwise it is the junk value 1. The zero tuple has value 1, the projective convention of `Height.mulHeight_zero`. Prove `absoluteProjectiveTupleHeight_eq`: for x in a number field K it equals Hrel,K(x)^(1/[K:ℚ]); `absoluteProjectiveTupleHeight_comp`: it is invariant under homomorphisms of characteristic-zero fields; and `absMulHeight₁_eq_absoluteProjectiveTupleHeight`: Habs(x) is the absolute height of (x,1). The first is `mulHeight_algebraMap` for ℚ(x)⊆K with the degree tower; the second holds because a homomorphism maps ℚ(x) isomorphically onto the field generated by the image, so `mulHeight_ringEquiv` applies; the third uses `Height.mulHeight₁_eq_mulHeight` and ℚ(x,1)=ℚ(x). (Wu, §2, Lem. 2.5 and Def. 2.7, p. 4; Yang, p. 4.)
+Define `absoluteProjectiveTupleHeight x` for a finite tuple x in a characteristic-zero field. If every coordinate is algebraic, it is `Height.mulHeight` of x computed in the number field ℚ(x) generated by the coordinates, raised to 1/[ℚ(x):ℚ]; otherwise it is the junk value 1. The zero tuple has value 1, the projective convention of `Height.mulHeight_zero`. Prove `absoluteProjectiveTupleHeight_eq`: for x in a number field K it equals Hrel,K(x)^(1/[K:ℚ]); `absoluteProjectiveTupleHeight_comp`: it is invariant under homomorphisms of characteristic-zero fields; and `absMulHeight₁_eq_absoluteProjectiveTupleHeight`: Habs(x) is the absolute height of (x,1). The first is `mulHeight_pow_finrank` for ℚ(x)⊆K with the degree tower; the second holds because a homomorphism maps ℚ(x) isomorphically onto the field generated by the image, so `mulHeight_ringEquiv` applies; the third uses `Height.mulHeight₁_eq_mulHeight` and ℚ(x,1)=ℚ(x). (Wu, §2, Lem. 2.5 and Def. 2.7, p. 4; Yang, p. 4.)
 
 **Checks.**
 
@@ -315,7 +315,7 @@ Define `absoluteProjectiveTupleHeight x` for a finite tuple x in a characteristi
 - (1/3,1/3) has absolute height 1, as (1,1) does, while appending a coordinate 1 gives (1,1/3,1/3) of height 3.
 - The zero tuple has value 1, whereas the Euclidean `height2` of §2.5 is 0 there.
 
-*Needs:* `mulHeight_algebraMap`, `mulHeight_ringEquiv`.
+*Needs:* `mulHeight_pow_finrank`, `mulHeight_ringEquiv`.
 
 For a primitive P∈ℤ[X] and a finite place w of a number field, the radius-one Gauss norm of the mapped polynomial is 1. Every integer has |·|_w≤1; if w lies over the prime p, primitivity gives a coefficient prime to p, which has |·|_w=1. Over ℚ this is Mathlib's `Polynomial.isPrimitive_iff_forall_gaussNorm_eq_one`. (Smyth, §1, p. 323; Wu, §3, Lem. 3.1, p. 5.)
 
@@ -339,7 +339,7 @@ If that primitive P splits as a∏b∈s(X−b), prove w(a)∏b∈s max(1,w(b))=1
 
 For every x in a characteristic-zero field, M(x)=Habs(x)^d and log M(x)=d·habs(x), where d=deg minpoly ℚ x. At transcendental x this reads 1=1⁰. (Smyth, §1, p. 323; Wu, §3, Prop. 3.1, p. 6; Yang, pp. 1-4.)
 
-*Needs:* §0.1.
+*Needs:* the preceding finite-place product statement; `mulHeight_pow_finrank`, `absMulHeight₁_eq`, `absMulHeight₁_eq_of_minpoly_eq`; Mathlib's product formula; §0.1.
 
 For the same d, prove H(x)≤binom(d,⌊d/2⌋)M(x)≤2ᵈM(x), including d=0 at transcendental x. (E19, ch. 6, Thm. 6.1, p. 108; Wu, §3, Lem. 3.3, p. 6.)
 
@@ -667,17 +667,56 @@ Its API includes `Polynomial.logHeight_nonneg`: h(p)≥0; `Polynomial.logHeight_
 
 **Relative coefficient and entry interfaces.** For arbitrary
 `Height.AdmissibleAbsValues K`, prove the finite-support/finite-tuple dictionary
-for both polynomial heights, scaling invariance for nonzero scalars, height 1
+first. Mathlib's two Finsupp heights are not defined from each other.
+`Finsupp.mulHeight x` is Height.mulHeight of x restricted to the finite type
+x.support. `Finsupp.logHeight x`, declared inside `namespace Height`, elaborates
+to Real.log (Height.mulHeight ⇑x), the height of the coercion to a function on
+the whole (possibly infinite) index type; Mathlib's
+`Finsupp.logHeight_eq_log_mulHeight` records only that unfolding. Neither
+`Polynomial.logHeight_eq_finsupp` nor `MvPolynomial.logHeight_eq_finsupp` is
+therefore definitional. Prove `Finsupp.mulHeight_coe_eq`:
+Height.mulHeight ⇑x=Finsupp.mulHeight x with no finiteness on the index type, and
+derive `Finsupp.logHeight_eq_log_finsuppMulHeight`:
+Finsupp.logHeight x=Real.log (Finsupp.mulHeight x); both polynomial log bridges
+go through this identity. Also prove `Finsupp.mulHeight_eq_mulHeight_comp`: the height
+is Height.mulHeight (x ∘ e) for any injective e:ι→α from a finite ι whose range
+contains the support; and `Finsupp.mulHeight_smul_eq_mulHeight` for c≠0. Then
+prove the dictionary for both polynomial heights, scaling invariance for nonzero scalars, height 1
 for constants and monomials, height of X−a equal to Height.mulHeight₁ a,
-injective variable renaming and placement in one coordinate. Prove
-`Polynomial.mulHeight_mul_le`: H(fg)≤(min(deg f,deg g)+1)^totalWeight(K)H(f)H(g),
-using coefficient convolution at archimedean values and the native Gauss norm
-at nonarchimedean values. The lower Gelfond bound below retains its number-field
+injective variable renaming and placement in one coordinate. Prove the tuple sum bound
+`Height.mulHeight_sum_comp_le`: for w:κ→K, a nonempty finset s and f:α→ι→κ with
+finite ι, κ, H(i ↦ Σ_{a∈s} w(f a i))≤#s^totalWeight(K)·H(w); sums of coordinates
+of one projective point cost #s^totalWeight(K). Prove its signed form
+`Height.mulHeight_sum_sign_comp_le`, with summands multiplied by ε a i∈{1,−1},
+from the unsigned bound and Mathlib's Segre relation `Height.mulHeight_fun_mul_eq`
+by doubling the alphabet (the tuple (1,−1) has height 1), and the logarithmic
+forms. The naive two-tuple bound H(x+y)≤C·H(x)H(y) is false for every C, since
+scaling y fixes its right-hand side; state that as a theorem over ℚ: for x=(1,0)
+and y=(0,c), H(x)H(y)=1 while H(x+y)=H(1,c)=mulHeight₁ c is unbounded in c∈ℚ. The global step
+needs that a nonzero tuple has local factor 1 at all but finitely many
+nonarchimedean values, which Mathlib proves only as the private
+`Height.hasFiniteMulSupport_iSup_nonarchAbsVal`; reprove it or reach it with
+`import all`. Prove
+`Polynomial.mulHeight_mul_le`: H(fg)≤N^totalWeight(K)H(f)H(g) with
+N=min(deg f,deg g)+1. The zero case is immediate. For nonzero f, g the number
+of pairs (i,j) with i+j=k varies with k, while the tuple sum bound uses one
+finset s for every coordinate, so pad to N slots. By symmetry let deg f≤deg g
+and take s=range N. Take w on (Fin(deg f+1)×Fin(deg g+1))⊕Unit to be the Segre
+tensor (i,j)↦fᵢgⱼ extended by one zero coordinate, so that H(w)=H(f)H(g) by
+`Height.mulHeight_sumElim_zero_eq`, `Height.mulHeight_fun_mul_eq` and the
+finite-tuple dictionary. Send slot a of coordinate k to (a,k−a) when a≤k and
+k−a≤deg g, and to the zero coordinate otherwise; the slot sum is then the k-th
+coefficient of fg. The padding coordinate must be 0, not 1, since a 1 would add
+spurious summands. (Alternatively, state a corollary of the tuple sum bound for
+coordinates that are sums of at most N terms, and apply that.)
+`Height.mulHeight_linearMap_apply_le` charges
+the cardinality of the whole source index and does not give this constant. The lower Gelfond bound below retains its number-field
 hypotheses. Define `matrixMulHeight A` as Height.mulHeight of the entry tuple on
 m×n for finite m,n, with its logarithm and projective/scaling/reindexing API;
 a linear form uses Height.mulHeight of its coefficient tuple. Prove
 `matrixMulHeight_mul_le`: H(AB)≤(#n)^totalWeight(K)H(A)H(B) for a nonempty
-finite inner index n. Matrix entry height is distinct from row-space Plücker
+finite inner index n, by the tuple sum bound on the Segre tensor of the entries
+indexed by (m×n)×(n×p). Matrix entry height is distinct from row-space Plücker
 height. Over number fields, all relative coefficient and entry heights raise to
 [L:K] on extension; their absolute versions are the degree roots from §0.2.
 (P22 §3.2, Definition 3.2.1; BG06 §1.6, Lemma 1.6.3 and §2.8,
@@ -687,6 +726,7 @@ Polynomial.gaussNorm_mul.)
 **Checks.**
 
 - Over ℚ, X+1 has coefficient height 1 and (X+1)² has height 2, meeting the convolution factor 2; coefficient height is not multiplicative.
+- For f=g=1+X the coefficients 1, 2, 1 of fg are sums over 1, 2, 1 pairs; with N=2 slots, coefficients 0 and 2 each use one zero-padding slot.
 - A one-row matrix (1,2) has relative entry height 2 over ℚ and 4 over ℚ(i); its line has absolute Euclidean height √5. These are different height objects.
 - The zero and empty coefficient or entry tuples have projective height 1. A matrix product with empty inner index is zero; (#n)^totalWeight(K)=0 over ℚ, so the product bound requires n nonempty.
 - The form (1/3,1/3) has projective coefficient height 1; appending a coordinate 1 gives affine height 3. Absolute heights keep these values after field extension.
@@ -1257,7 +1297,7 @@ Its API includes `successiveInfimum`: rationalSuccessiveInfimum L c Q i := sInf 
 
 Define `absoluteHeight2 x`, zero at x=0, with Euclidean norm at infinite places, max norm at finite places and degree-normalized exponents; `height2` is the K-rational restriction. For x∈ℚ̄^N≠0, N⁻¹/²H₂(x)≤H(x)≤H₂(x), with H the §0.2 `absoluteProjectiveTupleHeight`; this is the comparison max≤ℓ²≤√N·max at each infinite place. Use the native `plucker` coordinates and `relativePluckerPoint` specified below. `subspaceHeight U` is the [K:ℚ]-th root of `relativeSubspaceArakelovHeight U`, the relative Euclidean height of that same Plücker point. Basis independence follows because a basis change multiplies the wedge by a nonzero determinant, which the product formula removes. The zero and whole subspaces have height 1; a form uses its coefficient-vector height. (EF13, §6.3, p. 29; EF13, §6.1, p. 27.)
 
-Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : Set.powersetCard ι p→K, the maximal minors of x:Fin p→ι→K, with ι any finite linearly ordered type; `subspaceHeight`: subspaceHeight T := relativeSubspaceArakelovHeight(T)^(1/[K:ℚ]), equivalently height2 of the nonzero Plücker vector, including its singleton coordinate at T=⊥ or T=⊤; `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; `subspaceHeight_rat_eq_covolume`: For K=ℚ and a subspace T of ℚ^n, subspaceHeight T equals the covolume of the lattice T ∩ ℤ^n in its real span (§0.0 and the native covolume).
+Its API includes `height2`: height2 y := ∏ over infinite places of (Σ_i |σ_w(y_i)|²)^{mult w/(2[K:ℚ])} times ∏ᶠ over finite places of (max_i ‖y_i‖_v)^{1/[K:ℚ]}, for y : ι→K; `plucker`: plucker x : Set.powersetCard ι p→K, the maximal minors of x:Fin p→ι→K, with ι any finite linearly ordered type; `subspaceHeight`: subspaceHeight T := relativeSubspaceArakelovHeight(T)^(1/[K:ℚ]), equivalently height2 of the nonzero Plücker vector, including its singleton coordinate at T=⊥ or T=⊤; `subspaceHeight_bot`: subspaceHeight ⊥=1; `subspaceHeight_top`: subspaceHeight ⊤=1; `subspaceHeight_span_singleton`: For x≠0 and n≥2, subspaceHeight (K ∙ x)=height2 x; `subspaceHeight_le_prod`: EF (6.11): for linearly independent x_1, …, x_p spanning T, subspaceHeight T≤∏_i height2 (x_i); `subspaceHeight_orthogonal`: EF (6.13): subspaceHeight T^⊥=subspaceHeight T, where T^⊥={y | ∀ x∈T, y ⬝ᵥ x=0}; `subspaceHeight_inf_mul_sup_le`: Struppeck–Vaaler (EF (6.12)): subspaceHeight (T₁ ⊓ T₂) · subspaceHeight (T₁ ⊔ T₂)≤subspaceHeight T₁ · subspaceHeight T₂; `one_le_subspaceHeight`: 1≤subspaceHeight T; `finite_subspaceHeight_le`: Northcott for subspaces (Schmidt 1967): for every B the set of subspaces T of K^n with subspaceHeight T≤B is finite; `subspaceHeight_rat_eq_norm_plucker`: for K=ℚ, a subspace T of ℚ^n and any ℤ-basis b of T ∩ ℤ^n, subspaceHeight T is the Euclidean norm of the Plücker vector of b (including T=⊥, where both sides are 1); the covolume of T ∩ ℤ^n in its real span is the K=ℚ case of §2.8's `kernelLattice_covolume`.
 
 **Checks.**
 
@@ -1285,7 +1325,7 @@ Prove `finite_subspaceHeight_le` from `subspaceHeight_sup_le`: a bound on subspa
 - Computing the height of (√2,1) in ℚ(√2) or ℚ(√2,i) gives √3 in both fields. Forgetting the complex multiplicity or the degree root changes the latter computation.
 
 **Height and duality compatibility.** Prove `height2_baseExtension`: height2 is unchanged
-under a homomorphism of number fields K→E. As in `mulHeight_algebraMap`, the Euclidean
+under a homomorphism of number fields K→E. As in `mulHeight_pow_finrank`, the Euclidean
 factor at a place of E over w is the factor at w raised to the local degree, the local
 degrees above w add to [E:K], and the exponents 1/[E:ℚ] absorb [E:K].
 For a p-dimensional U≤K^ι, n=#ι, prove `subspaceHeight_sup_le` comparing its sup and Euclidean Plücker heights by
@@ -1811,8 +1851,10 @@ the upper product bound is its §1.5. They use the height foundation of §2.5.
 **Saturated kernel-lattice covolume.** Prove `kernelLattice_covolume` here.
 For a number field K of degree D, r₂ complex places, V≥0 and any K-subspace
 W≤K^V of dimension m, construct Λ_W=W∩𝓞_K^V as a discrete full ℤ-lattice
-in its real mixed-embedding span of dimension Dm. Use one (Re,Im) copy per
-complex place and the Euclidean measure induced from the coordinate embedding.
+in its real mixed-embedding span of dimension Dm. The ambient space is `PiLp 2 (fun _ : Fin V ↦ NumberField.mixedEmbedding.euclidean.mixedSpace K)`,
+with one (Re,Im) copy per complex place, and Λ_W is measured by `ZLattice.covolume`
+in the real span of W with its induced Euclidean volume. Mathlib's sup-normed
+`mixedSpace` is not an inner-product space and does not fix this measure.
 Prove covol(Λ_W)=(2^(−r₂)|disc K|^(1/2))^m·subspaceHeight(W)^D.
 The lattice is the full saturated intersection; a finite-index sublattice
 has a larger covolume and does not satisfy this identity. Prove the formula
@@ -1915,7 +1957,7 @@ Bombieri–Vaaler, Theorems 1,2,8.)
 
 - The rational row (2,2) has Gram square root 2√2 and minor gcd 2, so the bound is √2 and is invariant under row scaling.
 - Repeated rows (1,1,0) have rank 1 and kernel dimension 2; using the number of rows as rank loses a basis vector.
-- For K=ℚ(i) and W=K(1,i), H₂(W)=√2 and covolume 2; the sup-height basis vector (1,i) has height 1 and satisfies the bound (2/π)^(1/2)√2.
+- For K=ℚ(i) and W=K(1,i), H₂(W)=√2 and covolume 2; the sup-height basis vector (1,i) has height 1 and satisfies the bound (2/π)^(1/2)·√2·√2=2(2/π)^(1/2), where the discriminant contributes 4^(1/4)=√2 and H₂(rowSpace A)=H₂(W)=√2.
 
 **Relative-field Siegel and coefficient conditions.** Prove `siegelRelativeKernelBasis`:
 for a finite extension F/K of degree r, A∈F^(M×V), restrict its equations
@@ -1923,8 +1965,10 @@ to K^V and let R be the rank of that K-linear system. If R<V and k=V−R,
 its K-kernel has an integral K-basis with
 ∏Habs(x_j)≤|disc K|^(k/(2D))∏_{i=1}^M H₂,proj(A_i)^r,
 where H₂,proj(y)=arakelovMulHeight(y)^(1/[F:ℚ]), including value 1 for a
-zero row. In particular rM<V supplies V−rM independent solutions with the
-same bound. Construct the scalar-restriction matrix and kernel comparison,
+zero row. In particular rM<V supplies V−rM independent solutions with
+∏_{j≤V−rM}Habs(x_j)≤|disc K|^((V−rM)/(2D))∏H₂,proj(A_i)^r: keep the V−rM
+vectors of smallest height, whose geometric mean is at most that of all k.
+Dropping vectors alone does not lower the discriminant exponent. Construct the scalar-restriction matrix and kernel comparison,
 then over a normal closure stack the r conjugates of each row. Its row space
 is the extension of the restricted row space, by the invertible embedding
 matrix; its height is ≤∏H₂,proj(A_i)^r by §2.5. Apply siegelKernelBasis and
@@ -3942,7 +3986,7 @@ source attribution and use the Mathlib carriers in the supplier contracts.
 
 | Source at commit 2eadabb | Target and consumer map | Normalization and generality |
 | --- | --- | --- |
-| [NumberTheory/HeightExtension.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/NumberTheory/HeightExtension.lean), NumberField.mulHeight_ratCast | Rational base-field case of §0.2 `mulHeight_algebraMap`; §§1.3,2.5,2.8 consume the general extension contract | Relative heights raise to the extension degree; absolute heights take the total-degree root; zero projective height is 1. General K⊆L uses the place-extension contract. |
+| [NumberTheory/HeightExtension.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/NumberTheory/HeightExtension.lean), NumberField.mulHeight_ratCast | Rational base-field case of §0.2 `mulHeight_pow_finrank`; §§1.3,2.5,2.8 consume the general extension contract | Relative heights raise to the extension degree; absolute heights take the total-degree root; zero projective height is 1. General K⊆L uses the place-extension contract. |
 | [NumberTheory/HeightTuple.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/NumberTheory/HeightTuple.lean), Height.mulHeight_sum_comp_le and Matrix.mulHeight_mul_le | §1.3 `matrixMulHeight_mul_le` and finite-tuple coefficient estimates; auxiliary-polynomial consumers use §1.3 | Arbitrary admissible fields and finite index types; the archimedean constant has exponent totalWeight(K). Values use affine augmentation when required. Matrix entries and row-space Plücker coordinates remain separate. |
 | [LinearAlgebra/LinearIndependentRestrictScalars.lean](https://github.com/rwst/lean-code/blob/2eadabb0e181b894a4c49fb38b7e45daf6214b25/ForMathlib/LinearAlgebra/LinearIndependentRestrictScalars.lean), its three extraction theorems | §2.8 `linearIndependent_card_le_finrank_mul`, `exists_linearIndependent_comp_of_lt_finrank_span` and `exists_linearIndependent_comp_finrank_mul`; `siegelBasisExtraction` feeds `siegelKernelBasis` and `siegelRelativeKernelBasis` | Arbitrary field towers, finite K/F and compatible scalar actions; selection preserves original vectors and the zero-based bound s_j≤[K:F]j. |
 
