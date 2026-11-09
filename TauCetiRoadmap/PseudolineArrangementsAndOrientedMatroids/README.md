@@ -225,12 +225,12 @@ Euler characteristic, orientability and orientation double cover. Layer 1 builds
 lattice and rank 2. Layer 3 is the topological model in rank 3 (monotone arrangements, cells, the
 Folkman–Lawrence theorem, Sylvester–Gallai) on Layers 1–2; its map target 3.7 uses the flag systems
 of Layer 0. Layer 4 adds wiring diagrams, signotopes and flips on Layers 1–3. Layer 5 builds
-single-element extensions on Layers 1–2 and closes the unmarked representation with 3.6. Layer 6
-uses Layers 1, 3 and 5 for stretchability and the non-Pappus arrangement. Layer 7 builds the
-cartographic group on Mathlib's Coxeter systems and its action on the flag systems of Layer 0; Layer
-8 compares the maps of Layer 0 with Layer 7 and with Layer 3; Layer 9 builds regular flag systems
-and the examples on Layers 7–8. Layer 10 specializes Tau Ceti's geometric representation to the
-string Coxeter groups of Layer 7.
+single-element extensions on Layers 1–2, draws positions with 3.6 in 5.4, and closes the unmarked
+representation with 3.6. Layer 6 uses Layers 1, 3 and 5 for stretchability and the non-Pappus
+arrangement. Layer 7 builds the cartographic group on Mathlib's Coxeter systems and its action on
+the flag systems of Layer 0; Layer 8 compares the maps of Layer 0 with Layer 7 and with Layer 3;
+Layer 9 builds regular flag systems and the examples on Layers 7–8. Layer 10 specializes Tau Ceti's
+geometric representation to the string Coxeter groups of Layer 7.
 
 ## Layer 0: sign vectors and flag systems
 
@@ -395,7 +395,9 @@ Definition 3.5.3, (B2'), from Lemma 3.5.4 and §3.6).
 For `[Finite E]` define `Chirotope.matroid χ` with `Matroid.ofIsBaseOfFinite`, whose bases are the
 ranges of the tuples with `χ b ≠ 0`, and prove that its rank is `r`; define loops, parallel pairs,
 `Chirotope.IsSimple` (every element and every pair of distinct elements lies in a basis) and
-`Chirotope.IsUniform` (`χ b ≠ 0` for every injective `b`).
+`Chirotope.IsUniform` (`χ b ≠ 0` for every injective `b`) (Richter-Gebert–Ziegler 2017, §6.2.3,
+p. 167, (CHI1): the supports of a chirotope are the bases of a matroid; §6.3.1, pp. 172–173:
+loops, and uniformity as a chirotope with values in `{+, −}`).
 *Needs:* 1.1; Mathlib `Matroid.ofIsBaseOfFinite`, `Matroid.IsBase`.
 
 **Checks.**
@@ -442,7 +444,7 @@ permutation of `Fin m`. Prove that each is a chirotope; that the matroid of the 
 non-coloop `e` is `χ.matroid.restrictSubtype {e}ᶜ`; that the matroid of the dual is
 `Matroid.dual` of `χ.matroid`; that `χ**` is `χ` or `-χ`; that the dual of a realizable
 chirotope is realizable (Gale duality); and that deletion and contraction commute with
-reorientation and are exchanged by duality (BLSWZ §3.4, §3.6).
+reorientation and are exchanged by duality (BLSWZ §3.3 for minors; §3.4 and §3.6 for duality).
 *Needs:* 1.1, 1.3, 1.4; Mathlib `Matroid.dual`, `Matroid.restrictSubtype`.
 
 **Checks.**
@@ -717,7 +719,11 @@ triple of the abstract order type).
 ### 3.4 Straight lines
 
 Prove `MonotoneArrangement.chiFun_ofLines`: `(ofLines a b ha).chiFun = ofVectorsFun v` with
-`v none = ![0, 0, 1]` and `v (some i) = ![-1, a i, b i]`.
+`v none = ![0, 0, 1]` and `v (some i) = ![-1, a i, b i]` (Richter-Gebert–Ziegler 2017, §6.2.3,
+p. 168: the chirotope of a vector configuration is the sign of its determinants; for `i < j < k`,
+`det [(-1, a i, b i); (-1, a j, b j); (-1, a k, b k)]` is
+`(a i - a j) * (a j - a k) * (crossX j k - crossX i j)`, and
+`det [(-1, a i, b i); (-1, a j, b j); (0, 0, 1)] = a i - a j`).
 *Needs:* 1.4, 3.3.
 
 **Checks.**
@@ -735,8 +741,9 @@ Prove `MonotoneArrangement.chiFun_ofLines`: `(ofLines a b ha).chiFun = ofVectors
 For `n ≥ 2` and `L = covectorsOf A.chiFun`:
 (i) `MonotoneArrangement.range_signAt`: the range of `signAt A` is `{X ∈ L | X none = 1}`
 (Richter-Gebert–Ziegler 2017, Theorem 6.2.4, p. 169, first half, in rank 3);
-(ii) `MonotoneArrangement.isPathConnected_cell`: every nonempty cell is path-connected, so the
-cells of topes are the connected components of the complement of the union of the graphs;
+(ii), for every `n`, `MonotoneArrangement.isPathConnected_cell`: every nonempty cell is
+path-connected, so the cells of topes are the connected components of the complement of the union
+of the graphs;
 (iii) the closure of the cell of `X` is the union of the cells of the `Y ∈ L` with `Y ≤ᶜ X` and
 `Y none = 1`;
 (iv) the cell of a tope is open; the cell of a rank-2 covector lies in one graph and is
@@ -887,7 +894,7 @@ Lund–Purdy–Smith 2014, §3.2). The bound `n/2` for large `n`, which holds fo
 ### Dependencies
 
 Layers 0–2 and Mathlib. 3.2 and 3.3 use 3.1; 3.4 uses 3.3; 3.5 uses 3.2–3.3; 3.6 uses 1.7, 2.7
-and 3.3; 3.7 uses 0.3 and Layer 2; 3.8 uses Layers 1–2.
+and 3.3; 3.7 uses 0.3, 1.5, 1.6 and Layer 2; 3.8 uses Layers 1–2.
 
 ## Layer 4: wiring diagrams, allowable sequences, signotopes, flips
 
@@ -994,11 +1001,12 @@ Theorem 5.2.10, p. 133, after Streinu 1997 and Felsner–Weil 2001, Theorem 8; F
 Define `Chirotope.flipFun` (negate the values on the tuples enumerating `{a, b, c}`), which is only
 a function; `Chirotope.Triangle`, a tope of `covectorsOf χ` with walls exactly `{a, b, c}`, the
 certificate of a legal mutation; and `Chirotope.MutationStep`. Prove
-`Chirotope.isChirotope_flipFun`: for a uniform `χ` the flip at a triangle is a chirotope (Ringel
-1956; Felsner–Goodman 2017, p. 133, the triangle flip), and it is uniform;
-`Chirotope.exists_triangle_of_flipFun`: if the flip at three distinct elements is a chirotope, they
-are the walls of a triangle (Roudneff–Sturmfels 1988; BLSWZ Theorem 7.3.9, mutations of a uniform
-oriented matroid correspond to its simplicial topes); `Chirotope.reflTransGen_mutationStep`
+`Chirotope.isChirotope_flipFun`: for a uniform `χ` on a finite `E` the flip at a triangle is a
+chirotope (Ringel 1956; Felsner–Goodman 2017, p. 133, the triangle flip; Richter-Gebert–Ziegler
+2017, §6.3.3, p. 175), and it is uniform; `Chirotope.exists_triangle_of_flipFun`: for a uniform
+`χ` on a finite `E`, if the flip at three distinct elements is a chirotope, they are the walls of
+a triangle (Roudneff–Sturmfels 1988; BLSWZ Theorem 7.3.9, mutations of a uniform oriented matroid
+correspond to its simplicial topes); `Chirotope.reflTransGen_mutationStep`
 (Ringel's theorem): any two uniform rank-3 chirotopes on the same finite `E` are connected by
 mutation steps and reorientations (Felsner–Goodman 2017, Theorem 5.5.8, p. 145, Ringel's homotopy
 theorem for simple arrangements). Prove that a braid move of 4.3 is a legal mutation: the three
@@ -1017,6 +1025,9 @@ projective face poset, so there are at least `|E|` of them (Levi 1926; Felsner�
   7200 instances each.
 - The certificate is necessary: flipping `{1, 3, 5}` makes `χ123 χ145`, `-χ124 χ135`,
   `χ125 χ134` all positive.
+- Uniformity is needed in the converse: for the near-pencil `e₁, e₂, e₁ + e₂, e₃`,
+  `χ(e₁, e₂, e₁ + e₂) = 0`, so the flip at the three concurrent elements is `χ` itself, a
+  chirotope, and no triangle has those walls (the walls of its twelve topes are `{pᵢ, pⱼ, e₃}`).
 - Levi's bound is sharp there: each element is a wall of exactly three of the five triangles. On
   three elements the only triangle is the whole set and the flip is `-χ`.
 - Levi's theorem is not only for uniform chirotopes: for the near-pencil on four elements (three
@@ -1088,7 +1099,8 @@ parallel to `e` (BLSWZ §7.2, the lexicographic extension `[e⁺]` of length one
 Prove `Chirotope.levi_enlargement`: for a rank-3 chirotope on a finite `E` and nonzero covectors
 `Y, Z`, there is an extension in which `none` is not a loop and the extensions of `Y` and `Z` by
 `0` at `none` are covectors; if no `e` has `Y e = Z e = 0`, the extension can be chosen with `none`
-parallel to no element (Levi 1926). With 3.6, a new pseudoline can be drawn through
+parallel to no element (Levi 1926; Felsner–Goodman 2017, Theorem 5.1.1, p. 126, for two distinct
+points not on a common pseudoline). With 3.6, a new pseudoline can be drawn through
 any two points of a monotone arrangement.
 *Needs:* 2.2, 5.1.
 
@@ -1105,15 +1117,18 @@ any two points of a monotone arrangement.
 Define the positions of a rank-3 chirotope: the localizations whose extension has `none` not a
 loop, ordered by `ConfLE` (specialization). Prove: its maximal elements are the localizations
 without zeros (generic positions); every position lies below a generic one. A localization
-without zeros is maximal by the definition of `ConfLE`; for the other two claims, the extension
-of a position is a new pseudoline (2.5), and perturbing it off each vertex of the arrangement it
-passes through, inside a neighbourhood of that vertex meeting no other vertex, removes its zeros
-and keeps its nonzero signs, which gives a generic position above it. Prove also that the parallel
-extensions of 5.2 are positions; the lexicographic extension along an ordered basis (BLSWZ §7.2)
-is generic, so generic positions exist, by a combinatorial argument independent of Layer 3; for a
-generic position, the local sequence of `none` (2.7) is its crossing order with the oriented
-pseudolines of `E`.
-*Needs:* 2.5, 2.7, 5.1, 5.2.
+without zeros is maximal by the definition of `ConfLE`; for the other two claims, draw the
+extension by 3.6: take its simplification (1.7), which is that of `χ` when `none` is parallel to
+an element, add a lexicographic extension along an ordered basis as the line at infinity
+(generic, as proved below), and relabel; the new element is then a wire of a monotone
+arrangement, whose localization is read off by 3.3 and 3.5. Perturbing that wire off each vertex
+of the arrangement it passes through, inside a neighbourhood of that vertex meeting no other
+vertex, removes its zeros and keeps its nonzero signs, which gives a generic position above it.
+Prove also that the parallel extensions of 5.2 are positions; the lexicographic extension along an
+ordered basis (BLSWZ §7.2) is generic, so generic positions exist, by a combinatorial argument
+independent of Layer 3; for a generic position, the local sequence of `none` (2.7) is its crossing
+order with the oriented pseudolines of `E`.
+*Needs:* 1.7, 2.5, 2.7, 3.3, 3.5, 3.6, 5.1, 5.2.
 
 **Checks.**
 
@@ -1149,7 +1164,8 @@ antiparallel copies (Richter-Gebert–Ziegler 2017, Theorem 6.2.4, p. 169, in ra
 
 ### Dependencies
 
-Layers 1–3 and Mathlib. 5.2 uses 5.1; 5.3 uses 5.1; 5.4 uses 5.1–5.2; 5.5 uses 3.6 and 5.4.
+Layers 1–3 and Mathlib. 5.2 uses 5.1; 5.3 uses 5.1; 5.4 uses 1.7, 3.3, 3.5, 3.6 and 5.1–5.2;
+5.5 uses 3.6 and 5.4.
 
 ## Layer 6: stretchability
 
@@ -1442,7 +1458,9 @@ the proof of Eppstein 2014, Lemma 1), so by Whitney's theorem (Whitney 1932; Bon
 Theorem 10.28) its embedding in the sphere is unique, and the pseudolines are the paths that leave
 each vertex through the edge opposite to the one they entered by (Eppstein 2014, Lemma 1 and its
 proof). The last step is that the projective face poset determines a simple oriented matroid up to
-reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990).
+reorientation (it determines the tope graph; Björner–Edelman–Ziegler 1990; Bandelt–Chepoi–Knauer
+2018, §4, Proposition 3, p. 12 of arXiv:1507.06111v3: a simple complex of oriented matroids, in
+particular a simple oriented matroid, is determined by its tope graph up to reorientation).
 *Needs:* 0.3, 1.6, 3.7, 8.3; GraphConnectivityAndFlows Target 1.1.
 
 **Checks.**
@@ -1695,13 +1713,13 @@ https://grothendieck.umontpellier.fr/80.pdf).
 
 ## References
 
-- [BLSWZ] A. Björner, M. Las Vergnas, B. Sturmfels, N. White, G. M. Ziegler, *Oriented
-  Matroids*, 2nd ed., Encyclopedia of Mathematics and its Applications 46, Cambridge University
-  Press, 1999: Definition 3.5.3, Lemma 3.5.4, Theorem 3.5.5 (chirotopes); §3.4 and §3.6 (duality,
-  Grassmann–Plücker); §3.7 (vectors and covectors); Definition 4.1.1 and §4.1 (covector axioms,
-  face lattice); §4.6 (face counts); Theorem 5.2.1 (topological representation); Chapter 6
-  (arrangements of pseudolines, pp. 247–280); Proposition 7.1.4, Theorem 7.1.8 (single-element
-  extensions); §7.2 (lexicographic extensions).
+- [BLSWZ] A. Björner, M. Las Vergnas, B. Sturmfels, N. White, G. M. Ziegler, *Oriented Matroids*,
+  2nd ed., Encyclopedia of Mathematics and its Applications 46, Cambridge University Press, 1999:
+  Definition 3.5.3, Lemma 3.5.4, Theorem 3.5.5 (chirotopes); §3.3 (minors); §3.4 and §3.6 (duality,
+  Grassmann–Plücker); §3.7 (vectors and covectors); Definition 4.1.1 and §4.1 (covector axioms, face
+  lattice); §4.6 (face counts); Theorem 5.2.1 (topological representation); Chapter 6 (arrangements
+  of pseudolines, pp. 247–280); Proposition 7.1.4, Theorem 7.1.8 (single-element extensions); §7.2
+  (lexicographic extensions).
 - J. Folkman, J. Lawrence, *Oriented matroids*, J. Combin. Theory Ser. B 25 (1978), 199–236.
 - F. Levi, *Die Teilung der projektiven Ebene durch Gerade oder Pseudogerade*, Ber. Math.-Phys.
   Kl. Sächs. Akad. Wiss. Leipzig 78 (1926), 256–267 (enlargement lemma; triangles).
@@ -1747,6 +1765,9 @@ https://grothendieck.umontpellier.fr/80.pdf).
 - A. Björner, P. H. Edelman, G. M. Ziegler, *Hyperplane arrangements with a lattice of regions*,
   Discrete Comput. Geom. 5 (1990), 263–288 (the tope graph determines a simple oriented matroid
   up to reorientation).
+- H.-J. Bandelt, V. Chepoi, K. Knauer, *COMs: complexes of oriented matroids*, J. Combin. Theory
+  Ser. A 156 (2018), 195–237, arXiv:1507.06111 (§4, Proposition 3, numbered as in the arXiv
+  version).
 - H. Whitney, *Congruent graphs and the connectivity of graphs*, Amer. J. Math. 54 (1932),
   150–168 (a 3-connected planar graph has a unique embedding in the sphere).
 - J. A. Bondy, U. S. R. Murty, *Graph Theory*, Graduate Texts in Mathematics 244, Springer, 2008,
