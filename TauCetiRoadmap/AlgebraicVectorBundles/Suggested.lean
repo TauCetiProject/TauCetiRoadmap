@@ -5,26 +5,36 @@ import TauCeti.AlgebraicGeometry.Modules.Pullback.Basic
 import TauCeti.AlgebraicGeometry.Modules.Pullback.InternalHom.Basic
 import TauCeti.AlgebraicGeometry.Modules.SymmetricPower.Pullback.Basic
 import TauCeti.AlgebraicGeometry.Modules.ExteriorPower.Pullback.Basic
+import TauCeti.AlgebraicGeometry.LineBundle.Class
 
 /-!
 # Algebraic vector bundles: target signatures
 
 `README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, on the native carriers:
-`X.Modules` with its canonical symmetric monoidal closed structure, Tau Ceti's oplax monoidal
-module pullback, its internal-Hom base-change comparison `pullbackIhomComparison`, and its
-power-pullback comparisons `Scheme.Modules.pullbackSymmetricPowerComparison` and
-`Scheme.Modules.pullbackExteriorPowerComparison`. Each headline removes a quasi-coherence
-hypothesis under which Tau Ceti already proves the statement.
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, on the native carriers. A
+morphism of ringed spaces is a continuous map `f` of `TopCat` with sheaves of commutative rings on
+both sides and a morphism `φ` of sheaves of rings from the target's structure sheaf to the
+pushforward of the source's; its module pullback is Mathlib's `SheafOfModules.pullback φ` with Tau
+Ceti's oplax monoidal structure `TauCeti.SheafOfModules.pullbackOplaxMonoidal`, and its power
+comparisons are Tau Ceti's `TauCeti.SheafOfModules.pullbackSymmetricPowerComparison` and
+`TauCeti.SheafOfModules.pullbackExteriorPowerComparison`. A morphism of schemes `f` is the
+instance `f.base`, `f.toRingCatSheafHom`, at which these are definitionally Tau Ceti's scheme-level
+`Scheme.Modules.pullback f` and its comparisons. The existence of the left adjoint,
+`(SheafOfModules.pushforward φ).IsRightAdjoint`, is carried as an instance argument: it holds for
+every such `φ` by Mathlib's construction of `SheafOfModules.pullback`, but instance search does not
+find it for a general continuous map. On schemes the internal-Hom base-change comparison is Tau
+Ceti's `pullbackIhomComparison`, and the determinant and Picard group are Tau Ceti's
+`FiniteLocallyFreeSheaf.det` and `LineBundleClass`.
 
 The following are Tau Ceti declarations at the pin and are consumed, not restated: the
 dualizability criterion `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`, on every
 scheme; quasi-coherence of internal Hom `isQuasicoherent_ihom_of_isFinitePresentation`; the ranks
 of powers `FiniteLocallyFreeSheaf.rank_symmetricPower_apply` and
-`FiniteLocallyFreeSheaf.rank_exteriorPower_apply`; the determinant `FiniteLocallyFreeSheaf.det`;
-the relative-Spec anti-equivalence `relativeSpecEquiv` and its base change
-`relativeSpecBaseChangeIso`; the linear-scheme equivalence `linearSpecEquiv`; the geometric-bundle
-equivalence `totalSpaceEquiv`; and the section-valued universal property `totalSpaceHomEquiv`.
+`FiniteLocallyFreeSheaf.rank_exteriorPower_apply`; the determinant `FiniteLocallyFreeSheaf.det`
+and its pullback comparison `FiniteLocallyFreeSheaf.pullbackDetIso`; the relative-Spec
+anti-equivalence `relativeSpecEquiv` and its base change `relativeSpecBaseChangeIso`; the
+linear-scheme equivalence `linearSpecEquiv`; the geometric-bundle equivalence `totalSpaceEquiv`;
+and the section-valued universal property `totalSpaceHomEquiv`.
 
 The names `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeOfRank` and
 `determinantObj` are Tau Ceti notions under this roadmap's namespace (the last is Tau Ceti's
@@ -32,10 +42,16 @@ The names `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeO
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* the determinant of a direct sum, `det(E ⊕ F) ≅ det E ⊗ det F` with the swap of summands acting
-  by `(−1)^(rank E · rank F)` (Layer 3): the isomorphism is data, and the sheaf-level exterior
-  multiplication `∧ᵃ E ⊗ ∧ᵇ F → ∧ᵃ⁺ᵇ (E ⊕ F)` from which it is built is missing, so its sign law
-  has nothing to refer to;
+* flat base change of internal Hom from a finitely presented source along a morphism of ringed
+  spaces (Layer 2): the base-change comparison `f^* Hom(M, N) → Hom(f^* M, f^* N)` exists at the
+  pin only on schemes and for a quasi-coherent source, where it is built from the inverse of the
+  tensor comparison; the scheme case is stated;
+* the canonical isomorphism `det E′ ⊗ det E″ ≅ det E` of a short exact sequence of finite locally
+  free sheaves, given locally by `e′ ⊗ ẽ″ ↦ e′ ∧ ẽ″` for lifts `ẽ″`, and its split case
+  `det(E ⊕ F) ≅ det E ⊗ det F` with the swap of summands acting by `(−1)^(rank E · rank F)`
+  (Layer 3): the isomorphism is data, and the sheaf-level exterior multiplication
+  `∧ᵃ E ⊗ ∧ᵇ E → ∧ᵃ⁺ᵇ E` from which it is built is missing, so its local formula and its sign law
+  have nothing to refer to; the equality of classes in the Picard group is stated;
 * the identification, on `Spec A`, of the determinant of the sheaf of a finite projective module
   with the ring-level determinant as graded lines (Layer 3): graded lines and the ring-level
   determinant of finite projective modules are targets of PadicMeasuresIwasawaAlgebras §5.1, not
@@ -48,7 +64,8 @@ Headline theorems of the roadmap that are not statable at the pins:
 
 namespace TauCetiRoadmap.AlgebraicVectorBundles
 
-open CategoryTheory Limits MonoidalClosed TauCeti.AlgebraicGeometry AlgebraicGeometry
+open CategoryTheory Limits MonoidalClosed TopologicalSpace
+open TauCeti.AlgebraicGeometry AlgebraicGeometry
 
 universe u
 
@@ -77,29 +94,36 @@ noncomputable abbrev determinantObj {X : Scheme.{u}} (E : FiniteLocallyFreeSheaf
     InvertibleSheaf X :=
   TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.det E
 
-/-! ## Layer 1: strong monoidal pullback -/
+/-! ## Layer 1: pullback along morphisms of ringed spaces -/
 
-/-- The canonical oplax tensor comparison `f^* (E ⊗ F) → f^* E ⊗ f^* F` of module pullback is
-invertible for every scheme morphism and every pair of module sheaves, without flatness or
-quasi-coherence assumptions (Stacks Project, Tag 01CD). Tau Ceti proves this when one factor is
-quasi-coherent (`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent`). Together with the pinned
-unit isomorphism and symmetry law this makes pullback strong symmetric monoidal on all of
-`X.Modules`. -/
-theorem pullback_tensor_isIso {X Y : Scheme.{u}} (f : Y ⟶ X)
-    (E F : X.Modules) :
-    IsIso (Functor.OplaxMonoidal.δ (Scheme.Modules.pullback f) E F) := by
+/-- For every morphism of ringed spaces `(f, φ) : Y → X` and every pair of `𝒪_X`-modules, the
+canonical oplax tensor comparison `f^* (E ⊗ F) → f^* E ⊗ f^* F` of module pullback is invertible,
+without flatness or quasi-coherence assumptions (Stacks Project, Tag 01CD). For a morphism of
+schemes this is the instance `f.base`, `f.toRingCatSheafHom`, where Tau Ceti proves it when one
+factor is quasi-coherent (`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent`). Together with the
+pinned unit isomorphism and symmetry law this makes pullback strong symmetric monoidal on all
+module sheaves. The argument `(SheafOfModules.pushforward φ).IsRightAdjoint` is the existence of
+the pullback, which holds for every `φ`. -/
+theorem pullback_tensor_isIso {X Y : TopCat.{u}} (f : Y ⟶ X)
+    {𝒪X : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+    {𝒪Y : Sheaf (Opens.grothendieckTopology Y) CommRingCat.{u}}
+    (φ : TauCeti.SheafOfModules.ringCatSheaf 𝒪X ⟶
+      ((Opens.map f).sheafPushforwardContinuous RingCat.{u} _ _).obj
+        (TauCeti.SheafOfModules.ringCatSheaf 𝒪Y))
+    [(SheafOfModules.pushforward.{u} φ).IsRightAdjoint]
+    (E F : SheafOfModules.{u} (TauCeti.SheafOfModules.ringCatSheaf 𝒪X)) :
+    IsIso (Functor.OplaxMonoidal.δ (SheafOfModules.pullback.{u} φ) E F) := by
   sorry
 
-/-! ## Layer 2: flat base change of internal Hom -/
+/-! ## Layer 2: flat pullback and base change of internal Hom -/
 
-/-- Along a flat morphism `f : X ⟶ Y`, the canonical comparison
+/-- Along a flat morphism of schemes `f : X ⟶ Y`, the canonical comparison
 `f^* Hom(M, N) → Hom(f^* M, f^* N)` is an isomorphism for every finitely presented `M` and every
 `𝒪_Y`-module `N`, quasi-coherent or not (Stacks Project, Tag 0C6I). Tau Ceti proves this for a
 quasi-coherent target (`Scheme.Hom.isIso_pullbackIhomComparison_app`), and for a finite locally free
 source and every target and morphism (`FiniteLocallyFreeSheaf.isIso_pullbackIhomComparison`). The
-comparison is built on
-the quasi-coherence of `M`, which finite presentation implies; it is carried as an instance
-argument because instance search does not derive it on `Y.Modules`. -/
+comparison is built on the quasi-coherence of `M`, which finite presentation implies; it is carried
+as an instance argument because instance search does not derive it on `Y.Modules`. -/
 theorem isIso_pullbackIhomComparison_app_of_flat {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f]
     (M N : Y.Modules) [M.IsFinitePresentation] [M.IsQuasicoherent] :
     IsIso ((pullbackIhomComparison M f).app N) := by
@@ -107,20 +131,55 @@ theorem isIso_pullbackIhomComparison_app_of_flat {X Y : Scheme.{u}} (f : X ⟶ Y
 
 /-! ## Layer 3: symmetric and exterior powers, determinant -/
 
-/-- Symmetric powers commute with pullback on all module sheaves: for every `f : X ⟶ Y` and every
-`n`, Tau Ceti's canonical comparison `f^* (Symⁿ M) → Symⁿ (f^* M)` is a natural isomorphism, for
-every `𝒪_Y`-module `M` (Stacks Project, Tag 01CI). Tau Ceti proves invertibility at quasi-coherent
-`M` (`isIso_pullbackSymmetricPowerComparison_app`) and in degree one. -/
-theorem symmetricPower_pullback_isIso {X Y : Scheme.{u}} (f : X ⟶ Y) (n : ℕ) :
-    IsIso (Scheme.Modules.pullbackSymmetricPowerComparison f n) := by
+/-- Symmetric powers commute with pullback on all module sheaves: for every morphism of ringed
+spaces `(f, φ) : X → Y` and every `n`, Tau Ceti's canonical comparison
+`f^* (Symⁿ M) → Symⁿ (f^* M)` for the pullback adjunction is a natural isomorphism, for every
+`𝒪_Y`-module `M` (Stacks Project, Tag 01CI). For a morphism of schemes this is the instance
+`f.base`, `f.toRingCatSheafHom`, which is `Scheme.Modules.pullbackSymmetricPowerComparison f n`;
+Tau Ceti proves invertibility there at quasi-coherent `M`
+(`isIso_pullbackSymmetricPowerComparison_app`) and in degree one. -/
+theorem symmetricPower_pullback_isIso {X Y : TopCat.{u}} (f : X ⟶ Y)
+    {𝒪X : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+    {𝒪Y : Sheaf (Opens.grothendieckTopology Y) CommRingCat.{u}}
+    (φ : TauCeti.SheafOfModules.ringCatSheaf 𝒪Y ⟶
+      ((Opens.map f).sheafPushforwardContinuous RingCat.{u} _ _).obj
+        (TauCeti.SheafOfModules.ringCatSheaf 𝒪X))
+    [(SheafOfModules.pushforward.{u} φ).IsRightAdjoint] (n : ℕ) :
+    IsIso (TauCeti.SheafOfModules.pullbackSymmetricPowerComparison
+      (SheafOfModules.pullbackPushforwardAdjunction.{u} φ) n) := by
   sorry
 
-/-- Exterior powers commute with pullback on all module sheaves: for every `f : X ⟶ Y` and every
-`n`, Tau Ceti's canonical comparison `f^* (∧ⁿ M) → ∧ⁿ (f^* M)` is a natural isomorphism, for every
-`𝒪_Y`-module `M` (Stacks Project, Tag 01CI). Tau Ceti proves invertibility at quasi-coherent `M`
+/-- Exterior powers commute with pullback on all module sheaves: for every morphism of ringed
+spaces `(f, φ) : X → Y` and every `n`, Tau Ceti's canonical comparison
+`f^* (∧ⁿ M) → ∧ⁿ (f^* M)` for the pullback adjunction is a natural isomorphism, for every
+`𝒪_Y`-module `M` (Stacks Project, Tag 01CI). For a morphism of schemes this is the instance
+`f.base`, `f.toRingCatSheafHom`, which is `Scheme.Modules.pullbackExteriorPowerComparison f n`;
+Tau Ceti proves invertibility there at quasi-coherent `M`
 (`isIso_pullbackExteriorPowerComparison_app`) and in degree one. -/
-theorem exteriorPower_pullback_isIso {X Y : Scheme.{u}} (f : X ⟶ Y) (n : ℕ) :
-    IsIso (Scheme.Modules.pullbackExteriorPowerComparison f n) := by
+theorem exteriorPower_pullback_isIso {X Y : TopCat.{u}} (f : X ⟶ Y)
+    {𝒪X : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}}
+    {𝒪Y : Sheaf (Opens.grothendieckTopology Y) CommRingCat.{u}}
+    (φ : TauCeti.SheafOfModules.ringCatSheaf 𝒪Y ⟶
+      ((Opens.map f).sheafPushforwardContinuous RingCat.{u} _ _).obj
+        (TauCeti.SheafOfModules.ringCatSheaf 𝒪X))
+    [(SheafOfModules.pushforward.{u} φ).IsRightAdjoint] (n : ℕ) :
+    IsIso (TauCeti.SheafOfModules.pullbackExteriorPowerComparison
+      (SheafOfModules.pullbackPushforwardAdjunction.{u} φ) n) := by
+  sorry
+
+/-- The determinant is multiplicative on short exact sequences of vector bundles: for a short exact
+sequence `0 → E′ → E → E″ → 0` of `𝒪_X`-modules whose three terms are finite locally free, the
+class of `det E` in the Picard group `LineBundleClass X` is the product of the classes of `det E′`
+and `det E″`. It is the class of the canonical isomorphism `det E′ ⊗ det E″ ≅ det E`, given
+locally by `e′ ⊗ ẽ″ ↦ e′ ∧ ẽ″` for lifts `ẽ″` (Stacks Project, Tag 0FJB, for finite projective
+modules), and it makes the determinant additive on the Grothendieck group of finite locally free
+sheaves. -/
+theorem mk_determinantObj_of_shortExact {X : Scheme.{u}} (S : ShortComplex X.Modules)
+    (hS : S.ShortExact) (h₁ : isFiniteLocallyFree X S.X₁) (h₂ : isFiniteLocallyFree X S.X₂)
+    (h₃ : isFiniteLocallyFree X S.X₃) :
+    LineBundleClass.mk (determinantObj (⟨S.X₂, h₂⟩ : FiniteLocallyFreeSheaf X)) =
+      LineBundleClass.mk (determinantObj (⟨S.X₁, h₁⟩ : FiniteLocallyFreeSheaf X)) *
+        LineBundleClass.mk (determinantObj (⟨S.X₃, h₃⟩ : FiniteLocallyFreeSheaf X)) := by
   sorry
 
 end TauCetiRoadmap.AlgebraicVectorBundles
