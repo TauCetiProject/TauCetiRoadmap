@@ -29,6 +29,7 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps

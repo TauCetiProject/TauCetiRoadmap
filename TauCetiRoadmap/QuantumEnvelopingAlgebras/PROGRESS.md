@@ -1,0 +1,14 @@
+# Progress log: QuantumEnvelopingAlgebras
+
+An append-only record of what landed on the QuantumEnvelopingAlgebras roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"602ae6278afda57670b6494e9ee5fe6d99c93f5e","prs":[28542,29421,30385,30724],"roadmap":"QuantumEnvelopingAlgebras","to_sha":"7ca783d4c8d324c9c74efaacd641c8a40f69f284"}-->
+## QuantumEnvelopingAlgebras: 2026-11-07 to 2026-11-09 (`602ae62` to `7ca783d`)
+
+This window built the quantum-factorial and Gaussian-binomial layer that the rest of the roadmap stands on. The headline is the genericity criterion [`forall_quantumFactorial_ne_zero_iff`](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Factorial.html#TauCeti.forall_quantumFactorial_ne_zero_iff): every quantum factorial `[n]_q!` is nonzero exactly when `q` is nonzero and not a root of unity. This is the hypothesis the generic theorems of Layers 1–2 are stated under. Its root-of-unity counterpart, [`quantumFactorial_ne_zero_iff_lt`](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Factorial.html#TauCeti.quantumFactorial_ne_zero_iff_lt), says that when `q²` is a primitive `ℓ`-th root of unity, `[n]_q!` is nonzero exactly for `n < ℓ`. Alongside these come the factorial formula for quantum binomials and a divided-power `q`-binomial theorem, [`inv_quantumFactorial_smul_add_pow`](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Factorial.html#TauCeti.inv_quantumFactorial_smul_add_pow), which expands `(x + y)^(n)` when `yx = q²xy` (TauCeti#29421). Existing rank-one `U_q(sl₂)` statements about ladder modules and Clebsch–Gordan inclusions were restated in terms of normalized lowering strings `F^k v / [k]_q!`.
+
+On the integral side, the symmetric Laurent Gaussian [`laurentQuantumBinomial`](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Laurent/Binomial.html#TauCeti.laurentQuantumBinomial) in `ℤ[v, v⁻¹]` now exists. So does its extension [`signedLaurentQuantumBinomial`](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Laurent/Binomial.html#TauCeti.signedLaurentQuantumBinomial) to negative upper arguments, which specializes at `v = 1` to the integer-valued binomial `Ring.choose`, and the Laurent quantum factorial (TauCeti#28542). The field-valued theory also gained the [quantum Vandermonde convolution](https://taucetiproject.org/docs/TauCeti/QuantumGroups/QuantumInteger/Vandermonde.html#TauCeti.quantumBinomial_add_left_eq), for natural-number arguments only, and the sign rule for `q ↦ −q`.
+
+Two things are still missing. The quantum Lucas theorem is not yet proved for the signed Laurent Gaussians that Layers 5–8 consume; the field-valued version for natural arguments predates this window. And the Vandermonde identity has no signed form.
