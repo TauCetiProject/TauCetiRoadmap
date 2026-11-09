@@ -14,10 +14,12 @@ headline theorems against the pinned APIs, each with `sorry`.
 Stated below, on the native Lakshmibai–Seshadri encodings `TauCeti.LSPath`, their realized
 paths `TauCeti.LSPath.toPLPath`, Littelmann's operators `TauCeti.PLPath.lower` and
 `TauCeti.PLPath.raise`, the Weyl denominator `TauCeti.weylDenominator` and the dot
-alternatization `RootPairing.dotAlternatization`, are S4's three path theorems: operator
+alternatization `RootPairing.dotAlternatization`, are S4's path theorems: operator
 stability of the encodings of a dominant shape (S4.2), generation of every encoding from the
-straight one by simple lowerings (S4.3) and the character identity `Δ · char B(λ) = J(e^λ)` in
-the integral group ring of the weight lattice (S4.4).
+straight one by simple lowerings (S4.3), the character identity `Δ · char B(λ) = J(e^λ)` in
+the integral group ring of the weight lattice and Littelmann's decomposition formula
+`char B(λ) · char B(μ) = ∑ char B(λ + η(1))` over the encodings `η` of shape `μ` with
+`λ + η(t)` dominant for all `t`, read off the minimal heights `TauCeti.PLPath.minHeight` (S4.4).
 
 The remaining headlines are not statable at the pins:
 * S1's relative parabolic representability and Schubert/incidence comparison need relative
@@ -29,10 +31,11 @@ The remaining headlines are not statable at the pins:
 * S3's geometric Demazure and Weyl character theorems need those flag line bundles
   and their section representations; the Demazure operators themselves are the
   native `RootPairing.demazureOperator` of `TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`.
-* S4's component isomorphism theorem and tensor-component theorem need the normal
-  crystal structure on the encodings of a dominant shape, which S4.1 and S4.3 construct
-  from the operator stability stated here; `TauCeti.NormalCrystal` is native, but the
-  crystal `B(λ)` on `TauCeti.LSPath` is not.
+* S4's component isomorphism theorem and the crystal form of its tensor-component theorem
+  (the concatenation `B(λ) * B(μ)` is a direct sum of components `B(λ + η(1))`) need the
+  normal crystal structure on the encodings of a dominant shape, which S4.1 and S4.3
+  construct from the operator stability stated here; `TauCeti.NormalCrystal` is native, but
+  the crystal `B(λ)` on `TauCeti.LSPath` is not. Its character form is stated below.
 * S5's splitting, normality and vanishing theorems need the Schubert schemes
   and their Frobenius-module and coherent-cohomology constructions.
 * S6's all-degree standard monomial theorem needs geometric path sections and
@@ -106,6 +109,27 @@ theorem weylDenominator_mul_finsum_single_eq_dotAlternatization [Fintype P.weylG
     (wt : LSPath P b lam → M) (hwt : ∀ π, f (wt π) = (π.toPLPath 𝕜 f).endpoint) :
     weylDenominator P b * ∑ᶠ π : LSPath P b lam, single (wt π) (1 : ℤ) =
       dotAlternatization P b (single lam 1) := by
+  sorry
+
+/-- **Littelmann's decomposition formula** (S4.4; Littelmann1995, Introduction, p. 500, proved
+in §10, p. 521). For dominant shapes `λ` and `μ`, an injective realization `f` with height forms
+`F i` agreeing with the simple coroots on the lattice, and the lattice weights `wt η` of the
+encodings of shape `μ`, defined by `f (wt η) = η(1)`: the product of the characters of the
+encodings of shapes `λ` and `μ` is the sum, over the encodings `η` of shape `μ` with
+`λ + η(t)` dominant for all `t` (that is `min_t ⟨η(t), α_i^∨⟩ ≥ -⟨λ, α_i^∨⟩` for every simple
+root), of the characters of the encodings of shape `λ + η(1)`. The characters are taken in the
+group ring of `V` on the realized endpoints; `f` being injective, this is the identity in the
+integral group ring of the weight lattice. -/
+theorem finsum_mul_finsum_eq_finsum_finsum_of_minHeight
+    (hlam : lam ∈ dominantChamber P b) {mu : M} (hmu : mu ∈ dominantChamber P b)
+    (f : M →+ V) (hf : Function.Injective f)
+    (F : b.support → Module.Dual 𝕜 V) (hF : ∀ i m, F i (f m) = (P.coroot' i m : 𝕜))
+    (wt : LSPath P b mu → M) (hwt : ∀ η, f (wt η) = (η.toPLPath 𝕜 f).endpoint) :
+    (∑ᶠ π : LSPath P b lam, single (π.toPLPath 𝕜 f).endpoint (1 : ℤ)) *
+        ∑ᶠ η : LSPath P b mu, single (η.toPLPath 𝕜 f).endpoint (1 : ℤ) =
+      ∑ᶠ η : {η : LSPath P b mu //
+          ∀ i : b.support, -(P.coroot' i lam : 𝕜) ≤ (η.toPLPath 𝕜 f).minHeight (F i)},
+        ∑ᶠ π : LSPath P b (lam + wt η), single (π.toPLPath 𝕜 f).endpoint (1 : ℤ) := by
   sorry
 
 end TauCetiRoadmap.SchubertGeometry
