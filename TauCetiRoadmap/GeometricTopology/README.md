@@ -78,7 +78,9 @@ This roadmap owns the following, by layer.
   Property P, Property R and the cyclic surgery theorem, and the Kanenobu–Murakami criterion
   derived from the cyclic surgery theorem as stated.
 - **Layer 6.** Smooth and topological concordance of knots, the concordance group, the
-  Levine–Tristram signatures and their concordance invariance, torus-knot signatures and
+  Levine–Tristram signatures and their concordance invariance, the vanishing of Layer 4.3.1's
+  knot Arf invariant on smoothly and topologically slice knots and its concordance invariance
+  (Layer 6.2.1), torus-knot signatures and
   chirality, the signature bound on the unknotting number, Conway mutation and the statement
   that it does not preserve smooth concordance, the statement of Levine's theorem on
   winding-number-one satellite operators with the proof of its reduction to knots in homology
@@ -3342,7 +3344,7 @@ the writhe (Lickorish, Chapter 16).
   reversing all orientations leaves `V` unchanged, and reversing one component of a link
   multiplies by `t^{−3 lk}` where `lk` is its linking number with the rest.
 - `V_L(1) = (−2)^{μ − 1}` for a `μ`-component link; `V_K(e^{2πi/3}) = 1` and
-  `V_K(i) = (−1)^{Arf(K)}` for a knot (Layer 4.7).
+  `V_K(i) = (−1)^{Arf(K)}` for a knot (Layer 4.5.3).
 - `V_{K # J} = V_K V_J`, and `V` of a split union is `(−t¹ᐟ² − t⁻¹ᐟ²)` times the product.
 
 **Checks.**
@@ -4249,7 +4251,9 @@ other checkerboard choice.
   a common arc, so the reduced nullities add.
 - For a link, the determinant may be `0`, in which case the colouring module is infinite over `ℤ`
   and every prime colours it.
-- The Arf invariant is a concordance invariant and vanishes for slice knots (Layer 6).
+- The knot Arf invariant vanishes on smoothly and topologically slice knots and is a
+  concordance invariant in both categories; these are Layer 6.2.1's (item 5), proved from
+  4.3.1's half-dimensional criterion.
 
 *Needs:* Mathlib `Quandle`, `Quandle.Dihedral`, `ZMod`; Layer 4.2, Layer 4.3, Layer 4.4.
 
@@ -6250,8 +6254,9 @@ Two knots in `S³` are concordant when they cobound an annulus in `S³ × [0, 1]
 `TauCeti.SmoothEmbedding.Concordant`, through a collared `TauCeti.SmoothEmbedding.Concordance`
 with no reflection of either end; locally flatly, `TauCeti.TopologicallyConcordant`. The slice
 notions are `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice` and
-`TauCeti.sliceGenus`. This layer builds the concordance group, the signature invariants and the
-theorems of Kirby's list about concordance.
+`TauCeti.sliceGenus`. This layer builds the concordance group, the signature invariants, the
+concordance invariance of the knot Arf invariant and the theorems of Kirby's list about
+concordance.
 
 ### 6.1 The concordance group
 
@@ -6345,8 +6350,8 @@ Jones support argument of Layer 4.5 is independent of it.
 - *Trefoil.* For the right-handed trefoil `V + Vᵀ = [[−2, 1], [1, −2]]` is negative definite
   of determinant `3`, so `σ = −2` (`TauCeti.KnotTheory.signature_trefoilSeifertMatrix`).
 - *Figure-eight.* `V + Vᵀ = [[2, 1], [1, −2]]` has determinant `−5 < 0`, so `σ = 0`, consistent
-  with amphichirality; the figure-eight is still not slice, by Fox–Milnor, since `−t + 3 − t⁻¹` is
-  not of the form `f(t) f(t⁻¹)` (by evaluation).
+  with amphichirality; the figure-eight is still not slice, since its Arf invariant is 1
+  (`Δ(−1) = 5`) and 6.2.1, item 5 makes the Arf invariant vanish on slice knots (by evaluation).
 - *Sharpness.* `|σ(T # T)| = 4 ≤ 2 u(T # T) = 4`, so the signature bound is sharp for the granny
   knot; for the figure-eight it gives only `0 ≤ 2` (by evaluation).
 
@@ -6430,7 +6435,16 @@ knots only. H_V(ω) denotes the Levine–Tristram form.
    category, Layer 2.1's normal-bundle statement consumed as stated); half-lives-half-dies gives
    rank g′ for `ker[H₁(F′;ℚ)≅H₁(F′∪D;ℚ)→H₁(R;ℚ)]`, pushed-off bounding chains kill the Seifert
    pairing on it, and integral saturation, with the torsion of H₁(R) accounted for, gives a
-   primitive rank-g′ isotropic summand of the size-2g′ presentation. Prove the nonsingular
+   primitive rank-g′ isotropic summand of the size-2g′ presentation. Being a direct summand, it
+   reduces mod 2 to a g′-dimensional subspace of `H₁(F′;𝔽₂)` on which 4.3.1's refinement
+   `q_F′(x)=lk(x,x⁺) mod 2` vanishes, and with it the polar form `q(x+y)−q(x)−q(y)`; the polar form
+   of a knot being nonsingular on the 2g′-dimensional space, 4.3.1's half-dimensional criterion
+   gives `Arf(K)=0` for every smoothly or topologically slice knot K (Pyronneau, Corollary 2.19,
+   p. 6, reaches the same statement through Fox–Milnor). With 4.3.1's surface independence,
+   additivity and invariance under mirror and global reversal, 6.1's slice disk of
+   `K#reverse(mirror J)` for concordant K, J makes the knot Arf invariant a concordance invariant
+   in both categories and a homomorphism from the smooth and the topological concordance groups
+   onto `𝔽₂`, the trefoil mapping to 1. Prove the nonsingular
    Hermitian Witt-index theorem (a half-rank isotropic subspace forces equal positive and
    negative indices) and apply it away from 1 and the roots. For concordant K, J, 6.1's slice
    disk of `K#reverse(mirror J)` and 4.3's block-sum comparison, used off both root sets and then
@@ -6477,6 +6491,16 @@ knots only. H_V(ω) denotes the Levine–Tristram form.
   `ω=exp(iπ/3)` the inertia is (2, 1, 1): raw signature `+1`, both sides `0` (by evaluation).
 - *No unit roots.* The figure-eight has no unit Alexander roots, `t + t⁻¹ = 3 > 2`, and its raw
   and averaged signature functions are identically zero (by evaluation).
+- *Arf against signatures.* The figure-eight's Seifert matrix `[[1,1],[0,−1]]` gives
+  `q = x² + xy + y²` mod 2, whose three nonzero classes all have `q = 1`, so no q-zero line
+  exists and its Arf invariant is 1 (`Δ(−1) = 5`): item 5 shows it is not slice although every
+  signature above vanishes (by evaluation).
+- *Saturation.* For the slice square knot `T # T̄` with Seifert matrix
+  `[[−1,1],[0,−1]] ⊕ [[1,−1],[0,1]]`, the summand `P = ⟨e₁+e₃, e₂+e₄⟩` has all four Seifert
+  values `−1+1`, `1−1`, `0+0`, `−1+1` equal to 0, and reduces to a q-zero plane in `𝔽₂⁴`: Arf
+  `1 + 1 = 0`. The sublattice `2P` is isotropic as well but reduces to 0 mod 2, so the Arf
+  statement needs the primitive summand, not only an isotropic lattice of rank g′ (by
+  evaluation).
 
 [Conway, §§2.1–2.4](https://arxiv.org/html/1903.04477v1#S2) records the raw/averaged
 distinction; the knot surface-exterior and zero-surgery route is [Powell,
@@ -6485,7 +6509,8 @@ distinction; the knot surface-exterior and zero-surgery route is [Powell,
 *Needs:* native `TauCeti.KnotTheory.TristramLevine.Basic`, `.Alexander`,
 `.SEquivalence`; `TauCeti.Analysis.Matrix.HermitianSignature`; Mathlib's finite
 Hermitian spectral theorem, polynomial roots and `Circle.exp`; 1.3, 1.5, Layer 2
-(including 2.1's normal-bundle statement), 4.3, 4.4 and 6.1; Mathlib's singular homology.
+(including 2.1's normal-bundle statement), 4.3, 4.3.1 (the knot Arf invariant and its
+half-dimensional criterion, for item 5's Arf statement), 4.4 and 6.1; Mathlib's singular homology.
 
 ### 6.3 Mutation and the Conway knot
 
@@ -6632,7 +6657,8 @@ the link pairs of a subcomplex) and the smoothing input as stated, for the PL st
 ### Examples
 
 The product concordance; the slice square knot; the trefoil signature `−2` and the averaged
-signature `−1` at its Alexander root; the Kinoshita–Terasaka and Conway mutants, separated by
+signature `−1` at its Alexander root; the figure-eight knot, of vanishing signatures and Arf
+invariant 1, hence not slice; the Kinoshita–Terasaka and Conway mutants, separated by
 smooth concordance assuming Hypothesis 6.3; the positive-clasped untwisted Whitehead double of
 the right-handed trefoil, topologically slice by Freedman's theorem and, assuming Hypothesis
 6.4, not smoothly slice.
@@ -6640,9 +6666,9 @@ the right-handed trefoil, topologically slice by Freedman's theorem and, assumin
 ### Dependencies
 
 Tau Ceti's concordance and slice carriers and matrix signatures; Layer 4 (knots, Seifert
-matrices, polynomials), Layer 1.3 (gluing concordances), Layer 2 (locally flat discs); for the
-reduction of Levine's theorem in 6.4, Layer 5.2 (surgery), and for its PL form Layer 11.3 (PL
-structures).
+matrices, polynomials, 4.3.1's knot Arf invariant), Layer 1.3 (gluing concordances), Layer 2
+(locally flat discs); for the reduction of Levine's theorem in 6.4, Layer 5.2 (surgery), and
+for its PL form Layer 11.3 (PL structures).
 
 ## Layer 7: hyperbolic structures, volume and rigidity
 
@@ -7983,12 +8009,13 @@ for Layer 11.2.1; Mathlib CW complexes.
   compact surfaces of its LV.5, §§5.9–5.12.
 - **KhovanovHomology** and **CombinatorialHeegaardFloer** consume Layer 4's geometric and
   combinatorial presentations and the comparison theorems between them.
-- **FourManifolds** consumes Layers 1, 2 and 6, Layer 4.3.1's finite quadratic Arf algebra and
-  its knot and proper-link Arf invariant (independence of the surface, additivity and the
+- **FourManifolds** consumes Layers 1, 2, 3, 5 and 6, Layer 4's Seifert surfaces, Seifert
+  matrices and Alexander polynomial, Layer 4.3.1's finite quadratic Arf algebra and its knot
+  and proper-link Arf invariant (independence of the surface, additivity and the
   determinant–Arf criterion, with 4.5.3's signed congruence `Δ_K(−1) ≡ 1 − 4·Arf(K) mod 8`),
-  and adds their vanishing on smoothly and topologically slice knots (its §§1.4 and 3.6); it
-  owns the four-dimensional theorems this roadmap states (the dimension-four annulus theorem
-  and Freedman's theorem).
+  and Layer 6.2.1's vanishing of the knot Arf invariant on smoothly and topologically slice
+  knots (item 5); it owns the four-dimensional theorems this roadmap states (the
+  dimension-four annulus theorem and Freedman's theorem).
 - **TemperleyLiebOperatorAlgebras** consumes Layer 4.5.3's finite algebraic
   Clifford map, scalar trace, radical quotient, coordinate inclusions and braid phases, and
   Layer 4's Jones polynomial of braid closures; its §1.7 adds the analytic adjoint, the
@@ -8009,7 +8036,8 @@ for Layer 11.2.1; Mathlib CW complexes.
 
 - A. Pyronneau, *The Arf and Rohklin’s invariant*, January 2024,
   [institutional notes](https://web.ma.utexas.edu/SMC/2024/Rokhlin_s_Invariant.pdf),
-  §2.1, Lemmas 2.11–2.13, Corollary 2.14 and Theorem 2.15, pp.4–5.
+  §2.1, Lemmas 2.11–2.13, Corollary 2.14 and Theorem 2.15, pp.4–5 (Layer 4.3.1); Corollary
+  2.19, p. 6 (Layer 6.2.1).
 
 - R. Kirby (ed.), *Problems in Low-Dimensional Topology*, in *Geometric Topology* (Athens,
   GA, 1993), AMS/IP Stud. Adv. Math. 2.2 (1997): Problems 1.15 (Property P), 1.16 (Property
