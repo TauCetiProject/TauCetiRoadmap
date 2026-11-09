@@ -1776,8 +1776,9 @@ The defining objects have the following API.
 - At v=1,m=1, E=[[0,1],[0,0]], F=[[0,0],[1,0]], H=diag(1,−1); [E,F]=H and [H,E]=2E.
 - At v=1,m=2, F coefficients are 1,2,0 and E coefficients 0,2,1; [E,F]=diag(2,0,−2). The map to V(2) sends v₀,v₁,v₂ to w₀,2w₁,w₂, and F v₀=v₁ goes to 2w₁=f·w₀=(2−0)w₁; the unscaled identity v_j↦w_j would send F v₀ to w₁≠2w₁. At m=0 all three matrices are zero.
 - The Laurent expression [2]_v=v+v⁻¹ specializes to 2, while the totalized rational formula at v=1 gives 0/0=0. Only the Laurent-family specialization gives the classical action.
+- In the divided-power basis u₀,u₁,u₂ of L_2^+ the F coefficients are `1, 1+q²` and the E coefficients `q+q⁻¹, q⁻¹`; with v₀=u₀, v₁=u₁, v₂=q u₂ they become `[1]_q, [2]_q` and `[2]_q, [1]_q`, the ladder coefficients of §8.2. At q=1/2, reading u_i as v_i would give `F v₁=(5/4)v₂` instead of `[2]_q v₂=(5/2)v₂`; evaluated as Laurent polynomials at 1, both sets of coefficients are the classical 1,2 and 2,1 of the v=1, m=2 Check.
 
-*Needs:* §8.2; Tau Ceti `QuantumGroups/UqSl2/ClassicalSpecialization.lean` and `Algebra/Lie/Sl2/Standard.lean`; Mathlib LaurentPolynomial, LieModule, sl and IsSl2Triple; RepresentationTheory/LieHighestWeight Layer 0. Virelizier Example 3.3 gives the Laurent form of the ladder.
+*Needs:* §8.2; Tau Ceti `QuantumGroups/UqSl2/ClassicalSpecialization.lean` and `Algebra/Lie/Sl2/Standard.lean`; Mathlib LaurentPolynomial, LieModule, sl and IsSl2Triple; RepresentationTheory/LieHighestWeight Layer 0. Virelizier §4.1, p.13, writes its L(m), which is L_m^+ here, in the divided-power basis `u_i=F^i u_0/(i)_q!`, with `F u_i=(i+1)_q u_(i+1)` and `E u_i=q^(1−m)(m−i+1)_q u_(i−1)`, where for t≥1 the coefficient `(t)_q=1+q²+⋯+q^(2t−2)=q^(t−1)[t]_q` is a polynomial in q and `(i)_q!=(1)_q⋯(i)_q`; the ladder basis here is `v_i=q^(i(i−1)/2)u_i`, in which these coefficients become `[i+1]_q` and `[m−i+1]_q`. The Laurent family over ℤ[v,v⁻¹] and its specialization at v=1 are derived here.
 
 ### Examples
 
