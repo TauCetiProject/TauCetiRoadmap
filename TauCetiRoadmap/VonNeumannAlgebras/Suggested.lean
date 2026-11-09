@@ -268,17 +268,20 @@ def IsTypeIIOne (M : VonNeumannAlgebra H) : Prop :=
 def IsTracialState (M : VonNeumannAlgebra H) (τ : M.toStarSubalgebra →ₗ[ℂ] ℂ) : Prop :=
   τ 1 = 1 ∧ (∀ x, 0 ≤ τ (star x * x)) ∧ ∀ x y, τ (x * y) = τ (y * x)
 
-/-- **Uniqueness of the trace on a factor.** A factor has at most one tracial state: on a finite
-factor by the Dixmier approximation theorem, and an infinite factor has none since `1` is the sum
-of two projections equivalent to `1` (README, V5.Dixmier). No normality is assumed. -/
+/-- **Uniqueness of the trace on a factor.** A factor has at most one tracial state. A tracial
+state is norm continuous and unitarily invariant, so it is constant on the norm-closed convex hull
+`K(x)` of the unitary conjugates of `x` and takes the value `α` at `x` whenever `α • 1 ∈ K(x)`;
+such an `α` exists by Dixmier's averaging theorem (README, V5.Dixmier; Anantharaman–Popa, Theorem
+6.4.1, p. 93). No normality is assumed. -/
 theorem tracialState_unique {M : VonNeumannAlgebra H} (hM : IsFactor M)
     {τ₁ τ₂ : M.toStarSubalgebra →ₗ[ℂ] ℂ} (h₁ : IsTracialState M τ₁)
     (h₂ : IsTracialState M τ₂) : τ₁ = τ₂ := by
   sorry
 
 /-- **Existence of the trace on a II₁ factor.** A type II₁ factor has a faithful normal tracial
-state, constructed from the Dixmier centre-valued trace (README, V5.Dixmier; Peterson, Theorem
-4.7.10, p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 95). By `tracialState_unique` it is the only
+state, the scalar form of the faithful normal centre-valued trace of a finite von Neumann algebra
+(README, V5.Dixmier; Peterson, Theorem 4.7.10, p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 95).
+By `tracialState_unique` it is the only
 tracial state, so every tracial state of a II₁ factor is normal and faithful. -/
 theorem exists_faithful_tracialState {M : VonNeumannAlgebra H} (hM : IsTypeIIOne M) :
     ∃ τ : M.toStarSubalgebra →ₗ[ℂ] ℂ,
