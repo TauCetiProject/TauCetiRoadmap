@@ -80,8 +80,9 @@ convergence of its positive part on the outer disc and of its negative part off 
 the splitting of the function as their sum, and the uniqueness of the coefficients and of the
 splitting. Layers 2.5 and 4.1 consume it.
 
-The native sine product, the paired cotangent series and the exponential finite-product
-majorant are supplied results; Layers 1 and 6 consume them and do not prove them again. The
+The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series
+and the exponential finite-product majorant are supplied results; Layers 1 and 6 consume them
+and do not prove them again. The
 sharp finite-product inequality of Layer 1.4 is a distinct target.
 
 ## Conventions
@@ -280,6 +281,10 @@ coefficient of `X^(k+1)` is `(2πi)⁻¹ ∮_{|z−a|=ρ} (z − a)^k f(z) dz` f
 `ρ > 0`), with the canonical finite Laurent data
 `TauCeti.Contour.exists_laurent_data_of_meromorphicAt` of
 `TauCeti/Analysis/Contour/MeromorphicLaurent.lean`.
+Use `TauCeti.hasSum_cotTerm_two_mul` from
+`TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
+complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
+sum `π cot(πz) − (π/2) cot(πz/2)`; the poles `±(2n+1)` are paired.
 Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
 `Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
 `TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
@@ -1789,9 +1794,18 @@ The respective simple zero sets are `ℤ` and `ℤ+1/2`. The paired cotangent se
 Prove that the paired series converges locally uniformly on `ℂ\ℤ`, from compact-dependent
 `O(n⁻²)` bounds on `2z/(z² − n²)` (Mathlib's local uniform summability of the paired terms,
 `summableLocallyUniformlyOn_iteratedDerivWithin_cotTerm`, concerns derivatives of order at
-least one on the upper half-plane), and that its residue at each integer is `1`. The
-half-integer shift gives `-π tan(πz)` with simple poles of residue `1` at `ℤ+1/2`; state its
-symmetric pairing and local-uniform domain.
+least one on the upper half-plane), and that its residue at each integer is `1`.
+The half-integer shift is the expansion, for every `z ∉ ℤ+1/2`,
+`−π tan(πz) = Σ_(n≥0) (1/(z−(n+1/2)) + 1/(z+(n+1/2))) = Σ_(n≥0) 2z/(z² − (n+1/2)²)`,
+with the poles `n+1/2` and `−(n+1/2)` paired. Prove that this series converges locally uniformly
+on `ℂ\(ℤ+1/2)`, from compact-dependent `O(n⁻²)` bounds on `2z/(z² − (n+1/2)²)`, and that
+`−π tan(πz)` has a simple pole of residue `1` at each point of `ℤ+1/2`. Off `(1/2)ℤ` the
+pointwise identity is Tau Ceti's `TauCeti.hasSum_cotTerm_two_mul` at the argument `2z`: its
+terms there are half the paired terms above, and its sum `π cot(2πz) − (π/2) cot(πz)` equals
+`−(π/2) tan(πz)` by `cot(2w) = (cot w − tan w)/2`. At an integer, where `2z ∈ ℤ` and that
+theorem does not apply, both sides vanish, and the identity follows there by continuity from the
+local uniform convergence. The targets are the local uniform convergence, the residues and the
+identity at the integers.
 Also prove the one-sided genus-one product
 `∏_{n≥1}(1+z/n)e^{-z/n}`: it converges locally uniformly and its zeros are exactly the negative
 integers. Also prove the all-z identity
@@ -1849,16 +1863,24 @@ proof or global product API.
   −πi, the limit of π cot(πiy)=−iπ coth(πy).
 - Near z=1/2, −π tan(πz) behaves like 1/(z−1/2), residue 1; a sign error in the shift
   (π tan(πz)) would give residue −1.
+- At z=1/4 the paired half-integer sum is −π tan(π/4)=−π; the sign error π tan(πz) would give
+  π. At z=1 the paired sum is 0, the value −π tan(π) at an integer; there 2z=2 is an integer,
+  Tau Ceti's odd-pole series does not apply, and the identity comes from continuity.
+- At z=0.3+0.2i both −π tan(πz) and the paired sum are ≈−1.879044−3.189816i, and
+  π cot(2πz)−(π/2) cot(πz)≈−0.939522−1.594908i is half of it; the one-sided series
+  Σ_(n≥0) 1/(z−(n+1/2)) diverges like −log N, so the pairing is part of the statement.
 
 The cosine product, the paired cotangent series and the reciprocal-Gamma product are DLMF
-(4.22.2), (4.22.3) and (5.8.2); the one-sided product, the half-integer shift and the
-shifted-sine formula are derived here, with the proofs above, from Layer 1 and the native sine,
-cotangent, Gamma sequence and Euler-constant limits in the supplier contracts; the shift uses
-absolute summability.
+(4.22.2), (4.22.3) and (5.8.2); off `(1/2)ℤ` the half-integer expansion is Tau Ceti's
+`TauCeti.hasSum_cotTerm_two_mul` at `2z`. The one-sided product, the half-integer residues,
+convergence and integer values, and the shifted-sine formula are derived here, with the proofs
+above, from Layer 1 and the native sine, cotangent, Gamma sequence and Euler-constant limits in
+the supplier contracts; the shift uses absolute summability.
 *Needs:* Layer 1, AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization and
 ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, the cotangent
-series `cot_series_rep` with `cotTerm_identity`, Gamma sequence and harmonic-logarithmic limit,
-with the specified nonzero denominators.
+series `cot_series_rep` with `cotTerm_identity`, Tau Ceti's odd-pole cotangent series
+`TauCeti.hasSum_cotTerm_two_mul`, Gamma sequence and harmonic-logarithmic limit, with the
+specified nonzero denominators.
 
 ### 6.2 Theta, hyperbolic sine, divisors, and ratio products
 
@@ -2112,7 +2134,16 @@ p. 23 (rainer line 1216); the finite-cycle generalization uses Tau Ceti's `Cycle
 - With f(z)=z̄ and ξ=0, the boundary integral and the odd area integral ∫1/z are both 0.
 - With f(z)=|z|² and ξ=0, the boundary term is 1 and π⁻¹∫1 dA=1, giving 0=1−1;
   reversing the area sign would give 2.
-- On 1<|z|<2 the index at the hole center is 1−1=0, while the index at 3/2 is 1−0=1.
+- On 1<|z|<2 take `γ₀(t) = 2 exp(i t)` and `γ₁(t) = exp(−i t)` on [0,2π]; γ₁ has sign σ=−1 in
+  ConformalMapping §5.6. Left unreversed, [γ₀]−[γ₁] has index 1−(−1)=2 at the hole center 0.
+  After the reversal the index is 1−1=0 at 0 and 1−0=1 at 3/2, the values the adapter asserts.
+- For D₀={|z|<3} with closed holes of radius 1/2 about 1 and about −1, the index is 0 at each
+  hole center ±1 (one hole term is 1, the other 0), 1−0−0=1 at 0 and at 2i, and 0 at 4; the
+  trace is the three circles, which is ∂Δ.
+- Closed holes of radius 1 about 1/2 and about −1/2 meet (both contain 0), which the
+  disjointness hypothesis excludes. Without it the index at 0 would be 1−1−1=−1, and the point
+  1/2 lies on the circle about −1/2 but in the open hole about 1/2, so it is on the trace and
+  off ∂Δ.
 
 *Needs:* Tau Ceti's `Cycle.green_winding`; for the boundary adapter only, the pinned Jordan
 curve theorem (ConformalMapping §5.3) and ConformalMapping §5.6 (Jordan index); Tau Ceti cycles,
