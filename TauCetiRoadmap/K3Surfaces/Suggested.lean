@@ -4,6 +4,9 @@ import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Graph
+import TauCeti.LinearAlgebra.IntegralLattice.Examples
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.OrthogonalGroup
 
 /-!
 # K3 surfaces: target signatures
@@ -12,7 +15,9 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: algebraic differential/vector-field
 vanishing, the unirationality of a K3 surface with a nonzero vector field in every
 positive characteristic, Picard number 22 for unirational K3 surfaces in every
-characteristic, and integral extension through the discriminant gluing graph.
+characteristic, integral extension through the discriminant gluing graph, and the
+surjectivity of `O(S) → O(q_S)` for the invariant lattice `S ≃ U(2) ⊕ E₈(−2)` of the
+K3 model.
 
 The remaining headlines cannot yet be stated on their geometric carriers:
 * Kählerness, the Hodge diamond, integral (1,1) and projectivity comparisons need
@@ -38,7 +43,7 @@ open CategoryTheory AlgebraicGeometry
 
 universe u
 
-/-! ## Layer 0: Algebraic surfaces and differential vanishing -/
+/-! ## Layer 0: Algebraic surfaces and the early differential theorem -/
 
 /-- An algebraic K3 over an algebraically closed field: a smooth proper geometrically
 integral surface with trivial canonical sheaf and vanishing first structure-sheaf
@@ -82,7 +87,7 @@ theorem finrank_lineBundleClass_eq_twentyTwo_of_unirational
     Module.finrank ℤ (Additive (TauCeti.AlgebraicGeometry.LineBundleClass X)) = 22 := by
   sorry
 
-/-! ## Layer 7: Integral involutions and gluing -/
+/-! ## Layer 7: Integral involutions and free quotients -/
 
 open TauCeti
 
@@ -92,7 +97,8 @@ the graph-glued even unimodular overlattice of `S ⊕ T`: the lattice on `V × W
 orthogonal-sum form whose carrier is the inverse image in the dual of the graph of `γ`. A pair
 of integral isometries `g` of `S` and `h` of `T` extends to an integral isometry of the glued
 lattice, necessarily uniquely, exactly when the induced discriminant actions commute with `γ`
-(Gritsenko–Hulek, §2, p.4; Huybrechts, §14.0.3(vii), p.284 for the K3 model). -/
+(Huybrechts, Lemma 14.2.5 and Proposition 14.2.6, pp.291–292; Huybrechts, §14.0.3(vii),
+p.284 for the K3 model). -/
 theorem gluing_isometry_extension_iff
     {V W : Type*} [AddCommGroup V] [Module ℚ V] [AddCommGroup W] [Module ℚ W]
     (S : IntegralLattice V) (T : IntegralLattice W)
@@ -103,6 +109,22 @@ theorem gluing_isometry_extension_iff
     (∃! F : (S.glueAlongDiscriminant T hS hT γ).Isometry (S.glueAlongDiscriminant T hS hT γ),
         ∀ v w, F (v, w) = (g v, h w)) ↔
       ∀ a, γ (g.discriminantGroupEquiv a) = h.discriminantGroupEquiv (γ a) := by
+  sorry
+
+/-- Let `M = U ⊕ E₈(−1)` be the orthogonal sum of the hyperbolic plane and the negated `E₈`
+root lattice, so that `(2 : ℤ) • M = U(2) ⊕ E₈(−2)` is the invariant lattice of the K3 model.
+For every nondegenerate even lattice `S` with an integral isometry onto `M(2)`, every isometry
+of the discriminant quadratic form of `S` is induced by an integral isometry of `S`: the map
+`O(S) → O(q_S)` is surjective (Gritsenko–Hulek, §2, p.3, from Nikulin's Theorem 3.6.3; the
+route reduces modulo two and uses the generation of the orthogonal group of a nonsingular
+quadratic space in characteristic two by orthogonal transvections, Hunnell–Hutchens–Schwartz,
+§3, p.6). -/
+theorem discriminantOrthogonalHom_surjective_of_isometry_scale_two
+    {V : Type*} [AddCommGroup V] [Module ℚ V] (S : IntegralLattice V) [S.IsNondegenerate]
+    (hS : S.IsEven)
+    (e : S.Isometry ((2 : ℤ) •
+      IntegralLattice.hyperbolicPlane.orthogonalSum (-IntegralLattice.typeE₈RootLattice))) :
+    Function.Surjective (IntegralLattice.Isometry.discriminantOrthogonalHom S hS) := by
   sorry
 
 end TauCetiRoadmap.K3Surfaces

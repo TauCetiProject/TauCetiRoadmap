@@ -128,8 +128,13 @@ O(L)→O(q_L), in TauCeti/LinearAlgebra/IntegralLattice/Discriminant/OrthogonalG
 with kernel `TauCeti.IntegralLattice.Isometry.discriminantKernel`
 (`TauCeti.IntegralLattice.Isometry.ker_discriminantOrthogonalHom`); the rescaled lattice
 L(n) is `TauCeti.IntegralLattice.scale`, whose dual carrier is n⁻¹ times that of L
-(`TauCeti.IntegralLattice.dualCarrier_smul`). Tau Ceti supplies the homomorphism and
-its kernel, not its surjectivity, which §7.1 proves for the one lattice used here.
+(`TauCeti.IntegralLattice.dualCarrier_smul`), and the negation −L is the rescaling by −1.
+The lattice M=U⊕E₈(−1) is the orthogonal sum `TauCeti.IntegralLattice.orthogonalSum` of
+`TauCeti.IntegralLattice.hyperbolicPlane` (Examples.lean, Gram matrix (0,1;1,0) on ℚ²) and
+the negation of `TauCeti.IntegralLattice.typeE₈RootLattice` (RootLattice/TypeE/Basic.lean,
+the positive definite Gram lattice of the E₈ Cartan matrix on ℚ⁸). Tau Ceti supplies the
+homomorphism and its kernel, not its surjectivity, which §7.1 proves for the one lattice
+used here.
 
 Use `TauCeti.IntegralLattice`, `TauCeti.IntegralLattice.Isometry`,
 `TauCeti.IntegralLattice.IsNondegenerate`,
@@ -209,8 +214,9 @@ Layer 5 realizes local chains of twistor lines; Layer 6 proves global periods,
 Torelli and the full cone theorem. Layer 7 combines this geometry with integral
 gluing to realize and classify free involutions. The acceptance statements are
 `algebraicK3_differential_vanishing`, `unirational_of_nontrivial_vectorField`,
-`finrank_lineBundleClass_eq_twentyTwo_of_unirational` and `gluing_isometry_extension_iff`;
-Suggested.lean lists the geometric headlines whose carriers are not yet available.
+`finrank_lineBundleClass_eq_twentyTwo_of_unirational`, `gluing_isometry_extension_iff` and
+`discriminantOrthogonalHom_surjective_of_isometry_scale_two`; Suggested.lean lists the
+geometric headlines whose carriers are not yet available.
 
 ## Layer 0: Algebraic surfaces and the early differential theorem
 
@@ -874,8 +880,9 @@ L=`TauCeti.IntegralLattice.glueAlongDiscriminant` of S and T along γ: the latti
 S_ℚ×T_ℚ with the orthogonal-sum form whose carrier is the inverse image of the graph
 Γ_γ={(a,γa)} in S*⊕T*. This general statement applies to the K3 model through the
 identification of Λ with that lattice above; it is not restricted to discriminant
-exponent two (Huybrechts draft §14.0.3(vii), p.284 for the model;
-Gritsenko–Hulek v2, §2, p.4 for extension). For g∈O(S), h∈O(T), construct the unique integral extension to L iff γ∘ḡ=h̄∘γ. Prove both directions on the actual inverse image of the graph inside S*⊕T*, preserve the embedding, and give restriction/extension composition and inverse equations. A route: the candidate extension is the restriction of `TauCeti.IntegralLattice.Isometry.orthogonalSum` g h, whose action on A_S×A_T is (ḡ,h̄) componentwise (`TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum`). It carries Γ_γ onto itself exactly when γḡ=h̄γ. In that case `TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` restricts it to L. Conversely, an extension preserves the carrier of L, so by `TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv` the discriminant action of g⊕h preserves Γ_γ. A pair of rational isometries with matching ranks is insufficient.
+exponent two (Huybrechts draft §14.0.3(vii), p.284 for the model; Huybrechts draft
+§14.2.2, Lemma 14.2.5 and Proposition 14.2.6, pp.291–292, for extension, which
+Gritsenko–Hulek v2, §2, p.4 applies to Enriques markings). For g∈O(S), h∈O(T), construct the unique integral extension to L iff γ∘ḡ=h̄∘γ. Prove both directions on the actual inverse image of the graph inside S*⊕T*, preserve the embedding, and give restriction/extension composition and inverse equations. A route: the candidate extension is the restriction of `TauCeti.IntegralLattice.Isometry.orthogonalSum` g h, whose action on A_S×A_T is (ḡ,h̄) componentwise (`TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum`). It carries Γ_γ onto itself exactly when γḡ=h̄γ. In that case `TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` restricts it to L. Conversely, an extension preserves the carrier of L, so by `TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv` the discriminant action of g⊕h preserves Γ_γ. A pair of rational isometries with matching ranks is insufficient.
 
 The integral involution and eigensublattice API is:
 
@@ -884,7 +891,8 @@ The integral involution and eigensublattice API is:
 - Rational eigenspace projections are (1+ι)/2 and (1−ι)/2, with sum id and
   product zero; their denominators do not assert integral splitting.
 - Restriction and gluing are inverse on compatible pairs; extensions respect
-  composition and inversion (Gritsenko–Hulek v2, §2, pp.3–4).
+  composition and inversion (Huybrechts draft §14.2.2, Lemma 14.2.5 and
+  Proposition 14.2.6, pp.291–292).
 
 **Checks.**
 
@@ -927,9 +935,14 @@ surjective: every isometry of the discriminant quadratic form of S is induced by
 integral isometry of S. Deduce, through g↦id_U⊕g, that O(T)→O(q_T) is surjective,
 and that its restriction to O⁺(T) is too, because −id_U⊕id_S acts trivially on
 A_T=A_S and reverses the orientation of positive two-planes, so exchanges the two
-components of the period domain of T. Both surjections are stated in
+components of the period domain of T. The surjections for S and T are stated in
 Gritsenko–Hulek v2, §2, p.3, as consequences of Nikulin's Theorem 3.6.3, whose
-general form is not an input here. The route: the dual of S is ½M
+general form is not an input here. State the first as
+`discriminantOrthogonalHom_surjective_of_isometry_scale_two`, for every nondegenerate even
+lattice S given with an integral isometry onto the rescaling by 2 of the orthogonal sum
+of `TauCeti.IntegralLattice.hyperbolicPlane` and the negation of
+`TauCeti.IntegralLattice.typeE₈RootLattice`, so that it applies to the invariant
+sublattice of Λ through its identification with U(2)⊕E₈(−2). The route: the dual of S is ½M
 (`TauCeti.IntegralLattice.dualCarrier_smul`), and x/2↦x mod 2M
 identifies A_S with the ten-dimensional 𝔽₂-space M/2M, carrying q_S to Q/2 for the
 form Q(x̄)=B(x,x)/2 mod 2, whose polar form B mod 2 is nondegenerate because M is
@@ -950,7 +963,9 @@ The discriminant-surjectivity API is:
   reduce to identities, composites and inverses.
 - The reflection in a root r of M acts on A_S as the orthogonal transvection in
   r̄, and every class with Q=1 is the class of a root.
-- O(S)→O(q_S), O(T)→O(q_T) and O⁺(T)→O(q_T) are surjective, so O(q_S) is the
+- O(S)→O(q_S) is surjective for every even S isometric to M(2)
+  (`discriminantOrthogonalHom_surjective_of_isometry_scale_two`), and so are
+  O(T)→O(q_T) and O⁺(T)→O(q_T); hence O(q_S) is the
   quotient of O(S) by its discriminant kernel; O(q_S) is the orthogonal
   group of a ten-dimensional 𝔽₂-quadratic space of plus type (a sum of five
   hyperbolic planes), of order
@@ -987,7 +1002,9 @@ Tau Ceti `TauCeti.IntegralLattice.glueAlongDiscriminant` and
 `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant` for the glued lattice and the
 identification of Λ with it, and `TauCeti.IntegralLattice.Isometry.orthogonalSum`,
 `TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum` and
-`TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` for the extension route; IntegralLattices §§0G, 1E–1F and 5J for U, E₈(−1), the K3
+`TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` for the extension route;
+`TauCeti.IntegralLattice.hyperbolicPlane`, `TauCeti.IntegralLattice.typeE₈RootLattice` and
+`TauCeti.IntegralLattice.orthogonalSum` for M=U⊕E₈(−1); IntegralLattices §§0G, 1E–1F and 5J for U, E₈(−1), the K3
 graph identification and its 2-elementary invariants; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup` and
 `TauCeti.QuadraticMap.reflectionOrthogonal` for the 𝔽₂-quadratic space M/2M and its
 transvections, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` and its kernel
