@@ -15,8 +15,9 @@ inertia and wild inertia as its terms at `0` and `0+`, the transition function `
 finite separable extension with the open-subgroup identity, and the comparison with the
 completed maximal unramified extension. On a nonarchimedean local field each object is the
 completed roadmap's, and the agreement is a target here. The package is the ramification theory
-that `p`-adic Hodge theory, integral `p`-adic Hodge theory and the unit-filtration form of local
-class field theory consume over bases such as `F̄_p((t))` and `Frac W(F̄_p)`.
+that `p`-adic Hodge theory, integral `p`-adic Hodge theory, the conductors of Galois
+representations and the unit-filtration form of local class field theory consume over bases such
+as `F̄_p((t))` and `Frac W(F̄_p)`.
 
 | Layer | Title | What it builds |
 |---|---|---|
@@ -1068,15 +1069,26 @@ prerequisite targets, then the theorem) → §4a.1 → §4a.2 → §4a.3.
 
 PadicPeriodRings consumes §§3a.1–3a.3 (the lower numbering, Herbrand functions and Hasse–Arf
 over a general complete discretely valued field with perfect residue field, and the proalgebraic
-unit groups of §3a.3 on which it builds geometric reciprocity) and §§4a.1 and 4a.3 (inertia and
-the completed maximal unramified base change) for its Sen tower estimates and completed
-unramified descent. ClassFieldTheory consumes §4a.1 (the absolute upper filtration with its
-finite projections) for the reciprocity–filtration compatibilities over a perfect residue field.
-PadicExtensionFamilies consumes §4a.2 (`ψ_(L/K)` of a finite separable extension of
-nonarchimedean local fields, with its independence of the Galois closure, tower law, finite-level
-subgroup identity and integral formula) for the breaks of a separable extension in its Layer 2
-and its polygon-to-break theorem. Integral `p`-adic Hodge theory and `p`-adic Galois
-representations over `F̄_p((t))` and `Frac W(F̄_p)` reach the package through PadicPeriodRings.
+unit groups of §3a.3 on which it builds geometric reciprocity) and §§4a.1–4a.3 (the absolute
+upper filtration with inertia, the transition functions `ψ_(L/K)` of finite separable extensions
+and the completed maximal unramified base change) for its eventual upper-break spacing, Sen tower
+estimates and completed unramified descent. ArithmeticGaloisRepresentations consumes §§3a.1–3a.3
+and 4a.1–4a.3 directly (Hilbert's different formula, Herbrand functions and tower transitivity,
+Hasse–Arf, the absolute upper filtration with `G_K^0` inertia and `G_K^(0+)` wild inertia, the
+transition functions on open subgroups and the completed maximal unramified comparison) for
+representation breaks and Swan conductors over complete discretely valued fields with arbitrary
+perfect residue field, in both characteristics. ClassFieldTheory consumes §4a.1 (the absolute
+upper filtration with its finite projections) for the reciprocity–filtration compatibilities over
+a perfect residue field. PadicExtensionFamilies consumes §4a.2 (`ψ_(L/K)` of a finite separable
+extension of nonarchimedean local fields, with its independence of the Galois closure, tower law,
+finite-level subgroup identity and integral formula) for the breaks of a separable extension in
+its Layer 2 and its polygon-to-break theorem. FilteredLocalGaloisGroups and FieldOfNorms consume
+§§4a.1–4a.2 on nonarchimedean local fields (the absolute upper filtration with its finite
+projections and inertia, `ψ_(L/K)` with its tower law, the open-subgroup identity
+`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` and the integral formula), the first for the upper filtration of
+the absolute Galois group and of its solvable quotients, the second for arithmetically profinite
+extensions and their fields of norms. Integral `p`-adic Hodge theory reaches the package through
+PadicPeriodRings.
 
 ## References
 
