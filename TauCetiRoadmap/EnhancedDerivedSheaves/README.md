@@ -947,7 +947,7 @@ Provide *QuasicoherentDerived*, *quasicoherentDerived_affine* and *PerfectDerive
 **Checks.**
 
 - `O_{Spec R}` corresponds to `R[0]`.
-- For a field k, applying the shift `⟦1⟧` of `D(k)` before `F` gives another equivalence of the type of `Coherent.DQCoh.affineEquiv`. It sends `k[0]` to `O_X[1]`, whose cohomology sheaf in degree `−1` is `O_X`, while `k[0]~` has zero cohomology there. So it admits no natural isomorphism with termwise `M ↦ M~`, and it is not `a_k`.
+- For a field k, `F′`, the shift `⟦1⟧` of the derived category of `HasDerivedCategory.standard (ModuleCat k)` followed by `F`, is another equivalence of the type of `Coherent.DQCoh.affineEquiv`. It sends `k[0]` to `O_X[1]`, whose cohomology sheaf in degree `−1` is `O_X`, while `k[0]~` has zero cohomology there. So `F′` admits no natural isomorphism with termwise `M ↦ M~` and cannot replace `F` in `a_k`. The shift is taken in the standard derived category, the source of `F`: the shift of `D(k)` under the instance of Section 0.1 lands in a different category, so `F` cannot follow it.
 - The zero complex is quasicoherent and perfect.
 - On `Spec ℤ, ⊕_{n∈ℕ} ℤ[0]` is quasicoherent but not perfect.
 
@@ -1018,10 +1018,10 @@ pp. 144–147; K-flat resolutions and tensor invariance are Lemmas 15.60.7, 15.6
 - For `R = ℤ` and `K = L = 𝔽_p, p` prime, the module side has cohomology `𝔽_p` and
   the sheaf side has cohomology sheaves `(𝔽_p)~`, in degrees `−1` and 0 on both;
   the affine comparison retains the Tor term of `[ℤ →p ℤ]`.
-- For a field k, the equivalence `a′` that applies the shift `⟦1⟧` before the
-  equivalence of `Coherent.DQCoh.affineEquiv` has the same type as `a_k` but admits no
-  such comparison: `a′(k ⊗ᴸ_k k) = a′(k) = O_X[1]` has cohomology sheaf `O_X` in
-  degree `−1`, while `a′(k) ⊗ᴸ_(O_X) a′(k) = O_X[2]` has none there. The comparison is
+- For a field k, the equivalence `a′`, the instance comparison of Section 0.1 followed
+  by the equivalence `F′` of the E1.8 Checks (the shift `⟦1⟧` of the standard derived
+  category followed by `F`), has the same type as `a_k` but admits no such comparison:
+  `a′(k ⊗ᴸ_k k) = a′(k) = O_X[1]` has cohomology sheaf `O_X` in degree `−1`, while `a′(k) ⊗ᴸ_(O_X) a′(k) = O_X[2]` has none there. The comparison is
   stated for `a_k` only.
 - For a flat R-module M and an R-module N in degree zero, the comparison identifies
   their derived tensor with the sheaf associated to `M ⊗_R N` in degree zero.
