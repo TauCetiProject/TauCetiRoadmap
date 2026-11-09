@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.Split
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
+public import TauCeti.CategoryTheory.GrothendieckGroup.Split
 
 /-!
 # Algebraic K-theory in low degrees: target signatures
@@ -44,6 +46,8 @@ Headline theorems of the roadmap that are not statable at the pins:
   a README target, and neither library has the stable component group.
 -/
 
+@[expose] public section
+
 namespace TauCetiRoadmap.AlgebraicKTheory
 
 open Matrix
@@ -66,7 +70,9 @@ abbrev KZero (R : Type u) [Ring R] :=
 theorem kZero_divisionRing (D : Type u) [DivisionRing D] :
     ∃ e : KZero D ≃+ ℤ,
       e (TauCeti.SplitK0.of
-        (⟨ModuleCat.of Dᵐᵒᵖ Dᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight D)) =
+        (⟨ModuleCat.of Dᵐᵒᵖ Dᵐᵒᵖ,
+          TauCeti.finiteProjectiveModules_iff.mpr ⟨inferInstance, inferInstance⟩⟩ :
+          FiniteProjectiveRight D)) =
         1 := by
   sorry
 
@@ -75,7 +81,9 @@ theorem kZero_divisionRing (D : Type u) [DivisionRing D] :
 theorem kZero_int :
     ∃ e : KZero ℤ ≃+ ℤ,
       e (TauCeti.SplitK0.of
-        (⟨ModuleCat.of ℤᵐᵒᵖ ℤᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ : FiniteProjectiveRight ℤ)) =
+        (⟨ModuleCat.of ℤᵐᵒᵖ ℤᵐᵒᵖ,
+          TauCeti.finiteProjectiveModules_iff.mpr ⟨inferInstance, inferInstance⟩⟩ :
+          FiniteProjectiveRight ℤ)) =
         1 := by
   sorry
 
@@ -214,7 +222,9 @@ p. 15). -/
 theorem kZero_arithmeticSquare :
     ∃ e : KZero arithmeticSquare ≃+ ℤ × ZMod 2,
       e (TauCeti.SplitK0.of
-        (⟨ModuleCat.of arithmeticSquareᵐᵒᵖ arithmeticSquareᵐᵒᵖ, ⟨inferInstance, inferInstance⟩⟩ :
+        (⟨ModuleCat.of arithmeticSquareᵐᵒᵖ arithmeticSquareᵐᵒᵖ,
+          TauCeti.finiteProjectiveModules_iff.mpr
+            ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
           FiniteProjectiveRight arithmeticSquare)) = (1, 0) := by
   sorry
 
@@ -232,7 +242,8 @@ theorem kZero_cuspSquare :
     ∃ e : KZero cuspSquare ≃+ ℤ × ZMod 5,
       e (TauCeti.SplitK0.of
         (⟨ModuleCat.of cuspSquareᵐᵒᵖ cuspSquareᵐᵒᵖ,
-          ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
+          TauCeti.finiteProjectiveModules_iff.mpr
+            ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
           FiniteProjectiveRight cuspSquare)) = (1, 0) := by
   sorry
 
