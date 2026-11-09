@@ -13,14 +13,15 @@ equivalence relation with a flat projection is effective and `A` is flat over `A
 finite equivalence relation on `𝔸²_k` is not `X ×_Y X` for `Y = Spec A^R`, over every field;
 its restriction to the finite local subscheme `Z = V(f₁², f₂², f₃²)`, `f₁ = x₁²`,
 `f₂ = x₁x₂ - x₂²`, `f₃ = x₂³`, is a closed equivalence relation on a finite local `k`-scheme which
-is not effective, over every field, with an explicit obstruction over `𝔽₃`; and toric equivalence
-relations on affine toric varieties are effective (Raicu 2010). For modules, along any map of
-commutative rings `A → B`: base change is a bijection from `Hom_A(M, N)` onto the morphisms of
-descent data `B ⊗ M → B ⊗ N` for every `M` iff `N → B ⊗ N ⇉ (B ⊗ B) ⊗ N` is an equalizer; this
+is not effective, over every field, with an explicit obstruction over `𝔽₃`; for `k` a field and
+`A = k ⊕ V` with `V` an ideal and `V² = 0`, every equivalence ideal `I` equals `J(B)`; and toric
+equivalence relations on affine toric varieties are effective (Raicu 2010). For modules, along any
+map of commutative rings `A → B`: base change is a bijection from `Hom_A(M, N)` onto the morphisms
+of descent data `B ⊗ M → B ⊗ N` for every `M` iff `N → B ⊗ N ⇉ (B ⊗ B) ⊗ N` is an equalizer; this
 holds for every `N` iff `A → B` is pure, iff extension of scalars is comonadic (the Joyal–Tierney
 theorem, Mesablishvili 2000); the quotient map `A^R → A` satisfies the equalizer for `N = A^R`
-(Mathlib's `Algebra.IsEffective`) for every `I`, and in the flat case modules on `Spec A^R` are
-the modules on `X` with descent data along the quotient map; and `Spec B → Spec A` is a universal
+(Mathlib's `Algebra.IsEffective`) for every `I`, and in the flat case modules on `Spec A^R` are the
+modules on `X` with descent data along the quotient map; and `Spec B → Spec A` is a universal
 effective epimorphism of affine schemes iff `A → B` is pure. The question whether every closed
 equivalence relation on a finite scheme over a field is effective is Grothendieck's (FGA III, §2,
 1961).
@@ -35,13 +36,14 @@ schemes over a ring `k` and its comparison with Mathlib's internal equivalence r
 `Scheme`; the ring of invariants and the difference ideal `J(B)`; the categorical quotient and
 the effectivity criterion for `A` finite over a field; the restriction to closed subschemes;
 Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the non-effective
-relation on a finite local scheme of Layer 3; the Amitsur condition, descent of morphisms of
-modules and the Joyal–Tierney theorem for pure ring maps, with their application to the quotient
-map `A^R → A` and to the universal effective epimorphisms of affine schemes (Layer 4). No roadmap
-on main or in an open pull request states descent along pure maps. Purity itself is
-PerfectoidSpacesPartII's (Owned elsewhere); Layer 4 writes the condition out (`P → B ⊗[A] P`
-injective for every `A`-module `P`). 4.2 extends faithfully flat descent of modules (Mathlib's
-`comonadicExtendScalars`; AlgebraicModuliForArithmeticGeometry §3.1,
+relation on a finite local scheme of Layer 3, and the theorem that every equivalence relation on a
+square-zero extension `k ⊕ V` of a field is given by its invariants (3.2); the Amitsur condition,
+descent of morphisms of modules and the Joyal–Tierney theorem for pure ring maps, with their
+application to the quotient map `A^R → A` and to the universal effective epimorphisms of affine
+schemes (Layer 4). No roadmap on main or in an open pull request states descent along pure maps.
+Purity itself is PerfectoidSpacesPartII's (Owned elsewhere); Layer 4 writes the condition out
+(`P → B ⊗[A] P` injective for every `A`-module `P`). 4.2 extends faithfully flat descent of modules
+(Mathlib's `comonadicExtendScalars`; AlgebraicModuliForArithmeticGeometry §3.1,
 `affineModuleDescentEquivalence`, under Owned elsewhere) to pure ring maps; neither consumes 4.2.
 
 **Owned elsewhere.**
@@ -205,11 +207,12 @@ criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. 
 flat case from Tau Ceti's quotient by a finite locally free equivalence relation. Layer 3 gives the
 examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, which
 answers Grothendieck's question over a field in the negative, an explicit obstruction over `𝔽₃`, and
-Raicu's toric theorem. Layer 4 turns to modules: the Amitsur condition and descent of morphisms
+Raicu's toric theorem; and every equivalence relation on a square-zero extension `k ⊕ V` is given by
+its invariants (3.2). Layer 4 turns to modules: the Amitsur condition and descent of morphisms
 along any ring map, the Joyal–Tierney theorem for pure maps, its application to the quotient
 map `A^R → A`, and the universal effective epimorphisms of affine schemes. The hardest targets are
-1.2 (coequalizers in all schemes, not only affine ones) and 3.4; 3.2 and 3.3 are finite
-computations.
+1.2 (coequalizers in all schemes, not only affine ones) and 3.4; the non-effectivity of 3.2 and the
+obstruction of 3.3 are finite computations.
 
 ## Layer 0: equivalence relations as ideals
 
@@ -480,7 +483,8 @@ every closed equivalence relation on a finite scheme over a field is effective. 
 rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
 divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
 the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
-directly, and ranks do not change under field extension from the prime field.
+directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
+3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
 
 Prove also `eq_differenceIdeal_of_sq_eq_bot`, this roadmap's own: for `k` a field and `A = k ⊕ V`
 (every `a ∈ A` is `c · 1 + v` with `c ∈ k`, `v ∈ V`), `V` an ideal with `V² = 0`, every equivalence
@@ -495,8 +499,8 @@ set of these `a`. Multiplying `z` by `1 ⊗ b` and by `b ⊗ 1`, `b ∈ V`, give
 `V ⊗ k ⊗ V` is `t_a` placed in the outer factors, and that component of `incl₁₂ (I) + incl₂₃ (I)`
 lies in `I₁ ⊗ k ⊗ V + V ⊗ k ⊗ I₁`. So `t_a ∈ T ⊆ I`, every `a ⊗ 1 - 1 ⊗ a` with `a ∈ I₁` lies in
 `I`, and `A^R = k ⊕ I₁`. Then `differenceIdeal I` contains these differences and their products
-`a ⊗ b`, `-b ⊗ a` with `1 ⊗ b`, `b ⊗ 1`, hence contains `I`. *Needs:* 0.1, 0.2, 1.1, 1.3, 3.1,
-Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+`a ⊗ b`, `-b ⊗ a` with `1 ⊗ b`, `b ⊗ 1`, hence contains `I`. *Needs:* 0.1, 1.1; 1.3 to read
+the conclusion as effectivity.
 
 **Checks.**
 
