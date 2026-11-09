@@ -343,7 +343,7 @@ The native headline is `norm_bound`. Its prime ideal I is nonzero and prime, con
 
 ### 2.2 The removed-prime exponent bound
 
-Define `deletionLevel E ℓ`, the deletion level M₀ of the Conventions, for an elliptic curve E over ℚ and a natural number ℓ. With M the absolute norm of Tau Ceti `WeierstrassCurve.algorithmicConductor` over ℤ, the conductor by Ogg's formula, and |Δ| the absolute norm of `WeierstrassCurve.minimalDiscriminantIdeal`, it is M divided by the product of the primes q with ord_q(M)=1 and ℓ | ord_q(Δ); the prime q=ℓ is not excluded ([BS](#references), §2, equation (3), p. 358). The API supplies the following facts, for every ℓ.
+SerreWeightAndLevelOptimisation §6.1 owns the reduced level M₀ of the Conventions. Define `deletionLevel E ℓ` as its rendering on the pinned carriers, needed to state the theorem below, for an elliptic curve E over ℚ and a natural number ℓ. With M the absolute norm of Tau Ceti `WeierstrassCurve.algorithmicConductor` over ℤ, the conductor by Ogg's formula, and |Δ| the absolute norm of `WeierstrassCurve.minimalDiscriminantIdeal`, it is M divided by the product of the primes q with ord_q(M)=1 and ℓ | ord_q(Δ); the prime q=ℓ is not excluded ([BS](#references), §2, equation (3), p. 358). For ℓ≥3 it is the M₀ of §6.1 there. The API supplies the following facts, for every ℓ.
 
 - M₀ divides M, and M/M₀ is a squarefree product of primes of multiplicative reduction.
 - A prime q divides M/M₀ exactly when ord_q(M)=1 and ℓ divides ord_q(Δ); at every prime of additive reduction ord_q(M₀)=ord_q(M).
@@ -359,7 +359,7 @@ Define `deletionLevel E ℓ`, the deletion level M₀ of the Conventions, for an
 
 State `removed_prime_bound`: let E/ℚ be an elliptic curve with conductor M and minimal discriminant Δ, read as above, let ℓ ≥ 3 be a prime with E[ℓ] irreducible, that is `torsionRepresentation E ℓ` irreducible over 𝔽_ℓ, and let p ≠ ℓ satisfy ord_p(M)=1 and ℓ | ord_p(Δ), which forces p to be prime. Then ℓ ≤ (√p + 1)^((M₀+1)/6) with M₀=`deletionLevel E ℓ`, the exponent being a real number. ([BS](#references), §2, Lemmas 2.1–2.2 and proof, p. 359).
 
-*Needs:* §2.0 for E[ℓ]; Layer 1; the norm target; deletion-level-lowering, elliptic-modularity and coefficient-bound contracts; ModularForms §8.2 for the coefficient-field orbit bound; NeronModelsAndSemistableAbelianVarieties §5.3e, Ogg's formula, which identifies the norm of `WeierstrassCurve.algorithmicConductor` with the arithmetic conductor at which elliptic-modularity and deletion-level-lowering are stated.
+*Needs:* §2.0 for E[ℓ]; SerreWeightAndLevelOptimisation §6.1 for M₀; Layer 1; the norm target; deletion-level-lowering, elliptic-modularity and coefficient-bound contracts; ModularForms §8.2 for the coefficient-field orbit bound; NeronModelsAndSemistableAbelianVarieties §5.3e, Ogg's formula, which identifies the norm of `WeierstrassCurve.algorithmicConductor` with the arithmetic conductor at which elliptic-modularity and deletion-level-lowering are stated.
 
 Level lowering at p yields p+1≡±c_p modulo λ. All conjugates satisfy |c_p|≤2√p, so p+1∓c_p is nonzero and its norm has absolute value at most (√p+1)^(2d). Bound d by g⁺(M₀), apply Layer 1, and compare positive real powers. The deleted-prime condition and p≠ℓ are needed before the unramified Frobenius comparison.
 
