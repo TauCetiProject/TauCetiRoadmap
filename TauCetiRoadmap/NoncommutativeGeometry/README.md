@@ -302,7 +302,18 @@ rebuild them.
   (`Analysis/Normed/Algebra/HochschildCohomology/Coboundary`), and
   naturality in bounded bimodule maps of the coefficients,
   `ContinuousLinearMap.hochschildBimoduleCoboundary_compContinuousMultilinearMap`
-  (`…/HochschildCohomology/Coefficients`); for an algebra A over a
+  (`…/HochschildCohomology/Coefficients`); for a bounded bimodule E with
+  left action L and right action R, the dual actions
+  `ContinuousLinearMap.dualAction` on `StrongDual 𝕜 E`, the left action
+  `(a·φ)(x)=φ(x·a)` being `dualAction R` and the right action
+  `(φ·a)(x)=φ(a·x)` being `dualAction L`, with their bimodule laws for
+  associative commuting L and R,
+  `ContinuousLinearMap.dualAction_mul_apply_of_right`,
+  `ContinuousLinearMap.dualAction_mul_apply_of_left` and
+  `ContinuousLinearMap.dualAction_apply_dualAction_apply_comm` and their
+  weak-star continuity in the dual variable
+  `ContinuousLinearMap.continuous_toWeakDual_dualAction`
+  (`Analysis/Normed/Module/Dual/Bimodule`); for an algebra A over a
   commutative semiring R and an R-module N, the dual bimodule
   `A →ₗ[R] N` with `(x·f)(y)=f(yx)` and `(f·x)(y)=f(xy)`, which for N=R
   is `(aφb)(y)=φ(bya)`, and `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`:
@@ -415,7 +426,7 @@ rebuild them.
 
 | Supplier | Interface consumed here |
 | --- | --- |
-| [BanachAlgebras A2, A4, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's cohomology groups `Hⁿ=Zⁿ/Bⁿ` of bounded Hochschild cochains and the compatibility of the bounded coboundary with currying into the Banach dual, with A4's dual-bimodule convention `(a·φ)(x)=φ(xa)`, `(φ·a)(x)=φ(ax)`, consumed by N1.Cyclic. The bounded coboundary itself is Tau Ceti's. N1 owns its resolution comparisons. |
+| [BanachAlgebras A2, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's cohomology groups `Hⁿ=Zⁿ/Bⁿ` of bounded Hochschild cochains and the compatibility of the bounded coboundary with currying into the Banach dual, consumed by N1.Cyclic. The bounded coboundary and the dual actions `ContinuousLinearMap.dualAction`, `(a·φ)(x)=φ(xa)` and `(φ·a)(x)=φ(ax)`, are Tau Ceti's. N1 owns its resolution comparisons. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
 | [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the B(H) inclusions of the quasi-ideals into the Schatten scale; N4 the singular traces. |
 | [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
@@ -615,8 +626,8 @@ coefficients in a bounded bimodule, with its norm bound, δ²=0 and
 coefficient naturality, is the pinned
 `ContinuousLinearMap.hochschildBimoduleCoboundary`; BanachAlgebras A6
 supplies the cohomology groups of bounded cochains and the compatibility
-of that coboundary with currying into the Banach dual under A4's
-dual-bimodule convention, and this roadmap supplies the Fréchet
+of that coboundary with currying into the Banach dual under the pinned
+dual actions `ContinuousLinearMap.dualAction`, and this roadmap supplies the Fréchet
 extensions and their comparison.
 For locally convex A the pinned continuous multilinear cochains carry
 the topology of uniform convergence on products of bounded sets, the
@@ -748,7 +759,7 @@ commutative differential-form cycles with their cyclic characters.
   cocycle, which is why cycles are built on the forced unitization with a
   possibly nonunital ρ.
 
-*Needs:* N1.Tensor; Tau Ceti `UniversalForms`, `cycleCocycle`, `exteriorProductCocycle`, `cyclicCohomology`, `cyclicCohomology.matrixExtension`, `periodicCyclicCohomology`, `continuousCyclicCohomology`, `derivationLieAlgebra ℂ A`, `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary` and `ContinuousLinearMap.hochschildBimoduleCoboundary`; Mathlib `MultilinearMap`, `ContinuousMultilinearMap`, `ChainComplex`, `CochainComplex` and their homology APIs; BanachAlgebras A4, A6.
+*Needs:* N1.Tensor; Tau Ceti `UniversalForms`, `cycleCocycle`, `exteriorProductCocycle`, `cyclicCohomology`, `cyclicCohomology.matrixExtension`, `periodicCyclicCohomology`, `continuousCyclicCohomology`, `derivationLieAlgebra ℂ A`, `TauCeti.multilinearCurryFirstEquiv_hochschildCoboundary`, `ContinuousLinearMap.hochschildBimoduleCoboundary` and `ContinuousLinearMap.dualAction`; Mathlib `MultilinearMap`, `ContinuousMultilinearMap`, `ChainComplex`, `CochainComplex` and their homology APIs; BanachAlgebras A6.
 
 ### Examples
 
@@ -764,9 +775,9 @@ tensors with the binary cross property; Mathlib tensor, seminorm and
 completion APIs; BanachSpaceTheory B4's comparison of the binary and
 finite-family projective norms. N1.Cyclic: N1.Tensor; Tau Ceti's
 universal forms, cyclic, periodic and continuous cyclic cohomology,
-bounded Hochschild coboundary, dual-bimodule currying comparison and
-`derivationLieAlgebra ℂ A`; Mathlib complexes and their homology APIs;
-BanachAlgebras A4, A6.
+bounded Hochschild coboundary, Banach dual actions, dual-bimodule
+currying comparison and `derivationLieAlgebra ℂ A`; Mathlib complexes and
+their homology APIs; BanachAlgebras A6.
 
 ## N2. Cyclic pairings with K-theory
 
