@@ -222,7 +222,12 @@ declarations proved in the pinned Tau Ceti; the file paths are relative to
   `Tame/Quotient.lean`): the ambient model `Field.absoluteGaloisGroup K` on
   `AlgebraicClosure K`, with `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`, their
   finite images `TauCeti.map_inertiaSubgroup_restrictNormalHom` (`G_0`) and
-  `TauCeti.map_wildInertiaSubgroup_restrictNormalHom` (`G_1`), and `TauCeti.tameQuotient`.
+  `TauCeti.map_wildInertiaSubgroup_restrictNormalHom` (`G_1`), their closedness
+  `TauCeti.isClosed_inertiaSubgroup` and `TauCeti.isClosed_wildInertiaSubgroup`, the normality
+  instance `TauCeti.inertiaSubgroup_normal`, the inclusion
+  `TauCeti.wildInertiaSubgroup_le_inertiaSubgroup`, the theorem that wild inertia is pro-`p` for
+  the residue characteristic `p` (`TauCeti.isProP_wildInertiaSubgroup`, under `CharP 𝓀[K] p` for
+  the residue field `𝓀[K]`), and `TauCeti.tameQuotient`.
 
 Those Herbrand objects assume `IsNonarchimedeanLocalField` on both fields,
 `ValuativeExtension K L`, `Module.Finite K L` and `IsGalois K L`; §3a.2 builds the same functions
@@ -752,7 +757,12 @@ subring lying over `A`, every `D_M` is all of `Gal(M/K)` and `O ∩ M` is the in
   in `Gal(M/K) = M ≃ₐ[K] M` is `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u` for
   every `u ≥ −1`, so `G_K^u` is the set of `σ` whose every finite restriction lies in the
   completed roadmap's upper group; and `G_K^0` and `G_K^(0+)` are Tau Ceti's
-  `TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup`.
+  `TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup`, so that there the following
+  statements of the third bullet are the completed roadmap's theorems, which the general
+  statements recover: `G_K^0` is closed and normal (`TauCeti.isClosed_inertiaSubgroup`,
+  `TauCeti.inertiaSubgroup_normal`), `G_K^(0+) ⊆ G_K^0`
+  (`TauCeti.wildInertiaSubgroup_le_inertiaSubgroup`), and, the residue field being finite of
+  characteristic `p > 0`, `P_K` is pro-`p` (`TauCeti.isProP_wildInertiaSubgroup`).
 
 (Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
 clos](#source-serre-sur-les-corps-locaux-à-corps-résiduel-algébriquement-clos), n° 3.1, the
@@ -811,7 +821,8 @@ applied to `M ≃ₐ[K] M` acting on `𝒪[M]`, identifies `Gal(M/K)^u` with
 `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u`, and the finite projections give the
 first agreement; the compatibility of these groups between finite levels is then also Tau Ceti's
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`.
-`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` are fixing subgroups, hence closed,
+`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` are fixing subgroups, hence closed
+(`TauCeti.isClosed_inertiaSubgroup`, `TauCeti.isClosed_wildInertiaSubgroup`),
 with images `G_0` and `G_1` in every finite quotient
 (`TauCeti.map_inertiaSubgroup_restrictNormalHom`,
 `TauCeti.map_wildInertiaSubgroup_restrictNormalHom`), so the same argument identifies them with
@@ -831,7 +842,10 @@ on `P_K`, ProfiniteProPGroups' predicate `TauCeti.IsProP`; for the local-field a
 `TauCeti.finiteIntermediateField_valuativeExtension`, `TauCeti.integerRing_eq_integralClosure`,
 `TauCeti.LocalFieldsRamification.upperRamificationGroup`,
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`, and
-`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` with their finite images.
+`TauCeti.inertiaSubgroup` and `TauCeti.wildInertiaSubgroup` with their finite images and their
+closedness `TauCeti.isClosed_inertiaSubgroup` and `TauCeti.isClosed_wildInertiaSubgroup`; for the
+recovered statements there, `TauCeti.inertiaSubgroup_normal`,
+`TauCeti.wildInertiaSubgroup_le_inertiaSubgroup` and `TauCeti.isProP_wildInertiaSubgroup`.
 
 **Checks.**
 
@@ -1075,7 +1089,8 @@ and `ψ_(L/K)` must return the completed roadmap's finite-level values; `Frac W(
 
 Layer 3a; the completed roadmap, through the Tau Ceti declarations for the local-field structure
 of finite extensions, `TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup` and
-`TauCeti.wildInertiaSubgroup`; Tau Ceti's restriction isomorphism
+`TauCeti.wildInertiaSubgroup` with the closedness, normality, inclusion and pro-`p` theorems
+listed in the supplier contract; Tau Ceti's restriction isomorphism
 `TauCeti.absoluteGaloisGroupRestrictEquiv`, the compactness of `Field.absoluteGaloisGroup K` and
 `TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes`; the completed roadmap ProfiniteProPGroups,
 through its pro-`p` predicate `TauCeti.IsProP`; ReductiveGroupsPartII §RG2.0.4 for
