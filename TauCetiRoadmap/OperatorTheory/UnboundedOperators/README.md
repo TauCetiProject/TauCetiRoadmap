@@ -235,7 +235,7 @@ Let `P` be a normalized PVM on a measurable space `X`, on the carrier `TauCeti.P
 
 ### 1.1 Spectral-integral domain and action (UO-A01)
 
-Define the unbounded integral using the SAST PVM and diagonal scalar measures; prove its exact domain, linearity, action on spectral cutoffs, and norm-square identity (Teschl (2009), §3.1: the domain (3.25), the cutoffs (3.26) and the graph limit (3.27), p.91, and Theorem 3.2, p.92). Teschl states the construction for PVMs on `ℝ`; it uses no property of the measurable space and is carried out here for every `X`. For x in the domain and every y, prove that f is integrable for the variation of the polarized measure `μ_(y,x)=P.polarizedComplexMeasure y x`, with `∫|f| d|μ_(y,x)|≤‖y‖(∫|f|² dμˣ)^(1/2)` from `|μ_(y,x)|(B)≤‖P(B)y‖‖P(B)x‖`, and that `⟪y,f[P]x⟫=∫ f dμ_(y,x)`; with the domain this characterizes `f[P]`. The headline `existsUnique_spectralIntegral` states existence and uniqueness of the partial operator with this domain and these matrix elements, together with density, closedness, the norm-square identity and the adjoint clause of §1.2.
+Define the unbounded integral using the SAST PVM and diagonal scalar measures; prove its exact domain, linearity, action on spectral cutoffs, and norm-square identity (Teschl (2009), §3.1: the domain (3.25), the cutoffs (3.26) and the graph limit (3.27), p.91, and Theorem 3.2, p.92). Teschl states the construction for PVMs on `ℝ` in a separable space (his standing assumption, §1.2, p.42); it uses no property of the measurable space and no separability, and is carried out here for every `X` and every H. For x in the domain and every y, prove that f is integrable for the variation of the polarized measure `μ_(y,x)=P.polarizedComplexMeasure y x`, with `∫|f| d|μ_(y,x)|≤‖y‖(∫|f|² dμˣ)^(1/2)` from `|μ_(y,x)|(B)≤‖P(B)y‖‖P(B)x‖`, and that `⟪y,f[P]x⟫=∫ f dμ_(y,x)`; with the domain this characterizes `f[P]`. The headline `existsUnique_spectralIntegral` states existence and uniqueness of the partial operator with this domain and these matrix elements, together with density, closedness, the norm-square identity and the adjoint clause of §1.2.
 
 *Needs:* Mathlib Lp and scalar integration; Tau Ceti's `TauCeti.ProjValMeasure` API (SelfAdjointSpectralTheory SA-B14, SA-B21, SA-B40, SA-B44–B45 and SA-B49–B53); HilbertModules H6 graph closure.
 
@@ -402,7 +402,7 @@ Construct the normalized PVM on `ℂ`, prove the square-integrability domain and
 
 ### 2.3 Strong commutation (UO-B03)
 
-For self-adjoint `A,B`, prove equivalence of (i) commuting spectral projections `P_A(Ω)`, `P_B(Ω′)` for all Borel sets, (ii) commuting resolvents `R_A(z)`, `R_B(w)` at one pair of resolvent points `z∈ρ(A)`, `w∈ρ(B)`, equivalently at every such pair, and (iii) commuting Stone groups `exp(isA)` and `exp(itB)` for every `s,t` (Teschl (2009), Lemma 4.5, p.116, (4.24)–(4.25), Lemma 4.9 and Problem 4.2, p.117, and (5.5), p.126). Teschl's (4.24) also asks for commutation of `R_A(conj z)` with `R_B(w)`; it follows from commutation at z by Fuglede's theorem (Mathlib's `IsStarNormal.commute_star_right`), since `R_A(z)` is a bounded normal operator with adjoint `R_A(conj z)` (SA-D20). A and B **strongly commute** when these equivalent conditions hold. The headline `commute_resolvent_iff_commute_stoneGroup` states (ii)⇔(iii) at an arbitrary pair `z∈ρ(A)`, `w∈ρ(B)`, real points of the resolvent sets included, for the unitary C₀-groups U and V of Tau Ceti with complex generators `i•A` and `i•B` (so `U(s)=exp(isA)`, `V(t)=exp(itB)`, and A, B are self-adjoint by Stone's theorem); form (i) needs the spectral measures `P_A`, `P_B` of SA-E01. A route for (ii)⇔(iii): apply Teschl's Lemma 4.9, p.117, which characterizes commutation of a bounded operator with a self-adjoint operator through its group, first to the bounded operator `R_B(w)` and A, then to each `exp(isA)` and B, with Fuglede's theorem supplying the conjugate parameters; Lemma 4.9 allows any one resolvent point, real or not, since `λ↦(z−λ)⁻¹` is injective on σ(A). A common invariant graph core with `AB=BA` is still insufficient. Verify Nelson's Section 10 construction below: it gives two self-adjoint closures whose restrictions to the same invariant domain are essentially self-adjoint (hence the domain is a graph core for each), commute there, and have noncommuting Stone groups. The twisted-cylinder example is a separate, simpler dense-invariant-domain contrast; it is not a common graph core for both operators.
+For self-adjoint `A,B`, prove equivalence of (i) commuting spectral projections `P_A(Ω)`, `P_B(Ω′)` for all Borel sets, (ii) commuting resolvents `R_A(z)`, `R_B(w)` at one pair of resolvent points `z∈ρ(A)`, `w∈ρ(B)`, equivalently at every such pair, and (iii) commuting Stone groups `exp(isA)` and `exp(itB)` for every `s,t` (Teschl (2009), Lemma 4.5, p.116, (4.24)–(4.25), Lemma 4.9 and Problem 4.2, p.117, and (5.5), p.126). Teschl's (4.24) also asks for commutation of `R_A(conj z)` with `R_B(w)`; it follows from commutation at z by Fuglede's theorem (Mathlib's `IsStarNormal.commute_star_right`), since `R_A(z)` is a bounded normal operator with adjoint `R_A(conj z)` (SA-D20). A and B **strongly commute** when these equivalent conditions hold. The headline `commute_resolvent_iff_commute_stoneGroup` states (ii)⇔(iii) at an arbitrary pair `z∈ρ(A)`, `w∈ρ(B)`, real points of the resolvent sets included, for the unitary C₀-groups U and V of Tau Ceti with complex generators `i•A` and `i•B` (so `U(s)=exp(isA)`, `V(t)=exp(itB)`, and A, B are self-adjoint by Stone's theorem); form (i) needs the spectral measures `P_A`, `P_B` of SA-E01. A route for (ii)⇔(iii): apply Teschl's Lemma 4.9, p.117, which characterizes commutation of a bounded operator with a self-adjoint operator through its group, first to the bounded operator `R_B(w)` and A, then to each `exp(isA)` and B, with Fuglede's theorem supplying the conjugate parameters. Its inputs are these. `R_A(z)` is the bounded integral of `s↦(z−s)⁻¹` against `P_A` (§1.2, from SA-E05 at a nonreal z; at a real resolvent point `P_A` vanishes on a neighbourhood of z by SA-E08, so the symbol is bounded where `P_A` lives). The Stone group is `U(s)=e^(is·)[P_A]`: these bounded integrals form a unitary C₀-group with complex generator `i•A` (§1.1 and dominated convergence), and Tau Ceti's Stone theorem makes that group unique. A bounded operator C that commutes with `R_A(z)` and `R_A(conj z)` commutes with every bounded Borel `f[P_A]`, in particular with every `P_A(Ω)` and every `U(s)` (Teschl Lemma 4.5, p.116): the ∗-algebra generated by `s↦(z−s)⁻¹` is dense in the continuous functions on σ(A) vanishing at infinity (Teschl Lemma 4.4, p.115, the Stone–Weierstrass theorem `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints` on the one-point compactification of σ(A); one resolvent point, real or not, suffices because `λ↦(z−λ)⁻¹` is injective on σ(A)), and a bounded Borel f is reached from that algebra by approximation in `L²(μ_A^x)` (`MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`). Conversely, a bounded operator commuting with every `U(s)` commutes with the Fourier integrals `J_f` of the next paragraph, whose symbols include all Schwartz functions and are therefore dense in those continuous functions, hence with `R_A(z)`. None of these proofs uses Teschl's standing assumption that Hilbert spaces are separable (§1.2, p.42). A common invariant graph core with `AB=BA` is still insufficient. Verify Nelson's Section 10 construction below: it gives two self-adjoint closures whose restrictions to the same invariant domain are essentially self-adjoint (hence the domain is a graph core for each), commute there, and have noncommuting Stone groups. The twisted-cylinder example is a separate, simpler dense-invariant-domain contrast; it is not a common graph core for both operators.
 
 Fix the Fourier comparison explicitly. With `F_-f(λ)=∫exp(−2πitλ)f(t)dt` and the positive Stone group, define `J_f x=∫f(t)exp(+i2πtA)xdt` as an H-valued Bochner integral for f∈L¹(ℝ). Prove `‖J_f‖≤‖f‖₁` and `J_f=(F_-f)(−A)`; using exp(−i2πtA) instead gives (F_-f)(A). Use scalar spectral-measure Fubini and the existing bounded calculus; operator-norm Bochner measurability of an unbounded-generator group in B(H) is not assumed. In the commutation proof, simple-function approximation is against each finite diagonal spectral measure, or by uniformly bounded pointwise approximants giving strong convergence; exponentials are not Lebesgue-L¹ functions. The generic commutation and norm-square endpoints remain B03/A01. The generator domain is the derivative-limit domain, and the self-adjoint action is `Aψ=−i lim_(t→0)(U(t)ψ−ψ)/t`. The single-convolution set is total; use its linear span for a linear core.
 
@@ -423,7 +423,7 @@ WOT and SOT coincide as relative topologies on the unitary group when the limit 
 
 For the B03 operator example, prove the regular quotient is a Hausdorff, second-countable smooth surface with the displayed translation atlas and descended flat Riemannian metric. Supply its `RiemannianBundle` and `IsContinuousRiemannianBundle` instances, the Borel measurable-space structure with `BorelSpace M`, and `LindelofSpace` from second countability, together with the smooth-manifold instance required by native `TauCeti.riemannianVolume`. Prove the translation-chart orientation and area form `dx∧dy` descend, with its positive measure agreeing with the descended flat Riemannian volume. Translation charts have Gram determinant one, so use the native chart-volume characterization `eq_riemannianVolume_iff` to identify that measure with Lebesgue measure transported from `int M₁`, after removing the finitely many glued boundary arcs and punctures, which are null. Keep completion and genus in the separate UO-B03a acceptance target below. On `H=L²(M,dx dy)` put `D=C_c^∞(M)` and use the chart fields `X₀=∂ₓ`, `Y₀=∂ᵧ`. Prove D dense and invariant, integration-by-parts skew-symmetry and `X₀Y₀=Y₀X₀` there. Own Nelson Lemma 10.1's flow criterion: for a smooth divergence-free field, if the **closures** `E_t,E_(-t)` of the sets where the respective partial flows are undefined are null for some `t>0`, then its restriction to `C_c^∞` is essentially skew-adjoint. Prove this from the measure-preserving partial flows and their contraction extensions. For each `(a,b)`, show those exceptional closures for `aX₀+bY₀` are finite unions of straight segments leading to the removed vertices, in both time directions for each finite t; include vertical directions and the zero field. Thus every real linear combination is essentially skew-adjoint on D. Put `X=cl(X₀)`, `Y=cl(Y₀)`, `A=−iX`, `B=−iY`; prove these are self-adjoint and D is a graph core for each. Their Stone groups are `e^(itA)=e^(tX)` and `e^(isB)=e^(sY)`. Fix the pullback convention `e^(tX)u=u∘φ_t^x`, so supports move by `φ_(-t)^x`, and likewise for Y. Under the pullback convention fixed here, the positive-exponential products `e^Xe^Yu` and `e^Ye^Xu` each have support in `(2,3)×(2,3)`; `(3,3)` is the regular corner of that target square. The distinct-support witness uses inverse flows: for a nonzero smooth u compactly supported in `(0,1)²`, calculate that `e^(-X)e^(-Y)u` is supported in `(0,1)×(1,2)`, while `e^(-Y)e^(-X)u` is supported in `(1,2)×(0,1)`. The nonzero images have disjoint supports, so these groups and hence their spectral PVMs do not commute. This supplies the common invariant graph-core counterexample with essential self-adjointness proved from the flow criterion.
 
-*Needs:* SelfAdjointSpectralTheory SA-D17, SA-D20, SA-E26 and SA-E43; Tau Ceti's unitary C₀-groups and Stone's theorem `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`; Mathlib's Fuglede theorem `IsStarNormal.commute_star_right`; §1.1; PDE integration by parts for the flow example; the translation-surface construction in this section.
+*Needs:* SelfAdjointSpectralTheory SA-D17 and SA-D20; SA-E01 for `P_A` (form (i), and the bounded functions `f[P_A]` of the route); SA-E05 and SA-E08 for the resolvent as a bounded spectral integral; SA-E26 and SA-E43; Tau Ceti's unitary C₀-groups and Stone's theorem `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`; Mathlib's Fuglede theorem `IsStarNormal.commute_star_right`; for Teschl's Lemmas 4.4–4.5, Mathlib's Stone–Weierstrass theorem `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints` and compactly supported approximation `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`; §1.1–§1.2; for the counterexamples and comparisons, Mathlib's closed graph theorem `LinearMap.continuous_of_isClosed_graph`, `banach_steinhaus`, `RiemannianBundle` and `IsContinuousRiemannianBundle`, Tau Ceti's `TauCeti.riemannianVolume` with `eq_riemannianVolume_iff`, PDE integration by parts for the flow example, and the translation-surface construction in this section.
 
 **API.**
 
@@ -493,7 +493,7 @@ The diagonal normal matrix and Pauli pair distinguish normality from commutation
 
 ### Dependencies
 
-Layer 1; SelfAdjointSpectralTheory Stone/resolvent contracts; VonNeumannAlgebras bounded projections; Tau Ceti's finite-CW Euler–Poincaré theorem, cellular incidence numbers and cellular–singular comparison only for §2.4.
+Layer 1; HilbertModules H6 closed adjoints for §2.1; VonNeumannAlgebras V10 polar decomposition and cyclic models for §§2.1–2.2, and V2 bounded projections for §2.5; SelfAdjointSpectralTheory Stone/resolvent contracts SA-D17, SA-D20, SA-E01, SA-E05, SA-E08, SA-E26 and SA-E43; for §2.3, Tau Ceti's unitary C₀-groups and Stone's theorem, Mathlib's Fuglede theorem `IsStarNormal.commute_star_right`, its Stone–Weierstrass theorem and compactly supported L² approximation, and, for Nelson's surface, Mathlib's Riemannian bundles, Tau Ceti's Riemannian volume and PDE integration by parts; Tau Ceti's finite-CW Euler–Poincaré theorem, cellular incidence numbers and cellular–singular comparison only for §2.4.
 
 ## Layer 3: spectrum, spectral types, and pure-point approximation
 
@@ -586,7 +586,7 @@ The rational diagonal has pure-point measure type and nonempty continuous spectr
 
 ### Dependencies
 
-Layer 1, HilbertModules H6 and native scalar Lebesgue decomposition; no separability assumption for the general reducing-subspace split; OperatorKTheory §8.4 only for the bounded comparison of §3.2.
+Layer 1; HilbertModules H6 closed ranges; SelfAdjointSpectralTheory SA-D17–SA-D18 for §3.1, SA-E06 and SA-E07 for §3.3, and the resolvent identity, bounded calculus and SA-E43 for §3.4; for §3.3, Tau Ceti's `TauCeti.ProjValMeasure`, native scalar Lebesgue decomposition and VonNeumannAlgebras V2 orthogonal projection calculus, with no separability assumption for the general reducing-subspace split; Mathlib's countable dense subsets for §3.5; OperatorKTheory §8.4 only for the bounded comparison of §3.2.
 
 ## Layer 4: symmetric operators, deficiency and boundary data
 
@@ -788,6 +788,20 @@ the same lower bound: `T≤S_F` in form order means `dom q_(S_F)⊆dom q_T` and
 `q_T[u]≤q_(S_F)[u]` on that smaller form domain. Equivalently,
 `(S_F−λ)⁻¹≤(T−λ)⁻¹` for every real λ below the common lower bound, that is
 `R_T(λ)≤R_(S_F)(λ)` for `R(λ)=(λI−·)⁻¹`, since `R(λ)=−(·−λ)⁻¹`.
+Teschl's Theorem 2.12 gives existence and uniqueness only. For complex separable H and lower
+bound 0 the extremal property is Krein's theorem as stated in Eckhardt–Gesztesy–Nichols–Teschl
+(arXiv:1208.4677v3, Theorem 12.1 and (12.8), p.54), which applies to `S−γ` and its extensions
+`T−γ`. It is proved here over `[RCLike 𝕜]` without separability, by a route that uses only the
+closed-form theory of this section. The closed form `q_T` of T is the closure of `u↦⟨u,Tu⟩` on
+`dom T`, and it represents T, because its represented operator is a self-adjoint extension of T
+and a self-adjoint operator has no proper symmetric extension. On `dom S⊆dom T` the form `q_T`
+agrees with `q_S`, so the closure of `dom S` in the form norm of `q_T` is `dom q_(S_F)`, and
+`q_T=q_(S_F)` there: this is the form-order statement, with equality on the smaller domain.
+For real `λ<γ` and h∈H, the representation theorem applied to the shifted form
+`q_T−λ‖·‖²`, which is coercive since `γ−λ>0`, gives
+`⟨h,(T−λ)⁻¹h⟩=sup_(u∈dom q_T)(2Re⟨h,u⟩−q_T[u]+λ‖u‖²)`, attained at `u=(T−λ)⁻¹h`, and the
+same formula for S_F has its supremum over the smaller set `dom q_(S_F)`, on which the
+two forms agree. Hence `⟨h,(S_F−λ)⁻¹h⟩≤⟨h,(T−λ)⁻¹h⟩`.
 Prove `dom S⊆dom T` and `dom S⊆dom S_F`; the form-domain comparison does
 not assert an inclusion between `dom T` and `dom S_F`. For `[RCLike 𝕜]` and a Hermitian sesquilinear form perturbation b on the same
 form domain put `q_α(u,v)=q(u,v)+α⟨j(u),j(v)⟩`, α>−γ. With
@@ -810,7 +824,7 @@ theorem.
 - For q=0 with j=id, α=c=1 satisfies coercivity and represents total zero; α=2,c=1 gives the same operator.
 - For j=2id on ℂ and q(u,v)=conj(u)v, the represented operator is A=(1/4)I: ⟨A(2u),2v⟩=conj(u)v. Taking A=I would multiply the pairing by 4.
 - For H=ℝ both complexification synonyms give `⟨i·1,1⟩=−i` (the formula's imaginary part is `(0,0)−(1,1)=−1`), so the identity map preserves the inner product; the transported conjugation sends x+iy to x−iy and fixes exactly `{y=0}`, the image of ℝ. The real-linear isometry x+iy↦x−iy, a plausible wrong identification, is not complex-linear: it sends `i·1` to `−i`, not to `i` times the image `1` of 1.
-- For S=−d²/dx² on `C_c∞(0,1)` and γ=0, S_F is the Dirichlet realization and the Neumann realization T is another nonnegative self-adjoint extension. For the constant function 1 and t=−1, `⟨1,R_T(−1)1⟩=−1` (1 spans `ker T`), while `R_(S_F)(−1)1=−u` with `−u″+u=1`, `u(0)=u(1)=0`, `u(x)=1−cosh(x−1/2)/cosh(1/2)`, so `⟨1,R_(S_F)(−1)1⟩=−(1−2tanh(1/2))≈−0.076`. Thus `R_T(−1)≤R_(S_F)(−1)` holds at this vector, and the reversed order, which a `(·−t)⁻¹` resolvent convention would produce, fails there.
+- For S=−d²/dx² on `C_c∞(0,1)` and γ=0, S_F is the Dirichlet realization and the Neumann realization T is another nonnegative self-adjoint extension. For the constant function 1 and t=−1, `⟨1,R_T(−1)1⟩=−1` (1 spans `ker T`), while `R_(S_F)(−1)1=−u` with `−u″+u=1`, `u(0)=u(1)=0`, `u(x)=1−cosh(x−1/2)/cosh(1/2)`, so `⟨1,R_(S_F)(−1)1⟩=−(1−2tanh(1/2))≈−0.076`. Thus `R_T(−1)≤R_(S_F)(−1)` holds at this vector, and the reversed order, which a `(·−t)⁻¹` resolvent convention would produce, fails there. The variational formula of the route reproduces both values: over `H¹(0,1)` the supremum of `2∫u−∫|u′|²−∫|u|²` is attained at u=1 and equals 1, and over `H₀¹(0,1)` it is attained at the Dirichlet solution above and equals `∫u=1−2tanh(1/2)≈0.076`.
 
 ### 4.8 Singular differential expressions and endpoint domains (UO-D07)
 
@@ -870,7 +884,7 @@ The interval and half-line momentum examples give (1,1) and (1,0); the boundary 
 
 ### Dependencies
 
-HilbertModules H6; Layer 1 for square roots; PolarDecomposition PD-B23–PD-B34; PDE for endpoint models; Mathlib's real Lax–Milgram theorem, Tau Ceti's Hilbert complexification and GeneralizedCohomology G5.5-RealHilbert's conjugation and unbounded complexification for the real case.
+HilbertModules H6, and H7's interval example for §4.6; BanachSpaceTheory B5 Hilbert dimension for §4.1; SelfAdjointSpectralTheory SA-A21, SA-D17 and the resolvent theory for §§4.1–4.2; Layer 1 and SelfAdjointSpectralTheory SA-E01 for square roots; PolarDecomposition PD-B23–PD-B34; LieGroups Layers 2 and 5 for the matrix parameters of §4.5; VonNeumannAlgebras V10 interval derivatives and PDE traces and weak derivatives for the endpoint models of §§4.5–4.8; Mathlib's real Lax–Milgram theorem, Tau Ceti's Hilbert complexification and GeneralizedCohomology G5.5-RealHilbert's conjugation and unbounded complexification for the real case.
 
 ## Layer 5: cores, analytic vectors and perturbations
 
@@ -1021,7 +1035,7 @@ The scalar 2I example satisfies Nelson’s estimate; iI fails symmetry and the P
 
 ### Dependencies
 
-Layers 1, 3 and 4; SelfAdjointSpectralTheory SA-C39 and SA-C55, the latter with Tau Ceti's relative bounds as `IsSelfAdjoint.add_of_isRelativelyBounded`; Mathlib Lp, integration and Laplacian; BanachAlgebras A2 for perturbation contours; PDE for differential cores.
+Layers 1, 3 and 4, and Layer 2's strong commutation and joint PVM for §5.3; HilbertModules H6; SelfAdjointSpectralTheory SA-C39, SA-E43 and SA-C55, the latter with Tau Ceti's relative bounds as `IsSelfAdjoint.add_of_isRelativelyBounded`; Tau Ceti's `LinearPMap.resolvent` and its resolvent identities; Mathlib Lp, Tonelli–Fubini, `IsCompactOperator`, Fourier, Young's inequality and the Laplacian; BanachAlgebras A2 for perturbation contours; the completed OrthogonalL2Bases Parts A and D for §5.6; PDE A1, A3, A4 and A6 for differential cores and §5.7.
 
 ## Layer 6: closed tensor operators and self-adjoint sums
 
@@ -1089,7 +1103,7 @@ Scalar tensor factors give sum 5 and product 6. Independent unbounded diagonals 
 
 ### Dependencies
 
-VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; VonNeumannAlgebras V10 polar decomposition for the adjoint identity of §6.1; Layers 1–2 joint calculus; Tau Ceti's unitary C₀-groups for the group factorization of §6.3; Layer 5 analytic vectors for §6.4, and §5.1's unitary-group core criterion for one route to §6.3's group factorization.
+HilbertModules H6 closed graphs for §6.1; VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; VonNeumannAlgebras V10 polar decomposition for the adjoint identity of §6.1; Layers 1–2 joint calculus; SelfAdjointSpectralTheory SA-E43 and Tau Ceti's unitary C₀-groups with Stone's theorem for the group factorization of §6.3; Layer 5 analytic vectors for §6.4, and §5.1's unitary-group core criterion for one route to §6.3's group factorization.
 
 ## Downstream consumers
 
@@ -1491,8 +1505,10 @@ Further acceptance tests, rather than separate quantum-mechanics deliverables, a
 - Jonathan Eckhardt, Fritz Gesztesy, Roger Nichols and Gerald Teschl,
   *Weyl–Titchmarsh Theory for Sturm–Liouville Operators With Distributional
   Potentials*, [arXiv:1208.4677v3](https://arxiv.org/abs/1208.4677v3),
-  Hypothesis 2.1 and Theorem 2.2, §§3–6 and 11. These are preprint locators;
-  §4.8 takes the real s=0, r=w, p>0 specialization.
+  Hypothesis 2.1 and Theorem 2.2, §§3–6 and 11, and Theorem 12.1 with (12.8), p.54
+  (Krein's extremal characterization of the Friedrichs extension, in a complex separable
+  Hilbert space, used in §4.7). These are preprint locators; §4.8 takes the real s=0, r=w,
+  p>0 specialization.
 - Tosio Kato, *Perturbation Theory for Linear Operators*, Classics in Mathematics,
   Springer, 1995, [DOI](https://doi.org/10.1007/978-3-642-66282-9); Chapter II, §6
   (perturbation of symmetric operators in finite dimension, Rellich's theorem) and
@@ -1505,7 +1521,8 @@ Further acceptance tests, rather than separate quantum-mechanics deliverables, a
 - Gerald Teschl, *Mathematical Methods in Quantum Mechanics: With Applications
   to Schrödinger Operators*, Graduate Studies in Mathematics 99,
   [author’s authorized online edition](https://www.mat.univie.ac.at/~gerald/ftp/book-schroe/schroe.pdf),
-  version 12 February 2009; §3.1, equation (3.14) and p.89 (spectral families),
+  version 12 February 2009; §1.2, p.42 (the standing assumption that Hilbert spaces are
+  separable); §3.1, equation (3.14) and p.89 (spectral families),
   Theorem 2.13, pp.71–72 (closed-form representation). Further locators used
   above: Lemma 2.3, p.63, and Lemma 2.7, p.66 (range criteria); Lemma 2.10, p.68,
   and Theorem 2.12, p.70 (Friedrichs extension); Lemma 2.16, p.76, Theorem 2.18,
@@ -1515,7 +1532,7 @@ Further acceptance tests, rather than separate quantum-mechanics deliverables, a
   and Theorem 3.2, pp.91–92, Lemmas 3.3–3.5, pp.92–94, Theorem 3.7, p.96, Theorem 3.8
   and Corollary 3.9, p.97, Problems 3.10–3.11, p.99 (unbounded Borel calculus);
   (3.23), p.91; (3.67), Lemmas 3.11–3.12, p.101, Lemmas 3.14–3.15, pp.103–104, Theorems 3.17–3.18, (3.83) and
-  Lemma 3.19, p.105 (spectral mapping and spectral types); Lemma 4.5, p.116,
+  Lemma 3.19, p.105 (spectral mapping and spectral types); Lemma 4.4, p.115, Lemma 4.5, p.116,
   (4.24)–(4.25), Lemma 4.9 and Problem 4.2, p.117 (commutation), Theorem 4.14, (4.43)–(4.44) and
   Problem 4.5, p.121 (tensor products); Theorem 5.2, p.124, Corollary 5.3, p.125, and (5.5),
   p.126 (Stone, invariant cores, commuting groups); Theorem 6.4, p.135, (6.27)–(6.28) and Lemma 6.17, p.145, Lemma 6.18 and Theorem 6.19, p.146,

@@ -69,7 +69,8 @@ exactly one partial operator whose domain is the second-moment subspace
 `{x | ∫ |f|² d(P.diag x) < ∞}` and whose matrix elements are the integrals of `f` against the
 polarized measures. It is densely defined and closed, its norm square is the second moment,
 and its Hilbert adjoint has the same domain and the matrix elements of `conj f` (Teschl,
-Theorem 3.2 and (3.25)–(3.29)). -/
+Theorem 3.2 and (3.25)–(3.29), for measures on `ℝ` in a separable space; the construction uses
+neither property, and README §1.1 carries it out for every measurable space). -/
 theorem existsUnique_spectralIntegral {X H : Type*} [MeasurableSpace X]
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (P : TauCeti.ProjValMeasure X H) (f : X → ℂ) (hf : Measurable f) :
@@ -192,8 +193,9 @@ theorem notMem_essentialSpectrum_iff {H : Type*} [NormedAddCommGroup H]
 /-- Spectral-type decomposition (README §3.3, UO-C03): for a normalized projection-valued
 measure on `ℝ`, the vectors whose diagonal measure is pure point, absolutely continuous, or
 singular continuous form three closed, mutually orthogonal subspaces, invariant under every
-spectral projection, whose sum is the whole space (Teschl, (3.83) and Lemma 3.19). No
-separability and no finite control measure is assumed. -/
+spectral projection, whose sum is the whole space (Teschl, (3.83) and Lemma 3.19, for the
+spectral measure of a self-adjoint operator on a separable space). No separability and no finite
+control measure is assumed: README §3.3 proves it directly from the diagonal measures. -/
 theorem exists_spectralType_decomposition {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (P : TauCeti.ProjValMeasure ℝ H) :
@@ -227,10 +229,13 @@ theorem resolventSet_alternatives_of_isClosed_symmetric
 
 /-- Friedrichs extension with its extremal property (README §4.7, UO-D06): a densely defined
 symmetric partial operator bounded below by `γ` has a self-adjoint extension `SF` with the same
-lower bound (Teschl, Theorem 2.12) that is largest among all such extensions in form order,
-stated in resolvent order: for every self-adjoint extension `T` bounded below by `γ` and every
-real `t < γ`, `R_T(t) ≤ R_SF(t)` for the resolvents `R(t) = (t I − ·)⁻¹`. The order on
-partial operators is graph inclusion. -/
+lower bound that is largest among all such extensions in form order, stated in resolvent order:
+for every self-adjoint extension `T` bounded below by `γ` and every real `t < γ`,
+`R_T(t) ≤ R_SF(t)` for the resolvents `R(t) = (t I − ·)⁻¹`. The order on partial operators is
+graph inclusion. Existence is Teschl, Theorem 2.12. The extremal property is Krein's theorem
+(Eckhardt–Gesztesy–Nichols–Teschl, arXiv:1208.4677v3, Theorem 12.1 and (12.8), for complex
+separable spaces, applied after the shift by `γ`); README §4.7 proves it over `RCLike` scalars
+without separability from the variational formula for `⟨h, (T − t)⁻¹ h⟩`. -/
 theorem friedrichs_extension_extremal
     {𝕜 H : Type*} [RCLike 𝕜] [NormedAddCommGroup H] [InnerProductSpace 𝕜 H]
     [CompleteSpace H] (S : H →ₗ.[𝕜] H) (hdense : Dense (S.domain : Set H))
@@ -440,7 +445,10 @@ open scoped ContDiff in
 /-- Kato's theorem (README §5.7, UO-E06): for a real potential `V = V₂ + Vb` on `ℝ³` with
 `V₂ ∈ L²` and `Vb ∈ L^∞`, the operator `−Δ + V` on the classes of smooth compactly supported
 functions is essentially self-adjoint in `L²(ℝ³)` (Teschl, Lemma 10.1, p.221, and Theorem 10.2,
-p.222). Here `∞` is the smoothness index `(⊤ : ℕ∞)`; `ContDiff ℝ ⊤` would require analyticity. -/
+p.222, there with the bounded part vanishing at infinity; a bounded part that does not vanish
+there has relative bound zero, since `‖Vb u‖ ≤ ‖Vb‖_∞ ‖u‖`, and the Kato–Rellich theorem still
+applies). Here `∞` is the smoothness index `(⊤ : ℕ∞)`; `ContDiff ℝ ⊤` would require
+analyticity. -/
 theorem isSelfAdjoint_closure_neg_laplacian_add_potential
     (V₂ Vb : EuclideanSpace ℝ (Fin 3) → ℝ) (h₂ : MemLp V₂ 2 volume) (hb : MemLp Vb ⊤ volume)
     (T : Lp ℂ 2 (volume : Measure (EuclideanSpace ℝ (Fin 3))) →ₗ.[ℂ]
