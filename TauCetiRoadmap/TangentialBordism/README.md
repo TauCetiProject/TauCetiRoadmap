@@ -48,8 +48,10 @@ S1.5 only the explicit idempotent charts on OP² and the comparison of
 their smooth structure with S1.5's through SmoothBundlesConnections B1.4,
 the Peirce Clifford module with its pinned volume sign and the
 identification through it of S1.5's isotropy group with the native
-Spin(9), the type-F₄ comparison of the Lie algebra of S1.5's F₄, the Bott
-clutching sign witness for u, and the Pontryagin classes of every HP^k.
+Spin(9), the transitivity of S1.5's F₄ on ordered Jordan frames, derived
+from S1.5's transitivity on OP² in 9.2 (LieHighestWeight Layer 8 leaves
+this theorem to this roadmap's B3), the type-F₄ comparison of the Lie algebra of S1.5's
+F₄, the Bott clutching sign witness for u, and the Pontryagin classes of every HP^k.
 PositiveScalarCurvature owns connection-metric
 estimates, surgery and PSC classification; it consumes the bordism transfer
 and KO kernel interfaces below.
@@ -358,9 +360,29 @@ carriers is a local diffeomorphism
 from `TauCeti/Geometry/Lie/CliffordAlgebra/Spin/LocalDiffeomorph.lean`), and
 a continuous homomorphism between finite-dimensional real Lie groups is
 smooth (`ContinuousMonoidHom.toContMDiffMonoidMorphism` from
-`TauCeti/Geometry/Lie/AutomaticSmoothness.lean`). The pin computes the
-dimension of neither Lie algebra; that the skew-symmetric n×n matrices have
-dimension n(n−1)/2 is proved in B3.7 for n=9.
+`TauCeti/Geometry/Lie/AutomaticSmoothness.lean`). Both Lie algebras have
+dimension n(n−1)/2 by composing pinned declarations, although none states
+the count for general n (`TauCeti.finrank_so_three` states it for n=3):
+`CliffordAlgebra.bivectorEquivSo` from
+`TauCeti/LinearAlgebra/CliffordAlgebra/StandardBivector.lean` identifies
+⋀²ℝⁿ with the skew-symmetric n×n matrices,
+`CliffordAlgebra.bivectorExteriorEquivQuadraticLieSubalgebra` from
+`TauCeti/LinearAlgebra/CliffordAlgebra/CliffordExteriorSquare.lean`
+identifies the exterior square of the underlying module linearly with the
+quadratic Clifford elements of any quadratic form over a commutative ring in
+which 2 is invertible, and Mathlib's `exteriorPower.finrank_eq` from
+`Mathlib/LinearAlgebra/ExteriorPower/Basis.lean` gives ⋀²ℝⁿ dimension
+binom(n,2). The group `spinGroup (TauCeti.realCliffordForm n 0)` is
+isomorphic as a topological group to its units range
+(`TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange` from
+`TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Real/Projection.lean`). For a
+positive-definite form on a finite-dimensional real vector space, the vector
+action `CliffordAlgebra.spinToSpecialOrthogonal` of its Spin group is onto
+its special orthogonal group
+(`CliffordAlgebra.spinToSpecialOrthogonal_surjective_of_posDef` from
+`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`); the form
+`TauCeti.realCliffordForm n 0` is positive definite
+(`TauCeti.posDef_realCliffordForm_zero`).
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -372,14 +394,14 @@ retain their native hypotheses and chosen smooth structures.
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure (its local quadrant data and the depth they count) and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign; 5.5b gives no manifold structure on the depth strata, which B1.6 constructs from those quadrant charts for its corner Sard and transversality theorems | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, itemized below); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and the isotopy uniqueness of tubular neighbourhoods (Layer1; their existence for boundaryless models is the pinned `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
-| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of LieHighestWeight Layer 8's compact Albert algebra), a closed smooth 16-manifold F₄/Spin(9), F₄ (its automorphism group) as a compact connected 52-dimensional Lie group with its smooth transitive action and Spin(9) isotropy acting on the Peirce complement by the real spin representation, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 defines neither OP² nor F₄ again and owns the idempotent charts and their comparison with S1.5's smooth structure, the Peirce Clifford module and its identification of S1.5's isotropy group with the native Spin(9), the type-F₄ Lie-algebra comparison, the sign witness and the HP^k Pontryagin formula |
+| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of LieHighestWeight Layer 8's compact Albert algebra), a closed smooth 16-manifold F₄/Spin(9), F₄ (its automorphism group) as a compact connected 52-dimensional Lie group with its smooth transitive action and Spin(9) isotropy acting on the Peirce complement by the real spin representation, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 defines neither OP² nor F₄ again and owns the idempotent charts and their comparison with S1.5's smooth structure, the Peirce Clifford module and its identification of S1.5's isotropy group with the native Spin(9), the transitivity of F₄ on ordered Jordan frames derived from S1.5's transitivity on OP², the type-F₄ Lie-algebra comparison, the sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6, C1.3, C1.4, C7.3, C7.3a | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions; C1.3's finite faithful unitary representations of compact Lie groups and their smooth Stiefel approximations of BG; C1.4's smooth representatives of continuous principal bundles with compact structure group over smooth bases, with their relative homotopy versions; `TSⁿ⊕ε¹≅ε^(n+1)`, `w(T RP^m)=(1+a)^(m+1)` and the immersion normal bundle | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
 | [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0, G6 item 5, G6.7 | Spin lifts (G4.3 existence, G4.4 the H¹ torsor) on every oriented base, in particular on closed surfaces; G6 item 5's two circle lifts (the trivial Spin(1)=ℤ/2 cover and the connected double cover of the oriented frame bundle) and all torus lifts through H¹; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification`; G6.7's equation `realSpinDiracIndexClass = α·a` in KO₄ for the quaternionic index α | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1 | the quotient metric on HP^d from the round S^(4d+3), its Riemannian submersion from Sp(d+1)/(Sp(d)×Sp(1)) and its sectional-curvature bounds 1 and 4 | B6.6 proves PSp3-invariance and positive scalar curvature on HP2 |
 | [ClassifyingSpaces](../ClassifyingSpaces/README.md), Stage4 | `H_*(BG;ℤ)` identified with Mathlib's `groupHomology` of the trivial module | B6.3 applies it to finite cyclic groups |
-| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | StringOrientation S1.5 owns OP² and F₄ on this carrier; B3 owns the idempotent charts, the Peirce Clifford comparison and the type-F₄ Lie-algebra comparison on them, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
+| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | StringOrientation S1.5 owns OP² and F₄ on this carrier; B3 owns the idempotent charts, the Peirce Clifford comparison, automorphism transitivity on Jordan frames and the type-F₄ Lie-algebra comparison on them, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
 | IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's integral equality σ(M)=−16α for the quaternionic index α of a closed Spin four-manifold and its Rokhlin theorem that σ(M) is divisible by 16 | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 | AffineMorseLefschetz A0, A5, A6; ComplexKahlerGeometry K7.1 | polynomial projective zero-locus carrier, smooth projective atlas, weak Lefschetz and Veronese comparison | B1.7 specializes them to the Fermat quartic and constructs its characteristic numbers |
 
@@ -408,8 +430,9 @@ Adams towers independently of bordism coefficients. Layer 5 proves the finite
 and stable structured comparison, and Layer 6 computes O and SO coefficients.
 Layers 7–8 give ABS and low geometric classifications. Layer 9 consumes
 StringOrientation S1.5's Cayley plane and F₄ and adds explicit charts and
-their comparison with S1.5's smooth structure, the Clifford module, sign
-witnesses and the HP^k Pontryagin classes, and Layer 10 proves realization and projective-transfer theorems. The parenthesized B labels are stable target
+their comparison with S1.5's smooth structure, the Clifford module, the
+transitivity of F₄ on Jordan frames, sign witnesses and the HP^k Pontryagin
+classes, and Layer 10 proves realization and projective-transfer theorems. The parenthesized B labels are stable target
 locators: each subsection's Needs line specifies the actual inputs, including
 independent subtargets within its layer.
 
@@ -2708,21 +2731,51 @@ into S1.5's isotropy group at E_0. Identify its image with that group
 from S1.5's theorem, without a second stabilizer computation. The native
 group is a Lie group at the pin on the range of `spinGroup.toUnits` in the
 Clifford units, with the closed-subgroup smooth structure
-`TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`, and the
-continuous homomorphism into S1.5's isotropy group is smooth by automatic
-smoothness (`ContinuousMonoidHom.toContMDiffMonoidMorphism`). Its
-dimension is 36: the pinned projection to the special orthogonal range
-carrier is a local diffeomorphism
+`TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`. Precompose
+the homomorphism with the inverse of the topological group isomorphism
+`TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange 9`
+from `spinGroup` onto that range: the result is a continuous homomorphism
+from the range carrier into S1.5's isotropy group, a closed subgroup of
+S1.5's F₄ with LieGroups Layer 2's closed-subgroup structure, and it is
+smooth by automatic smoothness
+(`ContinuousMonoidHom.toContMDiffMonoidMorphism`). Its dimension is 36: the
+pinned projection to the special orthogonal range carrier is a local
+diffeomorphism
 (`TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`),
 and the Lie algebra of that carrier is the skew-symmetric 9×9 matrices
-(`TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo`), of
-dimension 9·8/2=36. An injective Lie-group homomorphism has injective
+(`TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo`), which
+`CliffordAlgebra.bivectorEquivSo` identifies with ⋀²ℝ⁹, of dimension
+binom(9,2)=9·8/2=36 by Mathlib's `exteriorPower.finrank_eq`; on the Spin
+carrier itself, `TauCeti.CliffordAlgebra.realCliffordSpinLieEquivQuadratic`
+and `CliffordAlgebra.bivectorExteriorEquivQuadraticLieSubalgebra` give the
+same count without the projection. An injective Lie-group homomorphism has injective
 differential, so the image is a subgroup of dimension 36 in S1.5's isotropy
 group, which is isomorphic to Spin(9) and so compact, connected and of
 dimension 36; the image is open, hence all of it. This identifies S1.5's Spin(9) with the
 native group, and its action on the Peirce complement with the Clifford
 module above, volume sign included. Supply inverse continuous/smooth
 comparisons on these actual group maps.
+Derive from S1.5's transitivity on OP² that S1.5's F₄ acts transitively on
+ordered Jordan frames: triples (E₁,E₂,E₃) of pairwise orthogonal trace-one
+idempotents with E₁+E₂+E₃=1 (LieHighestWeight Layer 8 identifies the
+trace-one idempotents with the primitive ones and shows that every complete
+orthogonal primitive frame has three members). By S1.5's theorem some
+automorphism sends E₁ to E_0. It then sends E₂ and E₃ into the Peirce
+0-space of E_0, the Hermitian 2×2 block in the last two indices, whose
+trace-one idempotents are ½(1−E_0+X) for X=[[t,a],[star(a),−t]] with
+t²+N(a)=1, since X²=(t²+N(a))(1−E_0). These form the unit sphere S⁸ of
+the traceless part ℝ⁹=ℝ⊕O of that block, and E₃=1−E_0−E₂ is determined
+by E₂. The native Spin group acts on this ℝ⁹ by its vector action
+`CliffordAlgebra.spinToSpecialOrthogonal`: the Peirce product of the block
+with the Peirce complement is the Clifford action, and an automorphism
+acting on the complement by a Spin element x preserves that product only
+if it acts on ℝ⁹ by conjugation by x. The vector action is onto the special
+orthogonal group of
+`TauCeti.realCliffordForm 9 0`
+(`CliffordAlgebra.spinToSpecialOrthogonal_surjective_of_posDef` with
+`TauCeti.posDef_realCliffordForm_zero`), and SO(9) is transitive on S⁸.
+Hence the isotropy group at E_0, identified above with the native group, is
+transitive on the frames whose first member is E_0.
 Construct the quotient homeomorphism and diffeomorphism F₄/Spin(9)≃OP²
 onto B3.6's chart structure from the orbit map at E_0 and
 SmoothBundlesConnections B1.4's free proper principal quotient, not an
@@ -2738,6 +2791,7 @@ Its API includes:
 
 - The orbit map at diag(1,0,0) induces a diffeomorphism from S1.5's F₄/Spin(9) onto OP² with B3.6's chart structure, so the two smooth structures on OP² agree.
 - The Peirce Clifford module carries the native Spin group of the positive-definite nine-dimensional real Clifford form isomorphically onto S1.5's isotropy group at diag(1,0,0), and that group acts on the Peirce complement by this module, the ordered volume acting as −1.
+- S1.5's F₄ acts transitively on the ordered Jordan frames of the compact Albert algebra; its isotropy group at diag(1,0,0) acts transitively on the trace-one idempotents orthogonal to diag(1,0,0), which form an 8-sphere.
 
 **Checks.**
 
@@ -2745,8 +2799,11 @@ Its API includes:
 - The Clifford vector (t,a)=(1,0) acts as (x,y)↦(x,−y), whose square is +id.
 - The vector (0,1) swaps (x,y), again with square +id; it anticommutes with the previous vector, fixing the positive Clifford convention.
 - Write C₀ for the t-generator and C₁,…,C₈ for the eight ordered octonion generators above, composing rightmost first. Then C₀C₁⋯C₈ sends (1,0)∈𝕆² to (−1,0). Replacing only C₈ by −C₈ sends it to (1,0), although all generator squares and pairwise anticommutation relations persist; this excludes the opposite-volume representation.
+- In the block of the last two indices, X=[[0,1],[1,0]] (t=0, a=1) gives the trace-one idempotent with all four entries 1/2, orthogonal to diag(1,0,0). X=[[1,1],[1,−1]] has X²=2·(1−E_0), and ½(1−E_0+X) squares to ¼(3(1−E_0)+2X), which is not ½(1−E_0+X). So the idempotents form the sphere t²+N(a)=1, not the whole nine-dimensional traceless part.
+- The frames (E_0,diag(0,1,0),diag(0,0,1)) and (E_0,diag(0,0,1),diag(0,1,0)) correspond to the antipodal points t=1 and t=−1, a=0, of S⁸. The antipodal map of ℝ⁹ has determinant −1 and is not in SO(9), but the rotation by π in the plane of t and the real part of a lies in SO(9) and exchanges the two points. So ordered frames, and not only unordered ones, form a single orbit.
+- The ordered frames fibre over OP² (dimension 16) with fibre S⁸, so they form a 24-dimensional orbit, and the stabilizer of a frame has dimension 52−24=28. The action is therefore transitive but not simply transitive.
 
-*Needs:* B3.6; StringOrientation S1.5; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7; Tau Ceti `TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`, `TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`, `TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo` and `ContinuousMonoidHom.toContMDiffMonoidMorphism`.
+*Needs:* B3.6; StringOrientation S1.5; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations, primitive idempotents and frames; SpinRepresentations Layer 7; Tau Ceti `TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`, `TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange`, `TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`, `TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo`, `TauCeti.CliffordAlgebra.realCliffordSpinLieEquivQuadratic`, `CliffordAlgebra.bivectorEquivSo`, `CliffordAlgebra.bivectorExteriorEquivQuadraticLieSubalgebra`, `CliffordAlgebra.spinToSpecialOrthogonal_surjective_of_posDef`, `TauCeti.posDef_realCliffordForm_zero` and `ContinuousMonoidHom.toContMDiffMonoidMorphism`; Mathlib `exteriorPower.finrank_eq`.
 
 ### 9.3 Normal Bott comparison and sign witness (B3.8)
 
@@ -2831,7 +2888,7 @@ HP² has p₁=2u and p₂=7u²; OP² has p₂=6u and p₄=39u².
 
 ### Dependencies
 
-Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Layers 4 and 6; IndexTheory I7.2; the pinned Tau Ceti Spin range Lie group and its local-diffeomorphism projection (From Tau Ceti).
+Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Layers 4 and 6; IndexTheory I7.2; the pinned Tau Ceti Spin range Lie group, its topological isomorphism with `spinGroup`, its local-diffeomorphism projection, the bivector identifications of both Lie algebras and the surjective vector action (From Tau Ceti); Mathlib `exteriorPower.finrank_eq`.
 
 ## Layer 10: realization and projective transfers
 
