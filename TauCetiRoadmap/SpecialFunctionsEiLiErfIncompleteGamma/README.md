@@ -1437,10 +1437,14 @@ preserves their zero sets. Prove:
   by increasing modulus;
 - the zero set is exactly `{0}` together with the eight images of each `z_n`, which are distinct;
   in particular the zeros in the open first quadrant are the `z_n` and the `i z̄_n`;
-- 7.13.5 with 7.13.6 for `C`, respectively 7.13.7 for `S`, for the `z_n` of this sector: with
-  `p₀ = 1`, `p₁ = α(απ − 4)/(8π)` and `q₀ = α/2`,
-  `x_n − ∑_{j<N} p_j λ^{1−4j} = O(λ^{1−4N}(1 + |α|)^{2N})` for `N ≤ 2`, and
-  `y_n − q₀ λ^{−1} = O(λ^{−5}(1 + |α|)³)`;
+- 7.13.5 with 7.13.6 for `C`, respectively 7.13.7 for `S`, for the `z_n` of this sector:
+  `x_n = λ + (α(απ − 4)/(8π) + 1/π²) λ^{−3} + O(λ^{−5}(1 + |α|)³)` and
+  `y_n = α/(2λ) − π^{−3} λ^{−3} + O(λ^{−5}(1 + |α|)³)`. The expansion runs in all odd powers of
+  `λ`. DLMF prints only the part of the `λ^{−3}` coefficient of `x_n` that involves `α`. The
+  constants `1/π²` and `−1/π³` come from the term `g(z) cos(½πz²)` of 7.5.3 and the subdominant
+  exponential, which add `(2/π² − 2i/π³) λ^{−2}` to `z²`. Check (mpmath): for the zeros of `C`
+  at `n = 2560`, `(x_n − λ − α(απ − 4)/(8π) λ^{−3}) λ³ = 0.101305` and
+  `(y_n − α/(2λ)) λ³ = −0.032406`, tending to `1/π² = 0.101321` and `−1/π³ = −0.032252`;
 - if `z_n` is a zero of `erfc`, then `(1 + i) z_n/√π` is a zero of `ℱ`.
 
 *Needs:* 11.2–11.3, 13.2–13.3; AsymptoticExpansions Layer 2; Tau Ceti `TauCeti.rouche`, as in
