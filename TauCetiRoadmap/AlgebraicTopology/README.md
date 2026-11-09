@@ -14,7 +14,8 @@ Serre class, representability of ordinary cohomology by Eilenberg–MacLane spac
 mapping spaces out of compact Hausdorff spaces.  It also states the quotient comparison
 `H_n(X,B) ≅ H̃_n(X/B)` for closed cofibered pairs, CW approximation of arbitrary spaces, the
 compact-support theorem for top homology with local coefficients, the cup-length lower bound for
-the Lusternik–Schnirelmann category and proper homotopy rectification.
+the Lusternik–Schnirelmann category, proper homotopy rectification, the existence of a `K(A,n)`
+for every abelian A and n≥1, and the comparison of `K(A,n)` with the loop space of `K(A,n+1)`.
 
 The point is a coherent library, not a collection of answers for particular spaces.  Every
 calculation is induced by maps, chain maps, or natural transformations.  Homology groups are not
@@ -449,7 +450,15 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   `TauCeti.localHomology_ext_of_isCompact` (`AlgebraicTopology/Singular/LocalHomology/Compact.lean`),
   homological orientations `TauCeti.HomologicalOrientation` and the integral fundamental class
   `TauCeti.HomologicalOrientation.fundamentalClass` of a compact oriented manifold
-  (`AlgebraicTopology/Singular/LocalHomology/Orientation/` and `FundamentalClass.lean`).
+  (`AlgebraicTopology/Singular/LocalHomology/Orientation/` and `FundamentalClass.lean`), and
+  the local homology system `TauCeti.localHomologySystem`, the functor on the fundamental
+  groupoid of a Hausdorff space charted on a finite-dimensional real normed space with fibre
+  `H_k(M,M\{x})` at x, whose transport along a path inside a compact convex set of a chart is
+  the comparison through that set and is characterized by this property and composition
+  (`TauCeti.eq_localHomologyTransport`) (`AlgebraicTopology/Singular/LocalHomology/System.lean`);
+  in degree k=dim M with coefficients ℤ it is the orientation local system. For compact M its
+  cone of restrictions from `H_n(M)` is a limit cone, `TauCeti.isLimitLocalHomologySystemCone`
+  (`Singular/LocalHomology/TopHomology.lean`).
   Stage 6.3 consumes these for constant coefficients and owns the local-system extension.
 - Native proper homotopy: `ContinuousMap.HasProperHomotopyInverse`
   (`Topology/Homotopy/Proper.lean`) and `TauCeti.SimplyConnectedAtInfinity` with its
@@ -496,7 +505,8 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   `TauCeti.cechSpectralSequenceFirstPageXIso` and `TauCeti.cechSpectralSequenceAbutmentIso`
   (`Singular/Cech/`).
 - Native path fibrations (`Topology/Homotopy/MappingPath/`): `TauCeti.LiftingFunction`,
-  `TauCeti.IsHurewiczFibration` with `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`,
+  `TauCeti.IsHurewiczFibration` (`Topology/Homotopy/HurewiczFibration/Basic.lean`) with
+  `TauCeti.isHurewiczFibration_iff_nonempty_liftingFunction`,
   the mapping-path fibre projection `TauCeti.MappingPathFiber.isHurewiczFibration_proj`, its
   base-change description `TauCeti.MappingPathFiber.pullbackHomeomorph` and its homotopy
   invariance `ContinuousMap.Homotopy.mappingPathFiberHomotopyEquiv`.
@@ -681,7 +691,8 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   fundamental group at an end and proper Whitehead theorem; mapsToGroupClassifyingSpaceEquiv is Stage 8.8b's bijection
   `[X,Bπ]_*≃Hom(π₁X,π)`; ordinaryEMRelativeRepresentability is Stage 8.10's relative
   representability of CW pairs; ordinaryEMLoopComparison (with ordinaryEMLoopComparison_pi) and
-  ordinaryCohomologySuspension are 8.11b's EM loop comparison and its suspension σ_right;
+  ordinaryCohomologySuspension are 8.11b's EM loop comparison and its suspension σ_right, the
+  comparison's propositional content in degrees n≥1 being `exists_ordinaryEMLoopEquivalence`;
   projectiveEMComparisons is CharacteristicClasses C1.5a, which consumes 8.12's native circle
   comparison; relativeCWPushout_base_isClosedEmbedding is
   `TauCeti.TopCat.isClosedEmbedding_of_isPushout` applied to the base of a relative CW pair;
@@ -702,8 +713,10 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   homotopy groups, consumed by Stage 8.
 - **[GeometricTopology](../GeometricTopology/README.md)**: 12.1 (Whitehead's smooth
   triangulation of smooth manifolds, with or without boundary) and Layer 11 (the realization
-  homeomorphism and CW structure of a triangulation), consumed by Stage 8.7, and its manifold
-  boundary and collar conventions, consumed by Stage 6.
+  homeomorphism and CW structure of a triangulation), consumed by Stage 8.7, and 1.1 (smooth collars),
+  1.2 (gluing along faces, with its rounding of corners) and 1.3 (tubular neighbourhoods of
+  compact submanifolds), consumed by Stage 6.4's codimension-zero excision and compact triad
+  duality.
 - **[DifferentialGeometry](../DifferentialGeometry/README.md)**: the tangent-orientation API of
   Layer 2 with the orientation double cover of 2.4, the outward-normal-first boundary orientation
   of Layer 5.1, consumed by Stages 6.3–6.4, and the smooth mapping degree of Layer 10, compared
@@ -2103,7 +2116,10 @@ homology with one copy of the coefficient ring also assumes connectedness.
    coefficient/product naturality with the stated nonvanishing hypotheses,
    and the lower bound `lsCupLength_add_one_le_categoryCount`: on nonempty X,
    `lsCupLength X R+1≤TauCeti.lsCategoryCount X Set.univ`, equivalently the cup
-   length is at most the normalized category. For a cover by r categorical
+   length is at most the normalized category (Hatcher, Section 3.2, Exercise 2,
+   p. 229, for a cover by n contractible open sets; the relative-cup argument
+   uses only that each inclusion is nullhomotopic, so it applies to categorical
+   opens). For a cover by r categorical
    opens, use native singular homotopy invariance and the positive-degree
    cohomology of a point to prove that classes restrict to zero on their
    designated opens. For **every commutative R**, construct the native point
@@ -2221,8 +2237,10 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
    For proper cellular maps prove row-finiteness of the ordinary chain matrix and the resulting finite-support pullback. Given a target cofinite B, choose compact L containing its complement and a source cofinite refinement avoiding f⁻¹L, so it maps into B; do not assume f⁻¹B is a subcomplex. Prove comparison naturality through common refinements. Degreewise extension by zero gives the supported CW-pair short exact cochain sequence and exact triangle. This primary cellular specialization consumes ordinary 6.1–6.2 and the supported cochain foundation above, without classifier, duality or AT8.5 input. CharacteristicClasses C1.2a compares this triangle with its collared-pair support-excision triangle; that comparison is not an input to the primary pair LES.
 
-3. On a boundaryless m-manifold U define the integral orientation local
-   system by `or_U(x)=H_m(U,U\{x};ℤ)`, with the excision transport below.
+3. On a boundaryless m-manifold U the integral orientation local system
+   or_U, with fibre `or_U(x)=H_m(U,U\{x};ℤ)`, is the native
+   `TauCeti.localHomologySystem` in degree m with coefficients ℤ; consume it
+   with its transport and do not build a second one.
    For constant coefficients consume the native local homology
    `TauCeti.localHomology`, its path transport, the compact-support existence
    and uniqueness theorems `TauCeti.exists_localHomologyRestriction_eq_of_isCompact`
@@ -2268,7 +2286,10 @@ homology with one copy of the coefficient ring also assumes connectedness.
    For every boundaryless m-manifold U and R-module system L construct the
    local top-homology functor `T_L:FundamentalGroupoid U→ModuleCat R`, with
    fibre `H_m(U,U\{x};L)` and transport defined by excision on coordinate
-   balls. Prove independence of balls, path-homotopy invariance and gluing,
+   balls. For a constant system with value M this is the native
+   `TauCeti.localHomologySystem` with coefficients M, and T_L of a constant
+   system agrees with it; this item owns the twisted case. Prove independence of
+   balls, path-homotopy invariance and gluing,
    and construct its natural identification `T_L≃L⊗_ℤ or_U`, using the
    R-action on L. Pin the inverse comparison to the coefficient-extension
    map `ℓ⊗[c]↦[c·ℓ]`: trivialize L on a coordinate ball about x by transport
@@ -2473,7 +2494,8 @@ homology with one copy of the coefficient ring also assumes connectedness.
    c:∂M×[0,1)→M has c(x,0)=x and open image U. Use its inverse coordinates,
    smaller-width restrictions and deformation retraction of U onto ∂M.
    These class comparisons use a topological global collar and smooth local
-   charts; GT Layer 1 owns the stronger global smooth collar and gluing API.
+   charts; GeometricTopology 1.1 owns the stronger global smooth collar and
+   1.2 the gluing API.
    On the half-space ambient carrier, define `or_M` exactly once, by groupoid
    transport from the fresh Euclidean interior. All boundary restrictions and coefficient
    comparisons are restrictions or pullbacks of this same system. First prove that
@@ -2626,7 +2648,8 @@ homology with one copy of the coefficient ring also assumes connectedness.
    with-boundary structure and smooth embedding. Use the pair-map zigzag
    `(K,∂K)→(U,U\int K)←(U,U\K)`, with the two isomorphisms proved by
    excision and a two-sided tube around the boundaryless compact ∂K in U from
-   GT Layer 1. Trivialize its normal line by DG5.1's outward-pointing field;
+   GeometricTopology 1.3 (tubular neighbourhoods of a compact submanifold of a
+   boundaryless manifold). Trivialize its normal line by DG5.1's outward-pointing field;
    use half-space charts and compactness of ∂K to shrink the tube to a
    uniform positive radius before proving that its positive/negative sides
    lie outside/inside K. This supplies the exterior collar without
@@ -2636,7 +2659,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    `(K,∂K)→(U,U\K)`.
    Also own the compact-triad Poincaré–Lefschetz duality: for a compact m-manifold K
    with boundary faces ∂₀K,∂₁K covering ∂K, with their actual compatible
-   collars and common codimension-two edge (rounded from the GT corner model),
+   collars and common codimension-two edge (rounded as in GeometricTopology 1.2),
    cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
    and the swapped-face form, for every module-valued local system L.
    Derive the excisive boundary triad from its face collars: choose open
@@ -2710,7 +2733,7 @@ Collars fix the boundary sign; orientation is never reconstructed from a hand-wr
 | Stage | Depends on | Can proceed alongside |
 | --- | --- | --- |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; Stage 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; GeometricTopology 1.1 collars, 1.2 corner rounding and 1.3 tubular neighbourhoods for 6.4's codimension-zero excision and compact triads; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after 6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary 6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary 6.2 | ordinary 4 cellular data, ordinary 6.1–6.2; owns the compactly supported local-coefficient cochains, proves countability and the finite-support cellular/singular comparison | ordinary 6.3–6.5, Stage 7 and ordinary 8 proceed independently; proper 8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary 6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
@@ -2970,12 +2993,18 @@ items 1–7 are independent of those later constructions.
    comparisons; no collared-pair support excision is a prerequisite of the
    proper Whitehead theorem. These inputs are independent of bundle/classifier
    developments and manifold duality. Own the proper cellular approximation
-   and the proper homotopy-extension theorem: a closed strongly locally finite
-   CW subcomplex A of a CW complex X has the property
+   and the proper homotopy-extension theorem: every subcomplex A of a
+   strongly locally finite CW complex X, one covered by a locally finite
+   family of finite subcomplexes, has the property
    `HasProperHomotopyExtensionProperty` (a proper map on X and a proper
    homotopy of its restriction to A extend to a jointly proper homotopy on
-   I×X), and so does the product pair (I×X, (∂I×X)∪(I×A)), with its relative
-   cylinder comparisons. Prove the cylinder-boundary corollary in general: for a
+   I×X), and so does the product pair (I×X, (∂I×X)∪(I×A)), since I×X is again
+   strongly locally finite, with its relative cylinder comparisons
+   (Farrell–Taylor–Wagoner, Theorem 1.6; finite-dimensional locally finite
+   complexes are strongly locally finite by their Theorem 1.4, and their
+   Remark 1.9 weakens the hypothesis to the pair). The hypothesis is on the
+   ambient complex, not on A alone: see the wedge Check below. Prove the
+   cylinder-boundary corollary in general: for a
    Hausdorff locally compact X and a closed A⊆X with the proper extension
    property, the subset ({0,1}×X)∪(I×A) of I×X, in the native I×X order, has
    it too, using a proper retraction to (0×X)∪(I×A) and compact-square
@@ -2985,14 +3014,17 @@ items 1–7 are independent of those later constructions.
    jointly proper inverse homotopies, in the native sense
    `ContinuousMap.HasProperHomotopyInverse` (so the inclusion is proper and A is
    closed), then there are a proper retraction r:X→A and a jointly proper
-   homotopy id_X≃inclusion∘r stationary on A. Closed strongly locally finite
-   CW subcomplexes satisfy the extension hypothesis by the proper
+   homotopy id_X≃inclusion∘r stationary on A. Every subcomplex of a strongly
+   locally finite CW complex satisfies the extension hypothesis by the proper
    homotopy-extension theorem above. Rectify the inverse on A by proper
    extension, then use proper extension on the cylinder-boundary pair to make
    the inverse homotopy stationary; retain both extension maps and their proper
    controls. Thus the export does not require callers to supply the
    product-pair property. This is the proper analogue of the native
-   ordinary strong-deformation-retraction theorem, not an implication from
+   ordinary strong-deformation-retraction theorem and of its classical source
+   (Hatcher, Proposition 0.19 and Corollary 0.20, p. 16), whose proof it follows
+   with every homotopy extension replaced by a proper one
+   (Farrell–Taylor–Wagoner, Theorem 1.6), not an implication from
    ordinary homotopy equivalence.
 
    **Checks (`HasProperHomotopyExtensionProperty`).**
@@ -3003,6 +3035,14 @@ items 1–7 are independent of those later constructions.
      out of I×A into the Hausdorff target Y=(I×A)∪({0}×X)⊂ℝ² is proper, and the property would
      extend the identity of Y to a retraction I×X→Y, which does not exist since A is not a
      cofibration (Hatcher, Chapter 0, the example preceding Example 0.15).
+   - The hypothesis of the extension theorem is on X, not on A: in the wedge X=⋁_ℕ[0,1] of
+     countably many intervals joined at 0, with its CW topology, the subcomplex A={0} is finite
+     but fails the property. Take Y=X, f the identity and H(t,0)=t on the first interval. An
+     extension K has K(1,0) the free end of the first interval, whose half-open segment (½,1] is
+     open in X, so the closed preimage under K of the compact segment [½,1] contains {1}×U for
+     a neighbourhood U of 0. U meets the open cell of every interval, while a compact subset of
+     a CW complex meets only finitely many cells (Hatcher, Proposition A.1, p. 520), so K is
+     not proper. The wedge is not locally finite at 0, hence not strongly locally finite.
    - In `properStrongDeformationRetract_of_inverse` properness of the inverse is needed: for
      X=ℝ and A={0} the constant map is an ordinary homotopy inverse of the inclusion, but no
      retraction ℝ→{0} is proper, its fibre ℝ being noncompact; the native
@@ -3068,8 +3108,12 @@ items 1–7 are independent of those later constructions.
    Own the single generic bar/nerve construction for every discrete group π. Use native `CategoryTheory.nerve`, `SingleObj π`,
    and `SSet.toTop`; construct the contractible free π-space Eπ, its covering
    Eπ→Bπ; consume Stage 4.7's single realization CW structure on both. Prove its native
-   `TauCeti.IsEilenbergMacLaneSpaceOne π` property and identify its π₁ with π,
-   naturally in group homomorphisms. Pin the bar edge labelled g to g under
+   `TauCeti.IsEilenbergMacLaneSpaceOne π` property, `groupClassifyingSpace_isEMOne`, and
+   identify its π₁ with π, naturally in group homomorphisms (Hatcher, Example 1B.7, p. 89,
+   where BG is the Δ-complex EG/G on the same bar simplices, EG is contractible by the
+   straight-line homotopy to the vertex [e] and G acts freely on simplices; the nerve
+   realization also collapses degenerate simplices, and the same contraction and covering
+   argument apply). Pin the bar edge labelled g to g under
    Mathlib's `SingleObj` composition and `FundamentalGroup.mul_def` conventions: both
    compose the later traversal on the left. Prove the oriented-edge identification
    is compatible with the native group operation.
@@ -3311,7 +3355,12 @@ items 1–7 are independent of those later constructions.
     path-connected Hausdorff CW space with a normalized identification of π_n with A and
     all other positive homotopy groups zero; export 8.8c's family through that
     record with its normalized identification and the
-    natural maps induced by homomorphisms A→A′. Own the universal class
+    natural maps induced by homomorphisms A→A′. In particular every abelian A
+    has an `OrdinaryEMModel A n` for every n≥1, `nonempty_ordinaryEMModel`
+    (Hatcher, Section 4.2, p. 365, where a CW K(G,n) is built from an
+    (n−1)-connected complex with π_n≅G by attaching cells that kill the higher
+    homotopy groups), so that the representability theorem below speaks about
+    models that exist. Own the universal class
     `ι_(A,n)∈H^n(K(A,n);A)`: under Hurewicz, degree-one abelianization and universal
     coefficients its evaluation is the identity A→A. In `ordinaryEMRepresentability`,
     stated for every model K of `OrdinaryEMModel A (n+1)`, this is the requirement that
@@ -3454,7 +3503,21 @@ items 1–7 are independent of those later constructions.
     **8.11b. Ordinary EM loop comparison.** Construct coefficient-natural pointed
     maps K(A,n)→ΩK(A,n+1) for every n≥0 inducing the identity on A. Use the
     native fixed-interval loop carrier and `HomotopyGroup.pathLoopSpaceMulEquiv`
-    in positive degrees, with the loop coordinate last. In degree zero use
+    in positive degrees, with the loop coordinate last. For n≥1 the
+    propositional content is `exists_ordinaryEMLoopEquivalence`: for models K
+    of `OrdinaryEMModel A n` and K′ of `OrdinaryEMModel A (n+1)` there is a
+    continuous map f:K→ΩK′ into Mathlib's loop space at the basepoint, sending
+    the basepoint of K to the constant loop, that is a native
+    `ContinuousMap.IsWeakHomotopyEquivalence` and induces the identity of A:
+    the identification of K′ applied to the shift
+    `HomotopyGroup.pathLoopSpaceMulEquiv` of f_*γ equals the identification
+    of γ, for every γ∈π_n(K). The loop space is path connected because
+    π₀(ΩK′)≅π₁(K′)=0, and π_j(ΩK′)≅π_(j+1)(K′), so it has the homotopy groups
+    of K(A,n); the map is the one Hatcher's Lemma 4.31 and Proposition 4.30
+    (p. 366) give from the CW complex K, adjusted to be pointed since a point
+    of a Hausdorff CW complex has the homotopy extension property and π₁ of
+    the H-group ΩK′ acts trivially on its homotopy groups.
+    In degree zero use
     `HomotopyGroup.zerothHomotopyLoopSpaceEquivFundamentalGroup` and the pinned
     bar-edge identification. DGFloer's standing Moore conventions and its
     Layer 2 item 3 consume this fixed-interval convention for their carrier
@@ -3652,7 +3715,7 @@ trivial monodromy.
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
-  Chapter 0, Sections 1.2, 2.1--2.2, 3.1--3.3, 3.B, 3.G--3.H, 4.1--4.3 and 4.G, and the
+  Chapter 0, Sections 1.2, 1.B, 2.1--2.2, 3.1--3.3, 3.B, 3.G--3.H, 4.1--4.3 and 4.G, and the
   Appendix.
 - George W. Whitehead, *Elements of Homotopy Theory*, Springer GTM 61, 1978,
   Chapters II--VII.
@@ -3690,7 +3753,8 @@ trivial monodromy.
   quoted in Milnor, *On Spaces Having the Homotopy Type of a CW-Complex*, p. 274.
 - F. T. Farrell, L. R. Taylor and J. B. Wagoner, [*The Whitehead theorem in the proper
   category*](https://www.numdam.org/item/CM_1973__27_1_1_0.pdf), Compositio Mathematica 27
-  (1973), 1–23, §§1–4, Theorem 4.2, Lemma 4.3 and Corollary 4.9, for the proper Whitehead
-  theorem.
+  (1973), 1–23, §§1–4, Theorems 1.4 and 1.6 and Remark 1.9, for the proper homotopy extension
+  theorem on strongly locally finite complexes, and Theorem 4.2, Lemma 4.3 and Corollary 4.9,
+  for the proper Whitehead theorem.
 - John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Section 2, Theorem 3 and Corollary 3, for arbitrary-CW and n-ad function-space CW type (the
   proof of Corollary 3 refers to Theorem 3 as Theorem 4, a misprint: the paper has no Theorem 4); its countable class W₀ is distinct from the general class W used here.

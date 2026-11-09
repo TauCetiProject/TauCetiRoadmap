@@ -35,6 +35,7 @@ public import TauCeti.Topology.Triangulable.FiniteCWType
 public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
 public import TauCeti.Topology.Homotopy.Proper
 public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
+public import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
 public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 public import TauCeti.Topology.Homotopy.Extension.Prod
@@ -88,9 +89,12 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
 * the `K(π, 1)` property of the bar model (Stage 8.8a);
 * Hurewicz modulo a Serre class satisfying Serre's tensor, `Tor` and `K(A, 1)` axioms, with
   Mathlib's isomorphisms and epimorphisms modulo a Serre class (Stage 8.8d);
-* representability of `H^n(-; A)` by every `K(A, n)` model through its normalized universal class
+* the existence of a `K(A, n)` model for every abelian `A` and `n ≥ 1` (Stages 8.8c and 8.10),
+  and representability of `H^n(-; A)` by every such model through its normalized universal class
   (Stage 8.10);
-* CW type of mapping spaces out of compact Hausdorff spaces and of based loop spaces (Stage 8.11a).
+* CW type of mapping spaces out of compact Hausdorff spaces and of based loop spaces (Stage 8.11a);
+* the ordinary EM loop comparison: for `n ≥ 1` a pointed weak equivalence from a `K(A, n)` model
+  to the loop space of a `K(A, n + 1)` model inducing the identity of `A` (Stage 8.11b).
 
 Several results the roadmap states as targets are proved by the pinned Tau Ceti and are not
 restated: the no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
@@ -137,16 +141,21 @@ Headline theorems not statable at the pins, and what each lacks:
   representatives (Stage 4.3): the chain map is data built on the roadmap's cellular
   representatives;
 * twisted Poincaré duality, Poincaré–Lefschetz duality for compact manifolds with boundary and
-  the twisted relative fundamental class (Stages 6.3–6.4): the orientation local system `or_M`
-  with coefficients in a local system and the relative fundamental class of a manifold with
-  boundary are constructions of the roadmap;
+  the twisted relative fundamental class (Stages 6.3–6.4): the orientation local system of a
+  boundaryless manifold is native (`TauCeti.localHomologySystem`), but the pins have no cap
+  product of cohomology with coefficients in a local system against twisted homology and no
+  relative cap product on pairs, only the absolute constant-coefficient `TopCat.singularCap`,
+  so the duality maps cannot be written; and the orientation system of a manifold with boundary
+  over the half-space model is a construction of the roadmap;
 * the proper Whitehead theorem (Stage 8.5): the pinned libraries have no compactly supported
   cohomology, so its hypothesis cannot be written;
 * the relative obstruction class with local coefficients (Stage 8.9): the cochain is data built
   on the roadmap's cellular cochains with local coefficients (Stage 6.1), which the pins lack;
   the action of `π₁` on `π_n` it uses is native (`TauCeti.homotopyGroupMulAction`);
-* the functorial abelian family `K(A, n)` with its normalized identifications (Stage 8.8c) and
-  the ordinary EM loop comparison and cohomology suspension (Stage 8.11b): they are data.
+* the coefficient-natural family of normalized maps `K(A, n) → K(A', n)` induced by
+  homomorphisms `A → A'` (Stage 8.8c), the degree-zero loop map from discrete `A` and the
+  cohomology suspension `σ_right` (Stage 8.11b): they are data, and `σ_right` is defined on the
+  roadmap's unreduced suspension carrier, which the pins lack.
 -/
 
 @[expose] public section
@@ -309,13 +318,14 @@ def ordinaryPairQuotientPairMap (X : Type u) [TopologicalSpace X] (B : Set X) :
 
 /-- Stage 4.5, the closed-cofibration quotient comparison: for a closed subset `B` of `X` with the
 homotopy extension property, the collapse induces `H_n(X, B; M) ≅ H̃_n(X/B; M)` for every `n` and
-every constant coefficient module `M`. No separation axiom and no CW structure is assumed. The
+every constant coefficient module `M` over any ring `R`. No separation axiom and no CW structure is
+assumed. The
 inclusion of the cone `CB` into the mapping cone `X ∪ CB` is the cobase change of `B → X`, so the
 collapse `X ∪ CB → X/B` is a homotopy equivalence (Hatcher, Proposition 0.17, p. 15), and
 `H_n(X, B) ≅ H̃_n(X ∪ CB)` for every pair (Hatcher, Section 2.1, p. 125). For `B = ∅` the quotient is
 `X` with an added basepoint. The base of a Hausdorff relative CW pair is such a subset, by the
 native `TauCeti.hasHomotopyExtensionProperty_base` and Mathlib's `RelCWComplex.isClosedBase`. -/
-theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
+theorem ordinaryPairQuotientComparison (R : Type u) [Ring R] (M : ModuleCat.{u} R)
     (X : Type u) [TopologicalSpace X] (B : Set X) (hB : IsClosed B)
     (hHEP : TauCeti.HasHomotopyExtensionProperty B) (n : ℕ) :
     IsIso (TopPair.singularHomologyMap (ordinaryPairQuotientPairMap X B) M n) := by
@@ -323,11 +333,12 @@ theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.
 
 /-- Stage 4.5, the cohomological form: for a closed subset `B` of `X` with the homotopy extension
 property, the collapse induces `H^n(X, B; M) ≅ H̃^n(X/B; M)` through the native contravariant pair
-map. -/
-theorem ordinaryPairQuotientCohomologyComparison (R : Type u) [CommRing R]
+map, for every module `M` over any ring `R`. The cochains `Hom_R(C_n(-; R), M)` are taken as
+abelian groups, the scalars `k = ℤ`, so that `R` need not be commutative. -/
+theorem ordinaryPairQuotientCohomologyComparison (R : Type u) [Ring R]
     (M : ModuleCat.{u} R) (X : Type u) [TopologicalSpace X] (B : Set X) (hB : IsClosed B)
     (hHEP : TauCeti.HasHomotopyExtensionProperty B) (n : ℕ) :
-    IsIso (TopPair.singularCohomologyMap (R := ModuleCat.of R R) (k := R) (M := M)
+    IsIso (TopPair.singularCohomologyMap (R := ModuleCat.of R R) (k := ℤ) (M := M)
       (ordinaryPairQuotientPairMap X B) n) := by
   sorry
 
@@ -500,7 +511,8 @@ def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ∞ :=
 
 /-- The cup-length lower bound for the unnormalized Lusternik–Schnirelmann category: on a
 nonempty space, `cupLength + 1 ≤ lsCategoryCount X X`, the count being Tau Ceti's native
-`TauCeti.lsCategoryCount`. -/
+`TauCeti.lsCategoryCount` (Hatcher, Section 3.2, Exercise 2, p. 229, for covers by contractible
+open sets; the relative-cup argument needs only that each inclusion is nullhomotopic). -/
 theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
     (R : Type u) [CommRing R] :
     lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ := by
@@ -525,8 +537,9 @@ theorem relHurewicz_bijective_of_simplyConnected_subspace {Y : TopCat.{0}} (B : 
 /-! ## Stage 8.5: homological Whitehead and proper homotopy rectification -/
 
 /-- Stage 8.5: a map between simply connected spaces of CW type inducing isomorphisms on
-integral singular homology is the forward map of a homotopy equivalence. Whitehead's theorem
-itself is native, `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`. -/
+integral singular homology is the forward map of a homotopy equivalence (Hatcher, Corollary 4.33,
+p. 367, for CW complexes; spaces of CW type follow by transport along their models). Whitehead's
+theorem itself is native, `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`. -/
 theorem homologicalWhitehead
     {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
     [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
@@ -540,7 +553,9 @@ theorem homologicalWhitehead
 
 /-- The proper homotopy extension property of a subspace: a proper map on `X` and a proper
 homotopy of its restriction to `A` extend to a jointly proper homotopy on the whole cylinder.
-Stage 8.5 proves it for strongly locally finite CW pairs and their product pairs. -/
+Stage 8.5 proves it for every subcomplex of a strongly locally finite CW complex and for the
+product pairs `(I × X, ∂I × X ∪ I × A)` (Farrell–Taylor–Wagoner, Theorem 1.6). The hypothesis is
+on the ambient complex: the wedge point of a countable wedge of intervals fails the property. -/
 def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
     (A : Set X) : Prop :=
   ∀ (Y : Type u) [TopologicalSpace Y],
@@ -555,9 +570,11 @@ def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
 `A` with the proper homotopy extension property, if the inclusion of `A` is a proper homotopy
 equivalence in the native sense `ContinuousMap.HasProperHomotopyInverse` (so it is proper, and
 `A` is closed), then `A` is a proper strong deformation retract of `X`: there is a proper
-retraction and a jointly proper homotopy from the identity to it, fixed on `A`. A closed strongly
-locally finite CW subcomplex satisfies the extension hypothesis by Stage 8.5's proper homotopy
-extension theorem. -/
+retraction and a jointly proper homotopy from the identity to it, fixed on `A`. Every subcomplex
+of a strongly locally finite CW complex satisfies the extension hypothesis by Stage 8.5's proper
+homotopy extension theorem. This is the proper form of Hatcher, Proposition 0.19 and
+Corollary 0.20, p. 16, proved along the same route with proper extensions
+(Farrell–Taylor–Wagoner, Theorem 1.6). -/
 theorem properStrongDeformationRetract_of_inverse
     {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
     (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
@@ -611,7 +628,8 @@ def groupClassifyingSpaceBasepoint (G : Type u) [Group G] :
         (default : SimplexCategory.toTop.obj ⦋0⦌))
 
 /-- Stage 8.8a: the bar model is a `K(G, 1)` in the native sense: aspherical with fundamental
-group `G`, through the contractible free `G`-space `|E G|` covering it. -/
+group `G`, through the contractible free `G`-space `|E G|` covering it (Hatcher, Example 1B.7,
+p. 89, there for the Δ-complex on the same bar simplices). -/
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
@@ -676,6 +694,14 @@ structure OrdinaryEMModel (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n] whe
   vanishing : ∀ j : ℕ, 0 < j → j ≠ n →
     Subsingleton (HomotopyGroup (Fin j) space point)
 
+/-- Stages 8.8c and 8.10: every abelian group `A` has a `K(A, n)` model for every `n ≥ 1`
+(Hatcher, Section 4.2, p. 365: an `(n - 1)`-connected complex with `π_n ≅ A` from a presentation
+of `A`, followed by cells killing the higher homotopy groups). Stage 8.8c's bar and Dold–Kan models
+are such models. -/
+theorem nonempty_ordinaryEMModel (A : Type u) [AddCommGroup A] (n : ℕ) [NeZero n] :
+    Nonempty (OrdinaryEMModel A n) := by
+  sorry
+
 /-- Homotopy of continuous maps, as a setoid on `C(X, Y)`. -/
 def continuousHomotopySetoid (X Y : TopCat.{u}) : Setoid C(X, Y) where
   r := ContinuousMap.Homotopic
@@ -739,6 +765,26 @@ gives a homotopy equivalence of the two loop spaces. -/
 theorem basedLoopCWType (X : Type u) [TopologicalSpace X] [T2Space X]
     [CWComplex (Set.univ : Set X)] (x : X) :
     TauCeti.CWType (Ω^ (Fin 1) X x) := by
+  sorry
+
+/-! ## Stage 8.11b: the ordinary EM loop comparison -/
+
+open scoped Topology.Homotopy in
+/-- Stage 8.11b: for `n = m + 1 ≥ 1`, a `K(A, n)` model `K` and a `K(A, n + 1)` model `K'`, there is
+a pointed weak homotopy equivalence `f` from `K` to Mathlib's loop space `Ω K'` at the basepoint
+that induces the identity of `A`: for every `γ ∈ π_n(K)`, the identification of `K'` applied to
+the native loop-space shift `HomotopyGroup.pathLoopSpaceMulEquiv` of `f_* γ` is the identification
+of `γ`. The loop space is path connected with `π_j(Ω K') ≅ π_(j+1)(K')`, so it has the homotopy
+groups of `K(A, n)`, and a map from the CW complex `K` realizing the given isomorphism on `π_n`
+exists (Hatcher, Lemma 4.31 and Proposition 4.30, p. 366). -/
+theorem exists_ordinaryEMLoopEquivalence (A : Type u) [AddCommGroup A] (m : ℕ)
+    (K : OrdinaryEMModel A (m + 1)) (K' : OrdinaryEMModel A (m + 2)) :
+    ∃ (f : C(K.space, Ω K'.space K'.point)) (hf : f K.point = Path.refl K'.point),
+      f.IsWeakHomotopyEquivalence ∧
+        ∀ γ : HomotopyGroup (Fin (m + 1)) K.space K.point,
+          K'.homotopyIdentification
+              (HomotopyGroup.pathLoopSpaceMulEquiv m (HomotopyGroup.map f hf γ)) =
+            K.homotopyIdentification γ := by
   sorry
 
 end
