@@ -50,8 +50,10 @@ the library pin: polygonal ears need the ear API; Radó's combinatorial form, th
 Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
 Subdivides; orientation transport needs the simplicial orientation double cover and
 its realization comparisons; Euler characteristic needs those finite invariance
-results; Epstein, smoothing and category comparison need relative/supported isotopies,
-PL structures and compatible smoothings. They remain full README targets.
+results; the PL and smooth category comparisons need PL structures, compatible
+smoothings, and the corresponding relative isotopy regularity. They remain full README
+targets. The closed and boundary-relative topological Epstein headlines use native
+homotopy and isotopy carriers and are stated below.
 
 Only declarations whose input vocabulary is already meaningful at the current Tau Ceti
 pin are compiled below. In particular, do **not** introduce a vacuous `Prop := sorry` for
@@ -514,6 +516,18 @@ theorem isotopic_of_homotopic_closedSurface
     (hclosed : (𝓡∂ 2).boundary M = ∅) (f g : M ≃ₜ N)
     (h : ContinuousMap.Homotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩) :
     TauCeti.Isotopic (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩ := by
+  sorry
+
+/-- Epstein's boundary-relative headline, using the native isotopy carrier and an
+explicit fixed-boundary law. The boundary value at every time is the initial map's. -/
+theorem isotopicRel_of_homotopicRel_compactSurface
+    {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+    [T2Space M] [T2Space N] [CompactSpace M] (f g : M ≃ₜ N)
+    (h : ContinuousMap.HomotopicRel (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩
+      ((𝓡∂ 2).boundary M)) :
+    ∃ F : TauCeti.Isotopy (⟨f, f.continuous⟩ : C(M, N)) ⟨g, g.continuous⟩,
+      ∀ (t : unitInterval) (x : M), x ∈ (𝓡∂ 2).boundary M → F (t, x) = f x := by
   sorry
 
 end TauCetiRoadmap.PlanarTopology

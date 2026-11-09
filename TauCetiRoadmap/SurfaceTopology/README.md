@@ -37,10 +37,19 @@ Each layer below is organized around its principal theorem, mathematical depende
 |---|---|---|
 | `GeometricTopology` layer 9 | the classification of closed orientable surfaces, for the splitting surface | layer 8 |
 | `GeometricTopology` layer 9 | surface mapping classes | layer 9 |
-| `BelyiMaps` | the surface of a dessin, from its permutation triple: its realization, its classification by genus, Euler's formula and Riemann–Hurwitz for it, and the rotation systems of its embedded dessin | layers 2, 3, 5, and 8 |
+| `BelyiMaps`, finite dessin interfaces | the surface of a dessin, from its permutation triple: its realization, its classification by genus, Euler's formula, and the rotation systems of its embedded dessin | layers 2, 3, 5, and 8 |
+| Belyi marked-cover programme ([specification in §7.7](../BelyiMaps/README.md#77-topological-branched-covers-as-a-carrier)) | general branched covers, weighted degree and Riemann–Hurwitz; its specialized carrier and comparison adapter are downstream | layer 5 |
 | a future Four Colour roadmap | plane maps, duality, Euler's formula, the five-colour theorem | layers 4, 5, and 10 |
 
-The relationship with [BelyiMaps](../BelyiMaps/README.md) is a boundary, stated once. BelyiMaps owns dessins, passports, triangle groups, finite covers of the punctured sphere and their completion; this roadmap owns maps on surfaces in general, with boundary and non-orientability, their realization, and the classification. BelyiMaps' `PermutationTriple` is layer 2's hypermap presentation, used as it stands, and its `BipartiteRibbonGraph` is the dessin case of layer 2's oriented maps; layer 2 targets the conversions between the vocabularies and the agreement of the Euler characteristics.
+The relationship with [BelyiMaps](../BelyiMaps/README.md) has two directions at distinct
+interfaces. Its finite theory supplies `PermutationTriple` and `BipartiteRibbonGraph`;
+layer 2 uses them for hypermap and dessin presentations and proves the conversions and
+agreement of Euler characteristics. This roadmap owns maps on general surfaces with
+boundary and non-orientability, their realization, classification, general branched
+covers and the finite-counting Riemann–Hurwitz theorem. Completion of punctured-sphere
+covers, the marked-sphere carrier and its classification belong to the downstream
+analytic-cover programme specified in BelyiMaps §7.7. That development supplies its
+specialized adapter and consumes the general surface-cover results here.
 
 ### Exact supplier contracts
 
@@ -908,13 +917,6 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
   `d F`. Apply `eulerFormula_cellular` to these boundary-supported cellulations,
   including when the surfaces have boundary. Capping, classification and homology
   are not inputs to this argument.
-- **Marked-sphere comparison.** [BelyiMaps §7.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/BelyiMaps/README.md#77-topological-branched-covers-as-a-carrier)
-  owns the specialized `TopBranchedCover n` of the sphere with marked values
-  `{0,1,∞}`. Provide the specialization adapter with the same map, local power
-  exponents and degree; the atlas transport is PlanarTopology layer 0's. Require
-  the actual source/target conditions in this comparison. BelyiMaps retains
-  completion from punctured-sphere covers and its marked-cover classification;
-  the general surface predicate and finite Euler-counting theorem are here.
 - `Graph.genus` minimises over surfaces and therefore waits on layer 8; the correspondence and Euler's formula do not.
 
 **Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
@@ -938,9 +940,17 @@ is unbranched of degree two and gives `2 = 2·1`. The constant power `n = 0` is
 excluded by positivity and the finite-cover conditions. These checks distinguish
 weighted fibre count from raw fibre cardinality at a branch value.
 
-**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, its boundary-support theorem, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula for compact surfaces with boundary and its closed-surface corollary; (viii) local power models, the branched-cover API, the positive global degree, the marked-sphere adapter and Riemann–Hurwitz; (ix) genus, after layer 8.
+**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, its boundary-support theorem, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula for compact surfaces with boundary and its closed-surface corollary; (viii) local power models, the branched-cover API, the positive global degree and Riemann–Hurwitz; (ix) genus, after layer 8.
 
-**Consequences.** Layer 10. `BelyiMaps` layers 7 and 8. A future Four Colour roadmap.
+**Consequences.** Layer 10. The downstream marked-cover and analytic-cover programme
+specified in [BelyiMaps §7.7](../BelyiMaps/README.md#77-topological-branched-covers-as-a-carrier).
+A future Four Colour roadmap.
+
+The downstream marked-sphere adapter must preserve the underlying continuous map,
+each positive local exponent, and the total degree, with the actual source/target
+chart conditions. For `z ↦ z²`, a branch fibre has one point of weight two, while a
+regular fibre has two points of weight one. The specialized carrier and this adapter
+belong to that application; the general theory above supplies their surface input.
 
 ---
 

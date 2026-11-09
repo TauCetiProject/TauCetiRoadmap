@@ -34,7 +34,7 @@ Other README headlines need vocabulary not implemented at this library pin:
   standard models and mapping-class groups. Its positive twist is ([θ],t)↦([θ+t],t),
   giving [[1,1],[0,1]] on a positive ordered torus basis with a·b=+1.
 * The combinatorial planarity headlines need plane maps and minors. The available
-  drawing formulation of five-colour is stated below without those stand-ins.
+  drawing formulations of Fáry and five-colour are stated below without those stand-ins.
 * Riemann–Hurwitz needs PlanarTopology's topological Surface.eulerChar; its local
   power-model and positive weighted-fibre-degree targets are concrete below.
 
@@ -192,7 +192,7 @@ instance GMap2.realizationCompactSpace {D : Type u} [Fintype D] [DecidableEq D]
   inferInstanceAs (CompactSpace (Quotient G.gluingSetoid))
 
 /-- Hausdorffness is a proof target about the actual quotient, not an admitted topology. -/
-instance GMap2.realizationT2Space {D : Type u} [Fintype D] [DecidableEq D]
+theorem GMap2.realizationT2Space {D : Type u} [Fintype D] [DecidableEq D]
     (G : GMap2 D) : T2Space G.realization := by
   sorry
 
@@ -261,6 +261,18 @@ cellularity are not hypotheses; the empty graph is included. -/
 theorem colorable_five_of_noncrossing_drawing {V : Type*} [Finite V]
     (G : SimpleGraph V) (D : Drawing (Graph.ofSimpleGraph G) ℂ)
     (hD : D.IsNoncrossing) : G.Colorable 5 := by
+  sorry
+
+/-- Fáry's theorem: a finite simple graph with a noncrossing plane drawing has a
+noncrossing straight-line drawing. Vertex placements may change. -/
+theorem fary_of_noncrossing_drawing {V : Type*} [Finite V]
+    (G : SimpleGraph V) (D : Drawing (Graph.ofSimpleGraph G) ℂ)
+    (hD : D.IsNoncrossing) :
+    ∃ E : Drawing (Graph.ofSimpleGraph G) ℂ, E.IsNoncrossing ∧
+      ∀ (e : (Graph.ofSimpleGraph G).edgeSet)
+        (u v : (Graph.ofSimpleGraph G).vertexSet),
+        (Graph.ofSimpleGraph G).IsLink e.1 u.1 v.1 →
+        E.edgeRange e = segment ℝ (E.vertex u) (E.vertex v) := by
   sorry
 
 /-! ## Finite branched covers and their degree -/
