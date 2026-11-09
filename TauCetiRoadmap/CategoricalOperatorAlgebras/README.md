@@ -92,7 +92,9 @@ Q-systems use the separable convention `mm†=1_Q`. The unit is not
 also required isometric. For a simple-unit category, the unit-isometric
 convention in the compact-algebra-object correspondence is transported
 by explicit positive scalar rescaling in CA3. Left/right dimension and
-sphericality refer to the chosen dual functor, not just a dagger.
+sphericality refer to the chosen dual functor, not just a dagger: they are
+`TauCeti.leftDim`, `TauCeti.rightDim` and `TauCeti.SphericalCategory` for
+the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
 
 ## Exact supplier contracts
 
@@ -114,11 +116,50 @@ sphericality refer to the chosen dual functor, not just a dagger.
   `TauCeti.exactPairingCongrLeft_evaluation`),
   `TauCeti.CategoryTheory.Monoidal.Rigid.Functor` (strong-monoidal images of
   duals) and `TauCeti.CategoryTheory.Monoidal.Rigid.DoubleDual` (closed
-  braided double duals). The chosen-dual pivotal comparison for general
-  unbraided multitensor categories is a CA2a target.
+  braided double duals, not used for the pivotal comparison). Tau Ceti's
+  implementation of PivotalSpherical Layers 0–2, 6 and 9 is consumed as
+  stated at the pin; its pivotal classes are stated over `[RigidCategory C]`
+  with no braiding, and carry finiteness or semisimplicity only where named:
+  - `TauCeti.CategoryTheory.Monoidal.Rigid.DualFunctor`: the strong monoidal
+    double right dual functor `TauCeti.doubleRightDualFunctor`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Basic`: `TauCeti.PivotalCategory`,
+    a monoidal natural isomorphism from the identity to
+    `TauCeti.doubleRightDualFunctor`, with components
+    `TauCeti.pivotalIsoApp : X ≅ Xᘁᘁ`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.LeftDual`:
+    `TauCeti.leftDualIsoRightDual : ᘁX ≅ Xᘁ` and the monoidal natural
+    isomorphism `TauCeti.dualFunctorIso` of the left and right dual functors;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Trace`: `TauCeti.leftTrace`,
+    `TauCeti.rightTrace`, `TauCeti.leftDim` and `TauCeti.rightDim`, valued in
+    `𝟙_ C ⟶ 𝟙_ C`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Spherical`:
+    `TauCeti.SphericalCategory`, equality of the two traces of every
+    endomorphism;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Torsor`:
+    `TauCeti.PivotalCategory.instTorsor`, the pivotal structures, when one
+    exists, as a torsor over the monoidal automorphisms of the identity;
+  - `TauCeti.CategoryTheory.Monoidal.Grading.Universal`:
+    `TauCeti.universalGradingGroup`, the group presented by simple classes
+    with `[S][T]=[U]` for every nonzero `U→S⊗T`, and its universal property
+    `TauCeti.universalGradingGroup.liftEquiv`;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Grading`:
+    `TauCeti.PivotalCategory.characterEquiv`, pivotal structures relative to
+    a base point as characters `TauCeti.universalGradingGroup C →* kˣ`, for a finite
+    semisimple abelian k-linear rigid category with simple unit over an
+    algebraically closed field k;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Basic` and
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Existence`:
+    `TauCeti.IsPseudoUnitary`, global dimension equal to Frobenius–Perron
+    dimension for a pivotal fusion category over ℂ, and
+    `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`, the unique
+    pivotal structure whose left dimensions are the Frobenius–Perron
+    dimensions, which is spherical.
+
+  CA2a builds its unitary duality on these declarations and does not
+  restate them.
 - [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
-  Layers 0–4 and 9 supply general pivotal/spherical, rigidity, finite
-  semisimple and grading theory, and Layer 11 supplies finite
+  Layers 0–4, 6 and 9 supply general pivotal/spherical, rigidity, finite
+  semisimple, pseudo-unitarity and grading theory, and Layer 11 supplies finite
   semisimplicity, finitely many simple classes and simple unit of the
   centre `Center C` of a fusion category in characteristic 0, with
   `dim Z(C)=(dim C)²`. CA2a adds analytic unitary choices and their
@@ -374,7 +415,8 @@ isomorphisms.
 For a rigid object construct solutions of the conjugate equations,
 standard/balanced solutions, dual morphisms and dimension,
 using native right duals `Xᘁ` as primary and transporting left duals
-through the chosen pivotal comparison, with direct
+through `TauCeti.leftDualIsoRightDual` of the pivotal structure induced
+by the chosen dual functor, with direct
 sum, subobject and tensor compatibilities. Prove positivity, invertibility
 and uniqueness of balanced solutions up to unitary equivalence in the
 simple-unit setting (Penneys, Proposition 3.24, p. 16, and Corollary 3.26,
@@ -383,13 +425,21 @@ finite orthogonal sum of simples, so it applies objectwise). Separate that state
 a dual functor on a multitensor category.
 
 Define a unitary dual functor by chosen evaluations/coevaluations with
-unitary tensorator and `(f∨)†=(f†)∨`. Construct its pivotal comparison
-and left/right traces, positive dimensions and bi-involution. For a
+unitary tensorator and `(f∨)†=(f†)∨`; its evaluations and coevaluations
+are a choice of right duals, hence a rigid structure, with the left duals
+given by the adjoints of the evaluations and coevaluations. Construct the
+`TauCeti.PivotalCategory` instance that the unitary dual functor induces on
+this rigid structure, take its traces and dimensions to be
+`TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim` and
+`TauCeti.rightDim`, and prove that these traces are positive linear maps on
+`End(x)`, that the dimensions of nonzero objects are positive, and the
+bi-involution. For a
 unitary `r:x→x∨`, pin evaluation as ev_x:x∨⊗x→1 and the
 symmetric-evaluation equation as
 ev_x∘(r⊗id_x)=ev_(x∨)∘(φ_x⊗r), with unitors understood.
 Prove this equivalent to `r̄ r=φ_x`, where `x̄=x∨`, `f̄=(f†)∨` and
-`φ_x:x→x̄̄` is the chosen unitary pivotal comparison. Thus
+`φ_x:x→x̄̄` is the component `TauCeti.pivotalIsoApp` of the induced
+pivotal structure, which is unitary. Thus
 `r=r̄†φ_x`; use these typed formulas for real objects and transport. Define
 the signed self-duality variants by `r̄ r=ε φ_x`, ε∈{+1,−1},
 equivalently `r=ε r̄†φ_x`. Their evaluation equation is
@@ -410,18 +460,49 @@ self-duality map using the braiding to reverse the dual factors and
 prove the law.
 In a general rigid category the dual
 of X⊗Y has the reversed order Y∨⊗X∨; individual self-duality maps
-alone do not supply a self-duality of X⊗Y. Define
-pseudounitary pivotal structures by strictly positive left and right
-simple-object dimensions.
+alone do not supply a self-duality of X⊗Y. Call a pivotal structure
+on a choice of right duals, that is a `TauCeti.PivotalCategory` instance
+on the corresponding rigid structure, pseudounitary when the left and
+right dimensions of every simple object are strictly positive, each read
+in the copy `End(1_i)=ℂ` of the unit summand on which it is supported
+(Penneys, Definition 2.10, p. 8). A pivotal fusion category over ℂ has a
+pseudounitary pivotal structure exactly when it is
+`TauCeti.IsPseudoUnitary`, and that structure is then the one of
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`: positive left
+dimensions are multiplicative and additive, so by uniqueness of the
+Frobenius–Perron character (PivotalSpherical Layer 5; the comparison is
+stated with Penneys, Definition 2.10) they are the Frobenius–Perron
+dimensions, and conversely that structure is spherical with
+Frobenius–Perron dimensions on both sides. The definition here extends
+this to unitary multitensor categories with nonsimple unit or infinitely
+many simple classes, which `TauCeti.IsPseudoUnitary` does not cover.
 Construct the universal grading groupoid from the simple unit summands,
 nonzero simple objects, and tensor-product decomposition relations;
-prove its universal property, transport and skeleton independence.
+prove its universal property, transport and skeleton independence. For
+a simple unit it has one object; identify its vertex group with
+`TauCeti.universalGradingGroup C` by matching the degrees of simple
+objects through `TauCeti.universalGradingGroup.liftEquiv`, so the groupoid
+is new only for a nonsimple unit.
 
 Prove the canonical bijections between pseudounitary pivotal structures
 modulo monoidal natural isomorphism, unitary dual functors modulo unitary
 monoidal natural isomorphism, and groupoid homomorphisms to the positive reals `ℝ>0`
 (Penneys, Theorem A, p. 3, with the universal grading groupoid of §3.3,
 p. 13, and the dimension-ratio character of Lemma 3.20, p. 14).
+Two pivotal structures on the same rigid structure differ by a unique
+monoidal automorphism of the identity (`TauCeti.PivotalCategory.instTorsor`);
+these automorphisms are the homomorphisms `U→ℂˣ`, and relative to a
+pseudounitary base point the pseudounitary structures are exactly those
+whose homomorphism takes values in `ℝ>0` (Penneys, Remark 2.5, p. 6,
+Remark 2.11, p. 8, and Lemma 3.19 with the paragraph after it, p. 14).
+For a fusion category over ℂ, `TauCeti.PivotalCategory.characterEquiv`
+with `k=ℂ` is the composite of the first two of these steps. For a
+unitary fusion category the three sets of Theorem A are single points:
+`TauCeti.universalGradingGroup C` is finite, so its only homomorphism to
+`ℝ>0` is trivial, and the pseudounitary pivotal structure is the one of
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`. What the theorem
+adds to the pinned classification is the nonsimple unit, infinitely many
+simple classes and the unitary dual functors.
 For a homogeneous simple X pin the character to `dim_L(X)/dim_R(X)`.
 For equivalence of chosen dual functors require the canonical monoidal
 natural comparison determined by their evaluations/coevaluations to be
@@ -431,7 +512,8 @@ coherence, and prove the two composites and uniqueness of this
 duality-compatible comparison. Do not assert uniqueness among arbitrary
 unitary monoidal automorphisms of the underlying dual functor. Identify the balanced
 simple-unit choice with the spherical structure and prove, for simple
-unit, sphericality equivalent to the trivial grading character.
+unit, `TauCeti.SphericalCategory` for the induced pivotal structure
+equivalent to the trivial grading character.
 For a nonsimple unit, a trivial character means equality of the scalar
 left/right dimension coefficients after `End(1_i)=ℂ`; it does not mean
 equality of the two different unit projections as End(1)-valued traces.
@@ -439,7 +521,8 @@ Define a spherical faithful state ψ on End(1) by `ψ(tr_L(f))=ψ(tr_R(f))`
 for all endomorphisms f. Develop its positive unit-summand weights and
 the resulting trace-compatibility equations; the equal-weight state
 is spherical for the balanced choice. Keep this state condition
-distinct from a native spherical-category structure with simple unit.
+distinct from `TauCeti.SphericalCategory`, which compares the two traces
+as endomorphisms of the whole unit.
 
 **Checks.**
 
@@ -454,7 +537,13 @@ distinct from a native spherical-category structure with simple unit.
 - For the pointed category `Hilb(ℤ/2)` the universal grading group is ℤ/2.
   A homomorphism `χ:ℤ/2→ℝ>0` has `χ(g)²=1`, hence `χ=1`, so the unitary
   dual functor is unique up to equivalence; homomorphisms to ℂ× would give
-  two (χ(g)=±1), which is why the target group is ℝ>0.
+  two (χ(g)=±1), which is why the target group is ℝ>0. The pivotal
+  structure twisted by `χ(g)=−1` has `dim_L(g)=dim_R(g)=−1`: it is
+  spherical but not pseudounitary, so positivity, not sphericality, is
+  what cuts the two pivotal structures down to one. Its dimension ratio
+  `(−1)/(−1)=1` is the same as that of the standard structure, so the
+  ratio character separates pivotal structures only among the
+  pseudounitary ones.
 - For `End†(Hilb_fd ⊕ Hilb_fd)`, with two simple unit summands, the
   grading groupoid is the pair groupoid on two objects and its
   homomorphisms to ℝ>0 form a one-parameter family `t>0`; the balanced
@@ -473,8 +562,15 @@ distinct from a native spherical-category structure with simple unit.
 *Needs:* CA1a; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
 `Functor.Monoidal`, `NatTrans.IsMonoidal`, `LaxMonoidalFunctor`; Tau Ceti
 `TauCeti.CategoryTheory.Monoidal.Rigid.Basic`,
-`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
-Layers 0–4, 9.
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, `TauCeti.PivotalCategory`,
+`TauCeti.pivotalIsoApp`, `TauCeti.leftDualIsoRightDual`,
+`TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim`,
+`TauCeti.rightDim`, `TauCeti.SphericalCategory`,
+`TauCeti.PivotalCategory.instTorsor`, `TauCeti.universalGradingGroup`,
+and, for the fusion-category comparisons only,
+`TauCeti.PivotalCategory.characterEquiv` and
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`; PivotalSpherical
+Layers 0–6, 9.
 
 ### CA2b. Planar and module correspondences
 
@@ -563,8 +659,9 @@ triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
 CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
 `Functor.Monoidal`, `NatTrans.IsMonoidal` and `LaxMonoidalFunctor`; Tau Ceti
 `TauCeti.CategoryTheory.Monoidal.Rigid.Basic` and
-`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
-Layers 0–4 and 9; Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor` and the pivotal modules
+listed in the supplier contracts; PivotalSpherical Layers 0–6 and 9;
+Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
 
 ## CA3. Q-systems and their bicategorical completion
 
@@ -1079,10 +1176,16 @@ isomorphism with no cardinality hypothesis.
 Define `a_μ(v)=Σ_w n(v,w)μ(w)`, a sum of positive terms with value in
 `[0,∞]`, infinite when v has infinite weighted degree, and
 `A(Λ,μ)={v:μ(v)>a_μ(v)}` (Lemma 5.21, p. 39).
-For a connected graph prove `A(Λ,μ)=∅` implies
+For a countable graph, the standing setting of Hartglass–Penneys I
+(Notation 2.11, p. 8), prove: if Λ is connected and `A(Λ,μ)=∅` then
 `S(Λ,μ)∩K(F(X))=0`, hence injection into the graph Cuntz–Pimsner
-quotient (Theorem 5.23 and Corollary 5.24, p. 39). For locally finite
-graphs prove the nonempty-set converse (Theorem 5.23, p. 39).
+quotient (Theorem 5.23 and Corollary 5.24, p. 39); if Λ is locally
+finite and `A(Λ,μ)` is nonempty then `S(Λ,μ)` meets `K(F(X))`
+(Theorem 5.23, p. 39). The proof passes through the structure of the
+von Neumann closure (Lemma 5.21, p. 39), which the source proves for
+finite graphs and extends to countable ones by embedding. The K-theory
+above reaches arbitrary cardinality by continuity; this statement is
+made only in the source's countable setting.
 Prove the principal-graph dimension weighting has empty A when δ>1
 (§5.4, p. 41),
 so the planar quotient comparison in CA8 is faithful.
@@ -1114,12 +1217,17 @@ so the planar quotient comparison in CA8 is faithful.
   `C([−2,2])` with `K₀=ℤ`, `K₁=0`.
 - Rescaling the one-edge weighting by `c=3` leaves `a=2` and `T_ε`
   unchanged and gives `τ_(3μ)(p_v)=48`.
-- A star whose centre c has weight 2 and whose uncountably many leaves
-  have weight 1 is connected, uncountable and not locally finite. Then
-  `a_μ(c)=∞` and every leaf has `a_μ=μ(c)=2>1`, so `A(Λ,μ)=∅` and
-  `S(Λ,μ)` meets no compact operator on `F(X)`; `K₀(S(Λ,μ))` is free
-  abelian on the uncountably many vertex classes and `K₁=0`. A
-  construction restricted to countable graphs has no instance here.
+- A star whose centre c has weight 2 and whose countably infinitely many
+  leaves have weight 1 is connected, countable and not locally finite.
+  Then `a_μ(c)=Σ_ℕ 1=∞` and every leaf has `a_μ=μ(c)=2>1`, so
+  `A(Λ,μ)=∅` and `S(Λ,μ)` meets no compact operator on `F(X)`; the
+  converse half of the theorem says nothing here, since the centre has
+  infinite degree.
+- The same star with uncountably many leaves still has `A(Λ,μ)=∅`, and
+  `K₀(S(Λ,μ))` is free abelian on the uncountably many vertex classes
+  with `K₁=0`, by the continuity argument; a K-theory computation
+  restricted to countable graphs has no instance here. The
+  compact-intersection statement is not claimed for it.
 
 *Needs:* CA1a, CA1b; HilbertModules H2–H3; FreeProbability F3–F4;
 CStarAlgebras C1; OperatorKTheory K1–K6.
@@ -1129,8 +1237,8 @@ CStarAlgebras C1; OperatorKTheory K1–K6.
 The Checks compute the covariance ideal and K-theory of the Cuntz algebras,
 of `C(S¹)` and of the Toeplitz algebra of a nonseparable Hilbert space as
 Cuntz–Pimsner algebras over ℂ, the weighted one-edge
-moments, the set `A(Λ,μ)` for one edge, for one loop and for an
-uncountable star, and the rescaling of the trace.
+moments, the set `A(Λ,μ)` for one edge, for one loop and for a
+countable and an uncountable star, and the rescaling of the trace.
 
 ### Dependencies
 
@@ -2176,10 +2284,11 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   states and morphisms, intermediate objects and standard invariants, and
   the basic construction `J_φN′J_φ` over a II₁ base.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
-  Theorem A (p. 3), Theorem C (p. 4), Lemma 3.20 (p. 14),
+  Theorem A (p. 3), Theorem C (p. 4), Remark 2.5 (p. 6), Definition 2.10
+  and Remark 2.11 (p. 8), Lemmas 3.19–3.20 (p. 14),
   Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
-  positive grading characters, balanced duals and the shaded planar
-  correspondence.
+  pseudounitary pivotal structures, positive grading characters, balanced
+  duals and the shaded planar correspondence.
 - Coles–Huston–Penneys–Srinivas, [*The module embedding theorem via towers
   of algebras*](https://arxiv.org/abs/1810.07049) (2018), Theorem A (p. 3;
   §2.3, p. 10), for the equivalence between connected right planar modules
@@ -2194,8 +2303,8 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   for the ideal `J_X`, covariance, gauge-invariant uniqueness and the
   six-term sequence for every C*-correspondence in CA7.
 - Hartglass–Penneys, *C*-algebras from planar algebras*,
-  [Part I](https://arxiv.org/abs/1401.2485), §§2–5, with
-  Definitions 5.17–5.18 and Theorems 5.19–5.20 (pp. 35–38), Lemma 5.21,
+  [Part I](https://arxiv.org/abs/1401.2485), §§2–5, with Notation 2.11
+  (p. 8), Definitions 5.17–5.18 and Theorems 5.19–5.20 (pp. 35–38), Lemma 5.21,
   Theorem 5.23 and Corollary 5.24 (p. 39) and Theorem 5.25 (p. 40);
   [Part II](https://arxiv.org/abs/1401.2486), §§3–6, with Theorems A–C
   (pp. 2–3), Corollaries 4.16–4.17 (p. 15), Remark 4.18 (p. 16),
@@ -2277,9 +2386,9 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   Corollary 3.9 (p. 11), and §4 with Lemma 4.1 (pp. 16–17), for CA10.
 - Tau Ceti's `Monoidal.Rigid.Basic` and `Monoidal.Rigid.Functor`
   supply evaluation/coevaluation lemmas for Mathlib's exact-pairing
-  transport and construct strong-monoidal images. Consume those APIs
-  for dual comparisons. Its `Rigid.DoubleDual` uses closed
-  braided internal Homs; construct the chosen-dual pivotal comparison
-  for general unbraided multitensor categories here. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
+  transport and construct strong-monoidal images, and its
+  `Monoidal.Pivotal` modules supply pivotal structures over any rigid
+  monoidal category, with no braiding, and their traces, as listed in
+  the supplier contracts. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
   distinguishes chosen dagger data from categorical properties and
   describes functors as the corresponding full subcategory.

@@ -11,12 +11,14 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti. None of them is statable at the pins, so the
 file declares nothing. Mathlib has native categories, monoidal categories, `MonObj`,
 `EndMonoidal`, `HalfBraiding`, `Center`, rigid categories, `CStarModule`, `VonNeumannAlgebra` and
-completely positive maps, but no dagger category, C*-category or W*-category, and the headline
+completely positive maps, and Tau Ceti has pivotal structures with their traces and the universal
+grading group, but neither has a dagger category, C*-category or W*-category, and the headline
 theorems are statements about those. Each headline and the carrier it lacks:
 
 * CA2a, the canonical bijections between pseudounitary pivotal structures, unitary dual functors
   and positive characters of the universal grading groupoid (Penneys, Theorem A): no
-  C*-category, so no unitary multitensor category and no unitary dual functor.
+  C*-category, so no unitary multitensor category and no unitary dual functor, and no grading
+  groupoid for a nonsimple unit (Tau Ceti's universal grading group is its one-object case).
 * CA2b, the equivalence between shaded planar C*-algebras with finite-dimensional boxes and
   triples `(C, ∨, X)` (Penneys, Theorem C): no planar operad or planar algebra, and no unitary
   multitensor category.
@@ -34,8 +36,12 @@ theorems are statements about those. Each headline and the carrier it lacks:
 * CA7, the six-term sequence of `O_X` for every C*-correspondence X (Katsura, Theorem 8.6) and
   `K₀(S(Λ,μ)) ≅ ℤ^(V)`, `K₁(S(Λ,μ)) = 0`: no operator K-theory and no Cuntz–Pimsner algebra.
 * CA8, the canonical planar C*-towers: weak closures II₁ factors of Jones index `δ²`,
-  `K₀(A_k) ≅ ⊕_(v ∈ VΓ) ℤ`, Watatani index `δ²` and Pimsner–Popa bases of `N(δ²)` elements:
-  no planar algebra, Jones or Watatani index, or operator K-theory.
+  pairwise strong Morita equivalence of the `A_k` (and `A_(n,±) ∼ A_(n+1,∓)` in the shaded
+  towers), `A₀` simple, uniquely tracial and of stable rank one, `K₀(A_k) ≅ ⊕_(v ∈ VΓ) ℤ` with
+  `K₁(A_k) = 0`, the positive cone `K₀(A₀)^+` and scale `Σ(A₀)` given by the trace, Watatani
+  index `δ²` and Pimsner–Popa bases of `N(δ²)` elements: no planar algebra, Jones or Watatani
+  index, imprimitivity bimodule or strong Morita equivalence of C*-algebras, or operator
+  K-theory.
 * CA9, the biequivalence between von Neumann algebras with normal correspondences and complete
   W*-categories, existence of fully faithful representations of a unitary fusion category in
   every hyperfinite factor not of type I and their uniqueness in types II and III₁, and the
