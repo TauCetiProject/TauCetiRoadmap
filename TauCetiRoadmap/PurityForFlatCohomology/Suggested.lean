@@ -25,26 +25,32 @@ conjecture on the local Picard group of complete intersections of dimension `≥
 vanishing of the local Picard group of a regular local ring (*loc. cit.* Theorem 7.2.1; README
 §7.6; the vanishing for complete intersections of dimension `≥ 4` is `localCI_parafactorial` of
 DeformationAndDerivedPatchingAlgebra §6.9 and is not restated), the Picard groups of global
-complete intersections (*loc. cit.* Corollary 7.2.3; README §7.8), together with three classical
-inputs the roadmap proves: Katz's theorem on Frobenius-fixed vectors over an algebraically closed
-field (README §5.6), Auslander's freeness criterion through endomorphisms (§7.2) and the
-factoriality of regular local rings (§7.4). The fundamental-group clauses of Theorem 3.3.1 are
-equivalent, through Tau Ceti's Galois category of finite étale schemes over a connected scheme and
-Mathlib's `CategoryTheory.PreGaloisCategory.functorToContAction` (SGA 1, Exposé V, 6.9–6.10), to
-the clauses on the restriction functor stated here, and are not restated.
+complete intersections (*loc. cit.* Corollary 7.2.3; README §7.8), and Gabber's étale-depth
+bound `H^i_𝔪(R, G) = 0` for `i < vdim(R)` for the constant coefficients `G = ℤ/n`, `n ≥ 1`
+(*loc. cit.* Theorem 6.2.4, and Theorem 3.2.4 for `n` invertible in `R`; README §§1.6, 6.3), on the
+small étale site, where Mathlib's `CategoryTheory.Sheaf.cohomologyPresheaf` has restriction maps;
+together with three classical inputs the roadmap proves: Katz's theorem on Frobenius-fixed vectors
+over an algebraically closed field (README §5.6), Auslander's freeness criterion through
+endomorphisms (§7.2) and the factoriality of regular local rings (§7.4). The fundamental-group
+clauses of Theorem 3.3.1 are equivalent, through Tau Ceti's Galois category of finite étale schemes
+over a connected scheme and Mathlib's `CategoryTheory.PreGaloisCategory.functorToContAction`
+(SGA 1, Exposé V, 6.9–6.10), to the clauses on the restriction functor stated here, and are not
+restated.
 
 The following headline theorems are not statable at the pinned libraries.
 
+* Gabber's étale-depth bound for a commutative finite étale `R`-group `G` that is not constant
+  (Theorems 3.2.4 and 6.2.4; §§1.6, 6.3): the pins have no functor taking a commutative finite
+  étale group scheme over `Spec R` to an abelian sheaf on the small étale site of `Spec R`.
 * Purity for flat cohomology of complete intersections and of regular local rings
-  (*loc. cit.* Theorems 6.2.3 and 6.2.7; README §§6.2, 6.5), Gabber's étale-depth bound and its
-  extension to all finite étale coefficients (Theorems 3.2.4 and 6.2.4; §§1.6, 6.3) and global
-  purity (Theorem 7.1.2; §7.1). They need fppf (and étale) cohomology with supports, or at least
-  restriction maps on fppf cohomology of a scheme along an open immersion. Mathlib's
-  `CategoryTheory.Sheaf.cohomologyPresheaf` requires its input sheaf to take values in
-  `AddCommGrpCat.{v}`, `v` the universe of the site's morphisms, with a sheafification instance at
-  that coefficient universe, which the big fppf and étale sites lack at the pin (its output universe
-  `w′` is a separate parameter); `CategoryTheory.Sheaf.H` has no restriction maps; and there is no
-  functor from commutative group schemes to abelian fppf sheaves.
+  (*loc. cit.* Theorems 6.2.3 and 6.2.7; README §§6.2, 6.5) and global purity (Theorem 7.1.2;
+  §7.1). They need fppf cohomology with supports, or at least restriction maps on fppf cohomology
+  of a scheme along an open immersion. Mathlib's `CategoryTheory.Sheaf.cohomologyPresheaf`
+  requires its input sheaf to take values in `AddCommGrpCat.{v}`, `v` the universe of the site's
+  morphisms, with a sheafification instance at that coefficient universe, which the big fppf site
+  lacks at the pin (its output universe `w′` is a separate parameter); `CategoryTheory.Sheaf.H` has
+  no restriction maps; and there is no functor from commutative group schemes to abelian fppf
+  sheaves.
 * The crystalline key formula with supports over perfect schemes (Theorem 4.1.8, (4.1.8.2);
   §2.1): it needs, in addition, the crystalline Dieudonné module of a finite locally free group
   over a perfect scheme, which PrismaticCohomologyPartIII §6.0 constructs.
@@ -65,13 +71,13 @@ The following headline theorems are not statable at the pinned libraries.
 * Gabber's conjecture on the local Brauer group (Theorem 7.2.5; §7.12) and purity for the
   Brauer group of regular schemes with the codimension-one and residue descriptions
   (Česnavičius, *Purity for the Brauer group*, Theorems 1.1–1.3; §§8.1, 8.7, 8.10, 8.16): there is
-  no Brauer group of Azumaya algebras on a scheme and no étale cohomology of `𝔾_m` with
-  restriction maps.
+  no Brauer group of Azumaya algebras on a scheme and no sheaf `𝔾_m` on the small étale site, so no
+  étale cohomology of `𝔾_m` with restriction maps.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
   Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): they need the fppf and étale cohomology of a
-  group over a scheme with restriction maps, as in the first item, and groups of multiplicative
-  type over a base scheme, which the pins have only over a field (GroupSchemesOverABase §2.1
-  defines them).
+  group over a scheme with restriction maps, which the pins lack as in the first two items, and
+  groups of multiplicative type over a base scheme, which the pins have only over a field (README
+  §7.12c defines them).
 -/
 
 universe u v
@@ -156,6 +162,38 @@ theorem frobeniusSemilinear_exists_fixed_basis (p : ℕ) [Fact p.Prime]
     (M : Type v) [AddCommGroup M] [Module K M] [FiniteDimensional K M]
     (F : M →ₛₗ[frobenius K p] M) (hF : Function.Bijective F) :
     ∃ b : Module.Basis (Fin (Module.finrank K M)) K M, ∀ i, F (b i) = b i := by
+  sorry
+
+/-! ## Layer 6: Purity for complete intersections and regular local rings -/
+
+/-- The inclusion `U_R → Spec R` of the punctured spectrum of a local ring (Tau Ceti
+`TauCeti.IsLocalRing.puncturedSpectrum`), an open immersion and hence étale, as a morphism of the
+small étale site of `Spec R` from `U_R` to the terminal object `Spec R`. Restriction of étale
+cohomology from `Spec R` to `U_R` is the map of cohomology presheaves along it. README §6.3. -/
+def puncturedSpectrumEtaleHom (R : Type u) [CommRing R] [IsLocalRing R] :
+    Scheme.Etale.mk (TauCeti.IsLocalRing.puncturedSpectrum R).ι ⟶
+      Scheme.Etale.mk (𝟙 (Spec (CommRingCat.of R))) :=
+  (Scheme.Etale.forget _).preimage
+    (Over.homMk (TauCeti.IsLocalRing.puncturedSpectrum R).ι (by simp))
+
+/-- **Gabber's étale-depth bound for constant coefficients.** For a Noetherian local ring `R` and
+`n ≥ 1`, `H^i_𝔪(R, ℤ/n) = 0` for `i < vdim(R)`. Through the long exact sequence of étale cohomology
+with supports in the closed point this says: restriction
+`H^i_ét(Spec R, ℤ/n) → H^i_ét(U_R, ℤ/n)` to the punctured spectrum is injective for `i < vdim(R)` and
+bijective for `i + 1 < vdim(R)`, the cohomology being that of the constant sheaf `ℤ/n` on the small
+étale site of `Spec R`. No complete-intersection or excellence hypothesis is made, and `n` need not
+be invertible in `R`. Česnavičius–Scholze, Theorem 6.2.4 for the constant group `ℤ/n`; for `n`
+invertible in `R`, Theorem 3.2.4. README §§1.6, 6.3. -/
+theorem etaleDepth_ge_virtualDimension (R : Type u) [CommRing R] [IsLocalRing R]
+    [IsNoetherianRing R] (n : ℕ) [NeZero n] (i : ℕ) :
+    ((i : ℤ) < virtualDimension R → Function.Injective
+      ((((constantSheaf (Spec (CommRingCat.of R)).smallEtaleTopology AddCommGrpCat.{u}).obj
+          (AddCommGrpCat.of (ULift.{u} (ZMod n)))).cohomologyPresheaf i).map
+            (puncturedSpectrumEtaleHom R).op)) ∧
+    ((i : ℤ) + 1 < virtualDimension R → Function.Bijective
+      ((((constantSheaf (Spec (CommRingCat.of R)).smallEtaleTopology AddCommGrpCat.{u}).obj
+          (AddCommGrpCat.of (ULift.{u} (ZMod n)))).cohomologyPresheaf i).map
+            (puncturedSpectrumEtaleHom R).op)) := by
   sorry
 
 /-! ## Layer 7: Global purity and the conjectures of Gabber -/
