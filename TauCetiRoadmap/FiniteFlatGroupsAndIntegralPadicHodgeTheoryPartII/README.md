@@ -85,13 +85,13 @@ Flatness uses the local henselian flattening functor, rather than arbitrary sepa
 
 Section RG2.1.5 supplies κ_G and π₁; §§RG2.3.3 and RG2.3.5 supplies parahorics, the Kottwitz-kernel fixer characterization, lattice-chain stabilizer schemes and tame hyperspecial realization; §RG2.2.4 (*division-algebra-building*) supplies O_D-chain stabilizers. Section RG2.3.7 supplies connected finite-field Lang vanishing. Section RG2.4.3 supplies translations, affine Weyl length, dominant order and admissible sets. Its translation labelled λ has Kottwitz class −λ and split representative λ(p)⁻¹. Layer 6 uses the same elements with labels t_here^λ=t_RG^(−λ) and Adm_here(μ)=Adm_RG(dom(−μ)); its convention adapter transports Frobenius, Bruhat order and length without altering the positive valuation normalization. The trace/different pairing and scalar enlargements used with these lattices are constructed in §§3.15–3.17.
 
-What ReductiveGroupsPartII must provide (gap:full-fixer-cutting-tensors): For the specified smooth affine full fixer models, provide finite scheme-theoretically cutting mixed tensor families and their base-change identification, for every faithful finite-free realization of these fixers; the ordinary-Levi intersection is the separate contract below.
+What ReductiveGroupsPartII must provide (gap:full-fixer-cutting-tensors): For a mixed-characteristic discrete valuation ring O, a finite free O-module Λ and a closed O-flat subgroup scheme 𝒢⊂GL(Λ) with reductive generic fibre, give a finite family of tensors in `Λ^⊗=⊕_{m,n≥0} Λ^{⊗m}⊗(Λ^∨)^{⊗n}`, formed with tensor products and duals only, whose fixer in GL(Λ⊗_O R) is 𝒢(R) for every O-algebra R (Kisin17, footnote 7, p.7; Kisin17 lines 320–324, recording Kisin's Proposition 1.3.2 with symmetric and exterior powers and Deligne's argument with tensor products and duals only; P23, arXiv v4 §3.2.1 and footnote 3, pp.15–16; P23 lines 681–690; KPZ26, §§5.2–5.2.1, pp.52–53; KPZ26 lines 2292–2297 and 2317).
 
 What ReductiveGroupsPartII must provide (gap:parahoric-disc-purity): For a complete discretely valued field E with perfect residue field k of characteristic p and a parahoric group scheme 𝒫/O_E, every 𝒫-torsor on U=Spec O_E[[z]] minus its closed point extends to Spec O_E[[z]] (Anschuetz22, Proposition 10.3, p.33; Anschuetz22 line 1388).
 
 What ReductiveGroupsPartII must provide (gap:full-fixer-component-reduction): For a complete DVR O with residue field k and a smooth affine O-group 𝒢 with connected reductive generic fibre and quotient sheaf 𝒢/𝒢°≅i_*Γ, where i:Spec k→Spec O and Γ/k is finite étale, a 𝒢-torsor on U=Spec O[[u]] minus its closed point whose induced Γ-torsor on Spec k((u)) is trivial reduces to a 𝒢°-torsor (KP18, (3.2.7)–(3.2.8), p.172; KP18 lines 2127–2135).
 
-What ReductiveGroupsPartII must provide (gap:ordinary-levi-full-fixer): Under the ordinary σ-straight normalization and the assumption that the ambient full fixer equals its connected parahoric, prove that the Newton-Levi model satisfies 𝒨(W)=M(K₀)∩𝒢(W) and that its full fixer equals its connected parahoric.
+What ReductiveGroupsPartII must provide (gap:ordinary-levi-full-fixer): Let G be a connected reductive group over ℚ_p, W=W(F̄_p), K₀=W[1/p], S a maximal K₀-split torus of G defined over ℚ_p, and x a point of B(G,ℚ_p) in the apartment of S whose Bruhat–Tits stabilizer scheme 𝒢 equals its connected parahoric. Let t be a σ-straight translation element of the Iwahori–Weyl group of G over K₀ relative to S, and M the centralizer in G of the Newton cocharacter of t, a semistandard Levi subgroup defined over ℚ_p. Prove that M(K₀)∩𝒢(W) is the group of W-points of the parahoric group scheme 𝒨 of M attached to x through the identification of the apartments of S for M and for G, that 𝒨 is defined over ℤ_p, and that the Bruhat–Tits stabilizer scheme of x for M equals 𝒨 (KZ25, §3.4.2, p.26; KZ25 lines 1152–1165).
 
 The purity ring is the one in Anschuetz22, §10 and Proposition 10.3, author p.33; Anschuetz22 lines 1345–1391. A general perfect residue field gives extension, and algebraically closed residue plus smooth lifting gives triviality. The component reduction is the explicit special-fibre component-torsor step of KP18, (3.2.7)–(3.2.8), p.172; KP18 lines 2127–2138. The ordinary-Levi assertion has precisely the hypotheses of KZ25 §3.4.2, pp.26–27; KZ25 lines 1152–1165.
 
@@ -105,7 +105,7 @@ What GeometricSatakeAndFusion must provide (gap:scheme-local-model-hodge-immersi
 
 What GeometricSatakeAndFusion must provide (gap:schubert-curve-spanned-tangents), extending its §0.29: Let k be an algebraically closed field of characteristic p, here k=F̄_p, G a split connected reductive group over k and μ a dominant cocharacter with (G,μ) of mod-p abelian type: every simple factor of (G^ad,μ^ad) is of type A, B or C with μ a sum of minuscule coweights, or of type D_n with μ=rϖ₁^∨ (type Dᴿ) or μ=sϖ_(n−1)^∨+tϖ_n^∨ (type Dᴴ), r,s,t≥0. If p∤|π₁(G^der)| and no factor is of type Dᴴ, then at every k-point x of the affine Schubert variety S_μ in the affine Grassmannian of G over k((t)), the tangent space T_x(S_μ) is spanned by the tangent images of k-morphisms Spec k[[t]]→S_μ sending the closed point to x (KPZ26, Definitions 4.1.2 and 4.1.4 and Theorem 4.1.6, p.31; KPZ26 lines 1325, 1338–1349 and 1363–1365).
 
-What GeometricSatakeAndFusion must provide (gap:local-model-curve-spanned-tangents), extending its §4.17: For a local-model triple over O_F satisfying the standard assumptions above, with 𝒢≅Res_(O_K/O_F)ℋ for a finite extension K/F and a reductive group scheme ℋ over O_K, the tangent space of `Mloc_{𝒢,μ}⊗k` at every k-point of the minimal stratum is spanned by smooth formal curves in the sense of the previous contract, and at every k-point when G has no factor of type Dᴴ (KPZ26, Theorem 4.4.3, p.47; KPZ26 lines 2049–2055).
+What GeometricSatakeAndFusion must provide (gap:local-model-curve-spanned-tangents), extending its §4.17: Let k=F̄_p and let (G,{μ},𝒢) be a local-model triple over O_F, for F/ℚ_p finite, satisfying KPZ26 Standard assumptions 3.1.5: p>2, (G,μ) of local abelian type, and G essentially tame and classical, triality excluded. Assume 𝒢≅Res_(O_K/O_F)ℋ for a finite extension K/F and a reductive group scheme ℋ over O_K, and let `Mloc_{𝒢,μ}` be the scheme local model of KPZ26 (3.2.13), whose special fibre `Mloc_{𝒢,μ}⊗k` is isomorphic to the affine Schubert variety S_μ′ of a split pair (G′,μ′) over k of mod-p abelian type. At every k-point x of the minimal stratum (the Schubert cell of the dominance-minimal dominant coweight ν⪯μ′), and at every k-point x when G has no factor of type Dᴴ, the tangent space of `Mloc_{𝒢,μ}⊗k` at x is spanned by the tangent images of k-morphisms Spec k[[s]]→`Mloc_{𝒢,μ}⊗k` sending the closed point to x (KPZ26, Standard assumptions 3.1.5, Definition 4.1.4, Lemma 4.4.2 and Theorem 4.4.3, pp.16, 31 and 46–47; KPZ26 lines 717–720, 1347–1349, 1754, 2002–2006 and 2049–2055).
 
 The general geometry is consumed with the hypotheses of those four contracts; normality is not deduced from the immersion. The nonexceptional very-good theorem below also keeps its R-smooth centralizer and prime-to-p fundamental-group assumptions (KPZ26, §§3.1–3.4 and 4.1–4.4, pp.15–47; KPZ26 lines 717, 895, 1125, 1363 and 2049).
 
@@ -241,7 +241,7 @@ A proof can proceed as follows. Use that W(R) is p-torsion-free for perfect R an
 
 ### 0.6 Normal-decomposable frame pair
 
-Over a frame let M be finite free and M₁⊂M satisfy IM⊂M₁ with M=L⊕T and M₁=L⊕IT for finite free summands of specified ranks d and h−d. Morphisms are S-linear maps preserving M₁. Existence of such a normal decomposition is a property; a selected decomposition is a coordinate witness, not invariant data. Record M/M₁ as a free S/I-module of rank h−d when S/I is nonzero. If S is the zero ring, this quotient is zero. (KPZ26, §5.1.2, pp.48–49; KPZ26 line 2101).
+Over a frame let M be finite free and M₁⊂M satisfy IM⊂M₁ with M=L⊕T and M₁=L⊕IT for finite free summands of specified ranks d and h−d. Morphisms are S-linear maps preserving M₁. Existence of such a normal decomposition is a property; a selected decomposition is a coordinate witness, not invariant data. Record M/M₁ as a free S/I-module of rank h−d when S/I is nonzero. If S is the zero ring, this quotient is zero. (KPZ26, §5.1.2, pp.48–49; KPZ26 line 2101, whose frames have θ=p and p>2; for an arbitrary frame constant, the normal decompositions of Lau14, §2A, p.2214; Lau14 lines 560–564).
 
 The API includes the following facts.
 
@@ -285,7 +285,7 @@ A proof can proceed as follows. Verify the frame axioms in logarithmic coordinat
 
 ### 0.8 Invariant tilde module
 
-Construct τ_F(M,M₁), denoted M̃₁, as a finite free S-module functorial in a normal pair. In normal coordinates it is φ*L⊕φ*T. On a preserving map [[A,B],[C,D]] its matrix is [[φ(A),θφ(B)],[φ₁(C),φ(D)]], with θ the frame constant. This formula descends through changes of normal decomposition, so the functor does not retain a chosen splitting. (KPZ26, §5.1.2, (5.1.3), pp.48–49; KPZ26 line 2110).
+Construct τ_F(M,M₁), denoted M̃₁, as a finite free S-module functorial in a normal pair. In normal coordinates it is φ*L⊕φ*T. On a preserving map [[A,B],[C,D]] its matrix is [[φ(A),θφ(B)],[φ₁(C),φ(D)]], with θ the frame constant. This formula descends through changes of normal decomposition, so the functor does not retain a chosen splitting. (KPZ26, §5.1.2, (5.1.3), pp.48–49; KPZ26 line 2110, for θ=p and p>2. At an arbitrary frame constant the formula is the matrix by which a pair morphism intertwines the linearized normal representations (L,T,Ψ) of windows, the factor θ coming from F=θF₁ on the submodule: Lau14, §2A, p.2214; Lau14 lines 560–575).
 
 The API includes the following facts.
 
@@ -307,7 +307,7 @@ A proof can proceed as follows. Check composition using φ(C)=θφ₁(C) and sem
 
 ### 0.9 Strict base change of tilde modules
 
-For every strict frame map F→F′ and normal pair P, the canonical map `τ_F(P)⊗_S S′→τ_{F′}(P⊗_S S′)` is an isomorphism natural in P and compatible with successive strict maps and normal-coordinate changes. The induced pair uses the extended filtration, not an unsupported injection M₁⊗S′⊂M⊗S′. (KPZ26, (5.1.4), p.49; KPZ26 line 2133).
+For every strict frame map F→F′ and normal pair P, the canonical map `τ_F(P)⊗_S S′→τ_{F′}(P⊗_S S′)` is an isomorphism natural in P and compatible with successive strict maps and normal-coordinate changes. The induced pair uses the extended filtration, not an unsupported injection M₁⊗S′⊂M⊗S′. (KPZ26, (5.1.4), p.49; KPZ26 line 2133, for θ=p and p>2; at an arbitrary frame constant, strict homomorphisms and the base change (L,T,Ψ)↦(S′⊗L,S′⊗T,Ψ′) of normal representations with unit u=1: Lau14, §2A, p.2214; Lau14 lines 556–559 and 576–579).
 
 A proof can proceed as follows. In normal coordinates both sides are φ′*L′⊕φ′*T′; strictness identifies all four blocks. Check cocycles before removing the coordinates.
 
@@ -324,7 +324,7 @@ The theorem does not apply to the Breuil–Kisin lattice comparison of §2.5, wh
 
 ### 0.10 Comparison with Frobenius pullback
 
-There is a natural S-linear map j:M̃₁→φ*M, represented in normal coordinates by diag(1,θ). After inverting θ it is an isomorphism; for a p-frame this is inversion of p. If θ is a non-zero-divisor of S, j is injective and its image is the image of φ*M₁→φ*M, because φ(I)S=θφ₁(I)S=θS. Without that hypothesis retain j as a map; do not identify its domain with its image. (KPZ26, §5.1.7, p.49; KPZ26 line 2157).
+There is a natural S-linear map j:M̃₁→φ*M, represented in normal coordinates by diag(1,θ). After inverting θ it is an isomorphism; for a p-frame this is inversion of p. If θ is a non-zero-divisor of S, j is injective and its image is the image of φ*M₁→φ*M, because φ(I)S=θφ₁(I)S=θS. Without that hypothesis retain j as a map; do not identify its domain with its image. (KPZ26, §5.1.7, p.49; KPZ26 line 2157, where θ=p and p>2; at an arbitrary frame constant, Lau14, Lemma 2.3 and its proof, p.2215; Lau14 lines 595–609, where V^♯=(1⊕θ)(Ψ^♯)⁻¹ is j composed with the inverse of the linearized Ψ, and the comparison is fully faithful when θ is not a zero divisor).
 
 The API includes the following facts.
 
@@ -336,6 +336,7 @@ The API includes the following facts.
 
 - For d=0, j is multiplication by θ on φ*M, which is p over a p-frame and 2−[4] over D_(ℤ₂).
 - For d=h, j is the identity.
+- Over D_(ℤ₂) the constant θ=2−[4] has ghost components 2−4^(2ⁿ), namely (−2,−14,−254,…), all nonzero. The ghost map embeds W(ℤ₂) into the product of copies of ℤ₂, so θ is a non-zero-divisor of Ŵ(ℤ₂) and j is injective there, although D_(ℤ₂) is not a p-frame; a version of this target stated only for p-frames would not reach it.
 - For S=W(k) and d=0 in rank one, j is multiplication by p. Tensoring this module map with k gives the zero map k→k, with nonzero source; this scalar reduction is not a strict frame map W(k)→k, since φ₁(p)=1 cannot descend.
 
 A proof can proceed as follows. Check compatibility with the four-block functor formula. The normal form proves the injection and image statement precisely when θ is a non-zero-divisor.
@@ -367,7 +368,7 @@ A proof can proceed as follows. Use a normal decomposition to recover Φ and Φ�
 
 ### 0.12 Base change of displays
 
-A strict frame map sends (M,M₁,Ψ) to the base-changed pair and Ψ′ obtained using the inverse strict base-change isomorphism for τ. This is functorial on display morphisms and preserves the residual marking. For R→R′ complete local maps inducing perfect residue-field maps, apply the induced strict Zink frame map. (Hoff23, §1.1, pp.8–10; Hoff23 line 368; KPZ26, §5.1.19, p.52; KPZ26 line 2282).
+A strict frame map sends (M,M₁,Ψ) to the base-changed pair and Ψ′ obtained using the inverse strict base-change isomorphism for τ. This is functorial on display morphisms and preserves the residual marking. For R→R′ complete local maps inducing perfect residue-field maps, apply the induced strict Zink frame map. (Hoff23, §1.1, pp.8–10; Hoff23 line 368; KPZ26, §5.1.19, p.52; KPZ26 line 2282; both for θ=p and p odd, Hoff23 line 305 and KPZ26 line 2081. At every prime, base change of windows along a strict frame homomorphism in normal representations: Lau14, §2A, p.2214; Lau14 lines 556–559 and 576–579, with the constant of D_R at Lau14 lines 671–672, p.2217).
 
 The API includes the following facts.
 
@@ -603,6 +604,7 @@ The API includes the following facts.
 - An endomorphism tensor has centralizer as fixer; this does not demand commuting with its values only at geometric points.
 - If the integral fixer is disconnected, identifying it with its connected parahoric is rejected.
 - The identity in Λ⊗Λ∨ is fixed by every automorphism; treating Λ∨ as another covariant copy fails.
+- The schematic closure in GL(ℤ_p²) of the upper-triangular Borel B⊂GL₂ is closed and flat but is cut out by no tensor family: every mixed tensor representation of GL₂ over ℚ_p is semisimple, and on an irreducible one with highest weight ω the B-fixed vectors are highest-weight vectors on which the torus acts by ω, so they exist only for ω=0. Hence every B-fixed tensor is GL₂-fixed and the fixer of any family contains GL₂. The reductive generic fibre required here and in the tensor-cutting contract excludes it.
 
 A proof can proceed as follows. Use the scheme stabilizer rather than only its Z_p-points. Import the group scheme and local-model carriers; package their specified embedding as input. The scheme representative and the Hodge immersion are the exact contracts gap:scheme-local-model-representative and gap:scheme-local-model-hodge-immersion, so this definition does not assert that every parahoric datum has a good embedding.
 
@@ -824,7 +826,7 @@ For the split height-two filtration the Eisenstein modification is 𝔖e₁⊕E(
 
 ### Dependencies
 
-Layers 0–1; ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.27 (`deJongBoundedFormalFunctions`); GeometricSatakeAndFusion §4.17; the scheme-local-model, purity and flatness supplier contracts.
+Layers 0–1; ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; PadicHodgeTheory §5.5; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.2.27 (`deJongBoundedFormalFunctions`); GeometricSatakeAndFusion §4.17; the scheme-local-model, tensor-cutting, purity and flatness supplier contracts.
 
 
 ## Layer 3: very-good criteria and existence theorems
@@ -1048,7 +1050,7 @@ For the nodal special fibre xy=0, the two coordinate curves have derivatives e�
 
 ### Dependencies
 
-Layers 0–2; ReductiveGroupsPartII §RG2.3.5; GeometricSatakeAndFusion §§0.29 and 4.17; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:schubert-curve-spanned-tangents; gap:local-model-curve-spanned-tangents.
+Layers 0–2; ReductiveGroupsPartII §RG2.3.5; GeometricSatakeAndFusion §§0.29 and 4.17; gap:scheme-local-model-representative; gap:scheme-local-model-hodge-immersion; gap:schubert-curve-spanned-tangents; gap:local-model-curve-spanned-tangents; gap:full-fixer-cutting-tensors.
 
 
 ## Layer 4: adapted deformations and integral recognition
@@ -1067,11 +1069,11 @@ A nonexact sequence at the closed point is not ruled out by this export; each sp
 
 ### 4.2 The crystalline Galois image has trivial Kottwitz invariant
 
-Let k be algebraically closed, K/W(k)[1/p] finite, and L a crystalline lattice with Γ_K-invariant tensors cutting out a smooth integral group 𝒢 with connected reductive generic G. The associated representation Γ_K→𝒢(Z_p)⊂G(Q_p) has image in ker κ_G, for the Kottwitz homomorphism over the completed maximal unramified field. If moreover 𝒢=𝒢_z is the Bruhat–Tits stabilizer of a point z of B(G,ℚ_p), then 𝒢°(Z̆_p)=𝒢(Z̆_p)∩ker κ_G places the image in 𝒢°(Z_p). Without the stabilizer hypothesis this second conclusion fails. Let 𝒢 be the dilatation of GL₂/ℤ_p along the special-fibre subgroup H={diag(a,b): a^(p−1)=b^(p−1)}, whose identity component is the scalars and whose component group is μ_(p−1). The dilatation is not a closed subgroup of GL₂ over ℤ_p, but it is a closed subgroup of GL(Λ′) for a Γ_K-stable lattice Λ′ in a tensor construction of V=ℚ_p⊕ℚ_p(1); being flat with reductive generic fibre, it is the full fixer of a finite tensor family there (the fixer lemma invoked in KP18, §4.1.7, p.184; KP18 line 2582). The image diag(1,χ_cyc) of Γ_K has determinant in ℤ_p^×, so κ_G vanishes on it, but its reduction diag(1,ζ) with ζ^(p−1)=1, ζ≠1, lies outside the identity component. (KP18, §3.3.3–Proposition 3.3.4 and proof of Corollary 3.3.6, pp.178–180; KP18 lines 2398 and 2430).
+Let k be algebraically closed, K/W(k)[1/p] finite, and L a crystalline lattice with Γ_K-invariant tensors cutting out a smooth integral group 𝒢 with connected reductive generic G. The associated representation Γ_K→𝒢(Z_p)⊂G(Q_p) has image in ker κ_G, for the Kottwitz homomorphism over the completed maximal unramified field. If moreover 𝒢=𝒢_z is the Bruhat–Tits stabilizer of a point z of B(G,ℚ_p), then 𝒢°(Z̆_p)=𝒢(Z̆_p)∩ker κ_G places the image in 𝒢°(Z_p). Without the stabilizer hypothesis this second conclusion fails. Let 𝒢 be the dilatation of GL₂/ℤ_p along the special-fibre subgroup H={diag(a,b): a^(p−1)=b^(p−1)}, whose identity component is the scalars and whose component group is μ_(p−1). The dilatation is not a closed subgroup of GL₂ over ℤ_p, but it is a closed subgroup of GL(Λ′) for a Γ_K-stable lattice Λ′ in a tensor construction of V=ℚ_p⊕ℚ_p(1); being flat with reductive generic fibre, it is the full fixer of a finite tensor family there by gap:full-fixer-cutting-tensors (the lemma invoked in KP18, §4.1.7, p.184; KP18 line 2582). The image diag(1,χ_cyc) of Γ_K has determinant in ℤ_p^×, so κ_G vanishes on it, but its reduction diag(1,ζ) with ζ^(p−1)=1, ζ≠1, lies outside the identity component. (KP18, §3.3.3–Proposition 3.3.4 and proof of Corollary 3.3.6, pp.178–180; KP18 lines 2398 and 2430).
 
 A proof can proceed as follows. Use functoriality of κ_G and the crystalline representation’s tensor module to reduce the character/cocharacter obstruction. For 𝒢=𝒢_z apply the fixer characterization of ReductiveGroupsPartII §RG2.3.3 (*parahoric-kottwitz-characterization*), 𝒢°_z(Z̆_p)=Fix(z)∩ker κ_G, to deduce the connected-parahoric image. This is where disconnected integral fixers require extra bookkeeping.
 
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.16; ReductiveGroupsPartII §RG2.1.5; ReductiveGroupsPartII §RG2.3.3.
+*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.16; ReductiveGroupsPartII §RG2.1.5; ReductiveGroupsPartII §RG2.3.3; gap:full-fixer-cutting-tensors.
 
 
 ### 4.3 Tensor frames for crystalline lattices
@@ -1230,7 +1232,7 @@ At a height-two ordinary point the ambient tangent module has rank 1. Imposing t
 
 ### Dependencies
 
-Layers 0–3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3 and R07.4.16–R07.4.25; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; SchemeAndStackFoundations §§0.6, 4.1 and 4.7–4.8; the scheme-local-model representative, purity and point-detection contracts.
+Layers 0–3; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.2–R07.3.3 and R07.4.16–R07.4.25; VectorBundlesAndIsocrystals Layer 6, “Integral group torsors and Frobenius”; SchemeAndStackFoundations §§0.6, 4.1 and 4.7–4.8; the scheme-local-model representative, tensor-cutting, purity and point-detection contracts.
 
 
 ## Layer 5: hyperspecial comparisons and lattice specialization
@@ -1451,7 +1453,7 @@ Let 𝒮 be a given normal flat Hodge-type integral model, for example the norma
 
 A proof can proceed as follows. Import the geometric family and its Hodge tensors, compare their generic realization maps, and specialize its p-divisible crystal using the stated integral comparison. Use the rational absolute-Hodge comparison and §4.4 to identify the residual integral tensor images; §5.13 supplies the local universal-family compatibility.
 
-*Needs:* §4.4 (Integral crystalline and Witt tensor comparison); §5.13 (Étale tensors in the hyperspecial universal family); ShimuraVarieties §7.0i; gap:integral-hodge-realization-extension.
+*Needs:* §4.4 (Integral crystalline and Witt tensor comparison); §5.13 (Étale tensors in the hyperspecial universal family); ShimuraVarieties §7.0i; gap:integral-hodge-realization-extension; gap:full-fixer-cutting-tensors.
 
 
 ### 5.16 Specialization of a tensor-compatible Tate lattice
@@ -1523,7 +1525,7 @@ For G_m and g=p acting on the linear dual Tate lattice, the specialized crystal 
 
 ### Dependencies
 
-Layers 0–4; DerivedDeRhamCohomology §PD.7; PadicPeriodRings §§3 and 4.1; CrystallineCohomology §CR.7.1; PadicHodgeTheory §5.5; GeometricSatakeAndFusion Layer GS0 §0.31; the relative-constants, perfect-residue and rational absolute-Hodge comparison contracts.
+Layers 0–4; DerivedDeRhamCohomology §PD.7; PadicPeriodRings §§3 and 4.1; CrystallineCohomology §CR.7.1; PadicHodgeTheory §5.5; GeometricSatakeAndFusion Layer GS0 §0.31; the relative-constants, perfect-residue, rational absolute-Hodge comparison and tensor-cutting contracts.
 
 
 ## Layer 6: ordinary lifts and the rational centralizer action
@@ -1628,7 +1630,7 @@ Let M⊂G be a reductive subgroup containing b, whose fixer intersection is the 
 
 A proof can proceed as follows. Enlarge the invariant tensor family to cut out M. Apply §4.12 under (A)–(C) of §4.10 for M, compare the M and G local-model filtration maps, and forget the extra tensors. This retains the filtration assumption in Zhou; the general basic-Levi application cannot be inferred just from the μ-ordinary case.
 
-*Needs:* §4.12 (Versal adapted deformation theorem); §4.4 (Integral crystalline and Witt tensor comparison); §4.14 (Recognition from integral étale tensors); ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5.
+*Needs:* §4.12 (Versal adapted deformation theorem); §4.4 (Integral crystalline and Witt tensor comparison); §4.14 (Recognition from integral étale tensors); ReductiveGroupsPartII §§RG2.3.3 and RG2.3.5; gap:full-fixer-cutting-tensors.
 
 
 ### Examples
@@ -1638,7 +1640,7 @@ For H₀=`μ_{p∞}`⊕ℚ_p/ℤ_p and E(u)=u−p, the central construction give
 
 ### Dependencies
 
-Layers 0–2 and 4–5; ReductiveGroupsPartII §§RG2.1.5, RG2.3.3, RG2.3.5 and RG2.4.3; PadicHodgeTheory §5.5; the scheme-local-model representative, ordinary-Levi and purity contracts. The explicit ordinary lift uses no very-goodness hypothesis.
+Layers 0–2 and 4–5; ReductiveGroupsPartII §§RG2.1.5, RG2.3.3, RG2.3.5 and RG2.4.3; PadicHodgeTheory §5.5; the scheme-local-model representative, tensor-cutting, ordinary-Levi and purity contracts. The explicit ordinary lift uses no very-goodness hypothesis.
 
 ## Downstream consumers
 
@@ -1661,11 +1663,12 @@ All statements are in the conventions above. The locators specify the editions u
 - **KPZ26.** Mark Kisin, Georgios Pappas and Rong Zhou, [Integral models of Shimura varieties with parahoric level structure, II](https://doi.org/10.1017/fmp.2026.10031), Forum of Mathematics, Pi 14 (2026), e14, 89-page published version. §§3.1–3.4, 4.1–4.4, 5.1–5.3, 6.1–6.3, 7.1.3–7.1.6 and 7.3.1–7.3.2.
 - **KP18.** Mark Kisin and Georgios Pappas, [Integral models of Shimura varieties with parahoric level structure](https://www.numdam.org/item/10.1007/s10240-018-0100-0.pdf), Publications Mathématiques de l'IHÉS 128 (2018), 121–218. §§3.1–3.3, pp.162–182, and §4.1.7, p.184, with the relative-frame construction and very-good hypothesis of KPZ26.
 - **KZ25.** Mark Kisin and Rong Zhou, [Independence of ℓ for Frobenius conjugacy classes attached to abelian varieties](https://arxiv.org/abs/2103.09945v2), arXiv v2, 7 October 2024, 63 pages; published Annals of Mathematics 202 (2025). The locators here are v2 §§2.1–2.3 and 3.1–3.4, including Definition 3.2.4, Proposition 3.2.7, Lemma 3.4.3 and Theorem 3.4.5.
-- **Kisin17.** Mark Kisin, [Mod p points on Shimura varieties of abelian type](https://people.math.harvard.edu/~kisin/dvifiles/lr.pdf), author version dated 27 August 2016, 99 pages; Journal of the American Mathematical Society 30 (2017), 819–914. Author §§1.1–1.2, 1.3.9, 1.4.5–1.4.6, proof of Theorem 2.2.3 and Errata E.1–E.4, p.96.
+- **Kisin17.** Mark Kisin, [Mod p points on Shimura varieties of abelian type](https://people.math.harvard.edu/~kisin/dvifiles/lr.pdf), author version dated 27 August 2016, 99 pages; Journal of the American Mathematical Society 30 (2017), 819–914. Author footnote 7, p.7; author §§1.1–1.2, 1.3.9, 1.4.5–1.4.6, proof of Theorem 2.2.3 and Errata E.1–E.4, p.96.
 - **Zhu17.** Xinwen Zhu, [Affine Grassmannians and the geometric Satake in mixed characteristic](https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf), Annals of Mathematics 185 (2017), 403–492. §3.2 and proof of Proposition 3.11, pp.460–463.
 - **vanHoften24.** Pol van Hoften, [Mod p points on Shimura varieties of parahoric level](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/EC6F7AD8C8B489FEB8FC4D64485ABE1D/S2050508624000222a.pdf/mod_p_points_on_shimura_varieties_of_parahoric_level.pdf), Forum of Mathematics, Pi 12 (2024), e20, published 67-page version. Example 2.2.10, p.14; §§3.1.5–3.1.7, pp.27–28; Appendix A.4.3, pp.64–65.
 - **Hoff23.** Manuel Hoff, [On parahoric (G,μ)-displays](https://arxiv.org/abs/2311.00127v1), arXiv v1 (2023), 37 pages. §§1.1–1.5, 2.1 and 2.3, especially Assumption 2.28 and Theorem 2.36.
-- **Lau14.** Eike Lau, [Relations between Dieudonné displays and crystalline Dieudonné theory](https://msp.org/ant/2014/8-9/ant-v8-n9-p04-p.pdf), Algebra & Number Theory 8 (2014), 2201–2262. Abstract, p.2201; Theorems A and B, p.2202; §1B with Lemmas 1.6–1.7, pp.2205–2206; §2A, p.2214; Lemma 2.4, p.2216; Lemma 2.5, Definition 2.6 and Lemma 2.7, pp.2217–2218; Theorem 5.3 and Corollaries 5.5–5.6, pp.2243–2244.
+- **Lau14.** Eike Lau, [Relations between Dieudonné displays and crystalline Dieudonné theory](https://msp.org/ant/2014/8-9/ant-v8-n9-p04-p.pdf), Algebra & Number Theory 8 (2014), 2201–2262. Abstract, p.2201; Theorems A and B, p.2202; §1B with Lemmas 1.6–1.7, pp.2205–2206; §2A, p.2214; Lemma 2.3, p.2215; Lemma 2.4, p.2216; Lemma 2.5, Definition 2.6 and Lemma 2.7, pp.2217–2218; Theorem 5.3 and Corollaries 5.5–5.6, pp.2243–2244.
+- **P23.** Georgios Pappas, [On integral models of Shimura varieties](https://arxiv.org/abs/2003.13040v4), arXiv v4, 5 March 2022, 49 pages; Mathematische Annalen 385 (2023), 1–61. The locators here are arXiv v4 §3.2.1 with footnote 3, pp.15–16.
 - **Anschuetz22.** Johannes Anschütz, [Extending torsors on the punctured Spec(A_inf)](https://arxiv.org/abs/1804.06356v2), arXiv v2, 21 October 2020; Journal für die reine und angewandte Mathematik 783 (2022), 227–268. Proposition 10.3 and proof, author p.33.
 - **Wintenberger97.** Jean-Pierre Wintenberger, [Propriétés du groupe tannakien des structures de Hodge p-adiques et torseur entre cohomologies cristalline et étale](https://aif.centre-mersenne.org/item/10.5802/aif.1600.pdf), Annales de l'Institut Fourier 47 (1997), 1289–1334. §0, p.1293; §4.5.2, Proposition 4.5.3 and its following unnumbered corollary, pp.1330–1332.
 - **Zhou20.** Rong Zhou, [Mod p isogeny classes on Shimura varieties with parahoric level structure](https://arxiv.org/abs/1707.09685v2), arXiv v2, February 2018; published 2020. The locators here use v2 §4.6, proof of Proposition 4.8, pp.14–15, and §5.5, pp.18–19. The M-valued filtration hypothesis is retained.
