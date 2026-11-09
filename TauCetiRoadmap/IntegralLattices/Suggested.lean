@@ -71,11 +71,15 @@ unimodular at `2` (`localIntegralForm_two_equivalent_iff`, 3D), Cho's dyadic den
 with their invariance and his Lemma 5.1 (`DyadicJordanProfile.nQ_eq_nM_add_densityExponent`,
 `SameGenus.dyadicJordanProfile_eq`, 3I), the finite genus test
 (`sameGenus_iff_localIntegralForm_equivalent_primeFactors`, 3F), the quadratic order of a binary
-lattice (`binaryOrder`, B1), the dictionary between proper classes of primitive binary forms and
-the Picard and narrow Picard groups of quadratic orders, with its composition laws
-(`posDefProperClassEquivPic`, `properClassEquivNarrowPic`, B2, B3), the ring class field
-isomorphism for negative discriminants (`posDefProperClassEquivGal`, B3), the automorphism group
-of a binary lattice with the criterion for the existence of an improper automorphism
+lattice (`binaryOrder`, B1), the dictionary between proper classes of primitive binary forms of
+nonsquare discriminant `Δ` and the order `TauCeti.QuadraticOrder.numberFieldOrder` of
+discriminant `Δ` in the number field `QuadraticAlgebra ℚ Δ 0`, onto `Pic` for the positive
+definite classes when `Δ < 0` (`posDefProperClassEquivPic`) and onto `NarrowPic` for all classes
+when `Δ > 0` (`properClassEquivNarrowPic`), with its composition laws (B2, B3), the bijection of
+the positive definite classes of a negative discriminant with the Galois group of the ring class
+field through `TauCeti.ClassFieldTheory.ringClassArtinEquiv` (`posDefProperClassEquivGal`, B3),
+the proper automorphism group of a binary lattice with nonzero form as the norm-one units of its
+order, with the criterion for the existence of an improper automorphism
 (`specialOrthogonalGroupEquivNormOneUnits`, `index_specialOrthogonalGroup_eq_two_iff_reflected`,
 B4), class numbers (`classNumber`, `properClassNumber`, 4A), the binary class-number finiteness
 (`finite_genusClasses_of_finrank_eq_two`, 4E), the infinitude of the isometry group of an
@@ -125,15 +129,6 @@ Headline theorems that are **not statable at the pins**, and what each lacks:
 
 Nikulin's Proposition 1.15.1 (5I), a correspondence of gluing data used inside proofs, is a
 `README.md` target rather than a headline.
-
-The binary dictionary into `Pic 𝒪_Δ` and `NarrowPic 𝒪_Δ` (B2) and the ring class field of a
-negative discriminant (B3) are proved in Tau Ceti at the pin, on its order
-`TauCeti.QuadraticOrder.numberFieldOrder` of a nonsquare discriminant in the number field
-`QuadraticAlgebra ℚ Δ 0` (`QuadraticAlgebra.instNumberField`):
-`TauCeti.BinaryQuadraticForm.posDefProperClassEquivPic`,
-`TauCeti.BinaryQuadraticForm.properClassEquivNarrowPic` and
-`TauCeti.BinaryQuadraticForm.posDefProperClassEquivGal`, the last through ring-class
-reciprocity `TauCeti.ClassFieldTheory.ringClassArtinEquiv`. They are not restated here.
 
 Conventions follow `README.md`: the rational bilinear form is primary, its restriction to the
 carrier is integral, even lattices correspond to `QuadraticForm ℤ L` through `polarBilin`, and

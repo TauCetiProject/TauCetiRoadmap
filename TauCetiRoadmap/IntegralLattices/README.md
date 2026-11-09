@@ -1382,7 +1382,8 @@ principal genus, contains `C²`. That the kernel is exactly `C²` is proved in f
    as the prime discriminant of `Δ₀` at `2` is `−4`, `8` or `−8` (no factor when `Δ₀` is odd).
    That factor at `2` is an assigned character of `Δ`, or the product `δ·ε` of two assigned
    characters when `8 ∣ N`; so the Kronecker character is a product of assigned characters, of
-   all of them when `Δ` is fundamental and of a proper subset in general. It is nontrivial
+   all of them when `Δ` is fundamental, and of all of them or of a proper subset when it is not
+   (all, `χ₃`, at `Δ = −12`; only `δ` of `χ₃, δ` at `Δ = −36`). It is nontrivial
    because `Δ` is not a square, and it is `1` at every value prime to `2Δ` of a form of
    discriminant `Δ`. So the image of `Φ` lies in a subgroup of index 2.
 2. *Every tuple of that subgroup occurs.* The assigned characters are independent characters of
