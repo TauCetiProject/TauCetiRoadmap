@@ -68,6 +68,8 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
   and `Matrix.compound_mul`: PadicMeasuresIwasawaAlgebras, §6.4. Its Plücker form
   `plucker_cauchyBinet` is DiophantineApproximationAndTranscendence, §2.5, and its case `r = 2`
   is Tau Ceti's `Matrix.pairMinor_mul`.
+- *Products of flat modules over a Noetherian ring, more generally a coherent ring, for an
+  arbitrary index set*: DirectSummandsAndBigCohenMacaulay, §5.2. Target 2.1 is the finite case.
 - *Integer-valued polynomials*: the ring `Int(D)` and `IntValuedPolynomials.ringChoose_X_mem`
   (ClassicalArithmeticCompletion, §3.6), Pólya's theorem that the binomial polynomials
   `Ring.choose X n` form a `ℤ`-basis of `Int(ℤ)` (§3.43), and the detection of `Int(ℤ)` on
@@ -416,10 +418,10 @@ converse holds because a direct summand of a flat module is flat (`Module.Flat.o
 
 Not a target: arbitrary products. For a commutative ring `R`, every product of flat `R`-modules is
 flat if and only if every power `R ^ A` is flat, if and only if `R` is coherent, that is every
-finitely generated ideal is finitely presented (Chase 1960; Stacks, Tag 05CZ). In particular all
-products of flat modules are flat over a Noetherian ring (Stacks, Tag 05CY). The direction from
-coherence is 2.2 applied to the finitely generated ideals; stating the theorem needs coherent rings,
-which this roadmap does not define.
+finitely generated ideal is finitely presented (Chase 1960, Theorem 2.1; Stacks, Tag 05CZ). In
+particular all products of flat modules are flat over a Noetherian ring (Stacks, Tag 05CY). The
+theorem for arbitrary index sets is DirectSummandsAndBigCohenMacaulay, §5.2, listed under Scope;
+its route is 2.2 applied to the finitely generated ideals.
 
 ### 2.2 Tensor products with products
 
