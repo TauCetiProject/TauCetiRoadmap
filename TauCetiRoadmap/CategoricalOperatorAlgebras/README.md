@@ -42,7 +42,8 @@ additive and Karoubi completion and the finite-Hilbert and Hilbert-module
 examples (CA1a),
 and C*-tensor categories with solutions of the conjugate equations,
 standard solutions and intrinsic dimension, unitary dual functors and
-signed self-dualities (CA2a) have their single home here.
+signed self-dualities (CA2a) have their single home here; QuantumGroups
+consumes CA1a and CA2a for these tensor-category inputs.
 The positive Temperley–Lieb quotients and their C*-inductive limit are
 Subfactors 3.3. The unitary Temperley–Lieb category is
 TemperleyLiebOperatorAlgebras Layer 3, which consumes CA1a (3.2–3.3) and
@@ -1562,9 +1563,9 @@ index of an expectation, agreement of d_ρ with Subfactors 2.4's sector
 dimension, and the tensor/composition and corner laws; retain the factor
 hypothesis in the scalar-index claim.
 
-For an inclusion N⊂M of factors with a faithful normal conditional
-expectation E of finite index, M in standard form on L²(M) with modular
-conjugation J, construct Kosaki's basic extension `M₁=⟨M,e_E⟩=JN′J`
+For an inclusion N⊂M of σ-finite factors with a faithful normal
+conditional expectation E of finite index, M in standard form on L²(M)
+with modular conjugation J, construct Kosaki's basic extension `M₁=⟨M,e_E⟩=JN′J`
 (Kosaki 1986, §3, Lemma 3.2, as recalled in Burns, *Subfactors, planar
 algebras and rotations*, Proposition 2.1.21, pp. 12–13; over a II₁ base
 N this is the form `⟨M,N⟩=J_φN′J_φ` of Jones–Penneys, *Realizations*,
@@ -1924,9 +1925,10 @@ is asserted.
   `M⊗1⊂M⊗M₂(ℂ)`, where `N∨(N′∩M)=M`, the expectation onto it is the
   identity, and the one-term partition q₁=1 meets the definition: the
   non-inner hypothesis cannot be dropped.
-- For `σ=id⊕id` on an infinite factor M, `σ(M)⊂M` is isomorphic to
-  `M⊗1⊂M⊗M₂(ℂ)`, `d_σ=2` and `Ind(E_σ)=4=d_σ²`; σ̄≅σ, so `M⊂M₁` is
-  again isomorphic to `M⊗1⊂M⊗M₂(ℂ)`, of index 4, and `E₁(e)=1/4`. The
+- For `σ=id⊕id` on an infinite factor M with separable predual,
+  `σ(M)⊂M` is isomorphic to `M⊗1⊂M⊗M₂(ℂ)`, `d_σ=2` and
+  `Ind(E_σ)=4=d_σ²`; σ̄≅σ, so `M⊂M₁` is again isomorphic to
+  `M⊗1⊂M⊗M₂(ℂ)`, of index 4, and `E₁(e)=1/4`. The
   non-minimal expectation `E=σ∘(x↦λv₁*xv₁+(1−λ)v₂*xv₂)` with λ=1/5 is
   `id⊗Tr(diag(1/5,4/5)·)`, with `Ind(E)=5+5/4=25/4` and `E₁(e_E)=4/25`,
   while M₁ is the same algebra. For an automorphism σ, `σ(M)=M`,
@@ -2140,6 +2142,13 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
 
 ## Downstream consumers
 
+- QuantumGroups consumes CA1a and CA2a: the finite-Hilbert dagger
+  category, unitary rigid tensor categories, chosen conjugates, the
+  balanced unitary dual functor, signed self-duality, standard solutions
+  and intrinsic dimension, for the pivotal structure of the
+  representation categories of compact quantum groups, the signed
+  self-duality of free orthogonal quantum groups and Tannaka–Krein
+  reconstruction.
 - TemperleyLiebOperatorAlgebras Layer 3 consumes CA1a's C*-category
   interfaces (3.2–3.3) and CA2a's dagger tensor and unitary-duality
   interfaces (3.3) for the unitary Temperley–Lieb category.
@@ -2246,7 +2255,9 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   finite-index expectation, its Jones projection, the dual expectation
   and `Ind(E₁)=Ind(E)`, as recalled in Burns,
   [*Subfactors, planar algebras and rotations*](https://arxiv.org/abs/1111.1362),
-  Proposition 2.1.21 (pp. 12–13).
+  Proposition 2.1.21 (pp. 12–13) for the basic extension and its Jones
+  projection, and the paragraph after it (p. 13) for the dual
+  expectation and its index.
 - Popa, *Classification of subfactors and their endomorphisms*, CBMS
   Regional Conference Series in Mathematics 86, Amer. Math. Soc. (1995),
   Theorem 3.5(ii) and Corollary 4.4, for the criterion relating central
