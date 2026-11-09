@@ -70,12 +70,9 @@ Headlines stated here (README target, Lean name):
 * 9.2, `GMap.isConnected_ofGroup_iff`, `GMap.isRegular_ofGroup`, `GMap.nonempty_iso_ofMonodromy`
   (on `GMap.ofGroup`, `GMap.monodromyGen`, `GMap.monodromyGen_mul_self`,
   `GMap.commute_monodromyGen`, `GMap.ofMonodromy`).
-* 9.4, `natCard_platonicGroups`, `cellNumbers_platonic`, `isClosedSurface_isOrientable_platonic`
-  (on `coxeterGMap`, `tetrahedronGMap`, `octahedronGMap`, `cubeGMap`, `icosahedronGMap`,
-  `dodecahedronGMap`).
 * 9.5, `center_eq_zpowers_hemiW₀`, `nonempty_mulEquiv_alternatingGroup`,
   `cellNumbers_hemiIcosahedronGMap`, `nonempty_iso_orientationDoubleCover_hemiIcosahedronGMap` (on
-  `hemiW₀`, `hemiIcosahedronGMap`).
+  `hemiW₀`, `hemiIcosahedronGMap`, `coxeterGMap`, `icosahedronGMap`).
 * 9.6, `card_torusGroup`, `cellNumbers_torusGMap` (on `torusInvolution`, `torusGroup`,
   `torusInvolution_involutive`, `torusGMap`).
 * 10.1–10.2, `geometricRepresentationFun_cartographic_injective` (on
@@ -83,11 +80,11 @@ Headlines stated here (README target, Lean name):
 
 Not stated here, with the carrier each lacks:
 
-* 2.2, the uniqueness up to sign and the equality of ranks in BLSWZ Theorem 3.5.5; 2.4–2.6, the
-  face lattice, the projective face poset and the Euler relation: they lack the rank of a covector
-  and of an `OrientedMatroid`, which are not defined here.
-* 3.7, 8.2, 8.4 (i)–(ii), the map of a projective arrangement and its comparisons: they lack the
-  projective face poset of 2.5, which needs the rank of a covector.
+* 3.7, 8.2, 8.4 (i)–(ii), the map of a projective arrangement and its comparisons: the map of a
+  projective arrangement is a `GMap2` only through the theorem of 3.7 that each member of a
+  maximal chain of the projective face poset can be exchanged in exactly one way, so it is a heavy
+  definition kept in the README; 8.4 (ii) also needs GraphConnectivityAndFlows Target 1.1's
+  isomorphisms of `Graph α β`.
 * 8.3 and the skeleton clauses of 8.4 (ii), 9.4–9.6: the skeleton is a `Graph (G.Cell 0)
   (G.Cell 1)` whose connectivity and isomorphisms are GraphConnectivityAndFlows Target 1.1's,
   which are not at the pins.
@@ -885,49 +882,10 @@ def coxeterGMap {n : ℕ} {W : Type*} [Group W] {M : CoxeterMatrix (Fin (n + 1))
   GMap.ofGroup cs.simple cs.simple_mul_simple_self
     (fun i j h => commute_simple_of_eq_two cs (hM i j h))
 
-/-- The tetrahedral map, of type `{3,3}`. -/
-def tetrahedronGMap : GMap2 (CoxeterMatrix.A 3).Group :=
-  coxeterGMap (CoxeterMatrix.A 3).toCoxeterSystem
-    (fun i j h => by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)
-
-/-- The octahedral map, of type `{3,4}`. -/
-def octahedronGMap : GMap2 (CoxeterMatrix.B 3).Group :=
-  coxeterGMap (CoxeterMatrix.B 3).toCoxeterSystem
-    (fun i j h => by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)
-
-/-- The cubical map, of type `{4,3}`: the generators of `B₃` reversed. -/
-def cubeGMap : GMap2 ((CoxeterMatrix.B 3).reindex Fin.revPerm).Group :=
-  coxeterGMap ((CoxeterMatrix.B 3).reindex Fin.revPerm).toCoxeterSystem
-    (fun i j h => by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)
-
 /-- The icosahedral map, of type `{3,5}`. -/
 def icosahedronGMap : GMap2 CoxeterMatrix.H₃.Group :=
   coxeterGMap CoxeterMatrix.H₃.toCoxeterSystem
     (fun i j h => by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)
-
-/-- The dodecahedral map, of type `{5,3}`: the generators of `H₃` reversed. -/
-def dodecahedronGMap : GMap2 (CoxeterMatrix.H₃.reindex Fin.revPerm).Group :=
-  coxeterGMap (CoxeterMatrix.H₃.reindex Fin.revPerm).toCoxeterSystem
-    (fun i j h => by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)
-
-/-- The orders of the three groups (Layer 9.4). -/
-theorem natCard_platonicGroups :
-    Nat.card (CoxeterMatrix.A 3).Group = 24 ∧ Nat.card (CoxeterMatrix.B 3).Group = 48 ∧
-      Nat.card CoxeterMatrix.H₃.Group = 120 := sorry
-
-/-- Vertices, edges and faces of the five Platonic maps (Layer 9.4). -/
-theorem cellNumbers_platonic :
-    tetrahedronGMap.cellNumbers = (4, 6, 4) ∧ octahedronGMap.cellNumbers = (6, 12, 8) ∧
-      cubeGMap.cellNumbers = (8, 12, 6) ∧ icosahedronGMap.cellNumbers = (12, 30, 20) ∧
-      dodecahedronGMap.cellNumbers = (20, 30, 12) := sorry
-
-/-- The five Platonic maps are orientable closed-surface maps (Layer 9.4). -/
-theorem isClosedSurface_isOrientable_platonic :
-    (tetrahedronGMap.IsClosedSurface ∧ tetrahedronGMap.IsOrientable) ∧
-      (octahedronGMap.IsClosedSurface ∧ octahedronGMap.IsOrientable) ∧
-      (cubeGMap.IsClosedSurface ∧ cubeGMap.IsOrientable) ∧
-      (icosahedronGMap.IsClosedSurface ∧ icosahedronGMap.IsOrientable) ∧
-      (dodecahedronGMap.IsClosedSurface ∧ dodecahedronGMap.IsOrientable) := sorry
 
 /-- The longest element `(s₀ s₁ s₂)⁵` of the icosahedral group. -/
 def hemiW₀ : CoxeterMatrix.H₃.Group :=

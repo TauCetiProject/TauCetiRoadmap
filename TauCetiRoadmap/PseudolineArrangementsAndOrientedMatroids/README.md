@@ -146,7 +146,8 @@ rank-3 chirotopes with no bigonal element is not a target.
     the residues of `{j | j ≠ i}`. The cartographic group acts on the left; the regular flag system
     of a group `G` with generating involutions `ρ` has flags `G` and `adj i g = ρ i * g`, its
     automorphisms are right multiplications, and its automorphism group is identified with `Gᵐᵒᵖ`,
-    as in Tau Ceti's `TauCeti.PermutationTriple` (monodromy against automorphisms through `ᵐᵒᵖ`).
+    as in Tau Ceti's `TauCeti.PermutationTriple` (monodromy against automorphisms through `ᵐᵒᵖ`;
+    Wilson 2012, §7, p. 272, the antimorphism between the symmetry and connection groups).
     A `GMap n D` corresponds to polytopes of rank `n + 1`. Witness: in 9.2.
 
 ## Exact supplier contracts
@@ -158,7 +159,8 @@ rank-3 chirotopes with no bigonal element is not a target.
   `Equiv.swap`, `Equiv.optionCongr`, `Equiv.prodCongr`, `Equiv.mulLeft`, `WithTop`, `List.prod`,
   `Relation.ReflTransGen`.
 - Matroids and orders: `Matroid`, `Matroid.ofIsBaseOfFinite`, `Matroid.ExchangeProperty`,
-  `Matroid.IsBase`, `Matroid.IsFlat`, `Matroid.eRk`, `Matroid.dual`, `CircularOrder`, `sbtw`.
+  `Matroid.IsBase`, `Matroid.IsFlat`, `Matroid.eRk`, `Matroid.dual`, `Matroid.restrictSubtype`,
+  `Matroid.restrict_closure_eq`, `CircularOrder`, `sbtw`.
 - Topology: `IsPathConnected`.
 - Groups: `CoxeterMatrix`, `CoxeterMatrix.Group`, `CoxeterMatrix.simple`,
   `CoxeterMatrix.IsLiftable`, `CoxeterMatrix.toCoxeterSystem`, `CoxeterMatrix.A`,
@@ -169,8 +171,9 @@ rank-3 chirotopes with no bigonal element is not a target.
   `Function.Involutive.toPerm`, `ZMod`.
 - Linear algebra: `Representation`, `Finsupp.linearEquivFunOnFinite`, `LinearEquiv.conjAlgEquiv`,
   `MonoidHom.ofClass`.
-- Graphs: `Graph`, `Graph.IsLink`, `Graph.Simple`, `Graph.toSimpleGraph`, `SimpleGraph`,
-  `SimpleGraph.Colorable`, `SimpleGraph.Preconnected`.
+- Graphs: `Graph`, `Graph.IsLink`, `Graph.Simple`, `Graph.toSimpleGraph`, `Graph.ofSimpleGraph`,
+  `Graph.toSimpleGraphOfSimpleGraphIso`, `SimpleGraph`, `SimpleGraph.Colorable`,
+  `SimpleGraph.Preconnected`.
 
 **From Tau Ceti** (at the pins). `TauCeti/GroupTheory/Coxeter/Geometric.lean`:
 `CoxeterMatrix.geometricForm`, `CoxeterMatrix.geometricReflection`,
@@ -179,8 +182,8 @@ rank-3 chirotopes with no bigonal element is not a target.
 `CoxeterSystem.orderOf_simple`, for Layer 10.
 
 **From GraphConnectivityAndFlows.** Target 1.1: the graph-isomorphism interface of `Graph α β`
-(equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition)
-and the bridge `toSimpleGraph (Graph.ofSimpleGraph H) ≃ H`, for 8.3 and 8.4.
+(equivalences of vertex and edge sets preserving `IsLink`, with identity, inverse and composition),
+for 8.3 and 8.4.
 
 **From RootSystems.** §1.3, `geometric_faithfulness`: `CoxeterSystem.geometricRepresentation` is
 injective for every Coxeter system `cs : CoxeterSystem M W` on an arbitrary index type (Humphreys,
@@ -261,7 +264,9 @@ the flag graph `GMap.flagGraph`, the `SimpleGraph D` in which two distinct flags
 some `adj i` exchanges them; and orientability `GMap.IsOrientable`: the flag graph is bipartite
 (`SimpleGraph.Colorable 2`). Prove: isomorphisms have identities, inverses and composites, and
 carry cells to cells, components to components, connectedness, the closed-surface predicate and
-orientability; a flag system is connected iff it has at most one component.
+orientability; a flag system is connected iff it has at most one component (Wilson 2012, §5,
+pp. 267–270: flags with involutions `rᵢ`, the connection group, connectedness, isomorphisms,
+`i`-faces as orbits, and orientability as bipartiteness of the flag graph).
 *Needs:* Mathlib `Equiv.Perm`, `Subgroup.closure`, `MulAction.orbitRel`,
 `MulAction.IsPretransitive`, `SimpleGraph.Colorable`.
 
@@ -290,7 +295,10 @@ any `adj i`, it is connected iff `G` is connected and not orientable; and
 `GMap.natCard_cell_orientationDoubleCover`: for a finite closed-surface `G` it doubles every cell
 count, and so the Euler characteristic. Route: every residue of a closed-surface map is an even
 cycle of the flag graph (a polygon for `{0, 1}` and `{1, 2}`, a 4-cycle for `{0, 2}`), so it lifts
-to two residues.
+to two residues. Under the hypotheses of the connectedness criterion the cover is the bipartite
+double cover of the flag graph, so it is connected iff the flag graph is connected and not
+bipartite, which is non-orientability in the sense of
+Wilson 2012, §5, p. 270.
 *Needs:* 0.3.
 
 **Checks.**
@@ -346,7 +354,7 @@ Definition 3.5.3, (B2'), from Lemma 3.5.4 and §3.6).
 
 - In rank 1 the relation has the two terms `-χ x₂ χ x₁` and `χ x₁ χ x₂`, which are opposite: it
   holds for every function.
-- In rank 2 the full relations are the three-term relations of Convention 2 (one `x`, three `y`).
+- In rank 2 the full relations are the three-term relations of Convention 2 (three `x`, one `y`).
 - For the alternating chirotope on `{1, …, 5}`, `x = (1, 2, 3, 4)`, `y = (1, 5)`: the four terms
   are `0`, `-1`, `1`, `-1`.
 
@@ -376,7 +384,9 @@ vectors span `Fin r → 𝕜` over an ordered field, and its matroid is the matr
 independence of `v`. The three-term relation comes from the three-term Plücker identity for
 `3 × 3` minors; prove that identity for `Matrix.det` over a commutative ring. Define
 `Chirotope.IsRealizable` (Convention 3); negating the first coordinate of every vector negates
-`ofVectorsFun`, so `-χ` is realizable when `χ` is.
+`ofVectorsFun`, so `-χ` is realizable when `χ` is. (Richter-Gebert–Ziegler 2017, §6.2.3: the
+three-term Grassmann–Plücker identity, and `χ_X` is a chirotope for every vector configuration
+`X`.)
 *Needs:* 1.1, 1.3; Mathlib `Matrix.det`, `Submodule.span`.
 
 **Checks.**
@@ -396,11 +406,12 @@ Define `Chirotope.reorientFun` (multiply by `-1` once for each entry of `b` in `
 rank); contraction of a non-loop `e`, of rank `r - 1`, `b' ↦ χ (Fin.snoc b' e)`; and the dual of
 a chirotope on `Fin m`, of rank `m - r`, `χ* c = χ b * sign (Fin.append b c)`, where `b` is the
 increasing enumeration of the complement of the range of `c` and `Fin.append b c` is read as a
-permutation of `Fin m`. Prove that each is a chirotope; that the matroid of the dual is
+permutation of `Fin m`. Prove that each is a chirotope; that the matroid of the deletion of a
+non-coloop `e` is `χ.matroid.restrictSubtype {e}ᶜ`; that the matroid of the dual is
 `Matroid.dual` of `χ.matroid`; that `χ**` is `χ` or `-χ`; that the dual of a realizable
 chirotope is realizable (Gale duality); and that deletion and contraction commute with
 reorientation and are exchanged by duality (BLSWZ §3.4, §3.6).
-*Needs:* 1.1, 1.3, 1.4; Mathlib `Matroid.dual`.
+*Needs:* 1.1, 1.3, 1.4; Mathlib `Matroid.dual`, `Matroid.restrictSubtype`.
 
 **Checks.**
 
@@ -761,11 +772,13 @@ Route, on the incidence of elements and vertices alone (two elements share exact
 every vertex lies on at least two elements): take a vertex `a ∩ b` with exactly two elements from
 (a), two further vertices of `a` giving elements `c` and `d`, and sort a fifth element by how many
 of the six vertices of `{a, b, c, d}` it passes through (none, one, or an opposite pair).
+*Needs:* 1.3, 2.3, 2.6; Mathlib `Matroid.IsFlat`, `Matroid.eRk`.
 (c) Prove: if no element is bigonal, the `n` elements can be listed `e₁, …, eₙ` so that either
 `m = 4` and `e₁, …, e₄` are in general position, or `m = 6` and `e₁, …, e₆` form a complete
 quadrangle, and, for every `k` with `m ≤ k ≤ n`, no element is bigonal in the restriction of `χ`
 to `{e₁, …, e_k}` (deletion of the other elements, 1.5; each deletion is of a non-coloop, since
-four elements in general position remain). Route: a vertex of a restriction through an element
+four elements in general position remain). This listing is proved here by the route below; the
+manuscript source is given in Research context. Route: a vertex of a restriction through an element
 `f` is the trace of its closure in every larger restriction, and distinct vertices have distinct
 closures, so listing more elements removes no vertex from `f`; it suffices that each `e_k`,
 `k > m`, lies on at least three vertices of the restriction to `{e₁, …, e_k}`. If `χ` contains a
@@ -779,7 +792,7 @@ at least three vertices of the restriction to `Q` and itself. An element on an o
 *diagonal* of `Q`; there is at most one, since two diagonals through the same pair are equal and
 two through different pairs form a complete quadrangle with `Q`. List `Q`, then the elements
 other than the diagonal in any order, and the diagonal last, when the restriction is `χ` itself.
-*Needs:* 1.3, 1.5, 2.3, 2.6; Mathlib `Matroid.IsFlat`, `Matroid.eRk`.
+*Needs:* 3.8 (b), 1.3, 1.5; Mathlib `Matroid.restrictSubtype`, `Matroid.restrict_closure_eq`.
 
 **Checks.**
 
@@ -979,7 +992,7 @@ half-circle and `-1` on the antipodal one.
 ### 5.2 Parallel extensions
 
 Prove that for a non-loop `e`, `Y ↦ Y e` is a localization, whose extension adds an element
-parallel to `e`.
+parallel to `e` (BLSWZ §7.2, the lexicographic extension `[e⁺]` of length one).
 *Needs:* 5.1.
 
 **Checks.**
@@ -1061,7 +1074,8 @@ negation preserve realizability (1.4, 1.5), so this is the same as being isomorp
 chirotope. Prove `isRealizable_iff_exists_ofLines`: a simple rank-3 chirotope on
 `Option (Fin n)` in which `none` is in general position (3.6) is realizable over `ℝ` iff, after a
 relabelling fixing `none` and a reorientation, it is `(ofLines a b ha).chiFun` for some strictly
-antitone `a`.
+antitone `a` (Felsner–Goodman 2017, §5.1, the definition of a stretchable arrangement, and
+Theorem 5.3.1).
 *Needs:* 1.4, 1.5, 3.4.
 
 **Checks.**
@@ -1160,7 +1174,9 @@ cartographicGroup n →* Equiv.Perm D` through `CoxeterSystem.lift`, and convers
 `GMap.ofMonodromyHom φ` of a homomorphism `φ : cartographicGroup n →* Equiv.Perm D`; these are
 inverse. `GMap.exists_monoidHom_stringCoxeterMatrix_iff`: the monodromy homomorphism factors
 through `(stringCoxeterMatrix n p hp).Group` iff `(adj i * adj (i + 1)) ^ p i = 1` for every `i`;
-the *type* of a finite flag system is the tuple of orders of the `adj i * adj (i + 1)`.
+the *type* of a finite flag system is the tuple of orders of the `adj i * adj (i + 1)` (Wilson
+2012, §5, pp. 269–270: `rᵢ` and `rⱼ` commute when `i` and `j` differ by more than 1, and a
+maniplex is a transitive action of a Coxeter string group; §7, p. 272, the type).
 *Needs:* 0.3, 7.1; Mathlib `CoxeterSystem.lift`.
 
 **Checks.**
@@ -1179,7 +1195,8 @@ Prove that the monodromy group of 0.3 is the range of the monodromy homomorphism
 Prove `GMap.surjective_of_map_adj`: a morphism from a nonempty flag system to a connected one is
 surjective; `GMap.eq_of_mem_aut_of_apply_eq`: the automorphism group of a connected flag system
 acts freely on flags; `GMap.natCard_aut_le`: a finite connected flag system with `Nonempty D` has
-at most `Nat.card D` automorphisms.
+at most `Nat.card D` automorphisms (Wilson 2012, §7, p. 272: a symmetry is a permutation of the
+flags commuting with every `rᵢ`, so with the connection group).
 *Needs:* 7.2; Mathlib `Subgroup.closure`, `Subgroup.centralizer`, `MulAction.IsPretransitive`.
 
 **Checks.**
@@ -1213,7 +1230,9 @@ Define the coset flag system `GMap.cosetGMap H` of `H ≤ cartographicGroup n` o
 systems up to pointed isomorphism correspond to subgroups (the stabilizer of the base flag);
 nonempty connected ones up to isomorphism to conjugacy classes of subgroups
 (`GMap.exists_iso_cosetGMap`, `GMap.nonempty_iso_cosetGMap_iff`); finite ones to subgroups of
-finite index.
+finite index. This is the correspondence between transitive actions and conjugacy classes of
+stabilizers, applied to the transitive actions of the cartographic group of Wilson 2012, §5,
+p. 270.
 *Needs:* 7.2, 7.3; Mathlib `MulAction.orbitRel`.
 
 **Checks.**
@@ -1244,13 +1263,16 @@ The even part `GMap.evenMonodromy` of the monodromy group is the image of the ke
 `CoxeterSystem.lengthParity` under the monodromy homomorphism. Prove
 `GMap.isOrientable_iff_not_isPretransitive_evenMonodromy`: a map with `Nonempty D` is
 `GMap.IsOrientable` iff the even part is not transitive on flags, and it then has exactly two
-orbits.
+orbits (Wilson 2012, §5, p. 270: the orbits `Λ` of the group generated by the products `rᵢ rⱼ`,
+and orientability as `Λ ≠ Ω`, equivalently bipartiteness of the flag graph). Wilson assumes the
+`rᵢ` fixed-point-free and pairwise different; the proof here uses only the absence of fixed
+darts, so that every letter of a word in the `adj i` is an edge of the flag graph.
 *Needs:* 0.3, 7.2; Mathlib `CoxeterSystem.lengthParity`.
 
 **Checks.**
 
-- The empty map is orientable (any `S` works) and its even part is transitive (vacuously):
-  without `Nonempty D` the iff fails.
+- The empty map is orientable (its flag graph, with no vertex, is 2-colourable) and its even part
+  is transitive (vacuously): without `Nonempty D` the iff fails.
 - The tetrahedron (24 flags) is orientable, and the even part has two orbits of 12 flags.
 - The projective plane on four darts (0.3) is not orientable, and the even part is transitive.
 - The closed-surface hypothesis is needed: on one dart with every `adj i` the identity, the flag
@@ -1277,7 +1299,8 @@ Define the skeleton of a `GMap2`: the vertex-edge incidence multigraph as a Math
 `Graph (G.Cell 0) (G.Cell 1)`, with loops and parallel edges kept; when it is `Graph.Simple`, the
 `SimpleGraph` on vertices is `Graph.toSimpleGraph` of it. Its connectivity and isomorphisms are
 GraphConnectivityAndFlows Target 1.1's.
-*Needs:* 0.3; GraphConnectivityAndFlows Target 1.1; Mathlib `Graph`, `Graph.IsLink`.
+*Needs:* 0.3; GraphConnectivityAndFlows Target 1.1; Mathlib `Graph`, `Graph.IsLink`,
+`Graph.toSimpleGraph`, `Graph.ofSimpleGraph`, `Graph.toSimpleGraphOfSimpleGraphIso`.
 
 **Checks.**
 
@@ -1340,7 +1363,9 @@ transitively ↔ it has `Nat.card D` elements (`GMap.isRegular_iff_isPretransiti
 `GMap.isRegular_iff_natCard_aut`); nonempty regular connected flag systems up to isomorphism
 correspond to normal subgroups `N` of `cartographicGroup n` (`GMap.exists_normal_iso_cosetGMap`),
 and the automorphism group of the coset flag system of `N` is `≃* (cartographicGroup n ⧸ N)ᵐᵒᵖ`
-(`GMap.nonempty_mulEquiv_aut_cosetGMap`).
+(`GMap.nonempty_mulEquiv_aut_cosetGMap`) (Wilson 2012, §7, p. 272: reflexible maniplexes, those
+whose symmetry group is transitive on flags, and the antimorphism between the symmetry group and
+the connection group).
 *Needs:* 7.3, 7.5.
 
 **Checks.**
@@ -1358,7 +1383,8 @@ relations of `stringCoxeterMatrix n 0` (Convention 12), and the regular flag sys
 (`GMap.monodromyGen_mul_self`, `GMap.commute_monodromyGen`). Prove `GMap.isConnected_ofGroup_iff`:
 it is connected iff the `ρ i` generate `G`; `GMap.isRegular_ofGroup`: it is then regular with
 automorphism group `Gᵐᵒᵖ`; and `GMap.nonempty_iso_ofMonodromy`: every nonempty regular flag
-system is isomorphic to the regular flag system of its monodromy group.
+system is isomorphic to the regular flag system of its monodromy group (Wilson 2012, §7, p. 272,
+as in 9.1).
 *Needs:* 7.2, 9.1.
 
 **Checks.**
@@ -1393,15 +1419,16 @@ system is; regular polytopes of rank `n + 1` up to isomorphism correspond to str
 ### 9.4 Platonic maps
 
 Define `coxeterGMap cs hM`, the regular flag system of a Coxeter system whose non-adjacent
-entries are `2`, and the maps `tetrahedronGMap`, `octahedronGMap`, `icosahedronGMap` of
-`CoxeterMatrix.A 3`, `CoxeterMatrix.B 3`, `CoxeterMatrix.H₃`, and `cubeGMap`, `dodecahedronGMap`
-of the last two with their generators reversed (`CoxeterMatrix.reindex Fin.revPerm`). Prove
-`natCard_platonicGroups`: `Nat.card` of the three groups are `24`, `48`, `120`; that each is a
-string C-group; that the regular flag systems are maps of types `{3,3}`, `{3,4}`, `{3,5}`, `{4,3}`
-and `{5,3}`, with vertices, edges and faces `(4,6,4)`, `(6,12,8)`, `(8,12,6)`, `(12,30,20)`,
-`(20,30,12)` (`cellNumbers_platonic`), all closed-surface and orientable with Euler
-characteristic 2 (`isClosedSurface_isOrientable_platonic`); and that the icosahedral skeleton is a
-5-regular simple graph on 12 vertices.
+entries are `2`, and the icosahedral map `icosahedronGMap` of `CoxeterMatrix.H₃`; the tetrahedral,
+octahedral, cubical and dodecahedral maps are those of `CoxeterMatrix.A 3`, `CoxeterMatrix.B 3`
+and, for the last two, of `CoxeterMatrix.B 3` and `CoxeterMatrix.H₃` with their generators
+reversed (`CoxeterMatrix.reindex Fin.revPerm`). Prove that the three groups have `24`, `48` and
+`120` elements; that each is a string C-group; that the regular flag systems are maps of types
+`{3,3}`, `{3,4}`, `{3,5}`, `{4,3}` and `{5,3}`, with vertices, edges and faces `(4,6,4)`,
+`(6,12,8)`, `(8,12,6)`, `(12,30,20)`, `(20,30,12)`, all closed-surface and orientable with Euler
+characteristic 2; and that the icosahedral skeleton is a 5-regular simple graph on 12 vertices
+(Coxeter–Moser 1980, Chapter 8, regular maps; McMullen–Schulte 2002, §2E, Theorem 2E11, for the
+string C-groups; Wilson 2012, §7, p. 272, for the types).
 *Needs:* 8.3, 9.2, 9.3.
 
 **Checks.**
@@ -1423,7 +1450,8 @@ The regular flag system `hemiIcosahedronGMap` of the quotient is the hemi-icosah
 (`cellNumbers_hemiIcosahedronGMap`), Euler characteristic 1, type `{3,5}`, skeleton the complete
 graph on six vertices; the quotient is a string C-group, so the hemi-icosahedron is a regular
 polytope; the icosahedral map is its orientation double cover (0.4,
-`nonempty_iso_orientationDoubleCover_hemiIcosahedronGMap`).
+`nonempty_iso_orientationDoubleCover_hemiIcosahedronGMap`) (Coxeter–Moser 1980, Chapter 8;
+McMullen–Schulte 2002, §2E, Theorem 2E11, for the string C-group).
 *Needs:* 0.4, 8.1, 9.2–9.4; Mathlib `Subgroup.center`, `Subgroup.zpowers`, `alternatingGroup`,
 `QuotientGroup.mk`.
 
@@ -1535,7 +1563,7 @@ semialgebraic sets; in scheme-theoretic form every singularity type occurs on so
 scheme (Vakil 2006, Theorem 3.1). Whether the reconstruction of 8.4 (ii) extends to non-uniform
 simple rank-3 chirotopes with no bigonal element is open. Grothendieck's notes on pseudoline
 arrangements include the classification of 3.8 (b) and the listing of 3.8 (c) (Montpellier fonds,
-folder 80, pp. 20–28, https://grothendieck.umontpellier.fr/80.pdf).
+folder 80, pp. 20, 22, 24, 26 and 28, https://grothendieck.umontpellier.fr/80.pdf).
 
 ## References
 
@@ -1561,6 +1589,9 @@ folder 80, pp. 20–28, https://grothendieck.umontpellier.fr/80.pdf).
   67–94 (signotopes, local sequences).
 - S. Felsner, *On the number of arrangements of pseudolines*, Discrete Comput. Geom. 18 (1997),
   257–267 (local sequences).
+- J. Richter-Gebert, G. M. Ziegler, *Oriented matroids*, Chapter 6 of *Handbook of Discrete and
+  Computational Geometry*, 3rd ed., CRC Press, 2017, §6.2.3 (chirotopes, the three-term
+  Grassmann–Plücker identity).
 - S. Felsner, J. E. Goodman, *Pseudoline arrangements*, Chapter 5 of *Handbook of Discrete and
   Computational Geometry*, 3rd ed., CRC Press, 2017, Table 5.6.1.
 - D. E. Knuth, *Axioms and Hulls*, Lecture Notes in Computer Science 606, Springer, 1992.
@@ -1595,9 +1626,9 @@ folder 80, pp. 20–28, https://grothendieck.umontpellier.fr/80.pdf).
   universality theorem for incidence schemes).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §§2–3, in *Geometric Galois Actions 1*, LMS
   Lecture Note Series 242, Cambridge University Press, 1997, 5–48 (n-cartes, cartographic groups).
-- A. Vince, *Combinatorial maps*, J. Combin. Theory Ser. B 34 (1983), 1–21.
-- G. A. Jones, D. Singerman, *Theory of maps on orientable surfaces*, Proc. London Math. Soc. (3)
-  37 (1978), 273–307.
+- S. Wilson, *Maniplexes: Part 1: maps, polytopes, symmetry and operators*, Symmetry 4 (2012),
+  265–275, doi:10.3390/sym4020265 (§5, pp. 267–270: flags, the connection group, faces,
+  orientability; §7, p. 272: symmetries, reflexible maniplexes, the type).
 - H. S. M. Coxeter, W. O. J. Moser, *Generators and Relations for Discrete Groups*, 4th ed.,
   Springer, 1980, Chapter 8 (regular maps, §8.4 toroidal maps).
 - P. McMullen, E. Schulte, *Abstract Regular Polytopes*, Cambridge University Press, 2002, §2A,
