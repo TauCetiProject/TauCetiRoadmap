@@ -297,8 +297,10 @@ here uses no stage of this roadmap.
 - *RealAlgebraicGeometry (completed roadmap), Layers 3 and 6.* Semialgebraic descriptions by
   polynomial sign conditions (Layer 3) and cylindrical cell decompositions of `ℝⁿ` with their
   projection theory (Layer 6). C6.0 uses them with the triangulation above.
-- *UniversalCovers (completed roadmap), Stages 0–2.* Fundamental-groupoid transport, covering
-  classification, lifting and deck transformations for C6's finite topological covers and local systems.
+- *UniversalCovers (completed roadmap), Stages 0–2.* Covering classification over Mathlib's
+  fundamental groupoid and monodromy functor (covers as functors out of the groupoid, and the
+  pointed and unpointed subgroup correspondences), lifting and deck transformations for C6's
+  finite topological covers and local systems.
 - *ModularCurves, §0B.* Cartier duality on finite locally free commutative group schemes over an
   arbitrary base scheme, with biduality, rank and base change. C3.2d.5 extends it to
   algebraic-space bases for its Cartier-dual torsors.
@@ -523,6 +525,10 @@ as explained in C5.1); the two names denote the same target.
   `ContMDiffVectorBundle`, `topologicalKrullDim`, `LocallyContractibleSpace` (a predicate).
 - Singular chains: `AlgebraicTopology.singularChainComplexFunctor` (singular cohomology itself is
   not in Mathlib at the pin; see AlgebraicTopology below).
+- Fundamental groupoid and covering transport: `FundamentalGroupoid` and, for a covering map `p`,
+  `IsCoveringMap.monodromyFunctor` (the functor from `FundamentalGroupoid X` to types sending `x`
+  to the fibre `p⁻¹{x}` and a path class to its lifting bijection). UniversalCovers' covering
+  classification, below, is stated over them.
 - Riemann surfaces and curves (C1.9): `ChartedSpace` with `chartAt`, `IsManifold`,
   `MDifferentiableOn`, `smoothSheafCommRing` (manifold and coefficient ring in one universe),
   `AlgebraicGeometry.Scheme.functionField`, the morphism class `AlgebraicGeometry.Smooth`,
@@ -921,9 +927,10 @@ as explained in C5.1); the two names denote the same target.
   `ClassicalAlgebraic.properSupports` give the enhancement, canonical transformations,
   derived products/limits, reduction conservativity, étale localization and proper supports.
   Constructibility and geometric isomorphism theorems come from the preceding suppliers.
-- **UniversalCovers** Stages 0–2 supply the topological fundamental groupoid and finite-cover
-  classification on locally path-connected, semilocally simply connected spaces, with deck
-  groups and basepoint-change transport. **RealAlgebraicGeometry Layers 3, 6** supply the
+- **UniversalCovers** Stages 0–2 supply, over Mathlib's `FundamentalGroupoid` and
+  `IsCoveringMap.monodromyFunctor`, the covering classification (used here for finite covers)
+  on locally path-connected, semilocally simply connected spaces, with deck groups and
+  basepoint-change transport. **RealAlgebraicGeometry Layers 3, 6** supply the
   polynomial-sign, cell decomposition and projection theory; **AlgebraicTopology** supplies
   simplicial/CW topology and ordinary constant singular coefficients. C6.0 adds triangulation;
   C6.1 adds local and stratified cochains on these existing foundations.
@@ -3613,7 +3620,9 @@ tests with K5a's real `BundleTest(V_q* ⊗ DensityBundle N)`, where
 `V_q = (Λ^q T* N)* ⊗ DensityBundle N`, through the evaluation and dual-line cancellation
 `V_q* ⊗ DensityBundle N ≅ Λ^q T* N`, which needs no orientation of `N`; G1 also gives the
 equality of the LF topologies and the compact-convergence dual equivalence between
-`Current q N` and the real `BundleDistribution(V_q)`. Evaluation, support, restriction,
+`Current q N` and the real `BundleDistribution(V_q)`. G1's standing Riemannian metric exists
+on such `N` (partitions of unity) and enters only G1's comass mass, none of these test-side
+statements. Evaluation, support, restriction,
 extension by zero on tests, gluing and G1's boundary are used as G1 states them; none of
 them is restated here.
 
@@ -4632,7 +4641,7 @@ constant ordinary resolution used in C5.1; Hatcher, §3.H, printed pp. 333–334
 local cochains. The transport-preserving sheaf equivalence, local-system resolution and
 stratified cochain construction are the extensions specified here.
 *Needs:* §C6.0; the native `TauCeti.LocalCoefficientSystem` and its finite-stalk restriction;
-AlgebraicTopology Stages 2.6 and 6.1; UniversalCovers Stages 0–2 (groupoid/cover classification); C5.1; the singular suppliers
+AlgebraicTopology Stages 2.6 and 6.1; UniversalCovers Stages 0–2 (cover classification over the fundamental groupoid); C5.1; the singular suppliers
 in *Exact supplier contracts*; EnhancedDerivedSheaves §§0.1–0.4 on topological
 module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.functorCoherence`;
 Tau Ceti `TauCeti.CategoryTheory.SheafExtensionByZero` (the exact left adjoint `j_!`);
@@ -5046,9 +5055,9 @@ an instance of the named targets, not a separate theorem.
    (`analyticTwistCohomology`). The double point `Spec ℂ[ε]/(ε²) ⊂ P¹` has `H⁰(O) = ℂ[ε]/(ε²)` of
    length two, and multiplication by `ε` is a nonzero square-zero endomorphism that analytification
    keeps (`CoherentAnalytification`, `projectiveGeometricDictionaries`).
-2. **An elliptic curve.** For an elliptic curve `E` over `ℂ` (the carrier of the Tau Ceti EllipticCurves
-   roadmap), `H⁰(E, Ω¹)` is the one-dimensional space of invariant differentials, it is the `(1,0)` part
-   of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
+2. **An elliptic curve.** For an elliptic curve `E` over `ℂ`, taken as a proper smooth connected
+   genus-one `ℂ`-scheme with a marked rational point, `H⁰(E, Ω¹)` is the one-dimensional space of
+   invariant differentials, it is the `(1,0)` part of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
    `H¹(E^an, ℤ)` is free of rank two with the alternating intersection form (`multiplicativePeriodInterface`).
    A holomorphic isogeny of the analytifications is the analytification of an algebraic isogeny,
    with its group law, finite kernel and degree (`familyMorphismInterface`). No uniformization
