@@ -2,11 +2,12 @@
 
 **Summary.** Build polynomial jet evaluation on finite coefficient-supported spaces, the Frobenius
 power substitution `Z ↦ X, W ↦ X^q` for every power `q = p^e` (`e ≥ 0`) of the characteristic `p`,
-with its derivative identities and nonvanishing test (the ordinary identity and the ordinary test
-for `e ≥ 1`), algebraic Hermite interpolation with arbitrary multiplicities over any field, the
-Hasse confluent Vandermonde determinant with its sign, and the general minor, ideal-divisibility,
-row-change, Hadamard-size and integral-norm comparisons that an arithmetic interpolation
-determinant is estimated with. Everything is stated
+with the linearity of Hasse derivatives of order below `q` over polynomials in `X^q`, its derivative
+identities and its nonvanishing test (the ordinary identity and the ordinary test for `e ≥ 1`),
+algebraic Hermite interpolation with arbitrary multiplicities over any field, the Hasse confluent
+Vandermonde determinant with its sign, and the general minor, ideal-divisibility, row-change,
+Hadamard-size and integral-norm comparisons that an arithmetic interpolation determinant is
+estimated with. Everything is stated
 on Mathlib's native `Polynomial`, `MvPolynomial`, `Submodule`, `Module.Basis`, `LinearMap`,
 `Matrix`, `Ideal`, `Matrix.gram` and `Algebra.norm` carriers, from Mathlib's Hasse derivatives and
 Taylor expansion and Tau Ceti's multivariate Hasse calculus, Taylor coefficients at a root,
@@ -23,8 +24,9 @@ with the roadmap that makes it.
 `README.md` is definitive. `Suggested.lean` states, against the pinned libraries, the five end
 theorems and the main statements of Layers 0, 1, 3 and 4 on which they and their consumers rest,
 with the three definitions they need, `powerSubstitution`, `hermiteJet` and
-`confluentVandermonde`. Layer 0: `powerSubstitution_injOn`, `iterate_derivative_powerSubstitution`,
-`hasseDeriv_powerSubstitution`, `exists_nonzero_hasse_jet_on_frobenius_graph`,
+`confluentVandermonde`. Layer 0: `powerSubstitution_injOn`, `hasseDeriv_expand_mul`,
+`iterate_derivative_powerSubstitution`, `hasseDeriv_powerSubstitution`,
+`exists_nonzero_hasse_jet_on_frobenius_graph`,
 `exists_nonzero_ordinary_jet_on_frobenius_graph`. Layer 1: `hermiteJet_bijective`,
 `all_jets_vanish_iff_dvd`, `det_confluentVandermonde`. Layer 3: `det_mem_prod_row_ideals`,
 `det_gram_matrix_smul`, `derivative_prod_mem_ideal_pow`, `hasseDeriv_prod_mem_ideal_pow`,
@@ -43,12 +45,13 @@ other target, API list and Check lives here as well.
 - Layer 0: comparisons of coefficient-supported submodules (`MvPolynomial.restrictSupport`) with
   degree boxes, weighted-degree restrictions and `Polynomial.degreeLT`; the jet evaluation map on
   such a space with its monomial-basis matrix, kernel, naturality and reduction; the power
-  substitution `powerSubstitution B` with its injectivity on `Z`-degree below `B`, the ordinary and
-  Hasse derivative identities through `powerSubstitution (p^e)` in characteristic `p` (the Hasse
-  identity for every `e ≥ 0` and orders below `p^e`, the ordinary identity for `e ≥ 1`), the
-  comparison of ordinary and Hasse jets of order below `p`, and the Frobenius-graph
-  nonvanishing test, in its Hasse form for every `e ≥ 0` and orders below `p^e` and in its ordinary
-  form for `e ≥ 1` and orders below `p`.
+  substitution `powerSubstitution B` with its injectivity on `Z`-degree below `B`, the linearity of
+  the Hasse derivatives of order below `p^e` over polynomials in `X^(p^e)` in characteristic `p`
+  (`hasseDeriv_expand_mul`, for every `e ≥ 0`), the ordinary and Hasse derivative identities
+  through `powerSubstitution (p^e)` in characteristic `p` (the Hasse identity for every `e ≥ 0`
+  and orders below `p^e`, the ordinary identity for `e ≥ 1`), the comparison of ordinary and Hasse
+  jets of order below `p`, and the Frobenius-graph nonvanishing test, in its Hasse form for every
+  `e ≥ 0` and orders below `p^e` and in its ordinary form for `e ≥ 1` and orders below `p`.
 - Layer 1: Hermite interpolation with arbitrary multiplicities `m : Fin r → ℕ` at injective nodes
   over any field, as the linear equivalence `hermiteJet a m` from `Polynomial.degreeLT K (∑ m i)`
   to `∀ i, Fin (m i) → K`; the kernel of the unrestricted jet map; the confluent Vandermonde matrix
@@ -86,11 +89,10 @@ other target, API list and Check lives here as well.
   repeated points and any finite support; with the multi-indices `0` and `e_j` at every point and
   the total-degree ball as support it is that map up to reindexing, first-order Hasse and ordinary
   derivatives being equal.
-- *The kernel of the Hasse derivatives of orders `0 < k < p^e` and their linearity over
-  `R[X^(p^e)]`* (`hasseDeriv k (expand R (p^e) f * g) = expand R (p^e) f * hasseDeriv k g` for
-  `k < p^e`): GrothendieckNotesLemmas §§1.3–1.4. Target 0.4 is its bivariate form read through
-  `powerSubstitution (p^e)`, which that statement does not mention, together with the evaluated
-  form; its own route is Tau Ceti's Kronecker chain rule.
+- *The kernel of the Hasse derivatives of orders `0 < k < p^e`* (the polynomials that all of them
+  annihilate) is not a target of this roadmap, and nothing here uses it. Their linearity over
+  `R[X^(p^e)]` is this roadmap's target 0.3a, and target 0.4 is its bivariate form read through
+  `powerSubstitution (p^e)`, together with the evaluated form.
 - *Interpolation at simple nodes*: Mathlib's `Lagrange.interpolate` and `Lagrange.funEquivDegreeLT`
   (`Mathlib/LinearAlgebra/Lagrange.lean`: over a field, for nodes `v` injective on a finite set `s`,
   the linear equivalence `degreeLT F #s ≃ₗ[F] (s → F)`, `f ↦ (f (v i))_i`, with the Lagrange
@@ -237,7 +239,9 @@ other target, API list and Check lives here as well.
   `Polynomial.pairwise_coprime_X_sub_C`, `Polynomial.isCoprime_X_sub_C_of_isUnit_sub`;
   `Polynomial.X_sub_C_pow_dvd_iff`, `Polynomial.X_pow_dvd_iff`, `Polynomial.le_rootMultiplicity_iff`,
   `Polynomial.count_roots`, `Polynomial.card_roots'` (`card (roots f) ≤ natDegree f`),
-  `Multiset.toFinset_sum_count_eq`; `Lagrange.interpolate`, `Lagrange.funEquivDegreeLT`
+  `Multiset.toFinset_sum_count_eq`; `Polynomial.expand`, `expand_monomial`
+  (`Mathlib/Algebra/Polynomial/Expand.lean`), `Polynomial.coeff_X_add_one_pow`
+  (`Mathlib/Algebra/Polynomial/Coeff.lean`); `Lagrange.interpolate`, `Lagrange.funEquivDegreeLT`
   (`Mathlib/LinearAlgebra/Lagrange.lean`, `[Field F]`, nodes injective on a finite set).
 - `Polynomial.degreeLT`, `mem_degreeLT`, `degreeLT_eq_span_X_pow`, `degreeLTEquiv`
   (`Mathlib/RingTheory/Polynomial/Basic.lean`); `MvPolynomial.restrictSupport`,
@@ -329,16 +333,10 @@ other target, API list and Check lives here as well.
   `TauCeti/Analysis/Polynomial/L1Norm.lean`); the Hasse Wronskian `Polynomial.hasseWronskian`
   (`TauCeti/RingTheory/Polynomial/HasseWronskian.lean`), the one-node comparison of 1.3.
 
-### From TauCetiRoadmap.GrothendieckNotesLemmas
-
-§1.4 `Polynomial.hasseDeriv_expand_mul`: in characteristic `p` and for `k < p^e`,
-`hasseDeriv k (expand R (p^e) f * g) = expand R (p^e) f * hasseDeriv k g`. Target 0.4 names it, at
-the same exponent `e`, as the input of its coefficientwise route; its other route uses only Tau
-Ceti.
-
 ## How to read the build
 
-Layer 0 fixes the finite polynomial spaces and the jet evaluation map, then builds the Frobenius
+Layer 0 fixes the finite polynomial spaces and the jet evaluation map, proves that Hasse
+derivatives of order below `q` are linear over polynomials in `X^q`, then builds the Frobenius
 power substitution and its nonvanishing test on the univariate root-count inequality over an
 arbitrary field, from Tau Ceti's Taylor coefficients at a root and Mathlib's root counting. Layer 1
 is the univariate Hermite theory: the jet equivalence, the kernel through the Chinese remainder
@@ -457,6 +455,42 @@ monomials of partial degrees below `d`.) *Needs:* Tau Ceti `MvPolynomial.coeff_a
   `{μ | μ 0 < 1}` of `Z`-degree below `1`; the strip of the statement, `Z`-degree below `B = 0`, is
   empty, so the bound in the set must be `B` itself and not a fixed strip.
 
+### 0.3a Hasse derivatives are linear over polynomials in `X^(p^e)`
+
+Throughout, `R` is a commutative ring of prime characteristic `p` and `q = p^e` with `e ≥ 0`. Prove
+`hasseDeriv_expand_mul`: for `k < q` and all `g, f ∈ R[X]`,
+`hasseDeriv k (expand R q g * f) = expand R q g * hasseDeriv k f`; equivalently, `hasseDeriv k` is
+linear over the subalgebra `(expand R q).range` of polynomials in `X^q`. Route: first, for
+`0 < i < q`, `hasseDeriv i (expand R q g) = 0`. By linearity it suffices to take `g = X^n`, where
+`hasseDeriv i (X^(q n)) = choose (q n) i · X^(q n − i)` (Mathlib `expand_monomial`,
+`hasseDeriv_monomial`), and `choose (q n) i` is `0` in `R`: it is the coefficient of `X^i` in
+`(X + 1)^(q n) = (X^q + 1)^n` (Mathlib `coeff_X_add_one_pow`, and `add_pow_char_pow` in `R[X]`),
+and `q` does not divide `i`. Then Mathlib's Leibniz rule `hasseDeriv_mul` writes the left side as
+`∑_{i + j = k} hasseDeriv i (expand R q g) · hasseDeriv j f`, in which every term with `0 < i`
+vanishes since `i ≤ k < q`, and the term `i = 0` is the right side. At `e = 0` only `k = 0` is
+admitted and the identity is trivial. Target 0.4 is the bivariate form of this identity read
+through `powerSubstitution q`, and its coefficientwise route consumes it. (IK, Lemma 11.17,
+p. 284: its proof rests on the vanishing of `choose (q j) k` in characteristic `p` for
+`0 < k < q`, there over a finite field with `q` elements.) *Needs:* Mathlib `Polynomial.hasseDeriv`,
+`Polynomial.expand`, `Polynomial.hasseDeriv_mul`, `hasseDeriv_monomial`, `expand_monomial`,
+`coeff_X_add_one_pow`, `add_pow_char_pow`.
+
+**Checks.**
+
+- `p = 2`, `e = 1`, `k = 1`, `g = X`, `f = X` over `ZMod 2`: `D^[1] (X³) = 3 X² = X²` and
+  `X² · D^[1] X = X²`.
+- `p = 3`, `e = 1`, `g = X` over `ZMod 3`: `D^[1] (X³) = 3 X² = 0` and `D^[2] (X³) = 3 X = 0`, while
+  `D^[3] (X³) = 1`; for `g = X` the Hasse derivatives of `expand R q g` vanish at the orders
+  `0 < i < q` and not at the order `q`.
+- `p = 2`, `e = 2`, `q = 4`, `g = X` over `ZMod 2`:
+  `D^[2] (X⁴ · X²) = choose 6 2 · X⁴ = 15 X⁴ = X⁴ = X⁴ · D^[2] X²` and
+  `D^[3] (X⁴ · X³) = choose 7 3 · X⁴ = 35 X⁴ = X⁴ = X⁴ · D^[3] X³`; the identity holds at the orders
+  `p ≤ k < q`, which a bound `k < p` would miss.
+- `p = 2`, `e = 1`, `k = 2 = q`, `g = X`, `f = 1`: `D^[2] (X²) = 1` while `X² · D^[2] 1 = 0`; the
+  bound `k < q` is sharp.
+- `ZMod 4` has characteristic `4`, which is not prime: with `q = 4`, `k = 2`, `g = X`, `f = 1`,
+  `D^[2] (X⁴) = 6 X² = 2 X² ≠ 0 = X⁴ · D^[2] 1`; the characteristic must be prime.
+
 ### 0.4 Derivatives through the Frobenius substitution
 
 Throughout, `R` has characteristic `p` and `q = p^e`. Prove `iterate_derivative_powerSubstitution`:
@@ -469,7 +503,7 @@ only `k = 0` is admitted and the identity is trivial. Two routes. Coefficientwis
 `F = ∑_i f_i(W) Z^i` over the `Z`-exponents `i`, so that
 `powerSubstitution q F = ∑_i expand R q (f_i) · X^i`, and use
 `hasseDeriv k (expand R q g · X^i) = expand R q g · hasseDeriv k (X^i)` for `k < q`
-(GrothendieckNotesLemmas §1.4 at the exponent `e`), whose right side is `powerSubstitution q` of
+(0.3a, `hasseDeriv_expand_mul` at the exponent `e`), whose right side is `powerSubstitution q` of
 `f_i(W) ∂_Z^[k] Z^i`. Evaluated: Tau Ceti's Kronecker chain rule `eval_hasseDeriv_aeval_X_pow` with
 the weight `(1, q)` expresses `D^[k](F(X, X^q))(a)` as `∑_ν c_ν · (∂^ν F)(a, a^q)`, where `c_ν` is
 the coefficient of `T^k` in `T^(ν 0) ((T + a)^q − a^q)^(ν 1) = T^(ν 0 + q ν 1)` in characteristic
@@ -483,10 +517,10 @@ evaluation versions:
 the same with ordinary derivatives for every `k` when `0 < e`. (IK, Lemma 11.17, p. 284, for a
 finite field with `q` elements and `k < q`; the proof is the vanishing of `choose (q j) k` in
 characteristic `p` for `0 < k < q`, which is ring arithmetic in characteristic `p` for every power
-`q = p^e`, whether or not a field with `q` elements is present.) *Needs:* 0.3; Tau Ceti
-`MvPolynomial.eval_hasseDeriv_aeval_X_pow`, `taylor_aeval_X_pow`, `hasseDeriv_monomial`; Mathlib
-`Polynomial.derivative_X_pow`, `hasseDeriv_monomial`, `Polynomial.expand`, `add_pow_char_pow`;
-GrothendieckNotesLemmas §1.4 for the coefficientwise route.
+`q = p^e`, whether or not a field with `q` elements is present.) *Needs:* 0.3, and 0.3a for the
+coefficientwise route; Tau Ceti `MvPolynomial.eval_hasseDeriv_aeval_X_pow`, `taylor_aeval_X_pow`,
+`hasseDeriv_monomial`; Mathlib `Polynomial.derivative_X_pow`, `hasseDeriv_monomial`,
+`Polynomial.expand`, `add_pow_char_pow`.
 
 **Checks.**
 
@@ -601,8 +635,8 @@ of rank `2`.
 ### Dependencies
 
 0.1 needs Mathlib only. 0.2 needs 0.1 and Tau Ceti's multivariate Hasse derivative. 0.3 needs Tau
-Ceti's Kronecker substitution. 0.4 needs 0.3, Tau Ceti's Kronecker chain rule, and for its
-coefficientwise route GrothendieckNotesLemmas §1.4. 0.5 needs 0.2 and Mathlib. 0.6 needs 0.3 and
+Ceti's Kronecker substitution. 0.3a needs Mathlib only. 0.4 needs 0.3, Tau Ceti's Kronecker chain
+rule, and for its coefficientwise route 0.3a. 0.5 needs 0.2 and Mathlib. 0.6 needs 0.3 and
 0.4 (and 0.5 for its ordinary form), Tau Ceti's Taylor coefficients at a root and Mathlib's root
 counting. Later layers use Layer 0 only in the row packaging of 4.3, which names the jet matrix of
 0.2, and in examples.

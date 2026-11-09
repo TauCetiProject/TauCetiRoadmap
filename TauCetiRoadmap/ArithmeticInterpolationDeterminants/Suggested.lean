@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.Algebra.MvPolynomial.HasseDeriv.Basic
+module
+
+public import Mathlib
+public import TauCeti.Algebra.MvPolynomial.HasseDeriv.Basic
 
 /-!
 # Polynomial interpolation and arithmetic determinants: target signatures
@@ -10,7 +12,8 @@ the pinned Mathlib and Tau Ceti, the roadmap's end theorems (`hermiteJet_bijecti
 `exists_nonzero_hasse_jet_on_frobenius_graph` and its ordinary form
 `exists_nonzero_ordinary_jet_on_frobenius_graph`, and `det_gram_matrix_smul`) and the main
 statements of Layers 0, 1, 3 and 4 on which they and their consumers rest: the Frobenius
-substitution identities for every power `q = p ^ e` of the characteristic (Layer 0), the kernel of
+substitution identities for every power `q = p ^ e` of the characteristic, with the linearity of
+Hasse derivatives of order below `q` over polynomials in `X ^ q` (Layer 0), the kernel of
 the unrestricted jet map (Layer 1), row ideals, the Gram change of family and ideal powers of
 derivatives of products (Layer 3), and the row-dependent determinant bound for an arbitrary
 absolute value and the evaluated derivative bound (Layer 4). It defines only the three objects
@@ -25,6 +28,8 @@ only. So are the unitriangular row changes of Layer 3 (README 3.2), a few lines 
 of Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the multiplicativity of
 `Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets only.
 -/
+
+@[expose] public section
 
 noncomputable section
 
@@ -53,6 +58,17 @@ theorem powerSubstitution_injOn (B : ℕ) :
       {f : MvPolynomial (Fin 2) R | f.degreeOf 0 < B} := by
   sorry
 
+/-- In characteristic `p` and for `k < p ^ e`, the Hasse derivative of order `k` is linear over the
+polynomials in `X ^ (p ^ e)` (README 0.3a): a factor `expand R (p ^ e) g` passes through
+`hasseDeriv k`, since the Hasse derivatives of `expand R (p ^ e) g` of orders `0 < i < p ^ e`
+vanish. The bound is sharp (`k = p ^ e`, `g = X`, `f = 1`), and the characteristic must be prime
+(over `ZMod 4`, with `q = 4`, `k = 2`, `g = X`, `f = 1`, the left side is `2 X ^ 2`). -/
+theorem hasseDeriv_expand_mul {p : ℕ} [Fact p.Prime] [CharP R p] {e : ℕ} (k : ℕ)
+    (hk : k < p ^ e) (g f : R[X]) :
+    Polynomial.hasseDeriv k (expand R (p ^ e) g * f) =
+      expand R (p ^ e) g * Polynomial.hasseDeriv k f := by
+  sorry
+
 /-- In characteristic `p` and for `q = p ^ e` with `0 < e`, ordinary derivatives of every order
 commute with the Frobenius substitution: `D ^ k (F(X, X ^ q)) = (∂_Z ^ k F)(X, X ^ q)`, since
 `D (X ^ q) = q X ^ (q - 1) = 0` (README 0.4). At `e = 0` it fails: `D X = 1` while `∂_Z W = 0`. -/
@@ -64,8 +80,9 @@ theorem iterate_derivative_powerSubstitution {p : ℕ} [Fact p.Prime] [CharP R p
 
 /-- In characteristic `p` and for `q = p ^ e`, Hasse derivatives of order `k < q` commute with
 the Frobenius substitution: `D^[k] (F(X, X ^ q)) = (∂_Z^[k] F)(X, X ^ q)` (README 0.4;
-Iwaniec–Kowalski, Lemma 11.17). The identity fails at `k = q`, witnessed by `F = W`; at `e = 0`
-only `k = 0` is admitted and the identity is trivial. -/
+Iwaniec–Kowalski, Lemma 11.17). Coefficientwise in `Z` it is `hasseDeriv_expand_mul`. The
+identity fails at `k = q`, witnessed by `F = W`; at `e = 0` only `k = 0` is admitted and the
+identity is trivial. -/
 theorem hasseDeriv_powerSubstitution {p : ℕ} [Fact p.Prime] [CharP R p]
     {e : ℕ} (k : ℕ) (hk : k < p ^ e) (f : MvPolynomial (Fin 2) R) :
     Polynomial.hasseDeriv k (powerSubstitution (p ^ e) f) =
