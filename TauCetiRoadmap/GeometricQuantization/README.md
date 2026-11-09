@@ -727,8 +727,12 @@ is zero; for q exceeding the complex dimension the exterior power is zero.
 Apply the exponential-sequence segment from ComplexComparisonPartII C5.4 to get
 Pic_hol(K/H)≃H²(K/H;ℤ)≃P_I, with the actual integral Chern and degree maps.
 This is a deduction from the vanishing just proved and the exponential sequence
-(Demailly, V §11, p. 267; VI §9.1, equation (9.1), p. 314), not an assumption
-that ordinary lines already carry a K-linearization.
+(Demailly, V Definition 11.2, p. 267, and Proposition 11.5, p. 268, for
+`Pic_hol(X)=H¹(X,𝒪×)` and `H^q(X,𝒪)≃H^{0,q}(X)`; VI §9.1, equation (9.1),
+p. 314, for a compact connected Kähler X; the identification
+`H¹(X,𝒪)≃H^{0,1}(X)` that p. 314 attributes to (V-11.6), a notation item,
+is the case q=1 of Proposition 11.5), not an assumption that ordinary lines
+already carry a K-linearization.
 
 - Tensor product adds degrees, the dual negates them, and the trivial line has all degrees zero.
 - The Chern map is bijective on these compact flags, and evaluation on the root curves identifies
@@ -1600,7 +1604,7 @@ The right side is finite by compactness of Z_ξ (Sjamaar, arXiv v1,
 Theorem 2.15 and its proof, pp. 27–28; the factor 4n is the angular
 normalization of that proof, not its printed curvature convention). This is an angular ℏ=1
 formula; rederive it together with the curvature and character conventions
-under any rescaling, rather than importing a2π constant from another Chern
+under any rescaling, rather than importing a 2π constant from another Chern
 normalization. Invariant sections with nontrivial ineffective isotropy may
 vanish; do not remove that character in applying the bound.
 
@@ -1964,8 +1968,10 @@ groupoids have no target here. Analytic Floer theory remains HeegaardFloer’s s
   p. 25; Definition 6.4, p. 37, for half-densities, homogeneous associated bundles
   and the stabilizer differential condition.
 - [Demailly, *Complex Analytic and Differential Geometry*](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf),
-  V §11, p. 267; VI §9.1, p. 314; VII §13–§14, pp. 358–360, for holomorphic
-  Picard classes and the positive-line embedding theorem.
+  V Definitions 11.2, 11.3 and 12.1 and Proposition 11.5, pp. 267–268;
+  VI §9.1, p. 314; VII §13–§14, pp. 358–360, for holomorphic Picard classes,
+  the Dolbeault–sheaf comparison, the Chern connection and the positive-line
+  embedding theorem. Page numbers are the printed pages, which equal the PDF pages.
 - [Schottenloher, *Lecture Notes on Geometric Quantization*](https://www.math.lmu.de/~schotten/GEQ/GEQ.pdf),
   version 15.6, August 27, 2025: Example 7.3 and Remark 7.4, pp. 96–97;
   Theorem 7.8, p. 99; Proposition 7.10, p. 101; Propositions 7.15–7.16,
