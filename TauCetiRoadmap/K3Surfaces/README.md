@@ -90,7 +90,7 @@ finite-fibre points of the minimal resolution.
 
 Use `AlgebraicGeometry.Scheme.relativeDifferentials` in
 TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean,
-`SheafOfModules.exteriorPower` in TauCeti/Algebra/Category/ModuleCat/Sheaf/ExteriorPower.lean,
+`SheafOfModules.exteriorPower` in TauCeti/Algebra/Category/ModuleCat/Sheaf/ExteriorPower/Basic.lean,
 and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
 TauCeti/AlgebraicGeometry/Cohomology/Basic.lean. These retain the actual structure
 morphism, sheaf and cohomology group. Global vector fields are morphisms
@@ -131,6 +131,26 @@ TauCeti/LinearAlgebra/IntegralLattice. The even construction is
 The correspondence is natural under
 `TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv`
 in Overlattice/Naturality.lean.
+
+Graph gluing is native. For even nondegenerate S and T, the discriminant form of S
+is `TauCeti.IntegralLattice.discriminantQuadraticModule` (Discriminant/Quadratic.lean).
+An isometry γ from it to the negative of the discriminant form of T is a
+`TauCeti.FiniteQuadraticModule.Isometry` into `TauCeti.FiniteQuadraticModule.neg`
+(TauCeti/LinearAlgebra/FiniteBilinearModule/Quadratic.lean), that is, a ℤ-linear
+equivalence A_S→A_T with q_T(γa)=−q_S(a). Overlattice/Graph.lean supplies three
+declarations for such a γ:
+
+- `TauCeti.IntegralLattice.discriminantGraph`, the graph of γ transported to the
+  discriminant group of S⊕T, which is Lagrangian;
+- `TauCeti.IntegralLattice.glueAlongDiscriminant`, the lattice on S_ℚ×T_ℚ with the
+  orthogonal-sum form whose carrier is the inverse image of that graph in S*⊕T*. It is
+  even and unimodular, and meets each coordinate space exactly in S and in T;
+- `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant`: every even unimodular
+  lattice for the orthogonal-sum form that contains S⊕T and meets the two coordinate
+  spaces exactly in S and in T is the gluing along some such γ.
+
+Tau Ceti supplies no criterion for extending a pair of isometries of S and T to the
+glued lattice. That criterion is §7.1's `gluing_isometry_extension_iff`.
 
 ### From the named roadmaps
 
@@ -843,16 +863,18 @@ Use the single integral lattice Λ=U₀⊕U₁⊕U₂⊕E₈(−1)_a⊕E₈(−1
 
 Construct its primitive invariant sublattice S=diag(U₁,U₂)⊕diag(E_a,E_b)≃U(2)⊕E₈(−2)=M(2), and anti-invariant T=U₀⊕antiDiag(U₁,U₂)⊕antiDiag(E_a,E_b)≃U⊕U(2)⊕E₈(−2). Give their inclusions, projections over ℚ, exact integral saturation and inverse isometries. Their signatures are (1,9) and (2,10); their discriminant groups have order 2¹⁰ and exponent 2.
 
-Use IntegralLattices §§1E–1F to identify Λ with the inverse image of the graph
-of the discriminant anti-isometry γ:A_S→A_T. Define `discriminantGraph` for any
-integral S,T and ℤ-linear discriminant equivalence γ as Γ_γ={(a,γa)}, transported
-by the native orthogonal-sum discriminant equivalence. State
-`gluing_isometry_extension_iff` for all nondegenerate even S,T, an anti-isometry γ
-in the half-norm convention, and an integral lattice L on S_ℚ×T_ℚ whose form
-is the orthogonal-sum form and whose carrier is exactly the inverse image of Γ_γ
-in (S⊕T)*. This general statement applies to the K3 model; it is not restricted
+Transport Λ along the rational eigenspace decomposition Λ_ℚ≃S_ℚ×T_ℚ. It is even and
+unimodular, contains S⊕T, and meets the two eigenspaces exactly in S and in T, because
+both are primitive. So `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant`
+(IntegralLattices §§1E–1F) identifies it with
+`TauCeti.IntegralLattice.glueAlongDiscriminant` for a discriminant anti-isometry
+γ:A_S→A_T. State `gluing_isometry_extension_iff` for all nondegenerate even S,T and
+every isometry γ from the discriminant form of S to the negative of that of T, in the
+half-norm convention. Its lattice L is the native glued lattice on S_ℚ×T_ℚ, whose form is
+the orthogonal-sum form and whose carrier is exactly the inverse image of the graph
+Γ_γ={(a,γa)} in S*⊕T*. This general statement applies to the K3 model; it is not restricted
 to discriminant exponent two (Huybrechts draft §14.0.3(vii), p.284 for the model;
-Gritsenko–Hulek v2, §2, p.4 for extension). For g∈O(S), h∈O(T), construct the unique integral extension to L iff γ∘ḡ=h̄∘γ. Prove both directions on the actual inverse image of the graph inside S*⊕T*, preserve the embedding, and give restriction/extension composition and inverse equations. A pair of rational isometries with matching ranks is insufficient.
+Gritsenko–Hulek v2, §2, p.4 for extension). For g∈O(S), h∈O(T), construct the unique integral extension to L iff γ∘ḡ=h̄∘γ. Prove both directions on the actual inverse image of the graph inside S*⊕T*, preserve the embedding, and give restriction/extension composition and inverse equations. A route: the candidate extension is the restriction of `TauCeti.IntegralLattice.Isometry.orthogonalSum` g h, whose action on A_S×A_T is (ḡ,h̄) componentwise (`TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum`). It carries Γ_γ onto itself exactly when γḡ=h̄γ. In that case `TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` restricts it to L. Conversely, an extension preserves the carrier of L, so by `TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv` the discriminant action of g⊕h preserves Γ_γ. A pair of rational isometries with matching ranks is insufficient.
 
 The integral involution and eigensublattice API is:
 
@@ -874,15 +896,13 @@ The integral involution and eigensublattice API is:
   Substituting a zero matrix gives square 0 and radical dimension 8;
   the prescribed nondegenerate E₈ lattice excludes it.
 
-The graph API is:
+The extension API on the glued lattice is:
 
-- Membership is exactly b=γ(a); the projections of Γ_γ to either
-  discriminant factor are bijective. Under the anti-isometry hypothesis,
-  q_S(a)+q_T(γa)=0.
-- The carrier is the inverse image in the dual, with its actual form retained.
-  A pair g,h preserves it exactly when γḡ=h̄γ.
+- A pair g,h of integral isometries of S and T preserves the glued carrier
+  exactly when γḡ=h̄γ. The ambient map g×h is then the extension, and it is
+  unique because S⊕T spans S_ℚ×T_ℚ.
 - Compatible identities extend to id, composites to composites and inverses
-  to inverses, by uniqueness on the spanning rational sum.
+  to inverses, by that uniqueness.
 
 **Checks.**
 
@@ -962,8 +982,12 @@ The discriminant-surjectivity API is:
   O(⟨12⟩)={±1} reaches only 1 and 11.
 
 *Needs:* native IntegralLattice and discriminant/overlattice APIs;
-IntegralLattices §§0G, 1E–1F and 5J for U, E₈(−1), the K3 graph identification and its
-2-elementary invariants; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup` and
+Tau Ceti `TauCeti.IntegralLattice.glueAlongDiscriminant` and
+`TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant` for the glued lattice and the
+identification of Λ with it, and `TauCeti.IntegralLattice.Isometry.orthogonalSum`,
+`TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum` and
+`TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` for the extension route; IntegralLattices §§0G, 1E–1F and 5J for U, E₈(−1), the K3
+graph identification and its 2-elementary invariants; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup` and
 `TauCeti.QuadraticMap.reflectionOrthogonal` for the 𝔽₂-quadratic space M/2M and its
 transvections, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` and its kernel
 for O(S)→O(q_S), and `TauCeti.IntegralLattice.scale` with
@@ -1123,8 +1147,9 @@ Thus vanishing of the Lefschetz number alone does not prove freeness.
 
 ### Dependencies
 
-§7.1 needs the native lattice/discriminant API, IntegralLattices §§0G, 1E–1F and 5J, and
-Tau Ceti's orthogonal group of a quadratic form for its discriminant surjectivity.
+§7.1 needs the native lattice/discriminant API and Tau Ceti's graph gluing,
+IntegralLattices §§0G, 1E–1F and 5J, and Tau Ceti's orthogonal group of a quadratic form
+for its discriminant surjectivity.
 §7.2 needs Layers 1, 2 and 6, IntegralLattices §§5J and 6A and its clean fixed-locus
 formula from MorseNovikov N5–N7 and the geometric inputs on its Needs line.
 IndexTheory I8 is used in §2.1 for a fixed-point-free deck action; it is not a
@@ -1136,12 +1161,12 @@ fixed-curve formula.
 EnriquesSurfaces E1 uses §0.2 and Layers 1–2. Its E6.U0–U4 uses Layer 7
 and strong Torelli for primitive canonical-cover pullback and automorphism
 descent with the actual ample cone and discriminant compatibility retained.
-K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations: its
-§2.1a consumes §0.2's vanishing theorem and its unirationality reduction (U),
-`unirational_of_nontrivial_vectorField`, at p=2, the one positive characteristic
-outside the vanishing theorem's binder, without restating the reduction, and its
-§§2.1a and 6.0c consume step 1's rank theorem (i),
-`finrank_lineBundleClass_eq_twentyTwo_of_unirational`.
+K3SurfacesAndSymplecticBoundedness Part II extends these K3 foundations. Its §2.1a
+uses §0.2's vanishing theorem, and at p=2 it uses §0.2's unirationality reduction (U),
+`unirational_of_nontrivial_vectorField`; p=2 is the one positive characteristic outside
+the vanishing theorem's binder. This roadmap owns (U) for every prime p, so the p=2 case
+is a citation of §0.2, not a second proof. Its §§2.1a and 6.0c consume step 1's rank
+theorem (i), `finrank_lineBundleClass_eq_twentyTwo_of_unirational`.
 
 ## References
 
