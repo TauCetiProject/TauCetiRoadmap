@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Geometry.Manifold.LocallyFlat.Bicollar
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
 import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
@@ -12,12 +11,13 @@ and Tau Ceti, the roadmap's headline theorems that the pinned Tau Ceti does not 
 the CW model of a proper bounded-below Morse function, with one cell per critical point in its
 index dimension; the strong Morse inequalities as a polynomial identity with a correction
 polynomial of natural coefficients; the recognition of the sphere from a smooth function with
-exactly two critical points of arbitrary degeneracy, together with its inputs (the
-two-Euclidean-open cover, Brown's generalized Schoenflies theorem and the two-open-cell
-recognition of the sphere); and the convergence, with exponential decay of the Riemannian
-distance, of an arbitrary forward negative-gradient curve of a Morse function trapped in a
-compact set. The critical set appears as the zero set `{x | mvfderiv I f x = 0}` of the
-manifold derivative, which is the defining body of `TauCeti.criticalPoints I f`.
+exactly two critical points of arbitrary degeneracy, together with its two inputs (the
+two-Euclidean-open cover and the two-open-cell recognition of the sphere, whose Schoenflies
+input, Brown's theorem for a bicollared sphere, is GeometricTopology §2.2's and is not restated
+here); and the convergence, with exponential decay of the Riemannian distance, of an arbitrary
+forward negative-gradient curve of a Morse function trapped in a compact set. The critical set
+appears as the zero set `{x | mvfderiv I f x = 0}` of the manifold derivative, which is the
+defining body of `TauCeti.criticalPoints I f`.
 
 The other headline theorems of README.md are proved at the pinned Tau Ceti and are consumed,
 not restated: compact finiteness of critical sets (`TauCeti.IsMorse.finite_criticalPoints_inter`),
@@ -126,32 +126,11 @@ theorem exists_twoEuclideanOpenCover_of_two_criticalPoints [CompactSpace M]
   sorry
 
 omit hfd hbd ht2 hsm hsc in
-/-- Brown's generalized Schoenflies theorem (Brown 1960, Theorem 5, p. 76): for a bicollared map
-`f : S^(m-1) → S^m` (`TauCeti.IsBicollared f`: some open embedding `b : S^(m-1) × ℝ → S^m` has
-`b (x, 0) = f x`), the complement of the sphere `Σ = range f` is the union of two disjoint
-connected open sets, and the closure of each is homeomorphic to the closed unit `m`-ball by a
-homeomorphism carrying `Σ` exactly onto the unit sphere (README §4.4). -/
-theorem exists_closedBall_homeomorph_closure_of_bicollar (m : ℕ)
-    (f : Metric.sphere (0 : EuclideanSpace ℝ (Fin m)) 1 →
-      Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1)
-    (hf : TauCeti.IsBicollared f) :
-    ∃ A B : Set (Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1),
-      IsOpen A ∧ IsOpen B ∧ IsConnected A ∧ IsConnected B ∧ Disjoint A B ∧
-      A ∪ B = (Set.range f)ᶜ ∧
-      (∃ e : closure A ≃ₜ Metric.closedBall (0 : EuclideanSpace ℝ (Fin m)) 1,
-        ∀ y : closure A, (y : Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1) ∈
-            Set.range f ↔ ‖(e y : EuclideanSpace ℝ (Fin m))‖ = 1) ∧
-      (∃ e : closure B ≃ₜ Metric.closedBall (0 : EuclideanSpace ℝ (Fin m)) 1,
-        ∀ y : closure B, (y : Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1) ∈
-            Set.range f ↔ ‖(e y : EuclideanSpace ℝ (Fin m))‖ = 1) := by
-  sorry
-
-omit hfd hbd ht2 hsm hsc in
 /-- The two-open-cell recognition of the sphere: a compact Hausdorff space covered by two open
 sets, each homeomorphic to `ℝ^m` with `m > 0`, is homeomorphic to `S^m`. The proof bicollars a
 coordinate sphere in the overlap by an open radial annulus and applies Brown's generalized
-Schoenflies theorem (README §4.4; compare Milnor 1959, Corollary 1, p. 442, for covers by two
-open sets diffeomorphic to `ℝ^m`). -/
+Schoenflies theorem, consumed from GeometricTopology §2.2 (README §4.4; compare Milnor 1959,
+Corollary 1, p. 442, for covers by two open sets diffeomorphic to `ℝ^m`). -/
 theorem nonempty_homeomorph_sphere_of_two_euclidean_opens
     {X : Type*} [TopologicalSpace X] [T2Space X] [CompactSpace X]
     (m : ℕ) (hm : 0 < m) (U V : TopologicalSpace.Opens X)
