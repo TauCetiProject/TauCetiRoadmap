@@ -22,28 +22,45 @@ implemented in Tau Ceti, and the supplier contracts below name the native declar
 for each one. The layers state each milestone and cite the declaration that discharges it; a
 contributor extends the native files rather than building a second copy. `Suggested.lean` states
 the five headline theorems as examples proved by Tau Ceti and declares, as aliases proved from Tau
-Ceti, the names that other roadmaps import from this namespace:
+Ceti, the names that other roadmaps import or cite from this namespace:
 
-- `formClass`, `discr`, `wittRing` and `toWittRing` (`GlobalQuadraticForms`);
-- `hilbertSymbol`, `hilbertSymbol_neg_self`, `hilbertSymbol_comm`, `hilbertSymbol_mul`,
-  `hilbertSymbol_unramified`, `exists_hilbertSymbol_eq_neg_one` and `exists_of_realization`
-  (`GlobalQuadraticForms`);
-- `localHasse` (`GlobalQuadraticForms`, `IntegralLattices`, `OrthogonalSpinGroups`) and
-  `hasseInvariant_eq_localHasse` (`OrthogonalSpinGroups`);
-- `hilbertSymbol_eq_cohomological` and `hilbertSymbol_productFormula` (`GlobalQuadraticForms`,
-  `IntegralLattices`).
+- `hilbertSymbol`, `localHasse` and `hasseInvariant_eq_localHasse` (`OrthogonalSpinGroups`);
+- `hilbertSymbol_productFormula` (`IntegralLattices`, `QuaternionArithmetic`) and
+  `hilbertSymbol_eq_cohomological` (`QuaternionArithmetic`);
+- `RegularFormClass` and `formClass`, exported from Tau Ceti.
 
-Three names that `GlobalQuadraticForms` cites from this namespace are Tau Ceti's declarations, and
-this roadmap declares no copy of them; one line per name, old → new:
+Every other name that a roadmap cites from this namespace is a Tau Ceti declaration, and this
+roadmap declares no copy of it. One line per cited name or section, old → new:
 
-- `signedDiscr` → `TauCeti.RegularFormClass.signedDiscr`, valued in the additive
-  `TauCeti.SquareClassGroup K`; it reads in `Kˣ ⧸ (Kˣ)²` through
-  `TauCeti.multiplicativeSquareClassEquiv`, as `discr` does;
-- `localHasse_congr` → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
-  two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for this
-  roadmap's `localHasse` of a tuple;
-- `discr_mk` → `TauCeti.RegularFormClass.discr_mk`, read in `Kˣ ⧸ (Kˣ)²` through
-  `TauCeti.multiplicativeSquareClassEquiv_mk`.
+- discr → `TauCeti.RegularFormClass.discr`, valued in the additive `TauCeti.SquareClassGroup K`
+  and read in `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`;
+- signedDiscr → `TauCeti.RegularFormClass.signedDiscr`, read in `Kˣ ⧸ (Kˣ)²` in the same way;
+- discr_mk → `TauCeti.RegularFormClass.discr_mk`, read in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv_mk`;
+- wittRing → `TauCeti.WittRing`;
+- toWittRing → `TauCeti.WittRing.mk`;
+- hasseInvariant of a diagonal tuple → `TauCeti.RegularFormClass.hasseInvariant` of the class
+  of the tuple;
+- hilbertSymbol_neg_self → `TauCeti.hilbertSymbol_neg_self`;
+- hilbertSymbol_comm → `TauCeti.hilbertSymbol_comm`, under `[Invertible (2 : K)]`;
+- hilbertSymbol_mul → `TauCeti.hilbertSymbol_mul_right`, under `(2 : K) ≠ 0`;
+- exists_hilbertSymbol_eq_neg_one → `TauCeti.exists_hilbertSymbol_eq_neg_one`, under
+  `(2 : K) ≠ 0`;
+- hilbertSymbol_unramified → `TauCeti.exists_unramified_class`, which produces the unit `Δ` of
+  6A, with `TauCeti.hilbertSymbol_unramified` for its evaluation;
+- localHasse_congr → `TauCeti.RegularFormClass.localHasse_congr`, stated on the classes of the
+  two tuples; `TauCeti.RegularFormClass.localHasse_mk` turns it into the statement for
+  `localHasse` of a tuple;
+- exists_of_realization → `TauCeti.RegularFormClass.exists_of_realization`, stated on classes
+  with the discriminant in `TauCeti.SquareClassGroup K`;
+- hilbertSign → `TauCeti.hilbertSign`;
+- `hilbertSymbol_productFormula` in its sign form over Class Field Theory's local invariants →
+  `TauCeti.ClassFieldTheory.hilbertProductFormula` read through `TauCeti.hilbertSign`, with
+  `TauCeti.hilbertSign_add` and `TauCeti.hilbertSign_sum`; the name `hilbertSymbol_productFormula`
+  states reciprocity for the norm-equation symbols at the finite and real places (6C, item 14);
+- the section "Native interfaces and remaining comparisons", stages 1 and 2 (finite descent of
+  continuous cocycles, and the Brauer comparison in every universe) → Layer 7B, items 2.8, 3
+  and 5.
 
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
@@ -64,7 +81,7 @@ this roadmap declares no copy of them; one line per name, old → new:
 - Hasse–Minkowski, weak approximation for global forms, local-global isotropy and isometry, and
   classification or realization of forms over number fields: these are
   [`GlobalQuadraticForms`](../GlobalQuadraticForms/README.md)'s, which consumes the local
-  invariants and the product formula named above.
+  invariants of 6C and 6D and the product formula of 6C through their Tau Ceti declarations.
 
 **Boundaries with neighbouring roadmaps.**
 
@@ -138,9 +155,9 @@ Each layer states its results against this list.
   `d(q) = a₁ ⋯ aₙ` modulo squares, and the **signed discriminant** is
   `d±(q) = (−1)^(n(n−1)/2) · d(q)`. Both are Tau Ceti's, `TauCeti.RegularFormClass.discr` and
   `TauCeti.RegularFormClass.signedDiscr`, valued in the additive `SquareClassGroup K`, where the
-  sign is written `n.choose 2 • squareClass (−1)`. This roadmap's `discr` is the first read in
-  `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`, under the name that
-  `GlobalQuadraticForms` consumes; it is not a second construction. Serre's classification
+  sign is written `n.choose 2 • squareClass (−1)`. Where a value in `Kˣ ⧸ (Kˣ)²` is wanted,
+  either is read through `TauCeti.multiplicativeSquareClassEquiv`; no second construction is
+  declared. Serre's classification
   invariant and the Stiefel–Whitney class `w₁` use the plain `d`. The Witt-ring isomorphism
   `I/I² ≅ Kˣ/(Kˣ)²` and the quadratic-extension dictionary use `d±`. The translation is
   `TauCeti.RegularFormClass.signedDiscr_eq_sign_add_discr`, and every proof converts through it.
@@ -323,11 +340,12 @@ Each layer states its results against this list.
   low-degree complex and its comparison (Layers 2–3), the finite-quotient description (Layer 4),
   low-degree cups (Layer 8), Hilbert 90 and Kummer theory (Layer 9), corestriction (Layer 10), the
   graded cup product (Layer 12) and the index-two Evens norm with its `D₁₆` pullback formula
-  (Layer 13). Its `AbsoluteGaloisGroup`, `TopRep`, `trivialF2`, `res`, `infl`, `coeffMap`, the
+  (Layer 13). Its `AbsoluteGaloisGroup`, `trivialF2`, `res`, `infl`, `coeffMap`, the
   Kummer block (`KummerCoeff`, `kummerMap`, `kummerIso`, `kummerMapCanonical`), the multiplicative
   block (`UnitsCoeff`, `kummerShortExact`, `hilbert90`, `h2KummerToUnits`), `galoisSubgroup`, the
   explicit complex (`Z2`, `B2`, `H2`, `explicitH2IsoContinuousCohomology`, `explicitCup11`) and the
-  finite-quotient colimit are Tau Ceti's declarations under that roadmap's names. Its
+  finite-quotient colimit are Tau Ceti's declarations under that roadmap's names, and its `TopRep`
+  is Mathlib's `TopRep` (`Mathlib/RepresentationTheory/Continuous/TopRep.lean`). Its
   `ProfiniteCohomology.cup`, `ProfiniteCohomology.f2Pairing`,
   `ProfiniteCohomology.inhomogeneousCochain2`, `ProfiniteCohomology.homClass`,
   `ProfiniteCohomology.cochainClass` and `ProfiniteCohomology.galoisF2Iso` are that roadmap's
@@ -806,23 +824,20 @@ stated here.
   `TauCeti.RegularFormClass.signedDiscr_mk` on presentations and `TauCeti.discr_formClass` and
   `TauCeti.signedDiscr_formClass` on a regular form. Well-definedness is the Gram-determinant
   computation `TauCeti.squareClass_prod_eq_of_equivalent`, through Mathlib's `discr'`
-  (`QuadraticForm.discr'_weightedSumSquares`). This roadmap's `discr` is the plain
-  discriminant read in `Kˣ ⧸ (Kˣ)²` through `TauCeti.multiplicativeSquareClassEquiv`; it is
-  declared in `Suggested.lean` with Tau Ceti's invariant as its body, because
-  `GlobalQuadraticForms` consumes it under that name. The signed discriminant is consumed as
-  Tau Ceti's additive `TauCeti.RegularFormClass.signedDiscr`, read through the same
-  equivalence where a multiplicative value is wanted.
+  (`QuadraticForm.discr'_weightedSumSquares`). Both are consumed as Tau Ceti's additive
+  invariants, and each is read in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv` where a multiplicative value is wanted.
 
   **Checks.**
 
-  - The rank-zero class has `discr` equal to the class of `1`, the empty product; a reading
+  - The rank-zero class has plain discriminant the class of `1`, the empty product; a reading
     that takes the first weight of a diagonalization has no value there.
   - On the class of `⟨1, −1⟩` the value is the class of `−1`, and on the class of `⟨1, 1⟩` it
     is the class of `1`. The signed discriminant takes the opposite values on these two forms,
-    `[1]` and `[−1]`, because the sign `(−1)^(2·1/2)` is `−1` in rank two; so `discr` is the
-    plain convention and not the signed one.
-  - Over `ℚ` the classes of `⟨1⟩` and `⟨4⟩` coincide and `discr` gives the class of `1` on
-    both; a value in `Kˣ` instead of `Kˣ ⧸ (Kˣ)²` would separate two isometric forms.
+    `[1]` and `[−1]`, because the sign `(−1)^(2·1/2)` is `−1` in rank two; so the plain
+    discriminant and the signed one are told apart on these two forms.
+  - Over `ℚ` the classes of `⟨1⟩` and `⟨4⟩` coincide and the plain discriminant gives the class
+    of `1` on both; a value in `Kˣ` instead of `Kˣ ⧸ (Kˣ)²` would separate two isometric forms.
   - On the class of `⟨a⟩` the value is the coset of `a`, the element that the square-class
     equivalence matches with Tau Ceti's additive `TauCeti.squareClass a`; the other candidate
     reading, the coset of `a⁻¹`, is the same coset because `a⁻¹ = a · (a⁻¹)²`, so the two
@@ -897,10 +912,11 @@ stated here.
   `TauCeti.RegularFormClass.omearaHasseSymbol_eq`, and it is Layer 5's, because it mentions a
   Brauer class.
 
-Basic API, all Tau Ceti's except this roadmap's `discr`:
+Basic API, all Tau Ceti's:
 
 - constructors: `TauCeti.RegularFormClass.discr`, `TauCeti.RegularFormClass.signedDiscr`,
-  `TauCeti.RegularFormClass.rank`, and the multiplicative `discr`;
+  `TauCeti.RegularFormClass.rank`, with either discriminant read in `Kˣ ⧸ (Kˣ)²` through
+  `TauCeti.multiplicativeSquareClassEquiv`;
 - morphisms: the ring map from `TauCeti.RegularFormClass K` to `ZMod 2` given by the rank;
 - functoriality: the discriminant commutes with base change along `K →+* L`
   (`TauCeti.RegularFormClass.discr_baseChange`), and so does the signed discriminant, because
@@ -1379,8 +1395,8 @@ graded pieces and unramified class; TauCetiRoadmap.LocalFieldsRamification Layer
 The three symbol computations of O'Meara 63:11 to 63:13 follow.
 
 - **Evaluation against the unramified class** (O'Meara 63:11). There is a nonsquare unit `Δ`, of
-  valuation zero, such that `(Δ, b)_K = (−1)^{v_K(b)}` for every `b : Kˣ`: this roadmap's
-  `hilbertSymbol_unramified`. The content is the existence of `Δ`, which is 6A's
+  valuation zero, such that `(Δ, b)_K = (−1)^{v_K(b)}` for every `b : Kˣ`. The content is the
+  existence of `Δ`, which is 6A's
   `TauCeti.exists_unramified_class`; for that `Δ` the evaluation is
   `TauCeti.hilbertSymbol_unramified` (`QuadraticForm/UnramifiedClass.lean`), which is 6A's
   norm-equation criterion read through the definition of the symbol. It is the only closed formula
@@ -1509,18 +1525,17 @@ Milestones, in this order, each Tau Ceti's:
    isotropic (`TauCeti.hilbertSymbol_eq_one_iff_not_anisotropic_weightedSumSquares`), if and only if
    `ℍ[K,a,b]` splits (`TauCeti.hilbertSymbol_eq_one_iff_nonempty_algEquiv_matrix`); this is Layer 2's
    four-fold criterion. Square-class invariance in each argument, `TauCeti.hilbertSymbol_congr_sq`,
-   and `(a, −a) = +1`, this roadmap's `hilbertSymbol_neg_self` (Tau Ceti's
-   `TauCeti.hilbertSymbol_neg_self`, with the witness `−a = 0² − a·1²`), hold over every field.
+   and `(a, −a) = +1`, `TauCeti.hilbertSymbol_neg_self` (with the witness `−a = 0² − a·1²`),
+   hold over every field.
 3. **Symmetry** `(a,b)_K = (b,a)_K`, `TauCeti.hilbertSymbol_comm`. After it the orientations
    `b ∈ N(K(√a)ˣ)` and `a ∈ N(K(√b)ˣ)` are interchangeable, so a source may be read in either.
 4. **The norm index**, as above.
 5. **Bimultiplicativity** `(a, bc)_K = (a,b)_K · (a,c)_K`, with the dyadic case included (O'Meara
    63:11 to 63:13; Serre III Thm 2 for `K = ℚ_p`): `TauCeti.hilbertSymbol_mul_right` and
-   `TauCeti.hilbertSymbol_mul_left`, under `(2 : K) ≠ 0`. This roadmap's `hilbertSymbol_mul` is the
-   second-argument form under `[Invertible (2 : K)]`.
+   `TauCeti.hilbertSymbol_mul_left`, under `(2 : K) ≠ 0`.
 6. **Nondegeneracy.** For a nonsquare `a` there is `b` with `(a,b)_K = −1`, from properness of the
-   index-two subgroup: `TauCeti.exists_hilbertSymbol_eq_neg_one`, under this roadmap's name
-   `exists_hilbertSymbol_eq_neg_one`. On square classes it is
+   index-two subgroup: `TauCeti.exists_hilbertSymbol_eq_neg_one`, under `(2 : K) ≠ 0`. On
+   square classes it is
    `TauCeti.exists_hilbertSymbolOnSquareClasses_eq_neg_one`. The explicit witnesses of 6B are separate
    outputs.
 7. **The local Hasse invariant** `s(q) = ∏_{i<j} (aᵢ, aⱼ)_K ∈ ℤˣ` for `q ≅ ⟨a₁,…,aₙ⟩`, Tau Ceti's
@@ -1595,9 +1610,10 @@ Milestones, in this order, each Tau Ceti's:
 14. **The global product formula.** Over a number field the symbols at the finite places, read in
     the completions, and at the real places multiply to `1`: Tau Ceti's
     `TauCeti.hilbertSymbol_productFormula` (`TauCeti/NumberTheory/QuadraticForm/Global/ProductFormula.lean`),
-    obtained from `TauCeti.ClassFieldTheory.hilbertProductFormula` through the sign dictionary, and
-    consumed under this roadmap's name `hilbertSymbol_productFormula`. It is an export to
-    `GlobalQuadraticForms` and `IntegralLattices`, not a local-global classification theorem.
+    obtained from `TauCeti.ClassFieldTheory.hilbertProductFormula` through the sign dictionary.
+    `GlobalQuadraticForms` consumes the Tau Ceti declaration, and `IntegralLattices` and
+    `QuaternionArithmetic` cite it under this roadmap's name `hilbertSymbol_productFormula`. It is
+    an input to the local-global theory, not a local-global classification theorem.
 15. **The two Hasse invariants agree**, which is sublayer 6E.
 
 ⚠ Nearby false generalization. Bimultiplicativity fails over a general field. Take `K = ℚ` and
@@ -2630,14 +2646,15 @@ for the specification of the transfer along `L/K` and the `D₁₆` pullback for
 
 ## Downstream consumers
 
-The names that these roadmaps import from this namespace, and the three names that are Tau Ceti's,
-are listed under Scope and ownership. None of these roadmaps supplies an input to this one.
+The names that these roadmaps import or cite from this namespace, and the Tau Ceti names that
+replace the others, are listed under Scope and ownership. None of these roadmaps supplies an input
+to this one.
 
-- GlobalQuadraticForms: the carrier and the discriminants of Layers 0 and 3, Layer 0's
-  representation criterion, Layer 1's hyperbolic planes, Witt cancellation and Witt extension,
-  Layer 4's Witt ring, the Hilbert symbol, the local Hasse invariant and the evaluation against the
-  unramified class of 6B–6C, the realization theorem and the classification with its isotropy list
-  of 6D, and the cohomological comparison and product formula of 6C.
+- GlobalQuadraticForms, through the Tau Ceti declarations: the carrier and the discriminants of
+  Layers 0 and 3, Layer 0's representation criterion, Layer 1's hyperbolic planes, Witt
+  cancellation and Witt extension, Layer 4's Witt ring and its base change, the Hilbert symbol and
+  the local Hasse invariant of 6C, the realization theorem and the classification with its
+  isotropy list of 6D, and the product formula of 6C.
 - IntegralLattices: the square classes and the Witt, Brauer, Hasse and Clifford invariants of
   Layers 0 and 3 to 5, the local classification of 6D, and Hilbert reciprocity through
   `hilbertSymbol_productFormula` (its 3G and 6A).
@@ -2645,6 +2662,9 @@ are listed under Scope and ownership. None of these roadmaps supplies an input t
   Layer 1's reflections, Cartan–Dieudonné theorem and Witt extension, Layer 3's plain
   discriminant, and `hilbertSymbol`, `localHasse`, `hasseInvariant_eq_localHasse` and the
   classification over `ℚ_p` by `(dim, d, s)` of 6C to 6E.
+- QuaternionArithmetic: Layer 2's presentation theory of `ℍ[K,a,b]` and its trace-zero norm form,
+  and 6C's bimultiplicativity, nondegeneracy, the closed formulas of items 9, 10 and 12,
+  `hilbertSymbol_eq_cohomological` and `hilbertSymbol_productFormula`.
 - ClassicalArithmeticCompletion: 6C's Hilbert symbol, with which its degree-two norm-residue symbol
   is compared, and 6C's formula over `ℚ_2`, whose exponent is computed in `ZMod 2`.
 - SpinRepresentations: the reflection and Cartan–Dieudonné suppliers recorded in Layer 1.

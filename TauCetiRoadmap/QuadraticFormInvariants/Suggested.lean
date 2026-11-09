@@ -7,13 +7,9 @@ import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.Evens.Kummer.Value
 import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.QuadraticExtension
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
-import TauCeti.LinearAlgebra.QuadraticForm.Witt.Ring
 import TauCeti.NumberTheory.HilbertSymbol.Basic
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Brauer
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Classification
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Realization
-import TauCeti.NumberTheory.LocalField.QuadraticForm.UnramifiedClass
 import TauCeti.NumberTheory.QuadraticForm.Global.ProductFormula
 
 /-!
@@ -28,15 +24,15 @@ Every object of this roadmap is Tau Ceti's at the pinned commit, and the README'
 contracts name the native declaration and file for each layer. This file therefore restates
 nothing that Tau Ceti already has. It contains two kinds of declaration.
 
-* **The names other roadmaps consume.** `GlobalQuadraticForms`, `IntegralLattices` and
-  `OrthogonalSpinGroups` import or cite this namespace for `RegularFormClass`, `formClass`,
-  `discr`, `wittRing`, `toWittRing`, `hilbertSymbol`, `hilbertSymbol_neg_self`,
-  `hilbertSymbol_comm`, `hilbertSymbol_mul`, `hilbertSymbol_unramified`,
-  `exists_hilbertSymbol_eq_neg_one`, `localHasse`, `exists_of_realization`,
-  `hasseInvariant_eq_localHasse`, `hilbertSymbol_eq_cohomological` and
-  `hilbertSymbol_productFormula`. Each is an alias of a Tau Ceti declaration or is proved from
-  one, with no admitted step. `localHasse` and `hilbertSymbol` keep the bodies that their
-  consumers unfold.
+* **The names other roadmaps consume.** `OrthogonalSpinGroups` imports `hilbertSymbol`,
+  `localHasse` and `hasseInvariant_eq_localHasse` from this namespace; `IntegralLattices` and
+  `QuaternionArithmetic` cite `hilbertSymbol_productFormula`, and `QuaternionArithmetic` cites
+  `hilbertSymbol_eq_cohomological`. `RegularFormClass` and `formClass` are exported from Tau Ceti.
+  Each of these names is an alias of a Tau Ceti declaration or is proved from one, with no
+  admitted step. `hilbertSymbol` is a reducible alias, and `localHasse` is the pairwise product
+  on a diagonal tuple `Fin n → Kˣ`, the form in which `hasseInvariant_eq_localHasse` states the
+  comparison. Every other name that a consumer needs is Tau Ceti's, and the README's scope
+  section gives the Tau Ceti name for each.
 * **The headline theorems, as examples discharged by Tau Ceti.** The four-fold splitting
   criterion of Layer 2, the classification of local forms by `(dim, d, s)` of Layer 6D, the
   cup-norm theorem of Layer 7C, the value of the Evens norm on a Kummer class of Layer 9 and the
@@ -50,40 +46,11 @@ open scoped Quaternion
 
 universe u v
 
-/-! ## Layers 0 and 3: the carrier and the discriminant, under the names consumers use -/
-
 /-! `RegularFormClass` and `formClass` are Tau Ceti's carrier for isometry classes of regular forms
 and the class of a regular form (`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`).
 The `export` makes the two names of this namespace denote the same constants. -/
 
 export TauCeti (RegularFormClass formClass)
-
-section Discriminant
-
-variable {K : Type u} [Field K]
-
-/-- **The discriminant in `Kˣ ⧸ (Kˣ)²`**: Tau Ceti's additive `TauCeti.RegularFormClass.discr`, read
-through Tau Ceti's `TauCeti.multiplicativeSquareClassEquiv`. On the class of `⟨w 0, …, w (n-1)⟩` it
-is the class of `∏ i, w i`, by `TauCeti.RegularFormClass.discr_mk` and
-`TauCeti.multiplicativeSquareClassEquiv_mk`. -/
-noncomputable def discr [Invertible (2 : K)] (x : RegularFormClass K) :
-    Kˣ ⧸ Subgroup.square Kˣ :=
-  TauCeti.multiplicativeSquareClassEquiv.symm
-    (Multiplicative.ofAdd (TauCeti.RegularFormClass.discr x))
-
-end Discriminant
-
-/-! ## Layer 4: the Witt ring, under the names consumers use -/
-
-/-- **The Witt ring** `W(K)`, Tau Ceti's `TauCeti.WittRing K`: the Witt–Grothendieck ring modulo
-the hyperbolic ideal. -/
-abbrev wittRing (K : Type u) [Field K] [Invertible (2 : K)] : Type u :=
-  TauCeti.WittRing K
-
-/-- **The quotient map** `Ŵ(K) → W(K)`, Tau Ceti's `TauCeti.WittRing.mk`. -/
-noncomputable abbrev toWittRing {K : Type u} [Field K] [Invertible (2 : K)] :
-    TauCeti.WittGrothendieckRing K →+* wittRing K :=
-  TauCeti.WittRing.mk
 
 /-! ## Layer 6C: the Hilbert symbol and the local Hasse invariant, under the names consumers use -/
 
@@ -105,10 +72,6 @@ noncomputable def localHasse {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
   ∏ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     hilbertSymbol (w ij.1) (w ij.2)
 
-/-- `(a, −a) = +1` over every field, Tau Ceti's `TauCeti.hilbertSymbol_neg_self`. -/
-theorem hilbertSymbol_neg_self (a : Kˣ) : hilbertSymbol a (-a) = 1 :=
-  TauCeti.hilbertSymbol_neg_self a
-
 /-- The pairwise product over the pairs `i < j` is the iterated product over `j ∈ Ioi i`, which is
 how Tau Ceti's `TauCeti.RegularFormClass.localHasse_mk` writes it. -/
 private theorem localHasse_eq_prod_prod_Ioi {n : ℕ} (w : Fin n → Kˣ) :
@@ -120,54 +83,12 @@ private theorem localHasse_eq_prod_prod_Ioi {n : ℕ} (w : Fin n → Kˣ) :
   ext j
   simp
 
-/-- **Symmetry**, Tau Ceti's `TauCeti.hilbertSymbol_comm`, which holds over every field in which
-`2` is invertible. -/
-theorem hilbertSymbol_comm [Invertible (2 : K)] (a b : Kˣ) :
-    hilbertSymbol a b = hilbertSymbol b a :=
-  TauCeti.hilbertSymbol_comm a b
-
-variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-
-/-- **Evaluation against the unramified class** (O'Meara 63:11): over a nonarchimedean local
-field in which `2` is invertible there is a nonsquare unit `Δ` of valuation zero such that
-`(Δ, b)_K = (−1)^(v_K(b))` for every `b ∈ Kˣ`. The existence of `Δ` is Tau Ceti's
-`TauCeti.exists_unramified_class`, and the evaluation is `TauCeti.hilbertSymbol_unramified`. -/
-theorem hilbertSymbol_unramified [Invertible (2 : K)] :
-    ∃ Δ : Kˣ, ¬ IsSquare Δ ∧ (TauCeti.normalizedValuation K Δ).toAdd = 0 ∧
-      ∀ b : Kˣ, hilbertSymbol Δ b =
-        if Even (TauCeti.normalizedValuation K b).toAdd then 1 else -1 := by
-  obtain ⟨Δ, hsq, hv, -, hΔ⟩ := TauCeti.exists_unramified_class (K := K) (Invertible.ne_zero 2)
-  exact ⟨Δ, hsq, hv, TauCeti.hilbertSymbol_unramified hΔ⟩
-
-variable [Invertible (2 : K)]
-
-/-- **Bimultiplicativity** over a nonarchimedean local field, Tau Ceti's
-`TauCeti.hilbertSymbol_mul_right`. -/
-theorem hilbertSymbol_mul (a b c : Kˣ) :
-    hilbertSymbol a (b * c) = hilbertSymbol a b * hilbertSymbol a c :=
-  TauCeti.hilbertSymbol_mul_right (Invertible.ne_zero (2 : K)) a b c
-
-/-- **Nondegeneracy** over a nonarchimedean local field, Tau Ceti's
-`TauCeti.exists_hilbertSymbol_eq_neg_one`. -/
-theorem exists_hilbertSymbol_eq_neg_one (a : Kˣ) (ha : ¬ IsSquare a) :
-    ∃ b : Kˣ, hilbertSymbol a b = -1 :=
-  TauCeti.exists_hilbertSymbol_eq_neg_one (Invertible.ne_zero (2 : K)) ha
-
-/-- **Realization of local invariants** (O'Meara 63:23, Serre *CiA* IV Prop 6), Tau Ceti's
-`TauCeti.RegularFormClass.exists_of_realization`: every triple `(n, d, s)` with `n ≥ 1` is the
-rank, discriminant and local Hasse invariant of a regular form, except `n = 1` with `s = −1`, and
-`n = 2` with `d = [−1]` and `s = −1`. -/
-theorem exists_of_realization {n : ℕ} (hn : 1 ≤ n) (d : TauCeti.SquareClassGroup K) (s : ℤˣ)
-    (h₁ : n = 1 → s = 1) (h₂ : n = 2 → d = TauCeti.squareClass (-1 : Kˣ) → s = 1) :
-    ∃ x : RegularFormClass K, x.rank = n ∧ TauCeti.RegularFormClass.discr x = d ∧
-      TauCeti.RegularFormClass.localHasse x = s :=
-  TauCeti.RegularFormClass.exists_of_realization hn d s h₁ h₂
-
-/-- **The two Hasse invariants agree** (Layer 6E): Tau Ceti's sign isomorphism
-`TauCeti.BrauerGroup.quaternionSubgroupSignEquiv` on the subgroup generated by quaternion classes
-carries the Brauer-valued Hasse invariant to the local Hasse invariant
-(`TauCeti.RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant`). -/
-theorem hasseInvariant_eq_localHasse :
+/-- **The two Hasse invariants agree** (Layer 6E): over a nonarchimedean local field in which `2`
+is invertible, Tau Ceti's sign isomorphism `TauCeti.BrauerGroup.quaternionSubgroupSignEquiv` on the
+subgroup generated by quaternion classes carries the Brauer-valued Hasse invariant to the local
+Hasse invariant (`TauCeti.RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant`). -/
+theorem hasseInvariant_eq_localHasse [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] [Invertible (2 : K)] :
     ∃ ε : Subgroup.closure
         (Set.range fun ab : Kˣ × Kˣ => TauCeti.BrauerGroup.quaternionClass ab.1 ab.2) →* ℤˣ,
       Function.Injective ε ∧
