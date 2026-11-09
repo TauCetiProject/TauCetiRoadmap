@@ -138,7 +138,8 @@ def airyAi (z : ℂ) : ℂ :=
   (3 : ℂ) ^ (-(2 / 3 : ℂ)) * 𝐅(2 / 3) (z ^ 3 / 9) -
     (3 : ℂ) ^ (-(4 / 3 : ℂ)) * z * 𝐅(4 / 3) (z ^ 3 / 9)
 
-/-- Gegenbauer's polynomial `C_n^{(ν)}(x)` (auxiliary), by the explicit sum of DLMF 18.5.10:
+/-- A roadmap-local copy of LaguerreJacobi's Gegenbauer polynomial `Polynomial.gegenbauer`,
+evaluated over `ℂ`: the explicit sum of DLMF 18.5.10,
 `∑_{ℓ ≤ n/2} (−1)^ℓ (ν)_{n−ℓ} / (ℓ! (n − 2ℓ)!) (2x)^{n−2ℓ}`. -/
 def gegenbauerC (ν : ℂ) (n : ℕ) (x : ℂ) : ℂ :=
   ∑ l ∈ Finset.range (n / 2 + 1),

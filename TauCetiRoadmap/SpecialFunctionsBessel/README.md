@@ -57,8 +57,9 @@ functions from [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicC
 cosine integrals, the error functions, the incomplete Gamma functions and Pincherle's theorem from
 [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md). This
 roadmap builds the removable singularity in the order behind 10.2.4 and 10.27.5, Neumann's
-polynomials, Gegenbauer's polynomials, the Rayleigh functions, the partial-fraction expansion of
-`J′_ν/J_ν` and the Fourier–Bessel expansion theorem.
+polynomials, the facts that the addition theorem needs about the Gegenbauer polynomials of
+[LaguerreJacobi](../LaguerreJacobi/README.md), the Rayleigh functions, the partial-fraction
+expansion of `J′_ν/J_ν` and the Fourier–Bessel expansion theorem.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Bessel/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/BesselI.lean`, which this roadmap extends.
@@ -157,7 +158,7 @@ Tau Ceti nor a consumed roadmap provides:
 | Uniqueness for Bessel's equation on the slit plane given value and derivative at one point | 1.1 |
 | Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and the zeros of a nontrivial real solution are simple and isolated | 7.1 |
 | Neumann's polynomials `O_n(t)` of 10.23.13, and their generating function 10.23.12 | 2.6 |
-| Gegenbauer's polynomials `C_n^{(ν)}(x)` by the explicit sum 18.5.10, with the generating function 18.12.4, the expansion 18.18.17 of `(2x)ⁿ` and `C_n^{(1/2)}(x) = P_n(x)` | 2.5 |
+| For LaguerreJacobi's Gegenbauer polynomials `C_n^{(ν)}(x)` over `ℂ`: the generating function 18.12.4, the expansion 18.18.17 of `(2x)ⁿ` and `C_n^{(1/2)}(x) = P_n(x)` | 2.5 |
 | The holomorphic continuation of `𝐅(α, β; γ; x)` (Mathlib's `Complex.regularizedGaussHGFun`) from `|x| < 1` to `ℂ \ [1, ∞)` for `α = (μ + ν)/2`, `β = (μ + ν + 1)/2`, `γ = ν + 1`, `Re(μ + ν) > 0` | 8.2 |
 | The partial-fraction expansion `J′_ν(z)/J_ν(z) = ν/z − ∑ₘ 2z/(j_{ν,m}² − z²)` and its logarithmic integral | 7.3 |
 | Rayleigh's functions `σ_n(ν) = ∑ₘ j_{ν,m}^{−2n}` and the recursion from the Maclaurin series of `J_{ν+1}/J_ν` | 7.3 |
@@ -289,7 +290,8 @@ K_n(z) = ½ (−1)^{n−1} (∂_ν I_ν(z)|_{ν=n} + ∂_ν I_ν(z)|_{ν=−n}) 
   `Complex.hankelCoeff k ν`; `b_k(ν)` of 10.17.8 is written out. Debye's polynomials `U_k`
   (10.41.9) are `Real.debyeU k : ℝ → ℝ`, defined by the recursion with `U₀ = 1`; 6.1 proves that
   they are polynomials of degree `3k` and gives `V_k`. Gegenbauer's polynomial `C_n^{(ν)}(x)`
-  (DLMF 18.5.10) is `Complex.gegenbauerC ν n x`; see 2.5.
+  (DLMF 18.5.10) is `(Polynomial.gegenbauer ν n).eval x` over `ℂ`, LaguerreJacobi's polynomial;
+  `Complex.gegenbauerC ν n x` in `Suggested.lean` is a roadmap-local copy of it (see 2.5).
 - **Zeros** are indexed from `1`. For `f : ℝ → ℝ`, `Real.positiveZero f m` is the `x > 0` with
   `f x = 0` such that exactly `m − 1` zeros of `f` lie in `(0, x)`:
 
@@ -391,6 +393,17 @@ The following are consumed with the hypotheses and conventions stated there.
   equation, `I_{ν−1}(y) − I_{ν+1}(y) = (2ν/y) I_ν(y)` and `I_{−n}(y) = I_n(y)` for `y > 0`
   ([its §0.25](../AutomorphicSpectralTheory/README.md#025-bessel-functions-j_ν-and-i_ν)), the
   real-argument cases of 1.7–1.8.
+
+### From [LaguerreJacobi](../LaguerreJacobi/README.md)
+
+- Gegenbauer's polynomial `Polynomial.gegenbauer (lam : R) (n : ℕ) : R[X]`, defined by the
+  explicit sum `∑ₖ (−1)ᵏ (λ)ₙ₋ₖ/(k! (n − 2k)!) (2X)^{n−2k}` of DLMF 18.5.10, with
+  `gegenbauer lam 0 = 1`, `gegenbauer lam 1 = C (2*lam) * X` and its relation to the Jacobi
+  family (its F2), for 2.5. Over `ℂ`, `(Polynomial.gegenbauer ν n).eval x` is the sum
+  `∑ₖ (−1)ᵏ (ν)ₙ₋ₖ/(k! (n − 2k)!) (2x)^{n−2k}` term for term; `Complex.gegenbauerC` in
+  `Suggested.lean` is that sum, a roadmap-local copy.
+- The Legendre polynomial `P_n = jacobi 0 0 n` and `Polynomial.shiftedLegendre_eq_jacobi_comp`
+  (its F1), for `C_n^{(1/2)} = P_n` in 2.5.
 
 ### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
 
@@ -681,13 +694,15 @@ Neumann's addition theorem 10.23.2 for `|v| < |u|`, the sums 10.23.3–10.23.5 (
 
 ### 2.5 Gegenbauer's addition theorem
 
-Gegenbauer's polynomial is the auxiliary `Complex.gegenbauerC ν n x`,
+Gegenbauer's polynomial is LaguerreJacobi's `Polynomial.gegenbauer`, evaluated over `ℂ`:
 `C_n^{(ν)}(x) = ∑_{ℓ=0}^{⌊n/2⌋} (−1)^ℓ (ν)_{n−ℓ}/(ℓ! (n − 2ℓ)!) (2x)^{n−2ℓ}` (DLMF 18.5.10), for
-complex `ν` and `x`, with `(ν)_m` Mathlib's `ascPochhammer` evaluated at `ν`. This roadmap owns
-the facts about it that 10.23.8–10.23.9 need: the generating function
+complex `ν` and `x`, with `(ν)_m` Mathlib's `ascPochhammer` evaluated at `ν`. `Suggested.lean`
+states the targets with `Complex.gegenbauerC ν n x`, a roadmap-local copy of this sum. This
+roadmap owns the auxiliary facts about it that 10.23.8–10.23.9 need: the generating function
 `∑ₙ C_n^{(ν)}(x) tⁿ = (1 − 2xt + t²)^{−ν}` for `|t|` small (18.12.4), the expansion
 `(2x)ⁿ = ∑_{ℓ=0}^{⌊n/2⌋} (ν + n − 2ℓ) n!/(ℓ! (ν)_{n−ℓ+1}) C_{n−2ℓ}^{(ν)}(x)` for
-`ν ∉ {0, −1, −2, …}` (18.18.17), and `C_n^{(1/2)}(x) = P_n(x)`.
+`ν ∉ {0, −1, −2, …}` (18.18.17), and `C_n^{(1/2)}(x) = P_n(x)`, which is LaguerreJacobi's relation
+between Gegenbauer and Jacobi polynomials at `λ = ½`, since `(1)ₙ = n! ≠ 0`.
 
 DLMF 10.23.8–10.23.9, for `ν ∉ {0, −1, −2, …}`:
 - 10.23.8 for `𝒞 = J`, for all complex `u`, `v`, `α`, without DLMF's restriction (which DLMF
@@ -725,7 +740,7 @@ the generating function 18.12.4 at `x = cos α` has radius of convergence `min |
   `(π/(2v))^{1/2} J_{k+1/2}(v) = 𝗃_k(v)`.
 - `C_2^{(ν)}(x) = 2ν(ν + 1)x² − ν` and `C_4^{(1/2)}(0.3) = P_4(0.3) = 0.0729375`.
 
-*Needs:* 2.2, 2.4; 1.2–1.3.
+*Needs:* 2.2, 2.4; 1.2–1.3; LaguerreJacobi F1–F2.
 
 ### 2.6 Neumann expansions
 
@@ -879,9 +894,17 @@ unique one recessive along `(0, ∞)` with 10.25.3.
 
 ### 5.2 `J`, `Y`, `I` for large argument
 
-DLMF 10.17.3–10.17.4, 10.17.9–10.17.10, 10.40.1, 10.40.3 and 10.40.5 on the principal sheet, and
-10.40.6–10.40.9, from 5.1 and the connection formulas 10.4.4 and 10.27.6. 10.17.3–10.17.4 hold in
-`|ph z| ≤ π − δ` as generalized expansions with the envelope `e^{|Im z|} |z|^{−1/2}`.
+From 5.1 and the connection formulas 10.4.4 and 10.27.6, with the sectors DLMF states:
+- DLMF 10.17.3–10.17.4 and 10.17.9–10.17.10 in `|ph z| ≤ π − δ`; 10.17.3–10.17.4 as generalized
+  expansions with the envelope `e^{|Im z|} |z|^{−1/2}`;
+- DLMF 10.40.1 and 10.40.3 in `|ph z| ≤ π/2 − δ`;
+- DLMF 10.40.5 in `−π/2 + δ ≤ ±ph z ≤ π − δ`, the part of DLMF's sector
+  `−π/2 + δ ≤ ±ph z ≤ 3π/2 − δ` on the principal sheet;
+- DLMF 10.40.6–10.40.9 with the sectors stated there.
+
+**Checks.**
+- 10.40.1 fails outside its sector: at `z = 10 e^{i(π − 0.01)}`, `I₀(z) = 2801.65… − 266.56… i`,
+  while the leading term `e^z/(2πz)^{1/2}` is of size `6×10⁻⁶`.
 
 *Needs:* 5.1, 1.3, 1.8.
 
@@ -1096,10 +1119,10 @@ the Lommel integral 10.22.5 against `J_ν(z̄ t)`.
 
 ### 7.2 Interlacing and the phases at the zeros
 
-DLMF 10.21.2–10.21.14: the interlacing 10.21.2 (`besselJZero_interlace`) and 10.21.3, the
-cylinder functions `𝒞_ν(z) = J_ν(z) cos(πt) + Y_ν(z) sin(πt)` and their zeros `ρ_ν(t)`,
-`σ_ν(t)` (10.21.4–10.21.11), defined as continuous increasing functions of `t` through the phase,
-and 10.21.12–10.21.14.
+DLMF 10.21.2–10.21.14, for `ν ≥ 0`: the interlacing 10.21.2 (`besselJZero_interlace`) and 10.21.3,
+the cylinder functions `𝒞_ν(z) = J_ν(z) cos(πt) + Y_ν(z) sin(πt)` and their zeros `ρ_ν(t)`, `σ_ν(t)`
+(10.21.4–10.21.11), defined as continuous increasing functions of `t` through the phase, and
+10.21.12–10.21.14.
 
 **Checks.**
 - `ρ_{1/2}(t) = πt`, since `𝒞_{1/2}(x) = (2/(πx))^{1/2} sin(x − πt)` by 10.16.1 and
@@ -1113,7 +1136,8 @@ and 10.21.12–10.21.14.
 ### 7.3 Infinite products and Rayleigh functions
 
 DLMF 10.21.15–10.21.18 and 10.21.55. For `ν ≥ 0` and `z` in the slit plane,
-`J_ν(z) = (z/2)^ν/Γ(ν + 1) ∏_k (1 − z²/j_{ν,k}²)` (10.21.15; `hasProd_besselJ`), and 10.21.16.
+`J_ν(z) = (z/2)^ν/Γ(ν + 1) ∏_k (1 − z²/j_{ν,k}²)` (10.21.15; `hasProd_besselJ`), and, for `ν > 0`,
+10.21.16.
 The route is the partial-fraction expansion of `J′_ν/J_ν` (auxiliary) by the residue theorem on
 squares between consecutive zeros, with 5.2 for the bound on their sides. Rayleigh's function
 `σ_n(ν)` of 10.21.55 (auxiliary) is computed from the Maclaurin coefficients of `J_{ν+1}/J_ν`.
@@ -1265,8 +1289,18 @@ makes the convergence locally uniform.
 
 ### 8.3 Triple products
 
-DLMF 10.22.73–10.22.75 with `A` of 10.22.73: each case `A > 0`, `A < 0`, `A = 0` stated
-separately.
+DLMF 10.22.73–10.22.75 for positive `a`, `b`, `c`, with `A` of 10.22.73, each case a separate
+statement:
+- 10.22.74 for `Re ν > −½`, with its two cases `A > 0` and `A ≤ 0`;
+- 10.22.75 for `|ν| < ½`, with its three cases `0 < a < |b − c|`, `|b − c| < a < b + c` and
+  `a > b + c`. The first and third both have `A < 0`, and their values have opposite signs. At
+  `a = |b − c|` and `a = b + c`, which DLMF excludes, nothing is stated.
+
+**Checks.**
+- 10.22.75 at `ν = 0`, `b = 2`, `c = 1`: `−0.2485…` at `a = ½` and `+0.0621…` at `a = 4`.
+- At `a = b + c = 3`, `ν = 0.4`, the integral of 10.22.75 diverges: the product of the three
+  Bessel functions has a non-oscillating component of size `t^{−3/2}`, so the integrand has a
+  component of size `t^{ν−1/2}`.
 
 *Needs:* 8.2.
 
@@ -1483,8 +1517,10 @@ complex `I_ν`. This roadmap proves:
   `airyAi_eq_besselK`, stated in `Suggested.lean` with `airyAi`, a local copy of
   SpecialFunctionsAiry's pinned `Ai`);
 - DLMF 9.6.15–9.6.20 for `ζ` in the slit plane with `z = (3ζ/2)^{2/3}`;
-- DLMF 9.8.9–9.8.12, the Airy modulus and phase through `M_{1/3}`, `θ_{1/3}` and their
-  derivatives;
+- DLMF 9.8.9–9.8.12 for `x < 0`, with `ξ = (2/3)|x|^{3/2}` and the pinned Bessel modulus and
+  phase of 5.4: `|x|^{1/2} M(x)² = ½ξ M_{1/3}(ξ)²`, `|x|^{−1/2} N(x)² = ½ξ M_{2/3}(ξ)²`,
+  `θ(x) = 2π/3 + θ_{1/3}(ξ)` and `φ(x) = π/3 + θ_{2/3}(ξ)`. DLMF's `arctan` forms agree with these
+  modulo `π`. The constants are fixed by `θ(0) = −φ(0) = π/6` and `θ_ν(0+) = −π/2` (10.18.3);
 - DLMF 9.12.22–9.12.23, the Scorer integrals of `K_{1/3}`;
 - the `K` forms of DLMF 9.13.2 and 9.13.4 for the generalized Airy functions.
 
