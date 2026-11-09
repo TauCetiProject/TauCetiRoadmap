@@ -363,16 +363,22 @@ named in this section is cited as it is at those revisions.
   into the pointed homotopy category and
   `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace`, pointed maps out of
   the cellular model into a space with vanishing higher homotopy are classified by π₁
-  (`HomotopyFunctor`); `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` with its
-  coefficient naturality and Bockstein compatibility (`Cohomology`),
+  (`HomotopyFunctor`); `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology`, landing
+  in `groupCohomology (Rep.trivial k G M) n` for a k-module M (the trivial representation
+  only), with its coefficient naturality and Bockstein compatibility (`Cohomology`),
   `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology` (`Homology`),
-  `TauCeti.classifyingSpaceLocalSystem` with `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`
-  and `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology` for every representation
-  (`LocalCoefficients`); the free resolution `TauCeti.universalGSpaceResolution` (`Resolution`); the
+  `TauCeti.classifyingSpaceLocalSystem` with `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
+  group homology of A for every representation A, and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`, whose source is the
+  Hom-of-twisted-chains cohomology with values in a k-module N and whose target is
+  `groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n`, group cohomology of the dual
+  representation Hom(A,N) rather than of A (`LocalCoefficients`); the free resolution
+  `TauCeti.universalGSpaceResolution` (`Resolution`); the
   cellular model `TauCeti.cellularClassifyingSpace` with `TauCeti.cellularClassifyingSpaceHomotopyEquiv`
   (`Cellular`, `Comparison`) and `TauCeti.PresentationComplex` (`PresentationComplex`); and, for any
   quotient covering map with contractible total space,
-  `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology` (`Cohomology.GroupCohomology`). The
+  `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, again into the trivial
+  representation `Rep.trivial k G M` (`Cohomology.GroupCohomology`). The
   nerve model of Layer 8.8 is not among them: that layer builds it, proves it is a K(G,1) and
   compares it with Milnor's model, and restates none of these.
 - The transfer of a finite covering in `Singular.Transfer.Basic`/`Degree`/`PermutationLocalSystem`
@@ -811,8 +817,10 @@ Consume the native `LocalCoefficientSystem R X`, a functor from Mathlib's fundam
    comparison; extend their naturality and remaining APIs. Construct the pair/triple short
    exact sequences and their natural long exact sequences. Prove homotopy
    invariance with the coefficient-system identification transported along the
-   homotopy, including relative homotopies. This uses the existing groupoid object and does
-   not depend on Layer 1's van Kampen theorem.
+   homotopy, including relative homotopies (Hatcher, §3.H, p.333: the pair sequence, excision
+   and additivity for homology with local coefficients, and homotopy invariance through the
+   pullback of the coefficient bundle along the homotopy). This uses the existing groupoid
+   object and does not depend on Layer 1's van Kampen theorem.
 
 The source spine is Eilenberg--Steenrod, *Foundations of Algebraic Topology*, Chapters I--III,
 and Hatcher, Sections 2.1--2.2 and 3.H.  The Lean proof should pass through short exact sequences
@@ -1326,13 +1334,17 @@ Own the realization CW structure for every native simplicial set K: on
    fixes the stated positive homology class. The characteristic
    map is realized σ composed with this fixed homeomorphism; compare it
    with 8.2's +1 cube-to-simplex map. Prove Hausdorffness, closure
-   finiteness and the weak topology. Realized simplicial maps are cellular
+   finiteness and the weak topology (May, *Simplicial Objects in Algebraic Topology*, §14,
+   Theorem 14.1: the realization of a simplicial set is a CW complex with one n-cell for each
+   nondegenerate n-simplex). Realized simplicial maps are cellular
    and sub-simplicial inclusions identify actual CW subcomplexes. Bar,
    Dold–Kan and singular realizations consume this one construction.
    AffineMorseLefschetz A4 consumes it through GeometricTopology Layer 11's
    ordered-complex/simplicial-set realization and transported CW comparison
    for its ambient triangulated algebraic pair and subcomplexes. Prove
-   the general paracompactness of Hausdorff CW complexes used by bundle suppliers.
+   the general paracompactness of Hausdorff CW complexes used by bundle suppliers (Hatcher,
+   *Vector Bundles and K-Theory*, Appendix to Chapter 1, Proposition 1.20, p.36: every CW
+   complex is paracompact).
    Own the cell-neighborhood local contraction API for arbitrary Hausdorff
    CW complexes: for x∈U open construct a smaller open V containing x
    and a homotopy V×I→U from inclusion to the constant x, compatible with
@@ -3039,16 +3051,25 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
    gives the conjugation-orbit description of `[X,Bπ]` (Hatcher, Proposition 1B.9, p.90);
    Tau Ceti's `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace` is the
    special case of maps out of its cellular model and is not the statement for every X.
-   Treat disconnected X componentwise. Identify `H*(Bπ;A)` with Mathlib's
-   `groupCohomology A n` for every `A : Rep ℤ π` in two ways and prove them equal: as the
-   transport of Tau Ceti's `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` and
-   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology` along `c_G` and the pullback of
-   `TauCeti.classifyingSpaceLocalSystem`, and directly through the nerve's own covering
-   Eπ→Bπ by `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, whose only
-   hypothesis is the contractible total space; compare the nerve's cellular resolution with
-   `TauCeti.universalGSpaceResolution` up to augmentation-preserving chain homotopy. Construct
-   the corresponding `LocalCoefficientSystem ℤ Bπ` as the pullback of the native system and
-   its chain comparison with native `inhomogeneousCochains`.
+   Treat disconnected X componentwise. Identify `H^n(Bπ;A)`, the cohomology of Bπ with §6.1's
+   direct cochains in the local system of `A : Rep ℤ π` (the `LocalCoefficientSystem ℤ Bπ`
+   induced by the covering Eπ→Bπ, on which π acts through the deck action), with Mathlib's
+   `groupCohomology A n` for every `A : Rep ℤ π`: the direct cochains are the π-equivariant
+   A-valued cochains of the contractible free π-space Eπ, and the nerve's cellular chain
+   complex of Eπ is the bar resolution, compared with `TauCeti.universalGSpaceResolution` up
+   to augmentation-preserving chain homotopy, which gives the chain comparison with native
+   `inhomogeneousCochains`. Tau Ceti's identifications are special cases of this one, and
+   are proved to agree with it: through the nerve's own covering Eπ→Bπ,
+   `IsQuotientCoveringMap.singularCohomologyIsoGroupCohomology`, whose only hypothesis is the
+   contractible total space, and, transported along `c_G`,
+   `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` identify `H^n(Bπ;M)` with
+   `groupCohomology (Rep.trivial ℤ π M) n`, the trivial representation on M only;
+   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`, transported along `c_G` and
+   the pullback of `TauCeti.classifyingSpaceLocalSystem`, identifies the Hom-of-twisted-chains
+   cohomology `H^n(Bπ;A,N)` with `groupCohomology` of the dual representation Hom(A,N), so it
+   yields `groupCohomology A' n` only for `A' = Hom(A,N)`, and it agrees with the direct
+   identification exactly under §6.1's fibrewise reflexivity, for N=ℤ when the fibre of A is
+   free of finite rank.
    For Layer 6's first-vertex direct cochains the zeroth face uses inverse
    transport: pin the comparison with native inhomogeneous cochains by
    ψ(g₁,…,g_k)=φ(g₁⁻¹,…,g_k⁻¹). Prove differential, coefficient and
@@ -3071,6 +3092,11 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 - For ℤ, the normalized generator edge represents +1 in π₁=ℤ; reversing it gives −1.
 - For S₃, π₁ has six elements and is nonabelian: (12)(23)≠(23)(12).
   Replacing the group by its abelianization would give only two elements and fails the target.
+- For π=ℤ/2 and A=ℤ/2 with trivial action, `groupCohomology A n` is ℤ/2 in every degree n,
+  and so is the direct-cochain `H^n(Bπ;A)`; the dual identification with N=ℤ lands in
+  `groupCohomology` of Hom(ℤ/2,ℤ)=0, which vanishes in every degree, so for this A it
+  identifies a different group and is not an identification of `H^n(Bπ;A)`. For A=ℤ with
+  trivial action Hom(ℤ,ℤ)=ℤ and the two agree, as for every free finite-rank fibre.
 
 
 ### 8.9 Relative obstruction theory
@@ -3618,13 +3644,15 @@ downstream comparison theorem as input.
 - Allen Hatcher, [*Spectral Sequences in Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/SSAT/SSch1.pdf),
   Chapter 1, Theorem 1.3 (p.8) and the local-coefficient version (p.17).
 - Allen Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
-  §3.3, Lemma 3.18 (p.100) and Proposition 3.19 (p.101).
+  Appendix to Chapter 1, Proposition 1.20 (p.36), and §3.3, Lemma 3.18 (p.100) and
+  Proposition 3.19 (p.101).
 - George W. Whitehead, *Elements of Homotopy Theory*, Springer GTM 61, 1978,
   Chapters II--VII.
 - Albrecht Dold, *Lectures on Algebraic Topology*, Springer, 1972, Chapters VII--VIII.
-- J. Peter May, *Simplicial Objects in Algebraic Topology*, University of Chicago Press, 1967,
-  §3 for homotopy groups of Kan complexes and §17 for simplicial groups and the Moore
-  complex.
+- J. Peter May, [*Simplicial Objects in Algebraic Topology*](https://www.math.uchicago.edu/~may/BOOKS/Simp.pdf),
+  University of Chicago Press, 1967, §3 for homotopy groups of Kan complexes, §14, Theorem 14.1,
+  for the CW structure of the geometric realization of a simplicial set, and §17 for
+  simplicial groups and the Moore complex.
 - John C. Moore, [*Homotopie des complexes monoïdaux, I*](https://www.numdam.org/item/SHC_1954-1955__7_2_A8_0/),
   Séminaire Henri Cartan 7 (1954–1955), no. 2, exposé 18, pp. 1–8: Théorème 3 (p.18-04, a
   simplicial group satisfies the extension condition), Théorème 4, Définition 4 and
