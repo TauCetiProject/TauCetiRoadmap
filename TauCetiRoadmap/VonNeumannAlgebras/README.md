@@ -117,6 +117,11 @@ coercion APIs. The inner product is conjugate-linear in its first variable and l
 second; vector functionals are `ω_ξ(x)=⟪ξ,xξ⟫` and matrix coefficients are `⟪η,xξ⟫`.
 For φ∈M_* pin its bimodule actions by `(aφb)(x)=φ(bxa)`; all centralizing-sequence,
 bicentralizer and Q-stability equations use this convention.
+On a finite-dimensional algebra M, a direct sum of matrix blocks with Tr_M the sum of the
+unnormalized block traces, a linear functional is written `x↦Tr_M(hx)` with a unique density
+h∈M, blockwise by Tau Ceti's trace duality `LinearMap.existsUnique_trace_mul_eq`; on `M₂(ℂ)`
+the state `x↦x₁₁` has `h=e₁₁` and `tr/2` has `h=1/2`. V10.KMS writes each faithful state in this
+way with h positive, invertible and of trace `Tr_M(h)=1`.
 
 Projection equivalence p ~ q means there exists v in the algebra with `v*v=p` and `vv*=q`.
 Subequivalence p ≼ q permits `vv* ≤ q`. This agrees with the conventional initial-to-final
@@ -862,7 +867,7 @@ elementary tensors, exact norm/product/adjoint formulas, associativity,
 flip, and the identification with vector-valued L². No second null-quotient
 inner-product carrier is introduced.
 
-**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use the existing native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean` ([finite-product design](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/product%20measures/near/206288949)), not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
+**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use the existing native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean`, not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
 
 Prove the unique complex-linear unitary `L²(μ)⊗̂L²(ν)≃ₗᵢ[ℂ]L²(κ)` sending f⊗g to the a.e. class of `(x,y)↦f(x)g(y)`, with its exact norm and inner-product formulas, bilinearity, dense range and uniqueness on elementary tensors. Include zero measures, empty carriers and zero L² factors, with no separability assumption on the measure spaces or Hilbert spaces. Prove that changing either representative on a marginal null set changes the product only on a κ-null cylinder. Construct the map first on finite-measure simple-function factors using rectangle pairings, then extend through the existing completed Hilbert tensor. For surjectivity prove that finite spans of indicators of rectangles with finite marginal measures are dense in L²(κ). If κ(E)<∞, choose a countable rectangle cover with total cost<κ(E)+ε, discard its zero-cost rectangles modulo a κ-null union, and take finite subunions of its positive finite-cost rectangles; these have finite marginal measures and approximate E in symmetric-difference measure. Use native `Lp.simpleFunc.denseRange` for p=2 to pass from finite-measure indicators to all L² classes. Identify the completed map with pointwise products by measurable representatives and a.e.-convergent subsequences; do not infer a pointwise formula from a merely abstract Hilbert-space isomorphism.
 
@@ -3542,15 +3547,25 @@ weight independence.
 *Needs:* CentralizerCornerRestriction, the spatial derivative and RelativeModularComparison above,
 V2's matrix amplification `M⊗M₂`; Hiai, §§7.2 and 12.2.
 
-For a faithful n.s.f. base weight φ, prove the Pedersen–Takesaki theorem (Hiai, Theorem 9.4):
-a normal semifinite ψ invariant under σ^φ is uniquely φ_h for a
-positive operator h affiliated with the weight centralizer, with
-`φ_h(x)=lim_(ε↓0) φ(h_ε^(1/2)xh_ε^(1/2))`,
-`h_ε=h(1+εh)⁻¹`, including supports and nonfaithful ψ.
-For h with support 1 prove `(Dφ_h:Dφ)_t=h^(it)`; for general h
-use its supported powers and the preceding partial-isometry convention.
-Apply CentralizerCornerRestriction to the centralizer projection s(h)
-for the modular restriction on the support corner.
+For a faithful n.s.f. base weight φ and a positive self-adjoint operator h affiliated with the
+weight centralizer, define `φ_h(x)=lim_(ε↓0) φ(h_ε^(1/2)xh_ε^(1/2))` with `h_ε=h(1+εh)⁻¹`.
+Prove that φ_h is a normal semifinite weight, faithful exactly when h is nonsingular, and that
+`h≤k` exactly when `φ_h≤φ_k` (Hiai, Proposition 9.3, p. 83). For nonsingular h prove
+`σ_t^(φ_h)(x)=h^(it)σ_t^φ(x)h^(−it)` and `(Dφ_h:Dφ)_t=h^(it)` (Hiai, Theorem 9.4, p. 84); for
+general h use its supported powers and the preceding partial-isometry convention.
+Prove the Pedersen–Takesaki theorem for a faithful n.s.f. weight ψ: ψ is σ^φ-invariant exactly
+when φ is σ^ψ-invariant, exactly when `t↦(Dψ:Dφ)_t` is a one-parameter unitary group, exactly
+when `ψ=φ_h` for a nonsingular h, and that h is unique (Hiai, Theorem 9.7, p. 87). Hiai states
+the theorem for faithful weights only. Prove here its extension to every normal semifinite ψ:
+ψ is σ^φ-invariant exactly when `ψ=φ_h` for a positive h affiliated with the centralizer, and h
+is then unique. Route: if ψ is invariant, its support e=s(ψ) satisfies `σ_t^φ(e)=e`, because the
+support of `ψ∘σ_t^φ` is `σ_(−t)^φ(e)`; so e lies in the centralizer. CentralizerCornerRestriction
+makes the restriction φ_e an n.s.f. weight on eMe whose modular group is σ^φ restricted to eMe.
+The restriction of ψ to eMe is faithful, normal, semifinite and invariant under that group, so
+the faithful theorem on eMe gives a nonsingular h_e on eH, and `h=h_e⊕0` satisfies `ψ=φ_h`.
+Uniqueness: `s(φ_h)=s(h)` (Proposition 9.3 applied on the corner s(h)), so a second such h has
+support e and agrees with h_e by the faithful uniqueness. The converse needs no support
+argument: `h_ε` is σ^φ-fixed, so `φ_h∘σ_t^φ=φ_h` for every positive h.
 Compare the Pedersen–Takesaki theorem's trace specialization with V10's tracial Radon–Nikodym density; extend from
 finite functionals to normal semifinite weights by monotone exhaustion. Prove
 Kadison–Sakai innerness of bounded von Neumann-algebra derivations,
@@ -3562,6 +3577,21 @@ Thus nontrivial outer modular action rules out semifiniteness.
 theorem, V10.Affiliation; Mathlib `Derivation`; Hiai, §9, and Takesaki II, Chapter VIII, §3, are
 the sources; the Kadison–Sakai theorem is Sakai, *C*-algebras and W*-algebras*, Theorem 4.1.6
 (cited by locator).
+
+**Checks.**
+
+- On `M₂(ℂ)` with `φ=Tr(k·)`, `k=diag(2/3,1/3)`, the centralizer is the diagonal algebra. The
+  state `ψ(x)=x₁₁` is σ^φ-invariant, since `σ_t^φ=Ad(k^(it))` fixes diagonal entries, and it is not
+  faithful (`ψ(e₂₂)=0`). It equals φ_h for the singular `h=diag(3/2,0)`:
+  `Tr(k h^(1/2)xh^(1/2))=(2/3)(3/2)x₁₁=x₁₁`. So the nonfaithful case needs a singular h, which the
+  faithful theorem (nonsingular h only) does not supply.
+- Negative control on the same φ: the vector state of `v=(1,1)/√2` has support the projection
+  onto ℂv, which is not diagonal, so it is not in the centralizer. It is not σ^φ-invariant:
+  `ψ_v(σ_t^φ(e₁₂))=2^(it)/2`, which is `−1/2≠1/2=ψ_v(e₁₂)` at `t=π/log 2`. So it is no φ_h, as the
+  support argument requires.
+- For `φ=Tr` on `M_n(ℂ)` the centralizer is all of `M_n(ℂ)`, every normal positive functional is
+  `Tr(h·)=φ_h` with h its density matrix, and the theorem reduces to the trace duality of the
+  Conventions.
 
 For an n.s.f. weight φ and a unital von Neumann subalgebra N⊆M,
 prove Takesaki's conditional-expectation theorem (for a faithful normal state: Hiai, Theorem
@@ -4949,11 +4979,12 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   §§10.2–10.3, 11.1–11.2 and 12.5 (V13), in particular Definition 10.2.1 and Proposition 10.2.2,
   p. 161, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, Remark 11.2.3 and Corollary 11.2.4,
   p. 188, and the Notes to Chapter 11, p. 189.
-- Fumio Hiai, [*Lectures on selected topics in von Neumann algebras*](https://arxiv.org/abs/2004.02383):
+- Fumio Hiai, [*Concise lectures on selected topics of von Neumann algebras*](https://arxiv.org/abs/2004.02383):
   §1.8, p. 9 (separable predual; Connes's theorem that injective and AFD algebras coincide), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
   3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
-  (Connes cocycles), §8, Theorem 9.4 (Pedersen–Takesaki), Theorem 10.7 (Takesaki duality), §12 and
-  §13 (relative modular operators and spatial derivatives).
+  (Connes cocycles), §8, Proposition 9.3, p. 83, and Theorem 9.4, p. 84 (the weights φ_h and their
+  cocycles), Theorem 9.7, p. 87 (Pedersen–Takesaki, faithful weights), Theorem 10.7 (Takesaki
+  duality), §12 and §13 (relative modular operators and spatial derivatives).
 - William Arveson, *Subalgebras of C*-algebras*, Acta Math. 123 (1969), 141–224, Theorem 1.2.3,
   for the completely positive extension theorem of 13.1.
 - Jun Tomiyama, *On the projection of norm one in W*-algebras*, Proc. Japan Acad. 33 (1957),
@@ -5021,13 +5052,6 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - Connes, [*Periodic automorphisms of the hyperfinite factor of type II₁*](https://alainconnes.org/wp-content/uploads/szego.pdf),
   Theorem 5.1 and Theorem 6.2, for invariant matrix approximation and
   outer-period/obstruction classification.
-- Mathlib's `Analysis/VonNeumannAlgebra/Basic`, `Analysis/InnerProductSpace/WeakOperatorTopology`, `Analysis/LocallyConvex/WeakOperatorTopology`, and C*-algebra/continuous-functional-calculus files determine the foundational vocabulary.
-- The bicommutant theorem is stated on Mathlib's `ContinuousLinearMapWOT` wrapper, with the
-  finite diagonal amplification of V1 as its proof route.
-- Finite-dimensional positive functionals are written as `x↦Tr(hx)` with a positive density
-  matrix h (V0, V10). The pinned Mathlib has no density-matrix or finite Hilbert–Schmidt
-  declarations; the density-matrix correspondence is a V10 target, and the Hilbert–Schmidt
-  norm is the V4.Core target.
 - Andrew Gleason, *Measures on the closed subspaces of a Hilbert space*, J. Math. Mech. 6
   (1957), pp. 885–893, for the finite frame-function theorem of V12.J.Frame.
 - L. J. Bunce and J. D. Maitland Wright, [*The Mackey–Gleason problem*](https://arxiv.org/abs/math/9204228),
@@ -5052,6 +5076,3 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   automorphisms*](https://jot.theta.ro/jot/archive/1985-014-001/1985-014-001-011.html),
   J. Operator Theory 14 (1985),189–211, gives the original bicentralizer
   characterization; the proof route specified here is the direct product route.
-- Relevant Lean design discussions include [naming in operator algebras](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/naming%20in%20operator%20algebras) and [Double commutant theorem](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Double%20commutant%20theorem). Use Mathlib's concrete/abstract split and topology wrappers, with the interface conventions above. Supply the required missing results here or in their explicitly cited prerequisite owner.
-
-
