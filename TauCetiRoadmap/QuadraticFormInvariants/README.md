@@ -71,9 +71,8 @@ roadmap declares no copy of it. One line per cited name or section, old → new:
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
 - The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
-  quasilinear forms. Grove's chapters on characteristic 2 and EKM Ch. II (totally singular forms,
-  §10, p. 55; the Arf invariant, §13, p. 62) record how different that theory is, and every
-  statement here assumes `2` invertible.
+  quasilinear forms. EKM Ch. II (totally singular forms, §10, p. 55; the Arf invariant, §13,
+  p. 62) records how different that theory is, and every statement here assumes `2` invertible.
 - The deep theory of Pfister forms: function-field methods, the Arason–Pfister Hauptsatz, the
   Milnor conjecture, the norm-residue theorem, and each classification statement that rests on
   them. Pfister forms in every degree, and the elementary generation statements for `I`, `I²` and
@@ -2258,17 +2257,20 @@ degree, which is an exclusion of this roadmap; see "Scope and ownership".
   *Needs:* Layer 5; Layer 7B milestones 4 and 6.
 - ⚠ **The comparison with the Clifford invariant, exact.** `c(q)` and `s(q)` differ by
   dimension-dependent terms, so a source that says "`w₂` is the Hasse–Witt invariant" must be read
-  through the convention table first. Fröhlich and Serre state their trace-form results with `w₂`
-  against the Witt invariant, with correction terms of `(2) ∪ (d)` type. Write
-  `A_n = C(n−1, 2) mod 2` and `B_n = C(n+1, 4) mod 2` for the binomial coefficients that are the
-  exponents `(n−1)(n−2)/2` and `(n+1)n(n−1)(n−2)/24` of Lam V.3.20. The milestone is the identity
+  through the convention table first. Serre calls `w₂` itself the Witt invariant (Serre, Comment.
+  Math. Helv. 59 (1984), §1.2), and his formula for `w₂` of the trace form `x ↦ Tr_{E/K}(x²)` of
+  an étale algebra `E` (Théorème 1), with its correction term `(2) ∪ (d_E)` for the discriminant
+  `d_E` of `E`, is stated for this `w₂`: read for the Clifford invariant of the trace form, it
+  acquires the two terms of the identity below. Write `A_n = C(n−1, 2) mod 2` and
+  `B_n = C(n+1, 4) mod 2` for the binomial coefficients that are the exponents `(n−1)(n−2)/2`
+  and `(n+1)n(n−1)(n−2)/24` of Lam V.3.20. The milestone is the identity
   `ι(c(q)) = w₂(q) + A_n · ((−1) ∪ (d(q))) + B_n · ((−1) ∪ (−1))` in `H²(G_K, μ₂)`, with `d(q)`
   the plain discriminant class and the whole identity written additively. It is
   `TauCeti.brauer2EquivH2_cliffordInvariant`
   (`TauCeti/FieldTheory/QuadraticForm/StiefelWhitney/Clifford.lean`), stated with
   `w₁(q) = (d(q))`; on forms of even rank with trivial signed discriminant it specializes to
-  `TauCeti.brauer2EquivH2_cliffordInvariant_of_signedDiscr_eq_zero`. A documentation note maps the
-  Fröhlich, Serre and Kahn statements onto it.
+  `TauCeti.brauer2EquivH2_cliffordInvariant_of_signedDiscr_eq_zero`. The module documentation of
+  that file reads Serre's and Kahn's formulas, which are stated for `w₂`, against it.
 
   *Needs:* Layer 5's Clifford invariant; Layer 7B milestones 4 and 6.
 
@@ -2726,15 +2728,13 @@ to this one.
   (the anisotropic quaternary space), 63:19 (`u = 4`), 63:20 (classification), 63:21
   (representation), 63:23 (existence). ⚠ O'Meara's Hasse symbol is `∏_{i≤j}`, translated
   by the convention table.
-- O. T. O'Meara, *Quadratic forms over local fields* (1955), the paper antecedent of
-  §63.
 - B. Kahn, *Classes de Stiefel-Whitney de formes quadratiques et de représentations
   galoisiennes réelles*, Invent. Math. 78 (1984) 223-256, Théorèmes 1-3, Lemme II.2.1
   and Prop. II.3.5; the source of Layer 9's relative formula and of the value of the
   Evens norm.
 - J.-P. Serre, *L'invariant de Witt de la forme Tr(x²)*, Comment. Math. Helv. 59 (1984)
-  651-676, Théorème 1′ and its second proof, which Layer 9 follows at `n = 2` in
-  explicit matrices.
+  651-676, §1.2 (`w₂` named the Witt invariant), Théorème 1 (the trace-form formula), and
+  Théorème 1′ and its second proof, which Layer 9 follows at `n = 2` in explicit matrices.
 - A. Kozlowski, *The Evens-Kahn formula for the total Stiefel-Whitney class*, Proc. AMS
   91 (1984) 309-313, Thm 1.1.
 - L. Evens, *A generalization of the transfer map in the cohomology of groups*, Trans.
@@ -2761,5 +2761,3 @@ to this one.
   pp. 394–395).
 - J.-P. Serre, *Local Fields*, GTM 67, Springer (1979): Ch. X (crossed products and
   `H²`), XIV §2 (the symbol as a cup product and the norm criterion).
-- L. C. Grove, *Classical Groups and Geometric Algebra*, GSM 39, AMS (2002), cited only
-  for the characteristic-2 exclusion note.
