@@ -63,7 +63,10 @@ dimension formula, Maass-space dimensions, Saito–Kurokawa eigenvalue identity 
 coefficient-field finiteness
 are stated on the actual analytic carriers defined below. The general lattice theta inversion
 is stated in even rank. The separate unimodular modularity theorem is supplied by
-`LevelOneAutomorphicFormsForClassicalGroups` LO.6/higher-genus-theta and is not restated.
+`LevelOneAutomorphicFormsForClassicalGroups` §6.4 and is not restated; that roadmap's §§6.1–6.2
+state the level-one `ker Φ = S_k`, odd- and negative-weight vanishing and singular-range theorems
+on `AutomorphicBundles`' carrier; the statements below that specialize to them are stated on the
+analytic carrier, for arithmetic groups and weights in general.
 The README specifies the normalizations, all auxiliary APIs and the Checks.
 
 -/
@@ -665,7 +668,8 @@ reducible `ρ = det⁰ ⊕ det¹` with `ρ(−1) = diag(1, det(−1)) = diag(1, 
 theorem eq_zero_of_neg_one_mem (hΓ : ∀ γ : Sp g ℝ, (γ : GL (Fin g ⊕ Fin g) ℝ) = -1 → γ ∈ Γ)
     (hρ : ∀ v : V, ρ.rep (-1) v = v → v = 0) (f : SiegelModularForm Γ ρ) : f = 0 := sorry
 
-/-- `M_k(Γ_g) = 0` for `kg` odd (1.3): `det^k(−1) = (−1)^{kg}`. -/
+/-- `M_k(Γ_g) = 0` for `kg` odd (1.3): `det^k(−1) = (−1)^{kg}`; the analytic-carrier form of
+`LevelOneAutomorphicFormsForClassicalGroups` §6.2's odd-weight vanishing. -/
 theorem scalar_eq_zero_of_odd (k : ℤ) (hk : Odd (k * g)) (f : SiegelModularForm (Gamma g) (detWeight g k)) :
     f = 0 := sorry
 
@@ -701,7 +705,8 @@ instance (Γ : Subgroup (Sp 1 ℝ)) : (Γ.map spOneToGL).HasDetOne := map_spOneT
 forms of weight `det^k` on `Γ` are Mathlib's modular forms of weight `k` on the image of `Γ` in
 `GL (Fin 2) ℝ`, by the identification of functions `z ↦ f((z))`: the boundedness field of
 `SiegelModularForm` is Mathlib's boundedness at the cusps, and the slash of 1.2 with the
-exponent `k − 1` is `ModularForm.slash`. -/
+exponent `k − 1` is Mathlib's weight-`k` `SlashAction` on `GL (Fin 2) ℝ` (`ModularForm.slash_def`),
+whose factor `|det γ|^{k−1}` is `1` on the image of `Γ`, where `det γ = 1`. -/
 theorem exists_equiv_modularForm_degreeOne (Γ : Subgroup (Sp 1 ℝ)) (hΓ : IsArithmetic Γ)
     (k : ℤ) :
     ∃ e : SiegelModularForm Γ (detWeight 1 k) ≃ₗ[ℂ] ModularForm (Γ.map spOneToGL) k,
