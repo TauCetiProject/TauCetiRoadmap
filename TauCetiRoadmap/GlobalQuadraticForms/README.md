@@ -208,6 +208,9 @@ hypothesis and conclusion to a model of `K` in `Type`.
   the same dimension is injective exactly when it is surjective.
 - `injective_iff_map_eq_zero` (`Algebra/Group/Hom/Basic.lean`): a homomorphism of additive groups is
   injective exactly when its kernel is zero.
+- `Module.finrank_baseChange` (`LinearAlgebra/Dimension/Constructions.lean`): scalar extension
+  `A ⊗[K] V` of a free module keeps its rank, so a localization of a form on `V` lives on a space of
+  dimension `finrank K V`.
 
 ### From Tau Ceti
 
@@ -218,12 +221,18 @@ All paths are under `TauCeti/`.
   `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
   `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
   isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
-  `QuadraticForm.Nondegenerate.atFinitePlace` and their real versions); compatibility with
-  orthogonal sums (the isometries `QuadraticForm.atFinitePlaceProd` and
-  `QuadraticForm.atRealPlaceProd` from the localization of `Q ⊥ R` to `Q_v ⊥ R_v`), negation
-  (`QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`) and scaling; the form class
-  of a localization (`QuadraticForm.formClass_atFinitePlace`, `QuadraticForm.formClass_atRealPlace`:
-  the class of `Q_v` is the scalar extension of the class of `Q`); the localized discriminant
+  `QuadraticMap.Equivalent.atRealPlace`, `QuadraticForm.Nondegenerate.atFinitePlace`,
+  `QuadraticForm.Nondegenerate.atRealPlace`); compatibility with orthogonal sums (the isometries
+  `QuadraticForm.atFinitePlaceProd` and `QuadraticForm.atRealPlaceProd` from the localization of
+  `Q ⊥ R` to `Q_v ⊥ R_v`), negation
+  (`QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`) and scaling
+  (`QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`: the localization of
+  `c • Q` is the image of `c` times the localization of `Q`); diagonal forms (the isometries
+  `QuadraticForm.atFinitePlaceWeightedSumSquares` and `QuadraticForm.atRealPlaceWeightedSumSquares`
+  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the form
+  class of a localization (`QuadraticForm.formClass_atFinitePlace`,
+  `QuadraticForm.formClass_atRealPlace`: the class of `Q_v` is the scalar extension of the class of
+  `Q`); the localized discriminant
   (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
   `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
 - Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
@@ -305,21 +314,30 @@ All paths are under `TauCeti/`.
   `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion` (for a nonsquare `d` and
   `a ∈ Kˣ`, `a = x² - d y²` is solvable in `K` exactly when it is solvable in every finite and every
   infinite completion).
-- Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Witt/Cancellation.lean`,
-  `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`, `RegularFormClass/LowRank.lean`,
-  `NumberTheory/LocalField/QuadraticForm/Hasse.lean`, `Classification.lean`, `Realization.lean`):
+- Local form theory (`LinearAlgebra/QuadraticForm/Representation.lean`, `Radical.lean`,
+  `Witt/Cancellation.lean`, `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`,
+  `RegularFormClass/LowRank.lean`, `NumberTheory/LocalField/QuadraticForm/Hasse.lean`,
+  `Classification.lean`, `Realization.lean`):
   `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
   `QuadraticMap.Equivalent.anisotropic_iff` (isometric forms are anisotropic together),
-  `QuadraticMap.not_anisotropic_prod_of_represents_neg`,
+  `QuadraticMap.IsometryEquiv.represents_iff` (isometric forms represent the same values),
+  `QuadraticMap.not_anisotropic_prod_of_represents_neg` (if `Q₁` represents `a ≠ 0` and `Q₂`
+  represents `-a`, then `Q₁ ⊥ Q₂` is isotropic),
   `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` (a regular isotropic form is
-  universal), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
+  universal), `QuadraticMap.IsRepresentedBy.exists_equivalent_prod` (when `2` is invertible, a
+  finite-dimensional regular form `Q₁` represented by a regular form `Q` splits off:
+  `Q ≅ Q₁ ⊥ Q|_P` with `Q|_P` regular), the regularity of auxiliary forms when `2` is invertible
+  (`QuadraticMap.Nondegenerate.prod`: an orthogonal sum of regular forms is regular;
+  `QuadraticMap.nondegenerate_smul_iff`: scaling by a unit preserves regularity;
+  `QuadraticMap.nondegenerate_smul_sq`: the line `⟨a⟩` is regular for `a ≠ 0`;
+  `QuadraticMap.Nondegenerate.exists_isUnit`: a regular form on a nonzero space takes a unit
+  value), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
   `QuadraticMap.IsometryEquiv.exists_extension` (Witt extension),
   `TauCeti.RegularFormClass.discr` (over a field in which `2` is invertible, the class in
   `SquareClassGroup K` of the product of the weights of any diagonalization, independent of the
   diagonalization), `TauCeti.RegularFormClass.localHasse` (over a nonarchimedean local field in
   which `2` is invertible, the product over `i < j` of the Hilbert symbols `(aᵢ, aⱼ)` of the
   weights of any diagonalization `⟨a₁, …, aₙ⟩`, independent of the diagonalization, in `ℤˣ`),
-  `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`,
   `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over any field in which
   `2` is invertible, a regular binary form is isotropic exactly when its discriminant is `[-1]`),
   `TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq` and
@@ -341,12 +359,16 @@ All paths are under `TauCeti/`.
   values where `W` is anisotropic, a global `x` with `U x ≠ 0` and `-U x` locally represented by
   `W`), and `QuadraticForm.exists_atFinitePlace_ne_zero_eq_neg`.
 - Existence (`NumberTheory/QuadraticForm/Global/LocalRealization.lean`, `PrescribedLocalForms.lean`,
-  `Existence.lean`, `Classification.lean`): `GlobalFormInvariants.IsLocalRealization`,
+  `Existence.lean`, `CorrectionPlanes.lean`, `Classification.lean`):
+  `GlobalFormInvariants.IsLocalRealization`,
   `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
   `GlobalFormInvariants.isAdmissible_ofLocalForms`, `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
   `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` (for an admissible
   record with a local realization: a regular `W` on `Kⁿ` and `a, b ∈ Kˣ` such that `⟨a, -ab⟩` is
   locally represented by `⟨1, -b⟩ ⊥ W`, and a global representation yields a form with the record),
+  `QuadraticForm.nondegenerate_weightedSumSquares_one_neg` and
+  `QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul` (the correction planes `⟨1, -b⟩`
+  and `⟨a, -ab⟩` are regular for `a, b ∈ Kˣ`),
   `QuadraticForm.exists_discr_eq_equivalent_of_isRepresentedBy_prod`,
   `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
   `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace` (a form with record `I` is
@@ -480,12 +502,12 @@ the second fact transports; it is consumed only by 4.2, which reduces to `K` in 
      `⟨a, -ab⟩ → ⟨1, -b⟩ ⊥ W` over `K` yields a regular form on `K^(I.rank)` with record `I`
      (`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`).
 
-4.3 consumes the norm statement, 7.2 the reduction of 72:1, and 7.3 the admissibility of the record
-of a form; the product formula, the Hasse product and the two sign prescriptions are the statements
-in every universe to which the section map in Scope and ownership sends citations of 4.4. The first
-inequality is not transported: 4.2 transports its own hypothesis (local squares at the places
-outside `S`) and conclusion (a global square), and applies the first inequality to the model of
-`K` in `Type` and a quadratic extension of it, also in `Type`. This is how 4.2, 4.3, 7.2 and 7.3
+4.3 consumes the norm statement, 7.2 and 7.3 the reduction of 72:1, and 7.3 the admissibility of the
+record of a form; the product formula, the Hasse product and the two sign prescriptions are the
+statements in every universe to which the section map in Scope and ownership sends citations of 4.4.
+The first inequality is not transported: 4.2 transports its own hypothesis (local squares at the
+places outside `S`) and conclusion (a global square), and applies the first inequality to the model
+of `K` in `Type` and a quadratic extension of it, also in `Type`. This is how 4.2, 4.3, 7.2 and 7.3
 reach the generality of their statements.
 
 *Needs:* Mathlib `Field.exists_primitive_element`, `IntermediateField.adjoinRootEquivAdjoin`,
@@ -592,15 +614,20 @@ nonsquare `d ∈ K` and `a ∈ Kˣ`, the binary form `⟨1, -d⟩` represents `a
 does so at every finite and every real place (`LocallyRepresentsScalar`; the case of the quadratic
 extension `K(√d)/K` in Milne, VIII, Theorem 3.1, p. 234). The arithmetic content is
 `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`, stated for `K` in `Type` and
-carried to every universe by 4.1; the work here is to identify, at each finite place and each real place, solvability of
-`a = x² - d y²` in the completion with representation of `a` by the localization of `⟨1, -d⟩`,
-the real completion being identified with `ℝ` through
+carried to every universe by 4.1; the work here is to identify, at each finite place and each real
+place, solvability of `a = x² - d y²` in the completion with representation of `a` by the
+localization of `⟨1, -d⟩`, the real completion being identified with `ℝ` through
 `InfinitePlace.Completion.ringEquivRealOfIsReal`, and to discharge the complex places, where
-`⟨1, -d⟩` represents every nonzero scalar.
+`⟨1, -d⟩` represents every nonzero scalar. The localization of `⟨1, -d⟩` is isometric to the plane
+`⟨1, -d⟩` over the completion (`QuadraticForm.atFinitePlaceWeightedSumSquares`,
+`QuadraticForm.atRealPlaceWeightedSumSquares`), and isometric forms represent the same values
+(`QuadraticMap.IsometryEquiv.represents_iff`).
 
 *Needs:* 4.1; Tau Ceti `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
 `QuadraticForm.LocallyRepresentsScalar`, `QuadraticForm.atFinitePlace`,
-`QuadraticForm.atRealPlace`; Mathlib `InfinitePlace.Completion.ringEquivRealOfIsReal`.
+`QuadraticForm.atRealPlace`, `QuadraticForm.atFinitePlaceWeightedSumSquares`,
+`QuadraticForm.atRealPlaceWeightedSumSquares`, `QuadraticMap.IsometryEquiv.represents_iff`;
+Mathlib `InfinitePlace.Completion.ringEquivRealOfIsReal`.
 
 **Checks.**
 
@@ -637,19 +664,34 @@ These are the binary and ternary steps of the proof of Hasse–Minkowski in Miln
 
 Prove that a regular binary form which is isotropic at every finite and every real place is
 isotropic over `K` (Milne, VIII, proof of Theorem 3.5(b), case `n = 2`, through Proposition 3.7(b)
-and Theorem 1.1). Route: a regular binary form is isotropic exactly when its discriminant is
-`[-1]`, so `-det Q` is a square at every finite place; the global square theorem (4.2, `S = ∅`)
-makes it a square in `K`, and
-`TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one` makes `Q` a
-hyperbolic plane.
+and Theorem 1.1). Route: over any field in which `2` is invertible, a regular binary form is
+isotropic exactly when its discriminant is `[-1]`
+(`QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two`). At a finite place `v`
+the localization `Q_v` is regular (`QuadraticForm.Nondegenerate.atFinitePlace`), binary
+(`Module.finrank_baseChange`) and isotropic, and its discriminant is the image of that of `Q`
+(`QuadraticForm.discr_atFinitePlace`), so `-det Q` is a square in every `K_v`. The global square
+theorem (4.2, `S = ∅`) makes it a square in `K`, so the discriminant of `Q` is `[-1]`, and the same
+criterion over `K` makes `Q` isotropic.
 
 Prove that a regular ternary form which is isotropic at every finite and every real place is
 isotropic over `K` (the same proof, case `n = 3`, through Proposition 3.7(c) and the Hasse norm
-theorem for the quadratic extension `K(√d)/K`, Theorem 3.1). Route: diagonalize and scale to `⟨1, -d, -a⟩`. If `d` is a square in `K`, the
-summand `⟨1, -d⟩` is isotropic. Otherwise an isotropic vector has nonzero last coordinate, so `Q`
-is isotropic over a field `F ⊇ K` exactly when `⟨1, -d⟩` represents `a` over `F`, and where `d` is
-a local square both conditions hold; local isotropy therefore gives local representation of `a`,
-and 4.3 gives global representation.
+theorem for the quadratic extension `K(√d)/K`, Theorem 3.1). Route: diagonalize, `Q ≅ ⟨a₁, a₂, a₃⟩`,
+and scale by `a₁⁻¹` to the orthogonal sum `⟨1, -d⟩ ⊥ ⟨-a⟩` with `d = -a₂/a₁` and `a = -a₃/a₁`.
+Anisotropy over `K` and local isotropy are unchanged along the diagonalizing isometry
+(`QuadraticMap.Equivalent.anisotropic_iff`,
+`QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff`) and under scaling by the unit
+`a₁⁻¹`, whose localizations are scalings by its images (`QuadraticForm.atFinitePlace_smul`,
+`QuadraticForm.atRealPlace_smul`). If `d` is a square in `K`, the summand `⟨1, -d⟩` is isotropic.
+Otherwise, over a field `F ⊇ K` in which `d` is not a square, an isotropic vector has nonzero last
+coordinate, so the form is isotropic over `F` exactly when `⟨1, -d⟩` represents `a` over `F`; where
+`d` is a square in `F`, the plane `⟨1, -d⟩` is regular and isotropic, hence represents `a`
+(`QuadraticMap.represents_of_nondegenerate_of_not_anisotropic`). At the places, the localization of
+`⟨1, -d⟩ ⊥ ⟨-a⟩` is read as `⟨1, -d⟩ ⊥ ⟨-a⟩` over the completion (`QuadraticForm.atFinitePlaceProd`,
+`QuadraticForm.atRealPlaceProd`, `QuadraticForm.atFinitePlaceWeightedSumSquares`,
+`QuadraticForm.atRealPlaceWeightedSumSquares`). Local isotropy therefore gives local representation
+of `a` by `⟨1, -d⟩`, 4.3 gives global representation, and a representation of `a` by `⟨1, -d⟩`
+together with the value `-a` of `⟨-a⟩` makes the sum isotropic over `K`
+(`QuadraticMap.not_anisotropic_prod_of_represents_neg`, as `a ≠ 0`).
 
 With the ternary case, `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` becomes
 unconditional: a locally isotropic regular quaternary form over a number field is isotropic. Its
@@ -660,12 +702,20 @@ they are regular (`TauCeti.nondegenerate_presentedForm`, `2` being invertible in
 *Needs:*
 
 - all three results: Tau Ceti `QuadraticForm.IsLocallyIsotropic`;
-- the binary case: 4.2 (with `S = ∅`); Tau Ceti
-  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over each `K_v`),
-  `QuadraticForm.discr_atFinitePlace` and
-  `TauCeti.RegularFormClass.eq_hyperbolicClass_of_rank_eq_two_of_discr_eq_neg_one`;
+- the binary case: 4.2 (with `S = ∅`); Mathlib `Module.finrank_baseChange`; Tau Ceti
+  `QuadraticForm.not_anisotropic_iff_discr_eq_neg_one_of_finrank_eq_two` (over each `K_v` and over
+  `K`), `QuadraticForm.Nondegenerate.atFinitePlace` and `QuadraticForm.discr_atFinitePlace`;
 - the ternary case: 4.3; Mathlib
-  `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'` (diagonalization);
+  `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'` (diagonalization); Tau Ceti
+  `QuadraticMap.Equivalent.anisotropic_iff`,
+  `QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff`,
+  `QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`,
+  `QuadraticForm.atFinitePlaceProd`, `QuadraticForm.atRealPlaceProd`,
+  `QuadraticForm.atFinitePlaceWeightedSumSquares`,
+  `QuadraticForm.atRealPlaceWeightedSumSquares`, `QuadraticForm.Nondegenerate.atFinitePlace`,
+  `QuadraticForm.Nondegenerate.atRealPlace`,
+  `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` and
+  `QuadraticMap.not_anisotropic_prod_of_represents_neg`;
 - the unconditional quaternary consequence: the ternary case, over every number field in the
   universe of `K`, and Tau Ceti `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`,
   `TauCeti.presentedForm` and `TauCeti.nondegenerate_presentedForm`.
@@ -751,7 +801,8 @@ conditional quaternary and higher-rank theorems.
 
 Prove that a regular form `Q` represents a nonzero `a ∈ K` exactly when it represents `a` at every
 finite and every real place (`represents_iff_locallyRepresents`; O'Meara 66:3 applied to the line
-`⟨a⟩`). Route: apply 5.5 to `⟨-a⟩ ⊥ Q`, which is regular because `a ≠ 0`. Local representation
+`⟨a⟩`). Route: apply 5.5 to `⟨-a⟩ ⊥ Q`, which is regular because `a ≠ 0`
+(`QuadraticMap.nondegenerate_smul_sq`, `QuadraticMap.Nondegenerate.prod`). Local representation
 gives local isotropy by `QuadraticForm.LocallyRepresentsScalar.isLocallyIsotropic_smul_sq_prod`;
 a global isotropic vector `(t, x)` gives `Q(x) = a t²`, so `Q(x/t) = a` when `t ≠ 0`, and when
 `t = 0` the form `Q` is isotropic, hence universal by
@@ -759,6 +810,7 @@ a global isotropic vector `(t, x)` gives `Q(x) = a t²`, so `Q(x/t) = a` when `t
 zero vector, so the theorem carries `a ≠ 0` only because the route needs a regular `⟨-a⟩ ⊥ Q`.
 
 *Needs:* 5.5; Tau Ceti `QuadraticForm.LocallyRepresentsScalar.isLocallyIsotropic_smul_sq_prod`,
+`QuadraticMap.nondegenerate_smul_sq`, `QuadraticMap.Nondegenerate.prod`,
 `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic`,
 `QuadraticForm.LocallyRepresentsScalar.of_represents`.
 
@@ -774,17 +826,23 @@ zero vector, so the theorem carries `a ≠ 0` only because the route needs a reg
 
 Prove that a regular form `Q` admits an injective isometry into a regular form `R` exactly when it
 does so at every finite and every real place (`represented_iff_locallyRepresented`; O'Meara 66:3).
-Route: induction on the rank of `Q`. Choose a nonzero value `c` of `Q`. It is represented by `Q`
-at every place (`QuadraticForm.LocallyRepresentsScalar.of_represents`), hence by `R` at every place
+Route: induction on the rank of `Q`, rank zero being immediate. Choose a nonzero value `c` of `Q`
+(`QuadraticMap.Nondegenerate.exists_isUnit`). It is represented by `Q` at every place
+(`QuadraticForm.LocallyRepresentsScalar.of_represents`), hence by `R` at every place
 (`QuadraticForm.LocallyRepresents.locallyRepresentsScalar`), so 6.1 makes `R` represent `c` over
-`K`. Split `⟨c⟩` from both forms; at each place the localizations of the two splittings are
-orthogonal sums (`QuadraticForm.atFinitePlaceProd`, `QuadraticForm.atRealPlaceProd`), and Witt
-extension and Witt cancellation there show that the orthogonal complement of `c` in `Q` is locally
-represented by the complement in `R`. Apply the induction hypothesis. The forward direction is
-`QuadraticForm.LocallyRepresents.of_isRepresentedBy`.
+`K`. Split the regular line `⟨c⟩` (`QuadraticMap.nondegenerate_smul_sq`) from both forms, with
+regular complements (`QuadraticMap.IsRepresentedBy.exists_equivalent_prod`); at each place the
+localizations of the two splittings are orthogonal sums (`QuadraticMap.Equivalent.atFinitePlace`,
+`QuadraticMap.Equivalent.atRealPlace`, `QuadraticForm.atFinitePlaceProd`,
+`QuadraticForm.atRealPlaceProd`), and Witt extension and Witt cancellation there show that the
+orthogonal complement of `c` in `Q` is locally represented by the complement in `R`. Apply the
+induction hypothesis. The forward direction is `QuadraticForm.LocallyRepresents.of_isRepresentedBy`.
 
-*Needs:* 6.1; Tau Ceti `QuadraticForm.LocallyRepresentsScalar.of_represents`,
-`QuadraticForm.LocallyRepresents.locallyRepresentsScalar`, `QuadraticForm.atFinitePlaceProd`,
+*Needs:* 6.1; Tau Ceti `QuadraticMap.Nondegenerate.exists_isUnit`,
+`QuadraticForm.LocallyRepresentsScalar.of_represents`,
+`QuadraticForm.LocallyRepresents.locallyRepresentsScalar`, `QuadraticMap.nondegenerate_smul_sq`,
+`QuadraticMap.IsRepresentedBy.exists_equivalent_prod`, `QuadraticMap.Equivalent.atFinitePlace`,
+`QuadraticMap.Equivalent.atRealPlace`, `QuadraticForm.atFinitePlaceProd`,
 `QuadraticForm.atRealPlaceProd`, `QuadraticMap.IsometryEquiv.exists_extension`,
 `TauCeti.equivalent_of_equivalent_prod`, `QuadraticForm.LocallyRepresents.of_isRepresentedBy`,
 `QuadraticForm.LocallyRepresents.finrank_le`.
@@ -847,7 +905,10 @@ Route: `GlobalFormInvariants.isAdmissible_ofLocalForms` and
 admissible record `I`; `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`
 produces a regular `W` on `Kⁿ` and `a, b ∈ Kˣ` such that the correction plane `P' = ⟨a, -ab⟩` is
 locally represented by `P ⊥ W`, `P = ⟨1, -b⟩`, and such that a global representation
-`P' → P ⊥ W` yields a regular form on `Kⁿ` with record `I`. That representation is 6.2. The
+`P' → P ⊥ W` yields a regular form on `Kⁿ` with record `I`. That representation is 6.2, applied to
+the regular plane `P'` and the regular sum `P ⊥ W`
+(`QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul`,
+`QuadraticForm.nondegenerate_weightedSumSquares_one_neg`, `QuadraticMap.Nondegenerate.prod`). The
 form with record `I` is isometric to `U_v` and `R_w` by
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
 `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace`.
@@ -870,6 +931,8 @@ for `K` in `Type`; its hypothesis, a family of local forms realizing `I`, reache
 `GlobalFormInvariants.isAdmissible_ofLocalForms`,
 `GlobalFormInvariants.isLocalRealization_ofLocalForms`,
 `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
+`QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul`,
+`QuadraticForm.nondegenerate_weightedSumSquares_one_neg`, `QuadraticMap.Nondegenerate.prod`,
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace`,
 `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace`.
 
@@ -891,18 +954,37 @@ for `K` in `Type`; its hypothesis, a family of local forms realizing `I`, reache
 ### 7.3 Realization of admissible records
 
 Prove that a record `I : GlobalFormInvariants K` is admissible exactly when it is the record of a
-regular form of positive rank (O'Meara 72:1, through 7.2). The forward direction is
-`exists_globalForm_of_isAdmissible`: from
-`GlobalFormInvariants.IsAdmissible.exists_isLocalRealization` and 7.2, an admissible record is the
-record of a regular form on `K^(I.rank)`. The reverse direction is
+regular form of positive rank (O'Meara 72:1). The forward direction is
+`exists_globalForm_of_isAdmissible`. Route:
+`GlobalFormInvariants.IsAdmissible.exists_isLocalRealization` gives a family `(U, R)` realizing `I`;
+the reduction of 72:1 (`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`, in
+every universe by 4.1, item 3) gives a regular `W` on `K^(I.rank)` and `a, b ∈ Kˣ` such that
+`⟨a, -ab⟩` is locally represented by `⟨1, -b⟩ ⊥ W`; 6.2, applied to these regular forms
+(`QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul`,
+`QuadraticForm.nondegenerate_weightedSumSquares_one_neg`, `QuadraticMap.Nondegenerate.prod`), makes
+the representation global, and the reduction then returns a regular form on `K^(I.rank)` whose
+record is `I`. This is the construction of 7.2 run on the record itself. The reverse direction is
 `QuadraticForm.isAdmissible_globalInvariants`, which needs `1 ≤ rank`. Together with
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
 `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace`, the forward direction yields the
 form-level statement: for any family `U, R` realizing `I`, the form `Q` it returns satisfies
 `Q_v ≅ U_v` and `Q_w ≅ R_w` at every place.
 
-*Needs:* 7.2, 4.1 (`QuadraticForm.isAdmissible_globalInvariants` is stated for `K` in `Type`);
-Tau Ceti `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
+⚠ The statement of 7.2 alone does not give a form with record `I`. A form `V` with `V_v ≅ U_v` and
+`V_w ≅ R_w` has the rank, the finite Hasse signs and the positive indices of `I`, but local isometry
+sees the global discriminant only through its images in the completions
+(`QuadraticForm.locallyEquivalent_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq_and_realPositiveIndex_eq`).
+Going through 7.2 therefore needs one more step: the class `d(V) - d(I)` is represented by a unit
+that is a square in every `K_v`, so it is zero by 4.2 with `S = ∅`. On the `ℚ(√5)` record of the
+worked examples, every local discriminant of such a `V` is `[1]`, and 4.2 gives `d(V) = [1]`. The
+route above needs no such step, because the reduction returns the record `I` itself.
+
+*Needs:* 4.1 (`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod` and
+`QuadraticForm.isAdmissible_globalInvariants` are stated for `K` in `Type`; item 3 states both in
+every universe), 6.2; Tau Ceti `GlobalFormInvariants.IsAdmissible.exists_isLocalRealization`,
+`GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
+`QuadraticForm.nondegenerate_weightedSumSquares_neg_self_mul`,
+`QuadraticForm.nondegenerate_weightedSumSquares_one_neg`, `QuadraticMap.Nondegenerate.prod`,
 `QuadraticForm.isAdmissible_globalInvariants`; for the form-level statement,
 `GlobalFormInvariants.IsLocalRealization.equivalent_atFinitePlace` and
 `GlobalFormInvariants.IsLocalRealization.equivalent_atRealPlace`.
@@ -942,9 +1024,9 @@ the real places), and 6.3 gives a global isometry.
 
 ### Dependencies
 
-Layer 7 uses 6.2 for the global representation and 6.3 for uniqueness, with Tau Ceti's local
-realization and reduction of 72:1, and 4.1 for the Tau Ceti inputs stated for number fields in
-`Type`.
+Layer 7 uses 6.2 for the global representation (7.2 and 7.3) and 6.3 for uniqueness (7.4), with
+Tau Ceti's local realization and reduction of 72:1, and 4.1 for the Tau Ceti inputs stated for
+number fields in `Type`.
 
 ## Layer 8: global classification and Witt consequences
 
@@ -985,7 +1067,8 @@ isometric to `m · H`.
 
 Prove the corresponding statement for Witt classes: two regular forms `Q` and `R` whose
 localizations have the same Witt class at every finite and every real place have the same Witt
-class over `K`. Route: apply the first statement to `Q ⊥ (-R)`, where `-R = (-1) • R`. Its class
+class over `K`. Route: apply the first statement to `Q ⊥ (-R)`, where `-R = (-1) • R`, which is
+regular (`QuadraticMap.nondegenerate_smul_iff`, `QuadraticMap.Nondegenerate.prod`). Its class
 is the class of `Q` plus `⟨-1⟩` times the class of `R` (`TauCeti.formClass_prod`,
 `TauCeti.formClass_smul`), so its Witt class is that of `Q` minus that of `R`
 (`TauCeti.RegularFormClass.add_neg_one_mul`). Its localizations are `Q_v ⊥ (-R_v)` and
@@ -998,7 +1081,8 @@ is part of the proofs of these Tau Ceti lemmas.
 
 *Needs:* 6.3; Tau Ceti `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
 `QuadraticForm.formClass_atFinitePlace`, `QuadraticForm.formClass_atRealPlace`,
-`TauCeti.formClass_eq_iff`, `TauCeti.WittRing`, `TauCeti.formClass_prod`, `TauCeti.formClass_smul`,
+`TauCeti.formClass_eq_iff`, `TauCeti.WittRing`, `QuadraticMap.nondegenerate_smul_iff`,
+`QuadraticMap.Nondegenerate.prod`, `TauCeti.formClass_prod`, `TauCeti.formClass_smul`,
 `TauCeti.RegularFormClass.add_neg_one_mul`, `QuadraticForm.atFinitePlaceProd`,
 `QuadraticForm.atRealPlaceProd`, `QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`,
 `TauCeti.wittClass_eq_zero_iff`, `TauCeti.RegularFormClass.wittDecomposition`.
