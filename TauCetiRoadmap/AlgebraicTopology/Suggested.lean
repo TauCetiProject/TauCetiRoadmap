@@ -9,7 +9,6 @@ public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
 public import TauCeti.AlgebraicTopology.Cohomology.Kronecker
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
-public import TauCeti.AlgebraicTopology.Singular.DiskSphere
 public import TauCeti.AlgebraicTopology.Cellular.Comparison
 public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 public import TauCeti.AlgebraicTopology.Singular.Kunneth.Basic
@@ -35,9 +34,7 @@ public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
 public import TauCeti.Topology.Triangulable.FiniteCWType
 public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
 public import TauCeti.Topology.Homotopy.Proper
-public import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 public import TauCeti.Topology.Homotopy.HomotopyGroup.Product
-public import TauCeti.Topology.Homotopy.Extension.CWComplex
 public import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 public import TauCeti.Topology.Homotopy.Extension.MappingCylinder
 public import TauCeti.Topology.Homotopy.Extension.Prod
@@ -75,8 +72,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states, against the
 and Tau Ceti, the roadmap's headline theorems that are statable on native carriers, each with
 `sorry`, together with the simple definitions they need:
 
-* the pair-quotient comparisons, relative CW pushouts and the one-sided extension of homotopy
-  inverses over cofibered pairs (Stage 4.5);
+* the pair-quotient comparisons `H_n(X, B) ≅ H̃_n(X/B)` and `H^n(X, B) ≅ H̃^n(X/B)` for closed
+  cofibered pairs (Stage 4.5);
 * CW approximation of an arbitrary space (Stage 4.8);
 * the compact-support theorem for locally represented top sections with local coefficients
   (Stage 6.3), and Poincaré duality for closed manifolds with `ℤ/2` coefficients and for closed
@@ -93,7 +90,7 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
   Mathlib's isomorphisms and epimorphisms modulo a Serre class (Stage 8.8d);
 * representability of `H^n(-; A)` by every `K(A, n)` model through its normalized universal class
   (Stage 8.10);
-* CW type of mapping spaces out of finite CW complexes and of based loop spaces (Stage 8.11a).
+* CW type of mapping spaces out of compact Hausdorff spaces and of based loop spaces (Stage 8.11a).
 
 Several results the roadmap states as targets are proved by the pinned Tau Ceti and are not
 restated: the no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
@@ -106,7 +103,14 @@ Whitehead's theorem, the homology invariance of weak equivalences, CW approximat
 path-connected spaces, the connectivity of a CW pair from its cell dimensions, the killing of
 homotopy groups by cell attachment with the extension of maps over the killing tower, the cellular
 comparison in every dimension for module coefficients, Künneth over a field, the Euler
-characteristic of spaces of finite CW type with its homotopy invariance, the `lim`/`lim¹` algebra
+characteristic of spaces of finite CW type with its homotopy invariance, its multiplicativity
+on products and finite covers, its additivity along open covers and its values on spheres, tori
+and complex projective spaces, real projective space with its CW structure and cellular
+incidences, the deck formula and coinvariant description of the chains of a quotient cover, the
+homology of a torus as an exterior algebra, the commutativity of the fundamental group of a
+topological monoid, the local-coefficient pair and triple sequences with homotopy invariance,
+Moore's theorem that simplicial groups are Kan with the Moore comparison for simplicial modules,
+basepoint change of relative homotopy groups, the ends of a space, the `lim`/`lim¹` algebra
 of towers, the unnormalized Lusternik–Schnirelmann category, proper homotopy equivalences,
 simple connectivity at infinity, the constant-coefficient compact-support theorem and the
 integral fundamental class, the torsion Serre classes, the transfer of a finite cover with its
@@ -125,9 +129,10 @@ Headline theorems not statable at the pins, and what each lacks:
   its `E²` identification needs the fibre-homology local system of a Serre fibration, which the
   pins have only for a Hurewicz fibration with a chosen lifting function
   (`TauCeti.fiberLocalSystem`, on cubical chains);
-* the deck-sum formula and the Cartan–Leray spectral sequence of a regular cover (Stage 5.3):
-  the deck action on the native transfer and the deck chain complex in `Rep R G` are
-  constructions of the roadmap;
+* the Cartan–Leray spectral sequence of a regular cover (Stage 5.3): the deck formula, the
+  coinvariant description of the base chains and the equivariant chain complex in `Rep R G` are
+  native, but the pins have no spectral sequence from the group homology of a chain complex of
+  representations;
 * the cellular–singular chain comparison with local coefficients and chosen chain
   representatives (Stage 4.3): the chain map is data built on the roadmap's cellular
   representatives;
@@ -250,7 +255,7 @@ Inventory of `README.md`. -/
 
 universe u v
 
-/-! ## Stage 4.5: pair quotients, relative CW pushouts and cofibration extensions -/
+/-! ## Stage 4.5: pair quotients of closed cofibrations -/
 
 /-- The subset of `X ⊕ *` collapsed by the pointed pair quotient: `B` together with the added
 point. -/
@@ -302,71 +307,29 @@ def ordinaryPairQuotientPairMap (X : Type u) [TopologicalSpace X] (B : Set X) :
     change Quotient.mk (ordinaryCofiberSetoid B) (Sum.inl x) = Quotient.mk (ordinaryCofiberSetoid B) (Sum.inr PUnit.unit)
     exact Quotient.sound (Or.inr ⟨hx, trivial⟩))
 
-/-- Stage 4.5, the CW-pair case of the closed-cofibration quotient comparison: for a Hausdorff
-relative CW pair `(X, B)` the collapse induces `H_n(X, B; M) ≅ H̃_n(X/B; M)` for every `n` and
-every constant coefficient module `M`. -/
+/-- Stage 4.5, the closed-cofibration quotient comparison: for a closed subset `B` of `X` with the
+homotopy extension property, the collapse induces `H_n(X, B; M) ≅ H̃_n(X/B; M)` for every `n` and
+every constant coefficient module `M`. No separation axiom and no CW structure is assumed. The
+inclusion of the cone `CB` into the mapping cone `X ∪ CB` is the cobase change of `B → X`, so the
+collapse `X ∪ CB → X/B` is a homotopy equivalence (Hatcher, Proposition 0.17, p. 15), and
+`H_n(X, B) ≅ H̃_n(X ∪ CB)` for every pair (Hatcher, Section 2.1, p. 125). For `B = ∅` the quotient is
+`X` with an added basepoint. The base of a Hausdorff relative CW pair is such a subset, by the
+native `TauCeti.hasHomotopyExtensionProperty_base` and Mathlib's `RelCWComplex.isClosedBase`. -/
 theorem ordinaryPairQuotientComparison (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    (X : Type u) [TopologicalSpace X] [T2Space X] (B : Set X)
-    [RelCWComplex (Set.univ : Set X) B] (n : ℕ) :
+    (X : Type u) [TopologicalSpace X] (B : Set X) (hB : IsClosed B)
+    (hHEP : TauCeti.HasHomotopyExtensionProperty B) (n : ℕ) :
     IsIso (TopPair.singularHomologyMap (ordinaryPairQuotientPairMap X B) M n) := by
   sorry
 
-/-- Stage 4.5, the cohomological form: the collapse induces `H^n(X, B; M) ≅ H̃^n(X/B; M)` through
-the native contravariant pair map. -/
+/-- Stage 4.5, the cohomological form: for a closed subset `B` of `X` with the homotopy extension
+property, the collapse induces `H^n(X, B; M) ≅ H̃^n(X/B; M)` through the native contravariant pair
+map. -/
 theorem ordinaryPairQuotientCohomologyComparison (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : Type u) [TopologicalSpace X] [T2Space X] (B : Set X)
-    [RelCWComplex (Set.univ : Set X) B] (n : ℕ) :
+    (M : ModuleCat.{u} R) (X : Type u) [TopologicalSpace X] (B : Set X) (hB : IsClosed B)
+    (hHEP : TauCeti.HasHomotopyExtensionProperty B) (n : ℕ) :
     IsIso (TopPair.singularCohomologyMap (R := ModuleCat.of R R) (k := R) (M := M)
       (ordinaryPairQuotientPairMap X B) n) := by
   sorry
-
-section RelativeCWPushouts
-
-variable {Y Z : Type u} [TopologicalSpace Y] [TopologicalSpace Z]
-    [T2Space Y] [T2Space Z] (B : Set Y)
-
-/-- The inclusion `B ⟶ Y` of the subspace of a relative CW pair, as a morphism of `TopCat`. -/
-abbrev relativeCWPushoutInclusion : TopCat.of B ⟶ TopCat.of Y :=
-  TopCat.ofHom ⟨Subtype.val, continuous_subtype_val⟩
-
-/-- Stage 4.5's relative CW pushout `Z ∪_a Y`: the categorical pushout in `TopCat` of the
-inclusion `B ⟶ Y` and an attaching map `a : B → Z`, with its quotient topology. -/
-abbrev relativeCWPushoutCarrier (a : C(B, Z)) : TopCat.{u} :=
-  pushout (relativeCWPushoutInclusion B) (TopCat.ofHom a)
-
-/-- Stage 4.5: for a Hausdorff relative CW pair `(Y, B)` and a Hausdorff `Z`, the pushout
-`Z ∪_a Y` is Hausdorff. -/
-theorem relativeCWPushout_t2Space [RelCWComplex (Set.univ : Set Y) B]
-    (a : C(B, Z)) :
-    T2Space (relativeCWPushoutCarrier B a) := by
-  sorry
-
-/-- Stage 4.5: for closed cofibered pairs `(X, A)` and `(X', A')` and a homotopy equivalence `e`
-carrying `A` into `A'` by a homotopy equivalence `e₀`, prescribed one-sided inverse data `g₀`
-and `H₀ : g₀ ∘ e₀ ≃ id_A` extend to a left inverse `g` of `e` with `g ∘ e ≃ id_X` restricting to
-`g₀` and `H₀`, and `g` is also a right inverse up to homotopy (Brown, *Topology and Groupoids*,
-7.4.2 and its Addendum, pp. 285–286, which extends a modified homotopy; Vogt, *A note on homotopy
-equivalences*, Proposition and Lemma 1, p. 627, which bring it back to `H₀` up to homotopy rel
-the ends; and Strøm, *Note on cofibrations II*, Theorem 6, which makes the restriction exact). -/
-theorem homotopyInversePairExtension_left
-    {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
-    (A : Set X) (A' : Set X')
-    (hAc : IsClosed A) (hAc' : IsClosed A')
-    (hA : TauCeti.HasHomotopyExtensionProperty A)
-    (hA' : TauCeti.HasHomotopyExtensionProperty A')
-    (e : ContinuousMap.HomotopyEquiv X X')
-    (e₀ : ContinuousMap.HomotopyEquiv A A')
-    (he : ∀ a : A, e (a : X) = (e₀ a : X'))
-    (g₀ : C(A', A))
-    (H₀ : ContinuousMap.Homotopy (g₀.comp e₀.toFun) (ContinuousMap.id A)) :
-    ∃ (g : C(X', X))
-      (H : ContinuousMap.Homotopy (g.comp e.toFun) (ContinuousMap.id X)),
-      (∀ a' : A', g (a' : X') = (g₀ a' : X)) ∧
-      (∀ (t : unitInterval) (a : A), H (t, (a : X)) = (H₀ (t, a) : X)) ∧
-      (e.toFun.comp g).Homotopic (ContinuousMap.id X') := by
-  sorry
-
-end RelativeCWPushouts
 
 /-! ## Stage 4.8: CW approximation of an arbitrary space -/
 
@@ -588,21 +551,13 @@ def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
         (∀ x : X, K (0, x) = f x) ∧
         (∀ (t : unitInterval) (a : A), K (t, (a : X)) = H (t, a))
 
-/-- Stage 8.5: proper extension for a closed pair `(X, A)` gives proper extension for the
-cylinder-boundary pair `(I × X, (∂I × X) ∪ (I × A))`, in the native `I × X` order. -/
-theorem HasProperHomotopyExtensionProperty.cylinderBoundary
-    {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
-    {A : Set X} (hA : HasProperHomotopyExtensionProperty A) (hAc : IsClosed A) :
-    HasProperHomotopyExtensionProperty
-      ((({0, 1} : Set unitInterval).prod (Set.univ : Set X)) ∪
-        (Set.univ : Set unitInterval).prod A) := by
-  sorry
-
-/-- Stage 8.5, proper homotopy rectification: if the inclusion of a closed `A` with the proper
-homotopy extension property is a proper homotopy equivalence in the native sense
-`ContinuousMap.HasProperHomotopyInverse`, then `A` is a proper strong deformation retract of
-`X`: there is a proper retraction and a jointly proper homotopy from the identity to it, fixed on
-`A`. -/
+/-- Stage 8.5, proper homotopy rectification: for a Hausdorff locally compact `X` and a subspace
+`A` with the proper homotopy extension property, if the inclusion of `A` is a proper homotopy
+equivalence in the native sense `ContinuousMap.HasProperHomotopyInverse` (so it is proper, and
+`A` is closed), then `A` is a proper strong deformation retract of `X`: there is a proper
+retraction and a jointly proper homotopy from the identity to it, fixed on `A`. A closed strongly
+locally finite CW subcomplex satisfies the extension hypothesis by Stage 8.5's proper homotopy
+extension theorem. -/
 theorem properStrongDeformationRetract_of_inverse
     {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
     (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
@@ -767,21 +722,22 @@ theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A] (n : ℕ)
 
 /-! ## Stage 8.11a: CW type of mapping spaces -/
 
-/-- Stage 8.11a (Milnor 1959, Theorem 3): for a finite Hausdorff CW complex `K` and a space
-`X` of CW type, the mapping space `C(K, X)` with the compact-open topology has CW type. -/
+/-- Stage 8.11a (Milnor 1959, Theorem 3, p. 276): for a compact Hausdorff space `K` and a space
+`X` of CW type, the mapping space `C(K, X)` with the compact-open topology has CW type. A finite
+Hausdorff CW complex is such a `K`; the Cantor set is another, for which `C(K, S⁰)` is a countable
+discrete space. -/
 theorem finiteSourceMappingCWType (K X : Type u) [TopologicalSpace K] [TopologicalSpace X]
-    [T2Space K] [CWComplex (Set.univ : Set K)] [CWComplex.Finite (Set.univ : Set K)]
-    [TauCeti.CWType X] :
+    [CompactSpace K] [T2Space K] [TauCeti.CWType X] :
     TauCeti.CWType C(K, X) := by
   sorry
 
 open scoped Topology.Homotopy in
-/-- Stage 8.11a (Milnor 1959, Corollary 3): the based loop space of a Hausdorff CW complex at a
-0-cell, Mathlib's generalized loops `Ω^ (Fin 1) X x`, has CW type. -/
+/-- Stage 8.11a (Milnor 1959, Corollary 3, p. 276): the based loop space of a Hausdorff CW complex
+at any of its points, Mathlib's generalized loops `Ω^ (Fin 1) X x`, has CW type. At a 0-cell this
+is Corollary 3 for the pair `(X, {x})`; at any other point a path to a 0-cell of its path component
+gives a homotopy equivalence of the two loop spaces. -/
 theorem basedLoopCWType (X : Type u) [TopologicalSpace X] [T2Space X]
-    [CWComplex (Set.univ : Set X)] (x : X)
-    (hx : ∃ i : Topology.RelCWComplex.cell (Set.univ : Set X) 0,
-      x ∈ Topology.RelCWComplex.openCell (C := (Set.univ : Set X)) 0 i) :
+    [CWComplex (Set.univ : Set X)] (x : X) :
     TauCeti.CWType (Ω^ (Fin 1) X x) := by
   sorry
 
