@@ -281,8 +281,11 @@ Each of these could go two ways; every milestone uses the choice made here.
   parity `δ ∈ {0, 1}` is `ε = (-1)^δ`, as in §4.5.
 - **Fricke and Atkin–Lehner.** `(W_N f)(z) = f(-1/(Nz))`, the raw slash of weight `0` by the
   Fricke matrix of the modular-forms roadmap; at weight `0` no scalar normalization is needed and
-  `W_N² = 1` on `A(N, χ)` when `χ` is trivial. For `Q ‖ N`, `W_Q` is the raw slash by any
-  Atkin–Lehner matrix `[Qa, b; Nc, Qd]` of determinant `Q`, well defined on `A(N, 1)`. The
+  `W_N² = 1` on `A(N, χ)` when `χ` is trivial. For `Q ‖ N`, `(W_Q f)(z) = f(W • z)` for any `W`
+  with Tau Ceti's `IsAtkinLehnerMatrix N Q W` (`W = [Qa, b; Nc, Qd]`, `det W = Q`), read in
+  `GL (Fin 2) ℝ` as `atkinLehnerGL` and acting through Mathlib's Möbius action on `ℍ`: plain
+  composition, without the factor `|det W|⁻¹` that Mathlib's weight-`0` slash carries. It is well
+  defined on `A(N, 1)`. The
   **Fricke sign** `ε_N(f) ∈ {±1}` of a newform with trivial character is its `W_N`-eigenvalue; it
   is the product of the `W_{p^{v_p(N)}}`-eigenvalues `η_p(f)`. The LMFDB's `fricke_eigenvalue`
   column stores `ε_N` and uses `0` for "not computed rigorously"; the `0` is an encoding, not a
@@ -343,7 +346,10 @@ Each of these could go two ways; every milestone uses the choice made here.
 - `TauCeti.NumberTheory.ModularForms.DiamondOperators`, `CharacterDecomp`, `Parity`
   (`diamondOp`, `modFormCharSpace`, `cuspFormCharSpace`, `mem_modFormCharSpace_iff_nebentypus`),
   `TauCeti.NumberTheory.ModularForms.Fricke.*` (`frickeGL`, `frickeOperator`, `frickeScalar`,
-  `Involution`, `AtkinLehnerBar`, `Hecke`), `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0.*`
+  `Involution`, `AtkinLehnerBar`, `Hecke`), `TauCeti.NumberTheory.ModularForms.AtkinLehner.Matrix`
+  and `.Operator` (`IsAtkinLehnerMatrix`, `atkinLehnerMatrix`, `isAtkinLehnerMatrix_atkinLehnerMatrix`,
+  `atkinLehnerGL` and the matrix identities §4.4 applies; the operators there act on
+  `M_k(Γ₀(N))` and are not used), `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0.*`
   (`Delta0`, `CosetDecomposition`, `UpperTriangularDelta0`, `CoprimeDetCoset`, `AtkinLehner`,
   `NebentypusChar`), `TauCeti.NumberTheory.DirichletCharacter.*` (`Conductor`, `Even`, `GaussSum`).
 - `TauCeti.Analysis.PDE.*` (`Regularity`, `Spectrum`, `SymmetricEnergy`, `EnergyForm`),
@@ -1068,8 +1074,15 @@ Reflection and parity.
 
 ### 4.4 Atkin–Lehner and Fricke involutions at weight `0`
 
-For `Q ‖ N` define atkinLehner N Q f := f ∘ W_Q with `W_Q = [Qa, b; Nc, Qd]`, `det = Q`, and
-`frickeOperator N f := f ∘ W_N`, `W_N = [0, -1; N, 0]` (Tau Ceti's `frickeGL ℝ N`). Prove on `A(N, χ)` with `χ` **trivial**: `W_Q` is
+The Atkin–Lehner matrices are Tau Ceti's: the predicate `TauCeti.IsAtkinLehnerMatrix N Q W`
+(`W = [Qa, b; Nc, Qd]`, `det W = Q`) and the Bézout witness `TauCeti.atkinLehnerMatrix N Q`, with
+`TauCeti.isAtkinLehnerMatrix_atkinLehnerMatrix : Q ∥ N → IsAtkinLehnerMatrix N Q (atkinLehnerMatrix N Q)`
+(`TauCeti/NumberTheory/ModularForms/AtkinLehner/Matrix.lean`; `∥` is Tau Ceti's notation for
+`‖`), read in `GL (Fin 2) ℝ` as `TauCeti.atkinLehnerGL hQ h` for `hQ : 0 < Q`
+(`…/AtkinLehner/Operator.lean`). For `Q ‖ N` define
+`atkinLehner N Q f z := f (atkinLehnerGL hQ (isAtkinLehnerMatrix_atkinLehnerMatrix hQN) • z)`
+and `frickeOperator N f := f ∘ W_N`, `W_N = [0, -1; N, 0]` (Tau Ceti's `frickeGL ℝ N`, the
+`Q = N` member by `TauCeti.atkinLehnerGL_fricke`). Prove on `A(N, χ)` with `χ` **trivial**: `W_Q` is
 well defined (independent of the matrix), maps `A(N, 1)` to itself, commutes with `Δ`, with `ι`
 and with `Tₙ` for `(n, Q) = 1`, preserves cuspidality, is an isometry for the Petersson product,
 and `W_Q² = 1`; `W_Q W_R = W_{QR/gcd(Q,R)²}`; `W_N = ∏_{p ∣ N} W_{p^{v_p(N)}}`. For general `χ`
@@ -1083,11 +1096,18 @@ The matrix identities are the inputs to this weight-zero adaptation of ModularFo
 Layer 6: `TauCeti.coe_frickeGL_sq`
 (`TauCeti/NumberTheory/ModularForms/Fricke/Matrix.lean`, line 110) and
 `TauCeti.adjugateGL_eq_frickeGL_conj_bar`
-(`TauCeti/NumberTheory/ModularForms/Fricke/AtkinLehnerBar.lean`, line 60).
+(`TauCeti/NumberTheory/ModularForms/Fricke/AtkinLehnerBar.lean`, line 60); for `W_Q`,
+`IsAtkinLehnerMatrix.exists_mem_Gamma0_eq_mul_left` (two matrices for `Q` differ by `Γ₀(N)`,
+hence independence of the matrix), `TauCeti.Gamma0_map_inv_conjAct_atkinLehnerGL_eq` (`W`
+normalizes `Γ₀(N)`), `IsAtkinLehnerMatrix.exists_mem_Gamma0_mul_self` (`W² ∈ Q · Γ₀(N)`, hence
+`W_Q² = 1` at weight `0`), `IsAtkinLehnerMatrix.mul` with `TauCeti.atkinLehnerGL_mul` (products),
+and `IsAtkinLehnerMatrix.toHomUnits_gamma0Map_of_mul_eq_mul` (moving `γ ∈ Γ₀(N)` across `W`
+inverts the residue modulo `Q` of its diamond label, which is the `χ_Q ↦ χ̄_Q` above).
 Apply their fractional-linear actions, where scalar matrices act trivially, and use
 §§0.2–0.5 for the differential and L² comparisons. This does not apply a holomorphic
 slash normalization to weight-zero functions.
-*Needs:* 0.3, 4.1, 4.3; Tau Ceti's Fricke matrix and `AtkinLehnerBar`.
+*Needs:* 0.3, 4.1, 4.3; Tau Ceti's Fricke matrix, `AtkinLehnerBar` and Atkin–Lehner matrices
+(`AtkinLehner/Matrix.lean`, `AtkinLehner/Operator.lean`).
 
 
 Atkin–Lehner and Fricke maps.
@@ -1926,7 +1946,7 @@ Layer 2.1–2.2 (K-Bessel supplements, mode equation)    → §4.5's K_ν, Tau C
 Layer 1 (carrier, spectral parameter)                  → Layer 0
 Layer 2.3–2.5 (expansion, coefficients, decay, λ > 0)  → 0.4, 1.1, 2.1–2.2
 Layer 3 (χ-isotypic Laplacian, cuspidal spectrum)      → 0.2, 0.4, 0.5, 2.3; CongruenceSpectralGap §§0.2, 0.5b, 0.6; PDE Lane E, SelfAdjointSpectralTheory E
-Layer 4 (Hecke, reflection, Atkin–Lehner, newforms)    → Layers 1–3, HeckeRing.GL2.Gamma0, Fricke
+Layer 4 (Hecke, reflection, Atkin–Lehner, newforms)    → Layers 1–3, HeckeRing.GL2.Gamma0, Fricke, AtkinLehner
 Layer 5.3–5.4 (3/16, level one)                        → 0.4, 0.5, 1.1, 2.3, 2.4; CongruenceSpectralGap §5.3
 Layer 5.5 (scattering matrix, Weyl's law)              → 3.4, §§1.23/4.8, AutomorphicSpectralTheory L6
 Layer 6 (L-functions)                                  → 4.6, 2.1 (v), 2.4; LFunctions L0
