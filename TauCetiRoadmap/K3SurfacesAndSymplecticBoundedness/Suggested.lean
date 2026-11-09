@@ -3,6 +3,7 @@ import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
 import TauCeti.Algebra.Category.ModuleCat.Sheaf.TensorProduct.Closed
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
+import TauCeti.AlgebraicGeometry.LineBundle.Ample
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
 
@@ -11,7 +12,8 @@ import TauCeti.AlgebraicGeometry.LineBundle.Functoriality
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: invariance under field extension,
-vanishing of one-forms and vector fields, the Hodge diamond, finite freeness of
+projectivity over the ground field, vanishing of one-forms and vector fields,
+the Hodge diamond, finite freeness of
 the Picard group, Picard-rank bounds, bounded rank-revealing extensions, the
 wild-prime bound, rank-22 Picard faithfulness and the universal bound on finite
 automorphism subgroups.
@@ -22,9 +24,10 @@ The definitions specialize native exterior powers, cohomology, schemes and
 line-bundle classes; they do not supply any geometric theorem as data.
 
 The remaining headline theorems are not statable at the pins:
-* §§1.3 and 1.6: projectivity and the quartic construction lack the standard
-  projective-space structure morphism and relative hypersurface carrier.
-  The abstract Proj scheme itself is available.
+* §1.6: the quartic construction lacks the relative hypersurface carrier, the
+  closed subscheme of projective three-space over k cut out by a homogeneous
+  quartic, as a scheme over Spec k. Projective space over k with its structure
+  morphism is available; projectivity itself (§1.3) is stated below.
 * §§1.4–1.5 and §§4.1–4.4: surface Riemann–Roch, the numerical Picard kernel,
   the geometric Picard lattice, specialization and the saturated cycle map
   lack geometric divisor intersection numbers and the integral étale cycle map.
@@ -35,14 +38,14 @@ The remaining headline theorems are not statable at the pins:
   de Rham–Witt/crystalline cohomology and marked formal deformation carriers.
   The Hodge diamond and the vanishings of §2.3 are stated below.
 * §1.3: the specialization adapter to the geometric algebraic/analytic
-  presentations lacks the standard projective-space structure morphism
-  and scheme analytification carriers.
+  presentations lacks K3Surfaces' own algebraic and analytic K3 carriers and
+  scheme analytification.
 * §3.1: integral geometric étale invariants lack integral étale cohomology
   with its comparison maps; the complex and integral Betti inputs are
   K3Surfaces K1–K2, rather than further headline targets here.
 * §§5.3–5.4: finite étale polarized automorphism schemes and the infinite
-  symplectic Wehler action lack the ample-line predicate, polarized
-  automorphism scheme and pullback action on canonical forms.
+  symplectic Wehler action lack the polarized automorphism scheme and the
+  pullback action on canonical forms.
 * §6.0b: numerical restriction and determinant laws for general regular
   Jacobians lack the genus-one surface fibration, regular Jacobian and
   geometric numerical divisor lattice with its intersection pairing.
@@ -61,8 +64,8 @@ The remaining headline theorems are not statable at the pins:
   Mukai's bound and tame M₂₃ containment lack the K3 cohomology action,
   quotient correspondence and Mathieu permutation model.
 * §§7.2–7.7: primitive openness, ample-power vanishing, cubic embeddings and
-  the finite-type covering family lack the relative Picard space, ampleness
-  and surface Hilbert-scheme carriers.
+  the finite-type covering family lack the relative Picard space and surface
+  Hilbert-scheme carriers.
 * §§8.1–8.5: separated Deligne–Mumford moduli, coarse spaces, dimension-19
   smoothness and finite-field finiteness lack the polarized K3 family
   groupoid and algebraic-stack/coarse-space carriers.
@@ -103,6 +106,17 @@ theorem isK3_fieldExtension_iff (k K : Type u) [Field k] [Field K] [Algebra k K]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) :
     IsK3 K (pullback.snd f (Spec.map (CommRingCat.ofHom (algebraMap k K)))) ↔
       IsK3 k f := by
+  sorry
+
+/-- Every K3 surface over every field k is projective over k, stated as the
+existence of an ample line-bundle class on X. For the proper k-scheme X this is
+projectivity over k: an ample class gives an immersion into a projective space
+over k, closed by properness, and conversely the hyperplane class of a projective
+embedding is ample. Huybrechts, Chapter 1, Remark 1.2, p.7; Stacks, Morphisms of
+Schemes, Lemma 40.4 (01VT) and Lemma 44.13 (0BCL). -/
+theorem IsK3.projective (k : Type u) [Field k] {X : Scheme.{u}}
+    (f : X ⟶ Spec (.of k)) (hX : IsK3 k f) :
+    ∃ a : TauCeti.AlgebraicGeometry.LineBundleClass X, a.IsAmple := by
   sorry
 
 /-! ## Layer 2: Picard spaces, vanishing and lifting -/
