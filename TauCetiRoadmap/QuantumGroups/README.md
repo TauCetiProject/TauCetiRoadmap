@@ -72,7 +72,7 @@ monoidal, rigid and double-dual trivialization structure under
 specification those files implement and names their declarations. The
 local-finiteness characterization of §8.4 is
 `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`;
-the diagonalizability of K and the Hom and endomorphism formulas for
+the Hom and endomorphism formulas for
 finite-dimensional modules in §8.3; the shrink compatibilities, the
 group-algebra comparison with `FDRep`, the naturality, dual compatibility and
 Biedenharn–Elliott pentagon of the Clebsch–Gordan maps, the bundled pivotal
@@ -1438,8 +1438,10 @@ character at εq^m minus its coefficient at εq^(m+2)
 (`TauCeti.UqSl2.finrank_linearMap_ladderModule_eq_formalCharacter_coeff_sub`),
 so multiplicities are unique, and short exact sequences of finite-dimensional
 modules split by Mathlib's `IsSemisimpleModule.extension_property` and
-`IsSemisimpleModule.lifting_property`. Derive that K is diagonalizable on every
-finite-dimensional module, that
+`IsSemisimpleModule.lifting_property`. K is diagonalizable on every
+finite-dimensional module, the finite-dimensional case of §8.4's
+`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`
+through the instance `TauCeti.IsLocallyFiniteModule.of_finite`. Derive that
 dim Hom_U(V,W)=Σ_(m,ε) dim Hom_U(L_m^ε,V)·dim Hom_U(L_m^ε,W) for
 finite-dimensional V and W, and that End_U(V) is the product over (m,ε) of the
 full matrix algebras on the multiplicity spaces Hom_U(L_m^ε,V).
@@ -1479,8 +1481,9 @@ by K eigenvectors with eigenvalues in {±q^k}. The native
 `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`
 says that this condition characterizes
 unrestricted local finiteness when combined with E,F local nilpotence.
-Exhibit the one-dimensional L_0^- (K=−1,E=F=0): it is locally finite
-and locally nilpotent but not type 1. Thus the unsigned integral-weight
+The one-dimensional L_0^- (K=−1,E=F=0) is locally finite
+and locally nilpotent but not type 1:
+`TauCeti.UqSl2.LadderModule.not_isTypeOne` proves this for every L_m^-. Thus the unsigned integral-weight
 condition is not equivalent to unrestricted local finiteness.
 
 The defining objects have the following API.
@@ -1522,8 +1525,12 @@ and their compatibility are native:
 Its native
 `MonoidalCategory` structure has tensor over k through the coproduct,
 and the counit unit action; do not inherit tensor over H from a
-commutative-H ModuleCat instance. Build tensor intertwiners,
-associator/unitors and the monoidal forgetful comparison. For H=k[G],
+commutative-H ModuleCat instance. Its tensor intertwiners,
+associator and unitors are those of
+`TauCeti.FiniteHopfModuleCat.instMonoidalCategory`, and
+`TauCeti.FiniteHopfModuleCat.forgetToModule` is
+monoidal by the instance of
+`TauCeti/Algebra/Category/FiniteHopfModuleCat/Monoidal.lean`. For H=k[G],
 restrict native `Rep.equivalenceModuleMonoidAlgebra` to finite objects
 and identify this monoidal category, duals and trivial-pivot structure
 with PivotalSpherical Layer7’s `FDRep k G`. Consume Layer7’s
