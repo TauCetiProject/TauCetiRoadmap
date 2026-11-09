@@ -393,7 +393,10 @@ The development starts from these current APIs.
   (`Topology/Homotopy/Extension/Prod.lean`), homotopy inverses relative to cofibered subspaces
   `TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel` and relative to points
   `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel`
-  (`Extension/HomotopyEquivRel.lean`), the relative cylinder CW structure
+  (`Extension/HomotopyEquivRel.lean`), the homotopy extension property of every skeleton
+  of a relative CW complex `TauCeti.hasHomotopyExtensionProperty_skeletonLT` and of its base
+  `TauCeti.hasHomotopyExtensionProperty_base` (`Extension/CWComplex.lean`), the relative
+  cylinder CW structure
   `TauCeti.relCWComplexCylinder` (`Topology/CWComplex/Classical/Cylinder.lean`), cellular
   approximation `TauCeti.exists_isCellular_homotopicRel` and
   `TauCeti.exists_isCellular_homotopic` (`CellularApproximation.lean`), and the finite CW
@@ -449,7 +452,16 @@ The development starts from these current APIs.
   for finite groups `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
   `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology` (`Torsion.lean`), the
   uniqueness theorems `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` and
-  `TauCeti.IsAspherical.exists_homotopyEquiv` (`Uniqueness.lean`), the circle comparison
+  `TauCeti.IsAspherical.exists_homotopyEquiv` (`Uniqueness.lean`), the base-point
+  independence of asphericity `TauCeti.IsAspherical.of_basepoint`
+  (`EilenbergMacLane/Basic.lean`), the uniqueness theorems for maps from a CW complex into a
+  space whose homotopy groups vanish from degree two on at every point,
+  `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel` (maps that agree up to homotopy
+  relative to the endpoints on every path between 0-cells are homotopic relative to the
+  0-skeleton) and its case of a single 0-cell
+  `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` (pointed maps inducing the same
+  homomorphism on π₁ are homotopic relative to the base point)
+  (`EilenbergMacLane/Homotopic.lean`), the circle comparison
   `TauCeti.circleHomotopyEquivClassifyingSpace` (`Circle.lean`), the presentation complex
   `TauCeti.PresentationComplex` with `TauCeti.PresentationComplex.exists_mapOfEq_comp_fundamentalGroupHom`
   (`ClassifyingSpace/PresentationComplex.lean`), the cellular model
@@ -2477,17 +2489,52 @@ items 1–7 are independent of those later constructions.
    `exists_mapOfEq_eq_of_isAspherical_cwComplex`: for a path-connected
    Hausdorff CW complex X with base point x and a space Y with base point y
    that is aspherical in the native sense `TauCeti.IsAspherical Y y` (path
-   connected with π_k(Y,y)=0 for k≥2), every homomorphism π₁(X,x)→π₁(Y,y) is
+   connected with π_k(Y,y)=0 for k≥2), every homomorphism φ:π₁(X,x)→π₁(Y,y) is
    induced by a map sending x to y, and two such maps inducing the same
    homomorphism are homotopic relative to x (Hatcher, Proposition 1B.9,
-   p. 90). The route is skeletal: send a maximal tree of the 1-skeleton to y
-   and each remaining edge to a loop representing the image of its class,
+   p. 90). For x a 0-cell, the case Hatcher proves, the route is skeletal.
+   Existence: send a maximal tree of the 1-skeleton to y and each remaining
+   edge to a loop representing the image under φ of the class of the loop
+   at x that the edge closes up through the tree,
    extend over a 2-cell because its attaching loop is a relation and so maps
    to a null-homotopic loop, and over a cell of dimension k≥3 because the
    composite of its attaching map with the map already defined on the lower skeleton is a based map
    of S^(k−1) into Y, null-homotopic since π_(k−1)(Y)=0 at every base point
-   by path connectedness; uniqueness is the same extension over the cells of
-   X×I relative to X×∂I∪{x}×I, all of dimension at least two. The CW
+   by path connectedness. Uniqueness, for maps f and g sending x to y and
+   inducing the same homomorphism: choose for each 0-cell v a path τ_v from
+   x to v, constant for v=x. The homotopy extension property of the
+   discrete 0-skeleton (native `TauCeti.hasHomotopyExtensionProperty_skeletonLT`,
+   `Topology/Homotopy/Extension/CWComplex.lean`) deforms g, relative to x, to
+   a map g′ whose track at each 0-cell v is the path (g∘τ_v)⁻¹·(f∘τ_v), so
+   that g′=f on the 0-skeleton. For a path γ from a 0-cell v to a 0-cell w,
+   g′∘γ is then homotopic relative to its endpoints to
+   (f∘τ_v)⁻¹·(g∘(τ_v·γ·τ_w⁻¹))·(f∘τ_w), hence to f∘γ, because f and g
+   agree on the class of the loop τ_v·γ·τ_w⁻¹ at x. The native
+   `TauCeti.homotopicRel_skeletonLT_one_of_forall_homotopicRel`
+   (`AlgebraicTopology/EilenbergMacLane/Homotopic.lean`), whose hypothesis
+   that π_k vanishes for k≥2 at every point of Y is supplied by native
+   `TauCeti.IsAspherical.of_basepoint`, then gives f≃g′ relative to the
+   0-skeleton; inside it the two maps are matched on the 1-cells and the
+   homotopy extends over the cells e×(0,1) of X×I with dim e≥2, all of
+   dimension at least three. When x is the only 0-cell no deformation is
+   needed and this is native
+   `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` (same file).
+   The tracks at the 0-cells are fixed first because for a 0-cell v≠x the
+   cell v×(0,1) of X×I has dimension one. A base point x inside a cell of
+   dimension n≥1 reduces to a 0-cell v. The singleton {x} has the homotopy
+   extension property in X: reparametrize the characteristic map of that
+   cell by a homeomorphism of Dⁿ fixing Sⁿ⁻¹ that sends 0 to the preimage
+   of x; extend a homotopy over the closed cell using the homotopy extension
+   property of the CW pair (Dⁿ,{0}∪Sⁿ⁻¹), stationary on Sⁿ⁻¹; extend it
+   stationarily over the rest of the n-skeleton, in which the open cell is
+   open; then extend over X by `TauCeti.hasHomotopyExtensionProperty_skeletonLT`.
+   Extending a path from x to v to a homotopy of the identity of X gives
+   h:X→X homotopic to the identity with h(x)=v. As {v} is a subcomplex,
+   Stage 4.5's 0-cell lemma gives it the homotopy extension property, and native
+   `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel`
+   (Hatcher, Proposition 0.19, p. 16) gives h a based inverse k with
+   k∘h≃id relative to x. Then f₀∘h realizes φ when f₀:(X,v)→(Y,y) realizes φ∘k_*,
+   and f≃f∘k∘h≃g∘k∘h≃g relative to x when f∘k≃g∘k relative to v. The CW
    hypothesis on X and asphericity of Y are both needed: the Warsaw circle
    has trivial π₁ but admits a map to S¹ that is not null-homotopic, and the
    identity and the constant map of S² induce the same map on π₁. Apply the
@@ -2497,7 +2544,9 @@ items 1–7 are independent of those later constructions.
    description of `[X,Bπ]`. Treat disconnected X componentwise.
    ClassifyingSpaces consumes this classification for its uniqueness and
    model comparisons; the native `TauCeti.exists_mapOfEq_cellularClassifyingSpace`
-   is its existence half for the cellular model as source, and the native
+   is its existence half for the cellular model as source, the native
+   `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` is its
+   uniqueness half for a complex whose 0-skeleton is the base point, and the native
    `TauCeti.IsAspherical.exists_homotopyEquiv` is the uniqueness of
    aspherical spaces of CW type that follows from it.
    Consume the native identification of the cohomology of the
@@ -2968,6 +3017,15 @@ downstream comparison theorem as input.
   map takes a native `TauCeti.BasedTopPair`; its point lies in the subspace and all maps preserve
   it. The API
   cannot construct `pi_n(X,A)` from an unbased `TopPair` or from an empty subspace.
+- The 8.8b classification is tested on the circle with two 0-cells x=1 and v=−1 and two
+  1-cells, mapping into the aspherical circle. The maps `f(z)=z^k` and
+  `g(z)=z^k·exp(iπ(1−Re z)/2)` both send x to 1 and both induce multiplication by k on
+  π₁. They differ at v: `f(−1)=(−1)^k`, `g(−1)=−(−1)^k`. The deformation
+  `z^k·exp(itπ(1−Re z)/2)`, t from 1 to 0, is a homotopy from g to f relative to x. It moves
+  v along a half-circle from g(v) to f(v), homotopic relative to its endpoints to the track
+  (g∘τ_v)⁻¹·(f∘τ_v) of the uniqueness route for τ_v the upper half-circle from x to v. A route that extends only over cells of X×I of dimension at least
+  two misses the 1-cell v×(0,1). Moving the base point into the interior of a 1-cell leaves
+  the classification by degree unchanged.
 
 - Ordinary representability's pullback map is bijective on arbitrary CW complexes,
   including disconnected and infinite-dimensional ones, and additive for every abelian

@@ -631,8 +631,11 @@ theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
 base point `x` and a space `Y` with base point `y` that is aspherical in the native sense
 (path connected with `π_k(Y, y) = 0` for `k ≥ 2`), every homomorphism `π₁(X, x) →* π₁(Y, y)`
 is induced by a map sending `x` to `y`, and two such maps inducing the same homomorphism are
-homotopic relative to `{x}`. Applied to the bar model `groupClassifyingSpace π`, aspherical by
-`groupClassifyingSpace_isEMOne`, this is the bijection `[X, Bπ]_* ≃ Hom(π₁(X, x), π)`. -/
+homotopic relative to `{x}`. The base point `x` need not be a `0`-cell. When `{x}` is the whole
+`0`-skeleton, the uniqueness half is the native
+`TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex`. Applied to the bar model
+`groupClassifyingSpace π`, aspherical by `groupClassifyingSpace_isEMOne`, this is the bijection
+`[X, Bπ]_* ≃ Hom(π₁(X, x), π)`. -/
 theorem exists_mapOfEq_eq_of_isAspherical_cwComplex
     {X : Type u} [TopologicalSpace X] [T2Space X] [CWComplex (Set.univ : Set X)]
     [PathConnectedSpace X] (x : X)
