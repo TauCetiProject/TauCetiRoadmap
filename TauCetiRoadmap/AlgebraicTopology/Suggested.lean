@@ -57,8 +57,8 @@ cells have dimension at least `λ` (Stage 8.1; `TauCeti.injective_homotopyGroupM
 (Stage 8.5; `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`).
 
 Relative Hurewicz in the generality of Stage 8.4 (`X` path connected, `A` simply connected,
-`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 3`; Hatcher, Theorem 4.37, p. 371) is not
-stated: its carriers, Tau Ceti's relative homotopy sets `TauCeti.RelHomotopyGroup` and
+`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 2`; Hatcher, Theorem 4.37, p. 371) is not
+stated in any degree: its carriers, Tau Ceti's relative homotopy sets `TauCeti.RelHomotopyGroup` and
 relative Hurewicz map `TauCeti.RelHomotopyGroup.hurewicz`, are absent from the Tau Ceti this
 file is elaborated against.
 
