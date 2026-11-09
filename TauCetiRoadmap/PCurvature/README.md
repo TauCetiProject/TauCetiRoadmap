@@ -26,11 +26,12 @@ Suggested home: `TauCeti/Algebra/Lie/Restricted/` for Layer 0,
 
 **Owned here.** Jacobson's Lie polynomial and Jacobson's formula in associative algebras of
 characteristic `p`; restricted Lie algebras, their morphisms and the standard examples; the
-restricted structure `D ↦ D^p` on `Der_R(A)`; the `p`-curvature of a connection and all of
-Layer 1; nilpotence of the `p`-curvature and its comparison with the quasi-nilpotence of
-CrystallineCohomology CR.1.3; Cartier descent in the affine form of Layer 2; the statements of
-Layers 3 and 4. A search of the roadmaps for p-curvature, restricted Lie algebras, Jacobson's
-formula, Cartier descent and Honda's theorem finds no other owner.
+restricted structure `D ↦ D^p` on `Der_R(A)`; the commutators of a derivation with multiplications
+(0.4); the `p`-curvature of a connection and all of Layer 1; nilpotence of the `p`-curvature and its
+comparison with the quasi-nilpotence of CrystallineCohomology CR.1.3; Cartier descent in the affine
+form of Layer 2; the statements of Layers 3 and 4. A search of the roadmaps for p-curvature,
+restricted Lie algebras, Jacobson's formula, Cartier descent and Honda's theorem finds no other
+owner.
 
 **Left to other roadmaps.** The ordinary algebraic connection `M → M ⊗_A Ω`, with its curvature,
 horizontal maps, tensor product, `Hom`/dual and base change, is CrystallineCohomology CR.1.3's,
@@ -121,10 +122,6 @@ and its comparison with zero curvature when `Ω¹_{A/R}` is finite projective.
 **From SchemeAndStackFoundations.** §0.29, `SchemeFrobenius.schemeFrobeniusTwist`,
 `SchemeFrobenius.relativeFrobenius` and `relativeFrobenius_smooth_rank` (2.0); §0.8,
 `etale_coordinates` (2.1); §0.9, `finite_presentation_limits` and `spreading_out_models` (3.2).
-
-**From GrothendieckNotesLemmas.** §3.2, `Derivation.lie_mulLeft` and
-`Derivation.mulLeft_mul_mul_mulLeft_inv`: the commutator of a derivation with a multiplication
-and conjugation by a unit (1.1, 1.4).
 
 Neither pin has restricted Lie algebras, Jacobson's formula, the `p`-th power of a derivation as
 a derivation, algebraic connections, or the `p`-curvature.
@@ -232,16 +229,46 @@ Prove `iterate_leibniz`: in characteristic `p`, `D^[p](ab) = a D^[p](b) + b D^[p
 - Characteristic `0` is excluded: on `ℚ[x]`, `(d/dx)^2 (x · x) = 2 ≠ x·0 + x·0`, so the
   iterate of a derivation is not a derivation without `[CharP A p]`.
 
+### 0.4 Commutators with multiplications
+
+Prove `lie_mulLeft`: for a derivation `D` of a commutative `R`-algebra `A` into itself and
+`a ∈ A`, the commutator of `D` with `LinearMap.mulLeft R a` in `Module.End R A` is
+`LinearMap.mulLeft R (D a)`; this is the Leibniz rule `D(a b) = a D(b) + D(a) b` read as an
+identity of operators. Prove `mulLeft_mul_mul_mulLeft_inv`: for a unit `u` of `A`,
+`u ∘ D ∘ u⁻¹ = D − u⁻¹ D(u)` in `Module.End R A`, multiplications written as
+`LinearMap.mulLeft`. Route: `u D(u⁻¹ b) = D(b) + u D(u⁻¹) b` by the Leibniz rule, and
+`u D(u⁻¹) = −u⁻¹ D(u)` by `Derivation.leibniz_of_mul_eq_one` applied to `u⁻¹ u = 1`. Both hold
+in every characteristic. They are the operator identities behind 1.1 (`[∇_D, a] = D(a)`) and
+the gauge computation of 1.4 (the connection `D − D(u)/u` is `u ∘ D ∘ u⁻¹`).
+*Needs:* Mathlib `Derivation.leibniz`, `Derivation.leibniz_of_mul_eq_one`, `LinearMap.mulLeft`,
+`Module.End`.
+
+**Checks.**
+
+- `A = k[x]`, `D = d/dx`, `a = x`: the commutator `D ∘ x − x ∘ D` is the identity,
+  `LinearMap.mulLeft R (D x)` with `D x = 1`; the bracket in the other order, `x ∘ D − D ∘ x`,
+  would give `−1`.
+- `u` a unit of `k`: `D u = 0`, and conjugation by `u` fixes `D`; a formula with `D(u)` in place
+  of `u⁻¹ D(u)` agrees here, so the next Check is the discriminating one.
+- The sign and the factor `u⁻¹`: on `k[x, x⁻¹]` with `u = x`,
+  `x · D(x⁻¹ · 1) = −x⁻¹ = (D − x⁻¹ D(x))(1)`; the opposite sign would give `+x⁻¹`, and `D(u)`
+  without `u⁻¹` would give `−1`.
+- On `𝔽_p[x, x⁻¹]` with `u = x`: `D − 1/x = x ∘ D ∘ x⁻¹`, so `(D − 1/x)^p = x ∘ D^p ∘ x⁻¹ = 0`,
+  matching the rank-one formula of 1.4 for `a = −1/x`:
+  `(−1/x)^p + D^{p−1}(−1/x) = −x^{−p} + x^{−p} = 0` (`D^{p−1}(x^{−1}) = (p−1)!·x^{−p} = −x^{−p}`).
+
 ### Examples
 
 - On `𝔽_p[x_1, …, x_r]`, `pPow p ∂_i = 0` and `pPow p (x_i ∂_i) = x_i ∂_i`: the restricted
   structure of `Der(𝔽_p[x])` contains the toral element `x ∂_x`.
 - On `M_n(𝔽_p)`, the restricted structure of 0.2 is `a ↦ a^p`, and the inclusion of the
   derivations `[a, −]` is a restricted morphism.
+- `lie_mulLeft` on `k[x]` with `D = d/dx` and `a = x` is the Weyl relation `[d/dx, x] = 1`.
 
 ### Dependencies
 
-Mathlib and Tau Ceti only. Within the layer, 0.2 uses 0.1, and 0.3 uses 0.1 and 0.2.
+Mathlib and Tau Ceti only. Within the layer, 0.2 uses 0.1, and 0.3 uses 0.1 and 0.2; 0.4 uses
+Mathlib only.
 
 ## Layer 1: the p-curvature
 
@@ -249,10 +276,10 @@ Mathlib and Tau Ceti only. Within the layer, 0.2 uses 0.1, and 0.3 uses 0.1 and 
 
 For a connection `∇` on `M` define the `p`-curvature `ψ(D) = (∇_D)^p − ∇_{pPow p D}`. Prove
 `ψ(D)(a m) = a ψ(D)(m)` (Katz 1970, (5.0.6)–(5.0.9)), from `[∇_D, a] = D(a)` (the module
-analogue of `Derivation.lie_mulLeft`) and the commutator expansion of `(∇_D)^p a` in
+analogue of 0.4 `lie_mulLeft`) and the commutator expansion of `(∇_D)^p a` in
 characteristic `p`. Hence `ψ(D) ∈ End_A(M)`, and `ψ(D)` kills the horizontal sections.
-*Needs:* CrystallineCohomology CR.1.3; FormalConnectionsOpers §2.1; GrothendieckNotesLemmas §3.2;
-0.3 `pPow`.
+*Needs:* CrystallineCohomology CR.1.3; FormalConnectionsOpers §2.1; 0.3 `pPow`; 0.4
+`lie_mulLeft`.
 
 **Checks.**
 
@@ -335,8 +362,10 @@ For `M = A^n` with `∇_D = D + Γ(D)`, prove `ψ(D) = Γ_p(D) − Γ(D^p)` with
 connection `D + ω(D)` on `A` has `ψ(D) = ω(D)^p + D^{p−1}(ω(D)) − ω(D^p)` (Jacobson's formula in
 rank one, from 0.1 or directly); as an identity in `Module.End R A` this needs no connection
 carrier and is `rankOne_pCurvature_eq`. If `u ∈ A^×` and `ω(D) = −D(u)/u` for all `D` (the
-connection `d − du/u`, with horizontal section `u`), then `ψ = 0`.
-*Needs:* 1.1; 0.1, 0.3; GrothendieckNotesLemmas §3.2; Mathlib `LinearMap.mulLeft`.
+connection `d − du/u`, with horizontal section `u`), then `ψ = 0`: by 0.4,
+`D + ω(D) = u ∘ D ∘ u⁻¹`, whose `p`-th power is `u ∘ D^p ∘ u⁻¹`, and likewise for `D^p`.
+*Needs:* 1.1; 0.1, 0.3; 0.4 `lie_mulLeft`, `mulLeft_mul_mul_mulLeft_inv`; Mathlib
+`LinearMap.mulLeft`.
 
 **Checks.**
 
@@ -379,8 +408,8 @@ if `ψ` is nilpotent.
 
 ### Dependencies
 
-Layer 0; CrystallineCohomology CR.1.3; FormalConnectionsOpers §§2.1–2.3; GrothendieckNotesLemmas
-§3.2; Mathlib `KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale`; Tau Ceti
+Layer 0; CrystallineCohomology CR.1.3; FormalConnectionsOpers §§2.1–2.3; Mathlib
+`KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale`; Tau Ceti
 `Derivation.extendOfIsLocalization` and `TauCeti.kaehlerBasisOfFormallyEtale`. Within the layer,
 1.1 → 1.2 → 1.3 → 1.4 → 1.5.
 
