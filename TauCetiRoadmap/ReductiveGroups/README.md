@@ -1344,7 +1344,7 @@ an input to radical construction.
 
 ### Layer 5P: the shared polynomial-unipotent exponential and logarithm
 
-Construct this characteristic-zero helper here, from Layers 2–5, before the Levi-complement machinery of §6A or the ordered-root/Bruhat construction of §7C. It is the single polynomial exponential/logarithm package:6A.1 consumes its commutative-unipotent/vector-layer restriction, while §7C consumes its full unipotent variety and subgroup comparison. Neither application is a premise, and there is no separate duplicate exponential engine. Keep all of Layer 5's arbitrary-field unipotent scope; the finite-factorial argument of this subsection is specifically characteristic zero.
+Construct this characteristic-zero helper here, from Layers 2–5, before the Levi-complement machinery of §6A or the ordered-root/Bruhat construction of §7C. It is the single polynomial exponential/logarithm package: §6A.1 consumes its commutative-unipotent/vector-layer restriction, while §7C consumes its full unipotent variety and subgroup comparison. Neither application is a premise, and there is no separate duplicate exponential engine. Keep all of Layer 5's arbitrary-field unipotent scope; the finite-factorial argument of this subsection is specifically characteristic zero.
 
 In characteristic zero construct the finite polynomial exp/log maps on a faithful upper-unitriangular realization of each smooth finite-type affine group with geometrically unipotent points used here, before presuming connectedness. Consume the actual faithful-comodule/upper-unitriangular embedding of Layer 5 under its reducedness and algebraic-closure hypotheses, and prove the smooth/reduced and field-descent adapters rather than dropping them. For the finite-type closed subgroup schemes needed here, construct the characteristic-zero Cartier smoothness comparison using their coordinate Hopf algebra/invariant derivations and the tangent smoothness criteria of Layer 2; transport it to the reducedness hypothesis of the faithful embedding. Do not assert that arbitrary closed subgroups of smooth groups in characteristic p are smooth. For d-by-d strict upper-triangular X and unipotent 1+Z use exp(X)=sum_(0≤j<d)X^j/j! and log(1+Z)=sum_(1≤j<d)(−1)^(j+1)Z^j/j. Native [`IsNilpotent.exp`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Nilpotent/Exp.lean#L50) supplies the finite exponential and its functoriality; construct the finite logarithm and inverse identities, not an unrelated analytic local logarithm. Prove restriction to the actual subgroup and its Lie algebra using its defining Hopf ideal: the invariant derivation attached to a tangent vector preserves that ideal and its finite Taylor exponential preserves the subgroup; conversely log(g) is tangent to the polynomial one-parameter subgroup g^t, whose integer values are powers of g and whose equations vanish identically in characteristic zero. Prove naturality for subgroup maps, independence of the faithful realization, compatibility with algebraic field extensions, and equivariance under every automorphism, in particular conjugation by T. This identifies U+ with its actual nilpotent Lie algebra as affine varieties, not as additive groups. Apply the Hopf-ideal argument also to a smooth closed subgroup with geometrically unipotent points before its connectedness is known: the faithful upper-unitriangular native theorem requires reducedness and finite type, not an extra connectedness assumption. Thus its exp/log restrictions identify it with its actual Lie subspace without presupposing component triviality. Over C compare these polynomials with the Lie exponential and prove their analytic maps inverse; hence U+(C) is contractible and simply connected. This uses no Bruhat, Iwasawa or highest-weight classification theorem. Do not use this characteristic-zero argument for arbitrary unipotent groups in characteristic p.
 
@@ -1429,9 +1429,12 @@ affine G over any field of characteristic p>0, prove linear reductivity
 is equivalent to being a torus, a group that becomes a split torus over an
 algebraic closure, as stated by `linearlyReductive_iff_torus` on
 `TauCeti.FiniteTypeCommHopfAlgCat` with explicit `CharP`, smoothness and geometric
-connectedness hypotheses (Milne, Remark 12.56, p. 249; the footnote to
-Proposition 12.54, p. 248, makes linear reductivity insensitive to extension
-of the base field, which reduces the statement to an algebraically closed field).
+connectedness hypotheses (Milne, Remark 12.56, p. 249, in its case of group
+varieties, which is Nagata's theorem; for nonsmooth groups the remark's "torus"
+must read "of multiplicative type", since μₚ is connected and linearly reductive;
+the footnote to Proposition 12.54, p. 248, makes linear reductivity insensitive
+to extension of the base field, which reduces the statement to an algebraically
+closed field).
 
 - Relate complete reducibility to G-stable complements for every submodule
   of a finite-dimensional rational module, through the actual comodule
@@ -3698,10 +3701,10 @@ of the geometric diagram action. D₄ order 3 detects inverse mistakes.
 
 For B₂/C₂ and F₄ in characteristic 2 and G₂ in characteristic 3, retain all
 explicit polynomial constructions: the rank-two symplectic exterior-square
-subquotient; short-root G₂'s7-dimensional and F₄'s26-dimensional modules over
-the prime field, the stable short-root ideal I of the represented Chevalley
-Lie algebra, and a fixed normalized identification `𝔤/I≃V` with its actual
-zero-weight basis. Construct the polynomial action on that quotient, its
+subquotient; the 7-dimensional short-root module of G₂ and the 26-dimensional
+short-root module of F₄ over the prime field, the stable short-root ideal I of
+the represented Chevalley Lie algebra, and a fixed normalized identification
+`𝔤/I≃V` with its actual zero-weight basis. Construct the polynomial action on that quotient, its
 multiplicativity and generator equations over `𝔽_p[t]`, not just `𝔽_p`.
 Use the **prime-field generated subgroup's** defining ideal to prove restriction,
 then §9B.1/2 specialization and realization isomorphisms to transfer the map to
@@ -4726,10 +4729,18 @@ its Layer 1.1 need constructions rather than existence theorems.
   pp. 239–247: complex points, charts and properness.
 - J.-P. Serre, *Géométrie algébrique et géométrie analytique* (1956),
   §2 no. 5, pp. 8–9: the classical topology and regular maps.
-- J. S. Milne, *Algebraic Groups* (2017): a scheme-theoretic reference.
-- W. C. Waterhouse, *Introduction to Affine Group Schemes*: Hopf algebras, comodules,
-  closed subgroups, the unipotent radical.
-- A. Borel, *Linear Algebraic Groups*; T. A. Springer, *Linear Algebraic Groups*.
+- J. S. Milne, *Algebraic Groups: The Theory of Group Schemes of Finite Type over a
+  Field*, Cambridge University Press (2017), doi:10.1017/9781316711736: a
+  scheme-theoretic reference. Every Milne locator here uses the numbering and printed
+  pages of this edition, which differ from those of the 2015 course notes (version 2.00).
+- W. C. Waterhouse, *Introduction to Affine Group Schemes*, Graduate Texts in
+  Mathematics, Springer (1979), Chapters 1–3, pp. 3–27: affine group schemes as
+  representable functors and Hopf algebras, and representations as comodules (Layers 0–1).
+- A. Borel, *Linear Algebraic Groups*, 2nd ed., Springer (1991), Chapter IV,
+  *Borel subgroups; reductive groups*, pp. 147–202 (Layer 7).
+- T. A. Springer, *Linear Algebraic Groups*, 2nd ed., Birkhäuser (1998; reprinted
+  2009), Chapter 6, *Parabolic subgroups, Borel subgroups, solvable groups*,
+  pp. 98–113 (Layer 7).
 - J. C. Jantzen, *Representations of Algebraic Groups I*, MPIM preprint 1985 (9):
   §1.1 uses this edition's I.3.3–I.3.9 and I.4.14–I.4.16, pp. 52–60, 77–79a.
 - J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory* (1972),
