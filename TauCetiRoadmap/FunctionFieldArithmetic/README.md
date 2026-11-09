@@ -737,7 +737,9 @@ For `F = 𝔽_q(t)`: `k̃ = 𝔽_q`, `g = 0`, `h = 1`, the place `∞` has degre
 
 AlgebraicCurves Layers 0, 3, 5, 8 and 12; ArithmeticGaloisDuality §R02.3.2;
 AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; SchemeAndStackFoundations
-§3.6 and §5.11; DeligneWeightsAndPurity §1.9; ClassFieldTheory Layer 5.
+§3.6 and §5.11; DeligneWeightsAndPurity §1.9; ClassFieldTheory Layer 5; Tau Ceti
+`Divisor.degree`, `Divisor.degree_principal`, `Place.ordAddMonoidHom`, `Divisor.degreeClass`,
+`Divisor.finite_ker_degreeClass` and `Divisor.classNumber`.
 
 ## Layer 1: Riemann–Roch spaces over a polynomial subring
 
@@ -856,7 +858,8 @@ where `O` is the place at infinity, `(x)_∞ = 2·O`; the invariants of `D = 0` 
 
 ### Dependencies
 
-AlgebraicCurves Layers 2, 3 and 4; Tau Ceti `riemannRochSpace`, `genus`.
+AlgebraicCurves Layers 2, 3 and 4; Tau Ceti `riemannRochSpace`, `genus`; Mathlib matrices over
+`Polynomial k` and `RatFunc k`.
 
 ## Layer 2: divisor lattices and self-dual volumes in the completed adeles
 
@@ -1019,7 +1022,10 @@ On `𝔽_q(t)`, `ω = dt`: `μ_ω(A(m∞)) = q^(m+1)`, which for `m ≥ 0` is `q
 
 AutomorphicLFunctionsAndLocalFactors §§AL.0.1.7–AL.0.1.8, §AL.0.3.1 and §AL.0.6.1 *Curve additive
 analysis*; AdelicAlgebraicGroups Layer AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti
-`degree_weilDifferentialDivisor`.
+`degree_weilDifferentialDivisor`, `riemannRochSpace`, `repartitionSpace`, `adeleFiltration`,
+`diagonalRepartitions`, `finrank_quotient_repartitionSpace`, `Divisor.indexOfSpecialty`,
+`repartitionToFiniteAdeles`, `denseRange_repartitionToFiniteAdeles`,
+`adeleFiltrationQuotientEquiv` and `Place.finrank_quotient_filtration`.
 
 ## Layer 3: Artin–Schreier–Witt theory
 
@@ -1227,8 +1233,10 @@ whole compositum. Addition of characters must not be confused with adjoining bot
 
 ### Dependencies
 
-Mathlib Witt vectors and infinite Galois theory; ArithmeticGaloisRepresentations §3.7;
-AlgebraicCurves Layers 6, 7 and 10.
+Mathlib `WittVector`, `WittVector.frobenius`, `WittVector.verschiebung`, `WittVector.truncate`,
+`WittVector.teichmuller`, `TruncatedWittVector`, `Field.absoluteGaloisGroup`, `InfiniteGalois` and
+`Algebra.trace_surjective`; ArithmeticGaloisRepresentations §3.7; AlgebraicCurves Layers 6, 7
+and 10.
 
 ## Layer 4: equal-characteristic class field theory and ray geometry
 
@@ -2019,9 +2027,18 @@ formal-group and local-expansion declarations listed under *From Tau Ceti* (amon
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
 `TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`,
 `TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.localNormSubgroup`,
-`TauCeti.ClassFieldTheory.conductorExponent`, `TauCeti.FormalGroupHom` and
-`TauCeti.Place.completionEquivLaurentSeriesOfSection`);
-AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup`.
+`TauCeti.ClassFieldTheory.conductorExponent`, `TauCeti.FormalGroupHom`,
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`,
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup`,
+`TauCeti.LocalFieldsRamification.herbrand`,
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`,
+`TauCeti.ClassFieldTheory.artinMap_restrict`, `TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`,
+`OpenNormalSubgroup.IsAbelianClassFieldLayer`, `TauCeti.ClassFieldTheory.localClassField_unique`,
+`TauCeti.ClassFieldTheory.index_localNormSubgroup`,
+`TauCeti.ClassFieldTheory.conductorExponent_le_iff` and
+`TauCeti.Place.completionIntegersEquivPowerSeriesOfSection`);
+AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup` and
+`PowerSeries`.
 The geometric branch also uses AlgebraicCurves Layers 8 and 12, JacobianChallenge Layers
 A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, Tau Ceti's affine descent
 (`TauCeti.DescentDatum.descended`, `TauCeti.DescentDatum.isPullback_toDescended`) and
@@ -2460,7 +2477,12 @@ function field `y² = x³ + x + 1` over `𝔽_5` (discriminant `−16·31 ≢ 0`
 
 Layers 0.1–0.2; AlgebraicCurves Layers 2, 3, 4, 5, 6, 8 and 12; DeligneWeightsAndPurity §§1.6 and 1.9; WeilConjectures WC.1 and §5.20; ArithmeticGaloisRepresentations §§2.5 and 5.13;
 EtaleCohomologyFoundations §§F.2.5, F.3 and
-F.10.2–F.10.3; PadicMeasuresIwasawaAlgebras §5.1.
+F.10.2–F.10.3; PadicMeasuresIwasawaAlgebras §5.1; Tau Ceti
+`Divisor.finite_setOf_isEffective_degree_le`, `Place.degree`,
+`Place.one_le_degree_of_isFunctionField`, `Divisor.classNumber`, `Divisor.finite_ker_degreeClass`,
+`genus`, `Place.restrict`, `Place.ramificationIdx`, `Place.residueAut`,
+`Place.residueAut_residue`, `Place.residueAut_surjective` and `Place.ker_residueAut`; Mathlib
+`IsArithFrobAt`, `ValuationSubring.decompositionSubgroup` and `algebraicClosure`.
 
 ## Layer 6: automorphic functions over function fields
 
@@ -2852,7 +2874,9 @@ Layers 0.1–0.2 and 2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1, §AL.R.
 and §AL.3.14.1; ArithmeticGaloisDuality §R02.3.2;
 AdelicAlgebraicGroups Layer AA.0; ReductiveGroupsPartII Layer RG2.4; SmoothRepresentationsOfLocalGroups
 §SR.4.1; Tau Ceti `AlgHom.convGroupOfSemiring`, `ReductiveAffineGroupSchemeCat`, the point-topology
-declarations of §6.1 and `degree_weilDifferentialDivisor`.
+declarations of §6.1 (the `TauCeti.PointTopology` instances and homeomorphism named in its
+*Needs* line and `BialgHom.continuous_mapDomain`) and `degree_weilDifferentialDivisor`; Mathlib
+`RestrictedProduct` and `RestrictedProduct.unitsEquiv`.
 
 ## Layer 7: unitary Siegel–Eisenstein series and their nonsingular coefficients
 
@@ -3477,7 +3501,8 @@ AutomorphicLFunctionsAndLocalFactors §§AL.0.3.1 and AL.0.6.1;
 ReductiveGroupsPartII Layers RG2.3–RG2.4; SmoothRepresentationsOfLocalGroups
 §§SR.2.1–SR.2.3, SR.4.1 and SR.4.4;
 GeometryOfNumbersAndQuadraticArithmetic §§3.1–3.2; MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b; SchemeAndStackFoundations
-§§2.11, 3.3 and 3.6.
+§§2.11, 3.3 and 3.6; Tau Ceti `Divisor.conorm`, `Divisor.conorm_principal` and
+`Divisor.conormClassGroup`.
 
 ## Worked examples
 
