@@ -341,6 +341,26 @@ target whose quotient normal bundle carries a global linear trivialization
 (`TauCeti.SmoothEmbedding.exists_isFramedTube` in
 `TauCeti/Geometry/Manifold/PontryaginThom/Existence.lean`). The pin has no
 bordism invariance, inverse, bijection or group law for this collapse.
+Use the native compact Spin group of B3.7 as the range of `spinGroup.toUnits`
+for `TauCeti.realCliffordForm 9 0` in the Clifford units, a Lie group by the
+closed-subgroup structure
+`TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup` from
+`TauCeti/Geometry/Lie/CliffordAlgebra/Spin/Projection.lean`; the same file
+gives the special orthogonal range carrier its closed-subgroup Lie structure,
+with the operator-norm topology on matrices, and identifies its Lie algebra
+with the skew-symmetric matrices
+(`TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo`) and the
+Spin carrier's with the quadratic Clifford elements
+(`TauCeti.CliffordAlgebra.realCliffordSpinLieEquivQuadratic`), for every n,
+dimensions zero and one included. The smooth projection between the two
+carriers is a local diffeomorphism
+(`TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`
+from `TauCeti/Geometry/Lie/CliffordAlgebra/Spin/LocalDiffeomorph.lean`), and
+a continuous homomorphism between finite-dimensional real Lie groups is
+smooth (`ContinuousMonoidHom.toContMDiffMonoidMorphism` from
+`TauCeti/Geometry/Lie/AutomaticSmoothness.lean`). The pin computes the
+dimension of neither Lie algebra; that the skew-symmetric n×n matrices have
+dimension n(n−1)/2 is proved in B3.7 for n=9.
 The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
@@ -2685,11 +2705,21 @@ Verify every Peirce product and faithfulness, so that the native Spin
 group acts on J by automorphisms fixing E_0: this is a continuous
 injective homomorphism from `spinGroup (TauCeti.realCliffordForm 9 0)`
 into S1.5's isotropy group at E_0. Identify its image with that group
-from S1.5's theorem, without a second stabilizer computation: an
-injective Lie-group homomorphism has injective differential, so the image
-is a subgroup of dimension 36 in S1.5's isotropy group, which is
-isomorphic to Spin(9) and so compact, connected and of dimension 36; the
-image is open, hence all of it. This identifies S1.5's Spin(9) with the
+from S1.5's theorem, without a second stabilizer computation. The native
+group is a Lie group at the pin on the range of `spinGroup.toUnits` in the
+Clifford units, with the closed-subgroup smooth structure
+`TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`, and the
+continuous homomorphism into S1.5's isotropy group is smooth by automatic
+smoothness (`ContinuousMonoidHom.toContMDiffMonoidMorphism`). Its
+dimension is 36: the pinned projection to the special orthogonal range
+carrier is a local diffeomorphism
+(`TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`),
+and the Lie algebra of that carrier is the skew-symmetric 9×9 matrices
+(`TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo`), of
+dimension 9·8/2=36. An injective Lie-group homomorphism has injective
+differential, so the image is a subgroup of dimension 36 in S1.5's isotropy
+group, which is isomorphic to Spin(9) and so compact, connected and of
+dimension 36; the image is open, hence all of it. This identifies S1.5's Spin(9) with the
 native group, and its action on the Peirce complement with the Clifford
 module above, volume sign included. Supply inverse continuous/smooth
 comparisons on these actual group maps.
@@ -2716,7 +2746,7 @@ Its API includes:
 - The vector (0,1) swaps (x,y), again with square +id; it anticommutes with the previous vector, fixing the positive Clifford convention.
 - Write C₀ for the t-generator and C₁,…,C₈ for the eight ordered octonion generators above, composing rightmost first. Then C₀C₁⋯C₈ sends (1,0)∈𝕆² to (−1,0). Replacing only C₈ by −C₈ sends it to (1,0), although all generator squares and pairwise anticommutation relations persist; this excludes the opposite-volume representation.
 
-*Needs:* B3.6; StringOrientation S1.5; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7.
+*Needs:* B3.6; StringOrientation S1.5; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7; Tau Ceti `TauCeti.CliffordAlgebra.realCliffordSpinUnitsRangeLieGroup`, `TauCeti.CliffordAlgebra.isLocalDiffeomorph_realCliffordSpinToSpecialOrthogonalSmoothRange`, `TauCeti.CliffordAlgebra.realCliffordSpecialOrthogonalLieEquivSo` and `ContinuousMonoidHom.toContMDiffMonoidMorphism`.
 
 ### 9.3 Normal Bott comparison and sign witness (B3.8)
 
@@ -2801,7 +2831,7 @@ HP² has p₁=2u and p₂=7u²; OP² has p₂=6u and p₄=39u².
 
 ### Dependencies
 
-Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Layers 4 and 6; IndexTheory I7.2.
+Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Layers 4 and 6; IndexTheory I7.2; the pinned Tau Ceti Spin range Lie group and its local-diffeomorphism projection (From Tau Ceti).
 
 ## Layer 10: realization and projective transfers
 
