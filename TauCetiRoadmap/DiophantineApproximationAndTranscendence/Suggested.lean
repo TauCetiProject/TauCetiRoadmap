@@ -53,7 +53,8 @@ theorems, the Lindemann–Weierstrass theorem in both forms and the real Gelfond
 
 Headline theorems of the README that are not statable at the pins, and what each lacks:
 * the effectivity of the Layer 4 bounds (a computable constant) is not expressible in a `Prop`; the
-  Layer 4 statements below give the explicit exponent bounds that carry it;
+  Layer 4 statements below give explicit bounds that carry it, except `tijdeman_catalan`, which
+  states only that the bound exists;
 * the Picard–Vessiot and differential-Galois comparisons of README §5.4 need a Picard–Vessiot
   extension and its differential Galois group, which neither library has;
 * the generated-subgroup and torus-separation statements of README §5.6 need algebraic subgroups
@@ -691,12 +692,17 @@ theorem pow_sub_pow_eq_finite {a b : ℕ} (ha : 2 ≤ a) (hb : 2 ≤ b) {k : ℤ
         (max mn.1 mn.2 : ℝ) ≤ 2 * (Real.log |(k : ℝ)| + C₁) / Real.log 2 +
           2 * (C₁ / Real.log 2) * (Real.log (2 * C₁ / Real.log 2) - 1) := sorry
 
-/-- **Tijdeman's gap theorem** (E19, ch. 5, Theorem 5.6): for a finite set `S` of primes there
-are `c₁, c₂ > 0` such that any two positive integers `x < y` composed of primes in `S` satisfy
-`y - x ≥ y / (c₁ (log y)^(c₂))`. -/
-theorem tijdeman_gap (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) :
-    ∃ c₁ c₂ : ℝ, 0 < c₁ ∧ 0 < c₂ ∧ ∀ x ∈ Nat.factoredNumbers S, ∀ y ∈ Nat.factoredNumbers S,
-      x < y → (y : ℝ) / (c₁ * Real.log y ^ c₂) ≤ y - x := sorry
+/-- **Tijdeman's gap theorem** (E19, ch. 5, Theorem 5.6 and its proof, made explicit): for a
+finite set `S` of `t` primes put `C = 1 + (e/2) t^4.5 30^(t+3) ∏_{p ∈ S} max(1, log p)`, the
+constant of Matveev's Corollary 2.3 for the rationals `p ∈ S` through the rational bound of
+README §3.6, plus one for its factor `2/3`. Any two positive integers `x < y` composed of primes
+in `S` satisfy `y - x ≥ y (e log y / log 2)^(-C)`, that is `y - x ≥ y / (c₁ (log y)^c₂)` with
+`c₁ = (e / log 2)^C` and `c₂ = C`. -/
+theorem tijdeman_gap (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) {x y : ℕ}
+    (hx : x ∈ Nat.factoredNumbers S) (hy : y ∈ Nat.factoredNumbers S) (hxy : x < y) :
+    let C : ℝ := 1 + Real.exp 1 / 2 * (S.card : ℝ) ^ (4.5 : ℝ) * 30 ^ (S.card + 3) *
+      ∏ p ∈ S, max 1 (Real.log p)
+    (y : ℝ) * (Real.exp 1 * Real.log y / Real.log 2) ^ (-C) ≤ y - x := sorry
 
 /-- **The effective unit equation** (README §4.3): let `K` have unit rank `r ≥ 1` with a system
 `u` of `r` independent units, and suppose that for every embedding `σ`, every `γ` that is a
@@ -723,24 +729,42 @@ theorem unitEquation_exponent_bound {K : Type*} [Field K] [NumberField K]
     ((Finset.univ.sup fun j => max (ex j).natAbs (ey j).natAbs : ℕ) : ℝ) ≤
       max 1 (2 * A + 2 * B * (Real.log (2 * B) - 1)) := sorry
 
-/-- **Baker's theorem on superelliptic equations** (E19, ch. 5, Theorem 5.14): for `f ∈ ℤ[X]`
-separable over `ℚ`, `n ≥ 2` with `deg f ≥ 2` if `n ≥ 3` and `deg f ≥ 3` if `n = 2`, and an integer
-`b ≠ 0`, the equation `b yⁿ = f(x)` has only finitely many integer solutions. -/
+/-- **Baker's theorem on superelliptic equations** (E19, ch. 5, Theorem 5.14), with the explicit
+bounds of Bérczes–Evertse–Győry (BEG13, Theorems 2.1 and 2.2 at `K = ℚ`, `S = {∞}`): for
+`f ∈ ℤ[X]` separable over `ℚ` of degree `N`, `n ≥ 2` with `N ≥ 2` if `n ≥ 3` and `N ≥ 3` if
+`n = 2`, and an integer `b ≠ 0`, the equation `b yⁿ = f(x)` has only finitely many integer
+solutions. With `ĥ = log max(1, |b|, max |coefficients of f|)`, every solution satisfies
+`log max(1, |x|), log max(1, |y|) ≤ (6N)^(14 n³ N³) e^(8 n² N³ ĥ)` if `n ≥ 3`, and
+`≤ (4N)^(2¹² N⁴) e^(50 N⁴ ĥ)` if `n = 2`. -/
 theorem baker_superelliptic {f : Polynomial ℤ} (hsep : (f.map (Int.castRingHom ℚ)).Separable)
     {n : ℕ} (hn : 2 ≤ n) (hdeg : (3 ≤ n → 2 ≤ f.natDegree) ∧ (n = 2 → 3 ≤ f.natDegree))
     {b : ℤ} (hb : b ≠ 0) :
-    {p : ℤ × ℤ | b * p.2 ^ n = f.eval p.1}.Finite := sorry
+    let N : ℝ := f.natDegree
+    let h : ℝ := Real.log (max 1 (max |(b : ℝ)|
+      ((f.support.sup fun i ↦ (f.coeff i).natAbs : ℕ) : ℝ)))
+    let B : ℝ := if 3 ≤ n then (6 * N) ^ (14 * (n : ℝ) ^ 3 * N ^ 3) *
+        Real.exp (8 * (n : ℝ) ^ 2 * N ^ 3 * h)
+      else (4 * N) ^ (2 ^ 12 * N ^ 4) * Real.exp (50 * N ^ 4 * h)
+    {p : ℤ × ℤ | b * p.2 ^ n = f.eval p.1}.Finite ∧
+      ∀ x y : ℤ, b * y ^ n = f.eval x →
+        Real.log (max 1 |(x : ℝ)|) ≤ B ∧ Real.log (max 1 |(y : ℝ)|) ≤ B := sorry
 
-/-- **The Schinzel–Tijdeman theorem** (E19, ch. 5, Theorem 5.15): for `f ∈ ℤ[X]` separable over
-`ℚ` of degree at least two and an integer `b ≠ 0`, the exponents `n` of the integer solutions of
-`b yⁿ = f(x)` with `y ∉ {0, 1, -1}` are bounded. -/
+/-- **The Schinzel–Tijdeman theorem** (E19, ch. 5, Theorem 5.15), with the explicit bound of
+Bérczes–Evertse–Győry (BEG13, Theorem 2.3 at `K = ℚ`, `S = {∞}`): for `f ∈ ℤ[X]` separable over
+`ℚ` of degree `N ≥ 2` and an integer `b ≠ 0`, every exponent `n` of an integer solution of
+`b yⁿ = f(x)` with `y ∉ {0, 1, -1}` satisfies `n ≤ (10 N²)^(40 N) e^(11 N ĥ)`, where
+`ĥ = log max(1, |b|, max |coefficients of f|)`. -/
 theorem schinzel_tijdeman {f : Polynomial ℤ} (hsep : (f.map (Int.castRingHom ℚ)).Separable)
     (hdeg : 2 ≤ f.natDegree) {b : ℤ} (hb : b ≠ 0) :
-    ∃ C : ℕ, ∀ (n : ℕ) (x y : ℤ), b * y ^ n = f.eval x → y ≠ 0 → y ≠ 1 → y ≠ -1 → n ≤ C :=
-  sorry
+    let N : ℝ := f.natDegree
+    let h : ℝ := Real.log (max 1 (max |(b : ℝ)|
+      ((f.support.sup fun i ↦ (f.coeff i).natAbs : ℕ) : ℝ)))
+    ∀ (n : ℕ) (x y : ℤ), b * y ^ n = f.eval x → y ≠ 0 → y ≠ 1 → y ≠ -1 →
+      (n : ℝ) ≤ (10 * N ^ 2) ^ (40 * N) * Real.exp (11 * N * h) := sorry
 
-/-- Tijdeman (1976), as reported in Evertse §5.1: Catalan's equation has effectively bounded
-solutions. -/
+/-- **Tijdeman's theorem on Catalan's equation** (E19, ch. 5, §5.1, p. 88): there is a constant
+`C` with `x^m, y^n ≤ C` for every solution of `x^m - y^n = 1` in integers `x, y, m, n ≥ 2`.
+Tijdeman's `C` is effectively computable; this statement records only its existence. -/
 theorem tijdeman_catalan :
     ∃ C : ℕ, ∀ x y m n : ℕ, 2 ≤ x → 2 ≤ y → 2 ≤ m → 2 ≤ n →
       (x : ℤ) ^ m - (y : ℤ) ^ n = 1 → x ^ m ≤ C ∧ y ^ n ≤ C := sorry
@@ -902,8 +926,11 @@ def IsMahlerRegularPoint {n : ℕ} (q : ℕ) (A : Matrix (Fin n) (Fin n) (RatFun
   2 ≤ q ∧ IsUnit A.det ∧ 0 < ‖α‖ ∧ ‖α‖ < 1 ∧ ∀ ℓ : ℕ, ∀ i j,
     (A i j).denom.eval (α ^ q ^ ℓ) ≠ 0 ∧ (A⁻¹ i j).denom.eval (α ^ q ^ ℓ) ≠ 0
 
-/-- Nishioka specialization for a convergent algebraic-coefficient Mahler system at
-an algebraic regular point inside its initial convergence disc. -/
+/-- **Nishioka's theorem** (AF22, Theorem 1.1): let `f₁, …, fₙ` be power series with algebraic
+coefficients, convergent on the disc `|z| < ρ`, with `f(z) = A(z) f(z^q)` for an integer `q ≥ 2`
+and a matrix `A` over `ℂ(z)` with algebraic coefficients and nonzero determinant. At an algebraic
+point `α` with `|α| < ρ` that is regular for the system, the transcendence degree over `ℚ` of the
+values `fᵢ(α)` equals the transcendence degree of the `fᵢ` over `ℂ(z)`. -/
 theorem nishioka {n q : ℕ} (hq : 2 ≤ q) (f : Fin n → PowerSeries ℂ)
     (hf : ∀ i m, IsAlgebraic ℚ (coeff m (f i))) (A : Matrix (Fin n) (Fin n) (RatFunc ℂ))
     (hAalg : ∀ i j m, IsAlgebraic ℚ ((A i j).num.coeff m) ∧
