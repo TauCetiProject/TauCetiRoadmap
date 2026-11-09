@@ -17,10 +17,12 @@ equality for `i = 0` exactly when `π_(K^⊥)(L) ⊆ L` (2.3, 2.4); for a full l
 `n` whose nonzero vectors have norm at least `r`, the upper bound
 `exp h⁰_θ(L) − 1 ≤ 3ⁿ(1 − n/(2πr²))⁻¹ exp(−πr²)` when `r > 0` and `n < 2πr²` (3.1) and its
 Banaszczyk form (3.2), and the bound on the mass of a coset outside a ball (3.3); for a number
-field `K` and an Arakelov divisor `D = (I, x)`, `I` a nonzero fractional ideal and `x` real numbers
-at the infinite places, the invariance of `h⁰(D)` under principal divisors (4.2), the Riemann–Roch
-formula `h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay
-`h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))` in degree at most `½ log|Δ_K|` (4.4), and the bound
+field `K` and an Arakelov divisor `D = (I, x)` (ArakelovGeometryAndAbelianHeights §1.7), `I` a
+nonzero fractional ideal and `x` real numbers at the infinite places, with `h⁰(D)` the logarithm
+of LFunctions' `latticeTheta` of `I` at the parameter of `x` (4.1), the invariance of `h⁰(D)`
+under principal divisors (4.2), the Riemann–Roch formula
+`h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay `h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))`
+in degree at most `½ log|Δ_K|` (4.4), and the bound
 `h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree under the hypothesis that `h⁰` on divisors of
 degree zero is largest at `𝓞_K` (4.5).
 
@@ -35,8 +37,10 @@ monotonicity and the finite-index comparison, orthogonal sums, the value at `ℤ
 equality case of the coset bound, the fibre bound and the subadditivity of `h⁰_θ` and `h¹_θ` in
 admissible extensions with the equality case (Layer 2); the bounds of `h⁰_θ` by the first minimum
 and the shifted Gaussian tail at every radius (Layer 3); the invariant `h⁰` of van der Geer and
-Schoof for Arakelov divisors of a number field, its Riemann–Roch formula and its two bounds by the
-degree (Layer 4). No roadmap on main or in an open pull request states a theta invariant.
+Schoof for Arakelov divisors of a number field, read as the logarithm of LFunctions' theta series
+of an ideal lattice, its invariance under principal divisors, its Riemann–Roch formula and its two
+bounds by the degree (Layer 4). No roadmap on main or in an open pull request states a theta
+invariant as a logarithm or its inequalities.
 
 **Left to other roadmaps.**
 
@@ -46,17 +50,20 @@ degree (Layer 4). No roadmap on main or in an open pull request states a theta i
 - *The Gaussian sums `ρ_s(L + u)`, their Poisson identity, the coset inequality
   `ρ_s(L + u) ≤ ρ_s(L)`, the scale and tail bounds at radius `√n` and the transference theorems* are
   GeometryOfNumbersAndQuadraticArithmetic's (§§4.4.4–4.4.14), and so is the covolume of a projected
-  lattice (§0.3.1). This roadmap adds the equality case of the coset inequality (2.1) and the tail
-  bound at every radius with the coset factor one (3.3), and works at `s = 1`, where
-  `ρ_1(L) = exp h⁰_θ(L)`.
-- *Hermitian vector bundles over `Spec 𝓞_K`, their Arakelov degree, Arakelov divisors and the
-  compactified Picard group* are ArakelovGeometryAndAbelianHeights' (§§1.1–1.7). Layer 4 uses only
-  the data of an Arakelov divisor, a nonzero fractional ideal and a real number at each infinite
-  place, and the theta invariants of hermitian vector bundles of higher rank over `𝓞_K` are not
-  stated here.
-- *The theta function of an ideal lattice with one parameter per infinite place and its
-  transformation law* are LFunctions' (Layer 1); Layer 4 reads them in the normalisation of van der
-  Geer and Schoof.
+  lattice (§0.3.1). The Gaussian sum `ρ_1(L)` of §4.4.4 is the sum whose logarithm 1.1 takes, and
+  the route of 3.3 is the scale bound of §4.4.8. This roadmap adds the equality case of the coset
+  inequality (2.1) and the tail bound at every radius with the coset factor one (3.3), and works at
+  `s = 1`, where `ρ_1(L) = exp h⁰_θ(L)`.
+- *Hermitian vector bundles over `Spec 𝓞_K` and their Arakelov degree* are
+  ArakelovGeometryAndAbelianHeights' (§§1.1–1.6), and *Arakelov divisors, their degree, principal
+  divisors, the bundle `O(D)` and the compactified Picard group* are its §1.7. Layer 4 uses only the
+  data of an Arakelov divisor, a nonzero fractional ideal and a real number at each infinite place,
+  and the theta invariants of hermitian vector bundles of higher rank over `𝓞_K` are not stated
+  here.
+- *The ideal lattice of a fractional ideal, its Euclidean dual, the theta series `latticeTheta`
+  with one parameter per infinite place and its transformation law* are LFunctions' (Layer 1).
+  Layer 4 defines `h⁰` as the logarithm of `latticeTheta` at the parameter of a divisor, in the
+  normalisation of van der Geer and Schoof.
 
 The boundary in one sentence: the logarithmic theta invariants, their inequalities and their
 equality cases are here; Poisson summation, theta series, Gaussian transference and Arakelov
@@ -83,15 +90,18 @@ degrees of bundles are with their owners.
   admissible when `L ∩ K` spans `K` over `ℝ`, which is the hypothesis `hK` of Layer 2; the quotient
   lattice is then discrete and full in `K^⊥`. Witness: for `ℤ²` and `K = ℝ(1, 1)`,
   `L ∩ K = ℤ(1, 1)` and `π_(K^⊥)(ℤ²) = ℤ(½, −½)`; for `K = ℝ(1, √2)`, `L ∩ K = 0` does not span `K`.
-- **Arakelov divisors** (van der Geer–Schoof, §2). `D = (I, x)` with `I` a nonzero fractional ideal
-  of `𝓞_K` (the ideal of `D`, Mathlib's `FractionalIdeal (𝓞 K)⁰ K`) and `x : InfinitePlace K → ℝ`.
-  Its norm is `‖f‖²_D = ∑_σ exp(−2x_v/mult v)|σ f|²` over the embeddings `σ : K →+* ℂ`, `v` the
-  place of `σ`, so a complex place carries `2 exp(−x_v)|z|²`. Its degree is
-  `deg D = ∑_v x_v − log N(I)` with `N = FractionalIdeal.absNorm`. The canonical divisor `κ` has
-  ideal the inverse different and `x = 0`, so `κ − D = (I^*, −x)` with `I^*` the trace dual
-  `FractionalIdeal.dual ℤ ℚ I`, and `deg κ = log|Δ_K|`. The principal divisor of `f ∈ Kˣ` adds
-  `f⁻¹𝓞_K` to the ideal and `−mult v · log|f|_v` to `x_v`. Witness: over `ℚ`, `(2)` sends `(ℤ, x)`
-  to `(½ℤ, x − log 2)`, of the same degree `x`.
+- **Arakelov divisors** are ArakelovGeometryAndAbelianHeights §1.7's pairs `(𝔞, λ)`, with their
+  degree `deg^(𝔞, λ) = log N(𝔞) + ∑_v λ_v`, their principal divisors
+  `(f) = (f𝓞_K, v ↦ −mult v · log|f|_v)` and the bundle
+  `O(D) = (𝔞⁻¹, ‖·‖_v = e^(−λ_v/mult v)|·|_v)`.
+  Following van der Geer and Schoof (§2), this roadmap writes `D = (I, x)` by the module of `O(D)`,
+  `I = 𝔞⁻¹ : FractionalIdeal (𝓞 K)⁰ K`, and `x = λ : InfinitePlace K → ℝ`; so
+  `deg D = ∑_v x_v − log N(I)` with `N = FractionalIdeal.absNorm`, adding `(f)` replaces `I` by
+  `f⁻¹I`, and the metric of `O(D)` gives `‖f‖²_D = ∑_σ exp(−2x_v/mult v)|σ f|²` over the embeddings
+  `σ : K →+* ℂ`, `v` the place of `σ`, so a complex place carries `2 exp(−x_v)|z|²`. The canonical
+  divisor `κ` has ideal the inverse different and `x = 0`, so `κ − D = (I^*, −x)` with `I^*` the
+  trace dual `FractionalIdeal.dual ℤ ℚ I`, and `deg κ = log|Δ_K|`. Witness: over `ℚ`, `(2)` sends
+  `(ℤ, x)` to `(½ℤ, x − log 2)`, of the same degree `x`.
 
 ## Exact supplier contracts
 
@@ -134,9 +144,17 @@ degrees of bundles are with their owners.
 
 **From GeometryOfNumbersAndQuadraticArithmetic.**
 
+- §4.4.4 `latticeGaussianSum`: `ρ_s(L + u) = ∑_(x ∈ L) exp(−π‖x + u‖²/s²)`, read at `s = 1`,
+  `u = 0` by 1.1.
 - §4.4.6: the Poisson identity `ρ_s(L + u) = covol(L)⁻¹ sⁿ ∑_(y ∈ L^∨) ρ_(1/s)(y) e(⟨y, u⟩)`.
 - §4.4.7 `gaussian_shift_le`: `ρ_s(L + u) ≤ ρ_s(L)`.
+- §4.4.8 `gaussian_scale_le`: `ρ_s(L + u) ≤ sⁿ ρ_1(L)` for `s ≥ 1`.
 - §0.3.1 `covolume_projection`: `covol(π_(K^⊥)(L)) = covol(L)/covol(L ∩ K)` for an admissible `K`.
+
+**From ArakelovGeometryAndAbelianHeights.**
+
+- §1.7: Arakelov divisors `(𝔞, λ)` of `Spec 𝓞_K`, their degree, principal divisors and the bundle
+  `O(D)`, and the exact sequence `0 → ℝ^(r₁+r₂)/log|𝓞_Kˣ| → Pic^(𝓞_K) → Cl(K) → 0`.
 
 **From LFunctions.**
 
@@ -155,8 +173,10 @@ Poisson
 expansion, the fibre bound (2.2) from 2.1's inequality, and subadditivity with its equality case
 (2.3) from 2.2 and 2.1; 2.4 is 2.3 read through 1.2 and the covolume of a projection. Layer 3
 bounds `h⁰_θ` by the first minimum, by a count of lattice points in balls (3.1) and by the
-shifted tail (3.3, then 3.2). Layer 4 passes to number fields: `h⁰` of an Arakelov divisor is
-`h⁰_θ` of its ideal lattice, 4.2 is a change of variable, 4.3 is LFunctions' transformation law,
+shifted tail (3.3, from GeometryOfNumbersAndQuadraticArithmetic's scale bound, then 3.2). Layer 4
+passes to number fields: `h⁰` of an Arakelov divisor is the logarithm of LFunctions'
+`latticeTheta` of its ideal lattice, which is `h⁰_θ` of that lattice for the metric of `O(D)`,
+4.2 is a change of variable, 4.3 is LFunctions' transformation law,
 4.4 uses the compactness of the classes of degree `½ log|Δ_K|`, and 4.5 combines 4.3 with a
 comparison of terms. The hardest targets are 2.3's equality case, 3.1 and 4.4.
 
@@ -164,12 +184,15 @@ comparison of terms. The hardest targets are 2.3's equality case, 3.1 and 4.4.
 
 ### 1.1 The theta invariants
 
-Define `h0θ L = log ∑' v : L, exp(−π‖v‖²)` for `L : Submodule ℤ E`, and
-`h1θ L = h0θ (ZLattice.dual L)`
-(Bost, (2.2.1) and (2.2.2), p. 13). For a discrete `L` in a finite-dimensional `E` the series is
+Define `h0θ L = log ρ_1(L)`, the logarithm of GeometryOfNumbersAndQuadraticArithmetic §4.4.4's
+Gaussian sum `latticeGaussianSum` at `s = 1` and `u = 0`, that is `log ∑' v : L, exp(−π‖v‖²)`, and
+`h1θ L = h0θ (ZLattice.dual L)` (Bost, (2.2.1) and (2.2.2), p. 13). The same countable sum is
+read on every `L : Submodule ℤ E`, full or not, since 1.3–1.6 and Layer 2 apply `h0θ` to discrete
+subgroups that do not span `E`. For a discrete `L` in a finite-dimensional `E` the series is
 summable (Tau Ceti `ZLattice.summable_exp_neg_mul_norm_add_sq` at `x = 0`) and at least `1`. Bost
 writes these for a Hermitian vector bundle over `Spec ℤ`, which is a Euclidean lattice. *Needs:*
-Tau Ceti `ZLattice.dual`, `ZLattice.summable_exp_neg_mul_norm_add_sq`; Mathlib `tsum`, `Real.log`.
+GeometryOfNumbersAndQuadraticArithmetic §4.4.4; Tau Ceti `ZLattice.dual`,
+`ZLattice.summable_exp_neg_mul_norm_add_sq`; Mathlib `tsum`, `Real.log`.
 
 **Checks.**
 
@@ -303,7 +326,7 @@ Prove `h0θ_span_one`: `h0θ (ℤ ∙ 1) = log(π^(1/4)/Γ(3/4))`, that is `∑_
 
 Mathlib: `ZLattice.covolume`, `IsZLattice`, `WithLp`, `AddSubgroup.relIndex`, `jacobiTheta`,
 `Real.Gamma`. Tau Ceti: `ZLattice.dual`, Poisson summation and the Gaussian (`TauCeti/Analysis`).
-GeometryOfNumbersAndQuadraticArithmetic §4.4.6 and §4.4.7.
+GeometryOfNumbersAndQuadraticArithmetic §§4.4.4, 4.4.6 and 4.4.7.
 
 ## Layer 2: cosets and admissible extensions
 
@@ -424,10 +447,11 @@ Prove `exp_h0θ_sub_one_le_div_of_le_norm`: for a full lattice of rank `n ≥ 1`
 Prove `tsum_tail_le`: for a full lattice of rank `n ≥ 1`, `x ∈ E` and `t ≥ 1`, the mass
 `∑ exp(−π‖v − x‖²)` over the `v ∈ L` with `‖v − x‖ ≥ (n/2π)^(1/2) t` is at most
 `(t exp(−(t² − 1)/2))ⁿ ∑_(v ∈ L) exp(−π‖v‖²)` (Bost, Proposition 3.2.2, (3.2.4), p. 33, from Lemma
-3.2.1). Route: for `s ∈ (0, 1]`, bound each term by `e^(−π(1−s)R²) e^(−πs‖v − x‖²)`, apply the coset
-inequality to `√s L` (GeometryOfNumbersAndQuadraticArithmetic §4.4.7) and
-`log θ_L(s) + (n/2) log s ≤ log θ_L(1)` (from 1.2 at `√s L`), and take `s = t⁻²`. *Needs:* 1.2;
-GeometryOfNumbersAndQuadraticArithmetic §4.4.7.
+3.2.1). Route: with `R = (n/2π)^(1/2) t`, bound each term of the tail by
+`e^(−π(1 − t⁻²)R²) e^(−π‖v − x‖²/t²)`, then the sum of the second factors over all of `L` is
+`ρ_t(L − x) ≤ tⁿ ρ_1(L)` by the scale bound GeometryOfNumbersAndQuadraticArithmetic §4.4.8 at
+`s = t`; and `e^(−π(1 − t⁻²)R²) = exp(−(t² − 1)n/2)`. *Needs:* 1.1;
+GeometryOfNumbersAndQuadraticArithmetic §4.4.8.
 
 **Checks.**
 
@@ -446,56 +470,59 @@ GeometryOfNumbersAndQuadraticArithmetic §4.4.7.
 
 ### Dependencies
 
-Layers 1 and 2. GeometryOfNumbersAndQuadraticArithmetic §4.4.7. Mathlib: `Real.Gamma`,
+Layer 1. GeometryOfNumbersAndQuadraticArithmetic §4.4.8. Mathlib: `Real.Gamma`,
 `MeasureTheory.Measure.addHaar_ball`.
 
 ## Layer 4: Arakelov divisors of a number field
 
 ### 4.1 The invariant `h⁰` of an Arakelov divisor
 
-Define `arakelovNormSq K x f = ∑_(σ : K →+* ℂ) exp(−2 x(v_σ)/mult v_σ) ‖σ f‖²` and
-`h0Arakelov K I x = log ∑' f : I, exp(−π · arakelovNormSq K x f)` for
-`I : FractionalIdeal (𝓞 K)⁰ K` and `x : InfinitePlace K → ℝ` (van der Geer–Schoof, §2 for the
-metric and §3 for `h⁰`). It is `h⁰_θ` of the ideal lattice of `I` in LFunctions' Euclidean model of
-the mixed space with the weight `‖1‖²_v` at `v`, which is `exp(−2x_v)` at a real place and
-`2 exp(−x_v)` at a complex place, read through `coe_dualIdealLattice`; that is Bost's
-`h⁰_θ(π_* O(D))` (Bost, (2.2.4), p. 13). *Needs:* Mathlib `InfinitePlace.mk`,
-`InfinitePlace.mult`, `FractionalIdeal`; LFunctions Layer 1; 1.1.
+Define, for `I : FractionalIdeal (𝓞 K)⁰ K` and `x : InfinitePlace K → ℝ`, the invariant
+`h⁰(D) = log θ_(σ(I))(y)` of `D = (I, x)`, where `θ_(σ(I))` is LFunctions' `latticeTheta` (Layer 1)
+of the ideal lattice `σ(I)` and `y_v = mult v · exp(−2x_v/mult v)`, which is `exp(−2x_v)` at a real
+place and `2 exp(−x_v)` at a complex place. Since `latticeTheta` weighs a complex coordinate `z`
+by `y_v|z|²`, this is `log ∑_(f ∈ I) exp(−π‖f‖²_D)` with the metric of the Conventions (van der
+Geer–Schoof, §2 for the metric and §3 for `h⁰`), and it is `h⁰_θ` (1.1) of the Euclidean lattice
+`O(D)` of ArakelovGeometryAndAbelianHeights §1.7, Bost's `h⁰_θ(π_* O(D))` (Bost, (2.2.4), p. 13).
+Only the parameter is new here; the theta series is LFunctions'. *Needs:* LFunctions Layer 1
+(`latticeTheta`); ArakelovGeometryAndAbelianHeights §1.7; Mathlib `InfinitePlace.mult`,
+`FractionalIdeal`; 1.1.
 
 **Checks.**
 
-- `K = ℚ`, `I = ℤ`: `h0Arakelov ℚ ℤ x = log ∑ exp(−πn² e^(−2x))`, which is `0.0829015` at `x = 0`
-  and `1.0000000` at `x = 1` (van der Geer–Schoof, §3, Example 1).
-- `K = ℚ(i)`, `I = ℤ[i]`, `x = 0`: `‖a + bi‖² = 2(a² + b²)`, `h0Arakelov = 2 · 0.0037279`; counting
-  the
-  complex place once would give `2 · 0.0829015`.
-- The weight is `exp(−2x_v/mult v)`: with `exp(−2x_v)` instead, `ℚ(i)`, `I = ℤ[i]` and `x_v = 1`
-  give `h⁰(D) − h⁰(κ − D) = 2 − log 2 = 1.3068528` against `deg D − ½ log 4 = 0.3068528` in 4.3;
-  over `ℚ` the two weights agree.
+- `K = ℚ`, `I = ℤ`: `y = e^(−2x)` and `h⁰(D) = log ∑ exp(−πn² e^(−2x))`, which is `0.0829015` at
+  `x = 0` and `1.0000000` at `x = 1` (van der Geer–Schoof, §3, Example 1).
+- `K = ℚ(i)`, `I = ℤ[i]`, `x = 0`: `y = 2`, `‖a + bi‖²_D = 2(a² + b²)`,
+  `h⁰(D) = 2 · 0.0037279`; the parameter `y = 1`, which counts the complex place once, would give
+  `2 · 0.0829015`.
+- The parameter is `mult v · exp(−2x_v/mult v)`: with `mult v · exp(−2x_v)` instead, `ℚ(i)`,
+  `I = ℤ[i]` and `x_v = 1` give `h⁰(D) − h⁰(κ − D) = 2 − log 2 = 1.3068528` against
+  `deg D − ½ log 4 = 0.3068528` in 4.3; over `ℚ` the two agree.
 
 ### 4.2 Invariance under principal divisors
 
-Prove `h0Arakelov_spanSingleton_mul`: for `f ≠ 0`,
-`h0Arakelov K (f⁻¹ 𝓞_K · I) (v ↦ x_v − mult v · log|f|_v) = h0Arakelov K I x` (van der Geer–Schoof,
-§3: `h⁰` depends only on the class in the Arakelov–Picard group). Route: `g ↦ fg` is a bijection
-`f⁻¹I → I` with `‖g‖²_(D + (f)) = ‖fg‖²_D`. *Needs:* 4.1; Mathlib `FractionalIdeal.spanSingleton`.
+Prove that `h⁰(D + (f)) = h⁰(D)` for `f ∈ Kˣ` and the principal divisor `(f)` of
+ArakelovGeometryAndAbelianHeights §1.7, that is `h⁰(f⁻¹I, v ↦ x_v − mult v · log|f|_v) = h⁰(I, x)`
+(van der Geer–Schoof, §3: `h⁰` depends only on the class in the Arakelov–Picard group). Route:
+`g ↦ fg` is a bijection `f⁻¹I → I` with `‖g‖²_(D + (f)) = ‖fg‖²_D`. *Needs:* 4.1;
+ArakelovGeometryAndAbelianHeights §1.7; Mathlib `FractionalIdeal.spanSingleton`.
 
 **Checks.**
 
-- `K = ℚ`, `I = ℤ`, `f = 2`, `x = 0`: `(½ℤ, −log 2)` has `h0Arakelov = 0.0829015`, that of `ℤ`.
+- `K = ℚ`, `I = ℤ`, `f = 2`, `x = 0`: `(½ℤ, −log 2)` has `h⁰ = 0.0829015`, that of `ℤ`.
 - The sign of the infinite part is load-bearing: `(½ℤ, +log 2)` gives `log θ(1/16) = 1.3862944`.
 - `f = −1`: the divisor is unchanged and so is `h⁰`.
 
 ### 4.3 The Riemann–Roch formula
 
-Prove `h0Arakelov_sub_h0Arakelov_dual`: for `I ≠ 0`,
-`h0Arakelov K I x − h0Arakelov K I^* (−x) = (∑_v x_v − log N(I)) − ½ log|Δ_K|` with
+Prove that for `I ≠ 0`, `h⁰(I, x) − h⁰(I^*, −x) = (∑_v x_v − log N(I)) − ½ log|Δ_K|` with
 `I^* = FractionalIdeal.dual ℤ ℚ I`, that is `h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|`
 (van der Geer–Schoof, Proposition 1; Bost, (2.2.6), p. 14; Groenewegen, Proposition 6.4, p. 154).
 Route: the lattices of `D` and `κ − D` are dual for the inner product of `‖·‖_D`, and
 `covol(I, ‖·‖_D) = |Δ_K|^(1/2) N(I) exp(−∑_v x_v)`; LFunctions' `latticeTheta_inv` at the
 parameters of 4.1. *Needs:* LFunctions Layer 1 (`latticeTheta_inv`, `coe_dualIdealLattice`);
-Mathlib `FractionalIdeal.dual`, `FractionalIdeal.absNorm`, `NumberField.discr`; 4.1.
+ArakelovGeometryAndAbelianHeights §1.7 (the degree); Mathlib `FractionalIdeal.dual`,
+`FractionalIdeal.absNorm`, `NumberField.discr`; 4.1.
 
 **Checks.**
 
@@ -508,13 +535,14 @@ Mathlib `FractionalIdeal.dual`, `FractionalIdeal.absNorm`, `NumberField.discr`; 
 
 ### 4.4 Divisors of small degree
 
-Prove `exists_h0Arakelov_le`: there is `β` such that for every `D = (I, x)` with `I ≠ 0` and
-`deg D ≤ ½ log|Δ_K|`, `h0Arakelov K I x ≤ β exp(−πn exp(−2 deg D/n))`, `n = [K : ℚ]`
+Prove that there is `β` such that for every `D = (I, x)` with `I ≠ 0` and
+`deg D ≤ ½ log|Δ_K|`, `h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))`, `n = [K : ℚ]`
 (van der Geer–Schoof, Corollary 1 of Proposition 2). Route: raise `D` to degree `½ log|Δ_K|` by
 `u = (½ log|Δ_K| − deg D)/n` at every place, bound `h⁰` and the first minimum on the classes of
-that degree, which form a compact set (Mathlib's finite class group and the unit lattice of full
-rank), and bound `‖f‖²_D ≥ n exp(−2 deg D/n)` for `f ∈ I ∖ 0` by the arithmetic–geometric mean
-inequality and `|N(f)| ≥ N(I)`. *Needs:* 4.1; 4.2; Mathlib
+that degree, which form a compact set (the exact sequence of ArakelovGeometryAndAbelianHeights
+§1.7, with Mathlib's finite class group and the unit lattice of full rank), and bound
+`‖f‖²_D ≥ n exp(−2 deg D/n)` for `f ∈ I ∖ 0` by the arithmetic–geometric mean inequality and
+`|N(f)| ≥ N(I)`. *Needs:* 4.1; 4.2; ArakelovGeometryAndAbelianHeights §1.7; Mathlib
 `NumberField.RingOfIntegers.instFintypeClassGroup`, `NumberField.Units.unitLattice_rank`.
 
 **Checks.**
@@ -527,7 +555,7 @@ inequality and `|N(f)| ≥ N(I)`. *Needs:* 4.1; 4.2; Mathlib
 
 ### 4.5 The bound in nonnegative degree
 
-Prove `h0Arakelov_le_of_forall_degree_eq_zero`: if `h⁰(D) ≤ h⁰(𝓞_K)` for every `D` of degree `0`,
+Prove that if `h⁰(D) ≤ h⁰(𝓞_K)` for every `D` of degree `0`,
 then `h⁰(D) ≤ deg D + h⁰(𝓞_K)` for every `D` of degree `≥ 0` (van der Geer–Schoof, Proposition 3).
 Route: lower `D` to `D′` of degree `0` by `u = deg D/n` at every place, compare `h⁰(κ − D) ≤
 h⁰(κ − D′)` term by term, and apply 4.3 twice. *Needs:* 4.3; 4.1.
@@ -548,7 +576,8 @@ h⁰(κ − D′)` term by term, and apply 4.3 twice. *Needs:* 4.3; 4.1.
 
 ### Dependencies
 
-Layer 1. LFunctions Layer 1. Mathlib: `NumberField.InfinitePlace`, `FractionalIdeal.dual`,
+Layer 1. LFunctions Layer 1. ArakelovGeometryAndAbelianHeights §1.7. Mathlib:
+`NumberField.InfinitePlace`, `FractionalIdeal.dual`,
 `FractionalIdeal.absNorm`, `NumberField.discr`, the class group and the unit lattice.
 
 ## Downstream consumers

@@ -10,11 +10,12 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, with only the definitions
 their statements need. A Euclidean lattice is a `ℤ`-submodule `L` of a finite-dimensional real
 inner product space `E`, with Mathlib's `DiscreteTopology L` and `IsZLattice ℝ L`; its dual is
-Tau Ceti's `ZLattice.dual L`, the dual submodule of the inner product. An Arakelov divisor of a
-number field `K` enters as the pair of its fractional ideal `I` and its real numbers `x v` at the
-infinite places.
+Tau Ceti's `ZLattice.dual L`, the dual submodule of the inner product.
 
-Definitions: README 1.1, `h0θ` and `h1θ`; README 4.1, `arakelovNormSq` and `h0Arakelov`.
+Definitions: README 1.1, `h0θ` and `h1θ`. `h0θ L` is the logarithm of
+GeometryOfNumbersAndQuadraticArithmetic's Gaussian sum `ρ_1(L)` (its §4.4.4,
+`latticeGaussianSum` at `s = 1`, `u = 0`), which is not at the pins, so the sum is written out;
+it is taken over every `ℤ`-submodule, full or not.
 
 Headline theorems stated here:
 
@@ -35,21 +36,18 @@ Headline theorems stated here:
 * README 3.1, `exp_h0θ_sub_one_le_of_le_norm`: the upper bound by the first minimum.
 * README 3.2, `exp_h0θ_sub_one_le_div_of_le_norm`: the Banaszczyk form of that bound.
 * README 3.3, `tsum_tail_le`: the Gaussian mass of a coset outside a ball.
-* README 4.2, `h0Arakelov_spanSingleton_mul`: invariance under principal divisors.
-* README 4.3, `h0Arakelov_sub_h0Arakelov_dual`: the Riemann–Roch formula of van der Geer and
-  Schoof.
-* README 4.4, `exists_h0Arakelov_le`: decay of `h⁰` in degree at most `½ log |Δ_K|`.
-* README 4.5, `h0Arakelov_le_of_forall_degree_eq_zero`: the conditional bound by the degree.
 
-Every headline of the README is stated. The ideal lattice of an Arakelov divisor as a Euclidean
-lattice is LFunctions' (Layer 1), whose declarations are not at the pins; the statements of Layer 4
-are therefore written with the sums over the fractional ideal, which is what `h0Arakelov` is.
+Not stated: README 4.1–4.5, the invariant `h⁰(D)` of an Arakelov divisor and its invariance
+under principal divisors, Riemann–Roch formula and two bounds by the degree, lacking LFunctions'
+`latticeTheta` (Layer 1), the theta series of an ideal lattice with one parameter per infinite
+place, of which `h⁰(D)` is the logarithm at the parameter of the divisor. Writing that series out
+over the fractional ideal here would restate LFunctions' definition.
 -/
 
 @[expose] public section
 
-open Module NumberField
-open scoped Real RealInnerProductSpace nonZeroDivisors
+open Module
+open scoped Real RealInnerProductSpace
 
 namespace TauCetiRoadmap.ThetaInvariantsOfEuclideanLattices
 
@@ -203,61 +201,6 @@ theorem tsum_tail_le [FiniteDimensional ℝ E] [Nontrivial E] (L : Submodule ℤ
     ∑' v : {v : L // √(finrank ℝ E / (2 * π)) * t ≤ ‖(v : E) - x‖},
         Real.exp (-π * ‖((v : L) : E) - x‖ ^ 2) ≤
       (t * Real.exp (-(t ^ 2 - 1) / 2)) ^ finrank ℝ E * ∑' v : L, Real.exp (-π * ‖(v : E)‖ ^ 2) :=
-  sorry
-
-/-! ## Layer 4: Arakelov divisors of a number field -/
-
-variable (K : Type*) [Field K] [NumberField K]
-
-/-- README 4.1. The squared norm `‖f‖²_D = ∑_σ exp (-2 x_v / mult v) |σ f|²` of the Arakelov
-divisor with infinite part `x`, the sum over the field embeddings `σ : K → ℂ`, `v` the place of
-`σ` (van der Geer–Schoof, §2). -/
-noncomputable def arakelovNormSq (x : InfinitePlace K → ℝ) (f : K) : ℝ :=
-  ∑ σ : K →+* ℂ,
-    Real.exp (-2 * x (InfinitePlace.mk σ) / ((InfinitePlace.mk σ).mult : ℝ)) * ‖σ f‖ ^ 2
-
-/-- README 4.1. The invariant `h⁰(D) = log ∑_{f ∈ I} exp (-π ‖f‖²_D)` of the Arakelov divisor with
-fractional ideal `I` and infinite part `x` (van der Geer–Schoof, §3). -/
-noncomputable def h0Arakelov (I : FractionalIdeal (𝓞 K)⁰ K) (x : InfinitePlace K → ℝ) : ℝ :=
-  Real.log (∑' f : (I : Submodule (𝓞 K) K), Real.exp (-π * arakelovNormSq K x f))
-
-/-- README 4.2. `h⁰` is invariant under adding the principal divisor of `f ∈ Kˣ`, whose ideal is
-`f⁻¹ 𝓞_K` and whose infinite part is `v ↦ −mult v · log |f|_v` (van der Geer–Schoof, §3). -/
-theorem h0Arakelov_spanSingleton_mul (I : FractionalIdeal (𝓞 K)⁰ K) (x : InfinitePlace K → ℝ)
-    {f : K} (hf : f ≠ 0) :
-    h0Arakelov K (FractionalIdeal.spanSingleton (𝓞 K)⁰ f⁻¹ * I)
-        (fun v ↦ x v - v.mult * Real.log (v f)) =
-      h0Arakelov K I x :=
-  sorry
-
-/-- README 4.3. The Riemann–Roch formula `h⁰(D) − h⁰(κ − D) = deg D − ½ log |Δ_K|`, where
-`κ − D` has the trace dual of `I` as ideal and `−x` as infinite part, and
-`deg D = ∑_v x_v − log N(I)` (van der Geer–Schoof, Proposition 1). -/
-theorem h0Arakelov_sub_h0Arakelov_dual (I : FractionalIdeal (𝓞 K)⁰ K) (hI : I ≠ 0)
-    (x : InfinitePlace K → ℝ) :
-    h0Arakelov K I x - h0Arakelov K (FractionalIdeal.dual ℤ ℚ I) (-x) =
-      (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) - Real.log |(discr K : ℝ)| / 2 :=
-  sorry
-
-/-- README 4.4. There is `β` such that `h⁰(D) ≤ β exp (-π n exp (-2 deg D / n))` for every
-Arakelov divisor of degree at most `½ log |Δ_K|`, `n = [K : ℚ]` (van der Geer–Schoof, Corollary 1
-of Proposition 2). -/
-theorem exists_h0Arakelov_le :
-    ∃ β : ℝ, ∀ I : FractionalIdeal (𝓞 K)⁰ K, I ≠ 0 → ∀ x : InfinitePlace K → ℝ,
-      ∑ v, x v - Real.log (FractionalIdeal.absNorm I) ≤ Real.log |(discr K : ℝ)| / 2 →
-        h0Arakelov K I x ≤ β * Real.exp (-π * finrank ℚ K *
-          Real.exp (-2 * (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) / finrank ℚ K)) :=
-  sorry
-
-/-- README 4.5. If `h⁰` is at most `h⁰(𝓞_K)` on the divisors of degree zero, then
-`h⁰(D) ≤ deg D + h⁰(𝓞_K)` for every divisor of nonnegative degree (van der Geer–Schoof,
-Proposition 3). -/
-theorem h0Arakelov_le_of_forall_degree_eq_zero
-    (hmax : ∀ I : FractionalIdeal (𝓞 K)⁰ K, I ≠ 0 → ∀ x : InfinitePlace K → ℝ,
-      ∑ v, x v - Real.log (FractionalIdeal.absNorm I) = 0 → h0Arakelov K I x ≤ h0Arakelov K 1 0)
-    (I : FractionalIdeal (𝓞 K)⁰ K) (hI : I ≠ 0) (x : InfinitePlace K → ℝ)
-    (hdeg : 0 ≤ ∑ v, x v - Real.log (FractionalIdeal.absNorm I)) :
-    h0Arakelov K I x ≤ (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) + h0Arakelov K 1 0 :=
   sorry
 
 end TauCetiRoadmap.ThetaInvariantsOfEuclideanLattices
