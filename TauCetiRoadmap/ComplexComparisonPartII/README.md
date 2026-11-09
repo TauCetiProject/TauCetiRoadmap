@@ -691,6 +691,29 @@ as explained in C5.1); the two names denote the same target.
   boundaryless model on a finite-dimensional space and `IsManifold I 1 X`) and
   `TauCeti.RiemannSurface.divisorSheafZeroIso` (`𝒪_0` is `holomorphicStructureSheafModules`, for
   `X : Type`).
+- The inverse function theorems used by C-1.1, C-1.4 and C1.9: `AnalyticAt.exists_openPartialHomeomorph`
+  in `TauCeti.Analysis.Analytic.Inverse` (over a nontrivially normed field, with complete source
+  space: a map analytic at `a` whose derivative at `a` is a continuous linear equivalence agrees
+  with an `OpenPartialHomeomorph` whose source is a neighbourhood of `a` inside any prescribed
+  neighbourhood, which is analytic on its source and has analytic inverse on its target) and
+  `TauCeti.ContDiffOn.exists_openPartialHomeomorph` in
+  `TauCeti.Analysis.Calculus.InverseFunctionTheorem` (over `ℝ` or `ℂ`, with complete source space:
+  a map `C^n` on an open set `s`, `1 ≤ n`, whose derivative at `a ∈ s` is a continuous linear
+  equivalence agrees with an `OpenPartialHomeomorph` with source in `s` containing `a` and `C^n`
+  inverse on its whole target).
+- Finite locally free group schemes and affine Cartier duality, used by C3.2d.5:
+  `TauCeti.AlgebraicGeometry.FiniteFlatCommGroupScheme S` in
+  `TauCeti.AlgebraicGeometry.GroupScheme.FiniteFlat` (a scheme over `S` with finite, flat, locally
+  finitely presented structure morphism and a commutative group-object structure in `Over S`);
+  `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality` in
+  `TauCeti.Algebra.HopfAlgebra.FiniteDual.CartierDuality.Basic` (finite dualization as an
+  anti-equivalence of finite locally free bicommutative Hopf algebras over a commutative ring, with
+  inverse finite dualization and unit and counit the double-dual evaluation); and
+  `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso` in
+  `TauCeti.AlgebraicGeometry.AffineGroupScheme.CartierDuality.BaseChange` (for a ring map `R → R′`,
+  the Cartier dual of the pullback along `Spec R′ ⟶ Spec R` is the pullback of the Cartier dual).
+  These are affine statements; their globalization to an arbitrary base scheme is ModularCurves
+  §0B's construction, and to an algebraic-space base it is part of C3.2d.5.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -1089,6 +1112,33 @@ Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §
 - `xy=0` as the ambient curve is singular at zero; it is not a smooth two-dimensional SNC ambient chart. The definition distinguishes the boundary divisor from its ambient space.
 
 *Needs:* §§C-1.1–C-1.3; ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification) and §6.4 (SNC coordinates) for algebraic SNC boundaries, compactifications and étale coordinate charts; Mathlib analytic inverse APIs cited above and `OpenPartialHomeomorph.hasFPowerSeriesAt_symm`; Tau Ceti `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
+
+### Examples
+
+- The dual-number point `Spec ℂ[ε]/(ε²)` analytifies to one topological point whose ring sheaf
+  keeps `ε ≠ 0` with `ε² = 0`; its completed stalk is `ℂ[ε]/(ε²)`, and the identity and the map
+  `ε ↦ 0` are different ring-sheaf maps over the same map of points.
+- At zero on `A¹`, the algebraic local ring `ℂ[z]_(z)` and the analytic stalk `ℂ{z}` are
+  different rings (`exp(z)` lies only in the second), and both completions are `ℂ[[z]]`. At the
+  origin of the node `xy = 0` both completions are `ℂ[[x,y]]/(xy)`, with two-dimensional
+  tangent space.
+- The affine line with doubled origin is locally separated; its analytification is a
+  non-Hausdorff analytic space in which the two origins have no disjoint neighbourhoods.
+- `⊔_{n∈ℕ} A¹` is locally of finite type and not quasi-compact; its analytification is the
+  disjoint union of countably many copies of `ℂ`.
+- For `n = b = 2` and the boundary `xy = 0` in `ℂ²`, the SNC polydisc chart has complement
+  `(Δ*)²`, cut out by `x ≠ 0` and `y ≠ 0`; the coordinate change `(u,v) ↦ (u + v², v)` has
+  inverse `(u,v) ↦ (u − v², v)`.
+
+### Dependencies
+
+ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; AlgebraicModuliForArithmeticGeometry
+Layer 3, §6.1 and §§7.6.1/7.7; SchemeAndStackFoundations Layer 1 (§§1.4–1.5/1.14);
+ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2 and 6.4; Mathlib locally ringed spaces,
+sheaves of modules, `smoothSheafCommRing`, analytic power series, local rings, Noetherian
+completion and flatness, and the analytic inverse APIs cited in §C-1.4; Tau Ceti
+`TauCeti.holomorphicSheaf`, `AnalyticAt.exists_openPartialHomeomorph` and
+`TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
 ## Layer C0: Coherent analytic modules and coherent analytification
 
@@ -1823,34 +1873,6 @@ resolution is claimed on a singular or nonreduced support (Serre, exposé 19, §
 pp. 19-1–19-5; Serre, *GAGA*, nos. 16–17, Lemma 8 and the finite presentation, printed pp. 24–27).
 *Needs:* `analyticSerreGeneration`; `coherentOperations`.
 
-### Examples
-
-- On `C × C*` the structure sheaf has no positive-degree cohomology; a skyscraper `ℂ` at a point has
-  `H⁰ = ℂ` and no higher cohomology.
-- On `P¹`: `h⁰(O(2)) = 3`, `h¹(O(−2)) = 1` with generator the class of `(Z₀Z₁)⁻¹` on the overlap
-  `ℂ*`, and `O(−1)` is acyclic in all degrees; `O(−2)(k) = O(k − 2)` is globally generated for
-  `k ≥ 2` and has no higher cohomology for `k ≥ 1`, while `H¹(O(−2)) ≠ 0`.
-- For the double point `2p ⊂ P¹`, `0 → O(−2) → O → O_{2p} → 0` is a twist presentation whose
-  cokernel has length two (the reduced point would have length one); `H⁰(O_{2p}) = ℂ[ε]/(ε²)` has
-  dimension two and there is no higher cohomology.
-- The compact non-Hausdorff space obtained by gluing two copies of `P¹` along `P¹ ∖ {0}`
-  has `H¹(O) ≅ O(ℂ)/ℂ`, which is infinite-dimensional: the two `P¹` charts have only constant
-  global functions and their overlap has all entire functions. This excludes dropping
-  Hausdorffness from Cartan–Serre finiteness.
-- The weighted estimate needs completeness (or a separate boundary argument): it is not applied
-  formally on an incomplete ball.
-
-### Dependencies
-
-C0; §C-1.1; RealAnalyticGeometry R3.1–R3.2; ComplexKahlerGeometry K2–K4,
-K5a local estimates, K5b.0 and K6.0; AlgebraicModuliForArithmeticGeometry Layer 1; SchemeAndStackFoundations Layer 2;
-SchemeAndStackFoundations §2.2 `cech_to_cohomology`; Tau Ceti `TauCeti.montel`; TauCetiRoadmap.DifferentialGeometry (Layers 0–2, 5
-and 12); Mathlib analysis
-(smooth functions, integration, Arzelà–Ascoli, open mapping theorem).
-C1.9's Riemann-surface and curve maps also use Mathlib manifolds and Tau Ceti's meromorphic
-functions, divisor sheaves, holomorphic structure sheaf and curve, Weil-divisor and line-bundle
-carriers listed in *Exact supplier contracts*.
-
 ### C1.9 Projective and proper coherent GAGA
 
 Prove `projectiveComplexGaga`. (i) For a scheme `S` locally of finite type over `ℂ`, the projection `π:P^r_S→S` and a coherent `F` on `P^r_S`, the exchange map `θ^q_{π,F}:(R^qπ_*F)^an→R^qπ^an_*F^an` of ComplexComparisonPartII C0.5 (`HigherImageComparison`) is an isomorphism of `O_(S^an)`-modules for every `q≥0`. (ii) For a closed subscheme `X⊂P^r_ℂ`, coherent analytification `Coh(X)→Coh(X^an)` is an equivalence of categories, and `H^q(X,F)≅H^q(X^an,F^an)` for every coherent `F`. The base in (i) is any scheme locally of finite type, not only a point and not necessarily quasi-compact, and nilpotents are allowed in `S`, `X` and `F`.
@@ -2067,6 +2089,42 @@ riemannSurfaceComparison C (above); §C-1.1 `complexSchemeAnalytification` (the 
 - For the affine curve `E ∖ {∞}`, the algebraic Picard group is `Pic⁰(E) ≅ E(ℂ)`, while every
   holomorphic line bundle on the noncompact Riemann surface `T_E ∖ {∞}` is trivial; without
   properness picardAnalytification is not injective.
+
+### Examples
+
+- On `C × C*` the structure sheaf has no positive-degree cohomology; a skyscraper `ℂ` at a point has
+  `H⁰ = ℂ` and no higher cohomology.
+- On `P¹`: `h⁰(O(2)) = 3`, `h¹(O(−2)) = 1` with generator the class of `(Z₀Z₁)⁻¹` on the overlap
+  `ℂ*`, and `O(−1)` is acyclic in all degrees; `O(−2)(k) = O(k − 2)` is globally generated for
+  `k ≥ 2` and has no higher cohomology for `k ≥ 1`, while `H¹(O(−2)) ≠ 0`.
+- For the double point `2p ⊂ P¹`, `0 → O(−2) → O → O_{2p} → 0` is a twist presentation whose
+  cokernel has length two (the reduced point would have length one); `H⁰(O_{2p}) = ℂ[ε]/(ε²)` has
+  dimension two and there is no higher cohomology.
+- The compact non-Hausdorff space obtained by gluing two copies of `P¹` along `P¹ ∖ {0}`
+  has `H¹(O) ≅ O(ℂ)/ℂ`, which is infinite-dimensional: the two `P¹` charts have only constant
+  global functions and their overlap has all entire functions. This excludes dropping
+  Hausdorffness from Cartan–Serre finiteness.
+- The weighted estimate needs completeness (or a separate boundary argument): it is not applied
+  formally on an incomplete ball.
+- On `P¹`, the analytification of the line bundle `O(1)` has two-dimensional `H⁰` and that of
+  `O(−1)` has none, so the proper Picard comparison of C1.9 is the identity on degrees of
+  `Pic = ℤ`. On the affine curve `E ∖ {∞}` of an elliptic curve `E`, the algebraic Picard group
+  is `Pic⁰(E) ≅ E(ℂ)`, while every holomorphic line bundle on the noncompact Riemann surface is
+  trivial; properness cannot be dropped.
+
+### Dependencies
+
+C0; §C-1.1; RealAnalyticGeometry R3.1–R3.2; ComplexKahlerGeometry K2–K4,
+K5a local estimates, K5b.0 and K6.0; AlgebraicModuliForArithmeticGeometry Layer 1; SchemeAndStackFoundations Layer 2;
+SchemeAndStackFoundations §2.2 `cech_to_cohomology`; Tau Ceti `TauCeti.montel`; TauCetiRoadmap.DifferentialGeometry (Layers 0–2, 5
+and 12); Mathlib analysis
+(smooth functions, integration, Arzelà–Ascoli, open mapping theorem).
+C1.9 also uses §C-1.2's space analytification and completed-stalk comparison,
+AlgebraicModuliForArithmeticGeometry §2.3 (dévissage via Chow), §3.5 (coherent presentation
+descent) and §7.7, and SchemeAndStackFoundations §§2.6 and 4.12. Its Riemann-surface and curve
+maps also use Mathlib manifolds and Tau Ceti's analytic inverse function theorem, meromorphic
+functions, divisor sheaves, holomorphic structure sheaf and curve, Weil-divisor and line-bundle
+carriers listed in *Exact supplier contracts*.
 
 ## Layer C2: Projective and proper consequences of coherent GAGA
 
@@ -2396,9 +2454,9 @@ Finite locally free includes flatness and finite presentation, and `M` may be no
 
 ([Michel Raynaud](https://www.numdam.org/article/PMIHES_1970__38__27_0.pdf), Proposition 6.2.1, pp. 50–51, and Lemma 6.2.2 (fppf-local splitting of extensions of M by Gₘ), p. 51; [Stefan Schröer](https://arxiv.org/pdf/2004.07025), Section 5, pp. 14–15).
 
-For the proof, use ModularCurves §0B’s `FiniteFlatCommGroupScheme.cartierDual` and `cartierDualBaseChangeIso` for scheme-base Cartier duality and its arbitrary-base-change comparison; on affine bases compare with the pinned Hopf-algebra duality. For an algebraic-space base `B`, apply this supplier on affine étale charts and glue by its base-change comparison and Layer 3 descent; this chart-gluing bridge is part of the present target; then push out a `D(M)`-torsor by each character to obtain the corresponding Picard homomorphism; then use fppf-local splitting of extensions of `M` by `Gₘ` to reverse this construction as in Raynaud 6.2.1; then apply Leray for `D(M)` to distinguish sheaf points, globally realized torsors and pointed rigidifications.
+For the proof, use ModularCurves §0B’s Cartier duality on `TauCeti.AlgebraicGeometry.FiniteFlatCommGroupScheme S` over an arbitrary base scheme `S`, with its biduality, rank and arbitrary-base-change comparisons, which §0B glues from Tau Ceti’s affine dualities along `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`; on affine bases compare with the pinned Hopf-algebra duality. For an algebraic-space base `B`, apply this supplier on affine étale charts and glue by its base-change comparison and Layer 3 descent; this chart-gluing bridge is part of the present target; then push out a `D(M)`-torsor by each character to obtain the corresponding Picard homomorphism; then use fppf-local splitting of extensions of `M` by `Gₘ` to reverse this construction as in Raynaud 6.2.1; then apply Leray for `D(M)` to distinguish sheaf points, globally realized torsors and pointed rigidifications.
 
-*Needs:* ModularCurves §0B (`FiniteFlatCommGroupScheme.cartierDual`, `cartierDualBaseChangeIso`), AlgebraicModuliForArithmeticGeometry Layer 3 descent, Tau Ceti `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, SchemeAndStackFoundations §§2.3–2.4, §C3.2d.4 `picard_brauer_obstruction`, §C3.2d.2 `relative_picard_algebraicSpace`, SchemeAndStackFoundations Layer 1.
+*Needs:* ModularCurves §0B (Cartier duality on `FiniteFlatCommGroupScheme S` over an arbitrary base scheme and its base-change comparison), AlgebraicModuliForArithmeticGeometry Layer 3 descent, Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso` and `TauCeti.FiniteLocallyFreeBicommutativeHopfAlgCat.cartierDuality`, SchemeAndStackFoundations §§2.3–2.4, §C3.2d.4 `picard_brauer_obstruction`, §C3.2d.2 `relative_picard_algebraicSpace`, SchemeAndStackFoundations Layer 1.
 
 **Checks.**
 
@@ -4903,6 +4961,21 @@ EnhancedDerivedSheaves §0.3 / `ClassicalDerived.inverseLimits`,
 - A torsion integral coefficient object becomes zero after rationalization on both sides.
 - On `P¹`, degree two has rank one and the same Tate/orientation coordinate after comparison;
   its integral and rational traces send `c₁(O(1))` to `1`, reducing to `artinSmoothTrace` at every level.
+
+### Examples
+
+- On `G_m`, `H¹(ℤ/n) = ℤ/n` on both sides; the Kummer class of the coordinate in `H¹(μ_n)` is
+  the `μ_n`-torsor of `n`-th roots, whose transport along the positive loop is multiplication by
+  `exp(2πi/n)`, so it evaluates to `1` under `ζ_n = exp(2πi/n)`. For `j : G_m ↪ A¹`, the stalk
+  of `R¹j_*μ_n` at `0` is free of rank one over `ℤ/n` on both sides, generated by that class.
+- `H⁰_c(A¹, Λ) = 0` on both sides, while `H⁰(A¹, Λ) = Λ` and `H²_c(A¹, Λ(1)) = Λ`.
+- On `X = ⊔_{n≥1} G_m`, the cover that is `z ↦ zⁿ` on the `n`-th copy is finite étale of
+  unbounded degree, with `n`-point fibres over the `n`-th component.
+- On `A¹ ⊔ A¹ → Spec ℂ`, `H²_c(Λ(1)) = Λ²` and the trace is `(a, b) ↦ a + b`; on `P¹` the trace
+  of `c₁(O(1))` is `1` at every finite, integral and rational level.
+- A rank-one `𝔽₃`-local system on `ℂ*` with monodromy `−1` has no nonzero global sections, and
+  the constant sheaf `ℤ/2` on a point, over `Λ = ℤ/4`, is constructible with
+  `Tor_i^Λ(ℤ/2, ℤ/2) = ℤ/2` for every `i ≥ 0`, hence of infinite Tor dimension.
 
 ### Dependencies
 
