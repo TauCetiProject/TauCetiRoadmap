@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
 public import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.ScalarChange
 public import TauCeti.CategoryTheory.GrothendieckGroup.Split
+public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Stable
 
 /-!
 # Algebraic K-theory in low degrees: target signatures
@@ -12,43 +13,46 @@ The roadmap is `README.md`; this file is not the roadmap and is not exhaustive. 
 roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`,
 together with the few definitions with real bodies that they need.
 
-The matrix headlines (Whitehead's lemma, the Dieudonné determinant and Bass–Vaserstein
-stability) are stated at finite matrix size, which is the form in which they are proved; the
-stable group `GL(R)` and `K₁(R)` are README targets.
+The elementary subgroup `Eₙ(R)` over an arbitrary ring, Whitehead's lemma, the stable groups
+`GL(R)` and `E(R)` and algebraic `K₁(R)` are Tau Ceti's `TauCeti.elementarySubgroup`,
+`TauCeti.fromBlocksGL_commutatorElement_mem_elementarySubgroup`,
+`TauCeti.StableGeneralLinearGroup` and `TauCeti.AlgebraicK1`; they are used here and not stated
+again. The Dieudonné determinant and Bass–Vaserstein stability are stated at finite matrix size,
+which is the form in which they are proved.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* The full Milnor exact sequence of A6: its `K₁` terms and its boundary need the stable group
-  `GL(R)` and `K₁(R)`, README targets that neither library has. Its `K₀` end is stated below,
-  with the `K₀` map of a ring homomorphism `kZeroMap`, which is `TauCeti.SplitK0.map` of the
-  pinned extension-of-scalars functor on finitely generated projective modules. The patching
+* The boundary `δ : K₁(Q) → K₀(D)` of the Milnor exact sequence of A6, and exactness at `K₁(Q)`
+  and `K₀(D)`: the boundary `δ([u]) = [M(u)] − [Dⁿ]` needs the patched module
+  `M(u) = {(a, b) | u π₁(a) = π₂(b)}` of 6.2 and 6.3 as an object of `FiniteProjectiveRight D`,
+  that is, the finite projectivity that `milnor_patching` proves, so its definition is itself a
+  theorem. The other two exactness statements are stated below: `kOne_mayerVietoris_exact` at
+  `K₁(A₁) × K₁(A₂)`, with the `K₁` map of a ring homomorphism `kOneMap` built from the pinned
+  universal property `TauCeti.AlgebraicK1.lift`, and `kZero_mayerVietoris_exact` at
+  `K₀(A₁) × K₀(A₂)`, with the `K₀` map `kZeroMap`, which is `TauCeti.SplitK0.map` of the pinned
+  extension-of-scalars functor on finitely generated projective modules. The patching
   equivalence of A6 is stated below as `milnor_patching`: the category of patching triples is
   Mathlib's categorical pullback of two such functors, and the comparison functor is built from
   the pinned adjunction `TauCeti.BalancedExtension.adjunction` by uniqueness of left adjoints.
 * The identification of the torsion class of 7.2 with `[M(2)] − [D]`: it needs the patched module
-  `M(u) = {(a, b) | u π₁(a) = π₂(b)}` of 6.2 and 6.3 as a right `D`-module, which neither library
-  has. The kernels `ker f₀ ≅ ℤ/2` and `ker f₀ ≅ ℤ/5` of 7.2, which mention only `kZeroMap`, are
-  stated below inside the two values of `K₀`: the kernel of `f₀` is the preimage of the torsion
-  factor under the stated decomposition.
+  `M(2)` as an object of `FiniteProjectiveRight D`, for the same reason. The kernels
+  `ker f₀ ≅ ℤ/2` and `ker f₀ ≅ ℤ/5` of 7.2, which mention only `kZeroMap`, are stated below inside
+  the two values of `K₀`: the kernel of `f₀` is the preimage of the torsion factor under the
+  stated decomposition.
 * The identification of the patched modules of 7.1 with glued bundles: this needs the section
   modules of continuous bundles, which neither library has.
-* The real tangent-section module's nonfreeness, stable splitting and K₀ class (0.5)
-  require the continuous section submodule cut out by the sphere projection, with its
-  finite-projective object in `FiniteProjectiveRight`.
-* The free rank-two complexified sphere module and its scalar-extension comparison (0.6)
-  require that section module over `C(S², ℂ)`; the extension of scalars itself is the pinned
-  `TauCeti.BalancedExtension`. The Chern number comparison additionally requires the oriented
-  tangent complex line and its first Chern class.
-* The real Möbius module's nonfreeness and order-two reduced K₀ class, and its free complex
-  scalar extension (0.7), require the antiperiodic section module over `C(AddCircle 1, 𝕜)`,
-  its descended scalar action and finite-projective object.
-* The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
-  triple group and A2's automorphism presentation of `K₁`, which neither library has.
+* The Chern number `+2` of the tangent complex line of 0.6: it needs the first Chern class of a
+  complex line bundle, which neither library has.
+* The relative exact sequences of A3: they need the relative group `K₁(R, I)` of 3.1, A3's
+  relative triple group `K₀(T)` of an additive functor and A2's automorphism presentation `K₁ᴮ`
+  of a small additive category, which neither library has.
 * The universal central extension `St(R) → E(R)`, Matsumoto's presentation of `K₂` of a field
   and `K₂(𝔽_q) = 0` (A5): neither library has the Steinberg group.
 * The surjection of algebraic `K₁` of a Banach algebra `A` onto its stable component group, the
-  colimit of `GLₙ(A)/GLₙ(A)₀`, and its kernel (A8): both groups are stable colimits over `GL(A)`,
-  a README target, and neither library has the stable component group.
+  colimit of `GLₙ(A)/GLₙ(A)₀`, and its kernel (A8): the stable component group, the quotient of
+  `TauCeti.StableGeneralLinearGroup A` by the union of the images of the identity components
+  `GLₙ(A)₀`, is in neither library, and forming that quotient group needs the theorem that this
+  union is a normal subgroup.
 -/
 
 @[expose] public section
@@ -57,7 +61,7 @@ namespace TauCetiRoadmap.AlgebraicKTheory
 
 open CategoryTheory Matrix
 
-universe u v
+universe u v w
 
 /-! ## Layer A0: Finite projectives and matrix K₀ -/
 
@@ -147,45 +151,115 @@ theorem kZero_int :
         1 := by
   sorry
 
-/-! ## Layer A1: Stable matrices, elementary operations and Whitehead's lemma -/
+/-- The coordinate functions `x ↦ xᵢ` on the unit sphere `S² ⊂ ℝ³`, as elements of the ring
+`C(S², ℝ)`. -/
+noncomputable def sphereCoord (i : Fin 3) :
+    C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ) :=
+  ⟨fun x => EuclideanSpace.proj i (x : EuclideanSpace ℝ (Fin 3)),
+    (EuclideanSpace.proj i).continuous.comp continuous_subtype_val⟩
 
-/-- The elementary subgroup `Eₙ(R)` of the invertible matrices over an arbitrary ring,
-generated by the matrices `1 + a Eᵢⱼ` with `i ≠ j`. -/
-def elementary {R : Type u} [Ring R] (n : Type v) [Fintype n] [DecidableEq n] :
-    Subgroup (Matrix.GeneralLinearGroup n R) :=
-  Subgroup.closure {g | ∃ (i j : n) (_ : i ≠ j) (a : R),
-    (g : Matrix n n R) = 1 + Matrix.single i j a}
+/-- The tangent-section module of 0.5 over `R = C(S², ℝ)`: the triples `v = (v₀, v₁, v₂)` in `R³`
+with `∑ xᵢ vᵢ(x) = 0` at every point `x` of the sphere, that is, the continuous fields
+`v : S² → ℝ³` with `⟨x, v(x)⟩ = 0`. It is the kernel of `v ↦ ∑ xᵢ vᵢ`, and the image of the
+idempotent `p(x) = I₃ − x xᵀ`. -/
+noncomputable def tangentSections :
+    Submodule C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)
+      (Fin 3 → C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)) :=
+  LinearMap.ker (∑ i, sphereCoord i • (LinearMap.proj i :
+    (Fin 3 → C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)) →ₗ[
+      C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)]
+      C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)))
 
-/-- Whitehead's lemma, first half: the block sum of a commutator `ghg⁻¹h⁻¹` in `GLₙ(R)` with an
-identity block of the same size is a product of elementary matrices (Weibel, *The K-book*,
-Chapter III, Whitehead's Lemma 1.3.3 and the factorization (1.3.4)). -/
-theorem whitehead_commutator_elementary {R : Type u} [Ring R]
-    (n : Type v) [Fintype n] [DecidableEq n] (g h : Matrix.GeneralLinearGroup n R) :
-    ∃ U : Matrix.GeneralLinearGroup (n ⊕ n) R,
-      (U : Matrix (n ⊕ n) (n ⊕ n) R) =
-        Matrix.fromBlocks
-          ((g * h * g⁻¹ * h⁻¹ : Matrix.GeneralLinearGroup n R) : Matrix n n R) 0 0 1 ∧
-      U ∈ elementary (R := R) (n ⊕ n) := by
+/-- Cancellation fails over `C(S², ℝ)`: the tangent-section module `P` satisfies `P ⊕ R ≅ R³`,
+through `(v, f) ↦ (x ↦ v(x) + f(x) x)`, but is not free, by the hairy ball theorem for `S²`
+(the continuous-function form of Weibel, *The K-book*, Chapter I, Example 1.2.2, which treats
+the polynomial ring of the sphere). -/
+theorem tangentSections_stablyFree_not_free :
+    Nonempty ((tangentSections × C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)) ≃ₗ[
+      C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ)]
+      (Fin 3 → C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ))) ∧
+    ¬ Module.Free C(Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1, ℝ) tangentSections := by
   sorry
 
-/-- Whitehead's lemma, second half: with at least three indices every elementary matrix is a
-commutator, so `Eₙ(R)` is perfect and lies in the commutator subgroup of `GLₙ(R)` (Weibel,
-*The K-book*, Chapter III, Lemma 1.3.2). -/
-theorem elementary_le_commutator {R : Type u} [Ring R]
-    (n : Type v) [Fintype n] [DecidableEq n] (hn : 3 ≤ Fintype.card n) :
-    elementary (R := R) n ≤ commutator (Matrix.GeneralLinearGroup n R) := by
+/-- The functions `[t] ↦ cos 2πt` and `[t] ↦ sin 2πt` on the circle `T = ℝ/ℤ`, Mathlib's
+`AddCircle 1`, as the real and imaginary parts of `AddCircle.toCircle`. -/
+noncomputable def circleCoord (i : Fin 2) : C(AddCircle (1 : ℝ), ℝ) :=
+  ⟨fun x => if i = 0 then (AddCircle.toCircle x : ℂ).re else (AddCircle.toCircle x : ℂ).im,
+    continuous_if_const _
+      (fun _ => Complex.continuous_re.comp
+        (continuous_induced_dom.comp AddCircle.continuous_toCircle))
+      (fun _ => Complex.continuous_im.comp
+        (continuous_induced_dom.comp AddCircle.continuous_toCircle))⟩
+
+/-- The Möbius module of 0.7 over `R = C(T, ℝ)`: the pairs `w ∈ R²` fixed by the reflection
+`ρ([t]) = [[cos 2πt, sin 2πt], [sin 2πt, −cos 2πt]]`, that is, the continuous fields with
+`w([t])` on the line spanned by `u(t) = (cos πt, sin πt)`. Since `ρ = 2p − 1` for the idempotent
+`p = u uᵀ`, it is the image `pR²` of 0.7, which `v ↦ ([t] ↦ v(t) u(t))` identifies with the
+antiperiodic functions. -/
+noncomputable def mobiusSections :
+    Submodule C(AddCircle (1 : ℝ), ℝ) (Fin 2 → C(AddCircle (1 : ℝ), ℝ)) :=
+  LinearMap.ker (Matrix.mulVecLin
+    (!![circleCoord 0, circleCoord 1; circleCoord 1, -circleCoord 0] - 1))
+
+/-- The Möbius module `M` over `R = C(T, ℝ)` has `M ⊕ M ≅ R²`, and `M ⊕ Rᴺ ≇ Rᴺ⁺¹` for every
+`N`: by the free stabilization criterion of 0.4, the reduced class `[M] − [R]` has order exactly
+two in `K₀(R)`, and `M` is not free (Weibel, *The K-book*, Chapter I, (4.9.1), for the Möbius
+bundle). -/
+theorem mobiusSections_order_two :
+    Nonempty ((mobiusSections × mobiusSections) ≃ₗ[C(AddCircle (1 : ℝ), ℝ)]
+      (Fin 2 → C(AddCircle (1 : ℝ), ℝ))) ∧
+    ∀ N : ℕ, IsEmpty ((mobiusSections × (Fin N → C(AddCircle (1 : ℝ), ℝ))) ≃ₗ[
+      C(AddCircle (1 : ℝ), ℝ)] (Fin (N + 1) → C(AddCircle (1 : ℝ), ℝ))) := by
   sorry
 
 /-! ## Layer A2: Algebraic K₁ and projective automorphisms -/
 
+/-- `K₁(f) : K₁(R) → K₁(S)` for a ring homomorphism `f : R →+* S`, on Tau Ceti's
+`TauCeti.AlgebraicK1`: the class of `u ∈ GLₙ(R)` goes to the class of the entrywise image `f(u)`,
+which is well defined by `TauCeti.AlgebraicK1.lift` because entrywise application of `f` commutes
+with the stabilizations `u ↦ u ⊕ 1` (Weibel, *The K-book*, Chapter III, the paragraph after
+Definition 1.1). -/
+noncomputable def kOneMap {R : Type u} {S : Type v} [Ring R] [Ring S] (f : R →+* S) :
+    TauCeti.AlgebraicK1 R →* TauCeti.AlgebraicK1 S :=
+  TauCeti.AlgebraicK1.lift
+    (fun n => (TauCeti.AlgebraicK1.mk S n).comp
+      (Units.map (f.mapMatrix : Matrix (Fin n) (Fin n) R →+* _).toMonoidHom))
+    (fun m n h g => by
+      have hmap : Units.map (f.mapMatrix : Matrix (Fin n) (Fin n) R →+* _).toMonoidHom
+          (TauCeti.stabilizeGL R h g) = TauCeti.stabilizeGL S h
+            (Units.map (f.mapMatrix : Matrix (Fin m) (Fin m) R →+* _).toMonoidHom g) := by
+        ext i j
+        rw [TauCeti.coe_stabilizeGL_apply]
+        change f ((TauCeti.stabilizeGL R h g : Matrix (Fin n) (Fin n) R) i j) = _
+        rw [TauCeti.coe_stabilizeGL_apply]
+        split_ifs <;> simp [Matrix.one_apply, apply_ite f]
+      simp only [MonoidHom.comp_apply, hmap, TauCeti.AlgebraicK1.mk_stabilizeGL])
+
+/-- `K₁(D) ≅ Dˣ/[Dˣ,Dˣ]` for a division ring `D`, sending the class of the `1 × 1` matrix `(d)` to
+the class of `d` (Weibel, *The K-book*, Chapter III, Example 1.3.5, chapter p. 4, from
+Dieudonné's computation in 1.2.4 and Exercise 1.2). For a field this is `K₁(F) = Fˣ`. -/
+theorem kOne_divisionRing (D : Type u) [DivisionRing D] :
+    ∃ e : TauCeti.AlgebraicK1 D ≃* Abelianization Dˣ, ∀ d : Dˣ,
+      e (TauCeti.AlgebraicK1.mk D 1
+        (Units.map (Matrix.scalar (Fin 1) : D →+* Matrix (Fin 1) (Fin 1) D).toMonoidHom d)) =
+        Abelianization.of d := by
+  sorry
+
+/-- `K₁(ℤ) ≅ ℤˣ = {±1}` by the determinant: the class of `g ∈ GLₙ(ℤ)` goes to `det g`
+(Weibel, *The K-book*, Chapter III, Example 1.3.5, chapter p. 4, and Exercise 1.5). -/
+theorem kOne_int :
+    ∃ e : TauCeti.AlgebraicK1 ℤ ≃* ℤˣ, ∀ (n : ℕ) (g : GL (Fin n) ℤ),
+      e (TauCeti.AlgebraicK1.mk ℤ n g) = Matrix.GeneralLinearGroup.det g := by
+  sorry
+
 /-- The Dieudonné determinant: for a division ring `D` and at least two indices there is a
-surjective homomorphism `GLₙ(D) → Dˣ/[Dˣ,Dˣ]` with kernel `Eₙ(D)`, sending the diagonal matrix
-with one entry `d` and all others `1` to the class of `d` (Weibel, *The K-book*, Chapter III,
-1.2.4 and Exercise 1.2). -/
+surjective homomorphism `GLₙ(D) → Dˣ/[Dˣ,Dˣ]` with kernel `Eₙ(D)`, Tau Ceti's
+`TauCeti.elementarySubgroup`, sending the diagonal matrix with one entry `d` and all others `1` to
+the class of `d` (Weibel, *The K-book*, Chapter III, 1.2.4 and Exercise 1.2). -/
 theorem dieudonne_determinant (D : Type u) [DivisionRing D]
     (n : Type v) [Fintype n] [DecidableEq n] (hn : 2 ≤ Fintype.card n) :
     ∃ φ : Matrix.GeneralLinearGroup n D →* Abelianization Dˣ,
-      Function.Surjective φ ∧ φ.ker = elementary (R := D) n ∧
+      Function.Surjective φ ∧ φ.ker = TauCeti.elementarySubgroup n D ∧
       ∀ (g : Matrix.GeneralLinearGroup n D) (i : n) (d : Dˣ),
         (g : Matrix n n D) = Matrix.diagonal (Function.update (1 : n → D) i (d : D)) →
           φ g = Abelianization.of d := by
@@ -209,7 +283,7 @@ theorem surjective_stability {R : Type u} [Ring R] (s : ℕ) (hR : HasStableRang
     (n k : Type v) [Fintype n] [DecidableEq n] [Fintype k] [DecidableEq k]
     (hn : s ≤ Fintype.card n) (g : Matrix.GeneralLinearGroup (n ⊕ k) R) :
     ∃ (h : Matrix.GeneralLinearGroup n R) (e : Matrix.GeneralLinearGroup (n ⊕ k) R),
-      e ∈ elementary (R := R) (n ⊕ k) ∧
+      e ∈ TauCeti.elementarySubgroup (n ⊕ k) R ∧
         (g : Matrix (n ⊕ k) (n ⊕ k) R) = Matrix.fromBlocks (h : Matrix n n R) 0 0 1 *
           (e : Matrix (n ⊕ k) (n ⊕ k) R) := by
   sorry
@@ -223,8 +297,8 @@ theorem injective_stability {R : Type u} [Ring R] (s : ℕ) (hR : HasStableRange
     (hn : s + 1 ≤ Fintype.card n) (g : Matrix.GeneralLinearGroup n R)
     (U : Matrix.GeneralLinearGroup (n ⊕ k) R)
     (hU : (U : Matrix (n ⊕ k) (n ⊕ k) R) = Matrix.fromBlocks (g : Matrix n n R) 0 0 1)
-    (hUe : U ∈ elementary (R := R) (n ⊕ k)) :
-    g ∈ elementary (R := R) n := by
+    (hUe : U ∈ TauCeti.elementarySubgroup (n ⊕ k) R) :
+    g ∈ TauCeti.elementarySubgroup n R := by
   sorry
 
 /-- Bass: a semilocal ring, one whose quotient by the Jacobson radical is semisimple, has stable
@@ -321,6 +395,21 @@ theorem kZero_mayerVietoris_exact {A₁ A₂ Q : Type u} [Ring A₁] [Ring A₂]
       ((kZeroMap (RingHom.pullbackFst π₁ π₂)).prod (kZeroMap (RingHom.pullbackSnd π₁ π₂)))
       ((kZeroMap π₁).comp (AddMonoidHom.fst (KZero A₁) (KZero A₂)) -
         (kZeroMap π₂).comp (AddMonoidHom.snd (KZero A₁) (KZero A₂))) := by
+  sorry
+
+/-- The `K₁` exactness of the Mayer–Vietoris sequence of a Milnor square at `K₁(A₁) ⊕ K₁(A₂)`:
+for unital maps `π₁ : A₁ → Q`, `π₂ : A₂ → Q` one of which is surjective, with `D = A₁ ×_Q A₂`
+Mathlib's `RingHom.pullback` and `p₁, p₂` its projections, a pair `(x, y)` of classes with
+`K₁(π₁)x = K₁(π₂)y` in `K₁(Q)` is `(K₁(p₁)z, K₁(p₂)z)` for some `z ∈ K₁(D)`. The groups are Tau
+Ceti's multiplicative `TauCeti.AlgebraicK1`, so the map `g₁(x, y) = K₁(π₁)x − K₁(π₂)y` is a
+quotient (Weibel, *The K-book*, Chapter III, Theorem 2.6, chapter p. 15). Injectivity of
+`f₁ = (K₁(p₁), K₁(p₂))` is not claimed. -/
+theorem kOne_mayerVietoris_exact {A₁ : Type u} {A₂ : Type v} {Q : Type w} [Ring A₁] [Ring A₂]
+    [Ring Q] (π₁ : A₁ →+* Q) (π₂ : A₂ →+* Q)
+    (h : Function.Surjective π₁ ∨ Function.Surjective π₂) :
+    ((kOneMap π₁).comp (MonoidHom.fst _ _) / (kOneMap π₂).comp (MonoidHom.snd _ _)).ker =
+      ((kOneMap (RingHom.pullbackFst π₁ π₂)).prod
+        (kOneMap (RingHom.pullbackSnd π₁ π₂))).range := by
   sorry
 
 /-! ## Layer A7: Gluing examples and calculations -/
