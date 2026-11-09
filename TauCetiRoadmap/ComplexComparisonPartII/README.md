@@ -5057,12 +5057,17 @@ an instance of the named targets, not a separate theorem.
    length two, and multiplication by `ε` is a nonzero square-zero endomorphism that analytification
    keeps (`CoherentAnalytification`, `projectiveGeometricDictionaries`).
 2. **An elliptic curve.** For an elliptic curve `E` over `ℂ`, taken as a proper smooth connected
-   `ℂ`-scheme of dimension one with `dim H¹(E, O_E) = 1` and a marked `ℂ`-point (the dimension excludes a K3
-   surface, which has arithmetic genus one, and `E × P¹`, which has `h¹(O) = 1`), `H⁰(E, Ω¹)` is the one-dimensional space of invariant differentials, it is the `(1,0)` part of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
+   `ℂ`-scheme of dimension one with `dim H¹(E, O_E) = 1` and a marked `ℂ`-point, `H⁰(E, Ω¹)` is the
+   one-dimensional space of invariant differentials, it is the `(1,0)` part of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
    `H¹(E^an, ℤ)` is free of rank two with the alternating intersection form (`multiplicativePeriodInterface`).
    A holomorphic isogeny of the analytifications is the analytification of an algebraic isogeny,
    with its group law, finite kernel and degree (`familyMorphismInterface`). No uniformization
-   theorem is proved here.
+   theorem is proved here. The description of `E` excludes the nearest wrong carriers, each by the
+   one clause it fails: the dimension excludes `E × P¹`, which has `h¹(O) = 1`; the value of `h¹(O)`
+   excludes `P¹` and a genus-two curve, which have `h¹(O) = 0` and `2`; connectedness excludes
+   `E ⊔ P¹`, which has dimension one and `h¹(O) = 1`; smoothness excludes the projective nodal cubic
+   `y²z = x³ + x²z`, which has `h¹(O) = 1` but whose analytification, a sphere with two points
+   identified, has `H¹` of rank one.
 3. **The logarithmic loop.** On `G_m`, `Res₀(dz/z) = 1` and the positive loop period is `2πi`
    (`curveResidueLocalization`, the torus period of `HolomorphicDeRham`). `Ω^•(log D)(−D)` computes compact
    support cohomology and its image in `H¹` is the parabolic part, which vanishes for `G_m`
