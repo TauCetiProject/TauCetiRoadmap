@@ -19,9 +19,10 @@ three-manifold parallelization (Layer 8, B3.1) and the zero entries of the low u
 oriented coefficient tables (Layer 8, B3.1): `ΩO_n = 0` for `n = 1, 3` and `ΩSO_n = 0` for
 `1 ≤ n ≤ 3`, each stated as "every closed (oriented) smooth `n`-manifold is the (oriented)
 boundary of a compact smooth `(n+1)`-manifold" on the pinned boundary charts and outward-first
-boundary orientation. For boundaryless sources the smoothing statement is
-AlgebraicTopology 8.13's theorem, which this roadmap consumes; the statement here is over an
-arbitrary model with corners, and the corner-source case is what this roadmap proves.
+boundary orientation. For boundaryless sources and no control of the homotopy the smoothing
+statement is AlgebraicTopology 8.13's theorem; the statement here is over an arbitrary model
+with corners and keeps the homotopy in a prescribed neighbourhood of the diagonal of the
+target, which 8.13 does not state.
 The finite quadratic Arf algebra consumed by Layer 1 is GeometricTopology Layer 4.3.1's and is
 not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
@@ -31,7 +32,8 @@ The other headline theorems are not statable at the pins:
   5.5b's smooth face structure (B1.6): the pins have no face structure on a manifold with
   corners, and a bare model with corners need not admit one;
 - parametric and relative transversality (B1.6): Mathlib has no transversality predicate for
-  smooth maps between manifolds, and the pins have no face strata for their facewise forms;
+  smooth maps between manifolds, and for their facewise forms the pins define the depth of a
+  point (`ModelWithCorners.depth`) but no manifold structure on its level sets, the face strata;
 - the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)`, the nonzero
   entries of their low tables (B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's
   presentation of `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or
@@ -62,11 +64,14 @@ universe u
 
 /-! ## Layer 2: cycles, structures and collared geometry -/
 
-/-- Relative smoothing (B1.6): a continuous map from a Hausdorff sigma-compact manifold with
-corners to a compact boundaryless Hausdorff manifold, smooth on an open neighbourhood of a
-closed set `C`, is homotopic relative to `C` to a smooth map. When `I` is boundaryless this
-is AlgebraicTopology 8.13's smoothing theorem, consumed and not re-proved; the roadmap proves
-the case of a source with corners (Lee, Theorem 6.26, for sources with boundary). -/
+/-- Relative smoothing (B1.6): a continuous map `f` from a Hausdorff sigma-compact manifold
+with corners to a compact boundaryless Hausdorff manifold `P`, smooth on an open neighbourhood
+of a closed set `C`, is homotopic relative to `C` to a smooth map by a homotopy that stays in
+any prescribed neighbourhood `D` of the diagonal of `P`: every pair `(F (t, x), f x)` lies in
+`D`. Taking `D` to be all of `P × P` and `I` boundaryless gives AlgebraicTopology 8.13's
+smoothing theorem; this statement adds sources with corners (Lee, Theorem 6.26, for sources with
+boundary) and the control `D` of the homotopy, which the reduction of non-compact targets
+through doubles uses. -/
 theorem exists_contMDiff_homotopicRel
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
@@ -77,8 +82,9 @@ theorem exists_contMDiff_homotopicRel
     [TopologicalSpace P] [ChartedSpace H' P] [IsManifold J ∞ P] [T2Space P] [CompactSpace P]
     [BoundarylessManifold J P]
     (f : C(M, P)) {C U : Set M} (hC : IsClosed C) (hU : IsOpen U) (hCU : C ⊆ U)
-    (hf : ContMDiffOn I J ∞ f U) :
-    ∃ g : C(M, P), ContMDiff I J ∞ g ∧ f.HomotopicRel g C := by
+    (hf : ContMDiffOn I J ∞ f U) {D : Set (P × P)} (hD : D ∈ nhdsSet (Set.diagonal P)) :
+    ∃ g : C(M, P), ContMDiff I J ∞ g ∧
+      ∃ F : f.HomotopyRel g C, ∀ t x, (F (t, x), f x) ∈ D := by
   sorry
 
 /-- Sard's theorem in unequal dimensions for sources without boundary (B1.6; Lee, Theorem 6.10,

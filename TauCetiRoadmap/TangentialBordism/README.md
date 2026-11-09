@@ -42,9 +42,13 @@ B4.1–B4.2, B4.4–B4.8 and B5.4, and nothing that they need, uses these
 three items. Of S2.2, B5.4 consumes only the isomorphism Ω^θ_n≅π_nMθ for
 a general bundle diagram θ, whose route there uses neither S2.1 nor
 EllipticCohomology E5; the argument is in Downstream consumers. Layer 9
-below adds to S1.5 only the identification of its Jordan algebra with
-LieHighestWeight's compact Albert carrier, the explicit idempotent charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
-comparison, the smooth quotient through SmoothBundlesConnections B1.4, the Bott
+below consumes S1.5's OP² and F₄, which S1.5 builds on LieHighestWeight
+Layer 8's compact Albert algebra, and defines neither again. It adds to
+S1.5 only the explicit idempotent charts on OP² and the comparison of
+their smooth structure with S1.5's through SmoothBundlesConnections B1.4,
+the Peirce Clifford module with its pinned volume sign and the
+identification through it of S1.5's isotropy group with the native
+Spin(9), the type-F₄ comparison of the Lie algebra of S1.5's F₄, the Bott
 clutching sign witness for u, and the Pontryagin classes of every HP^k.
 PositiveScalarCurvature owns connection-metric
 estimates, surgery and PSC classification; it consumes the bordism transfer
@@ -81,15 +85,26 @@ sections named above and consumes nothing from here.
 
 B1.6 owns the Sard theorem in unequal dimensions for sources that are
 boundaryless, modelled on the half-space, or carry DifferentialGeometry
-5.5b's smooth face structure; the smoothing of continuous maps into compact
-boundaryless targets relative to a closed set, for sources over any model
-with corners (`exists_contMDiff_homotopicRel`); and, for sources with that
-face structure, the parametric transversality theorem, facewise relative
-transversality and the reduction of non-compact targets through doubles.
-For boundaryless sources the smoothing, parametric and relative
-transversality theorems are AlgebraicTopology 8.13's; B1.6 consumes them,
-and its statements differ from them only in the source class (corners,
-facewise). AlgebraicTopology consumes nothing from B1.6. B1.5 owns smooth
+5.5b's smooth face structure; the boundaryless-manifold structure of the
+depth strata of such face-structured sources, which 5.5b does not give;
+the smoothing of continuous maps into compact
+boundaryless targets relative to a closed set, by a homotopy in a
+prescribed neighbourhood of the diagonal of the target, for sources over
+any model with corners (`exists_contMDiff_homotopicRel`); and, for sources
+with that face structure, the parametric transversality theorem, facewise
+relative transversality and the reduction of non-compact targets through
+doubles. AlgebraicTopology 8.13 states the smoothing, parametric and
+relative transversality theorems for boundaryless sources, compact
+targets, parameters in an open subset of a finite-dimensional real vector
+space, a smooth map in the relative theorem and no control of the
+homotopy. Those are the special cases of B1.6's statements that B1.6
+consumes from 8.13. B1.6's statements differ from them in the source
+class (corners, facewise), in allowing a boundaryless parameter manifold S
+and a non-compact target N in the parametric theorem, a continuous map
+smooth near the fixed set in the relative theorem, and a homotopy that
+stays in a prescribed neighbourhood of the diagonal in the smoothing and
+relative theorems; B1.6 proves these general forms for every source class
+by the routes of 2.1. AlgebraicTopology consumes nothing from B1.6. B1.5 owns smooth
 triangulations of compact manifolds with boundary, and of compact manifolds
 with corners carrying that face structure with a chosen union of faces, in
 which the boundary or those faces form a subcomplex. CalibratedGeometry 2.4 consumes them and adds its vertex orders,
@@ -181,6 +196,20 @@ not cover B1.6's uses: `TauCeti.isNullSet_image_criticalPoints` and
 dimension, and `ContMDiff.isMeagre_image_criticalPoints` from
 `TauCeti/Geometry/Manifold/Sard/Meagre.lean` concludes meagreness, not
 nullity, for boundaryless manifolds.
+Use `ModelWithCorners.depth` from
+`TauCeti/Geometry/Manifold/Corners/Depth.lean` as the stratification of
+B1.6's face-structured sources: the depth of a point x is the depth of
+its image in the preferred extended chart, which for a finite-dimensional
+model is the codimension of the largest linear subspace contained in the
+positive tangent cone of the model range there. At the pin it is chart
+independent on a C¹ manifold (`ModelWithCorners.depthAt_extend_eq_depth`),
+zero exactly at interior points (`ModelWithCorners.depth_eq_zero_iff`),
+preserved by local diffeomorphisms (`IsLocalDiffeomorphAt.depth_eq`), and
+on the quadrant model the number of vanishing coordinates
+(`ModelWithCorners.depthAt_modelWithCornersEuclideanQuadrant`). The pin
+defines no charts or manifold structure on its level sets, and its
+abstract boundary in `TauCeti/Geometry/Manifold/Corners/AbstractBoundary.lean`
+is a topological space without charts; B1.6 constructs the strata.
 Use `TauCeti.Manifold.Orientation` from
 `TauCeti/Geometry/Manifold/Orientation/Basic.lean`, the quotient of
 `OrientationLift` by the simultaneous reversal of the model orientation
@@ -319,18 +348,18 @@ retain their native hypotheses and chosen smooth structures.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions, the extension of 8.13's smoothing to sources over any model with corners, and the extension of its two transversality theorems, facewise, to sources with DifferentialGeometry 5.5b's face structure |
-| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign; its open face strata are the strata of B1.6's corner Sard and transversality theorems | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources, compact targets, parameters in an open subset of a finite-dimensional real vector space, a smooth map in the relative theorem and no control of the homotopy | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions and the generalizations of 8.13's three theorems: to sources over any model with corners (smoothing) and, facewise, to sources with DifferentialGeometry 5.5b's face structure (transversality), to a boundaryless parameter manifold and a non-compact target (parametric), to a continuous map smooth near the fixed set (relative), and to a homotopy in a prescribed neighbourhood of the diagonal (smoothing and relative) |
+| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure (its local quadrant data and the depth they count) and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign; 5.5b gives no manifold structure on the depth strata, which B1.6 constructs from those quadrant charts for its corner Sard and transversality theorems | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, itemized below); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and the isotopy uniqueness of tubular neighbourhoods (Layer1; their existence for boundaryless models is the pinned `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
-| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
+| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of LieHighestWeight Layer 8's compact Albert algebra), a closed smooth 16-manifold F₄/Spin(9), F₄ (its automorphism group) as a compact connected 52-dimensional Lie group with its smooth transitive action and Spin(9) isotropy acting on the Peirce complement by the real spin representation, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 defines neither OP² nor F₄ again and owns the idempotent charts and their comparison with S1.5's smooth structure, the Peirce Clifford module and its identification of S1.5's isotropy group with the native Spin(9), the type-F₄ Lie-algebra comparison, the sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6, C1.3, C1.4, C7.3, C7.3a | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions; C1.3's finite faithful unitary representations of compact Lie groups and their smooth Stiefel approximations of BG; C1.4's smooth representatives of continuous principal bundles with compact structure group over smooth bases, with their relative homotopy versions; `TSⁿ⊕ε¹≅ε^(n+1)`, `w(T RP^m)=(1+a)^(m+1)` and the immersion normal bundle | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
 | [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0, G6 item 5, G6.7 | Spin lifts (G4.3 existence, G4.4 the H¹ torsor) on every oriented base, in particular on closed surfaces; G6 item 5's two circle lifts (the trivial Spin(1)=ℤ/2 cover and the connected double cover of the oriented frame bundle) and all torus lifts through H¹; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification`; G6.7's equation `realSpinDiracIndexClass = α·a` in KO₄ for the quaternionic index α | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1 | the quotient metric on HP^d from the round S^(4d+3), its Riemannian submersion from Sp(d+1)/(Sp(d)×Sp(1)) and its sectional-curvature bounds 1 and 4 | B6.6 proves PSp3-invariance and positive scalar curvature on HP2 |
 | [ClassifyingSpaces](../ClassifyingSpaces/README.md), Stage4 | `H_*(BG;ℤ)` identified with Mathlib's `groupHomology` of the trivial module | B6.3 applies it to finite cyclic groups |
-| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
+| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | StringOrientation S1.5 owns OP² and F₄ on this carrier; B3 owns the idempotent charts, the Peirce Clifford comparison and the type-F₄ Lie-algebra comparison on them, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
 | IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's integral equality σ(M)=−16α for the quaternionic index α of a closed Spin four-manifold and its Rokhlin theorem that σ(M) is divisible by 16 | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 | AffineMorseLefschetz A0, A5, A6; ComplexKahlerGeometry K7.1 | polynomial projective zero-locus carrier, smooth projective atlas, weak Lefschetz and Veronese comparison | B1.7 specializes them to the Fermat quartic and constructs its characteristic numbers |
 
@@ -357,10 +386,10 @@ Layers 2–3 construct geometry,
 witnesses and the homology theory; Layer 4 constructs ordinary operations and
 Adams towers independently of bordism coefficients. Layer 5 proves the finite
 and stable structured comparison, and Layer 6 computes O and SO coefficients.
-Layers 7–8 give ABS and low geometric classifications. Layer 9 identifies
-StringOrientation S1.5's Cayley plane with the compact Albert carrier and adds
-its explicit charts, Clifford module, sign witnesses and the HP^k Pontryagin
-classes, and Layer 10 proves realization and projective-transfer theorems. The parenthesized B labels are stable target
+Layers 7–8 give ABS and low geometric classifications. Layer 9 consumes
+StringOrientation S1.5's Cayley plane and F₄ and adds explicit charts and
+their comparison with S1.5's smooth structure, the Clifford module, sign
+witnesses and the HP^k Pontryagin classes, and Layer 10 proves realization and projective-transfer theorems. The parenthesized B labels are stable target
 locators: each subsection's Needs line specifies the actual inputs, including
 independent subtargets within its layer.
 
@@ -411,7 +440,7 @@ Own the differential-topology inputs of the geometric theory that the
 suppliers do not state. Each is a smooth statement on Hausdorff manifolds
 over finite-dimensional real models with corners in Mathlib's sense, with
 the countability hypothesis it states. The statements whose routes run
-through face strata (Sard on sources with corners, the parametric and
+through depth strata (Sard on sources with corners, the parametric and
 relative transversality theorems, corner rounding) assume in addition that
 the source is boundaryless, is modelled on the half-space, or carries
 DifferentialGeometry 5.5b's smooth face structure: a model with corners in
@@ -450,6 +479,29 @@ This item owns the following.
   derivative identifies the endpoint stabilized normal bundles. For neat
   embeddings keep the common nonnegative collar coordinate fixed and
   rotate only the remaining Euclidean coordinates.
+- **Depth strata.** Let M be a smooth n-manifold, n≥1, over a
+  finite-dimensional real model with corners I, carrying
+  DifferentialGeometry 5.5b's smooth face structure. For 0≤k≤n its depth-k
+  stratum is the subspace M_k of points x with `I.depth x = k`, for Tau
+  Ceti's `ModelWithCorners.depth`; on each of 5.5b's quadrant charts q_U
+  this is the number of vanishing coordinates of q_U(x), by
+  `IsLocalDiffeomorphAt.depth_eq` and
+  `ModelWithCorners.depthAt_modelWithCornersEuclideanQuadrant`, so it is
+  5.5b's depth. 5.5b gives no manifold structure on M_k; construct it.
+  Near x∈M_k, on the part of U where the coordinates positive at q_U(x)
+  stay positive, M_k is the set where the k coordinates vanishing at q_U(x)
+  vanish, an open subset of the relative interior of an (n−k)-dimensional
+  coordinate face of the quadrant; deleting those k coordinates is a chart
+  of M_k on `EuclideanSpace ℝ (Fin (n−k))`. Its transitions are
+  restrictions of 5.5b's transition diffeomorphisms, which match the
+  vanishing coordinates by 5.5b's germ bijection, and are smooth. Prove
+  that these charts make M_k a boundaryless (n−k)-manifold whose topology
+  is the subspace topology, Hausdorff and second countable, hence
+  Lindelöf, as a subspace of M; that its inclusion into M is smooth with
+  injective derivative, a coordinate insertion in these charts; that M_0
+  is the interior of M, an open subset, by
+  `ModelWithCorners.depth_eq_zero_iff`; and that the n+1 strata
+  partition M.
 - **Sard in unequal dimensions.** Let f:M→N be a smooth map from a
   Lindelöf (second-countable in particular) manifold M to a manifold N
   with corners, both over finite-dimensional real models, with no relation
@@ -483,7 +535,8 @@ This item owns the following.
   `TauCeti.boundaryChartedSpace`, boundaryless by
   `TauCeti.isManifold_boundary`, whose inclusion is the smooth embedding
   `TauCeti.isSmoothEmbedding_subtypeVal_boundary`; on a face-structured M
-  they are DifferentialGeometry 5.5b's open face strata. The face
+  they are the depth strata M_k of the preceding bullet, built from
+  DifferentialGeometry 5.5b's local quadrant data and the pinned depth. The face
   structure is a hypothesis of the corner statement: a model with corners
   in Mathlib's sense carries no face data and need not admit any. The
   closed round cone z≥√(x²+y²) in ℝ³ is the range of such a model, and no
@@ -495,20 +548,28 @@ This item owns the following.
   `TauCeti.isNullSet_image_criticalPoints` and
   `TauCeti.dense_isRegularValue` require `finrank ℝ E = finrank ℝ E'`, and
   `ContMDiff.isMeagre_image_criticalPoints` concludes meagreness only.
-- **Transversality.** For boundaryless sources the three theorems of this
-  bullet are AlgebraicTopology 8.13's (parametric transversality, Lee,
-  Theorem 6.35; smoothing into compact manifolds, Lee, Theorem 6.26;
-  relative transversality, Lee, Theorem 6.36), consumed here; this item
-  states the smoothing theorem for sources over any model with corners and
-  the two transversality theorems, facewise, for sources that are
-  boundaryless, modelled on the half-space, or carry DifferentialGeometry
-  5.5b's face structure, with the strata of the Sard bullet, by the same
-  route. From this item's Sard theorem prove the parametric transversality
+- **Transversality.** For boundaryless sources, compact targets,
+  parameters in an open subset of a finite-dimensional real vector space,
+  smooth maps in the relative theorem and no control of the homotopy, the
+  three theorems of this bullet are AlgebraicTopology 8.13's (parametric
+  transversality, Lee, Theorem 6.35; smoothing into compact manifolds, Lee,
+  Theorem 6.26; relative transversality, Lee, Theorem 6.36), consumed here
+  for those cases. This item states the smoothing theorem for sources over
+  any model with corners and the two transversality theorems, facewise,
+  for sources that are boundaryless, modelled on the half-space, or carry
+  DifferentialGeometry 5.5b's face structure, with the strata of the Sard
+  bullet; the parametric theorem allows in addition a boundaryless
+  parameter manifold S and a non-compact target N, the relative theorem a
+  continuous map smooth near the fixed set, and both the smoothing and the
+  relative theorem control the homotopy by a neighbourhood of the
+  diagonal. It proves these general forms for every source class by the
+  routes below; the Checks with S=N=ℝ² and S=N=ℝ are instances of the
+  parametric theorem, not of 8.13's. From this item's Sard theorem prove the parametric transversality
   theorem: if M is such a source and is Lindelöf (second countable in
   particular), F:M×S→N is smooth, with S and N without
   boundary (S an open subset of a finite-dimensional real vector space in
   particular), and the restriction
-  of F to (open face stratum)×S is transverse to a closed embedded
+  of F to (depth stratum)×S is transverse to a closed embedded
   submanifold Z⊂N for every stratum of M, the interior included, then the
   s∈S for which F(−,s) fails to be transverse to Z on some stratum form a
   `TauCeti.IsNullSet` in S, so the good parameters are dense. M is second
@@ -529,12 +590,14 @@ This item owns the following.
   Prove relative smoothing for a compact boundaryless Hausdorff target P:
   for a Hausdorff sigma-compact manifold M over any finite-dimensional
   real model with corners, with no face data assumed, a closed
-  C⊆M, an open U⊇C and a continuous f:M→P smooth on U, f is homotopic
-  rel C, by an arbitrarily small homotopy, to a smooth g
+  C⊆M, an open U⊇C, a continuous f:M→P smooth on U and a neighbourhood D
+  of the diagonal of P, f is homotopic rel C to a smooth g by a homotopy F
+  that stays in D: (F(t,x),f(x))∈D for every time t and every x∈M
   (`exists_contMDiff_homotopicRel`; Lee, Theorem 6.26, p.141, for sources
-  with boundary; for boundaryless M this is AlgebraicTopology 8.13's
-  smoothing theorem, and the statement here differs from it only in
-  admitting corners and dropping second countability). Route: embed P in a Euclidean space V by
+  with boundary; for boundaryless M and D=P×P this is AlgebraicTopology
+  8.13's smoothing theorem, and the statement here differs from it in
+  admitting corners, in dropping second countability and in the control D
+  of the homotopy, which 8.13 does not state). Route: embed P in a Euclidean space V by
   `exists_embedding_euclidean_of_compact`, a smooth embedding e:P→V in the
   sense of `TauCeti.SmoothEmbedding`; the pinned
   `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` gives an
@@ -545,38 +608,51 @@ This item owns the following.
   an interior point, so by chart independence of interior points each
   extended chart of P lands in the interior of the range of J, an open
   subset of E', and these extended charts make P a smooth manifold on
-  𝓘(ℝ,E') whose identity map to P is a diffeomorphism. Choose a continuous
-  ε>0 on M with the ε(x)-ball about f(x) inside W (ε=1 when W=V);
-  Mathlib's `Continuous.exists_contMDiff_approx_and_eqOn`, valid over any
-  model with corners, gives a smooth g̃:M→V within ε of f and equal to f
-  on C; put g=r∘g̃, with homotopy t↦r((1−t)f+tg̃) along the segments.
+  𝓘(ℝ,E') whose identity map to P is a diffeomorphism. Choose a constant
+  ε>0 such that for every p∈P the ε-ball about e(p) lies in W and r maps
+  it into {q | (q,p)∈D}: the pairs (v,p) with v∈W and (r(v),p)∈D form a
+  neighbourhood of the compact set of pairs (e(p),p), since r∘e is the
+  identity and D is a neighbourhood of the diagonal, so such an ε exists
+  because P is compact. Mathlib's
+  `Continuous.exists_contMDiff_approx_and_eqOn`, valid over any model with
+  corners, gives a smooth g̃:M→V within ε of e∘f and equal to it on C; put
+  g=r∘g̃, with homotopy t↦r((1−t)e(f)+tg̃) along the segments, which lie in
+  those ε-balls, so the homotopy stays in D.
   Deduce relative transversality for such an M that is in addition
   boundaryless, modelled on the half-space, or face-structured as in the
-  parametric theorem, the same P, C and U, and a closed embedded Z⊂P
-  (AlgebraicTopology 8.13's relative transversality when M is
-  boundaryless): a continuous f:M→P, smooth on U, whose restriction to
-  every face stratum is transverse to Z on U is homotopic rel C, by an
-  arbitrarily small homotopy, to a smooth g transverse to Z on every face
-  stratum. First smooth f rel a closed neighbourhood of C inside U. With
-  e:P→V, r:W→P as above, a radius δ>0 whose δ-neighbourhood of e(P) lies
-  in W, the open δ-ball S⊂V and β=ψ² for a smooth cutoff ψ:M→[0,1]
+  parametric theorem, the same P, C and U, a neighbourhood D of the
+  diagonal of P and a closed embedded Z⊂P: a continuous f:M→P, smooth on
+  U, whose restriction to every depth stratum is transverse to Z on U is
+  homotopic rel C, by a homotopy that stays in D, to a smooth g transverse
+  to Z on every depth stratum (for boundaryless M, smooth f and D=P×P this
+  is AlgebraicTopology 8.13's relative transversality, which takes f
+  smooth and states no control of the homotopy). First smooth f rel a
+  closed neighbourhood of C inside U, by a homotopy that stays in a
+  neighbourhood D₁ of the diagonal with D₁∘D₁⊆D, which exists because P is
+  compact. With e:P→V, r:W→P as above, a radius δ>0, at most the ε that
+  the smoothing route gives for D₁, so that the δ-neighbourhood of e(P)
+  lies in W, the open δ-ball S⊂V and β=ψ² for a smooth cutoff ψ:M→[0,1]
   vanishing near C and equal to 1 off the interior of that neighbourhood, put
   F(x,s)=r(e(f(x))+β(x)s): where β(x)>0 every face restriction of F is a
   submersion in s, and where β(x)=0 the point x lies in U and dβ_x=0, so
   each slice has derivative df_x there; take g=F(−,s) for s outside the
-  null set, with homotopy t↦F(−,ts). For a
+  null set, with homotopy t↦F(−,ts), which stays in D₁, so that the two
+  homotopies together stay in D. For a
   boundaryless Hausdorff second-countable target N that is not compact,
-  and a compact source, apply both to the double of a compact
+  and a compact source, apply both to the double P_N of a compact
   neighbourhood W_N of the image (constructed below), with c also a
   regular value of the exhaustion on Z so that Z∩W_N doubles to a closed
-  embedded submanifold, and keep the homotopy inside the interior of W_N.
+  embedded submanifold, and keep the homotopy inside the interior W° of
+  W_N by taking D=(W°×W°)∪(P_N×(P_N∖f(M))), a neighbourhood of the
+  diagonal because the compact image f(M) lies in W°.
   Apply this to the zero section of the finite smooth Grassmannian Thom
   spaces of B5.3. The homotopy fixes the prescribed face data on C at
   every time; any face required to stay fixed in its entirety is included
   in C and must already satisfy this facewise transversality condition.
   This relative facewise theorem extends Lee’s Theorem 6.36,
   pp.146–147, and AlgebraicTopology 8.13's relative transversality, to
-  half-space and face-structured sources. Transverse preimages are neat submanifolds with normal
+  half-space and face-structured sources, to continuous f and to a
+  homotopy controlled by D. Transverse preimages are neat submanifolds with normal
   bundle the pulled-back normal bundle of Z.
 - **Corner rounding.** For manifolds with boundary M and N construct a
   smooth structure with boundary on M×N, and on a gluing along part of a
@@ -603,9 +679,13 @@ Its API includes:
 
 - Neat embeddings, transverse inverse images and relative approximations retain the prescribed faces and their normal bundles.
 - Rounding is fixed off the corner collar; compact neighbourhoods and doubles restrict to the original tangent/Spin data.
+- The depth strata of a face-structured n-manifold are boundaryless manifolds of dimensions n−k whose inclusions are injective immersions, they partition the manifold, and the depth-zero stratum is its interior.
 
 **Checks.**
 
+- On the quadrant [0,∞)², M_0 is the open quadrant, M_1 the two open half-axes {0}×(0,∞) and (0,∞)×{0}, a 1-manifold with two components, and M_2 the origin, a 0-manifold. Taking the closed facets {x₀=0} and {x₁=0} as strata would put the origin in both, where neither is boundaryless, and the boundary set M_1∪M_2, an L-shaped union, is not a manifold at the origin.
+- On the cube [0,1]³ the strata M_0, M_1, M_2, M_3 have 1, 6, 12 and 8 components (open cube, open faces, open edges, vertices), of dimensions 3, 2, 1, 0; the dimension of M_k is n−k, not n−1 for every boundary stratum.
+- On the half-space [0,∞)×ℝ, M_1 is the line {0}×ℝ and M_2 is empty.
 - For f:ℝ→ℝ², t↦(t,0), every point is critical and the image, a line, is null in ℝ²; the equal-dimension theorem does not apply to it. For the projection ℝ²→ℝ there is no critical point and the image ℝ is not null: the theorem bounds the critical values only.
 - For M a point and f:M→ℝ² the critical set is M and its image is one point, null; this is the parametric theorem with S=N=ℝ², Z={0} and F(pt,s)=s, whose bad parameters are {0}, and no theorem assuming equal model dimensions applies to a map from a 0-manifold to ℝ².
 - The Lindelöf hypothesis cannot be dropped: on M=ℝ²_δ×[0,∞), the plane with the discrete topology times the half-line, a half-space manifold that is not Lindelöf, the map f(c,t)=c into ℝ² has derivative 0 at every point, so every point is critical, and its critical values form all of ℝ², which is not null.
@@ -616,12 +696,13 @@ Its API includes:
 - The function t↦t has a regular zero with derivative 1; t↦t² at 0 has derivative 0 and is not a transverse model.
 - On M=[0,1], C={0}, Z={0}⊂ℝ, f(t)=t has ambient derivative 1 but derivative of rank 0 on the fixed endpoint face: no homotopy rel C can make that face transverse. The map f(t)=1+t misses Z on that face and satisfies the fixed-face condition.
 - With C=M a smooth f is returned unchanged. For M=P the unit circle in ℂ, with W=ℂ∖{0} and r(z)=z/|z|, smoothing the constant map gives a map of degree 0, never the identity; the approximation g̃ alone leaves the circle, which is why r is applied.
+- For M=P the unit circle, C=∅, f the identity and D the pairs (p,q) with |p−q|<1, the smooth map g(z)=−z is homotopic to f by rotation, but |g(z)−z|=2 for every z, so no homotopy from f to g stays in D and g is not an admissible output; a statement without D would accept it. With D=P×P the theorem asserts only a homotopy rel C.
 - On M=P=Circle with Z={1} and C=∅, the constant map at 1 is not transverse to Z, and for every parameter outside the null set the perturbed map misses 1, so its preimage is empty.
 - The rounded quadrant has one smooth boundary arc; the corner point cannot be kept as a smooth boundary chart unchanged.
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
 
-*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, and for half-space sources `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary`; DifferentialGeometry §5.5b for face-structured corner sources and for corner rounding; GeometricTopology Layer 1 collars and gluing; AlgebraicTopology 8.13 for boundaryless sources.
+*Needs:* Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, and for half-space sources `TauCeti.boundaryChartedSpace`, `TauCeti.isManifold_boundary` and `TauCeti.isSmoothEmbedding_subtypeVal_boundary`, and for the depth strata `ModelWithCorners.depth`, `ModelWithCorners.depth_eq_zero_iff`, `IsLocalDiffeomorphAt.depth_eq` and `ModelWithCorners.depthAt_modelWithCornersEuclideanQuadrant`; DifferentialGeometry §5.5b's local quadrant data for the depth strata of face-structured corner sources, and §5.5b for corner rounding; GeometricTopology Layer 1 collars and gluing; AlgebraicTopology 8.13 for boundaryless sources.
 
 ### 2.2 Model transport and structures (B1.1)
 
@@ -939,7 +1020,7 @@ Signed points, collared intervals, the Hopf quotient, the Fermat quartic and the
 
 ### Dependencies
 
-DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation, the CW structure `AbstractSimplicialComplex.realizationCWComplex`, the carrier `TauCeti.IsSmoothTriangulation`, the tube theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and the exhaustion function `TauCeti.exists_contMDiffMap_isProperMap_nonneg`; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
+DifferentialGeometry §§2.1–2.2 and 5.5b; Tau Ceti `TauCeti.addHaar_image_criticalPoints_eq_zero`, the depth `ModelWithCorners.depth` and the orientation carrier `TauCeti.Manifold.Orientation` with its pinned reversal, pullback, product and boundary orientation, the CW structure `AbstractSimplicialComplex.realizationCWComplex`, the carrier `TauCeti.IsSmoothTriangulation`, the tube theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` and the exhaustion function `TauCeti.exists_contMDiffMap_isProperMap_nonneg`; AlgebraicTopology 6.3 and 8.13; GeometricTopology Layers 1 and 11.3; SmoothBundlesConnections B1.4; SpinGeometry G4; AffineMorseLefschetz A0, A5–A6; ComplexKahlerGeometry K7.1.
 
 ## Layer 3: geometric bordism as a homology theory
 
@@ -2502,26 +2583,16 @@ Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Layers 
 
 ### 9.1 Idempotent Cayley plane (B3.6)
 
-StringOrientation S1.5 owns the Cayley plane OP², defined as the trace-one
+StringOrientation S1.5 owns the Cayley plane OP², the trace-one
 idempotents of the exceptional Jordan algebra J₃(𝕆) of 3×3 Hermitian
-octonionic matrices, with its cells, cohomology ring and characteristic
-classes. Identify S1.5's J₃(𝕆) with the compact real Albert algebra supplied
-by LieHighestWeight Layer8, built on the Cayley–Dickson pair division carrier
-`TauCeti.DivisionOctonionReal`: a Jordan-algebra isomorphism matching the
-Hermitian positions, the unit and the trace form. Through it define
-octonionicProjectivePlane as the literal trace-one idempotent subtype
-`{A : compactAlbertAlgebra // A∘A=A ∧ tr A=1}` in its 27-coordinate
-Euclidean topology, which is S1.5's OP² on this carrier. Use the positive
-trace form to prove it is closed and bounded (tr A²=1), hence compact,
-Hausdorff and second countable; S1.5 obtains compactness from the
-homogeneous presentation, so this is the subtype-level comparison. There
-is no module/associative projectivization over O.
-The positive form is essential: on the split carrier a nonzero null a,
-N(a)=a star(a)=0, gives trace-one idempotents with A_00=1, A_10=t a,
-A_01=t star(a) and other entries zero for every real t, an unbounded
-family; on the compact carrier tr(A∘A)=1+2t²N(a)=1 forces t a=0,
-and in general tr(A∘A)=1 bounds every entry.
-Construct the three charts on A_ii>0: for the first use
+octonionic matrices, which S1.5 takes to be LieHighestWeight Layer 8's
+compact real Albert algebra `compactAlbertAlgebra` over the Cayley–Dickson
+division octonions `TauCeti.DivisionOctonionReal`, in its fixed
+27-coordinate Euclidean topology. S1.5 also owns the compactness of OP²,
+its smooth structure as F₄/Spin(9), its cells, cohomology ring and
+characteristic classes; consume all of them, and define no second
+carrier. There is no module/associative projectivization over O.
+On S1.5's OP² construct the three charts on A_ii>0: for the first use
 `P(x,y)=vv*/(1+N(x)+N(y))`, v=(1,x,y), with entries v_i star(v_j),
 inverse `(A_10/A_00,A_20/A_00)` and the fixed Hermitian coordinate
 comparison. Order the two nonpivot indices increasingly in each chart:
@@ -2531,68 +2602,67 @@ maps; e.g.
 first-to-second is `(x,y)↦(x⁻¹,y x⁻¹)` on x≠0. Use the supplied
 two-generator associative subalgebra and its conjugation closure for these
 identities, rather than regrouping arbitrary triple products. Prove coverage,
-chart inverses, smooth transitions, the embedded 16-dimensional manifold
-structure and inclusion/tangent/smooth-map criteria on this precise subtype.
-The CW decomposition S⁸∪e¹⁶ with octonionic Hopf attaching map, the ring
+chart inverses and smooth transitions, and that these charts make S1.5's
+OP² an embedded 16-dimensional submanifold of the 27-dimensional Albert
+carrier, with inclusion, tangent and smooth-map criteria on this subset.
+That this chart structure is S1.5's smooth structure is B3.7's quotient
+comparison. The CW decomposition S⁸∪e¹⁶ with octonionic Hopf attaching map, the ring
 H*(OP²;ℤ)=ℤ[u]/(u³) with |u|=8, connectedness and simple connectivity are
 S1.5's. Exhibit S1.5's cells in these charts: the projective line is the
 trace-one idempotents in the lower Hermitian2×2 corner, with its two
 octonionic inverse charts and explicit homeomorphism to S8, and the top
 cell is the image of D16 under v=(sqrt(1−N(z)),z_1,z_2), z∈O², N(z)≤1,
 taking vv*, whose S15 boundary is the octonionic Hopf map to that S8.
-Prove that this characteristic map is S1.5's attaching map on the subtype
-carrier, so that S1.5's cellular and cup conclusions, including Hopf
+Prove that this characteristic map is S1.5's attaching map in these
+charts, so that S1.5's cellular and cup conclusions, including Hopf
 invariant1, hold in these coordinates.
 
 Its API includes:
 
-- The idempotent charts cover the compact trace-one carrier and their inverse transition maps preserve the Jordan equations.
+- The idempotent charts cover S1.5's OP² and their inverse transition maps preserve the Jordan equations.
 - The cell characteristic maps identify the same manifold with one cell in dimensions 0,8,16.
 
 **Checks.**
 
 - At (x,y)=(0,0), P is diag(1,0,0); its trace and squared trace are 1.
 - At (x,y)=(1,0), the first two diagonal entries and their off-diagonal entries are 1/2, and P²=P.
-- The zero matrix has trace 0 and is excluded; on a split null direction the putative trace-one family is unbounded, excluding the split Albert model.
+- At (x,y)=(i,j), with i,j the quaternion units (i,0),(j,0) of the pinned octonion basis, v=(1,i,j) and 1+N(x)+N(y)=3, so A_11=1/3, A_01=star(i)/3=−i/3 and A_21=j star(i)/3=k/3; chart1 reads (−i,k), which is (x⁻¹,y x⁻¹) since y x⁻¹=j(−i)=k. The opposite order x⁻¹y=(−i)j=−k would give (−i,−k), so the transition records the order of the octonion product.
 
-The idempotent and projective geometry is Baez, §§3.4 and 4.2; the designated-chart and native-carrier comparisons are constructed here.
+The idempotent and projective geometry is Baez, §§3.4 and 4.2; the chart, cell and smooth-structure comparisons are constructed here.
 
 *Needs:* StringOrientation S1.5; LieHighestWeight Layer 8 compact Albert algebra and division octonions; AlgebraicTopology Layers 4 and 6 cells and cup products; Mathlib finite-dimensional real topology.
 
 ### 9.2 Compact automorphisms and Spin isotropy (B3.7)
 
-Construct compactAlbertAutomorphismGroup as the closed subgroup of the
-native real linear-equivalence/GL27 group preserving the Jordan product,
-unit and positive trace form; under item6's identification this is
-StringOrientation S1.5's F₄, a compact connected Lie group of dimension 52
-acting transitively on OP² with isotropy Spin(9) at diag(1,0,0), all of
-which S1.5 owns. Give its matrix realization, smooth action
-and compactness inside O27 on the Albert carrier. Consume native
-`TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`
-(Geometry/Lie/Subgroup/Embedded.lean), choose and retain its actual data
-to define the subgroup atlas, and export the ambient-GL smooth-into
-equivalence for that chosen atlas; no second Cartan proof or opaque
-unrelated smooth structure is introduced. Compare its tangent data and
-native LieGroups Layer2 Lie-algebra identification with the Lie algebra of
-compact Albert derivations. Call this concrete group compactF4; its type-F4
-comparison is owned here: compose the Lie(Aut)≃Der(J) identification
-with LHW Layer8's `compactAlbertDerivation_complexification` and
-`compactAlbertDerivation_killing_negDef`. Connectedness is S1.5's; prove simple connectivity here from the actual
-Spin9 principal fibration and S1.5's cell model. Export its real derivation Lie-algebra isomorphism,
-complexification to split typeF4 and negative-definite Killing form.
+StringOrientation S1.5 owns F₄, the automorphism group of
+`compactAlbertAlgebra`, as a compact connected Lie group of dimension 52,
+its smooth transitive action on OP², and its isotropy group at
+E_0=diag(1,0,0), a subgroup isomorphic to Spin(9) that acts on the
+16-dimensional Peirce complement by the real spin representation; consume
+all of these, and construct no second group or Lie structure. Own here the
+following comparisons on S1.5's group.
+
+Compare the Lie algebra of S1.5's F₄, a closed subgroup of the general
+linear group of the 27-dimensional carrier (LieGroups Layer 2's Lie
+algebra of a closed subgroup), with the Lie algebra of compact Albert
+derivations: X lies in it exactly when exp(tX) is an automorphism for
+every real t, that is, when X is a derivation. The type-F4 comparison is
+owned here: compose this Lie(F₄)≃Der(J) identification with LieHighestWeight
+Layer 8's `compactAlbertDerivation_complexification` and
+`compactAlbertDerivation_killing_negDef`. Connectedness is S1.5's; prove
+simple connectivity here from the Spin(9) principal fibration F₄→OP² and
+S1.5's cell model. Export the real derivation Lie-algebra isomorphism, its
+complexification to split typeF4 and the negative-definite Killing form.
 Use LieGroups Layer4's full-faithful simply connected integration
 equivalence to prove uniqueness among connected simply connected
 real Lie groups with this actual real derivation Lie algebra. No
 undefined designated complex F4 group or its real-form classification
 is a prerequisite.
-This type comparison follows the intrinsic geometry; all quotient/idempotent constructions use the actual
-group and derivation algebra independently of that classification.
-Transitivity is S1.5's theorem; transport it along item6's identification.
-Its tangent witness on the Albert carrier is the supplier's inner
-derivations on the Peirce tangent space: for x∈J_(1/2)(E),
-`4[L_x,L_E](E)=x`, so exponentiating these skew-adjoint derivations gives
-product-preserving trace isometries and an orbit map that is a submersion
-at E, which the quotient comparison below needs.
+The tangent witness of S1.5's transitivity on the Albert carrier is the
+supplier's inner derivations on the Peirce tangent space: for
+x∈J_(1/2)(E), `4[L_x,L_E](E)=x`, so exponentiating these skew-adjoint
+derivations gives elements of F₄ and an orbit map that is a submersion at
+E, which the quotient comparison below needs.
 Construct the explicit native Spin9 inclusion through the Peirce
 decomposition at E_0:
 J≃R E_0 ⊕ (R⊕R9) ⊕ S9, S9≃O². The vector Clifford action on O²
@@ -2611,23 +2681,33 @@ compare its native Clifford lift and Spin action with
 `spinGroup (TauCeti.realCliffordForm 9 0)`;
 compare the quotient at volume−1 with the corresponding real matrix
 factor of SpinRepresentations L7's Cliff(p,q) algebra table.
-Verify every Peirce product and faithfulness. Prove the full E_0
-stabilizer preserves R9 and intertwines its Clifford action on S9. The
-pinned volume forces its R9 action to have determinant+1; lift it
-through native Spin9→SO9, and use the real Clifford commutant/scalar
-isometry calculation to identify the remaining S9 action as±1, absorbed
-by the Spin centre. Thus its image is exactly the stabilizer. Supply
-inverse continuous/smooth comparisons on these actual group maps.
-Construct the quotient homeomorphism and diffeomorphism
-compactF4/Spin9≃octonionicProjectivePlane from the actual orbit map and
-SmoothBundlesConnections B1.4's free proper principal quotient, not an abstract existence equivalence; this compares S1.5's homogeneous smooth structure with item6's chart atlas. Give
-smooth local sections, the tangent isotropy comparison, connectedness and
-simple connectivity, and all chart/homogeneous-carrier compatibility laws.
+Verify every Peirce product and faithfulness, so that the native Spin
+group acts on J by automorphisms fixing E_0: this is a continuous
+injective homomorphism from `spinGroup (TauCeti.realCliffordForm 9 0)`
+into S1.5's isotropy group at E_0. Identify its image with that group
+from S1.5's theorem, without a second stabilizer computation: an
+injective Lie-group homomorphism has injective differential, so the image
+is a subgroup of dimension 36 in S1.5's isotropy group, which is
+isomorphic to Spin(9) and so compact, connected and of dimension 36; the
+image is open, hence all of it. This identifies S1.5's Spin(9) with the
+native group, and its action on the Peirce complement with the Clifford
+module above, volume sign included. Supply inverse continuous/smooth
+comparisons on these actual group maps.
+Construct the quotient homeomorphism and diffeomorphism F₄/Spin(9)≃OP²
+onto B3.6's chart structure from the orbit map at E_0 and
+SmoothBundlesConnections B1.4's free proper principal quotient, not an
+abstract existence equivalence: the orbit map is smooth into the
+27-dimensional carrier, hence into the embedded submanifold of B3.6, and
+the tangent witness makes it a submersion at E_0, hence everywhere by
+equivariance. Thus the identity of OP² is a diffeomorphism from S1.5's
+homogeneous smooth structure to B3.6's chart structure. Give smooth local
+sections in the charts, the tangent isotropy comparison and all
+chart/homogeneous-carrier compatibility laws.
 
 Its API includes:
 
-- The action preserves the literal idempotent carrier, and its orbit map induces the quotient diffeomorphism.
-- The Peirce Clifford representation identifies the full stabilizer and the actual tangent representation.
+- The orbit map at diag(1,0,0) induces a diffeomorphism from S1.5's F₄/Spin(9) onto OP² with B3.6's chart structure, so the two smooth structures on OP² agree.
+- The Peirce Clifford module carries the native Spin group of the positive-definite nine-dimensional real Clifford form isomorphically onto S1.5's isotropy group at diag(1,0,0), and that group acts on the Peirce complement by this module, the ordered volume acting as −1.
 
 **Checks.**
 
@@ -2644,12 +2724,14 @@ StringOrientation S1.5 owns w₂(OP²)=0 and the unique Spin structure,
 p₁=p₃=0, p₂=6u, p₄=39u², the Euler class 3u², χ=3, signature 1 and the
 orientation ⟨u²,[OP²]⟩=1, and the unique String lift class obtained from
 S1.3 with H⁴(OP²;ℤ)=0 for existence and H³(OP²;ℤ)=0 for uniqueness;
-consume them on item6's carrier. Own here the sign witness that pins
+consume them in item6's chart coordinates, which item7 identifies with
+S1.5's smooth structure. Own here the sign witness that pins
 S1.5's generator u in the chart coordinates of item6, independently of
 the homogeneous computation S1.5 cites. The tangent isotropy bundle
 restricted to OP1=S8 is TS8 plus its normal real8-dimensional
 half-spin/Hopf bundle. Construct this normal bundle comparison from the
-Peirce charts and item7's Spin9/Spin8 isotropy; compare its actual
+Peirce charts and S1.5's Spin9 isotropy with its Spin8 subgroup, in
+item7's Clifford identification; compare its actual
 clutching with TopK T7's Cl(0,8) real Bott unit. Use the complexification
 `c(b)=u_KU^4` and CC's top Chern/Newton formula to obtain p2=±6 times
 the degree8 generator and e_normal=±1, computing the signs through that
@@ -2660,7 +2742,7 @@ with IndexTheory I7.2's L-genus theorem, whose geometric proof uses no
 bordism coefficient, this recovers p4=39u² from
 `(381p4−19p2²)/14175=signature` on the torsion-free carrier, a
 consistency witness for S1.5's value, not a second owner of it. Consumers
-of the Spin and String data of OP² use S1.5's statements on this fixed
+of the Spin and String data of OP² use S1.5's statements on S1.5's
 carrier; no second OP2 is defined here.
 
 For the homogeneous characteristic calculation compare Borel–Hirzebruch, §19, Theorem 19.4; the specified Bott clutching and sign comparison are proof obligations here.
@@ -3114,11 +3196,12 @@ nothing from it. PositiveScalarCurvature consumes the associated-family transfer
 point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
 metric and surgery results. CalibratedGeometry 2.4 consumes B1.5's relative
 triangulations. AlgebraicTopology consumes nothing from B1.6: its 8.13
-owns the boundaryless-source smoothing and transversality that its
-classifying maps into Circle, RP^N and CP^N use, and B1.6 consumes 8.13
-for that case. These consumers provide no prerequisite of the targets
-above, except that AlgebraicTopology supplies B1.6's boundaryless case
-and B2–B6, and that BordismFormalGroups, whose F2 and F6 consume
+owns the boundaryless-source smoothing and transversality into compact
+targets that its classifying maps into Circle, RP^N and CP^N use, and
+B1.6 consumes 8.13 for those special cases of its statements. These
+consumers provide no prerequisite of the targets above, except that
+AlgebraicTopology supplies those special cases of B1.6 and inputs of
+B2–B6, and that BordismFormalGroups, whose F2 and F6 consume
 B4.1–B4.2, B4.4–B4.8 and B5.4 and whose F3–F5 build on F2, supplies
 inputs of StringOrientation S2.3's stem (through EllipticCohomology E4.S
 and E5) and S5.3's Hovey splitting. The
