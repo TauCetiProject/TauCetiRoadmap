@@ -7,6 +7,7 @@ import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
+import TauCeti.AlgebraicGeometry.VectorBundle.FixedRank
 
 /-!
 # Scheme, stack, cohomology and intersection foundations: target signatures
@@ -687,20 +688,12 @@ theorem genus_baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))]
       (baseChange k X K).genus K = X.genus k := by
   sorry
 
-/-- Locally free of constant rank `r`: every point has an open neighbourhood `U` on which `E`
-restricts to the free module `O_U^r`. -/
-def isFiniteLocallyFreeOfRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
-  ∀ x : X, ∃ U : X.Opens, x ∈ U ∧
-    Nonempty ((Scheme.Modules.restrictFunctor U.ι).obj E ≅ SheafOfModules.free (ULift.{u} (Fin r)))
-
-/-- `deg E = χ(E) − r·χ(O_X)` for `E` locally free of rank `r`. Stacks, Definition 0AYR. -/
-def vectorBundleDegree (X : Scheme.{u}) [X.Over (Spec (.of k))] (E : X.Modules) (r : ℕ) : ℤ :=
-  Scheme.Modules.eulerCharBelow k X E 2 -
-    r * Scheme.Modules.eulerCharBelow k X (structureModule X) 2
-
 /-- Pullback multiplies degree by the function-field degree for nonconstant maps of
-proper integral curves; `K(Y) → K(X)` is the algebra map compatible with `f` at the generic
-points. Stacks, Lemma 33.44.11 (0AYZ). -/
+proper integral curves: for `E` finite locally free of rank `r` at every point of `Y` (Tau Ceti's
+`FiniteLocallyFreeSheaf.FixedRank`), `deg f^*E = [K(X) : K(Y)] · deg E`, where
+`deg E = χ(E) − r·χ(O_Y)` (Stacks, Definition 0AYR) with `χ = dim H⁰ − dim H¹`;
+`K(Y) → K(X)` is the algebra map compatible with `f` at the generic points.
+Stacks, Lemma 33.44.11 (0AYZ). -/
 theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
     [IsProper (X ↘ Spec (.of k))] [IsProper (Y ↘ Spec (.of k))]
@@ -709,9 +702,13 @@ theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     [Algebra Y.functionField X.functionField]
     (hφ : Spec.map (CommRingCat.ofHom (algebraMap Y.functionField X.functionField)) ≫
       Y.fromSpecStalk (genericPoint Y) = X.fromSpecStalk (genericPoint X) ≫ f)
-    (E : Y.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
-    vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) r =
-      Module.finrank Y.functionField X.functionField * vectorBundleDegree k Y E r := by sorry
+    {r : ℕ} (E : FiniteLocallyFreeSheaf.FixedRank Y r) :
+    Scheme.Modules.eulerCharBelow k X
+        ((FiniteLocallyFreeSheaf.FixedRank.pullback f).obj E).obj.obj 2 -
+        r * Scheme.Modules.eulerCharBelow k X (InvertibleSheaf.trivial X).obj 2 =
+      Module.finrank Y.functionField X.functionField *
+        (Scheme.Modules.eulerCharBelow k Y E.obj.obj 2 -
+          r * Scheme.Modules.eulerCharBelow k Y (InvertibleSheaf.trivial Y).obj 2) := by sorry
 
 /-- Riemann–Hurwitz for finite étale maps of smooth proper curves: `g_X − 1 = n (g_Y − 1)`.
 Stacks, Lemmas 0C1C, 0C1D and 0C1F. -/

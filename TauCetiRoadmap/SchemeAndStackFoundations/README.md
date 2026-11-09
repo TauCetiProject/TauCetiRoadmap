@@ -87,9 +87,10 @@ comparisons to them and never a second carrier.
   [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) Layers L0A–L2B. A finite locally
   free sheaf of rank `r` is Mathlib's `SheafOfModules.IsLocallyFree` together with
   AlgebraicVectorBundles L0B's rank predicate; the degree theory of Layer 3 and the Chern classes
-  of Layer 5 are stated on that predicate. `Suggested.lean` uses its local form
-  `Curve.isFiniteLocallyFreeOfRank` (every point has an open neighbourhood `U` with
-  `E|_U ≅ O_U^r`), which agrees with it. AlgebraicVectorBundles
+  of Layer 5 are stated on that predicate. That predicate is Tau Ceti's
+  `FiniteLocallyFreeSheaf.isConstantRank X r` (`TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean:52`),
+  and `Suggested.lean` takes bundles of rank `r` as objects of its full subcategory
+  `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank X r` (`:71`). AlgebraicVectorBundles
   leaves projective bundles and Chern classes to successors; they are Layer 5 here.
 - *Relative Proj of a finitely generated graded quasi-coherent algebra, projective morphisms,
   relative ampleness, the relative dualising sheaf of a proper flat finitely presented Gorenstein
@@ -419,7 +420,7 @@ complete rings, including the rings of §4.2's category `Ĉ_Λ` and `AdicRing`.
 Recovering actual global sections of `Spf` additionally requires the formal-scheme
 comparison of §4.7.
 
-**From Mathlib** (`1b1ccf4b`, the pin in `lake-manifest.json`). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
+**From Mathlib** (`1b1ccf4b`). `AlgebraicGeometry.Scheme`, `Spec`, `Scheme.Opens`, `affineOpens`,
 `AffineZariskiSite`, gluing, `Limits.pullback` of schemes; the morphism classes `Flat`, `Smooth`,
 `SmoothOfRelativeDimension`, `Etale`, `IsProper`, `IsSeparated`, `IsFinite`, `IsDominant`,
 `IsClosedImmersion`, `IsOpenImmersion`, `IsAffineHom`, `LocallyOfFiniteType`,
@@ -460,7 +461,7 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 `CategoryTheory.Abelian.Ext` from
 `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`.
 
-**From Tau Ceti** (`2fd255d9`, the pin in `lake-manifest.json`). `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`
+**From Tau Ceti** (`2fd255d9`). `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`
 (`TauCeti/AlgebraicGeometry/Modules/Tilde/Basic.lean`: `M ↦ M~` is left exact, so with Mathlib's
 right exactness it is exact and has `Functor.mapDerivedCategory`);
 `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
@@ -470,7 +471,8 @@ right exactness it is exact and has `Functor.mapDerivedCategory`);
 (`TauCeti/AlgebraicGeometry/Cohomology/Genus.lean`, guarded by finite-dimensionality of
 `H¹(X, (InvertibleSheaf.trivial X).obj)`), `finrank_cohomology_zero_sub_one_eq_add`;
 `TauCeti.AlgebraicGeometry.InvertibleSheaf`,
-`LineBundleClass` (with its `CommGroup` instance), `SchemeWeilDivisor`, `CartierDivisor`,
+`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank` with `isConstantRank` and `pullback`
+(`TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean`), `LineBundleClass` (with its `CommGroup` instance), `SchemeWeilDivisor`, `CartierDivisor`,
 `CodimensionOnePoint`, `SchemeWeilDivisor.toInvertibleSheaf`, `classGroupToLineBundleClass`;
 `TauCeti.Model`, `genericFiber`, `specialFiberι`, `FiniteDVRExtension`;
 `TauCeti.CommHopfAlgCat.fppfQuotientSheaf`, `isPullback_fppfQuotientTorsor`,
@@ -510,8 +512,8 @@ stalk maximal ideal; and Chow groups are graded by `Order.height`.
 `relativeSpecEquiv`, `relativeSpecBaseChangeIso`), L2A (`GradedQuasicoherentAlgebra`,
 `gradedSymmetricAlgebra`), L2B (`totalSpaceScheme`, `totalSpace`,
 `totalSpaceHomEquiv`, `totalSpaceForgetIso`, `totalSpaceBaseChangeIso`). `Suggested.lean` imports no roadmap
-module: its rank predicate `Curve.isFiniteLocallyFreeOfRank` is the local form of the owner's
-predicate on Mathlib's `SheafOfModules.free`; the total space and projection of §5.4 are the owner's, used
+module: its bundles of rank `r` are objects of Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank X r`,
+whose defining predicate `isConstantRank X r` is the owner's rank predicate; the total space and projection of §5.4 are the owner's, used
 definitionally, and the finite-presentation condition is exactly the owner’s. **From StableReduction**: Layer 0 (`FamilyOfCurves`, relative dimension,
 models), Layer 1 (nodal families and the local normal form over a DVR, normalization, dual graphs),
 Layer 2 (coherent curve theory, the Gorenstein `ω_{X/S}`, projective morphisms and relative Proj of
@@ -3486,8 +3488,9 @@ all quasi-coherent `F` by a bound depending only on the qcqs map `f`, and for qu
 proper over a Noetherian ring and `L` ample, every coherent `F` has `H^q(X, F ⊗ L^n) = 0` for `q > 0`
 and `n ≫ 0` (Stacks, Lemma 30.17.1 (0B5U), in Section 30.17 (01XO)).
 For the same proper Noetherian-base hypotheses, `H^q(X, F)` is a finite module over the base ring
-for every `q`, supplied by JacobianChallenge `Cohomology/Proper.lean`, with coherent higher direct
-images supplied by `Cohomology/Pushforward.lean`, as in §4.9's supplier contract.
+for every `q`, supplied by JacobianChallenge Layer C (Stacks, Lemma 30.19.2 (02O6)), with the
+coherence of higher direct images under proper morphisms from the same layer (Proposition 30.19.1
+(02O5)), as in §4.9's supplier contract.
 Prove
 `proper_fibreDimension_vanishing`: for `f : X → Y` proper with `Y` locally Noetherian and fibres of
 dimension `≤ d`, `R^q f_* F = 0` for `q > d` and `F` quasi-coherent: for coherent `F` stalkwise by
@@ -4674,8 +4677,8 @@ gives for `X` proper; `χ(X, F) = dim H⁰ − dim H¹` is Tau Ceti's
 `Scheme.Modules.eulerCharBelow k X F 2`; and `Curve.cohomologyDim k X F i` abbreviates
 `Module.finrank k` of Tau Ceti's `Scheme.Modules.Cohomology F i`. Finite locally
 free sheaves of rank `r` are
-AlgebraicVectorBundles L0B's rank predicate, in its local form `Curve.isFiniteLocallyFreeOfRank`
-(locally isomorphic to `O^r`). Abel–Jacobi with a base point is
+AlgebraicVectorBundles L0B's rank predicate, the objects of Tau Ceti's
+`FiniteLocallyFreeSheaf.FixedRank X r` (rank `r` at every point). Abel–Jacobi with a base point is
 JacobianChallenge Layer F; the Abel maps here need no base point. Néron–Severi groups and Picard
 numbers are AbelianSchemesAndArithmeticModuli; coherent duality beyond curves is Layer 2; positivity
 beyond degree bounds is Layer 5; Picard schemes over general bases are
@@ -4746,8 +4749,14 @@ generation `InvertibleSheaf.isGloballyGenerated_of_smooth_of_two_mul_genus_le_eu
 (`TauCeti/AlgebraicGeometry/Curves/GlobalGeneration.lean:48`) assumes `k` algebraically closed; the
 target differs from it by allowing every field. *Needs:* §3.1, §3.3; Tau Ceti
 `InvertibleSheaf.eulerDegree` and `Curves/HighDegree.lean` `:73`, `:88` (for the degree bounds, applied
-to `I_Z ⊗ L` with `I_Z` the invertible ideal of a `0`-dimensional `Z ⊂ X`); StableReduction
-Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
+to `I_Z ⊗ L` with `I_Z` the invertible ideal of a `0`-dimensional `Z ⊂ X`); for the very-ample clause,
+which is proved after base change to `k̄`, Tau Ceti's flat base change of `H⁰(X, L)`
+(`TauCeti.AlgebraicGeometry.bijective_cohomologyBaseChange_zero`,
+`TauCeti/AlgebraicGeometry/Cohomology/FlatBaseChange.lean:173`) and the descent of closed immersions
+along `Spec k̄ → Spec k` (Tau Ceti
+`AlgebraicGeometry.IsClosedImmersion.descendsAlong_surjective_inf_flat_inf_quasiCompact`,
+`TauCeti/AlgebraicGeometry/Descent/MorphismProperty.lean:165`; Stacks, Lemma 35.23.21 (02L6));
+StableReduction Layer 1 (`Ω_{X/Y}`), Layer 2 (ampleness); JacobianChallenge Layers B, D.
 
 **Checks.**
 - `z ↦ z²` on `ℙ¹_k`, `char k ≠ 2`: `−2 = 2(−2) + 2`.
@@ -4780,10 +4789,15 @@ Tau Ceti's `SchemeWeilDivisor.exists_linearlyEquivalent_ofPoint_of_genus_eq_one`
 
 ### 3.3 Degrees of vector bundles, Riemann–Roch and Serre duality on curves
 
-Define `vectorBundleDegree E r := χ(X, E) − r · χ(X, O_X)` for `X` proper over `k` of dimension
+The degree `vectorBundleDegree E := χ(X, E) − r · χ(X, O_X)` for `X` proper over `k` of dimension
 `≤ 1` and `E` finite locally free of rank `r` (AlgebraicVectorBundles L0B's predicate; Stacks,
-Definition 0AYR). API: *vectorBundleDegree_rankOne* (for `r = 1` it is Tau Ceti's
-`InvertibleSheaf.eulerDegree`), `_of_iso`, `_add_of_shortExact` (additive in short exact sequences
+Definition 0AYR) is Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
+(`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:82`). Tau Ceti also proves its invariance
+under isomorphism (`vectorBundleDegree_congr`, `:102`), that in rank one it is
+`InvertibleSheaf.eulerDegree` (`vectorBundleDegree_eq_eulerDegree_toInvertible`, `:116`), and the
+divisor formula `deg O(D) = Σ n_x [κ(x) : k]` on a proper integral curve whose codimension-one local
+rings are discrete valuation rings (`vectorBundleDegree_eq_relativeDegree`, `:132`; Lemma 0AYY).
+API stated here: `_add_of_shortExact` (additive in short exact sequences
 of locally free sheaves on every proper `X` of dimension `≤ 1`, reducible and nonreduced included;
 Lemma 0AYS; Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact`
 (`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:150`) proves it given finite-dimensional
@@ -4799,8 +4813,7 @@ cited there gives the finite-dimensionality),
 `_elementaryModification`, `_baseChange` (invariant under field extension; Lemma 0B59),
 `vectorBundleDegree_pullback` (for a nonconstant `f : X → Y` of proper integral curves over `k`
 and `E` finite locally free of constant rank, `deg f^* E = [K(X):K(Y)] deg E`;
-Stacks, Lemma 33.44.11 (0AYZ)), `_divisor` (for `E = O(D)` on a regular curve,
-`deg = Σ n_x [κ(x) : k]`; Lemma 0AYY). In `vectorBundleDegree_pullback` the field extension
+Stacks, Lemma 33.44.11 (0AYZ)). In `vectorBundleDegree_pullback` the field extension
 `K(X)/K(Y)` is the one given by `f` at the generic points: the algebra map `K(Y) → K(X)` is the
 one for which `Spec K(X) → Spec K(Y) → Y` equals `Spec K(X) → X → Y`, and `E` keeps constant
 rank `r`.
@@ -4822,6 +4835,7 @@ Ceti's `nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual`, and this tar
 allowing coherent sheaves, the `Ext` form and Cohen–Macaulay singular curves. *Needs:* §2.6, §2.20;
 AlgebraicVectorBundles L0B–L0C; Tau Ceti `eulerCharBelow`,
 `finrank_cohomology_zero_sub_one_eq_add`, `InvertibleSheaf.eulerDegree`,
+`FiniteLocallyFreeSheaf.FixedRank` with its `pullback` and `vectorBundleDegree`,
 `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree_add_of_shortExact`; JacobianChallenge Layers
 A–B; StableReduction Layer 2.
 
@@ -4852,15 +4866,19 @@ A–B; StableReduction Layer 2.
   `Ext¹_R(K,R) ≅ k` and `Hom_R(K,R) = 0`; this uses the general dualizing-module
   formula and does not assert that `K` is locally free.
 
-*Lean:* `Curve.isFiniteLocallyFreeOfRank` (locally isomorphic to `O^r`),
-`Curve.vectorBundleDegree`, `Curve.vectorBundleDegree_pullback` (dominance expresses nonconstancy
-between integral curves). Citations of *Curve.vectorBundleDegree_add_of_shortExact* to §3.3 resolve
-to the target `_add_of_shortExact` above.
-`vectorBundle_riemann_roch` is otherwise the definition of the degree and is specified in this README
-only. Tau Ceti's `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
-(`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:82`) is the same degree `χ(E) − r·χ(O_X)` on
-bundles of constant rank, with additivity under the finiteness and `H²` vanishing hypotheses of
-`:150`; `Curve.vectorBundleDegree` is its value on the underlying module. Citations of
+*Lean:* `Curve.vectorBundleDegree_pullback`, for `E` an object of Tau Ceti's
+`FiniteLocallyFreeSheaf.FixedRank Y r` pulled back by `FiniteLocallyFreeSheaf.FixedRank.pullback`
+(`TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean:106`), with both degrees written out as
+`χ(E) − r·χ(O)` in `Scheme.Modules.eulerCharBelow` (dominance expresses nonconstancy between
+integral curves). The degree is Tau Ceti's
+`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`
+(`TauCeti/AlgebraicGeometry/VectorBundle/Degree.lean:82`), the same `χ(E) − r·χ(O_X)` on bundles of
+constant rank, with additivity under the finiteness and `H²` vanishing hypotheses of `:150`.
+Citations of *Curve.isFiniteLocallyFreeOfRank* and *Curve.vectorBundleDegree* to §3.3 resolve to
+Tau Ceti's `FiniteLocallyFreeSheaf.FixedRank` and `FiniteLocallyFreeSheaf.FixedRank.vectorBundleDegree`,
+and citations of *Curve.vectorBundleDegree_add_of_shortExact* to the target `_add_of_shortExact`
+above. `vectorBundle_riemann_roch` is otherwise the definition of the degree and is specified in this
+README only. Citations of
 *Curve.cohomologyDim_zero_structureModule* to §3.3 resolve to
 `baseRingToGlobalSections_bijective_of_geometricallyIntegral`.
 
@@ -5590,10 +5608,9 @@ isomorphism, `formalFunctions_mittagLeffler` for its inverse system, and
 formal-functions targets of this subsection, on the existing
 `Scheme.Modules.Cohomology` and §4.8 completion carriers.
 
-The theorem-level supplier direction is: JacobianChallenge's
-`Cohomology/Proper.lean` supplies finiteness of coherent cohomology over a
-Noetherian affine base; its `Cohomology/Pushforward.lean` supplies coherence of
-higher direct images. Together with §4.8's module completion and Artin–Rees,
+The theorem-level supplier direction is: JacobianChallenge Layer C supplies
+finiteness of coherent cohomology over a Noetherian affine base (02O6) and
+coherence of higher direct images under proper morphisms (02O5). Together with §4.8's module completion and Artin–Rees,
 these feed `formalFunctionsIso` here. JacobianChallenge Layer C's subsequent
 Grothendieck Picard construction consumes this specific API. StableReduction's
 J-C contract consumes the same earlier pushforward, base-change, semicontinuity,
