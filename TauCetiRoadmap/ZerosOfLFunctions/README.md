@@ -76,8 +76,8 @@ not the roadmap.
 - the ray-class Artin map and its splitting law, from the
   [Class Field Theory roadmap](../ClassFieldTheory/README.md), Layer 12, as Tau Ceti realizes it,
   which discharges the reciprocity hypothesis of 8.8;
-- the offset logarithmic integral `TauCeti.Real.logIntegral` and its one-term asymptotic:
-  Arithmetic Dirichlet Series §6.2.
+- the offset logarithmic integral `TauCeti.Real.logIntegral`, its first integration by parts and
+  its one-term asymptotic: Arithmetic Dirichlet Series §6.2.
 
 ### Not owned here
 
@@ -124,8 +124,9 @@ not the roadmap.
 - **The two counts.** *divisorCount* `f U R : ℤ` is `∑ᶠ ρ ∈ R, MeromorphicOn.divisor f U ρ`, in
   which poles count negatively, and is what a contour integral computes. `zeroCount f U R : ℕ`
   sums the positive part, `(MeromorphicOn.divisor f U ρ).toNat`, and is what `N(T)`, the
-  Riemann–von Mangoldt formula and every certificate use. They agree exactly when `R` contains no
-  pole, which is a hypothesis.
+  Riemann–von Mangoldt formula and every certificate use. They agree when `R` contains no pole,
+  which is a hypothesis; the converse needs the divisor to have finite support in `R`, since over
+  the infinitely many poles of `Γ` in `R = ℂ` both finite sums take the junk value `0`.
 - **Infinite sums.** `∑ᶠ` is `0` on an infinite support, so it appears only over bounded regions
   where finiteness is proved. A sum over all zeros of an L-function — the zero side of the Weil
   formula, a Hadamard-type sum — is `∑'` together with a `Summable` statement, since `∑'` is `0` on
@@ -177,8 +178,10 @@ not the roadmap.
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
 - `PhragmenLindelof.vertical_strip` (convexity on a strip);
-- `Complex.exists_continuousOn_eqOn_exp_comp` (a continuous logarithm on a simply connected open
-  set);
+- `Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible`,
+  `Topology.IsEmbedding.isSimplyConnected_image` (simple connectivity of `Set.univ` and of the
+  sector of 1.1, for Tau Ceti's holomorphic logarithm), `Complex.exp_eq_exp_iff_exists_int` and
+  `is_const_of_deriv_eq_zero` (uniqueness of a logarithm modulo `2πi ℤ`, for 1.1 and 5.4);
 - `Complex.differentiableOn_update_limUnder_of_bddAbove` (removable singularities);
 - `Summable.multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
   `logDeriv_tprod_eq_tsum` (infinite products), with `multipliable_sineTerm` and
@@ -210,6 +213,10 @@ not the roadmap.
 
 Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
 
+- holomorphic logarithms (`Analysis/Complex/BranchLogRoot.lean`):
+  `TauCeti.exists_differentiableOn_eqOn_exp_comp`, a holomorphic `f` on a simply connected open
+  `U` with `exp ∘ f = g` on `U` for `g` holomorphic on `U` with `0 ∉ g '' U` (Mathlib's continuous
+  branch with its holomorphy added), for 1.1 at the sector `S_δ` and 5.4 at `Set.univ`;
 - piecewise-`C¹` curves (`Analysis/Calculus/ContDiff/PiecewiseC1On.lean`): `TauCeti.IsPiecewiseC1On`,
   the hypothesis on the curve in `TauCeti.Contour.argumentPrinciple_nullHomologous`;
 - contour integration (`Analysis/Contour/`): `TauCeti.Contour.windingNumber`,
@@ -220,9 +227,15 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   null-homologous curve in `U` avoiding `S`, evaluates `∫ γ' · (f'/f)(γ)` as
   `2πi ∑_{z ∈ S} windingNumber γ z · ord z`; `TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`;
   `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` (`LogDerivFTC.lean`), the winding
-  number of the image curve `f ∘ γ` about `0`; and
+  number of the image curve `f ∘ γ` about `0`, with
+  `TauCeti.Contour.intervalIntegrable_deriv_smul_logDeriv`;
   `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition` (`Argument/Lift.lean`), the
-  continuous argument lift of a curve avoiding a point;
+  continuous argument lift of a curve avoiding a point, with its partition into slit-plane
+  segments; `TauCeti.Contour.windingNumber_eq_integral_of_avoidance` (`Winding/Number/Basic.lean`),
+  the winding number about a point off the curve as `(2πi)⁻¹` times the index integral; and
+  `TauCeti.Contour.integral_inv_sub_mul_deriv_eq_log_norm_add_I_mul_sum_log_im`
+  (`Winding/SegmentSum.lean`), the index integral over such a partition as the log-norm difference
+  of the endpoints plus `i` times the sum of `Im log` of the segment ratios, for 7.3;
 - newform invariants (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`):
   `HeckeRing.GL2.Newform.analyticConductorAt` for `f : HeckeRing.GL2.Newform N k`, in the
   arithmetic coordinate, with `HeckeRing.GL2.Newform.analyticConductorAt_eq`
@@ -310,8 +323,11 @@ cited below, which Tau Ceti realizes in `NumberTheory/ArithmeticDirichletSeries/
   is supported on prime powers with value `log (Ideal.absNorm P)` at `P^k`, `k ≥ 1`;
 - Layers 3 and 5: `EulerProductData`, `abscissaOfAbsConv_normCoeff_one` and the ideal-count bounds;
 - §6.1: `idealSummatory_mul_eq_sub_integral_mul`, with inclusive norm cutoffs;
-- §6.2: `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹` and
-  `logIntegral_isEquivalent_div_log`;
+- §6.2: `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹`,
+  `logIntegral_isEquivalent_div_log`, the first integration by parts
+  `logIntegral_eq_div_log_sub_add` (for `2 ≤ x`,
+  `logIntegral x = x / log x − 2 / log 2 + ∫ t in 2..x, (log t ^ 2)⁻¹`) and
+  `isLittleO_integral_inv_log_sq`, all in the namespace `TauCeti.Real`;
 - §§6.3–6.4: `truncatedPerronKernel_one`, `truncatedPerron_LSeries`,
   `norm_truncatedPerron_LSeries_sub_sum_le` and `perronFormula`; absolute convergence on the
   integration line is required, and the finite-height endpoint is `π⁻¹ arctan(T/c)`, not `1/2`;
@@ -524,11 +540,15 @@ Mathlib: real powers, asymptotic bounds, removable singularities and `completedR
 
 Fix `δ` with `0 < δ < π` and the sector `S_δ = {s : |arg s| < π − δ ∧ 1 < ‖s‖}`. For that range
 `S_δ` is open, simply connected (its image under `log` is a convex set), free of poles of `Γ`, and
-contains `2`. Define *logGamma* `δ` by `Complex.exists_continuousOn_eqOn_exp_comp` applied to `Γ`
-on `S_δ`, normalized by *logGamma* `δ 2 = 0`.
+contains `2`. `Γ` is holomorphic on `S_δ` (`Complex.differentiableAt_Gamma`, since `S_δ` contains
+no nonpositive integer) and has no zero there (`Complex.Gamma_ne_zero`). Define *logGamma* `δ` as
+the branch that `TauCeti.exists_differentiableOn_eqOn_exp_comp` supplies for `Γ` on `S_δ`, minus its
+value at `2`, so that *logGamma* `δ 2 = 0`; that value lies in `2πi ℤ` because `Γ 2 = 1`, so the
+shift keeps `exp ∘ logGamma δ = Γ`.
 
 - `exp (logGamma δ s) = Γ(s)` for `s ∈ S_δ`.
-- *logGamma* `δ` is holomorphic on `S_δ`, since `exp` is a local biholomorphism.
+- *logGamma* `δ` is holomorphic on `S_δ`: the cited branch is holomorphic, and so is its shift by a
+  constant.
 - `2 ∈ S_δ` for `0 < δ < π`, and `Γ 2 = 1`, so the normalization is consistent.
 - Two values `δ ≤ δ'` give branches agreeing on `S_{δ'}`.
 
@@ -537,7 +557,11 @@ the set `S_0` is `{‖s‖ > 1}` minus the negative real axis, which is still si
 poles of `Γ` at the negative integers lie on its boundary and the error term in 1.2 is not uniform
 there. At `δ ≥ π` the set is empty.
 
-*Needs:* Mathlib `Complex.exists_continuousOn_eqOn_exp_comp`, `Complex.Gamma_ne_zero`.
+*Needs:* Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp`; Mathlib
+`Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`, `Complex.exp_eq_exp_iff_exists_int`,
+`Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible` and
+`Topology.IsEmbedding.isSimplyConnected_image` (simple connectivity: `S_δ` is the image of the
+convex set `{w : 0 < Re w ∧ |Im w| < π − δ}` under `exp`, an embedding on the strip `|Im w| < π`).
 
 **Checks.**
 
@@ -758,9 +782,9 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
 
 ### Dependencies
 
-Mathlib: `Complex.exists_continuousOn_eqOn_exp_comp`, the Gamma and digamma API, the entire
-reciprocal gamma functions, `riemannZeta`. L-functions Layers 0, 3, 5. Layer 0 for the record's
-predicates.
+Mathlib: the Gamma and digamma API, the entire reciprocal gamma functions, `riemannZeta`. Tau Ceti
+`TauCeti.exists_differentiableOn_eqOn_exp_comp` (1.1). L-functions Layers 0, 3, 5. Layer 0 for the
+record's predicates.
 
 ## Layer 2: the analytic conductor
 
@@ -1050,8 +1074,9 @@ Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conven
   closure, by `LocallyFiniteSupport.finite_inter_support_of_isCompact`.
 - *divisorCount* `= zeroCount` when `∀ z ∈ R, 0 ≤ divisor f U z`.
 - Both are `0` when `R` is empty.
-- `zeroCount f U R` is monotone in `R` where the divisor is nonnegative, and unchanged under
-  enlargement exactly when the divisor vanishes on the difference.
+- For `R ⊆ R'` with `R'` bounded and `f` meromorphic on an open set containing the closure of `R'`,
+  `zeroCount f U R ≤ zeroCount f U R'`, with equality exactly when `divisor f U` takes no positive
+  value on `R' \ R`. Poles in the difference leave the count unchanged.
 - **Exact additivity in height**: for `t₁ ≤ t₂ ≤ t₃`, the counts over `Icc σ₁ σ₂ ×ℂ Ioc t₁ t₃` are
   the sums of those over the two half-open pieces, under meromorphy on an open set containing the
   closed rectangle.
@@ -1066,6 +1091,11 @@ Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conven
 - For `f = 0` every order is `⊤` and the divisor is `0`, so both counts are `0` on every region.
 - Two closed rectangles sharing an edge carrying a simple zero both count it, so closed additivity
   would give `2` for a total of `1`; the half-open split counts it once.
+- `f z = 1/z`, `U = ℂ`, `R = ∅ ⊆ R' = {0}`: both zero counts are `0`, since `(−1).toNat = 0`, while
+  the divisor on `R' \ R` is `−1`; a criterion "the divisor vanishes on the difference" would
+  predict a change. For `f z = z` the same sets give `0` and `1`.
+- `f z = sin (π z)`, `R = {0}` and `R'` the real axis: the counts are `1` and the finite-sum junk
+  value `0`, so monotonicity needs `R'` bounded.
 
 ### 4.2 The zero divisor of a record
 
@@ -1156,7 +1186,8 @@ For `f` meromorphic on `ℂ`: `zeroCount f univ (closedBall 0 r)` is the uninteg
 `n(r)`; its log-weighted integral is `ValueDistribution.logCounting f 0 r`, the log-counting
 function of the positive part of the divisor, and not the signed
 `Function.locallyFinsuppWithin.logCounting (divisor f univ) r`; and
-`n(r) log (R/r) ≤ N(R) − N(r)` for `0 < r < R`.
+`n(r) log (R/r) ≤ ValueDistribution.logCounting f 0 R − ValueDistribution.logCounting f 0 r` for
+`0 < r < R`. The letter `N` denotes only the critical-strip count of 4.5.
 
 *Needs:* Mathlib `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`.
 
@@ -1166,6 +1197,9 @@ function of the positive part of the divisor, and not the signed
 - `f z = 1/z`: the zero count is `0`, while the signed log-counting function is `−log r`, so the
   inequality on the signed carrier would read `0 ≤ −log (R/r)`.
 - `f z = z²`: `n(r) = 2` and the log-counting function is `2 log r`.
+- `f z = z² (z − 3)`, `r = 2`, `R = 4`: `n(2) = 2`, the left side is `2 log 2 ≈ 1.386` and the
+  right side `2 log 2 + log (4/3) ≈ 1.674`; at `r = 3`, `R = 5` both sides are `3 log (5/3)`, since
+  no zero has `3 < ‖z‖ ≤ 5`.
 
 ### Examples
 
@@ -1233,13 +1267,27 @@ its exact multiplicity.
 
 ### 5.4 The entire logarithm
 
-A nonvanishing entire `g` is `exp ∘ h` for an entire `h`, unique up to `2πi ℤ`: consume
-`Complex.exists_continuousOn_eqOn_exp_comp` on `Set.univ` and upgrade continuity to holomorphy
-using local inverse branches of `exp`. This is an adapter: the cited theorem supplies a continuous
-lift, not an entire one; the identity `exp h = g`, local injectivity of `exp`, and connectedness
-also give uniqueness modulo `2πi ℤ`.
+A nonvanishing entire `g` is `exp ∘ h` for an entire `h`: this is
+`TauCeti.exists_differentiableOn_eqOn_exp_comp` at `U = Set.univ`, whose simple connectivity
+comes from `Convex.contractibleSpace convex_univ` and `SimplyConnectedSpace.ofContractible`, so
+existence is consumed. The target here is uniqueness: two entire `h₁`, `h₂` with
+`exp ∘ h₁ = exp ∘ h₂` differ by a constant in `2πi ℤ`. Route: differentiating gives
+`h₁' exp h₁ = h₂' exp h₂`, so `h₁' = h₂'` since `exp` never vanishes, `h₁ − h₂` is constant by
+`is_const_of_deriv_eq_zero`, and the constant lies in `2πi ℤ` by
+`Complex.exp_eq_exp_iff_exists_int`.
 
-*Needs:* Mathlib `Complex.exists_continuousOn_eqOn_exp_comp`.
+*Needs:* Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp`; Mathlib
+`Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible`, `is_const_of_deriv_eq_zero`,
+`Complex.exp_eq_exp_iff_exists_int`.
+
+**Checks.**
+
+- `g = exp`: `h z = z` and `h z = z + 2πi` are both entire logarithms, so uniqueness holds only
+  modulo `2πi ℤ`; `h z = z + πi` fails, since `exp (z + πi) = −exp z`.
+- `g z = z` vanishes at `0` and has no entire logarithm: `exp ∘ h` never vanishes, so the
+  nonvanishing hypothesis is needed.
+- `g z = exp (z²)`: `h z = z²` is entire although `Complex.log ∘ g` jumps by `2πi` wherever
+  `Im (z²)` crosses an odd multiple of `π`, so the principal logarithm is not the branch.
 
 ### 5.5 Hadamard's theorem at order at most one
 
@@ -1349,7 +1397,8 @@ Euler products).
 
 ### Dependencies
 
-Mathlib infinite products, `Complex.borelCaratheodory`, `Complex.exists_continuousOn_eqOn_exp_comp`.
+Mathlib infinite products, `Complex.borelCaratheodory`, `is_const_of_deriv_eq_zero`,
+`Complex.exp_eq_exp_iff_exists_int`. Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp` (5.4).
 Layer 0 `OrderLE`, Layer 4.3; 5.6 additionally Layers 1.5, 3.1, 4.4 and 5.6a, Layer 0
 *entireCompletion* and L-functions Layers 0, 3, 5 and 7;
 5.6a additionally Layers 1.5 and 4.2, Layer 0 *entireCompletion* and L-functions Layer 0.
@@ -1635,17 +1684,30 @@ hypotheses are local: apply the first form on a connected relatively compact ope
 
 ### 7.3 The argument variation and S(T)
 
-For `f` analytic and nonvanishing at every point of `∂R`, the image curve misses `0`, and
-`TauCeti.Contour.exists_continuousOn_arg_lift_with_partition` gives a continuous `θ` with
-`f(rectBoundary R t) = ‖f(rectBoundary R t)‖ exp(i θ t)`;
-`TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` identifies
-`(θ 4 − θ 0)/(2π)` with *divisorCount* `f U R` through 7.2. Only differences `θ b − θ a` are used.
+For `f` analytic and nonvanishing at every point of `∂R`, the image curve
+`γ = f ∘ rectBoundary R` misses `0`, and `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition`
+gives a partition `0 = s 0 ≤ ⋯ ≤ s N = 4`, on each segment of which `γ t / γ (s j)` lies in the slit
+plane, and a continuous `θ` with `γ t = ‖γ t‖ exp(i θ t)`: `θ t` is `arg γ 0` plus the sum over the
+segments of `Im log` of the segment ratios, so `θ 0 = arg γ 0` and `θ 4 − θ 0` is the sum over `j`
+of `Im log (γ (s (j + 1)) / γ (s j))`. The identification `(θ 4 − θ 0)/(2π) =` *divisorCount*
+`f U R` (under the hypotheses of 7.2) has three steps.
+`TauCeti.Contour.windingNumber_eq_integral_of_avoidance` writes `windingNumber γ 0 4 0` as `(2πi)⁻¹`
+times the index integral `∫_0^4 γ' / γ`.
+`TauCeti.Contour.integral_inv_sub_mul_deriv_eq_log_norm_add_I_mul_sum_log_im`, on the partition of
+the lift, writes that integral as `log ‖γ 4‖ − log ‖γ 0‖` plus `i` times the same segment sum; the
+curve is closed, so the log-norm term vanishes and the integral is `i (θ 4 − θ 0)`. Finally
+`TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` identifies the same winding number with
+`(2πi)⁻¹ ∫_0^4 (rectBoundary R)' · logDeriv f (rectBoundary R)`, which 7.2 evaluates as
+*divisorCount* `f U R`. Only differences `θ b − θ a` are used.
 Define *S* `(T)` as `π⁻¹` times the variation of a continuous argument of `riemannZeta` along the
 path `2 → 2 + iT → 1/2 + iT`, starting from the argument `0` of the positive real `ζ(2)`, for `T`
 not an ordinate.
 
 *Needs:* 7.2; Tau Ceti `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition`,
-`TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv`.
+`TauCeti.Contour.windingNumber_eq_integral_of_avoidance`,
+`TauCeti.Contour.integral_inv_sub_mul_deriv_eq_log_norm_add_I_mul_sum_log_im`,
+`TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` and
+`TauCeti.Contour.intervalIntegrable_deriv_smul_logDeriv` (integrability of the index integrand).
 
 **Checks.**
 
@@ -1658,6 +1720,11 @@ not an ordinate.
   remains `(b + 2π) − (a + 2π) = b − a`, and *S* is unchanged. The normalized endpoint value
   equals the variation only when the initial argument is `0`; on a constant positive path
   both lifts have variation `0`.
+- `f z = z`, `R = Icc (−1) 1 ×ℂ Icc (−1) 1`: the image curve starts at `rectBoundary R 0 = −1 − i`,
+  so `θ 0 = −3π/4` and `θ 4 = 5π/4`; the variation `2π` gives `1`, which is *divisorCount* and the
+  winding number about `0`, while the endpoint value `θ 4/(2π) = 5/8` is not even an integer. For
+  `f z = z − 2` the image curve winds around `−2`, not `0`, and the variation is `0`, as is the
+  count.
 
 ### 7.4 Riemann–von Mangoldt for ζ, and boundary heights
 
@@ -2030,20 +2097,29 @@ of fields in `Type`; Mathlib `IsAbelianGalois` for the statement.
 
 ### 8.9 The logarithmic integral
 
-For `Li = TauCeti.Real.logIntegral` of Arithmetic Dirichlet Series §6.2 and `x ≥ 2`, prove
-`Li x = x/log x − 2/log 2 + ∫_2^x (log t)^(−2) dt` by integration by parts.
-The denominator never vanishes on `[2,x]`. A second integration by parts gives
-`Li x − x/log x = x/log² x + O(x/log³ x)`, hence `Li x − x/log x ∼ x/log² x`.
-These are calculus adapters of the supplied integral definition, not extra library assumptions.
+For `Li = TauCeti.Real.logIntegral` of Arithmetic Dirichlet Series §6.2 and `x ≥ 2`, the first
+integration by parts `Li x = x/log x − 2/log 2 + ∫_2^x (log t)^(−2) dt` is
+`TauCeti.Real.logIntegral_eq_div_log_sub_add` at the pin, and the remainder integral is
+`o(x/log x)` by `TauCeti.Real.isLittleO_integral_inv_log_sq`. The target here is the second-order
+term: `Li x − x/log x = x/log² x + O(x/log³ x)`, hence `Li x − x/log x ∼ x/log² x`. Route: a second
+integration by parts, the derivative of `t ↦ t/log² t` being `1/log² t − 2/log³ t`, gives
+`∫_2^x (log t)^(−2) dt = x/log² x − 2/log² 2 + 2 ∫_2^x (log t)^(−3) dt`; splitting the last integral
+at `√x` bounds it by `√x/log³ 2 + 8x/log³ x`, which is `O(x/log³ x)`.
 
-*Needs:* Arithmetic Dirichlet Series §6.2 `TauCeti.Real.logIntegral`; Mathlib
-`intervalIntegral.integral_mul_deriv_eq_deriv_mul`, elementary logarithm derivatives and
-asymptotic bounds for the remainder integral.
+*Needs:* Tau Ceti `TauCeti.Real.logIntegral` and `TauCeti.Real.logIntegral_eq_div_log_sub_add`
+(Arithmetic Dirichlet Series §6.2), `TauCeti.Real.integral_inv_log_pow_le` and
+`TauCeti.Real.intervalIntegrable_inv_log_pow`; Mathlib
+`intervalIntegral.integral_eq_sub_of_hasDerivAt` and the derivative of `Real.log`.
 
 **Checks.**
 
 - `TauCeti.Real.logIntegral 2 = 0`, the offset normalization; the unshifted `li` has `li 2 ≈ 1.045`.
-- `Li x − x/log x − x/log² x = O(x/log³ x)`.
+- At `x = 10`: `Li x ≈ 5.1204`, `x/log x ≈ 4.3429`, `2/log 2 ≈ 2.8854` and
+  `∫_2^10 (log t)^(−2) dt ≈ 3.6629`, consistent with the pinned identity; the second integration by
+  parts gives the same `3.6629` as `10/log² 10 − 2/log² 2 + 2 ∫_2^10 (log t)^(−3) dt`.
+- `Li x − x/log x` is `0.7775` against `x/log² x = 1.8861` at `x = 10` and `159.36` against `117.88`
+  at `x = 10⁴`, so the ratio tends to `1` only slowly, as the `O(x/log³ x)` term predicts; the
+  one-term statement `Li x ∼ x/log x` does not see this term.
 - `x/log x − Li x` is negative for large `x`, so a main term `x/log x` undercounts.
 
 ### Examples
@@ -2058,8 +2134,9 @@ Arithmetic Dirichlet Series §§2.3, 6.1–6.4; Global Number Fields Layers 2, 3
 Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform and
 `IsAbelianGalois`. Layers 1.4,
 1.4a, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3, 5. Tau Ceti
-`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4) and ray-class reciprocity
-`TauCeti.ClassFieldTheory.rayClassArtinMap` (Class Field Theory Layer 12; 8.8).
+`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4), ray-class reciprocity
+`TauCeti.ClassFieldTheory.rayClassArtinMap` (Class Field Theory Layer 12; 8.8) and
+`TauCeti.Real.logIntegral_eq_div_log_sub_add` (Arithmetic Dirichlet Series §6.2; 8.9).
 
 ## Layer 9: certified zeros
 
