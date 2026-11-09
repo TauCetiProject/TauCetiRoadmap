@@ -147,7 +147,12 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `Mathlib/AlgebraicGeometry/Geometrically/{Connected,Integral}.lean`, with
   `GeometricallyIntegral.isIntegral_of_subsingleton`: a scheme geometrically integral over a
   field is integral, and `GeometricallyConnected.connectedSpace_of_subsingleton`: a scheme
-  geometrically connected over a field is connected. `SmoothOfRelativeDimension.smooth`
+  geometrically connected over a field is connected. A scheme with a quasi-compact morphism to a
+  quasi-compact scheme is quasi-compact, `QuasiCompact.compactSpace_of_compactSpace`
+  (`Mathlib/AlgebraicGeometry/Morphisms/QuasiCompact.lean`); a universally closed, in particular a
+  proper, morphism is quasi-compact by instance (`Morphisms/UniversallyClosed.lean`), so a scheme
+  proper over `k` meets the `CompactSpace` hypothesis of Tau Ceti's base-field invariance of
+  degree below. `SmoothOfRelativeDimension.smooth`
   (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`), a lemma rather than an instance, turns the
   standing curve's `SmoothOfRelativeDimension 1` into the `Smooth` hypothesis of the Tau Ceti
   results below.
@@ -435,17 +440,20 @@ coheight at most one (`Scheme.IsCurveOver.of_smooth`, with `IsCurveOver.isNoethe
 `IsCurveOver.coheight_le_one`). Its local rings at codimension-one points, which are its closed
 points, are discrete valuation rings (`isDiscreteValuationRing_stalk_of_smooth`), and
 `H¹(X, 𝒪_X)` is finite-dimensional (`finiteDimensional_cohomology_one_trivial_of_smooth`). It is
-quasi-compact, being proper over `k`, and separated (`Scheme.IsSeparated.of_isSeparated`), so its
-diagonal is a closed immersion, hence affine, as base-field invariance requires. *Needs:* Tau Ceti
+quasi-compact, its structure morphism being proper, hence quasi-compact, over the quasi-compact
+`Spec k` (Mathlib's `QuasiCompact.compactSpace_of_compactSpace` applied to the structure
+morphism), and separated (`Scheme.IsSeparated.of_isSeparated`), so its diagonal is a closed
+immersion, hence affine, as base-field invariance requires. *Needs:* Tau Ceti
 `SchemeWeilDivisor.relativeDegree`, `InvertibleSheaf.eulerDegree`,
 `SchemeWeilDivisor.relativeDegree_principalDivisor`, `InvertibleSheaf.eulerDegree_eq_relativeDegree`,
 `LineBundleClass.eulerDegree_mul`, `LineBundleClass.picZero`,
-`LineBundleClass.eulerDegree_mul_of_smooth`, `LineBundleClass.eulerDegree_pullback`,
-`Smooth.geometricallyIntegral`, `isDiscreteValuationRing_stalk_of_smooth`,
-`Scheme.IsCurveOver.of_smooth`, `finiteDimensional_cohomology_one_trivial_of_smooth`,
-`Scheme.IsSeparated.of_isSeparated`; Mathlib `SmoothOfRelativeDimension.smooth`,
-`GeometricallyIntegral.isIntegral_of_subsingleton`,
-`GeometricallyConnected.connectedSpace_of_subsingleton`.
+`LineBundleClass.eulerDegree_mul_of_smooth`, `InvertibleSheaf.eulerDegree_pullback`,
+`LineBundleClass.eulerDegree_pullback`, `Smooth.geometricallyIntegral`,
+`isDiscreteValuationRing_stalk_of_smooth`, `Scheme.IsCurveOver.of_smooth`,
+`finiteDimensional_cohomology_one_trivial_of_smooth`, `Scheme.IsSeparated.of_isSeparated`;
+Mathlib `SmoothOfRelativeDimension.smooth`, `GeometricallyIntegral.isIntegral_of_subsingleton`,
+`GeometricallyConnected.connectedSpace_of_subsingleton`,
+`QuasiCompact.compactSpace_of_compactSpace`.
 
 **Checks.**
 - Geometric connectedness is used for geometric integrality: for a separable quadratic
@@ -473,7 +481,8 @@ group (A.2–A.3); the pointless real conic, whose line bundles all have even de
 
 ### Dependencies
 
-Mathlib schemes and invertible sheaves, with `GeometricallyConnected.connectedSpace_of_subsingleton`;
+Mathlib schemes and invertible sheaves, with `GeometricallyConnected.connectedSpace_of_subsingleton`
+and `QuasiCompact.compactSpace_of_compactSpace`;
 Tau Ceti `LineBundleClass` with `LineBundleClass.pullbackHom`, `Scheme.CartierDivisor`,
 `SchemeWeilDivisor` with `SchemeWeilDivisor.equivCartierDivisor`, `InvertibleSheaf.eulerDegree`
 with `LineBundleClass.eulerDegree_mul_of_smooth` and `LineBundleClass.eulerDegree_pullback`, and
@@ -870,7 +879,11 @@ proves `HasPicardScheme` and transports along that isomorphism instead of defini
 Picard scheme; base change (for `b : S' ⟶ S` with base change `f'`, `HasPicardScheme f` implies
 `HasPicardScheme f'` and `picardScheme f' ≅ (Over.pullback b).obj (picardScheme f)` compatibly
 with `picardSchemeIso`, from Tau Ceti's presheaf comparison `relativePicardPresheafBaseChangeIso`
-after sheafification and the adjunction `Over.map b ⊣ Over.pullback b`); and that
+after sheafification and the adjunction `Over.map b ⊣ Over.pullback b`; Kleiman, Exercise 4.4,
+p. 27, with Answer 4.4, pp. 65–66, for each of the relative Picard functors, the fppf one
+included; Kleiman works with a separated morphism of finite type of locally Noetherian schemes,
+p. 15, but the answer compares functors of points on `S'`-schemes and needs neither hypothesis);
+and that
 `picardSchemeIso` sends the unit section to the trivial class and the group law to tensor
 product. *Needs:* D.1; Tau Ceti `relativePicardFppfSheaf`,
 `relativePicardPresheafBaseChangeIso`; Mathlib `Functor.IsRepresentable`, `Functor.reprX`,
@@ -1065,8 +1078,12 @@ point and no extension of `k`.
 
 **Field base change.** For every field extension `K/k`, prove that the base change
 `(jacobianScheme X)_K` represents the degree-zero Picard fppf sheaf of the curve `X_K`, with no
-rational point. D.2's base change gives `picardScheme (X_K).hom ≅ (picardScheme X.hom)_K`
-compatibly with `picardSchemeIso`, and it carries the degree-zero piece onto the degree-zero
+rational point (Kleiman, Exercise 4.4, p. 27, for the Picard scheme, and Exercise 6.21, p. 60,
+with Answer 6.21, p. 72, for its degree pieces: for a projective flat morphism whose geometric
+fibres are integral curves, as the standing curve's is by D.4, the locus of degree `m` is open and
+closed and its formation commutes with changing the base; Milne, *Abelian Varieties*, III
+Remark 1.4(b), p. 86). D.2's base change gives
+`picardScheme (X_K).hom ≅ (picardScheme X.hom)_K` compatibly with `picardSchemeIso`, and it carries the degree-zero piece onto the degree-zero
 piece: Tau Ceti's `relativePicardDegreeZeroFunctorBaseChangeIso` is the restriction of
 `relativePicardPresheafBaseChangeIso` to the classes of fibre degree zero, because the fibre of
 `X_K ×_K T` over a point of a `K`-scheme `T` is the fibre of `X ×_k T` over the same point.
@@ -1486,8 +1503,9 @@ comparisons.
   0BS2), *Descent* (tag 02L6), the theorem of the cube in *More on morphisms* (tag 0BF4),
   *Abelian varieties* (tags 03RP, 0BFE, 0BFG, 0BFH).
 - S. L. Kleiman, [*The Picard scheme*](https://arxiv.org/abs/math/0504020): Theorem 2.5,
-  Remark 2.11 with sequence (2.11.4), Theorem 4.8, Lemma 4.9, Theorem 5.11, Proposition 5.19 and
-  Remark 5.24; locators above use the preprint numbering and pages.
+  Remark 2.11 with sequence (2.11.4), Exercise 4.4, Theorem 4.8, Lemma 4.9, Theorem 5.11,
+  Proposition 5.19, Remark 5.24 and Exercise 6.21, the exercises with their answers in
+  Appendix A; locators above use the preprint numbering and pages.
 
 ## Acknowledgements
 
