@@ -75,10 +75,13 @@ from open subgroups, induction in stages and the Mackey filtration. From
 [Modular forms](../ModularForms/README.md#layer-2-hecke-operators-and-the-hecke-algebra) layer 2
 it takes the double-coset Hecke ring with Shimura's product and the GL_2 polynomial presentation,
 and adds convolution and permutation-module Hecke algebras with their comparison with the
-double-coset ring, and the all-rank Satake isomorphism. From
-CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4 it takes unitary and firm modules over a
-nonunital ring and the abelian category of firm modules over a left xst ring, and adds
-idempotented algebras, their principal projective generators and the Hecke-module equivalence. From
+double-coset ring, and the all-rank Satake isomorphism. Idempotented algebras, their
+nondegenerate modules with the principal projective generators He, and the Hecke-module
+equivalence are stated and proved here (SR.1.3, *locally-unital-algebra*, *hecke-module-equivalence*);
+unitary and firm modules over an arbitrary nonunital ring, left xst rings and the abelian category
+of their firm modules belong to the later roadmap CyclicHomologyLieHomologyAndQuasiFreeAlgebras
+§5.4, which records the nondegenerate modules of an idempotented algebra as its instance, and this
+roadmap cites no section of it. From
 [Reductive groups](../ReductiveGroups/README.md#layer-3-subgroups-quotients-components) layer 3,
 [layer 7](../ReductiveGroups/README.md#layer-7-structure-theory) and
 [layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
@@ -132,10 +135,7 @@ adjointness that these projectives give (*integral-second-adjointness*).
 The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
 [U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
 with Tau Ceti `HeckeCoset.degree_eq_relIndex`. The base-change map B ⊗_A V^K → (B ⊗_A V)^K and its
-isomorphism under an averaging projector: *coefficient-change*. Unitary and firm modules over a
-nonunital ring, left xst rings and the abelian category of their firm modules:
-CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4, of which the nondegenerate modules of an
-idempotented algebra (SR.1.3 *locally-unital-algebra*) are the instance. The normalised Satake data used by geometric Satake are those of
+isomorphism under an averaging projector: *coefficient-change*. The normalised Satake data used by geometric Satake are those of
 *satake-isomorphism*; integral essential vectors for GL_n are outside this roadmap. The following
 library and roadmap declarations are the algebraic or compact-group halves of targets that remain
 here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti `DiscreteRep`,
@@ -524,14 +524,6 @@ Layer 3: the Mackey decomposition formula, the finite case of the Mackey filtrat
 Layer 2: the double-coset Hecke ring with Shimura's product, the GL_2 polynomial presentation and
 the central-coset localisation, which SR.1.2 compares with and SR.4.3 reuses rather than defining
 another multiplication.
-
-### From TauCetiRoadmap.CyclicHomologyLieHomologyAndQuasiFreeAlgebras
-
-§5.4: unitary (RM = M) and firm (R ⊗_R M → M bijective) left modules over a nonunital ring R,
-taken as modules over its unitisation over ℤ; the full subcategories they form; firm modules are
-unitary; a ring is left xst exactly when every unitary module is firm, and then its firm modules
-form an abelian category. SR.1.3 *locally-unital-algebra* applies these to the underlying
-nonunital ring of an idempotented algebra.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -1310,17 +1302,19 @@ fourth test), so through V^U = Hom_G(A[G/U], V) it acts as ρ(1)⁻¹: the right
 commutative and H an idempotented A-algebra. Define idempotented algebras: an A-algebra H (not
 necessarily unital) is idempotented (locally unital) if every finite subset {x_i} admits an
 idempotent e with e x_i = x_i = x_i e; then H = ⋃_e eHe. Define NondegMod H, the full subcategory
-of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. These are the
-unitary modules of CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4 for the underlying nonunital
-ring of H; on them the A-module structure is recovered as a·m = (ae)m for a local unit e of m. Prove
-that H is left xst in the sense of §5.4 (a submodule of a nondegenerate module is nondegenerate),
-so that §5.4 identifies NondegMod H with the firm H-modules and makes it abelian. Prove
-further that NondegMod H is a full abelian subcategory of H-modules with exact
+of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. Prove that the
+A-module structure of a nondegenerate module is determined by its H-module structure, a·m = (ae)m
+for every local unit e of m, so that NondegMod H is the same category whether its objects are taken
+as A-modules or as modules over the underlying ring of H; that a submodule of a nondegenerate
+module is nondegenerate; and that for nondegenerate M the multiplication map H ⊗_H M → M, from the
+quotient of H ⊗_A M by the elements hh′ ⊗ m − h ⊗ h′m, is bijective, with inverse m ↦ e ⊗ m for
+any local unit e of m. Prove
+that NondegMod H is a full abelian subcategory of H-modules with exact
 filtered colimits, closed under subquotients, direct sums and filtered colimits, with products
 given by nondegenerate parts of products and a centre identified with the bimodule endomorphisms
 of H. Prove Hom_H(He, M) ≃ eM, so that the He are finitely generated
 projective generators ([Ber87] §1.1–1.2 and §1.8, pp. 3–4 and 8). *Needs:* the library
-vocabulary of this layer; CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4.
+vocabulary of this layer.
 
 Separate statements give projectivity, finite generation and generation by the principal objects
 He, and the Grothendieck property of NondegMod H. The evaluation convention of Hom_H(He, M) ≃ eM is
@@ -1341,6 +1335,12 @@ Checks:
   nondegenerate module: the all-one tuple has no finite local unit. For A = 0 both modules
   are zero and nondegenerate.
 - A with the zero multiplication is not idempotented, for A ≠ 0.
+- For `H = ⊕_{n ∈ ℕ} A` with componentwise product, local units `u_N = Σ_{k ≤ N} ε_k` and M = H, the
+  inverse of multiplication sends ε_n to ε_n ⊗ ε_n, and u_N ⊗ ε_n = ε_n ⊗ ε_n in H ⊗_H H for
+  every N ≥ n; in H ⊗_A H these two tensors differ for N > n, so a definition of H ⊗_H M without
+  the relations hh′ ⊗ m − h ⊗ h′m makes the inverse ill-defined.
+- The submodule statement uses the idempotents: the non-idempotented ring 2ℤ acts on ℤ[1/2] with
+  2ℤ·ℤ[1/2] = ℤ[1/2], while its submodule ℤ has 2ℤ·ℤ = 2ℤ ≠ ℤ.
 
 **Smooth representations as nondegenerate Hecke modules** (*hecke-module-equivalence*). Let G be
 locally profinite and A a commutative ring such that G has a cofinal family of compact open
@@ -1660,8 +1660,7 @@ and no unit in H(ℚ_p, ℚ).
 ### Dependencies
 
 SR.0; Mathlib's `LocallyConstant`, `CompactlySupportedContinuousMap` and `haarMeasure`; the
-double-coset Hecke ring of Mathlib and Tau Ceti; ModularForms layer 2;
-CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4; ReductiveGroups layer 7;
+double-coset Hecke ring of Mathlib and Tau Ceti; ModularForms layer 2; ReductiveGroups layer 7;
 ReductiveGroupsPartII RG2.3 and RG2.4.
 
 ## Layer SR.0d: the derived smooth category
@@ -2289,8 +2288,9 @@ and c-Ind_U^G ψ); the genericity condition is a definition and the description 
 *frobenius-reciprocity*). *Needs:* *smooth-induction*, *compact-induction*,
 *frobenius-reciprocity*, *jacquet-module*; ReductiveGroups layer 7.
 
-*Lean:* `whittakerCoinvariants_one_dimensional` (the complex GL₂ multiplicity-one theorem for
-every irreducible infinite-dimensional smooth representation and every nontrivial smooth ψ).
+*Lean:* `whittakerCoinvariants_one_dimensional` (the complex GL₂ multiplicity-one theorem, stated
+as `V_{U,ψ}` having ℂ-dimension one, for every irreducible infinite-dimensional smooth
+representation and every nontrivial smooth ψ).
 
 The genericity predicate takes the simple-root subgroups inside the radical as explicit data and requires a smooth character nontrivial on each. The algebraic root subgroups are supplied by ReductiveGroupsPartII.
 

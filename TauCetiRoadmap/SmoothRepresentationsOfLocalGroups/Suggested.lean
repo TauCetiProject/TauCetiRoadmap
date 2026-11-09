@@ -92,7 +92,7 @@ ring ([Ber87], §§1.1–1.2, pp. 3–4). -/
 theorem SmoothRep.grothendieck (A G : Type u) [CommRing A] [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
     [TotallyDisconnectedSpace G] [T2Space G] :
-    ∃ h : Abelian (SmoothRep A G), letI := h; IsGrothendieckAbelian.{u} (SmoothRep A G) := sorry
+    ∃ h : Abelian (SmoothRep A G), @IsGrothendieckAbelian.{u} (SmoothRep A G) _ h := sorry
 
 /-! ## Layer SR.2: induction, Jacquet modules and Whittaker functionals -/
 
@@ -112,8 +112,8 @@ theorem whittakerCoinvariants_one_dimensional
     (ρ : _root_.Representation ℂ (GL (Fin 2) F) V)
     (hs : Representation.IsSmooth ρ) (hi : ρ.IsIrreducible)
     (hinf : ¬ Module.Finite ℂ V) :
-    Nonempty (WhittakerCoinvariants
-      (ρ.comp (TauCeti.upperUnitriangularGroup (Fin 2) F).subtype) ψ ≃ₗ[ℂ] ℂ) := sorry
+    Module.finrank ℂ (WhittakerCoinvariants
+      (ρ.comp (TauCeti.upperUnitriangularGroup (Fin 2) F).subtype) ψ) = 1 := sorry
 
 /-! ## Layer SR.3a: admissibility and uniform admissibility -/
 
