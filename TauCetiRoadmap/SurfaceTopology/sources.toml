@@ -34,6 +34,21 @@ year = 2001
 url = "https://doi.org/10.56021/9780801866890"
 locators = ["§§2.1–2.2, pp. 18–29: planar separation", "§2.3, pp. 30–32: Kuratowski", "§2.4, pp. 33–38: planarity characterizations", "§2.5, pp. 39–42: 3-connected embeddings", "§2.6, pp. 42–49: duality", "§§3.2–3.3, pp. 87–93: rotations and embedding schemes", "p. 92: switching local orientations"]
 
+[sources.whitney1933]
+title = "2-Isomorphic Graphs"
+authors = ["Hassler Whitney"]
+year = 1933
+url = "https://doi.org/10.2307/2371127"
+locators = ["American Journal of Mathematics 55, pp. 245–254: classical finite graph 2-isomorphism theorem"]
+
+[sources.moffatt_oh]
+title = "A 2-isomorphism theorem for delta-matroids"
+authors = ["Iain Moffatt", "Jaeseong Oh"]
+year = 2020
+edition = "Author manuscript dated November 9, 2020"
+url = "https://pure.royalholloway.ac.uk/ws/portalfiles/portal/39545390/Whitney_PUBLISHED.pdf"
+locators = ["Introduction, pp. 1–2, Figure 1: classical graph 2-isomorphism statement and moves"]
+
 [sources.thomassen1981]
 title = "Kuratowski's theorem"
 authors = ["Carsten Thomassen"]

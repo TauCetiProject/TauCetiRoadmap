@@ -1648,6 +1648,40 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 
 **Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, and contraction are targets here, shaped after the linked Mathlib design for `SimpleGraph` ([Mathlib graph contractions and minors](https://github.com/leanprover-community/mathlib4/pull/36210)). Connectivity is not: 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3`, in the shape of [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355), which asks for at least four vertices and that every pair stay reachable after deleting any two other vertices, and the component count in `PlaneMap` is that roadmap's. The wheel theorem and contractible edges, which it leaves out of its scope, are targets here. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
 
+**Whitney moves and the cycle matroid.** The finite cycle matroid
+`Γ.cycleMatroid` is a Mathlib `Matroid` on the actual edge identities `E(Γ)`,
+with ground set `univ` and independent sets exactly the edge subsets whose
+spanning subgraphs are forests. Prove finite forest exchange and construct it
+with Mathlib's independence-axiom API. Its circuits are precisely the edge sets of graph cycles, including a
+singleton loop and a pair of parallel edges. These identifications, and
+transport under graph isomorphisms, are part of its API.
+
+Define `TwoIsomorphic Γ Δ` by finite sequences of the following graph moves,
+including graph isomorphisms as steps as in layer 0. Edges retain their
+identities; an isomorphism supplies its edge bijection.
+
+- **Vertex identification:** identify two nonisolated vertices in different
+  connected components, retaining every edge and its endpoints under the
+  quotient map. The rest of the graph is unchanged.
+- **Vertex cleaving:** the inverse operation. Write the affected component as
+  the union of two edge-disjoint subgraphs meeting at just one vertex, each
+  with an edge incident to that vertex, and replace it by their disjoint
+  copies. An edge, including a loop, stays wholly in its chosen part.
+- **Whitney twisting:** write the affected component as two edge-disjoint parts
+  meeting at exactly two distinct vertices. Each part contains both attachment
+  vertices and has no isolated vertices. In disjoint copies mark the terminals
+  `u₁,v₁` and `u₂,v₂`. Replace the identifications `u₁~u₂, v₁~v₂` by
+  `u₁~v₂, v₁~u₂`, preserving all edges. Only other connected components lie
+  outside these parts, and they remain unchanged.
+
+These moves preserve isolated vertices; the headline theorem restricts its
+inputs to graphs without them. Prove reflexivity, symmetry and transitivity of
+`TwoIsomorphic`, compatibility with graph isomorphisms, and that every sequence
+carries an edge bijection preserving cycle edge sets in both directions. The
+converse is Whitney's classical finite graph theorem: a cycle-preserving edge
+bijection between graphs without isolated vertices can be realized by such a
+sequence. The cycle-matroid formulation follows from the circuit comparison.
+
 **Representative formal statements.**
 
 ```lean
@@ -1717,6 +1751,12 @@ theorem isPeripheral_iff_isFacial (h : G.IsVertexConnected 3) (P : PlaneMap (Gra
 theorem planeMap_unique_up_to_equivalence (h : G.IsVertexConnected 3) (h' : G.IsPlanar) :
     Subsingleton (PlaneMap (Graph.ofSimpleGraph G) ⧸ equivalence up to isomorphism and reflection)
 
+/-- Finite forest matroid on edge identities; loops and parallel edges are retained. -/
+def Graph.cycleMatroid (Γ : Graph α β) [Finite V(Γ)] [Finite E(Γ)] : Matroid (E(Γ))
+/-- Finite sequences of isomorphisms, vertex identifications/cleavings and Whitney twists. -/
+def TwoIsomorphic (Γ : Graph α β) (Δ : Graph α' β')
+    [Finite V(Γ)] [Finite E(Γ)] [Finite V(Δ)] [Finite E(Δ)] : Prop
+
 /-- Whitney's 2-Isomorphism Theorem, for graphs without isolated vertices. -/
 theorem cycleMatroid_iso_iff_twoIsomorphic {Δ : Graph α' β'} [Finite V(Δ)] [Finite E(Δ)]
     (h : ∀ v ∈ V(Γ), 0 < Γ.degree v) (h' : ∀ v ∈ V(Δ), 0 < Δ.degree v) :
@@ -1777,12 +1817,29 @@ theorem colorable_five_of_noncrossing_drawing (G : SimpleGraph V)
 - The dual of a simple plane graph need not be simple, which is why duality lives on multigraphs and why layer 1 didn't build on `SimpleGraph` as the foundation.
 - Tutte's spring embedding is a linear-algebra argument and is unusually formalization-friendly for its strength. Its precise form fixes a facial cycle as a convex outer polygon and produces a straight-line embedding with convex faces. It is the natural bridge toward Steinitz.
 - Prove Fáry via Tutte. Given simple planar Γ on at least 4 vertices, add edges within a fixed embedding until it is maximal planar. Maximal planar graphs on at least 4 vertices are 3-connected. Apply Tutte, then delete the added edges. The remaining segments are still non-crossing.
+- For Whitney 2-isomorphism, work with finite graph cycles and the three moves
+  above. Prove cycle preservation directly for each move, then prove the classical
+  converse by Whitney's finite graph argument. Package the result using Mathlib's
+  matroid and circuit vocabulary; no general matroid decomposition theorem is an
+  input. The original reference is Whitney (1933), pp. 245–254; Moffatt–Oh's
+  introduction, pp. 1–2, records the move formulation and its diagram.
 - Whitney's unique-embedding theorem and Whitney's 2-isomorphism theorem are different results. Target both, and do not cite the 2-isomorphism paper for the unique-embedding statement. The unique-embedding theorem is uniqueness up to a homeomorphism of the sphere, allowing orientation reversal; with orientation-preserving equivalence, the two mirror-image embeddings remain distinct.
 
 **Examples and mathematical checks.** Explicit finite models verify that `K₅` and `K₃,₃`
 are non-planar and that `K₄` is planar, by `decide` on rotation systems. `edge_bound_of_isPlanar` is checked to **fail** for a multigraph with parallel edges, exhibiting the necessity of simplicity. `planeMap_unique_up_to_equivalence` is checked to **fail** for a planar graph that is `IsVertexConnected 2` but not `IsVertexConnected 3`, with two inequivalent embeddings exhibited. `isPlanar_iff_hasTwoBasis` is checked against `K₅`, whose cycle space has no sparse basis. Five-colouring is computed on a concrete triangulation with a degree-5 vertex requiring a Kempe chain interchange.
 
-**Natural intermediate results.** (i) plane maps, planarity, and the drawing characterization; (ii) the edge bound and the degree-5 lemma; (iii) minors, topological minors, and minor-closure; (iv) the wheel theorem and contractible edges; (v) Kuratowski; (vi) Wagner and the equivalence; (vii) peripheral cycles; (viii) Whitney unique embedding; (ix) Whitney 2-isomorphism; (x) cycle and cut spaces; (xi) planar duality of the two spaces; (xii) Mac Lane; (xiii) Tutte's spring embedding; (xiv) Fáry; (xv) the five-colour theorem.
+For Whitney moves, cleave a three-edge path into three separate edges and
+identify one endpoint of each to obtain the three-edge star. A four-cycle with
+two leaves at one vertex twists to a four-cycle with one leaf at each of two
+opposite vertices: use as its two parts the two length-two paths between those
+opposite vertices, with one pendant edge in each part. The vertex-degree
+multisets change from `{4,2,2,2,1,1}` to `{3,3,2,2,1,1}`, while the unique cycle
+retains the same four edge identities. Two loops at one vertex cleave into two
+separate loop components, preserving their two singleton circuits. Finally,
+the empty graph and `K₁` have isomorphic empty cycle matroids but are not related
+by these moves; `K₁` fails the no-isolated-vertices hypothesis.
+
+**Natural intermediate results.** (i) plane maps, planarity, and the drawing characterization; (ii) the edge bound and the degree-5 lemma; (iii) minors, topological minors, and minor-closure; (iv) the wheel theorem and contractible edges; (v) Kuratowski; (vi) Wagner and the equivalence; (vii) peripheral cycles; (viii) Whitney unique embedding; (ix) the finite cycle matroid, Whitney moves and their cycle-transport API, and Whitney 2-isomorphism; (x) cycle and cut spaces; (xi) planar duality of the two spaces; (xii) Mac Lane; (xiii) Tutte's spring embedding; (xiv) Fáry; (xv) the five-colour theorem.
 
 ---
 
@@ -1819,6 +1876,8 @@ Stable bibliographic keys and printed-page locators are recorded in `sources.tom
 - G. Gonthier, *Formal proof: the four-color theorem*, Notices AMS **55** (2008). The hypermap encoding and the discipline of deriving graphs from maps.
 - S. Lando and A. Zvonkin, *Graphs on Surfaces and Their Applications*, chapter 1. The identification of embedded graphs with combinatorial maps, which is layer 5.
 - B. Mohar and C. Thomassen, *Graphs on Surfaces* (2001). Planar graphs and Jordan separation: §§2.1–2.2, pp. 18–29; Kuratowski: §2.3, pp. 30–32; planarity characterizations: §2.4, pp. 33–38; 3-connected embeddings: §2.5, pp. 39–42; dual graphs: §2.6, pp. 42–49. Rotation systems and embedding schemes are §§3.2–3.3, pp. 87–93; the vertex-orientation switching equivalence is on p. 92.
+- H. Whitney, [*2-Isomorphic Graphs*](https://doi.org/10.2307/2371127), Amer. J. Math. **55** (1933), 245–254. The classical finite graph theorem for layer 10's cycle-preserving edge bijections and Whitney moves.
+- I. Moffatt and J. Oh, [*A 2-isomorphism theorem for delta-matroids*](https://pure.royalholloway.ac.uk/ws/portalfiles/portal/39545390/Whitney_PUBLISHED.pdf), November 9, 2020 author manuscript, introduction pp. 1–2, especially Figure 1. A statement and diagram of the classical graph moves; its delta-matroid extension is outside this roadmap.
 - C. Thomassen, *Kuratowski's theorem*, J. Graph Theory **5** (1981). Kuratowski reference for layer 10.
 - W. B. R. Lickorish, *A representation of orientable combinatorial 3-manifolds*, Ann. of Math. **76** (1962). Every orientation-preserving homeomorphism is a product of twists, and the intersection-reduction lemma; the route of layer 9.
 - W. B. R. Lickorish, *A finite set of generators for the homeotopy group of a 2-manifold*, Proc. Cambridge Philos. Soc. **60** (1964). The generating set of `3g − 1` twists targeted in layer 9.
