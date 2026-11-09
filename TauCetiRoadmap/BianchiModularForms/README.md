@@ -2274,17 +2274,15 @@ and more for `d = 163`; prove the resulting face incidences and fundamental-doma
 
 *Needs:* §0.3 finite domains; KleinianGroups Layer 2 face-pairing criterion.
 
-### 9.5 Covolumes and the two consumed domains
+### 9.5 The two consumed covolumes
 
 Record, as acceptance tests of 9.4 against the Kleinian-groups roadmap, that integrating `volume`
 over the folded region `F_{ℚ(i)}` gives `catalanConstant / 3` and over `F_{ℚ(ω)}` gives `√3 L(2, χ₋₃) / 8`
-(that roadmap's `covolume_bianchiGaussian`, `covolume_bianchiEisenstein`), and that the domains
-of its Layer 2 for `Γ(2 + i)` and `Γ(3 + ω)` are tiled by `60`, respectively `168`, translates of
-`F_K` (its indices). For the other seven fields `covolume (PSL₂(𝓞_K)) = |d_K|^{3/2} ζ_K(2) / (4π²)`
+(that roadmap's `covolume_bianchiGaussian`, `covolume_bianchiEisenstein`). For the other seven fields `covolume (PSL₂(𝓞_K)) = |d_K|^{3/2} ζ_K(2) / (4π²)`
 is Humbert's formula, a roadmap-for-a-roadmap there and not a target here; the finiteness of the
 volume of `F_K` is proved directly in 0.3.
 
-*Needs:* §9.4 domains; KleinianGroups Layers 3–4 indices and covolumes.
+*Needs:* §9.4 domains; KleinianGroups Layer 4 covolumes.
 
 ### Examples
 
