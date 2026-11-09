@@ -19,8 +19,8 @@ and Tau Ceti, the headline theorems of the roadmap that the pins do not already 
 The following headlines of the README are proved at the pinned Tau Ceti and are consumed there
 by name, not restated here: the classification of the finite-dimensional `sl₂`-irreducibles,
 `sl₂` complete reducibility and the Clebsch–Gordan rule (Layer 0); the integral weight lattice
-(Layer 1); the diagonalizability of the Cartan action and the integrality of weights (Layer 2);
-the PBW basis, the finiteness of `U(L)` over central scalars, the PBW Rees algebra and its
+(Layer 1); the diagonalizability of the Cartan action, the integrality of weights and the Weyl
+invariance of weight multiplicities (Layer 2); the PBW basis, the finiteness of `U(L)` over central scalars, the PBW Rees algebra and its
 fibres, Verma modules and the irreducible quotients `L(λ)` (Layer 3); the dominant-integral
 classification (Layer 4); complete reducibility and the Casimir eigenvalue (Layer 5); the Weyl
 character, dimension and Kostant formulas, the orbit-sum expansion, the isotypic toolkit and the
@@ -31,8 +31,13 @@ split `G₂`, the dimension of the Albert derivations and the Albert determinant
 (Layer 8); the reductive structure theory, the `gl_n` classification on the carrier
 `TauCeti.glIrreducible`, the `sl ↔ gl` transfer, the dual-standard Pieri rule, the single-weight
 isotypic criterion, the trace-form Casimir and the differentiation of rational
-`GL_n`-representations (Layer 9); and the surjection from the alcove stabilizer `Ω` onto
-`P∨/Q∨` and its action on the affine walls (Layer 10).
+`GL_n`-representations (Layer 9); and the coweight lattice with its fundamental-coweight basis
+and the index of the coroot lattice, the surjection from the alcove stabilizer `Ω` onto `P∨/Q∨`,
+its kernel `Ω ∩ W_aff`, the free action of the affine Weyl group on alcoves and the action of `Ω` on
+the affine walls (Layer 10). The isomorphism `Ω ≃ P∨/Q∨` combines the surjection, the kernel and
+the free action (`RootPairing.fundamentalAlcoveStabilizerToQuotient_surjective`,
+`RootPairing.ker_fundamentalAlcoveStabilizerToQuotient`,
+`RootPairing.eq_one_of_mem_affineWeylGroup_of_mapsTo`) and is not restated here.
 
 The following headlines are not statable at the pins, and nothing is stated in their place:
 
@@ -41,10 +46,7 @@ The following headlines are not statable at the pins, and nothing is stated in t
   matrices over them;
 * the identification of the Vinberg model `𝔰𝔩₉ ⊕ ⋀³K⁹ ⊕ (⋀³K⁹)*` with `LieAlgebra.e₈` and of
   the Freudenthal models with `LieAlgebra.e₆`, `LieAlgebra.e₇`: Tau Ceti has the
-  `248`-dimensional underlying module but not the graded bracket, and neither Freudenthal model;
-* the first-order Poisson bracket on the zero fibre of the PBW Rees algebra
-  (`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`) and its comparison with symmetrization:
-  the pins have no Poisson-algebra structure on `SymmetricAlgebra`.
+  `248`-dimensional underlying module but not the graded bracket, and neither Freudenthal model.
 
 The symmetrization form of the PBW theorem, `Sym(L) ≃ U(L)` over a commutative `ℚ`-algebra, is
 statable, but ScatteringDiagrams §0.4 owns it (`exists_pbwSymmetrizationEquiv`); it is not
@@ -65,16 +67,16 @@ universe u v w
 /-! ## Layer 7: the Serre presentation -/
 
 open scoped Classical in
-/-- **Serre's theorem, split form.** Let `L` be a finite-dimensional simple Lie algebra with
-non-degenerate Killing form over a field `K` of characteristic zero, `H` a split Cartan
-subalgebra and `base` a base of its root system. For raising and lowering families `e`, `f`
+/-- **Serre's theorem, split form.** Let `L` be a finite-dimensional Lie algebra with
+non-degenerate Killing form over a field `K` of characteristic zero, simple or not, `H` a split
+Cartan subalgebra and `base` a base of its root system. For raising and lowering families `e`, `f`
 which, with the simple coroots, satisfy the Serre relations for the transposed Cartan matrix and
 generate `L`, the induced map from Mathlib's Serre-presented algebra to `L` is injective
-(Etingof, *Lie groups and Lie algebras*, Theorem 24.2, p. 122, over `ℂ`; Humphreys,
-*Introduction to Lie Algebras*, §18.3). -/
+(Etingof, *Lie groups and Lie algebras*, Theorem 24.2, p. 122, over `ℂ`, for every reduced root
+system; Humphreys, *Introduction to Lie Algebras*, §18.3). -/
 theorem serreLift_injective_of_base {K : Type u} [Field K] [CharZero K]
     {L : Type v} [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] [LieAlgebra.IsKilling K L]
-    [LieAlgebra.IsSimple K L] {H : LieSubalgebra K L} [H.IsCartanSubalgebra]
+    {H : LieSubalgebra K L} [H.IsCartanSubalgebra]
     [LieModule.IsTriangularizable K H L]
     (base : (LieAlgebra.IsKilling.rootSystem H).Base) {e f : ↥base.support → L}
     (hS : TauCeti.IsSerreSystem K base.cartanMatrix.transpose
@@ -151,17 +153,6 @@ theorem finrank_lieModuleHom_glIrreducible_tmul_eq_card_lrTableau (K : Type u) [
       Nat.card (TauCeti.LRTableau lam nu mu) := sorry
 
 /-! ## Layer 10: the extended affine Weyl group -/
-
-/-- **`Ω ≃ P∨/Q∨`.** For a finite reduced irreducible crystallographic root pairing over an
-Archimedean ordered field, the map from the stabilizer `Ω` of the fundamental alcove in the
-extended affine Weyl group to the coweight lattice modulo the coroot lattice, taking an element
-to the class of its translation part, is bijective (Garnier, *Fundamental domains for extended
-affine Weyl groups*, §2.2, p. 7, and Prop.-Def. 2.2.1, p. 8). -/
-theorem fundamentalAlcoveStabilizerToQuotient_bijective {ι R M N : Type*} [Field R]
-    [LinearOrder R] [IsStrictOrderedRing R] [Archimedean R] [AddCommGroup M] [Module R M]
-    [AddCommGroup N] [Module R N] (P : RootPairing ι R M N) (b : P.Base) [Finite ι] [Nonempty ι]
-    [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible] :
-    Function.Bijective (P.fundamentalAlcoveStabilizerToQuotient b) := sorry
 
 /-- **`Aut(affine Cartan matrix) = Ω ⋊ Aut(finite Cartan matrix)`.** For a finite reduced
 irreducible crystallographic root pairing over an Archimedean ordered field, every permutation
