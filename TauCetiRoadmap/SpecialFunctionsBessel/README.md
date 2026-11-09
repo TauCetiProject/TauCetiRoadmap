@@ -48,14 +48,13 @@ The general asymptotic and contour tools are consumed from
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) (DLMF Chapter 2): the expansion API,
 reversion, Watson's lemma, Laplace's method on contours and saddle points, the Mellin tools, the
 Volterra equations, the regular and rank-one irregular singularities and the Liouville–Green
-approximation. The Airy functions are consumed from
-[SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md), the parabolic cylinder functions and
-Kummer's equation from
-[SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md), and the
-exponential, sine and cosine integrals, the error functions, the incomplete Gamma functions and
-Pincherle's theorem from
-[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md).
-This roadmap builds the removable singularity in the order behind 10.2.4 and 10.27.5, Neumann's
+approximation. The Airy functions, Kummer's second transformation and the integral of `J₀` are
+consumed from [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md), the parabolic cylinder
+functions from [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md),
+and the exponential, sine and cosine integrals, the error functions, the incomplete Gamma functions
+and Pincherle's theorem from
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md). This
+roadmap builds the removable singularity in the order behind 10.2.4 and 10.27.5, Neumann's
 polynomials, Gegenbauer's polynomials, the Rayleigh functions, the partial-fraction expansion of
 `J′_ν/J_ν` and the Fourier–Bessel expansion theorem.
 
@@ -160,8 +159,10 @@ Tau Ceti nor a consumed roadmap provides:
   Laplace's method and saddle points, the Mellin tools, Volterra equations, regular and rank-one
   irregular singularities, and the Liouville–Green approximation. They are consumed from
   AsymptoticExpansions; see [Exact supplier contracts](#exact-supplier-contracts).
-- `Ai`, `Bi` and the generalized Airy functions, consumed from SpecialFunctionsAiry.
-- The parabolic cylinder functions `U(a, z)`, `W(a, x)` and Kummer's equation, consumed from
+- `Ai`, `Bi` and the generalized Airy functions, Kummer's second transformation
+  `e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` and the integral
+  `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ`, consumed from SpecialFunctionsAiry.
+- The parabolic cylinder functions `U(a, z)` and `W(a, x)`, consumed from
   SpecialFunctionsParabolicCylinder.
 - The exponential, sine and cosine integrals, the error and Fresnel functions, the incomplete
   Gamma functions and Pincherle's theorem, consumed from SpecialFunctionsEiLiErfIncompleteGamma.
@@ -382,6 +383,13 @@ The following are consumed with the hypotheses and conventions stated there.
   `A_n`, `B_n` of its Layer 9, with Airy's equation, the connection formulas of its 1.4, the
   `J_ν` and real `I_ν` forms of its 1.7, the modulus and phase of its 4.1 and the integral
   representations of its 9.3, for 11.1.
+- Kummer's second transformation `exp_neg_mul_kummer_two_mul`
+  (`e^{−x} 𝐌(a, 2a, 2x) = Γ(a + ½) Γ(2a)⁻¹ 𝐅(a + ½, x²/4)` for `2a ∉ {0, −1, −2, …}`,
+  [its 1.7](../SpecialFunctionsAiry/README.md#17-relations-to-bessel-and-kummer-functions)), for
+  10.16.5 and 10.39.5 in 4.3.
+- The integral `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ` for every `z ∈ ℂ`
+  ([its 8.3](../SpecialFunctionsAiry/README.md#83-integral-representations-of-products)), for
+  10.9.1 in 3.1.
 
 ### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
 
@@ -389,9 +397,6 @@ The following are consumed with the hypotheses and conventions stated there.
   their equations and values at `0`
   ([its Conventions](../SpecialFunctionsParabolicCylinder/README.md#conventions)),
   for 10.16.3–10.16.4 and 10.39.3–10.39.4 in 4.3 and for 12.7.8–12.7.11 in 11.2.
-- Kummer's equation `TauCeti.regularizedHGFun_kummer_equation`
-  ([§1.3](../SpecialFunctionsParabolicCylinder/README.md#13-kummers-equation)), for 10.16.5 and
-  10.39.5 in 4.3.
 
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
@@ -722,14 +727,16 @@ Layer 1; Mathlib's digamma and Euler–Mascheroni constant.
 
 ### 3.1 Integrals over finite intervals and half-lines
 
-DLMF 10.9.1–10.9.16 and 10.32.1–10.32.12, with the conditions stated there. In particular
-Bessel's integral `J_n(z) = π⁻¹ ∫₀^π cos(z sin θ − nθ) dθ` (10.9.2; `besselJ_int_eq_integral`),
-Poisson's integral 10.9.4, Schläfli's integrals 10.9.6–10.9.7 (10.9.7 for `Re z > 0`;
-`besselY_eq_schlafli`), the Mehler–Sonine integrals
-10.9.8–10.9.12 as improper integrals, and `K_ν(z) = ∫₀^∞ e^{−z cosh t} cosh(νt) dt` for
-`|ph z| < π/2` (10.32.9; `besselK_eq_integral`).
+DLMF 10.9.1–10.9.16 and 10.32.1–10.32.12, with the conditions stated there. In particular Bessel's
+integral `J_n(z) = π⁻¹ ∫₀^π cos(z sin θ − nθ) dθ` for every integer `n` (10.9.2;
+`besselJ_int_eq_integral`), Poisson's integral 10.9.4, Schläfli's integrals 10.9.6–10.9.7 (10.9.7
+for `Re z > 0`; `besselY_eq_schlafli`), the Mehler–Sonine integrals 10.9.8–10.9.12 as improper
+integrals, and `K_ν(z) = ∫₀^∞ e^{−z cosh t} cosh(νt) dt` for `|ph z| < π/2` (10.32.9;
+`besselK_eq_integral`). The case `n = 0`, 10.9.1, is consumed from SpecialFunctionsAiry 8.3, which
+owns `J₀(z) = (2π)⁻¹ ∫₀^{2π} e^{iz cos φ} dφ` for every `z ∈ ℂ`; the substitution `φ = θ + π/2` and
+`sin(θ + π) = −sin θ` turn it into `J₀(z) = π⁻¹ ∫₀^π cos(z sin θ) dθ`.
 
-*Needs:* Layer 1; Mathlib parametric differentiation.
+*Needs:* Layer 1; Mathlib parametric differentiation; SpecialFunctionsAiry 8.3.
 
 ### 3.2 Contour integrals
 
@@ -756,7 +763,7 @@ DLMF 10.9.22–10.9.30 and 10.32.13–10.32.19 not already in 3.2, including Nic
 
 ### Dependencies
 
-Layers 1–2; AsymptoticExpansions Layer 8.
+Layers 1–2; AsymptoticExpansions Layer 8; SpecialFunctionsAiry.
 
 ## Layer 4: continued fractions, derivatives in the order and relations
 
@@ -787,10 +794,12 @@ DLMF 10.16.1–10.16.5, 10.16.9, 10.39.1–10.39.5 and 10.39.9:
 - the parabolic cylinder forms 10.16.3–10.16.4 for `z = x > 0`, through `W(0, ±2x^{1/2})` and its
   derivative, and 10.39.3–10.39.4 through `U(a, 2z^{1/2})` on `|ph z| < π/2`;
 - the Kummer forms 10.16.5 and 10.39.5 with `M = Γ(b) 𝐌` and `2ν ∉ {−1, −2, …}`
-  (`besselJ_eq_kummer`);
+  (`besselJ_eq_kummer`), from Kummer's second transformation (SpecialFunctionsAiry 1.7,
+  `exp_neg_mul_kummer_two_mul`) at `a = ν + ½` and `x = ±iz` (for `J_ν`) or `x = ±z` (for
+  `I_ν`), multiplied by `(z/2)^ν Γ(2ν + 1)/Γ(ν + 1)` (Mathlib `Complex.besselJ_def`);
 - the `₀F₁` forms 10.16.9 and 10.39.9, which are the definitions.
 
-*Needs:* 1.1, 1.7; SpecialFunctionsParabolicCylinder.
+*Needs:* 1.1, 1.7; SpecialFunctionsParabolicCylinder; SpecialFunctionsAiry 1.7.
 
 ### Examples
 
@@ -801,7 +810,8 @@ DLMF 10.16.1–10.16.5, 10.16.9, 10.39.1–10.39.5 and 10.39.9:
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsParabolicCylinder.
+Layers 1–3; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsParabolicCylinder;
+SpecialFunctionsAiry.
 
 ## Layer 5: large argument
 
@@ -1516,8 +1526,9 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 
 ## References
 
-- NIST *Digital Library of Mathematical Functions*, Chapter 10 (F. W. J. Olver and
-  L. C. Maximon), <https://dlmf.nist.gov/10>.
+- NIST *Digital Library of Mathematical Functions*, Release 1.2.8 of 2026-09-15, Chapter 10
+  (F. W. J. Olver and L. C. Maximon), <https://dlmf.nist.gov/10>. Every equation number refers to
+  this release.
 - G. N. Watson, *A Treatise on the Theory of Bessel Functions*, 2nd ed., Cambridge University
   Press, 1944.
 - F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974; reprinted A K
