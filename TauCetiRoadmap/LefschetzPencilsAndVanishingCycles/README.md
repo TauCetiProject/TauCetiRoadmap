@@ -46,13 +46,16 @@ It uses, and does not redevelop:
   regularity of CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4, and the
   logarithmic differential module of §CR.5.1; 0.10 builds purity-specific equivariant
   modifications, actions and quotients on those objects;
-- the nilpotent exponential and the finite logarithm of a unipotent from SmoothRepresentationsOfLocalGroups
+- the nilpotent exponential and the finite logarithm of a unipotent, inverse to each other, from Mathlib
+  (`IsNilpotent.exp`) and Tau Ceti (`IsNilpotent.log`), and the continuous `ℤ_ℓ` interpolation
+  `h(x) = exp(x log h(1))` of a unipotent one-parameter subgroup from SmoothRepresentationsOfLocalGroups
   SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy
   filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
   ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
 - the inertia group and tame character of a nonarchimedean local field from TauCetiRoadmap LocalFieldsRamification
   Layer 4 (the comparison of 0.1 is with it);
-- dual graphs, normalization, Rees-algebra blow-ups and the test case `xy = π^n` from TauCetiRoadmap StableReduction
+- the dual-graph carrier `TauCeti.DualGraph` from Tau Ceti; the dual graph of a nodal curve, normalization,
+  Rees-algebra blow-ups and the test case `xy = π^n` from TauCetiRoadmap StableReduction
   Layers 1 and 4; the Picard scheme of a semistable curve and Grothendieck's integral monodromy pairing from
   NeronModelsAndSemistableAbelianVarieties Layers 3–4;
 - closed subgroups of `ℓ`-adic Lie groups and their Lie algebras from AdelicAlgebraicGroups Layer 4, §4.2;
@@ -129,14 +132,14 @@ It leaves to other roadmaps:
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
 
 - Rings: `HenselianLocalRing`, `HenselianRing`, `IsDiscreteValuationRing`, `ValuationSubring.inertiaSubgroup`,
   `ValuationSubring.decompositionSubgroup`; `MvPowerSeries` with its total-degree order `MvPowerSeries.order`
   (`MvPowerSeries.le_order`, `MvPowerSeries.coeff_of_lt_order`): a series has order at least three, as in 2.4, exactly
   when `3 ≤ MvPowerSeries.order R`; `AdicCompletion` (completed local rings and their jets `O/𝔪^{k+1}`);
   `finite_of_finite_type_of_isJacobsonRing` (the residue field of a closed point of a scheme of finite type over a field
-  is finite over it).
+  is finite over it); `PadicInt.denseRange_intCast` (`ℤ` is dense in `ℤ_ℓ`, used in 5.7).
 - Smoothness and the Jacobian criterion: `Algebra.Smooth`, `Algebra.IsSmoothAt`, `Algebra.IsStandardSmooth` (a
   presentation whose Jacobian is invertible), which is smooth, and `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`
   (smoothness at a prime is standard smoothness after inverting an element outside it). These are the Jacobian
@@ -149,7 +152,8 @@ It leaves to other roadmaps:
   `LinearEquiv.mem_fixedSubmodule_transvection_iff` (fixed space of a transvection with `f v = 0`), `IsNilpotent.exp`,
   `Module.End.HasEigenvalue`, `Module.End.maxGenEigenspace`, `Submodule.mkQ`, `LinearMap.codRestrict`,
   `Representation.invariants`, `Representation.trivial`.
-- Lie theory: `skewAdjointLieSubalgebra` (the symplectic Lie algebra `𝔰𝔭(V, ψ)`), `LieModule.IsIrreducible`, `IsSl2Triple`.
+- Lie theory: `skewAdjointLieSubalgebra` (the symplectic Lie algebra `𝔰𝔭(V, ψ)`), `LieModule.IsIrreducible`, `IsSl2Triple`;
+  `NormedSpace.exp` (the exponential series, through which 5.7 defines the Lie algebra of a closed subgroup).
 - Geometry and homological algebra: `AlgebraicGeometry.Scheme`, the morphism classes `AlgebraicGeometry.IsProper`,
   `AlgebraicGeometry.IsIntegral`, `AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.QuasiCompact`,
   `AlgebraicGeometry.IsOpenImmersion`, `AlgebraicGeometry.SmoothOfRelativeDimension`,
@@ -158,12 +162,25 @@ It leaves to other roadmaps:
   `HasDerivedCategory.standard`, `CategoryTheory.shiftFunctor`, `CategoryTheory.Abelian.SpectralObject` and its
   `spectralSequence`, `CategoryTheory.CohomologicalSpectralSequence`, `ModuleCat`.
 
-### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
 
 - `TauCeti.genericFiber`, `TauCeti.specialFiber` (`TauCeti/AlgebraicGeometry/Fibers.lean`): the generic and special
   fibres of a scheme over `Spec R` as over-schemes; the trait diagram of EtaleCohomologyFoundations §F.3a is built on them.
-- `LinearMap.GeneralLinearGroup.IsUnipotent` (`TauCeti/LinearAlgebra/GeneralLinearGroup/Unipotent.lean`) and
-  `TauCeti.exp_smul_eq_sum_smul_dividedPower` (`TauCeti/RingTheory/Nilpotent/Exp.lean`).
+- `LinearMap.GeneralLinearGroup.IsUnipotent` (`TauCeti/LinearAlgebra/GeneralLinearGroup/Unipotent.lean`),
+  `TauCeti.exp_smul_eq_sum_smul_dividedPower` and `TauCeti.expSMulHom` (`TauCeti/RingTheory/Nilpotent/Exp.lean`):
+  for nilpotent `N` in a `ℚ`-algebra, `exp(aN)` is a polynomial in the scalar `a` and `a ↦ exp(aN)` is a homomorphism
+  from the additive group of scalars to the units; used in 5.7.
+- `IsNilpotent.log`, `IsNilpotent.log_eq_sum`, `IsNilpotent.isNilpotent_log`, `IsNilpotent.exp_log` and
+  `IsNilpotent.log_exp` (`TauCeti/RingTheory/Nilpotent/Log.lean`): the finite logarithm
+  `log u = Σ_{1≤i<d} (−1)^{i+1}(u − 1)^i/i` of a unipotent `u` with `(u − 1)^d = 0`, independent of the bound `d`,
+  nilpotent, and inverse to `IsNilpotent.exp` in a `ℚ`-algebra. When `u − 1` is not nilpotent its value is `0`, a junk
+  value, so it is applied only to unipotents. `Module.End.ker_pow_log` and `Module.End.jordanPartition_log`
+  (`TauCeti/LinearAlgebra/End/Exponential.lean`): for a unipotent endomorphism `u`, `ker (log u)^k = ker (u − 1)^k`
+  for every `k`, and in finite dimension over a field `log u` and `u − 1` have the same Jordan partition. Used in 1.2,
+  1.6 and 5.7.
+- `IsNilpotent.normedSpace_exp_eq_exp` (`TauCeti/Analysis/Normed/Algebra/NilpotentExponential.lean`): at a nilpotent
+  element the exponential series `NormedSpace.exp` terminates and equals `IsNilpotent.exp`; used in 5.7, where the Lie
+  algebra `𝔏` is defined through the exponential series.
 - `TauCeti.inertiaTameCharacter` (`TauCeti/NumberTheory/LocalField/Tame/Character.lean`): the tame character
   `I_K → ℤ̂^{(p')}(1)` of a nonarchimedean local field, the Kummer character of a uniformizer; 0.1 compares with it
   (the tame-character comparison supplied by EtaleCohomologyFoundations §F.3a).
@@ -173,6 +190,10 @@ It leaves to other roadmaps:
   the centre of the even Clifford algebra is `K[X]/(X² − d)`, `d` the signed discriminant, generated by the volume
   element. This is the field case of 2.2 when two is invertible; 2.2 adds characteristic two and a general base.
 - `TauCeti.Hodge.MixedHodgeStructure` (`TauCeti/Geometry/Hodge/Mixed/Basic.lean`) with strictness, used in 7b.6.
+- `TauCeti.DualGraph` and `TauCeti.DualGraph.firstBetti` (`TauCeti/AlgebraicGeometry/Curves/DualGraph/Basic.lean`): the
+  combinatorial dual graph of a proper nodal curve, with a finite nonempty connected vertex type, a finite edge type, an
+  ordered pair of endpoints `endpoint e : Fin 2 → Vertex` for each edge (loops allowed), component genera and markings;
+  `firstBetti` is `#edges + 1 − #vertices`. Used without markings in 7a.1; StableReduction Layer 1 attaches it to a curve.
 
 ### From other roadmaps
 
@@ -199,9 +220,9 @@ It leaves to other roadmaps:
   compatible Kummer tower and tame fundamental group used in 1.8 are supplied by
   CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*.
 - **TauCetiRoadmap StableReduction** Layer 1 (nodes, local equations `uv = π^n`, normalization, oriented dual
-  multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). The oriented dual graph is
-  `TauCetiRoadmap.StableReduction.DualGraph`, an edge `e` having tail `endpoint e 0` and head `endpoint e 1`;
-  the normalization differential of 7a.1 uses these endpoints.
+  multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). Layer 1 attaches to a proper geometric
+  nodal curve its oriented dual graph, a Tau Ceti `TauCeti.DualGraph` without markings, an edge `e` having tail
+  `endpoint e 0` and head `endpoint e 1`; the normalization differential of 7a.1 uses these endpoints.
 - **TauCetiRoadmap EllipticCurves** Layer 4 (Tate's algorithm, multiplicative reduction).
 - **TauCetiRoadmap LocalFieldsRamification** Layer 4 (inertia, wild inertia and the tame character of a local field).
 - **AdelicAlgebraicGroups** Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups, their Lie algebras, openness).
@@ -243,9 +264,9 @@ It leaves to other roadmaps:
   comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
   point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
   §IG.1.3 tame specialization).
-- **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the nilpotent exponential and the finite
-  logarithm of a unipotent in a `ℚ`-algebra, inverse to each other and independent of the vanishing bound), in 1.2,
-  1.6 and 5.7.
+- **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the continuous `ℤ_ℓ` interpolation: for a
+  complete normed extension `E/ℚ_ℓ`, a finite-dimensional `E`-space `V` and a continuous homomorphism
+  `h : ℤ_ℓ → GL_E(V)` with `h(1)` unipotent, `h(x) = exp(x log h(1))` for every `x ∈ ℤ_ℓ`), in 1.2.
 - **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
   tame character, §2.3 tame characters of local fields, §2.4 Grothendieck's monodromy theorem for local
   fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
@@ -929,7 +950,8 @@ operator `N : V → V(−1)` and its compatibilities with Frobenius, finite exte
 builds the monodromy filtration of a nilpotent endomorphism of an object of an abelian category with
 its primitive decomposition and the relative variant, and computes the filtered nearby complex of a
 regular semistable scheme with two components. It ends with the semisimple trace of Frobenius on
-nearby cycles. The finite logarithm of a unipotent automorphism is SmoothRepresentationsOfLocalGroups
+nearby cycles. The finite logarithm of a unipotent automorphism is Tau Ceti's `IsNilpotent.log`, and the
+continuous `ℤ_ℓ` interpolation of a unipotent one-parameter subgroup is SmoothRepresentationsOfLocalGroups
 SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy filtration
 of a nilpotent endomorphism of a finite-dimensional vector space, with its uniqueness and tensor and dual
 rules, are ArithmeticGaloisRepresentations Layer 2 (§2.4; §2.6 `WeilDeligneRep.monodromyFiltration`); this
@@ -1026,10 +1048,11 @@ Let `ρ : G → GL(V)` be a quasi-unipotent representation on a finite-dimension
 instance the geometric cohomology of 1.1). There is a unique nilpotent `N : V → V(−1)` such that
 `ρ(σ) = exp(t_ℓ(σ) N)` for `σ` in every open subgroup of `I` on which `ρ` is unipotent; here
 `t_ℓ(σ) N` means `N` followed by evaluation of the twist on `t_ℓ(σ) ∈ ℤ_ℓ(1)`, and the exponential and
-logarithm are the nilpotent exp/log calculus of SmoothRepresentationsOfLocalGroups SR.5.2
-(*nilpotent-exp-log*), the one used by ArithmeticGaloisRepresentations Layer 2, §2.4 (the
+logarithm are Mathlib's `IsNilpotent.exp` and Tau Ceti's `IsNilpotent.log` (the
 logarithm of a unipotent `T` is the finite sum `Σ_{1≤j<d} (−1)^{j+1}(T − 1)^j/j` for `(T − 1)^d = 0`,
-independent of `d` and inverse to `IsNilpotent.exp`). Call this `N` the
+independent of `d` and inverse to `IsNilpotent.exp`). These are the same finite sums as the exp/log of
+SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*) that ArithmeticGaloisRepresentations Layer 2,
+§2.4 uses. Call this `N` the
 monodromy operator of `ρ`. Prove:
 
 - `N` is `G`-equivariant as a map `V → V(−1)`: for
@@ -1048,12 +1071,14 @@ monodromy operator of `ρ`. Prove:
 
 *Proof sketch.* On an open subgroup `I_1` where `ρ` is unipotent, the kernel of `t_ℓ` is profinite of order
 prime to `ℓ`, so its image is finite and unipotent, hence trivial; thus `ρ|_{I_1}` factors through
-`t_ℓ(I_1) ⊂ ℤ_ℓ(1)`, and `log ρ(σ)` is `ℤ_ℓ`-linear in `t_ℓ(σ)`. Uniqueness is clear from
-`exp`/`log`. Equivariance is the conjugation rule `t_ℓ(gσg⁻¹) = χ_ℓ(g) t_ℓ(σ)`; geometric Frobenius acts
+`t_ℓ(I_1) ⊂ ℤ_ℓ(1)`, an open subgroup isomorphic to `ℤ_ℓ` after a generator, and `log ρ(σ)` is `ℤ_ℓ`-linear in
+`t_ℓ(σ)` by the `ℤ_ℓ` interpolation of SR.5.2. Uniqueness is clear from `exp`/`log` (`IsNilpotent.exp_log`,
+`IsNilpotent.log_exp`). Equivariance is the conjugation rule `t_ℓ(gσg⁻¹) = χ_ℓ(g) t_ℓ(σ)`; geometric Frobenius acts
 on `ℚ_ℓ(−1)` by `q`. The ramified extension uses `t_ℓ|_{I'} = e t'_ℓ`. (Illusie 1994, 1.5 and
 (1.5.1)–(1.5.4), pp. 12–13; Weil II, 1.6.14 and 1.7.2, pp. 169–172.) *Needs:* EtaleCohomologyFoundations §F.3a, 1.1;
-SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*); ArithmeticGaloisRepresentations Layer 2,
-§2.4; EtaleCohomologyFoundations §F.0 (Tate twists).
+Mathlib `IsNilpotent.exp`; Tau Ceti `IsNilpotent.log`, `IsNilpotent.exp_log`, `IsNilpotent.log_exp`;
+SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the continuous `ℤ_ℓ` interpolation
+`h(x) = exp(x log h(1))`); ArithmeticGaloisRepresentations Layer 2, §2.4; EtaleCohomologyFoundations §F.0 (Tate twists).
 
 **Checks.**
 
@@ -1230,10 +1255,12 @@ zero.
 - Maximal nilpotence is invariant under conjugation by a linear equivalence.
 
 *Proof sketch.* `log(1 + U) = U · u(U)` with `u` a polynomial with constant term one, so `U` and `log(1 + U)`
-have the same kernels of powers; Jordan decomposition identifies minimal polynomial and kernel
+have the same kernels of powers and the same Jordan partition (Tau Ceti's `Module.End.ker_pow_log` and
+`Module.End.jordanPartition_log`); at `k = n − 1` the first gives `(log T)^{n−1} = 0` exactly when `(T − 1)^{n−1} = 0`.
+Jordan decomposition identifies minimal polynomial and kernel
 dimensions. (Qian 2023, published Definition 3.6, PDF p. 21.) *Needs:* Tau Ceti
-`LinearMap.GeneralLinearGroup.IsUnipotent`; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite
-logarithm of a unipotent); 1.4 (Jordan blocks as `N`-strings).
+`LinearMap.GeneralLinearGroup.IsUnipotent`, `IsNilpotent.log`, `Module.End.ker_pow_log`,
+`Module.End.jordanPartition_log`; 1.4 (Jordan blocks as `N`-strings).
 
 **Checks.**
 
@@ -1244,6 +1271,10 @@ logarithm of a unipotent); 1.4 (Jordan blocks as `N`-strings).
 - `1+(J₂⊕0)` on `ℚ³` is not maximally unipotent.
 - The identity on `ℚ²` is not maximally unipotent.
 - The zero-dimensional vector space does not satisfy the nonzero-dimension definition.
+- `log(1+J₃) = J₃ − J₃²/2` on `ℚ³` has square `J₃² ≠ 0`, cube `0` and kernel dimensions `1, 2, 3`, those of `J₃`, so it
+  is maximally nilpotent; `log(1+(J₂⊕0)) = J₂⊕0` has kernel dimensions `2, 3, 3` and is not.
+- `T = 2` on `ℚ¹` is not unipotent, and the finite logarithm takes its junk value `0` there, which is maximally
+  nilpotent although `T` is not maximally unipotent: the logarithm criterion holds only for unipotent `T`.
 
 ### 1.7 Canonical and variation maps
 
@@ -1435,14 +1466,15 @@ p. 212.) *Needs:* 1.1, 1.2; 0.8 (the nearby-cycle stalks it is applied to); Etal
 
 ### Dependencies
 
-Layer LPV.0; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite logarithm of a
-unipotent); ArithmeticGaloisRepresentations Layer 2 (§2.4 Grothendieck's monodromy
+Layer LPV.0; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the continuous `ℤ_ℓ` interpolation
+of a unipotent one-parameter subgroup, in 1.2); ArithmeticGaloisRepresentations Layer 2 (§2.4 Grothendieck's monodromy
 theorem for local fields; §2.6 the vector-space monodromy filtration with its tensor and dual rules);
 the smooth-stage trait descent of 1.1;
 PurityOfBranchLocus §§2.1–2.2; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6; EtaleCohomologyFoundations §F.1;
 EtaleCohomologyFoundations §F.0 (Tate twists); Stacks Project 0BMB; SGA 1 XIII 5.3;
-TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0; Mathlib (`IsSl2Triple`, abelian categories);
-Tau Ceti (`LinearMap.GeneralLinearGroup.IsUnipotent`).
+TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0; Mathlib (`IsSl2Triple`, `IsNilpotent.exp`, abelian
+categories); Tau Ceti (`LinearMap.GeneralLinearGroup.IsUnipotent`, `IsNilpotent.log`, `IsNilpotent.exp_log`,
+`IsNilpotent.log_exp`, `Module.End.ker_pow_log`, `Module.End.jordanPartition_log`).
 
 ## Layer LPV.2: Ordinary quadratic singularities and the Picard–Lefschetz formula
 
@@ -2978,24 +3010,34 @@ pp. 293–294.) *Needs:* Mathlib `skewAdjointLieSubalgebra`, `LieModule.IsIrredu
 with the canonical topology on `End(V)` and the subgroup topology on `GL(V)`; let `G(ψ)` be its isometry group,
 `Sp(V, ψ)(ℚ_ℓ)` or `O(V, ψ)(ℚ_ℓ)`, which is closed in `End(V)`, being cut out by polynomial equations, and `𝔤(ψ)` its Lie
 algebra of `ψ`-skew-adjoint endomorphisms (Mathlib's `skewAdjointLieSubalgebra ψ`). Let `H ⊂ G(ψ)` be a closed subgroup and
-`𝔏 = {X ∈ 𝔤𝔩(V) : exp(tX) ∈ H for all t in a neighbourhood of 0 in ℚ_ℓ}`. Then `𝔏` is a `ℚ_ℓ`-Lie subalgebra of `𝔤(ψ)`; if
-`h ∈ H` is unipotent, `h = exp(N)` with `N` nilpotent and `N ∈ 𝔏`; and if `𝔏 = 𝔤(ψ)` then `H` is open in `G(ψ)`. For `ψ`
+`𝔏 = {X ∈ 𝔤𝔩(V) : exp(tX) ∈ H for all t in a neighbourhood of 0 in ℚ_ℓ}`, with `exp` the exponential series
+`NormedSpace.exp`, which converges for `t` near `0`. Then `𝔏` is a `ℚ_ℓ`-Lie subalgebra of `𝔤(ψ)`; if
+`h ∈ H` is unipotent, `N = log h` is nilpotent, `h = exp(N)` and `N ∈ 𝔏`; and if `𝔏 = 𝔤(ψ)` then `H` is open in `G(ψ)`. For `ψ`
 symmetric, the orthogonal group and its topology are those of TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2. Closedness of `H` is essential: the group generated by the local monodromies is only dense in the
 image of `π_1`. *Proof sketch.* The analytic structure on closed subgroups of an `ℓ`-adic Lie group, the
 identification of `Lie(H)` as a Lie subalgebra, and openness when it is the full Lie algebra are TauCetiRoadmap
 AdelicAlgebraicGroups Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups; Schneider 2011, Theorem 27.1,
-Exercise 26.2, Proposition 29.2 and Corollaries 29.4–29.6). If `exp(N) ∈ H`, its powers `exp(aN)`, `a ∈ ℤ`, lie in `H`,
-and closedness extends `a` to `ℤ_ℓ`; differentiating this one-parameter subgroup gives `N ∈ 𝔏`. The argument does not use
+Exercise 26.2, Proposition 29.2 and Corollaries 29.4–29.6). For unipotent `h ∈ H`, `N = log h` is nilpotent and
+`exp(N) = h` (Tau Ceti's `IsNilpotent.isNilpotent_log` and `IsNilpotent.exp_log`). The map `a ↦ exp(aN)` is a
+homomorphism (`TauCeti.expSMulHom`), so `exp(aN) = h^a ∈ H` for `a ∈ ℤ`; it is a polynomial in `a`
+(`TauCeti.exp_smul_eq_sum_smul_dividedPower`), hence continuous on `ℤ_ℓ`, in which `ℤ` is dense
+(`PadicInt.denseRange_intCast`), so closedness of `H` gives `exp(aN) ∈ H` for every `a ∈ ℤ_ℓ`. Since `ℤ_ℓ` is a
+neighbourhood of `0` in `ℚ_ℓ` and the exponential series terminates at the nilpotent `aN`
+(`IsNilpotent.normedSpace_exp_eq_exp`), `N ∈ 𝔏`. The argument does not use
 the type of `ψ`. (Weil I, §5, proof of (5.10), p. 293; Schneider 2011, §§18.10–19, pp. 144–153; Exercise 26.2, pp. 181–182; Theorem 27.1,
 pp. 192–194; Proposition 29.2 and Corollaries 29.4–29.6, pp. 202–205.) *Needs:* TauCetiRoadmap
-AdelicAlgebraicGroups Layer 4, §4.2; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, `N = log h` for
-a unipotent `h`); Mathlib `skewAdjointLieSubalgebra`, `IsNilpotent.exp`.
+AdelicAlgebraicGroups Layer 4, §4.2; Tau Ceti `IsNilpotent.log`, `IsNilpotent.isNilpotent_log`, `IsNilpotent.exp_log`,
+`TauCeti.expSMulHom`, `TauCeti.exp_smul_eq_sum_smul_dividedPower`, `IsNilpotent.normedSpace_exp_eq_exp`; Mathlib
+`skewAdjointLieSubalgebra`, `IsNilpotent.exp`, `PadicInt.denseRange_intCast`.
 
 **Checks.**
 
 - `H = Sp(V)(ℤ_ℓ)` is compact and open with `𝔏 = sp(V, ψ)`; `H = {1}` has `𝔏 = 0`; the closure of the group generated by one unipotent `exp(N)`, `N ≠ 0`, is `exp(ℤ_ℓN)` with `𝔏 = ℚ_ℓN`.
 - On a symplectic plane, the congruence subgroup reducing to identity modulo `ℓ` has the full `sl₂` Lie algebra and is open.
 - The finite subgroup `{±1}` has zero Lie algebra; compactness alone does not imply full Lie algebra.
+- For `h = −1`, `h − 1 = −2` is invertible, so `h` is not unipotent; the finite logarithm takes its junk value `0` and
+  `exp(0) = 1 ≠ h`, so the unipotence hypothesis is needed. For the transvection `h = [[1, 1], [0, 1]]`, `(h − 1)² = 0`,
+  `log h = h − 1` and `exp(a(h − 1)) = [[1, a], [0, 1]]` for `a ∈ ℤ_ℓ`.
 
 ### 5.8 The Kazhdan–Margulis theorem
 
@@ -3249,8 +3291,9 @@ TauCetiRoadmap AdelicAlgebraicGroups Layer 4; TauCetiRoadmap OrthogonalSpinGroup
 Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap RepresentationTheory
 (CharacterTheory Layer 4, RootSystems Layer 5); SchemeAndStackFoundations Layer 0;
 AbhyankarLemma §§3.3–3.4 (regular-divisor local structure and normalization, Stacks 0EYG/0EYH);
-SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite logarithm of a unipotent, in 5.7);
-Mathlib (`skewAdjointLieSubalgebra`, `LieModule.IsIrreducible`, `IsNilpotent.exp`).
+Tau Ceti (`IsNilpotent.log`, `IsNilpotent.isNilpotent_log`, `IsNilpotent.exp_log`, `TauCeti.expSMulHom`,
+`TauCeti.exp_smul_eq_sum_smul_dividedPower`, `IsNilpotent.normedSpace_exp_eq_exp`, in 5.7);
+Mathlib (`skewAdjointLieSubalgebra`, `LieModule.IsIrreducible`, `IsNilpotent.exp`, `PadicInt.denseRange_intCast`).
 
 ## Layer LPV.6: Perverse nearby cycles
 
@@ -3465,12 +3508,14 @@ oriented dual multigraph (vertices the components of `Ỹ`, edges the nodes, loo
 
 ### 7a.1 The normalization complex
 
-**Construction.** Let `Γ` be the oriented dual graph of `Y`, TauCetiRoadmap StableReduction's
-`TauCetiRoadmap.StableReduction.DualGraph` (Layer 1), with branch set `B_e = Fin 2` and endpoint map `i ↦ Γ.endpoint e i`. The distinct
+**Construction.** Let `Γ` be the oriented dual graph of `Y` (TauCetiRoadmap StableReduction Layer 1), a Tau Ceti
+`TauCeti.DualGraph` without markings, connected because the generic fibre is geometrically connected, with branch set
+`B_e = Fin 2` and endpoint map `i ↦ Γ.endpoint e i`. The distinct
 branch labels `0,1` have images `tail e = Γ.endpoint e 0` and `head e = Γ.endpoint e 1`,
 which coincide for a loop. Define
 the normalization differential `d : Λ^V → Λ^E`, `(da)(e) = a(tail e) − a(head e)`, the degree-zero map of a
-two-term complex. Its kernel and cokernel are `H^0(Γ, Λ)` and `H^1(Γ, Λ)`; the carrier, endpoints and first Betti number come from StableReduction Layer 1.
+two-term complex. Its kernel and cokernel are `H^0(Γ, Λ)` and `H^1(Γ, Λ)`; the carrier, endpoints and first Betti number
+are Tau Ceti's (`TauCeti.DualGraph`, `TauCeti.DualGraph.firstBetti`), and StableReduction Layer 1 attaches the graph to `Y`.
 The integral boundary `DualGraph.boundary` and cycle lattice `DualGraph.cycleLattice`
 `H_1(Γ, ℤ) = ker ∂`, with its dual, come from NeronModelsAndSemistableAbelianVarieties §4.2.
 Its target-minus-source boundary satisfies `∂ᵗ = −d` in these branch coordinates.
@@ -3481,7 +3526,7 @@ Its target-minus-source boundary satisfies `∂ᵗ = −d` in these branch coord
 - Kernel membership is equality of the vertex values at the two ends of each edge; the quotient map `Λ^E → Λ^E/range d` is surjective with kernel `range d`. Regarding `d` as a two-term complex, these are its degree-zero kernel and degree-one cokernel.
 
 *Source.* Illusie 1991, §§1.1, 2.1–2.3, formulas (1.1.1)–(1.1.3), (2.1.2), (2.3.5). *Needs:* TauCetiRoadmap
-StableReduction Layer 1 (nodes, normalization, dual graphs);
+StableReduction Layer 1 (nodes, normalization, dual graphs); Tau Ceti `TauCeti.DualGraph`, `TauCeti.DualGraph.firstBetti`;
 NeronModelsAndSemistableAbelianVarieties §4.2 (integral boundary, cycle lattice and dual); Mathlib `LinearMap.ker`, `LinearMap.range`.
 Over every field, the dimension of the edge cokernel of a connected graph is `#edges + 1 − #vertices`.
 
@@ -3847,7 +3892,7 @@ Liu–Tian–Xiao–Zhang–Zhu 2022, §5.9, p. 233.) *Needs:* 7a.8, 7a.3.
 Layers LPV.0, LPV.1, LPV.2 and LPV.6; TauCetiRoadmap StableReduction Layers 1 and 4; TauCetiRoadmap EllipticCurves
 Layer 4; NeronModelsAndSemistableAbelianVarieties Layers 3 and 4; AbelianSchemesAndArithmeticModuli Layer A4;
 InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian comparison); EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.5, EtaleCohomologyFoundations §F.6; Mathlib (spectral
-objects and spectral sequences, `DerivedCategory`).
+objects and spectral sequences, `DerivedCategory`); Tau Ceti (`TauCeti.DualGraph`, `TauCeti.DualGraph.firstBetti`).
 
 ## Layer LPV.7b: Invariant cycles
 
