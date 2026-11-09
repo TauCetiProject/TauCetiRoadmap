@@ -1,13 +1,27 @@
 import Mathlib
+import TauCeti.Analysis.SpecialFunctions.LogIntegral
+import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
+import TauCeti.NumberTheory.LFunctions.Hecke.Basic
+import TauCeti.NumberTheory.LFunctions.Hecke.Primitive
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Basic
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus
 
 /-!
 # Zeros of L-functions: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems, and the `ζ` instances of two lemmas behind them, against the pinned Mathlib, each with
-`sorry`, together with the three definitions they need: the order predicate `OrderLE` of Layer 0,
-the zero count `zeroCount` of Layer 4, and the entire completion `zetaEntireCompletion` of the
-Riemann zeta function (the `ζ` instance of the entire completion of Layer 0).
+theorems, and the `ζ` instances of two lemmas behind them, against the pinned Mathlib and Tau
+Ceti, each with `sorry`, together with the three definitions they need: the order predicate
+`OrderLE` of Layer 0, the zero count `zeroCount` of Layer 4, and the entire completion
+`zetaEntireCompletion` of the Riemann zeta function (the `ζ` instance of the entire completion of
+Layer 0).
+
+The L-function of a primitive finite-order ray-class character `ψ` of a number field `K` is Tau
+Ceti's `TauCeti.LFunctions.heckeLFunctionC ψ.character`, the canonical meromorphic continuation
+(`TauCeti.meromorphicContinuation`) of its series presented at its conductor. At the trivial
+character `1`, of conductor `1`, it is the continued Dedekind zeta function of `K`. The canonical
+continuation is `0` when no continuation exists, so no zero statement below is provable without
+the continuation of L-functions Layers 3 and 5.
 
 Stated here:
 
@@ -15,33 +29,36 @@ Stated here:
 * Layer 5, Hadamard's factorization of an entire function of order at most one, its instance
   `zetaEntireCompletion`, and the summability of `m_ρ / (1 + (Im ρ)²)` over the zeros of the
   completed zeta function (5.6a);
-* Layer 6, the de la Vallée Poussin region for `ζ`, the uniform region for Dirichlet
-  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`, and the two
+* Layer 6, the region for primitive ray-class L-functions uniform over the fields of degree `n`
+  (6.4), which at the trivial character is the region for the Dedekind zeta function (6.2); its
+  `K = ℚ` instances, the de la Vallée Poussin region for `ζ` and the uniform region for Dirichlet
+  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`; and the two
   bounds for `−Re ζ'/ζ` off the real axis on which the region rests (6.4d);
-* Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its conductor-uniform form for
-  primitive Dirichlet characters;
+* Layer 7, the Riemann–von Mangoldt formula for `ζ`, its form uniform in the degree and the
+  conductor for primitive ray-class L-functions (7.5), which at the trivial character is the
+  count for the Dedekind zeta function, and its conductor-uniform Dirichlet instance;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
   over smooth compactly supported test functions, the effective prime ideal theorem over an
-  arbitrary number field (8.5), and the effective prime number theorem in arithmetic
-  progressions (the `K = ℚ` case of the ray-class count of 8.7).
+  arbitrary number field (8.5), the effective prime count in a ray class (8.7) and its `K = ℚ`
+  case for arithmetic progressions, and the effective Chebotarev count for an abelian extension
+  (8.8).
 
-Not statable at the pins:
+Not stated here:
 
-* every zero statement about the Dedekind zeta function of a number field `K ≠ ℚ` or about a
-  Hecke L-function over such a `K` (Layers 6.2–6.4 and 7.6 in those cases, 8.3–8.4 for `ζ_K`,
-  and the character sums 8.6): Mathlib's `NumberField.dedekindZeta` is the Dirichlet series
-  itself, a junk value off `Re s > 1`; Tau Ceti continues it only to a neighbourhood of
-  `Re s ≥ 1`; and neither library has its continuation to `ℂ`, its completion, or the
-  L-function of a Hecke character. The exceptional-zero terms of 8.5–8.8 are defined from those
-  completions and are absent for the same reason; for a fixed field and modulus the stated
-  estimates hold with or without them;
-* the general ray-class count of 8.7 and its abelian Chebotarev transport 8.8: Mathlib has no
-  ray class group, no Artin symbol and no Frobenius-class prime count, and the Tau Ceti revision
-  this file is built against supplies none of them.
+* the completed Dedekind zeta function and the completed Hecke L-functions of L-functions Layers 3
+  and 5, which are not at the pins. The counts of 7.5 over a general field are therefore stated on
+  the continued function over the open strip `0 < Re s < 1`, where its zeros are those of the
+  completion with the same multiplicities and the trivial zero at `0` is left out;
+* the exceptional-zero terms of 8.5–8.8, which 6.3 defines from the region constant of 6.4, a
+  witness of a theorem stated here with `sorry`. For a fixed field, modulus or extension each is
+  `O(x^β)` with `β < 1` and is absorbed by the error term, which is the form in which 8.5, 8.7 and
+  8.8 are stated.
 
 The growth, gamma-factor, conductor, counting, rectangle-contour and certificate statements of
-Layers 0–2, 4, 7.1–7.3 and 9 are README targets: they are about the L-functions roadmap's
-analytic records, which are not at the pins, or are lemmas on the way to the headlines.
+Layers 0–2, 4, 7.1–7.3 and 9, the explicit formulas 8.3, 8.4 and 8.6 over a general field, and the
+convexity bound 3.4 for a general record are README targets: they are general statements about
+Tau Ceti's analytic records `TauCeti.LFunctions.AnalyticLFunctionData`, or lemmas on the way to the
+headlines.
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
@@ -123,6 +140,34 @@ theorem riemannZeta_zeros_summable_ordinate :
 
 /-! ## Layer 6: zero-free regions -/
 
+/-- **Layer 6.4, the region for primitive ray-class L-functions.** For each degree `n` there is
+`c > 0` such that for every number field `K` of degree `n` and every primitive finite-order
+ray-class character `ψ` of conductor `𝔣`, a zero `ρ` of `L(·, ψ) = heckeLFunctionC ψ.character`
+with `Re ρ ≥ 1 − c / log (|d_K| 𝔑𝔣 (|Im ρ| + 3)^n)` is real, simple, and occurs only for a real
+character (`ψ² = 1`), and there is at most one such zero. Zeros are read through the meromorphic
+order, so the pole of the trivial character at `s = 1` is never one. The quantity
+`|d_K| 𝔑𝔣 (|Im ρ| + 3)^n` is the analytic conductor at `i Im ρ` up to a factor between `1` and
+`(4/3)^n`, so the region is that of README 6.4 after a change of `c` depending on `n`
+(Lagarias–Montgomery–Odlyzko, Lemma 2.3, for at most one zero). At `ψ = 1` this is the region for
+the Dedekind zeta function of 6.2, and at `K = ℚ` it is the region of
+`dirichletLFunction_zeroFreeRegion` for primitive characters. -/
+theorem heckeLFunction_zeroFreeRegion (n : ℕ) :
+    ∃ c : ℝ, 0 < c ∧ ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
+      ∀ ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K,
+        (∀ ρ : ℂ, 1 - c / Real.log (|(NumberField.discr K : ℝ)| *
+              (Ideal.absNorm ψ.conductor.finitePart : ℝ) * (|ρ.im| + 3) ^ n) ≤ ρ.re →
+            0 < meromorphicOrderAt (TauCeti.LFunctions.heckeLFunctionC ψ.character) ρ →
+            ρ.im = 0 ∧ ψ.character ^ 2 = 1 ∧
+              meromorphicOrderAt (TauCeti.LFunctions.heckeLFunctionC ψ.character) ρ = 1) ∧
+        ∀ ρ₁ ρ₂ : ℂ,
+          1 - c / Real.log (|(NumberField.discr K : ℝ)| *
+              (Ideal.absNorm ψ.conductor.finitePart : ℝ) * (|ρ₁.im| + 3) ^ n) ≤ ρ₁.re →
+          1 - c / Real.log (|(NumberField.discr K : ℝ)| *
+              (Ideal.absNorm ψ.conductor.finitePart : ℝ) * (|ρ₂.im| + 3) ^ n) ≤ ρ₂.re →
+          0 < meromorphicOrderAt (TauCeti.LFunctions.heckeLFunctionC ψ.character) ρ₁ →
+          0 < meromorphicOrderAt (TauCeti.LFunctions.heckeLFunctionC ψ.character) ρ₂ → ρ₁ = ρ₂ :=
+  sorry
+
 /-- **Layer 6.2 at `K = ℚ`, the de la Vallée Poussin region.** There is `c > 0` such that
 `ζ(s) ≠ 0` whenever `s ≠ 1` and `Re s ≥ 1 − c / log (|Im s| + 3)` (Davenport §13). -/
 theorem riemannZeta_zeroFreeRegion :
@@ -171,12 +216,33 @@ theorem riemannVonMangoldt :
       |(zeroCount completedRiemannZeta univ (Icc (0 : ℝ) 1 ×ℂ Ioc (0 : ℝ) T) : ℝ) -
           T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤ C * Real.log T := sorry
 
-/-- **Layer 7.6 at `K = ℚ`, the conductor-uniform count.** One constant `C` serves every
+/-- **Layer 7.5, the count uniform in the degree and the conductor.** For each degree `n` there is
+`C` such that for every number field `K` of degree `n`, every primitive finite-order ray-class
+character `ψ` of conductor `𝔣` and every `T ≥ 2`, the number of zeros of
+`heckeLFunctionC ψ.character` in `0 < Re s < 1`, `|Im s| ≤ T`, with multiplicity, is
+`(T/π) log (|d_K| 𝔑𝔣 (T/2πe)^n) + O(log (|d_K| 𝔑𝔣 T^n))`, the implied constant `C`. In the open
+strip these are the zeros of the completed function, which has none on the two edges, so this is
+the count `N±` of README 7.5; the open strip leaves out the trivial zero at `0`. At `ψ = 1` it is
+the count for the Dedekind zeta function (Hasanalizade–Shen–Wong, Corollary 1.2, with explicit
+constants for `T ≥ 1`), and at `K = ℚ` it counts the zeros of `riemannVonMangoldt_dirichlet`. -/
+theorem riemannVonMangoldt_heckeLFunction (n : ℕ) :
+    ∃ C : ℝ, ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
+      ∀ (ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K) (T : ℝ), 2 ≤ T →
+        |(zeroCount (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ
+              (Ioo (0 : ℝ) 1 ×ℂ Icc (-T) T) : ℝ) -
+            T / π * Real.log (|(NumberField.discr K : ℝ)| *
+              (Ideal.absNorm ψ.conductor.finitePart : ℝ) * (T / (2 * π * Real.exp 1)) ^ n)| ≤
+          C * Real.log (|(NumberField.discr K : ℝ)| *
+            (Ideal.absNorm ψ.conductor.finitePart : ℝ) * T ^ n) :=
+  sorry
+
+/-- **Layer 7.5 at `K = ℚ`, the conductor-uniform count.** One constant `C` serves every
 primitive Dirichlet character `χ` modulo `q`: the number `N±(T, χ)` of zeros of the completed
 L-function in `0 ≤ Re s ≤ 1`, `|Im s| ≤ T` satisfies
-`|N±(T, χ) − (T/π) log (qT/2πe)| ≤ C log (qT)` for `T ≥ 2` (Trudgian, Theorem 1, for the
-nonprincipal characters, and Davenport §16). The conductor enters as `q`, not `q^{1/2}`; at
-`q = 1` this is twice the count of `riemannVonMangoldt`. -/
+`|N±(T, χ) − (T/π) log (qT/2πe)| ≤ C log (qT)` for `T ≥ 2` (Bennett–Martin–O'Bryant–Rechnitzer,
+Corollary 1.2, for conductor `q > 1` and `T ≥ 5/7`, with absolute constants; Davenport §16). The
+conductor enters as `q`, not `q^{1/2}`; at `q = 1` this is twice the count of
+`riemannVonMangoldt`. -/
 theorem riemannVonMangoldt_dirichlet :
     ∃ C : ℝ, ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q), χ.IsPrimitive →
       ∀ T : ℝ, 2 ≤ T →
@@ -221,27 +287,59 @@ theorem riemannZeta_weilExplicitFormula (φ : ℝ → ℂ) (hφ : ContDiff ℝ �
 
 /-- **Layer 8.5, the effective prime ideal theorem.** For a number field `K` there is `c > 0`
 such that the number of nonzero prime ideals of `𝓞 K` of norm at most `x` is
-`Li(x) + O(x exp(−c √log x))`, with `Li x = ∫₂ˣ dt / log t` (the body of Tau Ceti's
-`TauCeti.Real.logIntegral` contract from Arithmetic Dirichlet Series §6.2) and the constants depending on `K`. For fixed `K` a possible
+`Li(x) + O(x exp(−c √log x))`, with `Li = TauCeti.Real.logIntegral`, `Li x = ∫₂ˣ dt / log t`
+(Arithmetic Dirichlet Series §6.2), and the constants depending on `K`. For fixed `K` a possible
 exceptional zero `β` of `ζ_K` contributes `Li(x^β)`, which the error absorbs. -/
 theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ ↦ (Set.ncard
             {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
-              (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
-          ∫ t in (2 : ℝ)..x, (Real.log t)⁻¹)
+              (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) - TauCeti.Real.logIntegral x)
+        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+
+/-- **Layer 8.7, the effective prime count in a ray class.** For a number field `K` and a modulus
+`𝔪` there is `c > 0` such that for every ray class `a` of `𝔪`, the number of nonzero prime ideals
+of `𝓞 K` prime to `𝔪`, of norm at most `x` and in the class `a`, is
+`Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the constants depending on `K` and `𝔪`. For fixed `K` and
+`𝔪` the exceptional term is `O(x^β)` with `β < 1`, which the error absorbs. The main
+coefficient is `1/#Cl_𝔪`, not the ideal-counting constant `rayClassIdealMainTerm 𝔪`. At
+`K = ℚ` and `𝔪 = (q)∞` this is `primeCounting_progression_effective` at fixed `q`. -/
+theorem rayClassPrimeCount_effective (K : Type*) [Field K] [NumberField K]
+    (𝔪 : TauCeti.GlobalNumberFields.Modulus K) :
+    ∃ c : ℝ, 0 < c ∧ ∀ a : TauCeti.GlobalNumberFields.RayClassGroup 𝔪,
+      (fun x : ℝ ↦ (Set.ncard
+            {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
+              ∃ h : P.asIdeal ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪,
+                TauCeti.GlobalNumberFields.idealClass 𝔪 ⟨P.asIdeal, h⟩ = a ∧
+                  (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
+          TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪))
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 /-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
 There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,
 `π(x; q, a) = Li(x)/φ(q) + O(x exp(−c √log x))`, the implied constant depending on `q`
 (Davenport §20; for fixed `q` a possible exceptional term `Li(x^β)/φ(q)` is absorbed). The
-main term is the offset logarithmic integral `∫₂ˣ dt / log t`, not `x / log x`. At `q = 1`
-this is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+main term is the offset logarithmic integral `TauCeti.Real.logIntegral`, not `x / log x`. At
+`q = 1` this is de la Vallée Poussin's `π(x) = Li(x) + O(x exp(−c √log x))`. -/
 theorem primeCounting_progression_effective :
     ∃ c : ℝ, 0 < c ∧ ∀ q a : ℕ, 0 < q → Nat.Coprime a q →
       (fun x : ℝ ↦ ((((Nat.primesBelow (⌊x⌋₊ + 1)).filter (· ≡ a [MOD q])).card : ℕ) : ℝ) -
-          (∫ t in (2 : ℝ)..x, (Real.log t)⁻¹) / q.totient)
+          TauCeti.Real.logIntegral x / q.totient)
+        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+
+/-- **Layer 8.8, effective Chebotarev for an abelian extension.** For an abelian extension `L/K`
+of number fields with group `G` and a conjugacy class `C` of `G`, there is `c > 0` such that the
+number `frobeniusPrimeCount K L C x` of primes of `K` unramified in `L`, of norm at most `x`,
+whose Frobenius class is `C` is `(#C/#G) Li(x) + O(x exp(−c √log x))`, the constants depending on
+`L/K`. It is the ray-class count of 8.7 transported along the ray-class Artin map of class field
+theory, which supplies the reciprocity dictionary of README 8.8; for fixed `L/K` the exceptional
+term is absorbed. At `K = L = ℚ` it is `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+theorem frobeniusPrimeCount_effective_abelian (K L : Type*) [Field K] [NumberField K]
+    [Field L] [NumberField L] [Algebra K L] [IsAbelianGalois K L]
+    (C : ConjClasses (L ≃ₐ[K] L)) :
+    ∃ c : ℝ, 0 < c ∧
+      (fun x : ℝ ↦ (NumberField.Chebotarev.frobeniusPrimeCount K L C x : ℝ) -
+          (Nat.card C.carrier : ℝ) / Nat.card (L ≃ₐ[K] L) * TauCeti.Real.logIntegral x)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 end TauCetiRoadmap.ZerosOfLFunctions
