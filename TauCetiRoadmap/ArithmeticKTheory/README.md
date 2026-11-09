@@ -181,6 +181,12 @@ then C is the localization of B at the image of N.
 `NumberField.classNumber` and the finite class group of a number ring supply
 the arithmetic class data.
 
+`CategoryTheory.nerve` in `Mathlib/AlgebraicTopology/SimplicialSet/Nerve.lean`,
+applied to the poset of nonzero proper subspaces of a `Submodule` lattice,
+carries §3.2's `titsBuilding`. Its homology is the simplicial homology
+`SSet.homology` with the induced maps `SSet.homologyMap` in
+`Mathlib/AlgebraicTopology/SimplicialSet/Homology/Basic.lean`; these give no
+linear-group action on that homology, which §3.2 constructs.
 `Submodule`, categorical full subcategories and nerves, group homology,
 chain complexes, homotopy groups and tensor products supply the
 existing algebraic carriers under the rank-filtration interfaces; the relative
@@ -348,6 +354,13 @@ flat-ramification law: after a local flat map of DVRs with ramification index
 e, the boundary of the extended class is e times the pulled-back boundary.
 Section 2.3 assembles this ramification square on the arithmetic residue
 direct sums.
+
+Section 4.3 supplies spectral hypercohomology on a site with enough points,
+as the totalization of the Godement resolution, and its descent spectral
+sequence `E₂^{p,q}=Hᵖ(C,π̃_qF)⇒π_{q−p}H(C,F)`, strongly convergent when the
+cohomological dimension of the site is bounded (Thomason, Proposition 1.36,
+p. 452). Section 6.15 applies it to the Bott-localized K-sheaf on the étale
+site of X, with the index change p=−s, q=t.
 
 ### From TauCetiRoadmap.KTheoryLowDegrees
 
@@ -613,7 +626,8 @@ works for **every** S. For each p∈S choose h>0 with p^h=(a_p). Then a_p
 meets p and is a unit away from p. For finite S the product of these a_p gives
 a single denominator s with O_S=R[1/s]; no assertion that each p itself is
 principal is needed. For number rings the finite class group supplies this
-hypothesis. (K-book, I.3, p. 22; VI.8.2, proof, p. 513.)
+hypothesis. (K-book, I.3, p. 22, for the finiteness of Pic(O_F); the
+localization statement is the argument just given.)
 
 The basic laws are:
 
@@ -687,7 +701,10 @@ is the unit inclusion, while F× is not finitely generated. The latter follows
 already from independent prime valuations, and is not a failure of the S-unit
 theorem. The rank is Tau Ceti's `TauCeti.finrank_sUnits_numberField` on
 `Set.unit`, transported to O× along Mathlib's `Set.unitEquivUnitsInteger`.
-(K-book, VI.8.1, p. 513.)
+(K-book, Example III.1.3.6, p. 183, where the places at infinity of O are
+the r₁+r₂ archimedean places and the |S| primes of S. The formula printed in
+VI.8.1, p. 513, omits r₁: for ℤ[1/p] it gives 0+1−1=0 against the rank one
+of ±pⁿ.)
 
 Identify pullback and transfer under these low-degree comparisons. For
 B=O_(E,T), O=O_(F,S), d=[E:F] and c_B=det_O(B), the formulas are
@@ -1037,15 +1054,19 @@ classification; StableHomotopyKTheory §§1.24–1.28 for category homology.
 ### 3.2 Relative homology, stability and the finiteness criterion
 
 For every field K and finite-dimensional K-space V of dimension m,
-construct titsBuilding V as the flag complex of nonzero proper subspaces,
-and its GL(V)-action. For m≥2 prove solomonTits: its reduced integral homology
-vanishes outside degree m−2 and in that degree is the Steinberg module
-steinbergModule V; the nerve is a wedge of (m−2)-spheres. Transport,
-apartment classes, the rank-one convention St₁=ℤ, and equivariance form the
-API. The building is not defined as the desired homology group. Use the
-apartment filtration and relative chain comparison. (Kahn, §4.3.1 and
-Theorem 4.3.3, pp. 17–18; Putman–Studenmund, §1, pp. 3–4;
-Quillen, Theorem 3 and proof, pp. 181–183.)
+construct `titsBuilding` K V as the nerve of the poset of nonzero proper
+subspaces, whose realization is their flag complex, and its GL(V)-action.
+For m≥2 prove `solomonTits`: in every degree other than m−2, the map from
+the building to a point induces an isomorphism on integral homology. Thus
+its reduced integral homology vanishes outside degree m−2; in particular
+the building is nonempty, and connected for m≥3. In degree m−2 the reduced
+homology is the Steinberg module steinbergModule V, and the realization is
+a wedge of (m−2)-spheres. Transport, apartment classes, the rank-one
+convention St₁=ℤ, and equivariance form the API. The building is not
+defined as the desired homology group. Use the apartment filtration and
+relative chain comparison. (Putman–Studenmund, §1, pp. 3–4; Kahn, §4.3.1
+and Theorem 4.3.3, pp. 17–18, where the theorem is cited as Quillen,
+Theorem 2, p. 180.)
 
 The basic laws are:
 
@@ -1057,6 +1078,12 @@ The basic laws are:
 
 - At rank two over 𝔽₂, the building has three isolated lines, with
   reduced H₀=ℤ²; adjoining the zero subspace makes it contractible.
+- At rank three over 𝔽₂, the building is the incidence graph of the seven
+  lines and seven planes: 14 vertices and 21 edges, connected, so H₀=ℤ maps
+  isomorphically to the point and H₁ is free of rank 21−14+1=8=2³. The
+  poset of lines alone has no positive-degree homology but H₀=ℤ⁷, so only
+  the degree-zero isomorphism excludes it; vanishing in positive degrees
+  other than m−2 says nothing at m=3, where the building has dimension one.
 - At rank one the proper building is empty and St₁=ℤ in reduced
   degree −1; the layer poset instead has two points in degree zero.
 - A linear isomorphism transports every flag forward and acts on its
@@ -1221,7 +1248,7 @@ p. 479, IV §6 Proposition 9, p. 483, and V §§1–2, pp. 489–491.)
 - Finite rational dimension alone does not imply integral finite generation,
   as ℚ shows; finite generation alone does not imply finiteness, as ℤ shows.
 
-*Needs:* §3.1, solomonTits, projectiveSteinbergHomology_fg,
+*Needs:* §3.1, `solomonTits`, projectiveSteinbergHomology_fg,
 StableHomotopyKTheory §§1.24–1.28's categorical/relative homology comparisons and §3.36's
 connected H-space theorem. These comparisons and the finite-type theorem are
 substantive supplier inputs.
@@ -1233,7 +1260,7 @@ geometrically connected, and let F be the fraction field of R. For every
 finitely generated projective R-module P of rank n≥1, prove
 curveSteinbergHomology_fg: H_i(Aut_R(P);St(P⊗_R F)) is finite for i>0 and
 finitely generated over ℤ for i=0. The homology is integral and St is the
-Steinberg module of solomonTits, with St₁=ℤ in reduced degree −1.
+Steinberg module of `solomonTits`, with St₁=ℤ in reduced degree −1.
 
 Put V=P⊗_R F, Γ=Aut_R(P), and let Y be the reduced Bruhat–Tits building of
 GL(V⊗F_∞), whose vertices are the homothety classes of O_∞-lattices in
@@ -1291,7 +1318,7 @@ the Tits building; K-book, IV.6.9 and the paragraph before it, p. 325.)
 - In the same example, U_c has one contractible component for each line of
   F², so H̃₀(U_c)=ker(ℤ[ℙ¹(F)]→ℤ)=St₂.
 
-*Needs:* solomonTits and its rank-one convention above; ReductiveGroupsPartII
+*Needs:* `solomonTits` and its rank-one convention above; ReductiveGroupsPartII
 RG2.2.1–RG2.2.2 for the reduced building and its contractibility, and RG2.2.4
 *gl-building-lattice-chains* for its lattice description;
 AutomorphicLFunctionsAndLocalFactors AL.3.10.5 for slopes, Harder–Narasimhan
@@ -2479,7 +2506,7 @@ orders, not dimensions of asserted 𝔽₂-vector spaces: mod-two K-coefficients
 may have nonsplit additive extensions. (K-book, VI.9.6 and Lemma 9.6.3,
 pp. 520–521; Theorem 9.7, p. 521; Corollary 9.8 with proof, p. 522.)
 
-Define the numerical even two-rank function to be r+s+t−1 at n≡2 mod 8,
+Define the numerical even two-rank function to be r₁+s+t−1 at n≡2 mod 8,
 j+s+t−1 at n≡4 or 6, s+t−1 at n≡0, and zero at odd n. Natural
 subtraction totalizes it outside the arithmetic hypotheses. Its API includes
 the four even evaluations, period eight, odd-degree zero totalization and
@@ -2500,14 +2527,16 @@ The basic laws are:
 
 **Checks.**
 
-- For (r,s,t,j)=(1,1,0,0), the values at 2,4,6,8 are 1,0,0,0.
+- For (r₁,s,t,j)=(1,1,0,0), the data of ℤ[1/2], the values at 2,4,6,8
+  are 1,0,0,0; the degree-two value is the two-rank of K₂(ℤ[1/2])=ℤ/2.
+  Reading the first parameter as r₂=0 would give 0 there.
 - For (2,1,0,1), they are 2,1,1,0. The degree-four value detects the
   signature defect that the rational case alone would miss.
-- Holding r,t,j fixed, replacing the numerical parameter s by s+1
+- Holding r₁,t,j fixed, replacing the numerical parameter s by s+1
   increases every even branch by one for s≥1. Arithmetic enlargement
   can change t and j: for ℚ(√7), adjoining the prime above 7 changes
   (s,j) from (1,1) to (2,0), with t=0, so the degree-four two-rank stays 1.
-- At (r,t,j,n)=(0,0,0,0), both s=0 and s=1 give zero. Thus
+- At (r₁,t,j,n)=(0,0,0,0), both s=0 and s=1 give zero. Thus
   the fixed-parameter enlargement identity would be false without s≥1, even though the
   numerical function is defined there.
 - At odd n the function is zero by definition, with no K₁ claim. At n=0
@@ -3434,13 +3463,23 @@ separably closed or of p-cohomological dimension at most one. Every separated re
 contains all primes above p: its residue fields are F, of p-cohomological
 dimension two, and finite fields, of dimension one. Its spectral sequence is
 E₂^(s,t)=H^(−s)(X,ℤ/q(t/2))⇒K^β_(s+t)(X;ℤ/q), with even t and
-s≤0. Prove strong convergence, pullback and coefficient compatibility. Construct
+s≤0. It is the descent spectral sequence of SchemeKTheoryOperations §4.3
+for the Bott-localized K-sheaf on the étale site of X, read through the
+étale hyperdescent comparison below, so its strong convergence is §4.3's
+convergence theorem under bounded cohomological dimension. The bound needed
+there is proved here: finite Krull dimension and the residue-field bound
+give a uniform bound on the p-torsion étale cohomological dimension of
+every scheme étale over X, by induction on the dimension of the closures
+of points (Thomason, Corollary 1.48 and its proof, pp. 457–458). Prove
+pullback and coefficient compatibility. Construct
 bottDualization as a spectrum involution induced by dualizing perfect
 complexes, commuting with localization; on the row of twist a it acts by
 (−1)^a, including at p=3. The comparison comes from étale hyperdescent of
 the Bott-localized K-sheaf; the root action fixes the Tate normalization.
 (Thomason, Theorem 4.1, p. 516, and Remark 4.2, pp. 516–517, for the
-hypotheses and strong convergence; Theorem 2.43, display (2.112), p. 498,
+hypotheses and strong convergence, Theorem 2.45, pp. 500–501, where the
+spectral sequence is deduced from the descent equivalence through
+Proposition 1.36; Theorem 2.43, display (2.112), p. 498,
 for the filtration, and Corollary 2.44, pp. 499–500, for the fields that
 admit one; Feng–Galatius–Venkatesh, §2.6.1, equation (2.6),
 p. 12, for the indexing and the Adams action on rows.)
@@ -3468,8 +3507,11 @@ The basic laws are:
 
 *Needs:* §5.2’s norm-residue and descent theory, the general coefficient
 and localization spectra, §4.1’s twists, and the étale site supplied by
-EtaleCohomologyFoundations. The Bott hyperdescent proof and spectrum
-involution are targets here.
+EtaleCohomologyFoundations; SchemeKTheoryOperations §4.3 for spectral
+hypercohomology on a site with enough points and the strong convergence of
+its descent spectral sequence under bounded cohomological dimension. The
+Bott hyperdescent proof, the étale cohomological-dimension bound and the
+spectrum involution are targets here.
 
 For every number field F, finite S containing all primes above an odd
 prime p, q=p^r with r≥1, and X=Spec O_(F,S), prove in every integer
@@ -3693,7 +3735,7 @@ CyclotomicClassGroupsAndStickelberger §5.1 supplies this criterion on
 its native class module; reindexing by n=2j gives the even window
 2≤n≤p−3. This is a consumed theorem, not an additional target here.
 
-Prove `regularPrime_dividedBernoulli_num`: for every odd prime p satisfying
+Prove `regularPrime_dividedBernoulli_num`: for every prime p satisfying
 the supplied regularity predicate and every k≥1, p does not divide the
 reduced numerator of B_(2k)/k. Set m=2k. When p−1∤m, its least
 nonnegative residue n′ modulo p−1 is even and satisfies 2≤n′≤p−3.
@@ -3715,7 +3757,9 @@ signatures that this all-k consequence requires; no extension of them
 is planned here. When p−1∣m, the supplied von Staudt–Clausen
 denominator and squarefreeness results give
 v_p(B_m/m)=−1−v_p(m)<0. Multiplication by 2 preserves this valuation
-for odd p, so this branch also has numerator prime to p. No step
+for odd p. At p=2, where p−1 divides every m and this is the only branch,
+it gives v₂(B_(2k)/k)=−1−v₂(k)<0. So this branch also has numerator prime
+to p. No step
 divides a mod-p congruence by the possibly nonunit k.
 (Sharifi, Proposition 5.2.5 and Remarks
 5.2.8–5.2.9, pp. 134–136; K-book, VI.2.4.1, p. 472.)
@@ -3737,6 +3781,10 @@ divides a mod-p congruence by the possibly nonunit k.
   j=124, since 5³∣j+1; p∤126,127 still holds.
 - At p=3,k=1, B₂/k=1/6 has v₃=−1 and numerator one; p-integrality
   is not asserted on the exceptional branch p−1∣2k.
+- At p=2 the hypothesis holds, since ℚ(ζ₂)=ℚ has class number one, and
+  every k is on the von Staudt–Clausen branch: B₂/1=1/6, B₄/2=−1/60,
+  B₆/3=1/126 and B₈/4=−1/120 have odd numerators, as v₂(B_(2k)/k)=−1−v₂(k)
+  is negative. An odd-prime hypothesis would leave this case unstated.
 - k=0 is excluded: its totalized divided value would be zero, whose
   numerator is divisible by p. Composite p has no regular-prime meaning.
 
@@ -4372,7 +4420,8 @@ K₂(ℤ[1/p])≃ℤ/2⊕ℤ/(p−1). In higher even degrees do not assert a
 splitting or an extension class from this order alone. In the unconditional
 case K₄(ℤ)=0 this nevertheless determines K₄(ℤ[1/p])≃ℤ/(p²−1),
 so K₄(ℤ[1/2])≃ℤ/3.
-(K-book, V.6.1, p. 406, III.6.5.1, p. 236; VI.8.1, p. 513.)
+(K-book, V.6.1, p. 406, III.6.5.1, p. 236; VI.8.1, p. 513, for K₀;
+Example III.1.3.6, p. 183, for K₁.)
 
 **Checks.**
 
