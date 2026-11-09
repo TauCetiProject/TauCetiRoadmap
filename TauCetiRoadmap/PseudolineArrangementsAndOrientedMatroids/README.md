@@ -1708,8 +1708,7 @@ is open (Lund–Purdy–Smith 2014, §3.2, Problem 5): for straight lines Green 
 large `n` with the Cayley–Bacharach theorem for cubic curves, which has no pseudoline analogue
 (ibid.). Grothendieck's notes on pseudoline
 arrangements include the classification of 3.8 (b) and the listing of 3.8 (c) (Montpellier fonds,
-folder 80, pp. 20, 22 and 24 for the classification, p. 28 for the listing,
-https://grothendieck.umontpellier.fr/80.pdf).
+folder 80, pp. 20, 22 and 24 for the classification, p. 28 for the listing; see References).
 
 ## References
 
@@ -1788,6 +1787,10 @@ https://grothendieck.umontpellier.fr/80.pdf).
 - A. Grothendieck, *Esquisse d'un programme* (1984), §3, p. 14, and §4, pp. 21–22, in *Geometric
   Galois Actions 1*, LMS Lecture Note Series 242, Cambridge University Press, 1997, 5–48 (the
   cartographic groups acting on flags).
+- A. Grothendieck, *Systèmes de pseudo-droites : notes manuscrites*, undated (from 1981),
+  unpublished manuscript, 72 pp., Fonds Alexandre Grothendieck, Université de Montpellier, folder
+  80, image-only scan https://grothendieck.umontpellier.fr/80.pdf (pp. 20, 22 and 24: the
+  classification of 3.8 (b); p. 28: the listing of 3.8 (c)).
 - S. Wilson, *Maniplexes: Part 1: maps, polytopes, symmetry and operators*, Symmetry 4 (2012),
   265–275, doi:10.3390/sym4020265 (§5, pp. 267–270: flags, the connection group, faces,
   orientability; §7, p. 272: symmetries, reflexible maniplexes, the type).
