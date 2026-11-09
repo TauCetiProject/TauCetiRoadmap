@@ -33,8 +33,11 @@ pinned Tau Ceti, consumed by the README and stated nowhere here.
 Not statable at the pins, and stated nowhere in this file: Milnor's
 theorem on the dual Steenrod algebra and the Serre–Cartan computation of
 `H^*(K(ℤ/p,n);𝔽_p)` (no stable mod-`p` Steenrod operations, no Steenrod
-algebra or its dual); Quillen's theorem `L ≅ MU_*` and Thom's computation
-of `π_*MO` (no spectra, no `MU`, `MO` or Eilenberg–MacLane spectra); the
+algebra or its dual); Quillen's theorems `L ≅ MU_*` and
+`MO_* ≅ TauCeti.ExponentTwoLazardRing`, the latter carrying the universal
+commutative formal group with `[2]_F = 0` to the formal group of the real
+orientation, and Thom's computation of `π_*MO` (no spectra, no `MU`, `MO`
+or Eilenberg–MacLane spectra); the
 Conner–Floyd and graded Eilenberg–MacLane comparisons for `MO` (no `MO`, no
 graded Eilenberg–MacLane spectrum `H(MO_*)`, no represented homology
 theories); `BP_* ≅ ℤ_(p)[v₁,v₂,…]`, the Hopf algebroid `BP_*BP`, Wilson's
