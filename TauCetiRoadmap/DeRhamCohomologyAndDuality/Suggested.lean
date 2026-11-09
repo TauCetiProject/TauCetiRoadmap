@@ -202,11 +202,12 @@ def IsTransverseAt (I : ModelWithCorners ℝ EM HM) (J : ModelWithCorners ℝ EN
     ((mfderiv I 𝓘(ℝ, V) g x : EM →L[ℝ] V).coprod (-(mfderiv J 𝓘(ℝ, V) j y : EN →L[ℝ] V)))
 
 /-- **§5.3, generic relative perturbations on manifolds.** Let `M` and `N` be second-countable
-boundaryless smooth manifolds over finite-dimensional real models and `f : M → V`, `j : N → V`
-smooth maps into a finite-dimensional space. If `f` is transverse to `j` at every zero of a
-nonnegative smooth `β : M → ℝ`, then the parameters `p` for which the relative translate
-`f + β p` fails to be transverse to `j` at some point of `M` form a set that is null for every
-additive Haar measure on `V` (outer measure); every translate equals `f` on the zero set of `β`.
+boundaryless smooth manifolds over finite-dimensional real models, not necessarily Hausdorff, and
+`f : M → V`, `j : N → V` smooth maps into a finite-dimensional space. If `f` is transverse to `j`
+at every zero of a nonnegative smooth `β : M → ℝ`, then the parameters `p` for which the relative
+translate `f + β p` fails to be transverse to `j` at some point of `M` form a set that is null for
+every additive Haar measure on `V` (outer measure); every translate equals `f` on the zero set of
+`β`.
 The relative translation family is universally transverse, and the local form of §5.2 applies in
 countably many products of charts of `M` and `N`. Parametric transversality to an embedded
 submanifold is Lee, *Introduction to Smooth Manifolds*, Thm. 6.35; the form against a map, for

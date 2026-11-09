@@ -81,26 +81,31 @@ consumer of its classes and the owner of the integration comparison; Differentia
 plans duality only, and that comparison, with the carrier and coefficient conversions it needs, is
 §4.1 here.
 
-Adjacent roadmap with an overlapping object: TangentialBordism §2.1 proves parametric
-transversality to a closed embedded submanifold, with a null set (`TauCeti.IsNullSet`) of bad
-parameters, relative smoothing into a compact manifold, and relative transversality of a map into
-a compact manifold to a closed embedded submanifold `Z`. §5.2 here is the flat case of the
-parametric theorem against a smooth map `j : W → V`: the slice at `p` is transverse to `j` exactly
-when `(x, y) ↦ (F(x, p), j(y))` is transverse to the diagonal of `V × V`, and on a vector space of
-parameters a null set is Haar-null. §5.2 is stated on `TauCeti.IsRegularParameter` of the
-incidence equation, which is statable at the pins and is the form §5.3 consumes, and is proved here
-by its own route on Tau Ceti's flat Sard theorem, so that this roadmap does not depend on
-TangentialBordism. The Haar-null theorem of §5.3 on manifold sources is likewise the instance of
-that parametric theorem with the second-countable boundaryless source `M × N`, parameters `V`,
-target `V × V`, `Z` its diagonal and the family `((x, y), p) ↦ (f(x) + β(x)p, j(y))`: the family is
-transverse to the diagonal exactly when it is universally transverse to `j`, its slice at `p` is
-transverse to the diagonal at `(x, y)` for every `y` exactly when `IsTransverseAt` holds for
-`relativeTranslate f β p` at `x`, and `TauCeti.IsNullSet` over `𝓘(ℝ, V)` is nullity for every
-additive Haar measure on `V`. It is proved here from the local form of §5.2 for the same reason,
-and the compact-source corollaries of §5.3 follow from it. The relative perturbations of §5.3 move
-`f` and keep `j` fixed, unlike TangentialBordism's relative theorem, which moves a map into a
-compact manifold, by a homotopy rel a closed set, until it is transverse to a fixed `Z`; and §2.5
-here prescribes boundary collar data for fillings into a vector space.
+Adjacent roadmap with an overlapping object: TangentialBordism §2.1 proves, on Hausdorff manifolds,
+parametric transversality to a closed embedded submanifold, with a null set (`TauCeti.IsNullSet`) of
+bad parameters, and, rel a closed set, relative smoothing and relative transversality to a closed
+embedded submanifold `Z` of maps into a compact boundaryless manifold and of maps from a compact
+source into a boundaryless second-countable manifold. §5.2 here is the flat case of the parametric
+theorem against a smooth map `j : W → V`: the slice at `p` is transverse to `j` exactly when
+`(x, y) ↦ (F(x, p), j(y))` is transverse to the diagonal of `V × V`, and on a vector space of
+parameters a null set is Haar-null. §5.2 is stated on `TauCeti.IsRegularParameter` of the incidence
+equation, which is statable at the pins and is the form §5.3 consumes, and is proved here by its own
+route on Tau Ceti's flat Sard theorem, so that this roadmap does not depend on TangentialBordism.
+The Haar-null theorem of §5.3 on manifold sources is likewise, for Hausdorff `M` and `N`, the
+instance of that parametric theorem with the second-countable boundaryless source `M × N`,
+parameters `V`, target `V × V`, `Z` its diagonal and the family
+`((x, y), p) ↦ (f(x) + β(x)p, j(y))`: the family is transverse to the diagonal exactly when it is
+universally transverse to `j`, its slice at `p` is transverse to the diagonal at `(x, y)` for every
+`y` exactly when `IsTransverseAt` holds for `relativeTranslate f β p` at `x`, and
+`TauCeti.IsNullSet` over `𝓘(ℝ, V)` is nullity for every additive Haar measure on `V`. It is proved
+here from the local form of §5.2 for the same reason, and the compact-source corollaries of §5.3
+follow from it. It is stated without the Hausdorff property, which TangentialBordism §2.1 assumes of
+every manifold; the route of §5.3, through countably many products of chart neighbourhoods, does not
+use it. The relative perturbations of §5.3 move `f` by the explicit translates `f + βp` and keep
+fixed the map `j`, which need not be an embedding (an injective immersion of `ℝ` onto a figure eight
+in `ℝ²` is one), unlike TangentialBordism's relative theorem, which moves a map, by a homotopy rel a
+closed set, until it is transverse to a fixed closed embedded `Z`; and §2.5 here prescribes boundary
+collar data for fillings into a vector space.
 
 Adjacent roadmap with a different object: ComplexKahlerGeometry K5a owns the complex-coefficient
 de Rham comparison and the punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms;
@@ -1090,12 +1095,13 @@ differentiable, so the predicate is applied to smooth maps only. *Needs:* Mathli
 
 The targets on manifolds:
 
-- *Manifold sources.* Let `M` and `N` be second-countable boundaryless smooth manifolds over
-  finite-dimensional real models `I` and `J`, `V` a finite-dimensional real normed space, and
-  `f : M → V`, `j : N → V` and `β : M → ℝ` smooth with `β ≥ 0` and `f` transverse to `j` at every
-  zero of `β`. Prove `addHaar_setOf_not_forall_isTransverseAt_relativeTranslate`: the parameters
-  `p ∈ V` for which `relativeTranslate f β p` fails to be transverse to `j` at some point of `M`
-  form a set that is null for every additive Haar measure on `V` (outer measure). A Haar-null set
+- *Manifold sources.* Let `M` and `N` be second-countable boundaryless smooth manifolds, not
+  necessarily Hausdorff, over finite-dimensional real models `I` and `J`, `V` a finite-dimensional
+  real normed space, and `f : M → V`, `j : N → V` and `β : M → ℝ` smooth with `β ≥ 0` and `f`
+  transverse to `j` at every zero of `β`. Prove
+  `addHaar_setOf_not_forall_isTransverseAt_relativeTranslate`: the parameters `p ∈ V` for which
+  `relativeTranslate f β p` fails to be transverse to `j` at some point of `M` form a set that is
+  null for every additive Haar measure on `V` (outer measure). A Haar-null set
   contains no ball, so for every `r > 0` there is `p` with `‖p‖ < r` for which
   `relativeTranslate f β p` is transverse to `j` at every point of `M`, and it equals `f` on the
   zero set `C` of `β`. On a Hausdorff such `M`, every closed `C` is the zero set of such a `β` with
@@ -1155,6 +1161,10 @@ The targets on manifolds:
   derivative `0`; for `p > 0` it has no zeros and for `p < 0` its zeros `±√(−p)` have derivatives
   `±2√(−p) ≠ 0`. The bad set `{0}` is Haar-null and nonempty, so a statement that every parameter
   is good would be false.
+- The Hausdorff property is not needed: let `M` be the line with two origins (second countable,
+  boundaryless, not Hausdorff), `N` a point, `j = 0`, `f = x²` read in either chart and `β = 1`.
+  The translate `x² + p` fails to be transverse only at `p = 0`, at both origins, so the bad set is
+  again `{0}`, Haar-null.
 - Second countability is necessary: let `N` be `ℝ` with the discrete topology, a boundaryless
   `0`-dimensional manifold that is not second countable, `j` the identity into `V = ℝ`, `M` a
   point, `f = 0` and `β = 1`. Every translate `p` equals `j(p)`, where the map
@@ -1220,10 +1230,10 @@ Ceti; cited for design, never as the definition of a target.
 
 - [Lee] John M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics
   218, Springer, 2013: Prop. 2.28 (exhaustion functions), Thms. 9.24–9.26, pp. 222–223 (boundary
-  flowout, collar neighbourhoods, homotopy equivalence with the interior), Thms. 6.35–6.36
-  (parametric transversality), Ch. 11, *Conservative Covector Fields* (path independence and
-  exactness of closed covector fields), Thm. 18.7 (smooth singular homology) and Thm. 18.14 (the
-  de Rham theorem).
+  flowout, collar neighbourhoods, homotopy equivalence with the interior), Thm. 6.35
+  (parametric transversality), Thm. 6.36 (transversality by a homotopy), Ch. 11, *Conservative
+  Covector Fields* (path independence and exactness of closed covector fields), Thm. 18.7 (smooth
+  singular homology) and Thm. 18.14 (the de Rham theorem).
 - [Hatcher] Allen Hatcher, *Algebraic Topology*, Cambridge University Press, 2002, cited from the
   author's online edition: Prop. 1.30 (homotopy lifting), Prop. 1.33 (the lifting criterion) and
   Prop. 1.34 (uniqueness of lifts).
