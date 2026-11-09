@@ -476,7 +476,10 @@ hypotheses.
   bracket, with graded skew-symmetry (the flip identity with `β.flip = −β`) and the graded Jacobi
   identity `bracketWedge_jacobi` [Tu, *Differential Geometry*, GTM 275, §21]; the interior product
   is Mathlib's `curryLeft` (`ι_v ∘ ι_v = 0` is its `curryLeft_same`), whose antiderivation rule
-  `curryLeft_wedgeWith` [Lee, Lemma 14.13] is built here.
+  `curryLeft_wedgeWith` [Lee, Lemma 14.13] is built here. *Needs:* Mathlib's continuous
+  alternating and multilinear maps (`ContinuousMultilinearMap.alternatization`,
+  `MultilinearMap.uncurrySum`), `AlternatingMap.domCoprod` for the shuffle form, and
+  `ContinuousAlternatingMap.curryLeft` for the interior product; nothing of this roadmap.
   **Checks.**
   - On two covectors, `wedgeWith μ φ ψ (v, w) = μ (φ v) (ψ w) − μ (φ w) (ψ v)`, with no factor
     `1/2`; the `Alt` normalization would give half of this.
@@ -495,7 +498,9 @@ hypotheses.
     `0 + 0 + [e₁, e₂] = e₃ ≠ 0`.
 - **0.2 The smooth alternating bundle.** The `ContMDiffVectorBundle` instance for
   `fun x ↦ E₁ x [⋀^ι]→L[ℝ] E₂ x` (`contMDiffVectorBundle_continuousAlternatingMap`), mirroring
-  `VectorBundle/Hom.lean`; all form bundles specialize it.
+  `VectorBundle/Hom.lean`; all form bundles specialize it. *Needs:* Mathlib's topological bundle
+  of continuous alternating maps (`Topology/VectorBundle/ContinuousAlternatingMap.lean`) and the
+  smooth `Hom` bundle (`Geometry/Manifold/VectorBundle/Hom.lean`) as the pattern.
 - **0.3 Rough forms and pullback.** The carrier is `RoughBundleForm I M V k`, with value fibre
   `V x`; `RoughForm I M F k` is its `Bundle.Trivial M F` specialization. Smoothness is
   `IsSmoothBundleForm` in the alternating bundle, specializing to `IsSmoothForm`. Bundle pullback
@@ -545,7 +550,11 @@ hypotheses.
   with `fderiv ℝ f₀` under the flat tangent identifications. Prove the open-subtype version
   of the flat-pullback identity of 0.4, with its pointwise evaluation law. These comparisons include
   different real normed models, such as `ℝ×ℝ` and `ℂ`.
-  Layer 1.5 gives the coordinate and path calculations using these adapters.
+  Layer 1.5 gives the coordinate and path calculations using these adapters. *Needs:* 0.1 (the
+  paired wedge); 0.2 (smoothness in the alternating bundle); Mathlib's `mfderiv`,
+  `ContinuousAlternatingMap.compContinuousLinearMap`,
+  `ContinuousLinearMap.compContinuousAlternatingMap`, `ContinuousAlternatingMap.ofSubsingletonLIE`
+  and `ContinuousAlternatingMap.constOfIsEmpty`; for the path statement, Mathlib's `curveIntegral`.
   **Checks.**
   - `RoughBundleForm I M V 0` is `(x : M) → TangentSpace I x [⋀^Fin 0]→L[ℝ] V x`, the sections of
     `V` through `constOfIsEmpty`; a carrier indexed by `Fin (k + 1)` instead of `Fin k` would make
@@ -597,6 +606,9 @@ hypotheses.
   `SmoothForm` smoothness. Keep the coefficient spaces normed over `ℝ` and do not add a
   `[CompleteSpace]` requirement for this algebraic or calculus interface. Transfer the
   coefficient-postcomposition/paired-wedge compatibility from rough forms to bundled forms.
+  *Needs:* 0.2–0.3; for the migration, Tau Ceti's `TauCeti.SmoothTwoForm` API and
+  `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean`, and 1.1's `mextDeriv` for the closedness
+  comparison.
   **Checks.**
   - Membership in `smoothForms I M F k` is `IsSmoothForm I ∞` by definition: `x dy` on `ℝ²` is a
     member, the indicator form of 0.3 is not, and the zero form is; `smoothForms I M F k = 0` for
@@ -629,7 +641,9 @@ hypotheses.
   identifying its derivative with native
   `extDeriv` after the arity-one identification. On the real plane, for
   `ω=P dx+Q dy`, this gives `dω=(∂ₓQ−∂ᵧP) dx∧dy`; in particular closedness is exactly
-  the zero-curl equation, with the same real or complex coefficient space.
+  the zero-curl equation, with the same real or complex coefficient space. *Needs:* 0.3 (rough
+  forms, `RoughForm.ofFunction` and the open-subtype adapter); Mathlib's `extDerivWithin`,
+  `extDerivWithin_pullback`, `extChartAt` and `extDeriv_constOfIsEmpty`.
 - **1.2 Naturality.** `mpullback_mextDeriv`: `f^*(dω) = d(f^*ω)` for a `C²` map and a `C¹` form,
   `At`, `On` and globally. The primary fixed-coefficient theorem is on the rough fixed-coefficient
   carriers of Layers 0.3 and 1.1: for every continuous real-linear `L : F →L[ℝ] G` and every rough
@@ -646,6 +660,8 @@ hypotheses.
   calculation using `fderivWithin_comp`, the `extDerivWithin` definition and alternatization,
   then lift through the source chart. Real and imaginary projections `ℂ →L[ℝ] ℝ` consume
   this general theorem, not separate coefficient carriers. No coefficient-completeness assumption is needed.
+  *Needs:* 0.3 (`mpullback` and coefficient postcomposition); 1.1; Mathlib's
+  `extDerivWithin_pullback` and `fderivWithin_comp`.
 - **1.3 d² = 0 and regularity.** `mextDeriv_mextDeriv` for `C²` forms, and the new flat lemma that
   `extDerivWithin` takes `C^(n+1)` forms to `C^n` forms on a set of unique differentiability (in
   particular on `range I`), with its transfer `isSmoothForm_mextDeriv` and the smooth case
@@ -654,7 +670,8 @@ hypotheses.
   `SmoothForm` mirror of Layer 1.2's coefficient naturality for `C^∞` forms. On bundled smooth
   real forms, `d` is the linear map `mextDerivₗ`, and the closed forms `closedForms I M k` are
   its kernel: closedness is the equation `mextDeriv φ = 0`, with any chartwise description a
-  theorem about it.
+  theorem about it. *Needs:* 1.1–1.2; 0.4 (the bundled carrier and its coefficient-map
+  smoothness); Mathlib's flat `d² = 0` and its `Within` form on sets of unique differentiability.
   **Checks.**
   - On the model `𝓘(ℝ, E)` with `s = univ` the chart is the identity, so
     `mextDerivWithin φ univ x = extDeriv φ x`, Mathlib's flat derivative; on `[0, ∞)` over
@@ -683,7 +700,9 @@ hypotheses.
   pairing's three bundles. Then the invariant formulas
   through `mlieBracket` [Lee, Prop. 14.29, 14.32] (`mextDeriv_apply_one` in degree one), the Lie derivative of forms by the bracket
   formula (the Lie derivative of forms) [Lee, Cor. 12.33], and Cartan's magic formula [Lee, Thm. 14.35].
-  *Acceptance:* on `ℝ²`, `d(x dy) = dx ∧ dy` and `d(dx) = 0`.
+  *Acceptance:* on `ℝ²`, `d(x dy) = dx ∧ dy` and `d(dx) = 0`. *Needs:* 0.1 (the paired wedge
+  and `curryLeft_wedgeWith`); 1.1–1.3; Mathlib's `mlieBracket` and the flat bracket formula
+  (`Analysis/Calculus/DifferentialForm/VectorField.lean`).
 - **1.5 Flat coordinate and curve calculus.** Use the open-subtype flat adapter in 0.3 and
   the derivative comparisons in 1.1. On the real plane `ℂ`, with target coordinates `(u,v)`,
   let `φ(x,y)=(xy,1)`. Verify pointwise `φ*du=d(xy)=y dx+x dy`, `φ*dv=d(1)=0`, and
@@ -721,7 +740,11 @@ hypotheses.
   `derivWithin` away from the finitely many breakpoints and interval endpoints. Use
   `curveIntegral_eq_intervalIntegral_deriv` for that comparison and
   `intervalIntegral.sum_integral_adjacent_intervals` for raw pieces. Native `Path`
-  concatenation separately uses `curveIntegral_trans`.
+  concatenation separately uses `curveIntegral_trans`. *Needs:* 0.3's open-subtype adapters;
+  1.1's derivative comparisons; Mathlib's `Complex.contDiffAt_log`, `curveIntegral`,
+  `curveIntegral_eq_intervalIntegral_deriv`, `ContinuousOn.curveIntegrable_of_contDiffOn`,
+  `intervalIntegral.sum_integral_adjacent_intervals` and `curveIntegral_trans`; Tau Ceti's
+  `TauCeti.Contour.IsPiecewiseC1On`.
 
 The general bundle carrier does not supply a canonical exterior derivative. A connection supplies
 `d_∇`, whose square is curvature acting by wedge, `(d_∇)²ω = R_∇ ∧ ω`, rather than zero in general.
@@ -742,7 +765,9 @@ Geometric Topology.
   point of a lift's own chart it is the model orientation twisted by the chart sign there),
   extensionality through it (`Manifold.Orientation.ext`), `Orientable`, and
   `Manifold.Orientation.eq_or_eq_neg` on preconnected `M`, with `o.neg ≠ o` on nonempty `M` and
-  `orientationAt o.neg x = −orientationAt o x`.
+  `orientationAt o.neg x = −orientationAt o x`. *Needs:* Mathlib's `Orientation` and `Module.Ray`
+  (`LinearAlgebra/{Orientation,Ray}.lean`), `extChartAt` and `fderivWithin` within `range I`;
+  nothing of layers 0–1.
   **Checks.**
   - On the empty manifold a lift is only a model orientation, and the diagonal flip identifies
     the two, so there is exactly one orientation and `o.neg = o`; `eq_or_eq_neg` holds and
@@ -789,7 +814,10 @@ Geometric Topology.
   while `Set.Icc 0 1` is the one-dimensional obstruction (the first Check). Over a general model
   with corners the hypothesis is needed in higher dimension as well: at a corner whose model cone
   has no orientation-reversing linear automorphism every chart carries the same sign, and no
-  reflection is available (the pentagonal-cone Check).
+  reflection is available (the pentagonal-cone Check). *Needs:* 2.1; Mathlib's
+  `IsLocalDiffeomorph.mfderivToContinuousLinearEquiv`, `Basis.orientation` and
+  `Module.finBasisOfFinrankEq`; 0.3–0.4 for top forms; Mathlib's partitions of unity for
+  `exists_topForm_of_orientation`; Tau Ceti's `TauCeti.IsOrientedAtlas` for the atlas criterion.
   **Checks.**
   - Negative control for the boundaryless hypothesis, in dimension `1`: `Set.Icc 0 1` over
     `𝓡∂ 1` has an orientation (2.1) but no oriented atlas. A chart of the maximal atlas around
@@ -852,7 +880,8 @@ Geometric Topology.
   never an instance on the type: lifted charts (the chart at a point of `X` is the chart of `M` at its image composed with the local inverse of `p`), `X` a manifold with
   `p` a local diffeomorphism, uniqueness as atlas compatibility, and smoothness
   of continuous lifts (smoothness of a map is detected after composing with the covering map). Shared with the Lie-groups roadmap's
-  simply connected covers.
+  simply connected covers. *Needs:* Mathlib's covering maps (`Topology/Covering/Basic.lean`),
+  lifting (`Topology/Homotopy/Lifting.lean`) and `IsLocalDiffeomorph`; nothing of layers 0–1.
 - **2.4 The orientation double cover.** The cover of pairs of a point and an orientation of its
   tangent space, with its projection, a topology that is ⚠ not the sigma topology (pinned by the
   covering property of the projection), the induced smooth structure, the canonical orientation
@@ -871,7 +900,11 @@ Geometric Topology.
   `injective_mvfderiv_subtypeVal_sphere` to construct this orientation and prove the criterion.
   Include n=0, with positive point +1 and negative point −1. Prove the antipodal map has
   orientation sign `(-1)^(n+1)`, hence reverses this orientation exactly for even n.
-  These tangent-orientation constructions precede AT6.3's homological comparison.
+  These tangent-orientation constructions precede AT6.3's homological comparison. *Needs:*
+  2.1–2.3; Tau Ceti's universal-cover classification (`AlgebraicTopology/UniversalCover/`) for
+  `orientable_of_forall_index_ne_two`; 0.3 and 1.2 for the descent API; Mathlib's
+  `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and `injective_mvfderiv_subtypeVal_sphere`
+  for the orientation of `Sⁿ`.
 
 ### Layer 3: flows
 
@@ -880,7 +913,9 @@ Geometric Topology.
 - **3.1 Smooth dependence, flat.** The local flow of a `C^(n+1)` field on a Banach space is
   `C^(n+1)` jointly in time and initial condition (`exists_contDiffAt_localFlow_of_completeSpace`);
   Tau Ceti has the finite-dimensional case. The hardest analysis in the layer, hence a milestone of
-  its own.
+  its own. *Needs:* Mathlib's Picard–Lindelöf theorem (`Analysis/ODE/PicardLindelof.lean`) and
+  implicit function theorem (`Analysis/Calculus/ImplicitContDiff.lean`); Tau Ceti's
+  `ODE.exists_contDiffAt_localFlow` as the finite-dimensional model; nothing of layers 0–2.
 - **3.2 The maximal flow.** `flowOf` and `flowDomain` read Tau Ceti's `maximalIntegralCurve` and
   `maximalIntegralCurveFlowDomain` in the `(t, x)` order — adapters, not a second flow. The
   fundamental theorem of flows [Lee, Thm. 9.12] is Tau Ceti's for finite-dimensional models:
@@ -891,16 +926,25 @@ Geometric Topology.
   extension to Banach models**, joint openness and joint smoothness with `[CompleteSpace E]`
   (`isOpen_maximalIntegralCurveFlowDomain_of_completeSpace`,
   `contMDiffOn_maximalIntegralCurve_of_completeSpace`), stated for Tau Ceti's own objects; this is
-  where 3.1 enters.
-- **3.3 Completeness and homogeneity.** `IsCompleteVectorField`, the uniform-time criterion,
-  compactly supported completeness (`isCompleteVectorField_of_isCompact`, [Lee, Thm. 9.16]) and
-  compact-manifold completeness (`isCompleteVectorField_of_compactSpace`, Tau Ceti's
-  `isMIntegralCurve_maximalIntegralCurve` in the `flowDomain` form), the flow of a complete vector
-  field as a Mathlib `Flow ℝ M` (`toFlow`, whose maps are `flowOf` by `toFlow_apply`); and
-  homogeneity `exists_flowOf_one_eq` on connected boundaryless finite-dimensional `M` — ⚠ false
-  Banach-generally, where every compactly supported continuous field is zero. The flow of a
-  left-invariant field on a Lie group is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with
-  the Lie-groups roadmap's invariant curves.
+  where 3.1 enters. *Needs:* 3.1; Tau Ceti's `maximalIntegralCurve`,
+  `maximalIntegralCurveFlowDomain`, `isOpen_maximalIntegralCurveFlowDomain`,
+  `contMDiffOn_maximalIntegralCurve` and `maximalIntegralCurve_add`
+  (`Geometry/Manifold/IntegralCurve/{Maximal,Flow}.lean`).
+- **3.3 Completeness and homogeneity.** `IsCompleteVectorField`, the uniform-time criterion and
+  compactly supported completeness (`isCompleteVectorField_of_isCompact`, [Lee, Thm. 9.16]);
+  compact-manifold completeness is not a target: it is Tau Ceti's
+  `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo`, with the whole manifold as the
+  compact set, read in the `flowDomain` form (`isCompleteVectorField_of_compactSpace`, proved from
+  it by one rewriting). The flow of a complete vector field as a Mathlib `Flow ℝ M` (`toFlow`,
+  whose maps are `flowOf` by definition, `toFlow_apply`); and homogeneity `exists_flowOf_one_eq`
+  on connected boundaryless finite-dimensional `M` — ⚠ false Banach-generally, where every
+  compactly supported continuous field is zero. The flow of a left-invariant field on a Lie group
+  is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with the Lie-groups roadmap's invariant
+  curves. *Needs:* 3.2; Mathlib's uniform-time globalization
+  (`Geometry/Manifold/IntegralCurve/UniformTime.lean`) and `Flow`; Tau Ceti's
+  `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo` and `maximalIntegralCurve_add`;
+  for homogeneity, Mathlib's smooth bump functions; for the reconciliation, Tau Ceti's
+  `mulInvariantIntegralCurve`.
   **Checks.**
   - `v = 1` on `ℝ`: `flowOf v t x = x + t`, `flowDomain v = univ`, so `IsCompleteVectorField v`,
     and `toFlow` is the translation flow, its group law `(x + t) + s = x + (t + s)`.
@@ -916,7 +960,9 @@ Geometric Topology.
   flow characterization of the bracket `hasDerivAt_mpullback_flowOf` [Lee, Thm. 9.38], commuting
   flows and the canonical form for commuting fields [Lee, Thm. 9.44, 9.46], and Lie derivatives of
   forms via flows [Lee, Thm. 12.37]. *Acceptance:* constant fields flow by translation, the rotation
-  field of `ℝ²` by rotation.
+  field of `ℝ²` by rotation. *Needs:* 3.2–3.3; Mathlib's `VectorField.mpullback` and
+  `mlieBracket`; Tau Ceti's inverse function theorem `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`
+  for straightening; 0.3 and 1.4 for the Lie derivative of forms.
 - **3.5 Time-dependent flows** [Lee, Thm. 9.48]. For an open time slab
   `J : TopologicalSpace.Opens ℝ` and a smooth time-dependent field on `↥J × M`,
   build the maximal two-time flow by suspending to the autonomous field `(1,X)`.
@@ -943,7 +989,10 @@ Geometric Topology.
   Moser) uses the full finite-dimensional specialization,
   including its compact-time extension, smooth dependence on both time
   variables and initial point, and restriction/naturality. SBC B5 consumes
-  this same finite-dimensional specialization.
+  this same finite-dimensional specialization. *Needs:* 3.2's `flowOf` and `flowDomain`; Tau
+  Ceti's finite-dimensional maximal flow (`IntegralCurve/Flow.lean`) for the finite-dimensional
+  specialization; 3.1–3.2 for the Banach specialization and `exists_timeDependentFlow`; Mathlib's
+  open-submanifold and product atlases.
   **Checks.**
   - `suspendedTimeField J v` at `(s, x)` is `(1, v s x)`: its time component is the unit field,
     so the suspended curve through `(s, x)` has time coordinate `s + τ` at elapsed time `τ`,
@@ -999,7 +1048,9 @@ that target's signature, never a second definition.
   restriction, coordinate-transport and annihilator lemmas needed by the
   remaining geometry to those APIs. A frame is a basis of the distribution
   fiber, not just a list of tangent vectors. Existing results are not new
-  completion targets.
+  completion targets. *Needs:* Tau Ceti's `TauCeti.IsDistributionFrameOn`,
+  `TauCeti.IsContMDiffDistribution` and `TauCeti.standardContactDistribution`
+  (`Geometry/Manifold/Distribution.lean`).
 
 - **4.2 Integral manifolds and involutivity.** An integral immersion has its
   own smooth `k`-dimensional manifold carrier and a smooth immersion into `M`
@@ -1020,7 +1071,10 @@ that target's signature, never a second definition.
   annihilating-one-form criterion `isInvolutive_iff_forall_mextDeriv` with
   the hypotheses displayed in `Suggested.lean`. Global smooth sections and
   global annihilating forms can be used through local bump extensions;
-  they do not replace the local definition of involutivity.
+  they do not replace the local definition of involutivity. *Needs:* 4.1; Mathlib's
+  `Manifold.IsImmersion`, `mlieBracket` and smooth bump functions; Tau Ceti's
+  `TauCeti.IsInvolutiveDistribution`; 0.3, 1.1 and 1.4's invariant formula `mextDeriv_apply_one`
+  for the annihilating-form criterion.
 
   **Checks.**
   - `Distribution.IntegralManifold`, constant family: the affine slice `u ↦ (u, c)`,
@@ -1050,9 +1104,13 @@ that target's signature, never a second definition.
     predicate would wrongly hold.
 
 - **4.3 Local Frobenius.** On a finite-dimensional smooth Hausdorff
-  boundaryless manifold, an involutive smooth distribution has flat charts
-  and local integral slices (`Distribution.exists_flatChart`,
-  `Distribution.exists_isSliceChart_integralManifold`). Transport the distribution into coordinates,
+  boundaryless manifold, an involutive smooth distribution of rank `k` has flat charts
+  (`Distribution.exists_flatChart`: a chart of the maximal atlas around each point carrying `D`
+  to one fixed `k`-dimensional subspace of the model) and local integral slices
+  (`Distribution.exists_isSliceChart_integralManifold`: through each point an integral manifold
+  and a smooth chart with values in the model space, smooth with smooth inverse, which carries
+  the part of the integral manifold in its source onto the part of a `k`-dimensional affine
+  subspace in its target, in the sense of `TauCeti.IsSliceChart`). Transport the distribution into coordinates,
   choose a complementary subspace, and express it locally as a graph
   distribution. Reuse the existing graph-coordinate Frobenius theorem.
   The remaining work includes the coordinate reduction and the transverse
@@ -1065,7 +1123,25 @@ that target's signature, never a second definition.
   with second-countable carriers. The factorization target here is for
   smooth maps from finite-dimensional smooth Hausdorff second-countable
   boundaryless source manifolds (`Distribution.exists_contMDiff_factor`). Do not assert it for an
-  arbitrary parametrizing immersion or an uncountable discrete carrier.
+  arbitrary parametrizing immersion or an uncountable discrete carrier. *Needs:* 4.1–4.2; 3.4's
+  straightening theorem `exists_chart_mfderiv_eq_const` (rank one); Tau Ceti's
+  `TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt` (`Distribution/Graph.lean`),
+  `TauCeti.IsSliceChart` (`LocallyFlat/Basic.lean`) and inverse function theorem
+  `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; Mathlib's `AffineSubspace`.
+  **Checks** (for the slice statement).
+  - The model slice must be an affine subspace of dimension `k`. With an arbitrary model set `S`,
+    the choice `S = e '' (e.source ∩ A)` makes the slice clause hold for every chart `e` and
+    every set `A` (the image of `e.source` lies in `e.target`), so the statement would assert no
+    more than an integral manifold through the point.
+  - Constant family `span(e₁)` on `ℝ²`, `N = (u ↦ (u, 0))`, `e = id`, `P = ℝ × {0}`: the clause
+    reads `id '' (ℝ × {0}) = univ ∩ (ℝ × {0})`, which holds, and `P` has direction of
+    dimension `1 = k`.
+  - The irrational line on the torus `ℝ²/ℤ²`, taken whole, meets the target of any chart in
+    infinitely many parallel segments, which no single affine line describes, so the whole leaf
+    satisfies the slice clause for no chart; a plaque (one segment) does, which is why the
+    integral manifold is existential.
+  - Rank `0`: `D = ⊥`, the integral manifold is the point, `P = {e x}` with direction `⊥` of
+    dimension `0`, and the clause reads `{e x} = e.target ∩ {e x}`.
 
 - **4.4 Global leaves** [Lee, Thm. 19.21]. Construct the leaf through every point on a smooth
   Hausdorff boundaryless manifold, for an involutive smooth distribution. Give it its own charted
@@ -1074,7 +1150,8 @@ that target's signature, never a second definition.
   integral immersion meeting it (in particular of every one through the point). Prove that the
   leaf images partition `M` (two leaves that meet contain each other) and that leaves are second
   countable when `M` is second countable. `Distribution.exists_leaf` states existence with all
-  these properties.
+  these properties. *Needs:* 4.2–4.3 (flat charts, slices and weak embeddedness); Tau Ceti's
+  `TauCeti.Foliation` (`Foliation/Basic.lean`).
   **Checks.**
   - Rank zero: the leaves are the points of `M`; rank `dim M`: the leaves are the connected
     components with their manifold structure.
@@ -1116,7 +1193,10 @@ stronger quantifier order.
   map the identity on ambient points, and prove the boundary orientation agrees with
   2.4's outward orientation of `S^n`. Orient the ball by its ambient inclusion and
   prove the derivative criterion and the outward radial-field law. Include n=0, the
-  interval: its right endpoint is positive and its left endpoint negative.
+  interval: its right endpoint is positive and its left endpoint negative. *Needs:* 2.1–2.2; 0.3
+  and 1.2 (restriction as pullback, commuting with `d`); Tau Ceti's boundary manifold
+  `TauCeti.isManifold_boundary` and the closed-ball instances named above; 2.4's orientation of
+  `Sⁿ`; Mathlib's partitions of unity for `exists_isOutwardPointing`.
   **Checks.**
   - On `[0, ∞)` over `𝓡∂ 1`, at the boundary point `0` the vector `−∂ₜ` is outward
     (`IsOutwardPointing`: the constrained coordinate of its chart image is `−1 < 0`) and `+∂ₜ`
@@ -1132,13 +1212,18 @@ stronger quantifier order.
   Independence of basis, chart (Jacobian change of variables; the boundary is null), partition,
   cover and lift; then linearity, sign reversal under the opposite orientation, positivity (⚠ for
   compactly supported forms only), and invariance under orientation-preserving and sign change under
-  reversing diffeomorphisms [Lee, Prop. 16.6].
+  reversing diffeomorphisms [Lee, Prop. 16.6]. *Needs:* 0.3–0.4 (top forms); 2.1–2.2 (chart
+  signs, preserving maps); 5.1's nullity of the boundary; Mathlib's `Basis.addHaar`, change of
+  variables (`MeasureTheory/Function/Jacobian.lean`) and partitions of unity.
 - **5.3 Stokes.** `∫_M dω = ∫_{∂M} ι^*ω` for a compactly supported `C¹`
   `n`-form on an oriented `C^∞` manifold over `𝓡∂ (n+1)`, by partition of unity and the half-space
   case of the flat divergence theorem. Corollaries: `∫_M dω = 0` on
   boundaryless `M`, the interval case against `intervalIntegral`, the smooth-boundary
   specialization of Green's theorem, and agreement with `curveIntegral`. The planar
-  post-manifold comparison theorem is owned by 12.6, after the flat 5.6 theorem.
+  post-manifold comparison theorem is owned by 12.6, after the flat 5.6 theorem. *Needs:*
+  5.1–5.2; 1.2 (`d` commutes with restriction); Mathlib's flat divergence theorem on boxes
+  (`MeasureTheory/Integral/DivergenceTheorem.lean`) and partitions of unity; for the corollaries,
+  Mathlib's `intervalIntegral` and `curveIntegral`.
 - **5.4 The homotopy operator.** The homotopy operator `K` on `M × Icc 0 1`, with its defining identity:
   for a `C¹` form `ω` with values in a complete space, `hω` is `C¹` and
   `ι₁^*ω − ι₀^*ω = d(hω) + h(dω)`, proved directly rather than through Stokes, so `M` may have
@@ -1192,6 +1277,10 @@ stronger quantifier order.
   and prove that slicing commutes with it; positive-degree closed slice forms
   then have jointly smooth primitives. No contraction of N is required. Separately, Stokes on
   `M × Icc 0 1` for boundaryless `M`, which 10.5's homotopy invariance of the degree consumes.
+  *Needs:* 0.3–0.4; 1.1–1.3; Mathlib's interval integral and differentiation under it
+  (`Analysis/Calculus/ParametricIntervalIntegral.lean`); 1.5's adapters for the planar formulas;
+  not 5.3. For the separate Stokes on `M × Icc 0 1`, 5.2's integral and the interval fundamental
+  theorem of calculus.
 - **5.4a Contraction along a map and differentiation of pullback.** This
   extends layers 0–1 on their existing arbitrary `ModelWithCorners` and
   fixed-coefficient form carriers, retaining the stated smoothness and
@@ -1238,6 +1327,9 @@ stronger quantifier order.
   existing regularity/naturality API. No invertibility of p_t is required.
   In the flat model, `contractionAlongMap` and `familyContraction` are the native
   Euclidean insertion, and `moving_pullback_hasDerivAt` is the fixed-form derivative identity.
+  *Needs:* 0.1 and 0.3–0.4; 1.1–1.4 (Cartan calculus); Mathlib's
+  `ContinuousAlternatingMap.curryLeft`; 5.4's homotopy operator for the identification
+  `K_Pω = K(P^*ω)`; 3.5 for the flow specialization.
   **Checks.**
   - `contractionAlongMap id e ω` is the interior product `ι_e ω`: for `ω = dx ∧ dy` and
     `e = e₁`, `(dx ∧ dy)(e₁, w) = w₂`, so the result is `dy`; inserting `V` in the last slot
@@ -1256,7 +1348,9 @@ stronger quantifier order.
   elementary gates: the half-space interval FTC from 5.3,
   `|∫_{S¹} dθ|=2π` for `circleAngularForm`, the pullback to the circle of the plane form
   `x dy − y dx` (`planeAngularForm`), and the unit-square Green formula
-  from the independent flat theorem. Circle volume and 12.4 consume this lane.
+  from the independent flat theorem. Circle volume and 12.4 consume this lane. *Needs:* 5.2;
+  Mathlib's absolute-determinant change of variables (`MeasureTheory/Function/Jacobian.lean`);
+  for the gates, 5.3 (the interval) and 5.6.2's flat rectangle identities (the square).
   **Checks.**
   - `Density V m` with `m < dim V` is forced to be `0` on every tuple: a linearly independent
     `m`-tuple `v` is carried to `2v` both by `2 · id`, of determinant `2^dim`, and by the map
@@ -1370,7 +1464,32 @@ stronger quantifier order.
   formula with its four oriented edges, simplex and product specializations,
   and naturality under compatible face diffeomorphisms. This constructs
   [Lee, Thm. 16.25]'s smooth-corner scope with explicit data; it attributes no
-  smooth-boundary theorem to an arbitrary nonsmooth convex model.
+  smooth-boundary theorem to an arbitrary nonsmooth convex model. *Needs:* 2.1–2.2; 5.1 (the
+  outward-first rule and the half-space boundary); 5.2 and 5.5a (integration); the local
+  half-space formula of 5.3; Mathlib's `modelWithCornersEuclideanQuadrant`, partitions of unity
+  and `Convexity.StdSimplex`; Tau Ceti's boundary manifold for the half-space instance.
+  **Checks** (for the smooth face structure, its germs `LocalBoundaryGerm x` and `∂̃M`).
+  - `Q² = [0, ∞)²`: `∂̃Q²` is the disjoint union of the facets `{x₀ = 0}` and `{x₁ = 0}`, two
+    copies of `[0, ∞)`. Over `(0, t)` and `(t, 0)` with `t > 0` the fibre of `j` has one element
+    (depth `1`); over the corner `(0, 0)` it has two, the germs `0` and `1` (depth `2`). A
+    carrier forgetting multiplicity, the boundary set itself, is the L-shaped union of the two
+    half-lines, which is not a smooth submanifold of `ℝ²` at the corner.
+  - The unit square `[0, 1]²` with corners: `∂̃` is four copies of `[0, 1]`, `j` has fibres of
+    size `2` over the four corners and `1` elsewhere on the boundary, and the depth is `0`
+    inside.
+  - The half-space `𝓡∂ n`: only the first coordinate is constrained, so every boundary point has
+    depth `1`, `j` is a bijection onto `I.boundary M`, and `∂̃M` is identified with Tau Ceti's
+    boundary manifold; in dimension `0` the abstract boundary is empty.
+  - Product signs on `[0, 1] × [0, 1]` (`m = 1`): `∂̃M × N` gives the right edge upward and the
+    left edge downward, and `(−1)^m` times the product orientation on `M × ∂̃N` gives the top edge
+    leftward and the bottom edge rightward, the counterclockwise boundary that the outward-first
+    rule gives directly (at the top edge `(e₂, −e₁)` is positive). For `ω = y dx`,
+    `∫ dω = ∫ dy ∧ dx = −1`, and the boundary side is the top edge traversed leftward, `−1`;
+    without the factor `(−1)^m` it would be traversed rightward and give `+1`.
+  - Corner cancellation on `Q²` with the standard orientation: facet `0` has coefficient
+    `(−1)^1 = −1`, so it is oriented by `−e₁` and its endpoint receives `+1`; facet `1` has
+    coefficient `(−1)^2 = +1`, so it is oriented by `+e₀` and its endpoint receives `−1`. The two
+    lifts of the corner have opposite signs, as the double-boundary comparison requires.
 
   GeometricTopology consumes this face geometry and its product charts for
   collars/gluing. Its global collars are not prerequisites of this
@@ -1453,7 +1572,12 @@ integrability of this kernel. Tonelli applied to the off-trace index formula the
 `∫ |nγ|` by `2R` times the curve length when that ball contains the trace; use filled-hull
 containment in the ball to control the support. Prove local `L¹` continuity under translation
 of the complex reciprocal kernel. These are the estimates used in 5.6.3's `L¹` limit passage,
-not an assumed uniform bound on the index.
+not an assumed uniform bound on the index. *Needs:* Tau Ceti's winding-number API
+(`windingNumber_eq_integral_of_avoidance`, `windingNumber_eq_of_dist_lt_dist`), filled-hull API
+(`TauCeti.filledHull`) and metric-derivative API (`HasDerivAt.metricDerivative_eq`,
+`AbsolutelyContinuousOnInterval.lintegral_metricDerivative_lt_top`); Mathlib's
+`AbsolutelyContinuousOnInterval` with its fundamental theorem of calculus and Tonelli;
+GeometricMeasureTheory G1 (trace nullity and the variation–speed identity).
 
 **Checks** (for `windingWeight`, `circulationFun` and `curl`).
 - A constant curve has `windingWeight = 0` everywhere (its trace is a point and the index of
@@ -1569,7 +1693,11 @@ Combining triangle Green with that index identity gives
 `∮_polygon P dx + Q dy = ∫ n_polygon · (∂x Q − ∂y P) dA`.
 Self-intersections, repeated vertices and repeated edges require no separate face arrangement.
 Do not require fan triangles to lie in a local field domain; the polygonal statement has
-explicitly global field hypotheses.
+explicitly global field hypotheses. *Needs:* Mathlib's Fubini, `BoxIntegral.HasIntegral`,
+`BoxIntegral.IntegrationParams.Henstock`, `hasIntegral_GP_pderiv` and
+`IntegrableOn.hasBoxIntegral`; for the agreement, Mathlib's rectangle divergence theorem and Tau
+Ceti's `ContinuousLinearMap.integral_bilinear_fderiv_sub_prod_Icc`; for the polygonal identity,
+5.6.1's index API and the contour homotopy and proximity calculus.
 
 **5.6.3 Green for absolutely continuous cycles.** For a closed absolutely continuous curve
 on `a..b`, `a < b`, an open `U` containing the trace, and `P,Q` real `C¹` on `U`, assume the
@@ -1605,7 +1733,9 @@ flat identities with the half-space theorem 5.3 and face-structured theorem 5.5b
 their outward-first orientations, the integral of top forms, coordinate area, and
 12.5's Euclidean divergence theorem. The flat theorem and the general
 manifold theorems are constructed independently before that comparison;
-neither consumes it as a prerequisite.
+neither consumes it as a prerequisite. *Needs:* 5.6.1–5.6.2; Mathlib's smooth bump functions
+(the cutoff); Tau Ceti's `TauCeti.Contour.Cycle` for the specialization to cycles; nothing of
+layers 0–5.5 and 12.
 
 **Acceptance examples.** Prove the unit-circle and ellipse area formulas from
 `P=-y/2, Q=x/2`. For `a,b>0`, define the closed ellipse
@@ -1971,7 +2101,9 @@ signed count of 10.3 are Tau Ceti's; the rest are targets.*
   charts, as the equal-dimensional case is. The sharp finite-order theorem,
   `k > max(dim M − dim N, 0)`, is not a target here (*Scope and ownership*). The names IsNullSet
   and isNullSet_image_criticalPoints under which consumers cite 10.2 are the Tau Ceti
-  declarations.
+  declarations. *Needs:* Tau Ceti's `TauCeti.IsNullSet`, `TauCeti.IsRegularPoint` and the flat
+  `TauCeti.addHaar_image_criticalPoints_eq_zero`; the equal-dimensional
+  `TauCeti.isNullSet_image_criticalPoints` as the pattern of the chart argument.
 - **10.3–10.4 The degree.** The signed count at a value is Tau Ceti's
   `TauCeti.degreeAtRegularValue o o' f y = Σ_{x ∈ f⁻¹(y)} orientationSign o o' f x`
   (`Geometry/Manifold/Degree/Basic.lean`), where `TauCeti.Manifold.Orientation.orientationSign`
@@ -2074,7 +2206,11 @@ Riesz duality.*
   Build product, `Opens` and boundary metrics. Consume the existing analytic
   `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
   selects that same native instance. The new circle target is
-  its volume comparison `volume_circle`, using the angular integral gate of 5.5a.
+  its volume comparison `volume_circle`, using the angular integral gate of 5.5a. *Needs:*
+  Mathlib's partitions of unity and `RiemannianBundle`; Tau Ceti's
+  `TauCeti.inducedRiemannianMetric`, `Bundle.ContMDiffRiemannianMetric.contMDiffAt_pullback` and
+  `TauCeti.sphereRoundMetric`; for `volume_circle`, 5.5a's angular gate and Tau Ceti's
+  `TauCeti.riemannianVolume`.
   **Checks.**
   - `immersionMetric` along the identity is the given metric; along `x ↦ 2x` on `ℝ` it is
     `4 dx²`, doubling lengths; along the inclusion `S¹ ⊆ ℝ²` it is the round metric, whose
@@ -2093,7 +2229,8 @@ Riesz duality.*
   `C^(n+1)` on a `C^(n+1)` manifold with a `C^n` metric, from the chartwise
   `contMDiffAt_rieszDual` (which assumes exactly these regularities).
   Add the chain/product rules, smooth pullback/isometry transport and flat-model
-  equality with Mathlib's `gradient`.
+  equality with Mathlib's `gradient`. *Needs:* Tau Ceti's `Riemannian.Tensor.rieszDual`,
+  `inner_rieszDual` and `contMDiffAt_rieszDual`; Mathlib's `mfderiv` and `gradient`.
   **Checks.**
   - On flat `ℝⁿ`, `mgradient ‖x‖² = 2x`, Mathlib's `gradient`; `mgradient` of a constant is `0`
     and `mgradient (−f) = −mgradient f`.
@@ -2105,7 +2242,9 @@ Riesz duality.*
 - **12.3 Divergence, Hessian, Laplacian.** `divergence` (the trace of `leviCivitaConnection X`),
   `hessian` (symmetric for smooth `f`, `hessian_symm`, from torsion-freeness),
   `laplaceBeltrami := divergence ∘ mgradient`, the trace of the Hessian in an orthonormal basis,
-  in the `Δ` notation class.
+  in the `Δ` notation class. *Needs:* 12.2; Mathlib's
+  `CovariantDerivative.leviCivitaConnection` and `InnerProductSpace.instLaplacian`; Tau Ceti's
+  `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`.
   **Checks.**
   - On flat `ℝⁿ`, `divergence` of the radial field `x` is `n` and of the rotation field
     `(−y, x)` is `0`; for the conformal metric `g = e^(2x) δ` on `ℝ²` the divergence of the
@@ -2127,6 +2266,22 @@ Riesz duality.*
   its bridge to densities, agreement with the integral of densities on compactly supported continuous
   functions, full support, and positivity through
   `lintegral` (⚠ never the junk-valued Bochner integral); and `d(ι_X dV) = (div X) dV`.
+  *Needs:* 0.4 and 2.1–2.2 (the volume form as an oriented top form); 5.2 and 5.5a (the two
+  integrals); Tau Ceti's `TauCeti.riemannianVolume`, `chartVolumeDensity` and
+  `TauCeti.isLocallyFiniteMeasure_riemannianVolume`; 12.3 and 1.4 for `d(ι_X dV) = (div X) dV`.
+  **Checks** (for the volume form `dV` and the Riemannian density).
+  - Flat `ℝⁿ` with the standard orientation: `dV = dx¹ ∧ … ∧ dxⁿ`, value `1` on the standard
+    basis; the density has value `|det T|` on `T ∘ e`, and its integral of a compactly
+    supported continuous `f` is the Lebesgue integral `∫ f dx`.
+  - `g = diag(4, 1)` on `ℝ²`: `dV = √(det g) dx ∧ dy = 2 dx ∧ dy`, so the unit square has
+    volume `2`; a definition using `det g` without the square root would give `4`, and one
+    ignoring `g` would give `1`.
+  - Orientation: reversing the orientation negates `dV`, while the density and the measure are
+    unchanged, being orientation-free; `|dV|` is the density.
+  - `X = x ∂ₓ + y ∂ᵧ` on flat `ℝ²`: `ι_X dV = x dy − y dx` and
+    `d(ι_X dV) = dx ∧ dy − dy ∧ dx = 2 dx ∧ dy`, while `div X = 2`, so
+    `d(ι_X dV) = (div X) dV`; for `g = e^(2x) δ` and `X = ∂ₓ`, `dV = e^(2x) dx ∧ dy` and
+    `d(ι_X dV) = d(e^(2x) dy) = 2 dV`, agreeing with 12.3's value `div X = 2`.
 - **12.5 Divergence theorem and Green.** For a Hausdorff second-countable
   smooth manifold over the standard half-space model `𝓡∂ (n+1)`, n≥0,
   take a smooth positive-definite Riemannian metric, the native Borel
@@ -2146,7 +2301,10 @@ Riesz duality.*
   Bochner junk value. The same result holds at C² manifold/C¹ metric/C¹
   field regularity where the connection and density identity are defined;
   specify those finite-regularity restrictions and their smoothing/direct
-  local proof. The representative signature uses the smooth case.
+  local proof. The representative signature uses the smooth case. *Needs:* 12.3–12.4; 12.1's
+  pullback metric for `halfSpaceBoundaryMetric`; 5.3 for the oriented case and 5.5a for the
+  density patching; 5.5b for the face-structured version; Tau Ceti's boundary manifold and
+  `TauCeti.riemannianVolume`.
 
   No global orientation is necessary: on oriented M identify this with
   5.3 applied to `ι_X dV`; in general patch the oriented chart identities
@@ -2199,7 +2357,8 @@ Riesz duality.*
   constructed statements at their common scope; it neither strengthens
   the directional/HK theorem to C¹ nor uses an HK statement to infer
   unsupported manifold regularity. It feeds downstream consumers without
-  becoming a prerequisite of 5.3, 5.5 or 12.5.
+  becoming a prerequisite of 5.3, 5.5 or 12.5. *Needs:* 5.6.1–5.6.3; 5.2–5.3; 5.5a; 5.5b where
+  corners occur; 12.4–12.5.
 
 ## Statements that must not enter the library
 
@@ -2288,6 +2447,50 @@ GMT G6 owns the finite-perimeter and boundary-normal comparison for rectifiable 
 domains, consuming that AC boundary-integral identity. [Isoperimetry](../Isoperimetry/README.md),
 I3 and I6, owns the sharp curve inequality and circle equality. Neither Green's theorem
 nor the metric length foundations depend on the sharp isoperimetric theorem.
+
+## Downstream consumers
+
+The roadmaps below consume this one, by layer or section; *Scope and ownership* records the
+constructions they share with it and their single owners.
+
+- **DeRhamCohomologyAndDuality**: every layer, for its relative de Rham theory, the comparison
+  with singular fundamental classes and relative transversality (*Scope and ownership*).
+- **AlgebraicTopology**: Layer 2's tangent orientations (`orientationAt`,
+  `Manifold.Orientation.pullback`), 5.1's outward-first boundary orientation and 5.5b's
+  `fullSimplex` with `fullSimplexEquivStdSimplex`, for its 6.3; the degree of 10.5, which its 6.5
+  compares with the homological degree.
+- **GeometricTopology**: orientations (2), distributions, Frobenius and leaves for its foliations
+  (4), densities and form integration (5.5a, 12.4) and the smooth face structure with its
+  product charts (5.5b) for collars and gluing.
+- **ComplexKahlerGeometry**: the forms and wedge of layers 0–1, 2.1's orientations, 5.5a's
+  `Density`, and layer 12's sign convention for the Laplacian.
+- **SymplecticGeometry**: the migration of 0.4 and the Cartan and homotopy formulas (1.4, 5.4);
+  its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1, HamiltonianReduction
+  0.4, 3.5 and the de Rham carrier, CotangentLagrangian layer 4, 5.4 and the de Rham comparison
+  of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and ConvexityToric forms and
+  integration.
+- **HeegaardFloer**: orientations and the orientation cover (2), flows and time-dependent flows
+  (3, 3.5), the de Rham theorem (8.5) and the degree (10).
+- **MorseTheory**: flows (3), 5.1's boundary orientation, the degree (10) and 12.2's gradient
+  `mgradient`; **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12.
+- **RiemannianGeometry**: layers 0–3, 5–10 and 12, with 12.3's `laplaceBeltrami`.
+- **RepresentationTheory/LieGroups**: flows (3), smooth structures on covers (2.3), Frobenius (4),
+  Sard (10.2) and the degree (10.3–10.5).
+- **SmoothBundlesConnections**: layers 0–5, 8, 9 and 12, with 2.3, 3.5 and 4.3.
+- **CharacteristicClasses** (layers 1–2, 5–10), **SpinGeometry** (0–2, 5–9),
+  **GeometricCurrents** (0–2, 5, 8–9, 12), **Poincare3D** (0–3, 5–10, 12),
+  **LocalVariationalFieldTheory** (0–2, 5–6, 12), **PseudodifferentialOperators** (0–1, 5),
+  **QuaternionicAnalysis** (0–2, 5.2), **Orbifolds** (forms and 8.4–8.5),
+  **LieGroupoidsPoisson** (0.1–0.2, 4, 10.1), **Yamabe** (2, 4, 12.2–12.5),
+  **IntegralLattices** (12.1, 12.4), **HilbertModules** (5.2), **TaubesGromov** (forms, metrics
+  and orientations) and **HamiltonianFloerOperations** (forms, flows, orientations and Poincaré
+  duality).
+- Flows: **ComplexCurveModuli** (3, 3.5), **DiagrammaticCoherence** (3.2, 3.3, 3.5 and 10.2) and
+  **KhovanovHomology** (2 and 3.2, 3.3, 3.5).
+- Orientations and the degree (2, 10): **ComplexManifolds** and **DGFloer**. Sard (10.2):
+  **AffineMorseLefschetz** and **TensorProductCombinatorics**.
+- Planar Green (5.6) and *Rectifiable curves and geometric measure theory*:
+  **GeometricMeasureTheory** (with 12.5's Euclidean divergence theorem) and **Isoperimetry**.
 
 ## References
 

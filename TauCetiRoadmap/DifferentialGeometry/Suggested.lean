@@ -831,13 +831,18 @@ theorem isCompleteVectorField_of_isCompact [IsManifold I 1 M] {v : (x : M) → T
     (hK : IsCompact K) (hvK : ∀ x ∉ K, v x = 0) : IsCompleteVectorField v :=
   sorry
 
-/-- **Layer 3.3.** Every `C¹` field on a compact boundaryless manifold is complete, the
-`flowDomain` form of Tau Ceti's `isMIntegralCurve_maximalIntegralCurve`; `toFlow` consumes it. -/
+/-- **Layer 3.3.** Every `C¹` field on a compact boundaryless manifold is complete. This is not a
+target: it is Tau Ceti's `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo` (with the
+whole manifold as the compact set) read in the `flowDomain` form, and is proved from it. -/
 theorem isCompleteVectorField_of_compactSpace [IsManifold I 1 M] [CompactSpace M]
     {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun x ↦ (⟨x, v x⟩ : TangentBundle I M))) :
     IsCompleteVectorField v :=
-  sorry
+  eq_univ_of_forall fun p ↦ by
+    simp [flowDomain, TauCeti.mem_maximalIntegralCurveFlowDomain,
+      maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo hv
+        (zero_mem_maximalIntegralCurveInterval (x := p.2) hv.contMDiffAt) isCompact_univ
+        (fun _ _ ↦ mem_univ _)]
 
 /-- **Layer 3.3.** The flow of a complete `C¹` field as a Mathlib `Flow ℝ M`: its maps are
 `flowOf v t`, and its continuity and group law are the fundamental theorem of flows on the
@@ -863,8 +868,8 @@ noncomputable def toFlow [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
       simpa [flowDomain] using (show ((0 : ℝ), x) ∈ flowDomain v from hc ▸ mem_univ _)
     exact maximalIntegralCurve_zero h0
 
-/-- **Layer 3.3.** The maps of `toFlow` are `flowOf`, by construction. Kept because
-MorseNovikov's `Suggested.lean` consumes it by this name. -/
+/-- **Layer 3.3.** The maps of `toFlow` are `flowOf`, by construction (`rfl`). Not a target: it is
+the rewriting rule by which a consumer of `toFlow` reads its maps. -/
 theorem toFlow_apply [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M)))
     (hc : IsCompleteVectorField v) (t : ℝ) (x : M) : toFlow hv hc t x = flowOf v t x :=
@@ -1070,16 +1075,21 @@ theorem exists_flatChart [IsManifold I ∞ M]
         Submodule.map (mfderiv I 𝓘(ℝ, E) (I ∘ e) y).toLinearMap (D y) = W :=
   sorry
 
-/-- **Layer 4.3.** A local integral slice through every point, using Tau Ceti's slice-chart
-interface `TauCeti.IsSliceChart`. -/
+/-- **Layer 4.3, local integral slices.** Through every point passes an integral manifold which,
+in a smooth chart of `M` with values in the model space (smooth with smooth inverse), is exactly
+a `k`-dimensional affine slice: the chart carries the part of the integral manifold in its source
+onto the part of the affine subspace `P` in its target, in the sense of Tau Ceti's
+`TauCeti.IsSliceChart`. The model slice is an affine subspace of dimension `k`; with an arbitrary
+model set the slice clause would hold for every chart and every set (take the image itself). -/
 theorem exists_isSliceChart_integralManifold
     [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     {D : (x : M) → Submodule ℝ (TangentSpace I x)}
     (hD : TauCeti.IsContMDiffDistribution I ∞ k D) (hInv : TauCeti.IsInvolutiveDistribution I D)
     (x : M) :
-    ∃ (N : IntegralManifold I ∞ D k) (e : OpenPartialHomeomorph M E)
-      (S : Set E), x ∈ range N.inclusion ∧ x ∈ e.source ∧
-      TauCeti.IsSliceChart e S (range N.inclusion) :=
+    ∃ (N : IntegralManifold I ∞ D k) (e : OpenPartialHomeomorph M E) (P : AffineSubspace ℝ E),
+      x ∈ range N.inclusion ∧ x ∈ e.source ∧ Module.finrank ℝ P.direction = k ∧
+      ContMDiffOn I 𝓘(ℝ, E) ∞ e e.source ∧ ContMDiffOn 𝓘(ℝ, E) I ∞ e.symm e.target ∧
+      TauCeti.IsSliceChart e (P : Set E) (range N.inclusion) :=
   sorry
 
 /-- **Layer 4.3, weak embeddedness.** A smooth map from a finite-dimensional
