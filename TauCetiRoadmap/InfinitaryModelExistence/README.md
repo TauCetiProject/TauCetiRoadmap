@@ -823,7 +823,7 @@ b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   b�
 
 and `α < γ` when `n = 0`. The members are the sets `{φ} ∪ D ∪ σ`, with `σ` the sentences outside
 `{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are the gap conditions (*)
-of the proof of Theorem 4.27 in Marker's 2013 notes (§4.4, pp. 51–52, printed after Corollary
+of the proof of Theorem 4.27 in Marker's 2013 notes (§4.4, p. 52, printed after Corollary
 4.28), together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
 checks below need. Without the terminal reserve the family is not a consistency property: if `φ`
 says that `lt` is a strict linear order with a greatest element, `σ = {∀x, lt(x, d₀) ∨ x = d₀}`
@@ -1051,8 +1051,8 @@ universe rather than in `Type`.
   The well-ordering theorems of Layer 8 are cited from the author's lecture notes of the same
   title (University of Illinois at Chicago, Fall 2013,
   [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), §4.4, "The
-  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (pp. 51–52), and the
-  proof of Theorem 4.27 printed after the corollary (pp. 51–52). The notes number results differently from the book.
+  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the
+  proof of Theorem 4.27 printed after the corollary (pp. 52–53). The notes number results differently from the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
