@@ -283,8 +283,8 @@ number-field equation; finiteness and nonvanishing theorems require ellipticity.
   `peterssonInnerCosets_definite` (`NumberTheory/ModularForms/Petersson/`); `Newform N k`.
 - `HeckeRing.GL2.Newform.analyticRank f hk`, the order of the entire `L`-function
   `ModularForm.L hk f.toCuspForm` of a newform at the central point `k / 2`, with
-  `analyticRank_eq_analyticOrderNatAt` (any entire function agreeing with the coefficient series
-  on `Re s > k/2 + 1` computes it) and `analyticOrderAt_L_ne_top`
+  `Newform.analyticRank_eq_analyticOrderNatAt` (any entire function agreeing with the
+  coefficient series on `Re s > k/2 + 1` computes it) and `analyticOrderAt_L_ne_top`
   (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`). Over `ℚ`, 3.4 proves its
   analytic rank equal to this one for the newform attached to `E`.
 - `TauCeti.ModularSymbols`: `degreeZero`, the homological module `ModularSymbols R Γ w`, the
@@ -939,7 +939,7 @@ coefficient of a holomorphic germ of order `r` is `L^{(r)}(0)/r!`.
 
 *Needs:* 3.2, 3.3; Mathlib `analyticOrderAt`, `iteratedDeriv`; PeriodsAndSpecialValues PS.3.3
 (the comparison only); Tau Ceti `HeckeRing.GL2.Newform.analyticRank`,
-`analyticRank_eq_analyticOrderNatAt` and EllipticCurveModularity R29.3–R29.4 (the `ℚ`
+`Newform.analyticRank_eq_analyticOrderNatAt` and EllipticCurveModularity R29.3–R29.4 (the `ℚ`
 identification only).
 
 
@@ -1731,15 +1731,18 @@ indicator functions has nonnegative entries with row sums p+1, so every
 eigenvalue satisfies |λ| ≤ p+1. Hence every eigenvalue λ of T_p on the
 orthogonal complement of the constants has |λ| < p+1, so the eigenvalue
 μ_n − μ_(n−2) of T_p^cyc(pⁿ) for n ≥ 2, where μ_n = (α^(n+1) − β^(n+1))/(α − β)
-with α+β = λ and αβ = p, is O((n+1)θⁿ) for some θ < p, while on the constants
-it is (p^(n+1) − p^(n−1))/(p − 1) = (p+1)pⁿ⁻¹.
+with α+β = λ and αβ = p, is O((n+1)θⁿ) for some θ with √p ≤ θ < p (α and β
+have product p, so the larger of |α|, |β| is at least √p, and it is below p
+because |λ| < p+1), while on the constants it is
+(p^(n+1) − p^(n−1))/(p − 1) = (p+1)pⁿ⁻¹.
 Expanding the indicator function of a point w ∈ S_q(N) as its constant part
 c_w = w_w⁻¹/∑_u w_u⁻¹ plus an orthogonal part gives
 A_n(v, w) = c_w (p+1)pⁿ⁻¹ + O((n+1)θⁿ) for every v, hence
 M_n(w) − 2M_(n−1)(w) = h_K c_w (p+1)(p−2)pⁿ⁻² + O((n+1)θⁿ), which is positive
 for every w and every n ≥ n₀(q, N, p) because p ≥ 3 and θ < p; so m_n(w) > 0,
 which is the surjectivity. Solving the split-case identity exactly gives
-m_n(w) = h_K c_w (p−1)pⁿ⁻¹ + O(n·max(θ,1)ⁿ). The Ramanujan bound of
+m_n(w) = h_K c_w (p−1)pⁿ⁻¹ + O((n+1)θⁿ), the alternating sum of the error terms
+being dominated by its last term because θ ≥ √p > 1. The Ramanujan bound of
 WeightsInEtaleCohomology §6.1 transported by the definite Jacquet–Langlands
 realization of HilbertModularVarietiesAndShimuraCurves §R18.3.22 gives
 |λ| ≤ 2√p and is an alternative to the non-bipartiteness step; Cornut's
