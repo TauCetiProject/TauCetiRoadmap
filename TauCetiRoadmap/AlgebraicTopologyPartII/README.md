@@ -27,7 +27,7 @@ TauCetiRoadmap.SchemeAndStackFoundations §2.5 owns the generic filtered-colimit
 
 TauCetiRoadmap.AffineMorseLefschetz A2–A3 owns smooth affine CW dimension and its cohomological vanishing over ℝ. Section 11.1 owns the singular-affine and arbitrary-real-closed extensions used in real restriction.
 
-Finite Borel approximation belongs to MotivesAndAlgebraicCycles §7.6b, as does the all-degree Steenrod-conjugated real pushforward. The internal finite-group Ext-stalk theorem belongs to SchemeAndStackFoundations §2.23 and its semialgebraic specialization to MotivesAndAlgebraicCycles §7.6a. Their full consumed statements, coefficient conventions and Checks are in Exact supplier contracts; §§8.1, 12.1 and 15.6 apply those interfaces.
+Finite Borel approximation belongs to MotivesAndAlgebraicCycles §7.6b, as does the all-degree Steenrod-conjugated real pushforward. The internal finite-group Ext-stalk theorem belongs to SchemeAndStackFoundations §2.23 and its semialgebraic specialization to MotivesAndAlgebraicCycles §7.6a. Their full consumed statements, coefficient conventions and Checks are in Exact supplier contracts; §§8.1, 10.1, 12.1 and 15.6 apply those interfaces.
 
 The supply direction of the real-locus strand is generic sheaf carriers → the semialgebraic foundations of MotivesAndAlgebraicCycles §§7.6a–7.6b → the additional formulas here → arithmetic applications. Algebraic Picard comparisons, Brauer classes, cycle-class construction, arithmetic vanishing cycles and mapping-space analytic comparisons belong to their algebraic or analytic owners. No such comparison is used to prove the affine topology in Layer 11.
 
