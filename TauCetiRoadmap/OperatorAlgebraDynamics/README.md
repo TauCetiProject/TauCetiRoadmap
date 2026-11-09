@@ -160,7 +160,7 @@ It leaves to named roadmaps:
   standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
   with a measurable field in that sense.
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators, its vacuum characteristic function and the cyclicity of its vacuum. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the permutation unitaries `U_σ` of the completed tensor powers `h^(⊗̂n)` of VonNeumannAlgebras V2 with the symmetrizing and antisymmetrizing projections `P_s` and `P_a` and their ranges `Symⁿ(h)` and `Λⁿ(h)`, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators, its vacuum characteristic function and the cyclicity of its vacuum. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
 interacting continuum gases are outside this roadmap. So are the dual Haar
@@ -1105,11 +1105,12 @@ For every locally compact abelian M take G=M×M̂ and
 family `(Π_(m,χ)ξ)(x)=χ(x)ξ(x+m)` on L²(M), with the additive Haar
 convention, and prove its projective relation and vector-integral
 comparison. In this bicharacter case prove
-`ω(−x,x)=ω(x,−x)=ω(x,x)⁻¹`, so the scalar star can also be written
-`f*(x)=overline(f(−x))ω(x,x)`; the adjoint of Π_x instead has the factor
-`overline(ω(x,−x))`. These identities fix the phase conventions of the
-family; the Heisenberg cocycle with its commutator character, the
-symplectic annihilators and the lattice theory of phase space are those of
+`ω(−x,x)=ω(x,−x)=ω(x,x)⁻¹`, so that `overline(ω(x,−x))=ω(x,x)`: the
+scalar star can also be written `f*(x)=overline(f(−x))ω(x,x)`, and the
+adjoint of Π_x has the same phase, `Π_x*=ω(x,x)Π_(−x)`, the generator
+formula `i_G(s)*=overline(ω(s⁻¹,s))i_G(s⁻¹)` at `s=x`. These identities
+fix the phase conventions of the family; the Heisenberg cocycle with its
+commutator character, the symplectic annihilators and the lattice theory of phase space are those of
 HilbertModules' child HeisenbergImprimitivity (Layer 1) and are not built
 here.
 
@@ -1122,8 +1123,16 @@ here.
   `r=s=t=a` reads `ω(a,a)ω(a,e)=ω(a,a)ω(e,a)`, both sides `−1`. Its twisted
   algebra is `ℂ[ℤ/2,ω]≃ℂ`-span of `1,u` with `u²=−1`, which is `ℂ⊕ℂ` with
   `u↦(i,−i)`, while the untwisted algebra has `u²=1`; the cochain `b(a)=i`
-  trivializes ω, and `T_b` sends `δ_a` to `iδ_a`, matching the direction
-  ω^b → ω.
+  trivializes ω, and `T_b` sends `δ_a` to `iδ_a` with `(iδ_a)²=−ω(a,a)δ_e=δ_e`.
+  This instance does not fix the direction of `T_b`: since `b(a)⁴=1`, the
+  map `f↦fb` is also a homomorphism from the ω algebra to the `ω^b` algebra.
+- The direction of `T_b`, from the `ω^b` algebra to the ω algebra: for
+  G=ℤ/3={0,1,2}, A=ℂ, ω=1 and the cochain `b(1)=i`, `b(2)=1`,
+  `ω^b(1,2)=b(1)b(2)overline(b(0))=i`, so `δ_1δ_2=iδ_0` in the `ω^b`
+  algebra, and `T_b` sends both sides to `(iδ_1)δ_2=iδ_0` in the untwisted
+  algebra. Read in the opposite direction, `f↦fb` would send the untwisted
+  relation `δ_1δ_2=δ_0` to `δ_0` on the right but to
+  `(iδ_1)δ_2=i·ω^b(1,2)δ_0=−δ_0` on the left, so it is not a homomorphism.
 - For A=0 every value is the unit of `M(0)=0`, both continuity conditions
   hold, and all constructions return the zero algebra.
 - The `central` law is not implied by the others: let `G=ℤ/2={e,a}` act
@@ -1142,11 +1151,18 @@ here.
   representation u of a finite group on `ℂⁿ` with multiplier σ, the inner
   action `α_s=Ad(u_s)` is an honest action and `u_su_tu_(st)*=σ(s,t)·1` is
   central.
-- In the bicharacter case `G=M×M̂`, for `M=ℤ/2` the values are `±1` and
-  `ω(x,x)=ψ(m)` for `x=(m,ψ)`; the star formula `f*(x)=overline(f(−x))ω(x,x)`
-  agrees with `c(x)ω(x,x⁻¹)*α_x(f(x⁻¹)*)` because `ω(x,−x)=ω(x,x)⁻¹=ω(x,x)`
-  there, and differs from the adjoint phase `overline(ω(x,−x))` only by the
-  stated inverse.
+- The phase of the bicharacter case `G=M×M̂`, at `M=ℤ/3` with counting
+  measure: put `ζ=e^(2πi/3)`, `ψ(k)=ζᵏ` and `x=(1,ψ)`, so `−x=(2,ψ²)`,
+  `ω(x,x)=ψ(1)=ζ` and `ω(x,−x)=ψ²(1)=ζ²`, `ω(−x,x)=ψ(2)=ζ²`. On `L²(ℤ/3)`,
+  `(Π_xη)(s)=ζ^sη(s+1)` and `(Π_(−x)η)(s)=ζ^(−s)η(s−1)`, and the adjoint
+  is `(Π_x*η)(s)=ζ^(1−s)η(s−1)=ζ(Π_(−x)η)(s)`: for instance
+  `Π_xδ_0=ζ²δ_2`, so `Π_x*δ_2=ζδ_0` while `Π_(−x)δ_2=δ_0`. In the twisted
+  algebra `δ_x*=overline(ω(−x,x))δ_(−x)=ζδ_(−x)`, and then
+  `δ_x*δ_x=ζω(−x,x)δ_0=δ_0`. Both phases are `ζ=ω(x,x)=overline(ω(x,−x))`;
+  the phase `ω(x,−x)=ω(x,x)⁻¹=ζ²` would give `Π_x*δ_2=ζ²δ_0` and
+  `δ_x*δ_x=ζδ_0`, so δ_x would not be unitary. At `M=ℤ/2` every value of ω
+  is `±1`, so `ω(x,x)`, its inverse and `ω(x,−x)` coincide and the two
+  conventions cannot be told apart there.
 
 *Needs:* Tau Ceti's covariant pairs and full crossed product (integrated
 forms, regular representation, universal norm);
@@ -1257,6 +1273,12 @@ statement here uses the projective quotient `U(H)_s/𝕋`.
 - For G=ℤ/2, `ω(a,a)=−1`: `(1,a)` has order 4 in `E_ω`, `ψ_b(1,a)=(i,a)`
   squares to `(1,e)`, and `E_ω≃𝕋×ℤ/2` although the coordinate section is
   not a homomorphism; for ω=1, `E_ω=𝕋×G` with the product topology.
+- The direction of `ψ_b`, from `E_(ω^b)` to `E_ω`, which the ℤ/2 instance
+  does not fix (`(i,a)` also has order 4 in `𝕋×ℤ/2`): for G=ℤ/3, ω=1 and
+  `b(1)=i`, `b(2)=1`, `(1,1)(1,2)=(ω^b(1,2),0)=(i,0)` in `E_(ω^b)`, and
+  `ψ_b(1,1)ψ_b(1,2)=(i,1)(1,2)=(i,0)=ψ_b(i,0)` in `E_1=𝕋×ℤ/3`. The same
+  formula read from `E_1` to `E_(ω^b)` sends `(1,1)(1,2)=(1,0)` to `(1,0)`,
+  while `(i,1)(1,2)=(i·ω^b(1,2),0)=(−1,0)` in `E_(ω^b)`.
 - A ℚ-linear map ℝ→ℝ built from a Hamel basis that is not ℝ-linear is a
   discontinuous homomorphism, hence not Borel: measurability cannot be
   dropped from the automatic-continuity theorem.
@@ -1340,8 +1362,10 @@ CStarAlgebras C1.7 (multipliers of `C*(E_ω)`).
 
 The cyclic shift of `ℤ/3` on `ℂ³` pins the convolution convention; the
 `ax+b` group pins the modular factor in the involution; `ℤ/2` with
-`ω(a,a)=−1` pins the cocycle, cochain and circle-extension conventions, and
-its twisted algebra `ℂ⊕ℂ` with `u²=−1` recurs in D1.CentralTwists,
+`ω(a,a)=−1` pins the cocycle and the circle-extension product, `ℤ/3` with
+the cochain `b(1)=i`, `b(2)=1` pins the direction of `T_b` and `ψ_b`, and
+`ℤ/3` with the Schrödinger bicharacter pins the phase of the star and of
+`Π_x*`; the twisted algebra `ℂ⊕ℂ` of ℤ/2 with `u²=−1` recurs in D1.CentralTwists,
 D1.BorelPrefix, D1.TwistedBorel and D2.CentralTwists; `M_2(ℂ)` with `E_11`,
 `E_12` pins the order of the Gram-matrix entries and the sign of the induced
 inner product.
@@ -3292,7 +3316,8 @@ Hilbert tensor product of
 `assocIsometry` identifies the other bracketings and whose `commIsometry`
 gives, for each permutation σ of n letters, the permutation unitary `U_σ`
 of `h^(⊗̂n)`, `U_σ(ξ_1⊗…⊗ξ_n)=ξ_(σ⁻¹(1))⊗…⊗ξ_(σ⁻¹(n))`, so that
-`U_σU_τ=U_(στ)`; `Λⁿ(h)` is the range of the antisymmetrizing projection
+`U_σU_τ=U_(στ)` and each `U_σ` is unitary with `U_σ*=U_(σ⁻¹)`; `Λⁿ(h)`
+is the range of the antisymmetrizing projection
 `P_a=(1/n!)Σ_σ sgn(σ)U_σ`, which is an orthogonal projection because
 `U_σ*=U_(σ⁻¹)` and `sgn` is a character. Define the creation
 operator `a†(f)ψ=√(n+1)·P_a(f⊗ψ)` on `Λⁿ(h)`, linear in f, where P_a is the
@@ -3327,6 +3352,22 @@ infinite-dimensional h and its matrix stages.
 - Antilinearity of a in f: with the second-variable-linear inner product,
   `{a(λf),a(g)*}=⟨λf,g⟩1=λ̄⟨f,g⟩1`, so `a(λf)=λ̄a(f)`; a linear candidate
   would violate `{a(f),a(g)*}=⟨f,g⟩1` for λ=i.
+- The left-action convention of `U_σ`: for h=ℂ³ with orthonormal basis
+  `e_1,e_2,e_3`, n=3, σ the transposition (1 2) and τ the transposition
+  (2 3), `U_τ(e_1⊗e_2⊗e_3)=e_1⊗e_3⊗e_2` and
+  `U_σU_τ(e_1⊗e_2⊗e_3)=e_3⊗e_1⊗e_2`, which is
+  `U_(στ)(e_1⊗e_2⊗e_3)` for the cycle `στ: 1↦2↦3↦1`. The formula
+  `V_σ(ξ_1⊗…⊗ξ_n)=ξ_(σ(1))⊗…⊗ξ_(σ(n))` agrees with `U_σ` on the two
+  transpositions, so `V_σV_τ(e_1⊗e_2⊗e_3)=e_3⊗e_1⊗e_2` as well, but
+  `V_(στ)(e_1⊗e_2⊗e_3)=e_2⊗e_3⊗e_1` is orthogonal to it: V is a right
+  action, `V_σV_τ=V_(τσ)`.
+- The sector projections in low degree: for n=0 and n=1 the symmetric
+  group is trivial and `P_s=P_a=1`, so `Sym¹(h)=Λ¹(h)=h`, whereas a
+  definition `P_a=1−P_s` would give `Λ¹(h)=0` and no one-particle
+  fermions. For n=2, `P_s=(1+U_(1 2))/2` and `P_a=(1−U_(1 2))/2` with
+  `U_(1 2)` the flip, so `P_s+P_a=1`; for h=ℂ² and n=3,
+  `dim Sym³(ℂ²)=4`, `Λ³(ℂ²)=0` and `dim (ℂ²)^(⊗3)=8`, so `P_s+P_a≠1`, and
+  `F_a(ℂ²)` has dimension `1+2+1=4=2²`.
 
 For a complex pre-Hilbert space h, prove that the norm identity extends its antilinear generators uniquely to the Hilbert completion and induces the canonical generator-preserving isomorphism `CAR(h)≃CAR(completion h)`. State represented-family uniqueness for nonzero unital CAR families: universality and simplicity make the map onto the generated C*-algebra an isomorphism (Bratteli–Robinson 2, §5.2). Preserve the source's omitted zero-representation exception. For h=0 the universal unital algebra is ℂ; distinguish this from the nonunital closed algebra generated by only zero operators. Prove `CAR(h)` is separable iff h is separable, using the generator isometry in one direction and countably many star polynomials on dense generators in the other.
 
@@ -3442,7 +3483,9 @@ For `V=h_ℝ`, `σ(f,g)=Im⟨f,g⟩`, construct the symmetric Hilbert Fock
 space `F_s(h)`, the Hilbert direct sum over n≥0 of the closed symmetric
 subspaces `Symⁿ(h)` of the completed n-th Hilbert tensor powers `h^(⊗̂n)`
 of VonNeumannAlgebras V2 built above, `Symⁿ(h)` being the range of the
-symmetrizing projection `P_s=(1/n!)Σ_σ U_σ`, with vacuum
+symmetrizing projection `P_s=(1/n!)Σ_σ U_σ`, an orthogonal projection by
+the argument given for `P_a` with the trivial character in place of sgn,
+with vacuum
 Ω=1∈Sym⁰(h)=ℂ. For g∈h define
 the exponential vector `e(g)=Σ_(n≥0) g^(⊗n)/√(n!)∈F_s(h)`; prove
 `⟨e(u),e(v)⟩=exp⟨u,v⟩`, that finite families of exponential vectors are
@@ -3850,7 +3893,11 @@ of a positive-definite matrix through the Hermitian functional calculus).
   consumes D1.TwistedBorel's fibres `J_k(E_ω)≅C*(G,ω^k)`; its Layer 0
   consumes D4.Harmonic's full-algebra form `C*(N)≅C₀(N̂)` of
   VonNeumannAlgebras V11's Fourier isomorphism, in V11's positive-character
-  convention.
+  convention; its P.6 takes D8's permutation unitaries `U_σ` of the
+  completed tensor powers of VonNeumannAlgebras V2, in the left-action
+  convention `U_σU_τ=U_(στ)`, and the symmetrizing and antisymmetrizing
+  projections `P_s` and `P_a` (its `P₊` and `P₋`) with their ranges
+  `Symⁿ` and `Λⁿ`.
 - CStarClassification consumes D2's full and reduced products by ℤ with
   their generator formulas, coefficient-tensor identification and
   exactness, and D3's imprimitivity, in CL5 (§§5.7–5.8); D6's universal
@@ -3916,7 +3963,9 @@ of a positive-definite matrix through the Hermitian functional calculus).
   `C₀(X)` representation.
 - FreeProbability F3 compares its F₂ norm obstruction with D2.FreeGroups and
   records D6 as the owner of the finite universal `O_n`.
-- QuantumFoundations Layer 6 (§§6.3–6.4) consumes D8's Fock carriers with
+- QuantumFoundations Layer 6 (§§6.2–6.4) consumes D8's permutation
+  unitaries `U_σ` with the projections `P_s` and `P_a` onto `Symⁿ(h)` and
+  `Λⁿ(h)` (its `P₊` and `P₋` of §§6.2–6.3), D8's Fock carriers with
   their vacuum, the antisymmetric Fock creation and annihilation operators
   with the faithful CAR representation, the regular symmetric Fock
   representation `π_F` with its Stone field operators, its regularity along
@@ -4035,7 +4084,7 @@ of a positive-definite matrix through the Hermitian functional calculus).
   annihilation operators and their norm; Definition 8.4, Proposition 8.5 and
   Corollary 8.6 (pp. 8–9) for exponential (coherent) vectors, their inner
   products, linear independence and totality; Definitions 8.19–8.20 with
-  (8.16)–(8.18), Proposition 8.21 and Proposition 8.23 (pp. 18–19) for the
+  (8.16)–(8.18), Proposition 8.21 and Proposition 8.23 (pp. 17–19) for the
   Weyl operators `W_u` of the symmetric Fock space, their unitarity, the Weyl
   relation and the generator computation, which D8 uses at `u=if/√2`. His
   symmetric tensor powers carry the n!-weighted norm; D8 converts to the
