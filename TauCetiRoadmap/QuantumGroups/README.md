@@ -1598,8 +1598,13 @@ bijective, `TauCeti.HopfAlgebra.antipode_bijective_of_antipode_antipode`.
 Bundle this monoidal trivialization, with the rigid structure of the bijective
 antipode, as a `TauCeti.PivotalCategory` instance on
 `TauCeti.FiniteHopfModuleCat k H` for a group-like g with S²=Ad(g), and
-instantiate it at U_q with g=K⁻¹, which is group-like with S²=Ad(K⁻¹) by
-`TauCeti.UqSl2.antipode_antipode`. For H=k[G], restrict native
+instantiate it at U_q with g=K⁻¹, which is group-like
+(`TauCeti.UqSl2.counit_kInv`, `TauCeti.UqSl2.comul_kInv`) with S²=Ad(K⁻¹) by
+`TauCeti.UqSl2.antipode_antipode`: for every q≠0 the rigid structure
+`TauCeti.FiniteHopfModuleCat.rigidCategory` of
+`TauCeti.UqSl2.antipode_bijective` and the pivotal structure with pivot K⁻¹
+are instances on `TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)`.
+For H=k[G], restrict native
 `Rep.equivalenceModuleMonoidAlgebra` to finite objects and identify this
 monoidal category, its duals and the trivial pivot g=1 with PivotalSpherical
 Layer 7's `FDRep k G`, consuming Layer 7's `RigidCategory (FDRep k G)`,
@@ -1649,11 +1654,17 @@ actual associator, agree in channel coordinates. Prove that the
 Clebsch–Gordan maps are compatible with dual evaluation and coevaluation of
 the rigid structure above. Compare `TauCeti.UqSl2.LadderModule.contragredientEquiv`
 and the U_q left and right duals and pivot with the generic construction above.
-Identify PivotalSpherical's rightTrace(f)=tr_V(gf) and leftTrace(f)=tr_V(g⁻¹f),
-with its right-dual convention, and deduce from the trace identity above that
-the pivotal category of finite U_q-modules is a `TauCeti.SphericalCategory`,
-with common pivotal dimension ε[m+1]_q on L_m^ε and [m+1]_q on the positive
-family. Construct the representation ring, the Grothendieck ring of finite
+Identify Tau Ceti's `TauCeti.rightTrace` and `TauCeti.leftTrace`, taken with
+the pivotal pairing `TauCeti.pivotalExactPairing` (the chosen right-dual pairing
+transported along the pivot), as rightTrace(f)=tr_V(gf) and
+leftTrace(f)=tr_V(g⁻¹f) for the pivot j_V(v)(φ)=φ(gv): on a basis e_i with dual
+basis e^i the pivotal coevaluation is 1↦Σ_i e^i⊗g⁻¹e_i and the pivotal
+evaluation is v⊗φ↦φ(gv). Compare them with PivotalSpherical's rightTrace and
+leftTrace in its right-dual convention, and deduce from the trace identity
+above that for q−q⁻¹≠0 the pivotal category of finite U_q-modules is a
+`TauCeti.SphericalCategory`, with common pivotal dimension ε[m+1]_q on L_m^ε
+and [m+1]_q on the positive family; at generic q the hypothesis holds because
+q²≠1. Construct the representation ring, the Grothendieck ring of finite
 modules with the tensor product, and identify it through the formal character
 with the subring of the integral monoid algebra of ℂ spanned by the characters
 Σ_(j=0)^m [εq^(m−2j)]. These statements use algebraic tensors and the Hopf
@@ -1662,7 +1673,7 @@ module actions, independent of Q1–Q7's C*-tensor-category construction.
 The defining objects have the following API.
 
 - The finite Hopf-module category has tensor over the base field, counit unit, antipode duals and faithful forgetful functors.
-- A group-like pivot implements S² and gives pivotal traces; the rank-one signed category is spherical.
+- A group-like pivot implements S² and gives pivotal traces; at U_q the rigid and pivotal structures with pivot K⁻¹ are instances for every q≠0, and the rank-one signed category is spherical for q−q⁻¹≠0.
 - Normalized Clebsch–Gordan maps obey the stated recurrence, invertibility, dual compatibility and pentagon.
 
 **Checks.**
@@ -1670,9 +1681,10 @@ The defining objects have the following API.
 - At q=1/2, m=n=j=1, α₀=1 and α₁=−1/2; ΔE annihilates v₀⊗v₁−(1/2)v₁⊗v₀ because its top coefficient is 1/2−1/2=0.
 - For r=2, the middle coefficient in Δ(E²) is q[2]_q=5/4=1+q², while using q⁻¹[2]_q would give 5.
 - On L₁⁺, g=K⁻¹ has trace 5/2, as does g⁻¹. On L₀⁻, both traces are −1, so discarding the sign changes the pivotal dimension.
+- At q=±1, where the presentation is the commutative algebra ℂ[E,F,K,K⁻¹], the one-dimensional module ℂ with K=2 and E=F=0 is a finite module on which the identity has rightTrace=tr(K⁻¹)=1/2 and leftTrace=tr(K)=2: the pivotal structure with pivot K⁻¹ exists, the category is not spherical, and the hypothesis q−q⁻¹≠0 of the sphericity statement cannot be dropped. A pivot K in place of K⁻¹ would swap the two values without equalizing them.
 - For L₁⊗L₁, dimensions give 4=3+1; for L₀⁻⊗L₀⁻ the resulting sign is + and dimension 1. For H=k[C₂], S=S⁻¹ sends the nonidentity generator to itself, so the two dual actions agree.
 
-*Needs:* §§8.1–8.4; Tau Ceti `Algebra/Category/FiniteHopfModuleCat/`, `Algebra/HopfAlgebra/InverseAntipode.lean`, `CategoryTheory/Monoidal/Pivotal/` and `QuantumGroups/UqSl2/{ComulPow,TensorProduct,QuantumTrace,Character}` with `QuantumGroups/UqSl2/ClebschGordan/`, `QuantumGroups/UqSl2/Dual/` and `QuantumGroups/UqSl2/LadderModule/SignTensor.lean`; Mathlib ModuleCat, FGModuleCat, ExactPairing and Rep.equivalenceModuleMonoidAlgebra; PivotalSpherical Layers 0–2,7. Virelizier Lemma 2.3 and Proposition 4.1, pp.6–7,13–14; the pentagon and the trace comparisons are the displayed constructions.
+*Needs:* §§8.1–8.4; Tau Ceti `Algebra/Category/FiniteHopfModuleCat/`, `Algebra/HopfAlgebra/InverseAntipode.lean`, `CategoryTheory/Monoidal/Pivotal/` and `QuantumGroups/UqSl2/{Antipode,Hopf,ComulPow,TensorProduct,QuantumTrace,Character}` with `QuantumGroups/UqSl2/ClebschGordan/`, `QuantumGroups/UqSl2/Dual/` and `QuantumGroups/UqSl2/LadderModule/SignTensor.lean`; Mathlib ModuleCat, FGModuleCat, ExactPairing and Rep.equivalenceModuleMonoidAlgebra; PivotalSpherical Layers 0–2,7. Virelizier Lemma 2.3 and Proposition 4.1, pp.6–7,13–14; the pentagon and the trace comparisons are the displayed constructions.
 
 ### 8.6 Compact real form and the SUq(2) comparison
 
