@@ -25,6 +25,7 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
@@ -47,9 +48,11 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DifferentialGeometry
@@ -107,6 +110,7 @@ body:
         - NilpotentOrbits
         - NoncommutativeGeometry
         - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport

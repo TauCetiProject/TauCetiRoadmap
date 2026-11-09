@@ -11,6 +11,13 @@ This README is the roadmap. `Suggested.lean` is its acceptance test: it states t
 headline theorems below against the pinned Mathlib and Tau Ceti, and its docstring names
 the headlines that are not yet statable there.
 
+The sub-roadmap [Local geometry of Riemannian surfaces](Surfaces/README.md) owns polar
+coordinates and normal strips on surfaces, integration up to normal cut times on surface
+domains, Gauss–Bonnet for disks with corners and the turning theorem with corners,
+nonpositively curved normal balls without completeness, and conformal invariance of the
+surface Dirichlet energy. It is independently definitive and states its boundaries with the
+milestones below.
+
 ## Scope and ownership
 
 This roadmap extends the curvature, Jacobi, comparison, immersion and Bochner
@@ -270,7 +277,8 @@ The following contracts specify each supplier and section consumed.
   on arbitrary raw sections requires a common extension convention.
   B5.2 supplies countability of the fundamental group of a connected,
   second-countable, locally path-connected, locally simply connected space.
-  B6.0 supplies uniform normal and strong-convexity radii on compact sets.
+  B6.0 supplies uniform normal and strong-convexity radii on compact sets and
+  the variable-base inverse-function theorem for `(x,v)↦(x,exp_x v)`.
 - [GeometricTopology](../GeometricTopology/README.md), Layer 1: the actual normal
   bundle and tubular neighbourhood theorem; Layer 7: the existing intrinsic
   curvature construction and `TauCeti.riemannianVolume`. This roadmap extends
@@ -391,7 +399,8 @@ suspension-map comparison for sphere Freudenthal connectivity.
 ## How to read the build
 
 The curvature and connection algebra in R1 supplies R2's Jacobi theory; R2 then
-supplies the normal-coordinate jets labelled R1.4. R3 builds the finite index
+supplies the normal-coordinate jets labelled R1.4, on which the Euclidean
+limits of rescaled metrics labelled R1.5 rest. R3 builds the finite index
 and path-space theory, R4 the comparison and geodesic multiplicity results,
 R5 immersion geometry and volume variations, and R6 their focal consequences.
 R7 applies the supplied analytic theory to curvature identities and vanishing,
@@ -527,7 +536,8 @@ item 2 with κ=K(x)=Scal(x)/2.
 *Needs:* Tau Ceti's Schur, Einstein and locally symmetric surface theorems
 (supplier contract); R1 curvature symmetries; SmoothBundlesConnections
 B3–B5 (induced tensor connections and parallel transport); HopfRinow Layer 0
-(Levi-Civita connection). The R1.4 jet calculation is in Layer 2.
+(Levi-Civita connection). The R1.4 jet calculation and the R1.5 rescaling
+limits are in Layer 2.
 
 ### 1.3 Metric changes, Lie groups and submersions
 Use Mathlib's tensor, Gram, continuous-linear-map and finite-dimensional spectral
@@ -887,6 +897,28 @@ particular for unit T,Y with Y⊥T,
 SmoothBundlesConnections B5.0 (smooth parameter-dependent parallel transport),
 R2 (Jacobi fields and `d exp`).
 
+### 2.3 Euclidean limits of rescaled metrics (R1.5)
+
+Let N be a fixed smooth Riemannian n-manifold, C⊂N compact, `p_j∈C`,
+`E_j:ℝⁿ→T_(p_j)N` linear isometries and `λ_j→∞`. For each fixed L>0 prove
+that `F_j(x)=exp_(p_j)(E_j(x)/λ_j)` is defined on a neighbourhood of the
+closed Euclidean L-ball and is a diffeomorphism onto its image for all large
+j, and that `g_j=λ_j²F_j*g` converges to the Euclidean metric in every C^m
+norm on that ball: uniform convergence of all coefficient derivatives of order
+at most m. Include convergence of the inverse coefficients and the volume
+densities, and convergence of the Christoffel symbols to zero with every fixed
+finite number of derivatives. Make the coefficient bounds uniform over the
+centres in C and all orthonormal frames, consuming SBC B6.0's uniform normal
+radius and smooth dependence of the exponential map on its base point;
+constants depend on g and C, and sectional-curvature bounds alone do not
+supply the higher-derivative bounds. Identify the sectional curvature of g_j
+with λ_j⁻² times that of g by R1's constant-scaling law (§1.3), and
+check that a Euclidean metric is unchanged by the construction.
+
+*Needs:* the R1.4 jets (§2.2); SmoothBundlesConnections B6.0 (uniform normal
+radius on compact sets and the variable-base exponential map); R1's
+constant-scaling law (§1.3).
+
 ### Examples
 
 For orthogonal unit T,Y on the unit sphere, |d exp_(tT)(tY)|²=sin²t
@@ -898,6 +930,8 @@ coefficient agrees with the Jacobi residual checks.
 R2 uses R1 connection and curvature algebra, HopfRinow Layers 0–3 and
 SmoothBundlesConnections B5.0. The R1.4 jets use R2 initial-data and
 exponential-derivative comparisons; they are not inputs to those comparisons.
+R1.5 uses the R1.4 jets, SmoothBundlesConnections B6.0 and R1's
+constant-scaling law.
 
 ## Layer 3: index forms and path topology
 
@@ -1375,7 +1409,15 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
 
    On a smooth normal-distance domain derive radial Hessian zero and the
    corresponding transverse lower/upper bounds by `(s_κ'/s_κ)g`, together
-   with the Laplacian trace and the scalar sign dictionary. Derive Günther
+   with the Laplacian trace and the scalar sign dictionary. There let S be the
+   Hessian endomorphism of r on the orthogonal complement of grad r; in a
+   parallel trivialization along each unit-speed radial geodesic γ prove
+   `S′+S²+R(·,γ′)γ′=0` and `tS(t)→Id` in operator norm as t↓0, and derive the
+   lower bound under radial `K≤κ` and the upper bound under radial `K≥κ` by
+   comparison with `s_κ'/s_κ`, before the first positive model zero. Prove
+   that r² extends smoothly across p with `Hess(r²)_p=2g_p`, and that under
+   radial `K≤κ` the Hessian of r² is positive definite on every such normal ball
+   of radius below `π/(2√κ)` when κ>0, and on every such ball when κ≤0. Derive Günther
    lower-volume comparison from sectional upper bounds: on connected complete M
    with K≤κ, at p use 0<r<inj(p), and also r<π/√κ when κ>0, to conclude
    Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. The headline
@@ -3016,7 +3058,10 @@ R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a us
 bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
 R4.9 uses R4.6's short-geodesic/injectivity estimates, the geodesic ODE, the planar Jordan/arclength/winding theorems, and finite AT/CC constructions. Its topological order is the Fréchet-plus-length carrier and component cover, relative cocycle/finite Thom detection, positive widths, and finite parameter carriers. The shared periodic normal-graph theorem, general nonzero linear zero-number theorem, interior parabolic-box compactness and scalar Harnack feed their stated g₀/arbitrary-g applications; the fixed-endpoint construction separately uses the Dirichlet boundary theorem. The round closed small-length two-point comparison precedes its Type-II exclusion and circular Type-I/stability output. Final entry neighbourhoods consume the local exit constants before the global curvature-gap theorem. The round branch then constructs its finite-length Jordan smoothing/trace and weak-set avoidance outputs; its finite-collapse conclusion consumes the arbitrary-g finite-time alternative plus the Gauss–Bonnet area ODE, while circular-singularity asymptotics and great-circle convergence are separate outputs with the routes stated in R4.9.6a. The arbitrary-g branch separately proves the finite-time BI/BII exclusion, the immortal derivative estimate as a reusable output, compact primitive geodesic sets, and smooth local graph/exit estimates. The safe family clock, intrinsic restriction/cubical face-identification laws and compatible-choice comparisons feed uniform point-relative finite-family localization and cap/minimax realization. No minimax or three-geodesic conclusion is an input to either smooth-flow analysis. R4.8's distinct-endpoint path theorem and DGF's free-loop Morse/Bott machinery keep their separate scopes.
 R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
-input. R6's Euclidean comparison follows R5a and
+input. R1.5 (§2.3) follows the R1.4 jets (§2.2), R1's constant-scaling law and
+SBC B6.0. The Surfaces
+sub-roadmap uses HopfRinow, R1, R2, R3, R4.2, R4.9.6a's signed planar turning
+theorem and R6, and supplies nothing to this roadmap. R6's Euclidean comparison follows R5a and
 owns its chart Hessian/normal-derivative pairing, squared-distance exhaustion
 and genericity theorems, consuming GT Layer 1 only for the normal bundle and
 tubular neighbourhood theorem. General
