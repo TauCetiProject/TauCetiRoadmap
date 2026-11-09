@@ -39,13 +39,14 @@ The roadmap owns:
   excellent discrete valuation ring and local existence over every discrete valuation ring;
   spreading out and the Dedekind local-to-global construction; the comparison with abelian-scheme models; étale base change; the
   invariant-differential lattice of a Néron model and its Hodge line;
-- the Néron-model API of the identity component `M⁰` and of the finite étale component group
-  `Φ_A` of the special fibre (generic fibre, functoriality through extended homomorphisms and the
-  good-reduction case), whose constructions are GroupSchemesOverABase 0.2, 4.6 and 4.8's; the
-  Chevalley decomposition of every smooth connected commutative group over a perfect field (2.3),
-  applied to the identity fibre, while the theorem for noncommutative groups and its comparison
-  with 2.3 are GroupSchemesOverABase GS4.2's, which 2.3 does not use; the toric character
-  lattice of a Néron special fibre and its functoriality;
+- the identity component `M⁰` of a Néron model, specialised from
+  AlgebraicModuliForArithmeticGeometry §7.9, and the finite étale component group `π₀(G/k)` of
+  every group scheme `G` of finite type over a field, applied to the special fibre as `Φ_A`,
+  with the distinction between rational and geometric components (2.1–2.2); the Chevalley
+  decomposition of every smooth connected commutative group over a perfect field (2.3), applied
+  to the identity fibre; Chevalley's theorem for noncommutative groups is not stated in this
+  roadmap, and 2.3 does not use it; the toric character lattice of a Néron special fibre and its
+  functoriality;
   functoriality under isogeny with the correct (non-exact) statements;
 - for elliptic curves: the identification of the equation-level filtration `E₁ ⊂ E₀ ⊂ E` with
   the Néron model, the smooth locus of the minimal regular model as the Néron model, the
@@ -118,11 +119,6 @@ It leaves to other roadmaps, and consumes from them:
   have non-quasi-compact models; some nonsplit torus models are finite type. Construction and
   ownership of all torus models remain in ReductiveGroupsPartII; RG2.3.2 supplies the
   comparison of the full and affine mapping properties.
-- **GroupSchemesOverABase**, 0.2 (the identity component of a smooth group scheme over a base),
-  4.6 (the identity component of a group scheme locally of finite type over a field) and 4.8
-  (its étale group of connected components `π₀(G/k)`), with their base-field change, Galois
-  description and comparisons with Tau Ceti's affine identity components and component groups;
-  2.1–2.2 apply them to `M` and `M_k`.
 - **ModularCurves** (Tau Ceti), Layer 1: the scheme-theoretic elliptic curve attached to a
   Weierstrass equation with unit discriminant over a base.
 - **ProfiniteCohomology** (Tau Ceti), Layer 8: the `(1,1)` cup product in continuous
@@ -204,11 +200,14 @@ It leaves to other roadmaps, and consumes from them:
 - **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6, IG.2.8: Hilbertian fields,
   their finite-extension and finitely-generated permanence, full-group specialization of finite
   covers and its Frattini application for 6.0.
-- **NumberFieldArithmetic**, Layer 5, and **LocalFieldsRamification**, Layer 2:
-  finite places, completions and arithmetic Frobenius for 5.0b.
-  LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations,
-  lower and upper numbering, Herbrand functions and Hasse–Arf over nonarchimedean local fields
-  (finite residue field). Over arbitrary perfect residue fields, including infinite ones such as
+- **NumberFieldArithmetic**, Layer 5: finite places, completions and arithmetic Frobenius for
+  5.0b. The local-field theory of the completed LocalFieldsRamification is used from Tau Ceti by
+  name, over nonarchimedean local fields (finite residue field): the Frobenius of an unramified
+  extension `TauCeti.frobeniusAlgEquiv`; the lower and upper ramification groups
+  `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and `upperRamificationGroup`, the
+  Herbrand function `herbrandOrderIso` and Hasse–Arf `hasseArf`; the wild inertia subgroup
+  `TauCeti.wildInertiaSubgroup` and the tame quotient `TauCeti.tameQuotientEquiv`. Over arbitrary
+  perfect residue fields, including infinite ones such as
   `F̄_p((t))`, the conductor comparisons in 5.3a–5.7 consume the filtration, breaks and Swan and
   Artin conductors through ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which carries
   that generality.
@@ -249,8 +248,10 @@ and their base change along finite extensions of discrete valuation rings (`TauC
 `Model.subsingleton_iso`, `Model.baseChange`, `FiniteDVRExtension`); identity components and
 finite étale component groups of affine finite-type groups over an algebraically closed field
 (`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, `componentGroupScheme`,
-`componentGroupFppfGroupObjectIso`); character lattices of tori with Galois action, maximal tori
-and unipotent radicals of affine groups (`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+`componentGroupFppfGroupObjectIso`); the Galois correspondence for finite étale group schemes
+over a field (`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`);
+character lattices of tori with Galois action, maximal tori and unipotent radicals of affine
+groups (`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
 `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor`, `IsMaximalTorus`, `unipotentRadical`,
 `DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`); the rigidified Picard functor and the
 degree-zero Picard group of an integral curve (`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`,
@@ -276,10 +277,11 @@ differs: a marked Néron model is a `TauCeti.Model` with smooth, separated and q
 structure morphism, over an arbitrary base morphism `j`, and with the mapping property (1.2);
 marked extensionality and uniqueness are `ext_of_genericFiberι_eq` and `Model.subsingleton_iso`
 over `Spec R` and are derived from the mapping property over arbitrary `j` (1.2, 1.4); the
-component group of 2.2 is GroupSchemesOverABase 4.8's `π₀(M_k/k)`, which agrees with
-`componentGroupScheme` in the affine algebraically-closed case; the cycle lattice adapter of 4.2
-identifies FreeGroupsAndLimitGroups §2.2a's integral `H₁` with the kernel on StableReduction's
-dual-graph coordinates; the intersection-matrix description of 4.7 is a comparison with
+component group of 2.2 is for every group scheme of finite type over any field, not necessarily
+affine or smooth, and agrees with `componentGroupScheme` in the affine algebraically-closed case;
+the cycle lattice adapter of 4.2 identifies FreeGroupsAndLimitGroups §2.2a's integral `H₁` with
+the kernel on StableReduction's dual-graph coordinates; the intersection-matrix description of 4.7
+is a comparison with
 `NumericalType.Pic`, not a second numerical Picard group; the semistable predicate of 3.1 is for abelian varieties and
 restricts, for elliptic curves, to the local form of `WeierstrassCurve.IsSemistable`.
 The existing symmetric discriminant form is
@@ -366,6 +368,11 @@ as `Nat.card`, which is `0` for an infinite residue field. `BrauerGroup`: the ta
 connecting map of 4.12. `BDeRham`, `WittVector.fontaineTheta`: the only period-ring material
 available for 5.3. `Finsupp.linearCombination`, `LinearMap.ker`, `Module.Dual`, `AddCircle`,
 `ZMod`: the lattice-level carriers of Layer 4 and the component-group arithmetic of Layer 2.
+`AlgebraicGeometry.Scheme.fpqcTopology` with its `Subcanonical` instance, in
+`Mathlib/AlgebraicGeometry/Sites/Fpqc.lean`: every representable presheaf is an fpqc sheaf, so
+morphisms of schemes descend along fpqc coverings; 2.2 uses this along a finite Galois extension
+of fields and along the projection to the component group. `AlgebraicGeometry.Scheme.Hom.fiber`
+and `ConnectedComponents`: the fibres and the connected components of 2.1–2.2.
 `AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`, in
 `Mathlib/AlgebraicGeometry/ZariskisMainTheorem.lean`: for a separated finite-type morphism,
 the quasi-finite locus is the inverse image of an open subset of its relative normalisation
@@ -379,9 +386,15 @@ base are `AbelianSchemesAndArithmeticModuli:A0.1–A1`. `TauCeti.Model` carries 
 model with a generic-fibre marking over `Spec R`; `Model.subsingleton_iso` needs a separated
 target; `ext_of_genericFiberι_eq` needs a flat source and a separated target over `Spec R`.
 `componentGroupScheme` and `identityComponentSpec` require an affine finite-type group over an
-algebraically closed field. `characterLatticeFunctor` is an equivalence over a perfect field and
-a functor in general. `NumericalType.Pic` is the quotient of `ℤ^{components}` by the rows
-`a_{ij}/w_j` of the weighted intersection matrix, `degree` its degree map, `torsion ℓ` the
+algebraically closed field. `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp K Ω` and
+`galoisEquivalenceCommGrp K Ω`, in `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`, need
+a separably closed field `Ω` Galois over `K`; they identify group objects (commutative group
+objects) in finite étale `K`-schemes with finite groups (finite abelian groups) carrying a
+continuous action of `Gal(Ω/K)` by automorphisms, a scheme going to its `Ω`-valued points, and
+identify homomorphisms on the two sides; 2.2 uses them with `Ω = k^sep`.
+`characterLatticeFunctor` is an equivalence over a perfect field and a functor in general.
+`NumericalType.Pic` is the quotient of `ℤ^{components}` by the rows `a_{ij}/w_j` of the weighted
+intersection matrix, `degree` its degree map, `torsion ℓ` the
 `ℓ`-torsion, finite for `ℓ ≠ 0`. `kerReduction` is the kernel of reduction on points over the
 adic completion at a height-one prime, `formalPointAddEquivKerReduction` its identification with
 the formal group. `tateCurve` is the Tate curve over `ℤ⟦q⟧`; `tateModuleGaloisRepresentation` is
@@ -477,17 +490,6 @@ action on `X^*` and the anti-equivalence with Galois lattices. ReductiveGroupsPa
 `NormTorus.normOne` (`R¹_{k'/k}𝔾_m`) and Weil restriction; RG2.3.2: locally-finite-type Néron
 models of tori, their finite-type and connected open subgroups. RG2.3.7 supplies Lang's theorem
 and `H¹(k,H) = 0` for smooth geometrically connected finite-type groups over finite fields.
-
-### From `TauCetiRoadmap.GroupSchemesOverABase`
-
-Section 0.2 supplies the identity component of a smooth group scheme over a base, and §§4.6 and
-4.8 the identity component `G⁰` and the étale group of connected components `π₀(G/k) = G/G⁰` of
-a group scheme `G` locally of finite type over a field `k`, with base-field change, the Galois
-description of `π₀(G/k)`, its finiteness for `G` of finite type, and the comparisons with Tau
-Ceti's `identityComponentSpec` and `componentGroupScheme` in the affine case over an
-algebraically closed field. Sections 2.1–2.2 apply 0.2 to the smooth `R`-group `M` and §§4.6
-and 4.8 to the smooth finite-type `k`-group `M_k`. That roadmap's 4.2, Chevalley's theorem for
-noncommutative groups, compares with 2.3 here and is not an input.
 
 ### From `SchemeAndStackFoundations`
 
@@ -590,8 +592,10 @@ rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, a
 `wd-frobenius-semisimplification` supplies Frobenius semisimplification.
 ArithmeticGaloisRepresentations Layer 2 (§§2.1–2.5) supplies local-field inertia, the arithmetic
 quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors.
-LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations
-over nonarchimedean local fields; over complete discretely valued fields with arbitrary perfect
+Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, `upperRamificationGroup`,
+`herbrandOrderIso` and `hasseArf` supply the ramification filtrations of finite Galois extensions
+of nonarchimedean local fields, and `TauCeti.wildInertiaSubgroup` the wild inertia subgroup of
+the absolute Galois group; over complete discretely valued fields with arbitrary perfect
 residue field, including infinite ones, the filtration, breaks and conductors are those of
 ArithmeticGaloisRepresentations §§3.1–3.2.
 ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
@@ -678,7 +682,6 @@ Layers 3–4 here.
 
 | Target | Supplier and exact section / label | Retained adapter and consumer |
 | --- | --- | --- |
-| §§2.1–2.2 identity component and component group | GroupSchemesOverABase §0.2 (identity component over a base), §4.6 (`G⁰` over a field), §4.8 (`π₀(G/k)`) | `M⁰` is §0.2's identity component of the smooth `R`-group `M`; `M_k⁰` and `Φ_A = π₀(M_k/k)` are §4.6's and §4.8's for `M_k`. The generic fibre of `M⁰`, functoriality through the Néron extension of 1.5 and the good-reduction case are targets here. |
 | §4.2 finite multigraph cycle core | FreeGroupsAndLimitGroups §2.2a / `SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`, `SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`, `SerreGraph.cycleLattice_modTwoEquiv`, `SerreGraph.finrank_cycleLattice`, `SerreGraph.modTwoCycleSpace_finrank` | The dual graph's actual edges identify with the positive darts of its doubled Serre graph. `DualGraph.boundary` and `DualGraph.cycleLattice` are the incidence and kernel in those edge coordinates. Characters, monodromy and weighted pairings are compared here. |
 | §4.2 excess identification | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` | Endpoint-indexed arrows correspond to actual dual-edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. Identify `DualGraph.boundary` with incoming-minus-outgoing excess. |
 | §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. The character-lattice realization and pairings are targets here. |
@@ -1174,33 +1177,43 @@ it there, not here.
 ## Layer 2: special fibres and component groups
 
 The special fibre `M_k` of a Néron model is a smooth finite-type commutative group over `k`,
-usually disconnected and usually not affine. This layer takes its identity component and its
-finite étale component group `Φ_A` from GroupSchemesOverABase 4.6 and 4.8 and adds their
-Néron-model API, constructs the Chevalley decomposition of the identity component into toric,
-abelian and unipotent parts and the character lattice of the toric part with its residue Galois
-action; it proves functoriality under isogeny without the false exactness statements; and
-for elliptic curves it compares all of this with the equation-level objects of EllipticCurves
-Layer 4 and with the geometry of the minimal regular model. Throughout, `R` is a discrete
+usually disconnected and usually not affine. This layer constructs its identity component, by
+specialising AlgebraicModuliForArithmeticGeometry §7.9, and its finite étale component group
+`Φ_A`, constructed for every group scheme of finite type over a field; the Chevalley
+decomposition of the identity component into toric, abelian and unipotent parts and the character
+lattice of the toric part with its residue Galois action; it proves functoriality under isogeny
+without the false exactness statements; and for elliptic curves it compares all of this with the
+equation-level objects of EllipticCurves Layer 4 and with the geometry of the minimal regular
+model. Throughout, `R` is a discrete
 valuation ring with fraction field `K` and residue field `k`, `A` an abelian variety over `K`, and
 `M` its Néron model over `R` (Layer 1); perfectness of `k` and base change to `k̄` are stated where
 used.
 
 ### 2.1 The identity component
 
-Define `IdentityComponent` as the identity component of GroupSchemesOverABase 0.2 for the smooth
-`R`-group `M`: the open subgroup `M⁰ ⊂ M`, smooth and quasi-compact over `R` with connected
-fibres, whose special fibre is the identity component `M_k⁰ ⊂ M_k` of GroupSchemesOverABase 4.6
-for the smooth finite-type `k`-group `M_k` (SGA 7 I, Exposé IX, §1.1, pp. 321–322). That `M_k⁰`
-is open, closed and normal in `M_k` and geometrically connected, that its formation commutes with
-extension of `k`, and that it is Tau Ceti's
-`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec` when `M_k` is affine and `k`
-algebraically closed, are GroupSchemesOverABase 4.6's and are not restated. Neither group is
-affine in general: for good reduction `M_k⁰ = M_k` is an abelian variety. The Néron-model API is
-the target here: `NeronIdentity.generic_iso` (the generic fibre of `M⁰` is `A`, the marking
-identifying the generic fibre of `M` with the connected group `A`), `map`, `map_id`, `map_comp`
-(the extension to Néron models (1.5) of a homomorphism `A → B` sends `M_A⁰` into `M_B⁰`,
-functorially) and `good` (for an abelian-scheme model, `M⁰ = M`), with the marked-model API of
-`M⁰`. *Needs:* 1.5; GroupSchemesOverABase 0.2 and 4.6.
+Specialise AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion` to the
+base `B = Spec R` and the group `P = M` to construct `IdentityComponent`: the open subgroup scheme
+`M⁰ ⊂ M`, of finite type and smooth over `R`, whose fibres are the identity components of the
+fibres of `M` (SGA 7 I, Exposé IX, §1.1, pp. 321–322). The hypotheses of §7.9 hold: `R` is
+Noetherian and reduced; `M` is a separated group scheme of finite presentation over `R`; and the
+geometric fibres of `M` are smooth of dimension `g = dim A` at every point, because the relative
+dimension of the smooth morphism `M → Spec R` is locally constant on `M`, hence constant along the
+identity section, and a group scheme locally of finite type over a field is equidimensional
+(Stacks, Lemma 39.8.1, tag 045X). Formation of `M⁰` commutes with base change, so its special
+fibre is the identity component `M_k⁰ ⊂ M_k` and its generic fibre is the identity component of
+`A`, which is `A`. Prove, as parts of this target, that the identity section of `M` factors
+through `M⁰`; that `M_k⁰` is open, closed and normal in `M_k` and geometrically irreducible over
+`k`, and that its formation commutes with every extension of `k` (the field-level construction of
+§7.9; Stacks, Proposition 39.7.11, tag 0B7R); and that `M_k⁰` is Tau Ceti's
+`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec` when `M_k` is affine and `k` is
+algebraically closed, both being the open and closed subgroup cut out by the connected component
+of the identity. Neither group is affine in general: for good reduction `M_k⁰ = M_k` is an abelian
+variety. The Néron-model API is `NeronIdentity.generic_iso` (the generic fibre of `M⁰` is `A`,
+the marking identifying the generic fibre of `M` with the connected group `A`), `map`, `map_id`,
+`map_comp` (the extension to Néron models (1.5) of a homomorphism `A → B` sends `M_A⁰` into
+`M_B⁰`, functorially) and `good` (for an abelian-scheme model, `M⁰ = M`), with the marked-model
+API of `M⁰`. *Needs:* 1.5; AlgebraicModuliForArithmeticGeometry §7.9; Mathlib
+`AlgebraicGeometry.Scheme.Hom.fiber`, `ConnectedComponents`; Tau Ceti `identityComponentSpec`.
 
 **Checks.**
 
@@ -1211,21 +1224,56 @@ functorially) and `good` (for an abelian-scheme model, `M⁰ = M`), with the mar
 - (non-example) For a positive-dimensional abelian variety with good
   reduction, `M_k` is a proper connected smooth group of positive dimension, so it is not affine;
   a construction that assumed an affine group would not apply.
+- (non-example) The schematic closure of the generic fibre `A` in `M` is all of `M`, because `M`
+  is flat over `R`; for split multiplicative elliptic reduction with `n = 5` its special fibre
+  `𝔾_m × ℤ/5` has five connected components, while `M⁰` has special fibre `𝔾_m` and the same
+  generic fibre `A`. Connectedness of the fibres, not the generic fibre, singles out `M⁰`.
 
 ### 2.2 The component group
 
-Define `ComponentGroup`, written `Φ_A := M_k / M_k⁰`, as the étale group of connected components
-`π₀(M_k/k)` of GroupSchemesOverABase 4.8 for the smooth finite-type `k`-group `M_k` (SGA 7 I,
-Exposé IX, §§1.1–1.2, pp. 322–323). The faithfully flat projection `M_k → Φ_A` with kernel
-`M_k⁰` and its universal property, the finiteness and étaleness of `Φ_A`, the identification of
-`Φ_A(k^sep)` with the group of connected components of `M_{k^sep}` with its
-`Gal(k^sep/k)`-action, so that the rational component group `Φ_A(k)` is the Galois-fixed
-subgroup `Φ_A(k^sep)^{Gal(k^sep/k)}`, and the agreement with Tau Ceti's
-`TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme` when `M_k` is affine and `k`
-algebraically closed are GroupSchemesOverABase 4.8's and are not restated. The Néron-model API
-is the target here: `NeronComponents.map`, `map_id`, `map_comp` (the extension to Néron models
-(1.5) of a homomorphism `A → B` induces `Φ_A → Φ_B`, functorially) and `good` (an
-abelian-scheme model has `Φ_A = 0`). *Needs:* 2.1; GroupSchemesOverABase 4.8.
+Let `G` be a group scheme of finite type over a field `k`, with separable closure `k^sep`, and
+`G⁰` its identity component (the field-level construction of AlgebraicModuliForArithmeticGeometry
+§7.9, as in 2.1). The set `π₀(G_{k^sep})` of connected components of `G_{k^sep}` is finite and
+carries a continuous action of `Gal(k^sep/k)` (Stacks, Lemmas 33.7.18 and 33.7.19, tags 038D and
+038E). It is a group: every connected component of a scheme over a separably closed field is
+geometrically connected (Stacks, Lemma 33.7.6, tag 0363), so the connected components of
+`G_{k^sep} ×_{k^sep} G_{k^sep}` are the products of components (Stacks, Lemma 33.7.4, tag 0385),
+and the multiplication of `G` induces a group law on which the Galois group acts by
+automorphisms. Construct `ComponentGroup`, the finite étale `k`-group `π₀(G/k)` corresponding to
+this finite Galois group under Tau Ceti's `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp k k^sep`,
+and under `galoisEquivalenceCommGrp k k^sep` when `G` is commutative. For a Néron model write
+`Φ_A := π₀(M_k/k)` (SGA 7 I, Exposé IX, §§1.1–1.2, pp. 322–323). Prove, as parts of this target:
+
+- the projection `G → π₀(G/k)`, a homomorphism of `k`-groups: over a finite Galois extension
+  `k'/k` over which every connected component of `G_{k^sep}` is defined, the map from `G_{k'}` to
+  the constant group on its connected components is Galois-equivariant, and it descends to `k`
+  because Mathlib's `fpqcTopology` is subcanonical;
+- the projection is faithfully flat, and its kernel is `G⁰`: every `k`-morphism from a `k`-scheme
+  to a finite étale `k`-scheme `⊔ Spec Lᵢ` is flat, the projection is surjective, and its fibre
+  over the identity is the connected component of the identity;
+- the universal property of the fppf quotient `G/G⁰`: a morphism from `G` to a `k`-scheme whose
+  composites with the first projection and with the multiplication `G ×_k G⁰ → G` agree factors
+  uniquely through `π₀(G/k)`, because the projection is an fpqc covering and
+  `G ×_{π₀(G/k)} G ≅ G ×_k G⁰` by `(x, y) ↦ (x, x⁻¹y)`;
+- `π₀(G/k)(k^sep) = π₀(G_{k^sep})` and `π₀(G/k)(k̄) = π₀(G_{k̄})`, equivariantly for the Galois
+  group, and the rational component group is the Galois-fixed subgroup,
+  `π₀(G/k)(k) = π₀(G_{k^sep})^{Gal(k^sep/k)}`;
+- for smooth `G`, the projection induces a Galois-equivariant isomorphism
+  `G(k^sep)/G⁰(k^sep) ≅ π₀(G/k)(k^sep)`: every connected component of `G_{k^sep}` has a
+  `k^sep`-point (Stacks, Lemma 33.25.6, tag 056U), and `σ ∈ Gal(k^sep/k)` sends the component
+  through `x` to the component through `σ(x)`; for `M_k` this is
+  `Φ_A(k^sep) = M_k(k^sep)/M_k⁰(k^sep)`;
+- functoriality in homomorphisms of finite-type `k`-groups, and compatibility with every
+  extension of `k`;
+- agreement with Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`, the constant
+  group on `ConnectedComponents (PrimeSpectrum H)`, when `G = Spec H` is affine and `k` is
+  algebraically closed.
+
+The Néron-model API is `NeronComponents.map`, `map_id`, `map_comp` (the extension to Néron models
+(1.5) of a homomorphism `A → B` induces `Φ_A → Φ_B`, functorially) and `good` (an abelian-scheme
+model has `Φ_A = 0`). *Needs:* 2.1; AlgebraicModuliForArithmeticGeometry §7.9; Tau Ceti
+`galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`, `componentGroupScheme`; Mathlib
+`fpqcTopology` and its subcanonicity, `ConnectedComponents`.
 
 **Checks.**
 
@@ -1237,6 +1285,14 @@ abelian-scheme model has `Φ_A = 0`). *Needs:* 2.1; GroupSchemesOverABase 4.8.
   `n = 1, 2`. Check the fixed-point formula at `n = 4, 5, 1`, and exclude `n = 0`:
   `ℤ/0 = ℤ` has one fixed point while the formula would say `2`, so the hypothesis `0 < n`
   is necessary.
+- (non-example) For nonsplit `I₅` over a finite field, the Frobenius orbits on `ℤ/5` are `{0}`,
+  `{1, 4}` and `{2, 3}`, so `M_k` has three connected components and `Φ_E` is
+  `Spec k ⊔ Spec k₂ ⊔ Spec k₂` with `k₂/k` quadratic: of degree `5` over `k`, with one `k`-point.
+  A component group defined from the connected components of `M_k` over `k` itself would have
+  three elements, matching neither the geometric group (order `5`) nor the rational one (order `1`).
+- (degenerate) For a connected group, such as `μ₂` over `𝔽₂` (one point, not reduced),
+  `π₀(G/k) = Spec k` and the kernel `G⁰` is all of `G` with its nilpotents; over `𝔽₃`, `μ₂` has
+  two rational points and is its own component group, of degree `2`.
 
 ### 2.3 The Chevalley decomposition of the identity fibre
 
@@ -1248,8 +1304,8 @@ over `k` of its maximal torus `T` and its unipotent radical `U`; record the tori
 pp. 7–8). The structure theorem is applied to the identity component, not to the disconnected
 fibre. Its commutative case, for every smooth connected commutative group over a perfect field,
 is part of this target and is stated for such groups in general, not only for Néron fibres, so
-that the canonical subgroup `L` and quotient `B` have one construction; the ownership split with
-the theorem for noncommutative groups is recorded under Scope and ownership. Over an imperfect
+that the canonical subgroup `L` and quotient `B` have one construction; the theorem for
+noncommutative groups is not stated in this roadmap (Scope and ownership). Over an imperfect
 field the exact smooth form is not asserted, and 2.4 records what descends. Tau Ceti's
 `TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical` and `TauCeti.HopfIdeal.IsMaximalTorus` (affine groups) are the suppliers for
 `U` and `T` inside `L`. *Needs:* 2.1; Tau Ceti `unipotentRadical`, `IsMaximalTorus`.
@@ -1440,10 +1496,13 @@ the tame valuation rows, supply the wild discriminant exponents.
 
 ### Dependencies
 
-Layer 1; the definition of `SemistableReduction` in 3.1 for 2.5; GroupSchemesOverABase 0.2,
-4.6 and 4.8 for 2.1–2.2, with their comparisons with Tau Ceti's affine identity components and
-component groups; ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.7; EllipticCurves
-Layers 1 and 4; EtaleCohomologyFoundations §§G.1–G.3, `Compactification`,
+Layer 1; the definition of `SemistableReduction` in 3.1 for 2.5;
+AlgebraicModuliForArithmeticGeometry §7.9 for the identity components of 2.1–2.2; Tau Ceti's
+affine identity components and component groups and its Galois correspondence for finite étale
+group schemes over a field
+(`galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`) for 2.1–2.2; Mathlib's subcanonical
+`fpqcTopology` for 2.2; ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.7;
+EllipticCurves Layers 1 and 4; EtaleCohomologyFoundations §§G.1–G.3, `Compactification`,
 `nagataCompactification`, `compactificationCommonRefinement`; StableReduction Layers 4–6,
 with Layer 4 supplying resolution of normal proper curve models preserving the regular open
 locus in 2.7; SchemeAndStackFoundations §§0.20–0.21 and §§4.11–4.13 for normalization and
@@ -3000,7 +3059,7 @@ place, and the discussion following Cor. 3.6, p. 142, for `Frob_w` acting as `π
 Thm 1.1, p. 75, for the Riemann hypothesis, from which the reciprocal-root identity follows
 since `P_v` has real coefficients). *Needs:* 5.0a; AbelianSchemesAndArithmeticModuli A3.2, A4.1, A6.10–A6.11;
 ArithmeticGaloisRepresentations §6.1 (Tate-module representation);
-NumberFieldArithmetic Layer 5; LocalFieldsRamification Layer 2.
+NumberFieldArithmetic Layer 5; Tau Ceti `frobeniusAlgEquiv`.
 
 **Checks.**
 
@@ -3417,7 +3476,8 @@ For 5.3a–5.3e, `K` is complete for a discrete valuation `v_K` with
 and `char K ∈ {0,p}`. The elliptic curve `E/K` is given by a Weierstrass curve `W`
 with `IsElliptic`; the coefficient prime `ℓ` is different from `p`. For finite `k`,
 `K` is a nonarchimedean local field and the ramification filtrations are those of
-LocalFieldsRamification Layers 3–4. For arbitrary perfect `k`, for instance `K = F̄_p((t))`,
+Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and
+`upperRamificationGroup`. For arbitrary perfect `k`, for instance `K = F̄_p((t))`,
 use the ramification filtration, breaks and conductor conventions of
 ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which are stated over every perfect residue
 field; residue finiteness is not assumed.
@@ -3433,7 +3493,8 @@ bare integral equation) has good, multiplicative or additive reduction
 reduction; and that `a((V_ℓE)^∨) = f(E)`. Its API is the comparison with the Artin conductor, `f = 0`
 iff good reduction, `f = 1` iff multiplicative reduction, invariance under unramified base change and
 under duality (Serre 1970, n° 2.4, cases b), c), p. 10; Brumer–Kramer 1994, §6, (6.1), p. 243).
-*Needs:* LocalFieldsRamification Layers 3–4 (finite `k`); ArithmeticGaloisRepresentations §§3.1, 3.2, 3.4, 3.6, 6.2;
+*Needs:* Tau Ceti `lowerRamificationGroup`, `upperRamificationGroup`, `herbrandOrderIso`
+(finite `k`); ArithmeticGaloisRepresentations §§3.1, 3.2, 3.4, 3.6, 6.2;
 5.1a; EllipticCurves
 Layers 2–5; Mathlib `WeierstrassCurve.minimal`,
 `WeierstrassCurve.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction`.
@@ -4573,6 +4634,12 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 - A. Grothendieck, *Groupes de monodromie en géométrie algébrique I* (SGA 7 I), Exposé IX,
   Lecture Notes in Mathematics 288, Springer, 1972: §1 (pp. 321–324), §§9.4–9.6 (pp. 427–438), Theorem 10.4 (p. 444),
   Theorem 11.5 and §11.6 (pp. 455–456), Theorem 12.1 (pp. 465–467), §§12.3–12.5 (pp. 469–475).
+- The Stacks project authors, *The Stacks project*:
+  [Chapter 33, Varieties](https://stacks.math.columbia.edu/download/varieties.pdf), Lemmas 33.7.4,
+  33.7.6, 33.7.18, 33.7.19 and 33.25.6 (tags 0385, 0363, 038D, 038E, 056U), for the component
+  group of 2.2;
+  [Chapter 39, Groupoid Schemes](https://stacks.math.columbia.edu/download/groupoids.pdf),
+  Proposition 39.7.11 and Lemma 39.8.1 (tags 0B7R, 045X), for the identity component of 2.1.
 - M. Raynaud, *1-motifs et monodromie géométrique*, Astérisque 223 (1994), 295–319: §4.2
   (pp. 302–305), §4.3 (pp. 308–309), Propositions 4.6.1 and 4.7.4 (pp. 315–317).
 - J. Tate, *Algorithm for determining the type of a singular fiber in an elliptic pencil*,
