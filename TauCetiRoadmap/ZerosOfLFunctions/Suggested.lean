@@ -331,9 +331,9 @@ theorem primeCounting_progression_effective :
 of number fields with group `G` and a conjugacy class `C` of `G`, there is `c > 0` such that the
 number `frobeniusPrimeCount K L C x` of primes of `K` unramified in `L`, of norm at most `x`,
 whose Frobenius class is `C` is `(#C/#G) Li(x) + O(x exp(−c √log x))`, the constants depending on
-`L/K`. It is the ray-class count of 8.7 transported along the ray-class Artin map of class field
-theory, which supplies the reciprocity dictionary of README 8.8; for fixed `L/K` the exceptional
-term is absorbed. At `K = L = ℚ` it is `π(x) = Li(x) + O(x exp(−c √log x))`. -/
+`L/K`. It is the ray-class count of 8.7 transported along Tau Ceti's ray-class Artin map
+`TauCeti.ClassFieldTheory.rayClassArtinMap` at an admissible modulus, which supplies the
+reciprocity dictionary of README 8.8; for fixed `L/K` the exceptional term is absorbed. At `K = L = ℚ` it is `π(x) = Li(x) + O(x exp(−c √log x))`. -/
 theorem frobeniusPrimeCount_effective_abelian (K L : Type*) [Field K] [NumberField K]
     [Field L] [NumberField L] [Algebra K L] [IsAbelianGalois K L]
     (C : ConjClasses (L ≃ₐ[K] L)) :
