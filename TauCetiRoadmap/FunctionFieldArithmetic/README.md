@@ -57,12 +57,13 @@ This roadmap owns:
 - divisor lattices in the completed adeles, their volumes for the self-dual measure of
   AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the Fourier transforms of their indicators
   (Layer 2);
-- Artin–Schreier–Witt theory of fields of characteristic `p`, reduced representatives over
-  `k((T))` and the conductor formula (Layer 3);
+- Artin–Schreier–Witt theory of fields of characteristic `p` and reduced representatives over
+  `k((T))` (Layer 3);
 - the torsion of Lubin–Tate formal modules in equal characteristic, its ramification and the
   action of the local Artin map on it, `p`-primary local existence, local
-  Kronecker–Weber and injectivity of the local Artin map in equal characteristic, and the
-  Schmid–Witt symbol; the additional scheme and structure assertions for rigidified Picard
+  Kronecker–Weber and injectivity of the local Artin map in equal characteristic, the
+  Schmid–Witt symbol and the Artin–Schreier–Witt conductor formula; affineness over the
+  ordinary Picard scheme and the additional structure assertions for rigidified Picard
   spaces, Rosenlicht's perfect-field universal property at a fixed modulus, and the extension
   of the supplied rank-one Lang-cover dictionary to arbitrary finite abelian groups (Layer 4);
 - the zeta function and `L`-polynomial of a function field over `𝔽_q`, their Riemann–Roch
@@ -173,8 +174,12 @@ dyadic residue fields.
 
 RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the finite-flat rigidified
 Picard sheaf, unit sequence, smooth representing algebraic space and universal rigidified
-family. Section 4.6 specializes these objects to perfect-field curves and proves their
-additional scheme and structure assertions; §4.7 proves Rosenlicht's fixed-modulus
+family, and its §1.8 the theorem that a separated smooth locally finite-type group algebraic
+space over a Dedekind base, a field included, is a scheme. Section 4.6 specializes these
+objects to perfect-field curves and proves what they do not state: the forgetful map to the
+ordinary Picard scheme is affine (which gives the separatedness that §1.8 requires),
+geometric connectedness of the components, the torsor structure, the dimension and the
+forgetful-map compatibilities; §4.7 proves Rosenlicht's fixed-modulus
 universal property over every perfect field. AutomorphicLFunctionsAndLocalFactors §AL.3.10.4
 *Ramified rank-one curve reciprocity* supplies the finite-field generalized Picard objects,
 ray-class comparison, Abel and Lang maps and finite-character dictionary with least modulus.
@@ -226,7 +231,8 @@ Layer 12) `F = k(X)` for a smooth projective geometrically connected curve `X/k`
 ### From Mathlib
 
 `WittVector`, `WittVector.frobenius`, `WittVector.verschiebung`, `WittVector.truncate`,
-`TruncatedWittVector`; `PowerSeries`, `Polynomial`, `Polynomial.reverse`; `RestrictedProduct`
+`WittVector.teichmuller`, `WittVector.map`, `TruncatedWittVector`, `TruncatedWittVector.out`;
+`Algebra.trace`; `PowerSeries`, `Polynomial`, `Polynomial.reverse`; `RestrictedProduct`
 and `RestrictedProduct.unitsEquiv`; `Valuation.Completion`; `LaurentSeries` and
 `LaurentSeries.ratfuncAdicComplRingEquiv`; `FormalGroup` (one-dimensional formal group laws;
 commutativity is a separate hypothesis); `Field.absoluteGaloisGroup`; `IsIntegrallyClosedIn`,
@@ -522,9 +528,10 @@ JacobianChallenge Layer D for representability and the Picard–Brauer obstructi
 SchemeAndStackFoundations §3.7 `abelMaps_highDegree` supplies ordinary high-degree Abel
 maps with Brauer–Severi descent. JacobianChallenge Layers A–C supply line bundles,
 coherent curve cohomology and pushforward vanishing and base change. Section 4.6 adds
-scheme representability and structure to the rigidified algebraic space supplied by
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5; §4.7 adds the perfect-field modulus
-universal property.
+affineness over the ordinary Picard scheme and the torsor, dimension and connectedness
+structure to the rigidified algebraic space supplied by
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, whose scheme structure is that roadmap's
+§1.8; §4.7 adds the perfect-field modulus universal property.
 SchemeAndStackFoundations §1.1 supplies quasi-coherent module descent. Effective descent of
 schemes affine over the base and descent of morphisms are the pinned Tau Ceti declarations
 listed under *From Tau Ceti*.
@@ -539,9 +546,13 @@ Picard–Brauer comparison, through SchemeAndStackFoundations §3.6.
 
 RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the rigidified sheaf for a
 finite-flat rigidificator, its unit sequence, smooth algebraic-space representability
-for curves and universal family. A nonzero effective divisor on the geometrically
-connected smooth projective curve is a rigidificator because universal global functions
-are the base functions and its finite positive length is faithfully flat. The supplier's
+for curves and universal family. Its §1.8, *Quotients and scheme structure for group algebraic
+spaces*, supplies scheme structure for a separated smooth locally finite-type group algebraic
+space over a Dedekind scheme, together with its identity open subgroup and base change; §4.6
+applies it over `Spec k` to `⨆_d Pic_m^d` once separatedness is proved. A nonzero effective
+divisor on the geometrically connected smooth projective curve is a rigidificator because
+universal global functions are the base functions and its finite positive length is
+faithfully flat. The supplier's
 rigidification `O_m ≅ L|_m` is the convention used here; no inversion is required.
 A presentation using `L|_m ≅ O_m` must invert its trivialization before comparison.
 
@@ -1164,6 +1175,12 @@ coordinate is integral then `x ≡ cβ`; and if the first coordinate `x_j` of ne
 `p ∤ v(x_j)`, then `min_i v(c_i) = j`, where `v` on `W(k)` is the index of the first nonzero
 coordinate.
 
+The finite-length assertion, for every `n ≥ 0`, is `aswReduced_exists_unique_length`: every
+class of `Q_n(K)` is the class of `c·β + Σ_i c_i·[T^(−i)]` for a unique `c ∈ ℤ/p^n` and a unique
+finitely supported family `c_i ∈ W_n(k)` supported on positive indices prime to `p`. A lift of
+`c_i` to `W(k)` is used to form the sum; two lifts differ in `V^n W(k) = p^n W(k)`, so the class
+does not depend on it. At `n = 0` both sides are zero.
+
 The reduced representatives have the following API:
 
 - Reassembly from `c` and the `c_i` recovers the original quotient class.
@@ -1180,9 +1197,14 @@ The reduced representatives have the following API:
 `℘W(K)` (`k` is perfect). Integral terms are moved into the constant part through the trace,
 using that `℘` is surjective on the subgroup of Witt vectors all of whose coordinates lie in
 `Tk[[T]]`; uniqueness is proved modulo `p^j` by induction on
-`j`. (Kosters–Wan, Proposition 4.3 and proof, pp. 15–16; Lemma 4.13 and proof, p. 22.)
+`j`. At finite length, `V℘ = ℘V` in characteristic `p` (both equal `p − V`), so
+`V^n u ≡ V^n F^n u = p^n u` modulo `℘W(K)`; hence `℘W(K) + V^nW(K) = ℘W(K) + p^nW(K)`,
+`Q_n(K) = Q_∞(K)/p^n`, and the finite-length statement is the infinite one reduced modulo `p^n`
+(`W(k)/p^n = W_n(k)` because `k` is perfect). (Kosters–Wan, Proposition 4.3 and proof,
+pp. 15–16; Lemma 4.13 and proof, p. 22.)
 
-*Needs:* Layer 3.1; Mathlib `WittVector.teichmuller`.
+*Needs:* Layer 3.1; Mathlib `WittVector.teichmuller`, `WittVector.map`, `TruncatedWittVector.out`
+and `Algebra.trace`.
 
 **Checks.**
 
@@ -1234,9 +1256,9 @@ whole compositum. Addition of characters must not be confused with adjoining bot
 ### Dependencies
 
 Mathlib `WittVector`, `WittVector.frobenius`, `WittVector.verschiebung`, `WittVector.truncate`,
-`WittVector.teichmuller`, `TruncatedWittVector`, `Field.absoluteGaloisGroup`, `InfiniteGalois` and
-`Algebra.trace_surjective`; ArithmeticGaloisRepresentations §3.7; AlgebraicCurves Layers 6, 7
-and 10.
+`WittVector.teichmuller`, `WittVector.map`, `TruncatedWittVector`, `TruncatedWittVector.out`,
+`Field.absoluteGaloisGroup`, `InfiniteGalois`, `Algebra.trace` and `Algebra.trace_surjective`;
+ArithmeticGaloisRepresentations §3.7; AlgebraicCurves Layers 6, 7 and 10.
 
 ## Layer 4: equal-characteristic class field theory and ray geometry
 
@@ -1524,15 +1546,23 @@ Proposition 4.4 and proof, pp. 15–16; §4.4's completed ring `R`, p. 17; Theor
 
 ### 4.4 Conductors of Artin–Schreier–Witt extensions
 
-For `x ∈ W(K)` in the reduced form of Layer 3.2, prove aswConductor_eq: for `n ≥ 1` the
-conductor exponent `TauCeti.ClassFieldTheory.conductorExponent` of `K(℘⁻¹π_n(x))/K`, the least
-`u` with `U^(u) ⊆ N(K(℘⁻¹π_n(x))ˣ)`, equivalently `U^(u) ⊆ ker Art_K` on that extension
-(`U^(0) = Oˣ`, `U^(u) = 1 + 𝔭^u`), is
+For `K = k((T))` and `x ∈ W(K)` in the reduced form of Layer 3.2, prove `aswConductor_eq`: for
+every `n ≥ 0` the conductor exponent `TauCeti.ClassFieldTheory.conductorExponent` of
+`K(℘⁻¹π_n(x))/K`, the least `u` with `U^(u) ⊆ N(K(℘⁻¹π_n(x))ˣ)`, equivalently
+`U^(u) ⊆ ker Art_K` on that extension (`U^(0) = Oˣ`, `U^(u) = 1 + 𝔭^u`), is
 
 ```text
 u_n = 0                                               if v(c_i) ≥ n for all i,
 u_n = 1 + max { i · p^(n − v(c_i) − 1) : v(c_i) < n }   otherwise.
 ```
+
+Only the terms with `v(c_i) < n` affect `π_n(x)`, and there are finitely many since `c_i → 0`:
+a term with `v(c_i) ≥ n` lies in `p^n W(K) ⊆ V^n W(K)`. The theorem is therefore stated for
+`x = c₀ + Σ_{i∈s} c_i·[T^(−i)]` with `s` a finite set of positive indices prime to `p`, every
+`c_i ∈ W(k)` nonzero, and any constant `c₀ ∈ W(k)`, which is congruent to some `cβ` modulo
+`℘W(k)`. The extension is any field `L/K` generated by the first `n` coordinates of a Witt
+vector `y` over `L` with `π_n(℘y) = π_n(x)`; such an `L` is `K`-isomorphic to `K(℘⁻¹π_n(x))`. At
+`n = 0` the extension is `K` and both sides are `0`.
 
 For a nonzero reduced class `x ∈ Q_∞(K)`, put
 `n₀ = min(v(c), min_{p ∤ i} v(c_i))` and let `x₀ = p^(−n₀)x` in `Q_∞(K)`.
@@ -1576,9 +1606,9 @@ cannot supply additional units. The conductor formula itself is unchanged.
 
 *Needs:* Layers 3.2, 4.2 (unit-filtration reciprocity) and 4.3; Tau Ceti
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` (quotient
-compatibility) and `TauCeti.ClassFieldTheory.conductorExponent` with
-`TauCeti.ClassFieldTheory.conductorExponent_le_iff` (unit-defined conductors); ClassFieldTheory
-Layer 7 (the Artin map).
+compatibility), `TauCeti.ClassFieldTheory.conductorExponent` with
+`TauCeti.ClassFieldTheory.conductorExponent_le_iff` (unit-defined conductors) and
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField`; ClassFieldTheory Layer 7 (the Artin map).
 
 **Checks.**
 
@@ -1593,6 +1623,10 @@ Layer 7 (the Artin map).
   `ℤ_p` and inertia `pℤ_p`. At `r = 1` the corrected bound is `1`; the unclamped bound is
   at most `0` and incorrectly makes the whole Galois group inertia. A constant-only class
   has `G^r = 0` for every `r ≥ 1`.
+- The finite layers are cut out by the length-`n` equation, not by `℘y = x` itself. For
+  `x = [T^(−1)]` the first `n` coordinates of a solution generate a field of degree `p^n`, so no
+  finite extension of `K` contains a full solution of `℘y = x`; a statement that required one
+  would hold only for classes in `℘W(K)`, whose extension is `K`.
 
 ### 4.5 Finite ray characters and local-coordinate comparisons
 
@@ -1706,12 +1740,18 @@ For `m=0`, use SchemeAndStackFoundations §3.6's ordinary relative Picard sheaf.
 Write `Pic_m^d` for these spaces and `J_m=Pic_m^0`. The supplied unit sequence and
 universal rigidified family are used with tensor, dual and base change as supplied.
 
-Prove generalizedPicard_schemeStructure: each component is a smooth separated
-geometrically connected scheme, `J_m` is a commutative algebraic group and `Pic_m^d`
-is a `J_m`-torsor under tensor product. Its dimension is `g+N−1` for `N>0`, and `g`
-for `m=0`. The forgetful maps `Pic_{m′}^d → Pic_m^d` for `m≤m′` are morphisms of
-these schemes, compatible with composition, tensor and field extension. This adds
-scheme representability and this structure to the supplied algebraic spaces.
+Prove generalizedPicard_schemeStructure: the forgetful morphism `Pic_m^d → Pic_X^d` to the
+ordinary Picard scheme is affine, smooth of relative dimension `N−1` for `N>0`, so each
+component is separated; each component is a smooth geometrically connected scheme, `J_m` is a
+commutative algebraic group and `Pic_m^d` is a `J_m`-torsor under tensor product. Its
+dimension is `g+N−1` for `N>0`, and `g` for `m=0`. The forgetful maps
+`Pic_{m′}^d → Pic_m^d` for `m≤m′` are morphisms of these schemes, compatible with
+composition, tensor and field extension. Scheme structure is
+RelativeJacobiansAndIntegralCurveModels §1.8 applied over `Spec k` to the separated smooth
+locally finite-type group algebraic space `⨆_d Pic_m^d`; affineness over the scheme `Pic_X`
+gives it directly as well. What this target adds to the supplied algebraic spaces is that
+affineness, geometric connectedness, the torsor structure, the dimension and the
+forgetful-map compatibilities.
 
 For `m≠0`, use the supplied exact unit sequence
 
@@ -1733,11 +1773,13 @@ normalize the ordinary Poincaré bundle there. With `A` the rank-`N` algebra of 
 The generator condition inverts the determinant of `A → M`, `a ↦ aβ`, so this is an
 affine open in a rank-`N−1` affine bundle. The supplied rigidified space is therefore
 affine over the ordinary Picard scheme after this extension; affine descent makes it
-a scheme over `k`. The supplied unit sequence identifies its geometric fibers with
-units modulo scalars; splitting the Artin algebra gives the dimension and structure.
+affine over `Pic_X` over `k`, hence separated, and a scheme, which
+RelativeJacobiansAndIntegralCurveModels §1.8 also gives once separatedness is known. The
+supplied unit sequence identifies its geometric fibers with units modulo scalars; splitting
+the Artin algebra gives the dimension and structure.
 (Guignard, §4.7, Proposition 4.8 and Lemma 4.9, pp. 1317–1319; Conrad, §2, pp. 1–3.)
 
-*Needs:* RelativeJacobiansAndIntegralCurveModels §§1.3–1.5; SchemeAndStackFoundations
+*Needs:* RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 and §1.8; SchemeAndStackFoundations
 §§1.1, 3.3 and 3.6; Tau Ceti `TauCeti.DescentDatum.descended` and
 `TauCeti.DescentDatum.isPullback_toDescended` (affine descent along `Pic_X ⊗_k k′ → Pic_X`);
 JacobianChallenge Layers A–C; ReductiveGroupsPartII RG2.0a.
@@ -2035,7 +2077,8 @@ formal-group and local-expansion declarations listed under *From Tau Ceti* (amon
 `TauCeti.ClassFieldTheory.artinMap_restrict`, `TauCeti.ClassFieldTheory.ker_artinMap_eq_iInf`,
 `OpenNormalSubgroup.IsAbelianClassFieldLayer`, `TauCeti.ClassFieldTheory.localClassField_unique`,
 `TauCeti.ClassFieldTheory.index_localNormSubgroup`,
-`TauCeti.ClassFieldTheory.conductorExponent_le_iff` and
+`TauCeti.ClassFieldTheory.conductorExponent_le_iff`,
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField` and
 `TauCeti.Place.completionIntegersEquivPowerSeriesOfSection`);
 AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup` and
 `PowerSeries`.
@@ -2044,7 +2087,7 @@ A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, Tau Ceti's affine de
 (`TauCeti.DescentDatum.descended`, `TauCeti.DescentDatum.isPullback_toDescended`) and
 `TauCeti.homDescentEquiv`,
 ReductiveGroupsPartII RG2.0a and RG2.3.7,
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, and AutomorphicLFunctionsAndLocalFactors
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 and §1.8, and AutomorphicLFunctionsAndLocalFactors
 §AL.3.10.4 *Ramified rank-one curve reciprocity*. No result of
 GlobalShtukasAndFunctionFieldLanglands is an input.
 
@@ -2993,7 +3036,10 @@ Retain every compact open level, arbitrary finite ramification and the action of
 full unramified-character lattice; no spherical restriction is imposed.
 Here the central-character notation means equivariant functions with the quotient norm,
 not scalar-valued functions invariant under a nontrivial `ω`.
-(Morris II, §5.5, Theorem, p. 1145.)
+(Morris II, §5.5, Theorem, p. 1145, for the decomposition by residues of Eisenstein systems;
+§6.5, Lemma and proof, pp. 1163–1164, for the discrete part and its finite-dimensional
+`K`-type spaces, hence finite multiplicities; Morris I, §5.8, Theorem, p. 107, for the cuspidal
+part as a discrete sum of irreducibles with finite multiplicities, applied to `M`.)
 
 Prove **discrete-data Eisenstein continuation** with these same maps, level and
 parameter conventions for every discrete `π`: realize residual `π` by the iterated

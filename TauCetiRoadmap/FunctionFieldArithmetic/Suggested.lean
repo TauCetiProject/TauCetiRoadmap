@@ -2,7 +2,9 @@ import Mathlib
 import TauCeti.FieldTheory.FunctionField.Place.Extension.Inertia
 import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Conductor.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.LocalExistence.NormSubgroup
+import TauCeti.RingTheory.LaurentSeries.LocalField
 
 /-!
 # FunctionFieldArithmetic: target signatures
@@ -11,21 +13,20 @@ The roadmap is README.md; this file is not the roadmap. It states its headline t
 against the pinned Mathlib and Tau Ceti APIs, using the few simple definitions they need.
 
 The degree-one divisor theorem, reduced-basis theorem, Witt-vector additive Hilbert 90,
-finite- and infinite-length Artin–Schreier–Witt character classification, local abelian
-existence and injectivity of the local Artin map for every nonarchimedean local field (on the
-pinned Tau Ceti Artin map and norm subgroups, and for `k((T))` with field carriers), divisor zeta
-identities, the recovery of the `L`-polynomial from `g` point counts and the degree-sensitive
+finite- and infinite-length Artin–Schreier–Witt character classification, reduced
+Witt–Laurent representatives at finite length, local abelian existence and injectivity of the
+local Artin map for every nonarchimedean local field (on the pinned Tau Ceti Artin map and norm
+subgroups, and for `k((T))` with field carriers), the Kosters–Wan conductor formula (on the
+pinned conductor exponent of `k((T))`), divisor zeta identities, the recovery of the `L`-polynomial from `g` point counts and the degree-sensitive
 Chebotarev estimate (on the pinned decomposition groups of places, through Mathlib's
 `IsArithFrobAt`) are statable below.
 The remaining headline theorems lack the following carriers at the pins:
 divisor-lattice Fourier duality and volumes (§2) need completed adelic divisor lattices
-and the differential's self-dual measure; reduced Witt–Laurent representatives (§3.2) need
-convergent sums in `W(k((T)))`, which carries no topology at the pins; the Schmid–Witt symbol
-and its residue formula (§4.3) need the Artin–Schreier–Witt character of a class as a map,
-whose construction is the duality theorem of §3.1 (asserted below only as an existence), and
-the completed ring `lim_m W_m(k)((T))` with its residue; the Kosters–Wan conductor formula
-(§4.4) needs those reduced representatives and the field `K(℘⁻¹x)` as a finite separable
-extension carrying the pinned conductor exponent. Lubin–Tate torsion (§4.1) and local
+and the differential's self-dual measure; reduced Witt–Laurent representatives at infinite
+length (§3.2) need convergent sums in `W(k((T)))`, which carries no topology at the pins; the
+Schmid–Witt symbol and its residue formula (§4.3) need the Artin–Schreier–Witt character of a
+class as a map, whose construction is the duality theorem of §3.1 (asserted below only as an
+existence), and the completed ring `lim_m W_m(k)((T))` with its residue. Lubin–Tate torsion (§4.1) and local
 Kronecker–Weber (§4.2) need the Lubin–Tate formal module with its coefficient action and the
 Lubin–Tate tower. The perfect-field fixed-modulus universal property and finite-abelian
 ray-cover classification (§§4.7, 4.10) need generalized Picard schemes, Abel maps and Lang
@@ -167,6 +168,28 @@ theorem exists_addEquiv_aswQuotient_padicCharacters :
 
 end ArtinSchreierWitt
 
+/-- **Reduced Witt–Laurent representatives at finite length** (README 3.2; Kosters–Wan,
+Proposition 4.3, p. 15, read modulo `p^n`). Let `K = k((T))` with `k` finite of characteristic
+`p`, `α ∈ k` with `Tr_{k/𝔽_p}(α) ≠ 0` and `β = [α]`. Every class of `Q_n(K)` is the class of
+`c·β + Σ_i c_i·[T^(−i)]` for a unique `c ∈ ℤ/p^n` and a unique finitely supported family
+`c_i ∈ W_n(k)` supported on positive indices prime to `p`. Here `c` acts through its least
+natural representative and `c_i` through the lift `TruncatedWittVector.out`; another lift
+changes the sum only by an element of `V^n W(K)`. The characteristic of `k((T))` and the
+`𝔽_p`-algebra structure of `k` enter as instances, a proposition and a subsingleton. -/
+theorem aswReduced_exists_unique_length (p : ℕ) [Fact p.Prime] (k : Type) [Field k] [Finite k]
+    [CharP k p] [CharP (LaurentSeries k) p] [Algebra (ZMod p) k] (α : k)
+    (hα : Algebra.trace (ZMod p) k α ≠ 0) (n : ℕ) (a : aswQuotient p (LaurentSeries k) n) :
+    ∃! cs : ZMod (p ^ n) × (ℕ →₀ TruncatedWittVector p n k),
+      (∀ i ∈ cs.2.support, 0 < i ∧ ¬ p ∣ i) ∧
+      (QuotientAddGroup.mk
+          ((cs.1.val : WittVector p (LaurentSeries k)) *
+              WittVector.teichmuller p (algebraMap k (LaurentSeries k) α) +
+            ∑ i ∈ cs.2.support,
+              WittVector.map (algebraMap k (LaurentSeries k)) (cs.2 i).out *
+                WittVector.teichmuller p (HahnSeries.single (-(i : ℤ)) (1 : k))) :
+          aswQuotient p (LaurentSeries k) n) = a := by
+  sorry
+
 /-! ## Layer 4: equal-characteristic class field theory and ray geometry -/
 
 /-- **Local abelian existence for every nonarchimedean local field** (README 4.2): every open
@@ -205,6 +228,33 @@ theorem localAbelianExistence_laurentSeries (k : Type*) [Field k] [Finite k]
       (∀ σ τ : L ≃ₐ[LaurentSeries k] L, σ * τ = τ * σ) ∧
       Subgroup.map (Units.map (Algebra.norm (LaurentSeries k) : L →* LaurentSeries k)) ⊤ = H ∧
       Module.finrank (LaurentSeries k) L = H.index := by
+  sorry
+
+/-- **Conductors of Artin–Schreier–Witt extensions** (README 4.4; Kosters–Wan, Proposition 4.14,
+pp. 22–23). Let `K = k((T))` with `k` finite of characteristic `p`, and
+`x = c₀ + Σ_{i∈s} c_i·[T^(−i)]` with `c₀, c_i ∈ W(k)`, every `i ∈ s` positive and prime to `p`,
+and `v i` the index of the first nonzero coordinate of `c_i`. Let `L/K` be generated by the
+first `n` coordinates of a Witt vector `y` over `L` solving the length-`n` equation
+`π_n(℘y) = π_n(x)`, so that `L ≅ K(℘⁻¹π_n(x))`. Its conductor exponent is `0` when every
+`v i ≥ n`, and otherwise `1 + max {i·p^(n − v i − 1) : v i < n}`. Only the length-`n` equation
+is imposed: a solution of `℘y = x` itself over a finite extension exists only for
+`x ∈ ℘W(K)`. -/
+theorem aswConductor_eq (p : ℕ) [Fact p.Prime] (k : Type) [Field k] [Finite k] [CharP k p]
+    (n : ℕ) (c₀ : WittVector p k) (s : Finset ℕ) (hs : ∀ i ∈ s, 0 < i ∧ ¬ p ∣ i)
+    (c : ℕ → WittVector p k) (v : ℕ → ℕ)
+    (hv : ∀ i ∈ s, (∀ j < v i, (c i).coeff j = 0) ∧ (c i).coeff (v i) ≠ 0)
+    (L : Type) [Field L] [Algebra (LaurentSeries k) L] [FiniteDimensional (LaurentSeries k) L]
+    [Algebra.IsSeparable (LaurentSeries k) L] (y : WittVector p L)
+    (hy : WittVector.truncate n (WittVector.frobenius y - y) =
+      WittVector.truncate n (WittVector.map (algebraMap (LaurentSeries k) L)
+        (WittVector.map (algebraMap k (LaurentSeries k)) c₀ +
+          ∑ i ∈ s, WittVector.map (algebraMap k (LaurentSeries k)) (c i) *
+            WittVector.teichmuller p (HahnSeries.single (-(i : ℤ)) (1 : k)))))
+    (hgen : IntermediateField.adjoin (LaurentSeries k)
+      (Set.range fun j : Fin n => y.coeff j) = ⊤) :
+    ClassFieldTheory.conductorExponent (LaurentSeries k) L =
+      if ∀ i ∈ s, n ≤ v i then 0
+      else 1 + (s.filter fun i => v i < n).sup fun i => i * p ^ (n - v i - 1) := by
   sorry
 
 /-! ## Layer 5: zeta functions and `L`-polynomials of function fields -/
